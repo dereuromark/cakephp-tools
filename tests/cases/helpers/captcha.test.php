@@ -1,6 +1,6 @@
 <?php
 
-App::import('Helper', 'Captcha');
+App::import('Helper', 'Tools.Captcha');
 App::import('Helper', 'Html');
 
 /**
