@@ -1,0 +1,3 @@
+- write test cases
+- confirm security (is it really preventing all kinds of hacking attempts - or least slowing them down?)
+- add more captcha types (image, sentence, ...) and processing types (session, db, ...)
