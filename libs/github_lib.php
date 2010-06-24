@@ -2,6 +2,12 @@
 
 /**
  * access to github
+ *
+ * derived from Philip Sturgeon
+ *
+ * @author Mark Scherer
+ * @info http://develop.github.com/
+ * 2010-06-24 ms
  */
 class GithubLib {
 

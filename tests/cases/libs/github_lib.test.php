@@ -5,8 +5,6 @@ App::import('Lib', 'Tools.GithubLib');
 class GithubLibTestCase extends CakeTestCase {
 
 	function setUp() {
-		Configure::write('debug', 1);
-
 		$this->GithubLib = new GithubLib();
 		$this->assertTrue(is_object($this->GithubLib));
 	}
@@ -20,7 +18,6 @@ class GithubLibTestCase extends CakeTestCase {
 		$is = $this->GithubLib->_fetch($url);
 		echo returns($is);
 		$this->assertFalse($is); // 401
-		//$this->assertTrue(!empty($is));
 
 		$url = 'http://github.com/api/';
 		$is = $this->GithubLib->_fetch($url);
