@@ -1,3 +1,7 @@
+TOOLS (shell)
+- write test cases
+- refactor + enhance
+
 CAPTCHA
 - write test cases
 - confirm security (is it really preventing all kinds of hacking attempts - or least slowing them down?)
