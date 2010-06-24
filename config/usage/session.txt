@@ -1,0 +1,12 @@
+to enable session handling via database:
+
+*** /config/core.php
+
+Configure::write('Session.save', 'database');
+
+Configure::write('Session.model', 'Tools.Session');
+
+
+*** console:
+
+run "cake tools install Session"
