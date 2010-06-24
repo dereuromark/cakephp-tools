@@ -1,4 +1,13 @@
 <?php
+/*
+
+TODO (with API):
+- following: /user/show/:user/following
+- followers
+- network: /repos/show/:user/:repo/network
+- ...
+
+*/
 
 /**
  * access to github
@@ -44,7 +53,7 @@ class GithubLib {
    * @param	string - a repository name
    * @return array with all the repository's info
    */
-  public function repoInfo($user = '', $repo = '') {
+  public function repoInfo($user, $repo) {
   	$response = $this->_fetch('repos/show/'.$user.'/'.$repo);
 
   	if(empty($response->repository)) {
@@ -63,7 +72,7 @@ class GithubLib {
    * @param	string - the repository reference to pull (tags/branches)
    * @return array with all the repository's references
    */
-  public function repoRefs($user = '', $repo = '', $ref = 'tags') {
+  public function repoRefs($user, $repo, $ref = 'tags') {
   	$response = $this->_fetch('repos/show/'.$user.'/'.$repo.'/'.$ref);
 
   	if(empty($response->$ref)) {
@@ -80,7 +89,7 @@ class GithubLib {
    * @param	string - a GitHub user
    * @return array with all infos (gravatar_id, name, company, location, blog, id, login, email, ...)
    */
-  public function userInfo($user = '') {
+  public function userInfo($user) {
   	$response = $this->_fetch('user/show/'.$user);
 
   	if(empty($response->user)) {
