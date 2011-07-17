@@ -1,7 +1,7 @@
 <?php
 
-define('CAPTCHA_MIN_TIME', 2); # seconds the form will need to be filled in by a human
-//define('CAPTCHA_MAX_TIME', HOUR);	# seconds the form will need to be submitted in
+define('CAPTCHA_MIN_TIME', 3); # seconds the form will need to be filled in by a human
+define('CAPTCHA_MAX_TIME', HOUR);	# seconds the form will need to be submitted in
 
 /**
  * CaptchaBehavior
@@ -13,78 +13,67 @@ define('CAPTCHA_MIN_TIME', 2); # seconds the form will need to be filled in by a
  */
 class CaptchaBehavior extends ModelBehavior {
 
-	private $options = array(
-		'dummyField' => 'homepage',
-		'method' => 'hash',
-		'checkSession' => false,
-		'checkIp' => false,
-		'salt' => '',
-		'type' => 'active',
-		# behaviour only:
+	protected $defaults = array(
 		'minTime' => CAPTCHA_MIN_TIME,
-		'maxTime' => 0,
-		'log' => false,
+		'maxTime' => CAPTCHA_MAX_TIME,
+		'log' => false, # log errors
+		'hashType' => null,
 	);
 
-	private $dummyField = 'homepage';
+	protected $error = '';
+	protected $internalError = '';
+	//
+	//protected $useSession = false;
 
-	private $methods = array('hash', 'db', 'session');
-	private $method = 'hash';
-
-	private $log = false;
-	private $error = '';
-	private $internalError = '';
-	//private $types = array('passive','active','both');
-	//private $useSession = false;
-
-	function setup(&$Model, $settings) {
-
+	function setup(Model $Model, $settings) {
+		App::import('Lib', 'Tools.CaptchaLib');
+		$this->defaults = array_merge(CaptchaLib::$defaults, $this->defaults);
+		$this->Model = $Model;
+		
 		# bootstrap configs
-		$configs = (array )Configure::read('Captcha');
-		if (!empty($configs)) {
-			$this->options = array_merge($this->options, $configs);
+		$this->settings[$Model->alias] = $this->defaults;
+		$settings = (array)Configure::read('Captcha');
+		if (!empty($settings)) {
+			$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], $settings);
 		}
 
 		# local configs in specific action
 		if (!empty($settings['minTime'])) {
-			$this->options['minTime'] = (int)$settings['minTime'];
+			$this->settings[$Model->alias]['minTime'] = (int)$settings['minTime'];
 		}
 		if (!empty($settings['maxTime'])) {
-			$this->options['maxTime'] = (int)$settings['maxTime'];
+			$this->settings[$Model->alias]['maxTime'] = (int)$settings['maxTime'];
 		}
 		if (isset($settings['log'])) {
-			$this->options['log'] = (bool)$settings['log'];
+			$this->settings[$Model->alias]['log'] = (bool)$settings['log'];
 		}
-
-		/*
-		better:
-
-		if (!isset($this->settings[$Model->alias])) {
-		$this->settings[$Model->alias] = array(
-		'option1_key' => 'option1_default_value'
-		);
-		}
-		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], (array)$settings);
-		*/
 	}
 
 
-	public function beforeValidate(&$Model, &$queryData) {
-		$this->Model = &$Model;
+	public function beforeValidate(Model $Model, &$queryData) {
+		parent::beforeValidate($Model);
+		
+		if (!empty($this->Model->whitelist)) {
+			$this->Model->whitelist = array_merge($Model->whitelist, $this->fields());
+		}
 
-		if (!$this->validateCaptchaTime($this->Model->data[$this->Model->name])) {
+		if (!$this->_validateCaptchaMinTime($Model->data[$Model->alias])) {
 			$this->Model->invalidate('captcha', 'captchaResultTooFast', true);
 
-		} elseif (!$this->validateDummyField($this->Model->data[$this->Model->name])) {
+		} elseif (!$this->_validateCaptchaMaxTime($Model->data[$Model->alias])) {
+			$this->Model->invalidate('captcha', 'captchaResultTooLate', true);
+			
+		} elseif (!$this->_validateDummyField($Model->data[$Model->alias])) {
 			$this->Model->invalidate('captcha', 'captchaIllegalContent', true);
 
-		} elseif ($this->options['type'] == 'active' && !$this->validateCaptcha($this->Model->data[$this->Model->name])) {
+		} elseif (in_array($this->settings[$Model->alias]['type'], array('active', 'both')) && !$this->_validateCaptcha($Model->data[$Model->alias])) {
 			$this->Model->invalidate('captcha', 'captchaResultIncorrect', true);
 
 		}
-		unset($this->Model->data[$this->Model->name]['captcha']);
-		unset($this->Model->data[$this->Model->name]['captcha_hash']);
-		unset($this->Model->data[$this->Model->name]['captcha_time']);
+		
+		unset($Model->data[$Model->alias]['captcha']);
+		unset($Model->data[$Model->alias]['captcha_hash']);
+		unset($Model->data[$Model->alias]['captcha_time']);
 		return true;
 	}
 
@@ -94,13 +83,13 @@ class CaptchaBehavior extends ModelBehavior {
 	 */
 	public function fields() {
 		$list = array('captcha', 'captcha_hash', 'captcha_time');
-		$list[] = $this->options['dummyField'];
+		$list[] = $this->settings[$this->Model->alias]['dummyField'];
 		return $list;
 	}
 
 
-	private function validateDummyField($data) {
-		$dummyField = $this->options['dummyField'];
+	protected function _validateDummyField($data) {
+		$dummyField = $this->settings[$this->Model->alias]['dummyField'];
 		if (!empty($data[$dummyField])) {
 			# dummy field not empty - SPAM!
 			return $this->error('Illegal content', 'DummyField = \''.$data[$dummyField].'\'');
@@ -113,30 +102,43 @@ class CaptchaBehavior extends ModelBehavior {
 	 * flood protection by time
 	 * TODO: SESSION based one as alternative
 	 */
-	private function validateCaptchaTime($data) {
-		if ($this->options['minTime'] <= 0) {
+	protected function _validateCaptchaMinTime($data) {
+		if ($this->settings[$this->Model->alias]['minTime'] <= 0) {
 			return true;
 		}
-
-		if (empty($data['captcha_hash']) || empty($data['captcha_time']) || $data['captcha_time'] > time() - $this->options['minTime']) {
-			// trigger error - SPAM!!!
-			return false;
+		if (isSet($data['captcha_hash']) && isSet($data['captcha_time'])) {
+			if ($data['captcha_time'] < time() - $this->settings[$this->Model->alias]['minTime']) {
+				return true;
+			}
 		}
-
-		# //TODO: max?
-		if (false) {
-			return false;
-		}
-
-		return true;
+		return false;
 	}
+
+	/**
+	 * validates maximum time
+	 * 
+	 * @param array $data
+	 * @return bool 
+	 */
+	protected function _validateCaptchaMaxTime($data) {
+		if ($this->settings[$this->Model->alias]['maxTime'] <= 0) {
+			return true;
+		}
+		if (isSet($data['captcha_hash']) && isSet($data['captcha_time'])) {
+			if ($data['captcha_time'] + $this->settings[$this->Model->alias]['maxTime'] > time()) {
+				return true;
+			}
+		}
+
+		return false;
+	}	
 
 	/**
 	 * flood protection by false fields and math code
 	 * TODO: build in floodProtection (max Trials etc)
 	 * TODO: SESSION based one as alternative
 	 */
-	private function validateCaptcha($data) {
+	protected function _validateCaptcha($data) {
 
 
 		if (!isset($data['captcha'])) {
@@ -173,7 +175,7 @@ class CaptchaBehavior extends ModelBehavior {
 	 * build and log error message
 	 * 2009-12-18 ms
 	 */
-	private function error($msg = null, $internalMsg = null) {
+	protected function error($msg = null, $internalMsg = null) {
 		if (!empty($msg)) {
 			$this->error = $msg;
 		}
@@ -181,18 +183,13 @@ class CaptchaBehavior extends ModelBehavior {
 			$this->internalError = $internalMsg;
 		}
 
-		if ($this->log) {
-			$this->logAttempt();
-		}
+		
+		$this->logAttempt();
 		return false;
 	}
 
 	function buildHash($data) {
-		$hashValue = date(FORMAT_DB_DATE, (int)$data['captcha_time']).'_';
-		$hashValue .= ($this->options['checkSession'])?session_id().'_' : '';
-		$hashValue .= ($this->options['checkIp'])?env('REMOTE_ADDR').'_' : '';
-		$hashValue .= $data['captcha'].'_'.$this->options['salt'];
-		return Security::hash($hashValue);
+		return CaptchaLib::buildHash($data, $this->settings[$this->Model->alias]);
 	}
 
 	/**
@@ -201,8 +198,11 @@ class CaptchaBehavior extends ModelBehavior {
 	 * @returns null if not logged, true otherwise
 	 * 2009-12-18 ms
 	 */
-	private function logAttempt($errorsOnly = true) {
+	protected function logAttempt($errorsOnly = true) {
 		if ($errorsOnly === true && empty($this->error) && empty($this->internalError)) {
+			return null;
+		}
+		if (!$this->settings[$this->Model->alias]['log']) {
 			return null;
 		}
 
@@ -220,4 +220,4 @@ class CaptchaBehavior extends ModelBehavior {
 
 }
 
-?>
+
