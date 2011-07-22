@@ -6,7 +6,7 @@
  * Licensed under The MIT License 
  * Redistributions of files must retain the above copyright notice. 
  * 
- * @version    0.1 
+ * @version    1.0 
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License 
  */
 
@@ -91,7 +91,18 @@ class ChangePasswordBehavior extends ModelBehavior {
 			$pwd = $data;
 		}
 		
+		$uid = null;
+		if ($Model->id) {
+			$uid = $Model->id;
+		} elseif (!empty($Model->data[$Model->alias]['id'])) {
+			$uid = $Model->data[$Model->alias]['id'];
+		} else {
+			return false;
+		}
+		
 		//TODO
+		//$this->Auth = new AuthComponent();
+		//return $this->Auth->verifyUser($uid, $pwd)) {
 		return true;
 	}
 	
@@ -142,6 +153,20 @@ class ChangePasswordBehavior extends ModelBehavior {
 			$Model->whitelist = am($Model->whitelist, $whitelist);
 		}
 		
+		# make sure fields are set and validation rules are triggered - prevents tempering of form data
+		$formField = $this->settings[$Model->alias]['form_field'];
+		$formFieldRepeat = $this->settings[$Model->alias]['form_field_repeat'];
+		$formFieldCurrent = $this->settings[$Model->alias]['form_field_current'];
+		if (!isset($Model->data[$Model->alias][$formField])) {
+			$Model->data[$Model->alias][$formField] = '';
+		}
+		if ($this->settings[$Model->alias]['confirm'] && !isset($Model->data[$Model->alias][$formFieldRepeat])) {
+			$Model->data[$Model->alias][$formFieldRepeat] = '';
+		}
+		if ($this->settings[$Model->alias]['current'] && !isset($Model->data[$Model->alias][$formFieldCurrent])) {
+			$Model->data[$Model->alias][$formFieldCurrent] = '';
+		}
+		
 		return true;
 	}
 
@@ -168,7 +193,7 @@ class ChangePasswordBehavior extends ModelBehavior {
 				$Model->whitelist = am($Model->whitelist, array($field));
 			}
 		}
-
+		
 		return true;
 	}
 
