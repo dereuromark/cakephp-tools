@@ -18,15 +18,21 @@ if (!defined('PWD_MAX_LENGTH')) {
 }
 
 /**
- * A behavior to change passwords the easy way
+ * A cakephp1.3 behavior to change passwords the easy way
+ * - complete validation
+ * - hashing of password
+ * - requires fields (no tempering even without security component)
  * 
- * usage:
- * $this->User->actsAs('Tools.ChangePassword');
+ * usage: do NOT add it via $actAs = array()
+ * attach it dynamically in only those actions where you actually change the password like so:
+ * $this->User->Behaviors->attach('Tools.ChangePassword', array(SETTINGSARRAY));
  * as first line in any action where you want to allow the user to change his password
  * also add the two form fields in the form (pwd, pwd_confirm)
  * the rest is cake automagic :) 
  * 
  * TODO: form_field_current
+ * TODO: test cases
+ * feel free to help me out - this was written in less then 2 hours
  * 
  * 2011-07-04 ms
  */
@@ -46,8 +52,8 @@ class ChangePasswordBehavior extends ModelBehavior {
 		'form_field_repeat' => 'pwd_repeat',
 		'form_field_current' => 'pwd_current',
 		'hashType' => null,
-		'hashSalt' => true
-		//'hash'
+		'hashSalt' => true,
+		'auth' => 'Auth',
 	);
 	
 	var $_validationRules = array(
