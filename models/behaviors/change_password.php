@@ -53,7 +53,7 @@ class ChangePasswordBehavior extends ModelBehavior {
 		'form_field_current' => 'pwd_current',
 		'hashType' => null,
 		'hashSalt' => true,
-		'auth' => 'Auth',
+		'auth' => 'Auth', # which component
 	);
 	
 	var $_validationRules = array(
@@ -142,6 +142,10 @@ class ChangePasswordBehavior extends ModelBehavior {
 		if (!isset($Model->validate[$formFieldRepeat])) {
 			$Model->validate[$formFieldRepeat] = $this->_validationRules[$formFieldRepeat];
 			$Model->validate[$formFieldRepeat]['validateIdentical']['rule'][1] = $formField;			
+		}
+		# allowEmpty?
+		if (!empty($this->settings[$Model->alias]['allowEmpty'])) {
+			$Model->validate[$formField]['between']['rule'][1] = 0;			
 		}
 	}
 
