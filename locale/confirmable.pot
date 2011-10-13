@@ -1,0 +1,4 @@
+### Confirmable Behavior
+
+msgid "Please confirm the checkbox"
+msgstr ""
