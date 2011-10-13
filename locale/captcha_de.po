@@ -1,0 +1,59 @@
+### Captcha Integration (Anti-Spam)
+
+msgid "Captcha"
+msgstr "Captcha"
+
+msgid "captchaExplained"
+msgstr "<small>Schutz vor Spam</small>"
+
+msgid "calcMinus"
+msgstr "minus"
+
+msgid "calcPlus"
+msgstr "plus"
+
+msgid "calcTimes"
+msgstr "mal"
+
+
+msgid "captchaResultIncorrect"
+msgstr "Das eingegebene Captcha-Ergebnis war nicht korrekt"
+
+msgid "captchaResultTooFast"
+msgstr "Das Formular wurde zu schnell abgeschickt - kannst du so schnell rechnen? :-)"
+
+msgid "captchaIllegalContent"
+msgstr "Illegaler Inhalt im Formular"
+
+msgid "one"
+msgstr "eins"
+
+msgid "two"
+msgstr "zwei"
+
+msgid "three"
+msgstr "drei"
+
+msgid "four"
+msgstr "vier"
+
+msgid "five"
+msgstr "fünf"
+
+msgid "six"
+msgstr "sechs"
+
+msgid "seven"
+msgstr "sieben"
+
+msgid "eight"
+msgstr "acht"
+
+msgid "nine"
+msgstr "neun"
+
+msgid "ten"
+msgstr "zehn"
+
+msgid "zero"
+msgstr "null"
