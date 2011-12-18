@@ -4,8 +4,8 @@ App::uses('Inflector', 'Utility');
 if (!defined('AUTH_CACHE')) {
 	define('AUTH_CACHE', CACHE.'persistent'.DS);
 }
-if (!defined('ROLE_CONFIGS')) {
-	define('ROLE_CONFIGS', 'roles.ini');
+if (!defined('ACL_FILE')) {
+	define('ACL_FILE', 'acl.ini');
 }
 
 /**
@@ -123,10 +123,10 @@ class TinyAuthorize extends BaseAuthorize {
 			include(AUTH_CACHE.'roles.tmp');
 			return $roles;
 		}
-		if (!file_exists(APP . 'Config' . DS . ROLE_CONFIGS)) {
-			touch(APP . 'Config' . DS . ROLE_CONFIGS);
+		if (!file_exists(APP . 'Config' . DS . ACL_FILE)) {
+			touch(APP . 'Config' . DS . ACL_FILE);
 		}
-		$iniArray = parse_ini_file(APP . 'Config' . DS . ROLE_CONFIGS, true);
+		$iniArray = parse_ini_file(APP . 'Config' . DS . ACL_FILE, true);
 		
 		$availableRoles = Configure::read('Role');
 		if (!is_array($availableRoles)) {
