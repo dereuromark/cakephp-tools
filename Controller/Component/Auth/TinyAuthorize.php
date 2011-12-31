@@ -42,15 +42,17 @@ class TinyAuthorize extends BaseAuthorize {
 		$settings = am($this->_defaults, $settings);
 		parent::__construct($Collection, $settings);
 		
-		if (Cache::config('default') === false) {
-			throw new CakeException(__('TinyAuth expects at least a `default` cache'));
+		if (Cache::config($settings['cache']) === false) {
+			throw new CakeException(__('TinyAuth could not find `%s` cache - expects at least a `default` cache', $settings['cache']));
 		}
 		$this->_matchArray = $this->_getRoles();
 	}
 	
 	/**
 	 * Authorize a user using the AclComponent.
-	 * allows single or multi role based authorization 
+	 * allows single or multi role based authorization
+	 * - User HABTM Roles (Role array in User array)
+	 * - User belongsTo Roles (role_id in User array) 
 	 *
 	 * @param array $user The user to authorize
 	 * @param CakeRequest $request The request needing authorization.
@@ -113,12 +115,16 @@ class TinyAuthorize extends BaseAuthorize {
 		return false;
 	}
 	
+	/**
+	 * @return the User model 
+	 */
 	public function getModel() {
 		return ClassRegistry::init(CLASS_USER); 
 	}
 
 	/**
 	 * parse ini files
+	 * @return array $roles
 	 */	
 	protected function _getRoles() {
 		$res = array();
