@@ -2,7 +2,7 @@
 App::uses('Inflector', 'Utility');
 
 if (!defined('AUTH_CACHE')) {
-	define('AUTH_CACHE', CACHE.'persistent'.DS);
+	define('AUTH_CACHE', '_cake_core_'); # use the most persistent cache
 }
 if (!defined('ACL_FILE')) {
 	define('ACL_FILE', 'acl.ini');
@@ -21,10 +21,11 @@ if (!defined('ACL_FILE')) {
  * Or with admin prefix protection only
  * $this->Auth->authorize = array('Tools.Tiny'=>array('allowUser'=>true));
  * 
+ * @version 1.1 - now uses most persistent _cake_core_ cache by default
  * @author Mark Scherer
  * @cakephp 2.0
  * @license MIT
- * 2011-12-17 ms
+ * 2011-12-31 ms
  */
 class TinyAuthorize extends BaseAuthorize {
 
@@ -32,13 +33,18 @@ class TinyAuthorize extends BaseAuthorize {
 
 	protected $_defaults = array(
 		'allowUser' => false, # quick way to allow user access to non prefixed urls
-		'adminPrefix' => 'admin_'
+		'adminPrefix' => 'admin_',
+		'cache' => AUTH_CACHE,
+		'autoClearCache' => false # usually done by Cache automatically in debug mode
 	);
 
 	public function __construct(ComponentCollection $Collection, $settings = array()) {
 		$settings = am($this->_defaults, $settings);
 		parent::__construct($Collection, $settings);
-
+		
+		if (Cache::config('default') === false) {
+			throw new CakeException(__('TinyAuth expects at least a `default` cache'));
+		}
 		$this->_matchArray = $this->_getRoles();
 	}
 	
@@ -116,11 +122,11 @@ class TinyAuthorize extends BaseAuthorize {
 	 */	
 	protected function _getRoles() {
 		$res = array();
-		if (file_exists(AUTH_CACHE.'roles.tmp') && Configure::read('debug') > 0) {
-			unlink(AUTH_CACHE.'roles.tmp');
+		$cacheKey = 'tiny_acl';
+		if ($this->settings['autoClearCache'] && Configure::read('debug') > 0) {
+			Cache::delete($cacheKey, $this->settings['cache']);
 		}
-		if (file_exists(AUTH_CACHE.'roles.tmp')) {
-			include(AUTH_CACHE.'roles.tmp');
+		if (($roles = Cache::read($cacheKey, $this->settings['cache'])) !== false) {
 			return $roles;
 		}
 		if (!file_exists(APP . 'Config' . DS . ACL_FILE)) {
@@ -176,8 +182,7 @@ class TinyAuthorize extends BaseAuthorize {
 				}
 			}
 		}
-		
-		file_put_contents(AUTH_CACHE.'roles.tmp', '<?php $roles = ' . var_export($res, true). ';');
+		Cache::write($cacheKey, $res, $this->settings['cache']);
 		return $res;
 	}
 		
