@@ -1,11 +1,14 @@
 <?php
 App::uses('Inflector', 'Utility');
 
+if (!defined('CLASS_USER')) {
+	define('CLASS_USER', 'User'); # override if you have it in a plugin: PluginName.User etc
+}
 if (!defined('AUTH_CACHE')) {
-	define('AUTH_CACHE', '_cake_core_'); # use the most persistent cache
+	define('AUTH_CACHE', '_cake_core_'); # use the most persistent cache by default
 }
 if (!defined('ACL_FILE')) {
-	define('ACL_FILE', 'acl.ini');
+	define('ACL_FILE', 'acl.ini'); # stored in /app/Config/
 }
 
 /**
@@ -35,6 +38,7 @@ class TinyAuthorize extends BaseAuthorize {
 		'allowUser' => false, # quick way to allow user access to non prefixed urls
 		'adminPrefix' => 'admin_',
 		'cache' => AUTH_CACHE,
+		'cacheKey' => 'tiny_auth_acl',
 		'autoClearCache' => false # usually done by Cache automatically in debug mode
 	);
 
@@ -116,23 +120,26 @@ class TinyAuthorize extends BaseAuthorize {
 	}
 	
 	/**
-	 * @return the User model 
+	 * @return object $User: the User model 
 	 */
 	public function getModel() {
 		return ClassRegistry::init(CLASS_USER); 
 	}
 
 	/**
-	 * parse ini files
+	 * parse ini file and returns the allowed roles per action
+	 * - uses cache for maximum performance
+	 * improved speed by several actions before caching:
+	 * - resolves role slugs to their primary key / identifier
+	 * - resolves wildcards to their verbose translation
 	 * @return array $roles
 	 */	
 	protected function _getRoles() {
 		$res = array();
-		$cacheKey = 'tiny_acl';
 		if ($this->settings['autoClearCache'] && Configure::read('debug') > 0) {
-			Cache::delete($cacheKey, $this->settings['cache']);
+			Cache::delete($this->settings['cacheKey'], $this->settings['cache']);
 		}
-		if (($roles = Cache::read($cacheKey, $this->settings['cache'])) !== false) {
+		if (($roles = Cache::read($this->settings['cacheKey'], $this->settings['cache'])) !== false) {
 			return $roles;
 		}
 		if (!file_exists(APP . 'Config' . DS . ACL_FILE)) {
@@ -188,7 +195,7 @@ class TinyAuthorize extends BaseAuthorize {
 				}
 			}
 		}
-		Cache::write($cacheKey, $res, $this->settings['cache']);
+		Cache::write($this->settings['cacheKey'], $res, $this->settings['cache']);
 		return $res;
 	}
 		
