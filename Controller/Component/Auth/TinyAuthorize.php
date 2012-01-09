@@ -13,8 +13,8 @@ if (!defined('ACL_FILE')) {
 
 /**
  * Probably the most simple and fastest Acl out there.
- * Only one config file `roles.ini` necessary
- * Doesnt even need a Role Model/table
+ * Only one config file `acl.ini` necessary
+ * Doesn't even need a Role Model / roles table
  * @link http://www.dereuromark.de/2011/12/18/tinyauth-the-fastest-and-easiest-authorization-for-cake2
  * 
  * Usage:
@@ -65,8 +65,11 @@ class TinyAuthorize extends BaseAuthorize {
 	public function authorize($user, CakeRequest $request) {
 		if (isset($user['Role'])) {
 			$roles = (array)$user['Role'];
-		} else {
+		} elseif (isset($user['role_id'])) {
 			$roles = array($user['role_id']);
+		} else {
+			trigger_error(__('missing roles information in user session'));
+			$roles = array();
 		}
 		return $this->validate($roles, $request->params['plugin'], $request->params['controller'], $request->params['action']);
 	}
