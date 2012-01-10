@@ -15,6 +15,7 @@ if (!defined('ACL_FILE')) {
  * Probably the most simple and fastest Acl out there.
  * Only one config file `acl.ini` necessary
  * Doesn't even need a Role Model / roles table
+ * Uses most persistent _cake_core_ cache by default
  * @link http://www.dereuromark.de/2011/12/18/tinyauth-the-fastest-and-easiest-authorization-for-cake2
  * 
  * Usage:
@@ -24,11 +25,11 @@ if (!defined('ACL_FILE')) {
  * Or with admin prefix protection only
  * $this->Auth->authorize = array('Tools.Tiny'=>array('allowUser'=>true));
  * 
- * @version 1.1 - now uses most persistent _cake_core_ cache by default
+ * @version 1.2 - now allows other parent model relations besides Role/role_id
  * @author Mark Scherer
  * @cakephp 2.0
  * @license MIT
- * 2011-12-31 ms
+ * 2012-01-09 ms
  */
 class TinyAuthorize extends BaseAuthorize {
 
@@ -39,7 +40,9 @@ class TinyAuthorize extends BaseAuthorize {
 		'adminPrefix' => 'admin_',
 		'cache' => AUTH_CACHE,
 		'cacheKey' => 'tiny_auth_acl',
-		'autoClearCache' => false # usually done by Cache automatically in debug mode
+		'autoClearCache' => false, # usually done by Cache automatically in debug mode,
+		'aclModel' => 'Role', # only for multiple roles per user (HABTM)
+		'aclKey' => 'role_id', # only for single roles per user (BT)
 	);
 
 	public function __construct(ComponentCollection $Collection, $settings = array()) {
@@ -55,6 +58,8 @@ class TinyAuthorize extends BaseAuthorize {
 	/**
 	 * Authorize a user using the AclComponent.
 	 * allows single or multi role based authorization
+	 * 
+	 * Examples:
 	 * - User HABTM Roles (Role array in User array)
 	 * - User belongsTo Roles (role_id in User array) 
 	 *
@@ -63,12 +68,13 @@ class TinyAuthorize extends BaseAuthorize {
 	 * @return boolean
 	 */
 	public function authorize($user, CakeRequest $request) {
-		if (isset($user['Role'])) {
-			$roles = (array)$user['Role'];
-		} elseif (isset($user['role_id'])) {
-			$roles = array($user['role_id']);
+		if (isset($user[$this->settings['aclModel']])) {
+			$roles = (array)$user[$this->settings['aclModel']];
+		} elseif (isset($user[$this->settings['aclKey']])) {
+			$roles = array($user[$this->settings['aclKey']]);
 		} else {
-			trigger_error(__('missing roles information in user session'));
+			$acl = $this->settings['aclModel'].'/'.$this->settings['aclKey'];
+			trigger_error(__('Missing acl information (%s) in user session', $acl));
 			$roles = array();
 		}
 		return $this->validate($roles, $request->params['plugin'], $request->params['controller'], $request->params['action']);
@@ -150,14 +156,14 @@ class TinyAuthorize extends BaseAuthorize {
 		}
 		$iniArray = parse_ini_file(APP . 'Config' . DS . ACL_FILE, true);
 		
-		$availableRoles = Configure::read('Role');
+		$availableRoles = Configure::read($this->settings['aclModel']);
 		if (!is_array($availableRoles)) {
 			$Model = $this->getModel();
-			$availableRoles = $Model->Role->find('list', array('fields'=>array('alias', 'id')));
-			Configure::write('Role', $availableRoles);
+			$availableRoles = $Model->{$this->settings['aclModel']}->find('list', array('fields'=>array('alias', 'id')));
+			Configure::write($this->settings['aclModel'], $availableRoles);
 		}
 		if (!is_array($availableRoles) || !is_array($iniArray)) {
-			trigger_error('Invalid Role Setup for TinyAuthorize (no roles found)');
+			trigger_error(__('Invalid Role Setup for TinyAuthorize (no roles found)'));
 			return false;
 		}
 		
@@ -175,7 +181,7 @@ class TinyAuthorize extends BaseAuthorize {
 					}
 					if ($role == '*') {
 						unset($roles[$key]);
-						$roles = array_merge($roles, array_keys(Configure::read('Role')));
+						$roles = array_merge($roles, array_keys(Configure::read($this->settings['aclModel'])));
 					}
 				}
 				
@@ -189,7 +195,7 @@ class TinyAuthorize extends BaseAuthorize {
 						if (!($role = trim($role)) || $role == '*') {
 							continue;
 						}
-						$newRole = Configure::read('Role.'.strtolower($role));
+						$newRole = Configure::read($this->settings['aclModel'].'.'.strtolower($role));
 						if (!empty($res[$controllerName][$actionName]) && in_array($newRole, $res[$controllerName][$actionName])) {
 							continue;
 						}
