@@ -1,4 +1,9 @@
 <?php
+
+if (!defined('BR')) {
+	define('BR', '<br />');
+}
+
 /**
  * PHP5 / CakePHP1.3
  *
@@ -13,6 +18,7 @@
  * 2011-06-11 ms
  */
 class CaptchaHelper extends AppHelper {
+	
 	public $helpers = array('Form');
 
 	protected $defaults = array(
@@ -39,7 +45,6 @@ class CaptchaHelper extends AppHelper {
 		if (!empty($settings)) {
 			$this->settings = array_merge($this->settings, $settings);
 		}
-		
 	}
 
 

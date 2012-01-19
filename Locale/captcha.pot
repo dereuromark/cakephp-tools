@@ -1,0 +1,59 @@
+### Captcha Integration (Anti-Spam)
+
+msgid "Captcha"
+msgstr ""
+
+msgid "captchaExplained"
+msgstr ""
+
+msgid "calcMinus"
+msgstr ""
+
+msgid "calcPlus"
+msgstr ""
+
+msgid "calcTimes"
+msgstr ""
+
+
+msgid "captchaResultIncorrect"
+msgstr ""
+
+msgid "captchaResultTooFast"
+msgstr ""
+
+msgid "captchaIllegalContent"
+msgstr ""
+
+msgid "one"
+msgstr ""
+
+msgid "two"
+msgstr ""
+
+msgid "three"
+msgstr ""
+
+msgid "four"
+msgstr ""
+
+msgid "five"
+msgstr ""
+
+msgid "six"
+msgstr ""
+
+msgid "seven"
+msgstr ""
+
+msgid "eight"
+msgstr ""
+
+msgid "nine"
+msgstr ""
+
+msgid "ten"
+msgstr ""
+
+msgid "zero"
+msgstr ""
