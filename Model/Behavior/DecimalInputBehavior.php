@@ -1,6 +1,6 @@
 <?php
 /**
- * //ALREADY exists as number_format in a slightly different way!
+ * A behavior to automatically format decimals from DB to output and reverse
  *
  * 20,01 => 20.01 (!)
  * 11.222 => 11222
