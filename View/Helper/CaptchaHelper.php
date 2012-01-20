@@ -5,7 +5,7 @@ if (!defined('BR')) {
 }
 
 /**
- * PHP5 / CakePHP1.3
+ * PHP5 / CakePHP2
  *
  * @author        Mark Scherer
  * @link          http://www.dereuromark.de
@@ -39,7 +39,7 @@ class CaptchaHelper extends AppHelper {
 		# Set up an array with the operators that we want to use. With difficulty=1 it is only subtraction and addition.
 		$this->operatorConvert = array(0=>array('+',__('calcPlus')), 1=>array('-',__('calcMinus')), 2=>'*',__('calcTimes'));
 		
-		App::import('Lib', 'Tools.CaptchaLib');
+		App::uses('CaptchaLib', 'Tools.Lib');
 		$this->settings = array_merge(CaptchaLib::$defaults, $this->defaults);
 		$settings = (array)Configure::read('Captcha');
 		if (!empty($settings)) {
@@ -54,7 +54,7 @@ class CaptchaHelper extends AppHelper {
 	 * @param int $difficulty: not build in yet
 	 * 2008-12-12 ms
 	 */
-	protected function generate($difficulty = null) {
+	protected function _generate($difficulty = null) {
 		# Choose the first number randomly between 6 and 10. This is to stop the answer being negative.
 		$numberOne = mt_rand(6, 10);
 		# Choose the second number randomly between 0 and 5.
@@ -80,7 +80,7 @@ class CaptchaHelper extends AppHelper {
 	 * 2009-12-18 ms
 	 */
 	public function captcha($modelName = null) {
-		$captchaCode = $this->generate();
+		$captchaCode = $this->_generate();
 
 		# Session-Way (only one form at a time) - must be a component then
 	//$this->Session->write('Captcha.result', $result);
@@ -91,7 +91,7 @@ class CaptchaHelper extends AppHelper {
 	// $this->Captcha->new(); $this->Captcha->update(); etc
 
 		# Timestamp-SessionID-Hash-Way (several forms possible, not as secure)
-		$hash = $this->buildHash($captchaCode);
+		$hash = $this->_buildHash($captchaCode);
 
 		$return = '';
 
@@ -128,7 +128,8 @@ class CaptchaHelper extends AppHelper {
 			'maxlength'=>3,
 			'label'=>__('Captcha').BR.__('captchaExplained'),
 			'combined'=>true, 
-			'autocomplete'=>'off'
+			'autocomplete'=>'off',
+			//'after' => __('captchaTip'),
 		);
 		$options = array_merge($defaultOptions, $options);
 
@@ -164,31 +165,10 @@ class CaptchaHelper extends AppHelper {
 	/**
 	 * @param array $captchaCode
 	 */
-	protected function buildHash($data) {
+	protected function _buildHash($data) {
 		return CaptchaLib::buildHash($data, $this->settings, true);
 	}
 
-
-
-/** following not needed */
-
-	/*
-	public function validateCaptcha($modelName, $data = null) {
-		if (!empty($data[$modelName]['homepage'])) {
-			// trigger error - SPAM!!!
-		} elseif (empty($data[$modelName]['captcha_hash']) || empty($this->data[$modelName]['captcha_time']) || $this->data[$modelName]['captcha_time'] > time()-CAPTCHA_MIN_TIME) {
-			// trigger error - SPAM!!!
-		} elseif (isset($this->data[$modelName]['captcha'])) {
-			$timestamp = date(FORMAT_DB_DATE, $this->data[$modelName]['captcha_time']);
-			$hash = Security::hash($timestamp.'_'.$captchaCode['result'].'_');
-
-			if ($this->data[$modelName]['captcha_hash'] == $hash) {
-				return true;
-			}
-		}
-		return false;
-	}
-	*/
 
 	protected function _fieldName($modelName = null) {
 		$fieldName = 'captcha';
@@ -197,5 +177,8 @@ class CaptchaHelper extends AppHelper {
 		}
 		return $fieldName;
 	}
+	
+
+
 
 }
