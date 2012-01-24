@@ -6,7 +6,7 @@
  * Licensed under The MIT License 
  * Redistributions of files must retain the above copyright notice. 
  * 
- * @version    1.2
+ * @version    1.3
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License 
  */
 
@@ -18,7 +18,7 @@ if (!defined('PWD_MAX_LENGTH')) {
 }
 
 /**
- * A cakephp1.3 behavior to change passwords the easy way
+ * A cakephp2 behavior to change passwords the easy way
  * - complete validation
  * - hashing of password
  * - requires fields (no tempering even without security component)
@@ -29,6 +29,10 @@ if (!defined('PWD_MAX_LENGTH')) {
  * as first line in any action where you want to allow the user to change his password
  * also add the two form fields in the form (pwd, pwd_confirm)
  * the rest is cake automagic :) 
+ * 
+ * now also is capable of:
+ * - require current password prior to altering it (current=>true)
+ * - don't allow the same password it was before (allowSame=>false)
  * 
  * TODO: allowEmpty and nonEmptyToEmpty - maybe with checkbox "set_new_pwd"
  * feel free to help me out
@@ -56,7 +60,7 @@ class ChangePasswordBehavior extends ModelBehavior {
 		'hashType' => null,
 		'hashSalt' => true,
 		'auth' => 'Auth', # which component,
-		'allowSame' => true, # dont allow the old password on change //TODO: implement
+		'allowSame' => true, # dont allow the old password on change
 		'nonEmptyToEmpty' => false, # allow resetting nonempty pwds to empty once set (prevents problems with default edit actions)
 	);
 	
@@ -89,6 +93,7 @@ class ChangePasswordBehavior extends ModelBehavior {
 			'validateCurrentPwd' => array(
 				'rule' => 'validateCurrentPwd',
 				'message' => 'valErrCurrentPwdIncorrect',
+				'last' => true,
 			)
 		),
 	);
@@ -122,9 +127,15 @@ class ChangePasswordBehavior extends ModelBehavior {
 			trigger_error('No validation class found');
 			return true;
 		}
-		$this->Auth->constructAuthenticate();
-		//debug($this->Auth); die();
-		return $this->Auth->verifyUser($uid, $pwd);
+		
+		# easiest authenticate method via form and (id + pwd)
+		$this->Auth->authenticate = array('Form'=>array('fields'=>array('username' => 'id', 'password'=>$this->settings[$Model->alias]['field'])));
+		
+		App::uses('CakeResponse', 'Network');
+		$request = new CakeRequest(null, false);
+		$request->data['User'] = array('id'=>$uid, 'password'=>$pwd);
+		$response = new CakeResponse();
+		return $this->Auth->identify($request, $response);
 	}
 	
 	/**

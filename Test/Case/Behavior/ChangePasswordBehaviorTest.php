@@ -2,20 +2,8 @@
 
 App::uses('Model', 'Model');
 App::uses('AppModel', 'Model');
-/*
-class User extends AppModel {
-	
-	public $useDbConfig = 'test';
-	public $cacheSources = false;
-	
-	public function invalidFields($x) {
-		$res = parent::invalidFields($x);
-		return $res;
-	}
-	
-	
-}
-*/
+
+App::uses('ComponentCollection', 'Controller');
 
 class ChangePasswordBehaviorTest extends CakeTestCase {
 
@@ -23,17 +11,16 @@ class ChangePasswordBehaviorTest extends CakeTestCase {
 		'core.user',
 	);
 	
-/**
- * setUp method
- */
+	/**
+	 * setUp method
+	 */
 	public function setUp() {
-		//$this->loadFixtures('User');
 		$this->User = ClassRegistry::init('User');
 	}
 
-/**
- * Tear-down method.  Resets environment state.
- */
+	/**
+	 * Tear-down method.  Resets environment state.
+	 */
 	public function tearDown() {
 		$this->User->Behaviors->detach('ChangePassword');
 		unset($this->User);
@@ -241,13 +228,9 @@ class ChangePasswordBehaviorTest extends CakeTestCase {
  */
 class AuthComponent {
 	
-	
-	public function constructAuthenticate() {
-		
-	}
-	
-	public function verifyUser($user, $pwd) {
-		if ($user == '5' && $pwd == 'some') {
+	public function identify($request, $response) {
+		$user = $request->data['User'];
+		if ($user['id'] == '5' && $user['password'] == 'some') {
 			return true;
 		}
 		return false;
