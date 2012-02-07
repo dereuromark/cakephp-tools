@@ -1,12 +1,12 @@
 <?php
 
-App::uses('DangerLib', 'Tools.Lib');
+App::uses('HazardLib', 'Tools.Lib');
 
-class DangerLibTest extends CakeTestCase {
+class HazardLibTest extends CakeTestCase {
 
 
 	public function setUp() {
-		$this->DangerLib = new DangerLib();
+		$this->HazardLib = new HazardLib();
 	}
 
 
@@ -15,10 +15,10 @@ class DangerLibTest extends CakeTestCase {
 	 */
 	public function _testParse() {
 
-		$is = $this->DangerLib->_parseXml(DangerLib::URL);
+		$is = $this->HazardLib->_parseXml(HazardLib::URL);
 		pr(h($is));
 		$this->assertTrue(!empty($is));
-		$this->assertEqual(count($is), 113);
+		$this->assertEquals(count($is), 113);
 	}
 
 
@@ -27,30 +27,30 @@ class DangerLibTest extends CakeTestCase {
 	 */
 	public function testXssStrings() {
 
-		$is = $this->DangerLib->xssStrings(false);
+		$is = $this->HazardLib->xssStrings(false);
 		pr(h($is));
 		$this->assertTrue(!empty($is));
 
 		# cached
 		Cache::delete('security_lib_texts');
 
-		$is = $this->DangerLib->xssStrings();
+		$is = $this->HazardLib->xssStrings();
 		pr(h($is));
 		$this->assertTrue(!empty($is) && count($is), 113);
 
-		$is = $this->DangerLib->xssStrings();
+		$is = $this->HazardLib->xssStrings();
 		pr(h($is));
 		$this->assertTrue(!empty($is) && count($is), 113);
 
 	}
 	
 	public function testPhp() {
-		$is = $this->DangerLib->phpStrings();
+		$is = $this->HazardLib->phpStrings();
 		pr(h($is));
 	}
 	
 	public function testSql() {
-		$is = $this->DangerLib->sqlStrings();
+		$is = $this->HazardLib->sqlStrings();
 		pr(h($is));
 	}
 
