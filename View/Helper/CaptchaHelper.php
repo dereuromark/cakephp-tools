@@ -129,7 +129,7 @@ class CaptchaHelper extends AppHelper {
 			'label'=>__('Captcha').BR.__('captchaExplained'),
 			'combined'=>true, 
 			'autocomplete'=>'off',
-			//'after' => __('captchaTip'),
+			'after' => __('captchaTip'),
 		);
 		$options = array_merge($defaultOptions, $options);
 
