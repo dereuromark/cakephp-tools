@@ -3,6 +3,8 @@
 define('CAPTCHA_MIN_TIME', 3); # seconds the form will need to be filled in by a human
 define('CAPTCHA_MAX_TIME', HOUR);	# seconds the form will need to be submitted in
 
+App::uses('CaptchaLib', 'Tools.Lib');
+
 /**
  * CaptchaBehavior
  * NOTES: needs captcha helper
@@ -26,13 +28,12 @@ class CaptchaBehavior extends ModelBehavior {
 	//protected $useSession = false;
 
 	public function setup(Model $Model, $settings = array()) {
-		App::import('Lib', 'Tools.CaptchaLib');
 		$defaults = array_merge(CaptchaLib::$defaults, $this->defaults);
 		$this->Model = $Model;
 		
 		# bootstrap configs
 		$this->settings[$Model->alias] = $defaults;
-		$settings = (array)Configure::read('Captcha');
+		$settings = (array) Configure::read('Captcha');
 		if (!empty($settings)) {
 			$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], $settings);
 		}
@@ -87,7 +88,9 @@ class CaptchaBehavior extends ModelBehavior {
 	 */
 	public function fields() {
 		$list = array('captcha', 'captcha_hash', 'captcha_time');
-		$list[] = $this->settings[$this->Model->alias]['dummyField'];
+		if ($this->settings[$this->Model->alias]['dummyField']) {
+			$list[] = $this->settings[$this->Model->alias]['dummyField'];
+		}
 		return $list;
 	}
 
@@ -95,11 +98,11 @@ class CaptchaBehavior extends ModelBehavior {
 	protected function _validateDummyField($data) {
 		$dummyField = $this->settings[$this->Model->alias]['dummyField'];
 		if (!isset($data[$dummyField])) {
-			return $this->_setError('Illegal call');
+			return $this->_setError(__('Illegal call'));
 		}
 		if (!empty($data[$dummyField])) {
 			# dummy field not empty - SPAM!
-			return $this->_setError('Illegal content', 'DummyField = \''.$data[$dummyField].'\'');
+			return $this->_setError(__('Illegal content'), 'DummyField = \''.$data[$dummyField].'\'');
 		}
 		return true;
 	}
