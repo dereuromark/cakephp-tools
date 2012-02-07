@@ -1,0 +1,13 @@
+### Qlogin
+
+msgid "Invalid Key"
+msgstr "Ungültiger Schlüssel"
+
+msgid "Invalid Account"
+msgstr "Ungültiger Account"
+
+msgid "You successfully logged in via qlogin"
+msgstr "Du wurdest erfolgreich eingeloggt."
+
+msgid "Success"
+msgstr "Erfolg"

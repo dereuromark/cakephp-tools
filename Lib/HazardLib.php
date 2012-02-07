@@ -8,7 +8,7 @@ App::uses('Xml', 'Utility');
  * used in configurations controller + debug helper
  * 2010-07-30 ms
  */
-class DangerLib {
+class HazardLib {
 
 	const URL = 'http://ha.ckers.org/xssAttacks.xml';
 

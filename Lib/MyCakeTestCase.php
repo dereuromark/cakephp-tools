@@ -98,37 +98,6 @@ abstract class MyCakeTestCase extends CakeTestCase {
 
 /*** assert mods ***/
 
-/** compatibility */
-
-	protected static function assertEqual($expected, $is, $title = null, $value = null, $message = '', $options = array()) {
-		$expectation = 'EQUAL';
-		self::_printTitle($expectation, $title, $options);
-		self::_printResults($expected, $is, $value, $options);
-		return parent::assertEqual($expected, $is, $message);
-	}
-
-	protected static function assertNotEqual($expected, $is, $title = null, $value = null, $message = '', $options = array()) {
-		$expectation = 'NOT EQUAL';
-		self::_printTitle($expectation, $title, $options);
-		self::_printResults($expected, $is, $value, $options);
-		return parent::assertNotEqual($expected, $is, $message);
-	}
-
-	protected static function assertPattern($expected, $is, $title = null, $value = null, $message = '', $options = array()) {
-		$expectation = 'PATTERN';
-		self::_printTitle($expectation, $title, $options);
-		self::_printResults($expected, $is, $value, $options);
-		return parent::assertNotEqual($expected, $is, $message);
-	}	
-
-	protected static function assertWithinMargin($result, $expected, $margin, $message = '') {
-		return parent::assertWithinMargin($result, $expected, $margin, $message);
-	}
-
-	protected static function assertIsA($object, $type, $message ='') {
-		return parent::assertIsA($object, $type, $message);
-	}
-
 /** enhanced **/
 
 	public static function assertNull($is, $title = null, $value = null, $message = '', $options = array()) {
@@ -151,6 +120,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	 * 2009-07-09 ms
 	 */
 
+	//deprecated
 	public static function assertNotEmpty($is, $title = null, $value = null, $message = '') {
 		$expectation = 'NOT EMPTY';
 		self::_printTitle($expectation, $title);
@@ -158,6 +128,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 		return parent::assertTrue(!empty($is), $message);
 	}
 
+	//deprecated
 	public static function assertIsTrue($is, $title = null, $value = null, $message = '') {
 		$expectation = 'TRUE';
 		echo self::_title($expectation, $title);
@@ -165,6 +136,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 		return parent::assertTrue($is, $message);
 	}
 
+	//deprecated
 	public static function assertIsFalse($is, $title = null, $value = null, $message = '') {
 		$expectation = 'FALSE';
 		echo self::_title($expectation, $title);
@@ -184,20 +156,17 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	}
 
 	public function _printTitle($expectation, $title = null) {
-		/*
-		if (!self::_reporter->params['show_passes']) {
+		if (empty($_SERVER['HTTP_HOST']) || !isset($_GET['show_passes']) || !$_GET['show_passes']) {
 			return false;
 		}
-		*/
 		echo self::_title($expectation, $title);
 	}
 
 	public function _printResults($expected, $is, $pre = null, $status = false) {
-		/*
-		if (!self::_reporter->params['show_passes']) {
+		if (empty($_SERVER['HTTP_HOST']) || !isset($_GET['show_passes']) || !$_GET['show_passes']) {
 			return false;
 		}
-		*/
+		
 		if ($pre !== null) {
 			echo 'value:';
 			pr ($pre);
@@ -211,11 +180,10 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	}
 
 	public function _printResult($is, $pre = null, $status = false) {
-		/*
-		if (!self::_reporter->params['show_passes']) {
+		if (empty($_SERVER['HTTP_HOST']) || !isset($_GET['show_passes']) || !$_GET['show_passes']) {
 			return false;
 		}
-		*/
+		
 		if ($pre !== null) {
 			echo 'value:';
 			pr($pre);
@@ -224,15 +192,25 @@ abstract class MyCakeTestCase extends CakeTestCase {
 		pr($is);
 	}
 
-	public function out($array, $pre = true) {
+	/**
+	 * outputs debug information during a web tester (browser) test case
+	 * since PHPUnit>=3.6 swallowes all output by default 
+	 * this is a convenience output handler since debug() or pr() have no effect
+	 * @param mixed $data
+	 * @param bool $pre should a pre tag be enclosed around the output
+	 * @return void
+	 * 2011-12-04 ms
+	 */
+	public function out($data, $pre = true) {
+		if ($pre) {
+			$data = pre($data);
+		}
+		echo $data;
 		if (empty($_SERVER['HTTP_HOST'])) {
-			# cake shell!!!
+			# cli mode / shell access: use the --debug modifier if you are using the CLI interface
 			return;
 		}
-		if ($pre) {
-			$array = pre($array);
-		}
-		echo $array;
+		ob_flush();
 	}
 
 }
