@@ -1,7 +1,14 @@
 <?php
-
 App::uses('Helper', 'View');
+App::uses('UrlCacheManager', 'Tools.Routing');
 
+/**
+ * Helper enhancements for Cake2
+ * 
+ * @author Mark Scherer
+ * @license MIT
+ * 2012-02-27 ms
+ */
 class MyHelper extends Helper {
 
 	public function  __construct($View = null, $settings = array()) {
@@ -9,13 +16,6 @@ class MyHelper extends Helper {
 			Packages::initialize($this, __CLASS__);
 		}
 		parent::__construct($View, $settings);
-	}
-
-	# deprecated in 2.0?
-	public function initHelpers($additionalHelpers = array()) {
-		if (!empty($this->helpers)) {
-			$this->loadHelpers(array_merge($this->helpers, $additionalHelpers));
-		}
 	}
 
 	/**
@@ -200,6 +200,7 @@ class MyHelper extends Helper {
 
 
 	public $urlHere = null;
+	
 	/**
 	 * Small Helper Function to retrieve CORRECT $this->here (as it should be) - CAKE BUG !? -> this is a fix
 	 * 2009-01-06 ms
@@ -264,6 +265,56 @@ class MyHelper extends Helper {
 		return $text;
 	}
 
+	/**
+	 * This function is responsible for setting up the Url cache before the application starts generating urls in views
+	 *
+	 * @return void
+	 */
+	function beforeRender($layoutFile = null) {
+		if (!Configure::read('UrlCache.active') || Configure::read('UrlCache.runtime.beforeRender')) {
+			return;
+		}
+
+		# todo: maybe lazy load with HtmlHelper::url()?
+		UrlCacheManager::init($this->_View);
+		Configure::write('UrlCache.runtime.beforeRender', true);
+	}
+
+	/**
+	 * This method will store the current generated urls into a persistent cache for next use
+	 *
+	 * @return void
+	 */
+	function afterLayout($layoutFile = null) {
+		if (!Configure::read('UrlCache.active') || Configure::read('UrlCache.runtime.afterLayout')) {
+			return;
+		}
+
+		UrlCacheManager::finalize();
+		Configure::write('UrlCache.runtime.afterLayout', true);
+	}
+
+	/**
+	 * Intercepts the parent url function to first look if the cache was already generated for the same params
+	 *
+	 * @param mixed $url url to generate using cakephp array syntax
+	 * @param boolean $full wheter to generate a full url or not (http scheme)
+	 * @return string
+	 * @see Helper::url()
+	 */
+	function url($url = null, $full = false) {
+		if (Configure::read('UrlCache.active')) {
+			if ($cachedUrl = UrlCacheManager::get($url, $full)) {
+				return $cachedUrl;
+			}
+		}
+
+		$routerUrl = h(Router::url($url, $full));
+		if (Configure::read('UrlCache.active')) {
+			UrlCacheManager::set($routerUrl);
+		}
+		return $routerUrl;
+	}
 
 }
 

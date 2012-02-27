@@ -1,7 +1,14 @@
 <?php
 App::uses('Model', 'Model');
-App::uses('CommonComponent', 'Tools.Controller/Component');
+App::uses('Utility', 'Tools.Utility');
 
+/**
+ * Model enhancements for Cake2
+ * 
+ * @author Mark Scherer
+ * @license MIT
+ * 2012-02-27 ms
+ */
 class MyModel extends Model {
 
 	public $recursive = -1;
@@ -33,6 +40,32 @@ class MyModel extends Model {
 		}
 	}
 
+	/**
+	 * The main method for any enumeration, should be called statically
+	 * Now also supports reordering/filtering
+	 * 
+	 * @link http://www.dereuromark.de/2010/06/24/static-enums-or-semihardcoded-attributes/
+	 * @param string $value or array $keys or NULL for complete array result
+	 * @param array $options (actual data)
+	 * @return mixed string/array
+	 * static enums
+	 * 2009-11-05 ms
+	 */
+	public static function enum($value, $options, $default = '') {
+		if ($value !== null && !is_array($value)) {
+			if (array_key_exists($value, $options)) {
+				return $options[$value];
+			}
+			return $default;
+		} elseif ($value !== null) {
+			$newOptions = array();
+			foreach ($value as $v) {
+				$newOptions[$v] = $options[$v];
+			}
+			return $newOptions;
+		}
+		return $options;
+	}
 
 	/**
 	 * Catch database errors before it’s too late
@@ -944,7 +977,7 @@ class MyModel extends Model {
 	 */
 	public function _validUrl($url = null) {
 		App::import('Component', 'Tools.Common');
-		$headers = CommonComponent::getHeaderFromUrl($url);
+		$headers = Utility::getHeaderFromUrl($url);
 		if ($headers !== false) {
 
 			$headers = implode("\n", $headers);
@@ -1275,6 +1308,53 @@ class MyModel extends Model {
 		}
 		return $data;
 	}
+	
+	/**
+	 * make certain fields a requirement for the form to validate
+	 * (they must only be present - can still be empty, though!)
+	 * 
+	 * @param array $fieldList
+	 * @param bool $allowEmpty (or NULL to not touch already set elements)
+	 * @return void
+	 * 2012-02-20 ms
+	 */
+	public function requireFields($requiredFields, $allowEmpty = null) {
+		if ($allowEmpty === null) {
+			$setAllowEmpty = true;
+		} else {
+			$setAllowEmpty = $allowEmpty;
+		}
+		
+		foreach ($requiredFields as $column) {
+			if (strpos($column, '.') !== false) {
+				list($model, $column) = explode('.', $column, 2);
+			} else {
+				$model = $this->alias;
+			}
+			
+			if ($model === $this->alias) {
+				if (empty($this->validate[$column])) {
+					$this->validate[$column]['notEmpty'] = array('rule'=>'notEmpty', 'required'=>true, 'allowEmpty' => $setAllowEmpty, 'message' => 'valErrMandatoryField');
+				}	else {
+					$keys = array_keys($this->validate[$column]);
+					if (!in_array('rule', $keys)) {
+						$key = array_shift($keys);
+						$this->validate[$column][$key]['required'] = true;
+						if (!isset($this->validate[$column][$key]['allowEmpty'])) {
+							$this->validate[$column][$key]['allowEmpty'] = $setAllowEmpty;
+						}
+					} else {
+						$keys['required'] = true;
+						if (!isset($keys['allowEmpty'])) {
+							$keys['allowEmpty'] = $setAllowEmpty;
+						}
+						$this->validate[$column] = $keys;
+					}
+				}
+			}
+			
+		}
+	}
 
 
 	/**
@@ -1433,32 +1513,6 @@ class MyModel extends Model {
 			}
 		}
 		return $list;
-	}
-
-
-/** DEPRECATED STUFF - will be removed in stage 2 **/
-
-	/**
-	 * @param string $value or array $keys or NULL for complete array result
-	 * @param array $options (actual data)
-	 * @return mixed string/array
-	 * static enums
-	 * 2009-11-05 ms
-	 */
-	public static function enum($value, $options, $default = '') {
-		if ($value !== null && !is_array($value)) {
-			if (array_key_exists($value, $options)) {
-				return $options[$value];
-			}
-			return $default;
-		} elseif ($value !== null) {
-			$newOptions = array();
-			foreach ($value as $v) {
-				$newOptions[$v] = $options[$v];
-			}
-			return $newOptions;
-		}
-		return $options;
 	}
 
 }
