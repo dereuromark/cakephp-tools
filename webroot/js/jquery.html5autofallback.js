@@ -2,6 +2,11 @@
  * JS-Fallback for some new HTML5 features
  * - placeholder (by Mark)
  * - details (by Mathias)
+ *
+ * Requires:
+ * - jquery1.6 (maybe less)
+ * - jquery.livequery to work with ajax content
+ *
  * @author Mark Scherer
  * @licence MIT
  * 2011-11-29 ms
