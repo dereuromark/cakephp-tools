@@ -45,27 +45,18 @@ class BitmaskedBehavior extends ModelBehavior {
 		if (empty($config['bits'])) {
 			$config['bits'] = Inflector::pluralize($config['field']);
 		}
-		if (is_string($config['bits'])) {
-			if (method_exists($Model, $config['bits'])) {
-				$config['bits'] = $Model->{$config['bits']}();
-			}	else {
-				$config['bits'] = false;
-			}
+		if (is_callable($config['bits'])) {
+			$config['bits'] = call_user_func($config['bits']);
+		} elseif (is_string($config['bits']) && method_exists($Model, $config['bits'])) {
+			$config['bits'] = $Model->{$config['bits']}();
+		}	elseif (!is_array($config['bits'])) {
+			$config['bits'] = false;
 		}
 		if (empty($config['bits'])) {
 			throw new InternalErrorException('Bits not found');
 		}
-		
-		/*
-		if (Set::numeric(array_keys($config['bits']))) {
-			$last = 1;
-			$bits = array();
-			foreach ($config['bits'] as $flag) {
-				$bits[$flag] = $last = $last * 2;
-			}
-			$config['bits'] = $bits;
-		}
-		*/
+		ksort($config['bits'], SORT_NUMERIC);
+
 		$this->settings[$Model->alias] = $config;
 	}
 	
@@ -120,6 +111,7 @@ class BitmaskedBehavior extends ModelBehavior {
 		$res = array();
 		$i = 0;
 		$value = (int) $value;
+		
 		foreach ($this->settings[$Model->alias]['bits'] as $key => $val) {
 			$val = (($value & pow(2, $i)) != 0) ? true : false;
 			if ($val) {
@@ -132,7 +124,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	}
 	
 	/**
-	 * @param array $bitmaskArrayk
+	 * @param array $bitmaskArray
 	 * @return int $bitmask
 	 * from APP to DB
 	 */
