@@ -65,7 +65,7 @@ class BitmaskedBehavior extends ModelBehavior {
 		$field = $this->settings[$Model->alias]['field'];
 		
 		if (isset($query['conditions']) && is_array($query['conditions'])) {
-			$query['conditions'] = $this->encodeConditions($Model, $query['conditions']);
+			$query['conditions'] = $this->encodeBitmaskConditions($Model, $query['conditions']);
 		}
 				
 		return $query;
@@ -79,7 +79,7 @@ class BitmaskedBehavior extends ModelBehavior {
 		
 		foreach ($results as $key => $result) {
 			if (isset($result[$Model->alias][$field])) {
-				$results[$key][$Model->alias][$mappedField] = $this->decode($Model, $result[$Model->alias][$field]);
+				$results[$key][$Model->alias][$mappedField] = $this->decodeBitmask($Model, $result[$Model->alias][$field]);
 			}	
 		}
 		
@@ -90,7 +90,7 @@ class BitmaskedBehavior extends ModelBehavior {
 		if ($this->settings[$Model->alias]['before'] != 'validate') {
 			return true;
 		}
-		$this->encodeData($Model);
+		$this->encodeBitmaskData($Model);
 		return true;
 	}
 	
@@ -98,7 +98,7 @@ class BitmaskedBehavior extends ModelBehavior {
 		if ($this->settings[$Model->alias]['before'] != 'save') {
 			return true;
 		}
-		$this->encodeData($Model);
+		$this->encodeBitmaskData($Model);
 		return true;
 	}
 		
@@ -108,7 +108,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @return array $bitmaskArray
 	 * from DB to APP
 	 */
-	public function decode(Model $Model, $value) {
+	public function decodeBitmask(Model $Model, $value) {
 		$res = array();
 		$i = 0;
 		$value = (int) $value;
@@ -129,8 +129,11 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @return int $bitmask
 	 * from APP to DB
 	 */
-	public function encode(Model $Model, $value) {
+	public function encodeBitmask(Model $Model, $value) {
 		$res = 0;
+		if (empty($value)) {
+			return null;
+		}
 		foreach ((array) $value as $key => $val) {
 			$res |= (int) $val;
 		}
@@ -140,7 +143,7 @@ class BitmaskedBehavior extends ModelBehavior {
 		return $res;
 	}
 	
-	public function encodeConditions(Model $Model, $conditions) {
+	public function encodeBitmaskConditions(Model $Model, $conditions) {
 		$field = $this->settings[$Model->alias]['field'];
 		if (!($mappedField = $this->settings[$Model->alias]['mappedField'])) {
 			$mappedField = $field;
@@ -148,13 +151,13 @@ class BitmaskedBehavior extends ModelBehavior {
 
 		foreach ($conditions as $key => $val) {
 			if ($key === $mappedField) {
-				$conditions[$field] = $this->encode($Model, $val);
+				$conditions[$field] = $this->encodeBitmask($Model, $val);
 				if ($field != $mappedField) {
 					unset($conditions[$mappedField]);
 				}
 				continue;
 			} elseif ($key === $Model->alias . '.' . $mappedField) {
-				$conditions[$Model->alias . '.' .$field] = $this->encode($Model, $val);
+				$conditions[$Model->alias . '.' .$field] = $this->encodeBitmask($Model, $val);
 				if ($field != $mappedField) {
 					unset($conditions[$Model->alias . '.' .$mappedField]);
 				}
@@ -163,19 +166,19 @@ class BitmaskedBehavior extends ModelBehavior {
 			if (!is_array($val)) {
 				continue;
 			}
-			$conditions[$key] = $this->encodeConditions($Model, $val);
+			$conditions[$key] = $this->encodeBitmaskConditions($Model, $val);
 		}
 		return $conditions;
 	}
 	
-	public function encodeData(Model $Model) {
+	public function encodeBitmaskData(Model $Model) {
 		$field = $this->settings[$Model->alias]['field'];
 		if (!($mappedField = $this->settings[$Model->alias]['mappedField'])) {
 			$mappedField = $field;
 		}
 		
 		if (isset($Model->data[$Model->alias][$mappedField])) {
-			$Model->data[$Model->alias][$field] = $this->encode($Model, $Model->data[$Model->alias][$mappedField]);
+			$Model->data[$Model->alias][$field] = $this->encodeBitmask($Model, $Model->data[$Model->alias][$mappedField]);
 		}
 		if ($field != $mappedField) {
 			unset($Model->data[$Model->alias][$mappedField]);
@@ -188,15 +191,10 @@ class BitmaskedBehavior extends ModelBehavior {
 	 */
 	public function containsBit(Model $Model, $bits) {
 		$bits = (array) $bits;
+		$bitmask = $this->encodeBitmask($Model, $bits);
 		
-		$res = array();
-		foreach ($bits as $bit) {
-			$res[]['('.$Model->alias.'.'.$this->settings[$Model->alias]['field'].' & ? = ?)'] = array($bit, $bit);
-		}
-		if (count($res) > 1) {
-			return array('AND'=>$res);
-		}
-		return $res[0];
+		$field = $this->settings[$Model->alias]['field'];
+		return array('('.$Model->alias.'.'.$field.' & ? = ?)' => array($bitmask, $bitmask));
 	}
 	
 	/**
@@ -205,15 +203,10 @@ class BitmaskedBehavior extends ModelBehavior {
 	 */
 	public function containsNotBit(Model $Model, $bits) {
 		$bits = (array) $bits;
+		$bitmask = $this->encodeBitmask($Model, $bits);
 		
-		$res = array();
-		foreach ($bits as $bit) {
-			$res[]['('.$Model->alias.'.'.$this->settings[$Model->alias]['field'].' & ? != ?)'] = array($bit, $bit);
-		}
-		if (count($res) > 1) {
-			return array('AND'=>$res);
-		}
-		return $res[0];
+		$field = $this->settings[$Model->alias]['field'];
+		return array('('.$Model->alias.'.'.$field.' & ? != ?)' => array($bitmask, $bitmask));
 	}
 	
 }
