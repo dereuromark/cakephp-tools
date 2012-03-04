@@ -189,6 +189,30 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @param mixed bits (int, array)
 	 * @return array $sqlSnippet
 	 */
+	public function isBit(Model $Model, $bits) {
+		$bits = (array) $bits;
+		$bitmask = $this->encodeBitmask($Model, $bits);
+		
+		$field = $this->settings[$Model->alias]['field'];
+		return array($Model->alias.'.'.$field => $bitmask);
+	}
+
+	/**
+	 * @param mixed bits (int, array)
+	 * @return array $sqlSnippet
+	 */
+	public function isNotBit(Model $Model, $bits) {
+		$bits = (array) $bits;
+		$bitmask = $this->encodeBitmask($Model, $bits);
+		
+		$field = $this->settings[$Model->alias]['field'];
+		return array('NOT' => array($Model->alias.'.'.$field => $bitmask));
+	}
+	
+	/**
+	 * @param mixed bits (int, array)
+	 * @return array $sqlSnippet
+	 */
 	public function containsBit(Model $Model, $bits) {
 		$bits = (array) $bits;
 		$bitmask = $this->encodeBitmask($Model, $bits);

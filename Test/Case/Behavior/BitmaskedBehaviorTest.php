@@ -96,10 +96,22 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		$this->assertEquals($expected, $res['BitmaskedComment']['statuses']);
 	}
 	
+	public function testIs() {
+		$res = $this->Comment->isBit(BitmaskedComment::STATUS_PUBLISHED);
+		$expected = array('BitmaskedComment.status' => 2);
+		$this->assertEquals($expected, $res);
+	}
+	
+	public function testIsNot() {
+		$res = $this->Comment->isNotBit(BitmaskedComment::STATUS_PUBLISHED);
+		$expected = array('NOT' => array('BitmaskedComment.status' => 2));
+		$this->assertEquals($expected, $res);
+	}
+	
 	public function testContains() {
 		$res = $this->Comment->containsBit(BitmaskedComment::STATUS_PUBLISHED);
 		$expected = array('(BitmaskedComment.status & ? = ?)' => array(2, 2));
-		//$this->assertEquals($expected, $res);
+		$this->assertEquals($expected, $res);
 		
 		$conditions = $res;
 		$res = $this->Comment->find('all', array('conditions'=>$conditions));
@@ -109,7 +121,7 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		$res = $this->Comment->containsBit(array(BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_ACTIVE));
 		
 		$expected = array('(BitmaskedComment.status & ? = ?)' => array(3, 3));
-		//$this->assertEquals($expected, $res);
+		$this->assertEquals($expected, $res);
 		
 		$conditions = $res;
 		$res = $this->Comment->find('all', array('conditions'=>$conditions));
@@ -119,7 +131,7 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 	public function testNotContains() {
 		$res = $this->Comment->containsNotBit(BitmaskedComment::STATUS_PUBLISHED);
 		$expected = array('(BitmaskedComment.status & ? != ?)' => array(2, 2));
-		//$this->assertEquals($expected, $res);
+		$this->assertEquals($expected, $res);
 		
 		$conditions = $res;
 		$res = $this->Comment->find('all', array('conditions'=>$conditions));
@@ -129,7 +141,7 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		$res = $this->Comment->containsNotBit(array(BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_ACTIVE));
 		
 		$expected = array('(BitmaskedComment.status & ? != ?)' => array(3, 3));
-		//$this->assertEquals($expected, $res);
+		$this->assertEquals($expected, $res);
 		
 		$conditions = $res;
 		$res = $this->Comment->find('all', array('conditions'=>$conditions));
@@ -139,8 +151,6 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 	}
 		
 }
-
-
 
 class BitmaskedComment extends CakeTestModel {
 	
