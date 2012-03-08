@@ -150,7 +150,11 @@ class CaptchaHelper extends AppHelper {
 	 * 2010-01-08 ms
 	 */
 	public function passive($modelName = null, $options = array()) {
-		return $this->captcha($modelName);
+		$tmp = $this->settings['type'];
+		$this->settings['type'] = 'passive';
+		$res = $this->captcha($modelName);
+		$this->settings['type'] = $tmp;
+		return $res;
 	}
 
 	/**

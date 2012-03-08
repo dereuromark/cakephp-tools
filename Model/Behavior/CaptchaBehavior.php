@@ -33,7 +33,7 @@ class CaptchaBehavior extends ModelBehavior {
 		
 		# bootstrap configs
 		$this->settings[$Model->alias] = $defaults;
-		$settings = (array) Configure::read('Captcha');
+		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], (array) Configure::read('Captcha'));
 		if (!empty($settings)) {
 			$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], $settings);
 		}
@@ -55,7 +55,6 @@ class CaptchaBehavior extends ModelBehavior {
 
 	public function beforeValidate(Model $Model) {
 		parent::beforeValidate($Model);
-		
 		if (!empty($this->Model->whitelist)) {
 			$this->Model->whitelist = array_merge($Model->whitelist, $this->fields());
 		}
