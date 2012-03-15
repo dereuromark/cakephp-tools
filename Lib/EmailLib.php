@@ -1,0 +1,450 @@
+<?php
+App::uses('CakeEmail', 'Network/Email');
+App::uses('CakeLog', 'Log');
+if (!defined('BR')) {
+	define('BR', '<br />'); 
+}
+
+/**
+ * Convenience class for internal mailer
+ * Adds some nice features
+ * 
+ * @author Mark Scherer
+ * @license MIT
+ * 2011-10-31 ms
+ */
+class EmailLib extends CakeEmail {
+
+	public $error = '';
+
+	protected $_log = null;
+	protected $_debug = null;
+
+	# for multiple emails, just adjust these "default" values "on the fly"
+	public $deliveryMethod = 'mail';
+	public $layout = 'external'; # usually 'external' (internal for admins only)
+
+	# with presets, only TO/FROM (depends), subject and message has to be set
+	protected $presets = array(
+		'user' => '',
+		'admin' => '',
+	);
+
+	protected $options = array();
+
+	protected $complex = null; # if Controller is available, and layout/elements can be switched...
+
+	public function __construct($config = null) {
+		if ($config === null) {
+			$config = 'default';
+		}
+		parent::__construct($config);
+
+		$this->resetAndSet();
+	}
+
+
+	/**
+	 * quick way to send emails to admin
+	 * App::uses() + EmailLib::systemEmail()
+	 *
+	 * Note: always go out with default settings (e.g.: SMTP even if debug > 0)
+	 * @return bool $success
+	 * 2011-10-31 ms
+	 */
+	public static function systemEmail($subject, $message = 'System Email', $transportConfig = null) {
+		$class = __CLASS__;
+		$instance = new $class($transportConfig);
+		$instance->to(Configure::read('Config.admin_email'));
+		$instance->from(Configure::read('Config.admin_email'));
+		if ($subject !== null) {
+			$instance->subject($subject);
+		}
+		if (is_array($message)) {
+			$instance->viewVars($message);
+			$message = null;
+		} elseif ($message === null && array_key_exists('message', $config = $instance->config())) {
+			$message = $config['message'];
+		}
+		if (true || $send === true) {
+			return $instance->send($message);
+		}
+		return $instance;
+	}
+
+
+
+	public function layout($layout = false) {
+		if ($layout !== false) {
+			$this->_layout = $layout;
+		}
+		return $this;
+	}
+
+	/**
+	 * @param string $file: absolute path
+	 * @param string $filename (optional)
+	 * 2011-11-02 ms
+	 */
+	public function addAttachment($file, $name = null) {
+		if (!empty($name)) {
+			return $this->addAttachments(array($name=>$file));
+		}
+		return $this->addAttachments($file);
+	}
+	
+	/**
+	 * @param string $file: absolute path
+	 * @param string $filename (optional)
+	 * @return mixed ressource $EmailLib or string $contentId
+	 * 2011-11-02 ms
+	 */
+	public function addEmbeddedAttachment($file, $name = null, $contentId = null) {
+		$fileInfo = array();
+		$fileInfo['file'] = realpath($file);
+		$fileInfo['mimetype'] = $this->_getMime($file);
+		$fileInfo['contentId'] = $contentId ? $contentId : str_replace('-', '', String::uuid()) . '@' . env('HTTP_HOST');
+		if (empty($name)) {
+			$name = basename($file);
+		}
+		$file = array($name=>$fileInfo);
+		$res = $this->addAttachments($file);
+		if ($contentId === null) {
+			return $fileInfo['contentId'];
+		}
+		return $res;
+	}
+	
+	protected function _getMime($filename) {
+		if (function_exists('finfo_open')) {
+			$finfo = finfo_open(FILEINFO_MIME);
+			$mimetype = finfo_file($finfo, $filename);
+			finfo_close($finfo);
+		} else {
+	 		//TODO: improve
+	 		$ext = pathinfo($filename, PATHINFO_EXTENSION);
+	 		switch ($ext) { 
+				case "zip": $mime="application/zip"; break; 
+				case "ez":  $mime="application/andrew-inset"; break; 
+				case "hqx": $mime="application/mac-binhex40"; break; 
+				case "cpt": $mime="application/mac-compactpro"; break; 
+				case "doc": $mime="application/msword"; break; 
+				case "bin": $mime="application/octet-stream"; break; 
+				case "dms": $mime="application/octet-stream"; break; 
+				case "lha": $mime="application/octet-stream"; break; 
+				case "lzh": $mime="application/octet-stream"; break; 
+				case "exe": $mime="application/octet-stream"; break; 
+				case "class": $mime="application/octet-stream"; break; 
+				case "so":  $mime="application/octet-stream"; break; 
+				case "dll": $mime="application/octet-stream"; break; 
+				case "oda": $mime="application/oda"; break; 
+				case "pdf": $mime="application/pdf"; break; 
+				case "ai":  $mime="application/postscript"; break; 
+				case "eps": $mime="application/postscript"; break; 
+				case "ps":  $mime="application/postscript"; break; 
+				case "smi": $mime="application/smil"; break; 
+				case "smil": $mime="application/smil"; break; 
+				case "xls": $mime="application/vnd.ms-excel"; break; 
+				case "ppt": $mime="application/vnd.ms-powerpoint"; break; 
+				case "wbxml": $mime="application/vnd.wap.wbxml"; break; 
+				case "wmlc": $mime="application/vnd.wap.wmlc"; break; 
+				case "wmlsc": $mime="application/vnd.wap.wmlscriptc"; break; 
+				case "bcpio": $mime="application/x-bcpio"; break; 
+				case "vcd": $mime="application/x-cdlink"; break; 
+				case "pgn": $mime="application/x-chess-pgn"; break; 
+				case "cpio": $mime="application/x-cpio"; break; 
+				case "csh": $mime="application/x-csh"; break; 
+				case "dcr": $mime="application/x-director"; break; 
+				case "dir": $mime="application/x-director"; break; 
+				case "dxr": $mime="application/x-director"; break; 
+				case "dvi": $mime="application/x-dvi"; break; 
+				case "spl": $mime="application/x-futuresplash"; break; 
+				case "gtar": $mime="application/x-gtar"; break; 
+				case "hdf": $mime="application/x-hdf"; break; 
+				case "js":  $mime="application/x-javascript"; break; 
+				case "skp": $mime="application/x-koan"; break; 
+				case "skd": $mime="application/x-koan"; break; 
+				case "skt": $mime="application/x-koan"; break; 
+				case "skm": $mime="application/x-koan"; break; 
+				case "latex": $mime="application/x-latex"; break; 
+				case "nc":  $mime="application/x-netcdf"; break; 
+				case "cdf": $mime="application/x-netcdf"; break; 
+				case "sh":  $mime="application/x-sh"; break; 
+				case "shar": $mime="application/x-shar"; break; 
+				case "swf": $mime="application/x-shockwave-flash"; break; 
+				case "sit": $mime="application/x-stuffit"; break; 
+				case "sv4cpio": $mime="application/x-sv4cpio"; break; 
+				case "sv4crc": $mime="application/x-sv4crc"; break; 
+				case "tar": $mime="application/x-tar"; break; 
+				case "tcl": $mime="application/x-tcl"; break; 
+				case "tex": $mime="application/x-tex"; break; 
+				case "texinfo": $mime="application/x-texinfo"; break; 
+				case "texi": $mime="application/x-texinfo"; break; 
+				case "t":   $mime="application/x-troff"; break; 
+				case "tr":  $mime="application/x-troff"; break; 
+				case "roff": $mime="application/x-troff"; break; 
+				case "man": $mime="application/x-troff-man"; break; 
+				case "me":  $mime="application/x-troff-me"; break; 
+				case "ms":  $mime="application/x-troff-ms"; break; 
+				case "ustar": $mime="application/x-ustar"; break; 
+				case "src": $mime="application/x-wais-source"; break; 
+				case "xhtml": $mime="application/xhtml+xml"; break; 
+				case "xht": $mime="application/xhtml+xml"; break; 
+				case "zip": $mime="application/zip"; break; 
+				case "au":  $mime="audio/basic"; break; 
+				case "snd": $mime="audio/basic"; break; 
+				case "mid": $mime="audio/midi"; break; 
+				case "midi": $mime="audio/midi"; break; 
+				case "kar": $mime="audio/midi"; break; 
+				case "mpga": $mime="audio/mpeg"; break; 
+				case "mp2": $mime="audio/mpeg"; break; 
+				case "mp3": $mime="audio/mpeg"; break; 
+				case "aif": $mime="audio/x-aiff"; break; 
+				case "aiff": $mime="audio/x-aiff"; break; 
+				case "aifc": $mime="audio/x-aiff"; break; 
+				case "m3u": $mime="audio/x-mpegurl"; break; 
+				case "ram": $mime="audio/x-pn-realaudio"; break; 
+				case "rm":  $mime="audio/x-pn-realaudio"; break; 
+				case "rpm": $mime="audio/x-pn-realaudio-plugin"; break; 
+				case "ra":  $mime="audio/x-realaudio"; break; 
+				case "wav": $mime="audio/x-wav"; break; 
+				case "pdb": $mime="chemical/x-pdb"; break; 
+				case "xyz": $mime="chemical/x-xyz"; break; 
+				case "bmp": $mime="image/bmp"; break; 
+				case "gif": $mime="image/gif"; break; 
+				case "ief": $mime="image/ief"; break; 
+				case "jpeg": $mime="image/jpeg"; break; 
+				case "jpg": $mime="image/jpeg"; break; 
+				case "jpe": $mime="image/jpeg"; break; 
+				case "png": $mime="image/png"; break; 
+				case "tiff": $mime="image/tiff"; break; 
+				case "tif": $mime="image/tiff"; break; 
+				case "djvu": $mime="image/vnd.djvu"; break; 
+				case "djv": $mime="image/vnd.djvu"; break; 
+				case "wbmp": $mime="image/vnd.wap.wbmp"; break; 
+				case "ras": $mime="image/x-cmu-raster"; break; 
+				case "pnm": $mime="image/x-portable-anymap"; break; 
+				case "pbm": $mime="image/x-portable-bitmap"; break; 
+				case "pgm": $mime="image/x-portable-graymap"; break; 
+				case "ppm": $mime="image/x-portable-pixmap"; break; 
+				case "rgb": $mime="image/x-rgb"; break; 
+				case "xbm": $mime="image/x-xbitmap"; break; 
+				case "xpm": $mime="image/x-xpixmap"; break; 
+				case "xwd": $mime="image/x-xwindowdump"; break; 
+				case "igs": $mime="model/iges"; break; 
+				case "iges": $mime="model/iges"; break; 
+				case "msh": $mime="model/mesh"; break; 
+				case "mesh": $mime="model/mesh"; break; 
+				case "silo": $mime="model/mesh"; break; 
+				case "wrl": $mime="model/vrml"; break; 
+				case "vrml": $mime="model/vrml"; break; 
+				case "css": $mime="text/css"; break; 
+				case "html": $mime="text/html"; break; 
+				case "htm": $mime="text/html"; break; 
+				case "asc": $mime="text/plain"; break; 
+				case "txt": $mime="text/plain"; break; 
+				case "rtx": $mime="text/richtext"; break; 
+				case "rtf": $mime="text/rtf"; break; 
+				case "sgml": $mime="text/sgml"; break; 
+				case "sgm": $mime="text/sgml"; break; 
+				case "tsv": $mime="text/tab-separated-values"; break; 
+				case "wml": $mime="text/vnd.wap.wml"; break; 
+				case "wmls": $mime="text/vnd.wap.wmlscript"; break; 
+				case "etx": $mime="text/x-setext"; break; 
+				case "xml": $mime="text/xml"; break; 
+				case "xsl": $mime="text/xml"; break; 
+				case "mpeg": $mime="video/mpeg"; break; 
+				case "mpg": $mime="video/mpeg"; break; 
+				case "mpe": $mime="video/mpeg"; break; 
+				case "qt":  $mime="video/quicktime"; break; 
+				case "mov": $mime="video/quicktime"; break; 
+				case "mxu": $mime="video/vnd.mpegurl"; break; 
+				case "avi": $mime="video/x-msvideo"; break; 
+				case "movie": $mime="video/x-sgi-movie"; break; 
+				case "asf": $mime="video/x-ms-asf"; break; 
+				case "asx": $mime="video/x-ms-asf"; break; 
+				case "wm":  $mime="video/x-ms-wm"; break; 
+				case "wmv": $mime="video/x-ms-wmv"; break; 
+				case "wvx": $mime="video/x-ms-wvx"; break; 
+				case "ice": $mime="x-conference/x-cooltalk"; break; 
+			}
+			if (empty($mime)) {
+				$mime = 'application/octet-stream';
+			}
+			$mimetype = $mime;
+		}
+		return $mimetype;
+	}
+
+	public function preset($type = null) {
+		# testing only:
+		//pr ($this->Email);
+		//pr ($this);
+	}
+
+	/**
+	 * test for a specific error
+	 * @param code: 4xx, 5xx, 5xx 5.1.1, 5xx 5.2.2, ...
+	 * @return boolean $status (TRUE only if this specific error occured)
+	 * 2010-06-08 ms
+	 */
+	public function hasError($code) {
+		if (!empty($this->errors)) {
+			foreach ($this->errors as $error) {
+				if (substr($error, 0, strlen($code)) == (string)$code) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+
+	public function validates() {
+		if (!empty($this->Email->subject)) {
+			return true;
+		}
+		return false;
+	}
+
+
+	/**
+	 * Set the body of the mail as we send it.
+		 * Note: the text can be an array, each element will appear as a seperate line in the message body.
+		 * @param string/array: message
+		 * LEAVE empty if you use $this->set() in combination with templates
+	 */
+	public function send($message = null) {
+		$this->_log = array(
+			'to' => $this->_to,
+			'from' => $this->_from,
+			'sender' => $this->_sender,
+			'replyTo' => $this->_replyTo,
+			'cc' => $this->_cc,
+			'subject' => $this->_subject,
+			'cc' => $this->_cc,
+			'transport' => $this->_transportName
+		);
+		
+		# prep images for inline
+		/*
+		if ($this->_emailFormat !== 'text') {
+			if ($message !== null) {
+				$message = $this->_prepMessage($message);
+			} else {
+				$this->_htmlMessage = $this->_prepMessage($this->_htmlMessage);
+			}
+		}
+		*/
+		
+		try {
+			$this->_debug = parent::send($message);
+		} catch (Exception $e) {
+			$this->error = $e->getMessage();
+			if (Configure::read('debug') > 0 || env('REMOTE_ADDR') == '127.0.0.1') {
+			 $this->error .= ' (line '.$e->getLine().' in '.$e->getFile().')'.PHP_EOL.$e->getTraceAsString();
+			}
+			return false;
+		}
+		if (!empty($this->_config['report'])) {
+			$this->_logEmail();
+		}
+
+		return true;
+	}
+	
+	protected function _prepMessage($text) {
+		
+		return $text;
+	}
+	
+
+	/**
+	 * @return string
+	 */
+	public function getError() {
+		return $this->error;
+	}
+
+
+
+	protected function _logEmail($append = null) {
+ 		$res = $this->_log['transport'].
+			' - '.'TO:'.implode(',', array_keys($this->_log['to'])).
+			'||FROM:'.implode(',', array_keys($this->_log['from'])).
+			'||REPLY:'.implode(',', array_keys($this->_log['replyTo'])).
+			'||S:'.$this->_log['subject'];
+ 		$type = 'email';
+		 if (!empty($this->error)) {
+		 	$type = 'email_error';
+ 			$res .= '||ERROR:' . $this->error;
+ 		}
+		if ($append) {
+			$res .= '||'.$append;
+		}
+		CakeLog::write($type, $res);
+	}
+
+
+	/**
+	 * toggle debug mode
+	 * 2011-05-27 ms
+	 */
+	public function debug($mode = null) {
+		if ($mode) {
+			$this->debug = true;
+			//$this->delivery('debug');
+		} else {
+			$this->debug = false;
+			//$this->delivery($this->deliveryMethod);
+		}
+	}
+
+	public function resetAndSet() {
+		$this->_to = array();
+		$this->_cc = array();
+		$this->_bcc = array();
+		$this->_messageId = true;
+		$this->_subject = '';
+		$this->_headers = array();
+		$this->_viewVars = array();
+		$this->_textMessage = '';
+		$this->_htmlMessage = '';
+		$this->_message = '';
+		$this->_attachments = array();
+
+		$this->from(Configure::read('Config.admin_email'), Configure::read('Config.admin_emailname'));
+		if ($xMailer = Configure::read('Config.x-mailer')) {
+			$this->addHeaders(array('X-Mailer'=>$xMailer));
+		}
+		//$this->errors = array();
+		//$this->charset($this->charset);
+		//$this->sendAs($this->sendAs);
+		//$this->layout($this->layout);
+		//$this->delivery($this->deliveryMethod);
+	}
+
+	public function reset() {
+		parent::reset();
+		$this->error = '';
+		$this->_debug = null;
+	}
+
+
+	public function flashDebug() {
+		$info = $this->Email->Controller->Session->read('Message.email.message');
+		if (empty($info)) {
+			$info = $this->Email->Controller->Session->read('Message.email.message');
+		}
+
+		$info .= BR;
+		$info .= h($this->_logMessage());
+
+		$this->Email->Controller->Session->delete('Message.email');
+		$this->Email->Controller->flashMessage($info, 'info');
+		if (!empty($this->errors)) {
+			$this->Email->Controller->flashMessage(implode(BR, $this->errors), 'error');
+		}
+	}
+
+}
