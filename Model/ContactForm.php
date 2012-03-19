@@ -1,4 +1,5 @@
 <?php
+App::uses('ToolsAppModel', 'Tools.Model');
 
 /**
  * "Fake" model to validate all contact forms

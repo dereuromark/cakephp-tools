@@ -1,6 +1,8 @@
 <?php
 //TODO: later Auth Plugin
 
+App::uses('ToolsAppModel', 'Tools.Model');
+
 /**
  * Manage Quick Logins
  * 
@@ -96,5 +98,3 @@ class Qlogin extends ToolsAppModel {
 	}
 	
 }
-
-
