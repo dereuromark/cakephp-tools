@@ -3,6 +3,7 @@
 /* just some common functions - by mark */
 App::uses('Component', 'Controller');
 App::uses('Sanitize', 'Utility');
+App::uses('Utility', 'Tools.Utility');
 
 /**
  * A component included in every app to take care of common stuff
@@ -54,13 +55,20 @@ class CommonComponent extends Component {
 	 */
 	public function startup(Controller $Controller = null) {
 		/** DATA PREPARATION **/
+		
 		if (!empty($this->Controller->request->data) && !Configure::read('DataPreparation.notrim')) {
 			$this->Controller->request->data = $this->trimDeep($this->Controller->request->data);
 		}
-		if (!empty($this->Controller->request->params['form']) && !Configure::read('DataPreparation.notrim')) {
-			$this->Controller->request->params['form'] = $this->trimDeep($this->Controller->request->params['form']);
+		if (!empty($this->Controller->request->query) && !Configure::read('DataPreparation.notrim')) {
+			$this->Controller->request->query = $this->trimDeep($this->Controller->request->query);
 		}
-
+		if (!empty($this->Controller->request->params['named']) && !Configure::read('DataPreparation.notrim')) {
+			$this->Controller->request->params['named'] = $this->trimDeep($this->Controller->request->params['named']);
+		}
+		if (!empty($this->Controller->request->params['pass']) && !Configure::read('DataPreparation.notrim')) {
+			$this->Controller->request->params['pass'] = $this->trimDeep($this->Controller->request->params['pass']);
+		}
+		
 		/** Information Gathering **/
 		if (!Configure::read('App.disableMobileDetection') && ($mobile = $this->Session->read('Session.mobile')) === null) {
 			App::uses('UserAgentLib', 'Tools.Lib');
@@ -145,125 +153,6 @@ class CommonComponent extends Component {
 	//deprecated - use isPosted instead
 	public function isPost() {
 		return $this->Controller->request->is('post') || $this->Controller->request->is('put');
-	}
-
-	/**
-	 * get the current ip address
-	 * @param bool $safe
-	 * @return string $ip
-	 * 2011-11-02 ms
-	 */
-	public static function getClientIp($safe = null) {
-		if ($safe === null) {
-			$safe = false;
-		}
-		if (!$safe && env('HTTP_X_FORWARDED_FOR') != null) {
-			$ipaddr = preg_replace('/(?:,.*)/', '', env('HTTP_X_FORWARDED_FOR'));
-		} else {
-			if (env('HTTP_CLIENT_IP') != null) {
-				$ipaddr = env('HTTP_CLIENT_IP');
-			} else {
-				$ipaddr = env('REMOTE_ADDR');
-			}
-		}
-
-		if (env('HTTP_CLIENTADDRESS') != null) {
-			$tmpipaddr = env('HTTP_CLIENTADDRESS');
-
-			if (!empty($tmpipaddr)) {
-				$ipaddr = preg_replace('/(?:,.*)/', '', $tmpipaddr);
-			}
-		}
-		return trim($ipaddr);
-	}
-
-	/**
-	 * get the current referer
-	 * @param bool $full (defaults to false and leaves the url untouched)
-	 * @return string $referer (local or foreign)
-	 * 2011-11-02 ms
-	 */
-	public static function getReferer($full = false) {
-		$ref = env('HTTP_REFERER');
-		/*
-		$forwarded = env('HTTP_X_FORWARDED_HOST');
-		if ($forwarded) {
-			$ref = $forwarded;
-		}
-		*/
-		if (empty($ref)) {
-			return $ref;
-		}
-		if ($full) {
-			$ref = Router::url($full);
-		}
-		return $ref;
-	}
-
-	/**
-	 * returns true only if all values are true
-	 * @return bool $result
-	 * maybe move to bootstrap?
-	 * 2011-11-02 ms
-	 */
-	public static function logicalAnd($array) {
-		if (empty($array)) {
-			return false;
-		}
-		foreach ($array as $result) {
-			if (!$result) {
-				return false;
-			}
-	}
-	return true;
-	}
-
-	/**
-	 * returns true if at least one value is true
-	 * @return bool $result
-	 * maybe move to bootstrap?
-	 * 2011-11-02 ms
-	 */
-	public static function logicalOr($array) {
-		foreach ($array as $result) {
-			if ($result) {
-				return true;
-			}
-	}
-	return false;
-	}
-
-	/**
-	 * convinience function for automatic casting in form methods etc
-	 * @return safe value for DB query, or NULL if type was not a valid one
-	 * @static
-	 * maybe move to bootstrap?
-	 * 2008-12-12 ms
-	 */
-	public static function typeCast($type = null, $value = null) {
-		switch ($type) {
-			case 'int':
-				$value = (int)$value;
-				break;
-			case 'float':
-				$value = (float)$value;
-				break;
-			case 'double':
-				$value = (double)$value;
-				break;
-			case 'array':
-				$value = (array )$value;
-				break;
-			case 'bool':
-				$value = (bool)$value;
-				break;
-			case 'string':
-				$value = (string )$value;
-				break;
-			default:
-				return null;
-		}
-		return $value;
 	}
 
 
@@ -487,106 +376,22 @@ class CommonComponent extends Component {
 		return $url;
 	}
 
-	/**
-	 * add protocol prefix if neccessary (and possible)
-	 * static?
-	 * 2010-06-02 ms
-	 */
-	public function autoPrefixUrl($url, $prefix = 'http://') {
-		/*
-		if (strlen($url) > 3 && substr($url, 0, 4) == 'www.') {
-			$url = $prefix.$url;
-			//$this->Controller->flashMessage(__('%s automaticallyAddedToUrl: %s', h($prefix), h($url)), 'warning');
-		}
-		*/
-		if (($pos = strpos($url, '.')) !== false) {
-			if (strpos(substr($url, 0, $pos), '//') === false) {
-				$url = $prefix.$url;
-			}
-		}
-		return $url;
-	}
-
-
-	/**
-	 * remove unnessary stuff + add http:// for external urls
-	 * TODO: protocol to lower!
-	 * @static
-	 * 2009-12-22 ms
-	 */
-	public static function cleanUrl($url, $headerRedirect = false) {
-		if ($url == '' || $url == 'http://' || $url == 'http://www' || $url == 'http://www.') {
-			$url = '';
-		} elseif (mb_strpos($url, 'http://') !== 0) {
-			$url = 'http://'.$url;
-		}
-
-		if ($headerRedirect && !empty($url)) {
-			$headers = CommonComponent::getHeaderFromUrl($url);
-			if ($headers !== false) {
-				$headerString = implode("\n", $headers);
-
-				if ((bool)preg_match('#^HTTP/.*\s+[(301)]+\s#i', $headerString)) {
-					foreach ($headers as $header) {
-						if (mb_strpos($header, 'Location:') === 0) {
-							$url = trim(hDec(mb_substr($header, 9))); // rawurldecode/urldecode ?
-						}
-					}
-				}
-			}
-		}
-
-		$length = mb_strlen($url);
-		while (!empty($url) && mb_strrpos($url, '/') === $length - 1) {
-			$url = mb_substr($url, 0, $length - 1);
-			$length--;
-		}
-		return $url;
-	}
-
-	/**
-	 * @static
-	 * 2009-12-26 ms
-	 */
-	public static function getHeaderFromUrl($url) {
-		$url = @parse_url($url);
-
-		if (empty($url)) {
-			return false;
-		}
-
-		$url = array_map('trim', $url);
-		$url['port'] = (!isset($url['port']))?80 : (int)$url['port'];
-		$path = (isset($url['path']))?$url['path'] : '';
-
-		if (empty($path)) {
-			$path = '/';
-		}
-
-		$path .= (isset($url['query']))?"?$url[query]" : '';
-
-		if (isset($url['host']) && $url['host'] != gethostbyname($url['host'])) {
-			$headers = @get_headers("$url[scheme]://$url[host]:$url[port]$path");
-			return (is_array($headers)?$headers : false);
-		}
-		return false;
-	}
-
 
 	### Controller Stuff ###
 
 
 	/**
 	 * @param mixed $url
-	 * @param bool $useReferer
+	 * @param bool $allowSelf if redirect to the same controller/action (url) is allowed
+	 * @param int $status
 	 * returns nothing and automatically redirects
 	 * 2010-11-06 ms
 	 */
-	public function autoRedirect($whereTo, $useReferer = true) {
-		if ($useReferer && $this->Controller->referer() != '/' . $this->Controller->request->url) {
+	public function autoRedirect($whereTo, $allowSelf = true, $status = null) {
+		if ($allowSelf || $this->Controller->referer() != '/' . $this->Controller->request->url) {
 			$this->Controller->redirect($this->Controller->referer($whereTo, true));
 		} else {
-			$this->Controller->redirect($whereTo);
+			$this->Controller->redirect($whereTo, $status);
 		}
 	}
 
@@ -595,11 +400,44 @@ class CommonComponent extends Component {
 	 * Note: Many pre-HTTP/1.1 user agents do not understand the 303 status. When interoperability with such clients is a concern, the 302 status code may be used instead, since most user agents react to a 302 response as described here for 303.
 	 * @see http://en.wikipedia.org/wiki/Post/Redirect/Get
 	 * @param mixed $url
+	 * @param int $status
 	 * TODO: change to 303 with backwardscompatability for older browsers...
 	 * 2011-06-14 ms
 	 */
 	public function postRedirect($whereTo, $status = 302) {
 		$this->Controller->redirect($whereTo, $status);
+	}
+	
+	/**
+	 * combine auto with post
+	 * also allows whitelisting certain actions for autoRedirect (use Controller::$autoRedirectActions)
+	 * @param mixed $url
+	 * @param bool $conditionalAutoRedirect false to skip whitelisting
+	 * @param int $status
+	 * 2012-03-17 ms
+	 */
+	public function autoPostRedirect($whereTo, $conditionalAutoRedirect = true, $status = 302) {
+		$referer = $this->Controller->referer($whereTo, true);
+		if (!empty($referer)) {
+			$referer = Router::parse($referer);
+		}
+		if (!$conditionalAutoRedirect || empty($this->Controller->autoRedirectActions) || is_array($referer) && !empty($referer['action'])) {
+			$refererController = Inflector::camelize($referer['controller']);
+			foreach ($this->Controller->autoRedirectActions as $action) {
+				list($controller, $action) = pluginSplit($action);
+				if (!empty($controller) && $refererController != '*' && $refererController != $controller) {
+					continue;
+				}
+				if (empty($controller) && $refererController != Inflector::camelize($this->Controller->request->params['controller'])) {
+					continue;
+				}
+				if (!in_array($referer['action'], $this->Controller->autoRedirectActions)) {
+					continue;
+				}
+				$this->autoRedirect($whereTo, true, $status);
+			}
+		}
+		$this->postRedirect($whereTo, $status);
 	}
 
 	/**
@@ -643,81 +481,6 @@ class CommonComponent extends Component {
 
 /*** Other helpers and debug features **/
 
-	/**
-	 * quick sql debug from controller dynamically
-	 * or statically from just about any other place in the script
-	 * @param bool $die: TRUE to output and die, FALSE to log to file and continue
-	 * 2011-06-30 ms
-	 */
-	public function sql($die = true) {
-		if (isset($this->Controller)) {
-			$object = $this->Controller->{$this->Controller->modelClass};
-		} else {
-			$object = ClassRegistry::init(defined('CLASS_USER')?CLASS_USER:'User');
-		}
-
-		$log = $object->getDataSource()->getLog(false, false);
-		foreach ($log['log'] as $key => $value) {
-			if (strpos($value['query'], 'SHOW ') === 0 || strpos($value['query'], 'SELECT CHARACTER_SET_NAME ') === 0) {
-				unset($log['log'][$key]);
-				continue;
-			}
-		}
-		# output and die?
-		if ($die) {
-			debug($log);
-			die();
-		}
-		# log to file then and continue
-		$log = print_r($log, true);
-		CakeLog::write('sql', $log);
-	}
-
-
-
-
-
-
-	/**
-	 * try to get group for a multidim array for select boxes
-	 * @param array $array
-	 * @param string $result
-	 * 2011-03-12 ms
-	 */
-	public function getGroup($multiDimArray, $key, $matching = array()) {
-		if (!is_array($multiDimArray) || empty($key)) {
-			return '';
-		}
-		foreach ($multiDimArray as $group => $data) {
-			if (array_key_exists($key, $data)) {
-				if (!empty($matching)) {
-					if (array_key_exists($group, $matching)) {
-						return $matching[$group];
-					}
-					return '';
-				}
-				return $group;
-			}
-		}
-		return '';
-	}
-
-
-	/**
-	 * temporary check how often current cache fails!
-	 * 2010-05-07 ms
-	 */
-	public function ensureCacheIsOk() {
-		$x = Cache::read('xyz012345');
-		if (!$x) {
-			$x = Cache::write('xyz012345', 1);
-			$this->log(date(FORMAT_DB_DATETIME), 'cacheprob');
-			return false;
-		}
-		return true;
-	}
-
-
 
 	/**
 	* Checks to see if there is a limit set for pagination results
@@ -759,7 +522,9 @@ class CommonComponent extends Component {
 
 
 	/**
-	 * @static
+	 * set headers to cache this request
+	 * @param int $seconds
+	 * @return void
 	 * 2009-12-26 ms
 	 */
 	public function forceCache($seconds = HOUR) {
@@ -795,19 +560,6 @@ class CommonComponent extends Component {
 		}
 	}
 
-	/**
-	 * @return boolean true if disabled (bots, etc), false if enabled
-	 * @static
-	 * 2010-11-20 ms
-	 */
-	public function cookiesDisabled() {
-		if (!empty($_COOKIE) && !empty($_COOKIE[Configure::read('Session.cookie')])) {
-			return false;
-		}
-		return true;
-	}
-
-
 	public function monitorCookieProblems() {
 		/*
 		if (($language = Configure::read('Config.language')) === null) {
@@ -826,6 +578,67 @@ class CommonComponent extends Component {
 		}
 	}
 
+
+
+	/**
+	 * //todo: move to Utility?
+	 * 
+	 * @return boolean true if disabled (bots, etc), false if enabled
+	 * @static
+	 * 2010-11-20 ms
+	 */
+	public static function cookiesDisabled() {
+		if (!empty($_COOKIE) && !empty($_COOKIE[Configure::read('Session.cookie')])) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * quick sql debug from controller dynamically
+	 * or statically from just about any other place in the script
+	 * @param bool $die: TRUE to output and die, FALSE to log to file and continue
+	 * 2011-06-30 ms
+	 */
+	public function sql($die = true) {
+		if (isset($this->Controller)) {
+			$object = $this->Controller->{$this->Controller->modelClass};
+		} else {
+			$object = ClassRegistry::init(defined('CLASS_USER')?CLASS_USER:'User');
+		}
+
+		$log = $object->getDataSource()->getLog(false, false);
+		foreach ($log['log'] as $key => $value) {
+			if (strpos($value['query'], 'SHOW ') === 0 || strpos($value['query'], 'SELECT CHARACTER_SET_NAME ') === 0) {
+				unset($log['log'][$key]);
+				continue;
+			}
+		}
+		# output and die?
+		if ($die) {
+			debug($log);
+			die();
+		}
+		# log to file then and continue
+		$log = print_r($log, true);
+		App::uses('CakeLog', 'Log');
+		CakeLog::write('sql', $log);
+	}
+
+
+	/**
+	 * temporary check how often current cache fails!
+	 * 2010-05-07 ms
+	 */
+	public function ensureCacheIsOk() {
+		$x = Cache::read('xyz012345');
+		if (!$x) {
+			$x = Cache::write('xyz012345', 1);
+			$this->log(date(FORMAT_DB_DATETIME), 'cacheprob');
+			return false;
+		}
+		return true;
+	}
 
 
 
@@ -930,46 +743,123 @@ class CommonComponent extends Component {
 	}
 
 
-	/*** Time Stuff ***/
+
+
+
+/*** deprecated ***/
 
 	/**
-	 * returns microtime as float value
-	 * (to be subtracted right away)
+	 * add protocol prefix if neccessary (and possible)
+	 * static?
+	 * 2010-06-02 ms
+	 */
+	public function autoPrefixUrl($url, $prefix = null) {
+		return Utility::autoPrefixUrl($url, $prefix);
+	}
+
+
+	/**
+	 * remove unnessary stuff + add http:// for external urls
+	 * TODO: protocol to lower!
 	 * @static
-	 * 2009-07-07 ms
+	 * 2009-12-22 ms
 	 */
-	public function microtime($precision = 8) {
-		return round(microtime(true), $precision);
+	public static function cleanUrl($url, $headerRedirect = false) {
+		return Utility::cleanUrl($url, $headerRedirect);
 	}
 
 	/**
-	 * 2009-07-07 ms
+	 * @static
+	 * 2009-12-26 ms
 	 */
-	public function startClock() {
-		$this->counterStartTime = $this->microtime();
+	public static function getHeaderFromUrl($url) {
+		return Utility::getHeaderFromUrl($url);
+	}
+
+
+	/**
+	 * get the current ip address
+	 * @param bool $safe
+	 * @return string $ip
+	 * 2011-11-02 ms
+	 */
+	public static function getClientIp($safe = null) {
+		return Utility::getClientIp($safe);
 	}
 
 	/**
-	 * 2009-07-07 ms
+	 * get the current referer
+	 * @param bool $full (defaults to false and leaves the url untouched)
+	 * @return string $referer (local or foreign)
+	 * 2011-11-02 ms
 	 */
-	public function returnElapsedTime($precision = 8, $restartClock = false) {
-		$startTime = $this->counterStartTime;
-		if ($restartClock) {
-			$this->counterStartTime = $this->microtime();
+	public static function getReferer($full = false) {
+		return Utility::getReferer($full);
+	}
+
+	/**
+	 * returns true only if all values are true
+	 * @return bool $result
+	 * maybe move to bootstrap?
+	 * 2011-11-02 ms
+	 */
+	public static function logicalAnd($array) {
+		return Utility::logicalAnd($array);
+	}
+
+	/**
+	 * returns true if at least one value is true
+	 * @return bool $result
+	 * maybe move to bootstrap?
+	 * 2011-11-02 ms
+	 */
+	public static function logicalOr($array) {
+		return Utility::logicalOr($array);
+	}
+
+	/**
+	 * convinience function for automatic casting in form methods etc
+	 * @return safe value for DB query, or NULL if type was not a valid one
+	 * @static
+	 * maybe move to bootstrap?
+	 * 2008-12-12 ms
+	 */
+	public static function typeCast($type = null, $value = null) {
+		return Utility::typeCast($type, $value);
+	}
+
+
+
+
+
+
+
+	/**
+	 * try to get group for a multidim array for select boxes
+	 * @param array $array
+	 * @param string $result
+	 * 2011-03-12 ms
+	 */
+	public function getGroup($multiDimArray, $key, $matching = array()) {
+		if (!is_array($multiDimArray) || empty($key)) {
+			return '';
 		}
-		return $this->calcElapsedTime($startTime, $this->microtime(), $precision);
+		foreach ($multiDimArray as $group => $data) {
+			if (array_key_exists($key, $data)) {
+				if (!empty($matching)) {
+					if (array_key_exists($group, $matching)) {
+						return $matching[$group];
+					}
+					return '';
+				}
+				return $group;
+			}
+		}
+		return '';
 	}
 
-	/**
-	 * returns microtime as float value
-	 * (to be subtracted right away)
-	 * @static
-	 * 2009-07-07 ms
-	 */
-	public function calcElapsedTime($start, $end, $precision = 8) {
-		$elapsed = $end - $start;
-		return round($elapsed, $precision);
-	}
+
+	/*** Time Stuff ***/
 
 	/**
 	 * for month and year it returns the amount of days of this month
@@ -981,7 +871,9 @@ class CommonComponent extends Component {
 	 * 2009-12-26 ms
 	 */
 	public function daysInMonth($year, $month) {
-		return date('t', mktime(0, 0, 0, $month, 1, $year));
+		trigger_error('deprecated - use Tools.DatetimeLib instead');
+		App::uses('DatetimeLib', 'Tools.Lib');
+		return DatetimeLib::daysInMonth($year, $month);
 	}
 
 
@@ -993,7 +885,7 @@ class CommonComponent extends Component {
 	 * 2009-07-07 ms
 	 */
 	public function trimDeep($value) {
-		$value = is_array($value) ? array_map(array(&$this, 'trimDeep'), $value) : trim($value);
+		$value = is_array($value) ? array_map(array($this, 'trimDeep'), $value) : trim($value);
 		return $value;
 	}
 
@@ -1003,7 +895,7 @@ class CommonComponent extends Component {
 	 * 2009-07-07 ms
 	 */
 	public function specialcharsDeep($value) {
-		$value = is_array($value) ? array_map(array(&$this, 'specialcharsDeep'), $value) : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+		$value = is_array($value) ? array_map(array($this, 'specialcharsDeep'), $value) : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 		return $value;
 	}
 
@@ -1013,7 +905,7 @@ class CommonComponent extends Component {
 	 * 2009-07-07 ms
 	 */
 	public function deep($function, $value) {
-		$value = is_array($value) ? array_map(array(&$this, $function), $value) : $function($value);
+		$value = is_array($value) ? array_map(array($this, $function), $value) : $function($value);
 		return $value;
 	}
 
@@ -1049,7 +941,7 @@ class CommonComponent extends Component {
 	 */
 	public function paranoidDeep($value) {
 		$mrClean = new Sanitize();
-		$value = is_array($value)?array_map(array(&$this, 'paranoidDeep'), $value) : $mrClean->paranoid($value, $this->allowedChars);
+		$value = is_array($value)?array_map(array($this, 'paranoidDeep'), $value) : $mrClean->paranoid($value, $this->allowedChars);
 		return $value;
 	}
 
@@ -1060,7 +952,7 @@ class CommonComponent extends Component {
 	 */
 	public function htmlDeep($value) {
 		$mrClean = new Sanitize();
-		$value = is_array($value)?array_map(array(&$this, 'htmlDeep'), $value) : $mrClean->html($value, $this->removeChars);
+		$value = is_array($value)?array_map(array($this, 'htmlDeep'), $value) : $mrClean->html($value, $this->removeChars);
 		return $value;
 	}
 
@@ -1076,8 +968,9 @@ class CommonComponent extends Component {
 	 * 2009-09-05 ms
 	 */
 	public static function average($values, $precision = 0) {
-		$average = round(array_sum($values) / count($values), $precision);
-		return $average;
+		trigger_error('deprecated - use Tools.NumberLib instead');
+		App::uses('NumberLib', 'Tools.Lib');
+		return NumberLib::average($values, $precision);
 	}
 
 
@@ -1312,6 +1205,7 @@ class CommonComponent extends Component {
 	 * use splitEmail instead
 	 */
 	public function extractEmail($email) {
+		trigger_error('deprecated - use splitEmail');
 		if (($pos = mb_strpos($email, '<')) !== false) {
 			$email = substr($email, $pos+1);
 		}
@@ -1617,9 +1511,6 @@ class CommonComponent extends Component {
 		}
 		return '';
 	}
-
-
-/*** deprecated ***/
 
 
 	/**
