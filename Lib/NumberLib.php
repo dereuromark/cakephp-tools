@@ -7,6 +7,18 @@
 class NumberLib {
 
 	/**
+	 * get the rounded average
+	 * @param array $values: int or float values
+	 * @param int $precision
+	 * @return int $average
+	 * 2009-09-05 ms
+	 */
+	public static function average($values, $precision = 0) {
+		$average = round(array_sum($values) / count($values), $precision);
+		return $average;
+	}
+	
+	/**
 	 * @access public
 	 * @param float $number
 	 * @param float $increment
@@ -161,7 +173,7 @@ class NumberLib {
 			}
 			$date = mktime(0, 0, 0, $pieces[1], $pieces[0], $year);
 
-		} elseif(strpos($date, '-') !== false) {
+		} elseif (strpos($date, '-') !== false) {
 			//$pieces = explode('-', $date);
 			$date = strtotime($date);
 		} else {

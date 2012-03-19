@@ -169,14 +169,12 @@ class DatetimeLib {
 	public function ageRange($year, $month = null, $day = null, $steps = 1) {
 		if ($month == null && $day == null) {
 			$age = date('Y') - $year - 1;
-		}
-		elseif($day == null) {
+		} elseif ($day == null) {
 			if ($month >= date('m'))
 				$age = date('Y') - $year - 1;
 			else
 				$age = date('Y') - $year;
-		}
-		else {
+		} else {
 			if ($month > date('m') || ($month == date('m') && $day > date('d')))
 				$age = date('Y') - $year - 1;
 			else
@@ -185,8 +183,7 @@ class DatetimeLib {
 		if ($age % $steps == 0) {
 			$lowerRange = $age - $steps + 1;
 			$upperRange = $age;
-		}
-		else {
+		} else {
 			$lowerRange = $age - ($age % $steps) + 1;
 			$upperRange = $age - ($age % $steps) + $steps;
 		}
@@ -198,9 +195,11 @@ class DatetimeLib {
 
 	/**
 	 * return the days of a given month
+	 * @param int $year
+	 * @param int $month
 	 * 2011-11-03 ms
 	 */
-	public function daysInMonth($year, $month) {
+	public static function daysInMonth($year, $month) {
 		return date("t", mktime(0, 0, 0, $month, 1, $year));
 	}
 
@@ -283,7 +282,7 @@ class DatetimeLib {
 			} elseif ($wtag!=1) {
 				/*auf den Montag nach vorne rechnen.*/
 				$firstmonday = mktime(0,0,0,1,1+(7-$wtag+1),$year);
-			}	else {
+			} else {
 				$firstmonday = $first;
 			}
 			return $firstmonday;
@@ -317,6 +316,25 @@ class DatetimeLib {
 			$year = date('Y');
 		}
 		return date('W', mktime(23, 59, 59, 12, 28, $year));
+	}
+
+	/**
+	 * @param year (format xxxx, defaults to current year)
+	 * @return bool $success
+	 * 2012-02-17 ms
+	 */
+	public function isLeapYear($year) {
+		if ($year % 4 != 0) {
+			return false;
+		}
+		if ($year % 400 == 0) {
+			return true;
+		} 
+		if ($year > 1582 && $year % 100 == 0) {
+		  # if gregorian calendar (>1582), century not-divisible by 400 is not leap
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -735,39 +753,39 @@ class DatetimeLib {
 	public function fuzzyFromOffset($offset, $past = null) {
 		if ($offset <= MINUTE) {
 			$span = 'moments';
-		}	elseif ($offset < (MINUTE * 20)) {
+		} elseif ($offset < (MINUTE * 20)) {
 			$span = 'a few minutes';
-		}	elseif ($offset < HOUR) {
+		} elseif ($offset < HOUR) {
 			$span = 'less than an hour';
-		}	elseif ($offset < (HOUR * 4)) {
+		} elseif ($offset < (HOUR * 4)) {
 			$span = 'a couple of hours';
-		}	elseif ($offset < DAY) {
+		} elseif ($offset < DAY) {
 			$span = 'less than a day';
-		}	elseif ($offset < (DAY * 2)) {
+		} elseif ($offset < (DAY * 2)) {
 			$span = 'about a day';
-		}	elseif ($offset < (DAY * 4)) {
+		} elseif ($offset < (DAY * 4)) {
 			$span = 'a couple of days';
-		}	elseif ($offset < WEEK) {
+		} elseif ($offset < WEEK) {
 			$span = 'less than a week';
-		}	elseif ($offset < (WEEK * 2)) {
+		} elseif ($offset < (WEEK * 2)) {
 			$span = 'about a week';
-		}	elseif ($offset < MONTH) {
+		} elseif ($offset < MONTH) {
 			$span = 'less than a month';
-		}	elseif ($offset < (MONTH * 2)) {
+		} elseif ($offset < (MONTH * 2)) {
 			$span = 'about a month';
-		}	elseif ($offset < (MONTH * 4)) {
+		} elseif ($offset < (MONTH * 4)) {
 			$span = 'a couple of months';
-		}	elseif ($offset < YEAR) {
+		} elseif ($offset < YEAR) {
 			$span = 'less than a year';
-		}	elseif ($offset < (YEAR * 2)) {
+		} elseif ($offset < (YEAR * 2)) {
 			$span = 'about a year';
-		}	elseif ($offset < (YEAR * 4)) {
+		} elseif ($offset < (YEAR * 4)) {
 			$span = 'a couple of years';
-		}	elseif ($offset < (YEAR * 8)) {
+		} elseif ($offset < (YEAR * 8)) {
 			$span = 'a few years';
-		}	elseif ($offset < (YEAR * 12)) {
+		} elseif ($offset < (YEAR * 12)) {
 			$span = 'about a decade';
-		}	elseif ($offset < (YEAR * 24)) {
+		} elseif ($offset < (YEAR * 24)) {
 			$span = 'a couple of decades';
 		} elseif ($offset < (YEAR * 64)) {
 			$span = 'several decades';
