@@ -272,8 +272,7 @@ class Utility {
 		foreach ($array as $key => $value) {
 			if (is_array($value)) {
 				$result = array_merge($result, self::arrayFlatten($value));
-			}
-			else {
+			} else {
 				$result[$key] = $value;
 			}
 		}
