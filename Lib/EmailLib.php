@@ -10,7 +10,6 @@ if (!defined('BR')) {
  * Adds some nice features and fixes some bugs:
  * - enbale embedded images in html mails
  * - allow setting domain for CLI environment
- * - allow setting private config data from configs (instead of email.php)
  * - enable easier attachment adding
  * - extensive logging and error tracing
  * 
@@ -516,18 +515,17 @@ class EmailLib extends CakeEmail {
 			$this->_debug = parent::send($message);
 		} catch (Exception $e) {
 			$this->error = $e->getMessage();
-			if (Configure::read('debug') > 0 || env('REMOTE_ADDR') == '127.0.0.1') {
-			 $this->error .= ' (line '.$e->getLine().' in '.$e->getFile().')'.PHP_EOL.$e->getTraceAsString();
-			}
+			$this->error .= ' (line '.$e->getLine().' in '.$e->getFile().')'.PHP_EOL.$e->getTraceAsString();
+		
 			if (!empty($this->_config['report'])) {
 				$this->_logEmail();
 			}
 			return false;
 		}
+		
 		if (!empty($this->_config['report'])) {
 			$this->_logEmail();
 		}
-
 		return true;
 	}
 	
