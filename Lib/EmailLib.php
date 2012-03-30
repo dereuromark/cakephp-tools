@@ -6,38 +6,61 @@ if (!defined('BR')) {
 }
 
 /**
- * Convenience class for internal mailer
- * Adds some nice features
+ * Convenience class for internal mailer.
+ * Adds some nice features and fixes some bugs:
+ * - enbale embedded images in html mails
+ * - allow setting domain for CLI environment
+ * - allow setting private config data from configs (instead of email.php)
+ * - enable easier attachment adding
+ * - extensive logging and error tracing
+ * 
+ * TODO: cleanup and more tests
  * 
  * @author Mark Scherer
  * @license MIT
- * 2011-10-31 ms
+ * 2012-03-30 ms
  */
 class EmailLib extends CakeEmail {
 
-	public $error = '';
+	/**
+	 * Domain for messageId generation.
+	 * Needs to be manually set for CLI mailing as env('HTTP_HOST') is empty
+	 *
+	 * @var string
+	 */
+	protected $_domain = null;
 
 	protected $_log = null;
+
 	protected $_debug = null;
 
+	public $error = '';
+	
 	# for multiple emails, just adjust these "default" values "on the fly"
 	public $deliveryMethod = 'mail';
+	
 	public $layout = 'external'; # usually 'external' (internal for admins only)
 
 	# with presets, only TO/FROM (depends), subject and message has to be set
-	protected $presets = array(
+	public $presets = array(
 		'user' => '',
 		'admin' => '',
 	);
 
-	protected $options = array();
+	public $options = array();
 
-	protected $complex = null; # if Controller is available, and layout/elements can be switched...
+	public $complex = null; # if Controller is available, and layout/elements can be switched...
 
 	public function __construct($config = null) {
 		if ($config === null) {
 			$config = 'default';
 		}
+		
+		$this->_domain = env('HTTP_HOST');
+		if (empty($this->_domain)) {
+			$this->_domain = php_uname('n');
+		}
+		
 		parent::__construct($config);
 
 		$this->resetAndSet();
@@ -103,7 +126,7 @@ class EmailLib extends CakeEmail {
 		$fileInfo = array();
 		$fileInfo['file'] = realpath($file);
 		$fileInfo['mimetype'] = $this->_getMime($file);
-		$fileInfo['contentId'] = $contentId ? $contentId : str_replace('-', '', String::uuid()) . '@' . env('HTTP_HOST');
+		$fileInfo['contentId'] = $contentId ? $contentId : str_replace('-', '', String::uuid()) . '@' . $this->_domain;
 		if (empty($name)) {
 			$name = basename($file);
 		}
@@ -307,6 +330,158 @@ class EmailLib extends CakeEmail {
 		return false;
 	}
 
+	/**
+	 * Domain as top level (the part after @)
+	 *
+	 * @param string $domain Manually set the domain for CLI mailing
+	 * @return mixed
+	 * @throws SocketException
+	 */
+	public function domain($domain = null) {
+		$this->_domain = $domain;
+		return $this;
+	}
+	
+	/**
+	 * Get list of headers
+	 *
+	 * ### Includes:
+	 *
+	 * - `from`
+	 * - `replyTo`
+	 * - `readReceipt`
+	 * - `returnPath`
+	 * - `to`
+	 * - `cc`
+	 * - `bcc`
+	 * - `subject`
+	 *
+	 * @param array $include
+	 * @return array
+	 */
+	public function getHeaders($include = array()) {
+		if ($include == array_values($include)) {
+			$include = array_fill_keys($include, true);
+		}
+		$defaults = array_fill_keys(array('from', 'sender', 'replyTo', 'readReceipt', 'returnPath', 'to', 'cc', 'bcc', 'subject'), false);
+		$include += $defaults;
+
+		$headers = array();
+		$relation = array(
+			'from' => 'From',
+			'replyTo' => 'Reply-To',
+			'readReceipt' => 'Disposition-Notification-To',
+			'returnPath' => 'Return-Path'
+		);
+		foreach ($relation as $var => $header) {
+			if ($include[$var]) {
+				$var = '_' . $var;
+				$headers[$header] = current($this->_formatAddress($this->{$var}));
+			}
+		}
+		if ($include['sender']) {
+			if (key($this->_sender) === key($this->_from)) {
+				$headers['Sender'] = '';
+			} else {
+				$headers['Sender'] = current($this->_formatAddress($this->_sender));
+			}
+		}
+
+		foreach (array('to', 'cc', 'bcc') as $var) {
+			if ($include[$var]) {
+				$classVar = '_' . $var;
+				$headers[ucfirst($var)] = implode(', ', $this->_formatAddress($this->{$classVar}));
+			}
+		}
+
+		$headers += $this->_headers;
+		if (!isset($headers['X-Mailer'])) {
+			$headers['X-Mailer'] = self::EMAIL_CLIENT;
+		}
+		if (!isset($headers['Date'])) {
+			$headers['Date'] = date(DATE_RFC2822);
+		}
+		if ($this->_messageId !== false) {
+			if ($this->_messageId === true) {
+				$headers['Message-ID'] = '<' . str_replace('-', '', String::UUID()) . '@' . $this->_domain . '>';
+			} else {
+				$headers['Message-ID'] = $this->_messageId;
+			}
+		}
+
+		if ($include['subject']) {
+			$headers['Subject'] = $this->_subject;
+		}
+
+		$headers['MIME-Version'] = '1.0';
+		if (!empty($this->_attachments) || $this->_emailFormat === 'both') {
+			$headers['Content-Type'] = 'multipart/mixed; boundary="' . $this->_boundary . '"';
+		} elseif ($this->_emailFormat === 'text') {
+			$headers['Content-Type'] = 'text/plain; charset=' . $this->charset;
+		} elseif ($this->_emailFormat === 'html') {
+			$headers['Content-Type'] = 'text/html; charset=' . $this->charset;
+		}
+		$headers['Content-Transfer-Encoding'] = $this->_getContentTransferEncoding();
+
+		return $headers;
+	}
+
+	/**
+	 * Apply the config to an instance
+	 *
+	 * @param CakeEmail $obj CakeEmail
+	 * @param array $config
+	 * @return void
+	 * @throws ConfigureException When configuration file cannot be found, or is missing
+	 *   the named config.
+	 */
+	protected function _applyConfig($config) {
+		if (is_string($config)) {
+			if (!class_exists('EmailConfig') && !config('email')) {
+				throw new ConfigureException(__d('cake_dev', '%s not found.', APP . 'Config' . DS . 'email.php'));
+			}
+			$configs = new EmailConfig();
+			if (!isset($configs->{$config})) {
+				throw new ConfigureException(__d('cake_dev', 'Unknown email configuration "%s".', $config));
+			}
+			$config = $configs->{$config};
+		}
+		$this->_config += $config;
+		if (!empty($config['charset'])) {
+			$this->charset = $config['charset'];
+		}
+		if (!empty($config['headerCharset'])) {
+			$this->headerCharset = $config['headerCharset'];
+		}
+		if (empty($this->headerCharset)) {
+			$this->headerCharset = $this->charset;
+		}
+		$simpleMethods = array(
+			'from', 'sender', 'to', 'replyTo', 'readReceipt', 'returnPath', 'cc', 'bcc',
+			'messageId', 'domain', 'subject', 'viewRender', 'viewVars', 'attachments',
+			'transport', 'emailFormat'
+		);
+		foreach ($simpleMethods as $method) {
+			if (isset($config[$method])) {
+				$this->$method($config[$method]);
+				unset($config[$method]);
+			}
+		}
+		if (isset($config['headers'])) {
+			$this->setHeaders($config['headers']);
+			unset($config['headers']);
+		}
+		if (array_key_exists('template', $config)) {
+			$layout = false;
+			if (array_key_exists('layout', $config)) {
+				$layout = $config['layout'];
+				unset($config['layout']);
+			}
+			$this->template($config['template'], $layout);
+			unset($config['template']);
+		}
+		$this->transportClass()->config($config);
+	}
 
 	/**
 	 * Set the body of the mail as we send it.
@@ -343,6 +518,9 @@ class EmailLib extends CakeEmail {
 			$this->error = $e->getMessage();
 			if (Configure::read('debug') > 0 || env('REMOTE_ADDR') == '127.0.0.1') {
 			 $this->error .= ' (line '.$e->getLine().' in '.$e->getFile().')'.PHP_EOL.$e->getTraceAsString();
+			}
+			if (!empty($this->_config['report'])) {
+				$this->_logEmail();
 			}
 			return false;
 		}
