@@ -489,8 +489,7 @@ class FormatHelper extends TextHelper {
 
 		//$encmail = '&#109;a&#105;&#108;t&#111;&#58;'.$encMail;
 		$querystring = '';
-		foreach ($params as $key=>$val)
-		{
+		foreach ($params as $key=>$val) {
 			if ($querystring) {
 				$querystring .= "&$key=".rawurlencode($val);
 			} else {
@@ -538,8 +537,7 @@ class FormatHelper extends TextHelper {
 	 */
 	public function encodeText($text) {
 		$encmail = '';
-		for ($i=0; $i<mb_strlen($text); $i++)
-		{
+		for ($i=0; $i<mb_strlen($text); $i++) {
 			$encMod = mt_rand(0,2);
 			switch ($encMod) {
 			case 0: // None
@@ -571,7 +569,7 @@ class FormatHelper extends TextHelper {
 		$sbez = array('0'=>@substr($offtitle, 0, 1), '1'=>@substr($ontitle, 0, 1));
 		$bez = array('0'=>$offtitle, '1'=>$ontitle);
 
-		if ($v==$on) {$icon=ICON_YES; $value=1;}else{$icon=ICON_NO; $value=0;}
+		if ($v==$on) {$icon=ICON_YES; $value=1;} else {$icon=ICON_NO; $value=0;}
 
 		if ($text!==false) {
 			$light=$bez[$value];
@@ -907,7 +905,7 @@ class FormatHelper extends TextHelper {
 			$res .= '<div class="highslide-heading">' . $title . '</div>';
 		}
 
-		$navigation = '<div class="floatRight">&nbsp;' . $this->Html->defaultLink($this->cIcon(ICON_ALBUM, 'Zum zugehörigen Album wechseln'),
+		$navigation = '<div class="floatRight">&nbsp;' . $this->Html->defaultLink($this->cIcon(ICON_ALBUM, 'Zum Album wechseln'),
 			array('controller' => 'albums', 'action' => 'view', $image['Album']['id'], slug($image['Album']['title'])), array('escape' => false)) .
 			'</div>';
 		if (!empty($image['User']['id'])) {
@@ -947,7 +945,7 @@ class FormatHelper extends TextHelper {
 	 */
 	public function profileLink($uid, $username, $text = null, $attr = array(), $options = array()) {
 		if (empty($username)) {
-			return '[Account gelöscht]';
+			return '['.__('%s deleted', __('Account')).']';
 		}
 		$title = isset($text) ? $text : $username;
 		$username = slug($username);
@@ -1092,7 +1090,7 @@ class FormatHelper extends TextHelper {
 			$res = $icons[1];
 		}
 
-		return $this->Html->image('misc/' . $res, array('width' => '60', 'height' => '16'));
+		return $this->Html->image('misc/' . $res, array('style' => 'width: 60px; height: 16px'));
 	}
 
 	/**
@@ -1313,7 +1311,7 @@ class FormatHelper extends TextHelper {
 		$str = ' ' . $str . ' ';
 
 		// \w, \b and a few others do not match on a unicode character
-		// set for performance reasons. As a result words like über
+		// set for performance reasons. As a result words like ..ber
 		// will not match on a word boundary. Instead, we'll assume that
 		// a bad word will be bookended by any of these characters.
 		$delim = '[-_\'\"`() {}<>\[\]|!?@#%&,.:;^~*+=\/ 0-9\n\r\t]';

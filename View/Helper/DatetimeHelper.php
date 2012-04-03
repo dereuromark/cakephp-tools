@@ -3,7 +3,8 @@
 App::uses('DatetimeLib', 'Tools.Lib');
 App::uses('TimeHelper', 'View/Helper');
 
-class DatetimeHelper extends TimeHelper { // later: App
+class DatetimeHelper extends TimeHelper {
+	
 	public $helpers = array('Html');
 
 	public $Datetime;
@@ -32,7 +33,6 @@ class DatetimeHelper extends TimeHelper { // later: App
 			//trigger_error(__('Magic method handler call__ not defined in %s', get_class($this)), E_USER_ERROR);
 		}
 		return call_user_func_array(array($this->Datetime, $method), $params);
-		//return $this->Datetime->$method($params);
 	}
 
 
@@ -133,10 +133,10 @@ class DatetimeHelper extends TimeHelper { // later: App
 			if ($this->isToday($date)) {
 				$when = 0;
 				$niceDate = __('Today').$timeAttachment;
-			} elseif($this->isTomorrow($date)) {
+			} elseif ($this->isTomorrow($date)) {
 				$when = 1;
 				$niceDate = __('Tomorrow').$timeAttachment;
-			} elseif($this->wasYesterday($date)) {
+			} elseif ($this->wasYesterday($date)) {
 				$when = -1;
 				$niceDate = __('Yesterday').$timeAttachment;
 			} else {
@@ -169,8 +169,20 @@ class DatetimeHelper extends TimeHelper { // later: App
 			//$span = '<span class="published '..'">';	// -1/-2 = ago | 1/2 = ahead | 0 = today
 			//$spanEnd = '</span>';
 		}
-		return $this->Html->tag('span',$niceDate,$attr);
-		//return $span.$nice_date.$spanEnd;
+		if (isset($this->Html)) {
+			return $this->Html->tag('span', $niceDate, $attr);
+		}
+		$a = array();
+		foreach ($attr as $key => $val) {
+			$a[] = $key.'="'.$val.'"';
+		}
+		$attr = '';
+		if (!empty($a)) {
+			$attr .= ' '.implode(' ', $a);
+		}
+		$span = '<span'.$attr.'>';
+		$spanEnd = '</span>';
+		return $span.$niceDate.$spanEnd;
 	}
 
 

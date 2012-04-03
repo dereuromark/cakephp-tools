@@ -45,6 +45,12 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 		return parent::_introspectModel($model, $key, $field);
 	}
 
+	public function postLink($title, $url = null, $options = array(), $confirmMessage = false) {
+		if (!isset($options['class'])) {
+			$options['class'] = 'postLink';
+		}
+		return parent::postLink($title, $url ,$options, $confirmMessage);
+	}
 
 
 /**
@@ -141,11 +147,10 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 			(!isset($options['options']) && in_array($options['type'], $types)) ||
 			(isset($magicType) && $options['type'] == 'text')
 		) {
-			$view = ClassRegistry::getObject('view');
 			$varName = Inflector::variable(
 				Inflector::pluralize(preg_replace('/_id$/', '', $fieldKey))
 			);
-			$varOptions = $view->getVar($varName);
+			$varOptions = $this->_View->getVar($varName);
 			if (is_array($varOptions)) {
 				if ($options['type'] !== 'radio') {
 					$options['type'] = 'select';
@@ -333,6 +338,7 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 		}
 		
 		if (isset($options['required'])) {
+			$this->_introspectModel($modelKey, 'validates', $fieldKey);
 			$this->fieldset[$modelKey]['validates'][$fieldKey] = $options['required'];
 			if ($options['required'] === false) {
 				$autoRequire = Configure::read('Validation.autoRequire');
@@ -779,7 +785,7 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 
 	public function maxLengthScripts() {
 		if (!$this->scriptsAdded['maxLength']) {
-			$this->Html->script('jquery/maxlength/jquery.maxlength', false);
+			$this->Html->script('jquery/maxlength/jquery.maxlength', array('inline'=>false));
 			$this->scriptsAdded['maxLength'] = true;
 		}
 	}
@@ -818,6 +824,43 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteKeys'=>false)).');
 ';
 	}
+	
+	
+	public function scripts($type) {
+		switch ($type) {
+			case 'charCount':
+				$this->Html->script('jquery/plugins/charCount', array('inline'=>false));
+				$this->Html->css('/js/jquery/plugins/charCount', null, array('inline'=>false));
+				break;
+			default:
+				return false;
+		}
+		$this->scriptsAdded[$type] = true;
+		return true;
+	}
+	
+	
+	public $charCountOptions = array(
+		'allowed' => 255,
+	);
+	
+	public function charCount($selectors = array(), $options = array()) {
+		$this->scripts('charCount');
+		$js = '';
+		
+		$selectors = (array)$selectors;
+		foreach ($selectors as $selector => $settings) {
+			if (is_int($selector)) {
+				$selector = $settings;
+				$settings = array();
+			}
+			$settings = am($this->charCountOptions, $options, $settings);
+			$js .= 'jQuery(\''.$selector.'\').charCount('.$this->Js->object($settings, array('quoteKeys'=>false)).');';
+		}
+		$js = $this->documentReady($js);
+		return $this->Html->scriptBlock($js);
+	}
+	
 
 
 	public function documentReady($string) {
@@ -938,7 +981,7 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 /** other stuff **/
 
 	/**
-	 * echo $formExt->buttons($buttons);
+	 * echo $this->FormExt->buttons($buttons);
 	 * with
 	 * $buttons = array(
 	 *  array(

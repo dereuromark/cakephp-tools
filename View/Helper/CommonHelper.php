@@ -67,7 +67,7 @@ class CommonHelper extends AppHelper {
 		if (!empty($language)) {
 			$options['lang'] = mb_strtolower($language);
 		} elseif ($language !== false) {
-			$options['lang'] = Configure::read('Settings.locale'); // DEFAULT_LANGUAGE
+			$options['lang'] = Configure::read('Config.locale'); // DEFAULT_LANGUAGE
 		}
 		return $this->Html->meta('description', $content, $options);
 	}
@@ -85,7 +85,7 @@ class CommonHelper extends AppHelper {
 		if (!empty($language)) {
 			$options['lang'] = mb_strtolower($language);
 		} elseif ($language !== false) {
-			$options['lang'] = Configure::read('Settings.locale'); // DEFAULT_LANGUAGE
+			$options['lang'] = Configure::read('Config.locale'); // DEFAULT_LANGUAGE
 		}
 		return $this->Html->meta('keywords', $keywords, $options);
 	}
@@ -194,7 +194,7 @@ class CommonHelper extends AppHelper {
 		foreach ($files as $file) {
 			$pieces[] = 'file='.$file;
 		}
-		if ($v = Configure::read('Settings.layout_v')) {
+		if ($v = Configure::read('Config.layout_v')) {
 			$pieces[] = 'v='.$v;
 		}
 		$string = implode('&', $pieces);
@@ -213,7 +213,7 @@ class CommonHelper extends AppHelper {
 		foreach ($files as $file) {
 			$pieces[] = 'file='.$file;
 		}
-		if ($v = Configure::read('Settings.layout_v')) {
+		if ($v = Configure::read('Config.layout_v')) {
 			$pieces[] = 'v='.$v;
 		}
 		$string = implode('&', $pieces);
@@ -350,7 +350,7 @@ class CommonHelper extends AppHelper {
 	public function asp($s, $c, $autoTranslate = false) {
 		if ((int)$c != 1) {
 			$p = Inflector::pluralize($s);
-		} else{
+		} else {
 		 		$p = null; # no pluralization neccessary
 		}
 		return $this->sp($s, $p, $c, $autoTranslate);
@@ -364,7 +364,7 @@ class CommonHelper extends AppHelper {
 	public function sp($s, $p, $c, $autoTranslate = false) {
 		if ((int)$c != 1) {
 			$ret = $p;
-		} else{
+		} else {
 		 		$ret = $s;
 		}
 
@@ -832,8 +832,8 @@ if ($.browser.msie) {
 		if (!defined('HTTP_HOST_LIVESERVER')) {
 			return '';
 		}
-		if (HTTP_HOST == HTTP_HOST_LIVESERVER && (int)Configure::read('Settings.tracking') === 1) {
-			$trackingUrl = Configure::read('Settings.tracking_url');
+		if (HTTP_HOST == HTTP_HOST_LIVESERVER && (int)Configure::read('Config.tracking') === 1) {
+			$trackingUrl = Configure::read('Config.tracking_url');
 			if (empty($trackingUrl)) {
 				$trackingUrl = 'visit_stats';
 			}
@@ -869,7 +869,7 @@ piwikTracker.enableLinkTracking();
 	 */
 	public function visitStatsImg($trackingUrl = null) {
 		if (empty($trackingUrl)) {
-			$trackingUrl = Configure::read('Settings.tracking_url');
+			$trackingUrl = Configure::read('Config.tracking_url');
 		}
 		if (empty($trackingUrl)) {
 			$trackingUrl = 'visit_stats';

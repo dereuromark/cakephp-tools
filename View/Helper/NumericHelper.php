@@ -66,7 +66,10 @@ class NumericHelper extends NumberHelper {
 		} elseif ((float)$price > 0 || !empty($formatOptions['allowNegative'])) {
 			$val = $price;
 		} else {
-			return '---';
+			if (isset($formatOptions['default'])) {
+				return $formatOptions['default'];
+			}
+			$val = $price;
 		}
 
 		if ($places === null) {
@@ -154,4 +157,8 @@ class NumericHelper extends NumberHelper {
 		}
 	}
 
+
+	public function currency($number, $currency = 'EUR', $options = array()) {
+		return parent::currency($number, $currency, $options);
+	}
 }
