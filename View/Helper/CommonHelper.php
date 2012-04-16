@@ -113,7 +113,7 @@ class CommonHelper extends AppHelper {
 	public function metaAlternate($url, $lang, $full = false) {
 		$canonical = $this->Html->url($url, $full);
 		//return $this->Html->meta('canonical', $canonical, array('rel'=>'canonical', 'type'=>null, 'title'=>null));
-		$lang = (array) $lang;
+		$lang = (array)$lang;
 		$res = array();
 		foreach ($lang as $language => $countries) {
 			if (is_numeric($language)) {
@@ -121,7 +121,7 @@ class CommonHelper extends AppHelper {
  			} else {
  				$language .= '-';
  			}
- 			$countries = (array) $countries;
+ 			$countries = (array)$countries;
 	 		foreach ($countries as $country) {
 	 			$l = $language.$country;
 	 			$res[] = $this->Html->meta('alternate', $url, array('rel'=>'alternate', 'hreflang'=>$l, 'type'=>null, 'title'=>null)).PHP_EOL;

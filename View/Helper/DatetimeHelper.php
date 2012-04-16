@@ -1,8 +1,12 @@
 <?php
 
-App::uses('DatetimeLib', 'Tools.Lib');
+App::uses('DatetimeLib', 'Tools.Utility');
 App::uses('TimeHelper', 'View/Helper');
 
+/**
+ * TODO: make extend TimeLib some day?
+ * 2012-04-09 ms
+ */
 class DatetimeHelper extends TimeHelper {
 	
 	public $helpers = array('Html');
@@ -13,6 +17,7 @@ class DatetimeHelper extends TimeHelper {
 	protected $daylightSavings = false;
 
 	public function __construct($View = null, $settings = array()) {
+		$settings = Set::merge(array('engine' => 'Tools.DatetimeLib'), $settings);
 		parent::__construct($View, $settings);
 
 		$i18n = Configure::read('Localization');
@@ -22,11 +27,10 @@ class DatetimeHelper extends TimeHelper {
 		if (!empty($i18n['daylight_savings'])) {
 			$this->daylightSavings = (bool)$i18n['daylight_savings'];
 		}
-
-		$this->Datetime = new DatetimeLib();
+		//$this->Datetime = new DatetimeLib();
 	}
 
-
+	/*
 	public function __call($method, $params) {
 
 		if (!method_exists($this, 'call__')) {
@@ -34,6 +38,7 @@ class DatetimeHelper extends TimeHelper {
 		}
 		return call_user_func_array(array($this->Datetime, $method), $params);
 	}
+	*/
 
 
 	/**
@@ -63,7 +68,7 @@ class DatetimeHelper extends TimeHelper {
 		if ((int)$date === 0) {
 			return $default;
 		}
-		$age = $this->Datetime->age($date, null);
+		$age = $this->age($date, null);
 		if ($age >= 1 && $age <= 99) {
 			return $age;
 			}
@@ -78,7 +83,7 @@ class DatetimeHelper extends TimeHelper {
 	 * 2009-11-22 ms
 	 */
 	public function localDateMarkup($dateString = null, $format = null, $options = array()) {
-		$date = $this->Datetime->localDate($dateString, $format, $options);
+		$date = $this->localDate($dateString, $format, $options);
 		$date = '<span'.($this->isToday($dateString,(isset($options['userOffset'])?$options['userOffset']:null))?' class="today"':'').'>'.$date.'</span>';
 		return $date;
 	}
@@ -172,6 +177,7 @@ class DatetimeHelper extends TimeHelper {
 		if (isset($this->Html)) {
 			return $this->Html->tag('span', $niceDate, $attr);
 		}
+		trigger_error('HtmlHelper not found');
 		$a = array();
 		foreach ($attr as $key => $val) {
 			$a[] = $key.'="'.$val.'"';

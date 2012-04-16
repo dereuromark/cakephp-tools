@@ -1,6 +1,6 @@
 <?php
 
-App::uses('TextLib', 'Tools.Lib');
+App::uses('TextLib', 'Tools.Utility');
 
 /**
  * 2010-07-14 ms

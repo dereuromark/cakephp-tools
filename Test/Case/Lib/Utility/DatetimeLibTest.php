@@ -1,6 +1,6 @@
 <?php
 
-App::uses('DatetimeLib', 'Tools.Lib');
+App::uses('DatetimeLib', 'Tools.Utility');
 App::uses('MyCakeTestCase', 'Tools.Lib');
 
 class DatetimeLibTest extends MyCakeTestCase {
@@ -17,18 +17,18 @@ class DatetimeLibTest extends MyCakeTestCase {
 		unset($this->Datetime);
 	}
 
-	public function testParse() {
+	public function testParseLocalizedDate() {
 		$this->out($this->_header(__FUNCTION__));
 		
-		$ret = $this->Datetime->parseDate('15-Feb-2009', 'j-M-Y', 'start');
+		$ret = $this->Datetime->parseLocalizedDate('15-Feb-2009', 'j-M-Y', 'start');
 		pr($ret);
 		$this->assertEquals($ret, '2009-02-15 00:00:00');
 		
 		# problem when not passing months or days as well - no way of knowing how exact the date was
-		$ret = $this->Datetime->parseDate('2009', 'Y', 'start');
+		$ret = $this->Datetime->parseLocalizedDate('2009', 'Y', 'start');
 		pr($ret);
 		//$this->assertEquals($ret, '2009-01-01 00:00:00');
-		$ret = $this->Datetime->parseDate('Feb 2009', 'M Y', 'start');
+		$ret = $this->Datetime->parseLocalizedDate('Feb 2009', 'M Y', 'start');
 		pr($ret);
 		//$this->assertEquals($ret, '2009-02-01 00:00:00');
 		
@@ -43,11 +43,11 @@ class DatetimeLibTest extends MyCakeTestCase {
 			array('12/2009', array('2009-12-01 00:00:00', '2009-12-31 23:59:59')),
 		);
 		foreach ($values as $v) {
-			$ret = $this->Datetime->parseDate($v[0], null, 'start');
+			$ret = $this->Datetime->parseLocalizedDate($v[0], null, 'start');
 			pr($ret);
 			$this->assertEquals($ret, $v[1][0]);
 			
-			$ret = $this->Datetime->parseDate($v[0], null, 'end');
+			$ret = $this->Datetime->parseLocalizedDate($v[0], null, 'end');
 			pr($ret);
 			$this->assertEquals($ret, $v[1][1]);
 		}
@@ -83,13 +83,15 @@ class DatetimeLibTest extends MyCakeTestCase {
 		$values = array(
 			array(__('Today'), "(Model.field >= '".date(FORMAT_DB_DATE)." 00:00:00') AND (Model.field <= '".date(FORMAT_DB_DATE)." 23:59:59')"),
 			array(__('Yesterday').' '.__('until').' '.__('Today'), "(Model.field >= '".date(FORMAT_DB_DATE, time()-DAY)." 00:00:00') AND (Model.field <= '".date(FORMAT_DB_DATE)." 23:59:59')"),
-			array(__('Tomorrow').' '.__('until').' '.__('The day after tomorrow'), "(Model.field >= '".date(FORMAT_DB_DATE, time()+DAY)." 00:00:00') AND (Model.field <= '".date(FORMAT_DB_DATE, time()+2*DAY)." 23:59:59')"),
+			array(__('Today').' '.__('until').' '.__('Tomorrow'), "(Model.field >= '".date(FORMAT_DB_DATE, time())." 00:00:00') AND (Model.field <= '".date(FORMAT_DB_DATE, time()+DAY)." 23:59:59')"),
+			array(__('Yesterday').' '.__('until').' '.__('Tomorrow'), "(Model.field >= '".date(FORMAT_DB_DATE, time()-DAY)." 00:00:00') AND (Model.field <= '".date(FORMAT_DB_DATE, time()+DAY)." 23:59:59')"),
 		);
 		
 		foreach ($values as $v) {
 			$ret = $this->Datetime->periodAsSql($v[0], 'Model.field');
-			pr($ret);
-			$this->assertEquals($ret, $v[1]);
+			pr($v[1]);
+			pr($ret); ob_flush();
+			$this->assertSame($v[1], $ret);
 			
 		}
 	}
@@ -104,7 +106,7 @@ class DatetimeLibTest extends MyCakeTestCase {
 		
 		foreach ($values as $v) {
 			$ret = $this->Datetime->difference($v[0], $v[1]);
-			$this->assertEquals($ret, $v[2]);
+			$this->assertEquals($v[2], $ret);
 		}
 	}
 	
@@ -121,7 +123,7 @@ class DatetimeLibTest extends MyCakeTestCase {
 			$ret = $this->Datetime->ageBounds($v[0], $v[1], true, '2011-07-06'); //TODO: relative time
 			pr($ret);
 			if (isset($v[2])) {
-				$this->assertSame($ret, $v[2]);
+				$this->assertSame($v[2], $ret);
 				pr($this->Datetime->age($v[2]['min']));
 				pr($this->Datetime->age($v[2]['max']));
 				$this->assertEquals($v[0], $this->Datetime->age($v[2]['max']));
@@ -146,14 +148,14 @@ class DatetimeLibTest extends MyCakeTestCase {
 			$is = $this->Datetime->ageByYear(2000, $month);
 			$this->out($is);
 			//$this->assertEquals($is, (date('Y')-2001).'/'.(date('Y')-2000), null, '2000/'.$month);
-			$this->assertEquals($is, (date('Y')-2001), null, '2000/'.$month);
+			$this->assertSame($is, (date('Y')-2001), null, '2000/'.$month);
 		}
 		
 		if (($month = date('n')-1) >= 1) {
 			$is = $this->Datetime->ageByYear(2000, $month);
 			$this->out($is);
 			//$this->assertEquals($is, (date('Y')-2001).'/'.(date('Y')-2000), null, '2000/'.$month);
-			$this->assertEquals($is, (date('Y')-2000), null, '2000/'.$month);
+			$this->assertSame($is, (date('Y')-2000), null, '2000/'.$month);
 		}
 	}
 	
@@ -328,7 +330,7 @@ class DatetimeLibTest extends MyCakeTestCase {
 			$ret = $this->Datetime->cweekBeginning($v[0], $v[1]);
 			$this->out($ret);
 			$this->out($this->Datetime->niceDate($ret, 'D').' '.$this->Datetime->niceDate($ret, FORMAT_NICE_YMDHMS));
-			$this->assertEquals($ret, $v[2], null, $v[1].'/'.$v[0]);
+			$this->assertSame($v[2], $ret, null, $v[1].'/'.$v[0]);
 		}
 	}
 	
@@ -345,7 +347,7 @@ class DatetimeLibTest extends MyCakeTestCase {
 			$ret = $this->Datetime->cweekEnding($year);
 			$this->out($ret);
 			$this->out($this->Datetime->niceDate($ret, 'D').' '.$this->Datetime->niceDate($ret, FORMAT_NICE_YMDHMS));
-			$this->assertEquals($ret, $expected);
+			$this->assertSame($ret, $expected);
 		}
 		
 		$values = array(
@@ -360,7 +362,7 @@ class DatetimeLibTest extends MyCakeTestCase {
 			$ret = $this->Datetime->cweekEnding($v[0], $v[1]);
 			$this->out($ret);
 			$this->out($this->Datetime->niceDate($ret, 'D').' '.$this->Datetime->niceDate($ret, FORMAT_NICE_YMDHMS));
-			$this->assertEquals($ret, $v[2], null, $v[1].'/'.$v[0]);
+			$this->assertSame($v[2], $ret, null, $v[1].'/'.$v[0]);
 		}
 	}
 

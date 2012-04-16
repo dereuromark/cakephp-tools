@@ -42,7 +42,7 @@ class CalendarComponent extends Component {
 	/**
 	 * @return bool $success
 	 */
-	function ensureCalendarConsistency($year, $month, $span = 10) {
+	public function ensureCalendarConsistency($year, $month, $span = 10) {
 		if (!is_numeric($month)) {
 			$monthKeys = array_keys($this->monthList, $month);
 			$month = array_shift($monthKeys);

@@ -22,7 +22,9 @@ class NumericHelperTest extends MyCakeTestCase {
 
 
 /**
- * test cweek
+ * test format
+ * 
+ * TODO: move to NumberLib test?
  *
  * @access public
  * @return void
@@ -33,49 +35,47 @@ class NumericHelperTest extends MyCakeTestCase {
 		$expected = '22,00';
 		$this->assertEquals($expected, $is);
 		
-		$is = $this->Numeric->format('22.30', 1);
+		$is = $this->Numeric->format('22.30', array('places'=>1));
 		$expected = '22,3';
 		$this->assertEquals($expected, $is);
 		
-		$is = $this->Numeric->format('22.30', -1);
+		$is = $this->Numeric->format('22.30', array('places'=>-1));
 		$expected = '20';
 		$this->assertEquals($expected, $is);
 		
-		$is = $this->Numeric->format('22.30', -2);
+		$is = $this->Numeric->format('22.30', array('places'=>-2));
 		$expected = '0';
 		$this->assertEquals($expected, $is);
 		
-		$is = $this->Numeric->format('22.30', 3);
+		$is = $this->Numeric->format('22.30', array('places'=>3));
 		$expected = '22,300';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Numeric->format('abc', 2);
+		$is = $this->Numeric->format('abc', array('places'=>2));
 		$expected = '---';
 		$this->assertEquals($expected, $is);
 		
-		$is = $this->Numeric->format('12.2', 'a');
+		/*
+		$is = $this->Numeric->format('12.2', array('places'=>'a'));
 		$expected = '12,20';
 		$this->assertEquals($expected, $is);
+		*/
 		
-		$is = $this->Numeric->format('22.3', 2, array('before'=>'EUR '));
+		$is = $this->Numeric->format('22.3', array('places'=>2, 'before'=>'EUR '));
 		$expected = 'EUR 22,30';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Numeric->format('22.3', 2, array('after'=>' EUR'));
+		$is = $this->Numeric->format('22.3', array('places'=>2, 'after'=>' EUR'));
 		$expected = '22,30 EUR';
 		$this->assertEquals($expected, $is);
 		
-		$is = $this->Numeric->format('22.3', 2, array('after'=>'x','before'=>'v'));
+		$is = $this->Numeric->format('22.3', array('places'=>2, 'after'=>'x','before'=>'v'));
 		$expected = 'v22,30x';
 		$this->assertEquals($expected, $is);
 		
 		#TODO: more		
-		
-		
-		
+				
 	}
-
-
 
 
 /**

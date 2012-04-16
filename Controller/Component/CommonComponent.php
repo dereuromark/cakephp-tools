@@ -381,14 +381,17 @@ class CommonComponent extends Component {
 
 
 	/**
+	 * Smart Referer Redirect - will try to use an existing referer first
+	 * otherwise it will use the default url
+	 * 
 	 * @param mixed $url
 	 * @param bool $allowSelf if redirect to the same controller/action (url) is allowed
 	 * @param int $status
 	 * returns nothing and automatically redirects
 	 * 2010-11-06 ms
 	 */
-	public function autoRedirect($whereTo, $allowSelf = true, $status = null) {
-		if ($allowSelf || $this->Controller->referer() != '/' . $this->Controller->request->url) {
+	public function autoRedirect($whereTo, $allowSelf = false, $status = null) {
+		if ($allowSelf || $this->Controller->referer(null, true) != '/' . $this->Controller->request->url) {
 			$this->Controller->redirect($this->Controller->referer($whereTo, true));
 		} else {
 			$this->Controller->redirect($whereTo, $status);
@@ -423,6 +426,10 @@ class CommonComponent extends Component {
 		}
 		if (!$conditionalAutoRedirect || empty($this->Controller->autoRedirectActions) || is_array($referer) && !empty($referer['action'])) {
 			$refererController = Inflector::camelize($referer['controller']);
+			# fixme
+			if (!isset($this->Controller->autoRedirectActions)) {
+				$this->Controller->autoRedirectActions = array();
+			}
 			foreach ($this->Controller->autoRedirectActions as $action) {
 				list($controller, $action) = pluginSplit($action);
 				if (!empty($controller) && $refererController != '*' && $refererController != $controller) {
@@ -454,8 +461,6 @@ class CommonComponent extends Component {
 		}
 	}
 
-
-
 	/**
 	 * Handler for passing some meta data to the view
 	 * uses CommonHelper to include them in the layout
@@ -479,8 +484,8 @@ class CommonComponent extends Component {
 		Configure::write('Meta.'.$type, $content);
 	}
 
-/*** Other helpers and debug features **/
 
+/*** Other helpers and debug features **/
 
 	/**
 	* Checks to see if there is a limit set for pagination results
@@ -520,7 +525,6 @@ class CommonComponent extends Component {
 		}
 	}
 
-
 	/**
 	 * set headers to cache this request
 	 * @param int $seconds
@@ -542,7 +546,7 @@ class CommonComponent extends Component {
 		if ($ref === null) {
 			$ref = env('HTTP_REFERER');
 		}
-		$base = FULL_BASE_URL.$this->Controller->webroot;
+		$base = FULL_BASE_URL . $this->Controller->webroot;
 		if (strpos($ref, $base) === 0) { // @ position 1 already the same
 			return false;
 		}
@@ -872,7 +876,7 @@ class CommonComponent extends Component {
 	 */
 	public function daysInMonth($year, $month) {
 		trigger_error('deprecated - use Tools.DatetimeLib instead');
-		App::uses('DatetimeLib', 'Tools.Lib');
+		App::uses('DatetimeLib', 'Tools.Utility');
 		return DatetimeLib::daysInMonth($year, $month);
 	}
 
@@ -969,7 +973,7 @@ class CommonComponent extends Component {
 	 */
 	public static function average($values, $precision = 0) {
 		trigger_error('deprecated - use Tools.NumberLib instead');
-		App::uses('NumberLib', 'Tools.Lib');
+		App::uses('NumberLib', 'Tools.Utility');
 		return NumberLib::average($values, $precision);
 	}
 
