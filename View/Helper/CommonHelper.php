@@ -1,24 +1,15 @@
 <?php
-// all site-wide neccessary stuff
 
 /**
- * Common Helper.
+ * All site-wide neccessary stuff for the view layer
  */
 class CommonHelper extends AppHelper {
 
-	public $helpers = array ('Session', 'Html', 'Tools.Format'); # Format temporary!
+	public $helpers = array ('Session', 'Html');
 	
 	public $packages = array(
 		'Tools.Jquery' //Used by showDebug
 	);
-
-/* used Levels:
-		ROLE_SUPERADMIN
-		ROLE_ADMIN
-		ROLE_MOD
-		ROLE_USER
-*/
-	public $rights = array();
 
 /* Layout Stuff */
 
@@ -505,44 +496,6 @@ class CommonHelper extends AppHelper {
 	}
 
 	/**
-	 * MULTIPLE ROLES function
-	 * Checks if a role is in the current users session
-	 * @param neccessary right(s) as array - or a single one as string possible
-	 * Note:  all of them need to be in the user roles to return true by default
-	 */
-	public function hasRight($rights,$one_is_enough=false) {
-		$roles = $this->Session->read('Auth.User.Role');
-		if (!empty($rights) && !empty($roles)) {
-			if (is_array($rights)) {
-				foreach ($rights as $right) {
-					if ($one_is_enough===true && in_array($right,$roles)) {
-						# we found one (and thats enough)
-						return true;
-					} elseif (!in_array($right,$roles)) {
-						# we need to find one that is not in the roles array
-						return false;
-					}
-				}
-
-				if ($one_is_enough===true) {
-					# there was no suitable right in the roles array, so return false
-					return false;
-				} else {
-					# seems like all of the neccessary rights have been in the roles array
-					return true;
-				}
-
-			} else {
-				if (in_array($rights,$roles)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-
-	/**
 	 * Checks if a role is in the current users session
 	 * @param neccessary right(s) as array - or a single one as string possible
 	 * Note:  all of them need to be in the user roles to return true by default
@@ -643,9 +596,6 @@ class CommonHelper extends AppHelper {
 		return $text;
 	}
 
-
-
-
 	/**
 	 * takes int / array(int) and finds the role name to it
 	 * @return array roles
@@ -663,8 +613,6 @@ class CommonHelper extends AppHelper {
 		}
 		return $ret;
 	}
-
-
 
 	/**
 	 * //TODO: move to TextExt?
@@ -837,9 +785,6 @@ if ($.browser.msie) {
 			if (empty($trackingUrl)) {
 				$trackingUrl = 'visit_stats';
 			}
-			//$res .= '<script type="text/javascript" src="'.$this->Html->url('/').'visit_stats/track.php?mode=js"></script>';
-			//$res .= '<noscript><img src="'.$this->Html->url('/').'visit_stats/track_noscript.php" alt="" width="1" height="1"/></noscript>';
-
 			$error = false;
 			if (!empty($viewPath) && $viewPath == 'errors') {
 				$error = true;
