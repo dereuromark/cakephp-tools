@@ -1,4 +1,6 @@
 <?php
+App::uses('ToolsAppModel', 'Tools.Model');
+App::uses('CommonComponent', 'Tools.Controller/Component');
 
 /**
  * TODO: rename to "Token" with display field "token"

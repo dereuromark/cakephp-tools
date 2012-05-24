@@ -2,6 +2,7 @@
 //TODO: later Auth Plugin
 
 App::uses('ToolsAppModel', 'Tools.Model');
+App::uses('CakeSession', 'Model/Datasource');
 
 /**
  * Manage Quick Logins
