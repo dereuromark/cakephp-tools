@@ -79,7 +79,7 @@ class Qlogin extends ToolsAppModel {
 		return $this->_newKey($uid, $content);
 	}
 	
-	public function urlByKey($key) {
+	public static function urlByKey($key) {
 		return Router::url(array('admin'=>'', 'plugin'=>'tools', 'controller'=>'qlogin', 'action'=>'go', $key), true);
 	}
 	
@@ -91,7 +91,7 @@ class Qlogin extends ToolsAppModel {
 	 */
 	public function url($url, $uid = null) {
 		if ($uid === null) {
-			$uid = $this->Session->read('Auth.User.id');
+			$uid = CakeSession::read('Auth.User.id');
 		}
 		$key = $this->generate($url, $uid);
 	 	return $this->urlByKey($key);

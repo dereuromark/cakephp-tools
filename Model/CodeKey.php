@@ -11,7 +11,7 @@
 class CodeKey extends ToolsAppModel {
 
 	public $displayField = 'key';
-	public $order = array('CodeKey.created' => 'ASC');
+	public $order = array('CodeKey.created' => 'DESC');
 
 	protected $defaultLength = 22;
 	protected $validity = MONTH;
@@ -24,13 +24,14 @@ class CodeKey extends ToolsAppModel {
 			),
 		),
 		'key' => array(
-			'isUnique' => array(
-				'rule' => array('isUnique'),
-				'message' => 'key already exists',
-			),
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
 				'message' => 'valErrMandatoryField',
+				'last' => true,
+			),
+			'isUnique' => array(
+				'rule' => array('isUnique'),
+				'message' => 'valErrCodeKeyExists',
 			),
 		),
 		'content' => array(
@@ -192,13 +193,12 @@ class CodeKey extends ToolsAppModel {
 	 */
 	public function generateKey($length = null) {
 		if (empty($length)) {
-			$length = $defaultLength;
+			$length = $this->defaultLength;
+		}
+		if ((class_exists('CommonComponent') || App::import('Component', 'Common')) && method_exists('CommonComponent', 'generatePassword')) {
+			return CommonComponent::generatePassword($length);
 		} else {
-			if ((class_exists('CommonComponent') || App::import('Component', 'Common')) && method_exists('CommonComponent', 'generatePassword')) {
-				return CommonComponent::generatePassword($length);
-			} else {
-				return $this->_generateKey($length);
-			}
+			return $this->_generateKey($length);
 		}
 	}
 
@@ -206,7 +206,7 @@ class CodeKey extends ToolsAppModel {
 	 * backup method - only used if no custom function exists
 	 * 2010-06-17 ms
 	 */
-	public function _generateKey($length = null) {
+	protected function _generateKey($length = null) {
 		$chars = "234567890abcdefghijkmnopqrstuvwxyz"; // ABCDEFGHIJKLMNOPQRSTUVWXYZ
 		$i = 0;
 		$password = "";
