@@ -6,7 +6,11 @@ App::uses('HttpSocketLib', 'Tools.Lib');
 /**
  * geocode via google (UPDATE: api3)
  * @see DEPRECATED api2: http://code.google.com/intl/de-DE/apis/maps/articles/phpsqlgeocode.html
- * @sse http://code.google.com/intl/de/apis/maps/documentation/geocoding/#Types
+ * @see http://code.google.com/intl/de/apis/maps/documentation/geocoding/#Types
+ * 
+ * @author Mark Scherer
+ * @cakephp 2.x
+ * @licence MIT
  * 2010-06-25 ms
  */
 class GeocodeLib {
@@ -355,7 +359,12 @@ class GeocodeLib {
 			if ($this->options['output'] == 'json') {
 				//$res = json_decode($result);
 			} else {
-				$res = Xml::build($result);
+				try {
+					$res = Xml::build($result);
+				} catch (Exception $e) {
+					CakeLog::write('geocode', $e->getMessage());
+					$res = array();
+				}
 			}
 
 			if (!is_object($res)) {
@@ -676,7 +685,10 @@ class GeocodeLib {
 
 
 	/**
-	 * fuzziness filter for coordinates (lat or lng)
+	 * Fuzziness filter for coordinates (lat or lng).
+	 * Useful if you store other users' locations and want to grant some 
+	 * privacy protection. This way the coordinates will be slightly modified.
+	 * 
 	 * @param float coord
 	 * @param int level (0 = nothing to 5 = extrem)
 	 * - 1:
@@ -684,10 +696,9 @@ class GeocodeLib {
 	 * - 3:
 	 * - 4:
 	 * - 5:
-	 * @static
 	 * 2011-03-16 ms
 	 */
-	public function blur($coord, $level = 0) {
+	public static function blur($coord, $level = 0) {
 		if (!$level) {
 			return $coord;
 		}
@@ -773,7 +784,7 @@ Array
 
 					[1] => Array
 						(
-							[long_name] => Schwäbisch Hall
+							[long_name] => Schwaebisch Hall
 							[short_name] => SHA
 							[Type] => Array
 								(
@@ -785,7 +796,7 @@ Array
 
 					[2] => Array
 						(
-							[long_name] => Baden-Württemberg
+							[long_name] => Baden-Wuerttemberg
 							[short_name] => BW
 							[Type] => Array
 								(
@@ -882,10 +893,10 @@ Array
 							[CountryName] => Deutschland
 							[AdministrativeArea] => Array
 								(
-									[AdministrativeAreaName] => Baden-Württemberg
+									[AdministrativeAreaName] => Baden-Wuerttemberg
 									[SubAdministrativeArea] => Array
 										(
-											[SubAdministrativeAreaName] => Schwäbisch Hall
+											[SubAdministrativeAreaName] => Schwaebisch Hall
 											[PostalCode] => Array
 												(
 													[PostalCodeNumber] => 74523
@@ -918,10 +929,7 @@ Array
 
 		)
 
-)
-
-
-{
+) {
 	"status": "OK",
 	"results": [ {
 	"types": [ "street_address" ],
