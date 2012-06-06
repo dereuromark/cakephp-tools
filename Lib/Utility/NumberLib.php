@@ -110,6 +110,9 @@ class NumberLib extends CakeNumber {
 		if ($number > 0 && !empty($options['signed'])) {
 			$sign = '+';
 		}
+		if (isset($options['signed'])) {
+			unset($options['signed']);
+		}
 		return $sign . parent::format($number, $options);
 	}
 

@@ -20,7 +20,7 @@ App::uses('View', 'View');
  *   
  * 2011-03-30 ms
  */
-class TextExtHelper extends TextHelper { 
+class TextExtHelper extends TextHelper {
 
 	/**
 	 * Convert all links and email adresses to HTML links.
@@ -191,7 +191,7 @@ class TextExtHelper extends TextHelper {
 	 * @return string $html (randomly encoded)
 	 * 2009-03-11 ms
 	 */
-	public function encodeText($text) {
+	public static function encodeText($text) {
 		$encmail = '';
 		for ($i=0; $i < mb_strlen($text); $i++) {
 			$encMod = mt_rand(0,2);
@@ -253,10 +253,9 @@ class TextExtHelper extends TextHelper {
 	 * - maxLength: int (defaults to 50)
 	 * - escape (defaults to false, true needed for hellip to work)
 	 * @return string $html/$plain
-	 * @static
 	 * 2010-11-07 ms
 	 */
-	public function prepareLinkName($link, $options = array()) {
+	public static function prepareLinkName($link, $options = array()) {
 		# strip protocol if desired (default)
 		if (!isset($options['stripProtocol']) || $options['stripProtocol'] !== false) {
 			$link = self::stripProtocol($link);
@@ -281,10 +280,9 @@ class TextExtHelper extends TextHelper {
 	 * remove http:// or other protocols from the link
 	 * @param string $url
 	 * @return string $strippedUrl
-	 * @static
 	 * 2010-11-07 ms
 	 */
-	public function stripProtocol($url) {
+	public static function stripProtocol($url) {
 		$pieces = parse_url($url);
 		if (empty($pieces['scheme'])) {
 			return $url; # already stripped
@@ -298,7 +296,7 @@ class TextExtHelper extends TextHelper {
 	 * @param $sup (BOOL) - whether to wrap the suffix in a superscript (<sup>) tag on output.
 	 * @return string $ordinal
 	 */
-	public function ordinalNumber($num = 0, $sup = false) {
+	public static function ordinalNumber($num = 0, $sup = false) {
 		$suff = '';
 		if (!in_array(($num % 100), array(11, 12, 13))) {
 			switch ($num % 10) {
@@ -325,7 +323,7 @@ class TextExtHelper extends TextHelper {
 	 * @param bool $return (else echo directly)
 	 * 2009-07-26 ms
 	 */
-	public function highlightFile($file, $return = true) {
+	public static function highlightFile($file, $return = true) {
 		return highlight_file($file, $return);
 	}
 
@@ -335,7 +333,7 @@ class TextExtHelper extends TextHelper {
 	 * @param bool $return (else echo directly)
 	 * 2009-07-26 ms
 	 */
-	public function highlightString($string, $return = true) {
+	public static function highlightString($string, $return = true) {
 		return highlight_string($string, $return);
 	}
 

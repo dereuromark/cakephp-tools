@@ -122,20 +122,27 @@ class TextLib {
 		return implode($separator, $res);
 	}
 
-	public function convertToOrdTable($str) {
-		$res = '<table><tr>';
+	public static function convertToOrdTable($str, $maxCols = 20) {
+		$res = '<table>';
 		$r = array('chr'=>array(), 'ord'=>array());
 		$chars = preg_split('//', $str, -1);
-		foreach ($chars as $char) {
+		$count = 0;
+		foreach ($chars as $key => $char) {
+			if ($maxCols && $maxCols < $count || $key === count($chars)-1) {
+				$res .= '<tr><th>'.implode('</th><th>', $r['chr']).'</th>';
+				$res .= '</tr>';
+				$res .= '<tr>';
+				$res .= '<td>'.implode('</th><th>', $r['ord']).'</td></tr>';
+				$count = 0;
+				$r = array('chr'=>array(), 'ord'=>array());
+			}
+			$count++;
 			//$res[] = UnicodeLib::ord($char);
 			$r['ord'][] = ord($char);
 			$r['chr'][] = $char;
 		}
-		$res .= '<th>'.implode('</th><th>', $r['chr']).'</th>';
-		$res .= '</tr>';
-		$res .= '<tr>';
-		$res .= '<td>'.implode('</th><th>', $r['ord']).'</td>';
-		$res .= '</tr></table>';
+		
+		$res .= '</table>';
 		return $res;
 	}
 

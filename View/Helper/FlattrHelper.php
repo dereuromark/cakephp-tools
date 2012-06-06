@@ -70,7 +70,7 @@ class FlattrHelper extends AppHelper {
 	var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
 	s.type = 'text/javascript';
 	s.async = true;
-	s.src = ".self::API_URL."'js/0.6/load.js?mode=".$mode."';
+	s.src = '".self::API_URL."js/0.6/load.js?mode=".$mode."';
 	t.parentNode.insertBefore(s, t);
 })();";
 		$code = $this->Html->link('', $this->Html->url($url, true), $linkOptions);
