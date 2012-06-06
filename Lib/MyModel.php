@@ -51,7 +51,7 @@ class MyModel extends Model {
 	 * static enums
 	 * 2009-11-05 ms
 	 */
-	public static function enum($value, $options, $default = '') {
+	public static function enum($value, $options, $default = null) {
 		if ($value !== null && !is_array($value)) {
 			if (array_key_exists($value, $options)) {
 				return $options[$value];
@@ -825,25 +825,30 @@ class MyModel extends Model {
 	 */
 	public function validateUnique($data, $fields = array(), $options = array()) {
 		$id = (!empty($this->data[$this->alias]['id']) ? $this->data[$this->alias]['id'] : 0);
+		if (!$id && $this->id) {
+			$id = $this->id;
+		}
 
 		foreach ($data as $key => $value) {
 			$fieldName = $key;
 			$fieldValue = $value; // equals: $this->data[$this->alias][$fieldName]
 		}
 
+		/*
 		if (empty($fieldName) || empty($fieldValue)) { // return true, if nothing is transfered (check on that first)
 			return true;
 		}
+		*/
 
 		$conditions = array($this->alias . '.' . $fieldName => $fieldValue, // Model.field => $this->data['Model']['field']
 			$this->alias . '.id !=' => $id, );
 
 		# careful, if fields is not manually filled, the options will be the second param!!! big problem...
-		foreach ((array )$fields as $dependingField) {
+		foreach ((array)$fields as $dependingField) {
 			if (isset($this->data[$this->alias][$dependingField])) { // add ONLY if some content is transfered (check on that first!)
 				$conditions[$this->alias . '.' . $dependingField] = $this->data[$this->alias][$dependingField];
 
-			} elseif (!empty($this->data['Validation'][$dependingField])) { // add ONLY if some content is transfered (check on that first!
+			} elseif (isset($this->data['Validation'][$dependingField])) { // add ONLY if some content is transfered (check on that first!
 				$conditions[$this->alias . '.' . $dependingField] = $this->data['Validation'][$dependingField];
 
 			} elseif (!empty($id)) {
@@ -1184,26 +1189,19 @@ class MyModel extends Model {
 
 
 	/**
-	 * //TODO: move outside of MyModel? use more generic "blocked" plugin!
-	 * is blocked email?
+	 * Is blocked email?
+	 * //TODO: move outside of MyModel?
+	 * 
+	 * @return bool $ifNotBlacklisted
 	 * 2009-12-22 ms
 	 */
 	public function validateNotBlocked($params) {
-		foreach ($params as $key => $value) {
-			$email = $value;
+		$email = array_shift($params);
+		if (!isset($this->Blacklist)) {
+			//App::uses('Blacklist', 'Tools.Model'
+			$this->Blacklist = ClassRegistry::init('Tools.Blacklist');
 		}
-		if (!isset($this->BlockedEmail)) {
-			if (false && App::import('Model', 'Tools.BlockedEmail')) {
-				$this->BlockedEmail = ClassRegistry::init('Tools.BlockedEmail');
-			} elseif (App::import('Model', 'Tools.Blacklist')) {
-				$this->BlockedEmail = ClassRegistry::init('Tools.Blacklist');
-			} else {
-				trigger_error('Model Tools.Blacklist not available');
-				return true;
-			}
-
-		}
-		if ($this->BlockedEmail->isBlocked($email)) {
+		if ($this->Blacklist->isBlacklisted(Blacklist::TYPE_EMAIL, $email)) {
 			return false;
 		}
 		return true;
@@ -1218,6 +1216,7 @@ class MyModel extends Model {
 	 * @param bool $translate If translation should be done here
 	 * 2010-01-22 ms
 	 */
+ 	/*
 	public function invalidate($field, $value = null, $translate = true) {
 		if (!is_array($this->validationErrors)) {
 			$this->validationErrors = array();
@@ -1236,6 +1235,7 @@ class MyModel extends Model {
 		}
 		$this->validationErrors[$field] = $value;
 	}
+	*/
 
 
 
@@ -1335,7 +1335,7 @@ class MyModel extends Model {
 			if ($model === $this->alias) {
 				if (empty($this->validate[$column])) {
 					$this->validate[$column]['notEmpty'] = array('rule'=>'notEmpty', 'required'=>true, 'allowEmpty' => $setAllowEmpty, 'message' => 'valErrMandatoryField');
-				}	else {
+				} else {
 					$keys = array_keys($this->validate[$column]);
 					if (!in_array('rule', $keys)) {
 						$key = array_shift($keys);
