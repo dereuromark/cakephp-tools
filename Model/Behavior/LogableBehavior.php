@@ -1,4 +1,9 @@
 <?php
+App::uses('CakeSession', 'Model/Datasource');
+
+if (!defined('CLASS_USER')) {
+	define('CLASS_USER', 'User');
+}
 
 /**
  * Logs saves and deletes of any model
@@ -60,18 +65,13 @@
  * 
  * 2011-11-17 ms
  */
-
-if (!defined('CLASS_USER')) {
-	define('CLASS_USER', 'User');
-}
-
 class LogableBehavior extends ModelBehavior {
 	
 	public $user = null; # user data array
 	
 	public $UserModel = null;
 	
-	public $defaults = array(
+	protected $_defaults = array(
 		'enabled' => true,
 		'userModel' => CLASS_USER,
 		'userKey' => 'user_id',
@@ -100,7 +100,7 @@ class LogableBehavior extends ModelBehavior {
 		if (!is_array($config)) {
 			$config = array();
 		}
-		$this->settings[$Model->alias] = array_merge($this->defaults, $config);
+		$this->settings[$Model->alias] = array_merge($this->_defaults, $config);
 		$this->settings[$Model->alias]['ignore'][] = $Model->primaryKey;
 
 		$this->Log = ClassRegistry::init('Tools.Log');

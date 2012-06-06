@@ -22,11 +22,7 @@
 /**
  * Ensure that mb_ functions exist
  */
-
-if (!class_exists('Multibyte')) {
-	//App::import('Core', 'Multibyte');
-	App::uses('Multibyte', 'I18n');
-}
+App::uses('Multibyte', 'I18n');
 
 /**
  * SluggedBehavior class
@@ -111,7 +107,7 @@ class SluggedBehavior extends ModelBehavior {
 		$this->_defaultSettings['notices'] = Configure::read('debug');
 		$this->_defaultSettings['label'] = array($Model->displayField);
 		$this->settings[$Model->alias] = Set::merge($this->_defaultSettings, $config);
-		extract ($this->settings[$Model->alias]);
+		extract($this->settings[$Model->alias]);
 		$label = $this->settings[$Model->alias]['label'] = (array)$label;
 		if ($Model->Behaviors->attached('Translate')) {
 			$notices = false;
@@ -142,7 +138,7 @@ class SluggedBehavior extends ModelBehavior {
  * @access public
  */
 	public function beforeValidate(Model $Model) {
-		extract ($this->settings[$Model->alias]);
+		extract($this->settings[$Model->alias]);
 		if ($run !== 'beforeValidate') {
 			return true;
 		}
@@ -157,7 +153,7 @@ class SluggedBehavior extends ModelBehavior {
  * @access public
  */
 	public function beforeSave(Model $Model) {
-		extract ($this->settings[$Model->alias]);
+		extract($this->settings[$Model->alias]);
 		if ($run !== 'beforeSave') {
 			return true;
 		}
@@ -179,7 +175,7 @@ class SluggedBehavior extends ModelBehavior {
  * @return void
  */
 	public function generateSlug(Model $Model) {
-		extract ($this->settings[$Model->alias]);
+		extract($this->settings[$Model->alias]);
 		if ($notices && !$Model->hasField($slugField)) {
 			return true;
 		}
@@ -223,7 +219,7 @@ class SluggedBehavior extends ModelBehavior {
 			}
 			if ($unique) {
 				$conditions = array($Model->alias . '.' . $slugField => $slug);
-				if ($Model->id) 					{
+				if ($Model->id) {
 					$conditions['NOT'][$Model->alias . '.' . $Model->primaryKey] = $Model->id;
 				}
 				$i = 0;
@@ -274,7 +270,7 @@ class SluggedBehavior extends ModelBehavior {
 		$splitOnStopWord = true;
 		$return = 'array';
 		$originalIfEmpty = true;
-		extract ($params);
+		extract($params);
 
 		if (!class_exists('MiCache')) {
 			App::import('Vendor', 'Mi.MiCache');
@@ -367,7 +363,7 @@ class SluggedBehavior extends ModelBehavior {
  * @access public
  */
 	public function slug(Model $Model, $string, $tidy = true) {
-		extract ($this->settings[$Model->alias]);
+		extract($this->settings[$Model->alias]);
 		$this->_setEncoding($Model, $encoding, $string, !Configure::read('debug'));
 
 		if ($replace) {
@@ -458,7 +454,7 @@ class SluggedBehavior extends ModelBehavior {
  */
 	public function resetSlugs(Model $Model, $params = array()) {
 		$recursive = -1;
-		extract ($this->settings[$Model->alias]);
+		extract($this->settings[$Model->alias]);
 		if ($notices && !$Model->hasField($slugField)) {
 			return false;
 		}
@@ -497,7 +493,7 @@ class SluggedBehavior extends ModelBehavior {
  * @access protected
  */
 	protected function _multiSlug(Model $Model) {
-		extract ($this->settings[$Model->alias]);
+		extract($this->settings[$Model->alias]);
 		$data = $Model->data;
 		$field = current($label);
 		foreach ($Model->data[$Model->alias][$field] as $locale => $_) {

@@ -33,7 +33,7 @@ class CaptchaBehavior extends ModelBehavior {
 		
 		# bootstrap configs
 		$this->settings[$Model->alias] = $defaults;
-		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], (array) Configure::read('Captcha'));
+		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], (array)Configure::read('Captcha'));
 		if (!empty($settings)) {
 			$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], $settings);
 		}

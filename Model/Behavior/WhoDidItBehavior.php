@@ -1,4 +1,5 @@
 <?php
+App::uses('CakeSession', 'Model/Datasource');
 
 /**
  * WhoDidIt Model Behavior for CakePHP
@@ -94,11 +95,7 @@ class WhoDidItBehavior extends ModelBehavior {
 			$AuthSession = $this->settings[$Model->alias]['auth_session'];
 			$UserSession = $this->settings[$Model->alias]['user_model'];
 
-			if (isset($this->Session)) {
-				$userId = $this->Session->read($AuthSession. '.' . $UserSession. '.id');
-			} else {
-				$userId = Set::extract($_SESSION, $AuthSession . '.' . $UserSession . '.' . 'id');
-			}
+			$userId = CakeSession::read($AuthSession. '.' . $UserSession. '.id');
 
 			if ($userId) {
 				$data = array($this->settings[$Model->alias]['modified_by_field'] => $userId);

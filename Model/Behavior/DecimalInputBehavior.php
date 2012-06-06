@@ -1,6 +1,6 @@
 <?php
 /**
- * A behavior to automatically format decimals from DB to output and reverse
+ * //ALREADY exists as number_format in a slightly different way!
  *
  * 20,01 => 20.01 (!)
  * 11.222 => 11222
@@ -38,7 +38,8 @@ class DecimalInputBehavior extends ModelBehavior {
 
 
 	/**
-	* adjust configs like: $Model->Behaviors-attach('DecimalInput', array('fields'=>array('xyz')))
+	* adjust configs like: $Model->Behaviors-attach('Tools.DecimalInput', array('fields'=>array('xyz')))
+	* leave fields empty to auto-detect all float inputs
 	*/
 	public function setup(Model $Model, $config = array()) {
 		$this->config[$Model->alias] = $this->default;

@@ -134,7 +134,7 @@ class BitmaskedBehavior extends ModelBehavior {
 		if (empty($value)) {
 			return null;
 		}
-		foreach ((array) $value as $key => $val) {
+		foreach ((array)$value as $key => $val) {
 			$res |= (int) $val;
 		}
 		if ($res === 0) {
@@ -190,7 +190,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @return array $sqlSnippet
 	 */
 	public function isBit(Model $Model, $bits) {
-		$bits = (array) $bits;
+		$bits = (array)$bits;
 		$bitmask = $this->encodeBitmask($Model, $bits);
 		
 		$field = $this->settings[$Model->alias]['field'];
@@ -202,7 +202,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @return array $sqlSnippet
 	 */
 	public function isNotBit(Model $Model, $bits) {
-		$bits = (array) $bits;
+		$bits = (array)$bits;
 		$bitmask = $this->encodeBitmask($Model, $bits);
 		
 		$field = $this->settings[$Model->alias]['field'];
@@ -214,7 +214,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @return array $sqlSnippet
 	 */
 	public function containsBit(Model $Model, $bits) {
-		$bits = (array) $bits;
+		$bits = (array)$bits;
 		$bitmask = $this->encodeBitmask($Model, $bits);
 		
 		$field = $this->settings[$Model->alias]['field'];
@@ -226,7 +226,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @return array $sqlSnippet
 	 */
 	public function containsNotBit(Model $Model, $bits) {
-		$bits = (array) $bits;
+		$bits = (array)$bits;
 		$bitmask = $this->encodeBitmask($Model, $bits);
 		
 		$field = $this->settings[$Model->alias]['field'];
