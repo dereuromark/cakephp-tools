@@ -40,8 +40,9 @@ class GeocoderBehavior extends ModelBehavior {
 	public function setup(Model $Model, $settings = array()) {
 		$default = array(
 			'real' => true, 'address' => array('street', 'postal_code', 'city', 'country'),
-			'require'=>false, 'allowEmpty'=>true, 'invalidate' => array(), 'expect'=>array(),
-			'lat'=>'lat', 'lng'=>'lng', 'formatted_address'=>'formatted_address', 'host' => 'de', 'language' => 'de', 'region'=> '', 'bounds' => '', 'overwrite' => false, 'update'=>array(), 'before'=>'save',
+			'require' => false, 'allowEmpty' => true, 'invalidate' => array(), 'expect' => array(),
+			'lat' => 'lat', 'lng' => 'lng', 'formatted_address' => 'formatted_address', 'host' => 'de', 'language' => 'de', 'region' => '', 'bounds' => '', 
+			'overwrite' => false, 'update' => array(), 'before' => 'save',
 			'min_accuracy' => 0, 'allow_inconclusive' => true,
 			'log' => true, // log successfull results to geocode.log (errors will be logged to error.log in either case)
 		);
@@ -299,14 +300,22 @@ class GeocoderBehavior extends ModelBehavior {
 		return ($longitude <= 180 && $longitude >= -180);
 	}
 
-
-	protected function _geocode($addressfields, $options = array()) {
-		$address = implode(' ', $addressfields);
+	/**
+	 * uses the GeocodeLib to query
+	 * @param array $addressFields (simple array of address pieces)
+	 * @return array
+	 */
+	protected function _geocode($addressFields, $options = array()) {
+		$address = implode(' ', $addressFields);
 		if (empty($address)) {
 			return array();
 		}
 
-		$geocodeOptions = array('log'=>$options['log'], 'min_accuracy'=>$options['min_accuracy'], 'expect'=>$options['expect'], 'allow_inconclusive'=>$options['allow_inconclusive'], 'host'=>$options['host']);
+		$geocodeOptions = array(
+			'log' => $options['log'], 'min_accuracy' => $options['min_accuracy'], 
+			'expect' => $options['expect'], 'allow_inconclusive' => $options['allow_inconclusive'], 
+			'host' => $options['host']
+		);
 		$this->Geocode = new GeocodeLib($geocodeOptions);
 
 		$settings = array('language' => $options['language']);
