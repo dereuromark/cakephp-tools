@@ -1,6 +1,7 @@
 <?php
 
 App::uses('GeocodeLib', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.Lib');
 
 # google maps
 Configure::write('Google', array(
@@ -12,19 +13,19 @@ Configure::write('Google', array(
 	'type' => 'G_NORMAL_MAP'
 ));
 
-class GeocodeLibTest extends CakeTestCase {
+class GeocodeLibTest extends MyCakeTestCase {
 
 	public function setUp() {
-		$this->GeocodeLib = new GeocodeLib();
+		$this->Geocode = new GeocodeLib();
 	}
 
 	public function TearDown() {
-		unset($this->GeocodeLib);
+		unset($this->Geocode);
 	}
 	
 	public function testObject() {
-		$this->assertTrue(is_object($this->GeocodeLib));
-		$this->assertTrue(is_a($this->GeocodeLib, 'GeocodeLib'));
+		$this->assertTrue(is_object($this->Geocode));
+		$this->assertTrue(is_a($this->Geocode, 'GeocodeLib'));
 	}
 
 
@@ -36,12 +37,26 @@ class GeocodeLibTest extends CakeTestCase {
 		);
 
 		foreach ($coords as $coord) {
-			$is = $this->GeocodeLib->distance($coord['x'], $coord['y']);
+			$is = $this->Geocode->distance($coord['x'], $coord['y']);
 			echo $coord['name'].':';
 			pr('is: '.$is.' - expected: '.$coord['d']);
 			$this->assertEquals($coord['d'], $is);
 		}
 
+	}
+
+
+	public function testBlur() {
+		$coords = array(
+			array(48.1391, 1, 0.002), //'y'=>array('lat'=>48.8934, 'lng'=>8.70492), 'd'=>228),
+			array(11.5802, 1, 0.002),
+		);
+		foreach ($coords as $coord) {
+			$is = $this->Geocode->blur($coord[0], $coord[1]);
+			//pr('is: '.$is.' - expected: '.$coord[0].' +- '.$coord[2]); ob_flush();
+			$this->assertWithinMargin($is, $coord[0], $coord[2]);
+			$this->assertNotWithinMargin($is, $coord[0], $coord[2] / 4);
+		}
 	}
 
 	public function testConvert() {
@@ -51,7 +66,7 @@ class GeocodeLibTest extends CakeTestCase {
 			array(100000, 'I', 'K', 2.54),
 		);
 		foreach ($values as $value) {
-			$is = $this->GeocodeLib->convert($value[0], $value[1], $value[2]);
+			$is = $this->Geocode->convert($value[0], $value[1], $value[2]);
 			echo $value[0].$value[1].' in '.$value[2].':';
 			pr('is: '.returns($is).' - expected: '.$value[3]);
 			$this->assertEquals($value[3], round($is, 8));
@@ -60,7 +75,7 @@ class GeocodeLibTest extends CakeTestCase {
 
 
 	public function testUrl() {
-		$is = $this->GeocodeLib->url();
+		$is = $this->Geocode->url();
 		pr($is);
 		$this->assertTrue(!empty($is) && startsWith($is, 'http://maps.google.de/maps/api/geocode/xml?'));
 	}
@@ -69,13 +84,13 @@ class GeocodeLibTest extends CakeTestCase {
 	// not possible with protected method
 	public function _testFetch() {
 		$url = 'http://maps.google.com/maps/api/geocode/xml?sensor=false&address=74523';
-		$is = $this->GeocodeLib->_fetch($url);
+		$is = $this->Geocode->_fetch($url);
 		//echo returns($is);
 
 		$this->assertTrue(!empty($is) && substr($is, 0, 38) == '<?xml version="1.0" encoding="UTF-8"?>');
 
 		$url = 'http://maps.google.com/maps/api/geocode/json?sensor=false&address=74523';
-		$is = $this->GeocodeLib->_fetch($url);
+		$is = $this->Geocode->_fetch($url);
 		//echo returns($is);
 		$this->assertTrue(!empty($is) && substr($is, 0, 1) == '{');
 
@@ -87,67 +102,69 @@ class GeocodeLibTest extends CakeTestCase {
 
 
 	public function testSetOptions() {
-		$this->GeocodeLib->setOptions(array('host'=>'xx'));
-		# should remain ".com"
-		$res = $this->GeocodeLib->url();
-		pr($res);
+		# should be the default
+		$res = $this->Geocode->url();
+		$this->assertTextContains('maps.google.de', $res);
 
-		$this->GeocodeLib->setOptions(array('host'=>'de'));
-		# should now be ".de"
-		$res = $this->GeocodeLib->url();
-		pr($res);
-
-		# now DE
-
+		$this->Geocode->setOptions(array('host'=>'it'));
+		# should now be ".it"
+		$res = $this->Geocode->url();
+		$this->assertTextContains('maps.google.it', $res);
 	}
 
+	/**
+	 * @expectedException CakeException
+	 */
+	public function testSetInvalidOptions() {
+		$this->Geocode->setOptions(array('host'=>'xx'));
+	}
 
 	public function testGeocode() {
 		$address = '74523 Deutschland';
 		echo '<h2>'.$address.'</h2>';
-		$is = $this->GeocodeLib->geocode($address);
+		$is = $this->Geocode->geocode($address);
 		echo returns($is);
 		$this->assertTrue($is);
 
-		$is = $this->GeocodeLib->getResult();
+		$is = $this->Geocode->getResult();
 		echo returns($is);
 		$this->assertTrue(!empty($is));
 
-		$is = $this->GeocodeLib->error();
+		$is = $this->Geocode->error();
 		echo returns($is);
 		$this->assertTrue(empty($is));
 
 
 		$address = 'Leopoldstraße 100, München';
 		echo '<h2>'.$address.'</h2>';
-		$is = $this->GeocodeLib->geocode($address);
+		$is = $this->Geocode->geocode($address);
 		echo returns($is);
 		$this->assertTrue($is);
 
-		pr($this->GeocodeLib->debug());
+		pr($this->Geocode->debug());
 
-		$is = $this->GeocodeLib->getResult();
+		$is = $this->Geocode->getResult();
 		echo returns($is);
 		$this->assertTrue(!empty($is));
 
-		$is = $this->GeocodeLib->error();
+		$is = $this->Geocode->error();
 		echo returns($is);
 		$this->assertTrue(empty($is));
 
 
 		$address = 'Oranienburger Straße 87, 10178 Berlin, Deutschland';
 		echo '<h2>'.$address.'</h2>';
-		$is = $this->GeocodeLib->geocode($address);
+		$is = $this->Geocode->geocode($address);
 		echo returns($is);
 		$this->assertTrue($is);
 
-		pr($this->GeocodeLib->debug());
+		pr($this->Geocode->debug());
 
-		$is = $this->GeocodeLib->getResult();
+		$is = $this->Geocode->getResult();
 		echo returns($is);
 		$this->assertTrue(!empty($is));
 
-		$is = $this->GeocodeLib->error();
+		$is = $this->Geocode->error();
 		echo returns($is);
 		$this->assertTrue(empty($is));
 
@@ -156,13 +173,13 @@ class GeocodeLibTest extends CakeTestCase {
 	public function testGeocodeInvalid() {
 		$address = 'Hjfjosdfhosj, 78878 Mdfkufsdfk';
 		echo '<h2>'.$address.'</h2>';
-		$is = $this->GeocodeLib->geocode($address);
+		$is = $this->Geocode->geocode($address);
 		echo returns($is);
 		$this->assertFalse($is);
 
-		pr($this->GeocodeLib->debug());
+		pr($this->Geocode->debug());
 
-		$is = $this->GeocodeLib->error();
+		$is = $this->Geocode->error();
 		echo returns($is);
 		$this->assertTrue(!empty($is));
 	}
@@ -171,12 +188,12 @@ class GeocodeLibTest extends CakeTestCase {
 	public function testGeocodeMinAcc() {
 		$address = 'Deutschland';
 		echo '<h2>'.$address.'</h2>';
-		$this->GeocodeLib->setOptions(array('min_accuracy'=>3));
-		$is = $this->GeocodeLib->geocode($address);
+		$this->Geocode->setOptions(array('min_accuracy'=>3));
+		$is = $this->Geocode->geocode($address);
 		echo returns($is);
 		$this->assertFalse($is);
 
-		$is = $this->GeocodeLib->error();
+		$is = $this->Geocode->error();
 		echo returns($is);
 		$this->assertTrue(!empty($is));
 	}
@@ -190,28 +207,28 @@ class GeocodeLibTest extends CakeTestCase {
 		echo '<h2>'.$address.'</h2>';
 
 		# allow_inconclusive = TRUE
-		$this->GeocodeLib->setOptions(array('allow_inconclusive'=>true));
-		$is = $this->GeocodeLib->geocode($address);
+		$this->Geocode->setOptions(array('allow_inconclusive'=>true));
+		$is = $this->Geocode->geocode($address);
 		echo 'debug:';
-		pr($this->GeocodeLib->debug());
+		pr($this->Geocode->debug());
 		echo 'debug end';
 		$this->assertTrue($is);
 
-		$res = $this->GeocodeLib->getResult();
+		$res = $this->Geocode->getResult();
 		pr($res);
 		$this->assertTrue(count($res) > 4);
 
-		$is = $this->GeocodeLib->isInconclusive();
+		$is = $this->Geocode->isInconclusive();
 		$this->assertTrue($is);
 
 
 		# allow_inconclusive = FALSE
-		$this->GeocodeLib->setOptions(array('allow_inconclusive'=>false));
-		$is = $this->GeocodeLib->geocode($address);
+		$this->Geocode->setOptions(array('allow_inconclusive'=>false));
+		$is = $this->Geocode->geocode($address);
 		echo returns($is);
 		$this->assertFalse($is);
 
-		$is = $this->GeocodeLib->error();
+		$is = $this->Geocode->error();
 		echo returns($is);
 		$this->assertTrue(!empty($is));
 
@@ -220,20 +237,19 @@ class GeocodeLibTest extends CakeTestCase {
 
 	public function testReverseGeocode() {
 		$coords = array(
-			array(-34.594445, -58.37446, 'Florida 1134-1200, Buenos Aires, Capital Federal, Argentinien'),
+			array(-34.594445, -58.37446, 'Calle Florida 1134-1200, Buenos Aires'),
 			array(48.8934, 8.70492, 'B294, 75175 Pforzheim, Deutschland')
 		);
 
 		foreach ($coords as $coord) {
-			$is = $this->GeocodeLib->reverseGeocode($coord[0], $coord[1]);
-			echo returns($is);
+			$is = $this->Geocode->reverseGeocode($coord[0], $coord[1]);
 			$this->assertTrue($is);
 
-			$is = $this->GeocodeLib->getResult();
+			$is = $this->Geocode->getResult();
 			$this->assertTrue(!empty($is));
-			echo returns($is);
+			//echo returns($is); ob_flush();
 			$address = isset($is[0]) ? $is[0]['formatted_address'] : $is['formatted_address'];
-			$this->assertEquals($coord[2], $address);
+			$this->assertTextContains($coord[2], $address);
 		}
 
 	}
