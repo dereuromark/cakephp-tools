@@ -1,4 +1,6 @@
 <?php
+App::uses('CakeResponse', 'Network');
+App::uses('Security', 'Utility');
 
 /**
  * Copyright 2011, Mark Scherer 
@@ -6,7 +8,7 @@
  * Licensed under The MIT License 
  * Redistributions of files must retain the above copyright notice. 
  * 
- * @version    1.3
+ * @version    1.4
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License 
  */
 
@@ -38,10 +40,7 @@ if (!defined('PWD_MAX_LENGTH')) {
  * feel free to help me out
  * 
  * 2011-08-24 ms
- */
-
-App::uses('Security', 'Utility'); 
- 
+ */ 
 class ChangePasswordBehavior extends ModelBehavior {
 
 	public $settings = array();
@@ -99,7 +98,9 @@ class ChangePasswordBehavior extends ModelBehavior {
 	);
 
 	/**
-	 * if not implemented in app_model
+	 * if not implemented in AppModel
+	 * @throws CakeException
+	 * @return bool $success
 	 * 2011-07-22 ms
 	 */	
 	public function validateCurrentPwd(Model $Model, $data) {
@@ -124,14 +125,11 @@ class ChangePasswordBehavior extends ModelBehavior {
 			$auth = $this->settings[$Model->alias]['auth'].'Component';
 			$this->Auth = new $auth(new ComponentCollection());
 		} else {
-			trigger_error('No validation class found');
-			return true;
+			throw new CakeException('No validation class found');
 		}
-		
 		# easiest authenticate method via form and (id + pwd)
 		$this->Auth->authenticate = array('Form'=>array('fields'=>array('username' => 'id', 'password'=>$this->settings[$Model->alias]['field'])));
 		
-		App::uses('CakeResponse', 'Network');
 		$request = new CakeRequest(null, false);
 		$request->data['User'] = array('id'=>$uid, 'password'=>$pwd);
 		$response = new CakeResponse();
@@ -139,7 +137,8 @@ class ChangePasswordBehavior extends ModelBehavior {
 	}
 	
 	/**
-	 * if not implemented in app_model
+	 * if not implemented in AppModel
+	 * @return bool $success
 	 * 2011-07-22 ms
 	 */
 	public function validateIdentical(Model $Model, $data, $compareWith = null) {
@@ -153,14 +152,15 @@ class ChangePasswordBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * if not implemented in app_model
+	 * if not implemented in AppModel
+	 * @return bool $success
 	 * 2011-11-10 ms
 	 */
 	public function validateNotSame(Model $Model, $data, $field1, $field2) {
 		$value1 = $Model->data[$Model->alias][$field1];
 		$value2 = $Model->data[$Model->alias][$field2];
 		return ($value1 != $value2);
-	}	
+	}
 	
 	/**
 	 * adding validation rules
@@ -189,14 +189,14 @@ class ChangePasswordBehavior extends ModelBehavior {
 		
 		if ($this->settings[$Model->alias]['current'] && !isset($Model->validate[$formFieldCurrent])) {
 			$Model->validate[$formFieldCurrent] = $this->_validationRules['formFieldCurrent'];
-			
+
 			if (!$this->settings[$Model->alias]['allowSame']) {
 				$Model->validate[$formField]['validateNotSame'] = array(
 					'rule' => array('validateNotSame', $formField, $formFieldCurrent),
 					'message' => 'valErrPwdSameAsBefore',
 					'last' => true,
 				);
-			}			
+			}
 		}
 
 		# allowEmpty?
@@ -216,7 +216,7 @@ class ChangePasswordBehavior extends ModelBehavior {
 			$whitelist[] = $this->settings[$Model->alias]['formFieldCurrent'];
 		}
 		if (!empty($Model->whitelist)) {
-			$Model->whitelist = am($Model->whitelist, $whitelist);
+			$Model->whitelist = array_merge($Model->whitelist, $whitelist);
 		}
 		
 		# make sure fields are set and validation rules are triggered - prevents tempering of form data
@@ -263,7 +263,7 @@ class ChangePasswordBehavior extends ModelBehavior {
 			}
 			# update whitelist
 			if (!empty($Model->whitelist)) {
-				$Model->whitelist = am($Model->whitelist, array($field));
+				$Model->whitelist = array_merge($Model->whitelist, array($field));
 			}
 		}
 		

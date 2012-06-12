@@ -45,7 +45,7 @@ class ChangePasswordBehaviorTest extends CakeTestCase {
 		$this->User->set($data);
 		//debug($this->User->data);
 		$is = $this->User->save();
-		debug($this->User->invalidFields());	
+		debug($this->User->validationErrors);	
 		//debug($this->User->validate);
 		$this->assertFalse($is);
 		
@@ -58,7 +58,7 @@ class ChangePasswordBehaviorTest extends CakeTestCase {
 		$this->User->set($data);
 		//debug($this->User->data);
 		$is = $this->User->save();
-		debug($this->User->invalidFields());	
+		debug($this->User->validationErrors);	
 		//debug($this->User->validate);
 		$this->assertFalse($is);
 		
@@ -81,12 +81,9 @@ class ChangePasswordBehaviorTest extends CakeTestCase {
 	 */
 	public function testValidateCurrent() {
 		$this->User->create();
-		$data = array('username'=>'xyz', 'password'=>Security::hash('some', null, true));
+		$data = array('user'=>'xyz', 'password'=>Security::hash('some', null, true));
 		$res = $this->User->save($data);
 		$uid = $this->User->id;
-		debug($res);
-		
-		//App::import('Component', 'Tools.AuthExt');
 		
 		$this->User->Behaviors->attach('Tools.ChangePassword', array('current'=>true));
 		$this->User->create();
@@ -96,10 +93,8 @@ class ChangePasswordBehaviorTest extends CakeTestCase {
 			'pwd_repeat' => '123456'
 		);
 		$this->User->set($data);
-		//debug($this->User->data);
 		$is = $this->User->save();
-		debug($this->User->invalidFields());	
-		//debug($this->User->validate);
+		//debug($this->User->validationErrors); ob_flush();
 		$this->assertFalse($is);
 		
 		$this->User->create();
@@ -110,7 +105,7 @@ class ChangePasswordBehaviorTest extends CakeTestCase {
 			'pwd_repeat' => '123456'
 		);
 		$this->User->set($data);
-		debug($this->User->invalidFields());	
+		//debug($this->User->validationErrors); ob_flush();
 		$is = $this->User->save();
 		$this->assertFalse($is);
 		
@@ -122,7 +117,7 @@ class ChangePasswordBehaviorTest extends CakeTestCase {
 			'pwd_repeat' => '123456'
 		);
 		$this->User->set($data);
-		debug($this->User->invalidFields());	
+		//debug($this->User->validationErrors); ob_flush();	
 		$is = $this->User->save();
 		$this->assertTrue(!empty($is));
 	}
@@ -148,7 +143,7 @@ class ChangePasswordBehaviorTest extends CakeTestCase {
 		);
 		$this->User->set($data);
 		$is = $this->User->save();
-		debug($this->User->invalidFields());
+		debug($this->User->validationErrors);
 		debug($is);
 		$this->assertFalse($is);	
 		
@@ -164,7 +159,7 @@ class ChangePasswordBehaviorTest extends CakeTestCase {
 		$this->User->set($data);
 		//debug($this->User->data);
 		$is = $this->User->save();
-		debug($this->User->invalidFields());	
+		debug($this->User->validationErrors);	
 		$this->assertFalse($is);	
 	}
 	
@@ -203,7 +198,7 @@ class ChangePasswordBehaviorTest extends CakeTestCase {
 		);
 		$this->User->set($data);
 		$is = $this->User->save();
-		debug($this->User->invalidFields());	
+		debug($this->User->validationErrors);	
 		$this->assertFalse($is);
 		
 		$this->User->create();
