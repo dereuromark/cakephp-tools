@@ -40,6 +40,101 @@ class MyModel extends Model {
 		}
 	}
 
+/**
+ * Deconstructs a complex data type (array or object) into a single field value.
+ * BUGFIXED VERSION - autodetects type and allows manual override
+ *
+ * @param string $field The name of the field to be deconstructed
+ * @param array|object $data An array or object to be deconstructed into a field
+ * @return mixed The resulting data that should be assigned to a field
+ */
+	public function deconstruct($field, $data, $type = null) {
+		if (!is_array($data)) {
+			return $data;
+		}
+		if ($type === null) {
+			$type = $this->getColumnType($field);
+		}
+		if ($type === null) {
+			//try to autodetect
+			if (isset($data['day']) || isset($data['month']) || isset($data['year'])) {
+				$type = 'date';
+			}
+			if (isset($data['hour']) || isset($data['min']) || isset($data['sec'])) {
+				$type .= 'time';
+			}
+		}
+		
+		if (in_array($type, array('datetime', 'timestamp', 'date', 'time'))) {
+			$useNewDate = (isset($data['year']) || isset($data['month']) ||
+				isset($data['day']) || isset($data['hour']) || isset($data['minute']));
+
+			$dateFields = array('Y' => 'year', 'm' => 'month', 'd' => 'day', 'H' => 'hour', 'i' => 'min', 's' => 'sec');
+			$timeFields = array('H' => 'hour', 'i' => 'min', 's' => 'sec');
+			$date = array();
+
+			if (isset($data['meridian']) && empty($data['meridian'])) {
+				return null;
+			}
+
+			if (
+				isset($data['hour']) &&
+				isset($data['meridian']) &&
+				!empty($data['hour']) &&
+				$data['hour'] != 12 &&
+				'pm' == $data['meridian']
+			) {
+				$data['hour'] = $data['hour'] + 12;
+			}
+			if (isset($data['hour']) && isset($data['meridian']) && $data['hour'] == 12 && 'am' == $data['meridian']) {
+				$data['hour'] = '00';
+			}
+			if ($type == 'time') {
+				foreach ($timeFields as $key => $val) {
+					if (!isset($data[$val]) || $data[$val] === '0' || $data[$val] === '00') {
+						$data[$val] = '00';
+					} elseif ($data[$val] !== '') {
+						$data[$val] = sprintf('%02d', $data[$val]);
+					}
+					if (!empty($data[$val])) {
+						$date[$key] = $data[$val];
+					} else {
+						return null;
+					}
+				}
+			}
+
+			if ($type == 'datetime' || $type == 'timestamp' || $type == 'date') {
+				foreach ($dateFields as $key => $val) {
+					if ($val == 'hour' || $val == 'min' || $val == 'sec') {
+						if (!isset($data[$val]) || $data[$val] === '0' || $data[$val] === '00') {
+							$data[$val] = '00';
+						} else {
+							$data[$val] = sprintf('%02d', $data[$val]);
+						}
+					}
+					if (!isset($data[$val]) || isset($data[$val]) && (empty($data[$val]) || $data[$val][0] === '-')) {
+						return null;
+					}
+					if (isset($data[$val]) && !empty($data[$val])) {
+						$date[$key] = $data[$val];
+					}
+				}
+			}
+
+			if ($useNewDate && !empty($date)) {
+				$format = $this->getDataSource()->columns[$type]['format'];
+				foreach (array('m', 'd', 'H', 'i', 's') as $index) {
+					if (isset($date[$index])) {
+						$date[$index] = sprintf('%02d', $date[$index]);
+					}
+				}
+				return str_replace(array_keys($date), array_values($date), $format);
+			}
+		}
+		return $data;
+	}
+
 	/**
 	 * The main method for any enumeration, should be called statically
 	 * Now also supports reordering/filtering
