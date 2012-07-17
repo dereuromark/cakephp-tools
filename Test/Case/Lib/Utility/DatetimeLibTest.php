@@ -16,6 +16,38 @@ class DatetimeLibTest extends MyCakeTestCase {
 	public function tearDown() {
 		unset($this->Datetime);
 	}
+	
+	public function testNiceDate() {
+		$res = setlocale(LC_TIME, 'de_DE.UTF-8', 'deu_deu');
+		echo returns($res);
+		
+		$values = array(
+			array('2009-12-01 00:00:00', FORMAT_NICE_YMD, '01.12.2009'),
+			array('2009-12-01 00:00:00', FORMAT_NICE_M_FULL, 'December'),
+		);
+		foreach ($values as $v) {
+			$ret = $this->Datetime->niceDate($v[0], $v[1]);
+			pr($ret); ob_flush();
+			$this->assertEquals($ret, $v[2]);
+		}
+		
+	}
+	
+	public function testLocalDate() {
+		$res = setlocale(LC_TIME, array('de_DE.UTF-8', 'deu_deu'));
+		echo returns($res);
+		
+		$values = array(
+			array('2009-12-01 00:00:00', FORMAT_LOCAL_YMD, '01.12.2009'),
+			array('2009-12-01 00:00:00', FORMAT_LOCAL_M_FULL, 'Dezember'),
+		);
+		foreach ($values as $v) {
+			$ret = $this->Datetime->localDate($v[0], $v[1]);
+			pr($ret); ob_flush();		
+			$this->assertEquals($ret, $v[2]);
+		}
+	}
+	
 
 	public function testParseLocalizedDate() {
 		$this->out($this->_header(__FUNCTION__));
