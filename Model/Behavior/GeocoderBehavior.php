@@ -35,7 +35,6 @@ class GeocoderBehavior extends ModelBehavior {
 	 *
 	 * @param object $Model Model using the behaviour
 	 * @param array $settings Settings to override for model.
-	 * 2011-01-13 ms
 	 */
 	public function setup(Model $Model, $settings = array()) {
 		$default = array(

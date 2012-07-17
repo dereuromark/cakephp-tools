@@ -23,13 +23,14 @@
  * Ensure that mb_ functions exist
  */
 App::uses('Multibyte', 'I18n');
+App::uses('ModelBehavior', 'Model');
 
 /**
  * SluggedBehavior class
  *
  * @uses          ModelBehavior
- * @package       mi
- * @subpackage    mi.models.behaviors
+ * @version       2.x
+ * @modified      Mark Scherer
  */
 class SluggedBehavior extends ModelBehavior {
 
