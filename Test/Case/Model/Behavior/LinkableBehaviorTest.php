@@ -44,7 +44,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 			)
 		));
 		$this->assertTrue(isset($arrayResult['Profile']), 'belongsTo association via Containable: %s');
-		$this->assertEquals($arrayResult, $arrayExpected, 'belongsTo association via Containable: %s');
+		$this->assertEquals($arrayExpected, $arrayResult, 'belongsTo association via Containable: %s');
 
 		// Same association, but this time with Linkable
 		$arrayResult = $this->User->find('first', array(
@@ -66,7 +66,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 
 		$this->assertTrue(isset($arrayResult['Profile']), 'belongsTo association via Linkable: %s');
 		$this->assertTrue(!empty($arrayResult['Profile']), 'belongsTo association via Linkable: %s');
-		$this->assertEquals($arrayResult, $arrayExpected, 'belongsTo association via Linkable: %s');
+		$this->assertEquals($arrayExpected, $arrayResult, 'belongsTo association via Linkable: %s');
 
 		// Linkable association, no field lists
 		$arrayResult = $this->User->find('first', array(
@@ -77,7 +77,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 		));
 
 		$this->assertTrue(isset($arrayResult['Profile']), 'belongsTo association via Linkable (automatic fields): %s');
-		$this->assertEquals($arrayResult, $arrayExpected, 'belongsTo association via Linkable (automatic fields): %s');
+		$this->assertEquals($arrayExpected, $arrayResult, 'belongsTo association via Linkable (automatic fields): %s');
 
 		// On-the-fly association via Linkable
 		$arrayExpected = array(
@@ -100,7 +100,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 		));
 
 		$this->assertTrue(isset($arrayResult['Generic']), 'On-the-fly belongsTo association via Linkable: %s');
-		$this->assertEquals($arrayResult, $arrayExpected, 'On-the-fly belongsTo association via Linkable: %s');
+		$this->assertEquals($arrayExpected, $arrayResult, 'On-the-fly belongsTo association via Linkable: %s');
 
 		// On-the-fly association via Linkable, with order on the associations' row and using array conditions instead of plain string
 		$arrayExpected = array(
@@ -123,7 +123,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 			'order' => 'Generic.id DESC'
 		));
 
-		$this->assertEquals($arrayResult, $arrayExpected, 'On-the-fly belongsTo association via Linkable, with order: %s');
+		$this->assertEquals($arrayExpected, $arrayResult, 'On-the-fly belongsTo association via Linkable, with order: %s');
 	}
 
 	public function testHasMany()
@@ -152,7 +152,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 			'order' => 'User.id ASC'
 		));
 		$this->assertTrue(isset($arrayResult['Comment']), 'hasMany association via Containable: %s');
-		$this->assertEquals($arrayResult, $arrayExpected, 'hasMany association via Containable: %s');
+		$this->assertEquals($arrayExpected, $arrayResult, 'hasMany association via Containable: %s');
 
 		// Same association, but this time with Linkable
 		$arrayExpected = array(
@@ -183,7 +183,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 			'group' => 'User.id'
 		));
 
-		$this->assertEquals($arrayResult, $arrayExpected, 'hasMany association via Linkable: %s');
+		$this->assertEquals($arrayExpected, $arrayResult, 'hasMany association via Linkable: %s');
 	}
 
 	public function testComplexAssociations()
@@ -252,7 +252,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 			)
 		));
 
-		$this->assertEquals($arrayResult, $arrayExpected, 'Linkable and Containable combined: %s');
+		$this->assertEquals($arrayExpected, $arrayResult, 'Linkable and Containable combined: %s');
 	}
 
 	public function _testPagination()
@@ -280,7 +280,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 
 		$arrayResult = $objController->paginate('User');
 
-		$this->assertEquals($objController->params['paging']['User']['count'], 4, 'Paging: total records count: %s');
+		$this->assertEquals(4, $objController->params['paging']['User']['count'], 'Paging: total records count: %s');
 
 		// Pagination with order on a row from table joined with Linkable
 		$objController->paginate = array(
@@ -316,7 +316,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 			)
 		);
 
-		$this->assertEquals($arrayResult, $arrayExpected, 'Paging with order on join table row: %s');
+		$this->assertEquals($arrayExpected, $arrayResult, 'Paging with order on join table row: %s');
 
 		// Pagination without specifying any fields
 		$objController->paginate = array(
@@ -329,7 +329,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 		);
 
 		$arrayResult = $objController->paginate('User');
-		$this->assertEquals($objController->params['paging']['User']['count'], 4, 'Paging without any field lists: total records count: %s');
+		$this->assertEquals(4, $objController->params['paging']['User']['count'], 'Paging without any field lists: total records count: %s');
 	}
 
 	/**
