@@ -677,13 +677,15 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 	 * @deprecated
 	 * use Form::dateTimeExt
 	 */
-	public function dateTime($field, $options = array(), $tf = 24, $s = null, $a = array()) {
+	public function dateTime($field, $options = array(), $tf = 24, $a = array()) {
 		# temp fix
 		if (!is_array($options)) {
+			/*
 			if ($options === null) {
 				$options = 'DMY';
 			}
-			return parent::dateTime($field, $options, $tf, $s, $a);
+			*/
+			return parent::dateTime($field, $options, $tf, $a);
 		}
 		return $this->dateTimeExt($field, $options);
 	}
