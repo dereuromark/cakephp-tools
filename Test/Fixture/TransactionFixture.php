@@ -86,7 +86,7 @@ class TransactionFixture extends CakeTestFixture {
 		),
 		array(
 			'id' => '5',
-			'title' => 'Ordofood-Konto-Einzahlung von user@user.de',
+			'title' => 'Test-Konto-Einzahlung von user@user.de',
 			'token' => 'EC-0MA508270G1912621',
 			'foreign_id' => '1',
 			'model' => 'PrepaidAccount',
@@ -107,7 +107,7 @@ class TransactionFixture extends CakeTestFixture {
 		),
 		array(
 			'id' => '4',
-			'title' => 'Ordofood-Konto-Einzahlung von user@user.de',
+			'title' => 'Test-Konto-Einzahlung von user@user.de',
 			'token' => 'EC-89F71804C0644512T',
 			'foreign_id' => '1',
 			'model' => 'PrepaidAccount',
@@ -149,7 +149,7 @@ class TransactionFixture extends CakeTestFixture {
 		),
 		array(
 			'id' => '7',
-			'title' => 'Ordofood-Konto-Einzahlung von user@user.de',
+			'title' => 'Test-Konto-Einzahlung von user@user.de',
 			'token' => 'EC-5SH71547J6537800X',
 			'foreign_id' => '1',
 			'model' => 'PrepaidAccount',
@@ -191,7 +191,7 @@ class TransactionFixture extends CakeTestFixture {
 		),
 		array(
 			'id' => '9',
-			'title' => 'Ordofood-Konto-Einzahlung von admin@admin.de',
+			'title' => 'Test-Konto-Einzahlung von admin@admin.de',
 			'token' => 'EC-89362070VF0669840',
 			'foreign_id' => '5',
 			'model' => 'PrepaidAccount',
@@ -212,7 +212,7 @@ class TransactionFixture extends CakeTestFixture {
 		),
 		array(
 			'id' => '10',
-			'title' => 'Ordofood-Konto-Einzahlung von admin@admin.de',
+			'title' => 'Test-Konto-Einzahlung von admin@admin.de',
 			'token' => 'EC-3UH10864KV965382X',
 			'foreign_id' => '5',
 			'model' => 'PrepaidAccount',
