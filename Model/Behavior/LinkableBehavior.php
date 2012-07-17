@@ -25,7 +25,7 @@ App::uses('ModelBehavior', 'Model');
  *
  * @version 1.2:
  * @modified Mark Scherer
- * - works with cakephp2.0 (89.84 test coverage)
+ * - works with cakephp2.x (89.84 test coverage)
  */
 class LinkableBehavior extends ModelBehavior {
 

@@ -22,17 +22,14 @@ class LinkableBehaviorTest extends CakeTestCase {
 	public $User;
 
 	public function startTest() {
-
 		$this->User = ClassRegistry::init('User');
 	}
 
 	public function endTest() {
-
 		unset($this->User);
 	}
 
-	public function testBelongsTo()
-	{
+	public function testBelongsTo() {
 		$arrayExpected = array(
 			'User' => array('id' => 1, 'username' => 'CakePHP'),
 			'Profile' => array ('id' => 1, 'user_id' => 1, 'biography' => 'CakePHP is a rapid development framework for PHP that provides an extensible architecture for developing, maintaining, and deploying applications.')
@@ -126,8 +123,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 		$this->assertEquals($arrayExpected, $arrayResult, 'On-the-fly belongsTo association via Linkable, with order: %s');
 	}
 
-	public function testHasMany()
-	{
+	public function testHasMany() {
 		// hasMany association via Containable. Should still work when Linkable is loaded
 		$arrayExpected = array(
 			'User' => array('id' => 1, 'username' => 'CakePHP'),
@@ -186,8 +182,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 		$this->assertEquals($arrayExpected, $arrayResult, 'hasMany association via Linkable: %s');
 	}
 
-	public function testComplexAssociations()
-	{
+	public function testComplexAssociations() {
 		$this->BlogPost = ClassRegistry::init('BlogPost');
 
 		$arrayExpected = array(
@@ -336,8 +331,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 	 *	Series of tests that assert if Linkable can adapt to assocations that
 	 *	have aliases different from their standard model names
 	 */
-	public function _testNonstandardAssociationNames()
-	{
+	public function _testNonstandardAssociationNames() {
 		$this->Tag = ClassRegistry::init('Tag');
 
 		$arrayExpected = array(
@@ -433,8 +427,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 		$this->assertEquals($arrayExpected, $arrayResult, 'hasMany association with custom foreignKey: %s');
 	}
 
-	public function _testAliasedBelongsToWithSameModelAsHasMany()
-	{
+	public function _testAliasedBelongsToWithSameModelAsHasMany() {
 		$this->OrderItem = ClassRegistry::init('OrderItem');
 
 		$arrayExpected = array(
@@ -461,6 +454,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 
 		$this->assertEquals($arrayExpected, $arrayResult, 'belongsTo association with alias (requested), with hasMany to the same model without alias: %s');
 	}
+
 }
 
 
@@ -475,6 +469,7 @@ class TestModel extends CakeTestModel {
 }
 
 class User extends TestModel {
+
 	public $hasOne = array(
 		'Profile'
 	);
@@ -486,12 +481,14 @@ class User extends TestModel {
 }
 
 class Profile extends TestModel {
+
 	public $belongsTo = array(
 		'User'
 	);
 }
 
 class BlogPost extends TestModel {
+
 	public $belongsTo = array(
 		'User'
 	);
@@ -505,6 +502,7 @@ class BlogPostTag extends TestModel {
 }
 
 class Tag extends TestModel {
+
 	public $hasAndBelongsToMany = array(
 		'BlogPost'
 	);
@@ -518,6 +516,7 @@ class Tag extends TestModel {
 }
 
 class LegacyProduct extends TestModel {
+
 	public $primaryKey = 'product_id';
 
 	public $belongsTo = array(
@@ -533,6 +532,7 @@ class LegacyProduct extends TestModel {
 }
 
 class LegacyCompany extends TestModel {
+
 	public $primaryKey = 'company_id';
 
 	public $hasMany = array(
@@ -544,12 +544,14 @@ class LegacyCompany extends TestModel {
 }
 
 class Shipment extends TestModel {
+
 	public $belongsTo = array(
 		'OrderItem'
 	);
 }
 
 class OrderItem extends TestModel {
+
 	public $hasMany = array(
 		'Shipment'
 	);
