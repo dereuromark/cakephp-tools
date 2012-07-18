@@ -171,6 +171,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$this->assertTrue(!empty($res['Comment']['lat']) && !empty($res['Comment']['lng']));
 	}
 
+
 	public function testDistance() {
 		$res = $this->Comment->distance(12, 14);
 		$expected = '6371.04 * ACOS( COS( PI()/2 - RADIANS(90 - Comment.lat)) * COS( PI()/2 - RADIANS(90 - 12)) * COS( RADIANS(Comment.lat) - RADIANS(14)) + SIN( PI()/2 - RADIANS(90 - Comment.lng)) * SIN( PI()/2 - RADIANS(90 - 12)))';
@@ -198,6 +199,36 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$this->assertTrue($res[0]['Address']['distance'] < $res[1]['Address']['distance']);
 		$this->assertTrue($res[1]['Address']['distance'] < $res[2]['Address']['distance']);
 	}
+
+	public function testValidate() {
+		$is = $this->Comment->validateLatitude(44);
+		$this->assertTrue($is);
+
+		$is = $this->Comment->validateLatitude(110);
+		$this->assertFalse($is);
+
+		$is = $this->Comment->validateLongitude(150);
+		$this->assertTrue($is);
+
+		$is = $this->Comment->validateLongitude(-190);
+		$this->assertFalse($is);
+
+		$this->Comment->validator()->add('lat', 'validateLatitude', array('rule'=>'validateLatitude', 'message'=>'validateLatitudeError'));
+		$this->Comment->validator()->add('lng', 'validateLongitude', array('rule'=>'validateLongitude', 'message'=>'validateLongitudeError'));
+		$data = array(
+			'lat' => 44,
+			'lng' => 190,
+		);
+		$this->Comment->set($data);
+		$res = $this->Comment->validates();
+		$this->assertFalse($res);
+		$expectedErrors = array(
+			'lng' => array(__('validateLongitudeError'))
+		);
+		$this->assertEquals($expectedErrors, $this->Comment->validationErrors);
+	}
+
+
 
 }
 
