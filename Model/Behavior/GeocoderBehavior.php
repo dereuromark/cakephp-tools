@@ -206,10 +206,18 @@ class GeocoderBehavior extends ModelBehavior {
 		return $return;
 	}
 
+	/**
+	 * Add the distance to this point as a virtual field
+	 *
+	 * @return void
+	 */
 	public function setDistanceAsVirtualField(Model $Model, $lat, $lng, $modelName = null) {
-		$Model->virtualFields['distance'] = $this->distance($Model, $lat, $lng, $modelName);
+		$Model->virtualFields['distance'] = $this->distance($Model, $lat, $lng, null, null, $modelName);
 	}
 
+	/**
+	 * @return array
+	 */
 	public function distanceConditions(Model $Model, $distance = null, $fieldName = null, $modelName = null) {
 		if ($modelName === null) {
 			$modelName = $Model->alias;
@@ -225,15 +233,20 @@ class GeocoderBehavior extends ModelBehavior {
 		return $conditions;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function distanceField(Model $Model, $lat, $lng, $fieldName = null, $modelName = null) {
 		if ($modelName === null) {
 			$modelName = $Model->alias;
 		}
-		return $this->distance($Model, $lat, $lng, $modelName).
-			' '.
-			'AS '.(!empty($fieldName) ? $fieldName : 'distance');
+		$fieldName = (!empty($fieldName) ? $fieldName : 'distance');
+		return $this->distance($Model, $lat, $lng, null, null, $modelName) . ' AS '.$modelName.'.'.$fieldName;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function distance(Model $Model, $lat, $lng, $fieldLat = null, $fieldLng = null, $modelName = null) {
 		if ($fieldLat === null) {
 			$fieldLat = $this->settings[$Model->alias]['lat'];
@@ -262,7 +275,7 @@ class GeocoderBehavior extends ModelBehavior {
 			$byFieldName = 'radius';
 		}
 
-		return $this->distance($Model, $lat, $lng, $modelName).' '.$byFieldName;
+		return $this->distance($Model, $lat, $lng, null, null, $modelName).' '.$byFieldName;
 	}
 
 	public function paginateDistanceCount(Model $Model, $conditions = null, $recursive = -1, $extra = array()) {

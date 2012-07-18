@@ -5,6 +5,7 @@ App::uses('AppShell', 'Console/Command');
 
 /**
  * Folder Sync Shell to update all files from location a with new files from location b
+ * You can also remove files in a if they are not longer existent in b
  *
  * @version 1.0
  * @cakephp 2.x
