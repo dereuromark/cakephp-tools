@@ -1,5 +1,5 @@
 <?php
-
+App::uses('AppShell', 'Console/Command');
 //include_once('files/sha256.inc');
 
 class HashShell extends AppShell {

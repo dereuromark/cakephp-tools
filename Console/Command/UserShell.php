@@ -29,8 +29,9 @@ class UserShell extends AppShell {
 		} else {
 			App::import('Component', 'Auth');
 			$this->Auth = new AuthComponent(new ComponentCollection());
-		}
-
+		}		
+		//ConnectionManager::sourceList()
+		
 		while (empty($username)) {
 			$username = $this->in(__('Username (2 characters at least)'));
 		}
@@ -45,7 +46,7 @@ class UserShell extends AppShell {
 
 			if (!empty($roles)) {
 				$this->out('');
-				pr($roles);
+				$this->out(print_r($roles, true));
 			}
 
 			$roleIds = array_keys($roles);
@@ -57,7 +58,7 @@ class UserShell extends AppShell {
 
 			if (!empty($roles)) {
 				$this->out('');
-				pr ($roles);
+				$this->out(print_r($roles, true));
 			}
 
 			$roleIds = array_keys($roles);
@@ -89,7 +90,7 @@ class UserShell extends AppShell {
 
 		if (!empty($schema['status']) && method_exists('User', 'statuses')) {
 			$statuses = User::statuses();
-			pr($statuses);
+			$this->out(print_r($statuses, true));
 			while (empty($status)) {
 				$status = $this->in(__('Please insert a status'), array_keys($statuses));
 			}
@@ -97,7 +98,7 @@ class UserShell extends AppShell {
 		}
 
 		if (!empty($schema['email'])) {
-			$provideEmail = $this->in(__('Provide Email? '),array('y', 'n'), 'n');
+			$provideEmail = $this->in(__('Provide Email? '), array('y', 'n'), 'n');
 			if ($provideEmail === 'y') {
 				$email = $this->in(__('Please insert an email'));
 				$data['User']['email'] = $email;

@@ -1,6 +1,15 @@
 <?php
+App::uses('AppShell', 'Console/Command');
 App::uses('ComponentCollection', 'Controller');
 
+/**
+ * password hashing and output
+ * 
+ * @cakephp 2.x
+ * @author Mark Scherer
+ * @license MIT
+ * 2011-11-05 ms
+ */
 class PwdShell extends AppShell {
 	public $tasks = array();
 	//public $uses = array('User');

@@ -51,7 +51,7 @@ class IndexShell extends AppShell {
 	 * @return void
 	 * @access public
 	 */
-	function startup() {
+	public function startup() {
 		parent::startup();
 		
 		$this->_welcome();
@@ -65,7 +65,7 @@ class IndexShell extends AppShell {
 	 * @return void
 	 * @access public
 	 */
-	function initialize() {
+	public function initialize() {
 		parent::initialize();
 		/*
 		if (file_exists(APP . 'Config' . DS . 'index.php')) {

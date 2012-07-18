@@ -71,9 +71,6 @@ class CcShell extends AppShell {
 		$content .= '}'.LF;
 		$content .= '/*** behavior end ***/'.LF;
 
-
-		$content .= '/*** model start ***/'.LF;
-
 		$this->content .= $content;
 	}
 

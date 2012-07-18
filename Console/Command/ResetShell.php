@@ -4,10 +4,15 @@
 if (!defined('CLASS_USER')) {
 	define('CLASS_USER', 'User');
 }
+App::uses('AppShell', 'Console/Command');
 
 /**
  * reset user data
- * 2011-08-01 ms
+ * 
+ * @cakephp 2.x
+ * @author Mark Scherer
+ * @license MIT
+ * 2011-11-05 ms
  */
 class ResetShell extends AppShell {
 	public $tasks = array();
@@ -55,7 +60,7 @@ class ResetShell extends AppShell {
 		foreach ($components as $component) {
 			if (App::import('Component', $component)) {
 				$component .='Component';
-				$this->Auth = new $component();
+				$this->Auth = new $component(new ComponentCollection());
 				break;
 			}
 		}

@@ -11,6 +11,7 @@ if (!defined('CR')) {
 	define('CR', "\r");
 }
 App::uses('Folder', 'Utility');
+App::uses('AppShell', 'Console/Command');
 
 /**
  * Indend Shell
@@ -48,7 +49,12 @@ class IndentShell extends AppShell {
 			}
 
 			if (!empty($this->args[0]) && $this->args[0] != 'app') {
-				$folder = realpath($this->args[0]);
+				$folder = $this->args[0];
+				if ($folder == '/') {
+					$folder = APP;
+				}
+				
+				$folder = realpath($folder);
 				if (!file_exists($folder)) {
 					die('folder not exists: ' . $folder . '');
 				}
@@ -61,11 +67,19 @@ class IndentShell extends AppShell {
 				$this->settings['files'] = explode(',', $this->params['files']);
 			}
 
+			$this->out($folder);
+			$this->out('searching...');
 			$this->_searchFiles();
+			
 			$this->out('found: ' . count($this->_files));
 			if ($this->settings['test']) {
 				$this->out('TEST DONE');
 			} else {
+				$continue = $this->in(__('Modifying files! Continue?'), array('y', 'n'), 'n');
+				if (strtolower($continue) != 'y' && strtolower($continue) != 'yes') {
+					die('...aborted');
+				}
+				
 				$this->_correctFiles3();
 				$this->out('DONE');
 			}
