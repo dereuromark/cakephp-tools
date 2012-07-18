@@ -4,7 +4,7 @@ App::uses('ComponentCollection', 'Controller');
 
 /**
  * password hashing and output
- * 
+ *
  * @cakephp 2.x
  * @author Mark Scherer
  * @license MIT
@@ -23,7 +23,7 @@ class PwdShell extends AppShell {
 		foreach ($components as $component) {
 			if (App::import('Component', $component)) {
 				$component .='Component';
-				list($plugin, $class) = pluginSplit($component); 
+				list($plugin, $class) = pluginSplit($component);
 				break;
 			}
 		}
@@ -43,7 +43,7 @@ class PwdShell extends AppShell {
 		echo $pw;
 	}
 
-	
+
 
 	public function help() {
 		$this->out('-- Hash Passwort with Auth(Ext) Component --');

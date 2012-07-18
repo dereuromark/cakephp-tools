@@ -27,6 +27,6 @@
 		<li><?php echo $this->Html->link(__('Reset %s', __('Qlogins')), array('action' => 'reset'), array(), __('Sure?'));?></li>
 	<?php if (false) { ?>
 		<li><?php echo $this->Html->link(__('List %s', __('Qlogins')), array('action' => 'listing'));?></li>
-	<?php } ?>	
+	<?php } ?>
 	</ul>
 </div>

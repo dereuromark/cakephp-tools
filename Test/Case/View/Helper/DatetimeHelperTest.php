@@ -39,7 +39,7 @@ class DatetimeHelperTest extends MyCakeTestCase {
 		$res = $this->Datetime->lengthOfTime(400, 'i');
 		pr($res);
 		$this->assertEquals('6 '.__('Minutes'), $res);
-		
+
 		$res = $this->Datetime->lengthOfTime(6*DAY);
 		pr($res);
 		$this->assertEquals('6 '.__('Days').', 0 '.__('Hours'), $res);
@@ -51,7 +51,7 @@ class DatetimeHelperTest extends MyCakeTestCase {
 
 	public function testRelLengthOfTime() {
 		echo $this->_header(__FUNCTION__);
-		
+
 		$res = $this->Datetime->relLengthOfTime(date(FORMAT_DB_DATETIME, time()-3600));
 		pr($res);
 		$this->assertTrue(!empty($res));
@@ -60,34 +60,34 @@ class DatetimeHelperTest extends MyCakeTestCase {
 		pr($res);
 		//$this->assertEquals($res, 'Vor 4 Tagen, 5 '.__('Hours'));
 		$this->assertEquals(__('%s ago', '4 '.__('Days').', '.'5 '.__('Hours')), $res);
-		
+
 		$res = $this->Datetime->relLengthOfTime(date(FORMAT_DB_DATETIME, time()+4*DAY+5*HOUR), null, array('plural'=>'n'));
 		pr($res);
 		$this->assertEquals(__('In %s', '4 '.__('Days').', '.'5 '.__('Hours')), $res);
-		
+
 		$res = $this->Datetime->relLengthOfTime(date(FORMAT_DB_DATETIME, time()), null, array('plural'=>'n'));
 		pr($res);
 		$this->assertEquals($res, __('justNow'));
 	}
-	
+
 	// Cake internal function...
 	public function testTimeAgoInWords() {
 		echo $this->_header(__FUNCTION__);
-		
+
 		$res = $this->Datetime->timeAgoInWords(date(FORMAT_DB_DATETIME, time()-4*DAY-5*HOUR));
 		pr($res);
 	}
- 
+
 
 	public function testIsInRange() {
 		echo $this->_header(__FUNCTION__);
-		
+
 		$day = date(FORMAT_DB_DATETIME, time()+10*DAY);
-		
+
 		$this->assertTrue($this->Datetime->isInRange($day, 11*DAY));
 		$this->assertTrue($this->Datetime->isInRange($day, 10*DAY));
 		$this->assertFalse($this->Datetime->isInRange($day, 9*DAY));
-		
+
 		$day = date(FORMAT_DB_DATETIME, time()-78*DAY);
 		$this->assertTrue($this->Datetime->isInRange($day, 79*DAY));
 		$this->assertTrue($this->Datetime->isInRange($day, 78*DAY));
@@ -205,49 +205,49 @@ class DatetimeHelperTest extends MyCakeTestCase {
 		$testDate = date(FORMAT_DB_DATE, time()+2*DAY);
 		$is = $this->Datetime->isInTheFuture($testDate);
 		$this->assertTrue($is);
-	
+
 		$testDate = date(FORMAT_DB_DATETIME, time()-1*MINUTE);
 		$is = $this->Datetime->isInTheFuture($testDate);
 		$this->assertFalse($is);
 	}
-	
+
 /**
  * test IsNotTodayAndInTheFuture
  *
  * @access public
  * @return void
  * 2010-02-18 ms
- */	
-	
+ */
+
 	public function testIsNotTodayAndInTheFuture() {
 		$testDate = date(FORMAT_DB_DATE, time());
 		$is = $this->Datetime->isNotTodayAndInTheFuture($testDate);
 		$this->assertFalse($is);
-		
+
 		$testDate = date(FORMAT_DB_DATETIME, time()+1*DAY);
 		$is = $this->Datetime->isNotTodayAndInTheFuture($testDate);
 		$this->assertTrue($is);
-	} 
-	
+	}
+
 /**
  * test IsDayAfterTomorrow
  *
  * @access public
  * @return void
  * 2010-02-18 ms
- */		
-	
+ */
+
 	public function testIsDayAfterTomorrow() {
 		$testDate = date(FORMAT_DB_DATE, time()+2*DAY);
 		$is = $this->Datetime->isDayAfterTomorrow($testDate);
 		$this->assertTrue($is);
-		 
+
 		$testDate = date(FORMAT_DB_DATETIME, time()-1*MINUTE);
 		$is = $this->Datetime->isDayAfterTomorrow($testDate);
 		$this->assertFalse($is);
 	}
-	
-	
+
+
 
 
 /**

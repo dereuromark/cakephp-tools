@@ -193,16 +193,16 @@ class FormatHelperTest extends MyCakeTestCase {
 
 	public function testTab2space() {
 		echo '<h2>'.__FUNCTION__.'</h2>';
-		
+
 		$text  = "foo\t\tfoobar\tbla\n";
 		$text .= "fooo\t\tbar\t\tbla\n";
 		$text .= "foooo\t\tbar\t\tbla\n";
 		echo "<pre>" . $text . "</pre>";
 		echo'becomes';
 		echo "<pre>" . $this->Format->tab2space($text) . "</pre>";
-		
+
 	}
-	
+
 
 	public function testArray2table() {
 		echo '<h2>'.__FUNCTION__.'</h2>';

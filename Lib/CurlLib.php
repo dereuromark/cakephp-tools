@@ -4,7 +4,7 @@
  * Curl wrapper with goodies
  * - can switch the UA to test certain browser sensitive features
  * - can simulate/establish tor connection
- * 
+ *
  * @license MIT
  * @cakephp 2.0
  * 2011-07-16 ms
@@ -16,17 +16,17 @@ class CurlLib {
 	);
 
 	protected $Ch = null;
-	
+
 	public $cookie = null;
-	
+
 	public $tor = '127.0.0.1:9050';
-	
+
 	public $header = array();
-	
+
 	public $persistentHeader = array();
-	
+
 	protected $lastUrl = '';
-	
+
 	public $ua = array(
 		'Firefox' => array(
 			'Firefox/3.0.2 Linux' => 'Mozilla/5.0 (X11; U; Linux i686; de; rv:1.9.0.2) Gecko/2008091700 SUSE/3.0.2-5.2 Firefox/3.0.2'
@@ -188,7 +188,7 @@ class CurlLib {
 
 	/**
 	 * get/set referer
-	 * 
+	 *
 	 * @param url
 	 * @return mixed
 	 * 2012-06-06 ms

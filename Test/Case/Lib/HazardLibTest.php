@@ -43,12 +43,12 @@ class HazardLibTest extends CakeTestCase {
 		$this->assertTrue(!empty($is) && count($is), 113);
 
 	}
-	
+
 	public function testPhp() {
 		$is = $this->HazardLib->phpStrings();
 		pr(h($is));
 	}
-	
+
 	public function testSql() {
 		$is = $this->HazardLib->sqlStrings();
 		pr(h($is));

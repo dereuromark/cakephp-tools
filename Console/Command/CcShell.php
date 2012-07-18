@@ -10,7 +10,7 @@ if (!defined('LF')) {
 /**
  * Code Completion Shell
  * Workes perfectly with PHPDesigner - but should also work with most other IDEs out of the box
- * 
+ *
  * @version 1.1
  * @cakephp 2.0
  * @author Mark Scherer
@@ -81,19 +81,19 @@ class CcShell extends AppShell {
 		$content = LF;
 		$content .= '/*** component start ***/'.LF;
 		$content .= 'class AppController extends Controller {'.LF;
-		
+
 		$files = $this->_getFiles('Controller/Component');
 		if (!empty($files)) {
 			$content .= $this->_prepComponents($files);
 		}
-		
+
 		$content .= LF.LF;
-		
+
 		$files = $this->_getFiles('Model');
 		if (!empty($files)) {
 			$content .= $this->_prepModels($files);
 		}
-		
+
 		$content .= '}'.LF;
 		$content .= '/*** component end ***/'.LF;
 
@@ -255,11 +255,11 @@ class CcShell extends AppShell {
 		$content .= '}'.PHP_EOL.PHP_EOL;
 		$content .= '//Printed: '.date('d.m.Y, H:i:s').PHP_EOL;
 		$content .= $this->content;
-		
+
 		//return $File->write($content);
 		file_put_contents($this->filename, $content);
 	}
-	
+
 
 	protected function _getFiles($type) {
 		$files = App::objects($type, null, false);
@@ -268,11 +268,11 @@ class CcShell extends AppShell {
 		$files = am($coreFiles, $files);
 		//$paths = (array)App::path($type.'s');
 		//$libFiles = App::objects($type, $paths[0] . 'lib' . DS, false);
-	
+
 		if (!isset($this->plugins)) {
 			$this->plugins = App::objects('plugin');
 		}
-	
+
 		if (!empty($this->plugins)) {
 			foreach ($this->plugins as $plugin) {
 				$pluginType = $plugin.'.'.$type;
@@ -290,7 +290,7 @@ class CcShell extends AppShell {
 			if ($appIndex !== false) {
 				unset($files[$appIndex]);
 			}
-	
+
 			# no test/tmp files etc (helper.test.php or helper.OLD.php)
 		foreach ($files as $key => $file) {
 				if (strpos($file, '.') !== false || !preg_match('/^[\da-zA-Z_]+$/', $file)) {

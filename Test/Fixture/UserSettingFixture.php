@@ -1,7 +1,7 @@
 <?php
 
 class UserSettingFixture extends CakeTestFixture {
-	
+
 
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),

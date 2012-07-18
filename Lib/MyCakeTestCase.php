@@ -28,7 +28,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 		self::_printResult($is, $value, $options);
 		return $this->assertNotNull($is, $message);
 	}
-	
+
 /*** time needed ***/
 
 	protected static $startTime = null;
@@ -70,7 +70,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 
 	/**
 	 * outputs debug information during a web tester (browser) test case
-	 * since PHPUnit>=3.6 swallowes all output by default 
+	 * since PHPUnit>=3.6 swallowes all output by default
 	 * this is a convenience output handler since debug() or pr() have no effect
 	 * @param mixed $data
 	 * @param bool $pre should a pre tag be enclosed around the output
@@ -88,7 +88,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 		}
 		ob_flush();
 	}
-	
+
 	protected function _basePath($full = false) {
 		$phpSelf = $_SERVER['PHP_SELF'];
 		if (strpos($phpSelf, 'webroot/test.php') !== false) {
@@ -103,7 +103,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 		}
 		return $url;
 	}
-	
+
 	protected function _header($title) {
 		if (strpos($title, 'test') === 0) {
 			$title = substr($title, 4);
@@ -163,7 +163,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 		if (empty($_SERVER['HTTP_HOST']) || !isset($_GET['show_passes']) || !$_GET['show_passes']) {
 			return false;
 		}
-		
+
 		if ($pre !== null) {
 			echo 'value:';
 			pr ($pre);
@@ -180,7 +180,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 		if (empty($_SERVER['HTTP_HOST']) || !isset($_GET['show_passes']) || !$_GET['show_passes']) {
 			return false;
 		}
-		
+
 		if ($pre !== null) {
 			echo 'value:';
 			pr($pre);
@@ -188,7 +188,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 		echo 'result is:';
 		pr($is);
 	}
-	
+
 	/**
 	 * osFix method
 	 *

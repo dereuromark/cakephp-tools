@@ -4,13 +4,13 @@ App::uses('Router', 'Routing');
 
 /**
  * Main class for all app-wide utility methods
- * 
+ *
  * @author Mark Scherer
  * @license MIT
  * 2012-02-27 ms
  */
 class Utility {
-	
+
 	/**
 	 * get the current ip address
 	 * @param bool $safe
@@ -39,7 +39,7 @@ class Utility {
 			}
 		}
 		return trim($ipaddr);
-	}	
+	}
 
 	/**
 	 * get the current referer
@@ -125,7 +125,7 @@ class Utility {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * add protocol prefix if neccessary (and possible)
 	 * static?
@@ -135,7 +135,7 @@ class Utility {
 		if ($prefix === null) {
 			$prefix = 'http://';
 		}
-		
+
 		if (($pos = strpos($url, '.')) !== false) {
 			if (strpos(substr($url, 0, $pos), '//') === false) {
 				$url = $prefix.$url;
@@ -229,7 +229,7 @@ class Utility {
 		$value = is_array($value) ? array_map('self::specialcharsDeep', $value) : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 		return $value;
 	}
-	
+
 	/**
 	 * removes all except A-Z,a-z,0-9 and allowedChars (allowedChars array) recursivly
 	 *
@@ -252,14 +252,14 @@ class Utility {
 
 	/**
 	 * main deep method
-	 * 
+	 *
 	 * 2009-07-07 ms
 	 */
 	public static function deep($function, $value) {
 		$value = is_array($value) ? array_map('self::' . $function, $value) : $function($value);
 		return $value;
 	}
-	
+
 	/**
 	 * Flattens an array, or returns FALSE on fail.
 	 * 2011-07-02 ms
@@ -335,6 +335,6 @@ class Utility {
 		$elapsed = $end - $start;
 		return round($elapsed, $precision);
 	}
-	
+
 }
 

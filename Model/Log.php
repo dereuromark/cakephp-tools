@@ -9,9 +9,9 @@ if (!defined('CLASS_USER')) {
  * `logs` table populated by LogableBehavior
  */
 class Log extends ToolsAppModel {
-	
+
 	public $order = array('Log.created'=>'DESC');
-	
+
 	public $belongsTo = array(
 		'User' => array(
 			'className' => CLASS_USER,
@@ -21,6 +21,6 @@ class Log extends ToolsAppModel {
 			'order' => ''
 		),
 	);
-	
+
 }
 

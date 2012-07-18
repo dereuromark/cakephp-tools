@@ -7,11 +7,11 @@ App::uses('HttpSocketLib', 'Tools.Lib');
  * Geocode via google (UPDATE: api3)
  * @see DEPRECATED api2: http://code.google.com/intl/de-DE/apis/maps/articles/phpsqlgeocode.html
  * @see http://code.google.com/intl/de/apis/maps/documentation/geocoding/#Types
- * 
+ *
  * TODOS (since 1.2):
  * - Work with exceptions in 2.x
  * - Rewrite in a cleaner 2.x way
- * 
+ *
  * @author Mark Scherer
  * @cakephp 2.x
  * @licence MIT
@@ -32,35 +32,35 @@ class GeocodeLib {
 	const ACC_ROUTE = 7;
 	const ACC_INTERSEC = 8;
 	const ACC_STREET = 9;
-	
+
 	const UNIT_KM = 'K';
 	const UNIT_NAUTICAL = 'N';
 	const UNIT_FEET = 'F';
 	const UNIT_INCHES = 'I';
 	const UNIT_MILES = 'M';
-	
+
 	# First tries with curl, then cake, then php
 	public $use = array(
-		'curl' => true, 
-		'cake'=> true, 
+		'curl' => true,
+		'cake'=> true,
 		'php' => true
 	);
-	
+
 	public $units = array(
-		self::UNIT_KM => 1.609344, 
-		self::UNIT_NAUTICAL => 0.868976242, 
-		self::UNIT_FEET => 5280, 
-		self::UNIT_INCHES => 63360, 
+		self::UNIT_KM => 1.609344,
+		self::UNIT_NAUTICAL => 0.868976242,
+		self::UNIT_FEET => 5280,
+		self::UNIT_INCHES => 63360,
 		self::UNIT_MILES => 1
 	);
 
 	/**
 	 * validation and retrieval options
-	 * - use: 
+	 * - use:
 	 * - log: false logs only real errors, true all activities
 	 * - pause: timeout to prevent blocking
 	 * - ...
-	 * 
+	 *
 	 * 2010-06-25 ms
 	 */
 	public $options = array(
@@ -133,7 +133,7 @@ class GeocodeLib {
 		if (Configure::read('debug') > 0) {
 			$this->options['log'] = true;
 		}
-		
+
 		$this->setOptions($options);
 	}
 
@@ -261,7 +261,7 @@ class GeocodeLib {
 		$this->reset(false);
 		$latlng = $lat . ',' . $lng;
 		$this->setParams(array_merge($settings, array('latlng' => $latlng)));
-		
+
 		$count = 0;
 		$request_url = $this->url();
 		while (true) {
@@ -306,7 +306,7 @@ class GeocodeLib {
 
 				if ($this->_isNotAccurateEnough($accuracy)) {
 					$accuracy = implode(', ', (array)$accuracy);
-					$minAccuracy = $this->accuracyTypes[$this->options['min_accuracy']]; 
+					$minAccuracy = $this->accuracyTypes[$this->options['min_accuracy']];
 					$this->setError(__('Accuracy not good enough (%s instead of at least %s)', $accuracy, $minAccuracy));
 					$this->result = $xmlArray['result'];
 					return false;
@@ -325,7 +325,7 @@ class GeocodeLib {
 					CakeLog::write('geocode', __('Delay necessary for \'%s\'', $latlng));
 				}
 				$count++;
-				
+
 			} else {
 				# something went wrong
 				$this->setError('Error '.$status.(isset($this->statusCodes[$status]) ? ' ('.$this->statusCodes[$status].')' : ''));
@@ -433,10 +433,10 @@ class GeocodeLib {
 					$this->result = $xmlArray['result'];
 					return false;
 				}
-				
+
 				if (!empty($this->options['expect'])) {
-					$types = array($accuracy); # TODO: maybe check more than just first?					
-					
+					$types = array($accuracy); # TODO: maybe check more than just first?
+
 					$validExpectation = false;
 					foreach ($types as $type) {
 						if (in_array($type, (array)$this->options['expect'])) {
@@ -725,9 +725,9 @@ class GeocodeLib {
 
 	/**
 	 * Fuzziness filter for coordinates (lat or lng).
-	 * Useful if you store other users' locations and want to grant some 
+	 * Useful if you store other users' locations and want to grant some
 	 * privacy protection. This way the coordinates will be slightly modified.
-	 * 
+	 *
 	 * @param float coord
 	 * @param int level (0 = nothing to 5 = extrem)
 	 * - 1:

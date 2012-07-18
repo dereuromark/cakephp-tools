@@ -6,11 +6,11 @@ App::uses('CakeRequest', 'Network');
  * A wrapper to access not only cakes request data about known mobile agents.
  * It also allows to whitelist and blacklist certain agents.
  * Last but not least it should be capable of detecting if it is a real user or a bot
- * 
+ *
  * @author Mark Scherer
  * @license MIT
  * @cakephp 2
- * 
+ *
  * 2011-04-05 ms
  */
 class UserAgentLib extends CakeRequest {
@@ -22,7 +22,7 @@ class UserAgentLib extends CakeRequest {
 	public $blacklist = array(
 		'UP\.Browser'
 	);
-	
+
 	public $searchBots = array(
 		'Mirago' => 'HenryTheMiragorobot',
 		'Google' => 'Googlebot',
@@ -37,11 +37,11 @@ class UserAgentLib extends CakeRequest {
 		'Sitedomain' => 'Sitedomain-Bot',
 		'Askpeter' => 'askpeter_bot'
 	);
-	
+
 	public $path = null;
 
 	public function __construct($agents = array()) {
-		
+
 		$this->path = VENDORS.'files'.DS;
 	}
 
@@ -49,7 +49,7 @@ class UserAgentLib extends CakeRequest {
 	public function isBot() {
 		$file = $this->path.'bots.txt';
 		if (file_exists($file)) {
-			
+
 		}
 	}
 
@@ -60,7 +60,7 @@ class UserAgentLib extends CakeRequest {
 	 */
 	public function isMobile() {
 		$devices = $this->getMobileDevices();
-		
+
 		$pattern = '/' . implode('|', $devices) . '/i';
 		return (bool)preg_match($pattern, env('HTTP_USER_AGENT'));
 	}
@@ -84,7 +84,7 @@ class UserAgentLib extends CakeRequest {
 		}
 		return '';
 	}
-	
+
 	/**
 	* checks user against known platforms
 	* @param string $userAgent
@@ -112,16 +112,16 @@ class UserAgentLib extends CakeRequest {
 		}
 		if (strpos($agent, "Linux")) {
 			return "Linux";
-		} 
+		}
 		if (strpos($agent, "OS/2")) {
 			return "OS/2";
-		} 
+		}
 		if (strpos($agent, "Sun")) {
 			return "Sun OS";
-		} 
+		}
 		if (strpos($agent, "Macintosh") || strpos($agent, "Mac_PowerPC")) {
 			return "Mac OS";
-		} 
+		}
 		return "";
 	}
 
@@ -134,7 +134,7 @@ class UserAgentLib extends CakeRequest {
 	public function getMobileDevices() {
 		$is = array(); //$this->RequestHandler->mobileUA;
 		$is = $this->_detectors['mobile']['options'];
-		
+
 		$is = array_merge($is, $this->_getMobileWhitelist());
 		$blacklist = $this->_getMobileBlacklist();
 		foreach ($blacklist as $agent) {
@@ -145,18 +145,18 @@ class UserAgentLib extends CakeRequest {
 		}
 		return $is;
 	}
-	
+
 	protected function _getMobileWhitelist() {
 		$res = $this->whitelist;
 		/*
 		$file = $this->path.'mobile_devices.txt';
 		if (file_exists($file)) {
-			
+
 		}
 		*/
 		return $res;
 	}
-	
+
 	protected function _getMobileBlacklist() {
 		$res = $this->blacklist;
 		return $res;

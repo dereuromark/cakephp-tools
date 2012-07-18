@@ -1,14 +1,14 @@
-<?php 
+<?php
 class LoremHelper extends AppHelper {
 	public $helpers = array('Html');
 	public $words = array();
-	
+
 	/**
 	* Return placeholder text. By default, a single html-formatted paragraph.
 	* For a brief history of "lorem ipsum", see http://en.wikipedia.org/wiki/Lorem_ipsum
 	* also, thanks http://www.lipsum.org for all the faithful placeholder
 	*
-	* @param integer $number depending on the 
+	* @param integer $number depending on the
 	* @param string $type trigger used to switch between words only, paragraph(s), or lists (ol/ul)
 	* @param array $attributes Additional HTML attributes of the list (ol/ul) tag, or paragraph (when applicable)
 	* @param array $itemAttributes Additional HTML attributes of the list item (LI) tag (when applicable)
@@ -49,10 +49,10 @@ class LoremHelper extends AppHelper {
 		}
 		return $string;
 	}
-	
+
 	/**
 	* Internal function to return a greeked sentence
-	* 
+	*
 	* @param integer $maxWords maximum number of words for this sentence
 	* @param integer $minWords minimum number of words for this sentence
 	* @param boolean $punctuation if false it will not append random commas and ending period
@@ -69,7 +69,7 @@ class LoremHelper extends AppHelper {
 				$word = ucwords($word);
 			}
 			$string .= $word;
-			// if not the last word, 
+			// if not the last word,
 			if ($w != ($numWords-1)) {
 				// 5% chance of a comma...
 				if (rand(0,99) < 5) {

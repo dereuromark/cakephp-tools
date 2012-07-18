@@ -6,15 +6,15 @@ App::import('Vendor', 'Tools.ical', array('file'=>'ical/ical.php'));
 App::import('Vendor', 'Tools.icalobject', array('file'=>'ical/i_cal_object.php'));
 
 App::uses('View', 'View');
-App::uses('Time', 'View/Helper');
+App::uses('TimeHelper', 'View/Helper');
 
 /**
  * A wrapper for the Ical/Ics calendar lib
  * @see http://www.dereuromark.de/2011/11/21/serving-views-as-files-in-cake2 for details
- * 
+ *
  * @author Mark Scherer
  * @license MIT
- * @cakephp 2.0 
+ * @cakephp 2.0
  * 2010-09-14 ms
  */
 class IcalLib {
@@ -30,7 +30,7 @@ class IcalLib {
 /** BUILDING **/
 
 	/**
-	 * 
+	 *
 	 * some automagic
 	 * - array urls are transformed in (full) absolute urls
 	 * - id => uid with @host
@@ -76,7 +76,7 @@ class IcalLib {
 			'method' => 'PUBLISH',
 		);
 		$data = am($defaults, $data);
-		
+
 		$res = array();
 		$res[] = 'BEGIN:VCALENDAR';
 		foreach ($data as $key => $val) {
@@ -84,7 +84,7 @@ class IcalLib {
 		}
 		return implode(PHP_EOL, $res);
 	}
-	
+
 	public function createEnd() {
 		return 'END:VCALENDAR';
 	}
@@ -102,7 +102,7 @@ class IcalLib {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @return array
 	 * 2010-09-14 ms
@@ -124,7 +124,7 @@ class IcalLib {
 		}
 		return $res;
 	}
-	
+
 	/**
 	 * @return array $events or false on failure
 	 * 2010-09-14 ms
@@ -132,7 +132,7 @@ class IcalLib {
 	public function getEvents() {
 		return $this->Ical->get_sort_event_list();
 	}
-	
+
 	/**
 	 * @return array $todos or false on failure
 	 * 2010-09-14 ms

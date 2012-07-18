@@ -9,14 +9,14 @@ App::uses('AppShell', 'Console/Command');
 /**
  * Add missing indexes to your schema in a snip
  * based on ad7six' UuidifyShell
- * 
+ *
  * Currently supports automatically:
  * - BTREE Indexes for UUIDs
- * 
+ *
  * TODO:
  * - BTREE Indexes for AIIDs if desired
  * - PRIMARY_KEY Indexes for primary keys ("id")
- * 
+ *
  * @author     Mark Scherer
  * @link
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
@@ -53,7 +53,7 @@ class IndexShell extends AppShell {
 	 */
 	public function startup() {
 		parent::startup();
-		
+
 		$this->_welcome();
 	}
 
@@ -122,13 +122,13 @@ class IndexShell extends AppShell {
 		$tables = $this->_tables($ds);
 		$db = ConnectionManager::getDataSource($ds);
 		$usePrefix = empty($db->config['prefix']) ? '': $db->config['prefix'];
-		
+
 		$doneSomething = false;
 		foreach ($tables as $table) {
 			if (in_array($table, array('i18n'))) {
 				continue;
 			}
-			
+
 			$model = Inflector::classify($table);
 			$Inst = ClassRegistry::init(array(
 				'class' => $model,
@@ -139,9 +139,9 @@ class IndexShell extends AppShell {
 				continue;
 			}
 			$fields = $Inst->schema();
-			
+
 			$indexInfo = $Inst->query('SHOW INDEX FROM `'.$usePrefix . $table.'`');
-			
+
 			foreach ($fields as $field => $details) {
 				if (!preg_match('@(^|_)(id|key)$@', $field)) {
 					continue;
@@ -153,7 +153,7 @@ class IndexShell extends AppShell {
 				if ($details['type'] !== 'string') {
 					continue;
 				}
-				
+
 				foreach ($indexInfo as $info) {
 					$column = $info['STATISTICS']['Column_name'];
 					$key = $info['STATISTICS']['Key_name'];
@@ -170,7 +170,7 @@ class IndexShell extends AppShell {
 				$this->out('Create index for '.$table.'.'.$field);
 				$this->_script[$ds]['index'][] = "ALTER TABLE `$usePrefix$table` ADD INDEX (`$field`)";
 			}
-		}	
+		}
 	}
 
 	protected function _tables($useDbConfig = 'default') {
@@ -292,7 +292,7 @@ class IndexShell extends AppShell {
 				)
 			)
 		);
-		
+
 		return parent::getOptionParser()
 			->description(__d('cake_console', "..."))
 			->addSubcommand('run', array(

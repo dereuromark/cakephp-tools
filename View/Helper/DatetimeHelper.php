@@ -8,7 +8,7 @@ App::uses('TimeHelper', 'View/Helper');
  * 2012-04-09 ms
  */
 class DatetimeHelper extends TimeHelper {
-	
+
 	public $helpers = array('Html');
 
 	public $Datetime;
@@ -227,8 +227,8 @@ class DatetimeHelper extends TimeHelper {
 	public function niceTime($badTime) {
 		return substr($badTime, 0, 5);
 	}
-	
-	
+
+
 	public function timezones() {
 		$timezones = array(
 			'America/Adak' => '(GMT-10:00) America/Adak (Hawaii-Aleutian Standard Time)',

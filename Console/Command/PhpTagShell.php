@@ -4,8 +4,8 @@ App::uses('Folder', 'Utility');
 /**
  * removes closing php tag (?>) from php files
  * it also makes sure there is no whitespace at the beginning of the file
- * 
- * @author Mark Scherer, Maximilian Ruta 
+ *
+ * @author Mark Scherer, Maximilian Ruta
  * @cakephp 2.0
  * @license MIT
  * 2011-02-21 de
@@ -15,7 +15,7 @@ class PhpTagShell extends AppShell {
 	public $autoCorrectAll = false;
 	# each report: [0] => found, [1] => corrected
 	public $report = array(
-		'leading'=>array(0, 0), 
+		'leading'=>array(0, 0),
 		'trailing'=>array(0, 0)
 	);
 

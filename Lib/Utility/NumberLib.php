@@ -6,27 +6,27 @@ App::uses('CakeNumber', 'Utility');
  * 2011-03-07 ms
  */
 class NumberLib extends CakeNumber {
-	
+
 	protected static $_currency = 'EUR';
-	
+
 	protected static $_symbolRight = '€';
-	
+
 	protected static $_symbolLeft = null;
-	
+
 	protected static $_decimalPoint = ',';
-	
+
 	protected static $_thousandsPoint = '.';
 
 	/**
 	 * Display price (or was price if available)
 	 * Without allowNegative it will always default all non-positive values to 0
-	 * 
+	 *
 	 * @param price
 	 * @param specialPrice (outranks the price)
 	 * @param options
 	 * - places
 	 * - allowNegative (defaults to false - price needs to be > 0)
-	 * 
+	 *
 	 * @deprecated use currency()
 	 * @return string
 	 * 2011-07-30 ms
@@ -47,18 +47,18 @@ class NumberLib extends CakeNumber {
 
 	/**
 	 * Convinience method to display the default currency
-	 * 
+	 *
 	 * @return string
 	 * 2011-10-05 ms
 	 */
 	public static function money($amount, $formatOptions = array()) {
 		return self::currency($amount, null, $formatOptions);
 	}
-	
+
 	/**
 	 * format numeric values
 	 * should not be used for currencies
-	 * 
+	 *
 	 * @param float $number
 	 * @param int $places (0 = int, 1..x places after dec, -1..-x places before dec)
 	 * @param array $option : currency=true/false, ... (leave empty for no special treatment)
@@ -81,12 +81,12 @@ class NumberLib extends CakeNumber {
 		//$options = array;
 
 		if (!empty($options['currency'])) {
-			if (!empty(self::$_symbolRight)) { 
+			if (!empty(self::$_symbolRight)) {
 				$options['after'] = ' ' . self::$_symbolRight;
 			} elseif (!empty(self::$_symbolLeft)) {
 				$options['before'] = self::$_symbolLeft . ' ';
 			}
-		} 
+		}
 		/*
 		else {
 			if (!empty($formatOptions['after'])) {
@@ -102,7 +102,7 @@ class NumberLib extends CakeNumber {
 		if (!empty($formatOptions['decimals'])) {
 			$options['decimals'] = $formatOptions['decimals'];
 		}
-		*/		
+		*/
 		if ($options['places'] < 0) {
 			$number = round($number, $options['places']);
 		}
@@ -128,9 +128,9 @@ class NumberLib extends CakeNumber {
 			'wholeSymbol' => self::$_symbolRight, 'wholePosition' => 'after', 'negative' => '-', 'positive'=> '+', 'escape' => true
 		);
 		$options = am($options, $formatOptions);
-		
+
 		if (!empty($options['wholeSymbol'])) {
-			if ($options['wholePosition'] == 'after') { 
+			if ($options['wholePosition'] == 'after') {
 				$options['wholeSymbol'] = ' ' . self::$_symbolRight;
 			} elseif ($options['wholePosition'] == 'before') {
 				$options['wholeSymbol'] = self::$_symbolLeft . ' ';
@@ -159,7 +159,7 @@ class NumberLib extends CakeNumber {
 		}
 		return $number;
 	}
-	
+
 	/**
 	 * Returns a formatted-for-humans file size.
 	 *
@@ -199,7 +199,7 @@ class NumberLib extends CakeNumber {
 		$average = round(array_sum($values) / count($values), $precision);
 		return $average;
 	}
-	
+
 	/**
 	 * @access public
 	 * @param float $number

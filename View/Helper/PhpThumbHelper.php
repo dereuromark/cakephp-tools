@@ -4,7 +4,7 @@
  * @see http://code621.com/content/1/phpthumb-helper-for-cakephp
  * some mods?
  * //TODO: make to lib!?
- * //TODO: integrate ThumbnailHelper !!! 
+ * //TODO: integrate ThumbnailHelper !!!
  * 2009-09-13 ms
  */
 class PhpThumbHelper extends AppHelper    {

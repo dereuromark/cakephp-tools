@@ -4,9 +4,9 @@ App::import('CodeKey', 'Tools.Model');
 App::uses('MyCakeTestCase', 'Tools.Lib');
 
 class CodeKeyTest extends MyCakeTestCase {
-	
+
 	public $CodeKey = null;
-	
+
 	public $fixtures = array('plugin.tools.code_key');
 
 	public function startTest() {

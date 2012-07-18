@@ -8,7 +8,7 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * Calculate the GMT offset from a timezone string
-	 * 
+	 *
 	 * @param string|DateTimeZone $timezone User's timezone string or DateTimeZone object
 	 * @return int $offset
 	 * 2012-05-20 ms
@@ -18,15 +18,15 @@ class TimeLib extends CakeTime {
 		# a date outside of DST
 		$offset = $timezone->getOffset(new DateTime('@' . mktime(0, 0, 0, 2, 1, date('Y'))));
 		$offset = $offset / HOUR;
-		
+
 		# a date inside of DST
 		$offset2 = $timezone->getOffset(new DateTime('@' . mktime(0, 0, 0, 8, 1, date('Y'))));
 		$offset2 = $offset2 / HOUR;
-		
+
 		# lets remove the DST offset if the case
 		return max($offset2, $offset) - abs($offset2 - $offset);
 	}
-	
+
 	/**
 	 * gets the timezone that is closest to the given coordinates
 	 * @return DateTimeZone Timezone object
@@ -348,9 +348,9 @@ class TimeLib extends CakeTime {
 		}
 		if ($year % 400 == 0) {
 			return true;
-		} 
+		}
 		if ($year > 1582 && $year % 100 == 0) {
-		  # if gregorian calendar (>1582), century not-divisible by 400 is not leap
+			# if gregorian calendar (>1582), century not-divisible by 400 is not leap
 			return false;
 		}
 		return true;
@@ -475,7 +475,7 @@ class TimeLib extends CakeTime {
 
 		return $ret;
 	}
-	
+
 	/**
 	 * return the translation to a specific week day
 	 * @param int $day:
@@ -509,7 +509,7 @@ class TimeLib extends CakeTime {
 		$day = (int) $day;
 		pr($day);
 		if ($offset) {
-			$day = ($day + $offset) % 7; 
+			$day = ($day + $offset) % 7;
 		}
 		pr($day);
 		if ($abbr) {
@@ -517,7 +517,7 @@ class TimeLib extends CakeTime {
 		}
 		return __($days['long'][$day]);
 	}
-	
+
 	/**
 	 * return the translation to a specific week day
 	 * @param int $month:
@@ -543,7 +543,7 @@ class TimeLib extends CakeTime {
 				'October',
 				'November',
 				'December'
-			),	
+			),
 			'short' => array(
 				'Jan',
 				'Feb',
@@ -561,7 +561,7 @@ class TimeLib extends CakeTime {
 		);
 		$month = (int) ($month - 1);
 		if (!$abbr) {
-			return __($months['long'][$month]);	
+			return __($months['long'][$month]);
 		}
 		$monthName = __($months['short'][$month]);
 		if (!empty($options['appendDot']) && strlen(__($months['long'][$month])) > 3) {
@@ -569,7 +569,7 @@ class TimeLib extends CakeTime {
 		}
 		return $monthName;
 	}
-	
+
 	/**
 	 * @return array (for forms etc)
 	 */
@@ -720,12 +720,12 @@ class TimeLib extends CakeTime {
 	 * @deprecated
 	 * NICHT TESTEN!
 	 */
-	public static function otherOne() {	
+	public static function otherOne() {
 		$day = floor($anz_sekunden/86400);
 		$hours = floor(($anz_sekunden-(floor($anz_sekunden/86400)*86400))/3600);
 		$minutes = floor(($anz_sekunden-(floor($anz_sekunden/3600)*3600))/60);
 		$seconds = floor($anz_sekunden-(floor($anz_sekunden/60))*60);
-	
+
 		if ($day < 10) {
 			$day = '0'.$day;
 		}
@@ -738,7 +738,7 @@ class TimeLib extends CakeTime {
 		if ($seconds < 10) {
 			$seconds = '0'.$seconds;
 		}
-	
+
 		if ($day > 0) {
 			$zeit_ausgabe = $day.":".$hours.":".$minutes.":".$seconds;
 		} else {
@@ -1035,7 +1035,7 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * try to parse date from various input formats
-	 * - DD.MM.YYYY, DD/MM/YYYY, YYYY-MM-DD, YYYY, YYYY-MM, ... 
+	 * - DD.MM.YYYY, DD/MM/YYYY, YYYY-MM-DD, YYYY, YYYY-MM, ...
 	 * - i18n: Today, Yesterday, Tomorrow
 	 * @param string $date to parse
 	 * @param format to parse (null = auto)
@@ -1051,20 +1051,20 @@ class TimeLib extends CakeTime {
 		$i18n = array(
 			strtolower(__('Today')) => array('start'=>date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))), 'end'=>date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')))),
 			strtolower(__('Tomorrow')) => array('start'=>date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))+DAY), 'end'=>date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y'))+DAY)),
-			strtolower(__('Yesterday')) => array('start'=>date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))-DAY), 'end'=>date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y'))-DAY)), 
+			strtolower(__('Yesterday')) => array('start'=>date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))-DAY), 'end'=>date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y'))-DAY)),
 			strtolower(__('The day after tomorrow')) => array('start'=>date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))+2*DAY), 'end'=>date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y'))+2*DAY)),
 			strtolower(__('The day before yesterday')) => array('start'=>date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))-2*DAY), 'end'=>date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y'))-2*DAY)),
 		);
 		if (isset($i18n[strtolower($date)])) {
 			return $i18n[strtolower($date)][$type];
 		}
-		
+
 		if ($format) {
 			$res = DateTime::createFromFormat($format, $date);
 			$res = $res->format(FORMAT_DB_DATE).' '.($type=='end'?'23:59:59':'00:00:00');
 			return $res;
 		}
-		
+
 		if (strpos($date, '.') !== false) {
 			$explode = explode('.', $date, 3);
 			$explode = array_reverse($explode);
@@ -1081,7 +1081,7 @@ class TimeLib extends CakeTime {
 				$explode[$i] = str_pad($explode[$i], 2, '0', STR_PAD_LEFT);
 			}
 			$explode[0] = str_pad($explode[0], 4, '20', STR_PAD_LEFT);
-			
+
 			if (count($explode) === 3) {
 				return implode('-', $explode).' '.($type=='end'?'23:59:59':'00:00:00');
 			} elseif (count($explode) === 2) {
@@ -1109,34 +1109,34 @@ class TimeLib extends CakeTime {
 		} else {
 			$filters = array($string, $string);
 		}
-		$min = $filters[0]; 
+		$min = $filters[0];
 		$max = $filters[1];
 
 		//$x = preg_match('/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/', $date, $date_parts);
-		
+
 		//$x = Datetime::createFromFormat('Y-m-d', $string);
 		//die(returns($x));
-		
+
 		//$actualDateTime = new DateTime($min);
 		//$actualDateTime->add(new DateInterval('P1M'));
-		
+
 		$min = self::parseLocalizedDate($min);
 		$max = self::parseLocalizedDate($max, null, 'end');
-		
+
 		//die($actualDateTime->format('Y-m-d'));
-		
+
 		//$searchParameters['conditions']['Coupon.date'] = $actualDateTime->format('Y-m-d');
-		
+
 		/*
 		if ($min == $max) {
 			if (strlen($max) > 8) {
-				$max = date(FORMAT_DB_DATE, strtotime($max)+DAY);	
+				$max = date(FORMAT_DB_DATE, strtotime($max)+DAY);
 			} elseif (strlen($max) > 5) {
-				$max = date(FORMAT_DB_DATE, strtotime($max)+MONTH);	
+				$max = date(FORMAT_DB_DATE, strtotime($max)+MONTH);
 			} else {
-				$max = date(FORMAT_DB_DATE, strtotime($max)+YEAR+MONTH);	
+				$max = date(FORMAT_DB_DATE, strtotime($max)+YEAR+MONTH);
 			}
-			
+
 		}
 		$min = date(FORMAT_DB_DATE, strtotime($min));
 		$max = date(FORMAT_DB_DATE, strtotime($max));
@@ -1155,7 +1155,7 @@ class TimeLib extends CakeTime {
 		$period = self::period($string, $options);
 		return self::daysAsSql($period[0], $period[1], $fieldName);
 	}
-	
+
 
 
 	/**
@@ -1311,7 +1311,7 @@ class TimeLib extends CakeTime {
 	public static function pad($value, $length = 2) {
 		return str_pad(intval($value), $length, '0', STR_PAD_LEFT);
 	}
-	
+
 }
 
 

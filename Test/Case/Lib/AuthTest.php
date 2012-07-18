@@ -11,16 +11,16 @@ class AuthTest extends MyCakeTestCase {
 	public function testHasRole() {
 		$res = Auth::hasRole(1, array(2, 3, 6));
 		$this->assertFalse($res);
-		
+
 		$res = Auth::hasRole(3, array(2, 3, 6));
 		$this->assertTrue($res);
-		
+
 		$res = Auth::hasRole(3, 1);
 		$this->assertFalse($res);
-		
+
 		$res = Auth::hasRole(3, '3');
 		$this->assertTrue($res);
-		
+
 		$res = Auth::hasRole(3, '');
 		$this->assertFalse($res);
 	}

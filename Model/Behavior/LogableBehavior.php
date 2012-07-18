@@ -62,15 +62,15 @@ if (!defined('CLASS_USER')) {
  * @version 2.2
  * @modified 3.june 2009 by Miha
  * @modified 2011-11-17 ms (mark scherer) cake2.0 ready
- * 
+ *
  * 2011-11-17 ms
  */
 class LogableBehavior extends ModelBehavior {
-	
+
 	public $user = null; # user data array
-	
+
 	public $UserModel = null;
-	
+
 	protected $_defaults = array(
 		'enabled' => true,
 		'userModel' => CLASS_USER,

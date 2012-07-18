@@ -10,45 +10,45 @@ class NumberLibTest extends MyCakeTestCase {
 	public function startTest() {
 		//$this->NumberLib = new NumberLib();
 	}
-	
+
 	public function testMoney() {
 		$is = NumberLib::money(22.11);
 		$expected = '22,11 €';
 		$this->assertSame($expected, $is);
-		
+
 		$is = NumberLib::money(-22.11);
 		$expected = '-22,11 €';
-		$this->assertSame($expected, $is);		
+		$this->assertSame($expected, $is);
 	}
-	
+
 	public function testPrice() {
 		$is = NumberLib::price(22.11);
 		$expected = '22,11 €';
-		$this->assertSame($expected, $is);	
-		
+		$this->assertSame($expected, $is);
+
 		$is = NumberLib::price(-22.11);
 		$expected = '0,00 €';
-		$this->assertSame($expected, $is);		
+		$this->assertSame($expected, $is);
 	}
-	
+
 	public function testCurrency() {
 		$is = NumberLib::currency(22.11);
 		$expected = '22,11 €';
 		$this->assertSame($expected, $is);
-		
+
 		$is = NumberLib::currency(-22.11);
 		$expected = '-22,11 €';
 		$this->assertSame($expected, $is);
-		
+
 		$is = NumberLib::currency(-22.11, 'EUR', array('signed'=>true));
 		$expected = '-22,11 €';
 		$this->assertSame($expected, $is);
-		
+
 		$is = NumberLib::currency(22.11, 'EUR', array('signed'=>true));
 		$expected = '+22,11 €';
 		$this->assertSame($expected, $is);
 	}
-	
+
 	/**
 	 * 2012-04-06 ms
 	 */
@@ -56,11 +56,11 @@ class NumberLibTest extends MyCakeTestCase {
 		$is = NumberLib::toPercentage(22.11, 2, '.');
 		$expected = '22.11%';
 		$this->assertSame($expected, $is);
-		
+
 		$is = NumberLib::toPercentage(22.11, 2, ',');
 		$expected = '22,11%';
 		$this->assertSame($expected, $is);
-		
+
 		$is = NumberLib::toPercentage(22.11, 0, ',');
 		$expected = '22%';
 		$this->assertSame($expected, $is);
@@ -82,7 +82,7 @@ class NumberLibTest extends MyCakeTestCase {
 		foreach ($values as $was => $expected) {
 			$is = NumberLib::roundTo($was, 10);
 			//echo returns($expected); echo returns($is); echo BR; ob_flush();
-			
+
 			$this->assertSame($expected, $is, null, $was);
 		}
 		//increment = 0.1

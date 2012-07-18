@@ -8,7 +8,7 @@ App::uses('AppShell', 'Console/Command');
 
 /**
  * reset user data
- * 
+ *
  * @cakephp 2.x
  * @author Mark Scherer
  * @license MIT
@@ -35,20 +35,20 @@ class ResetShell extends AppShell {
 		while (empty($email) || !Validation::email($email)) {
 			$email = $this->in(__('New email address (must have a valid form at least)'));
 		}
-		
+
 		$this->User = ClassRegistry::init(CLASS_USER);
 		if (!$this->User->hasField('email')) {
 			$this->error(CLASS_USER.' model doesnt have an email field!');
 		}
-		
+
 		$this->hr();
 		$this->out('resetting...');
 		Configure::write('debug', 2);
 		$this->User->recursive = -1;
 		$this->User->updateAll(array('User.email'=>'\''.$email.'\''), array('User.email !='=>$email));
 		$count = $this->User->getAffectedRows();
-		$this->out($count.' emails resetted - DONE');	
-	}	
+		$this->out($count.' emails resetted - DONE');
+	}
 
 
 	/**
@@ -93,7 +93,7 @@ class ResetShell extends AppShell {
 		if (!$this->User->hasField('password')) {
 			$this->error(CLASS_USER.' model doesnt have a password field!');
 		}
-		
+
 		if (method_exists($this->User, 'escapeValue')) {
 			$newPwd = $this->User->escapeValue($pw);
 		} else {

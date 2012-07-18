@@ -4,7 +4,7 @@ App::uses('CommonComponent', 'Tools.Controller/Component');
 
 /**
  * TODO: rename to "Token" with display field "token"
- * 
+ *
  * @author Mark Scherer
  * @cakephp 2.0
  * @license MIT
@@ -114,7 +114,7 @@ class CodeKey extends ToolsAppModel {
 		$res = $this->find('first', $conditions);
 		if (empty($res)) {
 			return false;
-		} 
+		}
 		if (!empty($uid) && !empty($res[$this->alias]['user_id']) && $res[$this->alias]['user_id'] != $uid) {
 			// return $res; # more secure to fail here if user_id is not provided, but was submitted prev.
 			return false;
@@ -124,7 +124,7 @@ class CodeKey extends ToolsAppModel {
 			if ($treatUsedAsInvalid) {
 				return false;
 			}
-			# return true and let the application check what to do then 
+			# return true and let the application check what to do then
 			return $res;
 		}
 		# actually spend key (set to used)
@@ -168,20 +168,20 @@ class CodeKey extends ToolsAppModel {
 		);
 		return $this->deleteAll($conditions, false);
 	}
-	
-	
+
+
 	/**
 	 * get admin stats
-	 * 2010-10-22 ms 
+	 * 2010-10-22 ms
 	 */
 	public function stats() {
 		$keys = array();
 		$keys['unused_valid'] = $this->find('count', array('conditions'=>array($this->alias.'.used'=>0, $this->alias.'.created >='=>date(FORMAT_DB_DATETIME, time()-$this->validity))));
 		$keys['used_valid'] = $this->find('count', array('conditions'=>array($this->alias.'.used'=>1, $this->alias.'.created >='=>date(FORMAT_DB_DATETIME, time()-$this->validity))));
-		
+
 		$keys['unused_invalid'] = $this->find('count', array('conditions'=>array($this->alias.'.used'=>0, $this->alias.'.created <'=>date(FORMAT_DB_DATETIME, time()-$this->validity))));
 		$keys['used_invalid'] = $this->find('count', array('conditions'=>array($this->alias.'.used'=>1, $this->alias.'.created <'=>date(FORMAT_DB_DATETIME, time()-$this->validity))));
-		
+
 		$types = $this->find('all', array('conditions'=>array(), 'fields'=>array('DISTINCT type')));
 		$keys['types'] = !empty($types) ? Set::extract('/'.$this->alias.'/type', $types) : array();
 		return $keys;

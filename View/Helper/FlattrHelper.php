@@ -19,13 +19,13 @@ btn The badge to use. Currently the only option is compact but if not specified 
  * 2010-12-11 ms
  */
 class FlattrHelper extends AppHelper {
-	
+
 	public $helpers = array('Html');
-	
+
 	const API_URL = 'http://api.flattr.com/';
-	
-	
-	/** 
+
+
+	/**
 	 * display the FlattrButton
 	 * @param mixed $url (unique! neccessary)
 	 * @param array $options
@@ -36,7 +36,7 @@ class FlattrHelper extends AppHelper {
 			$options['uid'] = Configure::read('Flattr.uid');
 		}
 		$categories = array();
-		
+
 		$defaults = array(
 			'mode' => 'auto',
 			'language' => 'de_DE',
@@ -47,13 +47,13 @@ class FlattrHelper extends AppHelper {
 			//'description' => '',
 		);
 		$options = array_merge($defaults, $options);
-		
+
 		$mode = $options['mode'];
 		unset($options['mode']);
 		if (is_array($options['tags'])) {
 			$options['tags'] = implode(',', $options['tags']);
 		}
-		
+
 		$rev = array();
 		foreach ($options as $key => $option) {
 			$rev[] = $key.':'.$option;
@@ -65,7 +65,7 @@ class FlattrHelper extends AppHelper {
 			'rel' => 'flattr;'.implode(';', $rev)
 		);
 		$linkOptions = array_merge($linkOptions, $attr);
-		
+
 		$js = "(function() {
 	var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
 	s.type = 'text/javascript';
@@ -74,20 +74,20 @@ class FlattrHelper extends AppHelper {
 	t.parentNode.insertBefore(s, t);
 })();";
 		$code = $this->Html->link('', $this->Html->url($url, true), $linkOptions);
-		
+
 		//&uid=gargamel&language=sv_SE&category=text
-		
+
 		# compact: <a class="FlattrButton" style="display:none;" rev="flattr;button:compact;"href="X"></a>
-		
+
 		# static: <a href="http://flattr.com/thing/X" target="_blank"><img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" /></a>
-		
+
 		$code .= $this->Html->scriptBlock($js, array('inline' => true));
 		return $code;
 	}
- 
- 
+
+
 	//TODO: http://api.flattr.com/odapi/categories/json - parse
-	
+
 	/**
 	 * @deprecated!!!
 	 * @param mixed $uid
@@ -103,7 +103,7 @@ class FlattrHelper extends AppHelper {
 		if (!isset($options['tle'])) {
 			$options['tle'] = __('Donate');
 		}
-		
+
 		$vars = '';
 		$vars .= "var flattr_uid = '" . h($uid) . "';\r\n";
 		$vars .= "var flattr_tle = '" . $options['tle'] . "';\r\n";
@@ -135,5 +135,5 @@ class FlattrHelper extends AppHelper {
 		return $code;
 	}
 
-	
+
 }

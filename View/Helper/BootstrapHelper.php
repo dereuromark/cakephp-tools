@@ -2,14 +2,14 @@
 
 /**
  * Generic html snippets to display some specific widgets like accordion
- * 
- * Note: 
- * This is meant to work with TwitterBootstrap (Layout and Script), but 
+ *
+ * Note:
+ * This is meant to work with TwitterBootstrap (Layout and Script), but
  * should also work with other custom solutions (if they use the same selectors).
- * 
+ *
  * Dependencies:
  * The respective JS plugins for the widgets.
- * 
+ *
  * @license MIT
  * @author Mark Scherer
  * @cakephp 2.0
@@ -18,11 +18,11 @@
  * 2012-03-29 ms
  */
 class BootstrapHelper extends AppHelper {
-	
+
 	public $helpers = array('Html', 'Form');
 
 	protected $_count = 1;
-	
+
 	protected $_items = array();
 
 
@@ -32,7 +32,7 @@ class BootstrapHelper extends AppHelper {
 
 	/**
 	 * complete typeahead form input element
-	 * 
+	 *
 	 * @param fieldName
 	 * @param options:
 	 * - data (array of strings)
@@ -48,7 +48,7 @@ class BootstrapHelper extends AppHelper {
 		}
 		$class = 'typeahead_'.strtolower(Inflector::slug($fieldName)); // str_replace('.', '_', $fieldName);
 		$inputOptions['class'] = empty($inputOptions['class']) ? $class : $inputOptions['class'].' '.$class;
-		
+
 		$script = '
 	$(\'.'.$class.'\').typeahead({
 		source: '.$this->_formatSource($options['data']).'
@@ -57,7 +57,7 @@ class BootstrapHelper extends AppHelper {
 		$script = PHP_EOL.'<script>'.$script.'</script>';
 		return $this->Form->input($fieldName, $inputOptions) . $script;
 	}
-	
+
 	public function _formatSource($elements) {
 		//$res = array();
 		//return '[\''.implode('\',\'', $elements).'\']';
@@ -66,7 +66,7 @@ class BootstrapHelper extends AppHelper {
 
 	/**
 	 * complete carousel container
-	 * 
+	 *
 	 * @param array $items (heading, content, active)
 	 * @param id
 	 * @param array $options
@@ -75,23 +75,23 @@ class BootstrapHelper extends AppHelper {
 	 */
 	public function carousel($items, $id = null, $globalOptions = array()) {
 		$res = '<div id="myCarousel" class="carousel">
-  <div class="carousel-inner">
-  	'.$this->carouselItems($items, $globalOptions).'
-  </div>
-	'.$this->carouselControl().' 
+	<div class="carousel-inner">
+		'.$this->carouselItems($items, $globalOptions).'
+	</div>
+	'.$this->carouselControl().'
 </div>';
-    return $res;
+	return $res;
 	}
-	
+
 	public function carouselControl() {
 		$res = '<a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-    <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>';
+	<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>';
 		return $res;
 	}
-	
+
 	/**
 	 * items of a carousel container
-	 * 
+	 *
 	 * @param array $items (heading, content, active)
 	 * - active (visible, true/false)
 	 * @return string $html
@@ -117,7 +117,7 @@ class BootstrapHelper extends AppHelper {
 
 	/**
 	 * complete accordion container
-	 * 
+	 *
 	 * @param array $records (heading, content, options)
 	 * @param id
 	 * @param array $options
@@ -134,10 +134,10 @@ class BootstrapHelper extends AppHelper {
 		$res .= '</div>';
 		return $res;
 	}
-	
+
 	/**
 	 * a single group of an accordion container
-	 * 
+	 *
 	 * @param string $heading
 	 * @param string $content
 	 * @param array $options
@@ -152,22 +152,22 @@ class BootstrapHelper extends AppHelper {
 		if ($i == 1 && !isset($options['active']) || !empty($options['active'])) {
 			$in = ' in';
 		}
-		
+
 		$res = '<div class="accordion-group">';
 		$res .= '	<div class="accordion-heading">';
-	
-    $res .= '		<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse'.$i.'">';
-    $res .= $heading;
-    $res .= '		</a>';
-  	$res .= '	</div>';
-  	$res .= '	<div id="collapse'.$i.'" class="accordion-body collapse'.$in.'">';
-    $res .= '	<div class="accordion-inner">';
-    $res .= $content;
-  	$res .= '	</div>';
+
+		$res .= '		<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse'.$i.'">';
+		$res .= $heading;
+		$res .= '		</a>';
+		$res .= '	</div>';
+		$res .= '	<div id="collapse'.$i.'" class="accordion-body collapse'.$in.'">';
+		$res .= '	<div class="accordion-inner">';
+		$res .= $content;
+		$res .= '	</div>';
  		$res .= '	</div>';
 		$res .= '</div>';
 		return $res;
 	}
-	
+
 }
 

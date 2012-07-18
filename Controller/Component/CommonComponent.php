@@ -7,11 +7,11 @@ App::uses('Utility', 'Tools.Utility');
 
 /**
  * A component included in every app to take care of common stuff
- *  
+ *
  * @author Mark Scherer
  * @copyright 2012 Mark Scherer
  * @license MIT
- * 
+ *
  * 2012-02-08 ms
  */
 class CommonComponent extends Component {
@@ -55,7 +55,7 @@ class CommonComponent extends Component {
 	 */
 	public function startup(Controller $Controller = null) {
 		/** DATA PREPARATION **/
-		
+
 		if (!empty($this->Controller->request->data) && !Configure::read('DataPreparation.notrim')) {
 			$this->Controller->request->data = $this->trimDeep($this->Controller->request->data);
 		}
@@ -68,7 +68,7 @@ class CommonComponent extends Component {
 		if (!empty($this->Controller->request->params['pass']) && !Configure::read('DataPreparation.notrim')) {
 			$this->Controller->request->params['pass'] = $this->trimDeep($this->Controller->request->params['pass']);
 		}
-		
+
 		/** Information Gathering **/
 		if (!Configure::read('App.disableMobileDetection') && ($mobile = $this->Session->read('Session.mobile')) === null) {
 			App::uses('UserAgentLib', 'Tools.Lib');
@@ -149,7 +149,7 @@ class CommonComponent extends Component {
 	public function isPosted() {
 		return $this->Controller->request->is('post') || $this->Controller->request->is('put');
 	}
-	
+
 	//deprecated - use isPosted instead
 	public function isPost() {
 		return $this->Controller->request->is('post') || $this->Controller->request->is('put');
@@ -383,7 +383,7 @@ class CommonComponent extends Component {
 	/**
 	 * Smart Referer Redirect - will try to use an existing referer first
 	 * otherwise it will use the default url
-	 * 
+	 *
 	 * @param mixed $url
 	 * @param bool $allowSelf if redirect to the same controller/action (url) is allowed
 	 * @param int $status
@@ -410,7 +410,7 @@ class CommonComponent extends Component {
 	public function postRedirect($whereTo, $status = 302) {
 		$this->Controller->redirect($whereTo, $status);
 	}
-	
+
 	/**
 	 * combine auto with post
 	 * also allows whitelisting certain actions for autoRedirect (use Controller::$autoRedirectActions)
@@ -421,9 +421,14 @@ class CommonComponent extends Component {
 	 */
 	public function autoPostRedirect($whereTo, $conditionalAutoRedirect = true, $status = 302) {
 		$referer = $this->Controller->referer($whereTo, true);
+		if (!$conditionalAutoRedirect && !empty($referer)) {
+			$this->postRedirect($referer, $status);
+		}
+
 		if (!empty($referer)) {
 			$referer = Router::parse($referer);
 		}
+
 		if (!$conditionalAutoRedirect || empty($this->Controller->autoRedirectActions) || is_array($referer) && !empty($referer['action'])) {
 			$refererController = Inflector::camelize($referer['controller']);
 			# fixme
@@ -586,7 +591,7 @@ class CommonComponent extends Component {
 
 	/**
 	 * //todo: move to Utility?
-	 * 
+	 *
 	 * @return boolean true if disabled (bots, etc), false if enabled
 	 * @static
 	 * 2010-11-20 ms

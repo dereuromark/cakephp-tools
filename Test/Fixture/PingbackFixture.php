@@ -1,7 +1,7 @@
 <?php
 /* Pingback Fixture generated on: 2011-03-29 16:03:41 : 1301409941 */
 class PingbackFixture extends CakeTestFixture {
-	
+
 
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),

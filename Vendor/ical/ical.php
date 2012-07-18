@@ -32,6 +32,7 @@
 
  * @link www.nabito.net
  * @link www.omdesign.cz
+ * @link https://github.com/OzzyCzech/icalparser/blob/master/ical.php
  * @version 2.0
  * @license MIT
  *

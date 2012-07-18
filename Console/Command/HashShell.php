@@ -3,11 +3,11 @@ App::uses('AppShell', 'Console/Command');
 //include_once('files/sha256.inc');
 
 class HashShell extends AppShell {
-	
+
 	const DEFAULT_HASH_ALG = 4; # sha1
-	
+
 	public $active = array('md5', 'sha1', 'sha256', 'sha512');
-	
+
 	public $tasks = array();
 
 
@@ -23,7 +23,7 @@ class HashShell extends AppShell {
 	public function string() {
 		$this->out('Hash Strings...');
 		$hashAlgos = hash_algos();
-		
+
 		$types = am(array_keys($hashAlgos), array('q'));
 		foreach ($hashAlgos as $key => $t) {
 			$this->out(($key+1).': '.$t.(in_array($t, $this->active)?' (!)':''));
@@ -35,17 +35,17 @@ class HashShell extends AppShell {
 			}
 		}
 		$type--;
-		
+
 		while (empty($pwToHash) || mb_strlen($pwToHash) < 2) {
 			$pwToHash = $this->in(__('String to Hash (2 characters at least)'));
 		}
-		
+
 		$pw = $this->_hash($hashAlgos[$type], $pwToHash);
 		$this->out('type: '.strtoupper($hashAlgos[$type]).' (length: '.mb_strlen($pw).')');
 		$this->hr();
-		echo $pw;	
+		echo $pw;
 	}
-	
+
 	/**
 	 * list all available
 	 */
@@ -110,7 +110,7 @@ class HashShell extends AppShell {
 		$this->out('-- cake Tools.Hash compare');
 		$this->out('---- to list all available methods and their lenghts');
 	}
-	
+
 	public function getOptionParser() {
 		$parser = parent::getOptionParser();
 
@@ -137,14 +137,14 @@ class HashShell extends AppShell {
 			);
 		return $parser;
 	}
-	
-	
+
+
 	protected function _hash($type, $string) {
 		if (in_array(strtolower($type), hash_algos())) {
 			return hash($type, $string);
 		}
 		return $string;
 	}
-	
+
 }
 

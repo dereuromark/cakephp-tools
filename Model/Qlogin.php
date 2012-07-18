@@ -6,7 +6,7 @@ App::uses('CakeSession', 'Model/Datasource');
 
 /**
  * Manage Quick Logins
- * 
+ *
  * @author Mark Scherer
  * @cakephp 2.0
  * @license MIT
@@ -34,7 +34,7 @@ class Qlogin extends ToolsAppModel {
 				'rule' => array('notEmpty'),
 				'message' => 'valErrMandatoryField',
 				'last' => true
-			),		
+			),
 			/*
 			'validateUnique' => array(
 				'rule' => array('validateUnique', array('url')),
@@ -43,21 +43,21 @@ class Qlogin extends ToolsAppModel {
 			*/
 		),
 	);
-	
+
 	protected function _useKey($key) {
 		if (!isset($this->CodeKey)) {
 			$this->CodeKey = ClassRegistry::init('Tools.CodeKey');
 		}
 		return $this->CodeKey->useKey('qlogin', $key);
 	}
-	
+
 	protected function _newKey($uid, $content) {
 		if (!isset($this->CodeKey)) {
 			$this->CodeKey = ClassRegistry::init('Tools.CodeKey');
 		}
 		return $this->CodeKey->newKey('qlogin', null, $uid, $content);
 	}
-	
+
 	public function translate($key) {
 		$res = $this->_useKey($key);
 		if (!$res) {
@@ -67,7 +67,7 @@ class Qlogin extends ToolsAppModel {
 		$res['CodeKey']['url'] = Router::url($res['CodeKey']['content'], true);
 		return $res;
 	}
-	
+
 	/**
 	 * generates a qlogin key
 	 * @param mixed $url
@@ -79,16 +79,16 @@ class Qlogin extends ToolsAppModel {
 		$content = serialize($url);
 		return $this->_newKey($uid, $content);
 	}
-	
+
 	public static function urlByKey($key) {
 		return Router::url(array('admin'=>'', 'plugin'=>'tools', 'controller'=>'qlogin', 'action'=>'go', $key), true);
 	}
-	
+
 	/**
 	 * makes an absolute url string ready to input anywhere
 	 * uses generate() internally to get the key
 	 * @param mixed $url
-	 * @return string $url (absolute) 
+	 * @return string $url (absolute)
 	 */
 	public function url($url, $uid = null) {
 		if ($uid === null) {
@@ -97,5 +97,5 @@ class Qlogin extends ToolsAppModel {
 		$key = $this->generate($url, $uid);
 	 	return $this->urlByKey($key);
 	}
-	
+
 }

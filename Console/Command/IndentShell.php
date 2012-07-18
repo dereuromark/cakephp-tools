@@ -15,7 +15,7 @@ App::uses('AppShell', 'Console/Command');
 
 /**
  * Indend Shell
- * 
+ *
  * @cakephp 2.0
  * @author Mark Scherer
  * @license MIT
@@ -53,7 +53,7 @@ class IndentShell extends AppShell {
 				if ($folder == '/') {
 					$folder = APP;
 				}
-				
+
 				$folder = realpath($folder);
 				if (!file_exists($folder)) {
 					die('folder not exists: ' . $folder . '');
@@ -70,7 +70,7 @@ class IndentShell extends AppShell {
 			$this->out($folder);
 			$this->out('searching...');
 			$this->_searchFiles();
-			
+
 			$this->out('found: ' . count($this->_files));
 			if ($this->settings['test']) {
 				$this->out('TEST DONE');
@@ -79,7 +79,7 @@ class IndentShell extends AppShell {
 				if (strtolower($continue) != 'y' && strtolower($continue) != 'yes') {
 					die('...aborted');
 				}
-				
+
 				$this->_correctFiles3();
 				$this->out('DONE');
 			}
@@ -95,9 +95,9 @@ class IndentShell extends AppShell {
 			$this->out('-files php,js,css');
 		}
 	}
-	
-	
-	
+
+
+
 	public function getOptionParser() {
 		$subcommandParser = array(
 			'options' => array(
@@ -118,14 +118,14 @@ class IndentShell extends AppShell {
 				),
 			)
 		);
-		
+
 		return parent::getOptionParser()
 			->description(__d('cake_console', "Correct indentation of files"))
 			->addSubcommand('folder', array(
 				'help' => __d('cake_console', 'Indent all files in a folder'),
 				'parser' => $subcommandParser
 			));
-	}	
+	}
 
 
 	public function _write($file, $text) {
@@ -196,7 +196,11 @@ class IndentShell extends AppShell {
 		$piece2 = mb_substr($piece, $pos+1);
 
 		$newPiece = $piece1 . $piece2;
-		return rtrim($newPiece) . $debug;
+		$newPiece = rtrim($newPiece) . $debug;
+		if ($newPiece != $piece || strlen($newPiece) !== strlen($piece)) {
+			$this->changes = true;
+		}
+		return $newPiece;
 	}
 
 

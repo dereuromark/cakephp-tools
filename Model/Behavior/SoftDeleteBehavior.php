@@ -330,5 +330,5 @@ class SoftDeleteBehavior extends ModelBehavior {
 			}
 		}
 	}
-	
+
 }

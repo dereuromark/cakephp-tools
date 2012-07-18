@@ -5,24 +5,24 @@ App::uses('Helper', 'View');
 /**
  * uses ical lib
  * tipps see http://labs.iamkoa.net/2007/09/07/create-downloadable-ical-events-via-cake/
- * 
+ *
  * needs ical layout
  * needs Router::parseExtensions('ics') in router.php
- * 
+ *
  * 2011-10-10 ms
  */
 class IcalHelper extends AppHelper {
-	
+
 	public $helpers = array(); //'Html'
 
 	public $Ical;
 
 	protected $_data = array();
 
-	
+
 	public function __construct($View = null, $settings = array()) {
 		parent::__construct($View, $settings);
-		
+
 		App::uses('IcalLib', 'Tools.Lib');
 		$this->Ical = new IcalLib();
 	}
@@ -39,7 +39,7 @@ class IcalHelper extends AppHelper {
 	public function add($data = array()) {
 		//TODO: validate!
 		$this->_data[] = $data;
-		
+
 		return true;
 	}
 

@@ -22,7 +22,7 @@ class ConvertShell extends AppShell {
 	 * predefined options
 	 */
 	public $modes = array(
-		'd2u', 'u2d', 'git', # dos/unix 
+		'd2u', 'u2d', 'git', # dos/unix
 		'd2m', 'm2d', # dos/mac
 		'u2m', 'm2u' # unix/mac
 	);

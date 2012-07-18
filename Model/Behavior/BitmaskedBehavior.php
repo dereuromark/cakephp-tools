@@ -8,9 +8,9 @@
  * It should contain the bits like so (starting with 1):
  * 	1 => w, 2 => x, 4 => y, 8 => z, ... (bits as keys - names as values)
  * The order doest't matter, as long as no bit is used twice.
- * 
+ *
  * The theoretical limit for a 64-bit integer would be 64 bits (2^64).
- * But if you actually seem to need more than a hand full you 
+ * But if you actually seem to need more than a hand full you
  * obviously do something wrong and should better use a joined table etc.
  *
  * @version 1.1
@@ -42,7 +42,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 */
 	public function setup(Model $Model, $config = array()) {
 		$config = array_merge($this->_defaults, $config);
-		
+
 		if (empty($config['bits'])) {
 			$config['bits'] = Inflector::pluralize($config['field']);
 		}
@@ -60,32 +60,32 @@ class BitmaskedBehavior extends ModelBehavior {
 
 		$this->settings[$Model->alias] = $config;
 	}
-	
+
 	public function beforeFind(Model $Model, $query) {
 		$field = $this->settings[$Model->alias]['field'];
-		
+
 		if (isset($query['conditions']) && is_array($query['conditions'])) {
 			$query['conditions'] = $this->encodeBitmaskConditions($Model, $query['conditions']);
 		}
-				
+
 		return $query;
 	}
-	
+
 	public function afterFind(Model $Model, $results, $primary) {
 		$field = $this->settings[$Model->alias]['field'];
 		if (!($mappedField = $this->settings[$Model->alias]['mappedField'])) {
 			$mappedField = $field;
 		}
-		
+
 		foreach ($results as $key => $result) {
 			if (isset($result[$Model->alias][$field])) {
 				$results[$key][$Model->alias][$mappedField] = $this->decodeBitmask($Model, $result[$Model->alias][$field]);
-			}	
+			}
 		}
-		
+
 		return $results;
 	}
-	
+
 	public function beforeValidate(Model $Model) {
 		if ($this->settings[$Model->alias]['before'] != 'validate') {
 			return true;
@@ -93,7 +93,7 @@ class BitmaskedBehavior extends ModelBehavior {
 		$this->encodeBitmaskData($Model);
 		return true;
 	}
-	
+
 	public function beforeSave(Model $Model) {
 		if ($this->settings[$Model->alias]['before'] != 'save') {
 			return true;
@@ -101,8 +101,8 @@ class BitmaskedBehavior extends ModelBehavior {
 		$this->encodeBitmaskData($Model);
 		return true;
 	}
-		
-	
+
+
 	/**
 	 * @param int $bitmask
 	 * @return array $bitmaskArray
@@ -112,7 +112,7 @@ class BitmaskedBehavior extends ModelBehavior {
 		$res = array();
 		$i = 0;
 		$value = (int) $value;
-		
+
 		foreach ($this->settings[$Model->alias]['bits'] as $key => $val) {
 			$val = (($value & pow(2, $i)) != 0) ? true : false;
 			if ($val) {
@@ -120,10 +120,10 @@ class BitmaskedBehavior extends ModelBehavior {
 			}
 			$i++;
  		}
-		
+
 		return $res;
 	}
-	
+
 	/**
 	 * @param array $bitmaskArray
 	 * @return int $bitmask
@@ -142,7 +142,7 @@ class BitmaskedBehavior extends ModelBehavior {
 		}
 		return $res;
 	}
-	
+
 	public function encodeBitmaskConditions(Model $Model, $conditions) {
 		$field = $this->settings[$Model->alias]['field'];
 		if (!($mappedField = $this->settings[$Model->alias]['mappedField'])) {
@@ -170,13 +170,13 @@ class BitmaskedBehavior extends ModelBehavior {
 		}
 		return $conditions;
 	}
-	
+
 	public function encodeBitmaskData(Model $Model) {
 		$field = $this->settings[$Model->alias]['field'];
 		if (!($mappedField = $this->settings[$Model->alias]['mappedField'])) {
 			$mappedField = $field;
 		}
-		
+
 		if (isset($Model->data[$Model->alias][$mappedField])) {
 			$Model->data[$Model->alias][$field] = $this->encodeBitmask($Model, $Model->data[$Model->alias][$mappedField]);
 		}
@@ -184,7 +184,7 @@ class BitmaskedBehavior extends ModelBehavior {
 			unset($Model->data[$Model->alias][$mappedField]);
 		}
 	}
-	
+
 	/**
 	 * @param mixed bits (int, array)
 	 * @return array $sqlSnippet
@@ -192,7 +192,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	public function isBit(Model $Model, $bits) {
 		$bits = (array)$bits;
 		$bitmask = $this->encodeBitmask($Model, $bits);
-		
+
 		$field = $this->settings[$Model->alias]['field'];
 		return array($Model->alias.'.'.$field => $bitmask);
 	}
@@ -204,11 +204,11 @@ class BitmaskedBehavior extends ModelBehavior {
 	public function isNotBit(Model $Model, $bits) {
 		$bits = (array)$bits;
 		$bitmask = $this->encodeBitmask($Model, $bits);
-		
+
 		$field = $this->settings[$Model->alias]['field'];
 		return array('NOT' => array($Model->alias.'.'.$field => $bitmask));
 	}
-	
+
 	/**
 	 * @param mixed bits (int, array)
 	 * @return array $sqlSnippet
@@ -216,11 +216,11 @@ class BitmaskedBehavior extends ModelBehavior {
 	public function containsBit(Model $Model, $bits) {
 		$bits = (array)$bits;
 		$bitmask = $this->encodeBitmask($Model, $bits);
-		
+
 		$field = $this->settings[$Model->alias]['field'];
 		return array('('.$Model->alias.'.'.$field.' & ? = ?)' => array($bitmask, $bitmask));
 	}
-	
+
 	/**
 	 * @param mixed bits (int, array)
 	 * @return array $sqlSnippet
@@ -228,9 +228,9 @@ class BitmaskedBehavior extends ModelBehavior {
 	public function containsNotBit(Model $Model, $bits) {
 		$bits = (array)$bits;
 		$bitmask = $this->encodeBitmask($Model, $bits);
-		
+
 		$field = $this->settings[$Model->alias]['field'];
 		return array('('.$Model->alias.'.'.$field.' & ? != ?)' => array($bitmask, $bitmask));
 	}
-	
+
 }

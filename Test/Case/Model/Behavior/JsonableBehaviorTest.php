@@ -1,39 +1,11 @@
 <?php
 
 App::import('Behavior', 'Tools.Jsonable');
-App::import('Model', 'App');
+App::uses('App', 'Core');
 App::uses('MyCakeTestCase', 'Tools.Lib');
 
-class JsonableTestModel extends AppModel {
 
-	public $useTable = false;
-	public $displayField = 'title';
-
-	public function find($type = null, $options = array(), $customData = null) {
-		$data = array(
-			'comment' => 'blabla',
-			'url' => 'www.dereuromark.de',
-			'name' => 'some Name',
-			'details' => '{"x":"y"}',
-		);
-		if ($customData !== null) {
-			$data = $customData;
-		}
-		if ($type == 'count') {
-			$results = array(0=>array(0=>array('count'=>2)));
-		} else {
-			$results = array(0=>array($this->alias=>$data));
-		}
-
-		$results = $this->_filterResults($results);
-		if ($type == 'first') {
-			$results = $this->_findFirst('after', null, $results);
-		}
-		return $results;
-	}
-}
-
-class JsonableTest extends MyCakeTestCase {
+class JsonableBehaviorTest extends MyCakeTestCase {
 	/*
 	public $fixtures = array(
 		'core.comment'
@@ -63,7 +35,7 @@ class JsonableTest extends MyCakeTestCase {
 
 		$res = $this->Comment->data;
 		echo returns($res);
-		$this->assertIdentical($res['JsonableTestModel']['details'], '{"x":"y"}');
+		$this->assertSame($res['JsonableTestModel']['details'], '{"x":"y"}');
 	}
 
 	public function testFieldsWithList() {
@@ -82,7 +54,7 @@ class JsonableTest extends MyCakeTestCase {
 
 		$res = $this->Comment->data;
 		echo returns($res);
-		$this->assertIdentical($res['JsonableTestModel']['details'], '["z","y","x"]');
+		$this->assertSame($res['JsonableTestModel']['details'], '["z","y","x"]');
 
 		# with sort and unique
 		$data = array(
@@ -99,7 +71,7 @@ class JsonableTest extends MyCakeTestCase {
 
 		$res = $this->Comment->data;
 		echo returns($res);
-		$this->assertIdentical($res['JsonableTestModel']['details'], '["x","y","z"]');
+		$this->assertSame($res['JsonableTestModel']['details'], '["x","y","z"]');
 	}
 
 	public function testFieldsWithParam() {
@@ -118,7 +90,7 @@ class JsonableTest extends MyCakeTestCase {
 
 		$res = $this->Comment->data;
 		echo returns($res);
-		$this->assertIdentical($res['JsonableTestModel']['details'], '{"z":"vz","y":"yz","x":"xz"}');
+		$this->assertSame($res['JsonableTestModel']['details'], '{"z":"vz","y":"yz","x":"xz"}');
 	}
 
 
@@ -132,7 +104,7 @@ class JsonableTest extends MyCakeTestCase {
 
 		$res = $this->Comment->find('first', array());
 
-		$this->assertEqual($res['JsonableTestModel']['details'], array('x'=>'y'));
+		$this->assertEquals($res['JsonableTestModel']['details'], array('x'=>'y'));
 		pr($res);
 
 
@@ -141,7 +113,7 @@ class JsonableTest extends MyCakeTestCase {
 
 		$res = $this->Comment->find('first', array());
 		pr($res);
-		$this->assertEqual($res['JsonableTestModel']['details'], 'x:y');
+		$this->assertEquals($res['JsonableTestModel']['details'], 'x:y');
 
 
 
@@ -157,7 +129,7 @@ class JsonableTest extends MyCakeTestCase {
 		);
 		$res = $this->Comment->find('first', array(), $data);
 		pr($res);
-		$this->assertEqual($res['JsonableTestModel']['details'], 'z|y|x');
+		$this->assertEquals($res['JsonableTestModel']['details'], 'z|y|x');
 
 		echo BR.BR;
 
@@ -173,13 +145,44 @@ class JsonableTest extends MyCakeTestCase {
 		);
 		$res = $this->Comment->find('first', array(), $data);
 		pr($res);
-		$this->assertEqual($res['JsonableTestModel']['details'], 'z, y, x');
+		$this->assertEquals($res['JsonableTestModel']['details'], 'z, y, x');
 
 
 		echo BR.BR;
 
 		$res = $this->Comment->find('all', array(), $data);
 		pr($res);
-		$this->assertEqual($res[0]['JsonableTestModel']['details'], 'z, y, x');
+		$this->assertEquals($res[0]['JsonableTestModel']['details'], 'z, y, x');
+	}
+}
+
+/*** other files ***/
+
+class JsonableBehaviorTestModel extends AppModel {
+
+	public $useTable = false;
+	public $displayField = 'title';
+
+	public function find($type = null, $options = array(), $customData = null) {
+		$data = array(
+			'comment' => 'blabla',
+			'url' => 'www.dereuromark.de',
+			'name' => 'some Name',
+			'details' => '{"x":"y"}',
+		);
+		if ($customData !== null) {
+			$data = $customData;
+		}
+		if ($type == 'count') {
+			$results = array(0=>array(0=>array('count'=>2)));
+		} else {
+			$results = array(0=>array($this->alias=>$data));
+		}
+
+		$results = $this->_filterResults($results);
+		if ($type == 'first') {
+			$results = $this->_findFirst('after', null, $results);
+		}
+		return $results;
 	}
 }

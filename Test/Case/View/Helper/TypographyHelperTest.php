@@ -8,9 +8,9 @@ App::uses('MyCakeTestCase', 'Tools.Lib');
  *
  */
 class TypographyHelperTest extends MyCakeTestCase {
-	
+
 	public $Typography;
-	
+
 /**
  * setUp method
  *
@@ -40,10 +40,10 @@ class TypographyHelperTest extends MyCakeTestCase {
  */
 	public function testAutoTypography() {
 		$str = 'Some \'funny\' and "funky" test with a new
-		
+
 paragraph and a
 	new line tabbed in.';
-		
+
 		$res = $this->Typography->autoTypography($str);
 		$this->out($res);
 		$this->out(h($res));

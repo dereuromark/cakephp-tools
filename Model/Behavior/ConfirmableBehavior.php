@@ -15,9 +15,9 @@
 class ConfirmableBehavior extends ModelBehavior {
 
 	protected $_defaults = array(
-		'message' => 'Please confirm the checkbox', 
-		'field' => 'confirm', 
-		'model' => null, 
+		'message' => 'Please confirm the checkbox',
+		'field' => 'confirm',
+		'model' => null,
 		'before' => 'validate',
 	);
 
@@ -36,7 +36,7 @@ class ConfirmableBehavior extends ModelBehavior {
 		$return = parent::beforeValidate($Model);
 
 		if ($this->settings[$Model->alias]['before'] == 'validate') {
-			# we dont want to return the value, because other fields might then not be validated 
+			# we dont want to return the value, because other fields might then not be validated
 			# (save will not continue with errors, anyway)
 			$this->confirm($Model, $return);
 		}
@@ -65,12 +65,12 @@ class ConfirmableBehavior extends ModelBehavior {
 	public function confirm(Model $Model, $return = true) {
 		$field = $this->settings[$Model->alias]['field'];
 		$message = $this->settings[$Model->alias]['message'];
-		
+
 		if (empty($Model->data[$Model->alias][$field])) {
 				$Model->invalidate($field, $message);
 				return false;
 		}
-		
+
 		return $return;
 	}
 

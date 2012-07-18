@@ -3,7 +3,7 @@ App::uses('ErrorHandler', 'Error');
 App::uses('CakeRequest', 'Network');
 
 class MyErrorHandler extends ErrorHandler {
-	
+
 	/**
 	 * override core one with the following enhancements/fixes:
 	 * - 404s log to a different domain
@@ -12,15 +12,14 @@ class MyErrorHandler extends ErrorHandler {
 	 */
 	public static function handleException(Exception $exception) {
 		$config = Configure::read('Exception');
-		
 		if (!empty($config['log'])) {
-			$log = LOG_ERR;	
 			$message = sprintf("[%s] %s\n%s\n%s",
 				get_class($exception),
 				$exception->getMessage(),
 				$exception->getTraceAsString(),
 				self::traceDetails()
 			);
+			$log = LOG_ERR;
 			if (in_array(get_class($exception), array('MissingControllerException', 'MissingActionException', 'PrivateActionException', 'NotFoundException'))) {
 				$log = '404';
 			}
@@ -46,7 +45,7 @@ class MyErrorHandler extends ErrorHandler {
 			trigger_error($message, E_USER_ERROR);
 		}
 	}
-	
+
 	/**
 	 * override core one with the following enhancements/fixes:
 	 * - 404s log to a different domain
@@ -59,6 +58,9 @@ class MyErrorHandler extends ErrorHandler {
 		}
 		$errorConfig = Configure::read('Error');
 		list($error, $log) = self::mapErrorCode($code);
+		if ($log === LOG_ERR) {
+			return self::handleFatalError($code, $description, $file, $line);
+		}
 
 		$debug = Configure::read('debug');
 		if ($debug) {
@@ -84,7 +86,7 @@ class MyErrorHandler extends ErrorHandler {
 			return CakeLog::write($log, $message);
 		}
 	}
-	
+
 	/**
 	 * append some more infos to better track down the error
 	 * @return string
@@ -94,19 +96,19 @@ class MyErrorHandler extends ErrorHandler {
 		App::uses('CommonComponent', 'Tools.Controller/Component');
 		$currentUrl = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : 'n/a';
 		$refererUrl = CommonComponent::getReferer(); //Router::getRequest()->url().'
-		App::uses('CakeSession', 'Model/Datasource');  
+		App::uses('CakeSession', 'Model/Datasource');
 		$uid = CakeSession::read('Auth.User.id');
-		if (empty($uid)) {
+		if (!isset($uid)) {
 			$uid = (!empty($_SESSION) && !empty($_SESSION['Auth']['User']['id'])) ? $_SESSION['Auth']['User']['id'] : null;
 		}
-		
+
 		$data = array(
 			@CakeRequest::clientIp(),
-			$currentUrl.(!empty($refererUrl) ? (' ('.$refererUrl.')') : ''), 
+			$currentUrl.(!empty($refererUrl) ? (' ('.$refererUrl.')') : ''),
 			$uid,
 			env('HTTP_USER_AGENT')
 		);
 		return implode(' - ', $data);
 	}
-	
+
 }

@@ -884,7 +884,7 @@ class FormatHelper extends TextHelper {
 			'controls' => true,
 			'autoHide' => true
 		);
-		
+
 		if (!isset($image['Album']) && isset($options['album'])) {
 			$image['Album'] = $options['album'];
 		}

@@ -119,13 +119,13 @@ if (!defined('FORMAT_NICE_YMDHMS')) {
 	define('FORMAT_NICE_Y','Y'); # xxxx
 	define('FORMAT_NICE_HM','H:i');
 	define('FORMAT_NICE_HMS','H:i:s');
-	
+
 	# localDate strings
 	define('FORMAT_LOCAL_WA_YMDHMS','%a, %d.%m.%Y, %H:%M:%S');
 	define('FORMAT_LOCAL_WF_YMDHMS','%A, %d.%m.%Y, %H:%M:%S');
 	define('FORMAT_LOCAL_WA_YMDHM','%a, %d.%m.%Y, %H:%M');
 	define('FORMAT_LOCAL_WF_YMDHM','%A, %d.%m.%Y, %H:%M');
-	
+
 	define('FORMAT_LOCAL_YMDHMS','%d.%m.%Y, %H:%M:%S');
 	define('FORMAT_LOCAL_YMDHM','%d.%m.%Y, %H:%M');
 	define('FORMAT_LOCAL_YMD','%d.%m.%Y');
@@ -257,7 +257,7 @@ function arrayShiftKeys(&$array) {
  */
 function arrayFlatten($array) {
 	trigger_error('deprecated - use Tools.Utility instead');
-	
+
 	if (!is_array($array)) {
 	return false;
 	}
@@ -343,13 +343,21 @@ function hDec($text, $quoteStyle = ENT_QUOTES) {
 	if (is_array($text)) {
 		return array_map('hDec', $text);
 	}
-	return htmlspecialchars_decode($text, $quoteStyle);
+	return trim(htmlspecialchars_decode($text, $quoteStyle));
 }
 
-
+/**
+ * Convenience method for html_entity_decode
+ *
+ * @param string $text Text to wrap through htmlspecialchars_decode
+ * @return string Wrapped text
+ * 2011-04-03 ms
+ */
 function entDec($text, $quoteStyle = ENT_QUOTES) {
-	return (!empty($text) ? html_entity_decode($text, $quoteStyle, 'UTF-8') :
-		'');
+	if (is_array($text)) {
+		return array_map('entDec', $text);
+	}
+	return (!empty($text) ? trim(html_entity_decode($text, $quoteStyle, 'UTF-8')) : '');
 }
 
 /**
@@ -480,10 +488,10 @@ function contains($haystack, $needle, $caseSensitive = false) {
  * @link http://php.net/manual/en/language.types.float.php
  * @return boolean
  */
-function isFloatEqual($x, $y, $precision = 0.0000001) { 
+function isFloatEqual($x, $y, $precision = 0.0000001) {
 	trigger_error('deprecated - use NumberLib::isFloatEqual instead');
-	return ($x+$precision >= $y) && ($x-$precision <= $y); 
-} 
+	return ($x+$precision >= $y) && ($x-$precision <= $y);
+}
 
 /**
  * Checks if the string [$haystack] starts with [$needle]
@@ -548,29 +556,29 @@ function shutDownFunction() {
 		E_DEPRECATED => 'E_DEPRECATED',
 	);
 	App::uses('CakeLog', 'Log');
-	
+
 	if (in_array($error['type'], array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR))) {
 		$error['type_name'] = 'Fatal Error';
 		$type = 'error';
-		
+
 	} elseif (Configure::read('Debug.log') && isset($matching[$error['type']])) {
 		$error['type_name'] = 'Error';
 		$type = 'notice';
 	}
-	
+
 	if (!isset($type)) {
 		return;
 	}
-	
+
 	App::uses('Debugger', 'Utility');
 	$trace = Debugger::trace(array('start' => 1, 'format' => 'log', 'args'=>true));
 	$path = Debugger::trimPath($error['file']);
-	
-	$message = $error['type_name'].' '.$matching[$error['type']].' in '.$path. ' (line '.$error['line'].'): ' . $error['message'];	
+
+	$message = $error['type_name'].' '.$matching[$error['type']].' in '.$path. ' (line '.$error['line'].'): ' . $error['message'];
 	$message .= PHP_EOL . $trace;
 	App::uses('MyErrorHandler', 'Tools.Error');
 	$message .= MyErrorHandler::traceDetails();
-	
+
 	CakeLog::write($type, $message);
 }
 
@@ -622,13 +630,39 @@ function debugTab($var = false, $display = false, $key = null) {
 }
 
 /**
+ * base64 encode and replace chars base64 uses that would mess up the url
+ * @return string or NULL
+ */
+function base64UrlEncode($fieldContent) {
+	if (empty($fieldContent)) {
+		return null;
+	}
+	$tmp = base64_encode($fieldContent);
+	return str_replace(array('/', '='), array('-', '_'), $tmp);
+}
+
+/**
+ * base64 decode and undo replacing of chars base64 uses that would mess up the url
+ * @return string or NULL
+ */
+function base64UrlDecode($fieldContent) {
+	if (empty($fieldContent)) {
+		return null;
+	}
+	$tmp = str_replace(array('-', '_'), array('/', '='), $fieldContent);
+	return base64_decode($tmp);
+}
+
+
+
+/**
  * pretty_json
- * 
+ *
  * @link https://github.com/ndejong/pretty_json/blob/master/pretty_json.php
  * @param string $json - the original JSON string
  * @param string $ind - the string to indent with
  * @return string
- */ 
+ */
 function pretty_json($json, $ind = "\t") {
 
 	// Replace any escaped \" marks so we don't get tripped up on quotemarks_counter

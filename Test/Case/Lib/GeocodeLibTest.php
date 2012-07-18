@@ -22,7 +22,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 	public function TearDown() {
 		unset($this->Geocode);
 	}
-	
+
 	public function testObject() {
 		$this->assertTrue(is_object($this->Geocode));
 		$this->assertTrue(is_a($this->Geocode, 'GeocodeLib'));

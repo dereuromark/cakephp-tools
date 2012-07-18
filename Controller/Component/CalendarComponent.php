@@ -6,11 +6,11 @@ App::uses('Component', 'Controller');
  * Calendar Component
  *
  * inspired by http://www.flipflops.org/2007/09/21/a-simple-php-calendar-function/
- * 
+ *
  * @author Mark Scherer
  * @copyright 2012 Mark Scherer
  * @license MIT
- * 
+ *
  * 2012-02-08 ms
  */
 class CalendarComponent extends Component {
@@ -19,7 +19,7 @@ class CalendarComponent extends Component {
 
 	public $monthList = array(
 		'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december');
-		
+
 	public $dayList = array(
 		'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'
 	);
@@ -30,7 +30,7 @@ class CalendarComponent extends Component {
 
 	/**
 	 * Startup controller
-	 * 
+	 *
 	 * @param object $Controller Controller instance
 	 * @access public
 	 * @return void

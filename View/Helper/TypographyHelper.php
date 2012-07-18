@@ -249,7 +249,7 @@ class TypographyHelper extends AppHelper {
 				'rightDouble' => '&#8223;',
 			)
 		);
-		
+
 
 		if (!isset($table)) {
 			$table = array(
@@ -268,34 +268,34 @@ class TypographyHelper extends AppHelper {
 				'/(^|\s|<p>)"\'/'				=> '$1&#8220;&#8216;',
 				'/"\'(\W)/'						=> '&#8221;&#8217;$1',
 				'/(\W)"\'/'						=> '$1&#8220;&#8216;',
-	
+
 				// single quote smart quotes
 				'/\'(\s|$)/'					=> '&#8217;$1',
 				'/(^|\s|<p>)\'/'				=> '$1&#8216;',
 				'/\'(\W)/'						=> '&#8217;$1',
 				'/(\W)\'/'						=> '$1&#8216;',
-	
+
 				// double quote smart quotes
 				'/"(\s|$)/'						=> '&#8221;$1',
 				'/(^|\s|<p>)"/'					=> '$1&#8220;',
 				'/"(\W)/'						=> '&#8221;$1',
 				'/(\W)"/'						=> '$1&#8220;',
-	
+
 				// apostrophes
 				"/(\w)'(\w)/"					=> '$1&#8217;$2',
-	
+
 				// Em dash and ellipses dots
 				'/\s?\-\-\s?/'					=> '&#8212;',
 				'/(\w)\.{3}/'					=> '$1&#8230;',
-	
+
 				// double space after sentences
 				'/(\W)  /'						=> '$1&nbsp; ',
-	
+
 				// ampersands, if not a character entity
 				'/&(?!#?[a-zA-Z0-9]{2,};)/'		=> '&amp;'
 			);
 		}
-		
+
 		foreach ($table as $key => $val) {
 			$table[$key] = str_replace($locale['default'], $locale['low'], $val);
 		}

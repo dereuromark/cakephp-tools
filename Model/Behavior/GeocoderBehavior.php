@@ -4,7 +4,7 @@ App::uses('GeocodeLib', 'Tools.Lib');
 /**
  * A geocoding behavior for CakePHP to easily geocode addresses.
  * Uses the GeocodeLib for actual geocoding.
- * 
+ *
  * @author Mark Scherer
  * @cakephp 2.x
  * @licence MIT
@@ -40,7 +40,7 @@ class GeocoderBehavior extends ModelBehavior {
 		$default = array(
 			'real' => true, 'address' => array('street', 'postal_code', 'city', 'country'),
 			'require' => false, 'allowEmpty' => true, 'invalidate' => array(), 'expect' => array(),
-			'lat' => 'lat', 'lng' => 'lng', 'formatted_address' => 'formatted_address', 'host' => 'de', 'language' => 'de', 'region' => '', 'bounds' => '', 
+			'lat' => 'lat', 'lng' => 'lng', 'formatted_address' => 'formatted_address', 'host' => 'de', 'language' => 'de', 'region' => '', 'bounds' => '',
 			'overwrite' => false, 'update' => array(), 'before' => 'save',
 			'min_accuracy' => 0, 'allow_inconclusive' => true,
 			'log' => true, // log successfull results to geocode.log (errors will be logged to error.log in either case)
@@ -311,8 +311,8 @@ class GeocoderBehavior extends ModelBehavior {
 		}
 
 		$geocodeOptions = array(
-			'log' => $options['log'], 'min_accuracy' => $options['min_accuracy'], 
-			'expect' => $options['expect'], 'allow_inconclusive' => $options['allow_inconclusive'], 
+			'log' => $options['log'], 'min_accuracy' => $options['min_accuracy'],
+			'expect' => $options['expect'], 'allow_inconclusive' => $options['allow_inconclusive'],
 			'host' => $options['host']
 		);
 		$this->Geocode = new GeocodeLib($geocodeOptions);

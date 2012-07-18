@@ -2,42 +2,35 @@
 App::uses('CakeEmail', 'Network/Email');
 App::uses('CakeLog', 'Log');
 if (!defined('BR')) {
-	define('BR', '<br />'); 
+	define('BR', '<br />');
 }
 
 /**
  * Convenience class for internal mailer.
  * Adds some nice features and fixes some bugs:
  * - enbale embedded images in html mails
- * - allow setting domain for CLI environment
+ * - allow setting domain for CLI environment (now in core)
  * - enable easier attachment adding
  * - extensive logging and error tracing
  * - create mails with blob attachments (embedded or attached)
  * TODO: cleanup and more tests
- * 
+ *
  * @author Mark Scherer
  * @license MIT
+ * @cakephp 2.2
  * 2012-03-30 ms
  */
 class EmailLib extends CakeEmail {
-
-	/**
-	 * Domain for messageId generation.
-	 * Needs to be manually set for CLI mailing as env('HTTP_HOST') is empty
-	 *
-	 * @var string
-	 */
-	protected $_domain = null;
 
 	protected $_log = null;
 
 	protected $_debug = null;
 
 	public $error = '';
-	
+
 	# for multiple emails, just adjust these "default" values "on the fly"
 	public $deliveryMethod = 'mail';
-	
+
 	public $layout = 'external'; # usually 'external' (internal for admins only)
 
 	# with presets, only TO/FROM (depends), subject and message has to be set
@@ -54,12 +47,6 @@ class EmailLib extends CakeEmail {
 		if ($config === null) {
 			$config = 'default';
 		}
-		
-		$this->_domain = env('HTTP_HOST');
-		if (empty($this->_domain)) {
-			$this->_domain = php_uname('n');
-		}
-		
 		parent::__construct($config);
 
 		$this->resetAndSet();
@@ -113,7 +100,7 @@ class EmailLib extends CakeEmail {
 		}
 		return $this->addAttachments($file);
 	}
-	
+
 	/**
 	 * @param binary $content: blob data
 	 * @param string $filename to attach it
@@ -154,7 +141,7 @@ class EmailLib extends CakeEmail {
 		}
 		return $res;
 	}
-	
+
 	/**
 	 * @param string $file: absolute path
 	 * @param string $filename (optional)
@@ -177,7 +164,7 @@ class EmailLib extends CakeEmail {
 		}
 		return $res;
 	}
-	
+
 	protected function _getMime($filename) {
 		if (function_exists('finfo_open')) {
 			$finfo = finfo_open(FILEINFO_MIME);
@@ -190,7 +177,7 @@ class EmailLib extends CakeEmail {
 		}
 		return $mimetype;
 	}
-	
+
 	/**
 	 * try to find mimetype by file extension
 	 * @param string $ext lowercase (jpg, png, pdf, ...)
@@ -200,156 +187,156 @@ class EmailLib extends CakeEmail {
 	 */
 	protected function _getMimeByExtension($ext, $default = 'application/octet-stream') {
 		switch ($ext) {
-			case "zip": $mime="application/zip"; break; 
-			case "ez":  $mime="application/andrew-inset"; break; 
-			case "hqx": $mime="application/mac-binhex40"; break; 
-			case "cpt": $mime="application/mac-compactpro"; break; 
-			case "doc": $mime="application/msword"; break; 
-			case "bin": $mime="application/octet-stream"; break; 
-			case "dms": $mime="application/octet-stream"; break; 
-			case "lha": $mime="application/octet-stream"; break; 
-			case "lzh": $mime="application/octet-stream"; break; 
-			case "exe": $mime="application/octet-stream"; break; 
-			case "class": $mime="application/octet-stream"; break; 
-			case "so":  $mime="application/octet-stream"; break; 
-			case "dll": $mime="application/octet-stream"; break; 
-			case "oda": $mime="application/oda"; break; 
-			case "pdf": $mime="application/pdf"; break; 
-			case "ai":  $mime="application/postscript"; break; 
-			case "eps": $mime="application/postscript"; break; 
-			case "ps":  $mime="application/postscript"; break; 
-			case "smi": $mime="application/smil"; break; 
-			case "smil": $mime="application/smil"; break; 
-			case "xls": $mime="application/vnd.ms-excel"; break; 
-			case "ppt": $mime="application/vnd.ms-powerpoint"; break; 
-			case "wbxml": $mime="application/vnd.wap.wbxml"; break; 
-			case "wmlc": $mime="application/vnd.wap.wmlc"; break; 
-			case "wmlsc": $mime="application/vnd.wap.wmlscriptc"; break; 
-			case "bcpio": $mime="application/x-bcpio"; break; 
-			case "vcd": $mime="application/x-cdlink"; break; 
-			case "pgn": $mime="application/x-chess-pgn"; break; 
-			case "cpio": $mime="application/x-cpio"; break; 
-			case "csh": $mime="application/x-csh"; break; 
-			case "dcr": $mime="application/x-director"; break; 
-			case "dir": $mime="application/x-director"; break; 
-			case "dxr": $mime="application/x-director"; break; 
-			case "dvi": $mime="application/x-dvi"; break; 
-			case "spl": $mime="application/x-futuresplash"; break; 
-			case "gtar": $mime="application/x-gtar"; break; 
-			case "hdf": $mime="application/x-hdf"; break; 
-			case "js":  $mime="application/x-javascript"; break; 
-			case "skp": $mime="application/x-koan"; break; 
-			case "skd": $mime="application/x-koan"; break; 
-			case "skt": $mime="application/x-koan"; break; 
-			case "skm": $mime="application/x-koan"; break; 
-			case "latex": $mime="application/x-latex"; break; 
-			case "nc":  $mime="application/x-netcdf"; break; 
-			case "cdf": $mime="application/x-netcdf"; break; 
-			case "sh":  $mime="application/x-sh"; break; 
-			case "shar": $mime="application/x-shar"; break; 
-			case "swf": $mime="application/x-shockwave-flash"; break; 
-			case "sit": $mime="application/x-stuffit"; break; 
-			case "sv4cpio": $mime="application/x-sv4cpio"; break; 
-			case "sv4crc": $mime="application/x-sv4crc"; break; 
-			case "tar": $mime="application/x-tar"; break; 
-			case "tcl": $mime="application/x-tcl"; break; 
-			case "tex": $mime="application/x-tex"; break; 
-			case "texinfo": $mime="application/x-texinfo"; break; 
-			case "texi": $mime="application/x-texinfo"; break; 
-			case "t":   $mime="application/x-troff"; break; 
-			case "tr":  $mime="application/x-troff"; break; 
-			case "roff": $mime="application/x-troff"; break; 
-			case "man": $mime="application/x-troff-man"; break; 
-			case "me":  $mime="application/x-troff-me"; break; 
-			case "ms":  $mime="application/x-troff-ms"; break; 
-			case "ustar": $mime="application/x-ustar"; break; 
-			case "src": $mime="application/x-wais-source"; break; 
-			case "xhtml": $mime="application/xhtml+xml"; break; 
-			case "xht": $mime="application/xhtml+xml"; break; 
-			case "zip": $mime="application/zip"; break; 
-			case "au":  $mime="audio/basic"; break; 
-			case "snd": $mime="audio/basic"; break; 
-			case "mid": $mime="audio/midi"; break; 
-			case "midi": $mime="audio/midi"; break; 
-			case "kar": $mime="audio/midi"; break; 
-			case "mpga": $mime="audio/mpeg"; break; 
-			case "mp2": $mime="audio/mpeg"; break; 
-			case "mp3": $mime="audio/mpeg"; break; 
-			case "aif": $mime="audio/x-aiff"; break; 
-			case "aiff": $mime="audio/x-aiff"; break; 
-			case "aifc": $mime="audio/x-aiff"; break; 
-			case "m3u": $mime="audio/x-mpegurl"; break; 
-			case "ram": $mime="audio/x-pn-realaudio"; break; 
-			case "rm":  $mime="audio/x-pn-realaudio"; break; 
-			case "rpm": $mime="audio/x-pn-realaudio-plugin"; break; 
-			case "ra":  $mime="audio/x-realaudio"; break; 
-			case "wav": $mime="audio/x-wav"; break; 
-			case "pdb": $mime="chemical/x-pdb"; break; 
-			case "xyz": $mime="chemical/x-xyz"; break; 
-			case "bmp": $mime="image/bmp"; break; 
-			case "gif": $mime="image/gif"; break; 
-			case "ief": $mime="image/ief"; break; 
-			case "jpeg": $mime="image/jpeg"; break; 
-			case "jpg": $mime="image/jpeg"; break; 
-			case "jpe": $mime="image/jpeg"; break; 
-			case "png": $mime="image/png"; break; 
-			case "tiff": $mime="image/tiff"; break; 
-			case "tif": $mime="image/tiff"; break; 
-			case "djvu": $mime="image/vnd.djvu"; break; 
-			case "djv": $mime="image/vnd.djvu"; break; 
-			case "wbmp": $mime="image/vnd.wap.wbmp"; break; 
-			case "ras": $mime="image/x-cmu-raster"; break; 
-			case "pnm": $mime="image/x-portable-anymap"; break; 
-			case "pbm": $mime="image/x-portable-bitmap"; break; 
-			case "pgm": $mime="image/x-portable-graymap"; break; 
-			case "ppm": $mime="image/x-portable-pixmap"; break; 
-			case "rgb": $mime="image/x-rgb"; break; 
-			case "xbm": $mime="image/x-xbitmap"; break; 
-			case "xpm": $mime="image/x-xpixmap"; break; 
-			case "xwd": $mime="image/x-xwindowdump"; break; 
-			case "igs": $mime="model/iges"; break; 
-			case "iges": $mime="model/iges"; break; 
-			case "msh": $mime="model/mesh"; break; 
-			case "mesh": $mime="model/mesh"; break; 
-			case "silo": $mime="model/mesh"; break; 
-			case "wrl": $mime="model/vrml"; break; 
-			case "vrml": $mime="model/vrml"; break; 
-			case "css": $mime="text/css"; break; 
-			case "html": $mime="text/html"; break; 
-			case "htm": $mime="text/html"; break; 
-			case "asc": $mime="text/plain"; break; 
-			case "txt": $mime="text/plain"; break; 
-			case "rtx": $mime="text/richtext"; break; 
-			case "rtf": $mime="text/rtf"; break; 
-			case "sgml": $mime="text/sgml"; break; 
-			case "sgm": $mime="text/sgml"; break; 
-			case "tsv": $mime="text/tab-separated-values"; break; 
-			case "wml": $mime="text/vnd.wap.wml"; break; 
-			case "wmls": $mime="text/vnd.wap.wmlscript"; break; 
-			case "etx": $mime="text/x-setext"; break; 
-			case "xml": $mime="text/xml"; break; 
-			case "xsl": $mime="text/xml"; break; 
-			case "mpeg": $mime="video/mpeg"; break; 
-			case "mpg": $mime="video/mpeg"; break; 
-			case "mpe": $mime="video/mpeg"; break; 
-			case "qt":  $mime="video/quicktime"; break; 
-			case "mov": $mime="video/quicktime"; break; 
-			case "mxu": $mime="video/vnd.mpegurl"; break; 
-			case "avi": $mime="video/x-msvideo"; break; 
-			case "movie": $mime="video/x-sgi-movie"; break; 
-			case "asf": $mime="video/x-ms-asf"; break; 
-			case "asx": $mime="video/x-ms-asf"; break; 
-			case "wm":  $mime="video/x-ms-wm"; break; 
-			case "wmv": $mime="video/x-ms-wmv"; break; 
-			case "wvx": $mime="video/x-ms-wvx"; break; 
-			case "ice": $mime="x-conference/x-cooltalk"; break; 
+			case "zip": $mime="application/zip"; break;
+			case "ez":  $mime="application/andrew-inset"; break;
+			case "hqx": $mime="application/mac-binhex40"; break;
+			case "cpt": $mime="application/mac-compactpro"; break;
+			case "doc": $mime="application/msword"; break;
+			case "bin": $mime="application/octet-stream"; break;
+			case "dms": $mime="application/octet-stream"; break;
+			case "lha": $mime="application/octet-stream"; break;
+			case "lzh": $mime="application/octet-stream"; break;
+			case "exe": $mime="application/octet-stream"; break;
+			case "class": $mime="application/octet-stream"; break;
+			case "so":  $mime="application/octet-stream"; break;
+			case "dll": $mime="application/octet-stream"; break;
+			case "oda": $mime="application/oda"; break;
+			case "pdf": $mime="application/pdf"; break;
+			case "ai":  $mime="application/postscript"; break;
+			case "eps": $mime="application/postscript"; break;
+			case "ps":  $mime="application/postscript"; break;
+			case "smi": $mime="application/smil"; break;
+			case "smil": $mime="application/smil"; break;
+			case "xls": $mime="application/vnd.ms-excel"; break;
+			case "ppt": $mime="application/vnd.ms-powerpoint"; break;
+			case "wbxml": $mime="application/vnd.wap.wbxml"; break;
+			case "wmlc": $mime="application/vnd.wap.wmlc"; break;
+			case "wmlsc": $mime="application/vnd.wap.wmlscriptc"; break;
+			case "bcpio": $mime="application/x-bcpio"; break;
+			case "vcd": $mime="application/x-cdlink"; break;
+			case "pgn": $mime="application/x-chess-pgn"; break;
+			case "cpio": $mime="application/x-cpio"; break;
+			case "csh": $mime="application/x-csh"; break;
+			case "dcr": $mime="application/x-director"; break;
+			case "dir": $mime="application/x-director"; break;
+			case "dxr": $mime="application/x-director"; break;
+			case "dvi": $mime="application/x-dvi"; break;
+			case "spl": $mime="application/x-futuresplash"; break;
+			case "gtar": $mime="application/x-gtar"; break;
+			case "hdf": $mime="application/x-hdf"; break;
+			case "js":  $mime="application/x-javascript"; break;
+			case "skp": $mime="application/x-koan"; break;
+			case "skd": $mime="application/x-koan"; break;
+			case "skt": $mime="application/x-koan"; break;
+			case "skm": $mime="application/x-koan"; break;
+			case "latex": $mime="application/x-latex"; break;
+			case "nc":  $mime="application/x-netcdf"; break;
+			case "cdf": $mime="application/x-netcdf"; break;
+			case "sh":  $mime="application/x-sh"; break;
+			case "shar": $mime="application/x-shar"; break;
+			case "swf": $mime="application/x-shockwave-flash"; break;
+			case "sit": $mime="application/x-stuffit"; break;
+			case "sv4cpio": $mime="application/x-sv4cpio"; break;
+			case "sv4crc": $mime="application/x-sv4crc"; break;
+			case "tar": $mime="application/x-tar"; break;
+			case "tcl": $mime="application/x-tcl"; break;
+			case "tex": $mime="application/x-tex"; break;
+			case "texinfo": $mime="application/x-texinfo"; break;
+			case "texi": $mime="application/x-texinfo"; break;
+			case "t":   $mime="application/x-troff"; break;
+			case "tr":  $mime="application/x-troff"; break;
+			case "roff": $mime="application/x-troff"; break;
+			case "man": $mime="application/x-troff-man"; break;
+			case "me":  $mime="application/x-troff-me"; break;
+			case "ms":  $mime="application/x-troff-ms"; break;
+			case "ustar": $mime="application/x-ustar"; break;
+			case "src": $mime="application/x-wais-source"; break;
+			case "xhtml": $mime="application/xhtml+xml"; break;
+			case "xht": $mime="application/xhtml+xml"; break;
+			case "zip": $mime="application/zip"; break;
+			case "au":  $mime="audio/basic"; break;
+			case "snd": $mime="audio/basic"; break;
+			case "mid": $mime="audio/midi"; break;
+			case "midi": $mime="audio/midi"; break;
+			case "kar": $mime="audio/midi"; break;
+			case "mpga": $mime="audio/mpeg"; break;
+			case "mp2": $mime="audio/mpeg"; break;
+			case "mp3": $mime="audio/mpeg"; break;
+			case "aif": $mime="audio/x-aiff"; break;
+			case "aiff": $mime="audio/x-aiff"; break;
+			case "aifc": $mime="audio/x-aiff"; break;
+			case "m3u": $mime="audio/x-mpegurl"; break;
+			case "ram": $mime="audio/x-pn-realaudio"; break;
+			case "rm":  $mime="audio/x-pn-realaudio"; break;
+			case "rpm": $mime="audio/x-pn-realaudio-plugin"; break;
+			case "ra":  $mime="audio/x-realaudio"; break;
+			case "wav": $mime="audio/x-wav"; break;
+			case "pdb": $mime="chemical/x-pdb"; break;
+			case "xyz": $mime="chemical/x-xyz"; break;
+			case "bmp": $mime="image/bmp"; break;
+			case "gif": $mime="image/gif"; break;
+			case "ief": $mime="image/ief"; break;
+			case "jpeg": $mime="image/jpeg"; break;
+			case "jpg": $mime="image/jpeg"; break;
+			case "jpe": $mime="image/jpeg"; break;
+			case "png": $mime="image/png"; break;
+			case "tiff": $mime="image/tiff"; break;
+			case "tif": $mime="image/tiff"; break;
+			case "djvu": $mime="image/vnd.djvu"; break;
+			case "djv": $mime="image/vnd.djvu"; break;
+			case "wbmp": $mime="image/vnd.wap.wbmp"; break;
+			case "ras": $mime="image/x-cmu-raster"; break;
+			case "pnm": $mime="image/x-portable-anymap"; break;
+			case "pbm": $mime="image/x-portable-bitmap"; break;
+			case "pgm": $mime="image/x-portable-graymap"; break;
+			case "ppm": $mime="image/x-portable-pixmap"; break;
+			case "rgb": $mime="image/x-rgb"; break;
+			case "xbm": $mime="image/x-xbitmap"; break;
+			case "xpm": $mime="image/x-xpixmap"; break;
+			case "xwd": $mime="image/x-xwindowdump"; break;
+			case "igs": $mime="model/iges"; break;
+			case "iges": $mime="model/iges"; break;
+			case "msh": $mime="model/mesh"; break;
+			case "mesh": $mime="model/mesh"; break;
+			case "silo": $mime="model/mesh"; break;
+			case "wrl": $mime="model/vrml"; break;
+			case "vrml": $mime="model/vrml"; break;
+			case "css": $mime="text/css"; break;
+			case "html": $mime="text/html"; break;
+			case "htm": $mime="text/html"; break;
+			case "asc": $mime="text/plain"; break;
+			case "txt": $mime="text/plain"; break;
+			case "rtx": $mime="text/richtext"; break;
+			case "rtf": $mime="text/rtf"; break;
+			case "sgml": $mime="text/sgml"; break;
+			case "sgm": $mime="text/sgml"; break;
+			case "tsv": $mime="text/tab-separated-values"; break;
+			case "wml": $mime="text/vnd.wap.wml"; break;
+			case "wmls": $mime="text/vnd.wap.wmlscript"; break;
+			case "etx": $mime="text/x-setext"; break;
+			case "xml": $mime="text/xml"; break;
+			case "xsl": $mime="text/xml"; break;
+			case "mpeg": $mime="video/mpeg"; break;
+			case "mpg": $mime="video/mpeg"; break;
+			case "mpe": $mime="video/mpeg"; break;
+			case "qt":  $mime="video/quicktime"; break;
+			case "mov": $mime="video/quicktime"; break;
+			case "mxu": $mime="video/vnd.mpegurl"; break;
+			case "avi": $mime="video/x-msvideo"; break;
+			case "movie": $mime="video/x-sgi-movie"; break;
+			case "asf": $mime="video/x-ms-asf"; break;
+			case "asx": $mime="video/x-ms-asf"; break;
+			case "wm":  $mime="video/x-ms-wm"; break;
+			case "wmv": $mime="video/x-ms-wmv"; break;
+			case "wvx": $mime="video/x-ms-wvx"; break;
+			case "ice": $mime="x-conference/x-cooltalk"; break;
 		}
 		if (empty($mime)) {
 			$mime = $default;
 		}
 		return $mime;
 	}
-	
+
 
 	public function preset($type = null) {
 		# testing only:
@@ -393,14 +380,14 @@ class EmailLib extends CakeEmail {
 		$this->_domain = $domain;
 		return $this;
 	}
-	
+
 
 	/**
 	 * Attach inline/embedded files to the message.
 	 * @override
 	 * CUSTOM FIX: blob data support
 	 *
-	 * @param string $boundary Boundary to use. If null, will default to $this->_boundary 
+	 * @param string $boundary Boundary to use. If null, will default to $this->_boundary
 	 * @return array An array of lines to add to the message
 	 */
 	protected function _attachInlineFiles($boundary = null) {
@@ -416,8 +403,10 @@ class EmailLib extends CakeEmail {
 			if (!empty($fileInfo['content'])) {
 				$data = $fileInfo['content'];
 				$data = chunk_split(base64_encode($data));
+
 			} elseif (!empty($fileInfo['file'])) {
 				$data = $this->_readFile($fileInfo['file']);
+
 			} else {
 				continue;
 			}
@@ -438,8 +427,8 @@ class EmailLib extends CakeEmail {
 	 * Attach non-embedded files by adding file contents inside boundaries.
 	 * @override
 	 * CUSTOM FIX: blob data support
-	 * 
-	 * @param string $boundary Boundary to use. If null, will default to $this->_boundary 
+	 *
+	 * @param string $boundary Boundary to use. If null, will default to $this->_boundary
 	 * @return array An array of lines to add to the message
 	 */
 	protected function _attachFiles($boundary = null) {
@@ -454,9 +443,11 @@ class EmailLib extends CakeEmail {
 			}
 			if (!empty($fileInfo['content'])) {
 				$data = $fileInfo['content'];
+				$data = chunk_split(base64_encode($data));
+
 			} elseif (!empty($fileInfo['file'])) {
 				$data = $this->_readFile($fileInfo['file']);
-				$data = chunk_split(base64_encode($data));
+
 			} else {
 				continue;
 			}
@@ -472,11 +463,12 @@ class EmailLib extends CakeEmail {
 		return $msg;
 	}
 
+
 	/**
 	 * Add attachments to the email message
 	 * @override
 	 * CUSTOM FIX: blob data support
-	 * 
+	 *
 	 * Attachments can be defined in a few forms depending on how much control you need:
 	 *
 	 * Attach a single file:
@@ -529,20 +521,23 @@ class EmailLib extends CakeEmail {
 					$name = basename($fileInfo['file']);
 				}
 			}
-			if (!isset($fileInfo['mimetype'])) {
-				$fileInfo['mimetype'] = 'application/octet-stream';
+			if (empty($fileInfo['mimetype'])) {
+				$ext = pathinfo($name, PATHINFO_EXTENSION);
+				$fileInfo['mimetype'] = $this->_getMimeByExtension($ext);
+				//$fileInfo['mimetype'] = $this->_getMime($fileInfo['file']);
 			}
 			$attach[$name] = $fileInfo;
 		}
 		$this->_attachments = $attach;
 		return $this;
 	}
-	
+
+
 	/**
 	 * Get list of headers
 	 * @override
 	 * CUSTOM FIX: message id correctly set in CLI and can be passed in via domain()
-	 * 
+	 *
 	 * ### Includes:
 	 *
 	 * - `from`
@@ -698,7 +693,7 @@ class EmailLib extends CakeEmail {
 			'cc' => $this->_cc,
 			'transport' => $this->_transportName
 		);
-		
+
 		# prep images for inline
 		/*
 		if ($this->_emailFormat !== 'text') {
@@ -709,30 +704,30 @@ class EmailLib extends CakeEmail {
 			}
 		}
 		*/
-		
+
 		try {
 			$this->_debug = parent::send($message);
 		} catch (Exception $e) {
 			$this->error = $e->getMessage();
 			$this->error .= ' (line '.$e->getLine().' in '.$e->getFile().')'.PHP_EOL.$e->getTraceAsString();
-		
+
 			if (!empty($this->_config['report'])) {
 				$this->_logEmail();
 			}
 			return false;
 		}
-		
+
 		if (!empty($this->_config['report'])) {
 			$this->_logEmail();
 		}
 		return true;
 	}
-	
+
 	protected function _prepMessage($text) {
-		
+
 		return $text;
 	}
-	
+
 
 	/**
 	 * @return string

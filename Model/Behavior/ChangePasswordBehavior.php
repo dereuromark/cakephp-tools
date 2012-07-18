@@ -3,13 +3,13 @@ App::uses('CakeResponse', 'Network');
 App::uses('Security', 'Utility');
 
 /**
- * Copyright 2011, Mark Scherer 
- * 
- * Licensed under The MIT License 
- * Redistributions of files must retain the above copyright notice. 
- * 
+ * Copyright 2011, Mark Scherer
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
  * @version    1.4
- * @license    http://www.opensource.org/licenses/mit-license.php The MIT License 
+ * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 
 if (!defined('PWD_MIN_LENGTH')) {
@@ -24,23 +24,23 @@ if (!defined('PWD_MAX_LENGTH')) {
  * - complete validation
  * - hashing of password
  * - requires fields (no tempering even without security component)
- * 
+ *
  * usage: do NOT add it via $actAs = array()
  * attach it dynamically in only those actions where you actually change the password like so:
  * $this->User->Behaviors->attach('Tools.ChangePassword', array(SETTINGSARRAY));
  * as first line in any action where you want to allow the user to change his password
  * also add the two form fields in the form (pwd, pwd_confirm)
- * the rest is cake automagic :) 
- * 
+ * the rest is cake automagic :)
+ *
  * now also is capable of:
  * - require current password prior to altering it (current=>true)
  * - don't allow the same password it was before (allowSame=>false)
- * 
+ *
  * TODO: allowEmpty and nonEmptyToEmpty - maybe with checkbox "set_new_pwd"
  * feel free to help me out
- * 
+ *
  * 2011-08-24 ms
- */ 
+ */
 class ChangePasswordBehavior extends ModelBehavior {
 
 	public $settings = array();
@@ -62,7 +62,7 @@ class ChangePasswordBehavior extends ModelBehavior {
 		'allowSame' => true, # dont allow the old password on change
 		'nonEmptyToEmpty' => false, # allow resetting nonempty pwds to empty once set (prevents problems with default edit actions)
 	);
-	
+
 	public $_validationRules = array(
 		'formField' => array(
 			'between' => array(
@@ -102,7 +102,7 @@ class ChangePasswordBehavior extends ModelBehavior {
 	 * @throws CakeException
 	 * @return bool $success
 	 * 2011-07-22 ms
-	 */	
+	 */
 	public function validateCurrentPwd(Model $Model, $data) {
 		if (is_array($data)) {
 			$pwd = array_shift($data);
@@ -129,13 +129,13 @@ class ChangePasswordBehavior extends ModelBehavior {
 		}
 		# easiest authenticate method via form and (id + pwd)
 		$this->Auth->authenticate = array('Form'=>array('fields'=>array('username' => 'id', 'password'=>$this->settings[$Model->alias]['field'])));
-		
+
 		$request = new CakeRequest(null, false);
 		$request->data['User'] = array('id'=>$uid, 'password'=>$pwd);
 		$response = new CakeResponse();
 		return $this->Auth->identify($request, $response);
 	}
-	
+
 	/**
 	 * if not implemented in AppModel
 	 * @return bool $success
@@ -161,7 +161,7 @@ class ChangePasswordBehavior extends ModelBehavior {
 		$value2 = $Model->data[$Model->alias][$field2];
 		return ($value1 != $value2);
 	}
-	
+
 	/**
 	 * adding validation rules
 	 * also adds and merges config settings (direct + configure)
@@ -173,20 +173,20 @@ class ChangePasswordBehavior extends ModelBehavior {
 			$defaults = Set::merge($defaults, $configureDefaults);
 		}
 		$this->settings[$Model->alias] = Set::merge($defaults, $config);
-		
+
 		$formField = $this->settings[$Model->alias]['formField'];
 		$formFieldRepeat = $this->settings[$Model->alias]['formFieldRepeat'];
 		$formFieldCurrent = $this->settings[$Model->alias]['formFieldCurrent'];
-		
+
 		# add the validation rules if not already attached
 		if (!isset($Model->validate[$formField])) {
 			$Model->validate[$formField] = $this->_validationRules['formField'];
 		}
 		if (!isset($Model->validate[$formFieldRepeat])) {
 			$Model->validate[$formFieldRepeat] = $this->_validationRules['formFieldRepeat'];
-			$Model->validate[$formFieldRepeat]['validateIdentical']['rule'][1] = $formField;			
+			$Model->validate[$formFieldRepeat]['validateIdentical']['rule'][1] = $formField;
 		}
-		
+
 		if ($this->settings[$Model->alias]['current'] && !isset($Model->validate[$formFieldCurrent])) {
 			$Model->validate[$formFieldCurrent] = $this->_validationRules['formFieldCurrent'];
 
@@ -201,13 +201,13 @@ class ChangePasswordBehavior extends ModelBehavior {
 
 		# allowEmpty?
 		if (!empty($this->settings[$Model->alias]['allowEmpty'])) {
-			$Model->validate[$formField]['between']['rule'][1] = 0;			
+			$Model->validate[$formField]['between']['rule'][1] = 0;
 		}
 	}
 
 	/**
 	 * whitelisting
-	 * 2011-07-22 ms 
+	 * 2011-07-22 ms
 	 */
 	public function beforeValidate(Model $Model) {
 		# add fields to whitelist!
@@ -218,7 +218,7 @@ class ChangePasswordBehavior extends ModelBehavior {
 		if (!empty($Model->whitelist)) {
 			$Model->whitelist = array_merge($Model->whitelist, $whitelist);
 		}
-		
+
 		# make sure fields are set and validation rules are triggered - prevents tempering of form data
 		$formField = $this->settings[$Model->alias]['formField'];
 		$formFieldRepeat = $this->settings[$Model->alias]['formFieldRepeat'];
@@ -239,22 +239,22 @@ class ChangePasswordBehavior extends ModelBehavior {
 
 	/**
 	 * hashing the password now
-	 * 2011-07-22 ms 
+	 * 2011-07-22 ms
 	 */
 	public function beforeSave(Model $Model) {
 		$formField = $this->settings[$Model->alias]['formField'];
 		$formFieldRepeat = $this->settings[$Model->alias]['formFieldRepeat'];
-		$field = $this->settings[$Model->alias]['field']; 
+		$field = $this->settings[$Model->alias]['field'];
 		$type = $this->settings[$Model->alias]['hashType'];
 		$salt = $this->settings[$Model->alias]['hashSalt'];
-			
+
 		if (empty($Model->data[$Model->alias][$formField]) && !$this->settings[$Model->alias]['nonEmptyToEmpty']) {
 			# is edit? previous password was "notEmpty"?
 			if (!empty($Model->data[$Model->alias][$Model->primaryKey]) && ($oldPwd = $Model->field($field, array($Model->alias.'.id'=>$Model->data[$Model->alias][$Model->primaryKey]))) && $oldPwd != Security::hash('', $type, $salt)) {
 				unset($Model->data[$Model->alias][$formField]);
 			}
 		}
-	
+
 		if (isset($Model->data[$Model->alias][$formField])) {
 			$Model->data[$Model->alias][$field] = Security::hash($Model->data[$Model->alias][$formField], $type, $salt);
 			unset($Model->data[$Model->alias][$formField]);
@@ -266,9 +266,9 @@ class ChangePasswordBehavior extends ModelBehavior {
 				$Model->whitelist = array_merge($Model->whitelist, array($field));
 			}
 		}
-		
+
 		return true;
 	}
 
-	
+
 }

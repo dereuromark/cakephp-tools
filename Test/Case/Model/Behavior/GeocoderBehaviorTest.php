@@ -21,7 +21,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 
 	public function testBasic() {
 		echo '<h3>'.__FUNCTION__.'</h3>';
-		
+
 		$data = array(
 			'street' => 'Krebenweg 22',
 			'zip' => '74523',
@@ -31,8 +31,8 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		debug($res);
 		$this->assertTrue(!empty($res['Comment']['lat']) && !empty($res['Comment']['lng']) && round($res['Comment']['lat']) === 49.0 && round($res['Comment']['lng']) === 10.0);
 		// accuracy = 4
-		
-		
+
+
 		# inconclusive
 		$data = array(
 	 		//'street' => 'Leopoldstraße',
@@ -44,7 +44,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		debug($res);
 		$this->assertTrue(!empty($res['Comment']['lat']) && !empty($res['Comment']['lng']));
 		$this->assertEquals('München, Deutschland', $res['Comment']['geocoder_result']['formatted_address']);
-		
+
 		$data = array(
 			'city' => 'Bibersfeld'
 		);
@@ -56,7 +56,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 
 	public function testMinAccLow() {
 		echo '<h3>'.__FUNCTION__.'</h3>';
-		
+
 		$this->Comment->Behaviors->detach('Geocoder');
 		$this->Comment->Behaviors->attach('Geocoder', array('real'=>false, 'min_accuracy'=>0));
 		// accuracy = 1
@@ -76,7 +76,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 
 	public function testMinAccHigh() {
 		echo '<h3>'.__FUNCTION__.'</h3>';
-		
+
 		$this->Comment->Behaviors->detach('Geocoder');
 		$this->Comment->Behaviors->attach('Geocoder', array('real'=>false, 'min_accuracy'=>4));
 		// accuracy = 1
@@ -97,12 +97,12 @@ class GeocoderBehaviorTest extends CakeTestCase {
 
 	public function testMinInc() {
 		echo '<h3>'.__FUNCTION__.'</h3>';
-		
+
 		$this->Comment->Behaviors->detach('Geocoder');
 		$this->Comment->Behaviors->attach('Geocoder', array('real'=>false, 'min_accuracy'=>GeocodeLib::ACC_SUBLOC));
-		
+
 		$this->assertEquals(GeocodeLib::ACC_SUBLOC, $this->Comment->Behaviors->Geocoder->settings['Comment']['min_accuracy']);
-		
+
 		// accuracy = 1
 		$data = array(
 	 		//'street' => 'Leopoldstraße',
@@ -122,7 +122,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 
 	public function testMinIncAllowed() {
 		echo '<h3>'.__FUNCTION__.'</h3>';
-		
+
 		$this->Comment->Behaviors->detach('Geocoder');
 		$this->Comment->Behaviors->attach('Geocoder', array('real'=>false, 'allow_inconclusive'=>true));
 		// accuracy = 1

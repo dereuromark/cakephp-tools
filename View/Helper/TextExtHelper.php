@@ -7,17 +7,17 @@ App::uses('View', 'View');
 /**
  * the core text helper is unsecure and outdated in functionality
  * this aims to compensate the deficiencies
- * 
+ *
  * autoLinkEmails
  * - obfuscate (defaults to FALSE right now)
  * (- maxLength?)
  * - escape (defaults to TRUE for security reasons regarding plain text)
- * 
+ *
  * autoLinkUrls
- * - stripProtocol (defaults To FALSE right now) 
+ * - stripProtocol (defaults To FALSE right now)
  * - maxLength (to shorten links in order to not mess up the layout in some cases - appends ...)
  * - escape (defaults to TRUE for security reasons regarding plain text)
- *   
+ *
  * 2011-03-30 ms
  */
 class TextExtHelper extends TextHelper {
@@ -38,7 +38,7 @@ class TextExtHelper extends TextHelper {
 		}
 		return $this->autoLinkEmails($this->autoLinkUrls($text, $options, $htmlOptions), $options, $htmlOptions);
 	}
-	
+
 
 	/**
 	 * fix to allow obfuscation of email (js, img?)
@@ -55,21 +55,21 @@ class TextExtHelper extends TextHelper {
 		if (!isset($options['escape']) || $options['escape'] !== false) {
 			$text = h($text);
 		}
-		
+
 		$linkOptions = 'array(';
 		foreach ($htmlOptions as $option => $value) {
 			$value = var_export($value, true);
 			$linkOptions .= "'$option' => $value, ";
 		}
 		$linkOptions .= ')';
-		
+
 		$customOptions = 'array(';
 		foreach ($options as $option => $value) {
 			$value = var_export($value, true);
 			$customOptions .= "'$option' => $value, ";
 		}
 		$customOptions .= ')';
-		
+
 		$atom = '[a-z0-9!#$%&\'*+\/=?^_`{|}~-]';
 		return preg_replace_callback('/(' . $atom . '+(?:\.' . $atom . '+)*@[a-z0-9-]+(?:\.[a-z0-9-]+)+)/i',
 						create_function('$matches', 'return TextExtHelper::prepareEmail($matches[0],' . $linkOptions . ',' . $customOptions . ');'), $text);
@@ -89,22 +89,22 @@ class TextExtHelper extends TextHelper {
 			$obfuscate = $options['obfuscate'];
 			unset($options['obfuscate']);
 		}
-		
+
 		if (!isset($customOptions['escape']) || $customOptions['escape'] !== false) {
 			$email = hDec($email);
 		}
-		
-		$Html = new HtmlHelper(new View(null)); 
-		//$Html->tags = $Html->loadConfig(); 
+
+		$Html = new HtmlHelper(new View(null));
+		//$Html->tags = $Html->loadConfig();
 		//debug($Html->tags);
-		if (!$obfuscate) { 
+		if (!$obfuscate) {
 			return $Html->link($email, "mailto:" . $email, $options);
 		}
-		
+
 		$class = __CLASS__;
 		$Common = new $class;
 		$Common->Html = $Html;
-		return $Common->encodeEmailUrl($email, null, array(), $options); 
+		return $Common->encodeEmailUrl($email, null, array(), $options);
 	}
 
 
@@ -172,7 +172,7 @@ class TextExtHelper extends TextHelper {
 			$i += $c;
 		}
 		$join = implode('\'+\'', $par);
-	
+
 			return '<script language=javascript><!--
 		document.write(\''.$join.'\');
 		//--></script>
@@ -217,7 +217,7 @@ class TextExtHelper extends TextHelper {
 	 * @param options (additionally - not yet supported by core):
 	 * - stripProtocol: bool (defaults to true)
 	 * - maxLength: int (defaults no none)
-	 * @param htmlOptions 
+	 * @param htmlOptions
 	 * - escape etc
 	 * @return string $html
 	 * @override
@@ -230,15 +230,15 @@ class TextExtHelper extends TextHelper {
 		} else {
 			$matchString = '$matches[0]';
 		}
-		
+
 		if (isset($htmlOptions['escape'])) {
 			$options['escape'] = $htmlOptions['escape'];
 		}
 		//$htmlOptions['escape'] = false;
-						
+
 		$htmlOptions = var_export($htmlOptions, true);
 		$customOptions = var_export($options, true);
-		
+
 		$text = preg_replace_callback('#(?<!href="|">)((?:https?|ftp|nntp)://[^\s<>()]+)#i', create_function('$matches',
 			'$Html = new HtmlHelper(new View(null)); return $Html->link(TextExtHelper::prepareLinkName(hDec($matches[0]), '.$customOptions.'), hDec($matches[0]),' . $htmlOptions . ');'), $text);
 
@@ -306,16 +306,16 @@ class TextExtHelper extends TextHelper {
 				case 2:
 					$suff = 'nd';
 					break;
-				case 3:  
+				case 3:
 					$suff = 'rd';
 					break;
-				default: 
+				default:
 					$suff = 'th';
 			}
 		}
 		return ($sup) ? $num . '<sup>' . $suff . '</sup>' : $num . $suff;
 	}
-		
+
 
 	/**
 	 * syntax highlighting using php internal highlighting

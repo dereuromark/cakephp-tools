@@ -6,11 +6,11 @@ App::uses('NumberHelper', 'View/Helper');
 /**
  * Todo: rename to MyNumberHelper some day?
  * Aliasing it then as Number again in the project
- * 
+ *
  * 2012-04-08 ms
  */
 class NumericHelper extends NumberHelper {
-	
+
 	//public $helpers = array();
 	/*
 	protected $_settings = array(
@@ -27,8 +27,8 @@ class NumericHelper extends NumberHelper {
 
 	public function __construct($View = null, $settings = array()) {
 		$settings = Set::merge(array('engine' => 'Tools.NumberLib'), $settings);
-		parent::__construct($View, $settings);	
-		/*	
+		parent::__construct($View, $settings);
+		/*
 		$i18n = Configure::read('Currency');
 		if (!empty($i18n['code'])) {
 			$this->code = $i18n['code'];

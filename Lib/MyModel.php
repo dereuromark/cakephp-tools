@@ -4,7 +4,7 @@ App::uses('Utility', 'Tools.Utility');
 
 /**
  * Model enhancements for Cake2
- * 
+ *
  * @author Mark Scherer
  * @license MIT
  * 2012-02-27 ms
@@ -64,7 +64,7 @@ class MyModel extends Model {
 				$type .= 'time';
 			}
 		}
-		
+
 		if (in_array($type, array('datetime', 'timestamp', 'date', 'time'))) {
 			$useNewDate = (isset($data['year']) || isset($data['month']) ||
 				isset($data['day']) || isset($data['hour']) || isset($data['minute']));
@@ -138,7 +138,7 @@ class MyModel extends Model {
 	/**
 	 * The main method for any enumeration, should be called statically
 	 * Now also supports reordering/filtering
-	 * 
+	 *
 	 * @link http://www.dereuromark.de/2010/06/24/static-enums-or-semihardcoded-attributes/
 	 * @param string $value or array $keys or NULL for complete array result
 	 * @param array $options (actual data)
@@ -290,7 +290,7 @@ class MyModel extends Model {
 		if (isset($customOptions['field'])) {
 				$field = $customOptions['field'];
 		}
-		
+
 		if (isset($customOptions['reset'])) {
 			$currentValue = $step = 0;
 		} elseif (!isset($customOptions['current'])) {
@@ -1286,7 +1286,7 @@ class MyModel extends Model {
 	/**
 	 * Is blocked email?
 	 * //TODO: move outside of MyModel?
-	 * 
+	 *
 	 * @return bool $ifNotBlacklisted
 	 * 2009-12-22 ms
 	 */
@@ -1403,11 +1403,11 @@ class MyModel extends Model {
 		}
 		return $data;
 	}
-	
+
 	/**
 	 * make certain fields a requirement for the form to validate
 	 * (they must only be present - can still be empty, though!)
-	 * 
+	 *
 	 * @param array $fieldList
 	 * @param bool $allowEmpty (or NULL to not touch already set elements)
 	 * @return void
@@ -1419,14 +1419,14 @@ class MyModel extends Model {
 		} else {
 			$setAllowEmpty = $allowEmpty;
 		}
-		
+
 		foreach ($requiredFields as $column) {
 			if (strpos($column, '.') !== false) {
 				list($model, $column) = explode('.', $column, 2);
 			} else {
 				$model = $this->alias;
 			}
-			
+
 			if ($model === $this->alias) {
 				if (empty($this->validate[$column])) {
 					$this->validate[$column]['notEmpty'] = array('rule'=>'notEmpty', 'required'=>true, 'allowEmpty' => $setAllowEmpty, 'message' => 'valErrMandatoryField');
@@ -1447,7 +1447,7 @@ class MyModel extends Model {
 					}
 				}
 			}
-			
+
 		}
 	}
 

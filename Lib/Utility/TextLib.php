@@ -2,7 +2,7 @@
 
 /**
  * TODO: extend the core String class some day?
- * 
+ *
  * 2010-08-31 ms
  */
 class TextLib {
@@ -14,7 +14,7 @@ class TextLib {
 	public function __construct($text) {
 		$this->text = $text;
 	}
-	
+
 	/**
 	 * @param string $stringToCheck
 	 * @param tolerance (in %: 0 ... 1)
@@ -28,23 +28,23 @@ class TextLib {
 		if (empty($str)) {
 			return false;
 		}
-		
+
 		$res = preg_match_all('/[A-ZÄÖÜ]/u', $str, $uppercase);
 		$uppercase = array_shift($uppercase);
 		//echo returns($uppercase);
-		
+
 		$res = preg_match_all('/[a-zäöüß]/u', $str, $lowercase);
 		$lowercase = array_shift($lowercase);
 		//echo returns($lowercase);
-		
+
 		if (($countUpper = count($uppercase)) && $countUpper >= count($lowercase)) {
 			return true;
-		}		
+		}
 		//TODO: tolerance
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * @param string
 	 * @param string $additionalChars
@@ -141,7 +141,7 @@ class TextLib {
 			$r['ord'][] = ord($char);
 			$r['chr'][] = $char;
 		}
-		
+
 		$res .= '</table>';
 		return $res;
 	}

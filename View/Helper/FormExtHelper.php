@@ -311,7 +311,7 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 	 */
 	public function input($fieldName, $options = array()) {
 		$this->setEntity($fieldName);
-		
+
 		$modelKey = $this->model();
 		$fieldKey = $this->field();
 
@@ -336,7 +336,7 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 			unset($options['datalist']);
 			$options['after'] = !empty($options['after']) ? $options['after'].$list : $list;
 		}
-		
+
 		if (isset($options['required'])) {
 			$this->_introspectModel($modelKey, 'validates', $fieldKey);
 			$this->fieldset[$modelKey]['validates'][$fieldKey] = $options['required'];
@@ -361,14 +361,14 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 				unset($options['required']);
 			}
 		}
-		
-		
+
+
 		$res = parent::input($fieldName, $options);
-		
+
 		if (isset($autoRequire)) {
 			Configure::write('Validation.autoRequire', $autoRequire);
 		}
-		
+
 		return $res;
 	}
 
@@ -516,7 +516,7 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 		';
 		return '<div class="input date'.(!empty($error)?' error':'').'">'.$this->label($model.'.'.$field, $options['label']).''.$select.''.$error.'</div>'.$script;
 	}
-	
+
 	/**
 	 * @deprecated
 	 * use Form::dateExt
@@ -826,8 +826,8 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteKeys'=>false)).');
 ';
 	}
-	
-	
+
+
 	public function scripts($type) {
 		switch ($type) {
 			case 'charCount':
@@ -840,16 +840,16 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 		$this->scriptsAdded[$type] = true;
 		return true;
 	}
-	
-	
+
+
 	public $charCountOptions = array(
 		'allowed' => 255,
 	);
-	
+
 	public function charCount($selectors = array(), $options = array()) {
 		$this->scripts('charCount');
 		$js = '';
-		
+
 		$selectors = (array)$selectors;
 		foreach ($selectors as $selector => $settings) {
 			if (is_int($selector)) {
@@ -862,7 +862,7 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 		$js = $this->documentReady($js);
 		return $this->Html->scriptBlock($js);
 	}
-	
+
 
 
 	public function documentReady($string) {

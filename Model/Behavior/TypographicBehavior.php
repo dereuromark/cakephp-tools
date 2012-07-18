@@ -5,11 +5,11 @@
  * „low-high“ become "high-high"
  * same for single quotes (apostrophes)
  * in order to unify them
- * 
+ *
  * using the TypographyHelper we can then format the output
  * according to the language/regional setting (in some languages
  * the high-high smart quotes, in others the low-high ones are preferred)
- * 
+ *
  * @link http://en.wikipedia.org/wiki/Non-English_usage_of_quotation_marks
  * @cakephp 2.0
  * 2011-01-13 ms
@@ -51,7 +51,7 @@ class TypographicBehavior extends ModelBehavior {
 	/**
 	 * Initiate behavior for the model using specified settings. Available settings:
 	 *
-	 * 
+	 *
 	 * @param object $Model Model using the behaviour
 	 * @param array $settings Settings to override for model.
 	 * @access public
@@ -104,10 +104,10 @@ class TypographicBehavior extends ModelBehavior {
 				$Model->data[$Model->alias][$field] = $this->_prepareInput($Model->data[$Model->alias][$field]);
 			}
 		}
-		
+
 		return $return;
 	}
-	
+
 	/**
 	 * @param string $input
 	 * @return string $cleanedInput
@@ -115,9 +115,9 @@ class TypographicBehavior extends ModelBehavior {
 	 */
 	protected function _prepareInput($string) {
 		$map = $this->map['in'];
-		
+
 		//return $string;
-		
+
 		$string = str_replace(array_keys($map), array_values($map), $string);
 		return $string;
 	}

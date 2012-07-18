@@ -1,7 +1,7 @@
 <?php
 
 App::import('Behavior', 'Tools.DecimalInput');
-App::import('Model', 'App');
+App::uses('App', 'Core');
 App::uses('MyCakeTestCase', 'Tools.Lib');
 
 

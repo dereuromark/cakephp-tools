@@ -3,7 +3,7 @@ App::uses('ToolsAppModel', 'Tools.Model');
 
 /**
  * Manage Quick Urls
- * 
+ *
  * @author Mark Scherer
  * @cakephp 2.x
  * @license MIT
@@ -12,9 +12,9 @@ App::uses('ToolsAppModel', 'Tools.Model');
 class Qurl extends ToolsAppModel {
 
 	public $displayField = 'key';
-	
+
 	public $scaffoldSkipFields = array('note', 'key', 'content');
-	
+
 	public $order = array('Qurl.created' => 'DESC');
 
 	protected $defaultLength = 22;
@@ -55,10 +55,10 @@ class Qurl extends ToolsAppModel {
 			),
 		),
 	);
-	
+
 	public function beforeValidate($options = array()) {
 		parent::beforeValidate($options);
-		
+
 		if (isset($this->data[$this->alias]['key']) && empty($this->data[$this->alias]['key'])) {
 			$length = null;
 			if (!empty($this->data[$this->alias]['key_length'])) {
@@ -69,17 +69,17 @@ class Qurl extends ToolsAppModel {
 
 		return true;
 	}
-	
+
 	public function beforeSave($options = array()) {
 		parent::beforeSave($options);
-		
+
 		if (isset($this->data[$this->alias]['content'])) {
 			 $this->data[$this->alias]['content'] = serialize($this->data[$this->alias]['content']);
 		}
 
 		return true;
 	}
-	
+
 
 	public function translate($key) {
 		$res = $this->find('first', array('conditions'=>array($this->alias.'.key'=>$key, $this->alias.'.active'=>1)));
@@ -94,7 +94,7 @@ class Qurl extends ToolsAppModel {
 		}
 		return $res;
 	}
-	
+
 	/**
 	 * form the access url by key
 	 * @param string $key
@@ -106,12 +106,12 @@ class Qurl extends ToolsAppModel {
 		}
 		return Router::url(array('admin'=>'', 'plugin'=>'tools', 'controller'=>'qurls', 'action'=>'go', $key, $title), true);
 	}
-		
+
 	/**
 	 * makes an absolute url string ready to input anywhere
 	 * uses generate() internally to get the key
 	 * @param mixed $url
-	 * @return string $url (absolute) 
+	 * @return string $url (absolute)
 	 */
 	public function url($url, $data = array()) {
 		$key = $this->generate($url, $data);
@@ -170,20 +170,20 @@ class Qurl extends ToolsAppModel {
 		);
 		return $this->deleteAll($conditions, false);
 	}
-	
-	
+
+
 	/**
 	 * get admin stats
-	 * 2010-10-22 ms 
+	 * 2010-10-22 ms
 	 */
 	public function stats() {
 		$keys = array();
 		$keys['unused_valid'] = $this->find('count', array('conditions'=>array($this->alias.'.used'=>0, $this->alias.'.created >='=>date(FORMAT_DB_DATETIME, time()-$this->validity))));
 		$keys['used_valid'] = $this->find('count', array('conditions'=>array($this->alias.'.used'=>1, $this->alias.'.created >='=>date(FORMAT_DB_DATETIME, time()-$this->validity))));
-		
+
 		$keys['unused_invalid'] = $this->find('count', array('conditions'=>array($this->alias.'.used'=>0, $this->alias.'.created <'=>date(FORMAT_DB_DATETIME, time()-$this->validity))));
 		$keys['used_invalid'] = $this->find('count', array('conditions'=>array($this->alias.'.used'=>1, $this->alias.'.created <'=>date(FORMAT_DB_DATETIME, time()-$this->validity))));
-		
+
 		$urls = $this->find('all', array('conditions'=>array(), 'fields'=>array('DISTINCT url')));
 		$keys['urls'] = !empty($urls) ? Set::extract('/'.$this->alias.'/url', $urls) : array();
 		return $keys;
@@ -199,7 +199,7 @@ class Qurl extends ToolsAppModel {
 		if (empty($length)) {
 			$length = $this->defaultLength;
 		}
-		
+
 		if ((class_exists('CommonComponent') || App::import('Component', 'Common')) && method_exists('CommonComponent', 'generatePassword')) {
 			return CommonComponent::generatePassword($length);
 		} else {
@@ -223,5 +223,5 @@ class Qurl extends ToolsAppModel {
 		}
 		return $password;
 	}
-	
+
 }

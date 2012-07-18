@@ -8,7 +8,7 @@
  * @author Mark Scherer
  * @license MIT
  * @cakephp 2.0
- * 
+ *
  * TODO: rename to NumberFormat Behavior?
  * 2011-06-21 ms
  */

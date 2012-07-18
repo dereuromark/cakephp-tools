@@ -10,14 +10,14 @@ App::uses('ComponentCollection', 'Controller');
 
 /**
  * create a new user from CLI
- * 
+ *
  * @cakephp 2.x
  * @author Mark Scherer
  * @license MIT
  * 2011-11-05 ms
  */
 class UserShell extends AppShell {
-	
+
 	public $tasks = array();
 	public $uses = array(CLASS_USER);
 
@@ -29,9 +29,9 @@ class UserShell extends AppShell {
 		} else {
 			App::import('Component', 'Auth');
 			$this->Auth = new AuthComponent(new ComponentCollection());
-		}		
+		}
 		//ConnectionManager::sourceList()
-		
+
 		while (empty($username)) {
 			$username = $this->in(__('Username (2 characters at least)'));
 		}
@@ -122,6 +122,6 @@ class UserShell extends AppShell {
 			$this->error('User could not be inserted ('.print_r($this->User->validationErrors, true).')');
 		}
 	}
-	
+
 }
 

@@ -4,7 +4,7 @@ App::uses('Xml', 'Utility');
 
 /**
  * get dangerous strings for various security checks
- * 
+ *
  * used in configurations controller + debug helper
  * 2010-07-30 ms
  */

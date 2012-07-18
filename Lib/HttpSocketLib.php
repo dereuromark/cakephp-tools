@@ -4,7 +4,7 @@ App::uses('CurlLib', 'Tools.Lib');
 
 /**
  * Wrapper for curl, php or file_get_contents
- * 
+ *
  * @author Mark Scherer
  * @license MIT
  * @cakephp 2.0
@@ -46,7 +46,7 @@ class HttpSocketLib {
 	public function error($asString = true, $separator = ', ') {
 		return implode(', ', $this->error);
 	}
-	
+
 	public function reset() {
 		$this->error = array();
 		$this->debug = null;
@@ -71,13 +71,13 @@ class HttpSocketLib {
 			'timeout' => $this->timeout,
 		);
 		$options = am($defaults, $options);
-		
+
 		# cached?
 		if ($options['cache']) {
 			$cacheName = md5($url);
 			$cacheConfig = $options['cache'] === true ? null: $options['cache'];
 			$cacheConfig = !Cache::isInitialized($cacheConfig) ? null : $cacheConfig;
-			
+
 			if ($options['clearCache']) {
 				Cache::delete('http_'.$cacheName, $cacheConfig);
 			} elseif (($res = Cache::read('http_'.$cacheName, $cacheConfig)) !== false && $res !== null) {
@@ -91,7 +91,7 @@ class HttpSocketLib {
 		}
 		return $res;
 	}
-	
+
 	public function _fetch($url, $options) {
 		if ($options['use']['curl'] && function_exists('curl_init')) {
 			$this->debug = 'curl';
@@ -125,7 +125,7 @@ class HttpSocketLib {
 				return false;
 			}
 			return $response;
-			
+
 		} else {
 			throw new CakeException('no protocol given');
 		}

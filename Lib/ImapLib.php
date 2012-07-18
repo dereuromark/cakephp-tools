@@ -1,6 +1,6 @@
 <?php
-/** 
- * LICENSE: The MIT License 
+/**
+ * LICENSE: The MIT License
  * Copyright (c) 2010 Chris Nizzardini (http://www.cnizz.com)
  */
 
@@ -8,12 +8,12 @@
  * basic idea from
  * http://www.phpclasses.org/package/6256-PHP-Retrieve-messages-from-an-IMAP-server.html
  * added enhancements
- * 
+ *
  * @modified 2011-11-13 Mark Scherer
  * @php 5
  * @cakephp 2.0
- * 
- * ImapLib for accessing IMAP and POP email accounts 
+ *
+ * ImapLib for accessing IMAP and POP email accounts
  * 2011-10-11 ms
  */
 class ImapLib {
@@ -151,7 +151,7 @@ class ImapLib {
 
 	public function msgCount() {
 		if ($error = $this->checkConnection()) {
-			return $error;
+			throw new ImapException($error);
 		}
 		return imap_num_msg($this->stream);
 	}
@@ -200,17 +200,25 @@ class ImapLib {
 	/**
 	 * main listing of messages
 	 * - body, structure, attachments
+	 * @return array
 	 * 2011-11-17 ms
 	 */
 	public function msgList($msg_list = array()) {
 		if ($this->stream) {
 			$return = array();
 
-			if (is_array($msg_list) or count($msg_list) == 0) {
-				$count = $this->msgCount();
+			if (is_array($msg_list) || count($msg_list) == 0) {
+				try {
+					$count = $this->msgCount();
+				} catch (Exception $e) {
+					return $e->getMessage();
+				}
 				for ($i = 1; $i <= $count; $i++) {
 					$header = imap_headerinfo($this->stream, $i);
 					foreach ($header as $id => $value) {
+						# fix to remove whitespaces
+						$header->Msgno = trim($header->Msgno);
+
 						// Simple array
 						if (!is_array($value)) {
 							$return[$header->Msgno][$id] = $value;
@@ -293,6 +301,23 @@ class ImapLib {
 				$data = "";
 				$mege = imap_fetchbody($this->stream, $header->Msgno, $fpos);
 				$attachment['filename'] = $part->dparameters[0]->value;
+				$attachment['data'] = $this->_getDecodedValue($mege, $part->type);
+				$attachment['filesize'] = strlen($attachment['data']);
+
+				$fpos++;
+				$attachments[] = $attachment;
+
+			} elseif (isset($part->subtype) && $part->subtype == "OCTET-STREAM") {
+				$attachment["pid"] = $i;
+				$attachment["type"][$i] = $message["attachment"]["type"][$part->type] . "/" . strtolower($part->subtype);
+				$attachment["subtype"][$i] = strtolower($part->subtype);
+				$ext = $part->subtype;
+				$params = $part->parameters;
+				//die(returns($part));
+				$mege = "";
+				$data = "";
+				$mege = imap_fetchbody($this->stream, $header->Msgno, $fpos);
+				$attachment['filename'] = $part->parameters[0]->value;
 				$attachment['data'] = $this->_getDecodedValue($mege, $part->type);
 				$attachment['filesize'] = strlen($attachment['data']);
 
@@ -493,14 +518,14 @@ class ImapLib {
 /**
  * IMAP Postf�cher mit CakePHP abfragen
  * @see http://www.interaktionsdesigner.de/2009/05/11/imap-postfacher-mit-cakephp-abfragen/
- * 
+ *
  * $this->Imap->connect();
  * Der R�ckgabewert dieser Funktion ist negativ wenn es nicht funktioniert hat.
- * 
+ *
  * Eine gute Hilfe gegen verr�ckte Sonderzeichen und Kodierungen ist die Kombination von utf8_encode und quoted_printable_decode. Damit werden die meisten Umlaute richtig dargestellt.
  * F�r den Text der Mail w�re das dann innerhalb der foreach-Schleife:
  * debug(utf8_encode(quoted_printable_decode($message['body'])));
- * 
+ *
  * fixes: pop3 connect etc
  * 2011-09-02 ms
  */
@@ -760,5 +785,9 @@ class ImapFolderLib {
 		return $this->searchMessages();
 	}
 
+}
+
+
+class ImapException extends CakeException {
 
 }

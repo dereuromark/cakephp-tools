@@ -1,4 +1,4 @@
-<p><?php
+<p class="pagingDescription"><?php
 
 if (!isset($separator)) {
 	if (defined('PAGINATOR_SEPARATOR')) {
@@ -24,7 +24,7 @@ if (!empty($reverse)) {
 	$tmp = $first;
 	$first = $last;
 	$last = $tmp;
-	
+
 	$tmp = $prev;
 	$prev = $next;
 	$next = $tmp;

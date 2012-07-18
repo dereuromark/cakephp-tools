@@ -10,7 +10,7 @@ class TextLibTest extends CakeTestCase {
 	public function startTest() {
 		$this->TextLib = new TextLib(null);
 	}
-	
+
 	public function testScreamFont() {
 		$strings = array(
 			'Some Äext' => false,
@@ -19,7 +19,7 @@ class TextLibTest extends CakeTestCase {
 			'SOme TExt' => true,
 			'SOme Text' => false,
 		);
-		
+
 		foreach ($strings as $string => $expected) {
 			$this->TextLib = new TextLib($string);
 			$is = $this->TextLib->isScreamFont();
@@ -27,7 +27,7 @@ class TextLibTest extends CakeTestCase {
 			$this->assertSame($expected, $is);
 		}
 	}
-	
+
 
 	public function testConvertToOrd() {
 		$this->TextLib = new TextLib('h H');

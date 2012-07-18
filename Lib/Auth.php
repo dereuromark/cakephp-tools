@@ -10,12 +10,12 @@ App::uses('CakeSession', 'Model/Datasource');
 
 /**
  * Convinience wrapper to access Auth data and check on rights/roles.
- * Expects the Role session infos to be either 
- * 	`Auth.User.role_id` (single) or 
+ * Expects the Role session infos to be either
+ * 	`Auth.User.role_id` (single) or
  * 	`Auth.User.Role` (multi)
  * and can be adjusted via defined().
  * Same for Right.
- * 
+ *
  * @author Mark Scherer
  * @license MIT
  * @php 5
@@ -26,7 +26,7 @@ class Auth {
 
 	/**
 	 * get the user id of the current session or return empty/null
-	 * 
+	 *
 	 * @return mixed $userId
 	 */
 	public static function id() {
@@ -35,16 +35,16 @@ class Auth {
 
 	/**
 	 * get the role(s) of the current session or return empty/null
-	 * 
+	 *
 	 * @return mixed $roles
 	 */
 	public static function roles() {
 		return CakeSession::read('Auth.User.' . USER_ROLE_KEY);
 	}
-	
+
 	/**
 	 * get the user data of the current session or return empty/null
-	 * 
+	 *
 	 * @param string $key (dot syntax)
 	 * @return mixed $data
 	 */
@@ -54,10 +54,10 @@ class Auth {
 		}
 		return CakeSession::read('Auth.User' . $key);
 	}
-	
+
 	/**
 	 * check if the current session has this right
-	 * 
+	 *
 	 * @param mixed $role
 	 * @param mixed $existingRolesToCheckAgainst
 	 * @return bool $success
@@ -74,10 +74,10 @@ class Auth {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * check if the current session has this role
-	 * 
+	 *
 	 * @param mixed $role
 	 * @param mixed $existingRolesToCheckAgainst
 	 * @return bool $success
@@ -99,10 +99,10 @@ class Auth {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * check if the current session has oen of these roles
-	 * 
+	 *
 	 * @param mixed $roles
 	 * @param bool $oneRoleIsEnough (if all $roles have to match instead of just one)
 	 * @param mixed $existingRolesToCheckAgainst
@@ -131,7 +131,7 @@ class Auth {
 					}
 				}
 			}
-	
+
 			if ($count == count($ownRoles)) {
 				return true;
 			}

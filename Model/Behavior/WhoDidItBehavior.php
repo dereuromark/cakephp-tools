@@ -107,5 +107,5 @@ class WhoDidItBehavior extends ModelBehavior {
 		}
 		return true;
 	}
-	
+
 }

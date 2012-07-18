@@ -250,8 +250,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 		$this->assertEquals($arrayExpected, $arrayResult, 'Linkable and Containable combined: %s');
 	}
 
-	public function _testPagination()
-	{
+	public function _testPagination() {
 		$objController = new Controller(new CakeRequest('/'), new CakeResponse());
 		$objController->layout = 'ajax';
 		$objController->uses = array('User');

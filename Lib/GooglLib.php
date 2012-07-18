@@ -10,18 +10,18 @@ App::uses('CakeLog', 'Log');
  * @copyright Creative Commons Attribution-ShareAlike 3.0 Unported License.
  * @version 0.1
  * @access public
- * 
+ *
  * TODO: implement OAuth
- * 
+ *
  * @edited Mark Scherer
  * 2012-06-24 ms
  */
 class GooglLib {
 
 	const PROJECTION_FULL = 'FULL';
-	
+
 	const PROJECTION_CLICKS = 'ANALYTICS_CLICKS';
-	
+
 	const PROJECTION_TOP = 'ANALYTICS_TOP_STRINGS';
 
 	/**
@@ -101,7 +101,7 @@ class GooglLib {
 		$array['key'] = substr($array['id'], $separator+1);
 		return $array;
 	}
-	
+
 	/**
 	 * FIXME: not working yet
 	 * TODO: use oacurl etc
@@ -118,7 +118,7 @@ class GooglLib {
 		$array = json_decode($result, true);
 		return $array;
 	}
-	
+
 	/**
 	 * retrieve the url for the statistics page for this key
 	 * @param string $key
@@ -128,5 +128,5 @@ class GooglLib {
 		$url = 'http://goo.gl/#analytics/goo.gl/'.$key.'/all_time';
 		return $url;
 	}
-	
+
 }

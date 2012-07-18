@@ -1,11 +1,11 @@
 <?php
 /**
  * MasterPassword Behavior for admin views
- * 
+ *
  * Uses
  * - Tools.Hash Shell to hash password
  * - master_password element of Tools plugin for Form input
- * 
+ *
  * Usage:
  * In the controller:
  *     $this->ModelName->Behaviors->attach('Tools.MasterPassword');
@@ -14,12 +14,12 @@
  * Put this into your private configs:
  *     Configure::write('MasterPassword.password', 'your_hashed_pwd_string');
  * You can also use an array to store multiple passwords
- * 
+ *
  * Note:
  * sha1 is the default hashing algorithm
- * 
+ *
  * Use Configure::write('MasterPassword.password', false) to deactivate
- * 
+ *
  * Copyright 2011, dereuromark (http://www.dereuromark.de)
  *
  * @author Mark Scherer
@@ -33,9 +33,9 @@
 class MasterPasswordBehavior extends ModelBehavior {
 
 	protected $_defaults = array(
-		'message' => 'Incorrect Master Password', 
-		'field' => 'master_pwd', 
-		'model' => null, 
+		'message' => 'Incorrect Master Password',
+		'field' => 'master_pwd',
+		'model' => null,
 		'before' => 'validate',
 		'hash' => 'sha1',
 		'salt' => false, //TODO: maybe allow to use core salt for additional security?
@@ -59,7 +59,7 @@ class MasterPasswordBehavior extends ModelBehavior {
 		$return = parent::beforeValidate($Model);
 
 		if ($this->settings[$Model->alias]['before'] == 'validate') {
-			# we dont want to return the value, because other fields might then not be validated 
+			# we dont want to return the value, because other fields might then not be validated
 			# (save will not continue with errors, anyway)
 			$this->confirm($Model, $return);
 		}
@@ -88,15 +88,15 @@ class MasterPasswordBehavior extends ModelBehavior {
 	public function confirm(Model $Model, $return = true) {
 		$field = $this->settings[$Model->alias]['field'];
 		$message = $this->settings[$Model->alias]['message'];
-		
+
 		if (!$this->isAuthorized($Model, $field)) {
 				$Model->invalidate($field, $message);
 				return false;
 		}
-		
+
 		return $return;
 	}
-	
+
 	/**
 	 * checks a string against the stored hash values of master passwords
 	 * @param string $pwd: plain password string (not hashed etc)
@@ -116,7 +116,7 @@ class MasterPasswordBehavior extends ModelBehavior {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @retur string $hash or FALSE on failure
 	 */
@@ -130,14 +130,14 @@ class MasterPasswordBehavior extends ModelBehavior {
 		}
 		if ($algorithm == 'sha1') {
 			return sha1($string);
-		} 
+		}
 		if ($algorithm == 'md5') {
 			return md5($string);
 		}
 		# mcrypt installed?
 		if (function_exists('hash') && in_array($algorithm, hash_algos())) {
 			return hash($algorithm, $string);
-		}	
+		}
 		trigger_error('Hash method not available');
 		return false;
 	}

@@ -6,7 +6,7 @@
 class CommonHelper extends AppHelper {
 
 	public $helpers = array ('Session', 'Html');
-	
+
 	public $packages = array(
 		'Tools.Jquery' //Used by showDebug
 	);
@@ -62,7 +62,7 @@ class CommonHelper extends AppHelper {
 		}
 		return $this->Html->meta('description', $content, $options);
 	}
-	
+
 	public function metaKeywords($keywords = null, $language = null, $escape = true) {
 		if ($keywords === null) {
 			$keywords = Configure::read('Config.keywords');
@@ -151,8 +151,8 @@ class CommonHelper extends AppHelper {
 		$tags = array(
 			'meta' => '<meta http-equiv="%s"%s />',
 		);
-		if (empty($value)) { 
-			return ''; 
+		if (empty($value)) {
+			return '';
 		}
 		if ($escape) {
 			$value = h($value);
@@ -168,7 +168,7 @@ class CommonHelper extends AppHelper {
 			return sprintf($tags['meta'],'cache-control',' content="'.$value.'"');
 		} elseif ($type == 'refresh') {
 			return sprintf($tags['meta'],'refresh',' content="'.$value.'"');
-		} 
+		}
 		return '';
 	}
 
@@ -191,7 +191,7 @@ class CommonHelper extends AppHelper {
 		$string = implode('&', $pieces);
 		return $this->Html->css('/css.php?'.$string, $rel, $options);
 	}
-	
+
 	/**
 	 * (example): array(x, Tools|y, Tools.Jquery|jquery/sub/z)
 	 * => x is in webroot/
@@ -445,7 +445,7 @@ class CommonHelper extends AppHelper {
 
 		return $html;
 	}
-	
+
 	/**
 	 * output a single flashMessage
 	 * 2010-11-22 ms
@@ -459,14 +459,14 @@ class CommonHelper extends AppHelper {
 		$html .= '</div>';
 		return $html;
 	}
-	
+
 	protected function _message($msg, $type) {
 		if (!empty($msg)) {
 			return '<div class="message'.(!empty($type) ? ' '.$type : '').'">'.$msg.'</div>';
 		}
 		return '';
 	}
-	
+
 	/**
 	 * add a message on the fly
 	 * 2011-05-25 ms
@@ -589,10 +589,10 @@ class CommonHelper extends AppHelper {
 			$options['tabsToSpaces'] = 4;
 		}
 		if (!empty($options['tabsToSpaces'])) {
-			
+
 			$text = str_replace(TB, str_repeat(!empty($esc) ? '&nbsp;' : ' ', $options['tabsToSpaces']), $text);
 		}
-		
+
 		return $text;
 	}
 

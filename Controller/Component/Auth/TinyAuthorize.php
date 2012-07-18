@@ -17,14 +17,14 @@ if (!defined('ACL_FILE')) {
  * Doesn't even need a Role Model / roles table
  * Uses most persistent _cake_core_ cache by default
  * @link http://www.dereuromark.de/2011/12/18/tinyauth-the-fastest-and-easiest-authorization-for-cake2
- * 
+ *
  * Usage:
  * Include it in your beforeFilter() method of the AppController
  * $this->Auth->authorize = array('Tools.Tiny');
- * 
+ *
  * Or with admin prefix protection only
  * $this->Auth->authorize = array('Tools.Tiny'=>array('allowUser'=>true));
- * 
+ *
  * @version 1.2 - now allows other parent model relations besides Role/role_id
  * @author Mark Scherer
  * @cakephp 2.0
@@ -48,20 +48,20 @@ class TinyAuthorize extends BaseAuthorize {
 	public function __construct(ComponentCollection $Collection, $settings = array()) {
 		$settings = am($this->_defaults, $settings);
 		parent::__construct($Collection, $settings);
-		
+
 		if (Cache::config($settings['cache']) === false) {
 			throw new CakeException(__('TinyAuth could not find `%s` cache - expects at least a `default` cache', $settings['cache']));
 		}
 		$this->_matchArray = $this->_getRoles();
 	}
-	
+
 	/**
 	 * Authorize a user using the AclComponent.
 	 * allows single or multi role based authorization
-	 * 
+	 *
 	 * Examples:
 	 * - User HABTM Roles (Role array in User array)
-	 * - User belongsTo Roles (role_id in User array) 
+	 * - User belongsTo Roles (role_id in User array)
 	 *
 	 * @param array $user The user to authorize
 	 * @param CakeRequest $request The request needing authorization.
@@ -89,14 +89,14 @@ class TinyAuthorize extends BaseAuthorize {
 		$action = Inflector::underscore($action);
 		$controller = Inflector::underscore($controller);
 		$plugin = Inflector::underscore($plugin);
-		
+
 		if (!empty($this->settings['allowUser'])) {
 			# all user actions are accessable for logged in users
 			if (mb_strpos($action, $this->settings['adminPrefix']) !== 0) {
 				return true;
 			}
 		}
-		
+
 		if (isset($this->_matchArray[$controller]['*'])) {
 			$matchArray = $this->_matchArray[$controller]['*'];
 			if (in_array(-1, $matchArray)) {
@@ -127,12 +127,12 @@ class TinyAuthorize extends BaseAuthorize {
 		}
 		return false;
 	}
-	
+
 	/**
-	 * @return object $User: the User model 
+	 * @return object $User: the User model
 	 */
 	public function getModel() {
-		return ClassRegistry::init(CLASS_USER); 
+		return ClassRegistry::init(CLASS_USER);
 	}
 
 	/**
@@ -142,7 +142,7 @@ class TinyAuthorize extends BaseAuthorize {
 	 * - resolves role slugs to their primary key / identifier
 	 * - resolves wildcards to their verbose translation
 	 * @return array $roles
-	 */	
+	 */
 	protected function _getRoles() {
 		$res = array();
 		if ($this->settings['autoClearCache'] && Configure::read('debug') > 0) {
@@ -155,7 +155,7 @@ class TinyAuthorize extends BaseAuthorize {
 			touch(APP . 'Config' . DS . ACL_FILE);
 		}
 		$iniArray = parse_ini_file(APP . 'Config' . DS . ACL_FILE, true);
-		
+
 		$availableRoles = Configure::read($this->settings['aclModel']);
 		if (!is_array($availableRoles)) {
 			$Model = $this->getModel();
@@ -166,15 +166,15 @@ class TinyAuthorize extends BaseAuthorize {
 			trigger_error(__('Invalid Role Setup for TinyAuthorize (no roles found)'));
 			return false;
 		}
-		
+
 		foreach ($iniArray as $key => $array) {
 			list($plugin, $controllerName) = pluginSplit($key);
 			$controllerName = Inflector::underscore($controllerName);
-			
+
 			foreach ($array as $actions => $roles) {
 				$actions = explode(',', $actions);
 				$roles = explode(',', $roles);
-				
+
 				foreach ($roles as $key => $role) {
 					if (!($role = trim($role))) {
 						continue;
@@ -184,13 +184,13 @@ class TinyAuthorize extends BaseAuthorize {
 						$roles = array_merge($roles, array_keys(Configure::read($this->settings['aclModel'])));
 					}
 				}
-				
+
 				foreach ($actions as $action) {
 					if (!($action = trim($action))) {
 						continue;
 					}
 					$actionName = Inflector::underscore($action);
-					
+
 					foreach ($roles as $role) {
 						if (!($role = trim($role)) || $role == '*') {
 							continue;
@@ -207,5 +207,5 @@ class TinyAuthorize extends BaseAuthorize {
 		Cache::write($this->settings['cacheKey'], $res, $this->settings['cache']);
 		return $res;
 	}
-		
+
 }

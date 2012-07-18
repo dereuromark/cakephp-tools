@@ -4,7 +4,7 @@ App::uses('UrlCacheManager', 'Tools.Routing');
 
 /**
  * Helper enhancements for Cake2
- * 
+ *
  * @author Mark Scherer
  * @license MIT
  * 2012-02-27 ms
@@ -200,7 +200,7 @@ class MyHelper extends Helper {
 
 
 	public $urlHere = null;
-	
+
 	/**
 	 * Small Helper Function to retrieve CORRECT $this->here (as it should be) - CAKE BUG !? -> this is a fix
 	 * 2009-01-06 ms
@@ -302,14 +302,14 @@ class MyHelper extends Helper {
 	 * @return string
 	 * @see Helper::url()
 	 */
-	public function url($url = null, $full = false) {
+	public function url($url = null, $full = false, $escape = true) {
 		if (Configure::read('UrlCache.active')) {
 			if ($cachedUrl = UrlCacheManager::get($url, $full)) {
 				return $cachedUrl;
 			}
 		}
 
-		$routerUrl = h(Router::url($url, $full));
+		$routerUrl = parent::url($url, $full, $escape);
 		if (Configure::read('UrlCache.active')) {
 			UrlCacheManager::set($routerUrl);
 		}

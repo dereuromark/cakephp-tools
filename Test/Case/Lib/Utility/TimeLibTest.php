@@ -10,7 +10,7 @@ class TimeLibTest extends MyCakeTestCase {
 	public function startTest() {
 		//$this->TimeLib = new TimeLib();
 	}
-	
+
 
 	public function testParseDate() {
 		echo $this->_header(__FUNCTION__);

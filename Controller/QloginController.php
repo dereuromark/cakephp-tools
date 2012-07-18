@@ -8,12 +8,12 @@ App::uses('ToolsAppController', 'Tools.Controller');
 class QloginController extends ToolsAppController {
 
 	public $uses = array('Tools.Qlogin');
-	
+
 	public $components = array('Tools.Common');
 
-	public function beforeFilter() {		
+	public function beforeFilter() {
 		parent::beforeFilter();
-		
+
 		if (isset($this->Auth)) {
 			$this->Auth->allow('go');
 		}
@@ -44,7 +44,7 @@ class QloginController extends ToolsAppController {
 		//die(returns($entry));
 		$uid = $entry['CodeKey']['user_id'];
 		$url = $entry['CodeKey']['url'];
-		
+
 		if (!$this->Session->read('Auth.User.id')) {
 			$this->User = ClassRegistry::init(CLASS_USER);
 			# needs to be logged in
@@ -53,7 +53,7 @@ class QloginController extends ToolsAppController {
 				$this->Common->flashMessage(__('Invalid Account'), 'error');
 				$this->Common->autoRedirect($default);
 			}
-			
+
 			if ($this->Auth->login($user['User'])) {
 				$this->Session->write('Auth.User.Login.qlogin', true);
 				if (!Configure::read('Qlogin.suppressMessage')) {
@@ -64,10 +64,14 @@ class QloginController extends ToolsAppController {
 		$this->redirect($url);
 	}
 
-
+	/**
+	 * these params can be passed to preset the form
+	 * - user_id
+	 * - url (base64encoded)
+	 *
+	 * 2012-03-04 ms
+	 */
 	public function admin_index() {
-		//TODO
-		
 		if ($this->Common->isPost()) {
 			$this->Qlogin->set($this->request->data);
 			if ($this->Qlogin->validates()) {
@@ -77,18 +81,27 @@ class QloginController extends ToolsAppController {
 				$this->set(compact('url'));
 				$this->request->data = array();
 			}
+		} else {
+			if (!empty($this->request->params['named']['user_id'])) {
+				$this->request->data['Qlogin']['user_id'] = $this->request->params['named']['user_id'];
+			}
+			if (!empty($this->request->params['named']['url'])) {
+				$this->request->data['Qlogin']['url'] = base64_decode($this->request->params['named']['url']);
+			}
 		}
+
 		$this->User = ClassRegistry::init(CLASS_USER);
 		$users = $this->User->find('list');
-		
+
 		$this->CodeKey = ClassRegistry::init('Tools.CodeKey');
 		$qlogins = $this->CodeKey->find('count', array('conditions'=>array('type'=>'qlogin')));
-		
+
+
 		$this->set(compact('users', 'qlogins'));
 	}
-	
+
 	public function admin_listing() {
-		
+
 	}
 
 	public function admin_reset() {

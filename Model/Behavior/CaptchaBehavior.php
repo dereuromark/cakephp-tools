@@ -30,7 +30,7 @@ class CaptchaBehavior extends ModelBehavior {
 	public function setup(Model $Model, $settings = array()) {
 		$defaults = array_merge(CaptchaLib::$defaults, $this->defaults);
 		$this->Model = $Model;
-		
+
 		# bootstrap configs
 		$this->settings[$Model->alias] = $defaults;
 		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], (array)Configure::read('Captcha'));
@@ -48,7 +48,7 @@ class CaptchaBehavior extends ModelBehavior {
 		if (isset($settings['log'])) {
 			$this->settings[$Model->alias]['log'] = (bool)$settings['log'];
 		}
-		
+
 		//parent::setup($Model, $settings);
 	}
 
@@ -60,7 +60,7 @@ class CaptchaBehavior extends ModelBehavior {
 		}
 		if (empty($Model->data[$Model->alias])) {
 			$this->Model->invalidate('captcha', 'captchaContentMissing', true);
-			
+
 		} elseif (!$this->_validateDummyField($Model->data[$Model->alias])) {
 			$this->Model->invalidate('captcha', 'captchaIllegalContent', true);
 
@@ -69,12 +69,12 @@ class CaptchaBehavior extends ModelBehavior {
 
 		} elseif (!$this->_validateCaptchaMaxTime($Model->data[$Model->alias])) {
 			$this->Model->invalidate('captcha', 'captchaResultTooLate', true);
-			
+
 		} elseif (in_array($this->settings[$Model->alias]['type'], array('active', 'both')) && !$this->_validateCaptcha($Model->data[$Model->alias])) {
 			$this->Model->invalidate('captcha', 'captchaResultIncorrect', true);
 
 		}
-		
+
 		unset($Model->data[$Model->alias]['captcha']);
 		unset($Model->data[$Model->alias]['captcha_hash']);
 		unset($Model->data[$Model->alias]['captcha_time']);
@@ -125,9 +125,9 @@ class CaptchaBehavior extends ModelBehavior {
 
 	/**
 	 * validates maximum time
-	 * 
+	 *
 	 * @param array $data
-	 * @return bool 
+	 * @return bool
 	 */
 	protected function _validateCaptchaMaxTime($data) {
 		if ($this->settings[$this->Model->alias]['maxTime'] <= 0) {
@@ -140,7 +140,7 @@ class CaptchaBehavior extends ModelBehavior {
 		}
 
 		return false;
-	}	
+	}
 
 	/**
 	 * flood protection by false fields and math code
@@ -190,7 +190,7 @@ class CaptchaBehavior extends ModelBehavior {
 			$this->internalError = $internalMsg;
 		}
 
-		
+
 		$this->_logAttempt();
 		return false;
 	}
