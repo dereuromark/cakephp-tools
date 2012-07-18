@@ -24,24 +24,28 @@ App::uses('AuthComponent', 'Controller/Component');
  * - auto-raises login counter and sets last_login date
  * - preps the session data according to completeAuth() method (adds parent data etc)
  * - dynamic login scope validation
- * 
+ *
  * @author Mark Scherer
- * @cakephp 2.0
+ * @cakephp 2.x
  * @license MIT
  * 2011-12-18 ms
  */
 class AuthExtComponent extends AuthComponent {
 
 	public $intermediateModel = 'RoleUser';
+
 	public $roleModel = 'Role';
 
 	public $fieldKey = 'role_id';
-	
+
 	public $loginAction = array('controller' => 'account', 'action' => 'login', 'admin' => false, 'plugin' => false);
+
 	public $loginRedirect = array('controller' => 'overview', 'action' => 'home', 'admin' => false, 'plugin' => false);
+
 	public $autoRedirect = false;
+
 	public $loginError = null;
-	
+
 	public $settings = array(
 		'multi' => null, # null=auto - yes/no multiple roles (HABTM table between users and roles)
 		'parentModelAlias' => USER_ROLE_KEY,
@@ -53,10 +57,10 @@ class AuthExtComponent extends AuthComponent {
 
 
 	public function __construct(ComponentCollection $Collection, $settings = array()) {
-		$settings = array_merge($this->settings, (array) $settings, (array) Configure::read('Auth'));
+		$settings = array_merge($this->settings, (array)$settings, (array)Configure::read('Auth'));
 		$this->Controller = $Collection->getController();
 		parent::__construct($Collection, $settings);
-		
+
 		# auto-select multi if necessary
 		if ($this->settings['multi'] === null) {
 			$Model = $this->getModel();
@@ -88,13 +92,13 @@ class AuthExtComponent extends AuthComponent {
 
 		parent::initialize($Controller);
 	}
-	
+
 	/**
-	 * 2.1 fix for allowing * as wildcard
+	 * 2.1 fix for allowing * as wildcard (tmp solution)
 	 * 2012-01-10 ms
 	 */
 	public function allow($action = null) {
-		if (((array) $action) === array('*')) {
+		if (((array)$action) === array('*')) {
 			parent::allow();
 			return;
 		}
@@ -110,7 +114,7 @@ class AuthExtComponent extends AuthComponent {
 		$this->_setDefaults();
 
 		if (empty($user)) {
-			$user = $this->identify($this->request, $this->response);
+			$user = $this->identify($this->Controller->request, $this->Controller->response);
 		}
 		if (empty($user)) {
 			$this->loginError = __('invalidLoginCredentials');
@@ -162,7 +166,7 @@ class AuthExtComponent extends AuthComponent {
 			$this->loginError = __('Email not active yet');
 			return false;
 		}
-		
+
 		if ($user) {
 			# update login counter
 			if (isset($user['logins'])) {
@@ -171,7 +175,7 @@ class AuthExtComponent extends AuthComponent {
 					$Model->loginUpdate($user);
 				}
 			}
-			
+
 			$this->Session->renew();
 			$this->Session->write(self::$sessionKey, $user);
 			$this->Session->write(self::$sessionKey, $this->completeAuth($user));
@@ -192,7 +196,7 @@ class AuthExtComponent extends AuthComponent {
 			}
 			$user = array_shift($user);
 		}
-				
+
 		if (isset($Model->hasMany[$this->intermediateModel]['className'])) {
 			$with = $Model->hasMany[$this->intermediateModel]['className'];
 		} elseif (isset($Model->belongsTo[$this->roleModel]['className'])) {
@@ -212,7 +216,7 @@ class AuthExtComponent extends AuthComponent {
 				$this->{$withModel} = ClassRegistry::init($with);
 			}
 			# only for multi
-			
+
 			if ($this->settings['multi'] || !isset($completeAuth[$this->settings['userModel']]['role_id'])) {
 				$parentModelAlias = $this->settings['parentModelAlias'];
 				$completeAuth[$this->settings['userModel']][$parentModelAlias] = array(); # default: no roles!
@@ -220,12 +224,12 @@ class AuthExtComponent extends AuthComponent {
 				if (!empty($roles)) {
 					//$primaryRole = $this->user($this->fieldKey);
 					// retrieve associated role that are not the primary one
-		
+
 					# MAYBE USEFUL FOR GUEST!!!
 					//$roles = set::extract('/'.$with.'['.$this->fieldKey.'!='.$primaryRole.']/'.$this->fieldKey, $roles);
-		
+
 					// add the suplemental roles id under the Auth session key
-		
+
 					$completeAuth[$this->settings['userModel']][$parentModelAlias] = $roles; // or USER_ROLE_KEY
 					//pr($completeAuth);
 				}
@@ -233,7 +237,7 @@ class AuthExtComponent extends AuthComponent {
 				//$completeAuth[$this->settings['userModel']][$parentModelAlias][] = $completeAuth[$this->settings['userModel']]['role_id'];
 			}
 		}
-		
+
 		# deprecated!
 		if (isset($Model->hasOne['UserInfo'])) {
 			$with = $Model->hasOne['UserInfo']['className'];
@@ -281,7 +285,7 @@ class AuthExtComponent extends AuthComponent {
 	 * @param Controller $controller A reference to the instantiating controller object
 	 * @return boolean
 	 */
-	public function startup($controller) {
+	public function startup(Controller $controller) {
 		if ($controller->name == 'CakeError') {
 			return true;
 		}
@@ -333,7 +337,7 @@ class AuthExtComponent extends AuthComponent {
 			if (!$this->_getUser()) {
 				if (!$request->is('ajax')) {
 					$this->flash($this->authError);
-					$this->Session->write('Auth.redirect', Router::reverse($request));
+					$this->Session->write('Auth.redirect', $request->here());
 					$controller->redirect($loginAction);
 					return false;
 				} elseif (!empty($this->ajaxLogin)) {
@@ -351,32 +355,38 @@ class AuthExtComponent extends AuthComponent {
 		}
 
 		$this->flash($this->authError);
-		# redirect fix
-		$controller->redirect($controller->referer($this->loginRedirect), null, true);
+		$default = '/';
+		if (!empty($this->loginRedirect)) {
+			$default = $this->loginRedirect;
+		}
+		$controller->redirect($controller->referer($default), null, true);
+		return false;
 	}
-	
+
 	/**
 	 * Quickfix
 	 * TODO: improve - maybe use Authenticate
+	 * @deprecated
 	 * @return bool $success
 	 */
 	public function verifyUser($id, $pwd) {
+		//trigger_error('deprecated - use Authenticate class');
 		$options = array(
 			'conditions' => array('id'=>$id, 'password'=>$this->password($pwd)),
 		);
 		return $this->getModel()->find('first', $options);
-		
+
 		$this->constructAuthenticate();
 		$this->request->data['User']['password'] = $pwd;
 		return $this->identify($this->request, $this->response);
 	}
-	
+
 	/**
 	 * returns the current User model
 	 * @return object $User
 	 */
 	public function getModel() {
-		return ClassRegistry::init(CLASS_USER); 
+		return ClassRegistry::init(CLASS_USER);
 	}
 
 }

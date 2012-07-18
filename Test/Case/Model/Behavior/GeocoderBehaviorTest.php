@@ -1,8 +1,6 @@
 <?php
-
 App::uses('GeocoderBehavior', 'Tools.Model/Behavior');
 App::uses('Set', 'Utility');
-//App::uses('Model', 'Model');
 App::uses('AppModel', 'Model');
 
 class GeocoderBehaviorTest extends CakeTestCase {
@@ -171,6 +169,18 @@ class GeocoderBehaviorTest extends CakeTestCase {
 
 		//debug($this->Comment->Behaviors->Geocoder->Geocode->debug());
 		$this->assertTrue(!empty($res['Comment']['lat']) && !empty($res['Comment']['lng']));
+	}
+
+	public function testDistance() {
+		$res = $this->Comment->distance(12, 14);
+		$expected = '6371.04 * ACOS( COS( PI()/2 - RADIANS(90 - Comment.lat)) * COS( PI()/2 - RADIANS(90 - 12)) * COS( RADIANS(Comment.lat) - RADIANS(14)) + SIN( PI()/2 - RADIANS(90 - Comment.lng)) * SIN( PI()/2 - RADIANS(90 - 12)))';
+		$this->assertEquals($expected, $res);
+
+		$this->Comment->Behaviors->detach('Geocoder');
+		$this->Comment->Behaviors->attach('Geocoder', array('lat'=>'x', 'lng'=>'y'));
+		$res = $this->Comment->distance(12, 14);
+		$expected = '6371.04 * ACOS( COS( PI()/2 - RADIANS(90 - Comment.x)) * COS( PI()/2 - RADIANS(90 - 12)) * COS( RADIANS(Comment.x) - RADIANS(14)) + SIN( PI()/2 - RADIANS(90 - Comment.y)) * SIN( PI()/2 - RADIANS(90 - 12)))';
+		$this->assertEquals($expected, $res);
 	}
 
 }

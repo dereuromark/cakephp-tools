@@ -4,6 +4,7 @@ App::uses('GeocodeLib', 'Tools.Lib');
 /**
  * A geocoding behavior for CakePHP to easily geocode addresses.
  * Uses the GeocodeLib for actual geocoding.
+ * Also provides some useful geocoding tools like validation and distance conditions
  *
  * @author Mark Scherer
  * @cakephp 2.x
@@ -209,7 +210,7 @@ class GeocoderBehavior extends ModelBehavior {
 		$Model->virtualFields['distance'] = $this->distance($Model, $lat, $lng, $modelName);
 	}
 
-	public function distanceConditions(Model $Model, $distance = null, $modelName = null) {
+	public function distanceConditions(Model $Model, $distance = null, $fieldName = null, $modelName = null) {
 		if ($modelName === null) {
 			$modelName = $Model->alias;
 		}
@@ -217,8 +218,9 @@ class GeocoderBehavior extends ModelBehavior {
 			$modelName . '.lat <> 0',
 			$modelName . '.lng <> 0',
 		);
+		$fieldName = !empty($fieldName) ? $fieldName : 'distance';
 		if ($distance !== null) {
-			$conditions[] = '1=1 HAVING distance < ' . intval($distance);
+			$conditions[] = '1=1 HAVING '.$modelName.'.'.$fieldName.' < ' . intval($distance);
 		}
 		return $conditions;
 	}
@@ -232,14 +234,20 @@ class GeocoderBehavior extends ModelBehavior {
 			'AS '.(!empty($fieldName) ? $fieldName : 'distance');
 	}
 
-	public function distance(Model $Model, $lat, $lng, $modelName = null) {
+	public function distance(Model $Model, $lat, $lng, $fieldLat = null, $fieldLng = null, $modelName = null) {
+		if ($fieldLat === null) {
+			$fieldLat = $this->settings[$Model->alias]['lat'];
+		}
+		if ($fieldLng === null) {
+			$fieldLng = $this->settings[$Model->alias]['lng'];
+		}
 		if ($modelName === null) {
 			$modelName = $Model->alias;
 		}
-		return '6371.04 * ACOS( COS( PI()/2 - RADIANS(90 - '.$modelName.'.lat)) * ' .
+		return '6371.04 * ACOS( COS( PI()/2 - RADIANS(90 - '.$modelName.'.'.$fieldLat.')) * ' .
 			'COS( PI()/2 - RADIANS(90 - '. $lat .')) * ' .
-			'COS( RADIANS('.$modelName.'.lng) - RADIANS('. $lng .')) + ' .
-			'SIN( PI()/2 - RADIANS(90 - '.$modelName.'.lat)) * ' .
+			'COS( RADIANS('.$modelName.'.'.$fieldLat.') - RADIANS('. $lng .')) + ' .
+			'SIN( PI()/2 - RADIANS(90 - '.$modelName.'.'.$fieldLng.')) * ' .
 			'SIN( PI()/2 - RADIANS(90 - '. $lat . ')))';
 	}
 
