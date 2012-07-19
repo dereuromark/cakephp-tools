@@ -110,7 +110,7 @@ class GeocoderBehavior extends ModelBehavior {
 
 		$Model->data[$Model->alias]['geocoder_result'] = array();
 
-		// See if we should request a geocode
+		// See if we should request a geocode //TODO: reverse and return here
 		if ((!$this->settings[$Model->alias]['real'] || ($Model->hasField($this->settings[$Model->alias]['lat']) && $Model->hasField($this->settings[$Model->alias]['lng']))) && ($this->settings[$Model->alias]['overwrite'] || (empty($Model->data[$Model->alias][$this->settings[$Model->alias]['lat']]) || ($Model->data[$Model->alias][$this->settings[$Model->alias]['lat']]==0 && $Model->data[$Model->alias][$this->settings[$Model->alias]['lat']]==0)))) {
 
 			if (!empty($Model->whitelist) && (!in_array($this->settings[$Model->alias]['lat'], $Model->whitelist) || !in_array($this->settings[$Model->alias]['lng'], $Model->whitelist))) {
@@ -187,7 +187,6 @@ class GeocoderBehavior extends ModelBehavior {
 				}
 			}
 
-
 			# correct country id if neccessary
 			/*
 			if (in_array('country_name', $this->settings[$Model->alias]['address'])) {
@@ -209,6 +208,9 @@ class GeocoderBehavior extends ModelBehavior {
 	/**
 	 * Add the distance to this point as a virtual field
 	 *
+	 * @param Model $Model
+	 * @param float $lat
+	 * @param float $lng
 	 * @return void
 	 */
 	public function setDistanceAsVirtualField(Model $Model, $lat, $lng, $modelName = null) {
@@ -216,35 +218,8 @@ class GeocoderBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * @return array
-	 */
-	public function distanceConditions(Model $Model, $distance = null, $fieldName = null, $modelName = null) {
-		if ($modelName === null) {
-			$modelName = $Model->alias;
-		}
-		$conditions = array(
-			$modelName . '.lat <> 0',
-			$modelName . '.lng <> 0',
-		);
-		$fieldName = !empty($fieldName) ? $fieldName : 'distance';
-		if ($distance !== null) {
-			$conditions[] = '1=1 HAVING '.$modelName.'.'.$fieldName.' < ' . intval($distance);
-		}
-		return $conditions;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function distanceField(Model $Model, $lat, $lng, $fieldName = null, $modelName = null) {
-		if ($modelName === null) {
-			$modelName = $Model->alias;
-		}
-		$fieldName = (!empty($fieldName) ? $fieldName : 'distance');
-		return $this->distance($Model, $lat, $lng, null, null, $modelName) . ' AS '.$modelName.'.'.$fieldName;
-	}
-
-	/**
+	 * return a sql snippet for distance calculation on db level using two lat/lng points
+	 *
 	 * @return string
 	 */
 	public function distance(Model $Model, $lat, $lng, $fieldLat = null, $fieldLng = null, $modelName = null) {
@@ -264,6 +239,51 @@ class GeocoderBehavior extends ModelBehavior {
 			'SIN( PI()/2 - RADIANS(90 - '. $lat . ')))';
 	}
 
+	/**
+	 * snippet for custom pagination
+	 *
+	 * @return array
+	 */
+	public function distanceConditions(Model $Model, $distance = null, $fieldName = null,  $fieldLat = null, $fieldLng = null, $modelName = null) {
+		if ($fieldLat === null) {
+			$fieldLat = $this->settings[$Model->alias]['lat'];
+		}
+		if ($fieldLng === null) {
+			$fieldLng = $this->settings[$Model->alias]['lng'];
+		}
+		if ($modelName === null) {
+			$modelName = $Model->alias;
+		}
+		$conditions = array(
+			$modelName . '.'.$fieldLat.' <> 0',
+			$modelName . '.'.$fieldLng.' <> 0',
+		);
+		$fieldName = !empty($fieldName) ? $fieldName : 'distance';
+		if ($distance !== null) {
+			$conditions[] = '1=1 HAVING '.$modelName.'.'.$fieldName.' < ' . intval($distance);
+		}
+		return $conditions;
+	}
+
+	/**
+	 * snippet for custom pagination
+	 *
+	 * @return string
+	 */
+	public function distanceField(Model $Model, $lat, $lng, $fieldName = null, $modelName = null) {
+		if ($modelName === null) {
+			$modelName = $Model->alias;
+		}
+		$fieldName = (!empty($fieldName) ? $fieldName : 'distance');
+		return $this->distance($Model, $lat, $lng, null, null, $modelName) . ' AS '.$modelName.'.'.$fieldName;
+	}
+
+	/**
+	 * snippet for custom pagination
+	 * still useful?
+	 *
+	 * @return string
+	 */
 	public function distanceByField(Model $Model, $lat, $lng, $byFieldName = null, $fieldName = null, $modelName = null) {
 		if ($modelName === null) {
 			$modelName = $Model->alias;
@@ -278,6 +298,11 @@ class GeocoderBehavior extends ModelBehavior {
 		return $this->distance($Model, $lat, $lng, null, null, $modelName).' '.$byFieldName;
 	}
 
+	/**
+	 * snippet for custom pagination
+	 *
+	 * @return int $count
+	 */
 	public function paginateDistanceCount(Model $Model, $conditions = null, $recursive = -1, $extra = array()) {
 		if (!empty($extra['radius'])) {
 			$conditions[] = $extra['distance'].' < '.$extra['radius'].(!empty($extra['startRadius'])?' AND '.$extra['distance'].' > '.$extra['startRadius']:'').(!empty($extra['endRadius'])?' AND '.$extra['distance'].' < '.$extra['endRadius']:'');
@@ -288,7 +313,6 @@ class GeocoderBehavior extends ModelBehavior {
 		$extra['behavior'] = true;
 		return $Model->paginateCount($conditions, $recursive, $extra);
 	}
-
 
 	/**
 	 * Returns if a latitude is valid or not.
