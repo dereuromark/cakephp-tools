@@ -1,5 +1,8 @@
 <?php
 App::uses('AppShell', 'Console/Command');
+if (!defined('LF')) {
+	define('LF', PHP_EOL); # use PHP to detect default linebreak
+}
 
 /**
  * Misc Code Fix Tools
@@ -156,8 +159,7 @@ class CodeShell extends AppShell {
 		if (!$inserted) {
 			return;
 		}
-		
-		echo returns($pos);
+
 		array_splice($fileContent, $pos, 0, $inserted);
 		$fileContent = implode(LF, $fileContent);
 	
