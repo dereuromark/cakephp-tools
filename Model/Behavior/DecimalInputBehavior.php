@@ -1,5 +1,5 @@
 <?php
-App::uses('ModelBehavior', 'Model/Behavior');
+App::uses('ModelBehavior', 'Model');
 /**
  * //ALREADY exists as number_format in a slightly different way!
  *

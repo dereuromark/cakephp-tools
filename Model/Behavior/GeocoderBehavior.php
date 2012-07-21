@@ -1,5 +1,5 @@
 <?php
-App::uses('ModelBehavior', 'Model/Behavior');
+App::uses('ModelBehavior', 'Model');
 App::uses('GeocodeLib', 'Tools.Lib');
 
 /**
