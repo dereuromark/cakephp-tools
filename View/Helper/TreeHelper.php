@@ -1,5 +1,4 @@
 <?php
-App::uses('AppHelper', 'View/Helper');
 
 /**
  * Tree Helper.
@@ -24,6 +23,8 @@ App::uses('AppHelper', 'View/Helper');
  * @lastModified         $Date: 2008-08-13 16:13:32 +0200 (Wed, 13 Aug 2008) $
  * @license              http://www.opensource.org/licenses/mit-license.php The MIT License
  */
+App::uses('AppHelper', 'View/Helper');
+
 /**
  * Tree helper
  *
@@ -31,93 +32,93 @@ App::uses('AppHelper', 'View/Helper');
  */
 class TreeHelper extends AppHelper {
 
-/**
- * settings property
- *
- * @var array
- * @access private
- */
+	/**
+	 * settings property
+	 *
+	 * @var array
+	 * @access private
+	 */
 	public $_settings = array();
-/**
- * typeAttributes property
- *
- * @var array
- * @access private
- */
+	/**
+	 * typeAttributes property
+	 *
+	 * @var array
+	 * @access private
+	 */
 	public $_typeAttributes = array();
-/**
- * typeAttributesNext property
- *
- * @var array
- * @access private
- */
+	/**
+	 * typeAttributesNext property
+	 *
+	 * @var array
+	 * @access private
+	 */
 	public $_typeAttributesNext = array();
-/**
- * itemAttributes property
- *
- * @var array
- * @access private
- */
+	/**
+	 * itemAttributes property
+	 *
+	 * @var array
+	 * @access private
+	 */
 	public $_itemAttributes = array();
-/**
- * helpers variable
- *
- * @var array
- * @access public
- */
-	public $helpers = array ('Html');
-/**
- * Tree generation method.
- *
- * Accepts the results of
- * 	find('all', array('fields' => array('lft', 'rght', 'whatever'), 'order' => 'lft ASC'));
- * 	children(); // if you have the tree behavior of course!
- * or 	findAllThreaded(); and generates a tree structure of the data.
- *
- * Settings (2nd parameter):
- *	'model' => name of the model (key) to look for in the data array. defaults to the first model for the current
- * controller. If set to false 2d arrays will be allowed/expected.
- *	'alias' => the array key to output for a simple ul (not used if element or callback is specified)
- *	'type' => type of output defaults to ul
- *	'itemType => type of item output default to li
- *	'id' => id for top level 'type'
- *	'class' => class for top level 'type'
- *	'element' => path to an element to render to get node contents.
- *	'callback' => callback to use to get node contents. e.g. array(&$anObject, 'methodName') or 'floatingMethod'
- *	'autoPath' =>  array($left, $right [$classToAdd = 'active']) if set any item in the path will have the class $classToAdd added. MPTT only.
- *	'left' => name of the 'lft' field if not lft. only applies to MPTT data
- *	'right' => name of the 'rght' field if not lft. only applies to MPTT data
- *	'depth' => used internally when running recursively, can be used to override the depth in either mode.
- *	'firstChild' => used internally when running recursively.
- *	'splitDepth' => if multiple "parallel" types are required, instead of one big type, nominate the depth to do so here
- *		example: useful if you have 30 items to display, and you'd prefer they appeared in the source as 3 lists of 10 to be able to
- *		style/float them.
- *	'splitCount' => the number of "parallel" types. defaults to 3
- *
- * @param array $data data to loop on
- * @param array $settings
- * @return string html representation of the passed data
- * @access public
- */
-	public function generate($data, $settings = array ()) {
+	/**
+	 * helpers variable
+	 *
+	 * @var array
+	 * @access public
+	 */
+	public $helpers = array('Html');
+	/**
+	 * Tree generation method.
+	 *
+	 * Accepts the results of
+	 * 	find('all', array('fields' => array('lft', 'rght', 'whatever'), 'order' => 'lft ASC'));
+	 * 	children(); // if you have the tree behavior of course!
+	 * or 	findAllThreaded(); and generates a tree structure of the data.
+	 *
+	 * Settings (2nd parameter):
+	 *	'model' => name of the model (key) to look for in the data array. defaults to the first model for the current
+	 * controller. If set to false 2d arrays will be allowed/expected.
+	 *	'alias' => the array key to output for a simple ul (not used if element or callback is specified)
+	 *	'type' => type of output defaults to ul
+	 *	'itemType => type of item output default to li
+	 *	'id' => id for top level 'type'
+	 *	'class' => class for top level 'type'
+	 *	'element' => path to an element to render to get node contents.
+	 *	'callback' => callback to use to get node contents. e.g. array(&$anObject, 'methodName') or 'floatingMethod'
+	 *	'autoPath' =>  array($left, $right [$classToAdd = 'active']) if set any item in the path will have the class $classToAdd added. MPTT only.
+	 *	'left' => name of the 'lft' field if not lft. only applies to MPTT data
+	 *	'right' => name of the 'rght' field if not lft. only applies to MPTT data
+	 *	'depth' => used internally when running recursively, can be used to override the depth in either mode.
+	 *	'firstChild' => used internally when running recursively.
+	 *	'splitDepth' => if multiple "parallel" types are required, instead of one big type, nominate the depth to do so here
+	 *		example: useful if you have 30 items to display, and you'd prefer they appeared in the source as 3 lists of 10 to be able to
+	 *		style/float them.
+	 *	'splitCount' => the number of "parallel" types. defaults to 3
+	 *
+	 * @param array $data data to loop on
+	 * @param array $settings
+	 * @return string html representation of the passed data
+	 * @access public
+	 */
+	public function generate($data, $settings = array()) {
 		$this->_settings = array_merge(array(
-				'model' => null,
-				'alias' => 'name',
-				'type' => 'ul',
-				'itemType' => 'li',
-				'id' => false,
-				'class' => false,
-				'element' => false,
-				'callback' => false,
-				'autoPath' => false,
-				'left' => 'lft',
-				'right' => 'rght',
-				'depth' => 0,
-				'firstChild' => true,
-				'indent' => null,
-				'splitDepth' => false,
-				'splitCount' => 3,
-			), (array)$settings);
+			'model' => null,
+			'alias' => 'name',
+			'type' => 'ul',
+			'itemType' => 'li',
+			'id' => false,
+			'class' => false,
+			'element' => false,
+			'callback' => false,
+			'autoPath' => false,
+			'left' => 'lft',
+			'right' => 'rght',
+			'depth' => 0,
+			'firstChild' => true,
+			'indent' => null,
+			'splitDepth' => false,
+			'splitCount' => 3,
+			), (array )$settings);
 		if ($this->_settings['autoPath'] && !isset($this->_settings['autoPath'][2])) {
 			$this->_settings['autoPath'][2] = 'active';
 		}
@@ -156,10 +157,10 @@ class TreeHelper extends AppHelper {
 				$result['children'] = array();
 			}
 			/* Close open items as appropriate */
-			while ($stack && ($stack[count($stack)-1] < $result[$model][$right])) {
+			while ($stack && ($stack[count($stack) - 1] < $result[$model][$right])) {
 				array_pop($stack);
 				if ($indent) {
-					$whiteSpace = str_repeat("\t",count($stack));
+					$whiteSpace = str_repeat("\t", count($stack));
 					$return .= "\r\n" . $whiteSpace . "\t";
 				}
 				if ($type) {
@@ -204,14 +205,13 @@ class TreeHelper extends AppHelper {
 			}
 			$elementData = array(
 				'data' => $result,
-				'depth' => $depth?$depth:count($stack),
+				'depth' => $depth ? $depth : count($stack),
 				'hasChildren' => $hasChildren,
 				'numberOfDirectChildren' => $numberOfDirectChildren,
 				'numberOfTotalChildren' => $numberOfTotalChildren,
 				'firstChild' => $firstChild,
 				'lastChild' => $lastChild,
-				'hasVisibleChildren' => $hasVisibleChildren
-			);
+				'hasVisibleChildren' => $hasVisibleChildren);
 			$this->_settings = array_merge($this->_settings, $elementData);
 			/* Main Content */
 			if ($element) {
@@ -235,7 +235,7 @@ class TreeHelper extends AppHelper {
 				}
 				if ($type) {
 					$typeAttributes = $this->_attributes($type, array('data' => $elementData));
-					$return .= '<' . $type .  $typeAttributes . '>';
+					$return .= '<' . $type . $typeAttributes . '>';
 				}
 			}
 			if ($indent) {
@@ -271,7 +271,7 @@ class TreeHelper extends AppHelper {
 		while ($stack) {
 			array_pop($stack);
 			if ($indent) {
-				$whiteSpace = str_repeat("\t",count($stack));
+				$whiteSpace = str_repeat("\t", count($stack));
 				$return .= "\r\n" . $whiteSpace . "\t";
 			}
 			if ($type) {
@@ -292,18 +292,19 @@ class TreeHelper extends AppHelper {
 		}
 		return $return;
 	}
-/**
- * addItemAttribute function
- *
- * Called to modify the attributes of the next <item> to be processed
- * Note that the content of a 'node' is processed before generating its wrapping <item> tag
- *
- * @param string $id
- * @param string $key
- * @param mixed $value
- * @access public
- * @return void
- */
+
+	/**
+	 * addItemAttribute function
+	 *
+	 * Called to modify the attributes of the next <item> to be processed
+	 * Note that the content of a 'node' is processed before generating its wrapping <item> tag
+	 *
+	 * @param string $id
+	 * @param string $key
+	 * @param mixed $value
+	 * @access public
+	 * @return void
+	 */
 	public function addItemAttribute($id = '', $key = '', $value = null) {
 		if (!is_null($value)) {
 			$this->_itemAttributes[$id][$key] = $value;
@@ -311,37 +312,38 @@ class TreeHelper extends AppHelper {
 			$this->_itemAttributes[$id][] = $key;
 		}
 	}
-/**
- * addTypeAttribute function
- *
- * Called to modify the attributes of the next <type> to be processed
- * Note that the content of a 'node' is processed before generating its wrapping <type> tag (if appropriate)
- * An 'interesting' case is that of a first child with children. To generate the output
- * <ul> (1)
- *      <li>XYZ (3)
- *              <ul> (2)
- *                      <li>ABC...
- *                      ...
- *              </ul>
- *              ...
- * The processing order is indicated by the numbers in brackets.
- * attributes are allways applied to the next type (2) to be generated
- * to set properties of the holding type - pass 'previous' for the 4th param
- * i.e.
- * // Hide children (2)
- * $this->Tree->addTypeAttribute('style', 'display', 'hidden');
- * // give top level type (1) a class
- * $this->Tree->addTypeAttribute('class', 'hasHiddenGrandChildren', null, 'previous');
- *
- * @param string $id
- * @param string $key
- * @param mixed $value
- * @access public
- * @return void
- */
+
+	/**
+	 * addTypeAttribute function
+	 *
+	 * Called to modify the attributes of the next <type> to be processed
+	 * Note that the content of a 'node' is processed before generating its wrapping <type> tag (if appropriate)
+	 * An 'interesting' case is that of a first child with children. To generate the output
+	 * <ul> (1)
+	 *      <li>XYZ (3)
+	 *              <ul> (2)
+	 *                      <li>ABC...
+	 *                      ...
+	 *              </ul>
+	 *              ...
+	 * The processing order is indicated by the numbers in brackets.
+	 * attributes are allways applied to the next type (2) to be generated
+	 * to set properties of the holding type - pass 'previous' for the 4th param
+	 * i.e.
+	 * // Hide children (2)
+	 * $this->Tree->addTypeAttribute('style', 'display', 'hidden');
+	 * // give top level type (1) a class
+	 * $this->Tree->addTypeAttribute('class', 'hasHiddenGrandChildren', null, 'previous');
+	 *
+	 * @param string $id
+	 * @param string $key
+	 * @param mixed $value
+	 * @access public
+	 * @return void
+	 */
 	public function addTypeAttribute($id = '', $key = '', $value = null, $previousOrNext = 'next') {
 		$var = '__typeAttributes';
-		$firstChild = isset($this->_settings['firstChild'])?$this->_settings['firstChild']:true;
+		$firstChild = isset($this->_settings['firstChild']) ? $this->_settings['firstChild'] : true;
 		if ($previousOrNext == 'next' && $firstChild) {
 			$var = '__typeAttributesNext';
 		}
@@ -352,29 +354,30 @@ class TreeHelper extends AppHelper {
 		}
 	}
 
-/**
- * supressChildren method
- *
- * @return void
- * @access public
- */
+	/**
+	 * supressChildren method
+	 *
+	 * @return void
+	 * @access public
+	 */
 	public function supressChildren() {
 	}
-/**
- * suffix method
- *
- * Used to close and reopen a ul/ol to allow easier listings
- *
- * @access private
- * @return void
- */
+
+	/**
+	 * suffix method
+	 *
+	 * Used to close and reopen a ul/ol to allow easier listings
+	 *
+	 * @access private
+	 * @return void
+	 */
 	public function _suffix() {
 		static $_splitCount = 0;
 		static $_splitCounter = 0;
 		extract($this->_settings);
 		if ($splitDepth) {
-			if ($depth == $splitDepth -1) {
-				$total = $numberOfDirectChildren?$numberOfDirectChildren:$numberOfTotalChildren;
+			if ($depth == $splitDepth - 1) {
+				$total = $numberOfDirectChildren ? $numberOfDirectChildren : $numberOfTotalChildren;
 				if ($total) {
 					$_splitCounter = 0;
 					$_splitCount = $total / $splitCount;
@@ -393,16 +396,17 @@ class TreeHelper extends AppHelper {
 		}
 		return;
 	}
-/**
- * attributes function
- *
- * Logic to apply styles to tags.
- *
- * @param mixed $rType
- * @param array $elementData
- * @access private
- * @return void
- */
+
+	/**
+	 * attributes function
+	 *
+	 * Logic to apply styles to tags.
+	 *
+	 * @param mixed $rType
+	 * @param array $elementData
+	 * @access private
+	 * @return void
+	 */
 	public function _attributes($rType, $elementData = array(), $clear = true) {
 		extract($this->_settings);
 		if ($rType == $type) {
@@ -445,4 +449,5 @@ class TreeHelper extends AppHelper {
 		}
 		return '';
 	}
+
 }

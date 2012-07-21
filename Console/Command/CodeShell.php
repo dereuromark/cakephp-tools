@@ -81,66 +81,87 @@ class CodeShell extends AppShell {
 			$missingClasses[] = $match;
 		}
 		
-		if (!empty($missingClasses)) {
-			$fileContent = explode(LF, $fileContent);
-			$inserted = array();
-			$pos = 1;
+		if (empty($missingClasses)) {
+			return;
+		}
 			
-			if (!empty($fileContent[1]) && $fileContent[1] == '/**') {
-				for ($i = $pos; $i < count($fileContent)-1; $i++) {
-					if (strpos($fileContent[$i], '*/') !== false && strpos($fileContent[$i+1], 'class ') !==0) {
+		$fileContent = explode(LF, $fileContent);
+		$inserted = array();
+		$pos = 1;
+		
+		if (!empty($fileContent[1]) && $fileContent[1] == '/**') {
+			for ($i = $pos; $i < count($fileContent)-1; $i++) {
+				if (strpos($fileContent[$i], '*/') !== false) {
+					if (strpos($fileContent[$i+1], 'class ') !== 0) {
 						$pos = $i+1;
-						break;
 					}
-				}
-			}
-			
-			# try to find the best position to insert app uses statements
-			foreach ($fileContent as $row => $rowValue) {
-				if (strpos($rowValue, 'App::uses(')!== false) {
-					$pos = $row;
 					break;
 				}
 			}
-			
-			foreach ($missingClasses as $missingClass) {
-				$classes = array(
-					'Controller' => 'Controller',
-					'Component' => 'Controller/Component',
-					'Shell' => 'Console/Command',
-					'Model' => 'Model',
-					'Behavior' => 'Model/Behavior',
-					'Datasource' => 'Model/Datasource',
-					'Task' => 'Console/Command/Task',
-					'View' => 'View',
-					'Helper' => 'View/Helper',
-				);
-				$type = null;
-				foreach ($classes as $class => $namespace) {
-					if ($t = strposReverse($missingClass, $class) === 0) {
-						$type = $namespace;
-						break;
-					}
-				}
-				if (empty($type)) {
-					$this->err($missingClass.' ('.$file.') could not be matched');
-					continue;
-				}
-				//FIXME
-				if (!empty($this->params['plugin'])) {
-					$type = $this->params['plugin'] . '.' . $type;
-				}
-				
-				$inserted[] = 'App::uses(\''.$missingClass.'\', \''.$type.'\');';
-			}
-			
-			if ($inserted) {
-				array_splice($fileContent, $pos, 0, $inserted); 
-			}
-			$fileContent = implode(LF, $fileContent);
 		}
 		
-		if (!empty($missingClasses) && empty($this->params['dry-run'])) {
+		# try to find the best position to insert app uses statements
+		foreach ($fileContent as $row => $rowValue) {
+			preg_match('/^App\:\:uses\(/', $rowValue, $matches);
+			if ($matches) {
+				$pos = $row;
+				break;
+			}
+		}
+		
+		foreach ($missingClasses as $missingClass) {
+			$classes = array(
+				'Controller' => 'Controller',
+				'Component' => 'Controller/Component',
+				'Shell' => 'Console/Command',
+				'Model' => 'Model',
+				'Behavior' => 'Model/Behavior',
+				'Datasource' => 'Model/Datasource',
+				'Task' => 'Console/Command/Task',
+				'View' => 'View',
+				'Helper' => 'View/Helper',
+			);
+			$type = null;
+			foreach ($classes as $class => $namespace) {
+				if (($t = strposReverse($missingClass, $class)) === 0) {
+					$type = $namespace;
+					break;
+				}
+			}
+			if (empty($type)) {
+				$this->err($missingClass.' ('.$file.') could not be matched');
+				continue;
+			}
+			//FIXME
+			if (!empty($this->params['plugin'])) {
+				if ($class == 'Model') {
+					$missingClassName = $missingClass;
+				} else {
+					$missingClassName = substr($missingClass, 0, strlen($missingClass) - strlen($class));
+				}
+				$objects = App::objects(($this->params['plugin'] ? $this->params['plugin'].'.' : '') . $class);
+				if ($location = App::location($missingClass)) {
+					$type = $location;
+					echo(returns($type));
+				} elseif (in_array($missingClass, $objects)) {
+					$type = $this->params['plugin'] . '.' . $type;
+				} else {
+					$type = $type;
+				}
+			}
+			
+			$inserted[] = 'App::uses(\''.$missingClass.'\', \''.$type.'\');';
+		}
+		
+		if (!$inserted) {
+			return;
+		}
+		
+		echo returns($pos);
+		array_splice($fileContent, $pos, 0, $inserted);
+		$fileContent = implode(LF, $fileContent);
+	
+		if (empty($this->params['dry-run'])) {
 			file_put_contents($file, $fileContent);
 			$this->out(__d('cake_console', 'Correcting %s', $file), 1, Shell::VERBOSE);
 		}
