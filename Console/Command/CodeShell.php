@@ -143,7 +143,9 @@ class CodeShell extends AppShell {
 					$missingClassName = substr($missingClass, 0, strlen($missingClass) - strlen($class));
 				}
 				$objects = App::objects(($this->params['plugin'] ? $this->params['plugin'].'.' : '') . $class);
-				if ($location = App::location($missingClass)) {
+				if ($missingClassName == 'ModelBehavior') {
+					$type = 'Model';
+				} elseif ($location = App::location($missingClass)) {
 					$type = $location;
 					echo(returns($type));
 				} elseif (in_array($missingClass, $objects)) {
