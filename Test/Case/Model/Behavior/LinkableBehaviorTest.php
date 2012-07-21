@@ -40,8 +40,11 @@ class LinkableBehaviorTest extends CakeTestCase {
 				'Profile'
 			)
 		));
+		
+		$arrayExpectedTmp = $arrayExpected;
+		$arrayExpectedTmp['User']['role_id'] = 1;
 		$this->assertTrue(isset($arrayResult['Profile']), 'belongsTo association via Containable: %s');
-		$this->assertEquals($arrayExpected, $arrayResult, 'belongsTo association via Containable: %s');
+		$this->assertEquals($arrayExpectedTmp, $arrayResult, 'belongsTo association via Containable: %s');
 
 		// Same association, but this time with Linkable
 		$arrayResult = $this->User->find('first', array(
@@ -73,8 +76,10 @@ class LinkableBehaviorTest extends CakeTestCase {
 			)
 		));
 
+		$arrayExpectedTmp = $arrayExpected;
+		$arrayExpectedTmp['User']['role_id'] = 1;
 		$this->assertTrue(isset($arrayResult['Profile']), 'belongsTo association via Linkable (automatic fields): %s');
-		$this->assertEquals($arrayExpected, $arrayResult, 'belongsTo association via Linkable (automatic fields): %s');
+		$this->assertEquals($arrayExpectedTmp, $arrayResult, 'belongsTo association via Linkable (automatic fields): %s');
 
 		// On-the-fly association via Linkable
 		$arrayExpected = array(
@@ -96,8 +101,10 @@ class LinkableBehaviorTest extends CakeTestCase {
 			)
 		));
 
+		$arrayExpectedTmp = $arrayExpected;
+		$arrayExpectedTmp['User']['role_id'] = 1;
 		$this->assertTrue(isset($arrayResult['Generic']), 'On-the-fly belongsTo association via Linkable: %s');
-		$this->assertEquals($arrayExpected, $arrayResult, 'On-the-fly belongsTo association via Linkable: %s');
+		$this->assertEquals($arrayExpectedTmp, $arrayResult, 'On-the-fly belongsTo association via Linkable: %s');
 
 		// On-the-fly association via Linkable, with order on the associations' row and using array conditions instead of plain string
 		$arrayExpected = array(
@@ -120,7 +127,9 @@ class LinkableBehaviorTest extends CakeTestCase {
 			'order' => 'Generic.id DESC'
 		));
 
-		$this->assertEquals($arrayExpected, $arrayResult, 'On-the-fly belongsTo association via Linkable, with order: %s');
+		$arrayExpectedTmp = $arrayExpected;
+		$arrayExpectedTmp['User']['role_id'] = 3;
+		$this->assertEquals($arrayExpectedTmp, $arrayResult, 'On-the-fly belongsTo association via Linkable, with order: %s');
 	}
 
 	public function testHasMany() {
@@ -147,8 +156,11 @@ class LinkableBehaviorTest extends CakeTestCase {
 			),
 			'order' => 'User.id ASC'
 		));
+		
+		$arrayExpectedTmp = $arrayExpected;
+		$arrayExpectedTmp['User']['role_id'] = 1;
 		$this->assertTrue(isset($arrayResult['Comment']), 'hasMany association via Containable: %s');
-		$this->assertEquals($arrayExpected, $arrayResult, 'hasMany association via Containable: %s');
+		$this->assertEquals($arrayExpectedTmp, $arrayResult, 'hasMany association via Containable: %s');
 
 		// Same association, but this time with Linkable
 		$arrayExpected = array(
@@ -225,8 +237,10 @@ class LinkableBehaviorTest extends CakeTestCase {
 				)
 			)
 		));
-
-		$this->assertEquals($arrayExpected, $arrayResult, 'Complex find: %s');
+		
+		$arrayExpectedTmp = $arrayExpected;
+		$arrayExpectedTmp['User']['role_id'] = 1;
+		$this->assertEquals($arrayExpectedTmp, $arrayResult, 'Complex find: %s');
 
 		// Linkable and Containable combined
 		$arrayExpected = array(
@@ -247,7 +261,9 @@ class LinkableBehaviorTest extends CakeTestCase {
 			)
 		));
 
-		$this->assertEquals($arrayExpected, $arrayResult, 'Linkable and Containable combined: %s');
+		$arrayExpectedTmp = $arrayExpected;
+		$arrayExpectedTmp['User']['role_id'] = 1;
+		$this->assertEquals($arrayExpectedTmp, $arrayResult, 'Linkable and Containable combined: %s');
 	}
 
 	public function _testPagination() {
@@ -457,7 +473,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 }
 
 
-class TestModel extends CakeTestModel {
+class LinkableTestModel extends CakeTestModel {
 
 	public $recursive = 0;
 
@@ -467,7 +483,7 @@ class TestModel extends CakeTestModel {
 	);
 }
 
-class User extends TestModel {
+class User extends LinkableTestModel {
 
 	public $hasOne = array(
 		'Profile'
@@ -479,14 +495,14 @@ class User extends TestModel {
 	);
 }
 
-class Profile extends TestModel {
+class Profile extends LinkableTestModel {
 
 	public $belongsTo = array(
 		'User'
 	);
 }
 
-class BlogPost extends TestModel {
+class BlogPost extends LinkableTestModel {
 
 	public $belongsTo = array(
 		'User'
@@ -497,10 +513,10 @@ class BlogPost extends TestModel {
 	);
 }
 
-class BlogPostTag extends TestModel {
+class BlogPostTag extends LinkableTestModel {
 }
 
-class Tag extends TestModel {
+class Tag extends LinkableTestModel {
 
 	public $hasAndBelongsToMany = array(
 		'BlogPost'
@@ -514,7 +530,7 @@ class Tag extends TestModel {
 	);
 }
 
-class LegacyProduct extends TestModel {
+class LegacyProduct extends LinkableTestModel {
 
 	public $primaryKey = 'product_id';
 
@@ -530,7 +546,7 @@ class LegacyProduct extends TestModel {
 	);
 }
 
-class LegacyCompany extends TestModel {
+class LegacyCompany extends LinkableTestModel {
 
 	public $primaryKey = 'company_id';
 
@@ -542,14 +558,14 @@ class LegacyCompany extends TestModel {
 	);
 }
 
-class Shipment extends TestModel {
+class Shipment extends LinkableTestModel {
 
 	public $belongsTo = array(
 		'OrderItem'
 	);
 }
 
-class OrderItem extends TestModel {
+class OrderItem extends LinkableTestModel {
 
 	public $hasMany = array(
 		'Shipment'

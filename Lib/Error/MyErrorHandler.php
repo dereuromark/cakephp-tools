@@ -88,6 +88,41 @@ class MyErrorHandler extends ErrorHandler {
 	}
 
 	/**
+	 * Generate an error page when some fatal error happens.
+	 *
+	 * @param integer $code Code of error
+	 * @param string $description Error description
+	 * @param string $file File on which error occurred
+	 * @param integer $line Line that triggered the error
+	 * @return boolean
+	 */
+	public static function handleFatalError($code, $description, $file, $line) {
+		$logMessage = 'Fatal Error (' . $code . '): ' . $description . ' in [' . $file . ', line ' . $line . ']';
+		CakeLog::write(LOG_ERR, $logMessage);
+
+		$exceptionHandler = Configure::read('Exception.handler');
+		if (!is_callable($exceptionHandler)) {
+			return false;
+		}
+
+		# cake bug? temporary!
+		if (Configure::read('debug')) {
+			return false;
+		}
+
+		if (ob_get_level()) {
+			ob_clean();
+		}
+
+		if (Configure::read('debug')) {
+			call_user_func($exceptionHandler, new FatalErrorException($description, 500, $file, $line));
+		} else {
+			call_user_func($exceptionHandler, new InternalErrorException());
+		}
+		return false;
+	}
+
+	/**
 	 * append some more infos to better track down the error
 	 * @return string
 	 * 2011-12-21 ms

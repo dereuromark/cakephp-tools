@@ -22,8 +22,9 @@
 /**
  * Ensure that mb_ functions exist
  */
-App::uses('Multibyte', 'I18n');
+App::import('I18n', 'Multibyte');
 App::uses('ModelBehavior', 'Model');
+
 
 /**
  * SluggedBehavior class
@@ -272,14 +273,15 @@ class SluggedBehavior extends ModelBehavior {
 		$return = 'array';
 		$originalIfEmpty = true;
 		extract($params);
-
+		/*
 		if (!class_exists('MiCache')) {
 			App::import('Vendor', 'Mi.MiCache');
 		}
+		*/
 		if (!empty($this->settings[$Model->alias]['language'])) {
 			$lang = $this->settings[$Model->alias]['language'];
 		} else {
-			$lang = MiCache::setting('Site.lang');
+			$lang = Configure::read('Site.lang');
 			if (!$lang) {
 				$lang = 'eng';
 			}
@@ -288,8 +290,8 @@ class SluggedBehavior extends ModelBehavior {
 
 		if (!array_key_exists($lang, $this->stopWords)) {
 			ob_start();
-			if (!App::import('Vendor', 'stop_words/' . $lang, array('file' => "stop_words/$lang.txt"))) {
-				App::import('Vendor', 'stop_words/' . $lang, array('plugin' => 'Mi', 'file' => "stop_words/$lang.txt"));
+			if (!App::import('Vendor', 'stop_words_' . $lang, array('file' => "stop_words".DS."$lang.txt"))) {
+				$res = App::import('Vendor', 'Tools.stop_words_' . $lang, array('file' => "stop_words".DS."$lang.txt"));
 			}
 			$stopWords = preg_replace('@/\*.*\*/@', '', ob_get_clean());
 			$this->stopWords[$lang] = array_filter(array_map('trim', explode("\n", $stopWords)));

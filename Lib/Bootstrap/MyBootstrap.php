@@ -532,8 +532,6 @@ function uid($default = null) {
 
 
 
-register_shutdown_function('shutdownFunction');
-
 /**
  * own shutdown function - also logs fatal errors (necessary until cake2.2)
  * 2010-10-17 ms

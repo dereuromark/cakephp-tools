@@ -1,4 +1,5 @@
 <?php
+App::uses('ToolsAppController', 'Tools.Controller');
 /*
 
 Apply this route (/Config/routes.php):

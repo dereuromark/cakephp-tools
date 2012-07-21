@@ -1,4 +1,5 @@
 <?php
+App::uses('AppHelper', 'View/Helper');
 
 /**
  * All site-wide neccessary stuff for the view layer

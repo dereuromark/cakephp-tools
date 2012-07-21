@@ -1,5 +1,4 @@
 <?php
-
 App::uses('Auth', 'Tools.Lib');
 App::uses('MyCakeTestCase', 'Tools.Lib');
 
@@ -7,6 +6,16 @@ App::uses('MyCakeTestCase', 'Tools.Lib');
  * 2010-06-29 ms
  */
 class AuthTest extends MyCakeTestCase {
+
+	public $fixtures = array('core.session');
+
+	public function startTest() {
+		ClassRegistry::init('Session');
+	}
+
+	public function endTest() {
+		ClassRegistry::flush();
+	}
 
 	public function testHasRole() {
 		$res = Auth::hasRole(1, array(2, 3, 6));

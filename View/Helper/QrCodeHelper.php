@@ -1,4 +1,5 @@
 <?php
+App::uses('AppHelper', 'View/Helper');
 /**
  * Example Url:
  * http://chart.apis.google.com/chart?cht=qr&chs=400x400&chl=SomeText

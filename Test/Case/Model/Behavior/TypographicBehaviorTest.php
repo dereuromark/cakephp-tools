@@ -1,7 +1,7 @@
 <?php
 
 App::import('Behavior', 'Tools.Typographic');
-App::uses('App', 'Core');
+App::uses('AppModel', 'Model');
 App::uses('MyCakeTestCase', 'Tools.Lib');
 
 
@@ -9,7 +9,7 @@ class TypographicBehaviorTest extends MyCakeTestCase {
 
 	public function startTest() {
 		//$this->Comment = ClassRegistry::init('Comment');
-		$this->Comment = new TestModel();
+		$this->Comment = new TypographicTestModel();
 		$this->Comment->Behaviors->attach('Tools.Typographic', array('fields'=>array('body'), 'before'=>'validate'));
 	}
 
@@ -38,7 +38,7 @@ class TypographicBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 
 		$res = $this->Comment->data;
-		$this->assertSame($data['body'], $res['TestModel']['body']);
+		$this->assertSame($data['body'], $res['TypographicTestModel']['body']);
 
 		$strings = array(
 			'some string with ‹single angle quotes›' => 'some string with "single angle quotes"',
@@ -58,7 +58,7 @@ class TypographicBehaviorTest extends MyCakeTestCase {
 			//debug($expected);
 			//debug($res['TestModel']['body']);
 			//die();
-			$this->assertSame($expected, $res['TestModel']['body']);
+			$this->assertSame($expected, $res['TypographicTestModel']['body']);
 		}
 
 	}
@@ -68,10 +68,8 @@ class TypographicBehaviorTest extends MyCakeTestCase {
 
 /** other files **/
 
-class TestModel extends AppModel {
+class TypographicTestModel extends AppModel {
 
-
-	public $alias = 'TestModel';
 	public $useTable = false;
 	public $displayField = 'name';
 

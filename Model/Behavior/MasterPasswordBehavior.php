@@ -1,4 +1,6 @@
 <?php
+App::uses('ModelBehavior', 'Model');
+
 /**
  * MasterPassword Behavior for admin views
  *

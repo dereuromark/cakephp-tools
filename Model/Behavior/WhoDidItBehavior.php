@@ -1,5 +1,6 @@
 <?php
 App::uses('CakeSession', 'Model/Datasource');
+App::uses('ModelBehavior', 'Model');
 
 /**
  * WhoDidIt Model Behavior for CakePHP

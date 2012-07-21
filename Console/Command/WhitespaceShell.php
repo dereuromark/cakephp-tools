@@ -1,9 +1,8 @@
 <?php
-App::import('Core',array('Folder'));
+App::uses('AppShell', 'Console/Command');
+App::uses('Folder', 'Utility');
 
 class WhitespaceShell extends AppShell {
-	public $tasks = array();
-	public $uses = array();
 
 	public $autoCorrectAll = false;
 	# each report: [0] => found, [1] => corrected

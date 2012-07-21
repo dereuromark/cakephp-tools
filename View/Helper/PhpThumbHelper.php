@@ -1,4 +1,5 @@
 <?php
+App::uses('AppHelper', 'View/Helper');
 
 /**
  * @see http://code621.com/content/1/phpthumb-helper-for-cakephp

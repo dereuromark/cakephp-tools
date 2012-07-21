@@ -57,34 +57,10 @@ class AuthExtComponent extends AuthComponent {
 
 
 	public function __construct(ComponentCollection $Collection, $settings = array()) {
-		$settings = array_merge($this->settings, (array)$settings, (array)Configure::read('Auth'));
-		$this->Controller = $Collection->getController();
+		$settings = array_merge($this->settings, (array)Configure::read('Auth'), (array)$settings);
+		//$this->Controller = $Collection->getController();
+		
 		parent::__construct($Collection, $settings);
-
-		# auto-select multi if necessary
-		if ($this->settings['multi'] === null) {
-			$Model = $this->getModel();
-			if (!empty($Model->hasMany)) {
-				foreach ($Model->hasMany as $name => $relation) {
-					if ($name != $this->roleModel) {
-						continue;
-					}
-					$this->settings['multi'] = false;
-					return;
-				}
-			}
-			$Model = $this->getModel();
-			if (!empty($Model->hasAndBelongsToMany)) {
-				foreach ($Model->hasAndBelongsToMany as $name => $relation) {
-					if ($name != $this->roleModel) {
-						continue;
-					}
-					$this->settings['multi'] = true;
-					return;
-				}
-			}
-			//$this->log('AuthExt component not configured properly (auto select multi failed)');
-		}
 	}
 
 	public function initialize(Controller $Controller) {
@@ -216,7 +192,6 @@ class AuthExtComponent extends AuthComponent {
 				$this->{$withModel} = ClassRegistry::init($with);
 			}
 			# only for multi
-
 			if ($this->settings['multi'] || !isset($completeAuth[$this->settings['userModel']]['role_id'])) {
 				$parentModelAlias = $this->settings['parentModelAlias'];
 				$completeAuth[$this->settings['userModel']][$parentModelAlias] = array(); # default: no roles!
@@ -229,7 +204,6 @@ class AuthExtComponent extends AuthComponent {
 					//$roles = set::extract('/'.$with.'['.$this->fieldKey.'!='.$primaryRole.']/'.$this->fieldKey, $roles);
 
 					// add the suplemental roles id under the Auth session key
-
 					$completeAuth[$this->settings['userModel']][$parentModelAlias] = $roles; // or USER_ROLE_KEY
 					//pr($completeAuth);
 				}
@@ -286,6 +260,7 @@ class AuthExtComponent extends AuthComponent {
 	 * @return boolean
 	 */
 	public function startup(Controller $controller) {
+		//parent::startup($controller);
 		if ($controller->name == 'CakeError') {
 			return true;
 		}

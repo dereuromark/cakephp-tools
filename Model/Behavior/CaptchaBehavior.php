@@ -3,7 +3,9 @@
 define('CAPTCHA_MIN_TIME', 3); # seconds the form will need to be filled in by a human
 define('CAPTCHA_MAX_TIME', HOUR);	# seconds the form will need to be submitted in
 
+App::uses('ModelBehavior', 'Model');
 App::uses('CaptchaLib', 'Tools.Lib');
+App::uses('CommonComponent', 'Tools.Controller/Component');
 
 /**
  * CaptchaBehavior

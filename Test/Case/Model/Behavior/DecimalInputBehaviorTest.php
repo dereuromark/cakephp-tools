@@ -1,7 +1,7 @@
 <?php
 
 App::import('Behavior', 'Tools.DecimalInput');
-App::uses('App', 'Core');
+App::uses('AppModel', 'Model');
 App::uses('MyCakeTestCase', 'Tools.Lib');
 
 
@@ -9,7 +9,7 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 
 	public function startTest() {
 		//$this->Comment = ClassRegistry::init('Comment');
-		$this->Comment = new TestModel();
+		$this->Comment = new DecimalInputTestModel();
 		$this->Comment->Behaviors->attach('Tools.DecimalInput', array('fields'=>array('rel_rate', 'set_rate'), 'output'=>true));
 	}
 
@@ -88,11 +88,12 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 
 /** other files **/
 
-class TestModel extends AppModel {
-
+class DecimalInputTestModel extends AppModel {
 
 	public $alias = 'TestModel';
+
 	public $useTable = false;
+	
 	public $displayField = 'title';
 
 	public function find($type = null, $options = array(), $customData = null) {

@@ -1,4 +1,5 @@
 <?php
+App::uses('AppHelper', 'View/Helper');
 
 /**
  * Generic html snippets to display some specific widgets like accordion

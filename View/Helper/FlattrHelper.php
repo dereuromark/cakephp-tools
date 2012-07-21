@@ -1,4 +1,5 @@
 <?php
+App::uses('AppHelper', 'View/Helper');
 /*
 uid The Flattr User ID as found on the Flattr dashboard (in the example I used mine).
 tle The title for the link to be submitted.

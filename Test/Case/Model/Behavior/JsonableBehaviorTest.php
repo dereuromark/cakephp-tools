@@ -1,22 +1,22 @@
 <?php
 
-App::import('Behavior', 'Tools.Jsonable');
-App::uses('App', 'Core');
+App::uses('JsonableBehavior', 'Tools.Model/Behavior');
+App::uses('AppModel', 'Model');
 App::uses('MyCakeTestCase', 'Tools.Lib');
 
 
 class JsonableBehaviorTest extends MyCakeTestCase {
-	/*
+
 	public $fixtures = array(
 		'core.comment'
 	);
-	*/
+
 	public $Comment;
 
 	public function startTest() {
 		//$this->Comment = ClassRegistry::init('Comment');
-		$this->Comment = new JsonableTestModel();
-		$this->Comment->Behaviors->attach('Jsonable', array());
+		$this->Comment = new JsonableBehaviorTestModel();
+		$this->Comment->Behaviors->attach('Tools.Jsonable', array());
 	}
 
 /** INPUT **/
@@ -34,14 +34,14 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 
 		$res = $this->Comment->data;
-		echo returns($res);
-		$this->assertSame($res['JsonableTestModel']['details'], '{"x":"y"}');
+		echo returns($res); ob_flush();
+		$this->assertSame($res['JsonableBehaviorTestModel']['details'], '{"x":"y"}');
 	}
 
 	public function testFieldsWithList() {
 		echo $this->_header(__FUNCTION__);
 		$this->Comment->Behaviors->detach('Jsonable');
-		$this->Comment->Behaviors->attach('Jsonable', array('fields'=>array('details'), 'input'=>'list'));
+		$this->Comment->Behaviors->attach('Tools.Jsonable', array('fields'=>array('details'), 'input'=>'list'));
 
 		$data = array(
 			'comment' => 'blabla',
@@ -54,7 +54,7 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 
 		$res = $this->Comment->data;
 		echo returns($res);
-		$this->assertSame($res['JsonableTestModel']['details'], '["z","y","x"]');
+		$this->assertSame($res['JsonableBehaviorTestModel']['details'], '["z","y","x"]');
 
 		# with sort and unique
 		$data = array(
@@ -64,20 +64,20 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 			'details' => 'z|x|y|x',
 		);
 		$this->Comment->Behaviors->detach('Jsonable');
-		$this->Comment->Behaviors->attach('Jsonable', array('fields'=>array('details'), 'input'=>'list', 'sort'=>true));
+		$this->Comment->Behaviors->attach('Tools.Jsonable', array('fields'=>array('details'), 'input'=>'list', 'sort'=>true));
 
 		$res = $this->Comment->save($data);
 		$this->assertTrue($res);
 
 		$res = $this->Comment->data;
 		echo returns($res);
-		$this->assertSame($res['JsonableTestModel']['details'], '["x","y","z"]');
+		$this->assertSame($res['JsonableBehaviorTestModel']['details'], '["x","y","z"]');
 	}
 
 	public function testFieldsWithParam() {
 		echo $this->_header(__FUNCTION__);
 		$this->Comment->Behaviors->detach('Jsonable');
-		$this->Comment->Behaviors->attach('Jsonable', array('fields'=>array('details'), 'input'=>'param'));
+		$this->Comment->Behaviors->attach('Tools.Jsonable', array('fields'=>array('details'), 'input'=>'param'));
 
 		$data = array(
 			'comment' => 'blabla',
@@ -90,7 +90,7 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 
 		$res = $this->Comment->data;
 		echo returns($res);
-		$this->assertSame($res['JsonableTestModel']['details'], '{"z":"vz","y":"yz","x":"xz"}');
+		$this->assertSame($res['JsonableBehaviorTestModel']['details'], '{"z":"vz","y":"yz","x":"xz"}');
 	}
 
 
@@ -100,26 +100,26 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 	public function testFieldsOnFind() {
 		echo $this->_header(__FUNCTION__);
 		$this->Comment->Behaviors->detach('Jsonable');
-		$this->Comment->Behaviors->attach('Jsonable', array('fields'=>array('details')));
+		$this->Comment->Behaviors->attach('Tools.Jsonable', array('fields'=>array('details')));
 
 		$res = $this->Comment->find('first', array());
 
-		$this->assertEquals($res['JsonableTestModel']['details'], array('x'=>'y'));
+		$this->assertEquals($res['JsonableBehaviorTestModel']['details'], array('x'=>'y'));
 		pr($res);
 
 
 		$this->Comment->Behaviors->detach('Jsonable');
-		$this->Comment->Behaviors->attach('Jsonable', array('output'=>'param', 'fields'=>array('details')));
+		$this->Comment->Behaviors->attach('Tools.Jsonable', array('output'=>'param', 'fields'=>array('details')));
 
 		$res = $this->Comment->find('first', array());
 		pr($res);
-		$this->assertEquals($res['JsonableTestModel']['details'], 'x:y');
+		$this->assertEquals($res['JsonableBehaviorTestModel']['details'], 'x:y');
 
 
 
 
 		$this->Comment->Behaviors->detach('Jsonable');
-		$this->Comment->Behaviors->attach('Jsonable', array('output'=>'list', 'fields'=>array('details')));
+		$this->Comment->Behaviors->attach('Tools.Jsonable', array('output'=>'list', 'fields'=>array('details')));
 
 		$data = array(
 			'comment' => 'blabla',
@@ -129,13 +129,13 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 		);
 		$res = $this->Comment->find('first', array(), $data);
 		pr($res);
-		$this->assertEquals($res['JsonableTestModel']['details'], 'z|y|x');
+		$this->assertEquals($res['JsonableBehaviorTestModel']['details'], 'z|y|x');
 
 		echo BR.BR;
 
 
 		$this->Comment->Behaviors->detach('Jsonable');
-		$this->Comment->Behaviors->attach('Jsonable', array('output'=>'list', 'separator'=>', ', 'fields'=>array('details')));
+		$this->Comment->Behaviors->attach('Tools.Jsonable', array('output'=>'list', 'separator'=>', ', 'fields'=>array('details')));
 
 		$data = array(
 			'comment' => 'blabla',
@@ -145,14 +145,14 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 		);
 		$res = $this->Comment->find('first', array(), $data);
 		pr($res);
-		$this->assertEquals($res['JsonableTestModel']['details'], 'z, y, x');
+		$this->assertEquals($res['JsonableBehaviorTestModel']['details'], 'z, y, x');
 
 
 		echo BR.BR;
 
 		$res = $this->Comment->find('all', array(), $data);
 		pr($res);
-		$this->assertEquals($res[0]['JsonableTestModel']['details'], 'z, y, x');
+		$this->assertEquals($res[0]['JsonableBehaviorTestModel']['details'], 'z, y, x');
 	}
 }
 

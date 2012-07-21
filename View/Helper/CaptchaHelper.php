@@ -1,4 +1,5 @@
 <?php
+App::uses('AppHelper', 'View/Helper');
 
 if (!defined('BR')) {
 	define('BR', '<br />');

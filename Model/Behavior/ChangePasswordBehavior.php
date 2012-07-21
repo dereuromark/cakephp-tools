@@ -1,4 +1,5 @@
 <?php
+App::uses('ModelBehavior', 'Model');
 App::uses('CakeResponse', 'Network');
 App::uses('Security', 'Utility');
 

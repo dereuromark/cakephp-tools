@@ -1,4 +1,5 @@
 <?php
+App::uses('ModelBehavior', 'Model');
 
 /**
  * “smart quotes” become "dumb quotes" on save

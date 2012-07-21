@@ -1,4 +1,5 @@
 <?php
+App::uses('AppHelper', 'View/Helper');
 
 /**
  * helper for hcard, vcard and other microformats!

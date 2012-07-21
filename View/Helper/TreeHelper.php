@@ -1,5 +1,6 @@
 <?php
-	/* SVN FILE: $Id: tree.php 205 2008-08-13 14:13:32Z ad7six $ */
+App::uses('AppHelper', 'View/Helper');
+
 /**
  * Tree Helper.
  *

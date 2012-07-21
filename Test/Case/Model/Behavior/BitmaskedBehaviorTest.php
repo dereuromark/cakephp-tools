@@ -1,7 +1,7 @@
 <?php
 
 App::import('Behavior', 'Tools.Bitmasked');
-App::uses('App', 'Core');
+App::uses('AppModel', 'Model');
 App::uses('MyCakeTestCase', 'Tools.Lib');
 App::uses('MyModel', 'Tools.Lib');
 

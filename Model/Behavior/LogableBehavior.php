@@ -1,5 +1,6 @@
 <?php
 App::uses('CakeSession', 'Model/Datasource');
+App::uses('ModelBehavior', 'Model');
 
 if (!defined('CLASS_USER')) {
 	define('CLASS_USER', 'User');
@@ -161,6 +162,7 @@ class LogableBehavior extends ModelBehavior {
 			 'fields' => array(),
 			 'limit' => 50,
 		);
+
 		$params = array_merge($defaults, $params);
 		$options = array('order' => $params['order'], 'conditions' => $params['conditions'], 'fields' => $params['fields'], 'limit' => $params['limit']);
 		if ($params[$this->settings[$Model->alias]['classField']] === null) {
@@ -210,7 +212,7 @@ class LogableBehavior extends ModelBehavior {
 			$username = $this->user[$this->UserModel->alias][$this->UserModel->displayField];
 		} else {
 			$this->UserModel->recursive = -1;
-			$user = $this->UserModel->find(array($this->UserModel->primaryKey => $user_id));
+			$user = $this->UserModel->find('first', array('conditions'=>array($this->UserModel->primaryKey => $user_id)));
 			$username = $user[$this->UserModel->alias][$this->UserModel->displayField];
 		}
 		$fields = array();
@@ -375,7 +377,9 @@ class LogableBehavior extends ModelBehavior {
 	}
 
 	public function beforeSave(Model $Model) {
-		$this->setUserData($Model);
+		if ($this->user === null) {
+			$this->setUserData($Model);
+		}
 		if ($this->Log->hasField('change') && $Model->id) {
 			$this->old = $Model->find('first', array('conditions' => array($Model->primaryKey => $Model->id), 'recursive' => -1));
 		}

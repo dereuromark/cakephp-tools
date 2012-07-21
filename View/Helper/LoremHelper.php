@@ -1,4 +1,5 @@
 <?php
+App::uses('AppHelper', 'View/Helper');
 class LoremHelper extends AppHelper {
 	public $helpers = array('Html');
 	public $words = array();

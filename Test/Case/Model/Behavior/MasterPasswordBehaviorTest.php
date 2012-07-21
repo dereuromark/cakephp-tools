@@ -12,7 +12,7 @@ class MasterPasswordBehaviorTest extends MyCakeTestCase {
 
 	public function setUp() {
 		$this->MasterPasswordBehavior = new MasterPasswordBehavior();
-		$this->Model = ClassRegistry::init('InputTestModel');
+		$this->Model = ClassRegistry::init('MasterPasswordTestModel');
 	}
 
 	public function testObject() {
@@ -163,7 +163,7 @@ class MasterPasswordBehaviorTest extends MyCakeTestCase {
 }
 
 
-class InputTestModel extends CakeTestModel {
+class MasterPasswordTestModel extends CakeTestModel {
 	public $useTable = false;
 
 }

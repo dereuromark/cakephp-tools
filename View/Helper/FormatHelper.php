@@ -1,4 +1,5 @@
 <?php
+App::uses('TextHelper', 'View/Helper');
 
 App::import('Helper', 'Text');
 
