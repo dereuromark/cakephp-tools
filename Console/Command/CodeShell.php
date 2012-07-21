@@ -4,7 +4,7 @@ App::uses('AppShell', 'Console/Command');
 /**
  * Misc Code Fix Tools
  * 
- * cake Tools.Code dependencies [-p PluginName]
+ * cake Tools.Code dependencies [-p PluginName] [-c /custom/path]
  * - Fix missing App::uses() statements
  * 
  * @author Mark Scherer
