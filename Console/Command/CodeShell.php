@@ -51,7 +51,7 @@ class CodeShell extends AppShell {
 			continue;
 		}
 		
-		$excludes = array('Fixture', 'TestSuite', 'CakeTestModel');
+		$excludes = array('Fixture', 'Exception', 'TestSuite', 'CakeTestModel');
 		$missingClasses = array();
 		
 		foreach ($matches[1] as $match) {
@@ -135,25 +135,29 @@ class CodeShell extends AppShell {
 				$this->err($missingClass.' ('.$file.') could not be matched');
 				continue;
 			}
-			//FIXME
-			if (!empty($this->params['plugin'])) {
-				if ($class == 'Model') {
-					$missingClassName = $missingClass;
-				} else {
-					$missingClassName = substr($missingClass, 0, strlen($missingClass) - strlen($class));
-				}
-				$objects = App::objects(($this->params['plugin'] ? $this->params['plugin'].'.' : '') . $class);
-				if ($missingClassName == 'ModelBehavior') {
-					$type = 'Model';
-				} elseif ($location = App::location($missingClass)) {
-					$type = $location;
-					echo(returns($type));
-				} elseif (in_array($missingClass, $objects)) {
-					$type = $this->params['plugin'] . '.' . $type;
-				} else {
-					$type = $type;
-				}
+			
+		
+			if ($class == 'Model') {
+				$missingClassName = $missingClass;
+			} else {
+				$missingClassName = substr($missingClass, 0, strlen($missingClass) - strlen($class));
 			}
+			$objects = App::objects(($this->params['plugin'] ? $this->params['plugin'].'.' : '') . $class);
+			
+			//FIXME: correct result for plugin classes
+			if ($missingClass == 'Component') {
+				$type = 'Controller';
+			} elseif ($missingClass == 'ModelBehavior') {
+				$type = 'Model';
+			} elseif (!empty($this->params['plugin']) && ($location = App::location($missingClass))) {
+				$type = $location;
+				echo(returns($type));
+			} elseif (in_array($missingClass, $objects)) {
+				$type = $this->params['plugin'] . '.' . $type;
+			} else {
+				$type = $type;
+			}
+			
 			
 			$inserted[] = 'App::uses(\''.$missingClass.'\', \''.$type.'\');';
 		}
