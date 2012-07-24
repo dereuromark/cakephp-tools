@@ -6,10 +6,10 @@ if (!defined('LF')) {
 
 /**
  * Misc Code Fix Tools
- * 
+ *
  * cake Tools.Code dependencies [-p PluginName] [-c /custom/path]
  * - Fix missing App::uses() statements
- * 
+ *
  * @author Mark Scherer
  * @license MIT
  * 2012-07-19 ms
@@ -17,7 +17,7 @@ if (!defined('LF')) {
 class CodeShell extends AppShell {
 
 	protected $_files;
-	
+
 	protected $_paths;
 
 	/**
@@ -36,9 +36,9 @@ class CodeShell extends AppShell {
  		$this->_findFiles('php');
 		foreach ($this->_files as $file) {
 			$this->out(__d('cake_console', 'Updating %s...', $file), 1, Shell::VERBOSE);
-			
+
 			$this->_correctFile($file);
-			
+
 			$this->out(__d('cake_console', 'Done updating %s', $file), 1, Shell::VERBOSE);
 		}
 	}
@@ -50,22 +50,22 @@ class CodeShell extends AppShell {
 		if (empty($matches)) {
 			continue;
 		}
-		
+
 		$excludes = array('Fixture', 'Exception', 'TestSuite', 'CakeTestModel');
 		$missingClasses = array();
-		
+
 		foreach ($matches[1] as $match) {
 			$match = trim($match);
 			preg_match('/\bApp\:\:uses\(\''.$match.'\'/', $fileContent, $usesMatches);
 			if (!empty($usesMatches)) {
 				continue;
 			}
-			
+
 			preg_match('/class '.$match.'\s*(w+)?{/', $fileContent, $existingMatches);
 			if (!empty($existingMatches)) {
 				continue;
 			}
-			
+
 			if (in_array($match, $missingClasses)) {
 				continue;
 			}
@@ -79,19 +79,19 @@ class CodeShell extends AppShell {
 			if ($break) {
 				continue;
 			}
-			
-			
+
+
 			$missingClasses[] = $match;
 		}
-		
+
 		if (empty($missingClasses)) {
 			return;
 		}
-			
+
 		$fileContent = explode(LF, $fileContent);
 		$inserted = array();
 		$pos = 1;
-		
+
 		if (!empty($fileContent[1]) && $fileContent[1] == '/**') {
 			for ($i = $pos; $i < count($fileContent)-1; $i++) {
 				if (strpos($fileContent[$i], '*/') !== false) {
@@ -102,7 +102,7 @@ class CodeShell extends AppShell {
 				}
 			}
 		}
-		
+
 		# try to find the best position to insert app uses statements
 		foreach ($fileContent as $row => $rowValue) {
 			preg_match('/^App\:\:uses\(/', $rowValue, $matches);
@@ -111,7 +111,7 @@ class CodeShell extends AppShell {
 				break;
 			}
 		}
-		
+
 		foreach ($missingClasses as $missingClass) {
 			$classes = array(
 				'Controller' => 'Controller',
@@ -135,15 +135,15 @@ class CodeShell extends AppShell {
 				$this->err($missingClass.' ('.$file.') could not be matched');
 				continue;
 			}
-			
-		
+
+
 			if ($class == 'Model') {
 				$missingClassName = $missingClass;
 			} else {
 				$missingClassName = substr($missingClass, 0, strlen($missingClass) - strlen($class));
 			}
 			$objects = App::objects(($this->params['plugin'] ? $this->params['plugin'].'.' : '') . $class);
-			
+
 			//FIXME: correct result for plugin classes
 			if ($missingClass == 'Component') {
 				$type = 'Controller';
@@ -153,29 +153,29 @@ class CodeShell extends AppShell {
 				$type = $location;
 				echo(returns($type));
 			} elseif (in_array($missingClass, $objects)) {
-				$type = $this->params['plugin'] . '.' . $type;
+				$type = ($this->params['plugin'] ? $this->params['plugin'].'.' : '') . '.' . $type;
 			} else {
 				$type = $type;
 			}
-			
-			
+
+
 			$inserted[] = 'App::uses(\''.$missingClass.'\', \''.$type.'\');';
 		}
-		
+
 		if (!$inserted) {
 			return;
 		}
 
 		array_splice($fileContent, $pos, 0, $inserted);
 		$fileContent = implode(LF, $fileContent);
-	
+
 		if (empty($this->params['dry-run'])) {
 			file_put_contents($file, $fileContent);
 			$this->out(__d('cake_console', 'Correcting %s', $file), 1, Shell::VERBOSE);
 		}
 	}
 
-	
+
 
 	/**
 	 * make sure all files are properly encoded (ü instead of &uuml; etc)
@@ -366,7 +366,7 @@ class CodeShell extends AppShell {
 function strposReverse($str, $search) {
 	$str = strrev($str);
 	$search = strrev($search);
-	
+
 	$posRev = strpos($str, $search);
 	return $posRev;
 }

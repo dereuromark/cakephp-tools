@@ -18128,7 +18128,7 @@ class SluggedTestCase extends CakeTestCase {
 		);
 		$this->assertEquals($expects, $result);
 	}
-		
+
 }
 
 /**
@@ -18158,5 +18158,5 @@ class MessageSlugged extends CakeTestModel {
 		'mode' => 'id',
 		'replace' => false
 	));
-	
+
 }

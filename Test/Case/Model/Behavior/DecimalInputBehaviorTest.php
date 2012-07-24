@@ -93,7 +93,7 @@ class DecimalInputTestModel extends AppModel {
 	public $alias = 'TestModel';
 
 	public $useTable = false;
-	
+
 	public $displayField = 'title';
 
 	public function find($type = null, $options = array(), $customData = null) {

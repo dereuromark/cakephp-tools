@@ -20,10 +20,10 @@ class MyExceptionRenderer extends ExceptionRenderer {
 
 		$this->controller->render($template);
 		$this->controller->response->type('html');
-		
+
 		$x = $this->controller->response->body(); $this->controller->response->body(h($x));
-		
+
 		$this->controller->response->send();
 	}
-	
+
 }

@@ -40,7 +40,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 				'Profile'
 			)
 		));
-		
+
 		$arrayExpectedTmp = $arrayExpected;
 		$arrayExpectedTmp['User']['role_id'] = 1;
 		$this->assertTrue(isset($arrayResult['Profile']), 'belongsTo association via Containable: %s');
@@ -156,7 +156,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 			),
 			'order' => 'User.id ASC'
 		));
-		
+
 		$arrayExpectedTmp = $arrayExpected;
 		$arrayExpectedTmp['User']['role_id'] = 1;
 		$this->assertTrue(isset($arrayResult['Comment']), 'hasMany association via Containable: %s');
@@ -237,7 +237,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 				)
 			)
 		));
-		
+
 		$arrayExpectedTmp = $arrayExpected;
 		$arrayExpectedTmp['User']['role_id'] = 1;
 		$this->assertEquals($arrayExpectedTmp, $arrayResult, 'Complex find: %s');

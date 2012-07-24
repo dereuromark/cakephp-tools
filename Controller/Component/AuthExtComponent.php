@@ -59,7 +59,7 @@ class AuthExtComponent extends AuthComponent {
 	public function __construct(ComponentCollection $Collection, $settings = array()) {
 		$settings = array_merge($this->settings, (array)Configure::read('Auth'), (array)$settings);
 		//$this->Controller = $Collection->getController();
-		
+
 		parent::__construct($Collection, $settings);
 	}
 
