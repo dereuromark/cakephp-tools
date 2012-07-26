@@ -177,6 +177,7 @@ class DatetimeHelper extends TimeHelper {
 		if (isset($this->Html)) {
 			return $this->Html->tag('span', $niceDate, $attr);
 		}
+		//TODO: fix me here
 		trigger_error('HtmlHelper not found');
 		$a = array();
 		foreach ($attr as $key => $val) {

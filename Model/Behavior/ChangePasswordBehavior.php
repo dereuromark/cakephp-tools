@@ -9,7 +9,6 @@ App::uses('Security', 'Utility');
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @version    1.4
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 
@@ -40,6 +39,9 @@ if (!defined('PWD_MAX_LENGTH')) {
  * TODO: allowEmpty and nonEmptyToEmpty - maybe with checkbox "set_new_pwd"
  * feel free to help me out
  *
+ * @version 1.5
+ * @author Mark Scherer
+ * @license MIT
  * 2011-08-24 ms
  */
 class ChangePasswordBehavior extends ModelBehavior {
@@ -52,7 +54,7 @@ class ChangePasswordBehavior extends ModelBehavior {
 	public $_defaultSettings = array(
 		'field' => 'password',
 		'confirm' => true, # set to false if in admin view and no confirmation (pwd_repeat) is required
-		'allowEmpty' => false,
+		'allowEmpty' => false, # if password must be provided or be changed (set to true for update sites)
 		'current' => false, # expect the current password for security purposes
 		'formField' => 'pwd',
 		'formFieldRepeat' => 'pwd_repeat',
@@ -61,7 +63,6 @@ class ChangePasswordBehavior extends ModelBehavior {
 		'hashSalt' => true,
 		'auth' => 'Auth', # which component,
 		'allowSame' => true, # dont allow the old password on change
-		'nonEmptyToEmpty' => false, # allow resetting nonempty pwds to empty once set (prevents problems with default edit actions)
 	);
 
 	public $_validationRules = array(
@@ -69,6 +70,7 @@ class ChangePasswordBehavior extends ModelBehavior {
 			'between' => array(
 				'rule' => array('between', PWD_MIN_LENGTH, PWD_MAX_LENGTH),
 				'message' => array('valErrBetweenCharacters %s %s', PWD_MIN_LENGTH, PWD_MAX_LENGTH),
+				'allowEmpty' => null,
 				'last' => true,
 			)
 		),
@@ -76,11 +78,13 @@ class ChangePasswordBehavior extends ModelBehavior {
 			'between' => array(
 				'rule' => array('between', PWD_MIN_LENGTH, PWD_MAX_LENGTH),
 				'message' => array('valErrBetweenCharacters %s %s', PWD_MIN_LENGTH, PWD_MAX_LENGTH),
+				'allowEmpty' => null,
 				'last' => true,
 			),
 			'validateIdentical' => array(
 				'rule' => array('validateIdentical', 'formField'),
 				'message' => 'valErrPwdNotMatch',
+				'allowEmpty' => null,
 				'last' => true,
 			),
 		),
@@ -88,11 +92,13 @@ class ChangePasswordBehavior extends ModelBehavior {
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
 				'message' => 'valErrProvideCurrentPwd',
+				'allowEmpty' => null,
 				'last' => true,
 			),
 			'validateCurrentPwd' => array(
 				'rule' => 'validateCurrentPwd',
 				'message' => 'valErrCurrentPwdIncorrect',
+				'allowEmpty' => null,
 				'last' => true,
 			)
 		),
@@ -142,7 +148,7 @@ class ChangePasswordBehavior extends ModelBehavior {
 	 * @return bool $success
 	 * 2011-07-22 ms
 	 */
-	public function validateIdentical(Model $Model, $data, $compareWith = null) {
+	public function validateIdentical(Model $Model, $data, $compareWith = null) {debug($compareWith); ob_flush();
 		if (is_array($data)) {
 			$value = array_shift($data);
 		} else {
@@ -179,30 +185,29 @@ class ChangePasswordBehavior extends ModelBehavior {
 		$formFieldRepeat = $this->settings[$Model->alias]['formFieldRepeat'];
 		$formFieldCurrent = $this->settings[$Model->alias]['formFieldCurrent'];
 
+		$rules = $this->_validationRules;
+
 		# add the validation rules if not already attached
 		if (!isset($Model->validate[$formField])) {
-			$Model->validate[$formField] = $this->_validationRules['formField'];
+			$Model->validate[$formField] = $rules['formField'];
 		}
 		if (!isset($Model->validate[$formFieldRepeat])) {
-			$Model->validate[$formFieldRepeat] = $this->_validationRules['formFieldRepeat'];
+			$Model->validate[$formFieldRepeat] = $rules['formFieldRepeat'];
 			$Model->validate[$formFieldRepeat]['validateIdentical']['rule'][1] = $formField;
 		}
+		
 
 		if ($this->settings[$Model->alias]['current'] && !isset($Model->validate[$formFieldCurrent])) {
-			$Model->validate[$formFieldCurrent] = $this->_validationRules['formFieldCurrent'];
+			$Model->validate[$formFieldCurrent] = $rules['formFieldCurrent'];
 
 			if (!$this->settings[$Model->alias]['allowSame']) {
 				$Model->validate[$formField]['validateNotSame'] = array(
 					'rule' => array('validateNotSame', $formField, $formFieldCurrent),
 					'message' => 'valErrPwdSameAsBefore',
+					'allowEmpty' => $this->settings[$Model->alias]['allowEmpty'],
 					'last' => true,
 				);
 			}
-		}
-
-		# allowEmpty?
-		if (!empty($this->settings[$Model->alias]['allowEmpty'])) {
-			$Model->validate[$formField]['between']['rule'][1] = 0;
 		}
 	}
 
@@ -211,19 +216,11 @@ class ChangePasswordBehavior extends ModelBehavior {
 	 * 2011-07-22 ms
 	 */
 	public function beforeValidate(Model $Model) {
-		# add fields to whitelist!
-		$whitelist = array($this->settings[$Model->alias]['formField'], $this->settings[$Model->alias]['formFieldRepeat']);
-		if ($this->settings[$Model->alias]['current']) {
-			$whitelist[] = $this->settings[$Model->alias]['formFieldCurrent'];
-		}
-		if (!empty($Model->whitelist)) {
-			$Model->whitelist = array_merge($Model->whitelist, $whitelist);
-		}
-
-		# make sure fields are set and validation rules are triggered - prevents tempering of form data
 		$formField = $this->settings[$Model->alias]['formField'];
 		$formFieldRepeat = $this->settings[$Model->alias]['formFieldRepeat'];
 		$formFieldCurrent = $this->settings[$Model->alias]['formFieldCurrent'];
+
+		# make sure fields are set and validation rules are triggered - prevents tempering of form data
 		if (!isset($Model->data[$Model->alias][$formField])) {
 			$Model->data[$Model->alias][$formField] = '';
 		}
@@ -232,6 +229,38 @@ class ChangePasswordBehavior extends ModelBehavior {
 		}
 		if ($this->settings[$Model->alias]['current'] && !isset($Model->data[$Model->alias][$formFieldCurrent])) {
 			$Model->data[$Model->alias][$formFieldCurrent] = '';
+		}
+		
+		# check if we need to trigger any validation rules
+		if ($this->settings[$Model->alias]['allowEmpty']) {
+			$current = !empty($Model->data[$Model->alias][$formFieldCurrent]);
+			$new = !empty($Model->data[$Model->alias][$formField]) || !empty($Model->data[$Model->alias][$formFieldRepeat]);
+			if (!$new && !$current) {
+				//$Model->validator()->remove($formField); // tmp only!
+				//unset($Model->validate[$formField]);
+				unset($Model->data[$Model->alias][$formField]);
+				if ($this->settings[$Model->alias]['confirm']) {
+					//$Model->validator()->remove($formFieldRepeat); // tmp only!
+					//unset($Model->validate[$formFieldRepeat]);
+					unset($Model->data[$Model->alias][$formFieldRepeat]);
+				}
+				if ($this->settings[$Model->alias]['current']) {
+					//$Model->validator()->remove($formFieldCurrent); // tmp only!
+					//unset($Model->validate[$formFieldCurrent]);
+					unset($Model->data[$Model->alias][$formFieldCurrent]);
+				}
+				debug($Model->data);
+				return true;
+			}
+		}
+		
+		# add fields to whitelist!
+		$whitelist = array($this->settings[$Model->alias]['formField'], $this->settings[$Model->alias]['formFieldRepeat']);
+		if ($this->settings[$Model->alias]['current']) {
+			$whitelist[] = $this->settings[$Model->alias]['formFieldCurrent'];
+		}
+		if (!empty($Model->whitelist)) {
+			$Model->whitelist = array_merge($Model->whitelist, $whitelist);
 		}
 
 		return true;
@@ -243,24 +272,22 @@ class ChangePasswordBehavior extends ModelBehavior {
 	 * 2011-07-22 ms
 	 */
 	public function beforeSave(Model $Model) {
+		//debug($Model->data);
 		$formField = $this->settings[$Model->alias]['formField'];
-		$formFieldRepeat = $this->settings[$Model->alias]['formFieldRepeat'];
 		$field = $this->settings[$Model->alias]['field'];
 		$type = $this->settings[$Model->alias]['hashType'];
 		$salt = $this->settings[$Model->alias]['hashSalt'];
-
-		if (empty($Model->data[$Model->alias][$formField]) && !$this->settings[$Model->alias]['nonEmptyToEmpty']) {
-			# is edit? previous password was "notEmpty"?
-			if (!empty($Model->data[$Model->alias][$Model->primaryKey]) && ($oldPwd = $Model->field($field, array($Model->alias.'.id'=>$Model->data[$Model->alias][$Model->primaryKey]))) && $oldPwd != Security::hash('', $type, $salt)) {
-				unset($Model->data[$Model->alias][$formField]);
-			}
-		}
 
 		if (isset($Model->data[$Model->alias][$formField])) {
 			$Model->data[$Model->alias][$field] = Security::hash($Model->data[$Model->alias][$formField], $type, $salt);
 			unset($Model->data[$Model->alias][$formField]);
 			if ($this->settings[$Model->alias]['confirm']) {
+				$formFieldRepeat = $this->settings[$Model->alias]['formFieldRepeat'];
 				unset($Model->data[$Model->alias][$formFieldRepeat]);
+			}
+			if ($this->settings[$Model->alias]['current']) {
+				$formFieldCurrent = $this->settings[$Model->alias]['formFieldCurrent'];
+				unset($Model->data[$Model->alias][$formFieldCurrent]);
 			}
 			# update whitelist
 			if (!empty($Model->whitelist)) {

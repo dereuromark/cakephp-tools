@@ -15,6 +15,8 @@ class ChangePasswordBehaviorTest extends CakeTestCase {
 	 * setUp method
 	 */
 	public function setUp() {
+		parent::setUp();
+		
 		$this->User = ClassRegistry::init('User');
 	}
 
@@ -22,8 +24,10 @@ class ChangePasswordBehaviorTest extends CakeTestCase {
 	 * Tear-down method.  Resets environment state.
 	 */
 	public function tearDown() {
-		$this->User->Behaviors->detach('ChangePassword');
 		unset($this->User);
+		parent::tearDown();
+		
+		ClassRegistry::flush();
 	}
 
 
@@ -34,20 +38,21 @@ class ChangePasswordBehaviorTest extends CakeTestCase {
 		$this->assertTrue($res);
 	}
 
+	/**
+	 * make sure validation is triggered correctly
+	 */
 	public function testValidate() {
 		$this->User->Behaviors->attach('Tools.ChangePassword', array());
-
 
 		$this->User->create();
 		$data = array(
 			'pwd' => '1234',
 		);
 		$this->User->set($data);
-		//debug($this->User->data);
 		$is = $this->User->save();
-		debug($this->User->validationErrors);
-		//debug($this->User->validate);
+		//debug($this->User->validationErrors); ob_flush();
 		$this->assertFalse($is);
+		$this->assertEquals(array('pwd_repeat'), array_keys($this->User->validationErrors));
 
 
 		$this->User->create();
@@ -56,13 +61,10 @@ class ChangePasswordBehaviorTest extends CakeTestCase {
 			'pwd_repeat' => '123456'
 		);
 		$this->User->set($data);
-		//debug($this->User->data);
 		$is = $this->User->save();
-		debug($this->User->validationErrors);
-		//debug($this->User->validate);
+		//debug($this->User->validationErrors); ob_flush();
 		$this->assertFalse($is);
-
-
+		$this->assertEquals(array(__('valErrPwdNotMatch')), $this->User->validationErrors['pwd_repeat']);
 
 		$this->User->create();
 		$data = array(
@@ -77,51 +79,8 @@ class ChangePasswordBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * needs faking of pwd check...
+	 * test that confirm false does not require confirmation
 	 */
-	public function testValidateCurrent() {
-		$this->User->create();
-		$data = array('user'=>'xyz', 'password'=>Security::hash('some', null, true));
-		$res = $this->User->save($data);
-		$uid = $this->User->id;
-
-		$this->User->Behaviors->attach('Tools.ChangePassword', array('current'=>true));
-		$this->User->create();
-		$data = array(
-			'id' => $uid,
-			'pwd' => '1234',
-			'pwd_repeat' => '123456'
-		);
-		$this->User->set($data);
-		$is = $this->User->save();
-		//debug($this->User->validationErrors); ob_flush();
-		$this->assertFalse($is);
-
-		$this->User->create();
-		$data = array(
-			'id' => $uid,
-			'pwd_current' => 'somex',
-			'pwd' => '123456',
-			'pwd_repeat' => '123456'
-		);
-		$this->User->set($data);
-		//debug($this->User->validationErrors); ob_flush();
-		$is = $this->User->save();
-		$this->assertFalse($is);
-
-		$this->User->create();
-		$data = array(
-			'id' => $uid,
-			'pwd_current' => 'some',
-			'pwd' => '123456',
-			'pwd_repeat' => '123456'
-		);
-		$this->User->set($data);
-		//debug($this->User->validationErrors); ob_flush();
-		$is = $this->User->save();
-		$this->assertTrue(!empty($is));
-	}
-
 	public function testValidateNoConfirm() {
 		$this->User->Behaviors->attach('Tools.ChangePassword', array('confirm'=>false));
 		$this->User->create();
@@ -130,12 +89,15 @@ class ChangePasswordBehaviorTest extends CakeTestCase {
 		);
 		$this->User->set($data);
 		$is = $this->User->save();
-		debug($is);
+		debug($is); ob_flush();
 		$this->assertTrue(!empty($is));
 	}
 
-	public function testValidateNonEmptyToEmpty() {
-		$this->User->Behaviors->attach('Tools.ChangePassword', array('nonEmptyToEmpty'=>false));
+	/**
+	 * validation and update process gets skipped if no values are entered
+	 */
+	public function testValidateEmpty() {
+		$this->User->Behaviors->attach('Tools.ChangePassword');
 		$this->User->create();
 		$data = array(
 			'pwd' => '',
@@ -143,26 +105,51 @@ class ChangePasswordBehaviorTest extends CakeTestCase {
 		);
 		$this->User->set($data);
 		$is = $this->User->save();
-		debug($this->User->validationErrors);
-		debug($is);
+		debug($this->User->validationErrors); ob_flush();
 		$this->assertFalse($is);
+		$this->assertEquals(array('pwd', 'pwd_repeat'), array_keys($this->User->validationErrors));
 
-		//TODO:
+
 		$this->User->Behaviors->detach('ChangePassword');
-
-		$this->User->Behaviors->attach('Tools.ChangePassword', array('nonEmptyToEmpty'=>true));
+		$this->User->validate = array();
+		
+		$this->User->Behaviors->attach('Tools.ChangePassword', array('current'=>true));
 		$this->User->create();
 		$data = array(
+			'id' => 123,
 			'pwd' => '',
-			'pwd_repeat' => ''
+			'pwd_repeat' => '',
+			'pwd_current' => '123',
 		);
 		$this->User->set($data);
-		//debug($this->User->data);
 		$is = $this->User->save();
-		debug($this->User->validationErrors);
+		//debug($this->User->validationErrors); ob_flush();
 		$this->assertFalse($is);
+		$this->assertEquals(array('pwd', 'pwd_repeat', 'pwd_current'), array_keys($this->User->validationErrors));
+
+		$this->tearDown();
+		$this->setUp();
+		
+		$this->User->Behaviors->attach('Tools.ChangePassword', array('allowEmpty'=>true, 'current'=>true));
+		$this->User->create();
+		$data = array(
+			'user' => 'foo',
+			'pwd' => '',
+			'pwd_repeat' => '',
+			'pwd_current' => '',
+		);
+		$is = $this->User->save($data);
+		
+		debug($this->User->data);
+		debug($this->User->validate);
+		debug($this->User->validationErrors); ob_flush();
+		
+		$this->assertTrue(!empty($is));
 	}
 
+	/**
+	 * test aliases for field names
+	 */
 	public function testDifferentFieldNames() {
 		$this->User->Behaviors->attach('Tools.ChangePassword', array(
 			'formField' => 'passw',
@@ -181,6 +168,9 @@ class ChangePasswordBehaviorTest extends CakeTestCase {
 
 	}
 
+	/**
+	 * assert that allowSame false does not allow storing the same password as previously entered
+	 */
 	public function testNotSame() {
 		$this->User->Behaviors->attach('Tools.ChangePassword', array(
 			'formField' => 'passw',
@@ -210,6 +200,61 @@ class ChangePasswordBehaviorTest extends CakeTestCase {
 		);
 		$this->User->set($data);
 		debug($this->User->data);
+		$is = $this->User->save();
+		$this->assertTrue(!empty($is));
+	}
+
+	/**
+	 * needs faking of pwd check...
+	 */
+	public function testValidateCurrent() {
+		$this->assertFalse($this->User->Behaviors->attached('ChangePassword'));
+		$this->User->create();
+		$data = array('user'=>'xyz', 'password'=>Security::hash('some', null, true));
+		$res = $this->User->save($data);
+		$this->assertTrue(!empty($res));
+		$uid = $this->User->id;
+		
+		# cake bug => attached behavior validation rules cannot be triggered
+		//$this->tearDown();
+		//$this->setUp();
+
+		$this->User->Behaviors->attach('Tools.ChangePassword', array('current'=>true));
+		$this->User->create();
+		$data = array(
+			'id' => $uid,
+			'pwd' => '1234',
+			'pwd_repeat' => '123456',
+			//'pwd_current' => '',
+		);
+		$this->User->set($data);
+		$this->assertTrue($this->User->Behaviors->attached('ChangePassword'));
+		debug($this->User->validate); ob_flush();
+		$is = $this->User->save();
+		//debug($this->User->validationErrors); ob_flush();
+		$this->assertFalse($is);
+
+		$this->User->create();
+		$data = array(
+			'id' => $uid,
+			'pwd_current' => 'somex',
+			'pwd' => '123456',
+			'pwd_repeat' => '123456'
+		);
+		$this->User->set($data);
+		//debug($this->User->validationErrors); ob_flush();
+		$is = $this->User->save();
+		$this->assertFalse($is);
+
+		$this->User->create();
+		$data = array(
+			'id' => $uid,
+			'pwd_current' => 'some',
+			'pwd' => '123456',
+			'pwd_repeat' => '123456'
+		);
+		$this->User->set($data);
+		//debug($this->User->validationErrors); ob_flush();
 		$is = $this->User->save();
 		$this->assertTrue(!empty($is));
 	}

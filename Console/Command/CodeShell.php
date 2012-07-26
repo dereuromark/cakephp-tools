@@ -151,11 +151,8 @@ class CodeShell extends AppShell {
 				$type = 'Model';
 			} elseif (!empty($this->params['plugin']) && ($location = App::location($missingClass))) {
 				$type = $location;
-				echo(returns($type));
 			} elseif (in_array($missingClass, $objects)) {
-				$type = ($this->params['plugin'] ? $this->params['plugin'].'.' : '') . '.' . $type;
-			} else {
-				$type = $type;
+				$type = ($this->params['plugin'] ? ($this->params['plugin'] . '.') : '') . $type;
 			}
 
 
