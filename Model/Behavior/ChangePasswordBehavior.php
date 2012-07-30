@@ -24,6 +24,7 @@ if (!defined('PWD_MAX_LENGTH')) {
  * - complete validation
  * - hashing of password
  * - requires fields (no tempering even without security component)
+ * - usable for edit forms (allowEmpty=>true for optional password update)
  *
  * usage: do NOT add it via $actAs = array()
  * attach it dynamically in only those actions where you actually change the password like so:
@@ -41,6 +42,7 @@ if (!defined('PWD_MAX_LENGTH')) {
  *
  * @version 1.5
  * @author Mark Scherer
+ * @link http://www.dereuromark.de/2011/08/25/working-with-passwords-in-cakephp
  * @license MIT
  * 2011-08-24 ms
  */

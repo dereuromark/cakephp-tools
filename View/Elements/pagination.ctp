@@ -47,3 +47,24 @@ echo $this->Paginator->counter(array(
  <?php echo $separator; ?>
 	<?php echo $this->Paginator->last($last, array());?>
 </div>
+<?php if (!empty($options['ajaxPagination'])) {
+	$ajaxContainer = !empty($options['paginationContainer']) ? $options['paginationContainer'] : '.page';
+
+	$script = "$(document).ready(function() {
+	$('div.paging a').live('click', function () {
+		$('$ajaxContainer').fadeTo(300, 0);
+
+		var thisHref = $(this).attr('href');
+
+		$('$ajaxContainer').load(thisHref, function() {
+			$(this).fadeTo(200, 1);
+			$('html, body').animate({
+				scrollTop: $('$ajaxContainer').offset().top
+			}, 200);
+		});
+		return false;
+	});
+});";
+
+	$this->Js->buffer($script);
+} ?>

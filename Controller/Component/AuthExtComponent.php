@@ -91,6 +91,8 @@ class AuthExtComponent extends AuthComponent {
 
 		if (empty($user)) {
 			$user = $this->identify($this->Controller->request, $this->Controller->response);
+		} elseif (!is_array($user)) {
+			$user = $this->completeAuth($user);
 		}
 		if (empty($user)) {
 			$this->loginError = __('invalidLoginCredentials');

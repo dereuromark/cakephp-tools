@@ -77,11 +77,12 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	 * @return void
 	 * 2011-12-04 ms
 	 */
-	public function out($data, $pre = true) {
+	public static function out($data, $pre = true) {
 		if ($pre) {
-			$data = pre($data);
+			pr($data);
+		} else {
+			echo $data;
 		}
-		echo $data;
 		if (empty($_SERVER['HTTP_HOST'])) {
 			# cli mode / shell access: use the --debug modifier if you are using the CLI interface
 			return;
