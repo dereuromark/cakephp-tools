@@ -34,7 +34,7 @@ App::uses('File', 'Utility');
  * @package              mi
  * @subpackage           mi.tests.cases.behaviors
  */
-class SluggedTestCase extends CakeTestCase {
+class SluggedTest extends CakeTestCase {
 
 /**
  * fixtures property
@@ -130,7 +130,7 @@ class SluggedTestCase extends CakeTestCase {
 			'Michael Paine',
 			'nosey neighbour'
 		);
-		$this->assertEqual($expected, $array);
+		$this->assertEquals($expected, $array);
 
 		$wordList = $this->Model->removeStopWords('My name is Michael Paine, and I am a nosey neighbour', array(
 			'splitOnStopWord' => false
@@ -141,13 +141,13 @@ class SluggedTestCase extends CakeTestCase {
 			'nosey',
 			'neighbour',
 		);
-		$this->assertEqual($expected, array_values($wordList));
+		$this->assertEquals($expected, array_values($wordList));
 
 		$string = $this->Model->removeStopWords('My name is Michael Paine, and I am a nosey neighbour', array(
 			'return' => 'string'
 		));
 		$expected = 'Michael Paine nosey neighbour';
-		$this->assertEqual($expected, $string);
+		$this->assertEquals($expected, $string);
 	}
 
 /**
@@ -226,7 +226,7 @@ class SluggedTestCase extends CakeTestCase {
 		$path = TMP . 'tests' . DS . 'slug_test.php';
 		@unlink($path);
 		$file = new File($path, true);
-		$file->append('class SluggedTestCase extends CakeTestCase {' . "\n");
+		$file->append('class SluggedTest extends CakeTestCase {' . "\n");
 		for($hex1 = $hex1Start; $hex1 < $hex1Limit; $hex1++) {
 			if (in_array($hex1, $skip)) {
 				continue;
@@ -18064,7 +18064,7 @@ class SluggedTestCase extends CakeTestCase {
 		$this->Model->Behaviors->attach('Slugged', array('length' => 33));
 		$result = $this->Model->slug($sjisEncoded);
 		$sjisExpects = mb_convert_encoding('モデルのデータベースとデータソー', 'SJIS', 'UTF-8');
-		$this->assertEqual($result, $sjisExpects);
+		$this->assertEquals($result, $sjisExpects);
 
 		$this->Model->Behaviors->attach('Slugged', array('length' => 50, 'encoding' => 'UTF-8'));
 		$result = $this->Model->slug($sjisEncoded);
