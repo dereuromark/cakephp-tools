@@ -4,10 +4,15 @@ App::uses('TextHelper', 'View/Helper');
 App::import('Helper', 'Text');
 
 /**
- * Format helper
+ * Format helper with basic html snippets
+ *
+ * TODO: make snippets more "css and background image" (instead of inline img links)
+ * TODO: test cases
+ *
  * 2009-12-31 ms
  */
 class FormatHelper extends TextHelper {
+
 	/**
 	 * Other helpers used by FormHelper
 	 *
@@ -15,10 +20,6 @@ class FormatHelper extends TextHelper {
 	 * @access public
 	 */
 	public $helpers = array('Html', 'Form', 'Tools.Common', 'Tools.Gravatar', 'Tools.PhpThumb');
-
-
-
-
 
 	/**
 	 * jqueryAccess: {id}Pro, {id}Contra
@@ -231,6 +232,70 @@ class FormatHelper extends TextHelper {
 			$image = 'important';
 		}
 		return $this->Html->image(IMG_ICONS.$icon.'_'.$image.'.'.$ending);
+	}
+
+
+	/**
+	 * @param value
+	 * @param array $options
+	 * - max (3/5, defaults to 5)
+	 * - normal: display an icon for normal as well (defaults to false)
+	 * - map: array (manually map values, if you use 1 based values no need for that)
+	 * - title, alt, ...
+	 * @return string $html
+	 * 2012-08-02 ms
+	 */
+	public function priorityIcon($value, $options = array()) {
+		$defaults = array(
+			'max' => 5,
+			'normal' => false,
+			'map' => array(),
+			'css' => true,
+		);
+		$options = am($defaults, $options);
+		extract($options);
+
+		$matching = array(
+			1 => 'low',
+			2 => 'lower',
+			3 => 'normal',
+			4 => 'higher',
+			5 => 'high'
+		);
+
+		if (!empty($map)) {
+			$value = $map[$value];
+		}
+		if (!$normal && $value == ($max+1)/2) {
+			return '';
+		}
+
+		if ($max != 5) {
+			if ($value == 2) {
+				$value = 3;
+			} elseif ($value == 3) {
+				$value = 5;
+			}
+		}
+
+		$attr = array(
+			'class' => 'prio-'.$matching[$value],
+			'title' => __('prio'.ucfirst($matching[$value])),
+		);
+		if (!$css) {
+			$attr['alt'] = $matching[$value];
+		}
+		$attr = am($attr, array_diff_key($options, $defaults));
+
+		if ($css) {
+			$html = $this->Html->tag('div', '&nbsp;', $attr);
+
+		} else {
+			$icon = 'priority_' . $matching[$value] . '.gif';
+			$html = $this->Html->image('icons/'.$icon, $attr);
+		}
+
+		return $html;
 	}
 
 	/**
@@ -1304,11 +1369,10 @@ class FormatHelper extends TextHelper {
 	 * @return	string
 	 * 2009-11-11 ms
 	 */
-	public function wordCensor($str, $censored, $replacement = '') {
-		if (!is_array($censored)) {
+	public function wordCensor($str, $censored, $replacement = null) {
+		if (empty($censored)) {
 			return $str;
 		}
-
 		$str = ' ' . $str . ' ';
 
 		// \w, \b and a few others do not match on a unicode character
@@ -1318,7 +1382,7 @@ class FormatHelper extends TextHelper {
 		$delim = '[-_\'\"`() {}<>\[\]|!?@#%&,.:;^~*+=\/ 0-9\n\r\t]';
 
 		foreach ($censored as $badword) {
-			if ($replacement != '') {
+			if ($replacement !== null) {
 				$str = preg_replace("/({$delim})(" . str_replace('\*', '\w*?', preg_quote($badword, '/')) . ")({$delim})/i", "\\1{$replacement}\\3", $str);
 			} else {
 				$str = preg_replace("/({$delim})(" . str_replace('\*', '\w*?', preg_quote($badword, '/')) . ")({$delim})/ie", "'\\1'.str_repeat('#', strlen('\\2')).'\\3'",

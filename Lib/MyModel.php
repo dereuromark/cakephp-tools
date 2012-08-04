@@ -35,7 +35,7 @@ class MyModel extends Model {
 		}
 
 		# avoiding AppModel instances instead of real Models - testing - 2011-04-03 ms
-		if (defined('HTTP_HOST') && HTTP_HOST && !is_a($this, $this->name) && $this->displayField !== 'id' && !Configure::read('Core.disableModelInstanceNotice')) {
+		if (defined('HTTP_HOST') && HTTP_HOST && !is_a($this, $this->name) && $this->displayField !== 'id' && $this->useDbConfig != 'test' && !Configure::read('Core.disableModelInstanceNotice')) {
 			trigger_error('AppModel instance! Expected: ' . $this->name);
 		}
 	}
@@ -406,31 +406,27 @@ class MyModel extends Model {
 	 * Makes a subquery
 	 * @link http://bakery.cakephp.org/articles/lucaswxp/2011/02/11/easy_and_simple_subquery_cakephp
 	 *
-	 * @param string|array $type The type o the query (only available 'count') or the $options
-	 * @param string|array $options The options array or $alias in case of $type be a array
+	 * @param string $type The type o the query ('count'/'all'/'first' - first only works with some mysql versions)
+	 * @param array $options The options array
 	 * @param string $alias You can use this intead of $options['alias'] if you want
 	 * @return string $result sql snippet of the query to run
+	 * @modified Mark Scherer (cake2.x ready and improvements)
 	 * 2011-07-05 ms
 	 */
-	public function subquery($type, $options = null, $alias = null) {
-		$fields = array();
-		if (is_string($type)) {
-			$isString = true;
-		} else {
-			$alias = $options;
-			$options = $type;
-		}
-
+	public function subquery($type, $options = array(), $alias = null) {
 		if ($alias === null) {
 			$alias = 'Sub' . $this->alias . '';
 		}
 
-		if (isset($isString)) {
-			switch ($type) {
-				case 'count':
-					$fields = array('COUNT(*)');
-					break;
-			}
+		$fields = array();
+		$limit = null;
+		switch ($type) {
+			case 'count':
+				$fields = array('COUNT(*)');
+				break;
+			case 'first':
+				$limit = 1;
+				break;
 		}
 
 		$dbo = $this->getDataSource();
@@ -439,7 +435,7 @@ class MyModel extends Model {
 			'fields' => $fields,
 			'table' => $dbo->fullTableName($this),
 			'alias' => $alias,
-			'limit' => null,
+			'limit' => $limit,
 			'offset' => null,
 			'joins' => array(),
 			'conditions' => array(),
@@ -447,7 +443,7 @@ class MyModel extends Model {
 			'group' => null
 		);
 		$params = array_merge($default, $options);
-		$subQuery = $dbo->buildStatement($params, $this);
+		$subQuery = '(' . $dbo->buildStatement($params, $this) . ')';
 		return $subQuery;
 	}
 

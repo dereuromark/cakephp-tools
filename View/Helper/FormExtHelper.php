@@ -860,7 +860,7 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 			$js .= 'jQuery(\''.$selector.'\').charCount('.$this->Js->object($settings, array('quoteKeys'=>false)).');';
 		}
 		$js = $this->documentReady($js);
-		return $this->Html->scriptBlock($js);
+		return $this->Html->scriptBlock($js, array('inline' => isset($options['inline']) ? $options['inline'] : true));
 	}
 
 
