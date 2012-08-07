@@ -2,17 +2,20 @@
 App::uses('ModelBehavior', 'Model');
 
 /**
+ * Replace regionalized chars with standard ones on input.
+ *
  * “smart quotes” become "dumb quotes" on save
  * „low-high“ become "high-high"
  * same for single quotes (apostrophes)
- * in order to unify them
+ * in order to unify them. Basic idea is a unified non-regional version in the database.
  *
- * using the TypographyHelper we can then format the output
+ * Using the TypographyHelper we can then format the output
  * according to the language/regional setting (in some languages
  * the high-high smart quotes, in others the low-high ones are preferred)
  *
  * @link http://en.wikipedia.org/wiki/Non-English_usage_of_quotation_marks
- * @cakephp 2.0
+ * @cakephp 2.x
+ * @license MIT
  * 2011-01-13 ms
  */
 class TypographicBehavior extends ModelBehavior {
