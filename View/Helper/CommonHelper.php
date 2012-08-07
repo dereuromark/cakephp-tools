@@ -2,7 +2,7 @@
 App::uses('AppHelper', 'View/Helper');
 
 /**
- * All site-wide neccessary stuff for the view layer
+ * All site-wide necessary stuff for the view layer
  */
 class CommonHelper extends AppHelper {
 
@@ -12,7 +12,8 @@ class CommonHelper extends AppHelper {
 		'Tools.Jquery' //Used by showDebug
 	);
 
-/* Layout Stuff */
+
+/*** Layout Stuff ***/
 
 	/**
 	 * convinience function for clean ROBOTS allowance
@@ -33,7 +34,7 @@ class CommonHelper extends AppHelper {
 			$content['robots']= array('noindex','nofollow','noarchive');
 		}
 
-		$return = '<meta name="robots" content="'.implode(',',$content['robots']).'" />';
+		$return = '<meta name="robots" content="' . implode(',', $content['robots']) . '" />';
 		return $return;
 	}
 
@@ -41,6 +42,7 @@ class CommonHelper extends AppHelper {
 	 * convinience function for clean meta name tags
 	 * @param STRING $name: author, date, generator, revisit-after, language
 	 * @param MIXED $content: if array, it will be seperated by commas
+	 * @return string $htmlMarkup
 	 * 2009-07-07 ms
 	 */
 	public function metaName($name = null, $content = null) {
@@ -51,10 +53,16 @@ class CommonHelper extends AppHelper {
 		if (!is_array($content)) {
 			$content = (array)$content;
 		}
-		$return = '<meta name="'.$name.'" content="'.implode(', ',$content).'" />';
+		$return = '<meta name="' . $name . '" content="' . implode(', ', $content) . '" />';
 		return $return;
 	}
 
+	/**
+	 * @param string $content
+	 * @param string $language (iso2: de, en-us, ...)
+	 * @param array $additionalOptions
+	 * @return string $htmlMarkup
+	 */
 	public function metaDescription($content, $language = null, $options = array()) {
 		if (!empty($language)) {
 			$options['lang'] = mb_strtolower($language);
@@ -64,6 +72,12 @@ class CommonHelper extends AppHelper {
 		return $this->Html->meta('description', $content, $options);
 	}
 
+	/**
+	 * @param string|array $keywords
+	 * @param string $language (iso2: de, en-us, ...)
+	 * @param bool $escape
+	 * @return string $htmlMarkup
+	 */
 	public function metaKeywords($keywords = null, $language = null, $escape = true) {
 		if ($keywords === null) {
 			$keywords = Configure::read('Config.keywords');
@@ -84,12 +98,14 @@ class CommonHelper extends AppHelper {
 
 	/**
 	 * convinience function for "canonical" SEO links
+	 *
+	 * @return string $htmlMarkup
 	 * 2010-03-03 ms
 	 */
 	public function metaCanonical($url = null, $full = false) {
 		$canonical = $this->Html->url($url, $full);
 		//return $this->Html->meta('canonical', $canonical, array('rel'=>'canonical', 'type'=>null, 'title'=>null));
-		return '<link rel="canonical" href="'.$canonical.'" />';
+		return '<link rel="canonical" href="' . $canonical . '" />';
 	}
 
 	/**
@@ -100,6 +116,7 @@ class CommonHelper extends AppHelper {
 	 * - de
 	 * - de-ch
 	 * etc
+	 * @return string $htmlMarkup
 	 * 2011-12-12 ms
 	 */
 	public function metaAlternate($url, $lang, $full = false) {
@@ -115,8 +132,9 @@ class CommonHelper extends AppHelper {
  			}
  			$countries = (array)$countries;
 	 		foreach ($countries as $country) {
-	 			$l = $language.$country;
-	 			$res[] = $this->Html->meta('alternate', $url, array('rel'=>'alternate', 'hreflang'=>$l, 'type'=>null, 'title'=>null)).PHP_EOL;
+	 			$l = $language . $country;
+	 			$options = array('rel' => 'alternate', 'hreflang' => $l, 'type' => null, 'title' => null);
+	 			$res[] = $this->Html->meta('alternate', $url, $options).PHP_EOL;
 	 		}
 		}
 		return implode('', $res);
@@ -126,6 +144,7 @@ class CommonHelper extends AppHelper {
 	 * convinience function for META Tags
 	 * @param STRING type
 	 * @param STRING content
+	 * @return string $htmlMarkup
 	 * 2008-12-08 ms
 	 */
 	public function metaRss($url = null, $title = null) {
@@ -146,6 +165,7 @@ class CommonHelper extends AppHelper {
 	 * convinience function for META Tags
 	 * @param STRING type
 	 * @param STRING content
+	 * @return string $htmlMarkup
 	 * 2008-12-08 ms
 	 */
 	public function metaEquiv($type = null, $value = null, $escape = true) {
@@ -160,15 +180,15 @@ class CommonHelper extends AppHelper {
 		}
 
 		if ($type == 'language') {
-			return sprintf($tags['meta'],'language',' content="'.$value.'"');
+			return sprintf($tags['meta'], 'language', ' content="'.$value.'"');
 		} elseif ($type == 'pragma') {
-			return sprintf($tags['meta'],'pragma',' content="'.$value.'"');
+			return sprintf($tags['meta'], 'pragma', ' content="'.$value.'"');
 		} elseif ($type == 'expires') {
-			return sprintf($tags['meta'],'expires',' content="'.$value.'"');
+			return sprintf($tags['meta'], 'expires', ' content="'.$value.'"');
 		} elseif ($type == 'cache-control') {
-			return sprintf($tags['meta'],'cache-control',' content="'.$value.'"');
+			return sprintf($tags['meta'], 'cache-control', ' content="'.$value.'"');
 		} elseif ($type == 'refresh') {
-			return sprintf($tags['meta'],'refresh',' content="'.$value.'"');
+			return sprintf($tags['meta'], 'refresh', ' content="'.$value.'"');
 		}
 		return '';
 	}
@@ -178,6 +198,7 @@ class CommonHelper extends AppHelper {
 	 * => x is in webroot/
 	 * => y is in plugins/tools/webroot/
 	 * => z is in plugins/tools/packages/jquery/files/jquery/sub/
+	 * @return string $htmlMarkup
 	 * 2011-03-23 ms
 	 */
 	public function css($files = array(), $rel = null, $options = array()) {
@@ -198,6 +219,7 @@ class CommonHelper extends AppHelper {
 	 * => x is in webroot/
 	 * => y is in plugins/tools/webroot/
 	 * => z is in plugins/tools/packages/jquery/files/jquery/sub/
+	 * @return string $htmlMarkup
 	 * 2011-03-23 ms
 	 */
 	public function script($files = array(), $options = array()) {
@@ -218,6 +240,7 @@ class CommonHelper extends AppHelper {
 	 * IN USAGE
 	 * needs manual adjustment, but still better than the core one!
 	 * @example needs Asset.cssversion => xyz (going up with counter)
+	 * @return string $htmlMarkup
 	 * 2008-12-08 ms
 	 */
 	public function cssDyn($path, $rel = null, $htmlAttributes = array(), $return = true) {
@@ -229,6 +252,7 @@ class CommonHelper extends AppHelper {
 	 * NOT IN USAGE
 	 * but better than the core one!
 	 * @example needs Asset.timestamp => force
+	 * @return string $htmlMarkup
 	 * 2008-12-08 ms
 	 */
 	public function cssAuto($path, $rel = null, $htmlAttributes = array(), $return = true) {
@@ -239,9 +263,15 @@ class CommonHelper extends AppHelper {
 	 	return $url;
 	}
 
-/* Content Stuff */
 
-	public function displayErrors($fields = null) {
+/*** Content Stuff ***/
+
+	/**
+	 * still necessary?
+	 * @param array $fields
+	 * @return string $html
+	 */
+	public function displayErrors($fields = array()) {
 		$res = '';
 		if (!empty($this->validationErrors)) {
 			if ($fields === null) { # catch ALL
@@ -270,14 +300,12 @@ class CommonHelper extends AppHelper {
 		return $res;
 	}
 
-	public function _renderError($error, $escape = true) {
+	protected function _renderError($error, $escape = true) {
 		if ($escape !== false) {
 			$error = h($error);
 		}
 		return '<div class="error-message">'.$error.'</div>';
 	}
-
-
 
 	/**
 	 * Alternates between two or more strings.
@@ -308,6 +336,7 @@ class CommonHelper extends AppHelper {
 
 	/**
 	 * check if session works due to allowed cookies
+	 *
 	 * 2009-06-29 ms
 	 */
 	public function sessionCheck() {
@@ -343,7 +372,7 @@ class CommonHelper extends AppHelper {
 		if ((int)$c != 1) {
 			$p = Inflector::pluralize($s);
 		} else {
-		 		$p = null; # no pluralization neccessary
+		 		$p = null; # no pluralization necessary
 		}
 		return $this->sp($s, $p, $c, $autoTranslate);
 	}
@@ -351,6 +380,11 @@ class CommonHelper extends AppHelper {
 	/**
 	 * //TODO: move boostrap
 	 * manual pluralizing a word using the Inflection class
+	 *
+	 * @param string $singular
+	 * @param string $plural
+	 * @param int $count
+	 * @return string $result
 	 * 2009-07-23 ms
 	 */
 	public function sp($s, $p, $c, $autoTranslate = false) {
@@ -365,46 +399,6 @@ class CommonHelper extends AppHelper {
 		}
 		return $ret;
 	}
-
-	/**
-	 * @deprecated
-	 */
-	public function showDebug() {
-		$output = '';
-		$groupout = '';
-		foreach (debugTab::$content as $group => $debug) {
-			if (is_int($group)) {
-				$output .= '<div class="common-debug">';
-				$output .= "<span style=\"cursor:pointer\" onclick=\"$(this).parent().children('pre').slideToggle('fast');\"><strong>" . h($debug['file']) . '</strong>';
-				$output .= ' (line <strong>' . $debug['line'] . '</strong>)</span>';
-				if ($debug['display'])
-					$debug['display'] = 'block';
-				else
-					$debug['display'] = 'none';
-				$output .= "\n<pre style=\"display:" . $debug['display'] . "\" class=\"cake-debug\">\n";
-				$output .= h($debug['debug']);
-				$output .= "\n</pre>\n</div>";
-			}
-		}
-		foreach (debugTab::$groups as $group => $data) {
-			$groupout .= '<div class="common-debug">';
-			$groupout .= "<span style=\"cursor:pointer\" onclick=\"$(this).parent().children('div').slideToggle('fast');\"><strong>" . h($group) . '</strong></span>';
-			foreach ($data as $debug) {
-				$groupout .= "<div style=\"display:none\"><br/><span style=\"cursor:pointer\" onclick=\"$(this).parent().children('pre').slideToggle('fast');\"><strong>" . h($debug['file']) . '</strong></span>';
-				$groupout .= ' (line <strong>' . h($debug['line']) . '</strong>)</span>';
-				if ($debug['display'])
-					$debug['display'] = 'block';
-				else
-					$debug['display'] = 'none';
-				$groupout .= "\n<pre style=\"display:" . $debug['display'] . "\" class=\"cake-debug\">\n";
-				$groupout .= h($debug['debug']);
-				$groupout .= "\n</pre>\n</div>";
-			}
-			$groupout .= "\n</div>";
-		}
-		return $groupout . $output;
-	}
-
 
 	/**
 	 * Show FlashMessages
@@ -470,95 +464,23 @@ class CommonHelper extends AppHelper {
 
 	/**
 	 * add a message on the fly
+	 *
+	 * @param string $msg
+	 * @param string $class
+	 * @return bool $success
 	 * 2011-05-25 ms
 	 */
 	public function transientFlashMessage($msg, $class = null) {
 		return CommonComponent::transientFlashMessage($msg, $class);
 	}
 
-
 	/**
-	 * SINGLE ROLES function
-	 * currently: isRole('admin'), isRole('user')
-	 * 2009-07-06 ms
-	 */
-	public function isRole($role) {
-		$sessionRole = $this->Session->read('Auth.User.role_id');
-		$roles = array(
-			ROLE_USER => 'user',
-			ROLE_ADMIN => 'admin',
-			ROLE_SUPERADMIN => 'superadmin',
-			ROLE_GUEST => 'guest',
-		);
-		if (!empty($roles[$sessionRole]) && $role = $roles[$sessionRole]) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Checks if a role is in the current users session
-	 * @param neccessary right(s) as array - or a single one as string possible
-	 * Note:  all of them need to be in the user roles to return true by default
-	 */
-	public function roleNames($sessionRoles = null) {
-		$tmp = array();
-
-		if ($sessionRoles === null) {
-			$sessionRoles = $this->Session->read('Auth.User.Role');
-		}
-
-		$roles = Cache::read('User.Role');
-
-		if (empty($roles) || !is_array($roles)) {
-			$Role = ClassRegistry::init('Role');
-			/*
-			if ($Role->useDbConfig == 'test_suite') {
-				return array();
-			}
-			*/
-			$roles = $Role->getActive('list');
-			Cache::write('User.Role', $roles);
-		}
-		//$roleKeys = Set::combine($roles, '/Role/id','/Role/name'); // on find(all)
-		if (!empty($sessionRoles)) {
-			if (is_array($sessionRoles)) {
-
-				foreach ($sessionRoles as $sessionRole) {
-					if (!$sessionRole) {
-					continue;
-					}
-					if (array_key_exists((int)$sessionRole, $roles)) {
-						$tmp[$sessionRole] = $roles[(int)$sessionRole];
-					}
-				}
-			} else {
-				if (array_key_exists($sessionRoles, $roles)) {
-					$tmp[$sessionRoles] = $roles[$sessionRoles];
-				}
-			}
-		}
-
-		return $tmp;
-	}
-
-	/**
-	 * Display Roles separated by Commas
-	 * 2009-07-17 ms
-	 */
-	public function displayRoles($sessionRoles = null, $placeHolder = '---') {
-		$roles = $this->roleNames($sessionRoles);
-		if (!empty($roles)) {
-			return implode(', ',$roles);
-		}
-		return $placeHolder;
-	}
-
-
-	/**
-	 * escape text
+	 * TODO: move into TextExt?
+	 * escape text with some more automagic
+	 *
 	 * @param string $text
-	 * @param options
+	 * @param array $options
+	 * @return string $processedText
 	 * - nl2br: true/false (defaults to true)
 	 * - escape: false prevents h() and space transformation (defaults to true)
 	 * - tabsToSpaces: int (defaults to 4)
@@ -596,66 +518,6 @@ class CommonHelper extends AppHelper {
 
 		return $text;
 	}
-
-	/**
-	 * takes int / array(int) and finds the role name to it
-	 * @return array roles
-	 */
-	public function roleNamesTranslated($value) {
-		if (empty($value)) { return array(); }
-		$ret = array();
-		$translate = (array)Configure::read('Role');
-		if (is_array($value)) {
-			foreach ($value as $k => $v) {
-				$ret[$v] = __($translate[$v]);
-			}
-		} else {
-			$ret[$value] = __($translate[$value]);
-		}
-		return $ret;
-	}
-
-	/**
-	 * //TODO: move to TextExt?
-	 * minimizes the given url to a maximum length
-	 * @param string $url the url
-	 * @param int $max the maximum length
-	 * @param options
-	 * - placeholder
-	 * @return string the manipulated url (+ eventuell ...)
-	 */
-	public function minimizeUrl($url = null, $max = null, $options = array()) {
-		// check if there is nothing to do
-		if (empty($url) || mb_strlen($url) <= (int)$max)
-			return (string)$url;
-
-		// http:// has not to be displayed, so
-		if (mb_substr($url,0,7) == 'http://')
-			$url = mb_substr($url,7);
-
-		// cut the parameters
-		if (mb_strpos($url,'/') !== false)
-			$url = strtok($url,'/');
-
-		// return if the url is short enough
-		if (mb_strlen($url) <= (int)$max)
-			return $url;
-
-		// otherwise cut a part in the middle (but only if long enough!!!)
-		# TODO: more dynamically
-
-		$placeholder = CHAR_HELLIP;
-		if (!empty($options['placeholder'])) {
-			$placeholder = $options['placeholder'];
-		}
-
-		$end = mb_substr($url,-5,5);
-		$front = mb_substr($url,0,(int)$max - 8);
-		return $front.$placeholder.$end;
-	}
-
-/** should be in format END **/
-
 
 
 
@@ -733,42 +595,7 @@ if ($.browser.msie) {
 	}
 
 
-/**
- * Creates an HTML link.
- *
- * If $url starts with "http://" this is treated as an external link. Else,
- * it is treated as a path to controller/action and parsed with the
- * HtmlHelper::url() method.
- *
- * If the $url is empty, $title is used instead.
- *
- * @param  string  $title The content to be wrapped by <a> tags.
- * @param  mixed   $url Cake-relative URL or array of URL parameters, or external URL (starts with http://)
- * @param  array   $htmlAttributes Array of HTML attributes.
- * @param  string  $confirmMessage JavaScript confirmation message.
- * @param  boolean $escapeTitle	Whether or not $title should be HTML escaped.
- * @return string	An <a /> element.
- * // core-hack! $rel = null | !!!!!!!!! Somehow causes trouble with routing functionality of this helper function... careful!
- */
-	public function link($title, $url = null, $htmlAttributes = array(), $confirmMessage = false, $escapeTitle = true, $rel = null) {
-		if ($url !== null) {
-			/** core-hack $rel (relative to current position/routing) **/
-			if ($rel === true || !is_array($url)) {
-				// leave it as it is
-			} else {
-				$defaultArray = array('admin'=>false, 'prefix'=>0);
-				$url = array_merge($defaultArray,$url);
-			}
-			/** core-hack END **/
-			return $this->Html->link($title, $url, $htmlAttributes, $confirmMessage,  $escapeTitle);
-		}
-	}
-
-
-
-
-/** Stats **/
-
+/*** Stats ***/
 
 	/**
 	 * print js-visit-stats-link to layout
@@ -824,7 +651,177 @@ piwikTracker.enableLinkTracking();
 	}
 
 
+/*** deprecated ***/
+
+	/**
+	 * SINGLE ROLES function
+	 * currently: isRole('admin'), isRole('user')
+	 *
+	 * @deprecated - use Auth class instead
+	 * 2009-07-06 ms
+	 */
+	public function isRole($role) {
+		$sessionRole = $this->Session->read('Auth.User.role_id');
+		$roles = array(
+			ROLE_USER => 'user',
+			ROLE_ADMIN => 'admin',
+			ROLE_SUPERADMIN => 'superadmin',
+			ROLE_GUEST => 'guest',
+		);
+		if (!empty($roles[$sessionRole]) && $role = $roles[$sessionRole]) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Checks if a role is in the current users session
+	 *
+	 * @param necessary right(s) as array - or a single one as string possible
+	 * Note:  all of them need to be in the user roles to return true by default
+	 * @deprecated - use Auth class instead
+	 */
+	public function roleNames($sessionRoles = null) {
+		$tmp = array();
+
+		if ($sessionRoles === null) {
+			$sessionRoles = $this->Session->read('Auth.User.Role');
+		}
+
+		$roles = Cache::read('User.Role');
+
+		if (empty($roles) || !is_array($roles)) {
+			$Role = ClassRegistry::init('Role');
+			/*
+			if ($Role->useDbConfig == 'test_suite') {
+				return array();
+			}
+			*/
+			$roles = $Role->getActive('list');
+			Cache::write('User.Role', $roles);
+		}
+		//$roleKeys = Set::combine($roles, '/Role/id','/Role/name'); // on find(all)
+		if (!empty($sessionRoles)) {
+			if (is_array($sessionRoles)) {
+
+				foreach ($sessionRoles as $sessionRole) {
+					if (!$sessionRole) {
+					continue;
+					}
+					if (array_key_exists((int)$sessionRole, $roles)) {
+						$tmp[$sessionRole] = $roles[(int)$sessionRole];
+					}
+				}
+			} else {
+				if (array_key_exists($sessionRoles, $roles)) {
+					$tmp[$sessionRoles] = $roles[$sessionRoles];
+				}
+			}
+		}
+
+		return $tmp;
+	}
+
+	/**
+	 * Display Roles separated by Commas
+	 * @deprecated - use Auth class instead
+	 * 2009-07-17 ms
+	 */
+	public function displayRoles($sessionRoles = null, $placeHolder = '---') {
+		$roles = $this->roleNames($sessionRoles);
+		if (!empty($roles)) {
+			return implode(', ',$roles);
+		}
+		return $placeHolder;
+	}
+
+	/**
+	 * takes int / array(int) and finds the role name to it
+	 * @return array roles
+	 */
+	public function roleNamesTranslated($value) {
+		if (empty($value)) { return array(); }
+		$ret = array();
+		$translate = (array)Configure::read('Role');
+		if (is_array($value)) {
+			foreach ($value as $k => $v) {
+				$ret[$v] = __($translate[$v]);
+			}
+		} else {
+			$ret[$value] = __($translate[$value]);
+		}
+		return $ret;
+	}
+
+	/**
+	 * @deprecated
+	 */
+	public function showDebug() {
+		$output = '';
+		$groupout = '';
+		foreach (debugTab::$content as $group => $debug) {
+			if (is_int($group)) {
+				$output .= '<div class="common-debug">';
+				$output .= "<span style=\"cursor:pointer\" onclick=\"$(this).parent().children('pre').slideToggle('fast');\"><strong>" . h($debug['file']) . '</strong>';
+				$output .= ' (line <strong>' . $debug['line'] . '</strong>)</span>';
+				if ($debug['display'])
+					$debug['display'] = 'block';
+				else
+					$debug['display'] = 'none';
+				$output .= "\n<pre style=\"display:" . $debug['display'] . "\" class=\"cake-debug\">\n";
+				$output .= h($debug['debug']);
+				$output .= "\n</pre>\n</div>";
+			}
+		}
+		foreach (debugTab::$groups as $group => $data) {
+			$groupout .= '<div class="common-debug">';
+			$groupout .= "<span style=\"cursor:pointer\" onclick=\"$(this).parent().children('div').slideToggle('fast');\"><strong>" . h($group) . '</strong></span>';
+			foreach ($data as $debug) {
+				$groupout .= "<div style=\"display:none\"><br/><span style=\"cursor:pointer\" onclick=\"$(this).parent().children('pre').slideToggle('fast');\"><strong>" . h($debug['file']) . '</strong></span>';
+				$groupout .= ' (line <strong>' . h($debug['line']) . '</strong>)</span>';
+				if ($debug['display'])
+					$debug['display'] = 'block';
+				else
+					$debug['display'] = 'none';
+				$groupout .= "\n<pre style=\"display:" . $debug['display'] . "\" class=\"cake-debug\">\n";
+				$groupout .= h($debug['debug']);
+				$groupout .= "\n</pre>\n</div>";
+			}
+			$groupout .= "\n</div>";
+		}
+		return $groupout . $output;
+	}
+
+	/**
+	 * Creates an HTML link.
+	 *
+	 * If $url starts with "http://" this is treated as an external link. Else,
+	 * it is treated as a path to controller/action and parsed with the
+	 * HtmlHelper::url() method.
+	 *
+	 * If the $url is empty, $title is used instead.
+	 *
+	 * @param  string  $title The content to be wrapped by <a> tags.
+	 * @param  mixed   $url Cake-relative URL or array of URL parameters, or external URL (starts with http://)
+	 * @param  array   $htmlAttributes Array of HTML attributes.
+	 * @param  string  $confirmMessage JavaScript confirmation message.
+	 * @param  boolean $escapeTitle	Whether or not $title should be HTML escaped.
+	 * @return string	An <a /> element.
+	 * @deprecated?
+	 * // core-hack! $rel = null | !!!!!!!!! Somehow causes trouble with routing functionality of this helper function... careful!
+	 */
+	public function link($title, $url = null, $htmlAttributes = array(), $confirmMessage = false, $escapeTitle = true, $rel = null) {
+		if ($url !== null) {
+			/** core-hack $rel (relative to current position/routing) **/
+			if ($rel === true || !is_array($url)) {
+				// leave it as it is
+			} else {
+				$defaultArray = array('admin'=>false, 'prefix'=>0);
+				$url = array_merge($defaultArray,$url);
+			}
+			/** core-hack END **/
+			return $this->Html->link($title, $url, $htmlAttributes, $confirmMessage,  $escapeTitle);
+		}
+	}
+
 }
-
-
-

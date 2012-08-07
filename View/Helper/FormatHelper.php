@@ -515,7 +515,7 @@ class FormatHelper extends TextHelper {
 	 * Helper Function to Obfuscate Email by inserting a span tag (not more! not very secure on its own...)
 	 * each part of this mail now does not make sense anymore on its own
 	 * (striptags will not work either)
-	 * @param string email: neccessary (and valid - containing one @)
+	 * @param string email: necessary (and valid - containing one @)
 	 * 2009-03-11 ms
 	 */
 	public function encodeEmail($mail) {

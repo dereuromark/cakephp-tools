@@ -112,7 +112,7 @@ class TextExtHelper extends TextHelper {
 	 * Helper Function to Obfuscate Email by inserting a span tag (not more! not very secure on its own...)
 	 * each part of this mail now does not make sense anymore on its own
 	 * (striptags will not work either)
-	 * @param string email: neccessary (and valid - containing one @)
+	 * @param string email: necessary (and valid - containing one @)
 	 * @return string $html
 	 * 2009-03-11 ms
 	 */
@@ -288,6 +288,44 @@ class TextExtHelper extends TextHelper {
 			return $url; # already stripped
 		}
 		return mb_substr($url, mb_strlen($pieces['scheme'])+3); # +3 <=> :// # can only be 4 with "file" (file:///)...
+	}
+
+	/**
+	 * minimizes the given url to a maximum length
+	 *
+	 * @param string $url the url
+	 * @param int $max the maximum length
+	 * @param array $options
+	 * - placeholder
+	 * @return string the manipulated url (+ eventuell ...)
+	 */
+	public function minimizeUrl($url = null, $max = null, $options = array()) {
+		// check if there is nothing to do
+		if (empty($url) || mb_strlen($url) <= (int)$max) {
+			return (string)$url;
+		}
+		// http:// has not to be displayed, so
+		if (mb_substr($url,0,7) == 'http://') {
+			$url = mb_substr($url, 7);
+		}
+		// cut the parameters
+		if (mb_strpos($url, '/') !== false) {
+			$url = strtok($url, '/');
+		}
+		// return if the url is short enough
+		if (mb_strlen($url) <= (int)$max) {
+			return $url;
+		}
+		// otherwise cut a part in the middle (but only if long enough!!!)
+		# TODO: more dynamically
+		$placeholder = CHAR_HELLIP;
+		if (!empty($options['placeholder'])) {
+			$placeholder = $options['placeholder'];
+		}
+
+		$end = mb_substr($url, -5, 5);
+		$front = mb_substr($url, 0, (int)$max - 8);
+		return $front . $placeholder . $end;
 	}
 
 	/**

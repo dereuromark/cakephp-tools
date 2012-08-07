@@ -127,7 +127,7 @@ class Utility {
 	}
 
 	/**
-	 * add protocol prefix if neccessary (and possible)
+	 * add protocol prefix if necessary (and possible)
 	 * static?
 	 * 2010-06-02 ms
 	 */

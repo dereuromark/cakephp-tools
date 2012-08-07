@@ -884,7 +884,7 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 	/**
 	 * //TODO
 	 * @param jquery: defaults to null = no jquery markup
-	 * - url, data, object (one is neccessary), options
+	 * - url, data, object (one is necessary), options
 	 * 2010-01-27 ms
 	 */
 	public function autoComplete($field = null, $options = array(), $jquery = null) {

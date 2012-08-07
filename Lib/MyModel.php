@@ -1248,7 +1248,7 @@ class MyModel extends Model {
 	 * NOW: can be set to work offline only (if server is down etc)
 	 *
 	 * checks if a email is not from a garbige hoster
-	 * @param string email (neccessary)
+	 * @param string email (necessary)
 	 * @return boolean true if valid, else false
 	 * 2009-03-09 ms
 	 */
@@ -1465,10 +1465,12 @@ class MyModel extends Model {
 
 
 	/**
-	 * find a specific entry
-	 * @param id
-	 * @param fields
-	 * @param contain
+	 * find a specific entry via primary key
+	 *
+	 * @param mixed $id
+	 * @param array $fields
+	 * @param array $contain
+	 * @return mixed
 	 * 2009-11-14 ms
 	 */
 	public function get($id, $fields = array(), $contain = array()) {
@@ -1495,7 +1497,7 @@ class MyModel extends Model {
 		}
 
 		$options = array(
-			'conditions' => array($this->alias .'.'. $column => $value),
+			'conditions' => array($this->alias . '.' . $column => $value),
 			'fields' => $fields,
 		);
 		if (!empty($contain)) {

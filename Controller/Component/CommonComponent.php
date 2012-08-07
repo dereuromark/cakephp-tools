@@ -758,7 +758,7 @@ class CommonComponent extends Component {
 /*** deprecated ***/
 
 	/**
-	 * add protocol prefix if neccessary (and possible)
+	 * add protocol prefix if necessary (and possible)
 	 * static?
 	 * 2010-06-02 ms
 	 */
@@ -872,7 +872,7 @@ class CommonComponent extends Component {
 
 	/**
 	 * for month and year it returns the amount of days of this month
-	 * year is neccessary due to leap years!
+	 * year is necessary due to leap years!
 	 * @param int $year
 	 * @param int $month
 	 * @static

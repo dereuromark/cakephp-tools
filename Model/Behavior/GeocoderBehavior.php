@@ -188,7 +188,7 @@ class GeocoderBehavior extends ModelBehavior {
 				}
 			}
 
-			# correct country id if neccessary
+			# correct country id if necessary
 			/*
 			if (in_array('country_name', $this->settings[$Model->alias]['address'])) {
 				App::uses('Country', 'Tools.Model');

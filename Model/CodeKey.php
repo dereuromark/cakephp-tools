@@ -50,7 +50,7 @@ class CodeKey extends ToolsAppModel {
 
 	/**
 	 * stores new key in DB
-	 * @param string type: neccessary
+	 * @param string type: necessary
 	 * @param string key: optional key, otherwise a key will be generated
 	 * @param mixed user_id: optional (if used, only this user can use this key)
 	 * @param string content: up to 255 characters of content may be added (optional)
@@ -97,8 +97,8 @@ class CodeKey extends ToolsAppModel {
 
 	/**
 	 * usesKey (only once!) - by KEY
-	 * @param string type: neccessary
-	 * @param string key: neccessary
+	 * @param string type: necessary
+	 * @param string key: necessary
 	 * @param mixed user_id: needs to be provided if this key has a user_id stored
 	 * @return ARRAY(content) if successfully used or if already used (used=1), FALSE else
 	 * 2009-05-13 ms
@@ -141,7 +141,7 @@ class CodeKey extends ToolsAppModel {
 
 	/**
 	 * sets Key to "used" (only once!) - directly by ID
-	 * @param id of key to spend: neccessary
+	 * @param id of key to spend: necessary
 	 * @return boolean true on success, false otherwise
 	 * 2009-05-13 ms
 	 */

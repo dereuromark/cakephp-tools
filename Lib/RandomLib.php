@@ -174,7 +174,7 @@ class RandomLib {
 	/**
 	 * //TODO: move to password lib?
 	 * generate random passwords
-	 * @param int $lenght (neccessary!)
+	 * @param int $lenght (necessary!)
 	 * @return pwd
 	 * @static
 	 * 2009-12-26 ms

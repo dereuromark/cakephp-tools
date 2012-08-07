@@ -61,19 +61,19 @@ class CaptchaBehavior extends ModelBehavior {
 			$this->Model->whitelist = array_merge($Model->whitelist, $this->fields());
 		}
 		if (empty($Model->data[$Model->alias])) {
-			$this->Model->invalidate('captcha', 'captchaContentMissing', true);
+			$this->Model->invalidate('captcha', __('captchaContentMissing'));
 
 		} elseif (!$this->_validateDummyField($Model->data[$Model->alias])) {
-			$this->Model->invalidate('captcha', 'captchaIllegalContent', true);
+			$this->Model->invalidate('captcha', __('captchaIllegalContent'));
 
 		} elseif (!$this->_validateCaptchaMinTime($Model->data[$Model->alias])) {
-			$this->Model->invalidate('captcha', 'captchaResultTooFast', true);
+			$this->Model->invalidate('captcha', __('captchaResultTooFast'));
 
 		} elseif (!$this->_validateCaptchaMaxTime($Model->data[$Model->alias])) {
-			$this->Model->invalidate('captcha', 'captchaResultTooLate', true);
+			$this->Model->invalidate('captcha', __('captchaResultTooLate'));
 
 		} elseif (in_array($this->settings[$Model->alias]['type'], array('active', 'both')) && !$this->_validateCaptcha($Model->data[$Model->alias])) {
-			$this->Model->invalidate('captcha', 'captchaResultIncorrect', true);
+			$this->Model->invalidate('captcha', __('captchaResultIncorrect'));
 
 		}
 
@@ -173,7 +173,7 @@ class CaptchaBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * only neccessary if there is more than one request per model
+	 * only necessary if there is more than one request per model
 	 * 2009-12-18 ms
 	 */
 	public function reset() {

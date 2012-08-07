@@ -143,7 +143,7 @@ class Qurl extends ToolsAppModel {
 
 	/**
 	 * sets Key to "used" (only once!) - directly by ID
-	 * @param id of key to spend: neccessary
+	 * @param id of key to spend: necessary
 	 * @return boolean true on success, false otherwise
 	 * 2009-05-13 ms
 	 */

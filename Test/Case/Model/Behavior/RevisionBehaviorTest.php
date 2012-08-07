@@ -1,7 +1,9 @@
 <?php
-App::uses('RevisionBehavior', 'Tools.Model/Behavior');
 
-class RevisionBehaviorTest extends CakeTestCase {
+App::uses('RevisionBehavior', 'Tools.Model/Behavior');
+App::uses('MyCakeTestCase', 'Tools.Lib');
+
+class RevisionBehaviorTest extends MyCakeTestCase {
 
 	public $RevisionBehavior;
 
@@ -64,7 +66,7 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$Post = new RevisionPost();
 
 		$Post->id = 1;
-		$this->assertTrue((bool)$Post->createRevision());
+		$this->assertTrue($Post->createRevision());
 
 		$Post->id = 1;
 		$count = $Post->ShadowModel->find('count', array('conditions' => array('id' => 1)));
@@ -355,7 +357,7 @@ class RevisionBehaviorTest extends CakeTestCase {
 
 		$Post->id = 1;
 		$success = $Post->undo();
-		$this->assertTrue((bool)$success);
+		$this->assertTrue($success);
 
 		$result = $Post->find('first', array('fields' => array(
 				'id',
@@ -405,8 +407,8 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEqual($result['Post']['title'], 'Edited Post 2');
 
 		$version_id = $result['Post']['version_id'];
-		$result = $Post->revertTo($version_id);
-		$this->assertTrue((bool)$result);
+
+		$this->assertTrue($Post->RevertTo($version_id));
 
 		$result = $Post->find('first', array('fields' => array(
 				'id',
@@ -563,7 +565,7 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$data = array('User' => array('id' => 1, 'name' => 'New name'));
 		$success = $User->save($data);
 		$this->assertNoErrors();
-		$this->assertTrue((bool)$success);
+		$this->assertTrue($success);
 	}
 
 
@@ -574,9 +576,8 @@ class RevisionBehaviorTest extends CakeTestCase {
 
 		$data = array('Post' => array('id' => 3, 'title' => 'Edited Post 6'));
 		$Post->save($data);
-		$result = $Post->revertToDate(date('Y-m-d H:i:s', strtotime('yesterday')));
-		$this->assertTrue((bool)$result);
 
+		$this->assertTrue($Post->revertToDate(date('Y-m-d H:i:s', strtotime('yesterday'))));
 		$result = $Post->newest(array('fields' => array(
 				'id',
 				'title',
@@ -603,7 +604,7 @@ class RevisionBehaviorTest extends CakeTestCase {
 				'revision_comment_id' => 1));
 		$Comment->Vote->save($data);
 
-		$this->assertTrue((bool)$Comment->Vote->revertToDate('2008-12-09'));
+		$this->assertTrue($Comment->Vote->revertToDate('2008-12-09'));
 		$Comment->Vote->id = 3;
 		$result = $Comment->Vote->newest(array('fields' => array(
 				'id',
@@ -622,7 +623,7 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$data = array('Comment' => array('id' => 2, 'title' => 'Edited Comment'));
 		$Comment->save($data);
 
-		$this->assertTrue((bool)$Comment->revertToDate('2008-12-09'));
+		$this->assertTrue($Comment->revertToDate('2008-12-09'));
 
 		$reverted_comments = $Comment->find('all');
 
@@ -656,7 +657,7 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEqual($expected, $result);
 
 		$Article->id = 3;
-		$this->assertTrue((bool)$Article->createRevision());
+		$this->assertTrue($Article->createRevision());
 		$result = $Article->newest(array('fields' => array(
 				'id',
 				'title',
@@ -966,9 +967,8 @@ class RevisionBehaviorTest extends CakeTestCase {
 
 		$result = $Comment->find('first', array('contain' => array('Tag' => array('id', 'title'))));
 		$this->assertEqual(sizeof($result['Tag']), 2);
-		//TODO: assert
-		$this->assertEqual($result['Tag'][0]['title'], 'News');
-		$this->assertEqual($result['Tag'][1]['title'], 'Hard');
+		$this->assertEqual($result['Tag'][0]['title'], 'Hard');
+		$this->assertEqual($result['Tag'][1]['title'], 'News');
 
 		$currentIds = Set::extract($result, 'Tag.{n}.id');
 		$expected = implode(',', $currentIds);
@@ -1035,10 +1035,9 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$Comment->undo();
 		$result = $Comment->find('first', array('recursive' => 1)); //'contain' => array('Tag' => array('id','title'))));
 		$this->assertEqual(sizeof($result['Tag']), 3);
-		//TODO: assert
-		$this->assertEqual($result['Tag'][0]['title'], 'Trick');
+		$this->assertEqual($result['Tag'][0]['title'], 'Fun');
 		$this->assertEqual($result['Tag'][1]['title'], 'Hard');
-		$this->assertEqual($result['Tag'][2]['title'], 'Fun');
+		$this->assertEqual($result['Tag'][2]['title'], 'Trick');
 		$this->assertNoErrors('3 tags : %s');
 	}
 
@@ -1056,9 +1055,9 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$Comment->undo();
 		$result = $Comment->find('first', array('recursive' => 1)); //'contain' => array('Tag' => array('id','title'))));
 		$this->assertEqual(sizeof($result['Tag']), 3);
-		$this->assertEqual($result['Tag'][0]['title'], 'Trick');
+		$this->assertEqual($result['Tag'][0]['title'], 'Fun');
 		$this->assertEqual($result['Tag'][1]['title'], 'Hard');
-		$this->assertEqual($result['Tag'][2]['title'], 'Fun');
+		$this->assertEqual($result['Tag'][2]['title'], 'Trick');
 		$this->assertNoErrors('3 tags : %s');
 	}
 
@@ -1077,9 +1076,9 @@ class RevisionBehaviorTest extends CakeTestCase {
 
 		$result = $Comment->find('first', array('recursive' => 1)); //'contain' => array('Tag' => array('id','title'))));
 		$this->assertEqual(sizeof($result['Tag']), 3);
-		$this->assertEqual($result['Tag'][0]['title'], 'Trick');
+		$this->assertEqual($result['Tag'][0]['title'], 'Fun');
 		$this->assertEqual($result['Tag'][1]['title'], 'Hard');
-		$this->assertEqual($result['Tag'][2]['title'], 'Fun');
+		$this->assertEqual($result['Tag'][2]['title'], 'Trick');
 		$this->assertNoErrors('3 tags : %s');
 	}
 
@@ -1123,12 +1122,10 @@ class RevisionBehaviorTest extends CakeTestCase {
 
 		$comment_one = $Comment->find('first', array('conditions' => array('Comment.id' => 1), 'contain' => 'Tag'));
 		$this->assertEqual($comment_one['Comment']['title'], 'Comment 1');
-		$result = Set::extract($comment_one, 'Tag.{n}.id');
-		//TODO: assert
-		$this->assertEqual($result, array(
-			3,
+		$this->assertEqual(Set::extract($comment_one, 'Tag.{n}.id'), array(
+			1,
 			2,
-			1));
+			3));
 		$Comment->id = 1;
 		$rev_one = $Comment->newest();
 		$this->assertEqual($rev_one['Comment']['title'], 'Comment 1');
@@ -1150,10 +1147,9 @@ class RevisionBehaviorTest extends CakeTestCase {
 
 		$result = $Comment->find('first', array('recursive' => 1));
 		$this->assertEqual(sizeof($result['Tag']), 3);
-		//TODO: assert
-		$this->assertEqual($result['Tag'][0]['title'], 'Trick');
+		$this->assertEqual($result['Tag'][0]['title'], 'Fun');
 		$this->assertEqual($result['Tag'][1]['title'], 'Hard');
-		$this->assertEqual($result['Tag'][2]['title'], 'Fun');
+		$this->assertEqual($result['Tag'][2]['title'], 'Trick');
 		$this->assertNoErrors('3 tags : %s');
 	}
 
@@ -1179,22 +1175,20 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$result = $Comment->find('first', array('conditions' => array('Comment.id' => 2), 'contain' => array('Tag' => array('id',
 						'title'))));
 		$this->assertEqual(sizeof($result['Tag']), 3);
-		//TODO: assert
-		$this->assertEqual($result['Tag'][0]['title'], 'Trick');
-		$this->assertEqual($result['Tag'][1]['title'], 'Hard');
+		$this->assertEqual($result['Tag'][0]['title'], 'Hard');
+		$this->assertEqual($result['Tag'][1]['title'], 'Trick');
 		$this->assertEqual($result['Tag'][2]['title'], 'News');
 
 		// revert Tags on comment logic
 		$Comment->id = 2;
-		$this->assertTrue((bool)$Comment->revertToDate(date('Y-m-d H:i:s', strtotime('yesterday'))),
+		$this->assertTrue($Comment->revertToDate(date('Y-m-d H:i:s', strtotime('yesterday'))),
 			'revertHabtmToDate unsuccessful : %s');
 
 		$result = $Comment->find('first', array('conditions' => array('Comment.id' => 2), 'contain' => array('Tag' => array('id',
 						'title'))));
 		$this->assertEqual(sizeof($result['Tag']), 2);
-		//TODO: assert
-		$this->assertEqual($result['Tag'][0]['title'], 'Trick');
-		$this->assertEqual($result['Tag'][1]['title'], 'Fun');
+		$this->assertEqual($result['Tag'][0]['title'], 'Fun');
+		$this->assertEqual($result['Tag'][1]['title'], 'Trick');
 
 	}
 
@@ -1227,15 +1221,10 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$Comment->Tag->delete(1);
 
 		$result = $Comment->ShadowModel->find('all', array('conditions' => array('version_id' => array(4, 5))));
-		//TODO: assert/fixme
-		debug($result); ob_flush();
 		$this->assertEqual($result[0]['Comment']['Tag'], '3');
 		$this->assertEqual($result[1]['Comment']['Tag'], '2,3');
 	}
 
-	/**
-	 * @expects PHPUNIT_FRAMEWORK_ERROR_WARNING
-	 */
 	function testBadKittyForgotId() {
 		$Comment = new RevisionComment();
 
@@ -1273,9 +1262,6 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertFalse($Comment->diff(10, 4), 'diff() between two non existing : %s');
 	}
 
-	/**
-	 * @expects PHPUNIT_FRAMEWORK_ERROR_WARNING
-	 */
 	function testMethodsOnNonRevisedModel() {
 		$User = new RevisionUser();
 
@@ -1296,7 +1282,7 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertError();
 		$this->assertFalse($User->revertTo(2));
 		$this->assertError();
-		$this->assertTrue((bool)$User->revertToDate('1970-01-01'));
+		$this->assertTrue($User->revertToDate('1970-01-01'));
 		$this->assertNoErrors();
 		$this->assertFalse($User->revisions());
 		$this->assertError();
@@ -1352,11 +1338,7 @@ class RevisionBehaviorTest extends CakeTestCase {
 }
 
 
-class RevisionTestModel extends CakeTestModel {
-	public $logableAction;
-}
-
-class RevisionPost extends RevisionTestModel {
+class RevisionPost extends CakeTestModel {
 	public $name = 'RevisionPost';
 	public $alias = 'Post';
 	public $actsAs = array('Revision' => array('limit' => 5));
@@ -1372,7 +1354,7 @@ class RevisionPost extends RevisionTestModel {
 	}
 }
 
-class RevisionArticle extends RevisionTestModel {
+class RevisionArticle extends CakeTestModel {
 	public $name = 'RevisionArticle';
 	public $alias = 'Article';
 	public $actsAs = array('Tree', 'Revision' => array('ignore' => array('title')));
@@ -1393,13 +1375,13 @@ class RevisionArticle extends RevisionTestModel {
 	}
 }
 
-class RevisionUser extends RevisionTestModel {
+class RevisionUser extends CakeTestModel {
 	public $name = 'RevisionUser';
 	public $alias = 'User';
 	public $actsAs = array('Revision');
 }
 
-class RevisionComment extends RevisionTestModel {
+class RevisionComment extends CakeTestModel {
 	public $name = 'RevisionComment';
 	public $alias = 'Comment';
 	public $actsAs = array('Containable', 'Revision');
@@ -1410,20 +1392,20 @@ class RevisionComment extends RevisionTestModel {
 			'dependent' => true));
 }
 
-class RevisionVote extends RevisionTestModel {
+class RevisionVote extends CakeTestModel {
 	public $name = 'RevisionVote';
 	public $alias = 'Vote';
 	public $actsAs = array('Revision');
 }
 
-class RevisionTag extends RevisionTestModel {
+class RevisionTag extends CakeTestModel {
 	public $name = 'RevisionTag';
 	public $alias = 'Tag';
 	public $actsAs = array('Revision');
 	public $hasAndBelongsToMany = array('Comment' => array('className' => 'RevisionComment'));
 }
 
-class CommentsTag extends RevisionTestModel {
+class CommentsTag extends CakeTestModel {
 	public $name = 'CommentsTag';
 	public $useTable = 'revision_comments_revision_tags';
 	public $actsAs = array('Revision');

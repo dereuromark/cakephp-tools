@@ -28,7 +28,7 @@ class FlattrHelper extends AppHelper {
 
 	/**
 	 * display the FlattrButton
-	 * @param mixed $url (unique! neccessary)
+	 * @param mixed $url (unique! necessary)
 	 * @param array $options
 	 * 2010-12-19 ms
 	 */
