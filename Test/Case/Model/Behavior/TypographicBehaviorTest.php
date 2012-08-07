@@ -107,5 +107,23 @@ class TypographicBehaviorTest extends MyCakeTestCase {
 		$this->assertSame($expected['body'], $res['Article']['body']);
 	}
 
+	public function testUpdateTypography() {
+		$this->Model->Behaviors->detach('Typographic');
+		for ($i = 0; $i < 202; $i++) {
+			$data = array(
+				'title '.$i,
+				'body' => 'unclean `content` to «correct»',
+			);
+			$this->Model->create();
+			$this->Model->save($data);
+		}
+		$this->Model->Behaviors->attach('Tools.Typographic');
+		$count = $this->Model->updateTypography();
+		$this->assertTrue($count >= 200);
+
+		$record = $this->Model->find('first', array('order' => array('id' => 'DESC')));
+		$this->assertSame('unclean `content` to "correct"', $record['Article']['body']);
+	}
+
 
 }

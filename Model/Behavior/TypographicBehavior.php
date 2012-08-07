@@ -18,6 +18,9 @@ App::uses('ModelBehavior', 'Model');
  * - array $fields (leave empty for auto detection)
  * - bool $mergeQuotes (merge single and double into " or any custom char)
  *
+ * TODOS:
+ * - respect primary and secondary quotations marks as well as alternatives
+ *
  * @link http://en.wikipedia.org/wiki/Non-English_usage_of_quotation_marks
  * @cakephp 2.x
  * @license MIT
@@ -28,13 +31,13 @@ class TypographicBehavior extends ModelBehavior {
 	protected $_map = array(
 		'in' => array(
 			'‘' => '\'',
-			//'&lsquo;' => '"', # ‘
+			//'&lsquo;' => '\'', # ‘
 			'’' => '\'',
-			//'&rsquo;' => '"', # ’
+			//'&rsquo;' => '\'', # ’
 			'‚' => '\'',
-			//'&sbquo;' => '"', # ‚
+			//'&sbquo;' => '\'', # ‚
 			'‛' => '\'',
-			//'&#8219;' => '"', # ‛
+			//'&#8219;' => '\'', # ‛
 			'“' => '"',
 			//'&ldquo;' => '"', # “
 			'”' => '"',
@@ -48,9 +51,9 @@ class TypographicBehavior extends ModelBehavior {
 			'»' => '"',
 			//'&raquo;' => '"', # »
 			'‹' => '\'',
-			//'&laquo;' => '"', # ‹
+			//'&laquo;' => '\'', # ‹
 			'›' => '\'',
-			//'&raquo;' => '"', # ›
+			//'&raquo;' => '\'', # ›
 		),
 		'out'=> array(
 			# use the TypographyHelper for this at runtime
@@ -129,27 +132,30 @@ class TypographicBehavior extends ModelBehavior {
 	 * 2012-08-07 ms
 	 */
 	public function updateTypography(Model $Model, $dryRun = false) {
-		$records = $Model->find('all'); //TODO: in multiple runs with limit
+		$options = array('recursive' => -1, 'limit' => 100, 'offset' => 0);
 		$count = 0;
-		foreach ($records as $record) {
-			$changed = false;
-			foreach ($this->settings[$Model->alias]['fields'] as $field) {
-				if (empty($record[$Model->alias][$field])) {
-					continue;
+		while ($records = $Model->find('all', $options)) {
+			foreach ($records as $record) {
+				$changed = false;
+				foreach ($this->settings[$Model->alias]['fields'] as $field) {
+					if (empty($record[$Model->alias][$field])) {
+						continue;
+					}
+					$tmp = $this->_prepareInput($Model, $record[$Model->alias][$field]);
+					if ($tmp == $record[$Model->alias][$field]) {
+						continue;
+					}
+					$record[$Model->alias][$field] = $tmp;
+					$changed = true;
 				}
-				$tmp = $this->_prepareInput($Model, $record[$Model->alias][$field]);
-				if ($tmp == $record[$Model->alias][$field]) {
-					continue;
+				if ($changed) {
+					if (!$dryRun) {
+						$Model->save($record, false);
+					}
+					$count++;
 				}
-				$record[$Model->alias][$field] = $tmp;
-				$changed = true;
 			}
-			if ($changed) {
-				if (!$dryRun) {
-					$Model->save($record, false);
-				}
-				$count++;
-			}
+			$options['offset'] += 100;
 		}
 		return $count;
 	}
