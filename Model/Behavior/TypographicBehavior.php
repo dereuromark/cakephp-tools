@@ -13,6 +13,11 @@ App::uses('ModelBehavior', 'Model');
  * according to the language/regional setting (in some languages
  * the high-high smart quotes, in others the low-high ones are preferred)
  *
+ * Settings are:
+ * - string $before (validate/save)
+ * - array $fields (leave empty for auto detection)
+ * - bool $mergeQuotes (merge single and double into " or any custom char)
+ *
  * @link http://en.wikipedia.org/wiki/Non-English_usage_of_quotation_marks
  * @cakephp 2.x
  * @license MIT
@@ -20,15 +25,15 @@ App::uses('ModelBehavior', 'Model');
  */
 class TypographicBehavior extends ModelBehavior {
 
-	protected $map = array(
+	protected $_map = array(
 		'in' => array(
-			'‘' => '"',
+			'‘' => '\'',
 			//'&lsquo;' => '"', # ‘
-			'’' => '"',
+			'’' => '\'',
 			//'&rsquo;' => '"', # ’
-			'‚' => '"',
+			'‚' => '\'',
 			//'&sbquo;' => '"', # ‚
-			'‛' => '"',
+			'‛' => '\'',
 			//'&#8219;' => '"', # ‛
 			'“' => '"',
 			//'&ldquo;' => '"', # “
@@ -42,14 +47,20 @@ class TypographicBehavior extends ModelBehavior {
 			//'&laquo;' => '"', # «
 			'»' => '"',
 			//'&raquo;' => '"', # »
-			'‹' => '"',
+			'‹' => '\'',
 			//'&laquo;' => '"', # ‹
-			'›' => '"',
+			'›' => '\'',
 			//'&raquo;' => '"', # ›
 		),
 		'out'=> array(
 			# use the TypographyHelper for this at runtime
 		),
+	);
+
+	protected $_defaults = array(
+		'before' => 'save',
+		'fields' => array(),
+		'mergeQuotes' => false, // set to true for " or explicitly set a char (" or ')
 	);
 
 	/**
@@ -62,15 +73,11 @@ class TypographicBehavior extends ModelBehavior {
 	 * 2011-12-06 ms
 	 */
 	public function setup(Model $Model, $settings = array()) {
-		$default = array(
-			'before' => 'save',
-			'fields' => array()
-		);
 		if (!isset($this->settings[$Model->alias])) {
-			$this->settings[$Model->alias] = $default;
+			$this->settings[$Model->alias] = $this->_defaults;
 		}
+		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], $settings);
 
-		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], is_array($settings) ? $settings : array());
 		if (empty($this->settings[$Model->alias]['fields'])) {
 			$schema = $Model->schema();
 			$fields = array();
@@ -87,6 +94,9 @@ class TypographicBehavior extends ModelBehavior {
 				$fields[] = $field;
 			}
 			$this->settings[$Model->alias]['fields'] = $fields;
+		}
+		if ($this->settings[$Model->alias]['mergeQuotes'] === true) {
+			$this->settings[$Model->alias]['mergeQuotes'] = '"';
 		}
 	}
 
@@ -127,7 +137,7 @@ class TypographicBehavior extends ModelBehavior {
 				if (empty($record[$Model->alias][$field])) {
 					continue;
 				}
-				$tmp = $this->_prepareInput($record[$Model->alias][$field]);
+				$tmp = $this->_prepareInput($Model, $record[$Model->alias][$field]);
 				if ($tmp == $record[$Model->alias][$field]) {
 					continue;
 				}
@@ -154,7 +164,7 @@ class TypographicBehavior extends ModelBehavior {
 	public function process(Model $Model, $return = true) {
 		foreach ($this->settings[$Model->alias]['fields'] as $field) {
 			if (!empty($Model->data[$Model->alias][$field])) {
-				$Model->data[$Model->alias][$field] = $this->_prepareInput($Model->data[$Model->alias][$field]);
+				$Model->data[$Model->alias][$field] = $this->_prepareInput($Model, $Model->data[$Model->alias][$field]);
 			}
 		}
 
@@ -166,13 +176,14 @@ class TypographicBehavior extends ModelBehavior {
 	 * @return string $cleanedInput
 	 * 2011-12-06 ms
 	 */
-	protected function _prepareInput($string) {
-		$map = $this->map['in'];
-
-		//return $string;
-
-		$string = str_replace(array_keys($map), array_values($map), $string);
-		return $string;
+	protected function _prepareInput(Model $Model, $string) {
+		$map = $this->_map['in'];
+		if ($this->settings[$Model->alias]['mergeQuotes']) {
+   		foreach ($map as $key => $val) {
+				$map[$key] = $this->settings[$Model->alias]['mergeQuotes'];
+   		}
+		}
+		return str_replace(array_keys($map), array_values($map), $string);
 	}
 
 }

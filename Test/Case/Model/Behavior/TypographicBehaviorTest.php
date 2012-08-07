@@ -37,9 +37,9 @@ class TypographicBehaviorTest extends MyCakeTestCase {
 		$this->assertSame($data, $res['Article']);
 
 		$strings = array(
-			'some string with ‹single angle quotes›' => 'some string with "single angle quotes"',
+			'some string with ‹single angle quotes›' => 'some string with \'single angle quotes\'',
 			'other string with „German‟ quotes' => 'other string with "German" quotes',
-			'mixed single ‚one‛ and ‘two’.' => 'mixed single "one" and "two".',
+			'mixed single ‚one‛ and ‘two’.' => 'mixed single \'one\' and \'two\'.',
 			'mixed double “one” and «two».' => 'mixed double "one" and "two".',
 		);
 		foreach ($strings as $was => $expected) {
@@ -56,6 +56,30 @@ class TypographicBehaviorTest extends MyCakeTestCase {
 			$this->assertSame($expected, $res['Article']['body']);
 		}
 
+	}
+
+	public function testMergeQuotes() {
+		$this->Model->Behaviors->detach('Typographic');
+		$this->Model->Behaviors->attach('Tools.Typographic', array('before' => 'validate', 'mergeQuotes' => true));
+		$strings = array(
+			'some string with ‹single angle quotes›' => 'some string with "single angle quotes"',
+			'other string with „German‟ quotes' => 'other string with "German" quotes',
+			'mixed single ‚one‛ and ‘two’.' => 'mixed single "one" and "two".',
+			'mixed double “one” and «two».' => 'mixed double "one" and "two".',
+		);
+		foreach ($strings as $was => $expected) {
+			$data = array(
+				'title' => 'some «cool» title',
+				'body' => $was
+			);
+			$this->Model->set($data);
+			$res = $this->Model->validates();
+			$this->assertTrue($res);
+
+			$res = $this->Model->data;
+			$this->assertSame('some "cool" title', $res['Article']['title']);
+			$this->assertSame($expected, $res['Article']['body']);
+		}
 	}
 
 	/**
