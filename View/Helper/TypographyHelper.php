@@ -16,13 +16,16 @@ App::uses('AppHelper', 'View/Helper');
  */
 
 /**
- * Typography Class
- *
+ * Typography Class converted to Cake Helper
  *
  * @access		private
  * @category	Helpers
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/helpers/
+ *
+ * @modified Mark Scherer
+ * @cakephp 2.x
+ * @php 5
  */
 class TypographyHelper extends AppHelper {
 
@@ -232,10 +235,13 @@ class TypographyHelper extends AppHelper {
 	 * @param	string
 	 * @return	string
 	 */
-	public function formatCharacters($str) {
+	public function formatCharacters($str, $locale = null) {
 		//static $table;
+		if ($locale === null) {
+			$locale = Configure::read('Typography.locale');
+		}
 
-		$locale = array(
+		$locales = array(
 			'default' => array(
 				'leftSingle' => '&#8216;', # &lsquo;
 				'rightSingle' => '&#8217;', # &rsquo;
@@ -249,7 +255,6 @@ class TypographyHelper extends AppHelper {
 				'rightDouble' => '&#8223;',
 			)
 		);
-
 
 		if (!isset($table)) {
 			$table = array(
@@ -294,10 +299,11 @@ class TypographyHelper extends AppHelper {
 				// ampersands, if not a character entity
 				'/&(?!#?[a-zA-Z0-9]{2,};)/'		=> '&amp;'
 			);
-		}
-
-		foreach ($table as $key => $val) {
-			$table[$key] = str_replace($locale['default'], $locale['low'], $val);
+			if ($locale && !empty($locales[$locale])) {
+				foreach ($table as $key => $val) {
+					$table[$key] = str_replace($locales['default'], $locales[$locale], $val);
+				}
+			}
 		}
 
 		return preg_replace(array_keys($table), $table, $str);

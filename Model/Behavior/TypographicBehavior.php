@@ -71,6 +71,23 @@ class TypographicBehavior extends ModelBehavior {
 		}
 
 		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], is_array($settings) ? $settings : array());
+		if (empty($this->settings[$Model->alias]['fields'])) {
+			$schema = $Model->schema();
+			$fields = array();
+			foreach ($schema as $field => $v) {
+				if (!in_array($v['type'], array('string', 'text'))) {
+					continue;
+				}
+				if (!empty($v['key'])) {
+					continue;
+				}
+				if (isset($v['length']) && $v['length'] === 1) { //TODO: also skip UUID (lenght 36)?
+					continue;
+				}
+				$fields[] = $field;
+			}
+			$this->settings[$Model->alias]['fields'] = $fields;
+		}
 	}
 
 
@@ -94,6 +111,38 @@ class TypographicBehavior extends ModelBehavior {
 		return true;
 	}
 
+	/**
+	 * Run the behavior over all records of this model
+	 * This is useful if you attach it after some records have already been saved without it.
+	 * @param object $Model Model about to be saved.
+	 * @return int $count Number of affected/changed records
+	 * 2012-08-07 ms
+	 */
+	public function updateTypography(Model $Model, $dryRun = false) {
+		$records = $Model->find('all'); //TODO: in multiple runs with limit
+		$count = 0;
+		foreach ($records as $record) {
+			$changed = false;
+			foreach ($this->settings[$Model->alias]['fields'] as $field) {
+				if (empty($record[$Model->alias][$field])) {
+					continue;
+				}
+				$tmp = $this->_prepareInput($record[$Model->alias][$field]);
+				if ($tmp == $record[$Model->alias][$field]) {
+					continue;
+				}
+				$record[$Model->alias][$field] = $tmp;
+				$changed = true;
+			}
+			if ($changed) {
+				if (!$dryRun) {
+					$Model->save($record, false);
+				}
+				$count++;
+			}
+		}
+		return $count;
+	}
 
 	/**
 	 * Run before a model is saved
