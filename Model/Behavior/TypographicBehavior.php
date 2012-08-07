@@ -179,9 +179,9 @@ class TypographicBehavior extends ModelBehavior {
 	protected function _prepareInput(Model $Model, $string) {
 		$map = $this->_map['in'];
 		if ($this->settings[$Model->alias]['mergeQuotes']) {
-   		foreach ($map as $key => $val) {
+			foreach ($map as $key => $val) {
 				$map[$key] = $this->settings[$Model->alias]['mergeQuotes'];
-   		}
+			}
 		}
 		return str_replace(array_keys($map), array_values($map), $string);
 	}
