@@ -124,6 +124,64 @@ class SluggedTest extends CakeTestCase {
 		$this->Model = new MessageSlugged();
 	}
 
+/**
+ * Test slug generation/update based on trigger
+ *
+ * @access public
+ * @return void
+ */
+	public function testSlugGenerationBasedOnTrigger() {
+		$this->Model->Behaviors->detach('Slugged');
+		$this->Model->Behaviors->attach('Tools.Slugged', array(
+			'trigger' => 'generateSlug'));
+
+		$this->Model->generateSlug = false;
+		$this->Model->create(array('name' => 'Some Article 25271'));
+		$result = $this->Model->save();
+
+		$result[$this->Model->alias]['id'] = $this->Model->id;
+		$this->assertTrue(empty($result[$this->Model->alias]['slug']));
+		$this->Model->generateSlug = true;
+		$result = $this->Model->save($result);
+		$this->assertEqual($result[$this->Model->alias]['slug'], 'Some-Article-25271');
+	}
+
+/**
+ * Test slug generation/update based on trigger
+ *
+ * @access public
+ * @return void
+ */
+	public function testSlugGenerationWithScope() {
+		$this->Model->Behaviors->detach('Slugged');
+		$this->Model->Behaviors->attach('Tools.Slugged', array('unique' => true));
+
+		$data = array('name' => 'Some Article 12345', 'section' => 0);
+
+		$this->Model->create();
+		$result = $this->Model->save($data);
+		$this->assertTrue((bool)$result);
+		$this->assertEqual($result[$this->Model->alias]['slug'], 'Some-Article-12345');
+
+		$this->Model->create();
+		$result = $this->Model->save($data);
+		$this->assertTrue((bool)$result);
+		$this->assertEqual($result[$this->Model->alias]['slug'], 'Some-Article-12345-1');
+
+		$this->Model->Behaviors->detach('Slugged');
+		$this->Model->Behaviors->attach('Tools.Slugged', array('unique' => true, 'scope' => array('section' => 1)));
+
+		$data = array('name' => 'Some Article 12345', 'section' => 1);
+
+		$this->Model->create();
+		$result = $this->Model->save($data);
+		$this->assertTrue((bool)$result);
+		$this->assertEqual($result[$this->Model->alias]['slug'], 'Some-Article-12345');
+	}
+
+/**
+ * test remove stop words
+ */
 	public function testRemoveStopWords() {
 		$array = $this->Model->removeStopWords('My name is Michael Paine, and I am a nosey neighbour');
 		$expected = array(

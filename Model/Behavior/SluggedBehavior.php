@@ -81,7 +81,9 @@ class SluggedBehavior extends ModelBehavior {
 		),
 		'run' => 'beforeValidate',
 		'language' => null,
-		'encoding' => null
+		'encoding' => null,
+		'trigger' => false,
+		'scope' => array()
 	);
 
 /**
@@ -144,6 +146,11 @@ class SluggedBehavior extends ModelBehavior {
 		if ($run !== 'beforeValidate') {
 			return true;
 		}
+		if (is_string($this->settings[$Model->alias]['trigger'])) {
+			if (!$Model->{$this->settings[$Model->alias]['trigger']}) {
+				return true;
+			}
+		}
 		return $this->generateSlug($Model);
 	}
 
@@ -158,6 +165,11 @@ class SluggedBehavior extends ModelBehavior {
 		extract($this->settings[$Model->alias]);
 		if ($run !== 'beforeSave') {
 			return true;
+		}
+		if (is_string($this->settings[$Model->alias]['trigger'])) {
+			if (!$Model->{$this->settings[$Model->alias]['trigger']}) {
+				return true;
+			}
 		}
 		return $this->generateSlug($Model);
 	}
@@ -221,6 +233,7 @@ class SluggedBehavior extends ModelBehavior {
 			}
 			if ($unique) {
 				$conditions = array($Model->alias . '.' . $slugField => $slug);
+				$conditions = array_merge($conditions, $this->settings[$Model->alias]['scope']);
 				if ($Model->id) {
 					$conditions['NOT'][$Model->alias . '.' . $Model->primaryKey] = $Model->id;
 				}
@@ -439,8 +452,10 @@ class SluggedBehavior extends ModelBehavior {
 			}
 			$id = $Model->id;
 		}
-		return current($Model->find('list', array('conditions' => array(
-			$Model->alias . '.' . $Model->primaryKey => $id))));
+		$conditions = array_merge(array(
+			$Model->alias . '.' . $Model->primaryKey => $id),
+			$this->settings[$Model->alias]['scope']);
+		return current($Model->find('list', array('conditions' => $conditions)));
 	}
 
 /**
@@ -466,7 +481,7 @@ class SluggedBehavior extends ModelBehavior {
 			'limit' => 100,
 			'fields' => array_merge(array($Model->primaryKey, $slugField), $label),
 			'order' => $Model->displayField . ' ASC',
-			'conditions' => array(),
+			'conditions' => $scope,
 			'recursive' => $recursive,
 		);
 		$params = array_merge($defaults, $params);

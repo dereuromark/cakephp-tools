@@ -35,14 +35,14 @@ class LanguageFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => '1',
-			'name' => 'Afrikaans',
-			'ori_name' => 'Afrikaans',
-			'code' => 'af',
+			'id' => '25',
+			'name' => 'Deutsch',
+			'ori_name' => 'German',
+			'code' => 'de',
 			'iso3' => '',
 			'iso2' => '',
-			'locale' => 'afr',
-			'locale_fallback' => 'afr',
+			'locale' => 'de_DE',
+			'locale_fallback' => 'deu',
 			'status' => '0',
 			'sort' => '0',
 			'modified' => '2011-07-17 15:23:08'
