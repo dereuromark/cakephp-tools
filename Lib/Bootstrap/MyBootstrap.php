@@ -63,6 +63,9 @@ define('CURRENT_DAY', date('d'));
 define('FILES', APP . 'files' . DS);
 define('LOCALE', APP . 'locale' . DS);
 
+if (!defined('CLASS_USER')) {
+	define('CLASS_USER', 'User');
+}
 
 # Validation ## (minus should be "hyphen")
 /** Valid characters: letters only */
@@ -530,13 +533,14 @@ function uid($default = null) {
 		$default;
 }
 
-
-
 /**
  * own shutdown function - also logs fatal errors (necessary until cake2.2)
  * 2010-10-17 ms
  */
 function shutDownFunction() {
+	if (Configure::version() >= 2.3) {
+		return;
+	}
 	$error = error_get_last();
 	if (empty($error)) {
 		return;

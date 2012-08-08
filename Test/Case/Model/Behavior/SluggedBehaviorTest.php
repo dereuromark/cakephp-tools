@@ -147,7 +147,7 @@ class SluggedTest extends CakeTestCase {
 	}
 
 /**
- * Test slug generation/update based on trigger
+ * Test slug generation/update based on scope
  *
  * @access public
  * @return void
