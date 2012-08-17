@@ -8,7 +8,7 @@ App::uses('ModelBehavior', 'Model');
  * You can submit/register flags in different ways. The easiest way is using a static model function.
  * It should contain the bits like so (starting with 1):
  * 	1 => w, 2 => x, 4 => y, 8 => z, ... (bits as keys - names as values)
- * The order doest't matter, as long as no bit is used twice.
+ * The order doesn't matter, as long as no bit is used twice.
  *
  * The theoretical limit for a 64-bit integer would be 64 bits (2^64).
  * But if you actually seem to need more than a hand full you
@@ -19,6 +19,7 @@ App::uses('ModelBehavior', 'Model');
  * @cake 2.x
  * @license MIT
  * @uses ModelBehavior
+ * @link http://www.dereuromark.de/2012/02/26/bitmasked-using-bitmasks-in-cakephp/
  * 2012-02-24 ms
  */
 class BitmaskedBehavior extends ModelBehavior {

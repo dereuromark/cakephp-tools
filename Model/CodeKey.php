@@ -1,6 +1,5 @@
 <?php
 App::uses('Token', 'Tools.Model');
-App::uses('CommonComponent', 'Tools.Controller/Component');
 
 /**
  * @deprecated - use "Token" class

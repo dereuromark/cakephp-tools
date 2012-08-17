@@ -1,6 +1,7 @@
 <?php
 App::uses('ErrorHandler', 'Error');
 App::uses('CakeRequest', 'Network');
+App::uses('Utility', 'Tools.Utility');
 
 class MyErrorHandler extends ErrorHandler {
 
@@ -128,9 +129,8 @@ class MyErrorHandler extends ErrorHandler {
 	 * 2011-12-21 ms
 	 */
 	public static function traceDetails() {
-		App::uses('CommonComponent', 'Tools.Controller/Component');
 		$currentUrl = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : 'n/a';
-		$refererUrl = CommonComponent::getReferer(); //Router::getRequest()->url().'
+		$refererUrl = Utility::getReferer(); //Router::getRequest()->url().'
 		App::uses('CakeSession', 'Model/Datasource');
 		$uid = CakeSession::read('Auth.User.id');
 		if (!isset($uid)) {

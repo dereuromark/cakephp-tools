@@ -1015,11 +1015,12 @@ class FormatHelper extends TextHelper {
 		}
 		$title = isset($text) ? $text : $username;
 		$username = slug($username);
+		$url = array('plugin' => false, 'admin' => false, 'controller' => 'members', 'action' => 'view', $uid, $username);
+
 		if (!empty($options['hash'])) {
-			$username .= '#'.$options['hash'];
+			$url['#'] = $options['hash'];
 		}
-		return $this->Html->link($title, array('plugin' => false, 'admin' => false, 'controller' => 'members', 'action' => 'view', $uid, $username),
-			$attr);
+		return $this->Html->link($title, $url, $attr);
 	}
 
 	/**

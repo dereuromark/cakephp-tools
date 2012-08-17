@@ -404,13 +404,13 @@ class MyModel extends Model {
 
 	/**
 	 * Makes a subquery
-	 * @link http://bakery.cakephp.org/articles/lucaswxp/2011/02/11/easy_and_simple_subquery_cakephp
 	 *
 	 * @param string $type The type o the query ('count'/'all'/'first' - first only works with some mysql versions)
 	 * @param array $options The options array
 	 * @param string $alias You can use this intead of $options['alias'] if you want
 	 * @return string $result sql snippet of the query to run
 	 * @modified Mark Scherer (cake2.x ready and improvements)
+	 * @link http://bakery.cakephp.org/articles/lucaswxp/2011/02/11/easy_and_simple_subquery_cakephp
 	 * 2011-07-05 ms
 	 */
 	public function subquery($type, $options = array(), $alias = null) {
@@ -443,7 +443,7 @@ class MyModel extends Model {
 			'group' => null
 		);
 		$params = array_merge($default, $options);
-		$subQuery = '(' . $dbo->buildStatement($params, $this) . ')';
+		$subQuery = '(' . trim($dbo->buildStatement($params, $this)) . ')';
 		return $subQuery;
 	}
 

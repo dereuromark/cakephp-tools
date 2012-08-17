@@ -3,15 +3,6 @@ App::uses('ModelBehavior', 'Model');
 App::uses('CakeResponse', 'Network');
 App::uses('Security', 'Utility');
 
-/**
- * Copyright 2011, Mark Scherer
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- *
- * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
- */
-
 if (!defined('PWD_MIN_LENGTH')) {
 	define('PWD_MIN_LENGTH', 3);
 }
@@ -20,7 +11,7 @@ if (!defined('PWD_MAX_LENGTH')) {
 }
 
 /**
- * A cakephp2 behavior to change passwords the easy way
+ * A cakephp2 behavior to work with passwords the easy way
  * - complete validation
  * - hashing of password
  * - requires fields (no tempering even without security component)
@@ -150,7 +141,7 @@ class ChangePasswordBehavior extends ModelBehavior {
 	 * @return bool $success
 	 * 2011-07-22 ms
 	 */
-	public function validateIdentical(Model $Model, $data, $compareWith = null) {debug($compareWith); ob_flush();
+	public function validateIdentical(Model $Model, $data, $compareWith = null) {
 		if (is_array($data)) {
 			$value = array_shift($data);
 		} else {
@@ -215,6 +206,9 @@ class ChangePasswordBehavior extends ModelBehavior {
 
 	/**
 	 * whitelisting
+	 * 
+	 * @todo currently there is a cake core bug that can break functionality here
+	 * (see http://cakephp.lighthouseapp.com/projects/42648/tickets/3071-behavior-validation-methods-broken for details)
 	 * 2011-07-22 ms
 	 */
 	public function beforeValidate(Model $Model) {
@@ -251,7 +245,6 @@ class ChangePasswordBehavior extends ModelBehavior {
 					//unset($Model->validate[$formFieldCurrent]);
 					unset($Model->data[$Model->alias][$formFieldCurrent]);
 				}
-				debug($Model->data);
 				return true;
 			}
 		}
