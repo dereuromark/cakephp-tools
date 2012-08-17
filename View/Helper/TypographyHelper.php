@@ -1,6 +1,4 @@
 <?php
-App::uses('AppHelper', 'View/Helper');
-
 /**
  * CodeIgniter
  *
@@ -14,18 +12,15 @@ App::uses('AppHelper', 'View/Helper');
  * @since		Version 1.0
  * @filesource
  */
+App::uses('AppHelper', 'View/Helper');
 
 /**
  * Typography Class converted to Cake Helper
  *
- * @access		private
- * @category	Helpers
- * @author		ExpressionEngine Dev Team
- * @link		http://codeigniter.com/user_guide/helpers/
- *
  * @modified Mark Scherer
  * @cakephp 2.x
  * @php 5
+ * @link http://www.dereuromark.de/2012/08/12/typographic-behavior-and-typography-helper/
  */
 class TypographyHelper extends AppHelper {
 

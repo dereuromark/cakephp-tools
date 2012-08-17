@@ -21,9 +21,11 @@ App::uses('ModelBehavior', 'Model');
  * TODOS:
  * - respect primary and secondary quotations marks as well as alternatives
  *
- * @link http://en.wikipedia.org/wiki/Non-English_usage_of_quotation_marks
+ * @author Mark Scherer
  * @cakephp 2.x
  * @license MIT
+ * @link http://www.dereuromark.de/2012/08/12/typographic-behavior-and-typography-helper/
+ * @link http://en.wikipedia.org/wiki/Non-English_usage_of_quotation_marks
  * 2011-01-13 ms
  */
 class TypographicBehavior extends ModelBehavior {

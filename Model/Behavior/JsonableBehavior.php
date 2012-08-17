@@ -1,6 +1,4 @@
 <?php
-App::uses('ModelBehavior', 'Model');
-
 /**
  * Copyright 2011, PJ Hile (http://www.pjhile.com)
  *
@@ -10,6 +8,7 @@ App::uses('ModelBehavior', 'Model');
  * @version    0.1
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
  */
+App::uses('ModelBehavior', 'Model');
 
 /**
  * A behavior that will json_encode (and json_decode) fields if they contain an array or specific pattern.
@@ -17,9 +16,6 @@ App::uses('ModelBehavior', 'Model');
  * Requres: PHP 5 >= 5.2.0 or PECL json >= 1.2.0
  *
  * This is a port of the Serializeable behavior by Matsimitsu (http://www.matsimitsu.nl)
- */
-
-/**
  * Modified by Mark Scherer (http://www.dereuromark.de)
  *
  * Now supports different input/output formats:
@@ -28,7 +24,8 @@ App::uses('ModelBehavior', 'Model');
  * - can be used to create dynamic forms (and tables)
  *
  * Also automatically cleans lists and works with custom separators etc
- *
+ * 
+ * @link http://www.dereuromark.de/2011/07/05/introducing-two-cakephp-behaviors/
  * 2011-07-04 ms
  */
 class JsonableBehavior extends ModelBehavior {
