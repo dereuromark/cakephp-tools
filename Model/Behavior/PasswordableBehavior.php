@@ -169,7 +169,7 @@ class PasswordableBehavior extends ModelBehavior {
 	 */
 	public function setup(Model $Model, $config = array()) {
 		$defaults = $this->_defaultSettings;
-		if ($configureDefaults = Configure::read('ChangePassword')) {
+		if ($configureDefaults = Configure::read('Passwordable')) {
 			$defaults = Set::merge($defaults, $configureDefaults);
 		}
 		$this->settings[$Model->alias] = Set::merge($defaults, $config);

@@ -31,7 +31,7 @@ if (!defined('PWD_MAX_LENGTH')) {
  * TODO: allowEmpty and nonEmptyToEmpty - maybe with checkbox "set_new_pwd"
  * feel free to help me out
  *
- * @version 1.5
+ * @deprecated Use PasswordableBehavior instead!
  * @author Mark Scherer
  * @link http://www.dereuromark.de/2011/08/25/working-with-passwords-in-cakephp
  * @license MIT
@@ -168,6 +168,7 @@ class ChangePasswordBehavior extends ModelBehavior {
 	 * 2011-08-24 ms
 	 */
 	public function setup(Model $Model, $config = array()) {
+		trigger_error('Deprecated - use PasswordableBehavior instead');
 		$defaults = $this->_defaultSettings;
 		if ($configureDefaults = Configure::read('ChangePassword')) {
 			$defaults = Set::merge($defaults, $configureDefaults);
