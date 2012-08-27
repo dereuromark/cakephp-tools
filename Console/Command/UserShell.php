@@ -79,7 +79,8 @@ class UserShell extends AppShell {
 			'active' => 1
 		));
 		if (!empty($username)) {
-			$data['User']['username'] = $username;
+			$usernameField = $this->User->displayField; //'username';
+			$data['User'][$usernameField] = $username;
 		}
 		if (!empty($email)) {
 			$data['User']['email'] = $email;

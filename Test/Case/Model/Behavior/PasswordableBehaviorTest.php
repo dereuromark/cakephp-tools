@@ -1,8 +1,6 @@
 <?php
-
-App::uses('Model', 'Model');
-App::uses('AppModel', 'Model');
-
+//App::uses('Model', 'Model');
+//App::uses('AppModel', 'Model');
 App::uses('ComponentCollection', 'Controller');
 
 class PasswordableBehaviorTest extends CakeTestCase {
@@ -16,7 +14,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		
+
 		$this->User = ClassRegistry::init('User');
 	}
 
@@ -26,7 +24,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	public function tearDown() {
 		unset($this->User);
 		parent::tearDown();
-		
+
 		ClassRegistry::flush();
 	}
 
@@ -112,7 +110,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 
 		$this->User->Behaviors->detach('Passwordable');
 		$this->User->validate = array();
-		
+
 		$this->User->Behaviors->attach('Tools.Passwordable', array('current'=>true));
 		$this->User->create();
 		$data = array(
@@ -129,7 +127,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 
 		$this->tearDown();
 		$this->setUp();
-		
+
 		$this->User->Behaviors->attach('Tools.Passwordable', array('allowEmpty'=>true, 'current'=>true));
 		$this->User->create();
 		$data = array(
@@ -139,11 +137,11 @@ class PasswordableBehaviorTest extends CakeTestCase {
 			'pwd_current' => '',
 		);
 		$is = $this->User->save($data);
-		
+
 		debug($this->User->data);
 		debug($this->User->validate);
 		debug($this->User->validationErrors); ob_flush();
-		
+
 		$this->assertTrue(!empty($is));
 	}
 
@@ -214,7 +212,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$res = $this->User->save($data);
 		$this->assertTrue(!empty($res));
 		$uid = $this->User->id;
-		
+
 		# cake bug => attached behavior validation rules cannot be triggered
 		//$this->tearDown();
 		//$this->setUp();

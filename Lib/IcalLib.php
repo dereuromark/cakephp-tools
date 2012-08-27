@@ -5,8 +5,7 @@
 App::import('Vendor', 'Tools.ical', array('file'=>'ical/ical.php'));
 App::import('Vendor', 'Tools.icalobject', array('file'=>'ical/i_cal_object.php'));
 
-App::uses('View', 'View');
-App::uses('TimeHelper', 'View/Helper');
+App::uses('CakeTime', 'Utility');
 
 /**
  * A wrapper for the Ical/Ics calendar lib
@@ -24,7 +23,6 @@ class IcalLib {
 
 	public function __construct() {
 		$this->ICalObject = new ICalObject();
-		$this->Time = new TimeHelper(new View(null));
 	}
 
 /** BUILDING **/
@@ -41,15 +39,18 @@ class IcalLib {
 	 */
 	public function build($data, $addStartAndEnd = true) {
 		if (isset($data['start'])) {
-			$data['dtstart'] = $this->Time->toAtom($data['start']);
+			$data['dtstart'] = CakeTime::toAtom($data['start']);
+			$data['dtstart'] = str_replace(array('-', ':'), '', $data['dtstart']);
 			unset($data['start']);
 		}
 		if (isset($data['end'])) {
-			$data['dtend'] = $this->Time->toAtom($data['end']);
+			$data['dtend'] = CakeTime::toAtom($data['end']);
+			$data['dtend'] = str_replace(array('-', ':'), '', $data['dtend']);
 			unset($data['end']);
 		}
 		if (isset($data['timestamp'])) {
-			$data['dtstamp'] = $this->Time->toAtom($data['timestamp']);
+			$data['dtstamp'] = CakeTime::toAtom($data['timestamp']);
+			$data['dtstamp'] = str_replace(array('-', ':'), '', $data['dtstamp']);
 			unset($data['timestamp']);
 		}
 		if (isset($data['id'])) {

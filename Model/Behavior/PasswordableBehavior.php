@@ -35,16 +35,19 @@ if (!defined('PWD_MAX_LENGTH')) {
  * @author Mark Scherer
  * @link http://www.dereuromark.de/2011/08/25/working-with-passwords-in-cakephp
  * @license MIT
- * 2011-08-24 ms
+ * 2012-08-18 ms
  */
 class PasswordableBehavior extends ModelBehavior {
 
+	/**
+	 * @access public
+	 */
 	public $settings = array();
 
 	/**
 	 * @access protected
 	 */
-	public $_defaultSettings = array(
+	protected $_defaultSettings = array(
 		'field' => 'password',
 		'confirm' => true, # set to false if in admin view and no confirmation (pwd_repeat) is required
 		'allowEmpty' => false, # if password must be provided or be changed (set to true for update sites)
@@ -58,7 +61,10 @@ class PasswordableBehavior extends ModelBehavior {
 		'allowSame' => true, # dont allow the old password on change
 	);
 
-	public $_validationRules = array(
+	/**
+	 * @access protected
+	 */
+	protected $_validationRules = array(
 		'formField' => array(
 			'between' => array(
 				'rule' => array('between', PWD_MIN_LENGTH, PWD_MAX_LENGTH),
@@ -165,6 +171,7 @@ class PasswordableBehavior extends ModelBehavior {
 	/**
 	 * adding validation rules
 	 * also adds and merges config settings (direct + configure)
+	 * @return void
 	 * 2011-08-24 ms
 	 */
 	public function setup(Model $Model, $config = array()) {
@@ -209,6 +216,7 @@ class PasswordableBehavior extends ModelBehavior {
 	 * 
 	 * @todo currently there is a cake core bug that can break functionality here
 	 * (see http://cakephp.lighthouseapp.com/projects/42648/tickets/3071-behavior-validation-methods-broken for details)
+	 * @return bool $success
 	 * 2011-07-22 ms
 	 */
 	public function beforeValidate(Model $Model) {
@@ -264,6 +272,7 @@ class PasswordableBehavior extends ModelBehavior {
 
 	/**
 	 * hashing the password now
+	 * @return bool $success
 	 * 2011-07-22 ms
 	 */
 	public function beforeSave(Model $Model) {

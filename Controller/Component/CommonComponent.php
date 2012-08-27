@@ -390,12 +390,11 @@ class CommonComponent extends Component {
 	 * returns nothing and automatically redirects
 	 * 2010-11-06 ms
 	 */
-	public function autoRedirect($whereTo, $allowSelf = false, $status = null) {
+	public function autoRedirect($whereTo, $allowSelf = true, $status = null) {
 		if ($allowSelf || $this->Controller->referer(null, true) != '/' . $this->Controller->request->url) {
-			$this->Controller->redirect($this->Controller->referer($whereTo, true));
-		} else {
-			$this->Controller->redirect($whereTo, $status);
+			$this->Controller->redirect($this->Controller->referer($whereTo, true), $status);
 		}
+		$this->Controller->redirect($whereTo, $status);
 	}
 
 	/**
