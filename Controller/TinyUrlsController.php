@@ -60,7 +60,7 @@ class TinyUrlsController extends ToolsAppController {
 	public function admin_index() {
 		//TODO
 
-		if ($this->Common->isPost()) {
+		if ($this->Common->isPosted()) {
 			$this->TinyUrl->set($this->request->data);
 			if ($this->TinyUrl->validates()) {
 				$id = $this->TinyUrl->generate($this->TinyUrl->data['TinyUrl']['url']);
@@ -81,7 +81,7 @@ class TinyUrlsController extends ToolsAppController {
 	}
 
 	public function admin_reset() {
-		if (!$this->Common->isPost()) {
+		if (!$this->Common->isPosted()) {
 			throw new MethodNotAllowedException();
 		}
 		$this->TinyUrl->truncate();

@@ -86,6 +86,9 @@ class KeyValueBehavior extends ModelBehavior {
 		if ($section === null) {
 			return $detailArray;
 		}
+		if (empty($detailArray[$section])) {
+			return array();
+		}
 		if ($key === null) {
 			return $detailArray[$section];
 		}

@@ -72,7 +72,7 @@ class QloginController extends ToolsAppController {
 	 * 2012-03-04 ms
 	 */
 	public function admin_index() {
-		if ($this->Common->isPost()) {
+		if ($this->Common->isPosted()) {
 			$this->Qlogin->set($this->request->data);
 			if ($this->Qlogin->validates()) {
 				$id = $this->Qlogin->generate($this->Qlogin->data['Qlogin']['url'], $this->Qlogin->data['Qlogin']['user_id']);
@@ -105,7 +105,7 @@ class QloginController extends ToolsAppController {
 	}
 
 	public function admin_reset() {
-		if (!$this->Common->isPost()) {
+		if (!$this->Common->isPosted()) {
 			throw new MethodNotAllowedException();
 		}
 		$this->CodeKey = ClassRegistry::init('Tools.CodeKey');

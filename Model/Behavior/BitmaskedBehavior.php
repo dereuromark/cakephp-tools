@@ -112,17 +112,13 @@ class BitmaskedBehavior extends ModelBehavior {
 	 */
 	public function decodeBitmask(Model $Model, $value) {
 		$res = array();
-		$i = 0;
-		$value = (int) $value;
-
+		$value = (int)$value;
 		foreach ($this->settings[$Model->alias]['bits'] as $key => $val) {
-			$val = (($value & pow(2, $i)) != 0) ? true : false;
+			$val = (($value & $key) !== 0) ? true : false;
 			if ($val) {
 				$res[] = $key;
 			}
-			$i++;
- 		}
-
+		}
 		return $res;
 	}
 

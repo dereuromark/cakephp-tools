@@ -1,10 +1,15 @@
 <?php
 App::uses('ModelBehavior', 'Model');
+
 /**
  * //ALREADY exists as number_format in a slightly different way!
  *
+ * IN:
  * 20,01 => 20.01 (!)
- * 11.222 => 11222
+ * 11.222 => 11222 (or 11#222 in strict mode to invalidate correctly)
+ *
+ * OUT:
+ * 20.01 => 20,01
  *
  * @author Mark Scherer
  * @license MIT
@@ -15,8 +20,8 @@ App::uses('ModelBehavior', 'Model');
  */
 class DecimalInputBehavior extends ModelBehavior {
 
-	public $default = array(
-		'before' => 'validate', // safe or validate
+	protected $_defaults = array(
+		'before' => 'validate', // save or validate
 		'input' => true, // true = activated
 		'output' => false, // true = activated
 		'fields' => array(
@@ -32,6 +37,7 @@ class DecimalInputBehavior extends ModelBehavior {
 			//'multiply' => 0
 		),
 		'transformReverse' => array(),
+		'strict' => false,
 	);
 
 	public $delimiterBaseFormat = array();
@@ -43,7 +49,11 @@ class DecimalInputBehavior extends ModelBehavior {
 	* leave fields empty to auto-detect all float inputs
 	*/
 	public function setup(Model $Model, $config = array()) {
-		$this->config[$Model->alias] = $this->default;
+		$this->config[$Model->alias] = $this->_defaults;
+
+		if (!empty($config['strict'])) {
+			$this->config[$Model->alias]['transform']['.'] = '#';
+		}
 		$this->config[$Model->alias] = array_merge($this->config[$Model->alias], $config);
 
 		$numberFields = array();
@@ -55,6 +65,7 @@ class DecimalInputBehavior extends ModelBehavior {
 			}
 		}
 		$this->config[$Model->alias]['fields'] = array_merge($this->config[$Model->alias]['fields'], $numberFields);
+
 		/*
 		if ($this->config[$Model->alias]['localeconv']) {
 			# use locale settings
@@ -64,11 +75,10 @@ class DecimalInputBehavior extends ModelBehavior {
 			$loc = (array)Configure::read('Localization');
 		}
 		*/
+		//TODO: remove to avoid conflicts
 		$this->Model = $Model;
 	}
 
-
-	//Function before save.
 	public function beforeValidate(Model $Model) {
 		if ($this->config[$Model->alias]['before'] != 'validate') {
 			return true;
@@ -78,8 +88,6 @@ class DecimalInputBehavior extends ModelBehavior {
 		return true;
 	}
 
-
-	//Function before save.
 	public function beforeSave(Model $Model) {
 		if ($this->config[$Model->alias]['before'] != 'save') {
 			return true;
@@ -88,7 +96,6 @@ class DecimalInputBehavior extends ModelBehavior {
 		$this->prepInput($Model->data); //direction is from interface to database
 		return true;
 	}
-
 
 	public function afterFind(Model $Model, $results) {
 		if (!$this->config[$Model->alias]['output'] || empty($results)) {
@@ -99,15 +106,22 @@ class DecimalInputBehavior extends ModelBehavior {
 		return $results;
 	}
 
-
+	/**
+	 * @param array $results (by reference)
+	 * @return void
+	 */
 	public function prepInput(&$data) {
 		foreach ($data[$this->Model->alias] as $key => $field) {
 			if (in_array($key, $this->config[$this->Model->alias]['fields'])) {
-				$data[$this->Model->alias][$key] = $this->_format($field, 'in');
+				$data[$this->Model->alias][$key] = $this->formatInputOutput(null, $field, 'in');
 			}
 		}
 	}
 
+	/**
+	 * @param array $results
+	 * @return array $results
+	 */
 	public function prepOutput($data) {
 		foreach ($data as $datakey => $record) {
 			if (!isset($record[$this->Model->alias])) {
@@ -115,26 +129,35 @@ class DecimalInputBehavior extends ModelBehavior {
 			}
 			foreach ($record[$this->Model->alias] as $key => $field) {
 				if (in_array($key, $this->config[$this->Model->alias]['fields'])) {
-					$data[$datakey][$this->Model->alias][$key] = $this->_format($field, 'out');
+					$data[$datakey][$this->Model->alias][$key] = $this->formatInputOutput(null, $field, 'out');
 				}
 			}
 		}
 		return $data;
 	}
 
-
-	protected function _format($value, $dir = 'in') {
+	/**
+	 * perform a single transformation
+	 * @return string $cleanedValue
+	 */
+	public function formatInputOutput(Model $model = null, $value, $dir = 'in') {
 		$this->_setTransformations($dir);
 		if ($dir == 'out') {
 			$value = str_replace($this->delimiterFromFormat, $this->delimiterBaseFormat, (String)$value);
 		} else {
 			$value = str_replace(' ', '', $value);
-			$value = (float)str_replace($this->delimiterFromFormat, $this->delimiterBaseFormat, $value);
+			$value = str_replace($this->delimiterFromFormat, $this->delimiterBaseFormat, $value);
+			if (is_numeric($value)) {
+				$value = (float)$value;
+			}
 		}
 		return $value;
 	}
 
-
+	/**
+	 * prep the transformation chars
+	 * @return void
+	 */
 	protected function _setTransformations($dir) {
 		$from = array();
 		$base = array();
@@ -146,7 +169,16 @@ class DecimalInputBehavior extends ModelBehavior {
 				$transform = array_reverse($transform, true);
 			}
 		}
+		$first = true;
 		foreach ($transform as $key => $value) {
+			/*
+			if ($first) {
+				$from[] = $key;
+				$base[] = '#';
+				$key = '#';
+				$first = false;
+			}
+			*/
 			$from[] = $key;
 			$base[] = $value;
 		}
@@ -160,19 +192,4 @@ class DecimalInputBehavior extends ModelBehavior {
 		}
 	}
 
-
-/*
-beforeValidate
-$Model->data[$Model->alias][$field] = str_replace($loc['decimal_point'], "#", $Model->data[$Model->alias][$field]);
-$Model->data[$Model->alias][$field] = str_replace($loc['thousands_sep'], "", $Model->data[$Model->alias][$field]);
-$Model->data[$Model->alias][$field] = str_replace("#", ".", $Model->data[$Model->alias][$field]);
-
-afterFind
-$m[$Model->alias][$field] = str_replace('.', '#', $m[$Model->alias][$field]);
-$m[$Model->alias][$field] = str_replace(',', $loc['thousands_sep'], $m[$Model->alias][$field]);
-$m[$Model->alias][$field] = str_replace('#', $loc['decimal_point'], $m[$Model->alias][$field]);
-*/
-
-
 }
-

@@ -1,9 +1,7 @@
 <?php
 
-App::import('Behavior', 'Tools.DecimalInput');
-App::uses('AppModel', 'Model');
+App::uses('DecimalInputBehavior', 'Tools.Model/Behavior');
 App::uses('MyCakeTestCase', 'Tools.Lib');
-
 
 class DecimalInputBehaviorTest extends MyCakeTestCase {
 
@@ -81,14 +79,32 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 		$res = $this->Comment->find('count', array());
 		echo returns($res);
 		$this->assertSame($res[0][0]['count'], 2);
+	}
 
+	public function testStrict() {
+		$this->Comment->Behaviors->detach('DecimalInput');
+		$this->Comment->Behaviors->attach('Tools.DecimalInput', array('fields'=>array('rel_rate', 'set_rate'), 'strict'=>true));
+
+		$data = array(
+			'name' => 'some Name',
+			'set_rate' => '0.1',
+			'rel_rate' => '-0,02',
+		);
+		$this->Comment->set($data);
+		$res = $this->Comment->validates();
+		$this->assertTrue($res);
+
+		$res = $this->Comment->data;
+		echo returns($res);
+		$this->assertSame($res['TestModel']['set_rate'], '0#1');
+		$this->assertSame($res['TestModel']['rel_rate'], -0.02);
 	}
 
 }
 
 /** other files **/
 
-class DecimalInputTestModel extends AppModel {
+class DecimalInputTestModel extends CakeTestModel {
 
 	public $alias = 'TestModel';
 

@@ -121,23 +121,6 @@ class CommonComponent extends Component {
 		//$this->_habtmValidation();
 	}
 
-
-	/**
-	 * Clear the Messages.
-	 *
-	 * Created: 12.10.10 16:01
-	 * Updated: 12.10.10 16:01
-	 * @return void
-	 * @access public
-	 * @author deltacahos
-	 */
-	public function shutdown(Controller $Controller) {
-		parent::shutdown($Controller);
-
-		//$this->Session->write('messages', array());
-		//Configure::write('messages', array());
-	}
-
 /*** Important Helper Methods ***/
 
 	/**
@@ -152,15 +135,16 @@ class CommonComponent extends Component {
 
 	//deprecated - use isPosted instead
 	public function isPost() {
+		trigger_error('deprecated - use isPosted()');
 		return $this->Controller->request->is('post') || $this->Controller->request->is('put');
 	}
 
-
 	/**
 	 * Updates FlashMessage SessionContent (to enable unlimited messages of one case)
+	 *
 	 * @param STRING messagestring
 	 * @param STRING class ['error', 'warning', 'success', 'info']
-	 * @return bool $success
+	 * @return void
 	 * 2008-11-06 ms
 	 */
 	public function flashMessage($messagestring, $class = null) {
@@ -176,17 +160,20 @@ class CommonComponent extends Component {
 
 		$old = (array)$this->Session->read('messages');
 		if (isset($old[$class]) && count($old[$class]) > 99) {
-			return false;
+			array_shift($old[$class]);
 		}
 		$old[$class][] = $messagestring;
 		$this->Session->write('messages', $old);
-		return true;
 	}
 
 	/**
 	 * flashMessages that are not saved (only for current view)
-	 * @return bool $success
-	 * @static
+	 * will be merged into the session flash ones prior to output
+	 *
+	 * @param STRING messagestring
+	 * @param STRING class ['error', 'warning', 'success', 'info']
+	 * @return void
+	 * @access static
 	 * 2010-05-01 ms
 	 */
 	public static function transientFlashMessage($messagestring, $class = null) {
@@ -202,11 +189,10 @@ class CommonComponent extends Component {
 
 		$old = (array)Configure::read('messages');
 		if (isset($old[$class]) && count($old[$class]) > 99) {
-			return false;
+			array_shift($old[$class]);
 		}
 		$old[$class][] = $messagestring;
 		Configure::write('messages', $old);
-		return true;
 	}
 
 
