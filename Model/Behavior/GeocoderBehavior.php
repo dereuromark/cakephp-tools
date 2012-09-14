@@ -44,7 +44,7 @@ class GeocoderBehavior extends ModelBehavior {
 			'require' => false, 'allowEmpty' => true, 'invalidate' => array(), 'expect' => array(),
 			'lat' => 'lat', 'lng' => 'lng', 'formatted_address' => 'formatted_address', 'host' => 'de', 'language' => 'de', 'region' => '', 'bounds' => '',
 			'overwrite' => false, 'update' => array(), 'before' => 'save',
-			'min_accuracy' => 0, 'allow_inconclusive' => true,
+			'min_accuracy' => 0, 'allow_inconclusive' => true, 'unit' => GeocodeLib::UNIT_KM,
 			'log' => true, // log successfull results to geocode.log (errors will be logged to error.log in either case)
 		);
 
@@ -233,7 +233,10 @@ class GeocoderBehavior extends ModelBehavior {
 		if ($modelName === null) {
 			$modelName = $Model->alias;
 		}
-		return '6371.04 * ACOS( COS( PI()/2 - RADIANS(90 - '.$modelName.'.'.$fieldLat.')) * ' .
+
+		$value = $this->_calculationValue($this->settings[$Model->alias]['unit']);
+
+		return $value . ' * ACOS( COS( PI()/2 - RADIANS(90 - '.$modelName.'.'.$fieldLat.')) * ' .
 			'COS( PI()/2 - RADIANS(90 - '. $lat .')) * ' .
 			'COS( RADIANS('.$modelName.'.'.$fieldLat.') - RADIANS('. $lng .')) + ' .
 			'SIN( PI()/2 - RADIANS(90 - '.$modelName.'.'.$fieldLng.')) * ' .
@@ -373,6 +376,13 @@ class GeocoderBehavior extends ModelBehavior {
 			$res = $res[0];
 		}
 		return $res;
+	}
+
+	protected function _calculationValue($unit) {
+		if (!isset($this->Geocode)) {
+			$this->Geocode = new GeocodeLib();
+		}
+		return $this->Geocode->convert(6371.04, GeocodeLib::UNIT_KM, $unit);
 	}
 
 }

@@ -42,6 +42,18 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$res = $this->Address->find('all', $options);
 		$this->assertTrue($res[0]['Address']['distance'] < $res[1]['Address']['distance']);
 		$this->assertTrue($res[1]['Address']['distance'] < $res[2]['Address']['distance']);
+		$this->assertTrue($res[0]['Address']['distance'] > 460 && $res[0]['Address']['distance'] < 490);
+	}
+
+	public function testSetDistanceAsVirtualFieldInMiles() {
+		$this->Address = ClassRegistry::init('Address');
+		$this->Address->Behaviors->attach('Tools.Geocoder', array('unit' => GeocodeLib::UNIT_MILES));
+		$this->Address->setDistanceAsVirtualField(13.3, 19.2);
+		$options = array('order' => array('Address.distance' => 'ASC'));
+		$res = $this->Address->find('all', $options);
+		$this->assertTrue($res[0]['Address']['distance'] < $res[1]['Address']['distance']);
+		$this->assertTrue($res[1]['Address']['distance'] < $res[2]['Address']['distance']);
+		$this->assertTrue($res[0]['Address']['distance'] > 270 && $res[0]['Address']['distance'] < 310);
 	}
 
 	public function testPagination() {

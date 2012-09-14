@@ -100,40 +100,38 @@ class MyHelper extends Helper {
 			$this->tags['time'] = '<time%s>%s</time>';
 		}
 		$options = array_merge(array(
-		'datetime' => '%Y-%m-%d %T',
-		'pubdate' => false,
+			'datetime' => '%Y-%m-%d %T',
+			'pubdate' => false,
 			'format' => '%Y-%m-%d %T',
 		), $options);
 
 		if ($options['format'] !== null) {
-		App::import('helper', 'Time');
-		$t = new TimeHelper(new View(null));
+			App::uses('TimeHelper', 'View/Helper');
+			$TimeHelper = new TimeHelper($this->_View);
 		}
 		if ($options['format']) {
 			if (method_exists($t, $options['format'])) {
-				$content = $t->$options['format']($content);
-		} else {
-			$content = $t->i18nFormat($content, $options['format']);
-		}
-		$options['datetime'] = $t->i18nFormat(strtotime($content), $options['datetime']);
+				$content = $TimeHelper->$options['format']($content);
+			} else {
+				$content = $TimeHelper->i18nFormat($content, $options['format']);
+			}
+			$options['datetime'] = $TimeHelper->i18nFormat(strtotime($content), $options['datetime']);
 		} elseif ($options['format'] === false && $options['datetime']) {
-			$options['datetime'] = $t->i18nFormat(strtotime($content), $options['datetime']);
+			$options['datetime'] = $TimeHelper->i18nFormat(strtotime($content), $options['datetime']);
 		}
 
-		if ($options['pubdate'])
+		if ($options['pubdate']) {
 			$pubdate = true;
-
+		}
 		unset($options['format']);
 		unset($options['pubdate']);
 		$attributes = $this->_parseAttributes($options, array(0), ' ', '');
 
-		if (isset($pubdate))
+		if (isset($pubdate)) {
 			$attributes .= ' pubdate';
-
-		return sprintf($this->tags['time'],  $attributes, $content);
+		}
+		return sprintf($this->tags['time'], $attributes, $content);
 	}
-
-
 
 	# for convienience function Html::defaultLink()
 	protected $linkDefaults = null;
