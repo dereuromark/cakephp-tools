@@ -5,9 +5,6 @@
 This plugin contains several useful tools that can be used in many projects.
 Please fork and help to improve (bugfixing, test cases, ...)
 
-POSSIBLE DEPENDENCIES
-- http://www.dereuromark.de/2010/06/22/cakephp-bootstrap-goodies/
-
 CODING STANDARDS
 - http://www.dereuromark.de/coding-standards/
 
