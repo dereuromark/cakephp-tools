@@ -1147,7 +1147,7 @@ class TimeLib extends CakeTime {
 	/**
 	 * @param string $searchString to parse
 	 * @param string $fieldname (Model.field)
-	 * @param array $options (see DatetimeLib::period)
+	 * @param array $options (see TimeLib::period)
 	 * @return string $query SQL Query
 	 * 2011-11-18 ms
 	 */

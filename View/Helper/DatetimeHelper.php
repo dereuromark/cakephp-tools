@@ -1,6 +1,6 @@
 <?php
 
-App::uses('DatetimeLib', 'Tools.Utility');
+//App::uses('TimeLib', 'Tools.Utility');
 App::uses('TimeHelper', 'View/Helper');
 
 /**
@@ -11,9 +11,10 @@ class DatetimeHelper extends TimeHelper {
 
 	public $helpers = array('Html');
 
-	public $Datetime;
+	//public $Time;
 
 	protected $userOffset = null;
+
 	protected $daylightSavings = false;
 
 	public function __construct($View = null, $settings = array()) {
@@ -27,19 +28,7 @@ class DatetimeHelper extends TimeHelper {
 		if (!empty($i18n['daylight_savings'])) {
 			$this->daylightSavings = (bool)$i18n['daylight_savings'];
 		}
-		//$this->Datetime = new DatetimeLib();
 	}
-
-	/*
-	public function __call($method, $params) {
-
-		if (!method_exists($this, 'call__')) {
-			//trigger_error(__('Magic method handler call__ not defined in %s', get_class($this)), E_USER_ERROR);
-		}
-		return call_user_func_array(array($this->Datetime, $method), $params);
-	}
-	*/
-
 
 	/**
 	 * EXPERIMENTAL!!!
@@ -58,7 +47,6 @@ class DatetimeHelper extends TimeHelper {
 		return $offset + ($is_dst ? 3600 : 0);
 	}
 
-
 	/**
 	 * @param string date (from db)
 	 * @return int $age on success, mixed $default otherwise
@@ -75,9 +63,6 @@ class DatetimeHelper extends TimeHelper {
 			return $default;
 	}
 
-
-
-
 	/**
 	 * Like localDate(), only with additional markup <span> and class="today", if today, etc
 	 * 2009-11-22 ms
@@ -88,8 +73,6 @@ class DatetimeHelper extends TimeHelper {
 		return $date;
 	}
 
-
-
 	/**
 	 * Like niceDate(), only with additional markup <span> and class="today", if today, etc
 	 * 2009-11-22 ms
@@ -99,8 +82,6 @@ class DatetimeHelper extends TimeHelper {
 		$date = '<span'.($this->isToday($dateString,(isset($options['userOffset'])?$options['userOffset']:null))?' class="today"':'').'>'.$date.'</span>';
 		return $date;
 	}
-
-
 
 	/**
 	 * returns red/specialGreen/green date depending on the current day
@@ -125,7 +106,7 @@ class DatetimeHelper extends TimeHelper {
 
 			$y = $this->isThisYear($date) ? '' : ' Y';
 
-			$format = (!empty($options['format'])?$options['format']:FORMAT_NICE_YMD);
+			$format = (!empty($options['format']) ? $options['format'] : FORMAT_NICE_YMD);
 
 			# Hack
 			# //TODO: get this to work with datetime - somehow cleaner
@@ -137,13 +118,13 @@ class DatetimeHelper extends TimeHelper {
 
 			if ($this->isToday($date)) {
 				$when = 0;
-				$niceDate = __('Today').$timeAttachment;
+				$niceDate = __('Today') . $timeAttachment;
 			} elseif ($this->isTomorrow($date)) {
 				$when = 1;
-				$niceDate = __('Tomorrow').$timeAttachment;
+				$niceDate = __('Tomorrow') . $timeAttachment;
 			} elseif ($this->wasYesterday($date)) {
 				$when = -1;
-				$niceDate = __('Yesterday').$timeAttachment;
+				$niceDate = __('Yesterday') . $timeAttachment;
 			} else {
 				# before or after?
 				if ($this->isNotTodayAndInTheFuture($date)) {
@@ -151,7 +132,7 @@ class DatetimeHelper extends TimeHelper {
 				} else {
 					$when = -1;
 				}
-				$niceDate = $this->niceDate($date, $format).$timeAttachment; //date("M jS{$y}", $date);
+				$niceDate = $this->niceDate($date, $format) . $timeAttachment; //date("M jS{$y}", $date);
 			}
 
 			if (!empty($whenOverride) && $when == 0) {
@@ -189,13 +170,13 @@ class DatetimeHelper extends TimeHelper {
 		}
 		$span = '<span'.$attr.'>';
 		$spanEnd = '</span>';
-		return $span.$niceDate.$spanEnd;
+		return $span . $niceDate . $spanEnd;
 	}
 
 
 
 	/**
-	 * @deprecated - use DatetimeLib::isInRange()
+	 * @deprecated - use TimeLib::isInRange()
 	 * for birthdays etc
 	 * @param date
 	 * @param string days with +-

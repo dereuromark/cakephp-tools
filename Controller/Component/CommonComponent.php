@@ -861,13 +861,13 @@ class CommonComponent extends Component {
 	 * @param int $year
 	 * @param int $month
 	 * @static
-	 * TODO: move to DateLib etc
+	 * TODO: move to TimeLib etc
 	 * 2009-12-26 ms
 	 */
 	public function daysInMonth($year, $month) {
-		trigger_error('deprecated - use Tools.DatetimeLib instead');
-		App::uses('DatetimeLib', 'Tools.Utility');
-		return DatetimeLib::daysInMonth($year, $month);
+		trigger_error('deprecated - use Tools.TimeLib instead');
+		App::uses('TimeLib', 'Tools.Utility');
+		return TimeLib::daysInMonth($year, $month);
 	}
 
 
