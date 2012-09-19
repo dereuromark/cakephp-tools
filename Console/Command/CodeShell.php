@@ -147,6 +147,8 @@ class CodeShell extends AppShell {
 			//FIXME: correct result for plugin classes
 			if ($missingClass == 'Component') {
 				$type = 'Controller';
+			} elseif ($missingClass == 'Helper') {
+				$type = 'View';
 			} elseif ($missingClass == 'ModelBehavior') {
 				$type = 'Model';
 			} elseif (!empty($this->params['plugin']) && ($location = App::location($missingClass))) {

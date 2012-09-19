@@ -1,6 +1,6 @@
 <?php
 
-App::uses('ChmodLib', 'Tools.Lib');
+App::uses('ChmodLib', 'Tools.Utility');
 
 /**
  * testing

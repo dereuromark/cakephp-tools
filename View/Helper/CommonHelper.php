@@ -369,10 +369,10 @@ class CommonHelper extends AppHelper {
 	 * 2009-07-23 ms
 	 */
 	public function asp($s, $c, $autoTranslate = false) {
-		if ((int)$c != 1) {
+		if ((int)$c !== 1) {
 			$p = Inflector::pluralize($s);
 		} else {
-		 		$p = null; # no pluralization necessary
+		 	$p = null; # no pluralization necessary
 		}
 		return $this->sp($s, $p, $c, $autoTranslate);
 	}
@@ -388,7 +388,7 @@ class CommonHelper extends AppHelper {
 	 * 2009-07-23 ms
 	 */
 	public function sp($s, $p, $c, $autoTranslate = false) {
-		if ((int)$c != 1) {
+		if ((int)$c !== 1) {
 			$ret = $p;
 		} else {
 		 		$ret = $s;

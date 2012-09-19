@@ -8,6 +8,8 @@ App::uses('HttpSocketLib', 'Tools.Lib');
  * @see DEPRECATED api2: http://code.google.com/intl/de-DE/apis/maps/articles/phpsqlgeocode.html
  * @see http://code.google.com/intl/de/apis/maps/documentation/geocoding/#Types
  *
+ * Used by Tools.GeocoderBehavior
+ *
  * TODOS (since 1.2):
  * - Work with exceptions in 2.x
  * - Rewrite in a cleaner 2.x way
@@ -126,7 +128,6 @@ class GeocodeLib {
 		//neighborhood premise subpremise natural_feature airport park point_of_interest colloquial_area political ?
 	);
 
-
 	public function __construct($options = array()) {
 		$this->defaultParams = $this->params;
 		$this->defaultOptions = $this->options;
@@ -180,7 +181,10 @@ class GeocodeLib {
 		return implode(', ', $this->error);
 	}
 
-
+	/**
+	 * @param bool $full
+	 * @return void
+	 */
 	public function reset($full = true) {
 		$this->error = array();
 		$this->result = null;
@@ -190,9 +194,10 @@ class GeocodeLib {
 		}
 	}
 
-
 	/**
-	 * build and return url
+	 * Build url
+	 *
+	 * @return string $url (full)
 	 * 2010-06-29 ms
 	 */
 	public function url() {
@@ -247,8 +252,7 @@ class GeocodeLib {
 	}
 
 	/**
-	 * results usually from most accurate to least accurate result (street_address
-, ..., country)
+	 * results usually from most accurate to least accurate result (street_address, ..., country)
 	 * @param float $lat
 	 * @param float $lng
 	 * @param array $options
@@ -348,7 +352,6 @@ class GeocodeLib {
 		return true;
 	}
 
-
 	/**
 	 * trying to avoid "TOO_MANY_QUERIES" error
 	 * @param bool $raise If the pause length should be raised
@@ -360,7 +363,6 @@ class GeocodeLib {
 			$this->options['pause'] += 10000;
 		}
 	}
-
 
 	/**
 	 * @param string $address
@@ -487,6 +489,9 @@ class GeocodeLib {
 		return true;
 	}
 
+	/**
+	 * @return bool $success
+	 */
 	protected function _isNotAccurateEnough($accuracy = null) {
 		if ($accuracy === null) {
 			if (isset($this->result[0])) {
@@ -511,7 +516,6 @@ class GeocodeLib {
 		//echo returns('XXX'.$this->options['min_accuracy']);
 		return $accuracy < $this->options['min_accuracy'];
 	}
-
 
 	protected function _transformJson($record) {
 		$res = array();
@@ -618,7 +622,6 @@ class GeocodeLib {
 
 		//TODO: add more
 
-
 		$res['lat'] = $record['geometry']['location']['lat'];
 		$res['lng'] = $record['geometry']['location']['lng'];
 		$res['location_type'] = $record['geometry']['location_type'];
@@ -704,8 +707,13 @@ class GeocodeLib {
 	}
 
 	/**
+	 * Convert between units
+	 *
+	 * @param float $value
+	 * @param char $fromUnit (using class constants)
+	 * @param char $toUnit (using class constants)
+	 * @return float $convertedValue
 	 * @throws CakeException
-	 * @return float $converterValue
 	 */
 	public function convert($value, $fromUnit, $toUnit) {
 		if (!isset($this->units[($fromUnit = strtoupper($fromUnit))]) || !isset($this->units[($toUnit = strtoupper($toUnit))])) {
@@ -721,7 +729,6 @@ class GeocodeLib {
 		}
 		return $value;
 	}
-
 
 	/**
 	 * Fuzziness filter for coordinates (lat or lng).
@@ -768,7 +775,6 @@ class GeocodeLib {
 		# TODO: + - by chance!!!
 		return $coord + $scrambleVal;
 	}
-
 
 	const TYPE_ROOFTOP = 'ROOFTOP';
 	const TYPE_RANGE_INTERPOLATED = 'RANGE_INTERPOLATED';
