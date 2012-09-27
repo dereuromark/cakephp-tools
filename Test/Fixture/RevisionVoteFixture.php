@@ -1,8 +1,8 @@
 <?php
 
 class RevisionVoteFixture extends CakeTestFixture {
-	var $name = 'RevisionVote';
-	var $fields = array(
+
+	public $fields = array(
 			'id' => array(
 					'type' => 'integer', 
 					'null' => false, 
@@ -13,7 +13,7 @@ class RevisionVoteFixture extends CakeTestFixture {
 			'revision_comment_id' => array('type'=>'integer','null'=>false),
 			'indexes' => array('PRIMARY' => array('column' => 'id')));
 	
-	var $records = array(
+	public $records = array(
 		array(
 			'id' => 1, 
 			'title' => 'Lorem ipsum dolor sit amet', 

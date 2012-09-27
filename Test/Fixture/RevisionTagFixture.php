@@ -1,7 +1,7 @@
 <?php
 class RevisionTagFixture extends CakeTestFixture {
-	var $name = 'RevisionTag';
-	var $fields = array(
+
+	public $fields = array(
 			'id' => array(
 					'type' => 'integer', 
 					'null' => false, 
@@ -10,7 +10,7 @@ class RevisionTagFixture extends CakeTestFixture {
 			'title' => array('type' => 'string', 'null' => false, 'default' => NULL),
 			'indexes' => array('PRIMARY' => array('column' => 'id')));
 	
-	var $records = array(
+	public $records = array(
 		array(
 			'id' => 1, 
 			'title' => 'Fun', 

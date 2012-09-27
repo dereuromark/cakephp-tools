@@ -125,7 +125,9 @@ class NumberLib extends CakeNumber {
 			$currency = self::$_currency;
 		}
 		$options = array(
-			'wholeSymbol' => self::$_symbolRight, 'wholePosition' => 'after', 'negative' => '-', 'positive'=> '+', 'escape' => true
+			'wholeSymbol' => self::$_symbolRight, 'wholePosition' => 'after',
+			'negative' => '-', 'positive'=> '+', 'escape' => true,
+			'decimals' => self::$_decimalPoint, 'thousands' => self::$_thousandsPoint,
 		);
 		$options = am($options, $formatOptions);
 

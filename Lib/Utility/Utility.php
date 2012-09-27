@@ -100,6 +100,7 @@ class Utility {
 
 	/**
 	 * @static
+	 * @return mixed array of headers or FALSE on failure
 	 * 2009-12-26 ms
 	 */
 	public static function getHeaderFromUrl($url) {
@@ -110,18 +111,20 @@ class Utility {
 		}
 
 		$url = array_map('trim', $url);
-		$url['port'] = (!isset($url['port']))?80 : (int)$url['port'];
-		$path = (isset($url['path']))?$url['path'] : '';
+		$url['port'] = (!isset($url['port'])) ? '' : (':' . (int)$url['port']);
+		$path = (isset($url['path'])) ? $url['path'] : '';
 
 		if (empty($path)) {
 			$path = '/';
 		}
 
-		$path .= (isset($url['query']))?"?$url[query]" : '';
-
-		if (isset($url['host']) && $url['host'] != gethostbyname($url['host'])) {
+		$path .= (isset($url['query'])) ? "?$url[query]" : '';
+		if (isset($url['host']) && $url['host'] !== gethostbyname($url['host'])) {
+			debug("$url[scheme]://$url[host]$url[port]$path");
 			$headers = @get_headers("$url[scheme]://$url[host]:$url[port]$path");
-			return (is_array($headers)?$headers : false);
+			if (is_array($headers)) {
+				return $headers;
+			}
 		}
 		return false;
 	}

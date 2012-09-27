@@ -26,22 +26,7 @@ class EmailLib extends CakeEmail {
 
 	protected $_debug = null;
 
-	public $error = '';
-
-	# for multiple emails, just adjust these "default" values "on the fly"
-	public $deliveryMethod = 'mail';
-
-	public $layout = 'external'; # usually 'external' (internal for admins only)
-
-	# with presets, only TO/FROM (depends), subject and message has to be set
-	public $presets = array(
-		'user' => '',
-		'admin' => '',
-	);
-
-	public $options = array();
-
-	public $complex = null; # if Controller is available, and layout/elements can be switched...
+	protected $_error = null;
 
 	public function __construct($config = null) {
 		if ($config === null) {
@@ -51,7 +36,6 @@ class EmailLib extends CakeEmail {
 
 		$this->resetAndSet();
 	}
-
 
 	/**
 	 * quick way to send emails to admin
@@ -81,7 +65,11 @@ class EmailLib extends CakeEmail {
 		return $instance;
 	}
 
-
+	/**
+	 * @param string $layout Layout to use (or false to use none)
+	 * @return resource EmailLib
+	 * 2011-11-02 ms
+	 */
 	public function layout($layout = false) {
 		if ($layout !== false) {
 			$this->_layout = $layout;
@@ -92,6 +80,7 @@ class EmailLib extends CakeEmail {
 	/**
 	 * @param string $file: absolute path
 	 * @param string $filename (optional)
+	 * @return resource EmailLib
 	 * 2011-11-02 ms
 	 */
 	public function addAttachment($file, $name = null) {
@@ -106,7 +95,7 @@ class EmailLib extends CakeEmail {
 	 * @param string $filename to attach it
 	 * @param string $mimeType (leave it empty to get mimetype from $filename)
 	 * @param string $contentId (optional)
-	 * @return mixed ressource $EmailLib or string $contentId
+	 * @return mixed ressource EmailLib or string $contentId
 	 * 2011-11-02 ms
 	 */
 	public function addBlobAttachment($content, $name, $mimeType = null) {
@@ -126,18 +115,19 @@ class EmailLib extends CakeEmail {
 	 * @param string $filename to attach it
 	 * @param string $mimeType (leave it empty to get mimetype from $filename)
 	 * @param string $contentId (optional)
+	 * @param array $options
+	 * - contentDisposition
 	 * @return mixed ressource $EmailLib or string $contentId
 	 * 2011-11-02 ms
 	 */
-	public function addEmbeddedBlobAttachment($content, $name, $mimeType = null, $contentId = null) {
-		$fileInfo = array();
-		$fileInfo['content'] = $content;
-		$fileInfo['mimetype'] = $mimeType;
-		$fileInfo['contentId'] = $contentId ? $contentId : str_replace('-', '', String::uuid()) . '@' . $this->_domain;
-		$file = array($name=>$fileInfo);
+	public function addEmbeddedBlobAttachment($content, $name, $mimeType = null, $contentId = null, $options = array()) {
+		$options['content'] = $content;
+		$options['mimetype'] = $mimeType;
+		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', String::uuid()) . '@' . $this->_domain;
+		$file = array($name => $options);
 		$res = $this->addAttachments($file);
 		if ($contentId === null) {
-			return $fileInfo['contentId'];
+			return $options['contentId'];
 		}
 		return $res;
 	}
@@ -146,23 +136,51 @@ class EmailLib extends CakeEmail {
 	 * @param string $file: absolute path
 	 * @param string $filename (optional)
 	 * @param string $contentId (optional)
+	 * @param array $options
+	 * - mimetype
+	 * - contentDisposition
 	 * @return mixed ressource $EmailLib or string $contentId
 	 * 2011-11-02 ms
 	 */
-	public function addEmbeddedAttachment($file, $name = null, $contentId = null) {
-		$fileInfo = array();
-		$fileInfo['file'] = realpath($file);
-		$fileInfo['mimetype'] = $this->_getMime($file);
-		$fileInfo['contentId'] = $contentId ? $contentId : str_replace('-', '', String::uuid()) . '@' . $this->_domain;
+	public function addEmbeddedAttachment($file, $name = null, $contentId = null, $options = array()) {
+		$path = realpath($file);
 		if (empty($name)) {
 			$name = basename($file);
 		}
-		$file = array($name=>$fileInfo);
+		if ($contentId === null && ($cid = $this->_isEmbeddedAttachment($path, $name))) {
+			return $cid;
+		}
+
+		$options['file'] = $path;
+		if (empty($options['mimetype'])) {
+			$options['mimetype'] = $this->_getMime($file);
+		}
+		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', String::uuid()) . '@' . $this->_domain;
+		$file = array($name => $options);
 		$res = $this->addAttachments($file);
 		if ($contentId === null) {
-			return $fileInfo['contentId'];
+			return $options['contentId'];
 		}
 		return $res;
+	}
+
+	/**
+	 * Returns if this particular file has already been attached as embedded file with this exact name
+	 * to prevent the same image to overwrite each other and also to only send this image once.
+	 * Allows multiple usage of the same embedded image (using the same cid)
+	 *
+	 * @return string cid of the found file or false if no such attachment can be found
+	 */
+	protected function _isEmbeddedAttachment($file, $name) {
+		foreach ($this->_attachments as $filename => $fileInfo) {
+			if ($filename != $name) {
+				continue;
+			}
+			if ($fileInfo['file'] == $file) {
+				return $fileInfo['contentId'];
+			}
+		}
+		return false;
 	}
 
 	protected function _getMime($filename) {
@@ -337,50 +355,12 @@ class EmailLib extends CakeEmail {
 		return $mime;
 	}
 
-
-	public function preset($type = null) {
-		# testing only:
-		//pr ($this->Email);
-		//pr ($this);
-	}
-
-	/**
-	 * test for a specific error
-	 * @param code: 4xx, 5xx, 5xx 5.1.1, 5xx 5.2.2, ...
-	 * @return boolean $status (TRUE only if this specific error occured)
-	 * 2010-06-08 ms
-	 */
-	public function hasError($code) {
-		if (!empty($this->errors)) {
-			foreach ($this->errors as $error) {
-				if (substr($error, 0, strlen($code)) == (string)$code) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-
 	public function validates() {
 		if (!empty($this->Email->subject)) {
 			return true;
 		}
 		return false;
 	}
-
-	/**
-	 * Domain as top level (the part after @)
-	 *
-	 * @param string $domain Manually set the domain for CLI mailing
-	 * @return mixed
-	 * @throws SocketException
-	 */
-	public function domain($domain = null) {
-		$this->_domain = $domain;
-		return $this;
-	}
-
 
 	/**
 	 * Attach inline/embedded files to the message.
@@ -524,7 +504,6 @@ class EmailLib extends CakeEmail {
 			if (empty($fileInfo['mimetype'])) {
 				$ext = pathinfo($name, PATHINFO_EXTENSION);
 				$fileInfo['mimetype'] = $this->_getMimeByExtension($ext);
-				//$fileInfo['mimetype'] = $this->_getMime($fileInfo['file']);
 			}
 			$attach[$name] = $fileInfo;
 		}
@@ -678,9 +657,12 @@ class EmailLib extends CakeEmail {
 
 	/**
 	 * Set the body of the mail as we send it.
-		 * Note: the text can be an array, each element will appear as a seperate line in the message body.
-		 * @param string/array: message
-		 * LEAVE empty if you use $this->set() in combination with templates
+	 * Note: the text can be an array, each element will appear as a seperate line in the message body.
+	 *
+	 * LEAVE empty if you use $this->set() in combination with templates
+	 *
+	 * @param string/array: message
+	 * @return bool $success
 	 */
 	public function send($message = null) {
 		$this->_log = array(
@@ -708,8 +690,8 @@ class EmailLib extends CakeEmail {
 		try {
 			$this->_debug = parent::send($message);
 		} catch (Exception $e) {
-			$this->error = $e->getMessage();
-			$this->error .= ' (line '.$e->getLine().' in '.$e->getFile().')'.PHP_EOL.$e->getTraceAsString();
+			$this->_error = $e->getMessage();
+			$this->_error .= ' (line '.$e->getLine().' in '.$e->getFile().')'.PHP_EOL.$e->getTraceAsString();
 
 			if (!empty($this->_config['report'])) {
 				$this->_logEmail();
@@ -728,16 +710,28 @@ class EmailLib extends CakeEmail {
 		return $text;
 	}
 
-
 	/**
+	 * Returns the error if existent
+	 *
 	 * @return string
 	 */
 	public function getError() {
-		return $this->error;
+		return $this->_error;
 	}
 
+	/**
+	 * Returns the debug content returned by send()
+	 *
+	 * @return string
+	 */
+	public function getDebug() {
+		return $this->_debug;
+	}
 
-
+	/**
+	 * Logs Email to type email
+	 * @return void
+	 */
 	protected function _logEmail($append = null) {
  		$res = $this->_log['transport'].
 			' - '.'TO:'.implode(',', array_keys($this->_log['to'])).
@@ -745,9 +739,9 @@ class EmailLib extends CakeEmail {
 			'||REPLY:'.implode(',', array_keys($this->_log['replyTo'])).
 			'||S:'.$this->_log['subject'];
  		$type = 'email';
-		 if (!empty($this->error)) {
+		 if (!empty($this->_error)) {
 		 	$type = 'email_error';
- 			$res .= '||ERROR:' . $this->error;
+ 			$res .= '||ERROR:' . $this->_error;
  		}
 		if ($append) {
 			$res .= '||'.$append;
@@ -755,22 +749,9 @@ class EmailLib extends CakeEmail {
 		CakeLog::write($type, $res);
 	}
 
-
-	/**
-	 * toggle debug mode
-	 * 2011-05-27 ms
-	 */
-	public function debug($mode = null) {
-		if ($mode) {
-			$this->debug = true;
-			//$this->delivery('debug');
-		} else {
-			$this->debug = false;
-			//$this->delivery($this->deliveryMethod);
-		}
-	}
-
 	public function resetAndSet() {
+		//$this->reset();
+
 		$this->_to = array();
 		$this->_cc = array();
 		$this->_bcc = array();
@@ -783,38 +764,18 @@ class EmailLib extends CakeEmail {
 		$this->_message = '';
 		$this->_attachments = array();
 
+		$this->_error = null;
+		$this->_debug = null;
+
 		$this->from(Configure::read('Config.admin_email'), Configure::read('Config.admin_emailname'));
 		if ($xMailer = Configure::read('Config.x-mailer')) {
 			$this->addHeaders(array('X-Mailer'=>$xMailer));
 		}
-		//$this->errors = array();
+		//$this->_errors = array();
 		//$this->charset($this->charset);
 		//$this->sendAs($this->sendAs);
-		//$this->layout($this->layout);
+		//$this->layout($this->_layout);
 		//$this->delivery($this->deliveryMethod);
-	}
-
-	public function reset() {
-		parent::reset();
-		$this->error = '';
-		$this->_debug = null;
-	}
-
-
-	public function flashDebug() {
-		$info = $this->Email->Controller->Session->read('Message.email.message');
-		if (empty($info)) {
-			$info = $this->Email->Controller->Session->read('Message.email.message');
-		}
-
-		$info .= BR;
-		$info .= h($this->_logMessage());
-
-		$this->Email->Controller->Session->delete('Message.email');
-		$this->Email->Controller->flashMessage($info, 'info');
-		if (!empty($this->errors)) {
-			$this->Email->Controller->flashMessage(implode(BR, $this->errors), 'error');
-		}
 	}
 
 }

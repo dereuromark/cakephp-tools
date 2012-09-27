@@ -5,16 +5,38 @@ App::uses('MyCakeTestCase', 'Tools.Lib');
 
 class MyModelTest extends MyCakeTestCase {
 
-	public $MyModel;
+	public $Model;
 
-	public function startTest() {
-		$this->MyModel = new MyModel();
+	public $fixtures = array('core.post', 'core.author');
+
+	public function setUp() {
+		parent::setUp();
+
+		$this->Model = ClassRegistry::init('Post');
 	}
 
 	public function testObject() {
-		$this->assertTrue(is_object($this->MyModel));
-		$this->assertIsA($this->MyModel, 'MyModel');
+		$this->Model = ClassRegistry::init('MyModel');
+		$this->assertTrue(is_object($this->Model));
+		$this->assertIsA($this->Model, 'MyModel');
 	}
 
-	//TODO
+	public function testGet() {
+		$record = $this->Model->get(2);
+		$this->assertEquals(2, $record['Post']['id']);
+
+		$record = $this->Model->get(2, array('fields'=>'id', 'created'));
+		$this->assertEquals(2, count($record['Post']));
+
+		$record = $this->Model->get(2, array('fields'=>'id', 'title', 'body'), array('Author'));
+		$this->assertEquals(3, $record['Author']['id']);
+
+	}
+
+}
+
+class Post extends MyModel {
+
+	public $belongsTo = 'Author';
+
 }

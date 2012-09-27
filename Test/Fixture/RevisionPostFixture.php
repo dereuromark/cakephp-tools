@@ -1,7 +1,7 @@
 <?php
 class RevisionPostFixture extends CakeTestFixture {
-	var $name = 'RevisionPost';
-	var $fields = array(
+
+	public $fields = array(
 			'id' => array(
 					'type' => 'integer', 
 					'null' => false, 
@@ -10,7 +10,7 @@ class RevisionPostFixture extends CakeTestFixture {
 			'title' => array('type' => 'string', 'null' => false, 'default' => NULL), 
 			'content' => array('type' => 'text', 'null' => false, 'default' => NULL), 
 			'indexes' => array('PRIMARY' => array('column' => 'id')));
-	var $records = array(
+	public $records = array(
 		array(
 			'id' => 1, 
 			'title' => 'Lorem ipsum dolor sit amet', 

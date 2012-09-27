@@ -332,8 +332,9 @@ class MyModel extends Model {
 
 
 	/**
-	 * Retourne le prochain id auto-increment d'une table
+	 * return the next auto increment id from the current table
 	 * UUIDs will return false
+	 *
 	 * @return int next auto increment value or False on failure
 	 */
 	public function getNextAutoIncrement() {
@@ -343,8 +344,7 @@ class MyModel extends Model {
 		if (!isset($result[0]['TABLES']['Auto_increment'])) {
 			return false;
 		}
-		$next_increment = (int)$result[0]['TABLES']['Auto_increment'];
-		return $next_increment;
+		return (int)$result[0]['TABLES']['Auto_increment'];
 	}
 
 	/**
@@ -1011,16 +1011,15 @@ class MyModel extends Model {
 	/**
 	 * checks if a url is valid AND accessable (returns false otherwise)
 	 * @param array/string $data: full url(!) starting with http://...
-	 * @options
+	 * @options array
 	 * - allowEmpty TRUE/FALSE (TRUE: if empty => return TRUE)
 	 * - required TRUE/FALSE (TRUE: overrides allowEmpty)
 	 * - autoComplete (default: TRUE)
 	 * - deep (default: TRUE)
+	 * @return bool $success
 	 * 2010-10-18 ms
 	 */
 	public function validateUrl($data, $options = array()) {
-		//$arguments = func_get_args();
-
 		if (is_array($data)) {
 			$url = array_shift($data);
 		} else {
@@ -1042,7 +1041,7 @@ class MyModel extends Model {
 		}
 
 		# validation
-		if (!Validation::url($url, $options['strict']) && env('REMOTE_ADDR') != '127.0.0.1') {
+		if (!Validation::url($url, $options['strict']) && env('REMOTE_ADDR') !== '127.0.0.1') {
 			return false;
 		}
 		# same domain?
@@ -1061,10 +1060,10 @@ class MyModel extends Model {
 	}
 
 	public function _autoCompleteUrl($url) {
-		if (mb_strpos($url, '://') === false && mb_strpos($url, 'www.') === 0) {
-			$url = 'http://' . $url;
-		} elseif (mb_strpos($url, '/') === 0) {
+		if (mb_strpos($url, '/') === 0) {
 			$url = Router::url($url, true);
+		} elseif (mb_strpos($url, '://') === false && mb_strpos($url, 'www.') === 0) {
+			$url = 'http://' . $url;
 		}
 		return $url;
 	}
@@ -1075,16 +1074,14 @@ class MyModel extends Model {
 	 * @param string url
 	 * 2009-02-27 ms
 	 */
-	public function _validUrl($url = null) {
-		App::import('Component', 'Tools.Common');
+	public function _validUrl($url) {
 		$headers = Utility::getHeaderFromUrl($url);
-		if ($headers !== false) {
-
-			$headers = implode("\n", $headers);
-
-			return ((bool)preg_match('#^HTTP/.*\s+[(200|301|302)]+\s#i', $headers) && !(bool)preg_match('#^HTTP/.*\s+[(404|999)]+\s#i', $headers));
+		if ($headers === false) {
+			return false;
 		}
-		return false;
+		$headers = implode("\n", $headers);
+		$protocol = mb_strpos($url, 'https://') === 0 ? 'HTTP' : 'HTTP';
+		return ((bool)preg_match('#^'.$protocol.'/.*\s+[(200|301|302)]+\s#i', $headers) && !(bool)preg_match('#^'.$protocol.'/.*\s+[(404|999)]+\s#i', $headers));
 	}
 
 
@@ -1472,7 +1469,7 @@ class MyModel extends Model {
 	 * find a specific entry via primary key
 	 *
 	 * @param mixed $id
-	 * @param array $fields
+	 * @param string|array $fields
 	 * @param array $contain
 	 * @return mixed
 	 * 2009-11-14 ms
@@ -1486,12 +1483,9 @@ class MyModel extends Model {
 			$value = $id;
 		}
 
-		if ($fields == '*') {
+		if ($fields === '*') {
 			$fields = $this->alias . '.*';
-		} elseif (empty($fields)) {
-			//$fields = array();
-			//$fields = $this->alias .'.*';
-		} else {
+		} elseif (!empty($fields)) {
 			foreach ($fields as $row => $field) {
 				if (strpos($field, '.') !== false) {
 					continue;
@@ -1502,8 +1496,10 @@ class MyModel extends Model {
 
 		$options = array(
 			'conditions' => array($this->alias . '.' . $column => $value),
-			'fields' => $fields,
 		);
+		if (!empty($fields)) {
+			$options['fields'] = $fields;
+		}
 		if (!empty($contain)) {
 			$options['contain'] = $contain;
 		}

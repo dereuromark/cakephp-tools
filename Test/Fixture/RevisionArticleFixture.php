@@ -1,7 +1,7 @@
 <?php
 class RevisionArticleFixture extends CakeTestFixture {
-	var $name = 'RevisionArticle';
-	var $fields = array(
+
+	public $fields = array(
 			'id' => array(
 					'type' => 'integer', 
 					'null' => false, 
@@ -14,7 +14,7 @@ class RevisionArticleFixture extends CakeTestFixture {
 			'title' => array('type' => 'string', 'null' => false, 'default' => NULL), 
 			'content' => array('type' => 'text', 'null' => false, 'default' => NULL), 
 			'indexes' => array('PRIMARY' => array('column' => 'id')));
-	var $records = array(
+	public $records = array(
 		array(
 			'id' => 1, 
 			'user_id' => 1, 

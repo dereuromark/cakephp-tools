@@ -76,6 +76,7 @@ class AuthExtComponent extends AuthComponent {
 	public function allow($action = null) {
 		if (((array)$action) === array('*')) {
 			parent::allow();
+			trigger_error('* is deprecated for allow() - use allow() without any argument to allow all actions');
 			return;
 		}
 		$args = func_get_args();

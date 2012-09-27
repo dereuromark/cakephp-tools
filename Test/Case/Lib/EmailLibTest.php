@@ -58,6 +58,56 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 	}
 
+	public function _testSendWithInlineAttachments() {
+		$this->Email = new TestEmailLib();
+		$this->Email->transport('debug');
+		$this->Email->from('cake@cakephp.org');
+		$this->Email->to('cake@cakephp.org');
+		$this->Email->subject('My title');
+		$this->Email->emailFormat('both');
+
+		$result = $this->Email->send();
+		debug($result);
+
+		$boundary = $this->Email->getBoundary();
+		/*
+		$this->assertContains('Content-Type: multipart/mixed; boundary="' . $boundary . '"', $result['headers']);
+		$expected = "--$boundary\r\n" .
+			"Content-Type: multipart/related; boundary=\"rel-$boundary\"\r\n" .
+			"\r\n" .
+			"--rel-$boundary\r\n" .
+			"Content-Type: multipart/alternative; boundary=\"alt-$boundary\"\r\n" .
+			"\r\n" .
+			"--alt-$boundary\r\n" .
+			"Content-Type: text/plain; charset=UTF-8\r\n" .
+			"Content-Transfer-Encoding: 8bit\r\n" .
+			"\r\n" .
+			"Hello" .
+			"\r\n" .
+			"\r\n" .
+			"\r\n" .
+			"--alt-$boundary\r\n" .
+			"Content-Type: text/html; charset=UTF-8\r\n" .
+			"Content-Transfer-Encoding: 8bit\r\n" .
+			"\r\n" .
+			"Hello" .
+			"\r\n" .
+			"\r\n" .
+			"\r\n" .
+			"--alt-{$boundary}--\r\n" .
+			"\r\n" .
+			"--rel-$boundary\r\n" .
+			"Content-Type: application/octet-stream\r\n" .
+			"Content-Transfer-Encoding: base64\r\n" .
+			"Content-ID: <abc123>\r\n" .
+			"Content-Disposition: inline; filename=\"cake.png\"\r\n\r\n";
+		$this->assertContains($expected, $result['message']);
+		$this->assertContains('--rel-' . $boundary . '--', $result['message']);
+		$this->assertContains('--' . $boundary . '--', $result['message']);
+		*/
+		debug($boundary);
+		die();
+	}
 
 	public function _testAddAttachment() {
 		$file = CakePlugin::path('Tools').'Test'.DS.'test_files'.DS.'img'.DS.'hotel.png';
@@ -96,6 +146,8 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->Email->to(Configure::read('Config.admin_email'));
 		$cid = $this->Email->addEmbeddedAttachment($file);
 
+		$cid2 = $this->Email->addEmbeddedAttachment($file);
+
 		$this->assertContains('@'.env('HTTP_HOST'), $cid);
 
 
@@ -107,6 +159,7 @@ class EmailLibTest extends MyCakeTestCase {
 </head>
 <body>
 test_embedded_default äöü <img src="cid:'.$cid.'" /> end
+another image <img src="cid:'.$cid2.'" /> end
 html-part
 </body>
 </html>';
@@ -167,9 +220,47 @@ html-part
 		$file = CakePlugin::path('Tools').'Test'.DS.'test_files'.DS.'img'.DS.'hotel.png';
 		$this->assertTrue(file_exists($file));
 
-
-
 	}
 
+}
+
+/**
+ * Help to test EmailLib
+ *
+ */
+class TestEmailLib extends EmailLib {
+
+/**
+ * Wrap to protected method
+ *
+ */
+	public function formatAddress($address) {
+		return parent::_formatAddress($address);
+	}
+
+/**
+ * Wrap to protected method
+ *
+ */
+	public function wrap($text) {
+		return parent::_wrap($text);
+	}
+
+/**
+ * Get the boundary attribute
+ *
+ * @return string
+ */
+	public function getBoundary() {
+		return $this->_boundary;
+	}
+
+/**
+ * Encode to protected method
+ *
+ */
+	public function encode($text) {
+		return $this->_encode($text);
+	}
 
 }

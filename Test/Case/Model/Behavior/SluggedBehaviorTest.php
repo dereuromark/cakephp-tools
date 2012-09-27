@@ -28,13 +28,10 @@ App::uses('HttpSocket', 'Network/Http');
 App::uses('File', 'Utility');
 
 /**
- * SluggedTestCase class
+ * SluggedBehaviorTest class
  *
- * @uses                 CakeTestCase
- * @package              mi
- * @subpackage           mi.tests.cases.behaviors
  */
-class SluggedTest extends CakeTestCase {
+class SluggedBehaviorTest extends CakeTestCase {
 
 /**
  * fixtures property
@@ -143,7 +140,7 @@ class SluggedTest extends CakeTestCase {
 		$this->assertTrue(empty($result[$this->Model->alias]['slug']));
 		$this->Model->generateSlug = true;
 		$result = $this->Model->save($result);
-		$this->assertEqual($result[$this->Model->alias]['slug'], 'Some-Article-25271');
+		$this->assertEquals($result[$this->Model->alias]['slug'], 'Some-Article-25271');
 	}
 
 /**
@@ -161,12 +158,12 @@ class SluggedTest extends CakeTestCase {
 		$this->Model->create();
 		$result = $this->Model->save($data);
 		$this->assertTrue((bool)$result);
-		$this->assertEqual($result[$this->Model->alias]['slug'], 'Some-Article-12345');
+		$this->assertEquals($result[$this->Model->alias]['slug'], 'Some-Article-12345');
 
 		$this->Model->create();
 		$result = $this->Model->save($data);
 		$this->assertTrue((bool)$result);
-		$this->assertEqual($result[$this->Model->alias]['slug'], 'Some-Article-12345-1');
+		$this->assertEquals($result[$this->Model->alias]['slug'], 'Some-Article-12345-1');
 
 		$this->Model->Behaviors->detach('Slugged');
 		$this->Model->Behaviors->attach('Tools.Slugged', array('unique' => true, 'scope' => array('section' => 1)));
@@ -176,7 +173,7 @@ class SluggedTest extends CakeTestCase {
 		$this->Model->create();
 		$result = $this->Model->save($data);
 		$this->assertTrue((bool)$result);
-		$this->assertEqual($result[$this->Model->alias]['slug'], 'Some-Article-12345');
+		$this->assertEquals($result[$this->Model->alias]['slug'], 'Some-Article-12345');
 	}
 
 /**
