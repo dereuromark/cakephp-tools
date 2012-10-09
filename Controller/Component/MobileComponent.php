@@ -1,5 +1,6 @@
 <?php
 App::uses('Component', 'Controller');
+App::uses('Router', 'Routing');
 
 /**
  * Uses Session: User.mobile and User.nomobile
