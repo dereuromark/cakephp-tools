@@ -1,7 +1,7 @@
 <?php
 
-App::import('Helper', 'Tools.Flattr');
-App::import('Helper', 'Html');
+App::uses('FlattrHelper', 'Tools.View/Helper');
+App::uses('HtmlHelper', 'View/Helper');
 App::uses('MyCakeTestCase', 'Tools.Lib');
 App::uses('View', 'View');
 

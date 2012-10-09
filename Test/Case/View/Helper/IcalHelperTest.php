@@ -1,6 +1,6 @@
 <?php
 
-App::import('Helper', 'Tools.Ical');
+App::uses('IcalHelper', 'Tools.View/Helper');
 App::uses('MyCakeTestCase', 'Tools.Lib');
 App::uses('String', 'Utility');
 App::uses('View', 'View');

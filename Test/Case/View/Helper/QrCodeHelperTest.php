@@ -8,8 +8,8 @@ if (!defined('CAKEPHP_UNIT_TEST_EXECUTION')) {
 define('QR_TEST_STRING', 'Some Text to Translate');
 define('QR_TEST_STRING_UTF', 'Some äöü Test String with $ and @ etc');
 
-App::import('Helper', 'Html');
-App::import('Helper', 'Tools.QrCode');
+App::uses('HtmlHelper', 'View/Helper');
+App::uses('QrCodeHelper', 'Tools.View/Helper');
 App::uses('View', 'View');
 App::uses('MyCakeTestCase', 'Tools.Lib');
 

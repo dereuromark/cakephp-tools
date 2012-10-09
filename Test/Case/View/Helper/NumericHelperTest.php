@@ -1,6 +1,6 @@
 <?php
 
-App::import('Helper', 'Tools.Numeric');
+App::uses('NumericHelper', 'Tools.View/Helper');
 App::uses('MyCakeTestCase', 'Tools.Lib');
 App::uses('View', 'View');
 /**

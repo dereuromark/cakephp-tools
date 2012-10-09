@@ -1,7 +1,7 @@
 <?php
 
-App::import('Helper', 'Tools.Captcha');
-App::import('Helper', 'Html');
+App::uses('CaptchaHelper', 'Tools.View/Helper');
+App::uses('HtmlHelper', 'View/Helper');
 App::uses('View', 'View');
 App::uses('Controller', 'Controller');
 

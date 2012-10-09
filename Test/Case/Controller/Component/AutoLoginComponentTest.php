@@ -1,6 +1,6 @@
 <?php
 
-App::import('Component', 'Tools.AutoLogin');
+App::uses('AutoLoginComponent', 'Tools.Controller/Component');
 App::uses('Controller', 'Controller');
 
 /**

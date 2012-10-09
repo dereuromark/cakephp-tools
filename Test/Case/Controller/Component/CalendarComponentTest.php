@@ -1,6 +1,6 @@
 <?php
 
-App::import('Component', 'Tools.Calendar');
+App::uses('CalendarComponent', 'Tools.Controller/Component');
 App::uses('MyCakeTestCase', 'Tools.Lib');
 
 class CalendarComponentTest extends MyCakeTestCase {

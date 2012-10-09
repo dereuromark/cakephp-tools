@@ -1,6 +1,6 @@
 <?php
 
-App::import('Helper', 'Tools.TextExt');
+App::uses('TextExtHelper', 'Tools.View/Helper');
 App::uses('MyCakeTestCase', 'Tools.Lib');
 
 class TextExtHelperTest extends MyCakeTestCase {

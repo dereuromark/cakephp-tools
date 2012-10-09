@@ -1,8 +1,8 @@
 <?php
 
-App::import('Helper', 'Tools.Format');
+App::uses('FormatHelper', 'Tools.View/Helper');
 App::uses('MyCakeTestCase', 'Tools.Lib');
-App::import('Helper', 'Html');
+App::uses('HtmlHelper', 'View/Helper');
 App::uses('View', 'View');
 
 /**

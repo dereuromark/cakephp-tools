@@ -1,6 +1,6 @@
 <?php
 
-App::import('Helper', 'Tools.FormExt');
+App::uses('FormExtHelper', 'Tools.View/Helper');
 App::uses('MyCakeTestCase', 'Tools.Lib');
 App::uses('View', 'View');
 

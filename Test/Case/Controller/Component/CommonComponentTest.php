@@ -1,6 +1,6 @@
 <?php
 
-App::import('Component', 'Tools.Common');
+App::uses('CommonComponent', 'Tools.Controller/Component');
 App::uses('Component', 'Controller');
 App::uses('AppController', 'Controller');
 
