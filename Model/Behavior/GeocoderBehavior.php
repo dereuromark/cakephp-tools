@@ -238,8 +238,8 @@ class GeocoderBehavior extends ModelBehavior {
 
 		return $value . ' * ACOS( COS( PI()/2 - RADIANS(90 - '.$modelName.'.'.$fieldLat.')) * ' .
 			'COS( PI()/2 - RADIANS(90 - '. $lat .')) * ' .
-			'COS( RADIANS('.$modelName.'.'.$fieldLat.') - RADIANS('. $lng .')) + ' .
-			'SIN( PI()/2 - RADIANS(90 - '.$modelName.'.'.$fieldLng.')) * ' .
+			'COS( RADIANS('.$modelName.'.'.$fieldLng.') - RADIANS('. $lng .')) + ' .
+			'SIN( PI()/2 - RADIANS(90 - '.$modelName.'.'.$fieldLat.')) * ' .
 			'SIN( PI()/2 - RADIANS(90 - '. $lat . ')))';
 	}
 

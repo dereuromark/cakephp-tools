@@ -222,7 +222,6 @@ class TimeLib extends CakeTime {
 		return date("t", mktime(0, 0, 0, $month, 1, $year));
 	}
 
-
 	/**
 	 * Calendar Week (current week of the year)
 	 * @param date in DB format - if none is passed, current day is used
