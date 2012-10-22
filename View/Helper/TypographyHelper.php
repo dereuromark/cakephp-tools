@@ -52,7 +52,7 @@ class TypographyHelper extends AppHelper {
 	 *	- Converts single and double quotes into correctly facing curly quote entities.
 	 *	- Converts three dots into ellipsis.
 	 *	- Converts double dashes into em-dashes.
-	 *  - Converts two spaces into entities
+	 * - Converts two spaces into entities
 	 *
 	 * @access	public
 	 * @param	string
@@ -69,7 +69,7 @@ class TypographyHelper extends AppHelper {
 			$str = str_replace(array("\r\n", "\r"), "\n", $str);
 		}
 
-		// Reduce line breaks.  If there are more than two consecutive linebreaks
+		// Reduce line breaks. If there are more than two consecutive linebreaks
 		// we'll compress them down to a maximum of two since there's no benefit to more.
 		if ($reduce_linebreaks === true) {
 			$str = preg_replace("/\n\n+/", "\n\n", $str);
@@ -86,7 +86,7 @@ class TypographyHelper extends AppHelper {
 			}
 		}
 
-		// match and yank <pre> tags if they exist.  It's cheaper to do this separately since most content will
+		// match and yank <pre> tags if they exist. It's cheaper to do this separately since most content will
 		// not contain <pre> tags, and it keeps the PCRE patterns below simpler and faster
 		if (strpos($str, '<pre') !== false) {
 			$str = preg_replace_callback("#<pre.*?>.*?</pre>#si", array($this, '_protectCharacters'), $str);
@@ -100,12 +100,12 @@ class TypographyHelper extends AppHelper {
 			$str = preg_replace_callback("#\{.+?\}#si", array($this, '_protectCharacters'), $str);
 		}
 
-		// Convert "ignore" tags to temporary marker.  The parser splits out the string at every tag
-		// it encounters.  Certain inline tags, like image tags, links, span tags, etc. will be
+		// Convert "ignore" tags to temporary marker. The parser splits out the string at every tag
+		// it encounters. Certain inline tags, like image tags, links, span tags, etc. will be
 		// adversely affected if they are split out so we'll convert the opening bracket < temporarily to: {@TAG}
 		$str = preg_replace("#<(/*)(" . $this->inline_elements . ")([ >])#i", "{@TAG}\\1\\2\\3", $str);
 
-		// Split the string at every tag.  This expression creates an array with this prototype:
+		// Split the string at every tag. This expression creates an array with this prototype:
 		//
 		//	[array]
 		//	{
@@ -116,7 +116,7 @@ class TypographyHelper extends AppHelper {
 		//	}
 		$chunks = preg_split('/(<(?:[^<>]+(?:"[^"]*"|\'[^\']*\')?)+>)/', $str, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
-		// Build our finalized string.  We cycle through the array, skipping tags, and processing the contained text
+		// Build our finalized string. We cycle through the array, skipping tags, and processing the contained text
 		$str = '';
 		$process = true;
 		$paragraph = false;
@@ -146,16 +146,16 @@ class TypographyHelper extends AppHelper {
 				continue;
 			}
 
-			//  Force a newline to make sure end tags get processed by _formatNewlines()
+			// Force a newline to make sure end tags get processed by _formatNewlines()
 			if ($current_chunk == $total_chunks) {
 				$chunk .= "\n";
 			}
 
-			//  Convert Newlines into <p> and <br /> tags
+			// Convert Newlines into <p> and <br /> tags
 			$str .= $this->_formatNewlines($chunk);
 		}
 
-		// No opening block level tag?  Add it if needed.
+		// No opening block level tag? Add it if needed.
 		if (!preg_match("/^\s*<(?:" . $this->block_elements . ")/i", $str)) {
 			$str = preg_replace("/^(.*?)<(" . $this->block_elements . ")/i", '<p>$1</p><$2', $str);
 		}

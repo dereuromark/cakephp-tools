@@ -36,10 +36,10 @@ class IcalLibTest extends CakeTestCase {
 		$this->assertTrue(!empty($is));
 	}
 
-	public function testCalenderInfos() {
+	public function testCalendarInfos() {
 
 		$is = $this->Ical->parse($this->file);
-		$is = $this->Ical->getCalenderInfos();
+		$is = $this->Ical->getCalendarInfos();
 		pr($is);
 		$this->assertTrue(!empty($is));
 	}

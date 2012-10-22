@@ -73,7 +73,7 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 		if (!isset($options['class'])) {
 			$options['class'] = 'postLink';
 		}
-		return parent::postLink($title, $url ,$options, $confirmMessage);
+		return parent::postLink($title, $url , $options, $confirmMessage);
 	}
 
 
@@ -89,7 +89,7 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
  * - `type` - Force the type of widget you want. e.g. `type => 'select'`
  * - `label` - Either a string label, or an array of options for the label. See FormHelper::label()
  * - `div` - Either `false` to disable the div, or an array of options for the div.
- *    See HtmlHelper::div() for more options.
+ * See HtmlHelper::div() for more options.
  * - `options` - for widgets that take options e.g. radio, select
  * - `error` - control the error message that is produced
  * - `empty` - String or boolean to enable empty select box options.
@@ -97,10 +97,10 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
  * - `after` - Content to place after the label + input.
  * - `between` - Content to place between the label + input.
  * - `format` - format template for element order. Any element that is not in the array, will not be in the output.
- *    - Default input format order: array('before', 'label', 'between', 'input', 'after', 'error')
- *    - Default checkbox format order: array('before', 'input', 'between', 'label', 'after', 'error')
- *    - Hidden input will not be formatted
- *    - Radio buttons cannot have the order of input and label elements controlled with these settings.
+ * - Default input format order: array('before', 'label', 'between', 'input', 'after', 'error')
+ * - Default checkbox format order: array('before', 'input', 'between', 'label', 'after', 'error')
+ * - Hidden input will not be formatted
+ * - Radio buttons cannot have the order of input and label elements controlled with these settings.
  *
  * @param string $fieldName This should be "Modelname.fieldname"
  * @param array $options Each type of input takes different options.
@@ -140,9 +140,9 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 
 			if (isset($type)) {
 				$map = array(
-					'string'    => 'text',     'datetime' => 'datetime', 'boolean' => 'checkbox',
-					'timestamp' => 'datetime', 'text'     => 'textarea', 'time'    => 'time',
-					'date'      => 'date',     'float'    => 'text',	 'integer' => 'number',
+					'string' => 'text', 'datetime' => 'datetime', 'boolean' => 'checkbox',
+					'timestamp' => 'datetime', 'text' => 'textarea', 'time' => 'time',
+					'date' => 'date', 'float' => 'text',	 'integer' => 'number',
 				);
 
 				if (isset($this->map[$type])) {
@@ -845,7 +845,7 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 		return $this->Html->scriptBlock($js);
 	}
 
-	protected function _maxLength($selector, $settings  = array()) {
+	protected function _maxLength($selector, $settings = array()) {
 		return '
 jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteKeys'=>false)).');
 ';
@@ -1010,11 +1010,11 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 	 * echo $this->FormExt->buttons($buttons);
 	 * with
 	 * $buttons = array(
-	 *  array(
-	 *   'title' => 'Login',
-	 *   'options' => array('type' => 'submit')
-	 *  ),
-	 *  array(...)
+	 * array(
+	 * 'title' => 'Login',
+	 * 'options' => array('type' => 'submit')
+	 * ),
+	 * array(...)
 	 * );
 	 * @param array $buttons
 	 * @return string $buttonSubmitDiv
@@ -1100,14 +1100,14 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 	public $datetimeQuicklinks = '
 	public function str_pad(input, pad_length, pad_string, pad_type) {
 	// http://kevin.vanzonneveld.net
-	// +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+	// + original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
 	// + namespaced by: Michael White (http://getsprink.com)
-	// +      input by: Marco van Oort
-	// +   bugfixed by: Brett Zamir (http://brett-zamir.me)
-	// *     example 1: str_pad('Kevin van Zonneveld', 30, '-=', 'STR_PAD_LEFT');
-	// *     returns 1: '-=-=-=-=-=-Kevin van Zonneveld'
-	// *     example 2: str_pad('Kevin van Zonneveld', 30, '-', 'STR_PAD_BOTH');
-	// *     returns 2: '------Kevin van Zonneveld-----'
+	// + input by: Marco van Oort
+	// + bugfixed by: Brett Zamir (http://brett-zamir.me)
+	// * example 1: str_pad('Kevin van Zonneveld', 30, '-=', 'STR_PAD_LEFT');
+	// * returns 1: '-=-=-=-=-=-Kevin van Zonneveld'
+	// * example 2: str_pad('Kevin van Zonneveld', 30, '-', 'STR_PAD_BOTH');
+	// * returns 2: '------Kevin van Zonneveld-----'
 	var half = '',
 		pad_to_go;
 

@@ -341,7 +341,7 @@ class CodeShell extends AppShell {
 	*
 	* @return void
 	*/
-	public function group()  {
+	public function group() {
 		if (!empty($this->args)) {
 			if (!empty($this->args[1])) {
 				$this->args[1] = constant($this->args[1]);

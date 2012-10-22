@@ -139,7 +139,8 @@ class UserAgentLib extends CakeRequest {
 		$blacklist = $this->_getMobileBlacklist();
 		foreach ($blacklist as $agent) {
 			if (in_array($agent, $is)) {
-				$key = array_shift(array_keys($is, $agent));
+				$keys = array_keys($is, $agent);
+				$key = array_shift($keys);
 				unset($is[$key]);
 			}
 		}

@@ -32,7 +32,7 @@ class HcardHelper extends AppHelper {
 	/**
 	 * TODO
 	 */
-	public function addressFormatHtml($data,  $prefix = false, $format = 'General') {
+	public function addressFormatHtml($data, $prefix = false, $format = 'General') {
 		$data = $this->filter($data, $prefix);
 		$text = $this->style($data, $format);
 		$text = '';
@@ -46,7 +46,7 @@ class HcardHelper extends AppHelper {
 	/**
 	 * TODO
 	 */
-	public function addressFormatRaw($data,  $prefix = false, $format = 'General') {
+	public function addressFormatRaw($data, $prefix = false, $format = 'General') {
 		$data = $this->filter($data, $prefix);
 		$text = $data['firstname'] . ' ' . $data['lastname'] . "\n";
 		$text .= $data['address'] . "\n";

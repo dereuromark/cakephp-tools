@@ -1,6 +1,5 @@
 <?php
 App::uses('CakeNumber', 'Utility');
-//TODO: rename to TimeLib or move the time stuff to a time lib???!!!
 
 /**
  * 2011-03-07 ms
@@ -262,12 +261,12 @@ class NumberLib extends CakeNumber {
 	/**
 	 * Returns the English ordinal suffix (th, st, nd, etc) of a number.
 	 *
-	 *     echo 2, Num::ordinal(2);   // "2nd"
-	 *     echo 10, Num::ordinal(10); // "10th"
-	 *     echo 33, Num::ordinal(33); // "33rd"
+	 * echo 2, Num::ordinal(2); // "2nd"
+	 * echo 10, Num::ordinal(10); // "10th"
+	 * echo 33, Num::ordinal(33); // "33rd"
 	 *
-	 * @param   integer  number
-	 * @return  string
+	 * @param integer number
+	 * @return string
 	 */
 	public static function ordinal($number) {
 		if ($number % 100 > 10 and $number % 100 < 14) {

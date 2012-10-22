@@ -476,7 +476,7 @@ function pre($var, $collapsedAndExpandable = false, $options = array()) {
 
 /**
  * Checks if the string [$haystack] contains [$needle]
- * @param string $haystack  Input string.
+ * @param string $haystack Input string.
  * @param string $needle Needed char or string.
  * @return boolean
  */
@@ -498,7 +498,7 @@ function isFloatEqual($x, $y, $precision = 0.0000001) {
 
 /**
  * Checks if the string [$haystack] starts with [$needle]
- * @param string $haystack  Input string.
+ * @param string $haystack Input string.
  * @param string $needle Needed char or string.
  * @return boolean
  */
@@ -511,7 +511,7 @@ function startsWith($haystack, $needle, $caseSensitive = false) {
 
 /**
  * Checks if the String [$haystack] ends with [$needle]
- * @param string $haystack  Input string.
+ * @param string $haystack Input string.
  * @param string $needle Needed char or string
  * @return boolean
  */

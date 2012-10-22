@@ -20,7 +20,7 @@ class CommonComponentTest extends CakeTestCase {
 		$this->Controller->startupProcess();
 	}
 /**
- * Tear-down method.  Resets environment state.
+ * Tear-down method. Resets environment state.
  *
  * @access public
  * @return void
@@ -138,8 +138,8 @@ class CommonComponentTest extends CakeTestCase {
 /**
 * Short description for class.
 *
-* @package       cake.tests
-* @subpackage    cake.tests.cases.libs.controller.components
+* @package cake.tests
+* @subpackage cake.tests.cases.libs.controller.components
 */
 class CommonComponentTestController extends AppController {
 /**

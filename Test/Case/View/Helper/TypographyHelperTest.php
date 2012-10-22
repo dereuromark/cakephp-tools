@@ -51,7 +51,7 @@ class TypographyHelperTest extends MyCakeTestCase {
 			'foo...'						=> 'foo&#8230;',
 			'foo..'							=> 'foo..',
 			'foo...bar.'					=> 'foo&#8230;bar.',
-			'test.  new'					=> 'test.&nbsp; new',
+			'test. new'					=> 'test.&nbsp; new',
 		);
 
 		foreach ($strs as $str => $expected) {
@@ -108,7 +108,7 @@ Jump
 and sing.
 
 <pre>
-I am inside a pre tag.  Please don't mess with me.
+I am inside a pre tag. Please don't mess with me.
 
 k?
 </pre>
@@ -128,7 +128,7 @@ Jump<br />
 and sing.<br />
 <br />
 <pre>
-I am inside a pre tag.  Please don't mess with me.
+I am inside a pre tag. Please don't mess with me.
 
 k?
 </pre><br />

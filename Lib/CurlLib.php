@@ -60,7 +60,7 @@ class CurlLib {
 		return curl_setopt($this->Ch, $key, $value);
 	}
 
-	public function  __construct($timeout = 5, $cookie = true) {
+	public function __construct($timeout = 5, $cookie = true) {
 		$this->cookie = null;
 		if ($cookie !== false) {
 			if ($cookie === true) {
@@ -254,7 +254,7 @@ class CurlLib {
 		return $this->exec();
 	}
 
-	public function  __destruct() {
+	public function __destruct() {
 		if ($this->cookie !== false) {
 			if (isset($this->cookie['handle'])) {
 				fclose($this->cookie['handle']);

@@ -13,9 +13,9 @@ if (!defined('CLASS_USER')) {
  *
  * - "Log" model ( empty but for a order variable [created DESC]
  * - "logs" table with these fields required :
- *     - id			[int]			:
- *     - title 		[string] 		: automagically filled with the display field of the model that was modified.
- * 	   - created	[date/datetime] : filled by cake in normal way
+ * - id			[int]			:
+ * - title 		[string] 		: automagically filled with the display field of the model that was modified.
+ * 	 - created	[date/datetime] : filled by cake in normal way
  *
  * - actsAs = array("Tools.Logable"); on models that should be logged
  *
@@ -26,11 +26,11 @@ if (!defined('CLASS_USER')) {
  *
  * or if u want more detail, add any combination of the following :
  *
- * - ""    	[string] : automagically filled with the class name of the model that generated the activity.
+ * - "" 	[string] : automagically filled with the class name of the model that generated the activity.
  * - "foreign_id" 	[int]	 : automagically filled with the primary key of the model that was modified.
- * - "action"   	[string] : automagically filled with what action is made (add/edit/delete)
- * - "user_id"  	[int]    : populated with the supplied user info. (May be renamed. See bellow.)
- * - "change"   	[string] : depending on setting either :
+ * - "action" 	[string] : automagically filled with what action is made (add/edit/delete)
+ * - "user_id" 	[int] : populated with the supplied user info. (May be renamed. See bellow.)
+ * - "change" 	[string] : depending on setting either :
  * 							[name (alek) => (Alek), age (28) => (29)] or [name, age]
  *
  * - "version_id"	[int]	 : cooperates with RevisionBehavior to link the the shadow table (thus linking to old data)
@@ -45,14 +45,14 @@ if (!defined('CLASS_USER')) {
  *
  * - In AppController (or single controller if only needed once) add these lines to beforeFilter :
  *
- *   	if (count($this->uses) && $this->{$this->modelClass}->Behaviors->attached('Logable')) {
+ * 	if (count($this->uses) && $this->{$this->modelClass}->Behaviors->attached('Logable')) {
  *			$this->{$this->modelClass}->setUserData($this->activeUser);
  *		}
  *
- *   Where "$activeUser" should be an array in the standard format for the User model used :
+ * Where "$activeUser" should be an array in the standard format for the User model used :
  *
- *   $activeUser = array( $UserModel->alias => array( $UserModel->primaryKey => 123, $UserModel->displayField => 'Alexander'));
- *   // any other key is just ignored by this behaviour.
+ * $activeUser = array( $UserModel->alias => array( $UserModel->primaryKey => 123, $UserModel->displayField => 'Alexander'));
+ * // any other key is just ignored by this behaviour.
  *
  * @author Alexander Morland (alexander#maritimecolours.no)
  * @co-author Eskil Mjelva Saatvedt
@@ -89,8 +89,8 @@ class LogableBehavior extends ModelBehavior {
 	/**
 	 * Config options are :
 	 * - userModel 		: 'User'. Class name of the user model you want to use (User by default), if you want to save User in log
-	 * - userKey   		: 'user_id'. The field for saving the user to (user_id by default).
-	 * - change    		: 'list' > [name, age]. Set to 'full' for [name (alek) => (Alek), age (28) => (29)]
+	 * - userKey 		: 'user_id'. The field for saving the user to (user_id by default).
+	 * - change 		: 'list' > [name, age]. Set to 'full' for [name (alek) => (Alek), age (28) => (29)]
 	 * - descriptionIds 	: TRUE. Set to false to not include model id and user id in the title field
 	 * - skip: array(). String array of actions to not log
 	 * - ignore: array(). Fields to ignore
@@ -132,10 +132,10 @@ class LogableBehavior extends ModelBehavior {
 	 * the models it is called from.
 	 *
 	 * Possible params :
-	 * 'model' 		: mixed  (null) String with className, null to get current or false to get everything
+	 * 'model' 		: mixed (null) String with className, null to get current or false to get everything
 	 * 'action' 	: string (null) String with action (add/edit/delete), null gets all
 	 * 'order' 		: string ('created DESC') String with custom order
-	 * 'conditions  : array  (array()) Add custom conditions
+	 * 'conditions : array (array()) Add custom conditions
 	 * 'foreign_id'	: int	 (null) Add a int
 	 *
 	 * (remember to use your own user key if you're not using 'user_id')
@@ -188,9 +188,9 @@ class LogableBehavior extends ModelBehavior {
 	 * Params for getting (one line) activity descriptions
 	 * and/or for just one model
 	 *
-	 * @example $this->Model->findUserActions(301,array('model' => 'BookTest'));
-	 * @example $this->Model->findUserActions(301,array('events' => true));
-	 * @example $this->Model->findUserActions(301,array('fields' => array('id','model'),'model' => 'BookTest');
+	 * @example $this->Model->findUserActions(301, array('model' => 'BookTest'));
+	 * @example $this->Model->findUserActions(301, array('events' => true));
+	 * @example $this->Model->findUserActions(301, array('fields' => array('id','model'),'model' => 'BookTest');
 	 * @param Object $Model
 	 * @param int $user_id
 	 * @param array $params
@@ -273,7 +273,7 @@ class LogableBehavior extends ModelBehavior {
 	 * Use this to supply a model with the data of the logged in User.
 	 * Intended to be called in AppController::beforeFilter like this :
 	 *
-	 *   	if ($this->{$this->modelClass}->Behaviors->attached('Logable')) {
+	 * 	if ($this->{$this->modelClass}->Behaviors->attached('Logable')) {
 	 *			$this->{$this->modelClass}->setUserData($activeUser);/
 	 *		}
 	 *
@@ -301,7 +301,7 @@ class LogableBehavior extends ModelBehavior {
 	 * @example $this->Boat->customLog('ship', 66, array('title' => 'Titanic heads out'));
 	 * @param Object $Model
 	 * @param string $action name of action that is taking place (dont use the crud ones)
-	 * @param int $id  id of the logged item (ie foreign_id in logs table)
+	 * @param int $id id of the logged item (ie foreign_id in logs table)
 	 * @param array $values optional other values for your logs table
 	 */
 	public function customLog(Model $Model, $action, $id = null, $values = array()) {

@@ -971,7 +971,7 @@ class CommonComponent extends Component {
 	/**
 	 * @deprecated: use TextLib
 	 * //TODO use str_word_count() instead!!!
-	 * @return  int
+	 * @return int
 	 * @static
 	 * 2009-11-11 ms
 	 */
@@ -990,7 +990,7 @@ class CommonComponent extends Component {
 	/**
 	 * @deprecated: use TextLib
 	 * //TODO: dont count spaces, otherwise we could use mb_strlen() right away!
-	 * @return  int
+	 * @return int
 	 * @static
 	 * 2009-11-11 ms
 	 */
@@ -1323,7 +1323,7 @@ class CommonComponent extends Component {
 				$keyword .= ' LIKE';
 				$searchphrase = str_replace('*', '%', $searchphrase);
 				// additionally remove % ?
-				//$searchphrase = str_replace(array('%','_'),array('',''),$searchphrase);
+				//$searchphrase = str_replace(array('%','_'), array('',''), $searchphrase);
 			}
 		} else {
 			// allow % and _ to remain in searchstring (without LIKE not problematic), * has no effect either!
@@ -1417,7 +1417,7 @@ class CommonComponent extends Component {
 	 * 2009-07-21 ms
 	 */
 	public function responseCodes($code = null, $autoTranslate = false) {
-		//TODO: use core ones  Controller::httpCodes
+		//TODO: use core ones Controller::httpCodes
 		$responses = array(
 			100 => 'Continue',
 			101 => 'Switching Protocols',

@@ -310,16 +310,16 @@ class CommonHelper extends AppHelper {
 	/**
 	 * Alternates between two or more strings.
 	 *
-	 *     echo CommonHelper::alternate('one', 'two'); // "one"
-	 *     echo CommonHelper::alternate('one', 'two'); // "two"
-	 *     echo CommonHelper::alternate('one', 'two'); // "one"
+	 * echo CommonHelper::alternate('one', 'two'); // "one"
+	 * echo CommonHelper::alternate('one', 'two'); // "two"
+	 * echo CommonHelper::alternate('one', 'two'); // "one"
 	 *
 	 * Note that using multiple iterations of different strings may produce
 	 * unexpected results.
 	 * TODO: move to booststrap!!!
 	 *
-	 * @param   string  strings to alternate between
-	 * @return  string
+	 * @param string strings to alternate between
+	 * @return string
 	 */
 	public static function alternate() {
 		static $i;
@@ -551,7 +551,7 @@ function getInternetExplorerVersion() {
 	var rv = -1; // Return value assumes failure.
 	if (navigator.appName == "Microsoft Internet Explorer") {
 	var ua = navigator.userAgent;
-	var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+	var re = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
 	if (re.exec(ua) != null)
 		rv = parseFloat( RegExp.$1 );
 	}
@@ -678,7 +678,7 @@ piwikTracker.enableLinkTracking();
 	 * Checks if a role is in the current users session
 	 *
 	 * @param necessary right(s) as array - or a single one as string possible
-	 * Note:  all of them need to be in the user roles to return true by default
+	 * Note: all of them need to be in the user roles to return true by default
 	 * @deprecated - use Auth class instead
 	 */
 	public function roleNames($sessionRoles = null) {
@@ -730,7 +730,7 @@ piwikTracker.enableLinkTracking();
 	public function displayRoles($sessionRoles = null, $placeHolder = '---') {
 		$roles = $this->roleNames($sessionRoles);
 		if (!empty($roles)) {
-			return implode(', ',$roles);
+			return implode(', ', $roles);
 		}
 		return $placeHolder;
 	}
@@ -801,11 +801,11 @@ piwikTracker.enableLinkTracking();
 	 *
 	 * If the $url is empty, $title is used instead.
 	 *
-	 * @param  string  $title The content to be wrapped by <a> tags.
-	 * @param  mixed   $url Cake-relative URL or array of URL parameters, or external URL (starts with http://)
-	 * @param  array   $htmlAttributes Array of HTML attributes.
-	 * @param  string  $confirmMessage JavaScript confirmation message.
-	 * @param  boolean $escapeTitle	Whether or not $title should be HTML escaped.
+	 * @param string $title The content to be wrapped by <a> tags.
+	 * @param mixed $url Cake-relative URL or array of URL parameters, or external URL (starts with http://)
+	 * @param array $htmlAttributes Array of HTML attributes.
+	 * @param string $confirmMessage JavaScript confirmation message.
+	 * @param boolean $escapeTitle	Whether or not $title should be HTML escaped.
 	 * @return string	An <a /> element.
 	 * @deprecated?
 	 * // core-hack! $rel = null | !!!!!!!!! Somehow causes trouble with routing functionality of this helper function... careful!
@@ -817,10 +817,10 @@ piwikTracker.enableLinkTracking();
 				// leave it as it is
 			} else {
 				$defaultArray = array('admin'=>false, 'prefix'=>0);
-				$url = array_merge($defaultArray,$url);
+				$url = array_merge($defaultArray, $url);
 			}
 			/** core-hack END **/
-			return $this->Html->link($title, $url, $htmlAttributes, $confirmMessage,  $escapeTitle);
+			return $this->Html->link($title, $url, $htmlAttributes, $confirmMessage, $escapeTitle);
 		}
 	}
 

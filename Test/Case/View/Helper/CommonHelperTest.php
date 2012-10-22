@@ -7,8 +7,8 @@ App::uses('MyCakeTestCase', 'Tools.Lib');
 /**
  * Datetime Test Case
  *
- * @package       cake.tests
- * @subpackage    cake.tests.cases.libs.view.helpers
+ * @package cake.tests
+ * @subpackage cake.tests.cases.libs.view.helpers
  */
 class CommonHelperTest extends MyCakeTestCase {
 /**
@@ -58,7 +58,7 @@ class CommonHelperTest extends MyCakeTestCase {
 		$is = $this->Common->esc('Some Cool Text'.PHP_EOL.'with <b>Html</b>');
 		$this->assertEquals($is, 'Some Cool Text<br />'.PHP_EOL.'with &lt;b&gt;Html&lt;/b&gt;');
 
-		$is = $this->Common->esc('Some Cool'.PHP_EOL.'  2 indends and'.PHP_EOL.'     5 indends'.PHP_EOL.'YEAH');
+		$is = $this->Common->esc('Some Cool'.PHP_EOL.' 2 indends and'.PHP_EOL.' 5 indends'.PHP_EOL.'YEAH');
 		$this->assertEquals($is, 'Some Cool<br />'.PHP_EOL.'&nbsp;&nbsp;2 indends and<br />'.PHP_EOL.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5 indends<br />'.PHP_EOL.'YEAH');
 
 		$options = array('tabsToSpaces'=>2);

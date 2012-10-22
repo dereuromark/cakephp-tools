@@ -417,7 +417,7 @@ class TimeLibTest extends MyCakeTestCase {
 		$is = TimeLib::ageRange(2002, null, null, 5);
 		pr($is);
 		$this->assertEquals($is, array(6, 10));
-		$is = TimeLib::ageRange(2000,  null, null, 5);
+		$is = TimeLib::ageRange(2000, null, null, 5);
 		pr($is);
 		$this->assertEquals($is, array(6, 10));
 		$is = TimeLib::ageRange(1985, 23, 11);
@@ -426,7 +426,7 @@ class TimeLibTest extends MyCakeTestCase {
 		$is = TimeLib::ageRange(1985, null, null, 6);
 		pr($is);
 		$this->assertEquals($is, array(25, 30));
-		$is = TimeLib::ageRange(1985,  21, 11, 7);
+		$is = TimeLib::ageRange(1985, 21, 11, 7);
 		pr($is);
 		$this->assertEquals($is, array(22, 28));
 	}

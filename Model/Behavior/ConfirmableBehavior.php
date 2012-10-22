@@ -32,7 +32,7 @@ class ConfirmableBehavior extends ModelBehavior {
 
 	/**
 	 * ConfirmableBehavior::beforeValidate()
-	 * 
+	 *
 	 * @param mixed $Model
 	 * @return bool $success
 	 */
@@ -50,7 +50,7 @@ class ConfirmableBehavior extends ModelBehavior {
 
 	/**
 	 * ConfirmableBehavior::beforeSave()
-	 * 
+	 *
 	 * @param mixed $Model
 	 * @return mixed
 	 */
@@ -76,7 +76,7 @@ class ConfirmableBehavior extends ModelBehavior {
 		$message = $this->settings[$Model->alias]['message'];
 
 		if (empty($Model->data[$Model->alias][$field])) {
-				$Model->invalidate($field, $message);
+				$Model->invalidate($field, __($message));
 				return false;
 		}
 

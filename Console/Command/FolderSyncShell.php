@@ -149,7 +149,7 @@ class FolderSyncShell extends AppShell {
 
 
 	public function help() {
-		$head  = __("Usage: cake FolderSync <command>") . "\n";
+		$head = __("Usage: cake FolderSync <command>") . "\n";
 		$head .= "-----------------------------------------------\n";
 		$head .= __("Commands:") . "\n\n";
 

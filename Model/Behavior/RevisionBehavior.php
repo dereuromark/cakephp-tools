@@ -12,25 +12,25 @@ App::uses('ModelBehavior', 'Model');
  *
  * Feature list :
  *
- *  - Easy to install
- *  - Automagically save revision on model save
- *  - Able to ignore model saves which only contain certain fields
- *  - Limit number of revisions to keep, will delete oldest
- *  - Undo functionality (or update to any revision directly)
- *  - Revert to a datetime (and even do so cascading)
- *  - Get a diff model array to compare two or more revisions
- *  - Inspect any or all revisions of a model
- *  - Work with Tree Behavior
- *  - Includes beforeUndelete and afterUndelete callbacks
- *  - NEW As of 1.2 behavior will revision HABTM relationships (from one way)
+ * - Easy to install
+ * - Automagically save revision on model save
+ * - Able to ignore model saves which only contain certain fields
+ * - Limit number of revisions to keep, will delete oldest
+ * - Undo functionality (or update to any revision directly)
+ * - Revert to a datetime (and even do so cascading)
+ * - Get a diff model array to compare two or more revisions
+ * - Inspect any or all revisions of a model
+ * - Work with Tree Behavior
+ * - Includes beforeUndelete and afterUndelete callbacks
+ * - NEW As of 1.2 behavior will revision HABTM relationships (from one way)
  *
  * Install instructions :
  *
- *  - Place the newest version of RevisionBehavior in your app/models/behaviors folder
- *  - Add the behavior to AppModel (or single models if you prefer)
- *  - Create a shadow table for each model that you want revision for.
- *  - Behavior will gracefully do nothing for models that has behavior, without table
- *  - If adding to an existing project, run the initializeRevisions() method once for each model.
+ * - Place the newest version of RevisionBehavior in your app/models/behaviors folder
+ * - Add the behavior to AppModel (or single models if you prefer)
+ * - Create a shadow table for each model that you want revision for.
+ * - Behavior will gracefully do nothing for models that has behavior, without table
+ * - If adding to an existing project, run the initializeRevisions() method once for each model.
  *
  * About shadow tables :
  *
@@ -41,17 +41,17 @@ App::uses('ModelBehavior', 'Model');
  * model basis with the useDbConfig config option.
  *
  * Add the same fields as in the live table, with 3 important differences.
- *  - The 'id' field should NOT be the primary key, nor auto increment
- *  - Add the fields 'version_id' (int, primary key, autoincrement) and
- *    'version_created' (datetime)
- *  - Skipp fields that should not be saved in shadowtable (lft,right,weight for instance)
+ * - The 'id' field should NOT be the primary key, nor auto increment
+ * - Add the fields 'version_id' (int, primary key, autoincrement) and
+ * 'version_created' (datetime)
+ * - Skipp fields that should not be saved in shadowtable (lft,right,weight for instance)
  *
  * Configuration :
  *
- *  - 'limit' : number of revisions to keep, must be at least 2
- *  - 'ignore' : array containing the name of fields to ignore
- *  - 'auto' : boolean when false the behavior will NOT generate revisions in afterSave
- *  - 'useDbConfig' : string/null Name of dbConfig to use. Null to use Model's
+ * - 'limit' : number of revisions to keep, must be at least 2
+ * - 'ignore' : array containing the name of fields to ignore
+ * - 'auto' : boolean when false the behavior will NOT generate revisions in afterSave
+ * - 'useDbConfig' : string/null Name of dbConfig to use. Null to use Model's
  *
  * Limit functionality :
  * The shadow table will save a revision copy when it saves live data, so the newest
@@ -82,18 +82,18 @@ App::uses('ModelBehavior', 'Model');
  * behavior (even if secondary model does not have a shadow table).
  *
  * 1.1.1 => 1.1.2 changelog
- *   - revisions() got new paramter: $include_current
- *     This now defaults to false, resulting in a change from 1.1.1. See tests
+ * - revisions() got new paramter: $include_current
+ * This now defaults to false, resulting in a change from 1.1.1. See tests
  *
  * 1.1.6 => 1.2
- *   - includes HABTM revision control (one way)
+ * - includes HABTM revision control (one way)
  *
  * 1.2 => 1.2.1
- *   - api change in revertToDate, added paramter for force delete if reverting to before earliest
+ * - api change in revertToDate, added paramter for force delete if reverting to before earliest
  *
  * 1.2.6 => 1.2.7
  * 	 - api change: removed shadow(), changed revertToDate() to only recurse into related models that
- *     are dependent when cascade is true
+ * are dependent when cascade is true
  *
  * 2.0.5 => CakePHP 2.x
  *
@@ -195,7 +195,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * Returns an array that maps to the Model, only with multiple values for fields that has been changed
 	 *
 	 * @example $this->Post->id = 4; $changes = $this->Post->diff();
-	 * @example $this->Post->id = 4; $my_changes = $this->Post->diff(null,nul,array('conditions'=>array('user_id'=>4)));
+	 * @example $this->Post->id = 4; $my_changes = $this->Post->diff(null,nul, array('conditions'=>array('user_id'=>4)));
 	 * @example $this->Post->id = 4; $difference = $this->Post->diff(45,192);
 	 * @param Object $Model
 	 * @param int $from_version_id
@@ -635,7 +635,7 @@ class RevisionBehavior extends ModelBehavior {
 	/**
 	 * Returns a comeplete list of revisions for the current Model->id.
 	 * The options array may include Model::find parameters to narrow down result
-	 * Alias for shadow('all',array('conditions'=>array($Model->primaryKey => $Model->id)));
+	 * Alias for shadow('all', array('conditions'=>array($Model->primaryKey => $Model->id)));
 	 *
 	 * @example $this->Post->id = 4; $history = $this->Post->revisions();
 	 * @example $this->Post->id = 4; $today = $this->Post->revisions(array('conditions'=>array('version_create >'=>'2008-12-10')));
@@ -771,7 +771,7 @@ class RevisionBehavior extends ModelBehavior {
 
 	/**
 	 * Causes revision for habtm associated models if that model does version control
-	 * on their relationship.  BeforeDelete identifies the related models that will need
+	 * on their relationship. BeforeDelete identifies the related models that will need
 	 * to do the revision update in afterDelete. Uses
 	 *
 	 * @param unknown_type $Model

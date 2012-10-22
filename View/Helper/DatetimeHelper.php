@@ -41,7 +41,7 @@ class DatetimeHelper extends TimeHelper {
 		//global $gmtoffset, $is_dst;
 
 		extract(getdate());
-		$serveroffset = gmmktime(0,0,0,$mon,$mday,$year) - mktime(0,0,0,$mon,$mday,$year);
+		$serveroffset = gmmktime(0,0,0, $mon, $mday, $year) - mktime(0,0,0, $mon, $mday, $year);
 		$offset = $gmtoffset - $serveroffset;
 
 		return $offset + ($is_dst ? 3600 : 0);
@@ -184,7 +184,7 @@ class DatetimeHelper extends TimeHelper {
 	 * 2010-08-26 ms
 	 */
 	public function isInRangeFromDays($dateString, $days, $options = array()) {
-		$date = explode(' ',$dateString);
+		$date = explode(' ', $dateString);
 		list ($y, $m, $d) = explode('-', $date[0]);
 
 		$then = mktime(1, 1, 1, $m, $d, $y);

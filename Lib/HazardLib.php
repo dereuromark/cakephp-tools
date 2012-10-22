@@ -25,7 +25,7 @@ class HazardLib {
 			"SELECT * FROM users WHERE email = 'x'; INSERT INTO users ('username', 'password') VALUES ('x', 'y');--"
 		);
 		$veryDangerous = array(
-			"SELECT * FROM users WHERE email = 'x'; DROP TABLE users; --';  -- Boom!"
+			"SELECT * FROM users WHERE email = 'x'; DROP TABLE users; --'; -- Boom!"
 		);
 		*/
 		$strings = array(
@@ -69,7 +69,7 @@ class HazardLib {
 		}
 		if (empty($texts)) {
 			$texts = array();
-			$contents =  $this->_parseXml(self::URL);
+			$contents = $this->_parseXml(self::URL);
 			foreach ($contents as $content) {
 				$texts[] = $content['code'];
 			}

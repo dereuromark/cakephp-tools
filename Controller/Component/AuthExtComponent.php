@@ -256,7 +256,7 @@ class AuthExtComponent extends AuthComponent {
 	}
 
 	/**
-	 * Main execution method.  Handles redirecting of invalid users, and processing
+	 * Main execution method. Handles redirecting of invalid users, and processing
 	 * of login form data.
 	 *
 	 * @param Controller $controller A reference to the instantiating controller object

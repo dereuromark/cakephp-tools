@@ -1,5 +1,6 @@
 <?php
 App::uses('Inflector', 'Utility');
+App::uses('BaseAuthorize', 'Controller/Component/Auth');
 
 if (!defined('CLASS_USER')) {
 	define('CLASS_USER', 'User'); # override if you have it in a plugin: PluginName.User etc
@@ -50,7 +51,7 @@ class TinyAuthorize extends BaseAuthorize {
 		parent::__construct($Collection, $settings);
 
 		if (Cache::config($settings['cache']) === false) {
-			throw new CakeException(__('TinyAuth could not find `%s` cache - expects at least a `default` cache', $settings['cache']));
+			throw new CakeException(__d('dev', 'TinyAuth could not find `%s` cache - expects at least a `default` cache', $settings['cache']));
 		}
 		$this->_matchArray = $this->_getRoles();
 	}
@@ -69,12 +70,16 @@ class TinyAuthorize extends BaseAuthorize {
 	 */
 	public function authorize($user, CakeRequest $request) {
 		if (isset($user[$this->settings['aclModel']])) {
-			$roles = (array)$user[$this->settings['aclModel']];
+			if (isset($user[$this->settings['aclModel']]['id'])) {
+				$roles = (array)$user[$this->settings['aclModel']]['id'];
+			} else {
+				$roles = (array)$user[$this->settings['aclModel']];
+			}
 		} elseif (isset($user[$this->settings['aclKey']])) {
 			$roles = array($user[$this->settings['aclKey']]);
 		} else {
 			$acl = $this->settings['aclModel'].'/'.$this->settings['aclKey'];
-			trigger_error(__('Missing acl information (%s) in user session', $acl));
+			trigger_error(__d('dev', 'Missing acl information (%s) in user session', $acl));
 			$roles = array();
 		}
 		return $this->validate($roles, $request->params['plugin'], $request->params['controller'], $request->params['action']);
@@ -163,7 +168,7 @@ class TinyAuthorize extends BaseAuthorize {
 			Configure::write($this->settings['aclModel'], $availableRoles);
 		}
 		if (!is_array($availableRoles) || !is_array($iniArray)) {
-			trigger_error(__('Invalid Role Setup for TinyAuthorize (no roles found)'));
+			trigger_error(__d('dev', 'Invalid Role Setup for TinyAuthorize (no roles found)'));
 			return false;
 		}
 

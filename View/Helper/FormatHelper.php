@@ -119,7 +119,7 @@ class FormatHelper extends TextHelper {
 	 * 2009-01-04 ms
 	 */
 	public function addIcon($name = null, $pic = null, $title = null, $allowOverride = false) {
-		if ($allowOverride === true || ($allowOverride !==true && !array_key_exists($name,$this->icons))) {
+		if ($allowOverride === true || ($allowOverride !==true && !array_key_exists($name, $this->icons))) {
 			if (!empty($name) && !empty($pic)) {
 				$this->icons[$name] = array('pic'=>strtolower($pic),'title'=>(!empty($title)?$title:''));
 			}
@@ -157,7 +157,7 @@ class FormatHelper extends TextHelper {
 	 * 2009-12-31 ms
 	 */
 	public function customIcon($folder, $icon = null, $checkExist = false, $options = array(), $attr = array()) {
-		$attachment =  'default';
+		$attachment = 'default';
 		$ending = 'gif';
 		$image = null;
 
@@ -197,7 +197,7 @@ class FormatHelper extends TextHelper {
 			$path = PATH_IMAGES. $specific . DS; //.'country_flags'.DS
 		} else {
 			$wwwPath = '/tools/img/country_flags/';
-			$path = App::pluginPath('Tools') . 'webroot' . DS.  'img' . DS . 'country_flags' . DS;
+			$path = App::pluginPath('Tools') . 'webroot' . DS. 'img' . DS . 'country_flags' . DS;
 		}
 
 		if (!empty($options) && is_array($options)) {
@@ -329,7 +329,7 @@ class FormatHelper extends TextHelper {
 			$alt=$a;
 		}
 
-		if (array_key_exists($type,$this->icons)) {
+		if (array_key_exists($type, $this->icons)) {
 			$pic = $this->icons[$type]['pic'];
 			$title = (isset($title)?$title:$this->icons[$type]['title']);
 			$alt = (isset($alt)?$alt:preg_replace('/[^a-zA-Z0-9]/', '', $this->icons[$type]['title']));
@@ -346,11 +346,11 @@ class FormatHelper extends TextHelper {
 
 		$default_options=array('title'=>$title,'alt'=>$alt,'class'=>'icon');
 		//$new_options['onclick']=$options['onclick'];
-		$new_options= array_merge($default_options,$options);
+		$new_options= array_merge($default_options, $options);
 
 
 
-		$html.=$this->Html->image('icons/'.$pic,$new_options);
+		$html.=$this->Html->image('icons/'.$pic, $new_options);
 
 		return $html;
 	}
@@ -423,16 +423,16 @@ class FormatHelper extends TextHelper {
 			for ($i=0;$i<$min;$i++) {
 				$attributes = array('alt'=>'#','class'=>'full');
 				if (!empty($options['title'])) { $attributes['title'] = ($i+1).'/'.$max; } # ?
-				$text.= $this->Html->image('icons/star_icon2.gif',$attributes);
+				$text.= $this->Html->image('icons/star_icon2.gif', $attributes);
 
 			}
 			for ($i=$min;$i<$max;$i++) {
 				$attributes = array('alt'=>'-','class'=>'empty');
 				if (!empty($options['title'])) { $attributes['title'] = ($i+1).'/'.$max; } # ?
 				if ($steps == 0.5 && $current == $i+0.5) {
-					$text.= $this->Html->image('icons/star_icon2_half.gif',$attributes);
+					$text.= $this->Html->image('icons/star_icon2_half.gif', $attributes);
 				} else {
-					$text.= $this->Html->image('icons/star_icon2_empty.gif',$attributes);
+					$text.= $this->Html->image('icons/star_icon2_empty.gif', $attributes);
 				}
 			}
 
@@ -491,9 +491,9 @@ class FormatHelper extends TextHelper {
 		echo '<span class="country">';
 		foreach ($languages as $code => $la) {
 			if ($lang == $code) {
-				$language_change .= $this->Html->image('language_flags/'.$code.'.gif',array('alt'=>$code,'title'=>$la['title'].' ('.__('active').')','class'=>'country_flag active')).'';
+				$language_change .= $this->Html->image('language_flags/'.$code.'.gif', array('alt'=>$code,'title'=>$la['title'].' ('.__('active').')','class'=>'country_flag active')).'';
 			} else {
-				$language_change .= $this->Html->link($this->Html->image('language_flags/'.$code.'.gif',array('alt'=>$code,'title'=>$la['title'],'class'=>'country_flag')), '/lang/'.$code, array('escape'=>false)).'';
+				$language_change .= $this->Html->link($this->Html->image('language_flags/'.$code.'.gif', array('alt'=>$code,'title'=>$la['title'],'class'=>'country_flag')), '/lang/'.$code, array('escape'=>false)).'';
 			}
 		}
 
@@ -519,7 +519,7 @@ class FormatHelper extends TextHelper {
 	 * 2009-03-11 ms
 	 */
 	public function encodeEmail($mail) {
-		list($mail1,$mail2) = explode('@', $mail);
+		list($mail1, $mail2) = explode('@', $mail);
 		$encMail = $this->encodeText($mail1).'<span>@</span>'.$this->encodeText($mail2);
 		return $encMail;
 	}
@@ -563,10 +563,10 @@ class FormatHelper extends TextHelper {
 			}
 		}
 
-		$attr = array_merge($defaults,$attr);
+		$attr = array_merge($defaults, $attr);
 
 
-	$xmail = $this->Html->link('',$encMail.$querystring,$attr);
+	$xmail = $this->Html->link('', $encMail.$querystring, $attr);
 	$xmail1 = mb_substr($xmail, 0, count($xmail)-5);
 	$xmail2 = mb_substr($xmail, -4, 4);
 	//pr (h($xmail1));
@@ -607,13 +607,13 @@ class FormatHelper extends TextHelper {
 			$encMod = mt_rand(0,2);
 			switch ($encMod) {
 			case 0: // None
-				$encmail .= mb_substr($text,$i,1);
+				$encmail .= mb_substr($text, $i,1);
 				break;
 			case 1: // Decimal
-				$encmail .= "&#".ord(mb_substr($text,$i,1)).';';
+				$encmail .= "&#".ord(mb_substr($text, $i,1)).';';
 				break;
 			case 2: // Hexadecimal
-				$encmail .= "&#x".dechex(ord(mb_substr($text,$i,1))).';';
+				$encmail .= "&#x".dechex(ord(mb_substr($text, $i,1))).';';
 				break;
 			}
 		}
@@ -627,9 +627,9 @@ class FormatHelper extends TextHelper {
 	 * @param ontitle: default FALSE; if it is embadded in a link, set to TRUE
 	 * @return image:Yes/No or text:Yes/No
 	 *
-	 * @todo $on=1,$text=false,$ontitle=false,... => in array(OPTIONS) packen
+	 * @todo $on=1, $text=false, $ontitle=false,... => in array(OPTIONS) packen
 	 */
-	public function yesNo($v,$ontitle=null, $offtitle=null, $on=1, $text=false, $notitle=false) {
+	public function yesNo($v, $ontitle=null, $offtitle=null, $on=1, $text=false, $notitle=false) {
 		$ontitle = (!empty($ontitle)?$ontitle:__('Ja'));
 		$offtitle = (!empty($offtitle)?$offtitle:__('Nein'));
 		$sbez = array('0'=>@substr($offtitle, 0, 1), '1'=>@substr($ontitle, 0, 1));
@@ -780,7 +780,7 @@ class FormatHelper extends TextHelper {
 	 */
 	public function absolutePaginateCount($paginator, $count, $dir = null) {
 		if ($dir === null) {
-			$dir  = 'ASC';
+			$dir = 'ASC';
 		}
 
 		$currentPage = $paginator['page'];
@@ -964,7 +964,7 @@ class FormatHelper extends TextHelper {
 
 
 		$res = $controls = $descr = '';
-		if ($display['title']) { //  && (!$display['autoHide'] || !empty($image['Image']['title']))
+		if ($display['title']) { // && (!$display['autoHide'] || !empty($image['Image']['title']))
 			$defTitle = ($display['autoHide'] ? '' : ': <i>kein Titel</i>');
 
 			$title = 'Album \'' . h($image['Album']['title']) . '\'' . (!empty($image['Image']['title']) ? ': ' . h($image['Image']['title']) : $defTitle);
@@ -1398,12 +1398,12 @@ class FormatHelper extends TextHelper {
 	/**
 	 * Translate a result array into a HTML table
 	 *
-	 * @author      Aidan Lister <aidan@php.net>
-	 * @version     1.3.2
-	 * @link        http://aidanlister.com/2004/04/converting-arrays-to-human-readable-tables/
-	 * @param       array  $array      The result (numericaly keyed, associative inner) array.
-	 * @param       bool   $recursive  Recursively generate tables for multi-dimensional arrays
-	 * @param       string $null       String to output for blank cells
+	 * @author Aidan Lister <aidan@php.net>
+	 * @version 1.3.2
+	 * @link http://aidanlister.com/2004/04/converting-arrays-to-human-readable-tables/
+	 * @param array $array The result (numericaly keyed, associative inner) array.
+	 * @param bool $recursive Recursively generate tables for multi-dimensional arrays
+	 * @param string $null String to output for blank cells
 	 */
 	public function array2table($array, $options = array()) {
 		$defaults = array(

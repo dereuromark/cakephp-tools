@@ -11,12 +11,12 @@
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) 2008, Andy Dawson
- * @link          www.ad7six.com
- * @package       mi
- * @subpackage    mi.models.behaviors
- * @since         v 1.0
- * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @copyright Copyright (c) 2008, Andy Dawson
+ * @link www.ad7six.com
+ * @package mi
+ * @subpackage mi.models.behaviors
+ * @since v 1.0
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 
 /**
@@ -29,9 +29,9 @@ App::uses('ModelBehavior', 'Model');
 /**
  * SluggedBehavior class
  *
- * @uses          ModelBehavior
- * @version       2.x
- * @modified      Mark Scherer
+ * @uses ModelBehavior
+ * @version 2.x
+ * @modified Mark Scherer
  */
 class SluggedBehavior extends ModelBehavior {
 

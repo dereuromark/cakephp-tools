@@ -248,7 +248,7 @@ class GeocoderBehavior extends ModelBehavior {
 	 *
 	 * @return array
 	 */
-	public function distanceConditions(Model $Model, $distance = null, $fieldName = null,  $fieldLat = null, $fieldLng = null, $modelName = null) {
+	public function distanceConditions(Model $Model, $distance = null, $fieldName = null, $fieldLat = null, $fieldLng = null, $modelName = null) {
 		if ($fieldLat === null) {
 			$fieldLat = $this->settings[$Model->alias]['lat'];
 		}

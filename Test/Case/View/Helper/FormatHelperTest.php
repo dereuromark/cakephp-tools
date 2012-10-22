@@ -8,8 +8,8 @@ App::uses('View', 'View');
 /**
  * Datetime Test Case
  *
- * @package       cake.tests
- * @subpackage    cake.tests.cases.libs.view.helpers
+ * @package cake.tests
+ * @subpackage cake.tests.cases.libs.view.helpers
  */
 class FormatHelperTest extends MyCakeTestCase {
 	/**
@@ -223,7 +223,7 @@ class FormatHelperTest extends MyCakeTestCase {
 	public function testTab2space() {
 		echo '<h2>'.__FUNCTION__.'</h2>';
 
-		$text  = "foo\t\tfoobar\tbla\n";
+		$text = "foo\t\tfoobar\tbla\n";
 		$text .= "fooo\t\tbar\t\tbla\n";
 		$text .= "foooo\t\tbar\t\tbla\n";
 		echo "<pre>" . $text . "</pre>";

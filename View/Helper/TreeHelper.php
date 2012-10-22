@@ -13,15 +13,15 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @filesource
- * @copyright            Copyright (c) 2008, Andy Dawson
- * @link                 www.ad7six.com
- * @package              cake-base
- * @subpackage           cake-base.app.views.helpers
- * @since                v 1.0
- * @version              $Revision: 205 $
- * @modifiedBy           $LastChangedBy: ad7six $
- * @lastModified         $Date: 2008-08-13 16:13:32 +0200 (Wed, 13 Aug 2008) $
- * @license              http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @copyright Copyright (c) 2008, Andy Dawson
+ * @link www.ad7six.com
+ * @package cake-base
+ * @subpackage cake-base.app.views.helpers
+ * @since v 1.0
+ * @version $Revision: 205 $
+ * @modifiedBy $LastChangedBy: ad7six $
+ * @lastModified $Date: 2008-08-13 16:13:32 +0200 (Wed, 13 Aug 2008) $
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 App::uses('AppHelper', 'View/Helper');
 
@@ -85,7 +85,7 @@ class TreeHelper extends AppHelper {
 	 *	'class' => class for top level 'type'
 	 *	'element' => path to an element to render to get node contents.
 	 *	'callback' => callback to use to get node contents. e.g. array(&$anObject, 'methodName') or 'floatingMethod'
-	 *	'autoPath' =>  array($left, $right [$classToAdd = 'active']) if set any item in the path will have the class $classToAdd added. MPTT only.
+	 *	'autoPath' => array($left, $right [$classToAdd = 'active']) if set any item in the path will have the class $classToAdd added. MPTT only.
 	 *	'left' => name of the 'lft' field if not lft. only applies to MPTT data
 	 *	'right' => name of the 'rght' field if not lft. only applies to MPTT data
 	 *	'depth' => used internally when running recursively, can be used to override the depth in either mode.

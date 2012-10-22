@@ -8,7 +8,7 @@ App::uses('AppHelper', 'View/Helper');
  * //TODO: integrate ThumbnailHelper !!!
  * 2009-09-13 ms
  */
-class PhpThumbHelper extends AppHelper    {
+class PhpThumbHelper extends AppHelper {
 
 	protected $PhpThumb;
 	protected $options;

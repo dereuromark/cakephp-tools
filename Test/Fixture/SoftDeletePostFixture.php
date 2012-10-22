@@ -2,8 +2,8 @@
 /**
  * Short description for class.
  *
- * @package       cake
- * @subpackage    cake.tests.fixtures
+ * @package cake
+ * @subpackage cake.tests.fixtures
  */
 class SoftDeletePostFixture extends CakeTestFixture {
 
@@ -18,7 +18,7 @@ class SoftDeletePostFixture extends CakeTestFixture {
 		'article_id' => array('type' => 'integer'),
 		'title' => array('type' => 'string', 'null' => false),
 		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'deleted_date'  => 'datetime',
+		'deleted_date' => 'datetime',
 		'created' => 'datetime',
 		'updated' => 'datetime');
 

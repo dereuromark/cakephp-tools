@@ -365,14 +365,21 @@ class MyModel extends Model {
 	}
 
 	public function saveAll($data = null, $options = array()) {
-		$options['atomic'] = false;
-		return parent::saveAll($data, $options);
+		if (!isset($options['atomic'])) {
+			$options['atomic'] = (bool)Configure::read('Model.atomic');
+		}
+		$res = parent::saveAll($data, $options);
+
+		if (is_array($res)) {
+			$res = Utility::isValidSaveAll($res);
+		}
+		return $res;
 	}
 
 	/**
 	 * enables HABTM-Validation
 	 * e.g. with
-	 * 'rule' => array('multiple',array('min' => 2))
+	 * 'rule' => array('multiple', array('min' => 2))
 	 * 2010-01-14 ms
 	 */
 	public function beforeValidate($options = array()) {
@@ -912,7 +919,7 @@ class MyModel extends Model {
 
 	/**
 	 * checks a record, if it is unique - depending on other fields in this table (transfered as array)
-	 * example in model: 'rule' => array ('validateUnique',array('belongs_to_table_id','some_id','user_id')),
+	 * example in model: 'rule' => array ('validateUnique', array('belongs_to_table_id','some_id','user_id')),
 	 * if all keys (of the array transferred) match a record, return false, otherwise true
 	 * @param ARRAY other fields
 	 * TODO: add possibity of deep nested validation (User -> Comment -> CommentCategory: UNIQUE comment_id, Comment.user_id)

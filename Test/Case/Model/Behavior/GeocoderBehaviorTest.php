@@ -18,19 +18,19 @@ class GeocoderBehaviorTest extends CakeTestCase {
 
 	public function testDistance() {
 		$res = $this->Comment->distance(12, 14);
-		$expected = '6371.04 * ACOS( COS( PI()/2 - RADIANS(90 - Comment.lat)) * COS( PI()/2 - RADIANS(90 - 12)) * COS( RADIANS(Comment.lat) - RADIANS(14)) + SIN( PI()/2 - RADIANS(90 - Comment.lng)) * SIN( PI()/2 - RADIANS(90 - 12)))';
+		$expected = '6371.04 * ACOS( COS( PI()/2 - RADIANS(90 - Comment.lat)) * COS( PI()/2 - RADIANS(90 - 12)) * COS( RADIANS(Comment.lng) - RADIANS(14)) + SIN( PI()/2 - RADIANS(90 - Comment.lat)) * SIN( PI()/2 - RADIANS(90 - 12)))';
 		$this->assertEquals($expected, $res);
 
 		$this->Comment->Behaviors->detach('Geocoder');
 		$this->Comment->Behaviors->attach('Tools.Geocoder', array('lat'=>'x', 'lng'=>'y'));
 		$res = $this->Comment->distance(12, 14);
-		$expected = '6371.04 * ACOS( COS( PI()/2 - RADIANS(90 - Comment.x)) * COS( PI()/2 - RADIANS(90 - 12)) * COS( RADIANS(Comment.x) - RADIANS(14)) + SIN( PI()/2 - RADIANS(90 - Comment.y)) * SIN( PI()/2 - RADIANS(90 - 12)))';
+		$expected = '6371.04 * ACOS( COS( PI()/2 - RADIANS(90 - Comment.x)) * COS( PI()/2 - RADIANS(90 - 12)) * COS( RADIANS(Comment.y) - RADIANS(14)) + SIN( PI()/2 - RADIANS(90 - Comment.x)) * SIN( PI()/2 - RADIANS(90 - 12)))';
 		$this->assertEquals($expected, $res);
 	}
 
 	public function testDistanceField() {
 		$res = $this->Comment->distanceField(12, 14);
-		$expected = '6371.04 * ACOS( COS( PI()/2 - RADIANS(90 - Comment.lat)) * COS( PI()/2 - RADIANS(90 - 12)) * COS( RADIANS(Comment.lat) - RADIANS(14)) + SIN( PI()/2 - RADIANS(90 - Comment.lng)) * SIN( PI()/2 - RADIANS(90 - 12))) AS Comment.distance';
+		$expected = '6371.04 * ACOS( COS( PI()/2 - RADIANS(90 - Comment.lat)) * COS( PI()/2 - RADIANS(90 - 12)) * COS( RADIANS(Comment.lng) - RADIANS(14)) + SIN( PI()/2 - RADIANS(90 - Comment.lat)) * SIN( PI()/2 - RADIANS(90 - 12))) AS Comment.distance';
 		$this->assertEquals($expected, $res);
 	}
 
@@ -42,7 +42,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$res = $this->Address->find('all', $options);
 		$this->assertTrue($res[0]['Address']['distance'] < $res[1]['Address']['distance']);
 		$this->assertTrue($res[1]['Address']['distance'] < $res[2]['Address']['distance']);
-		$this->assertTrue($res[0]['Address']['distance'] > 460 && $res[0]['Address']['distance'] < 490);
+		$this->assertTrue($res[0]['Address']['distance'] > 640 && $res[0]['Address']['distance'] < 650);
 	}
 
 	public function testSetDistanceAsVirtualFieldInMiles() {
@@ -53,7 +53,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$res = $this->Address->find('all', $options);
 		$this->assertTrue($res[0]['Address']['distance'] < $res[1]['Address']['distance']);
 		$this->assertTrue($res[1]['Address']['distance'] < $res[2]['Address']['distance']);
-		$this->assertTrue($res[0]['Address']['distance'] > 270 && $res[0]['Address']['distance'] < 310);
+		$this->assertTrue($res[0]['Address']['distance'] > 390 && $res[0]['Address']['distance'] < 410);
 	}
 
 	public function testPagination() {

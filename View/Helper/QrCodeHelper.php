@@ -136,7 +136,7 @@ class QrCodeHelper extends AppHelper {
 	/**
  	 * generate mecard string
  	 * 1: name, nickname, note, birthday, sound
-	 * 1..n (as array  or string): address, tel, url, email
+	 * 1..n (as array or string): address, tel, url, email
  	 * for details on cards see:
  	 * http://www.nttdocomo.co.jp/english/service/imode/make/content/barcode/function/application/addressbook/index.html
 	 * example: MECARD: N:Docomo,Taro; SOUND:docomotaro; TEL:03XXXXXXXX; EMAIL:d@e.de;

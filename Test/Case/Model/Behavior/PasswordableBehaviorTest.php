@@ -19,7 +19,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * Tear-down method.  Resets environment state.
+	 * Tear-down method. Resets environment state.
 	 */
 	public function tearDown() {
 		unset($this->User);
@@ -31,7 +31,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 
 	public function testObject() {
 		$this->User->Behaviors->attach('Tools.Passwordable', array());
-		$this->assertIsA($this->User->Behaviors->Passwordable, 'PasswordableBehavior');
+		$this->assertInstanceOf($this->User->Behaviors->Passwordable, 'PasswordableBehavior');
 		$res = $this->User->Behaviors->attached('Passwordable');
 		$this->assertTrue($res);
 	}

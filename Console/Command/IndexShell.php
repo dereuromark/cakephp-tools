@@ -17,9 +17,9 @@ App::uses('AppShell', 'Console/Command');
  * - BTREE Indexes for AIIDs if desired
  * - PRIMARY_KEY Indexes for primary keys ("id")
  *
- * @author     Mark Scherer
+ * @author Mark Scherer
  * @link
- * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @cakephp 2.0
  * 2011-12-14 ms
  */

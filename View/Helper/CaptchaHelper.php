@@ -8,10 +8,10 @@ if (!defined('BR')) {
 /**
  * PHP5 / CakePHP2
  *
- * @author        Mark Scherer
- * @link          http://www.dereuromark.de
- * @package       tools plugin
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @author Mark Scherer
+ * @link http://www.dereuromark.de
+ * @package tools plugin
+ * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
 /**

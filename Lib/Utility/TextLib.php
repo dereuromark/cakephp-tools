@@ -61,10 +61,10 @@ class TextLib {
 	 * Tests whether a string contains only 7-bit ASCII bytes. This is used to
 	 * determine when to use native functions or UTF-8 functions.
 	 *
-	 *     $ascii = UTF8::is_ascii($str);
+	 * $ascii = UTF8::is_ascii($str);
 	 *
-	 * @param   string  string to check
-	 * @return  bool
+	 * @param string string to check
+	 * @return bool
 	 */
 	public function isAscii($str = null) {
 		if ($str === null) {
@@ -76,10 +76,10 @@ class TextLib {
 	/**
 	 * Strips out device control codes in the ASCII range.
 	 *
-	 *     $str = UTF8::strip_ascii_ctrl($str);
+	 * $str = UTF8::strip_ascii_ctrl($str);
 	 *
-	 * @param   string  string to clean
-	 * @return  string
+	 * @param string string to clean
+	 * @return string
 	 */
 	public function stripAsciiCtrl($str = null) {
 		if ($str === null) {
@@ -91,10 +91,10 @@ class TextLib {
 	/**
 	 * Strips out all non-7bit ASCII bytes.
 	 *
-	 *     $str = UTF8::strip_non_ascii($str);
+	 * $str = UTF8::strip_non_ascii($str);
 	 *
-	 * @param   string  string to clean
-	 * @return  string
+	 * @param string string to clean
+	 * @return string
 	 */
 	public function stripNonAscii($str = null) {
 		if ($str === null) {
@@ -196,10 +196,10 @@ class TextLib {
 	 * Prevents [widow words](http://www.shauninman.com/archive/2006/08/22/widont_wordpress_plugin)
 	 * by inserting a non-breaking space between the last two words.
 	 *
-	 *     echo Text::widont($text);
+	 * echo Text::widont($text);
 	 *
-	 * @param   string  text to remove widows from
-	 * @return  string
+	 * @param string text to remove widows from
+	 * @return string
 	 */
 	public function widont($str = null) {
 		if ($str === null) {
@@ -566,7 +566,7 @@ class TextLib {
 	/**
 	 * Reduce Multiples
 	 *
-	 * Reduces multiple instances of a particular character.  Example:
+	 * Reduces multiple instances of a particular character. Example:
 	 *
 	 * Fred, Bill,, Joe, Jimmy
 	 *

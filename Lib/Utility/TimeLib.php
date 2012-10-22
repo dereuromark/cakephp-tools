@@ -73,8 +73,8 @@ class TimeLib extends CakeTime {
 	 *
 	 * does this work too?
 	 $now = mktime(0,0,0,date("m"),date("d"),date("Y"));
-	 $birth = mktime(0,0,0,$monat,$tag,$jahr);
-	 $age   = intval(($now - $birth) / (3600 * 24 * 365));
+	 $birth = mktime(0,0,0, $monat, $tag, $jahr);
+	 $age = intval(($now - $birth) / (3600 * 24 * 365));
 	 * @return int age (0 if both timestamps are equal or empty, -1 on invalid dates)
 	 * 2009-03-12 ms
 	 */
@@ -107,8 +107,8 @@ class TimeLib extends CakeTime {
 			}
 		}
 
-		//$startDate = mktime(0,0,0,$monthS,$dayS,$yearS);
-		//$endDate = mktime(0,0,0,$monthE,$dayE,$yearE);
+		//$startDate = mktime(0,0,0, $monthS, $dayS, $yearS);
+		//$endDate = mktime(0,0,0, $monthE, $dayE, $yearE);
 		//$age = intval(($endDate - $startDate) / (3600 * 24 * 365));
 		//$age = self::timef($endDate-$startDate, 'Y'); # !!! timef function
 
@@ -140,8 +140,8 @@ class TimeLib extends CakeTime {
 	 */
 	public static function ageByYear($year, $month = null) {
 		if ($month === null) {
-			$maxAge = self::age(mktime(0,0,0,1,1,$year));
-			$minAge = self::age(mktime(23,59,59,12,31,$year));
+			$maxAge = self::age(mktime(0,0,0,1,1, $year));
+			$minAge = self::age(mktime(23,59,59,12,31, $year));
 			$ages = array_unique(array($minAge, $maxAge));
 			return implode('/', $ages);
 		}
@@ -296,10 +296,10 @@ class TimeLib extends CakeTime {
 
 			if ($wtag<=4) {
 				/*Donnerstag oder kleiner: auf den Montag zurückrechnen.*/
-				$firstmonday = mktime(0,0,0,1,1-($wtag-1),$year);
+				$firstmonday = mktime(0,0,0,1,1-($wtag-1), $year);
 			} elseif ($wtag!=1) {
 				/*auf den Montag nach vorne rechnen.*/
-				$firstmonday = mktime(0,0,0,1,1+(7-$wtag+1),$year);
+				$firstmonday = mktime(0,0,0,1,1+(7-$wtag+1), $year);
 			} else {
 				$firstmonday = $first;
 			}
@@ -689,7 +689,7 @@ class TimeLib extends CakeTime {
 
 		//echo $options[0]['steps']['4'];
 
-		if (array_key_exists($from,$times) && array_key_exists($to,$times)) {
+		if (array_key_exists($from, $times) && array_key_exists($to, $times)) {
 			$begin = $times[$from];
 			$end = $times[$to];
 			//echo $begin-$end.BR;
@@ -755,8 +755,8 @@ class TimeLib extends CakeTime {
 	 * $span = fuzzy(time() - 10); // "moments ago"
 	 * $span = fuzzy(time() + 20); // "in moments"
 	 *
-	 * @param   integer  "remote" timestamp
-	 * @return  string
+	 * @param integer "remote" timestamp
+	 * @return string
 	 */
 	public static function fuzzy($timestamp) {
 		// Determine the difference in seconds

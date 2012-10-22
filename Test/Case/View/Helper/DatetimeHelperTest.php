@@ -7,8 +7,8 @@ App::uses('View', 'View');
 /**
  * Datetime Test Case
  *
- * @package       cake.tests
- * @subpackage    cake.tests.cases.libs.view.helpers
+ * @package cake.tests
+ * @subpackage cake.tests.cases.libs.view.helpers
  */
 class DatetimeHelperTest extends MyCakeTestCase {
 
@@ -111,25 +111,25 @@ class DatetimeHelperTest extends MyCakeTestCase {
 		$year = 2008;
 		$month = 12;
 		$day = 29;
-		$date = mktime(0,0,0,$month,$day,$year);
+		$date = mktime(0,0,0, $month, $day, $year);
 		$this->assertEquals('01/'.$year, $this->Datetime->cweek($year.'-'.$month.'-'.$day));
 
 		$year = 2009;
 		$month = 1;
 		$day = 1;
-		$date = mktime(0,0,0,$month,$day,$year);
+		$date = mktime(0,0,0, $month, $day, $year);
 		$this->assertEquals('01/'.$year, $this->Datetime->cweek($year.'-'.$month.'-'.$day));
 
 		$year = 2009;
 		$month = 1;
 		$day = 9;
-		$date = mktime(0,0,0,$month,$day,$year);
+		$date = mktime(0,0,0, $month, $day, $year);
 		$this->assertEquals('02/'.$year, $this->Datetime->cweek($year.'-'.$month.'-'.$day.' 00:00:00'));
 
 		$year = 2009;
 		$month = 12;
 		$day = 26;
-		$date = mktime(0,0,0,$month,$day,$year);
+		$date = mktime(0,0,0, $month, $day, $year);
 		$this->assertEquals('52/'.$year, $this->Datetime->cweek($year.'-'.$month.'-'.$day));
 
 
@@ -144,41 +144,41 @@ class DatetimeHelperTest extends MyCakeTestCase {
  * 2009-03-11 ms
  */
 	public function testAge() {
-		list($year,$month,$day) = explode('-',date('Y-m-d'));
+		list($year, $month, $day) = explode('-',date('Y-m-d'));
 		$this->assertEquals('0', $this->Datetime->age($year.'-'.$month.'-'.$day, null));
 
-		list($year,$month,$day) = explode('-',date('Y-m-d',strtotime('-10 years')));
+		list($year, $month, $day) = explode('-',date('Y-m-d',strtotime('-10 years')));
 		$this->assertEquals('10', $this->Datetime->age($year.'-'.$month.'-'.$day, null));
 
-		list($year,$month,$day) = explode('-',date('Y-m-d',strtotime('-10 years +1 day')));
+		list($year, $month, $day) = explode('-',date('Y-m-d',strtotime('-10 years +1 day')));
 		$this->assertEquals('9', $this->Datetime->age($year.'-'.$month.'-'.$day, null));
 
-		list($year,$month,$day) = explode('-',date('Y-m-d',strtotime('-10 years -1 day')));
+		list($year, $month, $day) = explode('-',date('Y-m-d',strtotime('-10 years -1 day')));
 		$this->assertEquals('10', $this->Datetime->age($year.'-'.$month.'-'.$day, null));
 
 		# jahresübertritt
-		list($year,$month,$day) = explode('-','2005-12-01');
-		list($yearE,$monthE,$dayE) = explode('-','2008-02-29');
-		$this->assertEquals('2', $this->Datetime->age($year.'-'.$month.'-'.$day,$yearE.'-'.$monthE.'-'.$dayE));
+		list($year, $month, $day) = explode('-','2005-12-01');
+		list($yearE, $monthE, $dayE) = explode('-','2008-02-29');
+		$this->assertEquals('2', $this->Datetime->age($year.'-'.$month.'-'.$day, $yearE.'-'.$monthE.'-'.$dayE));
 
-		list($year,$month,$day) = explode('-','2002-01-29');
-		list($yearE,$monthE,$dayE) = explode('-','2008-12-02');
+		list($year, $month, $day) = explode('-','2002-01-29');
+		list($yearE, $monthE, $dayE) = explode('-','2008-12-02');
 		$this->assertEquals('6', $this->Datetime->age($year.'-'.$month.'-'.$day, $yearE.'-'.$monthE.'-'.$dayE));
 
 		# schaltjahr
-		list($year,$month,$day) = explode('-','2005-02-29');
-		list($yearE,$monthE,$dayE) = explode('-','2008-03-01');
+		list($year, $month, $day) = explode('-','2005-02-29');
+		list($yearE, $monthE, $dayE) = explode('-','2008-03-01');
 		$this->assertEquals('3', $this->Datetime->age($year.'-'.$month.'-'.$day, $yearE.'-'.$monthE.'-'.$dayE));
 
-		list($year,$month,$day) = explode('-','2005-03-01');
-		list($yearE,$monthE,$dayE) = explode('-','2008-02-29');
+		list($year, $month, $day) = explode('-','2005-03-01');
+		list($yearE, $monthE, $dayE) = explode('-','2008-02-29');
 		$this->assertEquals('2', $this->Datetime->age($year.'-'.$month.'-'.$day, $yearE.'-'.$monthE.'-'.$dayE));
 
 		#zukunft
-		list($yearE,$monthE,$dayE) = explode('-',date('Y-m-d',strtotime('+10 years -1 day')));
+		list($yearE, $monthE, $dayE) = explode('-',date('Y-m-d',strtotime('+10 years -1 day')));
 		$this->assertEquals('9', $this->Datetime->age(null, $yearE.'-'.$monthE.'-'.$dayE));
 
-		list($yearE,$monthE,$dayE) = explode('-',date('Y-m-d',strtotime('+10 years +1 day')));
+		list($yearE, $monthE, $dayE) = explode('-',date('Y-m-d',strtotime('+10 years +1 day')));
 		$this->assertEquals('10', $this->Datetime->age(null, $yearE.'-'.$monthE.'-'.$dayE));
 		$birthday = '1985-04-08';
 

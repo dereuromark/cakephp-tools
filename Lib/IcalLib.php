@@ -108,7 +108,7 @@ class IcalLib {
 	 * @return array
 	 * 2010-09-14 ms
 	 */
-	public function getCalenderInfos() {
+	public function getCalendarInfos() {
 		return $this->Ical->get_calender_data();
 	}
 

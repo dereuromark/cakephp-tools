@@ -108,7 +108,7 @@ class TextLibTest extends CakeTestCase {
 /*
 //give it the text
 $text = new TextParse(
-"PHP:Hypertext             Preprocessor is a widely used, general-purpose scripting language that was originally designed for web development to produce dynamic web pages... .. .. For this purpose,PHP code is embedded into the HTML source document and interpreted by a web server with a PHP processor module, which generates the web page document.
+"PHP:Hypertext Preprocessor is a widely used, general-purpose scripting language that was originally designed for web development to produce dynamic web pages... .. .. For this purpose,PHP code is embedded into the HTML source document and interpreted by a web server with a PHP processor module, which generates the web page document.
 
 
 

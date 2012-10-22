@@ -6,8 +6,8 @@ App::uses('View', 'View');
 /**
  * Numeric Test Case
  *
- * @package       cake.tests
- * @subpackage    cake.tests.cases.libs.view.helpers
+ * @package cake.tests
+ * @subpackage cake.tests.cases.libs.view.helpers
  */
 class NumericHelperTest extends MyCakeTestCase {
 /**

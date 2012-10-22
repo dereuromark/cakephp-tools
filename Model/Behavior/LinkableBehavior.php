@@ -16,12 +16,12 @@ App::uses('ModelBehavior', 'Model');
  * @version 1.0;
  *
  * @version 1.1:
- *  -Brought in improvements and test cases from Terr. However, THIS VERSION OF LINKABLE IS NOT DROP IN COMPATIBLE WITH Terr's VERSION!
- *  -If fields aren't specified, will now return all columns of that model
- *  -No need to specify the foreign key condition if a custom condition is given. Linkable will automatically include the foreign key relationship.
- *  -Ability to specify the exact condition Linkable should use (e.g. $this->Post->find('first', array('link' => array('User' => array('conditions' => array('exactly' => 'User.last_post_id = Post.id'))))) )
- *  This is usually required when doing on-the-fly joins since Linkable generally assumes a belongsTo relationship when no specific relationship is found and may produce invalid foreign key conditions.
- *  -Linkable will no longer break queries that use SQL COUNTs
+ * -Brought in improvements and test cases from Terr. However, THIS VERSION OF LINKABLE IS NOT DROP IN COMPATIBLE WITH Terr's VERSION!
+ * -If fields aren't specified, will now return all columns of that model
+ * -No need to specify the foreign key condition if a custom condition is given. Linkable will automatically include the foreign key relationship.
+ * -Ability to specify the exact condition Linkable should use (e.g. $this->Post->find('first', array('link' => array('User' => array('conditions' => array('exactly' => 'User.last_post_id = Post.id'))))) )
+ * This is usually required when doing on-the-fly joins since Linkable generally assumes a belongsTo relationship when no specific relationship is found and may produce invalid foreign key conditions.
+ * -Linkable will no longer break queries that use SQL COUNTs
  *
  * @version 1.2:
  * @modified Mark Scherer

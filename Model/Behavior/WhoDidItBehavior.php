@@ -17,7 +17,7 @@ App::uses('ModelBehavior', 'Model');
  * @date 01/03/2009
  * @copyright http://www.4webby.com
  * @licence MIT
- * @repository  https://github.com/danfreak/4cakephp/tree
+ * @repository https://github.com/danfreak/4cakephp/tree
  *
  * enhanced/updated - 2011-07-18 ms
  **/
@@ -30,19 +30,19 @@ class WhoDidItBehavior extends ModelBehavior {
 	 * @access protected
 	 */
 	protected $_defaults = array(
-		'auth_session' => 'Auth',  //name of Auth session key
-		'user_model' => 'User',    //name of User model
-		'created_by_field' => 'created_by',    //the name of the "created_by" field in DB (default 'created_by')
-		'modified_by_field' => 'modified_by',  //the name of the "modified_by" field in DB (default 'modified_by')
+		'auth_session' => 'Auth', //name of Auth session key
+		'user_model' => 'User', //name of User model
+		'created_by_field' => 'created_by', //the name of the "created_by" field in DB (default 'created_by')
+		'modified_by_field' => 'modified_by', //the name of the "modified_by" field in DB (default 'modified_by')
 		'confirmed_by_field' => 'confirmed_by',
-		'auto_bind' => true     //automatically bind the model to the User model (default true)
+		'auto_bind' => true //automatically bind the model to the User model (default true)
 	);
 
 	/**
 	 * Initiate WhoDidIt Behavior
 	 *
 	 * @param object $Model
-	 * @param array $config  behavior settings you would like to override
+	 * @param array $config behavior settings you would like to override
 	 * @return void
 	 * @access public
 	 */

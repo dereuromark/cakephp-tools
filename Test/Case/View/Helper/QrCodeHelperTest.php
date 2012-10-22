@@ -16,8 +16,8 @@ App::uses('MyCakeTestCase', 'Tools.Lib');
 /**
  * QrCode Test Case
  *
- * @package       cake.tests
- * @subpackage    cake.tests.cases.libs.view.helpers
+ * @package cake.tests
+ * @subpackage cake.tests.cases.libs.view.helpers
  */
 class QrCodeHelperTest extends MyCakeTestCase {
 /**

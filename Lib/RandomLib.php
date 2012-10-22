@@ -98,11 +98,11 @@ class RandomLib {
 
 	/**
 	 * Returns a date of birth within the specified age range
-	 * @method  dob(int $min, $int $max)
+	 * @method dob(int $min, $int $max)
 	 * @public
-	 * @param    (int)           $min    minimum age in years
-	 * @param    (int)           $max    maximum age in years
-	 * @return    (string)        $dob    a db (ISO) format datetime string
+	 * @param (int) $min minimum age in years
+	 * @param (int) $max maximum age in years
+	 * @return (string) $dob a db (ISO) format datetime string
 	 */
 	public static function dob($min = 18, $max = 100) {
 		$dob_year = date('Y') - (self::int($min, $max));
@@ -268,24 +268,24 @@ class RandomLib {
 	 * The following types are supported:
 	 *
 	 * alnum
-	 * :  Upper and lower case a-z, 0-9
+	 * : Upper and lower case a-z, 0-9
 	 *
 	 * alpha
-	 * :  Upper and lower case a-z
+	 * : Upper and lower case a-z
 	 *
 	 * hexdec
-	 * :  Hexadecimal characters a-f, 0-9
+	 * : Hexadecimal characters a-f, 0-9
 	 *
 	 * distinct
-	 * :  Uppercase characters and numbers that cannot be confused
+	 * : Uppercase characters and numbers that cannot be confused
 	 *
 	 * You can also create a custom type by providing the "pool" of characters
 	 * as the type.
 	 *
-	 * @param   string   a type of pool, or a string of characters to use as the pool
-	 * @param   integer  length of string to return
-	 * @return  string
-	 * @uses    UTF8::split
+	 * @param string a type of pool, or a string of characters to use as the pool
+	 * @param integer length of string to return
+	 * @return string
+	 * @uses UTF8::split
 	 */
 	public static function random($type = 'alnum', $length = 8) {
 		switch ($type) {

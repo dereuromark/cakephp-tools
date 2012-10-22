@@ -120,7 +120,6 @@ class Utility {
 
 		$path .= (isset($url['query'])) ? "?$url[query]" : '';
 		if (isset($url['host']) && $url['host'] !== gethostbyname($url['host'])) {
-			debug("$url[scheme]://$url[host]$url[port]$path");
 			$headers = @get_headers("$url[scheme]://$url[host]:$url[port]$path");
 			if (is_array($headers)) {
 				return $headers;
@@ -178,6 +177,29 @@ class Utility {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * On non-transaction db connections it will return a deep array of bools instead of bool
+	 * So we need to call this method inside the modified saveAll() method to return the expected single bool there, too
+	 *
+	 * @param array
+	 * @return bool
+	 * 2012-10-12 ms
+	 */
+	public static function isValidSaveAll($array) {
+		if (empty($array)) {
+			return false;
+		}
+		$ret = true;
+		foreach ($array as $key => $val) {
+			if (is_array($val)) {
+				$ret = $ret & Utility::logicalAnd($val);
+			} else {
+				$ret = $ret & $val;
+			}
+		}
+		return (bool)$ret;
 	}
 
 	/**

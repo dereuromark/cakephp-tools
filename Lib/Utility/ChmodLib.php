@@ -47,15 +47,15 @@ class ChmodLib {
 /*** set/get modes ***/
 
 	public function setUser($read, $write, $execute) {
-		$this->modes['user'] = $this->setMode($read,$write,$execute);
+		$this->modes['user'] = $this->setMode($read, $write, $execute);
 	}
 
 	public function setGroup($read, $write, $execute) {
-		$this->modes['group'] = $this->setMode($read,$write,$execute);
+		$this->modes['group'] = $this->setMode($read, $write, $execute);
 	}
 
 	public function setOther($read, $write, $execute) {
-		$this->modes['other'] = $this->setMode($read,$write,$execute);
+		$this->modes['other'] = $this->setMode($read, $write, $execute);
 	}
 
 	/**

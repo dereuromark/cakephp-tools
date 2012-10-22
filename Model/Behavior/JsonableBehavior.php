@@ -5,8 +5,8 @@
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @version    0.1
- * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @version 0.1
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 App::uses('ModelBehavior', 'Model');
 
@@ -43,7 +43,7 @@ class JsonableBehavior extends ModelBehavior {
 		'output' => 'array', # json, array, param, list (param/list only works with specific fields)
 		'separator' => '|', # only for param or list
 		'keyValueSeparator' => ':', # only for param
-		'leftBound' =>  '{', # only for list
+		'leftBound' => '{', # only for list
 		'rightBound' => '}', # only for list
 		'clean' => true, # only for param or list (autoclean values on insert)
 		'sort' => false, # only for list

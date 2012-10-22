@@ -699,7 +699,7 @@ class GeocodeLib {
 		*/
 
 		# seems to be the only working one (although slightly incorrect...)
-		$res =  69.09 * rad2deg(acos(sin(deg2rad($pointX['lat'])) * sin(deg2rad($pointY['lat'])) +  cos(deg2rad($pointX['lat'])) * cos(deg2rad($pointY['lat'])) * cos(deg2rad($pointX['lng'] - $pointY['lng']))));
+		$res = 69.09 * rad2deg(acos(sin(deg2rad($pointX['lat'])) * sin(deg2rad($pointY['lat'])) + cos(deg2rad($pointX['lat'])) * cos(deg2rad($pointY['lat'])) * cos(deg2rad($pointX['lng'] - $pointY['lng']))));
 		if (isset($this->units[$unit])) {
 			$res *= $this->units[$unit];
 		}

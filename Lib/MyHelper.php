@@ -11,7 +11,7 @@ App::uses('UrlCacheManager', 'Tools.Routing');
  */
 class MyHelper extends Helper {
 
-	public function  __construct($View = null, $settings = array()) {
+	public function __construct($View = null, $settings = array()) {
 		if (class_exists('Packages')) {
 			Packages::initialize($this, __CLASS__);
 		}
@@ -89,8 +89,8 @@ class MyHelper extends Helper {
 	 *
 	 * @param $content string
 	 * @param $options array
-	 *      'format' STRING: Use the specified TimeHelper method (or format()). FALSE: Generate the datetime. NULL: Do nothing.
-	 *      'datetime' STRING: If 'format' is STRING use as the formatting string. FALSE: Don't generate attribute
+	 * 'format' STRING: Use the specified TimeHelper method (or format()). FALSE: Generate the datetime. NULL: Do nothing.
+	 * 'datetime' STRING: If 'format' is STRING use as the formatting string. FALSE: Don't generate attribute
 	 *
 	 * //TODO: fixme
 	 * 2011-07-17 ms

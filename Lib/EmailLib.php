@@ -206,7 +206,7 @@ class EmailLib extends CakeEmail {
 	protected function _getMimeByExtension($ext, $default = 'application/octet-stream') {
 		switch ($ext) {
 			case "zip": $mime="application/zip"; break;
-			case "ez":  $mime="application/andrew-inset"; break;
+			case "ez": $mime="application/andrew-inset"; break;
 			case "hqx": $mime="application/mac-binhex40"; break;
 			case "cpt": $mime="application/mac-compactpro"; break;
 			case "doc": $mime="application/msword"; break;
@@ -216,13 +216,13 @@ class EmailLib extends CakeEmail {
 			case "lzh": $mime="application/octet-stream"; break;
 			case "exe": $mime="application/octet-stream"; break;
 			case "class": $mime="application/octet-stream"; break;
-			case "so":  $mime="application/octet-stream"; break;
+			case "so": $mime="application/octet-stream"; break;
 			case "dll": $mime="application/octet-stream"; break;
 			case "oda": $mime="application/oda"; break;
 			case "pdf": $mime="application/pdf"; break;
-			case "ai":  $mime="application/postscript"; break;
+			case "ai": $mime="application/postscript"; break;
 			case "eps": $mime="application/postscript"; break;
-			case "ps":  $mime="application/postscript"; break;
+			case "ps": $mime="application/postscript"; break;
 			case "smi": $mime="application/smil"; break;
 			case "smil": $mime="application/smil"; break;
 			case "xls": $mime="application/vnd.ms-excel"; break;
@@ -242,15 +242,15 @@ class EmailLib extends CakeEmail {
 			case "spl": $mime="application/x-futuresplash"; break;
 			case "gtar": $mime="application/x-gtar"; break;
 			case "hdf": $mime="application/x-hdf"; break;
-			case "js":  $mime="application/x-javascript"; break;
+			case "js": $mime="application/x-javascript"; break;
 			case "skp": $mime="application/x-koan"; break;
 			case "skd": $mime="application/x-koan"; break;
 			case "skt": $mime="application/x-koan"; break;
 			case "skm": $mime="application/x-koan"; break;
 			case "latex": $mime="application/x-latex"; break;
-			case "nc":  $mime="application/x-netcdf"; break;
+			case "nc": $mime="application/x-netcdf"; break;
 			case "cdf": $mime="application/x-netcdf"; break;
-			case "sh":  $mime="application/x-sh"; break;
+			case "sh": $mime="application/x-sh"; break;
 			case "shar": $mime="application/x-shar"; break;
 			case "swf": $mime="application/x-shockwave-flash"; break;
 			case "sit": $mime="application/x-stuffit"; break;
@@ -261,18 +261,18 @@ class EmailLib extends CakeEmail {
 			case "tex": $mime="application/x-tex"; break;
 			case "texinfo": $mime="application/x-texinfo"; break;
 			case "texi": $mime="application/x-texinfo"; break;
-			case "t":   $mime="application/x-troff"; break;
-			case "tr":  $mime="application/x-troff"; break;
+			case "t": $mime="application/x-troff"; break;
+			case "tr": $mime="application/x-troff"; break;
 			case "roff": $mime="application/x-troff"; break;
 			case "man": $mime="application/x-troff-man"; break;
-			case "me":  $mime="application/x-troff-me"; break;
-			case "ms":  $mime="application/x-troff-ms"; break;
+			case "me": $mime="application/x-troff-me"; break;
+			case "ms": $mime="application/x-troff-ms"; break;
 			case "ustar": $mime="application/x-ustar"; break;
 			case "src": $mime="application/x-wais-source"; break;
 			case "xhtml": $mime="application/xhtml+xml"; break;
 			case "xht": $mime="application/xhtml+xml"; break;
 			case "zip": $mime="application/zip"; break;
-			case "au":  $mime="audio/basic"; break;
+			case "au": $mime="audio/basic"; break;
 			case "snd": $mime="audio/basic"; break;
 			case "mid": $mime="audio/midi"; break;
 			case "midi": $mime="audio/midi"; break;
@@ -285,9 +285,9 @@ class EmailLib extends CakeEmail {
 			case "aifc": $mime="audio/x-aiff"; break;
 			case "m3u": $mime="audio/x-mpegurl"; break;
 			case "ram": $mime="audio/x-pn-realaudio"; break;
-			case "rm":  $mime="audio/x-pn-realaudio"; break;
+			case "rm": $mime="audio/x-pn-realaudio"; break;
 			case "rpm": $mime="audio/x-pn-realaudio-plugin"; break;
-			case "ra":  $mime="audio/x-realaudio"; break;
+			case "ra": $mime="audio/x-realaudio"; break;
 			case "wav": $mime="audio/x-wav"; break;
 			case "pdb": $mime="chemical/x-pdb"; break;
 			case "xyz": $mime="chemical/x-xyz"; break;
@@ -337,14 +337,14 @@ class EmailLib extends CakeEmail {
 			case "mpeg": $mime="video/mpeg"; break;
 			case "mpg": $mime="video/mpeg"; break;
 			case "mpe": $mime="video/mpeg"; break;
-			case "qt":  $mime="video/quicktime"; break;
+			case "qt": $mime="video/quicktime"; break;
 			case "mov": $mime="video/quicktime"; break;
 			case "mxu": $mime="video/vnd.mpegurl"; break;
 			case "avi": $mime="video/x-msvideo"; break;
 			case "movie": $mime="video/x-sgi-movie"; break;
 			case "asf": $mime="video/x-ms-asf"; break;
 			case "asx": $mime="video/x-ms-asf"; break;
-			case "wm":  $mime="video/x-ms-wm"; break;
+			case "wm": $mime="video/x-ms-wm"; break;
 			case "wmv": $mime="video/x-ms-wmv"; break;
 			case "wvx": $mime="video/x-ms-wvx"; break;
 			case "ice": $mime="x-conference/x-cooltalk"; break;
@@ -605,7 +605,7 @@ class EmailLib extends CakeEmail {
 	 * @param array $config
 	 * @return void
 	 * @throws ConfigureException When configuration file cannot be found, or is missing
-	 *   the named config.
+	 * the named config.
 	 */
 	protected function _applyConfig($config) {
 		if (is_string($config)) {

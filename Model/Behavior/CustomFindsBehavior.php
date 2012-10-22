@@ -10,10 +10,10 @@ App::uses('ModelBehavior', 'Model');
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @author     Ariel Patschiki, Daniel L. Pakuschewski
- * @license    MIT License (http://www.opensource.org/licenses/mit-license.php)
- * @copyright  Copyright 2010, MobVox Solu??es Digitais.
- * @version    0.1
+ * @author Ariel Patschiki, Daniel L. Pakuschewski
+ * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @copyright Copyright 2010, MobVox Solu??es Digitais.
+ * @version 0.1
  */
 
 /**

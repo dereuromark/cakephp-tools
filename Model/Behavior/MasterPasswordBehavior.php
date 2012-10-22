@@ -10,11 +10,11 @@ App::uses('ModelBehavior', 'Model');
  *
  * Usage:
  * In the controller:
- *     $this->ModelName->Behaviors->attach('Tools.MasterPassword');
+ * $this->ModelName->Behaviors->attach('Tools.MasterPassword');
  * In the view:
- *     echo $this->element('master_password', array(), array('plugin'=>'tools'));
+ * echo $this->element('master_password', array(), array('plugin'=>'tools'));
  * Put this into your private configs:
- *     Configure::write('MasterPassword.password', 'your_hashed_pwd_string');
+ * Configure::write('MasterPassword.password', 'your_hashed_pwd_string');
  * You can also use an array to store multiple passwords
  *
  * Note:
