@@ -65,7 +65,9 @@ class Utility {
 	/**
 	 * remove unnessary stuff + add http:// for external urls
 	 * TODO: protocol to lower!
-	 * @static
+	 *
+	 * @param string $url
+	 * @return string Cleaned Url
 	 * 2009-12-22 ms
 	 */
 	public static function cleanUrl($url, $headerRedirect = false) {
@@ -99,7 +101,9 @@ class Utility {
 	}
 
 	/**
-	 * @static
+	 * Parse headers
+	 *
+	 * @param string $url
 	 * @return mixed array of headers or FALSE on failure
 	 * 2009-12-26 ms
 	 */
@@ -130,10 +134,11 @@ class Utility {
 
 	/**
 	 * add protocol prefix if necessary (and possible)
-	 * static?
+	 *
+	 * @param string $url
 	 * 2010-06-02 ms
 	 */
-	public function autoPrefixUrl($url, $prefix = null) {
+	public static function autoPrefixUrl($url, $prefix = null) {
 		if ($prefix === null) {
 			$prefix = 'http://';
 		}
@@ -147,7 +152,33 @@ class Utility {
 	}
 
 	/**
+	 * encode strings with base64_encode and also
+	 * replace chars base64 uses that would mess up the url
+	 *
+	 * @param string $string Unsafe string
+	 * @return string Encoded string
+	 * 2012-10-23 ms
+	 */
+	public static function urlEncode($string) {
+		return str_replace(array('/', '='), array('-', '_'), base64_encode($string));
+	}
+
+	/**
+	 * decode strings with base64_encode and also
+	 * replace back chars base64 uses that would mess up the url
+	 *
+	 * @param string $string Safe string
+	 * @return string Decoded string
+	 * 2012-10-23 ms
+	 */
+	public static function urlDecode($string) {
+		return base64_decode(str_replace(array('-', '_'), array('/', '='), $string));
+	}
+
+	/**
 	 * returns true only if all values are true
+	 *
+	 * @param array $array
 	 * @return bool $result
 	 * maybe move to bootstrap?
 	 * 2011-11-02 ms
@@ -166,6 +197,8 @@ class Utility {
 
 	/**
 	 * returns true if at least one value is true
+	 *
+	 * @param array $array
 	 * @return bool $result
 	 * maybe move to bootstrap?
 	 * 2011-11-02 ms
@@ -204,8 +237,10 @@ class Utility {
 
 	/**
 	 * convinience function for automatic casting in form methods etc
+	 *
+	 * @param mixed $value
+	 * @param string $type
 	 * @return safe value for DB query, or NULL if type was not a valid one
-	 * @static
 	 * maybe move to bootstrap?
 	 * 2008-12-12 ms
 	 */
@@ -305,6 +340,8 @@ class Utility {
 	}
 
 	/**
+	 * Similar to array_shift but on the keys of the array
+	 *
 	 * @param array $keyValuePairs
 	 * @return string $key
 	 * like array_shift() only for keys and not values
@@ -323,7 +360,8 @@ class Utility {
 	/**
 	 * returns microtime as float value
 	 * (to be subtracted right away)
-	 * @static
+	 *
+	 * @return float
 	 * 2009-07-07 ms
 	 */
 	public static function microtime($precision = 8) {
@@ -339,7 +377,7 @@ class Utility {
 	}
 
 	/**
-	 * @static
+	 * @return float
 	 * 2009-07-07 ms
 	 */
 	public static function returnElapsedTime($precision = 8, $restartClock = false) {
@@ -353,7 +391,8 @@ class Utility {
 	/**
 	 * returns microtime as float value
 	 * (to be subtracted right away)
-	 * @static
+	 *
+	 * @return float
 	 * 2009-07-07 ms
 	 */
 	public static function calcElapsedTime($start, $end, $precision = 8) {
@@ -362,4 +401,3 @@ class Utility {
 	}
 
 }
-

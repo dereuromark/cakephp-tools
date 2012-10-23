@@ -106,7 +106,6 @@ class MyErrorHandler extends ErrorHandler {
 			return false;
 		}
 
-		# cake bug? temporary!
 		if (Configure::read('debug')) {
 			return false;
 		}

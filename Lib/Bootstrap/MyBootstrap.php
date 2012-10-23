@@ -584,19 +584,7 @@ function shutDownFunction() {
 	CakeLog::write($type, $message);
 }
 
-/*** < PHP5.3 ***/
-
-/**
- * until PHP5.3 is the PHP version in use
- * //BUGGY
- * 2010-06-21 ms
- */
-if (!function_exists('lcfirst')) {
-	function lcfirst($str) {
-		return (string) (mb_strtolower(mb_substr($str, 0, 1)) . mb_substr($str, 1));
-	}
-}
-
+//TODO: move into separate lib!
 class DebugTab {
 	public static $content = array();
 	public static $groups = array();
