@@ -1,0 +1,26 @@
+{
+	"name": "dereuromark/tools-cakephp",
+	"type": "cakephp-plugin",
+	"description": "A CakePHP plugin containing lots of useful and reusable tools",
+	"keywords": ["cakephp", "plugin", "tools", "utils", "helpers", "components", "behaviors", "datasources"],
+	"homepage": "https://github.com/dereuromark/tools",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Mark Scherer",
+			"homepage": "http://www.dereuromark.de"
+		}
+	],
+	"require": {
+		"php": ">=5.3",
+		"composer/installers": "*"
+	},
+	"support": {
+		"source": "https://github.com/dereuromark/tools"
+	},
+	"extra": {
+		"installer-paths": {
+			"Plugin/Tools/": ["dereuromark/tools-cakephp"]
+		}
+	}
+}
