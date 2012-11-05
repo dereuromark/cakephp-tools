@@ -66,11 +66,12 @@ class SluggedBehavior extends ModelBehavior {
 	protected $_defaultSettings = array(
 		'label' => null,
 		'slugField' => 'slug',
+		'overwriteField' => 'overwrite_slug',
 		'mode' => 'url',
 		'separator' => '-',
 		'defaultSuffix' => null,
 		'length' => 100,
-		'overwrite' => true,
+		'overwrite' => false,
 		'unique' => false,
 		'notices' => true,
 		'case' => null,
@@ -110,6 +111,11 @@ class SluggedBehavior extends ModelBehavior {
 	public function setup(Model $Model, $config = array()) {
 		$this->_defaultSettings['notices'] = Configure::read('debug');
 		$this->_defaultSettings['label'] = array($Model->displayField);
+		foreach ($this->_defaultSettings['replace'] as $key => $value) {
+			$this->_defaultSettings['replace'][$key] = __($value);
+		}
+		$this->_defaultSettings = Set::merge($this->_defaultSettings, (array)Configure::read('Slugged'));
+
 		$this->settings[$Model->alias] = Set::merge($this->_defaultSettings, $config);
 		extract($this->settings[$Model->alias]);
 		$label = $this->settings[$Model->alias]['label'] = (array)$label;
@@ -192,6 +198,9 @@ class SluggedBehavior extends ModelBehavior {
 		extract($this->settings[$Model->alias]);
 		if ($notices && !$Model->hasField($slugField)) {
 			return true;
+		}
+		if (!$overwrite && !empty($Model->data[$Model->alias][$overwriteField])) {
+			$overwrite = true;
 		}
 		if ($overwrite || !$Model->id) {
 			if ($label) {
@@ -388,7 +397,7 @@ class SluggedBehavior extends ModelBehavior {
 		if ($mode === 'ascii') {
 			$slug = Inflector::slug($string, $separator);
 		} else {
-			$regex = $this->__regex($mode);
+			$regex = $this->_regex($mode);
 			if ($regex) {
 				$slug = $this->_pregReplace('@[' . $regex . ']@Su', $separator, $string, $encoding);
 			} else {
@@ -483,17 +492,20 @@ class SluggedBehavior extends ModelBehavior {
 			'order' => $Model->displayField . ' ASC',
 			'conditions' => $scope,
 			'recursive' => $recursive,
+			'overwrite' => true,
 		);
 		$params = array_merge($defaults, $params);
 		$count = $Model->find('count', compact('conditions'));
 		$max = ini_get('max_execution_time');
 		if ($max) {
-			set_time_limit (max($max, $count / 100));
+			set_time_limit(max($max, $count / 100));
 		}
 		while ($rows = $Model->find('all', $params)) {
 			foreach ($rows as $row) {
 				$Model->create();
-				$Model->save($row, true, array($slugField));
+				if (!$Model->save($row, true, array($slugField))) {
+					throw new RuntimeException(print_r($Model->validationErrors, true));
+				}
 			}
 			$params['page']++;
 		}
@@ -588,7 +600,7 @@ class SluggedBehavior extends ModelBehavior {
  * @return string a partial regex
  * @access private
  */
-	protected function __regex($mode) {
+	protected function _regex($mode) {
 		$return = '\x00-\x1f\x26\x3c\x7f-\x9f\x{d800}-\x{dfff}\x{fffe}-\x{ffff}';
 		if ($mode === 'display') {
 			return $return;

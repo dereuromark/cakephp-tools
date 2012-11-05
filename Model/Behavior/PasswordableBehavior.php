@@ -195,7 +195,7 @@ class PasswordableBehavior extends ModelBehavior {
 			$Model->validate[$formFieldRepeat] = $rules['formFieldRepeat'];
 			$Model->validate[$formFieldRepeat]['validateIdentical']['rule'][1] = $formField;
 		}
-		
+
 
 		if ($this->settings[$Model->alias]['current'] && !isset($Model->validate[$formFieldCurrent])) {
 			$Model->validate[$formFieldCurrent] = $rules['formFieldCurrent'];
@@ -213,7 +213,7 @@ class PasswordableBehavior extends ModelBehavior {
 
 	/**
 	 * whitelisting
-	 * 
+	 *
 	 * @todo currently there is a cake core bug that can break functionality here
 	 * (see http://cakephp.lighthouseapp.com/projects/42648/tickets/3071-behavior-validation-methods-broken for details)
 	 * @return bool $success
@@ -234,7 +234,7 @@ class PasswordableBehavior extends ModelBehavior {
 		if ($this->settings[$Model->alias]['current'] && !isset($Model->data[$Model->alias][$formFieldCurrent])) {
 			$Model->data[$Model->alias][$formFieldCurrent] = '';
 		}
-		
+
 		# check if we need to trigger any validation rules
 		if ($this->settings[$Model->alias]['allowEmpty']) {
 			$current = !empty($Model->data[$Model->alias][$formFieldCurrent]);
@@ -256,7 +256,7 @@ class PasswordableBehavior extends ModelBehavior {
 				return true;
 			}
 		}
-		
+
 		# add fields to whitelist!
 		$whitelist = array($this->settings[$Model->alias]['formField'], $this->settings[$Model->alias]['formFieldRepeat']);
 		if ($this->settings[$Model->alias]['current']) {

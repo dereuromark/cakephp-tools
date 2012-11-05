@@ -30,7 +30,10 @@ class QloginController extends ToolsAppController {
 	 * main login function
 	 * 2011-07-11 ms
 	 */
-	public function go($key) {
+	public function go($key = null) {
+		if (!$key) {
+			throw new NotFoundException();
+		}
 		$entry = $this->Qlogin->translate($key);
 		$default = '/';
 		if ($this->Session->read('Auth.User.id') && isset($this->Auth->loginRedirect)) {

@@ -18,6 +18,35 @@ class MyHelper extends Helper {
 		parent::__construct($View, $settings);
 	}
 
+/**
+ * Sets the defaults for an input tag.  Will set the
+ * name, value, and id attributes for an array of html attributes. Will also
+ * add a 'form-error' class if the field contains validation errors.
+ *
+ * @param string $field The field name to initialize.
+ * @param array $options Array of options to use while initializing an input field.
+ * @return array Array options for the form input.
+ */
+	protected function _initInputField($field, $options = array()) {
+		if ($field !== null) {
+			$this->setEntity($field);
+		}
+		$options = (array)$options;
+		$normalize = true;
+		if (isset($options['normalize'])) {
+			$normalize = $options['normalize'];
+			unset($options['normalize']);
+		}
+
+		$options = $this->_name($options);
+		$options = $this->value($options);
+		if (!empty($options['value']) && $normalize) {
+			$options['value'] = str_replace(array("\t", "\r\n", "\n"), ' ', $options['value']);
+		}
+		$options = $this->domId($options);
+		return $options;
+	}
+
 	/**
 	 * manually
 	 */
@@ -89,8 +118,8 @@ class MyHelper extends Helper {
 	 *
 	 * @param $content string
 	 * @param $options array
-	 * 'format' STRING: Use the specified TimeHelper method (or format()). FALSE: Generate the datetime. NULL: Do nothing.
-	 * 'datetime' STRING: If 'format' is STRING use as the formatting string. FALSE: Don't generate attribute
+	 * - 'format' STRING: Use the specified TimeHelper method (or format()). FALSE: Generate the datetime. NULL: Do nothing.
+	 * - 'datetime' STRING: If 'format' is STRING use as the formatting string. FALSE: Don't generate attribute
 	 *
 	 * //TODO: fixme
 	 * 2011-07-17 ms
@@ -315,4 +344,3 @@ class MyHelper extends Helper {
 	}
 
 }
-

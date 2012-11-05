@@ -130,7 +130,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	public function testSlugGenerationBasedOnTrigger() {
 		$this->Model->Behaviors->detach('Slugged');
 		$this->Model->Behaviors->attach('Tools.Slugged', array(
-			'trigger' => 'generateSlug'));
+			'trigger' => 'generateSlug', 'overwrite' => true));
 
 		$this->Model->generateSlug = false;
 		$this->Model->create(array('name' => 'Some Article 25271'));
@@ -141,6 +141,47 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$this->Model->generateSlug = true;
 		$result = $this->Model->save($result);
 		$this->assertEquals('Some-Article-25271', $result[$this->Model->alias]['slug']);
+	}
+
+/**
+ * Test slug generation with i18n replacement pieces
+ *
+ * @access public
+ * @return void
+ */
+	public function testSlugGenerationI18nReplacementPieces() {
+		$this->Model->Behaviors->detach('Slugged');
+		$this->Model->Behaviors->attach('Tools.Slugged', array(
+			'overwrite' => true));
+
+		$this->Model->create(array('name' => 'Some & More'));
+		$result = $this->Model->save();
+		$this->assertEquals('Some-'.__('and').'-More', $result[$this->Model->alias]['slug']);
+	}
+
+/**
+ * Test dynamic slug overwrite
+ *
+ * @access public
+ * @return void
+ */
+	public function testSlugDynamicOverwrite() {
+		$this->Model->Behaviors->detach('Slugged');
+		$this->Model->Behaviors->attach('Tools.Slugged', array(
+			'overwrite' => false, 'overwriteField' => 'overwrite_my_slug'));
+
+		$this->Model->create();
+		$data = array('name' => 'Some Cool String', 'overwrite_my_slug' => false);
+		$result = $this->Model->save($data);
+		$this->assertEquals('Some-Cool-String', $result[$this->Model->alias]['slug']);
+
+		$data = array('name' => 'Some Cool Other String', 'overwrite_my_slug' => false, 'id' => $this->Model->id);
+		$result = $this->Model->save($data);
+		$this->assertTrue(empty($result[$this->Model->alias]['slug']));
+
+		$data = array('name' => 'Some Cool Other String', 'overwrite_my_slug' => true, 'id' => $this->Model->id);
+		$result = $this->Model->save($data);
+		$this->assertEquals('Some-Cool-Other-String', $result[$this->Model->alias]['slug']);
 	}
 
 /**
@@ -345,6 +386,8 @@ class SluggedBehaviorTest extends CakeTestCase {
  * @access public
  */
 	public function testW3Validity() {
+		$this->skipIf(true);
+
 		$modes = array('display', 'url', 'class', 'id');
 		$modes = array('id'); // overriden
 		$this->Socket = new HttpSocket('http://validator.w3.org:80');

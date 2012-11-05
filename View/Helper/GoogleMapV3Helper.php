@@ -167,6 +167,7 @@ class GoogleMapV3Helper extends AppHelper {
 		'autoCenter' => false, # try to fit all markers in (careful, all zooms values are omitted)
 		'autoScript' => false, # let the helper include the necessary js script links
 		'inline' => false, # for scripts
+		'localImages' => false,
 		'https' => null # auto detect
 	);
 
@@ -213,6 +214,13 @@ class GoogleMapV3Helper extends AppHelper {
 		}
 		if (!empty($google['staticLng'])) {
 			$this->_defaultOptions['staticMap']['lng'] = $google['staticLng'];
+		}
+		if (isset($google['localImages'])) {
+			if ($google['localImages'] === true) {
+				//$google['localImages'] = IMAGES.'google_map'.DS;
+				$google['localImages'] = Router::url('/img/google_map/', true);
+			}
+			$this->_defaultOptions['localImages'] = $google['localImages'];
 		}
 		$this->_currentOptions = $this->_defaultOptions;
 	}
@@ -630,6 +638,14 @@ class GoogleMapV3Helper extends AppHelper {
 		if (!in_array($color, $colors)) {
 			$color = 'red';
 		}
+
+		if (!empty($this->_currentOptions['localImages'])) {
+			$this->setIcons['color'] = $this->_currentOptions['localImages'].'marker%s.png';
+			$this->setIcons['alpha'] = $this->_currentOptions['localImages'].'marker%s%s.png';
+			$this->setIcons['numeric'] = $this->_currentOptions['localImages'].'%s%s.png';
+			$this->setIcons['special'] = $this->_currentOptions['localImages'].'%s.png';
+		}
+
 		if (!empty($char)) {
 			if ($color == 'red') {
 				$color = '';

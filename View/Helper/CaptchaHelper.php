@@ -1,5 +1,6 @@
 <?php
 App::uses('AppHelper', 'View/Helper');
+App::uses('CaptchaLib', 'Tools.Lib');
 
 if (!defined('BR')) {
 	define('BR', '<br />');
@@ -40,7 +41,6 @@ class CaptchaHelper extends AppHelper {
 		# Set up an array with the operators that we want to use. With difficulty=1 it is only subtraction and addition.
 		$this->operatorConvert = array(0=>array('+',__('calcPlus')), 1=>array('-',__('calcMinus')), 2=>'*',__('calcTimes'));
 
-		App::uses('CaptchaLib', 'Tools.Lib');
 		$this->settings = array_merge(CaptchaLib::$defaults, $this->defaults);
 		$settings = (array)Configure::read('Captcha');
 		if (!empty($settings)) {

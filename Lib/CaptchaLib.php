@@ -25,12 +25,6 @@ class CaptchaLib {
 	# what method to use
 	public static $methods = array('hash', 'db', 'session');
 
-
-	public function __construct() {
-
-	}
-
-
 	/**
 	 * @param array $data:
 	 * - captcha_time, result/captcha
@@ -48,8 +42,9 @@ class CaptchaLib {
 		$hashValue = date(FORMAT_DB_DATETIME, (int)$data['captcha_time']).'_';
 		$hashValue .= ($options['checkSession'])?session_id().'_' : '';
 		$hashValue .= ($options['checkIp'])?env('REMOTE_ADDR').'_' : '';
-		$hashValue .= $data['captcha'];
-
+		if ($options['type'] !== 'passive') {
+			$hashValue .= $data['captcha'];
+		}
 		return Security::hash($hashValue, isset($options['hashType']) ? $options['hashType'] : null, $options['salt']);
 	}
 

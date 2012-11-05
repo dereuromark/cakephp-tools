@@ -82,7 +82,16 @@ class KeyValueBehavior extends ModelBehavior {
 			$keyArray = preg_split('/\./', $value[$this->KeyValue->alias]['key'], 2);
 			$detailArray[$keyArray[0]][$keyArray[1]] = $value[$this->KeyValue->alias]['value'];
 		}
-		$detailArray = Set::merge($defaultValues, $detailArray);
+
+		foreach ($defaultValues as $model => $values) {
+			foreach ($values as $valueKey => $val) {
+				if (isset($detailArray[$model][$valueKey])) {
+					continue;
+				}
+				$detailArray[$model][$valueKey] = $val;
+			}
+		}
+
 		if ($section === null) {
 			return $detailArray;
 		}
@@ -132,6 +141,7 @@ class KeyValueBehavior extends ModelBehavior {
 				$newDetail[$this->KeyValue->alias][$foreignKeyField] = $foreignKey;
 				$newDetail[$this->KeyValue->alias][$keyField] = $key;
 				$newDetail[$this->KeyValue->alias][$valueField] = $value;
+				$newDetail[$this->KeyValue->alias]['model'] = $Model->alias;
 				$this->KeyValue->save($newDetail, false);
 			}
 		}

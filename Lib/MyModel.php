@@ -12,6 +12,7 @@ App::uses('Utility', 'Tools.Utility');
 class MyModel extends Model {
 
 	public $recursive = -1;
+
 	public $actsAs = array('Containable');
 
 
@@ -498,6 +499,7 @@ class MyModel extends Model {
 			}
 		}
 
+
 		# having and group clauses enhancement
 		if (is_array($query) && !empty($query['having']) && !empty($query['group'])) {
 			if (!is_array($query['group'])) {
@@ -506,11 +508,12 @@ class MyModel extends Model {
 			$ds = $this->getDataSource();
 			$having = $ds->conditions($query['having'], true, false);
 			$query['group'][count($query['group']) - 1] .= " HAVING $having";
-		} elseif (is_array($query) && !empty($query['having'])) {
+		} /* elseif (is_array($query) && !empty($query['having'])) {
 			$ds = $this->getDataSource();
 			$having = $ds->conditions($query['having'], true, false);
 			$query['conditions'][] = '1=1 HAVING '.$having;
 		}
+		*/
 
 		# find
 		if (!Configure::read('Cache.disable') && Configure::read('Cache.check') && !empty($query['cache'])) {
@@ -936,28 +939,25 @@ class MyModel extends Model {
 			$fieldValue = $value; // equals: $this->data[$this->alias][$fieldName]
 		}
 
-		/*
-		if (empty($fieldName) || empty($fieldValue)) { // return true, if nothing is transfered (check on that first)
-			return true;
-		}
-		*/
-
 		$conditions = array($this->alias . '.' . $fieldName => $fieldValue, // Model.field => $this->data['Model']['field']
 			$this->alias . '.id !=' => $id, );
 
 		# careful, if fields is not manually filled, the options will be the second param!!! big problem...
-		foreach ((array)$fields as $dependingField) {
-			if (isset($this->data[$this->alias][$dependingField])) { // add ONLY if some content is transfered (check on that first!)
-				$conditions[$this->alias . '.' . $dependingField] = $this->data[$this->alias][$dependingField];
+		$fields = (array)$fields;
+		if (!array_key_exists('allowEmpty', $fields)) {
+			foreach ((array)$fields as $dependingField) {
+				if (isset($this->data[$this->alias][$dependingField])) { // add ONLY if some content is transfered (check on that first!)
+					$conditions[$this->alias . '.' . $dependingField] = $this->data[$this->alias][$dependingField];
 
-			} elseif (isset($this->data['Validation'][$dependingField])) { // add ONLY if some content is transfered (check on that first!
-				$conditions[$this->alias . '.' . $dependingField] = $this->data['Validation'][$dependingField];
+				} elseif (isset($this->data['Validation'][$dependingField])) { // add ONLY if some content is transfered (check on that first!
+					$conditions[$this->alias . '.' . $dependingField] = $this->data['Validation'][$dependingField];
 
-			} elseif (!empty($id)) {
-				# manual query! (only possible on edit)
-				$res = $this->find('first', array('fields' => array($this->alias.'.'.$dependingField), 'conditions' => array($this->alias.'.id' => $this->data[$this->alias]['id'])));
-				if (!empty($res)) {
-					$conditions[$this->alias . '.' . $dependingField] = $res[$this->alias][$dependingField];
+				} elseif (!empty($id)) {
+					# manual query! (only possible on edit)
+					$res = $this->find('first', array('fields' => array($this->alias.'.'.$dependingField), 'conditions' => array($this->alias.'.id' => $this->data[$this->alias]['id'])));
+					if (!empty($res)) {
+						$conditions[$this->alias . '.' . $dependingField] = $res[$this->alias][$dependingField];
+					}
 				}
 			}
 		}

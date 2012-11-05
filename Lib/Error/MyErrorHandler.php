@@ -128,6 +128,9 @@ class MyErrorHandler extends ErrorHandler {
 	 * 2011-12-21 ms
 	 */
 	public static function traceDetails() {
+		if (strpos($_SERVER['REQUEST_URI'], '/test.php?') === 0) {
+			return null;
+		}
 		$currentUrl = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : 'n/a';
 		$refererUrl = Utility::getReferer(); //Router::getRequest()->url().'
 		App::uses('CakeSession', 'Model/Datasource');

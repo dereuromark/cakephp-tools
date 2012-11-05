@@ -58,6 +58,23 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 		return $this->postLink($title, $url, $options, $confirmMessage);
 	}
 
+/**
+ * Creates a textarea widget.
+ *
+ * ### Options:
+ *
+ * - `escape` - Whether or not the contents of the textarea should be escaped. Defaults to true.
+ *
+ * @param string $fieldName Name of a field, in the form "Modelname.fieldname"
+ * @param array $options Array of HTML attributes, and special options above.
+ * @return string A generated HTML text input element
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::textarea
+ */
+	public function textarea($fieldName, $options = array()) {
+		$options['normalize'] = false;
+		return parent::textarea($fieldName, $options);
+	}
+
 	/**
 	 * fix for required adding (only manually)
 	 * 2011-11-01 ms
@@ -89,7 +106,7 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
  * - `type` - Force the type of widget you want. e.g. `type => 'select'`
  * - `label` - Either a string label, or an array of options for the label. See FormHelper::label()
  * - `div` - Either `false` to disable the div, or an array of options for the div.
- * See HtmlHelper::div() for more options.
+ *    See HtmlHelper::div() for more options.
  * - `options` - for widgets that take options e.g. radio, select
  * - `error` - control the error message that is produced
  * - `empty` - String or boolean to enable empty select box options.
@@ -97,10 +114,10 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
  * - `after` - Content to place after the label + input.
  * - `between` - Content to place between the label + input.
  * - `format` - format template for element order. Any element that is not in the array, will not be in the output.
- * - Default input format order: array('before', 'label', 'between', 'input', 'after', 'error')
- * - Default checkbox format order: array('before', 'input', 'between', 'label', 'after', 'error')
- * - Hidden input will not be formatted
- * - Radio buttons cannot have the order of input and label elements controlled with these settings.
+ *    - Default input format order: array('before', 'label', 'between', 'input', 'after', 'error')
+ *    - Default checkbox format order: array('before', 'input', 'between', 'label', 'after', 'error')
+ *    - Hidden input will not be formatted
+ *    - Radio buttons cannot have the order of input and label elements controlled with these settings.
  *
  * @param string $fieldName This should be "Modelname.fieldname"
  * @param array $options Each type of input takes different options.
@@ -395,50 +412,6 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 
 		return $res;
 	}
-
-
-/** redirect **/
-
-	/**
-	 * @param selectOptions:
-	 * - e.g: array('index'=>true/false, 'view'=>array('url'=>x, 'label'=>y), 'edit'=>'xyz', '/some/url'=>'some label')
-	 * 2010-05-02 ms
-	 */
-	public function redirect($selectOptions = array(), $tagOptions = array()) {
-		$options = array('index'=>'Zurück zur Übersicht', 'view'=>__('View %s', __('Record')), '-1'=>'Auf dieser Seite bleiben');
-
-		foreach ($selectOptions as $key => $text) {
-			if ($text === false) {
-				# deactivate this one
-				if (isset($options[$key])) {
-					unset($options[$key]);
-				}
-				continue;
-			} elseif ($text === true) {
-				# leave it as it is
-			} elseif (is_array($text)) {
-				# own id and label?
-			if (isset($text['url']) && isset($text['label'])) {
-				if (isset($options[$key])) {
-						unset($options[$key]);
-					}
-					$options[$text['url']] = $text['label'];
-			}
-			} else {
-				# url => label
-				$options[$key] = $text;
-			}
-		}
-
-		//$options = array('4'=>'Zum Profil dieses Mitglieds');
-		//$options = array('edit'=>__('Edit %s', __('Record')));
-		//$options = array('add'=>'Einen weiteren Eintrag anlegen');
-
-		//$options[-1] = 'Auf dieser Seite bleiben';
-
-		return $this->input('Form.redirect', array('label'=>'Im Anschluss', 'options'=>$options), $tagOptions);
-	}
-
 
 /** date(time) **/
 
@@ -1010,11 +983,11 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 	 * echo $this->FormExt->buttons($buttons);
 	 * with
 	 * $buttons = array(
-	 * array(
-	 * 'title' => 'Login',
-	 * 'options' => array('type' => 'submit')
-	 * ),
-	 * array(...)
+	 *  array(
+	 *   'title' => 'Login',
+	 *   'options' => array('type' => 'submit')
+	 *  ),
+	 *  array(...)
 	 * );
 	 * @param array $buttons
 	 * @return string $buttonSubmitDiv

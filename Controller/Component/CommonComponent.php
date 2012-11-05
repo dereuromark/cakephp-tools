@@ -313,18 +313,30 @@ class CommonComponent extends Component {
 	 * @param mixed $default
 	 * @return mixed
 	 */
-	public function getNamedParam($var, $default = '') {
-		return (isset($this->Controller->request->params['named'][$var]))?$this->Controller->request->params['named'][$var] : $default;
+	public function getPassedParam($var, $default = null) {
+		return (isset($this->Controller->request->params['pass'][$var])) ? $this->Controller->request->params['pass'][$var] : $default;
 	}
 
 	/**
-	 * Used to get the value of a get query
+	 * Used to get the value of a named param
 	 * @param mixed $var
 	 * @param mixed $default
 	 * @return mixed
 	 */
-	public function getQueryParam($var, $default = '') {
-		return (isset($this->Controller->request->query[$var]))?$this->Controller->request->query[$var] : $default;
+	public function getNamedParam($var, $default = null) {
+		return (isset($this->Controller->request->params['named'][$var])) ? $this->Controller->request->params['named'][$var] : $default;
+	}
+
+	/**
+	 * Used to get the value of a get query
+	 * @deprecated - use request->query() instead
+	 *
+	 * @param mixed $var
+	 * @param mixed $default
+	 * @return mixed
+	 */
+	public function getQueryParam($var, $default = null) {
+		return (isset($this->Controller->request->query[$var])) ? $this->Controller->request->query[$var] : $default;
 	}
 
 	/**
@@ -365,6 +377,30 @@ class CommonComponent extends Component {
 
 	### Controller Stuff ###
 
+	/**
+	 * Force login for a specific user id
+	 * @see DirectAuthentication auth adapter
+	 *
+	 * @param array $data
+	 * - id
+	 * @return boolean Success
+	 * 2012-11-05 ms
+	 */
+	public function manualLogin($id, $contain = array()) {
+		$requestData = $this->Controller->request->data;
+		$authData = $this->Controller->Auth->authenticate;
+		if (!$contain && !empty($authData['Form']['contain'])) {
+			$contain = $authData['Form']['contain'];
+		}
+
+		$this->Controller->request->data = array('User' => array('id' => $id));
+		$this->Controller->Auth->authenticate = array('Tools.Direct'=>array('contain' => $contain, 'fields'=>array('username' => 'id')));
+		$result = $this->Controller->Auth->login();
+
+		$this->Controller->Auth->authenticate = $authData;
+		$this->Controller->request->data = $requestData;
+		return $result;
+	}
 
 	/**
 	 * Smart Referer Redirect - will try to use an existing referer first
@@ -821,12 +857,6 @@ class CommonComponent extends Component {
 	public static function typeCast($type = null, $value = null) {
 		return Utility::typeCast($type, $value);
 	}
-
-
-
-
-
-
 
 	/**
 	 * try to get group for a multidim array for select boxes
@@ -1340,16 +1370,16 @@ class CommonComponent extends Component {
 	 * @param int $length (if no type is submitted)
 	 * @return pwd on success, empty string otherwise
 	 * @static
-	 * @deprecated - use RamdomLib
+	 * @deprecated - use RandomLib
 	 * 2009-12-26 ms
 	 */
 	public static function pwd($type = null, $length = null) {
-		App::uses('RamdomLib', 'Tools.Lib');
+		App::uses('RandomLib', 'Tools.Lib');
 		if (!empty($type) && $type == 'user') {
-			return RamdomLib::pronounceablePwd(6);
+			return RandomLib::pronounceablePwd(6);
 		}
 		if (!empty($length)) {
-			return RamdomLib::pronounceablePwd($length);
+			return RandomLib::pronounceablePwd($length);
 		}
 		return '';
 	}
