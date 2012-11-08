@@ -2,7 +2,7 @@
 
 App::uses('CommonHelper', 'Tools.View/Helper');
 App::uses('View', 'View');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 /**
  * Datetime Test Case

@@ -1,7 +1,7 @@
 <?php
 
 App::uses('TimeLib', 'Tools.Utility');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 class TimeLibTest extends MyCakeTestCase {
 

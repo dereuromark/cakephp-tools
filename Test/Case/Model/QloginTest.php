@@ -1,7 +1,7 @@
 <?php
 
 App::uses('Qlogin', 'Tools.Model');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 App::uses('Router', 'Routing');
 
 class QloginTest extends MyCakeTestCase {

@@ -1,6 +1,6 @@
 <?php
 
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 App::uses('EmailLib', 'Tools.Lib');
 
 //Configure::write('Config.admin_email', '...');

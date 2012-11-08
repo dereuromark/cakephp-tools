@@ -2,7 +2,7 @@
 
 App::import('Behavior', 'Tools.Bitmasked');
 App::uses('AppModel', 'Model');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 App::uses('MyModel', 'Tools.Lib');
 
 class BitmaskedBehaviorTest extends MyCakeTestCase {

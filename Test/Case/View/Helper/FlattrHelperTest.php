@@ -2,7 +2,7 @@
 
 App::uses('FlattrHelper', 'Tools.View/Helper');
 App::uses('HtmlHelper', 'View/Helper');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 App::uses('View', 'View');
 
 class FlattrHelperTest extends MyCakeTestCase {

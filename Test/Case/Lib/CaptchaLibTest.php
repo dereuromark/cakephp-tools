@@ -2,7 +2,7 @@
 
 App::uses('CaptchaLib', 'Tools.Lib');
 App::uses('File', 'Utility');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 /**
  * 2010-09-10 ms

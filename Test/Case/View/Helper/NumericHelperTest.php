@@ -1,7 +1,7 @@
 <?php
 
 App::uses('NumericHelper', 'Tools.View/Helper');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 App::uses('View', 'View');
 /**
  * Numeric Test Case

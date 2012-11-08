@@ -1,7 +1,7 @@
 <?php
 
 App::uses('MyModel', 'Tools.Lib');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 class MyModelTest extends MyCakeTestCase {
 

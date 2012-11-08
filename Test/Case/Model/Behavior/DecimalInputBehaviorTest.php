@@ -1,7 +1,7 @@
 <?php
 
 App::uses('DecimalInputBehavior', 'Tools.Model/Behavior');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 class DecimalInputBehaviorTest extends MyCakeTestCase {
 

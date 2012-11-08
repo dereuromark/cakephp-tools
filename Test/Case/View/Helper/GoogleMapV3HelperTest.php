@@ -1,7 +1,7 @@
 <?php
 
 App::uses('GoogleMapV3Helper', 'Tools.View/Helper');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 App::uses('View', 'View');
 
 class GoogleMapV3HelperTest extends MyCakeTestCase {

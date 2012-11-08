@@ -1,7 +1,7 @@
 <?php
 
 App::uses('GeocodeLib', 'Tools.Lib');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 # google maps
 Configure::write('Google', array(

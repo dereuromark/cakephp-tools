@@ -2,7 +2,7 @@
 
 App::import('Behavior', 'Tools.Typographic');
 App::uses('AppModel', 'Model');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 
 class TypographicBehaviorTest extends MyCakeTestCase {

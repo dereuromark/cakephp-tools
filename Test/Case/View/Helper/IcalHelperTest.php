@@ -1,7 +1,7 @@
 <?php
 
 App::uses('IcalHelper', 'Tools.View/Helper');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 App::uses('String', 'Utility');
 App::uses('View', 'View');
 

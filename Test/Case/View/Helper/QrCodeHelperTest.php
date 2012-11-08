@@ -11,7 +11,7 @@ define('QR_TEST_STRING_UTF', 'Some äöü Test String with $ and @ etc');
 App::uses('HtmlHelper', 'View/Helper');
 App::uses('QrCodeHelper', 'Tools.View/Helper');
 App::uses('View', 'View');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 /**
  * QrCode Test Case

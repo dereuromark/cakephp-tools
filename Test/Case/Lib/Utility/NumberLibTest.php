@@ -1,7 +1,7 @@
 <?php
 
 App::uses('NumberLib', 'Tools.Utility');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 class NumberLibTest extends MyCakeTestCase {
 

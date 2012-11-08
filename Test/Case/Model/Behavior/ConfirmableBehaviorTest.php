@@ -2,7 +2,7 @@
 
 App::uses('ConfirmableBehavior', 'Tools.Model/Behavior');
 App::uses('ModelBehavior', 'Model');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 class ConfirmableBehaviorTest extends MyCakeTestCase {
 

@@ -1,7 +1,7 @@
 <?php
 App::uses('TypographyHelper', 'Tools.View/Helper');
 App::uses('View', 'View');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 /**
  * TypographyHelper Test Case

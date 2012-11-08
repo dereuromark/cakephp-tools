@@ -1,6 +1,6 @@
 <?php
 App::uses('KeyValue', 'Tools.Model');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 /**
  * KeyValue Test Case

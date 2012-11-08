@@ -2,7 +2,7 @@
 
 App::uses('MyHelper', 'Tools.Lib');
 App::uses('View', 'View');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 class MyHelperTest extends MyCakeTestCase {
 

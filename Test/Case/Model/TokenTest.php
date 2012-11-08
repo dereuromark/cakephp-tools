@@ -1,7 +1,7 @@
 <?php
 
 App::import('Token', 'Tools.Model');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 class TokenTest extends MyCakeTestCase {
 

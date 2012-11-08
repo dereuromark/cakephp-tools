@@ -1,7 +1,7 @@
 <?php
 
 App::uses('FormatHelper', 'Tools.View/Helper');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 App::uses('HtmlHelper', 'View/Helper');
 App::uses('View', 'View');
 

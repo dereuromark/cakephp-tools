@@ -2,7 +2,7 @@
 
 App::uses('JsonableBehavior', 'Tools.Model/Behavior');
 App::uses('AppModel', 'Model');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 
 class JsonableBehaviorTest extends MyCakeTestCase {

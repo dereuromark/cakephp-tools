@@ -1,7 +1,7 @@
 <?php
 
 App::uses('SpellLib', 'Tools.Lib');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 class SpellLibTest extends MyCakeTestCase {
 

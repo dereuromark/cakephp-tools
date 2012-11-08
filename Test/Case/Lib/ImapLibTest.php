@@ -1,7 +1,7 @@
 <?php
 
 App::uses('ImapLib', 'Tools.Lib');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 class ImapLibTest extends MyCakeTestCase {
 

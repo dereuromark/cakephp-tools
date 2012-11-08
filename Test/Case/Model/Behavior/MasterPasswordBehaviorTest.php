@@ -2,7 +2,7 @@
 
 App::uses('MasterPasswordBehavior', 'Tools.Model/Behavior');
 App::uses('ModelBehavior', 'Model');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 Configure::write('MasterPassword.password', '7c4a8d09ca3762af61e59520943dc26494f8941b');
 

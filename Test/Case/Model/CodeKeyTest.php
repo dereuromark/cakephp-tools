@@ -1,7 +1,7 @@
 <?php
 
 App::import('CodeKey', 'Tools.Model');
-App::uses('MyCakeTestCase', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 class CodeKeyTest extends MyCakeTestCase {
 
