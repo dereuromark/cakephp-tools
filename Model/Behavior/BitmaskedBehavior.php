@@ -133,7 +133,7 @@ class BitmaskedBehavior extends ModelBehavior {
 			return null;
 		}
 		foreach ((array)$value as $key => $val) {
-			$res |= (int) $val;
+			$res |= (int)$val;
 		}
 		if ($res === 0) {
 			return null; # make sure notEmpty validation rule triggers

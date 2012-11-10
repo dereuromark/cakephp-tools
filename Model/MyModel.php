@@ -389,7 +389,8 @@ class MyModel extends Model {
 				$this->data[$this->alias][$k] = $this->data[$k][$k];
 			}
 		}
-		parent::beforeValidate($options);
+
+		return parent::beforeValidate($options);
 	}
 
 

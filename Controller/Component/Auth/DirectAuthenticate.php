@@ -60,9 +60,7 @@ class DirectAuthenticate extends BaseAuthenticate {
 		if (empty($request->data[$model])) {
 			return false;
 		}
-		if (
-			empty($request->data[$model][$fields['username']])
-		) {
+		if (empty($request->data[$model][$fields['username']])) {
 			return false;
 		}
 		return true;
