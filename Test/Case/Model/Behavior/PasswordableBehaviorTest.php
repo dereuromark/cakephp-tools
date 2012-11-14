@@ -1,6 +1,4 @@
 <?php
-//App::uses('Model', 'Model');
-//App::uses('AppModel', 'Model');
 App::uses('ComponentCollection', 'Controller');
 
 class PasswordableBehaviorTest extends CakeTestCase {
@@ -16,6 +14,18 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		parent::setUp();
 
 		$this->User = ClassRegistry::init('User');
+		if (isset($this->User->validate['pwd'])) {
+			unset($this->User->validate['pwd']);
+		}
+		if (isset($this->User->validate['pwd_repeat'])) {
+			unset($this->User->validate['pwd_repeat']);
+		}
+		if (isset($this->User->validate['pwd_current'])) {
+			unset($this->User->validate['pwd_current']);
+		}
+		if (isset($this->User->order)) {
+			unset($this->User->order);
+		}
 	}
 
 	/**
@@ -31,7 +41,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 
 	public function testObject() {
 		$this->User->Behaviors->attach('Tools.Passwordable', array());
-		$this->assertInstanceOf($this->User->Behaviors->Passwordable, 'PasswordableBehavior');
+		$this->assertInstanceOf('PasswordableBehavior', $this->User->Behaviors->Passwordable);
 		$res = $this->User->Behaviors->attached('Passwordable');
 		$this->assertTrue($res);
 	}
@@ -44,7 +54,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 
 		$this->User->create();
 		$data = array(
-			'pwd' => '1234',
+			'pwd' => '123456',
 		);
 		$this->User->set($data);
 		$is = $this->User->save();
@@ -55,7 +65,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 
 		$this->User->create();
 		$data = array(
-			'pwd' => '1234',
+			'pwd' => '1234ab',
 			'pwd_repeat' => '123456'
 		);
 		$this->User->set($data);
@@ -137,11 +147,6 @@ class PasswordableBehaviorTest extends CakeTestCase {
 			'pwd_current' => '',
 		);
 		$is = $this->User->save($data);
-
-		debug($this->User->data);
-		debug($this->User->validate);
-		debug($this->User->validationErrors); ob_flush();
-
 		$this->assertTrue(!empty($is));
 	}
 
@@ -203,6 +208,48 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	}
 
 	/**
+	 * assert that allowSame false does not allow storing the same password as previously entered
+	 */
+	public function testNotSameWithoutCurrentField() {
+		$this->User->Behaviors->attach('Tools.Passwordable', array(
+			'formField' => 'passw',
+			'formFieldRepeat' => 'passw_repeat',
+			'allowSame' => false,
+			'current' => false
+		));
+		$this->User->create();
+		$data = array(
+			'passw' => 'some',
+			'passw_repeat' => 'some'
+		);
+		$this->User->set($data);
+		$is = $this->User->save();
+		$this->assertTrue((bool)$is);
+		$id = $is['User']['id'];
+
+		$this->User->create();
+		$data = array(
+			'id' => $id,
+			'passw' => 'some',
+			'passw_repeat' => 'some'
+		);
+		$this->User->set($data);
+		$is = $this->User->save();
+		debug($this->User->validationErrors); ob_flush();
+		$this->assertFalse((bool)$is);
+
+		$this->User->create();
+		$data = array(
+			'id' => $id,
+			'passw' => 'new',
+			'passw_repeat' => 'new'
+		);
+		$this->User->set($data);
+		$is = $this->User->save();
+		$this->assertTrue((bool)$is);
+	}
+
+	/**
 	 * needs faking of pwd check...
 	 */
 	public function testValidateCurrent() {
@@ -227,9 +274,9 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		);
 		$this->User->set($data);
 		$this->assertTrue($this->User->Behaviors->attached('Passwordable'));
-		debug($this->User->validate); ob_flush();
+		//debug($this->User->validate); ob_flush();
 		$is = $this->User->save();
-		//debug($this->User->validationErrors); ob_flush();
+		debug($this->User->validationErrors); ob_flush();
 		$this->assertFalse($is);
 
 		$this->User->create();

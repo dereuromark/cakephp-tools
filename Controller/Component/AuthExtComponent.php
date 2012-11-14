@@ -49,7 +49,7 @@ class AuthExtComponent extends AuthComponent {
 	public $settings = array(
 		'multi' => null, # null=auto - yes/no multiple roles (HABTM table between users and roles)
 		'parentModelAlias' => USER_ROLE_KEY,
-		'userModel' => CLASS_USER
+		'userModel' => CLASS_USER //TODO: allow plugin syntax
 	);
 
 	# field name in DB , if none is specified there will be no floodProtection
@@ -58,7 +58,6 @@ class AuthExtComponent extends AuthComponent {
 
 	public function __construct(ComponentCollection $Collection, $settings = array()) {
 		$settings = array_merge($this->settings, (array)Configure::read('Auth'), (array)$settings);
-		//$this->Controller = $Collection->getController();
 
 		parent::__construct($Collection, $settings);
 	}
@@ -163,7 +162,7 @@ class AuthExtComponent extends AuthComponent {
 	}
 
 	/**
-	 * return array $user or bool false on failure
+	 * @return array $user or bool false on failure
 	 * 2011-11-03 ms
 	 */
 	public function completeAuth($user) {
@@ -264,7 +263,7 @@ class AuthExtComponent extends AuthComponent {
 	 */
 	public function startup(Controller $controller) {
 		//parent::startup($controller);
-		if ($controller->name == 'CakeError') {
+		if ($controller->name === 'CakeError') {
 			return true;
 		}
 
@@ -342,13 +341,11 @@ class AuthExtComponent extends AuthComponent {
 	}
 
 	/**
-	 * Quickfix
-	 * TODO: improve - maybe use Authenticate
 	 * @deprecated
 	 * @return bool $success
 	 */
 	public function verifyUser($id, $pwd) {
-		//trigger_error('deprecated - use Authenticate class');
+		trigger_error('deprecated - use Authenticate class');
 		$options = array(
 			'conditions' => array('id'=>$id, 'password'=>$this->password($pwd)),
 		);
@@ -364,7 +361,8 @@ class AuthExtComponent extends AuthComponent {
 	 * @return object $User
 	 */
 	public function getModel() {
-		return ClassRegistry::init(CLASS_USER);
+		$model = $this->settings['userModel'];
+		return ClassRegistry::init($model);
 	}
 
 }

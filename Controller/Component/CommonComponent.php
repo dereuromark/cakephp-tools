@@ -386,15 +386,14 @@ class CommonComponent extends Component {
 	 * @return boolean Success
 	 * 2012-11-05 ms
 	 */
-	public function manualLogin($id, $contain = array()) {
+	public function manualLogin($id, $settings = array()) {
 		$requestData = $this->Controller->request->data;
 		$authData = $this->Controller->Auth->authenticate;
-		if (!$contain && !empty($authData['Form']['contain'])) {
-			$contain = $authData['Form']['contain'];
-		}
+		$settings = array_merge($authData, $settings);
+		$settings['fields'] = array('username' => 'id');
 
 		$this->Controller->request->data = array('User' => array('id' => $id));
-		$this->Controller->Auth->authenticate = array('Tools.Direct'=>array('contain' => $contain, 'fields'=>array('username' => 'id')));
+		$this->Controller->Auth->authenticate = array('Tools.Direct' => $settings);
 		$result = $this->Controller->Auth->login();
 
 		$this->Controller->Auth->authenticate = $authData;

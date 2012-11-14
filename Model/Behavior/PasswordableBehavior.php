@@ -134,12 +134,15 @@ class PasswordableBehavior extends ModelBehavior {
 			throw new CakeException('No validation class found');
 		}
 		# easiest authenticate method via form and (id + pwd)
-		$this->Auth->authenticate = array('Form'=>array('fields'=>array('username' => 'id', 'password'=>$this->settings[$Model->alias]['field'])));
-
+		$this->Auth->authenticate = array(
+			'Form' => array(
+				'fields'=>array('username' => 'id', 'password'=>$this->settings[$Model->alias]['field'])
+			)
+		);
 		$request = new CakeRequest(null, false);
 		$request->data['User'] = array('id'=>$uid, 'password'=>$pwd);
 		$response = new CakeResponse();
-		return $this->Auth->identify($request, $response);
+		return (bool)$this->Auth->identify($request, $response);
 	}
 
 	/**
@@ -154,7 +157,7 @@ class PasswordableBehavior extends ModelBehavior {
 			$value = $data;
 		}
 		$compareValue = $Model->data[$Model->alias][$compareWith];
-		return ($compareValue == $value);
+		return ($compareValue === $value);
 	}
 
 	/**
@@ -165,7 +168,29 @@ class PasswordableBehavior extends ModelBehavior {
 	public function validateNotSame(Model $Model, $data, $field1, $field2) {
 		$value1 = $Model->data[$Model->alias][$field1];
 		$value2 = $Model->data[$Model->alias][$field2];
-		return ($value1 != $value2);
+		return ($value1 !== $value2);
+	}
+
+	/**
+	 * if not implemented in AppModel
+	 * @return bool $success
+	 * 2011-11-10 ms
+	 */
+	public function validateNotSameHash(Model $Model, $data, $formField) {
+		$field = $this->settings[$Model->alias]['field'];
+		$type = $this->settings[$Model->alias]['hashType'];
+		$salt = $this->settings[$Model->alias]['hashSalt'];
+
+		if (!isset($Model->data[$Model->alias][$Model->primaryKey])) {
+			return true;
+		}
+		$primaryKey = $Model->data[$Model->alias][$Model->primaryKey];
+		$value = Security::hash($Model->data[$Model->alias][$formField], $type, $salt);
+		$dbValue = $Model->field($field, array($Model->primaryKey => $primaryKey));
+		if (!$dbValue) {
+			return true;
+		}
+		return ($value !== $dbValue);
 	}
 
 	/**
@@ -196,13 +221,22 @@ class PasswordableBehavior extends ModelBehavior {
 			$Model->validate[$formFieldRepeat]['validateIdentical']['rule'][1] = $formField;
 		}
 
-
 		if ($this->settings[$Model->alias]['current'] && !isset($Model->validate[$formFieldCurrent])) {
 			$Model->validate[$formFieldCurrent] = $rules['formFieldCurrent'];
 
 			if (!$this->settings[$Model->alias]['allowSame']) {
 				$Model->validate[$formField]['validateNotSame'] = array(
 					'rule' => array('validateNotSame', $formField, $formFieldCurrent),
+					'message' => 'valErrPwdSameAsBefore',
+					'allowEmpty' => $this->settings[$Model->alias]['allowEmpty'],
+					'last' => true,
+				);
+			}
+		} elseif (!isset($Model->validate[$formFieldCurrent])) {
+			# try to match the password against the hash in the DB
+			if (!$this->settings[$Model->alias]['allowSame']) {
+				$Model->validate[$formField]['validateNotSame'] = array(
+					'rule' => array('validateNotSameHash', $formField),
 					'message' => 'valErrPwdSameAsBefore',
 					'allowEmpty' => $this->settings[$Model->alias]['allowEmpty'],
 					'last' => true,
@@ -276,7 +310,6 @@ class PasswordableBehavior extends ModelBehavior {
 	 * 2011-07-22 ms
 	 */
 	public function beforeSave(Model $Model) {
-		//debug($Model->data);
 		$formField = $this->settings[$Model->alias]['formField'];
 		$field = $this->settings[$Model->alias]['field'];
 		$type = $this->settings[$Model->alias]['hashType'];

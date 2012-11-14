@@ -49,19 +49,15 @@ class QloginController extends ToolsAppController {
 		$url = $entry['CodeKey']['url'];
 
 		if (!$this->Session->read('Auth.User.id')) {
-			$this->User = ClassRegistry::init(CLASS_USER);
-			# needs to be logged in
-			$user = $this->User->get($uid);
-			if (!$user) {
-				$this->Common->flashMessage(__('Invalid Account'), 'error');
-				$this->Common->autoRedirect($default);
-			}
-
-			if ($this->Auth->login($user['User'])) {
+			if ($this->Common->manualLogin($uid)) {
 				$this->Session->write('Auth.User.Login.qlogin', true);
 				if (!Configure::read('Qlogin.suppressMessage')) {
 					$this->Common->flashMessage(__('You successfully logged in via qlogin'), 'success');
 				}
+			} else {
+				$this->Common->flashMessage($this->Auth->loginError, 'error');
+				$url = $default;
+				trigger_error($this->Auth->loginError . ' - uid ' . $uid);
 			}
 		}
 		$this->redirect($url);

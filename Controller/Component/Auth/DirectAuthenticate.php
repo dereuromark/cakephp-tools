@@ -19,7 +19,7 @@ App::uses('BaseAuthenticate', 'Controller/Component/Auth');
  *   in your AppController just as any other adapter.
  *
  * @author Mark Scherer
- * @licente MIT
+ * @license MIT
  * @cakephp 2.x (>= 2.3)
  * 2012-11-05 ms
  */
@@ -74,7 +74,7 @@ class DirectAuthenticate extends BaseAuthenticate {
 	 * @param array $conditions An array of find conditions.
 	 * @return Mixed Either false on failure, or an array of user data.
 	 */
-	protected function _findUser($conditions) {
+	protected function _findUser($conditions, $password = null) {
 		$userModel = $this->settings['userModel'];
 		list($plugin, $model) = pluginSplit($userModel);
 		$fields = $this->settings['fields'];

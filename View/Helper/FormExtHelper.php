@@ -579,8 +579,9 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 		$defaultOptions = array(
 			'empty' => false,
 			'minYear' => date('Y')-10,
-			'maxYear' => date('Y')+2
+			'maxYear' => date('Y')+10
 		);
+		$defaultOptions = array_merge($defaultOptions, (array)Configure::read('Form.date'));
 
 		$fieldName = Inflector::camelize($fieldName);
 
