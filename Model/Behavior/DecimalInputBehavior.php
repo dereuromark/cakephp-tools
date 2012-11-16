@@ -57,13 +57,13 @@ class DecimalInputBehavior extends ModelBehavior {
 		$this->config[$Model->alias] = array_merge($this->config[$Model->alias], $config);
 
 		$numberFields = array();
-		if (!empty($Model->_schema)) {
-			foreach ($Model->_schema as $key => $values) {
-				if (isset($values['type']) && !in_array($key, $this->config[$Model->alias]['fields']) && in_array($values['type'], $this->config[$Model->alias]['observedTypes'])) {
-					array_push($numberFields, $key);
-				}
+		$schema = $Model->schema();
+		foreach ($schema as $key => $values) {
+			if (isset($values['type']) && !in_array($key, $this->config[$Model->alias]['fields']) && in_array($values['type'], $this->config[$Model->alias]['observedTypes'])) {
+				array_push($numberFields, $key);
 			}
 		}
+
 		$this->config[$Model->alias]['fields'] = array_merge($this->config[$Model->alias]['fields'], $numberFields);
 
 		/*
