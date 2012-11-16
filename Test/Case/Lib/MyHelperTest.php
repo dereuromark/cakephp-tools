@@ -8,7 +8,7 @@ class MyHelperTest extends MyCakeTestCase {
 
 	public $MyHelper;
 
-	public function startTest() {
+	public function setUp() {
 		$this->MyHelper = new MyHelper(new View(null));
 	}
 

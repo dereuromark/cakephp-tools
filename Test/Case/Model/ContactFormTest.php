@@ -6,7 +6,7 @@ class ContactFormTest extends CakeTestCase {
 	public $ContactForm = null;
 	//public $fixtures = array('app.code_key');
 
-	public function startTest() {
+	public function setUp() {
 		$this->ContactForm = ClassRegistry::init('Tools.ContactForm');
 	}
 

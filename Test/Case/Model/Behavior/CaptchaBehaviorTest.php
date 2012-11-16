@@ -11,13 +11,13 @@ class CaptchaBehaviorTest extends MyCakeTestCase {
 
 	public $Comment;
 
-	public function startTest() {
+	public function setUp() {
 
 	}
 
 	public function setUp() {
 		$this->Comment = ClassRegistry::init('Comment');
-		$this->Comment->Behaviors->attach('Tools.Captcha', array());
+		$this->Comment->Behaviors->load('Tools.Captcha', array());
 	}
 
 	public function tearDown() {

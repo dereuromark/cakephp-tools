@@ -9,11 +9,11 @@ class AuthTest extends MyCakeTestCase {
 
 	public $fixtures = array('core.session');
 
-	public function startTest() {
+	public function setUp() {
 		ClassRegistry::init('Session');
 	}
 
-	public function endTest() {
+	public function tearDown() {
 		ClassRegistry::flush();
 	}
 

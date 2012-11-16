@@ -9,7 +9,7 @@ class TokenTest extends MyCakeTestCase {
 
 	public $fixtures = array('plugin.tools.token');
 
-	public function startTest() {
+	public function setUp() {
 		$this->Token = ClassRegistry::init('Tools.Token');
 	}
 

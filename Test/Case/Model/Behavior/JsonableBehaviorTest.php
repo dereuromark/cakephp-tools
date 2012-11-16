@@ -13,10 +13,10 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 
 	public $Comment;
 
-	public function startTest() {
+	public function setUp() {
 		//$this->Comment = ClassRegistry::init('Comment');
 		$this->Comment = new JsonableBehaviorTestModel();
-		$this->Comment->Behaviors->attach('Tools.Jsonable', array());
+		$this->Comment->Behaviors->load('Tools.Jsonable', array());
 	}
 
 /** INPUT **/
@@ -40,8 +40,8 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 
 	public function testFieldsWithList() {
 		echo $this->_header(__FUNCTION__);
-		$this->Comment->Behaviors->detach('Jsonable');
-		$this->Comment->Behaviors->attach('Tools.Jsonable', array('fields'=>array('details'), 'input'=>'list'));
+		$this->Comment->Behaviors->unload('Jsonable');
+		$this->Comment->Behaviors->load('Tools.Jsonable', array('fields'=>array('details'), 'input'=>'list'));
 
 		$data = array(
 			'comment' => 'blabla',
@@ -63,8 +63,8 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 			'name' => 'some Name',
 			'details' => 'z|x|y|x',
 		);
-		$this->Comment->Behaviors->detach('Jsonable');
-		$this->Comment->Behaviors->attach('Tools.Jsonable', array('fields'=>array('details'), 'input'=>'list', 'sort'=>true));
+		$this->Comment->Behaviors->unload('Jsonable');
+		$this->Comment->Behaviors->load('Tools.Jsonable', array('fields'=>array('details'), 'input'=>'list', 'sort'=>true));
 
 		$res = $this->Comment->save($data);
 		$this->assertTrue($res);
@@ -76,8 +76,8 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 
 	public function testFieldsWithParam() {
 		echo $this->_header(__FUNCTION__);
-		$this->Comment->Behaviors->detach('Jsonable');
-		$this->Comment->Behaviors->attach('Tools.Jsonable', array('fields'=>array('details'), 'input'=>'param'));
+		$this->Comment->Behaviors->unload('Jsonable');
+		$this->Comment->Behaviors->load('Tools.Jsonable', array('fields'=>array('details'), 'input'=>'param'));
 
 		$data = array(
 			'comment' => 'blabla',
@@ -99,8 +99,8 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 
 	public function testFieldsOnFind() {
 		echo $this->_header(__FUNCTION__);
-		$this->Comment->Behaviors->detach('Jsonable');
-		$this->Comment->Behaviors->attach('Tools.Jsonable', array('fields'=>array('details')));
+		$this->Comment->Behaviors->unload('Jsonable');
+		$this->Comment->Behaviors->load('Tools.Jsonable', array('fields'=>array('details')));
 
 		$res = $this->Comment->find('first', array());
 
@@ -108,8 +108,8 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 		pr($res);
 
 
-		$this->Comment->Behaviors->detach('Jsonable');
-		$this->Comment->Behaviors->attach('Tools.Jsonable', array('output'=>'param', 'fields'=>array('details')));
+		$this->Comment->Behaviors->unload('Jsonable');
+		$this->Comment->Behaviors->load('Tools.Jsonable', array('output'=>'param', 'fields'=>array('details')));
 
 		$res = $this->Comment->find('first', array());
 		pr($res);
@@ -118,8 +118,8 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 
 
 
-		$this->Comment->Behaviors->detach('Jsonable');
-		$this->Comment->Behaviors->attach('Tools.Jsonable', array('output'=>'list', 'fields'=>array('details')));
+		$this->Comment->Behaviors->unload('Jsonable');
+		$this->Comment->Behaviors->load('Tools.Jsonable', array('output'=>'list', 'fields'=>array('details')));
 
 		$data = array(
 			'comment' => 'blabla',
@@ -134,8 +134,8 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 		echo BR.BR;
 
 
-		$this->Comment->Behaviors->detach('Jsonable');
-		$this->Comment->Behaviors->attach('Tools.Jsonable', array('output'=>'list', 'separator'=>', ', 'fields'=>array('details')));
+		$this->Comment->Behaviors->unload('Jsonable');
+		$this->Comment->Behaviors->load('Tools.Jsonable', array('output'=>'list', 'separator'=>', ', 'fields'=>array('details')));
 
 		$data = array(
 			'comment' => 'blabla',

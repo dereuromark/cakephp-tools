@@ -1006,8 +1006,8 @@ class RevisionBehaviorTest extends CakeTestCase {
 
 		$Comment = new RevisionComment();
 
-		$Comment->Behaviors->detach('Revision');
-		$Comment->Behaviors->attach('Revision', array('ignore' => array('Tag')));
+		$Comment->Behaviors->unload('Revision');
+		$Comment->Behaviors->load('Revision', array('ignore' => array('Tag')));
 
 		$Comment->bindModel(array('hasAndBelongsToMany' => array('Tag' => array('className' => 'RevisionTag'))), false);
 

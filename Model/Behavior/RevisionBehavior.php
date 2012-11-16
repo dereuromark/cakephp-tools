@@ -154,7 +154,7 @@ class RevisionBehavior extends ModelBehavior {
 			$this->settings[$Model->alias] = $this->defaults;
 		}
 		$this->createShadowModel($Model);
-		$Model->Behaviors->attach('Containable');
+		$Model->Behaviors->load('Containable');
 	}
 
 	/**

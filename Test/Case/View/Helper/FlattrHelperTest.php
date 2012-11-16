@@ -9,7 +9,7 @@ class FlattrHelperTest extends MyCakeTestCase {
 
 	public $uid;
 
-	public function startTest() {
+	public function setUp() {
 		$this->Flattr = new FlattrHelper(new View(null));
 		$this->Flattr->Html = new HtmlHelper(new View(null));
 

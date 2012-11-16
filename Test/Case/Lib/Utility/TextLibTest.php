@@ -7,7 +7,7 @@ App::uses('TextLib', 'Tools.Utility');
  */
 class TextLibTest extends CakeTestCase {
 
-	public function startTest() {
+	public function setUp() {
 		$this->TextLib = new TextLib(null);
 	}
 

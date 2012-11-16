@@ -16,7 +16,7 @@ class KeyValueBehaviorTest extends MyCakeTestCase {
 
 		$this->KeyValueBehavior = new KeyValueBehavior();
 		$this->Model = ClassRegistry::init('User');
-		$this->Model->Behaviors->attach('Tools.KeyValue');
+		$this->Model->Behaviors->load('Tools.KeyValue');
 	}
 
 	public function testObject() {
@@ -64,8 +64,8 @@ class KeyValueBehaviorTest extends MyCakeTestCase {
 				'z' => '123',
 			)
 		);
-		$this->Model->Behaviors->detach('KeyValue');
-		$this->Model->Behaviors->attach('Tools.KeyValue');
+		$this->Model->Behaviors->unload('KeyValue');
+		$this->Model->Behaviors->load('Tools.KeyValue');
 
 		$this->Model->saveSection(0, array('User'=>array('x'=>1, 'y'=>'z')));
 
@@ -92,8 +92,8 @@ class KeyValueBehaviorTest extends MyCakeTestCase {
 		$res = $this->Model->Behaviors->KeyValue->KeyValue->find('count');
 		$this->assertEquals(2, $res);
 
-		$this->Model->Behaviors->detach('KeyValue');
-		$this->Model->Behaviors->attach('Tools.KeyValue', array('defaultOnEmpty' => true));
+		$this->Model->Behaviors->unload('KeyValue');
+		$this->Model->Behaviors->load('Tools.KeyValue', array('defaultOnEmpty' => true));
 		$this->Model->keyValueDefaults = array(
 			'User' => array(
 				'x' => 0,
@@ -110,8 +110,8 @@ class KeyValueBehaviorTest extends MyCakeTestCase {
 		$res = $this->Model->Behaviors->KeyValue->KeyValue->find('count');
 		$this->assertEquals(3, $res);
 
-		$this->Model->Behaviors->detach('KeyValue');
-		$this->Model->Behaviors->attach('Tools.KeyValue', array('deleteIfDefault' => true));
+		$this->Model->Behaviors->unload('KeyValue');
+		$this->Model->Behaviors->load('Tools.KeyValue', array('deleteIfDefault' => true));
 		$res = $this->Model->saveSection(0, array('User'=>array('z'=>'123')));
 		$this->assertTrue($res);
 		$res = $this->Model->Behaviors->KeyValue->KeyValue->find('count');

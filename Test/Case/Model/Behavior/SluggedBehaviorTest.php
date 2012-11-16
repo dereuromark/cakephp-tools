@@ -116,8 +116,8 @@ class SluggedBehaviorTest extends CakeTestCase {
  * @return void
  * @access public
  */
-	public function startTest() {
-		//parent::startTest();
+	public function setUp() {
+		//parent::setUp();
 		$this->Model = new MessageSlugged();
 	}
 
@@ -128,8 +128,8 @@ class SluggedBehaviorTest extends CakeTestCase {
  * @return void
  */
 	public function testSlugGenerationBasedOnTrigger() {
-		$this->Model->Behaviors->detach('Slugged');
-		$this->Model->Behaviors->attach('Tools.Slugged', array(
+		$this->Model->Behaviors->unload('Slugged');
+		$this->Model->Behaviors->load('Tools.Slugged', array(
 			'trigger' => 'generateSlug', 'overwrite' => true));
 
 		$this->Model->generateSlug = false;
@@ -150,8 +150,8 @@ class SluggedBehaviorTest extends CakeTestCase {
  * @return void
  */
 	public function testSlugGenerationI18nReplacementPieces() {
-		$this->Model->Behaviors->detach('Slugged');
-		$this->Model->Behaviors->attach('Tools.Slugged', array(
+		$this->Model->Behaviors->unload('Slugged');
+		$this->Model->Behaviors->load('Tools.Slugged', array(
 			'overwrite' => true));
 
 		$this->Model->create(array('name' => 'Some & More'));
@@ -166,8 +166,8 @@ class SluggedBehaviorTest extends CakeTestCase {
  * @return void
  */
 	public function testSlugDynamicOverwrite() {
-		$this->Model->Behaviors->detach('Slugged');
-		$this->Model->Behaviors->attach('Tools.Slugged', array(
+		$this->Model->Behaviors->unload('Slugged');
+		$this->Model->Behaviors->load('Tools.Slugged', array(
 			'overwrite' => false, 'overwriteField' => 'overwrite_my_slug'));
 
 		$this->Model->create();
@@ -191,8 +191,8 @@ class SluggedBehaviorTest extends CakeTestCase {
  * @return void
  */
 	public function testSlugGenerationWithScope() {
-		$this->Model->Behaviors->detach('Slugged');
-		$this->Model->Behaviors->attach('Tools.Slugged', array('unique' => true));
+		$this->Model->Behaviors->unload('Slugged');
+		$this->Model->Behaviors->load('Tools.Slugged', array('unique' => true));
 
 		$data = array('name' => 'Some Article 12345', 'section' => 0);
 
@@ -206,8 +206,8 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$this->assertTrue((bool)$result);
 		$this->assertEquals('Some-Article-12345-1', $result[$this->Model->alias]['slug']);
 
-		$this->Model->Behaviors->detach('Slugged');
-		$this->Model->Behaviors->attach('Tools.Slugged', array('unique' => true, 'scope' => array('section' => 1)));
+		$this->Model->Behaviors->unload('Slugged');
+		$this->Model->Behaviors->load('Tools.Slugged', array('unique' => true, 'scope' => array('section' => 1)));
 
 		$data = array('name' => 'Some Article 12345', 'section' => 1);
 
@@ -392,7 +392,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$modes = array('id'); // overriden
 		$this->Socket = new HttpSocket('http://validator.w3.org:80');
 		foreach ($modes as $mode) {
-			$this->Model->Behaviors->attach('Slugged', array('mode' => $mode));
+			$this->Model->Behaviors->load('Slugged', array('mode' => $mode));
 			$this->_testMode($mode, 1, 1); // overriden parameters
 		}
 	}
@@ -18025,7 +18025,7 @@ class SluggedBehaviorTest extends CakeTestCase {
  * @access public
  */
 	public function testUrlMode() {
-		$this->Model->Behaviors->attach('Slugged', array('mode' => 'url', 'replace' => false));
+		$this->Model->Behaviors->load('Slugged', array('mode' => 'url', 'replace' => false));
 		$string = 'standard string';
 		$expects = 'standard-string';
 		$result = $this->Model->slug($string);
@@ -18151,7 +18151,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$encoding = Configure::read('App.encoding');
 		Configure::write('App.encoding', 'UTF-8');
 
-		$this->Model->Behaviors->attach('Slugged', array('length' => 50));
+		$this->Model->Behaviors->load('Slugged', array('length' => 50));
 		$result = $this->Model->slug('モデルのデータベースとデータソース');
 		$expects = 'モデルのデータベースとデータソー';
 		$this->assertEquals($expects, $result);
@@ -18159,12 +18159,12 @@ class SluggedBehaviorTest extends CakeTestCase {
 		Configure::write('App.encoding', 'SJIS');
 		$sjisEncoded = mb_convert_encoding($testString, 'SJIS', 'UTF-8');
 
-		$this->Model->Behaviors->attach('Slugged', array('length' => 33));
+		$this->Model->Behaviors->load('Slugged', array('length' => 33));
 		$result = $this->Model->slug($sjisEncoded);
 		$sjisExpects = mb_convert_encoding('モデルのデータベースとデータソー', 'SJIS', 'UTF-8');
 		$this->assertEquals($result, $sjisExpects);
 
-		$this->Model->Behaviors->attach('Slugged', array('length' => 50, 'encoding' => 'UTF-8'));
+		$this->Model->Behaviors->load('Slugged', array('length' => 50, 'encoding' => 'UTF-8'));
 		$result = $this->Model->slug($sjisEncoded);
 		$expects = 'モデルのデータベースとデータソー';
 		$this->assertEquals($expects, $result);
@@ -18181,7 +18181,7 @@ class SluggedBehaviorTest extends CakeTestCase {
  * @access public
  */
 	public function testDuplicateWithLengthRestriction() {
-		$this->Model->Behaviors->attach('Slugged', array('label' => 'name', 'length' => 10, 'unique' => true));
+		$this->Model->Behaviors->load('Slugged', array('label' => 'name', 'length' => 10, 'unique' => true));
 
 		$this->Model->create();
 		$this->Model->save(array('name' => 'Andy Dawson'));

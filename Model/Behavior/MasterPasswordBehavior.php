@@ -10,7 +10,7 @@ App::uses('ModelBehavior', 'Model');
  *
  * Usage:
  * In the controller:
- * $this->ModelName->Behaviors->attach('Tools.MasterPassword');
+ * $this->ModelName->Behaviors->load('Tools.MasterPassword');
  * In the view:
  * echo $this->element('master_password', array(), array('plugin'=>'tools'));
  * Put this into your private configs:

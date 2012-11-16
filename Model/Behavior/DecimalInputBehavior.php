@@ -97,7 +97,7 @@ class DecimalInputBehavior extends ModelBehavior {
 		return true;
 	}
 
-	public function afterFind(Model $Model, $results) {
+	public function afterFind(Model $Model, $results, $primary) {
 		if (!$this->config[$Model->alias]['output'] || empty($results)) {
 			return $results;
 		}

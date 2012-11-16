@@ -7,7 +7,7 @@ class NumberLibTest extends MyCakeTestCase {
 
 	public $NumberLib = null;
 
-	public function startTest() {
+	public function setUp() {
 		//$this->NumberLib = new NumberLib();
 	}
 

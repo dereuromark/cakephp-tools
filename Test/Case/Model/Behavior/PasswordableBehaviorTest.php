@@ -40,7 +40,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 
 
 	public function testObject() {
-		$this->User->Behaviors->attach('Tools.Passwordable', array());
+		$this->User->Behaviors->load('Tools.Passwordable', array());
 		$this->assertInstanceOf('PasswordableBehavior', $this->User->Behaviors->Passwordable);
 		$res = $this->User->Behaviors->attached('Passwordable');
 		$this->assertTrue($res);
@@ -50,7 +50,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	 * make sure validation is triggered correctly
 	 */
 	public function testValidate() {
-		$this->User->Behaviors->attach('Tools.Passwordable', array());
+		$this->User->Behaviors->load('Tools.Passwordable', array());
 
 		$this->User->create();
 		$data = array(
@@ -90,7 +90,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	 * test that confirm false does not require confirmation
 	 */
 	public function testValidateNoConfirm() {
-		$this->User->Behaviors->attach('Tools.Passwordable', array('confirm'=>false));
+		$this->User->Behaviors->load('Tools.Passwordable', array('confirm'=>false));
 		$this->User->create();
 		$data = array(
 			'pwd' => '123456',
@@ -105,7 +105,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	 * validation and update process gets skipped if no values are entered
 	 */
 	public function testValidateEmpty() {
-		$this->User->Behaviors->attach('Tools.Passwordable');
+		$this->User->Behaviors->load('Tools.Passwordable');
 		$this->User->create();
 		$data = array(
 			'pwd' => '',
@@ -118,10 +118,10 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$this->assertEquals(array('pwd', 'pwd_repeat'), array_keys($this->User->validationErrors));
 
 
-		$this->User->Behaviors->detach('Passwordable');
+		$this->User->Behaviors->unload('Passwordable');
 		$this->User->validate = array();
 
-		$this->User->Behaviors->attach('Tools.Passwordable', array('current'=>true));
+		$this->User->Behaviors->load('Tools.Passwordable', array('current'=>true));
 		$this->User->create();
 		$data = array(
 			'id' => 123,
@@ -138,7 +138,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$this->tearDown();
 		$this->setUp();
 
-		$this->User->Behaviors->attach('Tools.Passwordable', array('allowEmpty'=>true, 'current'=>true));
+		$this->User->Behaviors->load('Tools.Passwordable', array('allowEmpty'=>true, 'current'=>true));
 		$this->User->create();
 		$data = array(
 			'user' => 'foo',
@@ -154,7 +154,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	 * test aliases for field names
 	 */
 	public function testDifferentFieldNames() {
-		$this->User->Behaviors->attach('Tools.Passwordable', array(
+		$this->User->Behaviors->load('Tools.Passwordable', array(
 			'formField' => 'passw',
 			'formFieldRepeat' => 'passw_repeat',
 			'formFieldCurrent' => 'passw_current',
@@ -175,7 +175,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	 * assert that allowSame false does not allow storing the same password as previously entered
 	 */
 	public function testNotSame() {
-		$this->User->Behaviors->attach('Tools.Passwordable', array(
+		$this->User->Behaviors->load('Tools.Passwordable', array(
 			'formField' => 'passw',
 			'formFieldRepeat' => 'passw_repeat',
 			'formFieldCurrent' => 'passw_current',
@@ -211,7 +211,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	 * assert that allowSame false does not allow storing the same password as previously entered
 	 */
 	public function testNotSameWithoutCurrentField() {
-		$this->User->Behaviors->attach('Tools.Passwordable', array(
+		$this->User->Behaviors->load('Tools.Passwordable', array(
 			'formField' => 'passw',
 			'formFieldRepeat' => 'passw_repeat',
 			'allowSame' => false,
@@ -264,7 +264,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		//$this->tearDown();
 		//$this->setUp();
 
-		$this->User->Behaviors->attach('Tools.Passwordable', array('current'=>true));
+		$this->User->Behaviors->load('Tools.Passwordable', array('current'=>true));
 		$this->User->create();
 		$data = array(
 			'id' => $uid,

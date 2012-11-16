@@ -9,7 +9,7 @@ App::uses('ChmodLib', 'Tools.Utility');
 class ChmodLibTest extends CakeTestCase {
 	public $Chmod = null;
 
-	public function startTest() {
+	public function setUp() {
 		$this->Chmod = new ChmodLib();
 
 	}

@@ -10,7 +10,7 @@ class QloginTest extends MyCakeTestCase {
 
 	public $fixtures = array('plugin.tools.code_key');
 
-	public function startTest() {
+	public function setUp() {
 		$this->Qlogin = ClassRegistry::init('Tools.Qlogin');
 	}
 

@@ -1582,7 +1582,7 @@ class MyModel extends Model {
 	 */
 	public function recursiveSelect($conditions = array(), $attachTree = false, $spacer = '-- ') {
 		if ($attachTree) {
-			$this->Behaviors->attach('Tree');
+			$this->Behaviors->load('Tree');
 		}
 		$data = $this->generateTreeList($conditions, null, null, $spacer);
 		return $data;

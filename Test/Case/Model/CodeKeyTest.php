@@ -9,7 +9,7 @@ class CodeKeyTest extends MyCakeTestCase {
 
 	public $fixtures = array('plugin.tools.code_key');
 
-	public function startTest() {
+	public function setUp() {
 		$this->CodeKey = ClassRegistry::init('Tools.CodeKey');
 	}
 

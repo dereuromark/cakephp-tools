@@ -19,7 +19,7 @@ if (!defined('PWD_MAX_LENGTH')) {
  *
  * usage: do NOT add it via $actAs = array()
  * attach it dynamically in only those actions where you actually change the password like so:
- * $this->User->Behaviors->attach('Tools.ChangePassword', array(SETTINGSARRAY));
+ * $this->User->Behaviors->load('Tools.ChangePassword', array(SETTINGSARRAY));
  * as first line in any action where you want to allow the user to change his password
  * also add the two form fields in the form (pwd, pwd_confirm)
  * the rest is cake automagic :)

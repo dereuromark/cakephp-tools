@@ -5,10 +5,10 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 class DecimalInputBehaviorTest extends MyCakeTestCase {
 
-	public function startTest() {
+	public function setUp() {
 		//$this->Comment = ClassRegistry::init('Comment');
 		$this->Comment = new DecimalInputTestModel();
-		$this->Comment->Behaviors->attach('Tools.DecimalInput', array('fields'=>array('rel_rate', 'set_rate'), 'output'=>true));
+		$this->Comment->Behaviors->load('Tools.DecimalInput', array('fields'=>array('rel_rate', 'set_rate'), 'output'=>true));
 	}
 
 	public function setUp() {
@@ -82,8 +82,8 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function testStrict() {
-		$this->Comment->Behaviors->detach('DecimalInput');
-		$this->Comment->Behaviors->attach('Tools.DecimalInput', array('fields'=>array('rel_rate', 'set_rate'), 'strict'=>true));
+		$this->Comment->Behaviors->unload('DecimalInput');
+		$this->Comment->Behaviors->load('Tools.DecimalInput', array('fields'=>array('rel_rate', 'set_rate'), 'strict'=>true));
 
 		$data = array(
 			'name' => 'some Name',

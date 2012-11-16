@@ -9,7 +9,7 @@ class EmailLibTest extends MyCakeTestCase {
 
 	public $Email;
 
-	public function startTest() {
+	public function setUp() {
 		$this->Email = new EmailLib();
 	}
 

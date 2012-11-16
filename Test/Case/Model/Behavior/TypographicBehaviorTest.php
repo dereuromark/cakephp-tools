@@ -15,7 +15,7 @@ class TypographicBehaviorTest extends MyCakeTestCase {
 		parent::setUp();
 
 		$this->Model = ClassRegistry::init('Article');
-		$this->Model->Behaviors->attach('Tools.Typographic', array('fields'=>array('body'), 'before'=>'validate'));
+		$this->Model->Behaviors->load('Tools.Typographic', array('fields'=>array('body'), 'before'=>'validate'));
 	}
 
 	public function testObject() {
@@ -59,8 +59,8 @@ class TypographicBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function testMergeQuotes() {
-		$this->Model->Behaviors->detach('Typographic');
-		$this->Model->Behaviors->attach('Tools.Typographic', array('before' => 'validate', 'mergeQuotes' => true));
+		$this->Model->Behaviors->unload('Typographic');
+		$this->Model->Behaviors->load('Tools.Typographic', array('before' => 'validate', 'mergeQuotes' => true));
 		$strings = array(
 			'some string with ‹single angle quotes›' => 'some string with "single angle quotes"',
 			'other string with „German‟ quotes' => 'other string with "German" quotes',
@@ -87,8 +87,8 @@ class TypographicBehaviorTest extends MyCakeTestCase {
 	 * 2012-08-07 ms
 	 */
 	public function testAutoFields() {
-		$this->Model->Behaviors->detach('Typographic');
-		$this->Model->Behaviors->attach('Tools.Typographic');
+		$this->Model->Behaviors->unload('Typographic');
+		$this->Model->Behaviors->load('Tools.Typographic');
 		$data = array(
 			'title' => '„German‟ quotes',
 			'body' => 'mixed double “one” and «two»',
@@ -108,7 +108,7 @@ class TypographicBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function testUpdateTypography() {
-		$this->Model->Behaviors->detach('Typographic');
+		$this->Model->Behaviors->unload('Typographic');
 		for ($i = 0; $i < 202; $i++) {
 			$data = array(
 				'title' => 'title '.$i,
@@ -117,7 +117,7 @@ class TypographicBehaviorTest extends MyCakeTestCase {
 			$this->Model->create();
 			$this->Model->save($data);
 		}
-		$this->Model->Behaviors->attach('Tools.Typographic');
+		$this->Model->Behaviors->load('Tools.Typographic');
 		$count = $this->Model->updateTypography();
 		$this->assertTrue($count >= 200);
 

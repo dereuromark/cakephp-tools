@@ -13,10 +13,10 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 
 	public $Comment;
 
-	public function startTest() {
+	public function setUp() {
 
 		$this->Comment = new BitmaskedComment();
-		$this->Comment->Behaviors->attach('Bitmasked', array('mappedField'=>'statuses'));
+		$this->Comment->Behaviors->load('Bitmasked', array('mappedField'=>'statuses'));
 	}
 
 	public function testEncodeBitmask() {
