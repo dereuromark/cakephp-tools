@@ -1,5 +1,6 @@
 <?php
 App::uses('Model', 'Model');
+App::uses('Folder', 'Utility');
 App::uses('Utility', 'Tools.Utility');
 
 /**
@@ -23,6 +24,7 @@ class MyModel extends Model {
 
 		# enable caching
 		if (!Configure::read('Cache.disable') && Cache::config('sql') === false) {
+                          $folder = new Folder(CACHE . 'sql',true);
 			Cache::config('sql', array(
 				'engine' 	=> 'File',
 				'serialize' => true,
@@ -30,9 +32,6 @@ class MyModel extends Model {
 				'path' 		=> CACHE .'sql'. DS,
 				'duration'	=> '+1 day'
 			));
-			if (!file_exists(CACHE .'sql')) {
-				mkdir(CACHE .'sql'. DS, CHOWN_PUBLIC);
-			}
 		}
 
 		# avoiding AppModel instances instead of real Models - testing - 2011-04-03 ms
