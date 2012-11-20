@@ -1,6 +1,6 @@
 <?php
 
-App::uses('MyHelper', 'Tools.Lib');
+App::uses('MyHelper', 'Tools.View/Helper');
 App::uses('View', 'View');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
