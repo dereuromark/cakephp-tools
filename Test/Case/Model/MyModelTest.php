@@ -92,6 +92,33 @@ class MyModelTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * test that strings are correctly escaped using '
+	 */
+	public function testEscapeValue() {
+		$res = $this->App->escapeValue(4);
+		$this->assertSame(4, $res);
+
+		$res = $this->App->escapeValue('4');
+		$this->assertSame('4', $res);
+
+		$res = $this->App->escapeValue('a');
+		$this->assertSame('\'a\'', $res);
+
+		$res = $this->App->escapeValue(true);
+		$this->assertSame(1, $res);
+
+		$res = $this->App->escapeValue(false);
+		$this->assertSame(0, $res);
+
+		$res = $this->App->escapeValue(null);
+		$this->assertSame(null, $res);
+
+		# comparison to cakes escapeField here (which use ` to escape)
+		$res = $this->App->escapeField('dob');
+		$this->assertSame('`User`.`dob`', $res);
+	}
+
+	/**
 	 * test truncate
 	 */
 	public function testTruncate() {
@@ -196,16 +223,16 @@ class MyModelTest extends MyCakeTestCase {
 	public function testGuaranteeFields() {
 		$this->out($this->_header(__FUNCTION__));
 		$res = $this->App->guaranteeFields(array());
-		$this->out(returns($res));
+		debug($res);
 		$this->assertTrue(empty($res));
 
 		$res = $this->App->guaranteeFields(array('x', 'y'));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertTrue(!empty($res));
 		$this->assertEquals($res, array($this->modelName=>array('x'=>'', 'y'=>'')));
 
 		$res = $this->App->guaranteeFields(array('x', 'OtherModel.y'));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertTrue(!empty($res));
 		$this->assertEquals($res, array($this->modelName=>array('x'=>''), 'OtherModel'=>array('y'=>'')));
 	}
@@ -304,78 +331,78 @@ class MyModelTest extends MyCakeTestCase {
 		$this->out($this->_header(__FUNCTION__));
 		$data = array('field' => '2010-01-22');
 		$res = $this->App->validateDate($data);
-		$this->out(returns($res));
+		debug($res);
 		$this->assertTrue($res);
 
 		$data = array('field' => '2010-02-29');
 		$res = $this->App->validateDate($data);
-		$this->out(returns($res));
+		debug($res);
 		$this->assertFalse($res);
 
 		$this->App->data = array($this->App->alias=>array('after'=>'2010-02-22'));
 		$data = array('field' => '2010-02-23 11:11:11');
 		$res = $this->App->validateDate($data, array('after'=>'after'));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertTrue($res);
 
 		$this->App->data = array($this->App->alias=>array('after'=>'2010-02-24 11:11:11'));
 		$data = array('field' => '2010-02-23');
 		$res = $this->App->validateDate($data, array('after'=>'after'));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertFalse($res);
 
 		$this->App->data = array($this->App->alias=>array('after'=>'2010-02-25'));
 		$data = array('field' => '2010-02-25');
 		$res = $this->App->validateDate($data, array('after'=>'after'));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertTrue($res);
 
 		$this->App->data = array($this->App->alias=>array('after'=>'2010-02-25'));
 		$data = array('field' => '2010-02-25');
 		$res = $this->App->validateDate($data, array('after'=>'after', 'min'=>1));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertFalse($res);
 
 		$this->App->data = array($this->App->alias=>array('after'=>'2010-02-24'));
 		$data = array('field' => '2010-02-25');
 		$res = $this->App->validateDate($data, array('after'=>'after', 'min'=>2));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertFalse($res);
 
 		$this->App->data = array($this->App->alias=>array('after'=>'2010-02-24'));
 		$data = array('field' => '2010-02-25');
 		$res = $this->App->validateDate($data, array('after'=>'after', 'min'=>1));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertTrue($res);
 
 		$this->App->data = array($this->App->alias=>array('after'=>'2010-02-24'));
 		$data = array('field' => '2010-02-25');
 		$res = $this->App->validateDate($data, array('after'=>'after', 'min'=>2));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertFalse($res);
 
 		$this->App->data = array($this->App->alias=>array('before'=>'2010-02-24'));
 		$data = array('field' => '2010-02-24');
 		$res = $this->App->validateDate($data, array('before'=>'before', 'min'=>1));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertFalse($res);
 
 		$this->App->data = array($this->App->alias=>array('before'=>'2010-02-25'));
 		$data = array('field' => '2010-02-24');
 		$res = $this->App->validateDate($data, array('before'=>'before', 'min'=>1));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertTrue($res);
 
 		$this->App->data = array($this->App->alias=>array('before'=>'2010-02-25'));
 		$data = array('field' => '2010-02-24');
 		$res = $this->App->validateDate($data, array('before'=>'before', 'min'=>2));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertFalse($res);
 
 		$this->App->data = array($this->App->alias=>array('before'=>'2010-02-26'));
 		$data = array('field' => '2010-02-24');
 		$res = $this->App->validateDate($data, array('before'=>'before', 'min'=>2));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertTrue($res);
 	}
 
@@ -383,69 +410,69 @@ class MyModelTest extends MyCakeTestCase {
 		$this->out($this->_header(__FUNCTION__));
 		$data = array('field' => '2010-01-22 11:11:11');
 		$res = $this->App->validateDatetime($data);
-		$this->out(returns($res));
+		debug($res);
 		$this->assertTrue($res);
 
 		$data = array('field' => '2010-01-22 11:61:11');
 		$res = $this->App->validateDatetime($data);
-		$this->out(returns($res));
+		debug($res);
 		$this->assertFalse($res);
 
 		$data = array('field' => '2010-02-29 11:11:11');
 		$res = $this->App->validateDatetime($data);
-		$this->out(returns($res));
+		debug($res);
 		$this->assertFalse($res);
 
 		$data = array('field' => '');
 		$res = $this->App->validateDatetime($data, array('allowEmpty'=>true));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertTrue($res);
 
 		$data = array('field' => '0000-00-00 00:00:00');
 		$res = $this->App->validateDatetime($data, array('allowEmpty'=>true));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertTrue($res);
 
 		$this->App->data = array($this->App->alias=>array('after'=>'2010-02-22 11:11:11'));
 		$data = array('field' => '2010-02-23 11:11:11');
 		$res = $this->App->validateDatetime($data, array('after'=>'after'));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertTrue($res);
 
 		$this->App->data = array($this->App->alias=>array('after'=>'2010-02-24 11:11:11'));
 		$data = array('field' => '2010-02-23 11:11:11');
 		$res = $this->App->validateDatetime($data, array('after'=>'after'));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertFalse($res);
 
 		$this->App->data = array($this->App->alias=>array('after'=>'2010-02-23 11:11:11'));
 		$data = array('field' => '2010-02-23 11:11:11');
 		$res = $this->App->validateDatetime($data, array('after'=>'after'));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertFalse($res);
 
 		$this->App->data = array($this->App->alias=>array('after'=>'2010-02-23 11:11:11'));
 		$data = array('field' => '2010-02-23 11:11:11');
 		$res = $this->App->validateDatetime($data, array('after'=>'after', 'min'=>1));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertFalse($res);
 
 		$this->App->data = array($this->App->alias=>array('after'=>'2010-02-23 11:11:11'));
 		$data = array('field' => '2010-02-23 11:11:11');
 		$res = $this->App->validateDatetime($data, array('after'=>'after', 'min'=>0));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertTrue($res);
 
 		$this->App->data = array($this->App->alias=>array('after'=>'2010-02-23 11:11:10'));
 		$data = array('field' => '2010-02-23 11:11:11');
 		$res = $this->App->validateDatetime($data, array('after'=>'after'));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertTrue($res);
 
 		$this->App->data = array($this->App->alias=>array('after'=>'2010-02-23 11:11:12'));
 		$data = array('field' => '2010-02-23 11:11:11');
 		$res = $this->App->validateDatetime($data, array('after'=>'after'));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertFalse($res);
 
 	}
@@ -454,24 +481,24 @@ class MyModelTest extends MyCakeTestCase {
 		$this->out($this->_header(__FUNCTION__));
 		$data = array('field' => '11:21:11');
 		$res = $this->App->validateTime($data);
-		$this->out(returns($res));
+		debug($res);
 		$this->assertTrue($res);
 
 		$data = array('field' => '11:71:11');
 		$res = $this->App->validateTime($data);
-		$this->out(returns($res));
+		debug($res);
 		$this->assertFalse($res);
 
 		$this->App->data = array($this->App->alias=>array('before'=>'2010-02-23 11:11:12'));
 		$data = array('field' => '2010-02-23 11:11:11');
 		$res = $this->App->validateTime($data, array('before'=>'before'));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertTrue($res);
 
 		$this->App->data = array($this->App->alias=>array('after'=>'2010-02-23 11:11:12'));
 		$data = array('field' => '2010-02-23 11:11:11');
 		$res = $this->App->validateTime($data, array('after'=>'after'));
-		$this->out(returns($res));
+		debug($res);
 		$this->assertFalse($res);
 	}
 

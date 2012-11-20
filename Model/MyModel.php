@@ -250,7 +250,7 @@ class MyModel extends Model {
 	 * 2011-06-27 ms
 	 */
 	public function escapeValue($value) {
-		if (is_numeric($value)) {
+		if ($value === null || is_numeric($value)) {
 			return $value;
 		}
 		if (is_bool($value)) {
