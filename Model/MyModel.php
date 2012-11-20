@@ -23,6 +23,9 @@ class MyModel extends Model {
 
 		# enable caching
 		if (!Configure::read('Cache.disable') && Cache::config('sql') === false) {
+			if (!file_exists(CACHE . 'sql')) {
+				mkdir(CACHE . 'sql', CHOWN_PUBLIC);
+			}
 			Cache::config('sql', array(
 				'engine' 	=> 'File',
 				'serialize' => true,
@@ -30,12 +33,9 @@ class MyModel extends Model {
 				'path' 		=> CACHE .'sql'. DS,
 				'duration'	=> '+1 day'
 			));
-			if (!file_exists(CACHE .'sql')) {
-				mkdir(CACHE .'sql'. DS, CHOWN_PUBLIC);
-			}
 		}
 
-		# avoiding AppModel instances instead of real Models - testing - 2011-04-03 ms
+		# get a notice if there is an AppModel instances instead of real Models (in those cases usually a dev error!)
 		if (defined('HTTP_HOST') && HTTP_HOST && !is_a($this, $this->name) && $this->displayField !== 'id' && $this->useDbConfig != 'test' && !Configure::read('Core.disableModelInstanceNotice')) {
 			trigger_error('AppModel instance! Expected: ' . $this->name);
 		}
@@ -318,6 +318,7 @@ class MyModel extends Model {
 
 	/**
 	 * improve paginate count for "normal queries"
+	 * @deprecated?
 	 * 2011-04-11 ms
 	 */
 	public function _paginateCount($conditions = null, $recursive = -1, $extra = array()) {
@@ -365,6 +366,15 @@ class MyModel extends Model {
 		}
 	}
 
+	/**
+	 * Fix for non atomic queries (MyISAM  etc) and saveAll to still return just the boolean result
+	 * Otherwise you would have to interate over all result values to find out if the save was successful.
+	 *
+	 * @param mixed $data
+	 * @param array $options
+	 * @return bool Success
+	 * 2012-11-10 ms
+	 */
 	public function saveAll($data = null, $options = array()) {
 		if (!isset($options['atomic'])) {
 			$options['atomic'] = (bool)Configure::read('Model.atomic');
@@ -397,18 +407,15 @@ class MyModel extends Model {
 	/**
 	 * @param params
 	 * - key: functioName or other key used
-	 * @static
+	 * @return bool Success
 	 * 2010-12-02 ms
 	 */
 	public function deleteCache($key) {
-		//extract($params);
 		$key = Inflector::underscore($key);
 		if (!empty($key)) {
-			Cache::delete(strtolower(Inflector::underscore($this->alias)) . '__' . $key, 'sql');
-		} else {
-			Cache::clear(false, 'sql');
+			return Cache::delete(strtolower(Inflector::underscore($this->alias)) . '__' . $key, 'sql');
 		}
-		return true;
+		return Cache::clear(false, 'sql');
 	}
 
 	/**
@@ -759,7 +766,6 @@ class MyModel extends Model {
 		}
 	}
 
-
 	/**
 	 * @param mixed $id: id only, or request array
 	 * @param array $options
@@ -840,9 +846,11 @@ class MyModel extends Model {
 	 * validates a primary or foreign key depending on the current schema data for this field
 	 * recognizes uuid (char36) and aiid (int10 unsigned) - not yet mixed (varchar36)
 	 * more useful than using numeric or notEmpty which are type specific
+	 *
 	 * @param array $data
 	 * @param array $options
 	 * - allowEmpty
+	 * @return bool Success
 	 * 2011-06-21 ms
 	 */
 	public function validateKey($data = array(), $options = array()) {
@@ -873,6 +881,8 @@ class MyModel extends Model {
 
 	/**
 	 * checks if the passed enum value is valid
+	 *
+	 * @return bool Success
 	 * 2010-02-09 ms
 	 */
 	public function validateEnum($field = array(), $enum = null, $additionalKeys = array()) {
@@ -901,6 +911,8 @@ class MyModel extends Model {
 	/**
 	 * checks if the content of 2 fields are equal
 	 * Does not check on empty fields! Return TRUE even if both are empty (secure against empty in another rule)!
+	 *
+	 * @return bool Success
 	 * 2009-01-22 ms
 	 */
 	public function validateIdentical($data = array(), $compareWith = null, $options = array()) {
@@ -925,8 +937,10 @@ class MyModel extends Model {
 	 * checks a record, if it is unique - depending on other fields in this table (transfered as array)
 	 * example in model: 'rule' => array ('validateUnique', array('belongs_to_table_id','some_id','user_id')),
 	 * if all keys (of the array transferred) match a record, return false, otherwise true
+	 *
 	 * @param ARRAY other fields
 	 * TODO: add possibity of deep nested validation (User -> Comment -> CommentCategory: UNIQUE comment_id, Comment.user_id)
+	 * @return bool Success
 	 * 2010-01-30 ms
 	 */
 	public function validateUnique($data, $fields = array(), $options = array()) {
@@ -983,6 +997,8 @@ class MyModel extends Model {
 	 * example in model: 'rule' => array ('validateUniqueExt', array('scope'=>array('belongs_to_table_id','some_id','user_id'))),
 	 * http://groups.google.com/group/cake-php/browse_thread/thread/880ee963456739ec
 	 * //TODO: test!!!
+	 * @return bool Success
+	 * @deprecated in favor of validateUnique?
 	 * 2011-03-27 ms
 	 */
 	public function validateUniqueExt($data, $options = array()) {
@@ -1015,16 +1031,16 @@ class MyModel extends Model {
 		return true;
 	}
 
-
 	/**
-	 * checks if a url is valid AND accessable (returns false otherwise)
+	 * Checks if a url is valid AND accessable (returns false otherwise)
+	 *
 	 * @param array/string $data: full url(!) starting with http://...
 	 * @options array
 	 * - allowEmpty TRUE/FALSE (TRUE: if empty => return TRUE)
 	 * - required TRUE/FALSE (TRUE: overrides allowEmpty)
 	 * - autoComplete (default: TRUE)
 	 * - deep (default: TRUE)
-	 * @return bool $success
+	 * @return bool Success
 	 * 2010-10-18 ms
 	 */
 	public function validateUrl($data, $options = array()) {
@@ -1067,7 +1083,14 @@ class MyModel extends Model {
 		return $this->_validUrl($url);
 	}
 
-	public function _autoCompleteUrl($url) {
+	/**
+	 * prepend protocol if missing
+	 *
+	 * @param string $url
+	 * @return string Url
+	 * 2009-02-27 ms
+	 */
+	protected function _autoCompleteUrl($url) {
 		if (mb_strpos($url, '/') === 0) {
 			$url = Router::url($url, true);
 		} elseif (mb_strpos($url, '://') === false && mb_strpos($url, 'www.') === 0) {
@@ -1076,13 +1099,14 @@ class MyModel extends Model {
 		return $url;
 	}
 
-
 	/**
 	 * checks if a url is valid
+	 *
 	 * @param string url
+	 * @return bool Success
 	 * 2009-02-27 ms
 	 */
-	public function _validUrl($url) {
+	protected function _validUrl($url) {
 		$headers = Utility::getHeaderFromUrl($url);
 		if ($headers === false) {
 			return false;
@@ -1095,11 +1119,13 @@ class MyModel extends Model {
 
 	/**
 	 * Validation of DateTime Fields (both Date and Time together)
+	 *
 	 * @param options
 	 * - dateFormat (defaults to 'ymd')
 	 * - allowEmpty
 	 * - after/before (fieldName to validate against)
 	 * - min/max (defaults to >= 1 - at least 1 minute apart)
+	 * @return bool Success
 	 * 2011-03-02 ms
 	 */
 	public function validateDateTime($data, $options = array()) {
@@ -1142,12 +1168,14 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * Validation of Date Fields (as the core one is buggy!!!)
+	 * Validation of Date fields (as the core one is buggy!!!)
+	 *
 	 * @param options
 	 * - dateFormat (defaults to 'ymd')
 	 * - allowEmpty
 	 * - after/before (fieldName to validate against)
 	 * - min (defaults to 0 - equal is OK too)
+	 * @return bool Success
 	 * 2011-03-02 ms
 	 */
 	public function validateDate($data, $options = array()) {
@@ -1183,11 +1211,14 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * @param options
+	 * Validation of Time fields
+	 *
+	 * @param array $options
 	 * - timeFormat (defaults to 'hms')
 	 * - allowEmpty
 	 * - after/before (fieldName to validate against)
 	 * - min/max (defaults to >= 1 - at least 1 minute apart)
+	 * @return bool Success
 	 * 2011-03-02 ms
 	 */
 	public function validateTime($data, $options = array()) {
@@ -1243,6 +1274,8 @@ class MyModel extends Model {
 
 	/**
 	 * model validation rule for email addresses
+	 *
+	 * @return bool Success
 	 * 2010-01-14 ms
 	 */
 	public function validateUndisposable($data, $proceed = false) {
@@ -1255,8 +1288,8 @@ class MyModel extends Model {
 
 	/**
 	 * NOW: can be set to work offline only (if server is down etc)
+	 * Checks if a email is not from a garbige hoster
 	 *
-	 * checks if a email is not from a garbige hoster
 	 * @param string email (necessary)
 	 * @return boolean true if valid, else false
 	 * 2009-03-09 ms
@@ -1287,7 +1320,6 @@ class MyModel extends Model {
 		return true;
 	}
 
-
 	/**
 	 * Is blocked email?
 	 * //TODO: move outside of MyModel?
@@ -1307,39 +1339,6 @@ class MyModel extends Model {
 		return true;
 	}
 
-
-	/**
-	 * Overrides the Core invalidate function from the Model class
-	 * with the addition to use internationalization (I18n and L10n)
-	 * @param string $field Name of the table column
-	 * @param mixed $value The message or value which should be returned
-	 * @param bool $translate If translation should be done here
-	 * 2010-01-22 ms
-	 */
- 	/*
-	public function invalidate($field, $value = null, $translate = true) {
-		if (!is_array($this->validationErrors)) {
-			$this->validationErrors = array();
-		}
-		if (empty($value)) {
-			$value = true;
-		} else {
-			$value = (array)$value;
-		}
-
-		if (is_array($value)) {
-			$value[0] = $translate ? __($value[0]) : $value[0];
-
-			$args = array_slice($value, 1);
-			$value = vsprintf($value[0], $args);
-		}
-		$this->validationErrors[$field] = $value;
-	}
-	*/
-
-
-
-
 /** General Model Functions **/
 
 	/**
@@ -1348,6 +1347,7 @@ class MyModel extends Model {
 	 * e.g.: 'ORDER BY ".$this->umlautsOrderFix('User.nic')." ASC'
 	 *
 	 * @param string variable (to be correctly ordered)
+	 * @deprecated
 	 */
 	public function umlautsOrderFix($var) {
 		return "REPLACE( REPLACE( REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(".$var.", 'Ä', 'Ae'), 'Ö', 'Oe'), 'Ü', 'Ue'), 'ä', 'ae'), 'ö', 'oe'), 'ü','ue'), 'ß', 'ss')";
@@ -1356,7 +1356,13 @@ class MyModel extends Model {
 
 	/**
 	 * set + guaranteeFields!
-	 * extends the core set function (only using data!!!)
+	 * Extends the core set function (only using data!!!)
+	 *
+	 * @param mixed $data
+	 * @param mixed $data2 (optional)
+	 * @param array $requiredFields Required fields
+	 * @param array $fieldList Whitelist / Allowed fields
+	 * @return array
 	 * 2010-03-11 ms
 	 */
 	public function set($data, $data2 = null, $requiredFields = array(), $fieldList = array()) {
@@ -1370,10 +1376,16 @@ class MyModel extends Model {
 	}
 
 	/**
+	 * @param array $fieldList
+	 * @param array $data (optional)
+	 * @return array
 	 * 2011-06-01 ms
 	 */
 	public function whitelist($fieldList, $data = null) {
 		$model = $this->alias;
+		if ($data === null) {
+			$data = $this->data;
+		}
 		foreach ($data[$model] as $key => $val) {
 			if (!in_array($key, $fieldList)) {
 				unset($data[$model][$key]);
@@ -1432,30 +1444,30 @@ class MyModel extends Model {
 				$model = $this->alias;
 			}
 
-			if ($model === $this->alias) {
-				if (empty($this->validate[$column])) {
-					$this->validate[$column]['notEmpty'] = array('rule'=>'notEmpty', 'required'=>true, 'allowEmpty' => $setAllowEmpty, 'message' => 'valErrMandatoryField');
-				} else {
-					$keys = array_keys($this->validate[$column]);
-					if (!in_array('rule', $keys)) {
-						$key = array_shift($keys);
-						$this->validate[$column][$key]['required'] = true;
-						if (!isset($this->validate[$column][$key]['allowEmpty'])) {
-							$this->validate[$column][$key]['allowEmpty'] = $setAllowEmpty;
-						}
-					} else {
-						$keys['required'] = true;
-						if (!isset($keys['allowEmpty'])) {
-							$keys['allowEmpty'] = $setAllowEmpty;
-						}
-						$this->validate[$column] = $keys;
-					}
-				}
+			if ($model !== $this->alias) {
+				continue;
 			}
 
+			if (empty($this->validate[$column])) {
+				$this->validate[$column]['notEmpty'] = array('rule' => 'notEmpty', 'required' => true, 'allowEmpty' => $setAllowEmpty, 'message' => 'valErrMandatoryField');
+			} else {
+				$keys = array_keys($this->validate[$column]);
+				if (!in_array('rule', $keys)) {
+					$key = array_shift($keys);
+					$this->validate[$column][$key]['required'] = true;
+					if (!isset($this->validate[$column][$key]['allowEmpty'])) {
+						$this->validate[$column][$key]['allowEmpty'] = $setAllowEmpty;
+					}
+				} else {
+					$keys['required'] = true;
+					if (!isset($keys['allowEmpty'])) {
+						$keys['allowEmpty'] = $setAllowEmpty;
+					}
+					$this->validate[$column] = $keys;
+				}
+			}
 		}
 	}
-
 
 	/**
 	 * instead of whitelisting
@@ -1463,18 +1475,18 @@ class MyModel extends Model {
 	 * - array: fields to blacklist
 	 * - boolean TRUE: removes all foreign_keys (_id and _key)
 	 * note: one-dimensional
+	 * @return array
 	 * 2009-06-19 ms
 	 */
 	public function blacklist($blackList = array()) {
 		if ($blackList === true) {
 			//TODO
 		}
-		return array_diff(array_keys($this->schema()), (array )$blackList);
+		return array_diff(array_keys($this->schema()), (array)$blackList);
 	}
 
-
 	/**
-	 * find a specific entry via primary key
+	 * Shortcut method to find a specific entry via primary key
 	 *
 	 * @param mixed $id
 	 * @param string|array $fields
@@ -1518,7 +1530,8 @@ class MyModel extends Model {
 	 * Update a row with certain fields (dont use "Model" as super-key)
 	 * @param int $id
 	 * @param array $data
-	 * @return boolean
+	 * @return bool|array Success
+	 * 2012-11-20 ms
 	 */
 	public function update($id, $data, $validate = false) {
 		$this->id = $id;
@@ -1540,7 +1553,7 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * Toggles Field (Important etc)
+	 * Toggles Field (Important/Deleted/Primary etc)
 	 * @param STRING fieldName
 	 * @param INT id (cleaned!)
 	 * @return ARRAY record: [Model][values],...
@@ -1561,14 +1574,14 @@ class MyModel extends Model {
 	/**
 	 * truncate TABLE (already validated, that table exists)
 	 * @param string table [default:FALSE = current model table]
+	 * @return bool Success
 	 */
 	public function truncate($table = null) {
 		if (empty($table)) {
 			$table = $this->table;
 		}
 		$db = ConnectionManager::getDataSource($this->useDbConfig);
-		$res = $db->truncate($table);
-		return $res;
+		return $db->truncate($table);
 	}
 
 
