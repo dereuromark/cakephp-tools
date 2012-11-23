@@ -17,7 +17,7 @@ class MasterPasswordBehaviorTest extends MyCakeTestCase {
 
 	public function testObject() {
 		$this->assertTrue(is_object($this->MasterPasswordBehavior));
-		$this->assertIsA($this->MasterPasswordBehavior, 'MasterPasswordBehavior');
+		$this->assertInstanceOf('MasterPasswordBehavior', $this->MasterPasswordBehavior);
 	}
 
 	/**

@@ -23,7 +23,7 @@ class MyModelTest extends MyCakeTestCase {
 	public function testObject() {
 		$this->Model = ClassRegistry::init('MyModel');
 		$this->assertTrue(is_object($this->Model));
-		$this->assertIsA($this->Model, 'MyModel');
+		$this->assertInstanceOf('MyModel', $this->Model);
 	}
 
 	public function testGet() {

@@ -21,7 +21,7 @@ class KeyValueBehaviorTest extends MyCakeTestCase {
 
 	public function testObject() {
 		$this->assertTrue(is_object($this->KeyValueBehavior));
-		$this->assertInstanceOf($this->KeyValueBehavior, 'KeyValueBehavior');
+		$this->assertInstanceOf('KeyValueBehavior', $this->KeyValueBehavior);
 	}
 
 	public function testValidate() {

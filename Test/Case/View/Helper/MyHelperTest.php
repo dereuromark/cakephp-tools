@@ -14,7 +14,7 @@ class MyHelperTest extends MyCakeTestCase {
 
 	public function testObject() {
 		$this->assertTrue(is_object($this->MyHelper));
-		$this->assertIsA($this->MyHelper, 'MyHelper');
+		$this->assertInstanceOf('MyHelper', $this->MyHelper);
 	}
 
 	//TODO

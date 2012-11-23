@@ -15,7 +15,7 @@ class TimeLibTest extends MyCakeTestCase {
 
 	public function testNiceDate() {
 		$res = setlocale(LC_TIME, 'de_DE.UTF-8', 'deu_deu');
-		echo returns($res);
+		debug($res);
 
 		$values = array(
 			array('2009-12-01 00:00:00', FORMAT_NICE_YMD, '01.12.2009'),
@@ -30,7 +30,7 @@ class TimeLibTest extends MyCakeTestCase {
 
 	public function testLocalDate() {
 		$res = setlocale(LC_TIME, array('de_DE.UTF-8', 'deu_deu'));
-		echo returns($res);
+		debug($res);
 
 		$values = array(
 			array('2009-12-01 00:00:00', FORMAT_LOCAL_YMD, '01.12.2009'),

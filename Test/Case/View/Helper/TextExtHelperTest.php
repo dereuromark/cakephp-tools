@@ -36,7 +36,7 @@ class TextExtHelperTest extends MyCakeTestCase {
 		pr($text);
 		echo $result;
 		pr(h($result));
-		$this->assertNotEqual($result, $text);
+		$this->assertNotEquals($result, $text);
 
 	}
 

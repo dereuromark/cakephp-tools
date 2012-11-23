@@ -68,7 +68,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 		foreach ($values as $value) {
 			$is = $this->Geocode->convert($value[0], $value[1], $value[2]);
 			echo $value[0].$value[1].' in '.$value[2].':';
-			pr('is: '.returns($is).' - expected: '.$value[3]);
+			//pr('is: '.returns($is).' - expected: '.$value[3]);
 			$this->assertEquals($value[3], round($is, 8));
 		}
 	}
@@ -76,8 +76,8 @@ class GeocodeLibTest extends MyCakeTestCase {
 
 	public function testUrl() {
 		$is = $this->Geocode->url();
-		pr($is);
-		$this->assertTrue(!empty($is) && startsWith($is, 'http://maps.google.de/maps/api/geocode/xml?'));
+		debug($is);
+		$this->assertTrue(!empty($is) && strpos($is, 'http://maps.google.de/maps/api/geocode/xml?') === 0);
 	}
 
 
@@ -85,13 +85,13 @@ class GeocodeLibTest extends MyCakeTestCase {
 	public function _testFetch() {
 		$url = 'http://maps.google.com/maps/api/geocode/xml?sensor=false&address=74523';
 		$is = $this->Geocode->_fetch($url);
-		//echo returns($is);
+		//debug($is);
 
 		$this->assertTrue(!empty($is) && substr($is, 0, 38) == '<?xml version="1.0" encoding="UTF-8"?>');
 
 		$url = 'http://maps.google.com/maps/api/geocode/json?sensor=false&address=74523';
 		$is = $this->Geocode->_fetch($url);
-		//echo returns($is);
+		//debug($is);
 		$this->assertTrue(!empty($is) && substr($is, 0, 1) == '{');
 
 	}
@@ -123,49 +123,49 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$address = '74523 Deutschland';
 		echo '<h2>'.$address.'</h2>';
 		$is = $this->Geocode->geocode($address);
-		echo returns($is);
+		debug($is);
 		$this->assertTrue($is);
 
 		$is = $this->Geocode->getResult();
-		echo returns($is);
+		debug($is);
 		$this->assertTrue(!empty($is));
 
 		$is = $this->Geocode->error();
-		echo returns($is);
+		debug($is);
 		$this->assertTrue(empty($is));
 
 
 		$address = 'Leopoldstraße 100, München';
 		echo '<h2>'.$address.'</h2>';
 		$is = $this->Geocode->geocode($address);
-		echo returns($is);
+		debug($is);
 		$this->assertTrue($is);
 
 		pr($this->Geocode->debug());
 
 		$is = $this->Geocode->getResult();
-		echo returns($is);
+		debug($is);
 		$this->assertTrue(!empty($is));
 
 		$is = $this->Geocode->error();
-		echo returns($is);
+		debug($is);
 		$this->assertTrue(empty($is));
 
 
 		$address = 'Oranienburger Straße 87, 10178 Berlin, Deutschland';
 		echo '<h2>'.$address.'</h2>';
 		$is = $this->Geocode->geocode($address);
-		echo returns($is);
+		debug($is);
 		$this->assertTrue($is);
 
 		pr($this->Geocode->debug());
 
 		$is = $this->Geocode->getResult();
-		echo returns($is);
+		debug($is);
 		$this->assertTrue(!empty($is));
 
 		$is = $this->Geocode->error();
-		echo returns($is);
+		debug($is);
 		$this->assertTrue(empty($is));
 
 	}
@@ -174,13 +174,13 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$address = 'Hjfjosdfhosj, 78878 Mdfkufsdfk';
 		echo '<h2>'.$address.'</h2>';
 		$is = $this->Geocode->geocode($address);
-		echo returns($is);
+		debug($is);
 		$this->assertFalse($is);
 
 		pr($this->Geocode->debug());
 
 		$is = $this->Geocode->error();
-		echo returns($is);
+		debug($is);
 		$this->assertTrue(!empty($is));
 	}
 
@@ -190,11 +190,11 @@ class GeocodeLibTest extends MyCakeTestCase {
 		echo '<h2>'.$address.'</h2>';
 		$this->Geocode->setOptions(array('min_accuracy'=>3));
 		$is = $this->Geocode->geocode($address);
-		echo returns($is);
+		debug($is);
 		$this->assertFalse($is);
 
 		$is = $this->Geocode->error();
-		echo returns($is);
+		debug($is);
 		$this->assertTrue(!empty($is));
 	}
 
@@ -225,11 +225,11 @@ class GeocodeLibTest extends MyCakeTestCase {
 		# allow_inconclusive = FALSE
 		$this->Geocode->setOptions(array('allow_inconclusive'=>false));
 		$is = $this->Geocode->geocode($address);
-		echo returns($is);
+		debug($is);
 		$this->assertFalse($is);
 
 		$is = $this->Geocode->error();
-		echo returns($is);
+		debug($is);
 		$this->assertTrue(!empty($is));
 
 	}
@@ -247,7 +247,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 
 			$is = $this->Geocode->getResult();
 			$this->assertTrue(!empty($is));
-			//echo returns($is); ob_flush();
+			//debug($is); ob_flush();
 			$address = isset($is[0]) ? $is[0]['formatted_address'] : $is['formatted_address'];
 			$this->assertTextContains($coord[2], $address);
 		}

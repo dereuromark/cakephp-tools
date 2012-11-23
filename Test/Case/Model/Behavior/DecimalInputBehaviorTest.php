@@ -5,18 +5,16 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 class DecimalInputBehaviorTest extends MyCakeTestCase {
 
+	public $Comment;
+
 	public function setUp() {
 		//$this->Comment = ClassRegistry::init('Comment');
 		$this->Comment = new DecimalInputTestModel();
 		$this->Comment->Behaviors->load('Tools.DecimalInput', array('fields'=>array('rel_rate', 'set_rate'), 'output'=>true));
 	}
 
-	public function setUp() {
-
-	}
-
 	public function tearDown() {
-
+		unset($this->Comment);
 	}
 
 	public function testObject() {
@@ -37,7 +35,7 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 
 		$res = $this->Comment->data;
-		echo returns($res);
+		debug($res);
 		$this->assertSame($res['TestModel']['set_rate'], 0.1);
 		$this->assertSame($res['TestModel']['rel_rate'], -0.02);
 	}
@@ -55,7 +53,7 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 
 		$res = $this->Comment->data;
-		echo returns($res);
+		debug($res);
 		$this->assertSame($res['TestModel']['set_rate'], 0.1);
 		$this->assertSame($res['TestModel']['rel_rate'], -0.02);
 	}
@@ -64,7 +62,7 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 		echo $this->_header(__FUNCTION__);
 		$res = $this->Comment->find('all', array());
 		$this->assertTrue(!empty($res));
-		echo returns($res);
+		debug($res);
 		$this->assertSame($res[0]['TestModel']['set_rate'], '0,1');
 		$this->assertSame($res[0]['TestModel']['rel_rate'], '-0,02');
 
@@ -72,12 +70,12 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 
 		$res = $this->Comment->find('first', array());
 		$this->assertTrue(!empty($res));
-		echo returns($res);
+		debug($res);
 		$this->assertSame($res['TestModel']['set_rate'], '0,1');
 		$this->assertSame($res['TestModel']['rel_rate'], '-0,02');
 
 		$res = $this->Comment->find('count', array());
-		echo returns($res);
+		debug($res);
 		$this->assertSame($res[0][0]['count'], 2);
 	}
 
@@ -95,7 +93,7 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 
 		$res = $this->Comment->data;
-		echo returns($res);
+		debug($res);
 		$this->assertSame($res['TestModel']['set_rate'], '0#1');
 		$this->assertSame($res['TestModel']['rel_rate'], -0.02);
 	}

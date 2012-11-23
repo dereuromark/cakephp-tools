@@ -56,7 +56,7 @@ class IcalLibTest extends CakeTestCase {
 
 		$is = $this->Ical->parse($this->file);
 		$is = $this->Ical->getTodos();
-		echo returns($is).BR;
+		debug($is).BR;
 		$this->assertEmpty($is);
 	}
 

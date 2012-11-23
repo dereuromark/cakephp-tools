@@ -34,7 +34,7 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 
 		$res = $this->Comment->data;
-		echo returns($res); ob_flush();
+		debug($res); ob_flush();
 		$this->assertSame($res['JsonableBehaviorTestModel']['details'], '{"x":"y"}');
 	}
 
@@ -53,7 +53,7 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 
 		$res = $this->Comment->data;
-		echo returns($res);
+		debug($res);
 		$this->assertSame($res['JsonableBehaviorTestModel']['details'], '["z","y","x"]');
 
 		# with sort and unique
@@ -70,7 +70,7 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 
 		$res = $this->Comment->data;
-		echo returns($res);
+		debug($res);
 		$this->assertSame($res['JsonableBehaviorTestModel']['details'], '["x","y","z"]');
 	}
 
@@ -89,7 +89,7 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 
 		$res = $this->Comment->data;
-		echo returns($res);
+		debug($res);
 		$this->assertSame($res['JsonableBehaviorTestModel']['details'], '{"z":"vz","y":"yz","x":"xz"}');
 	}
 

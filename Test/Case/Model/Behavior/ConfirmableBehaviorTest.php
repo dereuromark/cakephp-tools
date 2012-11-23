@@ -14,7 +14,7 @@ class ConfirmableBehaviorTest extends MyCakeTestCase {
 
 	public function testObject() {
 		$this->assertTrue(is_object($this->ConfirmableBehavior));
-		$this->assertInstanceOf($this->ConfirmableBehavior, 'ConfirmableBehavior');
+		$this->assertInstanceOf('ConfirmableBehavior', $this->ConfirmableBehavior);
 	}
 
 	//TODO

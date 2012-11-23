@@ -57,7 +57,7 @@ class PasswordableBehavior extends ModelBehavior {
 		'formFieldCurrent' => 'pwd_current',
 		'hashType' => null,
 		'hashSalt' => true,
-		'auth' => 'Auth', # which component,
+		'auth' => null, # which component (defaults to AuthComponent),
 		'allowSame' => true, # dont allow the old password on change
 	);
 
@@ -125,9 +125,9 @@ class PasswordableBehavior extends ModelBehavior {
 			trigger_error('No user id given');
 			return false;
 		}
-		if (class_exists('AuthExtComponent')) {
+		if (empty($this->settings[$Model->alias]['auth']) && class_exists('AuthExtComponent')) {
 			$this->Auth = new AuthExtComponent(new ComponentCollection());
-		} elseif (class_exists($this->settings[$Model->alias]['auth'].'Component')) {
+		} elseif (class_exists(($this->settings[$Model->alias]['auth'] ? $this->settings[$Model->alias]['auth'] : 'Auth') . 'Component')) {
 			$auth = $this->settings[$Model->alias]['auth'].'Component';
 			$this->Auth = new $auth(new ComponentCollection());
 		} else {

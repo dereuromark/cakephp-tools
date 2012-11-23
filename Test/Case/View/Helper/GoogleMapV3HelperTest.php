@@ -87,13 +87,13 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 			)
 		);
 		$is = $this->GoogleMapV3->staticMarkers($m, array('color'=>'red', 'char'=>'C', 'shadow'=>'false'));
-		echo returns(h($is));
+		debug($is);
 
 		$options = array(
 			'markers' => $is
 		);
 		$is = $this->GoogleMapV3->staticMap($options);
-		echo h($is);
+		debug($is);
 		echo $is;
 	}
 
@@ -122,7 +122,7 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 		$options = array(
 			'markers' => $this->GoogleMapV3->staticMarkers($m)
 		);
-		echo returns(h($options['markers'])).BR;
+		debug($options['markers']).BR;
 
 		$is = $this->GoogleMapV3->staticMapUrl($options);
 		echo h($is);

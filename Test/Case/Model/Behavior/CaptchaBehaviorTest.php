@@ -12,10 +12,6 @@ class CaptchaBehaviorTest extends MyCakeTestCase {
 	public $Comment;
 
 	public function setUp() {
-
-	}
-
-	public function setUp() {
 		$this->Comment = ClassRegistry::init('Comment');
 		$this->Comment->Behaviors->load('Tools.Captcha', array());
 	}

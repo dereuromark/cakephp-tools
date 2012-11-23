@@ -33,7 +33,7 @@ class ChangePasswordBehaviorTest extends CakeTestCase {
 
 	public function testObject() {
 		$this->User->Behaviors->attach('Tools.ChangePassword', array());
-		$this->assertIsA($this->User->Behaviors->ChangePassword, 'ChangePasswordBehavior');
+		$this->assertInstanceOf('ChangePasswordBehavior', $this->User->Behaviors->ChangePassword);
 		$res = $this->User->Behaviors->attached('ChangePassword');
 		$this->assertTrue($res);
 	}

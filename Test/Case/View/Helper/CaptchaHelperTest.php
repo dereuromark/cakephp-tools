@@ -37,11 +37,11 @@ class CaptchaHelperTest extends CakeTestCase {
 	}
 
 	public function testDataInsideHelper() {
-		echo returns($this->Captcha->webroot);
-		echo returns($this->Captcha->request->webroot);
+		debug($this->Captcha->webroot);
+		debug($this->Captcha->request->webroot);
 
-		echo returns($this->Captcha->data);
-		echo returns($this->Captcha->request->data);
+		debug($this->Captcha->data);
+		debug($this->Captcha->request->data);
 	}
 
 

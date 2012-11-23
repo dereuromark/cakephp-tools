@@ -13,6 +13,8 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
+		Configure::write('Passwordable.auth', 'AuthTestComponent');
+
 		$this->User = ClassRegistry::init('User');
 		if (isset($this->User->validate['pwd'])) {
 			unset($this->User->validate['pwd']);
@@ -311,7 +313,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
  * FAKER!
  * 2011-11-03 ms
  */
-class AuthComponent {
+class AuthTestComponent {
 
 	public function identify($request, $response) {
 		$user = $request->data['User'];

@@ -145,8 +145,8 @@ class AutoLoginTestController extends Controller {
 	 * @access public
 	 * @return void
 	 */
-	public function redirect($option, $code, $exit) {
-		return $code;
+	public function redirect($url, $status = null, $exit = true) {
+		return $status;
 	}
 	/**
 	 * Conveinence method for header()

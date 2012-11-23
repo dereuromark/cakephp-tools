@@ -74,13 +74,13 @@ class GooglLibTest extends CakeTestCase {
 
 		$url = 'http://www.web.de#123456';
 		$is = $this->Googl->getShort($url);
-		echo returns($is); ob_flush();
+		debug($is); ob_flush();
 		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] == 'urlshortener#url' && $is['longUrl'] == 'http://www.web.de/#123456');
 
 		$shortUrl = $is['id'];
 		$is = $this->Googl->getLong($shortUrl, GooglLib::PROJECTION_CLICKS);
 
-		echo returns($is); ob_flush();
+		debug($is); ob_flush();
 		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] == 'urlshortener#url' && $is['status'] == 'OK' && $is['longUrl'] == 'http://www.web.de/#123456');
 
 	}

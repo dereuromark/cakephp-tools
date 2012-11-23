@@ -29,7 +29,7 @@ class RevisionBehaviorTest extends CakeTestCase {
 
 	public function testObject() {
 		$this->assertTrue(is_object($this->RevisionBehavior));
-		$this->assertIsA($this->RevisionBehavior, 'RevisionBehavior');
+		$this->assertInstanceOf('RevisionBehavior', $this->RevisionBehavior);
 	}
 
 	function tearDown($method = null) {
