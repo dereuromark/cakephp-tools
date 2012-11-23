@@ -20,7 +20,7 @@ That's it. It should be up and running.
 
 ## The basics
 
-Include the bootstrap file with
+Include the Tools bootstrap file in your `APP/Config/bootstrap.php` with
 
     App::import('Lib', 'Tools.Bootstrap/MyBootstrap');
 
