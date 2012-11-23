@@ -893,7 +893,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * @param object $Model
 	 * @return boolean
 	 */
-	public function beforeDelete(Model $Model) {
+	public function beforeDelete(Model $Model, $cascade = true) {
 		if ($this->settings[$Model->alias]['auto'] === false) {
 			return true;
 		}

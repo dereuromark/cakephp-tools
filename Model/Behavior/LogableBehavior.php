@@ -335,7 +335,7 @@ class LogableBehavior extends ModelBehavior {
 		$this->userIP = $userIP;
 	}
 
-	public function beforeDelete(Model $Model) {
+	public function beforeDelete(Model $Model, $cascade = true) {
 		$this->setUserData($Model);
 		if (!$this->settings[$Model->alias]['enabled']) {
 			return true;
