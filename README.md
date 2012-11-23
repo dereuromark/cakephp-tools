@@ -14,12 +14,18 @@ Installing the Plugin is pretty much as with every other CakePHP Plugin.
 * Put the files in `APP/Plugin/Tools`
 * Make sure you have `CakePlugin::load('Tools')` or `CakePlugin::loadAll()` in your bootstrap
 
-You can also use packagist now:
-https://packagist.org/packages/dereuromark/tools-cakephp
+Tip: You can also use packagist now @ https://packagist.org/packages/dereuromark/tools-cakephp
 
-That's it
+That's it. It should be up and running.
 
 ## The basics
+
+Include the bootstrap file with
+
+    App::import('Lib', 'Tools.Bootstrap/MyBootstrap');
+
+You cannot use App::uses because this file does not contain a class and needs to be included right away (not lazy loaded).
+
 
 MyModel can be extended to use more powerful validation and other improvements:
 
