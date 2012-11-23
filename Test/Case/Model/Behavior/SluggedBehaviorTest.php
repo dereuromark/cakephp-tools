@@ -221,6 +221,19 @@ class SluggedBehaviorTest extends CakeTestCase {
  * test remove stop words
  */
 	public function testRemoveStopWords() {
+		$skip = false;
+		$lang = Configure::read('Site.lang');
+		if (!$lang) {
+			$lang = 'eng';
+		}
+		if (
+			!App::import('Vendor', 'stop_words_' . $lang, array('file' => "stop_words".DS."$lang.txt")) &&
+			!App::import('Vendor', 'Tools.stop_words_' . $lang, array('file' => "stop_words".DS."$lang.txt"))
+		) {
+			$skip = true;
+		}
+		$this->skipIf($skip, 'no stop_words/'.$lang.'.txt file found');
+
 		$array = $this->Model->removeStopWords('My name is Michael Paine, and I am a nosey neighbour');
 		$expected = array(
 			'Michael Paine',
