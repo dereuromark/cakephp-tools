@@ -644,7 +644,7 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 </script>
 		';
 
-			$options = am(array('id' => $modelName.$fieldName), $options);
+			$options = array_merge(array('id' => $modelName.$fieldName), $options);
 			$select = $this->text($field, $options);
 			return '<div class="input date'.(!empty($error)?' error':'').'">'.$this->label($modelName.'.'.$field, $options['label']).''.$select.''.$error.'</div>'.$script;
 		}
@@ -854,7 +854,7 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 				$selector = $settings;
 				$settings = array();
 			}
-			$settings = am($this->charCountOptions, $options, $settings);
+			$settings = array_merge($this->charCountOptions, $options, $settings);
 			$js .= 'jQuery(\''.$selector.'\').charCount('.$this->Js->object($settings, array('quoteKeys'=>false)).');';
 		}
 		$js = $this->documentReady($js);
@@ -973,7 +973,7 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 		$defaults = array(
 	 		'class' => 'checkboxToggle'
 		);
-		$options = am($defaults, $options);
+		$options = array_merge($defaults, $options);
 		return $script . parent::checkbox($fieldName, $options);
 	}
 

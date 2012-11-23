@@ -193,4 +193,48 @@ class TextExtHelperTest extends MyCakeTestCase {
 		$this->assertEquals($result, $expected);
 	}
 
+	/**
+	 * test minimizeUrl
+	 *
+	 * @access public
+	 * @return void
+	 * 2009-03-11 ms
+	 */
+	public function testMinimizeUrl() {
+
+		$url = 'http://www.test.de';
+		$this->assertEquals($url, $this->Text->minimizeUrl($url,20));
+
+		$url = 'http://www.test.de';
+		$this->assertEquals($url, $this->Text->minimizeUrl($url,18));
+
+		$url = 'http://www.test.de';
+		$this->assertEquals('www.test.de', $this->Text->minimizeUrl($url,17));
+
+		$url = 'http://www.testpage.de';
+		$this->assertEquals('ww&#8230;ge.de', $this->Text->minimizeUrl($url,10));
+
+		$url = 'http://www.testpage.de';
+		$this->assertEquals('ww...ge.de', $this->Text->minimizeUrl($url,10, array('placeholder'=>'...')));
+
+		# without full http://
+		$url = 'www.testpage.de';
+		$this->assertEquals($url, $this->Text->minimizeUrl($url,15));
+
+		$url = 'www.testpage.de';
+		$this->assertEquals('www.te&#8230;ge.de', $this->Text->minimizeUrl($url,14));
+
+	}
+
+	/**
+	 * test shortenText
+	 *
+	 * @access public
+	 * @return void
+	 * 2009-03-11 ms
+	 */
+	public function testShortenText() {
+
+	}
+
 }

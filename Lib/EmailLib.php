@@ -83,11 +83,14 @@ class EmailLib extends CakeEmail {
 	 * @return resource EmailLib
 	 * 2011-11-02 ms
 	 */
-	public function addAttachment($file, $name = null) {
+	public function addAttachment($file, $name = null, $fileInfo = array()) {
+		$fileInfo['file'] = $file;
 		if (!empty($name)) {
-			return $this->addAttachments(array($name=>$file));
+			$fileInfo = array($name => $fileInfo);
+		} else {
+			$fileInfo = array($fileInfo);
 		}
-		return $this->addAttachments($file);
+		return $this->addAttachments($fileInfo);
 	}
 
 	/**
@@ -98,8 +101,7 @@ class EmailLib extends CakeEmail {
 	 * @return mixed ressource EmailLib or string $contentId
 	 * 2011-11-02 ms
 	 */
-	public function addBlobAttachment($content, $name, $mimeType = null) {
-		$fileInfo = array();
+	public function addBlobAttachment($content, $name, $mimeType = null, $fileInfo = array()) {
 		$fileInfo['content'] = $content;
 		$fileInfo['mimetype'] = $mimeType;
 		$file = array($name=>$fileInfo);
@@ -435,7 +437,12 @@ class EmailLib extends CakeEmail {
 			$msg[] = '--' . $boundary;
 			$msg[] = 'Content-Type: ' . $fileInfo['mimetype'];
 			$msg[] = 'Content-Transfer-Encoding: base64';
-			$msg[] = 'Content-Disposition: attachment; filename="' . $filename . '"';
+			if (
+				!isset($fileInfo['contentDisposition']) ||
+				$fileInfo['contentDisposition']
+			) {
+				$msg[] = 'Content-Disposition: attachment; filename="' . $filename . '"';
+			}
 			$msg[] = '';
 			$msg[] = $data;
 			$msg[] = '';
@@ -686,7 +693,6 @@ class EmailLib extends CakeEmail {
 			}
 		}
 		*/
-
 		try {
 			$this->_debug = parent::send($message);
 		} catch (Exception $e) {

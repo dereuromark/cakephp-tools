@@ -123,7 +123,7 @@ class ImapLib {
 	 * 2011-10-25 ms
 	 */
 	public function connect($user, $pass, $server, $port = null) {
-		if (!$this->dependenciesMatches()) {
+		if (!$this->dependenciesMatch()) {
 			return false;
 		}
 
@@ -134,9 +134,13 @@ class ImapLib {
 		$this->settings[self::S_USER] = $user;
 		$this->settings[self::S_PASSWORD] = $pass;
 		$connector = $this->buildConnector();
-		//die($connector);
-		$this->stream = @imap_open($connector, $user, $pass);
+
+		//$options = OP_DEBUG;
+		$this->stream = @imap_open($connector, $user, $pass, $options);
 		if (false === $this->stream) {
+			if ($error = $this->checkConnection()) {
+				throw new ImapException($error);
+			}
 			return false;
 		}
 		return true;
@@ -150,16 +154,10 @@ class ImapLib {
 	}
 
 	public function msgCount() {
-		if ($error = $this->checkConnection()) {
-			throw new ImapException($error);
-		}
 		return imap_num_msg($this->stream);
 	}
 
 	public function listMailboxes($current = true) {
-		if ($error = $this->checkConnection()) {
-			return $error;
-		}
 		if (is_bool($current)) {
 			if ($current) {
 				$current = '%';
@@ -176,16 +174,10 @@ class ImapLib {
 	}
 
 	public function expunge() {
-		if ($error = $this->checkConnection()) {
-			return $error;
-		}
 		return imap_expunge($this->stream);
 	}
 
 	public function close($expunge = false) {
-		if ($error = $this->checkConnection()) {
-			return $error;
-		}
 		if ($expunge) {
 			return @imap_close($this->stream, CL_EXPUNGE);
 		} else {
@@ -204,68 +196,61 @@ class ImapLib {
 	 * 2011-11-17 ms
 	 */
 	public function msgList($msg_list = array()) {
-		if ($this->stream) {
-			$return = array();
+		$return = array();
 
-			if (is_array($msg_list) || count($msg_list) == 0) {
-				try {
-					$count = $this->msgCount();
-				} catch (Exception $e) {
-					return $e->getMessage();
-				}
-				for ($i = 1; $i <= $count; $i++) {
-					$header = imap_headerinfo($this->stream, $i);
-					foreach ($header as $id => $value) {
-						# fix to remove whitespaces
-						$header->Msgno = trim($header->Msgno);
+		if (empty($msg_list)) {
+			$count = $this->msgCount();
+			for ($i = 1; $i <= $count; $i++) {
+				$header = imap_headerinfo($this->stream, $i);
+				$msgNo = trim($header->Msgno);
+				foreach ($header as $id => $value) {
+					# fix to remove whitespaces
 
-						// Simple array
-						if (!is_array($value)) {
-							$return[$header->Msgno][$id] = $value;
-						} else {
-							foreach ($value as $newid => $array_value) {
-								foreach ($value[0] as $key => $aValue) {
-									$return[$header->Msgno][$id][$key] = quoted_printable_decode($aValue);
-								}
+
+					// Simple array
+					if (!is_array($value)) {
+						$return[$msgNo][$id] = $value;
+					} else {
+						foreach ($value as $newid => $array_value) {
+							foreach ($value[0] as $key => $aValue) {
+								$return[$msgNo][$id][$key] = quoted_printable_decode($aValue);
 							}
 						}
-						// Let's add the body
-						$return[$header->Msgno]['body'] = imap_fetchbody($this->stream, $header->Msgno, 1);
-
-						//lets add attachments
-						$return[$header->Msgno]['structure'] = imap_fetchstructure($this->stream, $header->Msgno, 1);
-						$return[$header->Msgno]['attachments'] = $this->attachments($header);
 					}
-				}
-			}
-			// We want to search a specific array of messages
-			else {
-				foreach ($msg_list as $i) {
-					$header = imap_headerinfo($this->stream, $i);
-					foreach ($header as $id => $value) {
-						// Simple array
-						if (!is_array($value)) {
-							$return[$header->Msgno][$id] = $value;
-						} else {
-							foreach ($value as $newid => $array_value) {
-								foreach ($value[0] as $key => $aValue) {
-									$return[$header->Msgno][$id][$key] = $this->_quoted_printable_encode($aValue);
-								}
-							}
-						}
-						// Let's add the body too!
-						$return[$header->Msgno]['body'] = imap_fetchbody($this->stream, $header->Msgno, 0);
-						$return[$header->Msgno]['structure'] = imap_fetchstructure($this->stream, $header->Msgno);
-						$return[$header->Msgno]['attachments'] = $this->attachments($header);
-					}
-				}
-			}
 
-			#$return['num_of_msgs'] = count($return);
-			return $return;
+				}
+				// Let's add the body
+				$return[$msgNo]['body'] = imap_fetchbody($this->stream, $msgNo, 1);
+
+				//lets add attachments
+				$return[$msgNo]['structure'] = imap_fetchstructure($this->stream, $msgNo);
+				//debug(imap_fetchstructure($this->stream, $header->Msgno, FT_UID));
+				$return[$msgNo]['attachments'] = $this->attachments($header);
+			}
 		}
-
-		return imap_last_error();
+		// We want to search a specific array of messages
+		else {
+			foreach ($msg_list as $i) {
+				$header = imap_headerinfo($this->stream, $i);
+				foreach ($header as $id => $value) {
+					// Simple array
+					if (!is_array($value)) {
+						$return[$header->Msgno][$id] = $value;
+					} else {
+						foreach ($value as $newid => $array_value) {
+							foreach ($value[0] as $key => $aValue) {
+								$return[$header->Msgno][$id][$key] = $this->_quoted_printable_encode($aValue);
+							}
+						}
+					}
+					// Let's add the body too!
+					$return[$header->Msgno]['body'] = imap_fetchbody($this->stream, $header->Msgno, 0);
+					$return[$header->Msgno]['structure'] = imap_fetchstructure($this->stream, $header->Msgno);
+					$return[$header->Msgno]['attachments'] = $this->attachments($header);
+				}
+			}
+		}
+		return $return;
 	}
 
 	/**
@@ -273,7 +258,10 @@ class ImapLib {
 	 * 2011-09-02 ms
 	 */
 	public function attachments($header) {
-		$structure = imap_fetchstructure($this->stream, $header->Msgno, FT_UID);
+		$structure = imap_fetchstructure($this->stream, $header->Msgno);
+		if (!$structure) {
+			return false;
+		}
 		$parts = $structure->parts;
 		$fpos = 2;
 		$message = array();
@@ -318,6 +306,22 @@ class ImapLib {
 				$data = "";
 				$mege = imap_fetchbody($this->stream, $header->Msgno, $fpos);
 				$attachment['filename'] = $part->parameters[0]->value;
+				$attachment['data'] = $this->_getDecodedValue($mege, $part->type);
+				$attachment['filesize'] = strlen($attachment['data']);
+
+				$fpos++;
+				$attachments[] = $attachment;
+			} else { // inline attachments etc
+				$attachment["pid"] = $i;
+				$attachment["type"][$i] = $message["attachment"]["type"][$part->type] . "/" . strtolower($part->subtype);
+				$attachment["subtype"][$i] = strtolower($part->subtype);
+				$ext = $part->subtype;
+				$params = $part->parameters;
+				//CakeLog::write('import', print_r($part, true)); die('TEST');
+				$mege = "";
+				$data = "";
+				$mege = imap_fetchbody($this->stream, $header->Msgno, $fpos);
+				$attachment['filename'] = !is_object($part->parameters) ? $part->parameters[0]->value : '';
 				$attachment['data'] = $this->_getDecodedValue($mege, $part->type);
 				$attachment['filesize'] = strlen($attachment['data']);
 
@@ -503,7 +507,7 @@ class ImapLib {
 	 * @return bool $success
 	 * 2011-10-25 ms
 	 */
-	public function dependenciesMatches() {
+	public function dependenciesMatch() {
 		if (!function_exists('imap_open')) {
 			trigger_error('imap_open not available. Please install extension/module.');
 			return false;

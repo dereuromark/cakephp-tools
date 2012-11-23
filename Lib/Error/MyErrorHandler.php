@@ -1,6 +1,7 @@
 <?php
 App::uses('ErrorHandler', 'Error');
 App::uses('CakeRequest', 'Network');
+App::uses('Router', 'Routing');
 App::uses('Utility', 'Tools.Utility');
 
 class MyErrorHandler extends ErrorHandler {
@@ -131,7 +132,7 @@ class MyErrorHandler extends ErrorHandler {
 		if (strpos($_SERVER['REQUEST_URI'], '/test.php?') === 0) {
 			return null;
 		}
-		$currentUrl = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : 'n/a';
+		$currentUrl = Router::url(); //isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : 'n/a';
 		$refererUrl = Utility::getReferer(); //Router::getRequest()->url().'
 		App::uses('CakeSession', 'Model/Datasource');
 		$uid = CakeSession::read('Auth.User.id');

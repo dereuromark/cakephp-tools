@@ -7,7 +7,7 @@ App::uses('Router', 'Routing');
  * Uses Session: User.mobile and User.nomobile
  * - mobile is the auto-detection (true/false)
  * - nomobile can be set by the user and overrides the default behavior/detection
- * (1=true/0=false or -1=null which will remove the override)
+ *   (1=true/0=false or -1=null which will remove the override)
  *
  * TODO: differentaite between "isMobile" and "has/wants mobile"
  * @author Mark Scherer
@@ -26,6 +26,7 @@ class MobileComponent extends Component {
 
 	protected $_defaults = array(
 		'engine' => 'cake',
+		'auto' => false, // auto set mobile views
 	);
 
 	/**
@@ -34,7 +35,7 @@ class MobileComponent extends Component {
 	public $themed = true;
 
 	public function __construct(ComponentCollection $collection, $settings = array()) {
-		$settings = am($this->_defaults, $settings);
+		$settings = array_merge($this->_defaults, $settings);
 		parent::__construct($collection, $settings);
 	}
 
@@ -52,33 +53,7 @@ class MobileComponent extends Component {
 			$this->Session->write('User.nomobile', $noMobile);
 
 		}
-		$this->setMobile();
-
-		$urlParams = Router::getParams(true);
-		if (!isset($urlParams['named'])) {
-			$urlParams['named'] = array();
-		}
-		if (!isset($urlParams['pass'])) {
-			$urlParams['pass'] = array();
-		}
-		$urlParams = am($urlParams, $urlParams['named'], $urlParams['pass']);
-		unset($urlParams['named']);
-		unset($urlParams['pass']);
-		if (isset($urlParams['prefix'])) {
-			unset($urlParams['prefix']);
-		}
-
-		if ($this->setMobile) {
-			$url = Router::url(am($urlParams, array('mobile' => 0)));
-			$this->Controller->set('desktopUrl', $url);
-
-		} else {
-			$url = Router::url(am($urlParams, array('mobile' => 1)));
-			$this->Controller->set('mobileUrl', $url);
-		}
-
-		Configure::write('User.mobile', $this->isMobile);
-		Configure::write('User.setMobile', $this->setMobile);
+		$this->isMobile();
 	}
 
 	/**
@@ -100,7 +75,7 @@ class MobileComponent extends Component {
 		*      (int) 0 => '/var/www/maps-cakephp2/app/View/'
 		* )
 		*/
-		$mobileViewFile = $viewDir[0] . $this->viewPath . DS . 'mobile' . DS . $this->params['action'] . '.ctp';
+		$mobileViewFile = $viewDir[0] . $this->viewPath . DS . 'Mobile' . DS . $this->params['action'] . '.ctp';
 
 		//Debugger::log($this->viewPath);
 		// use this to log the output to
@@ -113,7 +88,7 @@ class MobileComponent extends Component {
 			// and if a mobile view file has been
 			// created for the action, serve it instead
 			// of the default view file
-			$this->viewPath = $this->viewPath . '/mobile/';
+			$this->viewPath = $this->viewPath . '/Mobile/';
 		}
 	}
 
@@ -124,15 +99,44 @@ class MobileComponent extends Component {
 	 */
 	public function setMobile() {
 		if ($this->isMobile === null) {
-			$mobile = $this->isMobile();
-			$this->isMobile = $mobile;
+			$this->isMobile();
 		}
 		$noMobile = $this->Session->read('User.nomobile');
 		if (!$this->isMobile && $noMobile === null || $noMobile) {
 			$this->setMobile = false;
+		} else {
+			$this->setMobile = true;
+		}
+
+		$urlParams = Router::getParams(true);
+		if (!isset($urlParams['named'])) {
+			$urlParams['named'] = array();
+		}
+		if (!isset($urlParams['pass'])) {
+			$urlParams['pass'] = array();
+		}
+		$urlParams = array_merge($urlParams, $urlParams['named'], $urlParams['pass']);
+		unset($urlParams['named']);
+		unset($urlParams['pass']);
+		if (isset($urlParams['prefix'])) {
+			unset($urlParams['prefix']);
+		}
+
+		if ($this->setMobile) {
+			$url = Router::url(array_merge($urlParams, array('mobile' => 0)));
+			$this->Controller->set('desktopUrl', $url);
+
+		} else {
+			$url = Router::url(array_merge($urlParams, array('mobile' => 1)));
+			$this->Controller->set('mobileUrl', $url);
+		}
+
+		Configure::write('User.mobile', $this->isMobile);
+		Configure::write('User.setMobile', $this->setMobile);
+
+		if (!$this->isMobile) {
 			return;
 		}
-		$this->setMobile = true;
 
 		if (!$this->themed) {
 	 		$this->serveMobileIfAvailable();
@@ -149,13 +153,30 @@ class MobileComponent extends Component {
 	 * @return bool $success
 	 */
 	public function isMobile() {
-		$isMobile = $this->Session->read('User.mobile');
-		if ($isMobile !== null) {
-			return $isMobile;
+		if ($this->isMobile !== null) {
+			return $this->isMobile;
 		}
-		$isMobile = (int)$this->detect();
-		$this->Session->write('User.mobile', $isMobile);
-		return $isMobile;
+
+		$wantsMobile = null;
+		if (isset($this->Controller->request->params['named']['mobile'])) {
+			if ($this->Controller->request->params['named']['mobile'] == '-1') {
+				$this->Session->delete('User.mobile');
+			} else {
+				$wantsMobile = (bool)$this->Controller->request->params['named']['mobile'];
+			}
+		}
+		if ($wantsMobile) {
+			$this->isMobile = $wantsMobile;
+			return $this->isMobile;
+		}
+
+		$this->isMobile = $this->Session->read('User.mobile');
+		if ($this->isMobile !== null) {
+			return $this->isMobile;
+		}
+		$this->isMobile = (int)$this->detect();
+		$this->Session->write('User.mobile', $this->isMobile);
+		return $this->isMobile;
 	}
 
 	/**

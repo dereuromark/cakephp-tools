@@ -14,6 +14,9 @@ Installing the Plugin is pretty much as with every other CakePHP Plugin.
 * Put the files in `APP/Plugin/Tools`
 * Make sure you have `CakePlugin::load('Tools')` or `CakePlugin::loadAll()` in your bootstrap
 
+You can also use packagist now:
+https://packagist.org/packages/dereuromark/tools-cakephp
+
 That's it
 
 ## The basics

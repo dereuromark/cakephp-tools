@@ -155,22 +155,11 @@ class DatetimeHelper extends TimeHelper {
 			//$span = '<span class="published '..'">';	// -1/-2 = ago | 1/2 = ahead | 0 = today
 			//$spanEnd = '</span>';
 		}
-		if (isset($this->Html)) {
-			return $this->Html->tag('span', $niceDate, $attr);
+		if (!isset($this->Html)) {
+			//TODO: fixme
+			$this->loadHelpers(array('Html'));
 		}
-		//TODO: fix me here
-		trigger_error('HtmlHelper not found');
-		$a = array();
-		foreach ($attr as $key => $val) {
-			$a[] = $key.'="'.$val.'"';
-		}
-		$attr = '';
-		if (!empty($a)) {
-			$attr .= ' '.implode(' ', $a);
-		}
-		$span = '<span'.$attr.'>';
-		$spanEnd = '</span>';
-		return $span . $niceDate . $spanEnd;
+		return $this->Html->tag('span', $niceDate, $attr);
 	}
 
 
