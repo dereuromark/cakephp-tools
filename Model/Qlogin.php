@@ -81,7 +81,7 @@ class Qlogin extends ToolsAppModel {
 	}
 
 	public static function urlByKey($key) {
-		return Router::url(array('admin'=>'', 'plugin'=>'tools', 'controller'=>'qlogin', 'action'=>'go', $key), true);
+		return Router::url(array('admin' => false, 'plugin'=>'tools', 'controller'=>'qlogin', 'action'=>'go', $key), true);
 	}
 
 	/**
