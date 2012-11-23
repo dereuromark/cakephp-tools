@@ -83,7 +83,7 @@ class TextExtHelper extends TextHelper {
 	 * @static
 	 * 2010-11-20 ms
 	 */
-	public function prepareEmail($email, $options = array(), $customOptions = array()) {
+	public static function prepareEmail($email, $options = array(), $customOptions = array()) {
 		$obfuscate = false;
 		if (isset($options['obfuscate'])) {
 			$obfuscate = $options['obfuscate'];

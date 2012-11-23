@@ -41,22 +41,22 @@ class TypographyHelperTest extends MyCakeTestCase {
  */
 	public function testFormatCharacter() {
 		$strs = array(
-			'"double quotes"' 				=> '&#8220;double quotes&#8221;',
+			'"double quotes"' => '&#8220;double quotes&#8221;',
 			'"testing" in "theory" that is' => '&#8220;testing&#8221; in &#8220;theory&#8221; that is',
-			"Here's what I'm" 				=> 'Here&#8217;s what I&#8217;m',
-			'&' 							=> '&amp;',
-			'&amp;' 						=> '&amp;',
-			'&nbsp;'						=> '&nbsp;',
-			'--'							=> '&#8212;',
-			'foo...'						=> 'foo&#8230;',
-			'foo..'							=> 'foo..',
-			'foo...bar.'					=> 'foo&#8230;bar.',
-			'test. new'					=> 'test.&nbsp; new',
+			"Here's what I'm" => 'Here&#8217;s what I&#8217;m',
+			'&' => '&amp;',
+			'&amp;' => '&amp;',
+			'&nbsp;' => '&nbsp;',
+			'--' => '&#8212;',
+			'foo...' => 'foo&#8230;',
+			'foo..' => 'foo..',
+			'foo...bar.' => 'foo&#8230;bar.',
+			'test.  new' => 'test.&nbsp; new',
 		);
 
 		foreach ($strs as $str => $expected) {
 			$result = $this->Typography->formatCharacters($str);
-			echo pre($result);
+			debug($result);
 			$this->assertEquals($expected, $result);
 		}
 

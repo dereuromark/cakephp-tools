@@ -82,18 +82,29 @@ class QrCodeHelper extends AppHelper {
 	}
 
 	/**
-	 * just the url - without image tag
+	 * Just the url - without image tag
+	 * Note: cannot be url() due to AppHelper conflicts
+	 *
+	 * @param string $text
+	 * @return string $url
 	 * 2010-02-25 ms
 	 */
-	public function url($text) {
+	public function uri($text) {
 		$params = array();
-
-		$params['chl'] = rawurlencode($text); //urlencode($text);
-		return $this->_url($params);
+		$params['chl'] = rawurlencode($text);
+		return $this->_uri($params);
 	}
 
+	/**
+	 * @deprecated
+	 * old method - use uri() instead
+	 */
+	public function url($url = null, $full = false) {
+		//trigger_error('use uri() instead', E_DEPRECATED);
+		return $this->uri($url);
+	}
 
- 	protected function _url($params = array()) {
+ 	protected function _uri($params = array()) {
 		$params = array_merge($this->options, $params);
 		$pieces = array();
 		foreach ($params as $key => $value) {
