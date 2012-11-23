@@ -44,16 +44,16 @@ class MyModelTest extends MyCakeTestCase {
 			2 => 'bar',
 		);
 
-		$res = User::enum(null, $array, false);
+		$res = AppTestModel::enum(null, $array, false);
 		$this->assertEquals($array, $res);
 
-		$res = User::enum(2, $array, false);
+		$res = AppTestModel::enum(2, $array, false);
 		$this->assertEquals('bar', $res);
 
-		$res = User::enum('2', $array, false);
+		$res = AppTestModel::enum('2', $array, false);
 		$this->assertEquals('bar', $res);
 
-		$res = User::enum(3, $array, false);
+		$res = AppTestModel::enum(3, $array, false);
 		$this->assertFalse($res);
 	}
 
@@ -537,11 +537,11 @@ class MyModelTest extends MyCakeTestCase {
 
 		$data = array('field' => '/some/link');
 		$res = $this->App->validateUrl($data, array('deep'=>false, 'autoComplete'=>true));
-		$this->assertTrue($res);
+		$this->assertTrue($_SERVER['HTTP_HOST'] === 'localhost' ? !$res : $res);
 
 		$data = array('field' => 'http://'.$_SERVER['HTTP_HOST'].'/some/link');
 		$res = $this->App->validateUrl($data, array('deep'=>false));
-		$this->assertTrue($res);
+		$this->assertTrue($_SERVER['HTTP_HOST'] === 'localhost' ? !$res : $res);
 
 		$data = array('field' => '/some/link');
 		$res = $this->App->validateUrl($data, array('deep'=>false, 'autoComplete'=>false));
@@ -551,7 +551,7 @@ class MyModelTest extends MyCakeTestCase {
 
 		$data = array('field' => '/some/link');
 		$res = $this->App->validateUrl($data, array('deep'=>false, 'sameDomain'=>true));
-		$this->assertTrue($res);
+		$this->assertTrue($_SERVER['HTTP_HOST'] === 'localhost' ? !$res : $res);
 
 		$data = array('field' => 'https://github.com/');
 		$res = $this->App->validateUrl($data, array('deep'=>false));
@@ -567,6 +567,10 @@ class MyModelTest extends MyCakeTestCase {
 class Post extends MyModel {
 
 	public $belongsTo = 'Author';
+
+}
+
+class User extends MyModel {
 
 }
 

@@ -854,7 +854,8 @@ class MyModel extends Model {
 	 * 2011-06-21 ms
 	 */
 	public function validateKey($data = array(), $options = array()) {
-		$key = array_shift(array_keys($data));
+		$keys = array_keys($data);
+		$key = array_shift($keys);
 		$value = array_shift($data);
 
 		$schema = $this->schema($key);
@@ -885,9 +886,10 @@ class MyModel extends Model {
 	 * @return bool Success
 	 * 2010-02-09 ms
 	 */
-	public function validateEnum($field = array(), $enum = null, $additionalKeys = array()) {
-		$valueKey = array_shift(array_keys($field)); # auto-retrieve
-		$value = $field[$valueKey];
+	public function validateEnum(array $data, $enum = null, $additionalKeys = array()) {
+		$keys = array_keys($data);
+		$valueKey = array_shift($keys);
+		$value = $data[$valueKey];
 		$keys = array();
 		if ($enum === true) {
 			$enum = $valueKey;
