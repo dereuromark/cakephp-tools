@@ -104,7 +104,7 @@ class Qurl extends ToolsAppModel {
 		if ($title && $slugTitle) {
 			$title = Inflector::slug($title, '-');
 		}
-		return Router::url(array('admin'=>'', 'plugin'=>'tools', 'controller'=>'qurls', 'action'=>'go', $key, $title), true);
+		return Router::url(array('admin' => false, 'plugin'=>'tools', 'controller'=>'qurls', 'action'=>'go', $key, $title), true);
 	}
 
 	/**
