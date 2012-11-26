@@ -252,7 +252,7 @@ class FormatHelper extends TextHelper {
 			'map' => array(),
 			'css' => true,
 		);
-		$options = am($defaults, $options);
+		$options = array_merge($defaults, $options);
 		extract($options);
 
 		$matching = array(
@@ -285,7 +285,7 @@ class FormatHelper extends TextHelper {
 		if (!$css) {
 			$attr['alt'] = $matching[$value];
 		}
-		$attr = am($attr, array_diff_key($options, $defaults));
+		$attr = array_merge($attr, array_diff_key($options, $defaults));
 
 		if ($css) {
 			$html = $this->Html->tag('div', '&nbsp;', $attr);
@@ -1412,7 +1412,7 @@ class FormatHelper extends TextHelper {
 			'heading' => true,
 			'escape' => true
 		);
-		$options = am($defaults, $options);
+		$options = array_merge($defaults, $options);
 
 		// Sanity check
 		if (empty($array) || !is_array($array)) {

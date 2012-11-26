@@ -230,10 +230,10 @@ class CodeShell extends AppShell {
 				$excludes = array('Config');
 				//Iterator processes plugins even if not asked to
 				if (empty($this->params['plugin'])) {
-					$excludes = am($excludes, array('Plugin', 'plugins'));
+					$excludes = array_merge($excludes, array('Plugin', 'plugins'));
 				}
 				if (empty($this->params['vendor'])) {
-					$excludes = am($excludes, array('Vendor', 'vendors'));
+					$excludes = array_merge($excludes, array('Vendor', 'vendors'));
 				}
 				if (!empty($excludes)) {
 					$isIllegalPluginPath = false;

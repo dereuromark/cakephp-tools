@@ -76,7 +76,7 @@ class NumberLib extends CakeNumber {
 			$formatOptions = array();
 		}
 		$options = array('before' => '', 'after' => '', 'places' => 2, 'thousands' => self::$_thousandsPoint, 'decimals' => self::$_decimalPoint, 'escape' => false);
-		$options = am($options, $formatOptions);
+		$options = array_merge($options, $formatOptions);
 		//$options = array;
 
 		if (!empty($options['currency'])) {
@@ -128,7 +128,7 @@ class NumberLib extends CakeNumber {
 			'negative' => '-', 'positive'=> '+', 'escape' => true,
 			'decimals' => self::$_decimalPoint, 'thousands' => self::$_thousandsPoint,
 		);
-		$options = am($options, $formatOptions);
+		$options = array_merge($options, $formatOptions);
 
 		if (!empty($options['wholeSymbol'])) {
 			if ($options['wholePosition'] == 'after') {

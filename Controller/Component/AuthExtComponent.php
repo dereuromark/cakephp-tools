@@ -175,7 +175,9 @@ class AuthExtComponent extends AuthComponent {
 			$user = array_shift($user);
 		}
 
-		if (isset($Model->hasMany[$this->intermediateModel]['className'])) {
+		if (isset($Model->hasAndBelongsToMany[$this->roleModel]['className'])) {
+			$with = $Model->hasAndBelongsToMany[$this->roleModel]['className'];
+		} elseif (isset($Model->hasMany[$this->intermediateModel]['className'])) {
 			$with = $Model->hasMany[$this->intermediateModel]['className'];
 		} elseif (isset($Model->belongsTo[$this->roleModel]['className'])) {
 			$with = $Model->belongsTo[$this->roleModel]['className'];

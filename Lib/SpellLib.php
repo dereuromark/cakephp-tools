@@ -46,7 +46,7 @@ class SpellLib {
 			'lang' => 'en_GB',
 			'engine' => self::ENGINE_MYSPELL
 		);
-		$defaults = am($defaults, (array)Configure::read('Spell'));
+		$defaults = array_merge($defaults, (array)Configure::read('Spell'));
 		$options = array_merge($defaults, $options);
 
 		if (!isset($this->_engines[$options['engine']])) {

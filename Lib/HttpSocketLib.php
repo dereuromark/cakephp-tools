@@ -70,7 +70,7 @@ class HttpSocketLib {
 			'use' => $this->use,
 			'timeout' => $this->timeout,
 		);
-		$options = am($defaults, $options);
+		$options = array_merge($defaults, $options);
 
 		# cached?
 		if ($options['cache']) {

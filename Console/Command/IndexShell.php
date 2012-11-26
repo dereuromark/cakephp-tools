@@ -71,7 +71,7 @@ class IndexShell extends AppShell {
 		if (file_exists(APP . 'Config' . DS . 'index.php')) {
 			include(APP . 'Config' . DS . 'index.php');
 			if (!empty($config)) {
-				$this->settings = am($this->settings, $config);
+				$this->settings = array_merge($this->settings, $config);
 			}
 		}
 		*/

@@ -265,7 +265,7 @@ class CcShell extends AppShell {
 		$files = App::objects($type, null, false);
 		$corePath = App::core($type);
 		$coreFiles = App::objects($type, $corePath, false);
-		$files = am($coreFiles, $files);
+		$files = array_merge($coreFiles, $files);
 		//$paths = (array)App::path($type.'s');
 		//$libFiles = App::objects($type, $paths[0] . 'lib' . DS, false);
 

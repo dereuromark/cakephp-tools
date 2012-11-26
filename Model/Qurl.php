@@ -130,7 +130,7 @@ class Qurl extends ToolsAppModel {
 	 */
 	public function generate($url, $data = array()) {
 		$url = Router::url($url, true);
-		$content = am($data, array('url'=>$url));
+		$content = array_merge($data, array('url'=>$url));
 		if (!isset($content['key'])) {
 			$content['key'] = '';
 		}

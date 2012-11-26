@@ -46,9 +46,9 @@ class LinkableBehavior extends ModelBehavior {
 
 			// If containable is being used, then let it set the recursive!
 			if (empty($query['contain'])) {
-				$query = am(array('joins' => array()), $query, array('recursive' => -1));
+				$query = array_merge(array('joins' => array()), $query, array('recursive' => -1));
 			} else {
-				$query = am(array('joins' => array()), $query);
+				$query = array_merge(array('joins' => array()), $query);
 			}
 			$iterators[] = $query[$this->_key];
 			$cont = 0;
@@ -64,7 +64,7 @@ class LinkableBehavior extends ModelBehavior {
 					if (is_null($options)) {
 						$options = array();
 					}
-					$options = am($defaults, compact('alias'), $options);
+					$options = array_merge($defaults, compact('alias'), $options);
 					if (empty($options['alias'])) {
 						throw new InvalidArgumentException(sprintf('%s::%s must receive aliased links', get_class($this), __FUNCTION__));
 					}
@@ -187,7 +187,7 @@ class LinkableBehavior extends ModelBehavior {
 						}
 					}
 
-					$options[$this->_key] = am($options[$this->_key], array_diff_key($options, $optionsKeys));
+					$options[$this->_key] = array_merge($options[$this->_key], array_diff_key($options, $optionsKeys));
 					$options = array_intersect_key($options, $optionsKeys);
 					if (!empty($options[$this->_key])) {
 						$iterators[] = $options[$this->_key] + array('defaults' => array_merge($defaults, array('reference' => $options['class'])));

@@ -213,7 +213,7 @@ class RevisionBehavior extends ModelBehavior {
 			return null;
 		}
 		if (isset($options['conditions'])) {
-			$conditions = am($options['conditions'], array($Model->primaryKey => $Model->id));
+			$conditions = array_merge($options['conditions'], array($Model->primaryKey => $Model->id));
 		} else {
 			$conditions = array($Model->primaryKey => $Model->id);
 		}
@@ -349,7 +349,7 @@ class RevisionBehavior extends ModelBehavior {
 			return null;
 		}
 		if (isset($options['conditions'])) {
-			$options['conditions'] = am($options['conditions'], array($Model->alias . '.' . $Model->primaryKey => $Model->id));
+			$options['conditions'] = array_merge($options['conditions'], array($Model->alias . '.' . $Model->primaryKey => $Model->id));
 		} else {
 			$options['conditions'] = array($Model->alias . '.' . $Model->primaryKey => $Model->id);
 		}
@@ -377,7 +377,7 @@ class RevisionBehavior extends ModelBehavior {
 			return null;
 		}
 		if (isset($options['conditions'])) {
-			$options['conditions'] = am($options['conditions'], array($Model->primaryKey => $Model->id));
+			$options['conditions'] = array_merge($options['conditions'], array($Model->primaryKey => $Model->id));
 		} else {
 			$options['conditions'] = array($Model->primaryKey => $Model->id);
 		}
@@ -405,7 +405,7 @@ class RevisionBehavior extends ModelBehavior {
 		$options['limit'] = 1;
 		$options['page'] = 2;
 		if (isset($options['conditions'])) {
-			$options['conditions'] = am($options['conditions'], array($Model->primaryKey => $Model->id));
+			$options['conditions'] = array_merge($options['conditions'], array($Model->primaryKey => $Model->id));
 		} else {
 			$options['conditions'] = array($Model->primaryKey => $Model->id);
 		}
@@ -556,7 +556,7 @@ class RevisionBehavior extends ModelBehavior {
 					'conditions' => array($data['foreignKey'] => $Model->id, 'NOT' => array($Model->primaryKey => $ids)),
 					));
 				if (!empty($revision_children)) {
-					$ids = am($ids, Set::extract($revision_children, '/' . $assoc . '/' . $Model->$assoc->primaryKey));
+					$ids = array_merge($ids, Set::extract($revision_children, '/' . $assoc . '/' . $Model->$assoc->primaryKey));
 				}
 
 				/* Revert all children */
@@ -654,7 +654,7 @@ class RevisionBehavior extends ModelBehavior {
 			return null;
 		}
 		if (isset($options['conditions'])) {
-			$options['conditions'] = am($options['conditions'], array($Model->alias . '.' . $Model->primaryKey => $Model->id));
+			$options['conditions'] = array_merge($options['conditions'], array($Model->alias . '.' . $Model->primaryKey => $Model->id));
 		} else {
 			$options['conditions'] = array($Model->alias . '.' . $Model->primaryKey => $Model->id);
 		}

@@ -76,7 +76,7 @@ class IcalLib {
 			'prodid' => '-//'.env('HTTP_HOST'),
 			'method' => 'PUBLISH',
 		);
-		$data = am($defaults, $data);
+		$data = array_merge($defaults, $data);
 
 		$res = array();
 		$res[] = 'BEGIN:VCALENDAR';

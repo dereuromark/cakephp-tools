@@ -24,7 +24,7 @@ class HashShell extends AppShell {
 		$this->out('Hash Strings...');
 		$hashAlgos = hash_algos();
 
-		$types = am(array_keys($hashAlgos), array('q'));
+		$types = array_merge(array_keys($hashAlgos), array('q'));
 		foreach ($hashAlgos as $key => $t) {
 			$this->out(($key+1).': '.$t.(in_array($t, $this->active)?' (!)':''));
 		}
