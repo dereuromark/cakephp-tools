@@ -289,7 +289,7 @@ class ImapLib {
 				$data = "";
 				$mege = imap_fetchbody($this->stream, $header->Msgno, $fpos);
 				$attachment['filename'] = $part->dparameters[0]->value;
-				$attachment['data'] = $this->_getDecodedValue($mege, $part->type);
+				$attachment['data'] = $this->_getDecodedValue($mege, $part->encoding);
 				$attachment['filesize'] = strlen($attachment['data']);
 
 				$fpos++;
@@ -306,7 +306,7 @@ class ImapLib {
 				$data = "";
 				$mege = imap_fetchbody($this->stream, $header->Msgno, $fpos);
 				$attachment['filename'] = $part->parameters[0]->value;
-				$attachment['data'] = $this->_getDecodedValue($mege, $part->type);
+				$attachment['data'] = $this->_getDecodedValue($mege, $part->encoding);
 				$attachment['filesize'] = strlen($attachment['data']);
 
 				$fpos++;
@@ -326,7 +326,7 @@ class ImapLib {
 				$data = "";
 				$mege = imap_fetchbody($this->stream, $header->Msgno, $fpos);
 				$attachment['filename'] = !is_object($part->parameters) ? $part->parameters[0]->value : '';
-				$attachment['data'] = $this->_getDecodedValue($mege, $part->type);
+				$attachment['data'] = $this->_getDecodedValue($mege, $part->encoding);
 				$attachment['filesize'] = strlen($attachment['data']);
 
 				$fpos++;
