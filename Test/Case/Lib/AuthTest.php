@@ -15,6 +15,17 @@ class AuthTest extends MyCakeTestCase {
 
 	public function tearDown() {
 		ClassRegistry::flush();
+
+		CakeSession::delete('Auth');
+	}
+
+	public function testId() {
+		$id = Auth::id();
+		$this->assertNull($id);
+
+		CakeSession::write('Auth.User.id', 1);
+		$id = Auth::id();
+		$this->assertEquals(1, $id);
 	}
 
 	public function testHasRole() {
@@ -39,6 +50,9 @@ class AuthTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 
 		$res = Auth::hasRoles(array(3), true, array(2, 3, 6));
+		$this->assertTrue($res);
+
+		$res = Auth::hasRoles(3, true, array(2, 3, 6));
 		$this->assertTrue($res);
 
 		$res = Auth::hasRoles(array(), true, array(2, 3, 6));

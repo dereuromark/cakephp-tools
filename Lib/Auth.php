@@ -114,31 +114,28 @@ class Auth {
 		} else {
 			$roles = self::roles();
 		}
-		if (is_array($ownRoles)) {
-			if (empty($ownRoles)) {
-				return false;
-			}
-			$count = 0;
-			foreach ($ownRoles as $role) {
-				if (self::hasRole($role, $roles)) {
-					if ($oneRoleIsEnough) {
-						return true;
-					}
-					$count++;
-				} else {
-					if (!$oneRoleIsEnough) {
-						return false;
-					}
+		$ownRoles = (array)$ownRoles;
+		if (empty($ownRoles)) {
+			return false;
+		}
+		$count = 0;
+		foreach ($ownRoles as $role) {
+			if (self::hasRole($role, $roles)) {
+				if ($oneRoleIsEnough) {
+					return true;
+				}
+				$count++;
+			} else {
+				if (!$oneRoleIsEnough) {
+					return false;
 				}
 			}
-
-			if ($count == count($ownRoles)) {
-				return true;
-			}
-			return false;
-		} else {
-			return self::hasRole($ownRoles, $roles);
 		}
+
+		if ($count === count($ownRoles)) {
+			return true;
+		}
+		return false;
 	}
 
 }

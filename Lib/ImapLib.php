@@ -209,7 +209,7 @@ class ImapLib {
 
 					// Simple array
 					if (!is_array($value)) {
-						$return[$msgNo][$id] = $value;
+						$return[$msgNo][$id] = imap_utf8($value);
 					} else {
 						foreach ($value as $newid => $array_value) {
 							foreach ($value[0] as $key => $aValue) {
@@ -239,7 +239,7 @@ class ImapLib {
 					} else {
 						foreach ($value as $newid => $array_value) {
 							foreach ($value[0] as $key => $aValue) {
-								$return[$header->Msgno][$id][$key] = $this->_quoted_printable_encode($aValue);
+								$return[$header->Msgno][$id][$key] = quoted_printable_decode($aValue);
 							}
 						}
 					}
@@ -313,7 +313,11 @@ class ImapLib {
 				$attachments[] = $attachment;
 			} else { // inline attachments etc
 				$attachment["pid"] = $i;
-				$attachment["type"][$i] = $message["attachment"]["type"][$part->type] . "/" . strtolower($part->subtype);
+				$type = '';
+				if (!empty($message["attachment"]["type"][$part->type])) {
+					$type = $message["attachment"]["type"][$part->type] . "/";
+				}
+				$attachment["type"][$i] = $type . strtolower($part->subtype);
 				$attachment["subtype"][$i] = strtolower($part->subtype);
 				$ext = $part->subtype;
 				$params = $part->parameters;
@@ -518,6 +522,7 @@ class ImapLib {
 
 }
 
+// Currently NOT IN USE: //
 
 /**
  * IMAP Postf�cher mit CakePHP abfragen
