@@ -56,7 +56,8 @@ The models, behaviors, helpers, libs and other classes are used the same way pre
 
     App::uses('GooglLib', 'Tools.Lib');
     App::uses('TimeLib', 'Tools.Utility');
-    App::uses('GeocodeBehavior', 'Tools.Model/Behavior');
+    App::uses('GeocoderBehavior', 'Tools.Model/Behavior');
     ...
 
 Tip: For how to use them, try to find some information in the test cases.
+Usage for some larger modules: https://github.com/dereuromark/tools/blob/master/USAGE
