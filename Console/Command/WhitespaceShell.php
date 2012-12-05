@@ -8,7 +8,13 @@ class WhitespaceShell extends AppShell {
 	# each report: [0] => found, [1] => corrected
 	public $report = array('leading'=>array(0, 0), 'trailing'=>array(0, 0));
 
+	/*
 	public function main() {
+
+	}
+	*/
+
+	public function find() {
 		$App = new Folder(APP);
 
 		$files = $App->findRecursive('.*\.php');
@@ -82,7 +88,10 @@ class WhitespaceShell extends AppShell {
 		$this->out('fixed '.$this->report['leading'][1].' leading, '.$this->report['trailing'][1].' trailing ws');
 	}
 
-	public function whitespaces() {
+	/**
+	 * whitespaces at the end of the file
+	 */
+	public function eof() {
 		if (!empty($this->args[0])) {
 			$folder = realpath($this->args[0]);
 		} else {
@@ -117,6 +126,40 @@ class WhitespaceShell extends AppShell {
 				file_put_contents($file, $content);
 			}
 		}
+	}
+
+	public function getOptionParser() {
+		$subcommandParser = array(
+			'options' => array(
+				'ext' => array(
+					'short' => 'e',
+					'help' => __d('cake_console', 'Specify extensions [php|txt|...]'),
+					'default' => '',
+				),
+				'dry-run'=> array(
+					'short' => 'd',
+					'help' => __d('cake_console', 'Dry run the clear command, no files will actually be deleted. Should be combined with verbose!'),
+					'boolean' => true
+				),
+				'plugin'=> array(
+					'short' => 'p',
+					'help' => __d('cake_console', 'Plugin'),
+					'default' => '',
+				),
+			)
+		);
+
+		return parent::getOptionParser()
+			->description(__d('cake_console', 'The Whitespace Shell removes uncessary/wrong whitespaces.
+Either provide a path as first argument, use -p PluginName or run it as it is for the complete APP dir.'))
+			->addSubcommand('find', array(
+				'help' => __d('cake_console', 'Detect any leading/trailing whitespaces'),
+				'parser' => $subcommandParser
+			))
+			->addSubcommand('eof', array(
+				'help' => __d('cake_console', 'Fix whitespaces at the end of PHP files (a single newline as per coding standards)'),
+				'parser' => $subcommandParser
+			));
 	}
 
 }

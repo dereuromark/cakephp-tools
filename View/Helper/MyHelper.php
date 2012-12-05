@@ -176,12 +176,42 @@ class MyHelper extends Helper {
 	*/
 
 	/**
+	 * keep named and query params for pagination/filter after edit etc
+	 *
+	 * @params same as Html::link($title, $url, $options, $confirmMessage)
+	 * @return string Link
+	 * 2012-12-03 ms
+	 */
+	public function completeLink($title, $url = null, $options = array(), $confirmMessage = false) {
+		if (is_array($url)) {
+			$url += $this->params['named'];
+		}
+		return $this->link($title, $url, $options, $confirmMessage);
+	}
+
+	/**
+	 * keep named and query params for pagination/filter after edit etc
+	 *
+	 * @params same as Html::url($url, $options, $escape)
+	 * @return string Link
+	 * 2012-12-03 ms
+	 */
+	public function completeUrl($url = null, $full = false, $escape = true) {
+		if (is_array($url)) {
+			$url += $this->params['named'];
+		}
+		return $this->url($url, $options, $escape);
+	}
+
+	/**
 	 * convenience function for normal links
 	 * useful for layout links and links inside elements etc
+	 *
 	 * @params same as Html::link($title, $url, $options, $confirmMessage)
+	 * @return string Link
 	 * 2010-01-23 ms
 	 */
-	public function defaultLink($title, $url=null, $options=array(), $confirmMessage=false) {
+	public function defaultLink($title, $url = null, $options = array(), $confirmMessage = false) {
 		if ($this->linkDefaults === null) {
 			if (!class_exists('CommonComponent')) {
 				App::import('Component', 'Tools.Common');

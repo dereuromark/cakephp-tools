@@ -749,21 +749,13 @@ class MyModel extends Model {
 	 * TODO: fix it
 	 * TODO: rename it to just find() or integrate it there
 	 */
-	public function findNeighbors($type, $options = array()) {
-		if ($type == 'neighbors' && isset($options['scope'])) {
-			$type == 'neighborsTry';
+	protected function _findNeighbors($state, $query, $results = array()) {
+		return parent::_findNeighbors($state, $query, $results);
+
+		if (isset($query['scope'])) {
+			//TODO
 		}
-
-		switch ($type) {
-			case 'neighborsTry': # use own implementation
-
-				return $xxx; # TODO: implement
-				break;
-
-			default:
-				return parent::find($type, $options);
-				break;
-		}
+		return parent::find($type, $options);
 	}
 
 	/**
@@ -957,7 +949,7 @@ class MyModel extends Model {
 		}
 
 		$conditions = array($this->alias . '.' . $fieldName => $fieldValue, // Model.field => $this->data['Model']['field']
-			$this->alias . '.id !=' => $id, );
+			$this->alias . '.id !=' => $id);
 
 		# careful, if fields is not manually filled, the options will be the second param!!! big problem...
 		$fields = (array)$fields;
@@ -971,7 +963,7 @@ class MyModel extends Model {
 
 				} elseif (!empty($id)) {
 					# manual query! (only possible on edit)
-					$res = $this->find('first', array('fields' => array($this->alias.'.'.$dependingField), 'conditions' => array($this->alias.'.id' => $this->data[$this->alias]['id'])));
+					$res = $this->find('first', array('fields' => array($this->alias.'.'.$dependingField), 'conditions' => array($this->alias.'.id' => $id)));
 					if (!empty($res)) {
 						$conditions[$this->alias . '.' . $dependingField] = $res[$this->alias][$dependingField];
 					}
@@ -1607,24 +1599,29 @@ class MyModel extends Model {
 	 * from http://othy.wordpress.com/2006/06/03/generatenestedlist/
 	 * NEEDS parent_id
 	 * //TODO refactor for 1.2
+	 * @deprecated use generateTreeList instead
 	 * 2009-08-12 ms
 	 */
-	public function generateNestedList($conditions = null, $indent = '- - ') {
-		$cats = $this->find('threaded', array('conditions'=>$conditions, 'fields'=>array($this->alias.'.id', $this->alias.'.'.$this->displayField, $this->alias.'.parent_id')));
+	public function generateNestedList($conditions = null, $indent = '--') {
+		$cats = $this->find('threaded', array('conditions' => $conditions, 'fields' => array(
+				$this->name . '.id',
+				$this->name . '.name',
+				$this->name . '.parent_id')));
 		$glist = $this->_generateNestedList($cats, $indent);
 		return $glist;
 	}
 
 	/**
 	 * from http://othy.wordpress.com/2006/06/03/generatenestedlist/
-	 * @protected
+	 * @deprecated use generateTreeList instead
 	 * 2009-08-12 ms
 	 */
 	public function _generateNestedList($cats, $indent, $level = 0) {
 		static $list = array();
-		for ($i = 0, $c = count($cats); $i < $c; $i++) {
+		$c = count($cats);
+		for ($i = 0; $i < $c; $i++) {
 			$list[$cats[$i][$this->alias]['id']] = str_repeat($indent, $level) . $cats[$i][$this->alias][$this->displayField];
-			if (isset($cats[$i]['children']) && !empty($cats[$i]['children'])) {
+			if (!empty($cats[$i]['children'])) {
 				$this->_generateNestedList($cats[$i]['children'], $indent, $level + 1);
 			}
 		}

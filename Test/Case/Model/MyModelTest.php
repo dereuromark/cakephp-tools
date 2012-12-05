@@ -562,6 +562,51 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 	}
 
+	public function testAppValidateUnique() {
+		$this->out($this->_header(__FUNCTION__));
+		//die(returns($this->Model->schema()));
+		$this->Model->validate['title'] = array(
+			'validateUnique' => array(
+				'rule' => 'validateUnique',
+				'message' => 'valErrRecordTitleExists'
+			),
+		);
+		$data = array(
+			'title' => 'abc',
+			'published' => 'N'
+		);
+		$this->Model->create($data);
+		$res = $this->Model->validates();
+		$this->assertTrue($res);
+		$res = $this->Model->save($res, false);
+		$this->assertTrue((bool)$res);
+
+		$this->Model->create();
+		$res = $this->Model->save($data);
+		$this->assertFalse($res);
+
+
+		$this->Model->validate['title'] = array(
+			'validateUnique' => array(
+				'rule' => array('validateUnique', array('published')),
+				'message' => 'valErrRecordTitleExists'
+			),
+		);
+		$data = array(
+			'title' => 'abc',
+			'published' => 'Y'
+		);
+		$this->Model->create($data);
+		$res = $this->Model->validates();
+		$this->assertTrue($res);
+		$res = $this->Model->save($res, false);
+		$this->assertTrue((bool)$res);
+
+		$this->Model->create();
+		$res = $this->Model->save($data);
+		$this->assertFalse($res);
+	}
+
 }
 
 class Post extends MyModel {
