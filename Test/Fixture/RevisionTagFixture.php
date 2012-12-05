@@ -29,4 +29,4 @@ class RevisionTagFixture extends CakeTestFixture {
 		),
 	);
 }
-?>
+

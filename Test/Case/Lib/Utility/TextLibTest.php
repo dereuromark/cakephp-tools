@@ -1,5 +1,4 @@
 <?php
-
 App::uses('TextLib', 'Tools.Utility');
 
 /**
@@ -44,6 +43,11 @@ class TextLibTest extends CakeTestCase {
 		pr($is);
 	}
 
+	public function testMaxWords() {
+		$this->assertEquals('Taylor...', TextLib::maxWords('Taylor Otwell', 1));
+		$this->assertEquals('Taylor___', TextLib::maxWords('Taylor Otwell', 1, array('ellipsis'=>'___')));
+		$this->assertEquals('Taylor Otwell', TextLib::maxWords('Taylor Otwell', 3));
+	}
 
 	public function testWords() {
 		$this->TextLib = new TextLib('Hochhaus, Unter dem Bau von ae Äußeren Einflüssen - und von Autos.');

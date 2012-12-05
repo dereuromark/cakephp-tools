@@ -44,4 +44,4 @@ class RevisionArticleFixture extends CakeTestFixture {
 		),
 	);
 }
-?>
+

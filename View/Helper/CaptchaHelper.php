@@ -23,13 +23,13 @@ class CaptchaHelper extends AppHelper {
 
 	public $helpers = array('Form');
 
-	protected $defaults = array(
+	protected $_defaults = array(
 		'difficulty' => 1, # initial diff. level (@see operator: + = 0, +- = 1, +-* = 2)
 		'raiseDifficulty' => 2, # number of failed trails, after the x. one the following one it will be more difficult
 	);
-	protected $settings = null;
 
 	protected $numberConvert = null;
+
 	protected $operatorConvert = null;
 
 	public function __construct($View = null, $settings = array()) {
@@ -41,18 +41,19 @@ class CaptchaHelper extends AppHelper {
 		# Set up an array with the operators that we want to use. With difficulty=1 it is only subtraction and addition.
 		$this->operatorConvert = array(0=>array('+',__('calcPlus')), 1=>array('-',__('calcMinus')), 2=>'*',__('calcTimes'));
 
-		$this->settings = array_merge(CaptchaLib::$defaults, $this->defaults);
+		$this->settings = array_merge(CaptchaLib::$defaults, $this->_defaults);
 		$settings = (array)Configure::read('Captcha');
 		if (!empty($settings)) {
 			$this->settings = array_merge($this->settings, $settings);
 		}
 	}
 
-
 	/**
 	 * //TODO: move to Lib
 	 * shows the statusText of Relations
+	 *
 	 * @param int $difficulty: not build in yet
+	 * @return array
 	 * 2008-12-12 ms
 	 */
 	protected function _generate($difficulty = null) {
@@ -78,6 +79,8 @@ class CaptchaHelper extends AppHelper {
 	 * - hash-based
 	 * - session-based (not impl.)
 	 * - db-based (not impl.)
+	 *
+	 * @return string HTML
 	 * 2009-12-18 ms
 	 */
 	public function captcha($modelName = null) {
@@ -118,18 +121,20 @@ class CaptchaHelper extends AppHelper {
 	 * active math captcha
 	 * either combined with between=true (all in this one funtion)
 	 * or seperated by =false (needs input(false) and captcha() calls then)
+	 *
 	 * @param bool between: [default: true]
+	 * @return string HTML
 	 * 2010-01-08 ms
 	 */
 	public function input($modelName = null, $options = array()) {
 		$defaultOptions = array(
-			'type'=>'text',
-			'class'=>'captcha',
-			'value'=>'',
-			'maxlength'=>3,
-			'label'=>__('Captcha').BR.__('captchaExplained'),
-			'combined'=>true,
-			'autocomplete'=>'off',
+			'type' => 'text',
+			'class' => 'captcha',
+			'value' => '',
+			'maxlength' => 3,
+			'label' => __('Captcha') . BR . __('captchaExplained'),
+			'combined' => true,
+			'autocomplete' => 'off',
 			'after' => __('captchaTip'),
 		);
 		$options = array_merge($defaultOptions, $options);
@@ -148,6 +153,8 @@ class CaptchaHelper extends AppHelper {
 
 	/**
 	 * passive captcha
+	 *
+	 * @return string HTML
 	 * 2010-01-08 ms
 	 */
 	public function passive($modelName = null, $options = array()) {
@@ -169,12 +176,15 @@ class CaptchaHelper extends AppHelper {
 
 	/**
 	 * @param array $captchaCode
+	 * @return string Hash
 	 */
 	protected function _buildHash($data) {
 		return CaptchaLib::buildHash($data, $this->settings, true);
 	}
 
-
+	/**
+	 * @return string Field name
+	 */
 	protected function _fieldName($modelName = null) {
 		$fieldName = 'captcha';
 		if (isSet($modelName)) {
@@ -182,8 +192,5 @@ class CaptchaHelper extends AppHelper {
 		}
 		return $fieldName;
 	}
-
-
-
 
 }

@@ -15,4 +15,4 @@ class RevisionUserFixture extends CakeTestFixture {
 			'created' => '2008-12-07'
 			));
 }
-?>
+

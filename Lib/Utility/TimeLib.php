@@ -33,7 +33,7 @@ class TimeLib extends CakeTime {
 	 * 2012-05-20 ms
 	 */
 	public function timezoneByCoordinates($lat, $lng) {
-		$current = array('timezone'=>null, 'distance'=>0);
+		$current = array('timezone' => null, 'distance' => 0);
 		$identifiers = DateTimeZone::listIdentifiers();
 		foreach ($identifiers as $identifier) {
 			//TODO
@@ -399,17 +399,17 @@ class TimeLib extends CakeTime {
 	 * @param string $dateString,
 	 * @param string $format (YYYY-MM-DD, DD.MM.YYYY)
  	 * @param array $options
-		* - userOffset: User's offset from GMT (in hours)
+		* - timezone: User's timezone
 		* - default (defaults to "-----")
  	 * 2009-03-31 ms
 	 */
 	public static function localDate($dateString = null, $format = null, $options = array()) {
-		$defaults = array('default'=>'-----', 'userOffset'=>null);
+		$defaults = array('default' => '-----', 'timezone' => null);
 		$options = array_merge($defaults, $options);
 
 		$date = null;
 		if ($dateString !== null) {
-			$date = self::fromString($dateString, $options['userOffset']);
+			$date = self::fromString($dateString, $options['timezone']);
 		}
 		if ($date === null || $date === false || $date <= 0) {
 			return $options['default'];
@@ -421,11 +421,7 @@ class TimeLib extends CakeTime {
 				$format = FORMAT_LOCAL_YMD;
 			}
 		}
-		$res = strftime($format, $date);
-		if (WINDOWS) {
-			$res = utf8_encode($res);
-		}
-		return $res;
+		return parent::_strftime($format, $date);
 	}
 
 
@@ -434,17 +430,17 @@ class TimeLib extends CakeTime {
 	 * @param string $dateString,
 	 * @param string $format (YYYY-MM-DD, DD.MM.YYYY)
  	 * @param array $options
-		* - userOffset: User's offset from GMT (in hours)
+		* - timezone: User's timezone
 		* - default (defaults to "-----")
  	 * 2009-03-31 ms
 	 */
 	public static function niceDate($dateString = null, $format = null, $options = array()) {
-		$defaults = array('default'=>'-----', 'userOffset'=>null);
+		$defaults = array('default'=>'-----', 'timezone'=>null);
 		$options = array_merge($defaults, $options);
 
 		$date = null;
 		if ($dateString !== null) {
-			$date = self::fromString($dateString, $options['userOffset']);
+			$date = self::fromString($dateString, $options['timezone']);
 		}
 		if ($date === null || $date === false || $date <= 0) {
 			return $options['default'];
@@ -948,9 +944,9 @@ class TimeLib extends CakeTime {
 	 * 2009-11-21 ms
 	 */
 	public static function relLengthOfTime($dateString, $format = null, $options = array()) {
-		if ($dateString != null) {
-			$userOffset = null;
-			$sec = time() - self::fromString($dateString, $userOffset);
+		if ($dateString !== null) {
+			$timezone = null;
+			$sec = time() - self::fromString($dateString, $timezone);
 			$type = ($sec > 0)?-1:(($sec < 0)?1:0);
 			$sec = abs($sec);
 		} else {
@@ -987,11 +983,11 @@ class TimeLib extends CakeTime {
  * Returns true if given datetime string was day before yesterday.
  *
  * @param string $dateString Datetime string or Unix timestamp
- * @param int $userOffset User's offset from GMT (in hours)
+ * @param int $timezone User's timezone
  * @return boolean True if datetime string was day before yesterday
  */
-	public static function wasDayBeforeYesterday($dateString, $userOffset = null) {
-		$date = self::fromString($dateString, $userOffset);
+	public static function wasDayBeforeYesterday($dateString, $timezone = null) {
+		$date = self::fromString($dateString, $timezone);
 		return date(FORMAT_DB_DATE, $date) == date(FORMAT_DB_DATE, time()-2*DAY);
 	}
 
@@ -999,11 +995,11 @@ class TimeLib extends CakeTime {
  * Returns true if given datetime string is the day after tomorrow.
  *
  * @param string $dateString Datetime string or Unix timestamp
- * @param int $userOffset User's offset from GMT (in hours)
+ * @param int $timezone User's timezone
  * @return boolean True if datetime string is day after tomorrow
  */
-	public static function isDayAfterTomorrow($dateString, $userOffset = null) {
-		$date = self::fromString($dateString, $userOffset);
+	public static function isDayAfterTomorrow($dateString, $timezone = null) {
+		$date = self::fromString($dateString, $timezone);
 		return date(FORMAT_DB_DATE, $date) == date(FORMAT_DB_DATE, time()+2*DAY);
 	}
 
@@ -1011,11 +1007,11 @@ class TimeLib extends CakeTime {
  * Returns true if given datetime string is not today AND is in the future.
  *
  * @param string $dateString Datetime string or Unix timestamp
- * @param int $userOffset User's offset from GMT (in hours)
+ * @param int $timezone User's timezone
  * @return boolean True if datetime is not today AND is in the future
  */
-	public static function isNotTodayAndInTheFuture($dateString, $userOffset = null) {
-		$date = self::fromString($dateString, $userOffset);
+	public static function isNotTodayAndInTheFuture($dateString, $timezone = null) {
+		$date = self::fromString($dateString, $timezone);
 		return date(FORMAT_DB_DATE, $date) > date(FORMAT_DB_DATE, time());
 	}
 
@@ -1024,11 +1020,11 @@ class TimeLib extends CakeTime {
  * Returns true if given datetime string is not now AND is in the future.
  *
  * @param string $dateString Datetime string or Unix timestamp
- * @param int $userOffset User's offset from GMT (in hours)
+ * @param int $timezone User's timezone
  * @return boolean True if datetime is not today AND is in the future
  */
-	public static function isInTheFuture($dateString, $userOffset = null) {
-		$date = self::fromString($dateString, $userOffset);
+	public static function isInTheFuture($dateString, $timezone = null) {
+		$date = self::fromString($dateString, $timezone);
 		return date(FORMAT_DB_DATETIME, $date) > date(FORMAT_DB_DATETIME, time());
 	}
 
@@ -1278,8 +1274,8 @@ class TimeLib extends CakeTime {
 			$isNegative = true;
 		}
 
-		$minutes = $duration%HOUR;
-		$hours = ($duration - $minutes)/HOUR;
+		$minutes = $duration % HOUR;
+		$hours = ($duration - $minutes) / HOUR;
 		$res = (int)$hours.':'.str_pad(intval($minutes/MINUTE), 2, '0', STR_PAD_LEFT);
 		if (strpos($mode, 'SS') !== false) {
 			//TODO

@@ -34,4 +34,4 @@ class RevisionVoteFixture extends CakeTestFixture {
 		),
 	);
 }
-?>
+

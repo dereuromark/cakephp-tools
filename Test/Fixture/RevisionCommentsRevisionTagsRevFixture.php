@@ -47,4 +47,4 @@ class RevisionCommentsRevisionTagsRevFixture extends CakeTestFixture {
 		),
 	);
 }
-?>
+

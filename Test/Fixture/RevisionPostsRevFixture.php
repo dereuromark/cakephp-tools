@@ -31,4 +31,4 @@ class RevisionPostsRevFixture extends CakeTestFixture {
 		),
 	);
 }
-?>
+

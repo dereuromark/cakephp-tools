@@ -28,29 +28,29 @@ App::uses('ModelBehavior', 'Model');
  * @author Mark Scherer
  * @license MIT
  * @cakephp 2.0
- * @deprecated Use NumberFormatBehavior instead!
  * 2012-12-05 ms
  */
-class DecimalInputBehavior extends ModelBehavior {
+class NumberFormatBehavior extends ModelBehavior {
 
 	protected $_defaults = array(
 		'before' => 'validate', // save or validate
 		'input' => true, // true = activated
 		'output' => false, // true = activated
-		'fields' => array(
+		'fields' => array( // add fields manually
 		),
-		'observedTypes' => array(
+		'observedTypes' => array( // disable by passing an empty array
 			'float'
 		),
-		'localeconv' => false,
+		'localeconv' => false, // use system settings for decimals and thousands
+		'currency' => false, // would make localeconf use mon_ values or Configure use Currency
 		# based on input (output other direction)
-		'transform' => array(
+		'multiply' => 0, // direction 'in' (inverted value automatically used for 'out')
+		'transform' => array( // transform mask
 			'.' => '',
 			',' => '.',
 		),
-		'multiply' => 0, // direction => in (revert is out)
 		'transformReverse' => array(),
-		'strict' => false,
+		'strict' => false, // do not losely convert anything (expects 100% correct input) and reduce converting errors
 	);
 
 	public $delimiterBaseFormat = array();
@@ -58,7 +58,7 @@ class DecimalInputBehavior extends ModelBehavior {
 
 
 	/**
-	* adjust configs like: $Model->Behaviors-attach('Tools.DecimalInput', array('fields'=>array('xyz')))
+	* adjust configs like: $Model->Behaviors-attach('Tools.NumberFormat', array('fields'=>array('xyz')))
 	* leave fields empty to auto-detect all float inputs
 	*/
 	public function setup(Model $Model, $config = array()) {

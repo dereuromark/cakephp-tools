@@ -1,8 +1,8 @@
 <?php
-App::uses('DecimalInputBehavior', 'Tools.Model/Behavior');
+App::uses('NumberFormatBehavior', 'Tools.Model/Behavior');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
-class DecimalInputBehaviorTest extends MyCakeTestCase {
+class NumberFormatBehaviorTest extends MyCakeTestCase {
 
 	public $fixtures = array('plugin.tools.payment_method');
 
@@ -11,7 +11,7 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 	public function setUp() {
 		$this->Model = ClassRegistry::init('PaymentMethod');
 
-		$this->Model->Behaviors->load('Tools.DecimalInput', array('fields'=>array('rel_rate', 'set_rate'), 'output'=>true));
+		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields'=>array('rel_rate', 'set_rate'), 'output'=>true));
 	}
 
 	public function tearDown() {
@@ -19,7 +19,7 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function testObject() {
-		$this->assertTrue(is_a($this->Model->Behaviors->DecimalInput, 'DecimalInputBehavior'));
+		$this->assertTrue(is_a($this->Model->Behaviors->NumberFormat, 'NumberFormatBehavior'));
 	}
 
 
@@ -85,8 +85,8 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function testStrict() {
-		$this->Model->Behaviors->unload('DecimalInput');
-		$this->Model->Behaviors->load('Tools.DecimalInput', array('fields'=>array('rel_rate', 'set_rate'), 'strict'=>true));
+		$this->Model->Behaviors->unload('NumberFormat');
+		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields'=>array('rel_rate', 'set_rate'), 'strict'=>true));
 
 		$data = array(
 			'name' => 'some Name',
@@ -104,8 +104,8 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function testBeforeSave() {
-		$this->Model->Behaviors->unload('DecimalInput');
-		$this->Model->Behaviors->load('Tools.DecimalInput', array('fields'=>array('rel_rate', 'set_rate'), 'before'=>'save', 'output'=>false));
+		$this->Model->Behaviors->unload('NumberFormat');
+		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields'=>array('rel_rate', 'set_rate'), 'before'=>'save', 'output'=>false));
 		$data = array(
 			'name' => 'some Name',
 			'set_rate' => '2,11',
@@ -125,8 +125,8 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 		$res = setlocale(LC_NUMERIC, 'de_DE.utf8', 'german');
 		$this->assertTrue(!empty($res));
 
-		$this->Model->Behaviors->unload('DecimalInput');
-		$this->Model->Behaviors->load('Tools.DecimalInput', array('fields'=>array('rel_rate', 'set_rate'), 'localeconv'=>true, 'output'=>true));
+		$this->Model->Behaviors->unload('NumberFormat');
+		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields'=>array('rel_rate', 'set_rate'), 'localeconv'=>true, 'output'=>true));
 
 		$data = array(
 			'name' => 'german',
@@ -145,8 +145,8 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 		$res = setlocale(LC_NUMERIC, 'en_US.utf8', 'english');
 		$this->assertTrue(!empty($res));
 
-		$this->Model->Behaviors->unload('DecimalInput');
-		$this->Model->Behaviors->load('Tools.DecimalInput', array('fields'=>array('rel_rate', 'set_rate'), 'localeconv'=>true, 'output'=>true));
+		$this->Model->Behaviors->unload('NumberFormat');
+		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields'=>array('rel_rate', 'set_rate'), 'localeconv'=>true, 'output'=>true));
 
 		$data = array(
 			'name' => 'english',
@@ -165,8 +165,8 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function testMultiply() {
-		$this->Model->Behaviors->unload('DecimalInput');
-		$this->Model->Behaviors->load('Tools.DecimalInput', array('fields'=>array('rel_rate', 'set_rate'), 'transform'=>array(), 'multiply'=>0.01, 'output'=>false));
+		$this->Model->Behaviors->unload('NumberFormat');
+		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields'=>array('rel_rate', 'set_rate'), 'transform'=>array(), 'multiply'=>0.01, 'output'=>false));
 
 		$data = array(
 			'name' => 'multiply',
@@ -183,11 +183,11 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 		$this->assertSame(substr($res[$this->Model->alias]['set_rate'], 0, 4), '1.22');
 		$this->assertSame(substr($res[$this->Model->alias]['rel_rate'], 0, 5), '-0.02');
 
-		$this->Model->Behaviors->unload('DecimalInput');
-		$this->Model->Behaviors->load('Tools.DecimalInput', array('fields'=>array('rel_rate', 'set_rate'), 'transform'=>array(), 'multiply'=>0.01, 'output'=>true));
+		$this->Model->Behaviors->unload('NumberFormat');
+		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields'=>array('rel_rate', 'set_rate'), 'transform'=>array(), 'multiply'=>0.01, 'output'=>true));
 
 		$res = $this->Model->find('first', array('conditions' => array('name' => 'multiply')));
-		debug($res); ob_flush();
+		//debug($res); ob_flush();
 		$this->assertTrue(!empty($res));
 		$this->assertSame($res[$this->Model->alias]['set_rate'], '122');
 		$this->assertSame($res[$this->Model->alias]['rel_rate'], '-2');

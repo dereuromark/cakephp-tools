@@ -18,15 +18,17 @@ if (!defined('LF')) {
  * 2011-11-24 ms
  */
 class CcShell extends AppShell {
-	public $uses = array();
 
 	protected $plugins = null;
+
 	protected $content = '';
+
+	protected $appFiles = array();
 
 	public function main() {
 		$this->out('Code Completion Dump - customized for PHPDesigner');
 
-		$this->filename = APP.'CodeCompletion.php';
+		$this->filename = APP . 'CodeCompletion.php';
 
 		# get classes
 		$this->models();
@@ -34,14 +36,13 @@ class CcShell extends AppShell {
 
 		$this->controller();
 		$this->helpers();
+		$this->appFiles();
 
 		# write to file
 		$this->_dump();
 
 		$this->out('...done');
 	}
-
-
 
 	public function models() {
 		$files = $this->_getFiles('Model');
@@ -114,6 +115,28 @@ class CcShell extends AppShell {
 
 		$this->content .= $content;
 	}
+
+	public function appFiles() {
+		$files = $this->appFiles;
+		$content = LF;
+		$content .= '/*** plugin files start ***/'.LF;
+		if (!empty($files)) {
+			$content .= $this->_prepAppFiles($files);
+		}
+		$content .= '/*** plugin files end ***/'.LF;
+
+
+		$this->content .= $content;
+	}
+
+	protected function _prepAppFiles($files) {
+		$res = '';
+		foreach ($files as $name => $parent) {
+			$res .= 'class ' . $name . ' extends '.$parent.' {}' . LF;
+		}
+		return $res;
+	}
+
 
 	protected function _prepModels($files) {
 		$res = '';
@@ -268,6 +291,10 @@ class CcShell extends AppShell {
 		$files = array_merge($coreFiles, $files);
 		//$paths = (array)App::path($type.'s');
 		//$libFiles = App::objects($type, $paths[0] . 'lib' . DS, false);
+		$appIndex = array_search('AppModel', $files);
+		if ($appIndex !== false) {
+			unset($files[$appIndex]);
+		}
 
 		if (!isset($this->plugins)) {
 			$this->plugins = App::objects('plugin');
@@ -278,25 +305,24 @@ class CcShell extends AppShell {
 				$pluginType = $plugin.'.'.$type;
 					$pluginFiles = App::objects($pluginType, null, false);
 					if (!empty($pluginFiles)) {
-						foreach ($pluginFiles as $t) {
-							$files[] = $t;
+						foreach ($pluginFiles as $file) {
+							if (strpos($file, 'App'.$type) !== false) {
+								//$this->appFiles[$file] = $plugin.'.'.$type;
+								continue;
+							}
+							$files[] = $file;
 						}
 					}
 			}
 		}
 		$files = array_unique($files);
-		sort($files);
-			$appIndex = array_search('App', $files);
-			if ($appIndex !== false) {
-				unset($files[$appIndex]);
-			}
 
-			# no test/tmp files etc (helper.test.php or helper.OLD.php)
+		# no test/tmp files etc (helper.test.php or helper.OLD.php)
 		foreach ($files as $key => $file) {
-				if (strpos($file, '.') !== false || !preg_match('/^[\da-zA-Z_]+$/', $file)) {
-					unset($files[$key]);
-				}
+			if (strpos($file, '.') !== false || !preg_match('/^[\da-zA-Z_]+$/', $file)) {
+				unset($files[$key]);
 			}
+		}
 		return $files;
 	}
 

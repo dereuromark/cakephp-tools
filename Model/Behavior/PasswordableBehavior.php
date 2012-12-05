@@ -58,7 +58,9 @@ class PasswordableBehavior extends ModelBehavior {
 		'hashType' => null,
 		'hashSalt' => true,
 		'auth' => null, # which component (defaults to AuthComponent),
-		'allowSame' => true, # dont allow the old password on change
+		'allowSame' => true, # dont allow the old password on change,
+		'minLength' => PWD_MIN_LENGTH,
+		'maxLength' => PWD_MAX_LENGTH
 	);
 
 	/**

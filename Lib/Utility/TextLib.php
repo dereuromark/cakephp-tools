@@ -1,11 +1,12 @@
 <?php
+App::uses('String', 'Utility');
 
 /**
  * TODO: extend the core String class some day?
  *
  * 2010-08-31 ms
  */
-class TextLib {
+class TextLib extends String {
 
 	protected $text, $lenght, $char, $letter, $space, $word, $r_word, $sen, $r_sen, $para,
 		$r_para, $beautified;
@@ -361,6 +362,45 @@ class TextLib {
 			//$this->xr_word = $pieces;
 		}
 		return $pieces;
+	}
+
+	/**
+	 * Limit the number of words in a string.
+	 *
+	 * <code>
+	 *		// Returns "This is a..."
+	 *		echo TextExt::maxWords('This is a sentence.', 3);
+	 *
+	 *		// Limit the number of words and append a custom ending
+	 *		echo Str::words('This is a sentence.', 3, '---');
+	 * </code>
+	 *
+	 * @param string  $value
+	 * @param int     $words
+	 * @param array $options
+	 * - ellipsis
+	 * - html
+	 * @return string
+	 */
+	public static function maxWords($value, $words = 100, $options = array()) {
+		$default = array(
+			'ellipsis' => '...'
+		);
+		if (!empty($options['html']) && Configure::read('App.encoding') == 'UTF-8') {
+			$default['ellipsis'] = "\xe2\x80\xa6";
+		}
+		$options = array_merge($default, $options);
+
+		if (trim($value) === '') {
+			return '';
+		}
+		preg_match('/^\s*+(?:\S++\s*+){1,'.$words.'}/u', $value, $matches);
+
+		$end = $options['ellipsis'];
+		if (mb_strlen($value) === mb_strlen($matches[0])) {
+			$end = '';
+		}
+		return rtrim($matches[0]) . $end;
 	}
 
 	/**

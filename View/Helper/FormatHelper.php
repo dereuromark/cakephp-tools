@@ -1161,8 +1161,10 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * returns red colored if not ok
+	 * Returns red colored if not ok
+	 *
 	 * @param $okValue
+	 * @return Value
 	 */
 	public function warning($value, $ok = false) {
 		if ($ok !== true) {
@@ -1182,7 +1184,7 @@ class FormatHelper extends TextHelper {
 	 */
 	public function ok($value, $ok = false) {
 		if ($ok === true) {
-			$value = '<span class="red" style="color:green">' . $value . '</span>';
+			$value = '<span class="green" style="color:green">' . $value . '</span>';
 		} else {
 			$value = '<span class="red" style="color:red">' . $value . '</span>';
 		}
@@ -1194,7 +1196,7 @@ class FormatHelper extends TextHelper {
 	 * @param string $email: valid(!) email address
 	 * 2009-08-30 ms
 	 */
-	public function hideEmail($mail) {
+	public static function hideEmail($mail) {
 		$mailParts = explode('@', $mail, 2);
 		$domainParts = explode('.', $mailParts[1], 2);
 
