@@ -660,5 +660,3 @@ $this -> error[$arrays][] = $r[0] . $this -> error_max_time_char;
 }
 
 */
-
-

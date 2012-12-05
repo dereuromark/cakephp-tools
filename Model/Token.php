@@ -226,4 +226,3 @@ class Token extends ToolsAppModel {
 	}
 
 }
-

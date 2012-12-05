@@ -125,4 +125,3 @@ class UserShell extends AppShell {
 	}
 
 }
-

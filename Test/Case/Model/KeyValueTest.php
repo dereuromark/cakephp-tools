@@ -40,5 +40,3 @@ class KeyValueTest extends MyCakeTestCase {
 	}
 
 }
-
-

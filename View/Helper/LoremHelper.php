@@ -84,4 +84,3 @@ class LoremHelper extends AppHelper {
 		return $string;
 	}
 }
-

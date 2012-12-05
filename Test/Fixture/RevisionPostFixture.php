@@ -28,4 +28,3 @@ class RevisionPostFixture extends CakeTestFixture {
 		),
 	);
 }
-

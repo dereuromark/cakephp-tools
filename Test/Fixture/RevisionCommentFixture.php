@@ -29,4 +29,3 @@ class RevisionCommentFixture extends CakeTestFixture {
 		),
 	);
 }
-

@@ -228,5 +228,3 @@ class CaptchaBehavior extends ModelBehavior {
 	}
 
 }
-
-

@@ -51,4 +51,3 @@ class PwdShell extends AppShell {
 		$this->out('---- using the salt of the core.php (!)');
 	}
 }
-

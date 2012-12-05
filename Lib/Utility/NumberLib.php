@@ -294,5 +294,3 @@ class NumberLib extends CakeNumber {
 	}
 
 }
-
-

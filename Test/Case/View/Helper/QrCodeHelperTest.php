@@ -155,4 +155,3 @@ class QrCodeHelperTest extends MyCakeTestCase {
 		unset($this->QrCode);
 	}
 }
-

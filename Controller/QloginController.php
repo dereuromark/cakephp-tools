@@ -114,4 +114,3 @@ class QloginController extends ToolsAppController {
 	}
 
 }
-

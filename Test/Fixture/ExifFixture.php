@@ -26,4 +26,3 @@ class ExifFixture extends CakeTestFixture {
 		),
 	);
 }
-

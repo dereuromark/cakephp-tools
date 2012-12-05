@@ -149,4 +149,3 @@ echo "Beautified Text:\n".	$text->beautify(80);	//beautify the text, wordwrap=80
 */
 
 }
-

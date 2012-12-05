@@ -263,5 +263,3 @@ class TestController extends AppController {
 	public $uses = array('Address');
 
 }
-
-

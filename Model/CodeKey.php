@@ -14,4 +14,3 @@ class CodeKey extends Token {
 	public $order = array('CodeKey.created' => 'DESC');
 
 }
-

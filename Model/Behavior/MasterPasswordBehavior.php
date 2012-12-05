@@ -145,4 +145,3 @@ class MasterPasswordBehavior extends ModelBehavior {
 	}
 
 }
-

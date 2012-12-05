@@ -1659,4 +1659,3 @@ if (!defined('ICON_WARNING')) {
 if (!defined('ICON_MAP')) {
 	define('ICON_MAP', 'map.gif');
 }
-

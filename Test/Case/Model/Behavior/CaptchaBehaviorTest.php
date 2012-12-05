@@ -81,5 +81,3 @@ class CaptchaBehaviorTest extends MyCakeTestCase {
 	//TODO
 
 }
-
-

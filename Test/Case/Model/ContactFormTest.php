@@ -19,4 +19,3 @@ class ContactFormTest extends CakeTestCase {
 
 
 }
-

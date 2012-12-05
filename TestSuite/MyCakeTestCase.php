@@ -202,4 +202,3 @@ abstract class MyCakeTestCase extends CakeTestCase {
 
 
 }
-

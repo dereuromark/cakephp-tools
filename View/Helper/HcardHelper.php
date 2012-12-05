@@ -96,4 +96,3 @@ class HcardHelper extends AppHelper {
 	}
 
 }
-

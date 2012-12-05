@@ -6,17 +6,17 @@ class WhitespaceShell extends AppShell {
 
 	public $autoCorrectAll = false;
 	# each report: [0] => found, [1] => corrected
-	public $report = array('leading'=>array(0, 0),'trailing'=>array(0, 0));
+	public $report = array('leading'=>array(0, 0), 'trailing'=>array(0, 0));
 
 	public function main() {
 		$App = new Folder(APP);
 
-		$r = $App->findRecursive('.*\.php');
+		$files = $App->findRecursive('.*\.php');
 		$this->out("Checking *.php in ".APP);
 
 		$folders = array();
 
-		foreach ($r as $file) {
+		foreach ($files as $file) {
 			$error = '';
 			$action = '';
 
@@ -28,50 +28,51 @@ class WhitespaceShell extends AppShell {
 				$error = 'trailing';
 			}
 
-			if (!empty($error)) {
-				$this->report[$error][0]++;
-				$this->out('');
-				$this->out('contains '.$error.' whitespaces: '.$this->shortPath($file));
+			if (empty($error)) {
+				continue;
+			}
+			$this->report[$error][0]++;
+			$this->out('');
+			$this->out('contains '.$error.' whitespaces: '.$this->shortPath($file));
 
-				if (!$this->autoCorrectAll) {
-					$dirname = dirname($file);
+			if (!$this->autoCorrectAll) {
+				$dirname = dirname($file);
 
-					if (in_array($dirname, $folders)) {
-						$action = 'y';
-					}
-
-					while (empty($action)) {
-						//TODO: [r]!
-						$action = $this->in(__('Remove? [y]/[n], [a] for all in this folder, [r] for all below, [*] for all files(!), [q] to quit'), array('y','n','r','a','q','*'), 'q');
-					}
-				} else {
+				if (in_array($dirname, $folders)) {
 					$action = 'y';
 				}
 
-				if ($action == '*') {
-					$action = 'y';
-					$this->autoCorrectAll = true;
+				while (empty($action)) {
+					//TODO: [r]!
+					$action = $this->in(__('Remove? [y]/[n], [a] for all in this folder, [r] for all below, [*] for all files(!), [q] to quit'), array('y','n','r','a','q','*'), 'q');
+				}
+			} else {
+				$action = 'y';
+			}
 
-				} elseif ($action == 'a') {
-					$action = 'y';
-					$folders[] = $dirname;
-					$this->out('All: '.$dirname);
+			if ($action == '*') {
+				$action = 'y';
+				$this->autoCorrectAll = true;
+
+			} elseif ($action == 'a') {
+				$action = 'y';
+				$folders[] = $dirname;
+				$this->out('All: '.$dirname);
+			}
+
+			if ($action == 'q') {
+				die('Abort... Done');
+
+			} elseif ($action == 'y') {
+				if ($error == 'leading') {
+					$res = preg_replace('/^[\n\r|\n\r|\n|\r|\s]+\<\?php/', '<?php', $c);
+				} else { //trailing
+					$res = preg_replace('/\?\>[\n\r|\n\r|\n|\r|\s]+$/', '?>', $c);
 				}
 
-				if ($action == 'q') {
-					die('Abort... Done');
-
-				} elseif ($action == 'y') {
-					if ($error == 'leading') {
-						$res = preg_replace('/^[\n\r|\n\r|\n|\r|\s]+\<\?php/', '<?php', $c);
-					} else { //trailing
-						$res = preg_replace('/\?\>[\n\r|\n\r|\n|\r|\s]+$/', '?>', $c);
-					}
-
-					file_put_contents($file, $res);
-					$this->report[$error][1]++;
-					$this->out('fixed '.$error.' whitespaces: '.$this->shortPath($file));
-				}
+				file_put_contents($file, $res);
+				$this->report[$error][1]++;
+				$this->out('fixed '.$error.' whitespaces: '.$this->shortPath($file));
 			}
 		}
 
@@ -81,5 +82,41 @@ class WhitespaceShell extends AppShell {
 		$this->out('fixed '.$this->report['leading'][1].' leading, '.$this->report['trailing'][1].' trailing ws');
 	}
 
-}
+	public function whitespaces() {
+		if (!empty($this->args[0])) {
+			$folder = realpath($this->args[0]);
+		} else {
+			$folder = APP;
+		}
+		$App = new Folder($folder);
+		$this->out("Checking *.php in ".APP);
 
+		$files = $App->findRecursive('.*\.php');
+
+		$this->out('Found '. count($files) . ' files.');
+
+		$action = $this->in(__('Continue? [y]/[n]'), array('y', 'n'), 'n');
+		if ($action === 'n') {
+			$this->error('Aborted');
+		}
+
+		foreach ($files as $file) {
+			$content = $store = file_get_contents($file);
+
+			$newline = PHP_EOL;
+			$x = substr_count($content, "\r\n");
+			if ($x > 0) {
+				$newline = "\r\n";
+			} else {
+				$newline = "\n";
+			}
+
+			# add one new line at the end
+			$content = trim($content) . $newline;
+			if ($content !== $store) {
+				file_put_contents($file, $content);
+			}
+		}
+	}
+
+}

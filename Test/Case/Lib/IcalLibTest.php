@@ -73,4 +73,3 @@ class IcalLibTest extends CakeTestCase {
 	}
 
 }
-

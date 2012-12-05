@@ -1308,5 +1308,3 @@ class TimeLib extends CakeTime {
 	}
 
 }
-
-

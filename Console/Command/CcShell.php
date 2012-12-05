@@ -327,5 +327,3 @@ class CcShell extends AppShell {
 	}
 
 }
-
-

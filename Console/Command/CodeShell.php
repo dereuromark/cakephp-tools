@@ -183,7 +183,7 @@ class CodeShell extends AppShell {
 	 * 2012-01-06 ms
 	 */
 	public function utf8() {
-		$this->_paths = array(APP.'View'.DS);
+		$this->_paths = array(APP . 'View' . DS);
 		$this->params['ext'] = 'php|ctp';
 		//$this->out('found: '.count($this->_files));
 

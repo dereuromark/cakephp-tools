@@ -62,12 +62,12 @@ class NumberFormatBehavior extends ModelBehavior {
 	* leave fields empty to auto-detect all float inputs
 	*/
 	public function setup(Model $Model, $config = array()) {
-		$this->config[$Model->alias] = $this->_defaults;
+		$this->settings[$Model->alias] = $this->_defaults;
 
 		if (!empty($config['strict'])) {
-			$this->config[$Model->alias]['transform']['.'] = '#';
+			$this->settings[$Model->alias]['transform']['.'] = '#';
 		}
-		if ($this->config[$Model->alias]['localeconv'] || !empty($config['localeconv'])) {
+		if ($this->settings[$Model->alias]['localeconv'] || !empty($config['localeconv'])) {
 			# use locale settings
 			$conv = localeconv();
 			$loc = array(
@@ -79,27 +79,27 @@ class NumberFormatBehavior extends ModelBehavior {
 			$loc = (array)$configure;
 		}
 		if (!empty($loc)) {
-			$this->config[$Model->alias]['transform'] = array(
-				$loc['thousands'] => $this->config[$Model->alias]['transform']['.'],
-				$loc['decimals'] => $this->config[$Model->alias]['transform'][','],
+			$this->settings[$Model->alias]['transform'] = array(
+				$loc['thousands'] => $this->settings[$Model->alias]['transform']['.'],
+				$loc['decimals'] => $this->settings[$Model->alias]['transform'][','],
 			);
 		}
-		//debug($this->config[$Model->alias]);
+		//debug($this->settings[$Model->alias]);
 
-		$this->config[$Model->alias] = array_merge($this->config[$Model->alias], $config);
+		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], $config);
 
 		$numberFields = array();
 		$schema = $Model->schema();
 		foreach ($schema as $key => $values) {
-			if (isset($values['type']) && !in_array($key, $this->config[$Model->alias]['fields']) && in_array($values['type'], $this->config[$Model->alias]['observedTypes'])) {
+			if (isset($values['type']) && !in_array($key, $this->settings[$Model->alias]['fields']) && in_array($values['type'], $this->settings[$Model->alias]['observedTypes'])) {
 				array_push($numberFields, $key);
 			}
 		}
-		$this->config[$Model->alias]['fields'] = array_merge($this->config[$Model->alias]['fields'], $numberFields);
+		$this->settings[$Model->alias]['fields'] = array_merge($this->settings[$Model->alias]['fields'], $numberFields);
 	}
 
 	public function beforeValidate(Model $Model) {
-		if ($this->config[$Model->alias]['before'] != 'validate') {
+		if ($this->settings[$Model->alias]['before'] != 'validate') {
 			return true;
 		}
 
@@ -108,7 +108,7 @@ class NumberFormatBehavior extends ModelBehavior {
 	}
 
 	public function beforeSave(Model $Model) {
-		if ($this->config[$Model->alias]['before'] != 'save') {
+		if ($this->settings[$Model->alias]['before'] != 'save') {
 			return true;
 		}
 
@@ -117,7 +117,7 @@ class NumberFormatBehavior extends ModelBehavior {
 	}
 
 	public function afterFind(Model $Model, $results, $primary) {
-		if (!$this->config[$Model->alias]['output'] || empty($results)) {
+		if (!$this->settings[$Model->alias]['output'] || empty($results)) {
 			return $results;
 		}
 
@@ -131,7 +131,7 @@ class NumberFormatBehavior extends ModelBehavior {
 	 */
 	public function prepInput(Model $Model, &$data) {
 		foreach ($data[$Model->alias] as $key => $field) {
-			if (in_array($key, $this->config[$Model->alias]['fields'])) {
+			if (in_array($key, $this->settings[$Model->alias]['fields'])) {
 				$data[$Model->alias][$key] = $this->formatInputOutput($Model, $field, 'in');
 			}
 		}
@@ -147,7 +147,7 @@ class NumberFormatBehavior extends ModelBehavior {
 				return $data;
 			}
 			foreach ($record[$Model->alias] as $key => $value) {
-				if (in_array($key, $this->config[$Model->alias]['fields'])) {
+				if (in_array($key, $this->settings[$Model->alias]['fields'])) {
 					$data[$datakey][$Model->alias][$key] = $this->formatInputOutput($Model, $value, 'out');
 				}
 			}
@@ -162,8 +162,8 @@ class NumberFormatBehavior extends ModelBehavior {
 	public function formatInputOutput(Model $Model, $value, $dir = 'in') {
 		$this->_setTransformations($Model, $dir);
 		if ($dir === 'out') {
-			if ($this->config[$Model->alias]['multiply']) {
-				$value *= (float)(1 / $this->config[$Model->alias]['multiply']);
+			if ($this->settings[$Model->alias]['multiply']) {
+				$value *= (float)(1 / $this->settings[$Model->alias]['multiply']);
 			}
 
 			$value = str_replace($this->delimiterFromFormat, $this->delimiterBaseFormat, (String)$value);
@@ -173,8 +173,8 @@ class NumberFormatBehavior extends ModelBehavior {
 			if (is_numeric($value)) {
 				$value = (float)$value;
 
-				if ($this->config[$Model->alias]['multiply']) {
-					$value *= $this->config[$Model->alias]['multiply'];
+				if ($this->settings[$Model->alias]['multiply']) {
+					$value *= $this->settings[$Model->alias]['multiply'];
 				}
 			}
 		}
@@ -188,9 +188,9 @@ class NumberFormatBehavior extends ModelBehavior {
 	protected function _setTransformations(Model $Model, $dir) {
 		$from = array();
 		$base = array();
-		$transform = $this->config[$Model->alias]['transform'];
-		if (!empty($this->config[$Model->alias]['transformReverse'])) {
-			$transform = $this->config[$Model->alias]['transformReverse'];
+		$transform = $this->settings[$Model->alias]['transform'];
+		if (!empty($this->settings[$Model->alias]['transformReverse'])) {
+			$transform = $this->settings[$Model->alias]['transformReverse'];
 		} else {
 			if ($dir === 'out') {
 				$transform = array_reverse($transform, true);

@@ -90,4 +90,3 @@ class TinyUrlsController extends ToolsAppController {
 	}
 
 }
-

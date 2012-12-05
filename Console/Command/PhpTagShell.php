@@ -110,4 +110,3 @@ class PhpTagShell extends AppShell {
 	}
 
 }
-

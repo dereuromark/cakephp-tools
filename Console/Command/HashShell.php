@@ -147,4 +147,3 @@ class HashShell extends AppShell {
 	}
 
 }
-

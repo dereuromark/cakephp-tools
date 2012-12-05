@@ -88,4 +88,3 @@ class NumericHelperTest extends MyCakeTestCase {
 		unset($this->Numeric);
 	}
 }
-

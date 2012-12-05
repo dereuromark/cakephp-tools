@@ -35,4 +35,3 @@ class SmileyFixture extends CakeTestFixture {
 		),
 	);
 }
-

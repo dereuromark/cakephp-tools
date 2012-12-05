@@ -13,4 +13,3 @@ class RevisionArticlesRevFixture extends CakeTestFixture {
 	public $records = array(
 	);
 }
-

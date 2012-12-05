@@ -39,4 +39,3 @@ class RevisionVotesRevFixture extends CakeTestFixture {
 		),
 	);
 }
-

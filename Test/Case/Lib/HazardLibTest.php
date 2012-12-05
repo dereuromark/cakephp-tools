@@ -56,4 +56,3 @@ class HazardLibTest extends CakeTestCase {
 
 
 }
-

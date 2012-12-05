@@ -39,4 +39,3 @@ class RevisionCommentsRevisionTagFixture extends CakeTestFixture {
 		),
 	);
 }
-

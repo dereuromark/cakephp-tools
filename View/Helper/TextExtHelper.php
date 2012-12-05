@@ -376,5 +376,3 @@ class TextExtHelper extends TextHelper {
 	}
 
 }
-
-
