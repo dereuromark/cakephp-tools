@@ -36,7 +36,7 @@ MyModel can be extended to use more powerful validation and other improvements:
     class AppModel extends MyModel {
     }
 
-MyController can be extended to use more powerful validation and other improvements:
+MyController can be extended for DRY improvements and to fix some common bugs:
 
     App::uses('MyController', 'Tools.Controller');
 
