@@ -332,7 +332,7 @@ class GoogleMapV3Helper extends AppHelper {
 		}
 		/*
 		if (!empty($options['map'])) {
-			if ($options['map'] == 'l' || $options['map'] == 'large') {
+			if ($options['map'] === 'l' || $options['map'] === 'large') {
 				$this->setMapControl('GLargeMapControl()');
 			} else {
 				$this->setMapControl('GSmallMapControl()');
@@ -341,9 +341,9 @@ class GoogleMapV3Helper extends AppHelper {
 		*/
 		if (!empty($options['type'])) {
 			/*
-			if ($options['type'] == 'm' || $options['type'] == 'menu') {
+			if ($options['type'] === 'm' || $options['type'] === 'menu') {
 				$this->setMapControl('GMenuMapTypeControl()');
-			} elseif ($options['type'] == 'h' || $options['type'] == 'hierarchical') {
+			} elseif ($options['type'] === 'h' || $options['type'] === 'hierarchical') {
 				$this->setMapControl('GHierarchicalMapTypeControl()');
 			} else {
 				$this->setMapControl('GMapTypeControl()');
@@ -647,14 +647,14 @@ class GoogleMapV3Helper extends AppHelper {
 		}
 
 		if (!empty($char)) {
-			if ($color == 'red') {
+			if ($color === 'red') {
 				$color = '';
 			} else {
 				$color = '_'.$color;
 			}
 			$url = sprintf($this->setIcons['alpha'], $color, $char);
 		} else {
-			if ($color == 'red') {
+			if ($color === 'red') {
 				$color = '';
 			} else {
 				$color = '_'.$color;
@@ -1194,7 +1194,7 @@ var iconShape = {
 		if (!isset($options['zoom']) || $options['zoom'] === false) {
 			# dont use it
 		} else {
-			if ($options['zoom'] == 'auto') {
+			if ($options['zoom'] === 'auto') {
 				if (!empty($options['markers']) && strpos($options['zoom'],'|') !== false) {
 					# let google find the best zoom value itself
 				} else {
@@ -1390,7 +1390,7 @@ var iconShape = {
 	 */
 	protected function _protocol() {
 		if (($https = $this->_currentOptions['https']) === null) {
-			$https = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on';
+			$https = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on';
 		}
 		return ($https ? 'https' : 'http') . '://';
 	}

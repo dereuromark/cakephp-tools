@@ -212,9 +212,9 @@ class Qurl extends ToolsAppModel {
 	 * 2010-06-17 ms
 	 */
 	protected function _generateKey($length = null) {
-		$chars = "234567890abcdefghijkmnopqrstuvwxyz"; // ABCDEFGHIJKLMNOPQRSTUVWXYZ
+		$chars = '234567890abcdefghijkmnopqrstuvwxyz'; // ABCDEFGHIJKLMNOPQRSTUVWXYZ
 		$i = 0;
-		$password = "";
+		$password = '';
 		$max = strlen($chars) - 1;
 
 		while ($i < $length) {

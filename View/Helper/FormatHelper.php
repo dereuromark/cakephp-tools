@@ -20,7 +20,6 @@ class FormatHelper extends TextHelper {
 	 * @access public
 	 */
 	public $helpers = array('Html', 'Form', 'Tools.Common', 'Tools.Gravatar', 'Tools.PhpThumb');
-
 	/**
 	 * jqueryAccess: {id}Pro, {id}Contra
 	 * 2009-07-24 ms
@@ -76,8 +75,12 @@ class FormatHelper extends TextHelper {
 
 		$prevSlug = $nextSlug = null;
 		if (!empty($options['slug'])) {
-			$prevSlug = slug($neighbors['prev'][$alias][$field]);
-			$nextSlug = slug($neighbors['next'][$alias][$field]);
+			if (!empty($neighbors['prev'])) {
+				$prevSlug = slug($neighbors['prev'][$alias][$field]);
+			}
+			if (!empty($neighbors['next'])) {
+				$nextSlug = slug($neighbors['next'][$alias][$field]);
+			}
 		}
 		$titleAlias = $alias;
 		$titleField = $field;
@@ -791,7 +794,7 @@ class FormatHelper extends TextHelper {
 		$step = 1; //$paginator['step'];
 		//pr($paginator);
 
-		if ($dir == 'DESC') {
+		if ($dir === 'DESC') {
 			$currentCount = $count + ($pageCount - $currentPage) * $limit * $step;
 			if ($currentPage != $pageCount && $pageCount > 1) {
 				$currentCount -= $pageCount * $limit * $step - $totalCount;

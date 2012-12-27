@@ -60,7 +60,7 @@ class TypographyHelper extends AppHelper {
 	 * @return	string
 	 */
 	public function autoTypography($str, $reduce_linebreaks = false) {
-		if ($str == '') {
+		if ($str === '') {
 			return '';
 		}
 
@@ -130,10 +130,10 @@ class TypographyHelper extends AppHelper {
 			// Well also set the "process" flag which allows us to skip <pre> tags and a few other things.
 			if (preg_match("#<(/*)(" . $this->block_elements . ").*?>#", $chunk, $match)) {
 				if (preg_match("#" . $this->skip_elements . "#", $match[2])) {
-					$process = ($match[1] == '/') ? true : false;
+					$process = ($match[1] === '/') ? true : false;
 				}
 
-				if ($match[1] == '') {
+				if ($match[1] === '') {
 					$this->last_block_element = $match[2];
 				}
 
@@ -315,7 +315,7 @@ class TypographyHelper extends AppHelper {
 	 * @return	string
 	 */
 	protected function _formatNewlines($str) {
-		if ($str == '') {
+		if ($str === '') {
 			return $str;
 		}
 
@@ -330,7 +330,7 @@ class TypographyHelper extends AppHelper {
 		$str = preg_replace("/([^\n])(\n)([^\n])/", "\\1<br />\\2\\3", $str);
 
 		// Wrap the whole enchilada in enclosing paragraphs
-		if ($str != "\n") {
+		if ($str !== "\n") {
 			// We trim off the right-side new line so that the closing </p> tag
 			// will be positioned immediately following the string, matching
 			// the behavior of the opening <p> tag
@@ -373,7 +373,7 @@ class TypographyHelper extends AppHelper {
 		$ex = explode("pre>", $str);
 		$ct = count($ex);
 
-		$newstr = "";
+		$newstr = '';
 		for ($i = 0; $i < $ct; $i++) {
 			if (($i % 2) == 0) {
 				$newstr .= nl2br($ex[$i]);

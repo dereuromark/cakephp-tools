@@ -87,12 +87,12 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$is = $this->Geocode->_fetch($url);
 		//debug($is);
 
-		$this->assertTrue(!empty($is) && substr($is, 0, 38) == '<?xml version="1.0" encoding="UTF-8"?>');
+		$this->assertTrue(!empty($is) && substr($is, 0, 38) === '<?xml version="1.0" encoding="UTF-8"?>');
 
 		$url = 'http://maps.google.com/maps/api/geocode/json?sensor=false&address=74523';
 		$is = $this->Geocode->_fetch($url);
 		//debug($is);
-		$this->assertTrue(!empty($is) && substr($is, 0, 1) == '{');
+		$this->assertTrue(!empty($is) && substr($is, 0, 1) === '{');
 
 	}
 

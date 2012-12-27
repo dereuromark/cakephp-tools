@@ -26,13 +26,13 @@ App::uses('BaseAuthenticate', 'Controller/Component/Auth');
 class DirectAuthenticate extends BaseAuthenticate {
 
 	/**
-	 * Authenticates the identity contained in a request.  Will use the `settings.userModel`, and `settings.fields`
-	 * to find POST data that is used to find a matching record in the `settings.userModel`.  Will return false if
+	 * Authenticates the identity contained in a request. Will use the `settings.userModel`, and `settings.fields`
+	 * to find POST data that is used to find a matching record in the `settings.userModel`. Will return false if
 	 * there is no post data, username is missing, of if the scope conditions have not been met.
 	 *
 	 * @param CakeRequest $request The request that contains login information.
 	 * @param CakeResponse $response Unused response object.
-	 * @return mixed.  False on login failure.  An array of User data on success.
+	 * @return mixed. False on login failure. An array of User data on success.
 	 */
 	public function authenticate(CakeRequest $request, CakeResponse $response) {
 		$userModel = $this->settings['userModel'];

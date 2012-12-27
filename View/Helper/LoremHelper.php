@@ -33,7 +33,7 @@ class LoremHelper extends AppHelper {
 				for ($li=0;$li<$number;$li++) {
 					$list[] = $this->_sentence();
 				}
-				$string = $this->Html->nestedList($list, $attributes, $itemAttributes, ($type == 'ol') ? 'ol' : 'ul');
+				$string = $this->Html->nestedList($list, $attributes, $itemAttributes, ($type === 'ol') ? 'ol' : 'ul');
 			break;
 			// everything else paragraphs
 			default:

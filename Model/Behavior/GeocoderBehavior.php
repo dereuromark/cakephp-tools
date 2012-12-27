@@ -59,7 +59,7 @@ class GeocoderBehavior extends ModelBehavior {
 	public function beforeValidate(Model $Model) {
 		parent::beforeValidate($Model);
 
-		if ($this->settings[$Model->alias]['before'] == 'validate') {
+		if ($this->settings[$Model->alias]['before'] === 'validate') {
 			return $this->geocode($Model);
 		}
 
@@ -69,7 +69,7 @@ class GeocoderBehavior extends ModelBehavior {
 	public function beforeSave(Model $Model) {
 		parent::beforeSave($Model);
 
-		if ($this->settings[$Model->alias]['before'] == 'save') {
+		if ($this->settings[$Model->alias]['before'] === 'save') {
 			return $this->geocode($Model);
 		}
 

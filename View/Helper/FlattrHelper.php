@@ -128,7 +128,7 @@ class FlattrHelper extends AppHelper {
 			FILTER_VALIDATE_URL) : true)) {
 			$vars .= "var flattr_url = '" . $options['url'] . "';\r\n";
 		}
-		if (isset($options['btn']) && $options['btn'] == 'compact') {
+		if (isset($options['btn']) && $options['btn'] === 'compact') {
 			$vars .= "var flattr_btn = 'compact';\r\n";
 		}
 		$code = $this->Html->scriptBlock($vars, array('inline' => true));

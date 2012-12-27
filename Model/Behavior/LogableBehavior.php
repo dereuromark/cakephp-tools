@@ -237,27 +237,27 @@ class LogableBehavior extends ModelBehavior {
 			// have all the detail models and change as list :
 			if (isset($one[$this->settings[$Model->alias]['classField']]) && isset($one['action']) && isset($one['change']) && isset($one[$this->
 				settings[$Model->alias]['foreignKey']])) {
-				if ($one['action'] == 'edit') {
+				if ($one['action'] === 'edit') {
 					$result[$key]['Log']['event'] .= ' edited ' . $one['change'] . ' of ' . strtolower($one[$this->settings[$Model->alias]['classField']]) .
 						'(id ' . $one[$this->settings[$Model->alias]['foreignKey']] . ')';
 					//	' at '.$one['created'];
-				} elseif ($one['action'] == 'add') {
+				} elseif ($one['action'] === 'add') {
 					$result[$key]['Log']['event'] .= ' added a ' . strtolower($one[$this->settings[$Model->alias]['classField']]) . '(id ' . $one[$this->
 						settings[$Model->alias]['foreignKey']] . ')';
-				} elseif ($one['action'] == 'delete') {
+				} elseif ($one['action'] === 'delete') {
 					$result[$key]['Log']['event'] .= ' deleted the ' . strtolower($one[$this->settings[$Model->alias]['classField']]) . '(id ' . $one[$this->
 						settings[$Model->alias]['foreignKey']] . ')';
 				}
 
 			} elseif (isset($one[$this->settings[$Model->alias]['classField']]) && isset($one['action']) && isset($one[$this->settings[$Model->alias]['foreignKey']])) { // have model,foreign_id and action
-				if ($one['action'] == 'edit') {
+				if ($one['action'] === 'edit') {
 					$result[$key]['Log']['event'] .= ' edited ' . strtolower($one[$this->settings[$Model->alias]['classField']]) . '(id ' . $one[$this->
 						settings[$Model->alias]['foreignKey']] . ')';
 					//	' at '.$one['created'];
-				} elseif ($one['action'] == 'add') {
+				} elseif ($one['action'] === 'add') {
 					$result[$key]['Log']['event'] .= ' added a ' . strtolower($one[$this->settings[$Model->alias]['classField']]) . '(id ' . $one[$this->
 						settings[$Model->alias]['foreignKey']] . ')';
-				} elseif ($one['action'] == 'delete') {
+				} elseif ($one['action'] === 'delete') {
 					$result[$key]['Log']['event'] .= ' deleted the ' . strtolower($one[$this->settings[$Model->alias]['classField']]) . '(id ' . $one[$this->
 						settings[$Model->alias]['foreignKey']] . ')';
 				}
@@ -371,7 +371,7 @@ class LogableBehavior extends ModelBehavior {
 	}
 
 	public function beforeValidate(Model $Model) {
-		if (!$this->settings[$Model->alias]['enabled'] || $this->settings[$Model->alias]['on'] != 'validate') {
+		if (!$this->settings[$Model->alias]['enabled'] || $this->settings[$Model->alias]['on'] !== 'validate') {
 			return true;
 		}
 		$this->_prepareLog($Model);
@@ -379,7 +379,7 @@ class LogableBehavior extends ModelBehavior {
 	}
 
 	public function beforeSave(Model $Model) {
-		if (!$this->settings[$Model->alias]['enabled'] || $this->settings[$Model->alias]['on'] != 'save') {
+		if (!$this->settings[$Model->alias]['enabled'] || $this->settings[$Model->alias]['on'] !== 'save') {
 			return true;
 		}
 		$this->_prepareLog($Model);
@@ -450,10 +450,10 @@ class LogableBehavior extends ModelBehavior {
 				} else {
 					$old = '';
 				}
-				if ($key != 'modified' && !in_array($key, $this->settings[$Model->alias]['ignore']) && $value != $old && in_array($key, $db_fields)) {
-					if ($this->settings[$Model->alias]['change'] == 'full') {
+				if ($key !== 'modified' && !in_array($key, $this->settings[$Model->alias]['ignore']) && $value != $old && in_array($key, $db_fields)) {
+					if ($this->settings[$Model->alias]['change'] === 'full') {
 						$changed_fields[] = $key . ' (' . $old . ') => (' . $value . ')';
-					} elseif ($this->settings[$Model->alias]['change'] == 'serialize') {
+					} elseif ($this->settings[$Model->alias]['change'] === 'serialize') {
 							$changed_fields[$key] = array('old' => $old, 'value' => $value);
 						} else {
 							$changed_fields[] = $key;
@@ -464,7 +464,7 @@ class LogableBehavior extends ModelBehavior {
 			if (!$changes) {
 				return true;
 			}
-			if ($this->settings[$Model->alias]['change'] == 'serialize') {
+			if ($this->settings[$Model->alias]['change'] === 'serialize') {
 				$logData['Log']['change'] = serialize($changed_fields);
 			} else {
 				$logData['Log']['change'] = implode(', ', $changed_fields);

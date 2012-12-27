@@ -299,13 +299,13 @@ class MyModelTest extends MyCakeTestCase {
 		$this->App->invalidate('Model.fieldy', __('e %s f %s g', 33, 'xyz'));
 		$res = $this->App->validationErrors;
 		$this->out($res);
-		$this->assertTrue(!empty($res) && $res['Model.fieldy'][0] == 'e 33 f xyz g');
+		$this->assertTrue(!empty($res) && $res['Model.fieldy'][0] === 'e 33 f xyz g');
 
 		$this->App->create();
 		$this->App->invalidate('fieldy', __('e %s f %s g %s', true, 'xyz', 55));
 		$res = $this->App->validationErrors;
 		$this->out($res);
-		$this->assertTrue(!empty($res) && $res['fieldy'][0] == 'e 1 f xyz g 55');
+		$this->assertTrue(!empty($res) && $res['fieldy'][0] === 'e 1 f xyz g 55');
 
 		$this->App->create();
 		$this->App->invalidate('fieldy', array('valErrMandatoryField'));
@@ -323,7 +323,7 @@ class MyModelTest extends MyCakeTestCase {
 		$this->App->invalidate('fieldy', __('a %s b %s c %s %s %s %s %s h %s', 1, 2, 3, 4, 5, 6, 7, 8));
 		$res = $this->App->validationErrors;
 		$this->out($res);
-		$this->assertTrue(!empty($res) && $res['fieldy'][0] == 'a 1 b 2 c 3 4 5 6 7 h 8');
+		$this->assertTrue(!empty($res) && $res['fieldy'][0] === 'a 1 b 2 c 3 4 5 6 7 h 8');
 
 	}
 

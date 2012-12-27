@@ -1,6 +1,4 @@
 <?php
-
-//App::import('Helper', 'Tools.Form');
 App::uses('FormHelper', 'View/Helper');
 
 /**
@@ -33,6 +31,49 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 		parent::__construct($View, $settings);
 	}
 
+/** redirect **/
+
+	/**
+	 * TODO: make more generic
+	 * @param selectOptions:
+	 * - e.g: array('index'=>true/false, 'view'=>array('url'=>x, 'label'=>y), 'edit'=>'xyz', '/some/url'=>'some label')
+	 * 2010-05-02 ms
+	 */
+	public function redirect($selectOptions = array(), $tagOptions = array()) {
+		$options = array('index'=>'Zurück zur Übersicht', 'view'=>__('View %s', __('Record')), '-1'=>'Auf dieser Seite bleiben');
+
+		foreach ($selectOptions as $key => $text) {
+			if ($text === false) {
+				# deactivate this one
+				if (isset($options[$key])) {
+					unset($options[$key]);
+				}
+				continue;
+			} elseif ($text === true) {
+				# leave it as it is
+			} elseif (is_array($text)) {
+				# own id and label?
+			if (isset($text['url']) && isset($text['label'])) {
+				if (isset($options[$key])) {
+						unset($options[$key]);
+					}
+					$options[$text['url']] = $text['label'];
+			}
+			} else {
+				# url => label
+				$options[$key] = $text;
+			}
+		}
+
+		//$options = array('4'=>'Zum Profil dieses Mitglieds');
+		//$options = array('edit'=>__('Edit %s', __('Record')));
+		//$options = array('add'=>'Einen weiteren Eintrag anlegen');
+
+		//$options[-1] = 'Auf dieser Seite bleiben';
+
+		return $this->input('Form.redirect', array('label'=>'Im Anschluss', 'options'=>$options), $tagOptions);
+	}
+
 	/**
 	 * Creates an HTML link, but accesses the url using DELETE method.
 	 * Requires javascript to be enabled in browser.
@@ -54,7 +95,10 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 	 * @return string An `<a />` element.
 	 */
 	public function deleteLink($title, $url = null, $options = array(), $confirmMessage = false) {
-		$options['method'] = 'DELETE';
+		$options['method'] = 'delete';
+		if (!isset($options['class'])) {
+			$options['class'] = 'deleteLink';
+		}
 		return $this->postLink($title, $url, $options, $confirmMessage);
 	}
 
@@ -86,6 +130,24 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 		return parent::_introspectModel($model, $key, $field);
 	}
 
+	/**
+	 * fix for required adding (only manually)
+	 * 2011-11-01 ms
+	 */
+	protected function _isRequiredField($validationRules) {
+		if (Configure::read('Validation.autoRequire') === false) {
+			return false;
+		}
+		return parent::_isRequiredField($validationRules);
+	}
+
+	/**
+	 * Create postLinks
+	 *
+	 * add class postLink, as well
+	 * @see FormHelper::postLink for details
+	 * 2012-12-24 ms
+	 */
 	public function postLink($title, $url = null, $options = array(), $confirmMessage = false) {
 		if (!isset($options['class'])) {
 			$options['class'] = 'postLink';
@@ -93,38 +155,37 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 		return parent::postLink($title, $url , $options, $confirmMessage);
 	}
 
-
-/**
- * Generates a form input element complete with label and wrapper div
- * HTML 5 ready!
- *
- * ### Options
- *
- * See each field type method for more information. Any options that are part of
- * $attributes or $options for the different **type** methods can be included in `$options` for input().
- *
- * - `type` - Force the type of widget you want. e.g. `type => 'select'`
- * - `label` - Either a string label, or an array of options for the label. See FormHelper::label()
- * - `div` - Either `false` to disable the div, or an array of options for the div.
- *    See HtmlHelper::div() for more options.
- * - `options` - for widgets that take options e.g. radio, select
- * - `error` - control the error message that is produced
- * - `empty` - String or boolean to enable empty select box options.
- * - `before` - Content to place before the label + input.
- * - `after` - Content to place after the label + input.
- * - `between` - Content to place between the label + input.
- * - `format` - format template for element order. Any element that is not in the array, will not be in the output.
- *    - Default input format order: array('before', 'label', 'between', 'input', 'after', 'error')
- *    - Default checkbox format order: array('before', 'input', 'between', 'label', 'after', 'error')
- *    - Hidden input will not be formatted
- *    - Radio buttons cannot have the order of input and label elements controlled with these settings.
- *
- * @param string $fieldName This should be "Modelname.fieldname"
- * @param array $options Each type of input takes different options.
- * @return string Completed form widget.
- * @access public
- * @link http://book.cakephp.org/view/1390/Automagic-Form-Elements
- */
+	/**
+	 * Generates a form input element complete with label and wrapper div
+	 * HTML 5 ready!
+	 *
+	 * ### Options
+	 *
+	 * See each field type method for more information. Any options that are part of
+	 * $attributes or $options for the different **type** methods can be included in `$options` for input().
+	 *
+	 * - `type` - Force the type of widget you want. e.g. `type => 'select'`
+	 * - `label` - Either a string label, or an array of options for the label. See FormHelper::label()
+	 * - `div` - Either `false` to disable the div, or an array of options for the div.
+	 *    See HtmlHelper::div() for more options.
+	 * - `options` - for widgets that take options e.g. radio, select
+	 * - `error` - control the error message that is produced
+	 * - `empty` - String or boolean to enable empty select box options.
+	 * - `before` - Content to place before the label + input.
+	 * - `after` - Content to place after the label + input.
+	 * - `between` - Content to place between the label + input.
+	 * - `format` - format template for element order. Any element that is not in the array, will not be in the output.
+	 *    - Default input format order: array('before', 'label', 'between', 'input', 'after', 'error')
+	 *    - Default checkbox format order: array('before', 'input', 'between', 'label', 'after', 'error')
+	 *    - Hidden input will not be formatted
+	 *    - Radio buttons cannot have the order of input and label elements controlled with these settings.
+	 *
+	 * @param string $fieldName This should be "Modelname.fieldname"
+	 * @param array $options Each type of input takes different options.
+	 * @return string Completed form widget.
+	 * @access public
+	 * @link http://book.cakephp.org/view/1390/Automagic-Form-Elements
+	 */
 	public function inputExt($fieldName, $options = array()) {
 		//$this->setEntity($fieldName);
 
@@ -186,7 +247,7 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 
 		if (
 			(!isset($options['options']) && in_array($options['type'], $types)) ||
-			(isset($magicType) && $options['type'] == 'text')
+			(isset($magicType) && $options['type'] === 'text')
 		) {
 			$varName = Inflector::variable(
 				Inflector::pluralize(preg_replace('/_id$/', '', $fieldKey))
@@ -201,10 +262,10 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 		}
 
 		$autoLength = (!array_key_exists('maxlength', $options) && isset($fieldDef['length']));
-		if ($autoLength && $options['type'] == 'text') {
+		if ($autoLength && $options['type'] === 'text') {
 			$options['maxlength'] = $fieldDef['length'];
 		}
-		if ($autoLength && $fieldDef['type'] == 'float') {
+		if ($autoLength && $fieldDef['type'] === 'float') {
 			$options['maxlength'] = array_sum(explode(',', $fieldDef['length']))+1;
 		}
 
@@ -321,7 +382,7 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 				$input = $this->text($fieldName, $options);
 		}
 
-		if ($type != 'hidden' && $error !== false) {
+		if ($type !== 'hidden' && $error !== false) {
 			$errMsg = $this->error($fieldName, $error);
 			if ($errMsg) {
 				$divOptions = $this->addClass($divOptions, 'error');
@@ -344,10 +405,14 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 		return $output;
 	}
 
-
 	/**
-	 * override with some custom functionality
-	 * - html5 list/datalist (fallback = invisible)
+	 * Override with some custom functionality
+	 *
+	 * - `datalist` - html5 list/datalist (fallback = invisible).
+	 * - `normalize` - boolean whether the content should be normalized regarding whitespaces.
+	 * - `required` - manually set if the field is required.
+	 *   If not set, it depends on Configure::read('Validation.browserAutoRequire').
+	 *
 	 * 2011-07-16 ms
 	 */
 	public function input($fieldName, $options = array()) {
@@ -378,15 +443,12 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 			$options['after'] = !empty($options['after']) ? $options['after'].$list : $list;
 		}
 
-		if (isset($options['required'])) {
-			$this->_introspectModel($modelKey, 'validates', $fieldKey);
-			$this->fieldset[$modelKey]['validates'][$fieldKey] = $options['required'];
-			if ($options['required'] === false) {
-				$autoRequire = Configure::read('Validation.autoRequire');
-				Configure::write('Validation.autoRequire', false);
-			}
+		if (isset($options['required']) && $options['required'] === false || Configure::read('Validation.browserAutoRequire') !== true) {
+			//$autoRequire = Configure::read('Validation.autoRequire');
+			//Configure::write('Validation.autoRequire', false);
 			//unset($options['require']);
 		}
+
 		if (Configure::read('Validation.browserAutoRequire') !== true) {
 			if (!empty($options['required'])) {
 				//$options['div']['class'] = !empty($options['div']['class']) ? $options['div']['class'].' required' : 'required';
@@ -403,7 +465,6 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 			}
 		}
 
-
 		$res = parent::input($fieldName, $options);
 
 		if (isset($autoRequire)) {
@@ -412,6 +473,33 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 
 		return $res;
 	}
+
+	/**
+	 * Overwrite the default method with custom enhancements
+	 *
+	 * @return array options
+	 */
+	protected function _initInputField($field, $options = array()) {
+		$autoRequire = Configure::read('Validation.autoRequire');
+		Configure::write('Validation.autoRequire', false);
+
+		$normalize = true;
+		if (isset($options['normalize'])) {
+			$normalize = $options['normalize'];
+			unset($options['normalize']);
+		}
+
+		$options = parent::_initInputField($field, $options);
+
+		if (!empty($options['value']) && $normalize) {
+			$options['value'] = str_replace(array("\t", "\r\n", "\n"), ' ', $options['value']);
+		}
+
+		Configure::write('Validation.autoRequire', $autoRequire);
+
+		return $options;
+	}
+
 
 /** date(time) **/
 
@@ -627,7 +715,7 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 			$callbacks = 'callbackFunctions:{"dateset":['.$c.']},';
 		}
 
-		if (!empty($customOptions['type']) && $customOptions['type'] == 'text') {
+		if (!empty($customOptions['type']) && $customOptions['type'] === 'text') {
 			$script = '
 <script type="text/javascript">
 	// <![CDATA[
@@ -726,7 +814,7 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 		$fieldname = Inflector::camelize($field);
 
 		$customOptions = array_merge($defaultOptions, $options);
-		$format24Hours = $customOptions['timeFormat'] != '24' ? false : true;
+		$format24Hours = $customOptions['timeFormat'] !== '24' ? false : true;
 
 		if (strpos($field, '.') !== false) {
 			list($model, $field) = explode('.', $field, 2);
@@ -809,7 +897,7 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 				$selector = $settings;
 				$settings = array();
 			}
-			$js .= $this->_maxLength($selector, array_merge($this->maxLengthOptions, $settings));
+			$js .= $this->_maxLengthJs($selector, array_merge($this->maxLengthOptions, $settings));
 		}
 
 		if (!empty($options['plain'])) {
@@ -819,7 +907,7 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 		return $this->Html->scriptBlock($js);
 	}
 
-	protected function _maxLength($selector, $settings = array()) {
+	protected function _maxLengthJs($selector, $settings = array()) {
 		return '
 jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteKeys'=>false)).');
 ';
@@ -862,7 +950,10 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 	}
 
 
-
+	/**
+	 * @param string $string
+	 * @return string Js snippet
+	 */
 	public function documentReady($string) {
 		return 'jQuery(document).ready(function() {
 '.$string.'
@@ -899,13 +990,13 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 		$res = $this->input($field, $options);
 		if (is_array($jquery)) {
 			# custom one
-			$res .= $this->_autoComplete($options['id'], $jquery);
+			$res .= $this->_autoCompleteJs($options['id'], $jquery);
 		}
 		return $res;
 	}
 
 
-	protected function _autoComplete($id, $jquery = array()) {
+	protected function _autoCompleteJs($id, $jquery = array()) {
 		if (!empty($jquery['url'])) {
 			$var = '"'.$this->Html->url($jquery['url']).'"';
 		} elseif (!empty($jquery['var'])) {
@@ -1031,9 +1122,9 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 			$this->buttonAlign = $options['align'];
 		}
 
-		if ($this->buttonAlign == 'left') {
+		if ($this->buttonAlign === 'left') {
 			$align = 'margin-right:5px';
-		} elseif ($this->buttonAlign == 'right') {
+		} elseif ($this->buttonAlign === 'right') {
 			$align = 'margin-left:5px';
 		}
 
@@ -1100,15 +1191,15 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 	input += '';
 	pad_string = pad_string !== undefined ? pad_string : ' ';
 
-	if (pad_type != 'STR_PAD_LEFT' && pad_type != 'STR_PAD_RIGHT' && pad_type != 'STR_PAD_BOTH') {
+	if (pad_type !== 'STR_PAD_LEFT' && pad_type !== 'STR_PAD_RIGHT' && pad_type !== 'STR_PAD_BOTH') {
 		pad_type = 'STR_PAD_RIGHT';
 	}
 	if ((pad_to_go = pad_length - input.length) > 0) {
-		if (pad_type == 'STR_PAD_LEFT') {
+		if (pad_type === 'STR_PAD_LEFT') {
 			input = str_pad_repeater(pad_string, pad_to_go) + input;
-		} elseif (pad_type == 'STR_PAD_RIGHT') {
+		} elseif (pad_type === 'STR_PAD_RIGHT') {
 			input = input + str_pad_repeater(pad_string, pad_to_go);
-		} elseif (pad_type == 'STR_PAD_BOTH') {
+		} elseif (pad_type === 'STR_PAD_BOTH') {
 			half = str_pad_repeater(pad_string, Math.ceil(pad_to_go / 2));
 			input = half + input + half;
 			input = input.substr(0, pad_length);

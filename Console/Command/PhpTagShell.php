@@ -74,19 +74,19 @@ class PhpTagShell extends AppShell {
 					$action = 'y';
 				}
 
-				if ($action == '*') {
+				if ($action === '*') {
 					$action = 'y';
 					$this->autoCorrectAll = true;
 
-				} elseif ($action == 'a') {
+				} elseif ($action === 'a') {
 					$action = 'y';
 					$folders[] = $dirname;
 					$this->out('All: '.$dirname);
 				}
 
-				if ($action == 'q') {
+				if ($action === 'q') {
 					die('Abort... Done');
-				} elseif ($action == 'y') {
+				} elseif ($action === 'y') {
 					$res = $c;
 					if (in_array('leading', $error)) {
 						$res = preg_replace('/^[\n\r|\n\r|\n|\r|\s]+\<\?php/', '<?php', $res);

@@ -71,7 +71,7 @@ class Utility {
 	 * 2009-12-22 ms
 	 */
 	public static function cleanUrl($url, $headerRedirect = false) {
-		if ($url == '' || $url == 'http://' || $url == 'http://www' || $url == 'http://www.') {
+		if ($url === '' || $url === 'http://' || $url === 'http://www' || $url === 'http://www.') {
 			$url = '';
 		} else {
 			$url = self::autoPrefixUrl($url, 'http://');

@@ -144,7 +144,7 @@ class GeocodeLib {
 	 */
 	public function setParams($params) {
 		foreach ($params as $key => $value) {
-			if ($key == 'sensor' && $value != 'false' && $value != 'true') {
+			if ($key === 'sensor' && $value !== 'false' && $value !== 'true') {
 				$value = !empty($value) ? 'true' : 'false';
 			}
 			$this->params[$key] = urlencode((string)$value);
@@ -157,10 +157,10 @@ class GeocodeLib {
 	 */
 	public function setOptions($options) {
 		foreach ($options as $key => $value) {
-			if ($key == 'output' && $value != 'xml' && $value != 'json') {
+			if ($key === 'output' && $value !== 'xml' && $value !== 'json') {
 				throw new CakeException('Invalid output format');
 			}
-			if ($key == 'host' && !array_key_exists($value, $this->hosts)) {
+			if ($key === 'host' && !array_key_exists($value, $this->hosts)) {
 				throw new CakeException('Invalid host');
 			}
 			$this->options[$key] = $value;
@@ -238,11 +238,11 @@ class GeocodeLib {
 			if (isset($this->result[0])) {
 				$res = array();
 				foreach ($this->result as $tmp) {
-					$res[] = $this->options['output'] == 'json' ? $this->_transformJson($tmp) : $this->_transformXml($tmp);
+					$res[] = $this->options['output'] === 'json' ? $this->_transformJson($tmp) : $this->_transformXml($tmp);
 				}
 				return $res;
 			}
-			if ($this->options['output'] == 'json') {
+			if ($this->options['output'] === 'json') {
 				return $this->_transformJson($this->result);
 			} else {
 				return $this->_transformXml($this->result);
@@ -276,7 +276,7 @@ class GeocodeLib {
 				return false;
 			}
 
-			if ($this->options['output'] == 'json') {
+			if ($this->options['output'] === 'json') {
 				//$res = json_decode($result);
 			} else {
 				$res = Xml::build($result);
@@ -391,7 +391,7 @@ class GeocodeLib {
 				return false;
 			}
 
-			if ($this->options['output'] == 'json') {
+			if ($this->options['output'] === 'json') {
 				//TODO? necessary?
 				//$res = json_decode($result);
 			} else {
@@ -719,9 +719,9 @@ class GeocodeLib {
 		if (!isset($this->units[($fromUnit = strtoupper($fromUnit))]) || !isset($this->units[($toUnit = strtoupper($toUnit))])) {
 			throw new CakeException(__('Invalid Unit'));
 		}
-		if ($fromUnit == 'M') {
+		if ($fromUnit === 'M') {
 			$value *= $this->units[$toUnit];
-		} elseif ($toUnit == 'M') {
+		} elseif ($toUnit === 'M') {
 			$value /= $this->units[$fromUnit];
 		} else {
 			$value /= $this->units[$fromUnit];

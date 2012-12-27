@@ -305,7 +305,7 @@ class TextExtHelper extends TextHelper {
 			return (string)$url;
 		}
 		// http:// has not to be displayed, so
-		if (mb_substr($url,0,7) == 'http://') {
+		if (mb_substr($url,0,7) === 'http://') {
 			$url = mb_substr($url, 7);
 		}
 		// cut the parameters

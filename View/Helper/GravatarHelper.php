@@ -88,6 +88,7 @@ class GravatarHelper extends AppHelper {
 
 /**
  * Generate image URL
+ * TODO: rename to avoid E_STRICT errors here
  *
  * @param string $email Email address
  * @param string $options Array of options, keyed from default settings

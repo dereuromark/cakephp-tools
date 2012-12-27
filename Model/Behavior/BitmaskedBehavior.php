@@ -89,7 +89,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	}
 
 	public function beforeValidate(Model $Model) {
-		if ($this->settings[$Model->alias]['before'] != 'validate') {
+		if ($this->settings[$Model->alias]['before'] !== 'validate') {
 			return true;
 		}
 		$this->encodeBitmaskData($Model);
@@ -97,7 +97,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	}
 
 	public function beforeSave(Model $Model) {
-		if ($this->settings[$Model->alias]['before'] != 'save') {
+		if ($this->settings[$Model->alias]['before'] !== 'save') {
 			return true;
 		}
 		$this->encodeBitmaskData($Model);

@@ -129,16 +129,12 @@ class MyErrorHandler extends ErrorHandler {
 	 * 2011-12-21 ms
 	 */
 	public static function traceDetails() {
-		if (strpos($_SERVER['REQUEST_URI'], '/test.php?') === 0) {
+		if (empty($_SERVER['REQUEST_URI']) || strpos($_SERVER['REQUEST_URI'], '/test.php?') === 0) {
 			return null;
 		}
 		$currentUrl = Router::url(); //isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : 'n/a';
 		$refererUrl = Utility::getReferer(); //Router::getRequest()->url().'
-		App::uses('CakeSession', 'Model/Datasource');
-		$uid = CakeSession::read('Auth.User.id');
-		if (!isset($uid)) {
-			$uid = (!empty($_SESSION) && !empty($_SESSION['Auth']['User']['id'])) ? $_SESSION['Auth']['User']['id'] : null;
-		}
+		$uid = (!empty($_SESSION) && !empty($_SESSION['Auth']['User']['id'])) ? $_SESSION['Auth']['User']['id'] : null;
 
 		$data = array(
 			@CakeRequest::clientIp(),

@@ -67,11 +67,11 @@ class ChmodLib {
 	public function getMode($options = array()) {
 		$mode = (string)($this->modes['user'] . $this->modes['group'] . $this->modes['other']);
 		if (!empty($options['type'])) {
-			if ($options['type'] == 'string') {
+			if ($options['type'] === 'string') {
 				return $mode;
-			} elseif ($options['type'] == 'int') {
+			} elseif ($options['type'] === 'int') {
 				return (int)$mode;
-			} elseif ($options['type'] == 'symbolic') {
+			} elseif ($options['type'] === 'symbolic') {
 				$mode = $this->symbol($this->modes['user']).$this->symbol($this->modes['group']).$this->symbol($this->modes['other']);
 				return $mode;
 			}

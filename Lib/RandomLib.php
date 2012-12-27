@@ -162,7 +162,7 @@ class RandomLib {
 	 * 2009-12-26 ms
 	 */
 	public static function randomPwd($type = null, $length = null) {
-		if (!empty($type) && $type == 'user') {
+		if (!empty($type) && $type === 'user') {
 			return self::generatePassword(6);
 		}
 		if (!empty($length)) {
@@ -208,7 +208,7 @@ class RandomLib {
 
 			for ($k = 0; $k < count($words) - $wordscount; $k++) {
 				$prefix = trim(join(' ', array_slice($words, $k, $wordscount)));
-				if ($prefix == '')
+				if ($prefix === '')
 					continue;
 
 				if (empty($hash[$prefix])) {
@@ -218,7 +218,7 @@ class RandomLib {
 						if (preg_match('/' . ereg_replace('/', '\/', preg_quote($prefix)) . '(.*)$/', $sentences[$j], $m)) {
 							$w = split(' ', trim($m[1]));
 
-							if (count($w) > 0 && trim($w[0]) != '')
+							if (count($w) > 0 && trim($w[0]) !== '')
 								array_push($hash[$prefix], trim($w[0]));
 						}
 					}
@@ -250,7 +250,7 @@ class RandomLib {
 			} while (strrpos($w, '.') != strlen($w) - 1 && $j < $cc * 2);
 
 			$sn = join(' ', $sent);
-			if ($sn[strlen($sn) - 1] != '.')
+			if ($sn[strlen($sn) - 1] !== '.')
 				$sn .= '.';
 			array_push($resultsentences, $sn);
 		}

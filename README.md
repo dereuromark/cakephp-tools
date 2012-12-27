@@ -1,9 +1,11 @@
 # Tools
 
-## a cake2.x plugin
+## A cake2.x plugin
 
 This plugin contains several useful tools that can be used in many projects.
 Please fork and help to improve (bugfixing, test cases, ...)
+
+Please note: New functionality has been tested against cake2.3 only. Please upgrade if possible.
 
 CODING STANDARDS
 - http://www.dereuromark.de/coding-standards/
@@ -32,6 +34,13 @@ MyModel can be extended to use more powerful validation and other improvements:
     App::uses('MyModel', 'Tools.Model');
 
     class AppModel extends MyModel {
+    }
+
+MyController can be extended to use more powerful validation and other improvements:
+
+    App::uses('MyController', 'Tools.Controller');
+
+    class MyController extends MyController {
     }
 
 MyHelper can be extended and used this way:

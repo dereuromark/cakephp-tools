@@ -184,7 +184,7 @@ class TinyAuthorize extends BaseAuthorize {
 					if (!($role = trim($role))) {
 						continue;
 					}
-					if ($role == '*') {
+					if ($role === '*') {
 						unset($roles[$key]);
 						$roles = array_merge($roles, array_keys(Configure::read($this->settings['aclModel'])));
 					}
@@ -197,7 +197,7 @@ class TinyAuthorize extends BaseAuthorize {
 					$actionName = Inflector::underscore($action);
 
 					foreach ($roles as $role) {
-						if (!($role = trim($role)) || $role == '*') {
+						if (!($role = trim($role)) || $role === '*') {
 							continue;
 						}
 						$newRole = Configure::read($this->settings['aclModel'].'.'.strtolower($role));

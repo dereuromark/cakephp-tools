@@ -173,14 +173,14 @@ class JsonableBehaviorTestModel extends AppModel {
 		if ($customData !== null) {
 			$data = $customData;
 		}
-		if ($type == 'count') {
+		if ($type === 'count') {
 			$results = array(0=>array(0=>array('count'=>2)));
 		} else {
 			$results = array(0=>array($this->alias=>$data));
 		}
 
 		$results = $this->_filterResults($results);
-		if ($type == 'first') {
+		if ($type === 'first') {
 			$results = $this->_findFirst('after', null, $results);
 		}
 		return $results;

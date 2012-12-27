@@ -48,9 +48,9 @@ class IndentShell extends AppShell {
 				$this->settings['test'] = true;
 			}
 
-			if (!empty($this->args[0]) && $this->args[0] != 'app') {
+			if (!empty($this->args[0]) && $this->args[0] !== 'app') {
 				$folder = $this->args[0];
-				if ($folder == '/') {
+				if ($folder === '/') {
 					$folder = APP;
 				}
 
@@ -59,7 +59,7 @@ class IndentShell extends AppShell {
 					die('folder not exists: ' . $folder . '');
 				}
 				$this->_paths[] = $folder;
-			} elseif ($this->args[0] == 'app') {
+			} elseif ($this->args[0] === 'app') {
 				$this->_paths[] = APP;
 			}
 
@@ -76,7 +76,7 @@ class IndentShell extends AppShell {
 				$this->out('TEST DONE');
 			} else {
 				$continue = $this->in(__('Modifying files! Continue?'), array('y', 'n'), 'n');
-				if (strtolower($continue) != 'y' && strtolower($continue) != 'yes') {
+				if (strtolower($continue) !== 'y' && strtolower($continue) !== 'yes') {
 					die('...aborted');
 				}
 
@@ -132,7 +132,7 @@ class IndentShell extends AppShell {
 		$text = implode(PHP_EOL, $text);
 		if ($this->settings['outputToTmp']) {
 			$filename = extractPathInfo('file', $file);
-			if (mb_substr($filename, -1, 1) == '_') {
+			if (mb_substr($filename, -1, 1) === '_') {
 				return;
 			}
 			$file = extractPathInfo('dir', $file).DS.$filename.'_.'.extractPathInfo('ext', $file);
@@ -258,7 +258,7 @@ class IndentShell extends AppShell {
 				//$debug .= ''.stripos($newPiece, TB);
 
 				# detect tabs and whitespaces at the beginning
-				//while (($pieceOfString = mb_substr($newPiece, 0, 1)) == ' ' || ($pieceOfString = mb_substr($newPiece, 0, 1)) == TB) {
+				//while (($pieceOfString = mb_substr($newPiece, 0, 1)) === ' ' || ($pieceOfString = mb_substr($newPiece, 0, 1)) == TB) {
 				while ((stripos($newPiece, ' ')) === 0 || (stripos($newPiece, TB)) === 0) {
 					$pieceOfString = mb_substr($newPiece, 0, 1);
 					if ($pieceOfString === ' ') {

@@ -412,7 +412,7 @@ class CommonComponent extends Component {
 	 * 2010-11-06 ms
 	 */
 	public function autoRedirect($whereTo, $allowSelf = true, $status = null) {
-		if ($allowSelf || $this->Controller->referer(null, true) != '/' . $this->Controller->request->url) {
+		if ($allowSelf || $this->Controller->referer(null, true) !== '/' . $this->Controller->request->url) {
 			$this->Controller->redirect($this->Controller->referer($whereTo, true), $status);
 		}
 		$this->Controller->redirect($whereTo, $status);
@@ -457,7 +457,7 @@ class CommonComponent extends Component {
 			}
 			foreach ($this->Controller->autoRedirectActions as $action) {
 				list($controller, $action) = pluginSplit($action);
-				if (!empty($controller) && $refererController != '*' && $refererController != $controller) {
+				if (!empty($controller) && $refererController !== '*' && $refererController != $controller) {
 					continue;
 				}
 				if (empty($controller) && $refererController != Inflector::camelize($this->Controller->request->params['controller'])) {
@@ -499,10 +499,10 @@ class CommonComponent extends Component {
 			trigger_error(__('Meta Type invalid'), E_USER_WARNING);
 			return;
 		}
-		if ($type == 'canonical' && $prep) {
+		if ($type === 'canonical' && $prep) {
 			$content = Router::url($content);
 		}
-		if ($type == 'canonical' && $prep) {
+		if ($type === 'canonical' && $prep) {
 			$content = h($content);
 		}
 		# custom: <meta name=”GOOGLEBOT” content=”unavailable_after: … GMT”>
@@ -1107,7 +1107,7 @@ class CommonComponent extends Component {
 	public function alphaFilterSymbols($type = null) {
 		$arr = array();
 		for ($i = 97; $i < 123; $i++) {
-			if ($type == 'up') {
+			if ($type === 'up') {
 				$arr[] = chr($i - 32);
 			} else {
 				$arr[] = chr($i);
@@ -1302,16 +1302,16 @@ class CommonComponent extends Component {
 			return false;
 		}
 
-		if ($type == 'username') {
+		if ($type === 'username') {
 			return $nameParts[0];
-		} elseif ($type == 'hostname') {
+		} elseif ($type === 'hostname') {
 			return $nameParts[1];
 		}
 
 		$checkpos = strrpos($nameParts[1], '.');
 		$tld = trim(mb_substr($nameParts[1], $checkpos + 1));
 
-		if ($type == 'tld') {
+		if ($type === 'tld') {
 			return $tld;
 		}
 
@@ -1326,10 +1326,10 @@ class CommonComponent extends Component {
 			$domain = trim(mb_substr($server, $checkpos + 1));
 		}
 
-		if ($type == 'domain') {
+		if ($type === 'domain') {
 			return $domain;
 		}
-		if ($type == 'subdomain') {
+		if ($type === 'subdomain') {
 			return $subdomain;
 		}
 
@@ -1374,7 +1374,7 @@ class CommonComponent extends Component {
 	 */
 	public static function pwd($type = null, $length = null) {
 		App::uses('RandomLib', 'Tools.Lib');
-		if (!empty($type) && $type == 'user') {
+		if (!empty($type) && $type === 'user') {
 			return RandomLib::pronounceablePwd(6);
 		}
 		if (!empty($length)) {
@@ -1545,10 +1545,10 @@ class CommonComponent extends Component {
 		if (empty($direction) || empty($array) || empty($obj)) {
 			return array();
 		}
-		if ($direction == 'up') {
+		if ($direction === 'up') {
 			usort($products, array($obj, 'sortUp'));
 		}
-		if ($direction == 'down') {
+		if ($direction === 'down') {
 			usort($products, array($obj, 'sortDown'));
 		}
 		return array();

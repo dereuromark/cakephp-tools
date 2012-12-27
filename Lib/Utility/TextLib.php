@@ -166,7 +166,7 @@ class TextLib extends String {
 		// or includes a comma or quote character), we remove the escape
 		// formatting so to save the term into the database as the user intends.
 		$tag = trim(str_replace('""', '"', preg_replace('/^"(.*)"$/', '\1', $tag)));
-		if ($tag != "") {
+		if ($tag) {
 			$tags[] = $tag;
 		}
 		}
@@ -386,7 +386,7 @@ class TextLib extends String {
 		$default = array(
 			'ellipsis' => '...'
 		);
-		if (!empty($options['html']) && Configure::read('App.encoding') == 'UTF-8') {
+		if (!empty($options['html']) && Configure::read('App.encoding') === 'UTF-8') {
 			$default['ellipsis'] = "\xe2\x80\xa6";
 		}
 		$options = array_merge($default, $options);
@@ -437,15 +437,15 @@ class TextLib extends String {
 			}
 			if (!empty($options['sort'])) {
 				$sort = strtolower($options['sort']);
-				if ($sort == 'asc') {
+				if ($sort === 'asc') {
 					asort($res);
-				} elseif ($sort == 'desc') {
+				} elseif ($sort === 'desc') {
 					arsort($res);
-				} elseif ($sort == 'length') {
+				} elseif ($sort === 'length') {
 					//TODO:
 					//uasort($res, $callback);
 
-				} elseif ($sort == 'alpha') {
+				} elseif ($sort === 'alpha') {
 					ksort($res);
 				}
 			}

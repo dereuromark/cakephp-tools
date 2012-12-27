@@ -111,7 +111,7 @@ class UserShell extends AppShell {
 
 		$this->out('');
 		$continue = $this->in(__('Continue? '), array('y', 'n'), 'n');
-		if ($continue != 'y') {
+		if ($continue !== 'y') {
 			$this->error('Not Executed!');
 		}
 

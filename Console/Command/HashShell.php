@@ -30,7 +30,7 @@ class HashShell extends AppShell {
 		}
 		while (!isset($type) || !in_array($type-1, $types)) {
 			$type = $this->in(__('Select hashType - or [q] to quit'), null, self::DEFAULT_HASH_ALG);
-			if ($type == 'q') {
+			if ($type === 'q') {
 				die('Aborted!');
 			}
 		}
@@ -58,7 +58,7 @@ class HashShell extends AppShell {
 
 	public function compare() {
 		$algos = hash_algos();
-		$data = "hello";
+		$data = 'hello';
 		foreach ($algos as $v) {
 			$res = hash($v, $data, false);
 			$r = str_split($res, 50);

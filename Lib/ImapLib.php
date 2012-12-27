@@ -128,7 +128,7 @@ class ImapLib {
 		}
 
 		$this->settings[self::S_SERVER] = $server;
-		if ($port || !$port && $this->settings[self::S_SERVICE] == 'imap') {
+		if ($port || !$port && $this->settings[self::S_SERVICE] === 'imap') {
 			$this->settings[self::S_PORT] = $port;
 		}
 		$this->settings[self::S_USER] = $user;
@@ -265,28 +265,28 @@ class ImapLib {
 		$parts = $structure->parts;
 		$fpos = 2;
 		$message = array();
-		$message["attachment"]["type"][0] = "text";
-		$message["attachment"]["type"][1] = "multipart";
-		$message["attachment"]["type"][2] = "message";
-		$message["attachment"]["type"][3] = "application";
-		$message["attachment"]["type"][4] = "audio";
-		$message["attachment"]["type"][5] = "image";
-		$message["attachment"]["type"][6] = "video";
-		$message["attachment"]["type"][7] = "other";
+		$message["attachment"]["type"][0] = 'text';
+		$message["attachment"]["type"][1] = 'multipart';
+		$message["attachment"]["type"][2] = 'message';
+		$message["attachment"]["type"][3] = 'application';
+		$message["attachment"]["type"][4] = 'audio';
+		$message["attachment"]["type"][5] = 'image';
+		$message["attachment"]["type"][6] = 'video';
+		$message["attachment"]["type"][7] = 'other';
 
 		$attachments = array();
 		for ($i = 1; $i < count($parts); $i++) {
 			$attachment = array();
 			$part = $parts[$i];
-			if (isset($part->disposition) && $part->disposition == "ATTACHMENT") {
+			if (isset($part->disposition) && $part->disposition === 'ATTACHMENT') {
 				$attachment["pid"] = $i;
 				$attachment["type"][$i] = $message["attachment"]["type"][$part->type] . "/" . strtolower($part->subtype);
 				$attachment["subtype"][$i] = strtolower($part->subtype);
 				$ext = $part->subtype;
 				$params = $part->dparameters;
 
-				$mege = "";
-				$data = "";
+				$mege = '';
+				$data = '';
 				$mege = imap_fetchbody($this->stream, $header->Msgno, $fpos);
 				$attachment['filename'] = $part->dparameters[0]->value;
 				$attachment['data'] = $this->_getDecodedValue($mege, $part->encoding);
@@ -295,15 +295,15 @@ class ImapLib {
 				$fpos++;
 				$attachments[] = $attachment;
 
-			} elseif (isset($part->subtype) && $part->subtype == "OCTET-STREAM") {
+			} elseif (isset($part->subtype) && $part->subtype === "OCTET-STREAM") {
 				$attachment["pid"] = $i;
 				$attachment["type"][$i] = $message["attachment"]["type"][$part->type] . "/" . strtolower($part->subtype);
 				$attachment["subtype"][$i] = strtolower($part->subtype);
 				$ext = $part->subtype;
 				$params = $part->parameters;
 				//die(returns($part));
-				$mege = "";
-				$data = "";
+				$mege = '';
+				$data = '';
 				$mege = imap_fetchbody($this->stream, $header->Msgno, $fpos);
 				$attachment['filename'] = $part->parameters[0]->value;
 				$attachment['data'] = $this->_getDecodedValue($mege, $part->encoding);
@@ -322,8 +322,8 @@ class ImapLib {
 				$ext = $part->subtype;
 				$params = $part->parameters;
 				//CakeLog::write('import', print_r($part, true)); die('TEST');
-				$mege = "";
-				$data = "";
+				$mege = '';
+				$data = '';
 				$mege = imap_fetchbody($this->stream, $header->Msgno, $fpos);
 				$attachment['filename'] = !is_object($part->parameters) ? $part->parameters[0]->value : '';
 				$attachment['data'] = $this->_getDecodedValue($mege, $part->encoding);
@@ -490,7 +490,7 @@ class ImapLib {
 		if ($this->stream) {
 			$info = imap_mailboxmsginfo($this->stream);
 			if ($info) {
-				if ($type == 'array') {
+				if ($type === 'array') {
 					$info_array = get_object_vars($info);
 					return $info_array;
 				} else {

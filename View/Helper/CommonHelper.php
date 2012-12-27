@@ -25,7 +25,7 @@ class CommonHelper extends AppHelper {
 			$type = $meta;
 		}
 		$content = array();
-		if ($type == 'public') {
+		if ($type === 'public') {
 			$this->privatePage = false;
 			$content['robots']= array('index','follow','noarchive');
 
@@ -178,19 +178,7 @@ class CommonHelper extends AppHelper {
 		if ($escape) {
 			$value = h($value);
 		}
-
-		if ($type == 'language') {
-			return sprintf($tags['meta'], 'language', ' content="'.$value.'"');
-		} elseif ($type == 'pragma') {
-			return sprintf($tags['meta'], 'pragma', ' content="'.$value.'"');
-		} elseif ($type == 'expires') {
-			return sprintf($tags['meta'], 'expires', ' content="'.$value.'"');
-		} elseif ($type == 'cache-control') {
-			return sprintf($tags['meta'], 'cache-control', ' content="'.$value.'"');
-		} elseif ($type == 'refresh') {
-			return sprintf($tags['meta'], 'refresh', ' content="'.$value.'"');
-		}
-		return '';
+		return sprintf($tags['meta'], $type, ' content="'.$value.'"');
 	}
 
 	/**
@@ -549,7 +537,7 @@ if (top!=self) top.location.ref=self.location.href;
 // Returns the version of Internet Explorer or a -1
 function getInternetExplorerVersion() {
 	var rv = -1; // Return value assumes failure.
-	if (navigator.appName == "Microsoft Internet Explorer") {
+	if (navigator.appName === "Microsoft Internet Explorer") {
 	var ua = navigator.userAgent;
 	var re = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
 	if (re.exec(ua) != null)
@@ -558,7 +546,7 @@ function getInternetExplorerVersion() {
 	return rv;
 }
 
-if ((document.all) && (navigator.appVersion.indexOf("MSIE 7.") != -1) || typeof document.body.style.maxHeight === "undefined") {
+if ((document.all) && (navigator.appVersion.indexOf("MSIE 7.") != -1) || typeof document.body.style.maxHeight == "undefined") {
 	document.getElementById(\''.$id.'\').innerHTML = \''.$message.'\';
 }
 /*
@@ -584,7 +572,7 @@ if ($.browser.msie) {
 	 */
 	public function honeypot($noFollowUrl, $noscriptUrl = array()) {
 		$res = '<div class="invisible" style="display:none"><noscript>';
-		$res .= $this->Html->defaultLink('Email', $noFollowUrl, array('rel'=>'nofollow'));
+		$res .= $this->Html->defaultLink('Email', $noFollowUrl, array('rel' => 'nofollow'));
 
 		if (!empty($noscriptUrl)) {
 			$res .= BR.$this->Html->image($this->Html->defaultUrl($noscriptUrl, true)); //$this->Html->link($noscriptUrl);
@@ -614,7 +602,7 @@ if ($.browser.msie) {
 				$trackingUrl = 'visit_stats';
 			}
 			$error = false;
-			if (!empty($viewPath) && $viewPath == 'errors') {
+			if (!empty($viewPath) && $viewPath === 'errors') {
 				$error = true;
 			}
 $res .= '
@@ -693,7 +681,7 @@ piwikTracker.enableLinkTracking();
 		if (empty($roles) || !is_array($roles)) {
 			$Role = ClassRegistry::init('Role');
 			/*
-			if ($Role->useDbConfig == 'test_suite') {
+			if ($Role->useDbConfig === 'test_suite') {
 				return array();
 			}
 			*/

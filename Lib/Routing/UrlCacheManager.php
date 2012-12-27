@@ -66,7 +66,7 @@ class UrlCacheManager {
 			$cachePageKey = '_misc';
 			if (is_object($View)) {
 				$path = $View->request->here;
-				if ($path == '/') {
+				if ($path === '/') {
 					$path = 'uc_homepage';
 				} else {
 					$path = strtolower(Inflector::slug($path));

@@ -149,9 +149,9 @@ class JsonableBehavior extends ModelBehavior {
 
 	public function _encode(Model $Model, $val) {
 		if (!empty($this->settings[$Model->alias]['fields'])) {
-			if ($this->settings[$Model->alias]['input'] == 'param') {
+			if ($this->settings[$Model->alias]['input'] === 'param') {
 				$val = $this->_fromParam($Model, $val);
-			} elseif ($this->settings[$Model->alias]['input'] == 'list') {
+			} elseif ($this->settings[$Model->alias]['input'] === 'list') {
 				$val = $this->_fromList($Model, $val);
 				if ($this->settings[$Model->alias]['unique']) {
 					$val = array_unique($val);
@@ -177,9 +177,9 @@ class JsonableBehavior extends ModelBehavior {
 			return false;
 		}
 		$decoded = (array)$decoded;
-		if ($this->settings[$Model->alias]['output'] == 'param') {
+		if ($this->settings[$Model->alias]['output'] === 'param') {
 			$decoded = $this->_toParam($Model, $decoded);
-		} elseif ($this->settings[$Model->alias]['output'] == 'list') {
+		} elseif ($this->settings[$Model->alias]['output'] === 'list') {
 			$decoded = $this->_toList($Model, $decoded);
 		}
 		return $decoded;

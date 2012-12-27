@@ -254,7 +254,7 @@ class QrCodeHelper extends AppHelper {
 	 * 2010-02-06 ms
 	 */
 	public function setSize($value) {
-		if ($value == 'auto') {
+		if ($value === 'auto') {
 			//TODO
 		}
 		$value = (int)$value;

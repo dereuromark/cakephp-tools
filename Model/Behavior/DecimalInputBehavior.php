@@ -99,7 +99,7 @@ class DecimalInputBehavior extends ModelBehavior {
 	}
 
 	public function beforeValidate(Model $Model) {
-		if ($this->config[$Model->alias]['before'] != 'validate') {
+		if ($this->config[$Model->alias]['before'] !== 'validate') {
 			return true;
 		}
 
@@ -108,7 +108,7 @@ class DecimalInputBehavior extends ModelBehavior {
 	}
 
 	public function beforeSave(Model $Model) {
-		if ($this->config[$Model->alias]['before'] != 'save') {
+		if ($this->config[$Model->alias]['before'] !== 'save') {
 			return true;
 		}
 

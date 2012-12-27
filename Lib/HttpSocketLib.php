@@ -28,9 +28,9 @@ class HttpSocketLib {
 			}
 		} elseif (array_key_exists($use, $this->use)) {
 			$this->use[$use] = true;
-			if ($use == 'cake') {
+			if ($use === 'cake') {
 				$this->use['curl'] = false;
-			} elseif ($use == 'php') {
+			} elseif ($use === 'php') {
 				$this->use['curl'] = $this->use['cake'] = false;
 			}
 		}
@@ -100,7 +100,7 @@ class HttpSocketLib {
 			$data = $Ch->get($url);
 			$response = $data[0];
 			$status = $data[1]['http_code'];
-			if ($status != '200') {
+			if ($status !== '200') {
 				$this->setError('Error '.$status);
 				return false;
 			}

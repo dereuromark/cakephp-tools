@@ -92,7 +92,7 @@ class CodeShell extends AppShell {
 		$inserted = array();
 		$pos = 1;
 
-		if (!empty($fileContent[1]) && $fileContent[1] == '/**') {
+		if (!empty($fileContent[1]) && $fileContent[1] === '/**') {
 			for ($i = $pos; $i < count($fileContent)-1; $i++) {
 				if (strpos($fileContent[$i], '*/') !== false) {
 					if (strpos($fileContent[$i+1], 'class ') !== 0) {
@@ -137,7 +137,7 @@ class CodeShell extends AppShell {
 			}
 
 
-			if ($class == 'Model') {
+			if ($class === 'Model') {
 				$missingClassName = $missingClass;
 			} else {
 				$missingClassName = substr($missingClass, 0, strlen($missingClass) - strlen($class));
@@ -145,11 +145,11 @@ class CodeShell extends AppShell {
 			$objects = App::objects(($this->params['plugin'] ? $this->params['plugin'].'.' : '') . $class);
 
 			//FIXME: correct result for plugin classes
-			if ($missingClass == 'Component') {
+			if ($missingClass === 'Component') {
 				$type = 'Controller';
-			} elseif ($missingClass == 'Helper') {
+			} elseif ($missingClass === 'Helper') {
 				$type = 'View';
-			} elseif ($missingClass == 'ModelBehavior') {
+			} elseif ($missingClass === 'ModelBehavior') {
 				$type = 'Model';
 			} elseif (!empty($this->params['plugin']) && ($location = App::location($missingClass))) {
 				$type = $location;

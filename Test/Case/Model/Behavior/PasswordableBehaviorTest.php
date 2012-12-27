@@ -118,11 +118,9 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		debug($this->User->validationErrors); ob_flush();
 		$this->assertFalse($is);
 		$this->assertEquals(array('pwd', 'pwd_repeat'), array_keys($this->User->validationErrors));
+	}
 
-
-		$this->User->Behaviors->unload('Passwordable');
-		$this->User->validate = array();
-
+	public function testValidateEmptyWithCurrentPassword() {
 		$this->User->Behaviors->load('Tools.Passwordable', array('current'=>true));
 		$this->User->create();
 		$data = array(
@@ -317,7 +315,7 @@ class AuthTestComponent {
 
 	public function identify($request, $response) {
 		$user = $request->data['User'];
-		if ($user['id'] == '5' && $user['password'] == 'some') {
+		if ($user['id'] === '5' && $user['password'] === 'some') {
 			return true;
 		}
 		return false;

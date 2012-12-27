@@ -869,11 +869,11 @@ class TimeLib extends CakeTime {
 		}
 
 		if (!isset($format)) {
-			//if (floor($seconds / MONTH) > 0) $format = "Md";
-			if (floor($seconds / DAY) > 0) $format = "Dh";
-			elseif (floor($seconds / 3600) > 0) $format = "Hi";
-			elseif (floor($seconds / 60) > 0) $format = "Is";
-			else $format = "S";
+			//if (floor($seconds / MONTH) > 0) $format = 'Md';
+			if (floor($seconds / DAY) > 0) $format = 'Dh';
+			elseif (floor($seconds / 3600) > 0) $format = 'Hi';
+			elseif (floor($seconds / 60) > 0) $format = 'Is';
+			else $format = 'S';
 		}
 
 		for ($i = 0; $i < mb_strlen($format); $i++) {
@@ -921,7 +921,7 @@ class TimeLib extends CakeTime {
 				} else {
 					$title = $p[$x];
 					if (!empty($options['plural'])) {
-						if (mb_substr($title, -1, 1) == 'e') {
+						if (mb_substr($title, -1, 1) === 'e') {
 							$title .= $options['plural'];
 						}
 					}

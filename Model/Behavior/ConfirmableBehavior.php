@@ -39,7 +39,7 @@ class ConfirmableBehavior extends ModelBehavior {
 	public function beforeValidate(Model $Model) {
 		$return = parent::beforeValidate($Model);
 
-		if ($this->settings[$Model->alias]['before'] == 'validate') {
+		if ($this->settings[$Model->alias]['before'] === 'validate') {
 			# we dont want to return the value, because other fields might then not be validated
 			# (save will not continue with errors, anyway)
 			$this->confirm($Model, $return);
@@ -57,7 +57,7 @@ class ConfirmableBehavior extends ModelBehavior {
 	public function beforeSave(Model $Model) {
 		$return = parent::beforeSave($Model);
 
-		if ($this->settings[$Model->alias]['before'] == 'save') {
+		if ($this->settings[$Model->alias]['before'] === 'save') {
 			return $this->confirm($Model, $return);
 		}
 

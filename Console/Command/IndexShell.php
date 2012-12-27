@@ -158,7 +158,7 @@ class IndexShell extends AppShell {
 					$column = $info['STATISTICS']['Column_name'];
 					$key = $info['STATISTICS']['Key_name'];
 					# dont override primary keys
-					if ($column == $field && $key == 'PRIMARY') {
+					if ($column == $field && $key === 'PRIMARY') {
 						continue 2;
 					}
 					# already exists

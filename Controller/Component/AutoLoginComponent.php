@@ -96,7 +96,7 @@ class AutoLoginComponent extends Component {
 	 * @return void
 	 */
 	public function initialize(Controller $controller) {
-		if ($controller->name == 'CakeError' || !$this->settings['active']) {
+		if ($controller->name === 'CakeError' || !$this->settings['active']) {
 			return;
 		}
 
@@ -257,7 +257,7 @@ class AutoLoginComponent extends Component {
 
 		if ($this->settings['debug'] && isset($scopes[$key])) {
 			$debug = (array)Configure::read('AutoLogin');
-			$content = "";
+			$content = '';
 
 			if (!empty($cookie) || !empty($user)) {
 				if (!empty($cookie)) {

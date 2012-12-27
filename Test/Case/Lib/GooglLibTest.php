@@ -39,7 +39,7 @@ class GooglLibTest extends CakeTestCase {
 		$url = 'http://www.spiegel.de';
 		$is = $this->Googl->getShort($url);
 		pr($is); ob_flush();
-		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] == 'urlshortener#url' && $is['longUrl'] == $url.'/');
+		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] === 'urlshortener#url' && $is['longUrl'] == $url.'/');
 
 
 		echo '<h2>Unshorten</h2>';
@@ -47,7 +47,7 @@ class GooglLibTest extends CakeTestCase {
 		$shortUrl = $is['id'];
 		$is = $this->Googl->getLong($shortUrl);
 		pr($is); ob_flush();
-		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] == 'urlshortener#url' && $is['status'] == 'OK' && $is['longUrl'] == $url.'/');
+		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] === 'urlshortener#url' && $is['status'] === 'OK' && $is['longUrl'] == $url.'/');
 
 	}
 
@@ -59,7 +59,7 @@ class GooglLibTest extends CakeTestCase {
 		$url = 'http://www.gmx.de';
 		$is = $this->Googl->getShort($url);
 		pr($is); ob_flush();
-		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] == 'urlshortener#url' && $is['longUrl'] == $url.'/');
+		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] === 'urlshortener#url' && $is['longUrl'] == $url.'/');
 
 
 		echo '<h2>Unshorten</h2>';
@@ -67,7 +67,7 @@ class GooglLibTest extends CakeTestCase {
 		$shortUrl = $is['id'];
 		$is = $this->Googl->getLong($shortUrl);
 		pr($is); ob_flush();
-		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] == 'urlshortener#url' && $is['status'] == 'OK' && $is['longUrl'] == $url.'/');
+		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] === 'urlshortener#url' && $is['status'] === 'OK' && $is['longUrl'] == $url.'/');
 
 
 		echo '<h2>FULL INFOS</h2>';
@@ -75,13 +75,13 @@ class GooglLibTest extends CakeTestCase {
 		$url = 'http://www.web.de#123456';
 		$is = $this->Googl->getShort($url);
 		debug($is); ob_flush();
-		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] == 'urlshortener#url' && $is['longUrl'] == 'http://www.web.de/#123456');
+		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] === 'urlshortener#url' && $is['longUrl'] === 'http://www.web.de/#123456');
 
 		$shortUrl = $is['id'];
 		$is = $this->Googl->getLong($shortUrl, GooglLib::PROJECTION_CLICKS);
 
 		debug($is); ob_flush();
-		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] == 'urlshortener#url' && $is['status'] == 'OK' && $is['longUrl'] == 'http://www.web.de/#123456');
+		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] === 'urlshortener#url' && $is['status'] === 'OK' && $is['longUrl'] === 'http://www.web.de/#123456');
 
 	}
 

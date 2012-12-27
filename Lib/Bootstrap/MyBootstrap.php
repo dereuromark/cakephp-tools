@@ -40,7 +40,7 @@ define('TB', "\t"); // tabulator
 define('BR', '<br />'); // line break
 
 # Make the app and l10n play nice with Windows.
-if (substr(PHP_OS, 0, 3) == 'WIN') { // || strpos(@php_uname(), 'ARCH')
+if (substr(PHP_OS, 0, 3) === 'WIN') { // || strpos(@php_uname(), 'ARCH')
 	define('WINDOWS', true);
 } else {
 	define('WINDOWS', false);
@@ -659,7 +659,7 @@ function pretty_json($json, $ind = "\t") {
 	$tokens = preg_split('|([\{\}\]\[,])|', str_replace('\"', '~~PRETTY_JSON_QUOTEMARK~~', $json), -1, PREG_SPLIT_DELIM_CAPTURE);
 
 	$indent = 0;
-	$result = "";
+	$result = '';
 	$quotemarks_counter = 0;
 	$next_token_use_prefix = true;
 
@@ -667,7 +667,7 @@ function pretty_json($json, $ind = "\t") {
 
 		$quotemarks_counter = $quotemarks_counter + (count(explode('"', $token)) - 1);
 
-		if ($token == "") {
+		if ($token === '') {
 			continue;
 		}
 
@@ -688,10 +688,10 @@ function pretty_json($json, $ind = "\t") {
 			$new_line = "\n";
 		}
 
-		if ($token == "{" || $token == "[") {
+		if ($token === "{" || $token === "[") {
 			$indent++;
 			$result .= $token . $new_line;
-		} elseif ($token == "}" || $token == "]") {
+		} elseif ($token === "}" || $token === "]") {
 			$indent--;
 
 			if ($indent >= 0) {
@@ -703,7 +703,7 @@ function pretty_json($json, $ind = "\t") {
 			} else {
 				$result .= $new_line . $token;
 			}
-		} elseif ($token == ",") {
+		} elseif ($token === ",") {
 				$result .= $token . $new_line;
 		} else {
 			$result .= $prefix . $token;

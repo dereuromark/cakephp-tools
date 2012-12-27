@@ -148,7 +148,7 @@ class TreeHelper extends AppHelper {
 		$_addType = true;
 		foreach ($data as $i => $result) {
 			/* Allow 2d data arrays */
-			if ($model == '_NULL_') {
+			if ($model === '_NULL_') {
 				$_result = $result;
 				$result[$model] = $_result;
 			}
@@ -344,7 +344,7 @@ class TreeHelper extends AppHelper {
 	public function addTypeAttribute($id = '', $key = '', $value = null, $previousOrNext = 'next') {
 		$var = '__typeAttributes';
 		$firstChild = isset($this->_settings['firstChild']) ? $this->_settings['firstChild'] : true;
-		if ($previousOrNext == 'next' && $firstChild) {
+		if ($previousOrNext === 'next' && $firstChild) {
 			$var = '__typeAttributesNext';
 		}
 		if (!is_null($value)) {

@@ -74,6 +74,8 @@ class NumberLib extends CakeNumber {
 		}
 		if ($formatOptions === false) {
 			$formatOptions = array();
+		} elseif (is_int($formatOptions)) {
+			$formatOptions = array('places' => $formatOptions);
 		}
 		$options = array('before' => '', 'after' => '', 'places' => 2, 'thousands' => self::$_thousandsPoint, 'decimals' => self::$_decimalPoint, 'escape' => false);
 		$options = array_merge($options, $formatOptions);
@@ -131,9 +133,9 @@ class NumberLib extends CakeNumber {
 		$options = array_merge($options, $formatOptions);
 
 		if (!empty($options['wholeSymbol'])) {
-			if ($options['wholePosition'] == 'after') {
+			if ($options['wholePosition'] === 'after') {
 				$options['wholeSymbol'] = ' ' . self::$_symbolRight;
-			} elseif ($options['wholePosition'] == 'before') {
+			} elseif ($options['wholePosition'] === 'before') {
 				$options['wholeSymbol'] = self::$_symbolLeft . ' ';
 			}
 		}
@@ -155,7 +157,7 @@ class NumberLib extends CakeNumber {
 	 */
 	public static function precision($number, $precision = 3, $decimals = '.') {
 		$number = parent::precision($number, $precision);
-		if ($decimals != '.' && $precision > 0) {
+		if ($decimals !== '.' && $precision > 0) {
 			$number = str_replace('.', $decimals, $number);
 		}
 		return $number;
@@ -170,7 +172,7 @@ class NumberLib extends CakeNumber {
 	 */
 	public static function toReadableSize($size, $decimals = '.') {
 		$size = parent::toReadableSize($size);
-		if ($decimals != '.') {
+		if ($decimals !== '.') {
 			$size = str_replace('.', $decimals, $size);
 		}
 		return $size;

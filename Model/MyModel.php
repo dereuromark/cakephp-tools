@@ -36,7 +36,7 @@ class MyModel extends Model {
 		}
 
 		# get a notice if there is an AppModel instances instead of real Models (in those cases usually a dev error!)
-		if (defined('HTTP_HOST') && HTTP_HOST && !is_a($this, $this->name) && $this->displayField !== 'id' && $this->useDbConfig != 'test' && !Configure::read('Core.disableModelInstanceNotice')) {
+		if (defined('HTTP_HOST') && HTTP_HOST && !is_a($this, $this->name) && $this->displayField !== 'id' && $this->useDbConfig !== 'test' && !Configure::read('Core.disableModelInstanceNotice')) {
 			trigger_error('AppModel instance! Expected: ' . $this->name);
 		}
 	}
@@ -90,7 +90,7 @@ class MyModel extends Model {
 			if (isset($data['hour']) && isset($data['meridian']) && $data['hour'] == 12 && 'am' == $data['meridian']) {
 				$data['hour'] = '00';
 			}
-			if ($type == 'time') {
+			if ($type === 'time') {
 				foreach ($timeFields as $key => $val) {
 					if (!isset($data[$val]) || $data[$val] === '0' || $data[$val] === '00') {
 						$data[$val] = '00';
@@ -105,9 +105,9 @@ class MyModel extends Model {
 				}
 			}
 
-			if ($type == 'datetime' || $type == 'timestamp' || $type == 'date') {
+			if ($type === 'datetime' || $type === 'timestamp' || $type === 'date') {
 				foreach ($dateFields as $key => $val) {
-					if ($val == 'hour' || $val == 'min' || $val == 'sec') {
+					if ($val === 'hour' || $val === 'min' || $val === 'sec') {
 						if (!isset($data[$val]) || $data[$val] === '0' || $data[$val] === '00') {
 							$data[$val] = '00';
 						} else {
@@ -860,7 +860,7 @@ class MyModel extends Model {
 		);
 		$options = array_merge($defaults, $options);
 
-		if ($schema['type'] != 'integer') {
+		if ($schema['type'] !== 'integer') {
 			if ($options['allowEmpty'] && $value === '') {
 				return true;
 			}

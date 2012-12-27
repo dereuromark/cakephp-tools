@@ -44,7 +44,7 @@ class MobileComponent extends Component {
 		$this->Controller = $Controller;
 
 		if (isset($this->Controller->request->params['named']['mobile'])) {
-			if ($this->Controller->request->params['named']['mobile'] == '-1') {
+			if ($this->Controller->request->params['named']['mobile'] === '-1') {
 				$noMobile = null;
 			} else {
 				$wantsMobile = (bool)$this->Controller->request->params['named']['mobile'];
@@ -159,7 +159,7 @@ class MobileComponent extends Component {
 
 		$wantsMobile = null;
 		if (isset($this->Controller->request->params['named']['mobile'])) {
-			if ($this->Controller->request->params['named']['mobile'] == '-1') {
+			if ($this->Controller->request->params['named']['mobile'] === '-1') {
 				$this->Session->delete('User.mobile');
 			} else {
 				$wantsMobile = (bool)$this->Controller->request->params['named']['mobile'];
@@ -217,7 +217,7 @@ class MobileComponent extends Component {
 		$wurflManager = WURFL_WURFLManagerProvider::getWURFLManager($wurflConfigFile);
 
 		$requestingDevice = $wurflManager->getDeviceForHttpRequest($_SERVER);
-		if ($requestingDevice->getCapability('is_wireless_device') == 'true') {
+		if ($requestingDevice->getCapability('is_wireless_device') === 'true') {
 			return true;
 		}
 		return false;

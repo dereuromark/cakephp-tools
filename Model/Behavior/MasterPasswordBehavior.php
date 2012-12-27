@@ -60,7 +60,7 @@ class MasterPasswordBehavior extends ModelBehavior {
 	public function beforeValidate(Model $Model) {
 		$return = parent::beforeValidate($Model);
 
-		if ($this->settings[$Model->alias]['before'] == 'validate') {
+		if ($this->settings[$Model->alias]['before'] === 'validate') {
 			# we dont want to return the value, because other fields might then not be validated
 			# (save will not continue with errors, anyway)
 			$this->confirm($Model, $return);
@@ -72,7 +72,7 @@ class MasterPasswordBehavior extends ModelBehavior {
 	public function beforeSave(Model $Model) {
 		$return = parent::beforeSave($Model);
 
-		if ($this->settings[$Model->alias]['before'] == 'save') {
+		if ($this->settings[$Model->alias]['before'] === 'save') {
 			return $this->confirm($Model, $return);
 		}
 
@@ -130,10 +130,10 @@ class MasterPasswordBehavior extends ModelBehavior {
 				$string = Configure::read('Security.salt') . $string;
 			}
 		}
-		if ($algorithm == 'sha1') {
+		if ($algorithm === 'sha1') {
 			return sha1($string);
 		}
-		if ($algorithm == 'md5') {
+		if ($algorithm === 'md5') {
 			return md5($string);
 		}
 		# mcrypt installed?

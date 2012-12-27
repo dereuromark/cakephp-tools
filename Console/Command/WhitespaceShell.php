@@ -56,21 +56,21 @@ class WhitespaceShell extends AppShell {
 				$action = 'y';
 			}
 
-			if ($action == '*') {
+			if ($action === '*') {
 				$action = 'y';
 				$this->autoCorrectAll = true;
 
-			} elseif ($action == 'a') {
+			} elseif ($action === 'a') {
 				$action = 'y';
 				$folders[] = $dirname;
 				$this->out('All: '.$dirname);
 			}
 
-			if ($action == 'q') {
+			if ($action === 'q') {
 				die('Abort... Done');
 
-			} elseif ($action == 'y') {
-				if ($error == 'leading') {
+			} elseif ($action === 'y') {
+				if ($error === 'leading') {
 					$res = preg_replace('/^[\n\r|\n\r|\n|\r|\s]+\<\?php/', '<?php', $c);
 				} else { //trailing
 					$res = preg_replace('/\?\>[\n\r|\n\r|\n|\r|\s]+$/', '?>', $c);

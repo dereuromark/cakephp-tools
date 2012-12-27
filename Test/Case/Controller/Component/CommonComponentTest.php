@@ -78,7 +78,7 @@ class CommonComponentTest extends CakeTestCase {
 
 	public function testGetParams() {
 		$is = $this->Controller->Common->getQueryParam('case');
-		$this->assertTrue(strpos($is, 'CommonComponent') > 0 || $is == 'AllComponentTests' || $is == 'AllPluginTests');
+		$this->assertTrue(strpos($is, 'CommonComponent') > 0 || $is === 'AllComponentTests' || $is === 'AllPluginTests');
 
 		$is = $this->Controller->Common->getQueryParam('x');
 		$this->assertSame(null, $is);
@@ -111,7 +111,7 @@ class CommonComponentTest extends CakeTestCase {
 		$res = Configure::read('messages');
 		debug($res);
 		$this->assertTrue(!empty($res));
-		$this->assertTrue(isset($res['success'][0]) && $res['success'][0] == 'xyz');
+		$this->assertTrue(isset($res['success'][0]) && $res['success'][0] === 'xyz');
 	}
 
 
@@ -123,7 +123,7 @@ class CommonComponentTest extends CakeTestCase {
 		$res = $this->Controller->Session->read('messages');
 		debug($res);
 		$this->assertTrue(!empty($res));
-		$this->assertTrue(isset($res['info'][0]) && $res['info'][0] == 'efg');
+		$this->assertTrue(isset($res['info'][0]) && $res['info'][0] === 'efg');
 	}
 
 

@@ -108,7 +108,7 @@ class ConvertShell extends AppShell {
 			}
 			if (empty($this->params['dry-run'])) {
 				ob_start();
-				if ($mode == 'git') {
+				if ($mode === 'git') {
 					system('dos2unix --'.'d2u'.' --skipbin '.$fullPath, $x);
 					system('dos2unix --'.'u2d'.' --skipbin '.$fullPath, $x);
 				} else {

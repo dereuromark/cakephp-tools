@@ -50,7 +50,7 @@ class HcardHelper extends AppHelper {
 		$data = $this->filter($data, $prefix);
 		$text = $data['firstname'] . ' ' . $data['lastname'] . "\n";
 		$text .= $data['address'] . "\n";
-		if (Configure::read('Localization.address_format') == 'US') {
+		if (Configure::read('Localization.address_format') === 'US') {
 			$text .= $data['city'] . ', ' . $data['state'] . ' ' . $data['postcode'] . "\n";
 		} else {
 			$text .= $data['postcode'] . ' ' . $data['city'] . "\n";

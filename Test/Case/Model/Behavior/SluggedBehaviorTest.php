@@ -94,14 +94,14 @@ class SluggedBehaviorTest extends CakeTestCase {
  * @access protected
  */
 	public function _isTest($method) {
-		if (strtolower($method) == 'testaction') {
+		if (strtolower($method) === 'testaction') {
 			return false;
 		}
 		$buildTests = array('testw3validity', 'testbuildregex', 'testbuildtest');
 		if (in_array(strtolower($method), $buildTests )) {
 			return !$this->skipSetupTests;
 		}
-		if (strtolower(substr($method, 0, 4)) == 'test') {
+		if (strtolower(substr($method, 0, 4)) === 'test') {
 			if (!$this->skipSetupTests) {
 				return false;
 			}
@@ -369,7 +369,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 				}
 				if ($string) {
 					$slugged = $this->Model->slug($string, false);
-					if ($slugged != '----------------') {
+					if ($slugged !== '----------------') {
 							$allEmpty = false;
 					}
 					$out .= "\t\t" . '$string = \'' . str_replace("'", "\'", $string) . '\';' . "\n";
@@ -599,13 +599,13 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$display = $char = html_entity_decode('&#' . $decCode . ';', ENT_NOQUOTES, 'UTF-8');
 		$char = $this->Model->slug($char, false);
 		if ($display == $char) {
-			if ($mode == 'display') {
+			if ($mode === 'display') {
 				return "<a href='#' title='$hexCode-$decCode'>$display</a>";
-			} elseif ($mode == 'url') {
+			} elseif ($mode === 'url') {
 				return "<a href='$char' title='$hexCode-$decCode'>$display</a>";
-			} elseif ($mode == 'class') {
+			} elseif ($mode === 'class') {
 				return "<a href='#' class='a$char-$decCode-$hexCode' title='$hexCode-$decCode'>$display</a>";
-			} elseif ($mode == 'id') {
+			} elseif ($mode === 'id') {
 				return "<a href='#' id='a$char-$decCode-$hexCode' title='$hexCode-$decCode'>$display</a>";
 			}
 		} else {
