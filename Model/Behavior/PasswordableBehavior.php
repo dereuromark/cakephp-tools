@@ -1,5 +1,6 @@
 <?php
 App::uses('ModelBehavior', 'Model');
+App::uses('Router', 'Routing');
 App::uses('CakeResponse', 'Network');
 App::uses('Security', 'Utility');
 
@@ -133,7 +134,7 @@ class PasswordableBehavior extends ModelBehavior {
 			$auth = $this->settings[$Model->alias]['auth'].'Component';
 			$this->Auth = new $auth(new ComponentCollection());
 		} else {
-			throw new CakeException('No validation class found');
+			throw new CakeException('No Authentication class found (' . $this->settings[$Model->alias]['auth'] . ')');
 		}
 		# easiest authenticate method via form and (id + pwd)
 		$this->Auth->authenticate = array(
@@ -141,7 +142,7 @@ class PasswordableBehavior extends ModelBehavior {
 				'fields'=>array('username' => 'id', 'password'=>$this->settings[$Model->alias]['field'])
 			)
 		);
-		$request = new CakeRequest(null, false);
+		$request = Router::getRequest();
 		$request->data['User'] = array('id'=>$uid, 'password'=>$pwd);
 		$response = new CakeResponse();
 		return (bool)$this->Auth->identify($request, $response);
@@ -216,33 +217,34 @@ class PasswordableBehavior extends ModelBehavior {
 
 		# add the validation rules if not already attached
 		if (!isset($Model->validate[$formField])) {
-			$Model->validate[$formField] = $rules['formField'];
+			$Model->validator()->add($formField, $rules['formField']);
 		}
 		if (!isset($Model->validate[$formFieldRepeat])) {
-			$Model->validate[$formFieldRepeat] = $rules['formFieldRepeat'];
-			$Model->validate[$formFieldRepeat]['validateIdentical']['rule'][1] = $formField;
+			$ruleSet = $rules['formFieldRepeat'];
+			$ruleSet['validateIdentical']['rule'][1] = $formField;
+			$Model->validator()->add($formFieldRepeat, $ruleSet);
 		}
 
 		if ($this->settings[$Model->alias]['current'] && !isset($Model->validate[$formFieldCurrent])) {
-			$Model->validate[$formFieldCurrent] = $rules['formFieldCurrent'];
+			$Model->validator()->add($formFieldCurrent, $rules['formFieldCurrent']);
 
 			if (!$this->settings[$Model->alias]['allowSame']) {
-				$Model->validate[$formField]['validateNotSame'] = array(
+				$Model->validator()->add($formField, 'validateNotSame', array(
 					'rule' => array('validateNotSame', $formField, $formFieldCurrent),
 					'message' => 'valErrPwdSameAsBefore',
 					'allowEmpty' => $this->settings[$Model->alias]['allowEmpty'],
 					'last' => true,
-				);
+				));
 			}
 		} elseif (!isset($Model->validate[$formFieldCurrent])) {
 			# try to match the password against the hash in the DB
 			if (!$this->settings[$Model->alias]['allowSame']) {
-				$Model->validate[$formField]['validateNotSame'] = array(
+				$Model->validator()->add($formField, 'validateNotSame', array(
 					'rule' => array('validateNotSameHash', $formField),
 					'message' => 'valErrPwdSameAsBefore',
 					'allowEmpty' => $this->settings[$Model->alias]['allowEmpty'],
 					'last' => true,
-				);
+				));
 			}
 		}
 	}

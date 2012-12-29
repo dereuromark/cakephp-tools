@@ -13,7 +13,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		Configure::write('Passwordable.auth', 'AuthTestComponent');
+		Configure::write('Passwordable.auth', 'AuthTest');
 
 		$this->User = ClassRegistry::init('User');
 		if (isset($this->User->validate['pwd'])) {
@@ -202,7 +202,6 @@ class PasswordableBehaviorTest extends CakeTestCase {
 			'passw_repeat' => 'new'
 		);
 		$this->User->set($data);
-		debug($this->User->data);
 		$is = $this->User->save();
 		$this->assertTrue(!empty($is));
 	}
@@ -235,7 +234,6 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		);
 		$this->User->set($data);
 		$is = $this->User->save();
-		debug($this->User->validationErrors); ob_flush();
 		$this->assertFalse((bool)$is);
 
 		$this->User->create();
@@ -260,10 +258,6 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$this->assertTrue(!empty($res));
 		$uid = $this->User->id;
 
-		# cake bug => attached behavior validation rules cannot be triggered
-		//$this->tearDown();
-		//$this->setUp();
-
 		$this->User->Behaviors->load('Tools.Passwordable', array('current'=>true));
 		$this->User->create();
 		$data = array(
@@ -274,9 +268,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		);
 		$this->User->set($data);
 		$this->assertTrue($this->User->Behaviors->attached('Passwordable'));
-		//debug($this->User->validate); ob_flush();
 		$is = $this->User->save();
-		debug($this->User->validationErrors); ob_flush();
 		$this->assertFalse($is);
 
 		$this->User->create();
@@ -287,7 +279,6 @@ class PasswordableBehaviorTest extends CakeTestCase {
 			'pwd_repeat' => '123456'
 		);
 		$this->User->set($data);
-		//debug($this->User->validationErrors); ob_flush();
 		$is = $this->User->save();
 		$this->assertFalse($is);
 
@@ -299,13 +290,11 @@ class PasswordableBehaviorTest extends CakeTestCase {
 			'pwd_repeat' => '123456'
 		);
 		$this->User->set($data);
-		//debug($this->User->validationErrors); ob_flush();
 		$is = $this->User->save();
 		$this->assertTrue(!empty($is));
 	}
 
 }
-
 
 /**
  * FAKER!
@@ -315,7 +304,8 @@ class AuthTestComponent {
 
 	public function identify($request, $response) {
 		$user = $request->data['User'];
-		if ($user['id'] === '5' && $user['password'] === 'some') {
+
+		if ($user['id'] == '5' && $user['password'] === 'some') {
 			return true;
 		}
 		return false;
