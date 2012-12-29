@@ -12,7 +12,7 @@ class MyController extends Controller {
 	 * 2012-12-25 ms
 	 */
 	public function __construct($request = null, $response = null) {
-  	parent::__construct($request, $response);
+		parent::__construct($request, $response);
 		if (strpos($this->here, '/js/cjs/') === 0 || strpos($this->here, '/css/ccss/') === 0) {
 			unset($this->request->params['ext']);
 		}

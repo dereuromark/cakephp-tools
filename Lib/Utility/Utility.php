@@ -321,12 +321,19 @@ class Utility {
 	}
 
 	/**
-	 * Flattens an array, or returns FALSE on fail.
+	 * Flattens an array
+	 *
+	 * @param array $array to flatten
+	 * @param boolean $perserveKeys
+	 * @return array
 	 * 2011-07-02 ms
 	 */
-	public static function arrayFlatten($array) {
-		if (!is_array($array)) {
-		return false;
+	public static function arrayFlatten($array, $preserveKeys = false) {
+		if ($preserveKeys) {
+			return self::_arrayFlatten($array);
+		}
+		if (!$array) {
+			return array();
 		}
 		$result = array();
 		foreach ($array as $key => $value) {
@@ -337,6 +344,24 @@ class Utility {
 			}
 		}
 		return $result;
+	}
+
+	/**
+	 * Flatten an array and preserve the keys
+	 * @return array
+	 */
+	public static function _arrayFlatten($a, $f = array()) {
+		if (!$a) {
+			return array();
+		}
+		foreach($a as $k=>$v){
+			if(is_array($v)) {
+				$f= self::_arrayFlatten($v, $f);
+			} else {
+				$f[$k]=$v;
+			}
+		}
+		return $f;
 	}
 
 	/**

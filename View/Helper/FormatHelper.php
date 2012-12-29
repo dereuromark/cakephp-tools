@@ -221,7 +221,7 @@ class FormatHelper extends TextHelper {
 		} else {
 			$image = $icon;
 		}
-		return $this->Html->image($wwwPath.$image.'.'.$ending, $attr);
+		return $this->Html->image($wwwPath . $image . '.' . $ending, $attr);
 	}
 
 
