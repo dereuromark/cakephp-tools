@@ -50,8 +50,8 @@ class EmailLib extends CakeEmail {
 	public static function systemEmail($subject, $message = 'System Email', $transportConfig = null) {
 		$class = __CLASS__;
 		$instance = new $class($transportConfig);
-		$instance->to(Configure::read('Config.admin_email'));
-		$instance->from(Configure::read('Config.admin_email'));
+		$instance->from(Configure::read('Config.system_email'), Configure::read('Config.system_name'));
+		$instance->to(Configure::read('Config.admin_email'), Configure::read('Config.admin_name'));
 		if ($subject !== null) {
 			$instance->subject($subject);
 		}
@@ -634,7 +634,14 @@ class EmailLib extends CakeEmail {
 		$this->_error = null;
 		$this->_debug = null;
 
-		$this->from(Configure::read('Config.admin_email'), Configure::read('Config.admin_emailname'));
+		if ($fromEmail = Configure::read('Config.system_email')) {
+			$fromName =  Configure::read('Config.system_name');
+		} else {
+			$fromEmail = Configure::read('Config.admin_email');
+			$fromName = Configure::read('Config.admin_name');
+		}
+		$this->from($fromEmail, $fromName);
+
 		if ($xMailer = Configure::read('Config.x-mailer')) {
 			$this->addHeaders(array('X-Mailer'=>$xMailer));
 		}

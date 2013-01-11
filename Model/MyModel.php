@@ -745,9 +745,8 @@ class MyModel extends Model {
 	/**
 	 * core-fix for multiple sort orders
 	 * @param addiotional 'scope'=>array(field,order) - value is retrieved by (submitted) primary key
-	 * 2009-07-25 ms
 	 * TODO: fix it
-	 * TODO: rename it to just find() or integrate it there
+	 * 2009-07-25 ms
 	 */
 	protected function _findNeighbors($state, $query, $results = array()) {
 		return parent::_findNeighbors($state, $query, $results);
