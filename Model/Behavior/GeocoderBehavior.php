@@ -17,12 +17,12 @@ class GeocoderBehavior extends ModelBehavior {
 	/**
 	 * Initiate behavior for the model using specified settings. Available settings:
 	 *
-	 * - label: (array | string, optional) set to the field name that contains the
+	 * - address: (array | string, optional) set to the field name that contains the
 	 * 			string from where to generate the slug, or a set of field names to
-	 * 			concatenate for generating the slug. DEFAULTS TO: title
+	 * 			concatenate for generating the slug.
 	 *
 	 * - real: (boolean, optional) if set to true then field names defined in
-	 * 			label must exist in the database table. DEFAULTS TO: true
+	 * 			label must exist in the database table. DEFAULTS TO: false
 	 *
 	 * - expect: (array)postal_code, locality, sublocality, ...
 	 *
@@ -40,9 +40,9 @@ class GeocoderBehavior extends ModelBehavior {
 	 */
 	public function setup(Model $Model, $settings = array()) {
 		$default = array(
-			'real' => true, 'address' => array('street', 'postal_code', 'city', 'country'),
+			'real' => false, 'address' => array('street', 'postal_code', 'city', 'country'),
 			'require' => false, 'allowEmpty' => true, 'invalidate' => array(), 'expect' => array(),
-			'lat' => 'lat', 'lng' => 'lng', 'formatted_address' => 'formatted_address', 'host' => 'de', 'language' => 'de', 'region' => '', 'bounds' => '',
+			'lat' => 'lat', 'lng' => 'lng', 'formatted_address' => 'formatted_address', 'host' => null, 'language' => 'de', 'region' => '', 'bounds' => '',
 			'overwrite' => false, 'update' => array(), 'before' => 'save',
 			'min_accuracy' => 0, 'allow_inconclusive' => true, 'unit' => GeocodeLib::UNIT_KM,
 			'log' => true, // log successfull results to geocode.log (errors will be logged to error.log in either case)
@@ -113,7 +113,6 @@ class GeocoderBehavior extends ModelBehavior {
 
 		// See if we should request a geocode //TODO: reverse and return here
 		if ((!$this->settings[$Model->alias]['real'] || ($Model->hasField($this->settings[$Model->alias]['lat']) && $Model->hasField($this->settings[$Model->alias]['lng']))) && ($this->settings[$Model->alias]['overwrite'] || (empty($Model->data[$Model->alias][$this->settings[$Model->alias]['lat']]) || ($Model->data[$Model->alias][$this->settings[$Model->alias]['lat']]==0 && $Model->data[$Model->alias][$this->settings[$Model->alias]['lat']]==0)))) {
-
 			if (!empty($Model->whitelist) && (!in_array($this->settings[$Model->alias]['lat'], $Model->whitelist) || !in_array($this->settings[$Model->alias]['lng'], $Model->whitelist))) {
 				/** HACK to prevent 0 inserts if not wanted! just use whitelist now to narrow fields down - 2009-03-18 ms */
 				//$Model->whitelist[] = $this->settings[$Model->alias]['lat'];

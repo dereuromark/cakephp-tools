@@ -22,7 +22,7 @@ App::uses('HttpSocketLib', 'Tools.Lib');
 class GeocodeLib {
 
 	const BASE_URL = 'http://{host}/maps/api/geocode/{output}?';
-	const DEFAULT_HOST = 'de';
+	const DEFAULT_HOST = 'maps.googleapis.com';
 
 	const ACC_COUNTRY = 0;
 	const ACC_AAL1 = 1;
@@ -73,7 +73,7 @@ class GeocodeLib {
 		'expect' => array(), # see accuracyTypes for details
 		# static url params
 		'output' => 'xml',
-		'host' => self::DEFAULT_HOST, # results in maps.google.com - use if you wish to obtain the closest address
+		'host' => null, # results in maps.google.com - use if you wish to obtain the closest address
 	);
 
 	/**
@@ -92,19 +92,6 @@ class GeocodeLib {
 
 	protected $error = array();
 	protected $result = null;
-
-	/**
-	 * The Maps geocoder is programmed to bias its results depending on from which domain it receives requests. For example, entering "syracuse" in the search box on maps.google.com will geocode the city of "Syracuse, NY", while entering the same query on maps.google.it (Italy's domain) will find the city of "Siracusa" in Sicily. You would get the same results by sending that query through HTTP geocoding to maps.google.it instead of maps.google.com, which you can do by modifying the MAPS_HOST constant in the sample code below. Note: You cannot send a request to a non-existent maps.google.* server, so ensure that a country domain exists before redirecting your geocoding queries to it.
-	 */
-	protected $hosts = array(
-		'us' => 'maps.google.com', # only one for "allow_inconclusive" = true
-		'gb' => 'maps.google.co.uk',
-		'de' => 'maps.google.de',
-		'ch' => 'maps.google.ch',
-		'at' => 'maps.google.at',
-		'it' => 'maps.google.it',
- 		//ADD MORE - The two-letter codes are iso2 country codes and are mapped to top level domains (ccTLDs)
-	);
 
 	protected $statusCodes = array(
 		self::CODE_SUCCESS => 'Success',
@@ -136,6 +123,9 @@ class GeocodeLib {
 		}
 
 		$this->setOptions($options);
+		if (empty($this->options['host'])) {
+			$this->options['host'] = self::DEFAULT_HOST;
+		}
 	}
 
 	/**
@@ -159,9 +149,6 @@ class GeocodeLib {
 		foreach ($options as $key => $value) {
 			if ($key === 'output' && $value !== 'xml' && $value !== 'json') {
 				throw new CakeException('Invalid output format');
-			}
-			if ($key === 'host' && !array_key_exists($value, $this->hosts)) {
-				throw new CakeException('Invalid host');
 			}
 			$this->options[$key] = $value;
 		}
@@ -200,9 +187,8 @@ class GeocodeLib {
 	 * @return string $url (full)
 	 * 2010-06-29 ms
 	 */
-	public function url() {
-		$params = array(
-			'host' => $this->hosts[$this->options['host']],
+	public function url() {		$params = array(
+			'host' => $this->options['host'],
 			'output' => $this->options['output']
 		);
 		$url = String::insert(self::BASE_URL, $params, array('before'=>'{', 'after'=>'}', 'clean'=>true));

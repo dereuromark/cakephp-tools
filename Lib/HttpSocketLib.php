@@ -100,7 +100,7 @@ class HttpSocketLib {
 			$data = $Ch->get($url);
 			$response = $data[0];
 			$status = $data[1]['http_code'];
-			if ($status !== '200') {
+			if ((int)$status !== 200) {
 				$this->setError('Error '.$status);
 				return false;
 			}

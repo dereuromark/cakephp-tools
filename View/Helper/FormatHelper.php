@@ -1208,22 +1208,6 @@ class FormatHelper extends TextHelper {
 		return $email;
 	}
 
-
-	/**
-	 * shorten text (either exact or intelligent)
-	 * @param array $options
-	 * - ending, exact, html
-	 * 2009-08-08 ms
-	 */
-	public function truncate($text, $length = 100, $options = array()) {
-		$defaults = array(
-			'ending' => CHAR_HELLIP
-		);
-		$options = array_merge($defaults, $options);
-		return parent::truncate($text, $length, $options);
-	}
-
-
 	/**
 	 * (intelligent) Shortening of a text string
 	 * @param STRING textstring
