@@ -11,11 +11,14 @@ App::uses('ComponentCollection', 'Controller');
  * 2011-11-05 ms
  */
 class PwdShell extends AppShell {
-	public $tasks = array();
-	//public $uses = array('User');
 
 	public $Auth = null;
 
+	/**
+	 * PwdShell::hash()
+	 *
+	 * @return void
+	 */
 	public function hash() {
 		$components = array('Tools.AuthExt', 'Auth');
 
@@ -43,11 +46,15 @@ class PwdShell extends AppShell {
 		echo $pw;
 	}
 
-
-
+	/**
+	 * PwdShell::help()
+	 *
+	 * @return void
+	 */
 	public function help() {
 		$this->out('-- Hash Passwort with Auth(Ext) Component --');
 		$this->out('-- cake Tools.Pwd hash');
 		$this->out('---- using the salt of the core.php (!)');
 	}
+
 }

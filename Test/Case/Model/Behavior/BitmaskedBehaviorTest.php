@@ -3,7 +3,7 @@
 App::import('Behavior', 'Tools.Bitmasked');
 App::uses('AppModel', 'Model');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
-App::uses('MyModel', 'Tools.Lib');
+App::uses('MyModel', 'Tools.Model');
 
 class BitmaskedBehaviorTest extends MyCakeTestCase {
 
@@ -49,7 +49,10 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		$this->Comment->create();
 		$this->Comment->set($data);
 		$res = $this->Comment->validates();
-		$this->assertFalse($res);
+		$this->assertTrue($res);
+
+		$is = $this->Comment->data['BitmaskedComment']['status'];
+		$this->assertSame('0', $is);
 
 		$data = array(
 			'comment' => 'test save',
@@ -59,6 +62,9 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		$this->Comment->set($data);
 		$res = $this->Comment->validates();
 		$this->assertTrue($res);
+
+		$is = $this->Comment->data['BitmaskedComment']['status'];
+		$this->assertSame(BitmaskedComment::STATUS_PUBLISHED | BitmaskedComment::STATUS_APPROVED, $is);
 
 		# save + find
 
@@ -94,6 +100,25 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		$expected = array(BitmaskedComment::STATUS_ACTIVE, BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_APPROVED);
 
 		$this->assertEquals($expected, $res['BitmaskedComment']['statuses']);
+	}
+
+	/**
+	 * assert that you can manually trigger "notEmpty" rule with null instead of 0 for "not null" db fields
+	 */
+	public function testSaveWithDefaultValue() {
+		$this->Comment->Behaviors->load('Bitmasked', array('mappedField'=>'statuses', 'defaultValue' => ''));
+		$data = array(
+			'comment' => 'test save',
+			'statuses' => array(),
+		);
+		$this->Comment->create();
+		$this->Comment->set($data);
+		$res = $this->Comment->validates();
+		debug($this->Comment->data); ob_flush();
+		$this->assertFalse($res);
+
+		$is = $this->Comment->data['BitmaskedComment']['status'];
+		$this->assertSame('', $is);
 	}
 
 	public function testIs() {

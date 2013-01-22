@@ -3,7 +3,16 @@ App::uses('HttpSocket', 'Network/Http');
 App::uses('CurlLib', 'Tools.Lib');
 
 /**
- * Wrapper for curl, php or file_get_contents
+ * Wrapper for curl, php or file_get_contents with some fixes or improvements:
+ * - All 2xx OK status codes will return the proper result
+ * - Response will be properly utf8 encoded on WINDOWS, as well
+ * - Timeout is reduced to 5 by default and can easily be adjusted
+ * - file_get_contents wrapper is fixed for HTTP1.1 to default to "Connection: close"
+ *   to avoid leaving the connection open
+ * - Caching possibilities included
+ * - Auto-Fallback if curl is not available
+ *
+ * TODO: throw exceptions instead of error stuff here
  *
  * @author Mark Scherer
  * @license MIT
@@ -14,9 +23,13 @@ class HttpSocketLib {
 
 	// First tries with curl, then cake, then php
 	public $use = array('curl' => true, 'cake'=> true, 'php' => true);
+
 	public $debug = null;
+
 	public $timeout = 5;
+
 	public $cacheUsed = null;
+
 	public $error = array();
 
 	public function __construct($use = array()) {
@@ -36,6 +49,9 @@ class HttpSocketLib {
 		}
 	}
 
+	/**
+	 * @param string $error
+	 */
 	public function setError($error) {
 		if (empty($error)) {
 			return;
@@ -43,6 +59,9 @@ class HttpSocketLib {
 		$this->error[] = $error;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function error($asString = true, $separator = ', ') {
 		return implode(', ', $this->error);
 	}
@@ -52,12 +71,14 @@ class HttpSocketLib {
 		$this->debug = null;
 	}
 
-
 	/**
 	 * fetches url with curl if available
 	 * fallbacks: cake and php
 	 * note: expects url with json encoded content
-	 * @access private
+	 *
+	 * @param string $url
+	 * @param array $options
+	 * @return string Response or false on failure
 	 **/
 	public function fetch($url, $options = array()) {
 		if (!is_array($options)) {
@@ -92,6 +113,11 @@ class HttpSocketLib {
 		return $res;
 	}
 
+	/**
+	 * @param string $url
+	 * @param array $options
+	 * @return string Response or false on failure
+	 */
 	public function _fetch($url, $options) {
 		if ($options['use']['curl'] && function_exists('curl_init')) {
 			$this->debug = 'curl';
@@ -99,11 +125,12 @@ class HttpSocketLib {
 			$Ch->setUserAgent($options['agent']);
 			$data = $Ch->get($url);
 			$response = $data[0];
-			$status = $data[1]['http_code'];
-			if ((int)$status !== 200) {
-				$this->setError('Error '.$status);
+			$statusCode = $data[1]['http_code'];
+			if (!in_array($statusCode, array(200, 201, 202, 203, 204, 205, 206))) {
+				$this->setError('Error '.$statusCode);
 				return false;
 			}
+			$response = $this->_assertEncoding($response);
 			return $response;
 
 		} elseif ($options['use']['cake']) {
@@ -111,19 +138,36 @@ class HttpSocketLib {
 
 			$HttpSocket = new HttpSocket(array('timeout' => $options['timeout']));
 			$response = $HttpSocket->get($url);
-			if ($response->code != 200) { //TODO: status 200?
+			if (!in_array($response->code, array(200, 201, 202, 203, 204, 205, 206))) {
 				return false;
 			}
+			$response = $this->_assertEncoding($response);
 			return $response;
 
 		} elseif ($options['use']['php']) {
 			$this->debug = 'php';
 
-			$response = file_get_contents($url, 'r');
-			//TODO: status 200?
-			if (empty($response)) {
+			$opts = array(
+				'http' => array(
+            'method' => 'GET',
+            'header' => array('Connection: close'),
+            'timeout' => $options['timeout']
+        )
+			);
+			if (isset($options['http'])) {
+				$opts['http'] = array_merge($opts['http'], $options['http']);
+			}
+			if (is_array($opts['http']['header'])) {
+				$opts['http']['header'] = implode(PHP_EOL, $opts['http']['header']);
+			}
+			$context = stream_context_create($opts);
+			$response = file_get_contents($url, false, $context);
+			preg_match('/^HTTP.*\s([0-9]{3})/', $http_response_header[0], $matches);
+			$statusCode = (int)$matches[1];
+			if (!in_array($statusCode, array(200, 201, 202, 203, 204, 205, 206))) {
 				return false;
 			}
+			$response = $this->_assertEncoding($response);
 			return $response;
 
 		} else {
@@ -132,5 +176,21 @@ class HttpSocketLib {
 		return null;
 	}
 
+	/**
+	 * It seems all three methods have encoding issues if not run through this method
+	 *
+	 * @param string $response
+	 * @param string Correctly encoded response
+	 */
+	protected function _assertEncoding($response) {
+		if (!WINDOWS) {
+			return $response;
+		}
+		$x = mb_detect_encoding($response, 'auto', true);
+		if ($x !== 'UTF-8') {
+			$response = iconv(null, "utf-8", $response);
+		}
+		return $response;
+	}
 
 }

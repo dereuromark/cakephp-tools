@@ -379,7 +379,31 @@ class GeocodeLib {
 
 			if ($this->options['output'] === 'json') {
 				//TODO? necessary?
-				//$res = json_decode($result);
+				$res = json_decode($result, true);
+				$xmlArray = $res;
+				foreach ($xmlArray['results'] as $key => $val) {
+					if (isset($val['address_components'])) {
+						$xmlArray['results'][$key]['address_component'] = $val['address_components'];
+						unset($xmlArray['results'][$key]['address_components']);
+					}
+					if (isset($val['types'])) {
+						$xmlArray['results'][$key]['type'] = $val['types'];
+						unset($xmlArray['results'][$key]['types']);
+					}
+				}
+
+				if (count($xmlArray['results']) === 1) {
+					$xmlArray['result'] = $xmlArray['results'][0];
+				} elseif (!$xmlArray['result']) {
+					$this->setError('JSON parsing failed');
+					CakeLog::write('geocode', __('Failed with JSON parsing of \'%s\'', $address));
+					return false;
+				} else {
+					$xmlArray['result'] = $xmlArray['results'];
+				}
+				unset($xmlArray['results']);
+				//die(debug($xmlArray));
+
 			} else {
 				try {
 					$res = Xml::build($result);
@@ -387,16 +411,15 @@ class GeocodeLib {
 					CakeLog::write('geocode', $e->getMessage());
 					$res = array();
 				}
+				if (!is_object($res)) {
+					$this->setError('XML parsing failed');
+					CakeLog::write('geocode', __('Failed with XML parsing of \'%s\'', $address));
+					return false;
+				}
+				$xmlArray = Xml::toArray($res);
+				$xmlArray = $xmlArray['GeocodeResponse'];
 			}
 
-			if (!is_object($res)) {
-				$this->setError('XML parsing failed');
-				CakeLog::write('geocode', __('Failed with XML parsing of \'%s\'', $address));
-				return false;
-			}
-
-			$xmlArray = Xml::toArray($res);
-			$xmlArray = $xmlArray['GeocodeResponse'];
 			$status = $xmlArray['status'];
 
 			if ($status == self::CODE_SUCCESS) {
@@ -504,8 +527,7 @@ class GeocodeLib {
 	}
 
 	protected function _transformJson($record) {
-		$res = array();
-		//TODO
+		$res = $this->_transformXml($record);
 		return $res;
 	}
 

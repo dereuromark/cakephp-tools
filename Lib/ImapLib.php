@@ -57,6 +57,10 @@ class ImapLib {
 	public $currentSettings = array();
 	public $currentRef = '';
 
+	public function __construct() {
+		$this->dependenciesMatch();
+	}
+
 	public function buildConnector($data = array()) {
 		$data = array_merge($this->settings, $data);
 		$string = '{';
@@ -123,10 +127,6 @@ class ImapLib {
 	 * 2011-10-25 ms
 	 */
 	public function connect($user, $pass, $server, $port = null) {
-		if (!$this->dependenciesMatch()) {
-			return false;
-		}
-
 		$this->settings[self::S_SERVER] = $server;
 		if ($port || !$port && $this->settings[self::S_SERVICE] === 'imap') {
 			$this->settings[self::S_PORT] = $port;
@@ -508,13 +508,13 @@ class ImapLib {
 
 	/**
 	 * makes sure imap_open is available etc
+	 * @throws InternalErrorException
 	 * @return bool $success
 	 * 2011-10-25 ms
 	 */
 	public function dependenciesMatch() {
 		if (!function_exists('imap_open')) {
-			trigger_error('imap_open not available. Please install extension/module.');
-			return false;
+			throw new InternalErrorException('imap_open not available. Please install extension/module.');
 		}
 		return true;
 	}

@@ -100,6 +100,17 @@ class GeocodeLibTest extends MyCakeTestCase {
 
 	}
 
+	public function testWithJson() {
+		$this->Geocode->setOptions(array('output' => 'json'));
+		$address = '74523 Deutschland';
+		echo '<h2>'.$address.'</h2>';
+		$is = $this->Geocode->geocode($address);
+		$this->assertTrue($is);
+
+		$is = $this->Geocode->getResult();
+		debug($is);
+		$this->assertTrue(!empty($is));
+	}
 
 	public function testSetOptions() {
 		# should be the default

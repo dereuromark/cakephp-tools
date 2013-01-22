@@ -25,14 +25,16 @@ App::uses('ModelBehavior', 'Model');
 class BitmaskedBehavior extends ModelBehavior {
 
 	/**
-	 * settings defaults
+	 * Settings defaults
+	 *
+	 * @var array
 	 */
 	protected $_defaults = array(
 		'field' => 'status',
-		'mappedField' => null, # NULL = same as above
-		//'mask' => null,
+		'mappedField' => null, // NULL = same as above
 		'bits' => null,
 		'before' => 'validate', // on: save or validate
+		'defaultValue' => null, // NULL = auto (use empty string to trigger "notEmpty" rule for "default NOT NULL" db fields)
 	);
 
 	/**
@@ -63,6 +65,9 @@ class BitmaskedBehavior extends ModelBehavior {
 		$this->settings[$Model->alias] = $config;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function beforeFind(Model $Model, $query) {
 		$field = $this->settings[$Model->alias]['field'];
 
@@ -73,6 +78,9 @@ class BitmaskedBehavior extends ModelBehavior {
 		return $query;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function afterFind(Model $Model, $results, $primary) {
 		$field = $this->settings[$Model->alias]['field'];
 		if (!($mappedField = $this->settings[$Model->alias]['mappedField'])) {
@@ -88,6 +96,9 @@ class BitmaskedBehavior extends ModelBehavior {
 		return $results;
 	}
 
+	/**
+	 * @return boolean Success
+	 */
 	public function beforeValidate(Model $Model) {
 		if ($this->settings[$Model->alias]['before'] !== 'validate') {
 			return true;
@@ -96,6 +107,9 @@ class BitmaskedBehavior extends ModelBehavior {
 		return true;
 	}
 
+	/**
+	 * @return boolean Success
+	 */
 	public function beforeSave(Model $Model) {
 		if ($this->settings[$Model->alias]['before'] !== 'save') {
 			return true;
@@ -103,7 +117,6 @@ class BitmaskedBehavior extends ModelBehavior {
 		$this->encodeBitmaskData($Model);
 		return true;
 	}
-
 
 	/**
 	 * @param int $bitmask
@@ -127,20 +140,23 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @return int $bitmask
 	 * from APP to DB
 	 */
-	public function encodeBitmask(Model $Model, $value) {
+	public function encodeBitmask(Model $Model, $value, $defaultValue = null) {
 		$res = 0;
 		if (empty($value)) {
-			return null;
+			return $defaultValue;
 		}
 		foreach ((array)$value as $key => $val) {
 			$res |= (int)$val;
 		}
 		if ($res === 0) {
-			return null; # make sure notEmpty validation rule triggers
+			return $defaultValue; // make sure notEmpty validation rule triggers
 		}
 		return $res;
 	}
 
+	/**
+	 * @return array $conditions
+	 */
 	public function encodeBitmaskConditions(Model $Model, $conditions) {
 		$field = $this->settings[$Model->alias]['field'];
 		if (!($mappedField = $this->settings[$Model->alias]['mappedField'])) {
@@ -150,13 +166,13 @@ class BitmaskedBehavior extends ModelBehavior {
 		foreach ($conditions as $key => $val) {
 			if ($key === $mappedField) {
 				$conditions[$field] = $this->encodeBitmask($Model, $val);
-				if ($field != $mappedField) {
+				if ($field !== $mappedField) {
 					unset($conditions[$mappedField]);
 				}
 				continue;
 			} elseif ($key === $Model->alias . '.' . $mappedField) {
 				$conditions[$Model->alias . '.' .$field] = $this->encodeBitmask($Model, $val);
-				if ($field != $mappedField) {
+				if ($field !== $mappedField) {
 					unset($conditions[$Model->alias . '.' .$mappedField]);
 				}
 				continue;
@@ -169,16 +185,27 @@ class BitmaskedBehavior extends ModelBehavior {
 		return $conditions;
 	}
 
+	/**
+	 * @return void
+	 */
 	public function encodeBitmaskData(Model $Model) {
 		$field = $this->settings[$Model->alias]['field'];
 		if (!($mappedField = $this->settings[$Model->alias]['mappedField'])) {
 			$mappedField = $field;
 		}
+		$default = null;
+		$schema = $Model->schema($field);
+		if ($schema && isset($schema['default'])) {
+			$default = $schema['default'];
+		}
+		if ($this->settings[$Model->alias]['defaultValue'] !== null) {
+			$default = $this->settings[$Model->alias]['defaultValue'];
+		}
 
 		if (isset($Model->data[$Model->alias][$mappedField])) {
-			$Model->data[$Model->alias][$field] = $this->encodeBitmask($Model, $Model->data[$Model->alias][$mappedField]);
+			$Model->data[$Model->alias][$field] = $this->encodeBitmask($Model, $Model->data[$Model->alias][$mappedField], $default);
 		}
-		if ($field != $mappedField) {
+		if ($field !== $mappedField) {
 			unset($Model->data[$Model->alias][$mappedField]);
 		}
 	}
