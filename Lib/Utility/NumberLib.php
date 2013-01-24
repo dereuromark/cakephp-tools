@@ -74,7 +74,7 @@ class NumberLib extends CakeNumber {
 		}
 		if ($formatOptions === false) {
 			$formatOptions = array();
-		} elseif (is_int($formatOptions)) {
+		} elseif (!is_array($formatOptions)) {
 			$formatOptions = array('places' => $formatOptions);
 		}
 		$options = array('before' => '', 'after' => '', 'places' => 2, 'thousands' => self::$_thousandsPoint, 'decimals' => self::$_decimalPoint, 'escape' => false);
