@@ -90,7 +90,7 @@ class OLERead {
 	// http://uk.php.net/manual/en/function.getdate.php
 	public static function gmgetdate($ts = null) {
 		$k = array('seconds', 'minutes', 'hours', 'mday', 'wday', 'mon', 'year', 'yday', 'weekday', 'month',0);
-		return(array_combine($k, split(':', gmdate('s:i:G:j:w:n:Y:z:l:F:U', is_null($ts)?time():$ts))));
+		return(array_combine($k, explode(':', gmdate('s:i:G:j:w:n:Y:z:l:F:U', is_null($ts)?time():$ts))));
 	}
 
 	public static function v($data, $pos) {
@@ -851,7 +851,7 @@ class SpreadsheetExcelReader {
 
 		// Custom pattern can be POSITIVE;NEGATIVE;ZERO
 		// The "text" option as 4th parameter is not handled
-		$parts = split(";", $format);
+		$parts = explode(";", $format);
 		$pattern = $parts[0];
 		// Negative pattern
 		if (count($parts)>2 && $num==0) {
@@ -983,6 +983,22 @@ class SpreadsheetExcelReader {
 	 */
 	public function read($sFileName) {
 		$res = $this->_ole->read($sFileName);
+
+		// oops, something goes wrong (Darko Miljanovic)
+		if ($res === false) {
+			// check error code
+			if ($this->_ole->error == 1) {
+				// bad file
+				die('The filename ' . $sFileName . ' is not readable');
+			}
+			// check other error codes here (eg bad fileformat, etc...)
+		}
+		$this->data = $this->_ole->getWorkBook();
+		$this->_parse();
+	}
+
+	public function readFromBlob($data) {
+		$res = $this->_ole->readFromBlob($data);
 
 		// oops, something goes wrong (Darko Miljanovic)
 		if ($res === false) {
@@ -1618,7 +1634,7 @@ class SpreadsheetExcelReader {
 			// Convert numeric $this->_value into a date
 			$utcDays = floor($numValue - ($this->nineteenFour ? SPREADSHEET_EXCEL_READER_UTCOFFSETDAYS1904 : SPREADSHEET_EXCEL_READER_UTCOFFSETDAYS));
 			$utcValue = ($utcDays) * SPREADSHEET_EXCEL_READER_MSINADAY;
-			$dateinfo = gmgetdate($utcValue);
+			$dateinfo = OLERead::gmgetdate($utcValue);
 
 			$raw = $numValue;
 			$fractionalDay = $numValue - floor($numValue) + .0000001; // The .0000001 is to fix for php/excel fractional diffs
