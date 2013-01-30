@@ -12,6 +12,20 @@ App::uses('Router', 'Routing');
 class Utility {
 
 	/**
+	 * in_array itself has some PHP flaws regarding cross-type comparison
+	 * - in_array('50x', array(40, 50, 60)) would be true!
+	 * - in_array(50, array('40x', '50x', '60x')) would be true!
+	 *
+	 * @param mixed $needle
+	 * @param array $haystack
+	 * @return bool Success
+	 */
+	public static function inArray($needle, $haystack) {
+		$strict = !is_numeric($needle);
+		return in_array((string)$needle, $haystack, $strict);
+	}
+
+	/**
 	 * get the current ip address
 	 * @param bool $safe
 	 * @return string $ip
