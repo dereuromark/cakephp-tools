@@ -87,12 +87,11 @@ TEXT;
 		$this->assertTrue(substr_count($output, '<li>') === substr_count($output, '</li>'));
 	}
 
-	//TODO: fixme: 8,9 is "Two-SubA-1-1" and so this entry should also be active
+	//TODO: fixme: the root ul/li elements should also be marked active...
 	public function testGenerateWithAutoPath() {
 		$tree = $this->Model->find('threaded');
-		debug($tree);
 
-		$output = $this->Tree->generate($tree, array('autoPath' => array(8, 9)));
+		$output = $this->Tree->generate($tree, array('autoPath' => array(7, 10))); // Two-SubA-1
 		debug($output);
 		$expected = <<<TEXT
 
@@ -109,6 +108,40 @@ TEXT;
 			<li class="active">Two-SubA-1
 			<ul>
 				<li>Two-SubA-1-1</li>
+			</ul>
+			</li>
+		</ul>
+		</li>
+	</ul>
+	</li>
+	<li>Three</li>
+	<li>Four
+	<ul>
+		<li>Four-SubA</li>
+	</ul>
+	</li>
+</ul>
+
+TEXT;
+		$this->assertTextEquals($expected, $output);
+
+		$output = $this->Tree->generate($tree, array('autoPath' => array(8, 9))); // Two-SubA-1-1
+		debug($output);
+		$expected = <<<TEXT
+
+<ul>
+	<li>One
+	<ul>
+		<li>One-SubA</li>
+	</ul>
+	</li>
+	<li>Two
+	<ul class="active">
+		<li class="active">Two-SubA
+		<ul class="active">
+			<li class="active">Two-SubA-1
+			<ul class="active">
+				<li class="active">Two-SubA-1-1</li>
 			</ul>
 			</li>
 		</ul>
