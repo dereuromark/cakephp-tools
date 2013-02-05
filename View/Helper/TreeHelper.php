@@ -113,7 +113,7 @@ class TreeHelper extends AppHelper {
 			'indent' => null,
 			'splitDepth' => false,
 			'splitCount' => null,
-			'totalNodes' => false
+			'totalNodes' => null
 		), (array)$settings);
 		if ($this->_settings['autoPath'] && !isset($this->_settings['autoPath'][2])) {
 			$this->_settings['autoPath'][2] = 'active';
@@ -133,9 +133,6 @@ class TreeHelper extends AppHelper {
 					break;
 				}
 			}
-		}
-		if (!$model) {
-			$model = '_NULL_';
 		}
 		$this->_settings['model'] = $model;
 
@@ -264,7 +261,10 @@ class TreeHelper extends AppHelper {
 					$return .= $this->_suffix();
 					$return .= $this->generate($result['children'], $settings);
 					if ($itemType) {
-						$return .= $whiteSpace . "\t" . '</' . $itemType . '>';
+						if ($indent) {
+							$return .= $whiteSpace . "\t";
+						}
+						$return .= '</' . $itemType . '>';
 					}
 				} elseif ($numberOfTotalChildren) {
 					$_addType = true;
@@ -296,7 +296,10 @@ class TreeHelper extends AppHelper {
 			$return .= "\r\n";
 		}
 		if ($return && $type) {
-			$return .= $whiteSpace . '</' . $type . '>';
+			if ($indent) {
+				$return .= $whiteSpace;
+			}
+			$return .= '</' . $type . '>';
 			if ($indent) {
 				$return .= "\r\n";
 			}

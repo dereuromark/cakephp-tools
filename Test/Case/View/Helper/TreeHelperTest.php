@@ -230,4 +230,14 @@ TEXT;
 		$this->assertTextEquals($expected, $output);
 	}
 
+	public function testGenerateProductive() {
+		$tree = $this->Model->find('threaded');
+
+		$expected = '<ul><li>One<ul><li>One-SubA</li></ul></li><li>Two<ul><li>Two-SubA<ul><li>Two-SubA-1<ul><li>Two-SubA-1-1</li></ul></li></ul></li></ul></li><li>Three</li><li>Four<ul><li>Four-SubA</li></ul></li></ul>';
+
+		$output = $this->Tree->generate($tree, array('indent' => false));
+
+		$this->assertTextEquals($expected, $output);
+	}
+
 }
