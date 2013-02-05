@@ -87,7 +87,76 @@ TEXT;
 		$this->assertTrue(substr_count($output, '<li>') === substr_count($output, '</li>'));
 	}
 
-	//TODO: fixme: the root ul/li elements should also be marked active...
+	public function testGenerateWithSettings() {
+		$tree = $this->Model->find('threaded');
+
+		$output = $this->Tree->generate($tree, array('class' => 'navi', 'id' => 'main', 'type' => 'ol'));
+		$expected = <<<TEXT
+
+<ol class="navi" id="main">
+	<li>One
+	<ol>
+		<li>One-SubA</li>
+	</ol>
+	</li>
+	<li>Two
+	<ol>
+		<li>Two-SubA
+		<ol>
+			<li>Two-SubA-1
+			<ol>
+				<li>Two-SubA-1-1</li>
+			</ol>
+			</li>
+		</ol>
+		</li>
+	</ol>
+	</li>
+	<li>Three</li>
+	<li>Four
+	<ol>
+		<li>Four-SubA</li>
+	</ol>
+	</li>
+</ol>
+
+TEXT;
+		$this->assertTextEquals($expected, $output);
+	}
+
+	public function testGenerateWithMaxDepth() {
+		$tree = $this->Model->find('threaded');
+
+		$output = $this->Tree->generate($tree, array('maxDepth' => 2));
+		$expected = <<<TEXT
+
+<ul>
+	<li>One
+	<ul>
+		<li>One-SubA</li>
+	</ul>
+	</li>
+	<li>Two
+	<ul>
+		<li>Two-SubA
+		<ul>
+			<li>Two-SubA-1</li>
+		</ul>
+		</li>
+	</ul>
+	</li>
+	<li>Three</li>
+	<li>Four
+	<ul>
+		<li>Four-SubA</li>
+	</ul>
+	</li>
+</ul>
+
+TEXT;
+		$this->assertTextEquals($expected, $output);
+	}
+
 	public function testGenerateWithAutoPath() {
 		$tree = $this->Model->find('threaded');
 		debug($tree);

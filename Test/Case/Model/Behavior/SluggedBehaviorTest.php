@@ -156,7 +156,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 
 		$this->Model->create(array('name' => 'Some & More'));
 		$result = $this->Model->save();
-		$this->assertEquals('Some-'.__('and').'-More', $result[$this->Model->alias]['slug']);
+		$this->assertEquals('Some-' . __('and') . '-More', $result[$this->Model->alias]['slug']);
 	}
 
 /**
@@ -430,7 +430,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 			$suffix = dechex($hex1) . dechex($hex2Start) . '_' . dechex($hex1) . dechex($hex2Limit -1);
 			$full = TMP . 'tests' . DS . 'slug_' . $mode . '_' . $suffix . '.html';
 			$file = new File($full, true);
-			$this->__writeHeader($file, $hex1);
+			$this->_writeHeader($file, $hex1);
 			for($hex2 = $hex2Start; $hex2 < $hex2Limit; $hex2++) {
 				$part = file_get_contents($this->_createTestFile(dechex($hex1) . dechex($hex2), $mode));
 				preg_match('@<table>(.*)</table>@Us', $part, $test);
@@ -543,7 +543,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	protected function _createTestFile($section, $mode = 'display') {
 		$path = TMP . 'tests' . DS . '_slug_' . $mode . '_' . $section . '.html';
 		$file = new File($path, true);
-		$this->__writeHeader($file, $section);
+		$this->_writeHeader($file, $section);
 		for($hex1 = -1; $hex1 < 16; $hex1++) {
 			if ($hex1 == -1) {
 				$row = array('<b>' . $section . '</b>');
@@ -556,7 +556,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 				} else {
 					$hexCode = $section . dechex($hex1) . dechex($hex2);
 					$decCode = hexdec($hexCode);
-					$row[] = $this->__renderChar($hexCode, $mode);
+					$row[] = $this->_renderChar($hexCode, $mode);
 				}
 			}
 			$file->append('<tr><td>' . implode($row, "</td>\n<td>") . "</td></tr>\n");
@@ -574,9 +574,8 @@ class SluggedBehaviorTest extends CakeTestCase {
  * @param mixed $file
  * @param mixed $title
  * @return void
- * @access private
  */
-	private function __writeHeader($file, $title) {
+	protected function _writeHeader($file, $title) {
 		$file->write('<!DOCTYPE html>');
 		$file->append('<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">' . "\n");
 		$file->append('<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><style type="text/css">table {width:100%}.slugged{background:yellow}.illegal{background:red}</style>');
@@ -592,9 +591,8 @@ class SluggedBehaviorTest extends CakeTestCase {
  * @param mixed $hexCode
  * @param string $mode
  * @return string
- * @access private
  */
-	private function __renderChar($hexCode, $mode = 'id') {
+	protected function _renderChar($hexCode, $mode = 'id') {
 		$decCode = hexdec($hexCode);
 		$display = $char = html_entity_decode('&#' . $decCode . ';', ENT_NOQUOTES, 'UTF-8');
 		$char = $this->Model->slug($char, false);
