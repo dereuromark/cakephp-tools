@@ -3,7 +3,6 @@
 App::uses('TreeHelper', 'Tools.View/Helper');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 App::uses('View', 'View');
-App::uses('Hash', 'Utility');
 
 class TreeHelperTest extends MyCakeTestCase {
 
