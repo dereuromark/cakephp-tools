@@ -90,6 +90,7 @@ TEXT;
 	//TODO: fixme: the root ul/li elements should also be marked active...
 	public function testGenerateWithAutoPath() {
 		$tree = $this->Model->find('threaded');
+		debug($tree);
 
 		$output = $this->Tree->generate($tree, array('autoPath' => array(7, 10))); // Two-SubA-1
 		debug($output);
@@ -101,10 +102,10 @@ TEXT;
 		<li>One-SubA</li>
 	</ul>
 	</li>
-	<li>Two
-	<ul class="active">
+	<li class="active">Two
+	<ul>
 		<li class="active">Two-SubA
-		<ul class="active">
+		<ul>
 			<li class="active">Two-SubA-1
 			<ul>
 				<li>Two-SubA-1-1</li>
@@ -135,12 +136,12 @@ TEXT;
 		<li>One-SubA</li>
 	</ul>
 	</li>
-	<li>Two
-	<ul class="active">
+	<li class="active">Two
+	<ul>
 		<li class="active">Two-SubA
-		<ul class="active">
+		<ul>
 			<li class="active">Two-SubA-1
-			<ul class="active">
+			<ul>
 				<li class="active">Two-SubA-1-1</li>
 			</ul>
 			</li>

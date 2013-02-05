@@ -442,7 +442,7 @@ class TreeHelper extends AppHelper {
 				$this->_itemAttributes = array();
 			}
 		}
-		if ($autoPath && $depth) {
+		if ($autoPath && $rType == $itemType) {
 			if ($this->_settings['data'][$model][$left] <= $autoPath[0] && $this->_settings['data'][$model][$right] >= $autoPath[1]) {
 				$attributes['class'][] = $autoPath[2];
 			} elseif (isset($autoPath[3]) && $this->_settings['data'][$model][$left] == $autoPath[0]) {
