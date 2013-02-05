@@ -14,13 +14,7 @@
  *
  * @filesource
  * @copyright Copyright (c) 2008, Andy Dawson
- * @link www.ad7six.com
- * @package cake-base
- * @subpackage cake-base.app.views.helpers
- * @since v 1.0
- * @version $Revision: 205 $
- * @modifiedBy $LastChangedBy: ad7six $
- * @lastModified $Date: 2008-08-13 16:13:32 +0200 (Wed, 13 Aug 2008) $
+ * @modifiedBy $LastChangedBy: 2013-02-05 ms
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 App::uses('AppHelper', 'View/Helper');
@@ -38,28 +32,32 @@ class TreeHelper extends AppHelper {
 	 * @var array
 	 * @access private
 	 */
-	public $_settings = array();
+	protected $_settings = array();
+
 	/**
 	 * typeAttributes property
 	 *
 	 * @var array
 	 * @access private
 	 */
-	public $_typeAttributes = array();
+	protected $_typeAttributes = array();
+
 	/**
 	 * typeAttributesNext property
 	 *
 	 * @var array
 	 * @access private
 	 */
-	public $_typeAttributesNext = array();
+	protected $_typeAttributesNext = array();
+
 	/**
 	 * itemAttributes property
 	 *
 	 * @var array
 	 * @access private
 	 */
-	public $_itemAttributes = array();
+	protected $_itemAttributes = array();
+
 	/**
 	 * helpers variable
 	 *
@@ -67,6 +65,7 @@ class TreeHelper extends AppHelper {
 	 * @access public
 	 */
 	public $helpers = array('Html');
+
 	/**
 	 * Tree generation method.
 	 *
@@ -126,12 +125,23 @@ class TreeHelper extends AppHelper {
 		if ($indent === null && Configure::read('debug')) {
 			$indent = true;
 		}
+		if ($model === null && $this->_View->params['models']) {
+			foreach ($this->_View->params['models'] as $model => $value) {
+				break;
+			}
+		}
 		if ($model === null) {
-			//$model = Inflector::classify($this->_View->params['models'][0]);
+			foreach ($data as $key => $value) {
+				foreach ($value as $model => $array) {
+					break;
+				}
+			}
 		}
 		if (!$model) {
 			$model = '_NULL_';
 		}
+		$this->_settings['model'] = $model;
+
 		$stack = array();
 		if ($depth == 0) {
 			if ($class) {
@@ -142,9 +152,6 @@ class TreeHelper extends AppHelper {
 			}
 		}
 		$return = '';
-		if ($indent) {
-			$return = "\r\n";
-		}
 		$_addType = true;
 		foreach ($data as $i => $result) {
 			/* Allow 2d data arrays */
@@ -254,7 +261,7 @@ class TreeHelper extends AppHelper {
 					$return .= $this->_suffix();
 					$return .= $this->generate($result['children'], $settings);
 					if ($itemType) {
-						$return .= '</' . $itemType . '>';
+						$return .= $whiteSpace . "\t" . '</' . $itemType . '>';
 					}
 				} elseif ($numberOfTotalChildren) {
 					$_addType = true;
@@ -267,6 +274,7 @@ class TreeHelper extends AppHelper {
 				$return .= $this->_suffix();
 			}
 		}
+
 		/* Cleanup */
 		while ($stack) {
 			array_pop($stack);
@@ -281,15 +289,16 @@ class TreeHelper extends AppHelper {
 				$return .= '</' . $itemType . '>';
 			}
 		}
-		if ($indent) {
+		if ($return && $indent) {
 			$return .= "\r\n";
 		}
-		if ($type) {
-			$return .= '</' . $type . '>';
+		if ($return && $type) {
+			$return .= $whiteSpace . '</' . $type . '>';
 			if ($indent) {
 				$return .= "\r\n";
 			}
 		}
+
 		return $return;
 	}
 
@@ -358,7 +367,6 @@ class TreeHelper extends AppHelper {
 	 * supressChildren method
 	 *
 	 * @return void
-	 * @access public
 	 */
 	public function supressChildren() {
 	}
@@ -368,10 +376,9 @@ class TreeHelper extends AppHelper {
 	 *
 	 * Used to close and reopen a ul/ol to allow easier listings
 	 *
-	 * @access private
 	 * @return void
 	 */
-	public function _suffix() {
+	protected function _suffix() {
 		static $_splitCount = 0;
 		static $_splitCounter = 0;
 		extract($this->_settings);
@@ -389,7 +396,7 @@ class TreeHelper extends AppHelper {
 			}
 			if ($depth == $splitDepth) {
 				$_splitCounter++;
-				if ($type && ($_splitCounter % $_splitCount) == 0) {
+				if ($type && ($_splitCounter % $_splitCount) === 0) {
 					return '</' . $type . '><' . $type . '>';
 				}
 			}
@@ -404,10 +411,9 @@ class TreeHelper extends AppHelper {
 	 *
 	 * @param mixed $rType
 	 * @param array $elementData
-	 * @access private
 	 * @return void
 	 */
-	public function _attributes($rType, $elementData = array(), $clear = true) {
+	protected function _attributes($rType, $elementData = array(), $clear = true) {
 		extract($this->_settings);
 		if ($rType == $type) {
 			$attributes = $this->_typeAttributes;
