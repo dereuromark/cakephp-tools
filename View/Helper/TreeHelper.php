@@ -52,7 +52,6 @@ class TreeHelper extends AppHelper {
  * Helpers variable
  *
  * @var array
- * @access public
  */
 	public $helpers = array('Html');
 
@@ -75,6 +74,8 @@ class TreeHelper extends AppHelper {
  *	'element' => path to an element to render to get node contents.
  *	'callback' => callback to use to get node contents. e.g. array(&$anObject, 'methodName') or 'floatingMethod'
  *	'autoPath' => array($left, $right [$classToAdd = 'active']) if set any item in the path will have the class $classToAdd added. MPTT only.
+ *  'hideUnrelated' => if unrelated (not children, not siblings) should be hidden, needs 'treePath'
+ *  'treePath' => treePath to insert into callback/element
  *	'left' => name of the 'lft' field if not lft. only applies to MPTT data
  *	'right' => name of the 'rght' field if not lft. only applies to MPTT data
  *	'depth' => used internally when running recursively, can be used to override the depth in either mode.
@@ -105,6 +106,8 @@ class TreeHelper extends AppHelper {
 			'element' => false,
 			'callback' => false,
 			'autoPath' => false,
+			'hideUnrelated' => false,
+			'treePath' => array(),
 			'left' => 'lft',
 			'right' => 'rght',
 			'depth' => 0,
@@ -151,6 +154,10 @@ class TreeHelper extends AppHelper {
 		$this->_settings['totalNodes'] = count($data);
 		$keys = array_keys($data);
 
+		if ($hideUnrelated) {
+			$this->_markUnrelatedAsHidden($data, $treePath);
+		}
+
 		foreach ($data as $i => &$result) {
 			/* Allow 2d data arrays */
 			if ($model && isset($result[$model])) {
@@ -158,10 +165,7 @@ class TreeHelper extends AppHelper {
 			} else {
 				$row =& $result;
 			}
-			/* BulletProof */
-			if (!isset($row[$left]) && !isset($result['children'])) {
-				$result['children'] = array();
-			}
+
 			/* Close open items as appropriate */
 			// @codingStandardsIgnoreStart
 			while ($stack && ($stack[count($stack)-1] < $row[$right])) {
@@ -208,7 +212,21 @@ class TreeHelper extends AppHelper {
 				if (!isset($data[$i + 1]) || ($stack && $stack[count($stack) - 1] == ($row[$right] + 1))) {
 					$lastChild = true;
 				}
+			} else {
+				throw new CakeException('Invalid Tree Structure');
 			}
+
+			$activePathElement = null;
+			if ($autoPath) {
+				if ($result[$model][$left] <= $autoPath[0] && $result[$model][$right] >= $autoPath[1]) {
+					$activePathElement = true;
+				} elseif (isset($autoPath[3]) && $result[$model][$left] == $autoPath[0]) {
+					$activePathElement = $autoPath[3];
+				} else {
+					$activePathElement = false;
+				}
+			}
+
 			$elementData = array(
 				'data' => $result,
 				'depth' => $depth ? $depth : count($stack),
@@ -217,7 +235,8 @@ class TreeHelper extends AppHelper {
 				'numberOfTotalChildren' => $numberOfTotalChildren,
 				'firstChild' => $firstChild,
 				'lastChild' => $lastChild,
-				'hasVisibleChildren' => $hasVisibleChildren
+				'hasVisibleChildren' => $hasVisibleChildren,
+				'activePathElement' => $activePathElement,
 			);
 			$this->_settings = array_merge($this->_settings, $elementData);
 			/* Main Content */
@@ -316,7 +335,6 @@ class TreeHelper extends AppHelper {
  * @param string $id
  * @param string $key
  * @param mixed $value
- * @access public
  * @return void
  */
 	public function addItemAttribute($id = '', $key = '', $value = null) {
@@ -352,7 +370,6 @@ class TreeHelper extends AppHelper {
  * @param string $id
  * @param string $key
  * @param mixed $value
- * @access public
  * @return void
  */
 	public function addTypeAttribute($id = '', $key = '', $value = null, $previousOrNext = 'next') {
@@ -372,7 +389,6 @@ class TreeHelper extends AppHelper {
  * supressChildren method
  *
  * @return void
- * @access public
  */
 	public function supressChildren() {
 	}
@@ -445,32 +461,67 @@ class TreeHelper extends AppHelper {
 				$this->_itemAttributes = array();
 			}
 		}
-		if ($autoPath && $rType == $itemType) {
-			if ($this->_settings['data'][$model][$left] <= $autoPath[0] && $this->_settings['data'][$model][$right] >= $autoPath[1]) {
+		if ($rType == $itemType && $elementData['activePathElement']) {
+			if ($elementData['activePathElement'] === true) {
 				$attributes['class'][] = $autoPath[2];
-			} elseif (isset($autoPath[3]) && $this->_settings['data'][$model][$left] == $autoPath[0]) {
-				$attributes['class'][] = $autoPath[3];
+			} else {
+				$attributes['class'][] = $elementData['activePathElement'];
 			}
 		}
-		if ($attributes) {
-			foreach ($attributes as $type => $values) {
-				foreach ($values as $key => $val) {
-					if (is_array($val)) {
-						$attributes[$type][$key] = '';
-						foreach ($val as $vKey => $v) {
-							$attributes[$type][$key][$vKey] .= $vKey . ':' . $v;
-						}
-						$attributes[$type][$key] = implode(';', $attributes[$type][$key]);
+		if (!$attributes) {
+			return '';
+		}
+		foreach ($attributes as $type => $values) {
+			foreach ($values as $key => $val) {
+				if (is_array($val)) {
+					$attributes[$type][$key] = '';
+					foreach ($val as $vKey => $v) {
+						$attributes[$type][$key][$vKey] .= $vKey . ':' . $v;
 					}
-					if (is_string($key)) {
-						$attributes[$type][$key] = $key . ':' . $val . ';';
-					}
+					$attributes[$type][$key] = implode(';', $attributes[$type][$key]);
 				}
-				$attributes[$type] = $type . '="' . implode(' ', $attributes[$type]) . '"';
+				if (is_string($key)) {
+					$attributes[$type][$key] = $key . ':' . $val . ';';
+				}
 			}
-			return ' ' . implode(' ', $attributes);
+			$attributes[$type] = $type . '="' . implode(' ', $attributes[$type]) . '"';
 		}
-		return '';
+		return ' ' . implode(' ', $attributes);
+	}
+
+	/**
+	 * Mark unrelated records as hidden using `'hide' => 1`
+	 * In the callback or element you can then return early in this case
+	 *
+	 * @param array $tree
+	 * @param array $treePath
+	 * @param int $level
+	 * @return void
+	 */
+	protected function _markUnrelatedAsHidden(&$tree, $path, $level = 0) {
+		extract($this->_settings);
+		$siblingIsActive = false;
+		foreach ($tree as $key => &$subTree) {
+			if (!isset($subTree['children'])) {
+				throw new CakeException('Only workes with threaded (nested children) results');
+			}
+
+			if (!empty($path[$level]) && $subTree[$model]['id'] == $path[$level][$model]['id']) {
+				$subTree[$model]['show'] = 1;
+				$siblingIsActive = true;
+			}
+			if (!empty($subTree[$model]['show']) || !empty($subTree[$model]['parent_show'])) {
+				foreach ($subTree['children'] as &$v) {
+					$v[$model]['parent_show'] = 1;
+				}
+			}
+		}
+		foreach ($tree as $key => &$subTree) {
+			if (!$siblingIsActive && !isset($subTree[$model]['parent_show'])) {
+				$subTree[$model]['hide'] = 1;
+			}
+			$this->_markUnrelatedAsHidden($subTree['children'], $path, $level + 1);
+		}
 	}
 
 }
