@@ -13,13 +13,6 @@ App::uses('ModelBehavior', 'Model');
 class KeyValueBehavior extends ModelBehavior {
 
 	/**
-	 * Settings
-	 *
-	 * @var mixed
-	 */
-	public $settings = array();
-
-	/**
 	 * Storage model for all key value pairs
 	 */
 	public $KeyValue = null;

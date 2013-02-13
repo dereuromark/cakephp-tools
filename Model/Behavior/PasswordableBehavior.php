@@ -42,14 +42,9 @@ if (!defined('PWD_MAX_LENGTH')) {
 class PasswordableBehavior extends ModelBehavior {
 
 	/**
-	 * @access public
-	 */
-	public $settings = array();
-
-	/**
 	 * @access protected
 	 */
-	protected $_defaultSettings = array(
+	protected $_defaults = array(
 		'field' => 'password',
 		'confirm' => true, # set to false if in admin view and no confirmation (pwd_repeat) is required
 		'allowEmpty' => false, # if password must be provided or be changed (set to true for update sites)
@@ -204,7 +199,7 @@ class PasswordableBehavior extends ModelBehavior {
 	 * 2011-08-24 ms
 	 */
 	public function setup(Model $Model, $config = array()) {
-		$defaults = $this->_defaultSettings;
+		$defaults = $this->_defaults;
 		if ($configureDefaults = Configure::read('Passwordable')) {
 			$defaults = Set::merge($defaults, $configureDefaults);
 		}

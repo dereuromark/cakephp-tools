@@ -2,6 +2,9 @@
 App::uses('ModelBehavior', 'Model');
 
 /**
+ * Allows the model to reset all records as batch command.
+ * This way any slugging, geocoding or other beforeValidate, beforeSave, ... callbacks
+ * can be retriggered for them.
  *
  * @author Mark Scherer
  * @license MIT

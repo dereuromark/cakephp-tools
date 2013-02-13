@@ -20,8 +20,6 @@ class ConfirmableBehavior extends ModelBehavior {
 		'before' => 'validate',
 	);
 
-	public $settings = array();
-
 	public function setup(Model $Model, $settings = array()) {
 		if (!isset($this->settings[$Model->alias])) {
 			$this->settings[$Model->alias] = $this->_defaults;

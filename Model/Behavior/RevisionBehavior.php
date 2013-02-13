@@ -108,32 +108,25 @@ App::uses('ModelBehavior', 'Model');
 class RevisionBehavior extends ModelBehavior {
 
 	/**
-	 * Behavior settings
-	 *
-	 * @access public
-	 * @var array
-	 */
-	public $settings = array();
-	/**
 	 * Shadow table prefix
 	 * Only change this value if it causes table name crashes
 	 *
-	 * @access private
 	 * @var string
 	 */
-	protected $revision_suffix = '_revs';
+	public $revision_suffix = '_revs';
+
 	/**
 	 * Defaul setting values
 	 *
-	 * @access private
 	 * @var array
 	 */
-	protected $defaults = array(
+	protected $_defaults = array(
 		'limit' => false,
 		'auto' => true,
 		'ignore' => array(),
 		'useDbConfig' => null,
 		'model' => null);
+
 	/**
 	 * Old data, used to detect changes
 	 *
@@ -149,9 +142,9 @@ class RevisionBehavior extends ModelBehavior {
 	 */
 	public function setup(Model $Model, $config = array()) {
 		if (!empty($config)) {
-			$this->settings[$Model->alias] = array_merge($this->defaults, $config);
+			$this->settings[$Model->alias] = array_merge($this->_defaults, $config);
 		} else {
-			$this->settings[$Model->alias] = $this->defaults;
+			$this->settings[$Model->alias] = $this->_defaults;
 		}
 		$this->createShadowModel($Model);
 		$Model->Behaviors->load('Containable');

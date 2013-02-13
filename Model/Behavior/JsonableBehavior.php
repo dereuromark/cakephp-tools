@@ -24,14 +24,13 @@ App::uses('ModelBehavior', 'Model');
  * - can be used to create dynamic forms (and tables)
  *
  * Also automatically cleans lists and works with custom separators etc
- * 
+ *
  * @link http://www.dereuromark.de/2011/07/05/introducing-two-cakephp-behaviors/
  * 2011-07-04 ms
  */
 class JsonableBehavior extends ModelBehavior {
 
 	public $decoded = null;
-	public $settings = array();
 
 	/**
 	 * //TODO: json input/ouput directly, clean
