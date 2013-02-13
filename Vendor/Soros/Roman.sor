@@ -1,0 +1,18 @@
+__numbertext__
+1:(.)(.)(.) \1
+2:(.)(.)(.) \1\1
+3:(.)(.)(.) \1\1\1
+4:(.)(.)(.) \1\2
+5:(.)(.)(.) \2
+6:(.)(.)(.) \2\1
+7:(.)(.)(.) \2\1\1
+8:(.)(.)(.) \2\1\1\1
+9:(.)(.)(.) \1\3
+
+(\d) $(\1:IVX)
+(\d)(\d) $(\1:XLC)$2
+(\d)(\d\d) $(\1:CDM)$2
+([123])(\d\d\d) $(\1:Mxx)$2
+(\d+)(\d\d\d) \($1\)$2
+
+help Modules\nRoman: multiple parenthesized form\nRoman_2: overline \(×1000\) with bar \(×100\)\nFunctions: historical \(in Roman_2\) with special Unicode characters for 1000, 5000 and 10000
