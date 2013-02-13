@@ -28,6 +28,19 @@ class ResetBehaviorTest extends MyCakeTestCase {
 
 	public function testResetRecords() {
 		$x = $this->Model->find('first', array('order' => array('updated'=>'DESC')));
+
+		$result = $this->Model->resetRecords();
+		$this->assertTrue($result);
+
+		$y = $this->Model->find('first', array('order' => array('updated'=>'DESC')));
+		$this->assertSame($x, $y);
+	}
+
+	public function testResetRecordsWithUpdatedTimestamp() {
+		$this->Model->Behaviors->unload('Reset');
+		$this->Model->Behaviors->load('Tools.Reset', array('updateTimestamp' => true));
+
+		$x = $this->Model->find('first', array('order' => array('updated'=>'DESC')));
 		$this->assertTrue($x['MyComment']['updated'] < '2007-12-31');
 
 		$result = $this->Model->resetRecords();

@@ -6,21 +6,31 @@ App::uses('ModelBehavior', 'Model');
  * This way any slugging, geocoding or other beforeValidate, beforeSave, ... callbacks
  * can be retriggered for them.
  *
+ * By default it will not update the modified timestamp and will re-save id and displayName.
+ * If you need more fields, you need to specify them manually.
+ *
+ * You can also disable validate callback or provide a conditions scope to match only a subset
+ * of records.
+ *
+ * For performance and memory reasons the records will only be processed in loops (not all at once).
+ * If you have time-sensitive data, you can modify the limit of records per loop as well as the
+ * timeout in between each loop.
+ *
  * @author Mark Scherer
  * @license MIT
- * @cakephp 2.0
- * @version 1
+ * @cakephp 2.x
+ * @version 1.0
  * 2011-12-06 ms
  */
 class ResetBehavior extends ModelBehavior {
 
 	protected $_defaults = array(
-		'limit' => 100,
-		'auto' => false,
-		'fields' => array(),
-		'model' => null,
-		'notices' => true,
-		'validate' => true,
+		'limit' => 100, // batch of records per loop
+		'timeout' => null, // in seconds
+		'fields' => array(), // if not displayField
+		'validate' => true, // trigger beforeValidate callback
+		'updateTimestamp' => false, // update modified/updated timestamp
+		'scope' => array(), // optional conditions
 	);
 
 	/**
@@ -50,23 +60,34 @@ class ResetBehavior extends ModelBehavior {
 	public function resetRecords(Model $Model, $params = array()) {
 		$recursive = -1;
 		extract($this->settings[$Model->alias]);
-		/*
-		if ($notices && !$Model->hasField($fields)) {
-			return false;
-		}
-		*/
+
 		$defaults = array(
 			'page' => 1,
 			'limit' => $limit,
 			'fields' => array(),
 			'order' => $Model->alias.'.'.$Model->displayField . ' ASC',
-			'conditions' => array(),
+			'conditions' => $scope,
 			'recursive' => $recursive,
 		);
 		if (!empty($fields)) {
+			if (!$Model->hasField($fields)) {
+				throw new CakeException('Model does not have fields ' . print_r($fields, true));
+			}
 			$defaults['fields'] = array_merge(array($Model->primaryKey), $fields);
 		} else {
-			$defaults['fields'] = array($Model->primaryKey, $Model->displayField);
+			$defaults['fields'] = array($Model->primaryKey);
+			if ($Model->displayField !== $Model->primaryKey) {
+				$defaults['fields'][] = $Model->displayField;
+			}
+		}
+		if (!$updateTimestamp) {
+			$fields = array('modified', 'updated');
+			foreach ($fields as $field) {
+				if ($Model->schema($field)) {
+					$defaults['fields'][] = $field;
+					break;
+				}
+			}
 		}
 
 		$params = array_merge($defaults, $params);
@@ -84,6 +105,9 @@ class ResetBehavior extends ModelBehavior {
 				}
 			}
 			$params['page']++;
+			if ($timeout) {
+				set_time_limit((int)$timeout);
+			}
 		}
 		return true;
 	}
