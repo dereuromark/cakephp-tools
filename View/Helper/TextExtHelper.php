@@ -277,7 +277,8 @@ class TextExtHelper extends TextHelper {
 	}
 
 	/**
-	 * remove http:// or other protocols from the link
+	 * Remove http:// or other protocols from the link
+	 *
 	 * @param string $url
 	 * @return string $strippedUrl
 	 * 2010-11-07 ms

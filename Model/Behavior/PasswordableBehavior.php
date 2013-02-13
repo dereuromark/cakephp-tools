@@ -1,6 +1,7 @@
 <?php
 App::uses('ModelBehavior', 'Model');
 App::uses('Router', 'Routing');
+App::uses('CakeRequest', 'Network');
 App::uses('CakeResponse', 'Network');
 App::uses('Security', 'Utility');
 

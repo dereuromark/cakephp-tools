@@ -78,7 +78,7 @@ class TinyAuthorize extends BaseAuthorize {
 		} elseif (isset($user[$this->settings['aclKey']])) {
 			$roles = array($user[$this->settings['aclKey']]);
 		} else {
-			$acl = $this->settings['aclModel'].'/'.$this->settings['aclKey'];
+			$acl = $this->settings['aclModel'] . '/' . $this->settings['aclKey'];
 			trigger_error(__d('dev', 'Missing acl information (%s) in user session', $acl));
 			$roles = array();
 		}
@@ -200,7 +200,7 @@ class TinyAuthorize extends BaseAuthorize {
 						if (!($role = trim($role)) || $role === '*') {
 							continue;
 						}
-						$newRole = Configure::read($this->settings['aclModel'].'.'.strtolower($role));
+						$newRole = Configure::read($this->settings['aclModel'] . '.' . strtolower($role));
 						if (!empty($res[$controllerName][$actionName]) && in_array($newRole, $res[$controllerName][$actionName])) {
 							continue;
 						}

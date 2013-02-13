@@ -219,11 +219,17 @@ class ImapLib {
 					}
 
 				}
-				// Let's add the body
-				$return[$msgNo]['body'] = imap_fetchbody($this->stream, $msgNo, 1);
 
 				//lets add attachments
-				$return[$msgNo]['structure'] = imap_fetchstructure($this->stream, $msgNo);
+				$return[$msgNo]['structure'] = (array)imap_fetchstructure($this->stream, $msgNo);
+				$encodingValue = $return[$msgNo]['structure']['encoding'];
+				if (!empty($return[$msgNo]['structure']['parts'])) {
+					$part = $return[$msgNo]['structure']['parts'][0];
+					$encodingValue = $part->encoding;
+				}
+				// Let's add the body
+				$return[$msgNo]['body'] = $this->_getDecodedValue(imap_fetchbody($this->stream, $msgNo, 1), $encodingValue);
+
 				//debug(imap_fetchstructure($this->stream, $header->Msgno, FT_UID));
 				$return[$msgNo]['attachments'] = $this->attachments($header);
 			}
@@ -259,8 +265,8 @@ class ImapLib {
 	 */
 	public function attachments($header) {
 		$structure = imap_fetchstructure($this->stream, $header->Msgno);
-		if (!$structure) {
-			return false;
+		if (!$structure || !isset($structure->parts)) {
+			return array();
 		}
 		$parts = $structure->parts;
 		$fpos = 2;
@@ -352,7 +358,8 @@ class ImapLib {
 		} elseif ($coding == 4) {
 			$message = imap_qprint($message);
 		} elseif ($coding == 5) {
-			$message = imap_base64($message);
+			// plain
+			//$message = imap_base64($message);
 		}
 		return $message;
 	}

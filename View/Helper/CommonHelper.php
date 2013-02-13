@@ -526,7 +526,7 @@ if (top!=self) top.location.ref=self.location.href;
 	 * - escape
 	 * needs the id element to be a present (div) container in the layout
 	 * 2009-12-26 ms
-	 **/
+	 */
 	public function browserAlert($id, $message, $options = array()) {
 		$engine = 'js';
 

@@ -130,7 +130,7 @@ class UserAgentLib extends CakeRequest {
 	 * fetches url with curl if available
 	 * fallbacks: cake and php
 	 * 2010-09-09 ms
-	 **/
+	 */
 	public function getMobileDevices() {
 		$is = array(); //$this->RequestHandler->mobileUA;
 		$is = $this->_detectors['mobile']['options'];

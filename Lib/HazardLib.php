@@ -18,7 +18,7 @@ class HazardLib {
 	 * @return array
 	 * @static
 	 * 2010-07-31 ms
-	 **/
+	 */
 	public function sqlStrings($veryDangerousToo = false) {
 		/*
 		$res = array(
@@ -47,7 +47,7 @@ class HazardLib {
 	 * @return array
 	 * @static
 	 * 2010-07-31 ms
-	 **/
+	 */
 	public function phpStrings() {
 		$res = array(
 			'a:100000000:{}', # serialized objects run the magic _ _wakeup() function when they're unserialized
@@ -62,7 +62,7 @@ class HazardLib {
 	 * @return array
 	 * @static
 	 * 2010-07-31 ms
-	 **/
+	 */
 	public function xssStrings($cache = true) {
 		if ($cache) {
 			$texts = Cache::read('security_lib_texts');

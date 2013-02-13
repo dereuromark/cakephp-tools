@@ -1310,41 +1310,41 @@ class FormatHelper extends TextHelper {
 	 * @see http://aidan.dotgeek.org/lib/?file=function.tab2space.php
 	 */
 	public function tab2space($text, $spaces = 4) {
-	$spaces = str_repeat(" ", $spaces);
-	$text = preg_split("/\r\n|\r|\n/", trim($text));
-	$word_lengths = array();
-	$w_array = array();
+		$spaces = str_repeat(" ", $spaces);
+		$text = preg_split("/\r\n|\r|\n/", trim($text));
+		$word_lengths = array();
+		$w_array = array();
 
-	// Store word lengths
-	foreach ($text as $line) {
-		$words = preg_split("/(\t+)/", $line, -1, PREG_SPLIT_DELIM_CAPTURE);
-		foreach (array_keys($words) as $i) {
-			$strlen = strlen($words[$i]);
-			$add = isset($word_lengths[$i]) && ($word_lengths[$i] < $strlen);
-			if ($add || !isset($word_lengths[$i])) {
-				$word_lengths[$i] = $strlen;
+		// Store word lengths
+		foreach ($text as $line) {
+			$words = preg_split("/(\t+)/", $line, -1, PREG_SPLIT_DELIM_CAPTURE);
+			foreach (array_keys($words) as $i) {
+				$strlen = strlen($words[$i]);
+				$add = isset($word_lengths[$i]) && ($word_lengths[$i] < $strlen);
+				if ($add || !isset($word_lengths[$i])) {
+					$word_lengths[$i] = $strlen;
+				}
 			}
+			$w_array[] = $words;
 		}
-		$w_array[] = $words;
-	}
 
-	// Clear $text
-	$text = '';
+		// Clear $text
+		$text = '';
 
-	// Apply padding when appropriate and rebuild the string
-	foreach (array_keys($w_array) as $i) {
-		foreach (array_keys($w_array[$i]) as $ii) {
-			if (preg_match("/^\t+$/", $w_array[$i][$ii])) {
-				$w_array[$i][$ii] = str_pad($w_array[$i][$ii], $word_lengths[$ii], "\t");
-			} else {
-				$w_array[$i][$ii] = str_pad($w_array[$i][$ii], $word_lengths[$ii]);
+		// Apply padding when appropriate and rebuild the string
+		foreach (array_keys($w_array) as $i) {
+			foreach (array_keys($w_array[$i]) as $ii) {
+				if (preg_match("/^\t+$/", $w_array[$i][$ii])) {
+					$w_array[$i][$ii] = str_pad($w_array[$i][$ii], $word_lengths[$ii], "\t");
+				} else {
+					$w_array[$i][$ii] = str_pad($w_array[$i][$ii], $word_lengths[$ii]);
+				}
 			}
+			$text .= str_replace("\t", $spaces, implode("", $w_array[$i])) . "\n";
 		}
-		$text .= str_replace("\t", $spaces, implode("", $w_array[$i])) . "\n";
-	}
 
-	// Finished
-	return $text;
+		// Finished
+		return $text;
 	}
 
 	/**

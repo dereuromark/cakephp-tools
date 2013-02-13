@@ -1042,7 +1042,6 @@ class TimeLib extends CakeTime {
 	 */
 	public static function parseLocalizedDate($date, $format = null, $type = 'start') {
 		$date = trim($date);
-		echo returns($date);
 		$i18n = array(
 			strtolower(__('Today')) => array('start'=>date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))), 'end'=>date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')))),
 			strtolower(__('Tomorrow')) => array('start'=>date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))+DAY), 'end'=>date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y'))+DAY)),
@@ -1163,7 +1162,7 @@ class TimeLib extends CakeTime {
 		$tmp = $value-$base;
 
 		$tmp *= 100;
-		$tmp *= 1/60;
+		$tmp *= 1 / 60;
 
 		$value = $base+$tmp;
 		return $value;
@@ -1177,12 +1176,12 @@ class TimeLib extends CakeTime {
 	 */
 	public static function decimalToStandardTime($value, $pad = null, $decPoint = '.') {
 		$base = (int)$value;
-		$tmp = $value-$base;
+		$tmp = $value - $base;
 
-		$tmp /= 1/60;
+		$tmp /= 1 / 60;
 		$tmp /= 100;
 
-		$value = $base+$tmp;
+		$value = $base + $tmp;
 		if ($pad === null) {
 			return $value;
 		}
@@ -1245,9 +1244,9 @@ class TimeLib extends CakeTime {
 			$year = $pieces[2];
 			if (strlen($year) === 2) {
 				if ($year < 50) {
-					$year = '20'.$year;
+					$year = '20' . $year;
 				} else {
-					$year = '19'.$year;
+					$year = '19' . $year;
 				}
 			}
 			$date = mktime(0, 0, 0, $pieces[1], $pieces[0], $year);
@@ -1260,7 +1259,6 @@ class TimeLib extends CakeTime {
 		}
 		return $date;
 	}
-
 
 	/**
 	 * return strings like 2:30 (later //TODO: or 2:33:99) from seconds etc
@@ -1276,12 +1274,12 @@ class TimeLib extends CakeTime {
 
 		$minutes = $duration % HOUR;
 		$hours = ($duration - $minutes) / HOUR;
-		$res = (int)$hours.':'.str_pad(intval($minutes/MINUTE), 2, '0', STR_PAD_LEFT);
+		$res = (int)$hours . ':' . str_pad(intval($minutes/MINUTE), 2, '0', STR_PAD_LEFT);
 		if (strpos($mode, 'SS') !== false) {
 			//TODO
 		}
 		if (!empty($isNegative)) {
-			$res = '-'.$res;
+			$res = '-' . $res;
 		}
 		return $res;
 	}
@@ -1293,14 +1291,12 @@ class TimeLib extends CakeTime {
 	 * 2011-03-09 ms
 	 */
 	public static function buildDefaultTime($duration) {
-		$minutes = $duration%HOUR;
+		$minutes = $duration % HOUR;
 		$duration = $duration - $minutes;
-		$hours = ($duration)/HOUR;
+		$hours = $duration / HOUR;
 
-		//$duration = $minutes*MINUTE;
-
-		$seconds = $minutes%MINUTE;
-		return self::pad($hours).':'.self::pad($minutes/MINUTE).':'.self::pad($seconds/SECOND);
+		$seconds = $minutes % MINUTE;
+		return self::pad($hours) . ':' . self::pad($minutes / MINUTE) . ':' . self::pad($seconds / SECOND);
 	}
 
 	public static function pad($value, $length = 2) {

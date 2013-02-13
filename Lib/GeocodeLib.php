@@ -657,7 +657,7 @@ class GeocodeLib {
 	 * fallbacks: cake and php
 	 * note: expects url with json encoded content
 	 * @access private
-	 **/
+	 */
 	protected function _fetch($url) {
 		$this->HttpSocket = new HttpSocketLib($this->use);
 		if ($res = $this->HttpSocket->fetch($url, 'CakePHP Geocode Lib')) {

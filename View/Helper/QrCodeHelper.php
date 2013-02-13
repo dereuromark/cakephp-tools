@@ -56,7 +56,7 @@ class QrCodeHelper extends AppHelper {
 	 * - chl: string $text
 	 * - choe: string $outputEncoding
 	 * - chs: size (...x...)
-	 **/
+	 */
 	protected $options = array('cht'=>'qr', 'chl'=>'', 'choe'=>'', 'chs'=>'');
 
 	protected $ecLevels = array('H', 'Q', 'M', 'L'); # 30%..7%

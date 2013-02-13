@@ -79,7 +79,7 @@ class HttpSocketLib {
 	 * @param string $url
 	 * @param array $options
 	 * @return string Response or false on failure
-	 **/
+	 */
 	public function fetch($url, $options = array()) {
 		if (!is_array($options)) {
 			$options = array('agent'=>$options);

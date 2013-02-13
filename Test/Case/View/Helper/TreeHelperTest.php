@@ -362,11 +362,7 @@ TEXT;
 	<ul>
 		<li class="active">Two-SubA (active)
 		<ul>
-			<li>Two-SubA-1
-			<ul>
-				<li>Two-SubA-1-1</li>
-			</ul>
-			</li>
+			<li>Two-SubA-1</li>
 		</ul>
 		</li>
 		<li>Two-SubB</li>

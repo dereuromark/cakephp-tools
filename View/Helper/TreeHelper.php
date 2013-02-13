@@ -74,7 +74,7 @@ class TreeHelper extends AppHelper {
  *	'element' => path to an element to render to get node contents.
  *	'callback' => callback to use to get node contents. e.g. array(&$anObject, 'methodName') or 'floatingMethod'
  *	'autoPath' => array($left, $right [$classToAdd = 'active']) if set any item in the path will have the class $classToAdd added. MPTT only.
- *  'hideUnrelated' => if unrelated (not children, not siblings) should be hidden, needs 'treePath'
+ *  'hideUnrelated' => if unrelated (not children, not siblings) should be hidden, needs 'treePath', true/false or array/string for callback
  *  'treePath' => treePath to insert into callback/element
  *	'left' => name of the 'lft' field if not lft. only applies to MPTT data
  *	'right' => name of the 'rght' field if not lft. only applies to MPTT data
@@ -154,8 +154,10 @@ class TreeHelper extends AppHelper {
 		$this->_settings['totalNodes'] = count($data);
 		$keys = array_keys($data);
 
-		if ($hideUnrelated) {
+		if ($hideUnrelated === true) {
 			$this->_markUnrelatedAsHidden($data, $treePath);
+		} elseif ($hideUnrelated && is_callable($hideUnrelated)) {
+			call_user_func($data, $treePath);
 		}
 
 		foreach ($data as $i => &$result) {
@@ -510,14 +512,14 @@ class TreeHelper extends AppHelper {
 				$subTree[$model]['show'] = 1;
 				$siblingIsActive = true;
 			}
-			if (!empty($subTree[$model]['show']) || !empty($subTree[$model]['parent_show'])) {
+			if (!empty($subTree[$model]['show'])) { //!empty($subTree[$model]['parent_show']
 				foreach ($subTree['children'] as &$v) {
 					$v[$model]['parent_show'] = 1;
 				}
 			}
 		}
 		foreach ($tree as $key => &$subTree) {
-			if (!$siblingIsActive && !isset($subTree[$model]['parent_show'])) {
+			if ($level && !$siblingIsActive && !isset($subTree[$model]['parent_show'])) {
 				$subTree[$model]['hide'] = 1;
 			}
 			$this->_markUnrelatedAsHidden($subTree['children'], $path, $level + 1);
