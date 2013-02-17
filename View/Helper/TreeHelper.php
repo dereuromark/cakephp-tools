@@ -512,7 +512,7 @@ class TreeHelper extends AppHelper {
 				$subTree[$model]['show'] = 1;
 				$siblingIsActive = true;
 			}
-			if (!empty($subTree[$model]['show'])) { //!empty($subTree[$model]['parent_show']
+			if (!empty($subTree[$model]['show'])) {
 				foreach ($subTree['children'] as &$v) {
 					$v[$model]['parent_show'] = 1;
 				}

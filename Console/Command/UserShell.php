@@ -92,9 +92,8 @@ class UserShell extends AppShell {
 		if (!empty($schema['status']) && method_exists('User', 'statuses')) {
 			$statuses = User::statuses();
 			$this->out(print_r($statuses, true));
-			while (empty($status)) {
-				$status = $this->in(__('Please insert a status'), array_keys($statuses));
-			}
+			$status = $this->in(__('Please insert a status'), array_keys($statuses));
+
 			$data['User']['status'] = $status;
 		}
 

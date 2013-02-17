@@ -16,6 +16,13 @@ App::uses('ModelBehavior', 'Model');
  * If you have time-sensitive data, you can modify the limit of records per loop as well as the
  * timeout in between each loop.
  *
+ * It is recommended to attach this behavior dynamically where needed:
+ *
+ *    $this->Model->Behaviors->load('Tools.Reset', array(...));
+ *    $this->Model->resetRecords();
+ *
+ * For tables with lots of records you might want to use a shell and the CLI to invoke the reset/update process.
+ *
  * @author Mark Scherer
  * @license MIT
  * @cakephp 2.x
