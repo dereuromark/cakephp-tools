@@ -832,6 +832,23 @@ class MyModel extends Model {
 
 /** Validation Functions **/
 
+	/**
+	 * Overwrite invalidate to allow last => true
+	 *
+	 * @param string $field The name of the field to invalidate
+	 * @param mixed $value Name of validation rule that was not failed, or validation message to
+	 *    be returned. If no validation key is provided, defaults to true.
+	 * @param boolean $last If this should be the last validation check for this validation run
+	 * @return void
+	 */
+	public function invalidate($field, $value = true, $last = false) {
+		parent::invalidate($field, $value);
+		if (!$last) {
+			return;
+		}
+
+		$this->validator()->remove($field);
+	}
 
 	/**
 	 * validates a primary or foreign key depending on the current schema data for this field
@@ -1615,7 +1632,7 @@ class MyModel extends Model {
 	 * @deprecated use generateTreeList instead
 	 * 2009-08-12 ms
 	 */
-	public function _generateNestedList($cats, $indent, $level = 0) {
+	public function _generateNestedList($cats, $indent = '--', $level = 0) {
 		static $list = array();
 		$c = count($cats);
 		for ($i = 0; $i < $c; $i++) {

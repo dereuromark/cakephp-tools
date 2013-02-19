@@ -136,6 +136,57 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertEquals(1, $is);
 	}
 
+	/**
+	 * Test that 2.x invalidates() can behave like 1.x invalidates()
+	 * and that you are able to abort on single errors (similar to using last=>true)
+	 *
+	 * 2013-02-19 ms
+	 */
+	public function testInvalidates() {
+		$TestModel = new AppTestModel();
+
+		$TestModel->validate = array(
+			'title' => array(
+				'tooShort' => array(
+					'rule' => array('minLength', 50),
+					'last' => false
+				),
+				'onlyLetters' => array('rule' => '/^[a-z]+$/i')
+			),
+		);
+		$data = array(
+			'title' => 'I am a short string'
+		);
+		$TestModel->create($data);
+		$TestModel->invalidate('title', 'someCustomMessage');
+
+		$result = $TestModel->validates();
+		$this->assertFalse($result);
+
+		$result = $TestModel->validationErrors;
+		$expected = array(
+			'title' => array('someCustomMessage', 'tooShort', 'onlyLetters')
+		);
+		$this->assertEquals($expected, $result);
+		$result = $TestModel->validationErrors;
+		$this->assertEquals($expected, $result);
+
+		// invalidate a field with 'last' => true and stop further validation for this field
+		$TestModel->create($data);
+
+		$TestModel->invalidate('title', 'someCustomMessage', true);
+
+		$result = $TestModel->validates();
+		$this->assertFalse($result);
+		$result = $TestModel->validationErrors;
+		$expected = array(
+			'title' => array('someCustomMessage')
+		);
+		$this->assertEquals($expected, $result);
+		$result = $TestModel->validationErrors;
+		$this->assertEquals($expected, $result);
+	}
+
 	public function testValidateIdentical() {
 		$this->out($this->_header(__FUNCTION__));
 		$this->App->data = array($this->App->alias=>array('y'=>'efg'));
