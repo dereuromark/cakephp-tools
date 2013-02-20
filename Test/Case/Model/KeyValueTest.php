@@ -39,4 +39,8 @@ class KeyValueTest extends MyCakeTestCase {
 		parent::tearDown();
 	}
 
+	public function testInstance() {
+		$this->assertTrue(is_a($this->KeyValue, 'KeyValue'));
+	}
+
 }
