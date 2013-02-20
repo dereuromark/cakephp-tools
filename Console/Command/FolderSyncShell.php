@@ -133,12 +133,21 @@ class FolderSyncShell extends AppShell {
 			}
 			$this->missing[] = $name;
 			$this->removedFiles++;
+			if (!empty($this->params['verbose'])) {
+				$this->out('   (source missing, deleting)');
+			}
 			return;
 		} elseif (!$sourceExists) {
 			$this->missing[] = $name;
+			if (!empty($this->params['verbose'])) {
+				$this->out('   (target missing, skipping)');
+			}
 			return;
 		}
-		if (sha1(file_get_contents($source)) === sha1(file_get_contents($target))) {
+		if (file_get_contents($source) === file_get_contents($target)) {
+			if (!empty($this->params['verbose'])) {
+				$this->out('   (equal, skipping)');
+			}
 			return;
 		}
 		if (empty($this->params['dry-run']) && !copy($source, $target)) {
