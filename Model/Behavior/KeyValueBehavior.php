@@ -130,7 +130,13 @@ class KeyValueBehavior extends ModelBehavior {
 					'recursive' => -1,
 					'conditions' => array($foreignKeyField => $foreignKey, $keyField => $key),
 					'fields' => array('id')));
-				$newDetail[$this->KeyValue->alias]['id'] = $tmp[$this->KeyValue->alias]['id'];
+
+				if ($tmp) {
+					$newDetail[$this->KeyValue->alias]['id'] = $tmp[$this->KeyValue->alias]['id'];
+				} else {
+					$this->KeyValue->create();
+				}
+
 				$newDetail[$this->KeyValue->alias][$foreignKeyField] = $foreignKey;
 				$newDetail[$this->KeyValue->alias][$keyField] = $key;
 				$newDetail[$this->KeyValue->alias][$valueField] = $value;

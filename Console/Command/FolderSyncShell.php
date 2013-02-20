@@ -144,7 +144,7 @@ class FolderSyncShell extends AppShell {
 			}
 			return;
 		}
-		if (file_get_contents($source) === file_get_contents($target)) {
+		if (sha1(file_get_contents($source)) === sha1(file_get_contents($target))) {
 			if (!empty($this->params['verbose'])) {
 				$this->out('   (equal, skipping)');
 			}
