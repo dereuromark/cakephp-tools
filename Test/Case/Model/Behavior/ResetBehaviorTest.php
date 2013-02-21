@@ -50,6 +50,21 @@ class ResetBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue($x['MyComment']['updated'] > (date('Y')-1) . '-12-31');
 	}
 
+	public function testResetWithCallback() {
+		$this->Model->Behaviors->unload('Reset');
+		$this->Model->Behaviors->load('Tools.Reset', array('callback' => 'customCallback'));
+
+		$x = $this->Model->find('first', array('conditions' => array('id'=>6)));
+		$this->assertEquals('Second Comment for Second Article', $x['MyComment']['comment']);
+
+		$result = $this->Model->resetRecords();
+		$this->assertTrue($result);
+
+		$x = $this->Model->find('first', array('conditions' => array('id'=>6)));
+		$expected = 'Second Comment for Second Article xyz';
+		$this->assertEquals($expected, $x['MyComment']['comment']);
+	}
+
 }
 
 class MyComment extends AppModel {
@@ -57,5 +72,12 @@ class MyComment extends AppModel {
 	public $fixture = 'core.comment';
 
 	public $useTable = 'comments';
+
+	public $displayField = 'comment';
+
+	public function customCallback(&$data, &$fields) {
+		$data[$this->alias][$this->displayField] .= ' xyz';
+		$fields[] = 'some_other_field';
+	}
 
 }

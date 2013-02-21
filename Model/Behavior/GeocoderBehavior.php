@@ -55,7 +55,6 @@ class GeocoderBehavior extends ModelBehavior {
 		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], is_array($settings) ? $settings : array());
 	}
 
-
 	public function beforeValidate(Model $Model) {
 		parent::beforeValidate($Model);
 
@@ -76,7 +75,6 @@ class GeocoderBehavior extends ModelBehavior {
 		return true;
 	}
 
-
 	/**
 	 * Run before a model is saved, used to set up slug for model.
 	 *
@@ -93,7 +91,6 @@ class GeocoderBehavior extends ModelBehavior {
 		$addressfields = array_unique($addressfields);
 
 		// Make sure all address fields are available
-
 		if ($this->settings[$Model->alias]['real']) {
 			foreach ($addressfields as $field) {
 				if (!$Model->hasField($field)) {
@@ -128,12 +125,13 @@ class GeocoderBehavior extends ModelBehavior {
 			if (empty($geocode)) {
 				return false;
 			}
-
+			/*
 			if (!empty($geocode['type']) && !empty($this->settings[$Model->alias]['expect'])) {
 				if (!in_array($geocode['type'], (array)$this->settings[$Model->alias]['expect'])) {
 					return $return;
 				}
 			}
+			*/
 
 			//pr($geocode);
 			//pr($this->Geocode->getResult());
@@ -209,8 +207,8 @@ class GeocoderBehavior extends ModelBehavior {
 	 * Add the distance to this point as a virtual field
 	 *
 	 * @param Model $Model
-	 * @param float $lat
-	 * @param float $lng
+	 * @param string|float $lat Fieldname (Model.lat) or float value
+	 * @param string|float $lng Fieldname (Model.lng) or float value
 	 * @return void
 	 */
 	public function setDistanceAsVirtualField(Model $Model, $lat, $lng, $modelName = null) {
@@ -218,8 +216,10 @@ class GeocoderBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * return a sql snippet for distance calculation on db level using two lat/lng points
+	 * Form a sql snippet for distance calculation on db level using two lat/lng points
 	 *
+	 * @param string|float $lat Fieldname (Model.lat) or float value
+	 * @param string|float $lng Fieldname (Model.lng) or float value
 	 * @return string
 	 */
 	public function distance(Model $Model, $lat, $lng, $fieldLat = null, $fieldLng = null, $modelName = null) {
@@ -235,11 +235,11 @@ class GeocoderBehavior extends ModelBehavior {
 
 		$value = $this->_calculationValue($this->settings[$Model->alias]['unit']);
 
-		return $value . ' * ACOS( COS( PI()/2 - RADIANS(90 - '.$modelName.'.'.$fieldLat.')) * ' .
-			'COS( PI()/2 - RADIANS(90 - '. $lat .')) * ' .
-			'COS( RADIANS('.$modelName.'.'.$fieldLng.') - RADIANS('. $lng .')) + ' .
-			'SIN( PI()/2 - RADIANS(90 - '.$modelName.'.'.$fieldLat.')) * ' .
-			'SIN( PI()/2 - RADIANS(90 - '. $lat . ')))';
+		return $value . ' * ACOS(COS(PI()/2 - RADIANS(90 - '.$modelName.'.'.$fieldLat.')) * ' .
+			'COS(PI()/2 - RADIANS(90 - '. $lat .')) * ' .
+			'COS(RADIANS('.$modelName.'.'.$fieldLng.') - RADIANS('. $lng .')) + ' .
+			'SIN(PI()/2 - RADIANS(90 - '.$modelName.'.'.$fieldLat.')) * ' .
+			'SIN(PI()/2 - RADIANS(90 - '. $lat . ')))';
 	}
 
 	/**

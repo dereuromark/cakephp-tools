@@ -15,6 +15,7 @@ App::uses('ModelBehavior', 'Model');
  * For performance and memory reasons the records will only be processed in loops (not all at once).
  * If you have time-sensitive data, you can modify the limit of records per loop as well as the
  * timeout in between each loop.
+ * Remember to raise set_time_limit() if you do not run this via CLI.
  *
  * It is recommended to attach this behavior dynamically where needed:
  *
@@ -38,6 +39,7 @@ class ResetBehavior extends ModelBehavior {
 		'validate' => true, // trigger beforeValidate callback
 		'updateTimestamp' => false, // update modified/updated timestamp
 		'scope' => array(), // optional conditions
+		'callback' => null,
 	);
 
 	/**
@@ -106,14 +108,19 @@ class ResetBehavior extends ModelBehavior {
 		while ($rows = $Model->find('all', $params)) {
 			foreach ($rows as $row) {
 				$Model->create();
-				$res = $Model->save($row, $validate, $params['fields']);
+				$fields = $params['fields'];
+				if ($callback) {
+					$Model->{$callback}($row, $fields);
+				}
+
+				$res = $Model->save($row, $validate, $fields);
 				if (!$res) {
 					throw new CakeException(print_r($Model->validationErrors, true));
 				}
 			}
 			$params['page']++;
 			if ($timeout) {
-				set_time_limit((int)$timeout);
+				sleep((int)$timeout);
 			}
 		}
 		return true;

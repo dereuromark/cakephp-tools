@@ -18,19 +18,25 @@ class GeocoderBehaviorTest extends CakeTestCase {
 
 	public function testDistance() {
 		$res = $this->Comment->distance(12, 14);
-		$expected = '6371.04 * ACOS( COS( PI()/2 - RADIANS(90 - Comment.lat)) * COS( PI()/2 - RADIANS(90 - 12)) * COS( RADIANS(Comment.lng) - RADIANS(14)) + SIN( PI()/2 - RADIANS(90 - Comment.lat)) * SIN( PI()/2 - RADIANS(90 - 12)))';
+		$expected = '6371.04 * ACOS(COS(PI()/2 - RADIANS(90 - Comment.lat)) * COS(PI()/2 - RADIANS(90 - 12)) * COS(RADIANS(Comment.lng) - RADIANS(14)) + SIN(PI()/2 - RADIANS(90 - Comment.lat)) * SIN(PI()/2 - RADIANS(90 - 12)))';
 		$this->assertEquals($expected, $res);
 
 		$this->Comment->Behaviors->unload('Geocoder');
 		$this->Comment->Behaviors->load('Tools.Geocoder', array('lat'=>'x', 'lng'=>'y'));
-		$res = $this->Comment->distance(12, 14);
-		$expected = '6371.04 * ACOS( COS( PI()/2 - RADIANS(90 - Comment.x)) * COS( PI()/2 - RADIANS(90 - 12)) * COS( RADIANS(Comment.y) - RADIANS(14)) + SIN( PI()/2 - RADIANS(90 - Comment.x)) * SIN( PI()/2 - RADIANS(90 - 12)))';
+		$res = $this->Comment->distance(12.1, 14.2);
+		$expected = '6371.04 * ACOS(COS(PI()/2 - RADIANS(90 - Comment.x)) * COS(PI()/2 - RADIANS(90 - 12.1)) * COS(RADIANS(Comment.y) - RADIANS(14.2)) + SIN(PI()/2 - RADIANS(90 - Comment.x)) * SIN(PI()/2 - RADIANS(90 - 12.1)))';
+		$this->assertEquals($expected, $res);
+
+		$this->Comment->Behaviors->unload('Geocoder');
+		$this->Comment->Behaviors->load('Tools.Geocoder', array('lat'=>'x', 'lng'=>'y'));
+		$res = $this->Comment->distance('User.lat', 'User.lng');
+		$expected = '6371.04 * ACOS(COS(PI()/2 - RADIANS(90 - Comment.x)) * COS(PI()/2 - RADIANS(90 - User.lat)) * COS(RADIANS(Comment.y) - RADIANS(User.lng)) + SIN(PI()/2 - RADIANS(90 - Comment.x)) * SIN(PI()/2 - RADIANS(90 - User.lat)))';
 		$this->assertEquals($expected, $res);
 	}
 
 	public function testDistanceField() {
 		$res = $this->Comment->distanceField(12, 14);
-		$expected = '6371.04 * ACOS( COS( PI()/2 - RADIANS(90 - Comment.lat)) * COS( PI()/2 - RADIANS(90 - 12)) * COS( RADIANS(Comment.lng) - RADIANS(14)) + SIN( PI()/2 - RADIANS(90 - Comment.lat)) * SIN( PI()/2 - RADIANS(90 - 12))) AS Comment.distance';
+		$expected = '6371.04 * ACOS(COS(PI()/2 - RADIANS(90 - Comment.lat)) * COS(PI()/2 - RADIANS(90 - 12)) * COS(RADIANS(Comment.lng) - RADIANS(14)) + SIN(PI()/2 - RADIANS(90 - Comment.lat)) * SIN(PI()/2 - RADIANS(90 - 12))) AS Comment.distance';
 		$this->assertEquals($expected, $res);
 	}
 
