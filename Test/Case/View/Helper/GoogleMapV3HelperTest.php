@@ -204,6 +204,28 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 
 	}
 
+	/**
+	 * test some basic map options
+	 */
+	public function testMap() {
+		$options = array(
+			'autoScript' => true,
+			'inline' => true,
+		);
+
+		$result = $this->GoogleMapV3->map($options);
+
+		$result .= $this->GoogleMapV3->script();
+
+		$expected = '<div id="map_canvas" class="map"';
+		$this->assertTextContains($expected, $result);
+
+		$expected = '<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>';
+		$this->assertTextContains($expected, $result);
+
+		$expected = 'var map0 = new google.maps.Map(document.getElementById("map_canvas"), myOptions);';
+		$this->assertTextContains($expected, $result);
+	}
 
 	/**
 	 * with default options

@@ -32,17 +32,25 @@
 class GoogleMapV3Helper extends AppHelper {
 
 	public static $MAP_COUNT = 0;
+
 	public static $MARKER_COUNT = 0;
+
 	public static $ICON_COUNT = 0;
+
 	public static $INFO_WINDOW_COUNT = 0;
+
 	public static $INFO_CONTENT_COUNT = 0;
 
 	const API = 'maps.google.com/maps/api/js?';
+
 	const STATIC_API = 'maps.google.com/maps/api/staticmap?';
 
 	const TYPE_ROADMAP = 'R';
+
 	const TYPE_HYBRID = 'H';
+
 	const TYPE_SATELLITE = 'S';
+
 	const TYPE_TERRAIN = 'T';
 
 	public $types = array(
@@ -60,7 +68,7 @@ class GoogleMapV3Helper extends AppHelper {
 	public $helpers = array('Html', 'Js');
 
 	/**
-	 * google maker config instance variable
+	 * Google maker config instance variable
 	 *
 	 * @var array
 	 */
@@ -80,7 +88,8 @@ class GoogleMapV3Helper extends AppHelper {
 	protected $_mapIds = array(); # remember already used ones (valid xhtml contains ids not more than once)
 
 	/**
-	 * settings of the helper
+	 * Default settings
+	 *
 	 * @var array
 	 */
 	protected $_defaultOptions = array(
@@ -174,9 +183,10 @@ class GoogleMapV3Helper extends AppHelper {
 	protected $_currentOptions =array();
 
 	protected $_apiIncluded = false;
-	protected $_gearsIncluded = false;
-	protected $_located = false;
 
+	protected $_gearsIncluded = false;
+
+	protected $_located = false;
 
 	public function __construct($View = null, $settings = array()) {
 		parent::__construct($View, $settings);
@@ -373,20 +383,23 @@ class GoogleMapV3Helper extends AppHelper {
 			$this->_currentOptions['map']['zoom'] = $this->_currentOptions['map']['defaultZoom'];
 		}
 
+		$result = '';
+
 		# autoinclude js?
-		if (!empty($options['autoScript']) && !$this->_apiIncluded) {
-			$res = $this->Html->script($this->apiUrl(), array('inline'=>$options['inline']));
-			if ($options['inline']) {
-				echo $res;
+		if (!empty($this->_currentOptions['autoScript']) && !$this->_apiIncluded) {
+			$res = $this->Html->script($this->apiUrl(), array('inline'=>$this->_currentOptions['inline']));
+
+			if ($this->_currentOptions['inline']) {
+				$result .= $res . PHP_EOL;
 			}
 			# usually already included
 			//http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js
 		}
 		# still not very common: http://code.google.com/intl/de-DE/apis/maps/documentation/javascript/basics.html
-		if (false && !empty($options['autoScript']) && !$this->_gearsIncluded) {
-			$res = $this->Html->script($this->gearsUrl(), array('inline'=>$options['inline']));
-			if ($options['inline']) {
-				echo $res;
+		if (false && !empty($this->_currentOptions['autoScript']) && !$this->_gearsIncluded) {
+			$res = $this->Html->script($this->gearsUrl(), array('inline'=>$this->_currentOptions['inline']));
+			if ($this->_currentOptions['inline']) {
+				$result .= $res . PHP_EOL;
 			}
 		}
 
@@ -412,7 +425,6 @@ class GoogleMapV3Helper extends AppHelper {
 			";
 		$this->map = $map;
 
-		$result = '';
 		$this->_currentOptions['div']['style'] = '';
 		if (is_numeric($this->_currentOptions['div']['width'])) {
 			$this->_currentOptions['div']['width'] .= 'px';
@@ -426,7 +438,7 @@ class GoogleMapV3Helper extends AppHelper {
 		unset($this->_currentOptions['div']['width']); unset($this->_currentOptions['div']['height']);
 
 		$defaultText = isset($this->_currentOptions['content']) ? $this->_currentOptions['content'] : __('Map cannot be displayed!');
-		$result = $this->Html->tag('div', $defaultText, $this->_currentOptions['div']);
+		$result .= $this->Html->tag('div', $defaultText, $this->_currentOptions['div']);
 
 		return $result;
 	}
