@@ -54,11 +54,6 @@ define('DEFAULT_DATETIME', '0000-00-00 00:00:00');
 define('DEFAULT_DATE', '0000-00-00');
 define('DEFAULT_TIME', '00:00:00');
 
-# deprecated (could be wrong, if timezone is modified)
-define('CURRENT_YEAR', date('Y'));
-define('CURRENT_MONTH', date('m'));
-define('CURRENT_DAY', date('d'));
-
 # workpaths
 define('FILES', APP . 'files' . DS);
 define('LOCALE', APP . 'locale' . DS);
@@ -238,43 +233,6 @@ function safenl($str) {
 	$str = preg_replace("/(\r\n|\r|\n)/", " ", $str);
 	return $str;
 }
-
-/**
- * @param array $keyValuePairs
- * @return string $key
- * like array_shift() only for keys and not values
- * 2011-01-22 ms
- */
-function arrayShiftKeys(&$array) {
-	trigger_error('deprecated - use Tools.Utility instead');
-	//TODO: improve?
-	foreach ($array as $key => $value) {
-		unset($array[$key]);
-		return $key;
-	}
-}
-
-/**
- * Flattens an array, or returns FALSE on fail.
- * 2011-07-02 ms
- */
-function arrayFlatten($array) {
-	trigger_error('deprecated - use Tools.Utility instead');
-
-	if (!is_array($array)) {
-	return false;
-	}
-	$result = array();
-	foreach ($array as $key => $value) {
-	if (is_array($value)) {
-		$result = array_merge($result, arrayFlatten($value));
-	} else {
-		$result[$key] = $value;
-	}
-	}
-	return $result;
-}
-
 
 /**
  * convenience function to check on "empty()"
@@ -486,17 +444,6 @@ function contains($haystack, $needle, $caseSensitive = false) {
 }
 
 /**
- * Can compare two float values
- * @deprecated use NumberLib::isFloatEqual
- * @link http://php.net/manual/en/language.types.float.php
- * @return boolean
- */
-function isFloatEqual($x, $y, $precision = 0.0000001) {
-	trigger_error('deprecated - use NumberLib::isFloatEqual instead');
-	return ($x+$precision >= $y) && ($x-$precision <= $y);
-}
-
-/**
  * Checks if the string [$haystack] starts with [$needle]
  * @param string $haystack Input string.
  * @param string $needle Needed char or string.
@@ -522,102 +469,6 @@ function endsWith($haystack, $needle, $caseSensitive = false) {
 	return mb_strripos($haystack, $needle) === mb_strlen($haystack) - mb_strlen($needle);
 }
 
-/* deprecated? */
-function isLoggedIn() {
-	return isset($_SESSION) && !empty($_SESSION['Auth']['User']['id']);
-}
-
-/* deprecated? */
-function uid($default = null) {
-	return (isset($_SESSION) && !empty($_SESSION['Auth']['User']['id'])) ? $_SESSION['Auth']['User']['id'] :
-		$default;
-}
-
-/**
- * own shutdown function - also logs fatal errors (necessary until cake2.2)
- * 2010-10-17 ms
- */
-function shutDownFunction() {
-	if (Configure::version() >= 2.3) {
-		return;
-	}
-	$error = error_get_last();
-	if (empty($error)) {
-		return;
-	}
-	$matching = array(
-		E_ERROR =>'E_ERROR',
-		E_WARNING => 'E_WARNING',
-		E_PARSE => 'E_',
-		E_NOTICE => 'E_',
-		E_CORE_ERROR => 'E_',
-		E_COMPILE_ERROR => 'E_',
-		E_COMPILE_WARNING => 'E_',
-		E_STRICT => 'E_STRICT',
-		E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',
-		E_DEPRECATED => 'E_DEPRECATED',
-	);
-	App::uses('CakeLog', 'Log');
-
-	if (in_array($error['type'], array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR))) {
-		$error['type_name'] = 'Fatal Error';
-		$type = 'error';
-
-	} elseif (Configure::read('Debug.log') && isset($matching[$error['type']])) {
-		$error['type_name'] = 'Error';
-		$type = 'notice';
-	}
-
-	if (!isset($type)) {
-		return;
-	}
-
-	App::uses('Debugger', 'Utility');
-	$trace = Debugger::trace(array('start' => 1, 'format' => 'log', 'args'=>true));
-	$path = Debugger::trimPath($error['file']);
-
-	$message = $error['type_name'].' '.$matching[$error['type']].' in '.$path. ' (line '.$error['line'].'): ' . $error['message'];
-	$message .= PHP_EOL . $trace;
-	App::uses('MyErrorHandler', 'Tools.Error');
-	$message .= MyErrorHandler::traceDetails();
-
-	CakeLog::write($type, $message);
-}
-
-//TODO: move into separate lib!
-class DebugTab {
-	public static $content = array();
-	public static $groups = array();
-}
-
-function debugTab($var = false, $display = false, $key = null) {
-	if (is_string($display)) {
-		$key = $display;
-		$display = true;
-	}
-	if (Configure::read('debug') > 0) {
-		$calledFrom = debug_backtrace();
-		if (is_string($key)) {
-			if (!isset(debugTab::$groups[$key])) {
-				DebugTab::$groups[$key] = array();
-			}
-			DebugTab::$groups[$key][] = array(
-				'debug' => print_r($var, true),
-				'file' => substr(str_replace(ROOT, '', $calledFrom[0]['file']), 1),
-				'line' => $calledFrom[0]['line'],
-				'display' => $display
-			);
-		} else {
-			DebugTab::$content[] = array(
-				'debug' => print_r($var, true),
-				'file' => substr(str_replace(ROOT, '', $calledFrom[0]['file']), 1),
-				'line' => $calledFrom[0]['line'],
-				'display' => $display
-			);
-		}
-	}
-	return true;
-}
 
 /**
  * base64 encode and replace chars base64 uses that would mess up the url
@@ -644,7 +495,6 @@ function base64UrlDecode($fieldContent) {
 }
 
 
-
 /**
  * pretty_json
  *
@@ -654,29 +504,22 @@ function base64UrlDecode($fieldContent) {
  * @return string
  */
 function pretty_json($json, $ind = "\t") {
-
 	// Replace any escaped \" marks so we don't get tripped up on quotemarks_counter
 	$tokens = preg_split('|([\{\}\]\[,])|', str_replace('\"', '~~PRETTY_JSON_QUOTEMARK~~', $json), -1, PREG_SPLIT_DELIM_CAPTURE);
-
 	$indent = 0;
 	$result = "";
 	$quotemarks_counter = 0;
 	$next_token_use_prefix = true;
-
 	foreach ($tokens as $token) {
-
 		$quotemarks_counter = $quotemarks_counter + (count(explode('"', $token)) - 1);
-
 		if ($token == "") {
 			continue;
 		}
-
 		if ($next_token_use_prefix) {
 			$prefix = str_repeat($ind, $indent);
 		} else {
 			$prefix = null;
 		}
-
 		// Determine if the quote marks are open or closed
 		if ($quotemarks_counter & 1) {
 			// odd - thus quotemarks open
@@ -687,17 +530,14 @@ function pretty_json($json, $ind = "\t") {
 			$next_token_use_prefix = true;
 			$new_line = "\n";
 		}
-
 		if ($token == "{" || $token == "[") {
 			$indent++;
 			$result .= $token . $new_line;
 		} elseif ($token == "}" || $token == "]") {
 			$indent--;
-
 			if ($indent >= 0) {
 				$prefix = str_repeat($ind, $indent);
 			}
-
 			if ($next_token_use_prefix) {
 				$result .= $new_line . $prefix . $token;
 			} else {
@@ -711,33 +551,4 @@ function pretty_json($json, $ind = "\t") {
 	}
 	$result = str_replace('~~PRETTY_JSON_QUOTEMARK~~', '\"', $result);
 	return $result;
-}
-
-/*** > PHP5.3 ***/
-
-/**
- * replacement since it is deprecated in PHP5.3.3 (needs testing!!!)
- *
- * TODO: Write cool MimeLib to do this fucking Mime stuff in a better way
- *		 and also build a mime type WITH the charset of the file/strig like:
- *		 text/plain; charset=utf-8
- * @deprecated This function has been deprecated as the PECL extension Fileinfo provides the same functionality (and more) in a much cleaner way
- **/
-if (!function_exists('mime_content_type')) {
-	function mime_content_type($file, $method = 0) {
-		if (WINDOWS) {
-			return false;
-		}
-	if ($method == 0) {
-		ob_start();
-		system('/usr/bin/file -i -b ' . realpath($file));
-		$type = ob_get_clean();
-
-		$parts = explode(';', $type);
-
-		return trim($parts[0]);
-		} elseif ($method == 1) {
-		// another method here
-		}
-	}
 }
