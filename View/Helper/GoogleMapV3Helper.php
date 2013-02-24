@@ -1,7 +1,6 @@
 <?php
 /**
- * This is a CakePHP helper that helps users to integrate google map v3
- * into their application by only writing php code. this helper depends on jQuery
+ * PHP5 / CakePHP 2.x
  *
  * @author Rajib Ahmed
  * @version 0.10.12
@@ -11,7 +10,8 @@
  App::uses('AppHelper', 'View/Helper');
 
  /**
- * PHP5 / CakePHP 2.x
+ * This is a CakePHP helper that helps users to integrate google map v3
+ * into their application by only writing php code. This helper depends on jQuery.
  *
  * @author Mark Scherer
  * @link http://www.dereuromark.de/2010/12/21/googlemapsv3-cakephp-helper/
@@ -24,10 +24,19 @@
  * CodeAPI: 		http://code.google.com/intl/de-DE/apis/maps/documentation/javascript/basics.html
  * Icons/Images: 	http://gmapicons.googlepages.com/home
  *
+ * New in v1.4:
+ * You can now either keep map() + script(), or you can now write the script to the buffer with
+ * map() + finalize(). You can then decide wether the JS should be in the head or the footer of your layout.
+ * Don't forget to put `$this->Js->writeBuffer(array('inline' => true));` somewhere in your layout then, though.
+ *
+ * You can now also add directions using addDirections().
+ *
  * v1.2: Cake2.x
  * 2011-10-12 ms
  * v1.3: E_STRICT compliant methods (url now mapUrl, link now mapLink)
  * 2012-08-31 ms
+ * v1.4: Better handling of script output and directions added
+ * 2013-02-24 ms
  */
 class GoogleMapV3Helper extends AppHelper {
 
@@ -58,6 +67,21 @@ class GoogleMapV3Helper extends AppHelper {
 		self::TYPE_HYBRID => 'HYBRID',
 		self::TYPE_SATELLITE => 'SATELLITE',
 		self::TYPE_TERRAIN => 'TERRAIN'
+	);
+
+	const TRAVEL_MODE_DRIVING = 'D';
+
+	const TRAVEL_MODE_BICYCLING = 'B';
+
+	const TRAVEL_MODE_TRANSIT = 'T';
+
+	const TRAVEL_MODE_WALKING = 'W';
+
+	public $travelModes = array(
+		self::TRAVEL_MODE_DRIVING => 'DRIVING',
+		self::TRAVEL_MODE_BICYCLING => 'BICYCLING',
+		self::TRAVEL_MODE_TRANSIT => 'TRANSIT',
+		self::TRAVEL_MODE_WALKING => 'WALKING'
 	);
 
 	/**
@@ -443,7 +467,9 @@ class GoogleMapV3Helper extends AppHelper {
 		return $result;
 	}
 
-
+	/**
+	 * @return string
+	 */
 	public function _initialLocation() {
 		if ($this->_currentOptions['map']['lat'] && $this->_currentOptions['map']['lng']) {
 			return "new google.maps.LatLng(".$this->_currentOptions['map']['lat'].", ".$this->_currentOptions['map']['lng'].")";
@@ -453,29 +479,22 @@ class GoogleMapV3Helper extends AppHelper {
 	}
 
 	/**
+	 * Add a marker to the map
+	 *
 	 * @param array $options
-	 * - lat, lng, title, content, icon, directions
+	 * - lat and lng or address (to geocode on demand, not recommended, though)
+	 * - title, content, icon, directions (optional)
 	 * @return int $markerCount or false on failure
+	 * @throws CakeException
 	 * 2010-12-18 ms
 	 */
 	public function addMarker($options) {
-		if (empty($options)) {
-			return false;
-		}
-		if (!isset($options['lat']) || !isset($options['lng'])) {
-			return false;
-		};
-		if (!preg_match("/[-+]?\b[0-9]*\.?[0-9]+\b/", $options['lat']) || !preg_match("/[-+]?\b[0-9]*\.?[0-9]+\b/", $options['lng'])) {
-			return false;
-		}
-
 		$defaults = $this->_currentOptions['marker'];
 		if (isset($options['icon']) && is_array($options['icon'])) {
 			$defaults = array_merge($defaults, $options['icon']);
 			unset($options['icon']);
 		}
 		$options = array_merge($defaults, $options);
-
 
 		$params = array();
 		$params['map'] = $this->name();
@@ -504,9 +523,40 @@ class GoogleMapV3Helper extends AppHelper {
 			$params['zIndex'] = $options['zIndex'];
 		}
 
+		// geocode if necessary
+		if (!isset($options['lat']) || !isset($options['lng'])) {
+			$this->map.= "
+var geocoder = new google.maps.Geocoder();
+
+function geocodeAddress(address) {
+	geocoder.geocode({'address': address}, function(results, status) {
+		if (status == google.maps.GeocoderStatus.OK) {
+
+			x".self::$MARKER_COUNT." = new google.maps.Marker({
+				position: results[0].geometry.location,
+				".$this->_toObjectParams($params, false, false)."
+			});
+			gMarkers".self::$MAP_COUNT.".push(
+				x".self::$MARKER_COUNT."
+			);
+			return results[0].geometry.location;
+		} else {
+			//alert('Geocoding was not successful for the following reason: ' + status);
+			return null;
+		}
+	});
+}";
+			if (!isset($options['address'])) {
+				throw new CakeException('Either use lat/lng or address to add a marker');
+			}
+			$position = 'geocodeAddress(\''.h($options['address']).'\')';
+		} else {
+			$position = "new google.maps.LatLng(".$options['lat'].",".$options['lng'].")";
+		}
+
 		$marker = "
 			var x".self::$MARKER_COUNT." = new google.maps.Marker({
-				position: new google.maps.LatLng(".$options['lat'].",".$options['lng']."),
+				position: ".$position.",
 				".$this->_toObjectParams($params, false, false)."
 			});
 			gMarkers".self::$MAP_COUNT.".push(
@@ -519,25 +569,11 @@ class GoogleMapV3Helper extends AppHelper {
 			$options['content'] .= $this->_directions($options['directions'], $options);
 		}
 
+		// fill popup windows
 		if (!empty($options['content']) && $this->_currentOptions['infoWindow']['useMultiple']) {
 			$x = $this->addInfoWindow(array('content'=>$options['content']));
 			$this->setContentInfoWindow($options['content'], $x);
-			/*
-			$marker .= "
 
-			var window".self::$MARKER_COUNT." = new google.maps.InfoWindow({ content: '".$options['content']."',
-		size: new google.maps.Size(50,50)
-		});
-
-			google.maps.event.addListener(x".self::$MARKER_COUNT.", 'click', function() {
-			/ ".$this->name().".setZoom(7); /
-			infowindow.setContent(gWindows[".self::$MARKER_COUNT."]);
-				infowindow.setPosition(event.latLng);
-				infowindow.open(map);
-			});
-
-			";
-			*/
 			$this->addEvent($x);
 
 		} elseif (!empty($options['content'])) {
@@ -546,37 +582,29 @@ class GoogleMapV3Helper extends AppHelper {
 			}
 
 			$x = $this->addInfoContent($options['content']);
-
 			$event = "
-			gInfoWindows".self::$MAP_COUNT."[".$this->_currentOptions['marker']['infoWindow']."].setContent(gWindowContents".self::$MAP_COUNT."[".self::$MARKER_COUNT."]);
-			gInfoWindows".self::$MAP_COUNT."[".$this->_currentOptions['marker']['infoWindow']."].open(".$this->name().", gMarkers".self::$MAP_COUNT."[".self::$MARKER_COUNT."]);
+			gInfoWindows".self::$MAP_COUNT."[".$this->_currentOptions['marker']['infoWindow']."].setContent(gWindowContents".self::$MAP_COUNT."[".$x."]);
+			gInfoWindows".self::$MAP_COUNT."[".$this->_currentOptions['marker']['infoWindow']."].open(".$this->name().", gMarkers".self::$MAP_COUNT."[".$x."]);
 			";
 			$this->addCustomEvent(self::$MARKER_COUNT, $event);
 		}
 
-		# custom matching event?
-
+		// custom matching event?
 		if (isset($options['id'])) {
 			$this->matching[$options['id']] = self::$MARKER_COUNT;
 		}
-		/*
-		//$this->mapMarkers[$id] = ;
-		//$function = 'function() { '.$id.'.'.$call.'("'.$content.'");}';
-		$function = 'function() { mapMarkers[\''.$id.'\'].'.$call.'(mapWindows[\''.$id.'\']);}';
 
-		$this->addListener($id, $function, isset($options['action'])?$options['action']:null);
-		//"gInfoWindows".self::$MAP_COUNT.".setContent(gWindowContents1[1]);
-		//"gInfoWindows".self::$MAP_COUNT.".open(map1, gMarkers1[1]);
-		*/
 		return self::$MARKER_COUNT++;
 	}
 
 	/**
-	 * build directions form (type get) for directions inside infoWindows
+	 * Build directions form (type get) for directions inside infoWindows
+	 *
 	 * @param mixed $directions
 	 * - bool TRUE for autoDirections (using lat/lng)
 	 * @param array $options
 	 * - options array of marker for autoDirections etc (optional)
+	 * @return HTML
 	 * 2011-03-22 ms
 	 */
 	public function _directions($directions, $markerOptions = array()) {
@@ -617,7 +645,9 @@ class GoogleMapV3Helper extends AppHelper {
 		return '<div class="directions">'.$form.'</div>';
 	}
 
-
+	/**
+	 * @return int Current Marker counter
+	 */
 	public function addInfoContent($con) {
 		$this->infoContents[self::$MARKER_COUNT] = $this->escapeString($con);
 		$event = "
@@ -637,7 +667,8 @@ class GoogleMapV3Helper extends AppHelper {
 	);
 
 	/**
-	 * get a custom icon set
+	 * Get a custom icon set
+	 *
 	 * @param color: green, red, purple, ... or some special ones like "home", ...
 	 * @param char: A...Z or 0...20/100 (defaults to none)
 	 * @param size: s, m, l (defaults to medium)
@@ -728,7 +759,8 @@ var iconShape = {
 	protected $_iconRemember = array();
 
 	/**
-	 * generate icon object
+	 * Generate icon object
+	 *
 	 * @param url (required)
 	 * @param options (optional):
 	 * - size: array(width=>x, height=>y)
@@ -768,7 +800,6 @@ var iconShape = {
 		//$this->map .= $code;
 		return self::$ICON_COUNT++;
 	}
-
 
 	/**
 	 * @param array $options
@@ -838,6 +869,73 @@ var iconShape = {
 	}
 
 	/**
+	 * Add directions to the map
+	 *
+	 * @param array|string $from Location as array(fixed lat/lng pair) or string (to be geocoded at runtime)
+	 * @param array|string $to Location as array(fixed lat/lng pair) or string (to be geocoded at runtime)
+	 * @param array $options
+	 * - directionsDiv: Div to place directions in text form
+	 * - travelMode: TravelMode,
+	 * - transitOptions: TransitOptions,
+	 * - unitSystem: UnitSystem (IMPERIAL, METRIC, AUTO),
+	 * - waypoints[]: DirectionsWaypoint,
+	 * - optimizeWaypoints: Boolean,
+	 * - provideRouteAlternatives: Boolean,
+	 * - avoidHighways: Boolean,
+	 * - avoidTolls: Boolean
+	 * - region: String
+	 * @return void
+	 */
+	public function addDirections($from, $to, $options = array()) {
+		$id = 'd' . self::$MARKER_COUNT++;
+		$defaults = array(
+			'travelMode' => self::TRAVEL_MODE_DRIVING,
+			'unitSystem' => 'METRIC',
+			'directionsDiv' => null,
+		);
+		$options += $defaults;
+
+		$travelMode = $this->travelModes[$options['travelMode']];
+
+		$directions = "
+			var {$id}Service = new google.maps.DirectionsService();
+			var {$id}Display;
+			{$id}Display = new google.maps.DirectionsRenderer();
+			{$id}Display.setMap(".$this->name().");
+			";
+
+			if (!empty($options['directionsDiv'])) {
+				$directions .= "{$id}Display.setPanel(document.getElementById('" . $options['directionsDiv'] . "'));";
+			}
+
+			if (is_array($from)) {
+				$from = 'new google.maps.LatLng(' . (float)$from['lat'] . ', ' . (float)$from['lng'] . ')';
+			} else {
+				$from = '\'' . h($from) . '\'';
+			}
+			if (is_array($to)) {
+				$to = 'new google.maps.LatLng(' . (float)$to['lat'] . ', ' . (float)$to['lng'] . ')';
+			} else {
+				$to = '\'' . h($to) . '\'';
+			}
+
+			$directions .= "
+			var request = {
+				origin: $from,
+				destination: $to,
+				unitSystem: google.maps.UnitSystem.".$options['unitSystem'].",
+				travelMode: google.maps.TravelMode.$travelMode
+			};
+			{$id}Service.route(request, function(result, status) {
+				if (status == google.maps.DirectionsStatus.OK) {
+					{$id}Display.setDirections(result);
+				}
+			});
+		";
+		$this->map .= $directions;
+	}
+
+	/**
 	 * @param string $content (html/text)
 	 * @param int $infoWindowCount
 	 * @return void
@@ -861,14 +959,29 @@ var iconShape = {
 
 
 	/**
-	 * This method returns the javascript for the current map container
-	 * Just echo it below the map container
+	 * This method returns the javascript for the current map container.
+	 * Including script tags.
+	 * Just echo it below the map container. New: Alternativly, use finalize() directly.
+	 *
 	 * @return string
 	 * 2010-12-18 ms
 	*/
 	public function script() {
-		$script='<script type="text/javascript">
-		'.$this->_arrayToObject('matching', $this->matching, false, true).'
+		$script = '<script type="text/javascript">
+		'.$this->finalize(true).'
+</script>';
+		return $script;
+	}
+
+	/**
+	 * Finalize the map and write the javascript to the buffer.
+	 * Make sure that your view does also output the buffer at some place!
+	 *
+	 * @param boolean $return If the output should be returned instead
+	 * @return void or string Javascript if $return is true
+	 */
+	public function finalize($return = false) {
+		$script = $this->_arrayToObject('matching', $this->matching, false, true).'
 		'.$this->_arrayToObject('gIcons'.self::$MAP_COUNT, $this->icons, false, false).'
 
 	jQuery(document).ready(function() {
@@ -888,10 +1001,12 @@ var iconShape = {
 		}
 		$script .= '
 
-	});
-</script>';
+	});';
 		self::$MAP_COUNT++;
-		return $script;
+		if ($return) {
+			return $script;
+		}
+		$this->Js->buffer($script);
 	}
 
 	/**
