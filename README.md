@@ -70,3 +70,19 @@ The models, behaviors, helpers, libs and other classes are used the same way pre
 
 Tip: For how to use them, try to find some information in the test cases.
 Usage for some larger modules: https://github.com/dereuromark/tools/blob/master/USAGE
+
+
+## Disclaimer
+Use at your own risk. Please provide any fixes or enhancements via issue or better pull request.
+Some classes are still from 1.2 (and are merely upgraded to 2.x) and might still need some serious refactoring.
+If you are able to help on that one, that would be awesome.
+
+### Branching strategy
+The master branch is the currently active and maintained one and works with the current 2.x stable version.
+Older versions might be found in their respective branches (1.3, 2.0, 2.3, ...).
+Please provide PRs mainly against master branch then.
+
+### Recent changes (possibly BC breaking)
+
+* 2013-02 Removed PasswordChangeBehavior in favor of its new name Passwordable
+
