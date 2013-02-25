@@ -1,9 +1,13 @@
 <?php
+/**
+ * Basic bootstrap stuff
+ *
+ * Note: Do not use App::uses() to include this file.
+ * Use App::import('Lib', 'Tools.Bootstrap/MyBootstrap'); as noted in the readme.
+ */
 App::uses('Utility', 'Tools.Utility');
 
-/** BASIC STUFF **/
-
-//use FULL_BASE_URL (cake) instead of http_base?
+# You can also use FULL_BASE_URL (cake) instead of HTTP_BASE
 if (!empty($_SERVER['HTTP_HOST'])) {
 	define('HTTP_HOST', $_SERVER['HTTP_HOST']);
 	define('HTTP_BASE', 'http://' . HTTP_HOST); //FULL_BASE_URL
@@ -53,11 +57,6 @@ define('FORMAT_DB_TIME', 'H:i:s');
 define('DEFAULT_DATETIME', '0000-00-00 00:00:00');
 define('DEFAULT_DATE', '0000-00-00');
 define('DEFAULT_TIME', '00:00:00');
-
-# deprecated (could be wrong, if timezone is modified)
-define('CURRENT_YEAR', date('Y'));
-define('CURRENT_MONTH', date('m'));
-define('CURRENT_DAY', date('d'));
 
 # workpaths
 define('FILES', APP . 'files' . DS);
@@ -181,7 +180,8 @@ define('CHAR_DOUBLE_RPIME', '&#8243;'); # ? (seconds)
 /** BASIC FUNCTIONS **/
 
 /**
- * own slug function
+ * Own slug function - containing extra char replacement
+ *
  * 2010-11-07 ms
  */
 function slug($string, $separator = null, $low = true) {
@@ -215,6 +215,7 @@ function slug($string, $separator = null, $low = true) {
 /**
  * Since nl2br doesn't remove the line breaks when adding in the <br /> tags,
  * it is necessary to strip those off before you convert all of the tags, otherwise you will get double spacing
+ *
  * @param string $str
  * @return string
  * 2010-11-07 ms
@@ -240,44 +241,10 @@ function safenl($str) {
 }
 
 /**
- * @param array $keyValuePairs
- * @return string $key
- * like array_shift() only for keys and not values
- * 2011-01-22 ms
- */
-function arrayShiftKeys(&$array) {
-	trigger_error('deprecated - use Tools.Utility instead');
-	//TODO: improve?
-	foreach ($array as $key => $value) {
-		unset($array[$key]);
-		return $key;
-	}
-}
-
-/**
- * Flattens an array, or returns FALSE on fail.
- * 2011-07-02 ms
- */
-function arrayFlatten($array) {
-	trigger_error('deprecated - use Tools.Utility instead');
-
-	if (!is_array($array)) {
-	return false;
-	}
-	$result = array();
-	foreach ($array as $key => $value) {
-	if (is_array($value)) {
-		$result = array_merge($result, arrayFlatten($value));
-	} else {
-		$result[$key] = $value;
-	}
-	}
-	return $result;
-}
-
-
-/**
- * convenience function to check on "empty()"
+ * Convenience function to check on "empty()"
+ *
+ * @param mixed $var
+ * @return boolean Result
  * 2009-06-15 ms
  */
 function isEmpty($var = null) {
@@ -286,7 +253,6 @@ function isEmpty($var = null) {
 	}
 	return false;
 }
-
 
 /**
  * //TODO: use Debugger::exportVar() instead?
@@ -317,9 +283,15 @@ function returns($value) {
 	}
 }
 
+/**
+ * Quickly dump a $var
+ *
+ * @param mixed $var
+ * @return void
+ */
 function dump($var) {
 	if (class_exists('Debugger')) {
-		App::import('Core', 'Debugger');
+		App::uses('Debugger', 'Utility');
 	}
 	return Debugger::dump($var);
 }
@@ -481,19 +453,8 @@ function pre($var, $collapsedAndExpandable = false, $options = array()) {
  * @return boolean
  */
 function contains($haystack, $needle, $caseSensitive = false) {
-	return (!$caseSensitive ? stripos($haystack, $needle) : strpos($haystack, $needle))
-		!== false;
-}
-
-/**
- * Can compare two float values
- * @deprecated use NumberLib::isFloatEqual
- * @link http://php.net/manual/en/language.types.float.php
- * @return boolean
- */
-function isFloatEqual($x, $y, $precision = 0.0000001) {
-	trigger_error('deprecated - use NumberLib::isFloatEqual instead');
-	return ($x+$precision >= $y) && ($x-$precision <= $y);
+	$result = !$caseSensitive ? stripos($haystack, $needle) : strpos($haystack, $needle);
+	return ($result !== false);
 }
 
 /**
@@ -522,103 +483,6 @@ function endsWith($haystack, $needle, $caseSensitive = false) {
 	return mb_strripos($haystack, $needle) === mb_strlen($haystack) - mb_strlen($needle);
 }
 
-/* deprecated? */
-function isLoggedIn() {
-	return isset($_SESSION) && !empty($_SESSION['Auth']['User']['id']);
-}
-
-/* deprecated? */
-function uid($default = null) {
-	return (isset($_SESSION) && !empty($_SESSION['Auth']['User']['id'])) ? $_SESSION['Auth']['User']['id'] :
-		$default;
-}
-
-/**
- * own shutdown function - also logs fatal errors (necessary until cake2.2)
- * 2010-10-17 ms
- */
-function shutDownFunction() {
-	if (Configure::version() >= 2.3) {
-		return;
-	}
-	$error = error_get_last();
-	if (empty($error)) {
-		return;
-	}
-	$matching = array(
-		E_ERROR =>'E_ERROR',
-		E_WARNING => 'E_WARNING',
-		E_PARSE => 'E_',
-		E_NOTICE => 'E_',
-		E_CORE_ERROR => 'E_',
-		E_COMPILE_ERROR => 'E_',
-		E_COMPILE_WARNING => 'E_',
-		E_STRICT => 'E_STRICT',
-		E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',
-		E_DEPRECATED => 'E_DEPRECATED',
-	);
-	App::uses('CakeLog', 'Log');
-
-	if (in_array($error['type'], array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR))) {
-		$error['type_name'] = 'Fatal Error';
-		$type = 'error';
-
-	} elseif (Configure::read('Debug.log') && isset($matching[$error['type']])) {
-		$error['type_name'] = 'Error';
-		$type = 'notice';
-	}
-
-	if (!isset($type)) {
-		return;
-	}
-
-	App::uses('Debugger', 'Utility');
-	$trace = Debugger::trace(array('start' => 1, 'format' => 'log', 'args'=>true));
-	$path = Debugger::trimPath($error['file']);
-
-	$message = $error['type_name'].' '.$matching[$error['type']].' in '.$path. ' (line '.$error['line'].'): ' . $error['message'];
-	$message .= PHP_EOL . $trace;
-	App::uses('MyErrorHandler', 'Tools.Error');
-	$message .= MyErrorHandler::traceDetails();
-
-	CakeLog::write($type, $message);
-}
-
-//TODO: move into separate lib!
-class DebugTab {
-	public static $content = array();
-	public static $groups = array();
-}
-
-function debugTab($var = false, $display = false, $key = null) {
-	if (is_string($display)) {
-		$key = $display;
-		$display = true;
-	}
-	if (Configure::read('debug') > 0) {
-		$calledFrom = debug_backtrace();
-		if (is_string($key)) {
-			if (!isset(debugTab::$groups[$key])) {
-				DebugTab::$groups[$key] = array();
-			}
-			DebugTab::$groups[$key][] = array(
-				'debug' => print_r($var, true),
-				'file' => substr(str_replace(ROOT, '', $calledFrom[0]['file']), 1),
-				'line' => $calledFrom[0]['line'],
-				'display' => $display
-			);
-		} else {
-			DebugTab::$content[] = array(
-				'debug' => print_r($var, true),
-				'file' => substr(str_replace(ROOT, '', $calledFrom[0]['file']), 1),
-				'line' => $calledFrom[0]['line'],
-				'display' => $display
-			);
-		}
-	}
-	return true;
-}
-
 /**
  * base64 encode and replace chars base64 uses that would mess up the url
  * @return string or NULL
@@ -643,18 +507,15 @@ function base64UrlDecode($fieldContent) {
 	return base64_decode($tmp);
 }
 
-
-
 /**
- * pretty_json
+ * prettyJson
  *
  * @link https://github.com/ndejong/pretty_json/blob/master/pretty_json.php
  * @param string $json - the original JSON string
  * @param string $ind - the string to indent with
  * @return string
  */
-function pretty_json($json, $ind = "\t") {
-
+function prettyJson($json, $ind = "\t") {
 	// Replace any escaped \" marks so we don't get tripped up on quotemarks_counter
 	$tokens = preg_split('|([\{\}\]\[,])|', str_replace('\"', '~~PRETTY_JSON_QUOTEMARK~~', $json), -1, PREG_SPLIT_DELIM_CAPTURE);
 
@@ -664,7 +525,6 @@ function pretty_json($json, $ind = "\t") {
 	$next_token_use_prefix = true;
 
 	foreach ($tokens as $token) {
-
 		$quotemarks_counter = $quotemarks_counter + (count(explode('"', $token)) - 1);
 
 		if ($token === '') {
@@ -704,40 +564,11 @@ function pretty_json($json, $ind = "\t") {
 				$result .= $new_line . $token;
 			}
 		} elseif ($token === ",") {
-				$result .= $token . $new_line;
+			$result .= $token . $new_line;
 		} else {
 			$result .= $prefix . $token;
 		}
 	}
 	$result = str_replace('~~PRETTY_JSON_QUOTEMARK~~', '\"', $result);
 	return $result;
-}
-
-/*** > PHP5.3 ***/
-
-/**
- * replacement since it is deprecated in PHP5.3.3 (needs testing!!!)
- *
- * TODO: Write cool MimeLib to do this fucking Mime stuff in a better way
- *		 and also build a mime type WITH the charset of the file/strig like:
- *		 text/plain; charset=utf-8
- * @deprecated This function has been deprecated as the PECL extension Fileinfo provides the same functionality (and more) in a much cleaner way
- **/
-if (!function_exists('mime_content_type')) {
-	function mime_content_type($file, $method = 0) {
-		if (WINDOWS) {
-			return false;
-		}
-	if ($method == 0) {
-		ob_start();
-		system('/usr/bin/file -i -b ' . realpath($file));
-		$type = ob_get_clean();
-
-		$parts = explode(';', $type);
-
-		return trim($parts[0]);
-		} elseif ($method == 1) {
-		// another method here
-		}
-	}
 }

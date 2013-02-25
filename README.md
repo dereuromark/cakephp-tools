@@ -84,5 +84,6 @@ Please provide PRs mainly against master branch then.
 
 ### Recent changes (possibly BC breaking)
 
-* 2013-02 Removed PasswordChangeBehavior in favor of its new name Passwordable
-
+* 2013-02 Removed PasswordChangeBehavior in favor of its new name Passwordable.
+* 2013-02-25 Removed deprecated bootstrap functions and moved DebugTab functionality into Bootstrap namespace
+  (you need to now manually include it if needed).
