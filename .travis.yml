@@ -12,7 +12,7 @@ before_script:
   - git clone --depth 1 git://github.com/cakephp/cakephp ../cakephp && cd ../cakephp && git checkout $CAKE_VERSION
   - rm -R app
   - git clone --depth 1 git://github.com/dereuromark/tools-app ../app && cd ../app && git checkout master
-  - cp -R ../Tools plugins/Tools
+  - cp -R ../tools plugins/Tools
   - sh -c "if [ 'mysql' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
   - mkdir ./app/tmp
   - chmod -R 777 ./app/tmp
