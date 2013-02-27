@@ -17,6 +17,8 @@ before_script:
   - sh -c "if [ 'mysql' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
   - mkdir ./app/tmp
   - mkdir ./app/tmp/logs
+  - mkdir ./app/tmp/sessions
+  - mkdir ./app/tmp/tests
   - mkdir ./app/tmp/cache
   - mkdir ./app/tmp/cache/persistent
   - mkdir ./app/tmp/cache/models

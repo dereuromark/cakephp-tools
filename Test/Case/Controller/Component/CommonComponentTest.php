@@ -22,6 +22,7 @@ class CommonComponentTest extends CakeTestCase {
 		$this->Controller->constructClasses();
 		$this->Controller->startupProcess();
 	}
+
 /**
  * Tear-down method. Resets environment state.
  *
@@ -105,7 +106,6 @@ class CommonComponentTest extends CakeTestCase {
 		$this->assertNotEmpty($is);
 	}
 
-
 	public function testTransientFlashMessage() {
 		$is = $this->Controller->Common->transientFlashMessage('xyz', 'success');
 		//$this->assertTrue($is);
@@ -116,11 +116,9 @@ class CommonComponentTest extends CakeTestCase {
 		$this->assertTrue(isset($res['success'][0]) && $res['success'][0] === 'xyz');
 	}
 
-
 	public function testFlashMessage() {
 		$this->Controller->Session->delete('messages');
 		$is = $this->Controller->Common->flashMessage('efg');
-		//$this->assertTrue($is);
 
 		$res = $this->Controller->Session->read('messages');
 		//debug($res);
