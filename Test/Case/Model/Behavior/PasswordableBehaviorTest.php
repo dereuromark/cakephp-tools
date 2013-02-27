@@ -99,7 +99,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		);
 		$this->User->set($data);
 		$is = $this->User->save();
-		debug($is);
+		//debug($is);
 		$this->assertTrue(!empty($is));
 	}
 
@@ -115,7 +115,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		);
 		$this->User->set($data);
 		$is = $this->User->save();
-		debug($this->User->validationErrors);
+		//debug($this->User->validationErrors);
 		$this->assertFalse($is);
 		$this->assertEquals(array('pwd', 'pwd_repeat'), array_keys($this->User->validationErrors));
 	}
@@ -191,7 +191,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		);
 		$this->User->set($data);
 		$is = $this->User->save();
-		debug($this->User->validationErrors);
+		//debug($this->User->validationErrors);
 		$this->assertFalse($is);
 
 		$this->User->create();

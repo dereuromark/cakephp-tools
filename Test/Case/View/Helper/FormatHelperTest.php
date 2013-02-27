@@ -132,11 +132,11 @@ class FormatHelperTest extends MyCakeTestCase {
 		foreach ($data as $value => $expected) {
 			$res = $this->Format->truncate($value, 30, array('html' => true));
 
-			debug( '\''.h($value).'\' becomes \''.$res.'\'', null, false);
+			//debug( '\''.h($value).'\' becomes \''.$res.'\'', null, false);
 
 			$res = $this->Format->truncate($value, 30, array('html' => true));
 
-			debug( '\''.h($value).'\' becomes \''.$res.'\'', null, false);
+			//debug( '\''.h($value).'\' becomes \''.$res.'\'', null, false);
 
 			//$this->assertTrue(!empty($res));
 			$this->assertEquals($expected, $res);

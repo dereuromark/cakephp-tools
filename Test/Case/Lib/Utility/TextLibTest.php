@@ -31,16 +31,16 @@ class TextLibTest extends CakeTestCase {
 	public function testConvertToOrd() {
 		$this->TextLib = new TextLib('h H');
 		$is = $this->TextLib->convertToOrd();
-		pr($is);
+		//pr($is);
 		$this->assertEquals($is, '0-104-32-72-0');
 
 		$is = $this->TextLib->convertToOrd('x'.NL.'x'.LF.'x'.PHP_EOL.'x'.CR.'x'.TB.'x');
-		pr($is);
+		//pr($is);
 	}
 
 	public function testConvertToOrdTable() {
 		$is = $this->TextLib->convertToOrdTable('x'.NL.'x'.LF.'x'.PHP_EOL.'x'.CR.'x'.TB.'x');
-		pr($is);
+		//pr($is);
 	}
 
 	public function testMaxWords() {
@@ -52,7 +52,7 @@ class TextLibTest extends CakeTestCase {
 	public function testWords() {
 		$this->TextLib = new TextLib('Hochhaus, Unter dem Bau von ae Äußeren Einflüssen - und von Autos.');
 		$is = $this->TextLib->words(array('min_char'=>3));
-		pr($is);
+		//pr($is);
 		$this->assertTrue(!empty($is) && is_array($is) && count($is) === 9);
 
 	}
@@ -60,13 +60,13 @@ class TextLibTest extends CakeTestCase {
 	public function testWordCount() {
 		$this->TextLib = new TextLib('Hochhaus, Unter dem Bau von ae Äußeren Einflüssen - und von Autos.');
 		$is = $this->TextLib->wordCount(array('min_char'=>3));
-		pr($is);
+		//pr($is);
 		$this->assertTrue(!empty($is) && is_array($is) && count($is) === 9);
 
 
 		$this->TextLib = new TextLib('Hochhaus, Unter dem Bau von ae Äußeren Einflüssen - und von Autos.');
 		$is = $this->TextLib->wordCount(array('min_char'=>3, 'sort'=>'DESC', 'limit'=>5));
-		pr($is);
+		//pr($is);
 		$this->assertTrue(!empty($is) && is_array($is) && count($is) === 5);
 
 	}
@@ -76,32 +76,32 @@ class TextLibTest extends CakeTestCase {
 	public function testOccurances() {
 		$this->TextLib = new TextLib('Hochhaus');
 		$is = $this->TextLib->occurrences();
-		pr($is);
+		//pr($is);
 		$this->assertTrue(!empty($is) && is_array($is) && count($is) === 6);
 
 		$is = $this->TextLib->occurrences(null, true);
-		pr($is);
+		//pr($is);
 		$this->assertTrue(!empty($is) && is_array($is) && count($is) === 7);
 
 		$is = $this->TextLib->occurrences('h');
-		pr($is);
+		//pr($is);
 		$expected = 3;
 		$this->assertEquals($is, $expected);
 
 		$is = $this->TextLib->occurrences('h', true);
-		pr($is);
+		//pr($is);
 		$expected = 2;
 		$this->assertEquals($is, $expected);
 	}
 
 	public function testMaxOccurances() {
 		$is = $this->TextLib->maxOccurrences();
-		pr($is);
+		//pr($is);
 		$this->assertTrue(!empty($is) && is_array($is) && count($is) === 1);
 
 		$this->TextLib = new TextLib('Radfahren');
 		$is = $this->TextLib->maxOccurrences();
-		pr($is);
+		//pr($is);
 		$this->assertTrue(!empty($is) && is_array($is) && count($is) === 2);
 
 	}

@@ -35,7 +35,7 @@ class NumberFormatBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 
 		$res = $this->Model->data;
-		debug($res);
+		//debug($res);
 		$this->assertSame($res[$this->Model->alias]['set_rate'], 0.1);
 		$this->assertSame($res[$this->Model->alias]['rel_rate'], -0.02);
 	}

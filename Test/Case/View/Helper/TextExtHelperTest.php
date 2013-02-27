@@ -33,9 +33,9 @@ class TextExtHelperTest extends MyCakeTestCase {
 	document.write(\'</a>\');
 	//--></script> and more\'';
 		$result = $this->Text->autoLinkEmails($text, array('obfuscate'=>true));
-		pr($text);
+		//pr($text);
 		echo $result;
-		pr(h($result));
+		//pr(h($result));
 		$this->assertNotEquals($result, $text);
 
 	}
@@ -133,7 +133,7 @@ class TextExtHelperTest extends MyCakeTestCase {
 		$text = 'Text <i>with a url</i> www.cot.ag?id=2&sub=3 and some email@domain.com more';
 		$expected = 'Text &lt;i&gt;with a url&lt;/i&gt; <a href="http://www.cot.ag?id=2&amp;sub=3">www.cot.ag?id=2&amp;sub=3</a> and some <a href="mailto:email@domain.com">email@domain.com</a> more';
 		$result = $this->Text->autoLink($text);
-		pr(h($text));
+		//pr(h($text));
 		$this->assertEquals($result, $expected);
 	}
 

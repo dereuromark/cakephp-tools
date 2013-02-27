@@ -57,7 +57,7 @@ class ExcelReaderLibTest extends MyCakeTestCase {
 		$this->assertSame($expected, $array);
 
 		$array = $this->ExcelReader->dumpToArray(1);
-		debug($array);
+		//debug($array);
 		$expected = array(
 			array('A1', '0'),
 			array('A2', '1'),

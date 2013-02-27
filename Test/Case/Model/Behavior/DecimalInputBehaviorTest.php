@@ -35,7 +35,7 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 
 		$res = $this->Model->data;
-		debug($res);
+		//debug($res);
 		$this->assertSame($res[$this->Model->alias]['set_rate'], 0.1);
 		$this->assertSame($res[$this->Model->alias]['rel_rate'], -0.02);
 	}
@@ -187,7 +187,7 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 		$this->Model->Behaviors->load('Tools.DecimalInput', array('fields'=>array('rel_rate', 'set_rate'), 'transform'=>array(), 'multiply'=>0.01, 'output'=>true));
 
 		$res = $this->Model->find('first', array('conditions' => array('name' => 'multiply')));
-		debug($res);
+		//debug($res);
 		$this->assertTrue(!empty($res));
 		$this->assertSame($res[$this->Model->alias]['set_rate'], '122');
 		$this->assertSame($res[$this->Model->alias]['rel_rate'], '-2');

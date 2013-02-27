@@ -20,7 +20,7 @@ class CodeKeyTest extends MyCakeTestCase {
 
 	public function testGenerateKey() {
 		$key = $this->CodeKey->generateKey(4);
-		pr($key);
+		//pr($key);
 		$this->assertTrue(!empty($key) && strlen($key) === 4);
 	}
 
@@ -30,11 +30,11 @@ class CodeKeyTest extends MyCakeTestCase {
 		$this->assertTrue(!empty($key));
 
 		$res = $this->CodeKey->useKey('test', $key);
-		pr($res);
+		//pr($res);
 		$this->assertTrue(!empty($res));
 
 		$res = $this->CodeKey->useKey('test', $key);
-		pr($res);
+		//pr($res);
 		$this->assertTrue(!empty($res) && !empty($res['CodeKey']['used']));
 
 		$res = $this->CodeKey->useKey('test', $key.'x');

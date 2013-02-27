@@ -40,7 +40,7 @@ class IcalLibTest extends CakeTestCase {
 
 		$is = $this->Ical->parse($this->file);
 		$is = $this->Ical->getCalendarInfos();
-		pr($is);
+		//pr($is);
 		$this->assertTrue(!empty($is));
 	}
 
@@ -48,7 +48,7 @@ class IcalLibTest extends CakeTestCase {
 
 		$is = $this->Ical->parse($this->file);
 		$is = $this->Ical->getEvents();
-		pr($is);
+		//pr($is);
 		$this->assertTrue(!empty($is));
 	}
 
@@ -56,7 +56,7 @@ class IcalLibTest extends CakeTestCase {
 
 		$is = $this->Ical->parse($this->file);
 		$is = $this->Ical->getTodos();
-		debug($is).BR;
+		//debug($is).BR;
 		$this->assertEmpty($is);
 	}
 

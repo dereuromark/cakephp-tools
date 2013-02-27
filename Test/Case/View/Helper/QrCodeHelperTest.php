@@ -39,11 +39,11 @@ class QrCodeHelperTest extends MyCakeTestCase {
 	 */
 	public function testSetSize() {
 		$is = $this->QrCode->setSize(1000);
-		pr($this->QrCode->debug());
+		//pr($this->QrCode->debug());
 		$this->assertFalse($is);
 
 		$is = $this->QrCode->setSize(300);
-		pr($this->QrCode->debug());
+		//pr($this->QrCode->debug());
 		$this->assertTrue($is);
 
 
@@ -98,7 +98,7 @@ class QrCodeHelperTest extends MyCakeTestCase {
 		$this->QrCode->setLevel('L', 1);
 		$is = $this->QrCode->image(QR_TEST_STRING);
 		echo $is;
-		pr($this->QrCode->debug());
+		//pr($this->QrCode->debug());
 		$this->assertTrue(!empty($is));
 
 		$this->QrCode->reset();
@@ -106,7 +106,7 @@ class QrCodeHelperTest extends MyCakeTestCase {
 		$this->QrCode->setLevel('H', 1);
 		$is = $this->QrCode->image(QR_TEST_STRING);
 		echo $is;
-		pr($this->QrCode->debug());
+		//pr($this->QrCode->debug());
 		$this->assertTrue(!empty($is));
 	}
 

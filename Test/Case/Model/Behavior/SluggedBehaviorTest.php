@@ -305,7 +305,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 				$charRegex .= html_entity_decode('&#' . hexdec($code) . ';', ENT_NOQUOTES, 'UTF-8');
 			}
 		}
-		debug(array('codeRegex' => "\n$codeRegex", 'charRegex' => "\n$charRegex", 'fullString' => "\n$string")); //@ignore
+		//debug(array('codeRegex' => "\n$codeRegex", 'charRegex' => "\n$charRegex", 'fullString' => "\n$string")); //@ignore
 	}
 
 /**
@@ -527,7 +527,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 				$string .= "\x{{$code}}";
 			}
 		}
-		debug(array(basename($inputFile) => "\n\t" . $string));
+		//debug(array(basename($inputFile) => "\n\t" . $string));
 	}
 
 /**

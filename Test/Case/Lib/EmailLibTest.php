@@ -69,7 +69,7 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->Email->emailFormat('both');
 
 		$result = $this->Email->send();
-		debug($result);
+		//debug($result);
 
 		$boundary = $this->Email->getBoundary();
 		/*
@@ -107,7 +107,7 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->assertContains('--rel-' . $boundary . '--', $result['message']);
 		$this->assertContains('--' . $boundary . '--', $result['message']);
 		*/
-		debug($boundary);
+		//debug($boundary);
 		die();
 	}
 

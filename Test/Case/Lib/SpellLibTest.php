@@ -27,12 +27,12 @@ class SpellLibTest extends MyCakeTestCase {
 
 	public function testList() {
 		$res = $this->SpellLib->listBrokers();
-		debug($res);
+		//debug($res);
 		$this->assertTrue(is_array($res) && count($res) > 1);
 		$this->assertTrue(in_array($res[0]['name'], array('ispell', 'myspell')));
 
 		$res = $this->SpellLib->listDictionaries();
-		debug($res);
+		//debug($res);
 		$this->assertTrue(is_array($res) && count($res) > 1);
 		$this->assertTrue(in_array($res[0]['lang_tag'], array('de_DE', 'en_GB')));
 	}
@@ -46,7 +46,7 @@ class SpellLibTest extends MyCakeTestCase {
 		$res = $this->SpellLib->check($word);
 		$this->assertFalse($res);
 		$suggestions = $this->SpellLib->suggestions($word);
-		debug($suggestions);
+		//debug($suggestions);
 		$this->assertTrue(is_array($suggestions) && count($suggestions) > 1);
 		$this->assertTrue(in_array('song', $suggestions));
 
@@ -66,7 +66,7 @@ class SpellLibTest extends MyCakeTestCase {
 		$res = $this->SpellLib->check($word);
 		$this->assertFalse($res);
 		$suggestions = $this->SpellLib->suggestions($word);
-		debug($suggestions);
+		//debug($suggestions);
 		$this->assertTrue(is_array($suggestions) && count($suggestions) > 1);
 		$this->assertTrue(in_array('Haus', $suggestions));
 

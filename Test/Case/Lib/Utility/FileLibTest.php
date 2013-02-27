@@ -179,7 +179,7 @@ class FileLibTest extends CakeTestCase {
 		$is = $handler2->readCsv(1024, ',', '"');
 
 		$is = $handler2->transfer($is);
-		pr($is);
+		//pr($is);
 		$expected = array(array(
 				'first' => 'Example',
 				'last_name' => 'Firsty',
@@ -205,7 +205,7 @@ class FileLibTest extends CakeTestCase {
 				'X',
 				'Y',
 				'Z'), 'preserve_keys' => true));
-		pr($is);
+		//pr($is);
 		$expected = array(array(
 				'X' => 'Example',
 				'Y' => 'Firsty',
@@ -232,7 +232,7 @@ class FileLibTest extends CakeTestCase {
 				'X',
 				'Y',
 				'Z'), 'preserve_keys' => true));
-		pr($is);
+		//pr($is);
 		$expected = array(array(
 				'X' => 'Next',
 				'Y' => 'Secondy',
@@ -249,13 +249,13 @@ class FileLibTest extends CakeTestCase {
 
 		if ($pre !== null) {
 			echo 'pre:';
-			pr($pre);
+			//pr($pre);
 		}
 		echo 'is:';
-		pr($is);
+		//pr($is);
 		if (!$status) {
 			echo 'expected:';
-			pr($expected);
+			//pr($expected);
 		}
 	}
 }

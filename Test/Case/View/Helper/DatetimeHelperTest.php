@@ -37,11 +37,11 @@ class DatetimeHelperTest extends MyCakeTestCase {
 		$this->assertEquals('6 '.__('Minutes').', 40 '.__('Seconds'), $this->Datetime->lengthOfTime(400));
 
 		$res = $this->Datetime->lengthOfTime(400, 'i');
-		pr($res);
+		//pr($res);
 		$this->assertEquals('6 '.__('Minutes'), $res);
 
 		$res = $this->Datetime->lengthOfTime(6*DAY);
-		pr($res);
+		//pr($res);
 		$this->assertEquals('6 '.__('Days').', 0 '.__('Hours'), $res);
 
 		#TODO: more
@@ -53,20 +53,20 @@ class DatetimeHelperTest extends MyCakeTestCase {
 		echo $this->_header(__FUNCTION__);
 
 		$res = $this->Datetime->relLengthOfTime(date(FORMAT_DB_DATETIME, time()-3600));
-		pr($res);
+		//pr($res);
 		$this->assertTrue(!empty($res));
 
 		$res = $this->Datetime->relLengthOfTime(date(FORMAT_DB_DATETIME, time()-4*DAY-5*HOUR), null, array('plural'=>'n'));
-		pr($res);
+		//pr($res);
 		//$this->assertEquals($res, 'Vor 4 Tagen, 5 '.__('Hours'));
 		$this->assertEquals(__('%s ago', '4 '.__('Days').', '.'5 '.__('Hours')), $res);
 
 		$res = $this->Datetime->relLengthOfTime(date(FORMAT_DB_DATETIME, time()+4*DAY+5*HOUR), null, array('plural'=>'n'));
-		pr($res);
+		//pr($res);
 		$this->assertEquals(__('In %s', '4 '.__('Days').', '.'5 '.__('Hours')), $res);
 
 		$res = $this->Datetime->relLengthOfTime(date(FORMAT_DB_DATETIME, time()), null, array('plural'=>'n'));
-		pr($res);
+		//pr($res);
 		$this->assertEquals($res, __('justNow'));
 	}
 
@@ -75,7 +75,7 @@ class DatetimeHelperTest extends MyCakeTestCase {
 		echo $this->_header(__FUNCTION__);
 
 		$res = $this->Datetime->timeAgoInWords(date(FORMAT_DB_DATETIME, time()-4*DAY-5*HOUR));
-		pr($res);
+		//pr($res);
 	}
 
 

@@ -25,23 +25,23 @@ class CaptchaHelperTest extends CakeTestCase {
 	 */
 	public function testFields() {
 		$is = $this->Captcha->active();
-		pr(h($is));
+		//pr(h($is));
 
 		$is = $this->Captcha->passive();
-		pr(h($is));
+		//pr(h($is));
 
 
 
 		$is = $this->Captcha->captcha('SomeModelName');
-		pr(h($is));
+		//pr(h($is));
 	}
 
 	public function testDataInsideHelper() {
-		debug($this->Captcha->webroot);
-		debug($this->Captcha->request->webroot);
+		//debug($this->Captcha->webroot);
+		//debug($this->Captcha->request->webroot);
 
-		debug($this->Captcha->data);
-		debug($this->Captcha->request->data);
+		//debug($this->Captcha->data);
+		//debug($this->Captcha->request->data);
 	}
 
 

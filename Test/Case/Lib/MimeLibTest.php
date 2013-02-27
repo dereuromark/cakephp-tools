@@ -48,7 +48,7 @@ class MimeLibTest extends MyCakeTestCase {
 	public function testCorrectFileExtension() {
 		file_put_contents(TMP.'sometest.txt', 'xyz');
 		$is = $this->Mime->extractMimeType(TMP.'sometest.txt');
-		pr($is);
+		//pr($is);
 		$this->assertEquals($is, 'text/plain');
 	}
 
@@ -59,7 +59,7 @@ class MimeLibTest extends MyCakeTestCase {
 	public function testWrongFileExtension() {
 		file_put_contents(TMP.'sometest.zip', 'xyz');
 		$is = $this->Mime->extractMimeType(TMP.'sometest.zip');
-		pr($is);
+		//pr($is);
 		$this->assertEquals($is, 'text/plain');
 		//Test failes? finfo_open not availaible??
 	}
@@ -71,17 +71,17 @@ class MimeLibTest extends MyCakeTestCase {
 	public function testEncoding() {
 		file_put_contents(TMP.'sometest.txt', 'xyz');
 		$is = $this->Mime->getEncoding(TMP.'sometest.txt');
-		pr($is);
+		//pr($is);
 		$this->assertEquals($is, 'us-ascii');
 
 		file_put_contents(TMP.'sometest.zip', utf8_encode('xäääyz'));
 		$is = $this->Mime->getEncoding(TMP.'sometest.zip');
-		pr($is);
+		//pr($is);
 		$this->assertEquals($is, 'utf-8');
 
 		file_put_contents(TMP.'sometest.zip', utf8_encode('xyz'));
 		$is = $this->Mime->getEncoding(TMP.'sometest.zip');
-		pr($is);
+		//pr($is);
 		$this->assertEquals($is, 'us-ascii');
 
 		//Tests fail? finfo_open not availaible??

@@ -28,7 +28,7 @@ class CaptchaLibTest extends MyCakeTestCase {
 			'checkSession' => true
 		);
 		$res = CaptchaLib::buildHash($data, $options);
-		pr($res);
+		//pr($res);
 		$this->assertTrue(strlen($res) == 40);
 	}
 

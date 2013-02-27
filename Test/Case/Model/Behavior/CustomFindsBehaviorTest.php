@@ -37,7 +37,7 @@ class CustomFindsBehaviorTest extends MyCakeTestCase {
 		);
 
 		$res = $this->Model->Behaviors->CustomFinds->beforeFind($this->Model, $query);
-		pr($res);
+		//pr($res);
 		$queryResult = $this->Model->customFinds['topSellers'];
 		$queryResult['recursive'] = 0;
 		$queryResult['conditions']['Product.count >'] = 0;
@@ -55,7 +55,7 @@ class CustomFindsBehaviorTest extends MyCakeTestCase {
 		);
 
 		$res = $this->Model->Behaviors->CustomFinds->beforeFind($this->Model, $query);
-		pr($res);
+		//pr($res);
 		$queryResult = $this->Model->customFinds['topSellers'];
 		$queryResult['conditions'] = array('Product.count >'=>0);
 
@@ -71,7 +71,7 @@ class CustomFindsBehaviorTest extends MyCakeTestCase {
 		);
 
 		$res = $this->Model->Behaviors->CustomFinds->beforeFind($this->Model, $query);
-		pr($res);
+		//pr($res);
 		$queryResult = $this->Model->customFinds['topSellers'];
 		unset($queryResult['conditions']['Product.countSeller >']);
 		$queryResult['conditions']['Product.count >'] = 0;

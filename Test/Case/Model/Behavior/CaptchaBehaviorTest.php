@@ -25,7 +25,7 @@ class CaptchaBehaviorTest extends MyCakeTestCase {
 	 */
 	public function testEmpty() {
 		$is = $this->Comment->validates();
-		debug($this->Comment->invalidFields());
+		//debug($this->Comment->invalidFields());
 		$this->assertFalse($is);
 	}
 
@@ -33,13 +33,13 @@ class CaptchaBehaviorTest extends MyCakeTestCase {
 		$data = array('title'=>'xyz', 'captcha'=>'x', 'captcha_hash'=>'y', 'captcha_time'=>'123');
 		$this->Comment->set($data);
 		$is = $this->Comment->validates();
-		debug($this->Comment->invalidFields());
+		//debug($this->Comment->invalidFields());
 		$this->assertFalse($is);
 
 		$data = array('title'=>'xyz', 'captcha'=>'x', 'homepage'=>'', 'captcha_hash'=>'y', 'captcha_time'=>'123');
 		$this->Comment->set($data);
 		$is = $this->Comment->validates();
-		debug($this->Comment->invalidFields());
+		//debug($this->Comment->invalidFields());
 		$this->assertFalse($is);
 	}
 
@@ -51,7 +51,7 @@ class CaptchaBehaviorTest extends MyCakeTestCase {
 		$data = array('title'=>'xyz', 'captcha'=>'2', 'homepage'=>'', 'captcha_hash'=>$hash, 'captcha_time'=>time()-DAY);
 		$this->Comment->set($data);
 		$is = $this->Comment->validates();
-		debug($this->Comment->invalidFields());
+		//debug($this->Comment->invalidFields());
 		//$this->assertTrue($is);
 
 
@@ -61,7 +61,7 @@ class CaptchaBehaviorTest extends MyCakeTestCase {
 		$data = array('title'=>'xyz', 'captcha'=>'2', 'homepage'=>'', 'captcha_hash'=>$hash, 'captcha_time'=>time()+DAY);
 		$this->Comment->set($data);
 		$is = $this->Comment->validates();
-		debug($this->Comment->invalidFields());
+		//debug($this->Comment->invalidFields());
 		//$this->assertTrue($is);
 	}
 

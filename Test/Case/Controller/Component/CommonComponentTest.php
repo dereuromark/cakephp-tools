@@ -99,7 +99,7 @@ class CommonComponentTest extends CakeTestCase {
 
 	public function testGetDefaultUrlParams() {
 		$is = $this->Controller->Common->defaultUrlParams();
-		debug($is);
+		//debug($is);
 		$this->assertNotEmpty($is);
 	}
 
@@ -109,7 +109,7 @@ class CommonComponentTest extends CakeTestCase {
 		//$this->assertTrue($is);
 
 		$res = Configure::read('messages');
-		debug($res);
+		//debug($res);
 		$this->assertTrue(!empty($res));
 		$this->assertTrue(isset($res['success'][0]) && $res['success'][0] === 'xyz');
 	}
@@ -121,7 +121,7 @@ class CommonComponentTest extends CakeTestCase {
 		//$this->assertTrue($is);
 
 		$res = $this->Controller->Session->read('messages');
-		debug($res);
+		//debug($res);
 		$this->assertTrue(!empty($res));
 		$this->assertTrue(isset($res['info'][0]) && $res['info'][0] === 'efg');
 	}

@@ -376,8 +376,8 @@ TEXT;
 TEXT;
 		$output = str_replace(array("\t", "\r", "\n"), '', $output);
 		$expected = str_replace(array("\t", "\r", "\n"), '', $expected);
-		debug($output);
-		debug($expected);
+		//debug($output);
+		//debug($expected);
 		$this->assertTextEquals($expected, $output);
 	}
 

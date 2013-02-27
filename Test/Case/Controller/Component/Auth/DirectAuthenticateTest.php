@@ -111,7 +111,7 @@ class DirectAuthenticateTest extends CakeTestCase {
 			'user' => 'mariano',
 		));
 		$result = $this->auth->authenticate($request, $this->response);
-		debug($result);
+		//debug($result);
 		$expected = array(
 			'id' => 1,
 			'user' => 'mariano',

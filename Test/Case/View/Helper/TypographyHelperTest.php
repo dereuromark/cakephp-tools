@@ -56,7 +56,7 @@ class TypographyHelperTest extends MyCakeTestCase {
 
 		foreach ($strs as $str => $expected) {
 			$result = $this->Typography->formatCharacters($str);
-			debug($result);
+			//debug($result);
 			$this->assertEquals($expected, $result);
 		}
 
@@ -89,7 +89,7 @@ paragraph and a
 
 		$res = $this->Typography->autoTypography($str);
 		echo pre($res);
-		debug($res);
+		//debug($res);
 	}
 
 /**
