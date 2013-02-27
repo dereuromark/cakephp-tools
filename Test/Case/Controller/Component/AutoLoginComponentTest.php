@@ -11,7 +11,7 @@ App::uses('Controller', 'Controller');
  */
 class AutoLoginComponentTest extends CakeTestCase {
 
-	public $fixtures = array('core.cake_session', 'plugin.tools.user');
+	public $fixtures = array('core.cake_session', 'core.user');
 
 	/**
 	 * setUp method

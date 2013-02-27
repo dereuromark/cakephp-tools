@@ -3,11 +3,13 @@
 App::uses('NumberTextLib', 'Tools.Utility');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
-class NumberLibTest extends MyCakeTestCase {
+class NumberTextLibTest extends MyCakeTestCase {
 
 	public $NumberText = null;
 
 	public function setUp() {
+		parent::setUp();
+
 		//$this->NumberText = new NumberTextLib();
 	}
 

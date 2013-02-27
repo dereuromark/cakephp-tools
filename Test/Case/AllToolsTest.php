@@ -1,18 +1,20 @@
 <?php
 /**
- * group test - Tools
+ * Tools Plugin - All plugin tests
  */
-class AllAuthTestsTest extends PHPUnit_Framework_TestSuite {
+class AllToolsTest extends PHPUnit_Framework_TestSuite {
 
 	/**
-	 * suite method, defines tests for this suite.
+	 * Suite method, defines tests for this suite.
 	 *
 	 * @return void
 	 */
 	public static function suite() {
-		$Suite = new CakeTestSuite('All Auth tests');
-		$path = dirname(__FILE__);
-		$Suite->addTestDirectory($path . DS . 'Controller' . DS . 'Component' . DS . 'Auth');
+		$Suite = new CakeTestSuite('All Tools tests');
+
+		$path = CakePlugin::path('Tools') . 'Test' . DS . 'Case' . DS;
+		$Suite->addTestDirectoryRecursive($path);
 		return $Suite;
 	}
+
 }

@@ -1,7 +1,6 @@
 <?php
 
-class ProfileFixture extends CakeTestFixture {
-
+class LinkableProfileFixture extends CakeTestFixture {
 
 	public $fields = array(
 		'id'		=> array('type' => 'integer', 'key' => 'primary'),

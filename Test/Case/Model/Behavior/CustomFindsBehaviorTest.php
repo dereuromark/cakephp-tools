@@ -1,23 +1,14 @@
 <?php
-
 App::uses('CustomFindsBehavior', 'Tools.Model/Behavior');
 App::uses('AppModel', 'Model');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
-
-class Test extends AppModel {
-
-
-	public $useTable = false;
-	public $actsAs = array('Tools.CustomFinds');
-
-}
 
 class CustomFindsBehaviorTest extends MyCakeTestCase {
 
 	public function setUp() {
 		$this->CustomFinds = new CustomFindsBehavior();
 
-		$this->Model = new Test();
+		$this->Model = new CustomFindsTest();
 
 		$this->Model->customFinds = array(
 			'topSellers' => array(
@@ -88,5 +79,14 @@ class CustomFindsBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue(!empty($res));
 		$this->assertSame($queryResult['conditions'], $res['conditions']);
 	}
+
+}
+
+
+class CustomFindsTest extends AppModel {
+
+	public $useTable = false;
+
+	public $actsAs = array('Tools.CustomFinds');
 
 }

@@ -6,13 +6,13 @@ App::uses('Controller', 'Controller');
 class LinkableBehaviorTest extends CakeTestCase {
 
 	public $fixtures = array(
-		'plugin.tools.user',
-		'plugin.tools.profile',
+		'plugin.tools.linkable_user',
+		'plugin.tools.linkable_profile',
 		'plugin.tools.generic',
-		'plugin.tools.comment',
+		'plugin.tools.linkable_comment',
 		'plugin.tools.blog_post',
-		'plugin.tools.blog_posts_tag',
-		'plugin.tools.tag',
+		'plugin.tools.blog_posts_linkable_tag',
+		'plugin.tools.linkable_tag',
 		'plugin.tools.legacy_product',
 		'plugin.tools.legacy_company',
 		'plugin.tools.shipment',
@@ -22,7 +22,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 	public $User;
 
 	public function setUp() {
-		$this->User = ClassRegistry::init('User');
+		$this->User = ClassRegistry::init('LinkableUser');
 	}
 
 	public function tearDown() {
@@ -31,19 +31,19 @@ class LinkableBehaviorTest extends CakeTestCase {
 
 	public function testBelongsTo() {
 		$arrayExpected = array(
-			'User' => array('id' => 1, 'username' => 'CakePHP'),
-			'Profile' => array ('id' => 1, 'user_id' => 1, 'biography' => 'CakePHP is a rapid development framework for PHP that provides an extensible architecture for developing, maintaining, and deploying applications.')
+			'LinkableUser' => array('id' => 1, 'username' => 'CakePHP'),
+			'LinkableProfile' => array ('id' => 1, 'user_id' => 1, 'biography' => 'CakePHP is a rapid development framework for PHP that provides an extensible architecture for developing, maintaining, and deploying applications.')
 		);
 
 		$arrayResult = $this->User->find('first', array(
 			'contain' => array(
-				'Profile'
+				'LinkableProfile'
 			)
 		));
 
 		$arrayExpectedTmp = $arrayExpected;
-		$arrayExpectedTmp['User']['role_id'] = 1;
-		$this->assertTrue(isset($arrayResult['Profile']), 'belongsTo association via Containable: %s');
+		$arrayExpectedTmp['LinkableUser']['role_id'] = 1;
+		$this->assertTrue(isset($arrayResult['LinkableProfile']), 'belongsTo association via Containable: %s');
 		$this->assertEquals($arrayExpectedTmp, $arrayResult, 'belongsTo association via Containable: %s');
 
 		// Same association, but this time with Linkable
@@ -54,7 +54,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 			),
 			'contain' => false,
 			'link' => array(
-				'Profile' => array(
+				'LinkableProfile' => array(
 					'fields' => array(
 						'id',
 						'user_id',
@@ -64,26 +64,26 @@ class LinkableBehaviorTest extends CakeTestCase {
 			)
 		));
 
-		$this->assertTrue(isset($arrayResult['Profile']), 'belongsTo association via Linkable: %s');
-		$this->assertTrue(!empty($arrayResult['Profile']), 'belongsTo association via Linkable: %s');
+		$this->assertTrue(isset($arrayResult['LinkableProfile']), 'belongsTo association via Linkable: %s');
+		$this->assertTrue(!empty($arrayResult['LinkableProfile']), 'belongsTo association via Linkable: %s');
 		$this->assertEquals($arrayExpected, $arrayResult, 'belongsTo association via Linkable: %s');
 
 		// Linkable association, no field lists
 		$arrayResult = $this->User->find('first', array(
 			'contain' => false,
 			'link' => array(
-				'Profile'
+				'LinkableProfile'
 			)
 		));
 
 		$arrayExpectedTmp = $arrayExpected;
-		$arrayExpectedTmp['User']['role_id'] = 1;
-		$this->assertTrue(isset($arrayResult['Profile']), 'belongsTo association via Linkable (automatic fields): %s');
+		$arrayExpectedTmp['LinkableUser']['role_id'] = 1;
+		$this->assertTrue(isset($arrayResult['LinkableProfile']), 'belongsTo association via Linkable (automatic fields): %s');
 		$this->assertEquals($arrayExpectedTmp, $arrayResult, 'belongsTo association via Linkable (automatic fields): %s');
 
 		// On-the-fly association via Linkable
 		$arrayExpected = array(
-			'User' => array('id' => 1, 'username' => 'CakePHP'),
+			'LinkableUser' => array('id' => 1, 'username' => 'CakePHP'),
 			'Generic' => array('id' => 1, 'text' => '')
 		);
 
@@ -92,7 +92,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 			'link' => array(
 				'Generic' => array(
 					'class' => 'Generic',
-					'conditions' => array('exactly' => 'User.id = Generic.id'),
+					'conditions' => array('exactly' => 'LinkableUser.id = Generic.id'),
 					'fields' => array(
 						'id',
 						'text'
@@ -102,13 +102,13 @@ class LinkableBehaviorTest extends CakeTestCase {
 		));
 
 		$arrayExpectedTmp = $arrayExpected;
-		$arrayExpectedTmp['User']['role_id'] = 1;
+		$arrayExpectedTmp['LinkableUser']['role_id'] = 1;
 		$this->assertTrue(isset($arrayResult['Generic']), 'On-the-fly belongsTo association via Linkable: %s');
 		$this->assertEquals($arrayExpectedTmp, $arrayResult, 'On-the-fly belongsTo association via Linkable: %s');
 
 		// On-the-fly association via Linkable, with order on the associations' row and using array conditions instead of plain string
 		$arrayExpected = array(
-			'User' => array('id' => 4, 'username' => 'CodeIgniter'),
+			'LinkableUser' => array('id' => 4, 'username' => 'CodeIgniter'),
 			'Generic' => array('id' => 4, 'text' => '')
 		);
 
@@ -117,7 +117,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 			'link' => array(
 				'Generic' => array(
 					'class' => 'Generic',
-					'conditions' => array('exactly' => array('User.id = Generic.id')),
+					'conditions' => array('exactly' => array('LinkableUser.id = Generic.id')),
 					'fields' => array(
 						'id',
 						'text'
@@ -128,15 +128,15 @@ class LinkableBehaviorTest extends CakeTestCase {
 		));
 
 		$arrayExpectedTmp = $arrayExpected;
-		$arrayExpectedTmp['User']['role_id'] = 3;
+		$arrayExpectedTmp['LinkableUser']['role_id'] = 3;
 		$this->assertEquals($arrayExpectedTmp, $arrayResult, 'On-the-fly belongsTo association via Linkable, with order: %s');
 	}
 
 	public function testHasMany() {
 		// hasMany association via Containable. Should still work when Linkable is loaded
 		$arrayExpected = array(
-			'User' => array('id' => 1, 'username' => 'CakePHP'),
-			'Comment' => array(
+			'LinkableUser' => array('id' => 1, 'username' => 'CakePHP'),
+			'LinkableComment' => array(
 				0 => array(
 					'id' => 1,
 					'user_id' => 1,
@@ -152,20 +152,20 @@ class LinkableBehaviorTest extends CakeTestCase {
 
 		$arrayResult = $this->User->find('first', array(
 			'contain' => array(
-				'Comment'
+				'LinkableComment'
 			),
-			'order' => 'User.id ASC'
+			'order' => 'LinkableUser.id ASC'
 		));
 
 		$arrayExpectedTmp = $arrayExpected;
-		$arrayExpectedTmp['User']['role_id'] = 1;
-		$this->assertTrue(isset($arrayResult['Comment']), 'hasMany association via Containable: %s');
+		$arrayExpectedTmp['LinkableUser']['role_id'] = 1;
+		$this->assertTrue(isset($arrayResult['LinkableComment']), 'hasMany association via Containable: %s');
 		$this->assertEquals($arrayExpectedTmp, $arrayResult, 'hasMany association via Containable: %s');
 
 		// Same association, but this time with Linkable
 		$arrayExpected = array(
-			'User' => array('id' => 1, 'username' => 'CakePHP'),
-			'Comment' => array(
+			'LinkableUser' => array('id' => 1, 'username' => 'CakePHP'),
+			'LinkableComment' => array(
 				'id' => 1,
 				'user_id' => 1,
 				'body' => 'Text'
@@ -179,7 +179,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 			),
 			'contain' => false,
 			'link' => array(
-				'Comment' => array(
+				'LinkableComment' => array(
 					'fields' => array(
 						'id',
 						'user_id',
@@ -187,8 +187,8 @@ class LinkableBehaviorTest extends CakeTestCase {
 					)
 				)
 			),
-			'order' => 'User.id ASC',
-			'group' => 'User.id'
+			'order' => 'LinkableUser.id ASC',
+			'group' => 'LinkableUser.id'
 		));
 
 		$this->assertEquals($arrayExpected, $arrayResult, 'hasMany association via Linkable: %s');
@@ -199,77 +199,77 @@ class LinkableBehaviorTest extends CakeTestCase {
 
 		$arrayExpected = array(
 			'BlogPost' => array('id' => 1, 'title' => 'Post 1', 'user_id' => 1),
-			'Tag' => array('name' => 'General'),
-			'Profile' => array('biography' => 'CakePHP is a rapid development framework for PHP that provides an extensible architecture for developing, maintaining, and deploying applications.'),
-			'MainTag' => array('name' => 'General'),
+			'LinkableTag' => array('name' => 'General'),
+			'LinkableProfile' => array('biography' => 'CakePHP is a rapid development framework for PHP that provides an extensible architecture for developing, maintaining, and deploying applications.'),
+			'MainLinkableTag' => array('name' => 'General'),
 			'Generic' => array('id' => 1,'text' => ''),
-			'User' => array('id' => 1, 'username' => 'CakePHP')
+			'LinkableUser' => array('id' => 1, 'username' => 'CakePHP')
 		);
 
 		$arrayResult = $this->BlogPost->find('first', array(
 			'conditions' => array(
-				'MainTag.id' => 1
+				'MainLinkableTag.id' => 1
 			),
 			'link' => array(
-				'User' => array(
-					'Profile' => array(
+				'LinkableUser' => array(
+					'LinkableProfile' => array(
 						'fields' => array(
 							'biography'
 						),
 						'Generic' => array(
 							'class'	 => 'Generic',
-							'conditions' => array('exactly' => 'User.id = Generic.id'),
+							'conditions' => array('exactly' => 'LinkableUser.id = Generic.id'),
 						)
 					)
 				),
-				'Tag' => array(
-					'table' => 'tags',
+				'LinkableTag' => array(
+					'table' => 'linkable_tags',
 					'fields' => array(
 						'name'
 					)
 				),
-				'MainTag' => array(
-					'class' => 'Tag',
-					'conditions' => array('exactly' => 'BlogPostsTag.blog_post_id = BlogPost.id'),
+				'MainLinkableTag' => array(
+					'class' => 'LinkableTag',
+					'conditions' => array('exactly' => 'BlogPostsLinkableTag.blog_post_id = BlogPost.id'),
 					'fields' => array(
-						'MainTag.name'
+						'MainLinkableTag.name'
 					)
 				)
 			)
 		));
 
 		$arrayExpectedTmp = $arrayExpected;
-		$arrayExpectedTmp['User']['role_id'] = 1;
+		$arrayExpectedTmp['LinkableUser']['role_id'] = 1;
 		$this->assertEquals($arrayExpectedTmp, $arrayResult, 'Complex find: %s');
 
 		// Linkable and Containable combined
 		$arrayExpected = array(
 			'BlogPost' => array('id' => 1, 'title' => 'Post 1', 'user_id' => 1),
-			'Tag' => array(
-				array('id' => 1, 'name' => 'General', 'parent_id' => null, 'BlogPostsTag' => array('id' => 1, 'blog_post_id' => 1, 'tag_id' => 1, 'main' => 0)),
-				array('id' => 2, 'name' => 'Test I', 'parent_id' => 1, 'BlogPostsTag' => array('id' => 2, 'blog_post_id' => 1, 'tag_id' => 2, 'main' => 1))
+			'LinkableUser' => array('id' => 1, 'username' => 'CakePHP'),
+			'LinkableTag' => array(
+				array('id' => 1, 'name' => 'General', 'parent_id' => null, 'BlogPostsLinkableTag' => array('id' => 1, 'blog_post_id' => 1, 'tag_id' => 1, 'main' => 0)),
+				//array('id' => 2, 'name' => 'Test I', 'parent_id' => 1, 'BlogPostsLinkableTag' => array('id' => 2, 'blog_post_id' => 1, 'tag_id' => 2, 'main' => 1))
 			),
-			'User' => array('id' => 1, 'username' => 'CakePHP')
 		);
 
 		$arrayResult = $this->BlogPost->find('first', array(
 			'contain' => array(
-				'Tag'
+				'LinkableTag'
 			),
 			'link' => array(
-				'User'
+				'LinkableUser'
 			)
 		));
 
 		$arrayExpectedTmp = $arrayExpected;
-		$arrayExpectedTmp['User']['role_id'] = 1;
+		$arrayExpectedTmp['LinkableUser']['role_id'] = 1;
 		$this->assertEquals($arrayExpectedTmp, $arrayResult, 'Linkable and Containable combined: %s');
 	}
 
 	public function _testPagination() {
 		$objController = new Controller(new CakeRequest('/'), new CakeResponse());
 		$objController->layout = 'ajax';
-		$objController->uses = array('User');
+		$objController->uses = array('LinkableUser');
 		$objController->constructClasses();
 		$objController->request->url = '/';
 
@@ -279,7 +279,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 			),
 			'contain' => false,
 			'link' => array(
-				'Profile' => array(
+				'LinkableProfile' => array(
 					'fields' => array(
 						'biography'
 					)
@@ -288,9 +288,9 @@ class LinkableBehaviorTest extends CakeTestCase {
 			'limit' => 2
 		);
 
-		$arrayResult = $objController->paginate('User');
+		$arrayResult = $objController->paginate('LinkableUser');
 
-		$this->assertEquals(4, $objController->params['paging']['User']['count'], 'Paging: total records count: %s');
+		$this->assertEquals(4, $objController->params['paging']['LinkableUser']['count'], 'Paging: total records count: %s');
 
 		// Pagination with order on a row from table joined with Linkable
 		$objController->paginate = array(
@@ -299,7 +299,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 			),
 			'contain' => false,
 			'link' => array(
-				'Profile' => array(
+				'LinkableProfile' => array(
 					'fields' => array(
 						'user_id'
 					)
@@ -309,20 +309,20 @@ class LinkableBehaviorTest extends CakeTestCase {
 			'order' => 'Profile.user_id DESC'
 		);
 
-		$arrayResult = $objController->paginate('User');
+		$arrayResult = $objController->paginate('LinkableUser');
 
 		$arrayExpected = array(
 			0 => array(
-				'User' => array(
+				'LinkableUser' => array(
 					'id' => 4
 				),
-				'Profile' => array ('user_id' => 4)
+				'LinkableProfile' => array ('user_id' => 4)
 			),
 			1 => array(
-				'User' => array(
+				'LinkableUser' => array(
 					'id' => 3
 				),
-				'Profile' => array ('user_id' => 3)
+				'LinkableProfile' => array ('user_id' => 3)
 			)
 		);
 
@@ -332,14 +332,14 @@ class LinkableBehaviorTest extends CakeTestCase {
 		$objController->paginate = array(
 			'contain' => false,
 			'link' => array(
-				'Profile'
+				'LinkableProfile'
 			),
 			'limit' => 2,
 			'order' => 'Profile.user_id DESC'
 		);
 
-		$arrayResult = $objController->paginate('User');
-		$this->assertEquals(4, $objController->params['paging']['User']['count'], 'Paging without any field lists: total records count: %s');
+		$arrayResult = $objController->paginate('LinkableUser');
+		$this->assertEquals(4, $objController->params['paging']['LinkableUser']['count'], 'Paging without any field lists: total records count: %s');
 	}
 
 	/**
@@ -347,10 +347,10 @@ class LinkableBehaviorTest extends CakeTestCase {
 	 *	have aliases different from their standard model names
 	 */
 	public function _testNonstandardAssociationNames() {
-		$this->Tag = ClassRegistry::init('Tag');
+		$this->LinkableTag = ClassRegistry::init('LinkableTag');
 
 		$arrayExpected = array(
-			'Tag' => array(
+			'LinkableTag' => array(
 				'name' => 'Test I'
 			),
 			'Parent' => array(
@@ -358,12 +358,12 @@ class LinkableBehaviorTest extends CakeTestCase {
 			)
 		);
 
-		$arrayResult = $this->Tag->find('first', array(
+		$arrayResult = $this->LinkableTag->find('first', array(
 			'fields' => array(
 				'name'
 			),
 			'conditions' => array(
-				'Tag.id' => 2
+				'LinkableTag.id' => 2
 			),
 			'link' => array(
 				'Parent' => array(
@@ -475,7 +475,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 
 class LinkableTestModel extends CakeTestModel {
 
-	public $recursive = 0;
+	public $recursive = -1;
 
 	public $actsAs = array(
 		'Containable',
@@ -483,48 +483,72 @@ class LinkableTestModel extends CakeTestModel {
 	);
 }
 
-class User extends LinkableTestModel {
+class LinkableUser extends LinkableTestModel {
 
 	public $hasOne = array(
-		'Profile'
+		'LinkableProfile' => array(
+			'className' => 'LinkableProfile',
+			'foreignKey' => 'user_id'
+		)
 	);
 
 	public $hasMany = array(
-		'Comment',
-		'BlogPost'
+		'LinkableComment' => array(
+			'className' => 'LinkableComment',
+			'foreignKey' => 'user_id'
+		),
+		'BlogPost' => array(
+			'foreignKey' => 'user_id'
+		)
 	);
 }
 
-class Profile extends LinkableTestModel {
+class LinkableComment extends LinkableTestModel {
+
+}
+
+class LinkableProfile extends LinkableTestModel {
 
 	public $belongsTo = array(
-		'User'
+		'LinkableUser' => array(
+			'className' => 'LinkableUser',
+			'foreignKey' => 'user_id'
+		)
 	);
 }
 
 class BlogPost extends LinkableTestModel {
 
 	public $belongsTo = array(
-		'User'
+		'LinkableUser' => array(
+			'className' => 'LinkableUser',
+			'foreignKey' => 'user_id'
+		),
 	);
 
 	public $hasAndBelongsToMany = array(
-		'Tag'
+		'LinkableTag' => array(
+			'foreignKey' => 'tag_id',
+			'associationForeignKey' => 'blog_post_id',
+		)
 	);
 }
 
-class BlogPostTag extends LinkableTestModel {
+class BlogPostLinkableTag extends LinkableTestModel {
 }
 
-class Tag extends LinkableTestModel {
+class LinkableTag extends LinkableTestModel {
 
 	public $hasAndBelongsToMany = array(
-		'BlogPost'
+		'BlogPost' => array(
+			'foreignKey' => 'blog_post_id',
+			'associationForeignKey' => 'tag_id',
+		)
 	);
 
 	public $belongsTo = array(
 		'Parent' => array(
-			'className' => 'Tag',
+			'className' => 'LinkableTag',
 			'foreignKey' => 'parent_id'
 		)
 	);

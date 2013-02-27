@@ -118,6 +118,7 @@ class LinkableBehavior extends ModelBehavior {
 							$referenceKey = $Reference->escapeField($Reference->primaryKey);
 							$options['conditions'][] = "{$referenceKey} = {$modelKey}";
 						} elseif ($type === 'hasAndBelongsToMany') {
+							// try to determine fields by HABTM model
 							if (isset($association['with'])) {
 								$Link = $_Model->{$association['with']};
 								if (isset($Link->belongsTo[$_Model->alias])) {
@@ -129,6 +130,14 @@ class LinkableBehavior extends ModelBehavior {
 							} else {
 								$Link = $_Model->{Inflector::classify($association['joinTable'])};
 							}
+							// try to determine fields by current model relation settings
+							if (empty($modelLink) && !empty($_Model->{$type}[$Reference->alias]['foreignKey'])) {
+								$modelLink = $Link->escapeField($_Model->{$type}[$Reference->alias]['foreignKey']);
+							}
+							if (empty($referenceLink) && !empty($_Model->{$type}[$Reference->alias]['associationForeignKey'])) {
+								$referenceLink = $Link->escapeField($_Model->{$type}[$Reference->alias]['associationForeignKey']);
+							}
+							// fallback to defaults otherwise
 							if (empty($modelLink)) {
 								$modelLink = $Link->escapeField(Inflector::underscore($_Model->alias) . '_id');
 							}

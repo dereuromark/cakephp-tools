@@ -1,7 +1,6 @@
 <?php
 
-class UserFixture extends CakeTestFixture {
-
+class LinkableUserFixture extends CakeTestFixture {
 
 	public $fields = array(
 		'id'			=> array('type' => 'integer', 'key' => 'primary'),
@@ -15,4 +14,5 @@ class UserFixture extends CakeTestFixture {
 		array('id' => 3, 'username' => 'Symfony', 'role_id' => 2),
 		array('id' => 4, 'username' => 'CodeIgniter', 'role_id' => 3)
 	);
+
 }

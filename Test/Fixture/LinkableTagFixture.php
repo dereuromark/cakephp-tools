@@ -1,7 +1,6 @@
 <?php
 
-class TagFixture extends CakeTestFixture {
-
+class LinkableTagFixture extends CakeTestFixture {
 
 	public $fields = array(
 		'id'		=> array('type' => 'integer', 'key' => 'primary'),

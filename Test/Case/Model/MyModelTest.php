@@ -15,9 +15,9 @@ class MyModelTest extends MyCakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->Model = ClassRegistry::init('Post');
+		$this->Model = ClassRegistry::init('MyAppModelPost');
 
-		$this->App = ClassRegistry::init('User');
+		$this->App = ClassRegistry::init('MyAppModelUser');
 	}
 
 	public function testObject() {
@@ -660,13 +660,21 @@ class MyModelTest extends MyCakeTestCase {
 
 }
 
-class Post extends MyModel {
+class MyAppModelPost extends MyModel {
+
+	public $name = 'Post';
+
+	public $alias = 'Post';
 
 	public $belongsTo = 'Author';
 
 }
 
-class User extends MyModel {
+class MyAppModelUser extends MyModel {
+
+	public $name = 'User';
+
+	public $alias = 'User';
 
 }
 
