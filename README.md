@@ -77,6 +77,9 @@ Use at your own risk. Please provide any fixes or enhancements via issue or bett
 Some classes are still from 1.2 (and are merely upgraded to 2.x) and might still need some serious refactoring.
 If you are able to help on that one, that would be awesome.
 
+### Status
+[![Build Status](https://api.travis-ci.org/dereuromark/tools.png)](https://travis-ci.org/dereuromark/tools)
+
 ### Branching strategy
 The master branch is the currently active and maintained one and works with the current 2.x stable version.
 Older versions might be found in their respective branches (1.3, 2.0, 2.3, ...).
