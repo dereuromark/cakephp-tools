@@ -108,7 +108,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 	 * geocoding tests using the google webservice
 	 */
 	public function testBasic() {
-		echo '<h3>'.__FUNCTION__.'</h3>';
+		//echo '<h3>'.__FUNCTION__.'</h3>';
 
 		$data = array(
 			'street' => 'Krebenweg 22',
@@ -143,7 +143,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 	}
 
 	public function testMinAccLow() {
-		echo '<h3>'.__FUNCTION__.'</h3>';
+		//echo '<h3>'.__FUNCTION__.'</h3>';
 
 		$this->Comment->Behaviors->unload('Geocoder');
 		$this->Comment->Behaviors->load('Tools.Geocoder', array('real'=>false, 'min_accuracy'=>0));
@@ -163,7 +163,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 	}
 
 	public function testMinAccHigh() {
-		echo '<h3>'.__FUNCTION__.'</h3>';
+		//echo '<h3>'.__FUNCTION__.'</h3>';
 
 		$this->Comment->Behaviors->unload('Geocoder');
 		$this->Comment->Behaviors->load('Tools.Geocoder', array('real'=>false, 'min_accuracy'=>4));
@@ -184,7 +184,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 
 
 	public function testMinInc() {
-		echo '<h3>'.__FUNCTION__.'</h3>';
+		//echo '<h3>'.__FUNCTION__.'</h3>';
 
 		$this->Comment->Behaviors->unload('Geocoder');
 		$this->Comment->Behaviors->load('Tools.Geocoder', array('real'=>false, 'min_accuracy'=>GeocodeLib::ACC_SUBLOC));
@@ -209,7 +209,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 	}
 
 	public function testMinIncAllowed() {
-		echo '<h3>'.__FUNCTION__.'</h3>';
+		//echo '<h3>'.__FUNCTION__.'</h3>';
 
 		$this->Comment->Behaviors->unload('Geocoder');
 		$this->Comment->Behaviors->load('Tools.Geocoder', array('real'=>false, 'allow_inconclusive'=>true));

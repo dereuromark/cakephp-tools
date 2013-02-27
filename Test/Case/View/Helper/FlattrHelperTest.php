@@ -26,7 +26,7 @@ class FlattrHelperTest extends MyCakeTestCase {
 
 	public function testBadge() {
 		$res = $this->Flattr->badge($this->uid, array());
-		echo $res;
+		//echo $res;
 		$this->assertTrue(!empty($res));
 	}
 
@@ -34,7 +34,7 @@ class FlattrHelperTest extends MyCakeTestCase {
 		$options = array('dsc'=>'Eine Beschreibung', 'lng'=>'de_DE', 'tags'=>array('Spende', 'Geld', 'Hilfe'));
 
 		$res = $this->Flattr->badge($this->uid, $options);
-		echo $res;
+		//echo $res;
 		$this->assertTrue(!empty($res));
 	}
 }

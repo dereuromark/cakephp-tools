@@ -146,7 +146,7 @@ class TimeLibTest extends MyCakeTestCase {
 		);
 
 		foreach ($values as $v) {
-			echo $v[0].'/'.$v[1];
+			//echo $v[0].'/'.$v[1];
 			$ret = TimeLib::ageBounds($v[0], $v[1], true, '2011-07-06'); //TODO: relative time
 			//pr($ret);
 			if (isset($v[2])) {
@@ -432,7 +432,7 @@ class TimeLibTest extends MyCakeTestCase {
 	}
 
 	public function testParseDate() {
-		echo $this->_header(__FUNCTION__);
+		//echo $this->_header(__FUNCTION__);
 		$tests = array(
 			'2010-12-11' => 1292022000,
 			'2010-01-02' => 1262386800,
@@ -453,7 +453,7 @@ class TimeLibTest extends MyCakeTestCase {
 	}
 
 	public function testParseTime() {
-		echo $this->_header(__FUNCTION__);
+		//echo $this->_header(__FUNCTION__);
 		$tests = array(
 			'2:4' => 7440,
 			'2:04' => 7440,
@@ -491,7 +491,7 @@ class TimeLibTest extends MyCakeTestCase {
 	}
 
 	public function testBuildTime() {
-		echo $this->_header(__FUNCTION__);
+		//echo $this->_header(__FUNCTION__);
 		$tests = array(
 			7440 => '2:04',
 			7220 => '2:00', # 02:00:20 => rounded to 2:00:00
@@ -515,7 +515,7 @@ class TimeLibTest extends MyCakeTestCase {
 	}
 
 	public function testBuildDefaultTime() {
-		echo $this->_header(__FUNCTION__);
+		//echo $this->_header(__FUNCTION__);
 		$tests = array(
 			7440 => '02:04:00',
 			7220 => '02:00:20',
@@ -535,7 +535,7 @@ class TimeLibTest extends MyCakeTestCase {
 	 * 9.30 => 9.50
 	 */
 	public function testStandardDecimal() {
-		echo $this->_header(__FUNCTION__);
+		//echo $this->_header(__FUNCTION__);
 		$value = '9.30';
 		$is = TimeLib::standardToDecimalTime($value);
 		$this->assertEquals(round($is, 2), '9.50');
@@ -549,7 +549,7 @@ class TimeLibTest extends MyCakeTestCase {
 	 * 9.50 => 9.30
 	 */
 	public function testDecimalStandard() {
-		echo $this->_header(__FUNCTION__);
+		//echo $this->_header(__FUNCTION__);
 		$value = '9.50';
 		$is = TimeLib::decimalToStandardTime($value);
 		$this->assertEquals(round($is, 2), '9.3');

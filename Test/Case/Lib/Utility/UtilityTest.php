@@ -72,7 +72,7 @@ class UtilityTest extends MyCakeTestCase {
 		$this->assertEquals('http://spiegel.de', $res);
 
 		$res = Utility::cleanUrl('spiegel.de', true);
-		echo returns($res);
+		//echo returns($res);
 		$this->assertEquals('http://www.spiegel.de', $res);
 	}
 

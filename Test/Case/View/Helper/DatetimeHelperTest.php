@@ -50,7 +50,7 @@ class DatetimeHelperTest extends MyCakeTestCase {
 	}
 
 	public function testRelLengthOfTime() {
-		echo $this->_header(__FUNCTION__);
+		//echo $this->_header(__FUNCTION__);
 
 		$res = $this->Datetime->relLengthOfTime(date(FORMAT_DB_DATETIME, time()-3600));
 		//pr($res);
@@ -72,7 +72,7 @@ class DatetimeHelperTest extends MyCakeTestCase {
 
 	// Cake internal function...
 	public function testTimeAgoInWords() {
-		echo $this->_header(__FUNCTION__);
+		//echo $this->_header(__FUNCTION__);
 
 		$res = $this->Datetime->timeAgoInWords(date(FORMAT_DB_DATETIME, time()-4*DAY-5*HOUR));
 		//pr($res);
@@ -80,7 +80,7 @@ class DatetimeHelperTest extends MyCakeTestCase {
 
 
 	public function testIsInRange() {
-		echo $this->_header(__FUNCTION__);
+		//echo $this->_header(__FUNCTION__);
 
 		$day = date(FORMAT_DB_DATETIME, time()+10*DAY);
 

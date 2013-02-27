@@ -60,15 +60,15 @@ class QrCodeHelperTest extends MyCakeTestCase {
 		$this->QrCode->reset();
 
 		$is = $this->QrCode->image(QR_TEST_STRING);
-		echo $is;
+		//echo $is;
 		$this->assertTrue(!empty($is));
 
 		$is = $this->QrCode->image(QR_TEST_STRING_UTF);
-		echo $is;
+		//echo $is;
 		$this->assertTrue(!empty($is));
 
 		$is = $this->QrCode->image('');
-		echo $is;
+		//echo $is;
 		$this->assertTrue(!empty($is));
 
 	}
@@ -83,13 +83,13 @@ class QrCodeHelperTest extends MyCakeTestCase {
 		$this->QrCode->reset();
 		$this->QrCode->setLevel('H');
 		$is = $this->QrCode->image(QR_TEST_STRING);
-		echo $is;
+		//echo $is;
 		$this->assertTrue(!empty($is));
 
 		$this->QrCode->reset();
 		$this->QrCode->setLevel('H', 20);
 		$is = $this->QrCode->image(QR_TEST_STRING_UTF);
-		echo $is;
+		//echo $is;
 		$this->assertTrue(!empty($is));
 
 
@@ -97,7 +97,7 @@ class QrCodeHelperTest extends MyCakeTestCase {
 		$this->QrCode->setSize(300);
 		$this->QrCode->setLevel('L', 1);
 		$is = $this->QrCode->image(QR_TEST_STRING);
-		echo $is;
+		//echo $is;
 		//pr($this->QrCode->debug());
 		$this->assertTrue(!empty($is));
 
@@ -105,7 +105,7 @@ class QrCodeHelperTest extends MyCakeTestCase {
 		$this->QrCode->setSize(300);
 		$this->QrCode->setLevel('H', 1);
 		$is = $this->QrCode->image(QR_TEST_STRING);
-		echo $is;
+		//echo $is;
 		//pr($this->QrCode->debug());
 		$this->assertTrue(!empty($is));
 	}
@@ -114,7 +114,7 @@ class QrCodeHelperTest extends MyCakeTestCase {
 		$this->QrCode->reset();
 		$this->QrCode->setSize(300);
 		$this->QrCode->setLevel('H');
-		echo 'CARD'.BR;
+		//echo 'CARD'.BR;
 		$string = $this->QrCode->formatCard(array(
 			'name' => 'Maier,Susanne',
 			'tel' => array('0111222123', '012224344'),
@@ -126,7 +126,7 @@ class QrCodeHelperTest extends MyCakeTestCase {
 			'url' => 'http://www.some_url.de'
 		));
 		$is = $this->QrCode->image($string);
-		echo $is;
+		//echo $is;
 		$this->assertTrue(!empty($is));
 	}
 
@@ -137,10 +137,10 @@ class QrCodeHelperTest extends MyCakeTestCase {
 		$this->QrCode->reset();
 		$this->QrCode->setSize(100);
 		$this->QrCode->setLevel('H');
-		echo 'CARD'.BR;
+		//echo 'CARD'.BR;
 		$string = $this->QrCode->format('bitcoin', '18pnDgDYFMAKsHTA3ZqyAi6t8q9ztaWWXt');
 		$is = $this->QrCode->image($string);
-		echo $is;
+		//echo $is;
 		$this->assertTrue(!empty($is));
 
 	}

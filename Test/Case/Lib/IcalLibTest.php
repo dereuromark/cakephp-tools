@@ -66,7 +66,7 @@ class IcalLibTest extends CakeTestCase {
 		$is = $this->Ical->parse($this->file);
 		$is = $this->Ical->getEventsAsList();
 		foreach ($is as $i => $val) {
-			echo date(FORMAT_NICE_YMD, $i).': '.h($val).BR;
+			//echo date(FORMAT_NICE_YMD, $i).': '.h($val).BR;
 		}
 		$this->assertTrue(!empty($is));
 	}

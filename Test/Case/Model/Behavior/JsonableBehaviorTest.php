@@ -21,7 +21,7 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 /** INPUT **/
 
 	public function testBasic() {
-		echo $this->_header(__FUNCTION__);
+		//echo $this->_header(__FUNCTION__);
 		// accuracy >= 5
 		$data = array(
 			'comment' => 'blabla',
@@ -36,7 +36,7 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function testFieldsWithList() {
-		echo $this->_header(__FUNCTION__);
+		//echo $this->_header(__FUNCTION__);
 		$this->Comment->Behaviors->unload('Jsonable');
 		$this->Comment->Behaviors->load('Tools.Jsonable', array('fields'=>array('details'), 'input'=>'list'));
 
@@ -68,7 +68,7 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function testFieldsWithParam() {
-		echo $this->_header(__FUNCTION__);
+		//echo $this->_header(__FUNCTION__);
 		$this->Comment->Behaviors->unload('Jsonable');
 		$this->Comment->Behaviors->load('Tools.Jsonable', array('fields'=>array('details'), 'input'=>'param'));
 
@@ -89,7 +89,7 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 /** OUTPUT **/
 
 	public function testFieldsOnFind() {
-		echo $this->_header(__FUNCTION__);
+		//echo $this->_header(__FUNCTION__);
 
 		// array
 		$this->Comment->Behaviors->unload('Jsonable');

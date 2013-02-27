@@ -36,7 +36,7 @@ class FormatHelperTest extends MyCakeTestCase {
 		);
 		foreach ($data as $key => $value) {
 			$res = $this->Format->disabledLink($content, $value);
-			echo ''.$res.' (\''.h($res).'\')';
+			//echo ''.$res.' (\''.h($res).'\')';
 			$this->assertTrue(!empty($res));
 		}
 	}
@@ -53,7 +53,7 @@ class FormatHelperTest extends MyCakeTestCase {
 		);
 		foreach ($data as $key => $value) {
 			$res = $this->Format->warning($content.' '.(int)$value, $value);
-			echo ''.$res.'';
+			//echo ''.$res.'';
 			$this->assertTrue(!empty($res));
 		}
 	}
@@ -70,7 +70,7 @@ class FormatHelperTest extends MyCakeTestCase {
 		);
 		foreach ($data as $key => $value) {
 			$res = $this->Format->ok($content.' '.(int)$value, $value);
-			echo ''.$res.'';
+			//echo ''.$res.'';
 			$this->assertTrue(!empty($res));
 		}
 	}
@@ -94,7 +94,7 @@ class FormatHelperTest extends MyCakeTestCase {
 		);
 		foreach ($values as $key => $value) {
 			$res = $this->Format->priorityIcon($value[0], $value[1]);
-			echo $key;
+			//echo $key;
 			//debug($res, null, false);
 			$this->assertEquals($value[2], $res);
 		}
@@ -113,7 +113,7 @@ class FormatHelperTest extends MyCakeTestCase {
 		foreach ($data as $key => $value) {
 			$res = $this->Format->shortenText($value, 30);
 
-			echo '\''.h($value).'\' becomes \''.$res.'\'';
+			//echo '\''.h($value).'\' becomes \''.$res.'\'';
 			$this->assertTrue(!empty($res));
 		}
 
@@ -156,7 +156,7 @@ class FormatHelperTest extends MyCakeTestCase {
 		foreach ($mails as $mail => $expected) {
 			$res = $this->Format->hideEmail($mail);
 
-			echo '\''.$mail.'\' becomes \''.$res.'\' - expected \''.$expected.'\'';
+			//echo '\''.$mail.'\' becomes \''.$res.'\' - expected \''.$expected.'\'';
 			$this->assertEquals($expected, $res);
 		}
 
@@ -221,20 +221,20 @@ class FormatHelperTest extends MyCakeTestCase {
 */
 
 	public function testTab2space() {
-		echo '<h2>'.__FUNCTION__.'</h2>';
+		//echo '<h2>'.__FUNCTION__.'</h2>';
 
 		$text = "foo\t\tfoobar\tbla\n";
 		$text .= "fooo\t\tbar\t\tbla\n";
 		$text .= "foooo\t\tbar\t\tbla\n";
-		echo "<pre>" . $text . "</pre>";
-		echo'becomes';
-		echo "<pre>" . $this->Format->tab2space($text) . "</pre>";
+		//echo "<pre>" . $text . "</pre>";
+		//echo'becomes';
+		//echo "<pre>" . $this->Format->tab2space($text) . "</pre>";
 
 	}
 
 
 	public function testArray2table() {
-		echo '<h2>'.__FUNCTION__.'</h2>';
+		//echo '<h2>'.__FUNCTION__.'</h2>';
 		$array = array(
 			array('x'=>'0', 'y'=>'0.5', 'z'=>'0.9'),
 			array('1', '2', '3'),
@@ -242,7 +242,7 @@ class FormatHelperTest extends MyCakeTestCase {
 		);
 
 		$is = $this->Format->array2table($array);
-		echo $is;
+		//echo $is;
 		//$this->assertEquals($expected, $is);
 
 		# recursive?
@@ -253,7 +253,7 @@ class FormatHelperTest extends MyCakeTestCase {
 		);
 
 		$is = $this->Format->array2table($array, array('recursive'=>true));
-		echo $is;
+		//echo $is;
 	}
 
 /**

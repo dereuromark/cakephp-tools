@@ -34,7 +34,7 @@ class TextExtHelperTest extends MyCakeTestCase {
 	//--></script> and more\'';
 		$result = $this->Text->autoLinkEmails($text, array('obfuscate'=>true));
 		//pr($text);
-		echo $result;
+		//echo $result;
 		//pr(h($result));
 		$this->assertNotEquals($result, $text);
 

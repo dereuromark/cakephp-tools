@@ -16,7 +16,11 @@ class AllToolsTest extends PHPUnit_Framework_TestSuite {
 		$Suite->addTestDirectory($path . DS . 'Lib');
 
 		$path = dirname(__FILE__);
+		$Suite->addTestDirectory($path . DS . 'View' . DS . 'Helper');
+
+		$path = dirname(__FILE__);
 		$Suite->addTestDirectory($path . DS . 'Model');
+
 		//$path = dirname(__FILE__);
 		//$Suite->addTestDirectory($path . DS . 'Model' . DS . 'Behavior');
 
@@ -28,8 +32,7 @@ class AllToolsTest extends PHPUnit_Framework_TestSuite {
 		$path = dirname(__FILE__);
 		$Suite->addTestDirectory($path . DS . 'Controller' . DS . 'Component' . DS . 'Auth');
 
-		$path = dirname(__FILE__);
-		$Suite->addTestDirectory($path . DS . 'View' . DS . 'Helper');
+
 
 		//$path = CakePlugin::path('Tools') . 'Test' . DS . 'Case' . DS;
 		//$Suite->addTestDirectoryRecursive($path);

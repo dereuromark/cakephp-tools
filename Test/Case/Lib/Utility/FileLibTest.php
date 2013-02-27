@@ -248,13 +248,13 @@ class FileLibTest extends CakeTestCase {
 		}
 
 		if ($pre !== null) {
-			echo 'pre:';
+			//echo 'pre:';
 			//pr($pre);
 		}
-		echo 'is:';
+		//echo 'is:';
 		//pr($is);
 		if (!$status) {
-			echo 'expected:';
+			//echo 'expected:';
 			//pr($expected);
 		}
 	}

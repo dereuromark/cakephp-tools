@@ -24,7 +24,7 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 
 
 	public function testBasic() {
-		echo $this->_header(__FUNCTION__);
+		//echo $this->_header(__FUNCTION__);
 		$data = array(
 			'name' => 'some Name',
 			'set_rate' => '0,1',
