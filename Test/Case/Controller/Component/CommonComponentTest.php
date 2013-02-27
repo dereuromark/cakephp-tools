@@ -8,6 +8,9 @@ App::uses('AppController', 'Controller');
  * 2010-11-10 ms
  */
 class CommonComponentTest extends CakeTestCase {
+
+	public $fixtures = array('core.cake_session');
+
 /**
  * setUp method
  *
@@ -74,11 +77,11 @@ class CommonComponentTest extends CakeTestCase {
 		$this->assertTrue($this->Controller->TestLib->hasOptions);
 	}
 
-
-
 	public function testGetParams() {
-		$is = $this->Controller->Common->getQueryParam('case');
-		$this->assertTrue(strpos($is, 'CommonComponent') > 0 || $is === 'AllComponentTests' || $is === 'AllTools');
+		if (php_sapi_name() !== 'cli') {
+			$is = $this->Controller->Common->getQueryParam('case');
+			$this->assertTrue(strpos($is, 'CommonComponent') > 0 || $is === 'AllComponentTests' || $is === 'AllTools');
+		}
 
 		$is = $this->Controller->Common->getQueryParam('x');
 		$this->assertSame(null, $is);
@@ -94,7 +97,6 @@ class CommonComponentTest extends CakeTestCase {
 
 		$is = $this->Controller->Common->getNamedParam('x', 'y');
 		$this->assertSame($is, 'y');
-
 	}
 
 	public function testGetDefaultUrlParams() {
@@ -125,8 +127,6 @@ class CommonComponentTest extends CakeTestCase {
 		$this->assertTrue(!empty($res));
 		$this->assertTrue(isset($res['info'][0]) && $res['info'][0] === 'efg');
 	}
-
-
 
 }
 
