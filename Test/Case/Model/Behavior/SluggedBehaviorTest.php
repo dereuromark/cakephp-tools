@@ -527,7 +527,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 				$string .= "\x{{$code}}";
 			}
 		}
-		debug(array(basename($inputFile) => "\n\t" . $string)); ob_flush();
+		debug(array(basename($inputFile) => "\n\t" . $string));
 	}
 
 /**

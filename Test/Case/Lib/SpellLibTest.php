@@ -53,8 +53,6 @@ class SpellLibTest extends MyCakeTestCase {
 		$word = 'bird';
 		$res = $this->SpellLib->check($word);
 		$this->assertTrue($res);
-
-		ob_flush();
 	}
 
 	public function testGerman() {
@@ -75,8 +73,6 @@ class SpellLibTest extends MyCakeTestCase {
 		$word = 'Mäuse';
 		$res = $this->SpellLib->check($word);
 		$this->assertTrue($res);
-
-		ob_flush();
 	}
 
 	public function testConfigureConfiguration() {

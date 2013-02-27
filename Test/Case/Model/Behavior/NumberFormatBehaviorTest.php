@@ -98,7 +98,7 @@ class NumberFormatBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 
 		$res = $this->Model->data;
-		//debug($res); ob_flush();
+		//debug($res);
 		$this->assertSame($res[$this->Model->alias]['set_rate'], '0#1');
 		$this->assertSame($res[$this->Model->alias]['rel_rate'], -0.02);
 	}
@@ -158,7 +158,7 @@ class NumberFormatBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue((bool)$res);
 
 		$res = $this->Model->find('first', array('conditions' => array('name' => 'english')));
-		//debug($res); ob_flush();
+		//debug($res);
 		$this->assertTrue(!empty($res));
 		$this->assertSame(substr($res[$this->Model->alias]['set_rate'], 0, 4), '3.21');
 		$this->assertSame(substr($res[$this->Model->alias]['rel_rate'], 0, 5), '-4.32');
@@ -178,7 +178,7 @@ class NumberFormatBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue((bool)$res);
 
 		$res = $this->Model->find('first', array('conditions' => array('name' => 'multiply')));
-		//debug($res); ob_flush();
+		//debug($res);
 		$this->assertTrue(!empty($res));
 		$this->assertSame(substr($res[$this->Model->alias]['set_rate'], 0, 4), '1.22');
 		$this->assertSame(substr($res[$this->Model->alias]['rel_rate'], 0, 5), '-0.02');
@@ -187,7 +187,7 @@ class NumberFormatBehaviorTest extends MyCakeTestCase {
 		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields'=>array('rel_rate', 'set_rate'), 'transform'=>array(), 'multiply'=>0.01, 'output'=>true));
 
 		$res = $this->Model->find('first', array('conditions' => array('name' => 'multiply')));
-		//debug($res); ob_flush();
+		//debug($res);
 		$this->assertTrue(!empty($res));
 		$this->assertSame($res[$this->Model->alias]['set_rate'], '122');
 		$this->assertSame($res[$this->Model->alias]['rel_rate'], '-2');

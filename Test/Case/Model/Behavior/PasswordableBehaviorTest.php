@@ -60,7 +60,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		);
 		$this->User->set($data);
 		$is = $this->User->save();
-		//debug($this->User->validationErrors); ob_flush();
+		//debug($this->User->validationErrors);
 		$this->assertFalse($is);
 		$this->assertEquals(array('pwd_repeat'), array_keys($this->User->validationErrors));
 
@@ -72,7 +72,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		);
 		$this->User->set($data);
 		$is = $this->User->save();
-		//debug($this->User->validationErrors); ob_flush();
+		//debug($this->User->validationErrors);
 		$this->assertFalse($is);
 		$this->assertEquals(array(__('valErrPwdNotMatch')), $this->User->validationErrors['pwd_repeat']);
 
@@ -99,7 +99,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		);
 		$this->User->set($data);
 		$is = $this->User->save();
-		debug($is); ob_flush();
+		debug($is);
 		$this->assertTrue(!empty($is));
 	}
 
@@ -115,7 +115,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		);
 		$this->User->set($data);
 		$is = $this->User->save();
-		debug($this->User->validationErrors); ob_flush();
+		debug($this->User->validationErrors);
 		$this->assertFalse($is);
 		$this->assertEquals(array('pwd', 'pwd_repeat'), array_keys($this->User->validationErrors));
 	}
@@ -131,7 +131,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		);
 		$this->User->set($data);
 		$is = $this->User->save();
-		//debug($this->User->validationErrors); ob_flush();
+		//debug($this->User->validationErrors);
 		$this->assertFalse($is);
 		$this->assertEquals(array('pwd', 'pwd_repeat', 'pwd_current'), array_keys($this->User->validationErrors));
 

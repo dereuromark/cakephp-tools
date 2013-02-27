@@ -23,7 +23,7 @@ class TimeLibTest extends MyCakeTestCase {
 		);
 		foreach ($values as $v) {
 			$ret = TimeLib::niceDate($v[0], $v[1]);
-			pr($ret); ob_flush();
+			pr($ret);
 			$this->assertEquals($ret, $v[2]);
 		}
 	}
@@ -38,7 +38,7 @@ class TimeLibTest extends MyCakeTestCase {
 		);
 		foreach ($values as $v) {
 			$ret = TimeLib::localDate($v[0], $v[1]);
-			pr($ret); ob_flush();
+			pr($ret);
 			$this->assertEquals($ret, $v[2]);
 		}
 	}
@@ -117,7 +117,7 @@ class TimeLibTest extends MyCakeTestCase {
 		foreach ($values as $v) {
 			$ret = TimeLib::periodAsSql($v[0], 'Model.field');
 			pr($v[1]);
-			pr($ret); ob_flush();
+			pr($ret);
 			$this->assertSame($v[1], $ret);
 
 		}

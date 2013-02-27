@@ -41,7 +41,7 @@ class ImapLibTest extends MyCakeTestCase {
 
 	public function testCount() {
 		$count = $this->_count();
-		debug($count); ob_flush();
+		debug($count);
 		$this->assertSame(0, $count);
 	}
 
@@ -51,7 +51,7 @@ class ImapLibTest extends MyCakeTestCase {
 		sleep(2);
 
 		$messages = $this->_read();
-		debug($messages); ob_flush();
+		debug($messages);
 		$this->assertTrue(!empty($messages));
 		$message = array_shift($messages);
 		$this->assertTrue(!empty($message['subject']));
@@ -63,7 +63,7 @@ class ImapLibTest extends MyCakeTestCase {
 		sleep(2);
 
 		$messages = $this->_read();
-		debug($messages); ob_flush();
+		debug($messages);
 		$this->assertTrue(!empty($messages));
 		$message = array_shift($messages);
 		$this->assertTrue(!empty($message['subject']));

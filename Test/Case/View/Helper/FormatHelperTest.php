@@ -95,7 +95,7 @@ class FormatHelperTest extends MyCakeTestCase {
 		foreach ($values as $key => $value) {
 			$res = $this->Format->priorityIcon($value[0], $value[1]);
 			echo $key;
-			//debug($res, null, false); ob_flush();
+			//debug($res, null, false);
 			$this->assertEquals($value[2], $res);
 		}
 	}
@@ -132,11 +132,11 @@ class FormatHelperTest extends MyCakeTestCase {
 		foreach ($data as $value => $expected) {
 			$res = $this->Format->truncate($value, 30, array('html' => true));
 
-			debug( '\''.h($value).'\' becomes \''.$res.'\'', null, false); ob_flush();
+			debug( '\''.h($value).'\' becomes \''.$res.'\'', null, false);
 
 			$res = $this->Format->truncate($value, 30, array('html' => true));
 
-			debug( '\''.h($value).'\' becomes \''.$res.'\'', null, false); ob_flush();
+			debug( '\''.h($value).'\' becomes \''.$res.'\'', null, false);
 
 			//$this->assertTrue(!empty($res));
 			$this->assertEquals($expected, $res);
@@ -178,7 +178,7 @@ class FormatHelperTest extends MyCakeTestCase {
 		foreach ($data as $value => $expected) {
 			$res = $this->Format->wordCensor($value, array('Arsch', 'Ficken', 'Bitch'));
 
-			//debug('\''.h($value).'\' becomes \''.h($res).'\'', null, false); ob_flush();
+			//debug('\''.h($value).'\' becomes \''.h($res).'\'', null, false);
 			$this->assertEquals($expected === null ? $value : $expected, $res);
 		}
 

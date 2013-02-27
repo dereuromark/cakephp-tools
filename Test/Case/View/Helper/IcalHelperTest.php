@@ -63,8 +63,7 @@ class IcalHelperTest extends MyCakeTestCase {
 		$this->Ical->add($data);
 		$this->Ical->add($data);
 		$res = $this->Ical->generate();
-		pr($res);
-		ob_flush();
+		//pr($res);
 	}
 
 }

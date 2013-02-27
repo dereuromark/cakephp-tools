@@ -38,7 +38,6 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue(!empty($res[1]['BitmaskedComment']['statuses']) && is_array($res[1]['BitmaskedComment']['statuses']));
 
 		debug($res[count($res)-1]);
-		ob_flush();
 	}
 
 	public function testSave() {
@@ -114,7 +113,7 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		$this->Comment->create();
 		$this->Comment->set($data);
 		$res = $this->Comment->validates();
-		debug($this->Comment->data); ob_flush();
+		debug($this->Comment->data);
 		$this->assertFalse($res);
 
 		$is = $this->Comment->data['BitmaskedComment']['status'];
@@ -171,8 +170,6 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		$conditions = $res;
 		$res = $this->Comment->find('all', array('conditions'=>$conditions));
 		$this->assertTrue(!empty($res) && count($res) === 5);
-
-		ob_flush();
 	}
 
 }

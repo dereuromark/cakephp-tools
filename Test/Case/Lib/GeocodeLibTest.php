@@ -51,7 +51,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 		);
 		foreach ($coords as $coord) {
 			$is = $this->Geocode->blur($coord[0], $coord[1]);
-			//pr('is: '.$is.' - expected: '.$coord[0].' +- '.$coord[2]); ob_flush();
+			//pr('is: '.$is.' - expected: '.$coord[0].' +- '.$coord[2]);
 			$this->assertWithinMargin($is, $coord[0], $coord[2]);
 			$this->assertNotWithinMargin($is, $coord[0], $coord[2] / 4);
 		}
@@ -237,7 +237,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 
 			$is = $this->Geocode->getResult();
 			$this->assertTrue(!empty($is));
-			//debug($is); ob_flush();
+			//debug($is);
 			$address = isset($is[0]) ? $is[0]['formatted_address'] : $is['formatted_address'];
 			$this->assertTextContains($coord[2], $address);
 		}

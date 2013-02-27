@@ -53,7 +53,7 @@ class KeyValueBehaviorTest extends MyCakeTestCase {
 
 		$res = $this->Model->getSection(2);
 		$this->assertTrue(!empty($res['Profile']));
-		//debug($res); ob_flush();
+		//debug($res);
 	}
 
 	public function testDefaults() {

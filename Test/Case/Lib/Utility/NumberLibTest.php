@@ -81,7 +81,7 @@ class NumberLibTest extends MyCakeTestCase {
 		);
 		foreach ($values as $was => $expected) {
 			$is = NumberLib::roundTo($was, 10);
-			//debug($expected); debug($is); echo BR; ob_flush();
+			//debug($expected); debug($is); echo BR;
 
 			$this->assertSame($expected, $is, null, $was);
 		}

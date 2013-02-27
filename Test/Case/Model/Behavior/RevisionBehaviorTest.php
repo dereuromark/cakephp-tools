@@ -1228,7 +1228,7 @@ class RevisionBehaviorTest extends CakeTestCase {
 
 		$result = $Comment->ShadowModel->find('all', array('conditions' => array('version_id' => array(4, 5))));
 		//TODO: assert/fixme
-		//debug($result); ob_flush();
+		//debug($result);
 		//$this->assertEquals($result[0]['Comment']['Tag'], '3');
 		//$this->assertEquals($result[1]['Comment']['Tag'], '2,3');
 	}

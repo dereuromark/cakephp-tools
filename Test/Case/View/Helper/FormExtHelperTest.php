@@ -117,7 +117,7 @@ class FormExtHelperTest extends MyCakeTestCase {
 
 		$this->Form->request->data['Model']['field'] = "My\nvalue";
 		$result = $this->Form->input('Model.field', array('type' => 'textarea'));
-		//debug($result); ob_flush();
+		//debug($result);
 		$this->assertTags($result, array(
 			'div' => array('class' => 'input textarea'),
 			'label' => array('for' => 'ModelField'),

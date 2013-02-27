@@ -69,7 +69,6 @@ class IcalLibTest extends CakeTestCase {
 			echo date(FORMAT_NICE_YMD, $i).': '.h($val).BR;
 		}
 		$this->assertTrue(!empty($is));
-		ob_flush();
 	}
 
 }
