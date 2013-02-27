@@ -78,6 +78,10 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	 * 2011-12-04 ms
 	 */
 	public static function out($data, $pre = true) {
+		if (PHP_SAPI === 'cli') {
+			return;
+		}
+
 		if ($pre) {
 			pr($data);
 		} else {
