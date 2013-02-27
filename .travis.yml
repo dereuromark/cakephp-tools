@@ -16,7 +16,10 @@ before_script:
   - cp -R ../tools plugins/Tools
   - sh -c "if [ 'mysql' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
   - mkdir ./app/tmp
-  - chmod -R 777 ./app/tmp
+  - mkdir ./app/tmp/cache
+  - mkdir ./app/tmp/cache/persistent
+  - mkdir ./app/tmp/cache/models
+  - chmod -R 0777 ./app/tmp
   - echo "<?php
     class DATABASE_CONFIG {
     private \$identities = array(
