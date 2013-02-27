@@ -11,7 +11,8 @@ env:
 before_script:
   - git clone --depth 1 git://github.com/cakephp/cakephp ../cakephp && cd ../cakephp && git checkout $CAKE_VERSION
   - rm -R app
-  - git clone --depth 1 git://github.com/dereuromark/tools-app ../app && cd ../app && git checkout master
+  - git clone --depth 1 git://github.com/dereuromark/tools-app app && cd app && git checkout master
+  - cd ..
   - cp -R ../tools plugins/Tools
   - sh -c "if [ 'mysql' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
   - mkdir ./app/tmp
@@ -58,8 +59,9 @@ before_script:
       }
     }
     }" > app/Config/database.php
+  - cd app
 script:
-  - ./lib/Cake/Console/cake test Tools AllTools
+  - ../lib/Cake/Console/cake test Tools AllTools
 
 
 notifications:
