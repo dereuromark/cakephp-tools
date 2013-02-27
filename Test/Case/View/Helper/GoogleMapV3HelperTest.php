@@ -220,7 +220,7 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 		$expected = '<div id="map_canvas" class="map"';
 		$this->assertTextContains($expected, $result);
 
-		$expected = '<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>';
+		$expected = '<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false';
 		$this->assertTextContains($expected, $result);
 
 		$expected = 'var map0 = new google.maps.Map(document.getElementById("map_canvas"), myOptions);';

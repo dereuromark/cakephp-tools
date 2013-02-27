@@ -124,13 +124,13 @@ class FormatHelperTest extends MyCakeTestCase {
 	 */
 	public function testTruncate() {
 		$data = array(
-			'dfssdfsdj sdkfj sdkfj ksdfj sdkf ksdfj ksdfjsd kfjsdk fjsdkfj ksdjf ksdf jsdsdf' => 'dfssdfsdj sdkfj sdkfj k&#8230;',
+			'dfssdfsdj sdkfj sdkfj ksdfj sdkf ksdfj ksdfjsd kfjsdk fjsdkfj ksdjf ksdf jsdsdf' => 'dfssdfsdj sdkfj sdkfj ksdfj s' . "\xe2\x80\xa6",
 			'122 jsdf sjdkf sdfj sdf' => '122 jsdf sjdkf sdfj sdf',
-			'ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd' => 'ddddddddddddddddddddddd&#8230;',
-			'dsfdsf hods hfoéfh oéfhoéfhoéfhoéfhoéfhiu oéfhoéfhdüf s' => 'dsfdsf hods hfoéfh oéfh&#8230;'
+			'ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd' => 'ddddddddddddddddddddddddddddd' . "\xe2\x80\xa6",
+			'dsfdsf hods hfoéfh oéfhoéfhoéfhoéfhoéfhiu oéfhoéfhdüf s' => 'dsfdsf hods hfoéfh oéfhoéfhoé' . "\xe2\x80\xa6"
 		);
 		foreach ($data as $value => $expected) {
-			$res = $this->Format->truncate($value, 30);
+			$res = $this->Format->truncate($value, 30, array('html' => true));
 
 			debug( '\''.h($value).'\' becomes \''.$res.'\'', null, false); ob_flush();
 

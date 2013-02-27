@@ -10,6 +10,8 @@ class EmailLibTest extends MyCakeTestCase {
 	public $Email;
 
 	public function setUp() {
+		$this->skipIf(!file_exists(APP . 'Config' . DS . 'email.php'), 'no email.php');
+
 		$this->Email = new EmailLib();
 	}
 

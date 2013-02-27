@@ -78,7 +78,7 @@ class CommonComponentTest extends CakeTestCase {
 
 	public function testGetParams() {
 		$is = $this->Controller->Common->getQueryParam('case');
-		$this->assertTrue(strpos($is, 'CommonComponent') > 0 || $is === 'AllComponentTests' || $is === 'AllPluginTests');
+		$this->assertTrue(strpos($is, 'CommonComponent') > 0 || $is === 'AllComponentTests' || $is === 'AllTools');
 
 		$is = $this->Controller->Common->getQueryParam('x');
 		$this->assertSame(null, $is);
