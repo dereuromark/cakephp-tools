@@ -182,6 +182,9 @@ define('CHAR_DOUBLE_RPIME', '&#8243;'); # ? (seconds)
 /**
  * Own slug function - containing extra char replacement
  *
+ * //TODO move to TextLib?
+ *
+ * @return string
  * 2010-11-07 ms
  */
 function slug($string, $separator = null, $low = true) {
@@ -211,10 +214,11 @@ function slug($string, $separator = null, $low = true) {
 	return $res;
 }
 
-
 /**
  * Since nl2br doesn't remove the line breaks when adding in the <br /> tags,
  * it is necessary to strip those off before you convert all of the tags, otherwise you will get double spacing
+ *
+ * //TODO: move to TextLib?
  *
  * @param string $str
  * @return string
@@ -227,6 +231,8 @@ function br2nl($str) {
 
 /**
  * Replaces CRLF with spaces
+ *
+ * //TODO: move to TextLib?
  *
  * @param string $text Any text
  * @return string Safe string without new lines
@@ -255,8 +261,10 @@ function isEmpty($var = null) {
 }
 
 /**
+ * Return of what type the specific value is
+ *
  * //TODO: use Debugger::exportVar() instead?
- * of what type is the specific value
+ *
  * @return type (NULL, array, bool, float, int, string, object, unknown) + value
  * 2009-03-03 ms
  */
@@ -391,7 +399,6 @@ function extractPathInfo($type = null, $filename) {
 	return pathinfo($filename, $infoType);
 }
 
-
 /**
  * Shows pr() messages, even with debug=0
  *
@@ -485,6 +492,8 @@ function endsWith($haystack, $needle, $caseSensitive = false) {
 
 /**
  * base64 encode and replace chars base64 uses that would mess up the url
+ * only needed for named params to be safely passed (if urlencode is not used)
+ *
  * @return string or NULL
  */
 function base64UrlEncode($fieldContent) {
@@ -497,6 +506,8 @@ function base64UrlEncode($fieldContent) {
 
 /**
  * base64 decode and undo replacing of chars base64 uses that would mess up the url
+ * only needed for named params to be safely passed (if urlencode is not used)
+ *
  * @return string or NULL
  */
 function base64UrlDecode($fieldContent) {
