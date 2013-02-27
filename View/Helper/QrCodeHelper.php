@@ -78,7 +78,7 @@ class QrCodeHelper extends AppHelper {
 	 * 2010-02-06 ms
 	 */
 	public function image($text, $options = array()) {
-		return $this->Html->image($this->url($text), $options);
+		return $this->Html->image($this->uri($text), $options);
 	}
 
 	/**
@@ -104,22 +104,22 @@ class QrCodeHelper extends AppHelper {
 		return $this->uri($url);
 	}
 
- 	protected function _uri($params = array()) {
+	protected function _uri($params = array()) {
 		$params = array_merge($this->options, $params);
 		$pieces = array();
 		foreach ($params as $key => $value) {
-			$pieces[] = $key.'='.$value;
+			$pieces[] = $key . '=' . $value;
 		}
- 		return $this->url.implode('&', $pieces);
- 	}
+		return $this->url . implode('&', $pieces);
+	}
 
- 	/**
- 	 * format a text in a specific format
- 	 * - url, sms, tel, email, market, geo
- 	 * @return string $formattedText
- 	 * 2010-02-06 ms
- 	 */
- 	public function formatText($text, $type = null) {
+	/**
+	 * format a text in a specific format
+	 * - url, sms, tel, email, market, geo
+	 * @return string $formattedText
+	 * 2010-02-06 ms
+	 */
+	public function formatText($text, $type = null) {
 		switch ($type) {
 			case 'text':
 				break;
@@ -142,20 +142,20 @@ class QrCodeHelper extends AppHelper {
 				$text = 'market://search?q=pname:'.$text;
 		}
 		return $text;
- 	}
+	}
 
 	/**
- 	 * generate mecard string
- 	 * 1: name, nickname, note, birthday, sound
+	 * generate mecard string
+	 * 1: name, nickname, note, birthday, sound
 	 * 1..n (as array or string): address, tel, url, email
- 	 * for details on cards see:
- 	 * http://www.nttdocomo.co.jp/english/service/imode/make/content/barcode/function/application/addressbook/index.html
+	 * for details on cards see:
+	 * http://www.nttdocomo.co.jp/english/service/imode/make/content/barcode/function/application/addressbook/index.html
 	 * example: MECARD: N:Docomo,Taro; SOUND:docomotaro; TEL:03XXXXXXXX; EMAIL:d@e.de;
 	 * @return string $mecard
 	 * 2010-02-26 ms
 	 */
- 	public function formatCard($data) {
- 		$data = (array)$data;
+	public function formatCard($data) {
+		$data = (array)$data;
 		$res = array();
 		foreach ($data as $key => $val) {
 			switch ($key) {
@@ -224,7 +224,7 @@ class QrCodeHelper extends AppHelper {
 		}
 
 		return 'MECARD:'.implode(';', $res).';';
- 	}
+	}
 
 	/**
 	 * //TODO
