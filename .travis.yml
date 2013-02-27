@@ -15,8 +15,9 @@ before_script:
   - git clone --depth 1 git://github.com/dereuromark/tools-app ../app && cd ../app && git checkout master
   - cp -R ../Tools plugins/Tools
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
+  - mkdir ./app/tmp
   - chmod -R 777 ./app/tmp
-	- echo "<?php
+  - echo "<?php
     class DATABASE_CONFIG {
     private \$identities = array(
       'mysql' => array(
