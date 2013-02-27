@@ -1,0 +1,66 @@
+language: php
+
+php:
+  - 5.3
+  - 5.4
+
+env:
+  - DB=mysql
+  - CAKE_VERSION=master
+  - CAKE_VERSION=2.4
+
+before_script:
+  - git clone --depth 1 git://github.com/cakephp/cakephp ../cakephp && cd ../cakephp && git checkout $CAKE_VERSION
+  - rm -R app
+  - git clone --depth 1 git://github.com/dereuromark/tools-app ../app && cd ../app && git checkout master
+  - cp -R ../Tools plugins/Tools
+  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
+  - chmod -R 777 ./app/tmp
+	- echo "<?php
+    class DATABASE_CONFIG {
+    private \$identities = array(
+      'mysql' => array(
+        'datasource' => 'Database/Mysql',
+        'host' => '0.0.0.0',
+        'login' => 'travis'
+      )
+    );
+    public \$default = array(
+      'persistent' => false,
+      'host' => '',
+      'login' => '',
+      'password' => '',
+      'database' => 'cakephp_test',
+      'prefix' => ''
+    );
+    public \$test = array(
+      'persistent' => false,
+      'host' => '',
+      'login' => '',
+      'password' => '',
+      'database' => 'cakephp_test',
+      'prefix' => ''
+    );
+    public function __construct() {
+      \$db = 'mysql';
+      if (!empty(\$_SERVER['DB'])) {
+        \$db = \$_SERVER['DB'];
+      }
+      foreach (array('default', 'test') as \$source) {
+        \$config = array_merge(\$this->{\$source}, \$this->identities[\$db]);
+        if (is_array(\$config['database'])) {
+          \$config['database'] = \$config['database'][\$source];
+        }
+        if (!empty(\$config['schema']) && is_array(\$config['schema'])) {
+          \$config['schema'] = \$config['schema'][\$source];
+        }
+        \$this->{\$source} = \$config;
+      }
+    }
+    }" > app/Config/database.php
+script:
+  - ./lib/Cake/Console/cake test Tools AllTools
+
+
+notifications:
+  email: false
