@@ -117,11 +117,12 @@ class CommonComponentTest extends CakeTestCase {
 	}
 
 	public function testFlashMessage() {
+		$this->skipIf(php_sapi_name() === 'cli', 'Cannot test session in CLI');
+
 		$this->Controller->Session->delete('messages');
 		$is = $this->Controller->Common->flashMessage('efg');
 
 		$res = $this->Controller->Session->read('messages');
-		//debug($res);
 		$this->assertTrue(!empty($res));
 		$this->assertTrue(isset($res['info'][0]) && $res['info'][0] === 'efg');
 	}
