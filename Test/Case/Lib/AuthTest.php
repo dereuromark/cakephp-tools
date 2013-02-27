@@ -21,7 +21,8 @@ class AuthTest extends MyCakeTestCase {
 
 	public function testId() {
 		$id = Auth::id();
-		$this->assertNull($id);
+		// can also be false if session cannot be started
+		$this->assertTrue($id === null || $id === false);
 
 		CakeSession::write('Auth.User.id', 1);
 		$id = Auth::id();
