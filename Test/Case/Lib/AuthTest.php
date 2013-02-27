@@ -11,6 +11,8 @@ class AuthTest extends MyCakeTestCase {
 
 	public function setUp() {
 		ClassRegistry::init('Session');
+
+		$this->skipIf(php_sapi_name() === 'cli', 'Cannot test session in CLI');
 	}
 
 	public function tearDown() {
@@ -21,8 +23,7 @@ class AuthTest extends MyCakeTestCase {
 
 	public function testId() {
 		$id = Auth::id();
-		// can also be false if session cannot be started
-		$this->assertTrue($id === null || $id === false);
+		$this->assertNull($id);
 
 		CakeSession::write('Auth.User.id', 1);
 		$id = Auth::id();
@@ -83,8 +84,5 @@ class AuthTest extends MyCakeTestCase {
 		$res = Auth::hasRoles(array(2, 7), false);
 		$this->assertFalse($res);
 	}
-
-
-
 
 }

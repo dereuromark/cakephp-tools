@@ -9,7 +9,7 @@ App::uses('AppController', 'Controller');
  */
 class CommonComponentTest extends CakeTestCase {
 
-	public $fixtures = array('core.cake_session');
+	//public $fixtures = array('core.cake_session');
 
 /**
  * setUp method
