@@ -5,7 +5,6 @@ php:
   - 5.4
 
 env:
-  - DB=mysql
   - CAKE_VERSION=master
   - CAKE_VERSION=2.4
 
@@ -14,7 +13,7 @@ before_script:
   - rm -R app
   - git clone --depth 1 git://github.com/dereuromark/tools-app ../app && cd ../app && git checkout master
   - cp -R ../Tools plugins/Tools
-  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
+  - sh -c "if [ 'mysql' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
   - mkdir ./app/tmp
   - chmod -R 777 ./app/tmp
   - echo "<?php
