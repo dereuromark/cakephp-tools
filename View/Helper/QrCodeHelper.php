@@ -86,7 +86,7 @@ class QrCodeHelper extends AppHelper {
 	 * Note: cannot be url() due to AppHelper conflicts
 	 *
 	 * @param string $text
-	 * @return string $url
+	 * @return string Url
 	 * 2010-02-25 ms
 	 */
 	public function uri($text) {
@@ -96,14 +96,8 @@ class QrCodeHelper extends AppHelper {
 	}
 
 	/**
-	 * @deprecated
-	 * old method - use uri() instead
+	 * @return string Url
 	 */
-	public function url($url = null, $full = false) {
-		//trigger_error('use uri() instead', E_DEPRECATED);
-		return $this->uri($url);
-	}
-
 	protected function _uri($params = array()) {
 		$params = array_merge($this->options, $params);
 		$pieces = array();
