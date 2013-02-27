@@ -28,22 +28,22 @@ class CommonHelperTest extends MyCakeTestCase {
 	public function testMetaAlternate() {
 		$is = $this->Common->metaAlternate('/some/url/param1', 'de-de');
 		$this->out(h($is));
-		$this->assertEquals('<link href="http://'.HTTP_HOST.$this->Common->url('/some/url/param1').'" rel="alternate" hreflang="de-de" />', trim($is));
+		$this->assertEquals('<link href="' . FULL_BASE_URL.$this->Common->url('/some/url/param1').'" rel="alternate" hreflang="de-de" />', trim($is));
 
 		$is = $this->Common->metaAlternate(array('controller'=>'some', 'action'=>'url'), 'de', true);
 		$this->out(h($is));
-		$this->assertEquals('<link href="http://'.HTTP_HOST.$this->Common->url('/some/url').'" rel="alternate" hreflang="de" />', trim($is));
+		$this->assertEquals('<link href="' . FULL_BASE_URL.$this->Common->url('/some/url').'" rel="alternate" hreflang="de" />', trim($is));
 
 		$is = $this->Common->metaAlternate(array('controller'=>'some', 'action'=>'url'), array('de', 'de-ch'), true);
 		$this->out(h($is));
-		$this->assertEquals('<link href="http://'.HTTP_HOST.$this->Common->url('/some/url').'" rel="alternate" hreflang="de" />'.PHP_EOL.'<link href="http://'.HTTP_HOST.$this->Common->url('/some/url').'" rel="alternate" hreflang="de-ch" />', trim($is));
+		$this->assertEquals('<link href="' . FULL_BASE_URL.$this->Common->url('/some/url').'" rel="alternate" hreflang="de" />'.PHP_EOL.'<link href="' . FULL_BASE_URL.$this->Common->url('/some/url').'" rel="alternate" hreflang="de-ch" />', trim($is));
 
 		$is = $this->Common->metaAlternate(array('controller'=>'some', 'action'=>'url'), array('de' => array('ch', 'at'), 'en'=>array('gb', 'us')), true);
 		$this->out(h($is));
-		$this->assertEquals('<link href="http://'.HTTP_HOST.$this->Common->url('/some/url').'" rel="alternate" hreflang="de-ch" />'.PHP_EOL.
-			'<link href="http://'.HTTP_HOST.$this->Common->url('/some/url').'" rel="alternate" hreflang="de-at" />'.PHP_EOL.
-			'<link href="http://'.HTTP_HOST.$this->Common->url('/some/url').'" rel="alternate" hreflang="en-gb" />'.PHP_EOL.
-			'<link href="http://'.HTTP_HOST.$this->Common->url('/some/url').'" rel="alternate" hreflang="en-us" />', trim($is));
+		$this->assertEquals('<link href="' . FULL_BASE_URL.$this->Common->url('/some/url').'" rel="alternate" hreflang="de-ch" />'.PHP_EOL.
+			'<link href="' . FULL_BASE_URL.$this->Common->url('/some/url').'" rel="alternate" hreflang="de-at" />'.PHP_EOL.
+			'<link href="' . FULL_BASE_URL.$this->Common->url('/some/url').'" rel="alternate" hreflang="en-gb" />'.PHP_EOL.
+			'<link href="' . FULL_BASE_URL.$this->Common->url('/some/url').'" rel="alternate" hreflang="en-us" />', trim($is));
 	}
 
 	/**
