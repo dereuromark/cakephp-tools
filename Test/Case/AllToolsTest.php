@@ -21,8 +21,8 @@ class AllToolsTest extends PHPUnit_Framework_TestSuite {
 		$path = dirname(__FILE__);
 		$Suite->addTestDirectory($path . DS . 'Model');
 
-		//$path = dirname(__FILE__);
-		//$Suite->addTestDirectory($path . DS . 'Model' . DS . 'Behavior');
+		$path = dirname(__FILE__);
+		$Suite->addTestDirectory($path . DS . 'Model' . DS . 'Behavior');
 
 		$path = dirname(__FILE__);
 		$Suite->addTestDirectory($path . DS . 'Console' . DS . 'Command');
