@@ -123,6 +123,8 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 
 	public function testLocaleConv() {
 		$res = setlocale(LC_NUMERIC, 'de_DE.utf8', 'german');
+		$this->skipIf(empty($res));
+
 		$this->assertTrue(!empty($res));
 
 		$this->Model->Behaviors->unload('DecimalInput');

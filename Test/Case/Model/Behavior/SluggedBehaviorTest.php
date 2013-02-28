@@ -117,7 +117,10 @@ class SluggedBehaviorTest extends CakeTestCase {
  * @access public
  */
 	public function setUp() {
-		//parent::setUp();
+		parent::setUp();
+
+		$this->skipIf(php_sapi_name() === 'cli', 'Might not work with this PCRE version in CLI - try webtest suite');
+
 		$this->Model = new MessageSlugged();
 	}
 
