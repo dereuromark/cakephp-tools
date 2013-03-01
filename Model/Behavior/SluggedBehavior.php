@@ -314,6 +314,10 @@ class SluggedBehavior extends ModelBehavior {
 			ob_start();
 			if (!App::import('Vendor', 'stop_words_' . $lang, array('file' => "stop_words".DS."$lang.txt"))) {
 				$res = App::import('Vendor', 'Tools.stop_words_' . $lang, array('file' => "stop_words".DS."$lang.txt"));
+				if (!$res) {
+					ob_get_clean();
+					return $string;
+				}
 			}
 			$stopWords = preg_replace('@/\*.*\*/@', '', ob_get_clean());
 			$this->stopWords[$lang] = array_filter(array_map('trim', explode("\n", $stopWords)));

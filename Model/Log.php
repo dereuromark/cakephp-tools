@@ -22,4 +22,15 @@ class Log extends ToolsAppModel {
 		),
 	);
 
+	/**
+	 * not really necessary probably
+	 */
+	public function find($type = null, $query = array()) {
+		if ($type === 'last') {
+			$options = array_merge(array('order'=>array($this->alias.'.id'=>'DESC')), $query);
+			return parent::find('first', $options);
+		}
+		return parent::find($type, $query);
+	}
+
 }

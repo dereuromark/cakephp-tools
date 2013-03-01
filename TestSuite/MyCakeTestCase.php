@@ -67,28 +67,45 @@ abstract class MyCakeTestCase extends CakeTestCase {
 
 /*** Helper Functions **/
 
-
 	/**
 	 * outputs debug information during a web tester (browser) test case
 	 * since PHPUnit>=3.6 swallowes all output by default
 	 * this is a convenience output handler since debug() or pr() have no effect
 	 * @param mixed $data
-	 * @param bool $pre should a pre tag be enclosed around the output
+	 * @param bool $force Should the output be flushed (forced)
 	 * @return void
 	 * 2011-12-04 ms
 	 */
-	public static function out($data, $pre = true) {
+	public static function debug($data, $force = false) {
 		if (php_sapi_name() === 'cli') {
 			return;
 		}
+		debug($data, null, false);
+		if (!$force) {
+			return;
+		}
+		ob_flush();
+	}
 
-		if ($pre) {
+	/**
+	 * outputs debug information during a web tester (browser) test case
+	 * since PHPUnit>=3.6 swallowes all output by default
+	 * this is a convenience output handler
+	 * @param mixed $data
+	 * @param bool $force Should the output be flushed (forced)
+	 * @return void
+	 * 2011-12-04 ms
+	 */
+	public static function out($data, $plain = false, $force = false) {
+		if (php_sapi_name() === 'cli') {
+			return;
+		}
+		if (!$plain|| is_array($data)) {
 			pr($data);
 		} else {
-			echo $data;
+			echo '<div>' . $data . '</div>';
 		}
-		if (empty($_SERVER['HTTP_HOST'])) {
-			# cli mode / shell access: use the --debug modifier if you are using the CLI interface
+		if (!$force) {
 			return;
 		}
 		ob_flush();

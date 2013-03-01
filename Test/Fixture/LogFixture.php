@@ -1,5 +1,4 @@
 <?php
-/* Log Fixture generated on: 2011-11-20 21:59:10 : 1321822750 */
 
 /**
  * LogFixture
