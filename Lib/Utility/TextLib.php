@@ -17,13 +17,13 @@ class TextLib extends String {
 	}
 
 	/**
-   * Return an abbreviated string, with characters in the middle of the
-   * excessively long string replaced by $ending.
-   *
-   * @param string $text The original string.
-   * @param integer $length The length at which to abbreviate.
-   * @return string The abbreviated string, if longer than $length.
-   */
+	 * Return an abbreviated string, with characters in the middle of the
+	 * excessively long string replaced by $ending.
+	 *
+	 * @param string $text The original string.
+	 * @param integer $length The length at which to abbreviate.
+	 * @return string The abbreviated string, if longer than $length.
+	 */
 	public static function abbreviate($text, $length = 20, $ending = '...') {
 		return (mb_strlen($text) > $length)
 			? rtrim(mb_substr($text, 0, round(($length - 3) / 2))) . $ending . ltrim(mb_substr($text, (($length - 3) / 2) * -1))
