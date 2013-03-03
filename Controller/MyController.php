@@ -37,6 +37,10 @@ class MyController extends Controller {
 	 * If you use another setup (like localhost/app/webroot) where you use multiple htaccess files or rewrite
 	 * rules you need to raise it accordingly.
 	 *
+	 * @param string|array $url A string or array-based URL
+	 * @param integer $status Optional HTTP status code (eg: 404)
+	 * @param boolean $exit If true, exit() will be called after the redirect
+	 * @return void
 	 * 2013-03-02 ms
 	 */
 	public function redirect($url, $status = null, $exit = true) {
@@ -54,7 +58,12 @@ class MyController extends Controller {
 		return parent::redirect($url, $status, $exit);
 	}
 
-	public function _encodeUrlPiece($value, $run) {
+	/**
+	 * @param mixed Url piece
+	 * @param int $run How many times does the value have to be escaped
+	 * @return mixed Escaped piece
+	 */
+	protected function _encodeUrlPiece($value, $run) {
 		if (!is_array($value)) {
 			for ($i = 0; $i < $run; $i++) {
 				$value = urlencode($value);

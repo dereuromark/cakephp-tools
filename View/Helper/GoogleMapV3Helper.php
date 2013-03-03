@@ -884,6 +884,7 @@ var iconShape = {
 	 * - avoidHighways: Boolean,
 	 * - avoidTolls: Boolean
 	 * - region: String
+	 * @see https://developers.google.com/maps/documentation/javascript/3.exp/reference#DirectionsRequest
 	 * @return void
 	 */
 	public function addDirections($from, $to, $options = array()) {
@@ -904,22 +905,22 @@ var iconShape = {
 			{$id}Display.setMap(".$this->name().");
 			";
 
-			if (!empty($options['directionsDiv'])) {
-				$directions .= "{$id}Display.setPanel(document.getElementById('" . $options['directionsDiv'] . "'));";
-			}
+		if (!empty($options['directionsDiv'])) {
+			$directions .= "{$id}Display.setPanel(document.getElementById('" . $options['directionsDiv'] . "'));";
+		}
 
-			if (is_array($from)) {
-				$from = 'new google.maps.LatLng(' . (float)$from['lat'] . ', ' . (float)$from['lng'] . ')';
-			} else {
-				$from = '\'' . h($from) . '\'';
-			}
-			if (is_array($to)) {
-				$to = 'new google.maps.LatLng(' . (float)$to['lat'] . ', ' . (float)$to['lng'] . ')';
-			} else {
-				$to = '\'' . h($to) . '\'';
-			}
+		if (is_array($from)) {
+			$from = 'new google.maps.LatLng(' . (float)$from['lat'] . ', ' . (float)$from['lng'] . ')';
+		} else {
+			$from = '\'' . h($from) . '\'';
+		}
+		if (is_array($to)) {
+			$to = 'new google.maps.LatLng(' . (float)$to['lat'] . ', ' . (float)$to['lng'] . ')';
+		} else {
+			$to = '\'' . h($to) . '\'';
+		}
 
-			$directions .= "
+		$directions .= "
 			var request = {
 				origin: $from,
 				destination: $to,
@@ -933,6 +934,65 @@ var iconShape = {
 			});
 		";
 		$this->map .= $directions;
+	}
+
+	/**
+	 * Add a polyline
+	 *
+	 * This method adds a line between 2 points
+	 *
+	 * @param array|string $from Location as array(fixed lat/lng pair) or string (to be geocoded at runtime)
+	 * @param array|string $to Location as array(fixed lat/lng pair) or string (to be geocoded at runtime)
+	 * @param array $options
+	 * - color (#FFFFFF ... #000000)
+	 * - opacity (0.1 ... 1, defaults to 1)
+	 * - weight in pixels (defaults to 2)
+	 * @see https://developers.google.com/maps/documentation/javascript/3.exp/reference#Polyline
+	 * @return void
+	 */
+	public function addPolyline($from, $to, $options = array()) {
+		if (is_array($from)) {
+			$from = 'new google.maps.LatLng(' . (float)$from['lat'] . ', ' . (float)$from['lng'] . ')';
+		} else {
+			throw new CakeException('not implemented yet, use array of lat/lng');
+			$from = '\'' . h($from) . '\'';
+		}
+		if (is_array($to)) {
+			$to = 'new google.maps.LatLng(' . (float)$to['lat'] . ', ' . (float)$to['lng'] . ')';
+		} else {
+			throw new CakeException('not implemented yet, use array of lat/lng');
+			$to = '\'' . h($to) . '\'';
+		}
+
+		$defaults = array(
+			'color' => '#FF0000',
+			'opacity' => 1.0,
+			'weight' => 2,
+		);
+		$options += $defaults;
+
+		if( !isset($strokeColor) )		$strokeColor = $this->defaultStrokeColor;
+		if( !isset($strokeOpacity) )	$strokeOpacity = $this->defaultStrokeOpacity;
+		if( !isset($strokeWeight) )		$strokeWeight = $this->defaultStrokeWeight;
+
+		$id = 'p' . self::$MARKER_COUNT++;
+
+		$polyline = "var start = $from;";
+		$polyline .= "var end = $to;";
+		$polyline .= "
+				var poly = [
+					start,
+					end
+				];
+				var {$id}Polyline = new google.maps.Polyline({
+					path: poly,
+					strokeColor: '" . $options['color'] . "',
+					strokeOpacity: " . $options['opacity'] . ",
+					strokeWeight: " . $options['weight'] . "
+				});
+				{$id}Polyline.setMap(".$this->name().");
+			";
+		$this->map .= $polyline;
 	}
 
 	/**

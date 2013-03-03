@@ -124,14 +124,20 @@ class PasswordableBehavior extends ModelBehavior {
 			trigger_error('No user id given');
 			return false;
 		}
+
+		$authClass = 'Auth';
 		if (empty($this->settings[$Model->alias]['auth']) && class_exists('AuthExtComponent')) {
-			$this->Auth = new AuthExtComponent(new ComponentCollection());
-		} elseif (class_exists(($this->settings[$Model->alias]['auth'] ? $this->settings[$Model->alias]['auth'] : 'Auth') . 'Component')) {
-			$auth = $this->settings[$Model->alias]['auth'].'Component';
-			$this->Auth = new $auth(new ComponentCollection());
-		} else {
-			throw new CakeException('No Authentication class found (' . $this->settings[$Model->alias]['auth'] . ')');
+			$authClass = 'AuthExt';
+		} elseif ($this->settings[$Model->alias]['auth']) {
+			$authClass = $this->settings[$Model->alias]['auth'];
 		}
+		$auth = $authClass . 'Component';
+		if (!class_exists($auth)) {
+			throw new CakeException('No Authentication class found (' . $auth. ')');
+		}
+
+		$this->Auth = new $auth(new ComponentCollection());
+
 		# easiest authenticate method via form and (id + pwd)
 		$this->Auth->authenticate = array(
 			'Form' => array(
