@@ -41,11 +41,11 @@ class TimeLib extends CakeTime {
 		return $current['timezone'];
 	}
 
-
-/** custom stuff **/
-
 	/**
-	 * calculate the difference between two dates
+	 * Calculate the difference between two dates
+	 *
+	 * TODO: deprecate in favor of DateTime::diff() etc which will be more precise
+	 *
 	 * should only be used for < month (due to the different month lenghts it gets fuzzy)
 	 * @param mixed $start (db format or timestamp)
 	 * @param mixex §end (db format or timestamp)
@@ -233,7 +233,6 @@ class TimeLib extends CakeTime {
 	public static function cweek($dateString = null, $relative = 0) {
 		//$time = self::fromString($dateString);
 		if (!empty($dateString)) {
-			//pr ($dateString);
 			$date = explode(' ', $dateString);
 			list ($y, $m, $d) = explode('-', $date[0]);
 			$t = mktime(0, 0, 0, $m, $d, $y);
@@ -249,9 +248,9 @@ class TimeLib extends CakeTime {
 			$t += WEEK*$relative;	// 1day * 7 * relativeWeeks
 		}
 
-		if (0==($kw=date('W', $t))) {
-				$kw = 1+date($t-DAY*date('w', $t), 'W');
-				$y--;
+		if (($kw = date('W', $t)) === 0) {
+			$kw = 1+date($t-DAY*date('w', $t), 'W');
+			$y--;
 		}
 		//echo "Der $d.$m.$y liegt in der Kalenderwoche $kw/$y";
 
@@ -368,15 +367,16 @@ class TimeLib extends CakeTime {
 			$secondAge = $firstAge;
 		}
 		//TODO: other relative time then today should work as well
+		$Date = new DateTime($relativeTime !== null ? $relativeTime : 'now');
 
-		$max = mktime(23, 23, 59, date('m'), date('d'), date('Y')-$firstAge); // time()-($firstAge+1)*YEAR;
-		$min = mktime(0, 0, 1, date('m'), date('d')+1, date('Y')-$secondAge-1); // time()+DAY-$secondAge*YEAR;
+		$max = mktime(23, 23, 59, $Date->format('m'), $Date->format('d'), $Date->format('Y')-$firstAge);
+		$min = mktime(0, 0, 1, $Date->format('m'), $Date->format('d')+1, $Date->format('Y')-$secondAge-1);
 
 		if ($returnAsString) {
 			$max = date(FORMAT_DB_DATE, $max);
 			$min = date(FORMAT_DB_DATE, $min);
 		}
-		return array('min'=>$min, 'max'=>$max);
+		return array('min' => $min, 'max' => $max);
 	}
 
 
@@ -683,22 +683,17 @@ class TimeLib extends CakeTime {
 			),
 		);
 
-		//echo $options[0]['steps']['4'];
-
 		if (array_key_exists($from, $times) && array_key_exists($to, $times)) {
 			$begin = $times[$from];
 			$end = $times[$to];
-			//echo $begin-$end.BR;
 		}
 
-		$minuten = $int;
-		if ($minuten<60) {
-			return $minuten.'min';
+		$minutes = $int;
+		if ($minutes < 60) {
+			return $minutes . 'min';
 		}
 
-		$calculated = floor($minuten/60)."h ".($minuten%60)."min";
-
-
+		$calculated = floor($minutes / 60) . "h " . ($minutes % 60) . "min";
 
 		if ($returnArray) {
 			// return as array
@@ -707,39 +702,6 @@ class TimeLib extends CakeTime {
 		}
 
 		return $calculated;
-	}
-
-
-
-	/**
-	 * @deprecated
-	 * NICHT TESTEN!
-	 */
-	public static function otherOne() {
-		$day = floor($anz_sekunden/86400);
-		$hours = floor(($anz_sekunden-(floor($anz_sekunden/86400)*86400))/3600);
-		$minutes = floor(($anz_sekunden-(floor($anz_sekunden/3600)*3600))/60);
-		$seconds = floor($anz_sekunden-(floor($anz_sekunden/60))*60);
-
-		if ($day < 10) {
-			$day = '0'.$day;
-		}
-		if ($hours < 10) {
-			$hours = '0'.$hours;
-		}
-		if ($minutes < 10) {
-			$minutes = '0'.$minutes;
-		}
-		if ($seconds < 10) {
-			$seconds = '0'.$seconds;
-		}
-
-		if ($day > 0) {
-			$zeit_ausgabe = $day.":".$hours.":".$minutes.":".$seconds;
-		} else {
-			$zeit_ausgabe = $hours.":".$minutes.":".$seconds." h";
-		}
-
 	}
 
 	/**
@@ -978,6 +940,18 @@ class TimeLib extends CakeTime {
 		return $options['default'];
 	}
 
+	/**
+	 * Convenience method to convert a given date
+	 *
+	 * @param string
+	 * @param string
+	 * @param int $timezone User's timezone
+	 * @return string Formatted date
+	 */
+	public static function convertDate($oldDateString, $newDateFormatString, $timezone = null) {
+		$Date = new DateTime($oldDateString, $timezone);
+		return $Date->format($newDateFormatString);
+	}
 
 /**
  * Returns true if given datetime string was day before yesterday.
@@ -1089,6 +1063,8 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
+	 * Parse a period (from ... to)
+	 *
 	 * @param string $searchString to parse
 	 * @param array $options
 	 * - separator (defaults to space [ ])

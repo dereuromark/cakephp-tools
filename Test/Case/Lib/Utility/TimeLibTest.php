@@ -43,7 +43,6 @@ class TimeLibTest extends MyCakeTestCase {
 		}
 	}
 
-
 	public function testParseLocalizedDate() {
 		$this->out($this->_header(__FUNCTION__));
 
@@ -79,7 +78,6 @@ class TimeLibTest extends MyCakeTestCase {
 			$this->assertEquals($ret, $v[1][1]);
 		}
 	}
-
 
 	public function testPeriod() {
 		$this->out($this->_header(__FUNCTION__));
@@ -123,7 +121,6 @@ class TimeLibTest extends MyCakeTestCase {
 		}
 	}
 
-
 	public function testDifference() {
 		$this->out($this->_header(__FUNCTION__));
 		$values = array(
@@ -151,10 +148,8 @@ class TimeLibTest extends MyCakeTestCase {
 			//pr($ret);
 			if (isset($v[2])) {
 				$this->assertSame($v[2], $ret);
-				//pr(TimeLib::age($v[2]['min']));
-				//pr(TimeLib::age($v[2]['max']));
-				$this->assertEquals($v[0], TimeLib::age($v[2]['max']));
-				$this->assertEquals($v[1], TimeLib::age($v[2]['min']));
+				$this->assertEquals($v[0], TimeLib::age($v[2]['max'], '2011-07-06'));
+				$this->assertEquals($v[1], TimeLib::age($v[2]['min'], '2011-07-06'));
 			}
 		}
 	}
@@ -185,7 +180,6 @@ class TimeLibTest extends MyCakeTestCase {
 			$this->assertSame($is, (date('Y')-2000), null, '2000/'.$month);
 		}
 	}
-
 
 	public function testDaysInMonth() {
 		$this->out($this->_header(__FUNCTION__));
@@ -307,7 +301,8 @@ class TimeLibTest extends MyCakeTestCase {
 		$ret = TimeLib::cweekDay(51, 2011, 2);
 		$this->out('51, 2011, 2');
 		$this->out(date(FORMAT_DB_DATETIME, $ret));
-		$this->assertEquals(1324422000, $ret);
+		$this->assertTrue($ret >= 1324422000 && $ret <= 1324425600);
+		//$this->assertEquals(1324422000, $ret);
 	}
 
 	public function testCweeks() {
@@ -342,7 +337,8 @@ class TimeLibTest extends MyCakeTestCase {
 			$ret = TimeLib::cweekBeginning($year);
 			$this->out($ret);
 			$this->out(TimeLib::niceDate($ret, 'D').' '.TimeLib::niceDate($ret, FORMAT_NICE_YMDHMS));
-			$this->assertEquals($ret, $expected, null, $year);
+			//$this->assertEquals($ret, $expected, null, $year);
+			$this->assertTrue($ret <= $expected + HOUR && $ret >= $expected);
 		}
 
 		$values = array(
@@ -357,7 +353,8 @@ class TimeLibTest extends MyCakeTestCase {
 			$ret = TimeLib::cweekBeginning($v[0], $v[1]);
 			$this->out($ret);
 			$this->out(TimeLib::niceDate($ret, 'D').' '.TimeLib::niceDate($ret, FORMAT_NICE_YMDHMS));
-			$this->assertSame($v[2], $ret, null, $v[1].'/'.$v[0]);
+			//$this->assertSame($v[2], $ret, null, $v[1].'/'.$v[0]);
+			$this->assertTrue($ret <= $v[2] + HOUR && $ret >= $v[2]);
 		}
 	}
 
@@ -374,7 +371,8 @@ class TimeLibTest extends MyCakeTestCase {
 			$ret = TimeLib::cweekEnding($year);
 			$this->out($ret);
 			$this->out(TimeLib::niceDate($ret, 'D').' '.TimeLib::niceDate($ret, FORMAT_NICE_YMDHMS));
-			$this->assertSame($ret, $expected);
+			//$this->assertSame($ret, $expected);
+			$this->assertTrue($ret <= $expected + HOUR && $ret >= $expected);
 		}
 
 		$values = array(
@@ -389,43 +387,52 @@ class TimeLibTest extends MyCakeTestCase {
 			$ret = TimeLib::cweekEnding($v[0], $v[1]);
 			$this->out($ret);
 			$this->out(TimeLib::niceDate($ret, 'D').' '.TimeLib::niceDate($ret, FORMAT_NICE_YMDHMS));
-			$this->assertSame($v[2], $ret, null, $v[1].'/'.$v[0]);
+			//$this->assertSame($v[2], $ret, null, $v[1].'/'.$v[0]);
+			$this->assertTrue($ret <= $v[2] + HOUR && $ret >= $v[2]);
 		}
 	}
 
 	public function testAgeByHoroscop() {
 		App::uses('ZodiacLib', 'Tools.Misc');
-		$zodiac = new ZodiacLib();
+
 		$is = TimeLib::ageByHoroscope(2000, ZodiacLib::SIGN_VIRGO);
 		//pr($is);
-		$this->assertEquals($is, 11);
+		$this->assertEquals(date('Y') - 2000 - 1, $is);
+
 		$is = TimeLib::ageByHoroscope(1991, ZodiacLib::SIGN_LIBRA);
 		//pr($is);
-		$this->assertEquals($is, 20);
+		$this->assertEquals(date('Y') - 1991 - 1, $is);
+
 		$is = TimeLib::ageByHoroscope(1986, ZodiacLib::SIGN_CAPRICORN);
 		//pr($is);
-		$this->assertEquals($is, array(24, 25));
+		$this->assertEquals($is, array(date('Y') - 1986 - 1, date('Y') - 1986));
+
 		$is = TimeLib::ageByHoroscope(2000, ZodiacLib::SIGN_SCORPIO);
-		//pr($is);
-		$this->assertEquals($is, array(10, 11));
+		//debug($is); ob_flush();
+		$this->assertEquals(date('Y') - 2000 - 1, $is); //array(10, 11)
 	}
 
 	public function testAgeRange() {
 		$is = TimeLib::ageRange(2000);
 		//pr($is);
-		$this->assertEquals($is, 10);
+		$this->assertEquals(date('Y') - 2000 - 1, $is);
+
 		$is = TimeLib::ageRange(2002, null, null, 5);
 		//pr($is);
 		$this->assertEquals($is, array(6, 10));
+
 		$is = TimeLib::ageRange(2000, null, null, 5);
 		//pr($is);
-		$this->assertEquals($is, array(6, 10));
+		$this->assertEquals($is, array(11, 15));
+
 		$is = TimeLib::ageRange(1985, 23, 11);
 		//pr($is);
-		$this->assertEquals($is, 25);
+		$this->assertEquals(date('Y') - 1985 - 1, $is);
+
 		$is = TimeLib::ageRange(1985, null, null, 6);
 		//pr($is);
 		$this->assertEquals($is, array(25, 30));
+
 		$is = TimeLib::ageRange(1985, 21, 11, 7);
 		//pr($is);
 		$this->assertEquals($is, array(22, 28));
@@ -448,7 +455,8 @@ class TimeLibTest extends MyCakeTestCase {
 			$is = TimeLib::parseDate($was);
 			//pr($is);
 			//pr(date(FORMAT_NICE_YMDHMS, $is));
-			$this->assertSame($expected, $is); //, null, $was
+			//$this->assertSame($expected, $is); //, null, $was
+			$this->assertTrue($is <= $expected + HOUR && $is >= $expected);
 		}
 	}
 
