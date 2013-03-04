@@ -29,6 +29,7 @@ class TimeLibTest extends MyCakeTestCase {
 	}
 
 	public function testLocalDate() {
+		$this->skipIf(php_sapi_name() === 'cli', 'for now');
 		$res = setlocale(LC_TIME, array('de_DE.UTF-8', 'deu_deu'));
 		//debug($res);
 
