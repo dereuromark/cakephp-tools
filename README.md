@@ -7,9 +7,6 @@ Please fork and help to improve (bugfixing, test cases, ...)
 
 Please note: New functionality has been tested against cake2.3 only. Please upgrade if possible.
 
-CODING STANDARDS
-- http://www.dereuromark.de/coding-standards/
-
 ## How to include
 Installing the Plugin is pretty much as with every other CakePHP Plugin.
 
@@ -84,6 +81,8 @@ If you are able to help on that one, that would be awesome.
 The master branch is the currently active and maintained one and works with the current 2.x stable version.
 Older versions might be found in their respective branches (1.3, 2.0, 2.3, ...).
 Please provide PRs mainly against master branch then.
+
+For details on how to contribute please read the [CONTRIBUTING page](CONTRIBUTING.md).
 
 ### Recent changes (possibly BC breaking)
 
