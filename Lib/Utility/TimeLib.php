@@ -398,10 +398,10 @@ class TimeLib extends CakeTime {
 	 * outputs Date(time) Sting nicely formatted (+ localized!)
 	 * @param string $dateString,
 	 * @param string $format (YYYY-MM-DD, DD.MM.YYYY)
- 	 * @param array $options
+	 * @param array $options
 		* - timezone: User's timezone
 		* - default (defaults to "-----")
- 	 * 2009-03-31 ms
+	 * 2009-03-31 ms
 	 */
 	public static function localDate($dateString = null, $format = null, $options = array()) {
 		$defaults = array('default' => '-----', 'timezone' => null);
@@ -429,10 +429,10 @@ class TimeLib extends CakeTime {
 	 * outputs Date(time) Sting nicely formatted
 	 * @param string $dateString,
 	 * @param string $format (YYYY-MM-DD, DD.MM.YYYY)
- 	 * @param array $options
+	 * @param array $options
 		* - timezone: User's timezone
 		* - default (defaults to "-----")
- 	 * 2009-03-31 ms
+	 * 2009-03-31 ms
 	 */
 	public static function niceDate($dateString = null, $format = null, $options = array()) {
 		$defaults = array('default'=>'-----', 'timezone'=>null);

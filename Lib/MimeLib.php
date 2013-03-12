@@ -715,17 +715,17 @@ class MimeLib extends CakeResponse {
 
 	}
 
- 	/**
- 	 * get all mime types that are supported by cake php core right now
- 	 * @return array
- 	 * 2012-02-12 ms
- 	 */
- 	public function getMimeTypes($coreOnly = false) {
- 		if ($coreOnly) {
- 			return $this->_mimeTypes;
- 		}
- 		return array_merge($this->_mimeTypesExt, $this->_mimeTypes);
- 	}
+	/**
+	 * get all mime types that are supported by cake php core right now
+	 * @return array
+	 * 2012-02-12 ms
+	 */
+	public function getMimeTypes($coreOnly = false) {
+		if ($coreOnly) {
+			return $this->_mimeTypes;
+		}
+		return array_merge($this->_mimeTypesExt, $this->_mimeTypes);
+	}
 
 	/**
 	 * Returns the mime type definition for an alias
@@ -735,13 +735,13 @@ class MimeLib extends CakeResponse {
 	 * @param string $alias the content type alias to map
 	 * @return mixed string mapped mime type or false if $alias is not mapped
 	 */
- 	public function getMimeType($alias, $coreOnly = false) {
- 		$res = parent::getMimeType($alias);
- 		if ($res === false && !$coreOnly && isset($this->_mimeTypesExt[$alias])) {
-			return $this->_mimeTypesExt[$alias];
- 		}
- 		return $res;
- 	}
+	public function getMimeType($alias, $coreOnly = false) {
+		$res = parent::getMimeType($alias);
+		if ($res === false && !$coreOnly && isset($this->_mimeTypesExt[$alias])) {
+		return $this->_mimeTypesExt[$alias];
+		}
+		return $res;
+	}
 
 	/**
 	 * Maps a content-type back to an alias

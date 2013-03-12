@@ -444,7 +444,7 @@ function pre($var, $collapsedAndExpandable = false, $options = array()) {
 	}
 
 	if ($options['returns']) {
- 		$var = returns($var);
+		$var = returns($var);
 	} else {
 		$var = print_r($var, true);
 	}

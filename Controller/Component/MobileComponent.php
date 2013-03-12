@@ -139,8 +139,8 @@ class MobileComponent extends Component {
 		}
 
 		if (!$this->themed) {
-	 		$this->serveMobileIfAvailable();
-	 		return;
+			$this->serveMobileIfAvailable();
+			return;
 		}
 
 		$this->Controller->viewClass = 'Theme';

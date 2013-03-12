@@ -149,10 +149,10 @@ class HttpSocketLib {
 
 			$opts = array(
 				'http' => array(
-            'method' => 'GET',
-            'header' => array('Connection: close'),
-            'timeout' => $options['timeout']
-        )
+				'method' => 'GET',
+				'header' => array('Connection: close'),
+				'timeout' => $options['timeout']
+			)
 			);
 			if (isset($options['http'])) {
 				$opts['http'] = array_merge($opts['http'], $options['http']);

@@ -1,4 +1,4 @@
-<?php 
+<?php
 class RevisionUserFixture extends CakeTestFixture {
 
 	public $fields = array(

@@ -168,7 +168,7 @@ class CaptchaHelper extends AppHelper {
 	/**
 	 * active captcha
 	 * (+ passive captcha right now)
-	 * 
+	 *
 	 * @return string Form input
 	 * 2010-01-08 ms
 	 */

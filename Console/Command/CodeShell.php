@@ -33,7 +33,7 @@ class CodeShell extends AppShell {
 			$this->_paths = array(APP);
 		}
 
- 		$this->_findFiles('php');
+		$this->_findFiles('php');
 		foreach ($this->_files as $file) {
 			$this->out(__d('cake_console', 'Updating %s...', $file), 1, Shell::VERBOSE);
 

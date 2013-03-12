@@ -193,8 +193,8 @@ class EmailLib extends CakeEmail {
 			$mimetype = finfo_file($finfo, $filename);
 			finfo_close($finfo);
 		} else {
-	 		//TODO: improve
-	 		$ext = pathinfo($filename, PATHINFO_EXTENSION);
+			//TODO: improve
+			$ext = pathinfo($filename, PATHINFO_EXTENSION);
 			$mimetype = $this->_getMimeByExtension($ext);
 		}
 		return $mimetype;
@@ -600,16 +600,16 @@ class EmailLib extends CakeEmail {
 	 * @return void
 	 */
 	protected function _logEmail($append = null) {
- 		$res = $this->_log['transport'].
+		$res = $this->_log['transport'].
 			' - '.'TO:'.implode(',', array_keys($this->_log['to'])).
 			'||FROM:'.implode(',', array_keys($this->_log['from'])).
 			'||REPLY:'.implode(',', array_keys($this->_log['replyTo'])).
 			'||S:'.$this->_log['subject'];
- 		$type = 'email';
-		 if (!empty($this->_error)) {
+		$type = 'email';
+		if (!empty($this->_error)) {
 		 	$type = 'email_error';
- 			$res .= '||ERROR:' . $this->_error;
- 		}
+			$res .= '||ERROR:' . $this->_error;
+		}
 		if ($append) {
 			$res .= '||'.$append;
 		}

@@ -88,7 +88,7 @@ class GeocodeLib {
 		'bounds' => '',
 		'sensor' => 'false', # device with gps module sensor
 		//'key' => '' # not necessary anymore
- 	);
+	);
 
 	protected $error = array();
 	protected $result = null;

@@ -78,7 +78,7 @@ class IndentShell extends AppShell {
 					$this->error('...aborted');
 				}
 
-				$this->_correctFiles3();
+				$this->_correctFiles();
 				$this->out('DONE');
 			}
 
@@ -122,7 +122,7 @@ class IndentShell extends AppShell {
 	 *
 	 * 2010-09-12 ms
 	 */
-	protected function _correctFiles3() {
+	protected function _correctFiles() {
 		foreach ($this->_files as $file) {
 			$this->changes = false;
 			$textCorrect = array();
@@ -135,7 +135,7 @@ class IndentShell extends AppShell {
 				if ($this->settings['againWithHalf'] && $spacesPerTab % 2 === 0 && $spacesPerTab > 3) {
 					$tmp = $this->_process($tmp, $spacesPerTab/2);
 				}
-
+				$tmp = $this->_processSpaceErrors($tmp, 1);
 				$textCorrect[] = $tmp;
 			}
 
@@ -156,10 +156,10 @@ class IndentShell extends AppShell {
 		$newPiece = $piece;
 		if ($spacesPerTab) {
 			//TODO
-			while (mb_substr($piece, $pos+1, 1) === ' ' || mb_substr($piece, $pos+1, 1) === TB) {
+			while (mb_substr($piece, $pos+1, 1) === ' ' || mb_substr($piece, $pos + 1, 1) === TB) {
 				$pos++;
 			}
-			$piece1 = mb_substr($piece, 0, $pos+1);
+			$piece1 = mb_substr($piece, 0, $pos + 1);
 			$piece1 = str_replace(str_repeat(' ', $spacesPerTab), TB, $piece1, $count);
 			if ($count > 0) {
 				$this->changes = true;
@@ -186,30 +186,17 @@ class IndentShell extends AppShell {
 	 * @deprecated
 	 * 2010-09-12 ms
 	 */
-	protected function _correctFiles2() {
-		foreach ($this->_files as $file) {
-			$changes = false;
-			$textCorrect = array();
+	protected function _processSpaceErrors($piece) {
+		$space = 1;
 
-			$pieces = $this->_read($file);
-			foreach ($pieces as $piece) {
-				$spaces = $mod = $tabs = 0;
-				$debug = '';
-
-				$newPiece = $piece;
-				//TODO: make sure no other text is in front of it!!!
-				$newPiece = str_replace(str_repeat(' ', $this->settings['spacesPerTab']), TB, $newPiece, $count);
-				if ($count > 0) {
-					$changes = true;
-				}
-
-				$textCorrect[] = rtrim($newPiece) . $debug;
-			}
-
-			if ($changes) {
-				$this->_write($file, $textCorrect);
-			}
+		$newPiece = $piece;
+		if (mb_substr($piece, 0, $space) === ' ' && mb_substr($piece, $space, 1) === TB) {
+			$newPiece = mb_substr($piece, $space);
 		}
+		if ($newPiece != $piece || strlen($newPiece) !== strlen($piece)) {
+			$this->changes = true;
+		}
+		return $newPiece;
 	}
 
 	/**
@@ -219,7 +206,7 @@ class IndentShell extends AppShell {
 	 * @deprecated
 	 * 2010-09-12 ms
 	 */
-	protected function _correctFiles() {
+	protected function _correctFilesTry() {
 		foreach ($this->_files as $file) {
 			$changes = false;
 			$textCorrect = array();
@@ -302,7 +289,12 @@ class IndentShell extends AppShell {
 		foreach ($this->_paths as $path) {
 			$Folder = new Folder($path);
 			$files = $Folder->findRecursive('.*\.('.implode('|', $this->settings['files']).')', true);
-			$this->_files += $files;
+			foreach ($files as $file) {
+				if (strpos($file, DS . 'Vendor' . DS) !== false) {
+					continue;
+				}
+				$this->_files[] = $file;
+			}
 		}
 	}
 

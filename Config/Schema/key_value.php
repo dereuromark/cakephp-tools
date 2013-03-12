@@ -1,4 +1,4 @@
-<?php 
+<?php
 class KeyValueSchema extends CakeSchema {
 
 	public function before($event = array()) {

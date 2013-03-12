@@ -141,40 +141,40 @@ class ZodiacLib {
 		//TODO
 	}
 
- 	/**
- 	 * list of all signs
- 	 * 2011-03-11 ms
- 	 */
- 	public static function signs($value = null) {
- 		$res = array(
- 			self::SIGN_AQUARIUS	=> __('zodiacAquarius'),
- 			self::SIGN_PISCES	=> __('zodiacPisces'),
- 			self::SIGN_ARIES	=> __('zodiacAries'),
- 			self::SIGN_TAURUS	=> __('zodiacTaurus'),
- 			self::SIGN_GEMINI	=> __('zodiacGemini'),
- 			self::SIGN_CANCER	=> __('zodiacCancer'),
- 			self::SIGN_LEO	=> __('zodiacLeo'),
- 			self::SIGN_VIRGO	=> __('zodiacVirgo'),
- 			self::SIGN_LIBRA	=> __('zodiacLibra'),
- 			self::SIGN_SCORPIO	=> __('zodiacScorpio'),
- 			self::SIGN_SAGITTARIUS	=> __('zodiacSagittarius'),
- 			self::SIGN_CAPRICORN	=> __('zodiacCapricorn'),
+	/**
+	 * list of all signs
+	 * 2011-03-11 ms
+	 */
+	public static function signs($value = null) {
+		$res = array(
+			self::SIGN_AQUARIUS	=> __('zodiacAquarius'),
+			self::SIGN_PISCES	=> __('zodiacPisces'),
+			self::SIGN_ARIES	=> __('zodiacAries'),
+			self::SIGN_TAURUS	=> __('zodiacTaurus'),
+			self::SIGN_GEMINI	=> __('zodiacGemini'),
+			self::SIGN_CANCER	=> __('zodiacCancer'),
+			self::SIGN_LEO	=> __('zodiacLeo'),
+			self::SIGN_VIRGO	=> __('zodiacVirgo'),
+			self::SIGN_LIBRA	=> __('zodiacLibra'),
+			self::SIGN_SCORPIO	=> __('zodiacScorpio'),
+			self::SIGN_SAGITTARIUS	=> __('zodiacSagittarius'),
+			self::SIGN_CAPRICORN	=> __('zodiacCapricorn'),
 		);
 		if ($value === null) {
 			return $res;
 		}
 		return $res[$value];
- 	}
+	}
 
- 	public static function image($sign) {
+	public static function image($sign) {
 		return self::$res[$sign];
- 	}
+	}
 
- 	const SIGN_AQUARIUS = 1; # from 20.01. to 18.02.
- 	const SIGN_PISCES = 2; # from 19 Febbraio to 20 marzo
- 	const SIGN_ARIES = 3;
- 	const SIGN_TAURUS = 4;
- 	const SIGN_GEMINI = 5;
+	const SIGN_AQUARIUS = 1; # from 20.01. to 18.02.
+	const SIGN_PISCES = 2; # from 19 Febbraio to 20 marzo
+	const SIGN_ARIES = 3;
+	const SIGN_TAURUS = 4;
+	const SIGN_GEMINI = 5;
 	const SIGN_CANCER = 6;
 	const SIGN_LEO = 7;
 	const SIGN_VIRGO = 8; # from 23.08. to 22.09.
