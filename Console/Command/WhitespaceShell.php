@@ -5,14 +5,10 @@ App::uses('Folder', 'Utility');
 class WhitespaceShell extends AppShell {
 
 	public $autoCorrectAll = false;
+
 	# each report: [0] => found, [1] => corrected
 	public $report = array('leading'=>array(0, 0), 'trailing'=>array(0, 0));
 
-	/*
-	public function main() {
-
-	}
-	*/
 
 	public function find() {
 		$App = new Folder(APP);

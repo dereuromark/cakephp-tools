@@ -81,8 +81,6 @@ class NumberLibTest extends MyCakeTestCase {
 		);
 		foreach ($values as $was => $expected) {
 			$is = NumberLib::roundTo($was, 10);
-			//debug($expected); debug($is); echo BR;
-
 			$this->assertSame($expected, $is, null, $was);
 		}
 		//increment = 0.1
@@ -181,6 +179,39 @@ class NumberLibTest extends MyCakeTestCase {
 			$is = NumberLib::getDecimalPlaces($was, 10);
 			$this->assertSame($expected, $is); //, null, $was
 		}
+	}
+
+	/**
+	 * Test spacer format options for currency() method
+	 *
+	 * @return void
+	 */
+	public function testCurrencySpacer() {
+		$this->skipIf(true, 'TODO');
+
+		$result = NumberLib::currency('4.111', 'EUR');
+		$expected = '€4,11';
+		$this->assertEquals($expected, $result);
+
+		$result = NumberLib::currency('4.111', 'EUR', array('spacer' => false));
+		$expected = '€4,11';
+		$this->assertEquals($expected, $result);
+
+		$result = NumberLib::currency('4.111', 'EUR', array('spacer' => true));
+		$expected = '€ 4,11';
+		$this->assertEquals($expected, $result);
+
+		$result = NumberLib::currency('-4.111', 'GBP', array('spacer' => false, 'negative' => '-'));
+		$expected = '-£4.11';
+		$this->assertEquals($expected, $result);
+
+		$result = NumberLib::currency('-4.111', 'GBP', array('spacer' => true, 'negative' => '-'));
+		$expected = '-£ 4.11';
+		$this->assertEquals($expected, $result);
+
+		$result = NumberLib::currency('4.111', 'EUR', array('spacer' => '&nbsp;', 'escape' => false));
+		$expected = '€&nbsp;4,11';
+		$this->assertEquals($expected, $result);
 	}
 
 }

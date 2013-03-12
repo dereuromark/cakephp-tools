@@ -27,9 +27,7 @@ class IndentShell extends AppShell {
 
 	public $settings = array(
 		'files' => array('php', 'ctp', 'inc', 'tpl'),
-		'spacesPerTab' => 4,
 		'againWithHalf' => true, # if 4, go again with 2 afterwards
-		'test' => false, # just count - without doing anything
 		'outputToTmp' => false, # write to filename_.ext
 		'debug' => false # add debug info after each line
 	);
@@ -43,11 +41,11 @@ class IndentShell extends AppShell {
 	 * @return void
 	 */
 	public function folder() {
-		if (!empty($this->args)) {
-			if (in_array('test', $this->args)) {
-				$this->settings['test'] = true;
-			}
+		if (!empty($this->params['extensions'])) {
+			$this->settings['files'] = String::tokenize($this->params['extensions']);
+		}
 
+		if (!empty($this->args)) {
 			if (!empty($this->args[0]) && $this->args[0] !== 'app') {
 				$folder = $this->args[0];
 				if ($folder === '/') {
@@ -72,12 +70,12 @@ class IndentShell extends AppShell {
 			$this->_searchFiles();
 
 			$this->out('found: ' . count($this->_files));
-			if ($this->settings['test']) {
+			if (!empty($this->params['dry-run'])) {
 				$this->out('TEST DONE');
 			} else {
 				$continue = $this->in(__('Modifying files! Continue?'), array('y', 'n'), 'n');
 				if (strtolower($continue) !== 'y' && strtolower($continue) !== 'yes') {
-					die('...aborted');
+					$this->error('...aborted');
 				}
 
 				$this->_correctFiles3();
@@ -96,39 +94,7 @@ class IndentShell extends AppShell {
 		}
 	}
 
-
-
-	public function getOptionParser() {
-		$subcommandParser = array(
-			'options' => array(
-				'dry-run'=> array(
-					'short' => 'd',
-					'help' => __d('cake_console', 'Dry run the update, no files will actually be modified.'),
-					'boolean' => true
-				),
-				'log'=> array(
-					'short' => 'l',
-					'help' => __d('cake_console', 'Log all ouput to file log.txt in TMP dir'),
-					'boolean' => true
-				),
-				'interactive'=> array(
-					'short' => 'i',
-					'help' => __d('cake_console', 'Interactive'),
-					'boolean' => true
-				),
-			)
-		);
-
-		return parent::getOptionParser()
-			->description(__d('cake_console', "Correct indentation of files"))
-			->addSubcommand('folder', array(
-				'help' => __d('cake_console', 'Indent all files in a folder'),
-				'parser' => $subcommandParser
-			));
-	}
-
-
-	public function _write($file, $text) {
+	protected function _write($file, $text) {
 		$text = implode(PHP_EOL, $text);
 		if ($this->settings['outputToTmp']) {
 			$filename = extractPathInfo('file', $file);
@@ -140,7 +106,7 @@ class IndentShell extends AppShell {
 		return file_put_contents($file, $text);
 	}
 
-	public function _read($file) {
+	protected function _read($file) {
 		$text = file_get_contents($file);
 		if (empty($text)) {
 			return array();
@@ -156,15 +122,17 @@ class IndentShell extends AppShell {
 	 *
 	 * 2010-09-12 ms
 	 */
-	public function _correctFiles3() {
+	protected function _correctFiles3() {
 		foreach ($this->_files as $file) {
 			$this->changes = false;
 			$textCorrect = array();
 
 			$pieces = $this->_read($file);
+			$spacesPerTab = $this->params['spaces'];
+
 			foreach ($pieces as $piece) {
-				$tmp = $this->_process($piece, $this->settings['spacesPerTab']);
-				if ($this->settings['againWithHalf'] && ($spacesPerTab = $this->settings['spacesPerTab']) % 2 === 0 && $spacesPerTab > 3) {
+				$tmp = $this->_process($piece, $spacesPerTab);
+				if ($this->settings['againWithHalf'] && $spacesPerTab % 2 === 0 && $spacesPerTab > 3) {
 					$tmp = $this->_process($tmp, $spacesPerTab/2);
 				}
 
@@ -177,25 +145,31 @@ class IndentShell extends AppShell {
 		}
 	}
 
-	public function _process($piece, $spacesPerTab) {
+	/**
+	 * @return string
+	 */
+	protected function _process($piece, $spacesPerTab) {
 		$pos = -1;
 		$spaces = $mod = $tabs = 0;
 		$debug = '';
 
 		$newPiece = $piece;
-		//TODO
-		while (mb_substr($piece, $pos+1, 1) === ' ' || mb_substr($piece, $pos+1, 1) === TB) {
-			$pos++;
-		}
-		$piece1 = mb_substr($piece, 0, $pos+1);
-		$piece1 = str_replace(str_repeat(' ', $spacesPerTab), TB, $piece1, $count);
-		if ($count > 0) {
-			$this->changes = true;
+		if ($spacesPerTab) {
+			//TODO
+			while (mb_substr($piece, $pos+1, 1) === ' ' || mb_substr($piece, $pos+1, 1) === TB) {
+				$pos++;
+			}
+			$piece1 = mb_substr($piece, 0, $pos+1);
+			$piece1 = str_replace(str_repeat(' ', $spacesPerTab), TB, $piece1, $count);
+			if ($count > 0) {
+				$this->changes = true;
+			}
+
+			$piece2 = mb_substr($piece, $pos+1);
+
+			$newPiece = $piece1 . $piece2;
 		}
 
-		$piece2 = mb_substr($piece, $pos+1);
-
-		$newPiece = $piece1 . $piece2;
 		$newPiece = rtrim($newPiece) . $debug;
 		if ($newPiece != $piece || strlen($newPiece) !== strlen($piece)) {
 			$this->changes = true;
@@ -209,9 +183,10 @@ class IndentShell extends AppShell {
 	 * NEW TRY!
 	 * idea: hardcore replaceing
 	 *
+	 * @deprecated
 	 * 2010-09-12 ms
 	 */
-	public function _correctFiles2() {
+	protected function _correctFiles2() {
 		foreach ($this->_files as $file) {
 			$changes = false;
 			$textCorrect = array();
@@ -240,9 +215,11 @@ class IndentShell extends AppShell {
 	/**
 	 * Old try - sometimes TABS at the beginning are not recogized...
 	 * idea: strip tabs and spaces, remember their amount and add tabs again!
+	 *
+	 * @deprecated
 	 * 2010-09-12 ms
 	 */
-	public function _correctFiles() {
+	protected function _correctFiles() {
 		foreach ($this->_files as $file) {
 			$changes = false;
 			$textCorrect = array();
@@ -320,13 +297,52 @@ class IndentShell extends AppShell {
 	 * Search files that may contain translateable strings
 	 *
 	 * @return void
-	 * @access private
 	 */
-	public function _searchFiles() {
+	protected function _searchFiles() {
 		foreach ($this->_paths as $path) {
 			$Folder = new Folder($path);
 			$files = $Folder->findRecursive('.*\.('.implode('|', $this->settings['files']).')', true);
 			$this->_files += $files;
 		}
 	}
+
+	public function getOptionParser() {
+		$subcommandParser = array(
+			'options' => array(
+				'dry-run'=> array(
+					'short' => 'd',
+					'help' => __d('cake_console', 'Dry run the update, no files will actually be modified.'),
+					'boolean' => true
+				),
+				'log'=> array(
+					'short' => 'l',
+					'help' => __d('cake_console', 'Log all ouput to file log.txt in TMP dir'),
+					'boolean' => true
+				),
+				'interactive'=> array(
+					'short' => 'i',
+					'help' => __d('cake_console', 'Interactive'),
+					'boolean' => true
+				),
+				'spaces'=> array(
+					'short' => 's',
+					'help' => __d('cake_console', 'Spaces per Tab'),
+					'default' => '4',
+				),
+				'extensions'=> array(
+					'short' => 'e',
+					'help' => __d('cake_console', 'Extensions (comma-separated)'),
+					'default' => '',
+				),
+			)
+		);
+
+		return parent::getOptionParser()
+			->description(__d('cake_console', "Correct indentation of files"))
+			->addSubcommand('folder', array(
+				'help' => __d('cake_console', 'Indent all files in a folder'),
+				'parser' => $subcommandParser
+			));
+	}
+
 }

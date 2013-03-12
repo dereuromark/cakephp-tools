@@ -19,7 +19,10 @@ class MyHelper extends Helper {
 	}
 
 	/**
-	 * manually
+	 * Manually load helpers
+	 * @param array $helpers (either strings, or [string => array(config...)])
+	 * @param bool $callbacks - trigger missed callbacks
+	 * @return void
 	 */
 	public function loadHelpers($helpers = array(), $callbacks = false) {
 		foreach ((array)$helpers as $helper => $config) {
@@ -230,21 +233,6 @@ class MyHelper extends Helper {
 	public $urlHere = null;
 
 	/**
-	 * Small Helper Function to retrieve CORRECT $this->here (as it should be) - CAKE BUG !? -> this is a fix
-	 * 2009-01-06 ms
-	 */
-	public function here() {
-		if (empty($this->urlHere) && isset($_GET['url'])) {
-			$this->urlHere = $_GET['url'];
-			if (strpos($this->urlHere, '/') !== 0) {
-				$this->urlHere = '/'.$this->urlHere;
-			}
-		}
-		return $this->urlHere;
-	}
-
-
-	/**
 	 * enhancement to htmlHelper which allows the crumbs protected array
 	 * to be cleared so that more than one set of crumbs can be generated in the same view.
 	 *
@@ -253,44 +241,6 @@ class MyHelper extends Helper {
 	 */
 	public function resetCrumbs() {
 		$this->_crumbs = array();
-	}
-
-
-
-/** deprecated */
-
-	/**
-	 * @deprecated
-	 */
-	public function nl2p($text, $options = array(), $enforceMaxLength = true) {
-		$pS = $this->Html->tag('p', null, $options);
-		$pE = '</p>';
-		if (!empty($text)) {
-			// Max length auto line break, if enabled
-			if ($enforceMaxLength) {
-				$maxLength = null;
-				if (isset($options['maxLength'])) {
-					$maxLength = (int)$options['maxLength'];
-				}
-				$text = $this->maxLength($text, $maxLength);
-			}
-			// Replace double newlines with <p>
-			$text = $pS . preg_replace('#(\r?\n) {2,}(\s+)?#u', $pE . $pS, $text) . $pE;
-			// Replace single newlines with <br>
-			$text = preg_replace('#\r?\n#u', BR, $text);
-			// Add newlines to sourcecode for sourcode readability
-			$text = preg_replace(
-				array(
-					'#' . $pE . '#u', // Matches $pE (like </p>)
-					'#' . BR . '#u', // Matches $br (like <br />)
-				),
-				array(
-					$pE . "\n",
-					BR . "\n",
-				),
-				$text);
-		}
-		return $text;
 	}
 
 	/**
@@ -313,7 +263,7 @@ class MyHelper extends Helper {
 	 *
 	 * @return void
 	 */
-	public function afterLayout($layoutFile = null) {
+	public function afterLayout($layoutFile) {
 		if (!Configure::read('UrlCache.active') || Configure::read('UrlCache.runtime.afterLayout')) {
 			return;
 		}

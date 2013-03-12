@@ -79,7 +79,6 @@ class NumberLib extends CakeNumber {
 		}
 		$options = array('before' => '', 'after' => '', 'places' => 2, 'thousands' => self::$_thousandsPoint, 'decimals' => self::$_decimalPoint, 'escape' => false);
 		$options = array_merge($options, $formatOptions);
-		//$options = array;
 
 		if (!empty($options['currency'])) {
 			if (!empty(self::$_symbolRight)) {
@@ -88,21 +87,18 @@ class NumberLib extends CakeNumber {
 				$options['before'] = self::$_symbolLeft . ' ';
 			}
 		}
+
 		/*
-		else {
-			if (!empty($formatOptions['after'])) {
-				$options['after'] = $formatOptions['after'];
+		if ($spacer !== false) {
+			$spacer = ($spacer === true) ? ' ' : $spacer;
+			if ((string)$before !== '') {
+				$before .= $spacer;
 			}
-			if (!empty($formatOptions['before'])) {
-				$options['before'] = $formatOptions['before'];
+			if ((string)$after !== '') {
+				$after = $spacer . $after;
 			}
 		}
-		if (!empty($formatOptions['thousands'])) {
-			$options['thousands'] = $formatOptions['thousands'];
-		}
-		if (!empty($formatOptions['decimals'])) {
-			$options['decimals'] = $formatOptions['decimals'];
-		}
+
 		*/
 		if ($options['places'] < 0) {
 			$number = round($number, $options['places']);
@@ -292,7 +288,7 @@ class NumberLib extends CakeNumber {
 	 * @return boolean
 	 */
 	public static function isFloatEqual($x, $y, $precision = 0.0000001) {
-		return ($x+$precision >= $y) && ($x-$precision <= $y);
+		return ($x + $precision >= $y) && ($x - $precision <= $y);
 	}
 
 }

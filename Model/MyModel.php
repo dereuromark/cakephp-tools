@@ -1537,6 +1537,41 @@ class MyModel extends Model {
 	}
 
 	/**
+	 * Get all related entries that have been used so far
+	 *
+	 * @return array
+	 */
+	public function getRelatedInUse($modelName, $groupField, $type = 'all', $options = array()) {
+		$defaults = array(
+			'contain' => array($modelName),
+			'group' => $groupField,
+			'order' => array($modelName . '.' . $this->$modelName->displayField => 'ASC'),
+		);
+		if ($type === 'list') {
+			$defaults['fields'] = array($modelName . '.' . $this->$modelName->primaryKey, $modelName . '.' . $this->$modelName->displayField);
+		}
+		$options += $defaults;
+		return $this->find($type, $options);
+	}
+
+	/**
+	 * Get all fields that have been used so far
+	 *
+	 * @return array
+	 */
+	public function getFieldInUse($groupField, $type = 'all', $options = array()) {
+		$defaults = array(
+			'group' => $groupField,
+			'order' => array($this->alias . '.' . $this->displayField => 'ASC'),
+		);
+		if ($type === 'list') {
+			$defaults['fields'] = array($this->alias . '.' . $this->primaryKey, $this->alias . '.' . $this->displayField);
+		}
+		$options += $defaults;
+		return $this->find($type, $options);
+	}
+
+	/**
 	 * Update a row with certain fields (dont use "Model" as super-key)
 	 * @param int $id
 	 * @param array $data

@@ -5,7 +5,7 @@
 App::import('Vendor', 'Tools.ical', array('file'=>'ical/ical.php'));
 App::import('Vendor', 'Tools.icalobject', array('file'=>'ical/i_cal_object.php'));
 
-App::uses('CakeTime', 'Utility');
+App::uses('TimeLib', 'Tools.Utility');
 
 /**
  * A wrapper for the Ical/Ics calendar lib
@@ -34,24 +34,36 @@ class IcalLib {
 	 * - id => uid with @host
 	 * - start/end/timestamp to atom
 	 * - class to upper
+	 *
+	 * @param array $data
+	 * @param bool $addStartAndEnd
 	 * @return string $icalContent (single vevent)
 	 * 2011-10-10 ms
 	 */
 	public function build($data, $addStartAndEnd = true) {
+		$replacements = array('-', ':');
+		if (isset($data['timezone'])) {
+			$replacements[] = 'Z';
+		}
+
 		if (isset($data['start'])) {
-			$data['dtstart'] = CakeTime::toAtom($data['start']);
-			$data['dtstart'] = str_replace(array('-', ':'), '', $data['dtstart']);
+			$data['dtstart'] = TimeLib::toAtom($data['start']);
+			$data['dtstart'] = str_replace($replacements, '', $data['dtstart']);
 			unset($data['start']);
 		}
 		if (isset($data['end'])) {
-			$data['dtend'] = CakeTime::toAtom($data['end']);
-			$data['dtend'] = str_replace(array('-', ':'), '', $data['dtend']);
+			$data['dtend'] = TimeLib::toAtom($data['end']);
+			$data['dtend'] = str_replace($replacements, '', $data['dtend']);
 			unset($data['end']);
 		}
 		if (isset($data['timestamp'])) {
-			$data['dtstamp'] = CakeTime::toAtom($data['timestamp']);
+			$data['dtstamp'] = TimeLib::toAtom($data['timestamp']);
 			$data['dtstamp'] = str_replace(array('-', ':'), '', $data['dtstamp']);
 			unset($data['timestamp']);
+		}
+		if (isset($data['timezone'])) {
+			$data['tzid'] = $data['timezone'];
+			unset($data['timezone']);
 		}
 		if (isset($data['id'])) {
 			$data['uid'] = $data['id'].'@'.env('HTTP_HOST');
@@ -70,6 +82,12 @@ class IcalLib {
 		return $res;
 	}
 
+	/**
+	 * Start the file
+	 *
+	 * @param array $data
+	 * @return string
+	 */
 	public function createStart($data = array()) {
 		$defaults = array(
 			'version' => '2.0',
@@ -86,6 +104,11 @@ class IcalLib {
 		return implode(PHP_EOL, $res);
 	}
 
+	/**
+	 * End the file
+	 *
+	 * @return string
+	 */
 	public function createEnd() {
 		return 'END:VCALENDAR';
 	}

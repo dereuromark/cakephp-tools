@@ -9,7 +9,11 @@ class EmailLibTest extends MyCakeTestCase {
 
 	public $Email;
 
+	public $sendEmails = false;
+
 	public function setUp() {
+		parent::setUp();
+
 		$this->skipIf(!file_exists(APP . 'Config' . DS . 'email.php'), 'no email.php');
 
 		$this->Email = new EmailLib();
@@ -111,7 +115,9 @@ class EmailLibTest extends MyCakeTestCase {
 		die();
 	}
 
-	public function _testAddAttachment() {
+	public function testAddAttachment() {
+		$this->skipIf(!$this->sendEmails);
+
 		$file = CakePlugin::path('Tools').'Test'.DS.'test_files'.DS.'img'.DS.'hotel.png';
 		$this->assertTrue(file_exists($file));
 		Configure::write('debug', 0);
@@ -168,6 +174,11 @@ html-part
 		$text = trim(strip_tags($html));
 		$this->Email->viewVars(compact('text', 'html'));
 
+		if (!$this->sendEmails) {
+			Configure::write('debug', 2);
+		}
+		$this->skipIf(!$this->sendEmails);
+
 		$res = $this->Email->send();
 		Configure::write('debug', 2);
 		if ($error = $this->Email->getError()) {
@@ -207,6 +218,11 @@ html-part
 		$text = trim(strip_tags($html));
 		$this->Email->viewVars(compact('text', 'html'));
 
+		if (!$this->sendEmails) {
+			Configure::write('debug', 2);
+		}
+		$this->skipIf(!$this->sendEmails);
+
 		$res = $this->Email->send();
 		Configure::write('debug', 2);
 		if ($error = $this->Email->getError()) {
@@ -216,12 +232,29 @@ html-part
 		$this->assertTrue($res);
 	}
 
-
-
 	public function _testComplexeHtmlWithEmbeddedImages() {
 		$file = CakePlugin::path('Tools').'Test'.DS.'test_files'.DS.'img'.DS.'hotel.png';
 		$this->assertTrue(file_exists($file));
 
+	}
+
+	public function testWrapLongEmailContent() {
+		$this->Email = new TestEmailLib();
+
+		$html = <<<HTML
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head></head><body style="color: #000000; font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 16px; text-align: left; vertical-align: top; margin: 0;">
+sjdf ojdshfdsf odsfh dsfhodsf hodshfhdsjdshfjdshfjdshfj dsjfh jdsfh ojds hfposjdf pohpojds fojds hfojds fpojds foijds fpodsij fojdsnhfojdshf dsufhpodsufds fuds foudshf ouds hfoudshf udsofhuds hfouds hfouds hfoudshf udsh fouhds fluds hflsdu hflsud hfuldsuhf dsfsjdf ojdshfdsf odsfh dsfhodsf hodshfhdsjdshfjdshfjdshfj dsjfh jdsfh ojds hfposjdf pohpojds fojds hfojds fpojds foijds fpodsij fojdsnhfojdshf dsufhpodsufds fuds foudshf ouds hfoudshf udsofhuds hfouds hfouds hfoudshf udsh fouhds fluds hflsdu hflsud hfuldsuhf dsfsjdf ojdshfdsf odsfh dsfhodsf hodshfhdsjdshfjdshfjdshfj dsjfh jdsfh ojds hfposjdf pohpojds fojds hfojds fpojds foijds fpodsij fojdsnhfojdshf dsufhpodsufds fuds foudshf ouds hfoudshf udsofhuds hfouds hfouds hfoudshf udsh fouhds fluds hflsdu hflsud hfuldsuhf dsfsjdf ojdshfdsf odsfh dsfhodsf hodshfhdsjdshfjdshfjdshfj dsjfh jdsfh ojds hfposjdf pohpojds fojds hfojds fpojds foijds fpodsij fojdsnhfojdshf dsufhpodsufds fuds foudshf ouds hfoudshf udsofhuds hfouds hfouds hfoudshf udsh fouhds fluds hflsdu hflsud hfuldsuhf dsf
+</body></html>
+HTML;
+		//$html = str_replace(array("\r\n", "\n", "\r"), "", $html);
+		$is = $this->Email->wrap($html);
+
+		foreach ($is as $line => $content) {
+			$this->assertTrue(strlen($content) <= EmailLib::LINE_LENGTH_MUST);
+		}
+		$this->debug($is);
 	}
 
 }
