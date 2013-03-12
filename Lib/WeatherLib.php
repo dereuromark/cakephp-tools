@@ -16,10 +16,10 @@ App::uses('HttpSocket', 'Network/Http');
  * WeatherLib to retreive the current weather + forecast
  *
  * You can use Configure::write('Weather', ...) to adjust settings for it globabally via configs:
- * - key (required)
+ * - key (recommended)
  * - free (true/false)
- * - format
- * - num_of_days
+ * - format (json, csv, xml)
+ * - num_of_days (defaults to 5)
  *
  * @author Mark Scherer
  * @license MIT
@@ -33,11 +33,11 @@ class WeatherLib {
 	const API_URL_FREE = 'http://free.worldweatheronline.com/feed/';
 
 	public $settings = array(
-		'format' => 'xml', # json, csv, xml
+		'format' => 'xml',
 		'num_of_days' => 5,
-		'q' => '', # ; 48.00,11.00
+		'q' => '', # e.g. 48.00,11.00
 		'key' => '',
-		'free' => true, # true/false
+		'free' => true,
 	);
 
 	public function __construct() {
@@ -45,6 +45,9 @@ class WeatherLib {
 	}
 
 	/**
+	 * Get weather data - cached.
+	 * Provide cache=>false to prevent/clear the cache
+	 *
 	 * @return array Data or false on failure
 	 */
 	public function get($q, $options = array()) {
@@ -58,6 +61,9 @@ class WeatherLib {
 	}
 
 	/**
+	 * Get weather conditions - cached.
+	 * Provide cache=>false to prevent/clear the cache
+	 *
 	 * @return array
 	 */
 	public function conditions() {
@@ -68,9 +74,9 @@ class WeatherLib {
 		}
 		$conditions = $this->_get('wwoConditionCodes.xml', $options);
 		if (empty($conditions) || empty($conditions['codes']['condition'])) {
- 			return array();
- 		}
- 		return $conditions['codes']['condition'];
+			return array();
+		}
+		return $conditions['codes']['condition'];
 	}
 
 	//.../feed/weather.ashx?q=Neufahrn&format=json&num_of_days=2&key=598dfbdaeb121715111208
@@ -95,30 +101,28 @@ class WeatherLib {
 		if (empty($content)) {
 			return false;
 		}
- 		switch ($options['format']) {
- 			case 'json':
- 				$res = json_decode($content);
- 				break;
- 			case 'xml':
-				// now parse it
-				//debug($file);
-				$parsed_xml = Xml::build($content);
-				//debug($parsed_xml);
-				$res = Xml::toArray($parsed_xml);
-				//debug($res);
- 				break;
+		switch ($options['format']) {
+			case 'json':
+				$res = json_decode($content);
+				break;
+			case 'xml':
+				$res = Xml::build($content);
+				$res = Xml::toArray($res);
+				break;
 			case 'csv':
+				//TODO?
 				$res = array();
- 		}
+				throw new CakeException('Not implemented yet');
+		}
 
- 		if (!empty($cache)) {
+		if (!empty($cache)) {
 			Cache::write(md5($url), $res, 'data');
 		}
 
- 		if (empty($res)) {
- 			return false;
- 		}
- 		return $res;
+		if (empty($res)) {
+			return false;
+		}
+		return $res;
 	}
 
 	/**
