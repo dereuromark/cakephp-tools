@@ -5,7 +5,10 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
 class WeatherLibTest extends MyCakeTestCase {
 
 	public function setUp() {
-		Configure::write('Weather.key', '598dfbdaeb121715111208');
+		parent::setUp();
+		if (!Configure::read('Weather.key')) {
+			Configure::write('Weather.key', '598dfbdaeb121715111208');
+		}
 
 		App::uses('WeatherLib', 'Tools.Lib');
 		$this->Weather = new WeatherLib();

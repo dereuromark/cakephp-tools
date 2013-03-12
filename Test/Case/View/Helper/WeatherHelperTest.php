@@ -3,16 +3,19 @@
 App::uses('WeatherHelper', 'Tools.View/Helper');
 App::uses('HtmlHelper', 'View/Helper');
 App::uses('View', 'View');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 /**
  * 2010-06-24 ms
  */
-class WeatherHelperTest extends CakeTestCase {
+class WeatherHelperTest extends MyCakeTestCase {
 
-/**
- * setUp method
- */
 	public function setUp() {
+		parent::setUp();
+		if (!Configure::read('Weather.key')) {
+		Configure::write('Weather.key', '598dfbdaeb121715111208');
+		}
+
 		$this->Weather = new WeatherHelper(new View(null));
 		$this->Weather->Html = new HtmlHelper(new View(null));
 	}
@@ -20,46 +23,35 @@ class WeatherHelperTest extends CakeTestCase {
 	/** TODO **/
 
 	public function testDisplay() {
-
 		$res = $this->Weather->get('51.0872,13.8028');
-		$res = $this->_display($res);
-		pr($res);
+		$res = $this->_displayForecast($res);
+		$this->out($res);
 		$this->assertTrue(!empty($res));
-
-		echo BR.BR;
-
 
 		$res = $this->Weather->get('Berlin, Deutschland');
-		$res = $this->_display($res);
-		pr($res);
+		$res = $this->_displayForecast($res);
+		$this->out($res);
 		$this->assertTrue(!empty($res));
 
-		echo BR.BR;
-
 		$res = $this->Weather->get('Schwäbisch Hall, Deutschland');
-		$res = $this->_display($res);
-		pr($res);
+		$res = $this->_displayForecast($res);
+		$this->out($res);
 		$this->assertTrue(!empty($res));
 
 		$res = $this->Weather->get('xxxxx');
-		$res = $this->_display($res);
-		pr($res);
+		$res = $this->_displayForecast($res);
 		$this->assertTrue(empty($res));
-
-		echo BR.BR;
-
 	}
 
-
-	public function _display($w) {
+	public function _displayForecast($w) {
 		$res = '';
-		if (empty($w['Request'])) {
+		if (empty($w['request'])) {
 			return $res;
 		}
 
 		$res .= '<table><tr>';
 		for ($i = 2; $i < 5; $i++) {
-			$weather = $w['Weather'][$i];
+			$weather = $w['weather'][$i];
 
 			$res .= '<td>';
 			$res .= '<h1>'.date('D', strtotime($weather['date'])).'</h1>';
