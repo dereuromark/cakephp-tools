@@ -1,141 +1,148 @@
 <?php
 App::uses('ZodiacLib', 'Tools.Misc');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
-class ZodiacLibTest extends CakeTestCase {
+class ZodiacLibTest extends MyCakeTestCase {
 
 	public $Zodiac;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->Zodiac = new ZodiacLib();
 	}
 
 	public function testImage() {
 		$is = $this->Zodiac->image(ZodiacLib::SIGN_ARIES);
-		echo returns($is);
+		$this->debug($is);
 		$this->assertEquals($is, 'aries');
 	}
 
 	public function testSigns() {
 		$is = $this->Zodiac->signs();
-		echo returns($is);
+		$this->debug($is);
 		$this->assertTrue(count($is) === 12);
 	}
 
 	public function testSign() {
 		$is = $this->Zodiac->getSign(4, 9);
-		echo returns($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_ARIES);
 
 		$is = $this->Zodiac->signs($is);
-		pr($is);
+		$this->debug($is);
 		$this->assertEquals($is, __('zodiacAries'));
 
 		# january
 		$is = $this->Zodiac->getSign(1, 20);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_CAPRICORN);
 
 		$is = $this->Zodiac->getSign(1, 21);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_AQUARIUS);
 
 		#february
 		$is = $this->Zodiac->getSign(2, 19);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_AQUARIUS);
 
 		$is = $this->Zodiac->getSign(2, 20);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_PISCES);
 
 		#march
 		$is = $this->Zodiac->getSign(3, 20);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_PISCES);
 
 		$is = $this->Zodiac->getSign(3, 21);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_ARIES);
 
 		#april
 		$is = $this->Zodiac->getSign(4, 20);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_ARIES);
 
 		$is = $this->Zodiac->getSign(4, 21);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_TAURUS);
 
 		#may
 		$is = $this->Zodiac->getSign(5, 21);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_TAURUS);
 
 		$is = $this->Zodiac->getSign(5, 22);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_GEMINI);
 
 		#june
 		$is = $this->Zodiac->getSign(6, 21);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_GEMINI);
 
 		$is = $this->Zodiac->getSign(6, 22);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_CANCER);
 
 		#july
 		$is = $this->Zodiac->getSign(7, 23);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_CANCER);
 
 		$is = $this->Zodiac->getSign(7, 24);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_LEO);
 
 		#august
 		$is = $this->Zodiac->getSign(8, 23);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_LEO);
 
 		$is = $this->Zodiac->getSign(8, 24);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_VIRGO);
 
 		#september
 		$is = $this->Zodiac->getSign(9, 23);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_VIRGO);
 
 		$is = $this->Zodiac->getSign(9, 24);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_LIBRA);
 
 		#october
 		$is = $this->Zodiac->getSign(10, 23);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_LIBRA);
 
 		$is = $this->Zodiac->getSign(10, 24);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_SCORPIO);
+
+		$is = $this->Zodiac->getSign(10, 26);
+		$this->debug($is);
+		$this->assertSame(ZodiacLib::SIGN_SCORPIO, $is);
 
 		#november
 		$is = $this->Zodiac->getSign(11, 22);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_SCORPIO);
 
 		$is = $this->Zodiac->getSign(11, 23);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_SAGITTARIUS);
 
 		#december
 		$is = $this->Zodiac->getSign(12, 21);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_SAGITTARIUS);
 
 		$is = $this->Zodiac->getSign(12, 22);
-		pr($is);
+		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_CAPRICORN);
 	}
 
@@ -179,7 +186,7 @@ class ZodiacLibTest extends CakeTestCase {
 
 	public function testSignViaRange() {
 		for ($i = 1; $i <= 12; $i++) {
-			echo ZodiacLib::signs($i).BR;
+			$this->out(ZodiacLib::signs($i) . BR);
 			$range = $this->Zodiac->getRange($i);
 
 			$is = $this->Zodiac->getSign($range[0][0], $range[0][1]);
@@ -196,8 +203,7 @@ class ZodiacLibTest extends CakeTestCase {
 			if ($ii == 1) {
 				$ii = 13;
 			}
-			//debug(($i-1) % 12);
-			$this->assertSame($is, $ii-1);
+			$this->assertSame($is, $ii - 1);
 
 			# max+1
 			$month = $range[1][0];
@@ -207,8 +213,8 @@ class ZodiacLibTest extends CakeTestCase {
 				$ii = 0;
 			}
 			$is = $this->Zodiac->getSign($month, $day);
-			$this->assertSame($is, $ii+1);
+			$this->assertSame($is, $ii + 1);
 		}
-
 	}
+
 }
