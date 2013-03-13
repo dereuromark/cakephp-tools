@@ -1,5 +1,6 @@
 <?php
 App::uses('Inflector', 'Utility');
+App::uses('Hash', 'Utility');
 App::uses('BaseAuthorize', 'Controller/Component/Auth');
 
 if (!defined('CLASS_USER')) {
@@ -34,7 +35,7 @@ if (!defined('ACL_FILE')) {
  */
 class TinyAuthorize extends BaseAuthorize {
 
-	protected $_matchArray = array();
+	protected $_acl = null;
 
 	protected $_defaults = array(
 		'allowUser' => false, # quick way to allow user access to non prefixed urls
@@ -53,7 +54,6 @@ class TinyAuthorize extends BaseAuthorize {
 		if (Cache::config($settings['cache']) === false) {
 			throw new CakeException(__d('dev', 'TinyAuth could not find `%s` cache - expects at least a `default` cache', $settings['cache']));
 		}
-		$this->_matchArray = $this->_getRoles();
 	}
 
 	/**
@@ -66,12 +66,12 @@ class TinyAuthorize extends BaseAuthorize {
 	 *
 	 * @param array $user The user to authorize
 	 * @param CakeRequest $request The request needing authorization.
-	 * @return boolean
+	 * @return bool Success
 	 */
 	public function authorize($user, CakeRequest $request) {
 		if (isset($user[$this->settings['aclModel']])) {
-			if (isset($user[$this->settings['aclModel']]['id'])) {
-				$roles = (array)$user[$this->settings['aclModel']]['id'];
+			if (isset($user[$this->settings['aclModel']][0]['id'])) {
+				$roles = Hash::extract($user[$this->settings['aclModel']], '{n}.id');
 			} else {
 				$roles = (array)$user[$this->settings['aclModel']];
 			}
@@ -88,7 +88,8 @@ class TinyAuthorize extends BaseAuthorize {
 	/**
 	 * validate the url to the role(s)
 	 * allows single or multi role based authorization
-	 * @return bool $success
+	 *
+	 * @return bool Success
 	 */
 	public function validate($roles, $plugin, $controller, $action) {
 		$action = Inflector::underscore($action);
@@ -102,29 +103,36 @@ class TinyAuthorize extends BaseAuthorize {
 			}
 		}
 
-		if (isset($this->_matchArray[$controller]['*'])) {
-			$matchArray = $this->_matchArray[$controller]['*'];
-			if (in_array(-1, $matchArray)) {
+		if ($this->_acl === null) {
+			$this->_acl = $this->_getAcl();
+		}
+
+		// controller wildcard
+		if (isset($this->_acl[$controller]['*'])) {
+			$matchArray = $this->_acl[$controller]['*'];
+			if (in_array('-1', $matchArray)) {
 				return true;
 			}
 			foreach ($roles as $role) {
-				if (in_array($role, $matchArray)) {
+				if (in_array((string)$role, $matchArray)) {
 					return true;
 				}
 			}
 		}
-		if (!empty($controller) && !empty($action)) {
-			if (array_key_exists($controller, $this->_matchArray) && !empty($this->_matchArray[$controller][$action])) {
-				$matchArray = $this->_matchArray[$controller][$action];
 
-				# direct access? (even if he has no roles = GUEST)
-				if (in_array(-1, $matchArray)) {
+		// specific controller/action
+		if (!empty($controller) && !empty($action)) {
+			if (array_key_exists($controller, $this->_acl) && !empty($this->_acl[$controller][$action])) {
+				$matchArray = $this->_acl[$controller][$action];
+
+				// direct access? (even if he has no roles = GUEST)
+				if (in_array('-1', $matchArray)) {
 					return true;
 				}
 
-				# normal access (rolebased)
+				// normal access (rolebased)
 				foreach ($roles as $role) {
-					if (in_array($role, $matchArray)) {
+					if (in_array((string)$role, $matchArray)) {
 						return true;
 					}
 				}
@@ -134,7 +142,7 @@ class TinyAuthorize extends BaseAuthorize {
 	}
 
 	/**
-	 * @return object $User: the User model
+	 * @return object The User model
 	 */
 	public function getModel() {
 		return ClassRegistry::init(CLASS_USER);
@@ -146,9 +154,13 @@ class TinyAuthorize extends BaseAuthorize {
 	 * improved speed by several actions before caching:
 	 * - resolves role slugs to their primary key / identifier
 	 * - resolves wildcards to their verbose translation
-	 * @return array $roles
+	 * @return array Roles
 	 */
-	protected function _getRoles() {
+	protected function _getAcl($path = null) {
+		if ($path === null) {
+			$path = APP . 'Config' . DS;
+		}
+
 		$res = array();
 		if ($this->settings['autoClearCache'] && Configure::read('debug') > 0) {
 			Cache::delete($this->settings['cacheKey'], $this->settings['cache']);
@@ -156,10 +168,10 @@ class TinyAuthorize extends BaseAuthorize {
 		if (($roles = Cache::read($this->settings['cacheKey'], $this->settings['cache'])) !== false) {
 			return $roles;
 		}
-		if (!file_exists(APP . 'Config' . DS . ACL_FILE)) {
-			touch(APP . 'Config' . DS . ACL_FILE);
+		if (!file_exists($path . ACL_FILE)) {
+			touch($path . ACL_FILE);
 		}
-		$iniArray = parse_ini_file(APP . 'Config' . DS . ACL_FILE, true);
+		$iniArray = parse_ini_file($path . ACL_FILE, true);
 
 		$availableRoles = Configure::read($this->settings['aclModel']);
 		if (!is_array($availableRoles)) {
@@ -201,7 +213,7 @@ class TinyAuthorize extends BaseAuthorize {
 							continue;
 						}
 						$newRole = Configure::read($this->settings['aclModel'] . '.' . strtolower($role));
-						if (!empty($res[$controllerName][$actionName]) && in_array($newRole, $res[$controllerName][$actionName])) {
+						if (!empty($res[$controllerName][$actionName]) && in_array((string)$newRole, $res[$controllerName][$actionName])) {
 							continue;
 						}
 						$res[$controllerName][$actionName][] = $newRole;
