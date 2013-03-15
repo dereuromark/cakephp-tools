@@ -355,6 +355,34 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
+	 * Handles month/year increment calculations in a safe way, avoiding the pitfall of "fuzzy" month units.
+	 *
+	 * @param mixed $startDate Either a date string or a DateTime object
+	 * @param int $years Years to increment/decrement
+	 * @param int $months Months to increment/decrement
+	 * @return object DateTime with incremented/decremented month/year values.
+	 */
+	public static function incrementDate($startDate, $years = 0, $months = 0) {
+		if (!is_object($startDate)) {
+			$startDate = new DateTime($startDate);
+		}
+		$startingTimeStamp = $startDate->getTimestamp();
+		// Get the month value of the given date:
+		$monthString = date('Y-m', $startingTimeStamp);
+		// Create a date string corresponding to the 1st of the give month,
+		// making it safe for monthly/yearly calculations:
+		$safeDateString = "first day of $monthString";
+
+		// offset is wrong
+		$months++;
+		// Increment date by given month/year increments:
+		$incrementedDateString = "$safeDateString $months month $years year";
+		$newTimeStamp = strtotime($incrementedDateString);
+		$newDate = DateTime::createFromFormat('U', $newTimeStamp);
+		return $newDate;
+	}
+
+	/**
 	 * get the age bounds (min, max) as timestamp that would result in the given age(s)
 	 * note: expects valid age (> 0 and < 120)
 	 * @param $firstAge

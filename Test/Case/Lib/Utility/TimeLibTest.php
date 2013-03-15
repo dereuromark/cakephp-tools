@@ -13,6 +13,47 @@ class TimeLibTest extends MyCakeTestCase {
 		$this->assertTrue(is_a($this->Time, 'TimeLib'));
 	}
 
+	public function testIncrementDate() {
+		$from = '2012-12-31';
+		$Date = TimeLib::incrementDate($from, 0, 0);
+		$this->assertSame($from, $Date->format(FORMAT_DB_DATE));
+
+		$from = '2012-12-31';
+		$Date = TimeLib::incrementDate($from, 0, 1);
+		$this->assertSame('2013-01-31', $Date->format(FORMAT_DB_DATE));
+
+		$from = '2012-12-31';
+		$Date = TimeLib::incrementDate($from, 0, 2);
+		$this->assertSame('2013-02-28', $Date->format(FORMAT_DB_DATE));
+
+		$from = '2012-12-31';
+		$Date = TimeLib::incrementDate($from, 0, 4);
+		$this->assertSame('2013-04-30', $Date->format(FORMAT_DB_DATE));
+
+		$from = '2012-12-31';
+		$Date = TimeLib::incrementDate($from, 1, 0);
+		$this->assertSame('2013-12-31', $Date->format(FORMAT_DB_DATE));
+
+		// from leap year
+		$from = '2008-02-29';
+		$Date = TimeLib::incrementDate($from, 1, 0);
+		$this->assertSame('2009-02-28', $Date->format(FORMAT_DB_DATE));
+
+		// into leap year
+		$from = '2007-02-28';
+		$Date = TimeLib::incrementDate($from, 1, 0);
+		$this->assertSame('2008-02-29', $Date->format(FORMAT_DB_DATE));
+
+		// other direction
+		$from = '2012-12-31';
+		$Date = TimeLib::incrementDate($from, 0, -1);
+		$this->assertSame('2012-11-30', $Date->format(FORMAT_DB_DATE));
+
+		$from = '2012-12-31';
+		$Date = TimeLib::incrementDate($from, -1, -1);
+		$this->assertSame('2011-11-30', $Date->format(FORMAT_DB_DATE));
+	}
+
 	public function testNiceDate() {
 		$res = setlocale(LC_TIME, 'de_DE.UTF-8', 'deu_deu');
 		//debug($res);

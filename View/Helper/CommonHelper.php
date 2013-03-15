@@ -16,22 +16,24 @@ class CommonHelper extends AppHelper {
 /*** Layout Stuff ***/
 
 	/**
-	 * convinience function for clean ROBOTS allowance
-	 * @param STRING private/public
+	 * Convenience function for clean ROBOTS allowance
+	 *
+	 * @param string $type - private/public
+	 * @return string HTML
 	 * 2008-12-08 ms
 	 */
 	public function metaRobots($type = null) {
-		if (($meta = Configure::read('Config.robots')) !== null) {
+		if ($type === null && ($meta = Configure::read('Config.robots')) !== null) {
 			$type = $meta;
 		}
 		$content = array();
 		if ($type === 'public') {
 			$this->privatePage = false;
-			$content['robots']= array('index','follow','noarchive');
+			$content['robots']= array('index', 'follow', 'noarchive');
 
 		} else {
 			$this->privatePage = true;
-			$content['robots']= array('noindex','nofollow','noarchive');
+			$content['robots']= array('noindex', 'nofollow', 'noarchive');
 		}
 
 		$return = '<meta name="robots" content="' . implode(',', $content['robots']) . '" />';
