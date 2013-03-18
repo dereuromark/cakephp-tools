@@ -13,7 +13,36 @@ class TimeLibTest extends MyCakeTestCase {
 		$this->assertTrue(is_a($this->Time, 'TimeLib'));
 	}
 
+	public function testTimezone() {
+		$timezone = TimeLib::timezone();
+		// usually UTC
+		$name = $timezone->getName();
+		$this->debug($name);
+		$this->assertTrue(!empty($name));
+
+		$location = $timezone->getLocation();
+		$this->debug($location);
+		$this->assertTrue(!empty($location['country_code']));
+		$this->assertTrue(isset($location['latitude']));
+		$this->assertTrue(isset($location['longitude']));
+
+		$offset = $timezone->getOffset(new DateTime('@' . mktime(0, 0, 0, 1, 1, date('Y'))));
+		$this->debug($offset);
+
+		$phpTimezone = date_default_timezone_get();
+		$this->assertEquals($name, $phpTimezone);
+	}
+
+	/**
+	 * Currently only works with timezoned localized values, not with UTC!!!
+	 */
 	public function testIncrementDate() {
+		$timezone = Configure::read('Config.timezone');
+		//$timezone = Datetime::timezone();
+		Configure::write('Config.timezone', 'Europe/Berlin');
+		$phpTimezone = date_default_timezone_get();
+		date_default_timezone_set('Europe/Berlin');
+
 		$from = '2012-12-31';
 		$Date = TimeLib::incrementDate($from, 0, 0);
 		$this->assertSame($from, $Date->format(FORMAT_DB_DATE));
@@ -56,8 +85,15 @@ class TimeLibTest extends MyCakeTestCase {
 		// including days
 		$from = '2012-12-31';
 		$Date = TimeLib::incrementDate($from, 0, 1, 1);
-		//TODO
-		//$this->assertSame('2013-02-01', $Date->format(FORMAT_DB_DATE));
+		$this->assertSame('2013-02-01', $Date->format(FORMAT_DB_DATE));
+
+		// including days
+		$from = '2012-12-31';
+		$Date = TimeLib::incrementDate($from, 0, 1, 5);
+		$this->assertSame('2013-02-05', $Date->format(FORMAT_DB_DATE));
+
+		Configure::write('Config.timezone', $timezone);
+		date_default_timezone_set($phpTimezone);
 	}
 
 	public function testNiceDate() {

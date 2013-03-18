@@ -379,7 +379,7 @@ class TimeLib extends CakeTime {
 		$months++;
 		// Increment date by given month/year increments:
 		$incrementedDateString = "$safeDateString $months month $years year";
-		$newTimeStamp = strtotime($incrementedDateString);
+		$newTimeStamp = strtotime($incrementedDateString) + $days * DAY;
 		$newDate = DateTime::createFromFormat('U', $newTimeStamp);
 		return $newDate;
 	}
