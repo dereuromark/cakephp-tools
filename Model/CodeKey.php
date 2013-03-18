@@ -5,7 +5,7 @@ App::uses('Token', 'Tools.Model');
  * @deprecated - use "Token" class
  *
  * @author Mark Scherer
- * @cakephp 2.0
+ * @cakephp 2.x
  * @license MIT
  * 2011-11-17 ms
  */

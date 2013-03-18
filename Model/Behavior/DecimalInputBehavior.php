@@ -27,7 +27,7 @@ App::uses('ModelBehavior', 'Model');
  *
  * @author Mark Scherer
  * @license MIT
- * @cakephp 2.0
+ * @cakephp 2.x
  * @deprecated Use NumberFormatBehavior instead!
  * 2012-12-05 ms
  */

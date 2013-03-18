@@ -16,7 +16,7 @@ App::uses('AppShell', 'Console/Command');
 /**
  * Indend Shell
  *
- * @cakephp 2.0
+ * @cakephp 2.x
  * @author Mark Scherer
  * @license MIT
  * 2011-11-04 ms

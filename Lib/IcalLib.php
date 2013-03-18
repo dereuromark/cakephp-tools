@@ -13,7 +13,7 @@ App::uses('TimeLib', 'Tools.Utility');
  *
  * @author Mark Scherer
  * @license MIT
- * @cakephp 2.0
+ * @cakephp 2.x
  * 2010-09-14 ms
  */
 class IcalLib {

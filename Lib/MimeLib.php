@@ -188,14 +188,12 @@ class MimeLib extends CakeResponse {
 		'hqx' => 'application/x-mac-binhex40',
 		'hta' => 'application/hta',
 		'htc' => 'text/x-component',
-		'htm' => 'text/html',
-		'html' => 'text/html',
 		'htmls' => 'text/html',
 		'htt' => 'text/webviewhtml',
 		'htx' => 'text/html',
 		'ice' => 'x-conference/x-cooltalk',
 		'ico' => 'image/x-icon',
-		'ics' => 'text/calendar',
+		'ics' => 'application/ics', // important for ipad to properly display ics files
 		'ical' => 'text/calendar',
 		'idc' => 'text/plain',
 		'ief' => 'image/ief',
@@ -655,8 +653,6 @@ class MimeLib extends CakeResponse {
 		'zoo' => 'application/octet-stream',
 		'zsh' => 'text/x-script.zsh',
 		'txt' => 'text/plain',
-		'htm' => 'text/html',
-		'html' => 'text/html',
 		'php' => 'application/x-httpd-php',
 		'phps' => 'application/x-httpd-phps',
 		'css' => 'text/css',
@@ -706,41 +702,48 @@ class MimeLib extends CakeResponse {
 		'swf' => array('application/x-shockwave-flash', 'application/x-shockwave-flash2-preview', 'application/futuresplash', 'image/vnd.rn-realflash')
 	);
 
-
 	/**
 	 * override constructor
 	 * 2012-02-12 ms
 	 */
 	public function __construct() {
-
 	}
 
 	/**
-	 * get all mime types that are supported by cake php core right now
+	 * Get all mime types that are supported right now
+	 *
 	 * @return array
 	 * 2012-02-12 ms
 	 */
-	public function getMimeTypes($coreOnly = false) {
-		if ($coreOnly) {
-			return $this->_mimeTypes;
+	public function getMimeTypes($coreHasPrecedence = false) {
+		if ($coreHasPrecedence) {
+			return $this->_mimeTypes += $this->_mimeTypesExt;
 		}
-		return array_merge($this->_mimeTypesExt, $this->_mimeTypes);
+		return $this->_mimeTypesExt += $this->_mimeTypes;
 	}
 
 	/**
-	 * Returns the mime type definition for an alias
+	 * Returns the primary mime type definition for an alias
 	 *
 	 * e.g `getMimeType('pdf'); // returns 'application/pdf'`
 	 *
 	 * @param string $alias the content type alias to map
+	 * @param boolean $primaryOnly
+	 * @param boolean $coreHasPrecedence
 	 * @return mixed string mapped mime type or false if $alias is not mapped
 	 */
-	public function getMimeType($alias, $coreOnly = false) {
-		$res = parent::getMimeType($alias);
-		if ($res === false && !$coreOnly && isset($this->_mimeTypesExt[$alias])) {
-		return $this->_mimeTypesExt[$alias];
+	public function getMimeType($alias, $primaryOnly = true, $coreHasPrecedence = false) {
+		if (empty($this->_mimeTypeTmp)) {
+			$this->_mimeTypesTmp = $this->getMimeTypes($coreHasPrecedence);
 		}
-		return $res;
+		if (!isset($this->_mimeTypesTmp[$alias])) {
+			return false;
+		}
+		$mimeType = $this->_mimeTypesTmp[$alias];
+		if ($primaryOnly && is_array($mimeType)) {
+			$mimeType = array_shift($mimeType);
+		}
+		return $mimeType;
 	}
 
 	/**
@@ -754,7 +757,6 @@ class MimeLib extends CakeResponse {
 	public function mapType($ctype) {
 		return parent::mapType($ctype);
 	}
-
 
 	/**
 	* @desc Retrieve the corresponding MIME type, if one exists
@@ -791,7 +793,6 @@ class MimeLib extends CakeResponse {
 		}
 		return false;
 	}
-
 
 	/**
 	 * Write your Description here.

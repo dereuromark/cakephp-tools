@@ -7,7 +7,7 @@ App::uses('Folder', 'Utility');
  * it also makes sure there is no whitespace at the beginning of the file
  *
  * @author Mark Scherer, Maximilian Ruta
- * @cakephp 2.0
+ * @cakephp 2.x
  * @license MIT
  * 2011-02-21 de
  */

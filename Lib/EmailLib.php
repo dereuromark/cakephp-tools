@@ -15,11 +15,11 @@ if (!defined('BR')) {
  * - enable easier attachment adding
  * - extensive logging and error tracing
  * - create mails with blob attachments (embedded or attached)
- * TODO: cleanup and more tests
+ * - allow wrapLength to be adjusted
  *
  * @author Mark Scherer
  * @license MIT
- * @cakephp 2.2
+ * @cakephp 2.x
  * 2012-03-30 ms
  */
 class EmailLib extends CakeEmail {
@@ -29,6 +29,8 @@ class EmailLib extends CakeEmail {
 	protected $_debug = null;
 
 	protected $_error = null;
+
+	protected $_wrapLength = null;
 
 	public function __construct($config = null) {
 		if ($config === null) {
@@ -187,6 +189,13 @@ class EmailLib extends CakeEmail {
 		return false;
 	}
 
+	/**
+	 * Try to determine the mimetype by filename.
+	 * Uses finfo_open() if availble, otherwise guesses it via file extension.
+	 *
+	 * @param string $filename
+	 * @param string Mimetype
+	 */
 	protected function _getMime($filename) {
 		if (function_exists('finfo_open')) {
 			$finfo = finfo_open(FILEINFO_MIME);
@@ -201,10 +210,11 @@ class EmailLib extends CakeEmail {
 	}
 
 	/**
-	 * try to find mimetype by file extension
+	 * Try to find mimetype by file extension
+	 *
 	 * @param string $ext lowercase (jpg, png, pdf, ...)
 	 * @param string $defaultMimeType
-	 * @return string $mimeType (falls back to )
+	 * @return string Mimetype (falls back to `application/octet-stream`)
 	 * 2012-04-17 ms
 	 */
 	protected function _getMimeByExtension($ext, $default = 'application/octet-stream') {
@@ -218,6 +228,9 @@ class EmailLib extends CakeEmail {
 		return $mime;
 	}
 
+	/**
+	 * @return boolean Success
+	 */
 	public function validates() {
 		if (!empty($this->Email->subject)) {
 			return true;
@@ -474,6 +487,7 @@ class EmailLib extends CakeEmail {
 	 * @return void
 	 * @throws ConfigureException When configuration file cannot be found, or is missing
 	 * the named config.
+	 * @overwrite
 	 */
 	protected function _applyConfig($config) {
 		if (is_string($config)) {
@@ -499,7 +513,7 @@ class EmailLib extends CakeEmail {
 		$simpleMethods = array(
 			'from', 'sender', 'to', 'replyTo', 'readReceipt', 'returnPath', 'cc', 'bcc',
 			'messageId', 'domain', 'subject', 'viewRender', 'viewVars', 'attachments',
-			'transport', 'emailFormat'
+			'transport', 'emailFormat', 'theme', 'helpers'
 		);
 		foreach ($simpleMethods as $method) {
 			if (isset($config[$method])) {
@@ -540,20 +554,10 @@ class EmailLib extends CakeEmail {
 			'replyTo' => $this->_replyTo,
 			'cc' => $this->_cc,
 			'subject' => $this->_subject,
-			'cc' => $this->_cc,
+			'bcc' => $this->_bcc,
 			'transport' => $this->_transportName
 		);
 
-		# prep images for inline
-		/*
-		if ($this->_emailFormat !== 'text') {
-			if ($message !== null) {
-				$message = $this->_prepMessage($message);
-			} else {
-				$this->_htmlMessage = $this->_prepMessage($this->_htmlMessage);
-			}
-		}
-		*/
 		try {
 			$this->_debug = parent::send($message);
 		} catch (Exception $e) {
@@ -593,6 +597,43 @@ class EmailLib extends CakeEmail {
 	 */
 	public function getDebug() {
 		return $this->_debug;
+	}
+
+	/**
+	 * Set/Get wrapLength
+	 *
+	 * @param int $length Must not be more than CakeEmail::LINE_LENGTH_MUST
+	 * @return void|int
+	 */
+	public function wrapLength($length = null) {
+		if ($length === null) {
+			return $this->_wrapLength;
+		}
+		$this->_wrapLength = $length;
+	}
+
+	/**
+	 * Fix line length for _renderTemplates()
+	 * @overwrite
+	 */
+	protected function _renderTemplates($content) {
+		$res = parent::_renderTemplates($content);
+		foreach ($res as $type => $content) {
+			$res[$type] = $this->_wrap($content);
+			$res[$type] = implode("\n", $res[$type]);
+		}
+		return $res;
+	}
+
+	/**
+	 * Fix line length
+	 * @overwrite
+	 */
+	protected function _wrap($message, $wrapLength = CakeEmail::LINE_LENGTH_MUST) {
+		if ($this->_wrapLength !== null) {
+			$wrapLength = $this->_wrapLength;
+		}
+		return parent::_wrap($message, $wrapLength);
 	}
 
 	/**
@@ -643,7 +684,7 @@ class EmailLib extends CakeEmail {
 		$this->from($fromEmail, $fromName);
 
 		if ($xMailer = Configure::read('Config.x-mailer')) {
-			$this->addHeaders(array('X-Mailer'=>$xMailer));
+			$this->addHeaders(array('X-Mailer' => $xMailer));
 		}
 		//$this->_errors = array();
 		//$this->charset($this->charset);

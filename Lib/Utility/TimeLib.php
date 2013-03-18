@@ -360,11 +360,13 @@ class TimeLib extends CakeTime {
 	 * @param mixed $startDate Either a date string or a DateTime object
 	 * @param int $years Years to increment/decrement
 	 * @param int $months Months to increment/decrement
+	 * @param string|DateTimeZone $timezone Timezone string or DateTimeZone object
 	 * @return object DateTime with incremented/decremented month/year values.
 	 */
-	public static function incrementDate($startDate, $years = 0, $months = 0) {
+	public static function incrementDate($startDate, $years = 0, $months = 0, $days = 0, $timezone = null) {
 		if (!is_object($startDate)) {
 			$startDate = new DateTime($startDate);
+			$startDate->setTimezone($timezone ? new DateTimeZone($timezone) : self::timezone());
 		}
 		$startingTimeStamp = $startDate->getTimestamp();
 		// Get the month value of the given date:

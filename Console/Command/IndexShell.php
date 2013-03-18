@@ -20,7 +20,7 @@ App::uses('AppShell', 'Console/Command');
  * @author Mark Scherer
  * @link
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
- * @cakephp 2.0
+ * @cakephp 2.x
  * 2011-12-14 ms
  */
 class IndexShell extends AppShell {

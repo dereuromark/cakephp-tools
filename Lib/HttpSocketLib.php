@@ -16,7 +16,7 @@ App::uses('CurlLib', 'Tools.Lib');
  *
  * @author Mark Scherer
  * @license MIT
- * @cakephp 2.0
+ * @cakephp 2.x
  * 2011-10-14 ms
  */
 class HttpSocketLib {

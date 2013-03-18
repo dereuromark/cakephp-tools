@@ -52,6 +52,12 @@ class TimeLibTest extends MyCakeTestCase {
 		$from = '2012-12-31';
 		$Date = TimeLib::incrementDate($from, -1, -1);
 		$this->assertSame('2011-11-30', $Date->format(FORMAT_DB_DATE));
+
+		// including days
+		$from = '2012-12-31';
+		$Date = TimeLib::incrementDate($from, 0, 1, 1);
+		//TODO
+		//$this->assertSame('2013-02-01', $Date->format(FORMAT_DB_DATE));
 	}
 
 	public function testNiceDate() {

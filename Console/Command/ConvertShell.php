@@ -9,7 +9,7 @@ App::uses('AppShell', 'Console/Command');
  * uses dos2unix >= 5.0
  * console call: dos2unix [-fhkLlqV] [-c convmode] [-o file ...] [-n inputfile outputfile ...]
  *
- * @cakephp 2.0
+ * @cakephp 2.x
  * @author Mark Scherer
  * @license MIT
  * 2011-11-04 ms
