@@ -11,6 +11,8 @@ class GeocoderBehaviorTest extends CakeTestCase {
 	);
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->Comment = ClassRegistry::init('Comment');
 
 		$this->Comment->Behaviors->load('Tools.Geocoder', array('real'=>false));

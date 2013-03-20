@@ -10,6 +10,8 @@ class FlattrHelperTest extends MyCakeTestCase {
 	public $uid;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->Flattr = new FlattrHelper(new View(null));
 		$this->Flattr->Html = new HtmlHelper(new View(null));
 
@@ -17,11 +19,13 @@ class FlattrHelperTest extends MyCakeTestCase {
 	}
 
 	public function tearDown() {
+		parent::tearDown();
+
 
 	}
 
 	public function testObject() {
-		$this->assertTrue(is_a($this->Flattr, 'FlattrHelper'));
+		$this->assertInstanceOf('FlattrHelper', $this->Flattr);
 	}
 
 	public function testBadge() {

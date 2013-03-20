@@ -21,7 +21,7 @@ class EmailLibTest extends MyCakeTestCase {
 
 	public function testObject() {
 		$this->assertTrue(is_object($this->Email));
-		$this->assertTrue(is_a($this->Email, 'EmailLib'));
+		$this->assertInstanceOf('EmailLib', $this->Email);
 ;
 	}
 

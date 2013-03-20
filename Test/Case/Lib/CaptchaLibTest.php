@@ -10,10 +10,14 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
 class CaptchaLibTest extends MyCakeTestCase {
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->Brita = new CaptchaLib();
 	}
 
 	public function tearDown() {
+		parent::tearDown();
+
 		unset($this->Brita);
 	}
 

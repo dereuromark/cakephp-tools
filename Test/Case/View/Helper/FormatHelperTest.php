@@ -19,6 +19,8 @@ class FormatHelperTest extends MyCakeTestCase {
 	* @return void
 	*/
 	public function setUp() {
+		parent::setUp();
+
 		$this->Format = new FormatHelper(new View(null));
 		$this->Format->Html = new HtmlHelper(new View(null));
 	}
@@ -263,6 +265,8 @@ class FormatHelperTest extends MyCakeTestCase {
  * @return void
  */
 	public function tearDown() {
+		parent::tearDown();
+
 		unset($this->Format);
 	}
 }

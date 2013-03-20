@@ -11,11 +11,13 @@ class QloginTest extends MyCakeTestCase {
 	public $fixtures = array('plugin.tools.code_key');
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->Qlogin = ClassRegistry::init('Tools.Qlogin');
 	}
 
 	public function testQloginInstance() {
-		$this->assertTrue(is_a($this->Qlogin, 'Qlogin'));
+		$this->assertInstanceOf('Qlogin', $this->Qlogin);
 	}
 
 	public function testGenerate() {

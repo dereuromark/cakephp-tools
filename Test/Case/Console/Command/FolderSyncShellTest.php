@@ -8,6 +8,8 @@ class FolderSyncShellTest extends MyCakeTestCase {
 	public $FolderSyncShell;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->FolderSyncShell = new FolderSyncShell();
 	}
 

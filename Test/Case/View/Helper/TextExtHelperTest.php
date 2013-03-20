@@ -8,12 +8,14 @@ class TextExtHelperTest extends MyCakeTestCase {
 	public $Text;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->Text = new TextExtHelper(new View(null));
 	}
 
 
 	public function testObject() {
-		$this->assertTrue(is_a($this->Text, 'TextExtHelper'));
+		$this->assertInstanceOf('TextExtHelper', $this->Text);
 	}
 
 

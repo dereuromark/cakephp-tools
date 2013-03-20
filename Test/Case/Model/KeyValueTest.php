@@ -40,7 +40,7 @@ class KeyValueTest extends MyCakeTestCase {
 	}
 
 	public function testInstance() {
-		$this->assertTrue(is_a($this->KeyValue, 'KeyValue'));
+		$this->assertInstanceOf('KeyValue', $this->KeyValue);
 	}
 
 }

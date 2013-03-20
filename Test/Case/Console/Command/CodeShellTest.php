@@ -8,6 +8,8 @@ class CodeShellTest extends MyCakeTestCase {
 	public $CodeShell;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->CodeShell = new CodeShell();
 	}
 

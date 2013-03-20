@@ -22,10 +22,14 @@ class LinkableBehaviorTest extends CakeTestCase {
 	public $User;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->User = ClassRegistry::init('LinkableUser');
 	}
 
 	public function tearDown() {
+		parent::tearDown();
+
 		unset($this->User);
 	}
 

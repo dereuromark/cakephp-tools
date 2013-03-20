@@ -8,6 +8,8 @@ class ResetShellTest extends MyCakeTestCase {
 	public $ResetShell;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->ResetShell = new ResetShell();
 	}
 

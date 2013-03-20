@@ -8,6 +8,8 @@ class HashShellTest extends MyCakeTestCase {
 	public $HashShell;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->HashShell = new HashShell();
 	}
 

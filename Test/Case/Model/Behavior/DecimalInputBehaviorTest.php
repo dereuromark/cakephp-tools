@@ -9,17 +9,21 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 	public $Model;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->Model = ClassRegistry::init('PaymentMethod');
 
 		$this->Model->Behaviors->load('Tools.DecimalInput', array('fields'=>array('rel_rate', 'set_rate'), 'output'=>true));
 	}
 
 	public function tearDown() {
+		parent::tearDown();
+
 		unset($this->Model);
 	}
 
 	public function testObject() {
-		$this->assertTrue(is_a($this->Model->Behaviors->DecimalInput, 'DecimalInputBehavior'));
+		$this->assertInstanceOf('DecimalInputBehavior', $this->Model->Behaviors->DecimalInput);
 	}
 
 

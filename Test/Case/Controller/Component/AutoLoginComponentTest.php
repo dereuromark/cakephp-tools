@@ -20,6 +20,8 @@ class AutoLoginComponentTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function setUp() {
+		parent::setUp();
+
 		Configure::write('AutoLogin.active', 1);
 		Configure::write('AutoLogin.cookieName', 'autoLogin');
 
@@ -34,6 +36,8 @@ class AutoLoginComponentTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function tearDown() {
+		parent::tearDown();
+
 		unset($this->Controller->AutoLogin);
 		unset($this->Controller);
 	}

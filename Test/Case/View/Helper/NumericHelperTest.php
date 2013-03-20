@@ -17,6 +17,8 @@ class NumericHelperTest extends MyCakeTestCase {
  * @return void
  */
 	public function setUp() {
+		parent::setUp();
+
 		$this->Numeric = new NumericHelper(new View(null));
 	}
 
@@ -85,6 +87,8 @@ class NumericHelperTest extends MyCakeTestCase {
  * @return void
  */
 	public function tearDown() {
+		parent::tearDown();
+
 		unset($this->Numeric);
 	}
 }

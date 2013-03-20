@@ -23,6 +23,8 @@ class ImapLibTest extends MyCakeTestCase {
 	public $Imap;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->skipIf(!function_exists('imap_open'), 'No Imap class installed');
 		$this->skipIf(!Configure::read('Mailbox.DEVTEST'), 'No test account `DEVTEST` available');
 
@@ -32,11 +34,13 @@ class ImapLibTest extends MyCakeTestCase {
 	}
 
 	public function tearDown() {
+		parent::tearDown();
+
 		unset($this->Imap);
 	}
 
 	public function testObject() {
-		$this->assertTrue(is_a($this->Imap, 'ImapLib'));
+		$this->assertInstanceOf('ImapLib', $this->Imap);
 	}
 
 	public function testCount() {

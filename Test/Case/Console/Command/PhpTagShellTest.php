@@ -8,6 +8,8 @@ class PhpTagShellTest extends MyCakeTestCase {
 	public $PhpTagShell;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->PhpTagShell = new PhpTagShell();
 	}
 

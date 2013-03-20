@@ -8,6 +8,8 @@ class UserShellTest extends MyCakeTestCase {
 	public $UserShell;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->UserShell = new UserShell();
 	}
 

@@ -10,12 +10,16 @@ class AuthTest extends MyCakeTestCase {
 	public $fixtures = array('core.session');
 
 	public function setUp() {
+		parent::setUp();
+
 		ClassRegistry::init('Session');
 
 		$this->skipIf(php_sapi_name() === 'cli', 'Cannot test session in CLI');
 	}
 
 	public function tearDown() {
+		parent::tearDown();
+
 		ClassRegistry::flush();
 
 		CakeSession::delete('Auth');

@@ -13,6 +13,8 @@ App::uses('View', 'View');
 class DatetimeHelperTest extends MyCakeTestCase {
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->Datetime = new DatetimeHelper(new View(null));
 	}
 
@@ -257,6 +259,8 @@ class DatetimeHelperTest extends MyCakeTestCase {
  * @return void
  */
 	public function tearDown() {
+		parent::tearDown();
+
 		unset($this->Datetime);
 	}
 }

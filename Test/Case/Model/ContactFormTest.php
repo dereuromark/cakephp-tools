@@ -7,11 +7,13 @@ class ContactFormTest extends CakeTestCase {
 	//public $fixtures = array('app.code_key');
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->ContactForm = ClassRegistry::init('Tools.ContactForm');
 	}
 
 	public function testContactInstance() {
-		$this->assertTrue(is_a($this->ContactForm, 'ContactForm'));
+		$this->assertInstanceOf('ContactForm', $this->ContactForm);
 	}
 
 

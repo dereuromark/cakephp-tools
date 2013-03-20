@@ -14,6 +14,8 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 	public $Comment;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->Comment = ClassRegistry::init('JsonableComment');
 		$this->Comment->Behaviors->load('Tools.Jsonable', array());
 	}

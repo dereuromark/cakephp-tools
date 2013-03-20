@@ -9,17 +9,21 @@ class NumberFormatBehaviorTest extends MyCakeTestCase {
 	public $Model;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->Model = ClassRegistry::init('PaymentMethod');
 
 		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields'=>array('rel_rate', 'set_rate'), 'output'=>true));
 	}
 
 	public function tearDown() {
+		parent::tearDown();
+
 		unset($this->Model);
 	}
 
 	public function testObject() {
-		$this->assertTrue(is_a($this->Model->Behaviors->NumberFormat, 'NumberFormatBehavior'));
+		$this->assertInstanceOf('NumberFormatBehavior', $this->Model->Behaviors->NumberFormat);
 	}
 
 

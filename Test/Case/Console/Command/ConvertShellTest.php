@@ -8,6 +8,8 @@ class ConvertShellTest extends MyCakeTestCase {
 	public $ConvertShell;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->ConvertShell = new ConvertShell();
 	}
 

@@ -12,6 +12,8 @@ class CommonHelperTest extends MyCakeTestCase {
 	public $Common;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->Common = new CommonHelper(new View(null));
 	}
 
@@ -72,6 +74,8 @@ class CommonHelperTest extends MyCakeTestCase {
  * @return void
  */
 	public function tearDown() {
+		parent::tearDown();
+
 		unset($this->Common);
 	}
 

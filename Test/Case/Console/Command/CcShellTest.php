@@ -8,6 +8,8 @@ class CcShellTest extends MyCakeTestCase {
 	public $CcShell;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->CcShell = new CcShell();
 	}
 

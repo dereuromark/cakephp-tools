@@ -7,6 +7,8 @@ class IcalLibTest extends CakeTestCase {
 	public $file;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->Ical = new IcalLib();
 
 		$this->file = CakePlugin::path('Tools').'Test'.DS.'test_files'.DS.'ics'.DS.'basic.ics';
@@ -14,6 +16,8 @@ class IcalLibTest extends CakeTestCase {
 
 
 	public function tearDown() {
+		parent::tearDown();
+
 		unset($this->Ical);
 	}
 

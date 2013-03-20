@@ -9,17 +9,21 @@ class HazardableBehaviorTest extends MyCakeTestCase {
 	public $Model;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->Model = ClassRegistry::init('Comment');
 
 		$this->Model->Behaviors->load('Tools.Hazardable', array());
 	}
 
 	public function tearDown() {
+		parent::tearDown();
+
 		unset($this->Model);
 	}
 
 	public function testObject() {
-		$this->assertTrue(is_a($this->Model->Behaviors->Hazardable, 'HazardableBehavior'));
+		$this->assertInstanceOf('HazardableBehavior', $this->Model->Behaviors->Hazardable);
 	}
 
 	public function testSaveAndFind() {

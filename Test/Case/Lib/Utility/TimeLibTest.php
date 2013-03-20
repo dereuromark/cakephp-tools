@@ -10,7 +10,7 @@ class TimeLibTest extends MyCakeTestCase {
 	public function testObject() {
 		$this->Time = new TimeLib();
 		$this->assertTrue(is_object($this->Time));
-		$this->assertTrue(is_a($this->Time, 'TimeLib'));
+		$this->assertInstanceOf('TimeLib', $this->Time);
 	}
 
 	public function testTimezone() {

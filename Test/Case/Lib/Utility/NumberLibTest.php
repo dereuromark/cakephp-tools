@@ -8,6 +8,8 @@ class NumberLibTest extends MyCakeTestCase {
 	public $NumberLib = null;
 
 	public function setUp() {
+		parent::setUp();
+
 		//$this->NumberLib = new NumberLib();
 	}
 

@@ -10,11 +10,13 @@ class TokenTest extends MyCakeTestCase {
 	public $fixtures = array('plugin.tools.token');
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->Token = ClassRegistry::init('Tools.Token');
 	}
 
 	public function testTokenInstance() {
-		$this->assertTrue(is_a($this->Token, 'Token'));
+		$this->assertInstanceOf('Token', $this->Token);
 	}
 
 

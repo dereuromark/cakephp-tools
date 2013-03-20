@@ -8,6 +8,8 @@ class FolderLibTest extends MyCakeTestCase {
 	public $FolderLib;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->FolderLib = new FolderLib();
 	}
 

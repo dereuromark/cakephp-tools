@@ -22,7 +22,7 @@ class SpellLibTest extends MyCakeTestCase {
 	}
 
 	public function testObject() {
-		$this->assertTrue(is_a($this->SpellLib, 'SpellLib'));
+		$this->assertInstanceOf('SpellLib', $this->SpellLib);
 	}
 
 	public function testList() {

@@ -16,6 +16,8 @@ Configure::write('Google', array(
 class GeocodeLibTest extends MyCakeTestCase {
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->Geocode = new GeocodeLib();
 	}
 
@@ -25,7 +27,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 
 	public function testObject() {
 		$this->assertTrue(is_object($this->Geocode));
-		$this->assertTrue(is_a($this->Geocode, 'GeocodeLib'));
+		$this->assertInstanceOf('GeocodeLib', $this->Geocode);
 	}
 
 	public function testDistance() {

@@ -10,6 +10,8 @@ class ChmodLibTest extends CakeTestCase {
 	public $Chmod = null;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->Chmod = new ChmodLib();
 
 	}

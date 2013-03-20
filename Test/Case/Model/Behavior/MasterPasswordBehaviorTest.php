@@ -11,6 +11,8 @@ class MasterPasswordBehaviorTest extends MyCakeTestCase {
 	public $MasterPasswordBehavior;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->MasterPasswordBehavior = new MasterPasswordBehavior();
 		$this->Model = ClassRegistry::init('MasterPasswordTestModel');
 	}

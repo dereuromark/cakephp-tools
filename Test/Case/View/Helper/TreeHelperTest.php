@@ -58,7 +58,7 @@ class TreeHelperTest extends MyCakeTestCase {
 	}
 
 	public function testObject() {
-		$this->assertTrue(is_a($this->Tree, 'TreeHelper'));
+		$this->assertInstanceOf('TreeHelper', $this->Tree);
 	}
 
 	public function testGenerate() {

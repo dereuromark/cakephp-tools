@@ -19,7 +19,7 @@ class TypographicBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function testObject() {
-		$this->assertTrue(is_a($this->Model->Behaviors->Typographic, 'TypographicBehavior'));
+		$this->assertInstanceOf('TypographicBehavior', $this->Model->Behaviors->Typographic);
 	}
 
 

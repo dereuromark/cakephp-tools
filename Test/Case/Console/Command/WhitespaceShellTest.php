@@ -8,6 +8,8 @@ class WhitespaceShellTest extends MyCakeTestCase {
 	public $WhitespaceShell;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->WhitespaceShell = new WhitespaceShell();
 	}
 

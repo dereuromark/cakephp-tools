@@ -7,15 +7,19 @@ App::uses('View', 'View');
 class FormExtHelperTest extends MyCakeTestCase {
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->Form = new FormExtHelper(new View(null));
 	}
 
 	public function tearDown() {
+		parent::tearDown();
+
 
 	}
 
 	public function testObject() {
-		$this->assertTrue(is_a($this->Form, 'FormExtHelper'));
+		$this->assertInstanceOf('FormExtHelper', $this->Form);
 	}
 
 	public function testPostLink() {

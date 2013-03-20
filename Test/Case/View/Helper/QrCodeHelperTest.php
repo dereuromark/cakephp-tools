@@ -27,6 +27,8 @@ class QrCodeHelperTest extends MyCakeTestCase {
  * @return void
  */
 	public function setUp() {
+		parent::setUp();
+
 		$this->QrCode = new QrCodeHelper(new View(null));
 		$this->QrCode->Html = new HtmlHelper(new View(null));
 	}
@@ -152,6 +154,8 @@ class QrCodeHelperTest extends MyCakeTestCase {
  * @return void
  */
 	public function tearDown() {
+		parent::tearDown();
+
 		unset($this->QrCode);
 	}
 }

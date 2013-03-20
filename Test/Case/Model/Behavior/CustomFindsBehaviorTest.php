@@ -6,6 +6,8 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
 class CustomFindsBehaviorTest extends MyCakeTestCase {
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->CustomFinds = new CustomFindsBehavior();
 
 		$this->Model = new CustomFindsTest();
@@ -22,11 +24,13 @@ class CustomFindsBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function tearDown() {
+		parent::tearDown();
+
 
 	}
 
 	public function testObject() {
-		$this->assertTrue(is_a($this->CustomFinds, 'CustomFindsBehavior'));
+		$this->assertInstanceOf('CustomFindsBehavior', $this->CustomFinds);
 	}
 
 	public function testModify() {

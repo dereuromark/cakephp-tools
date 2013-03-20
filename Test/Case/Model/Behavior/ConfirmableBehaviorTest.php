@@ -9,6 +9,8 @@ class ConfirmableBehaviorTest extends MyCakeTestCase {
 	public $ConfirmableBehavior;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->ConfirmableBehavior = new ConfirmableBehavior();
 	}
 

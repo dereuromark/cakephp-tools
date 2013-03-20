@@ -18,6 +18,8 @@ class CommonComponentTest extends CakeTestCase {
  * @return void
  */
 	public function setUp() {
+		parent::setUp();
+
 		$this->Controller = new CommonComponentTestController(new CakeRequest, new CakeResponse);
 		$this->Controller->constructClasses();
 		$this->Controller->startupProcess();
@@ -30,6 +32,8 @@ class CommonComponentTest extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
+		parent::tearDown();
+
 		unset($this->Controller->Common);
 		unset($this->Controller);
 	}

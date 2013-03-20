@@ -13,7 +13,7 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 	}
 
 	public function testObject() {
-		$this->assertTrue(is_a($this->GoogleMapV3, 'GoogleMapV3Helper'));
+		$this->assertInstanceOf('GoogleMapV3Helper', $this->GoogleMapV3);
 	}
 
 	public function testMapUrl() {

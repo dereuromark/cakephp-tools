@@ -8,6 +8,8 @@ class IndentShellTest extends MyCakeTestCase {
 	public $IndentShell;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->IndentShell = new IndentShell();
 	}
 

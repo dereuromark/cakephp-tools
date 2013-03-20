@@ -11,11 +11,15 @@ App::uses('Controller', 'Controller');
 class CaptchaHelperTest extends CakeTestCase {
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->Captcha = new CaptchaHelper(new View(new Controller(new CakeRequest, new CakeResponse)));
 		$this->Captcha->Html = new HtmlHelper(new View(null));
 	}
 
 	public function tearDown() {
+		parent::tearDown();
+
 		unset($this->Captcha);
 	}
 

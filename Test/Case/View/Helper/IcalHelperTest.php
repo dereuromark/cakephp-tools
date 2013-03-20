@@ -20,15 +20,19 @@ class IcalHelperTest extends MyCakeTestCase {
 	public $Ical;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->Ical = new IcalHelper(new View(null));
 	}
 
 	public function tearDown() {
+		parent::tearDown();
+
 
 	}
 
 	public function testObject() {
-		$this->assertTrue(is_a($this->Ical, 'IcalHelper'));
+		$this->assertInstanceOf('IcalHelper', $this->Ical);
 	}
 
 	public function testAdd() {

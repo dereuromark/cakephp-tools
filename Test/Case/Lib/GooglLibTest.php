@@ -8,12 +8,16 @@ App::uses('GooglLib', 'Tools.Lib');
 class GooglLibTest extends CakeTestCase {
 
 	public function setUp() {
+		parent::setUp();
+
 		//Configure::write('Googl.key', 'YOUR KEY');
 
 		$this->Googl = new GooglLib();
 	}
 
 	public function tearDown() {
+		parent::tearDown();
+
 		unset($this->Googl);
 	}
 

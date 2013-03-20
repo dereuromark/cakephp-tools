@@ -6,6 +6,8 @@ class HazardLibTest extends CakeTestCase {
 
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->HazardLib = new HazardLib();
 	}
 

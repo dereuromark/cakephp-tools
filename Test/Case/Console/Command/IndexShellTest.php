@@ -8,6 +8,8 @@ class IndexShellTest extends MyCakeTestCase {
 	public $IndexShell;
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->IndexShell = new IndexShell();
 	}
 

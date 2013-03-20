@@ -10,11 +10,13 @@ class CodeKeyTest extends MyCakeTestCase {
 	public $fixtures = array('plugin.tools.code_key');
 
 	public function setUp() {
+		parent::setUp();
+
 		$this->CodeKey = ClassRegistry::init('Tools.CodeKey');
 	}
 
 	public function testCodeKeyInstance() {
-		$this->assertTrue(is_a($this->CodeKey, 'CodeKey'));
+		$this->assertInstanceOf('CodeKey', $this->CodeKey);
 	}
 
 
