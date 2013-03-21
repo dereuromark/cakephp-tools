@@ -58,7 +58,7 @@ class KeyValueBehavior extends ModelBehavior {
 	 *
 	 * @var string
 	 * @var string
-	 * @return mixed
+	 * @return mixed Flat array or direct value
 	 */
 	public function getSection(Model $Model, $foreignKey, $section = null, $key = null) {
 		extract($this->settings[$Model->alias]);
@@ -108,10 +108,10 @@ class KeyValueBehavior extends ModelBehavior {
 	 * @var string
 	 * @var array
 	 * @var string
-	 * @return bool $success
+	 * @return bool Success
 	 */
-	public function saveSection(Model $Model, $foreignKey, $data, $section = null) {
-		if (!$this->validateSection($Model, $data)) {
+	public function saveSection(Model $Model, $foreignKey, $data, $section = null, $validate = true) {
+		if ($validate && !$this->validateSection($Model, $data)) {
 			return false;
 		}
 
@@ -148,9 +148,9 @@ class KeyValueBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * @return bool $success
+	 * @return bool Success
 	 */
-	public function validateSection(Model $Model, $data) {
+	public function validateSection(Model $Model, $data, $section = null) {
 		$validate = $this->settings[$Model->alias]['validate'];
 		if ($validate === null) {
 			$validate = 'keyValueValidate';
@@ -158,13 +158,16 @@ class KeyValueBehavior extends ModelBehavior {
 		if (empty($Model->{$validate})) {
 			return true;
 		}
-		$rules = $Model->keyValueValidate;
+		$rules = $Model->{$validate};
 		$res = true;
 		foreach ($data as $model => $array) {
+			if ($section && $section !== $model) {
+				continue;
+			}
 			if (empty($rules[$model])) {
 				continue;
 			}
-			$this->KeyValue->{$model} = ClassRegistry::init(array('class'=>'AppModel', 'alias'=>$model));
+			$this->KeyValue->{$model} = ClassRegistry::init(array('class'=>'AppModel', 'alias'=>$model, 'table' => false));
 			$this->KeyValue->{$model}->validate = $rules[$model];
 			$this->KeyValue->{$model}->set($array);
 			$res = $res && $this->KeyValue->{$model}->validates();
@@ -172,6 +175,14 @@ class KeyValueBehavior extends ModelBehavior {
 		return $res;
 	}
 
+	/**
+	 * KeyValueBehavior::defaultValues()
+	 *
+	 * @param mixed $Model
+	 * @param mixed $section
+	 * @param mixed $key
+	 * @return array
+	 */
 	public function defaultValues(Model $Model, $section = null, $key = null) {
 		$defaults = $this->settings[$Model->alias]['defaults'];
 		if ($defaults === null) {
@@ -194,7 +205,7 @@ class KeyValueBehavior extends ModelBehavior {
 	 * resets the custom data for the specific domains (model, foreign_id)
 	 * careful: passing both null values will result in a complete truncate command
 	 *
-	 * @return bool $success
+	 * @return bool Success
 	 * 2012-08-08 ms
 	 */
 	public function resetSection(Model $Model, $foreignKey = null, $section = null, $key = null) {
