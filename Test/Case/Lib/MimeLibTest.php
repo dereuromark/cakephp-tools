@@ -140,7 +140,7 @@ class TestCakeResponse extends CakeResponse {
 
 class TestMimeLib extends MimeLib {
 
-	public function getMimeTypes() {
+	public function getMimeTypes($coreHasPrecedence = false) {
 		return $this->_mimeTypesExt;
 	}
 
