@@ -45,7 +45,7 @@ class MyController extends Controller {
 	 */
 	public function redirect($url, $status = null, $exit = true) {
 		$run = Configure::read('App.additionalEncoding');
-		if ($run) {
+		if ($run && is_array($url)) {
 			foreach ($url as $key => $value) {
 				if ($key === '?') {
 					continue;
