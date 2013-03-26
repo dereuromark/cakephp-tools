@@ -324,7 +324,6 @@ class EmailLib extends CakeEmail {
 		return $msg;
 	}
 
-
 	/**
 	 * Add attachments to the email message
 	 * @override

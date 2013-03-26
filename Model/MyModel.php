@@ -1539,13 +1539,17 @@ class MyModel extends Model {
 	/**
 	 * Get all related entries that have been used so far
 	 *
+	 * @param string $modelName The related model
+	 * @param string $groupField Field to group by
+	 * @param string $type Find type
+	 * @param array $options
 	 * @return array
 	 */
 	public function getRelatedInUse($modelName, $groupField, $type = 'all', $options = array()) {
 		$defaults = array(
 			'contain' => array($modelName),
 			'group' => $groupField,
-			'order' => array($modelName . '.' . $this->$modelName->displayField => 'ASC'),
+			'order' => $this->$modelName->order ? $this->$modelName->order : array($modelName . '.' . $this->$modelName->displayField => 'ASC'),
 		);
 		if ($type === 'list') {
 			$defaults['fields'] = array($modelName . '.' . $this->$modelName->primaryKey, $modelName . '.' . $this->$modelName->displayField);
@@ -1557,6 +1561,9 @@ class MyModel extends Model {
 	/**
 	 * Get all fields that have been used so far
 	 *
+	 * @param string $groupField Field to group by
+	 * @param string $type Find type
+	 * @param array $options
 	 * @return array
 	 */
 	public function getFieldInUse($groupField, $type = 'all', $options = array()) {

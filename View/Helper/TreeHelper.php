@@ -77,7 +77,7 @@ class TreeHelper extends AppHelper {
  *  'hideUnrelated' => if unrelated (not children, not siblings) should be hidden, needs 'treePath', true/false or array/string for callback
  *  'treePath' => treePath to insert into callback/element
  *	'left' => name of the 'lft' field if not lft. only applies to MPTT data
- *	'right' => name of the 'rght' field if not lft. only applies to MPTT data
+ *	'right' => name of the 'rght' field if not rght. only applies to MPTT data
  *	'depth' => used internally when running recursively, can be used to override the depth in either mode.
  *  'maxDepth' => used to control the depth upto which to generate tree
  *	'firstChild' => used internally when running recursively.
