@@ -14,7 +14,7 @@ before_script:
   - git clone --depth 1 git://github.com/dereuromark/tools-app app && cd app && git checkout master
   - cd ..
   - cp -R ../tools plugins/Tools
-  - sh -c "if [ 'mysql' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
+  - sh -c "mysql -e 'CREATE DATABASE cakephp_test;'"
   - mkdir ./app/tmp
   - mkdir ./app/tmp/logs
   - mkdir ./app/tmp/sessions
@@ -25,50 +25,18 @@ before_script:
   - chmod -R 0777 ./app/tmp
   - echo "<?php
     class DATABASE_CONFIG {
-    private \$identities = array(
-      'mysql' => array(
-        'datasource' => 'Database/Mysql',
-        'host' => '0.0.0.0',
-        'login' => 'travis'
-      )
-    );
-    public \$default = array(
-      'persistent' => false,
-      'host' => '',
-      'login' => '',
-      'password' => '',
-      'database' => 'cakephp_test',
-      'prefix' => ''
-    );
     public \$test = array(
-      'persistent' => false,
-      'host' => '',
-      'login' => '',
-      'password' => '',
+      'datasource' => 'Database/Mysql',
       'database' => 'cakephp_test',
-      'prefix' => ''
+      'host' => '0.0.0.0',
+      'login' => 'travis'
+      'host' => '',
+      'persistent' => false,
     );
-    public function __construct() {
-      \$db = 'mysql';
-      if (!empty(\$_SERVER['DB'])) {
-        \$db = \$_SERVER['DB'];
-      }
-      foreach (array('default', 'test') as \$source) {
-        \$config = array_merge(\$this->{\$source}, \$this->identities[\$db]);
-        if (is_array(\$config['database'])) {
-          \$config['database'] = \$config['database'][\$source];
-        }
-        if (!empty(\$config['schema']) && is_array(\$config['schema'])) {
-          \$config['schema'] = \$config['schema'][\$source];
-        }
-        \$this->{\$source} = \$config;
-      }
-    }
     }" > app/Config/database.php
   - cd app
 script:
   - ../lib/Cake/Console/cake test Tools AllTools
-
 
 notifications:
   email: false
