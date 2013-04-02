@@ -30,13 +30,12 @@ before_script:
       'database' => 'cakephp_test',
       'host' => '0.0.0.0',
       'login' => 'travis',
-      'host' => '',
       'persistent' => false,
     );
     }" > app/Config/database.php
   - cd app
 script:
-  - ../lib/Cake/Console/cake test Tools AllTools
+  - ../lib/Cake/Console/cake test Tools AllTools --stderr
 
 notifications:
   email: false
