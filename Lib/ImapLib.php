@@ -168,7 +168,6 @@ class ImapLib {
 		return imap_list($this->stream, $this->currentRef, $current);
 	}
 
-
 	public function getFolder() {
 		return new ImapFolderLib($this);
 	}

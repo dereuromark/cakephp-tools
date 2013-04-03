@@ -2,12 +2,14 @@
 App::uses('File', 'Utility');
 
 /**
+ * Convenience class for reading, writing and appending to files.
+ *
  * 2010-05-16 ms
  */
 class FileLib extends File {
 
 	/**
-	 * Convenience class for reading, writing and appending to files.
+	 * allowed delimiters for csv
 	 * 2009-06-15 ms
 	 */
 	protected $allowedDelimiters = array(
@@ -17,8 +19,16 @@ class FileLib extends File {
 		' ',
 		'#');
 
+	/**
+	 * allowed enclosures for csv
+	 * 2009-06-15 ms
+	 */
 	protected $allowedEnclosures = array('"', '\'');
 
+	/**
+	 * allowed tags for pattern reading
+	 * 2009-06-15 ms
+	 */
 	protected $allowedTags = array(
 		'<h1>',
 		'<h2>',
@@ -29,10 +39,6 @@ class FileLib extends File {
 		'<img>');
 
 	protected $defaultFormat = '%s'; // %s\t%s\t%s => 	some	nice	text
-
-	public function __destruct() {
-		$this->close();
-	}
 
 	/**
 	 * A better csv reader which handles encoding as well as removes completely empty lines
@@ -77,7 +83,7 @@ class FileLib extends File {
 
 		} else {
 			while (true) {
-				$data = fgetcsv($this->handle, $length, (!empty($delimiter) ? $delimiter : ','), (!empty($enclosure) ? $enclosure : '"'));
+				$data = fgetcsv($this->handle, $length, (isset($delimiter) ? $delimiter : ','), (isset($enclosure) ? $enclosure : '"'));
 				if ($data === false) {
 					break;
 				}
@@ -206,7 +212,8 @@ class FileLib extends File {
 	}
 
 	/**
-	 * transfer array to cake structure
+	 * Transfer array to cake structure
+	 *
 	 * @param data (usually with the first row as keys!)
 	 * @param options
 	 * - keys (defaults to first array content in data otherwise) (order is important!)
