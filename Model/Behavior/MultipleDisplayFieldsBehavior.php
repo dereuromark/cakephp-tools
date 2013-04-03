@@ -4,7 +4,7 @@ App::uses('ModelBehavior', 'Model');
 /**
  * Improved version to go beyond the current model (joins) to populate dropdowns
  * downpoint if recursive is too high by default: too many other table entries read out as well!!! to -1 before, if only one table is needed!
- * Note: NEEDS full Model.field setup! otherwise query fails
+ * Important: Needs full Model.field setup and containable/recursive set properly! otherwise query might fail
  *
  * Example:
  *
@@ -26,9 +26,9 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 
 	protected $_defaults = array(
 		'fields' => array(),
-		'displayField' => null,// defaults to current $displayField
-		'defaults' => array(),
+		'defaults' => array(), // default values in case a field is empty/null
 		'pattern' => null, // automatically uses `%s %s %s ...` as many times as needed
+		'displayField' => null, // defaults to current $displayField - only needed for other than find(list)
 		//'on' => array('list'),
 	);
 
@@ -47,7 +47,6 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 		if (isset($config['pattern'])) {
 			$this->settings[$Model->alias]['pattern'] = $config['pattern'];
 		}
-		# MOD 2009-01-06 ms
 		if (isset($config['defaults'])) {
 			$this->settings[$Model->alias]['defaults'] = $config['defaults'];
 		}
@@ -57,7 +56,7 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 		if (empty($this->settings[$Model->alias]['multiple_display_fields'])) {
 			return $results;
 		}
-		# if displayFields is set, attempt to populate
+		// if displayFields is set, attempt to populate
 		foreach ($results as $key => $result) {
 			$displayFieldValues = array();
 			$fieldsPresent = true;
@@ -80,7 +79,6 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 			if ($fieldsPresent) {
 				$params = array_merge(array($this->settings[$Model->alias]['pattern']), $displayFieldValues);
 
-				# MOD 2009-01-06 ms
 				$string = '';
 				if (!empty($this->settings[$Model->alias]['defaults'])) {
 					foreach ($params as $k => $v) {
@@ -88,7 +86,7 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 							if (isset($this->settings[$Model->alias]['defaults'][$k-1]) && empty($v)) {
 								$params[$k]=$this->settings[$Model->alias]['defaults'][$k-1];
 								$string = $params[$k];
-							} elseif (!empty($string)) {	# use the previous string if available (e.g. if only one value is given for all)
+							} elseif (!empty($string)) {	// use the previous string if available (e.g. if only one value is given for all)
 								$params[$k] = $string;
 							}
 						}
@@ -109,9 +107,8 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 		if (isset($queryData['list']) && !isset($this->settings[$Model->alias]['multiple_display_fields'])) {
 			# MOD 2009-01-09 ms (fixes problems with model related index functions - somehow gets triggered even on normal find queries...)
 			$this->settings[$Model->alias]['multiple_display_fields'] = 1;
-			//$queryData['fields'] = array();
 
-			# substr is used to get rid of "{n}" fields' prefix...
+			// substr is used to get rid of "{n}" fields' prefix...
 			array_push($queryData['fields'], substr($queryData['list']['keyPath'], 4));
 			foreach ($this->settings[$Model->alias]['fields'] as $mName => $mFields) {
 				foreach ($mFields as $mField) {
@@ -119,7 +116,6 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 				}
 			}
 		} else {
-			# MOD 2009-01-09 ms
 			$this->settings[$Model->alias]['multiple_display_fields'] = 0;
 		}
 		return $queryData;
