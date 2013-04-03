@@ -32,6 +32,13 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 		//'on' => array('list'),
 	);
 
+	/**
+	 * MultipleDisplayFieldsBehavior::setup()
+	 *
+	 * @param Model $Model
+	 * @param array $config
+	 * @return void
+	 */
 	public function setup(Model $Model, $config = array()) {
 		$this->settings[$Model->alias] = $this->_defaults;
 
@@ -46,6 +53,9 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 		}
 		if (isset($config['pattern'])) {
 			$this->settings[$Model->alias]['pattern'] = $config['pattern'];
+		} else {
+			$fields = isset($config['fields']) ? count($config['fields']) : 0;
+			$this->settings[$Model->alias]['pattern'] = trim(str_repeat('%s ', $fields));
 		}
 		if (isset($config['defaults'])) {
 			$this->settings[$Model->alias]['defaults'] = $config['defaults'];

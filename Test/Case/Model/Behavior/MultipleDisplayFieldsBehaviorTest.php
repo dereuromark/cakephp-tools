@@ -1,5 +1,4 @@
 <?php
-
 App::uses('MultipleDisplayFieldsBehavior', 'Tools.Model/Behavior');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
@@ -30,7 +29,21 @@ class MultipleDisplayFieldsBehaviorTest extends MyCakeTestCase {
 		$this->Comment->Behaviors->load('Tools.MultipleDisplayFields');
 		$res = $this->Comment->find('first');
 		$this->assertSame(7, count($res['Comment']));
+		$this->Comment->Behaviors->unload('MultipleDisplayFields');
 
+		// auto %s pattern
+		$config = array(
+			'fields' => array(
+				$this->Comment->alias . '.comment', $this->Comment->alias . '.published'
+			),
+		);
+		$this->Comment->Behaviors->load('Tools.MultipleDisplayFields', $config);
+		$res = $this->Comment->find('list');
+		$this->debug($res);
+		$this->assertEquals('First Comment for First Article Y', $res[1]);
+		$this->Comment->Behaviors->unload('MultipleDisplayFields');
+
+		// custom pattern
 		$config = array(
 			'fields' => array(
 				$this->Comment->alias . '.comment', $this->Comment->alias . '.published'
