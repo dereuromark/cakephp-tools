@@ -17,6 +17,13 @@ App::uses('ModelBehavior', 'Model');
  * still be quite helpful if you want to simply concatinate fields of a query without
  * leveraging the db layer.
  *
+ * The most important advantage over the db layer is that you can use custom PHP callbacks to insert
+ * specific content into the values.
+ *
+ * It is best to attach this behavior dynamically prior to the find(list) call:
+ *
+ * $Model->Behaviors->load('Tools.MultipleDisplayFields', $config);
+ *
  * @see: http://bakery.cakephp.org/articles/view/multiple-display-field-3
  * @license MIT
  * @modified Mark Scherer
@@ -29,6 +36,7 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 		'defaults' => array(), // default values in case a field is empty/null
 		'pattern' => null, // automatically uses `%s %s %s ...` as many times as needed
 		'displayField' => null, // defaults to current $displayField - only needed for other than find(list)
+		//'callback' => null, // instead of a pattern you could also use a custom model method as callback here
 		//'on' => array('list'),
 	);
 
@@ -62,6 +70,14 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 		}
 	}
 
+	/**
+	 * MultipleDisplayFieldsBehavior::afterFind()
+	 *
+	 * @param Model $Model
+	 * @param array $results
+	 * @param boolean $primary
+	 * @return array Modified results
+	 */
 	public function afterFind(Model $Model, $results, $primary) {
 		if (empty($this->settings[$Model->alias]['multiple_display_fields'])) {
 			return $results;
@@ -113,6 +129,13 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 		return $results;
 	}
 
+	/**
+	 * MultipleDisplayFieldsBehavior::beforeFind()
+	 *
+	 * @param Model $Model
+	 * @param array $queryData
+	 * @return array Modified queryData
+	 */
 	public function beforeFind(Model $Model, $queryData) {
 		if (isset($queryData['list']) && !isset($this->settings[$Model->alias]['multiple_display_fields'])) {
 			# MOD 2009-01-09 ms (fixes problems with model related index functions - somehow gets triggered even on normal find queries...)
