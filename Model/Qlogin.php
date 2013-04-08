@@ -95,7 +95,7 @@ class Qlogin extends ToolsAppModel {
 			$uid = CakeSession::read('Auth.User.id');
 		}
 		$key = $this->generate($url, $uid);
-	 	return $this->urlByKey($key);
+		return $this->urlByKey($key);
 	}
 
 }

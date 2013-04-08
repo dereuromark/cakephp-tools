@@ -349,7 +349,7 @@ TEXT;
 		$tree = $this->Model->find('threaded');
 		$id = 6;
 		$path = $this->Model->getPath($id);
-	 	//$this->_hideUnrelated($tree, $path);
+		//$this->_hideUnrelated($tree, $path);
 
 		$output = $this->Tree->generate($tree, array('autoPath' => array(6, 11), 'hideUnrelated' => true, 'treePath' => $path, 'callback'=>array($this, '_myCallback'))); // Two-SubA
 		//debug($output);

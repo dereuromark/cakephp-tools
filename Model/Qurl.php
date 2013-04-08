@@ -118,7 +118,7 @@ class Qurl extends ToolsAppModel {
 		if (!$key) {
 			return false;
 		}
-	 	return $this->urlByKey($key);
+		return $this->urlByKey($key);
 	}
 
 	/**

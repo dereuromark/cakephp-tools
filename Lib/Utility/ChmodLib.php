@@ -20,7 +20,7 @@ class ChmodLib {
 
 /*** calc octal ***/
 
-	 	/**
+		/**
 	 * from Octal 0xxx back to STRING with leading zero added on leading zero = true
 	 * e.g. 0777 => 0777, '755' => 0755
 	 * @access static Chmod::convertFromOctal(mode, leadingZero)

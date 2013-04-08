@@ -1062,7 +1062,7 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 	 */
 	public function _checkbox($id, $group = null, $options = array()) {
 		$defaults = array(
-	 		'class' => 'checkboxToggle'
+			'class' => 'checkboxToggle'
 		);
 		$options = array_merge($defaults, $options);
 		return $script . parent::checkbox($fieldName, $options);

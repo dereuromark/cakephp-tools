@@ -128,16 +128,16 @@ class CommonHelper extends AppHelper {
 		$res = array();
 		foreach ($lang as $language => $countries) {
 			if (is_numeric($language)) {
-		 		$language = '';
+				$language = '';
  			} else {
  				$language .= '-';
  			}
  			$countries = (array)$countries;
-	 		foreach ($countries as $country) {
-	 			$l = $language . $country;
-	 			$options = array('rel' => 'alternate', 'hreflang' => $l, 'type' => null, 'title' => null);
-	 			$res[] = $this->Html->meta('alternate', $url, $options).PHP_EOL;
-	 		}
+			foreach ($countries as $country) {
+				$l = $language . $country;
+				$options = array('rel' => 'alternate', 'hreflang' => $l, 'type' => null, 'title' => null);
+				$res[] = $this->Html->meta('alternate', $url, $options).PHP_EOL;
+			}
 		}
 		return implode('', $res);
 	}
@@ -250,7 +250,7 @@ class CommonHelper extends AppHelper {
 
 			$time = date('YmdHis', filemtime(APP . 'webroot' . DS . CSS_URL . $path . '.css'));
 			$url = "{$this->request->webroot}" . (COMPRESS_CSS ? 'c' : '') . CSS_URL . $this->themeWeb . $path . ".css?" . $time;
-	 	return $url;
+		return $url;
 	}
 
 
@@ -362,7 +362,7 @@ class CommonHelper extends AppHelper {
 		if ((int)$c !== 1) {
 			$p = Inflector::pluralize($s);
 		} else {
-		 	$p = null; # no pluralization necessary
+			$p = null; # no pluralization necessary
 		}
 		return $this->sp($s, $p, $c, $autoTranslate);
 	}
@@ -381,7 +381,7 @@ class CommonHelper extends AppHelper {
 		if ((int)$c !== 1) {
 			$ret = $p;
 		} else {
-		 		$ret = $s;
+				$ret = $s;
 		}
 
 		if ($autoTranslate) {
@@ -516,7 +516,7 @@ class CommonHelper extends AppHelper {
 	 * 2009-01-08 ms
 	 */
 	public function framebuster() {
-	 	return $this->Html->scriptBlock('
+		return $this->Html->scriptBlock('
 if (top!=self) top.location.ref=self.location.href;
 ');
 	}
@@ -535,7 +535,7 @@ if (top!=self) top.location.ref=self.location.href;
 		if (!isset($options['escape']) || $options['escape'] !== false) {
 				$message = h($message);
 		}
-	 	return $this->Html->scriptBlock('
+		return $this->Html->scriptBlock('
 // Returns the version of Internet Explorer or a -1
 function getInternetExplorerVersion() {
 	var rv = -1; // Return value assumes failure.

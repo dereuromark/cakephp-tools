@@ -647,7 +647,7 @@ class EmailLib extends CakeEmail {
 			'||S:'.$this->_log['subject'];
 		$type = 'email';
 		if (!empty($this->_error)) {
-		 	$type = 'email_error';
+			$type = 'email_error';
 			$res .= '||ERROR:' . $this->_error;
 		}
 		if ($append) {

@@ -84,7 +84,7 @@ class Token extends ToolsAppModel {
 			$this->set($data);
 			$max--;
 			if ($max === 0) { //die('Exeption in Token');
-			 	return false;
+				return false;
 			}
 		}
 

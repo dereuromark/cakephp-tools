@@ -125,7 +125,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 
 		# inconclusive
 		$data = array(
-	 		//'street' => 'Leopoldstraße',
+			//'street' => 'Leopoldstraße',
 			'city' => 'München'
 		);
 		$res = $this->Comment->save($data);
@@ -151,7 +151,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$this->Comment->Behaviors->load('Tools.Geocoder', array('real'=>false, 'min_accuracy'=>0));
 		// accuracy = 1
 		$data = array(
-	 		//'street' => 'Leopoldstraße',
+			//'street' => 'Leopoldstraße',
 			'city' => 'Deutschland'
 		);
 		$res = $this->Comment->save($data);
@@ -171,7 +171,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$this->Comment->Behaviors->load('Tools.Geocoder', array('real'=>false, 'min_accuracy'=>4));
 		// accuracy = 1
 		$data = array(
-	 		//'street' => 'Leopoldstraße',
+			//'street' => 'Leopoldstraße',
 			'city' => 'Deutschland'
 		);
 		$res = $this->Comment->save($data);
@@ -195,7 +195,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 
 		// accuracy = 1
 		$data = array(
-	 		//'street' => 'Leopoldstraße',
+			//'street' => 'Leopoldstraße',
 			'city' => 'Neustadt'
 		);
 		$res = $this->Comment->save($data);
@@ -217,7 +217,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$this->Comment->Behaviors->load('Tools.Geocoder', array('real'=>false, 'allow_inconclusive'=>true));
 		// accuracy = 1
 		$data = array(
-	 		//'street' => 'Leopoldstraße',
+			//'street' => 'Leopoldstraße',
 			'city' => 'Neustadt'
 		);
 		$res = $this->Comment->save($data);
@@ -239,7 +239,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$this->Comment->Behaviors->load('Tools.Geocoder', array('real'=>false, 'expect'=>array('postal_code')));
 		// accuracy = 1
 		$data = array(
-	 		//'street' => 'Leopoldstraße',
+			//'street' => 'Leopoldstraße',
 			'city' => 'Bibersfeld'
 		);
 		$res = $this->Comment->save($data);
@@ -251,7 +251,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$this->assertTrue(empty($res['Comment']['lat']) && empty($res['Comment']['lng']));
 
 		$data = array(
-	 		//'street' => 'Leopoldstraße',
+			//'street' => 'Leopoldstraße',
 			'city' => '74523'
 		);
 		$res = $this->Comment->save($data);

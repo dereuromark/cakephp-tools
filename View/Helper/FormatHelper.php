@@ -736,7 +736,7 @@ class FormatHelper extends TextHelper {
 		}
 		if (!file_exists($folder.DS.$file)) {
 			$command = 'convert -background '.(!empty($options['background'])?'"'.$options['background'].'"':'transparent').' -font '.$options['font'].' -fill '.(!empty($options['color'])?'"'.$options['color'].'"':'transparent').' -pointsize '.$options['size'].' label:"'.$text.'" '.$folder.DS.$file;
-		 	exec($command, $a, $r);
+			exec($command, $a, $r);
 			if ($r !== 0) {
 				return '';
 			}
