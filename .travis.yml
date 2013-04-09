@@ -11,8 +11,7 @@ env:
 before_script:
   - git clone --depth 1 --branch $CAKE_VERSION git://github.com/cakephp/cakephp ../cakephp && cd ../cakephp
   - rm -R app
-  - git clone --depth 1 git://github.com/dereuromark/tools-app app && cd app && git checkout master
-  - cd ..
+  - git clone --depth 1 --branch master git://github.com/dereuromark/tools-app app
   - cp -R ../tools plugins/Tools
   - sh -c "mysql -e 'CREATE DATABASE cakephp_test;'"
   - mkdir ./app/tmp
