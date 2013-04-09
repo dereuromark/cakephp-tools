@@ -1,9 +1,6 @@
-# Tools
+# CakePHP Tools Plugin
 
-## A cake2.x plugin
-
-This plugin contains several useful tools that can be used in many projects.
-Please fork and help to improve (bugfixing, test cases, ...)
+A Cake2.x Plugin containing several useful tools that can be used in many projects.
 
 Please note: New functionality has been tested against cake2.3 only. Please upgrade if possible.
 
