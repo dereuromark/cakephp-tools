@@ -825,16 +825,19 @@ class RevisionBehavior extends ModelBehavior {
 					$Model->id)));
 
 		$changeDetected = false;
-		foreach ($data[$Model->alias] as $key => $value) {
-			if (isset($data[$Model->alias][$Model->primaryKey]) && !empty($this->oldData[$Model->alias]) && isset($this->oldData[$Model->
-				alias][$Model->alias][$key])) {
+		// make sure $data[$Model->alias] is set
+		if (isset($data[$Model->alias]) && is_array($data[$Model->alias])) {
+			foreach ($data[$Model->alias] as $key => $value) {
+				if (isset($data[$Model->alias][$Model->primaryKey]) && !empty($this->oldData[$Model->alias]) && isset($this->oldData[$Model->
+					alias][$Model->alias][$key])) {
 
-				$old_value = $this->oldData[$Model->alias][$Model->alias][$key];
-			} else {
-				$old_value = '';
-			}
-			if ($value != $old_value && !in_array($key, $this->settings[$Model->alias]['ignore'])) {
-				$changeDetected = true;
+					$old_value = $this->oldData[$Model->alias][$Model->alias][$key];
+				} else {
+					$old_value = '';
+				}
+				if ($value != $old_value && !in_array($key, $this->settings[$Model->alias]['ignore'])) {
+					$changeDetected = true;
+				}
 			}
 		}
 		$Model->ShadowModel->create($data);

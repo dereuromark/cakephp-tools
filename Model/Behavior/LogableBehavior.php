@@ -398,6 +398,9 @@ class LogableBehavior extends ModelBehavior {
 		}
 	}
 
+	/**
+	 * updated 2013-04-10 to detect soft delete by websiteswithclass
+	 */
 	public function afterSave(Model $Model, $created) {
 		if (!$this->settings[$Model->alias]['enabled']) {
 			return true;
@@ -420,29 +423,10 @@ class LogableBehavior extends ModelBehavior {
 		if ($this->Log->hasField($this->settings[$Model->alias]['foreignKey'])) {
 			$logData[$this->Log->alias][$this->settings[$Model->alias]['foreignKey']] = $id;
 		}
-		if ($this->Log->hasField('description')) {
-			$logData[$this->Log->alias]['description'] = $Model->alias . ' ';
-			if (isset($Model->data[$Model->alias][$Model->displayField]) && $Model->displayField != $Model->primaryKey) {
-				$logData[$this->Log->alias]['description'] .= '"' . $Model->data[$Model->alias][$Model->displayField] . '" ';
-			}
 
-			if ($this->settings[$Model->alias]['descriptionIds']) {
-				$logData[$this->Log->alias]['description'] .= '(' . $id . ') ';
-			}
+		$soft_delete_detected = false;
 
-			if ($created) {
-				$logData[$this->Log->alias]['description'] .= __('added');
-			} else {
-				$logData[$this->Log->alias]['description'] .= __('updated');
-			}
-		}
-		if ($this->Log->hasField('action')) {
-			if ($created) {
-				$logData[$this->Log->alias]['action'] = 'add';
-			} else {
-				$logData[$this->Log->alias]['action'] = 'edit';
-			}
-		}
+		// moved 'change' field up to detect soft delete
 		if ($this->Log->hasField('change')) {
 			$logData[$this->Log->alias]['change'] = '';
 			$db_fields = array_keys($Model->schema());
@@ -453,6 +437,12 @@ class LogableBehavior extends ModelBehavior {
 				} else {
 					$old = '';
 				}
+
+				// soft delete detected
+				if ( $key == 'deleted' ) {
+					$soft_delete_detected = true;
+				}
+
 				if ($key !== 'modified' && !in_array($key, $this->settings[$Model->alias]['ignore']) && $value != $old && in_array($key, $db_fields)) {
 					if ($this->settings[$Model->alias]['change'] === 'full') {
 						$changed_fields[] = $key . ' (' . $old . ') => (' . $value . ')';
@@ -473,6 +463,33 @@ class LogableBehavior extends ModelBehavior {
 				$logData[$this->Log->alias]['change'] = implode(', ', $changed_fields);
 			}
 			$logData[$this->Log->alias]['changes'] = $changes;
+		}
+		if ($this->Log->hasField('description')) {
+			$logData[$this->Log->alias]['description'] = $Model->alias . ' ';
+			if (isset($Model->data[$Model->alias][$Model->displayField]) && $Model->displayField != $Model->primaryKey) {
+				$logData[$this->Log->alias]['description'] .= '"' . $Model->data[$Model->alias][$Model->displayField] . '" ';
+			}
+
+			if ($this->settings[$Model->alias]['descriptionIds']) {
+				$logData[$this->Log->alias]['description'] .= '(' . $id . ') ';
+			}
+
+			if ($created) {
+				$logData[$this->Log->alias]['description'] .= __('added');
+			} elseif ($soft_delete_detected) {
+				$logData[$this->Log->alias]['description'] .= __('deleted');
+			} else {
+				$logData[$this->Log->alias]['description'] .= __('updated');
+			}
+		}
+		if ($this->Log->hasField('action')) {
+			if ($created) {
+				$logData[$this->Log->alias]['action'] = 'add';
+			} elseif ($soft_delete_detected) {
+				$logData[$this->Log->alias]['action'] = 'delete';
+			} else {
+				$logData[$this->Log->alias]['action'] = 'edit';
+			}
 		}
 
 		if (empty($logData)) {
@@ -503,7 +520,10 @@ class LogableBehavior extends ModelBehavior {
 		} else {
 			$Model->recursive = -1;
 			$Model->read(array($Model->displayField));
-			$logData[$this->Log->alias]['title'] = $Model->data[$Model->alias][$Model->displayField];
+			// check if displayField is set
+			if (isset($Model->data[$Model->alias][$Model->displayField])) {
+				$logData[$this->Log->alias]['title'] = $Model->data[$Model->alias][$Model->displayField];
+			}
 		}
 
 		if ($this->Log->hasField($this->settings[$Model->alias]['classField'])) {
