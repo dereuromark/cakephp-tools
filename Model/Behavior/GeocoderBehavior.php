@@ -44,7 +44,7 @@ class GeocoderBehavior extends ModelBehavior {
 			'require' => false, 'allowEmpty' => true, 'invalidate' => array(), 'expect' => array(),
 			'lat' => 'lat', 'lng' => 'lng', 'formatted_address' => 'formatted_address', 'host' => null, 'language' => 'de', 'region' => '', 'bounds' => '',
 			'overwrite' => false, 'update' => array(), 'before' => 'save',
-			'min_accuracy' => 0, 'allow_inconclusive' => true, 'unit' => GeocodeLib::UNIT_KM,
+			'min_accuracy' => GeocodeLib::ACC_COUNTRY, 'allow_inconclusive' => true, 'unit' => GeocodeLib::UNIT_KM,
 			'log' => true, // log successfull results to geocode.log (errors will be logged to error.log in either case)
 		);
 
@@ -133,14 +133,6 @@ class GeocoderBehavior extends ModelBehavior {
 			}
 			*/
 
-			//pr($geocode);
-			//pr($this->Geocode->getResult());
-			// Now set the geocode as part of the model data to be saved, making sure that
-			// we are on the white list of fields to be saved
-			//pr ($Model->whitelist); die();
-
-			//pr($geocode); die();
-
 			# if both are 0, thats not valid, otherwise continue
 			if (!empty($geocode['lat']) || !empty($geocode['lng'])) { /** HACK to prevent 0 inserts of incorrect runs - 2009-04-07 ms */
 				$Model->data[$Model->alias][$this->settings[$Model->alias]['lat']] = $geocode['lat'];
@@ -184,20 +176,6 @@ class GeocoderBehavior extends ModelBehavior {
 					}
 				}
 			}
-
-			# correct country id if necessary
-			/*
-			if (in_array('country_name', $this->settings[$Model->alias]['address'])) {
-				App::uses('Country', 'Tools.Model');
-
-				if (!empty($geocode['country']) && in_array($geocode['country'], ($countries = Country::addressList()))) {
-					$countries = array_shift(array_keys($countries, $geocode['country']));
-					$Model->data[$Model->alias]['country'] = $countries;
-				} else {
-					$Model->data[$Model->alias]['country'] = 0;
-				}
-			}
-			*/
 		}
 
 		return $return;

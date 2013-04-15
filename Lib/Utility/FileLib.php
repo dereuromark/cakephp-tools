@@ -43,6 +43,13 @@ class FileLib extends File {
 	/**
 	 * A better csv reader which handles encoding as well as removes completely empty lines
 	 *
+	 * @param int $length (0 = no limit)
+	 * @param string $delimiter (null defaults to ,)
+	 * @param string $enclosure (null defaults to " - do not pass empty string)
+	 * @param string $mode
+	 * @param string $force Force open/read the file
+	 * @param boolean $removeEmpty Remove empty lines (simple newline characters without meaning)
+	 * @return array Content or false on failure
 	 * 2009-06-15 ms
 	 */
 	public function readCsv($length = 0, $delimiter = null, $enclosure = null, $mode = 'rb', $force = false, $removeEmpty = false) {
@@ -115,7 +122,9 @@ class FileLib extends File {
 	 * Write an array to a csv file
 	 *
 	 * @param array $data
-	 * @return bool $success
+	 * @param string $delimiter (null defaults to ,)
+	 * @param string $enclosure (null defaults to " - do not pass empty string)
+	 * @return bool Success
 	 * 2012-07-06 ms
 	 */
 	public function writeCsv($data, $delimiter = null, $enclosure = null) {
@@ -141,6 +150,12 @@ class FileLib extends File {
 	}
 
 	/**
+	 * Read files with fscanf() and pattern
+	 *
+	 * @param string $format (e.g. "%s\t%s\t%s\n")
+	 * @param string $mode
+	 * @param string $force Force open/read the file
+	 * @return array Content or false on failure
 	 * 2009-06-15 ms
 	 */
 	public function readWithPattern($format = null, $mode = 'rb', $force = false) {
@@ -244,8 +259,8 @@ class FileLib extends File {
 	/**
 	 * Assert proper encoding
 	 *
-	 * @param array
-	 * @return array
+	 * @param array Input
+	 * @return array Output
 	 */
 	protected function _encode(array $array) {
 		$convertedArray = array();

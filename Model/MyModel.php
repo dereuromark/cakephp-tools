@@ -315,7 +315,6 @@ class MyModel extends Model {
 		return $this->save($data, false);
 	}
 
-
 	/**
 	 * improve paginate count for "normal queries"
 	 * @deprecated?
@@ -331,7 +330,6 @@ class MyModel extends Model {
 		}
 		return $this->find('count', array_merge($conditions, $extra));
 	}
-
 
 	/**
 	 * return the next auto increment id from the current table
@@ -1360,7 +1358,7 @@ class MyModel extends Model {
 	 * @deprecated
 	 */
 	public function umlautsOrderFix($var) {
-		return "REPLACE( REPLACE( REPLACE( REPLACE( REPLACE( REPLACE( REPLACE(".$var.", 'Ä', 'Ae'), 'Ö', 'Oe'), 'Ü', 'Ue'), 'ä', 'ae'), 'ö', 'oe'), 'ü','ue'), 'ß', 'ss')";
+		return "REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(".$var.", 'Ä', 'Ae'), 'Ö', 'Oe'), 'Ü', 'Ue'), 'ä', 'ae'), 'ö', 'oe'), 'ü','ue'), 'ß', 'ss')";
 	}
 
 
@@ -1592,9 +1590,10 @@ class MyModel extends Model {
 
 
 	/**
-	 * automagic increasing of a field with e.g.:
+	 * Automagic increasing of a field with e.g.:
 	 * $this->id = ID; $this->inc('weight',3);
-	 * @deprecated use updateAll() instead!
+	 *
+	 * @deprecated use atomic updateAll() instead!
 	 * @param string fieldname
 	 * @param int factor: defaults to 1 (could be negative as well - if field is signed and can be < 0)
 	 */
@@ -1657,6 +1656,7 @@ class MyModel extends Model {
 	 * from http://othy.wordpress.com/2006/06/03/generatenestedlist/
 	 * NEEDS parent_id
 	 * //TODO refactor for 1.2
+	 *
 	 * @deprecated use generateTreeList instead
 	 * 2009-08-12 ms
 	 */

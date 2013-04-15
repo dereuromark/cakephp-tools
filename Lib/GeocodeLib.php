@@ -187,7 +187,8 @@ class GeocodeLib {
 	 * @return string $url (full)
 	 * 2010-06-29 ms
 	 */
-	public function url() {		$params = array(
+	public function url() {
+		$params = array(
 			'host' => $this->options['host'],
 			'output' => $this->options['output']
 		);
@@ -351,16 +352,16 @@ class GeocodeLib {
 	}
 
 	/**
+	 * Actual querying
+	 *
 	 * @param string $address
-	 * @param array $settings
-	 * - allow_inconclusive
-	 * - min_accuracy
-	 * @return boolean $success
+	 * @param array $params
+	 * @return boolean Success
 	 * 2010-06-25 ms
 	 */
-	public function geocode($address, $settings = array()) {
+	public function geocode($address, $params = array()) {
 		$this->reset(false);
-		$this->setParams(array_merge($settings, array('address'=>$address)));
+		$this->setParams(array_merge($params, array('address'=>$address)));
 		if ($this->options['allow_inconclusive']) {
 			# only host working with this setting?
 			//$this->options['host'] = self::DEFAULT_HOST;
@@ -402,7 +403,6 @@ class GeocodeLib {
 					$xmlArray['result'] = $xmlArray['results'];
 				}
 				unset($xmlArray['results']);
-				//die(debug($xmlArray));
 
 			} else {
 				try {
@@ -496,6 +496,22 @@ class GeocodeLib {
 		}
 		$this->result = $xmlArray['result'];
 		return true;
+	}
+
+	/**
+	 * GeocodeLib::accuracyTypes()
+	 *
+	 * @param mixed $value
+	 * @return mixed Type or types
+	 */
+	public function accuracyTypes($value = null) {
+		if ($value !== null) {
+			if (isset($this->accuracyTypes[$value])) {
+				return $this->accuracyTypes[$value];
+			}
+			return null;
+		}
+		return $this->accuracyTypes;
 	}
 
 	/**
