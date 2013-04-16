@@ -150,16 +150,16 @@ class LogableBehaviorTest extends CakeTestCase {
 
 	public function testFindUserActions() {
 		$expected = array(
-			0 => array('LogableLog' => array('id' => 3)),
-			1 => array('LogableLog' => array('id' => 5))
+			array('LogableLog' => array('id' => 5)),
+			array('LogableLog' => array('id' => 3)),
 		);
 		$result = $this->LogableBook->findUserActions(301, array('fields' => 'id'));
 		$this->assertEquals($expected, $result);
 
 		$expected = array(
-			array('LogableLog' => array('id' => 1, 'event' => 'Alexander added a logablebook(id 6)')),
 			array('LogableLog' => array('id' => 4, 'event' => 'Alexander deleted the logablebook(id 6)')),
 			array('LogableLog' => array('id' => 2, 'event' => 'Alexander edited title of logablebook(id 6)')),
+			array('LogableLog' => array('id' => 1, 'event' => 'Alexander added a logablebook(id 6)')),
 		);
 		$result = $this->LogableBook->findUserActions(66, array('events' => true));
 		$this->assertEquals($expected, $result);

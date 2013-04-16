@@ -151,7 +151,7 @@ class LogableBehavior extends ModelBehavior {
 		$defaults = array(
 			 $this->settings[$Model->alias]['classField'] => null,
 			 'action' => null,
-			 'order' => 'created DESC',
+			 'order' => $this->Log->alias . 'id DESC',
 			 $this->settings[$Model->alias]['userKey'] => null,
 			 'conditions' => array(),
 			 $this->settings[$Model->alias]['foreignKey'] => null,
@@ -223,12 +223,18 @@ class LogableBehavior extends ModelBehavior {
 		if (isset($params[$this->settings[$Model->alias]['classField']])) {
 			$conditions[$this->settings[$Model->alias]['classField']] = $params[$this->settings[$Model->alias]['classField']];
 		}
+		$order = array($this->Log->alias . '.id' => 'DESC');
+		if (isset($params['order'])) {
+			$order = $params['order'];
+		}
+
 		$data = $this->Log->find('all', array(
 			'conditions' => $conditions,
 			'recursive' => -1,
-			'fields' => $fields
+			'fields' => $fields,
+			'order' => $order
 		));
-		if (! isset($params['events']) || (isset($params['events']) && $params['events'] == false)) {
+		if (!isset($params['events']) || (isset($params['events']) && $params['events'] == false)) {
 			return $data;
 		}
 		$result = array();
