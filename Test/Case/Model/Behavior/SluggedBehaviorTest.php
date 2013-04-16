@@ -599,7 +599,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$decCode = hexdec($hexCode);
 		$display = $char = html_entity_decode('&#' . $decCode . ';', ENT_NOQUOTES, 'UTF-8');
 		$char = $this->Model->slug($char, false);
-		if ($display == $char) {
+		if ($display === $char) {
 			if ($mode === 'display') {
 				return "<a href='#' title='$hexCode-$decCode'>$display</a>";
 			} elseif ($mode === 'url') {

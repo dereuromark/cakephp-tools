@@ -313,7 +313,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 
 				foreach ($model->{$parentModel}->{$assocType} as $assoc => $assocConfig) {
 					$modelName = !empty($assocConfig['className']) ? $assocConfig['className'] : $assoc;
-					if ($model->alias != $modelName) {
+					if ($model->alias !== $modelName) {
 						continue;
 					}
 
