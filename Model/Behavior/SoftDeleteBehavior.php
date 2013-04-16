@@ -12,26 +12,39 @@
 App::uses('ModelBehavior', 'Model');
 
 /**
- * Utils Plugin
+ * Soft Delete Behavior
  *
- * Utils Soft Delete Behavior
+ * Note: To make delete() return true with SoftDelete attached, you need to modify your AppModel and overwrite
+ * delete() there:
  *
- * @package utils
- * @subpackage utils.models.behaviors
+ * public function delete($id = null, $cascade = true) {
+ *   $result = parent::delete($id, $cascade);
+ *   if (!$result && $this->Behaviors->loaded('SoftDelete')) {
+ *     return $this->softDeleted;
+ *   }
+ *   return $result;
+ * }
+ *
+ * 2013-04-16 ms
  */
 class SoftDeleteBehavior extends ModelBehavior {
 
 	/**
 	 * Default settings
 	 *
-	 * @var array $default
+	 * @var array
 	 */
-	public $default = array('deleted' => 'deleted_date');
+	protected $_defaults = array(
+		'attribute' => 'softDeleted',
+		'fields' => array(
+			'deleted' => 'deleted_date'
+		)
+	);
 
 	/**
 	 * Holds activity flags for models
 	 *
-	 * @var array $runtime
+	 * @var array
 	 */
 	public $runtime = array();
 
@@ -42,14 +55,10 @@ class SoftDeleteBehavior extends ModelBehavior {
 	 * @param array $settings
 	 */
 	public function setup(Model $model, $settings = array()) {
-		if (empty($settings)) {
-			$settings = $this->default;
-		} elseif (!is_array($settings)) {
-			$settings = array($settings);
-		}
+		$settings = array_merge($this->_defaults, $settings);
 
 		$error = 'SoftDeleteBehavior::setup(): model ' . $model->alias . ' has no field ';
-		$fields = $this->_normalizeFields($model, $settings);
+		$fields = $this->_normalizeFields($model, $settings['fields']);
 		foreach ($fields as $flag => $date) {
 			if ($model->hasField($flag)) {
 				if ($date && !$model->hasField($date)) {
@@ -62,8 +71,11 @@ class SoftDeleteBehavior extends ModelBehavior {
 			return;
 		}
 
-		$this->settings[$model->alias] = $fields;
+		$this->settings[$model->alias] = array_merge($settings, array('fields' => $fields));
 		$this->softDelete($model, true);
+
+		$attribute = $this->settings[$model->alias]['attribute'];
+		$model->$attribute = false;
 	}
 
 	/**
@@ -108,7 +120,10 @@ class SoftDeleteBehavior extends ModelBehavior {
 	public function beforeDelete(Model $model, $cascade = true) {
 		$runtime = $this->runtime[$model->alias];
 		if ($runtime) {
-			$this->delete($model, $model->id);
+			if ($this->delete($model, $model->id)) {
+				$attribute = $this->settings[$model->alias]['attribute'];
+				$model->$attribute = true;
+			}
 			return false;
 		}
 		return true;
@@ -193,7 +208,6 @@ class SoftDeleteBehavior extends ModelBehavior {
 			return !empty($this->runtime[$model->alias]) ? $this->runtime[$model->alias] : null;
 		}
 
-
 		$result = !isset($this->runtime[$model->alias]) || $this->runtime[$model->alias] !== $active;
 		$this->runtime[$model->alias] = $active;
 		$this->_softDeleteAssociations($model, $active);
@@ -244,7 +258,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 	protected function _purgeDeletedConditions(Model $model, $expiration = '-90 days') {
 		$purgeDate = date('Y-m-d H:i:s', strtotime($expiration));
 		$conditions = array();
-		foreach ($this->settings[$model->alias] as $flag => $date) {
+		foreach ($this->settings[$model->alias]['fields'] as $flag => $date) {
 			$conditions[$model->alias . '.' . $flag] = true;
 			if ($date) {
 				$conditions[$model->alias . '.' . $date . ' <'] = $purgeDate;
@@ -262,7 +276,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 	 */
 	protected function _normalizeFields(Model $model, $settings = array()) {
 		if (empty($settings)) {
-			$settings = @$this->settings[$model->alias];
+			$settings = $this->settings[$model->alias]['fields'];
 		}
 		$result = array();
 		foreach ($settings as $flag => $date) {
