@@ -13,26 +13,6 @@ class TimeLibTest extends MyCakeTestCase {
 		$this->assertInstanceOf('TimeLib', $this->Time);
 	}
 
-	public function testTimezone() {
-		$timezone = TimeLib::timezone();
-		// usually UTC
-		$name = $timezone->getName();
-		$this->debug($name);
-		$this->assertTrue(!empty($name));
-
-		$location = $timezone->getLocation();
-		$this->debug($location);
-		$this->assertTrue(!empty($location['country_code']));
-		$this->assertTrue(isset($location['latitude']));
-		$this->assertTrue(isset($location['longitude']));
-
-		$offset = $timezone->getOffset(new DateTime('@' . mktime(0, 0, 0, 1, 1, date('Y'))));
-		$this->debug($offset);
-
-		$phpTimezone = date_default_timezone_get();
-		$this->assertEquals($name, $phpTimezone);
-	}
-
 	/**
 	 * Currently only works with timezoned localized values, not with UTC!!!
 	 */
@@ -98,7 +78,7 @@ class TimeLibTest extends MyCakeTestCase {
 
 	public function testNiceDate() {
 		$res = setlocale(LC_TIME, 'de_DE.UTF-8', 'deu_deu');
-		//debug($res);
+		$this->assertTrue(!empty($res));
 
 		$values = array(
 			array('2009-12-01 00:00:00', FORMAT_NICE_YMD, '01.12.2009'),
@@ -106,7 +86,7 @@ class TimeLibTest extends MyCakeTestCase {
 		);
 		foreach ($values as $v) {
 			$ret = TimeLib::niceDate($v[0], $v[1]);
-			//pr($ret);
+			//$this->debug($ret);
 			$this->assertEquals($ret, $v[2]);
 		}
 	}
@@ -114,7 +94,7 @@ class TimeLibTest extends MyCakeTestCase {
 	public function testLocalDate() {
 		$this->skipIf(php_sapi_name() === 'cli', 'for now');
 		$res = setlocale(LC_TIME, array('de_DE.UTF-8', 'deu_deu'));
-		//debug($res);
+		$this->assertTrue(!empty($res));
 
 		$values = array(
 			array('2009-12-01 00:00:00', FORMAT_LOCAL_YMD, '01.12.2009'),
@@ -122,7 +102,7 @@ class TimeLibTest extends MyCakeTestCase {
 		);
 		foreach ($values as $v) {
 			$ret = TimeLib::localDate($v[0], $v[1]);
-			//pr($ret);
+			//$this->debug($ret);
 			$this->assertEquals($ret, $v[2]);
 		}
 	}
@@ -131,7 +111,7 @@ class TimeLibTest extends MyCakeTestCase {
 		$this->out($this->_header(__FUNCTION__));
 
 		$ret = TimeLib::parseLocalizedDate('15-Feb-2009', 'j-M-Y', 'start');
-		//pr($ret);
+		//$this->debug($ret);
 		$this->assertEquals($ret, '2009-02-15 00:00:00');
 
 		# problem when not passing months or days as well - no way of knowing how exact the date was
@@ -658,6 +638,36 @@ class TimeLibTest extends MyCakeTestCase {
 		$is = TimeLib::decimalToStandardTime($value, 2, ':');
 		//pr($is);
 		$this->assertEquals($is, '9:30');
+	}
+
+	public function testHasDaylightSavingTime() {
+		$timezone = 'Europe/Berlin';
+		$x = TimeLib::hasDaylightSavingTime($timezone);
+		$this->assertTrue($x);
+
+		$timezone = 'Asia/Baghdad';
+		$x = TimeLib::hasDaylightSavingTime($timezone);
+		$this->assertFalse($x);
+	}
+
+	public function testTimezone() {
+		$timezone = TimeLib::timezone();
+		// usually UTC
+		$name = $timezone->getName();
+		$this->debug($name);
+		$this->assertTrue(!empty($name));
+
+		$location = $timezone->getLocation();
+		$this->debug($location);
+		$this->assertTrue(!empty($location['country_code']));
+		$this->assertTrue(isset($location['latitude']));
+		$this->assertTrue(isset($location['longitude']));
+
+		$offset = $timezone->getOffset(new DateTime('@' . mktime(0, 0, 0, 1, 1, date('Y'))));
+		$this->debug($offset);
+
+		$phpTimezone = date_default_timezone_get();
+		$this->assertEquals($name, $phpTimezone);
 	}
 
 }

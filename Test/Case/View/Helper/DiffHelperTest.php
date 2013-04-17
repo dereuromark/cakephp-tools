@@ -12,9 +12,9 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
  */
 class DiffHelperTest extends MyCakeTestCase {
 
-/**
- * setUp method
- */
+	/**
+	 * setUp method
+	 */
 	public function setUp() {
 		parent::setUp();
 

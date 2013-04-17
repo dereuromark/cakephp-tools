@@ -7,13 +7,13 @@ App::uses('CakeTime', 'Utility');
 class TimeLib extends CakeTime {
 
 	/**
-	 * Calculate the GMT offset from a timezone string
+	 * Detect if a timezone has a DST
 	 *
 	 * @param string|DateTimeZone $timezone User's timezone string or DateTimeZone object
-	 * @return int $offset
+	 * @return boolean
 	 * 2012-05-20 ms
 	 */
-	public function getGmtOffset($timezone = null) {
+	public static function hasDaylightSavingTime($timezone = null) {
 		$timezone = self::timezone($timezone);
 		# a date outside of DST
 		$offset = $timezone->getOffset(new DateTime('@' . mktime(0, 0, 0, 2, 1, date('Y'))));
@@ -23,8 +23,21 @@ class TimeLib extends CakeTime {
 		$offset2 = $timezone->getOffset(new DateTime('@' . mktime(0, 0, 0, 8, 1, date('Y'))));
 		$offset2 = $offset2 / HOUR;
 
-		# lets remove the DST offset if the case
-		return max($offset2, $offset) - abs($offset2 - $offset);
+		return abs($offset2 - $offset) > 0;
+	}
+
+	/**
+	 * Calculate the current GMT offset from a timezone string (respecting DST)
+	 *
+	 * @param string|DateTimeZone $timezone User's timezone string or DateTimeZone object
+	 * @return int Offset in hours
+	 * 2012-05-20 ms
+	 */
+	public function getGmtOffset($timezone = null) {
+		$timezone = self::timezone($timezone);
+		$offset = $timezone->getOffset(new DateTime('@' . time()));
+		$offset = $offset / HOUR;
+		return $offset;
 	}
 
 	/**
@@ -437,10 +450,11 @@ class TimeLib extends CakeTime {
 		$defaults = array('default' => '-----', 'timezone' => null);
 		$options = array_merge($defaults, $options);
 
-		$date = null;
-		if ($dateString !== null) {
-			$date = self::fromString($dateString, $options['timezone']);
+		if ($dateString === null) {
+			$dateString = time();
 		}
+		$date = self::fromString($dateString, $options['timezone']);
+
 		if ($date === null || $date === false || $date <= 0) {
 			return $options['default'];
 		}
@@ -454,7 +468,6 @@ class TimeLib extends CakeTime {
 		return parent::_strftime($format, $date);
 	}
 
-
 	/**
 	 * outputs Date(time) Sting nicely formatted
 	 * @param string $dateString,
@@ -465,13 +478,15 @@ class TimeLib extends CakeTime {
 	 * 2009-03-31 ms
 	 */
 	public static function niceDate($dateString = null, $format = null, $options = array()) {
-		$defaults = array('default'=>'-----', 'timezone'=>null);
+		$defaults = array('default' => '-----', 'timezone' => null);
 		$options = array_merge($defaults, $options);
 
-		$date = null;
-		if ($dateString !== null) {
-			$date = self::fromString($dateString, $options['timezone']);
+		if ($dateString === null) {
+			$dateString = time();
 		}
+		$date = null;
+		$date = self::fromString($dateString, $options['timezone']);
+
 		if ($date === null || $date === false || $date <= 0) {
 			return $options['default'];
 		}

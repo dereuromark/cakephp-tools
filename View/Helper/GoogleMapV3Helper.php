@@ -27,7 +27,7 @@
  * New in v1.4:
  * You can now either keep map() + script(), or you can now write the script to the buffer with
  * map() + finalize(). You can then decide wether the JS should be in the head or the footer of your layout.
- * Don't forget to put `$this->Js->writeBuffer(array('inline' => true));` somewhere in your layout then, though.
+ * Don't forget to put `echo $this->Js->writeBuffer(array('inline' => true));` somewhere in your layout then, though.
  *
  * You can now also add directions using addDirections().
  *
