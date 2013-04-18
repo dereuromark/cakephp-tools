@@ -426,7 +426,7 @@ class MyModel extends Model {
 			$alias = 'Sub' . $this->alias . '';
 		}
 
-		$fields = array();
+		$fields = array($alias . '.id');
 		$limit = null;
 		switch ($type) {
 			case 'count':
