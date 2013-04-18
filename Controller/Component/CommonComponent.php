@@ -374,6 +374,30 @@ class CommonComponent extends Component {
 		return $url;
 	}
 
+	/**
+	 * Tries to allow super admin access for certain urls via Config.pwd
+	 * Only used in admin actions and only to prevent accidental data loss due to incorrect access.
+	 * Do not assume this to be a safe access control mechanism!
+	 *
+	 * Password can be passed as named param or query string param
+	 *
+	 * @return bool Success
+	 */
+	public function validAdminUrlAccess() {
+		$pwd = Configure::read('Config.pwd');
+		if (!$pwd) {
+			return false;
+		}
+		$urlPwd = $this->getNamedParam('pwd');
+		if (!$urlPwd) {
+			$urlPwd = $this->getQueryParam('pwd');
+		}
+		if (!$urlPwd) {
+			return false;
+		}
+		return $pwd === $urlPwd;
+	}
+
 
 	### Controller Stuff ###
 
@@ -470,6 +494,31 @@ class CommonComponent extends Component {
 			}
 		}
 		$this->postRedirect($whereTo, $status);
+	}
+
+	/**
+	 * Automatically add missing url parts of the current url including
+	 * - querystring (especially for 3.x then)
+	 * - named params (until 3.x when they will become deprecated)
+	 * - passed params
+	 *
+	 * @param mixed $url
+	 * @param intger $status
+	 * @param boolean $exit
+	 * @return void
+	 */
+	public function completeRedirect($url = null, $status = null, $exit = true) {
+		if ($url === null) {
+			$url = $this->Controller->request->params;
+			unset($url['named']);
+			unset($url['pass']);
+			unset($url['isAjax']);
+		}
+		if (is_array($url)) {
+			$url += $this->Controller->request->params['named'];
+			$url += $this->Controller->request->params['pass'];
+		}
+		return $this->Controller->redirect($url, $status, $exit);
 	}
 
 	/**

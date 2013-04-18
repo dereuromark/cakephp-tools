@@ -20,6 +20,7 @@ class FormatHelper extends TextHelper {
 	 * @access public
 	 */
 	public $helpers = array('Html', 'Form', 'Tools.Common', 'Tools.Gravatar', 'Tools.PhpThumb');
+
 	/**
 	 * jqueryAccess: {id}Pro, {id}Contra
 	 * 2009-07-24 ms
@@ -40,8 +41,10 @@ class FormatHelper extends TextHelper {
 		return $ret;
 	}
 
-
 	/**
+	 * Display neighbor quicklinks
+	 *
+	 * @param array $neighbors (containing prev and next)
 	 * @param string $field: just field or Model.field syntax
 	 * @param array $options:
 	 * - name: title name: next{Record} (if none is provided, "record" is used - not translated!)
@@ -99,22 +102,29 @@ class FormatHelper extends TextHelper {
 
 		$ret = '<div class="nextPrevNavi">';
 		if (!empty($neighbors['prev'])) {
+			$url = array($neighbors['prev'][$alias]['id'], $prevSlug);
+			if (!empty($options['url'])) {
+				$url += $options['url'];
+			}
 
-			$ret.= $this->Html->link($this->cIcon(ICON_PREV, false).'&nbsp;'.__('prev'.$name), array($neighbors['prev'][$alias]['id'], $prevSlug), array('escape'=>false, 'title'=>$neighbors['prev'][$titleAlias][$titleField]));
+			$ret.= $this->Html->link($this->cIcon(ICON_PREV, false).'&nbsp;'.__('prev'.$name), $url, array('escape'=>false, 'title'=>$neighbors['prev'][$titleAlias][$titleField]));
 		} else {
 			$ret.= $this->cIcon(ICON_PREV_DISABLED, __('noPrev'.$name)).'&nbsp;'.__('prev'.$name);
 }
 		$ret.= '&nbsp;&nbsp;';
 		if (!empty($neighbors['next'])) {
-			$ret.= $this->Html->link($this->cIcon(ICON_NEXT, false).'&nbsp;'.__('next'.$name), array($neighbors['next'][$alias]['id'], $nextSlug), array('escape'=>false, 'title'=>$neighbors['next'][$titleAlias][$titleField]));
+			$url = array($neighbors['next'][$alias]['id'], $prevSlug);
+			if (!empty($options['url'])) {
+				$url += $options['url'];
+			}
+
+			$ret.= $this->Html->link($this->cIcon(ICON_NEXT, false).'&nbsp;'.__('next'.$name), $url, array('escape'=>false, 'title'=>$neighbors['next'][$titleAlias][$titleField]));
 		} else {
 			$ret.= $this->cIcon(ICON_NEXT_DISABLED, __('noNext'.$name)).'&nbsp;'.__('next'.$name);
 		}
 		$ret .= '</div>';
 		return $ret;
 	}
-
-
 
 	/**
 	 * allows icons to be added on the fly
@@ -149,9 +159,6 @@ class FormatHelper extends TextHelper {
 		}
 		return $icon;
 	}
-
-
-
 
 	/**
 	 * //TODO: move to Format?

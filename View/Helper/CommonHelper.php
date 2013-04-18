@@ -170,11 +170,11 @@ class CommonHelper extends AppHelper {
 	 * @return string $htmlMarkup
 	 * 2008-12-08 ms
 	 */
-	public function metaEquiv($type = null, $value = null, $escape = true) {
+	public function metaEquiv($type, $value, $escape = true) {
 		$tags = array(
 			'meta' => '<meta http-equiv="%s"%s />',
 		);
-		if (empty($value)) {
+		if ($value === null) {
 			return '';
 		}
 		if ($escape) {

@@ -32,6 +32,8 @@ class HttpSocketLib {
 
 	public $error = array();
 
+	public $allowRedirects = array(301);
+
 	public function __construct($use = array()) {
 		if (is_array($use)) {
 			foreach ($use as $key => $value) {
@@ -119,6 +121,8 @@ class HttpSocketLib {
 	 * @return string Response or false on failure
 	 */
 	public function _fetch($url, $options) {
+		$allowedCodes = array_merge($this->allowRedirects, array(200, 201, 202, 203, 204, 205, 206));
+
 		if ($options['use']['curl'] && function_exists('curl_init')) {
 			$this->debug = 'curl';
 			$Ch = new CurlLib();
@@ -126,7 +130,7 @@ class HttpSocketLib {
 			$data = $Ch->get($url);
 			$response = $data[0];
 			$statusCode = $data[1]['http_code'];
-			if (!in_array($statusCode, array(200, 201, 202, 203, 204, 205, 206))) {
+			if (!in_array($statusCode, $allowedCodes)) {
 				$this->setError('Error '.$statusCode);
 				return false;
 			}
@@ -138,7 +142,7 @@ class HttpSocketLib {
 
 			$HttpSocket = new HttpSocket(array('timeout' => $options['timeout']));
 			$response = $HttpSocket->get($url);
-			if (!in_array($response->code, array(200, 201, 202, 203, 204, 205, 206))) {
+			if (!in_array($response->code, $allowedCodes)) {
 				return false;
 			}
 			$response = $this->_assertEncoding($response);
@@ -149,10 +153,10 @@ class HttpSocketLib {
 
 			$opts = array(
 				'http' => array(
-				'method' => 'GET',
-				'header' => array('Connection: close'),
-				'timeout' => $options['timeout']
-			)
+					'method' => 'GET',
+					'header' => array('Connection: close'),
+					'timeout' => $options['timeout']
+				)
 			);
 			if (isset($options['http'])) {
 				$opts['http'] = array_merge($opts['http'], $options['http']);
@@ -162,9 +166,12 @@ class HttpSocketLib {
 			}
 			$context = stream_context_create($opts);
 			$response = file_get_contents($url, false, $context);
+			if (!isset($http_response_header)) {
+				return false;
+			}
 			preg_match('/^HTTP.*\s([0-9]{3})/', $http_response_header[0], $matches);
 			$statusCode = (int)$matches[1];
-			if (!in_array($statusCode, array(200, 201, 202, 203, 204, 205, 206))) {
+			if (!in_array($statusCode, $allowedCodes)) {
 				return false;
 			}
 			$response = $this->_assertEncoding($response);

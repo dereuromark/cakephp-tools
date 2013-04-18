@@ -117,6 +117,10 @@ class KeyValueBehavior extends ModelBehavior {
 
 		extract($this->settings[$Model->alias]);
 		foreach ($data as $model => $details) {
+			if ($section && $section !== $model) {
+				continue;
+			}
+
 			foreach ($details as $field => $value) {
 				$newDetail = array();
 				$section = $section ? $section : $model;

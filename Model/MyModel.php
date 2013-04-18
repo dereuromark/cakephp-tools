@@ -269,7 +269,6 @@ class MyModel extends Model {
 		return $db->value($content);
 	}
 
-
 	/**
 	 * TODO: move to behavior (Incremental)
 	 * @param mixed id (single string)
@@ -313,22 +312,6 @@ class MyModel extends Model {
 		}
 		$this->id = $id;
 		return $this->save($data, false);
-	}
-
-	/**
-	 * improve paginate count for "normal queries"
-	 * @deprecated?
-	 * 2011-04-11 ms
-	 */
-	public function _paginateCount($conditions = null, $recursive = -1, $extra = array()) {
-		$conditions = compact('conditions');
-		if ($recursive != $this->recursive) {
-			$conditions['recursive'] = $recursive;
-		}
-		if ($recursive == -1) {
-			$extra['contain'] = array();
-		}
-		return $this->find('count', array_merge($conditions, $extra));
 	}
 
 	/**
@@ -417,7 +400,17 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * Makes a subquery
+	 * Generates a SQL subquery snippet to be used in your actual query.
+	 * Your subquery snippet needs to return a single value or flat array of values.
+	 *
+	 * Example:
+	 *
+	 *   $this->Model->find('first', array(
+	 *     'conditions' => array('NOT' => array('some_id' => $this->Model->subquery(...)))
+	 *   ))
+	 *
+	 * Note: You might have to set `autoFields` to false in order to retrieve only the fields you request:
+	 * http://book.cakephp.org/2.0/en/core-libraries/behaviors/containable.html#containablebehavior-options
 	 *
 	 * @param string $type The type o the query ('count'/'all'/'first' - first only works with some mysql versions)
 	 * @param array $options The options array
@@ -762,9 +755,10 @@ class MyModel extends Model {
 	 * - field (sortField, if not id)
 	 * - reverse: sortDirection (0=normalAsc/1=reverseDesc)
 	 * - displayField: ($this->displayField, if empty)
-	 * @param array qryOptions
+	 * @param array $qryOptions
 	 * - recursive (defaults to -1)
 	 * TODO: try to use core function, TRY TO ALLOW MULTIPLE SORT FIELDS
+	 * @return array
 	 */
 	public function neighbors($id = null, $options = array(), $qryOptions = array()) {
 		$sortField = (!empty($options['field']) ? $options['field'] : 'created');
@@ -785,7 +779,7 @@ class MyModel extends Model {
 		}
 
 		if (empty($id) || empty($data) || empty($data[$this->alias][$sortField])) {
-			return false;
+			return array();
 		} else {
 			$field = $data[$this->alias][$sortField];
 		}
