@@ -310,7 +310,7 @@ class CodeShell extends AppShell {
 			->description(__d('cake_console', "A shell to help automate code cleanup. \n" .
 				"Be sure to have a backup of your application before running these commands."))
 			->addSubcommand('group', array(
-				'help' => __d('cake_console', 'Run multiple upgrade commands.'),
+				'help' => __d('cake_console', 'Run multiple commands.'),
 				'parser' => $subcommandParser
 			))
 			->addSubcommand('dependencies', array(

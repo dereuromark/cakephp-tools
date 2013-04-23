@@ -514,6 +514,8 @@ class GoogleMapV3Helper extends AppHelper {
 			$params['shadow'] = $options['shadow'];
 			if (is_int($params['shadow'])) {
 				$params['shadow'] = 'gIcons'.self::$MAP_COUNT.'['.$params['shadow'].']';
+			} else {
+				$params['shadow'] = json_encode($params['shadow']);
 			}
 		}
 		if (isset($options['shape'])) {
