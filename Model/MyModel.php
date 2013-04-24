@@ -412,7 +412,7 @@ class MyModel extends Model {
 	 * Note: You might have to set `autoFields` to false in order to retrieve only the fields you request:
 	 * http://book.cakephp.org/2.0/en/core-libraries/behaviors/containable.html#containablebehavior-options
 	 *
-	 * @param string $type The type o the query ('count'/'all'/'first' - first only works with some mysql versions)
+	 * @param string $type The type of the query ('count'/'all'/'first' - first only works with some mysql versions)
 	 * @param array $options The options array
 	 * @param string $alias You can use this intead of $options['alias'] if you want
 	 * @param bool $parenthesise Add parenthesis before and after

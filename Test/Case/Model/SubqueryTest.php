@@ -63,9 +63,11 @@ class SubqueryTest extends MyCakeTestCase {
 	public function testSubqueryPaginated() {
 		$Controller = new CountriesTestsController(new CakeRequest(null, false), new CakeResponse());
 		$Controller->constructClasses();
+		$source = $Controller->Country->getDataSource();
+		$database = $source->config['database'];
 
 		$subquery = $Controller->Country->subquery('list', array('conditions' => array('NOT' => array('SubCountry.id' => array(1, 2, 3)))));
-		$expected = '(SELECT SubCountry.id FROM `cake_test`.`countries` AS `SubCountry`   WHERE NOT (`SubCountry`.`id` IN (1, 2, 3)))';
+		$expected = '(SELECT SubCountry.id FROM `' . $database . '`.`countries` AS `SubCountry`   WHERE NOT (`SubCountry`.`id` IN (1, 2, 3)))';
 		$this->assertEquals($expected, $subquery);
 
 		$res = $Controller->Country->query($subquery);
@@ -85,7 +87,5 @@ class SubqueryTest extends MyCakeTestCase {
 class CountriesTestsController extends Controller {
 
 	public $uses = array('Tools.Country');
-
-	//public $components = array('Paginator');
 
 }

@@ -49,11 +49,21 @@ class KeyValueBehaviorTest extends MyCakeTestCase {
 		$this->assertEquals('z', $res['User']['y']);
 
 
-		$this->Model->saveSection(2, array('User'=>array('x'=>1, 'y'=>'z')), 'Profile');
+		$res = $this->Model->saveSection(2, array('User' => array('x' => 1, 'y' => 'z')), 'Profile');
+		$this->assertTrue($res);
 
 		$res = $this->Model->getSection(2);
+		$this->assertTrue(empty($res));
+
+		$res = $this->Model->saveSection(2, array('User' => array('e' => 'f'), 'Profile'=>array('x' => 3, 'y' => 'abc')), 'Profile');
+		$this->assertTrue($res);
+
+		$res = $this->Model->getSection(2);
+		$this->debug($res);
 		$this->assertTrue(!empty($res['Profile']));
-		//debug($res);
+
+		$res = $this->Model->getSection(2, 'Profile');
+		$this->assertIdentical(array('x' => '3', 'y' => 'abc'), $res);
 	}
 
 	public function testDefaults() {
