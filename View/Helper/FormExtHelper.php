@@ -3,12 +3,11 @@ App::uses('FormHelper', 'View/Helper');
 
 /**
  * Enhance Forms with JS widget stuff
- * TODO: namespace change: make it HtmlHelper
  *
  * FormExtHelper
  * 2011-03-07 ms
  */
-class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
+class FormExtHelper extends FormHelper {
 
 	public $helpers = array('Html', 'Js', 'Tools.Common');
 
@@ -117,28 +116,6 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 	public function textarea($fieldName, $options = array()) {
 		$options['normalize'] = false;
 		return parent::textarea($fieldName, $options);
-	}
-
-	/**
-	 * fix for required adding (only manually)
-	 * 2011-11-01 ms
-	 */
-	protected function _introspectModel($model, $key, $field = null) {
-		if ($key === 'validates' && Configure::read('Validation.autoRequire') === false) {
-			return false;
-		}
-		return parent::_introspectModel($model, $key, $field);
-	}
-
-	/**
-	 * fix for required adding (only manually)
-	 * 2011-11-01 ms
-	 */
-	protected function _isRequiredField($validationRules) {
-		if (Configure::read('Validation.autoRequire') === false) {
-			return false;
-		}
-		return parent::_isRequiredField($validationRules);
 	}
 
 	/**
@@ -443,34 +420,7 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 			$options['after'] = !empty($options['after']) ? $options['after'].$list : $list;
 		}
 
-		if (isset($options['required']) && $options['required'] === false || Configure::read('Validation.browserAutoRequire') !== true) {
-			//$autoRequire = Configure::read('Validation.autoRequire');
-			//Configure::write('Validation.autoRequire', false);
-			//unset($options['require']);
-		}
-
-		if (Configure::read('Validation.browserAutoRequire') !== true) {
-			if (!empty($options['required'])) {
-				//$options['div']['class'] = !empty($options['div']['class']) ? $options['div']['class'].' required' : 'required';
-				//$options['class'] = $this->addClass(isset($options['class'])?$options['class']:array(), 'required');
-				/*
-				$this->setEntity($fieldName);
-				$modelKey = $this->model();
-				$fieldKey = $this->field();
-				$this->fieldset[$modelKey]['validates'][$fieldKey] = true;
-				*/
-			}
-			if (isset($options['required'])) {
-				unset($options['required']);
-			}
-		}
-
 		$res = parent::input($fieldName, $options);
-
-		if (isset($autoRequire)) {
-			Configure::write('Validation.autoRequire', $autoRequire);
-		}
-
 		return $res;
 	}
 
@@ -480,8 +430,8 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 	 * @return array options
 	 */
 	protected function _initInputField($field, $options = array()) {
-		$autoRequire = Configure::read('Validation.autoRequire');
-		Configure::write('Validation.autoRequire', false);
+		//$autoRequire = Configure::read('Validation.autoRequire');
+		//Configure::write('Validation.autoRequire', false);
 
 		$normalize = true;
 		if (isset($options['normalize'])) {
@@ -494,9 +444,7 @@ class FormExtHelper extends FormHelper { // Maybe FormHelper itself some day?
 		if (!empty($options['value']) && $normalize) {
 			$options['value'] = str_replace(array("\t", "\r\n", "\n"), ' ', $options['value']);
 		}
-
-		Configure::write('Validation.autoRequire', $autoRequire);
-
+		//Configure::write('Validation.autoRequire', $autoRequire);
 		return $options;
 	}
 
@@ -1016,6 +964,20 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 ';
 		$js = $this->documentReady($js);
 		return $this->Html->scriptBlock($js);
+	}
+
+	/**
+	 * Overwrite FormHelper::create() to allow disabling browser html5 validation via configs
+	 *
+	 * @param string $model
+	 * @param array $options
+	 * @return string
+	 */
+	public function create($model = null, $options = array()) {
+		if (Configure::read('Validation.browserAutoRequire') === false && !isset($options['novalidate'])) {
+			$options['novalidate'] = true;
+		}
+		return parent::create($model, $options);
 	}
 
 
