@@ -7,15 +7,9 @@ App::uses('View', 'View');
 class FormExtHelperTest extends MyCakeTestCase {
 
 	public function setUp() {
-		parent::setUp();
-
 		$this->Form = new FormExtHelper(new View(null));
-	}
 
-	public function tearDown() {
-		parent::tearDown();
-
-
+		parent::setUp();
 	}
 
 	public function testObject() {
@@ -52,12 +46,12 @@ class FormExtHelperTest extends MyCakeTestCase {
 		));
 	}
 
-	public function testAutoRequire() {
+	//Not needed right now as autoRequire has been disabled
+	public function _testAutoRequire() {
 		$this->Form->request->data['ContactExt']['id'] = 1;
 		$this->Form->create('ContactExt');
 
 		Configure::write('Validation.autoRequire', false);
-		Configure::write('Validation.browserAutoRequire', false);
 
 		$result = $this->Form->input('ContactExt.imrequiredonupdate');
 
@@ -73,7 +67,6 @@ class FormExtHelperTest extends MyCakeTestCase {
 		));
 
 		Configure::write('Validation.autoRequire', true);
-		Configure::write('Validation.browserAutoRequire', true);
 
 		$result = $this->Form->input('ContactExt.imrequiredonupdate');
 		$this->assertTags($result, array(
@@ -85,6 +78,58 @@ class FormExtHelperTest extends MyCakeTestCase {
 			'/label',
 			'input' => array('name' => 'data[ContactExt][imrequiredonupdate]', 'type' => 'text', 'id' => 'ContactExtImrequiredonupdate'),
 			'/div'
+		));
+	}
+
+	/**
+	 * Test that browserAutoRequire disables html5 frontend form validation
+	 *
+	 * @return void
+	 */
+	public function testBrowserAutoRequire() {
+		$this->Form->request->data['ContactExt']['id'] = 1;
+
+		Configure::write('Validation.browserAutoRequire', false);
+
+		$result = $this->Form->create('ContactExt');
+		$this->assertTags($result, array(
+			'form' => array(
+				'action' => '/',
+				'novalidate' => 'novalidate',
+				'id' => 'ContactExtForm',
+				'method' => 'post',
+				'accept-charset' => 'utf-8',
+			),
+			'div' => array(
+				'style' => 'display:none;'
+			),
+			'input' => array(
+				'type' => 'hidden',
+				'name' => '_method',
+				'value' => 'PUT'
+			),
+			'/div',
+		));
+
+		Configure::write('Validation.browserAutoRequire', true);
+
+		$result = $this->Form->create('ContactExt');
+		$this->assertTags($result, array(
+			'form' => array(
+				'action' => '/',
+				'id' => 'ContactExtForm',
+				'method' => 'post',
+				'accept-charset' => 'utf-8',
+			),
+			'div' => array(
+				'style' => 'display:none;'
+			),
+			'input' => array(
+				'type' => 'hidden',
+				'name' => '_method',
+				'value' => 'PUT'
+			),
+			'/div',
 		));
 	}
 
