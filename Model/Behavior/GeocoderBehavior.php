@@ -79,7 +79,7 @@ class GeocoderBehavior extends ModelBehavior {
 	 * Run before a model is saved, used to set up slug for model.
 	 *
 	 * @param object $Model Model about to be saved.
-	 * @return boolean true if save should proceed, false otherwise
+	 * @return boolean True if save should proceed, false otherwise
 	 */
 	public function geocode(Model $Model, $return = true) {
 		// Make address fields an array
@@ -108,8 +108,10 @@ class GeocoderBehavior extends ModelBehavior {
 
 		$Model->data[$Model->alias]['geocoder_result'] = array();
 
-		// See if we should request a geocode //TODO: reverse and return here
-		if ((!$this->settings[$Model->alias]['real'] || ($Model->hasField($this->settings[$Model->alias]['lat']) && $Model->hasField($this->settings[$Model->alias]['lng']))) && ($this->settings[$Model->alias]['overwrite'] || (empty($Model->data[$Model->alias][$this->settings[$Model->alias]['lat']]) || ($Model->data[$Model->alias][$this->settings[$Model->alias]['lat']]==0 && $Model->data[$Model->alias][$this->settings[$Model->alias]['lat']]==0)))) {
+		// See if we should geocode //TODO: reverse and return here
+		if ((!$this->settings[$Model->alias]['real'] || ($Model->hasField($this->settings[$Model->alias]['lat']) && $Model->hasField($this->settings[$Model->alias]['lng']))) &&
+			($this->settings[$Model->alias]['overwrite'] || (empty($Model->data[$Model->alias][$this->settings[$Model->alias]['lat']]) || ((int)$Model->data[$Model->alias][$this->settings[$Model->alias]['lat']] === 0 && (int)$Model->data[$Model->alias][$this->settings[$Model->alias]['lng']] === 0))))
+		{
 			if (!empty($Model->whitelist) && (!in_array($this->settings[$Model->alias]['lat'], $Model->whitelist) || !in_array($this->settings[$Model->alias]['lng'], $Model->whitelist))) {
 				/** HACK to prevent 0 inserts if not wanted! just use whitelist now to narrow fields down - 2009-03-18 ms */
 				//$Model->whitelist[] = $this->settings[$Model->alias]['lat'];
@@ -125,15 +127,8 @@ class GeocoderBehavior extends ModelBehavior {
 			if (empty($geocode)) {
 				return false;
 			}
-			/*
-			if (!empty($geocode['type']) && !empty($this->settings[$Model->alias]['expect'])) {
-				if (!in_array($geocode['type'], (array)$this->settings[$Model->alias]['expect'])) {
-					return $return;
-				}
-			}
-			*/
 
-			# if both are 0, thats not valid, otherwise continue
+			// if both are 0, thats not valid, otherwise continue
 			if (!empty($geocode['lat']) || !empty($geocode['lng'])) { /** HACK to prevent 0 inserts of incorrect runs - 2009-04-07 ms */
 				$Model->data[$Model->alias][$this->settings[$Model->alias]['lat']] = $geocode['lat'];
 				$Model->data[$Model->alias][$this->settings[$Model->alias]['lng']] = $geocode['lng'];
@@ -355,6 +350,12 @@ class GeocoderBehavior extends ModelBehavior {
 		return $res;
 	}
 
+	/**
+	 * Get the current unit factor
+	 *
+	 * @param int $unit Unit constant
+	 * @return float Value
+	 */
 	protected function _calculationValue($unit) {
 		if (!isset($this->Geocode)) {
 			$this->Geocode = new GeocodeLib();
