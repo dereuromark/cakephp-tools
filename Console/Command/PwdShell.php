@@ -31,8 +31,7 @@ class PwdShell extends AppShell {
 			}
 		}
 		if (!$class || !method_exists($class, 'password')) {
-			$this->out(__('No Auth Component found'));
-			die();
+			$this->error(__('No Auth Component found'));
 		}
 
 		$this->out('Using: '.$class);

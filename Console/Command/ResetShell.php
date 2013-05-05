@@ -65,8 +65,7 @@ class ResetShell extends AppShell {
 			}
 		}
 		if (!is_object($this->Auth)) {
-			$this->out('No Auth Component found');
-			die();
+			$this->error('No Auth Component found');
 		}
 
 		$this->out('Using: '.get_class($this->Auth).' (Abort with STRG+C)');

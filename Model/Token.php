@@ -83,7 +83,7 @@ class Token extends ToolsAppModel {
 			$data['key'] = $this->generateKey($keyLength);
 			$this->set($data);
 			$max--;
-			if ($max === 0) { //die('Exeption in Token');
+			if ($max === 0) {
 				return false;
 			}
 		}

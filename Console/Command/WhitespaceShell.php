@@ -63,7 +63,7 @@ class WhitespaceShell extends AppShell {
 			}
 
 			if ($action === 'q') {
-				die('Abort... Done');
+				$this->error('Abort... Done');
 
 			} elseif ($action === 'y') {
 				if ($error === 'leading') {

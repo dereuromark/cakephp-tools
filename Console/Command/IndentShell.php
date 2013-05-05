@@ -54,7 +54,7 @@ class IndentShell extends AppShell {
 
 				$folder = realpath($folder);
 				if (!file_exists($folder)) {
-					die('folder not exists: ' . $folder . '');
+					$this->error('folder not exists: ' . $folder . '');
 				}
 				$this->_paths[] = $folder;
 			} elseif ($this->args[0] === 'app') {
@@ -232,7 +232,7 @@ class IndentShell extends AppShell {
 						$pos++;
 						$spaces += $this->settings['spacesPerTab'];
 					} else {
-						die('???');
+						$this->error('???');
 					}
 
 					$newPiece = mb_substr($newPiece, 1);

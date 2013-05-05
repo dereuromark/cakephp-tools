@@ -989,7 +989,7 @@ class SpreadsheetExcelReader {
 			// check error code
 			if ($this->_ole->error == 1) {
 				// bad file
-				die('The filename ' . $sFileName . ' is not readable');
+				throw new Exception('The filename ' . $sFileName . ' is not readable');
 			}
 			// check other error codes here (eg bad fileformat, etc...)
 		}
@@ -1005,7 +1005,7 @@ class SpreadsheetExcelReader {
 			// check error code
 			if ($this->_ole->error == 1) {
 				// bad file
-				die('The filename ' . $sFileName . ' is not readable');
+				throw new Exception('The filename ' . $sFileName . ' is not readable');
 			}
 			// check other error codes here (eg bad fileformat, etc...)
 		}
