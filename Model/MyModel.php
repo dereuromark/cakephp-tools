@@ -953,16 +953,18 @@ class MyModel extends Model {
 
 		foreach ($data as $key => $value) {
 			$fieldName = $key;
-			$fieldValue = $value; // equals: $this->data[$this->alias][$fieldName]
+			$fieldValue = $value;
+			break;
 		}
 
-		$conditions = array($this->alias . '.' . $fieldName => $fieldValue, // Model.field => $this->data['Model']['field']
+		$conditions = array(
+			$this->alias . '.' . $fieldName => $fieldValue,
 			$this->alias . '.id !=' => $id);
 
 		# careful, if fields is not manually filled, the options will be the second param!!! big problem...
 		$fields = (array)$fields;
 		if (!array_key_exists('allowEmpty', $fields)) {
-			foreach ((array)$fields as $dependingField) {
+			foreach ($fields as $dependingField) {
 				if (isset($this->data[$this->alias][$dependingField])) { // add ONLY if some content is transfered (check on that first!)
 					$conditions[$this->alias . '.' . $dependingField] = $this->data[$this->alias][$dependingField];
 
@@ -984,11 +986,7 @@ class MyModel extends Model {
 			$this->recursive = 0;
 		}
 		$res = $this->find('first', array('fields' => array($this->alias . '.id'), 'conditions' => $conditions));
-		if (!empty($res)) {
-			return false;
-		}
-
-		return true;
+		return empty($res);
 	}
 
 	/**

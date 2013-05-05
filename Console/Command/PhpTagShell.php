@@ -16,8 +16,8 @@ class PhpTagShell extends AppShell {
 	public $autoCorrectAll = false;
 	# each report: [0] => found, [1] => corrected
 	public $report = array(
-		'leading'=>array(0, 0),
-		'trailing'=>array(0, 0)
+		'leading' => array(0, 0),
+		'trailing' => array(0, 0)
 	);
 
 	/**
@@ -85,7 +85,7 @@ class PhpTagShell extends AppShell {
 				}
 
 				if ($action === 'q') {
-					die('Abort... Done');
+					$this->error('Abort... Done');
 				} elseif ($action === 'y') {
 					$res = $c;
 					if (in_array('leading', $error)) {

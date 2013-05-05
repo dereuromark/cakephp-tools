@@ -12,9 +12,6 @@ class CommonHelper extends AppHelper {
 		'Tools.Jquery' //Used by showDebug
 	);
 
-
-/*** Layout Stuff ***/
-
 	/**
 	 * Convenience function for clean ROBOTS allowance
 	 *
@@ -75,6 +72,8 @@ class CommonHelper extends AppHelper {
 	}
 
 	/**
+	 * Convenience method to output meta keywords
+	 *
 	 * @param string|array $keywords
 	 * @param string $language (iso2: de, en-us, ...)
 	 * @param bool $escape
@@ -99,8 +98,10 @@ class CommonHelper extends AppHelper {
 	}
 
 	/**
-	 * convinience function for "canonical" SEO links
+	 * Convenience function for "canonical" SEO links
 	 *
+	 * @param mixed $url
+	 * @param boolean $full
 	 * @return string $htmlMarkup
 	 * 2010-03-03 ms
 	 */
@@ -111,7 +112,8 @@ class CommonHelper extends AppHelper {
 	}
 
 	/**
-	 * convinience function for "alternate" SEO links
+	 * Convenience function for "alternate" SEO links
+	 *
 	 * @param mixed $url
 	 * @param mixed $lang (lang(iso2) or array of langs)
 	 * lang: language (in ISO 6391-1 format) + optionally the region (in ISO 3166-1 Alpha 2 format)
@@ -143,7 +145,8 @@ class CommonHelper extends AppHelper {
 	}
 
 	/**
-	 * convinience function for META Tags
+	 * Convenience function for META Tags
+	 *
 	 * @param STRING type
 	 * @param STRING content
 	 * @return string $htmlMarkup
@@ -162,9 +165,9 @@ class CommonHelper extends AppHelper {
 		return sprintf($tags['meta'], $title, $this->url($url));
 	}
 
-
 	/**
-	 * convinience function for META Tags
+	 * Convenience function for META Tags
+	 *
 	 * @param STRING type
 	 * @param STRING content
 	 * @return string $htmlMarkup
@@ -223,7 +226,6 @@ class CommonHelper extends AppHelper {
 		$string = implode('&', $pieces);
 		return $this->Html->script('/js.php?'.$string, $options);
 	}
-
 
 	/**
 	 * special css tag generator with the option to add '?...' to the link (for caching prevention)
@@ -323,10 +325,10 @@ class CommonHelper extends AppHelper {
 		return $args[($i++ % count($args))];
 	}
 
-
 	/**
-	 * check if session works due to allowed cookies
+	 * Check if session works due to allowed cookies
 	 *
+	 * @param boolean Success
 	 * 2009-06-29 ms
 	 */
 	public function sessionCheck() {
@@ -340,36 +342,39 @@ class CommonHelper extends AppHelper {
 	}
 
 	/**
-	 * display warning if cookies are disallowed (and session won't work)
+	 * Display warning if cookies are disallowed (and session won't work)
+	 *
+	 * @return string HTML
 	 * 2009-06-29 ms
 	 */
 	public function sessionCheckAlert() {
-		if (!$this->sessionCheck()) {
-			return '<div class="cookieWarning">'.__('Please enable cookies').'</div>';
+		if ($this->sessionCheck()) {
+			return '';
 		}
-		return '';
+		return '<div class="cookieWarning">'.__('Please enable cookies').'</div>';
 	}
 
 	/**
-	 * //TODO: move boostrap
-	 * auto-pluralizing a word using the Inflection class
-	 * @param string $s = the string to be pl.
-	 * @param int $c = the count
-	 * @return $string "member" or "members" OR "Mitglied"/"Mitglieder" if autoTranslate TRUE
+	 * Auto-pluralizing a word using the Inflection class
+	 * //TODO: move to lib or bootstrap
+	 *
+	 * @param string $singular The string to be pl.
+	 * @param int $count
+	 * @return string "member" or "members" OR "Mitglied"/"Mitglieder" if autoTranslate TRUE
 	 * 2009-07-23 ms
 	 */
-	public function asp($s, $c, $autoTranslate = false) {
-		if ((int)$c !== 1) {
-			$p = Inflector::pluralize($s);
+	public function asp($singular, $count, $autoTranslate = false) {
+		if ((int)$count !== 1) {
+			$pural = Inflector::pluralize($singular);
 		} else {
-			$p = null; # no pluralization necessary
+			$pural = null; # no pluralization necessary
 		}
-		return $this->sp($s, $p, $c, $autoTranslate);
+		return $this->sp($singular, $pural, $count, $autoTranslate);
 	}
 
 	/**
-	 * //TODO: move boostrap
-	 * manual pluralizing a word using the Inflection class
+	 * Manual pluralizing a word using the Inflection class
+	 * //TODO: move to lib or bootstrap
 	 *
 	 * @param string $singular
 	 * @param string $plural
@@ -377,27 +382,30 @@ class CommonHelper extends AppHelper {
 	 * @return string $result
 	 * 2009-07-23 ms
 	 */
-	public function sp($s, $p, $c, $autoTranslate = false) {
-		if ((int)$c !== 1) {
-			$ret = $p;
+	public function sp($singular, $plural, $count, $autoTranslate = false) {
+		if ((int)$count !== 1) {
+			$result = $plural;
 		} else {
-				$ret = $s;
+			$result = $singular;
 		}
 
 		if ($autoTranslate) {
-			$ret = __($ret);
+			$result = __($result);
 		}
-		return $ret;
+		return $result;
 	}
 
 	/**
-	 * Show FlashMessages
-	 * @param boolean unsorted true/false [default:FALSE = sorted by priority]
+	 * Show flash messages
+	 *
 	 * TODO: export div wrapping method (for static messaging on a page)
 	 * TODO: sorting
+	 *
+	 * @param boolean unsorted true/false [default:FALSE = sorted by priority]
+	 * @return string HTML
 	 * 2010-11-22 ms
 	 */
-	public function flash($unsorted = false, $backwardsComp = true) {
+	public function flash($unsorted = false) {
 		// Get the messages from the session
 		$messages = (array)$this->Session->read('messages');
 		$cMessages = (array)Configure::read('messages');
@@ -432,7 +440,10 @@ class CommonHelper extends AppHelper {
 	}
 
 	/**
-	 * output a single flashMessage
+	 * Output a single flashMessage
+	 *
+	 * @param string $message
+	 * @return string HTML
 	 * 2010-11-22 ms
 	 */
 	public function flashMessage($msg, $type = 'info', $escape = true) {
@@ -453,7 +464,7 @@ class CommonHelper extends AppHelper {
 	}
 
 	/**
-	 * add a message on the fly
+	 * Add a message on the fly
 	 *
 	 * @param string $msg
 	 * @param string $class
@@ -465,8 +476,8 @@ class CommonHelper extends AppHelper {
 	}
 
 	/**
+	 * Escape text with some more automagic
 	 * TODO: move into TextExt?
-	 * escape text with some more automagic
 	 *
 	 * @param string $text
 	 * @param array $options
@@ -508,8 +519,6 @@ class CommonHelper extends AppHelper {
 
 		return $text;
 	}
-
-
 
 	/**
 	 * prevents site being opened/included by others/websites inside frames
@@ -741,77 +750,6 @@ piwikTracker.enableLinkTracking();
 			$ret[$value] = __($translate[$value]);
 		}
 		return $ret;
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public function showDebug() {
-		$output = '';
-		$groupout = '';
-		foreach (debugTab::$content as $group => $debug) {
-			if (is_int($group)) {
-				$output .= '<div class="common-debug">';
-				$output .= "<span style=\"cursor:pointer\" onclick=\"$(this).parent().children('pre').slideToggle('fast');\"><strong>" . h($debug['file']) . '</strong>';
-				$output .= ' (line <strong>' . $debug['line'] . '</strong>)</span>';
-				if ($debug['display'])
-					$debug['display'] = 'block';
-				else
-					$debug['display'] = 'none';
-				$output .= "\n<pre style=\"display:" . $debug['display'] . "\" class=\"cake-debug\">\n";
-				$output .= h($debug['debug']);
-				$output .= "\n</pre>\n</div>";
-			}
-		}
-		foreach (debugTab::$groups as $group => $data) {
-			$groupout .= '<div class="common-debug">';
-			$groupout .= "<span style=\"cursor:pointer\" onclick=\"$(this).parent().children('div').slideToggle('fast');\"><strong>" . h($group) . '</strong></span>';
-			foreach ($data as $debug) {
-				$groupout .= "<div style=\"display:none\"><br/><span style=\"cursor:pointer\" onclick=\"$(this).parent().children('pre').slideToggle('fast');\"><strong>" . h($debug['file']) . '</strong></span>';
-				$groupout .= ' (line <strong>' . h($debug['line']) . '</strong>)</span>';
-				if ($debug['display'])
-					$debug['display'] = 'block';
-				else
-					$debug['display'] = 'none';
-				$groupout .= "\n<pre style=\"display:" . $debug['display'] . "\" class=\"cake-debug\">\n";
-				$groupout .= h($debug['debug']);
-				$groupout .= "\n</pre>\n</div>";
-			}
-			$groupout .= "\n</div>";
-		}
-		return $groupout . $output;
-	}
-
-	/**
-	 * Creates an HTML link.
-	 *
-	 * If $url starts with "http://" this is treated as an external link. Else,
-	 * it is treated as a path to controller/action and parsed with the
-	 * HtmlHelper::url() method.
-	 *
-	 * If the $url is empty, $title is used instead.
-	 *
-	 * @param string $title The content to be wrapped by <a> tags.
-	 * @param mixed $url Cake-relative URL or array of URL parameters, or external URL (starts with http://)
-	 * @param array $htmlAttributes Array of HTML attributes.
-	 * @param string $confirmMessage JavaScript confirmation message.
-	 * @param boolean $escapeTitle	Whether or not $title should be HTML escaped.
-	 * @return string	An <a /> element.
-	 * @deprecated?
-	 * // core-hack! $rel = null | !!!!!!!!! Somehow causes trouble with routing functionality of this helper function... careful!
-	 */
-	public function link($title, $url = null, $htmlAttributes = array(), $confirmMessage = false, $escapeTitle = true, $rel = null) {
-		if ($url !== null) {
-			/** core-hack $rel (relative to current position/routing) **/
-			if ($rel === true || !is_array($url)) {
-				// leave it as it is
-			} else {
-				$defaultArray = array('admin'=>false, 'prefix'=>0);
-				$url = array_merge($defaultArray, $url);
-			}
-			/** core-hack END **/
-			return $this->Html->link($title, $url, $htmlAttributes, $confirmMessage, $escapeTitle);
-		}
 	}
 
 }

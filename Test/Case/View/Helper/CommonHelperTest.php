@@ -66,6 +66,32 @@ class CommonHelperTest extends MyCakeTestCase {
 
 	}
 
+	public function testAsp() {
+		$res = $this->Common->asp('House', 2, true);
+		$expected = __('Houses');
+		$this->assertEquals($expected, $res);
+
+		$res = $this->Common->asp('House', 1, true);
+		$expected = __('House');
+		$this->assertEquals($expected, $res);
+	}
+
+	public function testSp() {
+		$res = $this->Common->sp('House', 'Houses', 0, true);
+		$expected = __('Houses');
+		$this->assertEquals($expected, $res);
+
+		$res = $this->Common->sp('House', 'Houses', 2, true);
+		$this->assertEquals($expected, $res);
+
+		$res = $this->Common->sp('House', 'Houses', 1, true);
+		$expected = __('House');
+		$this->assertEquals($expected, $res);
+
+		$res = $this->Common->sp('House', 'Houses', 1);
+		$expected = 'House';
+		$this->assertEquals($expected, $res);
+	}
 
 /**
  * tearDown method

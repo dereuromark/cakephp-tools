@@ -70,7 +70,7 @@ class MyModelTest extends MyCakeTestCase {
 	 * test auto inc value of the current table
 	 */
 	public function testGetNextAutoIncrement() {
-		$this->out($this->_header(__FUNCTION__));
+		$this->out($this->_header(__FUNCTION__), true);
 		$is = $this->App->getNextAutoIncrement();
 		$this->out(returns($is));
 
@@ -188,7 +188,7 @@ class MyModelTest extends MyCakeTestCase {
 	}
 
 	public function testValidateIdentical() {
-		$this->out($this->_header(__FUNCTION__));
+		$this->out($this->_header(__FUNCTION__), true);
 		$this->App->data = array($this->App->alias=>array('y'=>'efg'));
 		$is = $this->App->validateIdentical(array('x'=>'efg'), 'y');
 		$this->assertTrue($is);
@@ -208,7 +208,7 @@ class MyModelTest extends MyCakeTestCase {
 
 
 	public function testValidateKey() {
-		$this->out($this->_header(__FUNCTION__));
+		$this->out($this->_header(__FUNCTION__), true);
 		//$this->App->data = array($this->App->alias=>array('y'=>'efg'));
 		$testModel = new AppTestModel();
 
@@ -255,7 +255,7 @@ class MyModelTest extends MyCakeTestCase {
 
 
 	public function testValidateEnum() {
-		$this->out($this->_header(__FUNCTION__));
+		$this->out($this->_header(__FUNCTION__), true);
 		//$this->App->data = array($this->App->alias=>array('y'=>'efg'));
 		$testModel = new AppTestModel();
 		$is = $testModel->validateEnum(array('x'=>'1'), true);
@@ -272,7 +272,7 @@ class MyModelTest extends MyCakeTestCase {
 	}
 
 	public function testGuaranteeFields() {
-		$this->out($this->_header(__FUNCTION__));
+		$this->out($this->_header(__FUNCTION__), true);
 		$res = $this->App->guaranteeFields(array());
 		//debug($res);
 		$this->assertTrue(empty($res));
@@ -289,7 +289,7 @@ class MyModelTest extends MyCakeTestCase {
 	}
 
 	public function testSet() {
-		$this->out($this->_header(__FUNCTION__));
+		$this->out($this->_header(__FUNCTION__), true);
 		$data = array($this->modelName=>array('x'=>'hey'), 'OtherModel'=>array('y'=>''));
 		$this->App->data = array();
 
@@ -305,7 +305,7 @@ class MyModelTest extends MyCakeTestCase {
 	}
 
 	public function testValidateWithGuaranteeFields() {
-		$this->out($this->_header(__FUNCTION__));
+		$this->out($this->_header(__FUNCTION__), true);
 		$data = array($this->modelName=>array('x'=>'hey'), 'OtherModel'=>array('y'=>''));
 
 		$data = $this->App->guaranteeFields(array('x', 'z'), $data);
@@ -321,7 +321,7 @@ class MyModelTest extends MyCakeTestCase {
 
 	// not really working?
 	public function testBlacklist() {
-		$this->out($this->_header(__FUNCTION__));
+		$this->out($this->_header(__FUNCTION__), true);
 		$data = array($this->modelName=>array('name'=>'e', 'x'=>'hey'), 'OtherModel'=>array('y'=>''));
 
 		$schema = $this->App->schema();
@@ -337,9 +337,8 @@ class MyModelTest extends MyCakeTestCase {
 		//$this->assertEquals($data, array($this->modelName=>array('x'=>'hey', 'z'=>''), 'OtherModel'=>array('y'=>'')));
 	}
 
-
-	public function testAppInvalidate() {
-		$this->out($this->_header(__FUNCTION__));
+	public function testInvalidate() {
+		$this->out($this->_header(__FUNCTION__), true);
 		$this->App->create();
 		$this->App->invalidate('fieldx', __('e %s f', 33));
 		$res = $this->App->validationErrors;
@@ -378,8 +377,8 @@ class MyModelTest extends MyCakeTestCase {
 
 	}
 
-	public function testAppValidateDate() {
-		$this->out($this->_header(__FUNCTION__));
+	public function testValidateDate() {
+		$this->out($this->_header(__FUNCTION__), true);
 		$data = array('field' => '2010-01-22');
 		$res = $this->App->validateDate($data);
 		//debug($res);
@@ -457,8 +456,8 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 	}
 
-	public function testAppValidateDatetime() {
-		$this->out($this->_header(__FUNCTION__));
+	public function testValidateDatetime() {
+		$this->out($this->_header(__FUNCTION__), true);
 		$data = array('field' => '2010-01-22 11:11:11');
 		$res = $this->App->validateDatetime($data);
 		//debug($res);
@@ -528,8 +527,8 @@ class MyModelTest extends MyCakeTestCase {
 
 	}
 
-	public function testAppValidateTime() {
-		$this->out($this->_header(__FUNCTION__));
+	public function testValidateTime() {
+		$this->out($this->_header(__FUNCTION__), true);
 		$data = array('field' => '11:21:11');
 		$res = $this->App->validateTime($data);
 		//debug($res);
@@ -553,8 +552,8 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertFalse($res);
 	}
 
-	public function testAppValidateUrl() {
-		$this->out($this->_header(__FUNCTION__));
+	public function testValidateUrl() {
+		$this->out($this->_header(__FUNCTION__), true);
 		$data = array('field' => 'www.dereuromark.de');
 		$res = $this->App->validateUrl($data, array('allowEmpty'=>true));
 		$this->assertTrue($res);
@@ -613,8 +612,8 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 	}
 
-	public function testAppValidateUnique() {
-		$this->out($this->_header(__FUNCTION__));
+	public function testValidateUnique() {
+		$this->out($this->_header(__FUNCTION__), true);
 		//die(returns($this->Model->schema()));
 		$this->Model->validate['title'] = array(
 			'validateUnique' => array(
@@ -635,7 +634,6 @@ class MyModelTest extends MyCakeTestCase {
 		$this->Model->create();
 		$res = $this->Model->save($data);
 		$this->assertFalse($res);
-
 
 		$this->Model->validate['title'] = array(
 			'validateUnique' => array(
