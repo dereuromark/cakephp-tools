@@ -66,6 +66,13 @@ class FolderSyncShell extends AppShell {
 			$this->error('Folder not exists', 'Please specify a valid target folder');
 		}
 
+		if (!empty($this->params['invert'])) {
+			$tmp = $this->targetFolder;
+			$this->targetFolder = $this->sourceFolder;
+			$this->sourceFolder = $tmp;
+			$this->out('Inverted direction!');
+		}
+
 		$this->out('From: '.$this->sourceFolder);
 		$this->out('To: '.$this->targetFolder);
 
@@ -78,7 +85,7 @@ class FolderSyncShell extends AppShell {
 		if (!empty($this->missing)) {
 			$this->out(__('%s missing files', count($this->missing)));
 			foreach ($this->missing as $missing) {
-				$this->out('- '.$missing);
+				$this->out('- '.$missing, 1, Shell::VERBOSE);
 			}
 			$this->out();
 		}
@@ -118,12 +125,10 @@ class FolderSyncShell extends AppShell {
 	 * @return void;
 	 */
 	protected function updateFile($target, $source, $name = null) {
-		if (!empty($this->params['verbose'])) {
-			if (!$name) {
-				$name = $target;
-			}
-			$this->out('- '.$name);
+		if (!$name) {
+			$name = $target;
 		}
+		$this->out('- ' . $name, 1, Shell::VERBOSE);
 		$this->files++;
 
 		$sourceExists = file_exists($source);
@@ -133,21 +138,15 @@ class FolderSyncShell extends AppShell {
 			}
 			$this->missing[] = $name;
 			$this->removedFiles++;
-			if (!empty($this->params['verbose'])) {
-				$this->out('   (source missing, deleting)');
-			}
+			$this->out('   (source missing, deleting)', 1, Shell::VERBOSE);
 			return;
 		} elseif (!$sourceExists) {
 			$this->missing[] = $name;
-			if (!empty($this->params['verbose'])) {
-				$this->out('   (target missing, skipping)');
-			}
+			$this->out('   (target missing, skipping)', 1, Shell::VERBOSE);
 			return;
 		}
 		if (sha1(file_get_contents($source)) === sha1(file_get_contents($target))) {
-			if (!empty($this->params['verbose'])) {
-				$this->out('   (equal, skipping)');
-			}
+			$this->out('   (equal, skipping)', 1, Shell::VERBOSE);
 			return;
 		}
 		if (empty($this->params['dry-run']) && !copy($source, $target)) {
@@ -189,6 +188,11 @@ class FolderSyncShell extends AppShell {
 				'remove' => array(
 					'short' => 'r',
 					'help' => __d('cake_console', 'Remove files if source is non-existent'),
+					'boolean' => true
+				),
+				'invert' => array(
+					'short' => 'i',
+					'help' => __d('cake_console', 'Invert direction (target to source)'),
 					'boolean' => true
 				),
 				'dry-run'=> array(
