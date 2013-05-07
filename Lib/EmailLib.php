@@ -83,7 +83,8 @@ class EmailLib extends CakeEmail {
 
 	/**
 	 * @param string $file: absolute path
-	 * @param string $filename (optional)
+	 * @param string $filename
+	 * @param array $fileInfo
 	 * @return resource EmailLib
 	 * 2011-11-02 ms
 	 */
@@ -101,19 +102,15 @@ class EmailLib extends CakeEmail {
 	 * @param binary $content: blob data
 	 * @param string $filename to attach it
 	 * @param string $mimeType (leave it empty to get mimetype from $filename)
-	 * @param string $contentId (optional)
-	 * @return mixed ressource EmailLib or string $contentId
+	 * @param array $fileInfo
+	 * @return resource EmailLib
 	 * 2011-11-02 ms
 	 */
 	public function addBlobAttachment($content, $name, $mimeType = null, $fileInfo = array()) {
 		$fileInfo['content'] = $content;
 		$fileInfo['mimetype'] = $mimeType;
-		$file = array($name=>$fileInfo);
-		$res = $this->addAttachments($file);
-		if ($contentId === null) {
-			return $fileInfo['contentId'];
-		}
-		return $res;
+		$file = array($name => $fileInfo);
+		return $this->addAttachments($file);
 	}
 
 	/**
@@ -123,7 +120,7 @@ class EmailLib extends CakeEmail {
 	 * @param string $contentId (optional)
 	 * @param array $options
 	 * - contentDisposition
-	 * @return mixed ressource $EmailLib or string $contentId
+	 * @return mixed resource $EmailLib or string $contentId
 	 * 2011-11-02 ms
 	 */
 	public function addEmbeddedBlobAttachment($content, $name, $mimeType = null, $contentId = null, $options = array()) {
@@ -145,7 +142,7 @@ class EmailLib extends CakeEmail {
 	 * @param array $options
 	 * - mimetype
 	 * - contentDisposition
-	 * @return mixed ressource $EmailLib or string $contentId
+	 * @return mixed resource $EmailLib or string $contentId
 	 * 2011-11-02 ms
 	 */
 	public function addEmbeddedAttachment($file, $name = null, $contentId = null, $options = array()) {
@@ -229,10 +226,12 @@ class EmailLib extends CakeEmail {
 	}
 
 	/**
+	 * Validate if the email has the required fields necessary to make send() work.
+	 *
 	 * @return boolean Success
 	 */
 	public function validates() {
-		if (!empty($this->Email->subject)) {
+		if (!empty($this->_subject) && !empty($this->_to)) {
 			return true;
 		}
 		return false;
@@ -609,19 +608,6 @@ class EmailLib extends CakeEmail {
 			return $this->_wrapLength;
 		}
 		$this->_wrapLength = $length;
-	}
-
-	/**
-	 * Fix line length for _renderTemplates()
-	 * @overwrite
-	 */
-	protected function _renderTemplates($content) {
-		$res = parent::_renderTemplates($content);
-		foreach ($res as $type => $content) {
-			$res[$type] = $this->_wrap($content);
-			$res[$type] = implode("\n", $res[$type]);
-		}
-		return $res;
 	}
 
 	/**
