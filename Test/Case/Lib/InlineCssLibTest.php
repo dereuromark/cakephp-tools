@@ -8,6 +8,9 @@ class InlineCssLibTest extends MyCakeTestCase {
 		//Configure::write('InlineCss.engine', 'cssToInline');
 		$this->InlineCss = new InlineCssLib();
 
+		$res = App::import('Vendor', 'CssToInline', array('file' => 'css_to_inline_styles'.DS.'css_to_inline_styles.php'));
+		$this->skipIf(!$res);
+
 		parent::setUp();
 	}
 
@@ -15,6 +18,10 @@ class InlineCssLibTest extends MyCakeTestCase {
 		$res = $this->InlineCss->process($this->testHtml);
 		$this->debug($this->testHtml);
 		$this->debug($res);
+	}
+
+	public function testProcessAlternativeEngine() {
+		//TODO
 	}
 
 	public function testProcessPlainPiece() {

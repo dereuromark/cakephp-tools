@@ -5,6 +5,7 @@
  * Useful for sending HTML emails
  *
  * Note: requires vendors CssToInline or emogrifier!
+ * Default engine: CssToInline
  *
  * @author Mark Scherer
  * @copyright Mark Scherer
