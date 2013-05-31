@@ -345,7 +345,7 @@ class ImapLib {
 	 * @see http://www.nerdydork.com/download-pop3imap-email-attachments-with-php.html
 	 * 2011-09-02 ms
 	 */
-	public function _getDecodedValue($message, $coding) {
+	protected function _getDecodedValue($message, $coding) {
 		if ($coding == 0) {
 			$message = imap_8bit($message);
 		} elseif ($coding == 1) {

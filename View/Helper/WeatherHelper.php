@@ -62,7 +62,7 @@ class WeatherHelper extends AppHelper {
 		$Weather = new WeatherLib();
 
 		$options = array(
-			'cache'=>'+1 hour'
+			'cache' => '+1 hour'
 		);
 		$options = array_merge($options, $cOptions);
 		return $Weather->get($location, $options);

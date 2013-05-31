@@ -940,8 +940,10 @@ class MyModel extends Model {
 	 * example in model: 'rule' => array ('validateUnique', array('belongs_to_table_id','some_id','user_id')),
 	 * if all keys (of the array transferred) match a record, return false, otherwise true
 	 *
-	 * @param ARRAY other fields
+	 * @param array $fields Other fields to depend on
 	 * TODO: add possibity of deep nested validation (User -> Comment -> CommentCategory: UNIQUE comment_id, Comment.user_id)
+	 * @param array $options
+	 * - requireDependentFields Require all dependent fields for the validation rule to return true
 	 * @return bool Success
 	 * 2010-01-30 ms
 	 */
@@ -977,6 +979,12 @@ class MyModel extends Model {
 					if (!empty($res)) {
 						$conditions[$this->alias . '.' . $dependingField] = $res[$this->alias][$dependingField];
 					}
+				} else {
+					if (!empty($options['requireDependentFields'])) {
+						trigger_error('Required field ' . $dependingField . ' for validateUnique validation not present');
+						return false;
+					}
+					return true;
 				}
 			}
 		}

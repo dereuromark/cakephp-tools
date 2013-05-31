@@ -60,9 +60,8 @@ class QrCodeHelper extends AppHelper {
 	protected $options = array('cht'=>'qr', 'chl'=>'', 'choe'=>'', 'chs'=>'');
 
 	protected $ecLevels = array('H', 'Q', 'M', 'L'); # 30%..7%
+
 	protected $formattingTypes = array('url'=>'http', 'tel'=>'tel', 'sms'=>'smsto', 'card'=>'mecard');
-
-
 
 	public function __construct(View $View, $settings = array()) {
 		parent::__construct($View, $settings);
@@ -231,11 +230,16 @@ class QrCodeHelper extends AppHelper {
 
 	}
 
-
+	/**
+	 * QrCodeHelper::format()
+	 *
+	 * @param mixed $protocol
+	 * @param mixed $string
+	 * @return string
+	 */
 	public function format($protocol, $string) {
-		return $protocol.':'.$string;
+		return $protocol . ':' . $string;
 	}
-
 
 	/**
 	 * change size
@@ -303,7 +307,7 @@ class QrCodeHelper extends AppHelper {
 	 * @return int $size
 	 * 2011-06-06 ms
 	 */
-	public function _findSuitableSize() {
+	protected function _findSuitableSize() {
 
 	}
 
