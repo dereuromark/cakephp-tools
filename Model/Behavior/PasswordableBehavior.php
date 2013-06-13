@@ -141,11 +141,11 @@ class PasswordableBehavior extends ModelBehavior {
 		# easiest authenticate method via form and (id + pwd)
 		$this->Auth->authenticate = array(
 			'Form' => array(
-				'fields'=>array('username' => 'id', 'password'=>$this->settings[$Model->alias]['field'])
+				'fields' => array('username' => 'id', 'password' => $this->settings[$Model->alias]['field'])
 			)
 		);
 		$request = Router::getRequest();
-		$request->data['User'] = array('id'=>$uid, 'password'=>$pwd);
+		$request->data['User'] = array('id' => $uid, 'password' => $pwd);
 		$response = new CakeResponse();
 		return (bool)$this->Auth->identify($request, $response);
 	}
@@ -199,8 +199,9 @@ class PasswordableBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * adding validation rules
+	 * Adding validation rules
 	 * also adds and merges config settings (direct + configure)
+	 *
 	 * @return void
 	 * 2011-08-24 ms
 	 */
@@ -252,10 +253,8 @@ class PasswordableBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * whitelisting
+	 * Preparing the data
 	 *
-	 * @todo currently there is a cake core bug that can break functionality here
-	 * (see http://cakephp.lighthouseapp.com/projects/42648/tickets/3071-behavior-validation-methods-broken for details)
 	 * @return bool $success
 	 * 2011-07-22 ms
 	 */
@@ -311,7 +310,8 @@ class PasswordableBehavior extends ModelBehavior {
 
 
 	/**
-	 * hashing the password now
+	 * Hashing the password and whitelisting
+	 *
 	 * @return bool $success
 	 * 2011-07-22 ms
 	 */

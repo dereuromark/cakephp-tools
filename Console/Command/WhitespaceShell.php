@@ -7,14 +7,31 @@ class WhitespaceShell extends AppShell {
 	public $autoCorrectAll = false;
 
 	# each report: [0] => found, [1] => corrected
-	public $report = array('leading'=>array(0, 0), 'trailing'=>array(0, 0));
+	public $report = array('leading' => array(0, 0), 'trailing' => array(0, 0));
 
-
+	/**
+	 * Whitespaces before or after
+	 *
+	 * @return void
+	 */
 	public function find() {
-		$App = new Folder(APP);
+		if (!empty($this->args[0])) {
+			$folder = realpath($this->args[0]);
+		} elseif ($this->params['plugin']) {
+			$folder = CakePlugin::path(Inflector::classify($this->params['plugin']));
+		} else {
+			$folder = APP;
+		}
+		$App = new Folder($folder);
+		$this->out("Checking *.php in " . $folder);
 
 		$files = $App->findRecursive('.*\.php');
-		$this->out("Checking *.php in ".APP);
+		$this->out('Found '. count($files) . ' files.');
+
+		$action = $this->in(__('Continue? [y]/[n]'), array('y', 'n'), 'n');
+		if ($action === 'n') {
+			$this->error('Aborted');
+		}
 
 		$folders = array();
 
@@ -85,7 +102,7 @@ class WhitespaceShell extends AppShell {
 	}
 
 	/**
-	 * whitespaces at the end of the file
+	 * Whitespaces at the end of the file
 	 */
 	public function eof() {
 		if (!empty($this->args[0])) {
@@ -94,7 +111,7 @@ class WhitespaceShell extends AppShell {
 			$folder = APP;
 		}
 		$App = new Folder($folder);
-		$this->out("Checking *.php in ".APP);
+		$this->out("Checking *.php in " . $folder);
 
 		$files = $App->findRecursive('.*\.php');
 
@@ -122,6 +139,7 @@ class WhitespaceShell extends AppShell {
 				file_put_contents($file, $content);
 			}
 		}
+		$this->out('Done');
 	}
 
 	public function getOptionParser() {

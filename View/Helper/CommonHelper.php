@@ -646,7 +646,7 @@ piwikTracker.enableLinkTracking();
 		if (empty($trackingUrl)) {
 			$trackingUrl = 'visit_stats';
 		}
-		return '<img src="'.Router::url('/').$trackingUrl.'/piwik.php?idsite=1" style="border:0" alt=""/>';
+		return '<img src="' . Router::url('/', true) . $trackingUrl . '/piwik.php?idsite=1" style="border:0" alt=""/>';
 	}
 
 
