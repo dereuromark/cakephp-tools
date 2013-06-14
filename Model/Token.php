@@ -59,7 +59,7 @@ class Token extends ToolsAppModel {
 	 * 2009-05-13 ms
 	 */
 	public function newKey($type, $key = null, $uid = null, $content = null) {
-		if (empty($type)) {		// || !in_array($type, $this->types)
+		if (empty($type)) {
 			return false;
 		}
 
