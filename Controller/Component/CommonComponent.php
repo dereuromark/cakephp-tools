@@ -18,14 +18,11 @@ class CommonComponent extends Component {
 
 	public $components = array('Session', 'RequestHandler');
 
+	public $userModel = 'User';
+
 	public $allowedChars = array('Ä', 'Ö', 'Ü', 'ä', 'ö', 'ü', 'ß');
+
 	public $removeChars = false;
-
-	public $paginationMaxLimit = 100;
-	public $counterStartTime = null;
-	//public $disableStartup = true;
-
-	static $debugContent = array();
 
 	/**
 	 * for automatic startup
@@ -39,23 +36,12 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * //TODO: log loop redirects!
-	 * 2010-11-03 ms
-	 */
-	/*
-	public function beforeRedirect(Controller $Controller) {
-
-	}
-	*/
-
-	/**
 	 * for this helper the controller has to be passed as reference
 	 * for manual startup with $disableStartup = true (requires this to be called prior to any other method)
 	 * 2009-12-19 ms
 	 */
 	public function startup(Controller $Controller = null) {
 		/** DATA PREPARATION **/
-
 		if (!empty($this->Controller->request->data) && !Configure::read('DataPreparation.notrim')) {
 			$this->Controller->request->data = $this->trimDeep($this->Controller->request->data);
 		}
@@ -117,15 +103,14 @@ class CommonComponent extends Component {
 			}
 			$Controller->Session->delete('Message');
 		}
-		# Generates validation error messages for HABTM fields
-		//$this->_habtmValidation();
 	}
 
 /*** Important Helper Methods ***/
 
 	/**
-	 * convinience method to check on POSTED data
-	 * doesnt matter if its post or put
+	 * Convenience method to check on POSTED data.
+	 * Doesn't matter if its post or put.
+	 *
 	 * @return bool $isPost
 	 * 2011-12-09 ms
 	 */
@@ -136,7 +121,7 @@ class CommonComponent extends Component {
 	//deprecated - use isPosted instead
 	public function isPost() {
 		trigger_error('deprecated - use isPosted()');
-		return $this->Controller->request->is('post') || $this->Controller->request->is('put');
+		return $this->isPosted();
 	}
 
 	/**
@@ -195,44 +180,6 @@ class CommonComponent extends Component {
 		Configure::write('messages', $old);
 	}
 
-
-	/**
-	 * not fully tested yet!
-	 */
-	public function postAndRedirect($url, $data) {
-		/*
-		$fields = array();
-		foreach ($data as $key => $val) {
-			$fields[] = $key.'='.$val;
-		}
-		*/
-		$ch = curl_init(Router::url($url, true));
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-		curl_setopt ($ch, CURLOPT_FOLLOWLOCATION, 1);
-		curl_setopt ($ch, CURLOPT_USERAGENT, env('HTTP_USER_AGENT'));
-		curl_exec($ch);
-		curl_close($ch);
-		die();
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public function addHelper($helpers = array()) {
-		trigger_error('deprecated');
-		$this->loadHelper($helpers);
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public function addComponent($helpers = array()) {
-		trigger_error('deprecated');
-		$this->loadComponent($helpers);
-	}
-
-
 	/**
 	 * add helper just in time (inside actions - only when needed)
 	 * aware of plugins
@@ -262,7 +209,6 @@ class CommonComponent extends Component {
 			if (isset($this->Controller->{$libName})) {
 				continue;
 			}
-			//App::import('Lib', $lib);
 			$package = 'Lib';
 			if ($plugin) {
 				$package = $plugin.'.'.$package;
@@ -291,10 +237,6 @@ class CommonComponent extends Component {
 			}
 
 			$this->Controller->{$componentName} = $this->Controller->Components->load($component, $config);
-			//$this->Paypal->initialize($this);
-			//App::import('Component', $component);
-
-			//$componentFullName = $componentName.'Component';
 			if (!$callbacks) {
 				continue;
 			}
@@ -340,6 +282,9 @@ class CommonComponent extends Component {
 	}
 
 	/**
+	 * Return defaultUrlParams including configured prefixes.
+	 *
+	 * @return array Url params
 	 * 2011-11-02 ms
 	 */
 	public static function defaultUrlParams() {
@@ -352,13 +297,14 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * return current url (with all missing params automatically added)
-	 * necessary for Router::url() and comparison of urls to work
+	 * Return current url (with all missing params automatically added).
+	 * Necessary for Router::url() and comparison of urls to work.
+	 *
 	 * @param bool $asString: defaults to false = array
+	 * @return mixed Url
 	 * 2009-12-26 ms
 	 */
 	public function currentUrl($asString = false) {
-
 		if (isset($this->Controller->request->params['prefix']) && mb_strpos($this->Controller->request->params['action'], $this->Controller->request->params['prefix']) === 0) {
 			$action = mb_substr($this->Controller->request->params['action'], mb_strlen($this->Controller->request->params['prefix']) + 1);
 		} else {
@@ -375,11 +321,11 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * Tries to allow super admin access for certain urls via Config.pwd
+	 * Tries to allow super admin access for certain urls via `Config.pwd`.
 	 * Only used in admin actions and only to prevent accidental data loss due to incorrect access.
 	 * Do not assume this to be a safe access control mechanism!
 	 *
-	 * Password can be passed as named param or query string param
+	 * Password can be passed as named param or query string param.
 	 *
 	 * @return bool Success
 	 */
@@ -402,11 +348,14 @@ class CommonComponent extends Component {
 	### Controller Stuff ###
 
 	/**
-	 * Force login for a specific user id
-	 * @see DirectAuthentication auth adapter
+	 * Direct login for a specific user id.
+	 * Will respect full login scope (if defined in auth setup) as well as contained data and
+	 * can therefore return false if the login fails due to unmatched scope.
 	 *
-	 * @param array $data
-	 * - id
+	 * @see DirectAuthentication auth adapter
+	 * @param mixed $id User id
+	 * @param array $settings Settings for DirectAuthentication
+	 * - fields
 	 * @return boolean Success
 	 * 2012-11-05 ms
 	 */
@@ -416,13 +365,42 @@ class CommonComponent extends Component {
 		$settings = array_merge($authData, $settings);
 		$settings['fields'] = array('username' => 'id');
 
-		$this->Controller->request->data = array('User' => array('id' => $id));
+		$this->Controller->request->data = array($this->userModel => array('id' => $id));
 		$this->Controller->Auth->authenticate = array('Tools.Direct' => $settings);
 		$result = $this->Controller->Auth->login();
 
 		$this->Controller->Auth->authenticate = $authData;
 		$this->Controller->request->data = $requestData;
 		return $result;
+	}
+
+	/**
+	 * Force login for a specific user id.
+	 * Only fails if the user does not exist or if he is already
+	 * logged in as it ignores the usual scope.
+	 *
+	 * Better than Auth->login($data) since it respects the other auth configs such as
+	 * fields, contain, recursive and userModel.
+	 *
+	 * @param mixed $id User id
+	 * @return boolean Success
+	 */
+	public function forceLogin($id) {
+		$settings = array(
+			'scope' => array(),
+		);
+		return $this->manualLogin($id, $settings);
+		/*
+		if (!isset($this->User)) {
+			$this->User = ClassRegistry::init(defined('CLASS_USER') ? CLASS_USER : $this->userModel);
+		}
+		$data = $this->User->get($id);
+		if (!$data) {
+			return false;
+		}
+		$data = $data[$this->userModel];
+		return $this->Controller->Auth->login($data);
+		*/
 	}
 
 	/**
@@ -522,25 +500,28 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * only redirect to itself if cookies are on
-	 * prevents problems with lost data
+	 * Only redirect to itself if cookies are on
+	 * Prevents problems with lost data
 	 * Note: Many pre-HTTP/1.1 user agents do not understand the 303 status. When interoperability with such clients is a concern, the 302 status code may be used instead, since most user agents react to a 302 response as described here for 303.
+	 *
 	 * @see http://en.wikipedia.org/wiki/Post/Redirect/Get
 	 * TODO: change to 303 with backwardscompatability for older browsers...
 	 * 2011-08-10 ms
 	 */
 	public function prgRedirect($status = 302) {
 		if (!empty($_COOKIE[Configure::read('Session.cookie')])) {
-			$this->Controller->redirect('/'.$this->Controller->request->url, $status);
+			$this->Controller->redirect('/' . $this->Controller->request->url, $status);
 		}
 	}
 
 	/**
 	 * Handler for passing some meta data to the view
 	 * uses CommonHelper to include them in the layout
+	 *
 	 * @param type (relevance):
 	 * - title (10), description (9), robots(7), language(5), keywords (0)
 	 * - custom: abstract (1), category(1), GOOGLEBOT(0) ...
+	 * @return void
 	 * 2010-12-29 ms
 	 */
 	public function setMeta($type, $content, $prep = true) {
@@ -562,31 +543,11 @@ class CommonComponent extends Component {
 /*** Other helpers and debug features **/
 
 	/**
-	* Checks to see if there is a limit set for pagination results
-	* to prevent overloading the database
-	*
-	* @param string $value
-	* @return void
-	* @author Jose Gonzalez (savant)
-	* @deprecated (cake2.0 has it)
-	*/
-	protected function _paginationLimit() {
-		if (isset($this->Controller->paginationMaxLimit)) {
-			$this->paginationMaxLimit = $this->Controller->paginationMaxLimit;
-		}
-		if (isset($this->Controller->passedArgs['limit']) && is_numeric($this->paginationMaxLimit)) {
-			$this->Controller->passedArgs['limit'] = min(
-				$this->paginationMaxLimit,
-				(int)$this->Controller->passedArgs['limit']
-			);
-		}
-	}
-
-	/**
 	 * Generates validation error messages for HABTM fields
+	 * ?
 	 *
-	 * @return void
 	 * @author Dean
+	 * @return void
 	 */
 	protected function _habtmValidation() {
 		$model = $this->Controller->modelClass;
@@ -600,34 +561,46 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * set headers to cache this request
+	 * Set headers to cache this request.
+	 * Opposite of Controller::disableCache()
+	 * TODO: set response class header instead
+	 *
 	 * @param int $seconds
 	 * @return void
 	 * 2009-12-26 ms
 	 */
 	public function forceCache($seconds = HOUR) {
-		header('Cache-Control: public, max-age='.$seconds);
-		header('Last-modified: '.gmdate("D, j M Y H:i:s", time())." GMT");
-		header('Expires: '.gmdate("D, j M Y H:i:s", time() + $seconds)." GMT");
+		header('Cache-Control: public, max-age=' . $seconds);
+		header('Last-modified: ' . gmdate("D, j M Y H:i:s", time()) . " GMT");
+		header('Expires: ' . gmdate("D, j M Y H:i:s", time() + $seconds) . " GMT");
 	}
 
-
 	/**
-	 * referer checking (where does the user come from)
+	 * Referrer checking (where does the user come from)
+	 * Only returns true for a valid external referrer.
+	 *
+	 * @return boolean Success
 	 * 2009-12-19 ms
 	 */
 	public function isForeignReferer($ref = null) {
 		if ($ref === null) {
 			$ref = env('HTTP_REFERER');
 		}
+		if (!$ref) {
+			return false;
+		}
 		$base = FULL_BASE_URL . $this->Controller->webroot;
-		if (strpos($ref, $base) === 0) { // @ position 1 already the same
+		if (strpos($ref, $base) === 0) {
 			return false;
 		}
 		return true;
 	}
 
-
+	/**
+	 * CommonComponent::denyAccess()
+	 *
+	 * @return void
+	 */
 	public function denyAccess() {
 		$ref = env('HTTP_USER_AGENT');
 		if ($this->isForeignReferer($ref)) {
@@ -638,6 +611,11 @@ class CommonComponent extends Component {
 		}
 	}
 
+	/**
+	 * CommonComponent::monitorCookieProblems()
+	 *
+	 * @return void
+	 */
 	public function monitorCookieProblems() {
 		/*
 		if (($language = Configure::read('Config.language')) === null) {
@@ -656,13 +634,10 @@ class CommonComponent extends Component {
 		}
 	}
 
-
-
 	/**
 	 * //todo: move to Utility?
 	 *
 	 * @return boolean true if disabled (bots, etc), false if enabled
-	 * @static
 	 * 2010-11-20 ms
 	 */
 	public static function cookiesDisabled() {
@@ -682,7 +657,7 @@ class CommonComponent extends Component {
 		if (isset($this->Controller)) {
 			$object = $this->Controller->{$this->Controller->modelClass};
 		} else {
-			$object = ClassRegistry::init(defined('CLASS_USER')?CLASS_USER:'User');
+			$object = ClassRegistry::init(defined('CLASS_USER') ? CLASS_USER : $this->userModel);
 		}
 
 		$log = $object->getDataSource()->getLog(false, false);
@@ -700,12 +675,14 @@ class CommonComponent extends Component {
 		# log to file then and continue
 		$log = print_r($log, true);
 		App::uses('CakeLog', 'Log');
-		CakeLog::write('sql', $log);
+		return CakeLog::write('sql', $log);
 	}
 
-
 	/**
-	 * temporary check how often current cache fails!
+	 * Temporary check how often current cache fails!
+	 * TODO: move
+	 *
+	 * @return boolean Success
 	 * 2010-05-07 ms
 	 */
 	public function ensureCacheIsOk() {
@@ -718,10 +695,10 @@ class CommonComponent extends Component {
 		return true;
 	}
 
-
-
 	/**
-	 * localize
+	 * Localize
+	 *
+	 * @return boolean Success
 	 * 2010-04-29 ms
 	 */
 	 public function localize($lang = null) {
@@ -750,6 +727,9 @@ class CommonComponent extends Component {
 
 	/**
 	 * bug fix for i18n
+	 * still needed?
+	 *
+	 * @return void
 	 * 2010-01-01 ms
 	 */
 	public function ensureDefaultLanguage() {
@@ -778,14 +758,6 @@ class CommonComponent extends Component {
 				$this->Controller->redirect($url, 301);
 			}
 		}
-
-		/*
-		pr(Router::url());
-		pr($this->currentUrl());
-		pr($this->currentUrl(true));
-		pr($this->Controller->here);
-		*/
-
 		return true;
 		# problem with extensions (rss etc)
 
@@ -820,99 +792,17 @@ class CommonComponent extends Component {
 		}
 	}
 
-
-
-
-
-/*** deprecated ***/
-
 	/**
-	 * add protocol prefix if necessary (and possible)
-	 * static?
-	 * 2010-06-02 ms
-	 */
-	public function autoPrefixUrl($url, $prefix = null) {
-		return Utility::autoPrefixUrl($url, $prefix);
-	}
-
-
-	/**
-	 * remove unnessary stuff + add http:// for external urls
-	 * TODO: protocol to lower!
-	 * @static
-	 * 2009-12-22 ms
-	 */
-	public static function cleanUrl($url, $headerRedirect = false) {
-		return Utility::cleanUrl($url, $headerRedirect);
-	}
-
-	/**
-	 * @static
-	 * 2009-12-26 ms
-	 */
-	public static function getHeaderFromUrl($url) {
-		return Utility::getHeaderFromUrl($url);
-	}
-
-
-	/**
-	 * get the current ip address
-	 * @param bool $safe
-	 * @return string $ip
-	 * 2011-11-02 ms
-	 */
-	public static function getClientIp($safe = null) {
-		return Utility::getClientIp($safe);
-	}
-
-	/**
-	 * get the current referer
-	 * @param bool $full (defaults to false and leaves the url untouched)
-	 * @return string $referer (local or foreign)
-	 * 2011-11-02 ms
-	 */
-	public static function getReferer($full = false) {
-		return Utility::getReferer($full);
-	}
-
-	/**
-	 * returns true only if all values are true
-	 * @return bool $result
-	 * maybe move to bootstrap?
-	 * 2011-11-02 ms
-	 */
-	public static function logicalAnd($array) {
-		return Utility::logicalAnd($array);
-	}
-
-	/**
-	 * returns true if at least one value is true
-	 * @return bool $result
-	 * maybe move to bootstrap?
-	 * 2011-11-02 ms
-	 */
-	public static function logicalOr($array) {
-		return Utility::logicalOr($array);
-	}
-
-	/**
-	 * convinience function for automatic casting in form methods etc
-	 * @return safe value for DB query, or NULL if type was not a valid one
-	 * @static
-	 * maybe move to bootstrap?
-	 * 2008-12-12 ms
-	 */
-	public static function typeCast($type = null, $value = null) {
-		return Utility::typeCast($type, $value);
-	}
-
-	/**
-	 * try to get group for a multidim array for select boxes
+	 * Try to detect group for a multidim array for select boxes.
+	 * Extracts the group name of the selected key.
+	 *
 	 * @param array $array
-	 * @param string $result
+	 * @param string $key
+	 * @param array $matching
+	 * @return string $result
 	 * 2011-03-12 ms
 	 */
-	public function getGroup($multiDimArray, $key, $matching = array()) {
+	public static function getGroup($multiDimArray, $key, $matching = array()) {
 		if (!is_array($multiDimArray) || empty($key)) {
 			return '';
 		}
@@ -930,29 +820,9 @@ class CommonComponent extends Component {
 		return '';
 	}
 
-
-	/*** Time Stuff ***/
-
-	/**
-	 * for month and year it returns the amount of days of this month
-	 * year is necessary due to leap years!
-	 * @param int $year
-	 * @param int $month
-	 * @static
-	 * TODO: move to TimeLib etc
-	 * 2009-12-26 ms
-	 */
-	public function daysInMonth($year, $month) {
-		trigger_error('deprecated - use Tools.TimeLib instead');
-		App::uses('TimeLib', 'Tools.Utility');
-		return TimeLib::daysInMonth($year, $month);
-	}
-
-
-	/*** DEEP FUNCTIONS ***/
+/*** DEEP FUNCTIONS ***/
 
 	/**
-	 * @static?
 	 * move to boostrap?
 	 * 2009-07-07 ms
 	 */
@@ -962,7 +832,6 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * @static?
 	 * move to boostrap?
 	 * 2009-07-07 ms
 	 */
@@ -972,7 +841,6 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * @static?
 	 * move to boostrap?
 	 * 2009-07-07 ms
 	 */
@@ -980,7 +848,6 @@ class CommonComponent extends Component {
 		$value = is_array($value) ? array_map(array($this, $function), $value) : $function($value);
 		return $value;
 	}
-
 
 	/**
 	 * MAIN Sanitize Array-FUNCTION
@@ -1013,7 +880,7 @@ class CommonComponent extends Component {
 	 */
 	public function paranoidDeep($value) {
 		$mrClean = new Sanitize();
-		$value = is_array($value)?array_map(array($this, 'paranoidDeep'), $value) : $mrClean->paranoid($value, $this->allowedChars);
+		$value = is_array($value) ? array_map(array($this, 'paranoidDeep'), $value) : $mrClean->paranoid($value, $this->allowedChars);
 		return $value;
 	}
 
@@ -1024,84 +891,35 @@ class CommonComponent extends Component {
 	 */
 	public function htmlDeep($value) {
 		$mrClean = new Sanitize();
-		$value = is_array($value)?array_map(array($this, 'htmlDeep'), $value) : $mrClean->html($value, $this->removeChars);
+		$value = is_array($value) ? array_map(array($this, 'htmlDeep'), $value) : $mrClean->html($value, $this->removeChars);
 		return $value;
 	}
 
-
-	/*** Filtering Stuff ***/
-
 	/**
-	 * get the rounded average
-	 * @param array $values: int or float values
-	 * @return int $average
-	 * @static
-	 * move to lib
-	 * 2009-09-05 ms
-	 */
-	public static function average($values, $precision = 0) {
-		trigger_error('deprecated - use Tools.NumberLib instead');
-		App::uses('NumberLib', 'Tools.Utility');
-		return NumberLib::average($values, $precision);
-	}
-
-
-	/**
-	 * @deprecated: use TextLib
-	 * //TODO use str_word_count() instead!!!
-	 * @return int
-	 * @static
-	 * 2009-11-11 ms
-	 */
-	public static function numberOfWords($text) {
-		$count = 0;
-		$words = explode(' ', $text);
-		foreach ($words as $word) {
-			$word = trim($word);
-			if (!empty($word)) {
-				$count++;
-			}
-		}
-		return $count;
-	}
-
-	/**
-	 * @deprecated: use TextLib
-	 * //TODO: dont count spaces, otherwise we could use mb_strlen() right away!
-	 * @return int
-	 * @static
-	 * 2009-11-11 ms
-	 */
-	public function numberOfChars($text) {
-		return mb_strlen($text);
-	}
-
-	/**
-	 * takes list of items and transforms it into an array
+	 * Takes list of items and transforms it into an array
 	 * + cleaning (trim, no empty parts, etc)
+	 *
 	 * @param string $string containing the parts
 	 * @param string $separator (defaults to ',')
 	 * @param boolean $camelize (true/false): problems with äöüß etc!
-	 *
 	 * @return array $results as array list
-	 * @static
 	 * //TODO: 3.4. parameter as array, move to Lib
 	 * 2009-08-13 ms
 	 */
 	public function parseList($string, $separator = null, $camelize = false, $capitalize = true) {
-		if (empty($separator)) {
+		if ($separator === null) {
 			$separator = ',';
 		}
 
 		# parses the list, but leaves tokens untouched inside () brackets
-		$string_array = String::tokenize($string, $separator); //explode($separator, $string);
-		$return_array = array();
+		$stringArray = String::tokenize($string, $separator);
+		$returnArray = array();
 
-		if (empty($string_array)) {
+		if (empty($stringArray)) {
 			return array();
 		}
 
-		foreach ($string_array as $t) {
+		foreach ($stringArray as $t) {
 			$t = trim($t);
 			if (!empty($t)) {
 
@@ -1111,13 +929,11 @@ class CommonComponent extends Component {
 				} elseif ($capitalize === true) {
 					$t = ucwords($t);
 				}
-				$return_array[] = $t;
+				$returnArray[] = $t;
 			}
 		}
-
-		return $return_array;
+		return $returnArray;
 	}
-
 
 	/**
 	 * //todo move to lib!!!
@@ -1136,13 +952,95 @@ class CommonComponent extends Component {
 					return $separatorsValues[$s];
 				}
 				return $separators[$s];
-			} else {
-				return '';
 			}
+			return '';
 		}
-		return $valueOnly?$separatorsValues : $separators;
+		return $valueOnly ? $separatorsValues : $separators;
 	}
 
+
+/*** deprecated ***/
+
+	/**
+	 * add protocol prefix if necessary (and possible)
+	 * 2010-06-02 ms
+	 */
+	public function autoPrefixUrl($url, $prefix = null) {
+		trigger_error('deprecated - use Utility::autoPrefixUrl()');
+		return Utility::autoPrefixUrl($url, $prefix);
+	}
+
+	/**
+	 * remove unnessary stuff + add http:// for external urls
+	 * 2009-12-22 ms
+	 */
+	public static function cleanUrl($url, $headerRedirect = false) {
+		trigger_error('deprecated - use Utility::cleanUrl()');
+		return Utility::cleanUrl($url, $headerRedirect);
+	}
+
+	/**
+	 * 2009-12-26 ms
+	 */
+	public static function getHeaderFromUrl($url) {
+		trigger_error('deprecated - use Utility::getHeaderFromUrl()');
+		return Utility::getHeaderFromUrl($url);
+	}
+
+	/**
+	 * get the current ip address
+	 * @param bool $safe
+	 * @return string $ip
+	 * 2011-11-02 ms
+	 */
+	public static function getClientIp($safe = null) {
+		trigger_error('deprecated - use Utility::getClientIp()');
+		return Utility::getClientIp($safe);
+	}
+
+	/**
+	 * get the current referer
+	 * @param bool $full (defaults to false and leaves the url untouched)
+	 * @return string $referer (local or foreign)
+	 * 2011-11-02 ms
+	 */
+	public static function getReferer($full = false) {
+		trigger_error('deprecated - use Utility::getReferer()');
+		return Utility::getReferer($full);
+	}
+
+	/**
+	 * returns true only if all values are true
+	 * @return bool $result
+	 * maybe move to bootstrap?
+	 * 2011-11-02 ms
+	 */
+	public static function logicalAnd($array) {
+		trigger_error('deprecated - use Utility::logicalAnd()');
+		return Utility::logicalAnd($array);
+	}
+
+	/**
+	 * returns true if at least one value is true
+	 * @return bool $result
+	 * maybe move to bootstrap?
+	 * 2011-11-02 ms
+	 */
+	public static function logicalOr($array) {
+		trigger_error('deprecated - use Utility::logicalOr()');
+		return Utility::logicalOr($array);
+	}
+
+	/**
+	 * Convenience function for automatic casting in form methods etc
+	 * @return safe value for DB query, or NULL if type was not a valid one
+	 * maybe move to bootstrap?
+	 * 2008-12-12 ms
+	 */
+	public static function typeCast($type = null, $value = null) {
+		trigger_error('deprecated - use Utility::typeCast()');
+		return Utility::typeCast($type, $value);
+	}
 
 	/**
 	 * //TODO: move somewhere else
@@ -1154,6 +1052,7 @@ class CommonComponent extends Component {
 	 * @deprecated: USE range() instead! move to lib
 	 */
 	public function alphaFilterSymbols($type = null) {
+		trigger_error('deprecated');
 		$arr = array();
 		for ($i = 97; $i < 123; $i++) {
 			if ($type === 'up') {
@@ -1166,52 +1065,12 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * returns the current server GMT offset (+/- 1..12)
-	 * TODO: move to DateLib etc
-	 * @static
-	 * 2009-12-26 ms
-	 */
-	public static function gmtOffset() {
-		$gmt = mktime(gmdate("H"), gmdate("i"), gmdate("s"), gmdate("m"), gmdate("d"), gmdate("Y"));
-		$gmtOffset = mktime(date("H"), date("i"), date("s"), date("m"), date("d"), date("Y"));
-		//pr ($gmt); pr ($gmtOffset);
-		$timeOffset = ($gmtOffset - $gmt) / 3600;
-		return $timeOffset;
-	}
-
-	/**
-	 * TODO: move to DateLib etc
-	 */
-	public function timeStuff() {
-		$timeOffset = $this->gmtOffset();
-		Configure::write('Localization.server_time_offset', $timeOffset);
-		Configure::write('Localization.daylight_savings', date('I'));
-
-		$userOffset = Configure::read('Localization.user_time_offset');
-		$sessionOffset = $this->Session->read('Localization.user_time_offset');
-		if ($sessionOffset != null) {
-			$this->userOffset($sessionOffset);
-		}
-	}
-
-	/**
-	 * TODO: move to DateLib etc
-	 * @static
-	 * 2009-12-26 ms
-	 */
-	public static function userOffset($timeOffset) {
-		Configure::write('Localization.user_time_offset', $timeOffset);
-	}
-
-
-	/**
 	 * //TODO: move somewhere else
 	 * Assign Array to Char Array
 	 *
 	 * @var content array
 	 * @var char array
 	 * @return array: chars with content
-	 * @static
 	 * PROTECTED NAMES (content cannot contain those): undefined
 	 * 2009-12-26 ms
 	 */
@@ -1243,34 +1102,8 @@ class CommonComponent extends Component {
 			}
 
 		}
-
-		/*
-		//this way does not work:
-
-		foreach ($char_array as $char) {
-		$res[$char]=array();
-		$done = false;
-
-		foreach ($content_array as $content) {
-		if (!empty($content) && strtolower(substr($content,0,1)) == $char) {
-		$res[$char][]=$content;
-		$done = true;
-		}
-		}
-
-		# no match?
-		if (!empty($content) && !$done) {
-		echo $content;
-		$res['undefined'][]=$content;
-		}
-
-		}
-		*/
 		return $res;
 	}
-
-
-
 
 	/**
 	 * @deprecated
@@ -1279,15 +1112,12 @@ class CommonComponent extends Component {
 	public function extractEmail($email) {
 		trigger_error('deprecated - use splitEmail');
 		if (($pos = mb_strpos($email, '<')) !== false) {
-			$email = substr($email, $pos+1);
+			$email = substr($email, $pos + 1);
 		}
 		if (($pos = mb_strrpos($email, '>')) !== false) {
 			$email = substr($email, 0, $pos);
 		}
-		$email = trim($email);
-		return $email;
-
-		//CommonComponent::splitEmail($email);
+		return trim($email);
 	}
 
 	/**
@@ -1388,8 +1218,8 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * TODO: move to SearchLib etc
 	 * Returns searchArray (options['wildcard'] TRUE/FALSE)
+	 * TODO: move to SearchLib etc
 	 *
 	 * @return ARRAY cleaned array('keyword'=>'searchphrase') or array('keyword LIKE'=>'searchphrase')
 	 * @access public
@@ -1410,8 +1240,6 @@ class CommonComponent extends Component {
 		return array($keyword => $searchphrase);
 	}
 
-
-
 	/**
 	 * returns auto-generated password
 	 * @param string $type: user, ...
@@ -1422,6 +1250,7 @@ class CommonComponent extends Component {
 	 * 2009-12-26 ms
 	 */
 	public static function pwd($type = null, $length = null) {
+		trigger_error('deprecated');
 		App::uses('RandomLib', 'Tools.Lib');
 		if (!empty($type) && $type === 'user') {
 			return RandomLib::pronounceablePwd(6);
@@ -1432,16 +1261,13 @@ class CommonComponent extends Component {
 		return '';
 	}
 
-
-
 	/**
 	 * TODO: move to Lib
 	 * Checks if string contains @ sign
 	 * @return true if at least one @ is in the string, false otherwise
-	 * @static
 	 * 2009-12-26 ms
 	 */
-	public function containsAtSign($string = null) {
+	public static function containsAtSign($string = null) {
 		if (!empty($string) && strpos($string, '@') !== false) {
 			return true;
 		}
@@ -1457,7 +1283,7 @@ class CommonComponent extends Component {
 	 * 2010-06-19 ms
 	 */
 	public function slugIp($ip) {
-		//$ip = Inflector::slug($ip);
+		trigger_error('deprecated');
 		$ip = str_replace(array(':', '.'), array('+', '-'), $ip);
 		return $ip;
 	}
@@ -1468,7 +1294,7 @@ class CommonComponent extends Component {
 	 * 2010-06-19 ms
 	 */
 	public function unslugIp($ip) {
-		//$format = self::ipFormat($ip);
+		trigger_error('deprecated');
 		$ip = str_replace(array('+', '-'), array(':', '.'), $ip);
 		return $ip;
 	}
@@ -1478,6 +1304,7 @@ class CommonComponent extends Component {
 	 * @return string v4/v6 or FALSE on failure
 	 */
 	public function ipFormat($ip) {
+		trigger_error('deprecated');
 		if (Validation::ip($ip, 'ipv4')) {
 			return 'ipv4';
 		}
@@ -1486,7 +1313,6 @@ class CommonComponent extends Component {
 		}
 		return false;
 	}
-
 
 	/**
 	 * Get the Corresponding Message to an HTTP Error Code
@@ -1584,8 +1410,8 @@ class CommonComponent extends Component {
 		return '';
 	}
 
-
 	/**
+	 * Move to Lib
 	 * isnt this covered by core Set stuff anyway?)
 	 *
 	 * tryout: sorting multidim. array by field [0]..[x]; z.b. $array['Model']['name'] DESC etc.
@@ -1595,15 +1421,15 @@ class CommonComponent extends Component {
 			return array();
 		}
 		if ($direction === 'up') {
-			usort($products, array($obj, 'sortUp'));
+			usort($products, array($obj, '_sortUp'));
 		}
 		if ($direction === 'down') {
-			usort($products, array($obj, 'sortDown'));
+			usort($products, array($obj, '_sortDown'));
 		}
 		return array();
 	}
 
-	public function sortUp($x, $y) {
+	protected function _sortUp($x, $y) {
 		if ($x[1] == $y[1]) {
 			return 0;
 		} elseif ($x[1] < $y[1]) {
@@ -1612,7 +1438,7 @@ class CommonComponent extends Component {
 		return - 1;
 	}
 
-	public function sortDown($x, $y) {
+	protected function _sortDown($x, $y) {
 		if ($x[1] == $y[1]) {
 			return 0;
 		} elseif ($x[1] < $y[1]) {
@@ -1620,6 +1446,5 @@ class CommonComponent extends Component {
 		}
 		return 1;
 	}
-
 
 }

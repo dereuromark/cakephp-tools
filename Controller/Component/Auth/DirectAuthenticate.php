@@ -18,6 +18,8 @@ App::uses('BaseAuthenticate', 'Controller/Component/Auth');
  *   and its common _findUser() method). It also respects the scope and contain settings specified
  *   in your AppController just as any other adapter.
  *
+ * Possible configs: see BaseAuthenticate.
+ *
  * @author Mark Scherer
  * @license MIT
  * @cakephp 2.x (>= 2.3)

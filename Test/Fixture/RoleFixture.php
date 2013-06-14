@@ -1,5 +1,4 @@
 <?php
-/* Role Fixture generated on: 2011-11-20 21:59:33 : 1321822773 */
 
 /**
  * RoleFixture
@@ -7,11 +6,11 @@
  */
 class RoleFixture extends CakeTestFixture {
 
-/**
- * Fields
- *
- * @var array
- */
+	/**
+	 * Fields
+	 *
+	 * @var array
+	 */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary', 'collate' => NULL, 'comment' => ''),
 		'name' => array('type' => 'string', 'null' => false, 'length' => 64, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
@@ -26,11 +25,11 @@ class RoleFixture extends CakeTestFixture {
 		'tableParameters' => array()
 	);
 
-/**
- * Records
- *
- * @var array
- */
+	/**
+	 * Records
+	 *
+	 * @var array
+	 */
 	public $records = array(
 		array(
 			'id' => '2',
@@ -77,4 +76,5 @@ class RoleFixture extends CakeTestFixture {
 			'active' => 1
 		),
 	);
+
 }
