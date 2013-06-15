@@ -1,9 +1,9 @@
 <?php
 
 /**
- * User Fixture
+ * AuthUser Fixture
  */
-class UserFixture extends CakeTestFixture {
+class AuthUserFixture extends CakeTestFixture {
 
 	/**
 	 * Fields

@@ -18,6 +18,7 @@ class Qurl extends ToolsAppModel {
 	public $order = array('Qurl.created' => 'DESC');
 
 	protected $defaultLength = 22;
+
 	protected $validity = YEAR;
 
 	public $validate = array(
@@ -80,7 +81,12 @@ class Qurl extends ToolsAppModel {
 		return true;
 	}
 
-
+	/**
+	 * Qurl::translate()
+	 *
+	 * @param mixed $key
+	 * @return array
+	 */
 	public function translate($key) {
 		$res = $this->find('first', array('conditions'=>array($this->alias.'.key'=>$key, $this->alias.'.active'=>1)));
 		if (!$res) {
@@ -96,9 +102,10 @@ class Qurl extends ToolsAppModel {
 	}
 
 	/**
-	 * form the access url by key
+	 * Form the access url by key
+	 *
 	 * @param string $key
-	 * @retur string $url (absolute)
+	 * @return string Url (absolute)
 	 */
 	public static function urlByKey($key, $title = null, $slugTitle = true) {
 		if ($title && $slugTitle) {
@@ -108,10 +115,11 @@ class Qurl extends ToolsAppModel {
 	}
 
 	/**
-	 * makes an absolute url string ready to input anywhere
-	 * uses generate() internally to get the key
+	 * Makes an absolute url string ready to input anywhere.
+	 * Uses generate() internally to get the key.
+	 *
 	 * @param mixed $url
-	 * @return string $url (absolute)
+	 * @return string Url (absolute)
 	 */
 	public function url($url, $data = array()) {
 		$key = $this->generate($url, $data);
@@ -122,15 +130,16 @@ class Qurl extends ToolsAppModel {
 	}
 
 	/**
-	 * generates a Qurl key
+	 * Generates a Qurl key
+	 *
 	 * @param mixed $url
 	 * @param string $uid
-	 * @return string $key
+	 * @return string Key
 	 * 2011-07-12 ms
 	 */
 	public function generate($url, $data = array()) {
 		$url = Router::url($url, true);
-		$content = array_merge($data, array('url'=>$url));
+		$content = array_merge($data, array('url' => $url));
 		if (!isset($content['key'])) {
 			$content['key'] = '';
 		}
@@ -142,7 +151,8 @@ class Qurl extends ToolsAppModel {
 	}
 
 	/**
-	 * sets Key to "used" (only once!) - directly by ID
+	 * Sets Key to "used" (only once!) - directly by ID
+	 *
 	 * @param id of key to spend: necessary
 	 * @return boolean true on success, false otherwise
 	 * 2009-05-13 ms
@@ -161,6 +171,7 @@ class Qurl extends ToolsAppModel {
 	/**
 	 * remove old/invalid keys
 	 * does not remove recently used ones (for proper feedback)!
+	 *
 	 * @return boolean success
 	 * 2010-06-17 ms
 	 */
@@ -171,9 +182,10 @@ class Qurl extends ToolsAppModel {
 		return $this->deleteAll($conditions, false);
 	}
 
-
 	/**
-	 * get admin stats
+	 * Get admin stats
+	 *
+	 * @return array
 	 * 2010-10-22 ms
 	 */
 	public function stats() {
@@ -189,8 +201,9 @@ class Qurl extends ToolsAppModel {
 		return $keys;
 	}
 
-
 	/**
+	 * Generate key
+	 *
 	 * @param length (defaults to defaultLength)
 	 * @return string codekey
 	 * 2009-05-13 ms
@@ -200,28 +213,8 @@ class Qurl extends ToolsAppModel {
 			$length = $this->defaultLength;
 		}
 
-		if ((class_exists('CommonComponent') || App::import('Component', 'Common')) && method_exists('CommonComponent', 'generatePassword')) {
-			return CommonComponent::generatePassword($length);
-		} else {
-			return $this->_generateKey($length);
-		}
-	}
-
-	/**
-	 * backup method - only used if no custom function exists
-	 * 2010-06-17 ms
-	 */
-	protected function _generateKey($length = null) {
-		$chars = '234567890abcdefghijkmnopqrstuvwxyz'; // ABCDEFGHIJKLMNOPQRSTUVWXYZ
-		$i = 0;
-		$password = '';
-		$max = strlen($chars) - 1;
-
-		while ($i < $length) {
-			$password .= $chars[mt_rand(0, $max)];
-			$i++;
-		}
-		return $password;
+		App::uses('RandomLib', 'Tools.Lib');
+		return RandomLib::generatePassword($length);
 	}
 
 }

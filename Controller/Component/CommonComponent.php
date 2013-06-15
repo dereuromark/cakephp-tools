@@ -1106,11 +1106,12 @@ class CommonComponent extends Component {
 	}
 
 	/**
+	 * Extract email from "name <email>" etc
+	 *
 	 * @deprecated
 	 * use splitEmail instead
 	 */
 	public function extractEmail($email) {
-		trigger_error('deprecated - use splitEmail');
 		if (($pos = mb_strpos($email, '<')) !== false) {
 			$email = substr($email, $pos + 1);
 		}

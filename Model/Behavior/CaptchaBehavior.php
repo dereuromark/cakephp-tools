@@ -5,7 +5,7 @@ define('CAPTCHA_MAX_TIME', HOUR);	# seconds the form will need to be submitted i
 
 App::uses('ModelBehavior', 'Model');
 App::uses('CaptchaLib', 'Tools.Lib');
-App::uses('CommonComponent', 'Tools.Controller/Component');
+App::uses('Utility', 'Tools.Utility');
 
 /**
  * CaptchaBehavior
@@ -25,9 +25,8 @@ class CaptchaBehavior extends ModelBehavior {
 	);
 
 	protected $error = '';
+
 	protected $internalError = '';
-	//
-	//protected $useSession = false;
 
 	public function setup(Model $Model, $settings = array()) {
 		$defaults = array_merge(CaptchaLib::$defaults, $this->defaults);
@@ -50,10 +49,7 @@ class CaptchaBehavior extends ModelBehavior {
 		if (isset($settings['log'])) {
 			$this->settings[$Model->alias]['log'] = (bool)$settings['log'];
 		}
-
-		//parent::setup($Model, $settings);
 	}
-
 
 	public function beforeValidate(Model $Model) {
 		parent::beforeValidate($Model);
@@ -95,7 +91,12 @@ class CaptchaBehavior extends ModelBehavior {
 		return $list;
 	}
 
-
+	/**
+	 * CaptchaBehavior::_validateDummyField()
+	 *
+	 * @param mixed $data
+	 * @return
+	 */
 	protected function _validateDummyField($data) {
 		$dummyField = $this->settings[$this->Model->alias]['dummyField'];
 		if (!isset($data[$dummyField])) {
@@ -107,7 +108,6 @@ class CaptchaBehavior extends ModelBehavior {
 		}
 		return true;
 	}
-
 
 	/**
 	 * flood protection by time
@@ -157,7 +157,7 @@ class CaptchaBehavior extends ModelBehavior {
 
 		$hash = $this->_buildHash($data);
 
-		if ($data['captcha_hash'] == $hash) {
+		if ($data['captcha_hash'] === $hash) {
 			return true;
 		}
 		# wrong captcha content or session expired
@@ -197,6 +197,12 @@ class CaptchaBehavior extends ModelBehavior {
 		return false;
 	}
 
+	/**
+	 * CaptchaBehavior::_buildHash()
+	 *
+	 * @param array $data
+	 * @return string Hash
+	 */
 	protected function _buildHash($data) {
 		return CaptchaLib::buildHash($data, $this->settings[$this->Model->alias]);
 	}
@@ -214,9 +220,7 @@ class CaptchaBehavior extends ModelBehavior {
 		if (!$this->settings[$this->Model->alias]['log']) {
 			return null;
 		}
-
-		//App::import('Component', 'RequestHandler');
-		$msg = 'IP \''.CakeRequest::clientIP().'\', Agent \''.env('HTTP_USER_AGENT').'\', Referer \''.env('HTTP_REFERER').'\', Host-Referer \''.CommonComponent::getReferer().'\'';
+		$msg = 'IP \''.Utility::getClientIp().'\', Agent \''.env('HTTP_USER_AGENT').'\', Referer \''.env('HTTP_REFERER').'\', Host-Referer \''.Utility::getReferer().'\'';
 		if (!empty($this->error)) {
 			$msg .= ', '.$this->error;
 		}
