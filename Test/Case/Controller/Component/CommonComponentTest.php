@@ -10,7 +10,7 @@ App::uses('AppModel', 'Model');
  */
 class CommonComponentTest extends CakeTestCase {
 
-	public $fixtures = array('core.cake_session', 'plugin.tools.auth_user', 'plugin.tools.role');
+	public $fixtures = array('core.cake_session', 'plugin.tools.tools_user', 'plugin.tools.role');
 
 	public function setUp() {
 		parent::setUp();
@@ -199,7 +199,7 @@ class CommonComponentTest extends CakeTestCase {
 			'password' => 123,
 			'role_id' => 1,
 		);
-		$User = ClassRegistry::init('AuthUser');
+		$User = ClassRegistry::init('ToolsUser');
 		$User->create();
 		$res = $User->save($user);
 		$this->assertTrue(!empty($res));
@@ -228,7 +228,7 @@ class CommonComponentTest extends CakeTestCase {
 			'password' => 123,
 			'role_id' => 1,
 		);
-		$User = ClassRegistry::init('AuthUser');
+		$User = ClassRegistry::init('ToolsUser');
 		$User->create();
 		$res = $User->save($user);
 		$this->assertTrue(!empty($res));
@@ -276,9 +276,9 @@ class CommonComponentTest extends CakeTestCase {
 
 /*** additional helper classes ***/
 
-class AuthUser extends AppModel {
+class ToolsUser extends AppModel {
 
-	public $name = 'AuthUser';
+	public $name = 'ToolsUser';
 
 	public $alias = 'User';
 
