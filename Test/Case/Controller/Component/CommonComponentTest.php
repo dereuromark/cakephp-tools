@@ -290,7 +290,7 @@ class ToolsUser extends AppModel {
 
 class CommonComponentTestController extends AppController {
 
-	public $components = array('Tools.Common');
+	public $components = array('Tools.Common', 'Auth');
 
 	public $failed = false;
 
