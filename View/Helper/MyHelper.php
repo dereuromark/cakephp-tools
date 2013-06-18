@@ -30,11 +30,11 @@ class MyHelper extends Helper {
 				$helper = $config;
 				$config = array();
 			}
-			list($plugin, $helperName) = pluginSplit($helper);
+			list($plugin, $helperName) = pluginSplit($helper, true);
 			if (isset($this->{$helperName})) {
 				continue;
 			}
-			App::import('Helper', $helper);
+			App::uses($helperName . 'Helper', $plugin . 'View/Helper');
 			$helperFullName = $helperName.'Helper';
 			$this->{$helperName} = new $helperFullName($this->_View, (array)$config);
 
@@ -188,7 +188,7 @@ class MyHelper extends Helper {
 	public function defaultLink($title, $url = null, $options = array(), $confirmMessage = false) {
 		if ($this->linkDefaults === null) {
 			if (!class_exists('CommonComponent')) {
-				App::import('Component', 'Tools.Common');
+				App::uses('CommonComponent', 'Tools.Controller/Component');
 			}
 			$this->linkDefaults = CommonComponent::defaultUrlParams();
 		}
@@ -219,7 +219,7 @@ class MyHelper extends Helper {
 	public function defaultUrl($url = null, $full = false) {
 		if ($this->linkDefaults === null) {
 			if (!class_exists('CommonComponent')) {
-				App::import('Component', 'Tools.Common');
+				App::uses('CommonComponent', 'Tools.Controller/Component');
 			}
 			$this->linkDefaults = CommonComponent::defaultUrlParams();
 		}

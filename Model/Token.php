@@ -109,11 +109,11 @@ class Token extends ToolsAppModel {
 		if (empty($type) || empty($key)) {
 			return false;
 		}
-		$conditions = array('conditions'=>array($this->alias.'.key'=>$key, $this->alias.'.type'=>$type));
+		$options = array('conditions' => array($this->alias.'.key' => $key, $this->alias.'.type' => $type));
 		if (!empty($uid)) {
-			$conditions['conditions'][$this->alias.'.user_id'] = $uid;
+			$options['conditions'][$this->alias.'.user_id'] = $uid;
 		}
-		$res = $this->find('first', $conditions);
+		$res = $this->find('first', $options);
 		if (empty($res)) {
 			return false;
 		}

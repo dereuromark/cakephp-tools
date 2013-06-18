@@ -1,8 +1,6 @@
 <?php
 App::uses('TextHelper', 'View/Helper');
 
-App::import('Helper', 'Text');
-
 /**
  * Format helper with basic html snippets
  *
@@ -317,11 +315,11 @@ class FormatHelper extends TextHelper {
 	 * @param options array ('class'=>'','width/height'=>'','onclick=>'') etc
 	 * 2008-12-28 ms
 	 */
-	public function icon($type, $t=null, $a=null, $translate=null, $options=array()) {
+	public function icon($type, $t = null, $a = null, $translate = null, $options = array()) {
 		$html='';
 
 		# title
-		if (isset($t) && $t===false) {
+		if (isset($t) && $t === false) {
 			$title='';
 		} elseif (empty($t)) {
 
@@ -354,7 +352,7 @@ class FormatHelper extends TextHelper {
 			$alt = '';
 		}
 
-		$default_options=array('title'=>$title,'alt'=>$alt,'class'=>'icon');
+		$default_options=array('title'=>$title, 'alt'=>$alt, 'class'=>'icon');
 		//$new_options['onclick']=$options['onclick'];
 		$new_options= array_merge($default_options, $options);
 
@@ -431,13 +429,13 @@ class FormatHelper extends TextHelper {
 
 			$text = '';
 			for ($i=0;$i<$min;$i++) {
-				$attributes = array('alt'=>'#','class'=>'full');
+				$attributes = array('alt'=>'#', 'class'=>'full');
 				if (!empty($options['title'])) { $attributes['title'] = ($i+1).'/'.$max; } # ?
 				$text.= $this->Html->image('icons/star_icon2.gif', $attributes);
 
 			}
 			for ($i=$min;$i<$max;$i++) {
-				$attributes = array('alt'=>'-','class'=>'empty');
+				$attributes = array('alt'=>'-', 'class'=>'empty');
 				if (!empty($options['title'])) { $attributes['title'] = ($i+1).'/'.$max; } # ?
 				if ($steps == 0.5 && $current == $i+0.5) {
 					$text.= $this->Html->image('icons/star_icon2_half.gif', $attributes);
@@ -449,15 +447,15 @@ class FormatHelper extends TextHelper {
 			$attributes = array('class'=>'starBar');
 			$attributes = array_merge($attributes, $attr);
 			if (empty($attributes['title']) && empty($options['title'])) {
-				$attributes['title'] = ($current).' '.__('of').' '.$max;
+				$attributes['title'] = ($current) . ' ' . __('of') . ' ' . $max;
 			}
 
 			$res = $this->Html->tag('span', $text, $attributes);
 			//$res='<span title="ss" class="starBar">'.$text.'</span>';
 		} else {
 			if ($max > 3) {
-				for ($i=0;$i<$max-3;$i++) {
-					$res .='-';
+				for ($i = 0; $i < $max - 3; $i++) {
+					$res .= '-';
 				}
 			}
 		}
@@ -488,7 +486,7 @@ class FormatHelper extends TextHelper {
 
 		$language_change = __('Language').': ';
 
-		$languages=array();
+		$languages = array();
 		foreach ($langs as $lang) {
 			$languages[$lang] = $supportedLangs[$lang];
 		}
@@ -508,19 +506,13 @@ class FormatHelper extends TextHelper {
 		}
 
 		$language_change .= '</span>'; //.__('(Translation not complete yet)');
-				//<a href="http://localhost/c/telapp/img/1.php" onclick="return hs.htmlExpand(this, { contentId: 'highslide-help', objectType: 'ajax', preserveContent: true } ); return false;">s</a>
-
-	return $language_change;
+		return $language_change;
 	}
 
-
-
 	/**
-	 * It is still believed that encoding will stop spam-bots being able to find your email address. Nevertheless, encoded email address harvester are on the way
- (http://www.dreamweaverfever.com/experiments/spam/).
- 	 */
-
-	/**
+	 * It is still believed that encoding will stop spam-bots being able to find your email address.
+	 * Nevertheless, encoded email address harvester are on the way (http://www.dreamweaverfever.com/experiments/spam/).
+ 	 *
 	 * //TODO: move to TextExt?
 	 * Helper Function to Obfuscate Email by inserting a span tag (not more! not very secure on its own...)
 	 * each part of this mail now does not make sense anymore on its own
@@ -530,7 +522,7 @@ class FormatHelper extends TextHelper {
 	 */
 	public function encodeEmail($mail) {
 		list($mail1, $mail2) = explode('@', $mail);
-		$encMail = $this->encodeText($mail1).'<span>@</span>'.$this->encodeText($mail2);
+		$encMail = $this->encodeText($mail1) . '<span>@</span>' . $this->encodeText($mail2);
 		return $encMail;
 	}
 
@@ -544,7 +536,7 @@ class FormatHelper extends TextHelper {
 	 * @return save string with js generated link around email (and non js fallback)
 	 * 2009-04-20 ms
 	 */
-	public function encodeEmailUrl($mail, $text=null, $params=array(), $attr = array()) {
+	public function encodeEmailUrl($mail, $text = null, $params = array(), $attr = array()) {
 		if (empty($class)) { $class='email';}
 
 		$defaults = array(
@@ -559,37 +551,30 @@ class FormatHelper extends TextHelper {
 
 		$encMail = 'mailto:'.$mail;
 
-
 		// additionally there could be a span tag in between: email<span syle="display:none"></span>@web.de
-
-
-		//$encmail = '&#109;a&#105;&#108;t&#111;&#58;'.$encMail;
 		$querystring = '';
 		foreach ($params as $key=>$val) {
 			if ($querystring) {
-				$querystring .= "&$key=".rawurlencode($val);
+				$querystring .= "&$key=" . rawurlencode($val);
 			} else {
-				$querystring = "?$key=".rawurlencode($val);
+				$querystring = "?$key=" . rawurlencode($val);
 			}
 		}
 
 		$attr = array_merge($defaults, $attr);
 
+		$xmail = $this->Html->link('', $encMail . $querystring, $attr);
+		$xmail1 = mb_substr($xmail, 0, count($xmail) - 5);
+		$xmail2 = mb_substr($xmail, -4, 4);
 
-	$xmail = $this->Html->link('', $encMail.$querystring, $attr);
-	$xmail1 = mb_substr($xmail, 0, count($xmail)-5);
-	$xmail2 = mb_substr($xmail, -4, 4);
-	//pr (h($xmail1));
-	//pr (h($xmail2));
-
-	$len = mb_strlen($xmail1);
-	$i=0;
-	while ($i<$len) {
-		$c = mt_rand(2,6);
-		$par[] = (mb_substr($xmail1, $i, $c));
-		$i += $c;
-	}
-	$join = implode('\'+ \'', $par);
+		$len = mb_strlen($xmail1);
+		$i=0;
+		while ($i < $len) {
+			$c = mt_rand(2, 6);
+			$par[] = (mb_substr($xmail1, $i, $c));
+			$i += $c;
+		}
+		$join = implode('\'+ \'', $par);
 
 		return '<script language=javascript><!--
 	document.write(\''.$join.'\');
@@ -598,11 +583,7 @@ class FormatHelper extends TextHelper {
 	<script language=javascript><!--
 	document.write(\''.$xmail2.'\');
 	//--></script>';
-
-
-		//return '<a class="'.$class.'" title="'.$title.'" href="'.$encmail.$querystring.'">'.$encText.'</a>';
 	}
-
 
 	/**
 	 * //TODO: move to TextExt?
@@ -657,9 +638,6 @@ class FormatHelper extends TextHelper {
 		}
 		return $light;
 	}
-
-
-
 
 	/**
 	 * get url of a png img of a website (16x16 pixel)
@@ -736,7 +714,6 @@ class FormatHelper extends TextHelper {
 			$folder = WWW_ROOT.'img'.DS.'content'.DS.'imagick';
 		}
 
-
 		$file = sha1($text.serialize($options)).'.'.($options['inline'] || !empty($options['background']) ? 'png' : 'gif');
 		if (!file_exists($folder)) {
 			mkdir($folder, 0755);
@@ -758,9 +735,6 @@ class FormatHelper extends TextHelper {
 		return $out;
 	}
 
-
-
-
 	/**
 	 * 2009-12-24 ms
 	 */
@@ -771,13 +745,12 @@ class FormatHelper extends TextHelper {
 		return $this->Html->tag('span', $text, $options);
 	}
 
-
 	/**
 	 * display communication action depending on the current rule/right
 	 * 2009-10-14 ms
 	 */
 	public function action($s) {
-
+		//TODO
 	}
 
 	/**
@@ -813,7 +786,6 @@ class FormatHelper extends TextHelper {
 		return $currentCount;
 	}
 
-
 	/**
 	 * @param float progress
 	 * @param array options:
@@ -841,7 +813,7 @@ class FormatHelper extends TextHelper {
 
 		$params = Router::queryString($options, array(), true);
 
-		App::import('Helper', 'Tools.Numeric');
+		App::uses('NumericHelper', 'Tools.View/Helper');
 		$this->Numeric = new NumericHelper(new View(null));
 
 		$htmlDefaults = array('title' => $this->Numeric->format($percent, $options['decimals']) . ' ' . __('Percent'), 'class' => 'help');
@@ -854,7 +826,6 @@ class FormatHelper extends TextHelper {
 		return '<img src="' . $this->Html->url('/files') . '/progress_bar/index.php' . $params . '" title="' . $htmlOptions['title'] . '" class="' .
 			$htmlOptions['class'] . '" alt="' . $htmlOptions['title'] . '" />';
 	}
-
 
 	public function tip($type, $file, $title, $icon) {
 		return $this->cIcon($icon, $title, null, null, array('class' => 'tip' . ucfirst($type) . ' hand', 'rel' => $file));
@@ -894,8 +865,6 @@ class FormatHelper extends TextHelper {
 	 * 2009-09-10 ms
 	 */
 	public function image($id, $options = array(), $attr = array()) {
-
-
 		if (!empty($options['h'])) {
 			$attr['height'] = $options['h'];
 		}
@@ -915,7 +884,6 @@ class FormatHelper extends TextHelper {
 		$urlArray = array_merge($urlArray, $options);
 		return $urlArray;
 	}
-
 
 	/**
 	 * album image
@@ -951,7 +919,6 @@ class FormatHelper extends TextHelper {
 		return $this->Html->defaultLink($this->albumImage($image, array('h' => 50)), $this->imageUrlArray($image['Image']['id'], array('h' => 50)),
 			$options);
 	}
-
 
 	public function albumImageTexts($image, $options = array()) {
 		$display = array(
@@ -1012,7 +979,6 @@ class FormatHelper extends TextHelper {
 		return $res;
 	}
 
-
 	/**
 	 * takes username + userId and forms a profile link out of it
 	 * if username is empty, return "deleted" text without link
@@ -1061,7 +1027,13 @@ class FormatHelper extends TextHelper {
 
 	}
 
-
+	/**
+	 * FormatHelper::languageFlag()
+	 *
+	 * @param mixed $iso2
+	 * @param mixed $options
+	 * @return string
+	 */
 	public function languageFlag($iso2, $options = array()) {
 		$flag = '';
 
@@ -1072,7 +1044,13 @@ class FormatHelper extends TextHelper {
 		return $flag;
 	}
 
-
+	/**
+	 * FormatHelper::countryAndProvince()
+	 *
+	 * @param mixed $array
+	 * @param mixed $options
+	 * @return string
+	 */
 	public function countryAndProvince($array, $options = array()) {
 		$res = '<span class="help" title="%s">%s</span>';
 
@@ -1098,7 +1076,6 @@ class FormatHelper extends TextHelper {
 		return $res;
 	}
 
-
 	//deprecated?
 	public function avatar($setting, $uid, $email = null, $options = array()) {
 
@@ -1116,7 +1093,6 @@ class FormatHelper extends TextHelper {
 			return $this->Gravatar->image($uid, $options);
 		}
 	}
-
 
 	/**
 	 * display traffic light for status etc
@@ -1142,7 +1118,13 @@ class FormatHelper extends TextHelper {
 		return $this->Html->image('icons/status_light_' . $icon . '.gif', $options);
 	}
 
-
+	/**
+	 * FormatHelper::onlineIcon()
+	 *
+	 * @param mixed $modified
+	 * @param mixed $options
+	 * @return string
+	 */
 	public function onlineIcon($modified = null, $options = array()) {
 		# from low (off) to high (on)
 		$icons = array('healthbar0.gif', 'healthbar1.gif', 'healthbar1b.gif', 'healthbar2.gif', 'healthbar3.gif', 'healthbar4.gif', 'healthbar5.gif');
@@ -1310,7 +1292,6 @@ class FormatHelper extends TextHelper {
 		return $text;
 	}
 
-
 	/**
 	 *
 	 * Inspired by the tab2space function found at:
@@ -1390,7 +1371,6 @@ class FormatHelper extends TextHelper {
 		return trim($str);
 	}
 
-
 	/**
 	 * Translate a result array into a HTML table
 	 *
@@ -1459,9 +1439,6 @@ class FormatHelper extends TextHelper {
 		$table .= '</table>';
 		return $table;
 	}
-
-
-
 
 	public $icons = array(
 		'up' => array(
@@ -1576,7 +1553,6 @@ class FormatHelper extends TextHelper {
 	);
 
 }
-
 
 # default icons
 

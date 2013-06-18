@@ -7,24 +7,15 @@ App::uses('View', 'View');
 
 /**
  * Datetime Test Case
- *
- * @package cake.tests
- * @subpackage cake.tests.cases.libs.view.helpers
  */
 class FormatHelperTest extends MyCakeTestCase {
-	/**
-	* setUp method
 
-	* @access public
-	* @return void
-	*/
 	public function setUp() {
 		parent::setUp();
 
 		$this->Format = new FormatHelper(new View(null));
 		$this->Format->Html = new HtmlHelper(new View(null));
 	}
-
 
 	/**
 	 * 2009-08-30 ms
@@ -43,7 +34,6 @@ class FormatHelperTest extends MyCakeTestCase {
 		}
 	}
 
-
 	/**
 	 * 2009-08-30 ms
 	 */
@@ -59,7 +49,6 @@ class FormatHelperTest extends MyCakeTestCase {
 			$this->assertTrue(!empty($res));
 		}
 	}
-
 
 	/**
 	 * 2009-08-30 ms
@@ -164,8 +153,6 @@ class FormatHelperTest extends MyCakeTestCase {
 
 	}
 
-
-
 	/**
 	 * 2009-08-30 ms
 	 */
@@ -183,9 +170,7 @@ class FormatHelperTest extends MyCakeTestCase {
 			//debug('\''.h($value).'\' becomes \''.h($res).'\'', null, false);
 			$this->assertEquals($expected === null ? $value : $expected, $res);
 		}
-
 	}
-
 
 /**
  * 2009-03-11 ms
@@ -234,7 +219,6 @@ class FormatHelperTest extends MyCakeTestCase {
 
 	}
 
-
 	public function testArray2table() {
 		//echo '<h2>'.__FUNCTION__.'</h2>';
 		$array = array(
@@ -258,15 +242,10 @@ class FormatHelperTest extends MyCakeTestCase {
 		//echo $is;
 	}
 
-/**
- * tearDown method
- *
- * @access public
- * @return void
- */
 	public function tearDown() {
 		parent::tearDown();
 
 		unset($this->Format);
 	}
+
 }

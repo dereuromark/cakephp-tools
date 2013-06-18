@@ -22,7 +22,7 @@ class CommonHelperTest extends MyCakeTestCase {
 	public function testMetaCanonical() {
 		$is = $this->Common->metaCanonical('/some/url/param1');
 		$this->out(h($is));
-		$this->assertEquals('<link rel="canonical" href="'.$this->Common->url('/some/url/param1').'" />', trim($is));
+		$this->assertEquals('<link href="'.$this->Common->url('/some/url/param1', true).'" rel="canonical" />', trim($is));
 	}
 
 	/**

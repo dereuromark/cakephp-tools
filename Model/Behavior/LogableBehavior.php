@@ -151,7 +151,7 @@ class LogableBehavior extends ModelBehavior {
 		$defaults = array(
 			 $this->settings[$Model->alias]['classField'] => null,
 			 'action' => null,
-			 'order' => $this->Log->alias . 'id DESC',
+			 'order' => $this->Log->alias . '.id DESC',
 			 $this->settings[$Model->alias]['userKey'] => null,
 			 'conditions' => array(),
 			 $this->settings[$Model->alias]['foreignKey'] => null,

@@ -441,7 +441,7 @@ class FormExtHelper extends FormHelper {
 
 		$options = parent::_initInputField($field, $options);
 
-		if (!empty($options['value']) && $normalize) {
+		if (!empty($options['value']) && is_string($options['value']) && $normalize) {
 			$options['value'] = str_replace(array("\t", "\r\n", "\n"), ' ', $options['value']);
 		}
 		//Configure::write('Validation.autoRequire', $autoRequire);
@@ -494,7 +494,13 @@ class FormExtHelper extends FormHelper {
 		}
 	}
 
-
+	/**
+	 * FormExtHelper::dateTimeExt()
+	 *
+	 * @param mixed $field
+	 * @param mixed $options
+	 * @return
+	 */
 	public function dateTimeExt($field, $options = array()) {
 		$res = array();
 		if (!isset($options['separator'])) {
@@ -614,8 +620,8 @@ class FormExtHelper extends FormHelper {
 
 		$defaultOptions = array(
 			'empty' => false,
-			'minYear' => date('Y')-10,
-			'maxYear' => date('Y')+10
+			'minYear' => date('Y') - 10,
+			'maxYear' => date('Y') + 10
 		);
 		$defaultOptions = array_merge($defaultOptions, (array)Configure::read('Form.date'));
 

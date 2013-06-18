@@ -66,7 +66,7 @@ class CommonHelper extends AppHelper {
 		if (!empty($language)) {
 			$options['lang'] = mb_strtolower($language);
 		} elseif ($language !== false) {
-			$options['lang'] = Configure::read('Config.locale'); // DEFAULT_LANGUAGE
+			$options['lang'] = Configure::read('Config.locale');
 		}
 		return $this->Html->meta('description', $content, $options);
 	}
@@ -92,7 +92,7 @@ class CommonHelper extends AppHelper {
 		if (!empty($language)) {
 			$options['lang'] = mb_strtolower($language);
 		} elseif ($language !== false) {
-			$options['lang'] = Configure::read('Config.locale'); // DEFAULT_LANGUAGE
+			$options['lang'] = Configure::read('Config.locale');
 		}
 		return $this->Html->meta('keywords', $keywords, $options);
 	}
@@ -107,8 +107,7 @@ class CommonHelper extends AppHelper {
 	 */
 	public function metaCanonical($url = null, $full = false) {
 		$canonical = $this->Html->url($url, $full);
-		//return $this->Html->meta('canonical', $canonical, array('rel'=>'canonical', 'type'=>null, 'title'=>null));
-		return '<link rel="canonical" href="' . $canonical . '" />';
+		return $this->Html->meta('canonical', $canonical, array('rel'=>'canonical', 'type'=>null, 'title'=>null));
 	}
 
 	/**
@@ -280,14 +279,6 @@ class CommonHelper extends AppHelper {
 					}
 				}
 			}
-
-			/*
-			if (!empty($catched)) {
-				foreach ($catched as $c) {
-
-				}
-			}
-			*/
 		}
 		return $res;
 	}
@@ -308,7 +299,7 @@ class CommonHelper extends AppHelper {
 	 *
 	 * Note that using multiple iterations of different strings may produce
 	 * unexpected results.
-	 * TODO: move to booststrap!!!
+	 * TODO: move to booststrap/lib!!!
 	 *
 	 * @param string strings to alternate between
 	 * @return string
@@ -521,7 +512,7 @@ class CommonHelper extends AppHelper {
 	}
 
 	/**
-	 * prevents site being opened/included by others/websites inside frames
+	 * Prevents site being opened/included by others/websites inside frames
 	 * 2009-01-08 ms
 	 */
 	public function framebuster() {
@@ -568,11 +559,6 @@ jQuery(document).ready(function() {
 });
 */
 ');
-/*
-if ($.browser.msie) {
-	var version = $.browser.version.substring(0,1);
-}
-*/
 	}
 
 	/**
@@ -691,15 +677,9 @@ piwikTracker.enableLinkTracking();
 
 		if (empty($roles) || !is_array($roles)) {
 			$Role = ClassRegistry::init('Role');
-			/*
-			if ($Role->useDbConfig === 'test_suite') {
-				return array();
-			}
-			*/
 			$roles = $Role->getActive('list');
 			Cache::write('User.Role', $roles);
 		}
-		//$roleKeys = Set::combine($roles, '/Role/id','/Role/name'); // on find(all)
 		if (!empty($sessionRoles)) {
 			if (is_array($sessionRoles)) {
 
