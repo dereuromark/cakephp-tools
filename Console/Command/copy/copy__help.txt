@@ -1,0 +1,24 @@
+1
+Use the sitecopyx.txt inside /copy/example_file/
+and save it to /config/ inside your /app folder
+
+2
+modify it (dont need a local path, if you want your current app folder to be synched)
+
+3
+open console and type "cake copy"
+
+4
+at the beginning, either "i" (Init), "c" (Catchup) or "f" (Fetch) are needed to create
+a file that contains the current status
+
+if it is not the "app" folder that is supposed to be synched, add "cake", "vendors" or "custom"
+cake = root/cake/ folder
+vendors = root/vendors folder
+custom = no automatic paths (both remote and local paths have to be in the configs)
+
+if a remote or local path is given for either app, cake or vendor configs, they will be used instead
+
+5
+"u" for updating remote files
+"s" for synch = updating local files (from remote server)
