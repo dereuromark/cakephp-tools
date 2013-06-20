@@ -450,6 +450,9 @@ class TimeLib extends CakeTime {
 		$defaults = array('default' => '-----', 'timezone' => null);
 		$options = array_merge($defaults, $options);
 
+		if ($options['timezone'] === null && strlen($dateString) === 10) {
+			$options['timezone'] = date_default_timezone_get();
+		}
 		if ($dateString === null) {
 			$dateString = time();
 		}
@@ -481,10 +484,12 @@ class TimeLib extends CakeTime {
 		$defaults = array('default' => '-----', 'timezone' => null);
 		$options = array_merge($defaults, $options);
 
+		if ($options['timezone'] === null && strlen($dateString) === 10) {
+			$options['timezone'] = date_default_timezone_get();
+		}
 		if ($dateString === null) {
 			$dateString = time();
 		}
-		$date = null;
 		$date = self::fromString($dateString, $options['timezone']);
 
 		if ($date === null || $date === false || $date <= 0) {

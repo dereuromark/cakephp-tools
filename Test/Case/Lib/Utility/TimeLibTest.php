@@ -78,7 +78,7 @@ class TimeLibTest extends MyCakeTestCase {
 
 	public function testNiceDate() {
 		$res = setlocale(LC_TIME, 'de_DE.UTF-8', 'deu_deu');
-		//$this->assertTrue(!empty($res));
+		$this->assertTrue(!empty($res));
 
 		$values = array(
 			array('2009-12-01 00:00:00', FORMAT_NICE_YMD, '01.12.2009'),
@@ -87,8 +87,30 @@ class TimeLibTest extends MyCakeTestCase {
 		foreach ($values as $v) {
 			$ret = TimeLib::niceDate($v[0], $v[1]);
 			//$this->debug($ret);
-			$this->assertEquals($ret, $v[2]);
+			$this->assertEquals($v[2], $ret);
 		}
+	}
+
+	/**
+	 * Test that input as date only (YYYY-MM-DD) does not suddendly return a
+	 * different date on output due to timezone differences.
+	 * Here the timezone should not apply since we only input date and only output
+	 * date (time itself is irrelevant).
+	 *
+	 * @return void
+	 */
+	public function testDateWithTimezone() {
+		$res = setlocale(LC_TIME, 'de_DE.UTF-8', 'deu_deu');
+		$this->assertTrue(!empty($res));
+		Configure::write('Config.timezone', 'America/Anchorage');
+
+		$ret = TimeLib::niceDate('2009-12-01');
+		//debug($ret);
+		$this->assertEquals('01.12.2009', $ret);
+
+		$ret = TimeLib::localDate('2009-12-01');
+		//debug($ret);
+		$this->assertEquals('01.12.2009', $ret);
 	}
 
 	public function testLocalDate() {
