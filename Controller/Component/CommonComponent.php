@@ -108,6 +108,24 @@ class CommonComponent extends Component {
 /*** Important Helper Methods ***/
 
 	/**
+	 * List all direct actions of a controller
+	 *
+	 * @return array Actions
+	 */
+	public function listActions() {
+		$class = Inflector::camelize($this->Controller->name) . 'Controller';
+		$parentClassMethods = get_class_methods(get_parent_class($class));
+		$subClassMethods = get_class_methods($class);
+		$classMethods = array_diff($subClassMethods, $parentClassMethods);
+		foreach ($classMethods as $key => $value) {
+			if (substr($value, 0, 1) === '_') {
+				unset($classMethods[$key]);
+			}
+		}
+		return $classMethods;
+	}
+
+	/**
 	 * Convenience method to check on POSTED data.
 	 * Doesn't matter if its post or put.
 	 *

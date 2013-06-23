@@ -462,12 +462,21 @@ class FormExtHelper extends FormHelper {
 			if (!$this->scriptsAdded[$script]) {
 				switch ($script) {
 					case 'date':
+						$lang = Configure::read('Config.language');
+						if (strlen($lang) !== 2) {
+							App::uses('L10n', 'I18n');
+							$Localization = new L10n();
+							$lang = $Localization->map($lang);
+						}
+						if (strlen($lang) !== 2) {
+							$lang = 'en';
+						}
 						if ($this->settings['webroot']) {
-							$this->Html->script('datepicker/lang/de', false);
+							$this->Html->script('datepicker/lang/' . $lang, false);
 							$this->Html->script('datepicker/datepicker', false);
 							$this->Html->css('common/datepicker', null, array('inline'=>false));
 						} else {
-							$this->Common->script(array('Tools.Js|datepicker/lang/de', 'Tools.Js|datepicker/datepicker'), false);
+							$this->Common->script(array('Tools.Js|datepicker/lang/' . $lang, 'Tools.Js|datepicker/datepicker'), false);
 							$this->Common->css(array('Tools.Js|datepicker/datepicker'), null, array('inline'=>false));
 						}
 						$this->scriptsAdded['date'] = true;
