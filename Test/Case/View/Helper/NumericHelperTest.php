@@ -3,35 +3,32 @@
 App::uses('NumericHelper', 'Tools.View/Helper');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 App::uses('View', 'View');
+
 /**
  * Numeric Test Case
- *
- * @package cake.tests
- * @subpackage cake.tests.cases.libs.view.helpers
  */
 class NumericHelperTest extends MyCakeTestCase {
-/**
- * setUp method
- *
- * @access public
- * @return void
- */
+
 	public function setUp() {
 		parent::setUp();
 
+		Configure::write('Localization', array(
+			'decimals' => ',',
+			'thousands' => '.'
+		));
+		NumberLib::config();
 		$this->Numeric = new NumericHelper(new View(null));
 	}
 
-
-/**
- * test format
- *
- * TODO: move to NumberLib test?
- *
- * @access public
- * @return void
- * 2009-03-11 ms
- */
+	/**
+	 * test format
+	 *
+	 * TODO: move to NumberLib test?
+	 *
+	 * @access public
+	 * @return void
+	 * 2009-03-11 ms
+	 */
 	public function testFormat() {
 		$is = $this->Numeric->format('22');
 		$expected = '22,00';
@@ -79,13 +76,6 @@ class NumericHelperTest extends MyCakeTestCase {
 
 	}
 
-
-/**
- * tearDown method
- *
- * @access public
- * @return void
- */
 	public function tearDown() {
 		parent::tearDown();
 

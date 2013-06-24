@@ -10,11 +10,27 @@ class NumberLib extends CakeNumber {
 
 	protected static $_symbolRight = '€';
 
-	protected static $_symbolLeft = null;
+	protected static $_symbolLeft = '';
 
-	protected static $_decimalPoint = ',';
+	protected static $_decimals = ',';
 
-	protected static $_thousandsPoint = '.';
+	protected static $_thousands = '.';
+
+	/**
+	 * Correct the defaul values according to localization
+	 *
+	 * @return void
+	 */
+	public static function config($options = array()) {
+		$config = $options + (array)Configure::read('Localization');
+		foreach ($config as $key => $value) {
+			$key = '_' . $key;
+			if (!isset(self::${$key})) {
+				continue;
+			}
+			self::${$key} = $value;
+		}
+	}
 
 	/**
 	 * Display price (or was price if available)
@@ -77,7 +93,7 @@ class NumberLib extends CakeNumber {
 		} elseif (!is_array($formatOptions)) {
 			$formatOptions = array('places' => $formatOptions);
 		}
-		$options = array('before' => '', 'after' => '', 'places' => 2, 'thousands' => self::$_thousandsPoint, 'decimals' => self::$_decimalPoint, 'escape' => false);
+		$options = array('before' => '', 'after' => '', 'places' => 2, 'thousands' => self::$_thousands, 'decimals' => self::$_decimals, 'escape' => false);
 		$options = array_merge($options, $formatOptions);
 
 		if (!empty($options['currency'])) {
@@ -124,7 +140,7 @@ class NumberLib extends CakeNumber {
 		$options = array(
 			'wholeSymbol' => self::$_symbolRight, 'wholePosition' => 'after',
 			'negative' => '-', 'positive'=> '+', 'escape' => true,
-			'decimals' => self::$_decimalPoint, 'thousands' => self::$_thousandsPoint,
+			'decimals' => self::$_decimals, 'thousands' => self::$_thousands,
 		);
 		$options = array_merge($options, $formatOptions);
 

@@ -10,7 +10,11 @@ class NumberLibTest extends MyCakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		//$this->NumberLib = new NumberLib();
+		Configure::write('Localization', array(
+			'decimals' => ',',
+			'thousands' => '.'
+		));
+		NumberLib::config();
 	}
 
 	public function testMoney() {

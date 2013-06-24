@@ -10,12 +10,13 @@ if (!defined('BR')) {
 /**
  * Convenience class for internal mailer.
  * Adds some nice features and fixes some bugs:
- * - enbale embedded images in html mails
+ * - enable embedded images in html mails
  * - allow setting domain for CLI environment (now in core)
  * - enable easier attachment adding
  * - extensive logging and error tracing
  * - create mails with blob attachments (embedded or attached)
  * - allow wrapLength to be adjusted
+ * - Configure::read('Config.x-mailer') can modify the x-mailer
  *
  * @author Mark Scherer
  * @license MIT
@@ -63,13 +64,12 @@ class EmailLib extends CakeEmail {
 		} elseif ($message === null && array_key_exists('message', $config = $instance->config())) {
 			$message = $config['message'];
 		}
-		if (true || $send === true) {
-			return $instance->send($message);
-		}
-		return $instance;
+		return $instance->send($message);
 	}
 
 	/**
+	 * Change the layout
+	 *
 	 * @param string $layout Layout to use (or false to use none)
 	 * @return resource EmailLib
 	 * 2011-11-02 ms
@@ -82,6 +82,8 @@ class EmailLib extends CakeEmail {
 	}
 
 	/**
+	 * Add an attachment from file
+	 *
 	 * @param string $file: absolute path
 	 * @param string $filename
 	 * @param array $fileInfo
@@ -99,6 +101,8 @@ class EmailLib extends CakeEmail {
 	}
 
 	/**
+	 * Add an attachment as blob
+	 *
 	 * @param binary $content: blob data
 	 * @param string $filename to attach it
 	 * @param string $mimeType (leave it empty to get mimetype from $filename)
@@ -114,28 +118,8 @@ class EmailLib extends CakeEmail {
 	}
 
 	/**
-	 * @param binary $content: blob data
-	 * @param string $filename to attach it
-	 * @param string $mimeType (leave it empty to get mimetype from $filename)
-	 * @param string $contentId (optional)
-	 * @param array $options
-	 * - contentDisposition
-	 * @return mixed resource $EmailLib or string $contentId
-	 * 2011-11-02 ms
-	 */
-	public function addEmbeddedBlobAttachment($content, $name, $mimeType = null, $contentId = null, $options = array()) {
-		$options['content'] = $content;
-		$options['mimetype'] = $mimeType;
-		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', String::uuid()) . '@' . $this->_domain;
-		$file = array($name => $options);
-		$res = $this->addAttachments($file);
-		if ($contentId === null) {
-			return $options['contentId'];
-		}
-		return $res;
-	}
-
-	/**
+	 * Add an inline attachment from file
+	 *
 	 * @param string $file: absolute path
 	 * @param string $filename (optional)
 	 * @param string $contentId (optional)
@@ -168,6 +152,30 @@ class EmailLib extends CakeEmail {
 	}
 
 	/**
+	 * Add an inline attachment as blob
+	 *
+	 * @param binary $content: blob data
+	 * @param string $filename to attach it
+	 * @param string $mimeType (leave it empty to get mimetype from $filename)
+	 * @param string $contentId (optional)
+	 * @param array $options
+	 * - contentDisposition
+	 * @return mixed resource $EmailLib or string $contentId
+	 * 2011-11-02 ms
+	 */
+	public function addEmbeddedBlobAttachment($content, $name, $mimeType = null, $contentId = null, $options = array()) {
+		$options['content'] = $content;
+		$options['mimetype'] = $mimeType;
+		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', String::uuid()) . '@' . $this->_domain;
+		$file = array($name => $options);
+		$res = $this->addAttachments($file);
+		if ($contentId === null) {
+			return $options['contentId'];
+		}
+		return $res;
+	}
+
+	/**
 	 * Returns if this particular file has already been attached as embedded file with this exact name
 	 * to prevent the same image to overwrite each other and also to only send this image once.
 	 * Allows multiple usage of the same embedded image (using the same cid)
@@ -176,10 +184,10 @@ class EmailLib extends CakeEmail {
 	 */
 	protected function _isEmbeddedAttachment($file, $name) {
 		foreach ($this->_attachments as $filename => $fileInfo) {
-			if ($filename != $name) {
+			if ($filename !== $name) {
 				continue;
 			}
-			if ($fileInfo['file'] == $file) {
+			if ($fileInfo['file'] === $file) {
 				return $fileInfo['contentId'];
 			}
 		}
@@ -239,9 +247,10 @@ class EmailLib extends CakeEmail {
 
 	/**
 	 * Attach inline/embedded files to the message.
-	 * @override
+	 *
 	 * CUSTOM FIX: blob data support
 	 *
+	 * @override
 	 * @param string $boundary Boundary to use. If null, will default to $this->_boundary
 	 * @return array An array of lines to add to the message
 	 */
@@ -280,9 +289,10 @@ class EmailLib extends CakeEmail {
 
 	/**
 	 * Attach non-embedded files by adding file contents inside boundaries.
-	 * @override
+	 *
 	 * CUSTOM FIX: blob data support
 	 *
+	 * @override
 	 * @param string $boundary Boundary to use. If null, will default to $this->_boundary
 	 * @return array An array of lines to add to the message
 	 */
@@ -325,7 +335,7 @@ class EmailLib extends CakeEmail {
 
 	/**
 	 * Add attachments to the email message
-	 * @override
+	 *
 	 * CUSTOM FIX: blob data support
 	 *
 	 * Attachments can be defined in a few forms depending on how much control you need:
@@ -355,6 +365,7 @@ class EmailLib extends CakeEmail {
 	 * The `contentId` key allows you to specify an inline attachment. In your email text, you
 	 * can use `<img src="cid:abc123" />` to display the image inline.
 	 *
+	 * @override
 	 * @param mixed $attachments String with the filename or array with filenames
 	 * @return mixed Either the array of attachments when getting or $this when setting.
 	 * @throws SocketException
@@ -390,102 +401,15 @@ class EmailLib extends CakeEmail {
 		return $this;
 	}
 
-
-	/**
-	 * Get list of headers
-	 * @override
-	 * CUSTOM FIX: message id correctly set in CLI and can be passed in via domain()
-	 *
-	 * ### Includes:
-	 *
-	 * - `from`
-	 * - `replyTo`
-	 * - `readReceipt`
-	 * - `returnPath`
-	 * - `to`
-	 * - `cc`
-	 * - `bcc`
-	 * - `subject`
-	 *
-	 * @param array $include
-	 * @return array
-	 */
-	public function getHeaders($include = array()) {
-		if ($include == array_values($include)) {
-			$include = array_fill_keys($include, true);
-		}
-		$defaults = array_fill_keys(array('from', 'sender', 'replyTo', 'readReceipt', 'returnPath', 'to', 'cc', 'bcc', 'subject'), false);
-		$include += $defaults;
-
-		$headers = array();
-		$relation = array(
-			'from' => 'From',
-			'replyTo' => 'Reply-To',
-			'readReceipt' => 'Disposition-Notification-To',
-			'returnPath' => 'Return-Path'
-		);
-		foreach ($relation as $var => $header) {
-			if ($include[$var]) {
-				$var = '_' . $var;
-				$headers[$header] = current($this->_formatAddress($this->{$var}));
-			}
-		}
-		if ($include['sender']) {
-			if (key($this->_sender) === key($this->_from)) {
-				$headers['Sender'] = '';
-			} else {
-				$headers['Sender'] = current($this->_formatAddress($this->_sender));
-			}
-		}
-
-		foreach (array('to', 'cc', 'bcc') as $var) {
-			if ($include[$var]) {
-				$classVar = '_' . $var;
-				$headers[ucfirst($var)] = implode(', ', $this->_formatAddress($this->{$classVar}));
-			}
-		}
-
-		$headers += $this->_headers;
-		if (!isset($headers['X-Mailer'])) {
-			$headers['X-Mailer'] = self::EMAIL_CLIENT;
-		}
-		if (!isset($headers['Date'])) {
-			$headers['Date'] = date(DATE_RFC2822);
-		}
-		if ($this->_messageId !== false) {
-			if ($this->_messageId === true) {
-				$headers['Message-ID'] = '<' . str_replace('-', '', String::UUID()) . '@' . $this->_domain . '>';
-			} else {
-				$headers['Message-ID'] = $this->_messageId;
-			}
-		}
-
-		if ($include['subject']) {
-			$headers['Subject'] = $this->_subject;
-		}
-
-		$headers['MIME-Version'] = '1.0';
-		if (!empty($this->_attachments) || $this->_emailFormat === 'both') {
-			$headers['Content-Type'] = 'multipart/mixed; boundary="' . $this->_boundary . '"';
-		} elseif ($this->_emailFormat === 'text') {
-			$headers['Content-Type'] = 'text/plain; charset=' . $this->charset;
-		} elseif ($this->_emailFormat === 'html') {
-			$headers['Content-Type'] = 'text/html; charset=' . $this->charset;
-		}
-		$headers['Content-Transfer-Encoding'] = $this->_getContentTransferEncoding();
-
-		return $headers;
-	}
-
 	/**
 	 * Apply the config to an instance
 	 *
+	 * @overwrite
 	 * @param CakeEmail $obj CakeEmail
 	 * @param array $config
 	 * @return void
 	 * @throws ConfigureException When configuration file cannot be found, or is missing
 	 * the named config.
-	 * @overwrite
 	 */
 	protected function _applyConfig($config) {
 		if (is_string($config)) {
@@ -541,6 +465,7 @@ class EmailLib extends CakeEmail {
 	 *
 	 * LEAVE empty if you use $this->set() in combination with templates
 	 *
+	 * @overwrite
 	 * @param string/array: message
 	 * @return bool $success
 	 */
@@ -574,8 +499,13 @@ class EmailLib extends CakeEmail {
 		return true;
 	}
 
+	/**
+	 * Allow modifications of the message
+	 *
+	 * @param string $text
+	 * @return string Text
+	 */
 	protected function _prepMessage($text) {
-
 		return $text;
 	}
 
@@ -642,6 +572,11 @@ class EmailLib extends CakeEmail {
 		CakeLog::write($type, $res);
 	}
 
+	/**
+	 * EmailLib::resetAndSet()
+	 *
+	 * @return void
+	 */
 	public function resetAndSet() {
 		//$this->reset();
 
