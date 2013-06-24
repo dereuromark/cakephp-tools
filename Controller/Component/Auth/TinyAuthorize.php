@@ -39,7 +39,9 @@ class TinyAuthorize extends BaseAuthorize {
 
 	protected $_defaults = array(
 		'allowUser' => false, # quick way to allow user access to non prefixed urls
+		'allowAdmin' => false, # quick way to allow admin access to admin prefixed urls
 		'adminPrefix' => 'admin_',
+		'adminRole' => null, # needed together with adminPrefix if allowAdmin is enabled
 		'cache' => AUTH_CACHE,
 		'cacheKey' => 'tiny_auth_acl',
 		'autoClearCache' => false, # usually done by Cache automatically in debug mode,
@@ -100,6 +102,14 @@ class TinyAuthorize extends BaseAuthorize {
 			# all user actions are accessable for logged in users
 			if (mb_strpos($action, $this->settings['adminPrefix']) !== 0) {
 				return true;
+			}
+		}
+		if (!empty($this->settings['allowAdmin']) && !empty($this->settings['adminRole'])) {
+			# all admin actions are accessable for logged in admins
+			if (mb_strpos($action, $this->settings['adminPrefix']) === 0) {
+				if (in_array((string)$this->settings['adminRole'], $roles)) {
+					return true;
+				}
 			}
 		}
 

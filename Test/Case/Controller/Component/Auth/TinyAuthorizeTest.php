@@ -4,7 +4,6 @@
  *
  * 2012-11-05 ms
  */
-//App::uses('AuthComponent', 'Controller/Component');
 App::uses('TinyAuthorize', 'Tools.Controller/Component/Auth');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 App::uses('Controller', 'Controller');
@@ -14,7 +13,7 @@ App::uses('CakeRequest', 'Network');
 /**
  * Test case for DirectAuthentication
  *
- * @package       Cake.Test.Case.Controller.Component.Auth
+ * @package Test.Case.Controller.Component.Auth
  */
 class TinyAuthorizeTest extends MyCakeTestCase {
 
@@ -31,11 +30,8 @@ class TinyAuthorizeTest extends MyCakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		//$this->Controller = new Controller();
 		$this->Collection = new ComponentCollection();
 
-		//$this->auth = new TinyAuthorize($this->Collection, array());
-		//$User = ClassRegistry::init('User');
 		$this->request = new CakeRequest(null, false);
 
 		$aclData = <<<INI
@@ -213,6 +209,40 @@ INI;
 		$this->request->params['action'] = 'admin_index';
 
 		$object = new TestTinyAuthorize($this->Collection, array('allowUser' => true, 'autoClearCache' => true));
+
+		$user = array(
+			'role_id' => 1,
+		);
+		$res = $object->authorize($user, $this->request);
+		$this->assertFalse($res);
+
+		$user = array(
+			'role_id' => 3,
+		);
+		$res = $object->authorize($user, $this->request);
+		$this->assertTrue($res);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAdminMethodsAllowed() {
+		$this->request->params['controller'] = 'users';
+		$this->request->params['action'] = 'some_action';
+		$config = array('allowAdmin' => true, 'adminRole' => 3, 'autoClearCache' => true);
+
+		$object = new TestTinyAuthorize($this->Collection, $config);
+
+		$user = array(
+			'role_id' => 1,
+		);
+		$res = $object->authorize($user, $this->request);
+		$this->assertFalse($res);
+
+		$this->request->params['controller'] = 'users';
+		$this->request->params['action'] = 'admin_index';
+
+		$object = new TestTinyAuthorize($this->Collection, $config);
 
 		$user = array(
 			'role_id' => 1,

@@ -119,6 +119,23 @@ class MyModelTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * Test deleteAllRaw()
+	 *
+	 * @return void
+	 */
+	public function testDeleteAllRaw() {
+		$result = $this->App->deleteAllRaw(array('user !=' => 'foo', 'created <' => date(FORMAT_DB_DATE), 'id >' => 1));
+		$this->assertTrue($result);
+		$result = $this->App->getAffectedRows();
+		$this->assertIdentical(3, $result);
+
+		$result = $this->App->deleteAllRaw();
+		$this->assertTrue($result);
+		$result = $this->App->getAffectedRows();
+		$this->assertIdentical(1, $result);
+	}
+
+	/**
 	 * test truncate
 	 */
 	public function testTruncate() {

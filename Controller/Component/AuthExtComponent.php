@@ -55,7 +55,13 @@ class AuthExtComponent extends AuthComponent {
 	# field name in DB , if none is specified there will be no floodProtection
 	public $floodProtection = null;
 
-
+	/**
+	 * Merge in Configure::read('Auth') settings
+	 *
+	 * @param mixed $Collection
+	 * @param mixed $settings
+	 * @return void
+	 */
 	public function __construct(ComponentCollection $Collection, $settings = array()) {
 		$settings = array_merge($this->settings, (array)Configure::read('Auth'), (array)$settings);
 
@@ -69,22 +75,12 @@ class AuthExtComponent extends AuthComponent {
 	}
 
 	/**
-	 * 2.1 fix for allowing * as wildcard (tmp solution)
-	 * 2012-01-10 ms
+	 * AuthExtComponent::login()
+	 *
+	 * @overwrite
+	 * @param mixed $user
+	 * @return boolean Success
 	 */
-	public function allow($action = null) {
-		if (((array)$action) === array('*')) {
-			parent::allow();
-			trigger_error('* is deprecated for allow() - use allow() without any argument to allow all actions');
-			return;
-		}
-		$args = func_get_args();
-		if (empty($args) || $action === null) {
-			parent::allow();
-		}
-		parent::allow($args);
-	}
-
 	public function login($user = null) {
 		$Model = $this->getModel();
 		$this->_setDefaults();
@@ -187,7 +183,7 @@ class AuthExtComponent extends AuthComponent {
 			return false;
 		}
 
-		$completeAuth = array($this->settings['userModel']=>$user);
+		$completeAuth = array($this->settings['userModel'] => $user);
 
 		# roles
 		if (!empty($with)) {
@@ -260,11 +256,11 @@ class AuthExtComponent extends AuthComponent {
 	 * Main execution method. Handles redirecting of invalid users, and processing
 	 * of login form data.
 	 *
+	 * @overwrite
 	 * @param Controller $controller A reference to the instantiating controller object
 	 * @return boolean
 	 */
 	public function startup(Controller $controller) {
-		//parent::startup($controller);
 		if ($controller->name === 'CakeError') {
 			return true;
 		}
@@ -285,61 +281,16 @@ class AuthExtComponent extends AuthComponent {
 		if (!$this->_setDefaults()) {
 			return false;
 		}
-		$request = $controller->request;
 
-		$url = '';
-
-		if (isset($request->url)) {
-			$url = $request->url;
-		}
-		$url = Router::normalize($url);
-		$loginAction = Router::normalize($this->loginAction);
-
-		$allowedActions = $this->allowedActions;
-		$isAllowed = (
-			$this->allowedActions == array('*') ||
-			in_array($action, array_map('strtolower', $allowedActions))
-		);
-
-		if ($loginAction != $url && $isAllowed) {
+		if ($this->_isAllowed($controller)) {
 			return true;
 		}
 
-		if ($loginAction == $url) {
-			if (empty($request->data)) {
-				if (!$this->Session->check('Auth.redirect') && !$this->loginRedirect && env('HTTP_REFERER')) {
-					$this->Session->write('Auth.redirect', $controller->referer(null, true));
-				}
-			}
-			return true;
-		} else {
-			if (!$this->_getUser()) {
-				if (!$request->is('ajax')) {
-					$this->flash($this->authError);
-					$this->Session->write('Auth.redirect', $request->here());
-					$controller->redirect($loginAction);
-					return false;
-				} elseif (!empty($this->ajaxLogin)) {
-					$controller->viewPath = 'Elements';
-					echo $controller->render($this->ajaxLogin, $this->RequestHandler->ajaxLayout);
-					$this->_stop();
-					return false;
-				} else {
-					$controller->redirect(null, 403);
-				}
-			}
-		}
 		if (empty($this->authorize) || $this->isAuthorized($this->user())) {
 			return true;
 		}
 
-		$this->flash($this->authError);
-		$default = '/';
-		if (!empty($this->loginRedirect)) {
-			$default = $this->loginRedirect;
-		}
-		$controller->redirect($controller->referer($default), null, true);
-		return false;
+		$this->_unauthorized($controller);
 	}
 
 	/**

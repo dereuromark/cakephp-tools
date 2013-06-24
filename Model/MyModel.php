@@ -822,6 +822,19 @@ class MyModel extends Model {
 		return $return;
 	}
 
+	/**
+	 * Delete all records using an atomic query similar to updateAll().
+	 * Note: Does not need manual sanitizing/escaping, though.
+	 *
+	 * Does not do any callbacks
+	 *
+	 * @param mixed $conditions Conditions to match, true for all records
+	 * @return bool Success
+	 */
+	public function deleteAllRaw($conditions = true) {
+		return $this->getDataSource()->delete($this, $conditions);
+	}
+
 /** Validation Functions **/
 
 	/**
