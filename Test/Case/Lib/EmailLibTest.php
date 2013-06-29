@@ -13,7 +13,6 @@ class EmailLibTest extends MyCakeTestCase {
 
 	public function setUp() {
 		parent::setUp();
-
 		$this->skipIf(!file_exists(APP . 'Config' . DS . 'email.php'), 'no email.php');
 
 		$this->Email = new TestEmailLib();
@@ -61,6 +60,33 @@ class EmailLibTest extends MyCakeTestCase {
 		$res = EmailLib::systemEmail('system-mail test', 'some fast email to admin test');
 		//debug($res);
 		$this->assertTrue($res);
+	}
+
+	public function testXMailer() {
+		$this->Email = new TestEmailLib();
+		$this->Email->from('cake@cakephp.org');
+		$this->Email->to('cake@cakephp.org');
+		$this->Email->subject('My title');
+		$this->Email->emailFormat('both');
+
+		$result = $this->Email->send();
+		$this->assertTrue($result);
+		$result = $this->Email->getDebug();
+		$this->assertTextContains('X-Mailer: CakePHP Email', $result['headers']);
+
+		Configure::write('Config.x-mailer', 'Tools Plugin');
+
+		$this->Email = new TestEmailLib();
+		$this->Email->from('cake@cakephp.org');
+		$this->Email->to('cake@cakephp.org');
+		$this->Email->subject('My title');
+		$this->Email->emailFormat('both');
+
+		$result = $this->Email->send();
+		$this->assertTrue($result);
+		$result = $this->Email->getDebug();
+		$this->assertTextNotContains('X-Mailer: CakePHP Email', $result['headers']);
+		$this->assertTextContains('X-Mailer: Tools Plugin', $result['headers']);
 	}
 
 	public function _testSendWithInlineAttachments() {

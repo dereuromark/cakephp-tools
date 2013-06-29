@@ -9,10 +9,9 @@ if (!defined('BR')) {
 
 /**
  * Convenience class for internal mailer.
- * Adds some nice features and fixes some bugs:
+ * Adds some useful features and fixes some bugs:
+ * - enable easier attachment adding (and also from blob)
  * - enable embedded images in html mails
- * - allow setting domain for CLI environment (now in core)
- * - enable easier attachment adding
  * - extensive logging and error tracing
  * - create mails with blob attachments (embedded or attached)
  * - allow wrapLength to be adjusted
@@ -43,10 +42,14 @@ class EmailLib extends CakeEmail {
 	}
 
 	/**
-	 * quick way to send emails to admin
+	 * Quick way to send emails to admin.
 	 * App::uses() + EmailLib::systemEmail()
 	 *
 	 * Note: always go out with default settings (e.g.: SMTP even if debug > 0)
+	 *
+	 * @param string $subject
+	 * @param string $message
+	 * @param string $transportConfig
 	 * @return bool $success
 	 * 2011-10-31 ms
 	 */
@@ -463,7 +466,7 @@ class EmailLib extends CakeEmail {
 	 * Set the body of the mail as we send it.
 	 * Note: the text can be an array, each element will appear as a seperate line in the message body.
 	 *
-	 * LEAVE empty if you use $this->set() in combination with templates
+	 * Do NOT pass a message if you use $this->set() in combination with templates
 	 *
 	 * @overwrite
 	 * @param string/array: message
@@ -531,18 +534,22 @@ class EmailLib extends CakeEmail {
 	 * Set/Get wrapLength
 	 *
 	 * @param int $length Must not be more than CakeEmail::LINE_LENGTH_MUST
-	 * @return void|int
+	 * @return int|CakeEmail
 	 */
 	public function wrapLength($length = null) {
 		if ($length === null) {
 			return $this->_wrapLength;
 		}
 		$this->_wrapLength = $length;
+		return $this;
 	}
 
 	/**
 	 * Fix line length
+	 *
 	 * @overwrite
+	 * @param string $message Message to wrap
+	 * @return array Wrapped message
 	 */
 	protected function _wrap($message, $wrapLength = CakeEmail::LINE_LENGTH_MUST) {
 		if ($this->_wrapLength !== null) {
@@ -553,6 +560,7 @@ class EmailLib extends CakeEmail {
 
 	/**
 	 * Logs Email to type email
+	 *
 	 * @return void
 	 */
 	protected function _logEmail($append = null) {
