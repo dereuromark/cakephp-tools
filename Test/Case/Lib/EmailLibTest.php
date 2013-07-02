@@ -18,11 +18,21 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->Email = new TestEmailLib();
 	}
 
+	/**
+	 * EmailLibTest::testObject()
+	 *
+	 * @return void
+	 */
 	public function testObject() {
 		$this->assertTrue(is_object($this->Email));
 		$this->assertInstanceOf('EmailLib', $this->Email);
 	}
 
+	/**
+	 * EmailLibTest::testSendDefault()
+	 *
+	 * @return void
+	 */
 	public function testSendDefault() {
 		# start
 		$this->Email->to(Configure::read('Config.admin_email'), Configure::read('Config.admin_emailname'));
@@ -54,6 +64,11 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 	}
 
+	/**
+	 * EmailLibTest::testSendFast()
+	 *
+	 * @return void
+	 */
 	public function testSendFast() {
 		//$this->Email->resetAndSet();
 		//$this->Email->from(Configure::read('Config.admin_email'), Configure::read('Config.admin_emailname'));
@@ -62,6 +77,11 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 	}
 
+	/**
+	 * EmailLibTest::testXMailer()
+	 *
+	 * @return void
+	 */
 	public function testXMailer() {
 		$this->Email = new TestEmailLib();
 		$this->Email->from('cake@cakephp.org');
@@ -260,6 +280,8 @@ class EmailLibTest extends MyCakeTestCase {
 
 	/**
 	 * html email
+	 *
+	 * @return void
 	 */
 	public function testAddEmbeddedAttachmentSend() {
 		$file = CakePlugin::path('Tools').'Test'.DS.'test_files'.DS.'img'.DS.'hotel.png';
@@ -344,21 +366,35 @@ html-part
 		$this->assertEquals($expected, $res['my_other_hotel.png']);
 	}
 
+	/**
+	 * EmailLibTest::testValidates()
+	 *
+	 * @return void
+	 */
 	public function testValidates() {
+		$this->Email = new TestEmailLib();
 		$res = $this->Email->validates();
+		$this->assertFalse($res);
+		$res = $this->Email->send();
 		$this->assertFalse($res);
 
 		$this->Email->subject('foo');
 		$res = $this->Email->validates();
 		$this->assertFalse($res);
+		$res = $this->Email->send();
+		$this->assertFalse($res);
 
 		$this->Email->to('some@web.de');
 		$res = $this->Email->validates();
+		$this->assertTrue($res);
+		$res = $this->Email->send();
 		$this->assertTrue($res);
 	}
 
 	/**
 	 * html email
+	 *
+	 * @return void
 	 */
 	public function testAddEmbeddedBlobAttachmentSend() {
 		$file = CakePlugin::path('Tools').'Test'.DS.'test_files'.DS.'img'.DS.'hotel.png';

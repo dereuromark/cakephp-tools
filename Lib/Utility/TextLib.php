@@ -17,6 +17,27 @@ class TextLib extends String {
 	}
 
 	/**
+	 * Count words in a text.
+	 *
+	 * //TODO use str_word_count() instead!!!
+	 *
+	 * @param string $text
+	 * @return int
+	 * 2009-11-11 ms
+	 */
+	public static function numberOfWords($text) {
+		$count = 0;
+		$words = explode(' ', $text);
+		foreach ($words as $word) {
+			$word = trim($word);
+			if (!empty($word)) {
+				$count++;
+			}
+		}
+		return $count;
+	}
+
+	/**
 	 * Return an abbreviated string, with characters in the middle of the
 	 * excessively long string replaced by $ending.
 	 *

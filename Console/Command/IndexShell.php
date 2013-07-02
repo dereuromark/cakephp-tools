@@ -231,7 +231,7 @@ class IndexShell extends AppShell {
 			$continue = strtoupper($this->in(__('Run this statement?'), array('Y', 'N', 'A', 'Q')));
 			switch ($continue) {
 				case 'Q':
-					$this->_stop();
+					return $this->_stop();
 					return;
 				case 'N':
 					return;

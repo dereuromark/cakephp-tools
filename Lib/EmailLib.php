@@ -16,6 +16,7 @@ if (!defined('BR')) {
  * - create mails with blob attachments (embedded or attached)
  * - allow wrapLength to be adjusted
  * - Configure::read('Config.x-mailer') can modify the x-mailer
+ * - basic validation supported
  *
  * @author Mark Scherer
  * @license MIT
@@ -238,6 +239,7 @@ class EmailLib extends CakeEmail {
 
 	/**
 	 * Validate if the email has the required fields necessary to make send() work.
+	 * Assumes layouting (does not check on content to be present or if view/layout files are missing).
 	 *
 	 * @return boolean Success
 	 */

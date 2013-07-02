@@ -478,7 +478,7 @@ class CopyShell extends AppShell {
 			$this->out('');
 			$this->_exec(false, array('--version'));
 		}
-		$this->_stop();
+		return $this->_stop();
 	}
 
 	/**
