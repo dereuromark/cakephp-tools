@@ -2,6 +2,11 @@
 App::uses('CakeNumber', 'Utility');
 
 /**
+ * Extend CakeNumber with a few important improvements:
+ * - config setting for format()
+ * - spacer char for currency (initially from https://github.com/cakephp/cakephp/pull/1148)
+ * - signed values possible
+ *
  * 2011-03-07 ms
  */
 class NumberLib extends CakeNumber {
@@ -61,7 +66,7 @@ class NumberLib extends CakeNumber {
 	}
 
 	/**
-	 * Convinience method to display the default currency
+	 * Convenience method to display the default currency
 	 *
 	 * @return string
 	 * 2011-10-05 ms
@@ -137,25 +142,37 @@ class NumberLib extends CakeNumber {
 		if ($currency === null) {
 			$currency = self::$_currency;
 		}
-		$options = array(
-			'wholeSymbol' => self::$_symbolRight, 'wholePosition' => 'after',
+		$defaults = array();
+		if ($currency !== 'EUR' && isset(self::$_currencies[$currency])) {
+			$defaults = self::$_currencies[$currency];
+		} elseif ($currency !== 'EUR' && is_string($currency)) {
+			$defaults['wholeSymbol'] = $currency;
+			$defaults['wholePosition'] = 'before';
+			$defaults['spacer'] = true;
+		}
+		$defaults += array(
+			'wholeSymbol' => '€', 'wholePosition' => 'after',
 			'negative' => '-', 'positive'=> '+', 'escape' => true,
-			'decimals' => self::$_decimals, 'thousands' => self::$_thousands,
+			'decimals' => ',', 'thousands' => '.',
+			'spacer' => $currency === 'EUR' ? true : false
 		);
-		$options = array_merge($options, $formatOptions);
+		$options = array_merge($defaults, $formatOptions);
 
-		if (!empty($options['wholeSymbol'])) {
+		if (!empty($options['spacer'])) {
+			$spacer = is_string($options['spacer']) ? $options['spacer'] : ' ';
+
 			if ($options['wholePosition'] === 'after') {
-				$options['wholeSymbol'] = ' ' . self::$_symbolRight;
+				$options['wholeSymbol'] = $spacer . $options['wholeSymbol'];
 			} elseif ($options['wholePosition'] === 'before') {
-				$options['wholeSymbol'] = self::$_symbolLeft . ' ';
+				$options['wholeSymbol'] .= $spacer;
 			}
 		}
+
 		$sign = '';
 		if ($number > 0 && !empty($options['signed'])) {
 			$sign = $options['positive'];
 		}
-		return $sign . parent::currency($number, $currency, $options);
+		return $sign . parent::currency($number, null, $options);
 	}
 
 	/**

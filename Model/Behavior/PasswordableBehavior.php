@@ -29,11 +29,12 @@ if (!defined('PWD_MAX_LENGTH')) {
  * now also is capable of:
  * - require current password prior to altering it (current=>true)
  * - don't allow the same password it was before (allowSame=>false)
+ * - supporting different auth types and password hashing algorythms
  *
  * TODO: allowEmpty and nonEmptyToEmpty - maybe with checkbox "set_new_pwd"
  * feel free to help me out
  *
- * @version 1.6 (renamed from ChangePassword to Passwordable)
+ * @version 1.7 (Now 2.4 ready - with passwordHasher support)
  * @author Mark Scherer
  * @link http://www.dereuromark.de/2011/08/25/working-with-passwords-in-cakephp
  * @license MIT
@@ -52,9 +53,12 @@ class PasswordableBehavior extends ModelBehavior {
 		'formField' => 'pwd',
 		'formFieldRepeat' => 'pwd_repeat',
 		'formFieldCurrent' => 'pwd_current',
-		'hashType' => null,
-		'hashSalt' => true,
+		'userModel' => null,
+		'hashType' => null, # only for authType Form [cake2.3]
+		'hashSalt' => true, # only for authType Form [cake2.3]
 		'auth' => null, # which component (defaults to AuthComponent),
+		'authType' => 'Form', # which type of authenticate (Form, Blowfish, ...) [cake2.4]
+		'passwordHasher' => null, # if a custom pwd hasher is been used [cake2.4]
 		'allowSame' => true, # dont allow the old password on change,
 		'minLength' => PWD_MIN_LENGTH,
 		'maxLength' => PWD_MAX_LENGTH
@@ -103,7 +107,18 @@ class PasswordableBehavior extends ModelBehavior {
 	);
 
 	/**
-	 * if not implemented in AppModel
+	 * If not implemented in AppModel
+	 *
+	 * Note: requires the used Auth component to be App::uses() loaded.
+	 * It also reqires the same Auth setup as in your AppController's beforeFilter().
+	 * So if you set up any special passwordHasher or auth type, you need to provide those
+	 * with the settings passed to the behavior:
+	 *
+	 * 'authType' => 'Blowfish', 'passwordHasher' => array(
+	 *     'className' => 'Simple',
+	 *     'hashType' => 'sha256'
+ 	 * )
+	 *
 	 * @throws CakeException
 	 * @return bool $success
 	 * 2011-07-22 ms
@@ -139,13 +154,18 @@ class PasswordableBehavior extends ModelBehavior {
 		$this->Auth = new $authClass(new ComponentCollection());
 
 		# easiest authenticate method via form and (id + pwd)
+		$authConfig = array(
+			'fields' => array('username' => 'id', 'password' => $this->settings[$Model->alias]['field']),
+			'userModel' => $this->settings[$Model->alias]['userModel'] ? $this->settings[$Model->alias]['userModel'] : $Model->alias
+		);
+		if (!empty($this->settings[$Model->alias]['passwordHasher'])) {
+			$authConfig['passwordHasher'] = $this->settings[$Model->alias]['passwordHasher'];
+		}
 		$this->Auth->authenticate = array(
-			'Form' => array(
-				'fields' => array('username' => 'id', 'password' => $this->settings[$Model->alias]['field'])
-			)
+			$this->settings[$Model->alias]['authType'] => $authConfig
 		);
 		$request = Router::getRequest();
-		$request->data['User'] = array('id' => $uid, 'password' => $pwd);
+		$request->data[$Model->alias] = array('id' => $uid, 'password' => $pwd);
 		$response = new CakeResponse();
 		return (bool)$this->Auth->identify($request, $response);
 	}
@@ -185,7 +205,10 @@ class PasswordableBehavior extends ModelBehavior {
 		$field = $this->settings[$Model->alias]['field'];
 		$type = $this->settings[$Model->alias]['hashType'];
 		$salt = $this->settings[$Model->alias]['hashSalt'];
-
+		if ($this->settings[$Model->alias]['authType'] === 'Blowfish') {
+			$type = 'blowfish';
+			$salt = false;
+		}
 		if (!isset($Model->data[$Model->alias][$Model->primaryKey])) {
 			return true;
 		}
@@ -320,6 +343,10 @@ class PasswordableBehavior extends ModelBehavior {
 		$field = $this->settings[$Model->alias]['field'];
 		$type = $this->settings[$Model->alias]['hashType'];
 		$salt = $this->settings[$Model->alias]['hashSalt'];
+		if ($this->settings[$Model->alias]['authType'] === 'Blowfish') {
+			$type = 'blowfish';
+			$salt = false;
+		}
 
 		if (isset($Model->data[$Model->alias][$formField])) {
 			$Model->data[$Model->alias][$field] = Security::hash($Model->data[$Model->alias][$formField], $type, $salt);

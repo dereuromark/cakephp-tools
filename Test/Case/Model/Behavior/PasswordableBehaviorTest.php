@@ -1,10 +1,12 @@
 <?php
 App::uses('ComponentCollection', 'Controller');
+App::uses('AuthComponent', 'Controller/Component');
+App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
 
 class PasswordableBehaviorTest extends CakeTestCase {
 
 	public $fixtures = array(
-		'core.user',
+		'plugin.tools.tools_user', 'plugin.tools.role',
 	);
 
 	/**
@@ -15,7 +17,8 @@ class PasswordableBehaviorTest extends CakeTestCase {
 
 		Configure::write('Passwordable.auth', 'AuthTest');
 
-		$this->User = ClassRegistry::init('User');
+		$this->User = ClassRegistry::init('ToolsUser');
+
 		if (isset($this->User->validate['pwd'])) {
 			unset($this->User->validate['pwd']);
 		}
@@ -28,6 +31,19 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		if (isset($this->User->order)) {
 			unset($this->User->order);
 		}
+
+		$this->User->create();
+		$data = array(
+			'id' => '5',
+			'name' => 'admin',
+			'password' => Security::hash('some', null, true),
+			'role_id' => '1'
+		);
+		$this->User->set($data);
+		$res = $this->User->save();
+		$this->assertTrue((bool)$res);
+
+		Router::setRequestInfo(new CakeRequest(null, false));
 	}
 
 	/**
@@ -39,7 +55,6 @@ class PasswordableBehaviorTest extends CakeTestCase {
 
 		ClassRegistry::flush();
 	}
-
 
 	public function testObject() {
 		$this->User->Behaviors->load('Tools.Passwordable', array());
@@ -120,11 +135,16 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$this->assertEquals(array('pwd', 'pwd_repeat'), array_keys($this->User->validationErrors));
 	}
 
+	/**
+	 * PasswordableBehaviorTest::testValidateEmptyWithCurrentPassword()
+	 *
+	 * @return void
+	 */
 	public function testValidateEmptyWithCurrentPassword() {
 		$this->User->Behaviors->load('Tools.Passwordable', array('current'=>true));
 		$this->User->create();
 		$data = array(
-			'id' => 123,
+			'id' => '123',
 			'pwd' => '',
 			'pwd_repeat' => '',
 			'pwd_current' => '123',
@@ -141,7 +161,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$this->User->Behaviors->load('Tools.Passwordable', array('allowEmpty'=>true, 'current'=>true));
 		$this->User->create();
 		$data = array(
-			'user' => 'foo',
+			'name' => 'foo',
 			'pwd' => '',
 			'pwd_repeat' => '',
 			'pwd_current' => '',
@@ -168,7 +188,6 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		//debug($this->User->data);
 		$is = $this->User->save();
 		$this->assertTrue(!empty($is));
-
 	}
 
 	/**
@@ -180,11 +199,12 @@ class PasswordableBehaviorTest extends CakeTestCase {
 			'formFieldRepeat' => 'passw_repeat',
 			'formFieldCurrent' => 'passw_current',
 			'allowSame' => false,
-			'current' => true
+			'current' => true,
+			//'userModel' => 'ToolsUser'
 		));
 		$this->User->create();
 		$data = array(
-			'id' => 5,
+			'id' => '5',
 			'passw_current' => 'some',
 			'passw' => 'some',
 			'passw_repeat' => 'some'
@@ -196,7 +216,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 
 		$this->User->create();
 		$data = array(
-			'id' => 5,
+			'id' => '5',
 			'passw_current' => 'some',
 			'passw' => 'new',
 			'passw_repeat' => 'new'
@@ -224,7 +244,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$this->User->set($data);
 		$is = $this->User->save();
 		$this->assertTrue((bool)$is);
-		$id = $is['User']['id'];
+		$id = $is[$this->User->alias]['id'];
 
 		$this->User->create();
 		$data = array(
@@ -253,12 +273,145 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	public function testValidateCurrent() {
 		$this->assertFalse($this->User->Behaviors->attached('Passwordable'));
 		$this->User->create();
-		$data = array('user'=>'xyz', 'password'=>Security::hash('some', null, true));
+		$data = array(
+			'name' => 'xyz',
+			'password' => Security::hash('some', null, true));
 		$res = $this->User->save($data);
 		$this->assertTrue(!empty($res));
-		$uid = $this->User->id;
+		$uid = (String)$this->User->id;
 
-		$this->User->Behaviors->load('Tools.Passwordable', array('current'=>true));
+		$this->User->Behaviors->load('Tools.Passwordable', array('current' => true));
+		$this->User->create();
+		$data = array(
+			'id' => $uid,
+			'pwd' => '1234',
+			'pwd_repeat' => '123456',
+			//'pwd_current' => '',
+		);
+		$this->User->set($data);
+		$this->assertTrue($this->User->Behaviors->attached('Passwordable'));
+		$is = $this->User->save();
+		$this->assertFalse($is);
+
+		$this->User->create();
+		$data = array(
+			'id' => $uid,
+			'pwd_current' => 'somex',
+			'pwd' => '123456',
+			'pwd_repeat' => '123456'
+		);
+		$this->User->set($data);
+		$is = $this->User->save();
+		$this->assertFalse($is);
+
+		$this->User->create();
+		$data = array(
+			'id' => $uid,
+			'pwd_current' => 'some',
+			'pwd' => '123456',
+			'pwd_repeat' => '123456'
+		);
+		$this->User->set($data);
+		$is = $this->User->save();
+		$this->assertTrue(!empty($is));
+	}
+
+	/**
+	 * PasswordableBehaviorTest::testPasswordHasher()
+	 *
+	 * @return void
+	 */
+	public function testPasswordHasher() {
+		$this->User->Behaviors->load('Tools.Passwordable', array(
+			'formField' => 'pwd',
+			'formFieldRepeat' => 'pwd_repeat',
+			'allowSame' => false,
+			'current' => false,
+			'passwordHasher' => 'Complex',
+		));
+		$this->User->create();
+		$data = array(
+			'pwd' => 'some',
+			'pwd_repeat' => 'some'
+		);
+		$this->User->set($data);
+		$res = $this->User->save();
+		$this->assertTrue((bool)$res);
+		$uid = (String)$this->User->id;
+
+		$this->User->Behaviors->load('Tools.Passwordable', array('current' => true));
+		$this->User->create();
+		$data = array(
+			'id' => $uid,
+			'pwd' => '1234',
+			'pwd_repeat' => '123456',
+			//'pwd_current' => '',
+		);
+		$this->User->set($data);
+		$this->assertTrue($this->User->Behaviors->attached('Passwordable'));
+		$is = $this->User->save();
+		$this->assertFalse($is);
+
+		$this->User->create();
+		$data = array(
+			'id' => $uid,
+			'pwd_current' => 'somex',
+			'pwd' => '123456',
+			'pwd_repeat' => '123456'
+		);
+		$this->User->set($data);
+		$is = $this->User->save();
+		$this->assertFalse($is);
+
+		$this->User->create();
+		$data = array(
+			'id' => $uid,
+			'pwd_current' => 'some',
+			'pwd' => '123456',
+			'pwd_repeat' => '123456'
+		);
+		$this->User->set($data);
+		$is = $this->User->save();
+		$this->assertTrue(!empty($is));
+	}
+
+	/**
+	 * PasswordableBehaviorTest::testBlowfish()
+	 *
+	 * @return void
+	 */
+	public function testBlowfish() {
+		Configure::write('Security.salt', 'Cf1f11ePArKlBJomM0F6aJ');
+		/*
+		$this->assertFalse($this->User->Behaviors->attached('Passwordable'));
+		$this->User->create();
+		$data = array(
+			'name' => 'xyz',
+			'password' => Security::hash('some', 'blowfish'));
+		$res = $this->User->save($data);
+		$this->assertTrue(!empty($res));
+		$uid = (String)$this->User->id;
+		*/
+
+		$this->User->Behaviors->load('Tools.Passwordable', array(
+			'formField' => 'pwd',
+			'formFieldRepeat' => 'pwd_repeat',
+			'allowSame' => false,
+			'current' => false,
+			//'userModel' => 'ToolsUser',
+			'authType' => 'Blowfish',
+		));
+		$this->User->create();
+		$data = array(
+			'pwd' => 'some',
+			'pwd_repeat' => 'some'
+		);
+		$this->User->set($data);
+		$res = $this->User->save();
+		$this->assertTrue((bool)$res);
+		$uid = (String)$this->User->id;
+
+		$this->User->Behaviors->load('Tools.Passwordable', array('current' => true));
 		$this->User->create();
 		$data = array(
 			'id' => $uid,
@@ -297,18 +450,14 @@ class PasswordableBehaviorTest extends CakeTestCase {
 }
 
 /**
- * FAKER!
  * 2011-11-03 ms
  */
-class AuthTestComponent {
+class AuthTestComponent extends AuthComponent {
+}
 
-	public function identify($request, $response) {
-		$user = $request->data['User'];
+class ToolsUser extends CakeTestModel {
+}
 
-		if ($user['id'] == '5' && $user['password'] === 'some') {
-			return true;
-		}
-		return false;
-	}
+class ComplexPasswordHasher extends SimplePasswordHasher {
 
 }

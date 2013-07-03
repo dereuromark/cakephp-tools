@@ -2,6 +2,9 @@
 App::uses('CakeTime', 'Utility');
 
 /**
+ * Extend CakeNumber with a few important improvements:
+ * - correct timezones for date only input and therefore unchanged day here
+ *
  * 2012-04-06 ms
  */
 class TimeLib extends CakeTime {

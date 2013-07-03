@@ -12,13 +12,13 @@ class CaptchaLibTest extends MyCakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->Brita = new CaptchaLib();
+		$this->Captcha = new CaptchaLib();
 	}
 
 	public function tearDown() {
 		parent::tearDown();
 
-		unset($this->Brita);
+		unset($this->Captcha);
 	}
 
 	public function testBuildHash() {

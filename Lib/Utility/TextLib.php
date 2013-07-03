@@ -2,7 +2,8 @@
 App::uses('String', 'Utility');
 
 /**
- * TODO: extend the core String class some day?
+ * Extend String.
+ * //TODO: cleanup
  *
  * 2010-08-31 ms
  */

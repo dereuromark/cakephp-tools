@@ -193,18 +193,16 @@ class NumberLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testCurrencySpacer() {
-		$this->skipIf(true, 'TODO');
-
-		$result = NumberLib::currency('4.111', 'EUR');
-		$expected = '€4,11';
+		$result = NumberLib::currency('4.111', 'GBP');
+		$expected = '£4.11';
 		$this->assertEquals($expected, $result);
 
-		$result = NumberLib::currency('4.111', 'EUR', array('spacer' => false));
-		$expected = '€4,11';
+		$result = NumberLib::currency('4.111', 'GBP', array('spacer' => false));
+		$expected = '£4.11';
 		$this->assertEquals($expected, $result);
 
-		$result = NumberLib::currency('4.111', 'EUR', array('spacer' => true));
-		$expected = '€ 4,11';
+		$result = NumberLib::currency('4.111', 'GBP', array('spacer' => true));
+		$expected = '£ 4.11';
 		$this->assertEquals($expected, $result);
 
 		$result = NumberLib::currency('-4.111', 'GBP', array('spacer' => false, 'negative' => '-'));
@@ -215,8 +213,19 @@ class NumberLibTest extends MyCakeTestCase {
 		$expected = '-£ 4.11';
 		$this->assertEquals($expected, $result);
 
-		$result = NumberLib::currency('4.111', 'EUR', array('spacer' => '&nbsp;', 'escape' => false));
-		$expected = '€&nbsp;4,11';
+		$result = NumberLib::currency('4.111', 'GBP', array('spacer' => '&nbsp;', 'escape' => false));
+		$expected = '£&nbsp;4.11';
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * NumberLibTest::testCurrencyUnknown()
+	 *
+	 * @return void
+	 */
+	public function testCurrencyUnknown() {
+		$result = NumberLib::currency('4.111', 'XYZ');
+		$expected = 'XYZ 4,11';
 		$this->assertEquals($expected, $result);
 	}
 
