@@ -317,11 +317,13 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * PasswordableBehaviorTest::testPasswordHasher()
+	 * Test cake2.4 passwordHasher feature
 	 *
 	 * @return void
 	 */
 	public function testPasswordHasher() {
+		$this->skipIf((float)Configure::version() < 2.4, 'Needs 2.4 and above');
+
 		$this->User->Behaviors->load('Tools.Passwordable', array(
 			'formField' => 'pwd',
 			'formFieldRepeat' => 'pwd_repeat',
@@ -381,7 +383,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testBlowfish() {
-		Configure::write('Security.salt', 'Cf1f11ePArKlBJomM0F6aJ');
+		//Configure::write('Security.salt', 'Cf1f11ePArKlBJomM0F6aJ');
 		/*
 		$this->assertFalse($this->User->Behaviors->attached('Passwordable'));
 		$this->User->create();
@@ -455,9 +457,10 @@ class PasswordableBehaviorTest extends CakeTestCase {
 class AuthTestComponent extends AuthComponent {
 }
 
-class ToolsUser extends CakeTestModel {
+if (!class_exists('SimplePasswordHasher')) {
+	class SimplePasswordHasher {
+	}
 }
-
 class ComplexPasswordHasher extends SimplePasswordHasher {
 
 }
