@@ -324,4 +324,17 @@ class NumberLib extends CakeNumber {
 		return ($x + $precision >= $y) && ($x - $precision <= $y);
 	}
 
+	/**
+	 * Get the settings for a specific formatName
+	 *
+	 * @param string $formatName (EUR, ...)
+	 * @return array $currencySettings or null on failure
+	 */
+	public function getFormat($formatName) {
+		if (!isset(self::$_currencies[$formatName])) {
+			return null;
+		}
+		return self::$_currencies[$formatName];
+	}
+
 }

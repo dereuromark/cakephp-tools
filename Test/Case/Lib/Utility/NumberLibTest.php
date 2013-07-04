@@ -193,6 +193,12 @@ class NumberLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testCurrencySpacer() {
+		if ((float)Configure::version() < 2.4) {
+			$format = NumberLib::getFormat('GBP');
+			$format['wholeSymbol'] = '£';
+			NumberLib::addFormat('GBP', $format);
+		}
+
 		$result = NumberLib::currency('4.111', 'GBP');
 		$expected = '£4.11';
 		$this->assertEquals($expected, $result);
