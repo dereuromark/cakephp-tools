@@ -330,7 +330,7 @@ class NumberLib extends CakeNumber {
 	 * @param string $formatName (EUR, ...)
 	 * @return array $currencySettings or null on failure
 	 */
-	public function getFormat($formatName) {
+	public static function getFormat($formatName) {
 		if (!isset(self::$_currencies[$formatName])) {
 			return null;
 		}
