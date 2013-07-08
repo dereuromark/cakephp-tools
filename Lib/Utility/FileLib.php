@@ -194,7 +194,6 @@ class FileLib extends File {
 	 * @param string $mode
 	 * @param boolean $force If true then the file will be re-opened even if its already opened, otherwise it won't
 	 * @return mixed string on success, false on failure
-	 * @access public
 	 * 2009-06-15 ms
 	 */
 	public function readWithTags($tags = null, $mode = 'rb', $force = false) {

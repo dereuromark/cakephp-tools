@@ -38,7 +38,7 @@ class CommonHelper extends AppHelper {
 	}
 
 	/**
-	 * convinience function for clean meta name tags
+	 * Convenience function for clean meta name tags
 	 * @param STRING $name: author, date, generator, revisit-after, language
 	 * @param MIXED $content: if array, it will be seperated by commas
 	 * @return string $htmlMarkup

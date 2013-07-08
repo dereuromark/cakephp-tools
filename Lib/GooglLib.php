@@ -9,7 +9,6 @@ App::uses('CakeLog', 'Log');
  * @url http://hunikal.com/
  * @copyright Creative Commons Attribution-ShareAlike 3.0 Unported License.
  * @version 0.1
- * @access public
  *
  * TODO: implement OAuth
  *

@@ -32,7 +32,6 @@ class CalendarComponent extends Component {
 	 * Startup controller
 	 *
 	 * @param object $Controller Controller instance
-	 * @access public
 	 * @return void
 	 */
 	public function startup(Controller $Controller) {

@@ -233,7 +233,8 @@ class NumberLib extends CakeNumber {
 	}
 
 	/**
-	 * @access public
+	 * Round value
+	 *
 	 * @param float $number
 	 * @param float $increment
 	 * @return float $result
@@ -249,7 +250,8 @@ class NumberLib extends CakeNumber {
 	}
 
 	/**
-	 * @access public
+	 * Round value up
+	 *
 	 * @param float $number
 	 * @param int $increment
 	 * @return float $result
@@ -260,7 +262,8 @@ class NumberLib extends CakeNumber {
 	}
 
 	/**
-	 * @access public
+	 * Round value down
+	 *
 	 * @param float $number
 	 * @param int $increment
 	 * @return float $result
@@ -271,7 +274,8 @@ class NumberLib extends CakeNumber {
 	}
 
 	/**
-	 * @access public
+	 * Get decimal places
+	 *
 	 * @param float $number
 	 * @return int $decimalPlaces
 	 * 2011-04-15 lb
@@ -317,7 +321,11 @@ class NumberLib extends CakeNumber {
 
 	/**
 	 * Can compare two float values
+	 *
 	 * @link http://php.net/manual/en/language.types.float.php
+	 * @param float $x
+	 * @param float $y
+	 * @param float $precision
 	 * @return boolean
 	 */
 	public static function isFloatEqual($x, $y, $precision = 0.0000001) {

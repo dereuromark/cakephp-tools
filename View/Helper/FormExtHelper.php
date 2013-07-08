@@ -160,7 +160,6 @@ class FormExtHelper extends FormHelper {
 	 * @param string $fieldName This should be "Modelname.fieldname"
 	 * @param array $options Each type of input takes different options.
 	 * @return string Completed form widget.
-	 * @access public
 	 * @link http://book.cakephp.org/view/1390/Automagic-Form-Elements
 	 */
 	public function inputExt($fieldName, $options = array()) {

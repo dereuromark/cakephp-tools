@@ -15,7 +15,6 @@ class FormatHelper extends TextHelper {
 	 * Other helpers used by FormHelper
 	 *
 	 * @var array
-	 * @access public
 	 */
 	public $helpers = array('Html', 'Form', 'Tools.Common', 'Tools.Gravatar', 'Tools.PhpThumb');
 
@@ -468,13 +467,12 @@ class FormatHelper extends TextHelper {
 	 *
 	 * Called to modify the attributes of the next <item> to be processed
 	 * Note that the content of a 'node' is processed before generating its wrapping <item> tag
+	 * TODO: refactor!!
 	 *
 	 * @param string $id
 	 * @param string $key
 	 * @param mixed $value
-	 * @access public
 	 * @return void
-	 * TODO: refactor!!
 	 */
 	public function languageFlags() {
 		$langs = Configure::read('LanguagesAvailable');
@@ -1341,10 +1339,10 @@ class FormatHelper extends TextHelper {
 	 * Supply a string and an array of disallowed words and any
 	 * matched words will be converted to #### or to the replacement
 	 * word you've submitted.
-	 * @param	string	the text string
-	 * @param	string	the array of censoered words
-	 * @param	string	the optional replacement value
-	 * @return	string
+	 * @param string	the text string
+	 * @param string	the array of censoered words
+	 * @param string	the optional replacement value
+	 * @return string
 	 * 2009-11-11 ms
 	 */
 	public function wordCensor($str, $censored, $replacement = null) {

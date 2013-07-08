@@ -22,9 +22,8 @@
 /**
  * Ensure that mb_ functions exist
  */
-App::import('I18n', 'Multibyte');
+App::uses('I18n', 'I18n');
 App::uses('ModelBehavior', 'Model');
-
 
 /**
  * SluggedBehavior class
@@ -61,7 +60,6 @@ class SluggedBehavior extends ModelBehavior {
  * 	camel - force CamelCase. E.g. "ThisIsTheSlug"
  *
  * @var array
- * @access protected
  */
 	protected $_defaultSettings = array(
 		'label' => null,
@@ -93,7 +91,6 @@ class SluggedBehavior extends ModelBehavior {
  * A (3 letter) language code indexed array of stop worlds
  *
  * @var array
- * @access public
  */
 	public $stopWords = array();
 
@@ -103,9 +100,8 @@ class SluggedBehavior extends ModelBehavior {
  * Use the model's label field as the default field on which to base the slug, the label can be made up of multiple
  * fields by specifying an array of fields
  *
- * @param mixed $Model
+ * @param Model $Model
  * @param array $config
- * @access public
  * @return void
  */
 	public function setup(Model $Model, $config = array()) {
@@ -143,9 +139,8 @@ class SluggedBehavior extends ModelBehavior {
 /**
  * beforeValidate method
  *
- * @param mixed $Model
+ * @param Model $Model
  * @return void
- * @access public
  */
 	public function beforeValidate(Model $Model) {
 		extract($this->settings[$Model->alias]);
@@ -163,9 +158,8 @@ class SluggedBehavior extends ModelBehavior {
 /**
  * beforeSave method
  *
- * @param mixed $Model
+ * @param Model $Model
  * @return void
- * @access public
  */
 	public function beforeSave(Model $Model) {
 		extract($this->settings[$Model->alias]);
@@ -190,8 +184,7 @@ class SluggedBehavior extends ModelBehavior {
  * If unique is set to true, check for a unique slug and if unavailable suffix the slug with -1, -2, -3 etc.
  * until a unique slug is found
  *
- * @param mixed $Model
- * @access public
+ * @param Model $Model
  * @return void
  */
 	public function generateSlug(Model $Model) {
@@ -280,11 +273,10 @@ class SluggedBehavior extends ModelBehavior {
  * 	both contain and this are stop words
  * Passing "contain this" will return array('contain this')
  *
- * @param mixed $Model
+ * @param Model $Model
  * @param mixed $string string or array of words
  * @param array $params
  * @return mixed
- * @access public
  */
 	public function removeStopWords(Model $Model, $string = '', $params = array()) {
 		if (!$string) {
@@ -385,11 +377,10 @@ class SluggedBehavior extends ModelBehavior {
  * and so slugs like "-----as---df-----" are possible, which by default would otherwise be returned as "as-df".
  * If the mode is "id" and the first charcter of the regex-ed slug is numeric, it will be prefixed with an x.
  *
- * @param mixed $Model
+ * @param Model $Model
  * @param mixed $string
  * @param bool $tidy
  * @return string a slug
- * @access public
  */
 	public function slug(Model $Model, $string, $tidy = true) {
 		extract($this->settings[$Model->alias]);
@@ -456,7 +447,6 @@ class SluggedBehavior extends ModelBehavior {
  *
  * @param mixed $id
  * @return mixed string (the display name) or false
- * @access public
  */
 	public function display(Model $Model, $id = null) {
 		if (!$id) {
@@ -481,7 +471,6 @@ class SluggedBehavior extends ModelBehavior {
  * @param array $conditions
  * @param int $recursive
  * @return bool true on success false otherwise
- * @access public
  */
 	public function resetSlugs(Model $Model, $params = array()) {
 		$recursive = -1;
@@ -522,9 +511,8 @@ class SluggedBehavior extends ModelBehavior {
  * Handle both slug and lable fields using the translate behavior, and being edited
  * in multiple locales at once
  *
- * @param mixed $Model
+ * @param Model $Model
  * @return void
- * @access protected
  */
 	protected function _multiSlug(Model $Model) {
 		extract($this->settings[$Model->alias]);
@@ -552,7 +540,6 @@ class SluggedBehavior extends ModelBehavior {
  * @param mixed $string
  * @param string $encoding 'UTF-8'
  * @return void
- * @access protected
  */
 	protected function _pregReplace($pattern, $replace, $string, $encoding = 'UTF-8') {
 		if ($encoding && $encoding !== 'UTF-8') {
@@ -568,12 +555,11 @@ class SluggedBehavior extends ModelBehavior {
 /**
  * setEncoding method
  *
- * @param mixed $Model
+ * @param Model $Model
  * @param mixed $encoding null
  * @param mixed $string
  * @param mixed $reset null
  * @return void
- * @access protected
  */
 	protected function _setEncoding(Model $Model, &$encoding = null, &$string, $reset = null) {
 		if (function_exists('mb_internal_encoding')) {
@@ -602,7 +588,6 @@ class SluggedBehavior extends ModelBehavior {
  *
  * @param string $mode
  * @return string a partial regex
- * @access private
  */
 	protected function _regex($mode) {
 		$return = '\x00-\x1f\x26\x3c\x7f-\x9f\x{d800}-\x{dfff}\x{fffe}-\x{ffff}';

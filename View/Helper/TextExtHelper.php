@@ -56,7 +56,6 @@ class TextExtHelper extends TextHelper {
 	 * @param string $text Text
 	 * @param array $options Array of HTML options.
 	 * @return string The text with links
-	 * @access public
 	 * @link http://book.cakephp.org/view/1469/Text#autoLink-1620
 	 */
 	public function autoLink($text, $options = array(), $htmlOptions = array()) {
@@ -108,7 +107,6 @@ class TextExtHelper extends TextHelper {
 	 * @param options:
 	 * - obfuscate: true/false (defaults to false)
 	 * @return string $html
-	 * @static
 	 * 2010-11-20 ms
 	 */
 	public static function prepareEmail($email, $options = array(), $customOptions = array()) {

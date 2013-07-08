@@ -116,7 +116,6 @@ class GravatarHelper extends AppHelper {
  *
  * @param array $options Array of options, keyed from default settings
  * @return array Default images array
- * @access public
  */
 	public function defaultImages($options = array()) {
 		$options = $this->_cleanOptions(array_merge($this->_default, $options));

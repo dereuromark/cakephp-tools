@@ -20,7 +20,6 @@ class AutoLoginComponent extends Component {
 	/**
 	 * Current version.
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $version = '3.5';
@@ -28,7 +27,6 @@ class AutoLoginComponent extends Component {
 	/**
 	 * Components.
 	 *
-	 * @access public
 	 * @var array
 	 */
 	public $components = array('Auth', 'Cookie');
@@ -36,7 +34,6 @@ class AutoLoginComponent extends Component {
 	/**
 	 * Settings.
 	 *
-	 * @access public
 	 * @var array
 	 */
 	public $settings = array();
@@ -44,7 +41,6 @@ class AutoLoginComponent extends Component {
 	/**
 	 * Default settings.
 	 *
-	 * @access protected
 	 * @var array
 	 */
 	protected $_defaults = array(
@@ -66,7 +62,6 @@ class AutoLoginComponent extends Component {
 	/**
 	 * Determines whether to trigger startup() logic.
 	 *
-	 * @access protected
 	 * @var boolean
 	 */
 	protected $_isValidRequest = false;
@@ -91,7 +86,6 @@ class AutoLoginComponent extends Component {
 	/**
 	 * Detect debug info.
 	 *
-	 * @access public
 	 * @param Controller $controller
 	 * @return void
 	 */
@@ -130,7 +124,6 @@ class AutoLoginComponent extends Component {
 	/**
 	 * Automatically login existent Auth session; called after controllers beforeFilter() so that Auth is initialized.
 	 *
-	 * @access public
 	 * @param Controller $controller
 	 * @return void
 	 */
@@ -165,8 +158,6 @@ class AutoLoginComponent extends Component {
 	/**
 	 * Automatically process logic when hitting login/logout actions.
 	 *
-	 * @access public
-	 * @uses Inflector
 	 * @param Controller $controller
 	 * @return void
 	 */
@@ -226,7 +217,6 @@ class AutoLoginComponent extends Component {
 	/**
 	 * Delete the cookie.
 	 *
-	 * @access public
 	 * @return void
 	 */
 	public function delete() {
@@ -236,7 +226,6 @@ class AutoLoginComponent extends Component {
 	/**
 	 * Debug the current auth and cookies.
 	 *
-	 * @access public
 	 * @param string $key
 	 * @param array $cookie
 	 * @param array $user

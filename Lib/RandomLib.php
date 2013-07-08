@@ -13,7 +13,6 @@ class RandomLib {
 	 * @param int $min
 	 * @param int $max
 	 * @return random int value
-	 * @access static
 	 */
 	public static function int($min = 0, $max = 999) {
 		return mt_rand($min, $max);
@@ -23,7 +22,6 @@ class RandomLib {
 	 * @param float $min
 	 * @param float $max
 	 * @return random float value
-	 * @access static
 	 */
 	public static function float($min = 0.0, $max = 999.0) {
 		$rand = rand (1, 358);
@@ -34,7 +32,8 @@ class RandomLib {
 	/**
 	 * randomly return one of the values provided
 	 * careful: only works with numerical keys (0 based!)
-	 * @access static
+	 *
+	 * @return mixed
 	 */
 	public static function arrayValue($array, $minPosition = null, $maxPosition = null, $integerKeys = false) {
 		if (empty($array)) {
@@ -98,8 +97,7 @@ class RandomLib {
 
 	/**
 	 * Returns a date of birth within the specified age range
-	 * @method dob(int $min, $int $max)
-	 * @public
+	 *
 	 * @param (int) $min minimum age in years
 	 * @param (int) $max maximum age in years
 	 * @return (string) $dob a db (ISO) format datetime string
@@ -126,13 +124,12 @@ class RandomLib {
 		return $dob;
 	}
 
-
 	/**
 	 * Generates a password
 	 *
 	 * @param int $length Password length
-	 * @link https://github.com/CakeDC/users/blob/master/models/user.php#L498
 	 * @return string
+	 * @link https://github.com/CakeDC/users/blob/master/models/user.php#L498
 	 */
 	public static function pronounceablePwd($length = 10) {
 		srand((double)microtime() * 1000000);
@@ -155,10 +152,10 @@ class RandomLib {
 
 	/**
 	 * returns auto-generated password
+	 *
 	 * @param string $type: user, ...
 	 * @param int $length (if no type is submitted)
 	 * @return pwd on success, empty string otherwise
-	 * @static
 	 * 2009-12-26 ms
 	 */
 	public static function randomPwd($type = null, $length = null) {
@@ -173,10 +170,10 @@ class RandomLib {
 
 	/**
 	 * //TODO: move to password lib?
-	 * generate random passwords
+	 * Generate random passwords
+	 *
 	 * @param int $lenght (necessary!)
-	 * @return pwd
-	 * @static
+	 * @return string Password
 	 * 2009-12-26 ms
 	 */
 	public static function generatePassword($length, $chars = null) {

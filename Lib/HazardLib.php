@@ -17,8 +17,8 @@ class HazardLib {
 
 	/**
 	 * get dangerous sql strings to test with
+	 *
 	 * @return array
-	 * @static
 	 * 2010-07-31 ms
 	 */
 	public static function sqlStrings($veryDangerousToo = false) {
@@ -45,6 +45,7 @@ class HazardLib {
 
 	/**
 	 * get dangerous php strings to test with
+	 *
 	 * @return array
 	 * 2010-07-31 ms
 	 */
@@ -58,6 +59,7 @@ class HazardLib {
 
 	/**
 	 * get dangerous html strings to test with
+	 *
 	 * @return array
 	 * 2010-07-31 ms
 	 */

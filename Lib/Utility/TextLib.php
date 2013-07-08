@@ -167,8 +167,11 @@ class TextLib extends String {
 /* text object specific */
 
 	/**
+	 * Extract words
+	 *
 	 * @param options
 	 * - min_char, max_char, case_sensititive, ...
+	 * @return array
 	 * 2010-10-09 ms
 	 */
 	public function words($options = array()) {
@@ -244,9 +247,8 @@ class TextLib extends String {
 	 *
 	 * Converts High ascii text and MS Word special characters to character entities
 	 *
-	 * @access	public
-	 * @param	string
-	 * @return	string
+	 * @param string
+	 * @return string
 	 */
 	public function ascii_to_entities($str) {
 		$count = 1;
@@ -294,10 +296,9 @@ class TextLib extends String {
 	 *
 	 * Converts character entities back to ASCII
 	 *
-	 * @access	public
-	 * @param	string
-	 * @param	bool
-	 * @return	string
+	 * @param string
+	 * @param bool
+	 * @return string
 	 */
 	public function entities_to_ascii($str, $all = true) {
 		if (preg_match_all('/\&#(\d+)\;/', $str, $matches)) {
@@ -343,9 +344,8 @@ class TextLib extends String {
 	 *
 	 * http://www.some-site.com/index.php
 	 *
-	 * @access	public
-	 * @param	string
-	 * @return	string
+	 * @param string
+	 * @return string
 	 */
 	public function reduce_double_slashes($str) {
 		return preg_replace("#([^:])//+#", "\\1/", $str);
@@ -364,11 +364,10 @@ class TextLib extends String {
 	 *
 	 * Fred, Bill, Joe, Jimmy
 	 *
-	 * @access	public
-	 * @param	string
-	 * @param	string	the character you wish to reduce
-	 * @param	bool	TRUE/FALSE - whether to trim the character from the beginning/end
-	 * @return	string
+	 * @param string
+	 * @param string	the character you wish to reduce
+	 * @param bool	TRUE/FALSE - whether to trim the character from the beginning/end
+	 * @return string
 	 */
 	public function reduce_multiples($str, $character = ',', $trim = false) {
 		$str = preg_replace('#' . preg_quote($character, '#') . '{2,}#', $character, $str);

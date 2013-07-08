@@ -34,7 +34,7 @@ class JsonableBehavior extends ModelBehavior {
 
 	/**
 	 * //TODO: json input/ouput directly, clean
-	 * @access protected
+	 * @var array
 	 */
 	public $_defaultSettings = array(
 		'fields' => array(), # empty => only works with array!!!
@@ -67,7 +67,6 @@ class JsonableBehavior extends ModelBehavior {
 	 * @param object $Model
 	 * @param array $results
 	 * @return array
-	 * @access public
 	 */
 	public function afterFind(Model $Model, $results, $primary) {
 		$results = $this->decodeItems($Model, $results);
@@ -79,7 +78,6 @@ class JsonableBehavior extends ModelBehavior {
 	 *
 	 * @param array $arr
 	 * @return array
-	 * @access public
 	 */
 	public function decodeItems(Model $Model, $arr) {
 		foreach ($arr as $akey => $val) {
@@ -111,7 +109,7 @@ class JsonableBehavior extends ModelBehavior {
 	 * Saves all fields that do not belong to the current Model into 'with' helper model.
 	 *
 	 * @param object $Model
-	 * @access public
+	 * @return boolean Success
 	 */
 	public function beforeSave(Model $Model) {
 		$data = $Model->data[$Model->alias];
@@ -146,6 +144,13 @@ class JsonableBehavior extends ModelBehavior {
 		return true;
 	}
 
+	/**
+	 * JsonableBehavior::_encode()
+	 *
+	 * @param Model $Model
+	 * @param mixed $val
+	 * @return string
+	 */
 	public function _encode(Model $Model, $val) {
 		if (!empty($this->settings[$Model->alias]['fields'])) {
 			if ($this->settings[$Model->alias]['input'] === 'param') {
@@ -168,6 +173,10 @@ class JsonableBehavior extends ModelBehavior {
 
 	/**
 	 * fields are absolutely necessary to function properly!
+	 *
+	 * @param Model $Model
+	 * @param mixed $val
+	 * @return mixed
 	 * 2011-06-18 ms
 	 */
 	public function _decode(Model $Model, $val) {
@@ -229,7 +238,6 @@ class JsonableBehavior extends ModelBehavior {
 	 * Checks if string is encoded array/object
 	 *
 	 * @param string string to check
-	 * @access public
 	 * @return boolean
 	 */
 	public function isEncoded(Model $Model, $str) {

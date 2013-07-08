@@ -29,7 +29,6 @@ class IndexShell extends AppShell {
 	 * Runtime settings
 	 *
 	 * @var array
-	 * @access public
 	 */
 	public $settings = array(
 		'ds' => 'default',
@@ -40,7 +39,6 @@ class IndexShell extends AppShell {
 	 * The Stack of sql queries to run as an array
 	 *
 	 * @var array
-	 * @access protected
 	 */
 	protected $_script = array();
 
@@ -49,7 +47,6 @@ class IndexShell extends AppShell {
 	 * startup method
 	 *
 	 * @return void
-	 * @access public
 	 */
 	public function startup() {
 		parent::startup();
@@ -63,7 +60,6 @@ class IndexShell extends AppShell {
 	 * If the flags -h, -help or --help are present bail here and show help
 	 *
 	 * @return void
-	 * @access public
 	 */
 	public function initialize() {
 		parent::initialize();
@@ -86,7 +82,6 @@ class IndexShell extends AppShell {
 	 * 	cake Tools.Index default,permissions,other
 	 *
 	 * @return void
-	 * @access public
 	 */
 	public function run() {
 		$this->_buildScript(explode(',', $this->settings['ds']));
@@ -100,7 +95,6 @@ class IndexShell extends AppShell {
 	 *
 	 * @param array $sources array()
 	 * @return void
-	 * @access protected
 	 */
 	protected function _buildScript($sources = array()) {
 		foreach ($sources as $ds) {
@@ -116,7 +110,6 @@ class IndexShell extends AppShell {
 	 *
 	 * @param mixed $ds
 	 * @return void
-	 * @access protected
 	 */
 	protected function _buildScriptForDataSource($ds = 'default') {
 		$tables = $this->_tables($ds);
@@ -212,7 +205,6 @@ class IndexShell extends AppShell {
 	 *
 	 * @param mixed $statement
 	 * @return void
-	 * @access public
 	 */
 	protected function _query($statement) {
 		if (!$statement) {
@@ -251,7 +243,6 @@ class IndexShell extends AppShell {
 	 * Loop over the script running each statement in turn
 	 *
 	 * @return void
-	 * @access protected
 	 */
 	protected function _runScript() {
 		foreach ($this->_script as $ds => $steps) {
@@ -264,8 +255,6 @@ class IndexShell extends AppShell {
 			}
 		}
 	}
-
-
 
 	public function getOptionParser() {
 		$subcommandParser = array(

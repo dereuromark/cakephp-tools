@@ -76,7 +76,6 @@ class CommonComponent extends Component {
 	 * Created: 2010-10-10
 	 * @param object $Controller Controller with components to beforeRender
 	 * @return void
-	 * @access public
 	 * @author deltachaos
 	 */
 	public function beforeRender(Controller $Controller) {
@@ -176,7 +175,6 @@ class CommonComponent extends Component {
 	 * @param STRING messagestring
 	 * @param STRING class ['error', 'warning', 'success', 'info']
 	 * @return void
-	 * @access static
 	 * 2010-05-01 ms
 	 */
 	public static function transientFlashMessage($messagestring, $class = null) {
@@ -1240,8 +1238,7 @@ class CommonComponent extends Component {
 	 * Returns searchArray (options['wildcard'] TRUE/FALSE)
 	 * TODO: move to SearchLib etc
 	 *
-	 * @return ARRAY cleaned array('keyword'=>'searchphrase') or array('keyword LIKE'=>'searchphrase')
-	 * @access public
+	 * @return array Cleaned array('keyword'=>'searchphrase') or array('keyword LIKE'=>'searchphrase')
 	 */
 	public function getSearchItem($keyword = null, $searchphrase = null, $options = array()) {
 
@@ -1264,7 +1261,6 @@ class CommonComponent extends Component {
 	 * @param string $type: user, ...
 	 * @param int $length (if no type is submitted)
 	 * @return pwd on success, empty string otherwise
-	 * @static
 	 * @deprecated - use RandomLib
 	 * 2009-12-26 ms
 	 */
@@ -1335,6 +1331,7 @@ class CommonComponent extends Component {
 
 	/**
 	 * Get the Corresponding Message to an HTTP Error Code
+	 *
 	 * @param int $code: 100...505
 	 * @return array $codes if code is NULL, otherwise string $code (empty string on failure)
 	 * 2009-07-21 ms

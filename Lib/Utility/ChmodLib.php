@@ -23,7 +23,8 @@ class ChmodLib {
 		/**
 	 * from Octal 0xxx back to STRING with leading zero added on leading zero = true
 	 * e.g. 0777 => 0777, '755' => 0755
-	 * @access static Chmod::convertFromOctal(mode, leadingZero)
+	 *
+	 * @return string
 	 * 2009-07-26 ms
 	 */
 	public static function convertFromOctal($mode, $leadingZero = false) {
@@ -36,7 +37,8 @@ class ChmodLib {
 
 	/**
 	 * from INT or STRING with or without leading 0 -> Octal 0xxx
-	 * @access static Chmod::converttoOctal(mode)
+	 *
+	 * @return int
 	 * 2009-07-26 ms
 	 */
 	public static function convertToOctal($mode) {
@@ -60,8 +62,10 @@ class ChmodLib {
 
 	/**
 	 * get mode as octal value or
+	 *
 	 * @param options
 	 * - string: string/int/symbolic
+	 * @return int Mode
 	 * 2010-06-21 ms
 	 */
 	public function getMode($options = array()) {
@@ -96,6 +100,8 @@ class ChmodLib {
 	 * get symbol for
 	 * read(4) = 'r', write(2) = 'w', execute(1) = 'x'
 	 * e.g: 4 for = r--
+	 *
+	 * @return string Symbol
 	 * 2010-06-21 ms
 	 */
 	protected function symbol($mode) {
@@ -118,6 +124,14 @@ class ChmodLib {
 		return $res;
 	}
 
+	/**
+	 * ChmodLib::setMode()
+	 *
+	 * @param int $r
+	 * @param int $w
+	 * @param int $e
+	 * @return int
+	 */
 	protected function setMode($r, $w, $e) {
 		$mode = 0;
 		if ($r) $mode+=4;

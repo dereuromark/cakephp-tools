@@ -461,7 +461,6 @@ class MyModel extends Model {
 	/**
 	 * Wrapper find() to cache sql queries.
 	 *
-	 * @access public
 	 * @param array $conditions
 	 * @param array $fields
 	 * @param string $order

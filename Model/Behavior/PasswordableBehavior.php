@@ -43,7 +43,7 @@ if (!defined('PWD_MAX_LENGTH')) {
 class PasswordableBehavior extends ModelBehavior {
 
 	/**
-	 * @access protected
+	 * @var array
 	 */
 	protected $_defaults = array(
 		'field' => 'password',
@@ -65,7 +65,7 @@ class PasswordableBehavior extends ModelBehavior {
 	);
 
 	/**
-	 * @access protected
+	 * @var array
 	 */
 	protected $_validationRules = array(
 		'formField' => array(
@@ -120,7 +120,9 @@ class PasswordableBehavior extends ModelBehavior {
  	 * )
 	 *
 	 * @throws CakeException
-	 * @return bool $success
+	 * @param Model $Model
+	 * @param array $data
+	 * @return bool Success
 	 * 2011-07-22 ms
 	 */
 	public function validateCurrentPwd(Model $Model, $data) {
@@ -172,7 +174,11 @@ class PasswordableBehavior extends ModelBehavior {
 
 	/**
 	 * if not implemented in AppModel
-	 * @return bool $success
+	 *
+	 * @param Model $Model
+	 * @param array $data
+	 * @param string $compareWith String to compare field value with
+	 * @return bool Success
 	 * 2011-07-22 ms
 	 */
 	public function validateIdentical(Model $Model, $data, $compareWith = null) {
@@ -187,7 +193,8 @@ class PasswordableBehavior extends ModelBehavior {
 
 	/**
 	 * if not implemented in AppModel
-	 * @return bool $success
+	 *
+	 * @return bool Success
 	 * 2011-11-10 ms
 	 */
 	public function validateNotSame(Model $Model, $data, $field1, $field2) {
@@ -198,7 +205,8 @@ class PasswordableBehavior extends ModelBehavior {
 
 	/**
 	 * if not implemented in AppModel
-	 * @return bool $success
+	 *
+	 * @return bool Success
 	 * 2011-11-10 ms
 	 */
 	public function validateNotSameHash(Model $Model, $data, $formField) {
@@ -278,7 +286,7 @@ class PasswordableBehavior extends ModelBehavior {
 	/**
 	 * Preparing the data
 	 *
-	 * @return bool $success
+	 * @return bool Success
 	 * 2011-07-22 ms
 	 */
 	public function beforeValidate(Model $Model) {
@@ -335,7 +343,7 @@ class PasswordableBehavior extends ModelBehavior {
 	/**
 	 * Hashing the password and whitelisting
 	 *
-	 * @return bool $success
+	 * @return bool Success
 	 * 2011-07-22 ms
 	 */
 	public function beforeSave(Model $Model) {

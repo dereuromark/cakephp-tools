@@ -453,7 +453,7 @@ class CopyShell extends AppShell {
 	/**
 	 * Displays help contents
 	 *
-	 * @access public
+	 * @return void
 	 * 2009-05-04 ms
 	 */
 	public function help() {

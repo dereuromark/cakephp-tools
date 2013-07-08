@@ -182,7 +182,7 @@ class KeyValueBehavior extends ModelBehavior {
 	/**
 	 * KeyValueBehavior::defaultValues()
 	 *
-	 * @param mixed $Model
+	 * @param Model $Model
 	 * @param mixed $section
 	 * @param mixed $key
 	 * @return array

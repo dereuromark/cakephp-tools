@@ -54,10 +54,9 @@ class TypographyHelper extends AppHelper {
 	 *	- Converts double dashes into em-dashes.
 	 * - Converts two spaces into entities
 	 *
-	 * @access	public
-	 * @param	string
-	 * @param	bool	whether to reduce more then two consecutive newlines to two
-	 * @return	string
+	 * @param string
+	 * @param bool	whether to reduce more then two consecutive newlines to two
+	 * @return string
 	 */
 	public function autoTypography($str, $reduce_linebreaks = false) {
 		if ($str === '') {
@@ -226,9 +225,8 @@ class TypographyHelper extends AppHelper {
 	 * to curly entities, but it also converts em-dashes,
 	 * double spaces, and ampersands
 	 *
-	 * @access	public
-	 * @param	string
-	 * @return	string
+	 * @param string
+	 * @return string
 	 */
 	public function formatCharacters($str, $locale = null) {
 		//static $table;
@@ -310,9 +308,8 @@ class TypographyHelper extends AppHelper {
 	 *
 	 * Converts newline characters into either <p> tags or <br />
 	 *
-	 * @access	public
-	 * @param	string
-	 * @return	string
+	 * @param string
+	 * @return string
 	 */
 	protected function _formatNewlines($str) {
 		if ($str === '') {
@@ -353,9 +350,8 @@ class TypographyHelper extends AppHelper {
 	 * and we don't want double dashes converted to emdash entities, so they are marked with {@DD}
 	 * likewise double spaces are converted to {@NBS} to prevent entity conversion
 	 *
-	 * @access	public
-	 * @param	array
-	 * @return	string
+	 * @param array
+	 * @return string
 	 */
 	protected function _protectCharacters($match) {
 		return str_replace(array("'", '"', '--', '  '), array('{@SQ}', '{@DQ}', '{@DD}', '{@NBS}'), $match[0]);
@@ -365,9 +361,8 @@ class TypographyHelper extends AppHelper {
 	/**
 	 * Convert newlines to HTML line breaks except within PRE tags
 	 *
-	 * @access	public
-	 * @param	string
-	 * @return	string
+	 * @param string
+	 * @return string
 	 */
 	public function nl2brExceptPre($str) {
 		$ex = explode("pre>", $str);

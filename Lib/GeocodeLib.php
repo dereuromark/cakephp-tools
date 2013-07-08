@@ -672,7 +672,8 @@ class GeocodeLib {
 	 * fetches url with curl if available
 	 * fallbacks: cake and php
 	 * note: expects url with json encoded content
-	 * @access private
+	 *
+	 * @return mixed
 	 **/
 	protected function _fetch($url) {
 		$this->HttpSocket = new HttpSocketLib($this->use);
@@ -700,6 +701,7 @@ class GeocodeLib {
 						'SIN( PI()/2 - RADIANS(90 - Retailer.lat)) * ' .
 						'SIN( PI()/2 - RADIANS(90 - '. $data['Location']['lat'] . '))) ' .
 		'AS distance'
+	 *
 	 * @param array pointX
 	 * @param array pointY
 	 * @param float $unit (M=miles, K=kilometers, N=nautical miles, I=inches, F=feet)

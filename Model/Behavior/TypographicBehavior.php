@@ -74,7 +74,7 @@ class TypographicBehavior extends ModelBehavior {
 	 *
 	 * @param object $Model Model using the behaviour
 	 * @param array $settings Settings to override for model.
-	 * @access public
+	 * @return void
 	 * 2011-12-06 ms
 	 */
 	public function setup(Model $Model, $settings = array()) {
@@ -104,7 +104,6 @@ class TypographicBehavior extends ModelBehavior {
 			$this->settings[$Model->alias]['mergeQuotes'] = '"';
 		}
 	}
-
 
 	public function beforeValidate(Model $Model) {
 		parent::beforeValidate($Model);
@@ -167,7 +166,6 @@ class TypographicBehavior extends ModelBehavior {
 	 *
 	 * @param object $Model Model about to be saved.
 	 * @return boolean true if save should proceed, false otherwise
-	 * @access public
 	 */
 	public function process(Model $Model, $return = true) {
 		foreach ($this->settings[$Model->alias]['fields'] as $field) {
