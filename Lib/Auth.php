@@ -9,7 +9,7 @@ if (!defined('USER_RIGHT_KEY')) {
 App::uses('CakeSession', 'Model/Datasource');
 
 /**
- * Convinience wrapper to access Auth data and check on rights/roles.
+ * Convenience wrapper to access Auth data and check on rights/roles.
  * Expects the Role session infos to be either
  * 	`Auth.User.role_id` (single) or
  * 	`Auth.User.Role` (multi)

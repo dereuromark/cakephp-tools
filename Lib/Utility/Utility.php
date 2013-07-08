@@ -250,7 +250,7 @@ class Utility {
 	}
 
 	/**
-	 * convinience function for automatic casting in form methods etc
+	 * Convenience function for automatic casting in form methods etc
 	 *
 	 * @param mixed $value
 	 * @param string $type
