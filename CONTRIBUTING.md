@@ -23,7 +23,7 @@ There are a few guidelines that I need contributors to follow:
 
 # Additional Resources
 
+* [My coding standards (extending the CakePHP ones)](http://www.dereuromark.de/coding-standards/)
 * [CakePHP coding standards](http://book.cakephp.org/2.0/en/contributing/cakephp-coding-conventions.html)
-* [My coding standards](http://www.dereuromark.de/coding-standards/)
 * [General GitHub documentation](http://help.github.com/)
 * [GitHub pull request documentation](http://help.github.com/send-pull-requests/)
