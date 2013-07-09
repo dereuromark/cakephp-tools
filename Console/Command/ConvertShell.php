@@ -15,8 +15,6 @@ App::uses('AppShell', 'Console/Command');
  * 2011-11-04 ms
  */
 class ConvertShell extends AppShell {
-	public $uses = array();
-
 
 	/**
 	 * predefined options
@@ -43,9 +41,11 @@ class ConvertShell extends AppShell {
 		}
 	}
 
-
-
-
+	/**
+	 * ConvertShell::folder()
+	 *
+	 * @return void
+	 */
 	public function folder() {
 		$this->out('Converting folder...');
 
@@ -119,8 +119,6 @@ class ConvertShell extends AppShell {
 			}
 		}
 	}
-
-
 
 	/**
 	 * get the option parser

@@ -278,4 +278,26 @@ class FileLib extends File {
 		return $convertedArray;
 	}
 
+	/**
+	 * Check if a blob string contains the BOM.
+	 * Useful for file_get_contents() + json_decode() that needs the BOM removed.
+	 *
+	 * @param string $content
+	 * @return boolean Success
+	 */
+	public static function hasByteOrderMark($content) {
+		return strpos($content, b"\xEF\xBB\xBF") === 0;
+	}
+
+	/**
+	 * Remove BOM from a blob string if detected.
+	 * Useful for file_get_contents() + json_decode() that needs the BOM removed.
+	 *
+	 * @param string $content
+	 * @return string Cleaned content
+	 */
+	public static function removeByteOrderMark($content) {
+		return trim($content, b"\xEF\xBB\xBF");
+	}
+
 }

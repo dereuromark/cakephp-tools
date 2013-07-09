@@ -240,6 +240,31 @@ class FileLibTest extends CakeTestCase {
 		$this->assertEquals($is, $expected);
 	}
 
+	/**
+	 * test BOM
+	 *
+	 * @return void
+	 */
+	public function testBOM() {
+		$folder = CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'txt' . DS;
+		$fileOK = $folder . 'ok.php';
+		$fileNOK = $folder. 'nok.php';
+		$result = FileLib::hasByteOrderMark(file_get_contents($fileOK));
+		$this->assertFalse($result);
+
+		$result = FileLib::hasByteOrderMark(file_get_contents($fileNOK));
+		$this->assertTrue($result);
+
+		$tmpFileNOK = TMP . 'nok.php';
+		copy($fileNOK, $tmpFileNOK);
+		$result = FileLib::removeByteOrderMark(file_get_contents($tmpFileNOK));
+		//file_put_contents($tmpFileNOK, $result);
+		//$result = FileLib::hasByteOrderMark(file_get_contents($tmpFileNOK));
+		$result = FileLib::hasByteOrderMark($result);
+		$this->assertFalse($result);
+		unlink($tmpFileNOK);
+	}
+
 	/** Helper Functions **/
 
 	public function _printArrays($status, $is, $expected, $pre = null) {
@@ -258,4 +283,5 @@ class FileLibTest extends CakeTestCase {
 			//pr($expected);
 		}
 	}
+
 }
