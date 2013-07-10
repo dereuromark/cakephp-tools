@@ -3,7 +3,7 @@ App::uses('CakeSession', 'Model/Datasource');
 App::uses('ModelBehavior', 'Model');
 
 /**
- * WhoDidIt Model Behavior for CakePHP
+ * WhoDidIt Model Behavior
  *
  * Handles created_by, modified_by fields for a given Model, if they exist in the Model DB table.
  * It's similar to the created, modified automagic, but it stores the logged User id
@@ -27,7 +27,6 @@ class WhoDidItBehavior extends ModelBehavior {
 	 * Default settings for a model that has this behavior attached.
 	 *
 	 * @var array
-	 * @access protected
 	 */
 	protected $_defaults = array(
 		'auth_session' => 'Auth', //name of Auth session key
@@ -41,10 +40,9 @@ class WhoDidItBehavior extends ModelBehavior {
 	/**
 	 * Initiate WhoDidIt Behavior
 	 *
-	 * @param object $Model
+	 * @param Model $Model The model
 	 * @param array $config behavior settings you would like to override
 	 * @return void
-	 * @access public
 	 */
 	public function setup(Model $Model, $config = array()) {
 		//assign default settings
@@ -87,9 +85,8 @@ class WhoDidItBehavior extends ModelBehavior {
 	/**
 	 * Before save callback
 	 *
-	 * @param object $Model Model using this behavior
+	 * @param Model $Model The model using this behavior
 	 * @return boolean True if the operation should continue, false if it should abort
-	 * @access public
 	 */
 	public function beforeSave(Model $Model) {
 		if ($this->settings[$Model->alias]['has_created_by'] || $this->settings[$Model->alias]['has_modified_by']) {
