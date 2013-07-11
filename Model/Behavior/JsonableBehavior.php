@@ -37,7 +37,7 @@ class JsonableBehavior extends ModelBehavior {
 	 * @var array
 	 */
 	public $_defaultSettings = array(
-		'fields' => array(), # empty => only works with array!!!
+		'fields' => array(), # empty => autodetect - only works with array!
 		'input' => 'array', # json, array, param, list (param/list only works with specific fields)
 		'output' => 'array', # json, array, param, list (param/list only works with specific fields)
 		'separator' => '|', # only for param or list
@@ -248,4 +248,5 @@ class JsonableBehavior extends ModelBehavior {
 		}
 		return false;
 	}
+
 }

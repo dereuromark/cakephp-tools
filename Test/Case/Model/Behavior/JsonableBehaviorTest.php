@@ -4,7 +4,6 @@ App::uses('JsonableBehavior', 'Tools.Model/Behavior');
 App::uses('AppModel', 'Model');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
-
 class JsonableBehaviorTest extends MyCakeTestCase {
 
 	public $fixtures = array(
@@ -34,7 +33,7 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 		$res = $this->Comment->save($data);
 		$this->assertTrue((bool)$res);
 
-		$this->assertSame($res['JsonableComment']['details'], '{"x":"y"}');
+		$this->assertSame('{"x":"y"}', $res['JsonableComment']['details']);
 	}
 
 	public function testFieldsWithList() {
@@ -51,7 +50,7 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 		$res = $this->Comment->save($data);
 		$this->assertTrue((bool)$res);
 
-		$this->assertSame($res['JsonableComment']['details'], '["z","y","x"]');
+		$this->assertSame('["z","y","x"]', $res['JsonableComment']['details']);
 
 		# with sort and unique
 		$data = array(
@@ -66,7 +65,7 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 		$res = $this->Comment->save($data);
 		$this->assertTrue((bool)$res);
 
-		$this->assertSame($res['JsonableComment']['details'], '["x","y","z"]');
+		$this->assertSame('["x","y","z"]', $res['JsonableComment']['details']);
 	}
 
 	public function testFieldsWithParam() {
@@ -83,7 +82,7 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 		$res = $this->Comment->save($data);
 		$this->assertTrue((bool)$res);
 
-		$this->assertSame($res['JsonableComment']['details'], '{"z":"vz","y":"yz","x":"xz"}');
+		$this->assertSame('{"z":"vz","y":"yz","x":"xz"}', $res['JsonableComment']['details']);
 	}
 
 
@@ -107,18 +106,18 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue((bool)$res);
 
 		$res = $this->Comment->find('first', array('conditions' => array('title' => 'param')));
-		$this->assertEquals($res['JsonableComment']['details'], array('x'=>'y'));
+		$this->assertEquals(array('x'=>'y'), $res['JsonableComment']['details']);
 
 		// param
 		$this->Comment->Behaviors->unload('Jsonable');
 
 		$res = $this->Comment->find('first', array('conditions' => array('title' => 'param')));
-		$this->assertEquals($res['JsonableComment']['details'], '{"x":"y"}');
+		$this->assertEquals('{"x":"y"}', $res['JsonableComment']['details']);
 
 		$this->Comment->Behaviors->load('Tools.Jsonable', array('output'=>'param', 'fields'=>array('details')));
 
 		$res = $this->Comment->find('first', array('conditions' => array('title' => 'param')));
-		$this->assertEquals($res['JsonableComment']['details'], 'x:y');
+		$this->assertEquals('x:y', $res['JsonableComment']['details']);
 
 		// list
 		$this->Comment->Behaviors->unload('Jsonable');
@@ -137,12 +136,12 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 		$this->Comment->Behaviors->unload('Jsonable');
 
 		$res = $this->Comment->find('first', array('conditions' => array('title' => 'list')));
-		$this->assertEquals($res['JsonableComment']['details'], '["z","y","x"]');
+		$this->assertEquals('["z","y","x"]', $res['JsonableComment']['details']);
 
 		$this->Comment->Behaviors->load('Tools.Jsonable', array('output'=>'list', 'fields'=>array('details')));
 
 		$res = $this->Comment->find('first', array('conditions' => array('title' => 'list')));
-		$this->assertEquals($res['JsonableComment']['details'], 'z|y|x');
+		$this->assertEquals('z|y|x', $res['JsonableComment']['details']);
 
 		// custom separator
 		$this->Comment->Behaviors->unload('Jsonable');
@@ -150,12 +149,11 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 
 		// find first
 		$res = $this->Comment->find('first', array('conditions' => array('title' => 'list')));
-		$this->assertEquals($res['JsonableComment']['details'], 'z, y, x');
+		$this->assertEquals('z, y, x', $res['JsonableComment']['details']);
 
 		// find all
 		$res = $this->Comment->find('all', array('order' => array('title' => 'ASC')));
-		$this->assertEquals($res[0]['JsonableComment']['details'], 'z, y, x');
+		$this->assertEquals('z, y, x', $res[0]['JsonableComment']['details']);
 	}
 
 }
-

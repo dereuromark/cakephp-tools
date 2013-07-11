@@ -3,12 +3,6 @@
 if (!defined('USER_ROLE_KEY')) {
 	define('USER_ROLE_KEY', 'Role');
 }
-if (!defined('USER_INFO_KEY')) {
-	define('USER_INFO_KEY', 'Info');
-}
-if (!defined('USER_RIGHT_KEY')) {
-	define('USER_RIGHT_KEY', 'Right');
-}
 if (!defined('CLASS_USER')) {
 	define('CLASS_USER', 'User');
 }
@@ -87,9 +81,9 @@ class AuthExtComponent extends AuthComponent {
 
 		if (empty($user)) {
 			$user = $this->identify($this->Controller->request, $this->Controller->response);
-		} elseif (!is_array($user)) {
-			$user = $this->completeAuth($user);
 		}
+		$user = $this->completeAuth($user);
+
 		if (empty($user)) {
 			$this->loginError = __('invalidLoginCredentials');
 			return false;
@@ -152,23 +146,25 @@ class AuthExtComponent extends AuthComponent {
 
 			$this->Session->renew();
 			$this->Session->write(self::$sessionKey, $user);
-			$this->Session->write(self::$sessionKey, $this->completeAuth($user));
 		}
 		return $this->loggedIn();
 	}
 
 	/**
-	 * @return array $user or bool false on failure
+	 * Gather session data.
+	 *
+	 * @return array User
 	 * 2011-11-03 ms
 	 */
 	public function completeAuth($user) {
 		$Model = $this->getModel();
-		if (!is_array($user)) {
+		$userArray = $user;
+		if (!is_array($userArray)) {
 			$user = $Model->get($user);
 			if (!$user) {
-				return false;
+				return array();
 			}
-			$user = array_shift($user);
+			$userArray = array_shift($user);
 		}
 
 		if (isset($Model->hasAndBelongsToMany[$this->roleModel]['className'])) {
@@ -180,10 +176,8 @@ class AuthExtComponent extends AuthComponent {
 		}
 		if (empty($with) && $this->settings['parentModelAlias'] !== false) {
 			trigger_error('No relation from user to role found');
-			return false;
+			return $user;
 		}
-
-		$completeAuth = array($this->settings['userModel'] => $user);
 
 		# roles
 		if (!empty($with)) {
@@ -192,9 +186,9 @@ class AuthExtComponent extends AuthComponent {
 				$this->{$withModel} = ClassRegistry::init($with);
 			}
 			# only for multi
-			if ($this->settings['multi'] || !isset($completeAuth[$this->settings['userModel']]['role_id'])) {
+			if ($this->settings['multi'] || !isset($userArray['role_id'])) {
 				$parentModelAlias = $this->settings['parentModelAlias'];
-				$completeAuth[$this->settings['userModel']][$parentModelAlias] = array(); # default: no roles!
+				$userArray[$parentModelAlias] = array(); # default: no roles!
 				$roles = $this->{$withModel}->find('list', array('fields' => array($withModel.'.role_id'), 'conditions' => array($withModel.'.user_id' => $user['id'])));
 				if (!empty($roles)) {
 					//$primaryRole = $this->user($this->fieldKey);
@@ -204,52 +198,18 @@ class AuthExtComponent extends AuthComponent {
 					//$roles = set::extract('/'.$with.'['.$this->fieldKey.'!='.$primaryRole.']/'.$this->fieldKey, $roles);
 
 					// add the suplemental roles id under the Auth session key
-					$completeAuth[$this->settings['userModel']][$parentModelAlias] = $roles; // or USER_ROLE_KEY
+					$userArray[$parentModelAlias] = $roles;
 					//pr($completeAuth);
 				}
 			} else {
-				//$completeAuth[$this->settings['userModel']][$parentModelAlias][] = $completeAuth[$this->settings['userModel']]['role_id'];
-			}
-		}
-
-		# deprecated!
-		if (isset($Model->hasOne['UserInfo'])) {
-			$with = $Model->hasOne['UserInfo']['className'];
-			list($plugin, $withModel) = pluginSplit($with);
-			if (!isset($this->{$withModel})) {
-				$this->{$withModel} = ClassRegistry::init($with);
-			}
-			$infos = $this->{$withModel}->find('first', array('fields' => array(), 'conditions' => array($withModel.'.id' => $user['id'])));
-
-			$completeAuth[$this->settings['userModel']][USER_INFO_KEY] = array(); # default: no rights!
-			if (!empty($infos)) {
-				$completeAuth[$this->settings['userModel']][USER_INFO_KEY] = $infos[$with];
-				//pr($completeAuth);
-			}
-		}
-
-		# deprecated!
-		if (isset($Model->hasOne['UserRight'])) {
-			$with = $Model->hasOne['UserRight']['className'];
-			list($plugin, $withModel) = pluginSplit($with);
-			if (!isset($this->{$withModel})) {
-				$this->{$withModel} = ClassRegistry::init($with);
-			}
-			$rights = $this->{$withModel}->find('first', array('fields' => array(), 'conditions' => array($withModel.'.id' => $user['id'])));
-
-			$completeAuth[$this->settings['userModel']][USER_RIGHT_KEY] = array(); # default: no rights!
-			if (!empty($rights)) {
-				// add the suplemental roles id under the Auth session key
-				$completeAuth[$this->settings['userModel']][USER_RIGHT_KEY] = $rights[$with];
-				//pr($completeAuth);
+				//$userArray[$parentModelAlias][] = $userArray['role_id'];
 			}
 		}
 
 		if (method_exists($Model, 'completeAuth')) {
-			$completeAuth = $Model->completeAuth($completeAuth);
-			return $completeAuth[$this->settings['userModel']];
+			$userArray = $Model->completeAuth($userArray);
 		}
-		return $completeAuth[$this->settings['userModel']];
+		return $userArray;
 	}
 
 	/**
@@ -286,36 +246,41 @@ class AuthExtComponent extends AuthComponent {
 			return true;
 		}
 
+		if (!$this->_getUser()) {
+			return $this->_unauthenticated($controller);
+		}
+
 		if (empty($this->authorize) || $this->isAuthorized($this->user())) {
 			return true;
 		}
 
-		$this->_unauthorized($controller);
+		return $this->_unauthorized($controller);
+	}
+
+	/**
+	 * Returns the current User model
+	 *
+	 * @return object $User
+	 */
+	public function getModel() {
+		$model = $this->settings['userModel'];
+		return ClassRegistry::init($model);
 	}
 
 	/**
 	 * @deprecated
-	 * @return bool $success
+	 * @return bool Success
 	 */
 	public function verifyUser($id, $pwd) {
 		trigger_error('deprecated - use Authenticate class');
 		$options = array(
-			'conditions' => array('id'=>$id, 'password'=>$this->password($pwd)),
+			'conditions' => array('id' => $id, 'password' => $this->password($pwd)),
 		);
 		return $this->getModel()->find('first', $options);
 
 		$this->constructAuthenticate();
 		$this->request->data['User']['password'] = $pwd;
 		return $this->identify($this->request, $this->response);
-	}
-
-	/**
-	 * returns the current User model
-	 * @return object $User
-	 */
-	public function getModel() {
-		$model = $this->settings['userModel'];
-		return ClassRegistry::init($model);
 	}
 
 }
