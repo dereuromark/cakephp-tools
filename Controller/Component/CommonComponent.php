@@ -551,7 +551,6 @@ class CommonComponent extends Component {
 		if ($type === 'canonical' && $prep) {
 			$content = h($content);
 		}
-		# custom: <meta name=”GOOGLEBOT” content=”unavailable_after: … GMT”>
 		Configure::write('Meta.'.$type, $content);
 	}
 

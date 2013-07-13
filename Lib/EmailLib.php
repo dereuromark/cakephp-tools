@@ -17,6 +17,7 @@ if (!defined('BR')) {
  * - allow wrapLength to be adjusted
  * - Configure::read('Config.x-mailer') can modify the x-mailer
  * - basic validation supported
+ * - allow priority to be set (1 to 5)
  *
  * @author Mark Scherer
  * @license MIT
@@ -32,6 +33,8 @@ class EmailLib extends CakeEmail {
 	protected $_error = null;
 
 	protected $_wrapLength = null;
+
+	protected $_priority = null;
 
 	public function __construct($config = null) {
 		if ($config === null) {
@@ -485,6 +488,11 @@ class EmailLib extends CakeEmail {
 			'bcc' => $this->_bcc,
 			'transport' => $this->_transportName
 		);
+		if ($this->_priority) {
+			$this->_headers['X-Priority'] = $this->_priority;
+			//$this->_headers['X-MSMail-Priority'] = 'High';
+			//$this->_headers['Importance'] = 'High';
+		}
 
 		try {
 			$this->_debug = parent::send($message);
@@ -543,6 +551,20 @@ class EmailLib extends CakeEmail {
 			return $this->_wrapLength;
 		}
 		$this->_wrapLength = $length;
+		return $this;
+	}
+
+	/**
+	 * Set/Get priority
+	 *
+	 * @param int $priority 1 (highest) to 5 (lowest)
+	 * @return int|CakeEmail
+	 */
+	public function priority($priority = null) {
+		if ($priority === null) {
+			return $this->_priority;
+		}
+		$this->_priority = $priority;
 		return $this;
 	}
 

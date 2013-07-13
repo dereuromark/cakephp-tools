@@ -164,7 +164,7 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * Catch database errors before it’s too late
+	 * Catch database errors before it's too late
 	 * //TODO: testing
 	 * 2010-11-04 ms
 	 */
