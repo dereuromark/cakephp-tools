@@ -28,7 +28,7 @@ App::uses('ModelBehavior', 'Model');
 /**
  * SluggedBehavior class
  *
- * @uses ModelBehavior
+ *
  * @version 2.x
  * @modified Mark Scherer
  */

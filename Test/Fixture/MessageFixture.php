@@ -24,9 +24,6 @@
 /**
  * MessageFixture class
  *
- * @uses CakeTestFixture
- * @package mi
- * @subpackage mi.tests.fixtures
  */
 class MessageFixture extends CakeTestFixture {
 

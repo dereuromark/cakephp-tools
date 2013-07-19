@@ -12,7 +12,7 @@ App::uses('CakeSession', 'Model/Datasource');
  * Convenience wrapper to access Auth data and check on rights/roles.
  * Expects the Role session infos to be either
  * 	`Auth.User.role_id` (single) or
- * 	`Auth.User.Role` (multi)
+ * 	`Auth.User.Role` (multi - flat array of roles, or array role data)
  * and can be adjusted via defined().
  * Same for Right.
  *
@@ -25,28 +25,40 @@ App::uses('CakeSession', 'Model/Datasource');
 class Auth {
 
 	/**
-	 * get the user id of the current session or return empty/null
+	 * Get the user id of the current session.
 	 *
-	 * @return mixed $userId
+	 * This can be used anywhere to check if a user is logged in.
+	 *
+	 * @return mixed User id if existent, null otherwise.
 	 */
 	public static function id() {
 		return CakeSession::read('Auth.User.id');
 	}
 
 	/**
-	 * get the role(s) of the current session or return empty/null
+	 * Get the role(s) of the current session.
 	 *
-	 * @return mixed $roles
+	 * It will return the single role for single role setup, and a flat
+	 * list of roles for multi role setup.
+	 *
+	 * @return mixed String or array of roles or null if inexistent
 	 */
 	public static function roles() {
-		return CakeSession::read('Auth.User.' . USER_ROLE_KEY);
+		$roles = CakeSession::read('Auth.User.' . USER_ROLE_KEY);
+		if (!is_array($roles)) {
+			return $roles;
+		}
+		if (isset($roles[0]['id'])) {
+			$roles = Hash::extract($roles, '{n}.id');
+		}
+		return $roles;
 	}
 
 	/**
-	 * get the user data of the current session or return empty/null
+	 * Get the user data of the current session.
 	 *
 	 * @param string $key (dot syntax)
-	 * @return mixed $data
+	 * @return mixed Data
 	 */
 	public static function user($key = null) {
 		if ($key) {
@@ -56,11 +68,11 @@ class Auth {
 	}
 
 	/**
-	 * check if the current session has this right
+	 * Check if the current session has this right.
 	 *
 	 * @param mixed $role
-	 * @param mixed $existingRolesToCheckAgainst
-	 * @return bool $success
+	 * @param mixed $providedRights
+	 * @return bool Success
 	 */
 	public static function hasRight($ownRight, $providedRights = null) {
 		if ($providedRights !== null) {
@@ -76,11 +88,11 @@ class Auth {
 	}
 
 	/**
-	 * check if the current session has this role
+	 * Check if the current session has this role.
 	 *
 	 * @param mixed $role
-	 * @param mixed $existingRolesToCheckAgainst
-	 * @return bool $success
+	 * @param mixed $providedRoles
+	 * @return bool Success
 	 */
 	public static function hasRole($ownRole, $providedRoles = null) {
 		if ($providedRoles !== null) {
@@ -101,12 +113,12 @@ class Auth {
 	}
 
 	/**
-	 * check if the current session has oen of these roles
+	 * Check if the current session has oen of these roles.
 	 *
 	 * @param mixed $roles
 	 * @param bool $oneRoleIsEnough (if all $roles have to match instead of just one)
-	 * @param mixed $existingRolesToCheckAgainst
-	 * @return bool $success
+	 * @param mixed $providedRoles
+	 * @return bool Success
 	 */
 	public static function hasRoles($ownRoles, $oneRoleIsEnough = true, $providedRoles = null) {
 		if ($providedRoles !== null) {

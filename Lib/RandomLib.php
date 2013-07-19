@@ -282,7 +282,6 @@ class RandomLib {
 	 * @param string a type of pool, or a string of characters to use as the pool
 	 * @param integer length of string to return
 	 * @return string
-	 * @uses UTF8::split
 	 */
 	public static function random($type = 'alnum', $length = 8) {
 		switch ($type) {

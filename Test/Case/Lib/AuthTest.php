@@ -7,7 +7,7 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
  */
 class AuthTest extends MyCakeTestCase {
 
-	public $fixtures = array('core.session');
+	public $fixtures = array('core.cake_session');
 
 	public function setUp() {
 		parent::setUp();
@@ -25,6 +25,11 @@ class AuthTest extends MyCakeTestCase {
 		CakeSession::delete('Auth');
 	}
 
+	/**
+	 * AuthTest::testId()
+	 *
+	 * @return void
+	 */
 	public function testId() {
 		$id = Auth::id();
 		$this->assertNull($id);
@@ -34,6 +39,11 @@ class AuthTest extends MyCakeTestCase {
 		$this->assertEquals(1, $id);
 	}
 
+	/**
+	 * AuthTest::testHasRole()
+	 *
+	 * @return void
+	 */
 	public function testHasRole() {
 		$res = Auth::hasRole(1, array(2, 3, 6));
 		$this->assertFalse($res);
@@ -51,6 +61,35 @@ class AuthTest extends MyCakeTestCase {
 		$this->assertFalse($res);
 	}
 
+	/**
+	 * AuthTest::testHasRoleWithSession()
+	 *
+	 * @return void
+	 */
+	public function testHasRoleWithSession() {
+		if (!defined('USER_ROLE_KEY')) {
+			define('USER_ROLE_KEY', 'Role');
+		}
+		CakeSession::write('Auth.User.id', 1);
+		$roles = array(
+			array('id' => '1', 'name' => 'User', 'alias' => 'user'),
+			array('id' => '2', 'name' => 'Moderator', 'alias' => 'moderator'),
+			array('id' => '3', 'name' => 'Admin', 'alias' => 'admin'),
+		);
+		CakeSession::write('Auth.User.' . USER_ROLE_KEY, $roles);
+
+		$res = Auth::hasRole(4);
+		$this->assertFalse($res);
+
+		$res = Auth::hasRole(3);
+		$this->assertTrue($res);
+	}
+
+	/**
+	 * AuthTest::testHasRoles()
+	 *
+	 * @return void
+	 */
 	public function testHasRoles() {
 		$res = Auth::hasRoles(array(1, 3), true, array(2, 3, 6));
 		$this->assertTrue($res);
