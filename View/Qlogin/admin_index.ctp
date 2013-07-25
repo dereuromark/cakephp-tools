@@ -11,7 +11,7 @@
 <h3><?php echo __('Add %s', __('Qlogin')); ?></h3>
 <?php echo $this->Form->create('Qlogin');?>
 	<fieldset>
- 		<legend><?php echo __('Add %s', __('Qlogin')); ?></legend>
+		<legend><?php echo __('Add %s', __('Qlogin')); ?></legend>
 	<?php
 		echo $this->Form->input('url', array('placeholder'=>'/controller/action/...'));
 		echo $this->Form->input('user_id', array('empty'=>'---'));

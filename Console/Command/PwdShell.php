@@ -25,7 +25,7 @@ class PwdShell extends AppShell {
 		$class = null;
 		foreach ($components as $component) {
 			if (App::import('Component', $component)) {
-				$component .='Component';
+				$component .= 'Component';
 				list($plugin, $class) = pluginSplit($component);
 				break;
 			}

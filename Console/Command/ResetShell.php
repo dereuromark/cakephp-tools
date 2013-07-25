@@ -56,10 +56,10 @@ class ResetShell extends AppShell {
 	 * 2011-08-01 ms
 	 */
 	public function pwd() {
-		$components = array('AuthExt', 'Auth');
+		$components = array('Tools.AuthExt', 'Auth');
 		foreach ($components as $component) {
 			if (App::import('Component', $component)) {
-				$component .='Component';
+				$component .= 'Component';
 				$this->Auth = new $component(new ComponentCollection());
 				break;
 			}

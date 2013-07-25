@@ -130,10 +130,10 @@ class CommonHelper extends AppHelper {
 		foreach ($lang as $language => $countries) {
 			if (is_numeric($language)) {
 				$language = '';
- 			} else {
- 				$language .= '-';
- 			}
- 			$countries = (array)$countries;
+			} else {
+				$language .= '-';
+			}
+			$countries = (array)$countries;
 			foreach ($countries as $country) {
 				$l = $language . $country;
 				$options = array('rel' => 'alternate', 'hreflang' => $l, 'type' => null, 'title' => null);

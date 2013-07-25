@@ -117,7 +117,7 @@ class PasswordableBehavior extends ModelBehavior {
 	 * 'authType' => 'Blowfish', 'passwordHasher' => array(
 	 *     'className' => 'Simple',
 	 *     'hashType' => 'sha256'
- 	 * )
+	 * )
 	 *
 	 * @throws CakeException
 	 * @param Model $Model

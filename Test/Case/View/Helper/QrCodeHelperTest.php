@@ -132,9 +132,9 @@ class QrCodeHelperTest extends MyCakeTestCase {
 		$this->assertTrue(!empty($is));
 	}
 
- 	/**
- 	 * 2011-07-19 ms
- 	 */
+	/**
+	 * 2011-07-19 ms
+	 */
 	public function testBitcoin() {
 		$this->QrCode->reset();
 		$this->QrCode->setSize(100);

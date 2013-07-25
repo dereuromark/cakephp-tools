@@ -188,7 +188,7 @@ class EmailLibTest extends MyCakeTestCase {
 			'mimetype' => 'image/jpeg',
 		);
 		$this->assertEquals($expected, $res['my_image.jpg']);
- 	}
+	}
 
 	/**
 	 * EmailLibTest::testAddAttachment()

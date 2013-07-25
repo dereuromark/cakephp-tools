@@ -111,9 +111,9 @@ class BootstrapHelper extends AppHelper {
 			}
 			$tmp = '<div class="item'.$active.'">'.$tmp.'</div>';
 			$res[] = $tmp;
- 		}
- 		$res = implode(PHP_EOL, $res);
- 		return $res;
+		}
+		$res = implode(PHP_EOL, $res);
+		return $res;
 	}
 
 	/**
@@ -165,7 +165,7 @@ class BootstrapHelper extends AppHelper {
 		$res .= '	<div class="accordion-inner">';
 		$res .= $content;
 		$res .= '	</div>';
- 		$res .= '	</div>';
+		$res .= '	</div>';
 		$res .= '</div>';
 		return $res;
 	}

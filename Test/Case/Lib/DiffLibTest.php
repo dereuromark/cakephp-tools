@@ -41,10 +41,10 @@ CSS;
 --- 1 ----
 ! 9999944449977
 TEXT;
- 		$res = $this->Diff->reverse($text);
- 		$this->out($res);
+		$res = $this->Diff->reverse($text);
+		$this->out($res);
 
- 		$this->out('String - Context - render as Unified', true);
+		$this->out('String - Context - render as Unified', true);
 	}
 
 	public function testParseDiff() {

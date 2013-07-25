@@ -57,10 +57,10 @@ CSS;
 --- 1 ----
 ! 9999944449977
 TEXT;
- 		$res = $this->Diff->reverse($text);
- 		$this->out($res);
+		$res = $this->Diff->reverse($text);
+		$this->out($res);
 
- 		$this->out('String - Context - render as Unified', false);
+		$this->out('String - Context - render as Unified', false);
 		$text = <<<TEXT
 ***************
 *** 1 ****
@@ -70,7 +70,7 @@ TEXT;
 TEXT;
 		$this->Diff->renderType('unified');
 		$res = $this->Diff->reverse($text, array('mode' => 'context'));
- 		$this->out($res);
+		$this->out($res);
 	}
 
 	/**

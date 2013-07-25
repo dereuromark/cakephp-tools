@@ -510,7 +510,7 @@ class FormatHelper extends TextHelper {
 	/**
 	 * It is still believed that encoding will stop spam-bots being able to find your email address.
 	 * Nevertheless, encoded email address harvester are on the way (http://www.dreamweaverfever.com/experiments/spam/).
- 	 *
+	 *
 	 * //TODO: move to TextExt?
 	 * Helper Function to Obfuscate Email by inserting a span tag (not more! not very secure on its own...)
 	 * each part of this mail now does not make sense anymore on its own
