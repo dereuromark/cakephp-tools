@@ -14,7 +14,20 @@ App::uses('Folder', 'Utility');
 App::uses('AppShell', 'Console/Command');
 
 /**
- * Indend Shell
+ * Indent Shell
+ *
+ * Correct indentation of files in a folder recursivly.
+ * Useful if files contain either only spaces or even a mixture of spaces and tabs.
+ * It can be a bitch to get this straightened out. Mix in a mixture of different space
+ * lengths and it is a nightmare.
+ * Using IDE specific beautifier is not always an option, either. They usually reformat
+ * arrays and other things in a way you don't want. No matter how hard you try to set it
+ * up correctly.
+ *
+ * This addresses the issue in a clean way and only modifies whitespace at the beginning
+ * of a line.
+ *
+ * Oh, and: Use TABS for indentation of code - ALWAYS.
  *
  * @cakephp 2.x
  * @author Mark Scherer
@@ -23,26 +36,30 @@ App::uses('AppShell', 'Console/Command');
  */
 class IndentShell extends AppShell {
 
-	protected $changes = null;
-
 	public $settings = array(
 		'files' => array('php', 'ctp', 'inc', 'tpl'),
-		'againWithHalf' => true, # if 4, go again with 2 afterwards
+		'againWithHalf' => false, # if 4, go again with 2 afterwards
 		'outputToTmp' => false, # write to filename_.ext
 		'debug' => false # add debug info after each line
 	);
 
+	protected $changes = null;
+
 	protected $_paths = array();
+
 	protected $_files = array();
 
 	/**
-	 * Main execution function to indend a folder recursivly
+	 * Main execution function to indent a folder recursivly
 	 *
 	 * @return void
 	 */
 	public function folder() {
 		if (!empty($this->params['extensions'])) {
 			$this->settings['files'] = String::tokenize($this->params['extensions']);
+		}
+		if (!empty($this->params['again'])) {
+			$this->settings['againWithHalf'] = true;
 		}
 
 		if (!empty($this->args)) {
@@ -325,6 +342,11 @@ class IndentShell extends AppShell {
 					'short' => 'e',
 					'help' => __d('cake_console', 'Extensions (comma-separated)'),
 					'default' => '',
+				),
+				'again'=> array(
+					'short' => 'a',
+					'help' => __d('cake_console', 'Again (with half) afterwards'),
+					'boolean' => true
 				),
 			)
 		);
