@@ -26,6 +26,10 @@ App::uses('AppShell', 'Console/Command');
  *
  * This addresses the issue in a clean way and only modifies whitespace at the beginning
  * of a line.
+ * Single "accidental" spaces will be filtered out automatically.
+ *
+ * Tip: For different space lenghts use multiple times from largest to smallest length.
+ * E.g "-s 8", then "-s 4" and maybe even "-s 2".
  *
  * Oh, and: Use TABS for indentation of code - ALWAYS.
  *
