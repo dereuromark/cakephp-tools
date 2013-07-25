@@ -17,6 +17,9 @@ class LinkableBehaviorTest extends CakeTestCase {
 		'plugin.tools.legacy_company',
 		'plugin.tools.shipment',
 		'plugin.tools.order_item',
+		'plugin.tools.news_article',
+		'plugin.tools.news_category',
+		'plugin.tools.news_articles_news_category',
 	);
 
 	public $User;
@@ -136,8 +139,12 @@ class LinkableBehaviorTest extends CakeTestCase {
 		$this->assertEquals($arrayExpectedTmp, $arrayResult, 'On-the-fly belongsTo association via Linkable, with order: %s');
 	}
 
+	/**
+	 * hasMany association via Containable. Should still work when Linkable is loaded.
+	 *
+	 * @return void
+	 */
 	public function testHasMany() {
-		// hasMany association via Containable. Should still work when Linkable is loaded
 		$arrayExpected = array(
 			'LinkableUser' => array('id' => 1, 'username' => 'CakePHP'),
 			'LinkableComment' => array(
@@ -270,8 +277,8 @@ class LinkableBehaviorTest extends CakeTestCase {
 		$this->assertEquals($arrayExpectedTmp, $arrayResult, 'Linkable and Containable combined: %s');
 	}
 
-	public function _testPagination() {
-		$objController = new Controller(new CakeRequest('/'), new CakeResponse());
+	public function testPagination() {
+		$objController = new Controller(new CakeRequest(), new CakeResponse());
 		$objController->layout = 'ajax';
 		$objController->uses = array('LinkableUser');
 		$objController->constructClasses();
@@ -310,7 +317,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 				)
 			),
 			'limit' => 2,
-			'order' => 'Profile.user_id DESC'
+			'order' => 'LinkableProfile.user_id DESC'
 		);
 
 		$arrayResult = $objController->paginate('LinkableUser');
@@ -339,7 +346,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 				'LinkableProfile'
 			),
 			'limit' => 2,
-			'order' => 'Profile.user_id DESC'
+			'order' => 'LinkableProfile.user_id DESC'
 		);
 
 		$arrayResult = $objController->paginate('LinkableUser');
@@ -347,10 +354,12 @@ class LinkableBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 *	Series of tests that assert if Linkable can adapt to assocations that
-	 *	have aliases different from their standard model names
+	 * Series of tests that assert if Linkable can adapt to assocations that
+	 * have aliases different from their standard model names.
+	 *
+	 * @return void
 	 */
-	public function _testNonstandardAssociationNames() {
+	public function testNonstandardAssociationNames() {
 		$this->LinkableTag = ClassRegistry::init('LinkableTag');
 
 		$arrayExpected = array(
@@ -446,7 +455,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 		$this->assertEquals($arrayExpected, $arrayResult, 'hasMany association with custom foreignKey: %s');
 	}
 
-	public function _testAliasedBelongsToWithSameModelAsHasMany() {
+	public function testAliasedBelongsToWithSameModelAsHasMany() {
 		$this->OrderItem = ClassRegistry::init('OrderItem');
 
 		$arrayExpected = array(
@@ -474,8 +483,40 @@ class LinkableBehaviorTest extends CakeTestCase {
 		$this->assertEquals($arrayExpected, $arrayResult, 'belongsTo association with alias (requested), with hasMany to the same model without alias: %s');
 	}
 
-}
+	/**
+	 * Ensure that the correct habtm keys are read from the relationship in the models
+	 *
+	 * @author David Yell <neon1024@gmail.com>
+	 * @return void
+	 */
+	public function testHasAndBelongsToManyNonConvention() {
+		$this->NewsArticle = ClassRegistry::init('NewsArticle');
 
+		$expected = array(
+			array(
+				'NewsArticle' => array(
+					'id' => '1',
+					'title' => 'CakePHP the best framework'
+				),
+				'NewsCategory' => array(
+					'id' => '1',
+					'name' => 'Development'
+				)
+			)
+		);
+
+		$result = $this->NewsArticle->find('all', array(
+			'link' => array(
+				'NewsCategory'
+			),
+			'conditions' => array(
+				'NewsCategory.id' => 1
+			)
+		));
+
+		$this->assertEqual($result, $expected);
+	}
+}
 
 class LinkableTestModel extends CakeTestModel {
 
@@ -604,6 +645,34 @@ class OrderItem extends LinkableTestModel {
 			'className' => 'Shipment',
 			'foreignKey' => 'active_shipment_id',
 		),
+	);
+
+}
+
+class NewsArticle extends LinkableTestModel {
+
+	public $hasAndBelongsToMany = array(
+		'NewsCategory' => array(
+			'className' => 'NewsCategory',
+			'joinTable' => 'news_articles_news_categories',
+			'foreignKey' => 'article_id',
+			'associationForeignKey' => 'category_id',
+			'unique' => 'keepExisting',
+		)
+	);
+
+}
+
+class NewsCategory extends LinkableTestModel {
+
+	public $hasAndBelongsToMany = array(
+		'NewsArticle' => array(
+			'className' => 'NewsArticle',
+			'joinTable' => 'news_articles_news_categories',
+			'foreignKey' => 'category_id',
+			'associationForeignKey' => 'article_id',
+			'unique' => 'keepExisting',
+		)
 	);
 
 }

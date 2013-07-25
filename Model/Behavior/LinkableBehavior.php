@@ -68,14 +68,39 @@ class LinkableBehavior extends ModelBehavior {
 					if (empty($options['alias'])) {
 						throw new InvalidArgumentException(sprintf('%s::%s must receive aliased links', get_class($this), __FUNCTION__));
 					}
+
+					// try to find the class name - important for aliased relations
+					foreach ($Model->belongsTo as $relationAlias => $relation) {
+						if (empty($relation['className']) || $relationAlias !== $options['alias']) {
+							continue;
+						}
+						$options['class'] = $relation['className'];
+						break;
+					}
+					foreach ($Model->hasOne as $relationAlias => $relation) {
+						if (empty($relation['className']) || $relationAlias !== $options['alias']) {
+							continue;
+						}
+						$options['class'] = $relation['className'];
+						break;
+					}
+					foreach ($Model->hasMany as $relationAlias => $relation) {
+						if (empty($relation['className']) || $relationAlias !== $options['alias']) {
+							continue;
+						}
+						$options['class'] = $relation['className'];
+						break;
+					}
+
+					// guess it then
 					if (empty($options['table']) && empty($options['class'])) {
 						$options['class'] = $options['alias'];
 					} elseif (!empty($options['table']) && empty($options['class'])) {
 						$options['class'] = Inflector::classify($options['table']);
 					}
 
-					// the incoming model to be linked in query
-					$_Model = ClassRegistry::init($options['class']);
+					// the incoming model to be linked in query using class and alias
+					$_Model = ClassRegistry::init(array('class' => $options['class'], 'alias' => $options['alias']));
 					// the already in query model that links to $_Model
 					$Reference = ClassRegistry::init($options['reference']);
 					$db = $_Model->getDataSource();
@@ -139,17 +164,17 @@ class LinkableBehavior extends ModelBehavior {
 							}
 							// fallback to defaults otherwise
 							if (empty($modelLink)) {
-								$modelLink = $Link->escapeField(Inflector::underscore($_Model->alias) . '_id');
+								$modelLink = $Link->escapeField($association['foreignKey']);
 							}
 							if (empty($referenceLink)) {
-								$referenceLink = $Link->escapeField(Inflector::underscore($Reference->alias) . '_id');
+								$referenceLink = $Link->escapeField($association['associationForeignKey']);
 							}
 							$referenceKey = $Reference->escapeField();
 							$query['joins'][] = array(
 								'alias' => $Link->alias,
 								'table' => $Link->table, //$Link->getDataSource()->fullTableName($Link),
 								'conditions' => "{$referenceLink} = {$referenceKey}",
-								'type' => 'LEFT'
+								'type' => 'LEFT',
 							);
 							$modelKey = $_Model->escapeField();
 							$modelKey = str_replace($_Model->alias, $options['alias'], $modelKey);
