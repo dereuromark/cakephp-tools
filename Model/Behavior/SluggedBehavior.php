@@ -49,7 +49,7 @@ class SluggedBehavior extends ModelBehavior {
  * mode has the following values
  * 	ascii - retuns an ascii slug generated using the core Inflector::slug() function
  * 	display - a dummy mode which returns a slug legal for display - removes illegal (not unprintable) characters
- * 	url - returns a slug appropriate to put in a url
+ * 	url - returns a slug appropriate to put in a URL
  * 	class - a dummy mode which returns a slug appropriate to put in a html class (there are no restrictions)
  * 	id - retuns a slug appropriate to use in a html id
  * case has the following values

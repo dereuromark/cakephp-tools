@@ -52,7 +52,7 @@ class JsonableBehavior extends ModelBehavior {
 
 	public function setup(Model $Model, $config = array()) {
 		$this->settings[$Model->alias] = Set::merge($this->_defaultSettings, $config);
-		//extract ($this->settings[$Model->alias]);
+		//extract($this->settings[$Model->alias]);
 		if (!is_array($this->settings[$Model->alias]['fields'])) {
 			$this->settings[$Model->alias]['fields'] = (array)$this->settings[$Model->alias]['fields'];
 		}
