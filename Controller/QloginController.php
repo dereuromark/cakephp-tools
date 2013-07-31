@@ -42,7 +42,7 @@ class QloginController extends ToolsAppController {
 
 		if (empty($entry)) {
 			$this->Common->flashMessage(__('Invalid Key'), 'error');
-			$this->Common->autoRedirect($default);
+			return $this->Common->autoRedirect($default);
 		}
 		//die(returns($entry));
 		$uid = $entry['CodeKey']['user_id'];
@@ -60,7 +60,7 @@ class QloginController extends ToolsAppController {
 				trigger_error($this->Auth->loginError . ' - uid ' . $uid);
 			}
 		}
-		$this->redirect($url);
+		return $this->redirect($url);
 	}
 
 	/**
@@ -110,7 +110,7 @@ class QloginController extends ToolsAppController {
 		$this->CodeKey = ClassRegistry::init('Tools.CodeKey');
 		$this->CodeKey->deleteAll(array('type'=>'qlogin'));
 		$this->Common->flashMessage(__('Success'), 'success');
-		$this->Common->autoRedirect(array('action'=>'index'));
+		return $this->Common->autoRedirect(array('action'=>'index'));
 	}
 
 }

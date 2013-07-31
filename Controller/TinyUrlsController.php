@@ -53,7 +53,7 @@ class TinyUrlsController extends ToolsAppController {
 			$this->Common->flashMessage($message, $type);
 		}
 		$this->TinyUrl->up($entry['TinyUrl']['id'], array('field'=>'used', 'modify'=>true, 'timestampField'=>'last_used'));
-		$this->redirect($url, 301);
+		return $this->redirect($url, 301);
 	}
 
 
@@ -86,7 +86,7 @@ class TinyUrlsController extends ToolsAppController {
 		}
 		$this->TinyUrl->truncate();
 		$this->Common->flashMessage(__('Done'), 'success');
-		$this->Common->autoRedirect(array('action'=>'index'));
+		return $this->Common->autoRedirect(array('action'=>'index'));
 	}
 
 }
