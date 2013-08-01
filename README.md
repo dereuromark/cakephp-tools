@@ -83,6 +83,7 @@ For details on how to contribute please read the [CONTRIBUTING page](CONTRIBUTIN
 
 ### License
 Licensed under [The MIT License](http://www.opensource.org/licenses/mit-license.php)
+unless specified otherwise (in the classes).
 
 ### Recent changes (possibly BC breaking)
 

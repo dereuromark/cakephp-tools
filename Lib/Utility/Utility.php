@@ -1,4 +1,5 @@
 <?php
+
 App::uses('Sanitize', 'Utility');
 App::uses('Router', 'Routing');
 
@@ -22,7 +23,60 @@ class Utility {
 	 */
 	public static function inArray($needle, $haystack) {
 		$strict = !is_numeric($needle);
-		return in_array((string)$needle, $haystack, $strict);
+		return in_array((string )$needle, $haystack, $strict);
+	}
+
+	/**
+	 * Multibyte analogue of preg_match_all() function.
+	 * By default this works properly with UTF8 strings.
+	 *
+	 * @param string $pattern The pattern to use.
+	 * @param string $subject The string to match.
+	 * @param array $matches Array of all matches in multi-dimensional array ordered according to flags.
+	 * @param int $flags
+	 * @param int $offset
+	 * @return array Result
+	 */
+	public static function pregMatchAll($pattern, $subject, $matches, $flags = null, $offset = null) {
+		$pattern = substr($pattern, 0, 1) . '(*UTF8)' . substr($pattern, 1);
+		return preg_match_all($pattern, $subject, $matches, $flags, $offset);
+	}
+
+	/**
+	 * Multibyte analogue of preg_match() function.
+	 * By default this works properly with UTF8 strings.
+	 *
+	 * @param string $pattern The pattern to use.
+	 * @param string $subject The string to match.
+	 * @param array $matches Array of all matches in multi-dimensional array ordered according to flags.
+	 * @param int $flags
+	 * @param int $offset
+	 * @return array Result
+	 */
+	public static function pregMatch($pattern, $subject, $matches, $flags = null, $offset = null) {
+		$pattern = substr($pattern, 0, 1) . '(*UTF8)' . substr($pattern, 1);
+		return preg_match($pattern, $subject, $matches, $flags, $offset);
+	}
+
+	/**
+	 * Multibyte analogue of str_split() function.
+	 * By default this works properly with UTF8 strings.
+	 *
+	 * @param string $text
+	 * @param int $length
+	 * @return array Result
+	 */
+	public static function strSplit($str, $length = 1) {
+		if ($length < 1) {
+			return false;
+		}
+		$result = array();
+		$space_key = null;
+		$c = mb_strlen($str);
+		for ($i = 0; $i < $c; $i += $length) {
+			$result[] = mb_substr($str, $i, $length);
+		}
+		return $result;
 	}
 
 	/**
@@ -159,7 +213,7 @@ class Utility {
 
 		if (($pos = strpos($url, '.')) !== false) {
 			if (strpos(substr($url, 0, $pos), '//') === false) {
-				$url = $prefix.$url;
+				$url = $prefix . $url;
 			}
 		}
 		return $url;
@@ -368,11 +422,11 @@ class Utility {
 		if (!$a) {
 			return array();
 		}
-		foreach($a as $k=>$v){
-			if(is_array($v)) {
-				$f= self::_arrayFlatten($v, $f);
+		foreach ($a as $k => $v) {
+			if (is_array($v)) {
+				$f = self::_arrayFlatten($v, $f);
 			} else {
-				$f[$k]=$v;
+				$f[$k] = $v;
 			}
 		}
 		return $f;
