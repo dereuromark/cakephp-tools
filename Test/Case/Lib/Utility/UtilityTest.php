@@ -62,7 +62,7 @@ class UtilityTest extends MyCakeTestCase {
 
 	public function testPregMatchAll() {
 		$string = 'D-81245 München';
-		preg_match_all('/(*UTF8)([\w+])-([a-z0-9]+)\s+\b([\w\s]+)\b/i', $string, $matches, PREG_SET_ORDER);
+		preg_match_all('/([\w+])-([a-z0-9]+)\s+\b([\w\s]+)\b/i', $string, $matches, PREG_SET_ORDER);
 		$expected = array(
 			array(
 				$string,
