@@ -199,7 +199,7 @@ class JsonableBehavior extends ModelBehavior {
 	public function _toParam(Model $Model, $val) {
 		$res = array();
 		foreach ($val as $key => $v) {
-			$res[] = $key.$this->settings[$Model->alias]['keyValueSeparator'].$v;
+			$res[] = $key . $this->settings[$Model->alias]['keyValueSeparator'] . $v;
 		}
 		return implode($this->settings[$Model->alias]['separator'], $res);
 	}

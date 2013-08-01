@@ -220,12 +220,12 @@ class CaptchaBehavior extends ModelBehavior {
 		if (!$this->settings[$this->Model->alias]['log']) {
 			return null;
 		}
-		$msg = 'IP \''.Utility::getClientIp().'\', Agent \''.env('HTTP_USER_AGENT').'\', Referer \''.env('HTTP_REFERER').'\', Host-Referer \''.Utility::getReferer().'\'';
+		$msg = 'IP \'' . Utility::getClientIp() . '\', Agent \''.env('HTTP_USER_AGENT').'\', Referer \''.env('HTTP_REFERER').'\', Host-Referer \''.Utility::getReferer().'\'';
 		if (!empty($this->error)) {
-			$msg .= ', '.$this->error;
+			$msg .= ', ' . $this->error;
 		}
 		if (!empty($this->internalError)) {
-			$msg .= ' ('.$this->internalError.')';
+			$msg .= ' (' . $this->internalError . ')';
 		}
 		$this->log($msg, 'captcha');
 		return true;

@@ -81,6 +81,9 @@ Please provide PRs mainly against master branch then.
 
 For details on how to contribute please read the [CONTRIBUTING page](CONTRIBUTING.md).
 
+### License
+Licensed under [The MIT License](http://www.opensource.org/licenses/mit-license.php)
+
 ### Recent changes (possibly BC breaking)
 
 * 2013-02 Removed PasswordChangeBehavior in favor of its new name Passwordable.

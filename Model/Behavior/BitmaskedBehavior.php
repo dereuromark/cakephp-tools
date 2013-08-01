@@ -170,9 +170,9 @@ class BitmaskedBehavior extends ModelBehavior {
 				}
 				continue;
 			} elseif ($key === $Model->alias . '.' . $mappedField) {
-				$conditions[$Model->alias . '.' .$field] = $this->encodeBitmask($Model, $val);
+				$conditions[$Model->alias . '.' . $field] = $this->encodeBitmask($Model, $val);
 				if ($field !== $mappedField) {
-					unset($conditions[$Model->alias . '.' .$mappedField]);
+					unset($conditions[$Model->alias . '.' . $mappedField]);
 				}
 				continue;
 			}
@@ -218,7 +218,7 @@ class BitmaskedBehavior extends ModelBehavior {
 		$bitmask = $this->encodeBitmask($Model, $bits);
 
 		$field = $this->settings[$Model->alias]['field'];
-		return array($Model->alias.'.'.$field => $bitmask);
+		return array($Model->alias . '.'. $field => $bitmask);
 	}
 
 	/**
@@ -230,7 +230,7 @@ class BitmaskedBehavior extends ModelBehavior {
 		$bitmask = $this->encodeBitmask($Model, $bits);
 
 		$field = $this->settings[$Model->alias]['field'];
-		return array('NOT' => array($Model->alias.'.'.$field => $bitmask));
+		return array('NOT' => array($Model->alias . '.' . $field => $bitmask));
 	}
 
 	/**
@@ -242,7 +242,7 @@ class BitmaskedBehavior extends ModelBehavior {
 		$bitmask = $this->encodeBitmask($Model, $bits);
 
 		$field = $this->settings[$Model->alias]['field'];
-		return array('('.$Model->alias.'.'.$field.' & ? = ?)' => array($bitmask, $bitmask));
+		return array('(' . $Model->alias . '.' . $field . ' & ? = ?)' => array($bitmask, $bitmask));
 	}
 
 	/**
@@ -254,7 +254,7 @@ class BitmaskedBehavior extends ModelBehavior {
 		$bitmask = $this->encodeBitmask($Model, $bits);
 
 		$field = $this->settings[$Model->alias]['field'];
-		return array('('.$Model->alias.'.'.$field.' & ? != ?)' => array($bitmask, $bitmask));
+		return array('(' . $Model->alias . '.' . $field . ' & ? != ?)' => array($bitmask, $bitmask));
 	}
 
 }

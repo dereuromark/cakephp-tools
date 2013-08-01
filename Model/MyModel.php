@@ -238,7 +238,7 @@ class MyModel extends Model {
 					$this->$model->virtualFields[$field] = $sql;
 				}
 			}
-			$res[] = $sql.' AS '.$model.'__'.$field;
+			$res[] = $sql . ' AS ' . $model . '__' . $field;
 		}
 		return $res;
 	}
@@ -987,7 +987,7 @@ class MyModel extends Model {
 
 				} elseif (!empty($id)) {
 					# manual query! (only possible on edit)
-					$res = $this->find('first', array('fields' => array($this->alias.'.'.$dependingField), 'conditions' => array($this->alias.'.id' => $id)));
+					$res = $this->find('first', array('fields' => array($this->alias . '.' . $dependingField), 'conditions' => array($this->alias . '.id' => $id)));
 					if (!empty($res)) {
 						$conditions[$this->alias . '.' . $dependingField] = $res[$this->alias][$dependingField];
 					}
@@ -1133,9 +1133,14 @@ class MyModel extends Model {
 		}
 		$headers = implode("\n", $headers);
 		$protocol = mb_strpos($url, 'https://') === 0 ? 'HTTP' : 'HTTP';
-		return ((bool)preg_match('#^'.$protocol.'/.*\s+[(200|301|302)]+\s#i', $headers) && !(bool)preg_match('#^'.$protocol.'/.*\s+[(404|999)]+\s#i', $headers));
+		if (!(bool)preg_match('#^' . $protocol . '/.*\s+[(200|301|302)]+\s#i', $headers)) {
+			return false;
+		}
+		if ((bool)preg_match('#^' . $protocol . '/.*\s+[(404|999)]+\s#i', $headers)) {
+			return false;
+		}
+		return true;
 	}
-
 
 	/**
 	 * Validation of DateTime Fields (both Date and Time together)
