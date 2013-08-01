@@ -46,7 +46,7 @@ class UtilityTest extends MyCakeTestCase {
 		$this->assertSame(array($string, 'äöü'), $matches);
 
 		$string = 'D-81245 München';
-		preg_match('/(*UTF8)([\w+])-([a-z0-9]+)\s+\b([\w\s]+)\b/i', $string, $matches);
+		preg_match('/(*UTF8)([\w+])-([a-z0-9]+)\s+\b([\w\s]+)\b/iu', $string, $matches);
 		$expected = array(
 			$string,
 			'D',
@@ -56,13 +56,13 @@ class UtilityTest extends MyCakeTestCase {
 		$this->assertSame($expected, $matches);
 
 		// we dont need the utf8 hack:
-		Utility::pregMatch('/([\w+])-([a-z0-9]+)\s+\b([\w\s]+)\b/i', $string, $matches);
+		Utility::pregMatch('/([\w+])-([a-z0-9]+)\s+\b([\w\s]+)\b/iu', $string, $matches);
 		$this->assertSame($expected, $matches);
 	}
 
 	public function testPregMatchAll() {
 		$string = 'D-81245 München';
-		preg_match_all('/([\w+])-([a-z0-9]+)\s+\b([\w\s]+)\b/i', $string, $matches, PREG_SET_ORDER);
+		preg_match_all('/(*UTF8)([\w+])-([a-z0-9]+)\s+\b([\w\s]+)\b/iu', $string, $matches, PREG_SET_ORDER);
 		$expected = array(
 			array(
 				$string,
@@ -74,7 +74,7 @@ class UtilityTest extends MyCakeTestCase {
 		$this->assertSame($expected, $matches);
 
 		// we dont need the utf8 hack:
-		Utility::pregMatchAll('/([\w+])-([a-z0-9]+)\s+\b([\w\s]+)\b/i', $string, $matches);
+		Utility::pregMatchAll('/([\w+])-([a-z0-9]+)\s+\b([\w\s]+)\b/iu', $string, $matches);
 		$this->assertSame($expected, $matches);
 	}
 
