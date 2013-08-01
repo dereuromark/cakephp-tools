@@ -30,6 +30,10 @@ class Utility {
 	 * Multibyte analogue of preg_match_all() function.
 	 * By default this works properly with UTF8 strings.
 	 *
+	 * Note that you still need to add the u modifier (for UTF8) to your pattern yourself.
+	 *
+	 * Example: /some(.*)pattern/u
+	 *
 	 * @param string $pattern The pattern to use.
 	 * @param string $subject The string to match.
 	 * @param array $matches Array of all matches in multi-dimensional array ordered according to flags.
@@ -45,6 +49,10 @@ class Utility {
 	/**
 	 * Multibyte analogue of preg_match() function.
 	 * By default this works properly with UTF8 strings.
+	 *
+	 * Note that you still need to add the u modifier (for UTF8) to your pattern yourself.
+	 *
+	 * Example: /some(.*)pattern/u
 	 *
 	 * @param string $pattern The pattern to use.
 	 * @param string $subject The string to match.
