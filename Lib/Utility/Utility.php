@@ -13,7 +13,9 @@ App::uses('Router', 'Routing');
 class Utility {
 
 	/**
-	 * in_array itself has some PHP flaws regarding cross-type comparison
+	 * Clean implementation of inArray to avoid false positives.
+	 *
+	 * in_array itself has some PHP flaws regarding cross-type comparison:
 	 * - in_array('50x', array(40, 50, 60)) would be true!
 	 * - in_array(50, array('40x', '50x', '60x')) would be true!
 	 *
@@ -23,11 +25,11 @@ class Utility {
 	 */
 	public static function inArray($needle, $haystack) {
 		$strict = !is_numeric($needle);
-		return in_array((string )$needle, $haystack, $strict);
+		return in_array((string)$needle, $haystack, $strict);
 	}
 
 	/**
-	 * Multibyte analogue of preg_match_all() function.
+	 * Multibyte analogue of preg_match_all() function. Only that this returns the result.
 	 * By default this works properly with UTF8 strings.
 	 *
 	 * Note that you still need to add the u modifier (for UTF8) to your pattern yourself.
@@ -36,18 +38,18 @@ class Utility {
 	 *
 	 * @param string $pattern The pattern to use.
 	 * @param string $subject The string to match.
-	 * @param array $matches Array of all matches in multi-dimensional array ordered according to flags.
 	 * @param int $flags
 	 * @param int $offset
 	 * @return array Result
 	 */
-	public static function pregMatchAll($pattern, $subject, $matches, $flags = null, $offset = null) {
+	public static function pregMatchAll($pattern, $subject, $flags = PREG_SET_ORDER, $offset = null) {
 		$pattern = substr($pattern, 0, 1) . '(*UTF8)' . substr($pattern, 1);
-		return preg_match_all($pattern, $subject, $matches, $flags, $offset);
+		preg_match_all($pattern, $subject, $matches, $flags, $offset);
+		return $matches;
 	}
 
 	/**
-	 * Multibyte analogue of preg_match() function.
+	 * Multibyte analogue of preg_match() function. Only that this returns the result.
 	 * By default this works properly with UTF8 strings.
 	 *
 	 * Note that you still need to add the u modifier (for UTF8) to your pattern yourself.
@@ -56,14 +58,14 @@ class Utility {
 	 *
 	 * @param string $pattern The pattern to use.
 	 * @param string $subject The string to match.
-	 * @param array $matches Array of all matches in multi-dimensional array ordered according to flags.
 	 * @param int $flags
 	 * @param int $offset
 	 * @return array Result
 	 */
-	public static function pregMatch($pattern, $subject, $matches, $flags = null, $offset = null) {
+	public static function pregMatch($pattern, $subject, $flags = null, $offset = null) {
 		$pattern = substr($pattern, 0, 1) . '(*UTF8)' . substr($pattern, 1);
-		return preg_match($pattern, $subject, $matches, $flags, $offset);
+		preg_match($pattern, $subject, $matches, $flags, $offset);
+		return $matches;
 	}
 
 	/**
