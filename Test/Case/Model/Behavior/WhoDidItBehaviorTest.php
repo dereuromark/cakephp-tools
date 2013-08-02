@@ -31,6 +31,7 @@ class WhoDidItBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function testSaveWithDefaultSettings() {
+		// create (id + name + created + modified)
 		$data = array(
 			'name' => 'Foo'
 		);
@@ -38,6 +39,11 @@ class WhoDidItBehaviorTest extends MyCakeTestCase {
 		$res = $this->Model->save($data);
 		$this->assertTrue((bool)$res);
 		$this->assertTrue(count($res['WhoDidItPlayer']) === 4);
+
+		// update (id + name + modified)
+		$res = $this->Model->save($data + array('id' => $this->Model->id));
+		$this->assertTrue((bool)$res);
+		$this->assertTrue(count($res['WhoDidItPlayer']) === 3);
 
 		// create a new one being logged in
 		CakeSession::write('Auth.User.id', '1');
@@ -51,13 +57,10 @@ class WhoDidItBehaviorTest extends MyCakeTestCase {
 		$this->assertEquals('1', $res['WhoDidItPlayer']['created_by']);
 		$this->assertEquals('1', $res['WhoDidItPlayer']['modified_by']);
 
-		// now update
-		$data = array(
-			'name' => 'Foo2x'
-		);
-		$res = $this->Model->save($data);
+		// now update being logged in
+		$res = $this->Model->save($data + array('id' => $this->Model->id));
 		$this->assertTrue((bool)$res);
-		$this->assertTrue(count($res['WhoDidItPlayer']) === 3);
+		$this->assertTrue(count($res['WhoDidItPlayer']) === 4);
 		$this->assertEquals('1', $res['WhoDidItPlayer']['modified_by']);
 	}
 
