@@ -290,10 +290,10 @@ class Utility {
 
 	/**
 	 * Returns true only if all values are true.
+	 * //TODO: maybe move to bootstrap?
 	 *
 	 * @param array $array
 	 * @return bool $result
-	 * maybe move to bootstrap?
 	 * 2011-11-02 ms
 	 */
 	public static function logicalAnd($array) {
@@ -327,8 +327,8 @@ class Utility {
 	}
 
 	/**
-	 * On non-transaction db connections it will return a deep array of bools instead of bool
-	 * So we need to call this method inside the modified saveAll() method to return the expected single bool there, too
+	 * On non-transaction db connections it will return a deep array of bools instead of bool.
+	 * So we need to call this method inside the modified saveAll() method to return the expected single bool there, too.
 	 *
 	 * @param array
 	 * @return bool
@@ -350,7 +350,7 @@ class Utility {
 	}
 
 	/**
-	 * Convenience function for automatic casting in form methods etc
+	 * Convenience function for automatic casting in form methods etc.
 	 * //TODO: maybe move to bootstrap?
 	 *
 	 * @param mixed $value
