@@ -30,7 +30,9 @@ class StrTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * no changes
+	 * No changes
+	 *
+	 * @return void
 	 */
 	public function testStrReplace() {
 		$res = Str::replace('some', 'more', 'in some text');
@@ -44,32 +46,66 @@ class StrTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * No changes
+	 *
+	 * @return void
+	 */
+	public function testSubstrReplace() {
+		$res = Str::substrReplace('some', 'more', 0, 0);
+		$expected = 'moresome';
+		$this->assertSame($expected, $res);
+
+		$res = Str::substrReplace('some', 'more', 1, 0);
+		$expected = 'smoreome';
+		$this->assertSame($expected, $res);
+	}
+
+	/**
+	 * No changes
+	 *
+	 * @return void
+	 */
+	public function testCount() {
+		$res = Str::count('more', 'some more and more text');
+		$this->assertSame(2, $res);
+
+		$res = Str::count('more', 'some text');
+		$this->assertSame(0, $res);
+
+		$res = Str::count('more', 'some more and more text and even more text', 10, 20);
+		$this->assertSame(1, $res);
+	}
+
+	/**
+	 * Very strange method
+	 *
 	 * fixed
 	 * - documented return type (mixed)
 	 * - argument order
 	 * - missing underscore
+	 * - naming scheme
 	 *
-	 * very strange method
+	 * @return void
 	 */
-	public function testStrRchr() {
-		$res = Str::rChr('some', 'more some text');
+	public function testStrLastChr() {
+		$res = Str::lastChr('some', 'more some text');
 		$expected = 'some text';
 		$this->assertSame($expected, $res);
 
 		# WTF?
-		$res = Str::rChr('some', 'more som text');
+		$res = Str::lastChr('some', 'more som text');
 		$expected = 'som text';
 		$this->assertSame($expected, $res);
 
-		$res = Str::rChr('xome', 'more som text');
+		$res = Str::lastChr('xome', 'more som text');
 		$expected = 'xt';
 		$this->assertSame($expected, $res);
 
-		$res = Str::rChr('abc', 'more som text');
+		$res = Str::lastChr('abc', 'more som text');
 		$expected = false;
 		$this->assertSame($expected, $res);
 
-		$res = Str::rChr(120, 'more som text');
+		$res = Str::lastChr(120, 'more som text');
 		$expected = 'xt';
 		$this->assertSame($expected, $res);
 	}
