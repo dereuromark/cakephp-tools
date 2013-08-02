@@ -7,6 +7,11 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
  */
 class UtilityTest extends MyCakeTestCase {
 
+	/**
+	 * UtilityTest::testInArray()
+	 *
+	 * @return void
+	 */
 	public function testInArray() {
 		$res = Utility::inArray(2, array(1, 2, 3));
 		$this->assertTrue($res);
@@ -30,6 +35,11 @@ class UtilityTest extends MyCakeTestCase {
 		$this->assertFalse($res);
 	}
 
+	/**
+	 * UtilityTest::testPregMatch()
+	 *
+	 * @return void
+	 */
 	public function testPregMatch() {
 		$string = '<abc>';
 		preg_match('/\<(\w+)\>/', $string, $matches);
@@ -60,6 +70,21 @@ class UtilityTest extends MyCakeTestCase {
 		$this->assertSame($expected, $matches);
 	}
 
+	/**
+	 * UtilityTest::testPatternEscape()
+	 *
+	 * @return void
+	 */
+	public function testPatternEscape() {
+		$res = Utility::patternEscape('http://www.example.com/s?q=php.net+docs');
+		$this->assertSame('http:\/\/www\.example\.com\/s\?q=php\.net\+docs', $res);
+	}
+
+	/**
+	 * UtilityTest::testPregMatchAll()
+	 *
+	 * @return void
+	 */
 	public function testPregMatchAll() {
 		$string = 'D-81245 München';
 		preg_match_all('/(*UTF8)([\w+])-([a-z0-9]+)\s+\b([\w\s]+)\b/iu', $string, $matches, PREG_SET_ORDER);
@@ -78,6 +103,11 @@ class UtilityTest extends MyCakeTestCase {
 		$this->assertSame($expected, $matches);
 	}
 
+	/**
+	 * UtilityTest::testStrSplit()
+	 *
+	 * @return void
+	 */
 	public function testStrSplit() {
 		$res = str_split('some äöü string', 7);
 		$expected = array('some äö', 'ü strin', 'g');
@@ -87,34 +117,84 @@ class UtilityTest extends MyCakeTestCase {
 		$this->assertSame($expected, $res);
 	}
 
+	/**
+	 * UtilityTest::testUrlEncode()
+	 *
+	 * @return void
+	 */
+	public function testUrlEncode() {
+		$res = Utility::urlEncode('Some/cool=value+more-infos');
+		$this->assertSame('U29tZS9jb29sPXZhbHVlK21vcmUtaW5mb3M_', $res);
+	}
+
+	/**
+	 * UtilityTest::testUrlDecode()
+	 *
+	 * @return void
+	 */
+	public function testUrlDecode() {
+		$res = Utility::urlDecode('U29tZS9jb29sPXZhbHVlK21vcmUtaW5mb3M_');
+		$this->assertSame('Some/cool=value+more-infos', $res);
+	}
+
+	/**
+	 * UtilityTest::testTypeCast()
+	 *
+	 * @return void
+	 */
 	public function testTypeCast() {
 		$res = Utility::typeCast(2, 'string');
 		$this->assertNotSame(2, $res);
 		$this->assertSame('2', $res);
 	}
 
+	/**
+	 * UtilityTest::testGetClientIp()
+	 *
+	 * @return void
+	 */
 	public function testGetClientIp() {
 		$res = Utility::getClientIp();
 		$this->assertEquals(env('REMOTE_ADDR'), $res);
 	}
 
+	/**
+	 * UtilityTest::testGetReferer()
+	 *
+	 * @return void
+	 */
 	public function testGetReferer() {
 		$res = Utility::getReferer();
 		//$this->assertTrue(env(''), $res);
 		$this->assertEquals(env('HTTP_REFERER'), $res);
 	}
 
+	/**
+	 * UtilityTest::testGetHeaderFromUrl()
+	 *
+	 * @return void
+	 */
 	public function testGetHeaderFromUrl() {
 		$res = Utility::getHeaderFromUrl('http://www.spiegel.de');
 		$this->assertTrue(is_array($res) && count($res) > 10);
 		$this->assertEquals('HTTP/1.0 200 OK', $res[0]);
 	}
 
+	/**
+	 * UtilityTest::testAutoPrefixUrl()
+	 *
+	 * @return void
+	 */
 	public function testAutoPrefixUrl() {
 		$res = Utility::autoPrefixUrl('www.spiegel.de');
 		$this->assertEquals('http://www.spiegel.de', $res);
 	}
 
+	/**
+	 * UtilityTest::testCleanUrl()
+	 *
+	 * @return void
+	 */
 	public function testCleanUrl() {
 		$res = Utility::cleanUrl('www.spiegel.de');
 		$this->assertEquals('http://www.spiegel.de', $res);
@@ -133,16 +213,21 @@ class UtilityTest extends MyCakeTestCase {
 		$this->assertEquals('http://www.spiegel.de', $res);
 	}
 
+	/**
+	 * UtilityTest::testDeep()
+	 *
+	 * @return void
+	 */
 	public function testDeep() {
 		$is = array(
 			'f some',
 			'e 49r ' => 'rf r ',
-			'er' => array(array('ee'=>array('rr '=>' tt ')))
+			'er' => array(array('ee' => array('rr ' => ' tt ')))
 		);
 		$expected = array(
 			'f some',
 			'e 49r ' => 'rf r',
-			'er' => array(array('ee'=>array('rr '=>'tt')))
+			'er' => array(array('ee' => array('rr ' => 'tt')))
 		);
 		//$this->assertSame($is, $expected);
 
@@ -158,12 +243,12 @@ class UtilityTest extends MyCakeTestCase {
 		$is = array(
 			'f some',
 			'e 49r ' => 'rf r ',
-			'er' => array(array('ee'=>array('rr '=>' tt ')))
+			'er' => array(array('ee' => array('rr ' => ' tt ')))
 		);
 		$expected = array(
 			'f some',
 			'e 49r ' => 'rf r',
-			'er' => array(array('ee'=>array('rr '=>'tt')))
+			'er' => array(array('ee' => array('rr ' => 'tt')))
 		);
 
 		$res = Utility::deep('trim', $is);
@@ -171,10 +256,15 @@ class UtilityTest extends MyCakeTestCase {
 
 	}
 
+	/**
+	 * UtilityTest::testArrayFlatten()
+	 *
+	 * @return void
+	 */
 	public function testArrayFlatten() {
-		$array=array(
+		$array = array(
 			'a' => 1,
-			'b' => array('c'=>array('d'=>array('f'=>'g', 'h'=>true))),
+			'b' => array('c' => array('d' => array('f' => 'g', 'h' => true))),
 			'k' => 'm',
 		);
 		$res = Utility::arrayFlatten($array);
@@ -188,8 +278,13 @@ class UtilityTest extends MyCakeTestCase {
 		$this->assertSame($expected, $res);
 	}
 
+	/**
+	 * UtilityTest::testArrayShiftKeys()
+	 *
+	 * @return void
+	 */
 	public function testArrayShiftKeys() {
-		$array=array(
+		$array = array(
 			'a' => 1,
 			'b' => array('c'=>array('d'=>array('f'=>'g', 'h'=>true))),
 			'k' => 'm',
@@ -205,6 +300,11 @@ class UtilityTest extends MyCakeTestCase {
 		$this->assertSame($expected, $array);
 	}
 
+	/**
+	 * UtilityTest::testTime()
+	 *
+	 * @return void
+	 */
 	public function testTime() {
 		Utility::startClock();
 		time_nanosleep(0, 200000000);
@@ -220,8 +320,13 @@ class UtilityTest extends MyCakeTestCase {
 		$this->assertTrue(round($res, 1) === 0.1);
 	}
 
+	/**
+	 * UtilityTest::testLogicalAnd()
+	 *
+	 * @return void
+	 */
 	public function testLogicalAnd() {
-		$array=array(
+		$array = array(
 			'a' => 1,
 			'b' => 1,
 			'c' => 0,
@@ -230,7 +335,7 @@ class UtilityTest extends MyCakeTestCase {
 		$is = Utility::logicalAnd($array);
 		$this->assertSame($is, false);
 
-		$array=array(
+		$array = array(
 			'a' => 1,
 			'b' => 1,
 			'c' => 1,
@@ -240,10 +345,13 @@ class UtilityTest extends MyCakeTestCase {
 		$this->assertSame($is, true);
 	}
 
-
-
+	/**
+	 * UtilityTest::testLogicalOr()
+	 *
+	 * @return void
+	 */
 	public function testLogicalOr() {
-		$array=array(
+		$array = array(
 			'a' => 0,
 			'b' => 1,
 			'c' => 0,
@@ -252,7 +360,7 @@ class UtilityTest extends MyCakeTestCase {
 		$is = Utility::logicalOr($array);
 		$this->assertSame($is, true);
 
-		$array=array(
+		$array = array(
 			'a' => 1,
 			'b' => 1,
 			'c' => 1,
@@ -261,8 +369,7 @@ class UtilityTest extends MyCakeTestCase {
 		$is = Utility::logicalOr($array);
 		$this->assertSame($is, true);
 
-
-		$array=array(
+		$array = array(
 			'a' => 0,
 			'b' => 0,
 			'c' => 0,
@@ -270,12 +377,6 @@ class UtilityTest extends MyCakeTestCase {
 		);
 		$is = Utility::logicalOr($array);
 		$this->assertSame($is, false);
-
-
-
 	}
-
-
-
 
 }

@@ -90,6 +90,35 @@ class Utility {
 	}
 
 	/**
+	 * Will escape a string to be used as a regular expression pattern.
+	 *
+	 * - Escapes the following
+	 *   - \ ^ . $ | ( ) [ ] * + ? { } ,
+	 *
+	 * - Example
+	 *   - Utility::patternEscape('http://www.example.com/s?q=php.net+docs')
+	 *   - http:\/\/www\.example\.com\/s\?q=php\.net\+docs
+	 *
+	 * @see http://www.php.net/manual/en/function.preg-replace.php#92456
+	 * @author alammar at gmail dot com
+	 *
+	 * @param string $str the stuff you want escaped
+	 * @return string the escaped string
+	 */
+	public static function patternEscape($str) {
+		$patterns = array(
+			'/\//', '/\^/', '/\./', '/\$/', '/\|/',
+			'/\(/', '/\)/', '/\[/', '/\]/', '/\*/',
+			'/\+/', '/\?/', '/\{/', '/\}/', '/\,/'
+		);
+
+		$replace = array('\/', '\^', '\.', '\$', '\|', '\(', '\)',
+		'\[', '\]', '\*', '\+', '\?', '\{', '\}', '\,');
+
+		return preg_replace($patterns, $replace, $str);
+	}
+
+	/**
 	 * get the current ip address
 	 * @param bool $safe
 	 * @return string $ip
@@ -230,8 +259,11 @@ class Utility {
 	}
 
 	/**
-	 * encode strings with base64_encode and also
-	 * replace chars base64 uses that would mess up the url
+	 * Encode strings with base64_encode and also
+	 * replace chars base64 uses that would mess up the url.
+	 *
+	 * Do not use this for querystrings. Those will escape automatically.
+	 * This is only useful for named or passed params.
 	 *
 	 * @param string $string Unsafe string
 	 * @return string Encoded string
@@ -242,8 +274,11 @@ class Utility {
 	}
 
 	/**
-	 * decode strings with base64_encode and also
-	 * replace back chars base64 uses that would mess up the url
+	 * Decode strings with base64_encode and also
+	 * replace back chars base64 uses that would mess up the url.
+	 *
+	 * Do not use this for querystrings. Those will escape automatically.
+	 * This is only useful for named or passed params.
 	 *
 	 * @param string $string Safe string
 	 * @return string Decoded string
@@ -254,7 +289,7 @@ class Utility {
 	}
 
 	/**
-	 * returns true only if all values are true
+	 * Returns true only if all values are true.
 	 *
 	 * @param array $array
 	 * @return bool $result
@@ -274,11 +309,12 @@ class Utility {
 	}
 
 	/**
-	 * returns true if at least one value is true
+	 * Returns true if at least one value is true.
+	 * //TODO: maybe move to bootstrap?
 	 *
 	 * @param array $array
 	 * @return bool $result
-	 * maybe move to bootstrap?
+	 *
 	 * 2011-11-02 ms
 	 */
 	public static function logicalOr($array) {
@@ -315,11 +351,11 @@ class Utility {
 
 	/**
 	 * Convenience function for automatic casting in form methods etc
+	 * //TODO: maybe move to bootstrap?
 	 *
 	 * @param mixed $value
 	 * @param string $type
 	 * @return safe value for DB query, or NULL if type was not a valid one
-	 * maybe move to bootstrap?
 	 * 2008-12-12 ms
 	 */
 	public static function typeCast($value, $type) {
@@ -349,7 +385,7 @@ class Utility {
 	}
 
 	/**
-	 * trim recursivly
+	 * Trim recursivly
 	 *
 	 * 2009-07-07 ms
 	 */
@@ -369,7 +405,7 @@ class Utility {
 	}
 
 	/**
-	 * removes all except A-Z,a-z,0-9 and allowedChars (allowedChars array) recursivly
+	 * Removes all except A-Z,a-z,0-9 and allowedChars (allowedChars array) recursivly
 	 *
 	 * 2009-07-07 ms
 	 */
@@ -379,7 +415,7 @@ class Utility {
 	}
 
 	/**
-	 * transfers/removes all < > from text (remove TRUE/FALSE)
+	 * Transfers/removes all < > from text (remove TRUE/FALSE)
 	 *
 	 * 2009-07-07 ms
 	 */
@@ -399,7 +435,7 @@ class Utility {
 	}
 
 	/**
-	 * Flattens an array
+	 * Flattens an array.
 	 *
 	 * @param array $array to flatten
 	 * @param boolean $perserveKeys
@@ -426,9 +462,10 @@ class Utility {
 
 	/**
 	 * Flatten an array and preserve the keys
+	 *
 	 * @return array
 	 */
-	public static function _arrayFlatten($a, $f = array()) {
+	protected static function _arrayFlatten($a, $f = array()) {
 		if (!$a) {
 			return array();
 		}
@@ -444,10 +481,10 @@ class Utility {
 
 	/**
 	 * Similar to array_shift but on the keys of the array
+	 * like array_shift() only for keys and not values
 	 *
 	 * @param array $keyValuePairs
 	 * @return string $key
-	 * like array_shift() only for keys and not values
 	 * 2011-01-22 ms
 	 */
 	public static function arrayShiftKeys(&$array) {
@@ -492,7 +529,7 @@ class Utility {
 	}
 
 	/**
-	 * returns microtime as float value
+	 * Returns microtime as float value
 	 * (to be subtracted right away)
 	 *
 	 * @return float
