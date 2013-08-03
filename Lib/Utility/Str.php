@@ -166,6 +166,7 @@ final class Str {
 
 	/**
 	 * Find the position of the first occurrence of a substring in a string.
+	 * Note: use iPos for CI (for the sake of consistency and less arguments - already enough)
 	 *
 	 * @param string $needle
 	 * @param string $haystack
@@ -190,6 +191,7 @@ final class Str {
 
 	/**
 	 * Find the position of the last occurrence of a substring in a string.
+	 * Note: use iLastPos for CI (for the sake of consistency and less arguments - already enough)
 	 *
 	 * @param string $needle
 	 * @param string $haystack

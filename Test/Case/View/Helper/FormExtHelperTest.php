@@ -16,6 +16,11 @@ class FormExtHelperTest extends MyCakeTestCase {
 		$this->assertInstanceOf('FormExtHelper', $this->Form);
 	}
 
+	/**
+	 * FormExtHelperTest::testPostLink()
+	 *
+	 * @return void
+	 */
 	public function testPostLink() {
 		$result = $this->Form->postLink('Delete', '/posts/delete/1');
 		$this->assertTags($result, array(
@@ -31,6 +36,11 @@ class FormExtHelperTest extends MyCakeTestCase {
 		));
 	}
 
+	/**
+	 * FormExtHelperTest::testDeleteLink()
+	 *
+	 * @return void
+	 */
 	public function testDeleteLink() {
 		$result = $this->Form->deleteLink('Delete', '/posts/delete/1');
 		$this->assertTags($result, array(

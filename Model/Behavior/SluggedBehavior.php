@@ -1,66 +1,50 @@
 <?php
 /**
- * Short description for slugged.php
- *
  * Part based/inspired by the sluggable behavior of Mariano Iglesias
  *
  * PHP version 5
  *
- * Copyright (c) 2008, Andy Dawson
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- *
  * @copyright Copyright (c) 2008, Andy Dawson
- * @link www.ad7six.com
- * @package mi
- * @subpackage mi.models.behaviors
- * @since v 1.0
+ * @author Andy Dawson
+ * @author Mark Scherer
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 
-/**
- * Ensure that mb_ functions exist
- */
-App::uses('I18n', 'I18n');
 App::uses('ModelBehavior', 'Model');
 
 /**
- * SluggedBehavior class
+ * SluggedBehavior
  *
- *
- * @version 2.x
- * @modified Mark Scherer
  */
 class SluggedBehavior extends ModelBehavior {
 
-/**
- * defaultSettings property
- *
- * label
- * 	set to the name of a field to use for the slug, an array of fields to use as slugs or leave as null to rely
- * 	on the format returned by find('list') to determine the string to use for slugs
- * overwrite has 2 values
- * 	false - once the slug has been saved, do not change it (use if you are doing lookups based on slugs)
- * 	true - if the label field values change, regenerate the slug (use if you are the slug is just window-dressing)
- * unique has 2 values
- * 	false - will not enforce a unique slug, whatever the label is is direclty slugged without checking for duplicates
- * 	true - use if you are doing lookups based on slugs (see overwrite)
- * mode has the following values
- * 	ascii - retuns an ascii slug generated using the core Inflector::slug() function
- * 	display - a dummy mode which returns a slug legal for display - removes illegal (not unprintable) characters
- * 	url - returns a slug appropriate to put in a URL
- * 	class - a dummy mode which returns a slug appropriate to put in a html class (there are no restrictions)
- * 	id - retuns a slug appropriate to use in a html id
- * case has the following values
- * 	null - don't change the case of the slug
- * 	low - force lower case. E.g. "this-is-the-slug"
- * 	up - force upper case E.g. "THIS-IS-THE-SLUG"
- * 	title - force title case. E.g. "This-Is-The-Slug"
- * 	camel - force CamelCase. E.g. "ThisIsTheSlug"
- *
- * @var array
- */
+	/**
+	 * Default settings
+	 *
+	 * label
+	 * 	set to the name of a field to use for the slug, an array of fields to use as slugs or leave as null to rely
+	 * 	on the format returned by find('list') to determine the string to use for slugs
+	 * overwrite has 2 values
+	 * 	false - once the slug has been saved, do not change it (use if you are doing lookups based on slugs)
+	 * 	true - if the label field values change, regenerate the slug (use if you are the slug is just window-dressing)
+	 * unique has 2 values
+	 * 	false - will not enforce a unique slug, whatever the label is is direclty slugged without checking for duplicates
+	 * 	true - use if you are doing lookups based on slugs (see overwrite)
+	 * mode has the following values
+	 * 	ascii - retuns an ascii slug generated using the core Inflector::slug() function
+	 * 	display - a dummy mode which returns a slug legal for display - removes illegal (not unprintable) characters
+	 * 	url - returns a slug appropriate to put in a URL
+	 * 	class - a dummy mode which returns a slug appropriate to put in a html class (there are no restrictions)
+	 * 	id - retuns a slug appropriate to use in a html id
+	 * case has the following values
+	 * 	null - don't change the case of the slug
+	 * 	low - force lower case. E.g. "this-is-the-slug"
+	 * 	up - force upper case E.g. "THIS-IS-THE-SLUG"
+	 * 	title - force title case. E.g. "This-Is-The-Slug"
+	 * 	camel - force CamelCase. E.g. "ThisIsTheSlug"
+	 *
+	 * @var array
+	 */
 	protected $_defaultSettings = array(
 		'label' => null,
 		'slugField' => 'slug',
@@ -85,25 +69,25 @@ class SluggedBehavior extends ModelBehavior {
 		'scope' => array()
 	);
 
-/**
- * stopWords property
- *
- * A (3 letter) language code indexed array of stop worlds
- *
- * @var array
- */
+	/**
+	 * stopWords property
+	 *
+	 * A (3 letter) language code indexed array of stop words
+	 *
+	 * @var array
+	 */
 	public $stopWords = array();
 
-/**
- * setup method
- *
- * Use the model's label field as the default field on which to base the slug, the label can be made up of multiple
- * fields by specifying an array of fields
- *
- * @param Model $Model
- * @param array $config
- * @return void
- */
+	/**
+	 * setup method
+	 *
+	 * Use the model's label field as the default field on which to base the slug, the label can be made up of multiple
+	 * fields by specifying an array of fields
+	 *
+	 * @param Model $Model
+	 * @param array $config
+	 * @return void
+	 */
 	public function setup(Model $Model, $config = array()) {
 		$this->_defaultSettings['notices'] = Configure::read('debug');
 		$this->_defaultSettings['label'] = array($Model->displayField);
@@ -136,61 +120,61 @@ class SluggedBehavior extends ModelBehavior {
 		}
 	}
 
-/**
- * beforeValidate method
- *
- * @param Model $Model
- * @return void
- */
+	/**
+	 * beforeValidate method
+	 *
+	 * @param Model $Model
+	 * @return void
+	 */
 	public function beforeValidate(Model $Model) {
 		extract($this->settings[$Model->alias]);
 		if ($run !== 'beforeValidate') {
-			return true;
+			return;
 		}
 		if (is_string($this->settings[$Model->alias]['trigger'])) {
 			if (!$Model->{$this->settings[$Model->alias]['trigger']}) {
-				return true;
+				return;
 			}
 		}
-		return $this->generateSlug($Model);
+		$this->generateSlug($Model);
 	}
 
-/**
- * beforeSave method
- *
- * @param Model $Model
- * @return void
- */
+	/**
+	 * beforeSave method
+	 *
+	 * @param Model $Model
+	 * @return void
+	 */
 	public function beforeSave(Model $Model) {
 		extract($this->settings[$Model->alias]);
 		if ($run !== 'beforeSave') {
-			return true;
+			return;
 		}
 		if (is_string($this->settings[$Model->alias]['trigger'])) {
 			if (!$Model->{$this->settings[$Model->alias]['trigger']}) {
 				return true;
 			}
 		}
-		return $this->generateSlug($Model);
+		$this->generateSlug($Model);
 	}
 
-/**
- * generate slug method
- *
- * if a new row, or overwrite is set to true, check for a change to a label field and add the slug to the data
- * to be saved
- * If no slug at all is returned (should not be permitted and prevented by validating the label fields) the model
- * alias will be used as a slug.
- * If unique is set to true, check for a unique slug and if unavailable suffix the slug with -1, -2, -3 etc.
- * until a unique slug is found
- *
- * @param Model $Model
- * @return void
- */
+	/**
+	 * Generate slug method
+	 *
+	 * if a new row, or overwrite is set to true, check for a change to a label field and add the slug to the data
+	 * to be saved
+	 * If no slug at all is returned (should not be permitted and prevented by validating the label fields) the model
+	 * alias will be used as a slug.
+	 * If unique is set to true, check for a unique slug and if unavailable suffix the slug with -1, -2, -3 etc.
+	 * until a unique slug is found
+	 *
+	 * @param Model $Model
+	 * @return void
+	 */
 	public function generateSlug(Model $Model) {
 		extract($this->settings[$Model->alias]);
 		if ($notices && !$Model->hasField($slugField)) {
-			return true;
+			return;
 		}
 		if (!$overwrite && !empty($Model->data[$Model->alias][$overwriteField])) {
 			$overwrite = true;
@@ -208,7 +192,7 @@ class SluggedBehavior extends ModelBehavior {
 					}
 				}
 				if (!$somethingToDo) {
-					return true;
+					return;
 				}
 				$slug = array();
 				foreach ($label as $field) {
@@ -257,27 +241,26 @@ class SluggedBehavior extends ModelBehavior {
 			$this->_addToWhitelist($Model, array($slugField));
 			$Model->data[$Model->alias][$slugField] = $slug;
 		}
-		return true;
 	}
 
-/**
- * removeStopWords from a string. if $splitOnStopWord is true, the following occurs:
- * 	input "apples bananas pears and red cars"
- * 	output array('apples bananas pears', 'red cars')
- *
- * If the passed string doesn't contain the separator, or after stripping out stop words there's
- * nothing left - the original input is returned (in the desired format)
- *
- * Therefore passing "contain" will return immediately array('contain')
- * Passing "contain this text" will return array('text')
- * 	both contain and this are stop words
- * Passing "contain this" will return array('contain this')
- *
- * @param Model $Model
- * @param mixed $string string or array of words
- * @param array $params
- * @return mixed
- */
+	/**
+	 * removeStopWords from a string. if $splitOnStopWord is true, the following occurs:
+	 * 	input "apples bananas pears and red cars"
+	 * 	output array('apples bananas pears', 'red cars')
+	 *
+	 * If the passed string doesn't contain the separator, or after stripping out stop words there's
+	 * nothing left - the original input is returned (in the desired format)
+	 *
+	 * Therefore passing "contain" will return immediately array('contain')
+	 * Passing "contain this text" will return array('text')
+	 * 	both contain and this are stop words
+	 * Passing "contain this" will return array('contain this')
+	 *
+	 * @param Model $Model
+	 * @param mixed $string string or array of words
+	 * @param array $params
+	 * @return mixed
+	 */
 	public function removeStopWords(Model $Model, $string = '', $params = array()) {
 		if (!$string) {
 			return $string;
@@ -287,15 +270,11 @@ class SluggedBehavior extends ModelBehavior {
 		$return = 'array';
 		$originalIfEmpty = true;
 		extract($params);
-		/*
-		if (!class_exists('MiCache')) {
-			App::import('Vendor', 'Mi.MiCache');
-		}
-		*/
+
 		if (!empty($this->settings[$Model->alias]['language'])) {
 			$lang = $this->settings[$Model->alias]['language'];
 		} else {
-			$lang = Configure::read('Site.lang');
+			$lang = Configure::read('Config.language');
 			if (!$lang) {
 				$lang = 'eng';
 			}
@@ -369,19 +348,19 @@ class SluggedBehavior extends ModelBehavior {
 		return implode($separator, $terms);
 	}
 
-/**
- * slug method
- *
- * For the given string, generate a slug. The replacements used are based on the mode setting, If tidy is false
- * (only possible if directly called - primarily for tracing and testing) separators will not be cleaned up
- * and so slugs like "-----as---df-----" are possible, which by default would otherwise be returned as "as-df".
- * If the mode is "id" and the first charcter of the regex-ed slug is numeric, it will be prefixed with an x.
- *
- * @param Model $Model
- * @param mixed $string
- * @param bool $tidy
- * @return string a slug
- */
+	/**
+	 * slug method
+	 *
+	 * For the given string, generate a slug. The replacements used are based on the mode setting, If tidy is false
+	 * (only possible if directly called - primarily for tracing and testing) separators will not be cleaned up
+	 * and so slugs like "-----as---df-----" are possible, which by default would otherwise be returned as "as-df".
+	 * If the mode is "id" and the first charcter of the regex-ed slug is numeric, it will be prefixed with an x.
+	 *
+	 * @param Model $Model
+	 * @param mixed $string
+	 * @param bool $tidy
+	 * @return string a slug
+	 */
 	public function slug(Model $Model, $string, $tidy = true) {
 		extract($this->settings[$Model->alias]);
 		$this->_setEncoding($Model, $encoding, $string, !Configure::read('debug'));
@@ -437,17 +416,17 @@ class SluggedBehavior extends ModelBehavior {
 		return $slug;
 	}
 
-/**
- * display method
- *
- * Cheat - use find('list') and assume it has been modified such that lists show in the desired format.
- * First check (since this method is called in beforeSave) if there is data to be saved, and use that
- * to get the display name
- * Otherwise, read from the database
- *
- * @param mixed $id
- * @return mixed string (the display name) or false
- */
+	/**
+	 * display method
+	 *
+	 * Cheat - use find('list') and assume it has been modified such that lists show in the desired format.
+	 * First check (since this method is called in beforeSave) if there is data to be saved, and use that
+	 * to get the display name
+	 * Otherwise, read from the database
+	 *
+	 * @param mixed $id
+	 * @return mixed string (the display name) or false
+	 */
 	public function display(Model $Model, $id = null) {
 		if (!$id) {
 			if (!$Model->id) {
@@ -461,17 +440,17 @@ class SluggedBehavior extends ModelBehavior {
 		return current($Model->find('list', array('conditions' => $conditions)));
 	}
 
-/**
- * resetSlugs method
- *
- * Regenerate all slugs. On large dbs this can take more than 30 seconds - a time limit is set to allow a minimum
- * 100 updates per second as a preventative measure.
- *
- * @param AppModel $Model
- * @param array $conditions
- * @param int $recursive
- * @return bool true on success false otherwise
- */
+	/**
+	 * resetSlugs method.
+	 *
+	 * Regenerate all slugs. On large dbs this can take more than 30 seconds - a time
+	 * limit is set to allow a minimum 100 updates per second as a preventative measure.
+	 *
+	 * @param AppModel $Model
+	 * @param array $conditions
+	 * @param int $recursive
+	 * @return boolean True on success, false otherwise
+	 */
 	public function resetSlugs(Model $Model, $params = array()) {
 		$recursive = -1;
 		extract($this->settings[$Model->alias]);
@@ -505,15 +484,15 @@ class SluggedBehavior extends ModelBehavior {
 		return true;
 	}
 
-/**
- * Multi slug method
- *
- * Handle both slug and lable fields using the translate behavior, and being edited
- * in multiple locales at once
- *
- * @param Model $Model
- * @return void
- */
+	/**
+	 * Multi slug method
+	 *
+	 * Handle both slug and lable fields using the translate behavior, and being edited
+	 * in multiple locales at once
+	 *
+	 * @param Model $Model
+	 * @return void
+	 */
 	protected function _multiSlug(Model $Model) {
 		extract($this->settings[$Model->alias]);
 		$data = $Model->data;
@@ -529,18 +508,17 @@ class SluggedBehavior extends ModelBehavior {
 
 		}
 		$Model->data = $data;
-		return true;
 	}
 
-/**
- * Wrapper for preg replace taking care of encoding
- *
- * @param mixed $pattern
- * @param mixed $replace
- * @param mixed $string
- * @param string $encoding 'UTF-8'
- * @return void
- */
+	/**
+	 * Wrapper for preg replace taking care of encoding
+	 *
+	 * @param mixed $pattern
+	 * @param mixed $replace
+	 * @param mixed $string
+	 * @param string $encoding
+	 * @return void
+	 */
 	protected function _pregReplace($pattern, $replace, $string, $encoding = 'UTF-8') {
 		if ($encoding && $encoding !== 'UTF-8') {
 			$string = mb_convert_encoding($string, 'UTF-8', $encoding);
@@ -552,15 +530,15 @@ class SluggedBehavior extends ModelBehavior {
 		return $return;
 	}
 
-/**
- * setEncoding method
- *
- * @param Model $Model
- * @param mixed $encoding null
- * @param mixed $string
- * @param mixed $reset null
- * @return void
- */
+	/**
+	 * setEncoding method
+	 *
+	 * @param Model $Model
+	 * @param mixed $encoding null
+	 * @param mixed $string
+	 * @param mixed $reset null
+	 * @return void
+	 */
 	protected function _setEncoding(Model $Model, &$encoding = null, &$string, $reset = null) {
 		if (function_exists('mb_internal_encoding')) {
 			$aEncoding = Configure::read('App.encoding');
@@ -579,16 +557,16 @@ class SluggedBehavior extends ModelBehavior {
 		}
 	}
 
-/**
- * regex method
- *
- * Based upon the mode return a partial regex to generate a valid string for the intended use. Note that you
- * can use almost litterally anything in a url - the limitation is only in what your own application
- * understands. See the test case for info on how these regex patterns were generated.
- *
- * @param string $mode
- * @return string a partial regex
- */
+	/**
+	 * regex method
+	 *
+	 * Based upon the mode return a partial regex to generate a valid string for the intended use. Note that you
+	 * can use almost litterally anything in a url - the limitation is only in what your own application
+	 * understands. See the test case for info on how these regex patterns were generated.
+	 *
+	 * @param string $mode
+	 * @return string a partial regex or false on failure
+	 */
 	protected function _regex($mode) {
 		$return = '\x00-\x1f\x26\x3c\x7f-\x9f\x{d800}-\x{dfff}\x{fffe}-\x{ffff}';
 		if ($mode === 'display') {
@@ -643,4 +621,5 @@ class SluggedBehavior extends ModelBehavior {
 		}
 		return false;
 	}
+
 }

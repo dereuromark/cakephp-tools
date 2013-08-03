@@ -4,7 +4,19 @@ App::uses('FormHelper', 'View/Helper');
 /**
  * Enhance Forms with JS widget stuff
  *
- * FormExtHelper
+ * Some fixes:
+ * - 24 instead of 12 for dateTime()
+ * - postLink() has class postLink
+ * - normalize for textareas
+ * - novalidate can be applied globally via Configure
+ *
+ * Improvements:
+ * - deleteLink() available
+ * - datalist
+ * - datetime picker added automatically
+ *
+ * //TODO: cleanup
+ *
  * 2011-03-07 ms
  */
 class FormExtHelper extends FormHelper {
@@ -28,49 +40,6 @@ class FormExtHelper extends FormHelper {
 		}
 
 		parent::__construct($View, $settings);
-	}
-
-/** redirect **/
-
-	/**
-	 * TODO: make more generic
-	 * @param selectOptions:
-	 * - e.g: array('index'=>true/false, 'view'=>array('url'=>x, 'label'=>y), 'edit'=>'xyz', '/some/url'=>'some label')
-	 * 2010-05-02 ms
-	 */
-	public function redirect($selectOptions = array(), $tagOptions = array()) {
-		$options = array('index'=>'Zurück zur Übersicht', 'view'=>__('View %s', __('Record')), '-1'=>'Auf dieser Seite bleiben');
-
-		foreach ($selectOptions as $key => $text) {
-			if ($text === false) {
-				# deactivate this one
-				if (isset($options[$key])) {
-					unset($options[$key]);
-				}
-				continue;
-			} elseif ($text === true) {
-				# leave it as it is
-			} elseif (is_array($text)) {
-				# own id and label?
-			if (isset($text['url']) && isset($text['label'])) {
-				if (isset($options[$key])) {
-						unset($options[$key]);
-					}
-					$options[$text['url']] = $text['label'];
-			}
-			} else {
-				# url => label
-				$options[$key] = $text;
-			}
-		}
-
-		//$options = array('4'=>'Zum Profil dieses Mitglieds');
-		//$options = array('edit'=>__('Edit %s', __('Record')));
-		//$options = array('add'=>'Einen weiteren Eintrag anlegen');
-
-		//$options[-1] = 'Auf dieser Seite bleiben';
-
-		return $this->input('Form.redirect', array('label'=>'Im Anschluss', 'options'=>$options), $tagOptions);
 	}
 
 	/**
@@ -101,28 +70,12 @@ class FormExtHelper extends FormHelper {
 		return $this->postLink($title, $url, $options, $confirmMessage);
 	}
 
-/**
- * Creates a textarea widget.
- *
- * ### Options:
- *
- * - `escape` - Whether or not the contents of the textarea should be escaped. Defaults to true.
- *
- * @param string $fieldName Name of a field, in the form "Modelname.fieldname"
- * @param array $options Array of HTML attributes, and special options above.
- * @return string A generated HTML text input element
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::textarea
- */
-	public function textarea($fieldName, $options = array()) {
-		$options['normalize'] = false;
-		return parent::textarea($fieldName, $options);
-	}
-
 	/**
-	 * Create postLinks
+	 * Create postLinks with a default class "postLink"
 	 *
-	 * add class postLink, as well
 	 * @see FormHelper::postLink for details
+	 *
+	 * @return string
 	 * 2012-12-24 ms
 	 */
 	public function postLink($title, $url = null, $options = array(), $confirmMessage = false) {
@@ -130,6 +83,37 @@ class FormExtHelper extends FormHelper {
 			$options['class'] = 'postLink';
 		}
 		return parent::postLink($title, $url , $options, $confirmMessage);
+	}
+
+	/**
+	 * Overwrite FormHelper::create() to allow disabling browser html5 validation via configs
+	 *
+	 * @param string $model
+	 * @param array $options
+	 * @return string
+	 */
+	public function create($model = null, $options = array()) {
+		if (Configure::read('Validation.browserAutoRequire') === false && !isset($options['novalidate'])) {
+			$options['novalidate'] = true;
+		}
+		return parent::create($model, $options);
+	}
+
+	/**
+	 * Creates a textarea widget.
+	 *
+	 * ### Options:
+	 *
+	 * - `escape` - Whether or not the contents of the textarea should be escaped. Defaults to true.
+	 *
+	 * @param string $fieldName Name of a field, in the form "Modelname.fieldname"
+	 * @param array $options Array of HTML attributes, and special options above.
+	 * @return string A generated HTML text input element
+	 * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::textarea
+	 */
+	public function textarea($fieldName, $options = array()) {
+		$options['normalize'] = false;
+		return parent::textarea($fieldName, $options);
 	}
 
 	/**
@@ -722,17 +706,21 @@ class FormExtHelper extends FormHelper {
 	}
 
 	/**
-	 * @deprecated
-	 * use Form::dateTimeExt
+	 * Custom fix to overwrite the default of non iso 12 hours to 24 hours.
+	 * Try to use Form::dateTimeExt, though.
+	 *
+	 * @see https://cakephp.lighthouseapp.com/projects/42648/tickets/3945-form-helper-should-use-24-hour-format-as-default-iso-8601
+	 *
+	 * @param string $field
+	 * @param mixed $options
+	 * @return string Generated set of select boxes for the date and time formats chosen.
 	 */
 	public function dateTime($field, $options = array(), $tf = 24, $a = array()) {
 		# temp fix
 		if (!is_array($options)) {
-			/*
 			if ($options === null) {
 				$options = 'DMY';
 			}
-			*/
 			return parent::dateTime($field, $options, $tf, $a);
 		}
 		return $this->dateTimeExt($field, $options);
@@ -821,7 +809,6 @@ class FormExtHelper extends FormHelper {
 		return '<div class="input date'.(!empty($error)?' error':'').'">'.$this->label($model.'.'.$field, $options['label']).''.$select.''.$error.'</div>'.$script;
 	}
 
-
 /** maxLength **/
 
 	public $maxLengthOptions = array(
@@ -833,6 +820,11 @@ class FormExtHelper extends FormHelper {
 		'slider' => true
 	);
 
+	/**
+	 * FormExtHelper::maxLengthScripts()
+	 *
+	 * @return void
+	 */
 	public function maxLengthScripts() {
 		if (!$this->scriptsAdded['maxLength']) {
 			$this->Html->script('jquery/maxlength/jquery.maxlength', array('inline'=>false));
@@ -875,7 +867,12 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 ';
 	}
 
-
+	/**
+	 * FormExtHelper::scripts()
+	 *
+	 * @param string $type
+	 * @return bool Success
+	 */
 	public function scripts($type) {
 		switch ($type) {
 			case 'charCount':
@@ -889,11 +886,17 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 		return true;
 	}
 
-
 	public $charCountOptions = array(
 		'allowed' => 255,
 	);
 
+	/**
+	 * FormExtHelper::charCount()
+	 *
+	 * @param array $selectors
+	 * @param array $options
+	 * @return string
+	 */
 	public function charCount($selectors = array(), $options = array()) {
 		$this->scripts('charCount');
 		$js = '';
@@ -911,7 +914,6 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 		return $this->Html->scriptBlock($js, array('inline' => isset($options['inline']) ? $options['inline'] : true));
 	}
 
-
 	/**
 	 * @param string $string
 	 * @return string Js snippet
@@ -922,7 +924,6 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 });';
 	}
 
-
 	public function autoCompleteScripts() {
 		if (!$this->scriptsAdded['autoComplete']) {
 			$this->Html->script('jquery/autocomplete/jquery.autocomplete', false);
@@ -930,7 +931,6 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 			$this->scriptsAdded['autoComplete'] = true;
 		}
 	}
-
 
 	/**
 	 * //TODO
@@ -957,7 +957,6 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 		return $res;
 	}
 
-
 	protected function _autoCompleteJs($id, $jquery = array()) {
 		if (!empty($jquery['url'])) {
 			$var = '"'.$this->Html->url($jquery['url']).'"';
@@ -979,21 +978,6 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 		$js = $this->documentReady($js);
 		return $this->Html->scriptBlock($js);
 	}
-
-	/**
-	 * Overwrite FormHelper::create() to allow disabling browser html5 validation via configs
-	 *
-	 * @param string $model
-	 * @param array $options
-	 * @return string
-	 */
-	public function create($model = null, $options = array()) {
-		if (Configure::read('Validation.browserAutoRequire') === false && !isset($options['novalidate'])) {
-			$options['novalidate'] = true;
-		}
-		return parent::create($model, $options);
-	}
-
 
 /** checkboxes **/
 
@@ -1043,184 +1027,5 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 		$options = array_merge($defaults, $options);
 		return $script . parent::checkbox($fieldName, $options);
 	}
-
-
-/** other stuff **/
-
-	/**
-	 * echo $this->FormExt->buttons($buttons);
-	 * with
-	 * $buttons = array(
-	 *  array(
-	 *   'title' => 'Login',
-	 *   'options' => array('type' => 'submit')
-	 *  ),
-	 *  array(...)
-	 * );
-	 * @param array $buttons
-	 * @return string $buttonSubmitDiv
-	 * 2009-07-26 ms
-	 */
-	public function buttons($buttons = null) {
-		$return = '';
-		if (!empty($buttons) && is_array($buttons)) {
-			$buttons_content = '';
-			foreach ($buttons as $button) {
-				if (empty($button['options'])) { $button['options'] = array(); }
-				$buttons_content .= $this->button($button['name'], $button['options']);
-			}
-			$return = $this->Html->div('submit', $buttons_content);
-		}
-		return $return;
-	}
-
-
-/** nice buttons **/
-
-	protected $buttons = array();
-	protected $buttonAlign = 'left';
-
-	/**
-	 * @param title
-	 * @param options:
-	 * - color (green, blue, red, orange)
-	 * - url
-	 * - align (left/right)
-	 * @param attributes (html)
-	 * 2010-03-15 ms
-	 */
-	public function addButton($title, $options = array(), $attr = array()) {
-
-		$url = !empty($options['url']) ? $options['url'] : 'javascript:void(0)';
-		$color = !empty($options['color']) ? ' ovalbutton'.ucfirst($options['color']) : '';
-
-		if (isset($options['align'])) {
-			$this->buttonAlign = $options['align'];
-		}
-
-		if ($this->buttonAlign === 'left') {
-			$align = 'margin-right:5px';
-		} elseif ($this->buttonAlign === 'right') {
-			$align = 'margin-left:5px';
-		}
-
-		$class = 'ovalbutton'.$color;
-		if (!empty($attr['class'])) {
-			$class .= ' '.$attr['class'];
-		}
-		$style = array();
-		if (!empty($align)) {
-			$style[] = $align;
-		}
-		if (!empty($attr['class'])) {
-			$style[] = $attr['style'];
-		}
-		$style = implode(';', $style);
-		$attr = array_merge($attr, array('escape'=>false,'class'=>$class, 'style'=>$style));
-
-		//$this->buttons[] = '<a class="ovalbutton'.$color.'"'.$href.''.$align.'><span>'.$title.'</span></a>';
-
-		if (!isset($attr['escape']) || $attr['escape'] !== true) {
-			$title = h($title);
-		}
-		$this->buttons[] = $this->Html->link('<span>'.$title.'</span>', $url, $attr);
-	}
-
-	/**
-	 * 2010-03-15 ms
-	 */
-	public function displayButtons($options = array()) {
-		$res = '<div class="buttonwrapper" style="text-align: '.$this->buttonAlign.'">'.implode('', $this->buttons).'</div>';
-		$this->buttons = array();
-		$this->buttonAlign = 'left';
-		return $res;
-	}
-
-
-/*
-	public $datetimeQuicklinks = '
-	public function str_pad(input, pad_length, pad_string, pad_type) {
-	// http://kevin.vanzonneveld.net
-	// + original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-	// + namespaced by: Michael White (http://getsprink.com)
-	// + input by: Marco van Oort
-	// + bugfixed by: Brett Zamir (http://brett-zamir.me)
-	// * example 1: str_pad('Kevin van Zonneveld', 30, '-=', 'STR_PAD_LEFT');
-	// * returns 1: '-=-=-=-=-=-Kevin van Zonneveld'
-	// * example 2: str_pad('Kevin van Zonneveld', 30, '-', 'STR_PAD_BOTH');
-	// * returns 2: '------Kevin van Zonneveld-----'
-	var half = '',
-		pad_to_go;
-
-	var str_pad_repeater = function (s, len) {
-		var collect = '',
-			i;
-
-		while (collect.length < len) {
-			collect += s;
-		}
-		collect = collect.substr(0, len);
-
-		return collect;
-	};
-
-	input += '';
-	pad_string = pad_string !== undefined ? pad_string : ' ';
-
-	if (pad_type !== 'STR_PAD_LEFT' && pad_type !== 'STR_PAD_RIGHT' && pad_type !== 'STR_PAD_BOTH') {
-		pad_type = 'STR_PAD_RIGHT';
-	}
-	if ((pad_to_go = pad_length - input.length) > 0) {
-		if (pad_type === 'STR_PAD_LEFT') {
-			input = str_pad_repeater(pad_string, pad_to_go) + input;
-		} elseif (pad_type === 'STR_PAD_RIGHT') {
-			input = input + str_pad_repeater(pad_string, pad_to_go);
-		} elseif (pad_type === 'STR_PAD_BOTH') {
-			half = str_pad_repeater(pad_string, Math.ceil(pad_to_go / 2));
-			input = half + input + half;
-			input = input.substr(0, pad_length);
-		}
-	}
-
-	return input;
-}
-
-$(document).ready(function() {
-		$('.date').append(' <span class="setRemove hand">ENTFERNEN</span> <span class="setToday hand">HEUTE</span> <span class="setNow hand">JETZT</span>');
-
-		$('.setRemove').click(function() {
-			var container = $(this).parent('div');
-			container.children('.day').val("");
-			container.children('.month').val("");
-			container.children('.year').val("");
-			container.children('.hour').val("");
-			container.children('.minute').val("");
-		});
-
-		$('.setNow').click(function() {
-			var d = new Date();
-			var curr_hour = str_pad(d.getHours(), 2, "0", 'STR_PAD_LEFT');
-			var curr_minute = str_pad(d.getMinutes(), 2, "0", 'STR_PAD_LEFT');
-
-			var container = $(this).parent('div');
-			container.children('.hour').val(curr_hour);
-			container.children('.minute').val(curr_minute);
-		});
-
-		$('.setToday').click(function() {
-			var d = new Date();
-			var curr_date = str_pad(d.getDate(), 2, "0", 'STR_PAD_LEFT');
-			var curr_month = str_pad(d.getMonth()+1, 2, "0", 'STR_PAD_LEFT');
-			var curr_year = str_pad(d.getFullYear(), 2, "4", 'STR_PAD_LEFT');
-
-			var container = $(this).parent('div');
-			container.children('.day').val(curr_date);
-			container.children('.month').val(curr_month);
-			container.children('.year').val(curr_year);
-		});
-
-	});
-';
-*/
 
 }
