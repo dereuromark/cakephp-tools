@@ -6,7 +6,7 @@ App::uses('AppHelper', 'View/Helper');
  */
 class CommonHelper extends AppHelper {
 
-	public $helpers = array ('Session', 'Html');
+	public $helpers = array('Session', 'Html');
 
 	public $packages = array(
 		'Tools.Jquery' //Used by showDebug

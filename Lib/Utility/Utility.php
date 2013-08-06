@@ -32,6 +32,9 @@ class Utility {
 	 * Multibyte analogue of preg_match_all() function. Only that this returns the result.
 	 * By default this works properly with UTF8 strings.
 	 *
+	 * Do not forget to use preg_quote() first on strings that could potentially contain
+	 * unescaped characters.
+	 *
 	 * Note that you still need to add the u modifier (for UTF8) to your pattern yourself.
 	 *
 	 * Example: /some(.*)pattern/u
@@ -51,6 +54,9 @@ class Utility {
 	/**
 	 * Multibyte analogue of preg_match() function. Only that this returns the result.
 	 * By default this works properly with UTF8 strings.
+	 *
+	 * Do not forget to use preg_quote() first on strings that could potentially contain
+	 * unescaped characters.
 	 *
 	 * Note that you still need to add the u modifier (for UTF8) to your pattern yourself.
 	 *
@@ -90,44 +96,13 @@ class Utility {
 	}
 
 	/**
-	 * Will escape a string to be used as a regular expression pattern.
+	 * Get the current IP address.
 	 *
-	 * - Escapes the following
-	 *   - \ ^ . $ | ( ) [ ] * + ? { } ,
-	 *
-	 * - Example
-	 *   - Utility::patternEscape('http://www.example.com/s?q=php.net+docs')
-	 *   - http:\/\/www\.example\.com\/s\?q=php\.net\+docs
-	 *
-	 * @see http://www.php.net/manual/en/function.preg-replace.php#92456
-	 * @author alammar at gmail dot com
-	 *
-	 * @param string $str the stuff you want escaped
-	 * @return string the escaped string
-	 */
-	public static function patternEscape($str) {
-		$patterns = array(
-			'/\//', '/\^/', '/\./', '/\$/', '/\|/',
-			'/\(/', '/\)/', '/\[/', '/\]/', '/\*/',
-			'/\+/', '/\?/', '/\{/', '/\}/', '/\,/'
-		);
-
-		$replace = array('\/', '\^', '\.', '\$', '\|', '\(', '\)',
-		'\[', '\]', '\*', '\+', '\?', '\{', '\}', '\,');
-
-		return preg_replace($patterns, $replace, $str);
-	}
-
-	/**
-	 * get the current ip address
 	 * @param bool $safe
-	 * @return string $ip
+	 * @return string IP address
 	 * 2011-11-02 ms
 	 */
-	public static function getClientIp($safe = null) {
-		if ($safe === null) {
-			$safe = false;
-		}
+	public static function getClientIp($safe = true) {
 		if (!$safe && env('HTTP_X_FORWARDED_FOR')) {
 			$ipaddr = preg_replace('/(?:,.*)/', '', env('HTTP_X_FORWARDED_FOR'));
 		} else {
@@ -149,7 +124,8 @@ class Utility {
 	}
 
 	/**
-	 * get the current referer
+	 * Get the current referrer if available.
+	 *
 	 * @param bool $full (defaults to false and leaves the url untouched)
 	 * @return string $referer (local or foreign)
 	 * 2011-11-02 ms
@@ -164,13 +140,13 @@ class Utility {
 			return $ref;
 		}
 		if ($full) {
-			$ref = Router::url($full);
+			$ref = Router::url($ref, $full);
 		}
 		return $ref;
 	}
 
 	/**
-	 * remove unnessary stuff + add http:// for external urls
+	 * Remove unnessary stuff + add http:// for external urls
 	 * TODO: protocol to lower!
 	 *
 	 * @param string $url
@@ -208,7 +184,7 @@ class Utility {
 	}
 
 	/**
-	 * Parse headers
+	 * Parse headers from a specific URL content.
 	 *
 	 * @param string $url
 	 * @return mixed array of headers or FALSE on failure
@@ -240,7 +216,7 @@ class Utility {
 	}
 
 	/**
-	 * add protocol prefix if necessary (and possible)
+	 * Add protocol prefix if necessary (and possible)
 	 *
 	 * @param string $url
 	 * 2010-06-02 ms
@@ -293,7 +269,7 @@ class Utility {
 	 * //TODO: maybe move to bootstrap?
 	 *
 	 * @param array $array
-	 * @return bool $result
+	 * @return bool Result
 	 * 2011-11-02 ms
 	 */
 	public static function logicalAnd($array) {
@@ -313,7 +289,7 @@ class Utility {
 	 * //TODO: maybe move to bootstrap?
 	 *
 	 * @param array $array
-	 * @return bool $result
+	 * @return bool Result
 	 *
 	 * 2011-11-02 ms
 	 */

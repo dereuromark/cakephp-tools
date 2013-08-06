@@ -868,18 +868,18 @@ class TimeLib extends CakeTime {
 			$p = $s;
 		} else {
 			$s = array(
-		'm' => ' '.__('Month'), # translated
-				'd' => ' '.__('Day'),
-				'h' => ' '.__('Hour'),
-				'i' => ' '.__('Minute'),
-				's' => ' '.__('Second'),
+		'm' => ' ' . __('Month'), # translated
+				'd' => ' ' .__('Day'),
+				'h' => ' ' .__('Hour'),
+				'i' => ' ' .__('Minute'),
+				's' => ' ' .__('Second'),
 			);
-			$p = array (
-		'm' => ' '.__('Months'), # translated
-				'd' => ' '.__('Days'),
-				'h' => ' '.__('Hours'),
-				'i' => ' '.__('Minutes'),
-				's' => ' '.__('Seconds'),
+			$p = array(
+		'm' => ' ' . __('Months'), # translated
+				'd' => ' ' . __('Days'),
+				'h' => ' ' . __('Hours'),
+				'i' => ' ' . __('Minutes'),
+				's' => ' ' . __('Seconds'),
 			);
 		}
 
@@ -969,7 +969,9 @@ class TimeLib extends CakeTime {
 			$type = 0;
 		}
 
-		$defaults = array('verbose'=>__('justNow'), 'zero'=>false,'separator'=>', ', 'future'=>__('In %s'), 'past'=>__('%s ago'),'default'=>'');
+		$defaults = array(
+			'verbose' => __('justNow'), 'zero' => false, 'separator' => ', ',
+			'future' => __('In %s'), 'past' => __('%s ago'), 'default' => '');
 		$options = array_merge($defaults, $options);
 
 		$ret = self::lengthOfTime($sec, $format, $options);

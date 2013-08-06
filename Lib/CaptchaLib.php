@@ -6,17 +6,18 @@ if (!defined('FORMAT_DB_DATE')) {
 }
 
 /**
- * used by captcha helper and behavior
+ * Main utility for captchas.
+ * Used by captcha helper and behavior.
  */
 class CaptchaLib {
 
-	public static $defaults = array (
-			'dummyField' => 'homepage',
-			'method' => 'hash',
-			'type' => 'both',
-			'checkSession' => false,
-			'checkIp' => false,
-			'salt' => '',
+	public static $defaults = array(
+		'dummyField' => 'homepage',
+		'method' => 'hash',
+		'type' => 'both',
+		'checkSession' => false,
+		'checkIp' => false,
+		'salt' => '',
 	);
 
 	# what type of captcha
@@ -31,7 +32,7 @@ class CaptchaLib {
 	 * @param array $options:
 	 * - salt (required)
 	 * - checkSession, checkIp, hashType (all optional)
-	 * 2011-06-11 ms
+	 * @return string
 	 */
 	public static function buildHash($data, $options, $init = false) {
 		if ($init) {
@@ -45,7 +46,8 @@ class CaptchaLib {
 		if (empty($options['type']) || $options['type'] !== 'passive') {
 			$hashValue .= $data['captcha'];
 		}
-		return Security::hash($hashValue, isset($options['hashType']) ? $options['hashType'] : null, $options['salt']);
+		$type = isset($options['hashType']) ? $options['hashType'] : null;
+		return Security::hash($hashValue, $type, $options['salt']);
 	}
 
 }

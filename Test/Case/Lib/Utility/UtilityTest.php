@@ -71,13 +71,24 @@ class UtilityTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * UtilityTest::testPatternEscape()
+	 * UtilityTest::testPregMatchWithPatternEscape()
 	 *
 	 * @return void
 	 */
-	public function testPatternEscape() {
-		$res = Utility::patternEscape('http://www.example.com/s?q=php.net+docs');
-		$this->assertSame('http:\/\/www\.example\.com\/s\?q=php\.net\+docs', $res);
+	public function testPregMatchWithPatternEscape() {
+		$string = 'http://www.example.com/s?q=php.net+docs';
+		$res = preg_quote($string);
+		$this->assertSame('http\://www\.example\.com/s\?q\=php\.net\+docs', $res);
+
+		$string = 'http://www.example.com/s?q=php.net+docs';
+		$res = preg_quote($string, '/');
+		$this->assertSame('http\:\/\/www\.example\.com\/s\?q\=php\.net\+docs', $res);
+
+		$res = '/a\s*' . $res . '\s*z/i';
+		$string = 'a ' . $string . ' z';
+		$matches = Utility::pregMatch($res, $string);
+		$expected = array($string);
+		$this->assertSame($expected, $matches);
 	}
 
 	/**
@@ -165,8 +176,14 @@ class UtilityTest extends MyCakeTestCase {
 	 */
 	public function testGetReferer() {
 		$res = Utility::getReferer();
-		//$this->assertTrue(env(''), $res);
 		$this->assertEquals(env('HTTP_REFERER'), $res);
+
+		$res = Utility::getReferer(true);
+		$this->assertEquals(env('HTTP_REFERER'), $res);
+
+		$_SERVER['HTTP_REFERER'] = '/foo/bar';
+		$res = Utility::getReferer(true);
+		$this->assertEquals(HTTP_BASE . env('HTTP_REFERER'), $res);
 	}
 
 	/**

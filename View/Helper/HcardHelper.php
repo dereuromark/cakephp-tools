@@ -9,25 +9,24 @@ App::uses('AppHelper', 'View/Helper');
  */
 class HcardHelper extends AppHelper {
 
-	public $data = array (
-	'given_name' => 'Firstname',
-	'middle_name' => 'Middlename',
-	'family_name' => 'Lastname',
-	'organization' => 'OrganizationName',
-	'street' => '123 Street',
-	'city' => 'City',
-	'province' => 'Province/State',
-	'postal_code' => 'Postal/Zip',
-	'country' => 'Country',
-	'phone' => 'phonenumber',
-	'email' => 'email@yoursite.com',
-	'url' => 'http://yoursite.com',
-	'aim_screenname' => 'aimname',
-	'yim_screenname' => 'yimname',
-	'avatar' => '/images/your_photo.png',
-	'title' => 'title',
+	public $data = array(
+		'given_name' => 'Firstname',
+		'middle_name' => 'Middlename',
+		'family_name' => 'Lastname',
+		'organization' => 'OrganizationName',
+		'street' => '123 Street',
+		'city' => 'City',
+		'province' => 'Province/State',
+		'postal_code' => 'Postal/Zip',
+		'country' => 'Country',
+		'phone' => 'phonenumber',
+		'email' => 'email@yoursite.com',
+		'url' => 'http://yoursite.com',
+		'aim_screenname' => 'aimname',
+		'yim_screenname' => 'yimname',
+		'avatar' => '/images/your_photo.png',
+		'title' => 'title',
 	);
-
 
 	/**
 	 * TODO
@@ -81,7 +80,6 @@ class HcardHelper extends AppHelper {
 		return $text;
 
 	}
-
 
 	/**
 	 * TODO

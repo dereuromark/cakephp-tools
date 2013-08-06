@@ -39,7 +39,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 	public function testBelongsTo() {
 		$arrayExpected = array(
 			'LinkableUser' => array('id' => 1, 'username' => 'CakePHP'),
-			'LinkableProfile' => array ('id' => 1, 'user_id' => 1, 'biography' => 'CakePHP is a rapid development framework for PHP that provides an extensible architecture for developing, maintaining, and deploying applications.')
+			'LinkableProfile' => array('id' => 1, 'user_id' => 1, 'biography' => 'CakePHP is a rapid development framework for PHP that provides an extensible architecture for developing, maintaining, and deploying applications.')
 		);
 
 		$arrayResult = $this->User->find('first', array(
@@ -327,13 +327,13 @@ class LinkableBehaviorTest extends CakeTestCase {
 				'LinkableUser' => array(
 					'id' => 4
 				),
-				'LinkableProfile' => array ('user_id' => 4)
+				'LinkableProfile' => array('user_id' => 4)
 			),
 			1 => array(
 				'LinkableUser' => array(
 					'id' => 3
 				),
-				'LinkableProfile' => array ('user_id' => 3)
+				'LinkableProfile' => array('user_id' => 3)
 			)
 		);
 
