@@ -205,7 +205,7 @@ class GoogleMapV3Helper extends AppHelper {
 		'https' => null # auto detect
 	);
 
-	protected $_currentOptions =array();
+	protected $_currentOptions = array();
 
 	protected $_apiIncluded = false;
 
@@ -446,7 +446,7 @@ class GoogleMapV3Helper extends AppHelper {
 		$this->_mapIds[] = $this->_currentOptions['div']['id'];
 
 		$map .= "
-			var ".$this->name()." = new google.maps.Map(document.getElementById(\"".$this->_currentOptions['div']['id']."\"), myOptions);
+			var " . $this->name() . " = new google.maps.Map(document.getElementById(\"" . $this->_currentOptions['div']['id'] . "\"), myOptions);
 			";
 		$this->map = $map;
 
@@ -458,8 +458,8 @@ class GoogleMapV3Helper extends AppHelper {
 			$this->_currentOptions['div']['height'] .= 'px';
 		}
 
-		$this->_currentOptions['div']['style'] .= 'width: '.$this->_currentOptions['div']['width'].';';
-		$this->_currentOptions['div']['style'] .= 'height: '.$this->_currentOptions['div']['height'].';';
+		$this->_currentOptions['div']['style'] .= 'width: ' . $this->_currentOptions['div']['width'] . ';';
+		$this->_currentOptions['div']['style'] .= 'height: ' . $this->_currentOptions['div']['height'] . ';';
 		unset($this->_currentOptions['div']['width']); unset($this->_currentOptions['div']['height']);
 
 		$defaultText = isset($this->_currentOptions['content']) ? $this->_currentOptions['content'] : __('Map cannot be displayed!');
@@ -473,7 +473,7 @@ class GoogleMapV3Helper extends AppHelper {
 	 */
 	public function _initialLocation() {
 		if ($this->_currentOptions['map']['lat'] && $this->_currentOptions['map']['lng']) {
-			return "new google.maps.LatLng(".$this->_currentOptions['map']['lat'].", ".$this->_currentOptions['map']['lng'].")";
+			return "new google.maps.LatLng(" . $this->_currentOptions['map']['lat'] . ", " . $this->_currentOptions['map']['lng'] . ")";
 		}
 		$this->_currentOptions['autoCenter'] = true;
 		return 'false';
@@ -526,7 +526,7 @@ class GoogleMapV3Helper extends AppHelper {
 			$params['zIndex'] = $options['zIndex'];
 		}
 		if (isset($options['animation'])) {
-			$params['animation'] = 'google.maps.Animation.'.$options['animation'];
+			$params['animation'] = 'google.maps.Animation.' . strtoupper($options['animation']);
 		}
 
 		// geocode if necessary
@@ -633,19 +633,19 @@ function geocodeAddress(address) {
 		$form = '<form action="http://maps.google.com/maps" method="get" target="_blank">';
 		$form .= $options['escape'] ? h($options['label']) : $options['label'];
 		if (!empty($options['from'])) {
-			$form .= '<input type="hidden" name="saddr" value="'.$options['from'].'" />';
+			$form .= '<input type="hidden" name="saddr" value="' . $options['from'] . '" />';
 		} else {
 			$form .= '<input type="text" name="saddr" />';
 		}
 		if (!empty($options['to'])) {
-			$form .= '<input type="hidden" name="daddr" value="'.$options['to'].'" />';
+			$form .= '<input type="hidden" name="daddr" value="' . $options['to'] . '" />';
 		} else {
 			$form .= '<input type="text" name="daddr" />';
 		}
 		if (isset($options['zoom'])) {
-			$form .= '<input type="hidden" name="z" value="'.$options['zoom'].'" />';
+			$form .= '<input type="hidden" name="z" value="' . $options['zoom'] . '" />';
 		}
-		$form .= '<input type="submit" value="'.$options['submit'].'" />';
+		$form .= '<input type="submit" value="' . $options['submit'] . '" />';
 		$form .= '</form>';
 
 		return '<div class="directions">'.$form.'</div>';
@@ -1609,9 +1609,6 @@ var iconShape = {
 
 /*
 TODOS:
-
-- animations
-marker.setAnimation(google.maps.Animation.BOUNCE);
 
 - geocoding (+ reverse)
 
