@@ -168,6 +168,7 @@ class GoogleMapV3Helper extends AppHelper {
 		),
 		'marker'=>array(
 			//'autoCenter' => true,
+			'animation' => null,  # BOUNCE or DROP  https://developers.google.com/maps/documentation/javascript/3.exp/reference#Animation
 			'icon' => null, # => default (red marker) //http://google-maps-icons.googlecode.com/files/home.png
 			'title' => null,
 			'shadow' => null,
@@ -523,6 +524,9 @@ class GoogleMapV3Helper extends AppHelper {
 		}
 		if (isset($options['zIndex'])) {
 			$params['zIndex'] = $options['zIndex'];
+		}
+		if (isset($options['animation'])) {
+			$params['animation'] = 'google.maps.Animation.'.$options['animation'];
 		}
 
 		// geocode if necessary
