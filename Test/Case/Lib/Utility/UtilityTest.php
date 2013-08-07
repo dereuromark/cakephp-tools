@@ -185,7 +185,7 @@ class UtilityTest extends MyCakeTestCase {
 		$res = Utility::getReferer(true);
 		$base = HTTP_BASE;
 		if (!$base) {
-			$base = 'http://localhost/';
+			$base = 'http://localhost';
 		}
 		$this->assertEquals($base . env('HTTP_REFERER'), $res);
 	}
