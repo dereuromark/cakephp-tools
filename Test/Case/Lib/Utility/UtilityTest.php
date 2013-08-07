@@ -183,7 +183,11 @@ class UtilityTest extends MyCakeTestCase {
 
 		$_SERVER['HTTP_REFERER'] = '/foo/bar';
 		$res = Utility::getReferer(true);
-		$this->assertEquals(HTTP_BASE . env('HTTP_REFERER'), $res);
+		$base = HTTP_BASE;
+		if (!$base) {
+			$base = 'http://localhost/';
+		}
+		$this->assertEquals($base . env('HTTP_REFERER'), $res);
 	}
 
 	/**
