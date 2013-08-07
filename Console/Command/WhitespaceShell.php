@@ -30,7 +30,7 @@ class WhitespaceShell extends AppShell {
 
 		$action = $this->in(__('Continue? [y]/[n]'), array('y', 'n'), 'n');
 		if ($action === 'n') {
-			$this->error('Aborted');
+			return $this->error('Aborted');
 		}
 
 		$folders = array();
@@ -80,7 +80,7 @@ class WhitespaceShell extends AppShell {
 			}
 
 			if ($action === 'q') {
-				$this->error('Abort... Done');
+				return $this->error('Abort... Done');
 
 			} elseif ($action === 'y') {
 				if ($error === 'leading') {
@@ -119,7 +119,7 @@ class WhitespaceShell extends AppShell {
 
 		$action = $this->in(__('Continue? [y]/[n]'), array('y', 'n'), 'n');
 		if ($action === 'n') {
-			$this->error('Aborted');
+			return $this->error('Aborted');
 		}
 
 		foreach ($files as $file) {

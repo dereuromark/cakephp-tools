@@ -39,7 +39,7 @@ class EncodingShell extends AppShell {
 			$folder = realpath($folder);
 		}
 		if (empty($folder)) {
-			$this->error('Invalid dir', 'No valid dir given (either absolute or relative to APP)');
+			return $this->error('Invalid dir', 'No valid dir given (either absolute or relative to APP)');
 		}
 		$this->out('Searching folder:');
 		$this->out($folder, 2);

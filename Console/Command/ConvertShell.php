@@ -52,14 +52,14 @@ class ConvertShell extends AppShell {
 		$folder = APP;
 		$mode = $this->params['mode'];
 		if (empty($mode) || !in_array($mode, $this->modes)) {
-			$this->error('Invalid mode', 'Please specify d2u, u2d, git (d2u+u2d) ...');
+			return $this->error('Invalid mode', 'Please specify d2u, u2d, git (d2u+u2d) ...');
 		}
 		if (!empty($this->args)) {
 			$folder = array_shift($this->args);
 			$folder = realpath($folder);
 		}
 		if (empty($folder)) {
-			$this->error('Invalid dir', 'No valid dir given (either absolute or relative to APP)');
+			return $this->error('Invalid dir', 'No valid dir given (either absolute or relative to APP)');
 		}
 
 		$this->_convert($folder, $mode);

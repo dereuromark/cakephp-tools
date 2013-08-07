@@ -60,10 +60,10 @@ class FolderSyncShell extends AppShell {
 			$this->targetFolder = realpath($this->params['target']);
 		}
 		if (!$this->sourceFolder || !is_dir($this->sourceFolder)) {
-			$this->error('Folder not exists', 'Please specify a valid source folder');
+			return $this->error('Folder not exists', 'Please specify a valid source folder');
 		}
 		if (!$this->targetFolder || !is_dir($this->targetFolder)) {
-			$this->error('Folder not exists', 'Please specify a valid target folder');
+			return $this->error('Folder not exists', 'Please specify a valid target folder');
 		}
 
 		if (!empty($this->params['invert'])) {

@@ -85,7 +85,7 @@ class PhpTagShell extends AppShell {
 				}
 
 				if ($action === 'q') {
-					$this->error('Abort... Done');
+					return $this->error('Abort... Done');
 				} elseif ($action === 'y') {
 					$res = $c;
 					if (in_array('leading', $error)) {

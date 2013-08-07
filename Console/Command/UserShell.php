@@ -111,7 +111,7 @@ class UserShell extends AppShell {
 		$this->out('');
 		$continue = $this->in(__('Continue? '), array('y', 'n'), 'n');
 		if ($continue !== 'y') {
-			$this->error('Not Executed!');
+			return $this->error('Not Executed!');
 		}
 
 		$this->out('');
@@ -119,7 +119,7 @@ class UserShell extends AppShell {
 		if ($this->User->save($data)) {
 			$this->out('User inserted! ID: '.$this->User->id);
 		} else {
-			$this->error('User could not be inserted ('.print_r($this->User->validationErrors, true).')');
+			return $this->error('User could not be inserted ('.print_r($this->User->validationErrors, true).')');
 		}
 	}
 

@@ -31,7 +31,7 @@ class HashShell extends AppShell {
 		while (!isset($type) || !in_array($type-1, $types)) {
 			$type = $this->in(__('Select hashType - or [q] to quit'), null, self::DEFAULT_HASH_ALG);
 			if ($type === 'q') {
-				$this->error('Aborted!');
+				return $this->error('Aborted!');
 			}
 		}
 		$type--;

@@ -157,7 +157,7 @@ class CopyShell extends AppShell {
 		$this->out('');
 
 		if (empty($connection) || $connection === 'q') {
-			$this->error('Aborted!');
+			return $this->error('Aborted!');
 		} elseif ($connection === 'h') {
 			$this->help();
 			return;
@@ -170,17 +170,17 @@ class CopyShell extends AppShell {
 			if (!empty($configName[1])) {
 				$this->configName = $configName[1];
 			} else {
-				$this->error('Invalid config name \''.$configs[$connection-1].'\'');
+				return $this->error('Invalid config name \''.$configs[$connection-1].'\'');
 			}
 		}
 
 		# allow c, v and p only with app configs -> set params (by splitting app_configName into app and configName)
 		if ($this->type > 3 || $this->type > 0 && $configName[0] !== 'app') {
-			$this->error('"-c" (-cake), "-v" (-vendor) and "-p" (-plugin) only possible with app configs (not with custom ones)');
+			return $this->error('"-c" (-cake), "-v" (-vendor) and "-p" (-plugin) only possible with app configs (not with custom ones)');
 		}
 
 		if (empty($configuration)) {
-			$this->error('Error...');
+			return $this->error('Error...');
 		} else {
 			$this->out('... Config \''.$this->types[$this->type].'_'.$this->configName.'\' selected ...');
 		}
@@ -290,7 +290,7 @@ class CopyShell extends AppShell {
 			}
 
 			if ($action === 'q') {
-				$this->error('Aborted!');
+				return $this->error('Aborted!');
 			}
 			if (in_array($action, $allowedActions)) {
 				# synch can destroy local information that might not have been saved yet, so confirm
@@ -509,7 +509,7 @@ class CopyShell extends AppShell {
 		$File = new File($this->localFolder.'config'.DS.$this->configCustomFile);
 
 		if (!$File->exists()) {
-			$this->error('No config file present (/config/'.$this->configCustomFile.')!');
+			return $this->error('No config file present (/config/'.$this->configCustomFile.')!');
 		}
 		$File->open('r');
 
@@ -547,7 +547,7 @@ class CopyShell extends AppShell {
 				$config = trim(str_replace('site ','', $c));
 				if (!empty($config)) {
 					if (!$this->isValidConfigName($config)) {
-						$this->error('Invalid Config Name \''.$config.'\' in /config/'.$this->configCustomFile.'!'.NL.'Allowed: [app|custom]+\'_\'+{a-z0-9-} or [cake|vendor|plugin]');
+						return $this->error('Invalid Config Name \''.$config.'\' in /config/'.$this->configCustomFile.'!'.NL.'Allowed: [app|custom]+\'_\'+{a-z0-9-} or [cake|vendor|plugin]');
 					}
 
 					if ($this->typeMatchesConfigName($config, $this->type)) {

@@ -38,7 +38,7 @@ class ResetShell extends AppShell {
 
 		$this->User = ClassRegistry::init(CLASS_USER);
 		if (!$this->User->hasField('email')) {
-			$this->error(CLASS_USER.' model doesnt have an email field!');
+			return $this->error(CLASS_USER.' model doesnt have an email field!');
 		}
 
 		$this->hr();
@@ -65,7 +65,7 @@ class ResetShell extends AppShell {
 			}
 		}
 		if (!is_object($this->Auth)) {
-			$this->error('No Auth Component found');
+			return $this->error('No Auth Component found');
 		}
 
 		$this->out('Using: '.get_class($this->Auth).' (Abort with STRG+C)');
@@ -90,7 +90,7 @@ class ResetShell extends AppShell {
 
 		$this->User = ClassRegistry::init(CLASS_USER);
 		if (!$this->User->hasField('password')) {
-			$this->error(CLASS_USER.' model doesnt have a password field!');
+			return $this->error(CLASS_USER.' model doesnt have a password field!');
 		}
 
 		if (method_exists($this->User, 'escapeValue')) {

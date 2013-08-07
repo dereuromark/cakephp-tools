@@ -75,7 +75,7 @@ class IndentShell extends AppShell {
 
 				$folder = realpath($folder);
 				if (!file_exists($folder)) {
-					$this->error('folder not exists: ' . $folder . '');
+					return $this->error('folder not exists: ' . $folder . '');
 				}
 				$this->_paths[] = $folder;
 			} elseif ($this->args[0] === 'app') {
@@ -96,7 +96,7 @@ class IndentShell extends AppShell {
 			} else {
 				$continue = $this->in(__('Modifying files! Continue?'), array('y', 'n'), 'n');
 				if (strtolower($continue) !== 'y' && strtolower($continue) !== 'yes') {
-					$this->error('...aborted');
+					return $this->error('...aborted');
 				}
 
 				$this->_correctFiles();
@@ -253,7 +253,7 @@ class IndentShell extends AppShell {
 						$pos++;
 						$spaces += $this->settings['spacesPerTab'];
 					} else {
-						$this->error('???');
+						return $this->error('???');
 					}
 
 					$newPiece = mb_substr($newPiece, 1);
