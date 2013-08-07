@@ -17,7 +17,7 @@ App::uses('CakeRequest', 'Network');
  */
 class TinyAuthorizeTest extends MyCakeTestCase {
 
-	public $fixtures = array('core.user', 'core.auth_user');
+	public $fixtures = array('core.user', 'core.auth_user', 'plugin.tools.role');
 
 	public $Collection;
 
@@ -45,6 +45,7 @@ add,edit,delete = user
 * = admin
 [Tags]
 add = *
+very_long_action_name_action = user
 public_action = public
 INI;
 		file_put_contents(TMP . 'acl.ini', $aclData);
@@ -94,6 +95,7 @@ INI;
 			),
 			'tags' => array(
 				'add' => array(1, 2, 3, -1),
+				'very_long_action_name_action' => array(1),
 				'public_action' => array(-1)
 			),
 		);
@@ -148,6 +150,29 @@ INI;
 		);
 		$res = $object->authorize($user, $this->request);
 		$this->assertTrue($res);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testBasicUserMethodAllowedWithLongActionNames() {
+		$this->request->params['controller'] = 'tags';
+		$this->request->params['action'] = 'very_long_action_name_action';
+
+		$object = new TestTinyAuthorize($this->Collection, array('autoClearCache' => true));
+
+		// single role_id field in users table
+		$user = array(
+			'role_id' => 1,
+		);
+		$res = $object->authorize($user, $this->request);
+		$this->assertTrue($res);
+
+		$user = array(
+			'role_id' => 3,
+		);
+		$res = $object->authorize($user, $this->request);
+		$this->assertFalse($res);
 	}
 
 	/**
@@ -283,6 +308,76 @@ INI;
 		);
 		$res = $object->authorize($user, $this->request);
 		$this->assertTrue($res);
+	}
+
+	/**
+	 * TinyAuthorizeTest::testWithRoleTable()
+	 *
+	 * @return void
+	 */
+	public function testWithRoleTable() {
+		// We want the session to be used.
+		Configure::delete('Role');
+
+		$this->request->params['controller'] = 'users';
+		$this->request->params['action'] = 'edit';
+
+		$object = new TestTinyAuthorize($this->Collection, array('autoClearCache' => true));
+
+		// User role is 4 here, though. Also contains left joined Role date here just to check that it works, too.
+		$user = array(
+			'Role' => array(
+				'id' => '4',
+				'alias' => 'user',
+			),
+			'role_id' => 4,
+		);
+		$res = $object->authorize($user, $this->request);
+		$this->assertTrue($res);
+
+		$this->request->params['controller'] = 'users';
+		$this->request->params['action'] = 'edit';
+
+		$object = new TestTinyAuthorize($this->Collection, array('autoClearCache' => true));
+
+		$user = array(
+			'role_id' => 6,
+		);
+		$res = $object->authorize($user, $this->request);
+		$this->assertFalse($res);
+
+		$this->assertTrue((bool)(Configure::read('Role')));
+
+		// Multirole
+		Configure::delete('Role');
+
+		$object = new TestTinyAuthorize($this->Collection, array('autoClearCache' => true));
+
+		// User role is 4 here, though. Also contains left joined Role date here just to check that it works, too.
+		$user = array(
+			'Role' => array(
+				array('id' => 4, 'alias' => 'user'),
+				array('id' => 6, 'alias' => 'partner'),
+			)
+		);
+		$res = $object->authorize($user, $this->request);
+		$this->assertTrue($res);
+
+		$this->request->params['controller'] = 'users';
+		$this->request->params['action'] = 'edit';
+
+		$object = new TestTinyAuthorize($this->Collection, array('autoClearCache' => true));
+
+		$user = array(
+			'Role' => array(
+				array('id' => 7, 'alias' => 'user'),
+				array('id' => 8, 'alias' => 'partner'),
+			)
+		);
+		$res = $object->authorize($user, $this->request);
+		$this->assertFalse($res);
+
+		$this->assertTrue((bool)(Configure::read('Role')));
 	}
 
 }
