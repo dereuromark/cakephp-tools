@@ -316,6 +316,9 @@ INI;
 	 * @return void
 	 */
 	public function testWithRoleTable() {
+		$User = ClassRegistry::init('User');
+		$User->bindModel(array('belongsTo' => array('Role')), false);
+
 		// We want the session to be used.
 		Configure::delete('Role');
 
