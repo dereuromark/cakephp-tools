@@ -13,7 +13,7 @@ if (!defined('PWD_MAX_LENGTH')) {
 }
 
 /**
- * A cakephp2 behavior to work with passwords the easy way
+ * A CakePHP2 behavior to work with passwords the easy way
  * - complete validation
  * - hashing of password
  * - requires fields (no tempering even without security component)
@@ -47,19 +47,20 @@ class PasswordableBehavior extends ModelBehavior {
 	 */
 	protected $_defaults = array(
 		'field' => 'password',
-		'confirm' => true, # set to false if in admin view and no confirmation (pwd_repeat) is required
-		'allowEmpty' => false, # if password must be provided or be changed (set to true for update sites)
-		'current' => false, # expect the current password for security purposes
+		'confirm' => true, // Set to false if in admin view and no confirmation (pwd_repeat) is required
+		'require' => true, // If a password change is required (set to false for edit forms, leave it true for pure password update forms)
+		'allowEmpty' => false, // Deprecated, do NOT use anymore! Use require instead!
+		'current' => false, // Expect the current password for security purposes
 		'formField' => 'pwd',
 		'formFieldRepeat' => 'pwd_repeat',
 		'formFieldCurrent' => 'pwd_current',
-		'userModel' => null,
-		'hashType' => null, # only for authType Form [cake2.3]
-		'hashSalt' => true, # only for authType Form [cake2.3]
-		'auth' => null, # which component (defaults to AuthComponent),
-		'authType' => 'Form', # which type of authenticate (Form, Blowfish, ...) [cake2.4]
-		'passwordHasher' => null, # if a custom pwd hasher is been used [cake2.4]
-		'allowSame' => true, # dont allow the old password on change,
+		'userModel' => null, // Defaults to User
+		'hashType' => null, // only for authType Form [cake2.3]
+		'hashSalt' => true, // only for authType Form [cake2.3]
+		'auth' => null, // which component (defaults to AuthComponent),
+		'authType' => 'Form', // which type of authenticate (Form, Blowfish, ...) [cake2.4]
+		'passwordHasher' => null, // if a custom pwd hasher is been used [cake2.4]
+		'allowSame' => true, // dont allow the old password on change,
 		'minLength' => PWD_MIN_LENGTH,
 		'maxLength' => PWD_MAX_LENGTH
 	);
@@ -243,11 +244,23 @@ class PasswordableBehavior extends ModelBehavior {
 		}
 		$this->settings[$Model->alias] = Set::merge($defaults, $config);
 
+		// BC comp
+		if ($this->settings[$Model->alias]['allowEmpty']) {
+			$this->settings[$Model->alias]['require'] = false;
+		}
+
 		$formField = $this->settings[$Model->alias]['formField'];
 		$formFieldRepeat = $this->settings[$Model->alias]['formFieldRepeat'];
 		$formFieldCurrent = $this->settings[$Model->alias]['formFieldCurrent'];
 
 		$rules = $this->_validationRules;
+		foreach ($rules as $key => $rule) {
+			foreach ($rule as $rK => $rR) {
+				$rR['allowEmpty'] = !$this->settings[$Model->alias]['require'];
+
+				$rules[$key][$rK] = $rR;
+			}
+		}
 
 		# add the validation rules if not already attached
 		if (!isset($Model->validate[$formField])) {
@@ -266,7 +279,7 @@ class PasswordableBehavior extends ModelBehavior {
 				$Model->validator()->add($formField, 'validateNotSame', array(
 					'rule' => array('validateNotSame', $formField, $formFieldCurrent),
 					'message' => 'valErrPwdSameAsBefore',
-					'allowEmpty' => $this->settings[$Model->alias]['allowEmpty'],
+					'allowEmpty' => !$this->settings[$Model->alias]['require'],
 					'last' => true,
 				));
 			}
@@ -276,7 +289,7 @@ class PasswordableBehavior extends ModelBehavior {
 				$Model->validator()->add($formField, 'validateNotSame', array(
 					'rule' => array('validateNotSameHash', $formField),
 					'message' => 'valErrPwdSameAsBefore',
-					'allowEmpty' => $this->settings[$Model->alias]['allowEmpty'],
+					'allowEmpty' => !$this->settings[$Model->alias]['require'],
 					'last' => true,
 				));
 			}
@@ -306,7 +319,7 @@ class PasswordableBehavior extends ModelBehavior {
 		}
 
 		# check if we need to trigger any validation rules
-		if ($this->settings[$Model->alias]['allowEmpty']) {
+		if (!$this->settings[$Model->alias]['require']) {
 			$current = !empty($Model->data[$Model->alias][$formFieldCurrent]);
 			$new = !empty($Model->data[$Model->alias][$formField]) || !empty($Model->data[$Model->alias][$formFieldRepeat]);
 			if (!$new && !$current) {
@@ -338,7 +351,6 @@ class PasswordableBehavior extends ModelBehavior {
 
 		return true;
 	}
-
 
 	/**
 	 * Hashing the password and whitelisting
@@ -372,7 +384,6 @@ class PasswordableBehavior extends ModelBehavior {
 				$Model->whitelist = array_merge($Model->whitelist, array($field));
 			}
 		}
-
 		return true;
 	}
 

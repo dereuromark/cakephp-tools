@@ -119,9 +119,9 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * validation and update process gets skipped if no values are entered
+	 * Trigger validation and update process if no values are entered but are required
 	 */
-	public function testValidateEmpty() {
+	public function testValidateRequired() {
 		$this->User->Behaviors->load('Tools.Passwordable');
 		$this->User->create();
 		$data = array(
@@ -130,9 +130,36 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		);
 		$this->User->set($data);
 		$is = $this->User->save();
-		//debug($this->User->validationErrors);
 		$this->assertFalse($is);
 		$this->assertEquals(array('pwd', 'pwd_repeat'), array_keys($this->User->validationErrors));
+	}
+
+	/**
+	 * validation and update process gets skipped if no values are entered
+	 */
+	public function testValidateNotRequired() {
+		$this->User->Behaviors->load('Tools.Passwordable', array('require' => false));
+		$this->User->create();
+		$data = array(
+			'name' => 'foo', // we need at least one field besides the password on CREATE
+			'pwd' => '',
+			'pwd_repeat' => ''
+		);
+		$this->User->set($data);
+		$is = $this->User->save();
+		$this->assertTrue((bool)$is);
+		$this->assertEquals(array('name', 'id'), array_keys($is['ToolsUser']));
+
+		$id = $this->User->id;
+		$data = array(
+			'id' => $id,
+			'pwd' => '',
+			'pwd_repeat' => ''
+		);
+		$this->User->set($data);
+		$is = $this->User->save();
+		$this->assertTrue((bool)$is);
+		$this->assertEquals(array('id'), array_keys($is['ToolsUser']));
 	}
 
 	/**
@@ -141,7 +168,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testValidateEmptyWithCurrentPassword() {
-		$this->User->Behaviors->load('Tools.Passwordable', array('current'=>true));
+		$this->User->Behaviors->load('Tools.Passwordable', array('current' => true));
 		$this->User->create();
 		$data = array(
 			'id' => '123',
@@ -158,7 +185,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$this->tearDown();
 		$this->setUp();
 
-		$this->User->Behaviors->load('Tools.Passwordable', array('allowEmpty'=>true, 'current'=>true));
+		$this->User->Behaviors->load('Tools.Passwordable', array('require' => false, 'current'=>true));
 		$this->User->create();
 		$data = array(
 			'name' => 'foo',
