@@ -65,6 +65,20 @@ The models, behaviors, helpers, libs and other classes are used the same way pre
 Tip: For how to use them, try to find some information in the test cases.
 Usage for some larger modules: https://github.com/dereuromark/tools/blob/master/USAGE
 
+## The cool stuff
+
+* Common component with lots of additions like auto-trim on post (to make validation working properly).
+* Using the Common component's flashMessage() you can have colorful (success, warning, error, ...) flash messages.
+  They also can stack up (multiple messages per type). This way no message is lost when redirecting twice etc.
+* The Passwordable behavior allows easy to use functionality for frontend and backend.
+* Geocodeable, WhoDidIt, Confirmable and Bitmasked behaviors.
+* Tokens, Qlogin, TinyUrl, KeyValue functionality included.
+* The TextExt, Datetime, Numeric and FormExt helpers provide extended functionality if desired.
+* Tree helper for working with (complex) trees.
+* GoogleMapV3, Gravatar, Qrcode, Typography, Ical, Hcard provide additional helper functionality.
+
+and much more
+
 
 ## Disclaimer
 Use at your own risk. Please provide any fixes or enhancements via issue or better pull request.
