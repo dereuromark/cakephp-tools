@@ -148,7 +148,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$this->User->set($data);
 		$is = $this->User->save();
 		$this->assertTrue((bool)$is);
-		$this->assertEquals(array('name', 'id'), array_keys($is['ToolsUser']));
+		$this->assertEquals(array('name', 'id'), array_keys($is[$this->User->alias]));
 
 		$id = $this->User->id;
 		$data = array(
