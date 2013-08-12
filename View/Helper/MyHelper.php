@@ -35,7 +35,7 @@ class MyHelper extends Helper {
 				continue;
 			}
 			App::uses($helperName . 'Helper', $plugin . 'View/Helper');
-			$helperFullName = $helperName.'Helper';
+			$helperFullName = $helperName . 'Helper';
 			$this->{$helperName} = new $helperFullName($this->_View, (array)$config);
 
 			if ($callbacks) {
@@ -136,18 +136,12 @@ class MyHelper extends Helper {
 		return sprintf($this->tags['time'], $attributes, $content);
 	}
 
-	# for convienience function Html::defaultLink()
-	protected $linkDefaults = null;
-
-	/*
-	# only one prefix at a time
-	public function url($url, $full = false) {
-		if (is_array($url)) {
-			$url['lang'] = 'deu';
-		}
-		return parent::url($url, $full);
-	}
-	*/
+	/**
+	 * For convienience function Html::defaultLink().
+	 *
+	 * @var array
+	 */
+	protected $_linkDefaults = null;
 
 	/**
 	 * keep named and query params for pagination/filter after edit etc
@@ -186,22 +180,22 @@ class MyHelper extends Helper {
 	 * 2010-01-23 ms
 	 */
 	public function defaultLink($title, $url = null, $options = array(), $confirmMessage = false) {
-		if ($this->linkDefaults === null) {
+		if ($this->_linkDefaults === null) {
 			if (!class_exists('CommonComponent')) {
 				App::uses('CommonComponent', 'Tools.Controller/Component');
 			}
-			$this->linkDefaults = CommonComponent::defaultUrlParams();
+			$this->_linkDefaults = CommonComponent::defaultUrlParams();
 		}
 		if (!defined('PREFIX_ADMIN')) {
 			define('PREFIX_ADMIN', 'admin');
 		}
 		if ($url !== null && is_array($url)) {
-			$url = array_merge($this->linkDefaults, $url);
+			$url = array_merge($this->_linkDefaults, $url);
 			if (!empty($url[PREFIX_ADMIN])) {
 				$options['rel'] = 'nofollow';
 			}
 		} elseif (is_array($title)) {
-			$title = array_merge($this->linkDefaults, $title);
+			$title = array_merge($this->_linkDefaults, $title);
 			if (!empty($title[PREFIX_ADMIN])) {
 				$options['rel'] = 'nofollow';
 			}
@@ -217,14 +211,14 @@ class MyHelper extends Helper {
 	 * 2010-01-23 ms
 	 */
 	public function defaultUrl($url = null, $full = false) {
-		if ($this->linkDefaults === null) {
+		if ($this->_linkDefaults === null) {
 			if (!class_exists('CommonComponent')) {
 				App::uses('CommonComponent', 'Tools.Controller/Component');
 			}
-			$this->linkDefaults = CommonComponent::defaultUrlParams();
+			$this->_linkDefaults = CommonComponent::defaultUrlParams();
 		}
 		if ($url !== null && is_array($url)) {
-			$url = array_merge($this->linkDefaults, $url);
+			$url = array_merge($this->_linkDefaults, $url);
 		}
 		return $this->url($url, $full);
 	}

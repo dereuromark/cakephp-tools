@@ -14,83 +14,83 @@
 App::uses('AppHelper', 'View/Helper');
 
 /**
- * TreeHelper class
+ * TreeHelper class.
  *
  * Helper to generate tree representations of MPTT or recursively nested data
  */
 class TreeHelper extends AppHelper {
 
-/**
- * Settings property
- *
- * @var array
- */
+	/**
+	 * Settings property
+	 *
+	 * @var array
+	 */
 	protected $_settings = array();
 
-/**
- * typeAttributes property
- *
- * @var array
- */
+	/**
+	 * typeAttributes property
+	 *
+	 * @var array
+	 */
 	protected $_typeAttributes = array();
 
-/**
- * typeAttributesNext property
- *
- * @var array
- */
+	/**
+	 * typeAttributesNext property
+	 *
+	 * @var array
+	 */
 	protected $_typeAttributesNext = array();
 
-/**
- * itemAttributes property
- *
- * @var array
- */
+	/**
+	 * itemAttributes property
+	 *
+	 * @var array
+	 */
 	protected $_itemAttributes = array();
 
-/**
- * Helpers variable
- *
- * @var array
- */
+	/**
+	 * Helpers variable
+	 *
+	 * @var array
+	 */
 	public $helpers = array('Html');
 
-/**
- * Tree generation method.
- *
- * Accepts the results of
- * 	find('all', array('fields' => array('lft', 'rght', 'whatever'), 'order' => 'lft ASC'));
- * 	children(); // if you have the tree behavior of course!
- * or 	find('threaded'); and generates a tree structure of the data.
- *
- * Settings (2nd parameter):
- *	'model' => name of the model (key) to look for in the data array. defaults to the first model for the current
- * controller. If set to false 2d arrays will be allowed/expected.
- *	'alias' => the array key to output for a simple ul (not used if element or callback is specified)
- *	'type' => type of output defaults to ul
- *	'itemType => type of item output default to li
- *	'id' => id for top level 'type'
- *	'class' => class for top level 'type'
- *	'element' => path to an element to render to get node contents.
- *	'callback' => callback to use to get node contents. e.g. array(&$anObject, 'methodName') or 'floatingMethod'
- *	'autoPath' => array($left, $right [$classToAdd = 'active']) if set any item in the path will have the class $classToAdd added. MPTT only.
- *  'hideUnrelated' => if unrelated (not children, not siblings) should be hidden, needs 'treePath', true/false or array/string for callback
- *  'treePath' => treePath to insert into callback/element
- *	'left' => name of the 'lft' field if not lft. only applies to MPTT data
- *	'right' => name of the 'rght' field if not rght. only applies to MPTT data
- *	'depth' => used internally when running recursively, can be used to override the depth in either mode.
- *  'maxDepth' => used to control the depth upto which to generate tree
- *	'firstChild' => used internally when running recursively.
- *	'splitDepth' => if multiple "parallel" types are required, instead of one big type, nominate the depth to do so here
- *		example: useful if you have 30 items to display, and you'd prefer they appeared in the source as 3 lists of 10 to be able to
- *		style/float them.
- *	'splitCount' => the number of "parallel" types. defaults to null (disabled) set the splitCount,
- *		and optionally set the splitDepth to get parallel lists
- *
- * @param array $data data to loop on
- * @param array $settings
- * @return string html representation of the passed data
- */
+	/**
+	 * Tree generation method.
+	 *
+	 * Accepts the results of
+	 * 	find('all', array('fields' => array('lft', 'rght', 'whatever'), 'order' => 'lft ASC'));
+	 * 	children(); // if you have the tree behavior of course!
+	 * or 	find('threaded'); and generates a tree structure of the data.
+	 *
+	 * Settings (2nd parameter):
+	 *	'model' => name of the model (key) to look for in the data array. defaults to the first model for the current
+	 * controller. If set to false 2d arrays will be allowed/expected.
+	 *	'alias' => the array key to output for a simple ul (not used if element or callback is specified)
+	 *	'type' => type of output defaults to ul
+	 *	'itemType => type of item output default to li
+	 *	'id' => id for top level 'type'
+	 *	'class' => class for top level 'type'
+	 *	'element' => path to an element to render to get node contents.
+	 *	'callback' => callback to use to get node contents. e.g. array(&$anObject, 'methodName') or 'floatingMethod'
+	 *	'autoPath' => array($left, $right [$classToAdd = 'active']) if set any item in the path will have the class $classToAdd added. MPTT only.
+	 *  'hideUnrelated' => if unrelated (not children, not siblings) should be hidden, needs 'treePath', true/false or array/string for callback
+	 *  'treePath' => treePath to insert into callback/element
+	 *	'left' => name of the 'lft' field if not lft. only applies to MPTT data
+	 *	'right' => name of the 'rght' field if not rght. only applies to MPTT data
+	 *	'depth' => used internally when running recursively, can be used to override the depth in either mode.
+	 *  'maxDepth' => used to control the depth upto which to generate tree
+	 *	'firstChild' => used internally when running recursively.
+	 *	'splitDepth' => if multiple "parallel" types are required, instead of one big type, nominate the depth to do so here
+	 *		example: useful if you have 30 items to display, and you'd prefer they appeared in the source as 3 lists of 10 to be able to
+	 *		style/float them.
+	 *	'splitCount' => the number of "parallel" types. defaults to null (disabled) set the splitCount,
+	 *		and optionally set the splitDepth to get parallel lists
+	 *
+	 * @param array $data data to loop on
+	 * @param array $settings
+	 * @return string html representation of the passed data
+	 */
 	public function generate($data, $settings = array()) {
 		if (!$data) {
 			return '';
@@ -328,17 +328,17 @@ class TreeHelper extends AppHelper {
 		return $return;
 	}
 
-/**
- * addItemAttribute function
- *
- * Called to modify the attributes of the next <item> to be processed
- * Note that the content of a 'node' is processed before generating its wrapping <item> tag
- *
- * @param string $id
- * @param string $key
- * @param mixed $value
- * @return void
- */
+	/**
+	 * addItemAttribute function
+	 *
+	 * Called to modify the attributes of the next <item> to be processed
+	 * Note that the content of a 'node' is processed before generating its wrapping <item> tag
+	 *
+	 * @param string $id
+	 * @param string $key
+	 * @param mixed $value
+	 * @return void
+	 */
 	public function addItemAttribute($id = '', $key = '', $value = null) {
 		if (!is_null($value)) {
 			$this->_itemAttributes[$id][$key] = $value;
@@ -347,33 +347,33 @@ class TreeHelper extends AppHelper {
 		}
 	}
 
-/**
- * addTypeAttribute function
- *
- * Called to modify the attributes of the next <type> to be processed
- * Note that the content of a 'node' is processed before generating its wrapping <type> tag (if appropriate)
- * An 'interesting' case is that of a first child with children. To generate the output
- * <ul> (1)
- *      <li>XYZ (3)
- *              <ul> (2)
- *                      <li>ABC...
- *                      ...
- *              </ul>
- *              ...
- * The processing order is indicated by the numbers in brackets.
- * attributes are allways applied to the next type (2) to be generated
- * to set properties of the holding type - pass 'previous' for the 4th param
- * i.e.
- * // Hide children (2)
- * $tree->addTypeAttribute('style', 'display', 'hidden');
- * // give top level type (1) a class
- * $tree->addTypeAttribute('class', 'hasHiddenGrandChildren', null, 'previous');
- *
- * @param string $id
- * @param string $key
- * @param mixed $value
- * @return void
- */
+	/**
+	 * addTypeAttribute function
+	 *
+	 * Called to modify the attributes of the next <type> to be processed
+	 * Note that the content of a 'node' is processed before generating its wrapping <type> tag (if appropriate)
+	 * An 'interesting' case is that of a first child with children. To generate the output
+	 * <ul> (1)
+	 *      <li>XYZ (3)
+	 *              <ul> (2)
+	 *                      <li>ABC...
+	 *                      ...
+	 *              </ul>
+	 *              ...
+	 * The processing order is indicated by the numbers in brackets.
+	 * attributes are allways applied to the next type (2) to be generated
+	 * to set properties of the holding type - pass 'previous' for the 4th param
+	 * i.e.
+	 * // Hide children (2)
+	 * $tree->addTypeAttribute('style', 'display', 'hidden');
+	 * // give top level type (1) a class
+	 * $tree->addTypeAttribute('class', 'hasHiddenGrandChildren', null, 'previous');
+	 *
+	 * @param string $id
+	 * @param string $key
+	 * @param mixed $value
+	 * @return void
+	 */
 	public function addTypeAttribute($id = '', $key = '', $value = null, $previousOrNext = 'next') {
 		$var = '_typeAttributes';
 		$firstChild = isset($this->_settings['firstChild']) ? $this->_settings['firstChild'] : true;
@@ -387,21 +387,21 @@ class TreeHelper extends AppHelper {
 		}
 	}
 
-/**
- * supressChildren method
- *
- * @return void
- */
+	/**
+	 * supressChildren method
+	 *
+	 * @return void
+	 */
 	public function supressChildren() {
 	}
 
-/**
- * suffix method
- *
- * Used to close and reopen a ul/ol to allow easier listings
- *
- * @return void
- */
+	/**
+	 * Suffix method.
+	 *
+	 * Used to close and reopen a ul/ol to allow easier listings
+	 *
+	 * @return void
+	 */
 	protected function _suffix($reset = false) {
 		static $_splitCount = 0;
 		static $_splitCounter = 0;
@@ -439,15 +439,15 @@ class TreeHelper extends AppHelper {
 		}
 	}
 
-/**
- * attributes function
- *
- * Logic to apply styles to tags.
- *
- * @param mixed $rType
- * @param array $elementData
- * @return void
- */
+	/**
+	 * Attributes function.
+	 *
+	 * Logic to apply styles to tags.
+	 *
+	 * @param mixed $rType
+	 * @param array $elementData
+	 * @return void
+	 */
 	protected function _attributes($rType, $elementData = array(), $clear = true) {
 		extract($this->_settings);
 		if ($rType == $type) {

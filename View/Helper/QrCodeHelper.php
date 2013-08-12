@@ -48,8 +48,9 @@ class QrCodeHelper extends AppHelper {
 	const SIZE_Q = 66;
 	const SIZE_H = 74;
 
-	protected $engine = 'google';
-	protected $url = 'http://chart.apis.google.com/chart?';
+	public $engine = 'google';
+
+	public $url = 'http://chart.apis.google.com/chart?';
 
 	/**
 	 * necessary
@@ -57,11 +58,11 @@ class QrCodeHelper extends AppHelper {
 	 * - choe: string $outputEncoding
 	 * - chs: size (...x...)
 	 */
-	protected $options = array('cht'=>'qr', 'chl'=>'', 'choe'=>'', 'chs'=>'');
+	public $options = array('cht' => 'qr', 'chl' => '', 'choe' => '', 'chs' => '');
 
-	protected $ecLevels = array('H', 'Q', 'M', 'L'); # 30%..7%
+	public $ecLevels = array('H', 'Q', 'M', 'L'); # 30%..7%
 
-	protected $formattingTypes = array('url'=>'http', 'tel'=>'tel', 'sms'=>'smsto', 'card'=>'mecard');
+	public $formattingTypes = array('url' => 'http', 'tel' => 'tel', 'sms' => 'smsto', 'card' => 'mecard');
 
 	public function __construct(View $View, $settings = array()) {
 		parent::__construct($View, $settings);
@@ -120,19 +121,19 @@ class QrCodeHelper extends AppHelper {
 				$text = $this->Html->url($text, true);
 				break;
 			case 'sms':
-				$text = 'smsto:'.implode(':', (array)$text);
+				$text = 'smsto:' . implode(':', (array)$text);
 				break;
 			case 'tel':
-				$text = 'tel:'.$text;
+				$text = 'tel:' . $text;
 				break;
 			case 'email':
-				$text = 'mailto:'.$text;
+				$text = 'mailto:' . $text;
 				break;
 			case 'geo':
-				$text = 'geo:'.implode(',', (array)$text); #like 77.1,11.8
+				$text = 'geo:' . implode(',', (array)$text); #like 77.1,11.8
 				break;
 			case 'market':
-				$text = 'market://search?q=pname:'.$text;
+				$text = 'market://search?q=pname:' . $text;
 		}
 		return $text;
 	}
@@ -153,70 +154,70 @@ class QrCodeHelper extends AppHelper {
 		foreach ($data as $key => $val) {
 			switch ($key) {
 				case 'name':
-					$res[] = 'N:'.$val; # //TODO: support array
+					$res[] = 'N:' . $val; # //TODO: support array
 					break;
 				case 'nickname':
-					$res[] = 'NICKNAME:'.$val;
+					$res[] = 'NICKNAME:' . $val;
 					break;
 				case 'sound':
-					$res[] = 'SOUND:'.$val;
+					$res[] = 'SOUND:' . $val;
 					break;
 				case 'note':
 					$val = str_replace(';', ',', $val);
-					$res[] = 'NOTE:'.$val; //TODO: remove other invalid characters
+					$res[] = 'NOTE:' . $val; //TODO: remove other invalid characters
 					break;
 				case 'birthday':
 					if (strlen($val) !== 8) {
-						$val = substr($val, 0, 4).substr($val, 6, 2).substr($val, 10, 2);
+						$val = substr($val, 0, 4) . substr($val, 6, 2) . substr($val, 10, 2);
 					}
-					$res[] = 'BDAY:'.$val;
+					$res[] = 'BDAY:' . $val;
 					break;
 				case 'tel':
 					$val = (array)$val;
 					foreach ($val as $v) {
-						$res[] = 'TEL:'.$v;
+						$res[] = 'TEL:' . $v;
 					}
 					break;
 				case 'video':
 					$val = (array)$val;
 					foreach ($val as $v) {
-						$res[] = 'TEL-AV:'.$v;
+						$res[] = 'TEL-AV:' . $v;
 					}
 					break;
 				case 'address':
 					$val = (array)$val;
 					foreach ($val as $v) {
-						$res[] = 'ADR:'.$v; //TODO: reformat (array etc)
+						$res[] = 'ADR:' . $v; //TODO: reformat (array etc)
 					}
 					break;
 				case 'org':
 					$val = (array)$val;
 					foreach ($val as $v) {
-						$res[] = 'ORG:'.$v;
+						$res[] = 'ORG:' . $v;
 					}
 					break;
 				case 'role':
 					$val = (array)$val;
 					foreach ($val as $v) {
-						$res[] = 'ROLE:'.$v;
+						$res[] = 'ROLE:' . $v;
 					}
 					break;
 				case 'email':
 					$val = (array)$val;
 					foreach ($val as $v) {
-						$res[] = 'EMAIL:'.$v;
+						$res[] = 'EMAIL:' . $v;
 					}
 					break;
 				case 'url':
 					$val = (array)$val;
 					foreach ($val as $v) {
-						$res[] = 'URL:'.$this->Html->url($v, true);
+						$res[] = 'URL:' . $this->Html->url($v, true);
 					}
 					break;
 			}
 		}
 
-		return 'MECARD:'.implode(';', $res).';';
+		return 'MECARD:' . implode(';', $res) . ';';
 	}
 
 	/**
@@ -257,7 +258,7 @@ class QrCodeHelper extends AppHelper {
 		}
 		$value = (int)$value;
 		if ($value >= self::MIN_SIZE && $value <= self::MAX_SIZE) {
-			$this->options['chs'] = $value.'x'.$value;
+			$this->options['chs'] = $value. 'x' . $value;
 			return true;
 		}
 		return false;
@@ -274,7 +275,7 @@ class QrCodeHelper extends AppHelper {
 			if ($margin === null) {
 				$margin = 4; # minimum
 			}
-			$this->options['chld'] = strtoupper($level).'|'.$margin;
+			$this->options['chld'] = strtoupper($level). '|' . $margin;
 			return true;
 		}
 		return false;
@@ -284,6 +285,11 @@ class QrCodeHelper extends AppHelper {
 		//TODO
 	}
 
+	/**
+	 * QrCodeHelper::reset()
+	 *
+	 * @return void
+	 */
 	public function reset() {
 		$this->setSize(self::DEFAULT_SIZE);
 		//$this->setLevel(QS_CODE_DEFAULT_LEVEL);

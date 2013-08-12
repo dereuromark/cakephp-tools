@@ -1,10 +1,9 @@
 <?php
 App::uses('AppHelper', 'View/Helper');
-
-App::uses('Helper', 'View');
+App::uses('IcalLib', 'Tools.Lib');
 
 /**
- * uses ical lib
+ * Uses ical lib
  * tipps see http://labs.iamkoa.net/2007/09/07/create-downloadable-ical-events-via-cake/
  *
  * needs ical layout
@@ -14,27 +13,28 @@ App::uses('Helper', 'View');
  */
 class IcalHelper extends AppHelper {
 
-	public $helpers = array(); //'Html'
-
 	public $Ical;
 
 	protected $_data = array();
 
-
 	public function __construct($View = null, $settings = array()) {
 		parent::__construct($View, $settings);
 
-		App::uses('IcalLib', 'Tools.Lib');
 		$this->Ical = new IcalLib();
 	}
 
-
+	/**
+	 * IcalHelper::reset()
+	 *
+	 * @return void
+	 */
 	public function reset() {
 		$this->$_data = array();
 	}
 
 	/**
-	 * add a new ical record
+	 * Add a new ical record.
+	 *
 	 * @return boolean $success
 	 */
 	public function add($data = array()) {
@@ -45,7 +45,9 @@ class IcalHelper extends AppHelper {
 	}
 
 	/**
-	 * returns complete ical calender file content to output
+	 * Returns complete ical calender file content to output.
+	 *
+	 * @return string
 	 * 2011-10-10 ms
 	 */
 	public function generate($globalData = array(), $addStartAndEnd = true) {

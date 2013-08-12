@@ -78,7 +78,6 @@ class HcardHelper extends AppHelper {
 		$text .= '<span class="country-name">' . $data['country'] . '</span> ';
 		$text .= '</div>';
 		return $text;
-
 	}
 
 	/**

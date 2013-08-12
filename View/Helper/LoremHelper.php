@@ -8,16 +8,16 @@ class LoremHelper extends AppHelper {
 	public $words = array();
 
 	/**
-	* Return placeholder text. By default, a single html-formatted paragraph.
-	* For a brief history of "lorem ipsum", see http://en.wikipedia.org/wiki/Lorem_ipsum
-	* also, thanks http://www.lipsum.org for all the faithful placeholder
-	*
-	* @param integer $number depending on the
-	* @param string $type trigger used to switch between words only, paragraph(s), or lists (ol/ul)
-	* @param array $attributes Additional HTML attributes of the list (ol/ul) tag, or paragraph (when applicable)
-	* @param array $itemAttributes Additional HTML attributes of the list item (LI) tag (when applicable)
-	* @return string placeholder text
-	*/
+	 * Return placeholder text. By default, a single html-formatted paragraph.
+	 * For a brief history of "lorem ipsum", see http://en.wikipedia.org/wiki/Lorem_ipsum
+	 * also, thanks http://www.lipsum.org for all the faithful placeholder
+	 *
+	 * @param integer $number depending on the
+	 * @param string $type trigger used to switch between words only, paragraph(s), or lists (ol/ul)
+	 * @param array $attributes Additional HTML attributes of the list (ol/ul) tag, or paragraph (when applicable)
+	 * @param array $itemAttributes Additional HTML attributes of the list item (LI) tag (when applicable)
+	 * @return string placeholder text
+	 */
 	public function ipsum($number = 1, $type = 'p', $attributes = array(), $itemAttributes = array()) {
 		if (!$this->words) {
 			$this->words = explode(' ', 'lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum');
@@ -56,13 +56,13 @@ class LoremHelper extends AppHelper {
 	}
 
 	/**
-	* Internal function to return a greeked sentence
-	*
-	* @param integer $maxWords maximum number of words for this sentence
-	* @param integer $minWords minimum number of words for this sentence
-	* @param boolean $punctuation if false it will not append random commas and ending period
-	* @return string greeked sentence
-	*/
+	 * Internal function to return a greeked sentence
+	 *
+	 * @param integer $maxWords maximum number of words for this sentence
+	 * @param integer $minWords minimum number of words for this sentence
+	 * @param boolean $punctuation if false it will not append random commas and ending period
+	 * @return string greeked sentence
+	 */
 	protected function _sentence($maxWords = 10, $minWords = 4, $punctuation = true) {
 		$string = '';
 		$numWords = rand($minWords, $maxWords);

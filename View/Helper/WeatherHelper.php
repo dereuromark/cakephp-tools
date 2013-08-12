@@ -38,12 +38,10 @@ class WeatherHelper extends AppHelper {
 		}
 
 		$res .= '<table><tr>';
-
 		//$res .= '<td>'.[].'</td>';
-
 		$res .= '</tr></table>';
 
-		$res .= '<h1>'.$weather['city'].':</h1>';
+		$res .= '<h1>' . h($weather['city']) . ':</h1>';
 
 		return $res;
 	}
