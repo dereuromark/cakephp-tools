@@ -1091,7 +1091,7 @@ class MyModel extends Model {
 		# same domain?
 		if (!empty($options['sameDomain']) && !empty($_SERVER['HTTP_HOST'])) {
 			$is = parse_url($url, PHP_URL_HOST);
-			$expected = $_SERVER['HTTP_HOST'];
+			$expected = env('HTTP_HOST');
 			if (mb_strtolower($is) !== mb_strtolower($expected)) {
 				return false;
 			}
@@ -1133,10 +1133,10 @@ class MyModel extends Model {
 		}
 		$headers = implode("\n", $headers);
 		$protocol = mb_strpos($url, 'https://') === 0 ? 'HTTP' : 'HTTP';
-		if (!(bool)preg_match('#^' . $protocol . '/.*\s+[(200|301|302)]+\s#i', $headers)) {
+		if (!preg_match('#^' . $protocol . '/.*?\s+[(200|301|302)]+\s#i', $headers)) {
 			return false;
 		}
-		if ((bool)preg_match('#^' . $protocol . '/.*\s+[(404|999)]+\s#i', $headers)) {
+		if (preg_match('#^' . $protocol . '/.*?\s+[(404|999)]+\s#i', $headers)) {
 			return false;
 		}
 		return true;

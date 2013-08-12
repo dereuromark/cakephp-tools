@@ -631,7 +631,7 @@ class MyModelTest extends MyCakeTestCase {
 
 	public function testValidateUnique() {
 		$this->out($this->_header(__FUNCTION__), true);
-		//die(returns($this->Model->schema()));
+
 		$this->Model->validate['title'] = array(
 			'validateUnique' => array(
 				'rule' => 'validateUnique',

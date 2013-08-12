@@ -206,8 +206,19 @@ class Utility {
 		}
 
 		$path .= (isset($url['query'])) ? "?$url[query]" : '';
+
+		$defaults = array(
+			'http' => array(
+				'header' => "Accept: text/html\r\n" .
+					"Connection: Close\r\n" .
+					"User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64)\r\n",
+			)
+		);
+		stream_context_get_default($defaults);
+
 		if (isset($url['host']) && $url['host'] !== gethostbyname($url['host'])) {
-			$headers = @get_headers("$url[scheme]://$url[host]:$url[port]$path");
+			$url = "$url[scheme]://$url[host]$url[port]$path";
+			$headers = get_headers($url);
 			if (is_array($headers)) {
 				return $headers;
 			}
