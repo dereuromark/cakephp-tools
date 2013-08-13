@@ -67,11 +67,22 @@ Usage for some larger modules: https://github.com/dereuromark/tools/blob/master/
 
 ## The cool stuff
 
-* Common component with lots of additions like auto-trim on post (to make validation working properly).
+### Useful fixes
+
+* Auto-trim on POST (to make validation working properly).
+* Auto-aliasing for models' "order" properties.
+* Disable cache also works for older IE versions.
+* Redirect with additional encoding for Apache (if still using named params insteaf of query strings).
+* Default settings for Paginator, ... can be set using Configure.
+* Minor misc. tweaks.
+
+### Additional classes and features
+
 * Using the Common component's flashMessage() you can have colorful (success, warning, error, ...) flash messages.
   They also can stack up (multiple messages per type). This way no message is lost when redirecting twice etc.
 * The Passwordable behavior allows easy to use functionality for frontend and backend.
 * Geocodeable, WhoDidIt, Confirmable and Bitmasked behaviors.
+* With MyModel you can build subqueries the Cake way.
 * Tokens, Qlogin, TinyUrl, KeyValue functionality included.
 * The TextExt, Datetime, Numeric and FormExt helpers provide extended functionality if desired.
 * Tree helper for working with (complex) trees.
