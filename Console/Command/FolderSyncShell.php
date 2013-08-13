@@ -140,7 +140,8 @@ class FolderSyncShell extends AppShell {
 			$this->removedFiles++;
 			$this->out('   (source missing, deleting)', 1, Shell::VERBOSE);
 			return;
-		} elseif (!$sourceExists) {
+		}
+		if (!$sourceExists) {
 			$this->missing[] = $name;
 			$this->out('   (target missing, skipping)', 1, Shell::VERBOSE);
 			return;

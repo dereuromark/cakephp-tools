@@ -150,22 +150,20 @@ class TextAnalysisLib extends TextLib {
 				}
 			}
 			return $occ;
-
-		} else {
-
-			$occ = 0;
-			$pos = 0;
-			do {
-				$pos = strpos($str, $char, $pos);
-				if ($pos !== false) {
-					$occ++;
-					$pos++;
-				} else {
-					break;
-				}
-			} while (true);
-			return $occ;
 		}
+
+		$occ = 0;
+		$pos = 0;
+		do {
+			$pos = strpos($str, $char, $pos);
+			if ($pos !== false) {
+				$occ++;
+				$pos++;
+			} else {
+				break;
+			}
+		} while (true);
+		return $occ;
 	}
 
 
@@ -187,7 +185,7 @@ class TextAnalysisLib extends TextLib {
 				$occ = array($key => $value);
 			}
 		}
-		echo returns($occ);
+		//echo returns($occ);
 		return $occ;
 	}
 

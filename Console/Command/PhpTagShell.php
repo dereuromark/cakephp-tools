@@ -86,7 +86,8 @@ class PhpTagShell extends AppShell {
 
 				if ($action === 'q') {
 					return $this->error('Abort... Done');
-				} elseif ($action === 'y') {
+				}
+				if ($action === 'y') {
 					$res = $c;
 					if (in_array('leading', $error)) {
 						$res = preg_replace('/^[\n\r|\n\r|\n|\r|\s]+\<\?php/', '<?php', $res);

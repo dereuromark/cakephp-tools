@@ -158,7 +158,8 @@ class CopyShell extends AppShell {
 
 		if (empty($connection) || $connection === 'q') {
 			return $this->error('Aborted!');
-		} elseif ($connection === 'h') {
+		}
+		if ($connection === 'h') {
 			$this->help();
 			return;
 		}
@@ -181,9 +182,8 @@ class CopyShell extends AppShell {
 
 		if (empty($configuration)) {
 			return $this->error('Error...');
-		} else {
-			$this->out('... Config \''.$this->types[$this->type].'_'.$this->configName.'\' selected ...');
 		}
+		$this->out('... Config \''.$this->types[$this->type].'_'.$this->configName.'\' selected ...');
 
 		$hasLocalPath = false;
 		$this->out('');

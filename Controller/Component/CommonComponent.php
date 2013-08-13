@@ -1199,7 +1199,8 @@ class CommonComponent extends Component {
 
 		if ($type === 'username') {
 			return $nameParts[0];
-		} elseif ($type === 'hostname') {
+		}
+		if ($type === 'hostname') {
 			return $nameParts[1];
 		}
 
@@ -1447,7 +1448,8 @@ class CommonComponent extends Component {
 	protected function _sortUp($x, $y) {
 		if ($x[1] == $y[1]) {
 			return 0;
-		} elseif ($x[1] < $y[1]) {
+		}
+		if ($x[1] < $y[1]) {
 			return 1;
 		}
 		return - 1;
@@ -1456,7 +1458,8 @@ class CommonComponent extends Component {
 	protected function _sortDown($x, $y) {
 		if ($x[1] == $y[1]) {
 			return 0;
-		} elseif ($x[1] < $y[1]) {
+		}
+		if ($x[1] < $y[1]) {
 			return - 1;
 		}
 		return 1;

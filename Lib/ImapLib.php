@@ -179,9 +179,8 @@ class ImapLib {
 	public function close($expunge = false) {
 		if ($expunge) {
 			return @imap_close($this->stream, CL_EXPUNGE);
-		} else {
-			return @imap_close($this->stream);
 		}
+		return @imap_close($this->stream);
 	}
 
 	public function __destruct() {
@@ -379,9 +378,8 @@ class ImapLib {
 				// Perform the search
 				#echo "'$search_string'";
 				return imap_search($this->stream, $search_string);
-			} else {
-				return imap_last_error();
 			}
+			return imap_last_error();
 		}
 
 		return imap_last_error();
@@ -439,11 +437,10 @@ class ImapLib {
 
 				if (count($email_error) === count($emails)) {
 					return imap_last_error();
-				} else {
-					$return['status'] = false;
-					$return['not_deleted'] = $email_error;
-					return $return;
 				}
+				$return['status'] = false;
+				$return['not_deleted'] = $email_error;
+				return $return;
 			}
 		}
 		// Not connected
@@ -482,10 +479,9 @@ class ImapLib {
 			$info = imap_mailboxmsginfo($this->stream);
 			if ($info) {
 				return $info->Mailbox;
-			} else {
-				// There was an error
-				return imap_last_error();
 			}
+			// There was an error
+			return imap_last_error();
 		}
 
 		// Not connected
@@ -499,13 +495,11 @@ class ImapLib {
 				if ($type === 'array') {
 					$info_array = get_object_vars($info);
 					return $info_array;
-				} else {
-					return $info;
 				}
-			} else {
-				// There was an error
-				return imap_last_error();
+				return $info;
 			}
+			// There was an error
+			return imap_last_error();
 		}
 
 		// Not connected
@@ -583,9 +577,8 @@ class ImapMessageInfoLib {
 	public function messageObject() {
 		if (!isset($this->ImapMessage)) {
 			return $this->ImapMessage = new ImapMessageLib($this->ImapFolder, $this->uid, $this);
-		} else {
-			return $this->ImapMessage;
 		}
+		return $this->ImapMessage;
 	}
 
 	public function flag($flag) {
@@ -599,51 +592,51 @@ class ImapMessageInfoLib {
 	public function seen($set = null) {
 		if ($set === null) {
 			return $this->seen;
-		} elseif ($set) {
-			return $this->flag(self::BS . 'Seen');
-		} else {
-			return $this->unFlag(self::BS . 'Seen');
 		}
+		if ($set) {
+			return $this->flag(self::BS . 'Seen');
+		}
+		return $this->unFlag(self::BS . 'Seen');
 	}
 
 	public function answered($set = null) {
 		if ($set === null) {
 			return $this->answered;
-		} elseif ($set) {
-			return $this->flag(self::BS . 'Answered');
-		} else {
-			return $this->unFlag(self::BS . 'Answered');
 		}
+		if ($set) {
+			return $this->flag(self::BS . 'Answered');
+		}
+		return $this->unFlag(self::BS . 'Answered');
 	}
 
 	public function flagged($set = null) {
 		if ($set === null) {
 			return $this->flagged;
-		} elseif ($set) {
-			return $this->flag(self::BS . 'Flagged');
-		} else {
-			return $this->unFlag(self::BS . 'Flagged');
 		}
+		if ($set) {
+			return $this->flag(self::BS . 'Flagged');
+		}
+		return $this->unFlag(self::BS . 'Flagged');
 	}
 
 	public function deleted($set = null) {
 		if ($set === null) {
 			return $this->deleted;
-		} elseif ($set) {
-			return $this->flag(self::BS . 'Deleted');
-		} else {
-			return $this->unFlag(self::BS . 'Deleted');
 		}
+		if ($set) {
+			return $this->flag(self::BS . 'Deleted');
+		}
+		return $this->unFlag(self::BS . 'Deleted');
 	}
 
 	public function draft($set = null) {
 		if ($set === null) {
 			return $this->draft;
-		} elseif ($set) {
-			return $this->flag(self::BS . 'Draft');
-		} else {
-			return $this->unFlag(self::BS . 'Draft');
 		}
+		if ($set) {
+			return $this->flag(self::BS . 'Draft');
+		}
+		return $this->unFlag(self::BS . 'Draft');
 	}
 
 }
@@ -702,9 +695,8 @@ class ImapMessagesListLib {
 		if (isset($this->messageUIDs[$id])) {
 			if (is_object($this->messageUIDs[$id])) {
 				return $this->messageUIDs[$id];
-			} else {
-				return $this->messageUIDs[$id] = new ImapMessageLib($this->ImapFolder, $this->messageUIDs[$id]);
 			}
+			return $this->messageUIDs[$id] = new ImapMessageLib($this->ImapFolder, $this->messageUIDs[$id]);
 		}
 		return false;
 	}
@@ -722,9 +714,8 @@ class ImapMessagesListLib {
 				$msgObjs[] = new ImapMessageInfoLib($this->ImapFolder, $info);
 			}
 			return $msgObjs;
-		} else {
-			return $overview;
 		}
+		return $overview;
 	}
 
 }

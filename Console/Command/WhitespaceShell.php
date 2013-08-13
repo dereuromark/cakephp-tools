@@ -82,7 +82,8 @@ class WhitespaceShell extends AppShell {
 			if ($action === 'q') {
 				return $this->error('Abort... Done');
 
-			} elseif ($action === 'y') {
+			}
+			if ($action === 'y') {
 				if ($error === 'leading') {
 					$res = preg_replace('/^[\n\r|\n\r|\n|\r|\s]+\<\?php/', '<?php', $c);
 				} else { //trailing
@@ -95,7 +96,7 @@ class WhitespaceShell extends AppShell {
 			}
 		}
 
-		# report
+		// Report.
 		$this->out('--------');
 		$this->out('found '.$this->report['leading'][0].' leading, '.$this->report['trailing'][0].' trailing ws');
 		$this->out('fixed '.$this->report['leading'][1].' leading, '.$this->report['trailing'][1].' trailing ws');
@@ -103,6 +104,8 @@ class WhitespaceShell extends AppShell {
 
 	/**
 	 * Whitespaces at the end of the file
+	 *
+	 * @return void
 	 */
 	public function eof() {
 		if (!empty($this->args[0])) {

@@ -173,26 +173,27 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * 2011-11-22 lb
+	 * @return mixed
 	 */
 	public static function ageByHoroscope($year, $sign) {
 		App::uses('ZodiacLib', 'Tools.Misc');
 		$Zodiac = new ZodiacLib();
 		$range = $Zodiac->getRange($sign);
 
-		// undefined
+
 		if ($sign == ZodiacLib::SIGN_CAPRICORN) {
+			// undefined
 			return array(date('Y') - $year - 1, date('Y') - $year);
 		}
-		// not over
-		elseif($range[0][0] > date('m') || ($range[0][0] == date('m') && $range[0][1] > date('d'))) {
+		if($range[0][0] > date('m') || ($range[0][0] == date('m') && $range[0][1] > date('d'))) {
+			// not over
 			return date('Y') - $year - 1;
 		}
-		// over
-		elseif ($range[1][0] < date('m') || ($range[1][0] == date('m') && $range[1][1] <= date('d'))) {
+		if ($range[1][0] < date('m') || ($range[1][0] == date('m') && $range[1][1] <= date('d'))) {
+			// over
 			return date('Y') - $year;
-		} else {
-			return array(date('Y') - $year - 1, date('Y') - $year);
 		}
+		return array(date('Y') - $year - 1, date('Y') - $year);
 	}
 
 	/**
@@ -222,10 +223,10 @@ class TimeLib extends CakeTime {
 			$lowerRange = $age - ($age % $steps) + 1;
 			$upperRange = $age - ($age % $steps) + $steps;
 		}
-		if ($lowerRange == $upperRange)
+		if ($lowerRange == $upperRange) {
 			return $upperRange;
-		else
-			return array($lowerRange, $upperRange);
+		}
+		return array($lowerRange, $upperRange);
 	}
 
 	/**
@@ -828,10 +829,12 @@ class TimeLib extends CakeTime {
 		if ($past === true) {
 			// This is in the past
 			return __('%s ago', __($span));
-		} elseif ($past === false) {
+		}
+		if ($past === false) {
 			// This in the future
 			return __('in %s', __($span));
-		} elseif ($past !== null) {
+		}
+		if ($past !== null) {
 			// Custom translation
 			return __($past, __($span));
 		}
@@ -918,7 +921,7 @@ class TimeLib extends CakeTime {
 				$str = floor($seconds % 60);
 				break;
 			default:
-				return "";
+				return '';
 				break;
 			}
 
@@ -981,16 +984,15 @@ class TimeLib extends CakeTime {
 				return sprintf($options['future'], $ret);
 			}
 			return array('future'=>$ret);
-		} elseif ($type == -1) {
+		}
+		if ($type == -1) {
 			if ($options['past'] !== false) {
 				return sprintf($options['past'], $ret);
 			}
 			return array('past'=>$ret);
-		} else {
-			if ($options['verbose'] !== false) {
-				return $options['verbose'];
-			}
-			//return array('now'=>true);
+		}
+		if ($options['verbose'] !== false) {
+			return $options['verbose'];
 		}
 		return $options['default'];
 	}
@@ -1084,7 +1086,7 @@ class TimeLib extends CakeTime {
 
 		if ($format) {
 			$res = DateTime::createFromFormat($format, $date);
-			$res = $res->format(FORMAT_DB_DATE).' '.($type=='end'?'23:59:59':'00:00:00');
+			$res = $res->format(FORMAT_DB_DATE).' '.($type === 'end'?'23:59:59':'00:00:00');
 			return $res;
 		}
 
@@ -1106,12 +1108,12 @@ class TimeLib extends CakeTime {
 			$explode[0] = str_pad($explode[0], 4, '20', STR_PAD_LEFT);
 
 			if (count($explode) === 3) {
-				return implode('-', $explode).' '.($type=='end'?'23:59:59':'00:00:00');
-			} elseif (count($explode) === 2) {
-				return implode('-', $explode).'-'.($type=='end'?self::daysInMonth($explode[0], $explode[1]):'01').' '.($type=='end'?'23:59:59':'00:00:00');
-			} else {
-				return $explode[0].'-'.($type=='end'?'12':'01').'-'.($type=='end'?'31':'01').' '.($type=='end'?'23:59:59':'00:00:00');
+				return implode('-', $explode).' '.($type === 'end'?'23:59:59':'00:00:00');
 			}
+			if (count($explode) === 2) {
+				return implode('-', $explode).'-'.($type === 'end'?self::daysInMonth($explode[0], $explode[1]):'01').' '.($type === 'end' ? '23:59:59':'00:00:00');
+			}
+			return $explode[0].'-'.($type === 'end'?'12':'01').'-'.($type === 'end'?'31':'01').' '.($type === 'end' ? '23:59:59':'00:00:00');
 		}
 
 		return false;

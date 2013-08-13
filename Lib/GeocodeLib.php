@@ -231,9 +231,8 @@ class GeocodeLib {
 			}
 			if ($this->options['output'] === 'json') {
 				return $this->_transformJson($this->result);
-			} else {
-				return $this->_transformXml($this->result);
 			}
+			return $this->_transformXml($this->result);
 		}
 		return false;
 	}
@@ -399,9 +398,8 @@ class GeocodeLib {
 					$this->setError('JSON parsing failed');
 					CakeLog::write('geocode', __('Failed with JSON parsing of \'%s\'', $address));
 					return false;
-				} else {
-					$xmlArray['result'] = $xmlArray['results'];
 				}
+				$xmlArray['result'] = $xmlArray['results'];
 				unset($xmlArray['results']);
 
 			} else {

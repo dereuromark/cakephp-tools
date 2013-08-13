@@ -136,8 +136,8 @@ class HttpSocketLib {
 			}
 			$response = $this->_assertEncoding($response);
 			return $response;
-
-		} elseif ($options['use']['cake']) {
+		}
+		if ($options['use']['cake']) {
 			$this->debug = 'cake';
 
 			$HttpSocket = new HttpSocket(array('timeout' => $options['timeout']));
@@ -147,8 +147,8 @@ class HttpSocketLib {
 			}
 			$response = $this->_assertEncoding($response);
 			return $response;
-
-		} elseif ($options['use']['php']) {
+		}
+		if ($options['use']['php']) {
 			$this->debug = 'php';
 
 			$opts = array(
@@ -176,11 +176,8 @@ class HttpSocketLib {
 			}
 			$response = $this->_assertEncoding($response);
 			return $response;
-
-		} else {
-			throw new CakeException('no protocol given');
 		}
-		return null;
+		throw new CakeException('no protocol given');
 	}
 
 	/**

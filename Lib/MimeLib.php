@@ -765,34 +765,32 @@ class MimeLib extends CakeResponse {
 	* @return String $MIMEType - The type of the file passed in the argument
 	*/
 	public function extractMimeType($file = NULL) {
-		if (is_file($file)) {
-			/**
-			* Attempts to retrieve file info from FINFO
-			* If FINFO functions are not available then try to retrieve MIME type from pre-defined MIMEs
-			* If MIME type doesn't exist, then try (as a last resort) to use the (deprecated) mime_content_type function
-			* If all else fails, just return application/octet-stream
-			*/
-			if (!function_exists("finfo_open")) {
-				if (function_exists("mime_content_type")) {
-					$type = mime_content_type($file);
-					if (!empty($type)) {
-						return $type;
-					}
+		if (!is_file($file)) {
+			return false;
+		}
+		/**
+		* Attempts to retrieve file info from FINFO
+		* If FINFO functions are not available then try to retrieve MIME type from pre-defined MIMEs
+		* If MIME type doesn't exist, then try (as a last resort) to use the (deprecated) mime_content_type function
+		* If all else fails, just return application/octet-stream
+		*/
+		if (!function_exists("finfo_open")) {
+			if (function_exists("mime_content_type")) {
+				$type = mime_content_type($file);
+				if (!empty($type)) {
+					return $type;
 				}
-				$extension = $this->_getExtension($file);
-				if ($mimeType = $this->getMimeType($extension)) {
-					return $mimeType;
-				} else {
-					return "application/octet-stream";
-				}
-			} else {
-				$finfo = finfo_open(FILEINFO_MIME_TYPE);
-				$mimeType = finfo_file($finfo, $file);
-				finfo_close($finfo);
+			}
+			$extension = $this->_getExtension($file);
+			if ($mimeType = $this->getMimeType($extension)) {
 				return $mimeType;
 			}
+			return "application/octet-stream";
 		}
-		return false;
+		$finfo = finfo_open(FILEINFO_MIME_TYPE);
+		$mimeType = finfo_file($finfo, $file);
+		finfo_close($finfo);
+		return $mimeType;
 	}
 
 	/**
