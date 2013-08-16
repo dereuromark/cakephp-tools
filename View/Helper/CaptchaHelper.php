@@ -52,7 +52,7 @@ class CaptchaHelper extends AppHelper {
 	 * //TODO: move to Lib
 	 * shows the statusText of Relations
 	 *
-	 * @param int $difficulty: not build in yet
+	 * @param integer $difficulty: not build in yet
 	 * @return array
 	 * 2008-12-12 ms
 	 */

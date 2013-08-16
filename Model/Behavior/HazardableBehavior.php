@@ -92,7 +92,7 @@ class HazardableBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * @param int $maxLength The lenght of the field if applicable to return a suitable snippet
+	 * @param integer $maxLength The lenght of the field if applicable to return a suitable snippet
 	 * @return string Hazardous string
 	 */
 	protected function _snippet($maxLength = 0) {

@@ -72,7 +72,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	 * since PHPUnit>=3.6 swallowes all output by default
 	 * this is a convenience output handler since debug() or pr() have no effect
 	 * @param mixed $data
-	 * @param bool $force Should the output be flushed (forced)
+	 * @param boolean $force Should the output be flushed (forced)
 	 * @return void
 	 * 2011-12-04 ms
 	 */
@@ -92,7 +92,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	 * since PHPUnit>=3.6 swallowes all output by default
 	 * this is a convenience output handler
 	 * @param mixed $data
-	 * @param bool $force Should the output be flushed (forced)
+	 * @param boolean $force Should the output be flushed (forced)
 	 * @return void
 	 * 2011-12-04 ms
 	 */
@@ -146,7 +146,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	/**
 	 * @param float $time
 	 * @param int precision
-	 * @param bool $secs: usually in milliseconds (for long times set it to 'true')
+	 * @param boolean $secs: usually in milliseconds (for long times set it to 'true')
 	 * 2009-07-20 ms
 	 */
 	protected function _printElapsedTime($time = null, $precision = 8, $secs = false) {

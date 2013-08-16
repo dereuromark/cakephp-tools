@@ -307,10 +307,10 @@ class SluggedBehaviorTest extends CakeTestCase {
 /**
  * buildTest method
  *
- * @param int $hex1Limit
- * @param int $hex2Limit
- * @param int $hex1Start
- * @param int $hex2Start
+ * @param integer $hex1Limit
+ * @param integer $hex2Limit
+ * @param integer $hex1Start
+ * @param integer $hex2Start
  * @return void
  * @access protected
  */
@@ -402,10 +402,10 @@ class SluggedBehaviorTest extends CakeTestCase {
  * consuming.
  *
  * @param mixed $mode
- * @param int $hex1Limit
- * @param int $hex2Limit
- * @param int $hex1Start
- * @param int $hex2Start
+ * @param integer $hex1Limit
+ * @param integer $hex2Limit
+ * @param integer $hex1Start
+ * @param integer $hex2Start
  * @return void
  * @access protected
  */

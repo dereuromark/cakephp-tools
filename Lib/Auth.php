@@ -116,7 +116,7 @@ class Auth {
 	 * Check if the current session has oen of these roles.
 	 *
 	 * @param mixed $roles
-	 * @param bool $oneRoleIsEnough (if all $roles have to match instead of just one)
+	 * @param boolean $oneRoleIsEnough (if all $roles have to match instead of just one)
 	 * @param mixed $providedRoles
 	 * @return bool Success
 	 */

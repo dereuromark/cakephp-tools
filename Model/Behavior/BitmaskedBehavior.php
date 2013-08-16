@@ -118,7 +118,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * @param int $bitmask
+	 * @param integer $bitmask
 	 * @return array $bitmaskArray
 	 * from DB to APP
 	 */

@@ -28,7 +28,7 @@ class ZodiacLib {
 	}
 
 	/**
-	 * @param int $sign
+	 * @param integer $sign
 	 * @return array(array(m, d), array(m, d)) (first is min, second is max)
 	 * 2011-07-13
 	 */

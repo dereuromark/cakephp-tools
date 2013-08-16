@@ -48,10 +48,10 @@ class NumberTextLib {
 	 */
 	public static function numberText($input = '', $lang = '') {
 		$s = self::getLangModule($lang);
-		if (is_null($s)) {
+		if ($s === null) {
 			$s = self::load($lang);
 		}
-		if (is_null($s)) {
+		if ($s === null) {
 			return null;
 		}
 		return $s->run($input);

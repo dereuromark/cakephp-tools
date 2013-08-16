@@ -80,7 +80,7 @@ class NumberLib extends CakeNumber {
 	 * should not be used for currencies
 	 *
 	 * @param float $number
-	 * @param int $places (0 = int, 1..x places after dec, -1..-x places before dec)
+	 * @param integer $places (0 = int, 1..x places after dec, -1..-x places before dec)
 	 * @param array $option : currency=true/false, ... (leave empty for no special treatment)
 	 * //TODO: automize per localeconv() ?
 	 * 2009-04-03 ms
@@ -223,7 +223,7 @@ class NumberLib extends CakeNumber {
 	/**
 	 * get the rounded average
 	 * @param array $values: int or float values
-	 * @param int $precision
+	 * @param integer $precision
 	 * @return int $average
 	 * 2009-09-05 ms
 	 */
@@ -253,7 +253,7 @@ class NumberLib extends CakeNumber {
 	 * Round value up
 	 *
 	 * @param float $number
-	 * @param int $increment
+	 * @param integer $increment
 	 * @return float $result
 	 * 2011-04-14 lb
 	 */
@@ -265,7 +265,7 @@ class NumberLib extends CakeNumber {
 	 * Round value down
 	 *
 	 * @param float $number
-	 * @param int $increment
+	 * @param integer $increment
 	 * @return float $result
 	 * 2011-04-14 lb
 	 */

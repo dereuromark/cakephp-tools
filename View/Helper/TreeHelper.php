@@ -21,6 +21,35 @@ App::uses('AppHelper', 'View/Helper');
 class TreeHelper extends AppHelper {
 
 	/**
+	 * Default settings
+	 *
+	 * @var array
+	 */
+	protected $_defaults = array(
+		'model' => null,
+		'alias' => 'name',
+		'type' => 'ul',
+		'itemType' => 'li',
+		'id' => false,
+		'class' => false,
+		'element' => false,
+		'callback' => false,
+		'autoPath' => false,
+		'hideUnrelated' => false,
+		'treePath' => array(),
+		'left' => 'lft',
+		'right' => 'rght',
+		'depth' => 0,
+		'maxDepth' => 999,
+		'firstChild' => true,
+		'indent' => null,
+		'splitDepth' => false,
+		'splitCount' => null,
+		'totalNodes' => null,
+		'fullSettings' => false,
+	);
+
+	/**
 	 * Settings property
 	 *
 	 * @var array
@@ -96,28 +125,7 @@ class TreeHelper extends AppHelper {
 			return '';
 		}
 
-		$this->_settings = array_merge(array(
-			'model' => null,
-			'alias' => 'name',
-			'type' => 'ul',
-			'itemType' => 'li',
-			'id' => false,
-			'class' => false,
-			'element' => false,
-			'callback' => false,
-			'autoPath' => false,
-			'hideUnrelated' => false,
-			'treePath' => array(),
-			'left' => 'lft',
-			'right' => 'rght',
-			'depth' => 0,
-			'maxDepth' => 999,
-			'firstChild' => true,
-			'indent' => null,
-			'splitDepth' => false,
-			'splitCount' => null,
-			'totalNodes' => null
-		), (array)$settings);
+		$this->_settings = array_merge($this->_defaults, (array)$settings);
 		if ($this->_settings['autoPath'] && !isset($this->_settings['autoPath'][2])) {
 			$this->_settings['autoPath'][2] = 'active';
 		}
@@ -150,7 +158,7 @@ class TreeHelper extends AppHelper {
 			}
 		}
 		$return = '';
-		$_addType = true;
+		$addType = true;
 		$this->_settings['totalNodes'] = count($data);
 		$keys = array_keys($data);
 
@@ -184,6 +192,7 @@ class TreeHelper extends AppHelper {
 					$return .= '</' . $itemType . '>';
 				}
 			}
+
 			/* Some useful vars */
 			$hasChildren = $firstChild = $lastChild = $hasVisibleChildren = false;
 			$numberOfDirectChildren = $numberOfTotalChildren = null;
@@ -241,6 +250,10 @@ class TreeHelper extends AppHelper {
 				'activePathElement' => $activePathElement,
 			);
 			$this->_settings = array_merge($this->_settings, $elementData);
+			if ($this->_settings['fullSettings']) {
+				$elementData = $this->_settings;
+			}
+
 			/* Main Content */
 			if ($element) {
 				$content = $this->_View->element($element, $elementData);
@@ -257,7 +270,7 @@ class TreeHelper extends AppHelper {
 				$content = str_replace("\r\n", "\n" . $whiteSpace . "\t", $content);
 			}
 			/* Prefix */
-			if ($_addType) {
+			if ($addType) {
 				if ($indent) {
 					$return .= "\r\n" . $whiteSpace;
 				}
@@ -275,7 +288,7 @@ class TreeHelper extends AppHelper {
 			}
 			$return .= $content;
 			/* Suffix */
-			$_addType = false;
+			$addType = false;
 			if ($hasVisibleChildren) {
 				if ($numberOfDirectChildren) {
 					$settings['depth'] = $depth + 1;
@@ -288,7 +301,7 @@ class TreeHelper extends AppHelper {
 						$return .= '</' . $itemType . '>';
 					}
 				} elseif ($numberOfTotalChildren) {
-					$_addType = true;
+					$addType = true;
 					$stack[] = $row[$right];
 				}
 			} else {
@@ -340,7 +353,7 @@ class TreeHelper extends AppHelper {
 	 * @return void
 	 */
 	public function addItemAttribute($id = '', $key = '', $value = null) {
-		if (!is_null($value)) {
+		if ($value !== null) {
 			$this->_itemAttributes[$id][$key] = $value;
 		} elseif (!(isset($this->_itemAttributes[$id]) && in_array($key, $this->_itemAttributes[$id]))) {
 			$this->_itemAttributes[$id][] = $key;
@@ -380,7 +393,7 @@ class TreeHelper extends AppHelper {
 		if ($previousOrNext === 'next' && $firstChild) {
 			$var = '_typeAttributesNext';
 		}
-		if (!is_null($value)) {
+		if ($value !== null) {
 			$this->{$var}[$id][$key] = $value;
 		} elseif (!(isset($this->{$var}[$id]) && in_array($key, $this->{$var}[$id]))) {
 			$this->{$var}[$id][] = $key;
@@ -497,7 +510,7 @@ class TreeHelper extends AppHelper {
 	 *
 	 * @param array $tree
 	 * @param array $treePath
-	 * @param int $level
+	 * @param integer $level
 	 * @return void
 	 */
 	protected function _markUnrelatedAsHidden(&$tree, $path, $level = 0) {

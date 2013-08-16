@@ -61,7 +61,7 @@ class LinkableBehavior extends ModelBehavior {
 				}
 				$iterations = Set::normalize($iterator);
 				foreach ($iterations as $alias => $options) {
-					if (is_null($options)) {
+					if ($options === null) {
 						$options = array();
 					}
 					$options = array_merge($defaults, compact('alias'), $options);

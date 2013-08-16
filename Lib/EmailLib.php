@@ -543,7 +543,7 @@ class EmailLib extends CakeEmail {
 	/**
 	 * Set/Get wrapLength
 	 *
-	 * @param int $length Must not be more than CakeEmail::LINE_LENGTH_MUST
+	 * @param integer $length Must not be more than CakeEmail::LINE_LENGTH_MUST
 	 * @return int|CakeEmail
 	 */
 	public function wrapLength($length = null) {
@@ -557,7 +557,7 @@ class EmailLib extends CakeEmail {
 	/**
 	 * Set/Get priority
 	 *
-	 * @param int $priority 1 (highest) to 5 (lowest)
+	 * @param integer $priority 1 (highest) to 5 (lowest)
 	 * @return int|CakeEmail
 	 */
 	public function priority($priority = null) {

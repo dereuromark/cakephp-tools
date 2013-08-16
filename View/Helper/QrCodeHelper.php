@@ -309,7 +309,7 @@ class QrCodeHelper extends AppHelper {
 	 * 25 => 21x21 (L)
 	 * ...
 	 * 4000 => 547x547 (L)
-	 * @param int $length
+	 * @param integer $length
 	 * @return int $size
 	 * 2011-06-06 ms
 	 */

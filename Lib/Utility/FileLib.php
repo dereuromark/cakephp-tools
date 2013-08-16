@@ -43,7 +43,7 @@ class FileLib extends File {
 	/**
 	 * A better csv reader which handles encoding as well as removes completely empty lines
 	 *
-	 * @param int $length (0 = no limit)
+	 * @param integer $length (0 = no limit)
 	 * @param string $delimiter (null defaults to ,)
 	 * @param string $enclosure (null defaults to " - do not pass empty string)
 	 * @param string $mode

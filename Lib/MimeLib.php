@@ -820,7 +820,7 @@ class MimeLib extends CakeResponse {
 	* @return String $ext The file extension
 	*/
 	protected function _getExtension($file = NULL) {
-		if (!is_null($file)) {
+		if ($file !== null) {
 			$pieces = explode('.', $file);
 			$ext = strtolower(array_pop($pieces));
 			return $ext;

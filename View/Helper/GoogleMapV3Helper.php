@@ -270,7 +270,7 @@ class GoogleMapV3Helper extends AppHelper {
 	 * http://maps.google.com/maps/api/js?sensor=true
 	 * Adds Key - more variables could be added after it with "&key=value&..."
 	 * - region
-	 * @param bool $sensor
+	 * @param boolean $sensor
 	 * @param string $language (iso2: en, de, ja, ...)
 	 * @param string $append (more key-value-pairs to append)
 	 * @return string $fullUrl
@@ -838,8 +838,8 @@ var iconShape = {
 	}
 
 	/**
-	 * @param int $marker
-	 * @param int $infoWindow
+	 * @param integer $marker
+	 * @param integer $infoWindow
 	 * @return void
 	 * 2010-12-18 ms
 	 */
@@ -852,7 +852,7 @@ var iconShape = {
 	}
 
 	/**
-	 * @param int $marker
+	 * @param integer $marker
 	 * @param string $event (js)
 	 * @return void
 	 * 2010-12-18 ms
@@ -1003,7 +1003,7 @@ var iconShape = {
 
 	/**
 	 * @param string $content (html/text)
-	 * @param int $infoWindowCount
+	 * @param integer $infoWindowCount
 	 * @return void
 	 * 2010-12-18 ms
 	 */

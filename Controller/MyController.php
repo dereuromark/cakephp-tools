@@ -82,7 +82,7 @@ class MyController extends Controller {
 	 * Additionally encode string to match the htaccess files processing it.
 	 *
 	 * @param mixed Url piece
-	 * @param int $run How many times does the value have to be escaped
+	 * @param integer $run How many times does the value have to be escaped
 	 * @return mixed Escaped piece
 	 */
 	protected function _encodeUrlPiece($value, $run) {

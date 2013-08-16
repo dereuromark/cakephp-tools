@@ -10,8 +10,8 @@
 class RandomLib {
 
 	/**
-	 * @param int $min
-	 * @param int $max
+	 * @param integer $min
+	 * @param integer $max
 	 * @return random int value
 	 */
 	public static function int($min = 0, $max = 999) {
@@ -127,7 +127,7 @@ class RandomLib {
 	/**
 	 * Generates a password
 	 *
-	 * @param int $length Password length
+	 * @param integer $length Password length
 	 * @return string
 	 * @link https://github.com/CakeDC/users/blob/master/models/user.php#L498
 	 */
@@ -154,7 +154,7 @@ class RandomLib {
 	 * returns auto-generated password
 	 *
 	 * @param string $type: user, ...
-	 * @param int $length (if no type is submitted)
+	 * @param integer $length (if no type is submitted)
 	 * @return pwd on success, empty string otherwise
 	 * 2009-12-26 ms
 	 */
@@ -172,7 +172,7 @@ class RandomLib {
 	 * //TODO: move to password lib?
 	 * Generate random passwords
 	 *
-	 * @param int $lenght (necessary!)
+	 * @param integer $lenght (necessary!)
 	 * @return string Password
 	 * 2009-12-26 ms
 	 */

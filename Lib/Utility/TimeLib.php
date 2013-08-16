@@ -150,8 +150,8 @@ class TimeLib extends CakeTime {
 	/**
 	 * try to return the age only with the year available
 	 * can be e.g. 22/23
-	 * @param int $year
-	 * @param int $month (optional)
+	 * @param integer $year
+	 * @param integer $month (optional)
 	 * 2011-03-11 ms
 	 */
 	public static function ageByYear($year, $month = null) {
@@ -231,8 +231,8 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * return the days of a given month
-	 * @param int $year
-	 * @param int $month
+	 * @param integer $year
+	 * @param integer $month
 	 * 2011-11-03 ms
 	 */
 	public static function daysInMonth($year, $month) {
@@ -290,7 +290,7 @@ class TimeLib extends CakeTime {
 	 * @FIXME ???
 	 * Get number of days since the start of the week.
 	 * 1 = monday, 7 = sunday ? should be 0=sunday to 7=saturday (default)
-	 * @param int $num Number of day.
+	 * @param integer $num Number of day.
 	 * @return int Days since the start of the week.
 	 */
 	public static function cweekMod($num, $offset = 0) {
@@ -375,8 +375,8 @@ class TimeLib extends CakeTime {
 	 * Handles month/year increment calculations in a safe way, avoiding the pitfall of "fuzzy" month units.
 	 *
 	 * @param mixed $startDate Either a date string or a DateTime object
-	 * @param int $years Years to increment/decrement
-	 * @param int $months Months to increment/decrement
+	 * @param integer $years Years to increment/decrement
+	 * @param integer $months Months to increment/decrement
 	 * @param string|DateTimeZone $timezone Timezone string or DateTimeZone object
 	 * @return object DateTime with incremented/decremented month/year values.
 	 */
@@ -527,9 +527,9 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * return the translation to a specific week day
-	 * @param int $day:
+	 * @param integer $day:
 	 * 0=sunday to 7=saturday (default numbers)
-	 * @param bool $abbr (if abbreviation should be returned)
+	 * @param boolean $abbr (if abbreviation should be returned)
 	 * @param offset: 0-6 (defaults to 0) [1 => 1=monday to 7=sunday]
 	 * @return string $translatedText
 	 * 2011-12-07 ms
@@ -569,9 +569,9 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * return the translation to a specific week day
-	 * @param int $month:
+	 * @param integer $month:
 	 * 1..12
-	 * @param bool $abbr (if abbreviation should be returned)
+	 * @param boolean $abbr (if abbreviation should be returned)
 	 * @param array $options
 	 * - appendDot (only for 3 letter abbr; defaults to false)
 	 * @return string $translatedText
@@ -778,7 +778,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * @param int $offset in seconds
+	 * @param integer $offset in seconds
 	 * @param boolean $past (defaults to null: return plain text)
 	 * - new: if not boolean but a string use this as translating text
 	 * @return string $text (i18n!)
@@ -844,7 +844,7 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * time length to human readable format
-	 * @param int $seconds
+	 * @param integer $seconds
 	 * @param string format: format
 	 * @param options
 	 * - boolean v: verbose
@@ -1002,7 +1002,7 @@ class TimeLib extends CakeTime {
 	 *
 	 * @param string
 	 * @param string
-	 * @param int $timezone User's timezone
+	 * @param integer $timezone User's timezone
 	 * @return string Formatted date
 	 */
 	public static function convertDate($oldDateString, $newDateFormatString, $timezone = null) {
@@ -1014,7 +1014,7 @@ class TimeLib extends CakeTime {
  * Returns true if given datetime string was day before yesterday.
  *
  * @param string $dateString Datetime string or Unix timestamp
- * @param int $timezone User's timezone
+ * @param integer $timezone User's timezone
  * @return boolean True if datetime string was day before yesterday
  */
 	public static function wasDayBeforeYesterday($dateString, $timezone = null) {
@@ -1026,7 +1026,7 @@ class TimeLib extends CakeTime {
  * Returns true if given datetime string is the day after tomorrow.
  *
  * @param string $dateString Datetime string or Unix timestamp
- * @param int $timezone User's timezone
+ * @param integer $timezone User's timezone
  * @return boolean True if datetime string is day after tomorrow
  */
 	public static function isDayAfterTomorrow($dateString, $timezone = null) {
@@ -1038,7 +1038,7 @@ class TimeLib extends CakeTime {
  * Returns true if given datetime string is not today AND is in the future.
  *
  * @param string $dateString Datetime string or Unix timestamp
- * @param int $timezone User's timezone
+ * @param integer $timezone User's timezone
  * @return boolean True if datetime is not today AND is in the future
  */
 	public static function isNotTodayAndInTheFuture($dateString, $timezone = null) {
@@ -1051,7 +1051,7 @@ class TimeLib extends CakeTime {
  * Returns true if given datetime string is not now AND is in the future.
  *
  * @param string $dateString Datetime string or Unix timestamp
- * @param int $timezone User's timezone
+ * @param integer $timezone User's timezone
  * @return boolean True if datetime is not today AND is in the future
  */
 	public static function isInTheFuture($dateString, $timezone = null) {

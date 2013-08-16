@@ -127,9 +127,9 @@ class ChmodLib {
 	/**
 	 * ChmodLib::setMode()
 	 *
-	 * @param int $r
-	 * @param int $w
-	 * @param int $e
+	 * @param integer $r
+	 * @param integer $w
+	 * @param integer $e
 	 * @return int
 	 */
 	protected function setMode($r, $w, $e) {

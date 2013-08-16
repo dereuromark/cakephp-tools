@@ -36,7 +36,7 @@ class IcalLib {
 	 * - class to upper
 	 *
 	 * @param array $data
-	 * @param bool $addStartAndEnd
+	 * @param boolean $addStartAndEnd
 	 * @return string $icalContent (single vevent)
 	 * 2011-10-10 ms
 	 */

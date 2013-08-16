@@ -76,7 +76,7 @@ class CommonHelper extends AppHelper {
 	 *
 	 * @param string|array $keywords
 	 * @param string $language (iso2: de, en-us, ...)
-	 * @param bool $escape
+	 * @param boolean $escape
 	 * @return string $htmlMarkup
 	 */
 	public function metaKeywords($keywords = null, $language = null, $escape = true) {
@@ -350,7 +350,7 @@ class CommonHelper extends AppHelper {
 	 * //TODO: move to lib or bootstrap
 	 *
 	 * @param string $singular The string to be pl.
-	 * @param int $count
+	 * @param integer $count
 	 * @return string "member" or "members" OR "Mitglied"/"Mitglieder" if autoTranslate TRUE
 	 * 2009-07-23 ms
 	 */
@@ -369,7 +369,7 @@ class CommonHelper extends AppHelper {
 	 *
 	 * @param string $singular
 	 * @param string $plural
-	 * @param int $count
+	 * @param integer $count
 	 * @return string $result
 	 * 2009-07-23 ms
 	 */

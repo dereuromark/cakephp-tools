@@ -358,7 +358,7 @@ class SluggedBehavior extends ModelBehavior {
 	 *
 	 * @param Model $Model
 	 * @param mixed $string
-	 * @param bool $tidy
+	 * @param boolean $tidy
 	 * @return string a slug
 	 */
 	public function slug(Model $Model, $string, $tidy = true) {
@@ -448,7 +448,7 @@ class SluggedBehavior extends ModelBehavior {
 	 *
 	 * @param AppModel $Model
 	 * @param array $conditions
-	 * @param int $recursive
+	 * @param integer $recursive
 	 * @return boolean True on success, false otherwise
 	 */
 	public function resetSlugs(Model $Model, $params = array()) {

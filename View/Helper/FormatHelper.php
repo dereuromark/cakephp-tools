@@ -836,7 +836,7 @@ class FormatHelper extends TextHelper {
 	/**
 	 * fixes utf8 problems of native php str_pad function
 	 * @param string $input
-	 * @param int $padLength
+	 * @param integer $padLength
 	 * @param string $padString
 	 * @param mixed $padType
 	 * @return string $input
@@ -1000,7 +1000,7 @@ class FormatHelper extends TextHelper {
 	/**
 	 * @param mixed $uid
 	 * @param string $username
-	 * @param bool $full
+	 * @param boolean $full
 	 * @param array $options
 	 * - hash (string)
 	 * @return string $url
@@ -1166,7 +1166,7 @@ class FormatHelper extends TextHelper {
 	/**
 	 * returns green on ok, red otherwise
 	 * @param mixed $currentValue
-	 * @param bool $ok: true/false (defaults to false)
+	 * @param boolean $ok: true/false (defaults to false)
 	 * //@param string $comparizonType
 	 * //@param mixed $okValue
 	 * @return string $newValue nicely formatted/colored
@@ -1376,7 +1376,7 @@ class FormatHelper extends TextHelper {
 	 * @version 1.3.2
 	 * @link http://aidanlister.com/2004/04/converting-arrays-to-human-readable-tables/
 	 * @param array $array The result (numericaly keyed, associative inner) array.
-	 * @param bool $recursive Recursively generate tables for multi-dimensional arrays
+	 * @param boolean $recursive Recursively generate tables for multi-dimensional arrays
 	 * @param string $null String to output for blank cells
 	 */
 	public function array2table($array, $options = array()) {

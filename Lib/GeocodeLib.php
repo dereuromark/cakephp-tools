@@ -169,7 +169,7 @@ class GeocodeLib {
 	}
 
 	/**
-	 * @param bool $full
+	 * @param boolean $full
 	 * @return void
 	 */
 	public function reset($full = true) {
@@ -340,7 +340,7 @@ class GeocodeLib {
 
 	/**
 	 * trying to avoid "TOO_MANY_QUERIES" error
-	 * @param bool $raise If the pause length should be raised
+	 * @param boolean $raise If the pause length should be raised
 	 * 2010-06-29 ms
 	 */
 	public function pause($raise = false) {

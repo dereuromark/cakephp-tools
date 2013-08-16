@@ -316,7 +316,7 @@ class CommonComponent extends Component {
 	 * Return current url (with all missing params automatically added).
 	 * Necessary for Router::url() and comparison of urls to work.
 	 *
-	 * @param bool $asString: defaults to false = array
+	 * @param boolean $asString: defaults to false = array
 	 * @return mixed Url
 	 * 2009-12-26 ms
 	 */
@@ -424,8 +424,8 @@ class CommonComponent extends Component {
 	 * otherwise it will use the default url
 	 *
 	 * @param mixed $url
-	 * @param bool $allowSelf if redirect to the same controller/action (url) is allowed
-	 * @param int $status
+	 * @param boolean $allowSelf if redirect to the same controller/action (url) is allowed
+	 * @param integer $status
 	 * returns nothing and automatically redirects
 	 * 2010-11-06 ms
 	 */
@@ -441,7 +441,7 @@ class CommonComponent extends Component {
 	 * Note: Many pre-HTTP/1.1 user agents do not understand the 303 status. When interoperability with such clients is a concern, the 302 status code may be used instead, since most user agents react to a 302 response as described here for 303.
 	 * @see http://en.wikipedia.org/wiki/Post/Redirect/Get
 	 * @param mixed $url
-	 * @param int $status
+	 * @param integer $status
 	 * TODO: change to 303 with backwardscompatability for older browsers...
 	 * 2011-06-14 ms
 	 */
@@ -453,8 +453,8 @@ class CommonComponent extends Component {
 	 * combine auto with post
 	 * also allows whitelisting certain actions for autoRedirect (use Controller::$autoRedirectActions)
 	 * @param mixed $url
-	 * @param bool $conditionalAutoRedirect false to skip whitelisting
-	 * @param int $status
+	 * @param boolean $conditionalAutoRedirect false to skip whitelisting
+	 * @param integer $status
 	 * 2012-03-17 ms
 	 */
 	public function autoPostRedirect($whereTo, $conditionalAutoRedirect = true, $status = 302) {
@@ -580,7 +580,7 @@ class CommonComponent extends Component {
 	 * Opposite of Controller::disableCache()
 	 * TODO: set response class header instead
 	 *
-	 * @param int $seconds
+	 * @param integer $seconds
 	 * @return void
 	 * 2009-12-26 ms
 	 */
@@ -665,7 +665,7 @@ class CommonComponent extends Component {
 	/**
 	 * quick sql debug from controller dynamically
 	 * or statically from just about any other place in the script
-	 * @param bool $die: TRUE to output and die, FALSE to log to file and continue
+	 * @param boolean $die: TRUE to output and die, FALSE to log to file and continue
 	 * 2011-06-30 ms
 	 */
 	public function sql($die = true) {
@@ -1004,7 +1004,7 @@ class CommonComponent extends Component {
 
 	/**
 	 * get the current ip address
-	 * @param bool $safe
+	 * @param boolean $safe
 	 * @return string $ip
 	 * 2011-11-02 ms
 	 */
@@ -1015,7 +1015,7 @@ class CommonComponent extends Component {
 
 	/**
 	 * get the current referer
-	 * @param bool $full (defaults to false and leaves the url untouched)
+	 * @param boolean $full (defaults to false and leaves the url untouched)
 	 * @return string $referer (local or foreign)
 	 * 2011-11-02 ms
 	 */
@@ -1259,7 +1259,7 @@ class CommonComponent extends Component {
 	/**
 	 * returns auto-generated password
 	 * @param string $type: user, ...
-	 * @param int $length (if no type is submitted)
+	 * @param integer $length (if no type is submitted)
 	 * @return pwd on success, empty string otherwise
 	 * @deprecated - use RandomLib
 	 * 2009-12-26 ms
@@ -1332,7 +1332,7 @@ class CommonComponent extends Component {
 	/**
 	 * Get the Corresponding Message to an HTTP Error Code
 	 *
-	 * @param int $code: 100...505
+	 * @param integer $code: 100...505
 	 * @return array $codes if code is NULL, otherwise string $code (empty string on failure)
 	 * 2009-07-21 ms
 	 */
@@ -1405,7 +1405,7 @@ class CommonComponent extends Component {
 
 	/**
 	 * Get the Corresponding Message to an HTTP Error Code
-	 * @param int $code: 4xx...5xx
+	 * @param integer $code: 4xx...5xx
 	 * 2010-06-08 ms
 	 */
 	public function smtpResponseCodes($code = null, $autoTranslate = false) {

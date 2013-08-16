@@ -191,8 +191,8 @@ class RevisionBehavior extends ModelBehavior {
 	 * @example $this->Post->id = 4; $my_changes = $this->Post->diff(null,nul, array('conditions'=>array('user_id'=>4)));
 	 * @example $this->Post->id = 4; $difference = $this->Post->diff(45,192);
 	 * @param Object $Model
-	 * @param int $from_version_id
-	 * @param int $to_version_id
+	 * @param integer $from_version_id
+	 * @param integer $to_version_id
 	 * @param array $options
 	 * @return array
 	 */
@@ -262,7 +262,7 @@ class RevisionBehavior extends ModelBehavior {
 	 *
 	 * @example $this->Post->initializeRevisions();
 	 * @param object $Model
-	 * @param int $limit number of rows to initialize in one go
+	 * @param integer $limit number of rows to initialize in one go
 	 * @return boolean
 	 */
 	public function initializeRevisions(Model $Model, $limit = 100) {
@@ -299,8 +299,8 @@ class RevisionBehavior extends ModelBehavior {
 	 * saves revisions for rows matching page and limit given
 	 *
 	 * @param object $Model
-	 * @param int $page
-	 * @param int $limit
+	 * @param integer $page
+	 * @param integer $limit
 	 */
 	protected function init(Model $Model, $page, $limit) {
 		$habtm = array();
@@ -474,7 +474,7 @@ class RevisionBehavior extends ModelBehavior {
 	 *
 	 * @example $this->Post->id = 3; $this->Post->revertTo(12);
 	 * @param object $Model
-	 * @param int $version_id
+	 * @param integer $version_id
 	 * @return boolean
 	 */
 	public function revertTo(Model $Model, $version_id) {
@@ -940,7 +940,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * @return boolean
 	 */
 	protected function createShadowModel(Model $Model) {
-		if (is_null($this->settings[$Model->alias]['useDbConfig'])) {
+		if ($this->settings[$Model->alias]['useDbConfig'] === null) {
 			$dbConfig = $Model->useDbConfig;
 		} else {
 			$dbConfig = $this->settings[$Model->alias]['useDbConfig'];

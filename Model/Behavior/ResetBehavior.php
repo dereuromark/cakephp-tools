@@ -63,7 +63,7 @@ class ResetBehavior extends ModelBehavior {
 	 *
 	 * @param Model $Model
 	 * @param array $conditions
-	 * @param int $recursive
+	 * @param integer $recursive
 	 * @return bool true on success false otherwise
 	 */
 	public function resetRecords(Model $Model, $params = array()) {

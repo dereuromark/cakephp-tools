@@ -1,5 +1,6 @@
 <?php
 App::uses('Helper', 'View');
+App::uses('Router', 'Routing');
 App::uses('UrlCacheManager', 'Tools.Routing');
 
 /**
@@ -21,7 +22,7 @@ class MyHelper extends Helper {
 	/**
 	 * Manually load helpers
 	 * @param array $helpers (either strings, or [string => array(config...)])
-	 * @param bool $callbacks - trigger missed callbacks
+	 * @param boolean $callbacks - trigger missed callbacks
 	 * @return void
 	 */
 	public function loadHelpers($helpers = array(), $callbacks = false) {
@@ -270,18 +271,28 @@ class MyHelper extends Helper {
 	 * Intercepts the parent url function to first look if the cache was already generated for the same params
 	 *
 	 * @param mixed $url url to generate using cakephp array syntax
-	 * @param boolean $full wheter to generate a full url or not (http scheme)
+	 * @param boolean|array $full whether to generate a full url or not (http scheme). As array: full, escape.
 	 * @return string
 	 * @see Helper::url()
 	 */
-	public function url($url = null, $full = false, $escape = true) {
+	public function url($url = null, $full = false) {
+		if (is_array($full)) {
+			$escape = isset($full['ecape']) ? $full['escape'] : true;
+			$full = isset($full['full']) ? $full['full'] : false;
+		} else {
+			$escape = true;
+		}
+
 		if (Configure::read('UrlCache.active')) {
 			if ($cachedUrl = UrlCacheManager::get($url, $full)) {
 				return $cachedUrl;
 			}
 		}
-
-		$routerUrl = parent::url($url, $full, $escape);
+		if (!$escape) {
+			$routerUrl = Router::url($url, $full);
+		} else {
+			$routerUrl = parent::url($url, $full);
+		}
 		if (Configure::read('UrlCache.active')) {
 			UrlCacheManager::set($routerUrl);
 		}

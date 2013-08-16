@@ -321,7 +321,7 @@ class TextExtHelper extends TextHelper {
 	 * minimizes the given url to a maximum length
 	 *
 	 * @param string $url the url
-	 * @param int $max the maximum length
+	 * @param integer $max the maximum length
 	 * @param array $options
 	 * - placeholder
 	 * @return string the manipulated url (+ eventuell ...)
@@ -385,7 +385,7 @@ class TextExtHelper extends TextHelper {
 	/**
 	 * syntax highlighting using php internal highlighting
 	 * @param string $filename
-	 * @param bool $return (else echo directly)
+	 * @param boolean $return (else echo directly)
 	 * 2009-07-26 ms
 	 */
 	public static function highlightFile($file, $return = true) {
@@ -395,7 +395,7 @@ class TextExtHelper extends TextHelper {
 	/**
 	 * syntax highlighting using php internal highlighting
 	 * @param string $contentstring
-	 * @param bool $return (else echo directly)
+	 * @param boolean $return (else echo directly)
 	 * 2009-07-26 ms
 	 */
 	public static function highlightString($string, $return = true) {

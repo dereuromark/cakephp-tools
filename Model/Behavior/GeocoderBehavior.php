@@ -353,7 +353,7 @@ class GeocoderBehavior extends ModelBehavior {
 	/**
 	 * Get the current unit factor
 	 *
-	 * @param int $unit Unit constant
+	 * @param integer $unit Unit constant
 	 * @return float Value
 	 */
 	protected function _calculationValue($unit) {

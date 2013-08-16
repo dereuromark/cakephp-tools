@@ -41,8 +41,8 @@ class Utility {
 	 *
 	 * @param string $pattern The pattern to use.
 	 * @param string $subject The string to match.
-	 * @param int $flags
-	 * @param int $offset
+	 * @param integer $flags
+	 * @param integer $offset
 	 * @return array Result
 	 */
 	public static function pregMatchAll($pattern, $subject, $flags = PREG_SET_ORDER, $offset = null) {
@@ -64,8 +64,8 @@ class Utility {
 	 *
 	 * @param string $pattern The pattern to use.
 	 * @param string $subject The string to match.
-	 * @param int $flags
-	 * @param int $offset
+	 * @param integer $flags
+	 * @param integer $offset
 	 * @return array Result
 	 */
 	public static function pregMatch($pattern, $subject, $flags = null, $offset = null) {
@@ -79,7 +79,7 @@ class Utility {
 	 * By default this works properly with UTF8 strings.
 	 *
 	 * @param string $text
-	 * @param int $length
+	 * @param integer $length
 	 * @return array Result
 	 */
 	public static function strSplit($str, $length = 1) {
@@ -98,7 +98,7 @@ class Utility {
 	/**
 	 * Get the current IP address.
 	 *
-	 * @param bool $safe
+	 * @param boolean $safe
 	 * @return string IP address
 	 * 2011-11-02 ms
 	 */
@@ -126,7 +126,7 @@ class Utility {
 	/**
 	 * Get the current referrer if available.
 	 *
-	 * @param bool $full (defaults to false and leaves the url untouched)
+	 * @param boolean $full (defaults to false and leaves the url untouched)
 	 * @return string $referer (local or foreign)
 	 * 2011-11-02 ms
 	 */

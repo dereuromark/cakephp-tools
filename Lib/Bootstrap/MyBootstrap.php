@@ -403,7 +403,7 @@ function extractPathInfo($type = null, $filename) {
  * Shows pr() messages, even with debug=0
  *
  * @param mixed $content
- * @param bool $collapsedAndExpandable
+ * @param boolean $collapsedAndExpandable
  * @param array $options
  * - class, showHtml, showFrom, jquery, returns, debug
  * 2011-01-19 ms

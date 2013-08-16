@@ -204,7 +204,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 	 * @return mixed if $active is null, then current setting/null, or boolean if runtime setting for model was changed
 	 */
 	public function softDelete(Model $model, $active) {
-		if (is_null($active)) {
+		if ($active === null) {
 			return !empty($this->runtime[$model->alias]) ? $this->runtime[$model->alias] : null;
 		}
 

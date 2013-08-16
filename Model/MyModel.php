@@ -15,9 +15,14 @@ class MyModel extends Model {
 
 	public $actsAs = array('Containable');
 
-
-/** Specific Stuff **/
-
+	/**
+	 * MyModel::__construct()
+	 *
+	 * @param integer $id
+	 * @param string $table
+	 * @param string $ds
+	 * @return void
+	 */
 	public function __construct($id = false, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
 
@@ -34,6 +39,9 @@ class MyModel extends Model {
 				'duration'	=> '+1 day'
 			));
 		}
+		if (!Configure::read('Model.disablePrefixing')) {
+			$this->prefixOrderProperty();
+		}
 
 		# get a notice if there is an AppModel instances instead of real Models (in those cases usually a dev error!)
 		if (defined('HTTP_HOST') && HTTP_HOST && !is_a($this, $this->name) && $this->displayField !== 'id' && $this->useDbConfig !== 'test' && !Configure::read('Core.disableModelInstanceNotice')) {
@@ -41,14 +49,50 @@ class MyModel extends Model {
 		}
 	}
 
-/**
- * Deconstructs a complex data type (array or object) into a single field value.
- * BUGFIXED VERSION - autodetects type and allows manual override
- *
- * @param string $field The name of the field to be deconstructed
- * @param array|object $data An array or object to be deconstructed into a field
- * @return mixed The resulting data that should be assigned to a field
- */
+	/**
+	 * Prefixes the order property with the actual alias if its a string or array.
+	 *
+	 * The core fails on using the proper prefix when building the query with two
+	 * different tables.
+	 *
+	 * @return void
+	 */
+	public function prefixOrderProperty() {
+		if (is_string($this->order)) {
+			$this->order = $this->prefixAlias($this->order);
+		}
+		if (is_array($this->order)) {
+			foreach ($this->order as $key => $value) {
+				if (is_numeric($key)) {
+					$this->order[$key] = $this->prefixAlias($value);
+				} else {
+					$this->order[$this->prefixAlias($key)] = $value;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Checks if a string of a field name contains a dot if not it will add it and add the alias prefix.
+	 *
+	 * @param string
+	 * @return string
+	 */
+	public function prefixAlias($string) {
+		if (strpos($string, '.') === false) {
+			return $this->alias . '.' . $string;
+		}
+		return $string;
+	}
+
+	/**
+	 * Deconstructs a complex data type (array or object) into a single field value.
+	 * BUGFIXED VERSION - autodetects type and allows manual override
+	 *
+	 * @param string $field The name of the field to be deconstructed
+	 * @param array|object $data An array or object to be deconstructed into a field
+	 * @return mixed The resulting data that should be assigned to a field
+	 */
 	public function deconstruct($field, $data, $type = null) {
 		if (!is_array($data)) {
 			return $data;
@@ -243,7 +287,6 @@ class MyModel extends Model {
 		return $res;
 	}
 
-
 	/**
 	 * HIGHLY EXPERIMENTAL
 	 * manually escape value for updateAll() etc
@@ -334,7 +377,7 @@ class MyModel extends Model {
 	 * workaround for a cake bug which sets empty fields to NULL in Model::set()
 	 * we cannot use if (isset() && empty()) statements without this fix
 	 * @param array $fields (which are supposed to be present in $this->data[$this->alias])
-	 * @param bool $force (if init should be forced, otherwise only if array_key exists)
+	 * @param boolean $force (if init should be forced, otherwise only if array_key exists)
 	 * 2011-03-06 ms
 	 */
 	public function init($fields = array(), $force = false) {
@@ -384,7 +427,6 @@ class MyModel extends Model {
 		return parent::beforeValidate($options);
 	}
 
-
 	/**
 	 * @param params
 	 * - key: functioName or other key used
@@ -415,7 +457,7 @@ class MyModel extends Model {
 	 * @param string $type The type of the query ('count'/'all'/'first' - first only works with some mysql versions)
 	 * @param array $options The options array
 	 * @param string $alias You can use this intead of $options['alias'] if you want
-	 * @param bool $parenthesise Add parenthesis before and after
+	 * @param boolean $parenthesise Add parenthesis before and after
 	 * @return string $result sql snippet of the query to run
 	 * @modified Mark Scherer (cake2.x ready and improvements)
 	 * @link http://bakery.cakephp.org/articles/lucaswxp/2011/02/11/easy_and_simple_subquery_cakephp
@@ -497,7 +539,6 @@ class MyModel extends Model {
 			}
 		}
 
-
 		# having and group clauses enhancement
 		if (is_array($query) && !empty($query['having']) && !empty($query['group'])) {
 			if (!is_array($query['group'])) {
@@ -562,7 +603,6 @@ class MyModel extends Model {
 	}
 	*/
 
-
 	/**
 	 * This code will add formatted list functionallity to find you can easy replace the $this->Model->find('list'); with $this->Model->find('formattedlist', array('fields' => array('Model.id', 'Model.field1', 'Model.field2', 'Model.field3'), 'format' => '%s-%s %s')); and get option tag output of: Model.field1-Model.field2 Model.field3. Even better part is being able to setup your own format for the output!
 	 * @see http://bakery.cakephp.org/articles/view/add-formatted-lists-to-your-appmodel
@@ -571,7 +611,7 @@ class MyModel extends Model {
 	 * 2009-12-27 ms
 	 */
 	protected function _find($type, $options = array()) {
-		$res = false; // $this->_getCachedResults($type, $options);
+		$res = false;
 		if ($res === false) {
 			if (isset($options['cache'])) {
 				unset($options['cache']);
@@ -659,6 +699,7 @@ class MyModel extends Model {
 		}
 		return $res;
 	}
+
 	/*
 	USAGE of formattetlist:
 	$this->Model->find('formattedlist',
@@ -675,35 +716,6 @@ class MyModel extends Model {
 	)
 	);
 	*/
-
-	/**
-	 * @deprecated
-	 */
-	public function _getCachedResults($type, $options) {
-		$this->useCache = true;
-		if (!is_array($options) || empty($options['cache']) || Configure::read('debug') > 0 && !(Configure::read('Debug.override'))) {
-			$this->useCache = false;
-			return false;
-		}
-
-		if ($options['cache'] === true) {
-			$this->cacheName = $this->alias . '_' . sha1($type . serialize($options));
-		} else {
-			/*
-			if (!isset($options['cache']['name'])) {
-			return false;
-			}
-			*/
-			$this->cacheName = $this->alias . '_' . sha1($type . serialize($options));
-			$this->cacheConfig = $options['cache'];
-			//$this->cacheName = $this->alias . '_' . $type . '_' . $options['cache'];
-			//$this->cacheConfig = isset($options['cache']['config']) ? $options['cache']['config'] : 'default';
-		}
-
-		$results = Cache::read($this->cacheName, $this->cacheConfig);
-		return $results;
-	}
-
 
 	/*
 	neighbor find problem:
@@ -733,8 +745,10 @@ class MyModel extends Model {
 	)
 	*/
 	/**
-	 * core-fix for multiple sort orders
+	 * Core-fix for multiple sort orders
+	 *
 	 * @param addiotional 'scope'=>array(field,order) - value is retrieved by (submitted) primary key
+	 * @return mixed
 	 * TODO: fix it
 	 * 2009-07-25 ms
 	 */
@@ -855,7 +869,7 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * validates a primary or foreign key depending on the current schema data for this field
+	 * Validates a primary or foreign key depending on the current schema data for this field
 	 * recognizes uuid (char36) and aiid (int10 unsigned) - not yet mixed (varchar36)
 	 * more useful than using numeric or notEmpty which are type specific
 	 *
@@ -893,7 +907,7 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * checks if the passed enum value is valid
+	 * Checks if the passed enum value is valid
 	 *
 	 * @return bool Success
 	 * 2010-02-09 ms
@@ -923,7 +937,7 @@ class MyModel extends Model {
 
 
 	/**
-	 * checks if the content of 2 fields are equal
+	 * Checks if the content of 2 fields are equal
 	 * Does not check on empty fields! Return TRUE even if both are empty (secure against empty in another rule)!
 	 *
 	 * @return bool Success
@@ -948,7 +962,7 @@ class MyModel extends Model {
 
 
 	/**
-	 * checks a record, if it is unique - depending on other fields in this table (transfered as array)
+	 * Checks a record, if it is unique - depending on other fields in this table (transfered as array)
 	 * example in model: 'rule' => array ('validateUnique', array('belongs_to_table_id','some_id','user_id')),
 	 * if all keys (of the array transferred) match a record, return false, otherwise true
 	 *
@@ -1010,6 +1024,8 @@ class MyModel extends Model {
 	}
 
 	/**
+	 * Alterative for validating unique fields.
+	 *
 	 * @param array $data
 	 * @param array $options
 	 * - scope (array of other fields as scope - isUnique dependent on other fields of the table)
@@ -1273,8 +1289,6 @@ class MyModel extends Model {
 		return false;
 	}
 
-
-	//TODO
 	/**
 	 * Validation of Date Fields (>= minDate && <= maxDate)
 	 * @param options
@@ -1295,7 +1309,6 @@ class MyModel extends Model {
 	public function validateTimeRange($data, $options = array()) {
 
 	}
-
 
 	/**
 	 * model validation rule for email addresses
@@ -1451,7 +1464,7 @@ class MyModel extends Model {
 	 * (they must only be present - can still be empty, though!)
 	 *
 	 * @param array $fieldList
-	 * @param bool $allowEmpty (or NULL to not touch already set elements)
+	 * @param boolean $allowEmpty (or NULL to not touch already set elements)
 	 * @return void
 	 * 2012-02-20 ms
 	 */
@@ -1595,7 +1608,7 @@ class MyModel extends Model {
 
 	/**
 	 * Update a row with certain fields (dont use "Model" as super-key)
-	 * @param int $id
+	 * @param integer $id
 	 * @param array $data
 	 * @return bool|array Success
 	 * 2012-11-20 ms
