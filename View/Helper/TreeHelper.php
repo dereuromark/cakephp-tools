@@ -471,7 +471,6 @@ class TreeHelper extends AppHelper {
 			}
 		} else {
 			$attributes = $this->_itemAttributes;
-			$this->_itemAttributes = array();
 			if ($clear) {
 				$this->_itemAttributes = array();
 			}
