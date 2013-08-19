@@ -15,7 +15,9 @@ App::uses('FormHelper', 'View/Helper');
  * - datalist
  * - datetime picker added automatically
  *
- * //TODO: cleanup
+ * NEW:
+ * - Buffer your scripts with js=>inline, but remember to use
+ *   $this->Js->writeBuffer() with onDomReady=>false then, though.
  *
  * 2011-03-07 ms
  */
@@ -24,7 +26,8 @@ class FormExtHelper extends FormHelper {
 	public $helpers = array('Html', 'Js', 'Tools.Common');
 
 	public $settings = array(
-		'webroot' => true // true => APP webroot, false => tools plugin
+		'webroot' => true, // true => APP webroot, false => tools plugin
+		'js' => 'inline', // inline, buffer
 	);
 
 	public $scriptsAdded = array(
@@ -37,6 +40,9 @@ class FormExtHelper extends FormHelper {
 	public function __construct($View = null, $settings = array()) {
 		if (($webroot = Configure::read('Asset.webroot')) !== null) {
 			$this->settings['webroot'] = $webroot;
+		}
+		if (($js = Configure::read('Asset.js')) !== null) {
+			$this->settings['js'] = $webroot;
 		}
 
 		parent::__construct($View, $settings);
@@ -531,8 +537,6 @@ class FormExtHelper extends FormHelper {
 
 		$fieldName = Inflector::camelize($field);
 		$script = '
-<script type="text/javascript">
-	// <![CDATA[
 		var opts = {
 			formElements: {"'. $modelName . $fieldName. '":"%Y", "' . $modelName . $fieldName . '-mm":"%m", "' . $modelName . $fieldName . '-dd":"%d"},
 			showWeeks: true,
@@ -541,10 +545,22 @@ class FormExtHelper extends FormHelper {
 			positioned: "button-' . $modelName . $fieldName . '"
 		};
 		datePickerController.createDatePicker(opts);
-	// ]]>
-</script>
-		';
+';
+		if ($this->settings['js'] === 'inline') {
+			$script = $this->_inlineScript($script);
+		} else {
+			$this->Js->buffer($script);
+			$script = '';
+		}
 		return '<div class="input date'.(!empty($error)?' error':'').'">'.$this->label($modelName.'.'.$field, $options['label']).''.$select.''.$error.'</div>'.$script;
+	}
+
+	protected function _inlineScript($script) {
+		return '<script type="text/javascript">
+	// <![CDATA[
+' . $script . '
+	// ]]>
+</script>';
 	}
 
 	/**
@@ -662,21 +678,23 @@ class FormExtHelper extends FormHelper {
 
 		if (!empty($customOptions['type']) && $customOptions['type'] === 'text') {
 			$script = '
-<script type="text/javascript">
-	// <![CDATA[
-		var opts = {
-			formElements: {"' . $modelName . $fieldName . '":"%Y", "' . $modelName . $fieldName . '-mm":"%m", "' . $modelName . $fieldName . '-dd":"%d"},
-			showWeeks: true,
-			fillGrid: true,
-			constrainSelection: true,
-			statusFormat: "%l, %d. %F %Y",
-			' . (!empty($callbacks) ? $callbacks : '') . '
-			positioned: "button-' . $modelName . $fieldName . '"
-		};
-		datePickerController.createDatePicker(opts);
-	// ]]>
-</script>
-		';
+	var opts = {
+		formElements: {"' . $modelName . $fieldName . '":"%Y", "' . $modelName . $fieldName . '-mm":"%m", "' . $modelName . $fieldName . '-dd":"%d"},
+		showWeeks: true,
+		fillGrid: true,
+		constrainSelection: true,
+		statusFormat: "%l, %d. %F %Y",
+		' . (!empty($callbacks) ? $callbacks : '') . '
+		positioned: "button-' . $modelName . $fieldName . '"
+	};
+	datePickerController.createDatePicker(opts);
+';
+			if ($this->settings['js'] === 'inline') {
+				$script = $this->_inlineScript($script);
+			} else {
+				$this->Js->buffer($script);
+				$script = '';
+			}
 
 			$options = array_merge(array('id' => $modelName.$fieldName), $options);
 			$select = $this->text($field, $options);
@@ -688,22 +706,24 @@ class FormExtHelper extends FormHelper {
 			return $select;
 		}
 		$script = '
-<script type="text/javascript">
-	// <![CDATA[
-		var opts = {
-			formElements:{"' . $modelName . $fieldName . '":"%Y", "' . $modelName . $fieldName . '-mm":"%m", "' . $modelName . $fieldName . '-dd":"%d"},
-			showWeeks:true,
-			fillGrid:true,
-			constrainSelection:true,
-			statusFormat:"%l, %d. %F %Y",
-			' . (!empty($callbacks) ? $callbacks : '') . '
-			// Position the button within a wrapper span with an id of "button-wrapper"
-			positioned:"button-' . $modelName . $fieldName . '"
-		};
-		datePickerController.createDatePicker(opts);
-	// ]]>
-</script>
-		';
+	var opts = {
+		formElements:{"' . $modelName . $fieldName . '":"%Y", "' . $modelName . $fieldName . '-mm":"%m", "' . $modelName . $fieldName . '-dd":"%d"},
+		showWeeks:true,
+		fillGrid:true,
+		constrainSelection:true,
+		statusFormat:"%l, %d. %F %Y",
+		' . (!empty($callbacks) ? $callbacks : '') . '
+		// Position the button within a wrapper span with an id of "button-wrapper"
+		positioned:"button-' . $modelName . $fieldName . '"
+	};
+	datePickerController.createDatePicker(opts);
+';
+		if ($this->settings['js'] === 'inline') {
+			$script = $this->_inlineScript($script);
+		} else {
+			$this->Js->buffer($script);
+			$script = '';
+		}
 		return '<div class="input date'.(!empty($error)?' error':'').'">'.$this->label($modelName.'.'.$field, $options['label']).''.$select.''.$error.'</div>'.$script;
 	}
 
