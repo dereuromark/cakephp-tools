@@ -24,7 +24,7 @@ class FormExtHelper extends FormHelper {
 	public $helpers = array('Html', 'Js', 'Tools.Common');
 
 	public $settings = array(
-		'webroot' => true # false => tools plugin
+		'webroot' => true // true => APP webroot, false => tools plugin
 	);
 
 	public $scriptsAdded = array(
@@ -459,8 +459,8 @@ class FormExtHelper extends FormHelper {
 							$this->Html->script('datepicker/datepicker', false);
 							$this->Html->css('common/datepicker', null, array('inline'=>false));
 						} else {
-							$this->Common->script(array('Tools.Js|datepicker/lang/' . $lang, 'Tools.Js|datepicker/datepicker'), false);
-							$this->Common->css(array('Tools.Js|datepicker/datepicker'), null, array('inline'=>false));
+							$this->Common->script(array('Tools.Asset|datepicker/lang/' . $lang, 'Tools.Asset|datepicker/datepicker'), false);
+							$this->Common->css(array('Tools.Asset|datepicker/datepicker'), null, array('inline'=>false));
 						}
 						$this->scriptsAdded['date'] = true;
 						break;
@@ -503,10 +503,10 @@ class FormExtHelper extends FormHelper {
 		}
 
 		if (strpos($field, '.') !== false) {
-			list($model, $field) = explode('.', $field, 2);
+			list($modelName, $field) = explode('.', $field, 2);
 		} else {
 			$entity = $this->entity();
-			$model = $this->model();
+			$modelName = $this->model();
 		}
 
 		$defaultOptions = array(
@@ -529,23 +529,22 @@ class FormExtHelper extends FormHelper {
 			$error = '';
 		}
 
-		$fieldname = Inflector::camelize($field);
+		$fieldName = Inflector::camelize($field);
 		$script = '
 <script type="text/javascript">
 	// <![CDATA[
 		var opts = {
-			formElements:{"'.$model.$fieldname.'":"Y","'.$model.$fieldname.'-mm":"m","'.$model.$fieldname.'-dd":"d"},
-			showWeeks:true,
-			statusFormat:"l-cc-sp-d-sp-F-sp-Y",
-
-			// Position the button within a wrapper span with an id of "button-wrapper"
-			positioned:"button-wrapper"
+			formElements: {"'. $modelName . $fieldName. '":"%Y", "' . $modelName . $fieldName . '-mm":"%m", "' . $modelName . $fieldName . '-dd":"%d"},
+			showWeeks: true,
+			statusFormat: "%l, %d. %F %Y",
+			' . (!empty($callbacks) ? $callbacks : '') . '
+			positioned: "button-' . $modelName . $fieldName . '"
 		};
 		datePickerController.createDatePicker(opts);
 	// ]]>
 </script>
 		';
-		return '<div class="input date'.(!empty($error)?' error':'').'">'.$this->label($model.'.'.$field, $options['label']).''.$select.''.$error.'</div>'.$script;
+		return '<div class="input date'.(!empty($error)?' error':'').'">'.$this->label($modelName.'.'.$field, $options['label']).''.$select.''.$error.'</div>'.$script;
 	}
 
 	/**
@@ -658,7 +657,7 @@ class FormExtHelper extends FormHelper {
 		if (!empty($callbacks)) {
 			//callbackFunctions:{"create":...,"dateset":[updateBox]},
 			$c = $callbacks['update'];
-			$callbacks = 'callbackFunctions:{"dateset":['.$c.']},';
+			$callbacks = 'callbackFunctions:{"dateset":[' . $c . ']},';
 		}
 
 		if (!empty($customOptions['type']) && $customOptions['type'] === 'text') {
@@ -666,12 +665,13 @@ class FormExtHelper extends FormHelper {
 <script type="text/javascript">
 	// <![CDATA[
 		var opts = {
-			formElements:{"'.$modelName.$fieldName.'":"d-dt-m-dt-Y"},
-			showWeeks:true,
-			statusFormat:"l-cc-sp-d-sp-F-sp-Y",
-			'.(!empty($callbacks)?$callbacks:'').'
-			// Position the button within a wrapper span with an id of "button-wrapper"
-			positioned:"button-wrapper"
+			formElements: {"' . $modelName . $fieldName . '":"%Y", "' . $modelName . $fieldName . '-mm":"%m", "' . $modelName . $fieldName . '-dd":"%d"},
+			showWeeks: true,
+			fillGrid: true,
+			constrainSelection: true,
+			statusFormat: "%l, %d. %F %Y",
+			' . (!empty($callbacks) ? $callbacks : '') . '
+			positioned: "button-' . $modelName . $fieldName . '"
 		};
 		datePickerController.createDatePicker(opts);
 	// ]]>
@@ -691,12 +691,14 @@ class FormExtHelper extends FormHelper {
 <script type="text/javascript">
 	// <![CDATA[
 		var opts = {
-			formElements:{"'.$modelName.$fieldName.'":"Y","'.$modelName.$fieldName.'-mm":"m","'.$modelName.$fieldName.'-dd":"d"},
+			formElements:{"' . $modelName . $fieldName . '":"%Y", "' . $modelName . $fieldName . '-mm":"%m", "' . $modelName . $fieldName . '-dd":"%d"},
 			showWeeks:true,
-			statusFormat:"l-cc-sp-d-sp-F-sp-Y",
-			'.(!empty($callbacks)?$callbacks:'').'
+			fillGrid:true,
+			constrainSelection:true,
+			statusFormat:"%l, %d. %F %Y",
+			' . (!empty($callbacks) ? $callbacks : '') . '
 			// Position the button within a wrapper span with an id of "button-wrapper"
-			positioned:"button-wrapper"
+			positioned:"button-' . $modelName . $fieldName . '"
 		};
 		datePickerController.createDatePicker(opts);
 	// ]]>

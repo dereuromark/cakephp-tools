@@ -6,45 +6,58 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Cache.Engine
  * @since         CakePHP(tm) v 1.2.0.4933
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 /**
- * Memcached storage engine for cache. This is the new more powerful memcache class (see MemcacheEngine for the former one).
+ * Memcached storage engine for cache.  Memcached has some limitations in the amount of
+ * control you have over expire times far in the future. See MemcachedEngine::write() for
+ * more information.
+ *
+ * Cache::clear() is not implemented due to lack of support from memcached api.
+ * If clear() support is primordial to you, use the default memcache engine.
+ *
+ * Main advantage of this Memcached engine over the Memcache engine is
+ * support of binary protocol, and igbibnary serialization
+ * (if memcached extension compiled with --enable-igbinary).
+ * Compressed keys can also be incremented/decremented.
  *
  * @package       Cake.Cache.Engine
  */
 class MemcachedEngine extends CacheEngine {
 
 /**
- * Contains the compiled group names
- * (prefixed witht the global configuration prefix)
- *
- * @var array
- **/
-	protected $_compiledGroupNames = array();
-
-/**
- * Memcache wrapper.
+ * Memcached wrapper.
  *
  * @var Memcache
  */
 	protected $_Memcached = null;
 
 /**
+ * @var string Keyname of the cache entry holding all the others key name
+ */
+	protected $_keys = '_keys';
+
+/**
+ * @var string Token used to separe each keyname in the $_keys string
+ */
+	protected $_keySeparator = '|';
+
+/**
  * Settings
  *
  *  - servers = string or array of memcache servers, default => 127.0.0.1. If an
  *    array MemcacheEngine will use them as a pool.
+ *  - compress = boolean, default => false
  *
  * @var array
  */
@@ -74,21 +87,48 @@ class MemcachedEngine extends CacheEngine {
 		);
 		parent::init($settings);
 
-		if (is_string($this->settings['servers'])) {
+		$this->_keys .= $this->settings['prefix'];
+
+		if (!is_array($this->settings['servers'])) {
 			$this->settings['servers'] = array($this->settings['servers']);
 		}
 		if (!isset($this->_Memcached)) {
 			$return = false;
-			$this->_Memcached = new Memcached();
-			foreach ($this->settings['servers'] as $server) {
-				list($host, $port) = $this->_parseServerString($server);
-				if ($this->_Memcached->addServer($host, $port)) {
+			$this->_Memcached = new Memcached($this->settings['persistent'] ? 'mc' : null);
+			$this->_setOptions();
+
+			if (!count($this->_Memcached->getServerList())) {
+				$servers = array();
+				foreach ($this->settings['servers'] as $server) {
+					$servers[] = $this->_parseServerString($server);
+				}
+
+				if ($this->_Memcached->addServers($servers)) {
 					$return = true;
 				}
+
 			}
+
+			if (!$this->_Memcached->get($this->_keys)) $this->_Memcached->set($this->_keys, '');
 			return $return;
 		}
+
 		return true;
+	}
+
+/**
+ * Settings the memcached instance
+ *
+ */
+	protected function _setOptions() {
+		$this->_Memcached->setOption(Memcached::OPT_LIBKETAMA_COMPATIBLE, true);
+		$this->_Memcached->setOption(Memcached::OPT_BINARY_PROTOCOL, true);
+
+		if (Memcached::HAVE_IGBINARY) {
+			$this->_Memcached->setOption(Memcached::OPT_SERIALIZER, Memcached::SERIALIZER_IGBINARY);
+		}
+
+		$this->_Memcached->setOption(Memcached::OPT_COMPRESSION, (bool)$this->settings['compress']);
 	}
 
 /**
@@ -99,10 +139,10 @@ class MemcachedEngine extends CacheEngine {
  * @return array Array containing host, port
  */
 	protected function _parseServerString($server) {
-		if ($server[0] == 'u') {
+		if ($server[0] === 'u') {
 			return array($server, 0);
 		}
-		if (substr($server, 0, 1) == '[') {
+		if (substr($server, 0, 1) === '[') {
 			$position = strpos($server, ']:');
 			if ($position !== false) {
 				$position++;
@@ -116,7 +156,7 @@ class MemcachedEngine extends CacheEngine {
 			$host = substr($server, 0, $position);
 			$port = substr($server, $position + 1);
 		}
-		return array($host, $port);
+		return array($host, (int)$port);
 	}
 
 /**
@@ -134,6 +174,8 @@ class MemcachedEngine extends CacheEngine {
 		if ($duration > 30 * DAY) {
 			$duration = 0;
 		}
+
+		$this->_Memcached->append($this->_keys, str_replace($this->settings['prefix'], '', $this->_keySeparator . $key));
 		return $this->_Memcached->set($key, $value, $duration);
 	}
 
@@ -188,71 +230,13 @@ class MemcachedEngine extends CacheEngine {
  * @return boolean True if the cache was successfully cleared, false otherwise
  */
 	public function clear($check) {
-		if ($check) {
-			return true;
-		}
-		foreach ($this->_Memcached->getExtendedStats('slabs') as $slabs) {
-			foreach (array_keys($slabs) as $slabId) {
-				if (!is_numeric($slabId)) {
-					continue;
-				}
+		$keys = array_slice(explode($this->_keySeparator, $this->_Memcached->get($this->_keys)), 1);
 
-				foreach ($this->_Memcached->getExtendedStats('cachedump', $slabId) as $stats) {
-					if (!is_array($stats)) {
-						continue;
-					}
-					foreach (array_keys($stats) as $key) {
-						if (strpos($key, $this->settings['prefix']) === 0) {
-							$this->_Memcached->delete($key);
-						}
-					}
-				}
-			}
-		}
+		foreach($keys as $key)
+			$this->_Memcached->delete($this->settings['prefix'] . $key);
+
+		$this->_Memcached->delete($this->_keys);
+
 		return true;
-	}
-
-/**
- * Returns the `group value` for each of the configured groups
- * If the group initial value was not found, then it initializes
- * the group accordingly.
- *
- * @return array
- **/
-	public function groups() {
-		if (empty($this->_compiledGroupNames)) {
-			foreach ($this->settings['groups'] as $group) {
-				$this->_compiledGroupNames[] = $this->settings['prefix'] . $group;
-			}
-		}
-
-		$groups = $this->_Memcached->get($this->_compiledGroupNames);
-		if (count($groups) !== count($this->settings['groups'])) {
-			foreach ($this->_compiledGroupNames as $group) {
-				if (!isset($groups[$group])) {
-					$this->_Memcached->set($group, 1, false, 0);
-					$groups[$group] = 1;
-				}
-			}
-			ksort($groups);
-		}
-
-		$result = array();
-		$groups = array_values($groups);
-		foreach ($this->settings['groups'] as $i => $group) {
-			$result[] = $group . $groups[$i];
-		}
-
-		return $result;
-	}
-
-/**
- * Increments the group value to simulate deletion of all keys under a group
- * old values will remain in storage until they expire.
- *
- * @return boolean success
- **/
-	public function clearGroup($group) {
-		return (bool)$this->_Memcached->increment($this->settings['prefix'] . $group);
 	}
 }
