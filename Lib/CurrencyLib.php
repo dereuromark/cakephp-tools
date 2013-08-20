@@ -113,7 +113,7 @@ class CurrencyLib {
 			$name = '';
 			Cache::delete('currencyListHistory');
 		}
-		return Cache::delete('currencyList'.ucfirst($name));
+		return Cache::delete('currencyList' . ucfirst($name));
 	}
 
 	public function cacheFileUsed() {
@@ -151,9 +151,8 @@ class CurrencyLib {
 		}
 
 		//Create an http socket
-		$http = new HttpSocket();
-		$currencies = new XML($http->get(self::URL_HISTORY));
-		$currencies = Set::reverse($currencies);
+		$Xml = Xml::build(self::URL_HISTORY);
+		$currencies = Xml::toArray($Xml);
 		//Filter down to just the rates
 		$currencies = $currencies['Envelope']['Cube']['Cube']['Cube'];
 
@@ -176,18 +175,13 @@ class CurrencyLib {
 	 * @return array
 	 */
 	protected function _retrieveCurrencies() {
-		//Check whther we have already cached the currencies
 		if ($currencyList = $this->_retrieve()) {
 			return $currencyList;
 		}
-		//...we haven't, so load utility classes needed
 
-		//Create an http socket
-		$Http = new HttpSocket();
-		$res = $Http->get(self::URL);
-		//And retrieve rates as an XML object
-		$currencyXml = Xml::build($res->body);
-		$currencies = Xml::toArray($currencyXml);
+		// Retrieve rates as an XML object
+		$CurrencyXml = Xml::build(self::URL);
+		$currencies = Xml::toArray($CurrencyXml);
 
 		//Filter down to just the rates
 		$currencies = $currencies['Envelope']['Cube']['Cube']['Cube'];
