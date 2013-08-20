@@ -39,10 +39,8 @@ class CurrencyLib {
 	public $cacheTime = DAY;
 
 	/**
-	* convert
-	*
 	* Converts the $amount from $fromCurrency to $toCurrency, formatted to
-	* $decimals decimal places
+	* $decimals decimal places.
 	*
 	* @return float [Converted Currency Amount] or boolean FALSE on failure
 	* @param $amount float
@@ -62,14 +60,12 @@ class CurrencyLib {
 	}
 
 	/**
-	* table
-	*
 	* Returns an array of rates in comparison the the $base currency given to $decimals
-	* number of decimal places
+	* number of decimal places.
 	*
-	* @return array $table or boolean FALSE on failure
 	* @param $base string[optional]default='EUR'
 	* @param $decimals integer[optional]default=2
+	* @return array $table or boolean FALSE on failure
 	*/
 	public function table($base = 'EUR', $decimals = 2) {
 		//Create array to holds rates
@@ -97,7 +93,7 @@ class CurrencyLib {
 	 * CurrencyComponent::isAvailable()
 	 *
 	 * @param mixed $currency
-	 * @return bool Success
+	 * @return bool Success.
 	 */
 	public function isAvailable($currency) {
 		$rates = $this->_retrieveCurrencies();
@@ -106,6 +102,7 @@ class CurrencyLib {
 
 	/**
 	 * @param string $name: "" (none), "history", "full" (both)
+	 * @return boolean Success.
 	 * 2010-09-19 ms
 	 */
 	public function reset($name = 'full') {
@@ -150,7 +147,6 @@ class CurrencyLib {
 			return $historyList;
 		}
 
-		//Create an http socket
 		$Xml = Xml::build(self::URL_HISTORY);
 		$currencies = Xml::toArray($Xml);
 		//Filter down to just the rates
@@ -159,12 +155,11 @@ class CurrencyLib {
 		$historyList = array();
 		//European Central bank gives us everything against Euro so add this manually
 		$historyList[$this->baseCurrency] = 1;
-		//Now iterate through and add the rates provided
+
 		foreach ($currencies as $currency) {
 			$historyList[$currency['currency']] = $currency['rate'];
 		}
 
-		//Cache
 		$this->_store($historyList, 'history');
 		return $currencyList;
 	}
@@ -216,7 +211,7 @@ class CurrencyLib {
 	 */
 	protected function _store($currencyList, $name = '') {
 		$this->cacheFileUsed = false;
-		Cache::write('currencyList'.ucfirst($name), serialize($currencyList));
+		Cache::write('currencyList' . ucfirst($name), serialize($currencyList));
 	}
 
 	/**
@@ -224,7 +219,7 @@ class CurrencyLib {
 	 * 2010-09-19 ms
 	 */
 	protected function _retrieve($name = '') {
-		$res = Cache::read('currencyList'.ucfirst($name));
+		$res = Cache::read('currencyList' . ucfirst($name));
 		if ($res !== false) {
 			$this->cacheFileUsed = true;
 			return unserialize($res);
