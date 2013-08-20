@@ -110,7 +110,6 @@ class FileLibTest extends CakeTestCase {
 		$this->assertEquals($array, $res);
 	}
 
-
 	/**
 	 * test method
 	 *
@@ -165,7 +164,6 @@ class FileLibTest extends CakeTestCase {
 		$status = $this->assertEquals($expected, $is);
 		$this->_printArrays($status, $is, $expected, $pre);
 	}
-
 
 	public function testTransfer() {
 		$handler = new FileLib(TMP . 'test.txt', true);

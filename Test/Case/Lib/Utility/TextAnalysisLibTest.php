@@ -37,7 +37,6 @@ class TextAnalysisLibTest extends CakeTestCase {
 		//pr($is);
 		$this->assertTrue(!empty($is) && is_array($is) && count($is) === 9);
 
-
 		$this->TextAnalysis = new TextAnalysisLib('Hochhaus, Unter dem Bau von ae Äußeren Einflüssen - und von Autos.');
 		$is = $this->TextAnalysis->wordCount(array('min_char'=>3, 'sort'=>'DESC', 'limit'=>5));
 		//pr($is);
@@ -82,14 +81,10 @@ class TextAnalysisLibTest extends CakeTestCase {
 
 	//TODO: rest of the test functions
 
-
 /*
 //give it the text
 $text = new TextParse(
 "PHP:Hypertext Preprocessor is a widely used, general-purpose scripting language that was originally designed for web development to produce dynamic web pages... .. .. For this purpose,PHP code is embedded into the HTML source document and interpreted by a web server with a PHP processor module, which generates the web page document.
-
-
-
 
 As a general-purpose programming language, PHP code(PHP CODE)is processed by an interpreter application in command-line mode performing desired operating system operations and producing program output on its standard output channel.It may also function as a graphical application...... PHP is available as a processor for most modern web servers and as standalone interpreter on most operating systems and computing platforms."
 );

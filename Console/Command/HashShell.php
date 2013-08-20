@@ -10,7 +10,6 @@ class HashShell extends AppShell {
 
 	public $tasks = array();
 
-
 	/**
 	 * Override main() for help message hook
 	 *
@@ -102,7 +101,6 @@ class HashShell extends AppShell {
 		}
 	}
 
-
 	public function help() {
 		$this->out('-- Hash Strings --');
 		$this->out('-- cake Tools.Hash [method]');
@@ -137,7 +135,6 @@ class HashShell extends AppShell {
 			);
 		return $parser;
 	}
-
 
 	protected function _hash($type, $string) {
 		if (in_array(strtolower($type), hash_algos())) {

@@ -189,7 +189,6 @@ class FormatHelper extends TextHelper {
 		return $this->Html->image(IMG_CONTENT.$folder.'/'.$image.'.'.$ending, $attr);
 	}
 
-
 	/**
 	 * //TODO: move to Format?
 	 * @param string $icon iso2 code (e.g. 'de' or 'gb')
@@ -228,7 +227,6 @@ class FormatHelper extends TextHelper {
 		return $this->Html->image($wwwPath . $image . '.' . $ending, $attr);
 	}
 
-
 	/**
 	 * 2011-10-10 ms
 	 */
@@ -240,7 +238,6 @@ class FormatHelper extends TextHelper {
 		}
 		return $this->Html->image(IMG_ICONS.$icon.'_'.$image.'.'.$ending);
 	}
-
 
 	/**
 	 * @param value
@@ -355,8 +352,6 @@ class FormatHelper extends TextHelper {
 		//$new_options['onclick']=$options['onclick'];
 		$new_options= array_merge($default_options, $options);
 
-
-
 		$html.=$this->Html->image('icons/'.$pic, $new_options);
 
 		return $html;
@@ -396,7 +391,6 @@ class FormatHelper extends TextHelper {
 		}
 		return $this->Html->image($icon, $options);
 	}
-
 
 	/**
 	 * @deprecated use RatingHelper::stars() instead
@@ -608,7 +602,6 @@ class FormatHelper extends TextHelper {
 		}
 		return $encmail;
 	}
-
 
 	/**
 	 * //TODO: move to Format?
@@ -937,7 +930,6 @@ class FormatHelper extends TextHelper {
 			$display['autoHide'] = false;
 		}
 
-
 		$res = $controls = $descr = '';
 		if ($display['title']) { // && (!$display['autoHide'] || !empty($image['Image']['title']))
 			$defTitle = ($display['autoHide'] ? '' : ': <i>kein Titel</i>');
@@ -972,7 +964,6 @@ class FormatHelper extends TextHelper {
 		if ($display['controls'] || $display['description']) {
 			$res .= '<div class="highslide-caption">' . $controls . $navigation . $descr . '</div>';
 		}
-
 
 		return $res;
 	}
@@ -1067,7 +1058,6 @@ class FormatHelper extends TextHelper {
 			$countyProvince = '';
 			$countryTitle .= '';
 		}
-
 
 		$content = $this->countryIcon($country) . '&nbsp;' . $countyProvince;
 		$res = sprintf($res, $countryTitle, $content);

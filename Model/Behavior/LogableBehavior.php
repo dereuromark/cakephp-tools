@@ -126,7 +126,6 @@ class LogableBehavior extends ModelBehavior {
 		return $this->settings[$Model->alias]['enabled'];
 	}
 
-
 	/**
 	 * Useful for getting logs for a model, takes params to narrow find.
 	 * This method can actually also be used to find logs for all models or

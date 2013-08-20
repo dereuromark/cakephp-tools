@@ -58,7 +58,6 @@ class CaptchaBehaviorTest extends MyCakeTestCase {
 		//debug($this->Comment->invalidFields());
 		//$this->assertTrue($is);
 
-
 		$Captcha = new CaptchaLib();
 		$hash = $Captcha->buildHash(array('captcha'=>2, 'captcha_time'=>time()+DAY, ''), CaptchaLib::$defaults);
 

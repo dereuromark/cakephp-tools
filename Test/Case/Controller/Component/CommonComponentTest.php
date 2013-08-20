@@ -273,7 +273,6 @@ class CommonComponentTest extends CakeTestCase {
 
 }
 
-
 /*** additional helper classes ***/
 
 class ToolsUser extends AppModel {

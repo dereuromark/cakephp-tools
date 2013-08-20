@@ -109,5 +109,4 @@ class CustomFindsBehavior extends ModelBehavior {
 		return true;
 	}
 
-
 }

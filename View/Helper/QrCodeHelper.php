@@ -69,7 +69,6 @@ class QrCodeHelper extends AppHelper {
 		$this->reset();
 	}
 
-
 	/**
 	 * main barcode display function
 	 * @param string $text (utf8 encoded)

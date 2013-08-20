@@ -54,7 +54,6 @@ class TextAnalysisLib extends TextLib {
 		return preg_match('/^\w+$/', $str);
 	}
 
-
 /* utf8 generell stuff */
 
 	/**
@@ -102,7 +101,6 @@ class TextAnalysisLib extends TextLib {
 		}
 		return preg_replace('/[^\x00-\x7F]+/S', '', $str);
 	}
-
 
 	public function convertToOrd($str = null, $separator = '-') {
 		/*
@@ -166,7 +164,6 @@ class TextAnalysisLib extends TextLib {
 		return $occ;
 	}
 
-
 	/**
 	 * @return array(char=>amount) for empty char or int amount for specific char
 	 * 2010-08-31 ms
@@ -188,7 +185,6 @@ class TextAnalysisLib extends TextLib {
 		//echo returns($occ);
 		return $occ;
 	}
-
 
 	public function getLength() {
 		if (!$this->lenght) {
@@ -287,7 +283,6 @@ class TextAnalysisLib extends TextLib {
 		}
 		return $res; // $this->rr_word;
 	}
-
 
 	public function getSentence($parse = false) {
 		if (!$this->sen && !$this->r_sen) {

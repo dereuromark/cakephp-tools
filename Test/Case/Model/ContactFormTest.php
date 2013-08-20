@@ -16,8 +16,6 @@ class ContactFormTest extends CakeTestCase {
 		$this->assertInstanceOf('ContactForm', $this->ContactForm);
 	}
 
-
 	//TODO
-
 
 }

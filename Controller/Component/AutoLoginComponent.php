@@ -82,7 +82,6 @@ class AutoLoginComponent extends Component {
 		parent::__construct($collection, $settings);
 	}
 
-
 	/**
 	 * Detect debug info.
 	 *

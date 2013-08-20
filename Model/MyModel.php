@@ -935,7 +935,6 @@ class MyModel extends Model {
 		return false;
 	}
 
-
 	/**
 	 * Checks if the content of 2 fields are equal
 	 * Does not check on empty fields! Return TRUE even if both are empty (secure against empty in another rule)!
@@ -959,7 +958,6 @@ class MyModel extends Model {
 		}
 		return ($compareValue === $value);
 	}
-
 
 	/**
 	 * Checks a record, if it is unique - depending on other fields in this table (transfered as array)
@@ -1391,7 +1389,6 @@ class MyModel extends Model {
 		return "REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(".$var.", 'Ä', 'Ae'), 'Ö', 'Oe'), 'Ü', 'Ue'), 'ä', 'ae'), 'ö', 'oe'), 'ü','ue'), 'ß', 'ss')";
 	}
 
-
 	/**
 	 * set + guaranteeFields!
 	 * Extends the core set function (only using data!!!)
@@ -1431,7 +1428,6 @@ class MyModel extends Model {
 		}
 		return $data;
 	}
-
 
 	/**
 	 * make sure required fields exists - in order to properly validate them
@@ -1618,7 +1614,6 @@ class MyModel extends Model {
 		return $this->save($data, $validate, array_keys($data));
 	}
 
-
 	/**
 	 * Automagic increasing of a field with e.g.:
 	 * $this->id = ID; $this->inc('weight',3);
@@ -1664,7 +1659,6 @@ class MyModel extends Model {
 		$db = ConnectionManager::getDataSource($this->useDbConfig);
 		return $db->truncate($table);
 	}
-
 
 /** Deep Lists **/
 

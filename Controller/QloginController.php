@@ -19,12 +19,9 @@ class QloginController extends ToolsAppController {
 		}
 	}
 
-
 	/****************************************************************************************
 	* ADMIN functions
 	****************************************************************************************/
-
-
 
 	/**
 	 * main login function
@@ -94,7 +91,6 @@ class QloginController extends ToolsAppController {
 
 		$this->CodeKey = ClassRegistry::init('Tools.CodeKey');
 		$qlogins = $this->CodeKey->find('count', array('conditions'=>array('type'=>'qlogin')));
-
 
 		$this->set(compact('users', 'qlogins'));
 	}

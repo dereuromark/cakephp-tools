@@ -67,5 +67,4 @@ class WeatherHelperTest extends MyCakeTestCase {
 		return $res;
 	}
 
-
 }

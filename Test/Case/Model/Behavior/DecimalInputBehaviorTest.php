@@ -26,7 +26,6 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 		$this->assertInstanceOf('DecimalInputBehavior', $this->Model->Behaviors->DecimalInput);
 	}
 
-
 	public function testBasic() {
 		//echo $this->_header(__FUNCTION__);
 		$data = array(

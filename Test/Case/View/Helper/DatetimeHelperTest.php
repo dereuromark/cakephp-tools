@@ -28,7 +28,6 @@ class DatetimeHelperTest extends MyCakeTestCase {
 		$this->assertTrue($res >= 2);
 	}
 
-
 	/**
 	 * test cweek
 	 *
@@ -47,7 +46,6 @@ class DatetimeHelperTest extends MyCakeTestCase {
 		$this->assertEquals('6 '.__('Days').', 0 '.__('Hours'), $res);
 
 		#TODO: more
-
 
 	}
 
@@ -80,7 +78,6 @@ class DatetimeHelperTest extends MyCakeTestCase {
 		//pr($res);
 	}
 
-
 	public function testIsInRange() {
 		//echo $this->_header(__FUNCTION__);
 
@@ -97,9 +94,7 @@ class DatetimeHelperTest extends MyCakeTestCase {
 
 		#TODO: more
 
-
 	}
-
 
 /**
  * test cweek
@@ -134,9 +129,7 @@ class DatetimeHelperTest extends MyCakeTestCase {
 		$date = mktime(0,0,0, $month, $day, $year);
 		$this->assertEquals('52/'.$year, $this->Datetime->cweek($year.'-'.$month.'-'.$day));
 
-
 	}
-
 
 /**
  * test age
@@ -248,9 +241,6 @@ class DatetimeHelperTest extends MyCakeTestCase {
 		$is = $this->Datetime->isDayAfterTomorrow($testDate);
 		$this->assertFalse($is);
 	}
-
-
-
 
 /**
  * tearDown method

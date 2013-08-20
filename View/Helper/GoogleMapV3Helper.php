@@ -260,8 +260,6 @@ class GoogleMapV3Helper extends AppHelper {
 		$this->_currentOptions = $this->_defaultOptions;
 	}
 
-
-
 /** Google Maps JS **/
 
 	/**
@@ -307,7 +305,6 @@ class GoogleMapV3Helper extends AppHelper {
 		$url = $this->_protocol() . 'code.google.com/apis/gears/gears_init.js';
 		return $url;
 	}
-
 
 	/**
 	 * @return string $currentMapObject
@@ -817,7 +814,6 @@ var iconShape = {
 		$options = $this->_currentOptions['infoWindow'];
 		$options = array_merge($options, $options);
 
-
 		if (!empty($options['lat']) && !empty($options['lng'])) {
 			$position = "new google.maps.LatLng(".$options['lat'].", ".$options['lng'].")";
 		} else {
@@ -1012,7 +1008,6 @@ var iconShape = {
 			gInfoWindows".self::$MAP_COUNT."[$index].setContent(".$this->escapeString($con).");";
 	}
 
-
 	/**
 	 * json encode string
 	 *
@@ -1022,7 +1017,6 @@ var iconShape = {
 	public function escapeString($content) {
 		return json_encode($content);
 	}
-
 
 	/**
 	 * This method returns the javascript for the current map container.
@@ -1224,7 +1218,6 @@ var iconShape = {
 		return '{'.implode(', ', $res).'}';
 	}
 
-
 /** Google Maps Link **/
 
 	/**
@@ -1281,7 +1274,6 @@ var iconShape = {
 
 /** http://maps.google.com/staticmap?center=40.714728,-73.998672&zoom=14&size=512x512&maptype=mobile&markers=40.702147,-74.015794,blues%7C40.711614,-74.012318,greeng%7C40.718217,-73.998284,redc&mobile=true&sensor=false **/
 
-
 	/**
 	 * Create a plain image map
 	 * @link http://code.google.com/intl/de-DE/apis/maps/documentation/staticmaps
@@ -1319,7 +1311,6 @@ var iconShape = {
 	public function staticMapLink($title, $mapOptions = array(), $linkOptions = array()) {
 		return $this->Html->link($title, $this->staticMapUrl($mapOptions), $linkOptions);
 	}
-
 
 	/**
 	 * Create an url to a plain image map
@@ -1406,7 +1397,6 @@ var iconShape = {
 		//unset($options['type']);
 		$params['maptype'] = strtolower($params['maptype']);
 
-
 		# old: {latitude},{longitude},{color}{alpha-character}
 		# new: @see staticMarkers()
 		if (!empty($options['markers'])) {
@@ -1453,7 +1443,6 @@ var iconShape = {
 			'color' => 'blue',
 			'weight' => 5 # pixel
 		);
-
 
 		# not a 2-level array? make it one
 		if (!isset($pos[0])) {
@@ -1539,7 +1528,6 @@ var iconShape = {
 			}
 			$p['address'] = urlencode($p['address']);
 
-
 			$values = array();
 
 			# prepare color
@@ -1604,7 +1592,6 @@ var iconShape = {
 		return $color;
 	}
 
-
 /** TODOS/EXP **/
 
 /*
@@ -1626,7 +1613,6 @@ http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/
 - ...
 
 */
-
 
 	public function geocoder() {
 		$js = 'var geocoder = new google.maps.Geocoder();';
@@ -1651,7 +1637,6 @@ http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/
 	public function addManagerMarker($marker, $options) {
 		$js = 'mgr'.self::$MAP_COUNT.'.addMarker('.$marker.');';
 	}
-
 
 	/**
 	 * clustering for lots of markers!
@@ -1681,7 +1666,6 @@ http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/
 		$this->map .= 'fluster'.self::$MAP_COUNT.'.initialize();';
 	}
 
-
 	public static $flusterScript = '
 function Fluster2(_map,_debug) {var map=_map;var projection=new Fluster2ProjectionOverlay(map);var me=this;var clusters=new Object();var markersLeft=new Object();this.debugEnabled=_debug;this.gridSize=60;this.markers=new Array();this.currentZoomLevel=-1;this.styles={0:{image:\'http://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/1.0/images/m1.png\',textColor:\'#FFFFFF\',width:53,height:52},10:{image:\'http://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/1.0/images/m2.png\',textColor:\'#FFFFFF\',width:56,height:55},20:{image:\'http://gmaps-utility-library.googlecode.com/svn/trunk/markerclusterer/1.0/images/m3.png\',textColor:\'#FFFFFF\',width:66,height:65}};var zoomChangedTimeout=null;function createClusters() {var zoom=map.getZoom();if (clusters[zoom]) {me.debug(\'Clusters for zoom level \'+zoom+\' already initialized.\')} else {var clustersThisZoomLevel=new Array();var clusterCount=0;var markerCount=me.markers.length;for (var i=0;i<markerCount;i++) {var marker=me.markers[i];var markerPosition=marker.getPosition();var done=false;for (var j=clusterCount-1;j>=0;j--) {var cluster=clustersThisZoomLevel[j];if (cluster.contains(markerPosition)) {cluster.addMarker(marker);done=true;break}}if (!done) {var cluster=new Fluster2Cluster(me,marker);clustersThisZoomLevel.push(cluster);clusterCount++}}clusters[zoom]=clustersThisZoomLevel;me.debug(\'Initialized \'+clusters[zoom].length+\' clusters for zoom level \'+zoom+\'.\')}if (clusters[me.currentZoomLevel]) {for (var i=0;i<clusters[me.currentZoomLevel].length;i++) {clusters[me.currentZoomLevel][i].hide()}}me.currentZoomLevel=zoom;showClustersInBounds()}function showClustersInBounds() {var mapBounds=map.getBounds();for (var i=0;i<clusters[me.currentZoomLevel].length;i++) {var cluster=clusters[me.currentZoomLevel][i];if (mapBounds.contains(cluster.getPosition())) {cluster.show()}}}this.zoomChanged=function() {window.clearInterval(zoomChangedTimeout);zoomChangedTimeout=window.setTimeout(createClusters,500)};this.getMap=function() {return map};this.getProjection=function() {return projection.getP()};this.debug=function(message) {if (me.debugEnabled) {console.log(\'Fluster2: \'+message)}};this.addMarker=function(_marker) {me.markers.push(_marker)};this.getStyles=function() {return me.styles};this.initialize=function() {google.maps.event.addListener(map,\'zoom_changed\',this.zoomChanged);google.maps.event.addListener(map,\'dragend\',showClustersInBounds);window.setTimeout(createClusters,1000)}}
 function Fluster2Cluster(_fluster,_marker) {var markerPosition=_marker.getPosition();this.fluster=_fluster;this.markers=[];this.bounds=null;this.marker=null;this.lngSum=0;this.latSum=0;this.center=markerPosition;this.map=this.fluster.getMap();var me=this;var projection=_fluster.getProjection();var gridSize=_fluster.gridSize;var position=projection.fromLatLngToDivPixel(markerPosition);var positionSW=new google.maps.Point(position.x-gridSize,position.y+gridSize);var positionNE=new google.maps.Point(position.x+gridSize,position.y-gridSize);this.bounds=new google.maps.LatLngBounds(projection.fromDivPixelToLatLng(positionSW),projection.fromDivPixelToLatLng(positionNE));this.addMarker=function(_marker) {this.markers.push(_marker)};this.show=function() {if (this.markers.length==1) {this.markers[0].setMap(me.map)}else if (this.markers.length>1) {for (var i=0;i<this.markers.length;i++) {this.markers[i].setMap(null)}if (this.marker==null) {this.marker=new Fluster2ClusterMarker(this.fluster,this);if (this.fluster.debugEnabled) {google.maps.event.addListener(this.marker,\'mouseover\',me.debugShowMarkers);google.maps.event.addListener(this.marker,\'mouseout\',me.debugHideMarkers)}}this.marker.show()}};this.hide=function() {if (this.marker!=null) {this.marker.hide()}};this.debugShowMarkers=function() {for (var i=0;i<me.markers.length;i++) {me.markers[i].setVisible(true)}};this.debugHideMarkers=function() {for (var i=0;i<me.markers.length;i++) {me.markers[i].setVisible(false)}};this.getMarkerCount=function() {return this.markers.length};this.contains=function(_position) {return me.bounds.contains(_position)};this.getPosition=function() {return this.center};this.getBounds=function() {return this.bounds};this.getMarkerBounds=function() {var bounds=new google.maps.LatLngBounds(me.markers[0].getPosition(),me.markers[0].getPosition());for (var i=1;i<me.markers.length;i++) {bounds.extend(me.markers[i].getPosition())}return bounds};this.addMarker(_marker)}
@@ -1689,11 +1673,7 @@ function Fluster2ClusterMarker(_fluster,_cluster) {this.fluster=_fluster;this.cl
 function Fluster2ProjectionOverlay(map) {google.maps.OverlayView.call(this);this.setMap(map);this.getP=function() {return this.getProjection()}}Fluster2ProjectionOverlay.prototype=new google.maps.OverlayView();Fluster2ProjectionOverlay.prototype.draw=function() {};
 \'';
 
-
-
-
 /** CALCULATING STUFF **/
-
 
 	/**
 	 * Calculates Distance between two points array('lat'=>x,'lng'=>y)

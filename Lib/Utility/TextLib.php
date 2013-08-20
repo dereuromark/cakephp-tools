@@ -12,7 +12,6 @@ class TextLib extends String {
 	protected $text, $lenght, $char, $letter, $space, $word, $r_word, $sen, $r_sen, $para,
 		$r_para, $beautified;
 
-
 	public function __construct($text = null) {
 		$this->text = $text;
 	}
@@ -51,7 +50,6 @@ class TextLib extends String {
 			? rtrim(mb_substr($text, 0, round(($length - 3) / 2))) . $ending . ltrim(mb_substr($text, (($length - 3) / 2) * -1))
 			: $text;
 	}
-
 
 /* other */
 
@@ -121,7 +119,6 @@ class TextLib extends String {
 		return $tags;
 	}
 
-
 	/**
 	 * Implode an array of tags into a string.
 	 */
@@ -137,8 +134,6 @@ class TextLib extends String {
 		}
 		return implode(', ', $encoded_tags);
 	}
-
-
 
 	/**
 	 * Prevents [widow words](http://www.shauninman.com/archive/2006/08/22/widont_wordpress_plugin)
@@ -162,7 +157,6 @@ class TextLib extends String {
 
 		return $str;
 	}
-
 
 /* text object specific */
 
@@ -330,7 +324,6 @@ class TextLib extends String {
 
 		return $str;
 	}
-
 
 	/**
 	 * Reduce Double Slashes

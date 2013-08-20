@@ -28,7 +28,6 @@ if (!empty($_SERVER['HTTP_REFERER'])) {
 
 define('CHOWN_PUBLIC', 0770);
 
-
 # Useful when putting a string together that needs some "pretty" html-doc. source layouting
 # Only visible in SOURCE code (not in html layout in the browser)
 //define('LF',''); // line feed (depending on the system)
@@ -103,7 +102,6 @@ define('VALID_NUMERIC_WHITESPACES_UNDERSCORES', '/^[\d _]+$/');
 /** Valid integers: > 0 */
 define('VALID_INTEGERS', '/^[\d]+$/'); //??
 
-
 if (!defined('FORMAT_NICE_YMDHMS')) {
 	define('FORMAT_NICE_YMDHMS','d.m.Y, H:i:s');
 	define('FORMAT_NICE_YMDHM','d.m.Y, H:i');
@@ -147,7 +145,6 @@ if (!defined('FORMAT_NICE_YMDHMS')) {
 	define('FORMAT_LOCAL_HMS','%H:%M:%S');
 }
 
-
 /*** chars ***/
 
 /* see http://www.htmlcodetutorial.com/characterentities_famsupp_69.html */
@@ -175,7 +172,6 @@ define('CHAR_ABOUT','&asymp;'); # … (horizontal ellipsis = three dot leader)
 /* not very often used */
 define('CHAR_RPIME', '&#8242;'); # ' (minutes)
 define('CHAR_DOUBLE_RPIME', '&#8243;'); # ? (seconds)
-
 
 /** BASIC FUNCTIONS **/
 

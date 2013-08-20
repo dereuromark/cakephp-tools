@@ -87,7 +87,6 @@ class CalendarComponent extends Component {
 		return $this->month;
 	}
 
-
 	/**
 	 * month as integer value 1..12 or 0 on error
 	 * february => 2
@@ -124,7 +123,6 @@ class CalendarComponent extends Component {
 
 		return 0;
 	}
-
 
 	public function months() {
 		return $this->monthList;

@@ -34,14 +34,12 @@ class IndexShell extends AppShell {
 		'ds' => 'default',
 	);
 
-
 	/**
 	 * The Stack of sql queries to run as an array
 	 *
 	 * @var array
 	 */
 	protected $_script = array();
-
 
 	/**
 	 * startup method

@@ -79,7 +79,6 @@ class TimeLib extends CakeTime {
 		return abs($endTime - $startTime);
 	}
 
-
 	/**
 	 * @param start date (if empty, use today)
 	 * @param end date (if empty, use today)
@@ -179,7 +178,6 @@ class TimeLib extends CakeTime {
 		App::uses('ZodiacLib', 'Tools.Misc');
 		$Zodiac = new ZodiacLib();
 		$range = $Zodiac->getRange($sign);
-
 
 		if ($sign == ZodiacLib::SIGN_CAPRICORN) {
 			// undefined
@@ -426,7 +424,6 @@ class TimeLib extends CakeTime {
 		return array('min' => $min, 'max' => $max);
 	}
 
-
 	/**
 	 * for birthdays etc
 	 * @param date
@@ -651,7 +648,6 @@ class TimeLib extends CakeTime {
 		return $res;
 	}
 
-
 	/**
 	 * can convert time from one unit to another
 	 * @param int INT | time
@@ -840,7 +836,6 @@ class TimeLib extends CakeTime {
 		}
 		return __($span);
 	}
-
 
 	/**
 	 * time length to human readable format
@@ -1046,7 +1041,6 @@ class TimeLib extends CakeTime {
 		return date(FORMAT_DB_DATE, $date) > date(FORMAT_DB_DATE, time());
 	}
 
-
 /**
  * Returns true if given datetime string is not now AND is in the future.
  *
@@ -1182,8 +1176,6 @@ class TimeLib extends CakeTime {
 		$period = self::period($string, $options);
 		return self::daysAsSql($period[0], $period[1], $fieldName);
 	}
-
-
 
 	/**
 	 * hours, minutes

@@ -56,7 +56,6 @@ class NumberFormatBehavior extends ModelBehavior {
 	public $delimiterBaseFormat = array();
 	public $delimiterFromFormat = array();
 
-
 	/**
 	* adjust configs like: $Model->Behaviors-attach('Tools.NumberFormat', array('fields'=>array('xyz')))
 	* leave fields empty to auto-detect all float inputs

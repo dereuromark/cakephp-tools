@@ -20,7 +20,6 @@ class ResetShell extends AppShell {
 
 	public $Auth = null;
 
-
 	public function main() {
 		$this->help();
 	}
@@ -50,7 +49,6 @@ class ResetShell extends AppShell {
 		$this->out($count.' emails resetted - DONE');
 	}
 
-
 	/**
 	 * reset all pwds to a simply pwd (for local development)
 	 * 2011-08-01 ms
@@ -69,7 +67,6 @@ class ResetShell extends AppShell {
 		}
 
 		$this->out('Using: '.get_class($this->Auth).' (Abort with STRG+C)');
-
 
 		if (!empty($this->args[0]) && mb_strlen($this->args[0]) >= 2) {
 			$pwToHash = $this->args[0];
@@ -103,7 +100,6 @@ class ResetShell extends AppShell {
 		$count = $this->User->getAffectedRows();
 		$this->out($count.' pwds resetted - DONE');
 	}
-
 
 	public function help() {
 		$this->out('-- pwd: Hash and Reset all user passwords with Auth(Ext) Component --');

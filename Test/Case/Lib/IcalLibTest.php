@@ -14,23 +14,19 @@ class IcalLibTest extends CakeTestCase {
 		$this->file = CakePlugin::path('Tools').'Test'.DS.'test_files'.DS.'ics'.DS.'basic.ics';
 	}
 
-
 	public function tearDown() {
 		parent::tearDown();
 
 		unset($this->Ical);
 	}
 
-
 	public function testObject() {
 		$this->assertTrue(is_object($this->Ical));
 
 	}
 
-
 /** building **/
 	// see IcalHelper() for this
-
 
 /** parsing **/
 
@@ -63,7 +59,6 @@ class IcalLibTest extends CakeTestCase {
 		//debug($is).BR;
 		$this->assertEmpty($is);
 	}
-
 
 	public function testEventsAsList() {
 

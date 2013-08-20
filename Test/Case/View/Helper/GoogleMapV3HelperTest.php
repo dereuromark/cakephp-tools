@@ -65,7 +65,6 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 		$is = $this->GoogleMapV3->staticPaths($m);
 		//echo pr(h($is));
 
-
 		$options = array(
 			'paths' => $is
 		);
@@ -96,7 +95,6 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 		//debug($is);
 		//echo $is;
 	}
-
 
 //	http://maps.google.com/staticmap?size=500x500&maptype=hybrid&markers=color:red|label:S|48.3,11.2&sensor=false
 //	http://maps.google.com/maps/api/staticmap?size=512x512&maptype=roadmap&markers=color:blue|label:S|40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|40.718217,-73.998284&sensor=false
@@ -152,7 +150,6 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 		//echo $is;
 		//echo BR.BR;
 
-
 		$pos = array(
 			array('lat'=>48.1, 'lng'=>'11.1'),
 			array('lat'=>48.2, 'lng'=>'11.2'),
@@ -160,7 +157,6 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 		$options = array(
 			'markers' => $this->GoogleMapV3->staticMarkers($pos)
 		);
-
 
 		$attr = array('url'=>$this->GoogleMapV3->mapUrl(array('to'=>'Munich, Germany')));
 		$is = $this->GoogleMapV3->staticMap($options, $attr);
@@ -250,7 +246,6 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 
 		$this->GoogleMapV3->addMarker(array('lat'=>47.69847,'lng'=>11.9514, 'title'=>'Marker2', 'content'=>'Some more Html-<b>Content</b>'));
 
-
 		$this->GoogleMapV3->addMarker(array('lat'=>47.19847,'lng'=>11.1514, 'title'=>'Marker3'));
 
 		/*
@@ -267,7 +262,6 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 
 		//echo $result;
 	}
-
 
 	/**
 	 * more than 100 markers and it gets reaaally slow...
@@ -312,7 +306,6 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 		//echo '<a href="javascript:void(0)" class="mapAnchor" rel="m3">Marker3</a>';
 	}
 
-
 	public function testDynamic3() {
 		//echo '<h2>Map with Directions</h2>';
 		$options = array(
@@ -321,8 +314,6 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 			'map' => array()
 		);
 		//echo $this->GoogleMapV3->map($options);
-
-
 
 		$this->GoogleMapV3->addMarker(array('lat'=>48.69847,'lng'=>10.9514, 'content'=>'<b>Bla</b>', 'title'=>'NoDirections'));
 

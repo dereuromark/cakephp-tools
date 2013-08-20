@@ -36,6 +36,4 @@ class CaptchaLibTest extends MyCakeTestCase {
 		$this->assertTrue(strlen($res) == 40);
 	}
 
-
-
 }

@@ -66,7 +66,6 @@ class ConvertShell extends AppShell {
 		$this->out('Done!');
 	}
 
-
 	public function _test() {
 		# bug - always outputs the system call right away, no way to catch and surpress it
 		return true;
@@ -78,7 +77,6 @@ class ConvertShell extends AppShell {
 
 		return !empty($output) && $x === 0;
 	}
-
 
 	public function _convert($dir, $mode, $excludes = array()) {
 		$Iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir),

@@ -144,7 +144,6 @@ class TimeLibTest extends MyCakeTestCase {
 		//pr($ret);
 		//$this->assertEquals($ret, '2009-02-01 00:00:00');
 
-
 		$values = array(
 			array(__('Today'), array(date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))), date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y'))))),
 			array('2010', array('2010-01-01 00:00:00', '2010-12-31 23:59:59')),
@@ -330,7 +329,6 @@ class TimeLibTest extends MyCakeTestCase {
 		$ret = TimeLib::months();
 		$this->assertTrue(count($ret) === 12);
 	}
-
 
 	public function testRelLengthOfTime() {
 		$this->out($this->_header(__FUNCTION__), true);

@@ -4,7 +4,6 @@ App::import('Behavior', 'Tools.Typographic');
 App::uses('AppModel', 'Model');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
-
 class TypographicBehaviorTest extends MyCakeTestCase {
 
 	public $Model;
@@ -21,7 +20,6 @@ class TypographicBehaviorTest extends MyCakeTestCase {
 	public function testObject() {
 		$this->assertInstanceOf('TypographicBehavior', $this->Model->Behaviors->Typographic);
 	}
-
 
 	public function testBeforeValidate() {
 		$this->out($this->_header(__FUNCTION__), false);
@@ -124,6 +122,5 @@ class TypographicBehaviorTest extends MyCakeTestCase {
 		$record = $this->Model->find('first', array('order' => array('id' => 'DESC')));
 		$this->assertSame('unclean `content` to "correct"', $record['Article']['body']);
 	}
-
 
 }

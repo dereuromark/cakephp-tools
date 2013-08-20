@@ -122,7 +122,6 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$this->assertTrue(!empty($res['Comment']['lat']) && !empty($res['Comment']['lng']) && round($res['Comment']['lat']) === 49.0 && round($res['Comment']['lng']) === 10.0);
 		// accuracy = 4
 
-
 		# inconclusive
 		$data = array(
 			//'street' => 'Leopoldstraße',
@@ -183,7 +182,6 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$this->assertTrue(!isset($res['Comment']['lat']) && !isset($res['Comment']['lng']));
 
 	}
-
 
 	public function testMinInc() {
 		//echo '<h3>'.__FUNCTION__.'</h3>';
@@ -264,7 +262,6 @@ class GeocoderBehaviorTest extends CakeTestCase {
 	}
 
 }
-
 
 class TestController extends AppController {
 

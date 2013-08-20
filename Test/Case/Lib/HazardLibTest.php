@@ -4,13 +4,11 @@ App::uses('HazardLib', 'Tools.Lib');
 
 class HazardLibTest extends CakeTestCase {
 
-
 	public function setUp() {
 		parent::setUp();
 
 		$this->HazardLib = new HazardLib();
 	}
-
 
 	/**
 	 * 2010-02-07 ms
@@ -22,7 +20,6 @@ class HazardLibTest extends CakeTestCase {
 		$this->assertTrue(!empty($is));
 		$this->assertEquals(count($is), 113);
 	}
-
 
 	/**
 	 * 2010-02-07 ms
@@ -55,6 +52,5 @@ class HazardLibTest extends CakeTestCase {
 		$is = $this->HazardLib->sqlStrings();
 		//pr(h($is));
 	}
-
 
 }

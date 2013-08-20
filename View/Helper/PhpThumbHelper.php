@@ -79,7 +79,6 @@ class PhpThumbHelper extends AppHelper {
 			$PHPTHUMB_CONFIG['error_die_on_source_failure'] = false;
 		}
 
-
 			if (!empty($PHPTHUMB_CONFIG)) {
 				foreach ($PHPTHUMB_CONFIG as $key => $value) {
 					$keyname = 'config_'.$key;
@@ -161,7 +160,6 @@ class PhpThumbHelper extends AppHelper {
 	public function error() {
 		return (String)$this->error_detail;
 	}
-
 
 /** NOT IN USE YET **/
 

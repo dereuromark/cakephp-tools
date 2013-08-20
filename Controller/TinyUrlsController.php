@@ -25,12 +25,9 @@ class TinyUrlsController extends ToolsAppController {
 		}
 	}
 
-
 	/****************************************************************************************
 	* ADMIN functions
 	****************************************************************************************/
-
-
 
 	/**
 	 * main redirect function
@@ -55,7 +52,6 @@ class TinyUrlsController extends ToolsAppController {
 		$this->TinyUrl->up($entry['TinyUrl']['id'], array('field'=>'used', 'modify'=>true, 'timestampField'=>'last_used'));
 		return $this->redirect($url, 301);
 	}
-
 
 	public function admin_index() {
 		//TODO

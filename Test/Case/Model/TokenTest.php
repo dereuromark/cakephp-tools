@@ -19,13 +19,11 @@ class TokenTest extends MyCakeTestCase {
 		$this->assertInstanceOf('Token', $this->Token);
 	}
 
-
 	public function testGenerateKey() {
 		$key = $this->Token->generateKey(4);
 		//pr($key);
 		$this->assertTrue(!empty($key) && strlen($key) === 4);
 	}
-
 
 	public function testNewKeySpendKey() {
 		$key = $this->Token->newKey('test', null, null, 'xyz');
@@ -59,7 +57,5 @@ class TokenTest extends MyCakeTestCase {
 		$count2 = $this->Token->find('count');
 		$this->assertTrue($count > $count2);
 	}
-
-
 
 }

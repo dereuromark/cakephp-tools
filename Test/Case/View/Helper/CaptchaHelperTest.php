@@ -23,7 +23,6 @@ class CaptchaHelperTest extends CakeTestCase {
 		unset($this->Captcha);
 	}
 
-
 	/**
 	 * 2011-11-15 ms
 	 */
@@ -33,8 +32,6 @@ class CaptchaHelperTest extends CakeTestCase {
 
 		$is = $this->Captcha->passive();
 		//pr(h($is));
-
-
 
 		$is = $this->Captcha->captcha('SomeModelName');
 		//pr(h($is));
@@ -47,6 +44,5 @@ class CaptchaHelperTest extends CakeTestCase {
 		//debug($this->Captcha->data);
 		//debug($this->Captcha->request->data);
 	}
-
 
 }

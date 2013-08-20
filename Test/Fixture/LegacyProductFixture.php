@@ -2,7 +2,6 @@
 
 class LegacyProductFixture extends CakeTestFixture {
 
-
 	public $fields = array(
 		'product_id'	=> array('type' => 'integer', 'key' => 'primary'),
 		'name'		=> array('type' => 'string', 'length' => 255, 'null' => false),

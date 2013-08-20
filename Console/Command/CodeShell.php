@@ -80,7 +80,6 @@ class CodeShell extends AppShell {
 				continue;
 			}
 
-
 			$missingClasses[] = $match;
 		}
 
@@ -136,7 +135,6 @@ class CodeShell extends AppShell {
 				continue;
 			}
 
-
 			if ($class === 'Model') {
 				$missingClassName = $missingClass;
 			} else {
@@ -157,7 +155,6 @@ class CodeShell extends AppShell {
 				$type = ($this->params['plugin'] ? ($this->params['plugin'] . '.') : '') . $type;
 			}
 
-
 			$inserted[] = 'App::uses(\''.$missingClass.'\', \''.$type.'\');';
 		}
 
@@ -173,8 +170,6 @@ class CodeShell extends AppShell {
 			$this->out(__d('cake_console', 'Correcting %s', $file), 1, Shell::VERBOSE);
 		}
 	}
-
-
 
 	/**
 	 * make sure all files are properly encoded (ü instead of &uuml; etc)
@@ -274,7 +269,6 @@ class CodeShell extends AppShell {
 		}
 	}
 
-
 	public function getOptionParser() {
 		$subcommandParser = array(
 			'options' => array(
@@ -322,7 +316,6 @@ class CodeShell extends AppShell {
 				'parser' => $subcommandParser
 			));
 	}
-
 
 /** old stuff **/
 

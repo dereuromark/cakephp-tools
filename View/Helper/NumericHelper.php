@@ -16,7 +16,6 @@ class NumericHelper extends NumberHelper {
 	protected $_settings = array(
 	);
 
-
 	protected $code = null;
 	protected $places = 0;
 	protected $symbolRight = null;

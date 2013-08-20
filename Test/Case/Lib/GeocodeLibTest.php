@@ -135,7 +135,6 @@ class GeocodeLibTest extends MyCakeTestCase {
 		//debug($is);
 		$this->assertTrue(empty($is));
 
-
 		$address = 'Leopoldstraße 100, München';
 		//echo '<h2>'.$address.'</h2>';
 		$is = $this->Geocode->geocode($address);
@@ -151,7 +150,6 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$is = $this->Geocode->error();
 		//debug($is);
 		$this->assertTrue(empty($is));
-
 
 		$address = 'Oranienburger Straße 87, 10178 Berlin, Deutschland';
 		//echo '<h2>'.$address.'</h2>';
@@ -201,7 +199,6 @@ class GeocodeLibTest extends MyCakeTestCase {
 	public function testGeocodeInconclusive() {
 		// seems like there is no inconclusive result anymore!!!
 
-
 		$address = 'Neustadt';
 		//echo '<h2>'.$address.'</h2>';
 
@@ -219,7 +216,6 @@ class GeocodeLibTest extends MyCakeTestCase {
 
 		$is = $this->Geocode->isInconclusive();
 		$this->assertTrue($is);
-
 
 		$this->Geocode->setOptions(array('allow_inconclusive'=>false));
 		$is = $this->Geocode->geocode($address);

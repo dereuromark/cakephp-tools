@@ -2,7 +2,6 @@
 
 class LegacyCompanyFixture extends CakeTestFixture {
 
-
 	public $fields = array(
 		'company_id'		=> array('type' => 'integer', 'key' => 'primary'),
 		'company_name'		=> array('type' => 'string', 'length' => 255, 'null' => false),

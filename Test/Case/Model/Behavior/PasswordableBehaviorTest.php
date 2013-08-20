@@ -79,7 +79,6 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$this->assertFalse($is);
 		$this->assertEquals(array('pwd_repeat'), array_keys($this->User->validationErrors));
 
-
 		$this->User->create();
 		$data = array(
 			'pwd' => '1234ab',

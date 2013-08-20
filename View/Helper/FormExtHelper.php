@@ -437,7 +437,6 @@ class FormExtHelper extends FormHelper {
 		return $options;
 	}
 
-
 /** date(time) **/
 
 	//TODO: use http://trentrichardson.com/examples/timepicker/
@@ -521,7 +520,6 @@ class FormExtHelper extends FormHelper {
 		);
 
 		$customOptions = array_merge($defaultOptions, $options);
-
 
 		$res[] = $this->date($field, $customOptions);
 		$res[] = $this->time($field, $customOptions);
@@ -700,7 +698,6 @@ class FormExtHelper extends FormHelper {
 			$select = $this->text($field, $options);
 			return '<div class="input date'.(!empty($error)?' error':'').'">'.$this->label($modelName.'.'.$field, $options['label']).''.$select.''.$error.'</div>'.$script;
 		}
-
 
 		if ($return) {
 			return $select;

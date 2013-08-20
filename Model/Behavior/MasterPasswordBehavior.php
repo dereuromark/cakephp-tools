@@ -44,7 +44,6 @@ class MasterPasswordBehavior extends ModelBehavior {
 		'log' => false //TODO: log the usage of pwds to a log file `master_password`
 	);
 
-
 	public function setup(Model $Model, $settings = array()) {
 		if (!isset($this->settings[$Model->alias])) {
 			$this->settings[$Model->alias] = $this->_defaults;
@@ -55,7 +54,6 @@ class MasterPasswordBehavior extends ModelBehavior {
 			$this->settings[$Model->alias]['before'] = '';
 		}
 	}
-
 
 	public function beforeValidate(Model $Model) {
 		$return = parent::beforeValidate($Model);
@@ -78,7 +76,6 @@ class MasterPasswordBehavior extends ModelBehavior {
 
 		return $return;
 	}
-
 
 	/**
 	 * Run before a model is saved, used...

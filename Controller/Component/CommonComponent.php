@@ -360,7 +360,6 @@ class CommonComponent extends Component {
 		return $pwd === $urlPwd;
 	}
 
-
 	### Controller Stuff ###
 
 	/**
@@ -553,7 +552,6 @@ class CommonComponent extends Component {
 		}
 		Configure::write('Meta.'.$type, $content);
 	}
-
 
 /*** Other helpers and debug features **/
 
@@ -972,7 +970,6 @@ class CommonComponent extends Component {
 		}
 		return $valueOnly ? $separatorsValues : $separators;
 	}
-
 
 /*** deprecated ***/
 

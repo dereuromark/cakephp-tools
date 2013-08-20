@@ -21,7 +21,6 @@ class UserShell extends AppShell {
 	public $tasks = array();
 	public $uses = array(CLASS_USER);
 
-
 	//TODO: refactor (smaller sub-parts)
 	public function main() {
 		if (App::import('Component', 'AuthExt') && class_exists('AuthExtComponent')) {

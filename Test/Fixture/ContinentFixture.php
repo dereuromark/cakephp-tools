@@ -2,7 +2,6 @@
 /* Continent Fixture generated on: 2011-07-15 19:07:38 : 1310752058 */
 class ContinentFixture extends CakeTestFixture {
 
-
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 64, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),

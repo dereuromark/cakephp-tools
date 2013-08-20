@@ -4,14 +4,12 @@ App::uses('RandomLib', 'Tools.Lib');
 
 class RandomLibTest extends CakeTestCase {
 
-
 	public function testInt() {
 		$is = RandomLib::int(2, 200);
 		//pr($is);
 		$this->assertTrue($is >= 2 && $is <= 200);
 
 	}
-
 
 	public function testArrayValue() {
 		$array = array(
@@ -35,7 +33,6 @@ class RandomLibTest extends CakeTestCase {
 
 	}
 
-
 	public function testPronounceablePwd() {
 		$is = RandomLib::pronounceablePwd(6);
 		//pr($is);
@@ -46,9 +43,6 @@ class RandomLibTest extends CakeTestCase {
 		$this->assertTrue(strlen($is) === 11);
 	}
 
-
-
 	//TOOD: other tests
-
 
 }

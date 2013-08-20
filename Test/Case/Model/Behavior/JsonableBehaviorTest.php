@@ -85,8 +85,6 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 		$this->assertSame('{"z":"vz","y":"yz","x":"xz"}', $res['JsonableComment']['details']);
 	}
 
-
-
 /** OUTPUT **/
 
 	public function testFieldsOnFind() {

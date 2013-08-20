@@ -181,7 +181,6 @@ class FormatHelperTest extends MyCakeTestCase {
 		$expected = 'fés';
 		$this->assertEquals($expected, $is);
 
-
 		$is = entDec('f&eacute;s');
 		$expected = 'fés';
 		$this->assertEquals($expected, $is);

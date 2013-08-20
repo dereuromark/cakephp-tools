@@ -481,7 +481,6 @@ class Utility {
 		}
 	}
 
-
 	protected static $_counterStartTime;
 
 	/**

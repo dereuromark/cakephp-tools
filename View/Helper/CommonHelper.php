@@ -254,7 +254,6 @@ class CommonHelper extends AppHelper {
 		return $url;
 	}
 
-
 /*** Content Stuff ***/
 
 	/**
@@ -579,7 +578,6 @@ jQuery(document).ready(function() {
 		return $res;
 	}
 
-
 /*** Stats ***/
 
 	/**
@@ -634,7 +632,6 @@ piwikTracker.enableLinkTracking();
 		}
 		return '<img src="' . Router::url('/', true) . $trackingUrl . '/piwik.php?idsite=1" style="border:0" alt=""/>';
 	}
-
 
 /*** deprecated ***/
 

@@ -204,7 +204,6 @@ class ImapLib {
 				foreach ($header as $id => $value) {
 					# fix to remove whitespaces
 
-
 					// Simple array
 					if (!is_array($value)) {
 						$return[$msgNo][$id] = imap_utf8($value);
@@ -519,7 +518,6 @@ class ImapLib {
 		return true;
 	}
 
-
 }
 
 // Currently NOT IN USE: //
@@ -720,7 +718,6 @@ class ImapMessagesListLib {
 
 }
 
-
 class ImapFolderLib {
 
 	const S_ALL = 'ALL';
@@ -748,10 +745,8 @@ class ImapFolderLib {
 	const S_UNKEYWORD = 'UNKEYWORD';
 	const S_UNSEEN = 'UNSEEN';
 
-
 	public $Imap;
 	public $currentRef = '';
-
 
 	public function __construct($Imap) {
 		$this->Imap = $Imap;
@@ -792,7 +787,6 @@ class ImapFolderLib {
 	}
 
 }
-
 
 class ImapException extends CakeException {
 

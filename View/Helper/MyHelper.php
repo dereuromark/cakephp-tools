@@ -224,7 +224,6 @@ class MyHelper extends Helper {
 		return $this->url($url, $full);
 	}
 
-
 	public $urlHere = null;
 
 	/**

@@ -2,7 +2,6 @@
 /* Smiley Fixture generated on: 2010-06-02 01:06:59 : 1275435239 */
 class SmileyFixture extends CakeTestFixture {
 
-
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
 		'smiley_cat_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10),

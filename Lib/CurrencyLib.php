@@ -216,7 +216,6 @@ class CurrencyLib {
 		return $Btc->rate(array('currency'=>$this->baseCurrency));
 	}
 
-
 	/**
 	 * @param string $name: "" (none), "history", "full" (both)
 	 * 2010-09-19 ms

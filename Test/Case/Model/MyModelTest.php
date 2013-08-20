@@ -223,7 +223,6 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertTrue($is);
 	}
 
-
 	public function testValidateKey() {
 		$this->out($this->_header(__FUNCTION__), true);
 		//$this->App->data = array($this->App->alias=>array('y'=>'efg'));
@@ -247,7 +246,6 @@ class MyModelTest extends MyCakeTestCase {
 		$is = $testModel->validateKey(array('id'=>''), array('allowEmpty'=>true));
 		$this->assertTrue($is);
 
-
 		$is = $testModel->validateKey(array('foreign_id'=>'2'));
 		$this->assertTrue($is);
 
@@ -269,7 +267,6 @@ class MyModelTest extends MyCakeTestCase {
 		$is = $testModel->validateKey(array('foreign_id'=>0), array('allowEmpty'=>true));
 		$this->assertTrue($is);
 	}
-
 
 	public function testValidateEnum() {
 		$this->out($this->_header(__FUNCTION__), true);
@@ -594,7 +591,6 @@ class MyModelTest extends MyCakeTestCase {
 		$data = array('field' => 'http://www.dereuromark.de');
 		$res = $this->App->validateUrl($data, array('strict'=>false));
 		$this->assertTrue($res);
-
 
 		$this->skipIf(empty($_SERVER['HTTP_HOST']), 'No HTTP_HOST');
 

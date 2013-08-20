@@ -105,7 +105,6 @@ class UrlCacheManager {
 		}
 	}
 
-
 	/**
 	 * Returns the stored url if it was already generated, false otherwise
 	 *

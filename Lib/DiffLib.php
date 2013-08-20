@@ -175,7 +175,6 @@ class DiffLib {
 		return explode($this->explode_on, $text);
 	}
 
-
 	/**
 	* Parses a unified diff output
 	* @param array $text an entire section of a unified diff (between @@ lines)
@@ -193,7 +192,6 @@ class DiffLib {
 		if (preg_match("/^@@ ([\+\-])([0-9]+)(?:,([0-9]+))? [\+\-]([0-9]+)(?:,([0-9]+))? @@$/", array_shift($text), $regs) == false) {
 			return;
 		}
-
 
 		$start = $regs[4];
 

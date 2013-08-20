@@ -17,7 +17,6 @@ class ChmodLib {
 	//protected $dir;
 	protected $modes = array('user' => 0 , 'group' => 0 , 'other' => 0);
 
-
 /*** calc octal ***/
 
 		/**
@@ -44,7 +43,6 @@ class ChmodLib {
 	public static function convertToOctal($mode) {
 		return intval((string)$mode, 8);
 	}
-
 
 /*** set/get modes ***/
 
@@ -83,7 +81,6 @@ class ChmodLib {
 		return intval($mode, 8);
 	}
 
-
 	/**
 	 * full table with all rights
 	 * //TODO
@@ -91,7 +88,6 @@ class ChmodLib {
 	 */
 	public function table() {
 		$res = array();
-
 
 		return $res;
 	}

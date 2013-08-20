@@ -26,7 +26,6 @@ class BootstrapHelper extends AppHelper {
 
 	protected $_items = array();
 
-
 	public function xx() {
 		//
 	}

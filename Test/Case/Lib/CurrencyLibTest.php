@@ -35,7 +35,6 @@ class CurrencyLibTest extends MyCakeTestCase {
 		$this->assertFalse($is);
 	}
 
-
 	public function testTable() {
 		$this->out('<h2>Currency Table</h2>', true);
 		$is = $this->CurrencyLib->table();

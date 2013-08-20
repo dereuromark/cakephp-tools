@@ -433,7 +433,6 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$data = array('Post' => array('id' => 2, 'title' => 'Edited Post 6'));
 		$Post->save($data);
 
-
 		$data = array('Post' => array('id' => 2, 'title' => 'Edited Post 6'));
 		$Post->save($data);
 
@@ -565,7 +564,6 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertNoErrors();
 		$this->assertTrue((bool)$success);
 	}
-
 
 	public function testRevertToDate() {
 		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
@@ -1020,7 +1018,6 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($original_result, $result);
 	}
 
-
 	public function testHabtmRevUndo() {
 		$this->loadFixtures('RevisionComment', 'RevisionCommentsRev', 'RevisionCommentsRevisionTag',
 			'RevisionCommentsRevisionTagsRev', 'RevisionTag', 'RevisionTagsRev');
@@ -1325,7 +1322,6 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$Post->id = null;
 		$Post->save(array('Post' => array('id' => $postID, 'title' => 'Machines (3)')));
 
-
 		$Post->bindModel(array('hasMany' => array('Revision' => array(
 					'className' => 'RevisionPostsRev',
 					'foreignKey' => 'id',
@@ -1350,7 +1346,6 @@ class RevisionBehaviorTest extends CakeTestCase {
 	}
 
 }
-
 
 class RevisionTestModel extends CakeTestModel {
 	public $logableAction;

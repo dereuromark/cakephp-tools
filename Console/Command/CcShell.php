@@ -112,7 +112,6 @@ class CcShell extends AppShell {
 		$content .= '}'.LF;
 		$content .= '/*** helper end ***/'.LF;
 
-
 		$this->content .= $content;
 	}
 
@@ -125,7 +124,6 @@ class CcShell extends AppShell {
 		}
 		$content .= '/*** plugin files end ***/'.LF;
 
-
 		$this->content .= $content;
 	}
 
@@ -137,11 +135,9 @@ class CcShell extends AppShell {
 		return $res;
 	}
 
-
 	protected function _prepModels($files) {
 		$res = '';
 		foreach ($files as $name) {
-
 
 			$res .= '
 	/**
@@ -204,7 +200,6 @@ class CcShell extends AppShell {
 		}
 		return substr($name, 0, $pos);
 	}
-
 
 	protected function _prepComponents($files) {
 		$res = '';
@@ -269,7 +264,6 @@ class CcShell extends AppShell {
 		return $res;
 	}
 
-
 	protected function _dump() {
 		//$File = new File($this->filename, true);
 
@@ -282,7 +276,6 @@ class CcShell extends AppShell {
 		//return $File->write($content);
 		file_put_contents($this->filename, $content);
 	}
-
 
 	protected function _getFiles($type) {
 		$files = App::objects($type, null, false);

@@ -66,7 +66,6 @@ class TextExtHelper extends TextHelper {
 		return $this->autoLinkEmails($this->autoLinkUrls($text, $options, $htmlOptions), $options, $htmlOptions);
 	}
 
-
 	/**
 	 * fix to allow obfuscation of email (js, img?)
 	 * @param string $text
@@ -133,7 +132,6 @@ class TextExtHelper extends TextHelper {
 		return $Common->encodeEmailUrl($email, null, array(), $options);
 	}
 
-
 	/**
 	 * Helper Function to Obfuscate Email by inserting a span tag (not more! not very secure on its own...)
 	 * each part of this mail now does not make sense anymore on its own
@@ -185,7 +183,6 @@ class TextExtHelper extends TextHelper {
 
 		$attr = array_merge($defaults, $attr);
 
-
 		$xmail = $this->Html->link('', $encMail.$querystring, $attr);
 		$xmail1 = mb_substr($xmail, 0, count($xmail)-5);
 		$xmail2 = mb_substr($xmail, -4, 4);
@@ -209,7 +206,6 @@ class TextExtHelper extends TextHelper {
 
 		//return '<a class="'.$class.'" title="'.$title.'" href="'.$encmail.$querystring.'">'.$encText.'</a>';
 	}
-
 
 	/**
 	 * Encodes Piece of Text (without usage of JS!) to avoid lowlevel spam bots to get it
@@ -235,7 +231,6 @@ class TextExtHelper extends TextHelper {
 		}
 		return $encmail;
 	}
-
 
 	/**
 	 * fix to allow shortened urls that do not break layout etc
@@ -380,7 +375,6 @@ class TextExtHelper extends TextHelper {
 		}
 		return ($sup) ? $num . '<sup>' . $suff . '</sup>' : $num . $suff;
 	}
-
 
 	/**
 	 * syntax highlighting using php internal highlighting

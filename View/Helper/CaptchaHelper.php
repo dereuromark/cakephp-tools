@@ -116,7 +116,6 @@ class CaptchaHelper extends AppHelper {
 		return $return;
 	}
 
-
 	/**
 	 * active math captcha
 	 * either combined with between=true (all in this one funtion)

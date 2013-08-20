@@ -192,7 +192,6 @@ class CaptchaBehavior extends ModelBehavior {
 			$this->internalError = $internalMsg;
 		}
 
-
 		$this->_logAttempt();
 		return false;
 	}

@@ -45,7 +45,6 @@ class UserAgentLib extends CakeRequest {
 		$this->path = VENDORS.'files'.DS;
 	}
 
-
 	public function isBot() {
 		$file = $this->path.'bots.txt';
 		if (file_exists($file)) {
@@ -64,7 +63,6 @@ class UserAgentLib extends CakeRequest {
 		$pattern = '/' . implode('|', $devices) . '/i';
 		return (bool)preg_match($pattern, env('HTTP_USER_AGENT'));
 	}
-
 
 	/**
 	* checks bot against list
@@ -124,7 +122,6 @@ class UserAgentLib extends CakeRequest {
 		}
 		return "";
 	}
-
 
 	/**
 	 * fetches url with curl if available

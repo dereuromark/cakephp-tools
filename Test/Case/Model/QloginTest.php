@@ -50,5 +50,4 @@ class QloginTest extends MyCakeTestCase {
 
 	//TODO
 
-
 }

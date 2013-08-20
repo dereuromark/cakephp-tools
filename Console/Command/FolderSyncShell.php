@@ -101,7 +101,6 @@ class FolderSyncShell extends AppShell {
 		}
 	}
 
-
 	protected function _sync($from, $to, $excludes = array()) {
 		$Folder = new Folder($to);
 		$content = $Folder->read(true, true, true);
@@ -155,7 +154,6 @@ class FolderSyncShell extends AppShell {
 		}
 		$this->updatedFiles++;
 	}
-
 
 	public function help() {
 		$head = __("Usage: cake FolderSync <command>") . "\n";

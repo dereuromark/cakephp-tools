@@ -26,7 +26,6 @@ class CustomFindsBehaviorTest extends MyCakeTestCase {
 	public function tearDown() {
 		parent::tearDown();
 
-
 	}
 
 	public function testObject() {
@@ -67,7 +66,6 @@ class CustomFindsBehaviorTest extends MyCakeTestCase {
 		$this->assertSame($queryResult['recursive'], $res['recursive']);
 		$this->assertSame($queryResult['conditions'], $res['conditions']);
 
-
 		$query = array(
 			'custom' => 'topSellers',
 			'conditions' => array('Product.count >'=>0),
@@ -85,7 +83,6 @@ class CustomFindsBehaviorTest extends MyCakeTestCase {
 	}
 
 }
-
 
 class CustomFindsTest extends AppModel {
 

@@ -147,7 +147,6 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 
 }
 
-
 /**
  * SoftDeleteTestBehavior
  *

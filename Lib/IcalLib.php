@@ -113,7 +113,6 @@ class IcalLib {
 		return 'END:VCALENDAR';
 	}
 
-
 /** PARSING **/
 
 	public function parse($url) {
@@ -164,6 +163,5 @@ class IcalLib {
 	public function getTodos() {
 		return $this->Ical->get_todo_list();
 	}
-
 
 }

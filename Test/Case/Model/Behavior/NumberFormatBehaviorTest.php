@@ -26,7 +26,6 @@ class NumberFormatBehaviorTest extends MyCakeTestCase {
 		$this->assertInstanceOf('NumberFormatBehavior', $this->Model->Behaviors->NumberFormat);
 	}
 
-
 	public function testBasic() {
 		//echo $this->_header(__FUNCTION__);
 		$data = array(

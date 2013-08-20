@@ -572,7 +572,6 @@ class LogableBehaviorTest extends CakeTestCase {
 		$this->assertEquals($result['LogableLog']['change'], 'name');
 	}
 
-
 }
 
 class LogableLog extends Log {

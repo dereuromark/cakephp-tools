@@ -162,8 +162,6 @@ class DatetimeHelper extends TimeHelper {
 		return $this->Html->tag('span', $niceDate, $attr);
 	}
 
-
-
 	/**
 	 * @deprecated - use TimeLib::isInRange()
 	 * for birthdays etc
@@ -198,7 +196,6 @@ class DatetimeHelper extends TimeHelper {
 	public function niceTime($badTime) {
 		return substr($badTime, 0, 5);
 	}
-
 
 	public function timezones() {
 		$timezones = array(

@@ -302,7 +302,6 @@ class GeocodeLib {
 					return false;
 				}
 
-
 				# save Result
 				if ($this->options['log']) {
 					CakeLog::write('geocode', __('Address \'%s\' has been geocoded', $latlng));
@@ -459,7 +458,6 @@ class GeocodeLib {
 						return false;
 					}
 				}
-
 
 				# save Result
 				if ($this->options['log']) {
@@ -655,7 +653,6 @@ class GeocodeLib {
 			$res['bounds'] = array('sw'=>$record['geometry']['bounds']['southwest'], 'ne'=>$record['geometry']['bounds']['northeast']);
 		}
 
-
 		# manuell corrections
 		$array = array(
 			'Berlin' => 'BE',
@@ -829,7 +826,6 @@ http://code.google.com/intl/de-DE/apis/maps/documentation/geocoding/
 
 */
 
-
 /*
 
 Example: NEW:
@@ -934,7 +930,6 @@ Array
 		)
 
 )
-
 
 Example OLD:
 

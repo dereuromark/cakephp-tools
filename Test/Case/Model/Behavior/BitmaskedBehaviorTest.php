@@ -16,7 +16,6 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-
 		$this->Comment = new BitmaskedComment();
 		$this->Comment->Behaviors->load('Tools.Bitmasked', array('mappedField'=>'statuses'));
 	}

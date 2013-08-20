@@ -183,7 +183,6 @@ class ZodiacLib {
 	const SIGN_SAGITTARIUS = 11;
 	const SIGN_CAPRICORN = 12;
 
-
 /*
 	2 aries1.gif from 21 Marzo to 20 Aprile
 	3 cancer1.gif from 22 Giugno to 22 luglio

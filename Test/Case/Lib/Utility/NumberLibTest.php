@@ -136,7 +136,6 @@ class NumberLibTest extends MyCakeTestCase {
 		}
 	}
 
-
 	/**
 	 *2011-04-14 lb
 	 */

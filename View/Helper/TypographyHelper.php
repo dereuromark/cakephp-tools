@@ -217,7 +217,6 @@ class TypographyHelper extends AppHelper {
 
 	}
 
-
 	/**
 	 * Format Characters
 	 *
@@ -302,7 +301,6 @@ class TypographyHelper extends AppHelper {
 		return preg_replace(array_keys($table), $table, $str);
 	}
 
-
 	/**
 	 * Format Newlines
 	 *
@@ -341,7 +339,6 @@ class TypographyHelper extends AppHelper {
 		return $str;
 	}
 
-
 	/**
 	 * Protect Characters
 	 *
@@ -356,7 +353,6 @@ class TypographyHelper extends AppHelper {
 	protected function _protectCharacters($match) {
 		return str_replace(array("'", '"', '--', '  '), array('{@SQ}', '{@DQ}', '{@DD}', '{@NBS}'), $match[0]);
 	}
-
 
 	/**
 	 * Convert newlines to HTML line breaks except within PRE tags

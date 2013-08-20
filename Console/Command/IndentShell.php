@@ -136,7 +136,6 @@ class IndentShell extends AppShell {
 		return $pieces;
 	}
 
-
 	/**
 	 * NEW TRY!
 	 * idea: just count spaces and replace those
@@ -197,8 +196,6 @@ class IndentShell extends AppShell {
 		}
 		return $newPiece;
 	}
-
-
 
 	/**
 	 * NEW TRY!
@@ -275,11 +272,8 @@ class IndentShell extends AppShell {
 					}
 					*/
 
-
 					$mod = $spaces % $this->settings['spacesPerTab'];
 					$tabs = ($spaces - $mod) / $this->settings['spacesPerTab'];
-
-
 
 					//$beginning = str_replace('  ', TB, $piece);
 					$beginning = str_repeat(TB, $tabs);

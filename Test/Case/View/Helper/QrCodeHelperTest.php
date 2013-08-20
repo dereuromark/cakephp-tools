@@ -33,7 +33,6 @@ class QrCodeHelperTest extends MyCakeTestCase {
 		$this->QrCode->Html = new HtmlHelper(new View(null));
 	}
 
-
 	/**
 	 * @access public
 	 * @return void
@@ -48,10 +47,7 @@ class QrCodeHelperTest extends MyCakeTestCase {
 		//pr($this->QrCode->debug());
 		$this->assertTrue($is);
 
-
-
 	}
-
 
 	/**
 	 * @access public
@@ -75,7 +71,6 @@ class QrCodeHelperTest extends MyCakeTestCase {
 
 	}
 
-
 	/**
 	 * @access public
 	 * @return void
@@ -93,7 +88,6 @@ class QrCodeHelperTest extends MyCakeTestCase {
 		$is = $this->QrCode->image(QR_TEST_STRING_UTF);
 		//echo $is;
 		$this->assertTrue(!empty($is));
-
 
 		$this->QrCode->reset();
 		$this->QrCode->setSize(300);

@@ -30,7 +30,6 @@ class ChmodLibTest extends CakeTestCase {
 
 	}
 
-
 	public function testConvertToOctal() {
 
 		$is = $this->Chmod->convertToOctal(777);
@@ -45,8 +44,6 @@ class ChmodLibTest extends CakeTestCase {
 		$expected = 0777;
 		$this->assertEquals($expected, $is);
 	}
-
-
 
 	public function testChmod() {
 		$this->Chmod->setUser(true, true, true);
@@ -69,8 +66,6 @@ class ChmodLibTest extends CakeTestCase {
 		$expected = 'rwxrwxrwx';
 		$this->assertEquals($expected, $is);
 	}
-
-
 
 /** End **/
 

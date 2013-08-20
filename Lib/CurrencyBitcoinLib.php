@@ -125,7 +125,6 @@ class CurrencyBitcoinLib {
 		return $res;
 	}
 
-
 	protected function _get($url) {
 		$http = new HttpSocketLib();
 		if (!($res = $http->fetch($url))) {

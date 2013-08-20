@@ -95,7 +95,6 @@ class AutoLoginComponentTest extends CakeTestCase {
 
 }
 
-
 /**
  * Short description for class.
  *

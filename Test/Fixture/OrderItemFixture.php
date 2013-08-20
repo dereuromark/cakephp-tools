@@ -2,7 +2,6 @@
 
 class OrderItemFixture extends CakeTestFixture {
 
-
 	public $fields = array(
 		'id'		=> array('type' => 'integer', 'key' => 'primary'),
 		'active_shipment_id'	=> array('type' => 'integer'),

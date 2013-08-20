@@ -1,7 +1,6 @@
 <?php
 class LogableCommentFixture extends CakeTestFixture {
 
-
 	public $fields = array(
 		'id' => array('type' => 'integer', 'key' => 'primary'),
 		'content' => array('type' => 'string', 'length' => 255, 'null' => false),

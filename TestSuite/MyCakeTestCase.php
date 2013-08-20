@@ -2,7 +2,6 @@
 
 abstract class MyCakeTestCase extends CakeTestCase {
 
-
 /*** assert mods ***/
 
 /** enhanced **/
@@ -220,6 +219,5 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	protected function _osFix($string) {
 		return str_replace(array("\r\n", "\r"), "\n", $string);
 	}
-
 
 }

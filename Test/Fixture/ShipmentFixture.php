@@ -2,7 +2,6 @@
 
 class ShipmentFixture extends CakeTestFixture {
 
-
 	public $fields = array(
 		'id'		=> array('type' => 'integer', 'key' => 'primary'),
 		'ship_date'	=> array('type' => 'date'),

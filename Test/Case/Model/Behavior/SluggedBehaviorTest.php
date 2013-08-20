@@ -18040,7 +18040,6 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$result = $this->Model->slug($string);
 		$this->assertEquals($expects, $result);
 
-
 		$string = 'something with a ? in it';
 		$expects = 'something-with-a-in-it';
 		$result = $this->Model->slug($string);

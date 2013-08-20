@@ -13,7 +13,6 @@ url The URL of the link.
 btn The badge to use. Currently the only option is compact but if not specified or set to something else it defaults to the standard larger badge
 */
 
-
 /**
  * Flattr Donate Button
  * @link http://flattr.com/support/integrate/js
@@ -24,7 +23,6 @@ class FlattrHelper extends AppHelper {
 	public $helpers = array('Html');
 
 	const API_URL = 'http://api.flattr.com/';
-
 
 	/**
 	 * display the FlattrButton
@@ -86,7 +84,6 @@ class FlattrHelper extends AppHelper {
 		return $code;
 	}
 
-
 	//TODO: http://api.flattr.com/odapi/categories/json - parse
 
 	/**
@@ -135,6 +132,5 @@ class FlattrHelper extends AppHelper {
 		$code .= $this->Html->script(self::API_URL.'button/load.js', array('inline' => true));
 		return $code;
 	}
-
 
 }

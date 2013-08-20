@@ -389,7 +389,6 @@ class LinkableBehaviorTest extends CakeTestCase {
 
 		$this->assertEquals($arrayExpected, $arrayResult, 'Association with non-standard name: %s');
 
-
 		$this->LegacyProduct = ClassRegistry::init('LegacyProduct');
 
 		$arrayExpected = array(

@@ -24,7 +24,6 @@ class GooglLibTest extends CakeTestCase {
 	//TODO
 	public function testOAuth() {
 
-
 	}
 
 	public function testHistory() {
@@ -35,7 +34,6 @@ class GooglLibTest extends CakeTestCase {
 		die();
 	}
 
-
 	public function testShortenAndUnshorten() {
 		//echo '<h2>Shorten without key (publically)</h2>';
 		Configure::write('Googl.key', '');
@@ -44,7 +42,6 @@ class GooglLibTest extends CakeTestCase {
 		$is = $this->Googl->getShort($url);
 		//pr($is);
 		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] === 'urlshortener#url' && $is['longUrl'] == $url.'/');
-
 
 		//echo '<h2>Unshorten</h2>';
 
@@ -65,14 +62,12 @@ class GooglLibTest extends CakeTestCase {
 		//pr($is);
 		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] === 'urlshortener#url' && $is['longUrl'] == $url.'/');
 
-
 		//echo '<h2>Unshorten</h2>';
 
 		$shortUrl = $is['id'];
 		$is = $this->Googl->getLong($shortUrl);
 		//pr($is);
 		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] === 'urlshortener#url' && $is['status'] === 'OK' && $is['longUrl'] == $url.'/');
-
 
 		//echo '<h2>FULL INFOS</h2>';
 

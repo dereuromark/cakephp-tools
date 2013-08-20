@@ -46,7 +46,6 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->assertEquals('', $this->Email->getError());
 		$this->assertTrue($res);
 
-
 		$this->Email->resetAndSet();
 		# start
 		$this->Email->to(Configure::read('Config.admin_email'), Configure::read('Config.admin_emailname'));
@@ -406,7 +405,6 @@ html-part
 		$cid = $this->Email->addEmbeddedBlobAttachment(file_get_contents($file), 'my_hotel.png', 'image/png');
 
 		$this->assertContains('@' . env('HTTP_HOST'), $cid);
-
 
 		$html = '<head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
