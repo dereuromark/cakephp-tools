@@ -738,7 +738,7 @@ class FormExtHelper extends FormHelper {
 		# temp fix
 		if (!is_array($options)) {
 			if ($options === null) {
-				$options = 'DMY';
+				//$options = 'DMY';
 			}
 			return parent::dateTime($field, $options, $tf, $a);
 		}

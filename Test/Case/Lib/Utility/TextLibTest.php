@@ -14,6 +14,31 @@ class TextLibTest extends CakeTestCase {
 		$this->TextLib = new TextLib();
 	}
 
+	public function testReadTab() {
+		$data = <<<TXT
+some	tabbed	data
+and	another	line
+TXT;
+		$this->TextLib = new TextLib($data);
+		$result = $this->TextLib->readTab();
+
+		$this->assertSame(2, count($result));
+		$this->assertSame(array('and', 'another', 'line'), $result[1]);
+	}
+
+	public function testReadWithPattern() {
+		$data = <<<TXT
+some random data
+and another line
+and a   third
+TXT;
+		$this->TextLib = new TextLib($data);
+		$result = $this->TextLib->readWithPattern("%s %s %s");
+
+		$this->assertSame(3, count($result));
+		$this->assertSame(array('and', 'a', 'third'), $result[2]);
+	}
+
 	public function testConvertToOrd() {
 		$this->TextLib = new TextLib('h H');
 		$is = $this->TextLib->convertToOrd();

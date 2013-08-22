@@ -17,6 +17,38 @@ class TextLib extends String {
 	}
 
 	/**
+	 * Read tab data (tab-separated data).
+	 *
+	 * @return array
+	 */
+	public function readTab() {
+		$pieces = explode("\n", $this->text);
+		$result = array();
+		foreach ($pieces as $piece) {
+			$tmp = explode("\t", trim($piece, "\r\n"));
+			$result[] = $tmp;
+		}
+		return $result;
+	}
+
+	/**
+	 * Read with a specific pattern.
+	 *
+	 * E.g.: '%s,%s,%s'
+	 *
+	 * @param string $pattern
+	 * @return array
+	 */
+	public function readWithPattern($pattern) {
+		$pieces = explode("\n", $this->text);
+		$result = array();
+		foreach ($pieces as $piece) {
+			$result[] = sscanf(trim($piece, "\r\n"), $pattern);
+		}
+		return $result;
+	}
+
+	/**
 	 * Count words in a text.
 	 *
 	 * //TODO use str_word_count() instead!!!
