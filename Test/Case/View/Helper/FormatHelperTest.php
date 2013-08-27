@@ -10,6 +10,8 @@ App::uses('View', 'View');
  */
 class FormatHelperTest extends MyCakeTestCase {
 
+	public $Format;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -48,6 +50,23 @@ class FormatHelperTest extends MyCakeTestCase {
 			//echo ''.$res.'';
 			$this->assertTrue(!empty($res));
 		}
+	}
+
+	/**
+	 * 2009-08-30 ms
+	 */
+	public function testFontIcon() {
+		$result = $this->Format->fontIcon('signin');
+		$expected = '<i class="icon-signin"></i>';
+		$this->assertEquals($expected, $result);
+
+		$result = $this->Format->fontIcon('signin', array('rotate' => 90));
+		$expected = '<i class="icon-signin icon-rotate-90"></i>';
+		$this->assertEquals($expected, $result);
+
+		$result = $this->Format->fontIcon('signin', array('size' => 5, 'extra' => array('muted')));
+		$expected = '<i class="icon-signin icon-muted icon-5x"></i>';
+		$this->assertEquals($expected, $result);
 	}
 
 	/**

@@ -42,7 +42,7 @@ class FormExtHelper extends FormHelper {
 			$this->settings['webroot'] = $webroot;
 		}
 		if (($js = Configure::read('Asset.js')) !== null) {
-			$this->settings['js'] = $webroot;
+			$this->settings['js'] = $js;
 		}
 
 		parent::__construct($View, $settings);

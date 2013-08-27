@@ -303,6 +303,47 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
+	 * Display a font icon (fast and resource-efficient).
+	 * Uses http://fontawesome.io/icons/
+	 *
+	 * Options:
+	 * - size (int|string: 1...5 or large)
+	 * - rotate (integer: 90, 270, ...)
+	 * - spin (booelan: true/false)
+	 * - extra (array: muted, light, dark, border)
+	 * - pull (string: left, right)
+	 *
+	 * @param string|array $icon
+	 * @param array $options
+	 * @return void
+	 */
+	public function fontIcon($icon, $options = array()) {
+		$icon = (array)$icon;
+		$class = array();
+		foreach ($icon as $i) {
+			$class[] = 'icon-' . $i;
+		}
+		if (!empty($options['extra'])) {
+			foreach ($options['extra'] as $i) {
+				$class[] = 'icon-' . $i;
+			}
+		}
+		if (!empty($options['size'])) {
+			$class[] = 'icon-' . ($options['size'] === 'large' ? 'large' : $options['size'] . 'x');
+		}
+		if (!empty($options['pull'])) {
+			$class[] = 'pull-' . $options['pull'];
+		}
+		if (!empty($options['rotate'])) {
+			$class[] = 'icon-rotate-' . (int)$options['rotate'];
+		}
+		if (!empty($options['spin'])) {
+			$class[] = 'icon-spin';
+		}
+		return '<i class="' . implode(' ', $class) . '"></i>';
+	}
+
+	/**
 	 * Quick way of printing default icons (have to be 16px X 16px !!!)
 	 * @param type
 	 * @param title
@@ -343,7 +384,7 @@ class FormatHelper extends TextHelper {
 			}
 			$alt = '['.$alt.']';
 		} else {
-			$pic='pixelspace.gif';
+			$pic = 'pixelspace.gif';
 			$title = '';
 			$alt = '';
 		}

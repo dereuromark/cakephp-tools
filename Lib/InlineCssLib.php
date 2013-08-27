@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Wrapper for Inline CSS replacement
- * Useful for sending HTML emails
+ * Wrapper for Inline CSS replacement.
+ * Useful for sending HTML emails.
  *
  * Note: requires vendors CssToInline or emogrifier!
  * Default engine: CssToInline
@@ -35,7 +35,7 @@ class InlineCssLib {
 	public function __construct($settings = array()) {
 		$defaults = am($this->_defaults, (array) Configure::read('InlineCss'));
 		$this->settings = array_merge($defaults, $settings);
-		if (!method_exists($this, '_process'.ucfirst($this->settings['engine']))) {
+		if (!method_exists($this, '_process' . ucfirst($this->settings['engine']))) {
 			throw new InternalErrorException('Engine does not exist');
 		}
 	}
@@ -48,7 +48,7 @@ class InlineCssLib {
 		if (($html = trim($html)) === '') {
 			return $html;
 		}
-		$method = '_process'.ucfirst($this->settings['engine']);
+		$method = '_process' . ucfirst($this->settings['engine']);
 		return $this->{$method}($html, $css);
 	}
 
@@ -58,7 +58,7 @@ class InlineCssLib {
 	 */
 	protected function _processEmogrifier($html, $css) {
 		$css .= $this->_extractAndRemoveCss($html);
-		App::import('Vendor', 'Emogrifier', array('file' => 'emogrifier'.DS.'emogrifier.php'));
+		App::import('Vendor', 'Emogrifier', array('file' => 'emogrifier' . DS . 'emogrifier.php'));
 		$Emogrifier = new Emogrifier($html, $css);
 
 		return @$Emogrifier->emogrify();
@@ -71,7 +71,7 @@ class InlineCssLib {
 	 * @return string HTML output
 	 */
 	protected function _processCssToInline($html, $css) {
-		App::import('Vendor', 'CssToInline', array('file' => 'css_to_inline_styles'.DS.'css_to_inline_styles.php'));
+		App::import('Vendor', 'CssToInline', array('file' => 'css_to_inline_styles' . DS . 'css_to_inline_styles.php'));
 
 		//fix issue with <html> being added
 		$separator = '~~~~~~~~~~~~~~~~~~~~';
@@ -109,7 +109,7 @@ class InlineCssLib {
 	}
 
 	/**
-	 * some reverse function of strip_tags with blacklisting instead of whitelisting
+	 * Some reverse function of strip_tags with blacklisting instead of whitelisting
 	 * //maybe move to Tools.Utility/String/Text?
 	 *
 	 * @return string $cleanedStr
@@ -117,14 +117,17 @@ class InlineCssLib {
 	 */
 	public function stripOnly($str, $tags, $stripContent = false) {
 		$content = '';
-		if(!is_array($tags)) {
+		if (!is_array($tags)) {
 			$tags = (strpos($str, '>') !== false ? explode('>', str_replace('<', '', $tags)) : array($tags));
-			if(end($tags) == '') array_pop($tags);
+			if (end($tags) === '') {
+				array_pop($tags);
+			}
 		}
 		foreach($tags as $tag) {
-			if ($stripContent)
-				 $content = '(.+</'.$tag.'[^>]*>|)';
-			 $str = preg_replace('#</?'.$tag.'[^>]*>'.$content.'#is', '', $str);
+			if ($stripContent) {
+				 $content = '(.+</' . $tag . '[^>]*>|)';
+			}
+			$str = preg_replace('#</?' . $tag . '[^>]*>' . $content . '#is', '', $str);
 		}
 		return $str;
 	}
@@ -154,12 +157,12 @@ class InlineCssLib {
 				if ($link->hasAttribute('media')) {
 					foreach($this->media_types as $css_link_media) {
 						if (strstr($link->getAttribute('media'), $css_link_media)) {
-							$css .= $this->_findAndLoadCssFile($link->getAttribute('href'))."\n\n";
+							$css .= $this->_findAndLoadCssFile($link->getAttribute('href')) . "\n\n";
 							$remove_doms[] = $link;
 						}
 					}
 				} else {
-					$css .= $this->_findAndLoadCssFile($link->getAttribute('href'))."\n\n";
+					$css .= $this->_findAndLoadCssFile($link->getAttribute('href')) . "\n\n";
 					$remove_doms[] = $link;
 				}
 			}
@@ -208,9 +211,9 @@ class InlineCssLib {
 		// Build an array of the ever more path specific $cssHref location
 		$cssHrefs = split(DS, $cssHref);
 		$cssHref_paths = array();
-		for($i=count($cssHrefs)-1; $i>0; $i--) {
-			if(isset($cssHref_paths[count($cssHref_paths)-1])) {
-				$cssHref_paths[] = $cssHrefs[$i].DS.$cssHref_paths[count($cssHref_paths)-1];
+		for ($i = count($cssHrefs) - 1; $i > 0; $i--) {
+			if (isset($cssHref_paths[count($cssHref_paths) - 1])) {
+				$cssHref_paths[] = $cssHrefs[$i] . DS . $cssHref_paths[count($cssHref_paths) - 1];
 			}
 			else {
 				$cssHref_paths[] = $cssHrefs[$i];
@@ -220,11 +223,11 @@ class InlineCssLib {
 		// the longest string match will be the match we are looking for
 		$best_css_filename = null;
 		$best_css_match_length = 0;
-		foreach($css_filenames as $css_filename) {
-			foreach($cssHref_paths as $cssHref_path) {
-				$regex = "/".str_replace('/','\/', str_replace('.', '\.', $cssHref_path))."/";
-				if(preg_match($regex, $css_filename, $match)) {
-					if(strlen($match[0]) > $best_css_match_length) {
+		foreach ($css_filenames as $css_filename) {
+			foreach ($cssHref_paths as $cssHref_path) {
+				$regex = '/' . str_replace('/', '\/', str_replace('.', '\.', $cssHref_path)) . '/';
+				if (preg_match($regex, $css_filename, $match)) {
+					if (strlen($match[0]) > $best_css_match_length) {
 						$best_css_match_length = strlen($match[0]);
 						$best_css_filename = $css_filename;
 					}
@@ -233,7 +236,7 @@ class InlineCssLib {
 		}
 
 		$css = null;
-		if(!empty($best_css_filename) && is_file($best_css_filename)) {
+		if (!empty($best_css_filename) && is_file($best_css_filename)) {
 			$css = file_get_contents($best_css_filename);
 		}
 
@@ -267,7 +270,7 @@ class InlineCssLib {
 	protected function _parseInlineCssAndLoadImports($css) {
 		// Remove any <!-- --> comment tags - they are valid in HTML but we probably
 		// don't want to be commenting out CSS
-		$css = str_replace('-->', '', str_replace('<!--', '', $css))."\n\n";
+		$css = str_replace('-->', '', str_replace('<!--', '', $css)) . "\n\n";
 
 		// Load up the @import CSS if any exists
 		preg_match_all("/\@import.*?url\((.*?)\)/i", $css, $matches);
