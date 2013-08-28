@@ -547,7 +547,7 @@ function getInternetExplorerVersion() {
 	return rv;
 }
 
-if ((document.all) && (navigator.appVersion.indexOf("MSIE 7.") != -1) || typeof document.body.style.maxHeight == 'undefined') {
+if ((document.all) && (navigator.appVersion.indexOf("MSIE 7.") != -1) || typeof document.body.style.maxHeight == \'undefined\') {
 	document.getElementById(\''.$id.'\').innerHTML = \''.$message.'\';
 }
 /*

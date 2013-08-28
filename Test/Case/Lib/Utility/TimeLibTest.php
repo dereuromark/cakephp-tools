@@ -125,7 +125,7 @@ class TimeLibTest extends MyCakeTestCase {
 		foreach ($values as $v) {
 			$ret = TimeLib::localDate($v[0], $v[1]);
 			//$this->debug($ret);
-			$this->assertEquals($ret, $v[2]);
+			$this->assertEquals($v[2], $ret);
 		}
 	}
 
@@ -134,7 +134,7 @@ class TimeLibTest extends MyCakeTestCase {
 
 		$ret = TimeLib::parseLocalizedDate('15-Feb-2009', 'j-M-Y', 'start');
 		//$this->debug($ret);
-		$this->assertEquals($ret, '2009-02-15 00:00:00');
+		$this->assertEquals('2009-02-15 00:00:00', $ret);
 
 		# problem when not passing months or days as well - no way of knowing how exact the date was
 		$ret = TimeLib::parseLocalizedDate('2009', 'Y', 'start');
@@ -156,11 +156,11 @@ class TimeLibTest extends MyCakeTestCase {
 		foreach ($values as $v) {
 			$ret = TimeLib::parseLocalizedDate($v[0], null, 'start');
 			//pr($ret);
-			$this->assertEquals($ret, $v[1][0]);
+			$this->assertEquals($v[1][0], $ret);
 
 			$ret = TimeLib::parseLocalizedDate($v[0], null, 'end');
 			//pr($ret);
-			$this->assertEquals($ret, $v[1][1]);
+			$this->assertEquals($v[1][1], $ret);
 		}
 	}
 
@@ -183,7 +183,7 @@ class TimeLibTest extends MyCakeTestCase {
 		foreach ($values as $v) {
 			$ret = TimeLib::period($v[0]);
 			//pr($ret);
-			$this->assertEquals($ret, $v[1]);
+			$this->assertEquals($v[1], $ret);
 
 		}
 	}
@@ -245,24 +245,24 @@ class TimeLibTest extends MyCakeTestCase {
 		# year only
 		$is = TimeLib::ageByYear(2000);
 		$this->out($is);
-		$this->assertEquals($is, (date('Y')-2001).'/'.(date('Y')-2000));
+		$this->assertEquals((date('Y')-2001).'/'.(date('Y')-2000), $is);
 
 		$is = TimeLib::ageByYear(1985);
-		$this->assertEquals($is, (date('Y')-1986).'/'.(date('Y')-1985));
+		$this->assertEquals((date('Y')-1986).'/'.(date('Y')-1985), $is);
 
 		# with month
 		if (($month = date('n')+1) <= 12) {
 			$is = TimeLib::ageByYear(2000, $month);
 			$this->out($is);
 			//$this->assertEquals($is, (date('Y')-2001).'/'.(date('Y')-2000), null, '2000/'.$month);
-			$this->assertSame($is, (date('Y')-2001), null, '2000/'.$month);
+			$this->assertSame(date('Y')-2001, $is); //null, '2000/'.$month
 		}
 
 		if (($month = date('n')-1) >= 1) {
 			$is = TimeLib::ageByYear(2000, $month);
 			$this->out($is);
 			//$this->assertEquals($is, (date('Y')-2001).'/'.(date('Y')-2000), null, '2000/'.$month);
-			$this->assertSame($is, (date('Y')-2000), null, '2000/'.$month);
+			$this->assertSame(date('Y') - 2000, $is); //null, '2000/'.$month)
 		}
 	}
 
@@ -270,16 +270,16 @@ class TimeLibTest extends MyCakeTestCase {
 		$this->out($this->_header(__FUNCTION__), true);
 
 		$ret = TimeLib::daysInMonth('2004', '3');
-		$this->assertEquals($ret, 31);
+		$this->assertEquals(31, $ret);
 
 		$ret = TimeLib::daysInMonth('2006', '4');
-		$this->assertEquals($ret, 30);
+		$this->assertEquals(30, $ret);
 
 		$ret = TimeLib::daysInMonth('2007', '2');
-		$this->assertEquals($ret, 28);
+		$this->assertEquals(28, $ret);
 
 		$ret = TimeLib::daysInMonth('2008', '2');
-		$this->assertEquals($ret, 29);
+		$this->assertEquals(29, $ret);
 	}
 
 	public function testDay() {
@@ -392,16 +392,16 @@ class TimeLibTest extends MyCakeTestCase {
 	public function testCweeks() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$ret = TimeLib::cweeks('2004');
-		$this->assertEquals($ret, 53);
+		$this->assertEquals(53, $ret);
 
 		$ret = TimeLib::cweeks('2010');
-		$this->assertEquals($ret, 52);
+		$this->assertEquals(52, $ret);
 
 		$ret = TimeLib::cweeks('2006');
-		$this->assertEquals($ret, 52);
+		$this->assertEquals(52, $ret);
 
 		$ret = TimeLib::cweeks('2007');
-		$this->assertEquals($ret, 52);
+		$this->assertEquals(52, $ret);
 		/*
 		for ($i = 1990; $i < 2020; $i++) {
 			$this->out(TimeLib::cweeks($i).BR;
@@ -504,11 +504,11 @@ class TimeLibTest extends MyCakeTestCase {
 
 		$is = TimeLib::ageRange(2002, null, null, 5);
 		//pr($is);
-		$this->assertEquals($is, array(6, 10));
+		$this->assertEquals(array(6, 10), $is);
 
 		$is = TimeLib::ageRange(2000, null, null, 5);
 		//pr($is);
-		$this->assertEquals($is, array(11, 15));
+		$this->assertEquals(array(11, 15), $is);
 
 		$is = TimeLib::ageRange(1985, 23, 11);
 		//pr($is);
@@ -516,11 +516,11 @@ class TimeLibTest extends MyCakeTestCase {
 
 		$is = TimeLib::ageRange(1985, null, null, 6);
 		//pr($is);
-		$this->assertEquals($is, array(25, 30));
+		$this->assertEquals(array(25, 30), $is);
 
 		$is = TimeLib::ageRange(1985, 21, 11, 7);
 		//pr($is);
-		$this->assertEquals($is, array(22, 28));
+		$this->assertEquals(array(22, 28), $is);
 	}
 
 	public function testParseDate() {
@@ -571,7 +571,7 @@ class TimeLibTest extends MyCakeTestCase {
 		foreach ($tests as $was => $expected) {
 			$is = TimeLib::parseTime($was);
 			//pr($is);
-			$this->assertEquals($expected, $is); //null, $was
+			$this->assertEquals($expected, $is);
 		}
 
 		unset($tests['2011-11-12 10:10:10']);
@@ -579,7 +579,7 @@ class TimeLibTest extends MyCakeTestCase {
 		foreach ($tests as $was => $expected) {
 			$is = TimeLib::parseTime('-'.$was);
 			//pr($is);
-			$this->assertEquals($is, -$expected); //, null, '-'.$was.' ['.$is.' => '.(-$expected).']'
+			$this->assertEquals(-$expected, $is);
 		}
 	}
 
@@ -603,7 +603,7 @@ class TimeLibTest extends MyCakeTestCase {
 		foreach ($tests as $was => $expected) {
 			$is = TimeLib::buildTime(-$was);
 			//pr($is);
-			$this->assertEquals($is, '-'.$expected);
+			$this->assertEquals('-' . $expected, $is);
 		}
 	}
 
@@ -631,11 +631,11 @@ class TimeLibTest extends MyCakeTestCase {
 		//echo $this->_header(__FUNCTION__);
 		$value = '9.30';
 		$is = TimeLib::standardToDecimalTime($value);
-		$this->assertEquals(round($is, 2), '9.50');
+		$this->assertEquals('9.50', round($is, 2));
 
 		$value = '9.3';
 		$is = TimeLib::standardToDecimalTime($value);
-		$this->assertEquals(round($is, 2), '9.50');
+		$this->assertEquals('9.50', round($is, 2));
 	}
 
 	/**
@@ -645,20 +645,20 @@ class TimeLibTest extends MyCakeTestCase {
 		//echo $this->_header(__FUNCTION__);
 		$value = '9.50';
 		$is = TimeLib::decimalToStandardTime($value);
-		$this->assertEquals(round($is, 2), '9.3');
+		$this->assertEquals('9.3', round($is, 2));
 
 		$value = '9.5';
 		$is = TimeLib::decimalToStandardTime($value);
 		//pr($is);
-		$this->assertEquals($is, '9.3');
+		$this->assertEquals('9.3', $is);
 
 		$is = TimeLib::decimalToStandardTime($value, 2);
 		//pr($is);
-		$this->assertEquals($is, '9.30');
+		$this->assertEquals('9.30', $is);
 
 		$is = TimeLib::decimalToStandardTime($value, 2, ':');
 		//pr($is);
-		$this->assertEquals($is, '9:30');
+		$this->assertEquals('9:30', $is);
 	}
 
 	public function testHasDaylightSavingTime() {
