@@ -254,7 +254,7 @@ class DiffLib {
 	* Appends or Replaces text
 	* @param array &$text Array of Line objects
 	* @param array $change Array of Change objects
-	* @param int &$offset how many lines to skip due to previous additions
+	* @param integer &$offset how many lines to skip due to previous additions
 	*/
 	public function applyChange(&$text, $change, &$offset = 0) {
 		$index = 0;

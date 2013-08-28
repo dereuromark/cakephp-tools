@@ -586,7 +586,7 @@ class FormatHelper extends TextHelper {
 
 		// additionally there could be a span tag in between: email<span syle="display:none"></span>@web.de
 		$querystring = '';
-		foreach ($params as $key=>$val) {
+		foreach ($params as $key => $val) {
 			if ($querystring) {
 				$querystring .= "&$key=" . rawurlencode($val);
 			} else {
@@ -1229,7 +1229,7 @@ class FormatHelper extends TextHelper {
 	/**
 	 * (intelligent) Shortening of a text string
 	 * @param STRING textstring
-	 * @param INT chars = max-length
+	 * @param integer chars = max-length
 	 * For options array:
 	 * @param BOOLEAN strict (default: FALSE = intelligent shortening, cutting only between whole words)
 	 * @param STRING ending (default: '...' no leading whitespace)

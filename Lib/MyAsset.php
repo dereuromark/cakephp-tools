@@ -12,7 +12,7 @@ class MyAsset {
 	/**
 	 * MyAsset::js()
 	 *
-	 * @param bool $setHeaders
+	 * @param boolean $setHeaders
 	 * @return string Script tags.
 	 */
 	public function js($setHeaders = true) {
@@ -29,7 +29,7 @@ class MyAsset {
 	/**
 	 * MyAsset::css()
 	 *
-	 * @param bool $setHeaders
+	 * @param boolean $setHeaders
 	 * @return string Style tags.
 	 */
 	public function css($setHeaders = true) {

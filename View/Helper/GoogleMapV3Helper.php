@@ -973,9 +973,9 @@ var iconShape = {
 		);
 		$options += $defaults;
 
-		if( !isset($strokeColor) )		$strokeColor = $this->defaultStrokeColor;
-		if( !isset($strokeOpacity) )	$strokeOpacity = $this->defaultStrokeOpacity;
-		if( !isset($strokeWeight) )		$strokeWeight = $this->defaultStrokeWeight;
+		if ( !isset($strokeColor) )		$strokeColor = $this->defaultStrokeColor;
+		if ( !isset($strokeOpacity) )	$strokeOpacity = $this->defaultStrokeOpacity;
+		if ( !isset($strokeWeight) )		$strokeWeight = $this->defaultStrokeWeight;
 
 		$id = 'p' . self::$MARKER_COUNT++;
 

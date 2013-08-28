@@ -183,7 +183,7 @@ class TimeLib extends CakeTime {
 			// undefined
 			return array(date('Y') - $year - 1, date('Y') - $year);
 		}
-		if($range[0][0] > date('m') || ($range[0][0] == date('m') && $range[0][1] > date('d'))) {
+		if ($range[0][0] > date('m') || ($range[0][0] == date('m') && $range[0][1] > date('d'))) {
 			// not over
 			return date('Y') - $year - 1;
 		}
@@ -240,7 +240,7 @@ class TimeLib extends CakeTime {
 	/**
 	 * Calendar Week (current week of the year)
 	 * @param date in DB format - if none is passed, current day is used
-	 * @param int relative - weeks relative to the date (+1 next, -1 previous etc)
+	 * @param integer $relative - weeks relative to the date (+1 next, -1 previous etc)
 	 * @TODO: use timestamp - or make the function able to use timestamps at least (besides dateString)
 	 *
 	 * Mit date('W', $time) (großes W!) bekommst die ISO6801-Wochennummer des angegebenen Zeitpunkts, das entspricht der Europäischen Kalenderwoche - mit einer Ausnahme: Daten die zur letzten Kalenderwoche des vorherigen Jahres gehören, liefern die 0 zurück; in dem Fall solltest du dann die KW des 31.12. des Vorjahres ermitteln.
@@ -650,7 +650,7 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * can convert time from one unit to another
-	 * @param int INT | time
+	 * @param integer INT | time
 	 * @param from CHAR
 	 * @param to CHAR
 	 * @param options: acc=>INT [accuracy], showZero=>BOOL, returnArray=>BOOL
@@ -1287,7 +1287,7 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * return strings like 2:30 (later //TODO: or 2:33:99) from seconds etc
-	 * @param int: seconds
+	 * @param integer: seconds
 	 * @return string
 	 * 2011-03-06 ms
 	 */
@@ -1311,7 +1311,7 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * return strings like 2:33:99 from seconds etc
-	 * @param int: seconds
+	 * @param integer: seconds
 	 * @return string
 	 * 2011-03-09 ms
 	 */

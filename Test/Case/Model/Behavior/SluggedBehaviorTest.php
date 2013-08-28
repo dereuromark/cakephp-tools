@@ -256,11 +256,11 @@ class SluggedBehaviorTest extends CakeTestCase {
 	public function testBuildRegex() {
 		$chars = array();
 		$string = '';
-		for($hex1 = 0; $hex1 < 16; $hex1++) {
-			for($hex2 = 0; $hex2 < 16; $hex2++) {
-				for($hex3 = 0; $hex3 < 16; $hex3++) {
+		for ($hex1 = 0; $hex1 < 16; $hex1++) {
+			for ($hex2 = 0; $hex2 < 16; $hex2++) {
+				for ($hex3 = 0; $hex3 < 16; $hex3++) {
 					$string .= dechex($hex1) . dechex($hex2) . dechex($hex3) . dechex(0);
-					for($hex4 = 0; $hex4 < 16; $hex4++) {
+					for ($hex4 = 0; $hex4 < 16; $hex4++) {
 						$hexCode = dechex($hex1) . dechex($hex2) . dechex($hex3) . dechex($hex4);
 						$decCode = hexdec($hexCode);
 						$string .= $display = $char = html_entity_decode('&#' . $decCode . ';', ENT_NOQUOTES, 'UTF-8');
@@ -320,7 +320,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 		@unlink($path);
 		$file = new File($path, true);
 		$file->append('class SluggedTest extends CakeTestCase {' . "\n");
-		for($hex1 = $hex1Start; $hex1 < $hex1Limit; $hex1++) {
+		for ($hex1 = $hex1Start; $hex1 < $hex1Limit; $hex1++) {
 			if (in_array($hex1, $skip)) {
 				continue;
 			}
@@ -340,10 +340,10 @@ class SluggedBehaviorTest extends CakeTestCase {
 	protected function _buildTestFunction($section, $limit = 16, $start = 0) {
 		$out = "\tfunction testSection$section() {\n";
 		$allEmpty = true;
-		for($hex1 = $start; $hex1 < $limit; $hex1++) {
-			for($hex2 = 0; $hex2 < 16; $hex2++) {
+		for ($hex1 = $start; $hex1 < $limit; $hex1++) {
+			for ($hex2 = 0; $hex2 < 16; $hex2++) {
 				$string = '';
-				for($hex3 = 0; $hex3 < 16; $hex3++) {
+				for ($hex3 = 0; $hex3 < 16; $hex3++) {
 					$hexCode = $section . dechex($hex1) . dechex($hex2) . dechex($hex3);
 					$decCode = hexdec($hexCode);
 					if ($decCode <= 31 || ($decCode >= 127 && $decCode <= 159) || ($hexCode >= 'd800' && $hexCode <= 'dfff') || $hexCode >= 'fffe') {
@@ -410,12 +410,12 @@ class SluggedBehaviorTest extends CakeTestCase {
  * @access protected
  */
 	protected function _testMode($mode, $hex1Limit = 16, $hex2Limit = 16, $hex1Start = 0, $hex2Start = 0) {
-		for($hex1 = $hex1Start; $hex1 < $hex1Limit; $hex1++) {
+		for ($hex1 = $hex1Start; $hex1 < $hex1Limit; $hex1++) {
 			$suffix = dechex($hex1) . dechex($hex2Start) . '_' . dechex($hex1) . dechex($hex2Limit -1);
 			$full = TMP . 'tests' . DS . 'slug_' . $mode . '_' . $suffix . '.html';
 			$file = new File($full, true);
 			$this->_writeHeader($file, $hex1);
-			for($hex2 = $hex2Start; $hex2 < $hex2Limit; $hex2++) {
+			for ($hex2 = $hex2Start; $hex2 < $hex2Limit; $hex2++) {
 				$part = file_get_contents($this->_createTestFile(dechex($hex1) . dechex($hex2), $mode));
 				preg_match('@<table>(.*)</table>@Us', $part, $test);
 				$file->append($test[1] . "\n");
@@ -527,13 +527,13 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$path = TMP . 'tests' . DS . '_slug_' . $mode . '_' . $section . '.html';
 		$file = new File($path, true);
 		$this->_writeHeader($file, $section);
-		for($hex1 = -1; $hex1 < 16; $hex1++) {
+		for ($hex1 = -1; $hex1 < 16; $hex1++) {
 			if ($hex1 == -1) {
 				$row = array('<b>' . $section . '</b>');
 			} else {
 				$row = array($section . dechex($hex1) . 0);
 			}
-			for($hex2 = 0; $hex2 < 16; $hex2++) {
+			for ($hex2 = 0; $hex2 < 16; $hex2++) {
 				if ($hex1 == -1) {
 					$row[] = $section . dechex($hex2);
 				} else {

@@ -757,7 +757,7 @@ class GeocodeLib {
 	 * privacy protection. This way the coordinates will be slightly modified.
 	 *
 	 * @param float coord
-	 * @param int level (0 = nothing to 5 = extrem)
+	 * @param integer level (0 = nothing to 5 = extrem)
 	 * - 1:
 	 * - 2:
 	 * - 3:

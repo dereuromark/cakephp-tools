@@ -241,7 +241,7 @@ class TextLib extends String {
 	 * </code>
 	 *
 	 * @param string  $value
-	 * @param int     $words
+	 * @param integer     $words
 	 * @param array $options
 	 * - ellipsis
 	 * - html
@@ -323,7 +323,7 @@ class TextLib extends String {
 	 * Converts character entities back to ASCII
 	 *
 	 * @param string
-	 * @param bool
+	 * @param boolean
 	 * @return string
 	 */
 	public function entities_to_ascii($str, $all = true) {
@@ -391,7 +391,7 @@ class TextLib extends String {
 	 *
 	 * @param string
 	 * @param string	the character you wish to reduce
-	 * @param bool	TRUE/FALSE - whether to trim the character from the beginning/end
+	 * @param boolean	TRUE/FALSE - whether to trim the character from the beginning/end
 	 * @return string
 	 */
 	public function reduce_multiples($str, $character = ',', $trim = false) {

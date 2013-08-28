@@ -123,7 +123,7 @@ class InlineCssLib {
 				array_pop($tags);
 			}
 		}
-		foreach($tags as $tag) {
+		foreach ($tags as $tag) {
 			if ($stripContent) {
 				 $content = '(.+</' . $tag . '[^>]*>|)';
 			}
@@ -150,12 +150,12 @@ class InlineCssLib {
 		// catch <link> style sheet content
 		$links = $DOM->getElementsByTagName('link');
 
-		foreach($links as $link) {
+		foreach ($links as $link) {
 			if ($link->hasAttribute('href') && preg_match("/\.css$/i", $link->getAttribute('href'))) {
 
 				// find the css file and load contents
 				if ($link->hasAttribute('media')) {
-					foreach($this->media_types as $css_link_media) {
+					foreach ($this->media_types as $css_link_media) {
 						if (strstr($link->getAttribute('media'), $css_link_media)) {
 							$css .= $this->_findAndLoadCssFile($link->getAttribute('href')) . "\n\n";
 							$remove_doms[] = $link;
@@ -174,7 +174,7 @@ class InlineCssLib {
 		// Style
 		foreach ($styles as $style) {
 			if ($style->hasAttribute('media')) {
-				foreach($this->media_types as $css_link_media) {
+				foreach ($this->media_types as $css_link_media) {
 					if (strstr($style->getAttribute('media'), $css_link_media)) {
 						$css .= $this->_parseInlineCssAndLoadImports($style->nodeValue);
 						$remove_doms[] = $style;
@@ -214,8 +214,7 @@ class InlineCssLib {
 		for ($i = count($cssHrefs) - 1; $i > 0; $i--) {
 			if (isset($cssHref_paths[count($cssHref_paths) - 1])) {
 				$cssHref_paths[] = $cssHrefs[$i] . DS . $cssHref_paths[count($cssHref_paths) - 1];
-			}
-			else {
+			} else {
 				$cssHref_paths[] = $cssHrefs[$i];
 			}
 		}
@@ -284,7 +283,7 @@ class InlineCssLib {
 					if ($this->import_external_css) {
 						$css .= file_get_contents($url);
 					}
-				}	else {
+				} else {
 					$css .= $this->_findAndLoadCssFile($url);
 				}
 			}

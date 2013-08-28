@@ -407,7 +407,7 @@ class CommonHelper extends AppHelper {
 			$html = '<div class="flashMessages">';
 
 			if ($unsorted !== true) {
-				// Add a div for each message using the type as the class
+				// Add a div for each message using the type as the class.
 				foreach ($messages as $type => $msgs) {
 					foreach ((array)$msgs as $msg) {
 						$html .= $this->_message($msg, $type);
@@ -547,7 +547,7 @@ function getInternetExplorerVersion() {
 	return rv;
 }
 
-if ((document.all) && (navigator.appVersion.indexOf("MSIE 7.") != -1) || typeof document.body.style.maxHeight == "undefined") {
+if ((document.all) && (navigator.appVersion.indexOf("MSIE 7.") != -1) || typeof document.body.style.maxHeight == 'undefined') {
 	document.getElementById(\''.$id.'\').innerHTML = \''.$message.'\';
 }
 /*

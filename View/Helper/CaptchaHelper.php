@@ -121,7 +121,7 @@ class CaptchaHelper extends AppHelper {
 	 * either combined with between=true (all in this one funtion)
 	 * or seperated by =false (needs input(false) and captcha() calls then)
 	 *
-	 * @param bool between: [default: true]
+	 * @param boolean between: [default: true]
 	 * @return string HTML
 	 * 2010-01-08 ms
 	 */

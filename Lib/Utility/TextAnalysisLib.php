@@ -288,8 +288,7 @@ class TextAnalysisLib extends TextLib {
 		if (!$this->sen && !$this->r_sen) {
 			@preg_match_all("/[^:|;|\!|\.]+(:|;|\!|\.| )+/", $this->text, $m);
 			$this->sen = count($m[0]);
-			foreach ($m[0] as $s) $this->r_sen[] = strtr(trim($s), array("\n" => '', "\r" =>
-					''));
+			foreach ($m[0] as $s) $this->r_sen[] = strtr(trim($s), array("\n" => '', "\r" => ''));
 		}
 		return $parse ? $this->r_sen : $this->sen;
 	}

@@ -525,7 +525,7 @@ class ImapSource extends DataSource {
 	 * you will get a list of the entire mailbox hierarchy. '%' means to return the current level only.
 	 *
 	 * @param Model $Model
-	 * @param bool|string $current
+	 * @param boolean|string $current
 	 * @return array Array containing the names of the mailboxes.
 	 */
 	public function listMailboxes(Model $Model, $current = true) {
@@ -673,7 +673,7 @@ class ImapSource extends DataSource {
 	 *
 	 * @return array
 	 */
-	protected function _makeSearch($Model, $query) {
+	protected function _makeSearch(Model $Model, $query) {
 		$searchCriteria = array();
 
 		if (empty($query['conditions'])) {
@@ -738,7 +738,7 @@ class ImapSource extends DataSource {
 	 *
 	 * @return array
 	 */
-	protected function _makeOrder($Model, $query) {
+	protected function _makeOrder(Model $Model, $query) {
 		$criterias = array(
 			'date',
 			'arrival',
@@ -770,7 +770,7 @@ class ImapSource extends DataSource {
 	 *
 	 * @return mixed or null
 	 */
-	protected function _cond($Model, $query, $field) {
+	protected function _cond(Model $Model, $query, $field) {
 		$keys = array(
 			'`' . $Model->alias . '`.`' . $field . '`',
 			$Model->alias . '.' . $field,
@@ -942,7 +942,7 @@ class ImapSource extends DataSource {
 	 * @param integer $uid the number of the message
 	 * @return array empty on error/nothing or array of formatted details
 	 */
-	protected function _getFormattedMail($Model, $uid, $fetchAttachments = false) {
+	protected function _getFormattedMail(Model $Model, $uid, $fetchAttachments = false) {
 		// Translate uid to msg_no. Has no decent fail
 		$msg_number = imap_msgno($this->Stream, $uid);
 
@@ -1151,7 +1151,7 @@ class ImapSource extends DataSource {
 	 * @param Model $Model
 	 * @return array
 	 */
-	protected function _fetchAttachments($flatStructure, $Model) {
+	protected function _fetchAttachments($flatStructure, Model $Model) {
 		$attachments = array();
 		foreach ($flatStructure as $path => $Part) {
 			if (!$Part->isAttachment) {

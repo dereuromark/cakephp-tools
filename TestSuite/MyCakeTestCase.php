@@ -144,7 +144,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 
 	/**
 	 * @param float $time
-	 * @param int precision
+	 * @param integer precision
 	 * @param boolean $secs: usually in milliseconds (for long times set it to 'true')
 	 * 2009-07-20 ms
 	 */

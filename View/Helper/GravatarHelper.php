@@ -90,7 +90,7 @@ class GravatarHelper extends AppHelper {
 	 * GravatarHelper::url()
 	 *
 	 * @param mixed $email
-	 * @param bool $options
+	 * @param boolean $options
 	 * @return void
 	 * @deprecated Use imageUrl() instead.
 	 */

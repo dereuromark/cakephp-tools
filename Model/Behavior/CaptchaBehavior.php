@@ -208,7 +208,7 @@ class CaptchaBehavior extends ModelBehavior {
 
 	/**
 	 * logs attempts
-	 * @param bool errorsOnly (only if error occured, otherwise always)
+	 * @param boolean ErrorsOnly (only if error occured, otherwise always)
 	 * @returns null if not logged, true otherwise
 	 * 2009-12-18 ms
 	 */

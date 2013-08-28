@@ -1620,7 +1620,7 @@ class MyModel extends Model {
 	 *
 	 * @deprecated use atomic updateAll() instead!
 	 * @param string fieldname
-	 * @param int factor: defaults to 1 (could be negative as well - if field is signed and can be < 0)
+	 * @param integer factor: defaults to 1 (could be negative as well - if field is signed and can be < 0)
 	 */
 	public function inc($field, $factor = 1) {
 		$value = Set::extract($this->read($field), $this->alias . '.' . $field);
@@ -1631,7 +1631,7 @@ class MyModel extends Model {
 	/**
 	 * Toggles Field (Important/Deleted/Primary etc)
 	 * @param STRING fieldName
-	 * @param INT id (cleaned!)
+	 * @param integer id (cleaned!)
 	 * @return ARRAY record: [Model][values],...
 	 * AJAX?
 	 * 2008-11-06 ms
