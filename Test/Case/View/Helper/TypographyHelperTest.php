@@ -44,7 +44,7 @@ class TypographyHelperTest extends MyCakeTestCase {
 		$strs = array(
 			'"double quotes"' => '&#8220;double quotes&#8221;',
 			'"testing" in "theory" that is' => '&#8220;testing&#8221; in &#8220;theory&#8221; that is',
-			"Here's what I'm" => 'Here&#8217;s what I&#8217;m',
+			"Here's what I'm" => 'Here&rsquo;s what I&rsquo;m',
 			'&' => '&amp;',
 			'&amp;' => '&amp;',
 			'&nbsp;' => '&nbsp;',
@@ -65,7 +65,7 @@ class TypographyHelperTest extends MyCakeTestCase {
 		$strs = array(
 			'"double quotes"' 				=> '&bdquo;double quotes&#8223;',
 			'"testing" in "theory" that is' => '&bdquo;testing&#8223; in &bdquo;theory&#8223; that is',
-			"Here's what I'm" 				=> 'Here&#8219;s what I&#8219;m',
+			"Here's what I'm" 				=> 'Here&rsquo;s what I&rsquo;m',
 		);
 		foreach ($strs as $str => $expected) {
 			$result = $this->Typography->formatCharacters($str);
@@ -77,7 +77,7 @@ class TypographyHelperTest extends MyCakeTestCase {
 		$strs = array(
 			'"double quotes"' 				=> '&#171;double quotes&#187;',
 			'"testing" in "theory" that is' => '&#171;testing&#187; in &#171;theory&#187; that is',
-			"Here's what I'm" 				=> 'Here&rsaquo;s what I&rsaquo;m',
+			"Here's what I'm" 				=> 'Here&rsquo;s what I&rsquo;m',
 		);
 		foreach ($strs as $str => $expected) {
 			$result = $this->Typography->formatCharacters($str);

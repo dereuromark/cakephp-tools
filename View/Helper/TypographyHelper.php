@@ -308,7 +308,7 @@ class TypographyHelper extends AppHelper {
 				'/(\W)"/'						=> '$1&#8220;',
 
 				// apostrophes
-				"/(\w)'(\w)/"					=> '$1&#8217;$2',
+				"/(\w)'(\w)/"					=> '$1&rsquo;$2', // we dont use #8217; to avoid collision on replace
 
 				// Em dash and ellipses dots
 				'/\s?\-\-\s?/'					=> '&#8212;',
