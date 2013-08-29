@@ -11,34 +11,35 @@ class TypographyHelperTest extends MyCakeTestCase {
 
 	public $Typography;
 
-/**
- * setUp method
- *
- * @return void
- */
+	/**
+	 * setUp method
+	 *
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
-		Configure::write('Typography.locale', '');
+		Configure::delete('Typography.locale');
+		Configure::write('App.language', 'eng');
 
 		$this->Typography = new TypographyHelper(new View(null));
 	}
 
-/**
- * tearDown method
- *
- * @return void
- */
+	/**
+	 * tearDown method
+	 *
+	 * @return void
+	 */
 	public function tearDown() {
 		unset($this->Typography);
 
 		parent::tearDown();
 	}
 
-/**
- * testFormatCharacter method
- *
- * @return void
- */
+	/**
+	 * testFormatCharacter method
+	 *
+	 * @return void
+	 */
 	public function testFormatCharacter() {
 		$strs = array(
 			'"double quotes"' => '&#8220;double quotes&#8221;',
@@ -60,9 +61,6 @@ class TypographyHelperTest extends MyCakeTestCase {
 			$this->assertEquals($expected, $result);
 		}
 
-		//$this->tearDown();
-		//$this->setUp();
-
 		Configure::write('Typography.locale', 'low');
 		$strs = array(
 			'"double quotes"' 				=> '&bdquo;double quotes&#8223;',
@@ -74,29 +72,51 @@ class TypographyHelperTest extends MyCakeTestCase {
 			//echo pre($result);
 			$this->assertEquals($expected, $result);
 		}
+
+		Configure::write('Typography.locale', 'angle');
+		$strs = array(
+			'"double quotes"' 				=> '&#171;double quotes&#187;',
+			'"testing" in "theory" that is' => '&#171;testing&#187; in &#171;theory&#187; that is',
+			"Here's what I'm" 				=> 'Here&rsaquo;s what I&rsaquo;m',
+		);
+		foreach ($strs as $str => $expected) {
+			$result = $this->Typography->formatCharacters($str);
+			echo debug($result);
+			$this->assertEquals($expected, $result);
+		}
 	}
 
-/**
- * testAutoTypography method
- *
- * @return void
- */
+	/**
+	 * testAutoTypography method
+	 *
+	 * @return void
+	 */
 	public function testAutoTypography() {
-		$str = 'Some \'funny\' and "funky" test with a new
+		$str = 'Some \'funny\' and "funky" test';
 
-paragraph and a
-	new line tabbed in.';
+		$result = $this->Typography->autoTypography($str);
+		//echo pre($result);
+		$expected = '<p>Some &#8216;funny&#8217; and &#8220;funky&#8221; test</p>';
+		$this->assertEquals($expected, $result);
 
-		$res = $this->Typography->autoTypography($str);
-		//echo pre($res);
-		//debug($res);
+		Configure::write('App.language', 'deu');
+		$result = $this->Typography->autoTypography($str);
+		//echo pre($result);
+		$expected = '<p>Some &sbquo;funny&#8219; and &bdquo;funky&#8223; test</p>';
+		$this->assertEquals($expected, $result);
+
+		Configure::write('App.language', 'fra');
+		$result = $this->Typography->autoTypography($str);
+		//echo debug($result);
+		$expected = '<p>Some &lsaquo;funny&rsaquo; and &#171;funky&#187; test</p>';
+		$this->assertEquals($expected, $result);
 	}
 
-/**
- * testNl2brExceptPre method
- *
- * @return void
- */
+	/**
+	 * testNl2brExceptPre method
+	 *
+	 * @return void
+	 */
 	public function testNl2brExceptPre() {
 		$str = <<<EOH
 Hello, I'm a happy string with some new lines.

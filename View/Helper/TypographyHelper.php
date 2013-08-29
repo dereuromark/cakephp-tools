@@ -17,6 +17,12 @@ App::uses('AppHelper', 'View/Helper');
 /**
  * Typography Class converted to Cake Helper
  *
+ * In the database you usually got ", ', and - as uniform chars.
+ * On output you might want to localize them according to your country's/languages' preferences.
+ *
+ * For Swiss, for example: "Some quote" might become «Some quote»
+ * For German: "Some quote" might become „Some quote“
+ *
  * @modified Mark Scherer
  * @cakephp 2.x
  * @php 5
@@ -43,22 +49,32 @@ class TypographyHelper extends AppHelper {
 	// whether or not to protect quotes within { curly braces }
 	public $protect_braced_quotes = false;
 
+	public $matching = array(
+		'deu' => 'low', // except for Switzerland
+		'eng' => 'default',
+		'fra' => 'angle',
+	);
+
 	/**
-	 * Auto Typography
+	 * Automatically uses the typography specified.
+	 * By default, uses Configure::read('App.language') to determine locale preference.
+	 * It will then try to match the language to the type of characters used.
+	 * You can hardwire this by using Configure::read('Typography.locale'); and directly set it
+	 * to 'low' or 'angle'. It will then disregard the language.
 	 *
 	 * This function converts text, making it typographically correct:
-	 *	- Converts double spaces into paragraphs.
-	 *	- Converts single line breaks into <br /> tags
-	 *	- Converts single and double quotes into correctly facing curly quote entities.
-	 *	- Converts three dots into ellipsis.
-	 *	- Converts double dashes into em-dashes.
+	 * - Converts double spaces into paragraphs.
+	 * - Converts single line breaks into <br /> tags
+	 * - Converts single and double quotes into correctly facing curly quote entities.
+	 * - Converts three dots into ellipsis.
+	 * - Converts double dashes into em-dashes.
 	 * - Converts two spaces into entities
 	 *
-	 * @param string
-	 * @param boolean Whether to reduce more then two consecutive newlines to two
-	 * @return string
+	 * @param string $str Text
+	 * @param boolean $reduceLinebreaks Whether to reduce more then two consecutive newlines to two
+	 * @return string Text
 	 */
-	public function autoTypography($str, $reduce_linebreaks = false) {
+	public function autoTypography($str, $reduceLinebreaks = false) {
 		if ($str === '') {
 			return '';
 		}
@@ -70,7 +86,7 @@ class TypographyHelper extends AppHelper {
 
 		// Reduce line breaks. If there are more than two consecutive linebreaks
 		// we'll compress them down to a maximum of two since there's no benefit to more.
-		if ($reduce_linebreaks === true) {
+		if ($reduceLinebreaks === true) {
 			$str = preg_replace("/\n\n+/", "\n\n", $str);
 		}
 
@@ -205,7 +221,7 @@ class TypographyHelper extends AppHelper {
 			);
 
 		// Do we need to reduce empty lines?
-		if ($reduce_linebreaks === true) {
+		if ($reduceLinebreaks === true) {
 			$table['#<p>\n*</p>#'] = '';
 		} else {
 			// If we have empty paragraph tags we add a non-breaking space
@@ -232,20 +248,33 @@ class TypographyHelper extends AppHelper {
 		if ($locale === null) {
 			$locale = Configure::read('Typography.locale');
 		}
+		if (!$locale) {
+			$locale = 'default';
+			$language = Configure::read('App.language');
+			if ($language && isset($this->matching[$language])) {
+				$locale = $this->matching[$language];
+			}
+		}
 
 		$locales = array(
 			'default' => array(
-				'leftSingle' => '&#8216;', # &lsquo;
-				'rightSingle' => '&#8217;', # &rsquo;
-				'leftDouble' => '&#8220;', # &ldquo;
-				'rightDouble' => '&#8221;', # &rdquo;
+				'leftSingle' => '&#8216;', // &lsquo; / ‘
+				'rightSingle' => '&#8217;', // &rsquo; / ’
+				'leftDouble' => '&#8220;', // &ldquo; / “
+				'rightDouble' => '&#8221;', // &rdquo; / ”
 			),
 			'low' => array(
-				'leftSingle' => '&sbquo;',
-				'rightSingle' => '&#8219;',
-				'leftDouble' => '&bdquo;',
-				'rightDouble' => '&#8223;',
-			)
+				'leftSingle' => '&sbquo;', // &sbquo; / ‚
+				'rightSingle' => '&#8219;', // &rsquo; / ’
+				'leftDouble' => '&bdquo;', // &bdquo; / „
+				'rightDouble' => '&#8223;', // &rdquo; / ”
+			),
+			'angle' => array(
+				'leftSingle' => '&lsaquo;', // ‹
+				'rightSingle' => '&rsaquo;', // ›
+				'leftDouble' => '&#171;', // &laquo; / «
+				'rightDouble' => '&#187;', // &raquo; / »
+			),
 		);
 
 		if (!isset($table)) {
