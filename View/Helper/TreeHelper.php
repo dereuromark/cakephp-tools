@@ -14,9 +14,11 @@
 App::uses('AppHelper', 'View/Helper');
 
 /**
- * TreeHelper class.
+ * Helper to generate tree representations of MPTT or recursively nested data.
  *
- * Helper to generate tree representations of MPTT or recursively nested data
+ * @author Andy Dawson
+ * @author Mark Scherer
+ * @link http://www.dereuromark.de/2013/02/17/cakephp-and-tree-structures/
  */
 class TreeHelper extends AppHelper {
 
