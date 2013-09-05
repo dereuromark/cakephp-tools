@@ -142,7 +142,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 		$data = array();
 		$fields = $this->_normalizeFields($model);
 		foreach ($fields as $flag => $date) {
-			if (true === $runtime || $flag === $runtime) {
+			if ($runtime === true || $flag === $runtime) {
 				$data[$flag] = true;
 				if ($date) {
 					$data[$date] = date('Y-m-d H:i:s');
@@ -172,7 +172,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 		$data = array();
 		$fields = $this->_normalizeFields($model);
 		foreach ($fields as $flag => $date) {
-			if (true === $runtime || $flag === $runtime) {
+			if ($runtime === true || $flag === $runtime) {
 				$data[$flag] = false;
 				if ($date) {
 					$data[$date] = null;
@@ -317,7 +317,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 						continue;
 					}
 
-					$conditions = $model->{$parentModel}->{$assocType}[$assoc]['conditions'];
+					$conditions =& $model->{$parentModel}->{$assocType}[$assoc]['conditions'];
 					if (!is_array($conditions)) {
 						$model->{$parentModel}->{$assocType}[$assoc]['conditions'] = array();
 					}
