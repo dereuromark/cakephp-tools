@@ -55,8 +55,8 @@ class GeocoderBehavior extends ModelBehavior {
 		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], is_array($settings) ? $settings : array());
 	}
 
-	public function beforeValidate(Model $Model) {
-		parent::beforeValidate($Model);
+	public function beforeValidate(Model $Model, $options = array()) {
+		parent::beforeValidate($Model, $options);
 
 		if ($this->settings[$Model->alias]['before'] === 'validate') {
 			return $this->geocode($Model);
@@ -65,8 +65,8 @@ class GeocoderBehavior extends ModelBehavior {
 		return true;
 	}
 
-	public function beforeSave(Model $Model) {
-		parent::beforeSave($Model);
+	public function beforeSave(Model $Model, $options = array()) {
+		parent::beforeSave($Model, $options);
 
 		if ($this->settings[$Model->alias]['before'] === 'save') {
 			return $this->geocode($Model);

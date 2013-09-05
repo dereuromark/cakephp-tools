@@ -51,8 +51,8 @@ class CaptchaBehavior extends ModelBehavior {
 		}
 	}
 
-	public function beforeValidate(Model $Model) {
-		parent::beforeValidate($Model);
+	public function beforeValidate(Model $Model, $options = array()) {
+		parent::beforeValidate($Model, $options);
 		if (!empty($this->Model->whitelist)) {
 			$this->Model->whitelist = array_merge($Model->whitelist, $this->fields());
 		}

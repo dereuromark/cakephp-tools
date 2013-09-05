@@ -111,7 +111,7 @@ class JsonableBehavior extends ModelBehavior {
 	 * @param object $Model
 	 * @return boolean Success
 	 */
-	public function beforeSave(Model $Model) {
+	public function beforeSave(Model $Model, $options = array()) {
 		$data = $Model->data[$Model->alias];
 		$usedFields = $this->settings[$Model->alias]['fields'];
 		$mappedFields = $this->settings[$Model->alias]['map'];

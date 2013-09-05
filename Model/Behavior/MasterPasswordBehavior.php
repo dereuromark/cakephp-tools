@@ -55,8 +55,8 @@ class MasterPasswordBehavior extends ModelBehavior {
 		}
 	}
 
-	public function beforeValidate(Model $Model) {
-		$return = parent::beforeValidate($Model);
+	public function beforeValidate(Model $Model, $options = array()) {
+		$return = parent::beforeValidate($Model, $options);
 
 		if ($this->settings[$Model->alias]['before'] === 'validate') {
 			# we dont want to return the value, because other fields might then not be validated
@@ -67,8 +67,8 @@ class MasterPasswordBehavior extends ModelBehavior {
 		return $return;
 	}
 
-	public function beforeSave(Model $Model) {
-		$return = parent::beforeSave($Model);
+	public function beforeSave(Model $Model, $options = array()) {
+		$return = parent::beforeSave($Model, $options);
 
 		if ($this->settings[$Model->alias]['before'] === 'save') {
 			return $this->confirm($Model, $return);

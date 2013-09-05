@@ -114,8 +114,8 @@ class TypographicBehavior extends ModelBehavior {
 	 * @param Model $Model
 	 * @return boolean Success
 	 */
-	public function beforeValidate(Model $Model) {
-		parent::beforeValidate($Model);
+	public function beforeValidate(Model $Model, $options = array()) {
+		parent::beforeValidate($Model, $options);
 
 		if ($this->settings[$Model->alias]['before'] === 'validate') {
 			$this->process($Model);
@@ -130,8 +130,8 @@ class TypographicBehavior extends ModelBehavior {
 	 * @param Model $Model
 	 * @return boolean Success
 	 */
-	public function beforeSave(Model $Model) {
-		parent::beforeSave($Model);
+	public function beforeSave(Model $Model, $options = array()) {
+		parent::beforeSave($Model, $options);
 
 		if ($this->settings[$Model->alias]['before'] === 'save') {
 			$this->process($Model);

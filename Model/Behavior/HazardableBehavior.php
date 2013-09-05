@@ -52,7 +52,7 @@ class HazardableBehavior extends ModelBehavior {
 	 * Note: Remember to disable validation as you want to insert those strings just for
 	 * testing purposes.
 	 */
-	public function beforeSave(Model $Model) {
+	public function beforeSave(Model $Model, $options = array()) {
 		$fields = $this->_fields($Model);
 		foreach ($fields as $field) {
 			$length = 0;

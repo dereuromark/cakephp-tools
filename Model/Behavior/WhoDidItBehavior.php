@@ -97,7 +97,7 @@ class WhoDidItBehavior extends ModelBehavior {
 	 * @param Model $Model The model using this behavior.
 	 * @return boolean True if the operation should continue, false if it should abort.
 	 */
-	public function beforeSave(Model $Model) {
+	public function beforeSave(Model $Model, $options = array()) {
 		if ($this->settings[$Model->alias]['has_created_by'] || $this->settings[$Model->alias]['has_modified_by']) {
 			$AuthSession = $this->settings[$Model->alias]['auth_session'];
 			$UserSession = $this->settings[$Model->alias]['user_model'];

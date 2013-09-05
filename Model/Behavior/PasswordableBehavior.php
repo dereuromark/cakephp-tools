@@ -302,7 +302,7 @@ class PasswordableBehavior extends ModelBehavior {
 	 * @return bool Success
 	 * 2011-07-22 ms
 	 */
-	public function beforeValidate(Model $Model) {
+	public function beforeValidate(Model $Model, $options = array()) {
 		$formField = $this->settings[$Model->alias]['formField'];
 		$formFieldRepeat = $this->settings[$Model->alias]['formFieldRepeat'];
 		$formFieldCurrent = $this->settings[$Model->alias]['formFieldCurrent'];
@@ -358,7 +358,7 @@ class PasswordableBehavior extends ModelBehavior {
 	 * @return bool Success
 	 * 2011-07-22 ms
 	 */
-	public function beforeSave(Model $Model) {
+	public function beforeSave(Model $Model, $options = array()) {
 		$formField = $this->settings[$Model->alias]['formField'];
 		$field = $this->settings[$Model->alias]['field'];
 		$type = $this->settings[$Model->alias]['hashType'];

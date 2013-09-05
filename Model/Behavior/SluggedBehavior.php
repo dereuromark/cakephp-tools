@@ -126,7 +126,7 @@ class SluggedBehavior extends ModelBehavior {
 	 * @param Model $Model
 	 * @return void
 	 */
-	public function beforeValidate(Model $Model) {
+	public function beforeValidate(Model $Model, $options = array()) {
 		extract($this->settings[$Model->alias]);
 		if ($run !== 'beforeValidate') {
 			return;
@@ -145,7 +145,7 @@ class SluggedBehavior extends ModelBehavior {
 	 * @param Model $Model
 	 * @return void
 	 */
-	public function beforeSave(Model $Model) {
+	public function beforeSave(Model $Model, $options = array()) {
 		extract($this->settings[$Model->alias]);
 		if ($run !== 'beforeSave') {
 			return;

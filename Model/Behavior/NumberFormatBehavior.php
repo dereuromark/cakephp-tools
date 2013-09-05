@@ -97,7 +97,7 @@ class NumberFormatBehavior extends ModelBehavior {
 		$this->settings[$Model->alias]['fields'] = array_merge($this->settings[$Model->alias]['fields'], $numberFields);
 	}
 
-	public function beforeValidate(Model $Model) {
+	public function beforeValidate(Model $Model, $options = array()) {
 		if ($this->settings[$Model->alias]['before'] !== 'validate') {
 			return true;
 		}
@@ -106,7 +106,7 @@ class NumberFormatBehavior extends ModelBehavior {
 		return true;
 	}
 
-	public function beforeSave(Model $Model) {
+	public function beforeSave(Model $Model, $options = array()) {
 		if ($this->settings[$Model->alias]['before'] !== 'save') {
 			return true;
 		}

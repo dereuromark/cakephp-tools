@@ -377,7 +377,7 @@ class LogableBehavior extends ModelBehavior {
 		$this->_saveLog($Model, $logData);
 	}
 
-	public function beforeValidate(Model $Model) {
+	public function beforeValidate(Model $Model, $options = array()) {
 		if (!$this->settings[$Model->alias]['enabled'] || $this->settings[$Model->alias]['on'] !== 'validate') {
 			return true;
 		}
@@ -385,7 +385,7 @@ class LogableBehavior extends ModelBehavior {
 		return true;
 	}
 
-	public function beforeSave(Model $Model) {
+	public function beforeSave(Model $Model, $options = array()) {
 		if (!$this->settings[$Model->alias]['enabled'] || $this->settings[$Model->alias]['on'] !== 'save') {
 			return true;
 		}
