@@ -20,6 +20,8 @@ There are a few guidelines that I need contributors to follow:
 * Coding standards (see link below)
 * Passing tests (you can enable travis to assert your changes pass) for windows and unix
 
+Protip: Use my [MyCakePHP](https://github.com/dereuromark/cakephp-codesniffer/tree/master/Vendor/PHP/CodeSniffer/Standards/MyCakePHP) sniffs to
+assert coding standards are met. You can either use this pre-build repo and the convenience shell command `cake CodeSniffer.CodeSniffer run -p Tools --standard=MyCakePHP` or the manual `phpcs --standard=MyCakePHP /path/to/Tools`.
 
 # Additional Resources
 

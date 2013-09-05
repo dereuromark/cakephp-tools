@@ -6,8 +6,14 @@ if (!defined('CHMOD_PUBLIC')) {
 App::uses('AppShell', 'Console/Command');
 
 /**
- * uses dos2unix >= 5.0
- * console call: dos2unix [-fhkLlqV] [-c convmode] [-o file ...] [-n inputfile outputfile ...]
+ * A convert shell to quickly convert/correct the type of line endings in files.
+ * It recursivly walks through a specified folder.
+ * Uses dos2unix >= 6.0 (should contain 3 separate command tools).
+ *
+ * Console call:
+ *   dos2unix [-fhkLlqV] [-c convmode] [-o file ...] [-n inputfile outputfile ...]
+ *
+ * It is also possible to manually define the binPath (for Windows for example).
  *
  * @cakephp 2.x
  * @author Mark Scherer
@@ -17,13 +23,21 @@ App::uses('AppShell', 'Console/Command');
 class ConvertShell extends AppShell {
 
 	/**
-	 * predefined options
+	 * Predefined options
+	 *
+	 * @var array
 	 */
 	public $modes = array(
-		'd2u', 'u2d', 'git', # dos/unix
-		'd2m', 'm2d', # dos/mac
-		'u2m', 'm2u' # unix/mac
+		'git' => array('dos2unix', 'unix2dos'), # d2u + u2d
+		'd2u' => 'dos2unix', 'u2d' => 'unix2dos', # dos/unix
+		'u2m' => 'unix2mac', 'm2u' => 'mac2unix', # unix/mac
+		'd2m' => array('dos2unix', 'unix2mac'), 'm2d' => array('mac2unix', 'unix2dos'), # dos/mac
 	);
+
+	/**
+	 * @var string
+	 */
+	public $binPath;
 
 	/**
 	 * Shell startup, prints info message about dry run.
@@ -33,10 +47,12 @@ class ConvertShell extends AppShell {
 	public function startup() {
 		parent::startup();
 
+		$this->binPath = Configure::read('Cli.dos2unixPath');
+
 		if ($this->params['dry-run']) {
 			$this->out(__d('cake_console', '<warning>Dry-run mode enabled!</warning>'), 1, Shell::QUIET);
 		}
-		if (!$this->_test()) {
+		if (false && !$this->_test()) {
 			$this->out(__d('cake_console', '<warning>dos2unix not available</warning>'), 1, Shell::QUIET);
 		}
 	}
@@ -51,7 +67,7 @@ class ConvertShell extends AppShell {
 
 		$folder = APP;
 		$mode = $this->params['mode'];
-		if (empty($mode) || !in_array($mode, $this->modes)) {
+		if (empty($mode) || !array_key_exists($mode, $this->modes)) {
 			return $this->error('Invalid mode', 'Please specify d2u, u2d, git (d2u+u2d) ...');
 		}
 		if (!empty($this->args)) {
@@ -66,19 +82,33 @@ class ConvertShell extends AppShell {
 		$this->out('Done!');
 	}
 
-	public function _test() {
-		# bug - always outputs the system call right away, no way to catch and surpress it
-		return true;
+	public function version() {
+		$this->_test();
+	}
 
+	/**
+	 * ConvertShell::version()
+	 * //TODO: fixme, always outputs right away..
+	 *
+	 * @return void
+	 */
+	protected function _test() {
 		ob_start();
-		system('dos2unix -h', $x);
+		exec($this->binPath . 'dos2unix --version', $output, $x);
 		$output = ob_get_contents();
 		ob_end_clean();
-
 		return !empty($output) && $x === 0;
 	}
 
-	public function _convert($dir, $mode, $excludes = array()) {
+	/**
+	 * ConvertShell::_convert()
+	 *
+	 * @param mixed $dir
+	 * @param mixed $mode
+	 * @param mixed $excludes
+	 * @return void
+	 */
+	protected function _convert($dir, $mode, $excludes = array()) {
 		$Iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir),
 			RecursiveIteratorIterator::CHILD_FIRST);
 		foreach ($Iterator as $path) {
@@ -106,11 +136,10 @@ class ConvertShell extends AppShell {
 			}
 			if (empty($this->params['dry-run'])) {
 				ob_start();
-				if ($mode === 'git') {
-					system('dos2unix --'.'d2u'.' --skipbin '.$fullPath, $x);
-					system('dos2unix --'.'u2d'.' --skipbin '.$fullPath, $x);
-				} else {
-					system('dos2unix --'.$mode.' --skipbin '.$fullPath, $x);
+				$commands = (array)$this->modes[$mode];
+				foreach ($commands as $command) {
+					$this->out('Running', 1, Shell::VERBOSE);
+					system($this->binPath . $command . ' ' . $fullPath, $x);
 				}
 				$output = ob_get_contents();
 				ob_end_clean();
@@ -119,7 +148,7 @@ class ConvertShell extends AppShell {
 	}
 
 	/**
-	 * get the option parser
+	 * Get the option parser
 	 *
 	 * @return ConsoleOptionParser
 	 */
@@ -152,6 +181,10 @@ class ConvertShell extends AppShell {
 
 		return parent::getOptionParser()
 			->description(__d('cake_console', "The Convert Shell converts files from dos/unix/mac to another system"))
+			->addSubcommand('version', array(
+				'help' => __d('cake_console', 'Test and display version.'),
+				'parser' => $subcommandParser
+			))
 			->addSubcommand('folder', array(
 				'help' => __d('cake_console', 'Convert folder recursivly (Tools.Convert folder [options] [path])'),
 				'parser' => $subcommandParser
