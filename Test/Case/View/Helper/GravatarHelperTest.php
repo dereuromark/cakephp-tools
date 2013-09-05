@@ -2,7 +2,6 @@
 
 if (!defined('CAKEPHP_UNIT_TEST_EXECUTION')) {
 	define('CAKEPHP_UNIT_TEST_EXECUTION', 1);
-
 }
 
 define('VALID_TEST_EMAIL', 'graham@grahamweldon.com'); # for testing normal behavior
@@ -39,8 +38,6 @@ class GravatarHelperTest extends MyCakeTestCase {
 		unset($this->Gravatar);
 	}
 
-/** OWN ONES **/
-
 	/**
 	 * @access public
 	 * @return void
@@ -52,7 +49,7 @@ class GravatarHelperTest extends MyCakeTestCase {
 		$expectedCount = 7;
 
 		foreach ($is as $image) {
-			echo $image.' ';
+			$this->out($image.' ');
 		}
 		$this->assertTrue(is_array($is) && (count($is) === $expectedCount));
 
@@ -64,47 +61,45 @@ class GravatarHelperTest extends MyCakeTestCase {
 	 * 2009-07-30 ms
 	 */
 	public function testImages() {
-
 		$is = $this->Gravatar->image(GARBIGE_TEST_EMAIL);
-		echo $is;
+		$this->out($is);
 		$this->assertTrue(!empty($is));
 
 		$is = $this->Gravatar->image(Configure::read('Config.admin_email'));
-		echo $is;
+		$this->out($is);
 		$this->assertTrue(!empty($is));
 
 		$is = $this->Gravatar->image(VALID_TEST_EMAIL);
-		echo $is;
+		$this->out($is);
 		$this->assertTrue(!empty($is));
 
 		$is = $this->Gravatar->image(VALID_TEST_EMAIL, array('size'=>'200'));
-		echo $is;
+		$this->out($is);
 		$this->assertTrue(!empty($is));
 
 		$is = $this->Gravatar->image(VALID_TEST_EMAIL, array('size'=>'20'));
-		echo $is;
+		$this->out($is);
 		$this->assertTrue(!empty($is));
 
 		$is = $this->Gravatar->image(VALID_TEST_EMAIL, array('rating'=>'X')); # note the capit. x
-		echo $is;
+		$this->out($is);
 		$this->assertTrue(!empty($is));
 
 		$is = $this->Gravatar->image(VALID_TEST_EMAIL, array('ext'=>true));
-		echo $is;
+		$this->out($is);
 		$this->assertTrue(!empty($is));
 
 		$is = $this->Gravatar->image(VALID_TEST_EMAIL, array('default'=>'none'));
-		echo $is;
+		$this->out($is);
 		$this->assertTrue(!empty($is));
 
 		$is = $this->Gravatar->image(GARBIGE_TEST_EMAIL, array('default'=>'none'));
-		echo $is;
+		$this->out($is);
 		$this->assertTrue(!empty($is));
 
 		$is = $this->Gravatar->image(GARBIGE_TEST_EMAIL, array('default'=>'http://2.gravatar.com/avatar/8379aabc84ecee06f48d8ca48e09eef4?d=identicon'));
-		echo $is;
+		$this->out($is);
 		$this->assertTrue(!empty($is));
-
 	}
 
 /** BASE TEST CASES **/
