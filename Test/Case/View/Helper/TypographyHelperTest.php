@@ -81,7 +81,7 @@ class TypographyHelperTest extends MyCakeTestCase {
 		);
 		foreach ($strs as $str => $expected) {
 			$result = $this->Typography->formatCharacters($str);
-			echo debug($result);
+			//echo debug($result);
 			$this->assertEquals($expected, $result);
 		}
 	}

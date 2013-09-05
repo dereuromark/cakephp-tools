@@ -12,12 +12,11 @@ class WeatherHelperTest extends MyCakeTestCase {
 
 	public function setUp() {
 		parent::setUp();
-		if (!Configure::read('Weather.key')) {
-		Configure::write('Weather.key', '598dfbdaeb121715111208');
-		}
 
 		$this->Weather = new WeatherHelper(new View(null));
 		$this->Weather->Html = new HtmlHelper(new View(null));
+
+		$this->skipIf(!Configure::read('Weather.key'));
 	}
 
 	/** TODO **/
@@ -26,7 +25,9 @@ class WeatherHelperTest extends MyCakeTestCase {
 		$res = $this->Weather->get('51.0872,13.8028');
 		$res = $this->_displayForecast($res);
 		$this->out($res);
+		return debug($res);
 		$this->assertTrue(!empty($res));
+
 
 		$res = $this->Weather->get('Berlin, Deutschland');
 		$res = $this->_displayForecast($res);
