@@ -1190,21 +1190,21 @@ class ImapSource extends DataSource {
 	 * 2011-09-02 ms
 	 */
 	protected function _decodeString($message, $coding) {
-		if ($coding == 0) {
-			$message = imap_8bit($message);
-		} elseif ($coding == 1) {
-			$message = imap_8bit($message);
-		} elseif ($coding == 2) {
-			$message = imap_binary($message);
-		} elseif ($coding == 3) {
-			$message = imap_base64($message);
-		} elseif ($coding == 4) {
-			$message = imap_qprint($message);
-		} elseif ($coding == 5) {
+		switch ($coding) {
+			case 0:
+			case 1:
+				return imap_8bit($message);
+			case: 2
+				return imap_binary($message);
+			case 3:
+				return imap_base64($message);
+			case 4:
+				return imap_qprint($message);
+			default:
 			// plain
 			//$message = imap_base64($message);
+			return $message;
 		}
-		return $message;
 	}
 
 	/**
