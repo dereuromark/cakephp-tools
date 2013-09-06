@@ -137,7 +137,7 @@ class ImapLib {
 
 		//$options = OP_DEBUG;
 		$this->stream = @imap_open($connector, $user, $pass, $options);
-		if (false === $this->stream) {
+		if ($this->stream === false) {
 			if ($error = $this->checkConnection()) {
 				throw new ImapException($error);
 			}
