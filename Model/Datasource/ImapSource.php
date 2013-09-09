@@ -1192,7 +1192,6 @@ class ImapSource extends DataSource {
 	protected function _decodeString($message, $coding) {
 		switch ($coding) {
 		    case 0:
-		    	return imap_8bit($message);
 		    case 1:
 		    	return imap_8bit($message);
 		    case: 2
