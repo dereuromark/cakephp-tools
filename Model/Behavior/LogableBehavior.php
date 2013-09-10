@@ -403,7 +403,7 @@ class LogableBehavior extends ModelBehavior {
 		}
 	}
 
-	public function afterSave(Model $Model, $created) {
+	public function afterSave(Model $Model, $created, $options = array()) {
 		if (!$this->settings[$Model->alias]['enabled']) {
 			return true;
 		}

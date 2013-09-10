@@ -20,12 +20,16 @@ class PhpTagShell extends AppShell {
 		'trailing' => array(0, 0)
 	);
 
+	public function main() {
+		$this->out('Usage: cake Tools.PhpTag run [/path/or/file]');
+	}
+
 	/**
 	 * note: uses provided folder (first param)
 	 * otherwise complete APP
 	 * 2011-08-01 ms
 	 */
-	public function main() {
+	public function run() {
 		if (isset($this->args[0]) && !empty($this->args[0])) {
 			$folder = realpath($this->args[0]);
 		} else {
