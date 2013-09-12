@@ -6,12 +6,10 @@ class WeatherLibTest extends MyCakeTestCase {
 
 	public function setUp() {
 		parent::setUp();
-		if (!Configure::read('Weather.key')) {
-			Configure::write('Weather.key', '598dfbdaeb121715111208');
-		}
 
-		App::uses('WeatherLib', 'Tools.Lib');
 		$this->Weather = new WeatherLib();
+
+		$this->skipIf(!Configure::read('Weather.key'));
 	}
 
 	public function testUrl() {
