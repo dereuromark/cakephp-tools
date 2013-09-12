@@ -23,14 +23,14 @@ App::uses('HttpSocket', 'Network/Http');
  *
  * @author Mark Scherer
  * @license MIT
- * @see http://www.worldweatheronline.com/free-weather-feed.aspx
- * 2010-08-29 ms
+ * @see http://developer.worldweatheronline.com/documentation
+ * 2013-09-11 ms
  */
 class WeatherLib {
 
-	const API_URL = 'http://www.worldweatheronline.com/feed';
+	const API_URL = 'http://api.worldweatheronline.com/premium/v1/';
 
-	const API_URL_FREE = 'http://free.worldweatheronline.com/feed/';
+	const API_URL_FREE = 'http://api.worldweatheronline.com/free/v1/';
 
 	public $settings = array(
 		'format' => 'xml',

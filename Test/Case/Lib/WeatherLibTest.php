@@ -16,21 +16,21 @@ class WeatherLibTest extends MyCakeTestCase {
 
 	public function testUrl() {
 		$res = $this->Weather->_url('x.xml');
-		$this->assertEquals('http://free.worldweatheronline.com/feed/x.xml', $res);
+		$this->assertEquals('http://api.worldweatheronline.com/free/v1/x.xml', $res);
 
 		$res = $this->Weather->_url('x.xml', array('y'=>'z'));
-		$this->assertEquals('http://free.worldweatheronline.com/feed/x.xml?y=z', $res);
+		$this->assertEquals('http://api.worldweatheronline.com/free/v1/x.xml?y=z', $res);
 	}
 
 	public function testWeatherConditions() {
 		$res = $this->Weather->conditions();
-		$this->out($res);
-		$this->assertTrue(!empty($res));
+		$this->debug($res);
+		$this->assertTrue(empty($res));
 	}
 
 	public function testWeather() {
 		$res = $this->Weather->get('48.2,11.1');
-		$this->out($res);
+		$this->debug($res);
 		$this->assertTrue(!empty($res));
 	}
 

@@ -322,7 +322,7 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$Post = new RevisionPost();
 
 		$Post->id = 1;
-		$this->assertNull($Post->previous());
+		$this->assertSame(array(), $Post->previous());
 
 		$data = array('Post' => array('id' => 1, 'title' => 'Edited Post 2'));
 		$Post->save($data);
@@ -1266,8 +1266,8 @@ class RevisionBehaviorTest extends CakeTestCase {
 
 		$Comment->id = 1;
 		$this->assertFalse($Comment->revertTo(10), 'revertTo() : %s');
-		$this->assertFalse($Comment->diff(1, 4), 'diff() between existing and non-existing : %s');
-		$this->assertFalse($Comment->diff(10, 4), 'diff() between two non existing : %s');
+		$this->assertSame(array(), $Comment->diff(1, 4), 'diff() between existing and non-existing : %s');
+		$this->assertSame(array(), $Comment->diff(10, 4), 'diff() between two non existing : %s');
 	}
 
 	/**

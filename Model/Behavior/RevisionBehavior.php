@@ -1,6 +1,7 @@
 <?php
 
 App::uses('ModelBehavior', 'Model');
+App::uses('Set', 'Utility'); // TODO: use Hash instead of Set
 
 /**
  * Revision Behavior
@@ -36,7 +37,7 @@ App::uses('ModelBehavior', 'Model');
  *
  * You should make these AFTER you have baked your ordinary tables as they may interfer. By default
  * the tables should be named "[prefix][model_table_name]_revs" If you wish to change the suffix you may
- * do so in the property called $revision_suffix found bellow. Also by default the behavior expects
+ * do so in the property called $revisionSuffix found bellow. Also by default the behavior expects
  * the revision tables to be in the same dbconfig as the model, but you may change this on a per
  * model basis with the useDbConfig config option.
  *
@@ -82,7 +83,7 @@ App::uses('ModelBehavior', 'Model');
  * behavior (even if secondary model does not have a shadow table).
  *
  * 1.1.1 => 1.1.2 changelog
- * - revisions() got new paramter: $include_current
+ * - revisions() got new paramter: $includeCurrent
  * This now defaults to false, resulting in a change from 1.1.1. See tests
  *
  * 1.1.6 => 1.2
@@ -108,15 +109,15 @@ App::uses('ModelBehavior', 'Model');
 class RevisionBehavior extends ModelBehavior {
 
 	/**
-	 * Shadow table prefix
-	 * Only change this value if it causes table name crashes
+	 * Shadow table prefix.
+	 * Only change this value if it causes table name crashes.
 	 *
 	 * @var string
 	 */
-	public $revision_suffix = '_revs';
+	public $revisionSuffix = '_revs';
 
 	/**
-	 * Defaul setting values
+	 * Defaul setting values.
 	 *
 	 * @var array
 	 */
@@ -128,17 +129,18 @@ class RevisionBehavior extends ModelBehavior {
 		'model' => null);
 
 	/**
-	 * Old data, used to detect changes
+	 * Old data, used to detect changes.
 	 *
 	 * @var array
 	 */
-	protected $oldData = array();
+	protected $_oldData = array();
 
 	/**
 	 * Configure the behavior through the Model::actsAs property
 	 *
 	 * @param object $Model
 	 * @param array $config
+	 * @return void
 	 */
 	public function setup(Model $Model, $config = array()) {
 		if (!empty($config)) {
@@ -155,12 +157,12 @@ class RevisionBehavior extends ModelBehavior {
 	 *
 	 * @example $this->Post->id = 5; $this->Post->createRevision();
 	 * @param object $Model
-	 * @return boolean success
+	 * @return boolean Success
 	 */
 	public function createRevision(Model $Model) {
 		if (!$Model->id) {
 			trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
-			return null;
+			return false;
 		}
 		if (!$Model->ShadowModel) {
 			trigger_error('RevisionBehavior: ShadowModel doesnt exist.', E_USER_WARNING);
@@ -181,7 +183,7 @@ class RevisionBehavior extends ModelBehavior {
 			$foreign_keys = Set::extract($data, '/' . $assocAlias . '/' . $Model->{$assocAlias}->primaryKey);
 			$Model->ShadowModel->set($assocAlias, implode(',', $foreign_keys));
 		}
-		return $Model->ShadowModel->save();
+		return (bool)$Model->ShadowModel->save();
 	}
 
 	/**
@@ -191,63 +193,63 @@ class RevisionBehavior extends ModelBehavior {
 	 * @example $this->Post->id = 4; $my_changes = $this->Post->diff(null,nul, array('conditions'=>array('user_id'=>4)));
 	 * @example $this->Post->id = 4; $difference = $this->Post->diff(45,192);
 	 * @param Object $Model
-	 * @param integer $from_version_id
-	 * @param integer $to_version_id
+	 * @param integer $fromVersionId
+	 * @param integer $toVersionId
 	 * @param array $options
 	 * @return array
 	 */
-	public function diff(Model $Model, $from_version_id = null, $to_version_id = null, $options = array()) {
+	public function diff(Model $Model, $fromVersionId = null, $toVersionId = null, $options = array()) {
 		if (!$Model->id) {
 			trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
-			return null;
+			return array();
 		}
 		if (!$Model->ShadowModel) {
 			trigger_error('RevisionBehavior: ShadowModel doesnt exist.', E_USER_WARNING);
-			return null;
+			return array();
 		}
 		if (isset($options['conditions'])) {
 			$conditions = array_merge($options['conditions'], array($Model->primaryKey => $Model->id));
 		} else {
 			$conditions = array($Model->primaryKey => $Model->id);
 		}
-		if (is_numeric($from_version_id) || is_numeric($to_version_id)) {
-			if (is_numeric($from_version_id) && is_numeric($to_version_id)) {
-				$conditions['version_id'] = array($from_version_id, $to_version_id);
+		if (is_numeric($fromVersionId) || is_numeric($toVersionId)) {
+			if (is_numeric($fromVersionId) && is_numeric($toVersionId)) {
+				$conditions['version_id'] = array($fromVersionId, $toVersionId);
 				if ($Model->ShadowModel->find('count', array('conditions' => $conditions)) < 2) {
-					return false;
+					return array();
 				}
 			} else {
-				if (is_numeric($from_version_id)) {
-					$conditions['version_id'] = $from_version_id;
+				if (is_numeric($fromVersionId)) {
+					$conditions['version_id'] = $fromVersionId;
 				} else {
-					$conditions['version_id'] = $to_version_id;
+					$conditions['version_id'] = $toVersionId;
 				}
 				if ($Model->ShadowModel->find('count', array('conditions' => $conditions)) < 1) {
-					return false;
+					return array();
 				}
 			}
 		}
 		$conditions = array($Model->primaryKey => $Model->id);
-		if (is_numeric($from_version_id)) {
-			$conditions['version_id >='] = $from_version_id;
+		if (is_numeric($fromVersionId)) {
+			$conditions['version_id >='] = $fromVersionId;
 		}
-		if (is_numeric($to_version_id)) {
-			$conditions['version_id <='] = $to_version_id;
+		if (is_numeric($toVersionId)) {
+			$conditions['version_id <='] = $toVersionId;
 		}
 		$options['conditions'] = $conditions;
 		$all = $this->revisions($Model, $options, true);
-		if (sizeof($all) == 0) {
-			return null;
+		if (!$all) {
+			return array();
 		}
 		$unified = array();
 		$keys = array_keys($all[0][$Model->alias]);
 		foreach ($keys as $field) {
-			$all_values = Set::extract($all, '/' . $Model->alias . '/' . $field);
-			$all_values = array_reverse(array_unique(array_reverse($all_values, true)), true);
-			if (sizeof($all_values) == 1) {
-				$unified[$field] = reset($all_values);
+			$allValues = Set::extract($all, '/' . $Model->alias . '/' . $field);
+			$allValues = array_reverse(array_unique(array_reverse($allValues, true)), true);
+			if (sizeof($allValues) == 1) {
+				$unified[$field] = reset($allValues);
 			} else {
-				$unified[$field] = $all_values;
+				$unified[$field] = $allValues;
 			}
 		}
 		return array($Model->alias => $unified);
@@ -263,16 +265,16 @@ class RevisionBehavior extends ModelBehavior {
 	 * @example $this->Post->initializeRevisions();
 	 * @param object $Model
 	 * @param integer $limit number of rows to initialize in one go
-	 * @return boolean
+	 * @return boolean Success
 	 */
 	public function initializeRevisions(Model $Model, $limit = 100) {
 		if (!$Model->ShadowModel) {
 			trigger_error('RevisionBehavior: ShadowModel doesnt exist.', E_USER_WARNING);
 			return false;
 		}
-		if ($Model->ShadowModel->useTable == false) {
+		if ($Model->ShadowModel->useTable === false) {
 			trigger_error('RevisionBehavior: Missing shadowtable : ' . $Model->table . $this->suffix, E_USER_WARNING);
-			return null;
+			return false;
 		}
 		if ($Model->ShadowModel->find('count') != 0) {
 			return false;
@@ -301,6 +303,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * @param object $Model
 	 * @param integer $page
 	 * @param integer $limit
+	 * @return void
 	 */
 	protected function init(Model $Model, $page, $limit) {
 		$habtm = array();
@@ -335,11 +338,11 @@ class RevisionBehavior extends ModelBehavior {
 	public function newest(Model $Model, $options = array()) {
 		if (!$Model->id) {
 			trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
-			return null;
+			return array();
 		}
 		if (!$Model->ShadowModel) {
 			trigger_error('RevisionBehavior: ShadowModel doesnt exist.', E_USER_WARNING);
-			return null;
+			return array();
 		}
 		if (isset($options['conditions'])) {
 			$options['conditions'] = array_merge($options['conditions'], array($Model->alias . '.' . $Model->primaryKey => $Model->id));
@@ -363,11 +366,11 @@ class RevisionBehavior extends ModelBehavior {
 	public function oldest(Model $Model, $options = array()) {
 		if (!$Model->id) {
 			trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
-			return null;
+			return array();
 		}
 		if (!$Model->ShadowModel) {
 			trigger_error('RevisionBehavior: ShadowModel doesnt exist.', E_USER_WARNING);
-			return null;
+			return array();
 		}
 		if (isset($options['conditions'])) {
 			$options['conditions'] = array_merge($options['conditions'], array($Model->primaryKey => $Model->id));
@@ -389,11 +392,11 @@ class RevisionBehavior extends ModelBehavior {
 	public function previous(Model $Model, $options = array()) {
 		if (!$Model->id) {
 			trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
-			return null;
+			return array();
 		}
 		if (!$Model->ShadowModel) {
 			trigger_error('RevisionBehavior: ShadowModel doesnt exist.', E_USER_WARNING);
-			return false;
+			return array();
 		}
 		$options['limit'] = 1;
 		$options['page'] = 2;
@@ -404,7 +407,7 @@ class RevisionBehavior extends ModelBehavior {
 		}
 		$revisions = $Model->ShadowModel->find('all', $options);
 		if (!$revisions) {
-			return null;
+			return array();
 		}
 		return $revisions[0];
 	}
@@ -416,7 +419,7 @@ class RevisionBehavior extends ModelBehavior {
 	 *
 	 * @param object $Model
 	 * @param array $options 'conditions','date'
-	 * @return boolean success
+	 * @return boolean Success
 	 */
 	public function revertAll(Model $Model, $options = array()) {
 		if (!$Model->ShadowModel) {
@@ -474,20 +477,20 @@ class RevisionBehavior extends ModelBehavior {
 	 *
 	 * @example $this->Post->id = 3; $this->Post->revertTo(12);
 	 * @param object $Model
-	 * @param integer $version_id
-	 * @return boolean
+	 * @param integer $versionId
+	 * @return boolean Success
 	 */
-	public function revertTo(Model $Model, $version_id) {
+	public function revertTo(Model $Model, $versionId) {
 		if (!$Model->id) {
 			trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
-			return null;
+			return false;
 		}
 		if (!$Model->ShadowModel) {
 			trigger_error('RevisionBehavior: ShadowModel doesnt exist.', E_USER_WARNING);
 			return false;
 		}
-		$data = $Model->ShadowModel->find('first', array('conditions' => array('version_id' => $version_id)));
-		if ($data == false) {
+		$data = $Model->ShadowModel->find('first', array('conditions' => array('version_id' => $versionId)));
+		if (!$data) {
 			return false;
 		}
 		foreach ($Model->getAssociated('hasAndBelongsToMany') as $assocAlias) {
@@ -495,7 +498,7 @@ class RevisionBehavior extends ModelBehavior {
 				$data[$assocAlias][$assocAlias] = explode(',', $data[$Model->alias][$assocAlias]);
 			}
 		}
-		return $Model->save($data);
+		return (bool)$Model->save($data);
 	}
 
 	/**
@@ -509,7 +512,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * @param string $datetime
 	 * @param boolean $cascade
 	 * @param boolean $force_delete
-	 * @return boolean
+	 * @return boolean Success
 	 */
 	public function revertToDate(Model $Model, $datetime, $cascade = false, $force_delete = false) {
 		if (!$Model->id) {
@@ -565,7 +568,7 @@ class RevisionBehavior extends ModelBehavior {
 		$data = $Model->ShadowModel->find('first', array('conditions' => array($Model->primaryKey => $Model->id,
 					'version_created <=' => $datetime), 'order' => 'version_created ASC, version_id ASC'));
 		/* If no previous version was found and revertToDate() was called with force_delete, then delete the live data, else leave it alone */
-		if ($data == false) {
+		if (!$data) {
 			if ($force_delete) {
 				$Model->logableAction['Revision'] = 'revertToDate(' . $datetime . ') delete';
 				return $Model->delete($Model->id);
@@ -600,11 +603,11 @@ class RevisionBehavior extends ModelBehavior {
 			$changeDetected = false;
 			foreach ($liveData[$Model->alias] as $key => $value) {
 				if (isset($data[$Model->alias][$key])) {
-					$old_value = $data[$Model->alias][$key];
+					$oldValue = $data[$Model->alias][$key];
 				} else {
-					$old_value = '';
+					$oldValue = '';
 				}
-				if ($value != $old_value) {
+				if ($value != $oldValue) {
 					$changeDetected = true;
 				}
 			}
@@ -619,8 +622,8 @@ class RevisionBehavior extends ModelBehavior {
 		$Model->ShadowModel->create($data, true);
 		$Model->ShadowModel->set('version_created', date('Y-m-d H:i:s'));
 		$Model->ShadowModel->save();
-		$Model->version_id = $Model->ShadowModel->id;
-		$success = $Model->save($data);
+		$Model->versionId = $Model->ShadowModel->id;
+		$success = (bool)$Model->save($data);
 		$this->settings[$Model->alias]['auto'] = $auto;
 		return $success;
 	}
@@ -634,24 +637,24 @@ class RevisionBehavior extends ModelBehavior {
 	 * @example $this->Post->id = 4; $today = $this->Post->revisions(array('conditions'=>array('version_create >'=>'2008-12-10')));
 	 * @param object $Model
 	 * @param array $options
-	 * @param boolean $include_current If true will include last saved (live) data
+	 * @param boolean $includeCurrent If true will include last saved (live) data
 	 * @return array
 	 */
-	public function revisions(Model $Model, $options = array(), $include_current = false) {
+	public function revisions(Model $Model, $options = array(), $includeCurrent = false) {
 		if (!$Model->id) {
 			trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
-			return null;
+			return array();
 		}
 		if (!$Model->ShadowModel) {
 			trigger_error('RevisionBehavior: ShadowModel doesnt exist.', E_USER_WARNING);
-			return null;
+			return array();
 		}
 		if (isset($options['conditions'])) {
 			$options['conditions'] = array_merge($options['conditions'], array($Model->alias . '.' . $Model->primaryKey => $Model->id));
 		} else {
 			$options['conditions'] = array($Model->alias . '.' . $Model->primaryKey => $Model->id);
 		}
-		if ($include_current == false) {
+		if (!$includeCurrent) {
 			$current = $this->newest($Model, array('fields' => array($Model->alias . '.version_id', $Model->primaryKey)));
 			$options['conditions'][$Model->alias . '.version_id !='] = $current[$Model->alias]['version_id'];
 		}
@@ -665,7 +668,7 @@ class RevisionBehavior extends ModelBehavior {
 	 *
 	 * @example $this->Post->id = 7; $this->Post->undelete();
 	 * @param object $Model
-	 * @return boolean
+	 * @return boolean Success
 	 */
 	public function undelete(Model $Model) {
 		if (!$Model->id) {
@@ -718,7 +721,7 @@ class RevisionBehavior extends ModelBehavior {
 	 *
 	 * @example $this->Post->id = 2; $this->Post->undo();
 	 * @param object $Model
-	 * @return boolean
+	 * @return boolean Success
 	 */
 	public function undo(Model $Model) {
 		if (!$Model->id) {
@@ -730,7 +733,7 @@ class RevisionBehavior extends ModelBehavior {
 			return false;
 		}
 		$data = $this->previous($Model);
-		if ($data == false) {
+		if (!$data) {
 			$Model->logableAction['Revision'] = 'undo add';
 			$Model->delete($Model->id);
 			return false;
@@ -741,7 +744,7 @@ class RevisionBehavior extends ModelBehavior {
 			}
 		}
 		$Model->logableAction['Revision'] = 'undo changes';
-		return $Model->save($data);
+		return (bool)$Model->save($data);
 	}
 
 	/**
@@ -750,11 +753,12 @@ class RevisionBehavior extends ModelBehavior {
 	 * @example $this->Model->updateRevisions(array(1,2,3));
 	 * @param object $Model
 	 * @param array $idlist
+	 * @return void
 	 */
 	public function updateRevisions(Model $Model, $idlist = array()) {
 		if (!$Model->ShadowModel) {
 			trigger_error('RevisionBehavior: ShadowModel doesnt exist.', E_USER_WARNING);
-			return null;
+			return;
 		}
 		foreach ($idlist as $id) {
 			$Model->id = $id;
@@ -768,13 +772,14 @@ class RevisionBehavior extends ModelBehavior {
 	 * to do the revision update in afterDelete. Uses
 	 *
 	 * @param unknown_type $Model
+	 * @return void
 	 */
 	public function afterDelete(Model $Model) {
 		if ($this->settings[$Model->alias]['auto'] === false) {
-			return true;
+			return;
 		}
 		if (!$Model->ShadowModel) {
-			return true;
+			return;
 		}
 		if (isset($this->deleteUpdates[$Model->alias]) && !empty($this->deleteUpdates[$Model->alias])) {
 			foreach ($this->deleteUpdates[$Model->alias] as $assocAlias => $assocIds) {
@@ -790,7 +795,7 @@ class RevisionBehavior extends ModelBehavior {
 	 *
 	 * @param object $Model
 	 * @param boolean $created
-	 * @return boolean
+	 * @return boolean Success
 	 */
 	public function afterSave(Model $Model, $created, $options = array()) {
 		if ($this->settings[$Model->alias]['auto'] === false) {
@@ -810,8 +815,8 @@ class RevisionBehavior extends ModelBehavior {
 					}
 				}
 			}
-			$success = $Model->ShadowModel->save();
-			$Model->version_id = $Model->ShadowModel->id;
+			$success = (bool)$Model->ShadowModel->save();
+			$Model->versionId = $Model->ShadowModel->id;
 			return $success;
 		}
 
@@ -826,14 +831,14 @@ class RevisionBehavior extends ModelBehavior {
 
 		$changeDetected = false;
 		foreach ($data[$Model->alias] as $key => $value) {
-			if (isset($data[$Model->alias][$Model->primaryKey]) && !empty($this->oldData[$Model->alias]) && isset($this->oldData[$Model->
+			if (isset($data[$Model->alias][$Model->primaryKey]) && !empty($this->_oldData[$Model->alias]) && isset($this->_oldData[$Model->
 				alias][$Model->alias][$key])) {
 
-				$old_value = $this->oldData[$Model->alias][$Model->alias][$key];
+				$oldValue = $this->_oldData[$Model->alias][$Model->alias][$key];
 			} else {
-				$old_value = '';
+				$oldValue = '';
 			}
-			if ($value != $old_value && !in_array($key, $this->settings[$Model->alias]['ignore'])) {
+			if ($value != $oldValue && !in_array($key, $this->settings[$Model->alias]['ignore'])) {
 				$changeDetected = true;
 			}
 		}
@@ -843,7 +848,7 @@ class RevisionBehavior extends ModelBehavior {
 				if (in_array($assocAlias, $this->settings[$Model->alias]['ignore'])) {
 					continue;
 				}
-				$oldIds = Set::extract($this->oldData[$Model->alias], $assocAlias . '.{n}.id');
+				$oldIds = Set::extract($this->_oldData[$Model->alias], $assocAlias . '.{n}.id');
 				if (!isset($Model->data[$assocAlias])) {
 					$Model->ShadowModel->set($assocAlias, implode(',', $oldIds));
 					continue;
@@ -858,13 +863,13 @@ class RevisionBehavior extends ModelBehavior {
 				}
 			}
 		}
-		unset($this->oldData[$Model->alias]);
+		unset($this->_oldData[$Model->alias]);
 		if (!$changeDetected) {
 			return true;
 		}
 		$Model->ShadowModel->set('version_created', date('Y-m-d H:i:s'));
 		$Model->ShadowModel->save();
-		$Model->version_id = $Model->ShadowModel->id;
+		$Model->versionId = $Model->ShadowModel->id;
 		if (is_numeric($this->settings[$Model->alias]['limit'])) {
 			$conditions = array('conditions' => array($Model->alias . '.' . $Model->primaryKey => $Model->id));
 			$count = $Model->ShadowModel->find('count', $conditions);
@@ -884,7 +889,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * to do the revision update in afterDelete.
 	 *
 	 * @param object $Model
-	 * @return boolean
+	 * @return boolean Success
 	 */
 	public function beforeDelete(Model $Model, $cascade = true) {
 		if ($this->settings[$Model->alias]['auto'] === false) {
@@ -907,7 +912,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * Revision uses the beforeSave callback to remember the old data for comparison in afterSave
 	 *
 	 * @param object $Model
-	 * @return boolean
+	 * @return boolean Success
 	 */
 	public function beforeSave(Model $Model, $options = array()) {
 		if ($this->settings[$Model->alias]['auto'] === false) {
@@ -927,8 +932,8 @@ class RevisionBehavior extends ModelBehavior {
 				$habtm[] = $assocAlias;
 			}
 		}
-		$this->oldData[$Model->alias] = $Model->find('first', array('contain' => $habtm, 'conditions' => array($Model->alias .
-					'.' . $Model->primaryKey => $Model->id)));
+		$this->_oldData[$Model->alias] = $Model->find('first', array(
+				'contain' => $habtm, 'conditions' => array($Model->alias . '.' . $Model->primaryKey => $Model->id)));
 
 		return true;
 	}
@@ -937,7 +942,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * Returns a generic model that maps to the current $Model's shadow table.
 	 *
 	 * @param object $Model
-	 * @return boolean
+	 * @return boolean Success
 	 */
 	protected function createShadowModel(Model $Model) {
 		if ($this->settings[$Model->alias]['useDbConfig'] === null) {
@@ -947,29 +952,30 @@ class RevisionBehavior extends ModelBehavior {
 		}
 		$db = ConnectionManager::getDataSource($dbConfig);
 		if ($Model->useTable) {
-			$shadow_table = $Model->useTable;
+			$shadowTable = $Model->useTable;
 		} else {
-			$shadow_table = Inflector::tableize($Model->name);
+			$shadowTable = Inflector::tableize($Model->name);
 		}
-		$shadow_table = $shadow_table . $this->revision_suffix;
+		$shadowTable = $shadowTable . $this->revisionSuffix;
 		$prefix = $Model->tablePrefix ? $Model->tablePrefix : $db->config['prefix'];
-		$full_table_name = $prefix . $shadow_table;
+		$fullTableName = $prefix . $shadowTable;
 
-		$existing_tables = $db->listSources();
-		if (!in_array($full_table_name, $existing_tables)) {
+		$existingTables = $db->listSources();
+		if (!in_array($fullTableName, $existingTables)) {
 			$Model->ShadowModel = false;
 			return false;
 		}
 		$useShadowModel = $this->settings[$Model->alias]['model'];
-		if (is_string($useShadowModel) && App::import('model', $useShadowModel)) {
-			$Model->ShadowModel = new $useShadowModel(false, $shadow_table, $dbConfig);
+		//TOOD: use App::uses() and ClassRegistry::init() - also allow Plugin.Model syntax
+		if (is_string($useShadowModel) && App::import('Model', $useShadowModel)) {
+			$Model->ShadowModel = new $useShadowModel(false, $shadowTable, $dbConfig);
 		} else {
-			$Model->ShadowModel = new Model(false, $shadow_table, $dbConfig);
+			$Model->ShadowModel = new Model(false, $shadowTable, $dbConfig);
 		}
 		if ($Model->tablePrefix) {
 			$Model->ShadowModel->tablePrefix = $Model->tablePrefix;
 		}
-		$Model->ShadowModel->alias = $Model->alias;
+		$Model->ShadowModel->alias = $Model->alias; // . 'Shadow';
 		$Model->ShadowModel->primaryKey = 'version_id';
 		$Model->ShadowModel->order = 'version_created DESC, version_id DESC';
 		return true;

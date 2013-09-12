@@ -68,6 +68,8 @@ class NumberLib extends CakeNumber {
 	/**
 	 * Convenience method to display the default currency
 	 *
+	 * @param mixed $amount
+	 * @param array $formatOptions
 	 * @return string
 	 * 2011-10-05 ms
 	 */
@@ -78,11 +80,12 @@ class NumberLib extends CakeNumber {
 	/**
 	 * format numeric values
 	 * should not be used for currencies
+	 * //TODO: automize per localeconv() ?
 	 *
 	 * @param float $number
 	 * @param integer $places (0 = int, 1..x places after dec, -1..-x places before dec)
 	 * @param array $option : currency=true/false, ... (leave empty for no special treatment)
-	 * //TODO: automize per localeconv() ?
+	 * @return string
 	 * 2009-04-03 ms
 	 */
 	public static function format($number, $formatOptions = array()) {
@@ -136,6 +139,11 @@ class NumberLib extends CakeNumber {
 
 	/**
 	 * Correct the default for European countries
+	 *
+	 * @param mixed $number
+	 * @param string $currency
+	 * @param array $formatOptions
+	 * @return string
 	 * 2012-04-08 ms
 	 */
 	public static function currency($number, $currency = null, $formatOptions = array()) {
@@ -221,7 +229,8 @@ class NumberLib extends CakeNumber {
 	}
 
 	/**
-	 * get the rounded average
+	 * Get the rounded average.
+	 *
 	 * @param array $values: int or float values
 	 * @param integer $precision
 	 * @return int $average
@@ -233,7 +242,7 @@ class NumberLib extends CakeNumber {
 	}
 
 	/**
-	 * Round value
+	 * Round value.
 	 *
 	 * @param float $number
 	 * @param float $increment
@@ -250,7 +259,7 @@ class NumberLib extends CakeNumber {
 	}
 
 	/**
-	 * Round value up
+	 * Round value up.
 	 *
 	 * @param float $number
 	 * @param integer $increment
@@ -262,7 +271,7 @@ class NumberLib extends CakeNumber {
 	}
 
 	/**
-	 * Round value down
+	 * Round value down.
 	 *
 	 * @param float $number
 	 * @param integer $increment
@@ -296,11 +305,11 @@ class NumberLib extends CakeNumber {
 	/**
 	 * Returns the English ordinal suffix (th, st, nd, etc) of a number.
 	 *
-	 * echo 2, Num::ordinal(2); // "2nd"
-	 * echo 10, Num::ordinal(10); // "10th"
-	 * echo 33, Num::ordinal(33); // "33rd"
+	 * echo Num::ordinal(2); // "2nd"
+	 * echo Num::ordinal(10); // "10th"
+	 * echo Num::ordinal(33); // "33rd"
 	 *
-	 * @param integer number
+	 * @param integer $number
 	 * @return string
 	 */
 	public static function ordinal($number) {
