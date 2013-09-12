@@ -68,7 +68,7 @@ class JsonableBehavior extends ModelBehavior {
 	 * @param array $results
 	 * @return array
 	 */
-	public function afterFind(Model $Model, $results, $primary) {
+	public function afterFind(Model $Model, $results, $primary = false) {
 		$results = $this->decodeItems($Model, $results);
 		return $results;
 	}

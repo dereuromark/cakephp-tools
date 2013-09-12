@@ -70,7 +70,7 @@ class HazardableBehavior extends ModelBehavior {
 	 * afterFind() to inject the hazardous strings into the retrieved model data.
 	 * Only activate this if you have not persistently stored any hazardous strings yet.
 	 */
-	public function afterFind(Model $Model, $results, $primary) {
+	public function afterFind(Model $Model, $results, $primary = false) {
 		if (empty($this->settings[$Model->alias]['replaceFind'])) {
 			return $results;
 		}

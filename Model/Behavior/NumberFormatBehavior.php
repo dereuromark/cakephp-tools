@@ -115,7 +115,7 @@ class NumberFormatBehavior extends ModelBehavior {
 		return true;
 	}
 
-	public function afterFind(Model $Model, $results, $primary) {
+	public function afterFind(Model $Model, $results, $primary = false) {
 		if (!$this->settings[$Model->alias]['output'] || empty($results)) {
 			return $results;
 		}

@@ -78,7 +78,7 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 	 * @param boolean $primary
 	 * @return array Modified results
 	 */
-	public function afterFind(Model $Model, $results, $primary) {
+	public function afterFind(Model $Model, $results, $primary = false) {
 		if (empty($this->settings[$Model->alias]['multiple_display_fields'])) {
 			return $results;
 		}

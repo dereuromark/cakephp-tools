@@ -80,7 +80,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	/**
 	 * @return array
 	 */
-	public function afterFind(Model $Model, $results, $primary) {
+	public function afterFind(Model $Model, $results, $primary = false) {
 		$field = $this->settings[$Model->alias]['field'];
 		if (!($mappedField = $this->settings[$Model->alias]['mappedField'])) {
 			$mappedField = $field;
