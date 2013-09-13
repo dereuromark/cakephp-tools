@@ -597,7 +597,7 @@ function geocodeAddress(address) {
 			$this->matching[$options['id']] = self::$MARKER_COUNT;
 		}
 
-		return self::$MARKER_COUNT++;
+		self::$MARKER_COUNT++;
 	}
 
 	/**
