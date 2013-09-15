@@ -19,6 +19,7 @@
 		"source": "https://github.com/dereuromark/tools"
 	},
 	"extra": {
+		"installer-name": "Tools",
 		"installer-paths": {
 			"Plugin/Tools/": ["dereuromark/tools-cakephp"]
 		}
