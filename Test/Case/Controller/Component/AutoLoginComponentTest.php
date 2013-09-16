@@ -6,8 +6,6 @@ App::uses('Controller', 'Controller');
 /**
  * Short description for class.
  *
- * @package cake.tests
- * @subpackage cake.tests.cases.libs.controller.components
  */
 class AutoLoginComponentTest extends CakeTestCase {
 
@@ -98,8 +96,6 @@ class AutoLoginComponentTest extends CakeTestCase {
 /**
  * Short description for class.
  *
- * @package cake.tests
- * @subpackage cake.tests.cases.libs.controller.components
  */
 class AutoLoginTestController extends Controller {
 	/**

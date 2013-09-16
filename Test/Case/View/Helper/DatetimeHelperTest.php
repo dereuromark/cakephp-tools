@@ -7,8 +7,6 @@ App::uses('View', 'View');
 /**
  * Datetime Test Case
  *
- * @package cake.tests
- * @subpackage cake.tests.cases.libs.view.helpers
  */
 class DatetimeHelperTest extends MyCakeTestCase {
 

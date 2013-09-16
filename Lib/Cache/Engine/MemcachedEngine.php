@@ -13,7 +13,6 @@
  *
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
- * @package       Cake.Cache.Engine
  * @since         CakePHP(tm) v 1.2.0.4933
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
@@ -31,7 +30,6 @@
  * (if memcached extension compiled with --enable-igbinary).
  * Compressed keys can also be incremented/decremented.
  *
- * @package       Cake.Cache.Engine
  */
 class MemcachedEngine extends CacheEngine {
 

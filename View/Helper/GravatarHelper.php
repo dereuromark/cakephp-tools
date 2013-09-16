@@ -8,8 +8,6 @@ App::uses('AppHelper', 'View/Helper');
  *
  * @copyright Copyright 2009-2010, Graham Weldon (http://grahamweldon.com)
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
- * @package goodies
- * @subpackage goodies.views.helpers
  *
  * hashtype now always md5
  * 2010-12-21 ms

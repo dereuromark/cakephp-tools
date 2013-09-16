@@ -15,7 +15,6 @@
  *
  * @author Mark Scherer
  * @link http://www.dereuromark.de/2010/12/21/googlemapsv3-cakephp-helper/
- * @package tools plugin
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  *
  * fixed brackets, spacesToTabs, indends, some improvements, supports multiple maps now.
@@ -481,7 +480,7 @@ class GoogleMapV3Helper extends AppHelper {
 	 *
 	 * @param array $options
 	 * - lat and lng or address (to geocode on demand, not recommended, though)
-	 * - title, content, icon, directions (optional)
+	 * - title, content, icon, directions, maxWidth (optional)
 	 * @return int $markerCount or false on failure
 	 * @throws CakeException
 	 * 2010-12-18 ms

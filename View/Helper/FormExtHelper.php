@@ -92,7 +92,9 @@ class FormExtHelper extends FormHelper {
 	}
 
 	/**
-	 * Overwrite FormHelper::create() to allow disabling browser html5 validation via configs
+	 * Overwrite FormHelper::create() to allow disabling browser html5 validation via configs.
+	 * It also grabs inputDefaults from your Configure if set.
+	 * Also adds the class "form-control" to all inputs for better control over them.
 	 *
 	 * @param string $model
 	 * @param array $options
@@ -102,6 +104,14 @@ class FormExtHelper extends FormHelper {
 		if (Configure::read('Validation.browserAutoRequire') === false && !isset($options['novalidate'])) {
 			$options['novalidate'] = true;
 		}
+		if (!isset($options['inputDefaults'])) {
+			$options['inputDefaults'] = array();
+		}
+		$options['inputDefaults'] += (array)Configure::read('Form.inputDefaults');
+		$options['inputDefaults'] += array(
+			'class' => array('form-control'),
+		);
+
 		return parent::create($model, $options);
 	}
 

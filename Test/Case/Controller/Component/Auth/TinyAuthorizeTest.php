@@ -13,7 +13,6 @@ App::uses('CakeRequest', 'Network');
 /**
  * Test case for DirectAuthentication
  *
- * @package Test.Case.Controller.Component.Auth
  */
 class TinyAuthorizeTest extends MyCakeTestCase {
 

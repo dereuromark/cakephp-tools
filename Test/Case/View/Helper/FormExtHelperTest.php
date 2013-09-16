@@ -194,8 +194,6 @@ class FormExtHelperTest extends MyCakeTestCase {
 /**
  * Contact class
  *
- * @package	   cake
- * @package       Cake.Test.Case.View.Helper
  */
 class ContactExt extends CakeTestModel {
 

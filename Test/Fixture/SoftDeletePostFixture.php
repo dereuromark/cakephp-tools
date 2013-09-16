@@ -2,8 +2,6 @@
 /**
  * Short description for class.
  *
- * @package cake
- * @subpackage cake.tests.fixtures
  */
 class SoftDeletePostFixture extends CakeTestFixture {
 

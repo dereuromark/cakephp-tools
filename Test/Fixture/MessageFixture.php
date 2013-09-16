@@ -13,8 +13,6 @@
  *
  * @copyright Copyright (c) 2008, Andy Dawson
  * @link www.ad7six.com
- * @package mi
- * @subpackage mi.tests.fixtures
  * @since v 1.0
  * @modifiedBy $LastChangedBy$
  * @lastModified $Date$

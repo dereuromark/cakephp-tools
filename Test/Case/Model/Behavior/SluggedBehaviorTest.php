@@ -18226,8 +18226,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * MessageSlugged class
  *
  * @uses CakeTestModel
- * @package mi
- * @subpackage mi.tests.cases.behaviors
  */
 class MessageSlugged extends CakeTestModel {
 

@@ -14,7 +14,6 @@ App::uses('CakeResponse', 'Network');
 /**
  * Test case for DirectAuthentication
  *
- * @package       Cake.Test.Case.Controller.Component.Auth
  */
 class DirectAuthenticateTest extends CakeTestCase {
 
