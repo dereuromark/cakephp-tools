@@ -54,7 +54,7 @@ class EmailLib extends CakeEmail {
 	 * @param string $subject
 	 * @param string $message
 	 * @param string $transportConfig
-	 * @return bool $success
+	 * @return boolean Success
 	 * 2011-10-31 ms
 	 */
 	public static function systemEmail($subject, $message = 'System Email', $transportConfig = null) {
@@ -475,7 +475,7 @@ class EmailLib extends CakeEmail {
 	 *
 	 * @overwrite
 	 * @param string/array: message
-	 * @return bool $success
+	 * @return boolean Success
 	 */
 	public function send($message = null) {
 		$this->_log = array(
@@ -544,7 +544,7 @@ class EmailLib extends CakeEmail {
 	 * Set/Get wrapLength
 	 *
 	 * @param integer $length Must not be more than CakeEmail::LINE_LENGTH_MUST
-	 * @return int|CakeEmail
+	 * @return integer|CakeEmail
 	 */
 	public function wrapLength($length = null) {
 		if ($length === null) {
@@ -558,7 +558,7 @@ class EmailLib extends CakeEmail {
 	 * Set/Get priority
 	 *
 	 * @param integer $priority 1 (highest) to 5 (lowest)
-	 * @return int|CakeEmail
+	 * @return integer|CakeEmail
 	 */
 	public function priority($priority = null) {
 		if ($priority === null) {

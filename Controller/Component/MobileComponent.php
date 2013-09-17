@@ -150,7 +150,7 @@ class MobileComponent extends Component {
 	/**
 	 * Determine if we need to so serve mobile views based on session preference and browser headers.
 	 *
-	 * @return bool $success
+	 * @return boolean Success
 	 */
 	public function isMobile() {
 		if ($this->isMobile !== null) {
@@ -182,7 +182,7 @@ class MobileComponent extends Component {
 	/**
 	 * Detect if the current request is from a mobile device
 	 *
-	 * @return bool $success
+	 * @return boolean Success
 	 */
 	public function detect() {
 		if ($this->settings['engine'] !== 'cake') {
@@ -196,7 +196,7 @@ class MobileComponent extends Component {
 	}
 
 	/**
-	 * @return bool $success
+	 * @return boolean Success
 	 */
 	public function detectByTools() {
 		$isMobile = $this->Session->read('Session.mobile');
@@ -209,7 +209,7 @@ class MobileComponent extends Component {
 	}
 
 	/**
-	 * @return bool $success
+	 * @return boolean Success
 	 */
 	public function detectByWurfl() {
 		App::import('Vendor', 'WURFL', array('file' => 'WURFLManagerProvider.php'));

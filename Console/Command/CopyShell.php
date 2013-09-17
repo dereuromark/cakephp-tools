@@ -427,7 +427,7 @@ class CopyShell extends AppShell {
 	}
 
 	/**
-	 * @return bool $success
+	 * @return boolean Success
 	 */
 	protected function _exec($silent = true, $options = array()) {
 		# make sure, folder exists

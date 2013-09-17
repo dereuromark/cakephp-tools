@@ -21,7 +21,7 @@ class Utility {
 	 *
 	 * @param mixed $needle
 	 * @param array $haystack
-	 * @return bool Success
+	 * @return boolean Success
 	 */
 	public static function inArray($needle, $haystack) {
 		$strict = !is_numeric($needle);
@@ -280,7 +280,7 @@ class Utility {
 	 * //TODO: maybe move to bootstrap?
 	 *
 	 * @param array $array
-	 * @return bool Result
+	 * @return boolean Result
 	 * 2011-11-02 ms
 	 */
 	public static function logicalAnd($array) {
@@ -300,7 +300,7 @@ class Utility {
 	 * //TODO: maybe move to bootstrap?
 	 *
 	 * @param array $array
-	 * @return bool Result
+	 * @return boolean Result
 	 *
 	 * 2011-11-02 ms
 	 */
@@ -318,7 +318,7 @@ class Utility {
 	 * So we need to call this method inside the modified saveAll() method to return the expected single bool there, too.
 	 *
 	 * @param array
-	 * @return bool
+	 * @return boolean
 	 * 2012-10-12 ms
 	 */
 	public static function isValidSaveAll($array) {

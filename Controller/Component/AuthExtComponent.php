@@ -269,7 +269,7 @@ class AuthExtComponent extends AuthComponent {
 
 	/**
 	 * @deprecated
-	 * @return bool Success
+	 * @return boolean Success
 	 */
 	public function verifyUser($id, $pwd) {
 		trigger_error('deprecated - use Authenticate class');

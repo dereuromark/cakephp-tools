@@ -39,7 +39,7 @@ class CalendarComponent extends Component {
 	}
 
 	/**
-	 * @return bool $success
+	 * @return boolean Success
 	 */
 	public function ensureCalendarConsistency($year, $month, $span = 10) {
 		if (!is_numeric($month)) {

@@ -128,7 +128,7 @@ class CommonComponent extends Component {
 	 * Convenience method to check on POSTED data.
 	 * Doesn't matter if its post or put.
 	 *
-	 * @return bool $isPost
+	 * @return boolean $isPost
 	 * 2011-12-09 ms
 	 */
 	public function isPosted() {
@@ -343,7 +343,7 @@ class CommonComponent extends Component {
 	 *
 	 * Password can be passed as named param or query string param.
 	 *
-	 * @return bool Success
+	 * @return boolean Success
 	 */
 	public function validAdminUrlAccess() {
 		$pwd = Configure::read('Config.pwd');
@@ -1023,7 +1023,7 @@ class CommonComponent extends Component {
 
 	/**
 	 * returns true only if all values are true
-	 * @return bool $result
+	 * @return boolean $result
 	 * maybe move to bootstrap?
 	 * 2011-11-02 ms
 	 */
@@ -1034,7 +1034,7 @@ class CommonComponent extends Component {
 
 	/**
 	 * returns true if at least one value is true
-	 * @return bool $result
+	 * @return boolean $result
 	 * maybe move to bootstrap?
 	 * 2011-11-02 ms
 	 */

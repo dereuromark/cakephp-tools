@@ -124,7 +124,7 @@ class FileLib extends File {
 	 * @param array $data
 	 * @param string $delimiter (null defaults to ,)
 	 * @param string $enclosure (null defaults to " - do not pass empty string)
-	 * @return bool Success
+	 * @return boolean Success
 	 * 2012-07-06 ms
 	 */
 	public function writeCsv($data, $delimiter = null, $enclosure = null) {

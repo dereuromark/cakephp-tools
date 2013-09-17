@@ -93,7 +93,7 @@ class CurrencyLib {
 	 * CurrencyComponent::isAvailable()
 	 *
 	 * @param mixed $currency
-	 * @return bool Success.
+	 * @return boolean Success.
 	 */
 	public function isAvailable($currency) {
 		$rates = $this->_retrieveCurrencies();

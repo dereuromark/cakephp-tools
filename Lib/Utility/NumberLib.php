@@ -233,7 +233,7 @@ class NumberLib extends CakeNumber {
 	 *
 	 * @param array $values: int or float values
 	 * @param integer $precision
-	 * @return int $average
+	 * @return integer $average
 	 * 2009-09-05 ms
 	 */
 	public static function average($values, $precision = 0) {
@@ -286,7 +286,7 @@ class NumberLib extends CakeNumber {
 	 * Get decimal places
 	 *
 	 * @param float $number
-	 * @return int $decimalPlaces
+	 * @return integer $decimalPlaces
 	 * 2011-04-15 lb
 	 */
 	public static function getDecimalPlaces($number) {

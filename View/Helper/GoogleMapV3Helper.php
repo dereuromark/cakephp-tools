@@ -481,7 +481,7 @@ class GoogleMapV3Helper extends AppHelper {
 	 * @param array $options
 	 * - lat and lng or address (to geocode on demand, not recommended, though)
 	 * - title, content, icon, directions, maxWidth (optional)
-	 * @return int $markerCount or false on failure
+	 * @return integer $markerCount or false on failure
 	 * @throws CakeException
 	 * 2010-12-18 ms
 	 */
@@ -648,7 +648,7 @@ function geocodeAddress(address) {
 	}
 
 	/**
-	 * @return int Current Marker counter
+	 * @return integer Current Marker counter
 	 */
 	public function addInfoContent($con) {
 		$this->infoContents[self::$MARKER_COUNT] = $this->escapeString($con);
@@ -806,7 +806,7 @@ var iconShape = {
 	/**
 	 * @param array $options
 	 * - lat, lng, content, maxWidth, pixelOffset, zIndex
-	 * @return int $windowCount
+	 * @return integer $windowCount
 	 * 2010-12-18 ms
 	 */
 	public function addInfoWindow($options=array()) {
@@ -1685,7 +1685,7 @@ function Fluster2ProjectionOverlay(map) {google.maps.OverlayView.call(this);this
 		'AS distance'
 	 * @param array pointX
 	 * @param array pointY
-	 *	@return int distance: in km
+	 *	@return integer distance: in km
 	 * DEPRECATED - use GeocodeLib::distance() instead!
 	 * 2009-03-06 ms
 	 */

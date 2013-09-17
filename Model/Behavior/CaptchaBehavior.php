@@ -129,7 +129,7 @@ class CaptchaBehavior extends ModelBehavior {
 	 * validates maximum time
 	 *
 	 * @param array $data
-	 * @return bool
+	 * @return boolean
 	 */
 	protected function _validateCaptchaMaxTime($data) {
 		if ($this->settings[$this->Model->alias]['maxTime'] <= 0) {

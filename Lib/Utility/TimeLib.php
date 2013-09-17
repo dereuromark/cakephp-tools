@@ -33,7 +33,7 @@ class TimeLib extends CakeTime {
 	 * Calculate the current GMT offset from a timezone string (respecting DST)
 	 *
 	 * @param string|DateTimeZone $timezone User's timezone string or DateTimeZone object
-	 * @return int Offset in hours
+	 * @return integer Offset in hours
 	 * 2012-05-20 ms
 	 */
 	public function getGmtOffset($timezone = null) {
@@ -65,7 +65,7 @@ class TimeLib extends CakeTime {
 	 * should only be used for < month (due to the different month lenghts it gets fuzzy)
 	 * @param mixed $start (db format or timestamp)
 	 * @param mixex §end (db format or timestamp)
-	 * @return int: the distance in seconds
+	 * @return integer: the distance in seconds
 	 * 2011-03-03 ms
 	 */
 	public static function difference($startTime = null, $endTime = null, $options = array()) {
@@ -90,7 +90,7 @@ class TimeLib extends CakeTime {
 	 $now = mktime(0,0,0,date("m"),date("d"),date("Y"));
 	 $birth = mktime(0,0,0, $monat, $tag, $jahr);
 	 $age = intval(($now - $birth) / (3600 * 24 * 365));
-	 * @return int age (0 if both timestamps are equal or empty, -1 on invalid dates)
+	 * @return integer age (0 if both timestamps are equal or empty, -1 on invalid dates)
 	 * 2009-03-12 ms
 	 */
 	public static function age($start = null, $end = null, $accuracy = 0) {
@@ -289,7 +289,7 @@ class TimeLib extends CakeTime {
 	 * Get number of days since the start of the week.
 	 * 1 = monday, 7 = sunday ? should be 0=sunday to 7=saturday (default)
 	 * @param integer $num Number of day.
-	 * @return int Days since the start of the week.
+	 * @return integer Days since the start of the week.
 	 */
 	public static function cweekMod($num, $offset = 0) {
 		$base = 7;
@@ -340,7 +340,7 @@ class TimeLib extends CakeTime {
 	/**
 	 * calculate the amount of calender weeks in a year
 	 * @param year (format xxxx, defaults to current year)
-	 * @return int: 52 or 53
+	 * @return integer: 52 or 53
 	 * 2011-03-07 ms
 	 */
 	public static function cweeks($year = null) {
@@ -352,7 +352,7 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * @param year (format xxxx, defaults to current year)
-	 * @return bool $success
+	 * @return boolean Success
 	 * 2012-02-17 ms
 	 */
 	public static function isLeapYear($year) {
@@ -1062,7 +1062,7 @@ class TimeLib extends CakeTime {
 	 * @param type
 	 * - start: first second of this interval
 	 * - end: last second of this interval
-	 * @return int timestamp
+	 * @return integer timestamp
 	 * 2011-11-19 ms
 	 */
 	public static function parseLocalizedDate($date, $format = null, $type = 'start') {
@@ -1217,7 +1217,7 @@ class TimeLib extends CakeTime {
 	 * parse 2,5 - 2.5 2:30 2:31:58 or even 2011-11-12 10:10:10
 	 * now supports negative values like -2,5 -2,5 -2:30 -:30 or -4
 	 * @param string
-	 * @return int: seconds
+	 * @return integer: seconds
 	 * 2011-03-06 ms
 	 */
 	public static function parseTime($duration, $allowed = array(':', '.', ',')) {
@@ -1257,7 +1257,7 @@ class TimeLib extends CakeTime {
 	/**
 	 * parse 2022-11-12 or 12.11.2022 or even 12.11.22
 	 * @param string $date
-	 * @return int: seconds
+	 * @return integer: seconds
 	 * 2011-03-09 ms
 	 */
 	public static function parseDate($date, $allowed = array('.', '-')) {

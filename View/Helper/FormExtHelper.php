@@ -900,7 +900,7 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 	 * FormExtHelper::scripts()
 	 *
 	 * @param string $type
-	 * @return bool Success
+	 * @return boolean Success
 	 */
 	public function scripts($type) {
 		switch ($type) {

@@ -141,7 +141,7 @@ class MyAsset {
 	}
 
 	/**
-	 * @return bool $result
+	 * @return boolean $result
 	 * @deprecated?
 	 * 2011-03-23 ms
 	 */

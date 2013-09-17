@@ -35,7 +35,7 @@ class IcalHelper extends AppHelper {
 	/**
 	 * Add a new ical record.
 	 *
-	 * @return boolean $success
+	 * @return boolean Success
 	 */
 	public function add($data = array()) {
 		//TODO: validate!

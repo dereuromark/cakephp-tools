@@ -71,7 +71,7 @@ class SpellLib {
 	}
 
 	/**
-	 * @return bool $success
+	 * @return boolean Success
 	 */
 	public function check($word) {
 		return enchant_dict_check($this->_Dict, $word);

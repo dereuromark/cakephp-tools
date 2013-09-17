@@ -99,7 +99,7 @@ class MasterPasswordBehavior extends ModelBehavior {
 	 * Checks a string against the stored hash values of master passwords
 	 *
 	 * @param string $pwd: plain password string (not hashed etc)
-	 * @return bool Success
+	 * @return boolean Success
 	 * 2011-12-22 ms
 	 */
 	public function isAuthorized(Model $Model, $field) {

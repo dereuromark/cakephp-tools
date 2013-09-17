@@ -361,7 +361,7 @@ class MyModel extends Model {
 	 * return the next auto increment id from the current table
 	 * UUIDs will return false
 	 *
-	 * @return int next auto increment value or False on failure
+	 * @return integer next auto increment value or False on failure
 	 */
 	public function getNextAutoIncrement() {
 		$next_increment = 0;
@@ -396,7 +396,7 @@ class MyModel extends Model {
 	 *
 	 * @param mixed $data
 	 * @param array $options
-	 * @return bool Success
+	 * @return boolean Success
 	 * 2012-11-10 ms
 	 */
 	public function saveAll($data = null, $options = array()) {
@@ -430,7 +430,7 @@ class MyModel extends Model {
 	/**
 	 * @param params
 	 * - key: functioName or other key used
-	 * @return bool Success
+	 * @return boolean Success
 	 * 2010-12-02 ms
 	 */
 	public function deleteCache($key) {
@@ -842,7 +842,7 @@ class MyModel extends Model {
 	 * Does not do any callbacks
 	 *
 	 * @param mixed $conditions Conditions to match, true for all records
-	 * @return bool Success
+	 * @return boolean Success
 	 */
 	public function deleteAllRaw($conditions = true) {
 		return $this->getDataSource()->delete($this, $conditions);
@@ -876,7 +876,7 @@ class MyModel extends Model {
 	 * @param array $data
 	 * @param array $options
 	 * - allowEmpty
-	 * @return bool Success
+	 * @return boolean Success
 	 * 2011-06-21 ms
 	 */
 	public function validateKey($data = array(), $options = array()) {
@@ -909,7 +909,7 @@ class MyModel extends Model {
 	/**
 	 * Checks if the passed enum value is valid
 	 *
-	 * @return bool Success
+	 * @return boolean Success
 	 * 2010-02-09 ms
 	 */
 	public function validateEnum(array $data, $enum = null, $additionalKeys = array()) {
@@ -939,7 +939,7 @@ class MyModel extends Model {
 	 * Checks if the content of 2 fields are equal
 	 * Does not check on empty fields! Return TRUE even if both are empty (secure against empty in another rule)!
 	 *
-	 * @return bool Success
+	 * @return boolean Success
 	 * 2009-01-22 ms
 	 */
 	public function validateIdentical($data = array(), $compareWith = null, $options = array()) {
@@ -968,7 +968,7 @@ class MyModel extends Model {
 	 * TODO: add possibity of deep nested validation (User -> Comment -> CommentCategory: UNIQUE comment_id, Comment.user_id)
 	 * @param array $options
 	 * - requireDependentFields Require all dependent fields for the validation rule to return true
-	 * @return bool Success
+	 * @return boolean Success
 	 * 2010-01-30 ms
 	 */
 	public function validateUnique($data, $fields = array(), $options = array()) {
@@ -1031,7 +1031,7 @@ class MyModel extends Model {
 	 * example in model: 'rule' => array ('validateUniqueExt', array('scope'=>array('belongs_to_table_id','some_id','user_id'))),
 	 * http://groups.google.com/group/cake-php/browse_thread/thread/880ee963456739ec
 	 * //TODO: test!!!
-	 * @return bool Success
+	 * @return boolean Success
 	 * @deprecated in favor of validateUnique?
 	 * 2011-03-27 ms
 	 */
@@ -1074,7 +1074,7 @@ class MyModel extends Model {
 	 * - required TRUE/FALSE (TRUE: overrides allowEmpty)
 	 * - autoComplete (default: TRUE)
 	 * - deep (default: TRUE)
-	 * @return bool Success
+	 * @return boolean Success
 	 * 2010-10-18 ms
 	 */
 	public function validateUrl($data, $options = array()) {
@@ -1137,7 +1137,7 @@ class MyModel extends Model {
 	 * checks if a url is valid
 	 *
 	 * @param string url
-	 * @return bool Success
+	 * @return boolean Success
 	 * 2009-02-27 ms
 	 */
 	protected function _validUrl($url) {
@@ -1164,7 +1164,7 @@ class MyModel extends Model {
 	 * - allowEmpty
 	 * - after/before (fieldName to validate against)
 	 * - min/max (defaults to >= 1 - at least 1 minute apart)
-	 * @return bool Success
+	 * @return boolean Success
 	 * 2011-03-02 ms
 	 */
 	public function validateDateTime($data, $options = array()) {
@@ -1214,7 +1214,7 @@ class MyModel extends Model {
 	 * - allowEmpty
 	 * - after/before (fieldName to validate against)
 	 * - min (defaults to 0 - equal is OK too)
-	 * @return bool Success
+	 * @return boolean Success
 	 * 2011-03-02 ms
 	 */
 	public function validateDate($data, $options = array()) {
@@ -1257,7 +1257,7 @@ class MyModel extends Model {
 	 * - allowEmpty
 	 * - after/before (fieldName to validate against)
 	 * - min/max (defaults to >= 1 - at least 1 minute apart)
-	 * @return bool Success
+	 * @return boolean Success
 	 * 2011-03-02 ms
 	 */
 	public function validateTime($data, $options = array()) {
@@ -1311,7 +1311,7 @@ class MyModel extends Model {
 	/**
 	 * model validation rule for email addresses
 	 *
-	 * @return bool Success
+	 * @return boolean Success
 	 * 2010-01-14 ms
 	 */
 	public function validateUndisposable($data, $proceed = false) {
@@ -1360,7 +1360,7 @@ class MyModel extends Model {
 	 * Is blocked email?
 	 * //TODO: move outside of MyModel?
 	 *
-	 * @return bool $ifNotBlacklisted
+	 * @return boolean $ifNotBlacklisted
 	 * 2009-12-22 ms
 	 */
 	public function validateNotBlocked($params) {
@@ -1606,7 +1606,7 @@ class MyModel extends Model {
 	 * Update a row with certain fields (dont use "Model" as super-key)
 	 * @param integer $id
 	 * @param array $data
-	 * @return bool|array Success
+	 * @return boolean|array Success
 	 * 2012-11-20 ms
 	 */
 	public function update($id, $data, $validate = false) {
@@ -1650,7 +1650,7 @@ class MyModel extends Model {
 	/**
 	 * truncate TABLE (already validated, that table exists)
 	 * @param string table [default:FALSE = current model table]
-	 * @return bool Success
+	 * @return boolean Success
 	 */
 	public function truncate($table = null) {
 		if (empty($table)) {

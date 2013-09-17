@@ -54,7 +54,7 @@ class TextLib extends String {
 	 * //TODO use str_word_count() instead!!!
 	 *
 	 * @param string $text
-	 * @return int
+	 * @return integer
 	 * 2009-11-11 ms
 	 */
 	public static function numberOfWords($text) {

@@ -136,7 +136,7 @@ class BitmaskedBehavior extends ModelBehavior {
 
 	/**
 	 * @param array $bitmaskArray
-	 * @return int $bitmask
+	 * @return integer $bitmask
 	 * from APP to DB
 	 */
 	public function encodeBitmask(Model $Model, $value, $defaultValue = null) {

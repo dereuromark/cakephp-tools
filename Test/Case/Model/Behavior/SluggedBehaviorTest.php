@@ -33,7 +33,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	/**
 	 * skipSetupTests property
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	public $skipSetupTests = true;
 

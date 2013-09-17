@@ -128,7 +128,7 @@ final class Str {
 	 * @param string $haystack
 	 * @param integer $offset
 	 * @param integer $length
-	 * @return int
+	 * @return integer
 	 */
 	final public static function count($needle, $haystack, $offset = 0, $length = null) {
 		if ($length === null) {

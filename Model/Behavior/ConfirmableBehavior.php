@@ -32,7 +32,7 @@ class ConfirmableBehavior extends ModelBehavior {
 	 * ConfirmableBehavior::beforeValidate()
 	 *
 	 * @param Model $Model
-	 * @return bool Success
+	 * @return boolean Success
 	 */
 	public function beforeValidate(Model $Model, $options = array()) {
 		$return = parent::beforeValidate($Model, $options);

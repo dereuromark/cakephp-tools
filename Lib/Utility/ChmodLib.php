@@ -37,7 +37,7 @@ class ChmodLib {
 	/**
 	 * from INT or STRING with or without leading 0 -> Octal 0xxx
 	 *
-	 * @return int
+	 * @return integer
 	 * 2009-07-26 ms
 	 */
 	public static function convertToOctal($mode) {
@@ -63,7 +63,7 @@ class ChmodLib {
 	 *
 	 * @param options
 	 * - string: string/int/symbolic
-	 * @return int Mode
+	 * @return integer Mode
 	 * 2010-06-21 ms
 	 */
 	public function getMode($options = array()) {
@@ -126,7 +126,7 @@ class ChmodLib {
 	 * @param integer $r
 	 * @param integer $w
 	 * @param integer $e
-	 * @return int
+	 * @return integer
 	 */
 	protected function setMode($r, $w, $e) {
 		$mode = 0;

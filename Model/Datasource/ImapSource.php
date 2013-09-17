@@ -1279,7 +1279,7 @@ class ImapSource extends DataSource {
 	 * Figure out how many emails there are in the thread for this mail.
 	 *
 	 * @param object $Mail the imap header of the mail
-	 * @return int the number of mails in the thred
+	 * @return integer the number of mails in the thred
 	 */
 	protected function _getThreadCount($Mail) {
 		if (isset($Mail->reference) || isset($Mail->in_reply_to)) {

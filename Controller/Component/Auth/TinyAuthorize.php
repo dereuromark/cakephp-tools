@@ -68,7 +68,7 @@ class TinyAuthorize extends BaseAuthorize {
 	 *
 	 * @param array $user The user to authorize
 	 * @param CakeRequest $request The request needing authorization.
-	 * @return bool Success
+	 * @return boolean Success
 	 */
 	public function authorize($user, CakeRequest $request) {
 		if (isset($user[$this->settings['aclModel']])) {
@@ -91,7 +91,7 @@ class TinyAuthorize extends BaseAuthorize {
 	 * validate the url to the role(s)
 	 * allows single or multi role based authorization
 	 *
-	 * @return bool Success
+	 * @return boolean Success
 	 */
 	public function validate($roles, $plugin, $controller, $action) {
 		$action = Inflector::underscore($action);

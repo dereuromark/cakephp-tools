@@ -458,7 +458,7 @@ class CommonHelper extends AppHelper {
 	 *
 	 * @param string $msg
 	 * @param string $class
-	 * @return bool $success
+	 * @return boolean Success
 	 * 2011-05-25 ms
 	 */
 	public function transientFlashMessage($msg, $class = null) {

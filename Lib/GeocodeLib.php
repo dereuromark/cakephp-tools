@@ -203,7 +203,7 @@ class GeocodeLib {
 	}
 
 	/**
-	 * @return bool $isInconclusive (or null if no query has been run yet)
+	 * @return boolean $isInconclusive (or null if no query has been run yet)
 	 */
 	public function isInconclusive() {
 		if ($this->result === null) {
@@ -244,7 +244,7 @@ class GeocodeLib {
 	 * @param array $options
 	 * - allow_inconclusive
 	 * - min_accuracy
-	 * @return boolean $success
+	 * @return boolean Success
 	 * 2010-06-29 ms
 	 */
 	public function reverseGeocode($lat, $lng, $settings = array()) {
@@ -511,7 +511,7 @@ class GeocodeLib {
 	}
 
 	/**
-	 * @return bool $success
+	 * @return boolean Success
 	 */
 	protected function _isNotAccurateEnough($accuracy = null) {
 		if ($accuracy === null) {
@@ -700,7 +700,7 @@ class GeocodeLib {
 	 * @param array pointX
 	 * @param array pointY
 	 * @param float $unit (M=miles, K=kilometers, N=nautical miles, I=inches, F=feet)
-	 * @return int distance: in km
+	 * @return integer distance: in km
 	 * 2009-03-06 ms
 	 */
 	public function distance($pointX, $pointY, $unit = null) {

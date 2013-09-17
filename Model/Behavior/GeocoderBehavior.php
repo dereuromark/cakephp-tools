@@ -277,7 +277,7 @@ class GeocoderBehavior extends ModelBehavior {
 	/**
 	 * snippet for custom pagination
 	 *
-	 * @return int $count
+	 * @return integer $count
 	 */
 	public function paginateDistanceCount(Model $Model, $conditions = null, $recursive = -1, $extra = array()) {
 		if (!empty($extra['radius'])) {
@@ -296,7 +296,7 @@ class GeocoderBehavior extends ModelBehavior {
 	 *
 	 * @param Model
 	 * @param float $latitude
-	 * @return bool
+	 * @return boolean
 	 */
 	public function validateLatitude(Model $Model, $latitude) {
 		if (is_array($latitude)) {
@@ -311,7 +311,7 @@ class GeocoderBehavior extends ModelBehavior {
 	 *
 	 * @param Model
 	 * @param float $longitude
-	 * @return bool
+	 * @return boolean
 	 */
 	public function validateLongitude(Model $Model, $longitude) {
 		if (is_array($longitude)) {

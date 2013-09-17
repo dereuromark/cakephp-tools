@@ -13,7 +13,7 @@ class FolderLib extends Folder {
 	 * Instead of deleting the folder itself as delete() does,
 	 * this method only removes its content recursivly.
 	 *
-	 * @return boolean $success or null on invalid folder
+	 * @return boolean Success or null on invalid folder
 	 * 2010-12-07 ms
 	 */
 	public function clear($path = null) {

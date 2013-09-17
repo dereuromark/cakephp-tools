@@ -145,7 +145,7 @@ class TypographicBehavior extends ModelBehavior {
 	 * This is useful if you attach it after some records have already been saved without it.
 	 *
 	 * @param Model $Model The model about to be saved.
-	 * @return int $count Number of affected/changed records
+	 * @return integer $count Number of affected/changed records
 	 */
 	public function updateTypography(Model $Model, $dryRun = false) {
 		$options = array('recursive' => -1, 'limit' => 100, 'offset' => 0);

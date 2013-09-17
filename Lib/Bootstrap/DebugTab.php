@@ -12,7 +12,7 @@ class DebugTab {
 	public static $groups = array();
 
 	/**
-	 * @return bool Success
+	 * @return boolean Success
 	 */
 	public static function debug($var = false, $display = false, $key = null) {
 		if (is_string($display)) {

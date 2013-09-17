@@ -123,7 +123,7 @@ class ImapLib {
 	}
 
 	/**
-	 * @return bool $success
+	 * @return boolean Success
 	 * 2011-10-25 ms
 	 */
 	public function connect($user, $pass, $server, $port = null) {
@@ -508,7 +508,7 @@ class ImapLib {
 	/**
 	 * makes sure imap_open is available etc
 	 * @throws InternalErrorException
-	 * @return bool $success
+	 * @return boolean Success
 	 * 2011-10-25 ms
 	 */
 	public function dependenciesMatch() {

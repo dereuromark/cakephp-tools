@@ -45,7 +45,7 @@ class DiffLib {
 	 * Do you want to use the Character diff renderer additionally to the sidebyside renderer ?
 	 * sidebyside renderer is the only one supporting the additional renderer
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	public $character_diff = true;
 
@@ -60,7 +60,7 @@ class DiffLib {
 	/**
 	 * How many context lines do you want to see around the changed line?
 	 *
-	 * @var int
+	 * @var integer
 	 */
 	public $context_lines = 4;
 
