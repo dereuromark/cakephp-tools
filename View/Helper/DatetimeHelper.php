@@ -49,7 +49,7 @@ class DatetimeHelper extends TimeHelper {
 
 	/**
 	 * @param string date (from db)
-	 * @return integer $age on success, mixed $default otherwise
+	 * @return integer age on success, mixed $default otherwise
 	 * 2009-11-22 ms
 	 */
 	public function userAge($date = null, $default = '---') {

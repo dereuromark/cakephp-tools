@@ -76,7 +76,7 @@ class MyHelper extends Helper {
 	 * enhancement for HtmlHelper
 	 * @param binary $content
 	 * @param array $options
-	 * @return string $html imageTag
+	 * @return string html imageTag
 	 * 2010-11-22 ms
 	 */
 	public function imageFromBlob($content, $options = array()) {

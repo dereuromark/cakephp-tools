@@ -154,7 +154,7 @@ class PhpThumbHelper extends AppHelper {
 	}
 
 	/**
-	 * @return string $error
+	 * @return string error
 	 * 2010-05-15 ms
 	 */
 	public function error() {

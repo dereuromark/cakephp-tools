@@ -41,7 +41,7 @@ class CommonHelper extends AppHelper {
 	 * Convenience function for clean meta name tags
 	 * @param STRING $name: author, date, generator, revisit-after, language
 	 * @param MIXED $content: if array, it will be seperated by commas
-	 * @return string $htmlMarkup
+	 * @return string htmlMarkup
 	 * 2009-07-07 ms
 	 */
 	public function metaName($name = null, $content = null) {
@@ -60,7 +60,7 @@ class CommonHelper extends AppHelper {
 	 * @param string $content
 	 * @param string $language (iso2: de, en-us, ...)
 	 * @param array $additionalOptions
-	 * @return string $htmlMarkup
+	 * @return string htmlMarkup
 	 */
 	public function metaDescription($content, $language = null, $options = array()) {
 		if (!empty($language)) {
@@ -77,7 +77,7 @@ class CommonHelper extends AppHelper {
 	 * @param string|array $keywords
 	 * @param string $language (iso2: de, en-us, ...)
 	 * @param boolean $escape
-	 * @return string $htmlMarkup
+	 * @return string htmlMarkup
 	 */
 	public function metaKeywords($keywords = null, $language = null, $escape = true) {
 		if ($keywords === null) {
@@ -102,7 +102,7 @@ class CommonHelper extends AppHelper {
 	 *
 	 * @param mixed $url
 	 * @param boolean $full
-	 * @return string $htmlMarkup
+	 * @return string htmlMarkup
 	 * 2010-03-03 ms
 	 */
 	public function metaCanonical($url = null, $full = false) {
@@ -119,7 +119,7 @@ class CommonHelper extends AppHelper {
 	 * - de
 	 * - de-ch
 	 * etc
-	 * @return string $htmlMarkup
+	 * @return string htmlMarkup
 	 * 2011-12-12 ms
 	 */
 	public function metaAlternate($url, $lang, $full = false) {
@@ -148,7 +148,7 @@ class CommonHelper extends AppHelper {
 	 *
 	 * @param STRING type
 	 * @param STRING content
-	 * @return string $htmlMarkup
+	 * @return string htmlMarkup
 	 * 2008-12-08 ms
 	 */
 	public function metaRss($url = null, $title = null) {
@@ -169,7 +169,7 @@ class CommonHelper extends AppHelper {
 	 *
 	 * @param STRING type
 	 * @param STRING content
-	 * @return string $htmlMarkup
+	 * @return string htmlMarkup
 	 * 2008-12-08 ms
 	 */
 	public function metaEquiv($type, $value, $escape = true) {
@@ -190,7 +190,7 @@ class CommonHelper extends AppHelper {
 	 * => x is in webroot/
 	 * => y is in plugins/tools/webroot/
 	 * => z is in plugins/tools/packages/jquery/files/jquery/sub/
-	 * @return string $htmlMarkup
+	 * @return string htmlMarkup
 	 * 2011-03-23 ms
 	 */
 	public function css($files = array(), $rel = null, $options = array()) {
@@ -211,7 +211,7 @@ class CommonHelper extends AppHelper {
 	 * => x is in webroot/
 	 * => y is in plugins/tools/webroot/
 	 * => z is in plugins/tools/packages/jquery/files/jquery/sub/
-	 * @return string $htmlMarkup
+	 * @return string htmlMarkup
 	 * 2011-03-23 ms
 	 */
 	public function script($files = array(), $options = array()) {
@@ -231,7 +231,7 @@ class CommonHelper extends AppHelper {
 	 * IN USAGE
 	 * needs manual adjustment, but still better than the core one!
 	 * @example needs Asset.cssversion => xyz (going up with counter)
-	 * @return string $htmlMarkup
+	 * @return string htmlMarkup
 	 * 2008-12-08 ms
 	 */
 	public function cssDyn($path, $rel = null, $htmlAttributes = array(), $return = true) {
@@ -243,7 +243,7 @@ class CommonHelper extends AppHelper {
 	 * NOT IN USAGE
 	 * but better than the core one!
 	 * @example needs Asset.timestamp => force
-	 * @return string $htmlMarkup
+	 * @return string htmlMarkup
 	 * 2008-12-08 ms
 	 */
 	public function cssAuto($path, $rel = null, $htmlAttributes = array(), $return = true) {
@@ -259,7 +259,7 @@ class CommonHelper extends AppHelper {
 	/**
 	 * still necessary?
 	 * @param array $fields
-	 * @return string $html
+	 * @return string html
 	 */
 	public function displayErrors($fields = array()) {
 		$res = '';
@@ -369,7 +369,7 @@ class CommonHelper extends AppHelper {
 	 * @param string $singular
 	 * @param string $plural
 	 * @param integer $count
-	 * @return string $result
+	 * @return string result
 	 * 2009-07-23 ms
 	 */
 	public function sp($singular, $plural, $count, $autoTranslate = false) {
@@ -471,7 +471,7 @@ class CommonHelper extends AppHelper {
 	 *
 	 * @param string $text
 	 * @param array $options
-	 * @return string $processedText
+	 * @return string processedText
 	 * - nl2br: true/false (defaults to true)
 	 * - escape: false prevents h() and space transformation (defaults to true)
 	 * - tabsToSpaces: int (defaults to 4)

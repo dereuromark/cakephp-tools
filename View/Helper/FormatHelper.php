@@ -246,7 +246,7 @@ class FormatHelper extends TextHelper {
 	 * - normal: display an icon for normal as well (defaults to false)
 	 * - map: array (manually map values, if you use 1 based values no need for that)
 	 * - title, alt, ...
-	 * @return string $html
+	 * @return string html
 	 * 2012-08-02 ms
 	 */
 	public function priorityIcon($value, $options = array()) {
@@ -708,7 +708,7 @@ class FormatHelper extends TextHelper {
 	 * @param array $options (for generation):
 	 * - inline, font, size, background (optional)
 	 * @param array $tagAttributes (for image)
-	 * @return string $result - as image
+	 * @return string result - as image
 	 * 2010-12-13 ms
 	 */
 	public function textAsImage($text, $options = array(), $attr = array()) {
@@ -733,7 +733,7 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * @return string $htmlImage tag (or empty string on failure)
+	 * @return string htmlImage tag (or empty string on failure)
 	 * 2010-12-13 ms
 	 */
 	public function _textAsImage($text, $options = array(), $attr = array()) {
@@ -873,7 +873,7 @@ class FormatHelper extends TextHelper {
 	 * @param integer $padLength
 	 * @param string $padString
 	 * @param mixed $padType
-	 * @return string $input
+	 * @return string input
 	 * 2011-09-27 ms
 	 */
 	public function pad($input, $padLength, $padString, $padType = STR_PAD_RIGHT) {
@@ -1035,7 +1035,7 @@ class FormatHelper extends TextHelper {
 	 * @param boolean $full
 	 * @param array $options
 	 * - hash (string)
-	 * @return string $url
+	 * @return string url
 	 * 2011-01-30 ms
 	 */
 	public function profileUrl($uid, $username, $full = false, $options = array()) {
@@ -1200,7 +1200,7 @@ class FormatHelper extends TextHelper {
 	 * @param boolean $ok: true/false (defaults to false)
 	 * //@param string $comparizonType
 	 * //@param mixed $okValue
-	 * @return string $newValue nicely formatted/colored
+	 * @return string newValue nicely formatted/colored
 	 * 2009-08-02 ms
 	 */
 	public function ok($value, $ok = false) {

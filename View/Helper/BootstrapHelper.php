@@ -37,7 +37,7 @@ class BootstrapHelper extends AppHelper {
 	 * @param options:
 	 * - data (array of strings)
 	 * - items (defaults to 8)
-	 * @return string $html
+	 * @return string html
 	 * 2012-03-29 ms
 	 */
 	public function typeahead($fieldName, $options = array(), $inputOptions = array()) {
@@ -70,7 +70,7 @@ class BootstrapHelper extends AppHelper {
 	 * @param array $items (heading, content, active)
 	 * @param id
 	 * @param array $options
-	 * @return string $html
+	 * @return string html
 	 * 2012-03-29 ms
 	 */
 	public function carousel($items, $id = null, $globalOptions = array()) {
@@ -94,7 +94,7 @@ class BootstrapHelper extends AppHelper {
 	 *
 	 * @param array $items (heading, content, active)
 	 * - active (visible, true/false)
-	 * @return string $html
+	 * @return string html
 	 * 2012-03-29 ms
 	 */
 	public function carouselItems($items, $options = array()) {
@@ -121,7 +121,7 @@ class BootstrapHelper extends AppHelper {
 	 * @param array $records (heading, content, options)
 	 * @param id
 	 * @param array $options
-	 * @return string $html
+	 * @return string html
 	 * 2012-03-29 ms
 	 */
 	public function accordion($records, $id = null, $globalOptions = array()) {
@@ -142,7 +142,7 @@ class BootstrapHelper extends AppHelper {
 	 * @param string $content
 	 * @param array $options
 	 * - active (collapsed, true/false)
-	 * @return string $html
+	 * @return string html
 	 * 2012-03-29 ms
 	 */
 	public function accordionGroup($heading, $content, $options = array()) {

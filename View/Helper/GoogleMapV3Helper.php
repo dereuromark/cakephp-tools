@@ -270,7 +270,7 @@ class GoogleMapV3Helper extends AppHelper {
 	 * @param boolean $sensor
 	 * @param string $language (iso2: en, de, ja, ...)
 	 * @param string $append (more key-value-pairs to append)
-	 * @return string $fullUrl
+	 * @return string fullUrl
 	 * 2009-03-09 ms
 	 */
 	public function apiUrl($sensor = false, $api = null, $language = null, $append = null) {
@@ -306,7 +306,7 @@ class GoogleMapV3Helper extends AppHelper {
 	}
 
 	/**
-	 * @return string $currentMapObject
+	 * @return string currentMapObject
 	 * 2010-12-18 ms
 	 */
 	public function name() {
@@ -314,7 +314,7 @@ class GoogleMapV3Helper extends AppHelper {
 	}
 
 	/**
-	 * @return string $currentContainerId
+	 * @return string currentContainerId
 	 * 2010-12-18 ms
 	 */
 	public function id() {
@@ -389,7 +389,7 @@ class GoogleMapV3Helper extends AppHelper {
 	 * Returns the div container you can echo on the website
 	 *
 	 * @param array $options associative array of settings are passed
-	 * @return string $divContainer
+	 * @return string divContainer
 	 * 2010-12-20 ms
 	 */
 	public function map($options = array()) {
@@ -481,7 +481,7 @@ class GoogleMapV3Helper extends AppHelper {
 	 * @param array $options
 	 * - lat and lng or address (to geocode on demand, not recommended, though)
 	 * - title, content, icon, directions, maxWidth (optional)
-	 * @return integer $markerCount or false on failure
+	 * @return integer markerCount or false on failure
 	 * @throws CakeException
 	 * 2010-12-18 ms
 	 */
@@ -806,7 +806,7 @@ var iconShape = {
 	/**
 	 * @param array $options
 	 * - lat, lng, content, maxWidth, pixelOffset, zIndex
-	 * @return integer $windowCount
+	 * @return integer windowCount
 	 * 2010-12-18 ms
 	 */
 	public function addInfoWindow($options=array()) {
@@ -1142,7 +1142,7 @@ var iconShape = {
 	/**
 	 * auto center map
 	 * careful: with only one marker this can result in too high zoom values!
-	 * @return string $autoCenterCommands
+	 * @return string autoCenterCommands
 	 * 2010-12-17 ms
 	 */
 	protected function _autoCenter() {
@@ -1290,7 +1290,7 @@ var iconShape = {
 	 * - title
 	 * - alt (defaults to 'Map')
 	 * - url (tip: you can pass $this->link(...) and it will create a link to maps.google.com)
-	 * @return string $imageTag
+	 * @return string imageTag
 	 * 2010-12-18 ms
 	 */
 	public function staticMap($options = array(), $attributes = array()) {
@@ -1315,7 +1315,7 @@ var iconShape = {
 	 * Create an url to a plain image map
 	 * @param options
 	 * - see staticMap() for details
-	 * @return string $urlOfImage: http://...
+	 * @return string urlOfImage: http://...
 	 * 2010-12-18 ms
 	 */
 	public function staticMapUrl($options = array()) {
@@ -1434,7 +1434,7 @@ var iconShape = {
 	 * - elements: [required] (multiple array(lat=>x, lng=>y) or just a address strings)
 	 * - color: red/blue/green (optional, default blue)
 	 * - weight: numeric (optional, default: 5)
-	 * @return string $paths: e.g: color:0x0000FF80|weight:5|37.40303,-122.08334|37.39471,-122.07201|37.40589,-122.06171{|...}
+	 * @return string paths: e.g: color:0x0000FF80|weight:5|37.40303,-122.08334|37.39471,-122.07201|37.40589,-122.06171{|...}
 	 * 2010-12-18 ms
 	 */
 	public function staticPaths($pos = array()) {
@@ -1491,7 +1491,7 @@ var iconShape = {
 	 * - label
 	 * - icon
 	 * - shadow
-	 * @return array $markers: color:green|label:Z|48,11|Berlin
+	 * @return array markers: color:green|label:Z|48,11|Berlin
 	 *
 	 * NEW: size:mid|color:red|label:E|37.400465,-122.073003|37.437328,-122.159928&markers=size:small|color:blue|37.369110,-122.096034
 	 * OLD: 40.702147,-74.015794,blueS|40.711614,-74.012318,greenG{|...}
@@ -1579,7 +1579,7 @@ var iconShape = {
 	 * # to 0x
 	 * or # added
 	 * @param string $color: FFFFFF, #FFFFFF, 0xFFFFFF or blue
-	 * @return string $color
+	 * @return string color
 	 * 2010-12-20 ms
 	 */
 	protected function _prepColor($color) {

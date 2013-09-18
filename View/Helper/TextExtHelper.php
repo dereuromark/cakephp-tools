@@ -73,7 +73,7 @@ class TextExtHelper extends TextHelper {
 	 * - obfuscate: true/false (defaults to false)
 	 * @param array $options
 	 * - escape (defaults to true)
-	 * @return string $html
+	 * @return string html
 	 * @override
 	 * 2010-11-20 ms
 	 */
@@ -105,7 +105,7 @@ class TextExtHelper extends TextHelper {
 	 * @param string $email
 	 * @param options:
 	 * - obfuscate: true/false (defaults to false)
-	 * @return string $html
+	 * @return string html
 	 * 2010-11-20 ms
 	 */
 	public static function prepareEmail($email, $options = array(), $customOptions = array()) {
@@ -137,7 +137,7 @@ class TextExtHelper extends TextHelper {
 	 * each part of this mail now does not make sense anymore on its own
 	 * (striptags will not work either)
 	 * @param string email: necessary (and valid - containing one @)
-	 * @return string $html
+	 * @return string html
 	 * 2009-03-11 ms
 	 */
 	public function encodeEmail($mail) {
@@ -152,7 +152,7 @@ class TextExtHelper extends TextHelper {
 	 * @param string text: optional (if none is given, email will be text as well)
 	 * @param array attributes: html tag attributes
 	 * @param array params: ?subject=y&body=y to be attached to "mailto:xyz"
-	 * @return string $html with js generated link around email (and non js fallback)
+	 * @return string html with js generated link around email (and non js fallback)
 	 * 2009-04-20 ms
 	 */
 	public function encodeEmailUrl($mail, $text=null, $params=array(), $attr = array()) {
@@ -210,7 +210,7 @@ class TextExtHelper extends TextHelper {
 	/**
 	 * Encodes Piece of Text (without usage of JS!) to avoid lowlevel spam bots to get it
 	 * @param STRING text to encode
-	 * @return string $html (randomly encoded)
+	 * @return string html (randomly encoded)
 	 * 2009-03-11 ms
 	 */
 	public static function encodeText($text) {
@@ -240,7 +240,7 @@ class TextExtHelper extends TextHelper {
 	 * - maxLength: int (defaults no none)
 	 * @param htmlOptions
 	 * - escape etc
-	 * @return string $html
+	 * @return string html
 	 * @override
 	 * 2010-11-07 ms
 	 */
@@ -273,7 +273,7 @@ class TextExtHelper extends TextHelper {
 	 * - stripProtocol: bool (defaults to true)
 	 * - maxLength: int (defaults to 50)
 	 * - escape (defaults to false, true needed for hellip to work)
-	 * @return string $html/$plain
+	 * @return string html/$plain
 	 * 2010-11-07 ms
 	 */
 	public static function prepareLinkName($link, $options = array()) {
@@ -301,7 +301,7 @@ class TextExtHelper extends TextHelper {
 	 * Remove http:// or other protocols from the link
 	 *
 	 * @param string $url
-	 * @return string $strippedUrl
+	 * @return string strippedUrl
 	 * 2010-11-07 ms
 	 */
 	public static function stripProtocol($url) {
@@ -354,7 +354,7 @@ class TextExtHelper extends TextHelper {
 	 * Transforming int values into ordinal numbers (1st, 3rd, etc.)
 	 * @param $num (INT) - the number to be suffixed.
 	 * @param $sup (BOOL) - whether to wrap the suffix in a superscript (<sup>) tag on output.
-	 * @return string $ordinal
+	 * @return string ordinal
 	 */
 	public static function ordinalNumber($num = 0, $sup = false) {
 		$suff = '';

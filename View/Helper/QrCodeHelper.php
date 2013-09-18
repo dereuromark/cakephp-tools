@@ -109,7 +109,7 @@ class QrCodeHelper extends AppHelper {
 	/**
 	 * format a text in a specific format
 	 * - url, sms, tel, email, market, geo
-	 * @return string $formattedText
+	 * @return string formattedText
 	 * 2010-02-06 ms
 	 */
 	public function formatText($text, $type = null) {
@@ -144,7 +144,7 @@ class QrCodeHelper extends AppHelper {
 	 * for details on cards see:
 	 * http://www.nttdocomo.co.jp/english/service/imode/make/content/barcode/function/application/addressbook/index.html
 	 * example: MECARD: N:Docomo,Taro; SOUND:docomotaro; TEL:03XXXXXXXX; EMAIL:d@e.de;
-	 * @return string $mecard
+	 * @return string mecard
 	 * 2010-02-26 ms
 	 */
 	public function formatCard($data) {
@@ -309,7 +309,7 @@ class QrCodeHelper extends AppHelper {
 	 * ...
 	 * 4000 => 547x547 (L)
 	 * @param integer $length
-	 * @return integer $size
+	 * @return integer size
 	 * 2011-06-06 ms
 	 */
 	protected function _findSuitableSize() {

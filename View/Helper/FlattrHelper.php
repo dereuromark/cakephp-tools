@@ -91,7 +91,7 @@ class FlattrHelper extends AppHelper {
 	 * @param mixed $uid
 	 * @param array $options:
 	 * - tle, cat, lng, dsc, url, btn, tags, hidden (optional)
-	 * @return string $html with js script tag
+	 * @return string html with js script tag
 	 * 2010-12-11 ms
 	 */
 	public function badge($uid = null, $options = array()) {

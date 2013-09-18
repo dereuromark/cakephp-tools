@@ -64,7 +64,7 @@ class DiffHelper extends AppHelper {
 	 * - div: true/false
 	 * - class: defaults to "diff"
 	 * - escape: defaults to true
-	 * @return string $output
+	 * @return string output
 	 */
 	public function compare($original, $changed, $options = array()) {
 		$original = $this->_prep($original);
