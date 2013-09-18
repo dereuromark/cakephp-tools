@@ -80,7 +80,7 @@ class ZodiacLib {
 	 * @param month
 	 * @param day
 	 * expects valid values
-	 * @return integer $sign or false on failure
+	 * @return integer sign or false on failure
 	 * 2011-03-11 ms
 	 */
 	public function getSign($month, $day) {

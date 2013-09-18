@@ -127,7 +127,7 @@ class Utility {
 	 * Get the current referrer if available.
 	 *
 	 * @param boolean $full (defaults to false and leaves the url untouched)
-	 * @return string $referer (local or foreign)
+	 * @return string referer (local or foreign)
 	 * 2011-11-02 ms
 	 */
 	public static function getReferer($full = false) {
@@ -471,7 +471,7 @@ class Utility {
 	 * like array_shift() only for keys and not values
 	 *
 	 * @param array $keyValuePairs
-	 * @return string $key
+	 * @return string key
 	 * 2011-01-22 ms
 	 */
 	public static function arrayShiftKeys(&$array) {

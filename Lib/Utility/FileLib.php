@@ -232,7 +232,7 @@ class FileLib extends File {
 	 * @param options
 	 * - keys (defaults to first array content in data otherwise) (order is important!)
 	 * - preserve_keys (do not slug and lowercase)
-	 * @return array $result or FALSE on failure
+	 * @return array result or FALSE on failure
 	 * 2010-10-15 ms
 	 */
 	public function transfer($data, $options = array()) {

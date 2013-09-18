@@ -260,7 +260,7 @@ class AuthExtComponent extends AuthComponent {
 	/**
 	 * Returns the current User model
 	 *
-	 * @return object $User
+	 * @return object User
 	 */
 	public function getModel() {
 		$model = $this->settings['userModel'];

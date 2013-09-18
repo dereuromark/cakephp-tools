@@ -112,7 +112,7 @@ class InlineCssLib {
 	 * Some reverse function of strip_tags with blacklisting instead of whitelisting
 	 * //maybe move to Tools.Utility/String/Text?
 	 *
-	 * @return string $cleanedStr
+	 * @return string cleanedStr
 	 * 2012-01-29 ms
 	 */
 	public function stripOnly($str, $tags, $stripContent = false) {

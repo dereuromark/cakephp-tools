@@ -37,7 +37,7 @@ class IcalLib {
 	 *
 	 * @param array $data
 	 * @param boolean $addStartAndEnd
-	 * @return string $icalContent (single vevent)
+	 * @return string icalContent (single vevent)
 	 * 2011-10-10 ms
 	 */
 	public function build($data, $addStartAndEnd = true) {
@@ -149,7 +149,7 @@ class IcalLib {
 	}
 
 	/**
-	 * @return array $events or false on failure
+	 * @return array events or false on failure
 	 * 2010-09-14 ms
 	 */
 	public function getEvents() {
@@ -157,7 +157,7 @@ class IcalLib {
 	}
 
 	/**
-	 * @return array $todos or false on failure
+	 * @return array todos or false on failure
 	 * 2010-09-14 ms
 	 */
 	public function getTodos() {

@@ -184,7 +184,7 @@ class GeocodeLib {
 	/**
 	 * Build url
 	 *
-	 * @return string $url (full)
+	 * @return string url (full)
 	 * 2010-06-29 ms
 	 */
 	public function url() {
@@ -203,7 +203,7 @@ class GeocodeLib {
 	}
 
 	/**
-	 * @return boolean $isInconclusive (or null if no query has been run yet)
+	 * @return boolean isInconclusive (or null if no query has been run yet)
 	 */
 	public function isInconclusive() {
 		if ($this->result === null) {
@@ -216,7 +216,7 @@ class GeocodeLib {
 	}
 
 	/**
-	 * @return array $result
+	 * @return array result
 	 * 2010-06-25 ms
 	 */
 	public function getResult() {
@@ -733,7 +733,7 @@ class GeocodeLib {
 	 * @param float $value
 	 * @param char $fromUnit (using class constants)
 	 * @param char $toUnit (using class constants)
-	 * @return float $convertedValue
+	 * @return float convertedValue
 	 * @throws CakeException
 	 */
 	public function convert($value, $fromUnit, $toUnit) {
@@ -764,7 +764,7 @@ class GeocodeLib {
 	 * - 4:
 	 * - 5:
 	 * @throws CakeException
-	 * @return float $coord
+	 * @return float coord
 	 * 2011-03-16 ms
 	 */
 	public static function blur($coord, $level = 0) {

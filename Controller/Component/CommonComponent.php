@@ -128,7 +128,7 @@ class CommonComponent extends Component {
 	 * Convenience method to check on POSTED data.
 	 * Doesn't matter if its post or put.
 	 *
-	 * @return boolean $isPost
+	 * @return boolean isPost
 	 * 2011-12-09 ms
 	 */
 	public function isPosted() {
@@ -812,7 +812,7 @@ class CommonComponent extends Component {
 	 * @param array $array
 	 * @param string $key
 	 * @param array $matching
-	 * @return string $result
+	 * @return string result
 	 * 2011-03-12 ms
 	 */
 	public static function getGroup($multiDimArray, $key, $matching = array()) {
@@ -915,7 +915,7 @@ class CommonComponent extends Component {
 	 * @param string $string containing the parts
 	 * @param string $separator (defaults to ',')
 	 * @param boolean $camelize (true/false): problems with äöüß etc!
-	 * @return array $results as array list
+	 * @return array results as array list
 	 * //TODO: 3.4. parameter as array, move to Lib
 	 * 2009-08-13 ms
 	 */
@@ -1002,7 +1002,7 @@ class CommonComponent extends Component {
 	/**
 	 * get the current ip address
 	 * @param boolean $safe
-	 * @return string $ip
+	 * @return string ip
 	 * 2011-11-02 ms
 	 */
 	public static function getClientIp($safe = null) {
@@ -1013,7 +1013,7 @@ class CommonComponent extends Component {
 	/**
 	 * get the current referer
 	 * @param boolean $full (defaults to false and leaves the url untouched)
-	 * @return string $referer (local or foreign)
+	 * @return string referer (local or foreign)
 	 * 2011-11-02 ms
 	 */
 	public static function getReferer($full = false) {
@@ -1023,7 +1023,7 @@ class CommonComponent extends Component {
 
 	/**
 	 * returns true only if all values are true
-	 * @return boolean $result
+	 * @return boolean result
 	 * maybe move to bootstrap?
 	 * 2011-11-02 ms
 	 */
@@ -1034,7 +1034,7 @@ class CommonComponent extends Component {
 
 	/**
 	 * returns true if at least one value is true
-	 * @return boolean $result
+	 * @return boolean result
 	 * maybe move to bootstrap?
 	 * 2011-11-02 ms
 	 */
@@ -1136,7 +1136,7 @@ class CommonComponent extends Component {
 	/**
 	 * expects email to be valid!
 	 * TODO: move to Lib
-	 * @return array $email - pattern: array('email'=>,'name'=>)
+	 * @return array email - pattern: array('email'=>,'name'=>)
 	 * 2010-04-20 ms
 	 */
 	public function splitEmail($email, $abortOnError = false) {
@@ -1330,7 +1330,7 @@ class CommonComponent extends Component {
 	 * Get the Corresponding Message to an HTTP Error Code
 	 *
 	 * @param integer $code: 100...505
-	 * @return array $codes if code is NULL, otherwise string $code (empty string on failure)
+	 * @return array codes if code is NULL, otherwise string $code (empty string on failure)
 	 * 2009-07-21 ms
 	 */
 	public function responseCodes($code = null, $autoTranslate = false) {

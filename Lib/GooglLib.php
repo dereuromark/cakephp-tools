@@ -74,7 +74,7 @@ class GooglLib {
 	 * shorten a long url
 	 *
 	 * @param string $url
-	 * @return array $result as array or false on failure
+	 * @return array result as array or false on failure
 	 */
 	public function getShort($longURL) {
 		$vars = '';
@@ -121,7 +121,7 @@ class GooglLib {
 	/**
 	 * retrieve the url for the statistics page for this key
 	 * @param string $key
-	 * @return string $url
+	 * @return string url
 	 */
 	public static function statisticsUrl($key) {
 		$url = 'http://goo.gl/#analytics/goo.gl/'.$key.'/all_time';

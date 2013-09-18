@@ -72,7 +72,7 @@ class Qlogin extends ToolsAppModel {
 	 * generates a qlogin key
 	 * @param mixed $url
 	 * @param string $uid
-	 * @return string $key
+	 * @return string key
 	 * 2011-07-12 ms
 	 */
 	public function generate($url, $uid) {
@@ -88,7 +88,7 @@ class Qlogin extends ToolsAppModel {
 	 * makes an absolute url string ready to input anywhere
 	 * uses generate() internally to get the key
 	 * @param mixed $url
-	 * @return string $url (absolute)
+	 * @return string url (absolute)
 	 */
 	public function url($url, $uid = null) {
 		if ($uid === null) {

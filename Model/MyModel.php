@@ -458,7 +458,7 @@ class MyModel extends Model {
 	 * @param array $options The options array
 	 * @param string $alias You can use this intead of $options['alias'] if you want
 	 * @param boolean $parenthesise Add parenthesis before and after
-	 * @return string $result sql snippet of the query to run
+	 * @return string result sql snippet of the query to run
 	 * @modified Mark Scherer (cake2.x ready and improvements)
 	 * @link http://bakery.cakephp.org/articles/lucaswxp/2011/02/11/easy_and_simple_subquery_cakephp
 	 * 2011-07-05 ms
@@ -1360,7 +1360,7 @@ class MyModel extends Model {
 	 * Is blocked email?
 	 * //TODO: move outside of MyModel?
 	 *
-	 * @return boolean $ifNotBlacklisted
+	 * @return boolean ifNotBlacklisted
 	 * 2009-12-22 ms
 	 */
 	public function validateNotBlocked($params) {

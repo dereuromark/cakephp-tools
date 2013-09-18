@@ -138,7 +138,7 @@ class DecimalInputBehavior extends ModelBehavior {
 
 	/**
 	 * @param array $results
-	 * @return array $results
+	 * @return array results
 	 */
 	public function prepOutput(Model $Model, $data) {
 		foreach ($data as $datakey => $record) {
@@ -156,7 +156,7 @@ class DecimalInputBehavior extends ModelBehavior {
 
 	/**
 	 * perform a single transformation
-	 * @return string $cleanedValue
+	 * @return string cleanedValue
 	 */
 	public function formatInputOutput(Model $Model, $value, $dir = 'in') {
 		$this->_setTransformations($Model, $dir);

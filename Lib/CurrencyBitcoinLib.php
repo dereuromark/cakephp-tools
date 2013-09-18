@@ -89,7 +89,7 @@ class CurrencyBitcoinLib {
 	/**
 	 * calc BTC relative to 1 baseCurrency
 	 * @param float $value
-	 * @return float $relativeValue
+	 * @return float relativeValue
 	 * 2011-10-07 ms
 	 */
 	public function calcRate($current) {

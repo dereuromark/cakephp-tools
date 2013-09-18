@@ -130,7 +130,7 @@ class MyAsset {
 	}
 
 	/**
-	 * @return string $result or bool FALSE on failure
+	 * @return string result or bool FALSE on failure
 	 * 2011-03-23 ms
 	 */
 	public function _readCssCache($path) {
@@ -141,7 +141,7 @@ class MyAsset {
 	}
 
 	/**
-	 * @return boolean $result
+	 * @return boolean result
 	 * @deprecated?
 	 * 2011-03-23 ms
 	 */

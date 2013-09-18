@@ -356,7 +356,7 @@ class CopyShell extends AppShell {
 	}
 
 	/**
-	 * @return boolean $isLocalPath (true/false)
+	 * @return boolean isLocalPath (true/false)
 	 */
 	protected function isLocalPath($line) {
 		if (mb_strlen($line) > 7 && trim(mb_substr($line, 0, 6)) === 'local') {
@@ -370,7 +370,7 @@ class CopyShell extends AppShell {
 	}
 
 	/**
-	 * @return string $path on success, boolean FALSE otherwise
+	 * @return string path on success, boolean FALSE otherwise
 	 */
 	protected function isRemotePath($line) {
 		if (mb_strlen($line) > 8 && trim(mb_substr($line, 0, 7)) === 'remote') {
@@ -384,7 +384,7 @@ class CopyShell extends AppShell {
 	}
 
 	/**
-	 * @return string $path on success, boolean FALSE otherwise
+	 * @return string path on success, boolean FALSE otherwise
 	 */
 	protected function areCredentials($line) {
 		if (mb_strlen($line) > 8) {
@@ -583,7 +583,7 @@ class CopyShell extends AppShell {
 	/**
 	 * makes sure type matches config name (app = only app configs, no cake or vendor or custom configs!)
 	 * 2009-05-28 ms
-	 * @return string $type on success, otherwise boolean false
+	 * @return string type on success, otherwise boolean false
 	 */
 	protected function typeMatchesConfigName($name, $type) {
 		if (array_key_exists($type, $this->types) && $name !== 'cake' && $name !== 'vendor' && $name !== 'plugin') {

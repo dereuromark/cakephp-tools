@@ -65,7 +65,7 @@ class CurrencyLib {
 	*
 	* @param $base string[optional]default='EUR'
 	* @param $decimals integer[optional]default=2
-	* @return array $table or boolean FALSE on failure
+	* @return array table or boolean FALSE on failure
 	*/
 	public function table($base = 'EUR', $decimals = 2) {
 		//Create array to holds rates

@@ -35,6 +35,9 @@ class ZipLib {
 	}
 
 	/**
+	 * Return the filename.
+	 *
+	 * @return string
 	 * 2010-08-25 ms
 	 */
 	public function filename() {
@@ -42,7 +45,7 @@ class ZipLib {
 	}
 
 	/**
-	 * All files (not folders) - works recursive
+	 * Count all files (not folders) - works recursivly.
 	 *
 	 * @return integer Size or false on failure
 	 * 2010-08-25 ms
@@ -87,7 +90,7 @@ class ZipLib {
 	public function open($path = null, $create = false) {
 		$this->filename = basename($path);
 
-		$path = str_replace('\\','/', $path);
+		$path = str_replace('\\', '/', $path);
 
 		$this->path = $path;
 		$zip = zip_open($path);
@@ -134,20 +137,20 @@ class ZipLib {
 				$location .= DS;
 			}
 			if (!file_exists($location)) {
-				if (!mkdir($location, 0777, true)) {
+				if (!mkdir($location, 0770, true)) {
 					return false;
 				}
 			}
 		}
 
 		while ($zipEntry = zip_read($this->Zip)) {
-			$x = str_replace('\\','/', $location).zip_entry_name($zipEntry);
+			$x = str_replace('\\', '/', $location) . zip_entry_name($zipEntry);
 			if ($flatten) {
-				$x = str_replace('\\','/', $location).basename(zip_entry_name($zipEntry));
+				$x = str_replace('\\', '/', $location) . basename(zip_entry_name($zipEntry));
 			}
 
 			if (!file_exists($l = dirname($x))) {
-				if (!mkdir($l, 0777, true)) {
+				if (!mkdir($l, 0770, true)) {
 					return false;
 				}
 			}

@@ -902,7 +902,7 @@ class ImapSource extends DataSource {
 	 * Decode text to the application encoding
 	 *
 	 * @param string $text
-	 * @return string $text
+	 * @return string text
 	 */
 	protected function _decode($text) {
 		if (is_object($text)) {

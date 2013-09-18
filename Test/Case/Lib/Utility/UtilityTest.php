@@ -354,7 +354,7 @@ class UtilityTest extends MyCakeTestCase {
 			'd' => 1,
 		);
 		$is = Utility::logicalAnd($array);
-		$this->assertSame($is, false);
+		$this->assertFalse($is);
 
 		$array = array(
 			'a' => 1,
@@ -363,7 +363,7 @@ class UtilityTest extends MyCakeTestCase {
 			'd' => 1,
 		);
 		$is = Utility::logicalAnd($array);
-		$this->assertSame($is, true);
+		$this->assertTrue($is);
 	}
 
 	/**
@@ -379,7 +379,7 @@ class UtilityTest extends MyCakeTestCase {
 			'd' => 1,
 		);
 		$is = Utility::logicalOr($array);
-		$this->assertSame($is, true);
+		$this->assertTrue($is);
 
 		$array = array(
 			'a' => 1,
@@ -388,7 +388,7 @@ class UtilityTest extends MyCakeTestCase {
 			'd' => 1,
 		);
 		$is = Utility::logicalOr($array);
-		$this->assertSame($is, true);
+		$this->assertTrue($is);
 
 		$array = array(
 			'a' => 0,
@@ -397,7 +397,7 @@ class UtilityTest extends MyCakeTestCase {
 			'd' => 0,
 		);
 		$is = Utility::logicalOr($array);
-		$this->assertSame($is, false);
+		$this->assertFalse($is);
 	}
 
 }

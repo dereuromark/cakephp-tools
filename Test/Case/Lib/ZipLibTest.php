@@ -9,12 +9,7 @@ class ZipLibTest extends MyCakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		if (isset($this->ZipLib)) {
-			return;
-		}
 		$this->ZipLib = new ZipLib();
-
-		//$x = base64_encode(file_get_contents(TMP.'test4.zip')); die(returns($x));
 
 		foreach ($this->testFiles as $file => $content) {
 			$this->_createTestFile($file, $content);

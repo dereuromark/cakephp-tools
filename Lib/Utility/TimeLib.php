@@ -528,7 +528,7 @@ class TimeLib extends CakeTime {
 	 * 0=sunday to 7=saturday (default numbers)
 	 * @param boolean $abbr (if abbreviation should be returned)
 	 * @param offset: 0-6 (defaults to 0) [1 => 1=monday to 7=sunday]
-	 * @return string $translatedText
+	 * @return string translatedText
 	 * 2011-12-07 ms
 	 */
 	public static function day($day, $abbr = false, $offset = 0) {
@@ -571,7 +571,7 @@ class TimeLib extends CakeTime {
 	 * @param boolean $abbr (if abbreviation should be returned)
 	 * @param array $options
 	 * - appendDot (only for 3 letter abbr; defaults to false)
-	 * @return string $translatedText
+	 * @return string translatedText
 	 * 2011-12-07 ms
 	 */
 	public static function month($month, $abbr = false, $options = array()) {
@@ -777,7 +777,7 @@ class TimeLib extends CakeTime {
 	 * @param integer $offset in seconds
 	 * @param boolean $past (defaults to null: return plain text)
 	 * - new: if not boolean but a string use this as translating text
-	 * @return string $text (i18n!)
+	 * @return string text (i18n!)
 	 * 2011-03-06 ms
 	 */
 	public static function fuzzyFromOffset($offset, $past = null) {
@@ -1120,7 +1120,7 @@ class TimeLib extends CakeTime {
 	 * @param array $options
 	 * - separator (defaults to space [ ])
 	 * - format (defaults to Y-m-d H:i:s)
-	 * @return array $period [0=>min, 1=>max]
+	 * @return array period [0=>min, 1=>max]
 	 * 2011-11-18 ms
 	 */
 	public static function period($string, $options = array()) {
@@ -1169,7 +1169,7 @@ class TimeLib extends CakeTime {
 	 * @param string $searchString to parse
 	 * @param string $fieldname (Model.field)
 	 * @param array $options (see TimeLib::period)
-	 * @return string $query SQL Query
+	 * @return string query SQL Query
 	 * 2011-11-18 ms
 	 */
 	public static function periodAsSql($string, $fieldName, $options = array()) {

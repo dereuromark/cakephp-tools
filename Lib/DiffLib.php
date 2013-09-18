@@ -123,7 +123,7 @@ class DiffLib {
 	 * - div: true/false
 	 * - class: defaults to "diff"
 	 * - escape: defaults to true
-	 * @return string $output
+	 * @return string output
 	 */
 	public function compare($original, $changed, $options = array()) {
 		if (!is_array($original)) {

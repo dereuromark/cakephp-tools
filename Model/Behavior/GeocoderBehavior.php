@@ -277,7 +277,7 @@ class GeocoderBehavior extends ModelBehavior {
 	/**
 	 * snippet for custom pagination
 	 *
-	 * @return integer $count
+	 * @return integer count
 	 */
 	public function paginateDistanceCount(Model $Model, $conditions = null, $recursive = -1, $extra = array()) {
 		if (!empty($extra['radius'])) {

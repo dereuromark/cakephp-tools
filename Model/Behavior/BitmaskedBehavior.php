@@ -119,7 +119,7 @@ class BitmaskedBehavior extends ModelBehavior {
 
 	/**
 	 * @param integer $bitmask
-	 * @return array $bitmaskArray
+	 * @return array bitmaskArray
 	 * from DB to APP
 	 */
 	public function decodeBitmask(Model $Model, $value) {
@@ -136,7 +136,7 @@ class BitmaskedBehavior extends ModelBehavior {
 
 	/**
 	 * @param array $bitmaskArray
-	 * @return integer $bitmask
+	 * @return integer bitmask
 	 * from APP to DB
 	 */
 	public function encodeBitmask(Model $Model, $value, $defaultValue = null) {
@@ -154,7 +154,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * @return array $conditions
+	 * @return array conditions
 	 */
 	public function encodeBitmaskConditions(Model $Model, $conditions) {
 		$field = $this->settings[$Model->alias]['field'];
@@ -211,7 +211,7 @@ class BitmaskedBehavior extends ModelBehavior {
 
 	/**
 	 * @param mixed bits (int, array)
-	 * @return array $sqlSnippet
+	 * @return array sqlSnippet
 	 */
 	public function isBit(Model $Model, $bits) {
 		$bits = (array)$bits;
@@ -223,7 +223,7 @@ class BitmaskedBehavior extends ModelBehavior {
 
 	/**
 	 * @param mixed bits (int, array)
-	 * @return array $sqlSnippet
+	 * @return array sqlSnippet
 	 */
 	public function isNotBit(Model $Model, $bits) {
 		$bits = (array)$bits;
@@ -235,7 +235,7 @@ class BitmaskedBehavior extends ModelBehavior {
 
 	/**
 	 * @param mixed bits (int, array)
-	 * @return array $sqlSnippet
+	 * @return array sqlSnippet
 	 */
 	public function containsBit(Model $Model, $bits) {
 		$bits = (array)$bits;
@@ -247,7 +247,7 @@ class BitmaskedBehavior extends ModelBehavior {
 
 	/**
 	 * @param mixed bits (int, array)
-	 * @return array $sqlSnippet
+	 * @return array sqlSnippet
 	 */
 	public function containsNotBit(Model $Model, $bits) {
 		$bits = (array)$bits;

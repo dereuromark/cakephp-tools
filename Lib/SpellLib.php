@@ -78,7 +78,7 @@ class SpellLib {
 	}
 
 	/**
-	 * @return array $listOfSuggestions
+	 * @return array listOfSuggestions
 	 */
 	public function suggestions($word) {
 		return enchant_dict_suggest($this->_Dict, $word);

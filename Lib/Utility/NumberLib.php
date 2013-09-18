@@ -233,7 +233,7 @@ class NumberLib extends CakeNumber {
 	 *
 	 * @param array $values: int or float values
 	 * @param integer $precision
-	 * @return integer $average
+	 * @return integer average
 	 * 2009-09-05 ms
 	 */
 	public static function average($values, $precision = 0) {
@@ -246,7 +246,7 @@ class NumberLib extends CakeNumber {
 	 *
 	 * @param float $number
 	 * @param float $increment
-	 * @return float $result
+	 * @return float result
 	 * 2011-04-14 lb
 	 */
 	public static function roundTo($number, $increments = 1.0) {
@@ -263,7 +263,7 @@ class NumberLib extends CakeNumber {
 	 *
 	 * @param float $number
 	 * @param integer $increment
-	 * @return float $result
+	 * @return float result
 	 * 2011-04-14 lb
 	 */
 	public static function roundUpTo($number, $increments = 1) {
@@ -275,7 +275,7 @@ class NumberLib extends CakeNumber {
 	 *
 	 * @param float $number
 	 * @param integer $increment
-	 * @return float $result
+	 * @return float result
 	 * 2011-04-14 lb
 	 */
 	public static function roundDownTo($number, $increments = 1) {
@@ -286,7 +286,7 @@ class NumberLib extends CakeNumber {
 	 * Get decimal places
 	 *
 	 * @param float $number
-	 * @return integer $decimalPlaces
+	 * @return integer decimalPlaces
 	 * 2011-04-15 lb
 	 */
 	public static function getDecimalPlaces($number) {
@@ -345,7 +345,7 @@ class NumberLib extends CakeNumber {
 	 * Get the settings for a specific formatName
 	 *
 	 * @param string $formatName (EUR, ...)
-	 * @return array $currencySettings or null on failure
+	 * @return array currencySettings or null on failure
 	 */
 	public static function getFormat($formatName) {
 		if (!isset(self::$_currencies[$formatName])) {

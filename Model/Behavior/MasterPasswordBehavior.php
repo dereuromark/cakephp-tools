@@ -117,7 +117,7 @@ class MasterPasswordBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * @return string $hash or FALSE on failure
+	 * @return string hash or FALSE on failure
 	 */
 	protected function _hash($string, $algorithm, $salt) {
 		if ($salt) {
