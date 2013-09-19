@@ -2,7 +2,7 @@
 
 A Cake2.x Plugin containing several useful tools that can be used in many projects.
 
-Please note: New functionality has been tested against cake2.3 only. Please upgrade if possible.
+Please note: New functionality has been tested against 2.x (current master and dev) only. Please upgrade if possible.
 
 ## How to include
 Installing the Plugin is pretty much as with every other CakePHP Plugin.
