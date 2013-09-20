@@ -84,9 +84,10 @@ Usage for some larger modules: https://github.com/dereuromark/tools/blob/master/
 * Geocodeable, WhoDidIt, Confirmable and Bitmasked behaviors.
 * With MyModel you can build subqueries the Cake way.
 * Tokens, Qlogin, TinyUrl, KeyValue functionality included.
+* DiffLib, ZipLib, WeatherLib and many more lib functionality.
 * The TextExt, Datetime, Numeric and FormExt helpers provide extended functionality if desired.
 * Tree helper for working with (complex) trees.
-* GoogleMapV3, Gravatar, Qrcode, Typography, Ical, Hcard provide additional helper functionality.
+* GoogleMapV3, Gravatar, Qrcode, Timeline, Typography, Ical, Hcard provide additional helper functionality.
 
 and much more
 
@@ -98,6 +99,7 @@ If you are able to help on that one, that would be awesome.
 
 ### Status
 [![Build Status](https://api.travis-ci.org/dereuromark/tools.png)](https://travis-ci.org/dereuromark/tools)
+[![Total Downloads](https://poser.pugx.org/dereuromark/tools-cakephp/d/total.png)](https://packagist.org/packages/dereuromark/tools-cakephp)
 
 ### Branching strategy
 The master branch is the currently active and maintained one and works with the current 2.x stable version.
