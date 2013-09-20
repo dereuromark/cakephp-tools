@@ -392,7 +392,12 @@ class MyModel extends Model {
 
 	/**
 	 * Fix for non atomic queries (MyISAM  etc) and saveAll to still return just the boolean result
-	 * Otherwise you would have to interate over all result values to find out if the save was successful.
+	 * Otherwise you would have to iterate over all result values to find out if the save was successful.
+	 *
+	 * Use Configure::read('Model.atomic') to modify atomic behavior.
+	 * Additional options:
+	 *
+	 * - returnArray: bool
 	 *
 	 * @param mixed $data
 	 * @param array $options
@@ -400,12 +405,12 @@ class MyModel extends Model {
 	 * 2012-11-10 ms
 	 */
 	public function saveAll($data = null, $options = array()) {
-		if (!isset($options['atomic'])) {
+		if (!isset($options['atomic']) && Configure::read('Model.atomic') !== null) {
 			$options['atomic'] = (bool)Configure::read('Model.atomic');
 		}
 		$res = parent::saveAll($data, $options);
 
-		if (is_array($res)) {
+		if (is_array($res) && empty($options['returnArray'])) {
 			$res = Utility::isValidSaveAll($res);
 		}
 		return $res;

@@ -12,7 +12,7 @@ class AuthTest extends MyCakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		ClassRegistry::init('Session');
+		ClassRegistry::init(array('table' => 'cake_sessions', 'class' => 'Session', 'alias' => 'Session'));
 
 		$this->skipIf(php_sapi_name() === 'cli', 'Cannot test session in CLI');
 	}

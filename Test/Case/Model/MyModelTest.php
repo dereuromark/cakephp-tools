@@ -118,6 +118,22 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertSame('`User`.`dob`', $res);
 	}
 
+	public function testSaveAll() {
+		$records = array(
+			array('title' => 'x', 'body' => 'bx'),
+			array('title' => 'y', 'body' => 'by'),
+		);
+		$result = $this->App->saveAll($records);
+		$this->assertTrue($result);
+
+		$result = $this->App->saveAll($records, array('atomic' => false));
+		$this->assertTrue($result);
+
+		$result = $this->App->saveAll($records, array('atomic' => false, 'returnArray' => true));
+		$expected = array(true, true);
+		$this->assertSame($expected, $result);
+	}
+
 	/**
 	 * Test deleteAllRaw()
 	 *
