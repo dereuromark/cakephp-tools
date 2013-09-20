@@ -1191,16 +1191,16 @@ class ImapSource extends DataSource {
 	 */
 	protected function _decodeString($message, $coding) {
 		switch ($coding) {
-		    case 0:
-		    case 1:
-		    	return imap_8bit($message);
-		    case: 2
-		    	return imap_binary($message);
-		    case 3:
-		    	return imap_base64($message);
-		    case 4:
-		    	return imap_qprint($message);
-		    default:
+			case 0:
+			case 1:
+				return imap_8bit($message);
+			case: 2
+				return imap_binary($message);
+			case 3:
+				return imap_base64($message);
+			case 4:
+				return imap_qprint($message);
+			default:
 			// plain
 			//$message = imap_base64($message);
 			return $message;
