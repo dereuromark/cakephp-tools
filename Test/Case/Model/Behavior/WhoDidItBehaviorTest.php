@@ -64,4 +64,32 @@ class WhoDidItBehaviorTest extends MyCakeTestCase {
 		$this->assertEquals('1', $res['WhoDidItPlayer']['modified_by']);
 	}
 
+	/**
+	 * Usually the fields modified_by and created_by should not be present in forms.
+	 * For some admin views this might be the case. Here we don't want to modify then
+	 * in most cases. We also don't want the modified timestamp to be wrongly raised.
+	 *
+	 * @return void
+	 */
+	public function testSaveWithAlreadySetModified() {
+		CakeSession::write('Auth.User.id', '1');
+
+		$data = array(
+			'name' => 'Foo'
+		);
+		$this->Model->create();
+		$res = $this->Model->save($data);
+		$this->assertTrue((bool)$res);
+		$this->assertTrue(count($res['WhoDidItPlayer']) === 6);
+
+		// update (id + name + modified)
+		CakeSession::write('Auth.User.id', '2');
+		$data += array('modified_by' => $res['WhoDidItPlayer']['modified_by']);
+		$res = $this->Model->save($data + array('id' => $this->Model->id));
+		debug($res);ob_flush();
+		$this->assertTrue((bool)$res);
+		$this->assertFalse($res['WhoDidItPlayer']['modified']);
+		$this->assertTrue(count($res['WhoDidItPlayer']) === 4);
+	}
+
 }

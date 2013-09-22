@@ -1,18 +1,15 @@
 <?php
 /**
- * Fixture for WhoDidIt
- *
  * PHP 5
  *
- * @author Mark Scherrer
+ * @author Mark Scherer
  * @author Marc Würth
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  * @link https://github.com/dereuromark/tools
  */
 
 /**
- * Class WhoDidItPlayerFixture
- *
+ * Fixture for WhoDidIt
  */
 class WhoDidItPlayerFixture extends CakeTestFixture {
 
