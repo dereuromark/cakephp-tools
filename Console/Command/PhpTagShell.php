@@ -3,7 +3,7 @@ App::uses('AppShell', 'Console/Command');
 App::uses('Folder', 'Utility');
 
 /**
- * removes closing php tag (?>) from php files
+ * Removes closing php tag (?>) from php files
  * it also makes sure there is no whitespace at the beginning of the file
  *
  * @author Mark Scherer, Maximilian Ruta
@@ -21,6 +21,8 @@ class PhpTagShell extends AppShell {
 	);
 
 	public function main() {
+		$this->out('Removes closing php tag (?>) from php files.', 2);
+
 		$this->out('Usage: cake Tools.PhpTag run [/path/or/file]');
 	}
 

@@ -29,7 +29,7 @@ class WhitespaceShell extends AppShell {
 		$this->out('Found '. count($files) . ' files.');
 
 		$action = $this->in(__('Continue? [y]/[n]'), array('y', 'n'), 'n');
-		if ($action === 'n') {
+		if ($action !== 'y') {
 			return $this->error('Aborted');
 		}
 
@@ -38,6 +38,7 @@ class WhitespaceShell extends AppShell {
 		foreach ($files as $file) {
 			$error = '';
 			$action = '';
+			$this->out('Processing ' . $file, 1, Shell::VERBOSE);
 
 			$c = file_get_contents($file);
 			if (preg_match('/^[\n\r|\n\r|\n|\r|\s]+\<\?php/', $c)) {
@@ -92,7 +93,7 @@ class WhitespaceShell extends AppShell {
 
 				file_put_contents($file, $res);
 				$this->report[$error][1]++;
-				$this->out('fixed '.$error.' whitespaces: '.$this->shortPath($file));
+				$this->out('fixed ' . $error . ' whitespaces: ' . $this->shortPath($file));
 			}
 		}
 
@@ -121,11 +122,12 @@ class WhitespaceShell extends AppShell {
 		$this->out('Found '. count($files) . ' files.');
 
 		$action = $this->in(__('Continue? [y]/[n]'), array('y', 'n'), 'n');
-		if ($action === 'n') {
+		if ($action !== 'y') {
 			return $this->error('Aborted');
 		}
 
 		foreach ($files as $file) {
+			$this->out('Processing ' . $file, 1, Shell::VERBOSE);
 			$content = $store = file_get_contents($file);
 
 			$newline = PHP_EOL;

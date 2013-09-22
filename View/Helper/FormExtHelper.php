@@ -644,21 +644,21 @@ class FormExtHelper extends FormHelper {
 
 		$customOptions = array(
 			'id' => $modelName.$fieldName.'-dd',
-			'class' => 'day'
+			'class' => 'form-control day'
 		);
 		$customOptions = array_merge($defaultOptions, $customOptions, $options);
 		$res['d'] = $this->day($field, $customOptions);
 
 		$customOptions = array(
 			'id' => $modelName.$fieldName.'-mm',
-			'class' => 'month'
+			'class' => 'form-control month'
 		);
 		$customOptions = array_merge($defaultOptions, $customOptions, $options);
 		$res['m'] = $this->month($field, $customOptions);
 
 		$customOptions = array(
 			'id' => $modelName.$fieldName,
-			'class' => 'year'
+			'class' => 'form-control year'
 		);
 		$customOptions = array_merge($defaultOptions, $customOptions, $options);
 		$minYear = $customOptions['minYear'];
@@ -802,10 +802,10 @@ class FormExtHelper extends FormHelper {
 			$model = $this->model();
 		}
 
-		$hourOptions = array_merge($customOptions, array('class'=>'hour'));
+		$hourOptions = array_merge($customOptions, array('class'=>'form-control hour'));
 		$res['h'] = $this->hour($field, $format24Hours, $hourOptions);
 
-		$minuteOptions = array_merge($customOptions, array('class'=>'minute'));
+		$minuteOptions = array_merge($customOptions, array('class'=>'form-control minute'));
 		$res['m'] = $this->minute($field, $minuteOptions);
 
 		$select = implode($options['separator'], $res);
