@@ -86,7 +86,7 @@ class WhoDidItBehaviorTest extends MyCakeTestCase {
 		CakeSession::write('Auth.User.id', '2');
 		$data += array('modified_by' => $res['WhoDidItPlayer']['modified_by']);
 		$res = $this->Model->save($data + array('id' => $this->Model->id));
-		debug($res);ob_flush();
+
 		$this->assertTrue((bool)$res);
 		$this->assertFalse($res['WhoDidItPlayer']['modified']);
 		$this->assertTrue(count($res['WhoDidItPlayer']) === 4);
