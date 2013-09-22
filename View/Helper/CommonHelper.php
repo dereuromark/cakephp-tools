@@ -9,7 +9,7 @@ class CommonHelper extends AppHelper {
 	public $helpers = array('Session', 'Html');
 
 	public $packages = array(
-		'Tools.Jquery' //Used by showDebug
+		'Tools.Jquery' // Used by showDebug
 	);
 
 	/**
@@ -26,11 +26,11 @@ class CommonHelper extends AppHelper {
 		$content = array();
 		if ($type === 'public') {
 			$this->privatePage = false;
-			$content['robots']= array('index', 'follow', 'noarchive');
+			$content['robots'] = array('index', 'follow', 'noarchive');
 
 		} else {
 			$this->privatePage = true;
-			$content['robots']= array('noindex', 'nofollow', 'noarchive');
+			$content['robots'] = array('noindex', 'nofollow', 'noarchive');
 		}
 
 		$return = '<meta name="robots" content="' . implode(',', $content['robots']) . '" />';
@@ -39,7 +39,7 @@ class CommonHelper extends AppHelper {
 
 	/**
 	 * Convenience function for clean meta name tags
-	 * @param STRING $name: author, date, generator, revisit-after, language
+	 * @param string $name: author, date, generator, revisit-after, language
 	 * @param MIXED $content: if array, it will be seperated by commas
 	 * @return string htmlMarkup
 	 * 2009-07-07 ms
@@ -107,7 +107,8 @@ class CommonHelper extends AppHelper {
 	 */
 	public function metaCanonical($url = null, $full = false) {
 		$canonical = $this->Html->url($url, $full);
-		return $this->Html->meta('canonical', $canonical, array('rel'=>'canonical', 'type'=>null, 'title'=>null));
+		$options = array('rel' => 'canonical', 'type' => null, 'title' => null);
+		return $this->Html->meta('canonical', $canonical, $options);
 	}
 
 	/**
@@ -146,8 +147,8 @@ class CommonHelper extends AppHelper {
 	/**
 	 * Convenience function for META Tags
 	 *
-	 * @param STRING type
-	 * @param STRING content
+	 * @param string $type
+	 * @param string $content
 	 * @return string htmlMarkup
 	 * 2008-12-08 ms
 	 */
@@ -167,8 +168,8 @@ class CommonHelper extends AppHelper {
 	/**
 	 * Convenience function for META Tags
 	 *
-	 * @param STRING type
-	 * @param STRING content
+	 * @param string $type
+	 * @param string $content
 	 * @return string htmlMarkup
 	 * 2008-12-08 ms
 	 */
@@ -190,6 +191,7 @@ class CommonHelper extends AppHelper {
 	 * => x is in webroot/
 	 * => y is in plugins/tools/webroot/
 	 * => z is in plugins/tools/packages/jquery/files/jquery/sub/
+	 *
 	 * @return string htmlMarkup
 	 * 2011-03-23 ms
 	 */
@@ -211,6 +213,7 @@ class CommonHelper extends AppHelper {
 	 * => x is in webroot/
 	 * => y is in plugins/tools/webroot/
 	 * => z is in plugins/tools/packages/jquery/files/jquery/sub/
+	 *
 	 * @return string htmlMarkup
 	 * 2011-03-23 ms
 	 */
@@ -230,7 +233,9 @@ class CommonHelper extends AppHelper {
 	 * special css tag generator with the option to add '?...' to the link (for caching prevention)
 	 * IN USAGE
 	 * needs manual adjustment, but still better than the core one!
-	 * @example needs Asset.cssversion => xyz (going up with counter)
+	 *
+	 * Note: needs Asset.cssversion => xyz (going up with counter)
+	 *
 	 * @return string htmlMarkup
 	 * 2008-12-08 ms
 	 */
@@ -240,17 +245,20 @@ class CommonHelper extends AppHelper {
 	}
 
 	/**
+	 * Css Auto Path
 	 * NOT IN USAGE
 	 * but better than the core one!
-	 * @example needs Asset.timestamp => force
+	 * Note: needs Asset.timestamp => force
+	 *
 	 * @return string htmlMarkup
 	 * 2008-12-08 ms
 	 */
 	public function cssAuto($path, $rel = null, $htmlAttributes = array(), $return = true) {
-		define('COMPRESS_CSS',true);
+		$compress = Configure::read('App.compressCss');
+		$cssUrl = Configure::read('App.cssBaseUrl') ? Configure::read('App.cssBaseUrl') : CSS_URL;
 
-			$time = date('YmdHis', filemtime(APP . 'webroot' . DS . CSS_URL . $path . '.css'));
-			$url = "{$this->request->webroot}" . (COMPRESS_CSS ? 'c' : '') . CSS_URL . $this->themeWeb . $path . ".css?" . $time;
+		$time = date('YmdHis', filemtime(APP . 'webroot' . DS . $cssUrl . $path . '.css'));
+		$url = "{$this->request->webroot}" . ($compress ? 'c' : '') . $cssUrl . $this->themeWeb . $path . ".css?" . $time;
 		return $url;
 	}
 
@@ -258,6 +266,7 @@ class CommonHelper extends AppHelper {
 
 	/**
 	 * still necessary?
+	 *
 	 * @param array $fields
 	 * @return string html
 	 */
@@ -402,7 +411,7 @@ class CommonHelper extends AppHelper {
 		if (!empty($cMessages)) {
 			$messages = (array)Set::merge($messages, $cMessages);
 		}
-		$html='';
+		$html = '';
 		if (!empty($messages)) {
 			$html = '<div class="flashMessages">';
 
@@ -448,7 +457,7 @@ class CommonHelper extends AppHelper {
 
 	protected function _message($msg, $type) {
 		if (!empty($msg)) {
-			return '<div class="message'.(!empty($type) ? ' '.$type : '').'">'.$msg.'</div>';
+			return '<div class="message' . (!empty($type) ? ' ' . $type : '') . '">' . $msg . '</div>';
 		}
 		return '';
 	}
@@ -571,7 +580,7 @@ jQuery(document).ready(function() {
 		$res .= $this->Html->defaultLink('Email', $noFollowUrl, array('rel' => 'nofollow'));
 
 		if (!empty($noscriptUrl)) {
-			$res .= BR.$this->Html->image($this->Html->defaultUrl($noscriptUrl, true)); //$this->Html->link($noscriptUrl);
+			$res .= BR . $this->Html->image($this->Html->defaultUrl($noscriptUrl, true)); //$this->Html->link($noscriptUrl);
 		}
 
 		$res .= '</noscript></div>';
@@ -634,27 +643,6 @@ piwikTracker.enableLinkTracking();
 	}
 
 /*** deprecated ***/
-
-	/**
-	 * SINGLE ROLES function
-	 * currently: isRole('admin'), isRole('user')
-	 *
-	 * @deprecated - use Auth class instead
-	 * 2009-07-06 ms
-	 */
-	public function isRole($role) {
-		$sessionRole = $this->Session->read('Auth.User.role_id');
-		$roles = array(
-			ROLE_USER => 'user',
-			ROLE_ADMIN => 'admin',
-			ROLE_SUPERADMIN => 'superadmin',
-			ROLE_GUEST => 'guest',
-		);
-		if (!empty($roles[$sessionRole]) && $role = $roles[$sessionRole]) {
-			return true;
-		}
-		return false;
-	}
 
 	/**
 	 * Checks if a role is in the current users session
