@@ -572,6 +572,26 @@ class LogableBehaviorTest extends CakeTestCase {
 		$this->assertEquals($result['LogableLog']['change'], 'name');
 	}
 
+	/**
+	 * LogableBehaviorTest::testCustomLog()
+	 *
+	 * @return void
+	 */
+	public function testCustomLog() {
+		$record = $this->LogableBook->find('first');
+		$this->assertNotEmpty($record);
+		$id = $record['LogableBook']['id'];
+
+		// manually passing the id
+		$result = $this->LogableBook->customLog('foo', $id);
+		$this->assertTrue((bool)$result);
+
+		// Model->id set, but no other data
+		$this->LogableBook->id = $id;
+		$result = $this->LogableBook->customLog('foo');
+		$this->assertTrue((bool)$result);
+	}
+
 }
 
 class LogableLog extends Log {

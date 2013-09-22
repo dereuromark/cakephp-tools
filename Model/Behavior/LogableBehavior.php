@@ -1,6 +1,7 @@
 <?php
 App::uses('CakeSession', 'Model/Datasource');
 App::uses('ModelBehavior', 'Model');
+App::uses('Utility', 'Utility');
 
 if (!defined('CLASS_USER')) {
 	define('CLASS_USER', 'User');
@@ -310,11 +311,10 @@ class LogableBehavior extends ModelBehavior {
 	 * @param string $action name of action that is taking place (dont use the crud ones)
 	 * @param integer $id id of the logged item (ie foreign_id in logs table)
 	 * @param array $values optional other values for your logs table
+	 * @return mixed Success
 	 */
 	public function customLog(Model $Model, $action, $id = null, $values = array()) {
 		$logData[$this->Log->alias] = $values;
-		/**
-		@todo clean up $logData */
 		if ($id === null) {
 			$id = $Model->id;
 		}
@@ -327,7 +327,7 @@ class LogableBehavior extends ModelBehavior {
 			unset($logData[$this->Log->alias]['title']);
 		}
 		$logData[$this->Log->alias]['action'] = $action;
-		$this->_saveLog($Model, $logData, $title);
+		return $this->_saveLog($Model, $logData, $title);
 	}
 
 	public function clearUserData(Model $Model) {
@@ -336,8 +336,7 @@ class LogableBehavior extends ModelBehavior {
 
 	public function setUserIp(Model $Model, $userIP = null) {
 		if ($userIP === null) {
-			//App::uses();
-			$userIP = CakeRequest::clientIp();
+			$userIP = Utility::getClientIp();
 		}
 		$this->userIP = $userIP;
 	}
@@ -496,7 +495,7 @@ class LogableBehavior extends ModelBehavior {
 	 *
 	 * @param Object $Model
 	 * @param array $logData
-	 * @return void
+	 * @return mixed Success
 	 */
 	public function _saveLog(Model $Model, $logData, $title = null) {
 		if ($title !== null) {
@@ -505,8 +504,17 @@ class LogableBehavior extends ModelBehavior {
 			$logData[$this->Log->alias]['title'] = $Model->alias . ' (' . $Model->id . ')';
 		} elseif (isset($Model->data[$Model->alias][$Model->displayField])) {
 			$logData[$this->Log->alias]['title'] = $Model->data[$Model->alias][$Model->displayField];
-		} else {
+		} elseif ($Model->id) {
 			$logData[$this->Log->alias]['title'] = $Model->field($Model->displayField);
+		} elseif (!empty($logData[$this->Log->alias][$this->settings[$Model->alias]['foreignKey']])) {
+			$options = array(
+				'conditions' => $logData[$this->Log->alias][$this->settings[$Model->alias]['foreignKey']],
+				'recursive' => -1
+			);
+			$record = $Model->find('first', $options);
+			if ($record) {
+				$logData[$this->Log->alias]['title'] = $record[$Model->alias][$Model->displayField];
+			}
 		}
 
 		if ($this->Log->hasField($this->settings[$Model->alias]['classField'])) {
@@ -559,7 +567,7 @@ class LogableBehavior extends ModelBehavior {
 			$logData[$this->Log->alias]['description'] .= '.';
 		}
 		$this->Log->create($logData);
-		$this->Log->save(null, false);
+		return $this->Log->save(null, false);
 	}
 
 }
