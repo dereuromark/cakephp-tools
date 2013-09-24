@@ -17,24 +17,21 @@ if (!defined('PWD_MAX_LENGTH')) {
  * - complete validation
  * - hashing of password
  * - requires fields (no tempering even without security component)
- * - usable for edit forms (allowEmpty=>true for optional password update)
+ * - usable for edit forms (require=>false for optional password update)
  *
- * usage: do NOT add it via $actAs = array()
+ * Usage: Do NOT add it via $actAs = array()
  * attach it dynamically in only those actions where you actually change the password like so:
  * $this->User->Behaviors->load('Tools.Passwordable', array(SETTINGSARRAY));
  * as first line in any action where you want to allow the user to change his password
  * also add the two form fields in the form (pwd, pwd_confirm)
  * the rest is cake automagic :)
  *
- * now also is capable of:
+ * Now also is capable of:
  * - require current password prior to altering it (current=>true)
  * - don't allow the same password it was before (allowSame=>false)
  * - supporting different auth types and password hashing algorythms
  *
- * TODO: allowEmpty and nonEmptyToEmpty - maybe with checkbox "set_new_pwd"
- * feel free to help me out
- *
- * @version 1.7 (Now 2.4 ready - with passwordHasher support)
+ * @version 1.7 (Now CakePHP2.4/2.5 ready - with passwordHasher support)
  * @author Mark Scherer
  * @link http://www.dereuromark.de/2011/08/25/working-with-passwords-in-cakephp
  * @license MIT
@@ -50,17 +47,17 @@ class PasswordableBehavior extends ModelBehavior {
 		'confirm' => true, // Set to false if in admin view and no confirmation (pwd_repeat) is required
 		'require' => true, // If a password change is required (set to false for edit forms, leave it true for pure password update forms)
 		'allowEmpty' => false, // Deprecated, do NOT use anymore! Use require instead!
-		'current' => false, // Expect the current password for security purposes
+		'current' => false, // Enquire the current password for security purposes
 		'formField' => 'pwd',
 		'formFieldRepeat' => 'pwd_repeat',
 		'formFieldCurrent' => 'pwd_current',
 		'userModel' => null, // Defaults to User
-		'hashType' => null, // only for authType Form [cake2.3]
-		'hashSalt' => true, // only for authType Form [cake2.3]
-		'auth' => null, // which component (defaults to AuthComponent),
-		'authType' => 'Form', // which type of authenticate (Form, Blowfish, ...) [cake2.4]
-		'passwordHasher' => null, // if a custom pwd hasher is been used [cake2.4]
-		'allowSame' => true, // dont allow the old password on change,
+		'hashType' => null, // Only for authType Form [cake2.3]
+		'hashSalt' => true, // Only for authType Form [cake2.3]
+		'auth' => null, // Which component (defaults to AuthComponent),
+		'authType' => 'Form', // Which type of authenticate (Form, Blowfish, ...) [cake2.4]
+		'passwordHasher' => null, // If a custom pwd hasher is been used [cake2.4]
+		'allowSame' => true, // Don't allow the old password on change
 		'minLength' => PWD_MIN_LENGTH,
 		'maxLength' => PWD_MAX_LENGTH
 	);
