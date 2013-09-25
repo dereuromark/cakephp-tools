@@ -138,7 +138,7 @@ class CommonHelper extends AppHelper {
 			foreach ($countries as $country) {
 				$l = $language . $country;
 				$options = array('rel' => 'alternate', 'hreflang' => $l, 'type' => null, 'title' => null);
-				$res[] = $this->Html->meta('alternate', $url, $options).PHP_EOL;
+				$res[] = $this->Html->meta('alternate', $url, $options) . PHP_EOL;
 			}
 		}
 		return implode('', $res);
@@ -183,7 +183,7 @@ class CommonHelper extends AppHelper {
 		if ($escape) {
 			$value = h($value);
 		}
-		return sprintf($tags['meta'], $type, ' content="'.$value.'"');
+		return sprintf($tags['meta'], $type, ' content="' . $value . '"');
 	}
 
 	/**
@@ -195,17 +195,17 @@ class CommonHelper extends AppHelper {
 	 * @return string htmlMarkup
 	 * 2011-03-23 ms
 	 */
-	public function css($files = array(), $rel = null, $options = array()) {
+	public function css($files = array(), $options = array()) {
 		$files = (array)$files;
 		$pieces = array();
 		foreach ($files as $file) {
-			$pieces[] = 'file='.$file;
+			$pieces[] = 'file=' . $file;
 		}
 		if ($v = Configure::read('Config.layout_v')) {
-			$pieces[] = 'v='.$v;
+			$pieces[] = 'v=' . $v;
 		}
 		$string = implode('&', $pieces);
-		return $this->Html->css('/css.php?'.$string, $rel, $options);
+		return $this->Html->css('/css.php?' . $string, $options);
 	}
 
 	/**
@@ -220,13 +220,13 @@ class CommonHelper extends AppHelper {
 	public function script($files = array(), $options = array()) {
 		$files = (array)$files;
 		foreach ($files as $file) {
-			$pieces[] = 'file='.$file;
+			$pieces[] = 'file=' . $file;
 		}
 		if ($v = Configure::read('Config.layout_v')) {
-			$pieces[] = 'v='.$v;
+			$pieces[] = 'v=' . $v;
 		}
 		$string = implode('&', $pieces);
-		return $this->Html->script('/js.php?'.$string, $options);
+		return $this->Html->script('/js.php?' . $string, $options);
 	}
 
 	/**
@@ -239,9 +239,9 @@ class CommonHelper extends AppHelper {
 	 * @return string htmlMarkup
 	 * 2008-12-08 ms
 	 */
-	public function cssDyn($path, $rel = null, $htmlAttributes = array(), $return = true) {
+	public function cssDyn($path, $options = array()) {
 		$v = (int)Configure::read('Asset.version');
-		return $this->Html->css($path.'.css?'.$v, $rel, $htmlAttributes, $return);
+		return $this->Html->css($path . '.css?' . $v, $options);
 	}
 
 	/**
@@ -253,7 +253,7 @@ class CommonHelper extends AppHelper {
 	 * @return string htmlMarkup
 	 * 2008-12-08 ms
 	 */
-	public function cssAuto($path, $rel = null, $htmlAttributes = array(), $return = true) {
+	public function cssAuto($path, $htmlAttributes = array()) {
 		$compress = Configure::read('App.compressCss');
 		$cssUrl = Configure::read('App.cssBaseUrl') ? Configure::read('App.cssBaseUrl') : CSS_URL;
 
@@ -268,7 +268,7 @@ class CommonHelper extends AppHelper {
 	 * still necessary?
 	 *
 	 * @param array $fields
-	 * @return string html
+	 * @return string HTML
 	 */
 	public function displayErrors($fields = array()) {
 		$res = '';
