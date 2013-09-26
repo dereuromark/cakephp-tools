@@ -9,7 +9,6 @@ class FileLibTest extends CakeTestCase {
 	/**
 	 * test method
 	 *
-	 * @access public
 	 * @return void
 	 */
 	public function testReadCsv1() {
@@ -61,7 +60,6 @@ class FileLibTest extends CakeTestCase {
 	/**
 	 * test method
 	 *
-	 * @access public
 	 * @return void
 	 */
 	public function testReadWithTags1() {
@@ -113,7 +111,6 @@ class FileLibTest extends CakeTestCase {
 	/**
 	 * test method
 	 *
-	 * @access public
 	 * @return void
 	 */
 	public function testReadWithPattern1() {

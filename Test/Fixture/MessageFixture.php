@@ -29,7 +29,6 @@ class MessageFixture extends CakeTestFixture {
 	 * fields property
 	 *
 	 * @var array
-	 * @access public
 	 */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'key' => 'primary'),
@@ -46,7 +45,6 @@ class MessageFixture extends CakeTestFixture {
 	 * The order field values are used only in the list behavior test
 	 *
 	 * @var array
-	 * @access public
 	 */
 	public $records = array(
 		array('random' => 1, 'name' => 'First'),

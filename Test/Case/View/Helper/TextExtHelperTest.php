@@ -191,7 +191,6 @@ class TextExtHelperTest extends MyCakeTestCase {
 	/**
 	 * test minimizeUrl
 	 *
-	 * @access public
 	 * @return void
 	 * 2009-03-11 ms
 	 */
@@ -224,7 +223,6 @@ class TextExtHelperTest extends MyCakeTestCase {
 	/**
 	 * test shortenText
 	 *
-	 * @access public
 	 * @return void
 	 * 2009-03-11 ms
 	 */

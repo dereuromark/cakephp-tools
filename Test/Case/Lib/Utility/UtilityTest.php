@@ -3,6 +3,7 @@ App::uses('Utility', 'Tools.Utility');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 /**
+ * @covers Utility
  * 2012-02-21 ms
  */
 class UtilityTest extends MyCakeTestCase {
@@ -10,6 +11,7 @@ class UtilityTest extends MyCakeTestCase {
 	/**
 	 * UtilityTest::testInArray()
 	 *
+	 * @covers Utility::inArray
 	 * @return void
 	 */
 	public function testInArray() {
@@ -38,6 +40,7 @@ class UtilityTest extends MyCakeTestCase {
 	/**
 	 * UtilityTest::testPregMatch()
 	 *
+	 * @covers Utility::pregMatch
 	 * @return void
 	 */
 	public function testPregMatch() {
@@ -73,6 +76,7 @@ class UtilityTest extends MyCakeTestCase {
 	/**
 	 * UtilityTest::testPregMatchWithPatternEscape()
 	 *
+	 * @covers Utility::pregMatch
 	 * @return void
 	 */
 	public function testPregMatchWithPatternEscape() {
@@ -94,6 +98,7 @@ class UtilityTest extends MyCakeTestCase {
 	/**
 	 * UtilityTest::testPregMatchAll()
 	 *
+	 * @covers Utility::pregMatchAll
 	 * @return void
 	 */
 	public function testPregMatchAll() {
@@ -117,6 +122,7 @@ class UtilityTest extends MyCakeTestCase {
 	/**
 	 * UtilityTest::testStrSplit()
 	 *
+	 * @covers Utility::strSplit
 	 * @return void
 	 */
 	public function testStrSplit() {
@@ -131,6 +137,7 @@ class UtilityTest extends MyCakeTestCase {
 	/**
 	 * UtilityTest::testUrlEncode()
 	 *
+	 * @covers Utility::urlEncode
 	 * @return void
 	 */
 	public function testUrlEncode() {
@@ -141,6 +148,7 @@ class UtilityTest extends MyCakeTestCase {
 	/**
 	 * UtilityTest::testUrlDecode()
 	 *
+	 * @covers Utility::urlDecode
 	 * @return void
 	 */
 	public function testUrlDecode() {
@@ -151,6 +159,7 @@ class UtilityTest extends MyCakeTestCase {
 	/**
 	 * UtilityTest::testTypeCast()
 	 *
+	 * @covers Utility::typeCast
 	 * @return void
 	 */
 	public function testTypeCast() {
@@ -162,6 +171,7 @@ class UtilityTest extends MyCakeTestCase {
 	/**
 	 * UtilityTest::testGetClientIp()
 	 *
+	 * @covers Utility::getClientIp
 	 * @return void
 	 */
 	public function testGetClientIp() {
@@ -172,6 +182,7 @@ class UtilityTest extends MyCakeTestCase {
 	/**
 	 * UtilityTest::testGetReferer()
 	 *
+	 * @covers Utility::getReferer
 	 * @return void
 	 */
 	public function testGetReferer() {
@@ -193,6 +204,7 @@ class UtilityTest extends MyCakeTestCase {
 	/**
 	 * UtilityTest::testGetHeaderFromUrl()
 	 *
+	 * @covers Utility::getHeaderFromUrl
 	 * @return void
 	 */
 	public function testGetHeaderFromUrl() {
@@ -204,6 +216,7 @@ class UtilityTest extends MyCakeTestCase {
 	/**
 	 * UtilityTest::testAutoPrefixUrl()
 	 *
+	 * @covers Utility::autoPrefixUrl
 	 * @return void
 	 */
 	public function testAutoPrefixUrl() {
@@ -214,6 +227,7 @@ class UtilityTest extends MyCakeTestCase {
 	/**
 	 * UtilityTest::testCleanUrl()
 	 *
+	 * @covers Utility::cleanUrl
 	 * @return void
 	 */
 	public function testCleanUrl() {
@@ -237,6 +251,7 @@ class UtilityTest extends MyCakeTestCase {
 	/**
 	 * UtilityTest::testDeep()
 	 *
+	 * @covers Utility::trimDeep
 	 * @return void
 	 */
 	public function testDeep() {
@@ -278,8 +293,34 @@ class UtilityTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * UtilityTest::testArrayFlattenBasic()
+	 *
+	 * @covers Utility::arrayFlatten
+	 * @return void
+	 */
+	public function testArrayFlattenBasic() {
+		$strings = array(
+			'a' => array('a' => 'A'),
+			'b' => array('b' => 'B', 'c' => 'C'),
+			'c' => array(),
+			'd' => array(array(array('z' => 'Z'), 'y' => 'Y'))
+		);
+
+		$result = Utility::arrayFlatten($strings);
+		$expected = array(
+			'a' => 'A',
+			'b' => 'B',
+			'c' => 'C',
+			'z' => 'Z',
+			'y' => 'Y'
+		);
+		$this->assertSame($expected, $result);
+	}
+
+	/**
 	 * UtilityTest::testArrayFlatten()
 	 *
+	 * @covers Utility::arrayFlatten
 	 * @return void
 	 */
 	public function testArrayFlatten() {
@@ -293,8 +334,30 @@ class UtilityTest extends MyCakeTestCase {
 		$expected = array(
 			'a' => 1,
 			'f' => 'g',
-			'h'=> true,
+			'h' => true,
 			'k' => 'm',
+		);
+		$this->assertSame($expected, $res);
+	}
+
+	/**
+	 * UtilityTest::testArrayFlattenAndPreserveKeys()
+	 *
+	 * @covers Utility::arrayFlatten
+	 * @return void
+	 */
+	public function testArrayFlattenAndPreserveKeys() {
+		$array = array(
+			0 => 1,
+			1 => array('c' => array('d' => array('g', 'h' => true))),
+			2 => 'm',
+		);
+		$res = Utility::arrayFlatten($array, true);
+
+		$expected = array(
+			0 => 'g',
+			'h' => true,
+			2 => 'm',
 		);
 		$this->assertSame($expected, $res);
 	}
@@ -302,6 +365,7 @@ class UtilityTest extends MyCakeTestCase {
 	/**
 	 * UtilityTest::testArrayShiftKeys()
 	 *
+	 * @covers Utility::arrayShiftKeys
 	 * @return void
 	 */
 	public function testArrayShiftKeys() {
@@ -324,6 +388,7 @@ class UtilityTest extends MyCakeTestCase {
 	/**
 	 * UtilityTest::testTime()
 	 *
+	 * @covers Utility::returnElapsedTime
 	 * @return void
 	 */
 	public function testTime() {
@@ -344,6 +409,7 @@ class UtilityTest extends MyCakeTestCase {
 	/**
 	 * UtilityTest::testLogicalAnd()
 	 *
+	 * @covers Utility::logicalAnd
 	 * @return void
 	 */
 	public function testLogicalAnd() {
@@ -369,6 +435,7 @@ class UtilityTest extends MyCakeTestCase {
 	/**
 	 * UtilityTest::testLogicalOr()
 	 *
+	 * @covers Utility::logicalOr
 	 * @return void
 	 */
 	public function testLogicalOr() {
@@ -398,6 +465,23 @@ class UtilityTest extends MyCakeTestCase {
 		);
 		$is = Utility::logicalOr($array);
 		$this->assertFalse($is);
+	}
+
+	/**
+	 * UtilityTest::testIsValidSaveAll()
+	 *
+	 * @covers Utility::isValidSaveAll
+	 * @return void
+	 */
+	public function testIsValidSaveAll() {
+		$result = Utility::isValidSaveAll(array());
+		$this->assertFalse($result);
+
+		$result = Utility::isValidSaveAll(array(true, true));
+		$this->assertTrue($result);
+
+		$result = Utility::isValidSaveAll(array(true, false));
+		$this->assertFalse($result);
 	}
 
 }

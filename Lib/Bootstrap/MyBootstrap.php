@@ -261,6 +261,7 @@ function isEmpty($var = null) {
  *
  * //TODO: use Debugger::exportVar() instead?
  *
+ * @param mixed $value
  * @return type (NULL, array, bool, float, int, string, object, unknown) + value
  * 2009-03-03 ms
  */
@@ -340,7 +341,11 @@ function entDec($text, $quoteStyle = ENT_QUOTES) {
 }
 
 /**
- * focus is on the filename (without path)
+ * Focus is on the filename (without path)
+ *
+ * //TODO: switch parameters!!!
+ *
+ * @return mixed
  * 2011-06-02 ms
  */
 function extractFileInfo($type = null, $filename) {
@@ -352,7 +357,7 @@ function extractFileInfo($type = null, $filename) {
 	switch ($type) {
 		case 'extension':
 		case 'ext':
-			$res = ($pos !== false) ? substr($filename, $pos+1) : '';
+			$res = ($pos !== false) ? substr($filename, $pos + 1) : '';
 			break;
 		case 'filename':
 		case 'file':
@@ -365,13 +370,18 @@ function extractFileInfo($type = null, $filename) {
 }
 
 /**
- * uses native PHP function to retrieve infos about a filename etc.
+ * Uses native PHP function to retrieve infos about a filename etc.
+ * Improves it by not returning non-file-name characters from url files if specified.
+ * So "filename.ext?foo=bar#hash" would simply be "filename.ext" then.
+ *
+ * //TODO: switch parameters!!!
+ *
  * @param string type (extension/ext, filename/file, basename/base, dirname/dir)
  * @param string filename to check on
- * //TODO: switch parameters!!!
+ * @return mixed
  * 2009-01-22 ms
  */
-function extractPathInfo($type = null, $filename) {
+function extractPathInfo($type = null, $filename, $fromUrl = false) {
 	switch ($type) {
 		case 'extension':
 		case 'ext':
@@ -392,7 +402,16 @@ function extractPathInfo($type = null, $filename) {
 		default:
 			$infoType = null;
 	}
-	return pathinfo($filename, $infoType);
+	$result = pathinfo($filename, $infoType);
+	if ($fromUrl) {
+		if (($pos = strpos($result, '#')) !== false) {
+			$result = substr($result, 0, $pos);
+		}
+		if (($pos = strpos($result, '?')) !== false) {
+			$result = substr($result, 0, $pos);
+		}
+	}
+	return $result;
 }
 
 /**
@@ -402,6 +421,7 @@ function extractPathInfo($type = null, $filename) {
  * @param boolean $collapsedAndExpandable
  * @param array $options
  * - class, showHtml, showFrom, jquery, returns, debug
+ * @return string HTML
  * 2011-01-19 ms
  */
 function pre($var, $collapsedAndExpandable = false, $options = array()) {
@@ -451,6 +471,7 @@ function pre($var, $collapsedAndExpandable = false, $options = array()) {
 
 /**
  * Checks if the string [$haystack] contains [$needle]
+ *
  * @param string $haystack Input string.
  * @param string $needle Needed char or string.
  * @return boolean
@@ -462,6 +483,7 @@ function contains($haystack, $needle, $caseSensitive = false) {
 
 /**
  * Checks if the string [$haystack] starts with [$needle]
+ *
  * @param string $haystack Input string.
  * @param string $needle Needed char or string.
  * @return boolean
@@ -475,6 +497,7 @@ function startsWith($haystack, $needle, $caseSensitive = false) {
 
 /**
  * Checks if the String [$haystack] ends with [$needle]
+ *
  * @param string $haystack Input string.
  * @param string $needle Needed char or string
  * @return boolean
@@ -490,6 +513,7 @@ function endsWith($haystack, $needle, $caseSensitive = false) {
  * base64 encode and replace chars base64 uses that would mess up the url
  * only needed for named params to be safely passed (if urlencode is not used)
  *
+ * @deprecated Use Utility::urlEncode().
  * @return string or NULL
  */
 function base64UrlEncode($fieldContent) {
@@ -504,6 +528,7 @@ function base64UrlEncode($fieldContent) {
  * base64 decode and undo replacing of chars base64 uses that would mess up the url
  * only needed for named params to be safely passed (if urlencode is not used)
  *
+ * @deprecated Use Utility::urlDecode().
  * @return string or NULL
  */
 function base64UrlDecode($fieldContent) {

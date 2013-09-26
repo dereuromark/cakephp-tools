@@ -14,7 +14,6 @@ class AutoLoginComponentTest extends CakeTestCase {
 	/**
 	 * setUp method
 	 *
-	 * @access public
 	 * @return void
 	 */
 	public function setUp() {
@@ -30,7 +29,6 @@ class AutoLoginComponentTest extends CakeTestCase {
 	/**
 	 * Tear-down method. Resets environment state.
 	 *
-	 * @access public
 	 * @return void
 	 */
 	public function tearDown() {
@@ -102,34 +100,29 @@ class AutoLoginTestController extends Controller {
 	 * name property
 	 *
 	 * @var string 'SecurityTest'
-	 * @access public
 	 */
 
 	/**
 	 * components property
 	 *
 	 * @var array
-	 * @access public
 	 */
 	public $components = array('Tools.AutoLogin');
 	/**
 	 * failed property
 	 *
 	 * @var boolean
-	 * @access public
 	 */
 	public $failed = false;
 	/**
 	 * Used for keeping track of headers in test
 	 *
 	 * @var array
-	 * @access public
 	 */
 	public $testHeaders = array();
 	/**
 	 * fail method
 	 *
-	 * @access public
 	 * @return void
 	 */
 	public function fail() {
@@ -141,7 +134,6 @@ class AutoLoginTestController extends Controller {
 	 * @param mixed $option
 	 * @param mixed $code
 	 * @param mixed $exit
-	 * @access public
 	 * @return void
 	 */
 	public function redirect($url, $status = null, $exit = true) {
@@ -152,7 +144,6 @@ class AutoLoginTestController extends Controller {
 	 *
 	 * @param string $status
 	 * @return void
-	 * @access public
 	 */
 	public function header($status) {
 		$this->testHeaders[] = $status;

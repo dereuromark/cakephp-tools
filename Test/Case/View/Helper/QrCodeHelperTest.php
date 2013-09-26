@@ -21,7 +21,6 @@ class QrCodeHelperTest extends MyCakeTestCase {
 /**
  * setUp method
  *
- * @access public
  * @return void
  */
 	public function setUp() {
@@ -32,7 +31,6 @@ class QrCodeHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * @access public
 	 * @return void
 	 * 2009-07-30 ms
 	 */
@@ -48,7 +46,6 @@ class QrCodeHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * @access public
 	 * @return void
 	 * 2009-07-30 ms
 	 */
@@ -70,7 +67,6 @@ class QrCodeHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * @access public
 	 * @return void
 	 * 2009-07-30 ms
 	 */
@@ -142,7 +138,6 @@ class QrCodeHelperTest extends MyCakeTestCase {
 /**
  * tearDown method
  *
- * @access public
  * @return void
  */
 	public function tearDown() {

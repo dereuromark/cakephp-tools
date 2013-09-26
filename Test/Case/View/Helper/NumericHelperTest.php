@@ -25,7 +25,6 @@ class NumericHelperTest extends MyCakeTestCase {
 	 *
 	 * TODO: move to NumberLib test?
 	 *
-	 * @access public
 	 * @return void
 	 * 2009-03-11 ms
 	 */

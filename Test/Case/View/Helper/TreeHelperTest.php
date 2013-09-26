@@ -381,9 +381,79 @@ TEXT;
 		$this->assertTextEquals($expected, $output);
 	}
 
+	/**
+	 *
+	 * - One
+	 * -- One-SubA
+	 * - Two
+	 * -- Two-SubA
+	 * --- Two-SubA-1
+	 * ---- Two-SubA-1-1
+	 * -- Two-SubB
+	 * -- Two-SubC
+	 * - Three
+	 * - Four
+	 * -- Four-SubA
+	 */
+	public function testGenerateWithAutoPathAndHideUnrelatedAndSiblings() {
+		$data = array(
+			array('name' => 'Two-SubB', 'parent_id' => 2),
+			array('name' => 'Two-SubC', 'parent_id' => 2),
+		);
+		foreach ($data as $row) {
+			$this->Model->create();
+			$this->Model->save($row);
+		}
+
+		$tree = $this->Model->find('threaded');
+		$id = 6;
+		$path = $this->Model->getPath($id);
+
+		$output = $this->Tree->generate($tree, array(
+			'autoPath' => array(6, 11), 'hideUnrelated' => true, 'treePath' => $path,
+			'callback' => array($this, '_myCallbackSiblings'))); // Two-SubA
+		//debug($output);
+
+		$expected = <<<TEXT
+
+<ul>
+	<li>One (sibling)</li>
+	<li class="active">Two (active)
+	<ul>
+		<li class="active">Two-SubA (active)
+		<ul>
+			<li>Two-SubA-1</li>
+		</ul>
+		</li>
+		<li>Two-SubB</li>
+		<li>Two-SubC</li>
+	</ul>
+	</li>
+	<li>Three (sibling)</li>
+	<li>Four (sibling)</li>
+</ul>
+
+TEXT;
+		$output = str_replace(array("\t", "\r", "\n"), '', $output);
+		$expected = str_replace(array("\t", "\r", "\n"), '', $expected);
+		//debug($output);
+		//debug($expected);
+		$this->assertTextEquals($expected, $output);
+	}
+
 	public function _myCallback($data) {
 		if (!empty($data['data']['AfterTree']['hide'])) {
 			return;
+		}
+		return $data['data']['AfterTree']['name'] . ($data['activePathElement'] ? ' (active)' : '');
+	}
+
+	public function _myCallbackSiblings($data) {
+		if (!empty($data['data']['AfterTree']['hide'])) {
+			return;
+		}
+		if ($data['depth'] == 0 && $data['isSibling']) {
+			return $data['data']['AfterTree']['name'] . ' (sibling)';
 		}
 		return $data['data']['AfterTree']['name'] . ($data['activePathElement'] ? ' (active)' : '');
 	}

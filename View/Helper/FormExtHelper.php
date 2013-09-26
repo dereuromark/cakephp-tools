@@ -472,7 +472,7 @@ class FormExtHelper extends FormHelper {
 						if ($this->settings['webroot']) {
 							$this->Html->script('datepicker/lang/' . $lang, false);
 							$this->Html->script('datepicker/datepicker', false);
-							$this->Html->css('common/datepicker', null, array('inline'=>false));
+							$this->Html->css('common/datepicker', array('inline'=>false));
 						} else {
 							$this->Common->script(array('Tools.Asset|datepicker/lang/' . $lang, 'Tools.Asset|datepicker/datepicker'), false);
 							$this->Common->css(array('Tools.Asset|datepicker/datepicker'), null, array('inline'=>false));
@@ -906,7 +906,7 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 		switch ($type) {
 			case 'charCount':
 				$this->Html->script('jquery/plugins/charCount', array('inline'=>false));
-				$this->Html->css('/js/jquery/plugins/charCount', null, array('inline'=>false));
+				$this->Html->css('/js/jquery/plugins/charCount', array('inline'=>false));
 				break;
 			default:
 				return false;
@@ -956,7 +956,7 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 	public function autoCompleteScripts() {
 		if (!$this->scriptsAdded['autoComplete']) {
 			$this->Html->script('jquery/autocomplete/jquery.autocomplete', false);
-			$this->Html->css('/js/jquery/autocomplete/jquery.autocomplete', null, array('inline'=>false));
+			$this->Html->css('/js/jquery/autocomplete/jquery.autocomplete', array('inline'=>false));
 			$this->scriptsAdded['autoComplete'] = true;
 		}
 	}

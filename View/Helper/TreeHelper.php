@@ -164,10 +164,10 @@ class TreeHelper extends AppHelper {
 		$this->_settings['totalNodes'] = count($data);
 		$keys = array_keys($data);
 
-		if ($hideUnrelated === true) {
+		if ($hideUnrelated === true || is_numeric($hideUnrelated)) {
 			$this->_markUnrelatedAsHidden($data, $treePath);
 		} elseif ($hideUnrelated && is_callable($hideUnrelated)) {
-			call_user_func($data, $treePath);
+			call_user_func($hideUnrelated, $data, $treePath);
 		}
 
 		foreach ($data as $i => &$result) {
@@ -240,9 +240,11 @@ class TreeHelper extends AppHelper {
 				}
 			}
 
+			$depth = $depth ? $depth : count($stack);
+
 			$elementData = array(
 				'data' => $result,
-				'depth' => $depth ? $depth : count($stack),
+				'depth' => $depth,
 				'hasChildren' => $hasChildren,
 				'numberOfDirectChildren' => $numberOfDirectChildren,
 				'numberOfTotalChildren' => $numberOfTotalChildren,
@@ -250,7 +252,12 @@ class TreeHelper extends AppHelper {
 				'lastChild' => $lastChild,
 				'hasVisibleChildren' => $hasVisibleChildren,
 				'activePathElement' => $activePathElement,
+				'isSibling' => ($depth == 0 && !$activePathElement) ? true : false,
 			);
+			if ($elementData['isSibling'] && $hideUnrelated) {
+				$result['children'] = array();
+			}
+
 			$this->_settings = array_merge($this->_settings, $elementData);
 			if ($this->_settings['fullSettings']) {
 				$elementData = $this->_settings;
@@ -264,6 +271,7 @@ class TreeHelper extends AppHelper {
 			} else {
 				$content = $row[$alias];
 			}
+
 			if (!$content) {
 				continue;
 			}
@@ -473,6 +481,7 @@ class TreeHelper extends AppHelper {
 			}
 		} else {
 			$attributes = $this->_itemAttributes;
+			$this->_itemAttributes = array();
 			if ($clear) {
 				$this->_itemAttributes = array();
 			}
@@ -506,8 +515,8 @@ class TreeHelper extends AppHelper {
 	}
 
 	/**
-	 * Mark unrelated records as hidden using `'hide' => 1`
-	 * In the callback or element you can then return early in this case
+	 * Mark unrelated records as hidden using `'hide' => 1`.
+	 * In the callback or element you can then return early in this case.
 	 *
 	 * @param array $tree
 	 * @param array $treePath
@@ -530,6 +539,9 @@ class TreeHelper extends AppHelper {
 				foreach ($subTree['children'] as &$v) {
 					$v[$model]['parent_show'] = 1;
 				}
+			}
+			if (is_numeric($hideUnrelated) && $hideUnrelated > $level) {
+				$siblingIsActive = true;
 			}
 		}
 		foreach ($tree as $key => &$subTree) {

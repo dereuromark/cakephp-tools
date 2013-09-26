@@ -312,7 +312,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * @param integer $hex1Start
  * @param integer $hex2Start
  * @return void
- * @access protected
  */
 	protected function _buildTest($hex1Limit = 16, $hex2Limit = 16, $hex1Start = 16, $hex2Start = 0) {
 		$skip = array(15, 16);
@@ -335,7 +334,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  *
  * @param mixed $section
  * @return void
- * @access protected
  */
 	protected function _buildTestFunction($section, $limit = 16, $start = 0) {
 		$out = "\tfunction testSection$section() {\n";
@@ -380,7 +378,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * there are 2 overrides in the code to limit the duration of the test if it /is/ run.
  *
  * @return void
- * @access public
  */
 	public function testW3Validity() {
 		$this->skipIf(true);
@@ -407,7 +404,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * @param integer $hex1Start
  * @param integer $hex2Start
  * @return void
- * @access protected
  */
 	protected function _testMode($mode, $hex1Limit = 16, $hex2Limit = 16, $hex1Start = 0, $hex2Start = 0) {
 		for ($hex1 = $hex1Start; $hex1 < $hex1Limit; $hex1++) {
@@ -435,7 +431,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * @param mixed $hex1
  * @param mixed $hex2
  * @return void
- * @access protected
  */
 	protected function _testFile($path) {
 		$request = array(
@@ -476,7 +471,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * @param mixed $test
  * @param mixed $inputFile
  * @return void
- * @access protected
  */
 	protected function _parseW3Response($response, $test, $inputFile) {
 		preg_match_all('@<span class="err_type">.*</span>.*<em>Line (.*),.*</em>@sU', $response, $result);
@@ -521,7 +515,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * @param mixed $section
  * @param string $mode
  * @return string file path
- * @access protected
  */
 	protected function _createTestFile($section, $mode = 'display') {
 		$path = TMP . 'tests' . DS . '_slug_' . $mode . '_' . $section . '.html';
@@ -603,7 +596,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * Testing characters 0000 - 0fff
  *
  * @return void
- * @access public
  */
 	public function testSection0() {
 		$string = ' !"#$%&\'()*+,-./';
@@ -1874,7 +1866,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * Testing characters 1000 - 1fff
  *
  * @return void
- * @access public
  */
 	public function testSection1() {
 		$string = 'ကခဂဃငစဆဇဈဉညဋဌဍဎဏ';
@@ -3165,7 +3156,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * Testing characters 2000 - 2fff
  *
  * @return void
- * @access public
  */
 	public function testSection2() {
 		$string = '           ​‌‍‎‏';
@@ -4456,7 +4446,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * Testing characters 3000 - 3fff
  *
  * @return void
- * @access public
  */
 	public function testSection3() {
 		$string = '　、。〃〄々〆〇〈〉《》「」『』';
@@ -5747,7 +5736,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * Testing characters 4000 - 4fff
  *
  * @return void
- * @access public
  */
 	public function testSection4() {
 		$string = '䀀䀁䀂䀃䀄䀅䀆䀇䀈䀉䀊䀋䀌䀍䀎䀏';
@@ -7038,7 +7026,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * Testing characters 5000 - 5fff
  *
  * @return void
- * @access public
  */
 	public function testSection5() {
 		$string = '倀倁倂倃倄倅倆倇倈倉倊個倌倍倎倏';
@@ -8329,7 +8316,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * Testing characters 6000 - 6fff
  *
  * @return void
- * @access public
  */
 	public function testSection6() {
 		$string = '怀态怂怃怄怅怆怇怈怉怊怋怌怍怎怏';
@@ -9620,7 +9606,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * Testing characters 7000 - 7fff
  *
  * @return void
- * @access public
  */
 	public function testSection7() {
 		$string = '瀀瀁瀂瀃瀄瀅瀆瀇瀈瀉瀊瀋瀌瀍瀎瀏';
@@ -10911,7 +10896,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * Testing characters 8000 - 8fff
  *
  * @return void
- * @access public
  */
 	public function testSection8() {
 		$string = '耀老耂考耄者耆耇耈耉耊耋而耍耎耏';
@@ -12202,7 +12186,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * Testing characters 9000 - 9fff
  *
  * @return void
- * @access public
  */
 	public function testSection9() {
 		$string = '退送适逃逄逅逆逇逈选逊逋逌逍逎透';
@@ -13493,7 +13476,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * Testing characters a000 - afff
  *
  * @return void
- * @access public
  */
 	public function testSectiona() {
 		$string = 'ꀀꀁꀂꀃꀄꀅꀆꀇꀈꀉꀊꀋꀌꀍꀎꀏ';
@@ -14784,7 +14766,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * Testing characters b000 - bfff
  *
  * @return void
- * @access public
  */
 	public function testSectionb() {
 		$string = '뀀뀁뀂뀃뀄뀅뀆뀇뀈뀉뀊뀋뀌뀍뀎뀏';
@@ -16075,7 +16056,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * Testing characters c000 - cfff
  *
  * @return void
- * @access public
  */
 	public function testSectionc() {
 		$string = '쀀쀁쀂쀃쀄쀅쀆쀇쀈쀉쀊쀋쀌쀍쀎쀏';
@@ -17367,7 +17347,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  *
  * @return void
  * @return void
- * @access public
  */
 	public function testSectiond() {
 		$string = '퀀퀁퀂퀃퀄퀅퀆퀇퀈퀉퀊퀋퀌퀍퀎퀏';
@@ -18016,7 +17995,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * test Url method
  *
  * @return void
- * @access public
  */
 	public function testUrlMode() {
 		$this->Model->Behaviors->load('Slugged', array('mode' => 'url', 'replace' => false));
@@ -18125,7 +18103,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * testTruncateMultibyte method
  *
  * @return void
- * @access public
  */
 /**
  * testTruncateMultibyte method
@@ -18137,7 +18114,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * Ensure that it'll still work with encodings which aren't UTF-8 - note this file is UTF-8
  *
  * @return void
- * @access public
  */
 	public function testTruncateMultibyte() {
 		$testString = 'モデルのデータベースとデータソース';
@@ -18171,7 +18147,6 @@ class SluggedBehaviorTest extends CakeTestCase {
  * If there's a length restriction - ensure it's respected by the unique slug routine
  *
  * @return void
- * @access public
  */
 	public function testDuplicateWithLengthRestriction() {
 		$this->Model->Behaviors->load('Slugged', array('label' => 'name', 'length' => 10, 'unique' => true));
@@ -18233,7 +18208,6 @@ class MessageSlugged extends CakeTestModel {
 	 * useTable property
 	 *
 	 * @var string 'messages'
-	 * @access public
 	 */
 	public $useTable = 'messages';
 
@@ -18241,7 +18215,6 @@ class MessageSlugged extends CakeTestModel {
 	 * actsAs property
 	 *
 	 * @var array
-	 * @access public
 	 */
 	public $actsAs = array('Tools.Slugged' => array(
 		'mode' => 'id',
