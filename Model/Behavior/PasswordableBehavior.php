@@ -5,8 +5,9 @@ App::uses('CakeRequest', 'Network');
 App::uses('CakeResponse', 'Network');
 App::uses('Security', 'Utility');
 
+// @deprecated Use Configure settings instead.
 if (!defined('PWD_MIN_LENGTH')) {
-	define('PWD_MIN_LENGTH', 3);
+	define('PWD_MIN_LENGTH', 6);
 }
 if (!defined('PWD_MAX_LENGTH')) {
 	define('PWD_MAX_LENGTH', 20);
@@ -25,6 +26,10 @@ if (!defined('PWD_MAX_LENGTH')) {
  * as first line in any action where you want to allow the user to change his password
  * also add the two form fields in the form (pwd, pwd_confirm)
  * the rest is cake automagic :)
+ *
+ * Also note that you can apply global settings via Configure key 'Passwordable', as well,
+ * if you don't want to manually pass them along each time you use the behavior. This also
+ * keeps the code clean and lean.
  *
  * Now also is capable of:
  * - require current password prior to altering it (current=>true)
@@ -251,12 +256,20 @@ class PasswordableBehavior extends ModelBehavior {
 		$formFieldCurrent = $this->settings[$Model->alias]['formFieldCurrent'];
 
 		$rules = $this->_validationRules;
-		foreach ($rules as $key => $rule) {
-			foreach ($rule as $rK => $rR) {
-				$rR['allowEmpty'] = !$this->settings[$Model->alias]['require'];
+		foreach ($rules as $field => $fieldRules) {
+			foreach ($fieldRules as $key => $rule) {
+				$rule['allowEmpty'] = !$this->settings[$Model->alias]['require'];
 
-				$rules[$key][$rK] = $rR;
+				if ($key === 'between') {
+					$rule['rule'][1] = $this->settings[$Model->alias]['minLength'];
+					$rule['message'][1] = $this->settings[$Model->alias]['minLength'];
+					$rule['rule'][2] = $this->settings[$Model->alias]['maxLength'];
+					$rule['message'][2] = $this->settings[$Model->alias]['maxLength'];
+				}
+
+				$fieldRules[$key] = $rule;
 			}
+			$rules[$field] = $fieldRules;
 		}
 
 		# add the validation rules if not already attached

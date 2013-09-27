@@ -23,10 +23,10 @@ class ToolsUserFixture extends CakeTestFixture {
 	 * @var array
 	 */
 	public $records = array(
-		array('id' => 1, 'role_id' => 1, 'password' => '123', 'name' => 'User 1'),
-		array('id' => 2, 'role_id' => 2, 'password' => '123', 'name' => 'User 2'),
-		array('id' => 3, 'role_id' => 1, 'password' => '123', 'name' => 'User 3'),
-		array('id' => 4, 'role_id' => 3, 'password' => '123', 'name' => 'User 4')
+		array('id' => 1, 'role_id' => 1, 'password' => '123456', 'name' => 'User 1'),
+		array('id' => 2, 'role_id' => 2, 'password' => '123456', 'name' => 'User 2'),
+		array('id' => 3, 'role_id' => 1, 'password' => '123456', 'name' => 'User 3'),
+		array('id' => 4, 'role_id' => 3, 'password' => '123456', 'name' => 'User 4')
 	);
 
 }
