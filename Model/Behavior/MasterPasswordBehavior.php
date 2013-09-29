@@ -30,7 +30,6 @@ App::uses('ModelBehavior', 'Model');
  */
 
 /**
- * 2011-12-22 ms
  */
 class MasterPasswordBehavior extends ModelBehavior {
 
@@ -100,7 +99,6 @@ class MasterPasswordBehavior extends ModelBehavior {
 	 *
 	 * @param string $pwd: plain password string (not hashed etc)
 	 * @return boolean Success
-	 * 2011-12-22 ms
 	 */
 	public function isAuthorized(Model $Model, $field) {
 		if (empty($Model->data[$Model->alias][$field])) {

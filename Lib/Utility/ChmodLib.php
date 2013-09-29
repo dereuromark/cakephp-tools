@@ -10,7 +10,6 @@
 /**
  * PHP5
  * u=user, g=group, o=other
- * 2010-06-21 ms
  */
 class ChmodLib {
 
@@ -24,7 +23,6 @@ class ChmodLib {
 	 * e.g. 0777 => 0777, '755' => 0755
 	 *
 	 * @return string
-	 * 2009-07-26 ms
 	 */
 	public static function convertFromOctal($mode, $leadingZero = false) {
 		$res = (String)substr(sprintf('%o', $mode), -4);
@@ -38,7 +36,6 @@ class ChmodLib {
 	 * from INT or STRING with or without leading 0 -> Octal 0xxx
 	 *
 	 * @return integer
-	 * 2009-07-26 ms
 	 */
 	public static function convertToOctal($mode) {
 		return intval((string)$mode, 8);
@@ -64,7 +61,6 @@ class ChmodLib {
 	 * @param options
 	 * - string: string/int/symbolic
 	 * @return integer Mode
-	 * 2010-06-21 ms
 	 */
 	public function getMode($options = array()) {
 		$mode = (string)($this->modes['user'] . $this->modes['group'] . $this->modes['other']);
@@ -84,7 +80,6 @@ class ChmodLib {
 	/**
 	 * full table with all rights
 	 * //TODO
-	 * 2010-06-21 ms
 	 */
 	public function table() {
 		$res = array();
@@ -98,7 +93,6 @@ class ChmodLib {
 	 * e.g: 4 for = r--
 	 *
 	 * @return string Symbol
-	 * 2010-06-21 ms
 	 */
 	protected function symbol($mode) {
 		$res = '---';

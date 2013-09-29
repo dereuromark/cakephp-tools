@@ -9,7 +9,6 @@ App::uses('Folder', 'Utility');
  * @author Mark Scherer, Maximilian Ruta
  * @cakephp 2.x
  * @license MIT
- * 2011-02-21 de
  */
 class PhpTagShell extends AppShell {
 
@@ -29,7 +28,6 @@ class PhpTagShell extends AppShell {
 	/**
 	 * note: uses provided folder (first param)
 	 * otherwise complete APP
-	 * 2011-08-01 ms
 	 */
 	public function run() {
 		if (isset($this->args[0]) && !empty($this->args[0])) {

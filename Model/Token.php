@@ -8,7 +8,6 @@ App::uses('CommonComponent', 'Tools.Controller/Component');
  * @author Mark Scherer
  * @cakephp 2.x
  * @license MIT
- * 2011-11-17 ms
  */
 class Token extends ToolsAppModel {
 
@@ -57,7 +56,6 @@ class Token extends ToolsAppModel {
 	 * @param string content: up to 255 characters of content may be added (optional)
 	 * NOW: checks if this key is already used (should be unique in table)
 	 * @return string key on SUCCESS, boolean false otherwise
-	 * 2009-05-13 ms
 	 */
 	public function newKey($type, $key = null, $uid = null, $content = null) {
 		if (empty($type)) {
@@ -103,7 +101,6 @@ class Token extends ToolsAppModel {
 	 * @param string key: necessary
 	 * @param mixed user_id: needs to be provided if this key has a user_id stored
 	 * @return array Content - if successfully used or if already used (used=1), FALSE else
-	 * 2009-05-13 ms
 	 */
 	public function useKey($type, $key, $uid = null, $treatUsedAsInvalid = false) {
 		if (empty($type) || empty($key)) {
@@ -146,7 +143,6 @@ class Token extends ToolsAppModel {
 	 *
 	 * @param id of key to spend: necessary
 	 * @return boolean true on success, false otherwise
-	 * 2009-05-13 ms
 	 */
 	public function spendKey($id = null) {
 		if (empty($id)) {
@@ -164,7 +160,6 @@ class Token extends ToolsAppModel {
 	 * does not remove recently used ones (for proper feedback)!
 	 *
 	 * @return boolean success
-	 * 2010-06-17 ms
 	 */
 	public function garbigeCollector() {
 		$conditions = array(
@@ -175,7 +170,6 @@ class Token extends ToolsAppModel {
 
 	/**
 	 * get admin stats
-	 * 2010-10-22 ms
 	 */
 	public function stats() {
 		$keys = array();
@@ -195,7 +189,6 @@ class Token extends ToolsAppModel {
 	 *
 	 * @param length (defaults to defaultLength)
 	 * @return string Key
-	 * 2009-05-13 ms
 	 */
 	public function generateKey($length = null) {
 		if (empty($length)) {

@@ -5,7 +5,6 @@ App::uses('View', 'View');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 /**
- * 2012-11-23 ms
  */
 class CommonHelperTest extends MyCakeTestCase {
 

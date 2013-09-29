@@ -6,7 +6,6 @@ App::uses('ToolsAppModel', 'Tools.Model');
  * @author Mark Scherer
  * @cakephp 2.x
  * @license MIT
- * 2011-12-15 ms
  */
 class ContactForm extends ToolsAppModel {
 

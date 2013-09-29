@@ -81,7 +81,6 @@ class FileLibTest extends CakeTestCase {
 
 	/**
 	 * test csv file generation from array
-	 * 2012-07-06 ms
 	 */
 	public function testWriteCsv() {
 		$handler = new FileLib(TMP . 'test.csv', true);

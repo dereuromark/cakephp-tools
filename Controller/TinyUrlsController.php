@@ -31,7 +31,6 @@ class TinyUrlsController extends ToolsAppController {
 
 	/**
 	 * main redirect function
-	 * 2011-07-11 ms
 	 */
 	public function go() {
 		if (empty($this->request->params['id'])) {

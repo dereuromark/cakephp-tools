@@ -4,13 +4,11 @@ App::uses('File', 'Utility');
 /**
  * Convenience class for reading, writing and appending to files.
  *
- * 2010-05-16 ms
  */
 class FileLib extends File {
 
 	/**
 	 * allowed delimiters for csv
-	 * 2009-06-15 ms
 	 */
 	protected $allowedDelimiters = array(
 		',',
@@ -21,13 +19,11 @@ class FileLib extends File {
 
 	/**
 	 * allowed enclosures for csv
-	 * 2009-06-15 ms
 	 */
 	protected $allowedEnclosures = array('"', '\'');
 
 	/**
 	 * allowed tags for pattern reading
-	 * 2009-06-15 ms
 	 */
 	protected $allowedTags = array(
 		'<h1>',
@@ -50,7 +46,6 @@ class FileLib extends File {
 	 * @param string $force Force open/read the file
 	 * @param boolean $removeEmpty Remove empty lines (simple newline characters without meaning)
 	 * @return array Content or false on failure
-	 * 2009-06-15 ms
 	 */
 	public function readCsv($length = 0, $delimiter = null, $enclosure = null, $mode = 'rb', $force = false, $removeEmpty = false) {
 		$res = array();
@@ -125,7 +120,6 @@ class FileLib extends File {
 	 * @param string $delimiter (null defaults to ,)
 	 * @param string $enclosure (null defaults to " - do not pass empty string)
 	 * @return boolean Success
-	 * 2012-07-06 ms
 	 */
 	public function writeCsv($data, $delimiter = null, $enclosure = null) {
 		if ($this->open('w', true) !== true) {
@@ -156,7 +150,6 @@ class FileLib extends File {
 	 * @param string $mode
 	 * @param string $force Force open/read the file
 	 * @return array Content or false on failure
-	 * 2009-06-15 ms
 	 */
 	public function readWithPattern($format = null, $mode = 'rb', $force = false) {
 		$res = array();
@@ -194,7 +187,6 @@ class FileLib extends File {
 	 * @param string $mode
 	 * @param boolean $force If true then the file will be re-opened even if its already opened, otherwise it won't
 	 * @return mixed string on success, false on failure
-	 * 2009-06-15 ms
 	 */
 	public function readWithTags($tags = null, $mode = 'rb', $force = false) {
 		if ($this->open($mode, $force) === false) {
@@ -233,7 +225,6 @@ class FileLib extends File {
 	 * - keys (defaults to first array content in data otherwise) (order is important!)
 	 * - preserve_keys (do not slug and lowercase)
 	 * @return array result or FALSE on failure
-	 * 2010-10-15 ms
 	 */
 	public function transfer($data, $options = array()) {
 		$res = array();

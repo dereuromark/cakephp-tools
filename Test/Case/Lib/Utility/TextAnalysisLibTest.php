@@ -2,7 +2,6 @@
 App::uses('TextAnalysisLib', 'Tools.Utility');
 
 /**
- * 2010-07-14 ms
  */
 class TextAnalysisLibTest extends CakeTestCase {
 

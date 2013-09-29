@@ -31,7 +31,6 @@ if (!defined('ACL_FILE')) {
  * @author Mark Scherer
  * @cakephp 2.x
  * @license MIT
- * 2012-01-09 ms
  */
 class TinyAuthorize extends BaseAuthorize {
 

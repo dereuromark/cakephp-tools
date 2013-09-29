@@ -10,7 +10,6 @@ App::uses('CakeSession', 'Model/Datasource');
  * @author Mark Scherer
  * @cakephp 2.x
  * @license MIT
- * 2011-11-17 ms
  */
 class Qlogin extends ToolsAppModel {
 
@@ -73,7 +72,6 @@ class Qlogin extends ToolsAppModel {
 	 * @param mixed $url
 	 * @param string $uid
 	 * @return string key
-	 * 2011-07-12 ms
 	 */
 	public function generate($url, $uid) {
 		$content = serialize($url);

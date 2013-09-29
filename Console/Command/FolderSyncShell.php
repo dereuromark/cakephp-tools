@@ -11,7 +11,6 @@ App::uses('AppShell', 'Console/Command');
  * @cakephp 2.x
  * @author Mark Scherer
  * @license MIT
- * 2012-07-18 ms
  */
 class FolderSyncShell extends AppShell {
 
@@ -33,7 +32,6 @@ class FolderSyncShell extends AppShell {
 	 * main
 	 *
 	 * @return void
-	 * 2012-07-18 ms
 	 */
 	public function main() {
 		$this->help();
@@ -43,7 +41,6 @@ class FolderSyncShell extends AppShell {
 	 * main
 	 *
 	 * @return void
-	 * 2012-07-18 ms
 	 */
 	public function update() {
 		$this->sourceFolder = $this->params['source'];

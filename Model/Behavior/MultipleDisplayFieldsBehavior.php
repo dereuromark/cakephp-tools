@@ -27,7 +27,6 @@ App::uses('ModelBehavior', 'Model');
  * @see: http://bakery.cakephp.org/articles/view/multiple-display-field-3
  * @license MIT
  * @modified Mark Scherer
- * 2009-01-06 ms
  */
 class MultipleDisplayFieldsBehavior extends ModelBehavior {
 

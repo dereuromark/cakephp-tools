@@ -4,7 +4,6 @@ App::uses('Folder', 'Utility');
 /**
  * Folder lib with a few custom improvements
 
- * 2010-05-16 ms
  */
 class FolderLib extends Folder {
 
@@ -16,7 +15,6 @@ class FolderLib extends Folder {
 	 * Note: It skips hidden folders (starting with a . dot).
 	 *
 	 * @return boolean Success or null on invalid folder
-	 * 2010-12-07 ms
 	 */
 	public function clear($path = null) {
 		if (!$path) {

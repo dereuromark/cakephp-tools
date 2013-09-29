@@ -8,7 +8,6 @@ App::uses('UrlCacheManager', 'Tools.Routing');
  *
  * @author Mark Scherer
  * @license MIT
- * 2012-02-27 ms
  */
 class MyHelper extends Helper {
 
@@ -77,7 +76,6 @@ class MyHelper extends Helper {
 	 * @param binary $content
 	 * @param array $options
 	 * @return string html imageTag
-	 * 2010-11-22 ms
 	 */
 	public function imageFromBlob($content, $options = array()) {
 		$text = 'data:image/png;base64,' . base64_encode($content);
@@ -97,7 +95,6 @@ class MyHelper extends Helper {
 	 * - 'datetime' STRING: If 'format' is STRING use as the formatting string. FALSE: Don't generate attribute
 	 *
 	 * //TODO: fixme
-	 * 2011-07-17 ms
 	 */
 	public function time($content, $options = array()) {
 		if (!isset($this->tags['time'])) {
@@ -149,7 +146,6 @@ class MyHelper extends Helper {
 	 *
 	 * @params same as Html::link($title, $url, $options, $confirmMessage)
 	 * @return string Link
-	 * 2012-12-03 ms
 	 */
 	public function completeLink($title, $url = null, $options = array(), $confirmMessage = false) {
 		if (is_array($url)) {
@@ -163,7 +159,6 @@ class MyHelper extends Helper {
 	 *
 	 * @params same as Html::url($url, $options, $escape)
 	 * @return string Link
-	 * 2012-12-03 ms
 	 */
 	public function completeUrl($url = null, $full = false, $escape = true) {
 		if (is_array($url)) {
@@ -178,7 +173,6 @@ class MyHelper extends Helper {
 	 *
 	 * @params same as Html::link($title, $url, $options, $confirmMessage)
 	 * @return string Link
-	 * 2010-01-23 ms
 	 */
 	public function defaultLink($title, $url = null, $options = array(), $confirmMessage = false) {
 		if ($this->_linkDefaults === null) {
@@ -209,7 +203,6 @@ class MyHelper extends Helper {
 	 * convenience function for normal urls
 	 * useful for layout urls and urls inside elements etc
 	 * @params same as Html::url($url, $full)
-	 * 2010-01-23 ms
 	 */
 	public function defaultUrl($url = null, $full = false) {
 		if ($this->_linkDefaults === null) {
@@ -231,7 +224,6 @@ class MyHelper extends Helper {
 	 * to be cleared so that more than one set of crumbs can be generated in the same view.
 	 *
 	 * @return void
-	 * 2009-08-05 ms
 	 */
 	public function resetCrumbs() {
 		$this->_crumbs = array();

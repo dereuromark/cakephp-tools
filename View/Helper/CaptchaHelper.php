@@ -16,7 +16,6 @@ if (!defined('BR')) {
 
 /**
  * works togehter with captcha behaviour/component
- * 2011-06-11 ms
  */
 class CaptchaHelper extends AppHelper {
 
@@ -53,7 +52,6 @@ class CaptchaHelper extends AppHelper {
 	 *
 	 * @param integer $difficulty: not build in yet
 	 * @return array
-	 * 2008-12-12 ms
 	 */
 	protected function _generate($difficulty = null) {
 		# Choose the first number randomly between 6 and 10. This is to stop the answer being negative.
@@ -80,7 +78,6 @@ class CaptchaHelper extends AppHelper {
 	 * - db-based (not impl.)
 	 *
 	 * @return string HTML
-	 * 2009-12-18 ms
 	 */
 	public function captcha($modelName = null) {
 		$captchaCode = $this->_generate();
@@ -122,7 +119,6 @@ class CaptchaHelper extends AppHelper {
 	 *
 	 * @param boolean between: [default: true]
 	 * @return string HTML
-	 * 2010-01-08 ms
 	 */
 	public function input($modelName = null, $options = array()) {
 		$defaultOptions = array(
@@ -153,7 +149,6 @@ class CaptchaHelper extends AppHelper {
 	 * passive captcha
 	 *
 	 * @return string HTML
-	 * 2010-01-08 ms
 	 */
 	public function passive($modelName = null, $options = array()) {
 		$tmp = $this->settings['type'];
@@ -168,7 +163,6 @@ class CaptchaHelper extends AppHelper {
 	 * (+ passive captcha right now)
 	 *
 	 * @return string Form input
-	 * 2010-01-08 ms
 	 */
 	public function active($modelName = null, $options = array()) {
 		return $this->input($modelName, $options);

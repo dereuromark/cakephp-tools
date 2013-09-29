@@ -9,7 +9,6 @@ if (!class_exists('SpreadsheetExcelReader')) {
  *
  * @author Mark Scherer
  * @license MIT
- * 2013-01-24 ms
  */
 class ExcelReaderLib extends SpreadsheetExcelReader {
 

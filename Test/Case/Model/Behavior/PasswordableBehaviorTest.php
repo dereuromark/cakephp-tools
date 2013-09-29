@@ -505,7 +505,6 @@ class PasswordableBehaviorTest extends CakeTestCase {
 }
 
 /**
- * 2011-11-03 ms
  */
 class AuthTestComponent extends AuthComponent {
 }

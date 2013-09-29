@@ -181,7 +181,6 @@ define('CHAR_DOUBLE_RPIME', '&#8243;'); # ? (seconds)
  * //TODO move to TextLib?
  *
  * @return string
- * 2010-11-07 ms
  */
 function slug($string, $separator = null, $low = true) {
 	$additionalSlugElements = array(
@@ -218,7 +217,6 @@ function slug($string, $separator = null, $low = true) {
  *
  * @param string $str
  * @return string
- * 2010-11-07 ms
  */
 function br2nl($str) {
 	$str = preg_replace("/(\r\n|\r|\n)/", "", $str);
@@ -232,7 +230,6 @@ function br2nl($str) {
  *
  * @param string $text Any text
  * @return string Safe string without new lines
- * 2010-11-14 ms
  */
 function safenl($str) {
 	//$str = str_replace(chr(13).chr(10), " ", $str); # \r\n
@@ -247,7 +244,6 @@ function safenl($str) {
  *
  * @param mixed $var
  * @return boolean Result
- * 2009-06-15 ms
  */
 function isEmpty($var = null) {
 	if (empty($var)) {
@@ -263,7 +259,6 @@ function isEmpty($var = null) {
  *
  * @param mixed $value
  * @return type (NULL, array, bool, float, int, string, object, unknown) + value
- * 2009-03-03 ms
  */
 function returns($value) {
 	if ($value === null) {
@@ -317,7 +312,6 @@ function ent($text) {
  *
  * @param string $text Text to wrap through htmlspecialchars_decode
  * @return string Wrapped text
- * 2011-04-03 ms
  */
 function hDec($text, $quoteStyle = ENT_QUOTES) {
 	if (is_array($text)) {
@@ -331,7 +325,6 @@ function hDec($text, $quoteStyle = ENT_QUOTES) {
  *
  * @param string $text Text to wrap through htmlspecialchars_decode
  * @return string Wrapped text
- * 2011-04-03 ms
  */
 function entDec($text, $quoteStyle = ENT_QUOTES) {
 	if (is_array($text)) {
@@ -346,7 +339,6 @@ function entDec($text, $quoteStyle = ENT_QUOTES) {
  * //TODO: switch parameters!!!
  *
  * @return mixed
- * 2011-06-02 ms
  */
 function extractFileInfo($type = null, $filename) {
 	if ($info = extractPathInfo($type, $filename)) {
@@ -379,7 +371,6 @@ function extractFileInfo($type = null, $filename) {
  * @param string type (extension/ext, filename/file, basename/base, dirname/dir)
  * @param string filename to check on
  * @return mixed
- * 2009-01-22 ms
  */
 function extractPathInfo($type = null, $filename, $fromUrl = false) {
 	switch ($type) {
@@ -422,7 +413,6 @@ function extractPathInfo($type = null, $filename, $fromUrl = false) {
  * @param array $options
  * - class, showHtml, showFrom, jquery, returns, debug
  * @return string HTML
- * 2011-01-19 ms
  */
 function pre($var, $collapsedAndExpandable = false, $options = array()) {
 	$defaults = array(

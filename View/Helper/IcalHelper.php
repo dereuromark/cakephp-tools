@@ -9,7 +9,6 @@ App::uses('IcalLib', 'Tools.Lib');
  * needs ical layout
  * needs Router::parseExtensions('ics') in router.php
  *
- * 2011-10-10 ms
  */
 class IcalHelper extends AppHelper {
 
@@ -48,7 +47,6 @@ class IcalHelper extends AppHelper {
 	 * Returns complete ical calender file content to output.
 	 *
 	 * @return string
-	 * 2011-10-10 ms
 	 */
 	public function generate($globalData = array(), $addStartAndEnd = true) {
 		$res = array();

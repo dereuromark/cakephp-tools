@@ -14,7 +14,6 @@
  * @cakephp 2.x
  *
  * ImapLib for accessing IMAP and POP email accounts
- * 2011-10-11 ms
  */
 class ImapLib {
 
@@ -124,7 +123,6 @@ class ImapLib {
 
 	/**
 	 * @return boolean Success
-	 * 2011-10-25 ms
 	 */
 	public function connect($user, $pass, $server, $port = null) {
 		$this->settings[self::S_SERVER] = $server;
@@ -191,7 +189,6 @@ class ImapLib {
 	 * main listing of messages
 	 * - body, structure, attachments
 	 * @return array
-	 * 2011-11-17 ms
 	 */
 	public function msgList($msg_list = array()) {
 		$return = array();
@@ -258,7 +255,6 @@ class ImapLib {
 
 	/**
 	 * @see http://www.nerdydork.com/download-pop3imap-email-attachments-with-php.html
-	 * 2011-09-02 ms
 	 */
 	public function attachments($header) {
 		$structure = imap_fetchstructure($this->stream, $header->Msgno);
@@ -341,7 +337,6 @@ class ImapLib {
 
 	/**
 	 * @see http://www.nerdydork.com/download-pop3imap-email-attachments-with-php.html
-	 * 2011-09-02 ms
 	 */
 	protected function _getDecodedValue($message, $coding) {
 		if ($coding == 0) {
@@ -509,7 +504,6 @@ class ImapLib {
 	 * makes sure imap_open is available etc
 	 * @throws InternalErrorException
 	 * @return boolean Success
-	 * 2011-10-25 ms
 	 */
 	public function dependenciesMatch() {
 		if (!function_exists('imap_open')) {
@@ -534,7 +528,6 @@ class ImapLib {
  * debug(utf8_encode(quoted_printable_decode($message['body'])));
  *
  * fixes: pop3 connect etc
- * 2011-09-02 ms
  */
 class ImapMessageInfoLib {
 

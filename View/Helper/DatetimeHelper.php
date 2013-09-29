@@ -5,7 +5,6 @@ App::uses('TimeHelper', 'View/Helper');
 
 /**
  * TODO: make extend TimeLib some day?
- * 2012-04-09 ms
  */
 class DatetimeHelper extends TimeHelper {
 
@@ -35,7 +34,6 @@ class DatetimeHelper extends TimeHelper {
 	 * @param
 	 * @param
 	 * @return integer offset
-	 * 2009-03-19 ms
 	 */
 	public function tzOffset($gmtoffset, $is_dst) {
 		//global $gmtoffset, $is_dst;
@@ -50,7 +48,6 @@ class DatetimeHelper extends TimeHelper {
 	/**
 	 * @param string date (from db)
 	 * @return integer age on success, mixed $default otherwise
-	 * 2009-11-22 ms
 	 */
 	public function userAge($date = null, $default = '---') {
 		if ((int)$date === 0) {
@@ -65,7 +62,6 @@ class DatetimeHelper extends TimeHelper {
 
 	/**
 	 * Like localDate(), only with additional markup <span> and class="today", if today, etc
-	 * 2009-11-22 ms
 	 */
 	public function localDateMarkup($dateString = null, $format = null, $options = array()) {
 		$date = $this->localDate($dateString, $format, $options);
@@ -75,7 +71,6 @@ class DatetimeHelper extends TimeHelper {
 
 	/**
 	 * Like niceDate(), only with additional markup <span> and class="today", if today, etc
-	 * 2009-11-22 ms
 	 */
 	public function niceDateMarkup($dateString = null, $format = null, $options = array()) {
 		$date = $this->niceDate($dateString, $format, $options);
@@ -168,7 +163,6 @@ class DatetimeHelper extends TimeHelper {
 	 * @param date
 	 * @param string days with +-
 	 * @param options
-	 * 2010-08-26 ms
 	 */
 	public function isInRangeFromDays($dateString, $days, $options = array()) {
 		$date = explode(' ', $dateString);
@@ -191,7 +185,6 @@ class DatetimeHelper extends TimeHelper {
 	 * @param badTime
 	 * returns niceTime
 	 * TODO: move to lib, but more generic
-	 * 2011-07-19 gh
 	 */
 	public function niceTime($badTime) {
 		return substr($badTime, 0, 5);

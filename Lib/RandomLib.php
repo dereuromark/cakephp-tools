@@ -5,7 +5,6 @@
  *
  * @author Mark Scherer
  * @license MIT
- * 2009-07-24 ms
  */
 class RandomLib {
 
@@ -153,7 +152,6 @@ class RandomLib {
 	 * @param string $type: user, ...
 	 * @param integer $length (if no type is submitted)
 	 * @return pwd on success, empty string otherwise
-	 * 2009-12-26 ms
 	 */
 	public static function randomPwd($type = null, $length = null) {
 		if (!empty($type) && $type === 'user') {
@@ -171,7 +169,6 @@ class RandomLib {
 	 *
 	 * @param integer $lenght (necessary!)
 	 * @return string Password
-	 * 2009-12-26 ms
 	 */
 	public static function generatePassword($length, $chars = null) {
 		if ($chars === null) {

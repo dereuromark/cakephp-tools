@@ -6,7 +6,6 @@ App::uses('AppHelper', 'View/Helper');
  * some mods?
  * //TODO: make to lib!?
  * //TODO: integrate ThumbnailHelper !!!
- * 2009-09-13 ms
  */
 class PhpThumbHelper extends AppHelper {
 
@@ -155,7 +154,6 @@ class PhpThumbHelper extends AppHelper {
 
 	/**
 	 * @return string error
-	 * 2010-05-15 ms
 	 */
 	public function error() {
 		return (String)$this->error_detail;

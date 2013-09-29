@@ -23,7 +23,6 @@ App::uses('ModelBehavior', 'Model');
  * - added key: remove (to remove some custom fields again)
  * - rewritten method: modifyQuery()
  * - test case added
- * 2012-07-18 ms
  */
 class CustomFindsBehavior extends ModelBehavior {
 

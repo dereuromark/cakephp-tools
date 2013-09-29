@@ -7,7 +7,6 @@ App::uses('Token', 'Tools.Model');
  * @author Mark Scherer
  * @cakephp 2.x
  * @license MIT
- * 2011-11-17 ms
  */
 class CodeKey extends Token {
 

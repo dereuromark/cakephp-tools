@@ -19,7 +19,6 @@ class DatetimeHelperTest extends MyCakeTestCase {
 	/**
 	 * test user age
 	 *
-	 * 2012-04-10 ms
 	 */
 	public function testUserAge() {
 		$res = $this->Datetime->userAge('2010-01-01');
@@ -29,7 +28,6 @@ class DatetimeHelperTest extends MyCakeTestCase {
 	/**
 	 * test cweek
 	 *
-	 * 2009-03-11 ms
 	 */
 	public function testLengthOfTime() {
 
@@ -98,7 +96,6 @@ class DatetimeHelperTest extends MyCakeTestCase {
  * test cweek
  *
  * @return void
- * 2009-03-11 ms
  */
 	public function testCweek() {
 
@@ -132,7 +129,6 @@ class DatetimeHelperTest extends MyCakeTestCase {
  * test age
  *
  * @return void
- * 2009-03-11 ms
  */
 	public function testAge() {
 		list($year, $month, $day) = explode('-',date('Y-m-d'));
@@ -188,7 +184,6 @@ class DatetimeHelperTest extends MyCakeTestCase {
  * test IsInTheFuture
  *
  * @return void
- * 2010-02-18 ms
  */
 
 	public function testIsInTheFuture() {
@@ -205,7 +200,6 @@ class DatetimeHelperTest extends MyCakeTestCase {
  * test IsNotTodayAndInTheFuture
  *
  * @return void
- * 2010-02-18 ms
  */
 
 	public function testIsNotTodayAndInTheFuture() {
@@ -222,7 +216,6 @@ class DatetimeHelperTest extends MyCakeTestCase {
  * test IsDayAfterTomorrow
  *
  * @return void
- * 2010-02-18 ms
  */
 
 	public function testIsDayAfterTomorrow() {

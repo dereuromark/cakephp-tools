@@ -10,7 +10,6 @@ class MyErrorHandler extends ErrorHandler {
 	 * override core one with the following enhancements/fixes:
 	 * - 404s log to a different domain
 	 * - IP, Referer and Browser-Infos are added for better error debugging/tracing
-	 * 2011-12-21 ms
 	 */
 	public static function handleException(Exception $exception) {
 		$config = Configure::read('Exception');
@@ -52,7 +51,6 @@ class MyErrorHandler extends ErrorHandler {
 	 * override core one with the following enhancements/fixes:
 	 * - 404s log to a different domain
 	 * - IP, Referer and Browser-Infos are added for better error debugging/tracing
-	 * 2011-12-21 ms
 	 */
 	public static function handleError($code, $description, $file = null, $line = null, $context = null) {
 		if (error_reporting() === 0) {
@@ -126,7 +124,6 @@ class MyErrorHandler extends ErrorHandler {
 	/**
 	 * append some more infos to better track down the error
 	 * @return string
-	 * 2011-12-21 ms
 	 */
 	public static function traceDetails() {
 		if (empty($_SERVER['REQUEST_URI']) || strpos($_SERVER['REQUEST_URI'], '/test.php?') === 0) {

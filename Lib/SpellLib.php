@@ -11,7 +11,6 @@ if (!defined('ENCHANT_ISPELL')) {
  * @author Mark Scherer
  * @licence MIT
  *
- * 2012-02-17 ms
  */
 class SpellLib {
 

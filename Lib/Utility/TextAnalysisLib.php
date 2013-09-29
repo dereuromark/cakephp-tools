@@ -4,7 +4,6 @@ App::uses('TextLib', 'Tools.Utility');
 /**
  * TODO: extend the core String class some day?
  *
- * 2010-08-31 ms
  */
 class TextAnalysisLib extends TextLib {
 
@@ -19,7 +18,6 @@ class TextAnalysisLib extends TextLib {
 	 * @param string $stringToCheck
 	 * @param tolerance (in %: 0 ... 1)
 	 * @return boolean Success
-	 * 2011-10-13 ms
 	 */
 	public function isScreamFont($str = null, $tolerance = 0.4) {
 		if ($str === null) {
@@ -124,7 +122,6 @@ class TextAnalysisLib extends TextLib {
 
 	/**
 	 * @return array(char=>amount) for empty char or int amount for specific char
-	 * 2010-08-31 ms
 	 */
 	public function occurrences($char = null, $caseSensitive = false) {
 
@@ -166,7 +163,6 @@ class TextAnalysisLib extends TextLib {
 
 	/**
 	 * @return array(char=>amount) for empty char or int amount for specific char
-	 * 2010-08-31 ms
 	 */
 	public function maxOccurrences($caseSensitive = false) {
 
@@ -232,7 +228,6 @@ class TextAnalysisLib extends TextLib {
 	/**
 	 * @param options
 	 * - min_char, max_char, case_sensititive, sort ('asc', 'desc', 'length', 'alpha', false), limit...
-	 * 2010-10-09 ms
 	 */
 	public function wordCount($options = array()) {
 		if (true || !$this->rr_word) {

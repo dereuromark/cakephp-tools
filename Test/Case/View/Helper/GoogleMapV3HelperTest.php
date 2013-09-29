@@ -225,7 +225,6 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 
 	/**
 	 * with default options
-	 * 2010-12-18 ms
 	 */
 	public function testDynamic() {
 		//echo '<h2>Map 1</h2>';
@@ -265,7 +264,6 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 
 	/**
 	 * more than 100 markers and it gets reaaally slow...
-	 * 2010-12-18 ms
 	 */
 	public function testDynamic2() {
 		//echo '<h2>Map 2</h2>';

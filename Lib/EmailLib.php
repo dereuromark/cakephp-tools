@@ -22,7 +22,6 @@ if (!defined('BR')) {
  * @author Mark Scherer
  * @license MIT
  * @cakephp 2.x
- * 2012-03-30 ms
  */
 class EmailLib extends CakeEmail {
 
@@ -55,7 +54,6 @@ class EmailLib extends CakeEmail {
 	 * @param string $message
 	 * @param string $transportConfig
 	 * @return boolean Success
-	 * 2011-10-31 ms
 	 */
 	public static function systemEmail($subject, $message = 'System Email', $transportConfig = null) {
 		$class = __CLASS__;
@@ -79,7 +77,6 @@ class EmailLib extends CakeEmail {
 	 *
 	 * @param string $layout Layout to use (or false to use none)
 	 * @return resource EmailLib
-	 * 2011-11-02 ms
 	 */
 	public function layout($layout = false) {
 		if ($layout !== false) {
@@ -95,7 +92,6 @@ class EmailLib extends CakeEmail {
 	 * @param string $filename
 	 * @param array $fileInfo
 	 * @return resource EmailLib
-	 * 2011-11-02 ms
 	 */
 	public function addAttachment($file, $name = null, $fileInfo = array()) {
 		$fileInfo['file'] = $file;
@@ -115,7 +111,6 @@ class EmailLib extends CakeEmail {
 	 * @param string $mimeType (leave it empty to get mimetype from $filename)
 	 * @param array $fileInfo
 	 * @return resource EmailLib
-	 * 2011-11-02 ms
 	 */
 	public function addBlobAttachment($content, $name, $mimeType = null, $fileInfo = array()) {
 		$fileInfo['content'] = $content;
@@ -134,7 +129,6 @@ class EmailLib extends CakeEmail {
 	 * - mimetype
 	 * - contentDisposition
 	 * @return mixed resource $EmailLib or string $contentId
-	 * 2011-11-02 ms
 	 */
 	public function addEmbeddedAttachment($file, $name = null, $contentId = null, $options = array()) {
 		$path = realpath($file);
@@ -168,7 +162,6 @@ class EmailLib extends CakeEmail {
 	 * @param array $options
 	 * - contentDisposition
 	 * @return mixed resource $EmailLib or string $contentId
-	 * 2011-11-02 ms
 	 */
 	public function addEmbeddedBlobAttachment($content, $name, $mimeType = null, $contentId = null, $options = array()) {
 		$options['content'] = $content;
@@ -227,7 +220,6 @@ class EmailLib extends CakeEmail {
 	 * @param string $ext lowercase (jpg, png, pdf, ...)
 	 * @param string $defaultMimeType
 	 * @return string Mimetype (falls back to `application/octet-stream`)
-	 * 2012-04-17 ms
 	 */
 	protected function _getMimeByExtension($ext, $default = 'application/octet-stream') {
 		if (!isset($this->_Mime)) {

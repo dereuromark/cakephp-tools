@@ -5,7 +5,6 @@ App::uses('File', 'Utility');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 /**
- * 2010-09-10 ms
  */
 class CaptchaLibTest extends MyCakeTestCase {
 

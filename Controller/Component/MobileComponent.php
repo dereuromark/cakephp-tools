@@ -12,7 +12,6 @@ App::uses('Router', 'Routing');
  * TODO: differentaite between "isMobile" and "has/wants mobile"
  * @author Mark Scherer
  * @license MIT
- * 2011-12-28 ms
  */
 class MobileComponent extends Component {
 
@@ -65,7 +64,6 @@ class MobileComponent extends Component {
 	 *
 	 * @deprecated in favor of themed solution?
 	 * @return void
-	 * 2012-10-02 ms
 	 */
 	public function serveMobileIfAvailable() {
 		$viewDir = App::path('View');

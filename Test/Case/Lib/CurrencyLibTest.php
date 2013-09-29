@@ -16,7 +16,6 @@ class CurrencyLibTest extends MyCakeTestCase {
 
 	/**
 	 * test
-	 * 2010-06-05 ms
 	 */
 	public function testConvert() {
 		$this->out('<h2>30 EUR in USD</h2>', true);

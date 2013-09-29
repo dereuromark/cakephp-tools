@@ -9,7 +9,6 @@
  * - optimization for `pageFiles` (still stores urls with only controller/action keys in global file)
  * - can handle legacy `prefix` urls
  *
- * 2012-02-13 ms
  */
 class UrlCacheManager {
 

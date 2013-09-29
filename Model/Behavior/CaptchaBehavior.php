@@ -13,7 +13,6 @@ App::uses('Utility', 'Tools.Utility');
  *
  * validate passive or active captchas
  * active: session-based, db-based or hash-based
- * 2009-12-12 ms
  */
 class CaptchaBehavior extends ModelBehavior {
 
@@ -81,7 +80,6 @@ class CaptchaBehavior extends ModelBehavior {
 
 	/**
 	 * return the current used field names to be passed in whitelist etc
-	 * 2010-01-22 ms
 	 */
 	public function fields() {
 		$list = array('captcha', 'captcha_hash', 'captcha_time');
@@ -174,7 +172,6 @@ class CaptchaBehavior extends ModelBehavior {
 
 	/**
 	 * only necessary if there is more than one request per model
-	 * 2009-12-18 ms
 	 */
 	public function reset() {
 		$this->error = '';
@@ -182,7 +179,6 @@ class CaptchaBehavior extends ModelBehavior {
 
 	/**
 	 * build and log error message
-	 * 2009-12-18 ms
 	 */
 	protected function _setError($msg = null, $internalMsg = null) {
 		if (!empty($msg)) {
@@ -210,7 +206,6 @@ class CaptchaBehavior extends ModelBehavior {
 	 * logs attempts
 	 * @param boolean ErrorsOnly (only if error occured, otherwise always)
 	 * @returns null if not logged, true otherwise
-	 * 2009-12-18 ms
 	 */
 	protected function _logAttempt($errorsOnly = true) {
 		if ($errorsOnly === true && empty($this->error) && empty($this->internalError)) {

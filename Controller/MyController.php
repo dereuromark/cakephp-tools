@@ -3,13 +3,11 @@ App::uses('Controller', 'Controller');
 
 /**
  * DRY Controller stuff
- * 2011-02-01 ms
  */
 class MyController extends Controller {
 
 	/**
 	 * Fix for asset compress to not run into fatal error loops
-	 * 2012-12-25 ms
 	 */
 	public function __construct($request = null, $response = null) {
 		parent::__construct($request, $response);
@@ -23,7 +21,6 @@ class MyController extends Controller {
 	 *
 	 * @overwrite to fix IE cacheing issues
 	 * @return void
-	 * 2012-12-25 ms
 	 */
 	public function disableCache() {
 		$this->response->header(array(
@@ -45,7 +42,6 @@ class MyController extends Controller {
 	 * @param integer $status Optional HTTP status code (eg: 404)
 	 * @param boolean $exit If true, exit() will be called after the redirect
 	 * @return void
-	 * 2013-03-02 ms
 	 */
 	public function redirect($url, $status = null, $exit = true) {
 		$run = Configure::read('App.additionalEncoding');
@@ -98,7 +94,6 @@ class MyController extends Controller {
 	/**
 	 * Init Packages class if enabled/included
 	 * @deprecated?
-	 * 2012-12-25 ms
 	 */
 	public function beforeRender() {
 		if (class_exists('Packages')) {

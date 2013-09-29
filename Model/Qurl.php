@@ -7,7 +7,6 @@ App::uses('ToolsAppModel', 'Tools.Model');
  * @author Mark Scherer
  * @cakephp 2.x
  * @license MIT
- * 2012-05-21 ms
  */
 class Qurl extends ToolsAppModel {
 
@@ -135,7 +134,6 @@ class Qurl extends ToolsAppModel {
 	 * @param mixed $url
 	 * @param string $uid
 	 * @return string Key
-	 * 2011-07-12 ms
 	 */
 	public function generate($url, $data = array()) {
 		$url = Router::url($url, true);
@@ -155,7 +153,6 @@ class Qurl extends ToolsAppModel {
 	 *
 	 * @param id of key to spend: necessary
 	 * @return boolean true on success, false otherwise
-	 * 2009-05-13 ms
 	 */
 	public function markAsUsed($id = null) {
 		if (empty($id)) {
@@ -173,7 +170,6 @@ class Qurl extends ToolsAppModel {
 	 * does not remove recently used ones (for proper feedback)!
 	 *
 	 * @return boolean success
-	 * 2010-06-17 ms
 	 */
 	public function garbigeCollector() {
 		$conditions = array(
@@ -186,7 +182,6 @@ class Qurl extends ToolsAppModel {
 	 * Get admin stats
 	 *
 	 * @return array
-	 * 2010-10-22 ms
 	 */
 	public function stats() {
 		$keys = array();
@@ -206,7 +201,6 @@ class Qurl extends ToolsAppModel {
 	 *
 	 * @param length (defaults to defaultLength)
 	 * @return string codekey
-	 * 2009-05-13 ms
 	 */
 	public function generateKey($length = null) {
 		if (empty($length)) {

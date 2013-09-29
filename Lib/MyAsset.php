@@ -64,7 +64,6 @@ class MyAsset {
 
 	/**
 	 * searches, combines, packs, caches and returns scripts
-	 * 2011-03-23 ms
 	 */
 	public function _get($assets, $type = null) {
 		$script = array();
@@ -91,7 +90,6 @@ class MyAsset {
 
 	/**
 	 * get the content of a single file
-	 * 2011-03-23 ms
 	 */
 	public function _read($path) {
 		$path = str_replace('/', DS, $path);
@@ -110,7 +108,6 @@ class MyAsset {
 
 	/**
 	 * @deprecated?
-	 * 2011-03-23 ms
 	 */
 	public function _makeCleanCss($path, $name, $pack = false) {
 
@@ -131,7 +128,6 @@ class MyAsset {
 
 	/**
 	 * @return string result or bool FALSE on failure
-	 * 2011-03-23 ms
 	 */
 	public function _readCssCache($path) {
 		if (file_exists($path)) {
@@ -143,7 +139,6 @@ class MyAsset {
 	/**
 	 * @return boolean result
 	 * @deprecated?
-	 * 2011-03-23 ms
 	 */
 	public function _writeCssCache($path, $content) {
 		if (!is_dir(dirname($path))) {
@@ -166,7 +161,6 @@ class MyAsset {
 	 * - PluginName => packages in plugin
 	 *
 	 * @return string Path or bool false on failure.
-	 * 2011-03-23 ms
 	 */
 	public function _path($plugin, $package, $type = null) {
 		if ($type !== 'js' && $type !== 'css') {
@@ -209,7 +203,6 @@ class MyAsset {
 	 * => x is in webroot/
 	 * => y is in plugins/tools/webroot/
 	 * => z is in plugins/tools/packages/jquery/files/jquery/sub/
-	 * 2011-03-23 ms
 	 */
 	public function _parse($string, $type = null) {
 		$parts = explode('&', urldecode($string));

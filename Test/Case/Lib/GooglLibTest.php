@@ -3,7 +3,6 @@
 App::uses('GooglLib', 'Tools.Lib');
 
 /**
- * 2010-09-10 ms
  */
 class GooglLibTest extends CakeTestCase {
 

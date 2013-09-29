@@ -40,7 +40,6 @@ if (!defined('PWD_MAX_LENGTH')) {
  * @author Mark Scherer
  * @link http://www.dereuromark.de/2011/08/25/working-with-passwords-in-cakephp
  * @license MIT
- * 2012-08-18 ms
  */
 class PasswordableBehavior extends ModelBehavior {
 
@@ -126,7 +125,6 @@ class PasswordableBehavior extends ModelBehavior {
 	 * @param Model $Model
 	 * @param array $data
 	 * @return boolean Success
-	 * 2011-07-22 ms
 	 */
 	public function validateCurrentPwd(Model $Model, $data) {
 		if (is_array($data)) {
@@ -182,7 +180,6 @@ class PasswordableBehavior extends ModelBehavior {
 	 * @param array $data
 	 * @param string $compareWith String to compare field value with
 	 * @return boolean Success
-	 * 2011-07-22 ms
 	 */
 	public function validateIdentical(Model $Model, $data, $compareWith = null) {
 		if (is_array($data)) {
@@ -198,7 +195,6 @@ class PasswordableBehavior extends ModelBehavior {
 	 * if not implemented in AppModel
 	 *
 	 * @return boolean Success
-	 * 2011-11-10 ms
 	 */
 	public function validateNotSame(Model $Model, $data, $field1, $field2) {
 		$value1 = $Model->data[$Model->alias][$field1];
@@ -210,7 +206,6 @@ class PasswordableBehavior extends ModelBehavior {
 	 * if not implemented in AppModel
 	 *
 	 * @return boolean Success
-	 * 2011-11-10 ms
 	 */
 	public function validateNotSameHash(Model $Model, $data, $formField) {
 		$field = $this->settings[$Model->alias]['field'];
@@ -237,7 +232,6 @@ class PasswordableBehavior extends ModelBehavior {
 	 * also adds and merges config settings (direct + configure)
 	 *
 	 * @return void
-	 * 2011-08-24 ms
 	 */
 	public function setup(Model $Model, $config = array()) {
 		$defaults = $this->_defaults;
@@ -310,7 +304,6 @@ class PasswordableBehavior extends ModelBehavior {
 	 * Preparing the data
 	 *
 	 * @return boolean Success
-	 * 2011-07-22 ms
 	 */
 	public function beforeValidate(Model $Model, $options = array()) {
 		$formField = $this->settings[$Model->alias]['formField'];
@@ -366,7 +359,6 @@ class PasswordableBehavior extends ModelBehavior {
 	 * Hashing the password and whitelisting
 	 *
 	 * @return boolean Success
-	 * 2011-07-22 ms
 	 */
 	public function beforeSave(Model $Model, $options = array()) {
 		$formField = $this->settings[$Model->alias]['formField'];

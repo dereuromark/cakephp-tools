@@ -5,7 +5,6 @@ App::uses('String', 'Utility');
  * Extend String.
  * //TODO: cleanup
  *
- * 2010-08-31 ms
  */
 class TextLib extends String {
 
@@ -55,7 +54,6 @@ class TextLib extends String {
 	 *
 	 * @param string $text
 	 * @return integer
-	 * 2009-11-11 ms
 	 */
 	public static function numberOfWords($text) {
 		$count = 0;
@@ -198,7 +196,6 @@ class TextLib extends String {
 	 * @param options
 	 * - min_char, max_char, case_sensititive, ...
 	 * @return array
-	 * 2010-10-09 ms
 	 */
 	public function words($options = array()) {
 		if (true || !$this->xr_word) {

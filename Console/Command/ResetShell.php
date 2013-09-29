@@ -12,7 +12,6 @@ App::uses('AppShell', 'Console/Command');
  * @cakephp 2.x
  * @author Mark Scherer
  * @license MIT
- * 2011-11-05 ms
  */
 class ResetShell extends AppShell {
 	public $tasks = array();
@@ -26,7 +25,6 @@ class ResetShell extends AppShell {
 
 	/**
 	 * reset all emails - e.g. your admin email (for local development)
-	 * 2011-08-16 ms
 	 */
 	public function email() {
 		$this->out('email:');
@@ -51,7 +49,6 @@ class ResetShell extends AppShell {
 
 	/**
 	 * reset all pwds to a simply pwd (for local development)
-	 * 2011-08-01 ms
 	 */
 	public function pwd() {
 		$components = array('Tools.AuthExt', 'Auth');

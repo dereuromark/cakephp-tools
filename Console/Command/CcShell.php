@@ -15,7 +15,6 @@ if (!defined('LF')) {
  * @cakephp 2.x
  * @author Mark Scherer
  * @license MIT
- * 2011-11-24 ms
  */
 class CcShell extends AppShell {
 

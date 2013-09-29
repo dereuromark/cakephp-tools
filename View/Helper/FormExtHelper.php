@@ -19,7 +19,6 @@ App::uses('FormHelper', 'View/Helper');
  * - Buffer your scripts with js=>inline, but remember to use
  *   $this->Js->writeBuffer() with onDomReady=>false then, though.
  *
- * 2011-03-07 ms
  */
 class FormExtHelper extends FormHelper {
 
@@ -82,7 +81,6 @@ class FormExtHelper extends FormHelper {
 	 * @see FormHelper::postLink for details
 	 *
 	 * @return string
-	 * 2012-12-24 ms
 	 */
 	public function postLink($title, $url = null, $options = array(), $confirmMessage = false) {
 		if (!isset($options['class'])) {
@@ -389,7 +387,6 @@ class FormExtHelper extends FormHelper {
 	 * - `required` - manually set if the field is required.
 	 *   If not set, it depends on Configure::read('Validation.browserAutoRequire').
 	 *
-	 * 2011-07-16 ms
 	 */
 	public function input($fieldName, $options = array()) {
 		$this->setEntity($fieldName);
@@ -453,7 +450,6 @@ class FormExtHelper extends FormHelper {
 	// or maybe: http://pttimeselect.sourceforge.net/example/index.html (if 24 hour + select dropdowns are supported)
 	/**
 	 * quicklinks: clear, today, ...
-	 * 2011-04-29 ms
 	 */
 	public function dateScripts($scripts = array(), $quicklinks = false) {
 		foreach ($scripts as $script) {
@@ -589,7 +585,6 @@ class FormExtHelper extends FormHelper {
 	 * - empty
 	 * - disableDays (TODO!)
 	 * - minYear/maxYear (TODO!) / rangeLow/rangeHigh (xxxx-xx-xx or today)
-	 * 2010-01-20 ms
 	 */
 	public function dateExt($field, $options = array()) {
 		$return = false;
@@ -867,7 +862,6 @@ class FormExtHelper extends FormHelper {
 	 * @param array $selectors with specific settings
 	 * @param array $globalOptions
 	 * @return string with JS code
-	 * 2009-07-30 ms
 	 */
 	public function maxLength($selectors = array(), $options = array()) {
 		$this->maxLengthScripts();
@@ -965,7 +959,6 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 	 * //TODO
 	 * @param jquery: defaults to null = no jquery markup
 	 * - url, data, object (one is necessary), options
-	 * 2010-01-27 ms
 	 */
 	public function autoComplete($field = null, $options = array(), $jquery = null) {
 		$this->autoCompleteScripts();
@@ -1019,7 +1012,6 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 
 	/**
 	 * returns script + elements "all", "none" etc
-	 * 2010-02-15 ms
 	 */
 	public function checkboxScript($id) {
 		$this->checkboxScripts();

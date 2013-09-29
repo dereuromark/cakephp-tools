@@ -5,7 +5,6 @@ App::uses('CakeTime', 'Utility');
  * Extend CakeNumber with a few important improvements:
  * - correct timezones for date only input and therefore unchanged day here
  *
- * 2012-04-06 ms
  */
 class TimeLib extends CakeTime {
 
@@ -14,7 +13,6 @@ class TimeLib extends CakeTime {
 	 *
 	 * @param string|DateTimeZone $timezone User's timezone string or DateTimeZone object
 	 * @return boolean
-	 * 2012-05-20 ms
 	 */
 	public static function hasDaylightSavingTime($timezone = null) {
 		$timezone = self::timezone($timezone);
@@ -34,7 +32,6 @@ class TimeLib extends CakeTime {
 	 *
 	 * @param string|DateTimeZone $timezone User's timezone string or DateTimeZone object
 	 * @return integer Offset in hours
-	 * 2012-05-20 ms
 	 */
 	public function getGmtOffset($timezone = null) {
 		$timezone = self::timezone($timezone);
@@ -46,7 +43,6 @@ class TimeLib extends CakeTime {
 	/**
 	 * gets the timezone that is closest to the given coordinates
 	 * @return DateTimeZone Timezone object
-	 * 2012-05-20 ms
 	 */
 	public function timezoneByCoordinates($lat, $lng) {
 		$current = array('timezone' => null, 'distance' => 0);
@@ -66,7 +62,6 @@ class TimeLib extends CakeTime {
 	 * @param mixed $start (db format or timestamp)
 	 * @param mixex §end (db format or timestamp)
 	 * @return integer: the distance in seconds
-	 * 2011-03-03 ms
 	 */
 	public static function difference($startTime = null, $endTime = null, $options = array()) {
 		if (!is_int($startTime)) {
@@ -91,7 +86,6 @@ class TimeLib extends CakeTime {
 	 $birth = mktime(0,0,0, $monat, $tag, $jahr);
 	 $age = intval(($now - $birth) / (3600 * 24 * 365));
 	 * @return integer age (0 if both timestamps are equal or empty, -1 on invalid dates)
-	 * 2009-03-12 ms
 	 */
 	public static function age($start = null, $end = null, $accuracy = 0) {
 		$age = 0;
@@ -151,7 +145,6 @@ class TimeLib extends CakeTime {
 	 * can be e.g. 22/23
 	 * @param integer $year
 	 * @param integer $month (optional)
-	 * 2011-03-11 ms
 	 */
 	public static function ageByYear($year, $month = null) {
 		if ($month === null) {
@@ -198,7 +191,6 @@ class TimeLib extends CakeTime {
 	 * rounded age depended on steps (e.g. age 16 with steps = 10 => "11-20")
 	 * @FIXME
 	 * TODO: move to helper?
-	 * 2011-04-07 ms
 	 */
 	public static function ageRange($year, $month = null, $day = null, $steps = 1) {
 		if ($month == null && $day == null) {
@@ -231,7 +223,6 @@ class TimeLib extends CakeTime {
 	 * return the days of a given month
 	 * @param integer $year
 	 * @param integer $month
-	 * 2011-11-03 ms
 	 */
 	public static function daysInMonth($year, $month) {
 		return date("t", mktime(0, 0, 0, $month, 1, $year));
@@ -301,7 +292,6 @@ class TimeLib extends CakeTime {
 	 * if no cweek is given get the beginning of the first week of the year
 	 * @param year (format xxxx)
 	 * @param cweek (optional, defaults to first, range 1...52/53)
-	 * 2011-03-07 ms
 	 */
 	public static function cweekBeginning($year, $cweek = null) {
 		if ((int)$cweek <= 1 || (int)$cweek > self::cweeks($year)) {
@@ -328,7 +318,6 @@ class TimeLib extends CakeTime {
 	 * if no cweek is given get the ending of the last week of the year
 	 * @param year (format xxxx)
 	 * @param cweek (optional, defaults to last, range 1...52/53)
-	 * 2011-03-07 ms
 	 */
 	public static function cweekEnding($year, $cweek = null) {
 		if ((int)$cweek < 1 || (int)$cweek >= self::cweeks($year)) {
@@ -341,7 +330,6 @@ class TimeLib extends CakeTime {
 	 * calculate the amount of calender weeks in a year
 	 * @param year (format xxxx, defaults to current year)
 	 * @return integer: 52 or 53
-	 * 2011-03-07 ms
 	 */
 	public static function cweeks($year = null) {
 		if ($year === null) {
@@ -353,7 +341,6 @@ class TimeLib extends CakeTime {
 	/**
 	 * @param year (format xxxx, defaults to current year)
 	 * @return boolean Success
-	 * 2012-02-17 ms
 	 */
 	public static function isLeapYear($year) {
 		if ($year % 4 != 0) {
@@ -405,7 +392,6 @@ class TimeLib extends CakeTime {
 	 * @param $firstAge
 	 * @param $secondAge (defaults to first one if not specified)
 	 * @return array('min'=>$min, 'max'=>$max);
-	 * 2011-07-06 ms
 	 */
 	public static function ageBounds($firstAge, $secondAge = null, $returnAsString = false, $relativeTime = null) {
 		if ($secondAge === null) {
@@ -429,7 +415,6 @@ class TimeLib extends CakeTime {
 	 * @param date
 	 * @param string days with +-
 	 * @param options
-	 * 2011-03-03 ms
 	 */
 	public static function isInRange($dateString, $seconds, $options = array()) {
 		//$newDate = is_int($dateString) ? $dateString : strtotime($dateString);
@@ -445,7 +430,6 @@ class TimeLib extends CakeTime {
 	 * @param array $options
 		* - timezone: User's timezone
 		* - default (defaults to "-----")
-	 * 2009-03-31 ms
 	 */
 	public static function localDate($dateString = null, $format = null, $options = array()) {
 		$defaults = array('default' => '-----', 'timezone' => null);
@@ -479,7 +463,6 @@ class TimeLib extends CakeTime {
 	 * @param array $options
 		* - timezone: User's timezone
 		* - default (defaults to "-----")
-	 * 2009-03-31 ms
 	 */
 	public static function niceDate($dateString = null, $format = null, $options = array()) {
 		$defaults = array('default' => '-----', 'timezone' => null);
@@ -529,7 +512,6 @@ class TimeLib extends CakeTime {
 	 * @param boolean $abbr (if abbreviation should be returned)
 	 * @param offset: 0-6 (defaults to 0) [1 => 1=monday to 7=sunday]
 	 * @return string translatedText
-	 * 2011-12-07 ms
 	 */
 	public static function day($day, $abbr = false, $offset = 0) {
 		$days = array(
@@ -572,7 +554,6 @@ class TimeLib extends CakeTime {
 	 * @param array $options
 	 * - appendDot (only for 3 letter abbr; defaults to false)
 	 * @return string translatedText
-	 * 2011-12-07 ms
 	 */
 	public static function month($month, $abbr = false, $options = array()) {
 		$months = array(
@@ -654,7 +635,6 @@ class TimeLib extends CakeTime {
 	 * @param from CHAR
 	 * @param to CHAR
 	 * @param options: acc=>INT [accuracy], showZero=>BOOL, returnArray=>BOOL
-	 * 2008-11-06 ms
 	 */
 	public static function convertTime($int, $from, $to, $options = array()) {
 		$accuracy = 0;	# 0 = only the "to"-element, 1..n = higher accurancy
@@ -778,7 +758,6 @@ class TimeLib extends CakeTime {
 	 * @param boolean $past (defaults to null: return plain text)
 	 * - new: if not boolean but a string use this as translating text
 	 * @return string text (i18n!)
-	 * 2011-03-06 ms
 	 */
 	public static function fuzzyFromOffset($offset, $past = null) {
 		if ($offset <= MINUTE) {
@@ -954,7 +933,6 @@ class TimeLib extends CakeTime {
 	 * - default, separator
 	 * - boolean zero: if false: 0 days 5 hours => 5 hours etc.
 	 * - verbose/past/future: string with %s or boolean true/false
-	 * 2009-11-21 ms
 	 */
 	public static function relLengthOfTime($dateString, $format = null, $options = array()) {
 		if ($dateString !== null) {
@@ -1063,7 +1041,6 @@ class TimeLib extends CakeTime {
 	 * - start: first second of this interval
 	 * - end: last second of this interval
 	 * @return integer timestamp
-	 * 2011-11-19 ms
 	 */
 	public static function parseLocalizedDate($date, $format = null, $type = 'start') {
 		$date = trim($date);
@@ -1121,7 +1098,6 @@ class TimeLib extends CakeTime {
 	 * - separator (defaults to space [ ])
 	 * - format (defaults to Y-m-d H:i:s)
 	 * @return array period [0=>min, 1=>max]
-	 * 2011-11-18 ms
 	 */
 	public static function period($string, $options = array()) {
 		if (strpos($string, ' ') !== false) {
@@ -1170,7 +1146,6 @@ class TimeLib extends CakeTime {
 	 * @param string $fieldname (Model.field)
 	 * @param array $options (see TimeLib::period)
 	 * @return string query SQL Query
-	 * 2011-11-18 ms
 	 */
 	public static function periodAsSql($string, $fieldName, $options = array()) {
 		$period = self::period($string, $options);
@@ -1180,7 +1155,6 @@ class TimeLib extends CakeTime {
 	/**
 	 * hours, minutes
 	 * e.g. 9.3 => 9.5
-	 * 2010-11-03 ms
 	 */
 	public static function standardToDecimalTime($value) {
 		$base = (int)$value;
@@ -1197,7 +1171,6 @@ class TimeLib extends CakeTime {
 	 * hours, minutes
 	 * e.g. 9.5 => 9.3
 	 * with pad=2: 9.30
-	 * 2010-11-03 ms
 	 */
 	public static function decimalToStandardTime($value, $pad = null, $decPoint = '.') {
 		$base = (int)$value;
@@ -1218,7 +1191,6 @@ class TimeLib extends CakeTime {
 	 * now supports negative values like -2,5 -2,5 -2:30 -:30 or -4
 	 * @param string
 	 * @return integer: seconds
-	 * 2011-03-06 ms
 	 */
 	public static function parseTime($duration, $allowed = array(':', '.', ',')) {
 		if (empty($duration)) {
@@ -1258,7 +1230,6 @@ class TimeLib extends CakeTime {
 	 * parse 2022-11-12 or 12.11.2022 or even 12.11.22
 	 * @param string $date
 	 * @return integer: seconds
-	 * 2011-03-09 ms
 	 */
 	public static function parseDate($date, $allowed = array('.', '-')) {
 		$datePieces = explode(' ', $date, 2);
@@ -1289,7 +1260,6 @@ class TimeLib extends CakeTime {
 	 * return strings like 2:30 (later //TODO: or 2:33:99) from seconds etc
 	 * @param integer: seconds
 	 * @return string
-	 * 2011-03-06 ms
 	 */
 	public static function buildTime($duration, $mode = 'H:MM') {
 		if ($duration < 0) {
@@ -1313,7 +1283,6 @@ class TimeLib extends CakeTime {
 	 * return strings like 2:33:99 from seconds etc
 	 * @param integer: seconds
 	 * @return string
-	 * 2011-03-09 ms
 	 */
 	public static function buildDefaultTime($duration) {
 		$minutes = $duration % HOUR;

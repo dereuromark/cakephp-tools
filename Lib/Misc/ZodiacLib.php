@@ -2,7 +2,6 @@
 
 /**
  * @from
- * 2011-03-11 ms
  */
 class ZodiacLib {
 
@@ -81,7 +80,6 @@ class ZodiacLib {
 	 * @param day
 	 * expects valid values
 	 * @return integer sign or false on failure
-	 * 2011-03-11 ms
 	 */
 	public function getSign($month, $day) {
 		switch ($month) {
@@ -143,7 +141,6 @@ class ZodiacLib {
 
 	/**
 	 * list of all signs
-	 * 2011-03-11 ms
 	 */
 	public static function signs($value = null) {
 		$res = array(

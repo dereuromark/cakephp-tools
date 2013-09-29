@@ -32,7 +32,6 @@ if (!defined('QS_CODE_DEFAULT_LEVEL')) {
  * NOTE: urls have a 2k limit - for the total amount of 4296 chars (7089 for numeric values only) you will need to send it via post
  *
  * TODO: set size according to text length automatically
- * 2010-02-06 ms
  */
 class QrCodeHelper extends AppHelper {
 
@@ -74,7 +73,6 @@ class QrCodeHelper extends AppHelper {
 	 * @param string $text (utf8 encoded)
 	 * @param array $imageOptions
 	 * NOTE: set size or level manually prior to calling this method
-	 * 2010-02-06 ms
 	 */
 	public function image($text, $options = array()) {
 		return $this->Html->image($this->uri($text), $options);
@@ -86,7 +84,6 @@ class QrCodeHelper extends AppHelper {
 	 *
 	 * @param string $text
 	 * @return string Url
-	 * 2010-02-25 ms
 	 */
 	public function uri($text) {
 		$params = array();
@@ -110,7 +107,6 @@ class QrCodeHelper extends AppHelper {
 	 * format a text in a specific format
 	 * - url, sms, tel, email, market, geo
 	 * @return string formattedText
-	 * 2010-02-06 ms
 	 */
 	public function formatText($text, $type = null) {
 		switch ($type) {
@@ -145,7 +141,6 @@ class QrCodeHelper extends AppHelper {
 	 * http://www.nttdocomo.co.jp/english/service/imode/make/content/barcode/function/application/addressbook/index.html
 	 * example: MECARD: N:Docomo,Taro; SOUND:docomotaro; TEL:03XXXXXXXX; EMAIL:d@e.de;
 	 * @return string mecard
-	 * 2010-02-26 ms
 	 */
 	public function formatCard($data) {
 		$data = (array)$data;
@@ -224,7 +219,6 @@ class QrCodeHelper extends AppHelper {
 	 * calendar event
 	 * e.g.: BEGIN:VEVENT SUMMARY:dfdfd DTSTART:20100226T092900Z DTEND:20100226T102900Z END:VEVENT
 	 * @see http://zxing.appspot.com/generator/
-	 * 2010-02-26 ms
 	 */
 	public function formatEvent() {
 
@@ -249,7 +243,6 @@ class QrCodeHelper extends AppHelper {
 	 * //TODO: automatic detection
 	 * //default is 2x size (plus margin) of typical QR version for the error correction level (L=V.2, M/Q=V.3, H=V.4)
 	 * //$ecCodes = array('L' => 58, 'M' => 66, 'Q' => 66, 'H' => 74);
-	 * 2010-02-06 ms
 	 */
 	public function setSize($value) {
 		if ($value === 'auto') {
@@ -267,7 +260,6 @@ class QrCodeHelper extends AppHelper {
 	 * change level and margin - optional
 	 * result format: chld=<EC level>|<margin>
 	 * @return boolean Success
-	 * 2010-02-06 ms
 	 */
 	public function setLevel($level, $margin = null) {
 		if (in_array($level, $this->ecLevels)) {
@@ -298,7 +290,6 @@ class QrCodeHelper extends AppHelper {
 
 	/**
 	 * show current options - for debugging only
-	 * 2010-02-06 ms
 	 */
 	public function debug() {
 		return $this->options;
@@ -310,7 +301,6 @@ class QrCodeHelper extends AppHelper {
 	 * 4000 => 547x547 (L)
 	 * @param integer $length
 	 * @return integer size
-	 * 2011-06-06 ms
 	 */
 	protected function _findSuitableSize() {
 

@@ -7,7 +7,6 @@ App::uses('WeatherLib', 'Tools.Lib');
  *
  * @author Mark Scherer
  * @license MIT
- * 2010-08-29 ms
  */
 class WeatherHelper extends AppHelper {
 

@@ -18,7 +18,6 @@ App::uses('AppShell', 'Console/Command');
  * @cakephp 2.x
  * @author Mark Scherer
  * @license MIT
- * 2011-11-04 ms
  */
 class ConvertShell extends AppShell {
 

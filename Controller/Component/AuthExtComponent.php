@@ -22,7 +22,6 @@ App::uses('AuthComponent', 'Controller/Component');
  * @author Mark Scherer
  * @cakephp 2.x
  * @license MIT
- * 2011-12-18 ms
  */
 class AuthExtComponent extends AuthComponent {
 
@@ -154,7 +153,6 @@ class AuthExtComponent extends AuthComponent {
 	 * Gather session data.
 	 *
 	 * @return array User
-	 * 2011-11-03 ms
 	 */
 	public function completeAuth($user) {
 		$Model = $this->getModel();

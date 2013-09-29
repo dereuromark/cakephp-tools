@@ -13,7 +13,6 @@ App::uses('CakeLog', 'Log');
  * TODO: implement OAuth
  *
  * @edited Mark Scherer
- * 2012-06-24 ms
  */
 class GooglLib {
 

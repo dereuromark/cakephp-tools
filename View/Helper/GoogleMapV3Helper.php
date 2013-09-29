@@ -35,7 +35,6 @@
  * v1.3: E_STRICT compliant methods (url now mapUrl, link now mapLink)
  * 2012-08-31 ms
  * v1.4: Better handling of script output and directions added
- * 2013-02-24 ms
  */
 class GoogleMapV3Helper extends AppHelper {
 
@@ -271,7 +270,6 @@ class GoogleMapV3Helper extends AppHelper {
 	 * @param string $language (iso2: en, de, ja, ...)
 	 * @param string $append (more key-value-pairs to append)
 	 * @return string fullUrl
-	 * 2009-03-09 ms
 	 */
 	public function apiUrl($sensor = false, $api = null, $language = null, $append = null) {
 		$url = $this->_protocol() . self::API;
@@ -307,7 +305,6 @@ class GoogleMapV3Helper extends AppHelper {
 
 	/**
 	 * @return string currentMapObject
-	 * 2010-12-18 ms
 	 */
 	public function name() {
 		return 'map'.self::$MAP_COUNT;
@@ -315,7 +312,6 @@ class GoogleMapV3Helper extends AppHelper {
 
 	/**
 	 * @return string currentContainerId
-	 * 2010-12-18 ms
 	 */
 	public function id() {
 		return $this->_currentOptions['div']['id'];
@@ -326,7 +322,6 @@ class GoogleMapV3Helper extends AppHelper {
 	 * resets markers, infoWindows etc
 	 * @param full: true=optionsAsWell
 	 * @return void
-	 * 2010-12-18 ms
 	 */
 	public function reset($full = true) {
 		//self::$MAP_COUNT
@@ -346,7 +341,6 @@ class GoogleMapV3Helper extends AppHelper {
 	 * - type: FALSE, normal, menu, hierarchical
 	 * TIP: faster/shorter by using only the first character (e.g. "H" for "hierarchical")
 	 *
-	 * 2011-03-15 ms
 	 */
 	public function setControls($options = array()) {
 		if (!empty($options['streetView'])) {
@@ -390,7 +384,6 @@ class GoogleMapV3Helper extends AppHelper {
 	 *
 	 * @param array $options associative array of settings are passed
 	 * @return string divContainer
-	 * 2010-12-20 ms
 	 */
 	public function map($options = array()) {
 		$this->reset();
@@ -483,7 +476,6 @@ class GoogleMapV3Helper extends AppHelper {
 	 * - title, content, icon, directions, maxWidth (optional)
 	 * @return integer markerCount or false on failure
 	 * @throws CakeException
-	 * 2010-12-18 ms
 	 */
 	public function addMarker($options) {
 		$defaults = $this->_currentOptions['marker'];
@@ -607,7 +599,6 @@ function geocodeAddress(address) {
 	 * @param array $options
 	 * - options array of marker for autoDirections etc (optional)
 	 * @return HTML
-	 * 2011-03-22 ms
 	 */
 	public function _directions($directions, $markerOptions = array()) {
 		$options = array(
@@ -676,7 +667,6 @@ function geocodeAddress(address) {
 	 * @param size: s, m, l (defaults to medium)
 	 * NOTE: for special ones only first parameter counts!
 	 * @return array: array(icon, shadow, shape, ...)
-	 * 2011-03-14 ms
 	 */
 	public function iconSet($color, $char = null, $size = 'm') {
 		$colors = array('red', 'green', 'yellow', 'blue', 'purple', 'white', 'black');
@@ -741,7 +731,6 @@ var iconShape = {
 	 * custom icon: http://thydzik.com/thydzikGoogleMap/markerlink.php?text=?&color=FFFFFF
 	 * custom icons: http://code.google.com/p/google-maps-icons/wiki/NumericIcons#Lettered_Balloons_from_A_to_Z,_in_10_Colors
 	 * custom shadows: http://www.cycloloco.com/shadowmaker/shadowmaker.htm
-	 * 2011-03-13 ms
 	 */
 	public function addIcon($image, $shadow = null, $imageOptions = array(), $shadowOptions = array()) {
 		$res = array('url'=>$image);
@@ -807,7 +796,6 @@ var iconShape = {
 	 * @param array $options
 	 * - lat, lng, content, maxWidth, pixelOffset, zIndex
 	 * @return integer windowCount
-	 * 2010-12-18 ms
 	 */
 	public function addInfoWindow($options=array()) {
 		$options = $this->_currentOptions['infoWindow'];
@@ -836,7 +824,6 @@ var iconShape = {
 	 * @param integer $marker
 	 * @param integer $infoWindow
 	 * @return void
-	 * 2010-12-18 ms
 	 */
 	public function addEvent($marker, $infoWindow) {
 		$this->map .= "
@@ -850,7 +837,6 @@ var iconShape = {
 	 * @param integer $marker
 	 * @param string $event (js)
 	 * @return void
-	 * 2010-12-18 ms
 	 */
 	public function addCustomEvent($marker, $event) {
 		$this->map .= "
@@ -863,7 +849,6 @@ var iconShape = {
 	/**
 	 * @param string $custom (js)
 	 * @return void
-	 * 2010-12-18 ms
 	 */
 	public function addCustom($js) {
 		$this->map .= $js;
@@ -1000,7 +985,6 @@ var iconShape = {
 	 * @param string $content (html/text)
 	 * @param integer $infoWindowCount
 	 * @return void
-	 * 2010-12-18 ms
 	 */
 	public function setContentInfoWindow($con, $index) {
 		$this->map .= "
@@ -1023,8 +1007,7 @@ var iconShape = {
 	 * Just echo it below the map container. New: Alternativly, use finalize() directly.
 	 *
 	 * @return string
-	 * 2010-12-18 ms
-	*/
+	 */
 	public function script() {
 		$script = '<script type="text/javascript">
 		'.$this->finalize(true).'
@@ -1073,7 +1056,6 @@ var iconShape = {
 	 * @param string $customJs
 	 * false: no callback at all
 	 * @return void
-	 * 2011-03-16 ms
 	 */
 	public function geolocateCallback($js) {
 		if ($js === false) {
@@ -1085,7 +1067,6 @@ var iconShape = {
 
 	/**
 	 * experimental - works in cutting edge browsers like chrome10
-	 * 2011-03-16 ms
 	 */
 	protected function _geolocate() {
 		return '
@@ -1143,7 +1124,6 @@ var iconShape = {
 	 * auto center map
 	 * careful: with only one marker this can result in too high zoom values!
 	 * @return string autoCenterCommands
-	 * 2010-12-17 ms
 	 */
 	protected function _autoCenter() {
 		return '
@@ -1155,7 +1135,6 @@ var iconShape = {
 
 	/**
 	 * @return json like js string
-	 * 2010-12-17 ms
 	 */
 	protected function _mapOptions() {
 		$options = array_merge($this->_currentOptions, $this->_currentOptions['map']);
@@ -1198,7 +1177,6 @@ var iconShape = {
 
 	/**
 	 * @return json like js string
-	 * 2010-12-17 ms
 	 */
 	protected function _controlOptions($type, $options) {
 		$mapping = array(
@@ -1226,7 +1204,6 @@ var iconShape = {
 	 * @param array $mapOptions
 	 * @param array $linkOptions
 	 * @return string Html link
-	 * 2011-03-12 ms
 	 */
 	public function mapLink($title, $mapOptions = array(), $linkOptions = array()) {
 		return $this->Html->link($title, $this->mapUrl($mapOptions), $linkOptions);
@@ -1240,7 +1217,6 @@ var iconShape = {
 	 * - to: 1x necessary (address or lat,lng - can be an array of multiple destinations: array('dest1', 'dest2'))
 	 * - zoom: optional (defaults to none)
 	 * @return string link: http://...
-	 * 2010-12-18 ms
 	 */
 	public function mapUrl($options = array()) {
 		$url = $this->_protocol() . 'maps.google.com/maps?';
@@ -1291,7 +1267,6 @@ var iconShape = {
 	 * - alt (defaults to 'Map')
 	 * - url (tip: you can pass $this->link(...) and it will create a link to maps.google.com)
 	 * @return string imageTag
-	 * 2010-12-18 ms
 	 */
 	public function staticMap($options = array(), $attributes = array()) {
 		$defaultAttributes = array('alt' => __('Map'));
@@ -1305,7 +1280,6 @@ var iconShape = {
 	 * @param array $mapOptions
 	 * @param array $linkOptions
 	 * @return string Html link
-	 * 2011-03-12 ms
 	 */
 	public function staticMapLink($title, $mapOptions = array(), $linkOptions = array()) {
 		return $this->Html->link($title, $this->staticMapUrl($mapOptions), $linkOptions);
@@ -1316,7 +1290,6 @@ var iconShape = {
 	 * @param options
 	 * - see staticMap() for details
 	 * @return string urlOfImage: http://...
-	 * 2010-12-18 ms
 	 */
 	public function staticMapUrl($options = array()) {
 		$map = $this->_protocol() . self::STATIC_API;
@@ -1435,7 +1408,6 @@ var iconShape = {
 	 * - color: red/blue/green (optional, default blue)
 	 * - weight: numeric (optional, default: 5)
 	 * @return string paths: e.g: color:0x0000FF80|weight:5|37.40303,-122.08334|37.39471,-122.07201|37.40589,-122.06171{|...}
-	 * 2010-12-18 ms
 	 */
 	public function staticPaths($pos = array()) {
 		$defaults = array(
@@ -1495,7 +1467,6 @@ var iconShape = {
 	 *
 	 * NEW: size:mid|color:red|label:E|37.400465,-122.073003|37.437328,-122.159928&markers=size:small|color:blue|37.369110,-122.096034
 	 * OLD: 40.702147,-74.015794,blueS|40.711614,-74.012318,greenG{|...}
-	 * 2010-12-18 ms
 	 */
 	public function staticMarkers($pos = array(), $style = array()) {
 		$markers = array();
@@ -1580,7 +1551,6 @@ var iconShape = {
 	 * or # added
 	 * @param string $color: FFFFFF, #FFFFFF, 0xFFFFFF or blue
 	 * @return string color
-	 * 2010-12-20 ms
 	 */
 	protected function _prepColor($color) {
 		if (strpos($color, '#') !== false) {
@@ -1625,7 +1595,6 @@ http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/
 	 * @param options
 	 * -
 	 * @return void
-	 * 2010-12-18 ms
 	 */
 	public function setManager() {
 		$js .= '
@@ -1687,7 +1656,6 @@ function Fluster2ProjectionOverlay(map) {google.maps.OverlayView.call(this);this
 	 * @param array pointY
 	 *	@return integer distance: in km
 	 * DEPRECATED - use GeocodeLib::distance() instead!
-	 * 2009-03-06 ms
 	 */
 	public function distance($pointX, $pointY) {
 		/*

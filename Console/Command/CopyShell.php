@@ -36,7 +36,6 @@ if (!defined('WINDOWS')) {
  * @author Mark Scherer
  * @license MIT
  * @cakephp 2.x
- * 2011-11-26 ms
  */
 class CopyShell extends AppShell {
 
@@ -104,7 +103,6 @@ class CopyShell extends AppShell {
 	 * to use params you need to explicitly call "Tools.Copy main -params"
 	 *
 	 * @return void
-	 * 2009-05-04 ms
 	 */
 	public function run() {
 		$configContent = $this->getConfigs();
@@ -319,7 +317,6 @@ class CopyShell extends AppShell {
 
 	/**
 	 * only main functions covered - see "sitecopy --help" for more information
-	 * 2009-05-04 ms
 	 */
 	protected function _execute($config = null, $action = null, $options = array()) {
 		$options[] = '--debug=ftp,socket --rcfile=' . $this->tmpFolder . $this->tmpFile .
@@ -454,7 +451,6 @@ class CopyShell extends AppShell {
 	 * Displays help contents
 	 *
 	 * @return void
-	 * 2009-05-04 ms
 	 */
 	public function help() {
 		$this->hr();
@@ -483,7 +479,6 @@ class CopyShell extends AppShell {
 
 	/**
 	 * read out config file and parse it to an array
-	 * 2009-05-02 ms
 	 */
 	protected function getConfigs() {
 		# global file (may be present)
@@ -538,7 +533,6 @@ class CopyShell extends AppShell {
 	 * get a list with available configs
 	 * @param array $content
 	 * checks on whether all config names are valid!
-	 * 2009-05-02 ms
 	 */
 	protected function getConfigNames($content) {
 		$configs = array();
@@ -564,7 +558,6 @@ class CopyShell extends AppShell {
 	/**
 	 * makes sure nothing strange happens if there is an invalid config name
 	 * (like updating right away on "cake copy u", if u is supposed to be the config name...)
-	 * 2009-05-04 ms
 	 */
 	protected function isValidConfigName($name) {
 		$reservedWords = array('i', 'c', 'l', 'f', 'u', 's');
@@ -599,7 +592,6 @@ class CopyShell extends AppShell {
 	 * return the specific config of a config name
 	 * @param string $config name
 	 * @param array $content
-	 * 2009-05-02 ms
 	 */
 	protected function getConfig($config, $content) {
 		$configs = array();

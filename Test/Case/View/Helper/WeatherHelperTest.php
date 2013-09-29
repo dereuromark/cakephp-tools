@@ -6,7 +6,6 @@ App::uses('View', 'View');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 /**
- * 2010-06-24 ms
  */
 class WeatherHelperTest extends MyCakeTestCase {
 

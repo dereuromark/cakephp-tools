@@ -18,7 +18,6 @@ App::uses('View', 'View');
  * - maxLength (to shorten links in order to not mess up the layout in some cases - appends ...)
  * - escape (defaults to TRUE for security reasons regarding plain text)
  *
- * 2011-03-30 ms
  */
 class TextExtHelper extends TextHelper {
 
@@ -75,7 +74,6 @@ class TextExtHelper extends TextHelper {
 	 * - escape (defaults to true)
 	 * @return string html
 	 * @override
-	 * 2010-11-20 ms
 	 */
 	public function autoLinkEmails($text, $options = array(), $htmlOptions = array()) {
 		if (!isset($options['escape']) || $options['escape'] !== false) {
@@ -106,7 +104,6 @@ class TextExtHelper extends TextHelper {
 	 * @param options:
 	 * - obfuscate: true/false (defaults to false)
 	 * @return string html
-	 * 2010-11-20 ms
 	 */
 	public static function prepareEmail($email, $options = array(), $customOptions = array()) {
 		$obfuscate = false;
@@ -138,7 +135,6 @@ class TextExtHelper extends TextHelper {
 	 * (striptags will not work either)
 	 * @param string email: necessary (and valid - containing one @)
 	 * @return string html
-	 * 2009-03-11 ms
 	 */
 	public function encodeEmail($mail) {
 		list($mail1, $mail2) = explode('@', $mail);
@@ -153,7 +149,6 @@ class TextExtHelper extends TextHelper {
 	 * @param array attributes: html tag attributes
 	 * @param array params: ?subject=y&body=y to be attached to "mailto:xyz"
 	 * @return string html with js generated link around email (and non js fallback)
-	 * 2009-04-20 ms
 	 */
 	public function encodeEmailUrl($mail, $text=null, $params=array(), $attr = array()) {
 		if (empty($class)) { $class='email'; }
@@ -211,7 +206,6 @@ class TextExtHelper extends TextHelper {
 	 * Encodes Piece of Text (without usage of JS!) to avoid lowlevel spam bots to get it
 	 * @param STRING text to encode
 	 * @return string html (randomly encoded)
-	 * 2009-03-11 ms
 	 */
 	public static function encodeText($text) {
 		$encmail = '';
@@ -242,7 +236,6 @@ class TextExtHelper extends TextHelper {
 	 * - escape etc
 	 * @return string html
 	 * @override
-	 * 2010-11-07 ms
 	 */
 	public function autoLinkUrls($text, $options = array(), $htmlOptions = array()) {
 		if (!isset($options['escape']) || $options['escape'] !== false) {
@@ -274,7 +267,6 @@ class TextExtHelper extends TextHelper {
 	 * - maxLength: int (defaults to 50)
 	 * - escape (defaults to false, true needed for hellip to work)
 	 * @return string html/$plain
-	 * 2010-11-07 ms
 	 */
 	public static function prepareLinkName($link, $options = array()) {
 		# strip protocol if desired (default)
@@ -302,7 +294,6 @@ class TextExtHelper extends TextHelper {
 	 *
 	 * @param string $url
 	 * @return string strippedUrl
-	 * 2010-11-07 ms
 	 */
 	public static function stripProtocol($url) {
 		$pieces = parse_url($url);
@@ -380,7 +371,6 @@ class TextExtHelper extends TextHelper {
 	 * syntax highlighting using php internal highlighting
 	 * @param string $filename
 	 * @param boolean $return (else echo directly)
-	 * 2009-07-26 ms
 	 */
 	public static function highlightFile($file, $return = true) {
 		return highlight_file($file, $return);
@@ -390,7 +380,6 @@ class TextExtHelper extends TextHelper {
 	 * syntax highlighting using php internal highlighting
 	 * @param string $contentstring
 	 * @param boolean $return (else echo directly)
-	 * 2009-07-26 ms
 	 */
 	public static function highlightString($string, $return = true) {
 		return highlight_string($string, $return);

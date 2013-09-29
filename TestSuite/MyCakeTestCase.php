@@ -73,7 +73,6 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	 * @param mixed $data
 	 * @param boolean $force Should the output be flushed (forced)
 	 * @return void
-	 * 2011-12-04 ms
 	 */
 	public static function debug($data, $force = false) {
 		if (php_sapi_name() === 'cli') {
@@ -93,7 +92,6 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	 * @param mixed $data
 	 * @param boolean $force Should the output be flushed (forced)
 	 * @return void
-	 * 2011-12-04 ms
 	 */
 	public static function out($data, $plain = false, $force = false) {
 		if (php_sapi_name() === 'cli') {
@@ -136,7 +134,6 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	/**
 	 * without trailing slash!?
 	 * //TODO: test
-	 * 2011-04-03 ms
 	 */
 	protected function _baseurl() {
 		return current(split("webroot", $_SERVER['PHP_SELF']));
@@ -146,7 +143,6 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	 * @param float $time
 	 * @param integer precision
 	 * @param boolean $secs: usually in milliseconds (for long times set it to 'true')
-	 * 2009-07-20 ms
 	 */
 	protected function _printElapsedTime($time = null, $precision = 8, $secs = false) {
 		if ($time === null) {

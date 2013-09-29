@@ -26,7 +26,6 @@ class NumericHelperTest extends MyCakeTestCase {
 	 * TODO: move to NumberLib test?
 	 *
 	 * @return void
-	 * 2009-03-11 ms
 	 */
 	public function testFormat() {
 		$is = $this->Numeric->format('22');

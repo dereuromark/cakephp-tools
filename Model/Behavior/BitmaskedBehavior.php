@@ -19,7 +19,6 @@ App::uses('ModelBehavior', 'Model');
  * @cake 2.x
  * @license MIT
  * @link http://www.dereuromark.de/2012/02/26/bitmasked-using-bitmasks-in-cakephp/
- * 2012-02-24 ms
  */
 class BitmaskedBehavior extends ModelBehavior {
 

@@ -9,7 +9,6 @@ App::uses('Xml', 'Utility');
  *
  * @author Mark Scherer
  * @license MIT
- * 2010-07-30 ms
  */
 class HazardLib {
 
@@ -19,7 +18,6 @@ class HazardLib {
 	 * get dangerous sql strings to test with
 	 *
 	 * @return array
-	 * 2010-07-31 ms
 	 */
 	public static function sqlStrings($veryDangerousToo = false) {
 		/*
@@ -47,7 +45,6 @@ class HazardLib {
 	 * get dangerous php strings to test with
 	 *
 	 * @return array
-	 * 2010-07-31 ms
 	 */
 	public static function phpStrings() {
 		$res = array(
@@ -61,7 +58,6 @@ class HazardLib {
 	 * get dangerous html strings to test with
 	 *
 	 * @return array
-	 * 2010-07-31 ms
 	 */
 	public static function xssStrings($cache = true) {
 		if ($cache) {
@@ -92,7 +88,6 @@ class HazardLib {
 	 * Parse xml
 	 *
 	 * @return array
-	 * 2010-02-07 ms
 	 */
 	protected static function _parseXml($file) {
 		$xml = Xml::build($file);

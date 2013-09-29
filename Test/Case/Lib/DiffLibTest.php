@@ -3,7 +3,6 @@ App::uses('DiffLib', 'Tools.Lib');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 /**
- * 2010-06-30 ms
  */
 class DiffLibTest extends MyCakeTestCase {
 

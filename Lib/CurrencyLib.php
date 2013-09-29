@@ -19,7 +19,6 @@ App::uses('Xml', 'Utility');
  * @author Mark Scherer
  * @license MIT
  * @cakephp 2.x
- * 2009-11-23 ms
  */
 class CurrencyLib {
 
@@ -103,7 +102,6 @@ class CurrencyLib {
 	/**
 	 * @param string $name: "" (none), "history", "full" (both)
 	 * @return boolean Success.
-	 * 2010-09-19 ms
 	 */
 	public function reset($name = 'full') {
 		if ($name === 'full') {
@@ -207,7 +205,6 @@ class CurrencyLib {
 
 	/**
 	 * @param string $name: "" (none), "history", "full" (both)
-	 * 2010-09-19 ms
 	 */
 	protected function _store($currencyList, $name = '') {
 		$this->cacheFileUsed = false;
@@ -216,7 +213,6 @@ class CurrencyLib {
 
 	/**
 	 * @param string $name: "" (none), "history", "full" (both)
-	 * 2010-09-19 ms
 	 */
 	protected function _retrieve($name = '') {
 		$res = Cache::read('currencyList' . ucfirst($name));

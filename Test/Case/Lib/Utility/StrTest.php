@@ -2,7 +2,6 @@
 
 /**
  * Draft 0.2 for PHP argument order fix
- * 2012-04-14 ms
  */
 
 App::uses('Str', 'Tools.Utility');
@@ -10,7 +9,6 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 /**
  * @see https://bugs.php.net/bug.php?id=44794
- * 2012-04-14 ms
  */
 class StrTest extends MyCakeTestCase {
 

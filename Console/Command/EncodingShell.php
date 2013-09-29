@@ -8,7 +8,6 @@ App::uses('AppShell', 'Console/Command');
  * @cakephp 2.x
  * @author Mark Scherer
  * @license MIT
- * 2013-07-09 ms
  */
 class EncodingShell extends AppShell {
 

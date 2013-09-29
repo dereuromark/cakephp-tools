@@ -16,7 +16,6 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
  *   Sample_Email_PDF.pdf
  *   Sample_Email_PDF_UTF8.pdf
  *
- * 2012-11-27 ms
  */
 class ImapLibTest extends MyCakeTestCase {
 

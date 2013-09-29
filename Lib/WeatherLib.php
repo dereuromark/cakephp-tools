@@ -24,7 +24,6 @@ App::uses('HttpSocket', 'Network/Http');
  * @author Mark Scherer
  * @license MIT
  * @see http://developer.worldweatheronline.com/documentation
- * 2013-09-11 ms
  */
 class WeatherLib {
 

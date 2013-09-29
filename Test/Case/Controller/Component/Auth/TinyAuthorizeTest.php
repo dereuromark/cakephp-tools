@@ -2,7 +2,6 @@
 /**
  * TinyAuthorizeTest file
  *
- * 2012-11-05 ms
  */
 App::uses('TinyAuthorize', 'Tools.Controller/Component/Auth');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');

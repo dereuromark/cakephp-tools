@@ -7,7 +7,6 @@ App::uses('Utility', 'Tools.Utility');
  *
  * @author Mark Scherer
  * @license MIT
- * 2012-02-27 ms
  */
 class MyModel extends Model {
 
@@ -189,7 +188,6 @@ class MyModel extends Model {
 	 * @param array $options (actual data)
 	 * @return mixed string/array
 	 * static enums
-	 * 2009-11-05 ms
 	 */
 	public static function enum($value, $options, $default = null) {
 		if ($value !== null && !is_array($value)) {
@@ -210,7 +208,6 @@ class MyModel extends Model {
 	/**
 	 * Catch database errors before it's too late
 	 * //TODO: testing
-	 * 2010-11-04 ms
 	 */
 	public function onError() {
 		$err = $this->lastError();
@@ -232,7 +229,6 @@ class MyModel extends Model {
 
 	/**
 	 * @return string Error message with error number
-	 * 2010-11-06 ms
 	 */
 	public function lastError() {
 		$db = $this->getDataSource();
@@ -246,7 +242,6 @@ class MyModel extends Model {
 	 * Also adds the field to the virtualFields array of the model (for correct result)
 	 * TODO: adding of fields only temperory!
 	 * @param array $virtualFields to include
-	 * 2011-10-13 ms
 	 */
 	public function virtualFields($fields = array()) {
 		$res = array();
@@ -290,7 +285,6 @@ class MyModel extends Model {
 	/**
 	 * HIGHLY EXPERIMENTAL
 	 * manually escape value for updateAll() etc
-	 * 2011-06-27 ms
 	 */
 	public function escapeValue($value) {
 		if ($value === null || is_numeric($value)) {
@@ -305,7 +299,6 @@ class MyModel extends Model {
 	/**
 	 * HIGHLY EXPERIMENTAL
 	 * @see http://cakephp.lighthouseapp.com/projects/42648/tickets/1799-model-should-have-escapefield-method
-	 * 2011-07-05 ms
 	 */
 	public function value($content) {
 		$db = $this->getDatasource();
@@ -322,7 +315,6 @@ class MyModel extends Model {
 	 * - field (defaults to 'count')
 	 * - modify (if true if will affect modified timestamp)
 	 * - timestampField (if provided it will be filled with NOW())
-	 * 2010-06-08 ms
 	 */
 	public function up($id, $customOptions = array()) {
 		$step = 1;
@@ -378,7 +370,6 @@ class MyModel extends Model {
 	 * we cannot use if (isset() && empty()) statements without this fix
 	 * @param array $fields (which are supposed to be present in $this->data[$this->alias])
 	 * @param boolean $force (if init should be forced, otherwise only if array_key exists)
-	 * 2011-03-06 ms
 	 */
 	public function init($fields = array(), $force = false) {
 		foreach ($fields as $field) {
@@ -402,7 +393,6 @@ class MyModel extends Model {
 	 * @param mixed $data
 	 * @param array $options
 	 * @return boolean Success
-	 * 2012-11-10 ms
 	 */
 	public function saveAll($data = null, $options = array()) {
 		if (!isset($options['atomic']) && Configure::read('Model.atomic') !== null) {
@@ -420,7 +410,6 @@ class MyModel extends Model {
 	 * enables HABTM-Validation
 	 * e.g. with
 	 * 'rule' => array('multiple', array('min' => 2))
-	 * 2010-01-14 ms
 	 */
 	public function beforeValidate($options = array()) {
 		foreach ($this->hasAndBelongsToMany as $k => $v) {
@@ -436,7 +425,6 @@ class MyModel extends Model {
 	 * @param params
 	 * - key: functioName or other key used
 	 * @return boolean Success
-	 * 2010-12-02 ms
 	 */
 	public function deleteCache($key) {
 		$key = Inflector::underscore($key);
@@ -466,7 +454,6 @@ class MyModel extends Model {
 	 * @return string result sql snippet of the query to run
 	 * @modified Mark Scherer (cake2.x ready and improvements)
 	 * @link http://bakery.cakephp.org/articles/lucaswxp/2011/02/11/easy_and_simple_subquery_cakephp
-	 * 2011-07-05 ms
 	 */
 	public function subquery($type, $options = array(), $alias = null, $parenthesise = true) {
 		if ($alias === null) {
@@ -513,7 +500,6 @@ class MyModel extends Model {
 	 * @param string $order
 	 * @param string $recursive
 	 * @return array
-	 * 2010-12-02 ms
 	 */
 	public function find($type = null, $query = array()) {
 		# reset/delete
@@ -613,7 +599,6 @@ class MyModel extends Model {
 	 * @see http://bakery.cakephp.org/articles/view/add-formatted-lists-to-your-appmodel
 	 * @deprecated
 	 * added Caching
-	 * 2009-12-27 ms
 	 */
 	protected function _find($type, $options = array()) {
 		$res = false;
@@ -755,7 +740,6 @@ class MyModel extends Model {
 	 * @param addiotional 'scope'=>array(field,order) - value is retrieved by (submitted) primary key
 	 * @return mixed
 	 * TODO: fix it
-	 * 2009-07-25 ms
 	 */
 	protected function _findNeighbors($state, $query, $results = array()) {
 		return parent::_findNeighbors($state, $query, $results);
@@ -882,7 +866,6 @@ class MyModel extends Model {
 	 * @param array $options
 	 * - allowEmpty
 	 * @return boolean Success
-	 * 2011-06-21 ms
 	 */
 	public function validateKey($data = array(), $options = array()) {
 		$keys = array_keys($data);
@@ -915,7 +898,6 @@ class MyModel extends Model {
 	 * Checks if the passed enum value is valid
 	 *
 	 * @return boolean Success
-	 * 2010-02-09 ms
 	 */
 	public function validateEnum(array $data, $enum = null, $additionalKeys = array()) {
 		$keys = array_keys($data);
@@ -945,7 +927,6 @@ class MyModel extends Model {
 	 * Does not check on empty fields! Return TRUE even if both are empty (secure against empty in another rule)!
 	 *
 	 * @return boolean Success
-	 * 2009-01-22 ms
 	 */
 	public function validateIdentical($data = array(), $compareWith = null, $options = array()) {
 		if (is_array($data)) {
@@ -974,7 +955,6 @@ class MyModel extends Model {
 	 * @param array $options
 	 * - requireDependentFields Require all dependent fields for the validation rule to return true
 	 * @return boolean Success
-	 * 2010-01-30 ms
 	 */
 	public function validateUnique($data, $fields = array(), $options = array()) {
 		$id = (!empty($this->data[$this->alias]['id']) ? $this->data[$this->alias]['id'] : 0);
@@ -1038,7 +1018,6 @@ class MyModel extends Model {
 	 * //TODO: test!!!
 	 * @return boolean Success
 	 * @deprecated in favor of validateUnique?
-	 * 2011-03-27 ms
 	 */
 	public function validateUniqueExt($data, $options = array()) {
 		foreach ($data as $key => $value) {
@@ -1080,7 +1059,6 @@ class MyModel extends Model {
 	 * - autoComplete (default: TRUE)
 	 * - deep (default: TRUE)
 	 * @return boolean Success
-	 * 2010-10-18 ms
 	 */
 	public function validateUrl($data, $options = array()) {
 		if (is_array($data)) {
@@ -1127,7 +1105,6 @@ class MyModel extends Model {
 	 *
 	 * @param string $url
 	 * @return string Url
-	 * 2009-02-27 ms
 	 */
 	protected function _autoCompleteUrl($url) {
 		if (mb_strpos($url, '/') === 0) {
@@ -1143,7 +1120,6 @@ class MyModel extends Model {
 	 *
 	 * @param string url
 	 * @return boolean Success
-	 * 2009-02-27 ms
 	 */
 	protected function _validUrl($url) {
 		$headers = Utility::getHeaderFromUrl($url);
@@ -1170,7 +1146,6 @@ class MyModel extends Model {
 	 * - after/before (fieldName to validate against)
 	 * - min/max (defaults to >= 1 - at least 1 minute apart)
 	 * @return boolean Success
-	 * 2011-03-02 ms
 	 */
 	public function validateDateTime($data, $options = array()) {
 		$format = !empty($options['dateFormat']) ? $options['dateFormat'] : 'ymd';
@@ -1220,7 +1195,6 @@ class MyModel extends Model {
 	 * - after/before (fieldName to validate against)
 	 * - min (defaults to 0 - equal is OK too)
 	 * @return boolean Success
-	 * 2011-03-02 ms
 	 */
 	public function validateDate($data, $options = array()) {
 		$format = !empty($options['format']) ? $options['format'] : 'ymd';
@@ -1263,7 +1237,6 @@ class MyModel extends Model {
 	 * - after/before (fieldName to validate against)
 	 * - min/max (defaults to >= 1 - at least 1 minute apart)
 	 * @return boolean Success
-	 * 2011-03-02 ms
 	 */
 	public function validateTime($data, $options = array()) {
 		if (is_array($data)) {
@@ -1296,7 +1269,6 @@ class MyModel extends Model {
 	 * Validation of Date Fields (>= minDate && <= maxDate)
 	 * @param options
 	 * - min/max (TODO!!)
-	 * 2010-01-20 ms
 	 */
 	public function validateDateRange($data, $options = array()) {
 
@@ -1307,7 +1279,6 @@ class MyModel extends Model {
 	 * Validation of Time Fields (>= minTime && <= maxTime)
 	 * @param options
 	 * - min/max (TODO!!)
-	 * 2010-01-20 ms
 	 */
 	public function validateTimeRange($data, $options = array()) {
 
@@ -1317,7 +1288,6 @@ class MyModel extends Model {
 	 * model validation rule for email addresses
 	 *
 	 * @return boolean Success
-	 * 2010-01-14 ms
 	 */
 	public function validateUndisposable($data, $proceed = false) {
 		$email = array_shift($data);
@@ -1333,7 +1303,6 @@ class MyModel extends Model {
 	 *
 	 * @param string email (necessary)
 	 * @return boolean true if valid, else false
-	 * 2009-03-09 ms
 	 */
 	public function isUndisposableEmail($email, $onlineMode = false, $proceed = false) {
 		if (!isset($this->UndisposableEmail)) {
@@ -1366,7 +1335,6 @@ class MyModel extends Model {
 	 * //TODO: move outside of MyModel?
 	 *
 	 * @return boolean ifNotBlacklisted
-	 * 2009-12-22 ms
 	 */
 	public function validateNotBlocked($params) {
 		$email = array_shift($params);
@@ -1403,7 +1371,6 @@ class MyModel extends Model {
 	 * @param array $requiredFields Required fields
 	 * @param array $fieldList Whitelist / Allowed fields
 	 * @return array
-	 * 2010-03-11 ms
 	 */
 	public function set($data, $data2 = null, $requiredFields = array(), $fieldList = array()) {
 		if (!empty($requiredFields)) {
@@ -1419,7 +1386,6 @@ class MyModel extends Model {
 	 * @param array $fieldList
 	 * @param array $data (optional)
 	 * @return array
-	 * 2011-06-01 ms
 	 */
 	public function whitelist($fieldList, $data = null) {
 		$model = $this->alias;
@@ -1439,7 +1405,6 @@ class MyModel extends Model {
 	 * @param array: field1, field2 - or field1, Model2.field1 etc
 	 * @param array: data (optional, otherwise the array with the required fields will be returned)
 	 * @return array
-	 * 2010-03-11 ms
 	 */
 	public function guaranteeFields($requiredFields, $data = null) {
 		$guaranteedFields = array();
@@ -1467,7 +1432,6 @@ class MyModel extends Model {
 	 * @param array $fieldList
 	 * @param boolean $allowEmpty (or NULL to not touch already set elements)
 	 * @return void
-	 * 2012-02-20 ms
 	 */
 	public function requireFields($requiredFields, $allowEmpty = null) {
 		if ($allowEmpty === null) {
@@ -1515,7 +1479,6 @@ class MyModel extends Model {
 	 * - boolean TRUE: removes all foreign_keys (_id and _key)
 	 * note: one-dimensional
 	 * @return array
-	 * 2009-06-19 ms
 	 */
 	public function blacklist($blackList = array()) {
 		if ($blackList === true) {
@@ -1531,7 +1494,6 @@ class MyModel extends Model {
 	 * @param string|array $fields
 	 * @param array $contain
 	 * @return mixed
-	 * 2009-11-14 ms
 	 */
 	public function get($id, $fields = array(), $contain = array()) {
 		if (is_array($id)) {
@@ -1612,7 +1574,6 @@ class MyModel extends Model {
 	 * @param integer $id
 	 * @param array $data
 	 * @return boolean|array Success
-	 * 2012-11-20 ms
 	 */
 	public function update($id, $data, $validate = false) {
 		$this->id = $id;
@@ -1639,7 +1600,6 @@ class MyModel extends Model {
 	 * @param integer id (cleaned!)
 	 * @return ARRAY record: [Model][values],...
 	 * AJAX?
-	 * 2008-11-06 ms
 	 */
 	public function toggleField($fieldName, $id) {
 		$record = $this->get($id, array('id', $fieldName));
@@ -1671,7 +1631,6 @@ class MyModel extends Model {
 	 * recursive Dropdown Lists
 	 * NEEDS tree behavior, NEEDS lft, rght, parent_id (!)
 	 * //FIXME
-	 * 2008-01-02 ms
 	 */
 	public function recursiveSelect($conditions = array(), $attachTree = false, $spacer = '-- ') {
 		if ($attachTree) {
@@ -1687,7 +1646,6 @@ class MyModel extends Model {
 	 * //TODO refactor for 1.2
 	 *
 	 * @deprecated use generateTreeList instead
-	 * 2009-08-12 ms
 	 */
 	public function generateNestedList($conditions = null, $indent = '--') {
 		$cats = $this->find('threaded', array('conditions' => $conditions, 'fields' => array(
@@ -1701,7 +1659,6 @@ class MyModel extends Model {
 	/**
 	 * from http://othy.wordpress.com/2006/06/03/generatenestedlist/
 	 * @deprecated use generateTreeList instead
-	 * 2009-08-12 ms
 	 */
 	public function _generateNestedList($cats, $indent = '--', $level = 0) {
 		static $list = array();

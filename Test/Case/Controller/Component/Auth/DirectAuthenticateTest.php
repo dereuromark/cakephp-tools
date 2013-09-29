@@ -2,7 +2,6 @@
 /**
  * DirectAuthenticateTest file
  *
- * 2012-11-05 ms
  */
 
 App::uses('AuthComponent', 'Controller/Component');

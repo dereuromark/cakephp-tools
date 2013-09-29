@@ -8,7 +8,6 @@
  *
  * @author Mark Scherer
  * @license MIT
- * 2010-08-23 ms
  */
 class ZipLib {
 
@@ -38,7 +37,6 @@ class ZipLib {
 	 * Return the filename.
 	 *
 	 * @return string
-	 * 2010-08-25 ms
 	 */
 	public function filename() {
 		return $this->filename;
@@ -48,7 +46,6 @@ class ZipLib {
 	 * Count all files (not folders) - works recursivly.
 	 *
 	 * @return integer Size or false on failure
-	 * 2010-08-25 ms
 	 */
 	public function numFiles() {
 		if (!$this->Zip) {
@@ -66,7 +63,6 @@ class ZipLib {
 	 * Size in bytes
 	 *
 	 * @return integer Size or false on failure
-	 * 2010-08-25 ms
 	 */
 	public function size() {
 		if (!$this->Zip) {
@@ -85,7 +81,6 @@ class ZipLib {
 	*
 	* @params string, boolean
 	*	@return boolean Success
-	* 2010-08-25 ms
 	*/
 	public function open($path = null, $create = false) {
 		$this->filename = basename($path);
@@ -122,7 +117,6 @@ class ZipLib {
 	 * @param string $location
 	 * @param boolean $flatten
 	 * @return boolean Success
-	 * 2010-08-23 ms
 	 */
 	public function unzip($location = null, $flatten = false) {
 		if (!$this->Zip) {
@@ -170,7 +164,6 @@ class ZipLib {
 	 * returns the error string, if no error, it will return empty string ''
 	 *
 	 * @return string
-	 * 2010-08-08 ms
 	 */
 	public function getError($text = false) {
 		if ($this->error === null) {

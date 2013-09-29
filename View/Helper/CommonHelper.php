@@ -17,7 +17,6 @@ class CommonHelper extends AppHelper {
 	 *
 	 * @param string $type - private/public
 	 * @return string HTML
-	 * 2008-12-08 ms
 	 */
 	public function metaRobots($type = null) {
 		if ($type === null && ($meta = Configure::read('Config.robots')) !== null) {
@@ -42,7 +41,6 @@ class CommonHelper extends AppHelper {
 	 * @param string $name: author, date, generator, revisit-after, language
 	 * @param MIXED $content: if array, it will be seperated by commas
 	 * @return string htmlMarkup
-	 * 2009-07-07 ms
 	 */
 	public function metaName($name = null, $content = null) {
 		if (empty($name) || empty($content)) {
@@ -103,7 +101,6 @@ class CommonHelper extends AppHelper {
 	 * @param mixed $url
 	 * @param boolean $full
 	 * @return string htmlMarkup
-	 * 2010-03-03 ms
 	 */
 	public function metaCanonical($url = null, $full = false) {
 		$canonical = $this->Html->url($url, $full);
@@ -121,7 +118,6 @@ class CommonHelper extends AppHelper {
 	 * - de-ch
 	 * etc
 	 * @return string htmlMarkup
-	 * 2011-12-12 ms
 	 */
 	public function metaAlternate($url, $lang, $full = false) {
 		$canonical = $this->Html->url($url, $full);
@@ -150,7 +146,6 @@ class CommonHelper extends AppHelper {
 	 * @param string $type
 	 * @param string $content
 	 * @return string htmlMarkup
-	 * 2008-12-08 ms
 	 */
 	public function metaRss($url = null, $title = null) {
 		$tags = array(
@@ -171,7 +166,6 @@ class CommonHelper extends AppHelper {
 	 * @param string $type
 	 * @param string $content
 	 * @return string htmlMarkup
-	 * 2008-12-08 ms
 	 */
 	public function metaEquiv($type, $value, $escape = true) {
 		$tags = array(
@@ -193,7 +187,6 @@ class CommonHelper extends AppHelper {
 	 * => z is in plugins/tools/packages/jquery/files/jquery/sub/
 	 *
 	 * @return string htmlMarkup
-	 * 2011-03-23 ms
 	 */
 	public function css($files = array(), $options = array()) {
 		$files = (array)$files;
@@ -215,7 +208,6 @@ class CommonHelper extends AppHelper {
 	 * => z is in plugins/tools/packages/jquery/files/jquery/sub/
 	 *
 	 * @return string htmlMarkup
-	 * 2011-03-23 ms
 	 */
 	public function script($files = array(), $options = array()) {
 		$files = (array)$files;
@@ -237,7 +229,6 @@ class CommonHelper extends AppHelper {
 	 * Note: needs Asset.cssversion => xyz (going up with counter)
 	 *
 	 * @return string htmlMarkup
-	 * 2008-12-08 ms
 	 */
 	public function cssDyn($path, $options = array()) {
 		$v = (int)Configure::read('Asset.version');
@@ -251,7 +242,6 @@ class CommonHelper extends AppHelper {
 	 * Note: needs Asset.timestamp => force
 	 *
 	 * @return string htmlMarkup
-	 * 2008-12-08 ms
 	 */
 	public function cssAuto($path, $htmlAttributes = array()) {
 		$compress = Configure::read('App.compressCss');
@@ -328,7 +318,6 @@ class CommonHelper extends AppHelper {
 	 * Check if session works due to allowed cookies
 	 *
 	 * @param boolean Success
-	 * 2009-06-29 ms
 	 */
 	public function sessionCheck() {
 		return !CommonComponent::cookiesDisabled();
@@ -344,7 +333,6 @@ class CommonHelper extends AppHelper {
 	 * Display warning if cookies are disallowed (and session won't work)
 	 *
 	 * @return string HTML
-	 * 2009-06-29 ms
 	 */
 	public function sessionCheckAlert() {
 		if ($this->sessionCheck()) {
@@ -360,7 +348,6 @@ class CommonHelper extends AppHelper {
 	 * @param string $singular The string to be pl.
 	 * @param integer $count
 	 * @return string "member" or "members" OR "Mitglied"/"Mitglieder" if autoTranslate TRUE
-	 * 2009-07-23 ms
 	 */
 	public function asp($singular, $count, $autoTranslate = false) {
 		if ((int)$count !== 1) {
@@ -379,7 +366,6 @@ class CommonHelper extends AppHelper {
 	 * @param string $plural
 	 * @param integer $count
 	 * @return string result
-	 * 2009-07-23 ms
 	 */
 	public function sp($singular, $plural, $count, $autoTranslate = false) {
 		if ((int)$count !== 1) {
@@ -402,7 +388,6 @@ class CommonHelper extends AppHelper {
 	 *
 	 * @param boolean unsorted true/false [default:FALSE = sorted by priority]
 	 * @return string HTML
-	 * 2010-11-22 ms
 	 */
 	public function flash($unsorted = false) {
 		// Get the messages from the session
@@ -443,7 +428,6 @@ class CommonHelper extends AppHelper {
 	 *
 	 * @param string $message
 	 * @return string HTML
-	 * 2010-11-22 ms
 	 */
 	public function flashMessage($msg, $type = 'info', $escape = true) {
 		$html = '<div class="flashMessages">';
@@ -468,7 +452,6 @@ class CommonHelper extends AppHelper {
 	 * @param string $msg
 	 * @param string $class
 	 * @return boolean Success
-	 * 2011-05-25 ms
 	 */
 	public function transientFlashMessage($msg, $class = null) {
 		return CommonComponent::transientFlashMessage($msg, $class);
@@ -484,7 +467,6 @@ class CommonHelper extends AppHelper {
 	 * - nl2br: true/false (defaults to true)
 	 * - escape: false prevents h() and space transformation (defaults to true)
 	 * - tabsToSpaces: int (defaults to 4)
-	 * 2010-11-20 ms
 	 */
 	public function esc($text, $options = array()) {
 		if (!isset($options['escape']) || $options['escape'] !== false) {
@@ -521,7 +503,6 @@ class CommonHelper extends AppHelper {
 
 	/**
 	 * Prevents site being opened/included by others/websites inside frames
-	 * 2009-01-08 ms
 	 */
 	public function framebuster() {
 		return $this->Html->scriptBlock('
@@ -535,7 +516,6 @@ if (top!=self) top.location.ref=self.location.href;
 	 * - engine (js, jquery)
 	 * - escape
 	 * needs the id element to be a present (div) container in the layout
-	 * 2009-12-26 ms
 	 */
 	public function browserAlert($id, $message, $options = array()) {
 		$engine = 'js';
@@ -573,7 +553,6 @@ jQuery(document).ready(function() {
 	 * in noscript tags:
 	 * - link which should not be followed by bots!
 	 * - "pseudo"image which triggers log
-	 * 2009-12-28 ms
 	 */
 	public function honeypot($noFollowUrl, $noscriptUrl = array()) {
 		$res = '<div class="invisible" style="display:none"><noscript>';
@@ -592,7 +571,6 @@ jQuery(document).ready(function() {
 	/**
 	 * print js-visit-stats-link to layout
 	 * uses Piwik open source statistics framework
-	 * 2009-04-15 ms
 	 */
 
 	public function visitStats($viewPath = null) {
@@ -630,7 +608,6 @@ piwikTracker.enableLinkTracking();
 
 	/**
 	 * non js browsers
-	 * 2009-09-07 ms
 	 */
 	public function visitStatsImg($trackingUrl = null) {
 		if (empty($trackingUrl)) {
@@ -689,7 +666,6 @@ piwikTracker.enableLinkTracking();
 	/**
 	 * Display Roles separated by Commas
 	 * @deprecated - use Auth class instead
-	 * 2009-07-17 ms
 	 */
 	public function displayRoles($sessionRoles = null, $placeHolder = '---') {
 		$roles = $this->roleNames($sessionRoles);

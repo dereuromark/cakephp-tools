@@ -12,7 +12,6 @@ if (!defined('LF')) {
  *
  * @author Mark Scherer
  * @license MIT
- * 2012-07-19 ms
  */
 class CodeShell extends AppShell {
 
@@ -22,7 +21,6 @@ class CodeShell extends AppShell {
 
 	/**
 	 * detect and fix class dependencies
-	 * 2012-07-19 ms
 	 */
 	public function dependencies() {
 		if ($customPath = $this->params['custom']) {
@@ -175,7 +173,6 @@ class CodeShell extends AppShell {
 	 * make sure all files are properly encoded (ü instead of &uuml; etc)
 	 * FIXME: non-utf8 files to utf8 files error on windows!
 	 *
-	 * 2012-01-06 ms
 	 */
 	public function utf8() {
 		$this->_paths = array(APP . 'View' . DS);

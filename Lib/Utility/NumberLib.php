@@ -7,7 +7,6 @@ App::uses('CakeNumber', 'Utility');
  * - spacer char for currency (initially from https://github.com/cakephp/cakephp/pull/1148)
  * - signed values possible
  *
- * 2011-03-07 ms
  */
 class NumberLib extends CakeNumber {
 
@@ -49,7 +48,6 @@ class NumberLib extends CakeNumber {
 	 *
 	 * @deprecated use currency()
 	 * @return string
-	 * 2011-07-30 ms
 	 */
 	public static function price($price, $specialPrice = null, $formatOptions = array()) {
 		if ($specialPrice !== null && $specialPrice > 0) {
@@ -71,7 +69,6 @@ class NumberLib extends CakeNumber {
 	 * @param mixed $amount
 	 * @param array $formatOptions
 	 * @return string
-	 * 2011-10-05 ms
 	 */
 	public static function money($amount, $formatOptions = array()) {
 		return self::currency($amount, null, $formatOptions);
@@ -86,7 +83,6 @@ class NumberLib extends CakeNumber {
 	 * @param integer $places (0 = int, 1..x places after dec, -1..-x places before dec)
 	 * @param array $option : currency=true/false, ... (leave empty for no special treatment)
 	 * @return string
-	 * 2009-04-03 ms
 	 */
 	public static function format($number, $formatOptions = array()) {
 		if (!is_numeric($number)) {
@@ -144,7 +140,6 @@ class NumberLib extends CakeNumber {
 	 * @param string $currency
 	 * @param array $formatOptions
 	 * @return string
-	 * 2012-04-08 ms
 	 */
 	public static function currency($number, $currency = null, $formatOptions = array()) {
 		if ($currency === null) {
@@ -234,7 +229,6 @@ class NumberLib extends CakeNumber {
 	 * @param array $values: int or float values
 	 * @param integer $precision
 	 * @return integer average
-	 * 2009-09-05 ms
 	 */
 	public static function average($values, $precision = 0) {
 		$average = round(array_sum($values) / count($values), $precision);
@@ -247,7 +241,6 @@ class NumberLib extends CakeNumber {
 	 * @param float $number
 	 * @param float $increment
 	 * @return float result
-	 * 2011-04-14 lb
 	 */
 	public static function roundTo($number, $increments = 1.0) {
 		$precision = self::getDecimalPlaces($increments);
@@ -264,7 +257,6 @@ class NumberLib extends CakeNumber {
 	 * @param float $number
 	 * @param integer $increment
 	 * @return float result
-	 * 2011-04-14 lb
 	 */
 	public static function roundUpTo($number, $increments = 1) {
 		return (ceil($number / $increments) * $increments);
@@ -276,7 +268,6 @@ class NumberLib extends CakeNumber {
 	 * @param float $number
 	 * @param integer $increment
 	 * @return float result
-	 * 2011-04-14 lb
 	 */
 	public static function roundDownTo($number, $increments = 1) {
 		return (floor($number / $increments) * $increments);
@@ -287,7 +278,6 @@ class NumberLib extends CakeNumber {
 	 *
 	 * @param float $number
 	 * @return integer decimalPlaces
-	 * 2011-04-15 lb
 	 */
 	public static function getDecimalPlaces($number) {
 		$decimalPlaces = 0;

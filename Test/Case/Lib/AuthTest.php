@@ -3,7 +3,6 @@ App::uses('Auth', 'Tools.Lib');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 /**
- * 2010-06-29 ms
  */
 class AuthTest extends MyCakeTestCase {
 

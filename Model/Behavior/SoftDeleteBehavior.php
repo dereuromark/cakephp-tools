@@ -25,7 +25,6 @@ App::uses('ModelBehavior', 'Model');
  *   return $result;
  * }
  *
- * 2013-04-16 ms
  */
 class SoftDeleteBehavior extends ModelBehavior {
 

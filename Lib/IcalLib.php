@@ -14,7 +14,6 @@ App::uses('TimeLib', 'Tools.Utility');
  * @author Mark Scherer
  * @license MIT
  * @cakephp 2.x
- * 2010-09-14 ms
  */
 class IcalLib {
 
@@ -38,7 +37,6 @@ class IcalLib {
 	 * @param array $data
 	 * @param boolean $addStartAndEnd
 	 * @return string icalContent (single vevent)
-	 * 2011-10-10 ms
 	 */
 	public function build($data, $addStartAndEnd = true) {
 		$replacements = array('-', ':');
@@ -128,7 +126,6 @@ class IcalLib {
 
 	/**
 	 * @return array
-	 * 2010-09-14 ms
 	 */
 	public function getCalendarInfos() {
 		return $this->Ical->get_calender_data();
@@ -137,7 +134,6 @@ class IcalLib {
 	/**
 	 * key => value with key as unixTimeStamp and value as summary
 	 * @return array
-	 * 2010-09-14 ms
 	 */
 	public function getEventsAsList() {
 		$res = array();
@@ -150,7 +146,6 @@ class IcalLib {
 
 	/**
 	 * @return array events or false on failure
-	 * 2010-09-14 ms
 	 */
 	public function getEvents() {
 		return $this->Ical->get_sort_event_list();
@@ -158,7 +153,6 @@ class IcalLib {
 
 	/**
 	 * @return array todos or false on failure
-	 * 2010-09-14 ms
 	 */
 	public function getTodos() {
 		return $this->Ical->get_todo_list();

@@ -17,7 +17,6 @@ App::uses('HttpSocketLib', 'Tools.Lib');
  * @author Mark Scherer
  * @cakephp 2.x
  * @licence MIT
- * 2010-06-25 ms
  */
 class GeocodeLib {
 
@@ -63,7 +62,6 @@ class GeocodeLib {
 	 * - pause: timeout to prevent blocking
 	 * - ...
 	 *
-	 * 2010-06-25 ms
 	 */
 	public $options = array(
 		'log' => false,
@@ -78,7 +76,6 @@ class GeocodeLib {
 
 	/**
 	 * url params
-	 * 2010-06-25 ms
 	 */
 	protected $params = array(
 		'address' => '', # either address or latlng required!
@@ -185,7 +182,6 @@ class GeocodeLib {
 	 * Build url
 	 *
 	 * @return string url (full)
-	 * 2010-06-29 ms
 	 */
 	public function url() {
 		$params = array(
@@ -217,7 +213,6 @@ class GeocodeLib {
 
 	/**
 	 * @return array result
-	 * 2010-06-25 ms
 	 */
 	public function getResult() {
 		if ($this->result !== null) {
@@ -245,7 +240,6 @@ class GeocodeLib {
 	 * - allow_inconclusive
 	 * - min_accuracy
 	 * @return boolean Success
-	 * 2010-06-29 ms
 	 */
 	public function reverseGeocode($lat, $lng, $settings = array()) {
 		$this->reset(false);
@@ -340,7 +334,6 @@ class GeocodeLib {
 	/**
 	 * trying to avoid "TOO_MANY_QUERIES" error
 	 * @param boolean $raise If the pause length should be raised
-	 * 2010-06-29 ms
 	 */
 	public function pause($raise = false) {
 		usleep($this->options['pause']);
@@ -355,7 +348,6 @@ class GeocodeLib {
 	 * @param string $address
 	 * @param array $params
 	 * @return boolean Success
-	 * 2010-06-25 ms
 	 */
 	public function geocode($address, $params = array()) {
 		$this->reset(false);
@@ -547,7 +539,6 @@ class GeocodeLib {
 	 * try to find the correct path
 	 * - type (string)
 	 * - Type (array[string, ...])
-	 * 2010-06-29 ms
 	 */
 	protected function _parse($key, $array) {
 		if (isset($array[$key])) {
@@ -563,7 +554,6 @@ class GeocodeLib {
 	 * flattens result array and returns clean record
 	 * keys:
 	 * - formatted_address, type, country, country_code, country_province, country_province_code, locality, sublocality, postal_code, route, lat, lng, location_type, viewport, bounds
-	 * 2010-06-25 ms
 	 */
 	protected function _transformXml($record) {
 		$res = array();
@@ -681,7 +671,6 @@ class GeocodeLib {
 
 	/**
 	* debugging
-	* 2009-11-27 ms
 	*/
 	public function debug() {
 		return $this->result;
@@ -701,7 +690,6 @@ class GeocodeLib {
 	 * @param array pointY
 	 * @param float $unit (M=miles, K=kilometers, N=nautical miles, I=inches, F=feet)
 	 * @return integer distance: in km
-	 * 2009-03-06 ms
 	 */
 	public function distance($pointX, $pointY, $unit = null) {
 		if (empty($unit) || !array_key_exists(($unit = strtoupper($unit)), $this->units)) {
@@ -765,7 +753,6 @@ class GeocodeLib {
 	 * - 5:
 	 * @throws CakeException
 	 * @return float coord
-	 * 2011-03-16 ms
 	 */
 	public static function blur($coord, $level = 0) {
 		if (!$level) {

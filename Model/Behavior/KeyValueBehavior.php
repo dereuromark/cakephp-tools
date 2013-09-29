@@ -210,7 +210,6 @@ class KeyValueBehavior extends ModelBehavior {
 	 * careful: passing both null values will result in a complete truncate command
 	 *
 	 * @return boolean Success
-	 * 2012-08-08 ms
 	 */
 	public function resetSection(Model $Model, $foreignKey = null, $section = null, $key = null) {
 		extract($this->settings[$Model->alias]);

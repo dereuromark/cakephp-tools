@@ -37,7 +37,6 @@ class DiffHelper extends AppHelper {
 	 * 'unified', 'inline', 'context', 'sidebyside'
 	 * defaults to "inline"
 	 * @return boolean true on success, false otherwise
-	 * 2010-01-12 ms
 	 */
 	public function renderType($type = null) {
 		return $this->Diff->renderType($type);
@@ -48,7 +47,6 @@ class DiffHelper extends AppHelper {
 	 * 'auto', 'native', 'xdiff', 'shell', 'string'
 	 * defaults to "auto"
 	 * @return boolean true on success, false otherwise
-	 * 2010-01-12 ms
 	 */
 	public function engineType($type = null) {
 		return $this->Diff->engineType($type);
@@ -108,7 +106,6 @@ class DiffHelper extends AppHelper {
 	 * @param string $string
 	 * @param array $options
 	 * @return string
-	 * 2010-01-12 ms
 	 */
 	protected function _prep($string, $options = array()) {
 		if ($this->renderer === 'inline' || isset($options['escape']) && $options['escape'] === false) {

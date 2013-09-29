@@ -8,7 +8,6 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
 /**
  * render: unified/inline
  * engine: native/shell (shell only on linux!)
- * 2010-06-24 ms
  */
 class DiffHelperTest extends MyCakeTestCase {
 
@@ -92,7 +91,6 @@ TEXT;
 	 * auto engine + inline Render
 	 * Fastest way
 	 *
-	 * 2010-09-04 ms
 	 */
 	public function testDiffDefault() {
 		$t1 = array(

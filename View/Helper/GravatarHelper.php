@@ -10,7 +10,6 @@ App::uses('AppHelper', 'View/Helper');
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  *
  * hashtype now always md5
- * 2010-12-21 ms
  */
 class GravatarHelper extends AppHelper {
 

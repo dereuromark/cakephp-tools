@@ -7,7 +7,6 @@ App::uses('TextHelper', 'View/Helper');
  * TODO: make snippets more "css and background image" (instead of inline img links)
  * TODO: test cases
  *
- * 2009-12-31 ms
  */
 class FormatHelper extends TextHelper {
 
@@ -20,7 +19,6 @@ class FormatHelper extends TextHelper {
 
 	/**
 	 * jqueryAccess: {id}Pro, {id}Contra
-	 * 2009-07-24 ms
 	 */
 	public function thumbs($id, $inactive = false, $inactiveTitle = null) {
 		$class = 'Active';
@@ -126,7 +124,6 @@ class FormatHelper extends TextHelper {
 	/**
 	 * allows icons to be added on the fly
 	 * NOTE: overriding not allowed by default
-	 * 2009-01-04 ms
 	 */
 	public function addIcon($name = null, $pic = null, $title = null, $allowOverride = false) {
 		if ($allowOverride === true || ($allowOverride !==true && !array_key_exists($name, $this->icons))) {
@@ -143,7 +140,6 @@ class FormatHelper extends TextHelper {
 	/**
 	 * //TODO: move to Format
 	 * displays gender icon
-	 * 2009-01-04 ms
 	 */
 	public function genderIcon($value = null, $type = null) {
 		$value = (int)$value;
@@ -161,7 +157,6 @@ class FormatHelper extends TextHelper {
 	 * //TODO: move to Format?
 	 * returns img from customImgFolder
 	 * @param ARRAY options (ending [default: gif])
-	 * 2009-12-31 ms
 	 */
 	public function customIcon($folder, $icon = null, $checkExist = false, $options = array(), $attr = array()) {
 		$attachment = 'default';
@@ -192,7 +187,6 @@ class FormatHelper extends TextHelper {
 	/**
 	 * //TODO: move to Format?
 	 * @param string $icon iso2 code (e.g. 'de' or 'gb')
-	 * 2009-08-28 ms
 	 */
 	public function countryIcon($icon = null, $returnFalseonFailure = false, $options = array(), $attr = array()) {
 		$ending = 'gif';
@@ -228,7 +222,6 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * 2011-10-10 ms
 	 */
 	public function importantIcon($icon, $value) {
 		$ending = 'gif';
@@ -247,7 +240,6 @@ class FormatHelper extends TextHelper {
 	 * - map: array (manually map values, if you use 1 based values no need for that)
 	 * - title, alt, ...
 	 * @return string html
-	 * 2012-08-02 ms
 	 */
 	public function priorityIcon($value, $options = array()) {
 		$defaults = array(
@@ -350,7 +342,6 @@ class FormatHelper extends TextHelper {
 	 * @param alt (set to FALSE if no alt is supposed to be shown)
 	 * @param boolean automagic i18n translate [default true = __('xyz')]
 	 * @param options array ('class'=>'','width/height'=>'','onclick=>'') etc
-	 * 2008-12-28 ms
 	 */
 	public function icon($type, $t = null, $a = null, $translate = null, $options = array()) {
 		$html='';
@@ -406,7 +397,6 @@ class FormatHelper extends TextHelper {
 	 * @param array $attributes:
 	 * - title, alt, ...
 	 * THE REST IS DEPRECATED
-	 * 2010-03-04 ms
 	 */
 	public function cIcon($icon, $t=null, $a=null, $translate=true, $options=array()) {
 		if (is_array($t)) {
@@ -440,7 +430,6 @@ class FormatHelper extends TextHelper {
 	 * array $options: steps=1/0.5 [default:1]), show_zero=true/false [default:false], title=false/true [default:false]
 	 * array $attr: string 'title' (both single and span title empty => 'x of x' for span)
 	 * TODO: 0.5 steps!
-	 * 2009-04-04 ms
 	 */
 	public function showStars($current = null, $max = null, $options = array(), $attr = array()) {
 		$res = '---';
@@ -551,7 +540,6 @@ class FormatHelper extends TextHelper {
 	 * each part of this mail now does not make sense anymore on its own
 	 * (striptags will not work either)
 	 * @param string email: necessary (and valid - containing one @)
-	 * 2009-03-11 ms
 	 */
 	public function encodeEmail($mail) {
 		list($mail1, $mail2) = explode('@', $mail);
@@ -567,7 +555,6 @@ class FormatHelper extends TextHelper {
 	 * @param array attributes: html tag attributes
 	 * @param array params: ?subject=y&body=y to be attached to "mailto:xyz"
 	 * @return save string with js generated link around email (and non js fallback)
-	 * 2009-04-20 ms
 	 */
 	public function encodeEmailUrl($mail, $text = null, $params = array(), $attr = array()) {
 		if (empty($class)) { $class='email';}
@@ -623,7 +610,6 @@ class FormatHelper extends TextHelper {
 	 * Encodes Piece of Text (without usage of JS!) to avoid spam bots to get it
 	 * @param STRING text to encode
 	 * @return string (randomly encoded)
-	 * 2009-03-11 ms
 	 */
 	public function encodeText($text) {
 		$encmail = '';
@@ -673,7 +659,6 @@ class FormatHelper extends TextHelper {
 
 	/**
 	 * get url of a png img of a website (16x16 pixel)
-	 * 2011-02-15 ms
 	 */
 	public function siteIconUrl($domain) {
 		if (strpos($domain, 'http') === 0) {
@@ -688,7 +673,6 @@ class FormatHelper extends TextHelper {
 	 * display a png img of a website (16x16 pixel)
 	 * if not available, will return a fallback image (a globe)
 	 * @param domain (preferably without protocol, e.g. "www.site.com")
-	 * 2011-02-15 ms
 	 */
 	public function siteIcon($domain, $options = array()) {
 		$url = $this->siteIconUrl($domain);
@@ -709,7 +693,6 @@ class FormatHelper extends TextHelper {
 	 * - inline, font, size, background (optional)
 	 * @param array $tagAttributes (for image)
 	 * @return string result - as image
-	 * 2010-12-13 ms
 	 */
 	public function textAsImage($text, $options = array(), $attr = array()) {
 		/*
@@ -734,7 +717,6 @@ class FormatHelper extends TextHelper {
 
 	/**
 	 * @return string htmlImage tag (or empty string on failure)
-	 * 2010-12-13 ms
 	 */
 	public function _textAsImage($text, $options = array(), $attr = array()) {
 		$defaults = array('inline'=>true, 'font' => FILES.'linotype.ttf', 'size'=>18, 'color'=>'#7A7166');
@@ -768,7 +750,6 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * 2009-12-24 ms
 	 */
 	public function disabledLink($text, $options = array()) {
 		$defaults = array('class' => 'disabledLink', 'title' => __('notAvailable'));
@@ -779,7 +760,6 @@ class FormatHelper extends TextHelper {
 
 	/**
 	 * display communication action depending on the current rule/right
-	 * 2009-10-14 ms
 	 */
 	public function action($s) {
 		//TODO
@@ -791,7 +771,6 @@ class FormatHelper extends TextHelper {
 	 * @param paginator array
 	 * @param count (current post count on this page)
 	 * @param dir (ASC/DESC)
-	 * 2010-12-01 ms
 	 */
 	public function absolutePaginateCount($paginator, $count, $dir = null) {
 		if ($dir === null) {
@@ -825,7 +804,6 @@ class FormatHelper extends TextHelper {
 	 * - steps
 	 * - decimals (how precise should the result be displayed)
 	 *
-	 * 2010-01-10 ms
 	 */
 	public function progressBar($progress, $options = array(), $htmlOptions = array()) {
 		$defaults = array(
@@ -874,7 +852,6 @@ class FormatHelper extends TextHelper {
 	 * @param string $padString
 	 * @param mixed $padType
 	 * @return string input
-	 * 2011-09-27 ms
 	 */
 	public function pad($input, $padLength, $padString, $padType = STR_PAD_RIGHT) {
 		$length = mb_strlen($input);
@@ -894,7 +871,6 @@ class FormatHelper extends TextHelper {
 	/**
 	 * deprecated
 	 * album image
-	 * 2009-09-10 ms
 	 */
 	public function image($id, $options = array(), $attr = array()) {
 		if (!empty($options['h'])) {
@@ -919,7 +895,6 @@ class FormatHelper extends TextHelper {
 
 	/**
 	 * album image
-	 * 2009-09-10 ms
 	 */
 	public function albumImage($image, $options = array(), $attr = array()) {
 		$subfolder = $image['Album']['id'];
@@ -1013,7 +988,6 @@ class FormatHelper extends TextHelper {
 	 * takes username + userId and forms a profile link out of it
 	 * if username is empty, return "deleted" text without link
 	 * maybe move to custom/community helper etc?
-	 * 2009-08-27 ms
 	 */
 	public function profileLink($uid, $username, $text = null, $attr = array(), $options = array()) {
 		if (empty($username)) {
@@ -1036,7 +1010,6 @@ class FormatHelper extends TextHelper {
 	 * @param array $options
 	 * - hash (string)
 	 * @return string url
-	 * 2011-01-30 ms
 	 */
 	public function profileUrl($uid, $username, $full = false, $options = array()) {
 		return $this->Html->url(array('plugin' => false, 'admin' => false, 'controller' => 'members', 'action' => 'view', $uid, slug($username)), $full);
@@ -1125,7 +1098,6 @@ class FormatHelper extends TextHelper {
 
 	/**
 	 * display traffic light for status etc
-	 * 2008-12-28 ms
 	 */
 	public function statusLight($color = null, $title = null, $alt = null, $options = array()) {
 		$icons = array(
@@ -1201,7 +1173,6 @@ class FormatHelper extends TextHelper {
 	 * //@param string $comparizonType
 	 * //@param mixed $okValue
 	 * @return string newValue nicely formatted/colored
-	 * 2009-08-02 ms
 	 */
 	public function ok($value, $ok = false) {
 		if ($ok === true) {
@@ -1215,7 +1186,6 @@ class FormatHelper extends TextHelper {
 	/**
 	 * test@test.de becomes t..t@t..t.de
 	 * @param string $email: valid(!) email address
-	 * 2009-08-30 ms
 	 */
 	public static function hideEmail($mail) {
 		$mailParts = explode('@', $mail, 2);
@@ -1238,7 +1208,6 @@ class FormatHelper extends TextHelper {
 	 * - the word supposed to be cut is removed completely (instead of remaining as last one)
 	 * - Looses line breaks (for textarea content to work with this)!
 	 * @deprecated use truncate instead
-	 * 2008-10-30 ms
 	 */
 	public function shortenText($textstring, $chars, $options = array()) {
 		$chars++; # add +1 for correct cut
@@ -1374,7 +1343,6 @@ class FormatHelper extends TextHelper {
 	 * @param string	the array of censoered words
 	 * @param string	the optional replacement value
 	 * @return string
-	 * 2009-11-11 ms
 	 */
 	public function wordCensor($str, $censored, $replacement = null) {
 		if (empty($censored)) {

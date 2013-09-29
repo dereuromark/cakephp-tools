@@ -20,7 +20,6 @@ App::uses('CakeSession', 'Model/Datasource');
  * @license MIT
  * @php 5
  * @cakephp 2
- * 2012-04-07 ms
  */
 class Auth {
 

@@ -16,7 +16,6 @@ btn The badge to use. Currently the only option is compact but if not specified 
 /**
  * Flattr Donate Button
  * @link http://flattr.com/support/integrate/js
- * 2010-12-11 ms
  */
 class FlattrHelper extends AppHelper {
 
@@ -28,7 +27,6 @@ class FlattrHelper extends AppHelper {
 	 * display the FlattrButton
 	 * @param mixed $url (unique! necessary)
 	 * @param array $options
-	 * 2010-12-19 ms
 	 */
 	public function button($url, $options = array(), $attr = array()) {
 		if (empty($options['uid'])) {
@@ -92,7 +90,6 @@ class FlattrHelper extends AppHelper {
 	 * @param array $options:
 	 * - tle, cat, lng, dsc, url, btn, tags, hidden (optional)
 	 * @return string html with js script tag
-	 * 2010-12-11 ms
 	 */
 	public function badge($uid = null, $options = array()) {
 		if (!$uid) {

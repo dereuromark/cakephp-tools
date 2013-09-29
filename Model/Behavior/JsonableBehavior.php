@@ -26,7 +26,6 @@ App::uses('ModelBehavior', 'Model');
  * Also automatically cleans lists and works with custom separators etc
  *
  * @link http://www.dereuromark.de/2011/07/05/introducing-two-cakephp-behaviors/
- * 2011-07-04 ms
  */
 class JsonableBehavior extends ModelBehavior {
 
@@ -177,7 +176,6 @@ class JsonableBehavior extends ModelBehavior {
 	 * @param Model $Model
 	 * @param mixed $val
 	 * @return mixed
-	 * 2011-06-18 ms
 	 */
 	public function _decode(Model $Model, $val) {
 		$decoded = json_decode($val);

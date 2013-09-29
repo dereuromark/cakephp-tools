@@ -6,7 +6,6 @@ App::uses('View', 'View');
 App::uses('Controller', 'Controller');
 
 /**
- * 2010-06-24 ms
  */
 class CaptchaHelperTest extends CakeTestCase {
 
@@ -24,7 +23,6 @@ class CaptchaHelperTest extends CakeTestCase {
 	}
 
 	/**
-	 * 2011-11-15 ms
 	 */
 	public function testFields() {
 		$is = $this->Captcha->active();

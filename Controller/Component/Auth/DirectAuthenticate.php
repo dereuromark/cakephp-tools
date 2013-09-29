@@ -23,7 +23,6 @@ App::uses('BaseAuthenticate', 'Controller/Component/Auth');
  * @author Mark Scherer
  * @license MIT
  * @cakephp 2.x (>= 2.3)
- * 2012-11-05 ms
  */
 class DirectAuthenticate extends BaseAuthenticate {
 

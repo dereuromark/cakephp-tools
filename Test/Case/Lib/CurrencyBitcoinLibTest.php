@@ -12,7 +12,6 @@ class CurrencyBitcoinLibTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * 2011-10-07 ms
 	 */
 	public function testBitmarket() {
 		$this->out($this->_header('bitmarket - '.$this->CurrencyBitcoin->settings['currency']), true);
@@ -22,7 +21,6 @@ class CurrencyBitcoinLibTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * 2011-10-07 ms
 	 */
 	public function testBitcoincharts() {
 		$this->debug($this->_header('bitcoincharts - '.$this->CurrencyBitcoin->settings['currency']), true);
@@ -32,7 +30,6 @@ class CurrencyBitcoinLibTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * 2011-10-07 ms
 	 */
 	public function testRate() {
 		$this->skipIf(true, 'TODO!');

@@ -29,7 +29,6 @@ App::uses('ModelBehavior', 'Model');
  * @license MIT
  * @cakephp 2.x
  * @deprecated Use NumberFormatBehavior instead!
- * 2012-12-05 ms
  */
 class DecimalInputBehavior extends ModelBehavior {
 

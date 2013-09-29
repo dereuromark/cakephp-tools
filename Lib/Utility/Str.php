@@ -1,7 +1,6 @@
 <?php
 /**
  * Draft 0.2 for PHP argument order fix
- * 2012-04-14 ms
  */
 
 /**
@@ -20,7 +19,6 @@
  * - chr and lastChr
  * - pos, lastPos and iLastPos
  *
- * 2012-04-13 ms
  */
 final class Str {
 

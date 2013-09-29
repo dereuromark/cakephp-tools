@@ -32,7 +32,6 @@ class QrCodeHelperTest extends MyCakeTestCase {
 
 	/**
 	 * @return void
-	 * 2009-07-30 ms
 	 */
 	public function testSetSize() {
 		$is = $this->QrCode->setSize(1000);
@@ -47,7 +46,6 @@ class QrCodeHelperTest extends MyCakeTestCase {
 
 	/**
 	 * @return void
-	 * 2009-07-30 ms
 	 */
 	public function testImages() {
 		$this->QrCode->reset();
@@ -68,7 +66,6 @@ class QrCodeHelperTest extends MyCakeTestCase {
 
 	/**
 	 * @return void
-	 * 2009-07-30 ms
 	 */
 	public function testImagesModified() {
 		$this->QrCode->reset();
@@ -121,7 +118,6 @@ class QrCodeHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * 2011-07-19 ms
 	 */
 	public function testBitcoin() {
 		$this->QrCode->reset();

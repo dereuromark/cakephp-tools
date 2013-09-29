@@ -1187,7 +1187,6 @@ class ImapSource extends DataSource {
 
 	/**
 	 * @see http://www.nerdydork.com/download-pop3imap-email-attachments-with-php.html
-	 * 2011-09-02 ms
 	 */
 	protected function _decodeString($message, $coding) {
 		switch ($coding) {

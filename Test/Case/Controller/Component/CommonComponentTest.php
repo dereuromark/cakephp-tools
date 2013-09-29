@@ -6,7 +6,6 @@ App::uses('AppController', 'Controller');
 App::uses('AppModel', 'Model');
 
 /**
- * 2010-11-10 ms
  */
 class CommonComponentTest extends CakeTestCase {
 

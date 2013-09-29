@@ -173,7 +173,6 @@ class MyModelTest extends MyCakeTestCase {
 	 * Test that 2.x invalidates() can behave like 1.x invalidates()
 	 * and that you are able to abort on single errors (similar to using last=>true)
 	 *
-	 * 2013-02-19 ms
 	 */
 	public function testInvalidates() {
 		$TestModel = new AppTestModel();

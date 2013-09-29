@@ -7,7 +7,6 @@ App::uses('NumberHelper', 'View/Helper');
  * Todo: rename to MyNumberHelper some day?
  * Aliasing it then as Number again in the project
  *
- * 2012-04-08 ms
  */
 class NumericHelper extends NumberHelper {
 

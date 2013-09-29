@@ -20,7 +20,6 @@ class FormatHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * 2009-08-30 ms
 	 */
 	public function testDisabledLink() {
 		$content = 'xyz';
@@ -37,7 +36,6 @@ class FormatHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * 2009-08-30 ms
 	 */
 	public function testWarning() {
 		$content = 'xyz';
@@ -53,7 +51,6 @@ class FormatHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * 2009-08-30 ms
 	 */
 	public function testFontIcon() {
 		$result = $this->Format->fontIcon('signin');
@@ -70,7 +67,6 @@ class FormatHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * 2009-08-30 ms
 	 */
 	public function testOk() {
 		$content = 'xyz';
@@ -111,7 +107,6 @@ class FormatHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * 2009-08-30 ms
 	 */
 	public function testShortenText() {
 		$data = array(
@@ -130,7 +125,6 @@ class FormatHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * 2009-08-30 ms
 	 */
 	public function testTruncate() {
 		$data = array(
@@ -155,7 +149,6 @@ class FormatHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * 2009-08-30 ms
 	 */
 	public function testHideEmail() {
 		$mails = array(
@@ -173,7 +166,6 @@ class FormatHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * 2009-08-30 ms
 	 */
 	public function testWordCensor() {
 		$data = array(
@@ -192,7 +184,6 @@ class FormatHelperTest extends MyCakeTestCase {
 	}
 
 /**
- * 2009-03-11 ms
  */
 /*
 	public function testReverseAscii() {
@@ -214,7 +205,6 @@ class FormatHelperTest extends MyCakeTestCase {
 */
 
 	/**
-	 * 2009-03-11 ms
 	 */
 /*
 	public function testDecodeEntities() {

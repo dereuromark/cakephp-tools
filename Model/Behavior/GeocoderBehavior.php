@@ -10,7 +10,6 @@ App::uses('GeocodeLib', 'Tools.Lib');
  * @author Mark Scherer
  * @cakephp 2.x
  * @licence MIT
- * 2011-01-13 ms
  */
 class GeocoderBehavior extends ModelBehavior {
 

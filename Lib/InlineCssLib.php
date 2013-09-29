@@ -10,7 +10,6 @@
  * @author Mark Scherer
  * @copyright Mark Scherer
  * @license MIT
- * 2012-02-19 ms
  */
 class InlineCssLib {
 
@@ -42,7 +41,6 @@ class InlineCssLib {
 
 	/**
 	 * @return string Result
-	 * 2012-01-29 ms
 	 */
 	public function process($html, $css = null) {
 		if (($html = trim($html)) === '') {
@@ -54,7 +52,6 @@ class InlineCssLib {
 
 	/**
 	 * @return string Result
-	 * 2012-01-29 ms
 	 */
 	protected function _processEmogrifier($html, $css) {
 		$css .= $this->_extractAndRemoveCss($html);
@@ -113,7 +110,6 @@ class InlineCssLib {
 	 * //maybe move to Tools.Utility/String/Text?
 	 *
 	 * @return string cleanedStr
-	 * 2012-01-29 ms
 	 */
 	public function stripOnly($str, $tags, $stripContent = false) {
 		$content = '';

@@ -7,7 +7,6 @@
  *
  * @license MIT
  * @cakephp 2.x
- * 2011-07-16 ms
  */
 class CurlLib {
 
@@ -191,7 +190,6 @@ class CurlLib {
 	 *
 	 * @param url
 	 * @return mixed
-	 * 2012-06-06 ms
 	 */
 	public function referer($url = null) {
 		if ($url === null) {

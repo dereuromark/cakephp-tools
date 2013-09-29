@@ -11,7 +11,6 @@ class HazardLibTest extends CakeTestCase {
 	}
 
 	/**
-	 * 2010-02-07 ms
 	 */
 	public function _testParse() {
 
@@ -22,7 +21,6 @@ class HazardLibTest extends CakeTestCase {
 	}
 
 	/**
-	 * 2010-02-07 ms
 	 */
 	public function testXssStrings() {
 

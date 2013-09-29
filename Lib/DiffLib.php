@@ -14,7 +14,6 @@
  *
  * @author Mark Scherer
  * @license MIT
- * 2010-09-04 ms
  */
 class DiffLib {
 
@@ -81,7 +80,6 @@ class DiffLib {
 	 * 'unified', 'inline', 'context', 'sidebyside'
 	 * defaults to "inline"
 	 * @return boolean true on success, false otherwise
-	 * 2010-01-12 ms
 	 */
 	public function renderType($type = null) {
 		if ($type === null) {
@@ -101,7 +99,6 @@ class DiffLib {
 	 * 'auto', 'native', 'xdiff', 'shell', 'string'
 	 * defaults to "auto"
 	 * @return boolean true on success, false otherwise
-	 * 2010-01-12 ms
 	 */
 	public function engineType($type = null) {
 		if ($type === null) {

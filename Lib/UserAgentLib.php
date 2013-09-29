@@ -11,7 +11,6 @@ App::uses('CakeRequest', 'Network');
  * @license MIT
  * @cakephp 2
  *
- * 2011-04-05 ms
  */
 class UserAgentLib extends CakeRequest {
 
@@ -55,7 +54,6 @@ class UserAgentLib extends CakeRequest {
 	/**
 	 * better handling of mobile agents
 	 * including whitelist and blacklist
-	 * 2011-04-05 ms
 	 */
 	public function isMobile() {
 		$devices = $this->getMobileDevices();
@@ -69,7 +67,6 @@ class UserAgentLib extends CakeRequest {
 	* @param string $userAgent
 	* @return string
 	* //TODO use browscap here too if necessary
-	* 2009-12-26 ms
 	*/
 	public function getAgent($agent) {
 		if (empty($agent)) {
@@ -87,7 +84,6 @@ class UserAgentLib extends CakeRequest {
 	* checks user against known platforms
 	* @param string $userAgent
 	* @return string
-	* 2010-09-21 ms
 	*/
 	public function getPlatform($agent) {
 		if (strpos($agent, "Win95") || strpos($agent, "Windows 95")) {
@@ -126,7 +122,6 @@ class UserAgentLib extends CakeRequest {
 	/**
 	 * fetches url with curl if available
 	 * fallbacks: cake and php
-	 * 2010-09-09 ms
 	 */
 	public function getMobileDevices() {
 		$is = array(); //$this->RequestHandler->mobileUA;

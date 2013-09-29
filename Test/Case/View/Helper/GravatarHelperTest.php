@@ -15,7 +15,6 @@ App::uses('View', 'View');
 /**
  * Gravatar Test Case
  *
- * 2010-05-27 ms
  */
 class GravatarHelperTest extends MyCakeTestCase {
 
@@ -40,7 +39,6 @@ class GravatarHelperTest extends MyCakeTestCase {
 
 	/**
 	 * @return void
-	 * 2009-07-30 ms
 	 */
 	public function testDefaultImages() {
 
@@ -56,7 +54,6 @@ class GravatarHelperTest extends MyCakeTestCase {
 
 	/**
 	 * @return void
-	 * 2009-07-30 ms
 	 */
 	public function testImages() {
 		$is = $this->Gravatar->image(GARBIGE_TEST_EMAIL);

@@ -36,7 +36,6 @@ App::uses('AppShell', 'Console/Command');
  * @cakephp 2.x
  * @author Mark Scherer
  * @license MIT
- * 2011-11-04 ms
  */
 class IndentShell extends AppShell {
 
@@ -140,7 +139,6 @@ class IndentShell extends AppShell {
 	 * NEW TRY!
 	 * idea: just count spaces and replace those
 	 *
-	 * 2010-09-12 ms
 	 */
 	protected function _correctFiles() {
 		foreach ($this->_files as $file) {
@@ -202,7 +200,6 @@ class IndentShell extends AppShell {
 	 * idea: hardcore replaceing
 	 *
 	 * @deprecated
-	 * 2010-09-12 ms
 	 */
 	protected function _processSpaceErrors($piece) {
 		$space = 1;
@@ -222,7 +219,6 @@ class IndentShell extends AppShell {
 	 * idea: strip tabs and spaces, remember their amount and add tabs again!
 	 *
 	 * @deprecated
-	 * 2010-09-12 ms
 	 */
 	protected function _correctFilesTry() {
 		foreach ($this->_files as $file) {

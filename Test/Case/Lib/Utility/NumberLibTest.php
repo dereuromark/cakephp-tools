@@ -56,7 +56,6 @@ class NumberLibTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * 2012-04-06 ms
 	 */
 	public function testToPercentage() {
 		$is = NumberLib::toPercentage(22.11, 2, '.');
@@ -73,7 +72,6 @@ class NumberLibTest extends MyCakeTestCase {
 	}
 
 	/**
-	 *2011-04-14 lb
 	 */
 	public function testRoundTo() {
 		//increment = 10
@@ -105,7 +103,6 @@ class NumberLibTest extends MyCakeTestCase {
 	}
 
 	/**
-	 *2011-04-14 lb
 	 */
 	public function testRoundUpTo() {
 		//increment = 10
@@ -137,7 +134,6 @@ class NumberLibTest extends MyCakeTestCase {
 	}
 
 	/**
-	 *2011-04-14 lb
 	 */
 	public function testRoundDownTo() {
 		//increment = 10
@@ -169,7 +165,6 @@ class NumberLibTest extends MyCakeTestCase {
 	}
 
 	/**
-	 *2011-04-15 lb
 	 */
 	public function testGetDecimalPlaces() {
 		$values = array(

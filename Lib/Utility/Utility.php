@@ -8,7 +8,6 @@ App::uses('Router', 'Routing');
  *
  * @author Mark Scherer
  * @license MIT
- * 2012-02-27 ms
  */
 class Utility {
 
@@ -100,7 +99,6 @@ class Utility {
 	 *
 	 * @param boolean $safe
 	 * @return string IP address
-	 * 2011-11-02 ms
 	 */
 	public static function getClientIp($safe = true) {
 		if (!$safe && env('HTTP_X_FORWARDED_FOR')) {
@@ -128,7 +126,6 @@ class Utility {
 	 *
 	 * @param boolean $full (defaults to false and leaves the url untouched)
 	 * @return string referer (local or foreign)
-	 * 2011-11-02 ms
 	 */
 	public static function getReferer($full = false) {
 		$ref = env('HTTP_REFERER');
@@ -151,7 +148,6 @@ class Utility {
 	 *
 	 * @param string $url
 	 * @return string Cleaned Url
-	 * 2009-12-22 ms
 	 */
 	public static function cleanUrl($url, $headerRedirect = false) {
 		if ($url === '' || $url === 'http://' || $url === 'http://www' || $url === 'http://www.') {
@@ -188,7 +184,6 @@ class Utility {
 	 *
 	 * @param string $url
 	 * @return mixed array of headers or FALSE on failure
-	 * 2009-12-26 ms
 	 */
 	public static function getHeaderFromUrl($url) {
 		$url = @parse_url($url);
@@ -230,7 +225,6 @@ class Utility {
 	 * Add protocol prefix if necessary (and possible)
 	 *
 	 * @param string $url
-	 * 2010-06-02 ms
 	 */
 	public static function autoPrefixUrl($url, $prefix = null) {
 		if ($prefix === null) {
@@ -254,7 +248,6 @@ class Utility {
 	 *
 	 * @param string $string Unsafe string
 	 * @return string Encoded string
-	 * 2012-10-23 ms
 	 */
 	public static function urlEncode($string) {
 		return str_replace(array('/', '='), array('-', '_'), base64_encode($string));
@@ -269,7 +262,6 @@ class Utility {
 	 *
 	 * @param string $string Safe string
 	 * @return string Decoded string
-	 * 2012-10-23 ms
 	 */
 	public static function urlDecode($string) {
 		return base64_decode(str_replace(array('-', '_'), array('/', '='), $string));
@@ -281,7 +273,6 @@ class Utility {
 	 *
 	 * @param array $array
 	 * @return boolean Result
-	 * 2011-11-02 ms
 	 */
 	public static function logicalAnd($array) {
 		if (empty($array)) {
@@ -302,7 +293,6 @@ class Utility {
 	 * @param array $array
 	 * @return boolean Result
 	 *
-	 * 2011-11-02 ms
 	 */
 	public static function logicalOr($array) {
 		foreach ($array as $result) {
@@ -319,7 +309,6 @@ class Utility {
 	 *
 	 * @param array
 	 * @return boolean
-	 * 2012-10-12 ms
 	 */
 	public static function isValidSaveAll($array) {
 		if (empty($array)) {
@@ -343,7 +332,6 @@ class Utility {
 	 * @param mixed $value
 	 * @param string $type
 	 * @return safe value for DB query, or NULL if type was not a valid one
-	 * 2008-12-12 ms
 	 */
 	public static function typeCast($value, $type) {
 		switch ($type) {
@@ -374,7 +362,6 @@ class Utility {
 	/**
 	 * Trim recursivly
 	 *
-	 * 2009-07-07 ms
 	 */
 	public static function trimDeep($value) {
 		$value = is_array($value) ? array_map('self::trimDeep', $value) : trim($value);
@@ -384,7 +371,6 @@ class Utility {
 	/**
 	 * h() recursivly
 	 *
-	 * 2009-07-07 ms
 	 */
 	public static function specialcharsDeep($value) {
 		$value = is_array($value) ? array_map('self::specialcharsDeep', $value) : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
@@ -394,7 +380,6 @@ class Utility {
 	/**
 	 * Removes all except A-Z,a-z,0-9 and allowedChars (allowedChars array) recursivly
 	 *
-	 * 2009-07-07 ms
 	 */
 	public static function paranoidDeep($value) {
 		$value = is_array($value) ? array_map('self::paranoidDeep', $value) : Sanatize::paranoid($value, $this->allowedChars);
@@ -404,7 +389,6 @@ class Utility {
 	/**
 	 * Transfers/removes all < > from text (remove TRUE/FALSE)
 	 *
-	 * 2009-07-07 ms
 	 */
 	public static function htmlDeep($value) {
 		$value = is_array($value) ? array_map('self::htmlDeep', $value) : Sanatize::html($value, $this->removeChars);
@@ -414,7 +398,6 @@ class Utility {
 	/**
 	 * main deep method
 	 *
-	 * 2009-07-07 ms
 	 */
 	public static function deep($function, $value) {
 		$value = is_array($value) ? array_map('self::' . $function, $value) : $function($value);
@@ -427,7 +410,6 @@ class Utility {
 	 * @param array $array to flatten
 	 * @param boolean $perserveKeys
 	 * @return array
-	 * 2011-07-02 ms
 	 */
 	public static function arrayFlatten($array, $preserveKeys = false) {
 		if ($preserveKeys) {
@@ -472,7 +454,6 @@ class Utility {
 	 *
 	 * @param array $keyValuePairs
 	 * @return string key
-	 * 2011-01-22 ms
 	 */
 	public static function arrayShiftKeys(&$array) {
 		foreach ($array as $key => $value) {
@@ -488,7 +469,6 @@ class Utility {
 	 * (to be subtracted right away)
 	 *
 	 * @return float
-	 * 2009-07-07 ms
 	 */
 	public static function microtime($precision = 8) {
 		return round(microtime(true), $precision);
@@ -496,7 +476,6 @@ class Utility {
 
 	/**
 	 * @return void
-	 * 2009-07-07 ms
 	 */
 	public static function startClock() {
 		self::$_counterStartTime = self::microtime();
@@ -504,7 +483,6 @@ class Utility {
 
 	/**
 	 * @return float
-	 * 2009-07-07 ms
 	 */
 	public static function returnElapsedTime($precision = 8, $restartClock = false) {
 		$startTime = self::$_counterStartTime;
@@ -519,7 +497,6 @@ class Utility {
 	 * (to be subtracted right away)
 	 *
 	 * @return float
-	 * 2009-07-07 ms
 	 */
 	public static function calcElapsedTime($start, $end, $precision = 8) {
 		$elapsed = $end - $start;

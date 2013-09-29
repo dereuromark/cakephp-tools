@@ -12,7 +12,6 @@ App::uses('Utility', 'Tools.Utility');
  * @copyright 2012 Mark Scherer
  * @license MIT
  *
- * 2012-02-08 ms
  */
 class CommonComponent extends Component {
 
@@ -27,7 +26,6 @@ class CommonComponent extends Component {
 	/**
 	 * for automatic startup
 	 * for this helper the controller has to be passed as reference
-	 * 2009-12-19 ms
 	 */
 	public function initialize(Controller $Controller) {
 		parent::initialize($Controller);
@@ -38,7 +36,6 @@ class CommonComponent extends Component {
 	/**
 	 * for this helper the controller has to be passed as reference
 	 * for manual startup with $disableStartup = true (requires this to be called prior to any other method)
-	 * 2009-12-19 ms
 	 */
 	public function startup(Controller $Controller = null) {
 		/** DATA PREPARATION **/
@@ -129,7 +126,6 @@ class CommonComponent extends Component {
 	 * Doesn't matter if its post or put.
 	 *
 	 * @return boolean isPost
-	 * 2011-12-09 ms
 	 */
 	public function isPosted() {
 		return $this->Controller->request->is('post') || $this->Controller->request->is('put');
@@ -147,7 +143,6 @@ class CommonComponent extends Component {
 	 * @param STRING messagestring
 	 * @param STRING class ['error', 'warning', 'success', 'info']
 	 * @return void
-	 * 2008-11-06 ms
 	 */
 	public function flashMessage($messagestring, $class = null) {
 		switch ($class) {
@@ -175,7 +170,6 @@ class CommonComponent extends Component {
 	 * @param STRING messagestring
 	 * @param STRING class ['error', 'warning', 'success', 'info']
 	 * @return void
-	 * 2010-05-01 ms
 	 */
 	public static function transientFlashMessage($messagestring, $class = null) {
 		switch ($class) {
@@ -200,7 +194,6 @@ class CommonComponent extends Component {
 	 * add helper just in time (inside actions - only when needed)
 	 * aware of plugins
 	 * @param mixed $helpers (single string or multiple array)
-	 * 2010-10-06 ms
 	 */
 	public function loadHelper($helpers = array()) {
 		$this->Controller->helpers = array_merge($this->Controller->helpers, (array)$helpers);
@@ -212,7 +205,6 @@ class CommonComponent extends Component {
 	 * ONLY works if constructor consists only of one param (settings)!
 	 * @param mixed $libs (single string or multiple array)
 	 * e.g.: array('Tools.MyLib'=>array('key'=>'value'), ...)
-	 * 2010-11-10 ms
 	 */
 	public function loadLib($libs = array()) {
 		foreach ((array)$libs as $lib => $config) {
@@ -239,7 +231,6 @@ class CommonComponent extends Component {
 	 * aware of plugins and config array (if passed)
 	 * @param mixed $components (single string or multiple array)
 	 * @poaram bool $callbacks (defaults to true)
-	 * 2011-11-02 ms
 	 */
 	public function loadComponent($components = array(), $callbacks = true) {
 		foreach ((array)$components as $component => $config) {
@@ -301,7 +292,6 @@ class CommonComponent extends Component {
 	 * Return defaultUrlParams including configured prefixes.
 	 *
 	 * @return array Url params
-	 * 2011-11-02 ms
 	 */
 	public static function defaultUrlParams() {
 		$defaults = array('plugin' => false);
@@ -318,7 +308,6 @@ class CommonComponent extends Component {
 	 *
 	 * @param boolean $asString: defaults to false = array
 	 * @return mixed Url
-	 * 2009-12-26 ms
 	 */
 	public function currentUrl($asString = false) {
 		if (isset($this->Controller->request->params['prefix']) && mb_strpos($this->Controller->request->params['action'], $this->Controller->request->params['prefix']) === 0) {
@@ -372,7 +361,6 @@ class CommonComponent extends Component {
 	 * @param array $settings Settings for DirectAuthentication
 	 * - fields
 	 * @return boolean Success
-	 * 2012-11-05 ms
 	 */
 	public function manualLogin($id, $settings = array()) {
 		$requestData = $this->Controller->request->data;
@@ -426,7 +414,6 @@ class CommonComponent extends Component {
 	 * @param boolean $allowSelf if redirect to the same controller/action (url) is allowed
 	 * @param integer $status
 	 * returns nothing and automatically redirects
-	 * 2010-11-06 ms
 	 */
 	public function autoRedirect($whereTo, $allowSelf = true, $status = null) {
 		if ($allowSelf || $this->Controller->referer(null, true) !== '/' . $this->Controller->request->url) {
@@ -442,7 +429,6 @@ class CommonComponent extends Component {
 	 * @param mixed $url
 	 * @param integer $status
 	 * TODO: change to 303 with backwardscompatability for older browsers...
-	 * 2011-06-14 ms
 	 */
 	public function postRedirect($whereTo, $status = 302) {
 		$this->Controller->redirect($whereTo, $status);
@@ -454,7 +440,6 @@ class CommonComponent extends Component {
 	 * @param mixed $url
 	 * @param boolean $conditionalAutoRedirect false to skip whitelisting
 	 * @param integer $status
-	 * 2012-03-17 ms
 	 */
 	public function autoPostRedirect($whereTo, $conditionalAutoRedirect = true, $status = 302) {
 		$referer = $this->Controller->referer($whereTo, true);
@@ -521,7 +506,6 @@ class CommonComponent extends Component {
 	 *
 	 * @see http://en.wikipedia.org/wiki/Post/Redirect/Get
 	 * TODO: change to 303 with backwardscompatability for older browsers...
-	 * 2011-08-10 ms
 	 */
 	public function prgRedirect($status = 302) {
 		if (!empty($_COOKIE[Configure::read('Session.cookie')])) {
@@ -537,7 +521,6 @@ class CommonComponent extends Component {
 	 * - title (10), description (9), robots(7), language(5), keywords (0)
 	 * - custom: abstract (1), category(1), GOOGLEBOT(0) ...
 	 * @return void
-	 * 2010-12-29 ms
 	 */
 	public function setMeta($type, $content, $prep = true) {
 		if (!in_array($type, array('title', 'canonical', 'description', 'keywords', 'robots', 'language', 'custom'))) {
@@ -580,7 +563,6 @@ class CommonComponent extends Component {
 	 *
 	 * @param integer $seconds
 	 * @return void
-	 * 2009-12-26 ms
 	 */
 	public function forceCache($seconds = HOUR) {
 		header('Cache-Control: public, max-age=' . $seconds);
@@ -593,7 +575,6 @@ class CommonComponent extends Component {
 	 * Only returns true for a valid external referrer.
 	 *
 	 * @return boolean Success
-	 * 2009-12-19 ms
 	 */
 	public function isForeignReferer($ref = null) {
 		if ($ref === null) {
@@ -651,7 +632,6 @@ class CommonComponent extends Component {
 	 * //todo: move to Utility?
 	 *
 	 * @return boolean true if disabled (bots, etc), false if enabled
-	 * 2010-11-20 ms
 	 */
 	public static function cookiesDisabled() {
 		if (!empty($_COOKIE) && !empty($_COOKIE[Configure::read('Session.cookie')])) {
@@ -664,7 +644,6 @@ class CommonComponent extends Component {
 	 * quick sql debug from controller dynamically
 	 * or statically from just about any other place in the script
 	 * @param boolean $die: TRUE to output and die, FALSE to log to file and continue
-	 * 2011-06-30 ms
 	 */
 	public function sql($die = true) {
 		if (isset($this->Controller)) {
@@ -696,7 +675,6 @@ class CommonComponent extends Component {
 	 * TODO: move
 	 *
 	 * @return boolean Success
-	 * 2010-05-07 ms
 	 */
 	public function ensureCacheIsOk() {
 		$x = Cache::read('xyz012345');
@@ -712,7 +690,6 @@ class CommonComponent extends Component {
 	 * Localize
 	 *
 	 * @return boolean Success
-	 * 2010-04-29 ms
 	 */
 	 public function localize($lang = null) {
 		if ($lang === null) {
@@ -743,7 +720,6 @@ class CommonComponent extends Component {
 	 * still needed?
 	 *
 	 * @return void
-	 * 2010-01-01 ms
 	 */
 	public function ensureDefaultLanguage() {
 		if (!isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
@@ -753,7 +729,6 @@ class CommonComponent extends Component {
 
 	/**
 	 * main controller function for consistency in controller naming
-	 * 2009-12-19 ms
 	 */
 	public function ensureControllerConsistency() {
 		# problems with plugins
@@ -790,7 +765,6 @@ class CommonComponent extends Component {
 	/**
 	 * main controller function for seo-slugs
 	 * passed titleSlug != current title => redirect to the expected one
-	 * 2009-07-31 ms
 	 */
 	public function ensureConsistency($id, $passedTitleSlug, $currentTitle) {
 		$expectedTitle = slug($currentTitle);
@@ -813,7 +787,6 @@ class CommonComponent extends Component {
 	 * @param string $key
 	 * @param array $matching
 	 * @return string result
-	 * 2011-03-12 ms
 	 */
 	public static function getGroup($multiDimArray, $key, $matching = array()) {
 		if (!is_array($multiDimArray) || empty($key)) {
@@ -837,7 +810,6 @@ class CommonComponent extends Component {
 
 	/**
 	 * move to boostrap?
-	 * 2009-07-07 ms
 	 */
 	public function trimDeep($value) {
 		$value = is_array($value) ? array_map(array($this, 'trimDeep'), $value) : trim($value);
@@ -846,7 +818,6 @@ class CommonComponent extends Component {
 
 	/**
 	 * move to boostrap?
-	 * 2009-07-07 ms
 	 */
 	public function specialcharsDeep($value) {
 		$value = is_array($value) ? array_map(array($this, 'specialcharsDeep'), $value) : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
@@ -855,7 +826,6 @@ class CommonComponent extends Component {
 
 	/**
 	 * move to boostrap?
-	 * 2009-07-07 ms
 	 */
 	public function deep($function, $value) {
 		$value = is_array($value) ? array_map(array($this, $function), $value) : $function($value);
@@ -866,7 +836,6 @@ class CommonComponent extends Component {
 	 * MAIN Sanitize Array-FUNCTION
 	 * @param string $type: html, paranoid
 	 * move to boostrap?
-	 * 2008-11-06 ms
 	 */
 	public function sanitizeDeep($value, $type = null, $options = null) {
 		switch ($type) {
@@ -889,7 +858,6 @@ class CommonComponent extends Component {
 	/**
 	 * removes all except A-Z,a-z,0-9 and allowedChars (allowedChars array)
 	 * move to boostrap?
-	 * 2009-07-07 ms
 	 */
 	public function paranoidDeep($value) {
 		$mrClean = new Sanitize();
@@ -900,7 +868,6 @@ class CommonComponent extends Component {
 	/**
 	 * transfers/removes all < > from text (remove TRUE/FALSE)
 	 * move to boostrap?
-	 * 2009-07-07 ms
 	 */
 	public function htmlDeep($value) {
 		$mrClean = new Sanitize();
@@ -917,7 +884,6 @@ class CommonComponent extends Component {
 	 * @param boolean $camelize (true/false): problems with äöüß etc!
 	 * @return array results as array list
 	 * //TODO: 3.4. parameter as array, move to Lib
-	 * 2009-08-13 ms
 	 */
 	public function parseList($string, $separator = null, $camelize = false, $capitalize = true) {
 		if ($separator === null) {
@@ -951,7 +917,6 @@ class CommonComponent extends Component {
 	/**
 	 * //todo move to lib!!!
 	 * static
-	 * 2009-12-21 ms
 	 */
 	public function separators($s = null, $valueOnly = false) {
 		$separatorsValues = array(SEPARATOR_COMMA => ',', SEPARATOR_SEMI => ';', SEPARATOR_SPACE => ' ', SEPARATOR_TAB => TB, SEPARATOR_NL => NL);
@@ -975,7 +940,6 @@ class CommonComponent extends Component {
 
 	/**
 	 * add protocol prefix if necessary (and possible)
-	 * 2010-06-02 ms
 	 */
 	public function autoPrefixUrl($url, $prefix = null) {
 		trigger_error('deprecated - use Utility::autoPrefixUrl()');
@@ -984,7 +948,6 @@ class CommonComponent extends Component {
 
 	/**
 	 * remove unnessary stuff + add http:// for external urls
-	 * 2009-12-22 ms
 	 */
 	public static function cleanUrl($url, $headerRedirect = false) {
 		trigger_error('deprecated - use Utility::cleanUrl()');
@@ -992,7 +955,6 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * 2009-12-26 ms
 	 */
 	public static function getHeaderFromUrl($url) {
 		trigger_error('deprecated - use Utility::getHeaderFromUrl()');
@@ -1003,7 +965,6 @@ class CommonComponent extends Component {
 	 * get the current ip address
 	 * @param boolean $safe
 	 * @return string ip
-	 * 2011-11-02 ms
 	 */
 	public static function getClientIp($safe = null) {
 		trigger_error('deprecated - use Utility::getClientIp()');
@@ -1014,7 +975,6 @@ class CommonComponent extends Component {
 	 * get the current referer
 	 * @param boolean $full (defaults to false and leaves the url untouched)
 	 * @return string referer (local or foreign)
-	 * 2011-11-02 ms
 	 */
 	public static function getReferer($full = false) {
 		trigger_error('deprecated - use Utility::getReferer()');
@@ -1025,7 +985,6 @@ class CommonComponent extends Component {
 	 * returns true only if all values are true
 	 * @return boolean result
 	 * maybe move to bootstrap?
-	 * 2011-11-02 ms
 	 */
 	public static function logicalAnd($array) {
 		trigger_error('deprecated - use Utility::logicalAnd()');
@@ -1036,7 +995,6 @@ class CommonComponent extends Component {
 	 * returns true if at least one value is true
 	 * @return boolean result
 	 * maybe move to bootstrap?
-	 * 2011-11-02 ms
 	 */
 	public static function logicalOr($array) {
 		trigger_error('deprecated - use Utility::logicalOr()');
@@ -1047,7 +1005,6 @@ class CommonComponent extends Component {
 	 * Convenience function for automatic casting in form methods etc
 	 * @return safe value for DB query, or NULL if type was not a valid one
 	 * maybe move to bootstrap?
-	 * 2008-12-12 ms
 	 */
 	public static function typeCast($type = null, $value = null) {
 		trigger_error('deprecated - use Utility::typeCast()');
@@ -1084,7 +1041,6 @@ class CommonComponent extends Component {
 	 * @var char array
 	 * @return array: chars with content
 	 * PROTECTED NAMES (content cannot contain those): undefined
-	 * 2009-12-26 ms
 	 */
 	public function assignToChar($content_array, $char_array = null) {
 		$res = array();
@@ -1137,7 +1093,6 @@ class CommonComponent extends Component {
 	 * expects email to be valid!
 	 * TODO: move to Lib
 	 * @return array email - pattern: array('email'=>,'name'=>)
-	 * 2010-04-20 ms
 	 */
 	public function splitEmail($email, $abortOnError = false) {
 		$array = array('email'=>'', 'name'=>'');
@@ -1185,7 +1140,6 @@ class CommonComponent extends Component {
 	 * @param string $email: well formatted email! (containing one @ and one .)
 	 * @param string $type (TODO: defaults to return all elements)
 	 * @returns string or false on failure
-	 * 2010-01-10 ms
 	 */
 	public function extractEmailInfo($email, $type = null) {
 		//$checkpos = strrpos($email, '@');
@@ -1259,7 +1213,6 @@ class CommonComponent extends Component {
 	 * @param integer $length (if no type is submitted)
 	 * @return pwd on success, empty string otherwise
 	 * @deprecated - use RandomLib
-	 * 2009-12-26 ms
 	 */
 	public static function pwd($type = null, $length = null) {
 		trigger_error('deprecated');
@@ -1277,7 +1230,6 @@ class CommonComponent extends Component {
 	 * TODO: move to Lib
 	 * Checks if string contains @ sign
 	 * @return true if at least one @ is in the string, false otherwise
-	 * 2009-12-26 ms
 	 */
 	public static function containsAtSign($string = null) {
 		if (!empty($string) && strpos($string, '@') !== false) {
@@ -1292,7 +1244,6 @@ class CommonComponent extends Component {
 	 * 192.111.111.111 => 192-111-111-111
 	 * 4C00:0207:01E6:3152 => 4C00+0207+01E6+3152
 	 * @return string sluggedIp
-	 * 2010-06-19 ms
 	 */
 	public function slugIp($ip) {
 		trigger_error('deprecated');
@@ -1303,7 +1254,6 @@ class CommonComponent extends Component {
 	/**
 	 * @deprecated - use IpLip instead!
 	 * @return string ip on success, FALSE on failure
-	 * 2010-06-19 ms
 	 */
 	public function unslugIp($ip) {
 		trigger_error('deprecated');
@@ -1331,7 +1281,6 @@ class CommonComponent extends Component {
 	 *
 	 * @param integer $code: 100...505
 	 * @return array codes if code is NULL, otherwise string $code (empty string on failure)
-	 * 2009-07-21 ms
 	 */
 	public function responseCodes($code = null, $autoTranslate = false) {
 		//TODO: use core ones Controller::httpCodes
@@ -1403,7 +1352,6 @@ class CommonComponent extends Component {
 	/**
 	 * Get the Corresponding Message to an HTTP Error Code
 	 * @param integer $code: 4xx...5xx
-	 * 2010-06-08 ms
 	 */
 	public function smtpResponseCodes($code = null, $autoTranslate = false) {
 		# 550 5.1.1 User is unknown

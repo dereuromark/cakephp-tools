@@ -4,7 +4,6 @@ App::uses('ExcelReaderLib', 'Tools.Lib');
 
 /**
  * testing basic functions
- * 2011-05-09 ms
  */
 class ExcelReaderLibTest extends MyCakeTestCase {
 

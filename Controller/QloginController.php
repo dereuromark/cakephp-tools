@@ -25,7 +25,6 @@ class QloginController extends ToolsAppController {
 
 	/**
 	 * main login function
-	 * 2011-07-11 ms
 	 */
 	public function go($key = null) {
 		if (!$key) {
@@ -65,7 +64,6 @@ class QloginController extends ToolsAppController {
 	 * - user_id
 	 * - url (base64encoded)
 	 *
-	 * 2012-03-04 ms
 	 */
 	public function admin_index() {
 		if ($this->Common->isPosted()) {

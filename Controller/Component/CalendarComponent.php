@@ -11,7 +11,6 @@ App::uses('Component', 'Controller');
  * @copyright 2012 Mark Scherer
  * @license MIT
  *
- * 2012-02-08 ms
  */
 class CalendarComponent extends Component {
 
@@ -90,7 +89,6 @@ class CalendarComponent extends Component {
 	/**
 	 * month as integer value 1..12 or 0 on error
 	 * february => 2
-	 * 2009-12-26 ms
 	 */
 	public function retrieveMonth($string) {
 		if (empty($string)) {
@@ -107,7 +105,6 @@ class CalendarComponent extends Component {
 	/**
 	 * day as integer value 1..31 or 0 on error
 	 * february => 2
-	 * 2009-12-26 ms
 	 */
 	public function retrieveDay($string, $month = null) {
 		if (empty($string)) {
@@ -135,7 +132,6 @@ class CalendarComponent extends Component {
 	/**
 	 * converts integer to x-digit string
 	 * 1 => 01, 12 => 12
-	 * 2009-12-26 ms
 	 */
 	public function asString($number, $digits = 2) {
 		$number = (string )$number;

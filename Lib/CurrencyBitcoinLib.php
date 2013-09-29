@@ -6,7 +6,6 @@ App::uses('HttpSocketLib', 'Tools.Lib');
  *
  * @author Mark Scherer
  * @license MIT
- * 2010-09-19 ms
  */
 class CurrencyBitcoinLib {
 
@@ -17,7 +16,6 @@ class CurrencyBitcoinLib {
 
 	/**
 	 * @see https://bitmarket.eu/api
-	 * 2011-10-06 ms
 	 */
 	public function bitmarket($options = array()) {
 		$options = array_merge($this->settings, $options);
@@ -39,7 +37,6 @@ class CurrencyBitcoinLib {
 	/**
 	 * working
 	 * @see http://bitcoincharts.com/about/markets-api/
-	 * 2011-10-06 ms
 	 */
 	public function bitcoincharts($options = array()) {
 		$options = array_merge($this->settings, $options);
@@ -67,7 +64,6 @@ class CurrencyBitcoinLib {
 	 * @param array $options
 	 * - currency
 	 * - api
-	 * 2011-10-07 ms
 	 */
 	public function rate($options = array()) {
 		$options = array_merge($this->settings, $options);
@@ -90,7 +86,6 @@ class CurrencyBitcoinLib {
 	 * calc BTC relative to 1 baseCurrency
 	 * @param float $value
 	 * @return float relativeValue
-	 * 2011-10-07 ms
 	 */
 	public function calcRate($current) {
 		return 1.0 / (float)$current;
@@ -99,7 +94,6 @@ class CurrencyBitcoinLib {
 	/**
 	 * historic trade data
 	 * @see http://bitcoincharts.com/about/markets-api/
-	 * 2011-10-06 ms
 	 */
 	public function trades() {
 		//TODO

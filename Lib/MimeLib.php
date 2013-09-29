@@ -704,7 +704,6 @@ class MimeLib extends CakeResponse {
 
 	/**
 	 * override constructor
-	 * 2012-02-12 ms
 	 */
 	public function __construct() {
 	}
@@ -713,7 +712,6 @@ class MimeLib extends CakeResponse {
 	 * Get all mime types that are supported right now
 	 *
 	 * @return array
-	 * 2012-02-12 ms
 	 */
 	public function getMimeTypes($coreHasPrecedence = false) {
 		if ($coreHasPrecedence) {

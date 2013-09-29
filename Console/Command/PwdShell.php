@@ -8,7 +8,6 @@ App::uses('ComponentCollection', 'Controller');
  * @cakephp 2.x
  * @author Mark Scherer
  * @license MIT
- * 2011-11-05 ms
  */
 class PwdShell extends AppShell {
 

@@ -195,7 +195,6 @@ class TypographicBehavior extends ModelBehavior {
 	/**
 	 * @param string $input
 	 * @return string cleanedInput
-	 * 2011-12-06 ms
 	 */
 	protected function _prepareInput(Model $Model, $string) {
 		$map = $this->_map['in'];

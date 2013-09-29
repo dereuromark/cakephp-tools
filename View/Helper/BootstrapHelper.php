@@ -16,7 +16,6 @@ App::uses('AppHelper', 'View/Helper');
  * @cakephp 2.x
  * @php 5
  * @version 1.0
- * 2012-03-29 ms
  */
 class BootstrapHelper extends AppHelper {
 
@@ -38,7 +37,6 @@ class BootstrapHelper extends AppHelper {
 	 * - data (array of strings)
 	 * - items (defaults to 8)
 	 * @return string html
-	 * 2012-03-29 ms
 	 */
 	public function typeahead($fieldName, $options = array(), $inputOptions = array()) {
 		$inputOptions['data-provide'] = 'typeahead';
@@ -71,7 +69,6 @@ class BootstrapHelper extends AppHelper {
 	 * @param id
 	 * @param array $options
 	 * @return string html
-	 * 2012-03-29 ms
 	 */
 	public function carousel($items, $id = null, $globalOptions = array()) {
 		$res = '<div id="myCarousel" class="carousel">
@@ -95,7 +92,6 @@ class BootstrapHelper extends AppHelper {
 	 * @param array $items (heading, content, active)
 	 * - active (visible, true/false)
 	 * @return string html
-	 * 2012-03-29 ms
 	 */
 	public function carouselItems($items, $options = array()) {
 		$res = array();
@@ -122,7 +118,6 @@ class BootstrapHelper extends AppHelper {
 	 * @param id
 	 * @param array $options
 	 * @return string html
-	 * 2012-03-29 ms
 	 */
 	public function accordion($records, $id = null, $globalOptions = array()) {
 		$res = '<div class="accordion" id="accordion'.$id.'">';
@@ -143,7 +138,6 @@ class BootstrapHelper extends AppHelper {
 	 * @param array $options
 	 * - active (collapsed, true/false)
 	 * @return string html
-	 * 2012-03-29 ms
 	 */
 	public function accordionGroup($heading, $content, $options = array()) {
 		$i = $this->_count;

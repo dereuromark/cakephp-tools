@@ -30,7 +30,6 @@ App::uses('HazardLib', 'Tools.Lib');
  *
  * @author Mark Scherer
  * @license MIT
- * 2013-02-25 ms
  */
 class HazardableBehavior extends ModelBehavior {
 

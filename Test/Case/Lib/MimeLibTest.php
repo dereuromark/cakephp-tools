@@ -54,7 +54,6 @@ class MimeLibTest extends MyCakeTestCase {
 
 	/**
 	 * test fake files
-	 * 2010-10-22 ms
 	 */
 	public function testCorrectFileExtension() {
 		file_put_contents(TMP.'sometest.txt', 'xyz');
@@ -65,7 +64,6 @@ class MimeLibTest extends MyCakeTestCase {
 
 	/**
 	 * test fake files
-	 * 2010-10-22 ms
 	 */
 	public function testWrongFileExtension() {
 		file_put_contents(TMP.'sometest.zip', 'xyz');
@@ -77,7 +75,6 @@ class MimeLibTest extends MyCakeTestCase {
 
 	/**
 	 * test fake files
-	 * 2010-10-22 ms
 	 */
 	public function testEncoding() {
 		file_put_contents(TMP.'sometest.txt', 'xyz');

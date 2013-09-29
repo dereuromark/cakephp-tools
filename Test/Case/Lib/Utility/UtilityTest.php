@@ -4,7 +4,6 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 /**
  * @covers Utility
- * 2012-02-21 ms
  */
 class UtilityTest extends MyCakeTestCase {
 
