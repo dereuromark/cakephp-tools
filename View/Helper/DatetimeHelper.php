@@ -79,7 +79,7 @@ class DatetimeHelper extends TimeHelper {
 	}
 
 	/**
-	 * returns red/specialGreen/green date depending on the current day
+	 * Returns red/specialGreen/green date depending on the current day
 	 * @param date in DB Format (xxxx-xx-xx)
 	 * ...
 	 * @param array $options
@@ -180,7 +180,7 @@ class DatetimeHelper extends TimeHelper {
 	}
 
 	/**
-	 * takes time as hh:mm:ss
+	 * Takes time as hh:mm:ss
 	 * returns hh:mm
 	 * @param badTime
 	 * returns niceTime

@@ -12,7 +12,7 @@ class TypographyHelperTest extends MyCakeTestCase {
 	public $Typography;
 
 	/**
-	 * setUp method
+	 * SetUp method
 	 *
 	 * @return void
 	 */
@@ -25,7 +25,7 @@ class TypographyHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * tearDown method
+	 * TearDown method
 	 *
 	 * @return void
 	 */
@@ -36,7 +36,7 @@ class TypographyHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * testFormatCharacter method
+	 * TestFormatCharacter method
 	 *
 	 * @return void
 	 */
@@ -87,7 +87,7 @@ class TypographyHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * testAutoTypography method
+	 * TestAutoTypography method
 	 *
 	 * @return void
 	 */
@@ -113,7 +113,7 @@ class TypographyHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * testNl2brExceptPre method
+	 * TestNl2brExceptPre method
 	 *
 	 * @return void
 	 */

@@ -48,7 +48,7 @@ class Token extends ToolsAppModel {
 	);
 
 	/**
-	 * stores new key in DB
+	 * Stores new key in DB
 	 *
 	 * @param string type: necessary
 	 * @param string key: optional key, otherwise a key will be generated
@@ -95,7 +95,7 @@ class Token extends ToolsAppModel {
 	}
 
 	/**
-	 * usesKey (only once!) - by KEY
+	 * UsesKey (only once!) - by KEY
 	 *
 	 * @param string type: necessary
 	 * @param string key: necessary
@@ -139,10 +139,10 @@ class Token extends ToolsAppModel {
 	}
 
 	/**
-	 * sets Key to "used" (only once!) - directly by ID
+	 * Sets Key to "used" (only once!) - directly by ID
 	 *
 	 * @param id of key to spend: necessary
-	 * @return boolean true on success, false otherwise
+	 * @return boolean Success
 	 */
 	public function spendKey($id = null) {
 		if (empty($id)) {
@@ -156,7 +156,7 @@ class Token extends ToolsAppModel {
 	}
 
 	/**
-	 * remove old/invalid keys
+	 * Remove old/invalid keys
 	 * does not remove recently used ones (for proper feedback)!
 	 *
 	 * @return boolean success
@@ -169,7 +169,7 @@ class Token extends ToolsAppModel {
 	}
 
 	/**
-	 * get admin stats
+	 * Get admin stats
 	 */
 	public function stats() {
 		$keys = array();

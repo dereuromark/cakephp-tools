@@ -500,7 +500,7 @@ function endsWith($haystack, $needle, $caseSensitive = false) {
 }
 
 /**
- * base64 encode and replace chars base64 uses that would mess up the url
+ * Base64 encode and replace chars base64 uses that would mess up the url
  * only needed for named params to be safely passed (if urlencode is not used)
  *
  * @deprecated Use Utility::urlEncode().
@@ -515,7 +515,7 @@ function base64UrlEncode($fieldContent) {
 }
 
 /**
- * base64 decode and undo replacing of chars base64 uses that would mess up the url
+ * Base64 decode and undo replacing of chars base64 uses that would mess up the url
  * only needed for named params to be safely passed (if urlencode is not used)
  *
  * @deprecated Use Utility::urlDecode().

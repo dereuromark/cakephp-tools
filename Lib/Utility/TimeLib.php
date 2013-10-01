@@ -41,7 +41,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * gets the timezone that is closest to the given coordinates
+	 * Gets the timezone that is closest to the given coordinates
 	 * @return DateTimeZone Timezone object
 	 */
 	public function timezoneByCoordinates($lat, $lng) {
@@ -141,7 +141,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * try to return the age only with the year available
+	 * Try to return the age only with the year available
 	 * can be e.g. 22/23
 	 * @param integer $year
 	 * @param integer $month (optional)
@@ -188,7 +188,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * rounded age depended on steps (e.g. age 16 with steps = 10 => "11-20")
+	 * Rounded age depended on steps (e.g. age 16 with steps = 10 => "11-20")
 	 * @FIXME
 	 * TODO: move to helper?
 	 */
@@ -220,7 +220,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * return the days of a given month
+	 * Return the days of a given month
 	 * @param integer $year
 	 * @param integer $month
 	 */
@@ -264,7 +264,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * return the timestamp to a day in a specific cweek
+	 * Return the timestamp to a day in a specific cweek
 	 * 0=sunday to 7=saturday (default)
 	 * @return timestamp of the weekDay
 	 * @FIXME: offset
@@ -288,7 +288,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * calculate the beginning of a calenderweek
+	 * Calculate the beginning of a calenderweek
 	 * if no cweek is given get the beginning of the first week of the year
 	 * @param year (format xxxx)
 	 * @param cweek (optional, defaults to first, range 1...52/53)
@@ -314,7 +314,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * calculate the ending of a calenderweek
+	 * Calculate the ending of a calenderweek
 	 * if no cweek is given get the ending of the last week of the year
 	 * @param year (format xxxx)
 	 * @param cweek (optional, defaults to last, range 1...52/53)
@@ -327,7 +327,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * calculate the amount of calender weeks in a year
+	 * Calculate the amount of calender weeks in a year
 	 * @param year (format xxxx, defaults to current year)
 	 * @return integer: 52 or 53
 	 */
@@ -387,7 +387,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * get the age bounds (min, max) as timestamp that would result in the given age(s)
+	 * Get the age bounds (min, max) as timestamp that would result in the given age(s)
 	 * note: expects valid age (> 0 and < 120)
 	 * @param $firstAge
 	 * @param $secondAge (defaults to first one if not specified)
@@ -411,7 +411,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * for birthdays etc
+	 * For birthdays etc
 	 * @param date
 	 * @param string days with +-
 	 * @param options
@@ -424,7 +424,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * outputs Date(time) Sting nicely formatted (+ localized!)
+	 * Outputs Date(time) Sting nicely formatted (+ localized!)
 	 * @param string $dateString,
 	 * @param string $format (YYYY-MM-DD, DD.MM.YYYY)
 	 * @param array $options
@@ -457,7 +457,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * outputs Date(time) Sting nicely formatted
+	 * Outputs Date(time) Sting nicely formatted
 	 * @param string $dateString,
 	 * @param string $format (YYYY-MM-DD, DD.MM.YYYY)
 	 * @param array $options
@@ -506,7 +506,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * return the translation to a specific week day
+	 * Return the translation to a specific week day
 	 * @param integer $day:
 	 * 0=sunday to 7=saturday (default numbers)
 	 * @param boolean $abbr (if abbreviation should be returned)
@@ -547,7 +547,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * return the translation to a specific week day
+	 * Return the translation to a specific week day
 	 * @param integer $month:
 	 * 1..12
 	 * @param boolean $abbr (if abbreviation should be returned)
@@ -630,7 +630,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * can convert time from one unit to another
+	 * Can convert time from one unit to another
 	 * @param integer INT | time
 	 * @param from CHAR
 	 * @param to CHAR
@@ -817,7 +817,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * time length to human readable format
+	 * Time length to human readable format
 	 * @param integer $seconds
 	 * @param string format: format
 	 * @param options
@@ -925,7 +925,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * time relative to NOW in human readable format - absolute (negative as well as positive)
+	 * Time relative to NOW in human readable format - absolute (negative as well as positive)
 	 * //TODO: make "now" adjustable
 	 * @param mixed $datestring
 	 * @param string format: format
@@ -1032,7 +1032,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * try to parse date from various input formats
+	 * Try to parse date from various input formats
 	 * - DD.MM.YYYY, DD/MM/YYYY, YYYY-MM-DD, YYYY, YYYY-MM, ...
 	 * - i18n: Today, Yesterday, Tomorrow
 	 * @param string $date to parse
@@ -1187,7 +1187,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * parse 2,5 - 2.5 2:30 2:31:58 or even 2011-11-12 10:10:10
+	 * Parse 2,5 - 2.5 2:30 2:31:58 or even 2011-11-12 10:10:10
 	 * now supports negative values like -2,5 -2,5 -2:30 -:30 or -4
 	 * @param string
 	 * @return integer: seconds
@@ -1227,7 +1227,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * parse 2022-11-12 or 12.11.2022 or even 12.11.22
+	 * Parse 2022-11-12 or 12.11.2022 or even 12.11.22
 	 * @param string $date
 	 * @return integer: seconds
 	 */
@@ -1257,7 +1257,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * return strings like 2:30 (later //TODO: or 2:33:99) from seconds etc
+	 * Return strings like 2:30 (later //TODO: or 2:33:99) from seconds etc
 	 * @param integer: seconds
 	 * @return string
 	 */
@@ -1280,7 +1280,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * return strings like 2:33:99 from seconds etc
+	 * Return strings like 2:33:99 from seconds etc
 	 * @param integer: seconds
 	 * @return string
 	 */

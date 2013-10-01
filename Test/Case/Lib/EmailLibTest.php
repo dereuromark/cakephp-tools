@@ -278,7 +278,7 @@ class EmailLibTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * html email
+	 * Html email
 	 *
 	 * @return void
 	 */
@@ -391,7 +391,7 @@ html-part
 	}
 
 	/**
-	 * html email
+	 * Html email
 	 *
 	 * @return void
 	 */

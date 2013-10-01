@@ -58,7 +58,7 @@ class MyModelTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * more tests in MyModel Test directly
+	 * More tests in MyModel Test directly
 	 */
 	public function testGetFalse() {
 		$this->App->order = array();
@@ -67,7 +67,7 @@ class MyModelTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * test auto inc value of the current table
+	 * Test auto inc value of the current table
 	 */
 	public function testGetNextAutoIncrement() {
 		$this->out($this->_header(__FUNCTION__), true);
@@ -92,7 +92,7 @@ class MyModelTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * test that strings are correctly escaped using '
+	 * Test that strings are correctly escaped using '
 	 */
 	public function testEscapeValue() {
 		$res = $this->App->escapeValue(4);
@@ -152,7 +152,7 @@ class MyModelTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * test truncate
+	 * Test truncate
 	 */
 	public function testTruncate() {
 		$is = $this->App->find('count');

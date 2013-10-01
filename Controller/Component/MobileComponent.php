@@ -29,7 +29,7 @@ class MobileComponent extends Component {
 	);
 
 	/**
-	 * if false uses subfolders: /View/.../mobile/
+	 * If false uses subfolders: /View/.../mobile/
 	 */
 	public $themed = true;
 

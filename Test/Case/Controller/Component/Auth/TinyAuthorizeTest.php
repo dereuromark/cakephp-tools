@@ -59,7 +59,7 @@ INI;
 	}
 
 	/**
-	 * test applying settings in the constructor
+	 * Test applying settings in the constructor
 	 *
 	 * @return void
 	 */

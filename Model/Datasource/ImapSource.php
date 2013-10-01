@@ -292,7 +292,7 @@ class ImapSource extends DataSource {
 	}
 
 	/**
-	 * describe the data
+	 * Describe the data
 	 *
 	 * @param Model $Model
 	 * @return array The schema of the model
@@ -342,7 +342,7 @@ class ImapSource extends DataSource {
 	}
 
 	/**
-	 * read data
+	 * Read data
 	 *
 	 * this is the main method that reads data from the datasource and
 	 * formats it according to the request from the model.
@@ -541,7 +541,7 @@ class ImapSource extends DataSource {
 	}
 
 	/**
-	 * connect to the mail server
+	 * Connect to the mail server
 	 */
 	public function connect(Model $Model, $query) {
 		if ($this->_isConnected) {
@@ -937,7 +937,7 @@ class ImapSource extends DataSource {
 	}
 
 	/**
-	 * get the basic details like sender and reciver with flags like attatchments etc
+	 * Get the basic details like sender and reciver with flags like attatchments etc
 	 *
 	 * @param integer $uid the number of the message
 	 * @return array empty on error/nothing or array of formatted details
@@ -1244,7 +1244,7 @@ class ImapSource extends DataSource {
 	}
 
 	/**
-	 * get id for use in the mail protocol
+	 * Get id for use in the mail protocol
 	 *
 	 * @param <type> $id
 	 * @return string

@@ -5,7 +5,7 @@ App::uses('HtmlHelper', 'View/Helper');
 App::uses('View', 'View');
 
 /**
- * the core text helper is unsecure and outdated in functionality
+ * The core text helper is unsecure and outdated in functionality
  * this aims to compensate the deficiencies
  *
  * autoLinkEmails
@@ -66,7 +66,7 @@ class TextExtHelper extends TextHelper {
 	}
 
 	/**
-	 * fix to allow obfuscation of email (js, img?)
+	 * Fix to allow obfuscation of email (js, img?)
 	 * @param string $text
 	 * @param htmlOptions (additionally - not yet supported by core):
 	 * - obfuscate: true/false (defaults to false)
@@ -227,7 +227,7 @@ class TextExtHelper extends TextHelper {
 	}
 
 	/**
-	 * fix to allow shortened urls that do not break layout etc
+	 * Fix to allow shortened urls that do not break layout etc
 	 * @param string $text
 	 * @param options (additionally - not yet supported by core):
 	 * - stripProtocol: bool (defaults to true)
@@ -304,7 +304,7 @@ class TextExtHelper extends TextHelper {
 	}
 
 	/**
-	 * minimizes the given url to a maximum length
+	 * Minimizes the given url to a maximum length
 	 *
 	 * @param string $url the url
 	 * @param integer $max the maximum length
@@ -368,7 +368,7 @@ class TextExtHelper extends TextHelper {
 	}
 
 	/**
-	 * syntax highlighting using php internal highlighting
+	 * Syntax highlighting using php internal highlighting
 	 * @param string $filename
 	 * @param boolean $return (else echo directly)
 	 */
@@ -377,7 +377,7 @@ class TextExtHelper extends TextHelper {
 	}
 
 	/**
-	 * syntax highlighting using php internal highlighting
+	 * Syntax highlighting using php internal highlighting
 	 * @param string $contentstring
 	 * @param boolean $return (else echo directly)
 	 */

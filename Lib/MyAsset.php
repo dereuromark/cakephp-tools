@@ -89,7 +89,7 @@ class MyAsset {
 	}
 
 	/**
-	 * get the content of a single file
+	 * Get the content of a single file
 	 */
 	public function _read($path) {
 		$path = str_replace('/', DS, $path);
@@ -199,7 +199,7 @@ class MyAsset {
 	}
 
 	/**
-	 * url (example): file=x & file=Tools|y & file=Tools.Jquery|jquery/sub/z
+	 * Url (example): file=x & file=Tools|y & file=Tools.Jquery|jquery/sub/z
 	 * => x is in webroot/
 	 * => y is in plugins/tools/webroot/
 	 * => z is in plugins/tools/packages/jquery/files/jquery/sub/

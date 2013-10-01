@@ -21,7 +21,7 @@ class NumericHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * test format
+	 * Test format
 	 *
 	 * TODO: move to NumberLib test?
 	 *

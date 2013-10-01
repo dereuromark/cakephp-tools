@@ -36,7 +36,7 @@ class DiffHelper extends AppHelper {
 	 * @param string $renderType
 	 * 'unified', 'inline', 'context', 'sidebyside'
 	 * defaults to "inline"
-	 * @return boolean true on success, false otherwise
+	 * @return boolean Success
 	 */
 	public function renderType($type = null) {
 		return $this->Diff->renderType($type);
@@ -46,14 +46,14 @@ class DiffHelper extends AppHelper {
 	 * @param string $engineType
 	 * 'auto', 'native', 'xdiff', 'shell', 'string'
 	 * defaults to "auto"
-	 * @return boolean true on success, false otherwise
+	 * @return boolean Success
 	 */
 	public function engineType($type = null) {
 		return $this->Diff->engineType($type);
 	}
 
 	/**
-	 * compare function
+	 * Compare function
 	 * Compares two strings/arrays using the specified method and renderer
 	 *
 	 * @param mixed $original

@@ -201,7 +201,7 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * test some basic map options
+	 * Test some basic map options
 	 */
 	public function testMap() {
 		$options = array(
@@ -224,7 +224,7 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * with default options
+	 * With default options
 	 */
 	public function testDynamic() {
 		//echo '<h2>Map 1</h2>';
@@ -263,7 +263,7 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * more than 100 markers and it gets reaaally slow...
+	 * More than 100 markers and it gets reaaally slow...
 	 */
 	public function testDynamic2() {
 		//echo '<h2>Map 2</h2>';

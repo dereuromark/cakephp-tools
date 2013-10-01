@@ -46,7 +46,7 @@ class HashShell extends AppShell {
 	}
 
 	/**
-	 * list all available
+	 * List all available
 	 */
 	public function available() {
 		$hashAlgos = hash_algos();

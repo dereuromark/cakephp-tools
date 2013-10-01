@@ -67,7 +67,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 /*** Helper Functions **/
 
 	/**
-	 * outputs debug information during a web tester (browser) test case
+	 * Outputs debug information during a web tester (browser) test case
 	 * since PHPUnit>=3.6 swallowes all output by default
 	 * this is a convenience output handler since debug() or pr() have no effect
 	 * @param mixed $data
@@ -86,7 +86,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	}
 
 	/**
-	 * outputs debug information during a web tester (browser) test case
+	 * Outputs debug information during a web tester (browser) test case
 	 * since PHPUnit>=3.6 swallowes all output by default
 	 * this is a convenience output handler
 	 * @param mixed $data
@@ -132,7 +132,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	}
 
 	/**
-	 * without trailing slash!?
+	 * Without trailing slash!?
 	 * //TODO: test
 	 */
 	protected function _baseurl() {
@@ -207,7 +207,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	}
 
 	/**
-	 * osFix method
+	 * OsFix method
 	 *
 	 * @param string $string
 	 * @return string

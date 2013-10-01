@@ -83,7 +83,7 @@ class CurrencyBitcoinLib {
 	}
 
 	/**
-	 * calc BTC relative to 1 baseCurrency
+	 * Calc BTC relative to 1 baseCurrency
 	 * @param float $value
 	 * @return float relativeValue
 	 */
@@ -92,7 +92,7 @@ class CurrencyBitcoinLib {
 	}
 
 	/**
-	 * historic trade data
+	 * Historic trade data
 	 * @see http://bitcoincharts.com/about/markets-api/
 	 */
 	public function trades() {

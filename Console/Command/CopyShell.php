@@ -316,7 +316,7 @@ class CopyShell extends AppShell {
 	}
 
 	/**
-	 * only main functions covered - see "sitecopy --help" for more information
+	 * Only main functions covered - see "sitecopy --help" for more information
 	 */
 	protected function _execute($config = null, $action = null, $options = array()) {
 		$options[] = '--debug=ftp,socket --rcfile=' . $this->tmpFolder . $this->tmpFile .
@@ -478,7 +478,7 @@ class CopyShell extends AppShell {
 	}
 
 	/**
-	 * read out config file and parse it to an array
+	 * Read out config file and parse it to an array
 	 */
 	protected function getConfigs() {
 		# global file (may be present)
@@ -530,7 +530,7 @@ class CopyShell extends AppShell {
 	}
 
 	/**
-	 * get a list with available configs
+	 * Get a list with available configs
 	 * @param array $content
 	 * checks on whether all config names are valid!
 	 */
@@ -556,7 +556,7 @@ class CopyShell extends AppShell {
 	}
 
 	/**
-	 * makes sure nothing strange happens if there is an invalid config name
+	 * Makes sure nothing strange happens if there is an invalid config name
 	 * (like updating right away on "cake copy u", if u is supposed to be the config name...)
 	 */
 	protected function isValidConfigName($name) {
@@ -574,7 +574,7 @@ class CopyShell extends AppShell {
 	}
 
 	/**
-	 * makes sure type matches config name (app = only app configs, no cake or vendor or custom configs!)
+	 * Makes sure type matches config name (app = only app configs, no cake or vendor or custom configs!)
 	 * 2009-05-28 ms
 	 * @return string type on success, otherwise boolean false
 	 */
@@ -589,7 +589,7 @@ class CopyShell extends AppShell {
 	}
 
 	/**
-	 * return the specific config of a config name
+	 * Return the specific config of a config name
 	 * @param string $config name
 	 * @param array $content
 	 */

@@ -15,7 +15,7 @@ if (!defined('BR')) {
  */
 
 /**
- * works togehter with captcha behaviour/component
+ * Works togehter with captcha behaviour/component
  */
 class CaptchaHelper extends AppHelper {
 
@@ -72,7 +72,7 @@ class CaptchaHelper extends AppHelper {
 	}
 
 	/**
-	 * main captcha output (usually called from $this->input() automatically)
+	 * Main captcha output (usually called from $this->input() automatically)
 	 * - hash-based
 	 * - session-based (not impl.)
 	 * - db-based (not impl.)
@@ -113,7 +113,7 @@ class CaptchaHelper extends AppHelper {
 	}
 
 	/**
-	 * active math captcha
+	 * Active math captcha
 	 * either combined with between=true (all in this one funtion)
 	 * or seperated by =false (needs input(false) and captcha() calls then)
 	 *
@@ -146,7 +146,7 @@ class CaptchaHelper extends AppHelper {
 	}
 
 	/**
-	 * passive captcha
+	 * Passive captcha
 	 *
 	 * @return string HTML
 	 */
@@ -159,7 +159,7 @@ class CaptchaHelper extends AppHelper {
 	}
 
 	/**
-	 * active captcha
+	 * Active captcha
 	 * (+ passive captcha right now)
 	 *
 	 * @return string Form input

@@ -87,7 +87,7 @@ class CalendarComponent extends Component {
 	}
 
 	/**
-	 * month as integer value 1..12 or 0 on error
+	 * Month as integer value 1..12 or 0 on error
 	 * february => 2
 	 */
 	public function retrieveMonth($string) {
@@ -103,7 +103,7 @@ class CalendarComponent extends Component {
 	}
 
 	/**
-	 * day as integer value 1..31 or 0 on error
+	 * Day as integer value 1..31 or 0 on error
 	 * february => 2
 	 */
 	public function retrieveDay($string, $month = null) {
@@ -130,7 +130,7 @@ class CalendarComponent extends Component {
 	}
 
 	/**
-	 * converts integer to x-digit string
+	 * Converts integer to x-digit string
 	 * 1 => 01, 12 => 12
 	 */
 	public function asString($number, $digits = 2) {

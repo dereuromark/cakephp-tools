@@ -19,7 +19,7 @@ App::uses('View', 'View');
 class GravatarHelperTest extends MyCakeTestCase {
 
 	/**
-	 * setUp method
+	 * SetUp method
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -29,7 +29,7 @@ class GravatarHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * tearDown method
+	 * TearDown method
 	 */
 	public function tearDown() {
 		parent::tearDown();

@@ -215,7 +215,7 @@ class GeocoderBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * snippet for custom pagination
+	 * Snippet for custom pagination
 	 *
 	 * @return array
 	 */
@@ -241,7 +241,7 @@ class GeocoderBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * snippet for custom pagination
+	 * Snippet for custom pagination
 	 *
 	 * @return string
 	 */
@@ -254,7 +254,7 @@ class GeocoderBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * snippet for custom pagination
+	 * Snippet for custom pagination
 	 * still useful?
 	 *
 	 * @return string
@@ -274,7 +274,7 @@ class GeocoderBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * snippet for custom pagination
+	 * Snippet for custom pagination
 	 *
 	 * @return integer count
 	 */
@@ -320,7 +320,7 @@ class GeocoderBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * uses the GeocodeLib to query
+	 * Uses the GeocodeLib to query
 	 * @param array $addressFields (simple array of address pieces)
 	 * @return array
 	 */

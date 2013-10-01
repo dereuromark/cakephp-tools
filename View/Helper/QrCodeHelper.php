@@ -69,7 +69,7 @@ class QrCodeHelper extends AppHelper {
 	}
 
 	/**
-	 * main barcode display function
+	 * Main barcode display function
 	 * @param string $text (utf8 encoded)
 	 * @param array $imageOptions
 	 * NOTE: set size or level manually prior to calling this method
@@ -104,7 +104,7 @@ class QrCodeHelper extends AppHelper {
 	}
 
 	/**
-	 * format a text in a specific format
+	 * Format a text in a specific format
 	 * - url, sms, tel, email, market, geo
 	 * @return string formattedText
 	 */
@@ -134,7 +134,7 @@ class QrCodeHelper extends AppHelper {
 	}
 
 	/**
-	 * generate mecard string
+	 * Generate mecard string
 	 * 1: name, nickname, note, birthday, sound
 	 * 1..n (as array or string): address, tel, url, email
 	 * for details on cards see:
@@ -236,7 +236,7 @@ class QrCodeHelper extends AppHelper {
 	}
 
 	/**
-	 * change size
+	 * Change size
 	 * result format: chs=<size>x<size>
 	 * @return boolean Success
 	 *
@@ -257,7 +257,7 @@ class QrCodeHelper extends AppHelper {
 	}
 
 	/**
-	 * change level and margin - optional
+	 * Change level and margin - optional
 	 * result format: chld=<EC level>|<margin>
 	 * @return boolean Success
 	 */
@@ -289,7 +289,7 @@ class QrCodeHelper extends AppHelper {
 	}
 
 	/**
-	 * show current options - for debugging only
+	 * Show current options - for debugging only
 	 */
 	public function debug() {
 		return $this->options;

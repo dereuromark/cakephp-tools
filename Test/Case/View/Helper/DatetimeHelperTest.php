@@ -17,7 +17,7 @@ class DatetimeHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * test user age
+	 * Test user age
 	 *
 	 */
 	public function testUserAge() {
@@ -26,7 +26,7 @@ class DatetimeHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * test cweek
+	 * Test cweek
 	 *
 	 */
 	public function testLengthOfTime() {
@@ -93,7 +93,7 @@ class DatetimeHelperTest extends MyCakeTestCase {
 	}
 
 /**
- * test cweek
+ * Test cweek
  *
  * @return void
  */
@@ -126,7 +126,7 @@ class DatetimeHelperTest extends MyCakeTestCase {
 	}
 
 /**
- * test age
+ * Test age
  *
  * @return void
  */
@@ -181,7 +181,7 @@ class DatetimeHelperTest extends MyCakeTestCase {
 	}
 
 /**
- * test IsInTheFuture
+ * Test IsInTheFuture
  *
  * @return void
  */
@@ -197,7 +197,7 @@ class DatetimeHelperTest extends MyCakeTestCase {
 	}
 
 /**
- * test IsNotTodayAndInTheFuture
+ * Test IsNotTodayAndInTheFuture
  *
  * @return void
  */
@@ -213,7 +213,7 @@ class DatetimeHelperTest extends MyCakeTestCase {
 	}
 
 /**
- * test IsDayAfterTomorrow
+ * Test IsDayAfterTomorrow
  *
  * @return void
  */
@@ -229,7 +229,7 @@ class DatetimeHelperTest extends MyCakeTestCase {
 	}
 
 /**
- * tearDown method
+ * TearDown method
  *
  * @return void
  */

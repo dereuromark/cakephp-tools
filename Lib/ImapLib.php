@@ -5,7 +5,7 @@
  */
 
 /**
- * basic idea from
+ * Basic idea from
  * http://www.phpclasses.org/package/6256-PHP-Retrieve-messages-from-an-IMAP-server.html
  * added enhancements
  *
@@ -186,7 +186,7 @@ class ImapLib {
 	}
 
 	/**
-	 * main listing of messages
+	 * Main listing of messages
 	 * - body, structure, attachments
 	 * @return array
 	 */
@@ -501,7 +501,7 @@ class ImapLib {
 	}
 
 	/**
-	 * makes sure imap_open is available etc
+	 * Makes sure imap_open is available etc
 	 * @throws InternalErrorException
 	 * @return boolean Success
 	 */

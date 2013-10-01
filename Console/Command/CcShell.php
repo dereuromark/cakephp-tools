@@ -75,7 +75,7 @@ class CcShell extends AppShell {
 	}
 
 	/**
-	 * components + models
+	 * Components + models
 	 */
 	public function controller() {
 		$content = LF;
@@ -190,7 +190,7 @@ class CcShell extends AppShell {
 	}
 
 	/**
-	 * check on correctness to avoid duplicates
+	 * Check on correctness to avoid duplicates
 	 */
 	protected function _varName($name, $type) {
 		if (($pos = strrpos($name, $type)) === false) {

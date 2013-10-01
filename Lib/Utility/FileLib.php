@@ -8,7 +8,7 @@ App::uses('File', 'Utility');
 class FileLib extends File {
 
 	/**
-	 * allowed delimiters for csv
+	 * Allowed delimiters for csv
 	 */
 	protected $allowedDelimiters = array(
 		',',
@@ -18,12 +18,12 @@ class FileLib extends File {
 		'#');
 
 	/**
-	 * allowed enclosures for csv
+	 * Allowed enclosures for csv
 	 */
 	protected $allowedEnclosures = array('"', '\'');
 
 	/**
-	 * allowed tags for pattern reading
+	 * Allowed tags for pattern reading
 	 */
 	protected $allowedTags = array(
 		'<h1>',

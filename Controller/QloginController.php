@@ -24,7 +24,7 @@ class QloginController extends ToolsAppController {
 	****************************************************************************************/
 
 	/**
-	 * main login function
+	 * Main login function
 	 */
 	public function go($key = null) {
 		if (!$key) {
@@ -60,7 +60,7 @@ class QloginController extends ToolsAppController {
 	}
 
 	/**
-	 * these params can be passed to preset the form
+	 * These params can be passed to preset the form
 	 * - user_id
 	 * - url (base64encoded)
 	 *

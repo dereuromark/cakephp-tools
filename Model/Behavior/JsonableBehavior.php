@@ -171,7 +171,7 @@ class JsonableBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * fields are absolutely necessary to function properly!
+	 * Fields are absolutely necessary to function properly!
 	 *
 	 * @param Model $Model
 	 * @param mixed $val

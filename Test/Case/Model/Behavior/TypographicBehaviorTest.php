@@ -81,7 +81,7 @@ class TypographicBehaviorTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * test that not defining fields results in all textarea and text fields being processed
+	 * Test that not defining fields results in all textarea and text fields being processed
 	 */
 	public function testAutoFields() {
 		$this->Model->Behaviors->unload('Typographic');

@@ -9,7 +9,7 @@ App::uses('ComponentCollection', 'Controller');
 //App::uses('AuthExtComponent', 'Tools.Controller/Component');
 
 /**
- * create a new user from CLI
+ * Create a new user from CLI
  *
  * @cakephp 2.x
  * @author Mark Scherer

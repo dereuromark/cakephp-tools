@@ -75,7 +75,7 @@ class NumberLib extends CakeNumber {
 	}
 
 	/**
-	 * format numeric values
+	 * Format numeric values
 	 * should not be used for currencies
 	 * //TODO: automize per localeconv() ?
 	 *

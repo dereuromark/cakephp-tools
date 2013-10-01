@@ -71,7 +71,7 @@ class MyHelper extends Helper {
 	}
 
 	/**
-	 * display image tag from blob content
+	 * Display image tag from blob content
 	 * enhancement for HtmlHelper
 	 * @param binary $content
 	 * @param array $options
@@ -142,7 +142,7 @@ class MyHelper extends Helper {
 	protected $_linkDefaults = null;
 
 	/**
-	 * keep named and query params for pagination/filter after edit etc
+	 * Keep named and query params for pagination/filter after edit etc
 	 *
 	 * @params same as Html::link($title, $url, $options, $confirmMessage)
 	 * @return string Link
@@ -155,7 +155,7 @@ class MyHelper extends Helper {
 	}
 
 	/**
-	 * keep named and query params for pagination/filter after edit etc
+	 * Keep named and query params for pagination/filter after edit etc
 	 *
 	 * @params same as Html::url($url, $options, $escape)
 	 * @return string Link
@@ -168,7 +168,7 @@ class MyHelper extends Helper {
 	}
 
 	/**
-	 * convenience function for normal links
+	 * Convenience function for normal links
 	 * useful for layout links and links inside elements etc
 	 *
 	 * @params same as Html::link($title, $url, $options, $confirmMessage)
@@ -200,7 +200,7 @@ class MyHelper extends Helper {
 	}
 
 	/**
-	 * convenience function for normal urls
+	 * Convenience function for normal urls
 	 * useful for layout urls and urls inside elements etc
 	 * @params same as Html::url($url, $full)
 	 */
@@ -220,7 +220,7 @@ class MyHelper extends Helper {
 	public $urlHere = null;
 
 	/**
-	 * enhancement to htmlHelper which allows the crumbs protected array
+	 * Enhancement to htmlHelper which allows the crumbs protected array
 	 * to be cleared so that more than one set of crumbs can be generated in the same view.
 	 *
 	 * @return void

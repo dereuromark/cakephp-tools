@@ -298,7 +298,7 @@ class RevisionBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * saves revisions for rows matching page and limit given
+	 * Saves revisions for rows matching page and limit given
 	 *
 	 * @param object $Model
 	 * @param integer $page

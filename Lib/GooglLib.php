@@ -23,12 +23,12 @@ class GooglLib {
 	const PROJECTION_TOP = 'ANALYTICS_TOP_STRINGS';
 
 	/**
-	 * application key
+	 * Application key
 	 */
 	protected $APIKey;
 
 	/**
-	 * api url
+	 * Api url
 	 */
 	protected $API = "https://www.googleapis.com/urlshortener/v1/url";
 
@@ -46,7 +46,7 @@ class GooglLib {
 	}
 
 	/**
-	 * reverse the shortening process
+	 * Reverse the shortening process
 	 * TODO: rename to expand
 	 *
 	 * @param strin $url
@@ -70,7 +70,7 @@ class GooglLib {
 	}
 
 	/**
-	 * shorten a long url
+	 * Shorten a long url
 	 *
 	 * @param string $url
 	 * @return array result as array or false on failure
@@ -118,7 +118,7 @@ class GooglLib {
 	}
 
 	/**
-	 * retrieve the url for the statistics page for this key
+	 * Retrieve the url for the statistics page for this key
 	 * @param string $key
 	 * @return string url
 	 */

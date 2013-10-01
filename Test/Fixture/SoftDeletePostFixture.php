@@ -6,7 +6,7 @@
 class SoftDeletePostFixture extends CakeTestFixture {
 
 /**
- * fields property
+ * Fields property
  *
  * @var array
  */
@@ -20,7 +20,7 @@ class SoftDeletePostFixture extends CakeTestFixture {
 		'updated' => 'datetime');
 
 /**
- * records property
+ * Records property
  *
  * @var array
  */

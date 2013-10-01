@@ -140,7 +140,7 @@ class ZodiacLib {
 	}
 
 	/**
-	 * list of all signs
+	 * List of all signs
 	 */
 	public static function signs($value = null) {
 		$res = array(

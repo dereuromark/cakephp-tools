@@ -59,21 +59,21 @@ class TreeHelper extends AppHelper {
 	protected $_settings = array();
 
 	/**
-	 * typeAttributes property
+	 * TypeAttributes property
 	 *
 	 * @var array
 	 */
 	protected $_typeAttributes = array();
 
 	/**
-	 * typeAttributesNext property
+	 * TypeAttributesNext property
 	 *
 	 * @var array
 	 */
 	protected $_typeAttributesNext = array();
 
 	/**
-	 * itemAttributes property
+	 * ItemAttributes property
 	 *
 	 * @var array
 	 */
@@ -352,7 +352,7 @@ class TreeHelper extends AppHelper {
 	}
 
 	/**
-	 * addItemAttribute function
+	 * AddItemAttribute function
 	 *
 	 * Called to modify the attributes of the next <item> to be processed
 	 * Note that the content of a 'node' is processed before generating its wrapping <item> tag
@@ -371,7 +371,7 @@ class TreeHelper extends AppHelper {
 	}
 
 	/**
-	 * addTypeAttribute function
+	 * AddTypeAttribute function
 	 *
 	 * Called to modify the attributes of the next <type> to be processed
 	 * Note that the content of a 'node' is processed before generating its wrapping <type> tag (if appropriate)
@@ -411,7 +411,7 @@ class TreeHelper extends AppHelper {
 	}
 
 	/**
-	 * supressChildren method
+	 * SupressChildren method
 	 *
 	 * @return void
 	 */

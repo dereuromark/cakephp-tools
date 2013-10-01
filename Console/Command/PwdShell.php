@@ -3,7 +3,7 @@ App::uses('AppShell', 'Console/Command');
 App::uses('ComponentCollection', 'Controller');
 
 /**
- * password hashing and output
+ * Password hashing and output
  *
  * @cakephp 2.x
  * @author Mark Scherer

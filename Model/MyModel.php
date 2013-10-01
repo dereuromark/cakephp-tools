@@ -236,7 +236,7 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * combine virtual fields with fields values of find()
+	 * Combine virtual fields with fields values of find()
 	 * USAGE:
 	 * $this->Model->find('all', array('fields' => $this->Model->virtualFields('full_name')));
 	 * Also adds the field to the virtualFields array of the model (for correct result)
@@ -350,7 +350,7 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * return the next auto increment id from the current table
+	 * Return the next auto increment id from the current table
 	 * UUIDs will return false
 	 *
 	 * @return integer next auto increment value or False on failure
@@ -366,7 +366,7 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * workaround for a cake bug which sets empty fields to NULL in Model::set()
+	 * Workaround for a cake bug which sets empty fields to NULL in Model::set()
 	 * we cannot use if (isset() && empty()) statements without this fix
 	 * @param array $fields (which are supposed to be present in $this->data[$this->alias])
 	 * @param boolean $force (if init should be forced, otherwise only if array_key exists)
@@ -407,7 +407,7 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * enables HABTM-Validation
+	 * Enables HABTM-Validation
 	 * e.g. with
 	 * 'rule' => array('multiple', array('min' => 2))
 	 */
@@ -1101,7 +1101,7 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * prepend protocol if missing
+	 * Prepend protocol if missing
 	 *
 	 * @param string $url
 	 * @return string Url
@@ -1116,7 +1116,7 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * checks if a url is valid
+	 * Checks if a url is valid
 	 *
 	 * @param string url
 	 * @return boolean Success
@@ -1285,7 +1285,7 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * model validation rule for email addresses
+	 * Model validation rule for email addresses
 	 *
 	 * @return boolean Success
 	 */
@@ -1363,7 +1363,7 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * set + guaranteeFields!
+	 * Set + guaranteeFields!
 	 * Extends the core set function (only using data!!!)
 	 *
 	 * @param mixed $data
@@ -1401,7 +1401,7 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * make sure required fields exists - in order to properly validate them
+	 * Make sure required fields exists - in order to properly validate them
 	 * @param array: field1, field2 - or field1, Model2.field1 etc
 	 * @param array: data (optional, otherwise the array with the required fields will be returned)
 	 * @return array
@@ -1426,7 +1426,7 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * make certain fields a requirement for the form to validate
+	 * Make certain fields a requirement for the form to validate
 	 * (they must only be present - can still be empty, though!)
 	 *
 	 * @param array $fieldList
@@ -1473,7 +1473,7 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * instead of whitelisting
+	 * Instead of whitelisting
 	 * @param array $blackList
 	 * - array: fields to blacklist
 	 * - boolean TRUE: removes all foreign_keys (_id and _key)
@@ -1613,7 +1613,7 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * truncate TABLE (already validated, that table exists)
+	 * Truncate TABLE (already validated, that table exists)
 	 * @param string table [default:FALSE = current model table]
 	 * @return boolean Success
 	 */
@@ -1628,7 +1628,7 @@ class MyModel extends Model {
 /** Deep Lists **/
 
 	/**
-	 * recursive Dropdown Lists
+	 * Recursive Dropdown Lists
 	 * NEEDS tree behavior, NEEDS lft, rght, parent_id (!)
 	 * //FIXME
 	 */
@@ -1641,7 +1641,7 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * from http://othy.wordpress.com/2006/06/03/generatenestedlist/
+	 * From http://othy.wordpress.com/2006/06/03/generatenestedlist/
 	 * NEEDS parent_id
 	 * //TODO refactor for 1.2
 	 *
@@ -1657,7 +1657,7 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * from http://othy.wordpress.com/2006/06/03/generatenestedlist/
+	 * From http://othy.wordpress.com/2006/06/03/generatenestedlist/
 	 * @deprecated use generateTreeList instead
 	 */
 	public function _generateNestedList($cats, $indent = '--', $level = 0) {

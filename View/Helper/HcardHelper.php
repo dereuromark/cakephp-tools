@@ -2,7 +2,7 @@
 App::uses('AppHelper', 'View/Helper');
 
 /**
- * helper for hcard, vcard and other microformats!
+ * Helper for hcard, vcard and other microformats!
  *
  * TODO: import http://codeigniter.com/wiki/microformats/
  */

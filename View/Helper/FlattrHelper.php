@@ -24,7 +24,7 @@ class FlattrHelper extends AppHelper {
 	const API_URL = 'http://api.flattr.com/';
 
 	/**
-	 * display the FlattrButton
+	 * Display the FlattrButton
 	 * @param mixed $url (unique! necessary)
 	 * @param array $options
 	 */

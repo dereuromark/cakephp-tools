@@ -206,7 +206,7 @@ class KeyValueBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * resets the custom data for the specific domains (model, foreign_id)
+	 * Resets the custom data for the specific domains (model, foreign_id)
 	 * careful: passing both null values will result in a complete truncate command
 	 *
 	 * @return boolean Success

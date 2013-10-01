@@ -35,7 +35,7 @@ class DirectAuthenticateTest extends CakeTestCase {
 	}
 
 /**
- * test applying settings in the constructor
+ * Test applying settings in the constructor
  *
  * @return void
  */
@@ -49,7 +49,7 @@ class DirectAuthenticateTest extends CakeTestCase {
 	}
 
 /**
- * test the authenticate method
+ * Test the authenticate method
  *
  * @return void
  */
@@ -60,7 +60,7 @@ class DirectAuthenticateTest extends CakeTestCase {
 	}
 
 /**
- * test the authenticate method
+ * Test the authenticate method
  *
  * @return void
  */
@@ -71,7 +71,7 @@ class DirectAuthenticateTest extends CakeTestCase {
 	}
 
 /**
- * test authenticate password is false method
+ * Test authenticate password is false method
  *
  * @return void
  */
@@ -85,7 +85,7 @@ class DirectAuthenticateTest extends CakeTestCase {
 	}
 
 /**
- * test the authenticate method
+ * Test the authenticate method
  *
  * @return void
  */
@@ -99,7 +99,7 @@ class DirectAuthenticateTest extends CakeTestCase {
 	}
 
 /**
- * test authenticate success
+ * Test authenticate success
  *
  * @return void
  */
@@ -120,7 +120,7 @@ class DirectAuthenticateTest extends CakeTestCase {
 	}
 
 /**
- * test scope failure.
+ * Test scope failure.
  *
  * @return void
  */
@@ -135,7 +135,7 @@ class DirectAuthenticateTest extends CakeTestCase {
 	}
 
 /**
- * test a model in a plugin.
+ * Test a model in a plugin.
  *
  * @return void
  */

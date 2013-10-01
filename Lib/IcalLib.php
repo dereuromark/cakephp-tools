@@ -132,7 +132,7 @@ class IcalLib {
 	}
 
 	/**
-	 * key => value with key as unixTimeStamp and value as summary
+	 * Key => value with key as unixTimeStamp and value as summary
 	 * @return array
 	 */
 	public function getEventsAsList() {

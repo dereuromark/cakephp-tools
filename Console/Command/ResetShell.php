@@ -7,7 +7,7 @@ if (!defined('CLASS_USER')) {
 App::uses('AppShell', 'Console/Command');
 
 /**
- * reset user data
+ * Reset user data
  *
  * @cakephp 2.x
  * @author Mark Scherer
@@ -24,7 +24,7 @@ class ResetShell extends AppShell {
 	}
 
 	/**
-	 * reset all emails - e.g. your admin email (for local development)
+	 * Reset all emails - e.g. your admin email (for local development)
 	 */
 	public function email() {
 		$this->out('email:');
@@ -48,7 +48,7 @@ class ResetShell extends AppShell {
 	}
 
 	/**
-	 * reset all pwds to a simply pwd (for local development)
+	 * Reset all pwds to a simply pwd (for local development)
 	 */
 	public function pwd() {
 		$components = array('Tools.AuthExt', 'Auth');

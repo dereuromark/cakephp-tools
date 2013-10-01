@@ -7,7 +7,7 @@ App::uses('FileLib', 'Tools.Utility');
 class FileLibTest extends CakeTestCase {
 
 	/**
-	 * test method
+	 * Test method
 	 *
 	 * @return void
 	 */
@@ -58,7 +58,7 @@ class FileLibTest extends CakeTestCase {
 	}
 
 	/**
-	 * test method
+	 * Test method
 	 *
 	 * @return void
 	 */
@@ -80,7 +80,7 @@ class FileLibTest extends CakeTestCase {
 	}
 
 	/**
-	 * test csv file generation from array
+	 * Test csv file generation from array
 	 */
 	public function testWriteCsv() {
 		$handler = new FileLib(TMP . 'test.csv', true);
@@ -108,7 +108,7 @@ class FileLibTest extends CakeTestCase {
 	}
 
 	/**
-	 * test method
+	 * Test method
 	 *
 	 * @return void
 	 */
@@ -235,7 +235,7 @@ class FileLibTest extends CakeTestCase {
 	}
 
 	/**
-	 * test BOM
+	 * Test BOM
 	 *
 	 * @return void
 	 */

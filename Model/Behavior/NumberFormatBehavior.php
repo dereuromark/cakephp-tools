@@ -154,7 +154,7 @@ class NumberFormatBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * perform a single transformation
+	 * Perform a single transformation
 	 * @return string cleanedValue
 	 */
 	public function formatInputOutput(Model $Model, $value, $dir = 'in') {
@@ -180,7 +180,7 @@ class NumberFormatBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * prep the transformation chars
+	 * Prep the transformation chars
 	 * @return void
 	 */
 	protected function _setTransformations(Model $Model, $dir) {

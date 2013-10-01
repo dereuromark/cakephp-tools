@@ -24,21 +24,21 @@ App::uses('File', 'Utility');
 class SluggedBehaviorTest extends CakeTestCase {
 
 	/**
-	 * fixtures property
+	 * Fixtures property
 	 *
 	 * @var array
 	 */
 	public $fixtures = array('plugin.tools.message');
 
 	/**
-	 * skipSetupTests property
+	 * SkipSetupTests property
 	 *
 	 * @var boolean
 	 */
 	public $skipSetupTests = true;
 
 	/**
-	 * getTests method
+	 * GetTests method
 	 *
 	 * This test case is very intensive - the logic contained here can be manipulated to limit the range of
 	 * of characters used in the test case by default there is no limit imposed and the memory limit is increased
@@ -70,7 +70,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * isTest method
+	 * IsTest method
 	 *
 	 * Prevent intensive W3 test, and the build tests (used to generate the testSection tests) unless
 	 * explicitly specified
@@ -96,7 +96,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * start method
+	 * Start method
 	 *
 	 * @return void
 	 */
@@ -203,7 +203,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * test remove stop words
+	 * Test remove stop words
 	 */
 	public function testRemoveStopWords() {
 		$this->skipIf(true, 'Does not work anymore');
@@ -247,7 +247,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * testBuildRegex method
+	 * TestBuildRegex method
 	 *
 	 * This 'test' is used to compare with the existing, and to optimize the regex pattern
 	 *
@@ -294,7 +294,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * testBuildTest method
+	 * TestBuildTest method
 	 *
 	 * This method generates a temporary file containing a test class with the slug tests in it
 	 *
@@ -305,7 +305,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * buildTest method
+ * BuildTest method
  *
  * @param integer $hex1Limit
  * @param integer $hex2Limit
@@ -330,7 +330,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * buildTestFunction method
+ * BuildTestFunction method
  *
  * @param mixed $section
  * @return void
@@ -370,7 +370,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * testW3Validity method
+ * TestW3Validity method
  *
  * For each of the slugged behavior modes, generate (a) test file(s) and submit them to the W3 validator
  * service. WARNING: this test is extremely slow (not to mention intensive on the validator service) therefore
@@ -392,7 +392,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * testMode method
+ * TestMode method
  *
  * The limit and start points (limit parameters are first to allow calling as _testMode(x, 1, 1)) are passed
  * as parameters to allow selective/reduced/focused testing. Testing the whole range and all modes is very time
@@ -423,7 +423,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * testModeRange method
+ * TestModeRange method
  *
  * Send the test file to the W3 Validator service, if the result is invalid trigger parseW3Response
  *
@@ -461,7 +461,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * parseW3Response method
+ * ParseW3Response method
  *
  * If W3 gave back an error response, parse out the character code point and build a list of illegal characters.
  * Use this list to echo out a partial regex match to be used in the slug behavior to capture and slug these
@@ -508,7 +508,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * createTestFile method
+ * CreateTestFile method
  *
  * Create a single test file, for the specified range/section
  *
@@ -543,7 +543,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * writeHeader method
+ * WriteHeader method
  *
  * Generate the file header
  *
@@ -560,7 +560,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * renderChar method
+ * RenderChar method
  *
  * Slug the character and generate the output to be put in the test file
  *
@@ -591,7 +591,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * testSection0 method
+ * TestSection0 method
  *
  * Testing characters 0000 - 0fff
  *
@@ -1861,7 +1861,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * testSection1 method
+ * TestSection1 method
  *
  * Testing characters 1000 - 1fff
  *
@@ -3151,7 +3151,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * testSection2 method
+ * TestSection2 method
  *
  * Testing characters 2000 - 2fff
  *
@@ -4441,7 +4441,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * testSection3 method
+ * TestSection3 method
  *
  * Testing characters 3000 - 3fff
  *
@@ -5731,7 +5731,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * testSection4 method
+ * TestSection4 method
  *
  * Testing characters 4000 - 4fff
  *
@@ -7021,7 +7021,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * testSection5 method
+ * TestSection5 method
  *
  * Testing characters 5000 - 5fff
  *
@@ -8311,7 +8311,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * testSection6 method
+ * TestSection6 method
  *
  * Testing characters 6000 - 6fff
  *
@@ -9601,7 +9601,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * testSection7 method
+ * TestSection7 method
  *
  * Testing characters 7000 - 7fff
  *
@@ -10891,7 +10891,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * testSection8 method
+ * TestSection8 method
  *
  * Testing characters 8000 - 8fff
  *
@@ -12181,7 +12181,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * testSection9 method
+ * TestSection9 method
  *
  * Testing characters 9000 - 9fff
  *
@@ -13471,7 +13471,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * testSectiona method
+ * TestSectiona method
  *
  * Testing characters a000 - afff
  *
@@ -14761,7 +14761,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * testSectionb method
+ * TestSectionb method
  *
  * Testing characters b000 - bfff
  *
@@ -16051,7 +16051,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * testSectionc method
+ * TestSectionc method
  *
  * Testing characters c000 - cfff
  *
@@ -17341,7 +17341,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * testSectiond method
+ * TestSectiond method
  *
  * Testing characters d000 - dfff
  *
@@ -17992,7 +17992,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * test Url method
+ * Test Url method
  *
  * @return void
  */
@@ -18100,12 +18100,12 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * testTruncateMultibyte method
+ * TestTruncateMultibyte method
  *
  * @return void
  */
 /**
- * testTruncateMultibyte method
+ * TestTruncateMultibyte method
  *
  * Ensure that the first test doesn't cut a multibyte character The test string is:
  * 	17 chars
@@ -18142,7 +18142,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * testDuplicateWithLengthRestriction method
+ * TestDuplicateWithLengthRestriction method
  *
  * If there's a length restriction - ensure it's respected by the unique slug routine
  *
@@ -18205,14 +18205,14 @@ class SluggedBehaviorTest extends CakeTestCase {
 class MessageSlugged extends CakeTestModel {
 
 	/**
-	 * useTable property
+	 * UseTable property
 	 *
 	 * @var string 'messages'
 	 */
 	public $useTable = 'messages';
 
 	/**
-	 * actsAs property
+	 * ActsAs property
 	 *
 	 * @var array
 	 */

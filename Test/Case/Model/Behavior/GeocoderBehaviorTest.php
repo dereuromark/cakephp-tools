@@ -107,7 +107,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * geocoding tests using the google webservice
+	 * Geocoding tests using the google webservice
 	 */
 	public function testBasic() {
 		//echo '<h3>'.__FUNCTION__.'</h3>';

@@ -41,7 +41,7 @@ class IndexShell extends AppShell {
 	protected $_script = array();
 
 	/**
-	 * startup method
+	 * Startup method
 	 *
 	 * @return void
 	 */
@@ -52,7 +52,7 @@ class IndexShell extends AppShell {
 	}
 
 	/**
-	 * initialize method
+	 * Initialize method
 	 *
 	 * If the flags -h, -help or --help are present bail here and show help
 	 *
@@ -72,7 +72,7 @@ class IndexShell extends AppShell {
 	}
 
 	/**
-	 * main method
+	 * Main method
 	 *
 	 * Generate the required sql, and then run it
 	 * To run for more than one datasource - comma seperate them:
@@ -194,7 +194,7 @@ class IndexShell extends AppShell {
 	}
 
 	/**
-	 * query method
+	 * Query method
 	 *
 	 * If the force (or the shortcut f) parameter is set, don't ask for confirmation
 	 * If the user chooses to quit - stop processing at that moment

@@ -18,7 +18,7 @@ class KeyValueTest extends MyCakeTestCase {
 	public $fixtures = array('plugin.tools.key_value');
 
 	/**
-	 * setUp method
+	 * SetUp method
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class KeyValueTest extends MyCakeTestCase {
 	}
 
 /**
- * tearDown method
+ * TearDown method
  *
  * @return void
  */

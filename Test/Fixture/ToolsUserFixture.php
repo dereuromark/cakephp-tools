@@ -18,7 +18,7 @@ class ToolsUserFixture extends CakeTestFixture {
 	);
 
 	/**
-	 * records property
+	 * Records property
 	 *
 	 * @var array
 	 */

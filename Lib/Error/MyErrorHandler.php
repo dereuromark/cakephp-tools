@@ -7,7 +7,7 @@ App::uses('Utility', 'Tools.Utility');
 class MyErrorHandler extends ErrorHandler {
 
 	/**
-	 * override core one with the following enhancements/fixes:
+	 * Override core one with the following enhancements/fixes:
 	 * - 404s log to a different domain
 	 * - IP, Referer and Browser-Infos are added for better error debugging/tracing
 	 */
@@ -48,7 +48,7 @@ class MyErrorHandler extends ErrorHandler {
 	}
 
 	/**
-	 * override core one with the following enhancements/fixes:
+	 * Override core one with the following enhancements/fixes:
 	 * - 404s log to a different domain
 	 * - IP, Referer and Browser-Infos are added for better error debugging/tracing
 	 */
@@ -122,7 +122,7 @@ class MyErrorHandler extends ErrorHandler {
 	}
 
 	/**
-	 * append some more infos to better track down the error
+	 * Append some more infos to better track down the error
 	 * @return string
 	 */
 	public static function traceDetails() {

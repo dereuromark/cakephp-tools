@@ -1,7 +1,7 @@
 ﻿<?php
 
 /**
- * test BOM with umlauts like äöü
+ * Test BOM with umlauts like äöü
  */
 class IAMNOK {
 }

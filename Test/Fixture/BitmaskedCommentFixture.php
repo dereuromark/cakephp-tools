@@ -6,7 +6,7 @@
 class BitmaskedCommentFixture extends CakeTestFixture {
 
 	/**
-	 * fields property
+	 * Fields property
 	 *
 	 * @var array
 	 */
@@ -21,7 +21,7 @@ class BitmaskedCommentFixture extends CakeTestFixture {
 	);
 
 	/**
-	 * records property
+	 * Records property
 	 *
 	 * @var array
 	 */

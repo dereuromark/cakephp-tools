@@ -144,7 +144,7 @@ class FormExtHelperTest extends MyCakeTestCase {
 	}
 
 /**
- * testNormalize method
+ * TestNormalize method
  *
  * test that whitespaces are normalized for all inputs except textareas (which also understand new line characters)
  *
@@ -198,7 +198,7 @@ class FormExtHelperTest extends MyCakeTestCase {
 class ContactExt extends CakeTestModel {
 
 /**
- * useTable property
+ * UseTable property
  *
  * @var boolean
  */
@@ -222,7 +222,7 @@ class ContactExt extends CakeTestModel {
 	);
 
 /**
- * validate property
+ * Validate property
  *
  * @var array
  */
@@ -257,7 +257,7 @@ class ContactExt extends CakeTestModel {
 	);
 
 /**
- * schema method
+ * Schema method
  *
  * @return void
  */

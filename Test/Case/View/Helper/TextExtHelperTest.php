@@ -123,7 +123,7 @@ class TextExtHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * combined (emails + urls)
+	 * Combined (emails + urls)
 	 */
 	public function testAutoLink() {
 		$text = 'Text <i>with a url</i> www.cot.ag?id=2&sub=3 and some email@domain.com more';
@@ -136,7 +136,7 @@ class TextExtHelperTest extends MyCakeTestCase {
 /* from cake */
 
 	/**
-	 * test invalid email addresses.
+	 * Test invalid email addresses.
 	 *
 	 * @return void
 	 */
@@ -188,7 +188,7 @@ class TextExtHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * test minimizeUrl
+	 * Test minimizeUrl
 	 *
 	 * @return void
 	 */
@@ -219,7 +219,7 @@ class TextExtHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * test shortenText
+	 * Test shortenText
 	 *
 	 * @return void
 	 */

@@ -19,12 +19,12 @@ class SpellLib {
 	const ENGINE_ISPELL = ENCHANT_ISPELL;
 
 	/**
-	 * available engines
+	 * Available engines
 	 */
 	protected $_engines = array(self::ENGINE_MYSPELL => 'myspell', self::ENGINE_ISPELL => 'ispell');
 
 	/**
-	 * available languages
+	 * Available languages
 	 */
 	protected $l_langs = array('en_GB', 'de_DE');
 

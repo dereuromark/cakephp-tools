@@ -79,7 +79,7 @@ class DiffLib {
 	 * @param string $renderType
 	 * 'unified', 'inline', 'context', 'sidebyside'
 	 * defaults to "inline"
-	 * @return boolean true on success, false otherwise
+	 * @return boolean Success
 	 */
 	public function renderType($type = null) {
 		if ($type === null) {
@@ -98,7 +98,7 @@ class DiffLib {
 	 * @param string $engineType
 	 * 'auto', 'native', 'xdiff', 'shell', 'string'
 	 * defaults to "auto"
-	 * @return boolean true on success, false otherwise
+	 * @return boolean Success
 	 */
 	public function engineType($type = null) {
 		if ($type === null) {
@@ -111,7 +111,7 @@ class DiffLib {
 		return false;
 	}
 	/**
-	 * compare function
+	 * Compare function
 	 * Compares two strings/arrays using the specified method and renderer
 	 *
 	 * @param mixed $original
@@ -157,7 +157,7 @@ class DiffLib {
 	}
 
 	/**
-	 * explodes the string into an array
+	 * Explodes the string into an array
 	 *
 	 * @param string $text
 	 * @return array

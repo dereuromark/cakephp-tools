@@ -140,7 +140,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * hasMany association via Containable. Should still work when Linkable is loaded.
+	 * HasMany association via Containable. Should still work when Linkable is loaded.
 	 *
 	 * @return void
 	 */

@@ -471,7 +471,7 @@ class FormExtHelper extends FormHelper {
 							$this->Html->css('common/datepicker', array('inline'=>false));
 						} else {
 							$this->Common->script(array('Tools.Asset|datepicker/lang/' . $lang, 'Tools.Asset|datepicker/datepicker'), false);
-							$this->Common->css(array('Tools.Asset|datepicker/datepicker'), null, array('inline'=>false));
+							$this->Common->css(array('Tools.Asset|datepicker/datepicker'), array('inline'=>false));
 						}
 						$this->scriptsAdded['date'] = true;
 						break;
@@ -482,7 +482,7 @@ class FormExtHelper extends FormHelper {
 						} else {
 							//'Tools.Jquery|ui/core/jquery.ui.core', 'Tools.Jquery|ui/core/jquery.ui.widget', 'Tools.Jquery|ui/widgets/jquery.ui.slider',
 							$this->Common->script(array('Tools.Jquery|plugins/jquery.timepicker.core', 'Tools.Jquery|plugins/jquery.timepicker'), false);
-							$this->Common->css(array('Tools.Jquery|ui/core/jquery.ui', 'Tools.Jquery|plugins/jquery.timepicker'), null, array('inline'=>false));
+							$this->Common->css(array('Tools.Jquery|ui/core/jquery.ui', 'Tools.Jquery|plugins/jquery.timepicker'), array('inline'=>false));
 						}
 						break;
 					default:
@@ -576,7 +576,7 @@ class FormExtHelper extends FormHelper {
 	}
 
 	/**
-	 * date input (day, month, year) + js
+	 * Date input (day, month, year) + js
 	 * @see http://www.frequency-decoder.com/2006/10/02/unobtrusive-date-picker-widgit-update/
 	 * @param field (field or Model.field)
 	 * @param options
@@ -857,7 +857,7 @@ class FormExtHelper extends FormHelper {
 	}
 
 	/**
-	 * maxLength js for textarea input
+	 * MaxLength js for textarea input
 	 * final output
 	 * @param array $selectors with specific settings
 	 * @param array $globalOptions
@@ -1011,7 +1011,7 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 	}
 
 	/**
-	 * returns script + elements "all", "none" etc
+	 * Returns script + elements "all", "none" etc
 	 */
 	public function checkboxScript($id) {
 		$this->checkboxScripts();
@@ -1039,7 +1039,7 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 	}
 
 	/**
-	 * displays a single checkbox - called for each
+	 * Displays a single checkbox - called for each
 	 */
 	public function _checkbox($id, $group = null, $options = array()) {
 		$defaults = array(

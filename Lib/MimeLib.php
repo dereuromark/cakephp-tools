@@ -703,7 +703,7 @@ class MimeLib extends CakeResponse {
 	);
 
 	/**
-	 * override constructor
+	 * Override constructor
 	 */
 	public function __construct() {
 	}

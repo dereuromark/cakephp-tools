@@ -23,7 +23,7 @@ class MasterPasswordBehaviorTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * test 123456
+	 * Test 123456
 	 */
 	public function testSinglePwd() {
 		$this->Model->Behaviors->load('Tools.MasterPassword');
@@ -61,7 +61,7 @@ class MasterPasswordBehaviorTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * test xxzzyy
+	 * Test xxzzyy
 	 * with specific settings
 	 */
 	public function testComplex() {
@@ -88,7 +88,7 @@ class MasterPasswordBehaviorTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * test xxzzyy with salt
+	 * Test xxzzyy with salt
 	 * with specific settings
 	 */
 	public function testWithSalt() {
@@ -116,7 +116,7 @@ class MasterPasswordBehaviorTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * test 123456 and 654321
+	 * Test 123456 and 654321
 	 */
 	public function testMultiplePwd() {
 		Configure::write('MasterPassword.password', array('dd5fef9c1c1da1394d6d34b248c51be2ad740840', '7c4a8d09ca3762af61e59520943dc26494f8941b'));

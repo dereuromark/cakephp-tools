@@ -20,7 +20,7 @@ class CodeShell extends AppShell {
 	protected $_paths;
 
 	/**
-	 * detect and fix class dependencies
+	 * Detect and fix class dependencies
 	 */
 	public function dependencies() {
 		if ($customPath = $this->params['custom']) {
@@ -170,7 +170,7 @@ class CodeShell extends AppShell {
 	}
 
 	/**
-	 * make sure all files are properly encoded (ü instead of &uuml; etc)
+	 * Make sure all files are properly encoded (ü instead of &uuml; etc)
 	 * FIXME: non-utf8 files to utf8 files error on windows!
 	 *
 	 */

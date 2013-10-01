@@ -396,7 +396,7 @@ class Utility {
 	}
 
 	/**
-	 * main deep method
+	 * Main deep method
 	 *
 	 */
 	public static function deep($function, $value) {
@@ -465,7 +465,7 @@ class Utility {
 	protected static $_counterStartTime;
 
 	/**
-	 * returns microtime as float value
+	 * Returns microtime as float value
 	 * (to be subtracted right away)
 	 *
 	 * @return float

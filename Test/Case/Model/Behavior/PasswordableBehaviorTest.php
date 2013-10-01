@@ -10,7 +10,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	);
 
 	/**
-	 * setUp method
+	 * SetUp method
 	 *
 	 * @return void
 	 */
@@ -61,7 +61,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * make sure validation is triggered correctly
+	 * Make sure validation is triggered correctly
 	 *
 	 * @return void
 	 */
@@ -137,7 +137,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * validation and update process gets skipped if no values are entered
+	 * Validation and update process gets skipped if no values are entered
 	 *
 	 * @return void
 	 */
@@ -202,7 +202,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * test aliases for field names
+	 * Test aliases for field names
 	 */
 	public function testDifferentFieldNames() {
 		$this->User->Behaviors->load('Tools.Passwordable', array(
@@ -222,7 +222,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * assert that allowSame false does not allow storing the same password as previously entered
+	 * Assert that allowSame false does not allow storing the same password as previously entered
 	 */
 	public function testNotSame() {
 		$this->User->Behaviors->load('Tools.Passwordable', array(
@@ -258,7 +258,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * assert that allowSame false does not allow storing the same password as previously entered
+	 * Assert that allowSame false does not allow storing the same password as previously entered
 	 */
 	public function testNotSameWithoutCurrentField() {
 		$this->User->Behaviors->load('Tools.Passwordable', array(
@@ -299,7 +299,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * needs faking of pwd check...
+	 * Needs faking of pwd check...
 	 */
 	public function testValidateCurrent() {
 		$this->assertFalse($this->User->Behaviors->attached('Passwordable'));

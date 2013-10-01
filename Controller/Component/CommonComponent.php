@@ -24,7 +24,7 @@ class CommonComponent extends Component {
 	public $removeChars = false;
 
 	/**
-	 * for automatic startup
+	 * For automatic startup
 	 * for this helper the controller has to be passed as reference
 	 */
 	public function initialize(Controller $Controller) {
@@ -34,7 +34,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * for this helper the controller has to be passed as reference
+	 * For this helper the controller has to be passed as reference
 	 * for manual startup with $disableStartup = true (requires this to be called prior to any other method)
 	 */
 	public function startup(Controller $Controller = null) {
@@ -164,7 +164,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * flashMessages that are not saved (only for current view)
+	 * FlashMessages that are not saved (only for current view)
 	 * will be merged into the session flash ones prior to output
 	 *
 	 * @param STRING messagestring
@@ -191,7 +191,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * add helper just in time (inside actions - only when needed)
+	 * Add helper just in time (inside actions - only when needed)
 	 * aware of plugins
 	 * @param mixed $helpers (single string or multiple array)
 	 */
@@ -200,7 +200,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * add lib just in time (inside actions - only when needed)
+	 * Add lib just in time (inside actions - only when needed)
 	 * aware of plugins and config array (if passed)
 	 * ONLY works if constructor consists only of one param (settings)!
 	 * @param mixed $libs (single string or multiple array)
@@ -227,7 +227,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * add component just in time (inside actions - only when needed)
+	 * Add component just in time (inside actions - only when needed)
 	 * aware of plugins and config array (if passed)
 	 * @param mixed $components (single string or multiple array)
 	 * @poaram bool $callbacks (defaults to true)
@@ -423,7 +423,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * should be a 303, but:
+	 * Should be a 303, but:
 	 * Note: Many pre-HTTP/1.1 user agents do not understand the 303 status. When interoperability with such clients is a concern, the 302 status code may be used instead, since most user agents react to a 302 response as described here for 303.
 	 * @see http://en.wikipedia.org/wiki/Post/Redirect/Get
 	 * @param mixed $url
@@ -435,7 +435,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * combine auto with post
+	 * Combine auto with post
 	 * also allows whitelisting certain actions for autoRedirect (use Controller::$autoRedirectActions)
 	 * @param mixed $url
 	 * @param boolean $conditionalAutoRedirect false to skip whitelisting
@@ -641,7 +641,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * quick sql debug from controller dynamically
+	 * Quick sql debug from controller dynamically
 	 * or statically from just about any other place in the script
 	 * @param boolean $die: TRUE to output and die, FALSE to log to file and continue
 	 */
@@ -716,7 +716,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * bug fix for i18n
+	 * Bug fix for i18n
 	 * still needed?
 	 *
 	 * @return void
@@ -728,7 +728,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * main controller function for consistency in controller naming
+	 * Main controller function for consistency in controller naming
 	 */
 	public function ensureControllerConsistency() {
 		# problems with plugins
@@ -763,7 +763,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * main controller function for seo-slugs
+	 * Main controller function for seo-slugs
 	 * passed titleSlug != current title => redirect to the expected one
 	 */
 	public function ensureConsistency($id, $passedTitleSlug, $currentTitle) {
@@ -809,7 +809,7 @@ class CommonComponent extends Component {
 /*** DEEP FUNCTIONS ***/
 
 	/**
-	 * move to boostrap?
+	 * Move to boostrap?
 	 */
 	public function trimDeep($value) {
 		$value = is_array($value) ? array_map(array($this, 'trimDeep'), $value) : trim($value);
@@ -817,7 +817,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * move to boostrap?
+	 * Move to boostrap?
 	 */
 	public function specialcharsDeep($value) {
 		$value = is_array($value) ? array_map(array($this, 'specialcharsDeep'), $value) : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
@@ -825,7 +825,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * move to boostrap?
+	 * Move to boostrap?
 	 */
 	public function deep($function, $value) {
 		$value = is_array($value) ? array_map(array($this, $function), $value) : $function($value);
@@ -856,7 +856,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * removes all except A-Z,a-z,0-9 and allowedChars (allowedChars array)
+	 * Removes all except A-Z,a-z,0-9 and allowedChars (allowedChars array)
 	 * move to boostrap?
 	 */
 	public function paranoidDeep($value) {
@@ -939,7 +939,7 @@ class CommonComponent extends Component {
 /*** deprecated ***/
 
 	/**
-	 * add protocol prefix if necessary (and possible)
+	 * Add protocol prefix if necessary (and possible)
 	 */
 	public function autoPrefixUrl($url, $prefix = null) {
 		trigger_error('deprecated - use Utility::autoPrefixUrl()');
@@ -947,7 +947,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * remove unnessary stuff + add http:// for external urls
+	 * Remove unnessary stuff + add http:// for external urls
 	 */
 	public static function cleanUrl($url, $headerRedirect = false) {
 		trigger_error('deprecated - use Utility::cleanUrl()');
@@ -962,7 +962,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * get the current ip address
+	 * Get the current ip address
 	 * @param boolean $safe
 	 * @return string ip
 	 */
@@ -972,7 +972,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * get the current referer
+	 * Get the current referer
 	 * @param boolean $full (defaults to false and leaves the url untouched)
 	 * @return string referer (local or foreign)
 	 */
@@ -982,7 +982,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * returns true only if all values are true
+	 * Returns true only if all values are true
 	 * @return boolean result
 	 * maybe move to bootstrap?
 	 */
@@ -992,7 +992,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * returns true if at least one value is true
+	 * Returns true if at least one value is true
 	 * @return boolean result
 	 * maybe move to bootstrap?
 	 */
@@ -1090,7 +1090,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * expects email to be valid!
+	 * Expects email to be valid!
 	 * TODO: move to Lib
 	 * @return array email - pattern: array('email'=>,'name'=>)
 	 */
@@ -1208,7 +1208,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * returns auto-generated password
+	 * Returns auto-generated password
 	 * @param string $type: user, ...
 	 * @param integer $length (if no type is submitted)
 	 * @return pwd on success, empty string otherwise

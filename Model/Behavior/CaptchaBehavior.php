@@ -79,7 +79,7 @@ class CaptchaBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * return the current used field names to be passed in whitelist etc
+	 * Return the current used field names to be passed in whitelist etc
 	 */
 	public function fields() {
 		$list = array('captcha', 'captcha_hash', 'captcha_time');
@@ -108,7 +108,7 @@ class CaptchaBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * flood protection by time
+	 * Flood protection by time
 	 * TODO: SESSION based one as alternative
 	 */
 	protected function _validateCaptchaMinTime($data) {
@@ -124,7 +124,7 @@ class CaptchaBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * validates maximum time
+	 * Validates maximum time
 	 *
 	 * @param array $data
 	 * @return boolean
@@ -143,7 +143,7 @@ class CaptchaBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * flood protection by false fields and math code
+	 * Flood protection by false fields and math code
 	 * TODO: build in floodProtection (max Trials etc)
 	 * TODO: SESSION based one as alternative
 	 */
@@ -163,7 +163,7 @@ class CaptchaBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * return error message (or empty string if none)
+	 * Return error message (or empty string if none)
 	 * @return string
 	 */
 	public function errors() {
@@ -171,14 +171,14 @@ class CaptchaBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * only necessary if there is more than one request per model
+	 * Only necessary if there is more than one request per model
 	 */
 	public function reset() {
 		$this->error = '';
 	}
 
 	/**
-	 * build and log error message
+	 * Build and log error message
 	 */
 	protected function _setError($msg = null, $internalMsg = null) {
 		if (!empty($msg)) {
@@ -203,7 +203,7 @@ class CaptchaBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * logs attempts
+	 * Logs attempts
 	 * @param boolean ErrorsOnly (only if error occured, otherwise always)
 	 * @returns null if not logged, true otherwise
 	 */

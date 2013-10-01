@@ -70,7 +70,7 @@ class SluggedBehavior extends ModelBehavior {
 	);
 
 	/**
-	 * stopWords property
+	 * StopWords property
 	 *
 	 * A (3 letter) language code indexed array of stop words
 	 *
@@ -79,7 +79,7 @@ class SluggedBehavior extends ModelBehavior {
 	public $stopWords = array();
 
 	/**
-	 * setup method
+	 * Setup method
 	 *
 	 * Use the model's label field as the default field on which to base the slug, the label can be made up of multiple
 	 * fields by specifying an array of fields
@@ -121,7 +121,7 @@ class SluggedBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * beforeValidate method
+	 * BeforeValidate method
 	 *
 	 * @param Model $Model
 	 * @return void
@@ -140,7 +140,7 @@ class SluggedBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * beforeSave method
+	 * BeforeSave method
 	 *
 	 * @param Model $Model
 	 * @return void
@@ -244,7 +244,7 @@ class SluggedBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * removeStopWords from a string. if $splitOnStopWord is true, the following occurs:
+	 * RemoveStopWords from a string. if $splitOnStopWord is true, the following occurs:
 	 * 	input "apples bananas pears and red cars"
 	 * 	output array('apples bananas pears', 'red cars')
 	 *
@@ -349,7 +349,7 @@ class SluggedBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * slug method
+	 * Slug method
 	 *
 	 * For the given string, generate a slug. The replacements used are based on the mode setting, If tidy is false
 	 * (only possible if directly called - primarily for tracing and testing) separators will not be cleaned up
@@ -417,7 +417,7 @@ class SluggedBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * display method
+	 * Display method
 	 *
 	 * Cheat - use find('list') and assume it has been modified such that lists show in the desired format.
 	 * First check (since this method is called in beforeSave) if there is data to be saved, and use that
@@ -441,7 +441,7 @@ class SluggedBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * resetSlugs method.
+	 * ResetSlugs method.
 	 *
 	 * Regenerate all slugs. On large dbs this can take more than 30 seconds - a time
 	 * limit is set to allow a minimum 100 updates per second as a preventative measure.
@@ -449,7 +449,7 @@ class SluggedBehavior extends ModelBehavior {
 	 * @param AppModel $Model
 	 * @param array $conditions
 	 * @param integer $recursive
-	 * @return boolean True on success, false otherwise
+	 * @return boolean Success
 	 */
 	public function resetSlugs(Model $Model, $params = array()) {
 		$recursive = -1;
@@ -505,7 +505,6 @@ class SluggedBehavior extends ModelBehavior {
 			}
 			$this->beforeValidate($Model);
 			$data[$Model->alias][$slugField][$locale] = $Model->data[$Model->alias][$field];
-
 		}
 		$Model->data = $data;
 	}
@@ -531,7 +530,7 @@ class SluggedBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * setEncoding method
+	 * SetEncoding method
 	 *
 	 * @param Model $Model
 	 * @param mixed $encoding null
@@ -558,7 +557,7 @@ class SluggedBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * regex method
+	 * Regex method
 	 *
 	 * Based upon the mode return a partial regex to generate a valid string for the intended use. Note that you
 	 * can use almost litterally anything in a url - the limitation is only in what your own application

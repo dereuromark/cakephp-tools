@@ -56,14 +56,12 @@ class ResetBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * resetRecords method
-	 *
-	 * Regenerate all records (run beforeValidate/beforeSave callbacks).
+	 * Regenerate all records (including possible beforeValidate/beforeSave callbacks).
 	 *
 	 * @param Model $Model
 	 * @param array $conditions
 	 * @param integer $recursive
-	 * @return boolean true on success false otherwise
+	 * @return boolean Success
 	 */
 	public function resetRecords(Model $Model, $params = array()) {
 		$recursive = -1;

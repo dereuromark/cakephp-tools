@@ -122,7 +122,7 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * allows icons to be added on the fly
+	 * Allows icons to be added on the fly
 	 * NOTE: overriding not allowed by default
 	 */
 	public function addIcon($name = null, $pic = null, $title = null, $allowOverride = false) {
@@ -390,7 +390,7 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * custom Icons
+	 * Custom Icons
 	 * @param string $icon (constant or filename)
 	 * @param array $options:
 	 * - translate, ...
@@ -638,27 +638,33 @@ class FormatHelper extends TextHelper {
 	 *
 	 * @todo $on=1, $text=false, $ontitle=false,... => in array(OPTIONS) packen
 	 */
-	public function yesNo($v, $ontitle=null, $offtitle=null, $on=1, $text=false, $notitle=false) {
-		$ontitle = (!empty($ontitle)?$ontitle:__('Ja'));
-		$offtitle = (!empty($offtitle)?$offtitle:__('Nein'));
-		$sbez = array('0'=>@substr($offtitle, 0, 1), '1'=>@substr($ontitle, 0, 1));
-		$bez = array('0'=>$offtitle, '1'=>$ontitle);
+	public function yesNo($v, $ontitle = null, $offtitle = null, $on = 1, $text=false, $notitle=false) {
+		$ontitle = (!empty($ontitle) ? $ontitle : __('Ja'));
+		$offtitle = (!empty($offtitle) ? $offtitle : __('Nein'));
+		$sbez = array('0' => @substr($offtitle, 0, 1), '1' => @substr($ontitle, 0, 1));
+		$bez = array('0' => $offtitle, '1' => $ontitle);
 
-		if ($v==$on) {$icon=ICON_YES; $value=1;} else {$icon=ICON_NO; $value=0;}
-
-		if ($text!==false) {
-			$light=$bez[$value];
+		if ($v == $on) {
+			$icon = ICON_YES;
+			$value = 1;
 		} else {
+			$icon = ICON_NO;
+			$value = 0;
+		}
 
+		if ($text !== false) {
+			$light = $bez[$value];
+		} else {
 			//$light='<img src="images/icons/'.$icon.'" alt="'.$sbez[$value].'" '.($notitle!==false?'title="'.$bez[$value].'"':'').'/>';
 			//$light=$this->Html->image('',)<img src="images/icons/'.$icon.'" alt="'.$sbez[$value].'" '.($notitle!==false?'title="'.$bez[$value].'"':'').'/>';
-			$light=$this->Html->image('icons/'.$icon, array('title'=>($ontitle===false?'':$bez[$value]), 'alt'=>$sbez[$value], 'class'=>'icon'));
+			$options = array('title' => ($ontitle === false ? '' : $bez[$value]), 'alt' => $sbez[$value], 'class' => 'icon');
+			$light = $this->Html->image('icons/' . $icon, $options);
 		}
 		return $light;
 	}
 
 	/**
-	 * get url of a png img of a website (16x16 pixel)
+	 * Get url of a png img of a website (16x16 pixel)
 	 */
 	public function siteIconUrl($domain) {
 		if (strpos($domain, 'http') === 0) {
@@ -670,7 +676,7 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * display a png img of a website (16x16 pixel)
+	 * Display a png img of a website (16x16 pixel)
 	 * if not available, will return a fallback image (a globe)
 	 * @param domain (preferably without protocol, e.g. "www.site.com")
 	 */
@@ -759,14 +765,14 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * display communication action depending on the current rule/right
+	 * Display communication action depending on the current rule/right
 	 */
 	public function action($s) {
 		//TODO
 	}
 
 	/**
-	 * generate a pagination count: #1 etc for each pagiation record
+	 * Generate a pagination count: #1 etc for each pagiation record
 	 * respects order (ASC/DESC)
 	 * @param paginator array
 	 * @param count (current post count on this page)
@@ -846,7 +852,7 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * fixes utf8 problems of native php str_pad function
+	 * Fixes utf8 problems of native php str_pad function
 	 * @param string $input
 	 * @param integer $padLength
 	 * @param string $padString
@@ -894,7 +900,7 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * album image
+	 * Album image
 	 */
 	public function albumImage($image, $options = array(), $attr = array()) {
 		$subfolder = $image['Album']['id'];
@@ -985,7 +991,7 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * takes username + userId and forms a profile link out of it
+	 * Takes username + userId and forms a profile link out of it
 	 * if username is empty, return "deleted" text without link
 	 * maybe move to custom/community helper etc?
 	 */
@@ -1024,7 +1030,7 @@ class FormatHelper extends TextHelper {
 	*/
 
 	/**
-	 * better an element?
+	 * Better an element?
 	 */
 	public function profilePic($uid, $e, $rights = null) {
 
@@ -1097,7 +1103,7 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * display traffic light for status etc
+	 * Display traffic light for status etc
 	 */
 	public function statusLight($color = null, $title = null, $alt = null, $options = array()) {
 		$icons = array(
@@ -1167,7 +1173,7 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * returns green on ok, red otherwise
+	 * Returns green on ok, red otherwise
 	 * @param mixed $currentValue
 	 * @param boolean $ok: true/false (defaults to false)
 	 * //@param string $comparizonType

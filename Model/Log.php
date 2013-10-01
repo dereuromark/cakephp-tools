@@ -23,7 +23,7 @@ class Log extends ToolsAppModel {
 	);
 
 	/**
-	 * not really necessary probably
+	 * Not really necessary probably
 	 */
 	public function find($type = null, $query = array()) {
 		if ($type === 'last') {

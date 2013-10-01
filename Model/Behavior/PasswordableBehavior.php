@@ -174,7 +174,7 @@ class PasswordableBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * if not implemented in AppModel
+	 * If not implemented in AppModel
 	 *
 	 * @param Model $Model
 	 * @param array $data
@@ -192,7 +192,7 @@ class PasswordableBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * if not implemented in AppModel
+	 * If not implemented in AppModel
 	 *
 	 * @return boolean Success
 	 */
@@ -203,7 +203,7 @@ class PasswordableBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * if not implemented in AppModel
+	 * If not implemented in AppModel
 	 *
 	 * @return boolean Success
 	 */

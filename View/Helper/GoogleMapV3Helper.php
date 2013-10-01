@@ -318,7 +318,7 @@ class GoogleMapV3Helper extends AppHelper {
 	}
 
 	/**
-	 * make it possible to include multiple maps per page
+	 * Make it possible to include multiple maps per page
 	 * resets markers, infoWindows etc
 	 * @param full: true=optionsAsWell
 	 * @return void
@@ -333,7 +333,7 @@ class GoogleMapV3Helper extends AppHelper {
 	}
 
 	/**
-	 * set the controls of current map
+	 * Set the controls of current map
 	 * @param array $controls:
 	 * - zoom, scale, overview: TRUE/FALSE
 	 *
@@ -992,7 +992,7 @@ var iconShape = {
 	}
 
 	/**
-	 * json encode string
+	 * Json encode string
 	 *
 	 * @param mixed $content
 	 * @return json
@@ -1052,7 +1052,7 @@ var iconShape = {
 	}
 
 	/**
-	 * set a custom geolocate callback
+	 * Set a custom geolocate callback
 	 * @param string $customJs
 	 * false: no callback at all
 	 * @return void
@@ -1066,7 +1066,7 @@ var iconShape = {
 	}
 
 	/**
-	 * experimental - works in cutting edge browsers like chrome10
+	 * Experimental - works in cutting edge browsers like chrome10
 	 */
 	protected function _geolocate() {
 		return '
@@ -1121,7 +1121,7 @@ var iconShape = {
 	}
 
 	/**
-	 * auto center map
+	 * Auto center map
 	 * careful: with only one marker this can result in too high zoom values!
 	 * @return string autoCenterCommands
 	 */
@@ -1198,7 +1198,7 @@ var iconShape = {
 /** Google Maps Link **/
 
 	/**
-	 * returns a maps.google link
+	 * Returns a maps.google link
 	 *
 	 * @param string $linkTitle
 	 * @param array $mapOptions
@@ -1210,7 +1210,7 @@ var iconShape = {
 	}
 
 	/**
-	 * returns a maps.google url
+	 * Returns a maps.google url
 	 *
 	 * @param array options:
 	 * - from: necessary (address or lat,lng)
@@ -1402,7 +1402,7 @@ var iconShape = {
 	}
 
 	/**
-	 * prepare paths for staticMap
+	 * Prepare paths for staticMap
 	 * @param array $pathElementArrays
 	 * - elements: [required] (multiple array(lat=>x, lng=>y) or just a address strings)
 	 * - color: red/blue/green (optional, default blue)
@@ -1449,7 +1449,7 @@ var iconShape = {
 	}
 
 	/**
-	 * prepare markers for staticMap
+	 * Prepare markers for staticMap
 	 * @param array $markerArrays
 	 * - lat: xx.xxxxxx (necessary)
 	 * - lng: xx.xxxxxx (necessary)
@@ -1590,7 +1590,7 @@ http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/
 	}
 
 	/**
-	 * managing lots of markers!
+	 * Managing lots of markers!
 	 * @link http://google-maps-utility-library-v3.googlecode.com/svn/tags/markermanager/1.0/docs/examples.html
 	 * @param options
 	 * -
@@ -1607,7 +1607,7 @@ http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/
 	}
 
 	/**
-	 * clustering for lots of markers!
+	 * Clustering for lots of markers!
 	 * @link ?
 	 * @param options
 	 * -

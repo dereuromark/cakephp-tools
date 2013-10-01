@@ -4,7 +4,6 @@
  *
  * TODO: change names of convertFromOctal and convertToOctal
  *
- *
  */
 
 /**
@@ -19,7 +18,7 @@ class ChmodLib {
 /*** calc octal ***/
 
 		/**
-	 * from Octal 0xxx back to STRING with leading zero added on leading zero = true
+	 * From Octal 0xxx back to STRING with leading zero added on leading zero = true
 	 * e.g. 0777 => 0777, '755' => 0755
 	 *
 	 * @return string
@@ -33,7 +32,7 @@ class ChmodLib {
 	}
 
 	/**
-	 * from INT or STRING with or without leading 0 -> Octal 0xxx
+	 * From INT or STRING with or without leading 0 -> Octal 0xxx
 	 *
 	 * @return integer
 	 */
@@ -56,7 +55,7 @@ class ChmodLib {
 	}
 
 	/**
-	 * get mode as octal value or
+	 * Get mode as octal value or
 	 *
 	 * @param options
 	 * - string: string/int/symbolic
@@ -78,7 +77,7 @@ class ChmodLib {
 	}
 
 	/**
-	 * full table with all rights
+	 * Full table with all rights
 	 * //TODO
 	 */
 	public function table() {
@@ -88,7 +87,7 @@ class ChmodLib {
 	}
 
 	/**
-	 * get symbol for
+	 * Get symbol for
 	 * read(4) = 'r', write(2) = 'w', execute(1) = 'x'
 	 * e.g: 4 for = r--
 	 *

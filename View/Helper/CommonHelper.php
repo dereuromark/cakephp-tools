@@ -222,7 +222,7 @@ class CommonHelper extends AppHelper {
 	}
 
 	/**
-	 * special css tag generator with the option to add '?...' to the link (for caching prevention)
+	 * Special css tag generator with the option to add '?...' to the link (for caching prevention)
 	 * IN USAGE
 	 * needs manual adjustment, but still better than the core one!
 	 *
@@ -255,7 +255,7 @@ class CommonHelper extends AppHelper {
 /*** Content Stuff ***/
 
 	/**
-	 * still necessary?
+	 * Still necessary?
 	 *
 	 * @param array $fields
 	 * @return string HTML
@@ -511,7 +511,7 @@ if (top!=self) top.location.ref=self.location.href;
 	}
 
 	/**
-	 * currenctly only alerts on IE6/IE7
+	 * Currenctly only alerts on IE6/IE7
 	 * options
 	 * - engine (js, jquery)
 	 * - escape
@@ -550,7 +550,7 @@ jQuery(document).ready(function() {
 	}
 
 	/**
-	 * in noscript tags:
+	 * In noscript tags:
 	 * - link which should not be followed by bots!
 	 * - "pseudo"image which triggers log
 	 */
@@ -569,7 +569,7 @@ jQuery(document).ready(function() {
 /*** Stats ***/
 
 	/**
-	 * print js-visit-stats-link to layout
+	 * Print js-visit-stats-link to layout
 	 * uses Piwik open source statistics framework
 	 */
 
@@ -607,7 +607,7 @@ piwikTracker.enableLinkTracking();
 	}
 
 	/**
-	 * non js browsers
+	 * Non js browsers
 	 */
 	public function visitStatsImg($trackingUrl = null) {
 		if (empty($trackingUrl)) {
@@ -676,7 +676,7 @@ piwikTracker.enableLinkTracking();
 	}
 
 	/**
-	 * takes int / array(int) and finds the role name to it
+	 * Takes int / array(int) and finds the role name to it
 	 * @return array roles
 	 */
 	public function roleNamesTranslated($value) {

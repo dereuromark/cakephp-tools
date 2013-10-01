@@ -87,7 +87,7 @@ class TinyAuthorize extends BaseAuthorize {
 	}
 
 	/**
-	 * validate the url to the role(s)
+	 * Validate the url to the role(s)
 	 * allows single or multi role based authorization
 	 *
 	 * @return boolean Success
@@ -158,11 +158,12 @@ class TinyAuthorize extends BaseAuthorize {
 	}
 
 	/**
-	 * parse ini file and returns the allowed roles per action
+	 * Parse ini file and returns the allowed roles per action
 	 * - uses cache for maximum performance
 	 * improved speed by several actions before caching:
 	 * - resolves role slugs to their primary key / identifier
 	 * - resolves wildcards to their verbose translation
+	 *
 	 * @return array Roles
 	 */
 	protected function _getAcl($path = null) {

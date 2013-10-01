@@ -31,32 +31,32 @@ class UrlCacheManager {
 	public static $extras = array();
 
 	/**
-	 * type for the current set (triggered by last get)
+	 * Type for the current set (triggered by last get)
 	 */
 	public static $type = 'cache';
 
 	/**
-	 * key for current get/set
+	 * Key for current get/set
 	 */
 	public static $key = null;
 
 	/**
-	 * cache key for pageFiles
+	 * Cache key for pageFiles
 	 */
 	public static $cacheKey = 'url_map';
 
 	/**
-	 * cache key for pageFiles
+	 * Cache key for pageFiles
 	 */
 	public static $cachePageKey = null;
 
 	/**
-	 * params that will always be present and will determine the global cache if pageFiles is used
+	 * Params that will always be present and will determine the global cache if pageFiles is used
 	 */
 	public static $paramFields = array('controller', 'plugin', 'action', 'prefix');
 
 	/**
-	 * should be called in beforeRender()
+	 * Should be called in beforeRender()
 	 *
 	 */
 	public static function init(View $View) {
@@ -94,7 +94,7 @@ class UrlCacheManager {
 	}
 
 	/**
-	 * should be called in afterLayout()
+	 * Should be called in afterLayout()
 	 *
 	 */
 	public static function finalize() {

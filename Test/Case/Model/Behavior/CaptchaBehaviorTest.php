@@ -25,7 +25,7 @@ class CaptchaBehaviorTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * test if nothing has been
+	 * Test if nothing has been
 	 */
 	public function testEmpty() {
 		$is = $this->Comment->validates();

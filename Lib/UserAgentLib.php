@@ -52,7 +52,7 @@ class UserAgentLib extends CakeRequest {
 	}
 
 	/**
-	 * better handling of mobile agents
+	 * Better handling of mobile agents
 	 * including whitelist and blacklist
 	 */
 	public function isMobile() {
@@ -120,7 +120,7 @@ class UserAgentLib extends CakeRequest {
 	}
 
 	/**
-	 * fetches url with curl if available
+	 * Fetches url with curl if available
 	 * fallbacks: cake and php
 	 */
 	public function getMobileDevices() {

@@ -26,7 +26,7 @@
 class MessageFixture extends CakeTestFixture {
 
 	/**
-	 * fields property
+	 * Fields property
 	 *
 	 * @var array
 	 */
@@ -39,7 +39,7 @@ class MessageFixture extends CakeTestFixture {
 	);
 
 	/**
-	 * records property
+	 * Records property
 	 *
 	 * The records are created out of sequence so that theirs id are not sequncial.
 	 * The order field values are used only in the list behavior test

@@ -56,7 +56,7 @@ class GeocodeLib {
 	);
 
 	/**
-	 * validation and retrieval options
+	 * Validation and retrieval options
 	 * - use:
 	 * - log: false logs only real errors, true all activities
 	 * - pause: timeout to prevent blocking
@@ -75,7 +75,7 @@ class GeocodeLib {
 	);
 
 	/**
-	 * url params
+	 * Url params
 	 */
 	protected $params = array(
 		'address' => '', # either address or latlng required!
@@ -233,7 +233,7 @@ class GeocodeLib {
 	}
 
 	/**
-	 * results usually from most accurate to least accurate result (street_address, ..., country)
+	 * Results usually from most accurate to least accurate result (street_address, ..., country)
 	 * @param float $lat
 	 * @param float $lng
 	 * @param array $options
@@ -332,7 +332,7 @@ class GeocodeLib {
 	}
 
 	/**
-	 * trying to avoid "TOO_MANY_QUERIES" error
+	 * Trying to avoid "TOO_MANY_QUERIES" error
 	 * @param boolean $raise If the pause length should be raised
 	 */
 	public function pause($raise = false) {
@@ -536,7 +536,7 @@ class GeocodeLib {
 	}
 
 	/**
-	 * try to find the correct path
+	 * Try to find the correct path
 	 * - type (string)
 	 * - Type (array[string, ...])
 	 */
@@ -551,7 +551,7 @@ class GeocodeLib {
 	}
 
 	/**
-	 * flattens result array and returns clean record
+	 * Flattens result array and returns clean record
 	 * keys:
 	 * - formatted_address, type, country, country_code, country_province, country_province_code, locality, sublocality, postal_code, route, lat, lng, location_type, viewport, bounds
 	 */
@@ -654,7 +654,7 @@ class GeocodeLib {
 	}
 
 	/**
-	 * fetches url with curl if available
+	 * Fetches url with curl if available
 	 * fallbacks: cake and php
 	 * note: expects url with json encoded content
 	 *

@@ -28,7 +28,7 @@ class RandomLib {
 	}
 
 	/**
-	 * randomly return one of the values provided
+	 * Randomly return one of the values provided
 	 * careful: only works with numerical keys (0 based!)
 	 *
 	 * @return mixed
@@ -147,7 +147,7 @@ class RandomLib {
 	}
 
 	/**
-	 * returns auto-generated password
+	 * Returns auto-generated password
 	 *
 	 * @param string $type: user, ...
 	 * @param integer $length (if no type is submitted)
@@ -248,7 +248,7 @@ class RandomLib {
 	}
 
 	/**
-	 * other implemantations
+	 * Other implemantations
 	 */
 
 	/**

@@ -162,7 +162,7 @@ class PhpThumbHelper extends AppHelper {
 /** NOT IN USE YET **/
 
 	/**
-	 * image tag
+	 * Image tag
 	 */
 	public function show($options = array(), $tag_options = array()) {
 		$this->init($options, $tag_options);
@@ -175,7 +175,7 @@ class PhpThumbHelper extends AppHelper {
 	}
 
 	/**
-	 * image scr only
+	 * Image src only
 	 */
 	public function show_src($options = array()) {
 		$this->init($options);

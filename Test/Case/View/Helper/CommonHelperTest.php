@@ -93,7 +93,7 @@ class CommonHelperTest extends MyCakeTestCase {
 	}
 
 /**
- * tearDown method
+ * TearDown method
  *
  * @return void
  */

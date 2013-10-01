@@ -161,7 +161,7 @@ class ZipLib {
 	}
 
 	/**
-	 * returns the error string, if no error, it will return empty string ''
+	 * Returns the error string, if no error, it will return empty string ''
 	 *
 	 * @return string
 	 */

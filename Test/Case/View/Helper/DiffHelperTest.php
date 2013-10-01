@@ -12,7 +12,7 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
 class DiffHelperTest extends MyCakeTestCase {
 
 	/**
-	 * setUp method
+	 * SetUp method
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -40,7 +40,7 @@ CSS;
 	}
 
 	/**
-	 * string renderer
+	 * String renderer
 	 * source: 'context', 'unified', or 'autodetect'
 	 * engine:
 	 * - auto
@@ -88,7 +88,7 @@ TEXT;
 	}
 
 	/**
-	 * auto engine + inline Render
+	 * Auto engine + inline Render
 	 * Fastest way
 	 *
 	 */
@@ -113,7 +113,7 @@ TEXT;
 	}
 
 	/**
-	 * inline render
+	 * Inline render
 	 * engine:
 	 * - native
 	 * - shell
@@ -161,7 +161,7 @@ TEXT;
 	}
 
 	/**
-	 * unified renderer
+	 * Unified renderer
 	 */
 	public function testDiffUnified() {
 		$t1 = array(
@@ -210,7 +210,7 @@ TEXT;
 	}
 
 	/**
-	 * context renderer
+	 * Context renderer
 	 */
 	public function testDiffContext() {
 		$t1 = array(

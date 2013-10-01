@@ -12,7 +12,7 @@ class AutoLoginComponentTest extends CakeTestCase {
 	public $fixtures = array('core.cake_session', 'core.user');
 
 	/**
-	 * setUp method
+	 * SetUp method
 	 *
 	 * @return void
 	 */
@@ -39,7 +39,7 @@ class AutoLoginComponentTest extends CakeTestCase {
 	}
 
 	/**
-	 * test if suhosin isn't messing up srand() and mt_srand()
+	 * Test if suhosin isn't messing up srand() and mt_srand()
 	 * run this on every the environment you want AutoLogin to work!
 	 * It this test fails add `suhosin.srand.ignore = Off`
 	 * in your `/etc/php5/apache2/php.ini`
@@ -56,7 +56,7 @@ class AutoLoginComponentTest extends CakeTestCase {
 	}
 
 	/**
-	 * test merge of configs
+	 * Test merge of configs
 	 */
 	public function testConfigs() {
 		$this->Controller->AutoLogin->initialize($this->Controller);
@@ -65,7 +65,7 @@ class AutoLoginComponentTest extends CakeTestCase {
 	}
 
 	/**
-	 * test cookie name
+	 * Test cookie name
 	 */
 	public function testConfigsWithCustomCookieName() {
 		Configure::write('AutoLogin.cookieName', 'myAutoLogin');
@@ -97,19 +97,19 @@ class AutoLoginComponentTest extends CakeTestCase {
  */
 class AutoLoginTestController extends Controller {
 	/**
-	 * name property
+	 * Name property
 	 *
 	 * @var string 'SecurityTest'
 	 */
 
 	/**
-	 * components property
+	 * Components property
 	 *
 	 * @var array
 	 */
 	public $components = array('Tools.AutoLogin');
 	/**
-	 * failed property
+	 * Failed property
 	 *
 	 * @var boolean
 	 */
@@ -121,7 +121,7 @@ class AutoLoginTestController extends Controller {
 	 */
 	public $testHeaders = array();
 	/**
-	 * fail method
+	 * Fail method
 	 *
 	 * @return void
 	 */
@@ -129,7 +129,7 @@ class AutoLoginTestController extends Controller {
 		$this->failed = true;
 	}
 	/**
-	 * redirect method
+	 * Redirect method
 	 *
 	 * @param mixed $option
 	 * @param mixed $code

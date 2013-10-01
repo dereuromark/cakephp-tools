@@ -3,7 +3,7 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
 App::uses('ExcelReaderLib', 'Tools.Lib');
 
 /**
- * testing basic functions
+ * Testing basic functions
  */
 class ExcelReaderLibTest extends MyCakeTestCase {
 

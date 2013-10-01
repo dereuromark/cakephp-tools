@@ -73,7 +73,7 @@ class HttpSocketLib {
 	}
 
 	/**
-	 * fetches url with curl if available
+	 * Fetches url with curl if available
 	 * fallbacks: cake and php
 	 * note: expects url with json encoded content
 	 *

@@ -30,7 +30,7 @@ class BootstrapHelper extends AppHelper {
 	}
 
 	/**
-	 * complete typeahead form input element
+	 * Complete typeahead form input element
 	 *
 	 * @param fieldName
 	 * @param options:
@@ -63,7 +63,7 @@ class BootstrapHelper extends AppHelper {
 	}
 
 	/**
-	 * complete carousel container
+	 * Complete carousel container
 	 *
 	 * @param array $items (heading, content, active)
 	 * @param id
@@ -87,7 +87,7 @@ class BootstrapHelper extends AppHelper {
 	}
 
 	/**
-	 * items of a carousel container
+	 * Items of a carousel container
 	 *
 	 * @param array $items (heading, content, active)
 	 * - active (visible, true/false)
@@ -112,7 +112,7 @@ class BootstrapHelper extends AppHelper {
 	}
 
 	/**
-	 * complete accordion container
+	 * Complete accordion container
 	 *
 	 * @param array $records (heading, content, options)
 	 * @param id
@@ -131,7 +131,7 @@ class BootstrapHelper extends AppHelper {
 	}
 
 	/**
-	 * a single group of an accordion container
+	 * A single group of an accordion container
 	 *
 	 * @param string $heading
 	 * @param string $content
