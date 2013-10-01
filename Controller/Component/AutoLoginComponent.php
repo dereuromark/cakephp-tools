@@ -137,7 +137,7 @@ class AutoLoginComponent extends Component {
 			$resetCakeSession = $cakeSessionExpired && !$autoLoginCookieExpired;
 
 			if ($resetCakeSession) {
-				$this->_findUser($cookie['username'], $cookie['password']);
+				$userData = $this->_findUser($cookie['username'], $cookie['password']);
 				$this->Auth->login($userData);
 			}
 			return;
