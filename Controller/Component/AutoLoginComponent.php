@@ -127,6 +127,32 @@ class AutoLoginComponent extends Component {
 	 * @return void
 	 */
 	public function startup(Controller $controller) {
+		// for all ajax requests regardless of method type
+		// we will update expired CakeSession with AutoLoginCookie data
+		if ($controller->request->is('ajax')) {
+			$cookie	= $this->_readCookie();
+			$user	= $this->Auth->user();
+
+			$cakeSessionExpired		= empty($user);
+			$autoLoginCookieExpired	= empty($cookie);
+
+			$resetCakeSession = $cakeSessionExpired && !$autoLoginCookieExpired;
+			if ($resetCakeSession) {
+				$loginData = array();
+				$loginData[$this->settings['username']] = $cookie['username'];
+				$loginData[$this->settings['password']] = $this->Auth->password($cookie['password']);
+				$userModel = ClassRegistry::init($this->settings['model']);
+				$userData = $userModel->find('first', array('conditions' => $loginData));
+				if (!empty($userData)) {
+					// remove the alias key
+					$userData = Hash::extract($userData, $this->settings['model']);
+					unset($userData[$this->settings['password']]);
+				}
+				$this->Auth->login($userData);
+			}
+			return;
+		}
+		
 		if (!$this->_isValidRequest) {
 			return;
 		}
