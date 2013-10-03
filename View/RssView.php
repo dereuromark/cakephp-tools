@@ -47,26 +47,26 @@ App::uses('Routing', 'Router');
  */
 class RssView extends View {
 
-/**
- * Default spec version of generated RSS.
- *
- * @var string
- */
+	/**
+	 * Default spec version of generated RSS.
+	 *
+	 * @var string
+	 */
 	public $version = '2.0';
 
-/**
- * The subdirectory. RSS views are always in rss. Currently not in use.
- *
- * @var string
- */
+	/**
+	 * The subdirectory. RSS views are always in rss. Currently not in use.
+	 *
+	 * @var string
+	 */
 	public $subDir = 'rss';
 
-/**
- * Holds usable namespaces.
- *
- * @var array
- * @link http://validator.w3.org/feed/docs/howto/declare_namespaces.html
- */
+	/**
+	 * Holds usable namespaces.
+	 *
+	 * @var array
+	 * @link http://validator.w3.org/feed/docs/howto/declare_namespaces.html
+	 */
 	protected $_namespaces = array(
 		'atom' => 'http://www.w3.org/2005/Atom',
 		'content' => 'http://purl.org/rss/1.0/modules/content/',
@@ -74,18 +74,25 @@ class RssView extends View {
 		'sy' => 'http://purl.org/rss/1.0/modules/syndication/'
 	);
 
-/**
- * Holds the namespace keys in use.
- *
- * @var array
- */
+	/**
+	 * Holds the namespace keys in use.
+	 *
+	 * @var array
+	 */
 	protected $_usedNamespaces = array();
 
-/**
- * Constructor
- *
- * @param Controller $controller
- */
+	/**
+	 * Holds CDATA placeholders.
+	 *
+	 * @var array
+	 */
+	protected $_cdata = array();
+
+	/**
+	 * Constructor
+	 *
+	 * @param Controller $controller
+	 */
 	public function __construct(Controller $controller = null) {
 		parent::__construct($controller);
 
@@ -106,14 +113,14 @@ class RssView extends View {
 		$this->_namespaces[$prefix] = $url;
 	}
 
-/**
- * Converts an array into an `<item />` element and its contents
- *
- * @param array $att The attributes of the `<item />` element
- * @param array $elements The list of elements contained in this `<item />`
- * @return string An RSS `<item />` element
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/rss.html#RssHelper::item
- */
+	/**
+	 * Converts an array into an `<item />` element and its contents
+	 *
+	 * @param array $att The attributes of the `<item />` element
+	 * @param array $elements The list of elements contained in this `<item />`
+	 * @return string An RSS `<item />` element
+	 * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/rss.html#RssHelper::item
+	 */
 	public function channel($channel) {
 		if (!isset($channel['title']) && !empty($this->pageTitle)) {
 			$channel['title'] = $this->pageTitle;
@@ -127,22 +134,22 @@ class RssView extends View {
 		return $channel;
 	}
 
-/**
- * Converts a time in any format to an RSS time
- *
- * @param integer|string|DateTime $time
- * @return string An RSS-formatted timestamp
- * @see CakeTime::toRSS
- */
+	/**
+	 * Converts a time in any format to an RSS time
+	 *
+	 * @param integer|string|DateTime $time
+	 * @return string An RSS-formatted timestamp
+	 * @see CakeTime::toRSS
+	 */
 	public function time($time) {
 		return CakeTime::toRSS($time);
 	}
 
-/**
- * Skip loading helpers if this is a _serialize based view.
- *
- * @return void
- */
+	/**
+	 * Skip loading helpers if this is a _serialize based view.
+	 *
+	 * @return void
+	 */
 	public function loadHelpers() {
 		if (isset($this->viewVars['_serialize'])) {
 			return;
@@ -150,18 +157,18 @@ class RssView extends View {
 		parent::loadHelpers();
 	}
 
-/**
- * Render a RSS view.
- *
- * Uses the special '_serialize' parameter to convert a set of
- * view variables into a XML response. Makes generating simple
- * XML responses very easy. You can omit the '_serialize' parameter,
- * and use a normal view + layout as well.
- *
- * @param string $view The view being rendered.
- * @param string $layout The layout being rendered.
- * @return string The rendered view.
- */
+	/**
+	 * Render a RSS view.
+	 *
+	 * Uses the special '_serialize' parameter to convert a set of
+	 * view variables into a XML response. Makes generating simple
+	 * XML responses very easy. You can omit the '_serialize' parameter,
+	 * and use a normal view + layout as well.
+	 *
+	 * @param string $view The view being rendered.
+	 * @param string $layout The layout being rendered.
+	 * @return string The rendered view.
+	 */
 	public function render($view = null, $layout = null) {
 		if (isset($this->viewVars['_serialize'])) {
 			return $this->_serialize($this->viewVars['_serialize']);
@@ -171,12 +178,12 @@ class RssView extends View {
 		}
 	}
 
-/**
- * Serialize view vars.
- *
- * @param array $serialize The viewVars that need to be serialized.
- * @return string The serialized data
- */
+	/**
+	 * Serialize view vars.
+	 *
+	 * @param array $serialize The viewVars that need to be serialized.
+	 * @return string The serialized data
+	 */
 	protected function _serialize($serialize) {
 		$rootNode = isset($this->viewVars['_rootNode']) ? $this->viewVars['_rootNode'] : 'channel';
 
@@ -206,7 +213,7 @@ class RssView extends View {
 		$channel = $this->channel($data['channel']);
 
 		foreach ($data['items'] as $item) {
-	 		$channel['item'][] = $this->_prepareOutput($item);
+			$channel['item'][] = $this->_prepareOutput($item);
 		}
 
 		$array = array(
@@ -227,9 +234,6 @@ class RssView extends View {
 		}
 
 		$output = Xml::fromArray($array, $options)->asXML();
-		//$output = preg_replace('/version="([0-9\.]+)" encoding="([a-z-]+)"/i', 'version="\1"', $output);
-		//$output = str_replace(' encoding="UTF-8"', '', $output);
-
 		$output = $this->_replaceCdata($output);
 
 		return $output;
@@ -340,14 +344,24 @@ class RssView extends View {
 		return $item;
 	}
 
-	protected $_cdata = array();
-
+	/**
+	 * RssView::_newCdata()
+	 *
+	 * @param string $content
+	 * @return string
+	 */
 	protected function _newCdata($content) {
 		$i = count($this->_cdata);
 		$this->_cdata[$i] = $content;
 		return '###CDATA-' . $i . '###';
 	}
 
+	/**
+	 * RssView::_replaceCdata()
+	 *
+	 * @param string $content
+	 * @return string
+	 */
 	protected function _replaceCdata($content) {
 		foreach ($this->_cdata as $n => $data) {
 			$data = '<![CDATA[' . $data . ']]>';
