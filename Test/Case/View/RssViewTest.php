@@ -328,6 +328,7 @@ RSS;
   <channel>
     <title>Channel title</title>
     <admin:errorReportsTo rdf:resource="mailto:me@example.com"/>
+    <link>$this->baseUrl/</link>
     <description/>
     <item>
       <title>Title One</title>

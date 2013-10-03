@@ -109,6 +109,12 @@ class RssView extends View {
 	 * @return array Channel
 	 */
 	public function channel($channel) {
+		if (!isset($channel['link'])) {
+			$channel['link'] = '/';
+		}
+		if (!isset($channel['title'])) {
+			$channel['title'] = '';
+		}
 		if (!isset($channel['description'])) {
 			$channel['description'] = '';
 		}
