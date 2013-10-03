@@ -35,7 +35,7 @@ class RssViewTest extends CakeTestCase {
 
 		$this->Rss = new RssView();
 
-		$this->baseUrl = $this->baseUrl = php_sapi_name() == 'cli' ? '' : HTTP_BASE;
+		$this->baseUrl = $this->baseUrl = php_sapi_name() == 'cli' ? 'http://localhost' : HTTP_BASE;
 	}
 
 	/**
