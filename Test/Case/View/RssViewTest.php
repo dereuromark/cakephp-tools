@@ -35,7 +35,7 @@ class RssViewTest extends CakeTestCase {
 
 		$this->Rss = new RssView();
 
-		$this->baseUrl = $this->baseUrl = php_sapi_name() == 'cli' ? 'http://localhost' : HTTP_BASE;
+		$this->baseUrl = php_sapi_name() === 'cli' ? 'http://localhost' : HTTP_BASE;
 	}
 
 	/**
@@ -157,6 +157,30 @@ RSS;
 		//debug($result); ob_flush();
 		$this->assertSame('application/rss+xml', $Response->type());
 		$this->assertTextEquals($expected, $result);
+	}
+
+	/**
+	 * RssViewTest::testSerializeWithUnconfiguredPrefix()
+	 *
+	 * @expectedException RuntimeException
+	 * @return void
+	 */
+	public function testSerializeWithUnconfiguredPrefix() {
+		$Request = new CakeRequest();
+		$Response = new CakeResponse();
+		$Controller = new Controller($Request, $Response);
+
+		$data = array(
+			'channel' => array(
+				'foo:bar' => 'something',
+			),
+			'items' => array(
+				array('title' => 'Title Two'),
+			)
+		);
+		$Controller->set(array('channel' => $data, '_serialize' => 'channel'));
+		$View = new RssView($Controller);
+		$result = $View->render(false);
 	}
 
 	/**

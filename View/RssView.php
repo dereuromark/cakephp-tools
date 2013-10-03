@@ -114,12 +114,10 @@ class RssView extends View {
 	}
 
 	/**
-	 * Converts an array into an `<item />` element and its contents
+	 * Prepares the channel and sets default values.
 	 *
-	 * @param array $att The attributes of the `<item />` element
-	 * @param array $elements The list of elements contained in this `<item />`
-	 * @return string An RSS `<item />` element
-	 * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/rss.html#RssHelper::item
+	 * @param array $channel
+	 * @return array Channel
 	 */
 	public function channel($channel) {
 		if (!isset($channel['title']) && !empty($this->pageTitle)) {
@@ -224,6 +222,9 @@ class RssView extends View {
 		);
 		$namespaces = array();
 		foreach ($this->_usedNamespaces as $usedNamespacePrefix) {
+			if (!isset($this->_namespaces[$usedNamespacePrefix])) {
+				throw new RuntimeException(__('The prefix %s is not specified.', $usedNamespacePrefix));
+			}
 			$namespaces['xmlns:' . $usedNamespacePrefix] = $this->_namespaces[$usedNamespacePrefix];
 		}
 		$array['rss'] += $namespaces;
