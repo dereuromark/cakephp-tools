@@ -95,7 +95,7 @@ class RssViewTest extends CakeTestCase {
 </rss>
 
 RSS;
-		//debug($output); ob_flush();
+		//debug($result); ob_flush();
 		$this->assertSame('application/rss+xml', $Response->type());
 		$this->assertTextEquals($expected, $result);
 	}

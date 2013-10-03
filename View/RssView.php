@@ -4,8 +4,9 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @author     Mark Scherer
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @author Mark Scherer
+ * @license http://www.opensource.org/licenses/mit-license.php MIT License
+ * @link http://www.dereuromark.de/2013/10/03/rss-feeds-in-cakephp
  */
 
 App::uses('View', 'View');
@@ -26,24 +27,12 @@ App::uses('Routing', 'Router');
  * `$this->set(array('posts' => $posts, '_serialize' => 'posts'));`
  *
  * When the view is rendered, the `$posts` view variable will be serialized
- * into XML.
+ * into the RSS XML.
  *
  * **Note** The view variable you specify must be compatible with Xml::fromArray().
  *
- * You can also define `'_serialize'` as an array. This will create an additional
- * top level element named `<response>` containing all the named view variables:
- *
- * {{{
- * $this->set(compact('posts', 'users', 'stuff'));
- * $this->set('_serialize', array('posts', 'users'));
- * }}}
- *
- * The above would generate a XML object that looks like:
- *
- * `<response><posts>...</posts><users>...</users></response>`
- *
  * If you don't use the `_serialize` key, you will need a view. You can use extended
- * views to provide layout like functionality.
+ * views to provide layout like functionality. This is currently not yet tested/supported.
  */
 class RssView extends View {
 
@@ -120,13 +109,9 @@ class RssView extends View {
 	 * @return array Channel
 	 */
 	public function channel($channel) {
-		if (!isset($channel['title']) && !empty($this->pageTitle)) {
-			$channel['title'] = $this->pageTitle;
-		}
 		if (!isset($channel['description'])) {
 			$channel['description'] = '';
 		}
-		//$channel['link'] = Router::url($elements['link'], true);
 
 		$channel = $this->_prepareOutput($channel);
 		return $channel;
