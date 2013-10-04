@@ -6,7 +6,7 @@ App::uses('FormHelper', 'View/Helper');
  *
  * Some fixes:
  * - 24 instead of 12 for dateTime()
- * - postLink() has class postLink
+ * - postLink() has class postLink, deleteLink() class deleteLink
  * - normalize for textareas
  * - novalidate can be applied globally via Configure
  *
@@ -114,6 +114,44 @@ class FormExtHelper extends FormHelper {
 	}
 
 	/**
+	 * Adds the given class to the element options.
+	 *
+	 * Do not add a "form-error" class, though.
+	 *
+	 * @overwrite
+	 * @param array $options Array options/attributes to add a class to
+	 * @param string $class The classname being added.
+	 * @param string $key the key to use for class.
+	 * @return array Array of options with $key set.
+	 */
+	public function addClass($options = array(), $class = null, $key = 'class') {
+		if ($key === 'class' && $class === 'form-error') {
+			return $options;
+		}
+		return parent::addClass($options, $class, $key);
+	}
+
+	/**
+	 * Overwrite FormHelper::_selectOptions()
+	 * Remove form-control if added here as it would only be added to the div.
+	 *
+	 * @param array $elements
+	 * @param array $parents
+	 * @param boolean $showParents
+	 * @param array $attributes
+	 * @return array
+	 */
+	protected function _selectOptions($elements = array(), $parents = array(), $showParents = null, $attributes = array()) {
+		if ($attributes['style'] === 'checkbox') {
+			if (!empty($attributes['class']) && $attributes['class'] === array('form-control')) {
+				unset($attributes['class']);
+			}
+		}
+		$selectOptions = parent::_selectOptions($elements, $parents, $showParents, $attributes);
+		return $selectOptions;
+	}
+
+	/**
 	 * Creates a textarea widget.
 	 *
 	 * ### Options:
@@ -161,8 +199,6 @@ class FormExtHelper extends FormHelper {
 	 * @link http://book.cakephp.org/view/1390/Automagic-Form-Elements
 	 */
 	public function inputExt($fieldName, $options = array()) {
-		//$this->setEntity($fieldName);
-
 		$options = array_merge(
 			array('before' => null, 'between' => null, 'after' => null, 'format' => null),
 			$this->_inputDefaults,
@@ -299,7 +335,7 @@ class FormExtHelper extends FormHelper {
 		}
 		if ($options['type'] === 'datetime' || $options['type'] === 'date' || $options['type'] === 'time') {
 			$dateFormat = $this->_extractOption('dateFormat', $options, 'MDY');
-			$timeFormat = $this->_extractOption('timeFormat', $options, 12);
+			$timeFormat = $this->_extractOption('timeFormat', $options, 24);
 			unset($options['dateFormat'], $options['timeFormat']);
 		}
 		if ($options['type'] === 'email') {
@@ -380,6 +416,19 @@ class FormExtHelper extends FormHelper {
 	}
 
 	/**
+	 * FormExtHelper::hour()
+	 * Overwrite parent
+	 *
+	 * @param mixed $fieldName
+	 * @param bool $format24Hours
+	 * @param mixed $attributes
+	 * @return void
+	 */
+	public function hour($fieldName, $format24Hours = true, $attributes = array()) {
+		return parent::hour($fieldName, $format24Hours, $attributes);
+	}
+
+	/**
 	 * Override with some custom functionality
 	 *
 	 * - `datalist` - html5 list/datalist (fallback = invisible).
@@ -421,14 +470,28 @@ class FormExtHelper extends FormHelper {
 	}
 
 	/**
+	 * FormExtHelper::radio()
+	 * Overwrite to avoid "form-control" to be added.
+	 *
+	 * @param mixed $fieldName
+	 * @param mixed $options
+	 * @param mixed $attributes
+	 * @return void
+	 */
+	public function radio($fieldName, $options = array(), $attributes = array()) {
+		$attributes = $this->_initInputField($fieldName, $attributes);
+		if (!empty($attributes['class']) && $attributes['class'] == array('form-control')) {
+			$attributes['class'] = false;
+		}
+		return parent::radio($fieldName, $options, $attributes);
+	}
+
+	/**
 	 * Overwrite the default method with custom enhancements
 	 *
 	 * @return array options
 	 */
 	protected function _initInputField($field, $options = array()) {
-		//$autoRequire = Configure::read('Validation.autoRequire');
-		//Configure::write('Validation.autoRequire', false);
-
 		$normalize = true;
 		if (isset($options['normalize'])) {
 			$normalize = $options['normalize'];
@@ -440,7 +503,7 @@ class FormExtHelper extends FormHelper {
 		if (!empty($options['value']) && is_string($options['value']) && $normalize) {
 			$options['value'] = str_replace(array("\t", "\r\n", "\n"), ' ', $options['value']);
 		}
-		//Configure::write('Validation.autoRequire', $autoRequire);
+
 		return $options;
 	}
 
@@ -628,6 +691,13 @@ class FormExtHelper extends FormHelper {
 			$fieldName = $field;
 		}
 
+		if (isset($options['class'])) {
+			$class = $options['class'];
+			unset($options['class']);
+		}
+
+		$blacklist = array('timeFormat' => null, 'dateFormat' => null, 'minYear' => null, 'maxYear' => null, 'separator' => null);
+
 		$defaultOptions = array(
 			'empty' => false,
 			'minYear' => date('Y') - 10,
@@ -642,13 +712,14 @@ class FormExtHelper extends FormHelper {
 			'class' => 'form-control day'
 		);
 		$customOptions = array_merge($defaultOptions, $customOptions, $options);
+		$customOptions = array_diff_key($customOptions, $blacklist);
 		$res['d'] = $this->day($field, $customOptions);
-
 		$customOptions = array(
 			'id' => $modelName.$fieldName.'-mm',
-			'class' => 'form-control month'
+			'class' => 'form-control month',
 		);
 		$customOptions = array_merge($defaultOptions, $customOptions, $options);
+		$customOptions = array_diff_key($customOptions, $blacklist);
 		$res['m'] = $this->month($field, $customOptions);
 
 		$customOptions = array(
@@ -658,12 +729,8 @@ class FormExtHelper extends FormHelper {
 		$customOptions = array_merge($defaultOptions, $customOptions, $options);
 		$minYear = $customOptions['minYear'];
 		$maxYear = $customOptions['maxYear'];
+		$customOptions = array_diff_key($customOptions, $blacklist);
 		$res['y'] = $this->year($field, $minYear, $maxYear, $customOptions);
-
-		if (isset($options['class'])) {
-			$class = $options['class'];
-			unset($options['class']);
-		}
 
 		$select = implode($options['separator'], $res);
 
@@ -739,13 +806,10 @@ class FormExtHelper extends FormHelper {
 	 * @param mixed $options
 	 * @return string Generated set of select boxes for the date and time formats chosen.
 	 */
-	public function dateTime($field, $options = array(), $tf = 24, $a = array()) {
+	public function dateTime($field, $options = array(), $timeFormat = 24, $attributes = array()) {
 		# temp fix
 		if (!is_array($options)) {
-			if ($options === null) {
-				//$options = 'DMY';
-			}
-			return parent::dateTime($field, $options, $tf, $a);
+			return parent::dateTime($field, $options, $timeFormat, $attributes);
 		}
 		return $this->dateTimeExt($field, $options);
 	}
@@ -788,7 +852,7 @@ class FormExtHelper extends FormHelper {
 		$fieldname = Inflector::camelize($field);
 
 		$customOptions = array_merge($defaultOptions, $options);
-		$format24Hours = $customOptions['timeFormat'] !== '24' ? false : true;
+		$format24Hours = (int)$customOptions['timeFormat'] !== 24 ? false : true;
 
 		if (strpos($field, '.') !== false) {
 			list($model, $field) = explode('.', $field, 2);
@@ -797,10 +861,14 @@ class FormExtHelper extends FormHelper {
 			$model = $this->model();
 		}
 
+		$blacklist = array('timeFormat' => null, 'dateFormat' => null, 'separator' => null);
+
 		$hourOptions = array_merge($customOptions, array('class'=>'form-control hour'));
+		$hourOptions = array_diff_key($hourOptions, $blacklist);
 		$res['h'] = $this->hour($field, $format24Hours, $hourOptions);
 
 		$minuteOptions = array_merge($customOptions, array('class'=>'form-control minute'));
+		$minuteOptions = array_diff_key($minuteOptions, $blacklist);
 		$res['m'] = $this->minute($field, $minuteOptions);
 
 		$select = implode($options['separator'], $res);

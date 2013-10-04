@@ -213,14 +213,23 @@ class NumberLib extends CakeNumber {
 	/**
 	 * Formats a number into a percentage string.
 	 *
+	 * Options:
+	 *
+	 * - `multiply`: Multiply the input value by 100 for decimal percentages.
+	 * - `decimals`: Decimal character.
+	 *
 	 * @param float $number A floating point number
 	 * @param integer $precision The precision of the returned number
 	 * @param string $decimals
 	 * @return string Percentage string
 	 * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/number.html#NumberHelper::toPercentage
 	 */
-	public static function toPercentage($number, $precision = 2, $decimals = '.') {
-		return self::precision($number, $precision, $decimals) . '%';
+	public static function toPercentage($number, $precision = 2, $options = array()) {
+		$options += array('multiply' => false, 'decimals' => '.');
+		if ($options['multiply']) {
+			$number *= 100;
+		}
+		return self::precision($number, $precision, $options['decimals']) . '%';
 	}
 
 	/**

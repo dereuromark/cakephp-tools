@@ -56,22 +56,28 @@ class NumberLibTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * @return void
 	 */
 	public function testToPercentage() {
-		$is = NumberLib::toPercentage(22.11, 2, '.');
+		$is = NumberLib::toPercentage(22.11, 2, array('decimals' => '.'));
 		$expected = '22.11%';
 		$this->assertSame($expected, $is);
 
-		$is = NumberLib::toPercentage(22.11, 2, ',');
+		$is = NumberLib::toPercentage(22.11, 2, array('decimals' => ','));
 		$expected = '22,11%';
 		$this->assertSame($expected, $is);
 
-		$is = NumberLib::toPercentage(22.11, 0, ',');
+		$is = NumberLib::toPercentage(22.11, 0, array('decimals' => '.'));
 		$expected = '22%';
+		$this->assertSame($expected, $is);
+
+		$is = NumberLib::toPercentage(0.2311, 0, array('multiply' => true, 'decimals' => '.'));
+		$expected = '23%';
 		$this->assertSame($expected, $is);
 	}
 
 	/**
+	 * @return void
 	 */
 	public function testRoundTo() {
 		//increment = 10
