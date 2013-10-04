@@ -342,4 +342,55 @@ RSS;
 		$this->assertTextEquals($expected, $result);
 	}
 
+	/**
+	 * RssViewTest::testSerializeWithImage()
+	 *
+	 * @return void
+	 */
+	public function testSerializeWithImage() {
+		$Request = new CakeRequest();
+		$Response = new CakeResponse();
+		$Controller = new Controller($Request, $Response);
+		$url = array('controller' => 'topics', 'action' => 'feed', 'ext' => 'rss');
+		$data = array(
+			'channel' => array(
+				'title' => 'Channel title',
+				'guid' => array('url' => $url, '@isPermaLink' => 'true'),
+				'image' => array(
+					'url' => '/img/logo_rss.png',
+					'link' => '/'
+				)
+			),
+			'items' => array(
+				array('title' => 'Title One', 'link' => array('controller' => 'foo', 'action' => 'bar')),
+			)
+		);
+		$Controller->set(array('channel' => $data, '_serialize' => 'channel'));
+		$View = new RssView($Controller);
+		$result = $View->render(false);
+
+		$expected = <<<RSS
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Channel title</title>
+    <guid isPermaLink="true">$this->baseUrl/topics/feed.rss</guid>
+    <image>
+      <url>$this->baseUrl/img/logo_rss.png</url>
+      <link>$this->baseUrl/</link>
+      <title>Channel title</title>
+    </image>
+    <link>$this->baseUrl/</link>
+    <description/>
+    <item>
+      <title>Title One</title>
+      <link>$this->baseUrl/foo/bar</link>
+    </item>
+  </channel>
+</rss>
+
+RSS;
+		//debug($result); ob_flush();
+		$this->assertTextEquals($expected, $result);
+	}
 }

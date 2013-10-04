@@ -200,6 +200,9 @@ class RssView extends View {
 		}
 
 		$channel = $this->channel($data['channel']);
+		if (!empty($channel['image']) && empty($channel['image']['title'])) {
+			$channel['image']['title'] = $channel['title'];
+		}
 
 		foreach ($data['items'] as $item) {
 			$channel['item'][] = $this->_prepareOutput($item);
@@ -251,9 +254,6 @@ class RssView extends View {
 					$this->_usedNamespaces[] = $prefix;
 				}
 			}
-			if (is_array($val)) {
-				$val = $this->_prepareOutput($val);
-			}
 
 			$attrib = null;
 			switch ($bareKey) {
@@ -283,6 +283,7 @@ class RssView extends View {
 					break;
 				*/
 				case 'link':
+				case 'url':
 				case 'guid':
 				case 'comments':
 					if (is_array($val) && isset($val['@href'])) {
@@ -328,6 +329,10 @@ class RssView extends View {
 					break;
 				default:
 					//$attrib = $att;
+			}
+
+			if (is_array($val)) {
+				$val = $this->_prepareOutput($val);
 			}
 
 			$item[$key] = $val;
