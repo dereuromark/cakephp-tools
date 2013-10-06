@@ -4,7 +4,7 @@ App::uses('Router', 'Routing');
 App::uses('UrlCacheManager', 'Tools.Routing');
 
 /**
- * Helper enhancements for Cake2
+ * Helper enhancements for CakePHP
  *
  * @author Mark Scherer
  * @license MIT
@@ -20,6 +20,7 @@ class MyHelper extends Helper {
 
 	/**
 	 * Manually load helpers
+	 *
 	 * @param array $helpers (either strings, or [string => array(config...)])
 	 * @param boolean $callbacks - trigger missed callbacks
 	 * @return void
@@ -46,9 +47,11 @@ class MyHelper extends Helper {
 		}
 	}
 
-	//TODO
 	/**
-	 * problems: what if inside plugin webroot? not easy to do...
+	 * //TODO: remove
+	 * Not a very good solution, as it takes a lot of resources, file lookups.
+	 *
+	 * Problems: what if inside plugin webroot? not easy to do...
 	 */
 	public function imageIfExists($path, $options = array(), $default = '---') {
 		if (startsWith($path, '/')) {
@@ -71,16 +74,22 @@ class MyHelper extends Helper {
 	}
 
 	/**
-	 * Display image tag from blob content
-	 * enhancement for HtmlHelper
+	 * Display image tag from blob content.
+	 * Enhancement for HtmlHelper. Defaults to png image
+	 *
+	 * Options:
+	 * - type: png, gif, jpg, ...
+	 *
 	 * @param binary $content
 	 * @param array $options
 	 * @return string html imageTag
 	 */
 	public function imageFromBlob($content, $options = array()) {
-		$text = 'data:image/png;base64,' . base64_encode($content);
-		$image = sprintf($this->_tags['image'], $text, $this->_parseAttributes($options, null, '', ' '));
-		return $image;
+		$options += array('type' => 'png');
+		$mimeType = 'image/' . $options['type'];
+
+		$text = 'data:' . $mimeType . ';base64,' . base64_encode($content);
+		return sprintf($this->_tags['image'], $text, $this->_parseAttributes($options, null, '', ' '));
 	}
 
 	/**
@@ -89,12 +98,15 @@ class MyHelper extends Helper {
 	 * or a precise date in the proleptic Gregorian calendar,
 	 * optionally with a time and a time-zone offset.
 	 *
-	 * @param $content string
-	 * @param $options array
-	 * - 'format' STRING: Use the specified TimeHelper method (or format()). FALSE: Generate the datetime. NULL: Do nothing.
-	 * - 'datetime' STRING: If 'format' is STRING use as the formatting string. FALSE: Don't generate attribute
+	 * Options:
+	 * - 'format' STRING: Use the specified TimeHelper method (or format()).
+	 *   FALSE: Generate the datetime. NULL: Do nothing.
+	 * - 'datetime' STRING: If 'format' is STRING use as the formatting string.
+	 *   FALSE: Don't generate attribute
 	 *
-	 * //TODO: fixme
+	 * @param $content string Time
+	 * @param $options array Options
+	 * @return string HTML time tag.
 	 */
 	public function time($content, $options = array()) {
 		if (!isset($this->tags['time'])) {
@@ -107,18 +119,20 @@ class MyHelper extends Helper {
 		), $options);
 
 		if ($options['format'] !== null) {
-			App::uses('TimeHelper', 'View/Helper');
-			$TimeHelper = new TimeHelper($this->_View);
+			if (!isset($this->Time)) {
+				App::uses('TimeHelper', 'View/Helper');
+				$this->Time = new TimeHelper($this->_View);
+			}
 		}
 		if ($options['format']) {
-			if (method_exists($t, $options['format'])) {
-				$content = $TimeHelper->$options['format']($content);
+			if (method_exists($this->Time, $options['format'])) {
+				$content = $this->Time->$options['format']($content);
 			} else {
-				$content = $TimeHelper->i18nFormat($content, $options['format']);
+				$content = $this->Time->i18nFormat($content, $options['format']);
 			}
-			$options['datetime'] = $TimeHelper->i18nFormat(strtotime($content), $options['datetime']);
+			$options['datetime'] = $this->Time->i18nFormat(strtotime($content), $options['datetime']);
 		} elseif ($options['format'] === false && $options['datetime']) {
-			$options['datetime'] = $TimeHelper->i18nFormat(strtotime($content), $options['datetime']);
+			$options['datetime'] = $this->Time->i18nFormat(strtotime($content), $options['datetime']);
 		}
 
 		if ($options['pubdate']) {
@@ -135,14 +149,14 @@ class MyHelper extends Helper {
 	}
 
 	/**
-	 * For convienience function Html::defaultLink().
+	 * For convenience functions Html::defaultLink() and defaultUrl().
 	 *
 	 * @var array
 	 */
 	protected $_linkDefaults = null;
 
 	/**
-	 * Keep named and query params for pagination/filter after edit etc
+	 * Keep named and query params for pagination/filter after edit etc.
 	 *
 	 * @params same as Html::link($title, $url, $options, $confirmMessage)
 	 * @return string Link
@@ -155,7 +169,7 @@ class MyHelper extends Helper {
 	}
 
 	/**
-	 * Keep named and query params for pagination/filter after edit etc
+	 * Keep named and query params for pagination/filter after edit etc.
 	 *
 	 * @params same as Html::url($url, $options, $escape)
 	 * @return string Link
@@ -168,11 +182,12 @@ class MyHelper extends Helper {
 	}
 
 	/**
-	 * Convenience function for normal links
-	 * useful for layout links and links inside elements etc
+	 * Convenience function for normal links.
+	 * Useful for layout links and links inside elements etc if you don't want to
+	 * verbosely reset all parts of it (prefix, plugin, ...).
 	 *
 	 * @params same as Html::link($title, $url, $options, $confirmMessage)
-	 * @return string Link
+	 * @return string HTML Link
 	 */
 	public function defaultLink($title, $url = null, $options = array(), $confirmMessage = false) {
 		if ($this->_linkDefaults === null) {
@@ -200,9 +215,12 @@ class MyHelper extends Helper {
 	}
 
 	/**
-	 * Convenience function for normal urls
-	 * useful for layout urls and urls inside elements etc
+	 * Convenience function for normal urls.
+	 * Useful for layout links and links inside elements etc if you don't want to
+	 * verbosely reset all parts of it (prefix, plugin, ...).
+	 *
 	 * @params same as Html::url($url, $full)
+	 * @return string URL
 	 */
 	public function defaultUrl($url = null, $full = false) {
 		if ($this->_linkDefaults === null) {
@@ -216,8 +234,6 @@ class MyHelper extends Helper {
 		}
 		return $this->url($url, $full);
 	}
-
-	public $urlHere = null;
 
 	/**
 	 * Enhancement to htmlHelper which allows the crumbs protected array

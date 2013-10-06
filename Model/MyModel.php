@@ -1649,9 +1649,9 @@ class MyModel extends Model {
 	 */
 	public function generateNestedList($conditions = null, $indent = '--') {
 		$cats = $this->find('threaded', array('conditions' => $conditions, 'fields' => array(
-				$this->name . '.id',
-				$this->name . '.name',
-				$this->name . '.parent_id')));
+				$this->alias . '.id',
+				$this->alias . '.' . $this->displayField,
+				$this->alias . '.parent_id')));
 		$glist = $this->_generateNestedList($cats, $indent);
 		return $glist;
 	}

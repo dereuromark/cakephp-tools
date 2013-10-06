@@ -402,64 +402,6 @@ class EmailLib extends CakeEmail {
 	}
 
 	/**
-	 * Apply the config to an instance
-	 *
-	 * @overwrite
-	 * @param CakeEmail $obj CakeEmail
-	 * @param array $config
-	 * @return void
-	 * @throws ConfigureException When configuration file cannot be found, or is missing
-	 * the named config.
-	 */
-	protected function _applyConfig($config) {
-		if (is_string($config)) {
-			if (!class_exists('EmailConfig') && !config('email')) {
-				throw new ConfigureException(__d('cake_dev', '%s not found.', APP . 'Config' . DS . 'email.php'));
-			}
-			$configs = new EmailConfig();
-			if (!isset($configs->{$config})) {
-				throw new ConfigureException(__d('cake_dev', 'Unknown email configuration "%s".', $config));
-			}
-			$config = $configs->{$config};
-		}
-		$this->_config += $config;
-		if (!empty($config['charset'])) {
-			$this->charset = $config['charset'];
-		}
-		if (!empty($config['headerCharset'])) {
-			$this->headerCharset = $config['headerCharset'];
-		}
-		if (empty($this->headerCharset)) {
-			$this->headerCharset = $this->charset;
-		}
-		$simpleMethods = array(
-			'from', 'sender', 'to', 'replyTo', 'readReceipt', 'returnPath', 'cc', 'bcc',
-			'messageId', 'domain', 'subject', 'viewRender', 'viewVars', 'attachments',
-			'transport', 'emailFormat', 'theme', 'helpers'
-		);
-		foreach ($simpleMethods as $method) {
-			if (isset($config[$method])) {
-				$this->$method($config[$method]);
-				unset($config[$method]);
-			}
-		}
-		if (isset($config['headers'])) {
-			$this->setHeaders($config['headers']);
-			unset($config['headers']);
-		}
-		if (array_key_exists('template', $config)) {
-			$layout = false;
-			if (array_key_exists('layout', $config)) {
-				$layout = $config['layout'];
-				unset($config['layout']);
-			}
-			$this->template($config['template'], $layout);
-			unset($config['template']);
-		}
-		$this->transportClass()->config($config);
-	}
-
-	/**
 	 * Set the body of the mail as we send it.
 	 * Note: the text can be an array, each element will appear as a seperate line in the message body.
 	 *
@@ -490,15 +432,16 @@ class EmailLib extends CakeEmail {
 			$this->_debug = parent::send($message);
 		} catch (Exception $e) {
 			$this->_error = $e->getMessage();
-			$this->_error .= ' (line '.$e->getLine().' in '.$e->getFile().')'.PHP_EOL.$e->getTraceAsString();
+			$this->_error .= ' (line ' . $e->getLine() . ' in ' . $e->getFile() . ')' . PHP_EOL .
+				$e->getTraceAsString();
 
-			if (!empty($this->_config['report'])) {
+			if (!empty($this->_config['logReport'])) {
 				$this->_logEmail();
 			}
 			return false;
 		}
 
-		if (!empty($this->_config['report'])) {
+		if (!empty($this->_config['logReport'])) {
 			$this->_logEmail();
 		}
 		return true;
@@ -580,18 +523,18 @@ class EmailLib extends CakeEmail {
 	 * @return void
 	 */
 	protected function _logEmail($append = null) {
-		$res = $this->_log['transport'].
-			' - '.'TO:'.implode(',', array_keys($this->_log['to'])).
-			'||FROM:'.implode(',', array_keys($this->_log['from'])).
-			'||REPLY:'.implode(',', array_keys($this->_log['replyTo'])).
-			'||S:'.$this->_log['subject'];
+		$res = $this->_log['transport'] .
+			' - ' . 'TO:' . implode(',', array_keys($this->_log['to'])) .
+			'||FROM:' . implode(',', array_keys($this->_log['from'])) .
+			'||REPLY:' . implode(',', array_keys($this->_log['replyTo'])) .
+			'||S:' . $this->_log['subject'];
 		$type = 'email';
 		if (!empty($this->_error)) {
 			$type = 'email_error';
 			$res .= '||ERROR:' . $this->_error;
 		}
 		if ($append) {
-			$res .= '||'.$append;
+			$res .= '||' . $append;
 		}
 		CakeLog::write($type, $res);
 	}
@@ -602,8 +545,6 @@ class EmailLib extends CakeEmail {
 	 * @return void
 	 */
 	public function resetAndSet() {
-		//$this->reset();
-
 		$this->_to = array();
 		$this->_cc = array();
 		$this->_bcc = array();
@@ -630,11 +571,6 @@ class EmailLib extends CakeEmail {
 		if ($xMailer = Configure::read('Config.x-mailer')) {
 			$this->addHeaders(array('X-Mailer' => $xMailer));
 		}
-		//$this->_errors = array();
-		//$this->charset($this->charset);
-		//$this->sendAs($this->sendAs);
-		//$this->layout($this->_layout);
-		//$this->delivery($this->deliveryMethod);
 	}
 
 }
