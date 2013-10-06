@@ -342,22 +342,13 @@ class PasswordableBehavior extends ModelBehavior {
 				return true;
 			}
 		}
-
-		# add fields to whitelist!
-		$whitelist = array($this->settings[$Model->alias]['formField'], $this->settings[$Model->alias]['formFieldRepeat']);
-		if ($this->settings[$Model->alias]['current']) {
-			$whitelist[] = $this->settings[$Model->alias]['formFieldCurrent'];
-		}
-		if (!empty($Model->whitelist)) {
-			$Model->whitelist = array_merge($Model->whitelist, $whitelist);
-		}
-
 		return true;
 	}
 
 	/**
 	 * Hashing the password and whitelisting
 	 *
+	 * @param Model $Model
 	 * @return boolean Success
 	 */
 	public function beforeSave(Model $Model, $options = array()) {
@@ -381,12 +372,24 @@ class PasswordableBehavior extends ModelBehavior {
 				$formFieldCurrent = $this->settings[$Model->alias]['formFieldCurrent'];
 				unset($Model->data[$Model->alias][$formFieldCurrent]);
 			}
+
 			# update whitelist
-			if (!empty($Model->whitelist)) {
-				$Model->whitelist = array_merge($Model->whitelist, array($field));
-			}
+			$this->_modifyWhitelist($Model);
 		}
 		return true;
+	}
+
+	/**
+	 * PasswordableBehavior::_modifyWhitelist()
+	 *
+	 * @param Model $Model
+	 * @return void
+	 */
+	protected function _modifyWhitelist(Model $Model) {
+		$field = $this->settings[$Model->alias]['field'];
+		if (!empty($Model->whitelist) && !in_array($field, $Model->whitelist)) {
+			$Model->whitelist = array_merge($Model->whitelist, array($field));
+		}
 	}
 
 }

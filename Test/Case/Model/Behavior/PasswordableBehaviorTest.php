@@ -338,13 +338,19 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$this->User->create();
 		$data = array(
 			'id' => $uid,
+			'name' => 'Yeah',
 			'pwd_current' => 'somepwd',
 			'pwd' => '123456',
 			'pwd_repeat' => '123456'
 		);
 		$this->User->set($data);
-		$is = $this->User->save();
+		$is = $this->User->save(null, true, array('id'));
 		$this->assertTrue(!empty($is));
+
+		$user = $this->User->get($uid);
+		// The password is updated, the name not
+		$this->assertSame($is['ToolsUser']['password'], $user['ToolsUser']['password']);
+		$this->assertSame('xyz', $user['ToolsUser']['name']);
 	}
 
 	/**
