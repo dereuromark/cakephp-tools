@@ -344,13 +344,38 @@ class PasswordableBehaviorTest extends CakeTestCase {
 			'pwd_repeat' => '123456'
 		);
 		$this->User->set($data);
-		$is = $this->User->save(null, true, array('id'));
+		// test whitelist setting - only "password" gets auto-added, pwd, pwd_repeat etc need to be added manually
+		$is = $this->User->save(null, true, array('id', 'pwd', 'pwd_repeat', 'pwd_current'));
 		$this->assertTrue(!empty($is));
 
 		$user = $this->User->get($uid);
 		// The password is updated, the name not
 		$this->assertSame($is['ToolsUser']['password'], $user['ToolsUser']['password']);
 		$this->assertSame('xyz', $user['ToolsUser']['name']);
+
+		// Proof that we manually need to add pwd, pwd_repeat etc due to a bug in Cake allowing behaviors to only modify saving,
+		// not validating of additional whitelist fields. Validation for those will be just skipped, no matter what the behavior tries
+		// to set.
+		$this->User->create();
+		$data = array(
+			'id' => $uid,
+			'name' => 'Yeah',
+			'pwd_current' => '123', // Obviously wrong
+			'pwd' => 'some', // Too short
+			'pwd_repeat' => 'somex' // Don't match
+		);
+		$this->User->set($data);
+		// Test whitelist setting - only "password" gets auto-added, pwd, pwd_repeat etc need to be added manually
+		// NOTE that I had to remove the code for adding those fields from the behavior (as it was not functional)
+		// So of course, this won't work now as expected. But feel free to try to add them in the behavior. Results will be the same.
+		$is = $this->User->save(null, true, array('id', 'name'));
+		// Save is successful
+		$this->assertTrue(!empty($is));
+
+		$user = $this->User->get($uid);
+		// The password is not updated, the name is
+		$this->assertSame($is['ToolsUser']['password'], $user['ToolsUser']['password']);
+		$this->assertSame('Yeah', $user['ToolsUser']['name']);
 	}
 
 	/**

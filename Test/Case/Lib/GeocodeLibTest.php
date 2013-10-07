@@ -21,7 +21,8 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$this->Geocode = new GeocodeLib();
 	}
 
-	public function TearDown() {
+	public function tearDown() {
+		parent::tearDown();
 		unset($this->Geocode);
 	}
 

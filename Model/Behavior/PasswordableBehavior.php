@@ -342,6 +342,7 @@ class PasswordableBehavior extends ModelBehavior {
 				return true;
 			}
 		}
+
 		return true;
 	}
 
@@ -373,9 +374,11 @@ class PasswordableBehavior extends ModelBehavior {
 				unset($Model->data[$Model->alias][$formFieldCurrent]);
 			}
 
-			# update whitelist
-			$this->_modifyWhitelist($Model);
 		}
+
+		// Update whitelist
+		$this->_modifyWhitelist($Model);
+
 		return true;
 	}
 

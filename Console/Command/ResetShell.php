@@ -55,6 +55,7 @@ class ResetShell extends AppShell {
 		foreach ($components as $component) {
 			if (App::import('Component', $component)) {
 				$component .= 'Component';
+				list($plugin, $component) = pluginSplit($component);
 				$this->Auth = new $component(new ComponentCollection());
 				break;
 			}
