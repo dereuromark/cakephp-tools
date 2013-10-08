@@ -420,7 +420,7 @@ class FormExtHelper extends FormHelper {
 	 * Overwrite parent
 	 *
 	 * @param mixed $fieldName
-	 * @param bool $format24Hours
+	 * @param boolean $format24Hours
 	 * @param mixed $attributes
 	 * @return void
 	 */

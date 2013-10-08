@@ -39,7 +39,7 @@ class RssViewTest extends CakeTestCase {
 	}
 
 	/**
-	 * testTime method
+	 * TestTime method
 	 *
 	 * @return void
 	 */

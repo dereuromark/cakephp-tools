@@ -546,7 +546,6 @@ class CommonComponent extends Component {
 	 * Generates validation error messages for HABTM fields
 	 * ?
 	 *
-	 * @author Dean
 	 * @return void
 	 */
 	protected function _habtmValidation() {
