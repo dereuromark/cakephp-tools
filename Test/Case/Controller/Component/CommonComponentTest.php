@@ -2,7 +2,7 @@
 
 App::uses('CommonComponent', 'Tools.Controller/Component');
 App::uses('Component', 'Controller');
-App::uses('AppController', 'Controller');
+App::uses('Controller', 'Controller');
 App::uses('AppModel', 'Model');
 
 /**
@@ -270,6 +270,37 @@ class CommonComponentTest extends CakeTestCase {
 		$this->assertEquals('Contributor', $res);
 	}
 
+	/**
+	 * CommonComponentTest::testDataTrim()
+	 *
+	 * @return void
+	 */
+	public function testDataTrim() {
+		$array = array('Some' => array('Deep' => array('array' => '  bla  ')));
+
+		$this->Controller = new CommonComponentTestController(new CakeRequest, new CakeResponse);
+		$this->Controller->request->data = $array;
+		$this->Controller->request->query = $array;
+		$this->Controller->constructClasses();
+		$this->Controller->startupProcess();
+
+		$expected = array('Some' => array('Deep' => array('array' => 'bla')));
+		$this->assertSame($expected, $this->Controller->request->data);
+		$this->assertSame($expected, $this->Controller->request->query);
+
+		// Overwrite
+		Configure::write('DataPreparation.notrim', true);
+
+		$this->Controller = new CommonComponentTestController(new CakeRequest, new CakeResponse);
+		$this->Controller->request->data = $array;
+		$this->Controller->request->query = $array;
+		$this->Controller->constructClasses();
+		$this->Controller->startupProcess();
+
+		$this->assertSame($array, $this->Controller->request->data);
+		$this->assertSame($array, $this->Controller->request->query);
+	}
+
 }
 
 /*** additional helper classes ***/
@@ -286,9 +317,10 @@ class ToolsUser extends AppModel {
 
 }
 
-class CommonComponentTestController extends AppController {
+// Use Controller instead of AppController to avoid conflicts
+class CommonComponentTestController extends Controller {
 
-	public $components = array('Tools.Common', 'Auth');
+	public $components = array('Session', 'Tools.Common', 'Auth');
 
 	public $failed = false;
 

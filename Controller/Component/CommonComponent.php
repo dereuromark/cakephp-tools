@@ -26,6 +26,8 @@ class CommonComponent extends Component {
 	/**
 	 * For automatic startup
 	 * for this helper the controller has to be passed as reference
+	 *
+	 * @return void
 	 */
 	public function initialize(Controller $Controller) {
 		parent::initialize($Controller);
@@ -36,9 +38,13 @@ class CommonComponent extends Component {
 	/**
 	 * For this helper the controller has to be passed as reference
 	 * for manual startup with $disableStartup = true (requires this to be called prior to any other method)
+	 *
+	 * @return void
 	 */
 	public function startup(Controller $Controller = null) {
-		/** DATA PREPARATION **/
+		parent::startup($Controller);
+
+		// Data preparation
 		if (!empty($this->Controller->request->data) && !Configure::read('DataPreparation.notrim')) {
 			$this->Controller->request->data = $this->trimDeep($this->Controller->request->data);
 		}
@@ -52,7 +58,7 @@ class CommonComponent extends Component {
 			$this->Controller->request->params['pass'] = $this->trimDeep($this->Controller->request->params['pass']);
 		}
 
-		/** Information Gathering **/
+		// Information gathering
 		if (!Configure::read('App.disableMobileDetection') && ($mobile = $this->Session->read('Session.mobile')) === null) {
 			App::uses('UserAgentLib', 'Tools.Lib');
 			$UserAgentLib = new UserAgentLib();
@@ -60,7 +66,7 @@ class CommonComponent extends Component {
 			$this->Session->write('Session.mobile', $mobile);
 		}
 
-		/** Layout **/
+		// Auto layout switch
 		if ($this->Controller->request->is('ajax')) {
 			$this->Controller->layout = 'ajax';
 		}
@@ -70,10 +76,8 @@ class CommonComponent extends Component {
 	 * Called after the Controller::beforeRender(), after the view class is loaded, and before the
 	 * Controller::render()
 	 *
-	 * Created: 2010-10-10
 	 * @param object $Controller Controller with components to beforeRender
 	 * @return void
-	 * @author deltachaos
 	 */
 	public function beforeRender(Controller $Controller) {
 		if ($this->RequestHandler->isAjax()) {
@@ -140,8 +144,8 @@ class CommonComponent extends Component {
 	/**
 	 * Updates FlashMessage SessionContent (to enable unlimited messages of one case)
 	 *
-	 * @param STRING messagestring
-	 * @param STRING class ['error', 'warning', 'success', 'info']
+	 * @param string messagestring
+	 * @param string class ['error', 'warning', 'success', 'info']
 	 * @return void
 	 */
 	public function flashMessage($messagestring, $class = null) {
@@ -167,8 +171,8 @@ class CommonComponent extends Component {
 	 * FlashMessages that are not saved (only for current view)
 	 * will be merged into the session flash ones prior to output
 	 *
-	 * @param STRING messagestring
-	 * @param STRING class ['error', 'warning', 'success', 'info']
+	 * @param string messagestring
+	 * @param string class ['error', 'warning', 'success', 'info']
 	 * @return void
 	 */
 	public static function transientFlashMessage($messagestring, $class = null) {
@@ -1189,6 +1193,9 @@ class CommonComponent extends Component {
 	 * Returns searchArray (options['wildcard'] TRUE/FALSE)
 	 * TODO: move to SearchLib etc
 	 *
+	 * @param string $keyword
+	 * @param string $searchphrase
+	 * @param array $options
 	 * @return array Cleaned array('keyword'=>'searchphrase') or array('keyword LIKE'=>'searchphrase')
 	 */
 	public function getSearchItem($keyword = null, $searchphrase = null, $options = array()) {
@@ -1209,6 +1216,7 @@ class CommonComponent extends Component {
 
 	/**
 	 * Returns auto-generated password
+	 *
 	 * @param string $type: user, ...
 	 * @param integer $length (if no type is submitted)
 	 * @return pwd on success, empty string otherwise
@@ -1229,6 +1237,8 @@ class CommonComponent extends Component {
 	/**
 	 * TODO: move to Lib
 	 * Checks if string contains @ sign
+	 *
+	 * @param string
 	 * @return true if at least one @ is in the string, false otherwise
 	 */
 	public static function containsAtSign($string = null) {
@@ -1280,6 +1290,7 @@ class CommonComponent extends Component {
 	 * Get the Corresponding Message to an HTTP Error Code
 	 *
 	 * @param integer $code: 100...505
+	 * @param boolean $autoTranslate
 	 * @return array codes if code is NULL, otherwise string $code (empty string on failure)
 	 */
 	public function responseCodes($code = null, $autoTranslate = false) {
@@ -1351,7 +1362,9 @@ class CommonComponent extends Component {
 
 	/**
 	 * Get the Corresponding Message to an HTTP Error Code
+	 *
 	 * @param integer $code: 4xx...5xx
+	 * @return string
 	 */
 	public function smtpResponseCodes($code = null, $autoTranslate = false) {
 		# 550 5.1.1 User is unknown
@@ -1376,6 +1389,9 @@ class CommonComponent extends Component {
 	 * isnt this covered by core Set stuff anyway?)
 	 *
 	 * tryout: sorting multidim. array by field [0]..[x]; z.b. $array['Model']['name'] DESC etc.
+	 *
+	 * @return array()
+	 * @deprecated
 	 */
 	public function sortArray($array, $obj, $direction = null) {
 		if (empty($direction) || empty($array) || empty($obj)) {

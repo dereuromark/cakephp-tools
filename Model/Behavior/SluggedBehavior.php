@@ -99,7 +99,7 @@ class SluggedBehavior extends ModelBehavior {
 		$this->settings[$Model->alias] = Set::merge($this->_defaultSettings, $config);
 		extract($this->settings[$Model->alias]);
 		$label = $this->settings[$Model->alias]['label'] = (array)$label;
-		if ($Model->Behaviors->attached('Translate')) {
+		if ($Model->Behaviors->loaded('Translate')) {
 			$notices = false;
 		}
 		if ($notices) {

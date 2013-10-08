@@ -18,7 +18,7 @@ class ResetBehaviorTest extends MyCakeTestCase {
 		$this->ResetBehavior = new ResetBehavior();
 
 		$this->Model = ClassRegistry::init('MyComment');
-		$this->Model->Behaviors->attach('Tools.Reset');
+		$this->Model->Behaviors->load('Tools.Reset');
 	}
 
 	public function testObject() {

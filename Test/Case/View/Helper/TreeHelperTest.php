@@ -29,7 +29,7 @@ class TreeHelperTest extends MyCakeTestCase {
 
 		$this->Tree = new TreeHelper(new View(null));
 		$this->Model = ClassRegistry::init('AfterTree');
-		$this->Model->Behaviors->attach('Tree');
+		$this->Model->Behaviors->load('Tree');
 
 		$this->Model->truncate();
 

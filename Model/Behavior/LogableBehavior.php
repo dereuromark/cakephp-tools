@@ -46,7 +46,7 @@ if (!defined('CLASS_USER')) {
  *
  * - In AppController (or single controller if only needed once) add these lines to beforeFilter :
  *
- * 	if (count($this->uses) && $this->{$this->modelClass}->Behaviors->attached('Logable')) {
+ * 	if (count($this->uses) && $this->{$this->modelClass}->Behaviors->loaded('Logable')) {
  *			$this->{$this->modelClass}->setUserData($this->activeUser);
  *		}
  *
@@ -280,7 +280,7 @@ class LogableBehavior extends ModelBehavior {
 	 * Use this to supply a model with the data of the logged in User.
 	 * Intended to be called in AppController::beforeFilter like this :
 	 *
-	 * 	if ($this->{$this->modelClass}->Behaviors->attached('Logable')) {
+	 * 	if ($this->{$this->modelClass}->Behaviors->loaded('Logable')) {
 	 *			$this->{$this->modelClass}->setUserData($activeUser);/
 	 *		}
 	 *
