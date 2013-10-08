@@ -385,7 +385,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 
 		// The password is not updated, the name is
 		$this->assertSame($is['ToolsUser']['password'], $user['ToolsUser']['password']);
-		$this->assertNotSame($is['ToolsUser']['password'], $user['ToolsUser']['password']);
+		$this->assertSame('Yeah', $user['ToolsUser']['name']);
 	}
 
 	/**
