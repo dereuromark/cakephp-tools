@@ -198,7 +198,7 @@ class CommonComponentTest extends CakeTestCase {
 			'password' => 123,
 			'role_id' => 1,
 		);
-		$User = ClassRegistry::init('ToolsUser');
+		$User = ClassRegistry::init('MyToolsUser');
 		$User->create();
 		$res = $User->save($user);
 		$this->assertTrue(!empty($res));
@@ -227,7 +227,7 @@ class CommonComponentTest extends CakeTestCase {
 			'password' => 123,
 			'role_id' => 1,
 		);
-		$User = ClassRegistry::init('ToolsUser');
+		$User = ClassRegistry::init('MyToolsUser');
 		$User->create();
 		$res = $User->save($user);
 		$this->assertTrue(!empty($res));
@@ -305,9 +305,11 @@ class CommonComponentTest extends CakeTestCase {
 
 /*** additional helper classes ***/
 
-class ToolsUser extends AppModel {
+class MyToolsUser extends AppModel {
 
-	public $name = 'ToolsUser';
+	public $useTable = 'tools_users';
+
+	public $name = 'MyToolsUser';
 
 	public $alias = 'User';
 

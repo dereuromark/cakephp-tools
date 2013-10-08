@@ -344,7 +344,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 			'pwd_repeat' => '123456'
 		);
 		$this->User->set($data);
-		// test whitelist setting - only "password" gets auto-added, pwd, pwd_repeat etc need to be added manually
+		// Test whitelist setting - only "password" needs to gets auto-added
 		$is = $this->User->save(null, true, array('id', 'pwd', 'pwd_repeat', 'pwd_current'));
 		$this->assertTrue(!empty($is));
 
