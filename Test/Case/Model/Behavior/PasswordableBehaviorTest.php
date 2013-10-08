@@ -19,7 +19,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 
 		Configure::write('Passwordable.auth', 'AuthTest');
 
-		$this->User = ClassRegistry::init('ToolsUser');
+		$this->User = ClassRegistry::init('Tools.ToolsUser');
 
 		if (isset($this->User->validate['pwd'])) {
 			unset($this->User->validate['pwd']);
