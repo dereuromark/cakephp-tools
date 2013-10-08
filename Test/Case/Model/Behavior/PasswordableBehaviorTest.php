@@ -56,7 +56,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	public function testObject() {
 		$this->User->Behaviors->load('Tools.Passwordable', array());
 		$this->assertInstanceOf('PasswordableBehavior', $this->User->Behaviors->Passwordable);
-		$res = $this->User->Behaviors->attached('Passwordable');
+		$res = $this->User->Behaviors->loaded('Passwordable');
 		$this->assertTrue($res);
 	}
 
@@ -302,7 +302,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	 * Needs faking of pwd check...
 	 */
 	public function testValidateCurrent() {
-		$this->assertFalse($this->User->Behaviors->attached('Passwordable'));
+		$this->assertFalse($this->User->Behaviors->loaded('Passwordable'));
 		$this->User->create();
 		$data = array(
 			'name' => 'xyz',
@@ -320,7 +320,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 			//'pwd_current' => '',
 		);
 		$this->User->set($data);
-		$this->assertTrue($this->User->Behaviors->attached('Passwordable'));
+		$this->assertTrue($this->User->Behaviors->loaded('Passwordable'));
 		$is = $this->User->save();
 		$this->assertFalse($is);
 
@@ -353,7 +353,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$this->assertSame($is['ToolsUser']['password'], $user['ToolsUser']['password']);
 		$this->assertSame('xyz', $user['ToolsUser']['name']);
 
-		// Proof that we manually need to add pwd, pwd_repeat etc due to a bug in Cake allowing behaviors to only modify saving,
+		// Proof that we manually need to add pwd, pwd_repeat etc due to a bug in CakePHP<=2.4 allowing behaviors to only modify saving,
 		// not validating of additional whitelist fields. Validation for those will be just skipped, no matter what the behavior tries
 		// to set.
 		$this->User->create();
@@ -369,13 +369,23 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		// NOTE that I had to remove the code for adding those fields from the behavior (as it was not functional)
 		// So of course, this won't work now as expected. But feel free to try to add them in the behavior. Results will be the same.
 		$is = $this->User->save(null, true, array('id', 'name'));
+
+		if ((float)Configure::version() >= 2.5) {
+			// Validation errors triggered - as expected
+			$this->assertFalse($is);
+			$this->assertSame(array('pwd', 'pwd_repeat', 'pwd_current'), array_keys($this->User->validationErrors));
+			return;
+		}
+
 		// Save is successful
 		$this->assertTrue(!empty($is));
-
 		$user = $this->User->get($uid);
+
+		$this->assertSame('Yeah', $user['ToolsUser']['name']);
+
 		// The password is not updated, the name is
 		$this->assertSame($is['ToolsUser']['password'], $user['ToolsUser']['password']);
-		$this->assertSame('Yeah', $user['ToolsUser']['name']);
+		$this->assertNotSame($is['ToolsUser']['password'], $user['ToolsUser']['password']);
 	}
 
 	/**
@@ -412,7 +422,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 			//'pwd_current' => '',
 		);
 		$this->User->set($data);
-		$this->assertTrue($this->User->Behaviors->attached('Passwordable'));
+		$this->assertTrue($this->User->Behaviors->loaded('Passwordable'));
 		$is = $this->User->save();
 		$this->assertFalse($is);
 
@@ -468,7 +478,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 			'pwd_repeat' => '12345678',
 		);
 		$this->User->set($data);
-		$this->assertTrue($this->User->Behaviors->attached('Passwordable'));
+		$this->assertTrue($this->User->Behaviors->loaded('Passwordable'));
 		$is = $this->User->save();
 		$this->assertFalse($is);
 

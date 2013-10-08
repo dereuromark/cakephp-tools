@@ -343,6 +343,9 @@ class PasswordableBehavior extends ModelBehavior {
 			}
 		}
 
+		// Update whitelist
+		$this->_modifyWhitelist($Model);
+
 		return true;
 	}
 
@@ -377,21 +380,38 @@ class PasswordableBehavior extends ModelBehavior {
 		}
 
 		// Update whitelist
-		$this->_modifyWhitelist($Model);
+		$this->_modifyWhitelist($Model, true);
 
 		return true;
 	}
 
 	/**
-	 * PasswordableBehavior::_modifyWhitelist()
+	 * Modify the model's whitelist.
+	 *
+	 * Since 2.5 behaviors can also modify the whitelist for validate, thus this behavior can now
+	 * (>= CakePHP 2.5) add the form fields automatically, as well (not just the password field itself).
 	 *
 	 * @param Model $Model
 	 * @return void
 	 */
-	protected function _modifyWhitelist(Model $Model) {
-		$field = $this->settings[$Model->alias]['field'];
-		if (!empty($Model->whitelist) && !in_array($field, $Model->whitelist)) {
-			$Model->whitelist = array_merge($Model->whitelist, array($field));
+	protected function _modifyWhitelist(Model $Model, $onSave = false) {
+		$fields = array();
+		if ($onSave) {
+			$fields[] = $this->settings[$Model->alias]['field'];
+		} else {
+			$fields[] = $this->settings[$Model->alias]['formField'];
+			if ($this->settings[$Model->alias]['confirm']) {
+				$fields[] = $this->settings[$Model->alias]['formFieldRepeat'];
+			}
+			if ($this->settings[$Model->alias]['current']) {
+				$fields[] = $this->settings[$Model->alias]['formFieldCurrent'];
+			}
+		}
+
+		foreach ($fields as $field) {
+			if (!empty($Model->whitelist) && !in_array($field, $Model->whitelist)) {
+				$Model->whitelist = array_merge($Model->whitelist, array($field));
+			}
 		}
 	}
 
