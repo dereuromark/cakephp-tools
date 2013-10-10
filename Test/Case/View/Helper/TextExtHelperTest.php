@@ -21,7 +21,7 @@ class TextExtHelperTest extends MyCakeTestCase {
 		$text = 'Text with a url euro@euro.de and more';
 		$expected = 'Text with a url <a href="mailto:euro@euro.de">euro@euro.de</a> and more';
 		$result = $this->Text->autoLinkEmails($text, array());
-		$this->assertEquals($result, $expected);
+		$this->assertEquals($expected, $result);
 
 		$text = 'Text with a url euro@euro.de and more';
 		$expected = 'Text with a url <script language=javascript><!--
@@ -45,7 +45,7 @@ class TextExtHelperTest extends MyCakeTestCase {
 		$expected = 'Text &lt;i&gt;with a email&lt;/i&gt; <a href="mailto:euro@euro.de">euro@euro.de</a> and more';
 		$result = $this->Text->autoLinkEmails($text);
 		//pr(h($text));
-		$this->assertEquals($result, $expected);
+		$this->assertEquals($expected, $result);
 	}
 
 	public function testStripProtocol() {
@@ -56,7 +56,7 @@ class TextExtHelperTest extends MyCakeTestCase {
 
 		foreach ($urls as $url => $expected) {
 			$is = $this->Text->stripProtocol($url);
-			$this->assertEquals($is, $expected);
+			$this->assertEquals($expected, $is);
 		}
 	}
 
@@ -68,28 +68,28 @@ class TextExtHelperTest extends MyCakeTestCase {
 
 		foreach ($texts as $text => $expected) {
 			//$is = $this->Text->stripProtocol($url);
-			//$this->assertEquals($is, $expected);
+			//$this->assertEquals($expected, $is);
 		}
 
 		$text = 'Text with a url www.cot.ag/cuIb2Q/eruierieriu-erjekr and more';
 		$expected = 'Text with a url <a href="http://www.cot.ag/cuIb2Q/eruierieriu-erjekr">www.cot.ag/c...</a> and more';
 		$result = $this->Text->autoLinkUrls($text, array('maxLength'=>12));
-		$this->assertEquals($result, $expected);
+		$this->assertEquals($expected, $result);
 
 		$text = 'Text with a url http://www.cot.ag/cuIb2Q/eru and more';
 		$expected = 'Text with a url <a href="http://www.cot.ag/cuIb2Q/eru">www.cot.ag/cuIb2Q/eru</a> and more';
 		$result = $this->Text->autoLinkUrls($text, array('stripProtocol'=>true));
-		$this->assertEquals($result, $expected);
+		$this->assertEquals($expected, $result);
 
 		$text = 'Text with a url http://www.cot.ag/cuIb2Q/eruierieriu-erjekr and more';
 		$expected = 'Text with a url <a href="http://www.cot.ag/cuIb2Q/eruierieriu-erjekr">http://www.cot.ag/cuIb2Q/eruierieriu-erjekr</a> and more';
 		$result = $this->Text->autoLinkUrls($text, array('stripProtocol'=>false, 'maxLength'=>0));
-		$this->assertEquals($result, $expected);
+		$this->assertEquals($expected, $result);
 
 		$text = 'Text with a url www.cot.ag/cuIb2Q/eruierieriu-erjekrwerweuwrweir-werwer-werwerwe-werwerwer-werwerdfrffsd-werwer and more';
 		$expected = 'Text with a url <a href="http://www.cot.ag/cuIb2Q/eruierieriu-erjekrwerweuwrweir-werwer-werwerwe-werwerwer-werwerdfrffsd-werwer">www.cot.ag/cuIb2Q/eruierieriu-erjekrwerweuwrweir-w...</a> and more';
 		$result = $this->Text->autoLinkUrls($text);
-		$this->assertEquals($result, $expected);
+		$this->assertEquals($expected, $result);
 
 	}
 
@@ -97,20 +97,20 @@ class TextExtHelperTest extends MyCakeTestCase {
 		$text = 'Text with a url www.cot.ag/cuIb2Q/eruierieriu-erjekrwerweuwrweir-werwer and more';
 		$expected = 'Text with a url <a href="http://www.cot.ag/cuIb2Q/eruierieriu-erjekrwerweuwrweir-werwer">www.cot.ag/cuIb2Q/er...</a> and more';
 		$result = $this->Text->autoLinkUrls($text, array('maxLength'=>20), array('escape'=>false));
-		$this->assertEquals($result, $expected);
+		$this->assertEquals($expected, $result);
 
 		# not yet working
 		/*
 		$text = 'Text with a url www.cot.ag/cuIb2Q/eruierieriu-erjekrwerweuwrweir-werwer and more';
 		$expected = 'Text with a url <a href="http://www.cot.ag/cuIb2Q/eruierieriu-erjekrwerweuwrweir-werwer">www.cot.ag/cuIb2Q/er&hellip;</a> and more';
 		$result = $this->Text->autoLinkUrls($text, array('maxLength'=>20), array('escape'=>false, 'html'=>true));
-		$this->assertEquals($result, $expected);
+		$this->assertEquals($expected, $result);
 		*/
 
 		$text = '<h3>google<h3> a http://maps.google.de/maps?f=d&source=s_d&saddr=m%C3%BCnchen&daddr=Berlin&hl=de&geocode=FXaL3gIdGrOwACnZX4yj-XWeRzF9mLF9SrgMAQ%3BFY1xIQMdSKTMACkBWQM_N06oRzFwO15bRiAhBA&mra=ls&sll=52.532932,13.41156&sspn=0.77021,2.348328&g=berlin&ie=UTF8&t=h&z=6 link';
 		$expected = '&lt;h3&gt;google&lt;h3&gt; a <a href="http://maps.google.de/maps?f=d&amp;source=s_d&amp;saddr=m%C3%BCnchen&amp;daddr=Berlin&amp;hl=de&amp;geocode=FXaL3gIdGrOwACnZX4yj-XWeRzF9mLF9SrgMAQ%3BFY1xIQMdSKTMACkBWQM_N06oRzFwO15bRiAhBA&amp;mra=ls&amp;sll=52.532932,13.41156&amp;sspn=0.77021,2.348328&amp;g=berlin&amp;ie=UTF8&amp;t=h&amp;z=6">maps.google.de/maps?f=d&amp;source...</a> link';
 		$result = $this->Text->autoLinkUrls($text, array('maxLength'=>30));
-		$this->assertEquals($result, $expected);
+		$this->assertEquals($expected, $result);
 
 	}
 
@@ -119,7 +119,7 @@ class TextExtHelperTest extends MyCakeTestCase {
 		$expected = 'Text &lt;i&gt;with a url&lt;/i&gt; <a href="http://www.cot.ag?id=2&amp;sub=3">www.cot.ag?id=2&amp;sub=3</a> and more';
 		$result = $this->Text->autoLinkUrls($text);
 		//pr(h($text));
-		$this->assertEquals($result, $expected);
+		$this->assertEquals($expected, $result);
 	}
 
 	/**
@@ -130,7 +130,7 @@ class TextExtHelperTest extends MyCakeTestCase {
 		$expected = 'Text &lt;i&gt;with a url&lt;/i&gt; <a href="http://www.cot.ag?id=2&amp;sub=3">www.cot.ag?id=2&amp;sub=3</a> and some <a href="mailto:email@domain.com">email@domain.com</a> more';
 		$result = $this->Text->autoLink($text);
 		//pr(h($text));
-		$this->assertEquals($result, $expected);
+		$this->assertEquals($expected, $result);
 	}
 
 /* from cake */
@@ -154,12 +154,12 @@ class TextExtHelperTest extends MyCakeTestCase {
 		$text = 'This is a test text';
 		$expected = 'This is a test text';
 		$result = $this->Text->autoLinkUrls($text);
-		$this->assertEquals($result, $expected);
+		$this->assertEquals($expected, $result);
 
 		$text = 'This is a test that includes (www.cakephp.org)';
 		$expected = 'This is a test that includes (<a href="http://www.cakephp.org">www.cakephp.org</a>)';
 		$result = $this->Text->autoLinkUrls($text);
-		$this->assertEquals($result, $expected);
+		$this->assertEquals($expected, $result);
 
 		$text = 'Text with a partial www.cakephp.org URL';
 		$expected = 'Text with a partial <a href="http://www.cakephp.org"\s*>www.cakephp.org</a> URL';
@@ -184,7 +184,7 @@ class TextExtHelperTest extends MyCakeTestCase {
 		$text = 'Text with a url www.cot.ag/cuIb2Q and more';
 		$expected = 'Text with a url <a href="http://www.cot.ag/cuIb2Q">www.cot.ag/cuIb2Q</a> and more';
 		$result = $this->Text->autoLinkUrls($text);
-		$this->assertEquals($result, $expected);
+		$this->assertEquals($expected, $result);
 	}
 
 	/**

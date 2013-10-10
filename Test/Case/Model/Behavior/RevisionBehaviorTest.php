@@ -1110,7 +1110,7 @@ class RevisionBehaviorTest extends CakeTestCase {
 			1,
 			2,
 			3);
-		$this->assertEquals($result, $expected);
+		$this->assertEquals($expected, $result);
 		$Comment->id = 1;
 		$rev_one = $Comment->newest();
 		$this->assertEquals($rev_one['Comment']['title'], 'Edited');

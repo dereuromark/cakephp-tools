@@ -58,12 +58,12 @@ class TextAnalysisLibTest extends CakeTestCase {
 		$is = $this->TextAnalysis->occurrences('h');
 		//pr($is);
 		$expected = 3;
-		$this->assertEquals($is, $expected);
+		$this->assertEquals($expected, $is);
 
 		$is = $this->TextAnalysis->occurrences('h', true);
 		//pr($is);
 		$expected = 2;
-		$this->assertEquals($is, $expected);
+		$this->assertEquals($expected, $is);
 	}
 
 	public function testMaxOccurances() {

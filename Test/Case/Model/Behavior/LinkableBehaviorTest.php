@@ -513,7 +513,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 			)
 		));
 
-		$this->assertEqual($result, $expected);
+		$this->assertEqual($expected, $result);
 	}
 }
 

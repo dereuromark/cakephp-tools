@@ -181,7 +181,7 @@ class FileLibTest extends CakeTestCase {
 				'first' => 'Next',
 				'last_name' => 'Secondy',
 				'email' => 'again@test.com'));
-		$this->assertEquals($is, $expected);
+		$this->assertEquals($expected, $is);
 	}
 
 	public function testTransferWithManualKeys() {
@@ -207,7 +207,7 @@ class FileLibTest extends CakeTestCase {
 				'X' => 'Next',
 				'Y' => 'Secondy',
 				'Z' => 'again@test.com'));
-		$this->assertEquals($is, $expected);
+		$this->assertEquals($expected, $is);
 
 	}
 
@@ -231,7 +231,7 @@ class FileLibTest extends CakeTestCase {
 				'X' => 'Next',
 				'Y' => 'Secondy',
 				'Z' => 'again@test.com'));
-		$this->assertEquals($is, $expected);
+		$this->assertEquals($expected, $is);
 	}
 
 	/**

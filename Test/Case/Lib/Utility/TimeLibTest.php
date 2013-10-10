@@ -455,7 +455,7 @@ class TimeLibTest extends MyCakeTestCase {
 			$ret = TimeLib::cweekEnding($year);
 			$this->out($ret);
 			$this->out(TimeLib::niceDate($ret, 'D').' '.TimeLib::niceDate($ret, FORMAT_NICE_YMDHMS));
-			//$this->assertSame($ret, $expected);
+			//$this->assertSame($expected, $ret);
 			$this->assertTrue($ret <= $expected + HOUR && $ret >= $expected);
 		}
 

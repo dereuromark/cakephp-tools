@@ -264,13 +264,13 @@ class UtilityTest extends MyCakeTestCase {
 			'e 49r ' => 'rf r',
 			'er' => array(array('ee' => array('rr ' => 'tt')))
 		);
-		//$this->assertSame($is, $expected);
+		//$this->assertSame($expected, $is);
 
 		$res = Utility::trimDeep($is);
-		$this->assertSame($res, $expected);
+		$this->assertSame($expected, $res);
 
 		//$res = CommonComponent::trimDeep($is);
-		//$this->assertSame($res, $expected);
+		//$this->assertSame($expected, $res);
 	}
 
 	//TODO: move to boostrap
@@ -287,7 +287,7 @@ class UtilityTest extends MyCakeTestCase {
 		);
 
 		$res = Utility::deep('trim', $is);
-		$this->assertSame($res, $expected);
+		$this->assertSame($expected, $res);
 
 	}
 
