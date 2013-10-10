@@ -307,8 +307,8 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 	public function testDynamic3() {
 		//echo '<h2>Map with Directions</h2>';
 		$options = array(
-			'zoom'=>5,
-			'type'=>'H',
+			'zoom' => 5,
+			'type' => 'H',
 			'map' => array()
 		);
 		//echo $this->GoogleMapV3->map($options);
