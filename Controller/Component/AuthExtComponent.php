@@ -187,7 +187,7 @@ class AuthExtComponent extends AuthComponent {
 			if ($this->settings['multi'] || !isset($userArray['role_id'])) {
 				$parentModelAlias = $this->settings['parentModelAlias'];
 				$userArray[$parentModelAlias] = array(); # default: no roles!
-				$roles = $this->{$withModel}->find('list', array('fields' => array($withModel.'.role_id'), 'conditions' => array($withModel.'.user_id' => $user['id'])));
+				$roles = $this->{$withModel}->find('list', array('fields' => array($withModel.'.role_id'), 'conditions' => array($withModel.'.user_id' => $userArray['id'])));
 				if (!empty($roles)) {
 					//$primaryRole = $this->user($this->fieldKey);
 					// retrieve associated role that are not the primary one
