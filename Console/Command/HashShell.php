@@ -25,7 +25,7 @@ class HashShell extends AppShell {
 
 		$types = array_merge(array_keys($hashAlgos), array('q'));
 		foreach ($hashAlgos as $key => $t) {
-			$this->out(($key+1).': '.$t.(in_array($t, $this->active)?' (!)':''));
+			$this->out(($key+1) . ': ' . $t . (in_array($t, $this->active)?' (!)':''));
 		}
 		while (!isset($type) || !in_array($type-1, $types)) {
 			$type = $this->in(__('Select hashType - or [q] to quit'), null, self::DEFAULT_HASH_ALG);
@@ -40,7 +40,7 @@ class HashShell extends AppShell {
 		}
 
 		$pw = $this->_hash($hashAlgos[$type], $pwToHash);
-		$this->out('type: '.strtoupper($hashAlgos[$type]).' (length: '.mb_strlen($pw).')');
+		$this->out('type: ' . strtoupper($hashAlgos[$type]) . ' (length: ' . mb_strlen($pw) . ')');
 		$this->hr();
 		echo $pw;
 	}
@@ -51,7 +51,7 @@ class HashShell extends AppShell {
 	public function available() {
 		$hashAlgos = hash_algos();
 		foreach ($hashAlgos as $hashAlgo) {
-			$this->out('- '.$hashAlgo);
+			$this->out('- ' . $hashAlgo);
 		}
 	}
 

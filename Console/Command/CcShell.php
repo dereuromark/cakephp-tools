@@ -47,14 +47,14 @@ class CcShell extends AppShell {
 		$files = $this->_getFiles('Model');
 
 		$content = LF;
-		$content .= '/*** model start ***/'.LF;
-		$content .= 'class AppModel extends Model {'.LF;
+		$content .= '/*** model start ***/' . LF;
+		$content .= 'class AppModel extends Model {' . LF;
 		if (!empty($files)) {
 			$content .= $this->_prepModels($files);
 		}
 
-		$content .= '}'.LF;
-		$content .= '/*** model end ***/'.LF;
+		$content .= '}' . LF;
+		$content .= '/*** model end ***/' . LF;
 
 		$this->content .= $content;
 	}
@@ -63,13 +63,13 @@ class CcShell extends AppShell {
 		$files = $this->_getFiles('Model/Behavior');
 
 		$content = LF;
-		$content .= '/*** behavior start ***/'.LF;
-		$content .= 'class AppModel extends Model {'.LF;
+		$content .= '/*** behavior start ***/' . LF;
+		$content .= 'class AppModel extends Model {' . LF;
 		if (!empty($files)) {
 			$content .= $this->_prepBehaviors($files);
 		}
-		$content .= '}'.LF;
-		$content .= '/*** behavior end ***/'.LF;
+		$content .= '}' . LF;
+		$content .= '/*** behavior end ***/' . LF;
 
 		$this->content .= $content;
 	}
@@ -79,23 +79,23 @@ class CcShell extends AppShell {
 	 */
 	public function controller() {
 		$content = LF;
-		$content .= '/*** component start ***/'.LF;
-		$content .= 'class AppController extends Controller {'.LF;
+		$content .= '/*** component start ***/' . LF;
+		$content .= 'class AppController extends Controller {' . LF;
 
 		$files = $this->_getFiles('Controller/Component');
 		if (!empty($files)) {
 			$content .= $this->_prepComponents($files);
 		}
 
-		$content .= LF.LF;
+		$content .= LF . LF;
 
 		$files = $this->_getFiles('Model');
 		if (!empty($files)) {
 			$content .= $this->_prepModels($files);
 		}
 
-		$content .= '}'.LF;
-		$content .= '/*** component end ***/'.LF;
+		$content .= '}' . LF;
+		$content .= '/*** component end ***/' . LF;
 
 		$this->content .= $content;
 	}
@@ -103,13 +103,13 @@ class CcShell extends AppShell {
 	public function helpers() {
 		$files = $this->_getFiles('View/Helper');
 		$content = LF;
-		$content .= '/*** helper start ***/'.LF;
-		$content .= 'class AppHelper extends Helper {'.LF;
+		$content .= '/*** helper start ***/' . LF;
+		$content .= 'class AppHelper extends Helper {' . LF;
 		if (!empty($files)) {
 			$content .= $this->_prepHelpers($files);
 		}
-		$content .= '}'.LF;
-		$content .= '/*** helper end ***/'.LF;
+		$content .= '}' . LF;
+		$content .= '/*** helper end ***/' . LF;
 
 		$this->content .= $content;
 	}
@@ -117,11 +117,11 @@ class CcShell extends AppShell {
 	public function appFiles() {
 		$files = $this->appFiles;
 		$content = LF;
-		$content .= '/*** plugin files start ***/'.LF;
+		$content .= '/*** plugin files start ***/' . LF;
 		if (!empty($files)) {
 			$content .= $this->_prepAppFiles($files);
 		}
-		$content .= '/*** plugin files end ***/'.LF;
+		$content .= '/*** plugin files end ***/' . LF;
 
 		$this->content .= $content;
 	}
@@ -129,7 +129,7 @@ class CcShell extends AppShell {
 	protected function _prepAppFiles($files) {
 		$res = '';
 		foreach ($files as $name => $parent) {
-			$res .= 'class ' . $name . ' extends '.$parent.' {}' . LF;
+			$res .= 'class ' . $name . ' extends ' . $parent . ' {}' . LF;
 		}
 		return $res;
 	}
@@ -140,22 +140,22 @@ class CcShell extends AppShell {
 
 			$res .= '
 	/**
-	* '.$name.'
+	* ' . $name . '
 	*
-	* @var '.$name.'
+	* @var ' . $name . '
 	*/
-	public $'.$name.';
-'.LF;
+	public $' . $name . ';
+' . LF;
 		}
 
 		$res .= '	public function __construct() {';
 
 		foreach ($files as $name) {
 			$res .= '
-		$this->'.$name.' = new '.$name.'();';
+		$this->' . $name . ' = new ' . $name . '();';
 		}
 
-		$res .= LF.'	}'.LF;
+		$res .= LF . '	}' . LF;
 		return $res;
 	}
 
@@ -167,12 +167,12 @@ class CcShell extends AppShell {
 			}
 			$res .= '
 	/**
-	* '.$name.'Behavior
+	* ' . $name . 'Behavior
 	*
-	* @var '.$varName.'
+	* @var ' . $varName . '
 	*/
-	public $'.$varName.';
-'.LF;
+	public $' . $varName . ';
+' . LF;
 		}
 
 		$res .= '	public function __construct() {';
@@ -182,10 +182,10 @@ class CcShell extends AppShell {
 				continue;
 			}
 			$res .= '
-		$this->'.$varName.' = new '.$name.'();';
+		$this->' . $varName . ' = new ' . $name . '();';
 		}
 
-		$res .= LF.'	}'.LF;
+		$res .= LF . '	}' . LF;
 		return $res;
 	}
 
@@ -208,12 +208,12 @@ class CcShell extends AppShell {
 			}
 			$res .= '
 	/**
-	* '.$name.'
+	* ' . $name . '
 	*
-	* @var '.$varName.'
+	* @var ' . $varName . '
 	*/
-	public $'.$varName.';
-'.LF;
+	public $' . $varName . ';
+' . LF;
 		}
 
 		$res .= '	public function __construct() {';
@@ -223,10 +223,10 @@ class CcShell extends AppShell {
 				continue;
 			}
 			$res .= '
-		$this->'.$varName.' = new '.$name.'();';
+		$this->' . $varName . ' = new ' . $name . '();';
 		}
 
-		$res .= LF.'	}'.LF;
+		$res .= LF . '	}' . LF;
 		return $res;
 	}
 
@@ -240,12 +240,12 @@ class CcShell extends AppShell {
 			}
 			$res .= '
 	/**
-	* '.$name.'
+	* ' . $name . '
 	*
-	* @var '.$varName.'
+	* @var ' . $varName . '
 	*/
-	public $'.$varName.';
-'.LF;
+	public $' . $varName . ';
+' . LF;
 		}
 
 		$res .= '	public function __construct() {';
@@ -255,10 +255,10 @@ class CcShell extends AppShell {
 				continue;
 			}
 			$res .= '
-		$this->'.$varName.' = new '.$name.'();';
+		$this->' . $varName . ' = new ' . $name . '();';
 		}
 
-		$res .= LF.'	}'.LF;
+		$res .= LF . '	}' . LF;
 
 		return $res;
 	}
@@ -266,10 +266,10 @@ class CcShell extends AppShell {
 	protected function _dump() {
 		//$File = new File($this->filename, true);
 
-		$content = '<?php exit();'.PHP_EOL.PHP_EOL;
-		$content .= 'class CodeCompletion {'.PHP_EOL;
-		$content .= '}'.PHP_EOL.PHP_EOL;
-		$content .= '//Printed: '.date('d.m.Y, H:i:s').PHP_EOL;
+		$content = '<?php exit();' . PHP_EOL . PHP_EOL;
+		$content .= 'class CodeCompletion {' . PHP_EOL;
+		$content .= '}' . PHP_EOL . PHP_EOL;
+		$content .= '//Printed: ' . date('d.m.Y, H:i:s') . PHP_EOL;
 		$content .= $this->content;
 
 		//return $File->write($content);
@@ -294,11 +294,11 @@ class CcShell extends AppShell {
 
 		if (!empty($this->plugins)) {
 			foreach ($this->plugins as $plugin) {
-				$pluginType = $plugin.'.'.$type;
+				$pluginType = $plugin . '.' . $type;
 					$pluginFiles = App::objects($pluginType, null, false);
 					if (!empty($pluginFiles)) {
 						foreach ($pluginFiles as $file) {
-							if (strpos($file, 'App'.$type) !== false) {
+							if (strpos($file, 'App' . $type) !== false) {
 								//$this->appFiles[$file] = $plugin.'.'.$type;
 								continue;
 							}

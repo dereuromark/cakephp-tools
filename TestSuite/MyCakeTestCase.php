@@ -118,7 +118,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 		$url = array_shift($pieces);
 		if ($full) {
 			$protocol = array_shift(explode('/', $_SERVER['SERVER_PROTOCOL'], 2));
-			$url = strtolower($protocol).'://'.$_SERVER['SERVER_NAME'].$url;
+			$url = strtolower($protocol) . '://' . $_SERVER['SERVER_NAME'] . $url;
 		}
 		return $url;
 	}
@@ -128,7 +128,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 			$title = substr($title, 4);
 			$title = Inflector::humanize(Inflector::underscore($title));
 		}
-		return '<h3>'.$title.'</h3>';
+		return '<h3>' . $title . '</h3>';
 	}
 
 	/**
@@ -158,15 +158,15 @@ abstract class MyCakeTestCase extends CakeTestCase {
 		}
 
 		$precision = ($precision !== null) ? $precision : $prec;
-		pr('elapsedTime: '.number_format($time, $precision, ',', '.').' '.$unit);
+		pr('elapsedTime: ' . number_format($time, $precision, ',', '.') . ' ' . $unit);
 	}
 
 	protected function _title($expectation, $title = null) {
-		$eTitle = '{expects: '.$expectation.'}';
+		$eTitle = '{expects: ' . $expectation . '}';
 		if (!empty($title)) {
-			$eTitle = $title.' '.$eTitle;
+			$eTitle = $title . ' ' . $eTitle;
 		}
-		return BR.BR.'<b>'.$eTitle.'</b>'.BR;
+		return BR . BR . '<b>' . $eTitle . '</b>' . BR;
 	}
 
 	protected function _printTitle($expectation, $title = null) {
@@ -183,13 +183,13 @@ abstract class MyCakeTestCase extends CakeTestCase {
 
 		if ($pre !== null) {
 			echo 'value:';
-			pr ($pre);
+			pr($pre);
 		}
 		echo 'result is:';
 		pr($is);
 		if (!$status) {
 			echo 'result expected:';
-			pr ($expected);
+			pr($expected);
 		}
 	}
 

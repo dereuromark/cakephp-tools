@@ -195,26 +195,26 @@ class TextExtHelperTest extends MyCakeTestCase {
 	public function testMinimizeUrl() {
 
 		$url = 'http://www.test.de';
-		$this->assertEquals($url, $this->Text->minimizeUrl($url,20));
+		$this->assertEquals($url, $this->Text->minimizeUrl($url, 20));
 
 		$url = 'http://www.test.de';
-		$this->assertEquals($url, $this->Text->minimizeUrl($url,18));
+		$this->assertEquals($url, $this->Text->minimizeUrl($url, 18));
 
 		$url = 'http://www.test.de';
-		$this->assertEquals('www.test.de', $this->Text->minimizeUrl($url,17));
+		$this->assertEquals('www.test.de', $this->Text->minimizeUrl($url, 17));
 
 		$url = 'http://www.testpage.de';
-		$this->assertEquals('ww&#8230;ge.de', $this->Text->minimizeUrl($url,10));
+		$this->assertEquals('ww&#8230;ge.de', $this->Text->minimizeUrl($url, 10));
 
 		$url = 'http://www.testpage.de';
-		$this->assertEquals('ww...ge.de', $this->Text->minimizeUrl($url,10, array('placeholder'=>'...')));
+		$this->assertEquals('ww...ge.de', $this->Text->minimizeUrl($url, 10, array('placeholder'=>'...')));
 
 		# without full http://
 		$url = 'www.testpage.de';
-		$this->assertEquals($url, $this->Text->minimizeUrl($url,15));
+		$this->assertEquals($url, $this->Text->minimizeUrl($url, 15));
 
 		$url = 'www.testpage.de';
-		$this->assertEquals('www.te&#8230;ge.de', $this->Text->minimizeUrl($url,14));
+		$this->assertEquals('www.te&#8230;ge.de', $this->Text->minimizeUrl($url, 14));
 
 	}
 

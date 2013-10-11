@@ -5,14 +5,14 @@ class RevisionArticleFixture extends CakeTestFixture {
 			'id' => array(
 					'type' => 'integer',
 					'null' => false,
-					'default' => NULL,
+					'default' => null,
 					'key' => 'primary'),
-			'user_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-			'parent_id' => array('type' => 'integer','null' => true,'default' => NULL),
-			'lft' => array('type' => 'integer','null' => true,'default' => NULL),
-			'rght' => array('type' => 'integer','null' => true,'default' => NULL),
-			'title' => array('type' => 'string', 'null' => false, 'default' => NULL),
-			'content' => array('type' => 'text', 'null' => false, 'default' => NULL),
+			'user_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+			'parent_id' => array('type' => 'integer', 'null' => true, 'default' => null),
+			'lft' => array('type' => 'integer', 'null' => true, 'default' => null),
+			'rght' => array('type' => 'integer', 'null' => true, 'default' => null),
+			'title' => array('type' => 'string', 'null' => false, 'default' => null),
+			'content' => array('type' => 'text', 'null' => false, 'default' => null),
 			'indexes' => array('PRIMARY' => array('column' => 'id')));
 	public $records = array(
 		array(

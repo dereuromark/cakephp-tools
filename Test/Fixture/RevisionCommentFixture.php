@@ -6,10 +6,10 @@ class RevisionCommentFixture extends CakeTestFixture {
 			'id' => array(
 					'type' => 'integer',
 					'null' => false,
-					'default' => NULL,
+					'default' => null,
 					'key' => 'primary'),
-			'title' => array('type' => 'string', 'null' => false, 'default' => NULL),
-			'content' => array('type' => 'text', 'null' => false, 'default' => NULL),
+			'title' => array('type' => 'string', 'null' => false, 'default' => null),
+			'content' => array('type' => 'text', 'null' => false, 'default' => null),
 			'indexes' => array('PRIMARY' => array('column' => 'id')));
 	public $records = array(
 		array(

@@ -13,16 +13,16 @@ class CurrencyFixture extends CakeTestFixture {
  * @var array
  */
 	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary', 'collate' => NULL, 'comment' => ''),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary', 'collate' => null, 'comment' => ''),
 		'name' => array('type' => 'string', 'null' => false, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
 		'code' => array('type' => 'string', 'null' => false, 'length' => 3, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
 		'symbol_left' => array('type' => 'string', 'null' => true, 'length' => 12, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
 		'symbol_right' => array('type' => 'string', 'null' => true, 'length' => 12, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
 		'decimal_places' => array('type' => 'string', 'null' => true, 'length' => 1, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'value' => array('type' => 'float', 'null' => true, 'default' => '0.0000', 'length' => '9,4', 'collate' => NULL, 'comment' => ''),
-		'base' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'collate' => NULL, 'comment' => 'is base currency'),
-		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'collate' => NULL, 'comment' => ''),
-		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL, 'collate' => NULL, 'comment' => ''),
+		'value' => array('type' => 'float', 'null' => true, 'default' => '0.0000', 'length' => '9,4', 'collate' => null, 'comment' => ''),
+		'base' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'collate' => null, 'comment' => 'is base currency'),
+		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'collate' => null, 'comment' => ''),
+		'modified' => array('type' => 'datetime', 'null' => false, 'default' => null, 'collate' => null, 'comment' => ''),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array()
 	);

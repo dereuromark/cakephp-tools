@@ -279,7 +279,6 @@ class ImapSource extends DataSource {
 	/**
 	 * Expunge messages marked for deletion
 	 *
-	 * @return void
 	 */
 	public function __destruct() {
 		if ($this->_isConnected && $this->Stream) {

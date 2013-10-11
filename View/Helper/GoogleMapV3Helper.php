@@ -164,7 +164,7 @@ class GoogleMapV3Helper extends AppHelper {
 		),
 		'marker' => array(
 			//'autoCenter' => true,
-			'animation' => null,  # BOUNCE or DROP  https://developers.google.com/maps/documentation/javascript/3.exp/reference#Animation
+			'animation' => null, # BOUNCE or DROP  https://developers.google.com/maps/documentation/javascript/3.exp/reference#Animation
 			'icon' => null, # => default (red marker) //http://google-maps-icons.googlecode.com/files/home.png
 			'title' => null,
 			'shadow' => null,
@@ -488,7 +488,7 @@ class GoogleMapV3Helper extends AppHelper {
 	 * If you declare multiple ones, the last one will be the one shown as open.
 	 *
 	 * @param array $options
-	 * @return integer Marker count or false on failure
+	 * @return mixed Integer marker count or boolean false on failure
 	 * @throws CakeException
 	 */
 	public function addMarker($options) {
@@ -508,7 +508,7 @@ class GoogleMapV3Helper extends AppHelper {
 		if (isset($options['icon'])) {
 			$params['icon'] = $options['icon'];
 			if (is_int($params['icon'])) {
-				$params['icon'] = 'gIcons' . self::$MAP_COUNT.'[' . $params['icon'].']';
+				$params['icon'] = 'gIcons' . self::$MAP_COUNT . '[' . $params['icon'] . ']';
 			} else {
 				$params['icon'] = json_encode($params['icon']);
 			}
@@ -557,18 +557,18 @@ function geocodeAddress(address) {
 			if (!isset($options['address'])) {
 				throw new CakeException('Either use lat/lng or address to add a marker');
 			}
-			$position = 'geocodeAddress(\'' .h($options['address']).'\')';
+			$position = 'geocodeAddress(\'' . h($options['address']) . '\')';
 		} else {
-			$position = "new google.maps.LatLng(" . $options['lat']."," . $options['lng'].")";
+			$position = "new google.maps.LatLng(" . $options['lat'] . "," . $options['lng'] . ")";
 		}
 
 		$marker = "
-			var x" . self::$MARKER_COUNT." = new google.maps.Marker({
-				position: " . $position.",
-				" . $this->_toObjectParams($params, false, false)."
+			var x" . self::$MARKER_COUNT . " = new google.maps.Marker({
+				position: " . $position . ",
+				" . $this->_toObjectParams($params, false, false) . "
 			});
-			gMarkers" . self::$MAP_COUNT." .push(
-				x" . self::$MARKER_COUNT."
+			gMarkers" . self::$MAP_COUNT . " .push(
+				x" . self::$MARKER_COUNT . "
 			);
 		";
 		$this->map .= $marker;
@@ -589,8 +589,8 @@ function geocodeAddress(address) {
 
 			$x = $this->addInfoContent($options['content']);
 			$event = "
-			gInfoWindows" . self::$MAP_COUNT . "[" . $this->_currentOptions['marker']['infoWindow']."]. setContent(gWindowContents" . self::$MAP_COUNT."[" . $x . "]);
-			gInfoWindows" . self::$MAP_COUNT . "[" . $this->_currentOptions['marker']['infoWindow']."].open(" . $this->name() . ", gMarkers" . self::$MAP_COUNT . "[" . $x . "]);
+			gInfoWindows" . self::$MAP_COUNT . "[" . $this->_currentOptions['marker']['infoWindow'] . "]. setContent(gWindowContents" . self::$MAP_COUNT . "[" . $x . "]);
+			gInfoWindows" . self::$MAP_COUNT . "[" . $this->_currentOptions['marker']['infoWindow'] . "].open(" . $this->name() . ", gMarkers" . self::$MAP_COUNT . "[" . $x . "]);
 			";
 			$this->addCustomEvent(self::$MARKER_COUNT, $event);
 
@@ -805,9 +805,9 @@ var iconShape = {
 		}
 
 		$icon = 'new google.maps.MarkerImage(\'' . $url . '\',
-	new google.maps. size(' . $options['size']['width'].', ' . $options['size']['height'].'),
-	new google.maps.Point(' . $options['origin']['width'].', ' . $options['origin']['height'].'),
-	new google.maps.Point(' . $options['anchor']['width'].', ' . $options['anchor']['height'].')
+	new google.maps. size(' . $options['size']['width'] . ', ' . $options['size']['height'] . '),
+	new google.maps.Point(' . $options['origin']['width'] . ', ' . $options['origin']['height'] . '),
+	new google.maps.Point(' . $options['anchor']['width'] . ', ' . $options['anchor']['height'] . ')
 )';
 		$this->icons[self::$ICON_COUNT] = $icon;
 		$this->_iconRemember[self::$ICON_COUNT] = array('url' => $url, 'options' => $options, 'id' => self::$ICON_COUNT);
@@ -832,9 +832,9 @@ var iconShape = {
 		}
 
 		$windows = "
-			gInfoWindows" . self::$MAP_COUNT." .push( new google.maps.InfoWindow({
+			gInfoWindows" . self::$MAP_COUNT . " .push( new google.maps.InfoWindow({
 					position: {$position},
-					content: " . $this->escapeString($options['content']).",
+					content: " . $this->escapeString($options['content']) . ",
 					maxWidth: {$options['maxWidth']},
 					pixelOffset: {$options['pixelOffset']}
 					/*zIndex: {$options['zIndex']},*/
@@ -999,7 +999,7 @@ var iconShape = {
 					strokeOpacity: " . $options['opacity'] . ",
 					strokeWeight: " . $options['weight'] . "
 				});
-				{$id}Polyline. setMap(" . $this->name() . ");
+				{$id}Polyline.setMap(" . $this->name() . ");
 			";
 		$this->map .= $polyline;
 	}
@@ -1715,7 +1715,7 @@ function Fluster2ProjectionOverlay(map) {google.maps.OverlayView.call(this);this
 	 * @return string
 	 */
 	protected function _arrayToObject($name, $array, $asString = true, $keyAsString = false) {
-		$res = 'var ' . $name.' = {' .PHP_EOL;
+		$res = 'var ' . $name . ' = {' . PHP_EOL;
 		$res .= $this->_toObjectParams($array, $asString, $keyAsString);
 		$res .= '};';
 		return $res;
@@ -1734,9 +1734,9 @@ function Fluster2ProjectionOverlay(map) {google.maps.OverlayView.call(this);this
 		foreach ($array as $key => $value) {
 			$e = ($asString && strpos($value, 'new ') !== 0 ? '\'' : '');
 			$ke = ($keyAsString ? '\'' : '');
-			$pieces[] = $ke. $key. $ke.': ' . $e. $value. $e;
+			$pieces[] = $ke . $key . $ke . ': ' . $e . $value . $e;
 		}
-		return implode(',' .PHP_EOL, $pieces);
+		return implode(',' . PHP_EOL, $pieces);
 	}
 
 }

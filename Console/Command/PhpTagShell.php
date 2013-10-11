@@ -39,7 +39,7 @@ class PhpTagShell extends AppShell {
 			$r = array($folder);
 		} else {
 			$App = new Folder($folder);
-			$this->out("Find recursive *.php in [".$folder."] ....");
+			$this->out("Find recursive *.php in [" . $folder . "] ....");
 			$r = $App->findRecursive('.*\.php');
 		}
 
@@ -61,7 +61,7 @@ class PhpTagShell extends AppShell {
 					$this->report[$e][0]++;
 				}
 				$this->out('');
-				$this->out('contains '.rtrim(implode($error, ', '), ', ').' whitespaces / php tags: '.$this->shortPath($file));
+				$this->out('contains ' . rtrim(implode($error, ', '), ', ') . ' whitespaces / php tags: ' . $this->shortPath($file));
 
 				if (!$this->autoCorrectAll) {
 					$dirname = dirname($file);
@@ -72,7 +72,7 @@ class PhpTagShell extends AppShell {
 
 					while (empty($action)) {
 						//TODO: [r]!
-						$action = $this->in(__('Remove? [y]/[n], [a] for all in this folder, [r] for all below, [*] for all files(!), [q] to quit'), array('y','n','r','a','q','*'), 'q');
+						$action = $this->in(__('Remove? [y]/[n], [a] for all in this folder, [r] for all below, [*] for all files(!), [q] to quit'), array('y', 'n', 'r', 'a', 'q', '*'), 'q');
 					}
 				} else {
 					$action = 'y';
@@ -85,7 +85,7 @@ class PhpTagShell extends AppShell {
 				} elseif ($action === 'a') {
 					$action = 'y';
 					$folders[] = $dirname;
-					$this->out('All: '.$dirname);
+					$this->out('All: ' . $dirname);
 				}
 
 				if ($action === 'q') {
@@ -102,7 +102,7 @@ class PhpTagShell extends AppShell {
 					file_put_contents($file, $res);
 					foreach ($error as $e) {
 						$this->report[$e][1]++;
-						$this->out('fixed '.$e.' php tag: '.$this->shortPath($file));
+						$this->out('fixed ' . $e . ' php tag: ' . $this->shortPath($file));
 					}
 				}
 			}
@@ -110,8 +110,8 @@ class PhpTagShell extends AppShell {
 
 		# report
 		$this->out('--------');
-		$this->out('found '.$this->report['leading'][0].' leading, '.$this->report['trailing'][0].' trailing ws / php tag');
-		$this->out('fixed '.$this->report['leading'][1].' leading, '.$this->report['trailing'][1].' trailing ws / php tag');
+		$this->out('found ' . $this->report['leading'][0] . ' leading, ' . $this->report['trailing'][0] . ' trailing ws / php tag');
+		$this->out('fixed ' . $this->report['leading'][1] . ' leading, ' . $this->report['trailing'][1] . ' trailing ws / php tag');
 	}
 
 }

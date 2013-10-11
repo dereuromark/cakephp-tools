@@ -35,16 +35,16 @@ class ResetShell extends AppShell {
 
 		$this->User = ClassRegistry::init(CLASS_USER);
 		if (!$this->User->hasField('email')) {
-			return $this->error(CLASS_USER.' model doesnt have an email field!');
+			return $this->error(CLASS_USER . ' model doesnt have an email field!');
 		}
 
 		$this->hr();
 		$this->out('resetting...');
 		Configure::write('debug', 2);
 		$this->User->recursive = -1;
-		$this->User->updateAll(array('User.email'=>'\''.$email.'\''), array('User.email !='=>$email));
+		$this->User->updateAll(array('User.email'=>'\'' . $email . '\''), array('User.email !='=>$email));
 		$count = $this->User->getAffectedRows();
-		$this->out($count.' emails resetted - DONE');
+		$this->out($count . ' emails resetted - DONE');
 	}
 
 	/**
@@ -64,7 +64,7 @@ class ResetShell extends AppShell {
 			return $this->error('No Auth Component found');
 		}
 
-		$this->out('Using: '.get_class($this->Auth).' (Abort with STRG+C)');
+		$this->out('Using: ' . get_class($this->Auth) . ' (Abort with STRG+C)');
 
 		if (!empty($this->args[0]) && mb_strlen($this->args[0]) >= 2) {
 			$pwToHash = $this->args[0];
@@ -85,18 +85,18 @@ class ResetShell extends AppShell {
 
 		$this->User = ClassRegistry::init(CLASS_USER);
 		if (!$this->User->hasField('password')) {
-			return $this->error(CLASS_USER.' model doesnt have a password field!');
+			return $this->error(CLASS_USER . ' model doesnt have a password field!');
 		}
 
 		if (method_exists($this->User, 'escapeValue')) {
 			$newPwd = $this->User->escapeValue($pw);
 		} else {
-			$newPwd = '\''.$pw.'\'';
+			$newPwd = '\'' . $pw . '\'';
 		}
 		$this->User->recursive = -1;
 		$this->User->updateAll(array('password'=>$newPwd), array('password !='=>$pw));
 		$count = $this->User->getAffectedRows();
-		$this->out($count.' pwds resetted - DONE');
+		$this->out($count . ' pwds resetted - DONE');
 	}
 
 	public function help() {

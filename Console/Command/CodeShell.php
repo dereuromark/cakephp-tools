@@ -54,12 +54,12 @@ class CodeShell extends AppShell {
 
 		foreach ($matches[1] as $match) {
 			$match = trim($match);
-			preg_match('/\bApp\:\:uses\(\''.$match.'\'/', $fileContent, $usesMatches);
+			preg_match('/\bApp\:\:uses\(\'' . $match . '\'/', $fileContent, $usesMatches);
 			if (!empty($usesMatches)) {
 				continue;
 			}
 
-			preg_match('/class '.$match.'\s*(w+)?{/', $fileContent, $existingMatches);
+			preg_match('/class ' . $match . '\s*(w+)?{/', $fileContent, $existingMatches);
 			if (!empty($existingMatches)) {
 				continue;
 			}
@@ -129,7 +129,7 @@ class CodeShell extends AppShell {
 				}
 			}
 			if (empty($type)) {
-				$this->err($missingClass.' ('.$file.') could not be matched');
+				$this->err($missingClass . ' (' . $file . ') could not be matched');
 				continue;
 			}
 
@@ -138,7 +138,7 @@ class CodeShell extends AppShell {
 			} else {
 				$missingClassName = substr($missingClass, 0, strlen($missingClass) - strlen($class));
 			}
-			$objects = App::objects(($this->params['plugin'] ? $this->params['plugin'].'.' : '') . $class);
+			$objects = App::objects(($this->params['plugin'] ? $this->params['plugin'] . '.' : '') . $class);
 
 			//FIXME: correct result for plugin classes
 			if ($missingClass === 'Component') {
@@ -153,7 +153,7 @@ class CodeShell extends AppShell {
 				$type = ($this->params['plugin'] ? ($this->params['plugin'] . '.') : '') . $type;
 			}
 
-			$inserted[] = 'App::uses(\''.$missingClass.'\', \''.$type.'\');';
+			$inserted[] = 'App::uses(\'' . $missingClass . '\', \'' . $type . '\');';
 		}
 
 		if (!$inserted) {
@@ -184,8 +184,8 @@ class CodeShell extends AppShell {
 		$umlauts = array('ä', 'ö', 'ü', 'Ä', 'Ö', 'Ü', 'ß');
 		foreach ($umlauts as $umlaut) {
 			$patterns[] = array(
-				ent($umlaut).' => '.$umlaut,
-				'/'.ent($umlaut).'/',
+				ent($umlaut) . ' => ' . $umlaut,
+				'/' . ent($umlaut) . '/',
 				$umlaut,
 			);
 		}
@@ -338,7 +338,7 @@ class CodeShell extends AppShell {
 			} else {
 				$this->args[1] = APP;
 			}
-			$this->{'Code'.ucfirst($this->args[0])}->execute($this->args[1]);
+			$this->{'Code' . ucfirst($this->args[0])}->execute($this->args[1]);
 		} else {
 			$this->out('Usage: cake code type');
 			$this->out('');

@@ -66,7 +66,6 @@ class DiffLib {
 	/**
 	 * DiffLib::__construct()
 	 *
-	 * @return void
 	 */
 	public function __construct() {
 		set_include_path(get_include_path() . PATH_SEPARATOR . CakePlugin::path('Tools') . 'Vendor' . DS);
@@ -129,7 +128,7 @@ class DiffLib {
 		if (!is_array($changed)) {
 			$changed = $this->_explode($changed);
 		}
-		$rendererClassName = 'Horde_Text_Diff_Renderer_'.ucfirst($this->renderer);
+		$rendererClassName = 'Horde_Text_Diff_Renderer_' . ucfirst($this->renderer);
 
 		$renderer = new $rendererClassName(array('context_lines' => $this->context_lines, 'character_diff' =>$this->character_diff));
 		$diff = new Horde_Text_Diff($this->engine, array($original, $changed));
@@ -150,7 +149,7 @@ class DiffLib {
 		$options += $defaults;
 
 		$diff = new Horde_Text_Diff('string', array($string, $options['mode']));
-		$rendererClassName = 'Horde_Text_Diff_Renderer_'.ucfirst($this->renderer);
+		$rendererClassName = 'Horde_Text_Diff_Renderer_' . ucfirst($this->renderer);
 		$renderer = new $rendererClassName(array('context_lines' => $this->context_lines, 'character_diff' =>$this->character_diff));
 		$string = $renderer->render($diff);
 		return $string;

@@ -37,7 +37,7 @@ class CodeKeyTest extends MyCakeTestCase {
 		//pr($res);
 		$this->assertTrue(!empty($res) && !empty($res['CodeKey']['used']));
 
-		$res = $this->CodeKey->useKey('test', $key.'x');
+		$res = $this->CodeKey->useKey('test', $key . 'x');
 		$this->assertFalse($res);
 
 		$res = $this->CodeKey->useKey('testx', $key);

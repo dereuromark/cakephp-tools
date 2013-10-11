@@ -213,7 +213,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 			'LinkableTag' => array('name' => 'General'),
 			'LinkableProfile' => array('biography' => 'CakePHP is a rapid development framework for PHP that provides an extensible architecture for developing, maintaining, and deploying applications.'),
 			'MainLinkableTag' => array('name' => 'General'),
-			'Generic' => array('id' => 1,'text' => ''),
+			'Generic' => array('id' => 1, 'text' => ''),
 			'LinkableUser' => array('id' => 1, 'username' => 'CakePHP')
 		);
 
@@ -228,7 +228,7 @@ class LinkableBehaviorTest extends CakeTestCase {
 							'biography'
 						),
 						'Generic' => array(
-							'class'	 => 'Generic',
+							'class' => 'Generic',
 							'conditions' => array('exactly' => 'LinkableUser.id = Generic.id'),
 						)
 					)

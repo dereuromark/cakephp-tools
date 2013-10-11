@@ -148,8 +148,8 @@ class TimeLib extends CakeTime {
 	 */
 	public static function ageByYear($year, $month = null) {
 		if ($month === null) {
-			$maxAge = self::age(mktime(0,0,0,1,1, $year));
-			$minAge = self::age(mktime(23,59,59,12,31, $year));
+			$maxAge = self::age(mktime(0, 0, 0, 1, 1, $year));
+			$minAge = self::age(mktime(23, 59, 59, 12, 31, $year));
 			$ages = array_unique(array($minAge, $maxAge));
 			return implode('/', $ages);
 		}
@@ -260,7 +260,7 @@ class TimeLib extends CakeTime {
 		}
 		//echo "Der $d.$m.$y liegt in der Kalenderwoche $kw/$y";
 
-		return $kw.'/'.$y;
+		return $kw . '/' . $y;
 	}
 
 	/**
@@ -295,21 +295,21 @@ class TimeLib extends CakeTime {
 	 */
 	public static function cweekBeginning($year, $cweek = null) {
 		if ((int)$cweek <= 1 || (int)$cweek > self::cweeks($year)) {
-			$first = mktime(0,0,0,1,1, $year);
+			$first = mktime(0, 0, 0, 1, 1, $year);
 			$wtag = date('w', $first);
 
 			if ($wtag<=4) {
 				/*Donnerstag oder kleiner: auf den Montag zurückrechnen.*/
-				$firstmonday = mktime(0,0,0,1,1-($wtag-1), $year);
+				$firstmonday = mktime(0, 0, 0, 1, 1-($wtag-1), $year);
 			} elseif ($wtag!=1) {
 				/*auf den Montag nach vorne rechnen.*/
-				$firstmonday = mktime(0,0,0,1,1+(7-$wtag+1), $year);
+				$firstmonday = mktime(0, 0, 0, 1, 1+(7-$wtag+1), $year);
 			} else {
 				$firstmonday = $first;
 			}
 			return $firstmonday;
 		}
-		$monday = strtotime($year.'W'.str_pad($cweek, 2, '0', STR_PAD_LEFT).'1');
+		$monday = strtotime($year . 'W' . str_pad($cweek, 2, '0', STR_PAD_LEFT) . '1');
 		return $monday;
 	}
 
@@ -497,7 +497,7 @@ class TimeLib extends CakeTime {
 				case FORMAT_NICE_YMDHM:
 				case FORMAT_NICE_HM:
 				case FORMAT_NICE_HMS:
-					$ret .= ' '.__('o\'clock');
+					$ret .= ' ' . __('o\'clock');
 					break;
 			}
 		}
@@ -663,49 +663,49 @@ class TimeLib extends CakeTime {
 		);
 		$options = array(
 			'0'=>array(
-				'steps'=>array('1'=>60,'2'=>3600,'3'=>86400,'4'=>86400*7,'5'=>86400*30,'6'=>86400*365),
+				'steps'=>array('1'=>60, '2'=>3600, '3'=>86400, '4'=>86400*7, '5'=>86400*30, '6'=>86400*365),
 				'down'=>0,
 				'up'=>60,
 				'short'=>'s',
 				'long'=>'seconds'
 			),
 			'1'=>array(
-				'steps'=>array('0'=>60,'2'=>60,'3'=>60*24,'4'=>60*24*7,'5'=>60*24*30,'6'=>60*24*365),
+				'steps'=>array('0'=>60, '2'=>60, '3'=>60*24, '4'=>60*24*7, '5'=>60*24*30, '6'=>60*24*365),
 				'down'=>60,
 				'up'=>60,
 				'short'=>'m',
 				'long'=>'minutes'
 			),
 			'2'=>array(
-				'steps'=>array('0'=>3600,'1'=>60,'3'=>24,'4'=>24*7,'5'=>24*30,'6'=>24*365),
+				'steps'=>array('0'=>3600, '1'=>60, '3'=>24, '4'=>24*7, '5'=>24*30, '6'=>24*365),
 				'down'=>60,
 				'up'=>24,
 				'short'=>'h',
 				'long'=>'hours'
 			),
 			'3'=>array(
-				'steps'=>array('0'=>86400,'1'=>3600,'2'=>24,'4'=>7,'5'=>30,'6'=>365),
+				'steps'=>array('0'=>86400, '1'=>3600, '2'=>24, '4'=>7, '5'=>30, '6'=>365),
 				'down'=>24,
 				'up'=>7,
 				'short'=>'d',
 				'long'=>'days'
 			),
 			'4'=>array(
-				'steps'=>array('0'=>86400*7,'1'=>60*24*7,'2'=>24*7,'3'=>7,'5'=>4.2,'6'=>52),
+				'steps'=>array('0'=>86400*7, '1'=>60*24*7, '2'=>24*7, '3'=>7, '5'=>4.2, '6'=>52),
 				'down'=>7,
 				'up'=>4.2,
 				'short'=>'w',
 				'long'=>'weeks'
 			),
 			'5'=>array(
-				'steps'=>array('0'=>86400*30,'1'=>60*24*30,'2'=>24*30,'3'=>30,'4'=>4.2,'6'=>12),
+				'steps'=>array('0'=>86400*30, '1'=>60*24*30, '2'=>24*30, '3'=>30, '4'=>4.2, '6'=>12),
 				'down'=>4.2,
 				'up'=>12,
 				'short'=>'m',
 				'long'=>'months'
 			),
 			'6'=>array(
-				'steps'=>array('0'=>86400*365,'1'=>60*24*365,'2'=>24*365,'3'=>365,'4'=>52,'5'=>12),
+				'steps'=>array('0'=>86400*365, '1'=>60*24*365, '2'=>24*365, '3'=>365, '4'=>52, '5'=>12),
 				'down'=>12,
 				'up'=>0,
 				'short'=>'y',
@@ -846,10 +846,10 @@ class TimeLib extends CakeTime {
 		} else {
 			$s = array(
 		'm' => ' ' . __('Month'), # translated
-				'd' => ' ' .__('Day'),
-				'h' => ' ' .__('Hour'),
-				'i' => ' ' .__('Minute'),
-				's' => ' ' .__('Second'),
+				'd' => ' ' . __('Day'),
+				'h' => ' ' . __('Hour'),
+				'i' => ' ' . __('Minute'),
+				's' => ' ' . __('Second'),
 			);
 			$p = array(
 		'm' => ' ' . __('Months'), # translated
@@ -1057,7 +1057,7 @@ class TimeLib extends CakeTime {
 
 		if ($format) {
 			$res = DateTime::createFromFormat($format, $date);
-			$res = $res->format(FORMAT_DB_DATE).' '.($type === 'end'?'23:59:59':'00:00:00');
+			$res = $res->format(FORMAT_DB_DATE) . ' ' . ($type === 'end'?'23:59:59':'00:00:00');
 			return $res;
 		}
 
@@ -1079,12 +1079,12 @@ class TimeLib extends CakeTime {
 			$explode[0] = str_pad($explode[0], 4, '20', STR_PAD_LEFT);
 
 			if (count($explode) === 3) {
-				return implode('-', $explode).' '.($type === 'end'?'23:59:59':'00:00:00');
+				return implode('-', $explode) . ' ' . ($type === 'end'?'23:59:59':'00:00:00');
 			}
 			if (count($explode) === 2) {
-				return implode('-', $explode).'-'.($type === 'end'?self::daysInMonth($explode[0], $explode[1]):'01').' '.($type === 'end' ? '23:59:59':'00:00:00');
+				return implode('-', $explode) . '-' . ($type === 'end'?self::daysInMonth($explode[0], $explode[1]):'01') . ' ' . ($type === 'end' ? '23:59:59':'00:00:00');
 			}
-			return $explode[0].'-'.($type === 'end'?'12':'01').'-'.($type === 'end'?'31':'01').' '.($type === 'end' ? '23:59:59':'00:00:00');
+			return $explode[0] . '-' . ($type === 'end'?'12':'01') . '-' . ($type === 'end'?'31':'01') . ' ' . ($type === 'end' ? '23:59:59':'00:00:00');
 		}
 
 		return false;

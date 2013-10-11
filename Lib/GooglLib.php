@@ -34,7 +34,6 @@ class GooglLib {
 
 	/**
 	 * @param string $apiKey (optional)
-	 * @return void
 	 */
 	public function __construct($apiKey = null) {
 		if ($apiKey === null) {
@@ -86,13 +85,13 @@ class GooglLib {
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, '{"key": "'.$this->APIKey.'", "longUrl": "' . $longURL . '"}');
+		curl_setopt($ch, CURLOPT_POSTFIELDS, '{"key": "' . $this->APIKey . '", "longUrl": "' . $longURL . '"}');
 		$result = curl_exec($ch);
 		curl_close($ch);
 		$array = json_decode($result, true);
 		if (empty($array['id'])) {
 			# throw error?
-			CakeLog::write('googl', $longURL.' - '.print_r($array, true));
+			CakeLog::write('googl', $longURL . ' - ' . print_r($array, true));
 			return false;
 		}
 		$separator = strrpos($array['id'], '/');
@@ -123,7 +122,7 @@ class GooglLib {
 	 * @return string url
 	 */
 	public static function statisticsUrl($key) {
-		$url = 'http://goo.gl/#analytics/goo.gl/'.$key.'/all_time';
+		$url = 'http://goo.gl/#analytics/goo.gl/' . $key . '/all_time';
 		return $url;
 	}
 

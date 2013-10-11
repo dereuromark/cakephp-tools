@@ -108,10 +108,10 @@ class TextLib extends String {
 		$count = 0;
 		foreach ($chars as $key => $char) {
 			if ($maxCols && $maxCols < $count || $key === count($chars)-1) {
-				$res .= '<tr><th>'.implode('</th><th>', $r['chr']).'</th>';
+				$res .= '<tr><th>' . implode('</th><th>', $r['chr']) . '</th>';
 				$res .= '</tr>';
 				$res .= '<tr>';
-				$res .= '<td>'.implode('</th><th>', $r['ord']).'</td></tr>';
+				$res .= '<td>' . implode('</th><th>', $r['ord']) . '</td></tr>';
 				$count = 0;
 				$r = array('chr'=>array(), 'ord'=>array());
 			}
@@ -156,8 +156,8 @@ class TextLib extends String {
 		$encoded_tags = array();
 		foreach ($tags as $tag) {
 		// Commas and quotes in tag names are special cases, so encode them.
-		if (strpos($tag, ',') !== FALSE || strpos($tag, '"') !== FALSE) {
-			$tag = '"'. str_replace('"', '""', $tag) .'"';
+		if (strpos($tag, ',') !== false || strpos($tag, '"') !== false) {
+			$tag = '"' . str_replace('"', '""', $tag) . '"';
 		}
 
 		$encoded_tags[] = $tag;
@@ -181,8 +181,8 @@ class TextLib extends String {
 		$str = rtrim($str);
 		$space = strrpos($str, ' ');
 
-		if ($space !== FALSE) {
-			$str = substr($str, 0, $space).'&nbsp;'.substr($str, $space + 1);
+		if ($space !== false) {
+			$str = substr($str, 0, $space) . '&nbsp;' . substr($str, $space + 1);
 		}
 
 		return $str;
@@ -256,7 +256,7 @@ class TextLib extends String {
 		if (trim($value) === '') {
 			return '';
 		}
-		preg_match('/^\s*+(?:\S++\s*+){1,'.$words.'}/u', $value, $matches);
+		preg_match('/^\s*+(?:\S++\s*+){1,' . $words . '}/u', $value, $matches);
 
 		$end = $options['ellipsis'];
 		if (mb_strlen($value) === mb_strlen($matches[0])) {

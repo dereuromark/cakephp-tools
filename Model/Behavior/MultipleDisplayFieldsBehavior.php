@@ -144,7 +144,7 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 			array_push($queryData['fields'], substr($queryData['list']['keyPath'], 4));
 			foreach ($this->settings[$Model->alias]['fields'] as $mName => $mFields) {
 				foreach ($mFields as $mField) {
-					array_push($queryData['fields'], $mName. '.' . $mField);
+					array_push($queryData['fields'], $mName . '.' . $mField);
 				}
 			}
 		} else {

@@ -21,7 +21,7 @@ class QloginTest extends MyCakeTestCase {
 	}
 
 	public function testGenerate() {
-		$url = Router::url(array('admin' => false, 'plugin'=>'tools', 'controller'=>'qlogin', 'action'=>'go'), true).'/';
+		$url = Router::url(array('admin' => false, 'plugin'=>'tools', 'controller'=>'qlogin', 'action'=>'go'), true) . '/';
 		//debug($url);
 		$this->assertTrue(!empty($url));
 

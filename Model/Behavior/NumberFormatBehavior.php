@@ -164,7 +164,7 @@ class NumberFormatBehavior extends ModelBehavior {
 				$value *= (float)(1 / $this->settings[$Model->alias]['multiply']);
 			}
 
-			$value = str_replace($this->delimiterFromFormat, $this->delimiterBaseFormat, (String)$value);
+			$value = str_replace($this->delimiterFromFormat, $this->delimiterBaseFormat, (string)$value);
 		} else {
 			$value = str_replace(' ', '', $value);
 			$value = str_replace($this->delimiterFromFormat, $this->delimiterBaseFormat, $value);

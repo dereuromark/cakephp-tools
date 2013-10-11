@@ -5,7 +5,7 @@ App::uses('AppShell', 'Console/Command');
 
 /** Valid characters: letters,numbers,underscores,hyphens only */
 if (!defined('VALID_ALPHANUMERIC_HYPHEN_UNDERSCORE')) {
-	define('VALID_ALPHANUMERIC_HYPHEN_UNDERSCORE','/^[\da-zA-Z_-]+$/');
+	define('VALID_ALPHANUMERIC_HYPHEN_UNDERSCORE', '/^[\da-zA-Z_-]+$/');
 }
 if (!defined('NL')) {
 	define('NL', PHP_EOL);
@@ -84,7 +84,7 @@ class CopyShell extends AppShell {
 	public $remoteFolder = null;
 
 	public function startup() {
-		$this->scriptFolder = dirname(__FILE__).DS;
+		$this->scriptFolder = dirname(__FILE__) . DS;
 		$this->sitecopyFolder = $this->scriptFolder . $this->sitecopyFolderName . DS;
 		$this->tmpFolder = TMP . 'cache' . DS . 'copy' . DS;
 
@@ -122,7 +122,7 @@ class CopyShell extends AppShell {
 		if (!empty($configContent)) {
 			$configs = $this->getConfigNames($configContent);
 		}
-		$this->out(''.count($configs).' of '.$this->configCount.' configs match:');
+		$this->out('' . count($configs) . ' of ' . $this->configCount . ' configs match:');
 		$this->out('');
 
 		$connections = array();
@@ -130,11 +130,11 @@ class CopyShell extends AppShell {
 		if (!empty($configs)) {
 			//$connections = array_keys($configs); # problems with 0 (mistake in shell::in())
 			foreach ($configs as $key => $config) {
-				$this->out(($key+1).': '.$config);
+				$this->out(($key+1) . ': ' . $config);
 				$connections[] = $key+1;
 			}
 		} else {
-			$this->out('No configs found in /config/'.$this->configCustomFile.'!');
+			$this->out('No configs found in /config/' . $this->configCustomFile . '!');
 		}
 
 		if (false) {
@@ -149,7 +149,7 @@ class CopyShell extends AppShell {
 		*/
 		} else {
 			array_unshift($connections, 'q', 'h');
-			$connection = $this->in(__('Use Sitecopy Config ([q] to quit, [h] for help)').':', $connections, 'q');
+			$connection = $this->in(__('Use Sitecopy Config ([q] to quit, [h] for help)') . ':', $connections, 'q');
 		}
 
 		$this->out('');
@@ -169,7 +169,7 @@ class CopyShell extends AppShell {
 			if (!empty($configName[1])) {
 				$this->configName = $configName[1];
 			} else {
-				return $this->error('Invalid config name \''.$configs[$connection-1].'\'');
+				return $this->error('Invalid config name \'' . $configs[$connection-1] . '\'');
 			}
 		}
 
@@ -181,7 +181,7 @@ class CopyShell extends AppShell {
 		if (empty($configuration)) {
 			return $this->error('Error...');
 		}
-		$this->out('... Config \''.$this->types[$this->type].'_'.$this->configName.'\' selected ...');
+		$this->out('... Config \'' . $this->types[$this->type] . '_' . $this->configName . '\' selected ...');
 
 		$hasLocalPath = false;
 		$this->out('');
@@ -223,10 +223,10 @@ class CopyShell extends AppShell {
 			}
 
 			# working with different OS - best to always use / slash
-			$this->localFolder = dirname($this->localFolder).DS.$folder;
+			$this->localFolder = dirname($this->localFolder) . DS . $folder;
 			$this->localFolder = str_replace(DS, '/', $this->localFolder);
 
-			$this->remoteFolder = dirname($this->remoteFolder).DS.$folder;
+			$this->remoteFolder = dirname($this->remoteFolder) . DS . $folder;
 			$this->remoteFolder = str_replace(DS, '/', $this->remoteFolder);
 
 			foreach ($this->credentials as $c) {
@@ -244,16 +244,16 @@ class CopyShell extends AppShell {
 		}
 		*/
 
-		$this->tmpFile = 'config_'.$this->types[$this->type].'_'.$this->configName.'.tmp';
+		$this->tmpFile = 'config_' . $this->types[$this->type] . '_' . $this->configName . '.tmp';
 
-		$this->logFile = 'log_'.$this->types[$this->type].'_'.$this->configName.'.txt';
+		$this->logFile = 'log_' . $this->types[$this->type] . '_' . $this->configName . '.txt';
 
 		# create tmp config file (adding the current APP path, of no local path was given inside the config file)
-		$File = new File($this->tmpFolder.$this->tmpFile, true, 0770);
+		$File = new File($this->tmpFolder . $this->tmpFile, true, 0770);
 		//$File->open();
 		$configTotal = array();
 		# extract "side xyz" from config, add global and then the rest of custom
-		$configTotal[] = 'site '.$this->types[$this->type].'_'.$this->configName;//$configuration[0];
+		$configTotal[] = 'site ' . $this->types[$this->type] . '_' . $this->configName;//$configuration[0];
 		unset($configuration[0]);
 		foreach ($this->configGlobal as $c) {
 			$configTotal[] = $c;
@@ -270,7 +270,7 @@ class CopyShell extends AppShell {
 
 		while (true) {
 			$this->out('');
-			$this->out('Type: '.$this->types[$this->type]);
+			$this->out('Type: ' . $this->types[$this->type]);
 			$this->out('');
 			$allowedActions = array('i', 'c', 'l', 'f', 'u', 's');
 
@@ -284,7 +284,7 @@ class CopyShell extends AppShell {
 				$this->args[0] = null; # only the first time
 			}
 			if (empty($action) || !in_array($action, $allowedActions)) {
-				$action = strtolower($this->in(__('Init, Catchup, List, Fetch, Update, Synch (or [q] to quit)').':', array_merge($allowedActions, array('q')), 'l'));
+				$action = strtolower($this->in(__('Init, Catchup, List, Fetch, Update, Synch (or [q] to quit)') . ':', array_merge($allowedActions, array('q')), 'l'));
 			}
 
 			if ($action === 'q') {
@@ -386,11 +386,11 @@ class CopyShell extends AppShell {
 	protected function areCredentials($line) {
 		if (mb_strlen($line) > 8) {
 			if (trim(mb_substr($line, 0, 7)) === 'server') {
-				$config = trim(str_replace('server ','', $line));
+				$config = trim(str_replace('server ', '', $line));
 			} elseif (trim(mb_substr($line, 0, 9)) === 'username') {
-				$config = trim(str_replace('username ','', $line));
+				$config = trim(str_replace('username ', '', $line));
 			} elseif (trim(mb_substr($line, 0, 9)) === 'password') {
-				$config = trim(str_replace('password ','', $line));
+				$config = trim(str_replace('password ', '', $line));
 			}
 
 			if (!empty($config)) {
@@ -410,7 +410,7 @@ class CopyShell extends AppShell {
 			return;
 		}
 		# seems to work only on windows systems - advantage: sound does not need to be on
-		$File = new File($this->scriptFolder.'files'.DS.'beep.bat');
+		$File = new File($this->scriptFolder . 'files' . DS . 'beep.bat');
 		$sound = $File->read();
 		system($sound);
 		# seems to work on only on windows xp systems + where sound is on
@@ -467,7 +467,7 @@ class CopyShell extends AppShell {
 		$this->out("\ts: Synch (Get remote content and override local files");
 		$this->out("");
 
-		$continue = $this->in(__('Show script help, too?'), array('y','n'), 'y');
+		$continue = $this->in(__('Show script help, too?'), array('y', 'n'), 'y');
 		if (strtolower($continue) === 'y' || strtolower($continue) === 'yes') {
 			# somehow does not work yet (inside cake console anyway...)
 			$this->_exec(false, array('--help'));
@@ -482,7 +482,7 @@ class CopyShell extends AppShell {
 	 */
 	protected function getConfigs() {
 		# global file (may be present)
-		$File = new File($this->localFolder.'config'.DS.$this->configGlobalFile);
+		$File = new File($this->localFolder . 'config' . DS . $this->configGlobalFile);
 		if ($File->exists()) {
 			$File->open('r');
 			$content = (string)$File->read();
@@ -501,10 +501,10 @@ class CopyShell extends AppShell {
 		}
 
 		# custom file (must be present)
-		$File = new File($this->localFolder.'config'.DS.$this->configCustomFile);
+		$File = new File($this->localFolder . 'config' . DS . $this->configCustomFile);
 
 		if (!$File->exists()) {
-			return $this->error('No config file present (/config/'.$this->configCustomFile.')!');
+			return $this->error('No config file present (/config/' . $this->configCustomFile . ')!');
 		}
 		$File->open('r');
 
@@ -538,10 +538,10 @@ class CopyShell extends AppShell {
 		$configs = array();
 		foreach ($content as $c) {
 			if (mb_strlen($c) > 6 && trim(mb_substr($c, 0, 5)) === 'site') {
-				$config = trim(str_replace('site ','', $c));
+				$config = trim(str_replace('site ', '', $c));
 				if (!empty($config)) {
 					if (!$this->isValidConfigName($config)) {
-						return $this->error('Invalid Config Name \''.$config.'\' in /config/'.$this->configCustomFile.'!'.NL.'Allowed: [app|custom]+\'_\'+{a-z0-9-} or [cake|vendor|plugin]');
+						return $this->error('Invalid Config Name \'' . $config . '\' in /config/' . $this->configCustomFile . '!' . NL . 'Allowed: [app|custom]+\'_\'+{a-z0-9-} or [cake|vendor|plugin]');
 					}
 
 					if ($this->typeMatchesConfigName($config, $this->type)) {

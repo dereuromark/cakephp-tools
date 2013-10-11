@@ -127,7 +127,7 @@ class CurlLib {
 			'OS 10.5'
 		);
 		//randomly generate UserAgent
-		$ua = $agentBrowser[rand(0,count($agentBrowser)-1)].'/'.rand(1,8).'.'.rand(0,9).' (' .$agentOS[rand(0,count($agentOS)-1)].' '.rand(1,7).'.'.rand(0,9).'; en-US;)';
+		$ua = $agentBrowser[rand(0, count($agentBrowser)-1)] . '/' . rand(1, 8) . '.' . rand(0, 9) . ' (' . $agentOS[rand(0, count($agentOS)-1)] . ' ' . rand(1, 7) . '.' . rand(0, 9) . '; en-US;)';
 		$this->setUserAgent($ua);
 		return $ua;
 	}

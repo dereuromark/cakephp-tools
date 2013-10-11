@@ -285,7 +285,7 @@ class CommonHelper extends AppHelper {
 		if ($escape !== false) {
 			$error = h($error);
 		}
-		return '<div class="error-message">'.$error.'</div>';
+		return '<div class="error-message">' . $error . '</div>';
 	}
 
 	/**
@@ -338,7 +338,7 @@ class CommonHelper extends AppHelper {
 		if ($this->sessionCheck()) {
 			return '';
 		}
-		return '<div class="cookieWarning">'.__('Please enable cookies').'</div>';
+		return '<div class="cookieWarning">' . __('Please enable cookies') . '</div>';
 	}
 
 	/**
@@ -537,12 +537,12 @@ function getInternetExplorerVersion() {
 }
 
 if ((document.all) && (navigator.appVersion.indexOf("MSIE 7.") != -1) || typeof document.body.style.maxHeight == \'undefined\') {
-	document.getElementById(\''.$id.'\').innerHTML = \''.$message.'\';
+	document.getElementById(\'' . $id . '\').innerHTML = \'' . $message . '\';
 }
 /*
 jQuery(document).ready(function() {
 	if ($.browser.msie && $.browser.version.substring(0,1) < 8) {
-		document.getElementById(\''.$id.'\').innerHTML = \''.$message.'\';
+		document.getElementById(\'' . $id . '\').innerHTML = \'' . $message . '\';
 	}
 });
 */
@@ -589,7 +589,7 @@ jQuery(document).ready(function() {
 			}
 $res .= '
 <script type="text/javascript">
-var pkBaseURL = (("https:" == document.location.protocol) ? "https://'.HTTP_HOST.'/'.$trackingUrl.'/" : "http://'.HTTP_HOST.'/'.$trackingUrl.'/");
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://' . HTTP_HOST . '/' . $trackingUrl . '/" : "http://' . HTTP_HOST . '/' . $trackingUrl . '/");
 document.write(unescape("%3Cscript src=\'" + pkBaseURL + "piwik.js\' type=\'text/javascript\'%3E%3C/script%3E"));
 </script>
 <script type="text/javascript">
@@ -597,10 +597,10 @@ try {
 var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
 piwikTracker.trackPageView();
 piwikTracker.enableLinkTracking();
-'.($error?'piwikTracker.setDocumentTitle(\'404/URL = \'+encodeURIComponent(document.location.pathname+document.location.search) + \'/From = \' + encodeURIComponent(document.referrer));':'').'
+' . ($error?'piwikTracker.setDocumentTitle(\'404/URL = \'+encodeURIComponent(document.location.pathname+document.location.search) + \'/From = \' + encodeURIComponent(document.referrer));':'') . '
 } catch( err ) {}
 </script>
-<noscript><p>'.$this->visitStatsImg().'</p></noscript>
+<noscript><p>' . $this->visitStatsImg() . '</p></noscript>
 ';
 		}
 		return $res;

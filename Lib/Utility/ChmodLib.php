@@ -13,7 +13,7 @@
 class ChmodLib {
 
 	//protected $dir;
-	protected $modes = array('user' => 0 , 'group' => 0 , 'other' => 0);
+	protected $modes = array('user' => 0, 'group' => 0, 'other' => 0);
 
 /*** calc octal ***/
 
@@ -24,9 +24,9 @@ class ChmodLib {
 	 * @return string
 	 */
 	public static function convertFromOctal($mode, $leadingZero = false) {
-		$res = (String)substr(sprintf('%o', $mode), -4);
+		$res = (string)substr(sprintf('%o', $mode), -4);
 		if ($leadingZero===true) {
-			$res = '0'.$res;
+			$res = '0' . $res;
 		}
 		return $res;
 	}
@@ -69,7 +69,7 @@ class ChmodLib {
 			} elseif ($options['type'] === 'int') {
 				return (int)$mode;
 			} elseif ($options['type'] === 'symbolic') {
-				$mode = $this->symbol($this->modes['user']).$this->symbol($this->modes['group']).$this->symbol($this->modes['other']);
+				$mode = $this->symbol($this->modes['user']) . $this->symbol($this->modes['group']) . $this->symbol($this->modes['other']);
 				return $mode;
 			}
 		}

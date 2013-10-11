@@ -223,7 +223,7 @@ class CommonComponent extends Component {
 			}
 			$package = 'Lib';
 			if ($plugin) {
-				$package = $plugin.'.'.$package;
+				$package = $plugin . '.' . $package;
 			}
 			App::uses($libName, $package);
 			$this->Controller->{$libName} = new $libName($config);
@@ -537,7 +537,7 @@ class CommonComponent extends Component {
 		if ($type === 'canonical' && $prep) {
 			$content = h($content);
 		}
-		Configure::write('Meta.'.$type, $content);
+		Configure::write('Meta.' . $type, $content);
 	}
 
 /*** Other helpers and debug features **/
@@ -626,7 +626,7 @@ class CommonComponent extends Component {
 			$sessionId = '--';
 		}
 		if (empty($_REQUEST[Configure::read('Session.cookie')]) && !($res = Cache::read($ip))) {
-			$this->log('CookieProblem:: SID: '.$sessionId.' | IP: '.$ip.' ('.$host.') | REF: '.$this->Controller->referer().' | Agent: '.env('HTTP_USER_AGENT'), 'noscript');
+			$this->log('CookieProblem:: SID: ' . $sessionId . ' | IP: ' . $ip . ' (' . $host . ') | REF: ' . $this->Controller->referer() . ' | Agent: ' . env('HTTP_USER_AGENT'), 'noscript');
 			Cache::write($ip, 1);
 		}
 	}
@@ -709,11 +709,11 @@ class CommonComponent extends Component {
 			return null;
 		}
 
-		if (!((array)$pattern = Configure::read('LocalizationPattern.'.$lang))) {
+		if (!((array)$pattern = Configure::read('LocalizationPattern.' . $lang))) {
 			return false;
 		}
 		foreach ($pattern as $key => $value) {
-			Configure::write('Localization.'.$key, $value);
+			Configure::write('Localization.' . $key, $value);
 		}
 		return true;
 	}
@@ -740,7 +740,7 @@ class CommonComponent extends Component {
 		}
 
 		if (($name = strtolower(Inflector::underscore($this->Controller->name))) !== $this->Controller->request->params['controller']) {
-			$this->Controller->log('301: '.$this->Controller->request->params['controller'].' => '.$name.' (Ref '.$this->Controller->referer().')', '301'); // log problem with controller naming
+			$this->Controller->log('301: ' . $this->Controller->request->params['controller'] . ' => ' . $name . ' (Ref ' . $this->Controller->referer() . ')', '301'); // log problem with controller naming
 			if (!$this->Controller->RequestHandler->isPost()) {
 				# underscored version is the only valid one to avoid duplicate content
 				$url = array('controller' => $name, 'action' => $this->Controller->request->params['action']);
@@ -755,7 +755,7 @@ class CommonComponent extends Component {
 		if (empty($this->Controller->request->params['prefix']) && ($currentUrl = $this->currentUrl(true)) != $this->Controller->here) {
 			//pr($this->Controller->here);
 			//pr($currentUrl);
-			$this->log('301: '.$this->Controller->here.' => '.$currentUrl.' (Referer '.$this->Controller->referer().')', '301');
+			$this->log('301: ' . $this->Controller->here . ' => ' . $currentUrl . ' (Referer ' . $this->Controller->referer() . ')', '301');
 
 			if (!$this->Controller->RequestHandler->isPost()) {
 				$url = array('controller' => $this->Controller->request->params['controller'], 'action' => $this->Controller->request->params['action']);
@@ -774,9 +774,9 @@ class CommonComponent extends Component {
 		if (empty($passedTitleSlug) || $expectedTitle != $passedTitleSlug) { # case sensitive!!!
 			$ref = env('HTTP_REFERER');
 			if (!$this->isForeignReferer($ref)) {
-				$this->Controller->log('Internal ConsistencyProblem at \''.$ref.'\' - ['.$passedTitleSlug.'] instead of ['.$expectedTitle.']', 'referer');
+				$this->Controller->log('Internal ConsistencyProblem at \'' . $ref . '\' - [' . $passedTitleSlug . '] instead of [' . $expectedTitle . ']', 'referer');
 			} else {
-				$this->Controller->log('External ConsistencyProblem at \''.$ref.'\' - ['.$passedTitleSlug.'] instead of ['.$expectedTitle.']', 'referer');
+				$this->Controller->log('External ConsistencyProblem at \'' . $ref . '\' - [' . $passedTitleSlug . '] instead of [' . $expectedTitle . ']', 'referer');
 			}
 			$this->Controller->redirect(array($id, $expectedTitle), 301);
 		}
@@ -924,8 +924,8 @@ class CommonComponent extends Component {
 	public function separators($s = null, $valueOnly = false) {
 		$separatorsValues = array(SEPARATOR_COMMA => ',', SEPARATOR_SEMI => ';', SEPARATOR_SPACE => ' ', SEPARATOR_TAB => TB, SEPARATOR_NL => NL);
 
-		$separators = array(SEPARATOR_COMMA => '[ , ] '.__('Comma'), SEPARATOR_SEMI => '[ ; ] '.__('Semicolon'), SEPARATOR_SPACE => '[ &nbsp; ] '.__('Space'), SEPARATOR_TAB =>
-			'[ &nbsp;&nbsp;&nbsp;&nbsp; ] '.__('Tabulator'), SEPARATOR_NL => '[ \n ] '.__('New Line'));
+		$separators = array(SEPARATOR_COMMA => '[ , ] ' . __('Comma'), SEPARATOR_SEMI => '[ ; ] ' . __('Semicolon'), SEPARATOR_SPACE => '[ &nbsp; ] ' . __('Space'), SEPARATOR_TAB =>
+			'[ &nbsp;&nbsp;&nbsp;&nbsp; ] ' . __('Tabulator'), SEPARATOR_NL => '[ \n ] ' . __('New Line'));
 
 		if ($s !== null) {
 			if (array_key_exists($s, $separators)) {
@@ -1129,7 +1129,7 @@ class CommonComponent extends Component {
 		if (empty($name)) {
 			$name = $email;
 		}
-		return $name.' <'.$email['email'].'>';
+		return $name . ' <' . $email['email'] . '>';
 	}
 
 	/**

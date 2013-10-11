@@ -24,7 +24,6 @@ class DiffHelper extends AppHelper {
 	 * Construct function
 	 * Loads the vendor classes and sets the include path for autoloader to work
 	 *
-	 * @return void
 	 */
 	public function __construct($View = null, $settings = array()) {
 		parent::__construct($View, $settings);

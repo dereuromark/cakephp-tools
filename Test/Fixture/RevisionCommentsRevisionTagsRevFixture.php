@@ -2,9 +2,9 @@
 class RevisionCommentsRevisionTagsRevFixture extends CakeTestFixture {
 
 	public $fields = array(
-			'version_id' => array('type' => 'integer','null' => false,'default' => NULL,'key' => 'primary'),
-			'version_created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-			'id' => array('type' => 'integer','null' => false),
+			'version_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+			'version_created' => array('type' => 'datetime', 'null' => false, 'default' => null),
+			'id' => array('type' => 'integer', 'null' => false),
 			'revision_comment_id' => array('type' => 'integer', 'null' => false),
 			'revision_tag_id' => array('type' => 'integer', 'null' => false),
 			'indexes' => array('PRIMARY' => array('column' => 'version_id')));

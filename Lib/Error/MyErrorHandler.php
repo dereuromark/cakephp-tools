@@ -135,7 +135,7 @@ class MyErrorHandler extends ErrorHandler {
 
 		$data = array(
 			@CakeRequest::clientIp(),
-			$currentUrl.(!empty($refererUrl) ? (' ('.$refererUrl.')') : ''),
+			$currentUrl . (!empty($refererUrl) ? (' (' . $refererUrl . ')') : ''),
 			$uid,
 			env('HTTP_USER_AGENT')
 		);

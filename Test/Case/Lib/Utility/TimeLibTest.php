@@ -191,10 +191,10 @@ class TimeLibTest extends MyCakeTestCase {
 	public function testPeriodAsSql() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$values = array(
-			array(__('Today'), "(Model.field >= '".date(FORMAT_DB_DATE)." 00:00:00') AND (Model.field <= '".date(FORMAT_DB_DATE)." 23:59:59')"),
-			array(__('Yesterday').' '.__('until').' '.__('Today'), "(Model.field >= '".date(FORMAT_DB_DATE, time()-DAY)." 00:00:00') AND (Model.field <= '".date(FORMAT_DB_DATE)." 23:59:59')"),
-			array(__('Today').' '.__('until').' '.__('Tomorrow'), "(Model.field >= '".date(FORMAT_DB_DATE, time())." 00:00:00') AND (Model.field <= '".date(FORMAT_DB_DATE, time()+DAY)." 23:59:59')"),
-			array(__('Yesterday').' '.__('until').' '.__('Tomorrow'), "(Model.field >= '".date(FORMAT_DB_DATE, time()-DAY)." 00:00:00') AND (Model.field <= '".date(FORMAT_DB_DATE, time()+DAY)." 23:59:59')"),
+			array(__('Today'), "(Model.field >= '" . date(FORMAT_DB_DATE) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE) . " 23:59:59')"),
+			array(__('Yesterday') . ' ' . __('until') . ' ' . __('Today'), "(Model.field >= '" . date(FORMAT_DB_DATE, time()-DAY) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE) . " 23:59:59')"),
+			array(__('Today') . ' ' . __('until') . ' ' . __('Tomorrow'), "(Model.field >= '" . date(FORMAT_DB_DATE, time()) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE, time()+DAY) . " 23:59:59')"),
+			array(__('Yesterday') . ' ' . __('until') . ' ' . __('Tomorrow'), "(Model.field >= '" . date(FORMAT_DB_DATE, time()-DAY) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE, time()+DAY) . " 23:59:59')"),
 		);
 
 		foreach ($values as $v) {
@@ -245,10 +245,10 @@ class TimeLibTest extends MyCakeTestCase {
 		# year only
 		$is = TimeLib::ageByYear(2000);
 		$this->out($is);
-		$this->assertEquals((date('Y')-2001).'/'.(date('Y')-2000), $is);
+		$this->assertEquals((date('Y')-2001) . '/' . (date('Y')-2000), $is);
 
 		$is = TimeLib::ageByYear(1985);
-		$this->assertEquals((date('Y')-1986).'/'.(date('Y')-1985), $is);
+		$this->assertEquals((date('Y')-1986) . '/' . (date('Y')-1985), $is);
 
 		# with month
 		if (($month = date('n')+1) <= 12) {
@@ -312,7 +312,7 @@ class TimeLibTest extends MyCakeTestCase {
 		$this->assertEquals(__('January'), $ret);
 
 		$ret = TimeLib::month(2, true, array('appendDot'=>true));
-		$this->assertEquals(__('Feb').'.', $ret);
+		$this->assertEquals(__('Feb') . '.', $ret);
 
 		$ret = TimeLib::month(5, true, array('appendDot'=>true));
 		$this->assertEquals(__('May'), $ret);
@@ -420,7 +420,7 @@ class TimeLibTest extends MyCakeTestCase {
 		foreach ($values as $year => $expected) {
 			$ret = TimeLib::cweekBeginning($year);
 			$this->out($ret);
-			$this->out(TimeLib::niceDate($ret, 'D').' '.TimeLib::niceDate($ret, FORMAT_NICE_YMDHMS));
+			$this->out(TimeLib::niceDate($ret, 'D') . ' ' . TimeLib::niceDate($ret, FORMAT_NICE_YMDHMS));
 			//$this->assertEquals($ret, $expected, null, $year);
 			$this->assertTrue($ret <= $expected + HOUR && $ret >= $expected);
 		}
@@ -436,7 +436,7 @@ class TimeLibTest extends MyCakeTestCase {
 		foreach ($values as $v) {
 			$ret = TimeLib::cweekBeginning($v[0], $v[1]);
 			$this->out($ret);
-			$this->out(TimeLib::niceDate($ret, 'D').' '.TimeLib::niceDate($ret, FORMAT_NICE_YMDHMS));
+			$this->out(TimeLib::niceDate($ret, 'D') . ' ' . TimeLib::niceDate($ret, FORMAT_NICE_YMDHMS));
 			//$this->assertSame($v[2], $ret, null, $v[1].'/'.$v[0]);
 			$this->assertTrue($ret <= $v[2] + HOUR && $ret >= $v[2]);
 		}
@@ -454,7 +454,7 @@ class TimeLibTest extends MyCakeTestCase {
 		foreach ($values as $year => $expected) {
 			$ret = TimeLib::cweekEnding($year);
 			$this->out($ret);
-			$this->out(TimeLib::niceDate($ret, 'D').' '.TimeLib::niceDate($ret, FORMAT_NICE_YMDHMS));
+			$this->out(TimeLib::niceDate($ret, 'D') . ' ' . TimeLib::niceDate($ret, FORMAT_NICE_YMDHMS));
 			//$this->assertSame($expected, $ret);
 			$this->assertTrue($ret <= $expected + HOUR && $ret >= $expected);
 		}
@@ -470,7 +470,7 @@ class TimeLibTest extends MyCakeTestCase {
 		foreach ($values as $v) {
 			$ret = TimeLib::cweekEnding($v[0], $v[1]);
 			$this->out($ret);
-			$this->out(TimeLib::niceDate($ret, 'D').' '.TimeLib::niceDate($ret, FORMAT_NICE_YMDHMS));
+			$this->out(TimeLib::niceDate($ret, 'D') . ' ' . TimeLib::niceDate($ret, FORMAT_NICE_YMDHMS));
 			//$this->assertSame($v[2], $ret, null, $v[1].'/'.$v[0]);
 			$this->assertTrue($ret <= $v[2] + HOUR && $ret >= $v[2]);
 		}
@@ -577,7 +577,7 @@ class TimeLibTest extends MyCakeTestCase {
 		unset($tests['2011-11-12 10:10:10']);
 		# negative
 		foreach ($tests as $was => $expected) {
-			$is = TimeLib::parseTime('-'.$was);
+			$is = TimeLib::parseTime('-' . $was);
 			//pr($is);
 			$this->assertEquals(-$expected, $is);
 		}

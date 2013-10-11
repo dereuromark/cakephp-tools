@@ -49,7 +49,7 @@ class SubqueryTest extends MyCakeTestCase {
 		$res = $this->Model->subquery('first', $subqueryOptions);
 		$this->debug($res);
 
-		$res = $this->Model->find('all', array('conditions' => array('id NOT IN '. $this->Model->subquery('all', $subqueryOptions))));
+		$res = $this->Model->find('all', array('conditions' => array('id NOT IN ' . $this->Model->subquery('all', $subqueryOptions))));
 		$this->debug(count($res));
 		$this->debug($res);
 		$this->assertEquals(9, count($res));

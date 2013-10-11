@@ -59,7 +59,7 @@ class PhpThumbHelper extends AppHelper {
 
 	protected function create_thumb() {
 		if (!isset($this->PhpThumb) || !is_object($this->PhpThumb)) {
-			App::import('Vendor', 'phpThumb', array('file' => 'phpThumb'.DS.'phpthumb.class.php'));
+			App::import('Vendor', 'phpThumb', array('file' => 'phpThumb' . DS . 'phpthumb.class.php'));
 		}
 		$this->PhpThumb = new PhpThumb();
 		set_time_limit(30);
@@ -80,7 +80,7 @@ class PhpThumbHelper extends AppHelper {
 
 			if (!empty($PHPTHUMB_CONFIG)) {
 				foreach ($PHPTHUMB_CONFIG as $key => $value) {
-					$keyname = 'config_'.$key;
+					$keyname = 'config_' . $key;
 					$this->PhpThumb->setParameter($keyname, $value);
 				}
 			}
@@ -156,7 +156,7 @@ class PhpThumbHelper extends AppHelper {
 	 * @return string error
 	 */
 	public function error() {
-		return (String)$this->error_detail;
+		return (string)$this->error_detail;
 	}
 
 /** NOT IN USE YET **/

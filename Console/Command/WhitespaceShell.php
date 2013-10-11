@@ -26,7 +26,7 @@ class WhitespaceShell extends AppShell {
 		$this->out("Checking *.php in " . $folder);
 
 		$files = $App->findRecursive('.*\.php');
-		$this->out('Found '. count($files) . ' files.');
+		$this->out('Found ' . count($files) . ' files.');
 
 		$action = $this->in(__('Continue? [y]/[n]'), array('y', 'n'), 'n');
 		if ($action !== 'y') {
@@ -53,7 +53,7 @@ class WhitespaceShell extends AppShell {
 			}
 			$this->report[$error][0]++;
 			$this->out('');
-			$this->out('contains '.$error.' whitespaces: '.$this->shortPath($file));
+			$this->out('contains ' . $error . ' whitespaces: ' . $this->shortPath($file));
 
 			if (!$this->autoCorrectAll) {
 				$dirname = dirname($file);
@@ -64,7 +64,7 @@ class WhitespaceShell extends AppShell {
 
 				while (empty($action)) {
 					//TODO: [r]!
-					$action = $this->in(__('Remove? [y]/[n], [a] for all in this folder, [r] for all below, [*] for all files(!), [q] to quit'), array('y','n','r','a','q','*'), 'q');
+					$action = $this->in(__('Remove? [y]/[n], [a] for all in this folder, [r] for all below, [*] for all files(!), [q] to quit'), array('y', 'n', 'r', 'a', 'q', '*'), 'q');
 				}
 			} else {
 				$action = 'y';
@@ -77,7 +77,7 @@ class WhitespaceShell extends AppShell {
 			} elseif ($action === 'a') {
 				$action = 'y';
 				$folders[] = $dirname;
-				$this->out('All: '.$dirname);
+				$this->out('All: ' . $dirname);
 			}
 
 			if ($action === 'q') {
@@ -99,8 +99,8 @@ class WhitespaceShell extends AppShell {
 
 		// Report.
 		$this->out('--------');
-		$this->out('found '.$this->report['leading'][0].' leading, '.$this->report['trailing'][0].' trailing ws');
-		$this->out('fixed '.$this->report['leading'][1].' leading, '.$this->report['trailing'][1].' trailing ws');
+		$this->out('found ' . $this->report['leading'][0] . ' leading, ' . $this->report['trailing'][0] . ' trailing ws');
+		$this->out('fixed ' . $this->report['leading'][1] . ' leading, ' . $this->report['trailing'][1] . ' trailing ws');
 	}
 
 	/**
@@ -119,7 +119,7 @@ class WhitespaceShell extends AppShell {
 
 		$files = $App->findRecursive('.*\.php');
 
-		$this->out('Found '. count($files) . ' files.');
+		$this->out('Found ' . count($files) . ' files.');
 
 		$action = $this->in(__('Continue? [y]/[n]'), array('y', 'n'), 'n');
 		if ($action !== 'y') {

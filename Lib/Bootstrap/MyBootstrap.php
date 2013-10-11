@@ -103,46 +103,46 @@ define('VALID_NUMERIC_WHITESPACES_UNDERSCORES', '/^[\d _]+$/');
 define('VALID_INTEGERS', '/^[\d]+$/'); //??
 
 if (!defined('FORMAT_NICE_YMDHMS')) {
-	define('FORMAT_NICE_YMDHMS','d.m.Y, H:i:s');
-	define('FORMAT_NICE_YMDHM','d.m.Y, H:i');
-	define('FORMAT_NICE_YM','m.Y');
-	define('FORMAT_NICE_YMD','d.m.Y');
-	define('FORMAT_NICE_MD','d.m.');
-	define('FORMAT_NICE_D','d'); # xx
-	define('FORMAT_NICE_W_NUM','w'); # xx (0=sunday to 6=saturday)
-	define('FORMAT_NICE_W_ABBR','D'); # needs manual translation
-	define('FORMAT_NICE_W_FULL','l'); # needs manual translation
-	define('FORMAT_NICE_M','m'); # xx
-	define('FORMAT_NICE_M_ABBR','M'); # needs manual translation
-	define('FORMAT_NICE_M_FULL','F'); # needs manual translation
-	define('FORMAT_NICE_Y_ABBR','y'); # xx
-	define('FORMAT_NICE_Y','Y'); # xxxx
-	define('FORMAT_NICE_HM','H:i');
-	define('FORMAT_NICE_HMS','H:i:s');
+	define('FORMAT_NICE_YMDHMS', 'd.m.Y, H:i:s');
+	define('FORMAT_NICE_YMDHM', 'd.m.Y, H:i');
+	define('FORMAT_NICE_YM', 'm.Y');
+	define('FORMAT_NICE_YMD', 'd.m.Y');
+	define('FORMAT_NICE_MD', 'd.m.');
+	define('FORMAT_NICE_D', 'd'); # xx
+	define('FORMAT_NICE_W_NUM', 'w'); # xx (0=sunday to 6=saturday)
+	define('FORMAT_NICE_W_ABBR', 'D'); # needs manual translation
+	define('FORMAT_NICE_W_FULL', 'l'); # needs manual translation
+	define('FORMAT_NICE_M', 'm'); # xx
+	define('FORMAT_NICE_M_ABBR', 'M'); # needs manual translation
+	define('FORMAT_NICE_M_FULL', 'F'); # needs manual translation
+	define('FORMAT_NICE_Y_ABBR', 'y'); # xx
+	define('FORMAT_NICE_Y', 'Y'); # xxxx
+	define('FORMAT_NICE_HM', 'H:i');
+	define('FORMAT_NICE_HMS', 'H:i:s');
 
 	# localDate strings
-	define('FORMAT_LOCAL_WA_YMDHMS','%a, %d.%m.%Y, %H:%M:%S');
-	define('FORMAT_LOCAL_WF_YMDHMS','%A, %d.%m.%Y, %H:%M:%S');
-	define('FORMAT_LOCAL_WA_YMDHM','%a, %d.%m.%Y, %H:%M');
-	define('FORMAT_LOCAL_WF_YMDHM','%A, %d.%m.%Y, %H:%M');
+	define('FORMAT_LOCAL_WA_YMDHMS', '%a, %d.%m.%Y, %H:%M:%S');
+	define('FORMAT_LOCAL_WF_YMDHMS', '%A, %d.%m.%Y, %H:%M:%S');
+	define('FORMAT_LOCAL_WA_YMDHM', '%a, %d.%m.%Y, %H:%M');
+	define('FORMAT_LOCAL_WF_YMDHM', '%A, %d.%m.%Y, %H:%M');
 
-	define('FORMAT_LOCAL_YMDHMS','%d.%m.%Y, %H:%M:%S');
-	define('FORMAT_LOCAL_YMDHM','%d.%m.%Y, %H:%M');
-	define('FORMAT_LOCAL_YMD','%d.%m.%Y');
-	define('FORMAT_LOCAL_MD','%d.%m.');
-	define('FORMAT_LOCAL_D','%d'); # xx
-	define('FORMAT_LOCAL_W_NUM','%w'); # xx (0=sunday to 6=saturday)
-	define('FORMAT_LOCAL_W_ABBR','%a'); # needs translation
-	define('FORMAT_LOCAL_W_FULL','%A'); # needs translation
-	define('FORMAT_LOCAL_M','%m'); # xx
-	define('FORMAT_LOCAL_M_ABBR','%b'); # needs translation
-	define('FORMAT_LOCAL_M_FULL','%B'); # needs translation
-	define('FORMAT_LOCAL_Y_ABBR','%y'); # xx
-	define('FORMAT_LOCAL_Y','%Y'); # xxxx
-	define('FORMAT_LOCAL_H','%H');
-	define('FORMAT_LOCAL_S','%S');
-	define('FORMAT_LOCAL_HM','%H:%i');
-	define('FORMAT_LOCAL_HMS','%H:%M:%S');
+	define('FORMAT_LOCAL_YMDHMS', '%d.%m.%Y, %H:%M:%S');
+	define('FORMAT_LOCAL_YMDHM', '%d.%m.%Y, %H:%M');
+	define('FORMAT_LOCAL_YMD', '%d.%m.%Y');
+	define('FORMAT_LOCAL_MD', '%d.%m.');
+	define('FORMAT_LOCAL_D', '%d'); # xx
+	define('FORMAT_LOCAL_W_NUM', '%w'); # xx (0=sunday to 6=saturday)
+	define('FORMAT_LOCAL_W_ABBR', '%a'); # needs translation
+	define('FORMAT_LOCAL_W_FULL', '%A'); # needs translation
+	define('FORMAT_LOCAL_M', '%m'); # xx
+	define('FORMAT_LOCAL_M_ABBR', '%b'); # needs translation
+	define('FORMAT_LOCAL_M_FULL', '%B'); # needs translation
+	define('FORMAT_LOCAL_Y_ABBR', '%y'); # xx
+	define('FORMAT_LOCAL_Y', '%Y'); # xxxx
+	define('FORMAT_LOCAL_H', '%H');
+	define('FORMAT_LOCAL_S', '%S');
+	define('FORMAT_LOCAL_HM', '%H:%i');
+	define('FORMAT_LOCAL_HMS', '%H:%M:%S');
 }
 
 /*** chars ***/
@@ -167,7 +167,7 @@ define('CHAR_CHECKMARK', '&#10003;');
 define('CHAR_CHECKMARK_BOLD', '&#10004;');
 define('CHAR_BALLOT', '&#10007;');
 define('CHAR_BALLOT_BOLD', '&#10008;');
-define('CHAR_ABOUT','&asymp;'); # … (horizontal ellipsis = three dot leader)
+define('CHAR_ABOUT', '&asymp;'); # … (horizontal ellipsis = three dot leader)
 
 /* not very often used */
 define('CHAR_RPIME', '&#8242;'); # ' (minutes)
@@ -427,7 +427,7 @@ function pre($var, $collapsedAndExpandable = false, $options = array()) {
 	if ($options['debug'] && !Configure::read('debug')) {
 		return '';
 	}
-	$res = '<div class="'.$options['class'].'">';
+	$res = '<div class="' . $options['class'] . '">';
 
 	$pre = '';
 	if ($collapsedAndExpandable) {
@@ -437,14 +437,14 @@ function pre($var, $collapsedAndExpandable = false, $options = array()) {
 			$js = $jsJquery;
 		} elseif ($options['jquery'] !== false) {
 			# auto
-			$js = 'if (typeof jQuery == \'undefined\') {'.$js.'} else {'.$jsJquery.'}';
+			$js = 'if (typeof jQuery == \'undefined\') {' . $js . '} else {' . $jsJquery . '}';
 		}
-		$res .= '<span onclick="'.$js.'" style="cursor: pointer; font-weight: bold">Debug</span>';
+		$res .= '<span onclick="' . $js . '" style="cursor: pointer; font-weight: bold">Debug</span>';
 		if ($options['showFrom']) {
 			$calledFrom = debug_backtrace();
 			$from = '<em>' . substr(str_replace(ROOT, '', $calledFrom[0]['file']), 1) . '</em>';
 			$from .= ' (line <em>' . $calledFrom[0]['line'] . '</em>)';
-			$res .= '<div>'.$from.'</div>';
+			$res .= '<div>' . $from . '</div>';
 		}
 		$pre = ' style="display: none"';
 	}

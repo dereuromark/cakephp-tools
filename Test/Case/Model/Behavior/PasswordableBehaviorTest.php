@@ -309,7 +309,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 			'password' => Security::hash('somepwd', null, true));
 		$res = $this->User->save($data);
 		$this->assertTrue(!empty($res));
-		$uid = (String)$this->User->id;
+		$uid = (string)$this->User->id;
 
 		$this->User->Behaviors->load('Tools.Passwordable', array('current' => true));
 		$this->User->create();
@@ -411,7 +411,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$this->User->set($data);
 		$res = $this->User->save();
 		$this->assertTrue((bool)$res);
-		$uid = (String)$this->User->id;
+		$uid = (string)$this->User->id;
 
 		$this->User->Behaviors->load('Tools.Passwordable', array('current' => true));
 		$this->User->create();
@@ -468,7 +468,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$this->User->set($data);
 		$res = $this->User->save();
 		$this->assertTrue((bool)$res);
-		$uid = (String)$this->User->id;
+		$uid = (string)$this->User->id;
 
 		$this->User->Behaviors->load('Tools.Passwordable', array('current' => true));
 		$this->User->create();
@@ -526,7 +526,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$this->User->set($data);
 		$res = $this->User->save();
 		$this->assertTrue((bool)$res);
-		$uid = (String)$this->User->id;
+		$uid = (string)$this->User->id;
 
 		$this->User->create();
 		$data = array(

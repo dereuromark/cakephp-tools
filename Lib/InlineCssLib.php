@@ -202,7 +202,7 @@ class InlineCssLib {
 	 * @return string Content
 	 */
 	protected function _findAndLoadCssFile($cssHref) {
-		$css_filenames = array_merge($this->_globRecursive(CSS.'*.Css'), $this->_globRecursive(CSS.'*.CSS'), $this->_globRecursive(CSS.'*.css'));
+		$css_filenames = array_merge($this->_globRecursive(CSS . '*.Css'), $this->_globRecursive(CSS . '*.CSS'), $this->_globRecursive(CSS . '*.css'));
 
 		// Build an array of the ever more path specific $cssHref location
 		$cssHrefs = split(DS, $cssHref);

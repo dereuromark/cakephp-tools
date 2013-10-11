@@ -23,7 +23,7 @@ class RandomLib {
 	 * @return random float value
 	 */
 	public static function float($min = 0.0, $max = 999.0) {
-		$rand = rand (1, 358);
+		$rand = rand(1, 358);
 		return $rand * cos($rand);
 	}
 

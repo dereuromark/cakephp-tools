@@ -37,7 +37,7 @@ class CaptchaHelper extends AppHelper {
 		$this->numberConvert = array(0=>'zero', 1=>'one', 2=>'two', 3=>'three', 4=>'four', 5=>'five', 6=>'six', 7=>'seven', 8=>'eight', 9=>'nine', 10=>'ten');
 
 		# Set up an array with the operators that we want to use. With difficulty=1 it is only subtraction and addition.
-		$this->operatorConvert = array(0=>array('+',__('calcPlus')), 1=>array('-',__('calcMinus')), 2=>'*',__('calcTimes'));
+		$this->operatorConvert = array(0=>array('+', __('calcPlus')), 1=>array('-', __('calcMinus')), 2=>'*', __('calcTimes'));
 
 		$this->settings = array_merge(CaptchaLib::$defaults, $this->_defaults);
 		$settings = (array)Configure::read('Captcha');
@@ -98,16 +98,16 @@ class CaptchaHelper extends AppHelper {
 		if (in_array($this->settings['type'], array('active', 'both'))) {
 			# //todo obscure html here?
 			$fill = ''; //'<span></span>';
-			$return .= '<span id="captchaCode">'.$fill.''.$captchaCode['code'].'</span>';
+			$return .= '<span id="captchaCode">' . $fill . '' . $captchaCode['code'] . '</span>';
 		}
 
 		$field = $this->_fieldName($modelName);
 
 		# add passive part on active forms as well
-		$return .= '<div style="display:none">'.
-			$this->Form->input($field.'_hash', array('value'=>$hash)).
-			$this->Form->input($field.'_time', array('value'=>time())).
-			$this->Form->input((!empty($modelName)?$modelName.'.':'').$this->settings['dummyField'], array('value'=>'')).
+		$return .= '<div style="display:none">' .
+			$this->Form->input($field . '_hash', array('value'=>$hash)) .
+			$this->Form->input($field . '_time', array('value'=>time())) .
+			$this->Form->input((!empty($modelName)?$modelName . '.':'') . $this->settings['dummyField'], array('value'=>'')) .
 		'</div>';
 		return $return;
 	}
@@ -142,7 +142,7 @@ class CaptchaHelper extends AppHelper {
 		unset($options['combined']);
 
 		$field = $this->_fieldName($modelName);
-		return $this->Form->input($field.'', $options); // TODO: rename: _code
+		return $this->Form->input($field . '', $options); // TODO: rename: _code
 	}
 
 	/**
@@ -182,7 +182,7 @@ class CaptchaHelper extends AppHelper {
 	protected function _fieldName($modelName = null) {
 		$fieldName = 'captcha';
 		if (isSet($modelName)) {
-			$fieldName = $modelName.'.'.$fieldName;
+			$fieldName = $modelName . '.' . $fieldName;
 		}
 		return $fieldName;
 	}

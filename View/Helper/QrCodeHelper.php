@@ -250,7 +250,7 @@ class QrCodeHelper extends AppHelper {
 		}
 		$value = (int)$value;
 		if ($value >= self::MIN_SIZE && $value <= self::MAX_SIZE) {
-			$this->options['chs'] = $value. 'x' . $value;
+			$this->options['chs'] = $value . 'x' . $value;
 			return true;
 		}
 		return false;
@@ -266,7 +266,7 @@ class QrCodeHelper extends AppHelper {
 			if ($margin === null) {
 				$margin = 4; # minimum
 			}
-			$this->options['chld'] = strtoupper($level). '|' . $margin;
+			$this->options['chld'] = strtoupper($level) . '|' . $margin;
 			return true;
 		}
 		return false;

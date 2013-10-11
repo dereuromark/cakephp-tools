@@ -46,7 +46,7 @@ class GravatarHelperTest extends MyCakeTestCase {
 		$expectedCount = 7;
 
 		foreach ($is as $image) {
-			$this->out($image.' ');
+			$this->out($image . ' ');
 		}
 		$this->assertTrue(is_array($is) && (count($is) === $expectedCount));
 

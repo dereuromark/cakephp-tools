@@ -102,7 +102,7 @@ class CaptchaBehavior extends ModelBehavior {
 		}
 		if (!empty($data[$dummyField])) {
 			# dummy field not empty - SPAM!
-			return $this->_setError(__('Illegal content'), 'DummyField = \''.$data[$dummyField].'\'');
+			return $this->_setError(__('Illegal content'), 'DummyField = \'' . $data[$dummyField] . '\'');
 		}
 		return true;
 	}
@@ -159,7 +159,7 @@ class CaptchaBehavior extends ModelBehavior {
 			return true;
 		}
 		# wrong captcha content or session expired
-		return $this->_setError(__('Captcha incorrect'), 'SubmittedResult = \''.$data['captcha'].'\'');
+		return $this->_setError(__('Captcha incorrect'), 'SubmittedResult = \'' . $data['captcha'] . '\'');
 	}
 
 	/**
@@ -214,7 +214,7 @@ class CaptchaBehavior extends ModelBehavior {
 		if (!$this->settings[$this->Model->alias]['log']) {
 			return null;
 		}
-		$msg = 'IP \'' . Utility::getClientIp() . '\', Agent \''.env('HTTP_USER_AGENT').'\', Referer \''.env('HTTP_REFERER').'\', Host-Referer \''.Utility::getReferer().'\'';
+		$msg = 'IP \'' . Utility::getClientIp() . '\', Agent \'' . env('HTTP_USER_AGENT') . '\', Referer \'' . env('HTTP_REFERER') . '\', Host-Referer \'' . Utility::getReferer() . '\'';
 		if (!empty($this->error)) {
 			$msg .= ', ' . $this->error;
 		}

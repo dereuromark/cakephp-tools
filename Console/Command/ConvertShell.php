@@ -127,11 +127,11 @@ class ConvertShell extends AppShell {
 			if ($path->isDir()) {
 				continue;
 			}
-			if (strpos($fullPath, DS.'.') !== false) {
+			if (strpos($fullPath, DS . '.') !== false) {
 				continue;
 			}
 			if (!empty($this->params['verbose'])) {
-				$this->out('Converting file: '.$fullPath);
+				$this->out('Converting file: ' . $fullPath);
 			}
 			if (empty($this->params['dry-run'])) {
 				ob_start();

@@ -70,8 +70,8 @@ class FolderSyncShell extends AppShell {
 			$this->out('Inverted direction!');
 		}
 
-		$this->out('From: '.$this->sourceFolder);
-		$this->out('To: '.$this->targetFolder);
+		$this->out('From: ' . $this->sourceFolder);
+		$this->out('To: ' . $this->targetFolder);
 
 		$excludes = $this->excludes;
 		$this->_sync($this->sourceFolder, $this->targetFolder, $excludes);
@@ -82,7 +82,7 @@ class FolderSyncShell extends AppShell {
 		if (!empty($this->missing)) {
 			$this->out(__('%s missing files', count($this->missing)));
 			foreach ($this->missing as $missing) {
-				$this->out('- '.$missing, 1, Shell::VERBOSE);
+				$this->out('- ' . $missing, 1, Shell::VERBOSE);
 			}
 			$this->out();
 		}

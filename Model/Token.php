@@ -106,9 +106,9 @@ class Token extends ToolsAppModel {
 		if (empty($type) || empty($key)) {
 			return false;
 		}
-		$options = array('conditions' => array($this->alias.'.key' => $key, $this->alias.'.type' => $type));
+		$options = array('conditions' => array($this->alias . '.key' => $key, $this->alias . '.type' => $type));
 		if (!empty($uid)) {
-			$options['conditions'][$this->alias.'.user_id'] = $uid;
+			$options['conditions'][$this->alias . '.user_id'] = $uid;
 		}
 		$res = $this->find('first', $options);
 		if (empty($res)) {
@@ -134,7 +134,7 @@ class Token extends ToolsAppModel {
 		if (!empty($res[$this->alias]['unlimited'])) {
 			return $res;
 		}
-		$this->log('VIOLATION in '.$this->alias.' Model (method useKey)');
+		$this->log('VIOLATION in ' . $this->alias . ' Model (method useKey)');
 		return false;
 	}
 
@@ -149,7 +149,7 @@ class Token extends ToolsAppModel {
 			return false;
 		}
 		//$this->id = $id;
-		if ($this->updateAll(array($this->alias.'.used' => $this->alias.'.used + 1', $this->alias.'.modified'=>'"'.date(FORMAT_DB_DATETIME).'"'), array($this->alias.'.id'=>$id))) {
+		if ($this->updateAll(array($this->alias . '.used' => $this->alias . '.used + 1', $this->alias . '.modified'=>'"' . date(FORMAT_DB_DATETIME) . '"'), array($this->alias . '.id'=>$id))) {
 			return true;
 		}
 		return false;
@@ -163,7 +163,7 @@ class Token extends ToolsAppModel {
 	 */
 	public function garbigeCollector() {
 		$conditions = array(
-			$this->alias.'.created <'=>date(FORMAT_DB_DATETIME, time()-$this->validity),
+			$this->alias . '.created <'=>date(FORMAT_DB_DATETIME, time()-$this->validity),
 		);
 		return $this->deleteAll($conditions, false);
 	}
@@ -173,14 +173,14 @@ class Token extends ToolsAppModel {
 	 */
 	public function stats() {
 		$keys = array();
-		$keys['unused_valid'] = $this->find('count', array('conditions'=>array($this->alias.'.used'=>0, $this->alias.'.created >='=>date(FORMAT_DB_DATETIME, time()-$this->validity))));
-		$keys['used_valid'] = $this->find('count', array('conditions'=>array($this->alias.'.used'=>1, $this->alias.'.created >='=>date(FORMAT_DB_DATETIME, time()-$this->validity))));
+		$keys['unused_valid'] = $this->find('count', array('conditions'=>array($this->alias . '.used'=>0, $this->alias . '.created >='=>date(FORMAT_DB_DATETIME, time()-$this->validity))));
+		$keys['used_valid'] = $this->find('count', array('conditions'=>array($this->alias . '.used'=>1, $this->alias . '.created >='=>date(FORMAT_DB_DATETIME, time()-$this->validity))));
 
-		$keys['unused_invalid'] = $this->find('count', array('conditions'=>array($this->alias.'.used'=>0, $this->alias.'.created <'=>date(FORMAT_DB_DATETIME, time()-$this->validity))));
-		$keys['used_invalid'] = $this->find('count', array('conditions'=>array($this->alias.'.used'=>1, $this->alias.'.created <'=>date(FORMAT_DB_DATETIME, time()-$this->validity))));
+		$keys['unused_invalid'] = $this->find('count', array('conditions'=>array($this->alias . '.used'=>0, $this->alias . '.created <'=>date(FORMAT_DB_DATETIME, time()-$this->validity))));
+		$keys['used_invalid'] = $this->find('count', array('conditions'=>array($this->alias . '.used'=>1, $this->alias . '.created <'=>date(FORMAT_DB_DATETIME, time()-$this->validity))));
 
 		$types = $this->find('all', array('conditions'=>array(), 'fields'=>array('DISTINCT type')));
-		$keys['types'] = !empty($types) ? Set::extract('/'.$this->alias.'/type', $types) : array();
+		$keys['types'] = !empty($types) ? Set::extract('/' . $this->alias . '/type', $types) : array();
 		return $keys;
 	}
 

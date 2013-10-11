@@ -762,7 +762,7 @@ class MimeLib extends CakeResponse {
 	* @param String $file File Name (relative location such as "image_test.jpg" or full "http://site.com/path/to/image_test.jpg")
 	* @return String MIMEType - The type of the file passed in the argument
 	*/
-	public function extractMimeType($file = NULL) {
+	public function extractMimeType($file = null) {
 		if (!is_file($file)) {
 			return false;
 		}
@@ -798,14 +798,14 @@ class MimeLib extends CakeResponse {
 	 * @param string $default
 	 * @return void
 	 */
-	public function getEncoding($file = NULL, $default = 'utf-8') {
+	public function getEncoding($file = null, $default = 'utf-8') {
 		if (!function_exists("finfo_open")) {
 			return $default;
 		}
 		$finfo = finfo_open(FILEINFO_MIME_ENCODING);
 		$encoding = finfo_file($finfo, $file);
 		finfo_close($finfo);
-		if ($encoding !== FALSE) {
+		if ($encoding !== false) {
 			return $encoding;
 		}
 		return $default;
@@ -817,7 +817,7 @@ class MimeLib extends CakeResponse {
 	* @param String $file The full file name
 	* @return String ext The file extension
 	*/
-	protected function _getExtension($file = NULL) {
+	protected function _getExtension($file = null) {
 		if ($file !== null) {
 			$pieces = explode('.', $file);
 			$ext = strtolower(array_pop($pieces));

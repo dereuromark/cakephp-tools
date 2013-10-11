@@ -41,7 +41,7 @@ class SpellLib {
 		$this->_Broker = enchant_broker_init();
 
 		$defaults = array(
-			'path' => VENDORS.'dictionaries'.DS,
+			'path' => VENDORS . 'dictionaries' . DS,
 			'lang' => 'en_GB',
 			'engine' => self::ENGINE_MYSPELL
 		);
@@ -49,7 +49,7 @@ class SpellLib {
 		$options = array_merge($defaults, $options);
 
 		if (!isset($this->_engines[$options['engine']])) {
-			throw new InternalErrorException(__('Engine %s not found', (String) $options['engine']));
+			throw new InternalErrorException(__('Engine %s not found', (string) $options['engine']));
 		}
 		$engineFolder = $this->_engines[$options['engine']];
 		enchant_broker_set_dict_path($this->_Broker, $options['engine'], $options['path'] . $engineFolder . DS);

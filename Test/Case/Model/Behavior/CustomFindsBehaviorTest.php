@@ -14,7 +14,7 @@ class CustomFindsBehaviorTest extends MyCakeTestCase {
 
 		$this->Model->customFinds = array(
 			'topSellers' => array(
-				'fields' => array('Product.name','Product.price'),
+				'fields' => array('Product.name', 'Product.price'),
 				'contain' => array('ProductImage.source'),
 				'conditions' => array('Product.countSeller >' => 20, 'Product.is_active' => 1),
 				'recursive' => 1,

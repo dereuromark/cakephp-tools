@@ -29,8 +29,8 @@ class FormatHelper extends TextHelper {
 			$upTitle = $downTitle = !empty($inactiveTitle)?$inactiveTitle:__('alreadyVoted');
 		}
 		$ret = '<div class="thumbsUpDown">';
-		$ret .= '<div id="'.$id.'Pro'.$class.'" rel="'.$id.'" class="thumbUp up'.$class.'" title="'.$upTitle.'"></div>';
-		$ret .= '<div id="'.$id.'Contra'.$class.'" rel="'.$id.'" class="thumbDown down'.$class.'" title="'.$downTitle.'"></div>';
+		$ret .= '<div id="' . $id . 'Pro' . $class . '" rel="' . $id . '" class="thumbUp up' . $class . '" title="' . $upTitle . '"></div>';
+		$ret .= '<div id="' . $id . 'Contra' . $class . '" rel="' . $id . '" class="thumbDown down' . $class . '" title="' . $downTitle . '"></div>';
 		$ret .= '<br class="clear"/>';
 		$ret .=	'</div>';
 		return $ret;
@@ -102,9 +102,9 @@ class FormatHelper extends TextHelper {
 				$url += $options['url'];
 			}
 
-			$ret.= $this->Html->link($this->cIcon(ICON_PREV, false).'&nbsp;'.__('prev'.$name), $url, array('escape'=>false, 'title'=>$neighbors['prev'][$titleAlias][$titleField]));
+			$ret.= $this->Html->link($this->cIcon(ICON_PREV, false) . '&nbsp;' . __('prev' . $name), $url, array('escape'=>false, 'title'=>$neighbors['prev'][$titleAlias][$titleField]));
 		} else {
-			$ret.= $this->cIcon(ICON_PREV_DISABLED, __('noPrev'.$name)).'&nbsp;'.__('prev'.$name);
+			$ret.= $this->cIcon(ICON_PREV_DISABLED, __('noPrev' . $name)) . '&nbsp;' . __('prev' . $name);
 }
 		$ret.= '&nbsp;&nbsp;';
 		if (!empty($neighbors['next'])) {
@@ -113,9 +113,9 @@ class FormatHelper extends TextHelper {
 				$url += $options['url'];
 			}
 
-			$ret.= $this->Html->link($this->cIcon(ICON_NEXT, false).'&nbsp;'.__('next'.$name), $url, array('escape'=>false, 'title'=>$neighbors['next'][$titleAlias][$titleField]));
+			$ret.= $this->Html->link($this->cIcon(ICON_NEXT, false) . '&nbsp;' . __('next' . $name), $url, array('escape'=>false, 'title'=>$neighbors['next'][$titleAlias][$titleField]));
 		} else {
-			$ret.= $this->cIcon(ICON_NEXT_DISABLED, __('noNext'.$name)).'&nbsp;'.__('next'.$name);
+			$ret.= $this->cIcon(ICON_NEXT_DISABLED, __('noNext' . $name)) . '&nbsp;' . __('next' . $name);
 		}
 		$ret .= '</div>';
 		return $ret;
@@ -128,7 +128,7 @@ class FormatHelper extends TextHelper {
 	public function addIcon($name = null, $pic = null, $title = null, $allowOverride = false) {
 		if ($allowOverride === true || ($allowOverride !==true && !array_key_exists($name, $this->icons))) {
 			if (!empty($name) && !empty($pic)) {
-				$this->icons[$name] = array('pic'=>strtolower($pic),'title'=>(!empty($title)?$title:''));
+				$this->icons[$name] = array('pic'=>strtolower($pic), 'title'=>(!empty($title)?$title:''));
 			}
 		}
 		return false;
@@ -174,14 +174,14 @@ class FormatHelper extends TextHelper {
 		}
 
 		if (empty($icon)) {
-		} elseif ($checkExist === true && !file_exists(PATH_CONTENT.$folder.DS.$icon.'.'.$ending)) {
+		} elseif ($checkExist === true && !file_exists(PATH_CONTENT . $folder . DS . $icon . '.' . $ending)) {
 		} else {
 			$image = $icon;
 		}
 		if ($image === null) {
-			return $this->Html->image(IMG_ICONS.'custom'.'/'.$folder.'_'.$attachment.'.'.$ending, $attr);
+			return $this->Html->image(IMG_ICONS . 'custom' . '/' . $folder . '_' . $attachment . '.' . $ending, $attr);
 		}
-		return $this->Html->image(IMG_CONTENT.$folder.'/'.$image.'.'.$ending, $attr);
+		return $this->Html->image(IMG_CONTENT . $folder . '/' . $image . '.' . $ending, $attr);
 	}
 
 	/**
@@ -193,11 +193,11 @@ class FormatHelper extends TextHelper {
 		$image = 'unknown';
 
 		if ($specific = Configure::read('Country.image_path')) {
-			$wwwPath = $specific.'/';
-			$path = PATH_IMAGES. $specific . DS; //.'country_flags'.DS
+			$wwwPath = $specific . '/';
+			$path = PATH_IMAGES . $specific . DS; //.'country_flags'.DS
 		} else {
 			$wwwPath = '/tools/img/country_flags/';
-			$path = App::pluginPath('Tools') . 'webroot' . DS. 'img' . DS . 'country_flags' . DS;
+			$path = App::pluginPath('Tools') . 'webroot' . DS . 'img' . DS . 'country_flags' . DS;
 		}
 
 		if (!empty($options) && is_array($options)) {
@@ -212,7 +212,7 @@ class FormatHelper extends TextHelper {
 		} elseif (!file_exists($path . $icon . '.' . $ending)) {
 
 			//die($path . $icon . '.' . $ending);
-			trigger_error($path . $icon . '.' . $ending.' missing', E_USER_NOTICE);
+			trigger_error($path . $icon . '.' . $ending . ' missing', E_USER_NOTICE);
 
 			if ($returnFalseonFailure) { return false; }
 		} else {
@@ -229,7 +229,7 @@ class FormatHelper extends TextHelper {
 		if (!empty($value)) {
 			$image = 'important';
 		}
-		return $this->Html->image(IMG_ICONS.$icon.'_'.$image.'.'.$ending);
+		return $this->Html->image(IMG_ICONS . $icon . '_' . $image . '.' . $ending);
 	}
 
 	/**
@@ -275,8 +275,8 @@ class FormatHelper extends TextHelper {
 		}
 
 		$attr = array(
-			'class' => 'prio-'.$matching[$value],
-			'title' => __('prio'.ucfirst($matching[$value])),
+			'class' => 'prio-' . $matching[$value],
+			'title' => __('prio' . ucfirst($matching[$value])),
 		);
 		if (!$css) {
 			$attr['alt'] = $matching[$value];
@@ -288,7 +288,7 @@ class FormatHelper extends TextHelper {
 
 		} else {
 			$icon = 'priority_' . $matching[$value] . '.gif';
-			$html = $this->Html->image('icons/'.$icon, $attr);
+			$html = $this->Html->image('icons/' . $icon, $attr);
 		}
 
 		return $html;
@@ -371,9 +371,9 @@ class FormatHelper extends TextHelper {
 			$alt = (isset($alt)?$alt:preg_replace('/[^a-zA-Z0-9]/', '', $this->icons[$type]['title']));
 			if ($translate !== false) {
 				$title = __($title);
-				$alt = 	__($alt);
+				$alt = __($alt);
 			}
-			$alt = '['.$alt.']';
+			$alt = '[' . $alt . ']';
 		} else {
 			$pic = 'pixelspace.gif';
 			$title = '';
@@ -384,7 +384,7 @@ class FormatHelper extends TextHelper {
 		//$new_options['onclick']=$options['onclick'];
 		$new_options= array_merge($default_options, $options);
 
-		$html.=$this->Html->image('icons/'.$pic, $new_options);
+		$html.=$this->Html->image('icons/' . $pic, $new_options);
 
 		return $html;
 	}
@@ -411,14 +411,14 @@ class FormatHelper extends TextHelper {
 		$alt = (isset($a) ? $a : Inflector::slug($title, '-'));
 		if ($translate !== false) {
 			$title = __($title);
-			$alt = 	__($alt);
+			$alt = __($alt);
 		}
-		$alt = '['.$alt.']';
+		$alt = '[' . $alt . ']';
 
 		$defaultOptions = array('title'=>$title, 'alt'=>$alt, 'class'=>'icon');
 		$options = array_merge($defaultOptions, $options);
 		if (substr($icon, 0, 1) !== '/') {
-			$icon = 'icons/'.$icon;
+			$icon = 'icons/' . $icon;
 		}
 		return $this->Html->image($icon, $options);
 	}
@@ -453,13 +453,13 @@ class FormatHelper extends TextHelper {
 			$text = '';
 			for ($i=0;$i<$min;$i++) {
 				$attributes = array('alt'=>'#', 'class'=>'full');
-				if (!empty($options['title'])) { $attributes['title'] = ($i+1).'/'.$max; } # ?
+				if (!empty($options['title'])) { $attributes['title'] = ($i+1) . '/' . $max; } # ?
 				$text.= $this->Html->image('icons/star_icon2.gif', $attributes);
 
 			}
 			for ($i=$min;$i<$max;$i++) {
 				$attributes = array('alt'=>'-', 'class'=>'empty');
-				if (!empty($options['title'])) { $attributes['title'] = ($i+1).'/'.$max; } # ?
+				if (!empty($options['title'])) { $attributes['title'] = ($i+1) . '/' . $max; } # ?
 				if ($steps == 0.5 && $current == $i+0.5) {
 					$text.= $this->Html->image('icons/star_icon2_half.gif', $attributes);
 				} else {
@@ -506,7 +506,7 @@ class FormatHelper extends TextHelper {
 			'it' => array('title'=>'Italiano'),
 		);
 
-		$language_change = __('Language').': ';
+		$language_change = __('Language') . ': ';
 
 		$languages = array();
 		foreach ($langs as $lang) {
@@ -521,9 +521,9 @@ class FormatHelper extends TextHelper {
 		echo '<span class="country">';
 		foreach ($languages as $code => $la) {
 			if ($lang == $code) {
-				$language_change .= $this->Html->image('language_flags/'.$code.'.gif', array('alt'=>$code,'title'=>$la['title'].' ('.__('active').')','class'=>'country_flag active')).'';
+				$language_change .= $this->Html->image('language_flags/' . $code . '.gif', array('alt'=>$code, 'title'=>$la['title'] . ' (' . __('active') . ')', 'class'=>'country_flag active')) . '';
 			} else {
-				$language_change .= $this->Html->link($this->Html->image('language_flags/'.$code.'.gif', array('alt'=>$code,'title'=>$la['title'],'class'=>'country_flag')), '/lang/'.$code, array('escape'=>false)).'';
+				$language_change .= $this->Html->link($this->Html->image('language_flags/' . $code . '.gif', array('alt'=>$code, 'title'=>$la['title'], 'class'=>'country_flag')), '/lang/' . $code, array('escape'=>false)) . '';
 			}
 		}
 
@@ -569,7 +569,7 @@ class FormatHelper extends TextHelper {
 			$text = $this->encodeEmail($mail);
 		}
 
-		$encMail = 'mailto:'.$mail;
+		$encMail = 'mailto:' . $mail;
 
 		// additionally there could be a span tag in between: email<span syle="display:none"></span>@web.de
 		$querystring = '';
@@ -597,11 +597,11 @@ class FormatHelper extends TextHelper {
 		$join = implode('\'+ \'', $par);
 
 		return '<script language=javascript><!--
-	document.write(\''.$join.'\');
+	document.write(\'' . $join . '\');
 	//--></script>
-		'.$text.'
+		' . $text . '
 	<script language=javascript><!--
-	document.write(\''.$xmail2.'\');
+	document.write(\'' . $xmail2 . '\');
 	//--></script>';
 	}
 
@@ -614,16 +614,16 @@ class FormatHelper extends TextHelper {
 	public function encodeText($text) {
 		$encmail = '';
 		for ($i=0; $i<mb_strlen($text); $i++) {
-			$encMod = mt_rand(0,2);
+			$encMod = mt_rand(0, 2);
 			switch ($encMod) {
 			case 0: // None
-				$encmail .= mb_substr($text, $i,1);
+				$encmail .= mb_substr($text, $i, 1);
 				break;
 			case 1: // Decimal
-				$encmail .= "&#".ord(mb_substr($text, $i,1)).';';
+				$encmail .= "&#" . ord(mb_substr($text, $i, 1)) . ';';
 				break;
 			case 2: // Hexadecimal
-				$encmail .= "&#x".dechex(ord(mb_substr($text, $i,1))).';';
+				$encmail .= "&#x" . dechex(ord(mb_substr($text, $i, 1))) . ';';
 				break;
 			}
 		}
@@ -672,7 +672,7 @@ class FormatHelper extends TextHelper {
 			$pieces = parse_url($domain);
 			$domain = $pieces['host'];
 		}
-		return 'http://www.google.com/s2/favicons?domain='.$domain;
+		return 'http://www.google.com/s2/favicons?domain=' . $domain;
 	}
 
 	/**
@@ -725,21 +725,21 @@ class FormatHelper extends TextHelper {
 	 * @return string htmlImage tag (or empty string on failure)
 	 */
 	public function _textAsImage($text, $options = array(), $attr = array()) {
-		$defaults = array('inline'=>true, 'font' => FILES.'linotype.ttf', 'size'=>18, 'color'=>'#7A7166');
+		$defaults = array('inline'=>true, 'font' => FILES . 'linotype.ttf', 'size'=>18, 'color'=>'#7A7166');
 		$options = array_merge($defaults, $options);
 
 		if ($options['inline']) { # inline base 64 encoded
-			$folder = CACHE.'imagick';
+			$folder = CACHE . 'imagick';
 		} else {
-			$folder = WWW_ROOT.'img'.DS.'content'.DS.'imagick';
+			$folder = WWW_ROOT . 'img' . DS . 'content' . DS . 'imagick';
 		}
 
-		$file = sha1($text.serialize($options)).'.'.($options['inline'] || !empty($options['background']) ? 'png' : 'gif');
+		$file = sha1($text . serialize($options)) . '.' . ($options['inline'] || !empty($options['background']) ? 'png' : 'gif');
 		if (!file_exists($folder)) {
 			mkdir($folder, 0755);
 		}
-		if (!file_exists($folder.DS.$file)) {
-			$command = 'convert -background '.(!empty($options['background'])?'"'.$options['background'].'"':'transparent').' -font '.$options['font'].' -fill '.(!empty($options['color'])?'"'.$options['color'].'"':'transparent').' -pointsize '.$options['size'].' label:"'.$text.'" '.$folder.DS.$file;
+		if (!file_exists($folder . DS . $file)) {
+			$command = 'convert -background ' . (!empty($options['background'])?'"' . $options['background'] . '"':'transparent') . ' -font ' . $options['font'] . ' -fill ' . (!empty($options['color'])?'"' . $options['color'] . '"':'transparent') . ' -pointsize ' . $options['size'] . ' label:"' . $text . '" ' . $folder . DS . $file;
 			exec($command, $a, $r);
 			if ($r !== 0) {
 				return '';
@@ -747,10 +747,10 @@ class FormatHelper extends TextHelper {
 		}
 
 		if ($options['inline']) {
-			$res = file_get_contents($folder.DS.$file);
+			$res = file_get_contents($folder . DS . $file);
 			$out = $this->Html->imageFromBlob($res, $attr);
 		} else {
-			$out = $this->Html->image($this->Html->url('/img/content/imagick/', true).$file, $attr);
+			$out = $this->Html->image($this->Html->url('/img/content/imagick/', true) . $file, $attr);
 		}
 		return $out;
 	}
@@ -864,7 +864,7 @@ class FormatHelper extends TextHelper {
 		if ($padLength - $length > 0) {
 			switch ($padType) {
 				case STR_PAD_LEFT:
-					$input = str_repeat($padString, $padLength-$length).$input;
+					$input = str_repeat($padString, $padLength-$length) . $input;
 					break;
 				case STR_PAD_RIGHT:
 					$input .= str_repeat($padString, $padLength-$length);
@@ -907,7 +907,7 @@ class FormatHelper extends TextHelper {
 		$file = $image['Album']['id'] . DS . $image['Image']['filename'] . '.' . $image['Image']['ext'];
 
 		$optionsArray = array(
-			'save_path' => WWW_ROOT . 'img'. DS. 'albums' . DS . $subfolder,
+			'save_path' => WWW_ROOT . 'img' . DS . 'albums' . DS . $subfolder,
 			'display_path' => '/img/albums' . '/' . $subfolder,
 			'error_image_path' => '/img/userpics/22.jpg',
 			'src' => FILES . 'images' . DS . $file,
@@ -966,9 +966,9 @@ class FormatHelper extends TextHelper {
 		if (!empty($image['User']['id'])) {
 			$gender = '';
 			if (isset($image['UserInfo']['gender'])) {
-				$gender = $this->genderIcon($image['UserInfo']['gender']).' ';
+				$gender = $this->genderIcon($image['UserInfo']['gender']) . ' ';
 			}
-			$navigation .= '<div class="floatRight" style="margin-right: 6px;">'.__('Member').': '.$gender.$this->profileLink($image['User']['id'], $image['User']['username']).'</div>';
+			$navigation .= '<div class="floatRight" style="margin-right: 6px;">' . __('Member') . ': ' . $gender . $this->profileLink($image['User']['id'], $image['User']['username']) . '</div>';
 		}
 
 		if ($display['controls']) {
@@ -997,7 +997,7 @@ class FormatHelper extends TextHelper {
 	 */
 	public function profileLink($uid, $username, $text = null, $attr = array(), $options = array()) {
 		if (empty($username)) {
-			return '['.__('%s deleted', __('Account')).']';
+			return '[' . __('%s deleted', __('Account')) . ']';
 		}
 		$title = isset($text) ? $text : $username;
 		$username = slug($username);

@@ -152,7 +152,7 @@ class ZipLib {
 			$fp = fopen($x, "w");
 			if (zip_entry_open($this->Zip, $zipEntry, "r")) {
 				$buf = zip_entry_read($zipEntry, zip_entry_filesize($zipEntry));
-				fwrite($fp,"$buf");
+				fwrite($fp, $buf);
 				zip_entry_close($zipEntry);
 				fclose($fp);
 			}
@@ -211,7 +211,7 @@ class ZipLib {
 		$errmsg = 'unknown';
 		foreach ($zipFileFunctionsErrors as $constName => $errorMessage) {
 			if (defined($constName) and constant($constName) === $errno) {
-				return 'Zip File Function error: '.$errorMessage;
+				return 'Zip File Function error: ' . $errorMessage;
 			}
 		}
 		return 'Zip File Function error: unknown';

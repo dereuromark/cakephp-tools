@@ -160,7 +160,7 @@ JS;
 	protected function _options($options) {
 		$e = array();
 		foreach ($options as $option => $value) {
-			if (is_null($value)) {
+			if ($value === null) {
 				continue;
 			}
 			if (is_string($value)) {

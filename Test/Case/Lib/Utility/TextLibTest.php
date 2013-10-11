@@ -44,12 +44,12 @@ TXT;
 		//pr($is);
 		$this->assertEquals($is, '0-104-32-72-0');
 
-		$is = $this->TextLib->convertToOrd('x'.NL.'x'.LF.'x'.PHP_EOL.'x'.CR.'x'.TB.'x');
+		$is = $this->TextLib->convertToOrd('x' . NL . 'x' . LF . 'x' . PHP_EOL . 'x' . CR . 'x' . TB . 'x');
 		//pr($is);
 	}
 
 	public function testConvertToOrdTable() {
-		$is = $this->TextLib->convertToOrdTable('x'.NL.'x'.LF.'x'.PHP_EOL.'x'.CR.'x'.TB.'x');
+		$is = $this->TextLib->convertToOrdTable('x' . NL . 'x' . LF . 'x' . PHP_EOL . 'x' . CR . 'x' . TB . 'x');
 		//pr($is);
 	}
 

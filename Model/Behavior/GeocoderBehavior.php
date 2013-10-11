@@ -207,11 +207,11 @@ class GeocoderBehavior extends ModelBehavior {
 
 		$value = $this->_calculationValue($this->settings[$Model->alias]['unit']);
 
-		return $value . ' * ACOS(COS(PI()/2 - RADIANS(90 - '.$modelName.'.'.$fieldLat.')) * ' .
-			'COS(PI()/2 - RADIANS(90 - '. $lat .')) * ' .
-			'COS(RADIANS('.$modelName.'.'.$fieldLng.') - RADIANS('. $lng .')) + ' .
-			'SIN(PI()/2 - RADIANS(90 - '.$modelName.'.'.$fieldLat.')) * ' .
-			'SIN(PI()/2 - RADIANS(90 - '. $lat . ')))';
+		return $value . ' * ACOS(COS(PI()/2 - RADIANS(90 - ' . $modelName . '.' . $fieldLat . ')) * ' .
+			'COS(PI()/2 - RADIANS(90 - ' . $lat . ')) * ' .
+			'COS(RADIANS(' . $modelName . '.' . $fieldLng . ') - RADIANS(' . $lng . ')) + ' .
+			'SIN(PI()/2 - RADIANS(90 - ' . $modelName . '.' . $fieldLat . ')) * ' .
+			'SIN(PI()/2 - RADIANS(90 - ' . $lat . ')))';
 	}
 
 	/**
@@ -230,12 +230,12 @@ class GeocoderBehavior extends ModelBehavior {
 			$modelName = $Model->alias;
 		}
 		$conditions = array(
-			$modelName . '.'.$fieldLat.' <> 0',
-			$modelName . '.'.$fieldLng.' <> 0',
+			$modelName . '.' . $fieldLat . ' <> 0',
+			$modelName . '.' . $fieldLng . ' <> 0',
 		);
 		$fieldName = !empty($fieldName) ? $fieldName : 'distance';
 		if ($distance !== null) {
-			$conditions[] = '1=1 HAVING '.$modelName.'.'.$fieldName.' < ' . intval($distance);
+			$conditions[] = '1=1 HAVING ' . $modelName . '.' . $fieldName . ' < ' . intval($distance);
 		}
 		return $conditions;
 	}
@@ -250,7 +250,7 @@ class GeocoderBehavior extends ModelBehavior {
 			$modelName = $Model->alias;
 		}
 		$fieldName = (!empty($fieldName) ? $fieldName : 'distance');
-		return $this->distance($Model, $lat, $lng, null, null, $modelName) . ' AS '.$modelName.'.'.$fieldName;
+		return $this->distance($Model, $lat, $lng, null, null, $modelName) . ' AS ' . $modelName . '.' . $fieldName;
 	}
 
 	/**
@@ -270,7 +270,7 @@ class GeocoderBehavior extends ModelBehavior {
 			$byFieldName = 'radius';
 		}
 
-		return $this->distance($Model, $lat, $lng, null, null, $modelName).' '.$byFieldName;
+		return $this->distance($Model, $lat, $lng, null, null, $modelName) . ' ' . $byFieldName;
 	}
 
 	/**
@@ -280,7 +280,7 @@ class GeocoderBehavior extends ModelBehavior {
 	 */
 	public function paginateDistanceCount(Model $Model, $conditions = null, $recursive = -1, $extra = array()) {
 		if (!empty($extra['radius'])) {
-			$conditions[] = $extra['distance'].' < '.$extra['radius'].(!empty($extra['startRadius'])?' AND '.$extra['distance'].' > '.$extra['startRadius']:'').(!empty($extra['endRadius'])?' AND '.$extra['distance'].' < '.$extra['endRadius']:'');
+			$conditions[] = $extra['distance'] . ' < ' . $extra['radius'] . (!empty($extra['startRadius'])?' AND ' . $extra['distance'] . ' > ' . $extra['startRadius']:'') . (!empty($extra['endRadius'])?' AND ' . $extra['distance'] . ' < ' . $extra['endRadius']:'');
 		}
 		if (!empty($extra['group'])) {
 			unset($extra['group']);

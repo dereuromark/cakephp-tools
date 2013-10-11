@@ -217,7 +217,7 @@ class BitmaskedBehavior extends ModelBehavior {
 		$bitmask = $this->encodeBitmask($Model, $bits);
 
 		$field = $this->settings[$Model->alias]['field'];
-		return array($Model->alias . '.'. $field => $bitmask);
+		return array($Model->alias . '.' . $field => $bitmask);
 	}
 
 	/**

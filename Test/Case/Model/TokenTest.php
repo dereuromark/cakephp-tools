@@ -37,7 +37,7 @@ class TokenTest extends MyCakeTestCase {
 		//pr($res);
 		$this->assertTrue(!empty($res) && !empty($res['Token']['used']));
 
-		$res = $this->Token->useKey('test', $key.'x');
+		$res = $this->Token->useKey('test', $key . 'x');
 		$this->assertFalse($res);
 
 		$res = $this->Token->useKey('testx', $key);

@@ -77,7 +77,7 @@ class ImapLibTest extends MyCakeTestCase {
 
 		$this->Email = new EmailLib();
 		$this->Email->to(Configure::read('Mailbox.DEVTEST.address'));
-		$this->Email->subject('UTF8 ÄÖÜ Test Mail '.date(FORMAT_DB_DATETIME));
+		$this->Email->subject('UTF8 ÄÖÜ Test Mail ' . date(FORMAT_DB_DATETIME));
 		$this->Email->layout('blank');
 		$this->Email->template('simple_email');
 		$this->Email->addAttachment($file, 'test.php', array('contentDisposition' => $contentDisposition));
@@ -93,7 +93,7 @@ class ImapLibTest extends MyCakeTestCase {
 	}
 
 	protected function _count($code = 'DEVTEST') {
-		$account = Configure::read('Mailbox.'.$code);
+		$account = Configure::read('Mailbox.' . $code);
 		if (!isset($account['host'])) {
 			$account['host'] = Configure::read('Mailbox.host');
 		}
@@ -103,7 +103,7 @@ class ImapLibTest extends MyCakeTestCase {
 		$Imap->set(ImapLib::S_NORSH, true);
 		$res = $Imap->connect($account['address'], $account['password'], $account['host']);
 		if (!$res) {
-			throw new InternalErrorException('Error connecting: '.$account['address'].' - '.$account['host'].' ('.$account['password'].')');
+			throw new InternalErrorException('Error connecting: ' . $account['address'] . ' - ' . $account['host'] . ' (' . $account['password'] . ')');
 		}
 		$count = $Imap->msgCount();
 		$Imap->close();
@@ -111,7 +111,7 @@ class ImapLibTest extends MyCakeTestCase {
 	}
 
 	protected function _read($code = 'DEVTEST', $delete = true) {
-		$account = Configure::read('Mailbox.'.$code);
+		$account = Configure::read('Mailbox.' . $code);
 		if (!isset($account['host'])) {
 			$account['host'] = Configure::read('Mailbox.host');
 		}
@@ -129,7 +129,7 @@ class ImapLibTest extends MyCakeTestCase {
 		$res = $Imap->connect($account['address'], $account['password'], $account['host']);
 		if (!$res) {
 			//trigger_error($account['address'].' - '.Configure::read('Mailbox.host').' ('.$account['password'].')');
-			throw new InternalErrorException('Error connecting: '.$account['address'].' - '.$account['host'].' ('.$account['password'].')');
+			throw new InternalErrorException('Error connecting: ' . $account['address'] . ' - ' . $account['host'] . ' (' . $account['password'] . ')');
 			//return array();
 		}
 		//$count = $Imap->msgCount();

@@ -126,7 +126,7 @@ class KeyValueBehavior extends ModelBehavior {
 				$section = $section ? $section : $model;
 				$key = $section . '.' . $field;
 
-				if ($defaultOnEmpty && (String)$value === '' || $deleteIfDefault && (String)$value === (String)$this->defaultValues($Model, $section, $field)) {
+				if ($defaultOnEmpty && (string)$value === '' || $deleteIfDefault && (string)$value === (string)$this->defaultValues($Model, $section, $field)) {
 					return $this->resetSection($Model, $foreignKey, $section, $field);
 				}
 
@@ -219,9 +219,9 @@ class KeyValueBehavior extends ModelBehavior {
 		}
 		if ($section !== null) {
 			if ($key !== null) {
-				$conditions[$keyField] = $section . '.'. $key;
+				$conditions[$keyField] = $section . '.' . $key;
 			} else {
-				$conditions[$keyField.' LIKE'] = $section.'.%';
+				$conditions[$keyField . ' LIKE'] = $section . '.%';
 			}
 		}
 		if (empty($conditions)) {

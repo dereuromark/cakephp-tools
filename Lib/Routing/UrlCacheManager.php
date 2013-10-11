@@ -118,7 +118,7 @@ class UrlCacheManager {
 			ksort($keyUrl, SORT_STRING);
 			# prevent different hashs on different types (int/string/bool)
 			foreach ($keyUrl as $key => $val) {
-				$keyUrl[$key] = (String) $val;
+				$keyUrl[$key] = (string) $val;
 			}
 		}
 		self::$key = md5(serialize($keyUrl) . $full);

@@ -108,7 +108,7 @@ class TypographicBehaviorTest extends MyCakeTestCase {
 		$this->Model->Behaviors->unload('Typographic');
 		for ($i = 0; $i < 202; $i++) {
 			$data = array(
-				'title' => 'title '.$i,
+				'title' => 'title ' . $i,
 				'body' => 'unclean `content` to «correct»',
 			);
 			$this->Model->create();

@@ -44,7 +44,7 @@ class FormatHelperTest extends MyCakeTestCase {
 			false
 		);
 		foreach ($data as $key => $value) {
-			$res = $this->Format->warning($content.' '.(int)$value, $value);
+			$res = $this->Format->warning($content . ' ' . (int)$value, $value);
 			//echo ''.$res.'';
 			$this->assertTrue(!empty($res));
 		}
@@ -75,7 +75,7 @@ class FormatHelperTest extends MyCakeTestCase {
 			false
 		);
 		foreach ($data as $key => $value) {
-			$res = $this->Format->ok($content.' '.(int)$value, $value);
+			$res = $this->Format->ok($content . ' ' . (int)$value, $value);
 			//echo ''.$res.'';
 			$this->assertTrue(!empty($res));
 		}

@@ -53,9 +53,9 @@ class IcalHelper extends AppHelper {
 		foreach ($this->_data as $data) {
 			$res[] = $this->Ical->build($data);
 		}
-		$res = implode(PHP_EOL.PHP_EOL, $res);
+		$res = implode(PHP_EOL . PHP_EOL, $res);
 		if ($addStartAndEnd) {
-			$res = $this->Ical->createStart($globalData).PHP_EOL.PHP_EOL.$res.PHP_EOL.PHP_EOL.$this->Ical->createEnd();
+			$res = $this->Ical->createStart($globalData) . PHP_EOL . PHP_EOL . $res . PHP_EOL . PHP_EOL . $this->Ical->createEnd();
 		}
 		return $res;
 	}

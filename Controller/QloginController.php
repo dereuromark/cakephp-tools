@@ -70,7 +70,7 @@ class QloginController extends ToolsAppController {
 			$this->Qlogin->set($this->request->data);
 			if ($this->Qlogin->validates()) {
 				$id = $this->Qlogin->generate($this->Qlogin->data['Qlogin']['url'], $this->Qlogin->data['Qlogin']['user_id']);
-				$this->Common->flashMessage('New Key: '.h($id), 'success');
+				$this->Common->flashMessage('New Key: ' . h($id), 'success');
 				$url = $this->Qlogin->urlByKey($id);
 				$this->set(compact('url'));
 				$this->request->data = array();

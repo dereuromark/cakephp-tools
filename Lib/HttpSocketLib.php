@@ -101,15 +101,15 @@ class HttpSocketLib {
 			$cacheConfig = !Cache::isInitialized($cacheConfig) ? null : $cacheConfig;
 
 			if ($options['clearCache']) {
-				Cache::delete('http_'.$cacheName, $cacheConfig);
-			} elseif (($res = Cache::read('http_'.$cacheName, $cacheConfig)) !== false && $res !== null) {
+				Cache::delete('http_' . $cacheName, $cacheConfig);
+			} elseif (($res = Cache::read('http_' . $cacheName, $cacheConfig)) !== false && $res !== null) {
 				$this->cacheUsed = true;
 				return $res;
 			}
 		}
 		$res = $this->_fetch($url, $options);
 		if ($options['cache']) {
-			Cache::write('http_'.$cacheName, $res, $cacheConfig);
+			Cache::write('http_' . $cacheName, $res, $cacheConfig);
 		}
 		return $res;
 	}
@@ -130,7 +130,7 @@ class HttpSocketLib {
 			$response = $data[0];
 			$statusCode = $data[1]['http_code'];
 			if (!in_array($statusCode, $allowedCodes)) {
-				$this->setError('Error '.$statusCode);
+				$this->setError('Error ' . $statusCode);
 				return false;
 			}
 			$response = $this->_assertEncoding($response);

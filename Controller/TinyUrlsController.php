@@ -59,7 +59,7 @@ class TinyUrlsController extends ToolsAppController {
 			$this->TinyUrl->set($this->request->data);
 			if ($this->TinyUrl->validates()) {
 				$id = $this->TinyUrl->generate($this->TinyUrl->data['TinyUrl']['url']);
-				$this->Common->flashMessage('New Key: '.h($id), 'success');
+				$this->Common->flashMessage('New Key: ' . h($id), 'success');
 				$url = $this->TinyUrl->urlByKey($id);
 				$this->set(compact('url'));
 				$this->request->data = array();

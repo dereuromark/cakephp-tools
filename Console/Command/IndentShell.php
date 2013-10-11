@@ -106,7 +106,7 @@ class IndentShell extends AppShell {
 			$this->out('Usage: cake intend folder');
 			$this->out('"folder" is then intended recursivly');
 			$this->out('default file types are');
-			$this->out('['.implode(', ', $this->settings['files']).']');
+			$this->out('[' . implode(', ', $this->settings['files']) . ']');
 
 			$this->out('');
 			$this->out('Specify file types manually:');
@@ -121,7 +121,7 @@ class IndentShell extends AppShell {
 			if (mb_substr($filename, -1, 1) === '_') {
 				return;
 			}
-			$file = extractPathInfo('dir', $file).DS.$filename.'_.'.extractPathInfo('ext', $file);
+			$file = extractPathInfo('dir', $file) . DS . $filename . '_.' . extractPathInfo('ext', $file);
 		}
 		return file_put_contents($file, $text);
 	}
@@ -280,7 +280,7 @@ class IndentShell extends AppShell {
 				}
 
 				if ($this->settings['debug']) {
-					$debug .= ' '. ($changes ? '[MOD]': '[]') .' (SPACES '.$tabs.', POS '.$pos.', TABS '.$tabs.', MOD '.$mod.')';
+					$debug .= ' ' . ($changes ? '[MOD]': '[]') . ' (SPACES ' . $tabs . ', POS ' . $pos . ', TABS ' . $tabs . ', MOD ' . $mod . ')';
 				}
 				$textCorrect[] = $newPiece . $debug;
 			}
@@ -299,7 +299,7 @@ class IndentShell extends AppShell {
 	protected function _searchFiles() {
 		foreach ($this->_paths as $path) {
 			$Folder = new Folder($path);
-			$files = $Folder->findRecursive('.*\.('.implode('|', $this->settings['files']).')', true);
+			$files = $Folder->findRecursive('.*\.(' . implode('|', $this->settings['files']) . ')', true);
 			foreach ($files as $file) {
 				if (strpos($file, DS . 'Vendor' . DS) !== false) {
 					continue;

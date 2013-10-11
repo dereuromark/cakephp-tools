@@ -283,8 +283,8 @@ class SluggedBehavior extends ModelBehavior {
 
 		if (!array_key_exists($lang, $this->stopWords)) {
 			ob_start();
-			if (!App::import('Vendor', 'stop_words_' . $lang, array('file' => "stop_words".DS."$lang.txt"))) {
-				$res = App::import('Vendor', 'Tools.stop_words_' . $lang, array('file' => "stop_words".DS."$lang.txt"));
+			if (!App::import('Vendor', 'stop_words_' . $lang, array('file' => "stop_words" . DS . "$lang.txt"))) {
+				$res = App::import('Vendor', 'Tools.stop_words_' . $lang, array('file' => "stop_words" . DS . "$lang.txt"));
 				if (!$res) {
 					ob_get_clean();
 					return $string;
@@ -386,9 +386,9 @@ class SluggedBehavior extends ModelBehavior {
 			}
 		}
 		if (strlen($slug) > $length) {
-			$slug = mb_substr ($slug, 0, $length);
+			$slug = mb_substr($slug, 0, $length);
 			while ($slug && strlen($slug) > $length) {
-				$slug = mb_substr ($slug, 0, mb_strlen($slug) - 1);
+				$slug = mb_substr($slug, 0, mb_strlen($slug) - 1);
 			}
 		}
 		if ($case) {

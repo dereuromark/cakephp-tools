@@ -33,7 +33,7 @@ class PwdShell extends AppShell {
 			return $this->error(__('No Auth Component found'));
 		}
 
-		$this->out('Using: '.$class);
+		$this->out('Using: ' . $class);
 
 		while (empty($pwToHash) || mb_strlen($pwToHash) < 2) {
 			$pwToHash = $this->in(__('Password to Hash (2 characters at least)'));

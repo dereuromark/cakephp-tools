@@ -56,9 +56,9 @@ class MyAsset {
 			$type = 'text/css';
 		}
 		header("Date: " . date("D, j M Y G:i:s ", time()) . 'GMT');
-		header("Content-Type: ".$type.'; charset=utf-8');
+		header("Content-Type: " . $type . '; charset=utf-8');
 		header("Expires: " . gmdate("D, j M Y H:i:s", time() + DAY) . " GMT");
-		header("Cache-Control: max-age=".DAY.", must-revalidate"); // HTTP/1.1
+		header("Cache-Control: max-age=" . DAY . ", must-revalidate"); // HTTP/1.1
 		header("Pragma: cache"); // HTTP/1.0
 	}
 
@@ -94,11 +94,11 @@ class MyAsset {
 	public function _read($path) {
 		$path = str_replace('/', DS, $path);
 		if (strpos($path, '..') !== false) {
-			trigger_error('MyAsset: Invalid file ('.$path.') ['.$this->url.']');
+			trigger_error('MyAsset: Invalid file (' . $path . ') [' . $this->url . ']');
 			return '';
 		}
 		if (!file_exists($path)) {
-			trigger_error('MyAsset: File not exists ('.$path.') ['.$this->url.']');
+			trigger_error('MyAsset: File not exists (' . $path . ') [' . $this->url . ']');
 			return '';
 		}
 		$data = file_get_contents($path);
@@ -209,7 +209,7 @@ class MyAsset {
 		$res = array();
 		foreach ($parts as $part) {
 			if (preg_match('|\.\.|', $part)) {
-				trigger_error('MyAsset: Invalid piece ('.$part.')');
+				trigger_error('MyAsset: Invalid piece (' . $part . ')');
 				continue;
 			}
 			$plugin = 'App';

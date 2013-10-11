@@ -192,7 +192,7 @@ class GeocodeLib {
 		$params = array();
 		foreach ($this->params as $key => $value) {
 			if (!empty($value)) {
-				$params[] = $key.'='.$value;
+				$params[] = $key . '=' . $value;
 			}
 		}
 		return $url . implode('&', $params);
@@ -311,7 +311,7 @@ class GeocodeLib {
 
 			} else {
 				# something went wrong
-				$this->setError('Error '.$status.(isset($this->statusCodes[$status]) ? ' ('.$this->statusCodes[$status].')' : ''));
+				$this->setError('Error ' . $status . (isset($this->statusCodes[$status]) ? ' (' . $this->statusCodes[$status] . ')' : ''));
 
 				if ($this->options['log']) {
 					CakeLog::write('geocode', __('Could not geocode \'%s\'', $latlng));
@@ -364,7 +364,7 @@ class GeocodeLib {
 			$result = $this->_fetch($request_url);
 			if ($result === false || $result === null) {
 				$this->setError('Could not retrieve url');
-				CakeLog::write('geocode', 'Geocoder could not retrieve url with \''.$address.'\'');
+				CakeLog::write('geocode', 'Geocoder could not retrieve url with \'' . $address . '\'');
 				return false;
 			}
 
@@ -466,7 +466,7 @@ class GeocodeLib {
 			} else {
 
 				# something went wrong
-				$this->setError('Error '.$status.(isset($this->statusCodes[$status]) ? ' ('.$this->statusCodes[$status].')' : ''));
+				$this->setError('Error ' . $status . (isset($this->statusCodes[$status]) ? ' (' . $this->statusCodes[$status] . ')' : ''));
 
 				if ($this->options['log']) {
 					CakeLog::write('geocode', __('Could not geocode \'%s\'', $address));
@@ -579,8 +579,8 @@ class GeocodeLib {
 				continue;
 			}
 			if (array_key_exists($type, $components)) {
-				$components[$type]['name'] .= ' '.$c['long_name'];
-				$components[$type]['abbr'] .= ' '.$c['short_name'];
+				$components[$type]['name'] .= ' ' . $c['long_name'];
+				$components[$type]['abbr'] .= ' ' . $c['short_name'];
 				$components[$type]['types'] += $types;
 			}
 			$components[$type] = array('name'=>$c['long_name'], 'abbr'=>$c['short_name'], 'types'=>$types);
@@ -624,7 +624,7 @@ class GeocodeLib {
 		if (array_key_exists('route', $components)) {
 			$res['route'] = $components['route']['name'];
 			if (array_key_exists('street_number', $components)) {
-				$res['route'] .= ' '.$components['street_number']['name'];
+				$res['route'] .= ' ' . $components['street_number']['name'];
 			}
 		} else {
 			$res['route'] = '';
@@ -773,7 +773,7 @@ class GeocodeLib {
 			default:
 				throw new CakeException(__('Invalid level \'%s\'', $level));
 		}
-		$scrambleVal = 0.000001 * mt_rand(1000,2000) * (mt_rand(0,1) === 0 ? 1 : -1);
+		$scrambleVal = 0.000001 * mt_rand(1000, 2000) * (mt_rand(0, 1) === 0 ? 1 : -1);
 
 		return ($coord + $scrambleVal);
 

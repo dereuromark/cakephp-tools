@@ -41,11 +41,11 @@ class UserAgentLib extends CakeRequest {
 
 	public function __construct($agents = array()) {
 
-		$this->path = VENDORS.'files'.DS;
+		$this->path = VENDORS . 'files' . DS;
 	}
 
 	public function isBot() {
-		$file = $this->path.'bots.txt';
+		$file = $this->path . 'bots.txt';
 		if (file_exists($file)) {
 
 		}

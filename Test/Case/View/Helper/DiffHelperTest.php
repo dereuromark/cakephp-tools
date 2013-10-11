@@ -96,13 +96,13 @@ TEXT;
 		$t1 = array(
 			'errgrshrth',
 			'srhrthrt777 ssshsrjtz jrjtjtjt',
-			'1dfdf'.PHP_EOL.'jtzth6h6h6th6'.PHP_EOL.'xcsdfdf',
+			'1dfdf' . PHP_EOL . 'jtzth6h6h6th6' . PHP_EOL . 'xcsdfdf',
 			'99999999777'
 		);
 		$t2 = array(
 			'errgrsh3333rth',
 			'srhrthrt777 hsrthsrjt888 jrjtjtjt',
-			'1dfdf'.PHP_EOL.'jtzh6h6th6'.PHP_EOL.'xcsdfdf',
+			'1dfdf' . PHP_EOL . 'jtzh6h6th6' . PHP_EOL . 'xcsdfdf',
 			'9999944449977'
 		);
 		$this->out('Inline - auto', false);
@@ -123,13 +123,13 @@ TEXT;
 		$t1 = array(
 			'errgrshrth',
 			'srhrthrt777 ssshsrjtz jrjtjtjt',
-			'1dfdf'.PHP_EOL.'jtzth6h6h6th6'.PHP_EOL.'xcsdfdf',
+			'1dfdf' . PHP_EOL . 'jtzth6h6h6th6' . PHP_EOL . 'xcsdfdf',
 			'99999999777'
 		);
 		$t2 = array(
 			'errgrsh3333rth',
 			'srhrthrt777 hsrthsrjt888 jrjtjtjt',
-			'1dfdf'.PHP_EOL.'jtzh6h6th6'.PHP_EOL.'xcsdfdf',
+			'1dfdf' . PHP_EOL . 'jtzh6h6th6' . PHP_EOL . 'xcsdfdf',
 			'9999944449977'
 		);
 
@@ -167,13 +167,13 @@ TEXT;
 		$t1 = array(
 			'errgrshrth',
 			'srhrthrt777 ssshsrjtz jrjtjtjt',
-			'1dfdf'.PHP_EOL.'jtzth6h6h6th6'.PHP_EOL.'xcsdfdf',
+			'1dfdf' . PHP_EOL . 'jtzth6h6h6th6' . PHP_EOL . 'xcsdfdf',
 			'99999999777'
 		);
 		$t2 = array(
 			'errgrsh3333rth',
 			'srhrthrt777 hsrthsrjt888 jrjtjtjt',
-			'1dfdf'.PHP_EOL.'jtzh6h6th6'.PHP_EOL.'xcsdfdf',
+			'1dfdf' . PHP_EOL . 'jtzh6h6th6' . PHP_EOL . 'xcsdfdf',
 			'9999944449977'
 		);
 
@@ -216,13 +216,13 @@ TEXT;
 		$t1 = array(
 			'errgrshrth',
 			'srhrthrt777 ssshsrjtz jrjtjtjt',
-			'1dfdf'.PHP_EOL.'jtzth6h6h6th6'.PHP_EOL.'xcsdfdf',
+			'1dfdf' . PHP_EOL . 'jtzth6h6h6th6' . PHP_EOL . 'xcsdfdf',
 			'99999999777'
 		);
 		$t2 = array(
 			'errgrsh3333rth',
 			'srhrthrt777 hsrthsrjt888 jrjtjtjt',
-			'1dfdf'.PHP_EOL.'jtzh6h6th6'.PHP_EOL.'xcsdfdf',
+			'1dfdf' . PHP_EOL . 'jtzh6h6th6' . PHP_EOL . 'xcsdfdf',
 			'9999944449977'
 		);
 

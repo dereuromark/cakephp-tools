@@ -71,7 +71,7 @@ class ResetBehavior extends ModelBehavior {
 			'page' => 1,
 			'limit' => $limit,
 			'fields' => array(),
-			'order' => $Model->alias.'.'.$Model->displayField . ' ASC',
+			'order' => $Model->alias . '.' . $Model->displayField . ' ASC',
 			'conditions' => $scope,
 			'recursive' => $recursive,
 		);
@@ -100,7 +100,7 @@ class ResetBehavior extends ModelBehavior {
 		$count = $Model->find('count', compact('conditions'));
 		$max = ini_get('max_execution_time');
 		if ($max) {
-			set_time_limit (max($max, $count / $limit));
+			set_time_limit(max($max, $count / $limit));
 		}
 		while ($rows = $Model->find('all', $params)) {
 			foreach ($rows as $row) {

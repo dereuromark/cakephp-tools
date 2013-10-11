@@ -10,10 +10,10 @@ App::uses('ToolsAppModel', 'Tools.Model');
 class ContactForm extends ToolsAppModel {
 
 	protected $_schema = array(
-		'name' => array('type' => 'string' , 'null' => false, 'default' => '', 'length' => '30'),
-		'email' => array('type' => 'string' , 'null' => false, 'default' => '', 'length' => '60'),
-		'subject' => array('type' => 'string' , 'null' => false, 'default' => '', 'length' => '60'),
-		'message' => array('type' => 'text' , 'null' => false, 'default' => ''),
+		'name' => array('type' => 'string', 'null' => false, 'default' => '', 'length' => '30'),
+		'email' => array('type' => 'string', 'null' => false, 'default' => '', 'length' => '60'),
+		'subject' => array('type' => 'string', 'null' => false, 'default' => '', 'length' => '60'),
+		'message' => array('type' => 'text', 'null' => false, 'default' => ''),
 	);
 
 	public $useTable = false;

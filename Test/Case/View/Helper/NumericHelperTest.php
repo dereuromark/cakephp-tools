@@ -66,7 +66,7 @@ class NumericHelperTest extends MyCakeTestCase {
 		$expected = '22,30 EUR';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Numeric->format('22.3', array('places'=>2, 'after'=>'x','before'=>'v'));
+		$is = $this->Numeric->format('22.3', array('places'=>2, 'after'=>'x', 'before'=>'v'));
 		$expected = 'v22,30x';
 		$this->assertEquals($expected, $is);
 

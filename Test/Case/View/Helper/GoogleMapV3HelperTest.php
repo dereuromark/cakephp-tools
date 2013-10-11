@@ -56,7 +56,7 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 				'path' => array('44.2,11.1', '43.1,12.2', '44.3,11.3', '43.3,12.3'),
 			),
 			array(
-				'path' => array(array('lat'=>'48.1','lng'=>'11.1'), array('lat'=>'48.4','lng'=>'11.2')), //'Frankfurt'
+				'path' => array(array('lat'=>'48.1', 'lng'=>'11.1'), array('lat'=>'48.4', 'lng'=>'11.2')), //'Frankfurt'
 				'color' => 'red',
 				'weight' => 10
 			)
@@ -241,11 +241,11 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 			'map' => array('navOptions'=>array('style'=>'SMALL'), 'typeOptions' => array('style'=>'HORIZONTAL_BAR', 'pos'=>'RIGHT_CENTER'))
 		);
 		$result = $this->GoogleMapV3->map($options);
-		$this->GoogleMapV3->addMarker(array('lat'=>48.69847,'lng'=>10.9514, 'title'=>'Marker', 'content'=>'Some Html-<b>Content</b>', 'icon'=>$this->GoogleMapV3->iconSet('green', 'E')));
+		$this->GoogleMapV3->addMarker(array('lat'=>48.69847, 'lng'=>10.9514, 'title'=>'Marker', 'content'=>'Some Html-<b>Content</b>', 'icon'=>$this->GoogleMapV3->iconSet('green', 'E')));
 
-		$this->GoogleMapV3->addMarker(array('lat'=>47.69847,'lng'=>11.9514, 'title'=>'Marker2', 'content'=>'Some more Html-<b>Content</b>'));
+		$this->GoogleMapV3->addMarker(array('lat'=>47.69847, 'lng'=>11.9514, 'title'=>'Marker2', 'content'=>'Some more Html-<b>Content</b>'));
 
-		$this->GoogleMapV3->addMarker(array('lat'=>47.19847,'lng'=>11.1514, 'title'=>'Marker3'));
+		$this->GoogleMapV3->addMarker(array('lat'=>47.19847, 'lng'=>11.1514, 'title'=>'Marker3'));
 
 		/*
 		$options = array(
@@ -274,12 +274,12 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 			'map' => array('typeOptions' => array('style'=>'DROPDOWN_MENU'))
 		);
 		//echo $this->GoogleMapV3->map($options);
-		$this->GoogleMapV3->addMarker(array('lat'=>47.69847,'lng'=>11.9514, 'title'=>'MarkerMUC', 'content'=>'Some more Html-<b>Content</b>'));
+		$this->GoogleMapV3->addMarker(array('lat'=>47.69847, 'lng'=>11.9514, 'title'=>'MarkerMUC', 'content'=>'Some more Html-<b>Content</b>'));
 
 		for ($i = 0; $i < 100; $i++) {
 			$lat = mt_rand(46000, 54000) / 1000;
 			$lng = mt_rand(2000, 20000) / 1000;
-			$this->GoogleMapV3->addMarker(array('id'=>'m'.($i+1), 'lat'=>$lat,'lng'=>$lng, 'title'=>'Marker'.($i+1), 'content'=>'Lat: <b>'.$lat.'</b><br>Lng: <b>'.$lng.'</b>', 'icon'=>'http://google-maps-icons.googlecode.com/files/home.png'));
+			$this->GoogleMapV3->addMarker(array('id'=>'m' . ($i+1), 'lat'=>$lat, 'lng'=>$lng, 'title'=>'Marker' . ($i+1), 'content'=>'Lat: <b>' . $lat . '</b><br>Lng: <b>' . $lng . '</b>', 'icon'=>'http://google-maps-icons.googlecode.com/files/home.png'));
 		}
 
 		$js = "$('.mapAnchor').live('click', function() {
@@ -313,13 +313,13 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 		);
 		//echo $this->GoogleMapV3->map($options);
 
-		$this->GoogleMapV3->addMarker(array('lat'=>48.69847,'lng'=>10.9514, 'content'=>'<b>Bla</b>', 'title'=>'NoDirections'));
+		$this->GoogleMapV3->addMarker(array('lat'=>48.69847, 'lng'=>10.9514, 'content'=>'<b>Bla</b>', 'title'=>'NoDirections'));
 
-		$this->GoogleMapV3->addMarker(array('lat'=>47.69847,'lng'=>11.9514, 'title'=>'AutoToDirections', 'content'=>'<b>Bla</b>', 'directions'=>true));
+		$this->GoogleMapV3->addMarker(array('lat'=>47.69847, 'lng'=>11.9514, 'title'=>'AutoToDirections', 'content'=>'<b>Bla</b>', 'directions'=>true));
 
-		$this->GoogleMapV3->addMarker(array('lat'=>46.69847,'lng'=>11.9514, 'title'=>'ManuelToDirections', 'content'=>'<b>Bla</b>', 'directions'=>array('to'=>'Munich, Germany')));
+		$this->GoogleMapV3->addMarker(array('lat'=>46.69847, 'lng'=>11.9514, 'title'=>'ManuelToDirections', 'content'=>'<b>Bla</b>', 'directions'=>array('to'=>'Munich, Germany')));
 
-		$this->GoogleMapV3->addMarker(array('lat'=>45.69847,'lng'=>11.9514, 'title'=>'ManuelFromDirections', 'content'=>'<b>Bla</b>', 'directions'=>array('from'=>'Munich, Germany')));
+		$this->GoogleMapV3->addMarker(array('lat'=>45.69847, 'lng'=>11.9514, 'title'=>'ManuelFromDirections', 'content'=>'<b>Bla</b>', 'directions'=>array('from'=>'Munich, Germany')));
 
 		//echo $this->GoogleMapV3->script();
 	}

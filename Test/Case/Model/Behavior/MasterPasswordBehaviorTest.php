@@ -92,7 +92,7 @@ class MasterPasswordBehaviorTest extends MyCakeTestCase {
 	 * with specific settings
 	 */
 	public function testWithSalt() {
-		$hash = hash('sha256', Configure::read('Security.salt').'xxyyzz');
+		$hash = hash('sha256', Configure::read('Security.salt') . 'xxyyzz');
 		Configure::write('MasterPassword.password', $hash);
 		$this->Model->Behaviors->load('Tools.MasterPassword', array('hash'=>'sha256', 'salt'=>true));
 		$data = array(
@@ -103,7 +103,7 @@ class MasterPasswordBehaviorTest extends MyCakeTestCase {
 		$res = $this->Model->validates();
 		$this->assertTrue($res);
 
-		$hash = hash('sha256', '123'.'xxyyzz');
+		$hash = hash('sha256', '123' . 'xxyyzz');
 		Configure::write('MasterPassword.password', $hash);
 		$this->Model->Behaviors->load('Tools.MasterPassword', array('hash'=>'sha256', 'salt'=>'123'));
 		$data = array(

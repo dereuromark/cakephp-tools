@@ -63,9 +63,9 @@ class TypographyHelperTest extends MyCakeTestCase {
 
 		Configure::write('Typography.locale', 'low');
 		$strs = array(
-			'"double quotes"' 				=> '&bdquo;double quotes&#8223;',
+			'"double quotes"' => '&bdquo;double quotes&#8223;',
 			'"testing" in "theory" that is' => '&bdquo;testing&#8223; in &bdquo;theory&#8223; that is',
-			"Here's what I'm" 				=> 'Here&rsquo;s what I&rsquo;m',
+			"Here's what I'm" => 'Here&rsquo;s what I&rsquo;m',
 		);
 		foreach ($strs as $str => $expected) {
 			$result = $this->Typography->formatCharacters($str);
@@ -75,9 +75,9 @@ class TypographyHelperTest extends MyCakeTestCase {
 
 		Configure::write('Typography.locale', 'angle');
 		$strs = array(
-			'"double quotes"' 				=> '&#171;double quotes&#187;',
+			'"double quotes"' => '&#171;double quotes&#187;',
 			'"testing" in "theory" that is' => '&#171;testing&#187; in &#171;theory&#187; that is',
-			"Here's what I'm" 				=> 'Here&rsquo;s what I&rsquo;m',
+			"Here's what I'm" => 'Here&rsquo;s what I&rsquo;m',
 		);
 		foreach ($strs as $str => $expected) {
 			$result = $this->Typography->formatCharacters($str);

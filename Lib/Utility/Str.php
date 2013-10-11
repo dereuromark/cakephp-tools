@@ -25,7 +25,6 @@ final class Str {
 	/**
 	 * Avoid constructor conflicts.
 	 *
-	 * @return void
 	 */
 	final public function __construct() {
 	}

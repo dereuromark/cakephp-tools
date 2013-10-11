@@ -53,13 +53,13 @@ class FlattrHelper extends AppHelper {
 
 		$rev = array();
 		foreach ($options as $key => $option) {
-			$rev[] = $key.':'.$option;
+			$rev[] = $key . ':' . $option;
 		}
 		$linkOptions = array(
 			'title' => $_SERVER['HTTP_HOST'],
 			'class' => 'FlattrButton',
 			'style' => 'display:none;',
-			'rel' => 'flattr;'.implode(';', $rev)
+			'rel' => 'flattr;' . implode(';', $rev)
 		);
 		$linkOptions = array_merge($linkOptions, $attr);
 
@@ -67,7 +67,7 @@ class FlattrHelper extends AppHelper {
 	var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
 	s.type = 'text/javascript';
 	s.async = true;
-	s.src = '".self::API_URL."js/0.6/load.js?mode=".$mode."';
+	s.src = '" . self::API_URL . "js/0.6/load.js?mode=" . $mode . "';
 	t.parentNode.insertBefore(s, t);
 })();";
 		$code = $this->Html->link('', $this->Html->url($url, true), $linkOptions);
@@ -126,7 +126,7 @@ class FlattrHelper extends AppHelper {
 			$vars .= "var flattr_btn = 'compact';\r\n";
 		}
 		$code = $this->Html->scriptBlock($vars, array('inline' => true));
-		$code .= $this->Html->script(self::API_URL.'button/load.js', array('inline' => true));
+		$code .= $this->Html->script(self::API_URL . 'button/load.js', array('inline' => true));
 		return $code;
 	}
 

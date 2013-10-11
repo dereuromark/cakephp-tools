@@ -193,7 +193,7 @@ class LinkableBehavior extends ModelBehavior {
 
 					// Decide whether we should mess with the fields or not
 					// If this query is a COUNT query then we just leave it alone
-					if (!isset($query['fields']) || is_array($query['fields']) || strpos($query['fields'], 'COUNT(*)') === FALSE) {
+					if (!isset($query['fields']) || is_array($query['fields']) || strpos($query['fields'], 'COUNT(*)') === false) {
 						if (!empty($options['fields'])) {
 							if ($options['fields'] === true && !empty($association['fields'])) {
 								$options['fields'] = $db->fields($_Model, null, $association['fields']);

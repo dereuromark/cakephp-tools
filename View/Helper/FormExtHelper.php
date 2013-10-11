@@ -86,7 +86,7 @@ class FormExtHelper extends FormHelper {
 		if (!isset($options['class'])) {
 			$options['class'] = 'postLink';
 		}
-		return parent::postLink($title, $url , $options, $confirmMessage);
+		return parent::postLink($title, $url, $options, $confirmMessage);
 	}
 
 	/**
@@ -230,7 +230,7 @@ class FormExtHelper extends FormHelper {
 				$map = array(
 					'string' => 'text', 'datetime' => 'datetime', 'boolean' => 'checkbox',
 					'timestamp' => 'datetime', 'text' => 'textarea', 'time' => 'time',
-					'date' => 'date', 'float' => 'text',	 'integer' => 'number',
+					'date' => 'date', 'float' => 'text', 'integer' => 'number',
 				);
 
 				if (isset($this->map[$type])) {
@@ -446,23 +446,23 @@ class FormExtHelper extends FormHelper {
 		if (isset($options['datalist'])) {
 			$options['autocomplete'] = 'off';
 			if (!isset($options['list'])) {
-				$options['list'] = ucfirst($fieldKey).'List';
+				$options['list'] = ucfirst($fieldKey) . 'List';
 			}
 			$datalist = $options['datalist'];
 
-			$list = '<datalist id="'.$options['list'].'">';
+			$list = '<datalist id="' . $options['list'] . '">';
 			//$list .= '<!--[if IE]><div style="display: none"><![endif]-->';
 			foreach ($datalist as $key => $val) {
 				if (!isset($options['escape']) || $options['escape'] !== false) {
 					$key = h($key);
 					$val = h($val);
 				}
-				$list .= '<option label="'.$val.'" value="'.$key.'"></option>';
+				$list .= '<option label="' . $val . '" value="' . $key . '"></option>';
 			}
 			//$list .= '<!--[if IE]></div><![endif]-->';
 			$list .= '</datalist>';
 			unset($options['datalist']);
-			$options['after'] = !empty($options['after']) ? $options['after'].$list : $list;
+			$options['after'] = !empty($options['after']) ? $options['after'] . $list : $list;
 		}
 
 		$res = parent::input($fieldName, $options);
@@ -605,7 +605,7 @@ class FormExtHelper extends FormHelper {
 		$fieldName = Inflector::camelize($field);
 		$script = '
 		var opts = {
-			formElements: {"'. $modelName . $fieldName. '":"%Y", "' . $modelName . $fieldName . '-mm":"%m", "' . $modelName . $fieldName . '-dd":"%d"},
+			formElements: {"' . $modelName . $fieldName . '":"%Y", "' . $modelName . $fieldName . '-mm":"%m", "' . $modelName . $fieldName . '-dd":"%d"},
 			showWeeks: true,
 			statusFormat: "%l, %d. %F %Y",
 			' . (!empty($callbacks) ? $callbacks : '') . '
@@ -619,7 +619,7 @@ class FormExtHelper extends FormHelper {
 			$this->Js->buffer($script);
 			$script = '';
 		}
-		return '<div class="input date'.(!empty($error)?' error':'').'">'.$this->label($modelName.'.'.$field, $options['label']).''.$select.''.$error.'</div>'.$script;
+		return '<div class="input date' . (!empty($error)?' error':'') . '">' . $this->label($modelName . '.' . $field, $options['label']) . '' . $select . '' . $error . '</div>' . $script;
 	}
 
 	protected function _inlineScript($script) {
@@ -708,14 +708,14 @@ class FormExtHelper extends FormHelper {
 		$fieldName = Inflector::camelize($fieldName);
 
 		$customOptions = array(
-			'id' => $modelName.$fieldName.'-dd',
+			'id' => $modelName . $fieldName . '-dd',
 			'class' => 'form-control day'
 		);
 		$customOptions = array_merge($defaultOptions, $customOptions, $options);
 		$customOptions = array_diff_key($customOptions, $blacklist);
 		$res['d'] = $this->day($field, $customOptions);
 		$customOptions = array(
-			'id' => $modelName.$fieldName.'-mm',
+			'id' => $modelName . $fieldName . '-mm',
 			'class' => 'form-control month',
 		);
 		$customOptions = array_merge($defaultOptions, $customOptions, $options);
@@ -723,7 +723,7 @@ class FormExtHelper extends FormHelper {
 		$res['m'] = $this->month($field, $customOptions);
 
 		$customOptions = array(
-			'id' => $modelName.$fieldName,
+			'id' => $modelName . $fieldName,
 			'class' => 'form-control year'
 		);
 		$customOptions = array_merge($defaultOptions, $customOptions, $options);
@@ -766,9 +766,9 @@ class FormExtHelper extends FormHelper {
 				$script = '';
 			}
 
-			$options = array_merge(array('id' => $modelName.$fieldName), $options);
+			$options = array_merge(array('id' => $modelName . $fieldName), $options);
 			$select = $this->text($field, $options);
-			return '<div class="input date'.(!empty($error)?' error':'').'">'.$this->label($modelName.'.'.$field, $options['label']).''.$select.''.$error.'</div>'.$script;
+			return '<div class="input date' . (!empty($error)?' error':'') . '">' . $this->label($modelName . '.' . $field, $options['label']) . '' . $select . '' . $error . '</div>' . $script;
 		}
 
 		if ($return) {
@@ -793,7 +793,7 @@ class FormExtHelper extends FormHelper {
 			$this->Js->buffer($script);
 			$script = '';
 		}
-		return '<div class="input date'.(!empty($error)?' error':'').'">'.$this->label($modelName.'.'.$field, $options['label']).''.$select.''.$error.'</div>'.$script;
+		return '<div class="input date' . (!empty($error)?' error':'') . '">' . $this->label($modelName . '.' . $field, $options['label']) . '' . $select . '' . $error . '</div>' . $script;
 	}
 
 	/**
@@ -898,7 +898,7 @@ class FormExtHelper extends FormHelper {
 		*/
 		$script = '';
 		//<div id="'.$model.$fieldname.'-timepicker"></div>
-		return '<div class="input date'.(!empty($error)?' error':'').'">'.$this->label($model.'.'.$field, $options['label']).''.$select.''.$error.'</div>'.$script;
+		return '<div class="input date' . (!empty($error)?' error':'') . '">' . $this->label($model . '.' . $field, $options['label']) . '' . $select . '' . $error . '</div>' . $script;
 	}
 
 /** maxLength **/
@@ -954,7 +954,7 @@ class FormExtHelper extends FormHelper {
 
 	protected function _maxLengthJs($selector, $settings = array()) {
 		return '
-jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteKeys'=>false)).');
+jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('quoteKeys'=>false)) . ');
 ';
 	}
 
@@ -999,7 +999,7 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 				$settings = array();
 			}
 			$settings = array_merge($this->charCountOptions, $options, $settings);
-			$js .= 'jQuery(\''.$selector.'\').charCount('.$this->Js->object($settings, array('quoteKeys'=>false)).');';
+			$js .= 'jQuery(\'' . $selector . '\').charCount(' . $this->Js->object($settings, array('quoteKeys'=>false)) . ');';
 		}
 		$js = $this->documentReady($js);
 		return $this->Html->scriptBlock($js, array('inline' => isset($options['inline']) ? $options['inline'] : true));
@@ -1011,7 +1011,7 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 	 */
 	public function documentReady($string) {
 		return 'jQuery(document).ready(function() {
-'.$string.'
+' . $string . '
 });';
 	}
 
@@ -1049,11 +1049,11 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 
 	protected function _autoCompleteJs($id, $jquery = array()) {
 		if (!empty($jquery['url'])) {
-			$var = '"'.$this->Html->url($jquery['url']).'"';
+			$var = '"' . $this->Html->url($jquery['url']) . '"';
 		} elseif (!empty($jquery['var'])) {
 			$var = $jquery['object'];
 		} else {
-			$var = '['.$jquery['data'].']';
+			$var = '[' . $jquery['data'] . ']';
 		}
 
 		$options = '';
@@ -1061,8 +1061,8 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 
 		}
 
-		$js = 'jQuery("#'.$id.'").autocomplete('.$var.', {
-		'.$options.'
+		$js = 'jQuery("#' . $id . '").autocomplete(' . $var . ', {
+		' . $options . '
 	});
 ';
 		$js = $this->documentReady($js);
@@ -1083,8 +1083,8 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 	 */
 	public function checkboxScript($id) {
 		$this->checkboxScripts();
-		$js = 'jQuery("#'.$id.'").autocomplete('.$var.', {
-		'.$options.'
+		$js = 'jQuery("#' . $id . '").autocomplete(' . $var . ', {
+		' . $options . '
 	});
 ';
 		$js = $this->documentReady($js);
@@ -1093,7 +1093,7 @@ jQuery(\''.$selector.'\').maxlength('.$this->Js->object($settings, array('quoteK
 
 	public function checkboxButtons($buttonsOnly = false) {
 		$res = '<div>';
-		$res .= __('Selection').': ';
+		$res .= __('Selection') . ': ';
 
 		$res .= $this->Html->link(__('All'), 'javascript:void(0)');
 		$res .= $this->Html->link(__('None'), 'javascript:void(0)');

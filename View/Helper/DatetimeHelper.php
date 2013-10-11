@@ -39,7 +39,7 @@ class DatetimeHelper extends TimeHelper {
 		//global $gmtoffset, $is_dst;
 
 		extract(getdate());
-		$serveroffset = gmmktime(0,0,0, $mon, $mday, $year) - mktime(0,0,0, $mon, $mday, $year);
+		$serveroffset = gmmktime(0, 0, 0, $mon, $mday, $year) - mktime(0, 0, 0, $mon, $mday, $year);
 		$offset = $gmtoffset - $serveroffset;
 
 		return $offset + ($is_dst ? 3600 : 0);
@@ -65,7 +65,7 @@ class DatetimeHelper extends TimeHelper {
 	 */
 	public function localDateMarkup($dateString = null, $format = null, $options = array()) {
 		$date = $this->localDate($dateString, $format, $options);
-		$date = '<span'.($this->isToday($dateString,(isset($options['userOffset'])?$options['userOffset']:null))?' class="today"':'').'>'.$date.'</span>';
+		$date = '<span' . ($this->isToday($dateString, (isset($options['userOffset'])?$options['userOffset']:null))?' class="today"':'') . '>' . $date . '</span>';
 		return $date;
 	}
 
@@ -74,7 +74,7 @@ class DatetimeHelper extends TimeHelper {
 	 */
 	public function niceDateMarkup($dateString = null, $format = null, $options = array()) {
 		$date = $this->niceDate($dateString, $format, $options);
-		$date = '<span'.($this->isToday($dateString,(isset($options['userOffset'])?$options['userOffset']:null))?' class="today"':'').'>'.$date.'</span>';
+		$date = '<span' . ($this->isToday($dateString, (isset($options['userOffset'])?$options['userOffset']:null))?' class="today"':'') . '>' . $date . '</span>';
 		return $date;
 	}
 
@@ -94,8 +94,8 @@ class DatetimeHelper extends TimeHelper {
 		$when = null;
 		$span = '';
 		$spanEnd = '';
-		$whenArray = array('-1'=>'already','0'=>'today','1'=>'notyet');
-		$titles = array('-1'=>__('publishedAlready'),'0'=>__('publishedToday'),'1'=>__('publishedNotYet'));
+		$whenArray = array('-1'=>'already', '0'=>'today', '1'=>'notyet');
+		$titles = array('-1'=>__('publishedAlready'), '0'=>__('publishedToday'), '1'=>__('publishedNotYet'));
 
 		if (!empty($date)) {
 
@@ -107,7 +107,7 @@ class DatetimeHelper extends TimeHelper {
 			# //TODO: get this to work with datetime - somehow cleaner
 			$timeAttachment = '';
 			if (isset($options['niceDateTime'])) {
-				$timeAttachment = ', '.$this->niceDate($date, $options['niceDateTime']);
+				$timeAttachment = ', ' . $this->niceDate($date, $options['niceDateTime']);
 				$whenOverride = true;
 			}
 
@@ -146,7 +146,7 @@ class DatetimeHelper extends TimeHelper {
 			if (!isset($attr['title'])) {
 				$attr['title'] = $titles[$when];
 			}
-			$attr['class'] = 'published '.$whenArray[$when];
+			$attr['class'] = 'published ' . $whenArray[$when];
 			//$span = '<span class="published '..'">';	// -1/-2 = ago | 1/2 = ahead | 0 = today
 			//$spanEnd = '</span>';
 		}

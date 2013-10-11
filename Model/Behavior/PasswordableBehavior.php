@@ -151,7 +151,7 @@ class PasswordableBehavior extends ModelBehavior {
 		}
 		$authClass = $auth . 'Component';
 		if (!class_exists($authClass)) {
-			throw new CakeException('No Authentication class found (' . $authClass. ')');
+			throw new CakeException('No Authentication class found (' . $authClass . ')');
 		}
 
 		$this->Auth = new $authClass(new ComponentCollection());

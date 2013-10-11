@@ -52,11 +52,11 @@ class WeatherHelperTest extends MyCakeTestCase {
 			$weather = $w['weather'][$i];
 
 			$res .= '<td>';
-			$res .= '<h1>'.date('D', strtotime($weather['date'])).'</h1>';
-			$res .= '<div>'.date('M d, Y', strtotime($weather['date'])).'</div>';
-			$res .= '<h1>'.$this->Weather->Html->image($weather['weatherIconUrl']).'</h1>';
-			$res .= '<div>'.$weather['tempMinC'].'° - '.$weather['tempMaxC'].'°</div>';
-			$res .= '<div>'.$weather['weatherDesc'].'</div>';
+			$res .= '<h1>' . date('D', strtotime($weather['date'])) . '</h1>';
+			$res .= '<div>' . date('M d, Y', strtotime($weather['date'])) . '</div>';
+			$res .= '<h1>' . $this->Weather->Html->image($weather['weatherIconUrl']) . '</h1>';
+			$res .= '<div>' . $weather['tempMinC'] . '° - ' . $weather['tempMaxC'] . '°</div>';
+			$res .= '<div>' . $weather['weatherDesc'] . '</div>';
 
 			$res .= '</td>';
 		}

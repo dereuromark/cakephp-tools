@@ -2,10 +2,10 @@
 class RevisionUserFixture extends CakeTestFixture {
 
 	public $fields = array(
-			'id' => array('type'=>'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-			'name' => array('type'=>'string', 'null' => false, 'default' => NULL),
-			'username' => array('type'=>'string', 'null' => false, 'default' => NULL),
-			'created' => array('type'=>'date', 'null' => false, 'default' => NULL),
+			'id' => array('type'=>'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+			'name' => array('type'=>'string', 'null' => false, 'default' => null),
+			'username' => array('type'=>'string', 'null' => false, 'default' => null),
+			'created' => array('type'=>'date', 'null' => false, 'default' => null),
 			'indexes' => array('PRIMARY' => array('column' => 'id'))
 			);
 	public $records = array(array(

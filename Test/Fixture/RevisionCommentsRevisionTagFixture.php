@@ -5,7 +5,7 @@ class RevisionCommentsRevisionTagFixture extends CakeTestFixture {
 			'id' => array(
 					'type' => 'integer',
 					'null' => false,
-					'default' => NULL,
+					'default' => null,
 					'key' => 'primary'),
 			'revision_comment_id' => array('type' => 'integer', 'null' => false),
 			'revision_tag_id' => array('type' => 'integer', 'null' => false),

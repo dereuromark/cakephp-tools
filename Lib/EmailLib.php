@@ -561,7 +561,7 @@ class EmailLib extends CakeEmail {
 		$this->_debug = null;
 
 		if ($fromEmail = Configure::read('Config.system_email')) {
-			$fromName =  Configure::read('Config.system_name');
+			$fromName = Configure::read('Config.system_name');
 		} else {
 			$fromEmail = Configure::read('Config.admin_email');
 			$fromName = Configure::read('Config.admin_name');

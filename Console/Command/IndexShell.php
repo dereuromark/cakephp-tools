@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('CONFIGS')) {
-	define('CONFIGS', APP.'Config'.DS);
+	define('CONFIGS', APP . 'Config' . DS);
 }
 App::uses('ConnectionManager', 'Model');
 App::uses('AppShell', 'Console/Command');
@@ -130,7 +130,7 @@ class IndexShell extends AppShell {
 			}
 			$fields = $Inst->schema();
 
-			$indexInfo = $Inst->query('SHOW INDEX FROM `'.$usePrefix . $table.'`');
+			$indexInfo = $Inst->query('SHOW INDEX FROM `' . $usePrefix . $table . '`');
 
 			foreach ($fields as $field => $details) {
 				if (!preg_match('@(^|_)(id|key)$@', $field)) {
@@ -157,7 +157,7 @@ class IndexShell extends AppShell {
 					}
 				}
 
-				$this->out('Create index for '.$table.'.'.$field);
+				$this->out('Create index for ' . $table . '.' . $field);
 				$this->_script[$ds]['index'][] = "ALTER TABLE `$usePrefix$table` ADD INDEX (`$field`)";
 			}
 		}
@@ -167,7 +167,7 @@ class IndexShell extends AppShell {
 		if (!$useDbConfig) {
 			return array();
 		}
-		require_once(CONFIGS. 'database.php');
+		require_once(CONFIGS . 'database.php');
 		$connections = get_class_vars('DATABASE_CONFIG');
 		if (!isset($connections[$useDbConfig])) {
 			return array();

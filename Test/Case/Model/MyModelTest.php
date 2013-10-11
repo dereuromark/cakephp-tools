@@ -617,7 +617,7 @@ class MyModelTest extends MyCakeTestCase {
 		$res = $this->App->validateUrl($data, array('deep'=>false, 'autoComplete'=>true));
 		$this->assertTrue($_SERVER['HTTP_HOST'] === 'localhost' ? !$res : $res);
 
-		$data = array('field' => 'http://'.$_SERVER['HTTP_HOST'].'/some/link');
+		$data = array('field' => 'http://' . $_SERVER['HTTP_HOST'] . '/some/link');
 		$res = $this->App->validateUrl($data, array('deep'=>false));
 		$this->assertTrue($_SERVER['HTTP_HOST'] === 'localhost' ? !$res : $res);
 

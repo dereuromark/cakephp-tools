@@ -115,9 +115,9 @@ class UserShell extends AppShell {
 		$this->out('');
 		$this->hr();
 		if ($this->User->save($data)) {
-			$this->out('User inserted! ID: '.$this->User->id);
+			$this->out('User inserted! ID: ' . $this->User->id);
 		} else {
-			return $this->error('User could not be inserted ('.print_r($this->User->validationErrors, true).')');
+			return $this->error('User could not be inserted (' . print_r($this->User->validationErrors, true) . ')');
 		}
 	}
 

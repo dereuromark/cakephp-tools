@@ -64,7 +64,7 @@ class IcalLib {
 			unset($data['timezone']);
 		}
 		if (isset($data['id'])) {
-			$data['uid'] = $data['id'].'@'.env('HTTP_HOST');
+			$data['uid'] = $data['id'] . '@' . env('HTTP_HOST');
 			unset($data['id']);
 		}
 		if (isset($data['class'])) {
@@ -75,7 +75,7 @@ class IcalLib {
 		}
 		$res = $this->ICalObject->create($data);
 		if ($addStartAndEnd) {
-			$res = 'BEGIN:VEVENT'.PHP_EOL.trim($res).PHP_EOL.'END:VEVENT';
+			$res = 'BEGIN:VEVENT' . PHP_EOL . trim($res) . PHP_EOL . 'END:VEVENT';
 		}
 		return $res;
 	}
@@ -89,7 +89,7 @@ class IcalLib {
 	public function createStart($data = array()) {
 		$defaults = array(
 			'version' => '2.0',
-			'prodid' => '-//'.env('HTTP_HOST'),
+			'prodid' => '-//' . env('HTTP_HOST'),
 			'method' => 'PUBLISH',
 		);
 		$data = array_merge($defaults, $data);
@@ -97,7 +97,7 @@ class IcalLib {
 		$res = array();
 		$res[] = 'BEGIN:VCALENDAR';
 		foreach ($data as $key => $val) {
-			$res[] = strtoupper($key).':'.$val;
+			$res[] = strtoupper($key) . ':' . $val;
 		}
 		return implode(PHP_EOL, $res);
 	}

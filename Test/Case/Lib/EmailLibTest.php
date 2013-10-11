@@ -52,7 +52,7 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->Email->subject('Test Subject 2');
 		$this->Email->template('default', 'internal');
 		$this->Email->viewVars(array('x'=>'y', 'xx'=>'yy', 'text'=>''));
-		$this->Email->addAttachments(array(APP.'webroot'.DS.'img'.DS.'icons'.DS.'edit.gif'));
+		$this->Email->addAttachments(array(APP . 'webroot' . DS . 'img' . DS . 'icons' . DS . 'edit.gif'));
 
 		$res = $this->Email->send('xyz');
 		# end
@@ -165,7 +165,7 @@ class EmailLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testAddAttachment() {
-		$file = CakePlugin::path('Tools').'Test'.DS.'test_files'.DS.'img'.DS.'hotel.png';
+		$file = CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 		$this->assertTrue(file_exists($file));
 
 		$this->Email->addAttachment($file);
@@ -197,7 +197,7 @@ class EmailLibTest extends MyCakeTestCase {
 	public function testAddAttachmentSend() {
 		$this->skipIf(!$this->sendEmails);
 
-		$file = CakePlugin::path('Tools').'Test'.DS.'test_files'.DS.'img'.DS.'hotel.png';
+		$file = CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 		$this->assertTrue(file_exists($file));
 		Configure::write('debug', 0);
 
@@ -226,7 +226,7 @@ class EmailLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testAddBlobAttachment() {
-		$file = CakePlugin::path('Tools').'Test'.DS.'test_files'.DS.'img'.DS.'hotel.png';
+		$file = CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 		$content = file_get_contents($file);
 
 		$this->Email->addBlobAttachment($content, 'hotel.png');
@@ -255,7 +255,7 @@ class EmailLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testAddEmbeddedAttachment() {
-		$file = CakePlugin::path('Tools').'Test'.DS.'test_files'.DS.'img'.DS.'hotel.png';
+		$file = CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 		$this->assertTrue(file_exists($file));
 
 		$this->Email = new TestEmailLib();
@@ -283,7 +283,7 @@ class EmailLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testAddEmbeddedAttachmentSend() {
-		$file = CakePlugin::path('Tools').'Test'.DS.'test_files'.DS.'img'.DS.'hotel.png';
+		$file = CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 
 		Configure::write('debug', 0);
 		$this->Email = new TestEmailLib();
@@ -302,8 +302,8 @@ class EmailLibTest extends MyCakeTestCase {
 	<title>Untitled 6</title>
 </head>
 <body>
-test_embedded_default äöü <img src="cid:'.$cid.'" /> end
-another image <img src="cid:'.$cid2.'" /> end
+test_embedded_default äöü <img src="cid:' . $cid . '" /> end
+another image <img src="cid:' . $cid2 . '" /> end
 html-part
 </body>
 </html>';
@@ -330,7 +330,7 @@ html-part
 	 * @return void
 	 */
 	public function testAddEmbeddedBlobAttachment() {
-		$file = CakePlugin::path('Tools').'Test'.DS.'test_files'.DS.'img'.DS.'hotel.png';
+		$file = CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 		$this->assertTrue(file_exists($file));
 
 		$this->Email = new TestEmailLib();
@@ -396,7 +396,7 @@ html-part
 	 * @return void
 	 */
 	public function testAddEmbeddedBlobAttachmentSend() {
-		$file = CakePlugin::path('Tools').'Test'.DS.'test_files'.DS.'img'.DS.'hotel.png';
+		$file = CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 
 		Configure::write('debug', 0);
 		$this->Email = new TestEmailLib();
@@ -413,7 +413,7 @@ html-part
 	<title>Untitled 6</title>
 </head>
 <body>
-test_embedded_blob_default äöü <img src="cid:'.$cid.'" /> end
+test_embedded_blob_default äöü <img src="cid:' . $cid . '" /> end
 html-part
 </body>
 </html>';
@@ -435,7 +435,7 @@ html-part
 	}
 
 	public function _testComplexeHtmlWithEmbeddedImages() {
-		$file = CakePlugin::path('Tools').'Test'.DS.'test_files'.DS.'img'.DS.'hotel.png';
+		$file = CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 		$this->assertTrue(file_exists($file));
 
 		//TODO

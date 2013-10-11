@@ -53,7 +53,7 @@ class ZipLibTest extends MyCakeTestCase {
 	}
 
 	public function testSize() {
-		$this->ZipLib->open(TMP.'test_folder_and_file.zip');
+		$this->ZipLib->open(TMP . 'test_folder_and_file.zip');
 		$is = $this->ZipLib->size();
 		$this->out($is);
 		$this->assertEquals(5, $is);
@@ -77,7 +77,7 @@ class ZipLibTest extends MyCakeTestCase {
 		$res = $this->ZipLib->unzip(TMP . 'xyz');
 		$this->assertTrue($res);
 		$this->assertTrue(file_exists(TMP . 'xyz' . DS . 'folder' . DS . 'file.txt'));
-		$this->assertSame('test', file_get_contents(TMP.'xyz' . DS . 'folder' . DS . 'file.txt'));
+		$this->assertSame('test', file_get_contents(TMP . 'xyz' . DS . 'folder' . DS . 'file.txt'));
 
 		$this->ZipLib->open(TMP . 'test_folder_and_file.zip');
 		$res = $this->ZipLib->unzip(TMP . 'xyz2', true);

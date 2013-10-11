@@ -138,7 +138,7 @@ class TextExtHelper extends TextHelper {
 	 */
 	public function encodeEmail($mail) {
 		list($mail1, $mail2) = explode('@', $mail);
-		$encMail = $this->encodeText($mail1).'<span>@</span>'.$this->encodeText($mail2);
+		$encMail = $this->encodeText($mail1) . '<span>@</span>' . $this->encodeText($mail2);
 		return $encMail;
 	}
 
@@ -163,40 +163,40 @@ class TextExtHelper extends TextHelper {
 			$text = $this->encodeEmail($mail);
 		}
 
-		$encMail = 'mailto:'.$mail;
+		$encMail = 'mailto:' . $mail;
 		//$encMail = $this->encodeText($encMail); # not possible
 		// additionally there could be a span tag in between: email<span syle="display:none"></span>@web.de
 
 		$querystring = '';
 		foreach ($params as $key => $val) {
 			if ($querystring) {
-				$querystring .= "&$key=".rawurlencode($val);
+				$querystring .= "&$key=" . rawurlencode($val);
 			} else {
-				$querystring = "?$key=".rawurlencode($val);
+				$querystring = "?$key=" . rawurlencode($val);
 			}
 		}
 
 		$attr = array_merge($defaults, $attr);
 
-		$xmail = $this->Html->link('', $encMail.$querystring, $attr);
+		$xmail = $this->Html->link('', $encMail . $querystring, $attr);
 		$xmail1 = mb_substr($xmail, 0, count($xmail)-5);
 		$xmail2 = mb_substr($xmail, -4, 4);
 
 		$len = mb_strlen($xmail1);
 		$i=0;
 		while ($i<$len) {
-			$c = mt_rand(2,6);
+			$c = mt_rand(2, 6);
 			$par[] = (mb_substr($xmail1, $i, $c));
 			$i += $c;
 		}
 		$join = implode('\'+\'', $par);
 
 			return '<script language=javascript><!--
-		document.write(\''.$join.'\');
+		document.write(\'' . $join . '\');
 		//--></script>
-			'.$text.'
+			' . $text . '
 		<script language=javascript><!--
-		document.write(\''.$xmail2.'\');
+		document.write(\'' . $xmail2 . '\');
 		//--></script>';
 
 		//return '<a class="'.$class.'" title="'.$title.'" href="'.$encmail.$querystring.'">'.$encText.'</a>';
@@ -210,16 +210,16 @@ class TextExtHelper extends TextHelper {
 	public static function encodeText($text) {
 		$encmail = '';
 		for ($i=0; $i < mb_strlen($text); $i++) {
-			$encMod = mt_rand(0,2);
+			$encMod = mt_rand(0, 2);
 			switch ($encMod) {
 			case 0: // None
 				$encmail .= mb_substr($text, $i, 1);
 				break;
 			case 1: // Decimal
-				$encmail .= "&#".ord(mb_substr($text, $i, 1)).';';
+				$encmail .= "&#" . ord(mb_substr($text, $i, 1)) . ';';
 				break;
 			case 2: // Hexadecimal
-				$encmail .= "&#x".dechex(ord(mb_substr($text, $i, 1))).';';
+				$encmail .= "&#x" . dechex(ord(mb_substr($text, $i, 1))) . ';';
 				break;
 			}
 		}
@@ -254,10 +254,10 @@ class TextExtHelper extends TextHelper {
 		$customOptions = var_export($options, true);
 
 		$text = preg_replace_callback('#(?<!href="|">)((?:https?|ftp|nntp)://[^\s<>()]+)#i', create_function('$matches',
-			'$Html = new HtmlHelper(new View(null)); return $Html->link(TextExtHelper::prepareLinkName(hDec($matches[0]), '.$customOptions.'), hDec($matches[0]),' . $htmlOptions . ');'), $text);
+			'$Html = new HtmlHelper(new View(null)); return $Html->link(TextExtHelper::prepareLinkName(hDec($matches[0]), ' . $customOptions . '), hDec($matches[0]),' . $htmlOptions . ');'), $text);
 
 		return preg_replace_callback('#(?<!href="|">)(?<!http://|https://|ftp://|nntp://)(www\.[^\n\%\ <]+[^<\n\%\,\.\ <])(?<!\))#i',
-			create_function('$matches', '$Html = new HtmlHelper(new View(null)); return $Html->link(TextExtHelper::prepareLinkName(hDec($matches[0]), '.$customOptions.'), "http://" . hDec($matches[0]),' . $htmlOptions . ');'), $text);
+			create_function('$matches', '$Html = new HtmlHelper(new View(null)); return $Html->link(TextExtHelper::prepareLinkName(hDec($matches[0]), ' . $customOptions . '), "http://" . hDec($matches[0]),' . $htmlOptions . ');'), $text);
 	}
 
 	/**
@@ -318,7 +318,7 @@ class TextExtHelper extends TextHelper {
 			return (string)$url;
 		}
 		// http:// has not to be displayed, so
-		if (mb_substr($url,0,7) === 'http://') {
+		if (mb_substr($url, 0, 7) === 'http://') {
 			$url = mb_substr($url, 7);
 		}
 		// cut the parameters

@@ -44,15 +44,15 @@ class BootstrapHelper extends AppHelper {
 		if (!empty($options['items'])) {
 			$inputOptions['data-items'] = (int)$options['items'];
 		}
-		$class = 'typeahead_'.strtolower(Inflector::slug($fieldName)); // str_replace('.', '_', $fieldName);
-		$inputOptions['class'] = empty($inputOptions['class']) ? $class : $inputOptions['class'].' '.$class;
+		$class = 'typeahead_' . strtolower(Inflector::slug($fieldName)); // str_replace('.', '_', $fieldName);
+		$inputOptions['class'] = empty($inputOptions['class']) ? $class : $inputOptions['class'] . ' ' . $class;
 
 		$script = '
-	$(\'.'.$class.'\').typeahead({
-		source: '.$this->_formatSource($options['data']).'
+	$(\'.' . $class . '\').typeahead({
+		source: ' . $this->_formatSource($options['data']) . '
 	})
 ';
-		$script = PHP_EOL.'<script>'.$script.'</script>';
+		$script = PHP_EOL . '<script>' . $script . '</script>';
 		return $this->Form->input($fieldName, $inputOptions) . $script;
 	}
 
@@ -73,9 +73,9 @@ class BootstrapHelper extends AppHelper {
 	public function carousel($items, $id = null, $globalOptions = array()) {
 		$res = '<div id="myCarousel" class="carousel">
 	<div class="carousel-inner">
-		'.$this->carouselItems($items, $globalOptions).'
+		' . $this->carouselItems($items, $globalOptions) . '
 	</div>
-	'.$this->carouselControl().'
+	' . $this->carouselControl() . '
 </div>';
 	return $res;
 	}
@@ -102,9 +102,9 @@ class BootstrapHelper extends AppHelper {
 			}
 			$tmp = $item['content'];
 			if (!empty($item['heading'])) {
-				$tmp .= '<div class="carousel-caption">'.$item['heading'].'</div>';
+				$tmp .= '<div class="carousel-caption">' . $item['heading'] . '</div>';
 			}
-			$tmp = '<div class="item'.$active.'">'.$tmp.'</div>';
+			$tmp = '<div class="item' . $active . '">' . $tmp . '</div>';
 			$res[] = $tmp;
 		}
 		$res = implode(PHP_EOL, $res);
@@ -120,7 +120,7 @@ class BootstrapHelper extends AppHelper {
 	 * @return string html
 	 */
 	public function accordion($records, $id = null, $globalOptions = array()) {
-		$res = '<div class="accordion" id="accordion'.$id.'">';
+		$res = '<div class="accordion" id="accordion' . $id . '">';
 		foreach ($records as $record) {
 			$options = $globalOptions;
 			extract($record);
@@ -150,11 +150,11 @@ class BootstrapHelper extends AppHelper {
 		$res = '<div class="accordion-group">';
 		$res .= '	<div class="accordion-heading">';
 
-		$res .= '		<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse'.$i.'">';
+		$res .= '		<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse' . $i . '">';
 		$res .= $heading;
 		$res .= '		</a>';
 		$res .= '	</div>';
-		$res .= '	<div id="collapse'.$i.'" class="accordion-body collapse'.$in.'">';
+		$res .= '	<div id="collapse' . $i . '" class="accordion-body collapse' . $in . '">';
 		$res .= '	<div class="accordion-inner">';
 		$res .= $content;
 		$res .= '	</div>';

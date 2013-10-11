@@ -20,7 +20,6 @@ class MyModel extends Model {
 	 * @param integer $id
 	 * @param string $table
 	 * @param string $ds
-	 * @return void
 	 */
 	public function __construct($id = false, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
@@ -31,10 +30,10 @@ class MyModel extends Model {
 				mkdir(CACHE . 'sql', CHOWN_PUBLIC);
 			}
 			Cache::config('sql', array(
-				'engine' 	=> 'File',
+				'engine' => 'File',
 				'serialize' => true,
 				'prefix'	=> '',
-				'path' 		=> CACHE .'sql'. DS,
+				'path' => CACHE . 'sql' . DS,
 				'duration'	=> '+1 day'
 			));
 		}
@@ -268,7 +267,7 @@ class MyModel extends Model {
 				}
 			} else {
 				if (!isset($this->$model)) {
-					$fullModelName = ($plugin ? $plugin.'.' : '') . $model;
+					$fullModelName = ($plugin ? $plugin . '.' : '') . $model;
 					$this->$model = ClassRegistry::init($fullModelName);
 				}
 				if ($sql === null) {
@@ -329,7 +328,7 @@ class MyModel extends Model {
 		if (isset($customOptions['reset'])) {
 			$currentValue = $step = 0;
 		} elseif (!isset($customOptions['current'])) {
-			$currentValue = $this->field($field, array($this->alias.'.id'=>$id));
+			$currentValue = $this->field($field, array($this->alias . '.id'=>$id));
 			if ($currentValue === false) {
 				return false;
 			}
@@ -1321,7 +1320,7 @@ class MyModel extends Model {
 		}
 		if ($this->UndisposableEmail->isUndisposableEmail($email) === false) {
 			# trigger log
-			$this->log('Disposable Email detected: ' . h($email).' (IP '.env('REMOTE_ADDR').')', 'undisposable');
+			$this->log('Disposable Email detected: ' . h($email) . ' (IP ' . env('REMOTE_ADDR') . ')', 'undisposable');
 			if ($proceed === true) {
 				return true;
 			}
@@ -1359,7 +1358,7 @@ class MyModel extends Model {
 	 * @deprecated
 	 */
 	public function umlautsOrderFix($var) {
-		return "REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(".$var.", 'Ä', 'Ae'), 'Ö', 'Oe'), 'Ü', 'Ue'), 'ä', 'ae'), 'ö', 'oe'), 'ü','ue'), 'ß', 'ss')";
+		return "REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(" . $var . ", 'Ä', 'Ae'), 'Ö', 'Oe'), 'Ü', 'Ue'), 'ä', 'ae'), 'ö', 'oe'), 'ü','ue'), 'ß', 'ss')";
 	}
 
 	/**

@@ -242,7 +242,7 @@ class FileLibTest extends CakeTestCase {
 	public function testBOM() {
 		$folder = CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'txt' . DS;
 		$fileOK = $folder . 'ok.php';
-		$fileNOK = $folder. 'nok.php';
+		$fileNOK = $folder . 'nok.php';
 		$result = FileLib::hasByteOrderMark(file_get_contents($fileOK));
 		$this->assertFalse($result);
 
