@@ -1487,20 +1487,35 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * Shortcut method to find a specific entry via primary key
+	 * Shortcut method to find a specific entry via primary key.
+	 *
+	 * Either provide the id directly:
+	 *
+	 *   $record = $this->Model->get($id);
+	 *
+	 * Or use
+	 *
+	 *   $this->Model->id = $id;
+	 *   $record = $this->Model->get();
 	 *
 	 * @param mixed $id
 	 * @param string|array $fields
 	 * @param array $contain
 	 * @return mixed
 	 */
-	public function get($id, $fields = array(), $contain = array()) {
+	public function get($id = null, $fields = array(), $contain = array()) {
 		if (is_array($id)) {
 			$column = $id[0];
 			$value = $id[1];
 		} else {
 			$column = 'id';
 			$value = $id;
+			if ($value === null) {
+				$value = $this->id;
+			}
+		}
+		if (!$value) {
+			return array();
 		}
 
 		if ($fields === '*') {

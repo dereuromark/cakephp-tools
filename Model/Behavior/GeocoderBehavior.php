@@ -280,7 +280,9 @@ class GeocoderBehavior extends ModelBehavior {
 	 */
 	public function paginateDistanceCount(Model $Model, $conditions = null, $recursive = -1, $extra = array()) {
 		if (!empty($extra['radius'])) {
-			$conditions[] = $extra['distance'] . ' < ' . $extra['radius'] . (!empty($extra['startRadius'])?' AND ' . $extra['distance'] . ' > ' . $extra['startRadius']:'') . (!empty($extra['endRadius'])?' AND ' . $extra['distance'] . ' < ' . $extra['endRadius']:'');
+			$conditions[] = $extra['distance'] . ' < ' . $extra['radius'] .
+				(!empty($extra['startRadius']) ? ' AND ' . $extra['distance'] . ' > ' . $extra['startRadius'] : '') .
+				(!empty($extra['endRadius']) ? ' AND ' . $extra['distance'] . ' < ' . $extra['endRadius'] : '');
 		}
 		if (!empty($extra['group'])) {
 			unset($extra['group']);
