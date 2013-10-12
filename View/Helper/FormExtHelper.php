@@ -619,7 +619,7 @@ class FormExtHelper extends FormHelper {
 			$this->Js->buffer($script);
 			$script = '';
 		}
-		return '<div class="input date' . (!empty($error)?' error':'') . '">' . $this->label($modelName . '.' . $field, $options['label']) . '' . $select . '' . $error . '</div>' . $script;
+		return '<div class="input date' . (!empty($error) ? ' error' : '') . '">' . $this->label($modelName . '.' . $field, $options['label']) . '' . $select . '' . $error . '</div>' . $script;
 	}
 
 	protected function _inlineScript($script) {
@@ -768,7 +768,7 @@ class FormExtHelper extends FormHelper {
 
 			$options = array_merge(array('id' => $modelName . $fieldName), $options);
 			$select = $this->text($field, $options);
-			return '<div class="input date' . (!empty($error)?' error':'') . '">' . $this->label($modelName . '.' . $field, $options['label']) . '' . $select . '' . $error . '</div>' . $script;
+			return '<div class="input date' . (!empty($error) ? ' error' : '') . '">' . $this->label($modelName . '.' . $field, $options['label']) . '' . $select . '' . $error . '</div>' . $script;
 		}
 
 		if ($return) {
@@ -793,7 +793,7 @@ class FormExtHelper extends FormHelper {
 			$this->Js->buffer($script);
 			$script = '';
 		}
-		return '<div class="input date' . (!empty($error)?' error':'') . '">' . $this->label($modelName . '.' . $field, $options['label']) . '' . $select . '' . $error . '</div>' . $script;
+		return '<div class="input date' . (!empty($error) ? ' error' : '') . '">' . $this->label($modelName . '.' . $field, $options['label']) . '' . $select . '' . $error . '</div>' . $script;
 	}
 
 	/**
@@ -898,7 +898,7 @@ class FormExtHelper extends FormHelper {
 		*/
 		$script = '';
 		//<div id="'.$model.$fieldname.'-timepicker"></div>
-		return '<div class="input date' . (!empty($error)?' error':'') . '">' . $this->label($model . '.' . $field, $options['label']) . '' . $select . '' . $error . '</div>' . $script;
+		return '<div class="input date' . (!empty($error) ? ' error' : '') . '">' . $this->label($model . '.' . $field, $options['label']) . '' . $select . '' . $error . '</div>' . $script;
 	}
 
 /** maxLength **/

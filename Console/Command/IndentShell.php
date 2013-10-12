@@ -280,7 +280,7 @@ class IndentShell extends AppShell {
 				}
 
 				if ($this->settings['debug']) {
-					$debug .= ' ' . ($changes ? '[MOD]': '[]') . ' (SPACES ' . $tabs . ', POS ' . $pos . ', TABS ' . $tabs . ', MOD ' . $mod . ')';
+					$debug .= ' ' . ($changes ? '[MOD]' : '[]') . ' (SPACES ' . $tabs . ', POS ' . $pos . ', TABS ' . $tabs . ', MOD ' . $mod . ')';
 				}
 				$textCorrect[] = $newPiece . $debug;
 			}

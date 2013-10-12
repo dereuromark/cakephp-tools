@@ -65,7 +65,7 @@ class DatetimeHelper extends TimeHelper {
 	 */
 	public function localDateMarkup($dateString = null, $format = null, $options = array()) {
 		$date = $this->localDate($dateString, $format, $options);
-		$date = '<span' . ($this->isToday($dateString, (isset($options['userOffset'])?$options['userOffset']:null))?' class="today"':'') . '>' . $date . '</span>';
+		$date = '<span' . ($this->isToday($dateString, (isset($options['userOffset']) ? $options['userOffset'] : null)) ? ' class="today"' : '') . '>' . $date . '</span>';
 		return $date;
 	}
 
@@ -74,7 +74,7 @@ class DatetimeHelper extends TimeHelper {
 	 */
 	public function niceDateMarkup($dateString = null, $format = null, $options = array()) {
 		$date = $this->niceDate($dateString, $format, $options);
-		$date = '<span' . ($this->isToday($dateString, (isset($options['userOffset'])?$options['userOffset']:null))?' class="today"':'') . '>' . $date . '</span>';
+		$date = '<span' . ($this->isToday($dateString, (isset($options['userOffset']) ? $options['userOffset'] : null)) ? ' class="today"' : '') . '>' . $date . '</span>';
 		return $date;
 	}
 

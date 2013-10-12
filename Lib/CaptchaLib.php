@@ -41,8 +41,8 @@ class CaptchaLib {
 		}
 
 		$hashValue = date(FORMAT_DB_DATETIME, (int)$data['captcha_time']) . '_';
-		$hashValue .= ($options['checkSession'])?session_id() . '_' : '';
-		$hashValue .= ($options['checkIp'])?env('REMOTE_ADDR') . '_' : '';
+		$hashValue .= ($options['checkSession']) ? session_id() . '_' : '';
+		$hashValue .= ($options['checkIp']) ? env('REMOTE_ADDR') . '_' : '';
 		if (empty($options['type']) || $options['type'] !== 'passive') {
 			$hashValue .= $data['captcha'];
 		}

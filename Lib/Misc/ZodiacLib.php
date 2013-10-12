@@ -96,35 +96,35 @@ class ZodiacLib {
 				$this->zodiac = ($day <= 20) ? self::SIGN_ARIES:
 				self::SIGN_TAURUS;
 				break;
-			case 5:
+			case 5 :
 				$this->zodiac = ($day <= 21) ? self::SIGN_TAURUS:
 				self::SIGN_GEMINI;
 				break;
-			case 6:
+			case 6 :
 				$this->zodiac = ($day <= 21) ? self::SIGN_GEMINI:
 				self::SIGN_CANCER;
 				break;
-			case 7:
+			case 7 :
 				$this->zodiac = ($day <= 23) ? self::SIGN_CANCER:
 				self::SIGN_LEO;
 				break;
-			case 8:
+			case 8 :
 				$this->zodiac = ($day <= 23) ? self::SIGN_LEO:
 				self::SIGN_VIRGO;
 				break;
-			case 9:
+			case 9 :
 				$this->zodiac = ($day <= 23) ? self::SIGN_VIRGO:
 				self::SIGN_LIBRA;
 				break;
-			case 10:
+			case 10 :
 				$this->zodiac = ($day <= 23) ? self::SIGN_LIBRA:
 				self::SIGN_SCORPIO;
 				break;
-			case 11:
+			case 11 :
 				$this->zodiac = ($day <= 22) ? self::SIGN_SCORPIO:
 				self::SIGN_SAGITTARIUS;
 				break;
-			case 12:
+			case 12 :
 				$this->zodiac = ($day <= 21) ? self::SIGN_SAGITTARIUS : self::SIGN_CAPRICORN;
 				break;
 		}

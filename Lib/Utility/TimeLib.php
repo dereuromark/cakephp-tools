@@ -42,6 +42,9 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * Gets the timezone that is closest to the given coordinates
+	 *
+	 * @param float $lag
+	 * @param float $lng
 	 * @return DateTimeZone Timezone object
 	 */
 	public function timezoneByCoordinates($lat, $lng) {
@@ -75,6 +78,9 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
+	 * Calculate the age using start and optional end date.
+	 * End date defaults to current date.
+	 *
 	 * @param start date (if empty, use today)
 	 * @param end date (if empty, use today)
 	 * start and end cannot be both empty!
@@ -82,9 +88,9 @@ class TimeLib extends CakeTime {
 	 * if > 0, returns array!!! ('days'=>x,'months'=>y,'years'=>z)
 	 *
 	 * does this work too?
-	 $now = mktime(0,0,0,date("m"),date("d"),date("Y"));
-	 $birth = mktime(0,0,0, $monat, $tag, $jahr);
-	 $age = intval(($now - $birth) / (3600 * 24 * 365));
+	 *  $now = mktime(0,0,0,date("m"),date("d"),date("Y"));
+	 *  $birth = mktime(0,0,0, $monat, $tag, $jahr);
+	 *  $age = intval(($now - $birth) / (3600 * 24 * 365));
 	 * @return integer age (0 if both timestamps are equal or empty, -1 on invalid dates)
 	 */
 	public static function age($start = null, $end = null, $accuracy = 0) {
@@ -145,6 +151,7 @@ class TimeLib extends CakeTime {
 	 * can be e.g. 22/23
 	 * @param integer $year
 	 * @param integer $month (optional)
+	 * @return integer Age
 	 */
 	public static function ageByYear($year, $month = null) {
 		if ($month === null) {
@@ -164,7 +171,8 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * 2011-11-22 lb
+	 * @param int $year
+	 * @param int $sign
 	 * @return mixed
 	 */
 	public static function ageByHoroscope($year, $sign) {
@@ -189,8 +197,14 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * Rounded age depended on steps (e.g. age 16 with steps = 10 => "11-20")
-	 * @FIXME
-	 * TODO: move to helper?
+	 * //FIXME
+	 * //TODO: move to helper?
+	 *
+	 * @param int $year
+	 * @param int $month
+	 * @param int $day
+	 * @param int $steps
+	 * @return mixed
 	 */
 	public static function ageRange($year, $month = null, $day = null, $steps = 1) {
 		if ($month == null && $day == null) {
@@ -220,7 +234,8 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * Return the days of a given month
+	 * Return the days of a given month.
+	 *
 	 * @param integer $year
 	 * @param integer $month
 	 */
@@ -229,14 +244,18 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * Calendar Week (current week of the year)
+	 * Calendar Week (current week of the year).
+ 	 * //TODO: use timestamp - or make the function able to use timestamps at least (besides dateString)
+ 	 *
+	 * date('W', $time) returns ISO6801 week number.
+	 * Exception: Dates of the calender week of the previous year return 0. In this case the cweek of the
+	 * last week of the previous year should be used.
+ 	 *
 	 * @param date in DB format - if none is passed, current day is used
 	 * @param integer $relative - weeks relative to the date (+1 next, -1 previous etc)
-	 * @TODO: use timestamp - or make the function able to use timestamps at least (besides dateString)
-	 *
-	 * Mit date('W', $time) (großes W!) bekommst die ISO6801-Wochennummer des angegebenen Zeitpunkts, das entspricht der Europäischen Kalenderwoche - mit einer Ausnahme: Daten die zur letzten Kalenderwoche des vorherigen Jahres gehören, liefern die 0 zurück; in dem Fall solltest du dann die KW des 31.12. des Vorjahres ermitteln.
+	 * @return string
 	 */
-	public static function cweek($dateString = null, $relative = 0) {
+	public static function cWeek($dateString = null, $relative = 0) {
 		//$time = self::fromString($dateString);
 		if (!empty($dateString)) {
 			$date = explode(' ', $dateString);
@@ -251,11 +270,11 @@ class TimeLib extends CakeTime {
 
 		$relative = (int)$relative;
 		if ($relative != 0) {
-			$t += WEEK*$relative;	// 1day * 7 * relativeWeeks
+			$t += WEEK * $relative;	// 1day * 7 * relativeWeeks
 		}
 
 		if (($kw = date('W', $t)) === 0) {
-			$kw = 1+date($t-DAY*date('w', $t), 'W');
+			$kw = 1 + date($t - DAY * date('w', $t), 'W');
 			$y--;
 		}
 		//echo "Der $d.$m.$y liegt in der Kalenderwoche $kw/$y";
@@ -270,7 +289,7 @@ class TimeLib extends CakeTime {
 	 * @FIXME: offset
 	 * not needed, use localDate!
 	 */
-	public static function cweekDay($cweek, $year, $day, $offset = 0) {
+	public static function cWeekDay($cweek, $year, $day, $offset = 0) {
 		$cweekBeginning = self::cweekBeginning($year, $cweek);
 		return $cweekBeginning + $day * DAY;
 	}
@@ -282,18 +301,19 @@ class TimeLib extends CakeTime {
 	 * @param integer $num Number of day.
 	 * @return integer Days since the start of the week.
 	 */
-	public static function cweekMod($num, $offset = 0) {
+	public static function cWeekMod($num, $offset = 0) {
 		$base = 7;
-		return ($num - $base*floor($num/$base));
+		return ($num - $base * floor($num / $base));
 	}
 
 	/**
 	 * Calculate the beginning of a calenderweek
 	 * if no cweek is given get the beginning of the first week of the year
+	 *
 	 * @param year (format xxxx)
 	 * @param cweek (optional, defaults to first, range 1...52/53)
 	 */
-	public static function cweekBeginning($year, $cweek = null) {
+	public static function cWeekBeginning($year, $cweek = null) {
 		if ((int)$cweek <= 1 || (int)$cweek > self::cweeks($year)) {
 			$first = mktime(0, 0, 0, 1, 1, $year);
 			$wtag = date('w', $first);
@@ -316,22 +336,24 @@ class TimeLib extends CakeTime {
 	/**
 	 * Calculate the ending of a calenderweek
 	 * if no cweek is given get the ending of the last week of the year
+	 *
 	 * @param year (format xxxx)
 	 * @param cweek (optional, defaults to last, range 1...52/53)
 	 */
-	public static function cweekEnding($year, $cweek = null) {
+	public static function cWeekEnding($year, $cweek = null) {
 		if ((int)$cweek < 1 || (int)$cweek >= self::cweeks($year)) {
-			return self::cweekBeginning($year+1)-1;
+			return self::cweekBeginning($year + 1) - 1;
 		}
-		return self::cweekBeginning($year, intval($cweek)+1)-1;
+		return self::cweekBeginning($year, intval($cweek) + 1) - 1;
 	}
 
 	/**
 	 * Calculate the amount of calender weeks in a year
+	 *
 	 * @param year (format xxxx, defaults to current year)
 	 * @return integer: 52 or 53
 	 */
-	public static function cweeks($year = null) {
+	public static function cWeeks($year = null) {
 		if ($year === null) {
 			$year = date('Y');
 		}
@@ -389,6 +411,7 @@ class TimeLib extends CakeTime {
 	/**
 	 * Get the age bounds (min, max) as timestamp that would result in the given age(s)
 	 * note: expects valid age (> 0 and < 120)
+	 *
 	 * @param $firstAge
 	 * @param $secondAge (defaults to first one if not specified)
 	 * @return array('min'=>$min, 'max'=>$max);
@@ -412,6 +435,7 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * For birthdays etc
+	 *
 	 * @param date
 	 * @param string days with +-
 	 * @param options
@@ -425,6 +449,7 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * Outputs Date(time) Sting nicely formatted (+ localized!)
+	 *
 	 * @param string $dateString,
 	 * @param string $format (YYYY-MM-DD, DD.MM.YYYY)
 	 * @param array $options
@@ -631,10 +656,12 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * Can convert time from one unit to another
+	 *
 	 * @param integer INT | time
 	 * @param from CHAR
 	 * @param to CHAR
 	 * @param options: acc=>INT [accuracy], showZero=>BOOL, returnArray=>BOOL
+	 * @return mixed
 	 */
 	public static function convertTime($int, $from, $to, $options = array()) {
 		$accuracy = 0;	# 0 = only the "to"-element, 1..n = higher accurancy
@@ -648,7 +675,7 @@ class TimeLib extends CakeTime {
 				$showZero = (int)$options['showZero'];
 			}
 			if (isset($options['returnArray'])) {
-				$return = ($options['returnArray']===true?true:false);
+				$returnArray = $options['returnArray'];
 			}
 		}
 
@@ -817,7 +844,8 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * Time length to human readable format
+	 * Time length to human readable format.
+	 *
 	 * @param integer $seconds
 	 * @param string format: format
 	 * @param options
@@ -927,6 +955,7 @@ class TimeLib extends CakeTime {
 	/**
 	 * Time relative to NOW in human readable format - absolute (negative as well as positive)
 	 * //TODO: make "now" adjustable
+	 *
 	 * @param mixed $datestring
 	 * @param string format: format
 	 * @param options
@@ -938,7 +967,7 @@ class TimeLib extends CakeTime {
 		if ($dateString !== null) {
 			$timezone = null;
 			$sec = time() - self::fromString($dateString, $timezone);
-			$type = ($sec > 0)?-1:(($sec < 0)?1:0);
+			$type = ($sec > 0) ? -1 : (($sec < 0) ? 1 : 0);
 			$sec = abs($sec);
 		} else {
 			$sec = 0;
@@ -983,49 +1012,49 @@ class TimeLib extends CakeTime {
 		return $Date->format($newDateFormatString);
 	}
 
-/**
- * Returns true if given datetime string was day before yesterday.
- *
- * @param string $dateString Datetime string or Unix timestamp
- * @param integer $timezone User's timezone
- * @return boolean True if datetime string was day before yesterday
- */
+	/**
+	 * Returns true if given datetime string was day before yesterday.
+	 *
+	 * @param string $dateString Datetime string or Unix timestamp
+	 * @param integer $timezone User's timezone
+	 * @return boolean True if datetime string was day before yesterday
+	 */
 	public static function wasDayBeforeYesterday($dateString, $timezone = null) {
 		$date = self::fromString($dateString, $timezone);
 		return date(FORMAT_DB_DATE, $date) == date(FORMAT_DB_DATE, time()-2*DAY);
 	}
 
-/**
- * Returns true if given datetime string is the day after tomorrow.
- *
- * @param string $dateString Datetime string or Unix timestamp
- * @param integer $timezone User's timezone
- * @return boolean True if datetime string is day after tomorrow
- */
+	/**
+	 * Returns true if given datetime string is the day after tomorrow.
+	 *
+	 * @param string $dateString Datetime string or Unix timestamp
+	 * @param integer $timezone User's timezone
+	 * @return boolean True if datetime string is day after tomorrow
+	 */
 	public static function isDayAfterTomorrow($dateString, $timezone = null) {
 		$date = self::fromString($dateString, $timezone);
 		return date(FORMAT_DB_DATE, $date) == date(FORMAT_DB_DATE, time()+2*DAY);
 	}
 
-/**
- * Returns true if given datetime string is not today AND is in the future.
- *
- * @param string $dateString Datetime string or Unix timestamp
- * @param integer $timezone User's timezone
- * @return boolean True if datetime is not today AND is in the future
- */
+	/**
+	 * Returns true if given datetime string is not today AND is in the future.
+	 *
+	 * @param string $dateString Datetime string or Unix timestamp
+	 * @param integer $timezone User's timezone
+	 * @return boolean True if datetime is not today AND is in the future
+	 */
 	public static function isNotTodayAndInTheFuture($dateString, $timezone = null) {
 		$date = self::fromString($dateString, $timezone);
 		return date(FORMAT_DB_DATE, $date) > date(FORMAT_DB_DATE, time());
 	}
 
-/**
- * Returns true if given datetime string is not now AND is in the future.
- *
- * @param string $dateString Datetime string or Unix timestamp
- * @param integer $timezone User's timezone
- * @return boolean True if datetime is not today AND is in the future
- */
+	/**
+	 * Returns true if given datetime string is not now AND is in the future.
+	 *
+	 * @param string $dateString Datetime string or Unix timestamp
+	 * @param integer $timezone User's timezone
+	 * @return boolean True if datetime is not today AND is in the future
+	 */
 	public static function isInTheFuture($dateString, $timezone = null) {
 		$date = self::fromString($dateString, $timezone);
 		return date(FORMAT_DB_DATETIME, $date) > date(FORMAT_DB_DATETIME, time());
@@ -1057,7 +1086,7 @@ class TimeLib extends CakeTime {
 
 		if ($format) {
 			$res = DateTime::createFromFormat($format, $date);
-			$res = $res->format(FORMAT_DB_DATE) . ' ' . ($type === 'end'?'23:59:59':'00:00:00');
+			$res = $res->format(FORMAT_DB_DATE) . ' ' . ($type === 'end' ? '23:59:59' : '00:00:00');
 			return $res;
 		}
 
@@ -1079,12 +1108,12 @@ class TimeLib extends CakeTime {
 			$explode[0] = str_pad($explode[0], 4, '20', STR_PAD_LEFT);
 
 			if (count($explode) === 3) {
-				return implode('-', $explode) . ' ' . ($type === 'end'?'23:59:59':'00:00:00');
+				return implode('-', $explode) . ' ' . ($type === 'end' ? '23:59:59' : '00:00:00');
 			}
 			if (count($explode) === 2) {
-				return implode('-', $explode) . '-' . ($type === 'end'?self::daysInMonth($explode[0], $explode[1]):'01') . ' ' . ($type === 'end' ? '23:59:59':'00:00:00');
+				return implode('-', $explode) . '-' . ($type === 'end' ? self::daysInMonth($explode[0], $explode[1]) : '01') . ' ' . ($type === 'end' ? '23:59:59' : '00:00:00');
 			}
-			return $explode[0] . '-' . ($type === 'end'?'12':'01') . '-' . ($type === 'end'?'31':'01') . ' ' . ($type === 'end' ? '23:59:59':'00:00:00');
+			return $explode[0] . '-' . ($type === 'end' ? '12' : '01') . '-' . ($type === 'end' ? '31' : '01') . ' ' . ($type === 'end' ? '23:59:59' : '00:00:00');
 		}
 
 		return false;

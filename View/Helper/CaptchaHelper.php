@@ -107,7 +107,7 @@ class CaptchaHelper extends AppHelper {
 		$return .= '<div style="display:none">' .
 			$this->Form->input($field . '_hash', array('value'=>$hash)) .
 			$this->Form->input($field . '_time', array('value'=>time())) .
-			$this->Form->input((!empty($modelName)?$modelName . '.':'') . $this->settings['dummyField'], array('value'=>'')) .
+			$this->Form->input((!empty($modelName) ? $modelName . '.' : '') . $this->settings['dummyField'], array('value'=>'')) .
 		'</div>';
 		return $return;
 	}

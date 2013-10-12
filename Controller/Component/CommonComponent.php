@@ -320,7 +320,7 @@ class CommonComponent extends Component {
 			$action = $this->Controller->request->params['action'];
 		}
 
-		$url = array_merge($this->Controller->request->params['named'], $this->Controller->request->params['pass'], array('prefix' => isset($this->Controller->request->params['prefix'])?$this->Controller->request->params['prefix'] : null,
+		$url = array_merge($this->Controller->request->params['named'], $this->Controller->request->params['pass'], array('prefix' => isset($this->Controller->request->params['prefix']) ? $this->Controller->request->params['prefix'] : null,
 			'plugin' => $this->Controller->request->params['plugin'], 'action' => $action, 'controller' => $this->Controller->request->params['controller']));
 
 		if ($asString === true) {

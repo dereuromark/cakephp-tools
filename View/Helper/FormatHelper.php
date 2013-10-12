@@ -26,7 +26,7 @@ class FormatHelper extends TextHelper {
 		$downTitle = __('Dagegen');
 		if ($inactive === true) {
 			$class = 'Inactive';
-			$upTitle = $downTitle = !empty($inactiveTitle)?$inactiveTitle:__('alreadyVoted');
+			$upTitle = $downTitle = !empty($inactiveTitle) ? $inactiveTitle : __('alreadyVoted');
 		}
 		$ret = '<div class="thumbsUpDown">';
 		$ret .= '<div id="' . $id . 'Pro' . $class . '" rel="' . $id . '" class="thumbUp up' . $class . '" title="' . $upTitle . '"></div>';
@@ -128,7 +128,7 @@ class FormatHelper extends TextHelper {
 	public function addIcon($name = null, $pic = null, $title = null, $allowOverride = false) {
 		if ($allowOverride === true || ($allowOverride !==true && !array_key_exists($name, $this->icons))) {
 			if (!empty($name) && !empty($pic)) {
-				$this->icons[$name] = array('pic'=>strtolower($pic), 'title'=>(!empty($title)?$title:''));
+				$this->icons[$name] = array('pic'=>strtolower($pic), 'title'=>(!empty($title) ? $title : ''));
 			}
 		}
 		return false;
@@ -367,8 +367,8 @@ class FormatHelper extends TextHelper {
 
 		if (array_key_exists($type, $this->icons)) {
 			$pic = $this->icons[$type]['pic'];
-			$title = (isset($title)?$title:$this->icons[$type]['title']);
-			$alt = (isset($alt)?$alt:preg_replace('/[^a-zA-Z0-9]/', '', $this->icons[$type]['title']));
+			$title = (isset($title) ? $title : $this->icons[$type]['title']);
+			$alt = (isset($alt) ? $alt : preg_replace('/[^a-zA-Z0-9]/', '', $this->icons[$type]['title']));
 			if ($translate !== false) {
 				$title = __($title);
 				$alt = __($alt);
@@ -739,7 +739,7 @@ class FormatHelper extends TextHelper {
 			mkdir($folder, 0755);
 		}
 		if (!file_exists($folder . DS . $file)) {
-			$command = 'convert -background ' . (!empty($options['background'])?'"' . $options['background'] . '"':'transparent') . ' -font ' . $options['font'] . ' -fill ' . (!empty($options['color'])?'"' . $options['color'] . '"':'transparent') . ' -pointsize ' . $options['size'] . ' label:"' . $text . '" ' . $folder . DS . $file;
+			$command = 'convert -background ' . (!empty($options['background']) ? '"' . $options['background'] . '"' : 'transparent') . ' -font ' . $options['font'] . ' -fill ' . (!empty($options['color']) ? '"' . $options['color'] . '"' : 'transparent') . ' -pointsize ' . $options['size'] . ' label:"' . $text . '" ' . $folder . DS . $file;
 			exec($command, $a, $r);
 			if ($r !== 0) {
 				return '';

@@ -111,7 +111,7 @@ class IndexShell extends AppShell {
 	protected function _buildScriptForDataSource($ds = 'default') {
 		$tables = $this->_tables($ds);
 		$db = ConnectionManager::getDataSource($ds);
-		$usePrefix = empty($db->config['prefix']) ? '': $db->config['prefix'];
+		$usePrefix = empty($db->config['prefix']) ? '' : $db->config['prefix'];
 
 		$doneSomething = false;
 		foreach ($tables as $table) {
@@ -176,7 +176,7 @@ class IndexShell extends AppShell {
 		if (!$db) {
 			return array();
 		}
-		$usePrefix = empty($db->config['prefix']) ? '': $db->config['prefix'];
+		$usePrefix = empty($db->config['prefix']) ? '' : $db->config['prefix'];
 		$tables = array();
 		if ($usePrefix) {
 			foreach ($db->listSources() as $table) {
