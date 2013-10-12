@@ -25,7 +25,7 @@ class ChmodLib {
 	 */
 	public static function convertFromOctal($mode, $leadingZero = false) {
 		$res = (string)substr(sprintf('%o', $mode), -4);
-		if ($leadingZero===true) {
+		if ($leadingZero === true) {
 			$res = '0' . $res;
 		}
 		return $res;
@@ -123,9 +123,9 @@ class ChmodLib {
 	 */
 	protected function setMode($r, $w, $e) {
 		$mode = 0;
-		if ($r) $mode+=4;
-		if ($w) $mode+=2;
-		if ($e) $mode+=1;
+		if ($r) $mode += 4;
+		if ($w) $mode += 2;
+		if ($e) $mode += 1;
 		return $mode;
 	}
 

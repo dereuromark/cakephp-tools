@@ -10,7 +10,7 @@ if (!defined('CLASS_USER')) {
  */
 class Log extends ToolsAppModel {
 
-	public $order = array('Log.created'=>'DESC');
+	public $order = array('Log.created' => 'DESC');
 
 	public $belongsTo = array(
 		'User' => array(
@@ -27,7 +27,7 @@ class Log extends ToolsAppModel {
 	 */
 	public function find($type = null, $query = array()) {
 		if ($type === 'last') {
-			$options = array_merge(array('order'=>array($this->alias . '.id'=>'DESC')), $query);
+			$options = array_merge(array('order' => array($this->alias . '.id' => 'DESC')), $query);
 			return parent::find('first', $options);
 		}
 		return parent::find($type, $query);

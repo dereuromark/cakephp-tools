@@ -14,7 +14,7 @@ class TypographicBehaviorTest extends MyCakeTestCase {
 		parent::setUp();
 
 		$this->Model = ClassRegistry::init('Article');
-		$this->Model->Behaviors->load('Tools.Typographic', array('fields'=>array('body'), 'before'=>'validate'));
+		$this->Model->Behaviors->load('Tools.Typographic', array('fields' => array('body'), 'before' => 'validate'));
 	}
 
 	public function testObject() {

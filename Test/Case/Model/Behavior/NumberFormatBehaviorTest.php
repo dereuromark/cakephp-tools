@@ -13,7 +13,7 @@ class NumberFormatBehaviorTest extends MyCakeTestCase {
 
 		$this->Model = ClassRegistry::init('PaymentMethod');
 
-		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields'=>array('rel_rate', 'set_rate'), 'output'=>true));
+		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields' => array('rel_rate', 'set_rate'), 'output' => true));
 	}
 
 	public function tearDown() {
@@ -89,7 +89,7 @@ class NumberFormatBehaviorTest extends MyCakeTestCase {
 
 	public function testStrict() {
 		$this->Model->Behaviors->unload('NumberFormat');
-		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields'=>array('rel_rate', 'set_rate'), 'strict'=>true));
+		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields' => array('rel_rate', 'set_rate'), 'strict' => true));
 
 		$data = array(
 			'name' => 'some Name',
@@ -108,7 +108,7 @@ class NumberFormatBehaviorTest extends MyCakeTestCase {
 
 	public function testBeforeSave() {
 		$this->Model->Behaviors->unload('NumberFormat');
-		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields'=>array('rel_rate', 'set_rate'), 'before'=>'save', 'output'=>false));
+		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields' => array('rel_rate', 'set_rate'), 'before' => 'save', 'output' => false));
 		$data = array(
 			'name' => 'some Name',
 			'set_rate' => '2,11',
@@ -131,7 +131,7 @@ class NumberFormatBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue(!empty($res));
 
 		$this->Model->Behaviors->unload('NumberFormat');
-		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields'=>array('rel_rate', 'set_rate'), 'localeconv'=>true, 'output'=>true));
+		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields' => array('rel_rate', 'set_rate'), 'localeconv' => true, 'output' => true));
 
 		$data = array(
 			'name' => 'german',
@@ -151,7 +151,7 @@ class NumberFormatBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue(!empty($res));
 
 		$this->Model->Behaviors->unload('NumberFormat');
-		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields'=>array('rel_rate', 'set_rate'), 'localeconv'=>true, 'output'=>true));
+		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields' => array('rel_rate', 'set_rate'), 'localeconv' => true, 'output' => true));
 
 		$data = array(
 			'name' => 'english',
@@ -171,7 +171,7 @@ class NumberFormatBehaviorTest extends MyCakeTestCase {
 
 	public function testMultiply() {
 		$this->Model->Behaviors->unload('NumberFormat');
-		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields'=>array('rel_rate', 'set_rate'), 'transform'=>array(), 'multiply'=>0.01, 'output'=>false));
+		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields' => array('rel_rate', 'set_rate'), 'transform' => array(), 'multiply' => 0.01, 'output' => false));
 
 		$data = array(
 			'name' => 'multiply',
@@ -189,7 +189,7 @@ class NumberFormatBehaviorTest extends MyCakeTestCase {
 		$this->assertSame(substr($res[$this->Model->alias]['rel_rate'], 0, 5), '-0.02');
 
 		$this->Model->Behaviors->unload('NumberFormat');
-		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields'=>array('rel_rate', 'set_rate'), 'transform'=>array(), 'multiply'=>0.01, 'output'=>true));
+		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields' => array('rel_rate', 'set_rate'), 'transform' => array(), 'multiply' => 0.01, 'output' => true));
 
 		$res = $this->Model->find('first', array('conditions' => array('name' => 'multiply')));
 		//debug($res);

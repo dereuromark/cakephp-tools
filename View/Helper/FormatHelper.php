@@ -102,20 +102,20 @@ class FormatHelper extends TextHelper {
 				$url += $options['url'];
 			}
 
-			$ret.= $this->Html->link($this->cIcon(ICON_PREV, false) . '&nbsp;' . __('prev' . $name), $url, array('escape'=>false, 'title'=>$neighbors['prev'][$titleAlias][$titleField]));
+			$ret .= $this->Html->link($this->cIcon(ICON_PREV, false) . '&nbsp;' . __('prev' . $name), $url, array('escape' => false, 'title' => $neighbors['prev'][$titleAlias][$titleField]));
 		} else {
-			$ret.= $this->cIcon(ICON_PREV_DISABLED, __('noPrev' . $name)) . '&nbsp;' . __('prev' . $name);
+			$ret .= $this->cIcon(ICON_PREV_DISABLED, __('noPrev' . $name)) . '&nbsp;' . __('prev' . $name);
 }
-		$ret.= '&nbsp;&nbsp;';
+		$ret .= '&nbsp;&nbsp;';
 		if (!empty($neighbors['next'])) {
 			$url = array($neighbors['next'][$alias]['id'], $prevSlug);
 			if (!empty($options['url'])) {
 				$url += $options['url'];
 			}
 
-			$ret.= $this->Html->link($this->cIcon(ICON_NEXT, false) . '&nbsp;' . __('next' . $name), $url, array('escape'=>false, 'title'=>$neighbors['next'][$titleAlias][$titleField]));
+			$ret .= $this->Html->link($this->cIcon(ICON_NEXT, false) . '&nbsp;' . __('next' . $name), $url, array('escape' => false, 'title' => $neighbors['next'][$titleAlias][$titleField]));
 		} else {
-			$ret.= $this->cIcon(ICON_NEXT_DISABLED, __('noNext' . $name)) . '&nbsp;' . __('next' . $name);
+			$ret .= $this->cIcon(ICON_NEXT_DISABLED, __('noNext' . $name)) . '&nbsp;' . __('next' . $name);
 		}
 		$ret .= '</div>';
 		return $ret;
@@ -126,9 +126,9 @@ class FormatHelper extends TextHelper {
 	 * NOTE: overriding not allowed by default
 	 */
 	public function addIcon($name = null, $pic = null, $title = null, $allowOverride = false) {
-		if ($allowOverride === true || ($allowOverride !==true && !array_key_exists($name, $this->icons))) {
+		if ($allowOverride === true || ($allowOverride !== true && !array_key_exists($name, $this->icons))) {
 			if (!empty($name) && !empty($pic)) {
-				$this->icons[$name] = array('pic'=>strtolower($pic), 'title'=>(!empty($title) ? $title : ''));
+				$this->icons[$name] = array('pic' => strtolower($pic), 'title' => (!empty($title) ? $title : ''));
 			}
 		}
 		return false;
@@ -144,11 +144,11 @@ class FormatHelper extends TextHelper {
 	public function genderIcon($value = null, $type = null) {
 		$value = (int)$value;
 		if ($value == self::GENDER_FEMALE) {
-			$icon =	$this->icon('genderFemale', null, null, null, array('class'=>'gender'));
+			$icon =	$this->icon('genderFemale', null, null, null, array('class' => 'gender'));
 		} elseif ($value == self::GENDER_MALE) {
-			$icon =	$this->icon('genderMale', null, null, null, array('class'=>'gender'));
+			$icon =	$this->icon('genderMale', null, null, null, array('class' => 'gender'));
 		} else {
-			$icon =	$this->icon('genderUnknown', null, null, null, array('class'=>'gender'));
+			$icon =	$this->icon('genderUnknown', null, null, null, array('class' => 'gender'));
 		}
 		return $icon;
 	}
@@ -262,7 +262,7 @@ class FormatHelper extends TextHelper {
 		if (!empty($map)) {
 			$value = $map[$value];
 		}
-		if (!$normal && $value == ($max+1)/2) {
+		if (!$normal && $value == ($max + 1) / 2) {
 			return '';
 		}
 
@@ -344,25 +344,25 @@ class FormatHelper extends TextHelper {
 	 * @param options array ('class'=>'','width/height'=>'','onclick=>'') etc
 	 */
 	public function icon($type, $t = null, $a = null, $translate = null, $options = array()) {
-		$html='';
+		$html = '';
 
 		# title
 		if (isset($t) && $t === false) {
-			$title='';
+			$title = '';
 		} elseif (empty($t)) {
 
 		} else {
-			$title=$t;
+			$title = $t;
 			//$alt=$t;	// alt=title as default
 		}
 
 		#alt
-		if (isset($a) && $a===false) {
-			$alt='';
+		if (isset($a) && $a === false) {
+			$alt = '';
 		} elseif (empty($a)) {
 
 		} else {
-			$alt=$a;
+			$alt = $a;
 		}
 
 		if (array_key_exists($type, $this->icons)) {
@@ -380,11 +380,11 @@ class FormatHelper extends TextHelper {
 			$alt = '';
 		}
 
-		$default_options=array('title'=>$title, 'alt'=>$alt, 'class'=>'icon');
+		$default_options = array('title' => $title, 'alt' => $alt, 'class' => 'icon');
 		//$new_options['onclick']=$options['onclick'];
-		$new_options= array_merge($default_options, $options);
+		$new_options = array_merge($default_options, $options);
 
-		$html.=$this->Html->image('icons/' . $pic, $new_options);
+		$html .= $this->Html->image('icons/' . $pic, $new_options);
 
 		return $html;
 	}
@@ -415,7 +415,7 @@ class FormatHelper extends TextHelper {
 		}
 		$alt = '[' . $alt . ']';
 
-		$defaultOptions = array('title'=>$title, 'alt'=>$alt, 'class'=>'icon');
+		$defaultOptions = array('title' => $title, 'alt' => $alt, 'class' => 'icon');
 		$options = array_merge($defaultOptions, $options);
 		if (substr($icon, 0, 1) !== '/') {
 			$icon = 'icons/' . $icon;
@@ -436,7 +436,7 @@ class FormatHelper extends TextHelper {
 
 		if (!empty($options['steps']) && $options['steps'] == 0.5) {
 			$steps = 0.5;
-			$current = ((int)(2*$current)/2);
+			$current = ((int)(2 * $current) / 2);
 		} else {
 			$steps = 1;
 			$current = (int)$current;
@@ -451,23 +451,23 @@ class FormatHelper extends TextHelper {
 			}
 
 			$text = '';
-			for ($i=0;$i<$min;$i++) {
-				$attributes = array('alt'=>'#', 'class'=>'full');
-				if (!empty($options['title'])) { $attributes['title'] = ($i+1) . '/' . $max; } # ?
-				$text.= $this->Html->image('icons/star_icon2.gif', $attributes);
+			for ($i = 0;$i < $min;$i++) {
+				$attributes = array('alt' => '#', 'class' => 'full');
+				if (!empty($options['title'])) { $attributes['title'] = ($i + 1) . '/' . $max; } # ?
+				$text .= $this->Html->image('icons/star_icon2.gif', $attributes);
 
 			}
-			for ($i=$min;$i<$max;$i++) {
-				$attributes = array('alt'=>'-', 'class'=>'empty');
-				if (!empty($options['title'])) { $attributes['title'] = ($i+1) . '/' . $max; } # ?
-				if ($steps == 0.5 && $current == $i+0.5) {
-					$text.= $this->Html->image('icons/star_icon2_half.gif', $attributes);
+			for ($i = $min;$i < $max;$i++) {
+				$attributes = array('alt' => '-', 'class' => 'empty');
+				if (!empty($options['title'])) { $attributes['title'] = ($i + 1) . '/' . $max; } # ?
+				if ($steps == 0.5 && $current == $i + 0.5) {
+					$text .= $this->Html->image('icons/star_icon2_half.gif', $attributes);
 				} else {
-					$text.= $this->Html->image('icons/star_icon2_empty.gif', $attributes);
+					$text .= $this->Html->image('icons/star_icon2_empty.gif', $attributes);
 				}
 			}
 
-			$attributes = array('class'=>'starBar');
+			$attributes = array('class' => 'starBar');
 			$attributes = array_merge($attributes, $attr);
 			if (empty($attributes['title']) && empty($options['title'])) {
 				$attributes['title'] = ($current) . ' ' . __('of') . ' ' . $max;
@@ -501,9 +501,9 @@ class FormatHelper extends TextHelper {
 	public function languageFlags() {
 		$langs = Configure::read('LanguagesAvailable');
 		$supportedLangs = array(
-			'de' => array('title'=>'Deutsch'),
-			'en' => array('title'=>'English'),
-			'it' => array('title'=>'Italiano'),
+			'de' => array('title' => 'Deutsch'),
+			'en' => array('title' => 'English'),
+			'it' => array('title' => 'Italiano'),
 		);
 
 		$language_change = __('Language') . ': ';
@@ -521,9 +521,9 @@ class FormatHelper extends TextHelper {
 		echo '<span class="country">';
 		foreach ($languages as $code => $la) {
 			if ($lang == $code) {
-				$language_change .= $this->Html->image('language_flags/' . $code . '.gif', array('alt'=>$code, 'title'=>$la['title'] . ' (' . __('active') . ')', 'class'=>'country_flag active')) . '';
+				$language_change .= $this->Html->image('language_flags/' . $code . '.gif', array('alt' => $code, 'title' => $la['title'] . ' (' . __('active') . ')', 'class' => 'country_flag active')) . '';
 			} else {
-				$language_change .= $this->Html->link($this->Html->image('language_flags/' . $code . '.gif', array('alt'=>$code, 'title'=>$la['title'], 'class'=>'country_flag')), '/lang/' . $code, array('escape'=>false)) . '';
+				$language_change .= $this->Html->link($this->Html->image('language_flags/' . $code . '.gif', array('alt' => $code, 'title' => $la['title'], 'class' => 'country_flag')), '/lang/' . $code, array('escape' => false)) . '';
 			}
 		}
 
@@ -557,10 +557,10 @@ class FormatHelper extends TextHelper {
 	 * @return save string with js generated link around email (and non js fallback)
 	 */
 	public function encodeEmailUrl($mail, $text = null, $params = array(), $attr = array()) {
-		if (empty($class)) { $class='email';}
+		if (empty($class)) { $class = 'email';}
 
 		$defaults = array(
-			'title'=>__('for use in an external mail client'),
+			'title' => __('for use in an external mail client'),
 			'class' => 'email',
 			'escape' => false
 		);
@@ -588,7 +588,7 @@ class FormatHelper extends TextHelper {
 		$xmail2 = mb_substr($xmail, -4, 4);
 
 		$len = mb_strlen($xmail1);
-		$i=0;
+		$i = 0;
 		while ($i < $len) {
 			$c = mt_rand(2, 6);
 			$par[] = (mb_substr($xmail1, $i, $c));
@@ -613,7 +613,7 @@ class FormatHelper extends TextHelper {
 	 */
 	public function encodeText($text) {
 		$encmail = '';
-		for ($i=0; $i<mb_strlen($text); $i++) {
+		for ($i = 0; $i < mb_strlen($text); $i++) {
 			$encMod = mt_rand(0, 2);
 			switch ($encMod) {
 			case 0: // None
@@ -716,7 +716,7 @@ class FormatHelper extends TextHelper {
 		$image->writeImage(TMP.'x.gif');
 		$image->trim($mw,0);
 		*/
-		$defaults = array('alt'=>$text);
+		$defaults = array('alt' => $text);
 		$attr = array_merge($defaults, $attr);
 		return $this->_textAsImage($text, $options, $attr);
 	}
@@ -725,7 +725,7 @@ class FormatHelper extends TextHelper {
 	 * @return string htmlImage tag (or empty string on failure)
 	 */
 	public function _textAsImage($text, $options = array(), $attr = array()) {
-		$defaults = array('inline'=>true, 'font' => FILES . 'linotype.ttf', 'size'=>18, 'color'=>'#7A7166');
+		$defaults = array('inline' => true, 'font' => FILES . 'linotype.ttf', 'size' => 18, 'color' => '#7A7166');
 		$options = array_merge($defaults, $options);
 
 		if ($options['inline']) { # inline base 64 encoded
@@ -797,7 +797,7 @@ class FormatHelper extends TextHelper {
 				$currentCount -= $pageCount * $limit * $step - $totalCount;
 			}
 		} else {
-			$currentCount = $count + ($currentPage-1) * $limit * $step;
+			$currentCount = $count + ($currentPage - 1) * $limit * $step;
 		}
 
 		return $currentCount;
@@ -864,10 +864,10 @@ class FormatHelper extends TextHelper {
 		if ($padLength - $length > 0) {
 			switch ($padType) {
 				case STR_PAD_LEFT:
-					$input = str_repeat($padString, $padLength-$length) . $input;
+					$input = str_repeat($padString, $padLength - $length) . $input;
 					break;
 				case STR_PAD_RIGHT:
-					$input .= str_repeat($padString, $padLength-$length);
+					$input .= str_repeat($padString, $padLength - $length);
 					break;
 			}
 		}
@@ -974,7 +974,7 @@ class FormatHelper extends TextHelper {
 		if ($display['controls']) {
 			$controls = '<div class="floatRight">&nbsp;' . $this->Html->defaultLink($this->icon('edit'), array('controller' => 'images',
 				'action' => 'edit', $image['Image']['id']), array('escape' => false)) . '&nbsp;' . $this->Form->postLink($this->icon('delete'),
-				array('plugin'=>false, 'admin'=>false, 'controller' => 'images', 'action' => 'delete', $image['Image']['id']), array('escape' => false), 'Sicher?') . '</div>';
+				array('plugin' => false, 'admin' => false, 'controller' => 'images', 'action' => 'delete', $image['Image']['id']), array('escape' => false), 'Sicher?') . '</div>';
 		}
 
 		if ($display['description']) {
@@ -1445,113 +1445,113 @@ class FormatHelper extends TextHelper {
 
 	public $icons = array(
 		'up' => array(
-			'pic'=>ICON_UP,
-			'title'=>'Up',
+			'pic' => ICON_UP,
+			'title' => 'Up',
 		),
 		'down' => array(
-			'pic'=>ICON_DOWN,
-			'title'=>'Down',
+			'pic' => ICON_DOWN,
+			'title' => 'Down',
 		),
 		'edit' => array(
-			'pic'=>ICON_EDIT,
-			'title'=>'Edit',
+			'pic' => ICON_EDIT,
+			'title' => 'Edit',
 		),
 		'view' => array(
-			'pic'=>ICON_VIEW,
-			'title'=>'View',
+			'pic' => ICON_VIEW,
+			'title' => 'View',
 		),
 		'delete' => array(
-			'pic'=>ICON_DELETE,
-			'title'=>'Delete',
+			'pic' => ICON_DELETE,
+			'title' => 'Delete',
 		),
 		'reset' => array(
-			'pic'=>ICON_RESET,
-			'title'=>'Reset',
+			'pic' => ICON_RESET,
+			'title' => 'Reset',
 		),
 		'help' => array(
-			'pic'=>ICON_HELP,
-			'title'=>'Help',
+			'pic' => ICON_HELP,
+			'title' => 'Help',
 		),
 		'loader' => array(
-			'pic'=>'loader.white.gif',
-			'title'=>'Loading...',
+			'pic' => 'loader.white.gif',
+			'title' => 'Loading...',
 		),
 		'loader-alt' => array(
-			'pic'=>'loader.black.gif',
-			'title'=>'Loading...',
+			'pic' => 'loader.black.gif',
+			'title' => 'Loading...',
 		),
 		'details' => array(
-			'pic'=>ICON_DETAILS,
-			'title'=>'Details',
+			'pic' => ICON_DETAILS,
+			'title' => 'Details',
 		),
 		'use' => array(
-			'pic'=>ICON_USE,
-			'title'=>'Use',
+			'pic' => ICON_USE,
+			'title' => 'Use',
 		),
 		'yes' => array(
-			'pic'=>ICON_YES,
-			'title'=>'Yes',
+			'pic' => ICON_YES,
+			'title' => 'Yes',
 		),
 		'no' => array(
-			'pic'=>ICON_NO,
-			'title'=>'No',
+			'pic' => ICON_NO,
+			'title' => 'No',
 		),
 		# deprecated from here down
 		'close' => array(
-			'pic'=>ICON_CLOCK,
-			'title'=>'Close',
+			'pic' => ICON_CLOCK,
+			'title' => 'Close',
 		),
 		'reply' => array(
-			'pic'=>ICON_REPLY,
-			'title'=>'Reply',
+			'pic' => ICON_REPLY,
+			'title' => 'Reply',
 		),
 		'time' => array(
-			'pic'=>ICON_CLOCK,
-			'title'=>'Time',
+			'pic' => ICON_CLOCK,
+			'title' => 'Time',
 		),
 		'check' => array(
-			'pic'=>ICON_CHECK,
-			'title'=>'Check',
+			'pic' => ICON_CHECK,
+			'title' => 'Check',
 		),
 		'role' => array(
-			'pic'=>ICON_ROLE,
-			'title'=>'Role',
+			'pic' => ICON_ROLE,
+			'title' => 'Role',
 		),
 		'add' => array(
-			'pic'=>ICON_ADD,
-			'title'=>'Add',
+			'pic' => ICON_ADD,
+			'title' => 'Add',
 		),
 		'remove' => array(
-			'pic'=>ICON_REMOVE,
-			'title'=>'Remove',
+			'pic' => ICON_REMOVE,
+			'title' => 'Remove',
 		),
 		'email' => array(
-			'pic'=>ICON_EMAIL,
-			'title'=>'Email',
+			'pic' => ICON_EMAIL,
+			'title' => 'Email',
 		),
 		'options' => array(
-			'pic'=>ICON_SETTINGS,
-			'title'=>'Options',
+			'pic' => ICON_SETTINGS,
+			'title' => 'Options',
 		),
 		'lock' => array(
-			'pic'=>ICON_LOCK,
-			'title'=>'Locked',
+			'pic' => ICON_LOCK,
+			'title' => 'Locked',
 		),
 		'warning' => array(
-			'pic'=>ICON_WARNING,
-			'title'=>'Warning',
+			'pic' => ICON_WARNING,
+			'title' => 'Warning',
 		),
 		'genderUnknown' => array(
-			'pic'=>'gender_icon.gif',
-			'title'=>'genderUnknown',
+			'pic' => 'gender_icon.gif',
+			'title' => 'genderUnknown',
 		),
 		'genderMale' => array(
-			'pic'=>'gender_icon_m.gif',
-			'title'=>'genderMale',
+			'pic' => 'gender_icon_m.gif',
+			'title' => 'genderMale',
 		),
 		'genderFemale' => array(
-			'pic'=>'gender_icon_f.gif',
-			'title'=>'genderFemale',
+			'pic' => 'gender_icon_f.gif',
+			'title' => 'genderFemale',
 		),
 	);
 

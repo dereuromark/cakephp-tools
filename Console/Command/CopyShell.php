@@ -130,8 +130,8 @@ class CopyShell extends AppShell {
 		if (!empty($configs)) {
 			//$connections = array_keys($configs); # problems with 0 (mistake in shell::in())
 			foreach ($configs as $key => $config) {
-				$this->out(($key+1) . ': ' . $config);
-				$connections[] = $key+1;
+				$this->out(($key + 1) . ': ' . $config);
+				$connections[] = $key + 1;
 			}
 		} else {
 			$this->out('No configs found in /config/' . $this->configCustomFile . '!');
@@ -163,13 +163,13 @@ class CopyShell extends AppShell {
 		}
 
 		if (in_array($connection, $connections) && is_numeric($connection)) {
-			$configuration = $this->getConfig($configs[$connection-1], $configContent);
+			$configuration = $this->getConfig($configs[$connection - 1], $configContent);
 			//$this->typeName :: $this->types[$this->type]
-			$configName = explode('_', $configs[$connection-1], 2);
+			$configName = explode('_', $configs[$connection - 1], 2);
 			if (!empty($configName[1])) {
 				$this->configName = $configName[1];
 			} else {
-				return $this->error('Invalid config name \'' . $configs[$connection-1] . '\'');
+				return $this->error('Invalid config name \'' . $configs[$connection - 1] . '\'');
 			}
 		}
 
@@ -641,7 +641,7 @@ class CopyShell extends AppShell {
 					'boolean' => true
 				),
 				*/
-				'silent'=> array(
+				'silent' => array(
 					'short' => 's',
 					'help' => __d('cake_console', 'Silent mode (no beep sound)'),
 					'boolean' => true

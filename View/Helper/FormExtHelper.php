@@ -276,7 +276,7 @@ class FormExtHelper extends FormHelper {
 			$options['maxlength'] = $fieldDef['length'];
 		}
 		if ($autoLength && $fieldDef['type'] === 'float') {
-			$options['maxlength'] = array_sum(explode(',', $fieldDef['length']))+1;
+			$options['maxlength'] = array_sum(explode(',', $fieldDef['length'])) + 1;
 		}
 
 		$divOptions = array();
@@ -531,10 +531,10 @@ class FormExtHelper extends FormHelper {
 						if ($this->settings['webroot']) {
 							$this->Html->script('datepicker/lang/' . $lang, false);
 							$this->Html->script('datepicker/datepicker', false);
-							$this->Html->css('common/datepicker', array('inline'=>false));
+							$this->Html->css('common/datepicker', array('inline' => false));
 						} else {
 							$this->Common->script(array('Tools.Asset|datepicker/lang/' . $lang, 'Tools.Asset|datepicker/datepicker'), false);
-							$this->Common->css(array('Tools.Asset|datepicker/datepicker'), array('inline'=>false));
+							$this->Common->css(array('Tools.Asset|datepicker/datepicker'), array('inline' => false));
 						}
 						$this->scriptsAdded['date'] = true;
 						break;
@@ -545,7 +545,7 @@ class FormExtHelper extends FormHelper {
 						} else {
 							//'Tools.Jquery|ui/core/jquery.ui.core', 'Tools.Jquery|ui/core/jquery.ui.widget', 'Tools.Jquery|ui/widgets/jquery.ui.slider',
 							$this->Common->script(array('Tools.Jquery|plugins/jquery.timepicker.core', 'Tools.Jquery|plugins/jquery.timepicker'), false);
-							$this->Common->css(array('Tools.Jquery|ui/core/jquery.ui', 'Tools.Jquery|plugins/jquery.timepicker'), array('inline'=>false));
+							$this->Common->css(array('Tools.Jquery|ui/core/jquery.ui', 'Tools.Jquery|plugins/jquery.timepicker'), array('inline' => false));
 						}
 						break;
 					default:
@@ -863,11 +863,11 @@ class FormExtHelper extends FormHelper {
 
 		$blacklist = array('timeFormat' => null, 'dateFormat' => null, 'separator' => null);
 
-		$hourOptions = array_merge($customOptions, array('class'=>'form-control hour'));
+		$hourOptions = array_merge($customOptions, array('class' => 'form-control hour'));
 		$hourOptions = array_diff_key($hourOptions, $blacklist);
 		$res['h'] = $this->hour($field, $format24Hours, $hourOptions);
 
-		$minuteOptions = array_merge($customOptions, array('class'=>'form-control minute'));
+		$minuteOptions = array_merge($customOptions, array('class' => 'form-control minute'));
 		$minuteOptions = array_diff_key($minuteOptions, $blacklist);
 		$res['m'] = $this->minute($field, $minuteOptions);
 
@@ -919,7 +919,7 @@ class FormExtHelper extends FormHelper {
 	 */
 	public function maxLengthScripts() {
 		if (!$this->scriptsAdded['maxLength']) {
-			$this->Html->script('jquery/maxlength/jquery.maxlength', array('inline'=>false));
+			$this->Html->script('jquery/maxlength/jquery.maxlength', array('inline' => false));
 			$this->scriptsAdded['maxLength'] = true;
 		}
 	}
@@ -954,7 +954,7 @@ class FormExtHelper extends FormHelper {
 
 	protected function _maxLengthJs($selector, $settings = array()) {
 		return '
-jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('quoteKeys'=>false)) . ');
+jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('quoteKeys' => false)) . ');
 ';
 	}
 
@@ -967,8 +967,8 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 	public function scripts($type) {
 		switch ($type) {
 			case 'charCount':
-				$this->Html->script('jquery/plugins/charCount', array('inline'=>false));
-				$this->Html->css('/js/jquery/plugins/charCount', array('inline'=>false));
+				$this->Html->script('jquery/plugins/charCount', array('inline' => false));
+				$this->Html->css('/js/jquery/plugins/charCount', array('inline' => false));
 				break;
 			default:
 				return false;
@@ -999,7 +999,7 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 				$settings = array();
 			}
 			$settings = array_merge($this->charCountOptions, $options, $settings);
-			$js .= 'jQuery(\'' . $selector . '\').charCount(' . $this->Js->object($settings, array('quoteKeys'=>false)) . ');';
+			$js .= 'jQuery(\'' . $selector . '\').charCount(' . $this->Js->object($settings, array('quoteKeys' => false)) . ');';
 		}
 		$js = $this->documentReady($js);
 		return $this->Html->scriptBlock($js, array('inline' => isset($options['inline']) ? $options['inline'] : true));
@@ -1018,7 +1018,7 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 	public function autoCompleteScripts() {
 		if (!$this->scriptsAdded['autoComplete']) {
 			$this->Html->script('jquery/autocomplete/jquery.autocomplete', false);
-			$this->Html->css('/js/jquery/autocomplete/jquery.autocomplete', array('inline'=>false));
+			$this->Html->css('/js/jquery/autocomplete/jquery.autocomplete', array('inline' => false));
 			$this->scriptsAdded['autoComplete'] = true;
 		}
 	}

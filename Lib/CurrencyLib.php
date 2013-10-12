@@ -55,7 +55,7 @@ class CurrencyLib {
 		if (!array_key_exists($fromCurrency, $rates) || !array_key_exists($toCurrency, $rates)) {
 			return false;
 		}
-		return number_format($amount/$rates[$fromCurrency]*$rates[$toCurrency], $decimals);
+		return number_format($amount / $rates[$fromCurrency] * $rates[$toCurrency], $decimals);
 	}
 
 	/**
@@ -200,7 +200,7 @@ class CurrencyLib {
 	protected function _getBitcoin() {
 		App::uses('CurrencyBitcoinLib', 'Tools.Lib');
 		$Btc = new CurrencyBitcoinLib();
-		return $Btc->rate(array('currency'=>$this->baseCurrency));
+		return $Btc->rate(array('currency' => $this->baseCurrency));
 	}
 
 	/**

@@ -370,7 +370,7 @@ class UtilityTest extends MyCakeTestCase {
 	public function testArrayShiftKeys() {
 		$array = array(
 			'a' => 1,
-			'b' => array('c'=>array('d'=>array('f'=>'g', 'h'=>true))),
+			'b' => array('c' => array('d' => array('f' => 'g', 'h' => true))),
 			'k' => 'm',
 		);
 		$res = Utility::arrayShiftKeys($array);
@@ -378,7 +378,7 @@ class UtilityTest extends MyCakeTestCase {
 		$expected = 'a';
 		$this->assertSame($expected, $res);
 		$expected = array(
-			'b' => array('c'=>array('d'=>array('f'=>'g', 'h'=>true))),
+			'b' => array('c' => array('d' => array('f' => 'g', 'h' => true))),
 			'k' => 'm',
 		);
 		$this->assertSame($expected, $array);

@@ -34,13 +34,13 @@ class CaptchaBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function testWrong() {
-		$data = array('title'=>'xyz', 'captcha'=>'x', 'captcha_hash'=>'y', 'captcha_time'=>'123');
+		$data = array('title' => 'xyz', 'captcha' => 'x', 'captcha_hash' => 'y', 'captcha_time' => '123');
 		$this->Comment->set($data);
 		$is = $this->Comment->validates();
 		//debug($this->Comment->invalidFields());
 		$this->assertFalse($is);
 
-		$data = array('title'=>'xyz', 'captcha'=>'x', 'homepage'=>'', 'captcha_hash'=>'y', 'captcha_time'=>'123');
+		$data = array('title' => 'xyz', 'captcha' => 'x', 'homepage' => '', 'captcha_hash' => 'y', 'captcha_time' => '123');
 		$this->Comment->set($data);
 		$is = $this->Comment->validates();
 		//debug($this->Comment->invalidFields());
@@ -50,18 +50,18 @@ class CaptchaBehaviorTest extends MyCakeTestCase {
 	public function testInvalid() {
 		App::uses('CaptchaLib', 'Tools.Lib');
 		$Captcha = new CaptchaLib();
-		$hash = $Captcha->buildHash(array('captcha'=>2, 'captcha_time'=>time()-DAY, ''), CaptchaLib::$defaults);
+		$hash = $Captcha->buildHash(array('captcha' => 2, 'captcha_time' => time() - DAY, ''), CaptchaLib::$defaults);
 
-		$data = array('title'=>'xyz', 'captcha'=>'2', 'homepage'=>'', 'captcha_hash'=>$hash, 'captcha_time'=>time()-DAY);
+		$data = array('title' => 'xyz', 'captcha' => '2', 'homepage' => '', 'captcha_hash' => $hash, 'captcha_time' => time() - DAY);
 		$this->Comment->set($data);
 		$is = $this->Comment->validates();
 		//debug($this->Comment->invalidFields());
 		//$this->assertTrue($is);
 
 		$Captcha = new CaptchaLib();
-		$hash = $Captcha->buildHash(array('captcha'=>2, 'captcha_time'=>time()+DAY, ''), CaptchaLib::$defaults);
+		$hash = $Captcha->buildHash(array('captcha' => 2, 'captcha_time' => time() + DAY, ''), CaptchaLib::$defaults);
 
-		$data = array('title'=>'xyz', 'captcha'=>'2', 'homepage'=>'', 'captcha_hash'=>$hash, 'captcha_time'=>time()+DAY);
+		$data = array('title' => 'xyz', 'captcha' => '2', 'homepage' => '', 'captcha_hash' => $hash, 'captcha_time' => time() + DAY);
 		$this->Comment->set($data);
 		$is = $this->Comment->validates();
 		//debug($this->Comment->invalidFields());
@@ -71,9 +71,9 @@ class CaptchaBehaviorTest extends MyCakeTestCase {
 	public function testCorrect() {
 		App::uses('CaptchaLib', 'Tools.Lib');
 		$Captcha = new CaptchaLib();
-		$hash = $Captcha->buildHash(array('captcha'=>2, 'captcha_time'=>time()-10, ''), CaptchaLib::$defaults);
+		$hash = $Captcha->buildHash(array('captcha' => 2, 'captcha_time' => time() - 10, ''), CaptchaLib::$defaults);
 
-		$data = array('title'=>'xyz', 'captcha'=>'2', 'homepage'=>'', 'captcha_hash'=>$hash, 'captcha_time'=>time()-10);
+		$data = array('title' => 'xyz', 'captcha' => '2', 'homepage' => '', 'captcha_hash' => $hash, 'captcha_time' => time() - 10);
 		$this->Comment->set($data);
 		$is = $this->Comment->validates();
 		//debug($this->Comment->invalidFields());

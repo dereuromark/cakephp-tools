@@ -164,12 +164,12 @@ class ConvertShell extends AppShell {
 					'help' => __d('cake_console', 'Specify extensions [php|txt|...]'),
 					'default' => '',
 				),
-				'dry-run'=> array(
+				'dry-run' => array(
 					'short' => 'd',
 					'help' => __d('cake_console', 'Dry run the clear command, no files will actually be deleted. Should be combined with verbose!'),
 					'boolean' => true
 				),
-				'exclude'=> array(
+				'exclude' => array(
 					'short' => 'x',
 					'help' => __d('cake_console', 'exclude the following files or folders'),
 					'boolean' => true,

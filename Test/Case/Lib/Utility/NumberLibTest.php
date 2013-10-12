@@ -46,11 +46,11 @@ class NumberLibTest extends MyCakeTestCase {
 		$expected = '-22,11 €';
 		$this->assertSame($expected, $is);
 
-		$is = NumberLib::currency(-22.11, 'EUR', array('signed'=>true));
+		$is = NumberLib::currency(-22.11, 'EUR', array('signed' => true));
 		$expected = '-22,11 €';
 		$this->assertSame($expected, $is);
 
-		$is = NumberLib::currency(22.11, 'EUR', array('signed'=>true));
+		$is = NumberLib::currency(22.11, 'EUR', array('signed' => true));
 		$expected = '+22,11 €';
 		$this->assertSame($expected, $is);
 	}

@@ -25,8 +25,8 @@ class FormatHelperTest extends MyCakeTestCase {
 		$content = 'xyz';
 		$data = array(
 			array(),
-			array('class'=>'disabledLink', 'title'=>false),
-			array('class'=>'helloClass', 'title'=>'helloTitle')
+			array('class' => 'disabledLink', 'title' => false),
+			array('class' => 'helloClass', 'title' => 'helloTitle')
 		);
 		foreach ($data as $key => $value) {
 			$res = $this->Format->disabledLink($content, $value);
@@ -230,7 +230,7 @@ class FormatHelperTest extends MyCakeTestCase {
 	public function testArray2table() {
 		//echo '<h2>'.__FUNCTION__.'</h2>';
 		$array = array(
-			array('x'=>'0', 'y'=>'0.5', 'z'=>'0.9'),
+			array('x' => '0', 'y' => '0.5', 'z' => '0.9'),
 			array('1', '2', '3'),
 			array('4', '5', '6'),
 		);
@@ -241,12 +241,12 @@ class FormatHelperTest extends MyCakeTestCase {
 
 		# recursive?
 		$array = array(
-			array('a'=>array('2'), 'b'=>array('2'), 'c'=>array('2')),
+			array('a' => array('2'), 'b' => array('2'), 'c' => array('2')),
 			array(array('2'), array('2'), array('2')),
-			array(array('2'), array('2'), array(array('s'=>'3', 't'=>'4'))),
+			array(array('2'), array('2'), array(array('s' => '3', 't' => '4'))),
 		);
 
-		$is = $this->Format->array2table($array, array('recursive'=>true));
+		$is = $this->Format->array2table($array, array('recursive' => true));
 		//echo $is;
 	}
 

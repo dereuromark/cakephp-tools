@@ -51,7 +51,7 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->Email->to(Configure::read('Config.admin_email'), Configure::read('Config.admin_emailname'));
 		$this->Email->subject('Test Subject 2');
 		$this->Email->template('default', 'internal');
-		$this->Email->viewVars(array('x'=>'y', 'xx'=>'yy', 'text'=>''));
+		$this->Email->viewVars(array('x' => 'y', 'xx' => 'yy', 'text' => ''));
 		$this->Email->addAttachments(array(APP . 'webroot' . DS . 'img' . DS . 'icons' . DS . 'edit.gif'));
 
 		$res = $this->Email->send('xyz');

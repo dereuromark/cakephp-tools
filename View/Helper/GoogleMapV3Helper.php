@@ -397,7 +397,7 @@ class GoogleMapV3Helper extends AppHelper {
 	public function map($options = array()) {
 		$this->reset();
 		$this->_currentOptions = Set::merge($this->_currentOptions, $options);
-		$this->_currentOptions['map'] = array_merge($this->_currentOptions['map'], array('zoom'=>$this->_currentOptions['zoom'], 'lat' => $this->_currentOptions['lat'], 'lng' => $this->_currentOptions['lng'], 'type' => $this->_currentOptions['type']), $options);
+		$this->_currentOptions['map'] = array_merge($this->_currentOptions['map'], array('zoom' => $this->_currentOptions['zoom'], 'lat' => $this->_currentOptions['lat'], 'lng' => $this->_currentOptions['lng'], 'type' => $this->_currentOptions['type']), $options);
 		if (!$this->_currentOptions['map']['lat'] || !$this->_currentOptions['map']['lng']) {
 			$this->_currentOptions['map']['lat'] = $this->_currentOptions['map']['defaultLat'];
 			$this->_currentOptions['map']['lng'] = $this->_currentOptions['map']['defaultLng'];
@@ -410,7 +410,7 @@ class GoogleMapV3Helper extends AppHelper {
 
 		# autoinclude js?
 		if (!empty($this->_currentOptions['autoScript']) && !$this->_apiIncluded) {
-			$res = $this->Html->script($this->apiUrl(), array('inline'=>$this->_currentOptions['inline']));
+			$res = $this->Html->script($this->apiUrl(), array('inline' => $this->_currentOptions['inline']));
 
 			if ($this->_currentOptions['inline']) {
 				$result .= $res . PHP_EOL;
@@ -420,7 +420,7 @@ class GoogleMapV3Helper extends AppHelper {
 		}
 		# still not very common: http://code.google.com/intl/de-DE/apis/maps/documentation/javascript/basics.html
 		if (false && !empty($this->_currentOptions['autoScript']) && !$this->_gearsIncluded) {
-			$res = $this->Html->script($this->gearsUrl(), array('inline'=>$this->_currentOptions['inline']));
+			$res = $this->Html->script($this->gearsUrl(), array('inline' => $this->_currentOptions['inline']));
 			if ($this->_currentOptions['inline']) {
 				$result .= $res . PHP_EOL;
 			}
@@ -737,7 +737,7 @@ var iconShape = {
 		$res = array(
 			'url' => $url,
 			'icon' => $this->icon($url, array('size' => array('width' => 20, 'height' => 34))),
-			'shadow'=>$this->icon($shadow, array('size'=>array('width'=>37, 'height'=>34), 'shadow'=>array('width'=>10, 'height'=>34)))
+			'shadow' => $this->icon($shadow, array('size' => array('width' => 37, 'height' => 34), 'shadow' => array('width' => 10, 'height' => 34)))
 		);
 		return $res;
 	}
@@ -794,7 +794,7 @@ var iconShape = {
 			}
 		}
 		if (empty($options['anchor'])) {
-			$options['anchor']['width'] = intval($options['size']['width']/2);
+			$options['anchor']['width'] = intval($options['size']['width'] / 2);
 			$options['anchor']['height'] = $options['size']['height'];
 		}
 		if (empty($options['origin'])) {

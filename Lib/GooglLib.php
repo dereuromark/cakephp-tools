@@ -95,7 +95,7 @@ class GooglLib {
 			return false;
 		}
 		$separator = strrpos($array['id'], '/');
-		$array['key'] = substr($array['id'], $separator+1);
+		$array['key'] = substr($array['id'], $separator + 1);
 		return $array;
 	}
 

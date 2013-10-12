@@ -256,22 +256,22 @@ class IndexShell extends AppShell {
 	public function getOptionParser() {
 		$subcommandParser = array(
 			'options' => array(
-				'dry-run'=> array(
+				'dry-run' => array(
 					'short' => 'd',
 					'help' => __d('cake_console', 'Dry run the update, no files will actually be modified.'),
 					'boolean' => true
 				),
-				'log'=> array(
+				'log' => array(
 					'short' => 'l',
 					'help' => __d('cake_console', 'Log all ouput to file log.txt in TMP dir'),
 					'boolean' => true
 				),
-				'interactive'=> array(
+				'interactive' => array(
 					'short' => 'i',
 					'help' => __d('cake_console', 'Interactive'),
 					'boolean' => true
 				),
-				'ds'=> array(
+				'ds' => array(
 					'short' => 'c',
 					'help' => __d('cake_console', 'custom ds'),
 					'boolean' => true

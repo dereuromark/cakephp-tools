@@ -34,7 +34,7 @@ class FlattrHelperTest extends MyCakeTestCase {
 	}
 
 	public function testBadgeWithOptions() {
-		$options = array('dsc'=>'Eine Beschreibung', 'lng'=>'de_DE', 'tags'=>array('Spende', 'Geld', 'Hilfe'));
+		$options = array('dsc' => 'Eine Beschreibung', 'lng' => 'de_DE', 'tags' => array('Spende', 'Geld', 'Hilfe'));
 
 		$res = $this->Flattr->badge($this->uid, $options);
 		//echo $res;

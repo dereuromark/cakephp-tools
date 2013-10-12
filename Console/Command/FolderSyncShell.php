@@ -166,12 +166,12 @@ class FolderSyncShell extends AppShell {
 	public function getOptionParser() {
 		$subcommandParser = array(
 			'options' => array(
-				'source'=> array(
+				'source' => array(
 					'short' => 's',
 					'help' => __d('cake_console', 'source - defaults to app'),
 					'default' => '',
 				),
-				'target'=> array(
+				'target' => array(
 					'short' => 't',
 					'help' => __d('cake_console', 'target - required'),
 					'default' => '',
@@ -191,12 +191,12 @@ class FolderSyncShell extends AppShell {
 					'help' => __d('cake_console', 'Invert direction (target to source)'),
 					'boolean' => true
 				),
-				'dry-run'=> array(
+				'dry-run' => array(
 					'short' => 'd',
 					'help' => __d('cake_console', 'Dry run the update, no files will actually be modified.'),
 					'boolean' => true
 				),
-				'log'=> array(
+				'log' => array(
 					'short' => 'l',
 					'help' => __d('cake_console', 'Log all ouput to file log.txt in TMP dir'),
 					'boolean' => true

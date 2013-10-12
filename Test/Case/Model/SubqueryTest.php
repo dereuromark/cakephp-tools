@@ -45,7 +45,7 @@ class SubqueryTest extends MyCakeTestCase {
 		$this->debug(count($res));
 		$this->assertEquals(0, count($res));
 
-		$subqueryOptions = array('fields' => array('id'), 'conditions' => array('id'=>1));
+		$subqueryOptions = array('fields' => array('id'), 'conditions' => array('id' => 1));
 		$res = $this->Model->subquery('first', $subqueryOptions);
 		$this->debug($res);
 

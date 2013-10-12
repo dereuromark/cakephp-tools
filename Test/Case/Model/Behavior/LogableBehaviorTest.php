@@ -45,7 +45,7 @@ class LogableBehaviorTest extends CakeTestCase {
 		$expected = array(
 			5 => 'LogableBook "New Book" (7) added by LogableUser "Steven" (301).'
 		);
-		$result = $this->LogableBook->findLog(array('user_id'=>301, 'order' => 'id DESC'));
+		$result = $this->LogableBook->findLog(array('user_id' => 301, 'order' => 'id DESC'));
 		$result = Set::combine($result, '/LogableLog/id', '/LogableLog/description');
 
 		$this->assertEquals($expected, $result);
@@ -62,7 +62,7 @@ class LogableBehaviorTest extends CakeTestCase {
 			1 => array('LogableLog' => array('id' => 2)),
 			2 => array('LogableLog' => array('id' => 1))
 		);
-		$result = $this->LogableBook->findLog(array('foreign_id'=>6, 'fields' => array('id'), 'order' => 'id DESC'));
+		$result = $this->LogableBook->findLog(array('foreign_id' => 6, 'fields' => array('id'), 'order' => 'id DESC'));
 		$this->assertEquals($expected, $result);
 
 		$expected = array(0 => array('LogableLog' => array('id' => 4)));
@@ -173,7 +173,7 @@ class LogableBehaviorTest extends CakeTestCase {
 	}
 
 	public function testAddingModels() {
-		$this->LogableBook->save(array('LogableBook'=>array('title'=>'Denver')));
+		$this->LogableBook->save(array('LogableBook' => array('title' => 'Denver')));
 		$result = $this->Log->find('last', array('fields' => array('id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change')));
 
 		$this->assertEquals('Denver', $result['LogableLog']['title']);
@@ -189,8 +189,8 @@ class LogableBehaviorTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 
 		$this->LogableBook->create();
-		$this->LogableBook->setUserData(array('LogableUser'=>array('id'=>66, 'name'=>'Alexander')));
-		$this->LogableBook->save(array('LogableBook'=>array('title'=>'New Orleans')));
+		$this->LogableBook->setUserData(array('LogableUser' => array('id' => 66, 'name' => 'Alexander')));
+		$this->LogableBook->save(array('LogableBook' => array('title' => 'New Orleans')));
 		$this->LogableBook->clearUserData();
 		$result = $this->Log->find('last', array('fields' => array('id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change')));
 
@@ -244,7 +244,7 @@ class LogableBehaviorTest extends CakeTestCase {
 	}
 
 	public function testUserLogging() {
-		$this->LogableUser->save(array('LogableUser'=>array('name'=>'Jonny')));
+		$this->LogableUser->save(array('LogableUser' => array('name' => 'Jonny')));
 		$result = $this->Log->get(6, array('id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change'));
 		$expected = array(
 			'LogableLog' => array(
@@ -279,7 +279,7 @@ class LogableBehaviorTest extends CakeTestCase {
 	}
 
 	public function testLoggingWithoutDisplayField() {
-		$this->LogableComment->save(array('LogableComment'=>array('content'=>'You too?')));
+		$this->LogableComment->save(array('LogableComment' => array('content' => 'You too?')));
 		$result = $this->Log->get(6, array('id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change'));
 		$expected = array(
 			'LogableLog' => array(
@@ -300,7 +300,7 @@ class LogableBehaviorTest extends CakeTestCase {
 		$description = $this->Log->schema('description');
 		$this->Log->removeSchema('description');
 		$this->LogableBook->create();
-		$this->LogableBook->save(array('LogableBook'=>array('title'=>'Denver XYZ', 'weight'=>1)));
+		$this->LogableBook->save(array('LogableBook' => array('title' => 'Denver XYZ', 'weight' => 1)));
 
 		$result = $this->Log->find('last', array('fields' => array('id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change')));
 		$expected = array(
@@ -363,7 +363,7 @@ class LogableBehaviorTest extends CakeTestCase {
 		$this->Log->removeSchema('foreign_id');
 
 		$this->LogableBook->create();
-		$this->LogableBook->save(array('LogableBook'=>array('title'=>'Denver')));
+		$this->LogableBook->save(array('LogableBook' => array('title' => 'Denver')));
 		$result = $this->Log->find('last', array('fields' => array('id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change')));
 		$expected = array(
 			'LogableLog' => array(
@@ -404,7 +404,7 @@ class LogableBehaviorTest extends CakeTestCase {
 		$this->Log->removeSchema('user_id');
 
 		$this->LogableBook->create();
-		$this->LogableBook->save(array('LogableBook'=>array('title'=>'New Orleans')));
+		$this->LogableBook->save(array('LogableBook' => array('title' => 'New Orleans')));
 
 		$result = $this->Log->find('last', array('fields' => array('id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change')));
 		$expected = array('LogableLog' => array(
@@ -422,8 +422,8 @@ class LogableBehaviorTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 
 		$this->LogableBook->create();
-		$this->LogableBook->setUserData(array('LogableUser'=>array('id'=>66, 'name'=>'Alexander')));
-		$this->LogableBook->save(array('LogableBook'=>array('title'=>'New York')));
+		$this->LogableBook->setUserData(array('LogableUser' => array('id' => 66, 'name' => 'Alexander')));
+		$this->LogableBook->save(array('LogableBook' => array('title' => 'New York')));
 		$this->LogableBook->clearUserData();
 		$result = $this->Log->find('last', array('fields' => array('id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change')));
 		$expected = array('LogableLog' => array(
@@ -445,8 +445,8 @@ class LogableBehaviorTest extends CakeTestCase {
 		$this->Log->removeSchema('user_id');
 
 		$this->LogableBook->create();
-		$this->LogableBook->setUserData(array('LogableUser'=>array('id'=>66, 'name'=>'Alexander')));
-		$this->LogableBook->save(array('LogableBook'=>array('title'=>'New Orleans')));
+		$this->LogableBook->setUserData(array('LogableUser' => array('id' => 66, 'name' => 'Alexander')));
+		$this->LogableBook->save(array('LogableBook' => array('title' => 'New Orleans')));
 		$this->LogableBook->clearUserData();
 		$result = $this->Log->find('last', array('fields' => array('id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change')));
 		$expected = array('LogableLog' => array(
@@ -486,8 +486,8 @@ class LogableBehaviorTest extends CakeTestCase {
 		$this->Log->removeSchema('change');
 
 		$this->LogableBook->create();
-		$this->LogableBook->setUserData(array('LogableUser'=>array('id'=>66, 'name'=>'Alexander')));
-		$this->LogableBook->save(array('LogableBook'=>array('title'=>'New Orleans')));
+		$this->LogableBook->setUserData(array('LogableUser' => array('id' => 66, 'name' => 'Alexander')));
+		$this->LogableBook->save(array('LogableBook' => array('title' => 'New Orleans')));
 		$this->LogableBook->clearUserData();
 		$result = $this->Log->find('last', array('fields' => array('id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change')));
 		$expected = array('LogableLog' => array(
@@ -520,9 +520,9 @@ class LogableBehaviorTest extends CakeTestCase {
 	}
 
 	public function testConfigurationWithoutMost() {
-		$this->LogableComment->Behaviors->load('Logable', array('descriptionIds'=> false, 'userModel'=>'LogableUser'));
-		$this->LogableComment->setUserData(array('LogableUser'=>array('id'=>66, 'name'=>'Alexander')));
-		$this->LogableComment->save(array('LogableComment'=>array('id'=>1, 'content'=>'You too?')));
+		$this->LogableComment->Behaviors->load('Logable', array('descriptionIds' => false, 'userModel' => 'LogableUser'));
+		$this->LogableComment->setUserData(array('LogableUser' => array('id' => 66, 'name' => 'Alexander')));
+		$this->LogableComment->save(array('LogableComment' => array('id' => 1, 'content' => 'You too?')));
 		$result = $this->Log->get(6, array('id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change'));
 		$expected = array(
 			'LogableLog' => array(
@@ -540,8 +540,8 @@ class LogableBehaviorTest extends CakeTestCase {
 	}
 
 	public function testIgnoreExtraFields() {
-		$this->LogableComment->setUserData(array('LogableUser'=>array('id'=>66, 'name'=>'Alexander')));
-		$this->LogableComment->save(array('LogableComment'=>array('id'=>1, 'content'=>'You too?', 'extra_field'=>'some data')));
+		$this->LogableComment->setUserData(array('LogableUser' => array('id' => 66, 'name' => 'Alexander')));
+		$this->LogableComment->save(array('LogableComment' => array('id' => 1, 'content' => 'You too?', 'extra_field' => 'some data')));
 		$result = $this->Log->get(6, array('id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change'));
 		$expected = array(
 			'LogableLog' => array(
@@ -560,11 +560,11 @@ class LogableBehaviorTest extends CakeTestCase {
 
 	public function testIgnoreSetup() {
 		$log_rows_before = $this->Log->find('count', array('conditions' => array('model' => 'LogableUser', 'foreign_id' => 301)));
-		$this->LogableUser->save(array('id'=>301, 'counter' => 3));
+		$this->LogableUser->save(array('id' => 301, 'counter' => 3));
 		$log_rows_after = $this->Log->find('count', array('conditions' => array('model' => 'LogableUser', 'foreign_id' => 301)));
 		$this->assertEquals($log_rows_after, $log_rows_before);
 
-		$this->LogableUser->save(array('id'=>301, 'name' => 'Steven Segal', 'counter' => 77));
+		$this->LogableUser->save(array('id' => 301, 'name' => 'Steven Segal', 'counter' => 77));
 
 		$result = $this->Log->find('first', array(
 			'order' => 'LogableLog.id DESC',
@@ -598,7 +598,7 @@ class LogableLog extends Log {
 
 	public $recursive = -1;
 
-	public $order = array('LogableLog.created'=>'DESC');
+	public $order = array('LogableLog.created' => 'DESC');
 
 	public $belongsTo = array(
 		'LogableUser' => array(
@@ -634,7 +634,7 @@ class LogableTestModel extends CakeTestModel {
 class LogableBook extends LogableTestModel {
 
 	public $actsAs = array(
-		'Tools.Logable' => array('userModel'=>'LogableUser', 'logModel'=>'LogableLog'),
+		'Tools.Logable' => array('userModel' => 'LogableUser', 'logModel' => 'LogableLog'),
 		//'Ordered' => array('foreign_key' => FALSE)
 	);
 
@@ -644,12 +644,12 @@ class LogableBook extends LogableTestModel {
 
 class LogableUser extends LogableTestModel {
 
-	public $actsAs = array('Tools.Logable' => array('userModel'=>'LogableUser', 'logModel'=>'LogableLog', 'ignore'=>array('counter')));
+	public $actsAs = array('Tools.Logable' => array('userModel' => 'LogableUser', 'logModel' => 'LogableLog', 'ignore' => array('counter')));
 
 }
 
 class LogableComment extends LogableTestModel {
 
-	public $actsAs = array('Tools.Logable' => array('userModel'=>'LogableUser', 'logModel'=>'LogableLog', ));
+	public $actsAs = array('Tools.Logable' => array('userModel' => 'LogableUser', 'logModel' => 'LogableLog', ));
 
 }

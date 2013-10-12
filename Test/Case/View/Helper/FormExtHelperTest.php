@@ -153,7 +153,7 @@ class FormExtHelperTest extends MyCakeTestCase {
 	public function testNormalize() {
 		$this->Form->request->data['Model']['field'] = "My\nvalue";
 		$result = $this->Form->text('Model.field');
-		$this->assertTags($result, array('input' => array('type' => 'text', 'name' => 'data[Model][field]', 'value'=>'My value', 'id' => 'ModelField')));
+		$this->assertTags($result, array('input' => array('type' => 'text', 'name' => 'data[Model][field]', 'value' => 'My value', 'id' => 'ModelField')));
 
 		$this->Form->request->data['Model']['field'] = "My\nvalue";
 		$result = $this->Form->textarea('Model.field');

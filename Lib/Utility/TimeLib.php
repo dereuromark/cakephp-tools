@@ -135,10 +135,10 @@ class TimeLib extends CakeTime {
 		$g_jahr = $yearS;
 		$g_date = mktime(0, 0, 0, $g_tag, $g_monat, $g_jahr);
 
-		if (($n_monat>$g_monat)||(($n_monat == $g_monat)&&($n_tag>$g_tag))||(($n_monat == $g_monat)&&($n_tag==$g_tag))) {
-			$age = $n_jahr-$g_jahr; // is correct if one already had his birthday this year
+		if (($n_monat > $g_monat)||(($n_monat == $g_monat)&&($n_tag > $g_tag))||(($n_monat == $g_monat)&&($n_tag == $g_tag))) {
+			$age = $n_jahr - $g_jahr; // is correct if one already had his birthday this year
 		} else {
-			$age = $n_jahr-$g_jahr-1; // is correct if one didnt have his birthday yet in this year
+			$age = $n_jahr - $g_jahr - 1; // is correct if one didnt have his birthday yet in this year
 		}
 		return $age;
 
@@ -318,12 +318,12 @@ class TimeLib extends CakeTime {
 			$first = mktime(0, 0, 0, 1, 1, $year);
 			$wtag = date('w', $first);
 
-			if ($wtag<=4) {
+			if ($wtag <= 4) {
 				/*Donnerstag oder kleiner: auf den Montag zurückrechnen.*/
-				$firstmonday = mktime(0, 0, 0, 1, 1-($wtag-1), $year);
-			} elseif ($wtag!=1) {
+				$firstmonday = mktime(0, 0, 0, 1, 1 - ($wtag - 1), $year);
+			} elseif ($wtag != 1) {
 				/*auf den Montag nach vorne rechnen.*/
-				$firstmonday = mktime(0, 0, 0, 1, 1+(7-$wtag+1), $year);
+				$firstmonday = mktime(0, 0, 0, 1, 1 + (7 - $wtag + 1), $year);
 			} else {
 				$firstmonday = $first;
 			}
@@ -423,8 +423,8 @@ class TimeLib extends CakeTime {
 		//TODO: other relative time then today should work as well
 		$Date = new DateTime($relativeTime !== null ? $relativeTime : 'now');
 
-		$max = mktime(23, 23, 59, $Date->format('m'), $Date->format('d'), $Date->format('Y')-$firstAge);
-		$min = mktime(0, 0, 1, $Date->format('m'), $Date->format('d')+1, $Date->format('Y')-$secondAge-1);
+		$max = mktime(23, 23, 59, $Date->format('m'), $Date->format('d'), $Date->format('Y') - $firstAge);
+		$min = mktime(0, 0, 1, $Date->format('m'), $Date->format('d') + 1, $Date->format('Y') - $secondAge - 1);
 
 		if ($returnAsString) {
 			$max = date(FORMAT_DB_DATE, $max);
@@ -680,63 +680,63 @@ class TimeLib extends CakeTime {
 		}
 
 		$times = array(
-			's'=>'0',
-			'm'=>'1',
-			'h'=>'2',
-			'd'=>'3',
-			'w'=>'4',
-			'm'=>'5',
-			'y'=>'6',
+			's' => '0',
+			'm' => '1',
+			'h' => '2',
+			'd' => '3',
+			'w' => '4',
+			'm' => '5',
+			'y' => '6',
 		);
 		$options = array(
-			'0'=>array(
-				'steps'=>array('1'=>60, '2'=>3600, '3'=>86400, '4'=>86400*7, '5'=>86400*30, '6'=>86400*365),
-				'down'=>0,
-				'up'=>60,
-				'short'=>'s',
-				'long'=>'seconds'
+			'0' => array(
+				'steps' => array('1' => 60, '2' => 3600, '3' => 86400, '4' => 86400 * 7, '5' => 86400 * 30, '6' => 86400 * 365),
+				'down' => 0,
+				'up' => 60,
+				'short' => 's',
+				'long' => 'seconds'
 			),
-			'1'=>array(
-				'steps'=>array('0'=>60, '2'=>60, '3'=>60*24, '4'=>60*24*7, '5'=>60*24*30, '6'=>60*24*365),
-				'down'=>60,
-				'up'=>60,
-				'short'=>'m',
-				'long'=>'minutes'
+			'1' => array(
+				'steps' => array('0' => 60, '2' => 60, '3' => 60 * 24, '4' => 60 * 24 * 7, '5' => 60 * 24 * 30, '6' => 60 * 24 * 365),
+				'down' => 60,
+				'up' => 60,
+				'short' => 'm',
+				'long' => 'minutes'
 			),
-			'2'=>array(
-				'steps'=>array('0'=>3600, '1'=>60, '3'=>24, '4'=>24*7, '5'=>24*30, '6'=>24*365),
-				'down'=>60,
-				'up'=>24,
-				'short'=>'h',
-				'long'=>'hours'
+			'2' => array(
+				'steps' => array('0' => 3600, '1' => 60, '3' => 24, '4' => 24 * 7, '5' => 24 * 30, '6' => 24 * 365),
+				'down' => 60,
+				'up' => 24,
+				'short' => 'h',
+				'long' => 'hours'
 			),
-			'3'=>array(
-				'steps'=>array('0'=>86400, '1'=>3600, '2'=>24, '4'=>7, '5'=>30, '6'=>365),
-				'down'=>24,
-				'up'=>7,
-				'short'=>'d',
-				'long'=>'days'
+			'3' => array(
+				'steps' => array('0' => 86400, '1' => 3600, '2' => 24, '4' => 7, '5' => 30, '6' => 365),
+				'down' => 24,
+				'up' => 7,
+				'short' => 'd',
+				'long' => 'days'
 			),
-			'4'=>array(
-				'steps'=>array('0'=>86400*7, '1'=>60*24*7, '2'=>24*7, '3'=>7, '5'=>4.2, '6'=>52),
-				'down'=>7,
-				'up'=>4.2,
-				'short'=>'w',
-				'long'=>'weeks'
+			'4' => array(
+				'steps' => array('0' => 86400 * 7, '1' => 60 * 24 * 7, '2' => 24 * 7, '3' => 7, '5' => 4.2, '6' => 52),
+				'down' => 7,
+				'up' => 4.2,
+				'short' => 'w',
+				'long' => 'weeks'
 			),
-			'5'=>array(
-				'steps'=>array('0'=>86400*30, '1'=>60*24*30, '2'=>24*30, '3'=>30, '4'=>4.2, '6'=>12),
-				'down'=>4.2,
-				'up'=>12,
-				'short'=>'m',
-				'long'=>'months'
+			'5' => array(
+				'steps' => array('0' => 86400 * 30, '1' => 60 * 24 * 30, '2' => 24 * 30, '3' => 30, '4' => 4.2, '6' => 12),
+				'down' => 4.2,
+				'up' => 12,
+				'short' => 'm',
+				'long' => 'months'
 			),
-			'6'=>array(
-				'steps'=>array('0'=>86400*365, '1'=>60*24*365, '2'=>24*365, '3'=>365, '4'=>52, '5'=>12),
-				'down'=>12,
-				'up'=>0,
-				'short'=>'y',
-				'long'=>'years'
+			'6' => array(
+				'steps' => array('0' => 86400 * 365, '1' => 60 * 24 * 365, '2' => 24 * 365, '3' => 365, '4' => 52, '5' => 12),
+				'down' => 12,
+				'up' => 0,
+				'short' => 'y',
+				'long' => 'years'
 			),
 		);
 
@@ -856,7 +856,7 @@ class TimeLib extends CakeTime {
 	 * @see timeAgoInWords()
 	 */
 	public static function lengthOfTime($seconds, $format = null, $options = array()) {
-		$defaults = array('verbose'=>true, 'zero'=>false, 'separator'=>', ', 'default'=>'');
+		$defaults = array('verbose' => true, 'zero' => false, 'separator' => ', ', 'default' => '');
 		$ret = '';
 			$j = 0;
 
@@ -928,7 +928,7 @@ class TimeLib extends CakeTime {
 			}
 
 			if ($str > 0 || $j > 0 || $options['zero'] || $i == mb_strlen($format) - 1) {
-				if ($j>0) {
+				if ($j > 0) {
 					$ret .= $options['separator'];
 				}
 
@@ -985,13 +985,13 @@ class TimeLib extends CakeTime {
 			if ($options['future'] !== false) {
 				return sprintf($options['future'], $ret);
 			}
-			return array('future'=>$ret);
+			return array('future' => $ret);
 		}
 		if ($type == -1) {
 			if ($options['past'] !== false) {
 				return sprintf($options['past'], $ret);
 			}
-			return array('past'=>$ret);
+			return array('past' => $ret);
 		}
 		if ($options['verbose'] !== false) {
 			return $options['verbose'];
@@ -1021,7 +1021,7 @@ class TimeLib extends CakeTime {
 	 */
 	public static function wasDayBeforeYesterday($dateString, $timezone = null) {
 		$date = self::fromString($dateString, $timezone);
-		return date(FORMAT_DB_DATE, $date) == date(FORMAT_DB_DATE, time()-2*DAY);
+		return date(FORMAT_DB_DATE, $date) == date(FORMAT_DB_DATE, time() - 2 * DAY);
 	}
 
 	/**
@@ -1033,7 +1033,7 @@ class TimeLib extends CakeTime {
 	 */
 	public static function isDayAfterTomorrow($dateString, $timezone = null) {
 		$date = self::fromString($dateString, $timezone);
-		return date(FORMAT_DB_DATE, $date) == date(FORMAT_DB_DATE, time()+2*DAY);
+		return date(FORMAT_DB_DATE, $date) == date(FORMAT_DB_DATE, time() + 2 * DAY);
 	}
 
 	/**
@@ -1074,11 +1074,11 @@ class TimeLib extends CakeTime {
 	public static function parseLocalizedDate($date, $format = null, $type = 'start') {
 		$date = trim($date);
 		$i18n = array(
-			strtolower(__('Today')) => array('start'=>date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))), 'end'=>date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')))),
-			strtolower(__('Tomorrow')) => array('start'=>date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))+DAY), 'end'=>date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y'))+DAY)),
-			strtolower(__('Yesterday')) => array('start'=>date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))-DAY), 'end'=>date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y'))-DAY)),
-			strtolower(__('The day after tomorrow')) => array('start'=>date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))+2*DAY), 'end'=>date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y'))+2*DAY)),
-			strtolower(__('The day before yesterday')) => array('start'=>date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))-2*DAY), 'end'=>date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y'))-2*DAY)),
+			strtolower(__('Today')) => array('start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')))),
+			strtolower(__('Tomorrow')) => array('start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y')) + DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')) + DAY)),
+			strtolower(__('Yesterday')) => array('start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y')) - DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')) - DAY)),
+			strtolower(__('The day after tomorrow')) => array('start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y')) + 2 * DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')) + 2 * DAY)),
+			strtolower(__('The day before yesterday')) => array('start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y')) - 2 * DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')) - 2 * DAY)),
 		);
 		if (isset($i18n[strtolower($date)])) {
 			return $i18n[strtolower($date)][$type];
@@ -1187,12 +1187,12 @@ class TimeLib extends CakeTime {
 	 */
 	public static function standardToDecimalTime($value) {
 		$base = (int)$value;
-		$tmp = $value-$base;
+		$tmp = $value - $base;
 
 		$tmp *= 100;
 		$tmp *= 1 / 60;
 
-		$value = $base+$tmp;
+		$value = $base + $tmp;
 		return $value;
 	}
 
@@ -1238,14 +1238,14 @@ class TimeLib extends CakeTime {
 		# now there is only the time schema left...
 		$pieces = explode(':', $duration, 3);
 		$res = 0;
-		$hours = abs((int)$pieces[0])*HOUR;
+		$hours = abs((int)$pieces[0]) * HOUR;
 		//echo pre($hours);
 		$isNegative = (strpos((string)$pieces[0], '-') !== false ? true : false);
 
 		if (count($pieces) === 3) {
-			$res += $hours + ((int)$pieces[1])*MINUTE + ((int)$pieces[2])*SECOND;
+			$res += $hours + ((int)$pieces[1]) * MINUTE + ((int)$pieces[2]) * SECOND;
 		} elseif (count($pieces) === 2) {
-			$res += $hours + ((int)$pieces[1])*MINUTE;
+			$res += $hours + ((int)$pieces[1]) * MINUTE;
 		} else {
 			$res += $hours;
 		}
@@ -1298,7 +1298,7 @@ class TimeLib extends CakeTime {
 
 		$minutes = $duration % HOUR;
 		$hours = ($duration - $minutes) / HOUR;
-		$res = (int)$hours . ':' . str_pad(intval($minutes/MINUTE), 2, '0', STR_PAD_LEFT);
+		$res = (int)$hours . ':' . str_pad(intval($minutes / MINUTE), 2, '0', STR_PAD_LEFT);
 		if (strpos($mode, 'SS') !== false) {
 			//TODO
 		}

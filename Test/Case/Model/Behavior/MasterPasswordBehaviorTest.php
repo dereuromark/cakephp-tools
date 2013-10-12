@@ -66,7 +66,7 @@ class MasterPasswordBehaviorTest extends MyCakeTestCase {
 	 */
 	public function testComplex() {
 		Configure::write('MasterPassword.password', '373e28e7cdb42d7aefc49c5f34fa589a7ff1eefd0ac01f573d90299f79a01a05');
-		$this->Model->Behaviors->load('Tools.MasterPassword', array('field'=>'master_password', 'hash'=>'sha256', 'message'=>'No way'));
+		$this->Model->Behaviors->load('Tools.MasterPassword', array('field' => 'master_password', 'hash' => 'sha256', 'message' => 'No way'));
 
 		$data = array(
 			'some_comment' => 'xyz',
@@ -94,7 +94,7 @@ class MasterPasswordBehaviorTest extends MyCakeTestCase {
 	public function testWithSalt() {
 		$hash = hash('sha256', Configure::read('Security.salt') . 'xxyyzz');
 		Configure::write('MasterPassword.password', $hash);
-		$this->Model->Behaviors->load('Tools.MasterPassword', array('hash'=>'sha256', 'salt'=>true));
+		$this->Model->Behaviors->load('Tools.MasterPassword', array('hash' => 'sha256', 'salt' => true));
 		$data = array(
 			'some_comment' => 'xyz',
 			'master_pwd' => 'xxyyzz'
@@ -105,7 +105,7 @@ class MasterPasswordBehaviorTest extends MyCakeTestCase {
 
 		$hash = hash('sha256', '123' . 'xxyyzz');
 		Configure::write('MasterPassword.password', $hash);
-		$this->Model->Behaviors->load('Tools.MasterPassword', array('hash'=>'sha256', 'salt'=>'123'));
+		$this->Model->Behaviors->load('Tools.MasterPassword', array('hash' => 'sha256', 'salt' => '123'));
 		$data = array(
 			'some_comment' => 'xyz',
 			'master_pwd' => 'xxyyzz'

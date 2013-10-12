@@ -25,21 +25,21 @@ class KeyValueBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function testValidate() {
-		$res = $this->Model->validateSection(array('User'=>array('x'=>1, 'y'=>'')));
+		$res = $this->Model->validateSection(array('User' => array('x' => 1, 'y' => '')));
 		$this->assertTrue(!empty($res));
 
 		$this->Model->keyValueValidate = array(
 			'User' => array('y' => 'notEmpty'),
 		);
-		$res = $this->Model->validateSection(array('User'=>array('x'=>1, 'y'=>'')));
+		$res = $this->Model->validateSection(array('User' => array('x' => 1, 'y' => '')));
 		$this->assertFalse($res);
 
-		$res = $this->Model->validateSection(array('User'=>array('x'=>1, 'y'=>'1')));
+		$res = $this->Model->validateSection(array('User' => array('x' => 1, 'y' => '1')));
 		$this->assertTrue(!empty($res));
 	}
 
 	public function testSaveAndGet() {
-		$this->Model->saveSection(1, array('User'=>array('x'=>1, 'y'=>'z')));
+		$this->Model->saveSection(1, array('User' => array('x' => 1, 'y' => 'z')));
 
 		$res = $this->Model->getSection(2);
 		$this->assertTrue(empty($res));
@@ -54,7 +54,7 @@ class KeyValueBehaviorTest extends MyCakeTestCase {
 		$res = $this->Model->getSection(2);
 		$this->assertTrue(empty($res));
 
-		$res = $this->Model->saveSection(2, array('User' => array('e' => 'f'), 'Profile'=>array('x' => 3, 'y' => 'abc')), 'Profile');
+		$res = $this->Model->saveSection(2, array('User' => array('e' => 'f'), 'Profile' => array('x' => 3, 'y' => 'abc')), 'Profile');
 		$this->assertTrue($res);
 
 		$res = $this->Model->getSection(2);
@@ -76,10 +76,10 @@ class KeyValueBehaviorTest extends MyCakeTestCase {
 		$this->Model->Behaviors->unload('KeyValue');
 		$this->Model->Behaviors->load('Tools.KeyValue');
 
-		$this->Model->saveSection(0, array('User'=>array('x'=>1, 'y'=>'z')));
+		$this->Model->saveSection(0, array('User' => array('x' => 1, 'y' => 'z')));
 
 		$res = $this->Model->getSection(0, 'User');
-		$this->assertEquals(array('x'=>1, 'y'=>'z', 'z' => 123), $res);
+		$this->assertEquals(array('x' => 1, 'y' => 'z', 'z' => 123), $res);
 
 		$res = $this->Model->getSection(0, 'User', 'y');
 		$this->assertEquals('z', $res);
@@ -92,7 +92,7 @@ class KeyValueBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function testReset() {
-		$this->Model->saveSection(0, array('User'=>array('x'=>1, 'y'=>'z')));
+		$this->Model->saveSection(0, array('User' => array('x' => 1, 'y' => 'z')));
 		$res = $this->Model->Behaviors->KeyValue->KeyValue->find('count');
 		$this->assertEquals(3, $res);
 
@@ -110,18 +110,18 @@ class KeyValueBehaviorTest extends MyCakeTestCase {
 				'z' => '123',
 			)
 		);
-		$this->Model->saveSection(0, array('User'=>array('x'=>1, 'y'=>'z', 'z' => 123)));
+		$this->Model->saveSection(0, array('User' => array('x' => 1, 'y' => 'z', 'z' => 123)));
 		$res = $this->Model->Behaviors->KeyValue->KeyValue->find('count');
 		$this->assertEquals(4, $res);
 
-		$res = $this->Model->saveSection(0, array('User'=>array('x'=>0, 'y'=>null)));
+		$res = $this->Model->saveSection(0, array('User' => array('x' => 0, 'y' => null)));
 		$this->assertTrue($res);
 		$res = $this->Model->Behaviors->KeyValue->KeyValue->find('count');
 		$this->assertEquals(3, $res);
 
 		$this->Model->Behaviors->unload('KeyValue');
 		$this->Model->Behaviors->load('Tools.KeyValue', array('deleteIfDefault' => true));
-		$res = $this->Model->saveSection(0, array('User'=>array('z'=>'123')));
+		$res = $this->Model->saveSection(0, array('User' => array('z' => '123')));
 		$this->assertTrue($res);
 		$res = $this->Model->Behaviors->KeyValue->KeyValue->find('count');
 		$this->assertEquals(2, $res);

@@ -108,8 +108,8 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 				if (!empty($this->settings[$Model->alias]['defaults'])) {
 					foreach ($params as $k => $v) {
 						if ($k > 0) {
-							if (isset($this->settings[$Model->alias]['defaults'][$k-1]) && empty($v)) {
-								$params[$k]=$this->settings[$Model->alias]['defaults'][$k-1];
+							if (isset($this->settings[$Model->alias]['defaults'][$k - 1]) && empty($v)) {
+								$params[$k] = $this->settings[$Model->alias]['defaults'][$k - 1];
 								$string = $params[$k];
 							} elseif (!empty($string)) {	// use the previous string if available (e.g. if only one value is given for all)
 								$params[$k] = $string;

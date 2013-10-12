@@ -189,7 +189,7 @@ class TinyAuthorize extends BaseAuthorize {
 			if (!isset($Model->{$this->settings['aclModel']})) {
 				throw new CakeException('Missing relationship between User and Role.');
 			}
-			$availableRoles = $Model->{$this->settings['aclModel']}->find('list', array('fields'=>array('alias', 'id')));
+			$availableRoles = $Model->{$this->settings['aclModel']}->find('list', array('fields' => array('alias', 'id')));
 			Configure::write($this->settings['aclModel'], $availableRoles);
 		}
 		if (!is_array($availableRoles) || !is_array($iniArray)) {

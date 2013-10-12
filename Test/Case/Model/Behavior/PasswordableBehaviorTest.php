@@ -107,7 +107,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testValidateNoConfirm() {
-		$this->User->Behaviors->load('Tools.Passwordable', array('confirm'=>false));
+		$this->User->Behaviors->load('Tools.Passwordable', array('confirm' => false));
 		$this->User->create();
 		$data = array(
 			'pwd' => '123456',
@@ -189,7 +189,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$this->tearDown();
 		$this->setUp();
 
-		$this->User->Behaviors->load('Tools.Passwordable', array('require' => false, 'current'=>true));
+		$this->User->Behaviors->load('Tools.Passwordable', array('require' => false, 'current' => true));
 		$this->User->create();
 		$data = array(
 			'name' => 'foo',

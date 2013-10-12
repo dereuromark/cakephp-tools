@@ -27,12 +27,12 @@ class ResetBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function testResetRecords() {
-		$x = $this->Model->find('first', array('order' => array('updated'=>'DESC')));
+		$x = $this->Model->find('first', array('order' => array('updated' => 'DESC')));
 
 		$result = $this->Model->resetRecords();
 		$this->assertTrue($result);
 
-		$y = $this->Model->find('first', array('order' => array('updated'=>'DESC')));
+		$y = $this->Model->find('first', array('order' => array('updated' => 'DESC')));
 		$this->assertSame($x, $y);
 	}
 
@@ -40,27 +40,27 @@ class ResetBehaviorTest extends MyCakeTestCase {
 		$this->Model->Behaviors->unload('Reset');
 		$this->Model->Behaviors->load('Tools.Reset', array('updateTimestamp' => true));
 
-		$x = $this->Model->find('first', array('order' => array('updated'=>'DESC')));
+		$x = $this->Model->find('first', array('order' => array('updated' => 'DESC')));
 		$this->assertTrue($x['MyComment']['updated'] < '2007-12-31');
 
 		$result = $this->Model->resetRecords();
 		$this->assertTrue($result);
 
-		$x = $this->Model->find('first', array('order' => array('updated'=>'ASC')));
-		$this->assertTrue($x['MyComment']['updated'] > (date('Y')-1) . '-12-31');
+		$x = $this->Model->find('first', array('order' => array('updated' => 'ASC')));
+		$this->assertTrue($x['MyComment']['updated'] > (date('Y') - 1) . '-12-31');
 	}
 
 	public function testResetWithCallback() {
 		$this->Model->Behaviors->unload('Reset');
 		$this->Model->Behaviors->load('Tools.Reset', array('callback' => 'customCallback'));
 
-		$x = $this->Model->find('first', array('conditions' => array('id'=>6)));
+		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
 		$this->assertEquals('Second Comment for Second Article', $x['MyComment']['comment']);
 
 		$result = $this->Model->resetRecords();
 		$this->assertTrue($result);
 
-		$x = $this->Model->find('first', array('conditions' => array('id'=>6)));
+		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
 		$expected = 'Second Comment for Second Article xyz';
 		$this->assertEquals($expected, $x['MyComment']['comment']);
 	}

@@ -88,7 +88,7 @@ class QloginController extends ToolsAppController {
 		$users = $this->User->find('list');
 
 		$this->CodeKey = ClassRegistry::init('Tools.CodeKey');
-		$qlogins = $this->CodeKey->find('count', array('conditions'=>array('type'=>'qlogin')));
+		$qlogins = $this->CodeKey->find('count', array('conditions' => array('type' => 'qlogin')));
 
 		$this->set(compact('users', 'qlogins'));
 	}
@@ -102,9 +102,9 @@ class QloginController extends ToolsAppController {
 			throw new MethodNotAllowedException();
 		}
 		$this->CodeKey = ClassRegistry::init('Tools.CodeKey');
-		$this->CodeKey->deleteAll(array('type'=>'qlogin'));
+		$this->CodeKey->deleteAll(array('type' => 'qlogin'));
 		$this->Common->flashMessage(__('Success'), 'success');
-		return $this->Common->autoRedirect(array('action'=>'index'));
+		return $this->Common->autoRedirect(array('action' => 'index'));
 	}
 
 }

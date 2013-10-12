@@ -151,7 +151,9 @@ class TextExtHelper extends TextHelper {
 	 * @return string html with js generated link around email (and non js fallback)
 	 */
 	public function encodeEmailUrl($mail, $text=null, $params=array(), $attr = array()) {
-		if (empty($class)) { $class='email'; }
+		if (empty($class)) { 
+			$class = 'email'; 
+		}
 
 		$defaults = array(
 			'title' => __('for use in an external mail client'),
@@ -179,12 +181,12 @@ class TextExtHelper extends TextHelper {
 		$attr = array_merge($defaults, $attr);
 
 		$xmail = $this->Html->link('', $encMail . $querystring, $attr);
-		$xmail1 = mb_substr($xmail, 0, count($xmail)-5);
+		$xmail1 = mb_substr($xmail, 0, count($xmail) - 5);
 		$xmail2 = mb_substr($xmail, -4, 4);
 
 		$len = mb_strlen($xmail1);
-		$i=0;
-		while ($i<$len) {
+		$i = 0;
+		while ($i < $len) {
 			$c = mt_rand(2, 6);
 			$par[] = (mb_substr($xmail1, $i, $c));
 			$i += $c;
@@ -209,7 +211,7 @@ class TextExtHelper extends TextHelper {
 	 */
 	public static function encodeText($text) {
 		$encmail = '';
-		for ($i=0; $i < mb_strlen($text); $i++) {
+		for ($i = 0; $i < mb_strlen($text); $i++) {
 			$encMod = mt_rand(0, 2);
 			switch ($encMod) {
 			case 0: // None
@@ -300,7 +302,7 @@ class TextExtHelper extends TextHelper {
 		if (empty($pieces['scheme'])) {
 			return $url; # already stripped
 		}
-		return mb_substr($url, mb_strlen($pieces['scheme'])+3); # +3 <=> :// # can only be 4 with "file" (file:///)...
+		return mb_substr($url, mb_strlen($pieces['scheme']) + 3); # +3 <=> :// # can only be 4 with "file" (file:///)...
 	}
 
 	/**

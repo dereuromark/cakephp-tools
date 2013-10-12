@@ -36,7 +36,7 @@ class CustomFindsBehaviorTest extends MyCakeTestCase {
 		$query = array(
 			'custom' => 'topSellers',
 			'recursive' => 0,
-			'conditions' => array('Product.count >'=>0),
+			'conditions' => array('Product.count >' => 0),
 		);
 
 		$res = $this->Model->Behaviors->CustomFinds->beforeFind($this->Model, $query);
@@ -53,14 +53,14 @@ class CustomFindsBehaviorTest extends MyCakeTestCase {
 	public function testModifyWithRemove() {
 		$query = array(
 			'custom' => 'topSellers',
-			'conditions' => array('Product.count >'=>0),
+			'conditions' => array('Product.count >' => 0),
 			'remove' => array('conditions')
 		);
 
 		$res = $this->Model->Behaviors->CustomFinds->beforeFind($this->Model, $query);
 		//pr($res);
 		$queryResult = $this->Model->customFinds['topSellers'];
-		$queryResult['conditions'] = array('Product.count >'=>0);
+		$queryResult['conditions'] = array('Product.count >' => 0);
 
 		$this->assertTrue(!empty($res));
 		$this->assertSame($queryResult['recursive'], $res['recursive']);
@@ -68,8 +68,8 @@ class CustomFindsBehaviorTest extends MyCakeTestCase {
 
 		$query = array(
 			'custom' => 'topSellers',
-			'conditions' => array('Product.count >'=>0),
-			'remove' => array('conditions'=>array('Product.countSeller >'))
+			'conditions' => array('Product.count >' => 0),
+			'remove' => array('conditions' => array('Product.countSeller >'))
 		);
 
 		$res = $this->Model->Behaviors->CustomFinds->beforeFind($this->Model, $query);

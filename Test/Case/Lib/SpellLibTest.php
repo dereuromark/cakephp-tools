@@ -56,7 +56,7 @@ class SpellLibTest extends MyCakeTestCase {
 	}
 
 	public function testGerman() {
-		$this->SpellLib = new SpellLib(array('lang'=>'de_DE'));
+		$this->SpellLib = new SpellLib(array('lang' => 'de_DE'));
 
 		$word = 'Wand';
 		$res = $this->SpellLib->check($word);

@@ -34,10 +34,10 @@ class CaptchaHelper extends AppHelper {
 		parent::__construct($View, $settings);
 
 		# First of all we are going to set up an array with the text equivalents of all the numbers we will be using.
-		$this->numberConvert = array(0=>'zero', 1=>'one', 2=>'two', 3=>'three', 4=>'four', 5=>'five', 6=>'six', 7=>'seven', 8=>'eight', 9=>'nine', 10=>'ten');
+		$this->numberConvert = array(0 => 'zero', 1 => 'one', 2 => 'two', 3 => 'three', 4 => 'four', 5 => 'five', 6 => 'six', 7 => 'seven', 8 => 'eight', 9 => 'nine', 10 => 'ten');
 
 		# Set up an array with the operators that we want to use. With difficulty=1 it is only subtraction and addition.
-		$this->operatorConvert = array(0=>array('+', __('calcPlus')), 1=>array('-', __('calcMinus')), 2=>'*', __('calcTimes'));
+		$this->operatorConvert = array(0 => array('+', __('calcPlus')), 1 => array('-', __('calcMinus')), 2 => '*', __('calcTimes'));
 
 		$this->settings = array_merge(CaptchaLib::$defaults, $this->_defaults);
 		$settings = (array)Configure::read('Captcha');
@@ -68,7 +68,7 @@ class CaptchaHelper extends AppHelper {
 		# Evaluate the equation and get the result.
 		eval('$result = ' . $numberOne . ' ' . $captchaOperatorSelection[0] . ' ' . $numberTwo . ';');
 
-		return array('code'=>$code, 'result'=>$result);
+		return array('code' => $code, 'result' => $result);
 	}
 
 	/**
@@ -105,9 +105,9 @@ class CaptchaHelper extends AppHelper {
 
 		# add passive part on active forms as well
 		$return .= '<div style="display:none">' .
-			$this->Form->input($field . '_hash', array('value'=>$hash)) .
-			$this->Form->input($field . '_time', array('value'=>time())) .
-			$this->Form->input((!empty($modelName) ? $modelName . '.' : '') . $this->settings['dummyField'], array('value'=>'')) .
+			$this->Form->input($field . '_hash', array('value' => $hash)) .
+			$this->Form->input($field . '_time', array('value' => time())) .
+			$this->Form->input((!empty($modelName) ? $modelName . '.' : '') . $this->settings['dummyField'], array('value' => '')) .
 		'</div>';
 		return $return;
 	}

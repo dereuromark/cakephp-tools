@@ -48,7 +48,7 @@ class TinyUrlsController extends ToolsAppController {
 			$type = !empty($entry['TinyUrl']['flash_type']) ? $entry['TinyUrl']['flash_type'] : 'success';
 			$this->Common->flashMessage($message, $type);
 		}
-		$this->TinyUrl->up($entry['TinyUrl']['id'], array('field'=>'used', 'modify'=>true, 'timestampField'=>'last_used'));
+		$this->TinyUrl->up($entry['TinyUrl']['id'], array('field' => 'used', 'modify' => true, 'timestampField' => 'last_used'));
 		return $this->redirect($url, 301);
 	}
 
@@ -66,7 +66,7 @@ class TinyUrlsController extends ToolsAppController {
 			}
 		}
 
-		$tinyUrls = $this->TinyUrl->find('count', array('conditions'=>array()));
+		$tinyUrls = $this->TinyUrl->find('count', array('conditions' => array()));
 
 		$this->set(compact('tinyUrls'));
 	}
@@ -81,7 +81,7 @@ class TinyUrlsController extends ToolsAppController {
 		}
 		$this->TinyUrl->truncate();
 		$this->Common->flashMessage(__('Done'), 'success');
-		return $this->Common->autoRedirect(array('action'=>'index'));
+		return $this->Common->autoRedirect(array('action' => 'index'));
 	}
 
 }

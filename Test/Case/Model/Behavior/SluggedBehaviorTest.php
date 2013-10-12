@@ -280,10 +280,10 @@ class SluggedBehaviorTest extends CakeTestCase {
 			}
 			$prevTest = hexdec($code) - 1;
 			$nextTest = hexdec($code) + 1;
-			if ($prevTest == hexdec($chars[$i -1]) &&
+			if ($prevTest == hexdec($chars[$i - 1]) &&
 				isset($chars[$i + 1]) && $nextTest == hexdec($chars[$i + 1])) {
 				continue;
-			} elseif ($prevTest == hexdec($chars[$i -1])) {
+			} elseif ($prevTest == hexdec($chars[$i - 1])) {
 				$codeRegex .= "-\x{{$code}}";
 				$charRegex .= '-' . html_entity_decode('&#' . hexdec($code) . ';', ENT_NOQUOTES, 'UTF-8');
 			} else {
@@ -407,7 +407,7 @@ class SluggedBehaviorTest extends CakeTestCase {
  */
 	protected function _testMode($mode, $hex1Limit = 16, $hex2Limit = 16, $hex1Start = 0, $hex2Start = 0) {
 		for ($hex1 = $hex1Start; $hex1 < $hex1Limit; $hex1++) {
-			$suffix = dechex($hex1) . dechex($hex2Start) . '_' . dechex($hex1) . dechex($hex2Limit -1);
+			$suffix = dechex($hex1) . dechex($hex2Start) . '_' . dechex($hex1) . dechex($hex2Limit - 1);
 			$full = TMP . 'tests' . DS . 'slug_' . $mode . '_' . $suffix . '.html';
 			$file = new File($full, true);
 			$this->_writeHeader($file, $hex1);
@@ -481,7 +481,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$result[1] = array_unique($result[1]);
 		$input = file($inputFile);
 		foreach ($result[1] as $nextLine) {
-			$line = $nextLine -1;
+			$line = $nextLine - 1;
 			preg_match('@title=\'([a-fA-F0-9]+)@', $input[$line], $char);
 			if ($char) {
 				$this->illegalChars[] = (string)$char[1];
@@ -496,10 +496,10 @@ class SluggedBehaviorTest extends CakeTestCase {
 			}
 			$prevTest = hexdec($code) - 1;
 			$nextTest = hexdec($code) + 1;
-			if ($prevTest == hexdec($this->illegalChars[$i -1]) &&
+			if ($prevTest == hexdec($this->illegalChars[$i - 1]) &&
 				isset($this->illegalChars[$i + 1]) && $nextTest == hexdec($this->illegalChars[$i + 1])) {
 				continue;
-			} elseif ($prevTest == hexdec($this->illegalChars[$i -1])) {
+			} elseif ($prevTest == hexdec($this->illegalChars[$i - 1])) {
 				$string .= "-\x{{$code}}";
 			} else {
 				$string .= "\x{{$code}}";

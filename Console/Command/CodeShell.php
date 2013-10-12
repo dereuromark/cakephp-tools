@@ -90,10 +90,10 @@ class CodeShell extends AppShell {
 		$pos = 1;
 
 		if (!empty($fileContent[1]) && $fileContent[1] === '/**') {
-			for ($i = $pos; $i < count($fileContent)-1; $i++) {
+			for ($i = $pos; $i < count($fileContent) - 1; $i++) {
 				if (strpos($fileContent[$i], '*/') !== false) {
-					if (strpos($fileContent[$i+1], 'class ') !== 0) {
-						$pos = $i+1;
+					if (strpos($fileContent[$i + 1], 'class ') !== 0) {
+						$pos = $i + 1;
 					}
 					break;
 				}
@@ -284,12 +284,12 @@ class CodeShell extends AppShell {
 					'help' => __d('cake_console', 'The extension(s) to search. A pipe delimited list, or a preg_match compatible subpattern'),
 					'default' => 'php|ctp|thtml|inc|tpl'
 				),
-				'vendor'=> array(
+				'vendor' => array(
 					'short' => 'e',
 					'help' => __d('cake_console', 'Include vendor files, as well'),
 					'boolean' => true
 				),
-				'dry-run'=> array(
+				'dry-run' => array(
 					'short' => 'd',
 					'help' => __d('cake_console', 'Dry run the update, no files will actually be modified.'),
 					'boolean' => true

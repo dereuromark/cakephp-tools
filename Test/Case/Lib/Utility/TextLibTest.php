@@ -55,13 +55,13 @@ TXT;
 
 	public function testMaxWords() {
 		$this->assertEquals('Taylor...', TextLib::maxWords('Taylor Otwell', 1));
-		$this->assertEquals('Taylor___', TextLib::maxWords('Taylor Otwell', 1, array('ellipsis'=>'___')));
+		$this->assertEquals('Taylor___', TextLib::maxWords('Taylor Otwell', 1, array('ellipsis' => '___')));
 		$this->assertEquals('Taylor Otwell', TextLib::maxWords('Taylor Otwell', 3));
 	}
 
 	public function testWords() {
 		$this->TextLib = new TextLib('Hochhaus, Unter dem Bau von ae Äußeren Einflüssen - und von Autos.');
-		$is = $this->TextLib->words(array('min_char'=>3));
+		$is = $this->TextLib->words(array('min_char' => 3));
 		//pr($is);
 		$this->assertTrue(!empty($is) && is_array($is) && count($is) === 9);
 

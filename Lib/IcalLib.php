@@ -2,8 +2,8 @@
 
 //$path = dirname(__FILE__);
 //require_once($path . DS . 'Vendor' . DS . 'ical'.DS.'ical.php');
-App::import('Vendor', 'Tools.ical', array('file'=>'ical/ical.php'));
-App::import('Vendor', 'Tools.icalobject', array('file'=>'ical/i_cal_object.php'));
+App::import('Vendor', 'Tools.ical', array('file' => 'ical/ical.php'));
+App::import('Vendor', 'Tools.icalobject', array('file' => 'ical/i_cal_object.php'));
 
 App::uses('TimeLib', 'Tools.Utility');
 

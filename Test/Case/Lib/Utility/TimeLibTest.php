@@ -192,9 +192,9 @@ class TimeLibTest extends MyCakeTestCase {
 		$this->out($this->_header(__FUNCTION__), true);
 		$values = array(
 			array(__('Today'), "(Model.field >= '" . date(FORMAT_DB_DATE) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE) . " 23:59:59')"),
-			array(__('Yesterday') . ' ' . __('until') . ' ' . __('Today'), "(Model.field >= '" . date(FORMAT_DB_DATE, time()-DAY) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE) . " 23:59:59')"),
-			array(__('Today') . ' ' . __('until') . ' ' . __('Tomorrow'), "(Model.field >= '" . date(FORMAT_DB_DATE, time()) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE, time()+DAY) . " 23:59:59')"),
-			array(__('Yesterday') . ' ' . __('until') . ' ' . __('Tomorrow'), "(Model.field >= '" . date(FORMAT_DB_DATE, time()-DAY) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE, time()+DAY) . " 23:59:59')"),
+			array(__('Yesterday') . ' ' . __('until') . ' ' . __('Today'), "(Model.field >= '" . date(FORMAT_DB_DATE, time() - DAY) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE) . " 23:59:59')"),
+			array(__('Today') . ' ' . __('until') . ' ' . __('Tomorrow'), "(Model.field >= '" . date(FORMAT_DB_DATE, time()) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE, time() + DAY) . " 23:59:59')"),
+			array(__('Yesterday') . ' ' . __('until') . ' ' . __('Tomorrow'), "(Model.field >= '" . date(FORMAT_DB_DATE, time() - DAY) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE, time() + DAY) . " 23:59:59')"),
 		);
 
 		foreach ($values as $v) {
@@ -210,7 +210,7 @@ class TimeLibTest extends MyCakeTestCase {
 		$this->out($this->_header(__FUNCTION__), true);
 		$values = array(
 			array('2010-02-23 11:11:11', '2010-02-23 11:12:01', 50),
-			array('2010-02-23 11:11:11', '2010-02-24 11:12:01', DAY+50)
+			array('2010-02-23 11:11:11', '2010-02-24 11:12:01', DAY + 50)
 		);
 
 		foreach ($values as $v) {
@@ -222,9 +222,9 @@ class TimeLibTest extends MyCakeTestCase {
 	public function testAgeBounds() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$values = array(
-			array(20, 20, array('min'=>'1990-07-07', 'max'=>'1991-07-06')),
-			array(10, 30, array('min'=>'1980-07-07', 'max'=>'2001-07-06')),
-			array(11, 12, array('min'=>'1998-07-07', 'max'=>'2000-07-06'))
+			array(20, 20, array('min' => '1990-07-07', 'max' => '1991-07-06')),
+			array(10, 30, array('min' => '1980-07-07', 'max' => '2001-07-06')),
+			array(11, 12, array('min' => '1998-07-07', 'max' => '2000-07-06'))
 		);
 
 		foreach ($values as $v) {
@@ -245,20 +245,20 @@ class TimeLibTest extends MyCakeTestCase {
 		# year only
 		$is = TimeLib::ageByYear(2000);
 		$this->out($is);
-		$this->assertEquals((date('Y')-2001) . '/' . (date('Y')-2000), $is);
+		$this->assertEquals((date('Y') - 2001) . '/' . (date('Y') - 2000), $is);
 
 		$is = TimeLib::ageByYear(1985);
-		$this->assertEquals((date('Y')-1986) . '/' . (date('Y')-1985), $is);
+		$this->assertEquals((date('Y') - 1986) . '/' . (date('Y') - 1985), $is);
 
 		# with month
-		if (($month = date('n')+1) <= 12) {
+		if (($month = date('n') + 1) <= 12) {
 			$is = TimeLib::ageByYear(2000, $month);
 			$this->out($is);
 			//$this->assertEquals($is, (date('Y')-2001).'/'.(date('Y')-2000), null, '2000/'.$month);
-			$this->assertSame(date('Y')-2001, $is); //null, '2000/'.$month
+			$this->assertSame(date('Y') - 2001, $is); //null, '2000/'.$month
 		}
 
-		if (($month = date('n')-1) >= 1) {
+		if (($month = date('n') - 1) >= 1) {
 			$is = TimeLib::ageByYear(2000, $month);
 			$this->out($is);
 			//$this->assertEquals($is, (date('Y')-2001).'/'.(date('Y')-2000), null, '2000/'.$month);
@@ -311,10 +311,10 @@ class TimeLibTest extends MyCakeTestCase {
 		$ret = TimeLib::month(1);
 		$this->assertEquals(__('January'), $ret);
 
-		$ret = TimeLib::month(2, true, array('appendDot'=>true));
+		$ret = TimeLib::month(2, true, array('appendDot' => true));
 		$this->assertEquals(__('Feb') . '.', $ret);
 
-		$ret = TimeLib::month(5, true, array('appendDot'=>true));
+		$ret = TimeLib::month(5, true, array('appendDot' => true));
 		$this->assertEquals(__('May'), $ret);
 	}
 
@@ -366,7 +366,7 @@ class TimeLibTest extends MyCakeTestCase {
 		$ret = TimeLib::fuzzyFromOffset(DAY);
 		//pr($ret);
 
-		$ret = TimeLib::fuzzyFromOffset(DAY+2*MINUTE);
+		$ret = TimeLib::fuzzyFromOffset(DAY + 2 * MINUTE);
 		//pr($ret);
 
 		# FIX ME! Doesn't work!
@@ -551,20 +551,20 @@ class TimeLibTest extends MyCakeTestCase {
 			'2:4' => 7440,
 			'2:04' => 7440,
 			'2' => 7200,
-			'1,5' => 3600+1800,
-			'1.5' => 3600+1800,
-			'1.50' => 3600+1800,
+			'1,5' => 3600 + 1800,
+			'1.5' => 3600 + 1800,
+			'1.50' => 3600 + 1800,
 			'1.01' => 3660,
 			':4' => 240,
 			':04' => 240,
-			':40' => 40*MINUTE,
-			'1:2:4' => 1*HOUR+2*MINUTE+4*SECOND,
-			'01:2:04' => 1*HOUR+2*MINUTE+4*SECOND,
-			'0:2:04' => 2*MINUTE+4*SECOND,
-			'::4' => 4*SECOND,
-			'::04' => 4*SECOND,
-			'::40' => 40*SECOND,
-			'2011-11-12 10:10:10' => 10*HOUR+10*MINUTE+10*SECOND,
+			':40' => 40 * MINUTE,
+			'1:2:4' => 1 * HOUR + 2 * MINUTE + 4 * SECOND,
+			'01:2:04' => 1 * HOUR + 2 * MINUTE + 4 * SECOND,
+			'0:2:04' => 2 * MINUTE + 4 * SECOND,
+			'::4' => 4 * SECOND,
+			'::04' => 4 * SECOND,
+			'::40' => 40 * SECOND,
+			'2011-11-12 10:10:10' => 10 * HOUR + 10 * MINUTE + 10 * SECOND,
 		);
 
 		# positive
@@ -614,7 +614,7 @@ class TimeLibTest extends MyCakeTestCase {
 			7220 => '02:00:20',
 			5400 => '01:30:00',
 			3660 => '01:01:00',
-			1*HOUR+2*MINUTE+4*SECOND => '01:02:04',
+			1 * HOUR + 2 * MINUTE + 4 * SECOND => '01:02:04',
 		);
 
 		foreach ($tests as $was => $expected) {

@@ -19,17 +19,17 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 	public function testMapUrl() {
 		//echo $this->_header(__FUNCTION__);
 
-		$url = $this->GoogleMapV3->mapUrl(array('to'=>'Munich, Germany'));
+		$url = $this->GoogleMapV3->mapUrl(array('to' => 'Munich, Germany'));
 		$this->assertEquals('http://maps.google.com/maps?daddr=Munich%2C+Germany', $url);
 
-		$url = $this->GoogleMapV3->mapUrl(array('to'=>'<München>, Germany'));
+		$url = $this->GoogleMapV3->mapUrl(array('to' => '<München>, Germany'));
 		$this->assertEquals('http://maps.google.com/maps?daddr=%3CM%C3%BCnchen%3E%2C+Germany', $url);
 	}
 
 	public function testMapLink() {
 		//echo $this->_header(__FUNCTION__);
 
-		$result = $this->GoogleMapV3->mapLink('<To Munich>!', array('to'=>'<Munich>, Germany'));
+		$result = $this->GoogleMapV3->mapLink('<To Munich>!', array('to' => '<Munich>, Germany'));
 		$expected = '<a href="http://maps.google.com/maps?daddr=%3CMunich%3E%2C+Germany">&lt;To Munich&gt;!</a>';
 		//echo $result;
 		$this->assertEquals($expected, $result);
@@ -38,7 +38,7 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 	public function testLinkWithMapUrl() {
 		//echo $this->_header(__FUNCTION__);
 
-		$url = $this->GoogleMapV3->mapUrl(array('to'=>'<München>, Germany'));
+		$url = $this->GoogleMapV3->mapUrl(array('to' => '<München>, Germany'));
 		$result = $this->GoogleMapV3->Html->link('Some title', $url);
 		$expected = '<a href="http://maps.google.com/maps?daddr=%3CM%C3%BCnchen%3E%2C+Germany">Some title</a>';
 		//echo $result;
@@ -56,7 +56,7 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 				'path' => array('44.2,11.1', '43.1,12.2', '44.3,11.3', '43.3,12.3'),
 			),
 			array(
-				'path' => array(array('lat'=>'48.1', 'lng'=>'11.1'), array('lat'=>'48.4', 'lng'=>'11.2')), //'Frankfurt'
+				'path' => array(array('lat' => '48.1', 'lng' => '11.1'), array('lat' => '48.4', 'lng' => '11.2')), //'Frankfurt'
 				'color' => 'red',
 				'weight' => 10
 			)
@@ -85,7 +85,7 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 				'address' => '44.2,11.1',
 			)
 		);
-		$is = $this->GoogleMapV3->staticMarkers($m, array('color'=>'red', 'char'=>'C', 'shadow'=>'false'));
+		$is = $this->GoogleMapV3->staticMarkers($m, array('color' => 'red', 'char' => 'C', 'shadow' => 'false'));
 		//debug($is);
 
 		$options = array(
@@ -143,7 +143,7 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 		//echo h($is);
 		//echo BR.BR;
 		$attr = array(
-			'title'=>'<b>Yeah!</b>'
+			'title' => '<b>Yeah!</b>'
 		);
 		$is = $this->GoogleMapV3->staticMap($options, $attr);
 		//echo h($is).BR;
@@ -151,26 +151,26 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 		//echo BR.BR;
 
 		$pos = array(
-			array('lat'=>48.1, 'lng'=>'11.1'),
-			array('lat'=>48.2, 'lng'=>'11.2'),
+			array('lat' => 48.1, 'lng' => '11.1'),
+			array('lat' => 48.2, 'lng' => '11.2'),
 		);
 		$options = array(
 			'markers' => $this->GoogleMapV3->staticMarkers($pos)
 		);
 
-		$attr = array('url'=>$this->GoogleMapV3->mapUrl(array('to'=>'Munich, Germany')));
+		$attr = array('url' => $this->GoogleMapV3->mapUrl(array('to' => 'Munich, Germany')));
 		$is = $this->GoogleMapV3->staticMap($options, $attr);
 		//echo h($is).BR;
 		//echo $is;
 
 		//echo BR.BR.BR;
 
-		$url = $this->GoogleMapV3->mapUrl(array('to'=>'Munich, Germany'));
+		$url = $this->GoogleMapV3->mapUrl(array('to' => 'Munich, Germany'));
 		$attr = array(
-			'title'=>'Yeah'
+			'title' => 'Yeah'
 		);
 		$image = $this->GoogleMapV3->staticMap($options, $attr);
-		$link = $this->GoogleMapV3->Html->link($image, $url, array('escape'=>false, 'target'=>'_blank'));
+		$link = $this->GoogleMapV3->Html->link($image, $url, array('escape' => false, 'target' => '_blank'));
 		//echo h($link).BR;
 		//echo $link;
 	}
@@ -178,10 +178,10 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 	public function testStaticMapWithStaticMapLink() {
 		//echo '<h2>testStaticMapWithStaticMapLink</h2>';
 		$markers = array();
-		$markers[] = array('lat'=>48.2, 'lng'=>11.1, 'color'=>'red');
+		$markers[] = array('lat' => 48.2, 'lng' => 11.1, 'color' => 'red');
 		$mapMarkers = $this->GoogleMapV3->staticMarkers($markers);
 
-		$staticMapUrl = $this->GoogleMapV3->staticMapUrl(array('center'=>48 . ',' . 11, 'markers'=>$mapMarkers, 'size'=>'640x510', 'zoom'=>6));
+		$staticMapUrl = $this->GoogleMapV3->staticMapUrl(array('center' => 48 . ',' . 11, 'markers' => $mapMarkers, 'size' => '640x510', 'zoom' => 6));
 		//echo $this->GoogleMapV3->Html->link('Open Static Map', $staticMapUrl, array('class'=>'staticMap', 'title'=>__('click for full map'))); //, 'escape'=>false
 
 	}
@@ -234,18 +234,18 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 		//echo '<script type="text/javascript" src="'.$this->GoogleMapV3->gearsUrl().'"></script>';
 
 		$options = array(
-			'zoom'=>6,
-			'type'=>'R',
+			'zoom' => 6,
+			'type' => 'R',
 			'geolocate' => true,
-			'div' => array('id'=>'someothers'),
-			'map' => array('navOptions'=>array('style'=>'SMALL'), 'typeOptions' => array('style'=>'HORIZONTAL_BAR', 'pos'=>'RIGHT_CENTER'))
+			'div' => array('id' => 'someothers'),
+			'map' => array('navOptions' => array('style' => 'SMALL'), 'typeOptions' => array('style' => 'HORIZONTAL_BAR', 'pos' => 'RIGHT_CENTER'))
 		);
 		$result = $this->GoogleMapV3->map($options);
-		$this->GoogleMapV3->addMarker(array('lat'=>48.69847, 'lng'=>10.9514, 'title'=>'Marker', 'content'=>'Some Html-<b>Content</b>', 'icon'=>$this->GoogleMapV3->iconSet('green', 'E')));
+		$this->GoogleMapV3->addMarker(array('lat' => 48.69847, 'lng' => 10.9514, 'title' => 'Marker', 'content' => 'Some Html-<b>Content</b>', 'icon' => $this->GoogleMapV3->iconSet('green', 'E')));
 
-		$this->GoogleMapV3->addMarker(array('lat'=>47.69847, 'lng'=>11.9514, 'title'=>'Marker2', 'content'=>'Some more Html-<b>Content</b>'));
+		$this->GoogleMapV3->addMarker(array('lat' => 47.69847, 'lng' => 11.9514, 'title' => 'Marker2', 'content' => 'Some more Html-<b>Content</b>'));
 
-		$this->GoogleMapV3->addMarker(array('lat'=>47.19847, 'lng'=>11.1514, 'title'=>'Marker3'));
+		$this->GoogleMapV3->addMarker(array('lat' => 47.19847, 'lng' => 11.1514, 'title' => 'Marker3'));
 
 		/*
 		$options = array(
@@ -268,18 +268,18 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 	public function testDynamic2() {
 		//echo '<h2>Map 2</h2>';
 		$options = array(
-			'zoom'=>6, 'type'=>'H',
+			'zoom' => 6, 'type' => 'H',
 			'autoCenter' => true,
-			'div' => array('id'=>'someother'), //'height'=>'111',
-			'map' => array('typeOptions' => array('style'=>'DROPDOWN_MENU'))
+			'div' => array('id' => 'someother'), //'height'=>'111',
+			'map' => array('typeOptions' => array('style' => 'DROPDOWN_MENU'))
 		);
 		//echo $this->GoogleMapV3->map($options);
-		$this->GoogleMapV3->addMarker(array('lat'=>47.69847, 'lng'=>11.9514, 'title'=>'MarkerMUC', 'content'=>'Some more Html-<b>Content</b>'));
+		$this->GoogleMapV3->addMarker(array('lat' => 47.69847, 'lng' => 11.9514, 'title' => 'MarkerMUC', 'content' => 'Some more Html-<b>Content</b>'));
 
 		for ($i = 0; $i < 100; $i++) {
 			$lat = mt_rand(46000, 54000) / 1000;
 			$lng = mt_rand(2000, 20000) / 1000;
-			$this->GoogleMapV3->addMarker(array('id'=>'m' . ($i+1), 'lat'=>$lat, 'lng'=>$lng, 'title'=>'Marker' . ($i+1), 'content'=>'Lat: <b>' . $lat . '</b><br>Lng: <b>' . $lng . '</b>', 'icon'=>'http://google-maps-icons.googlecode.com/files/home.png'));
+			$this->GoogleMapV3->addMarker(array('id' => 'm' . ($i + 1), 'lat' => $lat, 'lng' => $lng, 'title' => 'Marker' . ($i + 1), 'content' => 'Lat: <b>' . $lat . '</b><br>Lng: <b>' . $lng . '</b>', 'icon' => 'http://google-maps-icons.googlecode.com/files/home.png'));
 		}
 
 		$js = "$('.mapAnchor').live('click', function() {
@@ -313,13 +313,13 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 		);
 		//echo $this->GoogleMapV3->map($options);
 
-		$this->GoogleMapV3->addMarker(array('lat'=>48.69847, 'lng'=>10.9514, 'content'=>'<b>Bla</b>', 'title'=>'NoDirections'));
+		$this->GoogleMapV3->addMarker(array('lat' => 48.69847, 'lng' => 10.9514, 'content' => '<b>Bla</b>', 'title' => 'NoDirections'));
 
-		$this->GoogleMapV3->addMarker(array('lat'=>47.69847, 'lng'=>11.9514, 'title'=>'AutoToDirections', 'content'=>'<b>Bla</b>', 'directions'=>true));
+		$this->GoogleMapV3->addMarker(array('lat' => 47.69847, 'lng' => 11.9514, 'title' => 'AutoToDirections', 'content' => '<b>Bla</b>', 'directions' => true));
 
-		$this->GoogleMapV3->addMarker(array('lat'=>46.69847, 'lng'=>11.9514, 'title'=>'ManuelToDirections', 'content'=>'<b>Bla</b>', 'directions'=>array('to'=>'Munich, Germany')));
+		$this->GoogleMapV3->addMarker(array('lat' => 46.69847, 'lng' => 11.9514, 'title' => 'ManuelToDirections', 'content' => '<b>Bla</b>', 'directions' => array('to' => 'Munich, Germany')));
 
-		$this->GoogleMapV3->addMarker(array('lat'=>45.69847, 'lng'=>11.9514, 'title'=>'ManuelFromDirections', 'content'=>'<b>Bla</b>', 'directions'=>array('from'=>'Munich, Germany')));
+		$this->GoogleMapV3->addMarker(array('lat' => 45.69847, 'lng' => 11.9514, 'title' => 'ManuelFromDirections', 'content' => '<b>Bla</b>', 'directions' => array('from' => 'Munich, Germany')));
 
 		//echo $this->GoogleMapV3->script();
 	}

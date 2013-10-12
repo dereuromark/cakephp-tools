@@ -152,7 +152,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 			$unit = 's';
 			$prec = 7;
 		} else {
-			$time = $time*1000;
+			$time = $time * 1000;
 			$unit = 'ms';
 			$prec = 4;
 		}

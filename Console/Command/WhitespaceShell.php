@@ -155,12 +155,12 @@ class WhitespaceShell extends AppShell {
 					'help' => __d('cake_console', 'Specify extensions [php|txt|...]'),
 					'default' => '',
 				),
-				'dry-run'=> array(
+				'dry-run' => array(
 					'short' => 'd',
 					'help' => __d('cake_console', 'Dry run the clear command, no files will actually be deleted. Should be combined with verbose!'),
 					'boolean' => true
 				),
-				'plugin'=> array(
+				'plugin' => array(
 					'short' => 'p',
 					'help' => __d('cake_console', 'Plugin'),
 					'default' => '',

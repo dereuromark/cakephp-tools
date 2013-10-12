@@ -103,17 +103,17 @@ class TextLib extends String {
 
 	public static function convertToOrdTable($str, $maxCols = 20) {
 		$res = '<table>';
-		$r = array('chr'=>array(), 'ord'=>array());
+		$r = array('chr' => array(), 'ord' => array());
 		$chars = preg_split('//', $str, -1);
 		$count = 0;
 		foreach ($chars as $key => $char) {
-			if ($maxCols && $maxCols < $count || $key === count($chars)-1) {
+			if ($maxCols && $maxCols < $count || $key === count($chars) - 1) {
 				$res .= '<tr><th>' . implode('</th><th>', $r['chr']) . '</th>';
 				$res .= '</tr>';
 				$res .= '<tr>';
 				$res .= '<td>' . implode('</th><th>', $r['ord']) . '</td></tr>';
 				$count = 0;
-				$r = array('chr'=>array(), 'ord'=>array());
+				$r = array('chr' => array(), 'ord' => array());
 			}
 			$count++;
 			//$res[] = UnicodeLib::ord($char);

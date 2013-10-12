@@ -132,12 +132,12 @@ class EncodingShell extends AppShell {
 					'help' => __d('cake_console', 'Specify extensions [php|txt|...] - defaults to [php].'),
 					'default' => '',
 				),
-				'dry-run'=> array(
+				'dry-run' => array(
 					'short' => 'd',
 					'help' => __d('cake_console', 'Dry run the command, no files will actually be modified. Should be combined with verbose.'),
 					'boolean' => true
 				),
-				'exclude'=> array(
+				'exclude' => array(
 					'short' => 'x',
 					'help' => __d('cake_console', 'exclude the following files'),
 					'boolean' => true,

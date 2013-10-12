@@ -25,9 +25,9 @@ class HashShell extends AppShell {
 
 		$types = array_merge(array_keys($hashAlgos), array('q'));
 		foreach ($hashAlgos as $key => $t) {
-			$this->out(($key+1) . ': ' . $t . (in_array($t, $this->active) ? ' (!)' : ''));
+			$this->out(($key + 1) . ': ' . $t . (in_array($t, $this->active) ? ' (!)' : ''));
 		}
-		while (!isset($type) || !in_array($type-1, $types)) {
+		while (!isset($type) || !in_array($type - 1, $types)) {
 			$type = $this->in(__('Select hashType - or [q] to quit'), null, self::DEFAULT_HASH_ALG);
 			if ($type === 'q') {
 				return $this->error('Aborted!');

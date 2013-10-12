@@ -17,7 +17,7 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		parent::setUp();
 
 		$this->Comment = new BitmaskedComment();
-		$this->Comment->Behaviors->load('Tools.Bitmasked', array('mappedField'=>'statuses'));
+		$this->Comment->Behaviors->load('Tools.Bitmasked', array('mappedField' => 'statuses'));
 	}
 
 	public function testEncodeBitmask() {
@@ -72,7 +72,7 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		$res = $this->Comment->save($data);
 		$this->assertTrue(!empty($res));
 
-		$res = $this->Comment->find('first', array('conditions'=>array('statuses'=>$data['statuses'])));
+		$res = $this->Comment->find('first', array('conditions' => array('statuses' => $data['statuses'])));
 		$this->assertTrue(!empty($res));
 		$expected = BitmaskedComment::STATUS_APPROVED | BitmaskedComment::STATUS_PUBLISHED; // 6
 		$this->assertEquals($expected, $res['BitmaskedComment']['status']);
@@ -81,7 +81,7 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		$this->assertEquals($expected, $res['BitmaskedComment']['statuses']);
 
 		# model.field syntax
-		$res = $this->Comment->find('first', array('conditions'=>array('BitmaskedComment.statuses'=>$data['statuses'])));
+		$res = $this->Comment->find('first', array('conditions' => array('BitmaskedComment.statuses' => $data['statuses'])));
 		$this->assertTrue(!empty($res));
 
 		# explitit
@@ -94,7 +94,7 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		$res = $this->Comment->save($data);
 		$this->assertTrue(!empty($res));
 
-		$res = $this->Comment->find('first', array('conditions'=>array('status'=>$activeApprovedAndPublished)));
+		$res = $this->Comment->find('first', array('conditions' => array('status' => $activeApprovedAndPublished)));
 		$this->assertTrue(!empty($res));
 		$this->assertEquals($activeApprovedAndPublished, $res['BitmaskedComment']['status']);
 		$expected = array(BitmaskedComment::STATUS_ACTIVE, BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_APPROVED);
@@ -106,7 +106,7 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 	 * Assert that you can manually trigger "notEmpty" rule with null instead of 0 for "not null" db fields
 	 */
 	public function testSaveWithDefaultValue() {
-		$this->Comment->Behaviors->load('Tools.Bitmasked', array('mappedField'=>'statuses', 'defaultValue' => ''));
+		$this->Comment->Behaviors->load('Tools.Bitmasked', array('mappedField' => 'statuses', 'defaultValue' => ''));
 		$data = array(
 			'comment' => 'test save',
 			'statuses' => array(),
@@ -139,7 +139,7 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		$this->assertEquals($expected, $res);
 
 		$conditions = $res;
-		$res = $this->Comment->find('all', array('conditions'=>$conditions));
+		$res = $this->Comment->find('all', array('conditions' => $conditions));
 		$this->assertTrue(!empty($res) && count($res) === 3);
 
 		# multiple (AND)
@@ -149,7 +149,7 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		$this->assertEquals($expected, $res);
 
 		$conditions = $res;
-		$res = $this->Comment->find('all', array('conditions'=>$conditions));
+		$res = $this->Comment->find('all', array('conditions' => $conditions));
 		$this->assertTrue(!empty($res) && count($res) === 2);
 	}
 
@@ -159,7 +159,7 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		$this->assertEquals($expected, $res);
 
 		$conditions = $res;
-		$res = $this->Comment->find('all', array('conditions'=>$conditions));
+		$res = $this->Comment->find('all', array('conditions' => $conditions));
 		$this->assertTrue(!empty($res) && count($res) === 4);
 
 		# multiple (AND)
@@ -169,7 +169,7 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		$this->assertEquals($expected, $res);
 
 		$conditions = $res;
-		$res = $this->Comment->find('all', array('conditions'=>$conditions));
+		$res = $this->Comment->find('all', array('conditions' => $conditions));
 		$this->assertTrue(!empty($res) && count($res) === 5);
 	}
 

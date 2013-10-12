@@ -21,7 +21,7 @@ App::uses('CurlLib', 'Tools.Lib');
 class HttpSocketLib {
 
 	// First tries with curl, then cake, then php
-	public $use = array('curl' => true, 'cake'=> true, 'php' => true);
+	public $use = array('curl' => true, 'cake' => true, 'php' => true);
 
 	public $debug = null;
 
@@ -83,7 +83,7 @@ class HttpSocketLib {
 	 */
 	public function fetch($url, $options = array()) {
 		if (!is_array($options)) {
-			$options = array('agent'=>$options);
+			$options = array('agent' => $options);
 		}
 		$defaults = array(
 			'agent' => 'cakephp http socket lib',

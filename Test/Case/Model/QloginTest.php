@@ -21,11 +21,11 @@ class QloginTest extends MyCakeTestCase {
 	}
 
 	public function testGenerate() {
-		$url = Router::url(array('admin' => false, 'plugin'=>'tools', 'controller'=>'qlogin', 'action'=>'go'), true) . '/';
+		$url = Router::url(array('admin' => false, 'plugin' => 'tools', 'controller' => 'qlogin', 'action' => 'go'), true) . '/';
 		//debug($url);
 		$this->assertTrue(!empty($url));
 
-		$res = $this->Qlogin->url(array('controller'=>'test', 'action'=>'foo', 'bar'), 1);
+		$res = $this->Qlogin->url(array('controller' => 'test', 'action' => 'foo', 'bar'), 1);
 		//debug($res);
 		$this->assertTrue(is_string($res) && !empty($res));
 		$this->assertTrue(strpos($res, $url) === 0);
@@ -36,7 +36,7 @@ class QloginTest extends MyCakeTestCase {
 	}
 
 	public function testUse() {
-		$key = $this->Qlogin->generate(array('controller'=>'test', 'action'=>'foo', 'bar'), 1);
+		$key = $this->Qlogin->generate(array('controller' => 'test', 'action' => 'foo', 'bar'), 1);
 		$res = $this->Qlogin->translate($key);
 		$this->assertTrue(is_array($res) && !empty($res));
 

@@ -68,31 +68,31 @@ class GravatarHelperTest extends MyCakeTestCase {
 		$this->out($is);
 		$this->assertTrue(!empty($is));
 
-		$is = $this->Gravatar->image(VALID_TEST_EMAIL, array('size'=>'200'));
+		$is = $this->Gravatar->image(VALID_TEST_EMAIL, array('size' => '200'));
 		$this->out($is);
 		$this->assertTrue(!empty($is));
 
-		$is = $this->Gravatar->image(VALID_TEST_EMAIL, array('size'=>'20'));
+		$is = $this->Gravatar->image(VALID_TEST_EMAIL, array('size' => '20'));
 		$this->out($is);
 		$this->assertTrue(!empty($is));
 
-		$is = $this->Gravatar->image(VALID_TEST_EMAIL, array('rating'=>'X')); # note the capit. x
+		$is = $this->Gravatar->image(VALID_TEST_EMAIL, array('rating' => 'X')); # note the capit. x
 		$this->out($is);
 		$this->assertTrue(!empty($is));
 
-		$is = $this->Gravatar->image(VALID_TEST_EMAIL, array('ext'=>true));
+		$is = $this->Gravatar->image(VALID_TEST_EMAIL, array('ext' => true));
 		$this->out($is);
 		$this->assertTrue(!empty($is));
 
-		$is = $this->Gravatar->image(VALID_TEST_EMAIL, array('default'=>'none'));
+		$is = $this->Gravatar->image(VALID_TEST_EMAIL, array('default' => 'none'));
 		$this->out($is);
 		$this->assertTrue(!empty($is));
 
-		$is = $this->Gravatar->image(GARBIGE_TEST_EMAIL, array('default'=>'none'));
+		$is = $this->Gravatar->image(GARBIGE_TEST_EMAIL, array('default' => 'none'));
 		$this->out($is);
 		$this->assertTrue(!empty($is));
 
-		$is = $this->Gravatar->image(GARBIGE_TEST_EMAIL, array('default'=>'http://2.gravatar.com/avatar/8379aabc84ecee06f48d8ca48e09eef4?d=identicon'));
+		$is = $this->Gravatar->image(GARBIGE_TEST_EMAIL, array('default' => 'http://2.gravatar.com/avatar/8379aabc84ecee06f48d8ca48e09eef4?d=identicon'));
 		$this->out($is);
 		$this->assertTrue(!empty($is));
 	}

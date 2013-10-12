@@ -33,9 +33,9 @@ class GeocodeLibTest extends MyCakeTestCase {
 
 	public function testDistance() {
 		$coords = array(
-			array('name'=>'MUC/Pforzheim (269km road, 2:33h)', 'x'=>array('lat'=>48.1391, 'lng'=>11.5802), 'y'=>array('lat'=>48.8934, 'lng'=>8.70492), 'd'=>228),
-			array('name'=>'MUC/London (1142km road, 11:20h)', 'x'=>array('lat'=>48.1391, 'lng'=>11.5802), 'y'=>array('lat'=>51.508, 'lng'=>-0.124688), 'd'=>919),
-			array('name'=>'MUC/NewYork (--- road, ---h)', 'x'=>array('lat'=>48.1391, 'lng'=>11.5802), 'y'=>array('lat'=>40.700943, 'lng'=>-73.853531), 'd'=>6479)
+			array('name' => 'MUC/Pforzheim (269km road, 2:33h)', 'x' => array('lat' => 48.1391, 'lng' => 11.5802), 'y' => array('lat' => 48.8934, 'lng' => 8.70492), 'd' => 228),
+			array('name' => 'MUC/London (1142km road, 11:20h)', 'x' => array('lat' => 48.1391, 'lng' => 11.5802), 'y' => array('lat' => 51.508, 'lng' => -0.124688), 'd' => 919),
+			array('name' => 'MUC/NewYork (--- road, ---h)', 'x' => array('lat' => 48.1391, 'lng' => 11.5802), 'y' => array('lat' => 40.700943, 'lng' => -73.853531), 'd' => 6479)
 		);
 
 		foreach ($coords as $coord) {
@@ -115,7 +115,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$res = $this->Geocode->url();
 		$this->assertTextContains('maps.googleapis.com', $res);
 
-		$this->Geocode->setOptions(array('host'=>'maps.google.it'));
+		$this->Geocode->setOptions(array('host' => 'maps.google.it'));
 		# should now be ".it"
 		$res = $this->Geocode->url();
 		$this->assertTextContains('maps.google.it', $res);
@@ -187,7 +187,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 	public function testGeocodeMinAcc() {
 		$address = 'Deutschland';
 		//echo '<h2>'.$address.'</h2>';
-		$this->Geocode->setOptions(array('min_accuracy'=>3));
+		$this->Geocode->setOptions(array('min_accuracy' => 3));
 		$is = $this->Geocode->geocode($address);
 		//debug($is);
 		$this->assertFalse($is);
@@ -204,7 +204,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 		//echo '<h2>'.$address.'</h2>';
 
 		# allow_inconclusive = TRUE
-		$this->Geocode->setOptions(array('allow_inconclusive'=>true, 'min_accuracy' => GeocodeLib::ACC_LOC));
+		$this->Geocode->setOptions(array('allow_inconclusive' => true, 'min_accuracy' => GeocodeLib::ACC_LOC));
 		$is = $this->Geocode->geocode($address);
 		//echo 'debug:';
 		//pr($this->Geocode->debug());
@@ -218,7 +218,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$is = $this->Geocode->isInconclusive();
 		$this->assertTrue($is);
 
-		$this->Geocode->setOptions(array('allow_inconclusive'=>false));
+		$this->Geocode->setOptions(array('allow_inconclusive' => false));
 		$is = $this->Geocode->geocode($address);
 		$this->assertFalse($is);
 

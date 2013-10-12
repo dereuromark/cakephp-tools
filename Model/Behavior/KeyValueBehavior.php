@@ -171,7 +171,7 @@ class KeyValueBehavior extends ModelBehavior {
 			if (empty($rules[$model])) {
 				continue;
 			}
-			$this->KeyValue->{$model} = ClassRegistry::init(array('class'=>'AppModel', 'alias'=>$model, 'table' => false));
+			$this->KeyValue->{$model} = ClassRegistry::init(array('class' => 'AppModel', 'alias' => $model, 'table' => false));
 			$this->KeyValue->{$model}->validate = $rules[$model];
 			$this->KeyValue->{$model}->set($array);
 			$res = $res && $this->KeyValue->{$model}->validates();

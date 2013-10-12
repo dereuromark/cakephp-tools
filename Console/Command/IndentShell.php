@@ -151,7 +151,7 @@ class IndentShell extends AppShell {
 			foreach ($pieces as $piece) {
 				$tmp = $this->_process($piece, $spacesPerTab);
 				if ($this->settings['againWithHalf'] && $spacesPerTab % 2 === 0 && $spacesPerTab > 3) {
-					$tmp = $this->_process($tmp, $spacesPerTab/2);
+					$tmp = $this->_process($tmp, $spacesPerTab / 2);
 				}
 				$tmp = $this->_processSpaceErrors($tmp, 1);
 				$textCorrect[] = $tmp;
@@ -174,7 +174,7 @@ class IndentShell extends AppShell {
 		$newPiece = $piece;
 		if ($spacesPerTab) {
 			//TODO
-			while (mb_substr($piece, $pos+1, 1) === ' ' || mb_substr($piece, $pos + 1, 1) === TB) {
+			while (mb_substr($piece, $pos + 1, 1) === ' ' || mb_substr($piece, $pos + 1, 1) === TB) {
 				$pos++;
 			}
 			$piece1 = mb_substr($piece, 0, $pos + 1);
@@ -183,7 +183,7 @@ class IndentShell extends AppShell {
 				$this->changes = true;
 			}
 
-			$piece2 = mb_substr($piece, $pos+1);
+			$piece2 = mb_substr($piece, $pos + 1);
 
 			$newPiece = $piece1 . $piece2;
 		}
@@ -312,32 +312,32 @@ class IndentShell extends AppShell {
 	public function getOptionParser() {
 		$subcommandParser = array(
 			'options' => array(
-				'dry-run'=> array(
+				'dry-run' => array(
 					'short' => 'd',
 					'help' => __d('cake_console', 'Dry run the update, no files will actually be modified.'),
 					'boolean' => true
 				),
-				'log'=> array(
+				'log' => array(
 					'short' => 'l',
 					'help' => __d('cake_console', 'Log all ouput to file log.txt in TMP dir'),
 					'boolean' => true
 				),
-				'interactive'=> array(
+				'interactive' => array(
 					'short' => 'i',
 					'help' => __d('cake_console', 'Interactive'),
 					'boolean' => true
 				),
-				'spaces'=> array(
+				'spaces' => array(
 					'short' => 's',
 					'help' => __d('cake_console', 'Spaces per Tab'),
 					'default' => '4',
 				),
-				'extensions'=> array(
+				'extensions' => array(
 					'short' => 'e',
 					'help' => __d('cake_console', 'Extensions (comma-separated)'),
 					'default' => '',
 				),
-				'again'=> array(
+				'again' => array(
 					'short' => 'a',
 					'help' => __d('cake_console', 'Again (with half) afterwards'),
 					'boolean' => true

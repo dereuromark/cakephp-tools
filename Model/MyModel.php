@@ -252,7 +252,7 @@ class MyModel extends Model {
 			$plugin = $model = null;
 			if (($pos = strrpos($field, '.')) !== false) {
 				$model = substr($field, 0, $pos);
-				$field = substr($field, $pos+1);
+				$field = substr($field, $pos + 1);
 
 				if (($pos = strrpos($model, '.')) !== false) {
 					list($plugin, $model) = pluginSplit($model);
@@ -328,7 +328,7 @@ class MyModel extends Model {
 		if (isset($customOptions['reset'])) {
 			$currentValue = $step = 0;
 		} elseif (!isset($customOptions['current'])) {
-			$currentValue = $this->field($field, array($this->alias . '.id'=>$id));
+			$currentValue = $this->field($field, array($this->alias . '.id' => $id));
 			if ($currentValue === false) {
 				return false;
 			}
@@ -337,7 +337,7 @@ class MyModel extends Model {
 		}
 
 		$value = (int)$currentValue + (int)$step;
-		$data = array($field=>$value);
+		$data = array($field => $value);
 		if (empty($customOptions['modify'])) {
 			$data['modified'] = false;
 		}
@@ -627,7 +627,7 @@ class MyModel extends Model {
 						'alias' => $assoc['with'],
 						'type' => 'inner',
 						'foreignKey' => false,
-						'conditions'=> array($bind)
+						'conditions' => array($bind)
 					);
 
 					$bind = $options['model'] . '.' . $this->{$options['model']}->primaryKey . ' = ';
@@ -638,7 +638,7 @@ class MyModel extends Model {
 						'alias' => $options['model'],
 						'type' => 'inner',
 						'foreignKey' => false,
-						'conditions'=> array($bind) + (array)$options['scope'],
+						'conditions' => array($bind) + (array)$options['scope'],
 					);
 					unset($options['model'], $options['scope']);
 					$type = 'all';

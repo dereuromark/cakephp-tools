@@ -46,7 +46,7 @@ class CodeKeyTest extends MyCakeTestCase {
 
 	public function testGarbigeCollector() {
 		$data = array(
-			'created' => date(FORMAT_DB_DATETIME, time()-3*MONTH),
+			'created' => date(FORMAT_DB_DATETIME, time() - 3 * MONTH),
 			'type' => 'y',
 			'key' => 'x'
 		);

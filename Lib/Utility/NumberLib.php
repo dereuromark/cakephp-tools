@@ -155,7 +155,7 @@ class NumberLib extends CakeNumber {
 		}
 		$defaults += array(
 			'wholeSymbol' => '€', 'wholePosition' => 'after',
-			'negative' => '-', 'positive'=> '+', 'escape' => true,
+			'negative' => '-', 'positive' => '+', 'escape' => true,
 			'decimals' => ',', 'thousands' => '.',
 			'spacer' => $currency === 'EUR' ? true : false
 		);

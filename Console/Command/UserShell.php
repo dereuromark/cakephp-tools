@@ -72,7 +72,7 @@ class UserShell extends AppShell {
 		$this->out('');
 		$pwd = $this->Auth->password($password);
 
-		$data = array('User'=>array(
+		$data = array('User' => array(
 			'password' => $pwd,
 			'active' => 1
 		));

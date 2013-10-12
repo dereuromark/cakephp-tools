@@ -197,7 +197,7 @@ class ZodiacLibTest extends MyCakeTestCase {
 
 			# min-1
 			$month = $range[0][0];
-			$day = $range[0][1]-1;
+			$day = $range[0][1] - 1;
 			$is = $this->Zodiac->getSign($month, $day);
 			$ii = $i;
 			if ($ii == 1) {
@@ -207,7 +207,7 @@ class ZodiacLibTest extends MyCakeTestCase {
 
 			# max+1
 			$month = $range[1][0];
-			$day = $range[1][1]+1;
+			$day = $range[1][1] + 1;
 			$ii = $i;
 			if ($ii == 12) {
 				$ii = 0;

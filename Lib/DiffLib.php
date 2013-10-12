@@ -69,7 +69,7 @@ class DiffLib {
 	 */
 	public function __construct() {
 		set_include_path(get_include_path() . PATH_SEPARATOR . CakePlugin::path('Tools') . 'Vendor' . DS);
-		App::import('Vendor', 'Tools.HordeAutoloader', array('file'=> 'Horde/Autoloader/Default.php'));
+		App::import('Vendor', 'Tools.HordeAutoloader', array('file' => 'Horde/Autoloader/Default.php'));
 	}
 
 	/**
@@ -130,7 +130,7 @@ class DiffLib {
 		}
 		$rendererClassName = 'Horde_Text_Diff_Renderer_' . ucfirst($this->renderer);
 
-		$renderer = new $rendererClassName(array('context_lines' => $this->context_lines, 'character_diff' =>$this->character_diff));
+		$renderer = new $rendererClassName(array('context_lines' => $this->context_lines, 'character_diff' => $this->character_diff));
 		$diff = new Horde_Text_Diff($this->engine, array($original, $changed));
 
 		$string = $renderer->render($diff);
@@ -150,7 +150,7 @@ class DiffLib {
 
 		$diff = new Horde_Text_Diff('string', array($string, $options['mode']));
 		$rendererClassName = 'Horde_Text_Diff_Renderer_' . ucfirst($this->renderer);
-		$renderer = new $rendererClassName(array('context_lines' => $this->context_lines, 'character_diff' =>$this->character_diff));
+		$renderer = new $rendererClassName(array('context_lines' => $this->context_lines, 'character_diff' => $this->character_diff));
 		$string = $renderer->render($diff);
 		return $string;
 	}
@@ -261,7 +261,7 @@ class DiffLib {
 			// $j is the line within the change
 			for ($j = 0; $j < $lines->length; $j++) {
 				$linenum = $lines->line - 1;
-				$line = $text[$linenum+$j+$offset];
+				$line = $text[$linenum + $j + $offset];
 				$color = 'green';
 
 				if (strlen(ltrim($line->text)) == 0) {
@@ -279,7 +279,7 @@ class DiffLib {
 						$l->symbol = '-';
 						$l->text = sprintf("%s <span class='diff-remove'>%s</span>\n", "-", rtrim($add[$k], "\r\n"));
 
-						$text[$linenum+$j+$k+$offset] = $l;
+						$text[$linenum + $j + $k + $offset] = $l;
 					}
 					$offset += count($add);
 				} else {
@@ -287,7 +287,7 @@ class DiffLib {
 					$l->symbol = '+';
 					$l->changed = true;
 					$l->text = sprintf("%s <span class='diff-add'>%s</span>\n", $lines->symbol, rtrim($line->text, "\r\n"));
-					$text[$linenum+$j] = $l;
+					$text[$linenum + $j] = $l;
 				}
 			}
 		}

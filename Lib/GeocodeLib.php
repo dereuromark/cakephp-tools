@@ -43,7 +43,7 @@ class GeocodeLib {
 	# First tries with curl, then cake, then php
 	public $use = array(
 		'curl' => true,
-		'cake'=> true,
+		'cake' => true,
 		'php' => true
 	);
 
@@ -67,7 +67,7 @@ class GeocodeLib {
 		'log' => false,
 		'pause' => 10000, # in ms
 		'min_accuracy' => self::ACC_COUNTRY,
-		'allow_inconclusive'=> true,
+		'allow_inconclusive' => true,
 		'expect' => array(), # see accuracyTypes for details
 		# static url params
 		'output' => 'xml',
@@ -188,7 +188,7 @@ class GeocodeLib {
 			'host' => $this->options['host'],
 			'output' => $this->options['output']
 		);
-		$url = String::insert(self::BASE_URL, $params, array('before'=>'{', 'after'=>'}', 'clean'=>true));
+		$url = String::insert(self::BASE_URL, $params, array('before' => '{', 'after' => '}', 'clean' => true));
 		$params = array();
 		foreach ($this->params as $key => $value) {
 			if (!empty($value)) {
@@ -351,7 +351,7 @@ class GeocodeLib {
 	 */
 	public function geocode($address, $params = array()) {
 		$this->reset(false);
-		$this->setParams(array_merge($params, array('address'=>$address)));
+		$this->setParams(array_merge($params, array('address' => $address)));
 		if ($this->options['allow_inconclusive']) {
 			# only host working with this setting?
 			//$this->options['host'] = self::DEFAULT_HOST;
@@ -583,7 +583,7 @@ class GeocodeLib {
 				$components[$type]['abbr'] .= ' ' . $c['short_name'];
 				$components[$type]['types'] += $types;
 			}
-			$components[$type] = array('name'=>$c['long_name'], 'abbr'=>$c['short_name'], 'types'=>$types);
+			$components[$type] = array('name' => $c['long_name'], 'abbr' => $c['short_name'], 'types' => $types);
 		}
 
 		$res['formatted_address'] = $record['formatted_address'];
@@ -637,10 +637,10 @@ class GeocodeLib {
 		$res['location_type'] = $record['geometry']['location_type'];
 
 		if (!empty($record['geometry']['viewport'])) {
-		$res['viewport'] = array('sw'=>$record['geometry']['viewport']['southwest'], 'ne'=>$record['geometry']['viewport']['northeast']);
+		$res['viewport'] = array('sw' => $record['geometry']['viewport']['southwest'], 'ne' => $record['geometry']['viewport']['northeast']);
 		}
 		if (!empty($record['geometry']['bounds'])) {
-			$res['bounds'] = array('sw'=>$record['geometry']['bounds']['southwest'], 'ne'=>$record['geometry']['bounds']['northeast']);
+			$res['bounds'] = array('sw' => $record['geometry']['bounds']['southwest'], 'ne' => $record['geometry']['bounds']['northeast']);
 		}
 
 		# manuell corrections

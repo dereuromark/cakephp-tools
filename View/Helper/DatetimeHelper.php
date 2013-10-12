@@ -94,8 +94,8 @@ class DatetimeHelper extends TimeHelper {
 		$when = null;
 		$span = '';
 		$spanEnd = '';
-		$whenArray = array('-1'=>'already', '0'=>'today', '1'=>'notyet');
-		$titles = array('-1'=>__('publishedAlready'), '0'=>__('publishedToday'), '1'=>__('publishedNotYet'));
+		$whenArray = array('-1' => 'already', '0' => 'today', '1' => 'notyet');
+		$titles = array('-1' => __('publishedAlready'), '0' => __('publishedToday'), '1' => __('publishedNotYet'));
 
 		if (!empty($date)) {
 
@@ -171,9 +171,9 @@ class DatetimeHelper extends TimeHelper {
 		$then = mktime(1, 1, 1, $m, $d, $y);
 		$now = mktime(1, 1, 1, date('n'), date('j'), $y);
 
-		$abs = abs($now-$then);
+		$abs = abs($now - $then);
 
-		if ((int)($abs/DAY) <= $days) {
+		if ((int)($abs / DAY) <= $days) {
 			return true;
 		}
 		return false;

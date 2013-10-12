@@ -1098,10 +1098,10 @@ class CommonComponent extends Component {
 	 * @return array email - pattern: array('email'=>,'name'=>)
 	 */
 	public function splitEmail($email, $abortOnError = false) {
-		$array = array('email'=>'', 'name'=>'');
+		$array = array('email' => '', 'name' => '');
 		if (($pos = mb_strpos($email, '<')) !== false) {
 			$name = substr($email, 0, $pos);
-			$email = substr($email, $pos+1);
+			$email = substr($email, $pos + 1);
 		}
 		if (($pos = mb_strrpos($email, '>')) !== false) {
 			$email = substr($email, 0, $pos);
