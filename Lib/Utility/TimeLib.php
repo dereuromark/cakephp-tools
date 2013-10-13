@@ -127,18 +127,18 @@ class TimeLib extends CakeTime {
 		//$age = intval(($endDate - $startDate) / (3600 * 24 * 365));
 		//$age = self::timef($endDate-$startDate, 'Y'); # !!! timef function
 
-		$n_tag = $dayE;
-		$n_monat = $monthE;
-		$n_jahr = $yearE;
-		$g_tag = $dayS;
-		$g_monat = $monthS;
-		$g_jahr = $yearS;
-		$g_date = mktime(0, 0, 0, $g_tag, $g_monat, $g_jahr);
+		$nTag = $dayE;
+		$nMonat = $monthE;
+		$nJahr = $yearE;
+		$gTag = $dayS;
+		$gMonat = $monthS;
+		$gJahr = $yearS;
+		$gDate = mktime(0, 0, 0, $gTag, $gMonat, $gJahr);
 
-		if (($n_monat > $g_monat)||(($n_monat == $g_monat)&&($n_tag > $g_tag))||(($n_monat == $g_monat)&&($n_tag == $g_tag))) {
-			$age = $n_jahr - $g_jahr; // is correct if one already had his birthday this year
+		if (($nMonat > $gMonat)||(($nMonat == $gMonat)&&($nTag > $gTag))||(($nMonat == $gMonat)&&($nTag == $gTag))) {
+			$age = $nJahr - $gJahr; // is correct if one already had his birthday this year
 		} else {
-			$age = $n_jahr - $g_jahr - 1; // is correct if one didnt have his birthday yet in this year
+			$age = $nJahr - $gJahr - 1; // is correct if one didnt have his birthday yet in this year
 		}
 		return $age;
 

@@ -163,8 +163,8 @@ class DiffLib {
 	 */
 	protected function _explode($text) {
 		if (is_array($this->explode_on)) {
-			foreach ($this->explode_on as $explode_on) {
-				$text = explode($explode_on, $text);
+			foreach ($this->explode_on as $explodeOn) {
+				$text = explode($explodeOn, $text);
 			}
 			return $text;
 		}

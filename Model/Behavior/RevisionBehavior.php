@@ -169,8 +169,8 @@ class RevisionBehavior extends ModelBehavior {
 			return false;
 		}
 		$habtm = array();
-		$all_habtm = $Model->getAssociated('hasAndBelongsToMany');
-		foreach ($all_habtm as $assocAlias) {
+		$allHabtm = $Model->getAssociated('hasAndBelongsToMany');
+		foreach ($allHabtm as $assocAlias) {
 			if (isset($Model->ShadowModel->_schema[$assocAlias])) {
 				$habtm[] = $assocAlias;
 			}
@@ -180,8 +180,8 @@ class RevisionBehavior extends ModelBehavior {
 		$Model->ShadowModel->create($data);
 		$Model->ShadowModel->set('version_created', date('Y-m-d H:i:s'));
 		foreach ($habtm as $assocAlias) {
-			$foreign_keys = Set::extract($data, '/' . $assocAlias . '/' . $Model->{$assocAlias}->primaryKey);
-			$Model->ShadowModel->set($assocAlias, implode(',', $foreign_keys));
+			$foreignKeys = Set::extract($data, '/' . $assocAlias . '/' . $Model->{$assocAlias}->primaryKey);
+			$Model->ShadowModel->set($assocAlias, implode(',', $foreignKeys));
 		}
 		return (bool)$Model->ShadowModel->save();
 	}
@@ -307,8 +307,8 @@ class RevisionBehavior extends ModelBehavior {
 	 */
 	protected function init(Model $Model, $page, $limit) {
 		$habtm = array();
-		$all_habtm = $Model->getAssociated('hasAndBelongsToMany');
-		foreach ($all_habtm as $assocAlias) {
+		$allHabtm = $Model->getAssociated('hasAndBelongsToMany');
+		foreach ($allHabtm as $assocAlias) {
 			if (isset($Model->ShadowModel->_schema[$assocAlias])) {
 				$habtm[] = $assocAlias;
 			}
@@ -317,10 +317,10 @@ class RevisionBehavior extends ModelBehavior {
 			'limit' => $limit,
 			'page' => $page,
 			'contain' => $habtm));
-		$version_created = date('Y-m-d H:i:s');
+		$versionCreated = date('Y-m-d H:i:s');
 		foreach ($all as $data) {
 			$Model->ShadowModel->create($data);
-			$Model->ShadowModel->set('version_created', $version_created);
+			$Model->ShadowModel->set('version_created', $versionCreated);
 			$Model->ShadowModel->save();
 		}
 	}
@@ -440,25 +440,25 @@ class RevisionBehavior extends ModelBehavior {
 
 		$cond = $options['conditions'];
 		$cond['version_created <'] = $options['date'];
-		$created_before_date = $Model->ShadowModel->find('all', array(
+		$createdBeforeDate = $Model->ShadowModel->find('all', array(
 			'order' => $Model->primaryKey,
 			'conditions' => $cond,
 			'fields' => array('version_id', $Model->primaryKey)));
-		$created_before_dateIds = Set::extract($created_before_date, '/' . $Model->alias . '/' . $Model->primaryKey);
+		$createdBeforeDateIds = Set::extract($createdBeforeDate, '/' . $Model->alias . '/' . $Model->primaryKey);
 
-		$deleteIds = array_diff($allIds, $created_before_dateIds);
+		$deleteIds = array_diff($allIds, $createdBeforeDateIds);
 
 		// delete all Model rows where there are only version_created later than date
 		$Model->deleteAll(array($Model->alias . '.' . $Model->primaryKey => $deleteIds), false, true);
 
 		unset($cond['version_created <']);
 		$cond['version_created >='] = $options['date'];
-		$created_after_date = $Model->ShadowModel->find('all', array(
+		$createdAfterDate = $Model->ShadowModel->find('all', array(
 			'order' => $Model->primaryKey,
 			'conditions' => $cond,
 			'fields' => array('version_id', $Model->primaryKey)));
-		$created_after_dateIds = Set::extract($created_after_date, '/' . $Model->alias . '/' . $Model->primaryKey);
-		$updateIds = array_diff($created_after_dateIds, $deleteIds);
+		$createdAfterDateIds = Set::extract($createdAfterDate, '/' . $Model->alias . '/' . $Model->primaryKey);
+		$updateIds = array_diff($createdAfterDateIds, $deleteIds);
 
 		$revertSuccess = true;
 		// update model rows that have version_created earlier than date to latest before date
@@ -514,7 +514,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * @param boolean $force_delete
 	 * @return boolean Success
 	 */
-	public function revertToDate(Model $Model, $datetime, $cascade = false, $force_delete = false) {
+	public function revertToDate(Model $Model, $datetime, $cascade = false, $forceDelete = false) {
 		if (!$Model->id) {
 			trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 			return null;
@@ -547,18 +547,18 @@ class RevisionBehavior extends ModelBehavior {
 				}
 
 				/* Query shadow table for deleted children */
-				$revision_children = $Model->$assoc->ShadowModel->find('all', array(
+				$revisionChildren = $Model->$assoc->ShadowModel->find('all', array(
 					'fields' => array('DISTINCT ' . $Model->primaryKey),
 					'conditions' => array($data['foreignKey'] => $Model->id, 'NOT' => array($Model->primaryKey => $ids)),
 					));
-				if (!empty($revision_children)) {
-					$ids = array_merge($ids, Set::extract($revision_children, '/' . $assoc . '/' . $Model->$assoc->primaryKey));
+				if (!empty($revisionChildren)) {
+					$ids = array_merge($ids, Set::extract($revisionChildren, '/' . $assoc . '/' . $Model->$assoc->primaryKey));
 				}
 
 				/* Revert all children */
 				foreach ($ids as $id) {
 					$Model->$assoc->id = $id;
-					$Model->$assoc->revertToDate($datetime, $cascade, $force_delete);
+					$Model->$assoc->revertToDate($datetime, $cascade, $forceDelete);
 				}
 			}
 		}
@@ -569,7 +569,7 @@ class RevisionBehavior extends ModelBehavior {
 					'version_created <=' => $datetime), 'order' => 'version_created ASC, version_id ASC'));
 		/* If no previous version was found and revertToDate() was called with force_delete, then delete the live data, else leave it alone */
 		if (!$data) {
-			if ($force_delete) {
+			if ($forceDelete) {
 				$Model->logableAction['Revision'] = 'revertToDate(' . $datetime . ') delete';
 				return $Model->delete($Model->id);
 			}
@@ -693,21 +693,21 @@ class RevisionBehavior extends ModelBehavior {
 		if (!$beforeUndeleteSuccess) {
 			return false;
 		}
-		$model_id = $data[$Model->alias][$Model->primaryKey];
+		$modelId = $data[$Model->alias][$Model->primaryKey];
 		unset($data[$Model->alias][$Model->ShadowModel->primaryKey]);
 		$Model->create($data, true);
-		$auto_setting = $this->settings[$Model->alias]['auto'];
+		$autoSetting = $this->settings[$Model->alias]['auto'];
 		$this->settings[$Model->alias]['auto'] = false;
-		$save_success = $Model->save();
-		$this->settings[$Model->alias]['auto'] = $auto_setting;
-		if (!$save_success) {
+		$saveSuccess = $Model->save();
+		$this->settings[$Model->alias]['auto'] = $autoSetting;
+		if (!$saveSuccess) {
 			return false;
 		}
 		$Model->updateAll(
-			array($Model->primaryKey => $model_id),
+			array($Model->primaryKey => $modelId),
 			array($Model->primaryKey => $Model->id)
 		);
-		$Model->id = $model_id;
+		$Model->id = $modelId;
 		$Model->createRevision();
 		$afterUndeleteSuccess = true;
 		if (method_exists($Model, 'afterUndelete')) {
@@ -808,10 +808,10 @@ class RevisionBehavior extends ModelBehavior {
 			$Model->ShadowModel->create($Model->data, true);
 			$Model->ShadowModel->set($Model->primaryKey, $Model->id);
 			$Model->ShadowModel->set('version_created', date('Y-m-d H:i:s'));
-			foreach ($Model->data as $alias => $alias_data) {
+			foreach ($Model->data as $alias => $aliasData) {
 				if (isset($Model->ShadowModel->_schema[$alias])) {
-					if (isset($alias_data[$alias]) && !empty($alias_data[$alias])) {
-						$Model->ShadowModel->set($alias, implode(',', $alias_data[$alias]));
+					if (isset($aliasData[$alias]) && !empty($aliasData[$alias])) {
+						$Model->ShadowModel->set($alias, implode(',', $aliasData[$alias]));
 					}
 				}
 			}
@@ -854,8 +854,8 @@ class RevisionBehavior extends ModelBehavior {
 					continue;
 				}
 				$currentIds = Set::extract($data, $assocAlias . '.{n}.id');
-				$id_changes = array_diff($currentIds, $oldIds);
-				if (!empty($id_changes)) {
+				$idChanges = array_diff($currentIds, $oldIds);
+				if (!empty($idChanges)) {
 					$Model->ShadowModel->set($assocAlias, implode(',', $currentIds));
 					$changeDetected = true;
 				} else {

@@ -29,23 +29,23 @@ App::uses('AppHelper', 'View/Helper');
 class TypographyHelper extends AppHelper {
 
 	// Block level elements that should not be wrapped inside <p> tags
-	public $block_elements = 'address|blockquote|div|dl|fieldset|form|h\d|hr|noscript|object|ol|p|pre|script|table|ul';
+	public $blockElements = 'address|blockquote|div|dl|fieldset|form|h\d|hr|noscript|object|ol|p|pre|script|table|ul';
 
 	// Elements that should not have <p> and <br /> tags within them.
-	public $skip_elements = 'p|pre|ol|ul|dl|object|table|h\d';
+	public $skipElements = 'p|pre|ol|ul|dl|object|table|h\d';
 
 	// Tags we want the parser to completely ignore when splitting the string.
-	public $inline_elements =
+	public $inlineElements =
 		'a|abbr|acronym|b|bdo|big|br|button|cite|code|del|dfn|em|i|img|ins|input|label|map|kbd|q|samp|select|small|span|strong|sub|sup|textarea|tt|var';
 
 	// array of block level elements that require inner content to be within another block level element
-	public $inner_block_required = array('blockquote');
+	public $innerBlockRequired = array('blockquote');
 
 	// the last block element parsed
-	public $last_block_element = '';
+	public $lastBlockElement = '';
 
 	// whether or not to protect quotes within { curly braces }
-	public $protect_braced_quotes = false;
+	public $protectBracedQuotes = false;
 
 	public $matching = array(
 		'deu' => 'low', // except for Switzerland
@@ -89,11 +89,11 @@ class TypographyHelper extends AppHelper {
 		}
 
 		// HTML comment tags don't conform to patterns of normal tags, so pull them out separately, only if needed
-		$html_comments = array();
+		$htmlComments = array();
 		if (strpos($str, '<!--') !== false) {
 			if (preg_match_all("#(<!\-\-.*?\-\->)#s", $str, $matches)) {
 				for ($i = 0, $total = count($matches[0]); $i < $total; $i++) {
-					$html_comments[] = $matches[0][$i];
+					$htmlComments[] = $matches[0][$i];
 					$str = str_replace($matches[0][$i], '{@HC' . $i . '}', $str);
 				}
 			}
@@ -109,14 +109,14 @@ class TypographyHelper extends AppHelper {
 		$str = preg_replace_callback("#<.+?>#si", array($this, '_protectCharacters'), $str);
 
 		// Do the same with braces if necessary
-		if ($this->protect_braced_quotes === true) {
+		if ($this->protectBracedQuotes === true) {
 			$str = preg_replace_callback("#\{.+?\}#si", array($this, '_protectCharacters'), $str);
 		}
 
 		// Convert "ignore" tags to temporary marker. The parser splits out the string at every tag
 		// it encounters. Certain inline tags, like image tags, links, span tags, etc. will be
 		// adversely affected if they are split out so we'll convert the opening bracket < temporarily to: {@TAG}
-		$str = preg_replace("#<(/*)(" . $this->inline_elements . ")([ >])#i", "{@TAG}\\1\\2\\3", $str);
+		$str = preg_replace("#<(/*)(" . $this->inlineElements . ")([ >])#i", "{@TAG}\\1\\2\\3", $str);
 
 		// Split the string at every tag. This expression creates an array with this prototype:
 		//
@@ -133,21 +133,21 @@ class TypographyHelper extends AppHelper {
 		$str = '';
 		$process = true;
 		$paragraph = false;
-		$current_chunk = 0;
-		$total_chunks = count($chunks);
+		$currentChunk = 0;
+		$totalChunks = count($chunks);
 
 		foreach ($chunks as $chunk) {
-			$current_chunk++;
+			$currentChunk++;
 
 			// Are we dealing with a tag? If so, we'll skip the processing for this cycle.
 			// Well also set the "process" flag which allows us to skip <pre> tags and a few other things.
-			if (preg_match("#<(/*)(" . $this->block_elements . ").*?>#", $chunk, $match)) {
-				if (preg_match("#" . $this->skip_elements . "#", $match[2])) {
+			if (preg_match("#<(/*)(" . $this->blockElements . ").*?>#", $chunk, $match)) {
+				if (preg_match("#" . $this->skipElements . "#", $match[2])) {
 					$process = ($match[1] === '/') ? true : false;
 				}
 
 				if ($match[1] === '') {
-					$this->last_block_element = $match[2];
+					$this->lastBlockElement = $match[2];
 				}
 
 				$str .= $chunk;
@@ -160,7 +160,7 @@ class TypographyHelper extends AppHelper {
 			}
 
 			// Force a newline to make sure end tags get processed by _formatNewlines()
-			if ($current_chunk == $total_chunks) {
+			if ($currentChunk == $totalChunks) {
 				$chunk .= "\n";
 			}
 
@@ -169,19 +169,19 @@ class TypographyHelper extends AppHelper {
 		}
 
 		// No opening block level tag? Add it if needed.
-		if (!preg_match("/^\s*<(?:" . $this->block_elements . ")/i", $str)) {
-			$str = preg_replace("/^(.*?)<(" . $this->block_elements . ")/i", '<p>$1</p><$2', $str);
+		if (!preg_match("/^\s*<(?:" . $this->blockElements . ")/i", $str)) {
+			$str = preg_replace("/^(.*?)<(" . $this->blockElements . ")/i", '<p>$1</p><$2', $str);
 		}
 
 		// Convert quotes, elipsis, em-dashes, non-breaking spaces, and ampersands
 		$str = $this->formatCharacters($str);
 
 		// restore HTML comments
-		for ($i = 0, $total = count($html_comments); $i < $total; $i++) {
+		for ($i = 0, $total = count($htmlComments); $i < $total; $i++) {
 			// remove surrounding paragraph tags, but only if there's an opening paragraph tag
 			// otherwise HTML comments at the ends of paragraphs will have the closing tag removed
 			// if '<p>{@HC1}' then replace <p>{@HC1}</p> with the comment, else replace only {@HC1} with the comment
-			$str = preg_replace('#(?(?=<p>\{@HC' . $i . '\})<p>\{@HC' . $i . '\}(\s*</p>)|\{@HC' . $i . '\})#s', $html_comments[$i], $str);
+			$str = preg_replace('#(?(?=<p>\{@HC' . $i . '\})<p>\{@HC' . $i . '\}(\s*</p>)|\{@HC' . $i . '\})#s', $htmlComments[$i], $str);
 		}
 
 		// Final clean up
@@ -195,10 +195,10 @@ class TypographyHelper extends AppHelper {
 			'/(<p>\W*<p>)+/'	=> '<p>',
 
 			// Clean up stray paragraph tags that appear before block level elements
-			'#<p></p><(' . $this->block_elements . ')#'	=> '<$1',
+			'#<p></p><(' . $this->blockElements . ')#'	=> '<$1',
 
 			// Clean up stray non-breaking spaces preceeding block elements
-			'#(&nbsp;\s*)+<(' . $this->block_elements . ')#'	=> '  <$2',
+			'#(&nbsp;\s*)+<(' . $this->blockElements . ')#'	=> '  <$2',
 
 			// Replace the temporary markers we added earlier
 			'/\{@TAG\}/'		=> '<',
@@ -341,7 +341,7 @@ class TypographyHelper extends AppHelper {
 			return $str;
 		}
 
-		if (strpos($str, "\n") === false && !in_array($this->last_block_element, $this->inner_block_required)) {
+		if (strpos($str, "\n") === false && !in_array($this->lastBlockElement, $this->innerBlockRequired)) {
 			return $str;
 		}
 

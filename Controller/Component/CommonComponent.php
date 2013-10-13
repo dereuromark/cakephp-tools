@@ -1045,19 +1045,19 @@ class CommonComponent extends Component {
 	 * @return array: chars with content
 	 * PROTECTED NAMES (content cannot contain those): undefined
 	 */
-	public function assignToChar($content_array, $char_array = null) {
+	public function assignToChar($contentArray, $charArray = null) {
 		$res = array();
 		$res['undefined'] = array();
 
-		if (empty($char_array)) {
-			$char_array = $this->alphaFilterSymbols();
+		if (empty($charArray)) {
+			$charArray = $this->alphaFilterSymbols();
 		}
 
-		foreach ($content_array as $content) {
+		foreach ($contentArray as $content) {
 			$done = false;
 
 			# loop them trough
-			foreach ($char_array as $char) {
+			foreach ($charArray as $char) {
 				if (empty($res[$char])) { // throws warnings otherwise
 					$res[$char] = array();
 				}

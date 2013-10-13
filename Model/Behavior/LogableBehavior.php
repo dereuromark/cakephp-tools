@@ -197,17 +197,17 @@ class LogableBehavior extends ModelBehavior {
 	 * @param array $params
 	 * @return array
 	 */
-	public function findUserActions(Model $Model, $user_id, $params = array()) {
+	public function findUserActions(Model $Model, $userId, $params = array()) {
 		if (!$this->UserModel) {
 			return null;
 		}
 		// if logged in user is asking for her own log, use the data we allready have
-		if (isset($this->user) && isset($this->user[$this->UserModel->alias][$this->UserModel->primaryKey]) && $user_id == $this->user[$this->
+		if (isset($this->user) && isset($this->user[$this->UserModel->alias][$this->UserModel->primaryKey]) && $userId == $this->user[$this->
 			UserModel->alias][$this->UserModel->primaryKey] && isset($this->user[$this->UserModel->alias][$this->UserModel->displayField])) {
 			$username = $this->user[$this->UserModel->alias][$this->UserModel->displayField];
 		} else {
 			$this->UserModel->recursive = -1;
-			$user = $this->UserModel->find('first', array('conditions' => array($this->UserModel->primaryKey => $user_id)));
+			$user = $this->UserModel->find('first', array('conditions' => array($this->UserModel->primaryKey => $userId)));
 			$username = $user[$this->UserModel->alias][$this->UserModel->displayField];
 		}
 		$fields = array();
@@ -218,7 +218,7 @@ class LogableBehavior extends ModelBehavior {
 				$fields = array($params['fields']);
 			}
 		}
-		$conditions = array($this->settings[$Model->alias]['userKey'] => $user_id);
+		$conditions = array($this->settings[$Model->alias]['userKey'] => $userId);
 		if (isset($params[$this->settings[$Model->alias]['classField']])) {
 			$conditions[$this->settings[$Model->alias]['classField']] = $params[$this->settings[$Model->alias]['classField']];
 		}
@@ -448,32 +448,32 @@ class LogableBehavior extends ModelBehavior {
 		}
 		if ($this->Log->hasField('change')) {
 			$logData[$this->Log->alias]['change'] = '';
-			$db_fields = array_keys($Model->schema());
-			$changed_fields = array();
+			$dbFields = array_keys($Model->schema());
+			$changedFields = array();
 			foreach ($Model->data[$Model->alias] as $key => $value) {
 				if (isset($Model->data[$Model->alias][$Model->primaryKey]) && !empty($this->old) && isset($this->old[$Model->alias][$key])) {
 					$old = $this->old[$Model->alias][$key];
 				} else {
 					$old = '';
 				}
-				if ($key !== 'modified' && !in_array($key, $this->settings[$Model->alias]['ignore']) && $value != $old && in_array($key, $db_fields)) {
+				if ($key !== 'modified' && !in_array($key, $this->settings[$Model->alias]['ignore']) && $value != $old && in_array($key, $dbFields)) {
 					if ($this->settings[$Model->alias]['change'] === 'full') {
-						$changed_fields[] = $key . ' (' . $old . ') => (' . $value . ')';
+						$changedFields[] = $key . ' (' . $old . ') => (' . $value . ')';
 					} elseif ($this->settings[$Model->alias]['change'] === 'serialize') {
-							$changed_fields[$key] = array('old' => $old, 'value' => $value);
+							$changedFields[$key] = array('old' => $old, 'value' => $value);
 						} else {
-							$changed_fields[] = $key;
+							$changedFields[] = $key;
 						}
 				}
 			}
-			$changes = count($changed_fields);
+			$changes = count($changedFields);
 			if (!$changes) {
 				return true;
 			}
 			if ($this->settings[$Model->alias]['change'] === 'serialize') {
-				$logData[$this->Log->alias]['change'] = serialize($changed_fields);
+				$logData[$this->Log->alias]['change'] = serialize($changedFields);
 			} else {
-				$logData[$this->Log->alias]['change'] = implode(', ', $changed_fields);
+				$logData[$this->Log->alias]['change'] = implode(', ', $changedFields);
 			}
 			$logData[$this->Log->alias]['changes'] = $changes;
 		}

@@ -112,7 +112,7 @@ class RevisionBehaviorTest extends CakeTestCase {
 
 		$Post->create(array('Post' => array('title' => 'Non Used Post', 'content' => 'Whatever')));
 		$Post->save();
-		$post_id = $Post->id;
+		$postId = $Post->id;
 
 		$Post->create(array('Post' => array('title' => 'New Post 1', 'content' => 'nada')));
 		$Post->save();
@@ -133,7 +133,7 @@ class RevisionBehaviorTest extends CakeTestCase {
 				'content' => 'nada'));
 		$this->assertEquals($expected, $result);
 
-		$Post->id = $post_id;
+		$Post->id = $postId;
 		$result = $Post->newest();
 		$this->assertEquals($result['Post']['title'], 'Non Used Post');
 		$this->assertEquals($result['Post']['version_id'], 4);
@@ -404,8 +404,8 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$result = $Post->previous();
 		$this->assertEquals($result['Post']['title'], 'Edited Post 2');
 
-		$version_id = $result['Post']['version_id'];
-		$result = $Post->revertTo($version_id);
+		$versionId = $result['Post']['version_id'];
+		$result = $Post->revertTo($versionId);
 		$this->assertTrue((bool)$result);
 
 		$result = $Post->find('first', array('fields' => array(
@@ -593,7 +593,7 @@ class RevisionBehaviorTest extends CakeTestCase {
 
 		$Comment = new RevisionComment();
 
-		$original_comments = $Comment->find('all');
+		$originalComments = $Comment->find('all');
 
 		$data = array('Vote' => array(
 				'id' => 3,
@@ -622,9 +622,9 @@ class RevisionBehaviorTest extends CakeTestCase {
 
 		$this->assertTrue((bool)$Comment->revertToDate('2008-12-09'));
 
-		$reverted_comments = $Comment->find('all');
+		$revertedComments = $Comment->find('all');
 
-		$this->assertEquals($original_comments, $reverted_comments);
+		$this->assertEquals($originalComments, $revertedComments);
 	}
 
 	public function testCreateRevision() {
@@ -1010,12 +1010,12 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$Comment->bindModel(array('hasAndBelongsToMany' => array('Tag' => array('className' => 'RevisionTag'))), false);
 
 		$Comment->id = 1;
-		$original_result = $Comment->newest();
+		$originalResult = $Comment->newest();
 
 		$Comment->save(array('Comment' => array('id' => 1), 'Tag' => array('Tag' => array(2, 4))));
 
 		$result = $Comment->newest();
-		$this->assertEquals($original_result, $result);
+		$this->assertEquals($originalResult, $result);
 	}
 
 	public function testHabtmRevUndo() {
@@ -1088,48 +1088,48 @@ class RevisionBehaviorTest extends CakeTestCase {
 
 		$Comment->bindModel(array('hasAndBelongsToMany' => array('Tag' => array('className' => 'RevisionTag'))), false);
 
-		$comment_one = $Comment->find('first', array('conditions' => array('Comment.id' => 1), 'contain' => 'Tag'));
-		$this->assertEquals($comment_one['Comment']['title'], 'Comment 1');
-		$this->assertEquals(Set::extract($comment_one, 'Tag.{n}.id'), array(
+		$commentOne = $Comment->find('first', array('conditions' => array('Comment.id' => 1), 'contain' => 'Tag'));
+		$this->assertEquals($commentOne['Comment']['title'], 'Comment 1');
+		$this->assertEquals(Set::extract($commentOne, 'Tag.{n}.id'), array(
 			1,
 			2,
 			3));
 		$Comment->id = 1;
-		$rev_one = $Comment->newest();
-		$this->assertEquals($rev_one['Comment']['title'], 'Comment 1');
-		$this->assertEquals($rev_one['Comment']['Tag'], '1,2,3');
-		$version_id = $rev_one['Comment']['version_id'];
+		$revOne = $Comment->newest();
+		$this->assertEquals($revOne['Comment']['title'], 'Comment 1');
+		$this->assertEquals($revOne['Comment']['Tag'], '1,2,3');
+		$versionId = $revOne['Comment']['version_id'];
 
 		$Comment->create(array('Comment' => array('id' => 1, 'title' => 'Edited')));
 		$Comment->save();
 
-		$comment_one = $Comment->find('first', array('conditions' => array('Comment.id' => 1), 'contain' => 'Tag'));
-		$this->assertEquals($comment_one['Comment']['title'], 'Edited');
-		$result = Set::extract($comment_one, 'Tag.{n}.id');
+		$commentOne = $Comment->find('first', array('conditions' => array('Comment.id' => 1), 'contain' => 'Tag'));
+		$this->assertEquals($commentOne['Comment']['title'], 'Edited');
+		$result = Set::extract($commentOne, 'Tag.{n}.id');
 		$expected = array(
 			1,
 			2,
 			3);
 		$this->assertEquals($expected, $result);
 		$Comment->id = 1;
-		$rev_one = $Comment->newest();
-		$this->assertEquals($rev_one['Comment']['title'], 'Edited');
-		$this->assertEquals($rev_one['Comment']['Tag'], '1,2,3');
+		$revOne = $Comment->newest();
+		$this->assertEquals($revOne['Comment']['title'], 'Edited');
+		$this->assertEquals($revOne['Comment']['Tag'], '1,2,3');
 
 		$Comment->revertTo(1);
 
-		$comment_one = $Comment->find('first', array('conditions' => array('Comment.id' => 1), 'contain' => 'Tag'));
-		$this->assertEquals($comment_one['Comment']['title'], 'Comment 1');
-		$result = Set::extract($comment_one, 'Tag.{n}.id');
+		$commentOne = $Comment->find('first', array('conditions' => array('Comment.id' => 1), 'contain' => 'Tag'));
+		$this->assertEquals($commentOne['Comment']['title'], 'Comment 1');
+		$result = Set::extract($commentOne, 'Tag.{n}.id');
 		//TODO: assert
 		$this->assertEquals($result, array(
 			3,
 			2,
 			1));
 		$Comment->id = 1;
-		$rev_one = $Comment->newest();
-		$this->assertEquals($rev_one['Comment']['title'], 'Comment 1');
-		$this->assertEquals($rev_one['Comment']['Tag'], '1,2,3');
+		$revOne = $Comment->newest();
+		$this->assertEquals($revOne['Comment']['title'], 'Comment 1');
+		$this->assertEquals($revOne['Comment']['Tag'], '1,2,3');
 	}
 
 	public function testHabtmRevRevertToDate() {
@@ -1377,11 +1377,11 @@ class RevisionArticle extends RevisionTestModel {
 	 * of a deleted node.
 	 */
 	public function afterUndelete() {
-		$former_children = $this->ShadowModel->find('list', array(
+		$formerChildren = $this->ShadowModel->find('list', array(
 			'conditions' => array('parent_id' => $this->id),
 			'distinct' => true,
 			'order' => 'version_created DESC, version_id DESC'));
-		foreach (array_keys($former_children) as $cid) {
+		foreach (array_keys($formerChildren) as $cid) {
 			$this->id = $cid;
 			$this->undelete();
 		}

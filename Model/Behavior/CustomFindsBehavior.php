@@ -64,7 +64,7 @@ class CustomFindsBehavior extends ModelBehavior {
 			}
 			foreach ($remove as $subKey => $subRemove) {
 				if (is_string($subKey) && isset($query[$remove][$subKey])) {
-					return $this__remove($query[$remove][$subKey], $subRemove);
+					return $this->_remove($query[$remove][$subKey], $subRemove);
 				}
 
 				if (is_string($subRemove)) {

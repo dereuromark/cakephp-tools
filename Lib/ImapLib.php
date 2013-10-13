@@ -190,10 +190,10 @@ class ImapLib {
 	 * - body, structure, attachments
 	 * @return array
 	 */
-	public function msgList($msg_list = array()) {
+	public function msgList($msgList = array()) {
 		$return = array();
 
-		if (empty($msg_list)) {
+		if (empty($msgList)) {
 			$count = $this->msgCount();
 			for ($i = 1; $i <= $count; $i++) {
 				$header = imap_headerinfo($this->stream, $i);
@@ -205,7 +205,7 @@ class ImapLib {
 					if (!is_array($value)) {
 						$return[$msgNo][$id] = imap_utf8($value);
 					} else {
-						foreach ($value as $newid => $array_value) {
+						foreach ($value as $newid => $arrayValue) {
 							foreach ($value[0] as $key => $aValue) {
 								$return[$msgNo][$id][$key] = quoted_printable_decode($aValue);
 							}
@@ -230,14 +230,14 @@ class ImapLib {
 		}
 		// We want to search a specific array of messages
 		else {
-			foreach ($msg_list as $i) {
+			foreach ($msgList as $i) {
 				$header = imap_headerinfo($this->stream, $i);
 				foreach ($header as $id => $value) {
 					// Simple array
 					if (!is_array($value)) {
 						$return[$header->Msgno][$id] = $value;
 					} else {
-						foreach ($value as $newid => $array_value) {
+						foreach ($value as $newid => $arrayValue) {
 							foreach ($value[0] as $key => $aValue) {
 								$return[$header->Msgno][$id][$key] = quoted_printable_decode($aValue);
 							}
@@ -359,19 +359,19 @@ class ImapLib {
 	public function search($params) {
 		if ($this->stream) {
 			if (is_array($params)) {
-				$search_string = '';
+				$searchString = '';
 				foreach ($params as $field => $value) {
 					if (is_numeric($field)) {
 						// Make sure the value is uppercase
-						$search_string .= strtoupper($value) . ' ';
+						$searchString .= strtoupper($value) . ' ';
 					} else {
-						$search_string .= strtoupper($field) . ' "' . $value . '" ';
+						$searchString .= strtoupper($field) . ' "' . $value . '" ';
 					}
 				}
 
 				// Perform the search
 				#echo "'$search_string'";
-				return imap_search($this->stream, $search_string);
+				return imap_search($this->stream, $searchString);
 			}
 			return imap_last_error();
 		}
@@ -410,30 +410,30 @@ class ImapLib {
 
 		// Let's delete multiple emails
 		if (count($emails) > 0) {
-			$delete_string = '';
-			$email_error = array();
+			$deleteString = '';
+			$emailError = array();
 			foreach ($emails as $email) {
 				if ($delete) {
 					if (!imap_delete($this->stream, $email)) {
-						$email_error[] = $email;
+						$emailError[] = $email;
 					}
 				}
 			}
 			if (!$delete) {
 				// Need to take the last comma out!
-				$delete_string = implode(',', $emails);
-				echo $delete_string;
-				imap_mail_move($this->stream, $delete_string, "Inbox/Trash");
+				$deleteString = implode(',', $emails);
+				echo $deleteString;
+				imap_mail_move($this->stream, $deleteString, "Inbox/Trash");
 				//imap_expunge($this->stream);
 			} else {
 				// NONE of the emails were deleted
 				//imap_expunge($this->stream);
 
-				if (count($email_error) === count($emails)) {
+				if (count($emailError) === count($emails)) {
 					return imap_last_error();
 				}
 				$return['status'] = false;
-				$return['not_deleted'] = $email_error;
+				$return['not_deleted'] = $emailError;
 				return $return;
 			}
 		}
@@ -487,8 +487,8 @@ class ImapLib {
 			$info = imap_mailboxmsginfo($this->stream);
 			if ($info) {
 				if ($type === 'array') {
-					$info_array = get_object_vars($info);
-					return $info_array;
+					$infoArray = get_object_vars($info);
+					return $infoArray;
 				}
 				return $info;
 			}

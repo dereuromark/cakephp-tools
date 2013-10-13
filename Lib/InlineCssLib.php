@@ -141,7 +141,7 @@ class InlineCssLib {
 		$DOM->loadHTML($html);
 
 		// DOM removal queue
-		$remove_doms = array();
+		$removeDoms = array();
 
 		// catch <link> style sheet content
 		$links = $DOM->getElementsByTagName('link');
@@ -151,15 +151,15 @@ class InlineCssLib {
 
 				// find the css file and load contents
 				if ($link->hasAttribute('media')) {
-					foreach ($this->media_types as $css_link_media) {
-						if (strstr($link->getAttribute('media'), $css_link_media)) {
+					foreach ($this->media_types as $cssLinkMedia) {
+						if (strstr($link->getAttribute('media'), $cssLinkMedia)) {
 							$css .= $this->_findAndLoadCssFile($link->getAttribute('href')) . "\n\n";
-							$remove_doms[] = $link;
+							$removeDoms[] = $link;
 						}
 					}
 				} else {
 					$css .= $this->_findAndLoadCssFile($link->getAttribute('href')) . "\n\n";
-					$remove_doms[] = $link;
+					$removeDoms[] = $link;
 				}
 			}
 		}
@@ -170,23 +170,23 @@ class InlineCssLib {
 		// Style
 		foreach ($styles as $style) {
 			if ($style->hasAttribute('media')) {
-				foreach ($this->media_types as $css_link_media) {
-					if (strstr($style->getAttribute('media'), $css_link_media)) {
+				foreach ($this->media_types as $cssLinkMedia) {
+					if (strstr($style->getAttribute('media'), $cssLinkMedia)) {
 						$css .= $this->_parseInlineCssAndLoadImports($style->nodeValue);
-						$remove_doms[] = $style;
+						$removeDoms[] = $style;
 					}
 				}
 			} else {
 				$css .= $this->_parseInlineCssAndLoadImports($style->nodeValue);
-				$remove_doms[] = $style;
+				$removeDoms[] = $style;
 			}
 		}
 
 		// Remove
 		if ($this->settings['removeCss']) {
-			foreach ($remove_doms as $remove_dom) {
+			foreach ($removeDoms as $removeDom) {
 				try {
-					$remove_dom->parentNode->removeChild($remove_dom);
+					$removeDom->parentNode->removeChild($removeDom);
 				} catch (DOMException $e) {}
 			}
 			$html = $DOM->saveHTML();
@@ -202,37 +202,37 @@ class InlineCssLib {
 	 * @return string Content
 	 */
 	protected function _findAndLoadCssFile($cssHref) {
-		$css_filenames = array_merge($this->_globRecursive(CSS . '*.Css'), $this->_globRecursive(CSS . '*.CSS'), $this->_globRecursive(CSS . '*.css'));
+		$cssFilenames = array_merge($this->_globRecursive(CSS . '*.Css'), $this->_globRecursive(CSS . '*.CSS'), $this->_globRecursive(CSS . '*.css'));
 
 		// Build an array of the ever more path specific $cssHref location
 		$cssHrefs = split(DS, $cssHref);
-		$cssHref_paths = array();
+		$cssHrefPaths = array();
 		for ($i = count($cssHrefs) - 1; $i > 0; $i--) {
-			if (isset($cssHref_paths[count($cssHref_paths) - 1])) {
-				$cssHref_paths[] = $cssHrefs[$i] . DS . $cssHref_paths[count($cssHref_paths) - 1];
+			if (isset($cssHrefPaths[count($cssHrefPaths) - 1])) {
+				$cssHrefPaths[] = $cssHrefs[$i] . DS . $cssHrefPaths[count($cssHrefPaths) - 1];
 			} else {
-				$cssHref_paths[] = $cssHrefs[$i];
+				$cssHrefPaths[] = $cssHrefs[$i];
 			}
 		}
 
 		// the longest string match will be the match we are looking for
-		$best_css_filename = null;
-		$best_css_match_length = 0;
-		foreach ($css_filenames as $css_filename) {
-			foreach ($cssHref_paths as $cssHref_path) {
-				$regex = '/' . str_replace('/', '\/', str_replace('.', '\.', $cssHref_path)) . '/';
-				if (preg_match($regex, $css_filename, $match)) {
-					if (strlen($match[0]) > $best_css_match_length) {
-						$best_css_match_length = strlen($match[0]);
-						$best_css_filename = $css_filename;
+		$bestCssFilename = null;
+		$bestCssMatchLength = 0;
+		foreach ($cssFilenames as $cssFilename) {
+			foreach ($cssHrefPaths as $cssHrefPath) {
+				$regex = '/' . str_replace('/', '\/', str_replace('.', '\.', $cssHrefPath)) . '/';
+				if (preg_match($regex, $cssFilename, $match)) {
+					if (strlen($match[0]) > $bestCssMatchLength) {
+						$bestCssMatchLength = strlen($match[0]);
+						$bestCssFilename = $cssFilename;
 					}
 				}
 			}
 		}
 
 		$css = null;
-		if (!empty($best_css_filename) && is_file($best_css_filename)) {
-			$css = file_get_contents($best_css_filename);
+		if (!empty($bestCssFilename) && is_file($bestCssFilename)) {
+			$css = file_get_contents($bestCssFilename);
 		}
 
 		return $css;

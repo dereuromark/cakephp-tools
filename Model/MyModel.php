@@ -355,7 +355,6 @@ class MyModel extends Model {
 	 * @return integer next auto increment value or False on failure
 	 */
 	public function getNextAutoIncrement() {
-		$next_increment = 0;
 		$query = "SHOW TABLE STATUS WHERE name = '" . $this->tablePrefix . $this->table . "'";
 		$result = $this->query($query);
 		if (!isset($result[0]['TABLES']['Auto_increment'])) {

@@ -380,11 +380,11 @@ class FormatHelper extends TextHelper {
 			$alt = '';
 		}
 
-		$default_options = array('title' => $title, 'alt' => $alt, 'class' => 'icon');
+		$defaultOptions = array('title' => $title, 'alt' => $alt, 'class' => 'icon');
 		//$new_options['onclick']=$options['onclick'];
-		$new_options = array_merge($default_options, $options);
+		$newOptions = array_merge($defaultOptions, $options);
 
-		$html .= $this->Html->image('icons/' . $pic, $new_options);
+		$html .= $this->Html->image('icons/' . $pic, $newOptions);
 
 		return $html;
 	}
@@ -506,7 +506,7 @@ class FormatHelper extends TextHelper {
 			'it' => array('title' => 'Italiano'),
 		);
 
-		$language_change = __('Language') . ': ';
+		$languageChange = __('Language') . ': ';
 
 		$languages = array();
 		foreach ($langs as $lang) {
@@ -521,14 +521,14 @@ class FormatHelper extends TextHelper {
 		echo '<span class="country">';
 		foreach ($languages as $code => $la) {
 			if ($lang == $code) {
-				$language_change .= $this->Html->image('language_flags/' . $code . '.gif', array('alt' => $code, 'title' => $la['title'] . ' (' . __('active') . ')', 'class' => 'country_flag active')) . '';
+				$languageChange .= $this->Html->image('language_flags/' . $code . '.gif', array('alt' => $code, 'title' => $la['title'] . ' (' . __('active') . ')', 'class' => 'country_flag active')) . '';
 			} else {
-				$language_change .= $this->Html->link($this->Html->image('language_flags/' . $code . '.gif', array('alt' => $code, 'title' => $la['title'], 'class' => 'country_flag')), '/lang/' . $code, array('escape' => false)) . '';
+				$languageChange .= $this->Html->link($this->Html->image('language_flags/' . $code . '.gif', array('alt' => $code, 'title' => $la['title'], 'class' => 'country_flag')), '/lang/' . $code, array('escape' => false)) . '';
 			}
 		}
 
-		$language_change .= '</span>'; //.__('(Translation not complete yet)');
-		return $language_change;
+		$languageChange .= '</span>'; //.__('(Translation not complete yet)');
+		return $languageChange;
 	}
 
 	/**
@@ -1222,7 +1222,7 @@ class FormatHelper extends TextHelper {
 		#Options
 		$strict = false;
 		$ending = CHAR_HELLIP; //'...';
-		$remain_lf = false; // not implemented: choose if LF transformed to ' '
+		$remainLf = false; // not implemented: choose if LF transformed to ' '
 		$class = 'help';
 		$escape = true;
 		$title = '';
@@ -1232,7 +1232,7 @@ class FormatHelper extends TextHelper {
 				$strict = $options['strict'];
 			}
 			if (!empty($options['remain_lf']) && ($options['remain_lf'] === true || $options['remain_lf'] === false)) {
-				$remain_lf = $options['remain_lf'];
+				$remainLf = $options['remain_lf'];
 			}
 
 			if (isset($options['title'])) {
@@ -1304,35 +1304,35 @@ class FormatHelper extends TextHelper {
 	public function tab2space($text, $spaces = 4) {
 		$spaces = str_repeat(" ", $spaces);
 		$text = preg_split("/\r\n|\r|\n/", trim($text));
-		$word_lengths = array();
-		$w_array = array();
+		$wordLengths = array();
+		$wArray = array();
 
 		// Store word lengths
 		foreach ($text as $line) {
 			$words = preg_split("/(\t+)/", $line, -1, PREG_SPLIT_DELIM_CAPTURE);
 			foreach (array_keys($words) as $i) {
 				$strlen = strlen($words[$i]);
-				$add = isset($word_lengths[$i]) && ($word_lengths[$i] < $strlen);
-				if ($add || !isset($word_lengths[$i])) {
-					$word_lengths[$i] = $strlen;
+				$add = isset($wordLengths[$i]) && ($wordLengths[$i] < $strlen);
+				if ($add || !isset($wordLengths[$i])) {
+					$wordLengths[$i] = $strlen;
 				}
 			}
-			$w_array[] = $words;
+			$wArray[] = $words;
 		}
 
 		// Clear $text
 		$text = '';
 
 		// Apply padding when appropriate and rebuild the string
-		foreach (array_keys($w_array) as $i) {
-			foreach (array_keys($w_array[$i]) as $ii) {
-				if (preg_match("/^\t+$/", $w_array[$i][$ii])) {
-					$w_array[$i][$ii] = str_pad($w_array[$i][$ii], $word_lengths[$ii], "\t");
+		foreach (array_keys($wArray) as $i) {
+			foreach (array_keys($wArray[$i]) as $ii) {
+				if (preg_match("/^\t+$/", $wArray[$i][$ii])) {
+					$wArray[$i][$ii] = str_pad($wArray[$i][$ii], $wordLengths[$ii], "\t");
 				} else {
-					$w_array[$i][$ii] = str_pad($w_array[$i][$ii], $word_lengths[$ii]);
+					$wArray[$i][$ii] = str_pad($wArray[$i][$ii], $wordLengths[$ii]);
 				}
 			}
-			$text .= str_replace("\t", $spaces, implode("", $w_array[$i])) . "\n";
+			$text .= str_replace("\t", $spaces, implode("", $wArray[$i])) . "\n";
 		}
 
 		// Finished

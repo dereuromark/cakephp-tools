@@ -151,8 +151,8 @@ class TextExtHelper extends TextHelper {
 	 * @return string html with js generated link around email (and non js fallback)
 	 */
 	public function encodeEmailUrl($mail, $text=null, $params=array(), $attr = array()) {
-		if (empty($class)) { 
-			$class = 'email'; 
+		if (empty($class)) {
+			$class = 'email';
 		}
 
 		$defaults = array(

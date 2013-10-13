@@ -53,7 +53,7 @@ class ZipLib {
 		}
 
 		$size = 0;
-		while ($dir_resource = zip_read($this->Zip)) {
+		while ($dirResource = zip_read($this->Zip)) {
 			$size++;
 		}
 		return $size;
@@ -70,8 +70,8 @@ class ZipLib {
 		}
 
 		$size = 0;
-		while ($dir_resource = zip_read($this->Zip)) {
-			$size += zip_entry_filesize($dir_resource);
+		while ($dirResource = zip_read($this->Zip)) {
+			$size += zip_entry_filesize($dirResource);
 		}
 		return $size;
 	}

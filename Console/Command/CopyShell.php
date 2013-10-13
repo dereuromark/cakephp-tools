@@ -64,6 +64,7 @@ class CopyShell extends AppShell {
 		self::TYPE_PLUGIN => 'plugin',
 		self::TYPE_CUSTOM => 'custom'
 	);
+
 	public $matches = array(
 		self::TYPE_CAKE => 'lib/Cake',
 		self::TYPE_VENDOR => 'vendors', # in root dir
@@ -83,6 +84,11 @@ class CopyShell extends AppShell {
 	public $localFolder = APP;
 	public $remoteFolder = null;
 
+	/**
+	 * CopyShell::startup()
+	 *
+	 * @return void
+	 */
 	public function startup() {
 		$this->scriptFolder = dirname(__FILE__) . DS;
 		$this->sitecopyFolder = $this->scriptFolder . $this->sitecopyFolderName . DS;

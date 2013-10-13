@@ -99,24 +99,24 @@ class RandomLib {
 	 * @return (string) $dob a db (ISO) format datetime string
 	 */
 	public static function dob($min = 18, $max = 100) {
-		$dob_year = date('Y') - (self::int($min, $max));
+		$dobYear = date('Y') - (self::int($min, $max));
 
-		$dob_month = self::int(1, 12);
+		$dobMonth = self::int(1, 12);
 
-		if ($dob_month == 2) {
+		if ($dobMonth == 2) {
 			// leap year?
-			if ($age_years % 4 || $age_years % 400)
-				$max_days = 29;
+			if ($ageYears % 4 || $ageYears % 400)
+				$maxDays = 29;
 			else
-				$max_days = 28;
-		} elseif (in_array($dob_month, array(4, 6, 9, 11)))
-			$max_days = 30;
+				$maxDays = 28;
+		} elseif (in_array($dobMonth, array(4, 6, 9, 11)))
+			$maxDays = 30;
 		else
-			$max_days = 31;
+			$maxDays = 31;
 
-		$dob_day = self::int(1, $max_days);
+		$dobDay = self::int(1, $maxDays);
 
-		$dob = sprintf("%4d-%02d-%02d", $dob_year, $dob_month, $dob_day);
+		$dob = sprintf("%4d-%02d-%02d", $dobYear, $dobMonth, $dobDay);
 		return $dob;
 	}
 

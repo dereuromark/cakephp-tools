@@ -543,36 +543,36 @@ function prettyJson($json, $ind = "\t") {
 
 	$indent = 0;
 	$result = '';
-	$quotemarks_counter = 0;
-	$next_token_use_prefix = true;
+	$quotemarksCounter = 0;
+	$nextTokenUsePrefix = true;
 
 	foreach ($tokens as $token) {
-		$quotemarks_counter = $quotemarks_counter + (count(explode('"', $token)) - 1);
+		$quotemarksCounter = $quotemarksCounter + (count(explode('"', $token)) - 1);
 
 		if ($token === '') {
 			continue;
 		}
 
-		if ($next_token_use_prefix) {
+		if ($nextTokenUsePrefix) {
 			$prefix = str_repeat($ind, $indent);
 		} else {
 			$prefix = null;
 		}
 
 		// Determine if the quote marks are open or closed
-		if ($quotemarks_counter & 1) {
+		if ($quotemarksCounter & 1) {
 			// odd - thus quotemarks open
-			$next_token_use_prefix = false;
-			$new_line = null;
+			$nextTokenUsePrefix = false;
+			$newLine = null;
 		} else {
 			// even - thus quotemarks closed
-			$next_token_use_prefix = true;
-			$new_line = "\n";
+			$nextTokenUsePrefix = true;
+			$newLine = "\n";
 		}
 
 		if ($token === "{" || $token === "[") {
 			$indent++;
-			$result .= $token . $new_line;
+			$result .= $token . $newLine;
 		} elseif ($token === "}" || $token === "]") {
 			$indent--;
 
@@ -580,13 +580,13 @@ function prettyJson($json, $ind = "\t") {
 				$prefix = str_repeat($ind, $indent);
 			}
 
-			if ($next_token_use_prefix) {
-				$result .= $new_line . $prefix . $token;
+			if ($nextTokenUsePrefix) {
+				$result .= $newLine . $prefix . $token;
 			} else {
-				$result .= $new_line . $token;
+				$result .= $newLine . $token;
 			}
 		} elseif ($token === ",") {
-			$result .= $token . $new_line;
+			$result .= $token . $newLine;
 		} else {
 			$result .= $prefix . $token;
 		}

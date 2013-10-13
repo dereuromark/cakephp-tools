@@ -133,10 +133,10 @@ class TextLib extends String {
 		// this, "somecompany, llc", "and ""this"" w,o.rks", foo bar
 		$regexp = '%(?:^|,\ *)("(?>[^"]*)(?>""[^"]* )*"|(?: [^",]*))%x';
 		preg_match_all($regexp, $tags, $matches);
-		$typed_tags = array_unique($matches[1]);
+		$typedTags = array_unique($matches[1]);
 
 		$tags = array();
-		foreach ($typed_tags as $tag) {
+		foreach ($typedTags as $tag) {
 		// If a user has escaped a term (to demonstrate that it is a group,
 		// or includes a comma or quote character), we remove the escape
 		// formatting so to save the term into the database as the user intends.
@@ -153,16 +153,16 @@ class TextLib extends String {
 	 * Implode an array of tags into a string.
 	 */
 	public function implodeTags($tags) {
-		$encoded_tags = array();
+		$encodedTags = array();
 		foreach ($tags as $tag) {
 		// Commas and quotes in tag names are special cases, so encode them.
 		if (strpos($tag, ',') !== false || strpos($tag, '"') !== false) {
 			$tag = '"' . str_replace('"', '""', $tag) . '"';
 		}
 
-		$encoded_tags[] = $tag;
+		$encodedTags[] = $tag;
 		}
-		return implode(', ', $encoded_tags);
+		return implode(', ', $encodedTags);
 	}
 
 	/**

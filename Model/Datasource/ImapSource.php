@@ -917,19 +917,19 @@ class ImapSource extends DataSource {
 		}
 		$text = imap_qprint($decoded->text);
 
-		$app_encoding = Configure::read('App.encoding');
-		$mail_encoding = $decoded->charset;
+		$appEncoding = Configure::read('App.encoding');
+		$mailEncoding = $decoded->charset;
 		$encodings = mb_list_encodings();
 		$valid = true;
-		if ($app_encoding !== $mail_encoding || !($valid = mb_check_encoding($text, $mail_encoding))) {
-			if (!in_array($mail_encoding, $encodings) || !$valid) {
-				$mail_encoding = mb_detect_encoding($text);
+		if ($appEncoding !== $mailEncoding || !($valid = mb_check_encoding($text, $mailEncoding))) {
+			if (!in_array($mailEncoding, $encodings) || !$valid) {
+				$mailEncoding = mb_detect_encoding($text);
 			}
-			if (!in_array($app_encoding, $encodings)) {
-				$app_encoding = 'UTF-8';
+			if (!in_array($appEncoding, $encodings)) {
+				$appEncoding = 'UTF-8';
 			}
 
-			$text = mb_convert_encoding($text, $app_encoding, $mail_encoding);
+			$text = mb_convert_encoding($text, $appEncoding, $mailEncoding);
 		}
 
 		return $text;
@@ -943,16 +943,16 @@ class ImapSource extends DataSource {
 	 */
 	protected function _getFormattedMail(Model $Model, $uid, $fetchAttachments = false) {
 		// Translate uid to msg_no. Has no decent fail
-		$msg_number = imap_msgno($this->Stream, $uid);
+		$msgNumber = imap_msgno($this->Stream, $uid);
 
 		// A hack to detect if imap_msgno failed, and we're in fact looking at the wrong mail
-		if ($uid != ($mailuid = imap_uid($this->Stream, $msg_number))) {
+		if ($uid != ($mailuid = imap_uid($this->Stream, $msgNumber))) {
 			//pr(compact('Mail'));
 			return $this->err($Model, 'Mail id mismatch. parameter id: %s vs mail id: %s', $uid, $mailuid);
 		}
 
 		// Get Mail with a property: 'date' or fail
-		if (!($Mail = imap_headerinfo($this->Stream, $msg_number)) || !property_exists($Mail, 'date')) {
+		if (!($Mail = imap_headerinfo($this->Stream, $msgNumber)) || !property_exists($Mail, 'date')) {
 			//pr(compact('Mail'));
 			return $this->err($Model, 'Unable to find mail date property in Mail corresponding with uid: %s. Something must be wrong', $uid);
 		}
@@ -1095,9 +1095,9 @@ class ImapSource extends DataSource {
 		if (!empty($Structure->parts)) {
 			foreach ($Structure->parts as $n => $Part) {
 				if ($n >= 1) {
-					$arr_decimas = explode('.', $partnr);
-					$arr_decimas[count($arr_decimas) - 1] += 1;
-					$partnr = join('.', $arr_decimas);
+					$arrDecimas = explode('.', $partnr);
+					$arrDecimas[count($arrDecimas) - 1] += 1;
+					$partnr = join('.', $arrDecimas);
 				}
 				$Part->path = $partnr;
 

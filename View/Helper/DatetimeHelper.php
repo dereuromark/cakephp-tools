@@ -35,14 +35,14 @@ class DatetimeHelper extends TimeHelper {
 	 * @param
 	 * @return integer offset
 	 */
-	public function tzOffset($gmtoffset, $is_dst) {
+	public function tzOffset($gmtoffset, $isDst) {
 		//global $gmtoffset, $is_dst;
 
 		extract(getdate());
 		$serveroffset = gmmktime(0, 0, 0, $mon, $mday, $year) - mktime(0, 0, 0, $mon, $mday, $year);
 		$offset = $gmtoffset - $serveroffset;
 
-		return $offset + ($is_dst ? 3600 : 0);
+		return $offset + ($isDst ? 3600 : 0);
 	}
 
 	/**

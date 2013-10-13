@@ -559,10 +559,10 @@ class LogableBehaviorTest extends CakeTestCase {
 	}
 
 	public function testIgnoreSetup() {
-		$log_rows_before = $this->Log->find('count', array('conditions' => array('model' => 'LogableUser', 'foreign_id' => 301)));
+		$logRowsBefore = $this->Log->find('count', array('conditions' => array('model' => 'LogableUser', 'foreign_id' => 301)));
 		$this->LogableUser->save(array('id' => 301, 'counter' => 3));
-		$log_rows_after = $this->Log->find('count', array('conditions' => array('model' => 'LogableUser', 'foreign_id' => 301)));
-		$this->assertEquals($log_rows_after, $log_rows_before);
+		$logRowsAfter = $this->Log->find('count', array('conditions' => array('model' => 'LogableUser', 'foreign_id' => 301)));
+		$this->assertEquals($logRowsAfter, $logRowsBefore);
 
 		$this->LogableUser->save(array('id' => 301, 'name' => 'Steven Segal', 'counter' => 77));
 

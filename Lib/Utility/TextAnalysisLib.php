@@ -197,9 +197,9 @@ class TextAnalysisLib extends TextLib {
 
 	public function getLetter() {
 		if (!$this->letter) {
-			$l_text = mb_strtolower($this->text);
+			$lText = mb_strtolower($this->text);
 			for ($i = 0; $i < $this->lenght; $i++)
-				if (mb_strpos("abcdefghijklmnopqrstuvwxyzäöü", $l_text[$i]) != false) $this->
+				if (mb_strpos("abcdefghijklmnopqrstuvwxyzäöü", $lText[$i]) != false) $this->
 						letter++;
 		}
 		return $this->letter;

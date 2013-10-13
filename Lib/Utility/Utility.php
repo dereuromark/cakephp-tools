@@ -86,7 +86,6 @@ class Utility {
 			return false;
 		}
 		$result = array();
-		$space_key = null;
 		$c = mb_strlen($str);
 		for ($i = 0; $i < $c; $i += $length) {
 			$result[] = mb_substr($str, $i, $length);

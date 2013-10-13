@@ -247,9 +247,9 @@ class GeocodeLib {
 		$this->setParams(array_merge($settings, array('latlng' => $latlng)));
 
 		$count = 0;
-		$request_url = $this->url();
+		$requestUrl = $this->url();
 		while (true) {
-			$result = $this->_fetch($request_url);
+			$result = $this->_fetch($requestUrl);
 			if ($result === false || $result === null) {
 				$this->setError('Could not retrieve url');
 				CakeLog::write('geocode', __('Could not retrieve url with \'%s\'', $latlng));
@@ -358,10 +358,10 @@ class GeocodeLib {
 		}
 
 		$count = 0;
-		$request_url = $this->url();
+		$requestUrl = $this->url();
 
 		while (true) {
-			$result = $this->_fetch($request_url);
+			$result = $this->_fetch($requestUrl);
 			if ($result === false || $result === null) {
 				$this->setError('Could not retrieve url');
 				CakeLog::write('geocode', 'Geocoder could not retrieve url with \'' . $address . '\'');
