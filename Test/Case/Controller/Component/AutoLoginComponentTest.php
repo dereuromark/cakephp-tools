@@ -96,11 +96,6 @@ class AutoLoginComponentTest extends CakeTestCase {
  *
  */
 class AutoLoginTestController extends Controller {
-	/**
-	 * Name property
-	 *
-	 * @var string 'SecurityTest'
-	 */
 
 	/**
 	 * Components property

@@ -901,8 +901,6 @@ class FormExtHelper extends FormHelper {
 		return '<div class="input date' . (!empty($error) ? ' error' : '') . '">' . $this->label($model . '.' . $field, $options['label']) . '' . $select . '' . $error . '</div>' . $script;
 	}
 
-/** maxLength **/
-
 	public $maxLengthOptions = array(
 		'maxCharacters' => 255,
 		//'events' => array(),

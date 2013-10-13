@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @from
+ * Zodiac Signs
  */
 class ZodiacLib {
 
 	public $error = null;
 
-	static $res = array(
+	public static $res = array(
 		self::SIGN_AQUARIUS	=> 'aquarius',
 		self::SIGN_ARIES	=> 'aries',
 		self::SIGN_CANCER	=> 'cancer',
@@ -29,7 +29,6 @@ class ZodiacLib {
 	/**
 	 * @param integer $sign
 	 * @return array(array(m, d), array(m, d)) (first is min, second is max)
-	 * 2011-07-13
 	 */
 	public function getRange($sign) {
 		$range = null;
@@ -76,6 +75,8 @@ class ZodiacLib {
 	}
 
 	/**
+	 * Zodiac Sign for given day and month
+	 *
 	 * @param month
 	 * @param day
 	 * expects valid values
@@ -84,63 +85,72 @@ class ZodiacLib {
 	public function getSign($month, $day) {
 		switch ($month) {
 			case 1:
-				$this->zodiac = ($day <= 20) ? self::SIGN_CAPRICORN : self::SIGN_AQUARIUS;
+				$zodiac = ($day <= 20) ? self::SIGN_CAPRICORN : self::SIGN_AQUARIUS;
 				break;
 			case 2:
-				$this->zodiac = ($day <= 19) ? self::SIGN_AQUARIUS : self::SIGN_PISCES;
+				$zodiac = ($day <= 19) ? self::SIGN_AQUARIUS : self::SIGN_PISCES;
 				break;
 			case 3:
-				$this->zodiac = ($day <= 20) ? self::SIGN_PISCES : self::SIGN_ARIES;
+				$zodiac = ($day <= 20) ? self::SIGN_PISCES : self::SIGN_ARIES;
 				break;
 			case 4:
-				$this->zodiac = ($day <= 20) ? self::SIGN_ARIES:
-				self::SIGN_TAURUS;
+				$zodiac = ($day <= 20) ? self::SIGN_ARIES : self::SIGN_TAURUS;
 				break;
 			case 5 :
-				$this->zodiac = ($day <= 21) ? self::SIGN_TAURUS:
-				self::SIGN_GEMINI;
+				$zodiac = ($day <= 21) ? self::SIGN_TAURUS : self::SIGN_GEMINI;
 				break;
 			case 6 :
-				$this->zodiac = ($day <= 21) ? self::SIGN_GEMINI:
-				self::SIGN_CANCER;
+				$zodiac = ($day <= 21) ? self::SIGN_GEMINI : self::SIGN_CANCER;
 				break;
 			case 7 :
-				$this->zodiac = ($day <= 23) ? self::SIGN_CANCER:
-				self::SIGN_LEO;
+				$zodiac = ($day <= 23) ? self::SIGN_CANCER : self::SIGN_LEO;
 				break;
 			case 8 :
-				$this->zodiac = ($day <= 23) ? self::SIGN_LEO:
-				self::SIGN_VIRGO;
+				$zodiac = ($day <= 23) ? self::SIGN_LEO : self::SIGN_VIRGO;
 				break;
 			case 9 :
-				$this->zodiac = ($day <= 23) ? self::SIGN_VIRGO:
-				self::SIGN_LIBRA;
+				$zodiac = ($day <= 23) ? self::SIGN_VIRGO : self::SIGN_LIBRA;
 				break;
 			case 10 :
-				$this->zodiac = ($day <= 23) ? self::SIGN_LIBRA:
-				self::SIGN_SCORPIO;
+				$zodiac = ($day <= 23) ? self::SIGN_LIBRA : self::SIGN_SCORPIO;
 				break;
 			case 11 :
-				$this->zodiac = ($day <= 22) ? self::SIGN_SCORPIO:
-				self::SIGN_SAGITTARIUS;
+				$zodiac = ($day <= 22) ? self::SIGN_SCORPIO : self::SIGN_SAGITTARIUS;
 				break;
 			case 12 :
-				$this->zodiac = ($day <= 21) ? self::SIGN_SAGITTARIUS : self::SIGN_CAPRICORN;
+				$zodiac = ($day <= 21) ? self::SIGN_SAGITTARIUS : self::SIGN_CAPRICORN;
 				break;
 		}
-		return $this->zodiac;
+		return $zodiac;
 	}
 
+	/**
+	 * ZodiacLib::getChineseSign()
+	 *
+	 * @param mixed $year
+	 * @param mixed $month
+	 * @param mixed $day
+	 * @return void
+	 */
 	public function getChineseSign($year, $month, $day) {
 		//TODO
 	}
 
+	/**
+	 * ZodiacLib::getNativeAmericanSign()
+	 *
+	 * @param mixed $month
+	 * @param mixed $day
+	 * @return void
+	 */
 	public function getNativeAmericanSign($month, $day) {
 		//TODO
 	}
 
 	/**
 	 * List of all signs
+	 *
+	 * @return mixed
 	 */
 	public static function signs($value = null) {
 		$res = array(
@@ -163,6 +173,12 @@ class ZodiacLib {
 		return $res[$value];
 	}
 
+	/**
+	 * ZodiacLib::image()
+	 *
+	 * @param integer $sign
+	 * @return string
+	 */
 	public static function image($sign) {
 		return self::$res[$sign];
 	}
@@ -179,6 +195,8 @@ class ZodiacLib {
 	const SIGN_SCORPIO = 10;
 	const SIGN_SAGITTARIUS = 11;
 	const SIGN_CAPRICORN = 12;
+
+}
 
 /*
 	2 aries1.gif from 21 Marzo to 20 Aprile
@@ -206,4 +224,3 @@ Schütze (23. November - 21. Dezember)
 Steinbock (22. Dezember - 20. Januar)
 
 */
-}
