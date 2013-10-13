@@ -8,6 +8,7 @@ App::uses('TextLib', 'Tools.Utility');
 class TextAnalysisLib extends TextLib {
 
 	protected $text, $lenght, $char, $letter, $space, $word, $r_word, $sen, $r_sen, $para,
+
 		$r_para, $beautified;
 
 	public function __construct($text = null) {
@@ -217,12 +218,12 @@ class TextAnalysisLib extends TextLib {
 
 	//TODO: improve it to work with case insensitivity and utf8 chars like é or î
 	public function getWord($parse = false) {
-		if (!$this->word && !$this->r_word) {
+		if (!$this->word && !$this->rWord) {
 			@preg_match_all("/[A-Za-zäöüÄÖÜß\-'\\\"]+/", $this->text, $m);
 			$this->word = count($m[0]);
-			$this->r_word = $m[0];
+			$this->rWord = $m[0];
 		}
-		return $parse ? $this->r_word : $this->word;
+		return $parse ? $this->rWord : $this->word;
 	}
 
 	/**
@@ -230,7 +231,7 @@ class TextAnalysisLib extends TextLib {
 	 * - min_char, max_char, case_sensititive, sort ('asc', 'desc', 'length', 'alpha', false), limit...
 	 */
 	public function wordCount($options = array()) {
-		if (true || !$this->rr_word) {
+		if (true || !$this->rrWord) {
 			$text = str_replace(array(NL, CR, PHP_EOL, TB), ' ', $this->text);
 			$res = array();
 			$search = array('*', '+', '~', ',', '.', ';', ':', '#', '', '(', ')', '{', '}', '[', ']', '$', '%', '“', '”', '—', '"', '‘', '’', '!', '?', '<', '>', '=', '/');
@@ -280,22 +281,22 @@ class TextAnalysisLib extends TextLib {
 	}
 
 	public function getSentence($parse = false) {
-		if (!$this->sen && !$this->r_sen) {
+		if (!$this->sen && !$this->rSen) {
 			@preg_match_all("/[^:|;|\!|\.]+(:|;|\!|\.| )+/", $this->text, $m);
 			$this->sen = count($m[0]);
-			foreach ($m[0] as $s) $this->r_sen[] = strtr(trim($s), array("\n" => '', "\r" => ''));
+			foreach ($m[0] as $s) $this->rSen[] = strtr(trim($s), array("\n" => '', "\r" => ''));
 		}
-		return $parse ? $this->r_sen : $this->sen;
+		return $parse ? $this->rSen : $this->sen;
 	}
 
 	public function getParagraph($parse = false) {
-		if (!$this->para && !$this->r_para) {
+		if (!$this->para && !$this->rPara) {
 			@preg_match_all("/[^\n]+?(:|;|\!|\.| )+\n/s", strtr($this->text, array("\r" =>
 				'')) . "\n", $m);
 			$this->para = count($m[0]);
-			foreach ($m[0] as $p) $this->r_para[] = trim($p);
+			foreach ($m[0] as $p) $this->rPara[] = trim($p);
 		}
-		return $parse ? $this->r_para : $this->para;
+		return $parse ? $this->rPara : $this->para;
 	}
 
 	public function beautify($wordwrap = false) {

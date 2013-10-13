@@ -6,6 +6,7 @@ class LogableBookFixture extends CakeTestFixture {
 		'title' => array('type' => 'string', 'length' => 255, 'null' => false),
 		'weight' => array('type' => 'integer', 'null' => false)
 	);
+
 	public $records = array(
 		array('id' => 3, 'title' => 'Sixth Book', 'weight' => 6 ),
 		array('id' => 6, 'title' => 'Fifth Book', 'weight' => 5 ),

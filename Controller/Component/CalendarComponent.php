@@ -24,7 +24,9 @@ class CalendarComponent extends Component {
 	);
 
 	public $year = null;
+
 	public $month = null;
+
 	public $day = null;
 
 	/**

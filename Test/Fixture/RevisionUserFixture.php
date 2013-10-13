@@ -8,6 +8,7 @@ class RevisionUserFixture extends CakeTestFixture {
 			'created' => array('type' => 'date', 'null' => false, 'default' => null),
 			'indexes' => array('PRIMARY' => array('column' => 'id'))
 			);
+
 	public $records = array(array(
 			'id' => 1,
 			'name' => 'Alexander',

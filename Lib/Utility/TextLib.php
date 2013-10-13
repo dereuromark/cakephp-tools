@@ -8,7 +8,8 @@ App::uses('String', 'Utility');
  */
 class TextLib extends String {
 
-	protected $text, $lenght, $char, $letter, $space, $word, $r_word, $sen, $r_sen, $para,
+	protected $text, $length, $char, $letter, $space, $word, $r_word, $sen, $r_sen, $para,
+
 		$r_para, $beautified;
 
 	public function __construct($text = null) {
@@ -198,7 +199,7 @@ class TextLib extends String {
 	 * @return array
 	 */
 	public function words($options = array()) {
-		if (true || !$this->xr_word) {
+		if (true || !$this->xrWord) {
 			$text = str_replace(array(PHP_EOL, NL, TB), ' ', $this->text);
 
 			$pieces = explode(' ', $text);
@@ -221,7 +222,7 @@ class TextLib extends String {
 				}
 			}
 			$pieces = array_unique($pieces);
-			//$this->xr_word = $pieces;
+			//$this->xrWord = $pieces;
 		}
 		return $pieces;
 	}

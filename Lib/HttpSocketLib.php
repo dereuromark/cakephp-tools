@@ -165,10 +165,10 @@ class HttpSocketLib {
 			}
 			$context = stream_context_create($opts);
 			$response = file_get_contents($url, false, $context);
-			if (!isset($http_response_header)) {
+			if (!isset($httpResponseHeader)) {
 				return false;
 			}
-			preg_match('/^HTTP.*\s([0-9]{3})/', $http_response_header[0], $matches);
+			preg_match('/^HTTP.*\s([0-9]{3})/', $httpResponseHeader[0], $matches);
 			$statusCode = (int)$matches[1];
 			if (!in_array($statusCode, $allowedCodes)) {
 				return false;

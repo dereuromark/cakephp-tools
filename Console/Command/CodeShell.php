@@ -92,7 +92,8 @@ class CodeShell extends AppShell {
 		$pos = 1;
 
 		if (!empty($fileContent[1]) && $fileContent[1] === '/**') {
-			for ($i = $pos; $i < count($fileContent) - 1; $i++) {
+			$count = count($fileContent);
+			for ($i = $pos; $i < $count - 1; $i++) {
 				if (strpos($fileContent[$i], '*/') !== false) {
 					if (strpos($fileContent[$i + 1], 'class ') !== 0) {
 						$pos = $i + 1;
@@ -175,6 +176,7 @@ class CodeShell extends AppShell {
 	 * Make sure all files are properly encoded (ü instead of &uuml; etc)
 	 * FIXME: non-utf8 files to utf8 files error on windows!
 	 *
+	 * @return void
 	 */
 	public function utf8() {
 		$this->_paths = array(APP . 'View' . DS);

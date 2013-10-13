@@ -9,32 +9,32 @@ App::uses('AppHelper', 'View/Helper');
  */
 class PhpThumbHelper extends AppHelper {
 
-	protected $PhpThumb;
+	public $PhpThumb;
 
-	protected $options;
+	public $options;
 
-	protected $file_extension;
+	public $fileExtension;
 
-	protected $cache_filename;
+	public $cacheFilename;
 
-	protected $thumb_data;
+	public $thumbData;
 
-	protected $error;
+	public $error;
 
-	protected $error_detail;
+	public $errorDetail;
 
-	protected function init($options = array()) {
+	public function init($options = array()) {
 		$this->options = $options;
 		$this->set_file_extension();
 		$this->thumbData = array();
 		$this->error = 0;
 	}
 
-	protected function set_file_extension() {
+	public function set_file_extension() {
 		$this->fileExtension = mb_substr($this->options['src'], mb_strrpos($this->options['src'], '.'), mb_strlen($this->options['src']));
 	}
 
-	protected function set_cache_filename() {
+	public function set_cache_filename() {
 		ksort($this->options);
 		$filenameParts = array();
 		$cacheableProperties = array('src', 'new', 'w', 'h', 'wp', 'hp', 'wl', 'hl', 'ws', 'hs', 'f', 'q', 'sx', 'sy', 'sw', 'sh', 'zc', 'bc', 'bg', 'fltr');
@@ -56,14 +56,14 @@ class PhpThumbHelper extends AppHelper {
 		$this->cacheFilename = $this->options['save_path'] . DS . md5($this->cacheFilename . $lastModified) . $this->fileExtension;
 	}
 
-	protected function image_is_cached() {
+	public function image_is_cached() {
 		if (is_file($this->cacheFilename)) {
 			return true;
 		}
 		return false;
 	}
 
-	protected function create_thumb() {
+	public function create_thumb() {
 		if (!isset($this->PhpThumb) || !is_object($this->PhpThumb)) {
 			App::import('Vendor', 'phpThumb', array('file' => 'phpThumb' . DS . 'phpthumb.class.php'));
 		}
@@ -106,7 +106,7 @@ class PhpThumbHelper extends AppHelper {
 		}
 	}
 
-	protected function get_thumb_data() {
+	public function get_thumb_data() {
 		$this->thumbData['error'] = $this->error;
 
 		if ($this->error) {
@@ -127,7 +127,7 @@ class PhpThumbHelper extends AppHelper {
 		return $this->thumbData;
 	}
 
-	protected function validate() {
+	public function validate() {
 		if (!is_file($this->options['src'])) {
 			$this->error = 1;
 			$this->errorDetail = 'File ' . $this->options['src'] . ' does not exist';

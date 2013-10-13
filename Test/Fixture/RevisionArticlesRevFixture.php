@@ -10,6 +10,7 @@ class RevisionArticlesRevFixture extends CakeTestFixture {
 			'title' => array('type' => 'string', 'null' => false, 'default' => null),
 			'content' => array('type' => 'text', 'null' => false, 'default' => null),
 			'indexes' => array('PRIMARY' => array('column' => 'version_id')));
+
 	public $records = array(
 	);
 }

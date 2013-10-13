@@ -5,6 +5,7 @@ class LogableCommentFixture extends CakeTestFixture {
 		'id' => array('type' => 'integer', 'key' => 'primary'),
 		'content' => array('type' => 'string', 'length' => 255, 'null' => false),
 	);
+
 	public $records = array(
 		array('id' => 1, 'content' => 'I like it'),
 		array('id' => 2, 'content' => 'I don\'t'),

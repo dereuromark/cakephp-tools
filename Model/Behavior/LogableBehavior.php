@@ -536,9 +536,9 @@ class LogableBehavior extends ModelBehavior {
 			unset($Model->logableAction);
 		}
 
-		if ($this->Log->hasField('version_id') && isset($Model->version_id)) {
-			$logData[$this->Log->alias]['version_id'] = $Model->version_id;
-			unset($Model->version_id);
+		if ($this->Log->hasField('version_id') && isset($Model->versionId)) {
+			$logData[$this->Log->alias]['version_id'] = $Model->versionId;
+			unset($Model->versionId);
 		}
 
 		if ($this->Log->hasField('ip') && $this->userIP) {

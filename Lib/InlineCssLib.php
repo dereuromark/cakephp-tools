@@ -151,7 +151,7 @@ class InlineCssLib {
 
 				// find the css file and load contents
 				if ($link->hasAttribute('media')) {
-					foreach ($this->media_types as $cssLinkMedia) {
+					foreach ($this->mediaTypes as $cssLinkMedia) {
 						if (strstr($link->getAttribute('media'), $cssLinkMedia)) {
 							$css .= $this->_findAndLoadCssFile($link->getAttribute('href')) . "\n\n";
 							$removeDoms[] = $link;
@@ -170,7 +170,7 @@ class InlineCssLib {
 		// Style
 		foreach ($styles as $style) {
 			if ($style->hasAttribute('media')) {
-				foreach ($this->media_types as $cssLinkMedia) {
+				foreach ($this->mediaTypes as $cssLinkMedia) {
 					if (strstr($style->getAttribute('media'), $cssLinkMedia)) {
 						$css .= $this->_parseInlineCssAndLoadImports($style->nodeValue);
 						$removeDoms[] = $style;
@@ -276,7 +276,7 @@ class InlineCssLib {
 
 			foreach ($matches[1] as $url) {
 				if (preg_match("/^http/i", $url)) {
-					if ($this->import_external_css) {
+					if ($this->importExternalCss) {
 						$css .= file_get_contents($url);
 					}
 				} else {

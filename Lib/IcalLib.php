@@ -18,6 +18,7 @@ App::uses('TimeLib', 'Tools.Utility');
 class IcalLib {
 
 	public $Ical;
+
 	public $Time;
 
 	public function __construct() {

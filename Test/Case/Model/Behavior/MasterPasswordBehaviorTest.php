@@ -165,6 +165,7 @@ class MasterPasswordBehaviorTest extends MyCakeTestCase {
 }
 
 class MasterPasswordTestModel extends CakeTestModel {
+
 	public $useTable = false;
 
 }

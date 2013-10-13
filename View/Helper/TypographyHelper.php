@@ -228,7 +228,6 @@ class TypographyHelper extends AppHelper {
 		}
 
 		return preg_replace(array_keys($table), $table, $str);
-
 	}
 
 	/**
@@ -399,8 +398,9 @@ class TypographyHelper extends AppHelper {
 				$newstr .= $ex[$i];
 			}
 
-			if ($ct - 1 != $i)
+			if ($ct - 1 != $i) {
 				$newstr .= "pre>";
+			}
 		}
 
 		return $newstr;

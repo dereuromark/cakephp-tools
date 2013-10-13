@@ -12,6 +12,7 @@ class RevisionCommentsRevFixture extends CakeTestFixture {
 			'content' => array('type' => 'text', 'null' => false, 'default' => null),
 			'Tag' => array('type' => 'string', 'null' => true, 'default' => null)
 	);
+
 	public $records = array(
 		array(
 			'version_id' => 1,

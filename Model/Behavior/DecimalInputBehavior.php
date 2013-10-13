@@ -53,6 +53,7 @@ class DecimalInputBehavior extends ModelBehavior {
 	);
 
 	public $delimiterBaseFormat = array();
+
 	public $delimiterFromFormat = array();
 
 	/**

@@ -46,7 +46,7 @@ class DiffLib {
 	 *
 	 * @var boolean
 	 */
-	public $character_diff = true;
+	public $characterDiff = true;
 
 	/**
 	 * If the params are strings on what characters do you want to explode the string?
@@ -54,14 +54,14 @@ class DiffLib {
 	 *
 	 * @var mixed
 	 */
-	public $explode_on = "\r\n";
+	public $explodeOn = "\r\n";
 
 	/**
 	 * How many context lines do you want to see around the changed line?
 	 *
 	 * @var integer
 	 */
-	public $context_lines = 4;
+	public $contextLines = 4;
 
 	/**
 	 * DiffLib::__construct()
@@ -130,7 +130,7 @@ class DiffLib {
 		}
 		$rendererClassName = 'Horde_Text_Diff_Renderer_' . ucfirst($this->renderer);
 
-		$renderer = new $rendererClassName(array('context_lines' => $this->context_lines, 'character_diff' => $this->character_diff));
+		$renderer = new $rendererClassName(array('context_lines' => $this->contextLines, 'character_diff' => $this->characterDiff));
 		$diff = new Horde_Text_Diff($this->engine, array($original, $changed));
 
 		$string = $renderer->render($diff);
@@ -150,7 +150,7 @@ class DiffLib {
 
 		$diff = new Horde_Text_Diff('string', array($string, $options['mode']));
 		$rendererClassName = 'Horde_Text_Diff_Renderer_' . ucfirst($this->renderer);
-		$renderer = new $rendererClassName(array('context_lines' => $this->context_lines, 'character_diff' => $this->character_diff));
+		$renderer = new $rendererClassName(array('context_lines' => $this->contextLines, 'character_diff' => $this->characterDiff));
 		$string = $renderer->render($diff);
 		return $string;
 	}
@@ -162,13 +162,13 @@ class DiffLib {
 	 * @return array
 	 */
 	protected function _explode($text) {
-		if (is_array($this->explode_on)) {
-			foreach ($this->explode_on as $explodeOn) {
+		if (is_array($this->explodeOn)) {
+			foreach ($this->explodeOn as $explodeOn) {
 				$text = explode($explodeOn, $text);
 			}
 			return $text;
 		}
-		return explode($this->explode_on, $text);
+		return explode($this->explodeOn, $text);
 	}
 
 	/**
@@ -298,16 +298,23 @@ class DiffLib {
 /*** other files **/
 
 class Changes {
+
 	public $line = 0;
+
 	public $length = 0;
+
 	public $symbol;
+
 	public $oldline = array(); // only for code removed
 }
 
 // This object is created for every line of text in the file.
 // It was either this, or some funk string changes
 class Line {
+
 	public $text = '';
+
 	public $symbol = '';
+
 	public $changed = false;
 }

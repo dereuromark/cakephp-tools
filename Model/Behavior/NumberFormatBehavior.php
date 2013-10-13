@@ -53,6 +53,7 @@ class NumberFormatBehavior extends ModelBehavior {
 	);
 
 	public $delimiterBaseFormat = array();
+
 	public $delimiterFromFormat = array();
 
 	/**

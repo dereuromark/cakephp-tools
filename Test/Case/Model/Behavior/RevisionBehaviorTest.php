@@ -1348,12 +1348,16 @@ class RevisionBehaviorTest extends CakeTestCase {
 }
 
 class RevisionTestModel extends CakeTestModel {
+
 	public $logableAction;
 }
 
 class RevisionPost extends RevisionTestModel {
+
 	public $name = 'RevisionPost';
+
 	public $alias = 'Post';
+
 	public $actsAs = array('Revision' => array('limit' => 5));
 
 	public function beforeUndelete() {
@@ -1368,8 +1372,11 @@ class RevisionPost extends RevisionTestModel {
 }
 
 class RevisionArticle extends RevisionTestModel {
+
 	public $name = 'RevisionArticle';
+
 	public $alias = 'Article';
+
 	public $actsAs = array('Tree', 'Revision' => array('ignore' => array('title')));
 
 	/**
@@ -1389,14 +1396,20 @@ class RevisionArticle extends RevisionTestModel {
 }
 
 class RevisionUser extends RevisionTestModel {
+
 	public $name = 'RevisionUser';
+
 	public $alias = 'User';
+
 	public $actsAs = array('Revision');
 }
 
 class RevisionComment extends RevisionTestModel {
+
 	public $name = 'RevisionComment';
+
 	public $alias = 'Comment';
+
 	public $actsAs = array('Containable', 'Revision');
 
 	public $hasMany = array('Vote' => array(
@@ -1406,20 +1419,30 @@ class RevisionComment extends RevisionTestModel {
 }
 
 class RevisionVote extends RevisionTestModel {
+
 	public $name = 'RevisionVote';
+
 	public $alias = 'Vote';
+
 	public $actsAs = array('Revision');
 }
 
 class RevisionTag extends RevisionTestModel {
+
 	public $name = 'RevisionTag';
+
 	public $alias = 'Tag';
+
 	public $actsAs = array('Revision');
+
 	public $hasAndBelongsToMany = array('Comment' => array('className' => 'RevisionComment'));
 }
 
 class CommentsTag extends RevisionTestModel {
+
 	public $name = 'CommentsTag';
+
 	public $useTable = 'revision_comments_revision_tags';
+
 	public $actsAs = array('Revision');
 }

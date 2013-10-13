@@ -344,7 +344,9 @@ class CommonComponentTestController extends Controller {
 class TestComponent extends Component {
 
 	public $Controller;
+
 	public $isInit = false;
+
 	public $isStartup = false;
 
 	public function initialize(Controller $Controller) {

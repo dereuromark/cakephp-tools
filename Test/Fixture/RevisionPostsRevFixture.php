@@ -7,6 +7,7 @@ class RevisionPostsRevFixture extends CakeTestFixture {
 			'id' => array('type' => 'integer', 'null' => false, 'default' => null),
 			'title' => array('type' => 'string', 'null' => false, 'default' => null),
 			'content' => array('type' => 'text', 'null' => false, 'default' => null));
+
 	public $records = array(
 		array(
 			'version_id' => 1,

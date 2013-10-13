@@ -108,12 +108,14 @@ class AutoLoginTestController extends Controller {
 	 * @var array
 	 */
 	public $components = array('Tools.AutoLogin');
+
 	/**
 	 * Failed property
 	 *
 	 * @var boolean
 	 */
 	public $failed = false;
+
 	/**
 	 * Used for keeping track of headers in test
 	 *

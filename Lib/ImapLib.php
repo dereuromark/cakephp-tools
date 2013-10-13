@@ -54,6 +54,7 @@ class ImapLib {
 	);
 
 	public $currentSettings = array();
+
 	public $currentRef = '';
 
 	public function __construct() {
@@ -455,7 +456,7 @@ class ImapLib {
 
 			$this->mbox .= '/user="' . $this->user . '"';
 			$this->mbox .= '}';
-			$this->mbox .= $this->default_mailbox;
+			$this->mbox .= $this->defaultMailbox;
 
 			if ($mailbox) {
 				$this->mbox .= '.' . $mailbox;
@@ -534,23 +535,39 @@ class ImapMessageInfoLib {
 	const BS = "\\";
 
 	public $ImapFolder;
+
 	public $ImapMessage;
 
 	public $subject;
+
 	public $from;
+
 	public $to;
+
 	public $date;
-	public $message_id;
+
+	public $messageId;
+
 	public $references;
-	public $in_reply_to;
+
+	public $inReplyTo;
+
 	public $size;
+
 	public $uid;
+
 	public $msgno;
+
 	public $recent;
+
 	public $flagged;
+
 	public $answered;
+
 	public $deleted;
+
 	public $seen;
+
 	public $draft;
 
 	public function __construct($ImapFolder, $data) {
@@ -635,7 +652,9 @@ class ImapMessageInfoLib {
 class ImapMessageLib {
 
 	public $ImapFolder;
+
 	public $MessageInfo;
+
 	public $uid;
 
 	public function __construct($ImapFolder, $uid, $ImapMessageInfo = null) {
@@ -675,6 +694,7 @@ class ImapMessageLib {
 class ImapMessagesListLib {
 
 	public $ImapFolder;
+
 	public $messageUIDs = array();
 
 	public function __construct($ImapFolder, $messageUIDs) {
@@ -739,6 +759,7 @@ class ImapFolderLib {
 	const S_UNSEEN = 'UNSEEN';
 
 	public $Imap;
+
 	public $currentRef = '';
 
 	public function __construct($Imap) {

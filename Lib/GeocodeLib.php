@@ -88,6 +88,7 @@ class GeocodeLib {
 	);
 
 	protected $error = array();
+
 	protected $result = null;
 
 	protected $statusCodes = array(

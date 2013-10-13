@@ -152,7 +152,9 @@ class CommonHelper extends AppHelper {
 			'meta' => '<link rel="alternate" type="application/rss+xml" title="%s" href="%s" />',
 		);
 		$content = array();
-		if (empty($url)) { return ''; }
+		if (empty($url)) {
+			return '';
+		}
 		if (empty($title)) {
 			$title = 'Diesen Feed abonnieren';
 		}

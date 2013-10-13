@@ -967,7 +967,7 @@ class ImapSource extends DataSource {
 
 		$return[$Model->alias] = array(
 			'id' => $this->_toId($uid),
-			'message_id' => $Mail->message_id,
+			'message_id' => $Mail->messageId,
 			'email_number' => $Mail->Msgno,
 
 			'from' => $this->_personId($Mail, 'from', 'address'),
@@ -992,9 +992,9 @@ class ImapSource extends DataSource {
 			'deleted' => @$Mail->Deleted === 'D' ? 1 : 0,
 
 			'thread_count' => $this->_getThreadCount($Mail),
-			'in_reply_to' => @$Mail->in_reply_to,
+			'in_reply_to' => @$Mail->inReplyTo,
 			'reference' => @$Mail->references,
-			'new' => (int)@$Mail->in_reply_to,
+			'new' => (int)@$Mail->inReplyTo,
 			'created' => date('Y-m-d H:i:s', strtotime($Mail->date)),
 			);
 		$return['Recipient'] = $this->_personId($Mail, 'to');
@@ -1279,7 +1279,7 @@ class ImapSource extends DataSource {
 	 * @return integer the number of mails in the thred
 	 */
 	protected function _getThreadCount($Mail) {
-		if (isset($Mail->reference) || isset($Mail->in_reply_to)) {
+		if (isset($Mail->reference) || isset($Mail->inReplyTo)) {
 			return '?';
 		}
 		return 0;

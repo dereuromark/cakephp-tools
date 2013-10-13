@@ -211,18 +211,19 @@ class TextExtHelper extends TextHelper {
 	 */
 	public static function encodeText($text) {
 		$encmail = '';
-		for ($i = 0; $i < mb_strlen($text); $i++) {
+		$length = mb_strlen($text);
+		for ($i = 0; $i < $length; $i++) {
 			$encMod = mt_rand(0, 2);
 			switch ($encMod) {
-			case 0: // None
-				$encmail .= mb_substr($text, $i, 1);
-				break;
-			case 1: // Decimal
-				$encmail .= "&#" . ord(mb_substr($text, $i, 1)) . ';';
-				break;
-			case 2: // Hexadecimal
-				$encmail .= "&#x" . dechex(ord(mb_substr($text, $i, 1))) . ';';
-				break;
+				case 0: // None
+					$encmail .= mb_substr($text, $i, 1);
+					break;
+				case 1: // Decimal
+					$encmail .= "&#" . ord(mb_substr($text, $i, 1)) . ';';
+					break;
+				case 2: // Hexadecimal
+					$encmail .= "&#x" . dechex(ord(mb_substr($text, $i, 1))) . ';';
+					break;
 			}
 		}
 		return $encmail;
@@ -230,6 +231,7 @@ class TextExtHelper extends TextHelper {
 
 	/**
 	 * Fix to allow shortened urls that do not break layout etc
+	 *
 	 * @param string $text
 	 * @param options (additionally - not yet supported by core):
 	 * - stripProtocol: bool (defaults to true)
