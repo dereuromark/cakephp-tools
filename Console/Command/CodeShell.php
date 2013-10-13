@@ -21,6 +21,8 @@ class CodeShell extends AppShell {
 
 	/**
 	 * Detect and fix class dependencies
+	 *
+	 * @return void
 	 */
 	public function dependencies() {
 		if ($customPath = $this->params['custom']) {
@@ -193,6 +195,12 @@ class CodeShell extends AppShell {
 		$this->_filesRegexpUpdate($patterns);
 	}
 
+	/**
+	 * CodeShell::_filesRegexpUpdate()
+	 *
+	 * @param mixed $patterns
+	 * @return void
+	 */
 	protected function _filesRegexpUpdate($patterns) {
 		$this->_findFiles($this->params['ext']);
 		foreach ($this->_files as $file) {
@@ -201,12 +209,12 @@ class CodeShell extends AppShell {
 		}
 	}
 
-/**
- * Searches the paths and finds files based on extension.
- *
- * @param string $extensions
- * @return void
- */
+	/**
+	 * Searches the paths and finds files based on extension.
+	 *
+	 * @param string $extensions
+	 * @return void
+	 */
 	protected function _findFiles($extensions = '') {
 		$this->_files = array();
 		foreach ($this->_paths as $path) {
@@ -246,6 +254,13 @@ class CodeShell extends AppShell {
 		}
 	}
 
+	/**
+	 * CodeShell::_utf8File()
+	 *
+	 * @param mixed $file
+	 * @param mixed $patterns
+	 * @return void
+	 */
 	protected function _utf8File($file, $patterns) {
 		$contents = $fileContent = file_get_contents($file);
 
@@ -314,23 +329,21 @@ class CodeShell extends AppShell {
 			));
 	}
 
-/** old stuff **/
-
 	/**
-	* Shell tasks
-	*
-	* @var array
-	*/
+	 * Shell tasks
+	 *
+	 * @var array
+	 */
 	public $tasks = array(
 		'CodeConvention',
 		'CodeWhitespace'
 	);
 
 	/**
-	* Main execution function
-	*
-	* @return void
-	*/
+	 * Main execution function
+	 *
+	 * @return void
+	 */
 	public function group() {
 		if (!empty($this->args)) {
 			if (!empty($this->args[1])) {

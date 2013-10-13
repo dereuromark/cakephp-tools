@@ -111,7 +111,7 @@ class FolderSyncShell extends AppShell {
 			$targetFile = $file;
 			$file = str_replace($this->targetFolder, '', $targetFile);
 			$sourceFile = $this->sourceFolder . $file;
-			$this->updateFile($targetFile, $sourceFile, $file);
+			$this->_updateFile($targetFile, $sourceFile, $file);
 		}
 	}
 
@@ -120,7 +120,7 @@ class FolderSyncShell extends AppShell {
 	 * @param source - does not have to exists
 	 * @return void;
 	 */
-	protected function updateFile($target, $source, $name = null) {
+	protected function _updateFile($target, $source, $name = null) {
 		if (!$name) {
 			$name = $target;
 		}

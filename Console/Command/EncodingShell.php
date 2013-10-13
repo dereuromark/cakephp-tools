@@ -19,14 +19,6 @@ class EncodingShell extends AppShell {
 	protected $_found = array();
 
 	/**
-	 * @return void
-	 */
-	public function startup() {
-		parent::startup();
-
-	}
-
-	/**
 	 * ConvertShell::folder()
 	 *
 	 * @return void
@@ -82,7 +74,7 @@ class EncodingShell extends AppShell {
 	 * @param array $excludes
 	 * @return void
 	 */
-	public function _detect($path, $extensions, $excludes = array()) {
+	protected function _detect($path, $extensions, $excludes = array()) {
 		$Iterator = new RegexIterator(
 			new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path)),
 			'/^.+\.(' . $extensions . ')$/i',

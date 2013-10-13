@@ -17,12 +17,16 @@ App::uses('ComponentCollection', 'Controller');
  */
 class UserShell extends AppShell {
 
-	public $tasks = array();
 	public $uses = array(CLASS_USER);
 
-	//TODO: refactor (smaller sub-parts)
+	/**
+	 * UserShell::main()
+	 * //TODO: refactor (smaller sub-parts)
+	 *
+	 * @return void
+	 */
 	public function main() {
-		if (App::import('Component', 'AuthExt') && class_exists('AuthExtComponent')) {
+		if (App::import('Component', 'Tools.AuthExt') && class_exists('AuthExtComponent')) {
 			$this->Auth = new AuthExtComponent(new ComponentCollection());
 		} else {
 			App::import('Component', 'Auth');

@@ -18,12 +18,17 @@ if (!defined('LF')) {
  */
 class CcShell extends AppShell {
 
-	protected $plugins = null;
+	public $plugins = null;
 
-	protected $content = '';
+	public $content = '';
 
-	protected $appFiles = array();
+	public $appFiles = array();
 
+	/**
+	 * CcShell::main()
+	 *
+	 * @return void
+	 */
 	public function main() {
 		$this->out('Code Completion Dump - customized for PHPDesigner');
 
@@ -43,6 +48,11 @@ class CcShell extends AppShell {
 		$this->out('...done');
 	}
 
+	/**
+	 * CcShell::models()
+	 *
+	 * @return void
+	 */
 	public function models() {
 		$files = $this->_getFiles('Model');
 
@@ -59,6 +69,11 @@ class CcShell extends AppShell {
 		$this->content .= $content;
 	}
 
+	/**
+	 * CcShell::behaviors()
+	 *
+	 * @return void
+	 */
 	public function behaviors() {
 		$files = $this->_getFiles('Model/Behavior');
 
@@ -76,6 +91,8 @@ class CcShell extends AppShell {
 
 	/**
 	 * Components + models
+	 *
+	 * @return void
 	 */
 	public function controller() {
 		$content = LF;
@@ -100,6 +117,11 @@ class CcShell extends AppShell {
 		$this->content .= $content;
 	}
 
+	/**
+	 * CcShell::helpers()
+	 *
+	 * @return void
+	 */
 	public function helpers() {
 		$files = $this->_getFiles('View/Helper');
 		$content = LF;
@@ -114,6 +136,11 @@ class CcShell extends AppShell {
 		$this->content .= $content;
 	}
 
+	/**
+	 * CcShell::appFiles()
+	 *
+	 * @return void
+	 */
 	public function appFiles() {
 		$files = $this->appFiles;
 		$content = LF;
@@ -126,6 +153,12 @@ class CcShell extends AppShell {
 		$this->content .= $content;
 	}
 
+	/**
+	 * CcShell::_prepAppFiles()
+	 *
+	 * @param mixed $files
+	 * @return string
+	 */
 	protected function _prepAppFiles($files) {
 		$res = '';
 		foreach ($files as $name => $parent) {
@@ -134,6 +167,12 @@ class CcShell extends AppShell {
 		return $res;
 	}
 
+	/**
+	 * CcShell::_prepModels()
+	 *
+	 * @param mixed $files
+	 * @return string
+	 */
 	protected function _prepModels($files) {
 		$res = '';
 		foreach ($files as $name) {
@@ -159,6 +198,12 @@ class CcShell extends AppShell {
 		return $res;
 	}
 
+	/**
+	 * CcShell::_prepBehaviors()
+	 *
+	 * @param mixed $files
+	 * @return string
+	 */
 	protected function _prepBehaviors($files) {
 		$res = '';
 		foreach ($files as $name) {
@@ -191,15 +236,22 @@ class CcShell extends AppShell {
 
 	/**
 	 * Check on correctness to avoid duplicates
+	 *
+	 * @return void
 	 */
 	protected function _varName($name, $type) {
 		if (($pos = strrpos($name, $type)) === false) {
 			return '';
-			//return $name;
 		}
 		return substr($name, 0, $pos);
 	}
 
+	/**
+	 * CcShell::_prepComponents()
+	 *
+	 * @param mixed $files
+	 * @return string
+	 */
 	protected function _prepComponents($files) {
 		$res = '';
 		foreach ($files as $name) {
@@ -230,6 +282,12 @@ class CcShell extends AppShell {
 		return $res;
 	}
 
+	/**
+	 * CcShell::_prepHelpers()
+	 *
+	 * @param mixed $files
+	 * @return string
+	 */
 	protected function _prepHelpers($files) {
 		# new ones
 		$res = '';
@@ -263,6 +321,11 @@ class CcShell extends AppShell {
 		return $res;
 	}
 
+	/**
+	 * CcShell::_dump()
+	 *
+	 * @return void
+	 */
 	protected function _dump() {
 		//$File = new File($this->filename, true);
 
@@ -276,6 +339,12 @@ class CcShell extends AppShell {
 		file_put_contents($this->filename, $content);
 	}
 
+	/**
+	 * CcShell::_getFiles()
+	 *
+	 * @param mixed $type
+	 * @return array
+	 */
 	protected function _getFiles($type) {
 		$files = App::objects($type, null, false);
 		$corePath = App::core($type);

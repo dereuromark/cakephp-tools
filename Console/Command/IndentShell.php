@@ -46,7 +46,7 @@ class IndentShell extends AppShell {
 		'debug' => false # add debug info after each line
 	);
 
-	protected $changes = null;
+	protected $_changes = null;
 
 	protected $_paths = array();
 
@@ -114,6 +114,13 @@ class IndentShell extends AppShell {
 		}
 	}
 
+	/**
+	 * IndentShell::_write()
+	 *
+	 * @param mixed $file
+	 * @param mixed $text
+	 * @return boolean Success
+	 */
 	protected function _write($file, $text) {
 		$text = implode(PHP_EOL, $text);
 		if ($this->settings['outputToTmp']) {
@@ -123,9 +130,15 @@ class IndentShell extends AppShell {
 			}
 			$file = extractPathInfo('dir', $file) . DS . $filename . '_.' . extractPathInfo('ext', $file);
 		}
-		return file_put_contents($file, $text);
+		return (bool)file_put_contents($file, $text);
 	}
 
+	/**
+	 * IndentShell::_read()
+	 *
+	 * @param mixed $file
+	 * @return array
+	 */
 	protected function _read($file) {
 		$text = file_get_contents($file);
 		if (empty($text)) {
@@ -139,10 +152,11 @@ class IndentShell extends AppShell {
 	 * NEW TRY!
 	 * idea: just count spaces and replace those
 	 *
+	 * @return void
 	 */
 	protected function _correctFiles() {
 		foreach ($this->_files as $file) {
-			$this->changes = false;
+			$this->_changes = false;
 			$textCorrect = array();
 
 			$pieces = $this->_read($file);
@@ -157,7 +171,7 @@ class IndentShell extends AppShell {
 				$textCorrect[] = $tmp;
 			}
 
-			if ($this->changes) {
+			if ($this->_changes) {
 				$this->_write($file, $textCorrect);
 			}
 		}
@@ -180,7 +194,7 @@ class IndentShell extends AppShell {
 			$piece1 = mb_substr($piece, 0, $pos + 1);
 			$piece1 = str_replace(str_repeat(' ', $spacesPerTab), TB, $piece1, $count);
 			if ($count > 0) {
-				$this->changes = true;
+				$this->_changes = true;
 			}
 
 			$piece2 = mb_substr($piece, $pos + 1);
@@ -190,7 +204,7 @@ class IndentShell extends AppShell {
 
 		$newPiece = rtrim($newPiece) . $debug;
 		if ($newPiece != $piece || strlen($newPiece) !== strlen($piece)) {
-			$this->changes = true;
+			$this->_changes = true;
 		}
 		return $newPiece;
 	}
@@ -209,7 +223,7 @@ class IndentShell extends AppShell {
 			$newPiece = mb_substr($piece, $space);
 		}
 		if ($newPiece != $piece || strlen($newPiece) !== strlen($piece)) {
-			$this->changes = true;
+			$this->_changes = true;
 		}
 		return $newPiece;
 	}

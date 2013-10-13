@@ -14,17 +14,22 @@ App::uses('AppShell', 'Console/Command');
  * @license MIT
  */
 class ResetShell extends AppShell {
-	public $tasks = array();
-	//public $uses = array('User');
 
 	public $Auth = null;
 
+	/**
+	 * ResetShell::main()
+	 *
+	 * @return void
+	 */
 	public function main() {
 		$this->help();
 	}
 
 	/**
 	 * Reset all emails - e.g. your admin email (for local development)
+	 *
+	 * @return void
 	 */
 	public function email() {
 		$this->out('email:');
@@ -49,6 +54,8 @@ class ResetShell extends AppShell {
 
 	/**
 	 * Reset all pwds to a simply pwd (for local development)
+	 *
+	 * @return void
 	 */
 	public function pwd() {
 		$components = array('Tools.AuthExt', 'Auth');
@@ -99,8 +106,14 @@ class ResetShell extends AppShell {
 		$this->out($count . ' pwds resetted - DONE');
 	}
 
+	/**
+	 * ResetShell::help()
+	 *
+	 * @return void
+	 */
 	public function help() {
 		$this->out('-- pwd: Hash and Reset all user passwords with Auth(Ext) Component --');
 		$this->out('-- email: Reset all user emails --');
 	}
+
 }

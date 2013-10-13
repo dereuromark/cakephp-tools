@@ -13,6 +13,7 @@ App::uses('Folder', 'Utility');
 class PhpTagShell extends AppShell {
 
 	public $autoCorrectAll = false;
+
 	# each report: [0] => found, [1] => corrected
 	public $report = array(
 		'leading' => array(0, 0),
@@ -28,6 +29,8 @@ class PhpTagShell extends AppShell {
 	/**
 	 * note: uses provided folder (first param)
 	 * otherwise complete APP
+	 *
+	 * @return void
 	 */
 	public function run() {
 		if (isset($this->args[0]) && !empty($this->args[0])) {

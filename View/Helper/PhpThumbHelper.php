@@ -10,11 +10,17 @@ App::uses('AppHelper', 'View/Helper');
 class PhpThumbHelper extends AppHelper {
 
 	protected $PhpThumb;
+
 	protected $options;
+
 	protected $file_extension;
+
 	protected $cache_filename;
+
 	protected $thumb_data;
+
 	protected $error;
+
 	protected $error_detail;
 
 	protected function init($options = array()) {

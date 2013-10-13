@@ -72,6 +72,7 @@ class CopyShell extends AppShell {
 	);
 
 	public $type = self::TYPE_APP;
+
 	public $configName = null; # like "test" in "app_test" or "123" in "custom_123"
 	# both typeName and configName form the "site" name: typeName_configName
 
@@ -79,9 +80,13 @@ class CopyShell extends AppShell {
 	public $configGlobal = array(); # configFile Content
 
 	public $tmpFolder = null;
+
 	public $tmpFile = null;
+
 	public $logFile = null;
+
 	public $localFolder = APP;
+
 	public $remoteFolder = null;
 
 	/**
