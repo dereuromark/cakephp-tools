@@ -567,7 +567,7 @@ class SluggedBehavior extends ModelBehavior {
 	 * @return string a partial regex or false on failure
 	 */
 	protected function _regex($mode) {
-		$return = '\x00-\x1f\x26\x3c\x7f-\x9f\x{d800}-\x{dfff}\x{fffe}-\x{ffff}';
+		$return = '\x00-\x1f\x26\x3c\x7f-\x9f\x{fffe}-\x{ffff}';
 		if ($mode === 'display') {
 			return $return;
 		}
