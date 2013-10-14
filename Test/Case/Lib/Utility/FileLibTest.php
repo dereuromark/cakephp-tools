@@ -34,10 +34,15 @@ class FileLibTest extends CakeTestCase {
 		$this->_printArrays($status, $is, $expected, $pre);
 	}
 
+	/**
+	 * FileLibTest::testReadCsv2() with umlauts
+	 *
+	 * @return void
+	 */
 	public function testReadCsv2() {
 		$handler = new FileLib(TMP . 'test.txt', true);
 
-		$pre = '\'First\', \'Last Name\', \'Email\'' . NL . '\'Example\', \'Firsty\', \'test@test.com\''; //.NL.'\'Next\', \'Secondy\', \'again@test.com\''
+		$pre = '\'First\', \'Last Name\', \'Email\'' . NL . '\'Example Äs\', \'Firsty üs\', \'test@test.com sß\'';
 
 		$handler->write($pre);
 		$handler->close();
@@ -48,10 +53,13 @@ class FileLibTest extends CakeTestCase {
 		$expected = array(array(
 				'First',
 				'Last Name',
-				'Email'), array(
-				'Example',
-				'Firsty',
-				'test@test.com'));
+				'Email'
+			), array(
+				'Example Äs',
+				'Firsty üs',
+				'test@test.com sß'
+			)
+		);
 
 		$status = $this->assertEquals($expected, $is);
 		$this->_printArrays($status, $is, $expected, $pre);

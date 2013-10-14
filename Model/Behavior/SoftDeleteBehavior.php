@@ -50,8 +50,9 @@ class SoftDeleteBehavior extends ModelBehavior {
 	/**
 	 * Setup callback
 	 *
-	 * @param object $model
+	 * @param Model $model
 	 * @param array $settings
+	 * @return void
 	 */
 	public function setup(Model $model, $settings = array()) {
 		$settings = array_merge($this->_defaults, $settings);
@@ -80,7 +81,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 	/**
 	 * Before find callback
 	 *
-	 * @param object $model
+	 * @param Model $model
 	 * @param array $query
 	 * @return array
 	 */
@@ -112,9 +113,9 @@ class SoftDeleteBehavior extends ModelBehavior {
 	/**
 	 * Before delete callback
 	 *
-	 * @param object $model
+	 * @param Model $model
 	 * @param array $query
-	 * @return boolean
+	 * @return boolean Success
 	 */
 	public function beforeDelete(Model $model, $cascade = true) {
 		$runtime = $this->runtime[$model->alias];
@@ -131,9 +132,9 @@ class SoftDeleteBehavior extends ModelBehavior {
 	/**
 	 * Mark record as deleted
 	 *
-	 * @param object $model
+	 * @param Model $model
 	 * @param integer $id
-	 * @return boolean
+	 * @return boolean Success
 	 */
 	public function delete(Model $model, $id) {
 		$runtime = $this->runtime[$model->alias];
@@ -154,15 +155,15 @@ class SoftDeleteBehavior extends ModelBehavior {
 
 		$model->create();
 		$model->set($model->primaryKey, $id);
-		return $model->save(array($model->alias => $data), false, array_keys($data));
+		return (bool)$model->save(array($model->alias => $data), false, array_keys($data));
 	}
 
 	/**
 	 * Mark record as not deleted
 	 *
-	 * @param object $model
+	 * @param Model $model
 	 * @param integer $id
-	 * @return boolean
+	 * @return boolean Success
 	 */
 	public function undelete(Model $model, $id) {
 		$runtime = $this->runtime[$model->alias];
@@ -198,13 +199,13 @@ class SoftDeleteBehavior extends ModelBehavior {
 	 * $this->softDelete(true); enable again for all flag fields
 	 * $config = $this->softDelete(null); for obtaining current setting
 	 *
-	 * @param object $model
+	 * @param Model $model
 	 * @param mixed $active
-	 * @return mixed if $active is null, then current setting/null, or boolean if runtime setting for model was changed
+	 * @return mixed If $active is null, then current setting/null, or boolean if runtime setting for model was changed
 	 */
 	public function softDelete(Model $model, $active) {
 		if ($active === null) {
-			return !empty($this->runtime[$model->alias]) ? $this->runtime[$model->alias] : null;
+			return isset($this->runtime[$model->alias]) ? $this->runtime[$model->alias] : null;
 		}
 
 		$result = !isset($this->runtime[$model->alias]) || $this->runtime[$model->alias] !== $active;
@@ -216,7 +217,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 	/**
 	 * Returns number of outdated softdeleted records prepared for purge
 	 *
-	 * @param object $model
+	 * @param Model $model
 	 * @param mixed $expiration anything parseable by strtotime(), by default '-90 days'
 	 * @return integer
 	 */
@@ -228,9 +229,9 @@ class SoftDeleteBehavior extends ModelBehavior {
 	/**
 	 * Purge table
 	 *
-	 * @param object $model
+	 * @param Model $model
 	 * @param mixed $expiration anything parseable by strtotime(), by default '-90 days'
-	 * @return boolean if there were some outdated records
+	 * @return boolean If there were some outdated records
 	 */
 	public function purgeDeleted(Model $model, $expiration = '-90 days') {
 		$this->softDelete($model, false);
@@ -250,7 +251,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 	/**
 	 * Returns conditions for finding outdated records
 	 *
-	 * @param object $model
+	 * @param Model $model
 	 * @param mixed $expiration anything parseable by strtotime(), by default '-90 days'
 	 * @return array
 	 */
@@ -269,7 +270,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 	/**
 	 * Return normalized field array
 	 *
-	 * @param object $model
+	 * @param Model $model
 	 * @param array $settings
 	 * @return array
 	 */
@@ -289,13 +290,14 @@ class SoftDeleteBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * Modifies conditions of hasOne and hasMany associations
+	 * Modifies conditions of hasOne and hasMany associations.
 	 *
 	 * If multiple delete flags are configured for model, then $active=true doesn't
 	 * do anything - you have to alter conditions in association definition
 	 *
-	 * @param object $model
+	 * @param Model $model
 	 * @param mixed $active
+	 * @return void
 	 */
 	protected function _softDeleteAssociations(Model $model, $active) {
 		if (empty($model->belongsTo)) {
@@ -326,7 +328,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 						if ($active) {
 							if (!isset($conditions[$field]) && !isset($conditions[$assoc . '.' . $field])) {
 								if (is_string($active)) {
-									if ($field == $active) {
+									if ($field === $active) {
 										$conditions[$assoc . '.' . $field] = false;
 									} elseif (isset($conditions[$assoc . '.' . $field])) {
 										unset($conditions[$assoc . '.' . $field]);

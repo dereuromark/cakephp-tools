@@ -45,9 +45,10 @@ class FileLib extends File {
 	 * @param string $mode
 	 * @param string $force Force open/read the file
 	 * @param boolean $removeEmpty Remove empty lines (simple newline characters without meaning)
+	 * @param boolean $encode Encode to UTF-8
 	 * @return array Content or false on failure
 	 */
-	public function readCsv($length = 0, $delimiter = null, $enclosure = null, $mode = 'rb', $force = false, $removeEmpty = false) {
+	public function readCsv($length = 0, $delimiter = null, $enclosure = null, $mode = 'rb', $force = false, $removeEmpty = false, $encode = true) {
 		$res = array();
 		if ($this->open($mode, $force) === false) {
 			return false;
@@ -67,7 +68,7 @@ class FileLib extends File {
 				$count++;
 				$tmp = fgets($this->handle, 8000);
 				$tmp = explode($delimiter, $tmp);
-				if (true || WINDOWS) {
+				if ($encode) {
 					$tmp = $this->_encode($tmp);
 				}
 				$isEmpty = true;
@@ -89,7 +90,7 @@ class FileLib extends File {
 				if ($data === false) {
 					break;
 				}
-				if (true || WINDOWS) {
+				if ($encode) {
 					$data = $this->_encode($data);
 				}
 				$isEmpty = true;
@@ -224,7 +225,7 @@ class FileLib extends File {
 	 * @param options
 	 * - keys (defaults to first array content in data otherwise) (order is important!)
 	 * - preserve_keys (do not slug and lowercase)
-	 * @return array result or FALSE on failure
+	 * @return array Result
 	 */
 	public function transfer($data, $options = array()) {
 		$res = array();
@@ -260,11 +261,13 @@ class FileLib extends File {
 			}
 			if (is_array($value)) {
 				$value = $this->_encode($value);
+			} else {
+				if (!mb_check_encoding($value, 'UTF-8')) {
+					$value = utf8_encode($value);
+				}
+				$value = trim($value);
 			}
-			if (!mb_check_encoding($value, 'UTF-8')) {
-				$value = utf8_encode($value);
-			}
-			$convertedArray[$key] = trim($value);
+			$convertedArray[$key] = $value;
 		}
 		return $convertedArray;
 	}
