@@ -17,7 +17,7 @@ class ChmodLib {
 
 /*** calc octal ***/
 
-		/**
+	/**
 	 * From Octal 0xxx back to STRING with leading zero added on leading zero = true
 	 * e.g. 0777 => 0777, '755' => 0755
 	 *

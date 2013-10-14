@@ -38,15 +38,15 @@ class CurrencyLib {
 	public $cacheTime = DAY;
 
 	/**
-	* Converts the $amount from $fromCurrency to $toCurrency, formatted to
-	* $decimals decimal places.
-	*
-	* @return float [Converted Currency Amount] or boolean FALSE on failure
-	* @param $amount float
-	* @param $fromCurrency string
-	* @param $toCurrency string
-	* @param $decimals integer[optional]default=2
-	*/
+	 * Converts the $amount from $fromCurrency to $toCurrency, formatted to
+	 * $decimals decimal places.
+	 *
+	 * @return float [Converted Currency Amount] or boolean FALSE on failure
+	 * @param $amount float
+	 * @param $fromCurrency string
+	 * @param $toCurrency string
+	 * @param $decimals integer[optional]default=2
+	 */
 	public function convert($amount, $fromCurrency, $toCurrency, $decimals = 2) {
 		//Get the rate table
 		$rates = $this->_retrieveCurrencies();
@@ -59,13 +59,13 @@ class CurrencyLib {
 	}
 
 	/**
-	* Returns an array of rates in comparison the the $base currency given to $decimals
-	* number of decimal places.
-	*
-	* @param $base string[optional]default='EUR'
-	* @param $decimals integer[optional]default=2
-	* @return array table or boolean FALSE on failure
-	*/
+	 * Returns an array of rates in comparison the the $base currency given to $decimals
+	 * number of decimal places.
+	 *
+	 * @param $base string[optional]default='EUR'
+	 * @param $decimals integer[optional]default=2
+	 * @return array table or boolean FALSE on failure
+	 */
 	public function table($base = 'EUR', $decimals = 2) {
 		//Create array to holds rates
 		$rateTable = array();

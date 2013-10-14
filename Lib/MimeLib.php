@@ -757,11 +757,11 @@ class MimeLib extends CakeResponse {
 	}
 
 	/**
-	* Retrieve the corresponding MIME type, if one exists
-	*
-	* @param String $file File Name (relative location such as "image_test.jpg" or full "http://site.com/path/to/image_test.jpg")
-	* @return String MIMEType - The type of the file passed in the argument
-	*/
+	 * Retrieve the corresponding MIME type, if one exists
+	 *
+	 * @param String $file File Name (relative location such as "image_test.jpg" or full "http://site.com/path/to/image_test.jpg")
+	 * @return String MIMEType - The type of the file passed in the argument
+	 */
 	public function extractMimeType($file = null) {
 		if (!is_file($file)) {
 			return false;
@@ -812,11 +812,11 @@ class MimeLib extends CakeResponse {
 	}
 
 	/**
-	* Gets the file extention from a string
-	*
-	* @param String $file The full file name
-	* @return String ext The file extension
-	*/
+	 * Gets the file extention from a string
+	 *
+	 * @param String $file The full file name
+	 * @return String ext The file extension
+	 */
 	protected function _getExtension($file = null) {
 		if ($file !== null) {
 			$pieces = explode('.', $file);

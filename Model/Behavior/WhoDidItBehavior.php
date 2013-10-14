@@ -9,7 +9,7 @@
  * @version 1.3
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  * @link https://github.com/dereuromark/tools
- **/
+ */
 
 App::uses('CakeSession', 'Model/Datasource');
 App::uses('ModelBehavior', 'Model');

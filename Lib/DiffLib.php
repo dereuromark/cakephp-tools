@@ -172,12 +172,12 @@ class DiffLib {
 	}
 
 	/**
-	* Parses a unified diff output
-	* @param array $text an entire section of a unified diff (between @@ lines)
-	* @param char $_check a '+' or '-' denoting whether we're looking for lines
-	* added or removed
-	* @return
-	*/
+	 * Parses a unified diff output
+	 * @param array $text an entire section of a unified diff (between @@ lines)
+	 * @param char $_check a '+' or '-' denoting whether we're looking for lines
+	 * added or removed
+	 * @return
+	 */
 	public function parseDiff($text, $_check) {
 		$start = 0; // Start of the diff
 		$length = 0; // number of lines to recurse
@@ -247,11 +247,11 @@ class DiffLib {
 	}
 
 	/**
-	* Appends or Replaces text
-	* @param array &$text Array of Line objects
-	* @param array $change Array of Change objects
-	* @param integer &$offset how many lines to skip due to previous additions
-	*/
+	 * Appends or Replaces text
+	 * @param array &$text Array of Line objects
+	 * @param array $change Array of Change objects
+	 * @param integer &$offset how many lines to skip due to previous additions
+	 */
 	public function applyChange(&$text, $change, &$offset = 0) {
 		$index = 0;
 

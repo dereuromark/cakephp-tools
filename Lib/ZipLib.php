@@ -77,11 +77,11 @@ class ZipLib {
 	}
 
 	/**
-	* Open a file.
-	*
-	* @params string, boolean
-	*	@return boolean Success
-	*/
+	 * Open a file.
+	 *
+	 * @params string, boolean
+	 *	@return boolean Success
+	 */
 	public function open($path = null, $create = false) {
 		$this->filename = basename($path);
 

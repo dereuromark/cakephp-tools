@@ -63,11 +63,11 @@ class UserAgentLib extends CakeRequest {
 	}
 
 	/**
-	* checks bot against list
-	* @param string $userAgent
-	* @return string
-	* //TODO use browscap here too if necessary
-	*/
+	 * checks bot against list
+	 * @param string $userAgent
+	 * @return string
+	 * //TODO use browscap here too if necessary
+	 */
 	public function getAgent($agent) {
 		if (empty($agent)) {
 			 return '';
@@ -81,10 +81,10 @@ class UserAgentLib extends CakeRequest {
 	}
 
 	/**
-	* checks user against known platforms
-	* @param string $userAgent
-	* @return string
-	*/
+	 * checks user against known platforms
+	 * @param string $userAgent
+	 * @return string
+	 */
 	public function getPlatform($agent) {
 		if (strpos($agent, "Win95") || strpos($agent, "Windows 95")) {
 			return "Windows 95";
