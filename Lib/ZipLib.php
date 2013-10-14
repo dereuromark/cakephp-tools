@@ -210,7 +210,7 @@ class ZipLib {
 		);
 		$errmsg = 'unknown';
 		foreach ($zipFileFunctionsErrors as $constName => $errorMessage) {
-			if (defined($constName) and constant($constName) === $errno) {
+			if (defined($constName) && constant($constName) === $errno) {
 				return 'Zip File Function error: ' . $errorMessage;
 			}
 		}

@@ -5,8 +5,8 @@ App::uses('HtmlHelper', 'View/Helper');
 App::uses('View', 'View');
 
 /**
- * The core text helper is unsecure and outdated in functionality
- * this aims to compensate the deficiencies
+ * The core text helper is unsecure and outdated in functionality.
+ * This aims to compensate the deficiencies.
  *
  * autoLinkEmails
  * - obfuscate (defaults to FALSE right now)
@@ -22,31 +22,20 @@ App::uses('View', 'View');
 class TextExtHelper extends TextHelper {
 
 	/**
-	 * Formats paragraphs around given text for all line breaks
-	 *  <br /> added for single line return
-	 *  <p> added for double line return
+	 * Constructor
 	 *
-	 * @param string $text Text
-	 * @return string The text with proper <p> and <br /> tags
-	 * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/text.html#TextHelper::autoParagraph
+	 * ### Settings:
+	 *
+	 * - `engine` Class name to use to replace String functionality.
+	 *            The class needs to be placed in the `Utility` directory.
+	 *
+	 * @param View $View the view object the helper is attached to.
+	 * @param array $settings Settings array Settings array
+	 * @throws CakeException when the engine class could not be found.
 	 */
-	public function autoParagraph($text) {
-		// for cake >= 2.4
-		if (method_exists(get_parent_class(), 'autoParagraph')) {
-			return parent::autoParagraph($text);
-		}
-
-		if (trim($text) !== '') {
-			$text = preg_replace('|<br[^>]*>\s*<br[^>]*>|i', "\n\n", $text . "\n");
-			$text = preg_replace("/\n\n+/", "\n\n", str_replace(array("\r\n", "\r"), "\n", $text));
-			$texts = preg_split('/\n\s*\n/', $text, -1, PREG_SPLIT_NO_EMPTY);
-			$text = '';
-			foreach ($texts as $txt) {
-				$text .= '<p>' . nl2br(trim($txt, "\n")) . "</p>\n";
-			}
-			$text = preg_replace('|<p>\s*</p>|', '', $text);
-		}
-		return $text;
+	public function __construct(View $View, $settings = array()) {
+		$settings = Hash::merge(array('engine' => 'Tools.TextLib'), $settings);
+		parent::__construct($View, $settings);
 	}
 
 	/**

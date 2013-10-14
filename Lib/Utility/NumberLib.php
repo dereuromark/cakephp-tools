@@ -312,7 +312,7 @@ class NumberLib extends CakeNumber {
 	 * @return string
 	 */
 	public static function ordinal($number) {
-		if ($number % 100 > 10 and $number % 100 < 14) {
+		if ($number % 100 > 10 && $number % 100 < 14) {
 			return 'th';
 		}
 		switch ($number % 10) {

@@ -69,6 +69,21 @@ class TextLib extends String {
 	}
 
 	/**
+	 * Count chars in a text.
+	 *
+	 * Options:
+	 * - 'whitespace': If whitespace should be counted, as well, defaults to false
+	 *
+	 * @param string $text
+	 * @return integer
+	 */
+	public static function numberOfChars($text, $options = array()) {
+		$text = str_replace(array("\r", "\n", "\t", ' '), '', $text);
+		$count = mb_strlen($text);
+		return $count;
+	}
+
+	/**
 	 * Return an abbreviated string, with characters in the middle of the
 	 * excessively long string replaced by $ending.
 	 *

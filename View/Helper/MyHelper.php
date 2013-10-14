@@ -162,8 +162,15 @@ class MyHelper extends Helper {
 	 * @return string Link
 	 */
 	public function completeLink($title, $url = null, $options = array(), $confirmMessage = false) {
+		// Named are deprecated
 		if (is_array($url)) {
 			$url += $this->params['named'];
+		}
+		if (is_array($url)) {
+			if (!isset($url['?'])) {
+				$url['?'] = array();
+			}
+			$url['?'] += $this->request->query;
 		}
 		return $this->link($title, $url, $options, $confirmMessage);
 	}
@@ -175,8 +182,15 @@ class MyHelper extends Helper {
 	 * @return string Link
 	 */
 	public function completeUrl($url = null, $full = false, $escape = true) {
+		// Named are deprecated
 		if (is_array($url)) {
 			$url += $this->params['named'];
+		}
+		if (is_array($url)) {
+			if (!isset($url['?'])) {
+				$url['?'] = array();
+			}
+			$url['?'] += $this->request->query;
 		}
 		return $this->url($url, $options, $escape);
 	}

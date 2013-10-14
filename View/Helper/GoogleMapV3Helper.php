@@ -661,7 +661,7 @@ function geocodeAddress(address) {
 	public function addInfoContent($content) {
 		$this->infoContents[self::$markerCount] = $this->escapeString($content);
 		$event = "
-			gWindowContents" . self::$mapCount . " .push(" . $this->escapeString($content) . ");
+			gWindowContents" . self::$mapCount . ".push(" . $this->escapeString($content) . ");
 			";
 		$this->addCustom($event);
 
@@ -716,13 +716,13 @@ function geocodeAddress(address) {
 
 /*
 var iconImage = new google.maps.MarkerImage('images/' + images[0] + ' .png',
-	new google.maps. size(iconData[images[0]].width, iconData[images[0]].height),
+	new google.maps.Size(iconData[images[0]].width, iconData[images[0]].height),
 	new google.maps.Point(0,0),
 	new google.maps.Point(0, 32)
 );
 
 var iconShadow = new google.maps.MarkerImage('images/' + images[1] + ' .png',
-	new google.maps. size(iconData[images[1]].width, iconData[images[1]].height),
+	new google.maps.Size(iconData[images[1]].width, iconData[images[1]].height),
 	new google.maps.Point(0,0),
 	new google.maps.Point(0, 32)
 );
@@ -805,7 +805,7 @@ var iconShape = {
 		}
 
 		$icon = 'new google.maps.MarkerImage(\'' . $url . '\',
-	new google.maps. size(' . $options['size']['width'] . ', ' . $options['size']['height'] . '),
+	new google.maps.Size(' . $options['size']['width'] . ', ' . $options['size']['height'] . '),
 	new google.maps.Point(' . $options['origin']['width'] . ', ' . $options['origin']['height'] . '),
 	new google.maps.Point(' . $options['anchor']['width'] . ', ' . $options['anchor']['height'] . ')
 )';
@@ -832,7 +832,7 @@ var iconShape = {
 		}
 
 		$windows = "
-			gInfoWindows" . self::$mapCount . " .push( new google.maps.InfoWindow({
+			gInfoWindows" . self::$mapCount . ".push(new google.maps.InfoWindow({
 					position: {$position},
 					content: " . $this->escapeString($options['content']) . ",
 					maxWidth: {$options['maxWidth']},
