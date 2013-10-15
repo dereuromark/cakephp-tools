@@ -7,7 +7,7 @@ App::uses('TextLib', 'Tools.Utility');
  */
 class TextAnalysisLib extends TextLib {
 
-	protected $text, $lenght, $char, $letter, $space, $word, $rWord, $sen, $rSen, $para,
+	protected $text, $length, $char, $letter, $space, $word, $rWord, $sen, $rSen, $para,
 
 		$rPara, $beautified;
 
@@ -184,10 +184,10 @@ class TextAnalysisLib extends TextLib {
 	}
 
 	public function getLength() {
-		if (!$this->lenght) {
-			$this->lenght = mb_strlen($this->text);
+		if (!$this->length) {
+			$this->length = mb_strlen($this->text);
 		}
-		return $this->lenght;
+		return $this->length;
 	}
 
 	public function getCharacter() {
@@ -199,7 +199,7 @@ class TextAnalysisLib extends TextLib {
 	public function getLetter() {
 		if (!$this->letter) {
 			$lText = mb_strtolower($this->text);
-			for ($i = 0; $i < $this->lenght; $i++)
+			for ($i = 0; $i < $this->length; $i++)
 				if (mb_strpos("abcdefghijklmnopqrstuvwxyzäöü", $lText[$i]) != false) $this->
 						letter++;
 		}
@@ -234,7 +234,7 @@ class TextAnalysisLib extends TextLib {
 		if (true || !$this->rrWord) {
 			$text = str_replace(array(NL, CR, PHP_EOL, TB), ' ', $this->text);
 			$res = array();
-			$search = array('*', '+', '~', ',', '.', ';', ':', '#', '', '(', ')', '{', '}', '[', ']', '$', '%', '"', '"', '—', '"', ''', ''', '!', '?', '<', '>', '=', '/');
+			$search = array('*', '+', '~', ',', '.', ';', ':', '#', '', '(', ')', '{', '}', '[', ']', '$', '%', '“', '”', '—', '"', '‘', '’', '!', '?', '<', '>', '=', '/');
 			$search = array_merge($search, array(1, 2, 3, 4, 5, 6, 7, 8, 9, 0));
 			$text = str_replace($search, ' ', $text);
 
