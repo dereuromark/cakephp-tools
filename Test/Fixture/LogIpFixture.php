@@ -7,11 +7,11 @@
  */
 class LogIpFixture extends CakeTestFixture {
 
-/**
- * Fields
- *
- * @var array
- */
+	/**
+	 * Fields
+	 *
+	 * @var array
+	 */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary', 'collate' => null, 'comment' => ''),
 		'ip' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 39, 'key' => 'index', 'collate' => 'utf8_unicode_ci', 'comment' => '15chars=IPv4, 39chars=IPv6', 'charset' => 'utf8'),

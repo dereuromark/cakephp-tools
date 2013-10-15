@@ -197,11 +197,11 @@ class FormExtHelperTest extends MyCakeTestCase {
  */
 class ContactExt extends CakeTestModel {
 
-/**
- * UseTable property
- *
- * @var boolean
- */
+	/**
+	 * UseTable property
+	 *
+	 * @var boolean
+	 */
 	public $useTable = false;
 
 /**

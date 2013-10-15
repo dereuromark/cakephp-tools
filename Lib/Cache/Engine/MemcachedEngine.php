@@ -32,11 +32,11 @@
  */
 class MemcachedEngine extends CacheEngine {
 
-/**
- * Memcached wrapper.
- *
- * @var Memcache
- */
+	/**
+	 * Memcached wrapper.
+	 *
+	 * @var Memcache
+	 */
 	protected $_Memcached = null;
 
 /**

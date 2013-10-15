@@ -488,10 +488,10 @@ HTML;
  */
 class TestEmailLib extends EmailLib {
 
-/**
- * Wrap to protected method
- *
- */
+	/**
+	 * Wrap to protected method
+	 *
+	 */
 	public function formatAddress($address) {
 		return parent::_formatAddress($address);
 	}

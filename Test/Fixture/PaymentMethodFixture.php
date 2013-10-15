@@ -7,11 +7,11 @@
  */
 class PaymentMethodFixture extends CakeTestFixture {
 
-/**
- * Fields
- *
- * @var array
- */
+	/**
+	 * Fields
+	 *
+	 * @var array
+	 */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary', 'collate' => null, 'comment' => ''),
 		'active' => array('type' => 'boolean', 'null' => true, 'default' => '0', 'collate' => null, 'comment' => ''),

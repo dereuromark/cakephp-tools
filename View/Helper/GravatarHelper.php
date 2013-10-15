@@ -13,11 +13,11 @@ App::uses('AppHelper', 'View/Helper');
  */
 class GravatarHelper extends AppHelper {
 
-/**
- * Gravatar avatar image base URL
- *
- * @var string
- */
+	/**
+	 * Gravatar avatar image base URL
+	 *
+	 * @var string
+	 */
 	protected $_url = array(
 		'http' => 'http://www.gravatar.com/avatar/',
 		'https' => 'https://secure.gravatar.com/avatar/'

@@ -5,11 +5,11 @@
  */
 class SoftDeletePostFixture extends CakeTestFixture {
 
-/**
- * Fields property
- *
- * @var array
- */
+	/**
+	 * Fields property
+	 *
+	 * @var array
+	 */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'key' => 'primary'),
 		'article_id' => array('type' => 'integer'),
