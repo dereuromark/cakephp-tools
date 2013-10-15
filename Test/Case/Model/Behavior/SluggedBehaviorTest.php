@@ -304,15 +304,15 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$this->_buildTest();
 	}
 
-/**
- * BuildTest method
- *
- * @param integer $hex1Limit
- * @param integer $hex2Limit
- * @param integer $hex1Start
- * @param integer $hex2Start
- * @return void
- */
+	/**
+	 * BuildTest method
+	 *
+	 * @param integer $hex1Limit
+	 * @param integer $hex2Limit
+	 * @param integer $hex1Start
+	 * @param integer $hex2Start
+	 * @return void
+	 */
 	protected function _buildTest($hex1Limit = 16, $hex2Limit = 16, $hex1Start = 16, $hex2Start = 0) {
 		$skip = array(15, 16);
 		$path = TMP . 'tests' . DS . 'slug_test.php';
@@ -329,12 +329,12 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$file->close();
 	}
 
-/**
- * BuildTestFunction method
- *
- * @param mixed $section
- * @return void
- */
+	/**
+	 * BuildTestFunction method
+	 *
+	 * @param mixed $section
+	 * @return void
+	 */
 	protected function _buildTestFunction($section, $limit = 16, $start = 0) {
 		$out = "\tfunction testSection$section() {\n";
 		$allEmpty = true;
@@ -369,16 +369,16 @@ class SluggedBehaviorTest extends CakeTestCase {
 		return $out;
 	}
 
-/**
- * TestW3Validity method
- *
- * For each of the slugged behavior modes, generate (a) test file(s) and submit them to the W3 validator
- * service. WARNING: this test is extremely slow (not to mention intensive on the validator service) therefore
- * it is advisable to run it only for one mode and a limited range unless testing a code modification
- * there are 2 overrides in the code to limit the duration of the test if it /is/ run.
- *
- * @return void
- */
+	/**
+	 * TestW3Validity method
+	 *
+	 * For each of the slugged behavior modes, generate (a) test file(s) and submit them to the W3 validator
+	 * service. WARNING: this test is extremely slow (not to mention intensive on the validator service) therefore
+	 * it is advisable to run it only for one mode and a limited range unless testing a code modification
+	 * there are 2 overrides in the code to limit the duration of the test if it /is/ run.
+	 *
+	 * @return void
+	 */
 	public function testW3Validity() {
 		$this->skipIf(true);
 
@@ -391,20 +391,20 @@ class SluggedBehaviorTest extends CakeTestCase {
 		}
 	}
 
-/**
- * TestMode method
- *
- * The limit and start points (limit parameters are first to allow calling as _testMode(x, 1, 1)) are passed
- * as parameters to allow selective/reduced/focused testing. Testing the whole range and all modes is very time
- * consuming.
- *
- * @param mixed $mode
- * @param integer $hex1Limit
- * @param integer $hex2Limit
- * @param integer $hex1Start
- * @param integer $hex2Start
- * @return void
- */
+	/**
+	 * TestMode method
+	 *
+	 * The limit and start points (limit parameters are first to allow calling as _testMode(x, 1, 1)) are passed
+	 * as parameters to allow selective/reduced/focused testing. Testing the whole range and all modes is very time
+	 * consuming.
+	 *
+	 * @param mixed $mode
+	 * @param integer $hex1Limit
+	 * @param integer $hex2Limit
+	 * @param integer $hex1Start
+	 * @param integer $hex2Start
+	 * @return void
+	 */
 	protected function _testMode($mode, $hex1Limit = 16, $hex2Limit = 16, $hex1Start = 0, $hex2Start = 0) {
 		for ($hex1 = $hex1Start; $hex1 < $hex1Limit; $hex1++) {
 			$suffix = dechex($hex1) . dechex($hex2Start) . '_' . dechex($hex1) . dechex($hex2Limit - 1);
@@ -422,16 +422,16 @@ class SluggedBehaviorTest extends CakeTestCase {
 		}
 	}
 
-/**
- * TestModeRange method
- *
- * Send the test file to the W3 Validator service, if the result is invalid trigger parseW3Response
- *
- * @param mixed $mode
- * @param mixed $hex1
- * @param mixed $hex2
- * @return void
- */
+	/**
+	 * TestModeRange method
+	 *
+	 * Send the test file to the W3 Validator service, if the result is invalid trigger parseW3Response
+	 *
+	 * @param mixed $mode
+	 * @param mixed $hex1
+	 * @param mixed $hex2
+	 * @return void
+	 */
 	protected function _testFile($path) {
 		$request = array(
 			'method' => 'POST',
@@ -460,18 +460,18 @@ class SluggedBehaviorTest extends CakeTestCase {
 		}
 	}
 
-/**
- * ParseW3Response method
- *
- * If W3 gave back an error response, parse out the character code point and build a list of illegal characters.
- * Use this list to echo out a partial regex match to be used in the slug behavior to capture and slug these
- * illegal characters in future
- *
- * @param mixed $response
- * @param mixed $test
- * @param mixed $inputFile
- * @return void
- */
+	/**
+	 * ParseW3Response method
+	 *
+	 * If W3 gave back an error response, parse out the character code point and build a list of illegal characters.
+	 * Use this list to echo out a partial regex match to be used in the slug behavior to capture and slug these
+	 * illegal characters in future
+	 *
+	 * @param mixed $response
+	 * @param mixed $test
+	 * @param mixed $inputFile
+	 * @return void
+	 */
 	protected function _parseW3Response($response, $test, $inputFile) {
 		preg_match_all('@<span class="err_type">.*</span>.*<em>Line (.*),.*</em>@sU', $response, $result);
 		if (!$result[1]) {
@@ -507,15 +507,15 @@ class SluggedBehaviorTest extends CakeTestCase {
 		}
 	}
 
-/**
- * CreateTestFile method
- *
- * Create a single test file, for the specified range/section
- *
- * @param mixed $section
- * @param string $mode
- * @return string file path
- */
+	/**
+	 * CreateTestFile method
+	 *
+	 * Create a single test file, for the specified range/section
+	 *
+	 * @param mixed $section
+	 * @param string $mode
+	 * @return string file path
+	 */
 	protected function _createTestFile($section, $mode = 'display') {
 		$path = TMP . 'tests' . DS . '_slug_' . $mode . '_' . $section . '.html';
 		$file = new File($path, true);
@@ -542,15 +542,15 @@ class SluggedBehaviorTest extends CakeTestCase {
 		return $path;
 	}
 
-/**
- * WriteHeader method
- *
- * Generate the file header
- *
- * @param mixed $file
- * @param mixed $title
- * @return void
- */
+	/**
+	 * WriteHeader method
+	 *
+	 * Generate the file header
+	 *
+	 * @param mixed $file
+	 * @param mixed $title
+	 * @return void
+	 */
 	protected function _writeHeader($file, $title) {
 		$file->write('<!DOCTYPE html>');
 		$file->append('<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">' . "\n");
@@ -559,15 +559,15 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$file->append('<body><table>' . "\n");
 	}
 
-/**
- * RenderChar method
- *
- * Slug the character and generate the output to be put in the test file
- *
- * @param mixed $hexCode
- * @param string $mode
- * @return string
- */
+	/**
+	 * RenderChar method
+	 *
+	 * Slug the character and generate the output to be put in the test file
+	 *
+	 * @param mixed $hexCode
+	 * @param string $mode
+	 * @return string
+	 */
 	protected function _renderChar($hexCode, $mode = 'id') {
 		$decCode = hexdec($hexCode);
 		$display = $char = html_entity_decode('&#' . $decCode . ';', ENT_NOQUOTES, 'UTF-8');
@@ -590,13 +590,13 @@ class SluggedBehaviorTest extends CakeTestCase {
 		}
 	}
 
-/**
- * TestSection0 method
- *
- * Testing characters 0000 - 0fff
- *
- * @return void
- */
+	/**
+	 * TestSection0 method
+	 *
+	 * Testing characters 0000 - 0fff
+	 *
+	 * @return void
+	 */
 	public function testSection0() {
 		$string = ' !"#$%&\'()*+,-./';
 		$expects = '----------------';
@@ -1860,13 +1860,13 @@ class SluggedBehaviorTest extends CakeTestCase {
 
 	}
 
-/**
- * TestSection1 method
- *
- * Testing characters 1000 - 1fff
- *
- * @return void
- */
+	/**
+	 * TestSection1 method
+	 *
+	 * Testing characters 1000 - 1fff
+	 *
+	 * @return void
+	 */
 	public function testSection1() {
 		$string = 'ကခဂဃငစဆဇဈဉညဋဌဍဎဏ';
 		$expects = '----------------';
@@ -3150,13 +3150,13 @@ class SluggedBehaviorTest extends CakeTestCase {
 
 	}
 
-/**
- * TestSection2 method
- *
- * Testing characters 2000 - 2fff
- *
- * @return void
- */
+	/**
+	 * TestSection2 method
+	 *
+	 * Testing characters 2000 - 2fff
+	 *
+	 * @return void
+	 */
 	public function testSection2() {
 		$string = '           ​‌‍‎‏';
 		$expects = '----------------';
@@ -4440,13 +4440,13 @@ class SluggedBehaviorTest extends CakeTestCase {
 
 	}
 
-/**
- * TestSection3 method
- *
- * Testing characters 3000 - 3fff
- *
- * @return void
- */
+	/**
+	 * TestSection3 method
+	 *
+	 * Testing characters 3000 - 3fff
+	 *
+	 * @return void
+	 */
 	public function testSection3() {
 		$string = '　、。〃〄々〆〇〈〉《》「」『』';
 		$expects = '-----々-〇--------';
@@ -5730,13 +5730,13 @@ class SluggedBehaviorTest extends CakeTestCase {
 
 	}
 
-/**
- * TestSection4 method
- *
- * Testing characters 4000 - 4fff
- *
- * @return void
- */
+	/**
+	 * TestSection4 method
+	 *
+	 * Testing characters 4000 - 4fff
+	 *
+	 * @return void
+	 */
 	public function testSection4() {
 		$string = '䀀䀁䀂䀃䀄䀅䀆䀇䀈䀉䀊䀋䀌䀍䀎䀏';
 		$expects = '----------------';
@@ -7020,13 +7020,13 @@ class SluggedBehaviorTest extends CakeTestCase {
 
 	}
 
-/**
- * TestSection5 method
- *
- * Testing characters 5000 - 5fff
- *
- * @return void
- */
+	/**
+	 * TestSection5 method
+	 *
+	 * Testing characters 5000 - 5fff
+	 *
+	 * @return void
+	 */
 	public function testSection5() {
 		$string = '倀倁倂倃倄倅倆倇倈倉倊個倌倍倎倏';
 		$expects = '倀倁倂倃倄倅倆倇倈倉倊個倌倍倎倏';
@@ -8310,13 +8310,13 @@ class SluggedBehaviorTest extends CakeTestCase {
 
 	}
 
-/**
- * TestSection6 method
- *
- * Testing characters 6000 - 6fff
- *
- * @return void
- */
+	/**
+	 * TestSection6 method
+	 *
+	 * Testing characters 6000 - 6fff
+	 *
+	 * @return void
+	 */
 	public function testSection6() {
 		$string = '怀态怂怃怄怅怆怇怈怉怊怋怌怍怎怏';
 		$expects = '怀态怂怃怄怅怆怇怈怉怊怋怌怍怎怏';
@@ -9600,13 +9600,13 @@ class SluggedBehaviorTest extends CakeTestCase {
 
 	}
 
-/**
- * TestSection7 method
- *
- * Testing characters 7000 - 7fff
- *
- * @return void
- */
+	/**
+	 * TestSection7 method
+	 *
+	 * Testing characters 7000 - 7fff
+	 *
+	 * @return void
+	 */
 	public function testSection7() {
 		$string = '瀀瀁瀂瀃瀄瀅瀆瀇瀈瀉瀊瀋瀌瀍瀎瀏';
 		$expects = '瀀瀁瀂瀃瀄瀅瀆瀇瀈瀉瀊瀋瀌瀍瀎瀏';
@@ -10890,13 +10890,13 @@ class SluggedBehaviorTest extends CakeTestCase {
 
 	}
 
-/**
- * TestSection8 method
- *
- * Testing characters 8000 - 8fff
- *
- * @return void
- */
+	/**
+	 * TestSection8 method
+	 *
+	 * Testing characters 8000 - 8fff
+	 *
+	 * @return void
+	 */
 	public function testSection8() {
 		$string = '耀老耂考耄者耆耇耈耉耊耋而耍耎耏';
 		$expects = '耀老耂考耄者耆耇耈耉耊耋而耍耎耏';
@@ -12180,13 +12180,13 @@ class SluggedBehaviorTest extends CakeTestCase {
 
 	}
 
-/**
- * TestSection9 method
- *
- * Testing characters 9000 - 9fff
- *
- * @return void
- */
+	/**
+	 * TestSection9 method
+	 *
+	 * Testing characters 9000 - 9fff
+	 *
+	 * @return void
+	 */
 	public function testSection9() {
 		$string = '退送适逃逄逅逆逇逈选逊逋逌逍逎透';
 		$expects = '退送适逃逄逅逆逇逈选逊逋逌逍逎透';
@@ -13470,13 +13470,13 @@ class SluggedBehaviorTest extends CakeTestCase {
 
 	}
 
-/**
- * TestSectiona method
- *
- * Testing characters a000 - afff
- *
- * @return void
- */
+	/**
+	 * TestSectiona method
+	 *
+	 * Testing characters a000 - afff
+	 *
+	 * @return void
+	 */
 	public function testSectiona() {
 		$string = 'ꀀꀁꀂꀃꀄꀅꀆꀇꀈꀉꀊꀋꀌꀍꀎꀏ';
 		$expects = '----------------';
@@ -14760,13 +14760,13 @@ class SluggedBehaviorTest extends CakeTestCase {
 
 	}
 
-/**
- * TestSectionb method
- *
- * Testing characters b000 - bfff
- *
- * @return void
- */
+	/**
+	 * TestSectionb method
+	 *
+	 * Testing characters b000 - bfff
+	 *
+	 * @return void
+	 */
 	public function testSectionb() {
 		$string = '뀀뀁뀂뀃뀄뀅뀆뀇뀈뀉뀊뀋뀌뀍뀎뀏';
 		$expects = '뀀뀁뀂뀃뀄뀅뀆뀇뀈뀉뀊뀋뀌뀍뀎뀏';
@@ -16050,13 +16050,13 @@ class SluggedBehaviorTest extends CakeTestCase {
 
 	}
 
-/**
- * TestSectionc method
- *
- * Testing characters c000 - cfff
- *
- * @return void
- */
+	/**
+	 * TestSectionc method
+	 *
+	 * Testing characters c000 - cfff
+	 *
+	 * @return void
+	 */
 	public function testSectionc() {
 		$string = '쀀쀁쀂쀃쀄쀅쀆쀇쀈쀉쀊쀋쀌쀍쀎쀏';
 		$expects = '쀀쀁쀂쀃쀄쀅쀆쀇쀈쀉쀊쀋쀌쀍쀎쀏';
@@ -17340,14 +17340,14 @@ class SluggedBehaviorTest extends CakeTestCase {
 
 	}
 
-/**
- * TestSectiond method
- *
- * Testing characters d000 - dfff
- *
- * @return void
- * @return void
- */
+	/**
+	 * TestSectiond method
+	 *
+	 * Testing characters d000 - dfff
+	 *
+	 * @return void
+	 * @return void
+	 */
 	public function testSectiond() {
 		$string = '퀀퀁퀂퀃퀄퀅퀆퀇퀈퀉퀊퀋퀌퀍퀎퀏';
 		$expects = '퀀퀁퀂퀃퀄퀅퀆퀇퀈퀉퀊퀋퀌퀍퀎퀏';
@@ -17991,11 +17991,11 @@ class SluggedBehaviorTest extends CakeTestCase {
 
 	}
 
-/**
- * Test Url method
- *
- * @return void
- */
+	/**
+	 * Test Url method
+	 *
+	 * @return void
+	 */
 	public function testUrlMode() {
 		$this->Model->Behaviors->load('Slugged', array('mode' => 'url', 'replace' => false));
 		$string = 'standard string';
@@ -18099,22 +18099,22 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$this->assertEquals($expects, $result);
 	}
 
-/**
- * TestTruncateMultibyte method
- *
- * @return void
- */
-/**
- * TestTruncateMultibyte method
- *
- * Ensure that the first test doesn't cut a multibyte character The test string is:
- * 	17 chars
- * 	51 bytes UTF-8 encoded
- * 	34 bytes SJIS encoded
- * Ensure that it'll still work with encodings which aren't UTF-8 - note this file is UTF-8
- *
- * @return void
- */
+	/**
+	 * TestTruncateMultibyte method
+	 *
+	 * @return void
+	 */
+	/**
+	 * TestTruncateMultibyte method
+	 *
+	 * Ensure that the first test doesn't cut a multibyte character The test string is:
+	 * 	17 chars
+	 * 	51 bytes UTF-8 encoded
+	 * 	34 bytes SJIS encoded
+	 * Ensure that it'll still work with encodings which aren't UTF-8 - note this file is UTF-8
+	 *
+	 * @return void
+	 */
 	public function testTruncateMultibyte() {
 		$testString = 'モデルのデータベースとデータソース';
 		$encoding = Configure::read('App.encoding');
@@ -18141,13 +18141,13 @@ class SluggedBehaviorTest extends CakeTestCase {
 		Configure::write('App,encoding', $encoding);
 	}
 
-/**
- * TestDuplicateWithLengthRestriction method
- *
- * If there's a length restriction - ensure it's respected by the unique slug routine
- *
- * @return void
- */
+	/**
+	 * TestDuplicateWithLengthRestriction method
+	 *
+	 * If there's a length restriction - ensure it's respected by the unique slug routine
+	 *
+	 * @return void
+	 */
 	public function testDuplicateWithLengthRestriction() {
 		$this->Model->Behaviors->load('Slugged', array('label' => 'name', 'length' => 10, 'unique' => true));
 

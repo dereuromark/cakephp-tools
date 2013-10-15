@@ -28,11 +28,11 @@ class KeyValueTest extends MyCakeTestCase {
 		$this->KeyValue = ClassRegistry::init('Tools.KeyValue');
 	}
 
-/**
- * TearDown method
- *
- * @return void
- */
+	/**
+	 * TearDown method
+	 *
+	 * @return void
+	 */
 	public function tearDown() {
 		unset($this->KeyValue);
 

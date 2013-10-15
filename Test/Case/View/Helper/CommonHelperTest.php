@@ -92,11 +92,11 @@ class CommonHelperTest extends MyCakeTestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-/**
- * TearDown method
- *
- * @return void
- */
+	/**
+	 * TearDown method
+	 *
+	 * @return void
+	 */
 	public function tearDown() {
 		parent::tearDown();
 

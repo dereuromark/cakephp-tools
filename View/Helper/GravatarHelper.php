@@ -23,42 +23,42 @@ class GravatarHelper extends AppHelper {
 		'https' => 'https://secure.gravatar.com/avatar/'
 	);
 
-/**
- * Collection of allowed ratings
- *
- * @var array
- */
+	/**
+	 * Collection of allowed ratings
+	 *
+	 * @var array
+	 */
 	protected $_allowedRatings = array('g', 'pg', 'r', 'x');
 
-/**
- * Default Icon sets
- *
- * @var array
- */
+	/**
+	 * Default Icon sets
+	 *
+	 * @var array
+	 */
 	protected $_defaultIcons = array('none', 'mm', 'identicon', 'monsterid', 'retro', 'wavatar', '404');
 
-/**
- * Default settings
- *
- * @var array
- */
+	/**
+	 * Default settings
+	 *
+	 * @var array
+	 */
 	protected $_default = array(
 		'default' => null,
 		'size' => null,
 		'rating' => null,
 		'ext' => false);
 
-/**
- * Helpers used by this helper
- *
- * @var array
- */
+	/**
+	 * Helpers used by this helper
+	 *
+	 * @var array
+	 */
 	public $helpers = array('Html');
 
-/**
- * Constructor
- *
- */
+	/**
+	 * Constructor
+	 *
+	 */
 	public function __construct($View = null, $settings = array()) {
 		if (!is_array($settings)) {
 			$settings = array();
@@ -70,13 +70,13 @@ class GravatarHelper extends AppHelper {
 		parent::__construct($View, $settings);
 	}
 
-/**
- * Show gravatar for the supplied email address
- *
- * @param string $email Email address
- * @param array $options Array of options, keyed from default settings
- * @return string Gravatar image string
- */
+	/**
+	 * Show gravatar for the supplied email address
+	 *
+	 * @param string $email Email address
+	 * @param array $options Array of options, keyed from default settings
+	 * @return string Gravatar image string
+	 */
 	public function image($email, $options = array()) {
 		$imageUrl = $this->imageUrl($email, $options);
 		unset($options['default'], $options['size'], $options['rating'], $options['ext']);
@@ -98,14 +98,14 @@ class GravatarHelper extends AppHelper {
 		$this->imageUrl($email, $options);
 	}
 
-/**
- * Generate image URL
- * TODO: rename to avoid E_STRICT errors here
- *
- * @param string $email Email address
- * @param string $options Array of options, keyed from default settings
- * @return string Gravatar Image URL
- */
+	/**
+	 * Generate image URL
+	 * TODO: rename to avoid E_STRICT errors here
+	 *
+	 * @param string $email Email address
+	 * @param string $options Array of options, keyed from default settings
+	 * @return string Gravatar Image URL
+	 */
 	public function imageUrl($email, $options = array()) {
 		$options = $this->_cleanOptions(array_merge($this->_default, $options));
 		$ext = $options['ext'];
@@ -123,12 +123,12 @@ class GravatarHelper extends AppHelper {
 		return $imageUrl;
 	}
 
-/**
- * Generate an array of default images for preview purposes
- *
- * @param array $options Array of options, keyed from default settings
- * @return array Default images array
- */
+	/**
+	 * Generate an array of default images for preview purposes
+	 *
+	 * @param array $options Array of options, keyed from default settings
+	 * @return array Default images array
+	 */
 	public function defaultImages($options = array()) {
 		$options = $this->_cleanOptions(array_merge($this->_default, $options));
 		$images = array();
@@ -139,12 +139,12 @@ class GravatarHelper extends AppHelper {
 		return $images;
 	}
 
-/**
- * Sanitize the options array
- *
- * @param array $options Array of options, keyed from default settings
- * @return array Clean options array
- */
+	/**
+	 * Sanitize the options array
+	 *
+	 * @param array $options Array of options, keyed from default settings
+	 * @return array Clean options array
+	 */
 	protected function _cleanOptions($options) {
 		if (!isset($options['size']) || empty($options['size']) || !is_numeric($options['size'])) {
 			unset($options['size']);
@@ -167,23 +167,23 @@ class GravatarHelper extends AppHelper {
 		return $options;
 	}
 
-/**
- * Generate email address hash
- *
- * @param string $email Email address
- * @param string $type Hash type to employ
- * @return string Email address hash
- */
+	/**
+	 * Generate email address hash
+	 *
+	 * @param string $email Email address
+	 * @param string $type Hash type to employ
+	 * @return string Email address hash
+	 */
 	protected function _emailHash($email, $type) {
 		return md5(mb_strtolower($email), $type);
 	}
 
-/**
- * Build Options URL string
- *
- * @param array $options Array of options, keyed from default settings
- * @return string URL string of options
- */
+	/**
+	 * Build Options URL string
+	 *
+	 * @param array $options Array of options, keyed from default settings
+	 * @return string URL string of options
+	 */
 	protected function _buildOptions($options = array()) {
 		$gravatarOptions = array_intersect(array_keys($options), array_keys($this->_default));
 		if (!empty($gravatarOptions)) {

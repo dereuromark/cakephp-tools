@@ -496,19 +496,19 @@ class TestEmailLib extends EmailLib {
 		return parent::_formatAddress($address);
 	}
 
-/**
- * Wrap to protected method
- *
- */
+	/**
+	 * Wrap to protected method
+	 *
+	 */
 	public function wrap($text) {
 		return parent::_wrap($text);
 	}
 
-/**
- * Get the boundary attribute
- *
- * @return string
- */
+	/**
+	 * Get the boundary attribute
+	 *
+	 * @return string
+	 */
 	public function getBoundary() {
 		return $this->_boundary;
 	}
@@ -518,10 +518,10 @@ class TestEmailLib extends EmailLib {
 		return $this->$attribute;
 	}
 
-/**
- * Encode to protected method
- *
- */
+	/**
+	 * Encode to protected method
+	 *
+	 */
 	public function encode($text) {
 		return $this->_encode($text);
 	}

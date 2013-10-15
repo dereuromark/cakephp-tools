@@ -30,11 +30,11 @@ class DiscountFixture extends CakeTestFixture {
 		'tableParameters' => array()
 	);
 
-/**
- * Records
- *
- * @var array
- */
+	/**
+	 * Records
+	 *
+	 * @var array
+	 */
 	public $records = array(
 		array(
 			'id' => '1',

@@ -92,11 +92,11 @@ class DatetimeHelperTest extends MyCakeTestCase {
 
 	}
 
-/**
- * Test cweek
- *
- * @return void
- */
+	/**
+	 * Test cweek
+	 *
+	 * @return void
+	 */
 	public function testCweek() {
 
 		$year = 2008;
@@ -125,11 +125,11 @@ class DatetimeHelperTest extends MyCakeTestCase {
 
 	}
 
-/**
- * Test age
- *
- * @return void
- */
+	/**
+	 * Test age
+	 *
+	 * @return void
+	 */
 	public function testAge() {
 		list($year, $month, $day) = explode('-', date('Y-m-d'));
 		$this->assertEquals('0', $this->Datetime->age($year . '-' . $month . '-' . $day, null));
@@ -180,11 +180,11 @@ class DatetimeHelperTest extends MyCakeTestCase {
 
 	}
 
-/**
- * Test IsInTheFuture
- *
- * @return void
- */
+	/**
+	 * Test IsInTheFuture
+	 *
+	 * @return void
+	 */
 
 	public function testIsInTheFuture() {
 		$testDate = date(FORMAT_DB_DATE, time() + 2 * DAY);
@@ -196,11 +196,11 @@ class DatetimeHelperTest extends MyCakeTestCase {
 		$this->assertFalse($is);
 	}
 
-/**
- * Test IsNotTodayAndInTheFuture
- *
- * @return void
- */
+	/**
+	 * Test IsNotTodayAndInTheFuture
+	 *
+	 * @return void
+	 */
 
 	public function testIsNotTodayAndInTheFuture() {
 		$testDate = date(FORMAT_DB_DATE, time());
@@ -212,11 +212,11 @@ class DatetimeHelperTest extends MyCakeTestCase {
 		$this->assertTrue($is);
 	}
 
-/**
- * Test IsDayAfterTomorrow
- *
- * @return void
- */
+	/**
+	 * Test IsDayAfterTomorrow
+	 *
+	 * @return void
+	 */
 
 	public function testIsDayAfterTomorrow() {
 		$testDate = date(FORMAT_DB_DATE, time() + 2 * DAY);
@@ -228,11 +228,11 @@ class DatetimeHelperTest extends MyCakeTestCase {
 		$this->assertFalse($is);
 	}
 
-/**
- * TearDown method
- *
- * @return void
- */
+	/**
+	 * TearDown method
+	 *
+	 * @return void
+	 */
 	public function tearDown() {
 		parent::tearDown();
 

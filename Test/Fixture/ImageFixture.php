@@ -26,11 +26,11 @@ class ImageFixture extends CakeTestFixture {
 		'tableParameters' => array()
 	);
 
-/**
- * Records
- *
- * @var array
- */
+	/**
+	 * Records
+	 *
+	 * @var array
+	 */
 	public $records = array(
 		array(
 			'id' => '4e0db616-1378-475f-8cd2-0c707cb063f2',

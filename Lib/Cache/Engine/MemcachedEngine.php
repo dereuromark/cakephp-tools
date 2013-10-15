@@ -39,36 +39,36 @@ class MemcachedEngine extends CacheEngine {
 	 */
 	protected $_Memcached = null;
 
-/**
- * @var string Keyname of the cache entry holding all the others key name
- */
+	/**
+	 * @var string Keyname of the cache entry holding all the others key name
+	 */
 	protected $_keys = '_keys';
 
-/**
- * @var string Token used to separe each keyname in the $_keys string
- */
+	/**
+	 * @var string Token used to separe each keyname in the $_keys string
+	 */
 	protected $_keySeparator = '|';
 
-/**
- * Settings
- *
- *  - servers = string or array of memcache servers, default => 127.0.0.1. If an
- *    array MemcacheEngine will use them as a pool.
- *  - compress = boolean, default => false
- *
- * @var array
- */
+	/**
+	 * Settings
+	 *
+	 *  - servers = string or array of memcache servers, default => 127.0.0.1. If an
+	 *    array MemcacheEngine will use them as a pool.
+	 *  - compress = boolean, default => false
+	 *
+	 * @var array
+	 */
 	public $settings = array();
 
-/**
- * Initialize the Cache Engine
- *
- * Called automatically by the cache frontend
- * To reinitialize the settings call Cache::engine('EngineName', [optional] settings = array());
- *
- * @param array $settings array of setting for the engine
- * @return boolean True if the engine has been successfully initialized, false if not
- */
+	/**
+	 * Initialize the Cache Engine
+	 *
+	 * Called automatically by the cache frontend
+	 * To reinitialize the settings call Cache::engine('EngineName', [optional] settings = array());
+	 *
+	 * @param array $settings array of setting for the engine
+	 * @return boolean True if the engine has been successfully initialized, false if not
+	 */
 	public function init($settings = array()) {
 		if (!class_exists('Memcached')) {
 			return false;
@@ -113,10 +113,10 @@ class MemcachedEngine extends CacheEngine {
 		return true;
 	}
 
-/**
- * Settings the memcached instance
- *
- */
+	/**
+	 * Settings the memcached instance
+	 *
+	 */
 	protected function _setOptions() {
 		$this->_Memcached->setOption(Memcached::OPT_LIBKETAMA_COMPATIBLE, true);
 		$this->_Memcached->setOption(Memcached::OPT_BINARY_PROTOCOL, true);
@@ -128,13 +128,13 @@ class MemcachedEngine extends CacheEngine {
 		$this->_Memcached->setOption(Memcached::OPT_COMPRESSION, (bool)$this->settings['compress']);
 	}
 
-/**
- * Parses the server address into the host/port. Handles both IPv6 and IPv4
- * addresses and Unix sockets
- *
- * @param string $server The server address string.
- * @return array Array containing host, port
- */
+	/**
+	 * Parses the server address into the host/port. Handles both IPv6 and IPv4
+	 * addresses and Unix sockets
+	 *
+	 * @param string $server The server address string.
+	 * @return array Array containing host, port
+	 */
 	protected function _parseServerString($server) {
 		if ($server[0] === 'u') {
 			return array($server, 0);
@@ -156,17 +156,17 @@ class MemcachedEngine extends CacheEngine {
 		return array($host, (int)$port);
 	}
 
-/**
- * Write data for key into cache. When using memcache as your cache engine
- * remember that the Memcache pecl extension does not support cache expiry times greater
- * than 30 days in the future. Any duration greater than 30 days will be treated as never expiring.
- *
- * @param string $key Identifier for the data
- * @param mixed $value Data to be cached
- * @param integer $duration How long to cache the data, in seconds
- * @return boolean True if the data was successfully cached, false on failure
- * @see http://php.net/manual/en/memcache.set.php
- */
+	/**
+	 * Write data for key into cache. When using memcache as your cache engine
+	 * remember that the Memcache pecl extension does not support cache expiry times greater
+	 * than 30 days in the future. Any duration greater than 30 days will be treated as never expiring.
+	 *
+	 * @param string $key Identifier for the data
+	 * @param mixed $value Data to be cached
+	 * @param integer $duration How long to cache the data, in seconds
+	 * @return boolean True if the data was successfully cached, false on failure
+	 * @see http://php.net/manual/en/memcache.set.php
+	 */
 	public function write($key, $value, $duration) {
 		if ($duration > 30 * DAY) {
 			$duration = 0;
@@ -176,56 +176,56 @@ class MemcachedEngine extends CacheEngine {
 		return $this->_Memcached->set($key, $value, $duration);
 	}
 
-/**
- * Read a key from the cache
- *
- * @param string $key Identifier for the data
- * @return mixed The cached data, or false if the data doesn't exist, has expired, or if there was an error fetching it
- */
+	/**
+	 * Read a key from the cache
+	 *
+	 * @param string $key Identifier for the data
+	 * @return mixed The cached data, or false if the data doesn't exist, has expired, or if there was an error fetching it
+	 */
 	public function read($key) {
 		return $this->_Memcached->get($key);
 	}
 
-/**
- * Increments the value of an integer cached key
- *
- * @param string $key Identifier for the data
- * @param integer $offset How much to increment
- * @return New incremented value, false otherwise
- * @throws CacheException when you try to increment with compress = true
- */
+	/**
+	 * Increments the value of an integer cached key
+	 *
+	 * @param string $key Identifier for the data
+	 * @param integer $offset How much to increment
+	 * @return New incremented value, false otherwise
+	 * @throws CacheException when you try to increment with compress = true
+	 */
 	public function increment($key, $offset = 1) {
 		return $this->_Memcached->increment($key, $offset);
 	}
 
-/**
- * Decrements the value of an integer cached key
- *
- * @param string $key Identifier for the data
- * @param integer $offset How much to subtract
- * @return New decremented value, false otherwise
- * @throws CacheException when you try to decrement with compress = true
- */
+	/**
+	 * Decrements the value of an integer cached key
+	 *
+	 * @param string $key Identifier for the data
+	 * @param integer $offset How much to subtract
+	 * @return New decremented value, false otherwise
+	 * @throws CacheException when you try to decrement with compress = true
+	 */
 	public function decrement($key, $offset = 1) {
 		return $this->_Memcached->decrement($key, $offset);
 	}
 
-/**
- * Delete a key from the cache
- *
- * @param string $key Identifier for the data
- * @return boolean True if the value was successfully deleted, false if it didn't exist or couldn't be removed
- */
+	/**
+	 * Delete a key from the cache
+	 *
+	 * @param string $key Identifier for the data
+	 * @return boolean True if the value was successfully deleted, false if it didn't exist or couldn't be removed
+	 */
 	public function delete($key) {
 		return $this->_Memcached->delete($key);
 	}
 
-/**
- * Delete all keys from the cache
- *
- * @param boolean $check
- * @return boolean True if the cache was successfully cleared, false otherwise
- */
+	/**
+	 * Delete all keys from the cache
+	 *
+	 * @param boolean $check
+	 * @return boolean True if the cache was successfully cleared, false otherwise
+	 */
 	public function clear($check) {
 		$keys = array_slice(explode($this->_keySeparator, $this->_Memcached->get($this->_keys)), 1);
 

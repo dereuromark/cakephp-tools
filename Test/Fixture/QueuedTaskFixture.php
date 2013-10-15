@@ -29,11 +29,11 @@ class QueuedTaskFixture extends CakeTestFixture {
 		'tableParameters' => array()
 	);
 
-/**
- * Records
- *
- * @var array
- */
+	/**
+	 * Records
+	 *
+	 * @var array
+	 */
 	public $records = array(
 	);
 }

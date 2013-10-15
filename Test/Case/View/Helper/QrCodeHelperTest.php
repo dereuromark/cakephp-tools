@@ -18,7 +18,6 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
  *
  */
 class QrCodeHelperTest extends MyCakeTestCase {
-
 	/**
 	 * SetUp method
 	 *
@@ -132,11 +131,11 @@ class QrCodeHelperTest extends MyCakeTestCase {
 
 	}
 
-/**
- * TearDown method
- *
- * @return void
- */
+	/**
+	 * TearDown method
+	 *
+	 * @return void
+	 */
 	public function tearDown() {
 		parent::tearDown();
 

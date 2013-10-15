@@ -19,11 +19,11 @@ class SoftDeletePostFixture extends CakeTestFixture {
 		'created' => 'datetime',
 		'updated' => 'datetime');
 
-/**
- * Records property
- *
- * @var array
- */
+	/**
+	 * Records property
+	 *
+	 * @var array
+	 */
 	public $records = array(
 		array(
 			'id' => 1,

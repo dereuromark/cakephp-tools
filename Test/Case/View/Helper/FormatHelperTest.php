@@ -183,8 +183,8 @@ class FormatHelperTest extends MyCakeTestCase {
 		}
 	}
 
-/**
- */
+	/**
+	 */
 /*
 	public function testReverseAscii() {
 		$is = $this->Format->reverseAscii('f&eacute;s');

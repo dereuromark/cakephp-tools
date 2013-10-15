@@ -18,11 +18,11 @@ class DirectAuthenticateTest extends CakeTestCase {
 
 	public $fixtures = array('core.user', 'core.auth_user');
 
-/**
- * setup
- *
- * @return void
- */
+	/**
+	 * setup
+	 *
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 		$this->Collection = $this->getMock('ComponentCollection');
@@ -34,11 +34,11 @@ class DirectAuthenticateTest extends CakeTestCase {
 		$this->response = $this->getMock('CakeResponse');
 	}
 
-/**
- * Test applying settings in the constructor
- *
- * @return void
- */
+	/**
+	 * Test applying settings in the constructor
+	 *
+	 * @return void
+	 */
 	public function testConstructor() {
 		$object = new DirectAuthenticate($this->Collection, array(
 			'userModel' => 'AuthUser',
@@ -48,33 +48,33 @@ class DirectAuthenticateTest extends CakeTestCase {
 		$this->assertEquals(array('username' => 'user', 'password' => 'password'), $object->settings['fields']);
 	}
 
-/**
- * Test the authenticate method
- *
- * @return void
- */
+	/**
+	 * Test the authenticate method
+	 *
+	 * @return void
+	 */
 	public function testAuthenticateNoData() {
 		$request = new CakeRequest('posts/index', false);
 		$request->data = array();
 		$this->assertFalse($this->auth->authenticate($request, $this->response));
 	}
 
-/**
- * Test the authenticate method
- *
- * @return void
- */
+	/**
+	 * Test the authenticate method
+	 *
+	 * @return void
+	 */
 	public function testAuthenticateNoUsername() {
 		$request = new CakeRequest('posts/index', false);
 		$request->data = array('User' => array('x' => 'foobar'));
 		$this->assertFalse($this->auth->authenticate($request, $this->response));
 	}
 
-/**
- * Test authenticate password is false method
- *
- * @return void
- */
+	/**
+	 * Test authenticate password is false method
+	 *
+	 * @return void
+	 */
 	public function testAuthenticateUsernameDoesNotExist() {
 		$request = new CakeRequest('posts/index', false);
 		$request->data = array(
@@ -84,11 +84,11 @@ class DirectAuthenticateTest extends CakeTestCase {
 		$this->assertFalse($this->auth->authenticate($request, $this->response));
 	}
 
-/**
- * Test the authenticate method
- *
- * @return void
- */
+	/**
+	 * Test the authenticate method
+	 *
+	 * @return void
+	 */
 	public function testAuthenticateInjection() {
 		$request = new CakeRequest('posts/index', false);
 		$request->data = array(
@@ -98,11 +98,11 @@ class DirectAuthenticateTest extends CakeTestCase {
 		$this->assertFalse($this->auth->authenticate($request, $this->response));
 	}
 
-/**
- * Test authenticate success
- *
- * @return void
- */
+	/**
+	 * Test authenticate success
+	 *
+	 * @return void
+	 */
 	public function testAuthenticateSuccess() {
 		$request = new CakeRequest('posts/index', false);
 		$request->data = array('User' => array(
@@ -119,11 +119,11 @@ class DirectAuthenticateTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-/**
- * Test scope failure.
- *
- * @return void
- */
+	/**
+	 * Test scope failure.
+	 *
+	 * @return void
+	 */
 	public function testAuthenticateScopeFail() {
 		$this->auth->settings['scope'] = array('user' => 'nate');
 		$request = new CakeRequest('posts/index', false);
@@ -134,11 +134,11 @@ class DirectAuthenticateTest extends CakeTestCase {
 		$this->assertFalse($this->auth->authenticate($request, $this->response));
 	}
 
-/**
- * Test a model in a plugin.
- *
- * @return void
- */
+	/**
+	 * Test a model in a plugin.
+	 *
+	 * @return void
+	 */
 	public function testPluginModel() {
 		Cache::delete('object_map', '_cake_core_');
 		App::build(array(

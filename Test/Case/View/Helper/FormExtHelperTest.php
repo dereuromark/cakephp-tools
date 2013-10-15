@@ -143,13 +143,13 @@ class FormExtHelperTest extends MyCakeTestCase {
 		));
 	}
 
-/**
- * TestNormalize method
- *
- * test that whitespaces are normalized for all inputs except textareas (which also understand new line characters)
- *
- * @return void
- */
+	/**
+	 * TestNormalize method
+	 *
+	 * test that whitespaces are normalized for all inputs except textareas (which also understand new line characters)
+	 *
+	 * @return void
+	 */
 	public function testNormalize() {
 		$this->Form->request->data['Model']['field'] = "My\nvalue";
 		$result = $this->Form->text('Model.field');
@@ -204,11 +204,11 @@ class ContactExt extends CakeTestModel {
 	 */
 	public $useTable = false;
 
-/**
- * Default schema
- *
- * @var array
- */
+	/**
+	 * Default schema
+	 *
+	 * @var array
+	 */
 	protected $_schema = array(
 		'id' => array('type' => 'integer', 'null' => '', 'default' => '', 'length' => '8'),
 		'name' => array('type' => 'string', 'null' => '', 'default' => '', 'length' => '255'),
@@ -221,11 +221,11 @@ class ContactExt extends CakeTestModel {
 		'age' => array('type' => 'integer', 'null' => '', 'default' => '', 'length' => null)
 	);
 
-/**
- * Validate property
- *
- * @var array
- */
+	/**
+	 * Validate property
+	 *
+	 * @var array
+	 */
 	public $validate = array(
 		'non_existing' => array(),
 		'idontexist' => array(),
@@ -256,11 +256,11 @@ class ContactExt extends CakeTestModel {
 		),
 	);
 
-/**
- * Schema method
- *
- * @return void
- */
+	/**
+	 * Schema method
+	 *
+	 * @return void
+	 */
 	public function setSchema($schema) {
 		$this->_schema = $schema;
 	}

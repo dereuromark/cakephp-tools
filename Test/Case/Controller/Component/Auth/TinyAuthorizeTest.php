@@ -21,11 +21,11 @@ class TinyAuthorizeTest extends MyCakeTestCase {
 
 	public $request;
 
-/**
- * setup
- *
- * @return void
- */
+	/**
+	 * setup
+	 *
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 		$this->Collection = new ComponentCollection();
