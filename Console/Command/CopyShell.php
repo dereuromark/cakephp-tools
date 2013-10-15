@@ -289,7 +289,7 @@ class CopyShell extends AppShell {
 				$action = strtolower(trim($this->args[1]));
 				$this->args[1] = null; # only the first time
 			} elseif (isset($this->args[0])) {
-				if (mb_strlen(trim($this->args[0])) == 1) {
+				if (mb_strlen(trim($this->args[0])) === 1) {
 					$action = strtolower(trim($this->args[0]));
 				}
 				$this->args[0] = null; # only the first time

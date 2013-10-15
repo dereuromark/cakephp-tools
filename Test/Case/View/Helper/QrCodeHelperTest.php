@@ -41,7 +41,6 @@ class QrCodeHelperTest extends MyCakeTestCase {
 		$is = $this->QrCode->setSize(300);
 		//pr($this->QrCode->debug());
 		$this->assertTrue($is);
-
 	}
 
 	/**
@@ -61,7 +60,6 @@ class QrCodeHelperTest extends MyCakeTestCase {
 		$is = $this->QrCode->image('');
 		//echo $is;
 		$this->assertTrue(!empty($is));
-
 	}
 
 	/**
@@ -128,7 +126,6 @@ class QrCodeHelperTest extends MyCakeTestCase {
 		$is = $this->QrCode->image($string);
 		//echo $is;
 		$this->assertTrue(!empty($is));
-
 	}
 
 	/**

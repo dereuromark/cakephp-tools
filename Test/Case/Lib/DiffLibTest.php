@@ -28,7 +28,6 @@ CSS;
 	}
 
 	public function testCompare() {
-
 	}
 
 	public function testReverse() {

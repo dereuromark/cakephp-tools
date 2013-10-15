@@ -40,7 +40,6 @@ class TextAnalysisLibTest extends CakeTestCase {
 		$is = $this->TextAnalysis->wordCount(array('min_char' => 3, 'sort' => 'DESC', 'limit' => 5));
 		//pr($is);
 		$this->assertTrue(!empty($is) && is_array($is) && count($is) === 5);
-
 	}
 
 /** Start **/
@@ -75,7 +74,6 @@ class TextAnalysisLibTest extends CakeTestCase {
 		$is = $this->TextAnalysis->maxOccurrences();
 		//pr($is);
 		$this->assertTrue(!empty($is) && is_array($is) && count($is) === 2);
-
 	}
 
 	//TODO: rest of the test functions

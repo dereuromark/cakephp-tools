@@ -25,7 +25,6 @@ class CustomFindsBehaviorTest extends MyCakeTestCase {
 
 	public function tearDown() {
 		parent::tearDown();
-
 	}
 
 	public function testObject() {

@@ -37,7 +37,6 @@ class TextExtHelperTest extends MyCakeTestCase {
 		//echo $result;
 		//pr(h($result));
 		$this->assertNotEquals($result, $text);
-
 	}
 
 	public function testAutoLinkEmailsWithHtmlOrDangerousStrings() {
@@ -90,7 +89,6 @@ class TextExtHelperTest extends MyCakeTestCase {
 		$expected = 'Text with a url <a href="http://www.cot.ag/cuIb2Q/eruierieriu-erjekrwerweuwrweir-werwer-werwerwe-werwerwer-werwerdfrffsd-werwer">www.cot.ag/cuIb2Q/eruierieriu-erjekrwerweuwrweir-w...</a> and more';
 		$result = $this->Text->autoLinkUrls($text);
 		$this->assertEquals($expected, $result);
-
 	}
 
 	public function testAutoLinkUrlsWithEscapeFalse() {
@@ -111,7 +109,6 @@ class TextExtHelperTest extends MyCakeTestCase {
 		$expected = '&lt;h3&gt;google&lt;h3&gt; a <a href="http://maps.google.de/maps?f=d&amp;source=s_d&amp;saddr=m%C3%BCnchen&amp;daddr=Berlin&amp;hl=de&amp;geocode=FXaL3gIdGrOwACnZX4yj-XWeRzF9mLF9SrgMAQ%3BFY1xIQMdSKTMACkBWQM_N06oRzFwO15bRiAhBA&amp;mra=ls&amp;sll=52.532932,13.41156&amp;sspn=0.77021,2.348328&amp;g=berlin&amp;ie=UTF8&amp;t=h&amp;z=6">maps.google.de/maps?f=d&amp;source...</a> link';
 		$result = $this->Text->autoLinkUrls($text, array('maxLength' => 30));
 		$this->assertEquals($expected, $result);
-
 	}
 
 	public function testAutoLinkUrlsWithHtmlOrDangerousStrings() {
@@ -215,7 +212,6 @@ class TextExtHelperTest extends MyCakeTestCase {
 
 		$url = 'www.testpage.de';
 		$this->assertEquals('www.te&#8230;ge.de', $this->Text->minimizeUrl($url, 14));
-
 	}
 
 	/**
@@ -224,7 +220,6 @@ class TextExtHelperTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testShortenText() {
-
 	}
 
 }

@@ -141,7 +141,6 @@ class TimeLib extends CakeTime {
 			$age = $nJahr - $gJahr - 1; // is correct if one didnt have his birthday yet in this year
 		}
 		return $age;
-
 		//TODO: test this short method
 		//return (date("Y",time()) - $val);
 	}
@@ -171,8 +170,8 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * @param int $year
-	 * @param int $sign
+	 * @param integer $year
+	 * @param integer $sign
 	 * @return mixed
 	 */
 	public static function ageByHoroscope($year, $sign) {
@@ -200,10 +199,10 @@ class TimeLib extends CakeTime {
 	 * //FIXME
 	 * //TODO: move to helper?
 	 *
-	 * @param int $year
-	 * @param int $month
-	 * @param int $day
-	 * @param int $steps
+	 * @param integer $year
+	 * @param integer $month
+	 * @param integer $day
+	 * @param integer $steps
 	 * @return mixed
 	 */
 	public static function ageRange($year, $month = null, $day = null, $steps = 1) {
@@ -245,12 +244,12 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * Calendar Week (current week of the year).
- 	 * //TODO: use timestamp - or make the function able to use timestamps at least (besides dateString)
- 	 *
+	 * //TODO: use timestamp - or make the function able to use timestamps at least (besides dateString)
+	 *
 	 * date('W', $time) returns ISO6801 week number.
 	 * Exception: Dates of the calender week of the previous year return 0. In this case the cweek of the
 	 * last week of the previous year should be used.
- 	 *
+	 *
 	 * @param date in DB format - if none is passed, current day is used
 	 * @param integer $relative - weeks relative to the date (+1 next, -1 previous etc)
 	 * @return string
@@ -483,6 +482,7 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * Outputs Date(time) Sting nicely formatted
+	 *
 	 * @param string $dateString,
 	 * @param string $format (YYYY-MM-DD, DD.MM.YYYY)
 	 * @param array $options
@@ -532,6 +532,7 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * Return the translation to a specific week day
+	 *
 	 * @param integer $day:
 	 * 0=sunday to 7=saturday (default numbers)
 	 * @param boolean $abbr (if abbreviation should be returned)
@@ -560,11 +561,11 @@ class TimeLib extends CakeTime {
 			)
 		);
 		$day = (int) $day;
-		pr($day);
+		//pr($day);
 		if ($offset) {
 			$day = ($day + $offset) % 7;
 		}
-		pr($day);
+		//pr($day);
 		if ($abbr) {
 			return __($days['short'][$day]);
 		}
@@ -573,6 +574,7 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * Return the translation to a specific week day
+	 *
 	 * @param integer $month:
 	 * 1..12
 	 * @param boolean $abbr (if abbreviation should be returned)
@@ -623,6 +625,8 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
+	 * Months
+	 *
 	 * @return array (for forms etc)
 	 */
 	public static function months($monthKeys = array(), $options = array()) {
@@ -638,7 +642,8 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * weekdays
+	 * Weekdays
+	 *
 	 * @return array (for forms etc)
 	 */
 	public static function days($dayKeys = array(), $options = array()) {
@@ -1064,6 +1069,7 @@ class TimeLib extends CakeTime {
 	 * Try to parse date from various input formats
 	 * - DD.MM.YYYY, DD/MM/YYYY, YYYY-MM-DD, YYYY, YYYY-MM, ...
 	 * - i18n: Today, Yesterday, Tomorrow
+	 *
 	 * @param string $date to parse
 	 * @param format to parse (null = auto)
 	 * @param type
@@ -1138,7 +1144,7 @@ class TimeLib extends CakeTime {
 		$min = $filters[0];
 		$max = $filters[1];
 
-		//$x = preg_match('/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/', $date, $date_parts);
+		//$x = preg_match('/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/', $date, $dateParts);
 
 		//$x = Datetime::createFromFormat('Y-m-d', $string);
 		//die(returns($x));
@@ -1171,6 +1177,8 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
+	 * Return SQL snippet for a period (beginning till end).
+	 *
 	 * @param string $searchString to parse
 	 * @param string $fieldname (Model.field)
 	 * @param array $options (see TimeLib::period)
@@ -1184,6 +1192,8 @@ class TimeLib extends CakeTime {
 	/**
 	 * hours, minutes
 	 * e.g. 9.3 => 9.5
+	 *
+	 * @return float
 	 */
 	public static function standardToDecimalTime($value) {
 		$base = (int)$value;
@@ -1200,6 +1210,8 @@ class TimeLib extends CakeTime {
 	 * hours, minutes
 	 * e.g. 9.5 => 9.3
 	 * with pad=2: 9.30
+	 *
+	 * @return string
 	 */
 	public static function decimalToStandardTime($value, $pad = null, $decPoint = '.') {
 		$base = (int)$value;
@@ -1218,6 +1230,7 @@ class TimeLib extends CakeTime {
 	/**
 	 * Parse 2,5 - 2.5 2:30 2:31:58 or even 2011-11-12 10:10:10
 	 * now supports negative values like -2,5 -2,5 -2:30 -:30 or -4
+	 *
 	 * @param string
 	 * @return integer: seconds
 	 */
@@ -1257,6 +1270,7 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * Parse 2022-11-12 or 12.11.2022 or even 12.11.22
+	 *
 	 * @param string $date
 	 * @return integer: seconds
 	 */
@@ -1287,6 +1301,7 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * Return strings like 2:30 (later //TODO: or 2:33:99) from seconds etc
+	 *
 	 * @param integer: seconds
 	 * @return string
 	 */
@@ -1310,6 +1325,7 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * Return strings like 2:33:99 from seconds etc
+	 *
 	 * @param integer: seconds
 	 * @return string
 	 */

@@ -57,7 +57,7 @@ class DecimalInputBehavior extends ModelBehavior {
 	public $delimiterFromFormat = array();
 
 	/**
-	 * adjust configs like: $Model->Behaviors-attach('Tools.DecimalInput', array('fields'=>array('xyz')))
+	 * Adjust configs like: $Model->Behaviors-attach('Tools.DecimalInput', array('fields'=>array('xyz')))
 	 * leave fields empty to auto-detect all float inputs
 	 */
 	public function setup(Model $Model, $config = array()) {

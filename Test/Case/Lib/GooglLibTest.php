@@ -22,7 +22,6 @@ class GooglLibTest extends CakeTestCase {
 
 	//TODO
 	public function testOAuth() {
-
 	}
 
 	public function testHistory() {
@@ -48,7 +47,6 @@ class GooglLibTest extends CakeTestCase {
 		$is = $this->Googl->getLong($shortUrl);
 		//pr($is);
 		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] === 'urlshortener#url' && $is['status'] === 'OK' && $is['longUrl'] == $url . '/');
-
 	}
 
 	public function testApi() {
@@ -80,7 +78,6 @@ class GooglLibTest extends CakeTestCase {
 
 		//debug($is);
 		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] === 'urlshortener#url' && $is['status'] === 'OK' && $is['longUrl'] === 'http://www.web.de/#123456');
-
 	}
 
 }

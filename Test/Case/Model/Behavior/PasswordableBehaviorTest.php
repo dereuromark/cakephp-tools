@@ -98,7 +98,6 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		//debug($this->User->validate);
 		$is = $this->User->validates();
 		$this->assertTrue(!empty($is));
-
 	}
 
 	/**

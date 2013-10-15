@@ -73,7 +73,7 @@ class ImapSourceTest extends MyCakeTestCase {
  */
 class TestImapSource extends ImapSource {
 
-	public function makeSearch($Model, $query) {
+	public function makeSearch(Model $Model, $query) {
 		return $this->_makeSearch($Model, $query);
 	}
 

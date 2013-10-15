@@ -216,7 +216,6 @@ class FileLibTest extends CakeTestCase {
 				'Y' => 'Secondy',
 				'Z' => 'again@test.com'));
 		$this->assertEquals($expected, $is);
-
 	}
 
 	public function testReadCsvWithEmpty() {

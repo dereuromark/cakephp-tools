@@ -190,7 +190,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * Returns an array that maps to the Model, only with multiple values for fields that has been changed
 	 *
 	 * @example $this->Post->id = 4; $changes = $this->Post->diff();
-	 * @example $this->Post->id = 4; $my_changes = $this->Post->diff(null,nul, array('conditions'=>array('user_id'=>4)));
+	 * @example $this->Post->id = 4; $myChanges = $this->Post->diff(null,nul, array('conditions'=>array('user_id'=>4)));
 	 * @example $this->Post->id = 4; $difference = $this->Post->diff(45,192);
 	 * @param Object $Model
 	 * @param integer $fromVersionId
@@ -330,7 +330,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * Use with caution, the live model may be different depending on the usage
 	 * of ignore fields.
 	 *
-	 * @example $this->Post->id = 6; $newest_revision = $this->Post->newest();
+	 * @example $this->Post->id = 6; $newestRevision = $this->Post->newest();
 	 * @param object $Model
 	 * @param array $options
 	 * @return array
@@ -384,7 +384,7 @@ class RevisionBehavior extends ModelBehavior {
 	/**
 	 * Find the second newest revisions, including the current one.
 	 *
-	 * @example $this->Post->id = 6; $undo_revision = $this->Post->previous();
+	 * @example $this->Post->id = 6; $undoRevision = $this->Post->previous();
 	 * @param object $Model
 	 * @param array $options
 	 * @return array
@@ -511,7 +511,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * @param object $Model
 	 * @param string $datetime
 	 * @param boolean $cascade
-	 * @param boolean $force_delete
+	 * @param boolean $forceDelete
 	 * @return boolean Success
 	 */
 	public function revertToDate(Model $Model, $datetime, $cascade = false, $forceDelete = false) {

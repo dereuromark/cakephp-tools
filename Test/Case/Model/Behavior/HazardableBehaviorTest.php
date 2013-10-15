@@ -40,7 +40,7 @@ class HazardableBehaviorTest extends MyCakeTestCase {
 		$this->assertEquals('<', $res['Comment']['published']);
 		$this->assertTrue(!empty($res['Comment']['comment']));
 
-		//echo $res['Comment']['comment'];ob_flush();
+		//echo $res['Comment']['comment'];
 	}
 
 	public function testFind() {
@@ -65,7 +65,7 @@ class HazardableBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue(!empty($res['Comment']['comment']));
 		$this->assertNotEquals('foo', $res['Comment']['comment']);
 
-		//echo $res['Comment']['comment'];ob_flush();
+		//echo $res['Comment']['comment'];
 	}
 
 }

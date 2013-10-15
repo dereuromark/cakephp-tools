@@ -57,7 +57,6 @@ class ZipLibTest extends MyCakeTestCase {
 		$is = $this->ZipLib->size();
 		$this->out($is);
 		$this->assertEquals(5, $is);
-
 	}
 
 	public function testNum() {
@@ -68,7 +67,6 @@ class ZipLibTest extends MyCakeTestCase {
 		$this->ZipLib->open(TMP . 'test_folder_and_file.zip');
 		$res = $this->ZipLib->numFiles();
 		$this->assertEquals(2, $res);
-
 	}
 
 	public function testUnzip() {

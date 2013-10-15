@@ -94,7 +94,6 @@ class QloginController extends ToolsAppController {
 	}
 
 	public function admin_listing() {
-
 	}
 
 	public function admin_reset() {

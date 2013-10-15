@@ -95,7 +95,7 @@ class RssViewTest extends CakeTestCase {
 </rss>
 
 RSS;
-		//debug($result); ob_flush();
+		//debug($result);
 		$this->assertSame('application/rss+xml', $Response->type());
 		$this->assertTextEquals($expected, $result);
 	}
@@ -154,7 +154,7 @@ RSS;
 </rss>
 
 RSS;
-		//debug($result); ob_flush();
+		//debug($result);
 		$this->assertSame('application/rss+xml', $Response->type());
 		$this->assertTextEquals($expected, $result);
 	}
@@ -233,7 +233,7 @@ $expected = <<<RSS
 </rss>
 
 RSS;
-		//debug($result); ob_flush();
+		//debug($result);
 		$this->assertSame('application/rss+xml', $Response->type());
 		$this->assertTextEquals($expected, $result);
 	}
@@ -290,7 +290,7 @@ RSS;
 </rss>
 
 RSS;
-		//debug($output); ob_flush();
+		//debug($output);
 		$this->assertTextEquals($expected, $result);
 	}
 
@@ -338,7 +338,7 @@ RSS;
 </rss>
 
 RSS;
-		//debug($result); ob_flush();
+		//debug($result);
 		$this->assertTextEquals($expected, $result);
 	}
 
@@ -390,7 +390,7 @@ RSS;
 </rss>
 
 RSS;
-		//debug($result); ob_flush();
+		//debug($result);
 		$this->assertTextEquals($expected, $result);
 	}
 }

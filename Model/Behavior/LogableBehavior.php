@@ -193,7 +193,7 @@ class LogableBehavior extends ModelBehavior {
 	 * @example $this->Model->findUserActions(301, array('events' => true));
 	 * @example $this->Model->findUserActions(301, array('fields' => array('id','model'),'model' => 'BookTest');
 	 * @param Object $Model
-	 * @param integer $user_id
+	 * @param integer $userId
 	 * @param array $params
 	 * @return array
 	 */

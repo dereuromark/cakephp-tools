@@ -375,7 +375,6 @@ class TimeLibTest extends MyCakeTestCase {
 	}
 
 	public function testCweekMod() {
-
 	}
 
 	public function testCweekDay() {
@@ -493,7 +492,7 @@ class TimeLibTest extends MyCakeTestCase {
 		$this->assertEquals(array(date('Y') - 1986 - 1, date('Y') - 1986), $is);
 
 		$is = TimeLib::ageByHoroscope(2000, ZodiacLib::SIGN_SCORPIO);
-		//debug($is); ob_flush();
+		//debug($is);
 		$this->assertEquals(date('Y') - 2000 - 1, $is); //array(10, 11)
 	}
 

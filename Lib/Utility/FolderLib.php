@@ -3,7 +3,6 @@ App::uses('Folder', 'Utility');
 
 /**
  * Folder lib with a few custom improvements
-
  */
 class FolderLib extends Folder {
 

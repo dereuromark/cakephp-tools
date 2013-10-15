@@ -122,7 +122,6 @@ class DatetimeHelperTest extends MyCakeTestCase {
 		$day = 26;
 		$date = mktime(0, 0, 0, $month, $day, $year);
 		$this->assertEquals('52/' . $year, $this->Datetime->cweek($year . '-' . $month . '-' . $day));
-
 	}
 
 	/**
@@ -177,7 +176,6 @@ class DatetimeHelperTest extends MyCakeTestCase {
 
 		$relativeDate = '2010-04-09';
 		$this->assertEquals('25', $this->Datetime->age($birthday, $relativeDate));
-
 	}
 
 	/**

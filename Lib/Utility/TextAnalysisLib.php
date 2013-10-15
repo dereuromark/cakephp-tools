@@ -7,9 +7,9 @@ App::uses('TextLib', 'Tools.Utility');
  */
 class TextAnalysisLib extends TextLib {
 
-	protected $text, $lenght, $char, $letter, $space, $word, $r_word, $sen, $r_sen, $para,
+	protected $text, $lenght, $char, $letter, $space, $word, $rWord, $sen, $rSen, $para,
 
-		$r_para, $beautified;
+		$rPara, $beautified;
 
 	public function __construct($text = null) {
 		$this->text = $text;
@@ -234,7 +234,7 @@ class TextAnalysisLib extends TextLib {
 		if (true || !$this->rrWord) {
 			$text = str_replace(array(NL, CR, PHP_EOL, TB), ' ', $this->text);
 			$res = array();
-			$search = array('*', '+', '~', ',', '.', ';', ':', '#', '', '(', ')', '{', '}', '[', ']', '$', '%', '“', '”', '—', '"', '‘', '’', '!', '?', '<', '>', '=', '/');
+			$search = array('*', '+', '~', ',', '.', ';', ':', '#', '', '(', ')', '{', '}', '[', ']', '$', '%', '"', '"', '—', '"', ''', ''', '!', '?', '<', '>', '=', '/');
 			$search = array_merge($search, array(1, 2, 3, 4, 5, 6, 7, 8, 9, 0));
 			$text = str_replace($search, ' ', $text);
 

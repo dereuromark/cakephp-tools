@@ -197,7 +197,6 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 			$is = $this->GoogleMapV3->iconSet($test[0], $test[1]);
 			//echo $this->GoogleMapV3->Html->image($is['url']).BR;
 		}
-
 	}
 
 	/**

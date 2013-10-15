@@ -371,7 +371,7 @@ class ImapLib {
 				}
 
 				// Perform the search
-				#echo "'$search_string'";
+				#echo "'$searchString'";
 				return imap_search($this->stream, $searchString);
 			}
 			return imap_last_error();
@@ -669,7 +669,6 @@ class ImapMessageLib {
 	}
 
 	public function move($folder) {
-
 	}
 
 	public function id() {
@@ -768,7 +767,6 @@ class ImapFolderLib {
 	}
 
 	public function listFolder() {
-
 	}
 
 	public function searchMessages($options = array(self::ALL)) {

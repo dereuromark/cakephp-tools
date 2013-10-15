@@ -221,7 +221,6 @@ class QrCodeHelper extends AppHelper {
 	 * @see http://zxing.appspot.com/generator/
 	 */
 	public function formatEvent() {
-
 	}
 
 	/**
@@ -303,7 +302,6 @@ class QrCodeHelper extends AppHelper {
 	 * @return integer size
 	 */
 	protected function _findSuitableSize() {
-
 	}
 
 }

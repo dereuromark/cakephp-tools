@@ -121,7 +121,6 @@ class FormatHelperTest extends MyCakeTestCase {
 			//echo '\''.h($value).'\' becomes \''.$res.'\'';
 			$this->assertTrue(!empty($res));
 		}
-
 	}
 
 	/**
@@ -145,7 +144,6 @@ class FormatHelperTest extends MyCakeTestCase {
 			//$this->assertTrue(!empty($res));
 			$this->assertEquals($expected, $res);
 		}
-
 	}
 
 	/**
@@ -162,7 +160,6 @@ class FormatHelperTest extends MyCakeTestCase {
 			//echo '\''.$mail.'\' becomes \''.$res.'\' - expected \''.$expected.'\'';
 			$this->assertEquals($expected, $res);
 		}
-
 	}
 
 	/**

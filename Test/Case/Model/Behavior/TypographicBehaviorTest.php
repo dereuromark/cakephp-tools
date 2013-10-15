@@ -53,7 +53,6 @@ class TypographicBehaviorTest extends MyCakeTestCase {
 			$this->assertSame($data['title'], $res['Article']['title']);
 			$this->assertSame($expected, $res['Article']['body']);
 		}
-
 	}
 
 	public function testMergeQuotes() {

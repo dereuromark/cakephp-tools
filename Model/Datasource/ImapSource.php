@@ -1072,7 +1072,7 @@ class ImapSource extends DataSource {
 	 *
 	 * @return array
 	 */
-	protected function _flatStructure($Model, $uid, $Structure = false, $partnr = 1) {
+	protected function _flatStructure(Model $Model, $uid, $Structure = false, $partnr = 1) {
 		$mainRun = false;
 		if (!$Structure) {
 			$mainRun = true;

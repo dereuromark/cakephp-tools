@@ -388,7 +388,6 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$Post->undelete();
 		$result = $Post->read();
 		$this->assertEquals($result['Post']['title'], 'New post');
-
 	}
 
 	public function testRevertTo() {
@@ -666,7 +665,6 @@ class RevisionBehaviorTest extends CakeTestCase {
 				'content' => 'Edited',
 				'version_id' => 2));
 		$this->assertEquals($expected, $result);
-
 	}
 
 	public function testUndelete() {
@@ -696,7 +694,6 @@ class RevisionBehaviorTest extends CakeTestCase {
 				'title' => 'Post 3',
 				'content' => 'Lorem ipsum dolor sit.'));
 		$this->assertEquals($expected, $result);
-
 	}
 
 	public function testUndeleteCallbacks() {
@@ -1192,7 +1189,6 @@ class RevisionBehaviorTest extends CakeTestCase {
 		//TODO: assert
 		$this->assertEquals($result['Tag'][0]['title'], 'Trick');
 		$this->assertEquals($result['Tag'][1]['title'], 'Fun');
-
 	}
 
 	public function testSaveWithOutTags() {

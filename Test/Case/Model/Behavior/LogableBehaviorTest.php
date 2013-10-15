@@ -145,7 +145,6 @@ class LogableBehaviorTest extends CakeTestCase {
 			'order' => 'id DESC'
 		));
 		$this->assertEquals($expected, $result);
-
 	}
 
 	public function testFindUserActions() {
@@ -169,7 +168,6 @@ class LogableBehaviorTest extends CakeTestCase {
 		);
 		$result = $this->LogableBook->findUserActions(301, array('fields' => 'id', 'model' => 'LogableBook'));
 		$this->assertEquals($expected, $result);
-
 	}
 
 	public function testAddingModels() {

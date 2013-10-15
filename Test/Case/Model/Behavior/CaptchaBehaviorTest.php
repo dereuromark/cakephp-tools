@@ -78,7 +78,6 @@ class CaptchaBehaviorTest extends MyCakeTestCase {
 		$is = $this->Comment->validates();
 		//debug($this->Comment->invalidFields());
 		$this->assertTrue($is);
-
 	}
 
 	//TODO

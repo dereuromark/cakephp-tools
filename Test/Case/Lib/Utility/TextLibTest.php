@@ -64,7 +64,6 @@ TXT;
 		$is = $this->TextLib->words(array('min_char' => 3));
 		//pr($is);
 		$this->assertTrue(!empty($is) && is_array($is) && count($is) === 9);
-
 	}
 
 }

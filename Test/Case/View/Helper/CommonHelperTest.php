@@ -62,7 +62,6 @@ class CommonHelperTest extends MyCakeTestCase {
 		$options = array('tabsToSpaces' => 2);
 		$is = $this->Common->esc('Some Cool' . PHP_EOL . TB . '1 tab and' . PHP_EOL . TB . TB . '2 tabs' . PHP_EOL . 'YEAH', $options);
 		$this->assertEquals($is, 'Some Cool<br />' . PHP_EOL . '&nbsp;&nbsp;1 tab and<br />' . PHP_EOL . '&nbsp;&nbsp;&nbsp;&nbsp;2 tabs<br />' . PHP_EOL . 'YEAH');
-
 	}
 
 	public function testAsp() {

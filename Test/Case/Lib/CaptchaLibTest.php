@@ -32,7 +32,7 @@ class CaptchaLibTest extends MyCakeTestCase {
 		);
 		$res = CaptchaLib::buildHash($data, $options);
 		//pr($res);
-		$this->assertTrue(strlen($res) == 40);
+		$this->assertTrue(strlen($res) === 40);
 	}
 
 }

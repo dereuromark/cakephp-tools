@@ -35,7 +35,6 @@ class MyModelTest extends MyCakeTestCase {
 
 		$record = $this->Model->get(2, array('fields' => 'id', 'title', 'body'), array('Author'));
 		$this->assertEquals(3, $record['Author']['id']);
-
 	}
 
 	public function testEnum() {
@@ -403,7 +402,6 @@ class MyModelTest extends MyCakeTestCase {
 		$res = $this->App->validationErrors;
 		$this->out($res);
 		$this->assertTrue(!empty($res) && $res['fieldy'][0] === 'a 1 b 2 c 3 4 5 6 7 h 8');
-
 	}
 
 	public function testValidateDate() {
@@ -553,7 +551,6 @@ class MyModelTest extends MyCakeTestCase {
 		$res = $this->App->validateDatetime($data, array('after' => 'after'));
 		//debug($res);
 		$this->assertFalse($res);
-
 	}
 
 	public function testValidateTime() {

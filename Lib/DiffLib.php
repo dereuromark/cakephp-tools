@@ -206,7 +206,7 @@ class DiffLib {
 			$line = $text[$i];
 
 			// empty line? EOF?
-			if (strlen($line) == 0) {
+			if (strlen($line) === 0) {
 				if ($instance->length > 0) {
 					array_push($changes, $instance);
 					$instance = new Changes();
@@ -264,7 +264,7 @@ class DiffLib {
 				$line = $text[$linenum + $j + $offset];
 				$color = 'green';
 
-				if (strlen(ltrim($line->text)) == 0) {
+				if (strlen(ltrim($line->text)) === 0) {
 					continue;
 				}
 

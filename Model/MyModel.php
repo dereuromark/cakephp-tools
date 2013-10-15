@@ -1269,7 +1269,6 @@ class MyModel extends Model {
 	 * - min/max (TODO!!)
 	 */
 	public function validateDateRange($data, $options = array()) {
-
 	}
 
 	//TODO
@@ -1279,7 +1278,6 @@ class MyModel extends Model {
 	 * - min/max (TODO!!)
 	 */
 	public function validateTimeRange($data, $options = array()) {
-
 	}
 
 	/**

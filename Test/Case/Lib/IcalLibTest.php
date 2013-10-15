@@ -22,7 +22,6 @@ class IcalLibTest extends CakeTestCase {
 
 	public function testObject() {
 		$this->assertTrue(is_object($this->Ical));
-
 	}
 
 /** building **/

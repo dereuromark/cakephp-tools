@@ -288,7 +288,6 @@ class UtilityTest extends MyCakeTestCase {
 
 		$res = Utility::deep('trim', $is);
 		$this->assertSame($expected, $res);
-
 	}
 
 	/**

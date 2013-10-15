@@ -26,7 +26,6 @@ class IcalHelperTest extends MyCakeTestCase {
 
 	public function tearDown() {
 		parent::tearDown();
-
 	}
 
 	public function testObject() {
@@ -45,7 +44,6 @@ class IcalHelperTest extends MyCakeTestCase {
 		);
 		$res = $this->Ical->add($data);
 		$this->assertTrue($res);
-
 	}
 
 	public function testGenerate() {

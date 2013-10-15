@@ -16,7 +16,7 @@ if (file_exists($svnFile) && ($svn = File($svnFile))) {
 		# in productive mode we want to display a harmless looking version number
 		if (strlen($svnrev) > 3) {
 			$v = substr($svnrev, 0, strlen($svnrev) - 3) . '.' . substr($svnrev, -3, 1) . '.' . substr($svnrev, -2, 1);
-		} elseif (strlen($svnrev) == 3) {
+		} elseif (strlen($svnrev) === 3) {
 			$v = '0.' . substr($svnrev, -3, 1) . '.' . substr($svnrev, -2, 1);
 		} else {
 			$v = '0.0.' . substr($svnrev, -2, 1);

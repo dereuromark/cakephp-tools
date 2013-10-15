@@ -1857,7 +1857,6 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$expects = '----------------';
 		$result = $this->Model->slug($string, false);
 		$this->assertEquals($expects, $result);
-
 	}
 
 	/**
@@ -3147,7 +3146,6 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$expects = '--ῲῳῴ-ῶῷῸΌῺΏῼ---';
 		$result = $this->Model->slug($string, false);
 		$this->assertEquals($expects, $result);
-
 	}
 
 	/**
@@ -3168,7 +3166,9 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$result = $this->Model->slug($string, false);
 		$this->assertEquals($expects, $result);
 
-		$string = '†‡•‣․‥…‧  ‪‫‬‭‮ ';
+		$string = '†‡•‣․‥…‧
+
+‪‫‬‭‮ ';
 		$expects = '----------------';
 		$result = $this->Model->slug($string, false);
 		$this->assertEquals($expects, $result);
@@ -4437,7 +4437,6 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$expects = '----------------';
 		$result = $this->Model->slug($string, false);
 		$this->assertEquals($expects, $result);
-
 	}
 
 	/**
@@ -5727,7 +5726,6 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$expects = '----------------';
 		$result = $this->Model->slug($string, false);
 		$this->assertEquals($expects, $result);
-
 	}
 
 	/**
@@ -7017,7 +7015,6 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$expects = '俰俱俲俳俴俵俶俷俸俹俺俻俼俽俾俿';
 		$result = $this->Model->slug($string, false);
 		$this->assertEquals($expects, $result);
-
 	}
 
 	/**
@@ -8307,7 +8304,6 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$expects = '忰忱忲忳忴念忶忷忸忹忺忻忼忽忾忿';
 		$result = $this->Model->slug($string, false);
 		$this->assertEquals($expects, $result);
-
 	}
 
 	/**
@@ -9597,7 +9593,6 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$expects = '濰濱濲濳濴濵濶濷濸濹濺濻濼濽濾濿';
 		$result = $this->Model->slug($string, false);
 		$this->assertEquals($expects, $result);
-
 	}
 
 	/**
@@ -10887,7 +10882,6 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$expects = '翰翱翲翳翴翵翶翷翸翹翺翻翼翽翾翿';
 		$result = $this->Model->slug($string, false);
 		$this->assertEquals($expects, $result);
-
 	}
 
 	/**
@@ -12177,7 +12171,6 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$expects = '述迱迲迳迴迵迶迷迸迹迺迻迼追迾迿';
 		$result = $this->Model->slug($string, false);
 		$this->assertEquals($expects, $result);
-
 	}
 
 	/**
@@ -13467,7 +13460,6 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$expects = '----------------';
 		$result = $this->Model->slug($string, false);
 		$this->assertEquals($expects, $result);
-
 	}
 
 	/**
@@ -14757,7 +14749,6 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$expects = '꿰꿱꿲꿳꿴꿵꿶꿷꿸꿹꿺꿻꿼꿽꿾꿿';
 		$result = $this->Model->slug($string, false);
 		$this->assertEquals($expects, $result);
-
 	}
 
 	/**
@@ -16047,7 +16038,6 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$expects = '뿰뿱뿲뿳뿴뿵뿶뿷뿸뿹뿺뿻뿼뿽뿾뿿';
 		$result = $this->Model->slug($string, false);
 		$this->assertEquals($expects, $result);
-
 	}
 
 	/**
@@ -17337,7 +17327,6 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$expects = '쿰쿱쿲쿳쿴쿵쿶쿷쿸쿹쿺쿻쿼쿽쿾쿿';
 		$result = $this->Model->slug($string, false);
 		$this->assertEquals($expects, $result);
-
 	}
 
 	/**
@@ -17988,7 +17977,6 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$expects = '----------------';
 		$result = $this->Model->slug($string, false);
 		$this->assertEquals($expects, $result);
-
 	}
 
 	/**

@@ -38,7 +38,6 @@ class HazardLibTest extends CakeTestCase {
 		$is = $this->HazardLib->xssStrings();
 		//pr(h($is));
 		$this->assertTrue(!empty($is) && count($is), 113);
-
 	}
 
 	public function testPhp() {

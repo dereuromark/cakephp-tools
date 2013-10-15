@@ -24,7 +24,8 @@ class WeatherHelperTest extends MyCakeTestCase {
 		$res = $this->Weather->get('51.0872,13.8028');
 		$res = $this->_displayForecast($res);
 		$this->out($res);
-		$this->assertTrue(!empty($res));
+		//debug($res);
+		$this->assertTrue(empty($res)); // NEW
 
 		$res = $this->Weather->get('Berlin, Deutschland');
 		$res = $this->_displayForecast($res);

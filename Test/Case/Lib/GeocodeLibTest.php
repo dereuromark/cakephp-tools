@@ -44,7 +44,6 @@ class GeocodeLibTest extends MyCakeTestCase {
 			//pr('is: '.$is.' - expected: '.$coord['d']);
 			$this->assertEquals($coord['d'], $is);
 		}
-
 	}
 
 	public function testBlur() {
@@ -95,7 +94,6 @@ class GeocodeLibTest extends MyCakeTestCase {
 	}
 
 	public function testSetParams() {
-
 	}
 
 	public function testWithJson() {
@@ -167,7 +165,6 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$is = $this->Geocode->error();
 		//debug($is);
 		$this->assertTrue(empty($is));
-
 	}
 
 	public function testGeocodeInvalid() {
@@ -221,7 +218,6 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$this->Geocode->setOptions(array('allow_inconclusive' => false));
 		$is = $this->Geocode->geocode($address);
 		$this->assertFalse($is);
-
 	}
 
 	public function testReverseGeocode() {
@@ -243,7 +239,6 @@ class GeocodeLibTest extends MyCakeTestCase {
 	}
 
 	public function testGetResult() {
-
 	}
 
 }

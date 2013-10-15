@@ -160,7 +160,6 @@ class GeocoderBehaviorTest extends CakeTestCase {
 
 		//debug($this->Comment->Behaviors->Geocoder->Geocode->debug());
 		$this->assertTrue(!empty($res['Comment']['lat']) && !empty($res['Comment']['lng']));
-
 	}
 
 	public function testMinAccHigh() {
@@ -180,7 +179,6 @@ class GeocoderBehaviorTest extends CakeTestCase {
 
 		//debug($this->Comment->Behaviors->Geocoder->Geocode->debug());
 		$this->assertTrue(!isset($res['Comment']['lat']) && !isset($res['Comment']['lng']));
-
 	}
 
 	public function testMinInc() {
@@ -205,7 +203,6 @@ class GeocoderBehaviorTest extends CakeTestCase {
 
 		//debug($this->Comment->Behaviors->Geocoder->Geocode->debug());
 		$this->assertTrue(!isset($res['Comment']['lat']) && !isset($res['Comment']['lng']));
-
 	}
 
 	public function testMinIncAllowed() {
@@ -229,7 +226,6 @@ class GeocoderBehaviorTest extends CakeTestCase {
 
 		//debug($this->Comment->Behaviors->Geocoder->Geocode->debug());
 		$this->assertTrue(!empty($res['Comment']['lat']) && !empty($res['Comment']['lng']));
-
 	}
 
 	public function testExpect() {

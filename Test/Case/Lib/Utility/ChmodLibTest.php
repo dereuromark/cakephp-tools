@@ -13,7 +13,6 @@ class ChmodLibTest extends CakeTestCase {
 		parent::setUp();
 
 		$this->Chmod = new ChmodLib();
-
 	}
 
 /** Start **/
@@ -27,7 +26,6 @@ class ChmodLibTest extends CakeTestCase {
 		$is = $this->Chmod->convertFromOctal(0777, true);
 		$expected = '0777';
 		$this->assertEquals($expected, $is);
-
 	}
 
 	public function testConvertToOctal() {

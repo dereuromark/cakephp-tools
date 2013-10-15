@@ -8,7 +8,6 @@ class RandomLibTest extends CakeTestCase {
 		$is = RandomLib::int(2, 200);
 		//pr($is);
 		$this->assertTrue($is >= 2 && $is <= 200);
-
 	}
 
 	public function testArrayValue() {
@@ -30,7 +29,6 @@ class RandomLibTest extends CakeTestCase {
 		$is = RandomLib::arrayValue($array);
 		//pr($is);
 		$this->assertTrue(in_array($is, $array));
-
 	}
 
 	public function testPronounceablePwd() {

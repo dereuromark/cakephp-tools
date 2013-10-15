@@ -381,7 +381,7 @@ class FormatHelper extends TextHelper {
 		}
 
 		$defaultOptions = array('title' => $title, 'alt' => $alt, 'class' => 'icon');
-		//$new_options['onclick']=$options['onclick'];
+		//$newOptions['onclick'] = $options['onclick'];
 		$newOptions = array_merge($defaultOptions, $options);
 
 		$html .= $this->Html->image('icons/' . $pic, $newOptions);
@@ -1033,7 +1033,6 @@ class FormatHelper extends TextHelper {
 	 * Better an element?
 	 */
 	public function profilePic($uid, $e, $rights = null) {
-
 	}
 
 	/**

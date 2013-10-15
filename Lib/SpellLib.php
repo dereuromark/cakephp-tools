@@ -26,7 +26,7 @@ class SpellLib {
 	/**
 	 * Available languages
 	 */
-	protected $l_langs = array('en_GB', 'de_DE');
+	protected $_langs = array('en_GB', 'de_DE');
 
 	protected $_Broker;
 

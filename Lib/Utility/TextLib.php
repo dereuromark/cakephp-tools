@@ -8,9 +8,9 @@ App::uses('String', 'Utility');
  */
 class TextLib extends String {
 
-	protected $text, $length, $char, $letter, $space, $word, $r_word, $sen, $r_sen, $para,
+	protected $text, $length, $char, $letter, $space, $word, $rWord, $sen, $rSen, $para,
 
-		$r_para, $beautified;
+		$rPara, $beautified;
 
 	public function __construct($text = null) {
 		$this->text = $text;
@@ -272,7 +272,7 @@ class TextLib extends String {
 		if (trim($value) === '') {
 			return '';
 		}
-		preg_match('/^\s*+(?:\S++\s*+){1,' . $words . '}/u', $value, $matches);
+		preg_match('/^\s*+(?:\S++\s*+) {1,' . $words . '}/u', $value, $matches);
 
 		$end = $options['ellipsis'];
 		if (mb_strlen($value) === mb_strlen($matches[0])) {
