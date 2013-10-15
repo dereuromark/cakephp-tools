@@ -172,6 +172,7 @@ class RssView extends View {
 	 *
 	 * @param array $serialize The viewVars that need to be serialized.
 	 * @return string The serialized data
+	 * @throws RuntimeException When the prefix is not specified
 	 */
 	protected function _serialize($serialize) {
 		$rootNode = isset($this->viewVars['_rootNode']) ? $this->viewVars['_rootNode'] : 'channel';
