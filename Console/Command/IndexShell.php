@@ -167,7 +167,7 @@ class IndexShell extends AppShell {
 		if (!$useDbConfig) {
 			return array();
 		}
-		require_once(CONFIGS . 'database.php');
+		require_once CONFIGS . 'database.php';
 		$connections = get_class_vars('DATABASE_CONFIG');
 		if (!isset($connections[$useDbConfig])) {
 			return array();

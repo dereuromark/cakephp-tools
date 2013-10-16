@@ -7,6 +7,12 @@ App::uses('Controller', 'Controller');
 class MyController extends Controller {
 
 	/**
+	 * @var array
+	 * @link https://github.com/cakephp/cakephp/pull/857
+	 */
+	public $paginate = array();
+
+	/**
 	 * Fix for asset compress to not run into fatal error loops
 	 */
 	public function __construct($request = null, $response = null) {

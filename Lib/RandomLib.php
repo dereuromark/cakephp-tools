@@ -51,7 +51,6 @@ class RandomLib {
 		//NOT IMPORTANT
 	}
 
-	//TODO
 	/**
 	 * 1950-01-01 - 2050-12-31
 	 */
@@ -80,6 +79,7 @@ class RandomLib {
 	/**
 	 * 00:00:00 - 23:59:59
 	 */
+
 	public static function time($min = null, $max = null, $formatReturn = null) {
 
 		$res = 0;

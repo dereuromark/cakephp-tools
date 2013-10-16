@@ -109,6 +109,7 @@ class DiffLib {
 		}
 		return false;
 	}
+
 	/**
 	 * Compare function
 	 * Compares two strings/arrays using the specified method and renderer

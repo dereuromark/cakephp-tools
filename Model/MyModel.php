@@ -732,6 +732,7 @@ class MyModel extends Model {
 	'processed' => true
 	)
 	*/
+
 	/**
 	 * Core-fix for multiple sort orders
 	 *
@@ -1271,7 +1272,6 @@ class MyModel extends Model {
 	public function validateDateRange($data, $options = array()) {
 	}
 
-	//TODO
 	/**
 	 * Validation of Time Fields (>= minTime && <= maxTime)
 	 * @param options
