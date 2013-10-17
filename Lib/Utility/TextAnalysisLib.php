@@ -7,10 +7,6 @@ App::uses('TextLib', 'Tools.Utility');
  */
 class TextAnalysisLib extends TextLib {
 
-	protected $text, $length, $char, $letter, $space, $word, $rWord, $sen, $rSen, $para,
-
-		$rPara, $beautified;
-
 	public function __construct($text = null) {
 		$this->text = $text;
 	}
