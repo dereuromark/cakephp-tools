@@ -10,11 +10,19 @@ App::uses('CakeSession', 'Model/Datasource');
 
 /**
  * Convenience wrapper to access Auth data and check on rights/roles.
+ *
+ * It can be used anywhere in the application due to static access.
+ * So in the view we can use this shortcut to check if a user is logged in:
+ *
+ *   if (Auth::id()) {
+ *     // Display element
+ *   }
+ *
  * Expects the Role session infos to be either
- * 	`Auth.User.role_id` (single) or
- * 	`Auth.User.Role` (multi - flat array of roles, or array role data)
- * and can be adjusted via defined().
- * Same for Right.
+ * 	- `Auth.User.role_id` (single) or
+ * 	- `Auth.User.Role` (multi - flat array of roles, or array role data)
+ * and can be adjusted via constants and defined().
+ * Same goes for Right data.
  *
  * @author Mark Scherer
  * @license MIT
@@ -40,7 +48,7 @@ class Auth {
 	 * It will return the single role for single role setup, and a flat
 	 * list of roles for multi role setup.
 	 *
-	 * @return mixed String or array of roles or null if inexistent
+	 * @return mixed String or array of roles or null if inexistent.
 	 */
 	public static function roles() {
 		$roles = CakeSession::read('Auth.User.' . USER_ROLE_KEY);
@@ -56,7 +64,7 @@ class Auth {
 	/**
 	 * Get the user data of the current session.
 	 *
-	 * @param string $key (dot syntax)
+	 * @param string $key Key in dot syntax.
 	 * @return mixed Data
 	 */
 	public static function user($key = null) {
@@ -64,26 +72,6 @@ class Auth {
 			$key = '.' . $key;
 		}
 		return CakeSession::read('Auth.User' . $key);
-	}
-
-	/**
-	 * Check if the current session has this right.
-	 *
-	 * @param mixed $role
-	 * @param mixed $providedRights
-	 * @return boolean Success
-	 */
-	public static function hasRight($ownRight, $providedRights = null) {
-		if ($providedRights !== null) {
-			$rights = $providedRights;
-		} else {
-			$rights = CakeSession::read('Auth.User.' . USER_RIGHT_KEY);
-		}
-		$rights = (array)$rights;
-		if (array_key_exists($ownRight, $rights) && !empty($rights[$ownRight])) {
-			return true;
-		}
-		return false;
 	}
 
 	/**
@@ -112,7 +100,10 @@ class Auth {
 	}
 
 	/**
-	 * Check if the current session has oen of these roles.
+	 * Check if the current session has one of these roles.
+	 *
+	 * You can either require one of the roles (default), or you can require all
+	 * roles to match.
 	 *
 	 * @param mixed $roles
 	 * @param boolean $oneRoleIsEnough (if all $roles have to match instead of just one)
@@ -144,6 +135,31 @@ class Auth {
 		}
 
 		if ($count === count($ownRoles)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Check if the current session has this right.
+	 *
+	 * Rights can be an additional element to give permissions, e.g.
+	 * the right to send messages/emails, to friend request other users,...
+	 * This can be set via Right model and stored in the Auth array upon login
+	 * the same way the roles are.
+	 *
+	 * @param mixed $role
+	 * @param mixed $providedRights
+	 * @return boolean Success
+	 */
+	public static function hasRight($ownRight, $providedRights = null) {
+		if ($providedRights !== null) {
+			$rights = $providedRights;
+		} else {
+			$rights = CakeSession::read('Auth.User.' . USER_RIGHT_KEY);
+		}
+		$rights = (array)$rights;
+		if (array_key_exists($ownRight, $rights) && !empty($rights[$ownRight])) {
 			return true;
 		}
 		return false;

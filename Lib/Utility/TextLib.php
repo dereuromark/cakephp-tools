@@ -8,9 +8,7 @@ App::uses('String', 'Utility');
  */
 class TextLib extends String {
 
-	protected $text, $length, $char, $letter, $space, $word, $rWord, $sen, $rSen, $para,
-
-		$rPara, $beautified;
+	public $text, $length, $char, $letter, $space, $word, $rWord, $sen, $rSen, $para, $rPara, $beautified;
 
 	public function __construct($text = null) {
 		$this->text = $text;
@@ -92,13 +90,19 @@ class TextLib extends String {
 	 * @return string The abbreviated string, if longer than $length.
 	 */
 	public static function abbreviate($text, $length = 20, $ending = '...') {
-		return (mb_strlen($text) > $length)
-			? rtrim(mb_substr($text, 0, round(($length - 3) / 2))) . $ending . ltrim(mb_substr($text, (($length - 3) / 2) * -1))
-			: $text;
+		if (mb_strlen($text) <= $length) {
+			return $text;
+		}
+		return rtrim(mb_substr($text, 0, round(($length - 3) / 2))) . $ending . ltrim(mb_substr($text, (($length - 3) / 2) * -1));
 	}
 
-/* other */
-
+	/**
+	 * TextLib::convertToOrd()
+	 *
+	 * @param string $str
+	 * @param string $separator
+	 * @return string
+	 */
 	public function convertToOrd($str = null, $separator = '-') {
 		/*
 		if (!class_exists('UnicodeLib')) {
@@ -272,7 +276,7 @@ class TextLib extends String {
 		if (trim($value) === '') {
 			return '';
 		}
-		preg_match('/^\s*+(?:\S++\s*+) {1,' . $words . '}/u', $value, $matches);
+		preg_match('/^\s*+(?:\S++\s*+){1,' . $words . '}/u', $value, $matches);
 
 		$end = $options['ellipsis'];
 		if (mb_strlen($value) === mb_strlen($matches[0])) {
@@ -289,7 +293,7 @@ class TextLib extends String {
 	 * @param string
 	 * @return string
 	 */
-	public function ascii_to_entities($str) {
+	public function asciiToEntities($str) {
 		$count = 1;
 		$out = '';
 		$temp = array();
@@ -328,8 +332,6 @@ class TextLib extends String {
 		return $out;
 	}
 
-	// ------------------------------------------------------------------------
-
 	/**
 	 * Entities to ASCII
 	 *
@@ -339,7 +341,7 @@ class TextLib extends String {
 	 * @param boolean
 	 * @return string
 	 */
-	public function entities_to_ascii($str, $all = true) {
+	public function EntitiesToAscii($str, $all = true) {
 		if (preg_match_all('/\&#(\d+)\;/', $str, $matches)) {
 			for ($i = 0, $s = count($matches['0']); $i < $s; $i++) {
 				$digits = $matches['1'][$i];

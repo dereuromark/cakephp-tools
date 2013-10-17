@@ -117,6 +117,7 @@ class AutoLoginTestController extends Controller {
 	 * @var array
 	 */
 	public $testHeaders = array();
+
 	/**
 	 * Fail method
 	 *
@@ -125,6 +126,7 @@ class AutoLoginTestController extends Controller {
 	public function fail() {
 		$this->failed = true;
 	}
+
 	/**
 	 * Redirect method
 	 *
@@ -136,6 +138,7 @@ class AutoLoginTestController extends Controller {
 	public function redirect($url, $status = null, $exit = true) {
 		return $status;
 	}
+
 	/**
 	 * Conveinence method for header()
 	 *

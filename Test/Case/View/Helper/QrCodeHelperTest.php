@@ -18,6 +18,7 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
  *
  */
 class QrCodeHelperTest extends MyCakeTestCase {
+
 	/**
 	 * SetUp method
 	 *
