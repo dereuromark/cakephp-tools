@@ -1,20 +1,17 @@
 <?php
 
-//App::uses('TimeLib', 'Tools.Utility');
 App::uses('TimeHelper', 'View/Helper');
 
 /**
- * TODO: make extend TimeLib some day?
+ * Wrapper for TimeHelper and TimeLib
  */
 class DatetimeHelper extends TimeHelper {
 
 	public $helpers = array('Html');
 
-	//public $Time;
+	public $userOffset = null;
 
-	protected $userOffset = null;
-
-	protected $daylightSavings = false;
+	public $daylightSavings = false;
 
 	public function __construct($View = null, $settings = array()) {
 		$settings = Set::merge(array('engine' => 'Tools.TimeLib'), $settings);
@@ -27,22 +24,6 @@ class DatetimeHelper extends TimeHelper {
 		if (!empty($i18n['daylight_savings'])) {
 			$this->daylightSavings = (bool)$i18n['daylight_savings'];
 		}
-	}
-
-	/**
-	 * EXPERIMENTAL!!!
-	 * @param
-	 * @param
-	 * @return integer offset
-	 */
-	public function tzOffset($gmtoffset, $isDst) {
-		//global $gmtoffset, $isDst;
-
-		extract(getdate());
-		$serveroffset = gmmktime(0, 0, 0, $mon, $mday, $year) - mktime(0, 0, 0, $mon, $mday, $year);
-		$offset = $gmtoffset - $serveroffset;
-
-		return $offset + ($isDst ? 3600 : 0);
 	}
 
 	/**
@@ -80,15 +61,15 @@ class DatetimeHelper extends TimeHelper {
 
 	/**
 	 * Returns red/specialGreen/green date depending on the current day
+	 * // TODO refactor!
+	 *
 	 * @param date in DB Format (xxxx-xx-xx)
 	 * ...
 	 * @param array $options
 	 * @param array $attr: html attributes
 	 * @return nicely formatted date
-	 * 2009-07-25 ms
-	 * // TODO refactor!
 	 */
-	public function published($dateString = null, $userOffset = null, $options=array(), $attr=array()) {
+	public function published($dateString = null, $userOffset = null, $options = array(), $attr = array()) {
 		$date = $dateString ? $this->fromString($dateString, $userOffset) : null; // time() ?
 		$niceDate = '';
 		$when = null;
@@ -158,8 +139,9 @@ class DatetimeHelper extends TimeHelper {
 	}
 
 	/**
+	 * For birthdays etc
+	 *
 	 * @deprecated - use TimeLib::isInRange()
-	 * for birthdays etc
 	 * @param date
 	 * @param string days with +-
 	 * @param options
@@ -180,16 +162,37 @@ class DatetimeHelper extends TimeHelper {
 	}
 
 	/**
-	 * Takes time as hh:mm:ss
+	 * Takes time as hh:mm:ss,
 	 * returns hh:mm
-	 * @param badTime
-	 * returns niceTime
 	 * TODO: move to lib, but more generic
+	 *
+	 * @param badTime
+	 * @return string Nice time
 	 */
 	public function niceTime($badTime) {
 		return substr($badTime, 0, 5);
 	}
 
+	/**
+	 * EXPERIMENTAL!!!
+	 * @param
+	 * @param
+	 * @return integer offset
+	 */
+	public function tzOffset($gmtoffset, $isDst) {
+		//global $gmtoffset, $isDst;
+		extract(getdate());
+		$serveroffset = gmmktime(0, 0, 0, $mon, $mday, $year) - mktime(0, 0, 0, $mon, $mday, $year);
+		$offset = $gmtoffset - $serveroffset;
+
+		return $offset + ($isDst ? 3600 : 0);
+	}
+
+	/**
+	 * DatetimeHelper::timezones()
+	 *
+	 * @return array
+	 */
 	public function timezones() {
 		$timezones = array(
 			'America/Adak' => '(GMT-10:00) America/Adak (Hawaii-Aleutian Standard Time)',

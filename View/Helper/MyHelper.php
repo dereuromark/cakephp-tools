@@ -11,15 +11,10 @@ App::uses('UrlCacheManager', 'Tools.Routing');
  */
 class MyHelper extends Helper {
 
-	public function __construct($View = null, $settings = array()) {
-		if (class_exists('Packages')) {
-			Packages::initialize($this, __CLASS__);
-		}
-		parent::__construct($View, $settings);
-	}
-
 	/**
-	 * Manually load helpers
+	 * Manually load helpers.
+	 *
+	 * Also makes sure callbacks are triggered.
 	 *
 	 * @param array $helpers (either strings, or [string => array(config...)])
 	 * @param boolean $callbacks - trigger missed callbacks
@@ -45,32 +40,6 @@ class MyHelper extends Helper {
 				}
 			}
 		}
-	}
-
-	/**
-	 * //TODO: remove
-	 * Not a very good solution, as it takes a lot of resources, file lookups.
-	 *
-	 * Problems: what if inside plugin webroot? not easy to do...
-	 */
-	public function imageIfExists($path, $options = array(), $default = '---') {
-		if (startsWith($path, '/')) {
-			/*
-			$completePath = Router::url($path);
-			//echo (returns(file_exists($completePath)));
-			//die($completePath);
-			# problem with plugin files!!! needs "webroot" added after plugin name
-			if (!file_exists($completePath)) {
-				return $default;
-			}
-			*/
-		} else {
-			$completePath = Router::url($path);
-		}
-		if (!empty($completePath) && !file_exists($completePath)) {
-			return $default;
-		}
-		return $this->image($path, $options);
 	}
 
 	/**

@@ -25,8 +25,10 @@ class FlattrHelper extends AppHelper {
 
 	/**
 	 * Display the FlattrButton
+	 *
 	 * @param mixed $url (unique! necessary)
 	 * @param array $options
+	 * @return string
 	 */
 	public function button($url, $options = array(), $attr = array()) {
 		if (empty($options['uid'])) {

@@ -105,7 +105,7 @@ class GoogleMapV3Helper extends AppHelper {
 
 	public $map = '';
 
-	protected $_mapIds = array(); # remember already used ones (valid xhtml contains ids not more than once)
+	protected $_mapIds = array(); // Remember already used ones (valid xhtml contains ids not more than once)
 
 	/**
 	 * Default settings
@@ -113,9 +113,9 @@ class GoogleMapV3Helper extends AppHelper {
 	 * @var array
 	 */
 	protected $_defaultOptions = array(
-		'zoom' => null, # global, both map and staticMap
-		'lat' => null, # global, both map and staticMap
-		'lng' => null, # global, both map and staticMap
+		'zoom' => null, // global, both map and staticMap
+		'lat' => null, // global, both map and staticMap
+		'lng' => null, // global, both map and staticMap
 		'type' => self::TYPE_ROADMAP,
 		'map' => array(
 			'api' => null,
@@ -125,26 +125,18 @@ class GoogleMapV3Helper extends AppHelper {
 			'scaleControl' => true,
 			'scrollwheel' => false,
 			'keyboardShortcuts' => true,
-			//'zoom' => 5, # deprecated as default value, uses global one if missing
-			//'type' => 'R', # deprecated as default value, uses global one if missing
-			//'lat' => 51, # deprecated as default value, uses global one if missing
-			//'lng' => 11, # deprecated as default value, uses global one if missing
 			'typeOptions' => array(),
 			'navOptions' => array(),
 			'scaleOptions' => array(),
-			'defaultLat' => 51, # only last fallback, use Configure::write('Google.lat', ...); to define own one
-			'defaultLng' => 11, # only last fallback, use Configure::write('Google.lng', ...); to define own one
+			'defaultLat' => 51, // only last fallback, use Configure::write('Google.lat', ...); to define own one
+			'defaultLng' => 11, // only last fallback, use Configure::write('Google.lng', ...); to define own one
 			'defaultZoom' => 5,
 		),
 		'staticMap' => array(
 			'size' => '300x300',
-			//'type' =>'R', # deprecated as default value, uses global one if missing
-			//'zoom' => 12 # deprecated as default value, uses global one if missing
-			//'lat' => 51, # deprecated as default value, uses global one if missing
-			//'lng' => 11, # deprecated as default value, uses global one if missing
 			'format' => 'png',
 			'mobile' => false,
-			//'shadow' => true # for icons
+			//'shadow' => true // for icons
 		),
 		'geolocate' => false,
 		'sensor' => false,
@@ -154,7 +146,7 @@ class GoogleMapV3Helper extends AppHelper {
 		//'showInfoWindow' => true,
 		'infoWindow' => array(
 			'content' => '',
-			'useMultiple' => false, # Using single infowindow object for all
+			'useMultiple' => false, // Using single infowindow object for all
 			'maxWidth' => 300,
 			'lat' => null,
 			'lng' => null,
@@ -164,15 +156,15 @@ class GoogleMapV3Helper extends AppHelper {
 		),
 		'marker' => array(
 			//'autoCenter' => true,
-			'animation' => null, # BOUNCE or DROP  https://developers.google.com/maps/documentation/javascript/3.exp/reference#Animation
-			'icon' => null, # => default (red marker) //http://google-maps-icons.googlecode.com/files/home.png
+			'animation' => null, // BOUNCE or DROP  https://developers.google.com/maps/documentation/javascript/3.exp/reference#Animation
+			'icon' => null, // => default (red marker) //http://google-maps-icons.googlecode.com/files/home.png
 			'title' => null,
 			'shadow' => null,
 			'shape' => null,
 			'zIndex' => null,
 			'draggable' => false,
 			'cursor' => null,
-			'directions' => false, # add form with directions
+			'directions' => false, // add form with directions
 			'open' => false, // New in 1.5
 		),
 		'div' => array(
@@ -201,15 +193,15 @@ class GoogleMapV3Helper extends AppHelper {
 			'geolocate' => null //TODO
 		),
 		'plugins' => array(
-			'keydragzoom' => false, # http://google-maps-utility-library-v3.googlecode.com/svn/tags/keydragzoom/
-			'markermanager' => false, # http://google-maps-utility-library-v3.googlecode.com/svn/tags/markermanager/
-			'markercluster' => false, # http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclusterer/
+			'keydragzoom' => false, // http://google-maps-utility-library-v3.googlecode.com/svn/tags/keydragzoom/
+			'markermanager' => false, // http://google-maps-utility-library-v3.googlecode.com/svn/tags/markermanager/
+			'markercluster' => false, // http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerclusterer/
 		),
-		'autoCenter' => false, # try to fit all markers in (careful, all zooms values are omitted)
-		'autoScript' => false, # let the helper include the necessary js script links
-		'inline' => false, # for scripts
+		'autoCenter' => false, // try to fit all markers in (careful, all zooms values are omitted)
+		'autoScript' => false, // let the helper include the necessary js script links
+		'inline' => false, // for scripts
 		'localImages' => false,
-		'https' => null # auto detect
+		'https' => null // auto detect
 	);
 
 	protected $_currentOptions = array();
@@ -223,7 +215,6 @@ class GoogleMapV3Helper extends AppHelper {
 	public function __construct($View = null, $settings = array()) {
 		parent::__construct($View, $settings);
 
-		# read constum config settings
 		$google = (array)Configure::read('Google');
 		if (!empty($google['api'])) {
 			$this->_defaultOptions['map']['api'] = $google['api'];
@@ -247,7 +238,7 @@ class GoogleMapV3Helper extends AppHelper {
 		if (!empty($google['staticSize'])) {
 			$this->_defaultOptions['staticMap']['size'] = $google['staticSize'];
 		}
-		# the following are convience defaults - if not available the map lat/lng/zoom defaults will be used
+		// the following are convience defaults - if not available the map lat/lng/zoom defaults will be used
 		if (!empty($google['staticZoom'])) {
 			$this->_defaultOptions['staticMap']['zoom'] = $google['staticZoom'];
 		}
@@ -287,11 +278,6 @@ class GoogleMapV3Helper extends AppHelper {
 		if (!empty($language)) {
 			$url .= '&language=' . $language;
 		}
-		/*
-		if (!empty($this->key)) {
-			$url .= '&key=' . $this->key;
-		}
-		*/
 		if (!empty($api)) {
 			$this->_currentOptions['map']['api'] = $api;
 		}
@@ -333,7 +319,6 @@ class GoogleMapV3Helper extends AppHelper {
 	 * @return void
 	 */
 	public function reset($full = true) {
-		//self::$MAP_COUNT
 		self::$markerCount = self::$infoWindowCount = 0;
 		$this->markers = $this->infoWindows = array();
 		if ($full) {
@@ -343,19 +328,22 @@ class GoogleMapV3Helper extends AppHelper {
 
 	/**
 	 * Set the controls of current map
-	 * @param array $controls:
+	 *
+	 * Control options
 	 * - zoom, scale, overview: TRUE/FALSE
 	 *
 	 * - map: FALSE, small, large
 	 * - type: FALSE, normal, menu, hierarchical
 	 * TIP: faster/shorter by using only the first character (e.g. "H" for "hierarchical")
 	 *
+	 * @param array $options
+	 * @return void
 	 */
 	public function setControls($options = array()) {
-		if (!empty($options['streetView'])) {
+		if (isset($options['streetView'])) {
 			$this->_currentOptions['map']['streetViewControl'] = $options['streetView'];
 		}
-		if (!empty($options['zoom'])) {
+		if (isset($options['zoom'])) {
 			$this->_currentOptions['map']['scaleControl'] = $options['zoom'];
 		}
 		if (isset($options['scrollwheel'])) {
@@ -364,25 +352,7 @@ class GoogleMapV3Helper extends AppHelper {
 		if (isset($options['keyboardShortcuts'])) {
 			$this->_currentOptions['map']['keyboardShortcuts'] = $options['keyboardShortcuts'];
 		}
-		/*
-		if (!empty($options['map'])) {
-			if ($options['map'] === 'l' || $options['map'] === 'large') {
-				$this->setMapControl('GLargeMapControl()');
-			} else {
-				$this->setMapControl('GSmallMapControl()');
-			}
-		}
-		*/
-		if (!empty($options['type'])) {
-			/*
-			if ($options['type'] === 'm' || $options['type'] === 'menu') {
-				$this->setMapControl('GMenuMapTypeControl()');
-			} elseif ($options['type'] === 'h' || $options['type'] === 'hierarchical') {
-				$this->setMapControl('GHierarchicalMapTypeControl()');
-			} else {
-				$this->setMapControl('GMapTypeControl()');
-			}
-			*/
+		if (isset($options['type'])) {
 			$this->_currentOptions['map']['type'] = $options['type'];
 		}
 	}
@@ -408,17 +378,17 @@ class GoogleMapV3Helper extends AppHelper {
 
 		$result = '';
 
-		# autoinclude js?
+		// autoinclude js?
 		if (!empty($this->_currentOptions['autoScript']) && !$this->_apiIncluded) {
 			$res = $this->Html->script($this->apiUrl(), array('inline' => $this->_currentOptions['inline']));
 
 			if ($this->_currentOptions['inline']) {
 				$result .= $res . PHP_EOL;
 			}
-			# usually already included
+			// usually already included
 			//http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js
 		}
-		# still not very common: http://code.google.com/intl/de-DE/apis/maps/documentation/javascript/basics.html
+		// still not very common: http://code.google.com/intl/de-DE/apis/maps/documentation/javascript/basics.html
 		if (false && !empty($this->_currentOptions['autoScript']) && !$this->_gearsIncluded) {
 			$res = $this->Html->script($this->gearsUrl(), array('inline' => $this->_currentOptions['inline']));
 			if ($this->_currentOptions['inline']) {
@@ -467,9 +437,11 @@ class GoogleMapV3Helper extends AppHelper {
 	}
 
 	/**
+	 * Generate a new LatLng object with the current lat and lng.
+	 *
 	 * @return string
 	 */
-	public function _initialLocation() {
+	protected function _initialLocation() {
 		if ($this->_currentOptions['map']['lat'] && $this->_currentOptions['map']['lng']) {
 			return "new google.maps.LatLng(" . $this->_currentOptions['map']['lat'] . ", " . $this->_currentOptions['map']['lng'] . ")";
 		}
@@ -623,7 +595,7 @@ function geocodeAddress(address) {
 			'label' => __('Enter your address'),
 			'submit' => __('Get directions'),
 			'escape' => true,
-			'zoom' => null, # auto
+			'zoom' => null, // auto
 		);
 		if ($directions === true) {
 			$options['to'] = $markerOptions['lat'] . ',' . $markerOptions['lng'];
@@ -1352,38 +1324,38 @@ var iconShape = {
 			//'visible' => null,
 			//'type' => null,
 		));
-		# do we want zoom to auto-correct itself?
+		// do we want zoom to auto-correct itself?
 		if (!isset($options['zoom']) && !empty($mapOptions['markers'])|| !empty($mapOptions['paths']) || !empty($mapOptions['visible'])) {
 			$options['zoom'] = 'auto';
 		}
 
-		# a position on the map that is supposed to stay visible at all cost
+		// a position on the map that is supposed to stay visible at all cost
 		if (!empty($mapOptions['visible'])) {
 			$params['visible'] = urlencode($mapOptions['visible']);
 		}
 
-		# center and zoom are not necccessary if path, visible or markers are given
+		// center and zoom are not necccessary if path, visible or markers are given
 		if (!isset($options['center']) || $options['center'] === false) {
-			# dont use it
+			// dont use it
 		} elseif ($options['center'] === true && $mapOptions['lat'] !== null && $mapOptions['lng'] !== null) {
 			$params['center'] = urlencode((string)$mapOptions['lat'] . ',' . (string)$mapOptions['lng']);
 		} elseif (!empty($options['center'])) {
 			$params['center'] = urlencode($options['center']);
 		} /*else {
-			# try to read from markers array???
+			// try to read from markers array???
 			if (isset($options['markers']) && count($options['markers']) == 1) {
 				//pr ($options['markers']);
 			}
 		}*/
 
 		if (!isset($options['zoom']) || $options['zoom'] === false) {
-			# dont use it
+			// dont use it
 		} else {
 			if ($options['zoom'] === 'auto') {
 				if (!empty($options['markers']) && strpos($options['zoom'], '|') !== false) {
-					# let google find the best zoom value itself
+					// let google find the best zoom value itself
 				} else {
-					# do something here?
+					// do something here?
 				}
 			} else {
 				$params['zoom'] = $options['zoom'];
@@ -1397,8 +1369,8 @@ var iconShape = {
 		}
 		$params['maptype'] = strtolower($params['maptype']);
 
-		# old: {latitude},{longitude},{color}{alpha-character}
-		# new: @see staticMarkers()
+		// old: {latitude},{longitude},{color}{alpha-character}
+		// new: @see staticMarkers()
 		if (!empty($options['markers'])) {
 			$params['markers'] = $options['markers'];
 		}
@@ -1407,7 +1379,7 @@ var iconShape = {
 			$params['path'] = $options['paths'];
 		}
 
-		# valXval
+		// valXval
 		if (!empty($options['size'])) {
 			$params['size'] = $options['size'];
 		}
@@ -1440,10 +1412,10 @@ var iconShape = {
 	public function staticPaths($pos = array()) {
 		$defaults = array(
 			'color' => 'blue',
-			'weight' => 5 # pixel
+			'weight' => 5 // pixel
 		);
 
-		# not a 2-level array? make it one
+		// not a 2-level array? make it one
 		if (!isset($pos[0])) {
 			$pos = array($pos);
 		}
@@ -1455,7 +1427,7 @@ var iconShape = {
 			$markers = $options['path'];
 			unset($options['path']);
 
-			# prepare color
+			// prepare color
 			if (!empty($options['color'])) {
 				$options['color'] = $this->_prepColor($options['color']);
 			}
@@ -1466,7 +1438,7 @@ var iconShape = {
 			}
 			foreach ($markers as $key => $pos) {
 				if (is_array($pos)) {
-					# lat/lng?
+					// lat/lng?
 					$pos = $pos['lat'] . ',' . $pos['lng'];
 				}
 				$path[] = $pos;
@@ -1509,16 +1481,16 @@ var iconShape = {
 			'size' => ''
 		);
 
-		# not a 2-level array? make it one
+		// not a 2-level array? make it one
 		if (!isset($pos[0])) {
 			$pos = array($pos);
 		}
 
-		# new in staticV2: separate styles! right now just merged
+		// new in staticV2: separate styles! right now just merged
 		foreach ($pos as $p) {
 			$p = array_merge($defaults, $style, $p);
 
-			# adress or lat/lng?
+			// adress or lat/lng?
 			if (!empty($p['lat']) && !empty($p['lng'])) {
 				$p['address'] = $p['lat'] . ',' . $p['lng'];
 			} else {
@@ -1528,12 +1500,12 @@ var iconShape = {
 
 			$values = array();
 
-			# prepare color
+			// prepare color
 			if (!empty($p['color'])) {
 				$p['color'] = $this->_prepColor($p['color']);
 				$values[] = 'color:' . $p['color'];
 			}
-			# label? A-Z0-9
+			// label? A-Z0-9
 			if (!empty($p['label'])) {
 				$values[] = 'label:' . strtoupper($p['label']);
 			}
@@ -1575,8 +1547,8 @@ var iconShape = {
 	}
 
 	/**
-	 * # to 0x
-	 * or # added
+	 * // to 0x
+	 * or // added
 	 *
 	 * @param string $color: FFFFFF, #FFFFFF, 0xFFFFFF or blue
 	 * @return string color
@@ -1649,7 +1621,7 @@ http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/
 		var fluster' . self::$mapCount . ' = new Fluster2(' . $this->name() . ');
 		';
 
-		# styles
+		// styles
 		'fluster' . self::$mapCount . '.styles = {}';
 
 		$this->map .= $js;
@@ -1695,11 +1667,11 @@ function Fluster2ProjectionOverlay(map) {google.maps.OverlayView.call(this);this
 		$res = 6371.04 * acos(sin($pointY['lat'])*sin($pointX['lat'])+cos($pointY['lat'])*cos($pointX['lat'])*cos($pointY['lng'] - $pointX['lng']));
 		*/
 
-		# seems to be the only working one (although slightly incorrect...)
+		// seems to be the only working one (although slightly incorrect...)
 		$res = 69.09 * rad2deg(acos(sin(deg2rad($pointX['lat'])) * sin(deg2rad($pointY['lat'])) +
 			cos(deg2rad($pointX['lat'])) * cos(deg2rad($pointY['lat'])) * cos(deg2rad($pointX['lng'] - $pointY['lng']))));
 
-		# Miles to KM
+		// Miles to KM
 		$res *= 1.609344;
 
 		return ceil($res);

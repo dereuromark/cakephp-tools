@@ -336,6 +336,7 @@ class TextExtHelper extends TextHelper {
 
 	/**
 	 * Transforming int values into ordinal numbers (1st, 3rd, etc.)
+	 *
 	 * @param $num (INT) - the number to be suffixed.
 	 * @param $sup (BOOL) - whether to wrap the suffix in a superscript (<sup>) tag on output.
 	 * @return string ordinal
@@ -362,8 +363,10 @@ class TextExtHelper extends TextHelper {
 
 	/**
 	 * Syntax highlighting using php internal highlighting
+	 *
 	 * @param string $filename
 	 * @param boolean $return (else echo directly)
+	 * @return string
 	 */
 	public static function highlightFile($file, $return = true) {
 		return highlight_file($file, $return);
@@ -371,8 +374,10 @@ class TextExtHelper extends TextHelper {
 
 	/**
 	 * Syntax highlighting using php internal highlighting
+	 *
 	 * @param string $contentstring
 	 * @param boolean $return (else echo directly)
+	 * @return string
 	 */
 	public static function highlightString($string, $return = true) {
 		return highlight_string($string, $return);

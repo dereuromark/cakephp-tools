@@ -121,6 +121,7 @@ class TreeHelper extends AppHelper {
 	 * @param array $data data to loop on
 	 * @param array $settings
 	 * @return string html representation of the passed data
+	 * @throws CakeException
 	 */
 	public function generate($data, $settings = array()) {
 		if (!$data) {
@@ -522,6 +523,7 @@ class TreeHelper extends AppHelper {
 	 * @param array $treePath
 	 * @param integer $level
 	 * @return void
+	 * @throws CakeException
 	 */
 	protected function _markUnrelatedAsHidden(&$tree, $path, $level = 0) {
 		extract($this->_settings);

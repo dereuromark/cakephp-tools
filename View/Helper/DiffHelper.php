@@ -84,6 +84,7 @@ class DiffHelper extends AppHelper {
 	 * @param string $string Either context or unified diff snippet
 	 * @param array $options
 	 * - mode (autodetect, context, unified)
+	 * @return string
 	 */
 	public function reverse($string, $options = array()) {
 		$string = $this->Diff->reverse($string, $options);
