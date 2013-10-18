@@ -291,7 +291,9 @@ class GoogleMapV3Helper extends AppHelper {
 		return $url;
 	}
 
-	//deprecated
+	/*
+	 * @deprecated
+	 */
 	public function gearsUrl() {
 		$this->_gearsIncluded = true;
 		$url = $this->_protocol() . 'code.google.com/apis/gears/gears_init.js';
@@ -1645,12 +1647,13 @@ function Fluster2ProjectionOverlay(map) {google.maps.OverlayView.call(this);this
 	/**
 	 * Calculates Distance between two points array('lat'=>x,'lng'=>y)
 	 * DB:
-		'6371.04 * ACOS( COS( PI()/2 - RADIANS(90 - Retailer.lat)) * ' .
-						'COS( PI()/2 - RADIANS(90 - ' . $data['Location']['lat'] .')) * ' .
-						'COS( RADIANS(Retailer.lng) - RADIANS(' . $data['Location']['lng'] .')) + ' .
-						'SIN( PI()/2 - RADIANS(90 - Retailer.lat)) * ' .
-						'SIN( PI()/2 - RADIANS(90 - ' . $data['Location']['lat'] . '))) ' .
-		'AS distance'
+	 * '6371.04 * ACOS( COS( PI()/2 - RADIANS(90 - Retailer.lat)) * ' .
+	 *				'COS( PI()/2 - RADIANS(90 - ' . $data['Location']['lat'] .')) * ' .
+	 *				'COS( RADIANS(Retailer.lng) - RADIANS(' . $data['Location']['lng'] .')) + ' .
+	 *				'SIN( PI()/2 - RADIANS(90 - Retailer.lat)) * ' .
+	 *				'SIN( PI()/2 - RADIANS(90 - ' . $data['Location']['lat'] . '))) ' .
+	 * 'AS distance'
+	 *
 	 * @param array pointX
 	 * @param array pointY
 	 * @return integer distance: in km
