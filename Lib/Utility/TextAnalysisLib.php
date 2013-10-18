@@ -213,6 +213,7 @@ class TextAnalysisLib extends TextLib {
 	}
 
 	//TODO: improve it to work with case insensitivity and utf8 chars like é or î
+
 	public function getWord($parse = false) {
 		if (!$this->word && !$this->rWord) {
 			@preg_match_all("/[A-Za-zäöüÄÖÜß\-'\\\"]+/", $this->text, $m);

@@ -139,7 +139,7 @@ class TextExtHelper extends TextHelper {
 	 * @param array params: ?subject=y&body=y to be attached to "mailto:xyz"
 	 * @return string html with js generated link around email (and non js fallback)
 	 */
-	public function encodeEmailUrl($mail, $text=null, $params=array(), $attr = array()) {
+	public function encodeEmailUrl($mail, $text = null, $params = array(), $attr = array()) {
 		if (empty($class)) {
 			$class = 'email';
 		}

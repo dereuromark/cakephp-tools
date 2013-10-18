@@ -57,6 +57,7 @@ class FormExtHelperTest extends MyCakeTestCase {
 	}
 
 	//Not needed right now as autoRequire has been disabled
+
 	public function _testAutoRequire() {
 		$this->Form->request->data['ContactExt']['id'] = 1;
 		$this->Form->create('ContactExt');

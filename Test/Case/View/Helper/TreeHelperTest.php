@@ -102,6 +102,7 @@ TEXT;
 	}
 
 	//TODO: beautify debug output
+
 	public function testGenerateWithFindAll() {
 		$tree = $this->Model->find('all', array('order' => array('lft' => 'ASC')));
 

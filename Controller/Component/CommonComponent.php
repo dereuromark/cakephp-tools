@@ -136,6 +136,7 @@ class CommonComponent extends Component {
 	}
 
 	//deprecated - use isPosted instead
+
 	public function isPost() {
 		trigger_error('deprecated - use isPosted()');
 		return $this->isPosted();

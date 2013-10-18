@@ -2,67 +2,20 @@
 
 abstract class MyCakeTestCase extends CakeTestCase {
 
-/*** assert mods ***/
-
-/** enhanced **/
-
+	/**
+	 * Opposite wrapper method of assertWithinMargin.
+	 *
+	 * @param float $result
+	 * @param float $expected
+	 * @param float $margin
+	 * @param string $message
+	 * @return void
+	 */
 	protected static function assertNotWithinMargin($result, $expected, $margin, $message = '') {
 		$upper = $result + $margin;
 		$lower = $result - $margin;
 		return self::assertFalse((($expected <= $upper) && ($expected >= $lower)), $message);
 	}
-
-	//deprecated?
-	public function assertIsNull($is, $title = null, $value = null, $message = '', $options = array()) {
-		$expectation = 'NULL';
-		self::_printTitle($expectation, $title, $options);
-		self::_printResult($is, $value, $options);
-		return $this->assertNull($is, $message);
-	}
-
-	//deprecated?
-	public function assertIsNotNull($is, $title = null, $value = null, $message = '', $options = array()) {
-		$expectation = 'NOT NULL';
-		self::_printTitle($expectation, $title, $options);
-		self::_printResult($is, $value, $options);
-		return $this->assertNotNull($is, $message);
-	}
-
-/*** time needed ***/
-
-	protected static $startTime = null;
-
-	protected function _microtime($precision = 8) {
-		return round(microtime(true), $precision);
-	}
-
-	protected function _startClock($precision = 8) {
-		self::$startTime = self::_microtime();
-	}
-
-	protected function _elapsedTime($precision = 8, $restart = false) {
-		$elapsed = self::_microtime() - self::$startTime;
-		if ($restart) {
-			self::_startClock();
-		}
-		return round($elapsed, $precision);
-	}
-
-/*
-# cakephp2 phpunit wrapper
-	public function assertEquals($expected, $actual, $title = null, $value = null, $message = '', $options = array()) {
-		return $this->assertEqual($expected, $actual, $title, $value, $message, $options);
-	}
-
-	public function assertInternalType($expected, $actual) {
-		return $this->assertType($expected, $actual);
-	}
-
-	public function markTestIncomplete() {
-		$this->skipIf(true, '%s - Test Incomplete');
-		return;
-	}
-*/
 
 /*** Helper Functions **/
 
@@ -137,6 +90,24 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	 */
 	protected function _baseurl() {
 		return current(split("webroot", $_SERVER['PHP_SELF']));
+	}
+
+	protected static $_startTime = null;
+
+	protected function _microtime($precision = 8) {
+		return round(microtime(true), $precision);
+	}
+
+	protected function _startClock($precision = 8) {
+		self::$_startTime = self::_microtime();
+	}
+
+	protected function _elapsedTime($precision = 8, $restart = false) {
+		$elapsed = self::_microtime() - self::$_startTime;
+		if ($restart) {
+			self::_startClock();
+		}
+		return round($elapsed, $precision);
 	}
 
 	/**

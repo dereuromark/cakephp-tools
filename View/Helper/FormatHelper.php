@@ -398,7 +398,7 @@ class FormatHelper extends TextHelper {
 	 * - title, alt, ...
 	 * THE REST IS DEPRECATED
 	 */
-	public function cIcon($icon, $t=null, $a=null, $translate=true, $options=array()) {
+	public function cIcon($icon, $t = null, $a = null, $translate = true, $options = array()) {
 		if (is_array($t)) {
 			$translate = isset($t['translate']) ? $t['translate'] : true;
 			$options = (array)$a;
@@ -638,7 +638,7 @@ class FormatHelper extends TextHelper {
 	 *
 	 * @todo $on=1, $text=false, $ontitle=false,... => in array(OPTIONS) packen
 	 */
-	public function yesNo($v, $ontitle = null, $offtitle = null, $on = 1, $text=false, $notitle=false) {
+	public function yesNo($v, $ontitle = null, $offtitle = null, $on = 1, $text = false, $notitle = false) {
 		$ontitle = (!empty($ontitle) ? $ontitle : __('Ja'));
 		$offtitle = (!empty($offtitle) ? $offtitle : __('Nein'));
 		$sbez = array('0' => @substr($offtitle, 0, 1), '1' => @substr($ontitle, 0, 1));
@@ -1084,6 +1084,7 @@ class FormatHelper extends TextHelper {
 	}
 
 	//deprecated?
+
 	public function avatar($setting, $uid, $email = null, $options = array()) {
 
 		$options = array_merge(array('title' => __('Avatar')), $options);

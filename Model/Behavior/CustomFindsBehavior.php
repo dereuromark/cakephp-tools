@@ -53,6 +53,7 @@ class CustomFindsBehavior extends ModelBehavior {
 	}
 
 	//TODO: fixme for deeper arrays
+
 	protected function _remove(&$query, $removes) {
 		foreach ($removes as $key => $remove) {
 			//$query = Set::remove($query, $remove); # doesnt work due to dot syntax

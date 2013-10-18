@@ -80,6 +80,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 	}
 
 	// not possible with protected method
+
 	public function _testFetch() {
 		$url = 'http://maps.google.com/maps/api/geocode/xml?sensor=false&address=74523';
 		$is = $this->Geocode->_fetch($url);

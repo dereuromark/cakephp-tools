@@ -274,6 +274,7 @@ class UtilityTest extends MyCakeTestCase {
 	}
 
 	//TODO: move to boostrap
+
 	public function _testDeepFunction() {
 		$is = array(
 			'f some',

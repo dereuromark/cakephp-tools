@@ -99,6 +99,7 @@ class CurlLib {
 	}
 
 	//TODO: use Dummy.FakerLib instead
+
 	public function randomizeUserAgent() {
 		//list of browsers
 		$agentBrowser = array(

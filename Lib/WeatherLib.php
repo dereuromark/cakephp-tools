@@ -79,6 +79,7 @@ class WeatherLib {
 	}
 
 	//.../feed/weather.ashx?q=Neufahrn&format=json&num_of_days=2&key=598dfbdaeb121715111208
+
 	public function _get($url, $options) {
 		if (isset($options['cache'])) {
 			$cache = $options['cache'];

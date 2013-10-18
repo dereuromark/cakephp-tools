@@ -67,6 +67,7 @@ class DatetimeHelperTest extends MyCakeTestCase {
 	}
 
 	// Cake internal function...
+
 	public function testTimeAgoInWords() {
 		//echo $this->_header(__FUNCTION__);
 

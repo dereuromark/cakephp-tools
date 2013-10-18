@@ -348,6 +348,7 @@ class MyModelTest extends MyCakeTestCase {
 	}
 
 	// not really working?
+
 	public function testBlacklist() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$data = array($this->modelName => array('name' => 'e', 'x' => 'hey'), 'OtherModel' => array('y' => ''));
@@ -722,6 +723,7 @@ class AppTestModel extends MyModel {
 			'length' => 10,
 		),
 	);
+
 	public static function x() {
 		return array('1' => 'x', '2' => 'y', '3' => 'z');
 	}
