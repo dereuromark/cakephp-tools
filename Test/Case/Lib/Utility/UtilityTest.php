@@ -287,8 +287,55 @@ class UtilityTest extends MyCakeTestCase {
 			'er' => array(array('ee' => array('rr ' => 'tt')))
 		);
 
-		$res = Utility::deep('trim', $is);
-		$this->assertSame($expected, $res);
+		$result = Utility::deep('trim', $is);
+		$this->assertSame($expected, $result);
+	}
+
+	/**
+	 * UtilityTest::testExpand()
+	 *
+	 * @return void
+	 */
+	public function testExpandList() {
+		$is = array(
+			'Some.Deep.Value',
+			'Some.Even.Deeper.Nested.Value',
+			'Empty.',
+			//'RootElementValue'
+		);
+		$result = Utility::expandList($is);
+
+		$expected = array(
+			'Some' => array(
+				'Deep' => 'Value',
+				'Even' => array('Deeper' => array('Nested' => 'Value'))
+			),
+			'Empty' => '',
+		);
+		$this->assertSame($expected, $result);
+	}
+
+	/**
+	 * UtilityTest::testFlatten()
+	 *
+	 * @return void
+	 */
+	public function testFlatten() {
+		$is = array(
+			'Some' => array(
+				'Deep' => 'Value',
+				'Even' => array('Deeper' => array('Nested' => 'Value'))
+			),
+			'Empty' => '',
+		);
+		$result = Utility::flattenList($is);
+
+		$expected = array(
+			'Some.Deep.Value',
+			'Some.Even.Deeper.Nested.Value',
+			'Empty.',
+		);
+		$this->assertSame($expected, $result);
 	}
 
 	/**

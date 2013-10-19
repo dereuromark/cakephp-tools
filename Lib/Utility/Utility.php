@@ -404,6 +404,71 @@ class Utility {
 	}
 
 	/**
+	 * Expands the values of an array of strings into a deep array.
+	 * Opposite of flatten().
+	 *
+	 * @param array $data
+	 * @return array
+	 */
+	public function expandList(array $data, $separator = '.') {
+		$result = array();
+		foreach ($data as $value) {
+			$keys = explode($separator, $value);
+			$value = array_pop($keys);
+
+			$keys = array_reverse($keys);
+			$child = array(
+				$keys[0] => $value
+			);
+			array_shift($keys);
+			foreach ($keys as $k) {
+				$child = array(
+					$k => $child
+				);
+			}
+			$result = Hash::merge($result, $child);
+		}
+		return $result;
+	}
+
+	/**
+	 * Flattens a deep array into an array of strings.
+	 * Opposite of expand().
+	 *
+	 * @param array $data
+	 * @return array
+	 */
+	public function flattenList(array $data, $separator = '.') {
+		$result = array();
+		$stack = array();
+		$path = null;
+
+		reset($data);
+		while (!empty($data)) {
+			$key = key($data);
+			$element = $data[$key];
+			unset($data[$key]);
+
+			if (is_array($element) && !empty($element)) {
+				if (!empty($data)) {
+					$stack[] = array($data, $path);
+				}
+				$data = $element;
+				reset($data);
+				$path .= $key . $separator;
+			} else {
+				$result[] = $path . $key . $separator . $element;
+			}
+
+			if (empty($data) && !empty($stack)) {
+				list($data, $path) = array_pop($stack);
+				reset($data);
+			}
+		}
+		return $result;
+	}
+
+	/**
 	 * Force-flattens an array.
 	 *
 	 * Careful with this method. It can lose information.
