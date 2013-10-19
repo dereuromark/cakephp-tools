@@ -317,7 +317,7 @@ class UtilityTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * UtilityTest::testArrayFlatten()
+	 * Test that deeper nested values overwrite higher ones.
 	 *
 	 * @covers Utility::arrayFlatten
 	 * @return void
@@ -325,15 +325,15 @@ class UtilityTest extends MyCakeTestCase {
 	public function testArrayFlatten() {
 		$array = array(
 			'a' => 1,
-			'b' => array('c' => array('d' => array('f' => 'g', 'h' => true))),
+			'b' => array('h' => false, 'c' => array('d' => array('f' => 'g', 'h' => true))),
 			'k' => 'm',
 		);
 		$res = Utility::arrayFlatten($array);
 
 		$expected = array(
 			'a' => 1,
-			'f' => 'g',
 			'h' => true,
+			'f' => 'g',
 			'k' => 'm',
 		);
 		$this->assertSame($expected, $res);

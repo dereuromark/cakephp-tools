@@ -404,7 +404,12 @@ class Utility {
 	}
 
 	/**
-	 * Flattens an array.
+	 * Force-flattens an array.
+	 *
+	 * Careful with this method. It can lose information.
+	 * The keys will not be changed, thus possibly overwrite each other.
+	 *
+	 * //TODO: check if it can be replace by Hash::flatten() or Utility::flatten().
 	 *
 	 * @param array $array to flatten
 	 * @param boolean $perserveKeys
@@ -429,8 +434,15 @@ class Utility {
 	}
 
 	/**
-	 * Flatten an array and preserve the keys
+	 * Force-flattens an array and preserves the keys.
 	 *
+	 * Careful with this method. It can lose information.
+	 * The keys will not be changed, thus possibly overwrite each other.
+	 *
+	 * //TODO: check if it can be replace by Hash::flatten() or Utility::flatten().
+	 *
+	 * @param array $a
+	 * @param array $f
 	 * @return array
 	 */
 	protected static function _arrayFlatten($a, $f = array()) {
@@ -467,6 +479,7 @@ class Utility {
 	 * Returns microtime as float value
 	 * (to be subtracted right away)
 	 *
+	 * @param int $precision
 	 * @return float
 	 */
 	public static function microtime($precision = 8) {
@@ -481,6 +494,8 @@ class Utility {
 	}
 
 	/**
+	 * @param int $precision
+	 * @param boolean $restartClock
 	 * @return float
 	 */
 	public static function returnElapsedTime($precision = 8, $restartClock = false) {
@@ -495,6 +510,9 @@ class Utility {
 	 * Returns microtime as float value
 	 * (to be subtracted right away)
 	 *
+	 * @param int $start
+	 * @param int $end
+	 * @param int $precision
 	 * @return float
 	 */
 	public static function calcElapsedTime($start, $end, $precision = 8) {
