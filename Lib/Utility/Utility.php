@@ -407,26 +407,39 @@ class Utility {
 	 * Expands the values of an array of strings into a deep array.
 	 * Opposite of flatten().
 	 *
+	 * It needs at least a single separator to be present in all values
+	 * as the key would otherwise be undefined. If data can contain such key-less
+	 * rows, use $undefinedKey to avoid an exception being thrown. But it will
+	 * effectivly collide with other values in that same key then.
+	 *
+	 * So `Some.Deep.Value` becomes `array('Some' => array('Deep' => array('Value')))`.
+	 *
 	 * @param array $data
+	 * @param string $separator
+	 * @param string $undefinedKey
 	 * @return array
 	 */
-	public function expandList(array $data, $separator = '.') {
+	public function expandList(array $data, $separator = '.', $undefinedKey = null) {
 		$result = array();
 		foreach ($data as $value) {
 			$keys = explode($separator, $value);
 			$value = array_pop($keys);
 
 			$keys = array_reverse($keys);
-			$child = array(
-				$keys[0] => $value
-			);
+			if (!isset($keys[0])) {
+				if ($undefinedKey === null) {
+					throw new RuntimeException('Key-less values are not supported without $undefinedKey.');
+				}
+				$keys[0] = $undefinedKey;
+			}
+			$child = array($keys[0] => array($value));
 			array_shift($keys);
 			foreach ($keys as $k) {
 				$child = array(
 					$k => $child
 				);
 			}
-			$result = Hash::merge($result, $child);
+			$result = Set::merge($result, $child);
 		}
 		return $result;
 	}
@@ -434,6 +447,12 @@ class Utility {
 	/**
 	 * Flattens a deep array into an array of strings.
 	 * Opposite of expand().
+	 *
+	 * So `array('Some' => array('Deep' => array('Value')))` becomes `Some.Deep.Value`.
+	 *
+	 * Note that primarily only string should be used.
+	 * However, boolean values are casted to int and thus
+	 * both boolean and integer values also supported.
 	 *
 	 * @param array $data
 	 * @return array
@@ -457,7 +476,10 @@ class Utility {
 				reset($data);
 				$path .= $key . $separator;
 			} else {
-				$result[] = $path . $key . $separator . $element;
+				if (is_bool($element)) {
+					$element = (int)$element;
+				}
+				$result[] = $path . $element;
 			}
 
 			if (empty($data) && !empty($stack)) {

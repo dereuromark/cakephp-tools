@@ -298,19 +298,56 @@ class UtilityTest extends MyCakeTestCase {
 	 */
 	public function testExpandList() {
 		$is = array(
-			'Some.Deep.Value',
+			'Some.Deep.Value1',
+			'Some.Deep.Value2',
 			'Some.Even.Deeper.Nested.Value',
 			'Empty.',
-			//'RootElementValue'
+			'0.1.2',
+			'.EmptyString'
 		);
 		$result = Utility::expandList($is);
 
 		$expected = array(
 			'Some' => array(
-				'Deep' => 'Value',
-				'Even' => array('Deeper' => array('Nested' => 'Value'))
+				'Deep' => array('Value1', 'Value2'),
+				'Even' => array('Deeper' => array('Nested' => array('Value')))
 			),
-			'Empty' => '',
+			'Empty' => array(''),
+			'0' => array('1' => array('2')),
+			'' => array('EmptyString')
+		);
+		$this->assertSame($expected, $result);
+	}
+
+	/**
+	 * UtilityTest::testExpandListWithKeyLessListInvalid()
+	 *
+	 * @expectedException RuntimeException
+	 * @return void
+	 */
+	public function testExpandListWithKeyLessListInvalid() {
+		$is = array(
+			'Some',
+			'ValueOnly',
+		);
+		Utility::expandList($is);
+	}
+
+	/**
+	 * UtilityTest::testExpandListWithKeyLessList()
+	 *
+	 * @return void
+	 */
+	public function testExpandListWithKeyLessList() {
+		$is = array(
+			'Some',
+			'Thing',
+			'.EmptyString'
+		);
+		$result = Utility::expandList($is, '.', '');
+
+		$expected = array(
+			'' => array('Some', 'Thing', 'EmptyString'),
 		);
 		$this->assertSame($expected, $result);
 	}
@@ -323,17 +360,42 @@ class UtilityTest extends MyCakeTestCase {
 	public function testFlatten() {
 		$is = array(
 			'Some' => array(
-				'Deep' => 'Value',
-				'Even' => array('Deeper' => array('Nested' => 'Value'))
+				'Deep' => array('Value1', 'Value2'),
+				'Even' => array('Deeper' => array('Nested' => array('Value')))
 			),
-			'Empty' => '',
+			'Empty' => array(''),
+			'0' => array('1' => array('2')),
+			//'ValueOnly',
+			'' => array('EmptyString')
 		);
 		$result = Utility::flattenList($is);
 
 		$expected = array(
-			'Some.Deep.Value',
+			'Some.Deep.Value1',
+			'Some.Deep.Value2',
 			'Some.Even.Deeper.Nested.Value',
 			'Empty.',
+			'0.1.2',
+			//'1.ValueOnly'
+			'.EmptyString'
+		);
+		$this->assertSame($expected, $result);
+
+		// Test integers als booleans
+		$is = array(
+			'Some' => array(
+				'Deep' => array(true),
+				'Even' => array('Deeper' => array('Nested' => array(false, true)))
+			),
+			'Integer' => array('Value' => array(-3)),
+		);
+		$result = Utility::flattenList($is);
+
+		$expected = array(
+			'Some.Deep.1',
+			'Some.Even.Deeper.Nested.0',
+			'Some.Even.Deeper.Nested.1',
+			'Integer.Value.-3',
 		);
 		$this->assertSame($expected, $result);
 	}
