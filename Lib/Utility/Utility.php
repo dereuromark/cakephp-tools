@@ -419,7 +419,7 @@ class Utility {
 	 * @param string $undefinedKey
 	 * @return array
 	 */
-	public function expandList(array $data, $separator = '.', $undefinedKey = null) {
+	public static function expandList(array $data, $separator = '.', $undefinedKey = null) {
 		$result = array();
 		foreach ($data as $value) {
 			$keys = explode($separator, $value);
@@ -457,7 +457,7 @@ class Utility {
 	 * @param array $data
 	 * @return array
 	 */
-	public function flattenList(array $data, $separator = '.') {
+	public static function flattenList(array $data, $separator = '.') {
 		$result = array();
 		$stack = array();
 		$path = null;
