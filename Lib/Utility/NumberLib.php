@@ -237,9 +237,12 @@ class NumberLib extends CakeNumber {
 	 *
 	 * @param array $values: int or float values
 	 * @param integer $precision
-	 * @return integer average
+	 * @return float Average
 	 */
 	public static function average($values, $precision = 0) {
+		if (empty($values)) {
+			return 0.0;
+		}
 		$average = round(array_sum($values) / count($values), $precision);
 		return $average;
 	}
