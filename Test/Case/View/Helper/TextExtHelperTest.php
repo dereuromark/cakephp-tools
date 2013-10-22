@@ -25,7 +25,7 @@ class TextExtHelperTest extends MyCakeTestCase {
 
 		$text = 'Text with a url euro@euro.de and more';
 		$expected = 'Text with a url <script language=javascript><!--
-	document.write(\'<a\'+ \' hre\'+ \'f="ma\'+ \'ilto:\'+ \'eu\'+ \'ro@\'+ \'euro\'+ \'.d\'+ \'e"\'+ \' t\'+ \'itle\'+ \'="\'+ \'F�r \'+ \'den\'+ \' G\'+ \'ebra\'+ \'uch\'+ \' eines\'+ \' exte\'+ \'rn\'+ \'en E-\'+ \'Mail-P\'+ \'rogra\'+ \'mms"\'+ \' cl\'+ \'ass="e\'+ \'mail"\'+ \'>\');
+	document.write(\'<a\'+ \' hre\'+ \'f="ma\'+ \'ilto:\'+ \'eu\'+ \'ro@\'+ \'euro\'+ \'.d\'+ \'e"\'+ \' t\'+ \'itle\'+ \'="\'+ \'Für \'+ \'den\'+ \' G\'+ \'ebra\'+ \'uch\'+ \' eines\'+ \' exte\'+ \'rn\'+ \'en E-\'+ \'Mail-P\'+ \'rogra\'+ \'mms"\'+ \' cl\'+ \'ass="e\'+ \'mail"\'+ \'>\');
 	//--></script>
 		e&#117;&#x72;o<span>@</span>e&#x75;&#x72;&#111;&#x2e;&#x64;&#x65;
 
@@ -128,6 +128,13 @@ class TextExtHelperTest extends MyCakeTestCase {
 		$result = $this->Text->autoLink($text);
 		//pr(h($text));
 		$this->assertEquals($expected, $result);
+
+		// With umlauts
+		$text = 'Text <i>with a url</i> www.äöü.ag?id=2&sub=3 link';
+		$expected = 'Text &lt;i&gt;with a url&lt;/i&gt; <a href="http://www.äöü.ag?id=2&amp;sub=3">www.äöü.ag?id=2&amp;sub=3</a> link';
+		$result = $this->Text->autoLink($text);
+		//pr(h($text));
+		$this->assertEquals($expected, $result);
 	}
 
 /* from cake */
@@ -220,6 +227,15 @@ class TextExtHelperTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testShortenText() {
+	}
+
+	public function testO() {
+		$result = $this->Text->ordinalNumber(1);
+		$this->assertSame('1st', $result);
+
+		$result = $this->Text->ordinalNumber(1, true);
+		//debug($result);
+		$this->assertSame('1<sup>st</sup>', $result);
 	}
 
 }

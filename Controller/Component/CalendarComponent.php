@@ -136,7 +136,7 @@ class CalendarComponent extends Component {
 	 * 1 => 01, 12 => 12
 	 */
 	public function asString($number, $digits = 2) {
-		$number = (string )$number;
+		$number = (string)$number;
 		$count = mb_strlen($number);
 		while ($count < $digits) {
 			$number = '0' . $number;

@@ -307,9 +307,9 @@ class NumberLib extends CakeNumber {
 	/**
 	 * Returns the English ordinal suffix (th, st, nd, etc) of a number.
 	 *
-	 * echo Num::ordinal(2); // "2nd"
-	 * echo Num::ordinal(10); // "10th"
-	 * echo Num::ordinal(33); // "33rd"
+	 * echo NumberLib::ordinal(2); // "nd"
+	 * echo NumberLib::ordinal(10); // "th"
+	 * echo NumberLib::ordinal(33); // "rd"
 	 *
 	 * @param integer $number
 	 * @return string

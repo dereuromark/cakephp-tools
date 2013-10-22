@@ -297,7 +297,7 @@ class RandomLib {
 				$pool = '2345679ACDEFHJKLMNPRSTUVWXYZ';
 				break;
 			default:
-				$pool = (string )$type;
+				$pool = (string)$type;
 				//$utf8 = ! UTF8::is_ascii($pool);
 				break;
 		}

@@ -436,6 +436,7 @@ class FormExtHelper extends FormHelper {
 	 * - `required` - manually set if the field is required.
 	 *   If not set, it depends on Configure::read('Validation.browserAutoRequire').
 	 *
+	 * @return string
 	 */
 	public function input($fieldName, $options = array()) {
 		$this->setEntity($fieldName);
@@ -514,6 +515,8 @@ class FormExtHelper extends FormHelper {
 
 	/**
 	 * quicklinks: clear, today, ...
+	 *
+	 * @return void
 	 */
 	public function dateScripts($scripts = array(), $quicklinks = false) {
 		foreach ($scripts as $script) {
@@ -566,7 +569,7 @@ class FormExtHelper extends FormHelper {
 	 *
 	 * @param mixed $field
 	 * @param mixed $options
-	 * @return
+	 * @return string
 	 */
 	public function dateTimeExt($field, $options = array()) {
 		$res = array();
@@ -823,6 +826,13 @@ class FormExtHelper extends FormHelper {
 		return $this->timeExt($field, $options);
 	}
 
+	/**
+	 * FormExtHelper::timeExt()
+	 *
+	 * @param string $field
+	 * @param array $options
+	 * @return string
+	 */
 	public function timeExt($field, $options = array()) {
 		$return = false;
 		if (isset($options['return'])) {
@@ -1014,6 +1024,11 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 });';
 	}
 
+	/**
+	 * FormExtHelper::autoCompleteScripts()
+	 *
+	 * @return void
+	 */
 	public function autoCompleteScripts() {
 		if (!$this->scriptsAdded['autoComplete']) {
 			$this->Html->script('jquery/autocomplete/jquery.autocomplete', false);
@@ -1026,6 +1041,7 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 	 * //TODO
 	 * @param jquery: defaults to null = no jquery markup
 	 * - url, data, object (one is necessary), options
+	 * @return string
 	 */
 	public function autoComplete($field = null, $options = array(), $jquery = null) {
 		$this->autoCompleteScripts();
@@ -1046,6 +1062,13 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 		return $res;
 	}
 
+	/**
+	 * FormExtHelper::_autoCompleteJs()
+	 *
+	 * @param mixed $id
+	 * @param array $jquery
+	 * @return string
+	 */
 	protected function _autoCompleteJs($id, $jquery = array()) {
 		if (!empty($jquery['url'])) {
 			$var = '"' . $this->Html->url($jquery['url']) . '"';
@@ -1068,8 +1091,11 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 		return $this->Html->scriptBlock($js);
 	}
 
-/** checkboxes **/
-
+	/**
+	 * FormExtHelper::checkboxScripts()
+	 *
+	 * @return void
+	 */
 	public function checkboxScripts() {
 		if (!$this->scriptsAdded['checkbox']) {
 			$this->Html->script('jquery/checkboxes/jquery.checkboxes', false);
@@ -1079,6 +1105,8 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 
 	/**
 	 * Returns script + elements "all", "none" etc
+	 *
+	 * @return string
 	 */
 	public function checkboxScript($id) {
 		$this->checkboxScripts();
@@ -1090,6 +1118,12 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 		return $this->Html->scriptBlock($js);
 	}
 
+	/**
+	 * FormExtHelper::checkboxButtons()
+	 *
+	 * @param bool $buttonsOnly
+	 * @return string
+	 */
 	public function checkboxButtons($buttonsOnly = false) {
 		$res = '<div>';
 		$res .= __('Selection') . ': ';
@@ -1107,8 +1141,11 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 
 	/**
 	 * Displays a single checkbox - called for each
+	 * //FIXME
+	 *
+	 * @return string
 	 */
-	public function _checkbox($id, $group = null, $options = array()) {
+	protected function _checkbox($id, $group = null, $options = array()) {
 		$defaults = array(
 			'class' => 'checkboxToggle'
 		);

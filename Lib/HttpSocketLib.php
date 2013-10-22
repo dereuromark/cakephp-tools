@@ -97,7 +97,7 @@ class HttpSocketLib {
 		# cached?
 		if ($options['cache']) {
 			$cacheName = md5($url);
-			$cacheConfig = $options['cache'] === true ? null: $options['cache'];
+			$cacheConfig = $options['cache'] === true ? null : $options['cache'];
 			$cacheConfig = !Cache::isInitialized($cacheConfig) ? null : $cacheConfig;
 
 			if ($options['clearCache']) {

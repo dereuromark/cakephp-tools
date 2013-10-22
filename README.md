@@ -124,6 +124,11 @@ For details on how to contribute please read the [CONTRIBUTING page](CONTRIBUTIN
 Licensed under [The MIT License](http://www.opensource.org/licenses/mit-license.php)
 unless specified otherwise (in the classes).
 
+### TODOs
+
+* Better test coverage (once it's >= 75% I will declare the plugin stable 1.0)
+* Use __d() and https://www.transifex.com/projects/p/tools/resources/ for translations
+
 ### Recent changes (possibly BC breaking)
 
 * 2013-02 Removed PasswordChangeBehavior in favor of its new name Passwordable.

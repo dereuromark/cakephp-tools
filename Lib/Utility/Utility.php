@@ -344,13 +344,13 @@ class Utility {
 				$value = (double)$value;
 				break;
 			case 'array':
-				$value = (array )$value;
+				$value = (array)$value;
 				break;
 			case 'bool':
 				$value = (bool)$value;
 				break;
 			case 'string':
-				$value = (string )$value;
+				$value = (string)$value;
 				break;
 			default:
 				return null;

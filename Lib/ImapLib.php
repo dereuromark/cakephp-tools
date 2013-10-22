@@ -386,7 +386,7 @@ class ImapLib {
 
 	/** testing only **/
 	public function delete($emails, $delete = false) {
-		$emails = (array )$emails;
+		$emails = (array)$emails;
 		foreach ($emails as $email) {
 			if ($delete) {
 				imap_delete($this->stream, (int)$email);
@@ -404,7 +404,7 @@ class ImapLib {
 		if (!$this->stream) {
 			return false;
 		}
-		$emails = (array )$emails;
+		$emails = (array)$emails;
 		foreach ($emails as $key => $val) {
 			$emails[$key] = (int)$val;
 		}
