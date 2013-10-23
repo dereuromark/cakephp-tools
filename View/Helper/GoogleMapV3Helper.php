@@ -291,7 +291,7 @@ class GoogleMapV3Helper extends AppHelper {
 		return $url;
 	}
 
-	/*
+	/**
 	 * @deprecated
 	 */
 	public function gearsUrl() {

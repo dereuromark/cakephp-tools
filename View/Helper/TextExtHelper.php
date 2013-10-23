@@ -2,6 +2,7 @@
 
 App::uses('TextHelper', 'View/Helper');
 App::uses('HtmlHelper', 'View/Helper');
+App::uses('NumberLib', 'Tools.Utility');
 App::uses('View', 'View');
 
 /**
@@ -56,6 +57,7 @@ class TextExtHelper extends TextHelper {
 
 	/**
 	 * Fix to allow obfuscation of email (js, img?)
+	 *
 	 * @param string $text
 	 * @param htmlOptions (additionally - not yet supported by core):
 	 * - obfuscate: true/false (defaults to false)
@@ -83,9 +85,9 @@ class TextExtHelper extends TextHelper {
 		}
 		$customOptions .= ')';
 
-		$atom = '[a-z0-9!#$%&\'*+\/=?^_`{|}~-]';
-		return preg_replace_callback('/(' . $atom . '+(?:\.' . $atom . '+)*@[a-z0-9-]+(?:\.[a-z0-9-]+)+)/i',
-						create_function('$matches', 'return TextExtHelper::prepareEmail($matches[0],' . $linkOptions . ',' . $customOptions . ');'), $text);
+		$atom = '[\p{L}0-9!#$%&\'*+\/=?^_`{|}~-]';
+		return preg_replace_callback('/(' . $atom . '+(?:\.' . $atom . '+)*@[\p{L}0-9-]+(?:\.[a-z0-9-]+)+)/iu',
+			create_function('$matches', 'return TextExtHelper::prepareEmail($matches[0],' . $linkOptions . ',' . $customOptions . ');'), $text);
 	}
 
 	/**
@@ -122,6 +124,7 @@ class TextExtHelper extends TextHelper {
 	 * Helper Function to Obfuscate Email by inserting a span tag (not more! not very secure on its own...)
 	 * each part of this mail now does not make sense anymore on its own
 	 * (striptags will not work either)
+	 *
 	 * @param string email: necessary (and valid - containing one @)
 	 * @return string html
 	 */
@@ -133,6 +136,7 @@ class TextExtHelper extends TextHelper {
 
 	/**
 	 * Obfuscates Email (works without JS!) to avoid lowlevel spam bots to get it
+	 *
 	 * @param string mail: email to encode
 	 * @param string text: optional (if none is given, email will be text as well)
 	 * @param array attributes: html tag attributes
@@ -195,6 +199,7 @@ class TextExtHelper extends TextHelper {
 
 	/**
 	 * Encodes Piece of Text (without usage of JS!) to avoid lowlevel spam bots to get it
+	 *
 	 * @param STRING text to encode
 	 * @return string html (randomly encoded)
 	 */
@@ -335,30 +340,16 @@ class TextExtHelper extends TextHelper {
 	}
 
 	/**
-	 * Transforming int values into ordinal numbers (1st, 3rd, etc.)
+	 * Transforming int values into ordinal numbers (1st, 3rd, ...).
+	 * When using HTML, you can use <sup>, as well.
 	 *
 	 * @param $num (INT) - the number to be suffixed.
 	 * @param $sup (BOOL) - whether to wrap the suffix in a superscript (<sup>) tag on output.
 	 * @return string ordinal
 	 */
 	public static function ordinalNumber($num = 0, $sup = false) {
-		$suff = '';
-		if (!in_array(($num % 100), array(11, 12, 13))) {
-			switch ($num % 10) {
-				case 1:
-					$suff = 'st';
-					break;
-				case 2:
-					$suff = 'nd';
-					break;
-				case 3:
-					$suff = 'rd';
-					break;
-				default:
-					$suff = 'th';
-			}
-		}
-		return ($sup) ? $num . '<sup>' . $suff . '</sup>' : $num . $suff;
+		$ordinal = NumberLib::ordinal($num);
+		return ($sup) ? $num . '<sup>' . $ordinal . '</sup>' : $num . $ordinal;
 	}
 
 	/**

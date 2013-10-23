@@ -1246,7 +1246,7 @@ class FormatHelper extends TextHelper {
 			}
 
 			if (isset($options['ending'])) {
-				$ending = (string )$options['ending'];
+				$ending = (string)$options['ending'];
 			}
 
 			if (isset($options['escape'])) {
