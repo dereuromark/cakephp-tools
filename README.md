@@ -75,7 +75,7 @@ App::uses('GeocoderBehavior', 'Tools.Model/Behavior');
 ```
 
 Tip: For how to use them, try to find some information in the test cases.
-Usage for some larger modules: https://github.com/dereuromark/tools/blob/master/USAGE
+A quick reference or some larger modules: [USAGE.md](https://github.com/dereuromark/tools/blob/master/USAGE.md)
 
 ## The cool stuff
 
@@ -92,6 +92,7 @@ Usage for some larger modules: https://github.com/dereuromark/tools/blob/master/
 
 * Using the Common component's flashMessage() you can have colorful (success, warning, error, ...) flash messages.
   They also can stack up (multiple messages per type). This way no message is lost when redirecting twice etc.
+* TinyAuth authorization adapter with single and multi-role support - extremely fast and easy to use.
 * The Passwordable behavior allows easy to use functionality for frontend and backend.
 * Geocodeable, WhoDidIt, Confirmable and Bitmasked behaviors.
 * With MyModel you can build subqueries the Cake way.

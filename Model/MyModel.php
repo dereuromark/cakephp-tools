@@ -41,8 +41,9 @@ class MyModel extends Model {
 			$this->prefixOrderProperty();
 		}
 
-		# get a notice if there is an AppModel instances instead of real Models (in those cases usually a dev error!)
-		if (defined('HTTP_HOST') && HTTP_HOST && !is_a($this, $this->name) && $this->displayField !== 'id' && $this->useDbConfig !== 'test' && !Configure::read('Core.disableModelInstanceNotice')) {
+		# Get a notice if there is an AppModel instance instead of a real Model (in those cases usually a dev error!)
+		if (!is_a($this, $this->name) && $this->displayField !== 'id' && $this->useDbConfig !== 'test'
+			&& !Configure::read('Core.disableModelInstanceNotice')) {
 			trigger_error('AppModel instance! Expected: ' . $this->name);
 		}
 	}
