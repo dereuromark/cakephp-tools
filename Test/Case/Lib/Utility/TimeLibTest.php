@@ -7,6 +7,11 @@ class TimeLibTest extends MyCakeTestCase {
 
 	public $Time = null;
 
+	/**
+	 * TimeLibTest::testObject()
+	 *
+	 * @return void
+	 */
 	public function testObject() {
 		$this->Time = new TimeLib();
 		$this->assertTrue(is_object($this->Time));
@@ -15,6 +20,8 @@ class TimeLibTest extends MyCakeTestCase {
 
 	/**
 	 * Currently only works with timezoned localized values, not with UTC!!!
+	 *
+	 * @return void
 	 */
 	public function testIncrementDate() {
 		$timezone = Configure::read('Config.timezone');
@@ -76,6 +83,11 @@ class TimeLibTest extends MyCakeTestCase {
 		date_default_timezone_set($phpTimezone);
 	}
 
+	/**
+	 * TimeLibTest::testNiceDate()
+	 *
+	 * @return void
+	 */
 	public function testNiceDate() {
 		$res = setlocale(LC_TIME, 'de_DE.UTF-8', 'deu_deu');
 		//$this->assertTrue(!empty($res));
@@ -113,6 +125,11 @@ class TimeLibTest extends MyCakeTestCase {
 		$this->assertEquals('01.12.2009', $ret);
 	}
 
+	/**
+	 * TimeLibTest::testLocalDate()
+	 *
+	 * @return void
+	 */
 	public function testLocalDate() {
 		$this->skipIf(php_sapi_name() === 'cli', 'for now');
 		$res = setlocale(LC_TIME, array('de_DE.UTF-8', 'deu_deu'));
@@ -129,6 +146,11 @@ class TimeLibTest extends MyCakeTestCase {
 		}
 	}
 
+	/**
+	 * TimeLibTest::testParseLocalizedDate()
+	 *
+	 * @return void
+	 */
 	public function testParseLocalizedDate() {
 		$this->out($this->_header(__FUNCTION__), true);
 
@@ -164,6 +186,11 @@ class TimeLibTest extends MyCakeTestCase {
 		}
 	}
 
+	/**
+	 * TimeLibTest::testPeriod()
+	 *
+	 * @return void
+	 */
 	public function testPeriod() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$values = array(
@@ -188,6 +215,11 @@ class TimeLibTest extends MyCakeTestCase {
 		}
 	}
 
+	/**
+	 * TimeLibTest::testPeriodAsSql()
+	 *
+	 * @return void
+	 */
 	public function testPeriodAsSql() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$values = array(
@@ -206,6 +238,11 @@ class TimeLibTest extends MyCakeTestCase {
 		}
 	}
 
+	/**
+	 * TimeLibTest::testDifference()
+	 *
+	 * @return void
+	 */
 	public function testDifference() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$values = array(
@@ -219,6 +256,11 @@ class TimeLibTest extends MyCakeTestCase {
 		}
 	}
 
+	/**
+	 * TimeLibTest::testAgeBounds()
+	 *
+	 * @return void
+	 */
 	public function testAgeBounds() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$values = array(
@@ -239,6 +281,11 @@ class TimeLibTest extends MyCakeTestCase {
 		}
 	}
 
+	/**
+	 * TimeLibTest::testAgeByYear()
+	 *
+	 * @return void
+	 */
 	public function testAgeByYear() {
 		$this->out($this->_header(__FUNCTION__), true);
 
@@ -266,6 +313,11 @@ class TimeLibTest extends MyCakeTestCase {
 		}
 	}
 
+	/**
+	 * TimeLibTest::testDaysInMonth()
+	 *
+	 * @return void
+	 */
 	public function testDaysInMonth() {
 		$this->out($this->_header(__FUNCTION__), true);
 
@@ -282,6 +334,11 @@ class TimeLibTest extends MyCakeTestCase {
 		$this->assertEquals(29, $ret);
 	}
 
+	/**
+	 * TimeLibTest::testDay()
+	 *
+	 * @return void
+	 */
 	public function testDay() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$ret = TimeLib::day('0');
@@ -303,6 +360,11 @@ class TimeLibTest extends MyCakeTestCase {
 		$this->assertEquals(__('Sunday'), $ret);
 	}
 
+	/**
+	 * TimeLibTest::testMonth()
+	 *
+	 * @return void
+	 */
 	public function testMonth() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$ret = TimeLib::month('11');
@@ -318,18 +380,33 @@ class TimeLibTest extends MyCakeTestCase {
 		$this->assertEquals(__('May'), $ret);
 	}
 
+	/**
+	 * TimeLibTest::testDays()
+	 *
+	 * @return void
+	 */
 	public function testDays() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$ret = TimeLib::days();
 		$this->assertTrue(count($ret) === 7);
 	}
 
+	/**
+	 * TimeLibTest::testMonths()
+	 *
+	 * @return void
+	 */
 	public function testMonths() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$ret = TimeLib::months();
 		$this->assertTrue(count($ret) === 12);
 	}
 
+	/**
+	 * TimeLibTest::testRelLengthOfTime()
+	 *
+	 * @return void
+	 */
 	public function testRelLengthOfTime() {
 		$this->out($this->_header(__FUNCTION__), true);
 
@@ -340,6 +417,11 @@ class TimeLibTest extends MyCakeTestCase {
 		//pr($ret);
 	}
 
+	/**
+	 * TimeLibTest::testLengthOfTime()
+	 *
+	 * @return void
+	 */
 	public function testLengthOfTime() {
 		$this->out($this->_header(__FUNCTION__), true);
 
@@ -354,6 +436,11 @@ class TimeLibTest extends MyCakeTestCase {
 		//pr($ret);
 	}
 
+	/**
+	 * TimeLibTest::testFuzzyFromOffset()
+	 *
+	 * @return void
+	 */
 	public function testFuzzyFromOffset() {
 		$this->out($this->_header(__FUNCTION__), true);
 
@@ -374,9 +461,20 @@ class TimeLibTest extends MyCakeTestCase {
 		//pr($ret);
 	}
 
+	/**
+	 * TimeLibTest::testCweekMod()
+	 *
+	 * @return void
+	 */
 	public function testCweekMod() {
+		//$result = TimeLib::cWeekMod();
 	}
 
+	/**
+	 * TimeLibTest::testCweekDay()
+	 *
+	 * @return void
+	 */
 	public function testCweekDay() {
 		$this->out($this->_header(__FUNCTION__), true);
 
@@ -475,17 +573,23 @@ class TimeLibTest extends MyCakeTestCase {
 		}
 	}
 
+	/**
+	 * TimeLibTest::testAgeByHoroscop()
+	 *
+	 * @return void
+	 */
 	public function testAgeByHoroscop() {
 		App::uses('ZodiacLib', 'Tools.Misc');
+		$this->skipIf(php_sapi_name() === 'cli', 'Fix these tests');
 
 		$is = TimeLib::ageByHoroscope(2000, ZodiacLib::SIGN_VIRGO);
 		// between xxxx-08-24 and xxxx-09-23 the latter, otherwise the first:
-		//$this->assertEquals(date('Y') - 2000 - 1, $is);
-		//$this->assertEquals(array(date('Y') - 2000 - 1, date('Y') - 2000), $is);
+		$this->assertEquals(date('Y') - 2000 - 1, $is);
+		$this->assertEquals(array(date('Y') - 2000 - 1, date('Y') - 2000), $is);
 
 		$is = TimeLib::ageByHoroscope(1991, ZodiacLib::SIGN_LIBRA);
 		//pr($is);
-		//$this->assertEquals(date('Y') - 1991 - 1, $is);
+		$this->assertEquals(date('Y') - 1991 - 1, $is);
 
 		$is = TimeLib::ageByHoroscope(1986, ZodiacLib::SIGN_CAPRICORN);
 		//pr($is);
@@ -496,6 +600,11 @@ class TimeLibTest extends MyCakeTestCase {
 		$this->assertEquals(date('Y') - 2000 - 1, $is); //array(10, 11)
 	}
 
+	/**
+	 * TimeLibTest::testAgeRange()
+	 *
+	 * @return void
+	 */
 	public function testAgeRange() {
 		$is = TimeLib::ageRange(2000);
 		//pr($is);
@@ -522,6 +631,11 @@ class TimeLibTest extends MyCakeTestCase {
 		$this->assertEquals(array(22, 28), $is);
 	}
 
+	/**
+	 * TimeLibTest::testParseDate()
+	 *
+	 * @return void
+	 */
 	public function testParseDate() {
 		//echo $this->_header(__FUNCTION__);
 		$tests = array(
@@ -544,6 +658,11 @@ class TimeLibTest extends MyCakeTestCase {
 		}
 	}
 
+	/**
+	 * TimeLibTest::testParseTime()
+	 *
+	 * @return void
+	 */
 	public function testParseTime() {
 		//echo $this->_header(__FUNCTION__);
 		$tests = array(
@@ -582,6 +701,11 @@ class TimeLibTest extends MyCakeTestCase {
 		}
 	}
 
+	/**
+	 * TimeLibTest::testBuildTime()
+	 *
+	 * @return void
+	 */
 	public function testBuildTime() {
 		//echo $this->_header(__FUNCTION__);
 		$tests = array(
@@ -606,6 +730,11 @@ class TimeLibTest extends MyCakeTestCase {
 		}
 	}
 
+	/**
+	 * TimeLibTest::testBuildDefaultTime()
+	 *
+	 * @return void
+	 */
 	public function testBuildDefaultTime() {
 		//echo $this->_header(__FUNCTION__);
 		$tests = array(
@@ -625,6 +754,8 @@ class TimeLibTest extends MyCakeTestCase {
 
 	/**
 	 * 9.30 => 9.50
+	 *
+	 * @return void
 	 */
 	public function testStandardDecimal() {
 		//echo $this->_header(__FUNCTION__);
@@ -639,6 +770,8 @@ class TimeLibTest extends MyCakeTestCase {
 
 	/**
 	 * 9.50 => 9.30
+	 *
+	 * @return void
 	 */
 	public function testDecimalStandard() {
 		//echo $this->_header(__FUNCTION__);
@@ -660,6 +793,11 @@ class TimeLibTest extends MyCakeTestCase {
 		$this->assertEquals('9:30', $is);
 	}
 
+	/**
+	 * TimeLibTest::testHasDaylightSavingTime()
+	 *
+	 * @return void
+	 */
 	public function testHasDaylightSavingTime() {
 		$timezone = 'Europe/Berlin';
 		$x = TimeLib::hasDaylightSavingTime($timezone);
@@ -670,6 +808,11 @@ class TimeLibTest extends MyCakeTestCase {
 		$this->assertFalse($x);
 	}
 
+	/**
+	 * TimeLibTest::testTimezone()
+	 *
+	 * @return void
+	 */
 	public function testTimezone() {
 		$timezone = TimeLib::timezone();
 		// usually UTC
