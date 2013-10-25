@@ -42,7 +42,7 @@ class ImapSourceTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * testFindWithoutConfig
+	 * TestFindWithoutConfig
 	 *
 	 * @expectedException RuntimeException
 	 */

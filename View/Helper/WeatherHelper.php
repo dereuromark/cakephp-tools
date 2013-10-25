@@ -26,6 +26,7 @@ class WeatherHelper extends AppHelper {
 	 * Display a ready table
 	 *
 	 * //TODO
+	 *
 	 * @return string
 	 */
 	public function display($location) {

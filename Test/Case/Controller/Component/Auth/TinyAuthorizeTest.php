@@ -22,7 +22,7 @@ class TinyAuthorizeTest extends MyCakeTestCase {
 	public $request;
 
 	/**
-	 * setup
+	 * Setup
 	 *
 	 * @return void
 	 */

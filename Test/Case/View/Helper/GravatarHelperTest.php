@@ -99,7 +99,7 @@ class GravatarHelperTest extends MyCakeTestCase {
 /** BASE TEST CASES **/
 
 	/**
-	 * testBaseUrlGeneration
+	 * TestBaseUrlGeneration
 	 *
 	 * @return void
 	 */
@@ -111,7 +111,7 @@ class GravatarHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * testExtensions
+	 * TestExtensions
 	 *
 	 * @return void
 	 */
@@ -121,7 +121,7 @@ class GravatarHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * testRating
+	 * TestRating
 	 *
 	 * @return void
 	 */
@@ -131,7 +131,7 @@ class GravatarHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * testAlternateDefaultIcon
+	 * TestAlternateDefaultIcon
 	 *
 	 * @return void
 	 */
@@ -142,7 +142,7 @@ class GravatarHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * testAlternateDefaultIconCorrection
+	 * TestAlternateDefaultIconCorrection
 	 *
 	 * @return void
 	 */
@@ -152,7 +152,7 @@ class GravatarHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * testSize
+	 * TestSize
 	 *
 	 * @return void
 	 */
@@ -163,7 +163,7 @@ class GravatarHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * testImageTag
+	 * TestImageTag
 	 *
 	 * @return void
 	 */
@@ -178,7 +178,7 @@ class GravatarHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * testDefaulting
+	 * TestDefaulting
 	 *
 	 * @return void
 	 */
@@ -189,7 +189,7 @@ class GravatarHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * testNonSecureUrl
+	 * TestNonSecureUrl
 	 *
 	 * @return void
 	 */
@@ -211,7 +211,7 @@ class GravatarHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * testSecureUrl
+	 * TestSecureUrl
 	 *
 	 * @return void
 	 */

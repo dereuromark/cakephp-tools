@@ -213,7 +213,7 @@ class StrTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * fixed
+	 * Fixed
 	 * - documented return type (mixed)
 	 * - argument order
 	 * - missing underscore

@@ -19,7 +19,7 @@ class DirectAuthenticateTest extends CakeTestCase {
 	public $fixtures = array('core.user', 'core.auth_user');
 
 	/**
-	 * setup
+	 * Setup
 	 *
 	 * @return void
 	 */

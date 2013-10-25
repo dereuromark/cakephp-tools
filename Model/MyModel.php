@@ -241,6 +241,7 @@ class MyModel extends Model {
 	 * $this->Model->find('all', array('fields' => $this->Model->virtualFields('full_name')));
 	 * Also adds the field to the virtualFields array of the model (for correct result)
 	 * TODO: adding of fields only temperory!
+	 *
 	 * @param array $virtualFields to include
 	 */
 	public function virtualFields($fields = array()) {
@@ -298,6 +299,7 @@ class MyModel extends Model {
 
 	/**
 	 * HIGHLY EXPERIMENTAL
+	 *
 	 * @see http://cakephp.lighthouseapp.com/projects/42648/tickets/1799-model-should-have-escapefield-method
 	 */
 	public function value($content) {
@@ -307,6 +309,7 @@ class MyModel extends Model {
 
 	/**
 	 * TODO: move to behavior (Incremental)
+	 *
 	 * @param mixed id (single string)
 	 * @param options:
 	 * - step (defaults to 1)
@@ -367,6 +370,7 @@ class MyModel extends Model {
 	/**
 	 * Workaround for a cake bug which sets empty fields to NULL in Model::set()
 	 * we cannot use if (isset() && empty()) statements without this fix
+	 *
 	 * @param array $fields (which are supposed to be present in $this->data[$this->alias])
 	 * @param boolean $force (if init should be forced, otherwise only if array_key exists)
 	 */
@@ -595,6 +599,7 @@ class MyModel extends Model {
 
 	/**
 	 * This code will add formatted list functionallity to find you can easy replace the $this->Model->find('list'); with $this->Model->find('formattedlist', array('fields' => array('Model.id', 'Model.field1', 'Model.field2', 'Model.field3'), 'format' => '%s-%s %s')); and get option tag output of: Model.field1-Model.field2 Model.field3. Even better part is being able to setup your own format for the output!
+	 *
 	 * @see http://bakery.cakephp.org/articles/view/add-formatted-lists-to-your-appmodel
 	 * @deprecated
 	 * added Caching
@@ -1267,6 +1272,7 @@ class MyModel extends Model {
 
 	/**
 	 * Validation of Date Fields (>= minDate && <= maxDate)
+	 *
 	 * @param options
 	 * - min/max (TODO!!)
 	 */
@@ -1275,6 +1281,7 @@ class MyModel extends Model {
 
 	/**
 	 * Validation of Time Fields (>= minTime && <= maxTime)
+	 *
 	 * @param options
 	 * - min/max (TODO!!)
 	 */
@@ -1399,6 +1406,7 @@ class MyModel extends Model {
 
 	/**
 	 * Make sure required fields exists - in order to properly validate them
+	 *
 	 * @param array: field1, field2 - or field1, Model2.field1 etc
 	 * @param array: data (optional, otherwise the array with the required fields will be returned)
 	 * @return array
@@ -1471,6 +1479,7 @@ class MyModel extends Model {
 
 	/**
 	 * Instead of whitelisting
+	 *
 	 * @param array $blackList
 	 * - array: fields to blacklist
 	 * - boolean TRUE: removes all foreign_keys (_id and _key)
@@ -1583,6 +1592,7 @@ class MyModel extends Model {
 
 	/**
 	 * Update a row with certain fields (dont use "Model" as super-key)
+	 *
 	 * @param integer $id
 	 * @param array $data
 	 * @return boolean|array Success
@@ -1608,6 +1618,7 @@ class MyModel extends Model {
 
 	/**
 	 * Toggles Field (Important/Deleted/Primary etc)
+	 *
 	 * @param STRING fieldName
 	 * @param integer id (cleaned!)
 	 * @return ARRAY record: [Model][values],...
@@ -1626,6 +1637,7 @@ class MyModel extends Model {
 
 	/**
 	 * Truncate TABLE (already validated, that table exists)
+	 *
 	 * @param string table [default:FALSE = current model table]
 	 * @return boolean Success
 	 */
@@ -1670,6 +1682,7 @@ class MyModel extends Model {
 
 	/**
 	 * From http://othy.wordpress.com/2006/06/03/generatenestedlist/
+	 *
 	 * @deprecated use generateTreeList instead
 	 */
 	public function _generateNestedList($cats, $indent = '--', $level = 0) {

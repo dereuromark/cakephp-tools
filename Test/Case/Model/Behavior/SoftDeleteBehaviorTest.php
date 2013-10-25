@@ -91,7 +91,7 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * testUnDelete
+	 * TestUnDelete
 	 *
 	 * @return void
 	 */
@@ -104,7 +104,7 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * testSoftDeletePurge
+	 * TestSoftDeletePurge
 	 *
 	 * @return void
 	 */

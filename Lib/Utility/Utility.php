@@ -405,7 +405,7 @@ class Utility {
 
 	/**
 	 * Expands the values of an array of strings into a deep array.
-	 * Opposite of flatten().
+	 * Opposite of flattenList().
 	 *
 	 * It needs at least a single separator to be present in all values
 	 * as the key would otherwise be undefined. If data can contain such key-less
@@ -446,7 +446,7 @@ class Utility {
 
 	/**
 	 * Flattens a deep array into an array of strings.
-	 * Opposite of expand().
+	 * Opposite of expandList().
 	 *
 	 * So `array('Some' => array('Deep' => array('Value')))` becomes `Some.Deep.Value`.
 	 *
