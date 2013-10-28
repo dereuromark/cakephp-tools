@@ -22,6 +22,15 @@ App::uses('ModelBehavior', 'Model');
  *    $this->Model->Behaviors->load('Tools.Reset', array(...));
  *    $this->Model->resetRecords();
  *
+ * If you want to provide a callback function/method, you can either use object methods or
+ * static functions/methods:
+ *
+ *    'callback' => array($this, 'methodName')
+ *
+ * and
+ *
+ *    public function methodName($data, &$fields) {}
+ *
  * For tables with lots of records you might want to use a shell and the CLI to invoke the reset/update process.
  *
  * @author Mark Scherer

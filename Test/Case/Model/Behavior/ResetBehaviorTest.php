@@ -153,18 +153,18 @@ class MyComment extends AppModel {
 		return $data;
 	}
 
-	public function customStaticCallback($data, &$updateFields) {
+	public static function customStaticCallback($data, &$updateFields) {
 		$data['MyComment']['comment'] .= ' yyy';
 		$updateFields[] = 'some_other_field';
 		return $data;
 	}
 
-	public function fieldsCallback($data, &$updateFields) {
+	public static function fieldsCallback($data, &$updateFields) {
 		$data['MyComment']['comment'] = 'foo';
 		return $data;
 	}
 
-	public function fieldsCallbackAuto($data, &$updateFields) {
+	public static function fieldsCallbackAuto($data, &$updateFields) {
 		$data['MyComment']['comment'] = 'bar';
 		$updateFields[] = 'comment';
 		return $data;
