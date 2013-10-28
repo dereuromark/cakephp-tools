@@ -62,7 +62,7 @@ class ResetBehavior extends ModelBehavior {
 	 * @param Model $Model
 	 * @param array $conditions
 	 * @param integer $recursive
-	 * @return boolean Success
+	 * @return integer Modified records
 	 */
 	public function resetRecords(Model $Model, $params = array()) {
 		$recursive = -1;
@@ -104,6 +104,7 @@ class ResetBehavior extends ModelBehavior {
 			set_time_limit(max($max, $count / $limit));
 		}
 
+		$modifed = 0;
 		while ($rows = $Model->find('all', $params)) {
 			foreach ($rows as $row) {
 				$Model->create();
@@ -131,13 +132,14 @@ class ResetBehavior extends ModelBehavior {
 				if (!$res) {
 					throw new CakeException(print_r($Model->validationErrors, true));
 				}
+				$modifed++;
 			}
 			$params['page']++;
 			if ($timeout) {
 				sleep((int)$timeout);
 			}
 		}
-		return true;
+		return $modifed;
 	}
 
 }

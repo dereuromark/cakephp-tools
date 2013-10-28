@@ -30,7 +30,7 @@ class ResetBehaviorTest extends MyCakeTestCase {
 		$x = $this->Model->find('first', array('order' => array('updated' => 'DESC')));
 
 		$result = $this->Model->resetRecords();
-		$this->assertTrue($result);
+		$this->assertTrue((bool)$result);
 
 		$y = $this->Model->find('first', array('order' => array('updated' => 'DESC')));
 		$this->assertSame($x, $y);
@@ -44,7 +44,7 @@ class ResetBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue($x['MyComment']['updated'] < '2007-12-31');
 
 		$result = $this->Model->resetRecords();
-		$this->assertTrue($result);
+		$this->assertTrue((bool)$result);
 
 		$x = $this->Model->find('first', array('order' => array('updated' => 'ASC')));
 		$this->assertTrue($x['MyComment']['updated'] > (date('Y') - 1) . '-12-31');
@@ -58,7 +58,7 @@ class ResetBehaviorTest extends MyCakeTestCase {
 		$this->assertEquals('Second Comment for Second Article', $x['MyComment']['comment']);
 
 		$result = $this->Model->resetRecords();
-		$this->assertTrue($result);
+		$this->assertTrue((bool)$result);
 
 		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
 		$expected = 'Second Comment for Second Article xyz';
@@ -73,7 +73,7 @@ class ResetBehaviorTest extends MyCakeTestCase {
 		$this->assertEquals('Second Comment for Second Article', $x['MyComment']['comment']);
 
 		$result = $this->Model->resetRecords();
-		$this->assertTrue($result);
+		$this->assertTrue((bool)$result);
 
 		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
 		$expected = 'Second Comment for Second Article xxx';
@@ -88,7 +88,7 @@ class ResetBehaviorTest extends MyCakeTestCase {
 		$this->assertEquals('Second Comment for Second Article', $x['MyComment']['comment']);
 
 		$result = $this->Model->resetRecords();
-		$this->assertTrue($result);
+		$this->assertTrue((bool)$result);
 
 		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
 		$expected = 'Second Comment for Second Article yyy';
@@ -106,7 +106,7 @@ class ResetBehaviorTest extends MyCakeTestCase {
 		$this->assertEquals('Second Comment for Second Article', $x['MyComment']['comment']);
 
 		$result = $this->Model->resetRecords();
-		$this->assertTrue($result);
+		$this->assertTrue((bool)$result);
 
 		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
 		$expected = 'foo';
@@ -124,7 +124,7 @@ class ResetBehaviorTest extends MyCakeTestCase {
 		$this->assertEquals('Second Comment for Second Article', $x['MyComment']['comment']);
 
 		$result = $this->Model->resetRecords();
-		$this->assertTrue($result);
+		$this->assertTrue((bool)$result);
 
 		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
 		$expected = 'bar';
