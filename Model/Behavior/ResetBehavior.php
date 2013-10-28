@@ -35,6 +35,7 @@ class ResetBehavior extends ModelBehavior {
 		'limit' => 100, // batch of records per loop
 		'timeout' => null, // in seconds
 		'fields' => array(), // if not displayField
+		'updateFields' => array(), // if saved fields should be different from fields
 		'validate' => true, // trigger beforeValidate callback
 		'updateTimestamp' => false, // update modified/updated timestamp
 		'scope' => array(), // optional conditions
@@ -71,7 +72,7 @@ class ResetBehavior extends ModelBehavior {
 			'page' => 1,
 			'limit' => $limit,
 			'fields' => array(),
-			'order' => $Model->alias . '.' . $Model->displayField . ' ASC',
+			'order' => $Model->alias . '.' . $Model->primaryKey . ' ASC',
 			'conditions' => $scope,
 			'recursive' => $recursive,
 		);
@@ -102,12 +103,28 @@ class ResetBehavior extends ModelBehavior {
 		if ($max) {
 			set_time_limit(max($max, $count / $limit));
 		}
+
 		while ($rows = $Model->find('all', $params)) {
 			foreach ($rows as $row) {
 				$Model->create();
 				$fields = $params['fields'];
+				if (!empty($updateFields)) {
+					$fields = $updateFields;
+				}
+				if ($fields && !in_array($Model->primaryKey, $fields)) {
+					$fields[] = $Model->primaryKey;
+				}
+
 				if ($callback) {
-					$Model->{$callback}($row, $fields);
+					if (is_callable($callback)) {
+						$parameters = array(&$row, &$fields);
+						$row = call_user_func_array($callback, $parameters);
+					} else {
+						$row = $Model->{$callback}($row, $fields);
+					}
+					if (!$row) {
+						continue;
+					}
 				}
 
 				$res = $Model->save($row, $validate, $fields);

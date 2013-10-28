@@ -65,6 +65,72 @@ class ResetBehaviorTest extends MyCakeTestCase {
 		$this->assertEquals($expected, $x['MyComment']['comment']);
 	}
 
+	public function testResetWithObjectCallback() {
+		$this->Model->Behaviors->unload('Reset');
+		$this->Model->Behaviors->load('Tools.Reset', array('callback' => array($this->Model, 'customObjectCallback')));
+
+		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
+		$this->assertEquals('Second Comment for Second Article', $x['MyComment']['comment']);
+
+		$result = $this->Model->resetRecords();
+		$this->assertTrue($result);
+
+		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
+		$expected = 'Second Comment for Second Article xxx';
+		$this->assertEquals($expected, $x['MyComment']['comment']);
+	}
+
+	public function testResetWithStaticCallback() {
+		$this->Model->Behaviors->unload('Reset');
+		$this->Model->Behaviors->load('Tools.Reset', array('callback' => 'MyComment::customStaticCallback'));
+
+		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
+		$this->assertEquals('Second Comment for Second Article', $x['MyComment']['comment']);
+
+		$result = $this->Model->resetRecords();
+		$this->assertTrue($result);
+
+		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
+		$expected = 'Second Comment for Second Article yyy';
+		$this->assertEquals($expected, $x['MyComment']['comment']);
+	}
+
+	public function testResetWithCallbackAndFields() {
+		$this->Model->Behaviors->unload('Reset');
+		$this->Model->Behaviors->load('Tools.Reset', array(
+			'fields' => array('id'),
+			'updateFields' => array('comment'),
+			'callback' => 'MyComment::fieldsCallback'));
+
+		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
+		$this->assertEquals('Second Comment for Second Article', $x['MyComment']['comment']);
+
+		$result = $this->Model->resetRecords();
+		$this->assertTrue($result);
+
+		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
+		$expected = 'foo';
+		$this->assertEquals($expected, $x['MyComment']['comment']);
+	}
+
+	public function testResetWithCallbackAndFieldsAutoAdded() {
+		$this->Model->Behaviors->unload('Reset');
+		$this->Model->Behaviors->load('Tools.Reset', array(
+			'fields' => array('id'),
+			'updateFields' => array('id'),
+			'callback' => 'MyComment::fieldsCallbackAuto'));
+
+		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
+		$this->assertEquals('Second Comment for Second Article', $x['MyComment']['comment']);
+
+		$result = $this->Model->resetRecords();
+		$this->assertTrue($result);
+
+		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
+		$expected = 'bar';
+		$this->assertEquals($expected, $x['MyComment']['comment']);
+	}
+
 }
 
 class MyComment extends AppModel {
@@ -75,9 +141,33 @@ class MyComment extends AppModel {
 
 	public $displayField = 'comment';
 
-	public function customCallback(&$data, &$fields) {
+	public function customCallback($data, &$updateFields) {
 		$data[$this->alias][$this->displayField] .= ' xyz';
 		$fields[] = 'some_other_field';
+		return $data;
+	}
+
+	public function customObjectCallback($data, &$updateFields) {
+		$data[$this->alias][$this->displayField] .= ' xxx';
+		$updateFields[] = 'some_other_field';
+		return $data;
+	}
+
+	public function customStaticCallback($data, &$updateFields) {
+		$data['MyComment']['comment'] .= ' yyy';
+		$updateFields[] = 'some_other_field';
+		return $data;
+	}
+
+	public function fieldsCallback($data, &$updateFields) {
+		$data['MyComment']['comment'] = 'foo';
+		return $data;
+	}
+
+	public function fieldsCallbackAuto($data, &$updateFields) {
+		$data['MyComment']['comment'] = 'bar';
+		$updateFields[] = 'comment';
+		return $data;
 	}
 
 }
