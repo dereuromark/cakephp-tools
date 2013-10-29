@@ -23,7 +23,8 @@ App::uses('HazardLib', 'Tools.Lib');
  * You can also apply this behavior globally to overwrite all strings in your application temporarily.
  * This way you don't need to modify the database. On output it will just inject the hazardous strings and
  * you can browse your website just as if they were actually stored in your db.
- * Either add it to some models or even the AppModel (temporarily!) as `$actsAs = array('Tools.Hazardable'))`
+ *
+ * Add it to some models or even the AppModel (temporarily!) as `$actsAs = array('Tools.Hazardable'))`.
  * A known limitation of Cake behaviors is, though, that this would only apply for first-level records (not related data).
  * So it is usually better to insert some hazardous strings into all your tables and make your tests then as closely
  * to the reality as possible.
@@ -39,8 +40,15 @@ class HazardableBehavior extends ModelBehavior {
 		'skipFields' => array('id', 'slug') // fields of the schema that should be skipped
 	);
 
-	public $snippets = array();
+	protected $_snippets = array();
 
+	/**
+	 * HazardableBehavior::setup()
+	 *
+	 * @param Model $Model
+	 * @param array $config
+	 * @return void
+	 */
 	public function setup(Model $Model, $config = array()) {
 		$this->settings[$Model->alias] = array_merge($this->_defaults, $config);
 	}
@@ -115,8 +123,8 @@ class HazardableBehavior extends ModelBehavior {
 	 * @return array
 	 */
 	protected function _snippets() {
-		if ($this->snippets) {
-			return $this->snippets;
+		if ($this->_snippets) {
+			return $this->_snippets;
 		}
 		$snippetArray = HazardLib::xssStrings();
 		$snippetArray[] = '<SCRIPT>alert(\'X\')</SCRIPT>';
@@ -124,7 +132,7 @@ class HazardableBehavior extends ModelBehavior {
 
 		usort($snippetArray, array($this, '_sort'));
 
-		$this->snippets = $snippetArray;
+		$this->_snippets = $snippetArray;
 		return $snippetArray;
 	}
 

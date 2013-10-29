@@ -8,24 +8,27 @@ class HazardableBehaviorTest extends MyCakeTestCase {
 
 	public $Model;
 
+	/**
+	 * HazardableBehaviorTest::setUp()
+	 *
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 
 		$this->Model = ClassRegistry::init('Comment');
-
-		$this->Model->Behaviors->load('Tools.Hazardable', array());
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-
-		unset($this->Model);
+		$this->Model->Behaviors->load('Tools.Hazardable');
 	}
 
 	public function testObject() {
 		$this->assertInstanceOf('HazardableBehavior', $this->Model->Behaviors->Hazardable);
 	}
 
+	/**
+	 * HazardableBehaviorTest::testSaveAndFind()
+	 *
+	 * @return void
+	 */
 	public function testSaveAndFind() {
 		$data = array(
 			'comment' => 'foo',
@@ -39,11 +42,14 @@ class HazardableBehaviorTest extends MyCakeTestCase {
 
 		$this->assertEquals('<', $res['Comment']['published']);
 		$this->assertTrue(!empty($res['Comment']['comment']));
-
-		//echo $res['Comment']['comment'];
 	}
 
-	public function testFind() {
+	/**
+	 * HazardableBehaviorTest::testFind()
+	 *
+	 * @return void
+	 */
+	public function testReplaceFind() {
 		$this->Model->Behaviors->unload('Hazardable');
 		$data = array(
 			'comment' => 'foo',
@@ -64,8 +70,6 @@ class HazardableBehaviorTest extends MyCakeTestCase {
 		$this->assertEquals('<', $res['Comment']['published']);
 		$this->assertTrue(!empty($res['Comment']['comment']));
 		$this->assertNotEquals('foo', $res['Comment']['comment']);
-
-		//echo $res['Comment']['comment'];
 	}
 
 }
