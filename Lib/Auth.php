@@ -6,7 +6,7 @@ if (!defined('USER_RIGHT_KEY')) {
 	define('USER_RIGHT_KEY', 'Right');
 }
 
-App::uses('CakeSession', 'Model/Datasource');
+App::uses('AuthComponent', 'Controller/Component');
 
 /**
  * Convenience wrapper to access Auth data and check on rights/roles.
@@ -18,11 +18,17 @@ App::uses('CakeSession', 'Model/Datasource');
  *     // Display element
  *   }
  *
+ * Simply add it at the end of your bootstrap file (after the plugin is loaded):
+ *
+ *   App::uses('Auth', 'Tools.Lib');
+ *
  * Expects the Role session infos to be either
  * 	- `Auth.User.role_id` (single) or
  * 	- `Auth.User.Role` (multi - flat array of roles, or array role data)
  * and can be adjusted via constants and defined().
  * Same goes for Right data.
+ *
+ * Note: This uses AuthComponent internally to work with both stateful and stateless auth.
  *
  * @author Mark Scherer
  * @license MIT
@@ -39,7 +45,7 @@ class Auth {
 	 * @return mixed User id if existent, null otherwise.
 	 */
 	public static function id() {
-		return CakeSession::read('Auth.User.id');
+		return AuthComponent::user('id');
 	}
 
 	/**
@@ -51,7 +57,7 @@ class Auth {
 	 * @return mixed String or array of roles or null if inexistent.
 	 */
 	public static function roles() {
-		$roles = CakeSession::read('Auth.User.' . USER_ROLE_KEY);
+		$roles = AuthComponent::user(USER_ROLE_KEY);
 		if (!is_array($roles)) {
 			return $roles;
 		}
@@ -68,10 +74,7 @@ class Auth {
 	 * @return mixed Data
 	 */
 	public static function user($key = null) {
-		if ($key) {
-			$key = '.' . $key;
-		}
-		return CakeSession::read('Auth.User' . $key);
+		return AuthComponent::user($key);
 	}
 
 	/**
@@ -156,7 +159,7 @@ class Auth {
 		if ($providedRights !== null) {
 			$rights = $providedRights;
 		} else {
-			$rights = CakeSession::read('Auth.User.' . USER_RIGHT_KEY);
+			$rights = AuthComponent::user(USER_RIGHT_KEY);
 		}
 		$rights = (array)$rights;
 		if (array_key_exists($ownRight, $rights) && !empty($rights[$ownRight])) {
