@@ -159,6 +159,11 @@ class SortableBehaviorTest extends MyCakeTestCase {
 		return $position;
 	}
 
+	/**
+	 * SortableBehaviorTest::_getList()
+	 *
+	 * @return array
+	 */
 	protected function _getList() {
 		$options = array(
 			'order' => array('sort' => 'DESC'),

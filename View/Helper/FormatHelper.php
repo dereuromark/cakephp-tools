@@ -186,15 +186,29 @@ class FormatHelper extends TextHelper {
 
 	/**
 	 * //TODO: move to Format?
+	 *
+	 * Custom paths possible:
+	 * 'imagePath' => 'PluginName./img/country_flags/',
+	 *
 	 * @param string $icon iso2 code (e.g. 'de' or 'gb')
+	 * @return string;
 	 */
 	public function countryIcon($icon = null, $returnFalseonFailure = false, $options = array(), $attr = array()) {
 		$ending = 'gif';
 		$image = 'unknown';
 
-		if ($specific = Configure::read('Country.image_path')) {
-			$wwwPath = $specific . '/';
-			$path = PATH_IMAGES . $specific . DS; //.'country_flags'.DS
+		if ($specific = Configure::read('Country.imagePath')) {
+			list ($plugin, $specificPath) = pluginSplit($specific);
+			$wwwPath = $specificPath;
+			if ($plugin) {
+				$wwwPath = '/' . Inflector::underscore($plugin) . '/' . $wwwPath;
+			}
+			if ($plugin) {
+				$path = CakePlugin::path($plugin) . 'webroot' . DS;
+			} else {
+				$path = WWW_ROOT;
+			}
+			$path .= $specificPath . DS;
 		} else {
 			$wwwPath = '/tools/img/country_flags/';
 			$path = App::pluginPath('Tools') . 'webroot' . DS . 'img' . DS . 'country_flags' . DS;
@@ -208,13 +222,17 @@ class FormatHelper extends TextHelper {
 		$icon = mb_strtolower($icon);
 
 		if (empty($icon)) {
-			if ($returnFalseonFailure) { return false; }
+			if ($returnFalseonFailure) {
+				return false;
+			}
 		} elseif (!file_exists($path . $icon . '.' . $ending)) {
 
 			//die($path . $icon . '.' . $ending);
 			trigger_error($path . $icon . '.' . $ending . ' missing', E_USER_NOTICE);
 
-			if ($returnFalseonFailure) { return false; }
+			if ($returnFalseonFailure) {
+				return false;
+			}
 		} else {
 			$image = $icon;
 		}

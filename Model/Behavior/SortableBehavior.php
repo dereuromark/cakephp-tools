@@ -9,7 +9,8 @@ App::uses('ModelBehavior', 'Model');
  * You can also reverse the direction.
  *
  * Natural (default) order:
- * The sort value of new records is 0.
+ * The sort value of new records is 0. This should be used in combination with
+ * a secondary and possibly unique sort value for collisions around 0.
  *
  * Reversed order:
  * The sort value of a new record will be calculated (currently highest + 1).
@@ -22,7 +23,7 @@ class SortableBehavior extends ModelBehavior {
 
 	protected $_defaults = array(
 		'field' => 'sort',
-		'reverse' => false // TO make 0 the highest value
+		'reverse' => false // TO make 0 the "highest" value
 	);
 
 	/**
