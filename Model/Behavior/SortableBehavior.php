@@ -23,7 +23,7 @@ class SortableBehavior extends ModelBehavior {
 
 	protected $_defaults = array(
 		'field' => 'sort',
-		'reverse' => false // TO make 0 the "highest" value
+		'reverse' => false // To make 0 the "highest" value
 	);
 
 	/**
@@ -88,23 +88,26 @@ class SortableBehavior extends ModelBehavior {
 	/**
 	 * @return boolean Success
 	 */
-	public function moveUp(Model $Model, $id, $placements = 1) {
-		return $this->_moveUpDown($Model, false, $id, $placements);
+	public function moveUp(Model $Model, $id, $steps = 1) {
+		return $this->_moveUpDown($Model, 'up', $id, $steps);
 	}
 
 	/**
 	 * @return boolean Success
 	 */
-	public function moveDown(Model $Model, $id, $placements = 1) {
-		return $this->_moveUpDown($Model, true, $id, $placements);
+	public function moveDown(Model $Model, $id, $steps = 1) {
+		return $this->_moveUpDown($Model, 'down', $id, $steps);
 	}
 
 	/**
+	 * @param Model $Model
+	 * @param string $direction
+	 * @param int $steps Steps to jump. Defaults to 1.
 	 * @return boolean Success
 	 */
-	protected function _moveUpDown(Model $Model, $naturalOrder, $id, $placements = 1) {
+	protected function _moveUpDown(Model $Model, $direction, $id, $steps = 1) {
 		// FIXME: Sort over more than one placement.
-		if ($naturalOrder && empty($this->settings[$Model->alias]['reverse'])) {
+		if ($direction === 'down' && empty($this->settings[$Model->alias]['reverse'])) {
 			$order = '<=';
 			$findOrder = 'DESC';
 		} else {
@@ -134,7 +137,7 @@ class SortableBehavior extends ModelBehavior {
 			'order' => array(
 				$this->settings[$Model->alias]['field'] => $findOrder
 			),
-			'limit' => $placements + 1
+			'limit' => $steps + 1
 		));
 		$value = end($data);
 		$key = key($data);
@@ -143,7 +146,7 @@ class SortableBehavior extends ModelBehavior {
 		}
 		$lastId = $Model->id;
 		if ($sort == $value) {
-			if ($naturalOrder && empty($this->settings[$Model->alias]['reverse'])) {
+			if ($direction === 'down' && empty($this->settings[$Model->alias]['reverse'])) {
 				$value++;
 			} else {
 				$value--;
