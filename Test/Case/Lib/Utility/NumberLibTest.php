@@ -17,6 +17,11 @@ class NumberLibTest extends MyCakeTestCase {
 		NumberLib::config();
 	}
 
+	/**
+	 * NumberLibTest::testAverage()
+	 *
+	 * @return void
+	 */
 	public function testAverage() {
 		$array = array();
 		$is = NumberLib::average($array);
@@ -36,6 +41,11 @@ class NumberLibTest extends MyCakeTestCase {
 		$array = array(0.0, 3.7);
 		$is = NumberLib::average($array, 1);
 		$expected = 1.9;
+		$this->assertSame($expected, $is);
+
+		$array = array(0.0, 3.7);
+		$is = NumberLib::average($array, 2);
+		$expected = 1.85;
 		$this->assertSame($expected, $is);
 	}
 

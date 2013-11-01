@@ -243,8 +243,7 @@ class NumberLib extends CakeNumber {
 		if (empty($values)) {
 			return 0.0;
 		}
-		$average = round(array_sum($values) / count($values), $precision);
-		return $average;
+		return round(array_sum($values) / count($values), $precision);
 	}
 
 	/**
