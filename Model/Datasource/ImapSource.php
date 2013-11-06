@@ -305,7 +305,7 @@ class ImapSource extends DataSource {
 	 *
 	 * @return array Sources
 	 */
-	public function listSources() {
+	public function listSources($data = null) {
 		return array('listSources');
 	}
 

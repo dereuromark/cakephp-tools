@@ -72,7 +72,8 @@ abstract class MyCakeTestCase extends CakeTestCase {
 		}
 		$url = array_shift($pieces);
 		if ($full) {
-			$protocol = array_shift(explode('/', $_SERVER['SERVER_PROTOCOL'], 2));
+			$pieces = explode('/', $_SERVER['SERVER_PROTOCOL'], 2);
+			$protocol = array_shift($pieces);
 			$url = strtolower($protocol) . '://' . $_SERVER['SERVER_NAME'] . $url;
 		}
 		return $url;

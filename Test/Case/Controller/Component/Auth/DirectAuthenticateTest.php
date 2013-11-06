@@ -31,6 +31,7 @@ class DirectAuthenticateTest extends CakeTestCase {
 			'userModel' => 'User'
 		));
 		$User = ClassRegistry::init('User');
+		$User->belongsTo = array();
 		$this->response = $this->getMock('CakeResponse');
 	}
 

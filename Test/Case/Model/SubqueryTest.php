@@ -14,7 +14,7 @@ class SubqueryTest extends MyCakeTestCase {
 	public $Model;
 
 	public function setUp() {
-		$this->Model = ClassRegistry::init('Tools.Country');
+		$this->Model = ClassRegistry::init('Country');
 
 		parent::setUp();
 	}
@@ -86,6 +86,6 @@ class SubqueryTest extends MyCakeTestCase {
 
 class CountriesTestsController extends Controller {
 
-	public $uses = array('Tools.Country');
+	public $uses = array('Country');
 
 }
