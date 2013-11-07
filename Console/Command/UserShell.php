@@ -6,7 +6,6 @@ if (!defined('CLASS_USER')) {
 
 App::uses('AppShell', 'Console/Command');
 App::uses('ComponentCollection', 'Controller');
-//App::uses('AuthExtComponent', 'Tools.Controller/Component');
 
 /**
  * Create a new user from CLI
@@ -32,7 +31,6 @@ class UserShell extends AppShell {
 			App::import('Component', 'Auth');
 			$this->Auth = new AuthComponent(new ComponentCollection());
 		}
-		//ConnectionManager::sourceList()
 
 		while (empty($username)) {
 			$username = $this->in(__('Username (2 characters at least)'));
@@ -74,14 +72,14 @@ class UserShell extends AppShell {
 		}
 
 		$this->out('');
-		$pwd = $this->Auth->password($password);
-
+		$this->User->Behaviors->load('Tools.Passwordable', array('confirm' => false));
+		//$this->User->validate['pwd']
 		$data = array('User' => array(
-			'password' => $pwd,
+			'pwd' => $password,
 			'active' => 1
 		));
 		if (!empty($username)) {
-			$usernameField = $this->User->displayField; //'username';
+			$usernameField = $this->User->displayField;
 			$data['User'][$usernameField] = $username;
 		}
 		if (!empty($email)) {
@@ -111,18 +109,17 @@ class UserShell extends AppShell {
 		}
 
 		$this->out('');
-		$continue = $this->in(__('Continue? '), array('y', 'n'), 'n');
+		$continue = $this->in(__('Continue?'), array('y', 'n'), 'n');
 		if ($continue !== 'y') {
 			return $this->error('Not Executed!');
 		}
 
 		$this->out('');
 		$this->hr();
-		if ($this->User->save($data)) {
-			$this->out('User inserted! ID: ' . $this->User->id);
-		} else {
+		if (!$this->User->save($data)) {
 			return $this->error('User could not be inserted (' . print_r($this->User->validationErrors, true) . ')');
 		}
+		$this->out('User inserted! ID: ' . $this->User->id);
 	}
 
 }

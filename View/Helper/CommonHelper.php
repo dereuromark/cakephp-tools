@@ -682,7 +682,9 @@ piwikTracker.enableLinkTracking();
 	 * @return array roles
 	 */
 	public function roleNamesTranslated($value) {
-		if (empty($value)) { return array(); }
+		if (empty($value)) {
+			return array();
+		}
 		$ret = array();
 		$translate = (array)Configure::read('Role');
 		if (is_array($value)) {
