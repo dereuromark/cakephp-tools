@@ -82,7 +82,16 @@ class ResetShell extends AppShell {
 		$this->hr();
 		$this->out('pwd:');
 		$this->out($pwToHash);
-		$pw = $this->Auth->password($pwToHash);
+
+		if ($authType = Configure::read('Passwordable.authType')) {
+			list($plugin, $authType) = pluginSplit($authType, true);
+			$className = $authType . 'PasswordHasher';
+			App::uses($className, $plugin . 'Controller/Component/Auth');
+			$passwordHasher = new $className();
+			$pw = $passwordHasher->hash($pwToHash);
+		} else {
+			$pw = $this->Auth->password($pwToHash);
+		}
 		$this->hr();
 		$this->out('hash:');
 		$this->out($pw);

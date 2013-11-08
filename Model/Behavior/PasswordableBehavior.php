@@ -341,6 +341,12 @@ class PasswordableBehavior extends ModelBehavior {
 				}
 				return true;
 			}
+			// Make sure we trigger validation if allowEmpty is set but we have the password field set
+			if ($new) {
+				if ($this->settings[$Model->alias]['confirm'] && empty($Model->data[$Model->alias][$formFieldRepeat])) {
+					$Model->invalidate($formFieldRepeat, __('valErrPwdNotMatch'));
+				}
+			}
 		}
 
 		// Update whitelist

@@ -11,8 +11,6 @@ App::uses('ComponentCollection', 'Controller');
  */
 class PwdShell extends AppShell {
 
-	public $Auth = null;
-
 	/**
 	 * PwdShell::hash()
 	 *
@@ -39,9 +37,18 @@ class PwdShell extends AppShell {
 			$pwToHash = $this->in(__('Password to Hash (2 characters at least)'));
 		}
 
-		$pw = $class::password($pwToHash);
+		if ($authType = Configure::read('Passwordable.authType')) {
+			list($plugin, $authType) = pluginSplit($authType, true);
+			$className = $authType . 'PasswordHasher';
+			App::uses($className, $plugin . 'Controller/Component/Auth');
+			$passwordHasher = new $className();
+			$pw = $passwordHasher->hash($pwToHash);
+		} else {
+			$pw = $class->password($pwToHash);
+		}
+
 		$this->hr();
-		echo $pw;
+		$this->out($pw);
 	}
 
 	/**
