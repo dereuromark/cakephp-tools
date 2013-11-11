@@ -326,7 +326,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$this->User->set($data);
 		$is = $this->User->save();
 		$this->assertFalse((bool)$is);
-		debug($this->User->validationErrors);
+		//debug($this->User->validationErrors);
 
 		$this->User->create();
 		$data = array(

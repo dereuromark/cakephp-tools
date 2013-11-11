@@ -40,7 +40,7 @@ class SortableBehaviorTest extends MyCakeTestCase {
 	 */
 	public function testBasicUp() {
 		$list = $this->_getList();
-		debug($list);
+		//debug($list);
 
 		$positionBefore = $this->_getPosition(4);
 		$this->assertSame(3, $positionBefore);
@@ -68,7 +68,7 @@ class SortableBehaviorTest extends MyCakeTestCase {
 	 */
 	public function testUp() {
 		$list = $this->_getList();
-		debug($list);
+		//debug($list);
 
 		$positionBefore = $this->_getPosition(4);
 		$this->assertSame(3, $positionBefore);
