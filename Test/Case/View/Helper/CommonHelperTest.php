@@ -12,6 +12,9 @@ class CommonHelperTest extends MyCakeTestCase {
 
 	public function setUp() {
 		parent::setUp();
+  	if (!Configure::read('App.fullBaseUrl')) {
+  		Configure::write('App.fullBaseUrl', 'http://localhost');
+  	}
 
 		$this->Common = new CommonHelper(new View(null));
 	}
