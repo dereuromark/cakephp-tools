@@ -17,6 +17,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
+		Configure::delete('Passwordable');
 		Configure::write('Passwordable.auth', 'AuthTest');
 
 		$this->User = ClassRegistry::init('Tools.ToolsUser');

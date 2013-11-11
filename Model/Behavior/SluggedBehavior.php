@@ -94,9 +94,9 @@ class SluggedBehavior extends ModelBehavior {
 		foreach ($this->_defaultSettings['replace'] as $key => $value) {
 			$this->_defaultSettings['replace'][$key] = __($value);
 		}
-		$this->_defaultSettings = Set::merge($this->_defaultSettings, (array)Configure::read('Slugged'));
+		$this->_defaultSettings = array_merge($this->_defaultSettings, (array)Configure::read('Slugged'));
 
-		$this->settings[$Model->alias] = Set::merge($this->_defaultSettings, $config);
+		$this->settings[$Model->alias] = array_merge($this->_defaultSettings, $config);
 		extract($this->settings[$Model->alias]);
 		$label = $this->settings[$Model->alias]['label'] = (array)$label;
 		if ($Model->Behaviors->loaded('Translate')) {
@@ -365,6 +365,7 @@ class SluggedBehavior extends ModelBehavior {
 		extract($this->settings[$Model->alias]);
 		$this->_setEncoding($Model, $encoding, $string, !Configure::read('debug'));
 
+		$string = str_replace(array("\r\n", "\r", "\n"), ' ', $string);
 		if ($replace) {
 			$string = str_replace(array_keys($replace), array_values($replace), $string);
 		}
