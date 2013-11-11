@@ -461,7 +461,7 @@ class SluggedBehavior extends ModelBehavior {
 		$defaults = array(
 			'page' => 1,
 			'limit' => 100,
-			'fields' => array_merge(array($Model->primaryKey, $slugField), $label),
+			'fields' => array_merge(array($Model->primaryKey), $label),
 			'order' => $Model->displayField . ' ASC',
 			'conditions' => $scope,
 			'recursive' => $recursive,
@@ -473,11 +473,15 @@ class SluggedBehavior extends ModelBehavior {
 		if ($max) {
 			set_time_limit(max($max, $count / 100));
 		}
+
+		$settings = $Model->Behaviors->Slugged->settings[$Model->alias];
+		$Model->Behaviors->load('Tools.Slugged', $params + $settings);
+
 		while ($rows = $Model->find('all', $params)) {
 			foreach ($rows as $row) {
 				$Model->create();
-				if (!$Model->save($row, true, array($slugField))) {
-					throw new RuntimeException(print_r($Model->validationErrors, true));
+				if (!$Model->save($row, true, array_merge(array($Model->primaryKey, $slugField), $label))) {
+					throw new RuntimeException(print_r($row[$Model->alias], true) . ': ' . print_r($Model->validationErrors, true));
 				}
 			}
 			$params['page']++;
