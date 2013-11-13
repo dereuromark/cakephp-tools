@@ -206,28 +206,6 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * Catch database errors before it's too late
-	 * //TODO: testing
-	 */
-	public function onError() {
-		$err = $this->lastError();
-		if (!empty($err)) {
-			$this->log($err, 'sql_error');
-		} else {
-			$this->log('unknown error', 'sql_error');
-		}
-		if (!empty($this->data)) {
-			$data = $this->data;
-		} elseif ($this->id) {
-			$data = 'id ' . $this->id;
-		} else {
-			$data = 'no data';
-		}
-		$data .= ' (' . env('REDIRECT_URL') . ')';
-		$this->log($data, 'sql_error');
-	}
-
-	/**
 	 * @return string Error message with error number
 	 */
 	public function lastError() {

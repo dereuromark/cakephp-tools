@@ -587,7 +587,7 @@ class CommonComponent extends Component {
 		if (!$ref) {
 			return false;
 		}
-		$base = FULL_BASE_URL . $this->Controller->webroot;
+		$base = Configure::read('App.fullBaseUrl') . $this->Controller->webroot;
 		if (strpos($ref, $base) === 0) {
 			return false;
 		}
