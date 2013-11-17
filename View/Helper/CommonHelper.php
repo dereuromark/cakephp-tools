@@ -189,6 +189,7 @@ class CommonHelper extends AppHelper {
 	 * => z is in plugins/tools/packages/jquery/files/jquery/sub/
 	 *
 	 * @return string htmlMarkup
+	 * @deprecated Use AssetCompress plugin instead
 	 */
 	public function css($files = array(), $options = array()) {
 		$files = (array)$files;
@@ -210,6 +211,7 @@ class CommonHelper extends AppHelper {
 	 * => z is in plugins/tools/packages/jquery/files/jquery/sub/
 	 *
 	 * @return string htmlMarkup
+	 * @deprecated Use AssetCompress plugin instead
 	 */
 	public function script($files = array(), $options = array()) {
 		$files = (array)$files;
@@ -231,6 +233,7 @@ class CommonHelper extends AppHelper {
 	 * Note: needs Asset.cssversion => xyz (going up with counter)
 	 *
 	 * @return string htmlMarkup
+	 * @deprecated Use AssetCompress plugin instead
 	 */
 	public function cssDyn($path, $options = array()) {
 		$v = (int)Configure::read('Asset.version');
@@ -244,6 +247,7 @@ class CommonHelper extends AppHelper {
 	 * Note: needs Asset.timestamp => force
 	 *
 	 * @return string htmlMarkup
+	 * @deprecated Use AssetCompress plugin instead
 	 */
 	public function cssAuto($path, $htmlAttributes = array()) {
 		$compress = Configure::read('App.compressCss');

@@ -1,6 +1,7 @@
 <?php
 
 App::uses('CommonHelper', 'Tools.View/Helper');
+App::uses('HtmlHelper', 'Tools.View/Helper');
 App::uses('View', 'View');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
@@ -16,7 +17,9 @@ class CommonHelperTest extends MyCakeTestCase {
 			Configure::write('App.fullBaseUrl', 'http://localhost');
 		}
 
-		$this->Common = new CommonHelper(new View(null));
+		$View = new View(null);
+		$this->Common = new CommonHelper($View);
+		$this->Html = new CommonHelper($View);
 	}
 
 	/**
@@ -24,7 +27,7 @@ class CommonHelperTest extends MyCakeTestCase {
 	public function testMetaCanonical() {
 		$is = $this->Common->metaCanonical('/some/url/param1');
 		$this->out(h($is));
-		$this->assertEquals('<link href="' . Configure::read('App.fullBaseUrl') . $this->Common->url('/some/url/param1') . '" rel="canonical" />', trim($is));
+		$this->assertEquals('<link href="' . Configure::read('App.fullBaseUrl') . $this->Html->url('/some/url/param1') . '" rel="canonical" />', trim($is));
 	}
 
 	/**
@@ -32,22 +35,22 @@ class CommonHelperTest extends MyCakeTestCase {
 	public function testMetaAlternate() {
 		$is = $this->Common->metaAlternate('/some/url/param1', 'de-de', true);
 		$this->out(h($is));
-		$this->assertEquals('<link href="' . $this->Common->url('/some/url/param1', true) . '" rel="alternate" hreflang="de-de" />', trim($is));
+		$this->assertEquals('<link href="' . $this->Html->url('/some/url/param1', true) . '" rel="alternate" hreflang="de-de" />', trim($is));
 
 		$is = $this->Common->metaAlternate(array('controller' => 'some', 'action' => 'url'), 'de', true);
 		$this->out(h($is));
-		$this->assertEquals('<link href="' . $this->Common->url('/some/url', true) . '" rel="alternate" hreflang="de" />', trim($is));
+		$this->assertEquals('<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="de" />', trim($is));
 
 		$is = $this->Common->metaAlternate(array('controller' => 'some', 'action' => 'url'), array('de', 'de-ch'), true);
 		$this->out(h($is));
-		$this->assertEquals('<link href="' . $this->Common->url('/some/url', true) . '" rel="alternate" hreflang="de" />' . PHP_EOL . '<link href="' . FULL_BASE_URL . $this->Common->url('/some/url') . '" rel="alternate" hreflang="de-ch" />', trim($is));
+		$this->assertEquals('<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="de" />' . PHP_EOL . '<link href="' . FULL_BASE_URL . $this->Html->url('/some/url') . '" rel="alternate" hreflang="de-ch" />', trim($is));
 
 		$is = $this->Common->metaAlternate(array('controller' => 'some', 'action' => 'url'), array('de' => array('ch', 'at'), 'en' => array('gb', 'us')), true);
 		$this->out(h($is));
-		$this->assertEquals('<link href="' . $this->Common->url('/some/url', true) . '" rel="alternate" hreflang="de-ch" />' . PHP_EOL .
-			'<link href="' . $this->Common->url('/some/url', true) . '" rel="alternate" hreflang="de-at" />' . PHP_EOL .
-			'<link href="' . $this->Common->url('/some/url', true) . '" rel="alternate" hreflang="en-gb" />' . PHP_EOL .
-			'<link href="' . $this->Common->url('/some/url', true) . '" rel="alternate" hreflang="en-us" />', trim($is));
+		$this->assertEquals('<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="de-ch" />' . PHP_EOL .
+			'<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="de-at" />' . PHP_EOL .
+			'<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="en-gb" />' . PHP_EOL .
+			'<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="en-us" />', trim($is));
 	}
 
 	/**
