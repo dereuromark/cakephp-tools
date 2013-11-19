@@ -42,7 +42,7 @@ class MyModel extends Model {
 		}
 
 		# Get a notice if there is an AppModel instance instead of a real Model (in those cases usually a dev error!)
-		if (!is_a($this, $this->name) && $this->displayField !== 'id' && $this->useDbConfig !== 'test'
+		if (!is_a($this, $this->name) && $this->displayField !== 'id' && $this->useDbConfig === 'default'
 			&& !Configure::read('Core.disableModelInstanceNotice')) {
 			trigger_error('AppModel instance! Expected: ' . $this->name);
 		}
@@ -221,6 +221,7 @@ class MyModel extends Model {
 	 * TODO: adding of fields only temperory!
 	 *
 	 * @param array $virtualFields to include
+	 * @return array
 	 */
 	public function virtualFields($fields = array()) {
 		$res = array();
@@ -264,6 +265,8 @@ class MyModel extends Model {
 	/**
 	 * HIGHLY EXPERIMENTAL
 	 * manually escape value for updateAll() etc
+	 *
+	 * @return string
 	 */
 	public function escapeValue($value) {
 		if ($value === null || is_numeric($value)) {
@@ -279,6 +282,7 @@ class MyModel extends Model {
 	 * HIGHLY EXPERIMENTAL
 	 *
 	 * @see http://cakephp.lighthouseapp.com/projects/42648/tickets/1799-model-should-have-escapefield-method
+	 * @return string
 	 */
 	public function value($content) {
 		$db = $this->getDatasource();
@@ -296,6 +300,7 @@ class MyModel extends Model {
 	 * - field (defaults to 'count')
 	 * - modify (if true if will affect modified timestamp)
 	 * - timestampField (if provided it will be filled with NOW())
+	 * @return See Model::save()
 	 */
 	public function up($id, $customOptions = array()) {
 		$step = 1;
@@ -351,6 +356,7 @@ class MyModel extends Model {
 	 *
 	 * @param array $fields (which are supposed to be present in $this->data[$this->alias])
 	 * @param boolean $force (if init should be forced, otherwise only if array_key exists)
+	 * @return void
 	 */
 	public function init($fields = array(), $force = false) {
 		foreach ($fields as $field) {
@@ -391,6 +397,8 @@ class MyModel extends Model {
 	 * Enables HABTM-Validation
 	 * e.g. with
 	 * 'rule' => array('multiple', array('min' => 2))
+	 *
+	 * @return boolean Success
 	 */
 	public function beforeValidate($options = array()) {
 		foreach ($this->hasAndBelongsToMany as $k => $v) {
