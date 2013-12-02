@@ -64,6 +64,8 @@ class BitmaskedBehavior extends ModelBehavior {
 	}
 
 	/**
+	 * @param Model $Model
+	 * @param array $query
 	 * @return array
 	 */
 	public function beforeFind(Model $Model, $query) {
@@ -77,6 +79,9 @@ class BitmaskedBehavior extends ModelBehavior {
 	}
 
 	/**
+	 * @param Model $Model
+	 * @param array $results
+	 * @param boolean $primary
 	 * @return array
 	 */
 	public function afterFind(Model $Model, $results, $primary = false) {
@@ -95,6 +100,8 @@ class BitmaskedBehavior extends ModelBehavior {
 	}
 
 	/**
+	 * @param Model $Model
+	 * @param array $options
 	 * @return boolean Success
 	 */
 	public function beforeValidate(Model $Model, $options = array()) {
@@ -106,6 +113,8 @@ class BitmaskedBehavior extends ModelBehavior {
 	}
 
 	/**
+	 * @param Model $Model
+	 * @param array $options
 	 * @return boolean Success
 	 */
 	public function beforeSave(Model $Model, $options = array()) {
@@ -117,9 +126,9 @@ class BitmaskedBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * @param integer $bitmask
-	 * @return array bitmaskArray
-	 * from DB to APP
+	 * @param Model $Model
+	 * @param integer $value Bitmask.
+	 * @return array Bitmask array (from DB to APP).
 	 */
 	public function decodeBitmask(Model $Model, $value) {
 		$res = array();
@@ -134,9 +143,10 @@ class BitmaskedBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * @param array $bitmaskArray
-	 * @return integer bitmask
-	 * from APP to DB
+	 * @param Model $Model
+	 * @param array $value Bitmask array.
+	 * @param array $defaultValue Default bitmask array.
+	 * @return integer Bitmask (from APP to DB).
 	 */
 	public function encodeBitmask(Model $Model, $value, $defaultValue = null) {
 		$res = 0;
@@ -153,7 +163,9 @@ class BitmaskedBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * @return array conditions
+	 * @param Model $Model
+	 * @param array $conditions
+	 * @return array Conditions.
 	 */
 	public function encodeBitmaskConditions(Model $Model, $conditions) {
 		$field = $this->settings[$Model->alias]['field'];
@@ -184,6 +196,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	}
 
 	/**
+	 * @param Model $Model
 	 * @return void
 	 */
 	public function encodeBitmaskData(Model $Model) {
@@ -209,8 +222,9 @@ class BitmaskedBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * @param mixed bits (int, array)
-	 * @return array sqlSnippet
+	 * @param Model $Model
+	 * @param mixed $bits (int, array)
+	 * @return array SQL snippet.
 	 */
 	public function isBit(Model $Model, $bits) {
 		$bits = (array)$bits;
@@ -221,35 +235,45 @@ class BitmaskedBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * @param mixed bits (int, array)
-	 * @return array sqlSnippet
+	 * @param Model $Model
+	 * @param mixed $bits (int, array)
+	 * @return array SQL snippet.
 	 */
 	public function isNotBit(Model $Model, $bits) {
 		return array('NOT' => $this->isBit($Model, $bits));
 	}
 
 	/**
-	 * @param mixed bits (int, array)
-	 * @return array sqlSnippet
+	 * @param Model $Model
+	 * @param mixed $bits (int, array)
+	 * @return array SQL snippet.
 	 */
 	public function containsBit(Model $Model, $bits) {
-		$bits = (array)$bits;
-		$bitmask = $this->encodeBitmask($Model, $bits);
-
-		$field = $this->settings[$Model->alias]['field'];
-		return array('(' . $Model->alias . '.' . $field . ' & ? = ?)' => array($bitmask, $bitmask));
+		return $this->_containsBit($Model, $bits);
 	}
 
 	/**
-	 * @param mixed bits (int, array)
-	 * @return array sqlSnippet
+	 * @param Model $Model
+	 * @param mixed $bits (int, array)
+	 * @return array SQL snippet.
 	 */
 	public function containsNotBit(Model $Model, $bits) {
+		return $this->_containsBit($Model, $bits, false);
+	}
+
+	/**
+	 * @param Model $Model
+	 * @param mixed $bits (int, array)
+	 * @param boolean $contain
+	 * @return array SQL snippet.
+	 */
+	protected function _containsBit(Model $Model, $bits, $contain = true) {
 		$bits = (array)$bits;
 		$bitmask = $this->encodeBitmask($Model, $bits);
 
 		$field = $this->settings[$Model->alias]['field'];
-		return array('(' . $Model->alias . '.' . $field . ' & ? != ?)' => array($bitmask, $bitmask));
+		$contain = $contain ? ' & ? = ?' : ' & ? != ?';
+		return array('(' . $Model->alias . '.' . $field . $contain . ')' => array($bitmask, $bitmask));
 	}
 
 }
