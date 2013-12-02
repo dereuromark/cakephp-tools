@@ -80,8 +80,7 @@ class NumberLib extends CakeNumber {
 	 * //TODO: automize per localeconv() ?
 	 *
 	 * @param float $number
-	 * @param integer $places (0 = int, 1..x places after dec, -1..-x places before dec)
-	 * @param array $option : currency=true/false, ... (leave empty for no special treatment)
+	 * @param array $options : currency=true/false, ... (leave empty for no special treatment)
 	 * @return string
 	 */
 	public static function format($number, $formatOptions = array()) {

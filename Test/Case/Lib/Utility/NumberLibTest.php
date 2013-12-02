@@ -49,6 +49,11 @@ class NumberLibTest extends MyCakeTestCase {
 		$this->assertSame($expected, $is);
 	}
 
+	/**
+	 * NumberLibTest::testMoney()
+	 *
+	 * @return void
+	 */
 	public function testMoney() {
 		$is = NumberLib::money(22.11);
 		$expected = '22,11 €';
@@ -59,6 +64,11 @@ class NumberLibTest extends MyCakeTestCase {
 		$this->assertSame($expected, $is);
 	}
 
+	/**
+	 * NumberLibTest::testPrice()
+	 *
+	 * @return void
+	 */
 	public function testPrice() {
 		$is = NumberLib::price(22.11);
 		$expected = '22,11 €';
@@ -69,6 +79,11 @@ class NumberLibTest extends MyCakeTestCase {
 		$this->assertSame($expected, $is);
 	}
 
+	/**
+	 * NumberLibTest::testCurrency()
+	 *
+	 * @return void
+	 */
 	public function testCurrency() {
 		$is = NumberLib::currency(22.11);
 		$expected = '22,11 €';
@@ -84,6 +99,25 @@ class NumberLibTest extends MyCakeTestCase {
 
 		$is = NumberLib::currency(22.11, 'EUR', array('signed' => true));
 		$expected = '+22,11 €';
+		$this->assertSame($expected, $is);
+	}
+
+	/**
+	 * NumberLibTest::testFormat()
+	 *
+	 * @return void
+	 */
+	public function testFormat() {
+		$is = NumberLib::format(22.11);
+		$expected = '22,11';
+		$this->assertSame($expected, $is);
+
+		$is = NumberLib::format(22933773);
+		$expected = '22.933.773,00';
+		$this->assertSame($expected, $is);
+
+		$is = NumberLib::format(-0.895, array('places' => 3));
+		$expected = '-0,895';
 		$this->assertSame($expected, $is);
 	}
 
