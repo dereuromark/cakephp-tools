@@ -233,11 +233,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @return array sqlSnippet
 	 */
 	public function containsBit(Model $Model, $bits) {
-		$bits = (array)$bits;
-		$bitmask = $this->encodeBitmask($Model, $bits);
-
-		$field = $this->settings[$Model->alias]['field'];
-		return array('(' . $Model->alias . '.' . $field . ' & ? = ?)' => array($bitmask, $bitmask));
+		return $this->_containsBit($Model, $bits);
 	}
 
 	/**
@@ -245,11 +241,21 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @return array sqlSnippet
 	 */
 	public function containsNotBit(Model $Model, $bits) {
+		return $this->_containsBit($Model, $bits, false);
+	}
+
+	/**
+	 * @param mixed bits (int, array)
+	 * @param boolean contain
+	 * @return array sqlSnippet
+	 */
+	protected function _containsBit(Model $Model, $bits, $contain = true) {
 		$bits = (array)$bits;
 		$bitmask = $this->encodeBitmask($Model, $bits);
 
 		$field = $this->settings[$Model->alias]['field'];
-		return array('(' . $Model->alias . '.' . $field . ' & ? != ?)' => array($bitmask, $bitmask));
+		$contain = $contain ? ' & ? = ?' : ' & ? != ?';
+		return array('(' . $Model->alias . '.' . $field . $contain . ')' => array($bitmask, $bitmask));
 	}
 
 }
