@@ -225,11 +225,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @return array sqlSnippet
 	 */
 	public function isNotBit(Model $Model, $bits) {
-		$bits = (array)$bits;
-		$bitmask = $this->encodeBitmask($Model, $bits);
-
-		$field = $this->settings[$Model->alias]['field'];
-		return array('NOT' => array($Model->alias . '.' . $field => $bitmask));
+		return array('NOT' => $this->isBit($Model, $bits));
 	}
 
 	/**
