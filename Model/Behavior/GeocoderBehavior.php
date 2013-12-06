@@ -10,6 +10,7 @@ App::uses('GeocodeLib', 'Tools.Lib');
  * @author Mark Scherer
  * @cakephp 2.x
  * @licence MIT
+ * @link http://www.dereuromark.de/2012/06/12/geocoding-with-cakephp/
  */
 class GeocoderBehavior extends ModelBehavior {
 
@@ -175,7 +176,7 @@ class GeocoderBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * Add the distance to this point as a virtual field
+	 * Adds the distance to this point as a virtual field.
 	 *
 	 * @param Model $Model
 	 * @param string|float $lat Fieldname (Model.lat) or float value
@@ -187,7 +188,7 @@ class GeocoderBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * Form a sql snippet for distance calculation on db level using two lat/lng points
+	 * Forms a sql snippet for distance calculation on db level using two lat/lng points.
 	 *
 	 * @param string|float $lat Fieldname (Model.lat) or float value
 	 * @param string|float $lng Fieldname (Model.lng) or float value
@@ -322,6 +323,7 @@ class GeocoderBehavior extends ModelBehavior {
 
 	/**
 	 * Uses the GeocodeLib to query
+	 *
 	 * @param array $addressFields (simple array of address pieces)
 	 * @return array
 	 */

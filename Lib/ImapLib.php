@@ -337,26 +337,61 @@ class ImapLib {
 	}
 
 	/**
+	 * Decode message text.
+	 *
+	 * @param string $message
+	 * @param int $encoding
+	 * @return string Message
 	 * @see http://www.nerdydork.com/download-pop3imap-email-attachments-with-php.html
 	 */
-	protected function _getDecodedValue($message, $coding) {
-		if ($coding == 0) {
+	protected function _getDecodedValue($message, $encoding) {
+		if ($encoding == 0) {
 			$message = imap_8bit($message);
-		} elseif ($coding == 1) {
-			$message = imap_8bit($message);
-		} elseif ($coding == 2) {
+			$message = $this->_decode7Bit($message);
+		} elseif ($encoding == 1) {
+			$message = imap_8bit($message); // Additionally needs quoted_printable_decode()?
+		} elseif ($encoding == 2) {
 			$message = imap_binary($message);
-		} elseif ($coding == 3) {
+		} elseif ($encoding == 3) {
 			$message = imap_base64($message);
-		} elseif ($coding == 4) {
+		} elseif ($encoding == 4) {
 			$message = imap_qprint($message);
-		} elseif ($coding == 5) {
+		} elseif ($encoding == 5) {
 			// plain
-			//$message = imap_base64($message);
 		}
 		return $message;
 	}
 
+	/**
+	 * Decodes 7-Bit text.
+	 *
+	 * @param string $text 7-Bit text to convert.
+	 * @return string Decoded text.
+	 */
+	protected function _decode7Bit($text) {
+		// Manually convert common encoded characters into their UTF-8 equivalents.
+		$characters = array(
+			'=20' => ' ', // space.
+			'=E2=80=99' => "'", // single quote.
+			'=0A' => "\r\n", // line break.
+			'=A0' => ' ', // non-breaking space.
+			'=C2=A0' => ' ', // non-breaking space.
+			"=\r\n" => '', // joined line.
+			'=E2=80=A6' => '…', // ellipsis.
+			'=E2=80=A2' => '•', // bullet.
+		);
+		foreach ($characters as $key => $value) {
+			$text = str_replace($key, $value, $text);
+		}
+		return $text;
+	}
+
+	/**
+	 * ImapLib::search()
+	 *
+	 * @param mixed $params
+	 * @return string
+	 */
 	public function search($params) {
 		if ($this->stream) {
 			if (is_array($params)) {
@@ -380,6 +415,12 @@ class ImapLib {
 		return imap_last_error();
 	}
 
+	/**
+	 * ImapLib::flag()
+	 *
+	 * @param mixed $flag
+	 * @return boolean
+	 */
 	public function flag($flag) {
 		return imap_setflag_full($this->ImapFolder->Imap->stream, $this->uid, $flag, ST_UID);
 	}

@@ -138,8 +138,9 @@ class FormatHelper extends TextHelper {
 	const GENDER_MALE = 1;
 
 	/**
-	 * //TODO: move to Format
-	 * displays gender icon
+	 * Displays gender icon
+	 *
+	 * @return string
 	 */
 	public function genderIcon($value = null, $type = null) {
 		$value = (int)$value;
@@ -154,9 +155,10 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * //TODO: move to Format?
-	 * returns img from customImgFolder
+	 * Returns img from customImgFolder
+	 *
 	 * @param ARRAY options (ending [default: gif])
+	 * @return string
 	 */
 	public function customIcon($folder, $icon = null, $checkExist = false, $options = array(), $attr = array()) {
 		$attachment = 'default';
@@ -185,13 +187,13 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * //TODO: move to Format?
+	 * Country icons
 	 *
 	 * Custom paths possible:
 	 * 'imagePath' => 'PluginName./img/country_flags/',
 	 *
 	 * @param string $icon iso2 code (e.g. 'de' or 'gb')
-	 * @return string;
+	 * @return string
 	 */
 	public function countryIcon($icon = null, $returnFalseonFailure = false, $options = array(), $attr = array()) {
 		$ending = 'gif';
@@ -240,6 +242,7 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
+	 * @return string
 	 */
 	public function importantIcon($icon, $value) {
 		$ending = 'gif';
@@ -355,11 +358,13 @@ class FormatHelper extends TextHelper {
 
 	/**
 	 * Quick way of printing default icons (have to be 16px X 16px !!!)
+	 *
 	 * @param type
 	 * @param title
 	 * @param alt (set to FALSE if no alt is supposed to be shown)
 	 * @param boolean automagic i18n translate [default true = __('xyz')]
 	 * @param options array ('class'=>'','width/height'=>'','onclick=>'') etc
+	 * @return string
 	 */
 	public function icon($type, $t = null, $a = null, $translate = null, $options = array()) {
 		$html = '';
@@ -409,12 +414,14 @@ class FormatHelper extends TextHelper {
 
 	/**
 	 * Custom Icons
+	 *
 	 * @param string $icon (constant or filename)
 	 * @param array $options:
 	 * - translate, ...
 	 * @param array $attributes:
 	 * - title, alt, ...
 	 * THE REST IS DEPRECATED
+	 * @return string
 	 */
 	public function cIcon($icon, $t = null, $a = null, $translate = true, $options = array()) {
 		if (is_array($t)) {
@@ -442,12 +449,13 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * @deprecated use RatingHelper::stars() instead
-	 * //TODO: move to Format?
-	 * print Star Bar
+	 * Print Star Bar
+	 * //TODO: 0.5 steps!
+	 *
 	 * array $options: steps=1/0.5 [default:1]), show_zero=true/false [default:false], title=false/true [default:false]
 	 * array $attr: string 'title' (both single and span title empty => 'x of x' for span)
-	 * TODO: 0.5 steps!
+	 * @return string
+	 * @deprecated use RatingHelper::stars() instead
 	 */
 	public function showStars($current = null, $max = null, $options = array(), $attr = array()) {
 		$res = '---';
@@ -504,17 +512,9 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * //TODO: move to Format?
-	 * addItemAttribute function
+	 * Display language flags
 	 *
-	 * Called to modify the attributes of the next <item> to be processed
-	 * Note that the content of a 'node' is processed before generating its wrapping <item> tag
-	 * TODO: refactor!!
-	 *
-	 * @param string $id
-	 * @param string $key
-	 * @param mixed $value
-	 * @return void
+	 * @return string HTML
 	 */
 	public function languageFlags() {
 		$langs = Configure::read('LanguagesAvailable');
@@ -557,7 +557,9 @@ class FormatHelper extends TextHelper {
 	 * Helper Function to Obfuscate Email by inserting a span tag (not more! not very secure on its own...)
 	 * each part of this mail now does not make sense anymore on its own
 	 * (striptags will not work either)
+	 *
 	 * @param string email: necessary (and valid - containing one @)
+	 * @return string
 	 */
 	public function encodeEmail($mail) {
 		list($mail1, $mail2) = explode('@', $mail);
@@ -568,11 +570,12 @@ class FormatHelper extends TextHelper {
 	/**
 	 * //TODO: move to TextExt?
 	 * Obfuscates Email (works without JS!) to avoid spam bots to get it
+	 *
 	 * @param string mail: email to encode
 	 * @param string text: optional (if none is given, email will be text as well)
 	 * @param array attributes: html tag attributes
 	 * @param array params: ?subject=y&body=y to be attached to "mailto:xyz"
-	 * @return save string with js generated link around email (and non js fallback)
+	 * @return string Save string with JS generated link around email (and non JS fallback)
 	 */
 	public function encodeEmailUrl($mail, $text = null, $params = array(), $attr = array()) {
 		if (empty($class)) { $class = 'email';}
@@ -626,6 +629,7 @@ class FormatHelper extends TextHelper {
 	/**
 	 * //TODO: move to TextExt?
 	 * Encodes Piece of Text (without usage of JS!) to avoid spam bots to get it
+	 *
 	 * @param STRING text to encode
 	 * @return string (randomly encoded)
 	 */
@@ -649,7 +653,8 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * //TODO: move to Format?
+	 * Display yes/no symbol.
+	 *
 	 * @param text: default FALSE; if TRUE, text instead of the image
 	 * @param ontitle: default FALSE; if it is embadded in a link, set to TRUE
 	 * @return image:Yes/No or text:Yes/No
@@ -682,11 +687,14 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * Get url of a png img of a website (16x16 pixel)
+	 * Get URL of a png img of a website (16x16 pixel).
+	 *
+	 * @parm string domain
+	 * @return string
 	 */
 	public function siteIconUrl($domain) {
 		if (strpos($domain, 'http') === 0) {
-			# strip protocol
+			// Strip protocol
 			$pieces = parse_url($domain);
 			$domain = $pieces['host'];
 		}
@@ -696,7 +704,9 @@ class FormatHelper extends TextHelper {
 	/**
 	 * Display a png img of a website (16x16 pixel)
 	 * if not available, will return a fallback image (a globe)
+	 *
 	 * @param domain (preferably without protocol, e.g. "www.site.com")
+	 * @return string
 	 */
 	public function siteIcon($domain, $options = array()) {
 		$url = $this->siteIconUrl($domain);
@@ -712,6 +722,9 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
+	 * Display text as image
+	 * //TODO: move to own helper
+	 *
 	 * @param string $text
 	 * @param array $options (for generation):
 	 * - inline, font, size, background (optional)
@@ -774,6 +787,11 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
+	 * Display a disabled link tag
+	 *
+	 * @param string $text
+	 * @param array $options
+	 * @return string
 	 */
 	public function disabledLink($text, $options = array()) {
 		$defaults = array('class' => 'disabledLink', 'title' => __('notAvailable'));
@@ -783,18 +801,13 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * Display communication action depending on the current rule/right
-	 */
-	public function action($s) {
-		//TODO
-	}
-
-	/**
 	 * Generate a pagination count: #1 etc for each pagiation record
 	 * respects order (ASC/DESC)
-	 * @param paginator array
-	 * @param count (current post count on this page)
-	 * @param dir (ASC/DESC)
+	 *
+	 * @param array $paginator
+	 * @param integer $count (current post count on this page)
+	 * @param string $dir (ASC/DESC)
+	 * @return integer
 	 */
 	public function absolutePaginateCount($paginator, $count, $dir = null) {
 		if ($dir === null) {
@@ -827,7 +840,7 @@ class FormatHelper extends TextHelper {
 	 * - min, max
 	 * - steps
 	 * - decimals (how precise should the result be displayed)
-	 *
+	 * @return string HTML
 	 */
 	public function progressBar($progress, $options = array(), $htmlOptions = array()) {
 		$defaults = array(
@@ -871,6 +884,8 @@ class FormatHelper extends TextHelper {
 
 	/**
 	 * Fixes utf8 problems of native php str_pad function
+	 * //TODO: move to textext helper?
+	 *
 	 * @param string $input
 	 * @param integer $padLength
 	 * @param string $padString
@@ -893,8 +908,9 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * deprecated
-	 * album image
+	 * Album image
+	 *
+	 * @deprecated
 	 */
 	public function image($id, $options = array(), $attr = array()) {
 		if (!empty($options['h'])) {
@@ -1038,14 +1054,6 @@ class FormatHelper extends TextHelper {
 	public function profileUrl($uid, $username, $full = false, $options = array()) {
 		return $this->Html->url(array('plugin' => false, 'admin' => false, 'controller' => 'members', 'action' => 'view', $uid, slug($username)), $full);
 	}
-
-	/*
-	public function profileLinkById($uid) {
-	$username = null; //TODO: get from static list
-	//$username = slug($username);
-	return $this->Html->link($username, array('admin'=>false,'controller'=>'members', 'action'=>'view', $uid, $username));
-	}
-	*/
 
 	/**
 	 * Better an element?
