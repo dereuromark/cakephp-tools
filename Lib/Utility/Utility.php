@@ -28,6 +28,38 @@ class Utility {
 	}
 
 	/**
+	 * Tokenizes a string using $separator.
+	 *
+	 * Options
+	 * - clean: true/false (defaults to true and removes empty tokens and whitespace)
+	 *
+	 * @param string $data The data to tokenize
+	 * @param string $separator The token to split the data on.
+	 * @param array $options
+	 * @return void
+	 */
+	public static function tokenize($data, $separator = ',', $options = array()) {
+		$defaults = array(
+			'clean' => true
+		);
+		$options += $defaults;
+		if (empty($data)) {
+			return array();
+		}
+		$tokens = explode($separator, $data);
+		if (empty($tokens) || !$options['clean']) {
+			return $tokens;
+		}
+
+		foreach ($tokens as $key => $token) {
+			if ($token === '') {
+				unset($tokens[$key]);
+			}
+		}
+		return array_map('trim', $tokens);
+	}
+
+	/**
 	 * Multibyte analogue of preg_match_all() function. Only that this returns the result.
 	 * By default this works properly with UTF8 strings.
 	 *
