@@ -13,7 +13,7 @@ class CommonHelper extends AppHelper {
 	);
 
 	/**
-	 * Convenience function for clean ROBOTS allowance
+	 * Convenience method for clean ROBOTS allowance
 	 *
 	 * @param string $type - private/public
 	 * @return string HTML
@@ -37,7 +37,8 @@ class CommonHelper extends AppHelper {
 	}
 
 	/**
-	 * Convenience function for clean meta name tags
+	 * Convenience method for clean meta name tags
+	 *
 	 * @param string $name: author, date, generator, revisit-after, language
 	 * @param MIXED $content: if array, it will be seperated by commas
 	 * @return string htmlMarkup
@@ -55,6 +56,8 @@ class CommonHelper extends AppHelper {
 	}
 
 	/**
+	 * Convenience method for meta description
+	 *
 	 * @param string $content
 	 * @param string $language (iso2: de, en-us, ...)
 	 * @param array $additionalOptions
@@ -109,7 +112,7 @@ class CommonHelper extends AppHelper {
 	}
 
 	/**
-	 * Convenience function for "alternate" SEO links
+	 * Convenience method for "alternate" SEO links
 	 *
 	 * @param mixed $url
 	 * @param mixed $lang (lang(iso2) or array of langs)
@@ -141,7 +144,7 @@ class CommonHelper extends AppHelper {
 	}
 
 	/**
-	 * Convenience function for META Tags
+	 * Convenience method for META Tags
 	 *
 	 * @param string $type
 	 * @param string $content
@@ -163,7 +166,7 @@ class CommonHelper extends AppHelper {
 	}
 
 	/**
-	 * Convenience function for META Tags
+	 * Convenience method for META Tags
 	 *
 	 * @param string $type
 	 * @param string $content

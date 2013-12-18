@@ -1,6 +1,6 @@
 <?php
 
-# enhancement for plugin user model
+// Enhancement for plugin user model
 if (!defined('CLASS_USER')) {
 	define('CLASS_USER', 'User');
 }
@@ -27,12 +27,12 @@ class ResetShell extends AppShell {
 	}
 
 	/**
-	 * Reset all emails - e.g. your admin email (for local development)
+	 * Resets all emails - e.g. to your admin email (for local development).
 	 *
 	 * @return void
 	 */
 	public function email() {
-		$this->out('email:');
+		$this->out('Email:');
 		App::uses('Validation', 'Utility');
 		while (empty($email) || !Validation::email($email)) {
 			$email = $this->in(__('New email address (must have a valid form at least)'));
@@ -53,7 +53,7 @@ class ResetShell extends AppShell {
 	}
 
 	/**
-	 * Reset all pwds to a simply pwd (for local development)
+	 * Resets all pwds to a simple pwd (for local development).
 	 *
 	 * @return void
 	 */
@@ -80,7 +80,7 @@ class ResetShell extends AppShell {
 			$pwToHash = $this->in(__('Password to Hash (2 characters at least)'));
 		}
 		$this->hr();
-		$this->out('pwd:');
+		$this->out('Password:');
 		$this->out($pwToHash);
 
 		if ($authType = Configure::read('Passwordable.authType')) {
@@ -93,7 +93,7 @@ class ResetShell extends AppShell {
 			$pw = $this->Auth->password($pwToHash);
 		}
 		$this->hr();
-		$this->out('hash:');
+		$this->out('Hash:');
 		$this->out($pw);
 
 		$this->hr();
@@ -104,11 +104,7 @@ class ResetShell extends AppShell {
 			return $this->error(CLASS_USER . ' model doesnt have a password field!');
 		}
 
-		if (method_exists($this->User, 'escapeValue')) {
-			$newPwd = $this->User->escapeValue($pw);
-		} else {
-			$newPwd = '\'' . $pw . '\'';
-		}
+		$newPwd = '\'' . $pw . '\'';
 		$this->User->recursive = -1;
 		$this->User->updateAll(array('password' => $newPwd), array('password !=' => $pw));
 		$count = $this->User->getAffectedRows();
