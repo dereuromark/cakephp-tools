@@ -51,12 +51,13 @@ class Utility {
 			return $tokens;
 		}
 
+		$tokens = array_map('trim', $tokens);
 		foreach ($tokens as $key => $token) {
 			if ($token === '') {
 				unset($tokens[$key]);
 			}
 		}
-		return array_map('trim', $tokens);
+		return $tokens;
 	}
 
 	/**

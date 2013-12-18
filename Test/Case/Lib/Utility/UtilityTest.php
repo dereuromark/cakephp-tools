@@ -46,7 +46,7 @@ class UtilityTest extends MyCakeTestCase {
 		$res = Utility::tokenize('some, thing');
 		$this->assertSame(array('some', 'thing'), $res);
 
-		$res = Utility::tokenize(',some,,,,,thing,');
+		$res = Utility::tokenize(',some,,, ,, thing,');
 		$this->assertSame(array('some', 'thing'), array_values($res));
 	}
 
