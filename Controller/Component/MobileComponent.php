@@ -278,7 +278,7 @@ class MobileComponent extends Component {
 	public function detectByVendor($engine) {
 		$isMobile = $this->Session->read('Session.mobile');
 		if ($isMobile !== null) {
-			return $isMobile;
+			return (bool)$isMobile;
 		}
 
 		// Deprecated - the vendor libs are far more accurate and up to date

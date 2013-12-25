@@ -25,6 +25,8 @@ class MobileComponentTest extends CakeTestCase {
 
 		CakeSession::delete('User');
 		Configure::delete('User');
+
+		$this->skipIf(php_sapi_name() === 'cli', 'Currently not testable via CLI');
 	}
 
 	/**
