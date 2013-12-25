@@ -4,12 +4,24 @@ App::uses('Component', 'Controller');
 App::uses('Router', 'Routing');
 
 /**
- * Uses Session: User.mobile and User.nomobile
+ * A component to easily serve mobile views to users.
+ * It allows good default values while not being restrictive as you can always
+ * overwrite the auto-detection manually to force desktop or mobile version.
+ *
+ * Uses Session to remember lookups: User.mobile and User.nomobile
  * - mobile is the auto-detection (true/false)
  * - nomobile can be set by the user and overrides the default behavior/detection
  *   (1=true/0=false or -1=null which will remove the override)
+ * Uses object attributes as well as Configure to store the results for later use.
+ * It also pushes switch urls to the view.
  *
- * TODO: differentaite between "isMobile" and "has/wants mobile"
+ * New:
+ * - Support for named params has been dropped in favor of query strings.
+ * - Support for different engines (vendor should be used as this is up to date).
+ * - Allows Configure setup and auto-start for easy default cases.
+ * - Accept closures to easily use any custom detection engine.
+ * - Cleanup and tests
+ *
  * @author Mark Scherer
  * @license MIT
  */
@@ -17,42 +29,106 @@ class MobileComponent extends Component {
 
 	public $components = array('Session');
 
-	public $isMobile = null;
-
-	public $setMobile = null;
-
 	public $Controller = null;
 
+	/**
+	 * Stores the result of the auto-detection.
+	 *
+	 * @var boolean
+	 */
+	public $isMobile = null;
+
+	/**
+	 * Stores the final detection result including user preference.
+	 *
+	 * @var boolean
+	 */
+	public $setMobile = null;
+
+	/**
+	 * Default values. Can also be set using Configure.
+	 *
+	 * @param array
+	 */
 	protected $_defaults = array(
-		'engine' => 'cake',
+		'on' => 'startup', // initialize (prior to controller's beforeRender) or startup
+		'engine' => 'vendor', // cake internal (deprecated), tools (deprecated) or vendor
+		'themed' => false, // If false uses subfolders instead of themes: /View/.../mobile/
+		'mobile' => array('mobile', 'tablet'), // what is mobile? tablets as well? only for vendor
 		'auto' => false, // auto set mobile views
 	);
 
 	/**
-	 * If false uses subfolders: /View/.../mobile/
+	 * MobileComponent::__construct()
+	 *
+	 * @param ComponentCollection $collection
+	 * @param array $settings
 	 */
-	public $themed = true;
-
 	public function __construct(ComponentCollection $collection, $settings = array()) {
-		$settings = array_merge($this->_defaults, $settings);
+		$settings = array_merge($this->_defaults, (array)Configure::read('Mobile'), $settings);
 		parent::__construct($collection, $settings);
 	}
 
+	/**
+	 * MobileComponent::initialize()
+	 *
+	 * @param Controller $Controller
+	 * @return void
+	 */
 	public function initialize(Controller $Controller) {
 		parent::initialize($Controller);
 		$this->Controller = $Controller;
 
-		if (isset($this->Controller->request->params['named']['mobile'])) {
-			if ($this->Controller->request->params['named']['mobile'] === '-1') {
+		if ($this->settings['on'] !== 'initialize') {
+			return;
+		}
+		$this->_init();
+	}
+
+	/**
+	 * MobileComponent::startup()
+	 *
+	 * @param Controller $Controller
+	 * @return void
+	 */
+	public function startup(Controller $Controller) {
+		parent::startup($Controller);
+
+		if ($this->settings['on'] !== 'startup') {
+			return;
+		}
+		$this->_init();
+	}
+
+	/**
+	 * Main auto-detection logic including session based storage to avoid
+	 * multiple lookups.
+	 *
+	 * Uses "mobile" query string to overwrite the auto-detection.
+	 * -1 clears the fixation
+	 * 1 forces mobile
+	 * 0 forces no-mobile
+	 *
+	 * @return void
+	 */
+	protected function _init() {
+		$mobileOverwrite = $this->Controller->request->query('mobile');
+
+		if ($mobileOverwrite !== null) {
+			if ($mobileOverwrite === '-1') {
 				$noMobile = null;
 			} else {
-				$wantsMobile = (bool)$this->Controller->request->params['named']['mobile'];
+				$wantsMobile = (bool)$mobileOverwrite;
 				$noMobile = (int)(!$wantsMobile);
 			}
 			$this->Session->write('User.nomobile', $noMobile);
-
 		}
 		$this->isMobile();
+
+		if (!$this->settings['auto']) {
+			return;
+		}
+		$this->setMobile();
 	}
 
 	/**
@@ -91,7 +167,10 @@ class MobileComponent extends Component {
 	}
 
 	/**
-	 * Set mobile views as `Mobile` theme
+	 * Sets mobile views as `Mobile` theme.
+	 *
+	 * Only needs to be called if auto is set to false.
+	 * Then you probably want to call this from your AppController::beforeRender().
 	 *
 	 * @return void
 	 */
@@ -121,22 +200,24 @@ class MobileComponent extends Component {
 		}
 
 		if ($this->setMobile) {
-			$url = Router::url(array_merge($urlParams, array('mobile' => 0)));
+			$urlParams['?']['mobile'] = 0;
+			$url = Router::url($urlParams);
 			$this->Controller->set('desktopUrl', $url);
 
 		} else {
-			$url = Router::url(array_merge($urlParams, array('mobile' => 1)));
+			$urlParams['?']['mobile'] = 1;
+			$url = Router::url($urlParams);
 			$this->Controller->set('mobileUrl', $url);
 		}
 
-		Configure::write('User.mobile', $this->isMobile);
-		Configure::write('User.setMobile', $this->setMobile);
+		Configure::write('User.isMobile', (int)$this->isMobile);
+		Configure::write('User.setMobile', (int)$this->setMobile);
 
-		if (!$this->isMobile) {
+		if (!$this->setMobile) {
 			return;
 		}
 
-		if (!$this->themed) {
+		if (!$this->settings['themed']) {
 			$this->serveMobileIfAvailable();
 			return;
 		}
@@ -146,7 +227,8 @@ class MobileComponent extends Component {
 	}
 
 	/**
-	 * Determine if we need to so serve mobile views based on session preference and browser headers.
+	 * Determines if we need to so serve mobile views based on session preference
+	 * and browser headers.
 	 *
 	 * @return boolean Success
 	 */
@@ -155,69 +237,71 @@ class MobileComponent extends Component {
 			return $this->isMobile;
 		}
 
-		$wantsMobile = null;
-		if (isset($this->Controller->request->params['named']['mobile'])) {
-			if ($this->Controller->request->params['named']['mobile'] === '-1') {
-				$this->Session->delete('User.mobile');
-			} else {
-				$wantsMobile = (bool)$this->Controller->request->params['named']['mobile'];
-			}
-		}
-		if ($wantsMobile) {
-			$this->isMobile = $wantsMobile;
-			return $this->isMobile;
-		}
-
 		$this->isMobile = $this->Session->read('User.mobile');
 		if ($this->isMobile !== null) {
 			return $this->isMobile;
 		}
-		$this->isMobile = (int)$this->detect();
-		$this->Session->write('User.mobile', $this->isMobile);
+		$this->isMobile = (bool)$this->detect();
+		$this->Session->write('User.mobile', (int)$this->isMobile);
 		return $this->isMobile;
 	}
 
 	/**
-	 * Detect if the current request is from a mobile device
+	 * Detects if the current request is from a mobile device.
+	 *
+	 * Note that the cake internal way might soon be deprecated:
+	 * https://github.com/cakephp/cakephp/issues/2546
 	 *
 	 * @return boolean Success
 	 */
 	public function detect() {
-		if ($this->settings['engine'] !== 'cake') {
-			throw new CakeException(__('Engine %s not available', $this->settings['engine']));
-			//TODO
-			// $this->detectByTools()
-			// $this->detectByWurfl()
+		// Deprecated - the vendor libs are far more accurate and up to date
+		if ($this->settings['engine'] === 'cake') {
+			$this->Controller->request->addDetector('mobile', array('options' => array('OMNIA7')));
+			return $this->Controller->request->is('mobile');
 		}
-		$this->Controller->request->addDetector('mobile', array('options' => array('OMNIA7')));
-		return $this->Controller->request->is('mobile');
+		if (is_callable($this->settings['engine'])) {
+			return call_user_func($this->settings['engine']);
+		}
+		if (!in_array($this->settings['engine'], array('tools', 'vendor'))) {
+			throw new CakeException(__('Engine %s not available', $this->settings['engine']));
+		}
+		return $this->detectByVendor($this->settings['engine']);
 	}
 
 	/**
+	 * Simple auto-detection based on Tools plugin or vendor classes.
+	 *
+	 * @param string $engine
 	 * @return boolean Success
 	 */
-	public function detectByTools() {
+	public function detectByVendor($engine) {
 		$isMobile = $this->Session->read('Session.mobile');
 		if ($isMobile !== null) {
 			return $isMobile;
 		}
-		App::uses('UserAgentLib', 'Tools.Lib');
-		$UserAgentLib = new UserAgentLib();
-		return (bool)$UserAgentLib->isMobile();
-	}
 
-	/**
-	 * @return boolean Success
-	 */
-	public function detectByWurfl() {
-		App::import('Vendor', 'WURFL', array('file' => 'WURFLManagerProvider.php'));
-		$wurflConfigFile = APP . 'Config' . DS . 'wurfl ' . DS . 'config.xml';
-		$wurflManager = WURFL_WURFLManagerProvider::getWURFLManager($wurflConfigFile);
-
-		$requestingDevice = $wurflManager->getDeviceForHttpRequest($_SERVER);
-		if ($requestingDevice->getCapability('is_wireless_device') === 'true') {
-			return true;
+		// Deprecated - the vendor libs are far more accurate and up to date
+		if ($engine === 'tools') {
+			App::uses('UserAgentLib', 'Tools.Lib');
+			$UserAgentLib = new UserAgentLib();
+			return (bool)$UserAgentLib->isMobile();
 		}
-		return false;
+
+		App::import('Vendor', 'Tools.MobileDetect', array('file' => 'MobileDetect/Mobile_Detect.php'));
+		$MobileDetect = new Mobile_Detect();
+
+		$result = empty($this->settings['mobile']) ? 0 : 1;
+		if (in_array('mobile', $this->settings['mobile'])) {
+			$result &= $MobileDetect->isMobile();
+		}
+		if (in_array('tablet', $this->settings['mobile'])) {
+			$result |= $MobileDetect->isTablet();
+		} else {
+			$result &= !$MobileDetect->isTablet();
+		}
+
+		return (bool)$result;
 	}
+
 }
