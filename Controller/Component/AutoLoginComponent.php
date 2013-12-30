@@ -17,32 +17,32 @@ App::uses('Component', 'Controller');
  */
 class AutoLoginComponent extends Component {
 
-	/**
-	 * Current version.
-	 *
-	 * @var string
-	 */
+/**
+ * Current version.
+ *
+ * @var string
+ */
 	public $version = '3.5';
 
-	/**
-	 * Components.
-	 *
-	 * @var array
-	 */
+/**
+ * Components.
+ *
+ * @var array
+ */
 	public $components = array('Auth', 'Cookie');
 
-	/**
-	 * Settings.
-	 *
-	 * @var array
-	 */
+/**
+ * Settings.
+ *
+ * @var array
+ */
 	public $settings = array();
 
-	/**
-	 * Default settings.
-	 *
-	 * @var array
-	 */
+/**
+ * Default settings.
+ *
+ * @var array
+ */
 	protected $_defaults = array(
 		'active' => true,
 		'model' => 'User',
@@ -59,19 +59,19 @@ class AutoLoginComponent extends Component {
 		'debug' => null # Auto-Select based on debug mode or ip range
 	);
 
-	/**
-	 * Determines whether to trigger startup() logic.
-	 *
-	 * @var boolean
-	 */
+/**
+ * Determines whether to trigger startup() logic.
+ *
+ * @var boolean
+ */
 	protected $_isValidRequest = false;
 
-	/**
-	 * Initialize settings and debug.
-	 *
-	 * @param ComponentCollection $collection
-	 * @param array $settings
-	 */
+/**
+ * Initialize settings and debug.
+ *
+ * @param ComponentCollection $collection
+ * @param array $settings
+ */
 	public function __construct(ComponentCollection $collection, $settings = array()) {
 		$defaultSettings = array_merge($this->_defaults, (array)Configure::read('AutoLogin'));
 		$settings = array_merge($defaultSettings, $settings);
@@ -82,12 +82,12 @@ class AutoLoginComponent extends Component {
 		parent::__construct($collection, $settings);
 	}
 
-	/**
-	 * Detect debug info.
-	 *
-	 * @param Controller $controller
-	 * @return void
-	 */
+/**
+ * Detect debug info.
+ *
+ * @param Controller $controller
+ * @return void
+ */
 	public function initialize(Controller $controller) {
 		if ($controller->name === 'CakeError' || !$this->settings['active']) {
 			return;
@@ -120,13 +120,29 @@ class AutoLoginComponent extends Component {
 		$this->_isValidRequest = true;
 	}
 
-	/**
-	 * Automatically login existent Auth session; called after controllers beforeFilter() so that Auth is initialized.
-	 *
-	 * @param Controller $controller
-	 * @return void
-	 */
+/**
+ * Automatically login existent Auth session; called after controllers beforeFilter() so that Auth is initialized.
+ *
+ * @param Controller $controller
+ * @return void
+ */
 	public function startup(Controller $controller) {
+		if ($controller->request->is('ajax')) {
+			$cookie = $this->_readCookie();
+			$user = $this->Auth->user();
+
+			$cakeSessionExpired = empty($user);
+			$autoLoginCookieExpired = empty($cookie);
+
+			$resetCakeSession = $cakeSessionExpired && !$autoLoginCookieExpired;
+
+			if ($resetCakeSession) {
+				$userData = $this->_findUser($cookie['username'], $cookie['password']);
+				$this->Auth->login($userData);
+			}
+			return;
+		}
+
 		if (!$this->_isValidRequest) {
 			return;
 		}
@@ -139,6 +155,7 @@ class AutoLoginComponent extends Component {
 					$this->Auth->user()
 				));
 			}
+
 			if ($this->settings['redirect']) {
 				$controller->redirect(array(), 301);
 			}
@@ -154,12 +171,12 @@ class AutoLoginComponent extends Component {
 		}
 	}
 
-	/**
-	 * Automatically process logic when hitting login/logout actions.
-	 *
-	 * @param Controller $controller
-	 * @return void
-	 */
+/**
+ * Automatically process logic when hitting login/logout actions.
+ *
+ * @param Controller $controller
+ * @return void
+ */
 	public function beforeRedirect(Controller $controller, $url, $status = null, $exit = true) {
 		if (!$this->settings['active']) {
 			return;
@@ -195,7 +212,6 @@ class AutoLoginComponent extends Component {
 						$username = $data[$model][$this->settings['username']];
 						$password = $data[$model][$this->settings['password']];
 						$autoLogin = isset($data[$model]['auto_login']) ? $data[$model]['auto_login'] : !$this->settings['requirePrompt'];
-
 						if (!empty($username) && !empty($password) && $autoLogin) {
 							$this->_writeCookie($username, $password);
 
@@ -213,23 +229,23 @@ class AutoLoginComponent extends Component {
 		}
 	}
 
-	/**
-	 * Delete the cookie.
-	 *
-	 * @return void
-	 */
+/**
+ * Delete the cookie.
+ *
+ * @return void
+ */
 	public function delete() {
 		$this->Cookie->delete($this->settings['cookieName']);
 	}
 
-	/**
-	 * Debug the current auth and cookies.
-	 *
-	 * @param string $key
-	 * @param array $cookie
-	 * @param array $user
-	 * @return void
-	 */
+/**
+ * Debug the current auth and cookies.
+ *
+ * @param string $key
+ * @param array $cookie
+ * @param array $user
+ * @return void
+ */
 	public function debug($key, $cookie = array(), $user = array()) {
 		$scopes = array(
 			'login'				=> 'Login Successful',
@@ -269,13 +285,13 @@ class AutoLoginComponent extends Component {
 		}
 	}
 
-	/**
-	 * Remember the user information and store it in a cookie (encrypted).
-	 *
-	 * @param string $username
-	 * @param string $password
-	 * @return void
-	 */
+/**
+ * Remember the user information and store it in a cookie (encrypted).
+ *
+ * @param string $username
+ * @param string $password
+ * @return void
+ */
 	protected function _writeCookie($username, $password) {
 		$time = time();
 
@@ -293,11 +309,11 @@ class AutoLoginComponent extends Component {
 		$this->debug('cookieSet', $cookie, $this->Auth->user());
 	}
 
-	/**
-	 * Read cookie and decode it
-	 *
-	 * @return mixed array $cookieData or false on failure
-	 */
+/**
+ * Read cookie and decode it
+ *
+ * @return mixed array $cookieData or false on failure
+ */
 	protected function _readCookie() {
 		$cookie = $this->Cookie->read($this->settings['cookieName']);
 		if (empty($cookie) || !is_array($cookie)) {
@@ -312,4 +328,31 @@ class AutoLoginComponent extends Component {
 		return $cookie;
 	}
 
+/**
+ * find User data with the credentials 
+ *
+ * @param string $username
+ * @param string $password Plaintext password
+ * @return mixed array $userData or false on failure
+ */
+	protected function _findUser($username, $password) {
+		$loginData = array();
+
+		$loginData[$this->settings['username']] = $username;
+		$loginData[$this->settings['password']] = $this->Auth->password($password);
+
+		$userModel = ClassRegistry::init($this->settings['model']);
+
+		$userData = $userModel->find('first', array('conditions' => $loginData));
+
+		if (empty($userData)) {
+			return false;
+		} else {
+			// remove the alias key
+			$userData = Hash::extract($userData, $this->settings['model']);
+			// remove the password
+			unset($userData[$this->settings['password']]);
+			return $userData;
+		}
+	}
 }
