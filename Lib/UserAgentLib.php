@@ -64,6 +64,7 @@ class UserAgentLib extends CakeRequest {
 
 	/**
 	 * Checks bot against list
+	 *
 	 * @param string $userAgent
 	 * @return string
 	 * //TODO use browscap here too if necessary
@@ -82,6 +83,7 @@ class UserAgentLib extends CakeRequest {
 
 	/**
 	 * Checks user against known platforms
+	 *
 	 * @param string $userAgent
 	 * @return string
 	 */

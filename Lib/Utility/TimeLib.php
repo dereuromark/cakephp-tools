@@ -62,6 +62,7 @@ class TimeLib extends CakeTime {
 	 * TODO: deprecate in favor of DateTime::diff() etc which will be more precise
 	 *
 	 * should only be used for < month (due to the different month lenghts it gets fuzzy)
+	 *
 	 * @param mixed $start (db format or timestamp)
 	 * @param mixex §end (db format or timestamp)
 	 * @return integer: the distance in seconds
@@ -148,6 +149,7 @@ class TimeLib extends CakeTime {
 	/**
 	 * Try to return the age only with the year available
 	 * can be e.g. 22/23
+	 *
 	 * @param integer $year
 	 * @param integer $month (optional)
 	 * @return integer Age
@@ -284,6 +286,7 @@ class TimeLib extends CakeTime {
 	/**
 	 * Return the timestamp to a day in a specific cweek
 	 * 0=sunday to 7=saturday (default)
+	 *
 	 * @return timestamp of the weekDay
 	 * @FIXME: offset
 	 * not needed, use localDate!
@@ -1190,7 +1193,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * hours, minutes
+	 * Hours, minutes
 	 * e.g. 9.3 => 9.5
 	 *
 	 * @return float
@@ -1207,7 +1210,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * hours, minutes
+	 * Hours, minutes
 	 * e.g. 9.5 => 9.3
 	 * with pad=2: 9.30
 	 *

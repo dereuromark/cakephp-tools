@@ -174,6 +174,7 @@ class DiffLib {
 
 	/**
 	 * Parses a unified diff output
+	 *
 	 * @param array $text an entire section of a unified diff (between @@ lines)
 	 * @param char $_check a '+' or '-' denoting whether we're looking for lines
 	 * added or removed
@@ -249,6 +250,7 @@ class DiffLib {
 
 	/**
 	 * Appends or Replaces text
+	 *
 	 * @param array &$text Array of Line objects
 	 * @param array $change Array of Change objects
 	 * @param integer &$offset how many lines to skip due to previous additions

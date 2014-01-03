@@ -123,6 +123,7 @@ class MyErrorHandler extends ErrorHandler {
 
 	/**
 	 * Append some more infos to better track down the error
+	 *
 	 * @return string
 	 */
 	public static function traceDetails() {

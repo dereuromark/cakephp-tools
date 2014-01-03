@@ -27,7 +27,7 @@ class PhpTagShell extends AppShell {
 	}
 
 	/**
-	 * note: uses provided folder (first param)
+	 * Note: uses provided folder (first param)
 	 * otherwise complete APP
 	 *
 	 * @return void

@@ -164,6 +164,7 @@ class CaptchaBehavior extends ModelBehavior {
 
 	/**
 	 * Return error message (or empty string if none)
+	 *
 	 * @return string
 	 */
 	public function errors() {
@@ -204,6 +205,7 @@ class CaptchaBehavior extends ModelBehavior {
 
 	/**
 	 * Logs attempts
+	 *
 	 * @param boolean ErrorsOnly (only if error occured, otherwise always)
 	 * @returns null if not logged, true otherwise
 	 */

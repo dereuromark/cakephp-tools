@@ -102,6 +102,7 @@ class GooglLib {
 	/**
 	 * FIXME: not working yet
 	 * TODO: use oacurl etc
+	 *
 	 * @return array
 	 */
 	public function getHistory() {
@@ -118,6 +119,7 @@ class GooglLib {
 
 	/**
 	 * Retrieve the url for the statistics page for this key
+	 *
 	 * @param string $key
 	 * @return string url
 	 */

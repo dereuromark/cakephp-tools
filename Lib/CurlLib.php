@@ -187,7 +187,7 @@ class CurlLib {
 	}
 
 	/**
-	 * get/set referer
+	 * Get/set referer
 	 *
 	 * @param url
 	 * @return mixed

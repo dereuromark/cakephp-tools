@@ -401,7 +401,7 @@ class Utility {
 	}
 
 	/**
-	 * h() recursivly
+	 * H() recursivly
 	 *
 	 */
 	public static function specialcharsDeep($value) {

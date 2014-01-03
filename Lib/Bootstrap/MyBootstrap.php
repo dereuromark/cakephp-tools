@@ -530,7 +530,7 @@ function base64UrlDecode($fieldContent) {
 }
 
 /**
- * prettyJson
+ * PrettyJson
  *
  * @link https://github.com/ndejong/pretty_json/blob/master/pretty_json.php
  * @param string $json - the original JSON string

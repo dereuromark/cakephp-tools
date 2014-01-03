@@ -189,6 +189,7 @@ class ImapLib {
 	/**
 	 * Main listing of messages
 	 * - body, structure, attachments
+	 *
 	 * @return array
 	 */
 	public function msgList($msgList = array()) {
@@ -544,6 +545,7 @@ class ImapLib {
 
 	/**
 	 * Makes sure imap_open is available etc
+	 *
 	 * @throws InternalErrorException
 	 * @return boolean Success
 	 */

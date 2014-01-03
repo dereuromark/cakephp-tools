@@ -35,7 +35,8 @@ class CurrencyBitcoinLib {
 	}
 
 	/**
-	 * working
+	 * Working
+	 *
 	 * @see http://bitcoincharts.com/about/markets-api/
 	 */
 	public function bitcoincharts($options = array()) {
@@ -84,6 +85,7 @@ class CurrencyBitcoinLib {
 
 	/**
 	 * Calc BTC relative to 1 baseCurrency
+	 *
 	 * @param float $value
 	 * @return float relativeValue
 	 */
@@ -93,6 +95,7 @@ class CurrencyBitcoinLib {
 
 	/**
 	 * Historic trade data
+	 *
 	 * @see http://bitcoincharts.com/about/markets-api/
 	 */
 	public function trades() {

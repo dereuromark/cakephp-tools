@@ -54,7 +54,7 @@ class HazardableBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * beforeSave() to inject the hazardous strings into the model data for save().
+	 * BeforeSave() to inject the hazardous strings into the model data for save().
 	 *
 	 * Note: Remember to disable validation as you want to insert those strings just for
 	 * testing purposes.
@@ -74,7 +74,7 @@ class HazardableBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * afterFind() to inject the hazardous strings into the retrieved model data.
+	 * AfterFind() to inject the hazardous strings into the retrieved model data.
 	 * Only activate this if you have not persistently stored any hazardous strings yet.
 	 */
 	public function afterFind(Model $Model, $results, $primary = false) {

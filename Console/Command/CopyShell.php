@@ -542,6 +542,7 @@ class CopyShell extends AppShell {
 
 	/**
 	 * Get a list with available configs
+	 *
 	 * @param array $content
 	 * checks on whether all config names are valid!
 	 */
@@ -586,7 +587,7 @@ class CopyShell extends AppShell {
 
 	/**
 	 * Makes sure type matches config name (app = only app configs, no cake or vendor or custom configs!)
-	 * 2009-05-28 ms
+	 * 
 	 * @return string type on success, otherwise boolean false
 	 */
 	protected function typeMatchesConfigName($name, $type) {
@@ -601,6 +602,7 @@ class CopyShell extends AppShell {
 
 	/**
 	 * Return the specific config of a config name
+	 *
 	 * @param string $config name
 	 * @param array $content
 	 */

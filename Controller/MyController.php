@@ -99,6 +99,7 @@ class MyController extends Controller {
 
 	/**
 	 * Init Packages class if enabled/included
+	 *
 	 * @deprecated?
 	 */
 	public function beforeRender() {

@@ -29,7 +29,7 @@ class FolderSyncShell extends AppShell {
 	public $excludes = array('.git', '.svn');
 
 	/**
-	 * main
+	 * Main
 	 *
 	 * @return void
 	 */
@@ -38,7 +38,7 @@ class FolderSyncShell extends AppShell {
 	}
 
 	/**
-	 * main
+	 * Main
 	 *
 	 * @return void
 	 */

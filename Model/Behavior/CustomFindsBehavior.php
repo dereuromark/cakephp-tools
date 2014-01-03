@@ -29,6 +29,7 @@ class CustomFindsBehavior extends ModelBehavior {
 	/**
 	 * Prevent that Containable is loaded after CustomFinds.
 	 * Containable Behavior need to be loaded before CustomFinds Behavior.
+	 *
 	 * @param Model $Model
 	 * @param array $query
 	 */
@@ -96,6 +97,7 @@ class CustomFindsBehavior extends ModelBehavior {
 
 	/**
 	 * Get customFinds at Model and merge with query.
+	 *
 	 * @param Model $Model
 	 * @param array $query
 	 * @return array
