@@ -607,27 +607,21 @@ class TimeLibTest extends MyCakeTestCase {
 	 */
 	public function testAgeRange() {
 		$is = TimeLib::ageRange(2000);
-		//pr($is);
 		$this->assertEquals(date('Y') - 2000 - 1, $is);
 
-		$is = TimeLib::ageRange(2002, null, null, 5);
-		//pr($is);
+		$is = TimeLib::ageRange(date('Y') - 11, null, null, 5);
 		$this->assertEquals(array(6, 10), $is);
 
-		$is = TimeLib::ageRange(2000, null, null, 5);
-		//pr($is);
+		$is = TimeLib::ageRange(date('Y') - 13, null, null, 5);
 		$this->assertEquals(array(11, 15), $is);
 
 		$is = TimeLib::ageRange(1985, 23, 11);
-		//pr($is);
 		$this->assertEquals(date('Y') - 1985 - 1, $is);
 
-		$is = TimeLib::ageRange(1985, null, null, 6);
-		//pr($is);
+		$is = TimeLib::ageRange(date('Y') - 29, null, null, 6);
 		$this->assertEquals(array(25, 30), $is);
 
-		$is = TimeLib::ageRange(1985, 21, 11, 7);
-		//pr($is);
+		$is = TimeLib::ageRange(date('Y') - 29, 21, 11, 7);
 		$this->assertEquals(array(22, 28), $is);
 	}
 
@@ -651,9 +645,6 @@ class TimeLibTest extends MyCakeTestCase {
 		);
 		foreach ($tests as $was => $expected) {
 			$is = TimeLib::parseDate($was);
-			//pr($is);
-			//pr(date(FORMAT_NICE_YMDHMS, $is));
-			//$this->assertSame($expected, $is); //, null, $was
 			$this->assertTrue($is <= $expected + HOUR && $is >= $expected);
 		}
 	}
