@@ -276,7 +276,8 @@ class ImapLib {
 		$message["attachment"]["type"][7] = 'other';
 
 		$attachments = array();
-		for ($i = 1; $i < count($parts); $i++) {
+		$count = count($parts);
+		for ($i = 1; $i < $count; $i++) {
 			$attachment = array();
 			$part = $parts[$i];
 			if (isset($part->disposition) && $part->disposition === 'ATTACHMENT') {
@@ -286,11 +287,9 @@ class ImapLib {
 				$ext = $part->subtype;
 				$params = $part->dparameters;
 
-				$mege = '';
-				$data = '';
-				$mege = imap_fetchbody($this->stream, $header->Msgno, $fpos);
+				$data = imap_fetchbody($this->stream, $header->Msgno, $fpos);
 				$attachment['filename'] = $part->dparameters[0]->value;
-				$attachment['data'] = $this->_getDecodedValue($mege, $part->encoding);
+				$attachment['data'] = $this->_getDecodedValue($data, $part->encoding);
 				$attachment['filesize'] = strlen($attachment['data']);
 
 				$fpos++;
@@ -302,16 +301,15 @@ class ImapLib {
 				$attachment["subtype"][$i] = strtolower($part->subtype);
 				$ext = $part->subtype;
 				$params = $part->parameters;
-				//die(returns($part));
-				$mege = '';
-				$data = '';
-				$mege = imap_fetchbody($this->stream, $header->Msgno, $fpos);
+
+				$data = imap_fetchbody($this->stream, $header->Msgno, $fpos);
 				$attachment['filename'] = $part->parameters[0]->value;
-				$attachment['data'] = $this->_getDecodedValue($mege, $part->encoding);
+				$attachment['data'] = $this->_getDecodedValue($data, $part->encoding);
 				$attachment['filesize'] = strlen($attachment['data']);
 
 				$fpos++;
 				$attachments[] = $attachment;
+
 			} else { // inline attachments etc
 				$attachment["pid"] = $i;
 				$type = '';
@@ -322,12 +320,10 @@ class ImapLib {
 				$attachment["subtype"][$i] = strtolower($part->subtype);
 				$ext = $part->subtype;
 				$params = $part->parameters;
-				//CakeLog::write('import', print_r($part, true)); die('TEST');
-				$mege = '';
-				$data = '';
-				$mege = imap_fetchbody($this->stream, $header->Msgno, $fpos);
+
+				$data = imap_fetchbody($this->stream, $header->Msgno, $fpos);
 				$attachment['filename'] = !is_object($part->parameters) ? $part->parameters[0]->value : '';
-				$attachment['data'] = $this->_getDecodedValue($mege, $part->encoding);
+				$attachment['data'] = $this->_getDecodedValue($data, $part->encoding);
 				$attachment['filesize'] = strlen($attachment['data']);
 
 				$fpos++;
