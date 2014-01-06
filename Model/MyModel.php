@@ -65,7 +65,11 @@ class MyModel extends Model {
 				if (is_numeric($key)) {
 					$this->order[$key] = $this->prefixAlias($value);
 				} else {
-					$this->order[$this->prefixAlias($key)] = $value;
+					$newKey = $this->prefixAlias($key);
+					$this->order[$newKey] = $value;
+					if ($newKey !== $key) {
+						unset($this->order[$key]);
+					}
 				}
 			}
 		}
@@ -1053,7 +1057,9 @@ class MyModel extends Model {
 	 */
 	public function validateUrl($data, $options = array()) {
 		if (is_array($data)) {
-			$url = array_shift($data);
+			foreach ($data as $key => $url) {
+				break;
+			}
 		} else {
 			$url = $data;
 		}
@@ -1066,6 +1072,9 @@ class MyModel extends Model {
 		}
 		if (!isset($options['autoComplete']) || $options['autoComplete'] !== false) {
 			$url = $this->_autoCompleteUrl($url);
+			if (isset($key)) {
+				$this->data[$this->alias][$key] = $url;
+			}
 		}
 
 		if (!isset($options['strict']) || $options['strict'] !== false) {

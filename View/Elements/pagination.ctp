@@ -30,7 +30,7 @@ if (!empty($reverse)) {
 	$next = $tmp;
 }
 if (!empty($addArrows)) {
-	$prev = '« '.$prev;
+	$prev = '« ' . $prev;
 	$next .= ' »';
 }
 

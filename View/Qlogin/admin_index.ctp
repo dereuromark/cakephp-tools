@@ -13,8 +13,8 @@
 	<fieldset>
 		<legend><?php echo __('Add %s', __('Qlogin')); ?></legend>
 	<?php
-		echo $this->Form->input('url', array('placeholder'=>'/controller/action/...'));
-		echo $this->Form->input('user_id', array('empty'=>'---'));
+		echo $this->Form->input('url', array('placeholder' => '/controller/action/...'));
+		echo $this->Form->input('user_id', array('empty' => '---'));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit'));?>
