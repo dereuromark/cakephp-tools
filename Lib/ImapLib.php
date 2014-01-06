@@ -57,10 +57,19 @@ class ImapLib {
 
 	public $currentRef = '';
 
+	/**
+	 * Check for basic dependencies in constructor.
+	 */
 	public function __construct() {
 		$this->dependenciesMatch();
 	}
 
+	/**
+	 * ImapLib::buildConnector()
+	 *
+	 * @param array $data
+	 * @return string
+	 */
 	public function buildConnector($data = array()) {
 		$data = array_merge($this->settings, $data);
 		$string = '{';
@@ -114,10 +123,22 @@ class ImapLib {
 		return $string;
 	}
 
+	/**
+	 * ImapLib::set()
+	 *
+	 * @param string $key
+	 * @param mixed $value
+	 * @return void
+	 */
 	public function set($key, $value) {
-		return $this->settings[$key] = $value;
+		$this->settings[$key] = $value;
 	}
 
+	/**
+	 * ImapLib::lastError()
+	 *
+	 * @return string
+	 */
 	public function lastError() {
 		return imap_last_error();
 	}
@@ -145,6 +166,11 @@ class ImapLib {
 		return true;
 	}
 
+	/**
+	 * ImapLib::checkConnection()
+	 *
+	 * @return mixed
+	 */
 	public function checkConnection() {
 		if ($this->stream) {
 			return $this->lastError();
@@ -152,6 +178,11 @@ class ImapLib {
 		return false;
 	}
 
+	/**
+	 * ImapLib::msgCount()
+	 *
+	 * @return integer Count
+	 */
 	public function msgCount() {
 		return imap_num_msg($this->stream);
 	}
@@ -257,6 +288,8 @@ class ImapLib {
 
 	/**
 	 * @see http://www.nerdydork.com/download-pop3imap-email-attachments-with-php.html
+	 * @param object $header
+	 * @return array
 	 */
 	public function attachments($header) {
 		$structure = imap_fetchstructure($this->stream, $header->Msgno);
@@ -422,7 +455,13 @@ class ImapLib {
 		return imap_setflag_full($this->ImapFolder->Imap->stream, $this->uid, $flag, ST_UID);
 	}
 
-	/** testing only **/
+	/**
+	 * ImapLib::delete()
+	 *
+	 * @param string|array $emails
+	 * @param bool $delete
+	 * @return boolean Success
+	 */
 	public function delete($emails, $delete = false) {
 		$emails = (array)$emails;
 		foreach ($emails as $email) {
@@ -436,7 +475,7 @@ class ImapLib {
 	}
 
 	/**
-	 * deprecated
+	 * @deprecated
 	 */
 	public function delx($emails, $delete = false) {
 		if (!$this->stream) {
@@ -480,6 +519,9 @@ class ImapLib {
 		return imap_last_error();
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function switch_mailbox($mailbox = '') {
 		if ($this->stream) {
 			$this->mbox = '{' . $this->server;
@@ -507,6 +549,9 @@ class ImapLib {
 		return imap_last_error();
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function current_mailbox() {
 		if ($this->stream) {
 			$info = imap_mailboxmsginfo($this->stream);
@@ -521,6 +566,9 @@ class ImapLib {
 		return imap_last_error();
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function mailbox_info($type = 'obj') {
 		if ($this->stream) {
 			$info = imap_mailboxmsginfo($this->stream);
