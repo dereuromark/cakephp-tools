@@ -6,6 +6,8 @@ App::uses('View', 'View');
  *
  * Expects all incoming requests to be of extension "json" and that the expected result
  * will also be in JSON format.
+ * A valid response will always contain at least "content" and "error" keys.
+ * An invalid response may be just HTTP status "code" and error "message" (e.g, on 4xx or 5xx).
  *
  * @author Mark Scherer
  * @license MIT

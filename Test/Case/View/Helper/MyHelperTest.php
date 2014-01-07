@@ -40,32 +40,6 @@ class MyHelperTest extends MyCakeTestCase {
 		$this->assertTrue(class_exists('QrCodeHelper'));
 	}
 
-	/**
-	 * MyHelperTest::testTime()
-	 *
-	 * @return void
-	 */
-	public function testTime() {
-		$time = time();
-		$is = $this->MyHelper->time($time);
-
-		$time = CakeTime::i18nFormat($time, '%Y-%m-%d %T');
-		$expected = '<time datetime="' . $time . '">' . $time . '</time>';
-		$this->assertEquals($expected, $is);
-	}
-
-	/**
-	 * MyHelperTest::testImageFromBlob()
-	 *
-	 * @return void
-	 */
-	public function testImageFromBlob() {
-		$folder = CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS;
-		$content = file_get_contents($folder . 'hotel.png');
-		$is = $this->Html->imageFromBlob($content);
-		$this->assertTrue(!empty($is));
-	}
-
 }
 
 class MyHtmlHelper extends MyHelper {
