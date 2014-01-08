@@ -560,9 +560,9 @@ class CommonComponent extends Component {
 	 * @return void
 	 */
 	public function forceCache($seconds = HOUR) {
-		header('Cache-Control: public, max-age=' . $seconds);
-		header('Last-modified: ' . gmdate("D, j M Y H:i:s", time()) . " GMT");
-		header('Expires: ' . gmdate("D, j M Y H:i:s", time() + $seconds) . " GMT");
+		$this->Controller->response->header('Cache-Control', 'public, max-age=' . $seconds);
+		$this->Controller->response->header('Last-modified', gmdate("D, j M Y H:i:s", time()) . " GMT");
+		$this->Controller->response->header('Expires', gmdate("D, j M Y H:i:s", time() + $seconds) . " GMT");
 	}
 
 	/**

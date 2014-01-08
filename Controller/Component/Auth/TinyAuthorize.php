@@ -73,6 +73,8 @@ class TinyAuthorize extends BaseAuthorize {
 		if (isset($user[$this->settings['aclModel']])) {
 			if (isset($user[$this->settings['aclModel']][0]['id'])) {
 				$roles = Hash::extract($user[$this->settings['aclModel']], '{n}.id');
+			} elseif (isset($user[$this->settings['aclModel']]['id'])) {
+				$roles = array($user[$this->settings['aclModel']]['id']);
 			} else {
 				$roles = (array)$user[$this->settings['aclModel']];
 			}
