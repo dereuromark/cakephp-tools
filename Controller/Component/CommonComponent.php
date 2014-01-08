@@ -80,32 +80,30 @@ class CommonComponent extends Component {
 	 * @return void
 	 */
 	public function beforeRender(Controller $Controller) {
-		if ($this->RequestHandler->isAjax()) {
+		if ($messages = $this->Session->read('Message')) {
+			foreach ($messages as $message) {
+				$this->flashMessage($message['message'], 'error');
+			}
+			$this->Session->delete('Message');
+		}
+
+		if ($this->Controller->request->is('ajax')) {
 			$ajaxMessages = array_merge(
 				(array)$this->Session->read('messages'),
 				(array)Configure::read('messages')
 			);
-			# The Header can be read with JavaScript and a custom Message can be displayed
-			header('X-Ajax-Flashmessage:' . json_encode($ajaxMessages));
+			// The header can be read with JavaScript and a custom Message can be displayed
+			$this->Controller->response->header('X-Ajax-Flashmessage', json_encode($ajaxMessages));
 
-			# AJAX debug off
+			// AJAX debug off
 			Configure::write('debug', 0);
 		}
 
-		# custom options
+		// Custom options
 		if (isset($Controller->options)) {
 			$Controller->set('options', $Controller->options);
 		}
-
-		if ($messages = $Controller->Session->read('Message')) {
-			foreach ($messages as $message) {
-				$this->flashMessage($message['message'], 'error');
-			}
-			$Controller->Session->delete('Message');
-		}
 	}
-
-/*** Important Helper Methods ***/
 
 	/**
 	 * List all direct actions of a controller
@@ -127,19 +125,12 @@ class CommonComponent extends Component {
 
 	/**
 	 * Convenience method to check on POSTED data.
-	 * Doesn't matter if its post or put.
+	 * Doesn't matter if it's POST or PUT.
 	 *
 	 * @return boolean isPost
 	 */
 	public function isPosted() {
 		return $this->Controller->request->is('post') || $this->Controller->request->is('put');
-	}
-
-	//deprecated - use isPosted instead
-
-	public function isPost() {
-		trigger_error('deprecated - use isPosted()');
-		return $this->isPosted();
 	}
 
 	/**
