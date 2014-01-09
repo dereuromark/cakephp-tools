@@ -46,7 +46,9 @@ class AjaxView extends View {
 	}
 
 	/**
-	 * Renders a JSON view.
+	 * Renders an AJAX view.
+	 * The rendered content will be part of the JSON response object and
+	 * can be accessed via response.content in JavaScript.
 	 *
 	 * @param string $view The view being rendered.
 	 * @param string $layout The layout being rendered.
@@ -68,10 +70,11 @@ class AjaxView extends View {
 	}
 
 	/**
-	 * Serialize view vars
+	 * Serializes view vars.
 	 *
-	 * @param array $serialize The viewVars that need to be serialized
-	 * @return string The serialized data
+	 * @param array $response Response data array.
+	 * @param array $serialize The viewVars that need to be serialized.
+	 * @return array The serialized data.
 	 */
 	protected function _serialize($response, $serialize) {
 		if (is_array($serialize)) {
