@@ -6,8 +6,10 @@ App::uses('View', 'View');
  *
  * Expects all incoming requests to be of extension "json" and that the expected result
  * will also be in JSON format.
- * A valid response will always contain at least "content" and "error" keys.
- * An invalid response may be just HTTP status "code" and error "message" (e.g, on 4xx or 5xx).
+ * A response to an invalid request may be just HTTP status "code" and error "message"
+ * (e.g, on 4xx or 5xx).
+ * A response to a valid request will always contain at least "content" and "error" keys.
+ * You can add more data using _serialize.
  *
  * @author Mark Scherer
  * @license MIT
@@ -50,6 +52,8 @@ class AjaxView extends View {
 	 * The rendered content will be part of the JSON response object and
 	 * can be accessed via response.content in JavaScript.
 	 *
+	 * If an error has been set, the rendering will be skipped.
+	 *
 	 * @param string $view The view being rendered.
 	 * @param string $layout The layout being rendered.
 	 * @return string The rendered view.
@@ -59,6 +63,10 @@ class AjaxView extends View {
 			'error' => null,
 			'content' => null,
 		);
+
+		if (!empty($this->viewVars['error'])) {
+			$view = false;
+		}
 
 		if ($view !== false && $this->_getViewFileName($view)) {
 			$response['content'] = parent::render($view, $layout);

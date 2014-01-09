@@ -85,4 +85,28 @@ class AjaxViewTest extends CakeTestCase {
 		$this->assertTextEquals($expected, $result);
 	}
 
+	/**
+	 * AjaxViewTest::testError()
+	 *
+	 * @return void
+	 */
+	public function testError() {
+		$Request = new CakeRequest();
+		$Response = new CakeResponse();
+		$Controller = new Controller($Request, $Response);
+		$items = array(
+			array('title' => 'Title One', 'link' => 'http://example.org/one', 'author' => 'one@example.org', 'description' => 'Content one'),
+			array('title' => 'Title Two', 'link' => 'http://example.org/two', 'author' => 'two@example.org', 'description' => 'Content two'),
+		);
+		$Controller->set(array('error' => 'Some message', 'items' => $items, '_serialize' => array('error', 'items')));
+		$View = new AjaxView($Controller);
+		$View->viewPath = 'Items';
+		$result = $View->render('index');
+
+		$this->assertSame('application/json', $Response->type());
+		$expected = array('error' => 'Some message', 'content' => null, 'items' => $items);
+		$expected = json_encode($expected);
+		$this->assertTextEquals($expected, $result);
+	}
+
 }
