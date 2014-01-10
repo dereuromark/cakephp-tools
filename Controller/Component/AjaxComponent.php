@@ -1,4 +1,5 @@
 <?php
+
 App::uses('Component', 'Controller');
 
 /**
@@ -27,12 +28,12 @@ class AjaxComponent extends Component {
 		'flashKey' => 'Message.flash' // Use "messages" for Tools plugin, set to false to disable
 	);
 
-/**
- * Constructor.
- *
- * @param ComponentCollection $collection
- * @param array $settings
- */
+	/**
+	 * Constructor.
+	 *
+	 * @param ComponentCollection $collection
+	 * @param array $settings
+	 */
 	public function __construct(ComponentCollection $collection, $settings = array()) {
 		$settings = array_merge($this->_defaults, (array)Configure::read('Ajax'), $settings);
 		parent::__construct($collection, $settings);
@@ -71,9 +72,9 @@ class AjaxComponent extends Component {
 
 		// Set flash messages to the view
 		if ($this->settings['flashKey']) {
-	    $_message = $this->Session->read($this->settings['flashKey']);
-	    $this->Session->delete($this->settings['flashKey']);
-	    $this->Controller->set(compact('_message'));
+			$_message = $this->Session->read($this->settings['flashKey']);
+			$this->Session->delete($this->settings['flashKey']);
+			$this->Controller->set(compact('_message'));
 		}
 	}
 
