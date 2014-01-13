@@ -95,8 +95,7 @@ class CommonComponent extends Component {
 			// The header can be read with JavaScript and a custom Message can be displayed
 			$this->Controller->response->header('X-Ajax-Flashmessage', json_encode($ajaxMessages));
 
-			// AJAX debug off
-			Configure::write('debug', 0);
+			$this->Session->delete('messages');
 		}
 
 		// Custom options
