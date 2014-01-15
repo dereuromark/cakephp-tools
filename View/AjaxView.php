@@ -17,6 +17,16 @@ App::uses('View', 'View');
 class AjaxView extends View {
 
 	/**
+	 * List of variables to collect from the associated controller.
+	 *
+	 * @var array
+	 */
+	protected $_passedVars = array(
+			'viewVars', 'autoLayout', 'ext', 'helpers', 'view', 'layout', 'name', 'theme',
+			'layoutPath', 'viewPath', 'request', 'plugin', 'passedArgs', 'cacheAction', 'subDir'
+	);
+
+	/**
 	 * The subdirectory. AJAX views are always in ajax.
 	 *
 	 * @var string
@@ -40,6 +50,9 @@ class AjaxView extends View {
 		// Unfortunately, layout gets overwritten via passed Controller attribute
 		if ($this->layout === 'default' || $this->layout === 'ajax') {
 			$this->layout = false;
+		}
+		if ($this->subDir === null) {
+			$this->subDir = 'ajax';
 		}
 
 		if (isset($controller->response) && $controller->response instanceof CakeResponse) {

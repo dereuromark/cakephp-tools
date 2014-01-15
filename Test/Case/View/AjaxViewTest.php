@@ -109,4 +109,24 @@ class AjaxViewTest extends CakeTestCase {
 		$this->assertTextEquals($expected, $result);
 	}
 
+	/**
+	 * AjaxViewTest::testWithoutSubdir()
+	 *
+	 * @return void
+	 */
+	public function testWithoutSubdir() {
+		$Request = new CakeRequest();
+		$Response = new CakeResponse();
+		$Controller = new Controller($Request, $Response);
+		$View = new AjaxView($Controller);
+		$View->viewPath = 'Items';
+		$View->subDir = false;
+		$result = $View->render('index');
+
+		$this->assertSame('application/json', $Response->type());
+		$expected = array('error' => null, 'content' => 'My Index Test ctp');
+		$expected = json_encode($expected);
+		$this->assertTextEquals($expected, $result);
+	}
+
 }
