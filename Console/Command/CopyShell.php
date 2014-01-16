@@ -100,7 +100,7 @@ class CopyShell extends AppShell {
 		$this->tmpFolder = TMP . 'cache' . DS . 'copy' . DS;
 
 		/*
-		TODO - garbige clean up of log file
+		TODO - garbage clean up of log file
 		if (file_exists($this->tmpFolder.'log.txt') && (int)round(filesize($this->tmpFolder.'log.txt')/1024) > 2000) { # > 2 MB
 			unlink($this->tmpFolder.'log.txt');
 		}
@@ -587,7 +587,7 @@ class CopyShell extends AppShell {
 
 	/**
 	 * Makes sure type matches config name (app = only app configs, no cake or vendor or custom configs!)
-	 * 
+	 *
 	 * @return string type on success, otherwise boolean false
 	 */
 	protected function typeMatchesConfigName($name, $type) {

@@ -44,7 +44,7 @@ class CodeKeyTest extends MyCakeTestCase {
 		$this->assertFalse($res);
 	}
 
-	public function testGarbigeCollector() {
+	public function testGarbageCollector() {
 		$data = array(
 			'created' => date(FORMAT_DB_DATETIME, time() - 3 * MONTH),
 			'type' => 'y',
@@ -53,7 +53,7 @@ class CodeKeyTest extends MyCakeTestCase {
 		$this->CodeKey->create();
 		$this->CodeKey->save($data, false);
 		$count = $this->CodeKey->find('count');
-		$this->CodeKey->garbigeCollector();
+		$this->CodeKey->garbageCollector();
 		$count2 = $this->CodeKey->find('count');
 		$this->assertTrue($count > $count2);
 	}

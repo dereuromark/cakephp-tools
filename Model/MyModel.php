@@ -1298,7 +1298,7 @@ class MyModel extends Model {
 
 	/**
 	 * NOW: can be set to work offline only (if server is down etc)
-	 * Checks if a email is not from a garbige hoster
+	 * Checks if a email is not from a garbage hoster
 	 *
 	 * @param string email (necessary)
 	 * @return boolean true if valid, else false

@@ -171,7 +171,7 @@ class Qurl extends ToolsAppModel {
 	 *
 	 * @return boolean success
 	 */
-	public function garbigeCollector() {
+	public function garbageCollector() {
 		$conditions = array(
 			$this->alias . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity),
 		);
