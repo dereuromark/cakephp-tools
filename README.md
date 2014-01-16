@@ -136,3 +136,4 @@ unless specified otherwise (in the classes).
 * 2013-02 Removed PasswordChangeBehavior in favor of its new name Passwordable.
 * 2013-02-25 Removed deprecated bootstrap functions and moved DebugTab functionality into Bootstrap namespace
   (you need to now manually include it if needed).
+* 2014-01 Changed Garbige to Garbage in method names.
