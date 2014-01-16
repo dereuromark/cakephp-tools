@@ -5,7 +5,7 @@ if (!defined('CAKEPHP_UNIT_TEST_EXECUTION')) {
 }
 
 define('VALID_TEST_EMAIL', 'graham@grahamweldon.com'); # for testing normal behavior
-define('GARBIGE_TEST_EMAIL', 'test@test.de'); # for testing default image behavior
+define('GARBAGE_TEST_EMAIL', 'test@test.de'); # for testing default image behavior
 
 App::uses('HtmlHelper', 'View/Helper');
 App::uses('GravatarHelper', 'Tools.View/Helper');
@@ -55,7 +55,7 @@ class GravatarHelperTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testImages() {
-		$is = $this->Gravatar->image(GARBIGE_TEST_EMAIL);
+		$is = $this->Gravatar->image(GARBAGE_TEST_EMAIL);
 		$this->out($is);
 		$this->assertTrue(!empty($is));
 
@@ -87,11 +87,11 @@ class GravatarHelperTest extends MyCakeTestCase {
 		$this->out($is);
 		$this->assertTrue(!empty($is));
 
-		$is = $this->Gravatar->image(GARBIGE_TEST_EMAIL, array('default' => 'none'));
+		$is = $this->Gravatar->image(GARBAGE_TEST_EMAIL, array('default' => 'none'));
 		$this->out($is);
 		$this->assertTrue(!empty($is));
 
-		$is = $this->Gravatar->image(GARBIGE_TEST_EMAIL, array('default' => 'http://2.gravatar.com/avatar/8379aabc84ecee06f48d8ca48e09eef4?d=identicon'));
+		$is = $this->Gravatar->image(GARBAGE_TEST_EMAIL, array('default' => 'http://2.gravatar.com/avatar/8379aabc84ecee06f48d8ca48e09eef4?d=identicon'));
 		$this->out($is);
 		$this->assertTrue(!empty($is));
 	}

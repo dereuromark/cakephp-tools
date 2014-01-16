@@ -44,7 +44,7 @@ class TokenTest extends MyCakeTestCase {
 		$this->assertFalse($res);
 	}
 
-	public function testGarbigeCollector() {
+	public function testGarbageCollector() {
 		$data = array(
 			'created' => date(FORMAT_DB_DATETIME, time() - 3 * MONTH),
 			'type' => 'y',
@@ -53,7 +53,7 @@ class TokenTest extends MyCakeTestCase {
 		$this->Token->create();
 		$this->Token->save($data, false);
 		$count = $this->Token->find('count');
-		$this->Token->garbigeCollector();
+		$this->Token->garbageCollector();
 		$count2 = $this->Token->find('count');
 		$this->assertTrue($count > $count2);
 	}
