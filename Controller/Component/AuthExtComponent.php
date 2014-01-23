@@ -94,9 +94,9 @@ class AuthExtComponent extends AuthComponent {
 				return false;
 			}
 			if (!empty($user['suspended'])) {
-				$this->loginError = __('Account wurde vorübergehend gesperrt');
+				$this->loginError = __('Account temporarily locked');
 				if (!empty($user['suspended_reason'])) {
-					$this->loginError .= BR . BR . 'Grund:' . BR . nl2br(h($user['suspended_reason']));
+					$this->loginError .= BR . BR . __('Reason').':' . BR . nl2br(h($user['suspended_reason']));
 				}
 				return false;
 			}
@@ -106,20 +106,20 @@ class AuthExtComponent extends AuthComponent {
 				return false;
 			}
 			if (isset($user['status']) && defined('User::STATUS_PENDING') && $user['status'] == User::STATUS_PENDING) {
-				$this->loginError = __('Account wurde noch nicht freigeschalten');
+				$this->loginError = __('Account not active yet');
 				return false;
 			}
 			if (isset($user['status']) && defined('User::STATUS_SUSPENDED') && $user['status'] == User::STATUS_SUSPENDED) {
-				$this->loginError = 'Account wurde vorübergehend gesperrt';
+				$this->loginError = 'Account temporarily locked';
 				if (!empty($user['suspended_reason'])) {
-					$this->loginError .= BR . BR . 'Grund:' . BR . nl2br(h($user['suspended_reason']));
+					$this->loginError .= BR . BR . __('Reason').':' . BR . nl2br(h($user['suspended_reason']));
 				}
 				return false;
 			}
 			if (isset($user['status']) && defined('User::STATUS_DEL') && $user['status'] == User::STATUS_DEL) {
-				$this->loginError = 'Account wurde gelöscht';
+				$this->loginError = 'Account deleted';
 				if (!empty($user['suspended_reason'])) {
-					$this->loginError .= BR . BR . 'Grund:' . BR . nl2br(h($user['suspended_reason']));
+					$this->loginError .= BR . BR . __('Reason').':' . BR . nl2br(h($user['suspended_reason']));
 				}
 				return false;
 			}
