@@ -96,7 +96,7 @@ class AuthExtComponent extends AuthComponent {
 			if (!empty($user['suspended'])) {
 				$this->loginError = __('Account temporarily locked');
 				if (!empty($user['suspended_reason'])) {
-					$this->loginError .= BR . BR . __('Reason').':' . BR . nl2br(h($user['suspended_reason']));
+					$this->loginError .= BR . BR . __('Reason') . ':' . BR . nl2br(h($user['suspended_reason']));
 				}
 				return false;
 			}
@@ -112,14 +112,14 @@ class AuthExtComponent extends AuthComponent {
 			if (isset($user['status']) && defined('User::STATUS_SUSPENDED') && $user['status'] == User::STATUS_SUSPENDED) {
 				$this->loginError = __('Account temporarily locked');
 				if (!empty($user['suspended_reason'])) {
-					$this->loginError .= BR . BR . __('Reason').':' . BR . nl2br(h($user['suspended_reason']));
+					$this->loginError .= BR . BR . __('Reason') . ':' . BR . nl2br(h($user['suspended_reason']));
 				}
 				return false;
 			}
 			if (isset($user['status']) && defined('User::STATUS_DEL') && $user['status'] == User::STATUS_DEL) {
 				$this->loginError = __('Account deleted');
 				if (!empty($user['suspended_reason'])) {
-					$this->loginError .= BR . BR . __('Reason').':' . BR . nl2br(h($user['suspended_reason']));
+					$this->loginError .= BR . BR . __('Reason') . ':' . BR . nl2br(h($user['suspended_reason']));
 				}
 				return false;
 			}
