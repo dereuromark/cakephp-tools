@@ -65,6 +65,8 @@ p.small { font-size: 70%; }
 </html>';
 
 	public function testProcessUtf8() {
+		$this->skipIf(version_compare(PHP_VERSION, '5.4.0') < 0, 'UTF8 only works with PHP5.4 and above');
+
 		$html = 'チェック
 	<style>
 div#container { margin: 1em auto; }
@@ -78,7 +80,6 @@ p.small { font-size: 70%; }
 		<p class="small">チェック\'foo\'</p>
 	</div>
 bla';
-
 		$res = $this->InlineCss->process($html);
 		$this->debug($html);
 		$this->debug($res);

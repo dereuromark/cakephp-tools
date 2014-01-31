@@ -67,6 +67,8 @@ class CssToInlineStyles
      */
     private $excludeMediaQueries = false;
 
+    private $correctUtf8 = false;
+
     /**
      * Creates an instance, you could set the HTML and CSS here, or load it
      * later.
@@ -458,9 +460,12 @@ class CssToInlineStyles
             $html = $document->saveHTML();
         }
 
-				// Correct scrambled UTF8 chars (&atilde;&#131;...) back to their correct representation.
-        $html = html_entity_decode($html, ENT_XHTML, 'UTF-8');
-				$html = utf8_decode($html);
+        if ($this->correctUtf8) {
+            // Only for >PHP5.4
+            // Correct scrambled UTF8 chars (&atilde;&#131;...) back to their correct representation.
+            $html = html_entity_decode($html, ENT_XHTML, 'UTF-8');
+            $html = utf8_decode($html);
+        }
 
         // cleanup the HTML if we need to
         if($this->cleanup) $html = $this->cleanupHTML($html);
@@ -652,6 +657,17 @@ class CssToInlineStyles
     public function setHTML($html)
     {
         $this->html = (string) $html;
+    }
+
+   /**
+     * Set utf8 correction
+     *
+     * @return void
+     * @param  bool $on.
+     */
+    public function setCorrectUtf8($on = true)
+    {
+        $this->correctUtf8 = (bool) $on;
     }
 
     /**

@@ -24,6 +24,7 @@ class InlineCssLib {
 		'xhtmlOutput' => false,
 		'removeCss' => true,
 		'debug' => false,
+		'correctUtf8' => false
 	);
 
 	public $settings = array();
@@ -32,6 +33,8 @@ class InlineCssLib {
 	 * startup
 	 */
 	public function __construct($settings = array()) {
+		$this->_defaults['correctUtf8'] = version_compare(PHP_VERSION, '5.4.0') >= 0;
+
 		$defaults = am($this->_defaults, (array) Configure::read('InlineCss'));
 		$this->settings = array_merge($defaults, $settings);
 		if (!method_exists($this, '_process' . ucfirst($this->settings['engine']))) {
@@ -86,6 +89,9 @@ class InlineCssLib {
 		}
 		if ($this->settings['removeCss']) {
 			$CssToInlineStyles->setStripOriginalStyleTags();
+		}
+		if ($this->settings['correctUtf8']) {
+			$CssToInlineStyles->setCorrectUtf8();
 		}
 		if ($this->settings['debug']) {
 			CakeLog::write('css', $html);
