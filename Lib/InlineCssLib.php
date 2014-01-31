@@ -68,7 +68,7 @@ class InlineCssLib {
 	 * @return string HTML output
 	 */
 	protected function _processCssToInline($html, $css) {
-		App::import('Vendor', 'CssToInline', array('file' => 'css_to_inline_styles' . DS . 'css_to_inline_styles.php'));
+		App::import('Vendor', 'Tools.CssToInlineStyles', array('file' => 'CssToInlineStyles' . DS . 'CssToInlineStyles.php'));
 
 		//fix issue with <html> being added
 		$separator = '~~~~~~~~~~~~~~~~~~~~';
@@ -77,7 +77,7 @@ class InlineCssLib {
 			$html = $separator . $html . $separator;
 		}
 
-		$CssToInlineStyles = new CSSToInlineStyles($html, $css);
+		$CssToInlineStyles = new CssToInlineStyles($html, $css);
 		if ($this->settings['cleanup']) {
 			$CssToInlineStyles->setCleanup();
 		}

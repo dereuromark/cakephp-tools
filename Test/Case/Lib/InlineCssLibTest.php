@@ -5,10 +5,9 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
 class InlineCssLibTest extends MyCakeTestCase {
 
 	public function setUp() {
-		//Configure::write('InlineCss.engine', 'cssToInline');
 		$this->InlineCss = new InlineCssLib();
 
-		$res = App::import('Vendor', 'CssToInline', array('file' => 'css_to_inline_styles' . DS . 'css_to_inline_styles.php'));
+		$res = App::import('Vendor', 'Tools.CssToInlineStyles', array('file' => 'CssToInlineStyles' . DS . 'CssToInlineStyles.php'));
 		$this->skipIf(!$res);
 
 		parent::setUp();
@@ -64,5 +63,26 @@ p.small { font-size: 70%; }
 	</div>
 </body>
 </html>';
+
+	public function testProcessUtf8() {
+		$html = 'チェック
+	<style>
+div#container { margin: 1em auto; }
+h1 { font-weight: bold; font-size: 2em; }
+p { margin-bottom: 1em; font-family: sans-serif; text-align: justify; }
+p.small { font-size: 70%; }
+	</style>
+	<div id="container">
+		<h1>チェック</h1>
+		<p>チェックインは15:00以降です。アーリーチェックインはリクエストにて</p>
+		<p class="small">チェック\'foo\'</p>
+	</div>
+bla';
+
+		$res = $this->InlineCss->process($html);
+		$this->debug($html);
+		$this->debug($res);
+		$this->assertTextStartsWith('チェック', $res);
+	}
 
 }
