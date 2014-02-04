@@ -96,7 +96,7 @@ class LogableBehavior extends ModelBehavior {
 	 * - skip: array(). String array of actions to not log
 	 * - ignore: array(). Fields to ignore
 	 *
-	 * @param Object $Model
+	 * @param Model $Model
 	 * @param array $config
 	 */
 	public function setup(Model $Model, $config = array()) {
@@ -142,7 +142,7 @@ class LogableBehavior extends ModelBehavior {
 	 * (remember to use your own user key if you're not using 'user_id')
 	 * 'user_id' 	: int 	 (null) Defaults to all users, supply id if you want for only one User
 	 *
-	 * @param Object $Model
+	 * @param Model $Model
 	 * @param array $params
 	 * @return array
 	 */
@@ -192,7 +192,7 @@ class LogableBehavior extends ModelBehavior {
 	 * @example $this->Model->findUserActions(301, array('model' => 'BookTest'));
 	 * @example $this->Model->findUserActions(301, array('events' => true));
 	 * @example $this->Model->findUserActions(301, array('fields' => array('id','model'),'model' => 'BookTest');
-	 * @param Object $Model
+	 * @param Model $Model
 	 * @param integer $userId
 	 * @param array $params
 	 * @return array
@@ -287,7 +287,7 @@ class LogableBehavior extends ModelBehavior {
 	 * The $userData array is expected to look like the result of a
 	 * User::find(array('id'=>123));
 	 *
-	 * @param Object $Model
+	 * @param Model $Model
 	 * @param array $userData
 	 */
 	public function setUserData(Model $Model, $userData = null) {
@@ -306,7 +306,7 @@ class LogableBehavior extends ModelBehavior {
 	 * Used for logging custom actions that arent crud, like login or download.
 	 *
 	 * @example $this->Boat->customLog('ship', 66, array('title' => 'Titanic heads out'));
-	 * @param Object $Model
+	 * @param Model $Model
 	 * @param string $action name of action that is taking place (dont use the crud ones)
 	 * @param integer $id id of the logged item (ie foreign_id in logs table)
 	 * @param array $values optional other values for your logs table
@@ -329,10 +329,23 @@ class LogableBehavior extends ModelBehavior {
 		return $this->_saveLog($Model, $logData, $title);
 	}
 
+	/**
+	 * LogableBehavior::clearUserData()
+	 *
+	 * @param Model $Model
+	 * @return void
+	 */
 	public function clearUserData(Model $Model) {
 		$this->user = null;
 	}
 
+	/**
+	 * LogableBehavior::setUserIp()
+	 *
+	 * @param Model $Model
+	 * @param mixed $userIP
+	 * @return void
+	 */
 	public function setUserIp(Model $Model, $userIP = null) {
 		if ($userIP === null) {
 			$userIP = Utility::getClientIp();
@@ -391,6 +404,12 @@ class LogableBehavior extends ModelBehavior {
 		return true;
 	}
 
+	/**
+	 * LogableBehavior::_prepareLog()
+	 *
+	 * @param Model $Model
+	 * @return void
+	 */
 	protected function _prepareLog(Model $Model) {
 		if ($this->user === null) {
 			$this->setUserData($Model);
@@ -492,7 +511,7 @@ class LogableBehavior extends ModelBehavior {
 	 * If the userKey field in table, add it to dataset
 	 * If userData is supplied to model, add it to the title
 	 *
-	 * @param Object $Model
+	 * @param Model $Model
 	 * @param array $logData
 	 * @return mixed Success
 	 */
@@ -566,7 +585,7 @@ class LogableBehavior extends ModelBehavior {
 			$logData[$this->Log->alias]['description'] .= '.';
 		}
 		$this->Log->create($logData);
-		return $this->Log->save(null, false);
+		return $this->Log->save(null, array('validate' => false, 'callbacks' => false));
 	}
 
 }
