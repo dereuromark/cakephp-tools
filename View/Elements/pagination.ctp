@@ -1,4 +1,4 @@
-<p class="pagingDescription"><?php
+<p class="paging-description pagingDescription"><?php
 
 if (!isset($separator)) {
 	if (defined('PAGINATOR_SEPARATOR')) {
