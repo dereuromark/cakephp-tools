@@ -42,7 +42,7 @@ class MyModel extends Model {
 		}
 
 		# Get a notice if there is an AppModel instance instead of a real Model (in those cases usually a dev error!)
-		if (!is_a($this, $this->name) && $this->displayField !== 'id' && $this->useDbConfig === 'default'
+		if (!is_a($this, $this->name) && $this->displayField !== $this->primaryKey && $this->useDbConfig === 'default'
 			&& !Configure::read('Core.disableModelInstanceNotice')) {
 			trigger_error('AppModel instance! Expected: ' . $this->name);
 		}
@@ -767,12 +767,12 @@ class MyModel extends Model {
 
 		if (is_array($id)) {
 			$data = $id;
-			$id = $data[$this->alias]['id'];
+			$id = $data[$this->alias][$this->primaryKey];
 		} elseif ($id === null) {
 			$id = $this->id;
 		}
 		if (!empty($id)) {
-			$data = $this->find('first', array('conditions' => array('id' => $id), 'contain' => array()));
+			$data = $this->find('first', array('conditions' => array($this->primaryKey => $id), 'contain' => array()));
 		}
 
 		if (empty($id) || empty($data) || empty($data[$this->alias][$sortField])) {
@@ -788,8 +788,8 @@ class MyModel extends Model {
 			$findOptions['contain'] = $qryOptions['contain'];
 		}
 
-		$findOptions['fields'] = array($this->alias . '.id', $this->alias . '.' . $displayField);
-		$findOptions['conditions'][$this->alias . '.id !='] = $id;
+		$findOptions['fields'] = array($this->alias . '.' . $this->primaryKey, $this->alias . '.' . $displayField);
+		$findOptions['conditions'][$this->alias . '.' . $this->primaryKey . ' !='] = $id;
 
 		# //TODO: take out
 		if (!empty($options['filter']) && $options['filter'] == REQUEST_STATUS_FILTER_OPEN) {
@@ -952,7 +952,7 @@ class MyModel extends Model {
 	 * @return boolean Success
 	 */
 	public function validateUnique($data, $fields = array(), $options = array()) {
-		$id = (!empty($this->data[$this->alias]['id']) ? $this->data[$this->alias]['id'] : 0);
+		$id = (!empty($this->data[$this->alias][$this->primaryKey]) ? $this->data[$this->alias][$this->primaryKey] : 0);
 		if (!$id && $this->id) {
 			$id = $this->id;
 		}
@@ -997,7 +997,8 @@ class MyModel extends Model {
 		if (count($conditions) > 2) {
 			$this->recursive = 0;
 		}
-		$res = $this->find('first', array('fields' => array($this->alias . '.id'), 'conditions' => $conditions));
+		$options = array('fields' => array($this->alias . '.' . $this->primaryKey), 'conditions' => $conditions);
+		$res = $this->find('first', $options);
 		return empty($res);
 	}
 
@@ -1510,7 +1511,7 @@ class MyModel extends Model {
 			$column = $id[0];
 			$value = $id[1];
 		} else {
-			$column = 'id';
+			$column = $this->primaryKey;
 			$value = $id;
 			if ($value === null) {
 				$value = $this->id;
@@ -1620,7 +1621,7 @@ class MyModel extends Model {
 	 * AJAX?
 	 */
 	public function toggleField($fieldName, $id) {
-		$record = $this->get($id, array('id', $fieldName));
+		$record = $this->get($id, array($this->primaryKey, $fieldName));
 
 		if (!empty($record) && !empty($fieldName) && $this->hasField($fieldName)) {
 			$record[$this->alias][$fieldName] = ($record[$this->alias][$fieldName] == 1 ? 0 : 1);
@@ -1668,11 +1669,10 @@ class MyModel extends Model {
 	 */
 	public function generateNestedList($conditions = null, $indent = '--') {
 		$cats = $this->find('threaded', array('conditions' => $conditions, 'fields' => array(
-				$this->alias . '.id',
+				$this->alias . '.' . $this->primaryKey,
 				$this->alias . '.' . $this->displayField,
 				$this->alias . '.parent_id')));
-		$glist = $this->_generateNestedList($cats, $indent);
-		return $glist;
+		return $this->_generateNestedList($cats, $indent);
 	}
 
 	/**
@@ -1684,7 +1684,7 @@ class MyModel extends Model {
 		static $list = array();
 		$c = count($cats);
 		for ($i = 0; $i < $c; $i++) {
-			$list[$cats[$i][$this->alias]['id']] = str_repeat($indent, $level) . $cats[$i][$this->alias][$this->displayField];
+			$list[$cats[$i][$this->alias][$this->primaryKey]] = str_repeat($indent, $level) . $cats[$i][$this->alias][$this->displayField];
 			if (!empty($cats[$i]['children'])) {
 				$this->_generateNestedList($cats[$i]['children'], $indent, $level + 1);
 			}
