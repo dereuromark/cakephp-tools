@@ -16,9 +16,11 @@ App::uses('ModelBehavior', 'Model');
  * In case you need to dynamically set the Model->scopes attribute, use the constructor:
  *
  *   public function __construct($id = false, $table = null, $ds = null) {
- *     parent::__construct($id, $table, $ds);
  *     $this->scopes = ...
+ *     parent::__construct($id, $table, $ds);
  *   }
+ *
+ * The order is important since behaviors are loaded in the parent constructor.
  *
  * Note that it can be vital to use the model prefixes in the conditions and in the scopes
  * to avoid SQL errors or naming conflicts.
@@ -34,7 +36,7 @@ class NamedScopeBehavior extends ModelBehavior {
 	);
 
 	/**
-	 * NamedScopeBehavior::setup()
+	 * Sets up the behavior including settings (i.e. scope).
 	 *
 	 * @param Model $Model
 	 * @param array $settings
@@ -48,7 +50,7 @@ class NamedScopeBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * NamedScopeBehavior::beforeFind()
+	 * Triggered before the actual find.
 	 *
 	 * @param Model $Model
 	 * @param array $queryData
@@ -79,7 +81,7 @@ class NamedScopeBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * NamedScopeBehavior::scope()
+	 * Set/get scopes.
 	 *
 	 * @param Model $Model
 	 * @param string $name
@@ -97,7 +99,7 @@ class NamedScopeBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * NamedScopeBehavior::_conditions()
+	 * Resolves the scope names into their conditions.
 	 *
 	 * @param array $scopes
 	 * @param string $modelName
