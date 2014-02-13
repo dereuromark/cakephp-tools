@@ -65,4 +65,19 @@ class NamedScopeBehaviorTest extends MyCakeTestCase {
 		$this->assertSame(4, $after);
 	}
 
+	public function testCrossModelWithAttributeScope() {
+		$this->Comment->scope = array('active' => array('Comment.published' => 'Y'));
+		$this->Comment->User->scope = array('senior' => array('User.id <' => '2'));
+
+		$this->Comment->Behaviors->load('Tools.NamedScope');
+		$this->Comment->User->Behaviors->load('Tools.NamedScope');
+
+		$options = array(
+			'contain' => array('User'),
+			'scope' => array('Comment.active', 'User.senior')
+		);
+		$after = $this->Comment->find('count', $options);
+		$this->assertSame(2, $after);
+	}
+
 }

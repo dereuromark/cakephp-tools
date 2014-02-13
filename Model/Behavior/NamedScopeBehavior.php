@@ -4,21 +4,56 @@ App::uses('ModelBehavior', 'Model');
 // basic code taken and modified/fixed from https://github.com/netguru/namedscopebehavior
 
 /**
- * Edited - Mark Scherer
- * - its now "scope" instead of "scopes" (singular and now analogous to "contain" etc)
+ * Edited version
+ *
+ * - it's now "scope" instead of "scopes" (singular and now analogous to "contain" etc)
  * - corrected syntax, indentation
- * - now probably cake2.x ready (awaiting tests)
+ * - reads the model's 'scopes' attribute if applicable
+ *
+ * If used across models, it is adviced to load this globally via $actAs in the AppModel
+ * (just as with Containable).
+ *
+ * In case you need to dynamically set the Model->scopes attribute, use the constructor:
+ *
+ *   public function __construct($id = false, $table = null, $ds = null) {
+ *     parent::__construct($id, $table, $ds);
+ *     $this->scopes = ...
+ *   }
+ *
+ * Note that it can be vital to use the model prefixes in the conditions and in the scopes
+ * to avoid SQL errors or naming conflicts.
+ *
+ * @license MIT
+ * @author Mark Scherer
  */
 class NamedScopeBehavior extends ModelBehavior {
 
 	protected $_defaults = array(
-		'scope' => array()
+		'scope' => array(), // Container to hold all scopes
+		'attribute' => 'scopes' // Where to find the declared scopes of the model
 	);
 
+	/**
+	 * NamedScopeBehavior::setup()
+	 *
+	 * @param Model $Model
+	 * @param array $settings
+	 * @return void
+	 */
 	public function setup(Model $Model, $settings = array()) {
+		if (!empty($Model->scope)) {
+			$settings['scope'] = !empty($settings['scope']) ? array_merge($Model->scope, $settings['scope']) : $Model->scope;
+		}
 		$this->settings[$Model->alias] = $settings + $this->_defaults;
 	}
 
+	/**
+	 * NamedScopeBehavior::beforeFind()
+	 *
+	 * @param Model $Model
+	 * @param array $queryData
+	 * @return mixed
+	 */
 	public function beforeFind(Model $Model, $queryData) {
 		$scopes = array();
 		// passed as scopes
