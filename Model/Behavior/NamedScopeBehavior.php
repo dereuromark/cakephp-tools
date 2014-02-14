@@ -1,14 +1,16 @@
 <?php
 App::uses('ModelBehavior', 'Model');
 
-// basic code taken and modified/fixed from https://github.com/netguru/namedscopebehavior
-
 /**
- * Edited version
+ * A behavior to keep scopes and conditions across multiple methods and models DRY.
+ *
+ * Basic idea taken and modified/fixed from https://github.com/netguru/namedscopebehavior
+ * and https://github.com/josegonzalez/cakephp-simple-scope
  *
  * - it's now "scope" instead of "scopes" (singular and now analogous to "contain" etc)
  * - corrected syntax, indentation
  * - reads the model's 'scopes' attribute if applicable
+ * - allows 'scopes' in scopedFind()
  *
  * If used across models, it is adviced to load this globally via $actAs in the AppModel
  * (just as with Containable).
@@ -25,6 +27,8 @@ App::uses('ModelBehavior', 'Model');
  * Note that it can be vital to use the model prefixes in the conditions and in the scopes
  * to avoid SQL errors or naming conflicts.
  *
+ * See the test cases for more complex examples.
+ *
  * @license MIT
  * @author Mark Scherer
  */
@@ -32,7 +36,8 @@ class NamedScopeBehavior extends ModelBehavior {
 
 	protected $_defaults = array(
 		'scope' => array(), // Container to hold all scopes
-		'attribute' => 'scopes' // Where to find the declared scopes of the model
+		'attribute' => 'scopes', // Model attribute to hold the custom scopes
+		'findAttribute' => 'scopedFinds' // Model attribute to hold the custom finds
 	);
 
 	/**
@@ -43,8 +48,9 @@ class NamedScopeBehavior extends ModelBehavior {
 	 * @return void
 	 */
 	public function setup(Model $Model, $settings = array()) {
-		if (!empty($Model->scope)) {
-			$settings['scope'] = !empty($settings['scope']) ? array_merge($Model->scope, $settings['scope']) : $Model->scope;
+		$attribute = !empty($settings['attribute']) ? $settings['attribute'] : $this->_defaults['attribute'];
+		if (!empty($Model->$attribute)) {
+			$settings['scope'] = !empty($settings['scope']) ? array_merge($Model->$attribute, $settings['scope']) : $Model->$attribute;
 		}
 		$this->settings[$Model->alias] = $settings + $this->_defaults;
 	}
@@ -96,6 +102,66 @@ class NamedScopeBehavior extends ModelBehavior {
 			continue;
 		}
 		$this->settings[$Model->alias]['scope'][$name] = $value;
+	}
+
+	/**
+	 * Scoped find() with a specific key.
+	 *
+	 * If you need to switch the type, use the customConfig:
+	 *   array('type' => 'count')
+	 * All active find methods are supported.
+	 *
+	 * @param mixed $Model
+	 * @param mixed $key
+	 * @param array $customConfig
+	 * @return mixed
+	 * @throws RuntimeException On invalid configs.
+	 */
+	public function scopedFind(Model $Model, $key, array $customConfig = array()) {
+		$attribute = $this->settings[$Model->alias]['findAttribute'];
+		if (empty($Model->$attribute)) {
+			throw new RuntimeException('No scopedFinds configs in ' . $Model->alias);
+		}
+		$finds = $Model->$attribute;
+		if (empty($finds[$key])) {
+			throw new RuntimeException('No scopedFinds configs in ' . $Model->alias . ' for the key ' . $key);
+		}
+
+		$config = $finds[$key];
+		$config['find'] = array_merge_recursive($config['find'], $customConfig);
+		if (!isset($config['find']['type'])) {
+			$config['find']['type'] = 'all';
+		}
+
+		if (!empty($config['find']['virtualFields'])) {
+			$Model->virtualFields = $config['find']['virtualFields'] + $Model->virtualFields;
+		}
+
+		if (!empty($config['find']['options']['contain']) && !$Model->Behaviors->loaded('Containable')) {
+			$Model->Behaviors->load('Containable');
+		}
+
+		return $Model->find($config['find']['type'], $config['find']['options']);
+	}
+
+	/**
+	 * List all scoped find groups available.
+	 *
+	 * @param Model $Model
+	 * @return array
+	 */
+	public function scopedFinds(Model $Model) {
+		$attribute = $this->settings[$Model->alias]['findAttribute'];
+		if (empty($Model->$attribute)) {
+			return array();
+		}
+
+		$data = array();
+		foreach ($Model->$attribute as $group => $config) {
+			$data[$group] = $config['name'];
+		}
+
+		return $data;
 	}
 
 	/**

@@ -65,9 +65,14 @@ class NamedScopeBehaviorTest extends MyCakeTestCase {
 		$this->assertSame(4, $after);
 	}
 
+	/**
+	 * NamedScopeBehaviorTest::testCrossModelWithAttributeScope()
+	 *
+	 * @return void
+	 */
 	public function testCrossModelWithAttributeScope() {
-		$this->Comment->scope = array('active' => array('Comment.published' => 'Y'));
-		$this->Comment->User->scope = array('senior' => array('User.id <' => '2'));
+		$this->Comment->scopes = array('active' => array('Comment.published' => 'Y'));
+		$this->Comment->User->scopes = array('senior' => array('User.id <' => '2'));
 
 		$this->Comment->Behaviors->load('Tools.NamedScope');
 		$this->Comment->User->Behaviors->load('Tools.NamedScope');
@@ -78,6 +83,118 @@ class NamedScopeBehaviorTest extends MyCakeTestCase {
 		);
 		$after = $this->Comment->find('count', $options);
 		$this->assertSame(2, $after);
+	}
+
+	/**
+	 * NamedScopeBehaviorTest::testScopedFind()
+	 *
+	 * @return void
+	 */
+	public function testScopedFind() {
+		$this->Comment->scopes = array('active' => array('Comment.published' => 'Y'));
+		$this->Comment->User->scopes = array('senior' => array('User.id <' => '2'));
+
+		$this->Comment->Behaviors->load('Tools.NamedScope');
+		$this->Comment->User->Behaviors->load('Tools.NamedScope');
+
+		$this->Comment->scopedFinds = array(
+			'activeAndSenior' => array(
+				'name' => 'Active and Senior',
+				'find' => array(
+					'virtualFields' => array(
+						//'fullname' => "CONCAT(User.id, '-', User.user)"
+					),
+					'options' => array(
+						'scope' => array('Comment.active', 'User.senior'),
+						'contain' => array('User'),
+						'fields' => array('User.id', 'User.user'),
+						'order' => array('User.user' => 'ASC'),
+					),
+				)
+			)
+		);
+		$result = $this->Comment->scopedFind('activeAndSenior');
+		$this->assertSame(2, count($result));
+
+		$result = $this->Comment->scopedFind('activeAndSenior', array('type' => 'count'));
+		$this->assertSame(2, $result);
+	}
+
+	/**
+	 * NamedScopeBehaviorTest::testScopedFindWithVirtualFields()
+	 *
+	 * @return void
+	 */
+	public function testScopedFindWithVirtualFields() {
+		$this->Comment->scopes = array('active' => array('Comment.published' => 'Y'));
+		$this->Comment->User->scopes = array('senior' => array('User.id <' => '2'));
+
+		$this->Comment->Behaviors->load('Tools.NamedScope');
+		$this->Comment->User->Behaviors->load('Tools.NamedScope');
+
+		$this->Comment->scopedFinds = array(
+			'activeAndSenior' => array(
+				'name' => 'Active and Senior',
+				'find' => array(
+					'virtualFields' => array(
+						'fullname' => "CONCAT(User.id, '-', User.user)"
+					),
+					'options' => array(
+						'scope' => array('Comment.active', 'User.senior'),
+						'contain' => array('User'),
+						'fields' => array('User.id', 'fullname'),
+						'order' => array('fullname' => 'ASC'),
+					),
+				)
+			)
+		);
+		$result = $this->Comment->scopedFind('activeAndSenior');
+		$this->assertSame(2, count($result));
+
+		$scopedFinds = $this->Comment->scopedFinds();
+		$this->assertSame(array('activeAndSenior' => 'Active and Senior'), $scopedFinds);
+	}
+
+	/**
+	 * NamedScopeBehaviorTest::testScopedFindWithLimit()
+	 *
+	 * @return void
+	 */
+	public function testScopedFindWithLimit() {
+		$this->Comment->scopes = array('active' => array('Comment.published' => 'Y'));
+		$this->Comment->User->scopes = array('senior' => array('User.id <' => '2'));
+
+		$this->Comment->Behaviors->load('Tools.NamedScope');
+		$this->Comment->User->Behaviors->load('Tools.NamedScope');
+
+		$this->Comment->scopedFinds = array(
+			'activeAndSenior' => array(
+				'name' => 'Active and Senior',
+				'find' => array(
+					'virtualFields' => array(
+						'fullname' => "CONCAT(User.id, '-', User.user)"
+					),
+					'options' => array(
+						'scope' => array('Comment.active', 'User.senior'),
+						'contain' => array('User'),
+						'fields' => array('User.id', 'fullname'),
+						'order' => array('fullname' => 'ASC'),
+					),
+				)
+			)
+		);
+		$result = $this->Comment->scopedFind('activeAndSenior', array('options' => array('limit' => 1)));
+		$this->assertSame(1, count($result));
+	}
+
+	/**
+	 * NamedScopeBehaviorTest::testException()
+	 *
+	 * @expectedException RuntimeException
+	 * @return void
+	 */
+	public function testException() {
+		$this->Comment->scopedFind('foo');
 	}
 
 }
