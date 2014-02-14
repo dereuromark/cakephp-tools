@@ -15,7 +15,7 @@ App::uses('ModelBehavior', 'Model');
  * - reads the model's 'scopes' attribute if applicable
  * - allows 'scopes' in scopedFind()
  *
- * If used across models, it is adviced to load this globally via $actAs in the AppModel
+ * If used across models, it is advisable to load this globally via $actAs in the AppModel
  * (just as with Containable).
  *
  * In case you need to dynamically set the Model->scopes attribute, use the constructor:
@@ -34,6 +34,7 @@ App::uses('ModelBehavior', 'Model');
  *
  * @license MIT
  * @author Mark Scherer
+ * @link https://github.com/dereuromark/tools/wiki/Model-Behavior-NamedScope
  */
 class NamedScopeBehavior extends ModelBehavior {
 
@@ -67,21 +68,21 @@ class NamedScopeBehavior extends ModelBehavior {
 	 */
 	public function beforeFind(Model $Model, $queryData) {
 		$scopes = array();
-		// passed as scopes
+		// Passed as scopes (preferred)
 		if (!empty($queryData['scope'])) {
 			$scope = !is_array($queryData['scope']) ? array($queryData['scope']) : $queryData['scope'];
 			$scopes = array_merge($scopes, $scope);
 		}
-		// passed as conditions['scope']
+		// Passed as conditions['scope']
 		if (is_array($queryData['conditions']) && !empty($queryData['conditions']['scope'])) {
 			$scope = !is_array($queryData['conditions']['scope']) ? array($queryData['conditions']['scope']) : $queryData['conditions']['scope'];
 			unset($queryData['conditions']['scope']);
 			$scopes = array_merge($scopes, $scope);
 		}
 
-		// if there are scopes defined, we need to get rid of possible condition set earlier by find() method if model->id was set
-		if (!empty($scopes) && !empty($Model->id) && !empty($queryData['conditions']["`{$Model->alias}`.`{$Model->primaryKey}`"]) && $queryData['conditions']["`{$Model->alias}`.`{$Model->primaryKey}`"] ==
-			$Model->id) {
+		// If there are scopes defined, we need to get rid of possible condition set earlier by find() method if model->id was set
+		if (!empty($scopes) && !empty($Model->id) && !empty($queryData['conditions']["`{$Model->alias}`.`{$Model->primaryKey}`"]) &&
+			$queryData['conditions']["`{$Model->alias}`.`{$Model->primaryKey}`"] == $Model->id) {
 			unset($queryData['conditions']["`{$Model->alias}`.`{$Model->primaryKey}`"]);
 		}
 
