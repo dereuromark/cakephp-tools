@@ -2,7 +2,10 @@
 App::uses('ModelBehavior', 'Model');
 
 /**
- * A behavior to keep scopes and conditions across multiple methods and models DRY.
+ * A behavior to keep scopes and conditions DRY across multiple methods and models.
+ * Those scopes can be added to any find() options array.
+ * Additionally, custom scopedFinds can help to reduce the amount of methods needed
+ * through a global config and one scopedFind() method.
  *
  * Basic idea taken and modified/fixed from https://github.com/netguru/namedscopebehavior
  * and https://github.com/josegonzalez/cakephp-simple-scope
