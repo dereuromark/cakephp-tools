@@ -102,8 +102,8 @@ class NamedScopeBehavior extends ModelBehavior {
 		if ($name === null) {
 			return $this->settings[$Model->alias]['scope'];
 		}
-		if (in_array($name, $this->settings[$Model->alias]['scope'])) {
-			continue;
+		if ($value === null) {
+			return isset($this->settings[$Model->alias]['scope'][$name]) ? $this->settings[$Model->alias]['scope'][$name] : null;
 		}
 		$this->settings[$Model->alias]['scope'][$name] = $value;
 	}

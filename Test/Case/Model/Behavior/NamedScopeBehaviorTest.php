@@ -29,6 +29,27 @@ class NamedScopeBehaviorTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * NamedScopeBehaviorTest::testScope()
+	 *
+	 * @return void
+	 */
+	public function testScope() {
+		$result = $this->Comment->scope('active');
+		$this->assertNull($result);
+
+		$this->Comment->scope('active', array('published' => 'Y'));
+		$result = $this->Comment->scope('active');
+		$this->assertEquals(array('published' => 'Y'), $result);
+
+		$this->Comment->scope('active', array('published' => 'Y', 'active' => 1));
+		$result = $this->Comment->scope('active');
+		$this->assertEquals(array('published' => 'Y', 'active' => 1), $result);
+
+		$result = $this->Comment->scope();
+		$this->assertEquals(array('active' => array('published' => 'Y', 'active' => 1)), $result);
+	}
+
+	/**
 	 * NamedScopeBehaviorTest::testBasic()
 	 *
 	 * @return void
