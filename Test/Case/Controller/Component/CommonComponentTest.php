@@ -89,25 +89,11 @@ class CommonComponentTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testGetParams() {
-		if (php_sapi_name() !== 'cli') {
-			$is = $this->Controller->Common->getQueryParam('case');
-			$this->assertTrue(strpos($is, 'CommonComponent') > 0 || $is === 'AllComponentTests' || $is === 'AllTools');
-		}
-
-		$is = $this->Controller->Common->getQueryParam('x');
-		$this->assertSame(null, $is);
-
-		$is = $this->Controller->Common->getQueryParam('x', 'y');
-		$this->assertSame($is, 'y');
-
-		$is = $this->Controller->Common->getNamedParam('plugin');
-		$this->assertSame(null, $is);
-
 		$is = $this->Controller->Common->getNamedParam('x');
-		$this->assertSame(null, $is);
+		$this->assertNull($is);
 
 		$is = $this->Controller->Common->getNamedParam('x', 'y');
-		$this->assertSame($is, 'y');
+		$this->assertSame('y', $is);
 	}
 
 	/**
