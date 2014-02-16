@@ -113,6 +113,9 @@ If you are able to help on that one, that would be awesome.
 
 ### Status
 [![Build Status](https://api.travis-ci.org/dereuromark/tools.png)](https://travis-ci.org/dereuromark/tools)
+[![Latest Stable Version](https://poser.pugx.org/dereuromark/tools-cakephp/v/stable.png)](https://packagist.org/packages/dereuromark/tools-cakephp)
+[![Coverage Status](https://coveralls.io/repos/dereuromark/tools/badge.png)](https://coveralls.io/r/dereuromark/tools)
+[![License](https://poser.pugx.org/dereuromark/tools-cakephp/license.png)](https://packagist.org/packages/dereuromark/tools-cakephp)
 [![Total Downloads](https://poser.pugx.org/dereuromark/tools-cakephp/d/total.png)](https://packagist.org/packages/dereuromark/tools-cakephp)
 
 ### Branching strategy
