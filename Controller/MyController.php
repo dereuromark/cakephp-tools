@@ -17,7 +17,7 @@ class MyController extends Controller {
 	 */
 	public function __construct($request = null, $response = null) {
 		parent::__construct($request, $response);
-		if (strpos($this->request->here, '/js/cjs/') === 0 || strpos($this->request->here, '/css/ccss/') === 0) {
+		if ($this->request !== null && strpos($this->request->here, '/js/cjs/') === 0 || strpos($this->request->here, '/css/ccss/') === 0) {
 			unset($this->request->params['ext']);
 		}
 	}

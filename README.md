@@ -86,7 +86,7 @@ A quick reference or some larger modules: [USAGE.md](https://github.com/dereurom
 * Disable cache also works for older IE versions.
 * Redirect with additional encoding for Apache (if still using named params insteaf of query strings).
 * Default settings for Paginator, ... can be set using Configure.
-* RSS and Ajax Views for better repsonses there (Ajax also includes an optional component).
+* RSS and Ajax Views for better responses (Ajax also comes with an optional component).
 * Minor misc. tweaks.
 
 ### Additional classes and features

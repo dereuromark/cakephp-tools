@@ -37,8 +37,8 @@ class ConfirmableBehavior extends ModelBehavior {
 		$return = parent::beforeValidate($Model, $options);
 
 		if ($this->settings[$Model->alias]['before'] === 'validate') {
-			# we dont want to return the value, because other fields might then not be validated
-			# (save will not continue with errors, anyway)
+			// we dont want to return the value, because other fields might then not be validated
+			// (save will not continue with errors, anyway)
 			$this->confirm($Model, $return);
 		}
 

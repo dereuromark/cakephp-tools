@@ -118,19 +118,19 @@ class Token extends ToolsAppModel {
 			// return $res; # more secure to fail here if user_id is not provided, but was submitted prev.
 			return false;
 		}
-		# already used?
+		// already used?
 		if (!empty($res[$this->alias]['used'])) {
 			if ($treatUsedAsInvalid) {
 				return false;
 			}
-			# return true and let the application check what to do then
+			// return true and let the application check what to do then
 			return $res;
 		}
-		# actually spend key (set to used)
+		// actually spend key (set to used)
 		if ($this->spendKey($res[$this->alias]['id'])) {
 			return $res;
 		}
-		# no limit? we dont spend key then
+		// no limit? we dont spend key then
 		if (!empty($res[$this->alias]['unlimited'])) {
 			return $res;
 		}

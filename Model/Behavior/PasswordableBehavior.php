@@ -156,7 +156,7 @@ class PasswordableBehavior extends ModelBehavior {
 
 		$this->Auth = new $authClass(new ComponentCollection());
 
-		# easiest authenticate method via form and (id + pwd)
+		// Easiest authenticate method via form and (id + pwd)
 		$authConfig = array(
 			'fields' => array('username' => 'id', 'password' => $this->settings[$Model->alias]['field']),
 			'userModel' => $this->settings[$Model->alias]['userModel'] ? $this->settings[$Model->alias]['userModel'] : $Model->alias
@@ -266,7 +266,7 @@ class PasswordableBehavior extends ModelBehavior {
 			$rules[$field] = $fieldRules;
 		}
 
-		# add the validation rules if not already attached
+		// Add the validation rules if not already attached
 		if (!isset($Model->validate[$formField])) {
 			$Model->validator()->add($formField, $rules['formField']);
 		}
@@ -288,7 +288,7 @@ class PasswordableBehavior extends ModelBehavior {
 				));
 			}
 		} elseif (!isset($Model->validate[$formFieldCurrent])) {
-			# try to match the password against the hash in the DB
+			// Try to match the password against the hash in the DB
 			if (!$this->settings[$Model->alias]['allowSame']) {
 				$Model->validator()->add($formField, 'validateNotSame', array(
 					'rule' => array('validateNotSameHash', $formField),
@@ -310,7 +310,7 @@ class PasswordableBehavior extends ModelBehavior {
 		$formFieldRepeat = $this->settings[$Model->alias]['formFieldRepeat'];
 		$formFieldCurrent = $this->settings[$Model->alias]['formFieldCurrent'];
 
-		# make sure fields are set and validation rules are triggered - prevents tempering of form data
+		// Make sure fields are set and validation rules are triggered - prevents tempering of form data
 		if (!isset($Model->data[$Model->alias][$formField])) {
 			$Model->data[$Model->alias][$formField] = '';
 		}
@@ -321,7 +321,7 @@ class PasswordableBehavior extends ModelBehavior {
 			$Model->data[$Model->alias][$formFieldCurrent] = '';
 		}
 
-		# check if we need to trigger any validation rules
+		// Check if we need to trigger any validation rules
 		if (!$this->settings[$Model->alias]['require']) {
 			$current = !empty($Model->data[$Model->alias][$formFieldCurrent]);
 			$new = !empty($Model->data[$Model->alias][$formField]) || !empty($Model->data[$Model->alias][$formFieldRepeat]);

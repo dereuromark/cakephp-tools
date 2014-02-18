@@ -1,7 +1,7 @@
 <?php
 
 define('CAPTCHA_MIN_TIME', 3); # seconds the form will need to be filled in by a human
-define('CAPTCHA_MAX_TIME', HOUR);	# seconds the form will need to be submitted in
+define('CAPTCHA_MAX_TIME', HOUR);	// seconds the form will need to be submitted in
 
 App::uses('ModelBehavior', 'Model');
 App::uses('CaptchaLib', 'Tools.Lib');
@@ -31,14 +31,14 @@ class CaptchaBehavior extends ModelBehavior {
 		$defaults = array_merge(CaptchaLib::$defaults, $this->defaults);
 		$this->Model = $Model;
 
-		# bootstrap configs
+		// bootstrap configs
 		$this->settings[$Model->alias] = $defaults;
 		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], (array)Configure::read('Captcha'));
 		if (!empty($settings)) {
 			$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], $settings);
 		}
 
-		# local configs in specific action
+		// local configs in specific action
 		if (!empty($settings['minTime'])) {
 			$this->settings[$Model->alias]['minTime'] = (int)$settings['minTime'];
 		}
@@ -101,7 +101,7 @@ class CaptchaBehavior extends ModelBehavior {
 			return $this->_setError(__('Illegal call'));
 		}
 		if (!empty($data[$dummyField])) {
-			# dummy field not empty - SPAM!
+			// dummy field not empty - SPAM!
 			return $this->_setError(__('Illegal content'), 'DummyField = \'' . $data[$dummyField] . '\'');
 		}
 		return true;
@@ -149,7 +149,7 @@ class CaptchaBehavior extends ModelBehavior {
 	 */
 	protected function _validateCaptcha($data) {
 		if (!isset($data['captcha'])) {
-			# form inputs missing? SPAM!
+			// form inputs missing? SPAM!
 			return $this->_setError(__('captchaContentMissing'));
 		}
 
@@ -158,7 +158,7 @@ class CaptchaBehavior extends ModelBehavior {
 		if ($data['captcha_hash'] === $hash) {
 			return true;
 		}
-		# wrong captcha content or session expired
+		// wrong captcha content or session expired
 		return $this->_setError(__('Captcha incorrect'), 'SubmittedResult = \'' . $data['captcha'] . '\'');
 	}
 

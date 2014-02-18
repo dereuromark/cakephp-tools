@@ -137,7 +137,7 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 	 */
 	public function beforeFind(Model $Model, $queryData) {
 		if (isset($queryData['list']) && !isset($this->settings[$Model->alias]['multiple_display_fields'])) {
-			# MOD 2009-01-09 ms (fixes problems with model related index functions - somehow gets triggered even on normal find queries...)
+			// MOD 2009-01-09 ms (fixes problems with model related index functions - somehow gets triggered even on normal find queries...)
 			$this->settings[$Model->alias]['multiple_display_fields'] = 1;
 
 			// substr is used to get rid of "{n}" fields' prefix...

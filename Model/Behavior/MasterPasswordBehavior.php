@@ -48,7 +48,7 @@ class MasterPasswordBehavior extends ModelBehavior {
 			$this->settings[$Model->alias] = $this->_defaults;
 		}
 		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], is_array($settings) ? $settings : array());
-		# deactivate dynamically
+		// deactivate dynamically
 		if (Configure::read('MasterPassword.password') === false) {
 			$this->settings[$Model->alias]['before'] = '';
 		}
@@ -58,8 +58,8 @@ class MasterPasswordBehavior extends ModelBehavior {
 		$return = parent::beforeValidate($Model, $options);
 
 		if ($this->settings[$Model->alias]['before'] === 'validate') {
-			# we dont want to return the value, because other fields might then not be validated
-			# (save will not continue with errors, anyway)
+			// we dont want to return the value, because other fields might then not be validated
+			// (save will not continue with errors, anyway)
 			$this->confirm($Model, $return);
 		}
 
@@ -131,7 +131,7 @@ class MasterPasswordBehavior extends ModelBehavior {
 		if ($algorithm === 'md5') {
 			return md5($string);
 		}
-		# mcrypt installed?
+		// mcrypt installed?
 		if (function_exists('hash') && in_array($algorithm, hash_algos())) {
 			return hash($algorithm, $string);
 		}

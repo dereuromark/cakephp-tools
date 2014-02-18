@@ -24,7 +24,7 @@ class MyModel extends Model {
 	public function __construct($id = false, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
 
-		# enable caching
+		// enable caching
 		if (!Configure::read('Cache.disable') && Cache::config('sql') === false) {
 			if (!file_exists(CACHE . 'sql')) {
 				mkdir(CACHE . 'sql', CHOWN_PUBLIC);
@@ -41,7 +41,7 @@ class MyModel extends Model {
 			$this->prefixOrderProperty();
 		}
 
-		# Get a notice if there is an AppModel instance instead of a real Model (in those cases usually a dev error!)
+		// Get a notice if there is an AppModel instance instead of a real Model (in those cases usually a dev error!)
 		if (!is_a($this, $this->name) && $this->displayField !== $this->primaryKey && $this->useDbConfig === 'default'
 			&& !Configure::read('Core.disableModelInstanceNotice')) {
 			trigger_error('AppModel instance! Expected: ' . $this->name);
@@ -495,7 +495,7 @@ class MyModel extends Model {
 	 * @return array
 	 */
 	public function find($type = null, $query = array()) {
-		# reset/delete
+		// reset/delete
 		if (!empty($query['reset'])) {
 			if (!empty($query['cache'])) {
 				if (is_array($query['cache'])) {
@@ -511,7 +511,7 @@ class MyModel extends Model {
 			}
 		}
 
-		# custom fixes
+		// custom fixes
 		if (is_string($type)) {
 			switch ($type) {
 				case 'count':
@@ -523,7 +523,7 @@ class MyModel extends Model {
 			}
 		}
 
-		# having and group clauses enhancement
+		// having and group clauses enhancement
 		if (is_array($query) && !empty($query['having']) && !empty($query['group'])) {
 			if (!is_array($query['group'])) {
 				$query['group'] = array($query['group']);
@@ -538,7 +538,7 @@ class MyModel extends Model {
 		}
 		*/
 
-		# find
+		// find
 		if (!Configure::read('Cache.disable') && Configure::read('Cache.check') && !empty($query['cache'])) {
 			if (is_array($query['cache'])) {
 				$key = $query['cache'][0];
@@ -573,7 +573,7 @@ class MyModel extends Model {
 			return $results;
 		}
 
-		# Without caching
+		// Without caching
 		return parent::find($type, $query);
 	}
 
@@ -605,7 +605,7 @@ class MyModel extends Model {
 			}
 
 			switch ($type) {
-					# @see http://bakery.cakephp.org/deu/articles/nate/2010/10/10/quick-tipp_-_doing_ad-hoc-joins_bei_model_find
+					// @see http://bakery.cakephp.org/deu/articles/nate/2010/10/10/quick-tipp_-_doing_ad-hoc-joins_bei_model_find
 				case 'matches':
 					if (!isset($options['joins'])) {
 						$options['joins'] = array();
@@ -638,7 +638,7 @@ class MyModel extends Model {
 					unset($options['model'], $options['scope']);
 					$type = 'all';
 					break;
-					# probably deprecated since "virtual fields" in 1.3
+					// probably deprecated since "virtual fields" in 1.3
 				case 'formattedlist':
 					if (!isset($options['fields']) || count($options['fields']) < 3) {
 						$res = parent::find('list', $options);
@@ -791,7 +791,7 @@ class MyModel extends Model {
 		$findOptions['fields'] = array($this->alias . '.' . $this->primaryKey, $this->alias . '.' . $displayField);
 		$findOptions['conditions'][$this->alias . '.' . $this->primaryKey . ' !='] = $id;
 
-		# //TODO: take out
+		// //TODO: take out
 		if (!empty($options['filter']) && $options['filter'] == REQUEST_STATUS_FILTER_OPEN) {
 			$findOptions['conditions'][$this->alias . '.status <'] = REQUEST_STATUS_DECLINED;
 		} elseif (!empty($options['filter']) && $options['filter'] == REQUEST_STATUS_FILTER_CLOSED) {
@@ -933,7 +933,7 @@ class MyModel extends Model {
 
 		$matching = array('string' => 'string', 'int' => 'integer', 'float' => 'float', 'bool' => 'boolean');
 		if (!empty($options['cast']) && array_key_exists($options['cast'], $matching)) {
-			# cast values to string/int/float/bool if desired
+			// cast values to string/int/float/bool if desired
 			settype($compareValue, $matching[$options['cast']]);
 			settype($value, $matching[$options['cast']]);
 		}
@@ -967,7 +967,7 @@ class MyModel extends Model {
 			$this->alias . '.' . $fieldName => $fieldValue,
 			$this->alias . '.id !=' => $id);
 
-		# careful, if fields is not manually filled, the options will be the second param!!! big problem...
+		// careful, if fields is not manually filled, the options will be the second param!!! big problem...
 		$fields = (array)$fields;
 		if (!array_key_exists('allowEmpty', $fields)) {
 			foreach ($fields as $dependingField) {
@@ -978,7 +978,7 @@ class MyModel extends Model {
 					$conditions[$this->alias . '.' . $dependingField] = $this->data['Validation'][$dependingField];
 
 				} elseif (!empty($id)) {
-					# manual query! (only possible on edit)
+					// manual query! (only possible on edit)
 					$res = $this->find('first', array('fields' => array($this->alias . '.' . $dependingField), 'conditions' => array($this->alias . '.id' => $id)));
 					if (!empty($res)) {
 						$conditions[$this->alias . '.' . $dependingField] = $res[$this->alias][$dependingField];
@@ -1023,19 +1023,19 @@ class MyModel extends Model {
 		$defaults = array('batch' => true, 'scope' => array());
 		$options = array_merge($defaults, $options);
 
-		# for batch
+		// for batch
 		if ($options['batch'] !== false && !empty($this->batchRecords)) {
 			if (array_key_exists($value, $this->batchRecords[$fieldName])) {
 				return $options['scope'] === $this->batchRecords[$fieldName][$value];
 			}
 		}
 
-		# continue with validation
+		// continue with validation
 		if (!$this->validateUnique($data, $options['scope'])) {
 			return false;
 		}
 
-		# for batch
+		// for batch
 		if ($options['batch'] !== false) {
 			if (!isset($this->batchRecords)) {
 				$this->batchRecords = array();
@@ -1082,11 +1082,11 @@ class MyModel extends Model {
 			$options['strict'] = true;
 		}
 
-		# validation
+		// validation
 		if (!Validation::url($url, $options['strict']) && env('REMOTE_ADDR') !== '127.0.0.1') {
 			return false;
 		}
-		# same domain?
+		// same domain?
 		if (!empty($options['sameDomain']) && !empty($_SERVER['HTTP_HOST'])) {
 			$is = parse_url($url, PHP_URL_HOST);
 			$expected = env('HTTP_HOST');
@@ -1170,7 +1170,7 @@ class MyModel extends Model {
 		}
 		*/
 		if (Validation::date($date, $format) && Validation::time($time)) {
-			# after/before?
+			// after/before?
 			$minutes = isset($options['min']) ? $options['min'] : 1;
 			if (!empty($options['after']) && isset($this->data[$this->alias][$options['after']])) {
 				if (strtotime($this->data[$this->alias][$options['after']]) > strtotime($value) - $minutes) {
@@ -1212,7 +1212,7 @@ class MyModel extends Model {
 			return true;
 		}
 		if (Validation::date($date, $format)) {
-			# after/before?
+			// after/before?
 			$days = !empty($options['min']) ? $options['min'] : 0;
 			if (!empty($options['after']) && isset($this->data[$this->alias][$options['after']])) {
 				if ($this->data[$this->alias][$options['after']] > date(FORMAT_DB_DATE, strtotime($date) - $days * DAY)) {
@@ -1250,7 +1250,7 @@ class MyModel extends Model {
 		$value = array_pop($dateTime);
 
 		if (Validation::time($value)) {
-			# after/before?
+			// after/before?
 			if (!empty($options['after']) && isset($this->data[$this->alias][$options['after']])) {
 				if ($this->data[$this->alias][$options['after']] >= $value) {
 					return false;
@@ -1310,7 +1310,7 @@ class MyModel extends Model {
 			$this->UndisposableEmail = new UndisposableEmail();
 		}
 		if (!$onlineMode) {
-			# crashed with white screen of death otherwise... (if foreign page is 404)
+			// crashed with white screen of death otherwise... (if foreign page is 404)
 			$this->UndisposableEmail->useOnlineList(false);
 		}
 		if (!class_exists('Validation')) {
@@ -1320,7 +1320,7 @@ class MyModel extends Model {
 			return false;
 		}
 		if ($this->UndisposableEmail->isUndisposableEmail($email) === false) {
-			# trigger log
+			// trigger log
 			$this->log('Disposable Email detected: ' . h($email) . ' (IP ' . env('REMOTE_ADDR') . ')', 'undisposable');
 			if ($proceed === true) {
 				return true;

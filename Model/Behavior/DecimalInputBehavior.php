@@ -42,7 +42,7 @@ class DecimalInputBehavior extends ModelBehavior {
 			'float'
 		),
 		'localeconv' => false,
-		# based on input (output other direction)
+		// based on input (output other direction)
 		'transform' => array(
 			'.' => '',
 			',' => '.',
@@ -67,14 +67,14 @@ class DecimalInputBehavior extends ModelBehavior {
 			$this->config[$Model->alias]['transform']['.'] = '#';
 		}
 		if ($this->config[$Model->alias]['localeconv'] || !empty($config['localeconv'])) {
-			# use locale settings
+			// use locale settings
 			$conv = localeconv();
 			$loc = array(
 				'decimals' => $conv['decimal_point'],
 				'thousands' => $conv['thousands_sep']
 			);
 		} elseif ($configure = Configure::read('Localization')) {
-			# use configure settings
+			// use configure settings
 			$loc = (array)$configure;
 		}
 		if (!empty($loc)) {

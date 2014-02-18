@@ -42,7 +42,7 @@ class NumberFormatBehavior extends ModelBehavior {
 		),
 		'localeconv' => false, // use system settings for decimals and thousands
 		'currency' => false, // would make localeconf use mon_ values or Configure use Currency
-		# based on input (output other direction)
+		// based on input (output other direction)
 		'multiply' => 0, // direction 'in' (inverted value automatically used for 'out')
 		'transform' => array( // transform mask
 			'.' => '',
@@ -67,14 +67,14 @@ class NumberFormatBehavior extends ModelBehavior {
 			$this->settings[$Model->alias]['transform']['.'] = '#';
 		}
 		if ($this->settings[$Model->alias]['localeconv'] || !empty($config['localeconv'])) {
-			# use locale settings
+			// use locale settings
 			$conv = localeconv();
 			$loc = array(
 				'decimals' => $conv['decimal_point'],
 				'thousands' => $conv['thousands_sep']
 			);
 		} elseif ($configure = Configure::read('Localization')) {
-			# use configure settings
+			// use configure settings
 			$loc = (array)$configure;
 		}
 		if (!empty($loc)) {
