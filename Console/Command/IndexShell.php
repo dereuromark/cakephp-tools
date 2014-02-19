@@ -139,7 +139,7 @@ class IndexShell extends AppShell {
 				if ($details['type'] !== 'integer' && ($details['type'] !== 'string' || $details['length'] !== 36)) {
 					continue;
 				}
-				# right now ONLY for uuids
+				// right now ONLY for uuids
 				if ($details['type'] !== 'string') {
 					continue;
 				}
@@ -147,11 +147,11 @@ class IndexShell extends AppShell {
 				foreach ($indexInfo as $info) {
 					$column = $info['STATISTICS']['Column_name'];
 					$key = $info['STATISTICS']['Key_name'];
-					# dont override primary keys
+					// dont override primary keys
 					if ($column == $field && $key === 'PRIMARY') {
 						continue 2;
 					}
-					# already exists
+					// already exists
 					if ($column == $field && $key == $field) {
 						continue 2;
 					}

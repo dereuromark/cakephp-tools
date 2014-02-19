@@ -249,7 +249,7 @@ class IndentShell extends AppShell {
 				$newPiece = trim($newPiece, NL);
 				//$debug .= ''.stripos($newPiece, TB);
 
-				# detect tabs and whitespaces at the beginning
+				// detect tabs and whitespaces at the beginning
 				//while (($pieceOfString = mb_substr($newPiece, 0, 1)) === ' ' || ($pieceOfString = mb_substr($newPiece, 0, 1)) == TB) {
 				while ((stripos($newPiece, ' ')) === 0 || (stripos($newPiece, TB)) === 0) {
 					$pieceOfString = mb_substr($newPiece, 0, 1);
@@ -269,13 +269,13 @@ class IndentShell extends AppShell {
 				if ($pos >= 1) {
 					$changes = true;
 
-					# if only spaces and tabs, we might as well trim the line
+					// if only spaces and tabs, we might as well trim the line
 					//should be done
 
-					# now correct
+					// now correct
 					//$newPiece = mb_substr($piece, $pos + 1);
 
-					# clear single spaces
+					// clear single spaces
 					/*
 					if (mb_substr($newPiece, 0, 1) === ' ' && mb_substr($newPiece, 1, 1) !== '*') {
 						$newPiece = mb_substr($newPiece, 1);

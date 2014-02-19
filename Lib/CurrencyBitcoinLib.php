@@ -71,10 +71,10 @@ class CurrencyBitcoinLib {
 		$res = $this->{$options['api']}($options);
 
 		if ($res && isset($res['sell'])) {
-			# bitmarket
+			// bitmarket
 			$current = $res['sell'];
 		} elseif ($res && isset($res['ask'])) {
-			# bitcoincharts
+			// bitcoincharts
 			$current = $res['ask'];
 		}
 		if (isset($current)) {

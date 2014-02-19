@@ -16,11 +16,11 @@ class TimeLib extends CakeTime {
 	 */
 	public static function hasDaylightSavingTime($timezone = null) {
 		$timezone = self::timezone($timezone);
-		# a date outside of DST
+		// a date outside of DST
 		$offset = $timezone->getOffset(new DateTime('@' . mktime(0, 0, 0, 2, 1, date('Y'))));
 		$offset = $offset / HOUR;
 
-		# a date inside of DST
+		// a date inside of DST
 		$offset2 = $timezone->getOffset(new DateTime('@' . mktime(0, 0, 0, 8, 1, date('Y'))));
 		$offset2 = $offset2 / HOUR;
 
@@ -374,7 +374,7 @@ class TimeLib extends CakeTime {
 			return true;
 		}
 		if ($year > 1582 && $year % 100 == 0) {
-			# if gregorian calendar (>1582), century not-divisible by 400 is not leap
+			// if gregorian calendar (>1582), century not-divisible by 400 is not leap
 			return false;
 		}
 		return true;
@@ -672,9 +672,9 @@ class TimeLib extends CakeTime {
 	 * @return mixed
 	 */
 	public static function convertTime($int, $from, $to, $options = array()) {
-		$accuracy = 0;	# 0 = only the "to"-element, 1..n = higher accurancy
-		$showZero = false;	# show only the non-zero elements
-		$returnArray = false;	# return as array instead of as string
+		$accuracy = 0;	// 0 = only the "to"-element, 1..n = higher accurancy
+		$showZero = false;	// show only the non-zero elements
+		$returnArray = false;	// return as array instead of as string
 		if (!empty($options)) {
 			if (isset($options['acc'])) {
 				$accuracy = (int)$options['acc'];
@@ -1251,7 +1251,7 @@ class TimeLib extends CakeTime {
 			$duration = self::decimalToStandardTime($duration, 2, ':');
 		}
 
-		# now there is only the time schema left...
+		// now there is only the time schema left...
 		$pieces = explode(':', $duration, 3);
 		$res = 0;
 		$hours = abs((int)$pieces[0]) * HOUR;

@@ -45,7 +45,7 @@ class AuthExtComponent extends AuthComponent {
 		'userModel' => CLASS_USER //TODO: allow plugin syntax
 	);
 
-	# field name in DB , if none is specified there will be no floodProtection
+	// field name in DB , if none is specified there will be no floodProtection
 	public $floodProtection = null;
 
 	/**
@@ -87,7 +87,7 @@ class AuthExtComponent extends AuthComponent {
 			return false;
 		}
 
-		# custom checks
+		// custom checks
 		if (isset($user['active'])) {
 			if (empty($user['active'])) {
 				$this->loginError = __('Account not active yet');
@@ -134,7 +134,7 @@ class AuthExtComponent extends AuthComponent {
 		}
 
 		if ($user) {
-			# update login counter
+			// update login counter
 			if (isset($user['logins'])) {
 				$user['logins'] = $user['logins'] + 1;
 				if (method_exists($Model, 'loginUpdate')) {
@@ -176,13 +176,13 @@ class AuthExtComponent extends AuthComponent {
 			return $user;
 		}
 
-		# roles
+		// roles
 		if (!empty($with)) {
 			list($plugin, $withModel) = pluginSplit($with);
 			if (!isset($this->{$withModel})) {
 				$this->{$withModel} = ClassRegistry::init($with);
 			}
-			# only for multi
+			// only for multi
 			if ($this->settings['multi'] || !isset($userArray['role_id'])) {
 				$parentModelAlias = $this->settings['parentModelAlias'];
 				$userArray[$parentModelAlias] = array(); # default: no roles!
@@ -191,7 +191,7 @@ class AuthExtComponent extends AuthComponent {
 					//$primaryRole = $this->user($this->fieldKey);
 					// retrieve associated role that are not the primary one
 
-					# MAYBE USEFUL FOR GUEST!!!
+					// MAYBE USEFUL FOR GUEST!!!
 					//$roles = set::extract('/'.$with.'['.$this->fieldKey.'!='.$primaryRole.']/'.$this->fieldKey, $roles);
 
 					// add the suplemental roles id under the Auth session key
@@ -223,7 +223,7 @@ class AuthExtComponent extends AuthComponent {
 		}
 
 		$methods = array_flip(array_map('strtolower', $controller->methods));
-		# fix: reverse camelCase first
+		// fix: reverse camelCase first
 		$action = strtolower(Inflector::underscore($controller->request->params['action']));
 
 		$isMissingAction = (

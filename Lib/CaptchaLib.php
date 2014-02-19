@@ -20,10 +20,10 @@ class CaptchaLib {
 		'salt' => '',
 	);
 
-	# what type of captcha
+	// what type of captcha
 	public static $types = array('passive', 'active', 'both');
 
-	# what method to use
+	// what method to use
 	public static $methods = array('hash', 'db', 'session');
 
 	/**

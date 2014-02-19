@@ -58,7 +58,7 @@ class FileLib extends File {
 			return false;
 		}
 
-		# php cannot handle delimiters with more than a single char
+		// php cannot handle delimiters with more than a single char
 		if (mb_strlen($delimiter) > 1) {
 			$count = 0;
 			while (!feof($this->handle)) {

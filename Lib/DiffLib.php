@@ -25,7 +25,7 @@ class DiffLib {
 	 */
 	public $engine = 'auto';
 
-	# xdiff needs external libs
+	// xdiff needs external libs
 	public $engines = array('auto', 'native', 'shell', 'xdiff');
 
 	/**

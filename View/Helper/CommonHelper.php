@@ -481,7 +481,7 @@ class CommonHelper extends AppHelper {
 		if (!isset($options['escape']) || $options['escape'] !== false) {
 			//$text = str_replace(' ', '&nbsp;', h($text));
 			$text = h($text);
-			# try to fix indends made out of spaces
+			// try to fix indends made out of spaces
 			$text = explode(NL, $text);
 			foreach ($text as $key => $t) {
 				$i = 0;

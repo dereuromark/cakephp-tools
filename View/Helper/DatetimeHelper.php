@@ -84,8 +84,8 @@ class DatetimeHelper extends TimeHelper {
 
 			$format = (!empty($options['format']) ? $options['format'] : FORMAT_NICE_YMD);
 
-			# Hack
-			# //TODO: get this to work with datetime - somehow cleaner
+			// Hack
+			// //TODO: get this to work with datetime - somehow cleaner
 			$timeAttachment = '';
 			if (isset($options['niceDateTime'])) {
 				$timeAttachment = ', ' . $this->niceDate($date, $options['niceDateTime']);
@@ -102,7 +102,7 @@ class DatetimeHelper extends TimeHelper {
 				$when = -1;
 				$niceDate = __('Yesterday') . $timeAttachment;
 			} else {
-				# before or after?
+				// before or after?
 				if ($this->isNotTodayAndInTheFuture($date)) {
 					$when = 1;
 				} else {

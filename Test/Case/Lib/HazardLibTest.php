@@ -28,7 +28,7 @@ class HazardLibTest extends CakeTestCase {
 		//pr(h($is));
 		$this->assertTrue(!empty($is));
 
-		# cached
+		// cached
 		Cache::delete('security_lib_texts');
 
 		$is = $this->HazardLib->xssStrings();

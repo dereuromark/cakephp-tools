@@ -236,7 +236,7 @@ class FormatHelperTest extends MyCakeTestCase {
 		//echo $is;
 		//$this->assertEquals($expected, $is);
 
-		# recursive?
+		// recursive?
 		$array = array(
 			array('a' => array('2'), 'b' => array('2'), 'c' => array('2')),
 			array(array('2'), array('2'), array('2')),

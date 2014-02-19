@@ -33,7 +33,7 @@ class ZodiacLibTest extends MyCakeTestCase {
 		$this->debug($is);
 		$this->assertEquals($is, __('zodiacAries'));
 
-		# january
+		// january
 		$is = $this->Zodiac->getSign(1, 20);
 		$this->debug($is);
 		$this->assertSame($is, ZodiacLib::SIGN_CAPRICORN);
@@ -195,7 +195,7 @@ class ZodiacLibTest extends MyCakeTestCase {
 			$is = $this->Zodiac->getSign($range[1][0], $range[1][1]);
 			$this->assertSame($is, $i);
 
-			# min-1
+			// min-1
 			$month = $range[0][0];
 			$day = $range[0][1] - 1;
 			$is = $this->Zodiac->getSign($month, $day);
@@ -205,7 +205,7 @@ class ZodiacLibTest extends MyCakeTestCase {
 			}
 			$this->assertSame($is, $ii - 1);
 
-			# max+1
+			// max+1
 			$month = $range[1][0];
 			$day = $range[1][1] + 1;
 			$ii = $i;

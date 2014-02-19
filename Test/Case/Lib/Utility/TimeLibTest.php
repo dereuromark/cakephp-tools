@@ -158,7 +158,7 @@ class TimeLibTest extends MyCakeTestCase {
 		//$this->debug($ret);
 		$this->assertEquals('2009-02-15 00:00:00', $ret);
 
-		# problem when not passing months or days as well - no way of knowing how exact the date was
+		// problem when not passing months or days as well - no way of knowing how exact the date was
 		$ret = TimeLib::parseLocalizedDate('2009', 'Y', 'start');
 		//pr($ret);
 		//$this->assertEquals($ret, '2009-01-01 00:00:00');
@@ -202,7 +202,7 @@ class TimeLibTest extends MyCakeTestCase {
 			array('2010-02-23', array('2010-02-23 00:00:00', '2010-02-23 23:59:59')),
 			array('2010-02-23 bis 2010-02-26', array('2010-02-23 00:00:00', '2010-02-26 23:59:59')),
 			//array('2010-02-23 11:11:11 bis 2010-02-23 11:12:01', array('2010-02-23 11:11:11', '2010-02-23 11:12:01')),
-			# localized
+			// localized
 			array('23.02.2011', array('2011-02-23 00:00:00', '2011-02-23 23:59:59')),
 			array('23.2.2010 bis 26.2.2011', array('2010-02-23 00:00:00', '2011-02-26 23:59:59')),
 		);
@@ -289,7 +289,7 @@ class TimeLibTest extends MyCakeTestCase {
 	public function testAgeByYear() {
 		$this->out($this->_header(__FUNCTION__), true);
 
-		# year only
+		// year only
 		$is = TimeLib::ageByYear(2000);
 		$this->out($is);
 		$this->assertEquals((date('Y') - 2001) . '/' . (date('Y') - 2000), $is);
@@ -297,7 +297,7 @@ class TimeLibTest extends MyCakeTestCase {
 		$is = TimeLib::ageByYear(1985);
 		$this->assertEquals((date('Y') - 1986) . '/' . (date('Y') - 1985), $is);
 
-		# with month
+		// with month
 		if (($month = date('n') + 1) <= 12) {
 			$is = TimeLib::ageByYear(2000, $month);
 			$this->out($is);
@@ -428,7 +428,7 @@ class TimeLibTest extends MyCakeTestCase {
 		$ret = TimeLib::lengthOfTime(60);
 		//pr($ret);
 
-		# FIX ME! Doesn't work!
+		// FIX ME! Doesn't work!
 		$ret = TimeLib::lengthOfTime(-60);
 		//pr($ret);
 
@@ -456,7 +456,7 @@ class TimeLibTest extends MyCakeTestCase {
 		$ret = TimeLib::fuzzyFromOffset(DAY + 2 * MINUTE);
 		//pr($ret);
 
-		# FIX ME! Doesn't work!
+		// FIX ME! Doesn't work!
 		$ret = TimeLib::fuzzyFromOffset(-DAY);
 		//pr($ret);
 	}
@@ -478,7 +478,7 @@ class TimeLibTest extends MyCakeTestCase {
 	public function testCweekDay() {
 		$this->out($this->_header(__FUNCTION__), true);
 
-		# wednesday
+		// wednesday
 		$ret = TimeLib::cweekDay(51, 2011, 2);
 		$this->out('51, 2011, 2');
 		$this->out(date(FORMAT_DB_DATETIME, $ret));
@@ -676,7 +676,7 @@ class TimeLibTest extends MyCakeTestCase {
 			'2011-11-12 10:10:10' => 10 * HOUR + 10 * MINUTE + 10 * SECOND,
 		);
 
-		# positive
+		// positive
 		foreach ($tests as $was => $expected) {
 			$is = TimeLib::parseTime($was);
 			//pr($is);
@@ -684,7 +684,7 @@ class TimeLibTest extends MyCakeTestCase {
 		}
 
 		unset($tests['2011-11-12 10:10:10']);
-		# negative
+		// negative
 		foreach ($tests as $was => $expected) {
 			$is = TimeLib::parseTime('-' . $was);
 			//pr($is);
@@ -706,14 +706,14 @@ class TimeLibTest extends MyCakeTestCase {
 			3660 => '1:01',
 		);
 
-		# positive
+		// positive
 		foreach ($tests as $was => $expected) {
 			$is = TimeLib::buildTime($was);
 			//pr($is);
 			$this->assertEquals($expected, $is);
 		}
 
-		# negative
+		// negative
 		foreach ($tests as $was => $expected) {
 			$is = TimeLib::buildTime(-$was);
 			//pr($is);

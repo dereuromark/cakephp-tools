@@ -52,7 +52,7 @@ class MyHelper extends Helper {
 			return;
 		}
 
-		# todo: maybe lazy load with HtmlHelper::url()?
+		// todo: maybe lazy load with HtmlHelper::url()?
 		UrlCacheManager::init($this->_View);
 		Configure::write('UrlCache.runtime.beforeRender', true);
 	}

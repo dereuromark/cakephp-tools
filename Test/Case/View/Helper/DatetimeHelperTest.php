@@ -143,7 +143,7 @@ class DatetimeHelperTest extends MyCakeTestCase {
 		list($year, $month, $day) = explode('-', date('Y-m-d', strtotime('-10 years -1 day')));
 		$this->assertEquals('10', $this->Datetime->age($year . '-' . $month . '-' . $day, null));
 
-		# jahresübertritt
+		// jahresübertritt
 		list($year, $month, $day) = explode('-', '2005-12-01');
 		list($yearE, $monthE, $dayE) = explode('-', '2008-02-29');
 		$this->assertEquals('2', $this->Datetime->age($year . '-' . $month . '-' . $day, $yearE . '-' . $monthE . '-' . $dayE));
@@ -152,7 +152,7 @@ class DatetimeHelperTest extends MyCakeTestCase {
 		list($yearE, $monthE, $dayE) = explode('-', '2008-12-02');
 		$this->assertEquals('6', $this->Datetime->age($year . '-' . $month . '-' . $day, $yearE . '-' . $monthE . '-' . $dayE));
 
-		# schaltjahr
+		// schaltjahr
 		list($year, $month, $day) = explode('-', '2005-02-29');
 		list($yearE, $monthE, $dayE) = explode('-', '2008-03-01');
 		$this->assertEquals('3', $this->Datetime->age($year . '-' . $month . '-' . $day, $yearE . '-' . $monthE . '-' . $dayE));

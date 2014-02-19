@@ -117,7 +117,7 @@ class CalendarComponent extends Component {
 			return 0;
 		}
 
-		# check on month days!
+		// check on month days!
 		return $string;
 
 		return 0;

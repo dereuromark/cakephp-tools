@@ -122,7 +122,7 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$this->assertTrue(!empty($res['Comment']['lat']) && !empty($res['Comment']['lng']) && round($res['Comment']['lat']) === 49.0 && round($res['Comment']['lng']) === 10.0);
 		// accuracy = 4
 
-		# inconclusive
+		// inconclusive
 		$data = array(
 			//'street' => 'Leopoldstraße',
 			'city' => 'München'

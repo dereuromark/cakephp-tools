@@ -100,13 +100,13 @@ class TinyAuthorize extends BaseAuthorize {
 		$plugin = Inflector::underscore($plugin);
 
 		if (!empty($this->settings['allowUser'])) {
-			# all user actions are accessable for logged in users
+			// all user actions are accessable for logged in users
 			if (mb_strpos($action, $this->settings['adminPrefix']) !== 0) {
 				return true;
 			}
 		}
 		if (!empty($this->settings['allowAdmin']) && !empty($this->settings['adminRole'])) {
-			# all admin actions are accessable for logged in admins
+			// all admin actions are accessable for logged in admins
 			if (mb_strpos($action, $this->settings['adminPrefix']) === 0) {
 				if (in_array((string)$this->settings['adminRole'], $roles)) {
 					return true;

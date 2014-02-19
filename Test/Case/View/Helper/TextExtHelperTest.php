@@ -97,7 +97,7 @@ class TextExtHelperTest extends MyCakeTestCase {
 		$result = $this->Text->autoLinkUrls($text, array('maxLength' => 20), array('escape' => false));
 		$this->assertEquals($expected, $result);
 
-		# not yet working
+		// not yet working
 		/*
 		$text = 'Text with a url www.cot.ag/cuIb2Q/eruierieriu-erjekrwerweuwrweir-werwer and more';
 		$expected = 'Text with a url <a href="http://www.cot.ag/cuIb2Q/eruierieriu-erjekrwerweuwrweir-werwer">www.cot.ag/cuIb2Q/er&hellip;</a> and more';
@@ -213,7 +213,7 @@ class TextExtHelperTest extends MyCakeTestCase {
 		$url = 'http://www.testpage.de';
 		$this->assertEquals('ww...ge.de', $this->Text->minimizeUrl($url, 10, array('placeholder' => '...')));
 
-		# without full http://
+		// without full http://
 		$url = 'www.testpage.de';
 		$this->assertEquals($url, $this->Text->minimizeUrl($url, 15));
 

@@ -110,12 +110,12 @@ class GeocodeLibTest extends MyCakeTestCase {
 	}
 
 	public function testSetOptions() {
-		# should be the default
+		// should be the default
 		$res = $this->Geocode->url();
 		$this->assertTextContains('maps.googleapis.com', $res);
 
 		$this->Geocode->setOptions(array('host' => 'maps.google.it'));
-		# should now be ".it"
+		// should now be ".it"
 		$res = $this->Geocode->url();
 		$this->assertTextContains('maps.google.it', $res);
 	}
@@ -201,7 +201,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$address = 'Neustadt';
 		//echo '<h2>'.$address.'</h2>';
 
-		# allow_inconclusive = TRUE
+		// allow_inconclusive = TRUE
 		$this->Geocode->setOptions(array('allow_inconclusive' => true, 'min_accuracy' => GeocodeLib::ACC_LOC));
 		$is = $this->Geocode->geocode($address);
 		//echo 'debug:';

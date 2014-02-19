@@ -811,7 +811,7 @@ class FormExtHelper extends FormHelper {
 	 * @return string Generated set of select boxes for the date and time formats chosen.
 	 */
 	public function dateTime($field, $options = array(), $timeFormat = 24, $attributes = array()) {
-		# temp fix
+		// temp fix
 		if (!is_array($options)) {
 			return parent::dateTime($field, $options, $timeFormat, $attributes);
 		}
@@ -1056,7 +1056,7 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 
 		$res = $this->input($field, $options);
 		if (is_array($jquery)) {
-			# custom one
+			// custom one
 			$res .= $this->_autoCompleteJs($options['id'], $jquery);
 		}
 		return $res;

@@ -94,7 +94,7 @@ class HttpSocketLib {
 		);
 		$options = array_merge($defaults, $options);
 
-		# cached?
+		// cached?
 		if ($options['cache']) {
 			$cacheName = md5($url);
 			$cacheConfig = $options['cache'] === true ? null : $options['cache'];

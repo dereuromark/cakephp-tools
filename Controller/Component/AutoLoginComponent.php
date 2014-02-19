@@ -76,7 +76,7 @@ class AutoLoginComponent extends Component {
 		$defaultSettings = array_merge($this->_defaults, (array)Configure::read('AutoLogin'));
 		$settings = array_merge($defaultSettings, $settings);
 
-		# make sure an upgrade does reset all cookies stored to avoid conflicts
+		// make sure an upgrade does reset all cookies stored to avoid conflicts
 		$settings['cookieName'] = $settings['cookieName'] . str_replace('.', '', $this->version);
 		$this->settings = $settings;
 		parent::__construct($collection, $settings);

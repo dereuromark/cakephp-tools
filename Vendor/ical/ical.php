@@ -82,7 +82,7 @@ class ical
 
 	// because Mozilla Calendar save values wrong, like this -->
 	#SUMMARY
-	# :Text of sumary
+	// :Text of sumary
 	// good way is, for example in SunnyBird. SunnyBird save iCal like this example -->
 	#SUMMARY:Text of sumary
 	}
@@ -263,7 +263,7 @@ class ical
 
 	if (empty($temp[1])) // neni TZID
 	{
-			# 2011-06-02 ms fix
+			// 2011-06-02 ms fix
 		$value = str_replace('T', '', $value);
 		return array ($key, $value);
 	}

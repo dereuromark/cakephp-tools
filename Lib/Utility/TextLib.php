@@ -224,7 +224,7 @@ class TextLib extends String {
 			$pieces = explode(' ', $text);
 			$pieces = array_unique($pieces);
 
-			# strip chars like . or ,
+			// strip chars like . or ,
 			foreach ($pieces as $key => $piece) {
 				if (empty($options['case_sensitive'])) {
 					$piece = mb_strtolower($piece);

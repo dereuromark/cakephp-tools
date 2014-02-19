@@ -76,9 +76,9 @@ class FlattrHelper extends AppHelper {
 
 		//&uid=gargamel&language=sv_SE&category=text
 
-		# compact: <a class="FlattrButton" style="display:none;" rev="flattr;button:compact;"href="X"></a>
+		// compact: <a class="FlattrButton" style="display:none;" rev="flattr;button:compact;"href="X"></a>
 
-		# static: <a href="http://flattr.com/thing/X" target="_blank"><img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" /></a>
+		// static: <a href="http://flattr.com/thing/X" target="_blank"><img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" /></a>
 
 		$code .= $this->Html->scriptBlock($js, array('inline' => true));
 		return $code;

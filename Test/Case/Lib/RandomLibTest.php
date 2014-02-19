@@ -20,7 +20,7 @@ class RandomLibTest extends CakeTestCase {
 		//pr($is);
 		$this->assertTrue(in_array($is, $array));
 
-		# non-numerical indexes
+		// non-numerical indexes
 		$array = array(
 			'e' => 'x',
 			'f' => 'y',

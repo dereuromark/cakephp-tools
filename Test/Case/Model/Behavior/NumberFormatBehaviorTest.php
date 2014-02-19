@@ -71,13 +71,13 @@ class NumberFormatBehaviorTest extends MyCakeTestCase {
 		$res = $this->Model->save($data);
 		$this->assertTrue((bool)$res);
 
-		# find all
+		// find all
 		$res = $this->Model->find('all', array('order' => array('created' => 'DESC')));
 		$this->assertTrue(!empty($res));
 		$this->assertSame(substr($res[0][$this->Model->alias]['set_rate'], 0, 4), '0,10');
 		$this->assertSame(substr($res[0][$this->Model->alias]['rel_rate'], 0, 5), '-0,02');
 
-		# find first
+		// find first
 		$res = $this->Model->find('first', array('order' => array('created' => 'DESC')));
 		$this->assertTrue(!empty($res));
 		$this->assertSame($res[$this->Model->alias]['set_rate'], '0,10');

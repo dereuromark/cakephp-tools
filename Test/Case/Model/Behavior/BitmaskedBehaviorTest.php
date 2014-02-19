@@ -66,7 +66,7 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		$is = $this->Comment->data['BitmaskedComment']['status'];
 		$this->assertSame(BitmaskedComment::STATUS_PUBLISHED | BitmaskedComment::STATUS_APPROVED, $is);
 
-		# save + find
+		// save + find
 
 		$this->Comment->create();
 		$res = $this->Comment->save($data);
@@ -80,11 +80,11 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 
 		$this->assertEquals($expected, $res['BitmaskedComment']['statuses']);
 
-		# model.field syntax
+		// model.field syntax
 		$res = $this->Comment->find('first', array('conditions' => array('BitmaskedComment.statuses' => $data['statuses'])));
 		$this->assertTrue(!empty($res));
 
-		# explitit
+		// explitit
 		$activeApprovedAndPublished = BitmaskedComment::STATUS_ACTIVE | BitmaskedComment::STATUS_APPROVED | BitmaskedComment::STATUS_PUBLISHED;
 		$data = array(
 			'comment' => 'another post comment',
@@ -142,7 +142,7 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		$res = $this->Comment->find('all', array('conditions' => $conditions));
 		$this->assertTrue(!empty($res) && count($res) === 3);
 
-		# multiple (AND)
+		// multiple (AND)
 		$res = $this->Comment->containsBit(array(BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_ACTIVE));
 
 		$expected = array('(BitmaskedComment.status & ? = ?)' => array(3, 3));
@@ -162,7 +162,7 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		$res = $this->Comment->find('all', array('conditions' => $conditions));
 		$this->assertTrue(!empty($res) && count($res) === 4);
 
-		# multiple (AND)
+		// multiple (AND)
 		$res = $this->Comment->containsNotBit(array(BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_ACTIVE));
 
 		$expected = array('(BitmaskedComment.status & ? != ?)' => array(3, 3));

@@ -52,7 +52,7 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 
 		$this->assertSame('["z","y","x"]', $res['JsonableComment']['details']);
 
-		# with sort and unique
+		// with sort and unique
 		$data = array(
 			'comment' => 'blabla',
 			'url' => 'www.dereuromark.de',

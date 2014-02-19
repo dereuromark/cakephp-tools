@@ -48,13 +48,13 @@ class CommonComponentTest extends CakeTestCase {
 		$this->Controller->Common->loadComponent('Test');
 		$this->assertTrue(isset($this->Controller->Test));
 
-		# with plugin
+		// with plugin
 		$this->Controller->Calendar = null;
 		$this->assertTrue(!isset($this->Controller->Calendar));
 		$this->Controller->Common->loadComponent('Tools.Calendar');
 		$this->assertTrue(isset($this->Controller->Calendar));
 
-		# with options
+		// with options
 		$this->Controller->Test = null;
 		$this->assertTrue(!isset($this->Controller->Test));
 		$this->Controller->Common->loadComponent(array('RequestHandler', 'Test' => array('x' => 'y')));
@@ -76,7 +76,7 @@ class CommonComponentTest extends CakeTestCase {
 		$res = $this->Controller->RandomLib->pwd(null, 10);
 		$this->assertTrue(!empty($res));
 
-		# with options
+		// with options
 		$this->assertTrue(!isset($this->Controller->TestLib));
 		$this->Controller->Common->loadLib(array('Tools.RandomLib', 'TestLib' => array('x' => 'y')));
 		$this->assertTrue(isset($this->Controller->TestLib));

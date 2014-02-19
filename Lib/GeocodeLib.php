@@ -40,7 +40,7 @@ class GeocodeLib {
 	const UNIT_INCHES = 'I';
 	const UNIT_MILES = 'M';
 
-	# First tries with curl, then cake, then php
+	// First tries with curl, then cake, then php
 	public $use = array(
 		'curl' => true,
 		'cake' => true,
@@ -69,7 +69,7 @@ class GeocodeLib {
 		'min_accuracy' => self::ACC_COUNTRY,
 		'allow_inconclusive' => true,
 		'expect' => array(), # see accuracyTypes for details
-		# static url params
+		// static url params
 		'output' => 'xml',
 		'host' => null, # results in maps.google.com - use if you wish to obtain the closest address
 	);
@@ -275,7 +275,7 @@ class GeocodeLib {
 
 			if ($status == self::CODE_SUCCESS) {
 
-				# validate
+				// validate
 				if (isset($xmlArray['result'][0]) && !$this->options['allow_inconclusive']) {
 					$this->setError(__('Inconclusive result (total of %s)', count($xmlArray['result'])));
 					$this->result = $xmlArray['result'];
@@ -297,7 +297,7 @@ class GeocodeLib {
 					return false;
 				}
 
-				# save Result
+				// save Result
 				if ($this->options['log']) {
 					CakeLog::write('geocode', __('Address \'%s\' has been geocoded', $latlng));
 				}
@@ -311,7 +311,7 @@ class GeocodeLib {
 				$count++;
 
 			} else {
-				# something went wrong
+				// something went wrong
 				$this->setError('Error ' . $status . (isset($this->statusCodes[$status]) ? ' (' . $this->statusCodes[$status] . ')' : ''));
 
 				if ($this->options['log']) {
@@ -354,7 +354,7 @@ class GeocodeLib {
 		$this->reset(false);
 		$this->setParams(array_merge($params, array('address' => $address)));
 		if ($this->options['allow_inconclusive']) {
-			# only host working with this setting?
+			// only host working with this setting?
 			//$this->options['host'] = self::DEFAULT_HOST;
 		}
 
@@ -413,7 +413,7 @@ class GeocodeLib {
 			$status = $xmlArray['status'];
 
 			if ($status == self::CODE_SUCCESS) {
-				# validate
+				// validate
 				if (isset($xmlArray['result'][0]) && !$this->options['allow_inconclusive']) {
 					$this->setError(__('Inconclusive result (total of %s)', count($xmlArray['result'])));
 					$this->result = $xmlArray['result'];
@@ -452,7 +452,7 @@ class GeocodeLib {
 					}
 				}
 
-				# save Result
+				// save Result
 				if ($this->options['log']) {
 					CakeLog::write('geocode', __('Address \'%s\' has been geocoded', $address));
 				}
@@ -466,7 +466,7 @@ class GeocodeLib {
 				$count++;
 			} else {
 
-				# something went wrong
+				// something went wrong
 				$this->setError('Error ' . $status . (isset($this->statusCodes[$status]) ? ' (' . $this->statusCodes[$status] . ')' : ''));
 
 				if ($this->options['log']) {
@@ -576,7 +576,7 @@ class GeocodeLib {
 			} elseif (isset($c['type'])) {
 				$type = $c['type'];
 			} else {
-				# error?
+				// error?
 				continue;
 			}
 			if (array_key_exists($type, $components)) {
@@ -644,7 +644,7 @@ class GeocodeLib {
 			$res['bounds'] = array('sw' => $record['geometry']['bounds']['southwest'], 'ne' => $record['geometry']['bounds']['northeast']);
 		}
 
-		# manuell corrections
+		// manuell corrections
 		$array = array(
 			'Berlin' => 'BE',
 		);
@@ -708,7 +708,7 @@ class GeocodeLib {
 		$res = 6371.04 * acos(sin($pointY['lat'])*sin($pointX['lat'])+cos($pointY['lat'])*cos($pointX['lat'])*cos($pointY['lng'] - $pointX['lng']));
 		*/
 
-		# seems to be the only working one (although slightly incorrect...)
+		// seems to be the only working one (although slightly incorrect...)
 		$res = 69.09 * rad2deg(acos(sin(deg2rad($pointX['lat'])) * sin(deg2rad($pointY['lat'])) + cos(deg2rad($pointX['lat'])) * cos(deg2rad($pointY['lat'])) * cos(deg2rad($pointX['lng'] - $pointY['lng']))));
 		if (isset($this->units[$unit])) {
 			$res *= $this->units[$unit];
@@ -781,7 +781,7 @@ class GeocodeLib {
 		//$scrambleVal *= (mt_rand(0,1) === 0 ? 1 : 2);
 		//$scrambleVal *= (float)(2^$level);
 
-		# TODO: + - by chance!!!
+		// TODO: + - by chance!!!
 		return $coord + $scrambleVal;
 	}
 

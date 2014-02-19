@@ -1,7 +1,7 @@
 <?php
 
-define('CAPTCHA_MIN_TIME', 3); # seconds the form will need to be filled in by a human
-define('CAPTCHA_MAX_TIME', HOUR);	// seconds the form will need to be submitted in
+define('CAPTCHA_MIN_TIME', 3); // Seconds the form will need to be filled in by a human
+define('CAPTCHA_MAX_TIME', HOUR);	// Seconds the form will need to be submitted in
 
 App::uses('ModelBehavior', 'Model');
 App::uses('CaptchaLib', 'Tools.Lib');
@@ -19,7 +19,7 @@ class CaptchaBehavior extends ModelBehavior {
 	protected $defaults = array(
 		'minTime' => CAPTCHA_MIN_TIME,
 		'maxTime' => CAPTCHA_MAX_TIME,
-		'log' => false, # log errors
+		'log' => false, // Log errors
 		'hashType' => null,
 	);
 
@@ -27,18 +27,25 @@ class CaptchaBehavior extends ModelBehavior {
 
 	protected $internalError = '';
 
+	/**
+	 * CaptchaBehavior::setup()
+	 *
+	 * @param Model $Model
+	 * @param array $settings
+	 * @return void
+	 */
 	public function setup(Model $Model, $settings = array()) {
 		$defaults = array_merge(CaptchaLib::$defaults, $this->defaults);
 		$this->Model = $Model;
 
-		// bootstrap configs
+		// Bootstrap configs
 		$this->settings[$Model->alias] = $defaults;
 		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], (array)Configure::read('Captcha'));
 		if (!empty($settings)) {
 			$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], $settings);
 		}
 
-		// local configs in specific action
+		// Local configs in specific action
 		if (!empty($settings['minTime'])) {
 			$this->settings[$Model->alias]['minTime'] = (int)$settings['minTime'];
 		}
@@ -50,6 +57,13 @@ class CaptchaBehavior extends ModelBehavior {
 		}
 	}
 
+	/**
+	 * CaptchaBehavior::beforeValidate()
+	 *
+	 * @param Model $Model
+	 * @param array $options
+	 * @return boolean Success
+	 */
 	public function beforeValidate(Model $Model, $options = array()) {
 		parent::beforeValidate($Model, $options);
 		if (!empty($this->Model->whitelist)) {
@@ -79,7 +93,9 @@ class CaptchaBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * Return the current used field names to be passed in whitelist etc
+	 * Returns the current used field names to be passed in whitelist etc
+	 *
+	 * @return array
 	 */
 	public function fields() {
 		$list = array('captcha', 'captcha_hash', 'captcha_time');
@@ -93,7 +109,7 @@ class CaptchaBehavior extends ModelBehavior {
 	 * CaptchaBehavior::_validateDummyField()
 	 *
 	 * @param mixed $data
-	 * @return
+	 * @return boolean Success
 	 */
 	protected function _validateDummyField($data) {
 		$dummyField = $this->settings[$this->Model->alias]['dummyField'];
@@ -101,7 +117,7 @@ class CaptchaBehavior extends ModelBehavior {
 			return $this->_setError(__('Illegal call'));
 		}
 		if (!empty($data[$dummyField])) {
-			// dummy field not empty - SPAM!
+			// Dummy field not empty - SPAM!
 			return $this->_setError(__('Illegal content'), 'DummyField = \'' . $data[$dummyField] . '\'');
 		}
 		return true;
@@ -110,6 +126,8 @@ class CaptchaBehavior extends ModelBehavior {
 	/**
 	 * Flood protection by time
 	 * TODO: SESSION based one as alternative
+	 *
+	 * @return boolean Success
 	 */
 	protected function _validateCaptchaMinTime($data) {
 		if ($this->settings[$this->Model->alias]['minTime'] <= 0) {
@@ -127,7 +145,7 @@ class CaptchaBehavior extends ModelBehavior {
 	 * Validates maximum time
 	 *
 	 * @param array $data
-	 * @return boolean
+	 * @return boolean Success
 	 */
 	protected function _validateCaptchaMaxTime($data) {
 		if ($this->settings[$this->Model->alias]['maxTime'] <= 0) {
@@ -146,6 +164,8 @@ class CaptchaBehavior extends ModelBehavior {
 	 * Flood protection by false fields and math code
 	 * TODO: build in floodProtection (max Trials etc)
 	 * TODO: SESSION based one as alternative
+	 *
+	 * @return boolean Success
 	 */
 	protected function _validateCaptcha($data) {
 		if (!isset($data['captcha'])) {
@@ -173,6 +193,8 @@ class CaptchaBehavior extends ModelBehavior {
 
 	/**
 	 * Only necessary if there is more than one request per model
+	 *
+	 * @return void
 	 */
 	public function reset() {
 		$this->error = '';
@@ -180,6 +202,9 @@ class CaptchaBehavior extends ModelBehavior {
 
 	/**
 	 * Build and log error message
+	 * TODO: dont return boolean false
+	 *
+	 * @return boolean false
 	 */
 	protected function _setError($msg = null, $internalMsg = null) {
 		if (!empty($msg)) {
@@ -190,7 +215,6 @@ class CaptchaBehavior extends ModelBehavior {
 		}
 
 		$this->_logAttempt();
-		return false;
 	}
 
 	/**

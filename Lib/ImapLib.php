@@ -232,7 +232,7 @@ class ImapLib {
 				$header = imap_headerinfo($this->stream, $i);
 				$msgNo = trim($header->Msgno);
 				foreach ($header as $id => $value) {
-					# fix to remove whitespaces
+					// fix to remove whitespaces
 
 					// Simple array
 					if (!is_array($value)) {

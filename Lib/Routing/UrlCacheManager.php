@@ -80,7 +80,7 @@ class UrlCacheManager {
 		}
 		self::$cache = Cache::read(self::$cacheKey, '_cake_core_');
 
-		# still old "prefix true/false" syntax?
+		// still old "prefix true/false" syntax?
 		if (Configure::read('UrlCache.verbosePrefixes')) {
 			unset(self::$paramFields[3]);
 			self::$paramFields = array_merge(self::$paramFields, (array)Configure::read('Routing.prefixes'));
@@ -114,9 +114,9 @@ class UrlCacheManager {
 		$keyUrl = $url;
 		if (is_array($keyUrl)) {
 			$keyUrl += self::$extras;
-			# prevent different hashs on different orders
+			// prevent different hashs on different orders
 			ksort($keyUrl, SORT_STRING);
-			# prevent different hashs on different types (int/string/bool)
+			// prevent different hashs on different types (int/string/bool)
 			foreach ($keyUrl as $key => $val) {
 				$keyUrl[$key] = (string) $val;
 			}

@@ -34,7 +34,7 @@ class CcShell extends AppShell {
 
 		$this->filename = APP . 'CodeCompletion.php';
 
-		# get classes
+		// get classes
 		$this->models();
 		$this->behaviors();
 
@@ -42,7 +42,7 @@ class CcShell extends AppShell {
 		$this->helpers();
 		$this->appFiles();
 
-		# write to file
+		// write to file
 		$this->_dump();
 
 		$this->out('...done');
@@ -289,7 +289,7 @@ class CcShell extends AppShell {
 	 * @return string
 	 */
 	protected function _prepHelpers($files) {
-		# new ones
+		// new ones
 		$res = '';
 
 		foreach ($files as $name) {
@@ -378,7 +378,7 @@ class CcShell extends AppShell {
 		}
 		$files = array_unique($files);
 
-		# no test/tmp files etc (helper.test.php or helper.OLD.php)
+		// no test/tmp files etc (helper.test.php or helper.OLD.php)
 		foreach ($files as $key => $file) {
 			if (strpos($file, '.') !== false || !preg_match('/^[\da-zA-Z_]+$/', $file)) {
 				unset($files[$key]);

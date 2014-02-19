@@ -34,12 +34,12 @@ class EmailLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testSendDefault() {
-		# start
+		// start
 		$this->Email->to(Configure::read('Config.admin_email'), Configure::read('Config.admin_emailname'));
 		$this->Email->subject('Test Subject');
 
 		$res = $this->Email->send('xyz xyz');
-		# end
+		// end
 		if ($error = $this->Email->getError()) {
 			$this->out($error);
 		}
@@ -47,7 +47,7 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 
 		$this->Email->resetAndSet();
-		# start
+		// start
 		$this->Email->to(Configure::read('Config.admin_email'), Configure::read('Config.admin_emailname'));
 		$this->Email->subject('Test Subject 2');
 		$this->Email->template('default', 'internal');
@@ -55,7 +55,7 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->Email->addAttachments(array(APP . 'webroot' . DS . 'img' . DS . 'icons' . DS . 'edit.gif'));
 
 		$res = $this->Email->send('xyz');
-		# end
+		// end
 		if ($error = $this->Email->getError()) {
 			$this->out($error);
 		}

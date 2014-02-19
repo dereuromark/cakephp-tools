@@ -14,7 +14,7 @@ class PhpTagShell extends AppShell {
 
 	public $autoCorrectAll = false;
 
-	# each report: [0] => found, [1] => corrected
+	// each report: [0] => found, [1] => corrected
 	public $report = array(
 		'leading' => array(0, 0),
 		'trailing' => array(0, 0)
@@ -111,7 +111,7 @@ class PhpTagShell extends AppShell {
 			}
 		}
 
-		# report
+		// report
 		$this->out('--------');
 		$this->out('found ' . $this->report['leading'][0] . ' leading, ' . $this->report['trailing'][0] . ' trailing ws / php tag');
 		$this->out('fixed ' . $this->report['leading'][1] . ' leading, ' . $this->report['trailing'][1] . ' trailing ws / php tag');

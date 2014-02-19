@@ -71,7 +71,7 @@ class PhpThumbHelper extends AppHelper {
 		set_time_limit(30);
 
 		//TODO: make it cleaner
-		# addon
+		// addon
 		$phpthumbConfig = array();
 		$phpthumbConfig['allow_src_above_docroot'] = true;
 		$phpthumbConfig['cache_disable_warning'] = true;
@@ -90,7 +90,7 @@ class PhpThumbHelper extends AppHelper {
 					$this->PhpThumb->setParameter($keyname, $value);
 				}
 			}
-			# addon end
+			// addon end
 
 		foreach ($this->PhpThumb as $var => $value) {
 			if (isset($this->options[$var])) {

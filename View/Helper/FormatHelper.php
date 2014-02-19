@@ -314,7 +314,7 @@ class FormatHelper extends TextHelper {
 	public function icon($type, $t = null, $a = null, $translate = null, $options = array()) {
 		$html = '';
 
-		# title
+		// title
 		if (isset($t) && $t === false) {
 			$title = '';
 		} elseif (empty($t)) {
@@ -814,7 +814,7 @@ class FormatHelper extends TextHelper {
 		$htmlOptions = array_merge($htmlDefaults, $htmlOptions);
 		//return $this->Html->image('/files/progress_bar/index.php'.$params, $htmlOptions);
 
-		# bug in Html::webroot() ??? ommits ?...
+		// bug in Html::webroot() ??? ommits ?...
 		return '<img src="' . $this->Html->url('/files') . '/progress_bar/index.php' . $params . '" title="' . $htmlOptions['title'] . '" class="' .
 			$htmlOptions['class'] . '" alt="' . $htmlOptions['title'] . '" />';
 	}
@@ -1056,10 +1056,10 @@ class FormatHelper extends TextHelper {
 	 * @return string
 	 */
 	public function onlineIcon($modified = null, $options = array()) {
-		# from low (off) to high (on)
+		// from low (off) to high (on)
 		$icons = array('healthbar0.gif', 'healthbar1.gif', 'healthbar1b.gif', 'healthbar2.gif', 'healthbar3.gif', 'healthbar4.gif', 'healthbar5.gif');
 
-		# default = offline
+		// default = offline
 		$res = $icons[0]; // inaktiv
 
 		$time = strtotime($modified);
@@ -1179,27 +1179,27 @@ class FormatHelper extends TextHelper {
 
 		$textstring = trim($textstring);
 
-		# cut only between whole words
+		// cut only between whole words
 		if ($strict !== true) {
 			$completeWordText = $textstring . ' ';
-			# transform line breaks to whitespaces (for textarea content etc.)
+			// transform line breaks to whitespaces (for textarea content etc.)
 			$completeWordTextLf = str_replace(LF, ' ', $completeWordText);
 			$completeWordText = $completeWordTextLf;
 			$completeWordText = substr($completeWordTextLf, 0, $chars);
-			# round the text to the previous entire word instead of cutting off part way through a word
+			// round the text to the previous entire word instead of cutting off part way through a word
 			$completeWordText = substr($completeWordText, 0, strrpos($completeWordText, ' '));
 		}
 
 		$textEnding = '';
 		if ($strict !== true && strlen($completeWordText) > 1) {
 			$text = trim($completeWordText);
-			# add ending only if result is shorter then original
+			// add ending only if result is shorter then original
 			if (strlen($text) < strlen(trim($completeWordTextLf))) {
 				$textEnding = ' ' . $ending; # additional whitespace as there is a new word added
 			}
 		} else {
 			$text = trim(substr($textstring, 0, $chars));
-			# add ending only if result is shorter then original
+			// add ending only if result is shorter then original
 			if (strlen($text) < strlen($textstring)) {
 				$textEnding = $ending;
 			}
@@ -1419,7 +1419,7 @@ class FormatHelper extends TextHelper {
 			'pic' => ICON_NO,
 			'title' => 'No',
 		),
-		# deprecated from here down
+		// deprecated from here down
 		'close' => array(
 			'pic' => ICON_CLOCK,
 			'title' => 'Close',

@@ -103,7 +103,7 @@ class CodeShell extends AppShell {
 			}
 		}
 
-		# try to find the best position to insert app uses statements
+		// try to find the best position to insert app uses statements
 		foreach ($fileContent as $row => $rowValue) {
 			preg_match('/^App\:\:uses\(/', $rowValue, $matches);
 			if ($matches) {

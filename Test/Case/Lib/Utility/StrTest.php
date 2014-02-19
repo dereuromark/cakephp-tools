@@ -291,7 +291,7 @@ class StrTest extends MyCakeTestCase {
 		$expected = 'some text';
 		$this->assertSame($expected, $res);
 
-		# WTF?
+		// WTF?
 		$res = Str::lastChr('some', 'more som text');
 		$expected = 'som text';
 		$this->assertSame($expected, $res);

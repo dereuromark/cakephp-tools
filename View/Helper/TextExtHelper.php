@@ -267,17 +267,17 @@ class TextExtHelper extends TextHelper {
 	 * @return string html/$plain
 	 */
 	public static function prepareLinkName($link, $options = array()) {
-		# strip protocol if desired (default)
+		// strip protocol if desired (default)
 		if (!isset($options['stripProtocol']) || $options['stripProtocol'] !== false) {
 			$link = self::stripProtocol($link);
 		}
 		if (!isset($options['maxLength'])) {
 			$options['maxLength'] = 50; # should be long enough for most cases
 		}
-		# shorten display name if desired (default)
+		// shorten display name if desired (default)
 		if (!empty($options['maxLength']) && mb_strlen($link) > $options['maxLength']) {
 			$link = mb_substr($link, 0, $options['maxLength']);
-			# problematic with autoLink()
+			// problematic with autoLink()
 			if (!empty($options['html']) && isset($options['escape']) && $options['escape'] === false) {
 				$link .= '&hellip;'; # only possible with escape => false!
 			} else {
@@ -328,7 +328,7 @@ class TextExtHelper extends TextHelper {
 			return $url;
 		}
 		// otherwise cut a part in the middle (but only if long enough!!!)
-		# TODO: more dynamically
+		// TODO: more dynamically
 		$placeholder = CHAR_HELLIP;
 		if (!empty($options['placeholder'])) {
 			$placeholder = $options['placeholder'];

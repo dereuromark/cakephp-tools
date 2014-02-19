@@ -112,7 +112,7 @@ class MyModelTest extends MyCakeTestCase {
 		$res = $this->User->escapeValue(null);
 		$this->assertSame(null, $res);
 
-		# comparison to cakes escapeField here (which use ` to escape)
+		// comparison to cakes escapeField here (which use ` to escape)
 		$res = $this->User->escapeField('dob');
 		$this->assertSame('`User`.`dob`', $res);
 	}

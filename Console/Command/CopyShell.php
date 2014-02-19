@@ -74,7 +74,7 @@ class CopyShell extends AppShell {
 	public $type = self::TYPE_APP;
 
 	public $configName = null; # like "test" in "app_test" or "123" in "custom_123"
-	# both typeName and configName form the "site" name: typeName_configName
+	// both typeName and configName form the "site" name: typeName_configName
 
 	public $configCustom = array(); # configFile Content
 	public $configGlobal = array(); # configFile Content
@@ -118,7 +118,7 @@ class CopyShell extends AppShell {
 	public function run() {
 		$configContent = $this->getConfigs();
 
-		# change type if param given
+		// change type if param given
 		if (!empty($this->params['cake'])) { # cake core
 			$this->type = self::TYPE_CAKE;
 		} elseif (!empty($this->params['vendors'])) {
@@ -128,7 +128,7 @@ class CopyShell extends AppShell {
 		}
 		$this->out($this->types[$this->type]);
 
-		# find all mathing configs to this type
+		// find all mathing configs to this type
 		$configs = array();
 		if (!empty($configContent)) {
 			$configs = $this->getConfigNames($configContent);
@@ -184,7 +184,7 @@ class CopyShell extends AppShell {
 			}
 		}
 
-		# allow c, v and p only with app configs -> set params (by splitting app_configName into app and configName)
+		// allow c, v and p only with app configs -> set params (by splitting app_configName into app and configName)
 		if ($this->type > 3 || $this->type > 0 && $configName[0] !== 'app') {
 			return $this->error('"-c" (-cake), "-v" (-vendor) and "-p" (-plugin) only possible with app configs (not with custom ones)');
 		}
@@ -196,7 +196,7 @@ class CopyShell extends AppShell {
 
 		$hasLocalPath = false;
 		$this->out('');
-		# display global content (if available)
+		// display global content (if available)
 		if (!empty($this->configGlobal)) {
 			//$this->out('GLOBAL CONFIG:');
 			foreach ($this->configGlobal as $c) {
@@ -209,7 +209,7 @@ class CopyShell extends AppShell {
 			}
 		}
 
-		# display custom content
+		// display custom content
 		//$this->out('CUSTOM CONFIG (may override global config):');
 		$this->credentials = array();
 
@@ -224,7 +224,7 @@ class CopyShell extends AppShell {
 			}
 		}
 
-		# "vendor" or "cake"? -> change both localFolder and remoteFolder and add them to to the config array
+		// "vendor" or "cake"? -> change both localFolder and remoteFolder and add them to to the config array
 		if ($this->type > 0) {
 			$configuration = $this->getConfig($this->types[$this->type], $configContent);
 			//pr($configuration);
@@ -233,7 +233,7 @@ class CopyShell extends AppShell {
 				$folder = $this->matches[$this->type];
 			}
 
-			# working with different OS - best to always use / slash
+			// working with different OS - best to always use / slash
 			$this->localFolder = dirname($this->localFolder) . DS . $folder;
 			$this->localFolder = str_replace(DS, '/', $this->localFolder);
 
@@ -248,7 +248,7 @@ class CopyShell extends AppShell {
 		}
 		/*
 		if (!$hasLocalPath) {
-			# add the automatically found app folder as local path (default if no specific local path was given)
+			// add the automatically found app folder as local path (default if no specific local path was given)
 			$localPath = 'local '.TB.TB.$this->localFolder;
 			$this->out($localPath);
 			$configuration[] = $localPath;
@@ -259,11 +259,11 @@ class CopyShell extends AppShell {
 
 		$this->logFile = 'log_' . $this->types[$this->type] . '_' . $this->configName . '.txt';
 
-		# create tmp config file (adding the current APP path, of no local path was given inside the config file)
+		// create tmp config file (adding the current APP path, of no local path was given inside the config file)
 		$File = new File($this->tmpFolder . $this->tmpFile, true, 0770);
 		//$File->open();
 		$configTotal = array();
-		# extract "side xyz" from config, add global and then the rest of custom
+		// extract "side xyz" from config, add global and then the rest of custom
 		$configTotal[] = 'site ' . $this->types[$this->type] . '_' . $this->configName;//$configuration[0];
 		unset($configuration[0]);
 		foreach ($this->configGlobal as $c) {
@@ -302,7 +302,7 @@ class CopyShell extends AppShell {
 				return $this->error('Aborted!');
 			}
 			if (in_array($action, $allowedActions)) {
-				# synch can destroy local information that might not have been saved yet, so confirm
+				// synch can destroy local information that might not have been saved yet, so confirm
 				if ($action === 's') {
 					$continue = $this->in(__('Local files might be overridden... Continue?'), array('y', 'n'), 'n');
 					if (strtolower($continue) !== 'y' && strtolower($continue) !== 'yes') {
@@ -356,7 +356,7 @@ class CopyShell extends AppShell {
 
 		$this->_exec(false, $options);
 
-		# "Job Done"-Sound for the time comsuming actions (could be other sounds as well?)
+		// "Job Done"-Sound for the time comsuming actions (could be other sounds as well?)
 		if ($action === 'f' || $action === 'u') {
 			$this->_beep();
 		}
@@ -420,11 +420,11 @@ class CopyShell extends AppShell {
 		if ($this->params['silent']) {
 			return;
 		}
-		# seems to work only on windows systems - advantage: sound does not need to be on
+		// seems to work only on windows systems - advantage: sound does not need to be on
 		$File = new File($this->scriptFolder . 'files' . DS . 'beep.bat');
 		$sound = $File->read();
 		system($sound);
-		# seems to work on only on windows xp systems + where sound is on
+		// seems to work on only on windows xp systems + where sound is on
 		//$sound = 'sndrec32 /play /close "'.$this->scriptFolder.'files'.DS.'notify.wav';
 		//system($sound);
 		if (WINDOWS) {
@@ -438,7 +438,7 @@ class CopyShell extends AppShell {
 	 * @return boolean Success
 	 */
 	protected function _exec($silent = true, $options = array()) {
-		# make sure, folder exists
+		// make sure, folder exists
 		$Folder = new Folder($this->tmpFolder, true, 0770);
 
 		$f = (WINDOWS ? $this->sitecopyFolder : '') . 'sitecopy ';
@@ -480,7 +480,7 @@ class CopyShell extends AppShell {
 
 		$continue = $this->in(__('Show script help, too?'), array('y', 'n'), 'y');
 		if (strtolower($continue) === 'y' || strtolower($continue) === 'yes') {
-			# somehow does not work yet (inside cake console anyway...)
+			// somehow does not work yet (inside cake console anyway...)
 			$this->_exec(false, array('--help'));
 			$this->out('');
 			$this->_exec(false, array('--version'));
@@ -492,7 +492,7 @@ class CopyShell extends AppShell {
 	 * Read out config file and parse it to an array
 	 */
 	protected function getConfigs() {
-		# global file (may be present)
+		// global file (may be present)
 		$File = new File($this->localFolder . 'config' . DS . $this->configGlobalFile);
 		if ($File->exists()) {
 			$File->open('r');
@@ -511,7 +511,7 @@ class CopyShell extends AppShell {
 			}
 		}
 
-		# custom file (must be present)
+		// custom file (must be present)
 		$File = new File($this->localFolder . 'config' . DS . $this->configCustomFile);
 
 		if (!$File->exists()) {
@@ -519,7 +519,7 @@ class CopyShell extends AppShell {
 		}
 		$File->open('r');
 
-		# Read out configs
+		// Read out configs
 		$content = $File->read();
 		if (empty($content)) {
 			return array();
@@ -613,9 +613,9 @@ class CopyShell extends AppShell {
 			if (mb_strlen($c) > 6 && substr($c, 0, 5) === 'site ') {
 				$currentConfig = trim(str_replace('site ', '', $c));
 				if (!empty($currentConfig) && $currentConfig == $config) {
-					# start
+					// start
 					if (!$started) {
-						# prevent problems with 2 configs with the same alias (but shouldnt happen anyway)
+						// prevent problems with 2 configs with the same alias (but shouldnt happen anyway)
 						$currentConfig = null;
 					}
 					$started = true;
@@ -623,7 +623,7 @@ class CopyShell extends AppShell {
 			}
 
 			if ($started && !empty($currentConfig)) {
-				# done
+				// done
 				break;
 			}
 

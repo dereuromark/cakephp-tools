@@ -90,7 +90,7 @@ class GooglLib {
 		curl_close($ch);
 		$array = json_decode($result, true);
 		if (empty($array['id'])) {
-			# throw error?
+			// throw error?
 			CakeLog::write('googl', $longURL . ' - ' . print_r($array, true));
 			return false;
 		}

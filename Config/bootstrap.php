@@ -124,7 +124,7 @@ if (!defined('FORMAT_NICE_YMDHMS')) {
 	define('FORMAT_NICE_HM', 'H:i');
 	define('FORMAT_NICE_HMS', 'H:i:s');
 
-	# localDate strings
+	// localDate strings
 	define('FORMAT_LOCAL_WA_YMDHMS', '%a, %d.%m.%Y, %H:%M:%S');
 	define('FORMAT_LOCAL_WF_YMDHMS', '%A, %d.%m.%Y, %H:%M:%S');
 	define('FORMAT_LOCAL_WA_YMDHM', '%a, %d.%m.%Y, %H:%M');
@@ -192,7 +192,7 @@ function slug($string, $separator = null, $low = true) {
 		'/¹/' => 1,
 		'/²/' => 2,
 		'/³/' => 3,
-		# new utf8 char "capitel ß" still missing here! '/.../' => 'SS', (TODO in 2009)
+		// new utf8 char "capitel ß" still missing here! '/.../' => 'SS', (TODO in 2009)
 		'/@/' => 'at',
 		'/æ/' => 'ae',
 		'/©/' => 'C',
@@ -200,7 +200,7 @@ function slug($string, $separator = null, $low = true) {
 		'/Ð/' => 'D',
 		'/€/' => 'EUR',
 		'/™/' => 'TM',
-		# more missing?
+		// more missing?
 	);
 
 	if ($separator === null) {
@@ -440,7 +440,7 @@ function pre($var, $collapsedAndExpandable = false, $options = array()) {
 		if ($options['jquery'] === true) {
 			$js = $jsJquery;
 		} elseif ($options['jquery'] !== false) {
-			# auto
+			// auto
 			$js = 'if (typeof jQuery == \'undefined\') {' . $js . '} else {' . $jsJquery . '}';
 		}
 		$res .= '<span onclick="' . $js . '" style="cursor: pointer; font-weight: bold">Debug</span>';

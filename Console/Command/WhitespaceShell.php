@@ -6,7 +6,7 @@ class WhitespaceShell extends AppShell {
 
 	public $autoCorrectAll = false;
 
-	# each report: [0] => found, [1] => corrected
+	// each report: [0] => found, [1] => corrected
 	public $report = array('leading' => array(0, 0), 'trailing' => array(0, 0));
 
 	/**
@@ -138,7 +138,7 @@ class WhitespaceShell extends AppShell {
 				$newline = "\n";
 			}
 
-			# add one new line at the end
+			// add one new line at the end
 			$content = trim($content) . $newline;
 			if ($content !== $store) {
 				file_put_contents($file, $content);
