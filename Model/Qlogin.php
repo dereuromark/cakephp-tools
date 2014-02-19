@@ -7,6 +7,8 @@ App::uses('CakeSession', 'Model/Datasource');
 /**
  * Manage Quick Logins
  *
+ * TODO: make it work with Token by default.
+ *
  * @author Mark Scherer
  * @cakephp 2.x
  * @license MIT
@@ -14,6 +16,8 @@ App::uses('CakeSession', 'Model/Datasource');
 class Qlogin extends ToolsAppModel {
 
 	public $useTable = false;
+
+	public $generator = 'CodeKey'; // TODO: switch to Token ASAP, then remove this
 
 	public $validate = array(
 		'url' => array(
@@ -34,36 +38,49 @@ class Qlogin extends ToolsAppModel {
 				'message' => 'valErrMandatoryField',
 				'last' => true
 			),
-			/*
-			'validateUnique' => array(
-				'rule' => array('validateUnique', array('url')),
-				'message' => 'key already exists',
-			),
-			*/
 		),
 	);
 
+	/**
+	 * Qlogin::_useKey()
+	 *
+	 * @param mixed $key
+	 * @return boolean Success
+	 */
 	protected function _useKey($key) {
-		if (!isset($this->CodeKey)) {
-			$this->CodeKey = ClassRegistry::init('Tools.CodeKey');
+		if (!isset($this->{$this->generator})) {
+			$this->{$this->generator} = ClassRegistry::init('Tools.' . $this->generator);
 		}
-		return $this->CodeKey->useKey('qlogin', $key);
+		return $this->{$this->generator}->useKey('qlogin', $key);
 	}
 
+	/**
+	 * Qlogin::_newKey()
+	 *
+	 * @param mixed $uid
+	 * @param mixed $content
+	 * @return string $key
+	 */
 	protected function _newKey($uid, $content) {
-		if (!isset($this->CodeKey)) {
-			$this->CodeKey = ClassRegistry::init('Tools.CodeKey');
+		if (!isset($this->{$this->generator})) {
+			$this->{$this->generator} = ClassRegistry::init('Tools.' . $this->generator);
 		}
-		return $this->CodeKey->newKey('qlogin', null, $uid, $content);
+		return $this->{$this->generator}->newKey('qlogin', null, $uid, $content);
 	}
 
+	/**
+	 * Qlogin::translate()
+	 *
+	 * @param mixed $key
+	 * @return array
+	 */
 	public function translate($key) {
 		$res = $this->_useKey($key);
 		if (!$res) {
 			return false;
 		}
-		$res['CodeKey']['content'] = unserialize($res['CodeKey']['content']);
-		$res['CodeKey']['url'] = Router::url($res['CodeKey']['content'], true);
+		$res[$this->generator]['content'] = unserialize($res[$this->generator]['content']);
+		$res[$this->generator]['url'] = Router::url($res[$this->generator]['content'], true);
 		return $res;
 	}
 
@@ -79,6 +96,12 @@ class Qlogin extends ToolsAppModel {
 		return $this->_newKey($uid, $content);
 	}
 
+	/**
+	 * Qlogin::urlByKey()
+	 *
+	 * @param string $key
+	 * @return string URL (absolute)
+	 */
 	public static function urlByKey($key) {
 		return Router::url(array('admin' => false, 'plugin' => 'tools', 'controller' => 'qlogin', 'action' => 'go', $key), true);
 	}
@@ -88,7 +111,8 @@ class Qlogin extends ToolsAppModel {
 	 * uses generate() internally to get the key
 	 *
 	 * @param mixed $url
-	 * @return string url (absolute)
+	 * @param midex $uid (optional)
+	 * @return string URL (absolute)
 	 */
 	public function url($url, $uid = null) {
 		if ($uid === null) {

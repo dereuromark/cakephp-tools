@@ -15,9 +15,9 @@ class Token extends ToolsAppModel {
 
 	public $order = array('Token.created' => 'DESC');
 
-	protected $defaultLength = 22;
+	public $defaultLength = 22;
 
-	protected $validity = MONTH;
+	public $validity = MONTH;
 
 	public $validate = array(
 		'type' => array(
