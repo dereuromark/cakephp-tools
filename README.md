@@ -16,13 +16,13 @@ That's it. It should be up and running.
 
 ## The basics
 
-Include the Tools bootstrap file in your `APP/Config/bootstrap.php` with
+In case you want the Tools bootstrap file included (recommended), you can do that in your `APP/Config/bootstrap.php` with
 
 ```php
-App::import('Lib', 'Tools.Bootstrap/MyBootstrap');
+CakePlugin::load('Tools', array('bootstrap' => true));
 ```
 
-You cannot use App::uses because this file does not contain a class and needs to be included right away (not lazy loaded).
+This can also be done after using `CakePlugin::loadAll()` - without problems.
 
 
 MyModel can be extended to use more powerful validation and other improvements:
