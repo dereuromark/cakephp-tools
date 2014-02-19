@@ -21,21 +21,28 @@ class QloginTest extends MyCakeTestCase {
 	}
 
 	public function testGenerateDeprecated() {
+		$this->Qlogin->generator = 'CodeKey';
+
+		$this->CodeKey = ClassRegistry::init('Tools.CodeKey');
+		$count = $this->CodeKey->find('count');
+
 		$url = Router::url(array('admin' => false, 'plugin' => 'tools', 'controller' => 'qlogin', 'action' => 'go'), true) . '/';
-		//debug($url);
 		$this->assertTrue(!empty($url));
 
 		$res = $this->Qlogin->url(array('controller' => 'test', 'action' => 'foo', 'bar'), 1);
-		//debug($res);
 		$this->assertTrue(is_string($res) && !empty($res));
 		$this->assertTrue(strpos($res, $url) === 0);
 
 		$res = $this->Qlogin->url('/test/foo/bar', 2);
-		//debug($res);
 		$this->assertTrue(is_string($res) && !empty($res));
+
+		$count2 = $this->CodeKey->find('count');
+		$this->assertTrue($count2 > $count);
 	}
 
 	public function testUseDeprecated() {
+		$this->Qlogin->generator = 'CodeKey';
+
 		$key = $this->Qlogin->generate(array('controller' => 'test', 'action' => 'foo', 'bar'), 1);
 		$res = $this->Qlogin->translate($key);
 		$this->assertTrue(is_array($res) && !empty($res));
@@ -49,8 +56,6 @@ class QloginTest extends MyCakeTestCase {
 	}
 
 	public function testGenerate() {
-		$this->Qlogin->generator = 'Token';
-
 		$url = Router::url(array('admin' => false, 'plugin' => 'tools', 'controller' => 'qlogin', 'action' => 'go'), true) . '/';
 		//debug($url);
 		$this->assertTrue(!empty($url));
@@ -66,8 +71,6 @@ class QloginTest extends MyCakeTestCase {
 	}
 
 	public function testUse() {
-		$this->Qlogin->generator = 'Token';
-
 		$key = $this->Qlogin->generate(array('controller' => 'test', 'action' => 'foo', 'bar'), 1);
 		$res = $this->Qlogin->translate($key);
 		$this->assertTrue(is_array($res) && !empty($res));

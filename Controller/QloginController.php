@@ -41,8 +41,9 @@ class QloginController extends ToolsAppController {
 			return $this->Common->autoRedirect($default);
 		}
 		//die(returns($entry));
-		$uid = $entry['CodeKey']['user_id'];
-		$url = $entry['CodeKey']['url'];
+		$alias = Configure::read('Qlogin.generator') ?: 'Token';
+		$uid = $entry[$alias]['user_id'];
+		$url = $entry[$alias]['url'];
 
 		if (!$this->Session->read('Auth.User.id')) {
 			if ($this->Common->manualLogin($uid)) {
@@ -64,6 +65,7 @@ class QloginController extends ToolsAppController {
 	 * - user_id
 	 * - url (base64encoded)
 	 *
+	 * @return void
 	 */
 	public function admin_index() {
 		if ($this->Common->isPosted()) {
@@ -87,21 +89,29 @@ class QloginController extends ToolsAppController {
 		$this->User = ClassRegistry::init(CLASS_USER);
 		$users = $this->User->find('list');
 
-		$this->CodeKey = ClassRegistry::init('Tools.CodeKey');
-		$qlogins = $this->CodeKey->find('count', array('conditions' => array('type' => 'qlogin')));
+		$this->Token = ClassRegistry::init('Tools.Token');
+		$qlogins = $this->Token->find('count', array('conditions' => array('type' => 'qlogin')));
 
 		$this->set(compact('users', 'qlogins'));
 	}
 
+	/**
+	 * QloginController::admin_listing()
+	 *
+	 * @return void
+	 */
 	public function admin_listing() {
 	}
 
+	/**
+	 * QloginController::admin_reset()
+	 *
+	 * @return void
+	 */
 	public function admin_reset() {
-		if (!$this->Common->isPosted()) {
-			throw new MethodNotAllowedException();
-		}
-		$this->CodeKey = ClassRegistry::init('Tools.CodeKey');
-		$this->CodeKey->deleteAll(array('type' => 'qlogin'));
+		$this->request->onlyAllow('post', 'delete');
+		$this->Token = ClassRegistry::init('Tools.Token');
+		$this->Token->deleteAll(array('type' => 'qlogin'));
 		$this->Common->flashMessage(__('Success'), 'success');
 		return $this->Common->autoRedirect(array('action' => 'index'));
 	}

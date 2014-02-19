@@ -7,7 +7,7 @@ App::uses('CakeSession', 'Model/Datasource');
 /**
  * Manage Quick Logins
  *
- * TODO: make it work with Token by default.
+ * TODO: Remove CodeKey BC
  *
  * @author Mark Scherer
  * @cakephp 2.x
@@ -17,7 +17,7 @@ class Qlogin extends ToolsAppModel {
 
 	public $useTable = false;
 
-	public $generator = 'CodeKey'; // TODO: switch to Token ASAP, then remove this
+	public $generator = 'Token'; // TODO: switch to Token ASAP, then remove this
 
 	public $validate = array(
 		'url' => array(
@@ -40,6 +40,13 @@ class Qlogin extends ToolsAppModel {
 			),
 		),
 	);
+
+	public function __construct($id = false, $table = null, $ds = null) {
+		if ($generator = Configure::read('Qlogin.generator')) {
+			$this->generator = $generator;
+		}
+		parent::__construct($id, $table, $ds);
+	}
 
 	/**
 	 * Qlogin::_useKey()
