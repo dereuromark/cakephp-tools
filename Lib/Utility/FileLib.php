@@ -133,7 +133,7 @@ class FileLib extends File {
 		}
 		$success = true;
 		foreach ($data as $row) {
-			if (fputcsv($this->handle, array_values($row), (isset($delimiter) ? $delimiter : ','), (isset($enclosure) ? $enclosure : '"')) === false) {
+			if (fputcsv($this->handle, array_values((array)$row), (isset($delimiter) ? $delimiter : ','), (isset($enclosure) ? $enclosure : '"')) === false) {
 				$success = false;
 			}
 		}

@@ -75,7 +75,7 @@ class InlineCssLib {
 
 		//fix issue with <html> being added
 		$separator = '~~~~~~~~~~~~~~~~~~~~';
-		if (strpos($html, '<html>') === false) {
+		if (strpos($html, '<html') === false) {
 			$incomplete = true;
 			$html = $separator . $html . $separator;
 		}

@@ -464,7 +464,9 @@ class CssToInlineStyles
             // Only for >PHP5.4
             // Correct scrambled UTF8 chars (&atilde;&#131;...) back to their correct representation.
             $html = html_entity_decode($html, ENT_XHTML, 'UTF-8');
-            $html = utf8_decode($html);
+            if (DS === '\\') {
+            	$html = utf8_decode($html);
+            }
         }
 
         // cleanup the HTML if we need to
