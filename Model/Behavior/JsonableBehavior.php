@@ -174,7 +174,7 @@ class JsonableBehavior extends ModelBehavior {
 			}
 		}
 		if (is_array($val)) {
-			// $depth param added in php 5.4
+			// $depth param added in php 5.5
 			if (version_compare(PHP_VERSION, '5.5.0', '>=')) {
 				$val = json_encode($val, $this->settings[$Model->alias]['encodeParams']['options'], $this->settings[$Model->alias]['encodeParams']['depth']);
 			} 
