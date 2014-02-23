@@ -47,15 +47,15 @@ class JsonableBehavior extends ModelBehavior {
 		'sort' => false, // only for list
 		'unique' => true, // only for list (autoclean values on insert),
 		'map' => array(), // map on a different DB field
-        'encodeParams' => array( // params for json_encode 
-            'options' => 0,
-            'depth' => 512,
-        ),
+		'encodeParams' => array( // params for json_encode 
+			'options' => 0,
+			'depth' => 512,
+		),
 		'decodeParams' => array( // params for json_decode
-            'assoc' => false, // useful when working with multidimensional arrays
-            'depth' => 512,
-            'options' => 0
-        )
+			'assoc' => false, // useful when working with multidimensional arrays
+			'depth' => 512,
+			'options' => 0
+		)
 	);
 
 	public function setup(Model $Model, $config = array()) {
@@ -187,13 +187,13 @@ class JsonableBehavior extends ModelBehavior {
 	 * @return mixed
 	 */
 	public function _decode(Model $Model, $val) {
-	    // $options param added in php 5.4
-        if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
-            $decoded = json_decode($val, $this->settings[$Model->alias]['decodeParams']['assoc'], $this->settings[$Model->alias]['decodeParams']['depth'], $this->settings[$Model->alias]['decodeParams']['options']); 
-        } 
-        else {
-            $decoded = json_decode($val, $this->settings[$Model->alias]['decodeParams']['assoc'], $this->settings[$Model->alias]['decodeParams']['depth']); 
-        }
+		// $options param added in php 5.4
+		if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
+		    $decoded = json_decode($val, $this->settings[$Model->alias]['decodeParams']['assoc'], $this->settings[$Model->alias]['decodeParams']['depth'], $this->settings[$Model->alias]['decodeParams']['options']); 
+		} 
+		else {
+		    $decoded = json_decode($val, $this->settings[$Model->alias]['decodeParams']['assoc'], $this->settings[$Model->alias]['decodeParams']['depth']); 
+		}
         
 		if ($decoded === false) {
 			return false;
