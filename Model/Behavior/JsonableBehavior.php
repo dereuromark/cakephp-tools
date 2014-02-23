@@ -36,21 +36,30 @@ class JsonableBehavior extends ModelBehavior {
 	 * @var array
 	 */
 	public $_defaultSettings = array(
-		'fields' => array(), # empty => autodetect - only works with array!
-		'input' => 'array', # json, array, param, list (param/list only works with specific fields)
-		'output' => 'array', # json, array, param, list (param/list only works with specific fields)
-		'separator' => '|', # only for param or list
-		'keyValueSeparator' => ':', # only for param
-		'leftBound' => '{', # only for list
-		'rightBound' => '}', # only for list
-		'clean' => true, # only for param or list (autoclean values on insert)
-		'sort' => false, # only for list
-		'unique' => true, # only for list (autoclean values on insert),
-		'map' => array(), # map on a different DB field
+		'fields' => array(), // empty => autodetect - only works with array!
+		'input' => 'array', // json, array, param, list (param/list only works with specific fields)
+		'output' => 'array', // json, array, param, list (param/list only works with specific fields)
+		'separator' => '|', // only for param or list
+		'keyValueSeparator' => ':', // only for param
+		'leftBound' => '{', // only for list
+		'rightBound' => '}', // only for list
+		'clean' => true, // only for param or list (autoclean values on insert)
+		'sort' => false, // only for list
+		'unique' => true, // only for list (autoclean values on insert),
+		'map' => array(), // map on a different DB field
+        'encodeParams' => array( // params for json_encode 
+            'options' => 0,
+            'depth' => 512,
+        ),
+		'decodeParams' => array( // params for json_decode
+            'assoc' => false, // useful when working with multidimensional arrays
+            'depth' => 512,
+            'options' => 0
+        )
 	);
 
 	public function setup(Model $Model, $config = array()) {
-		$this->settings[$Model->alias] = array_merge($this->_defaultSettings, $config);
+		$this->settings[$Model->alias] = Hash::merge($this->_defaultSettings, $config);
 		//extract($this->settings[$Model->alias]);
 		if (!is_array($this->settings[$Model->alias]['fields'])) {
 			$this->settings[$Model->alias]['fields'] = (array)$this->settings[$Model->alias]['fields'];
@@ -165,7 +174,7 @@ class JsonableBehavior extends ModelBehavior {
 			}
 		}
 		if (is_array($val)) {
-			$val = json_encode($val);
+			$val = json_encode($val, $this->settings[$Model->alias]['encodeParams']['options'], $this->settings[$Model->alias]['encodeParams']['depth']);
 		}
 		return $val;
 	}
@@ -178,7 +187,14 @@ class JsonableBehavior extends ModelBehavior {
 	 * @return mixed
 	 */
 	public function _decode(Model $Model, $val) {
-		$decoded = json_decode($val);
+	    // $options param added in php 5.4
+        if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
+            $decoded = json_decode($val, $this->settings[$Model->alias]['decodeParams']['assoc'], $this->settings[$Model->alias]['decodeParams']['depth'], $this->settings[$Model->alias]['decodeParams']['options']); 
+        } 
+        else {
+            $decoded = json_decode($val, $this->settings[$Model->alias]['decodeParams']['assoc'], $this->settings[$Model->alias]['decodeParams']['depth']); 
+        }
+        
 		if ($decoded === false) {
 			return false;
 		}
