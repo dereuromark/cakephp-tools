@@ -298,12 +298,11 @@ class RandomLib {
 				break;
 			default:
 				$pool = (string)$type;
-				//$utf8 = ! UTF8::is_ascii($pool);
 				break;
 		}
 
 		// Split the pool into an array of characters
-		$pool = ($utf8 === true) ? str_split($pool, 1) : str_split($pool, 1);
+		$pool = str_split($pool, 1);
 
 		// Largest pool key
 		$max = count($pool) - 1;
