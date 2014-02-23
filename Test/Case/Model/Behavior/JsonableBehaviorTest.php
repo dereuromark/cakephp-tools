@@ -154,4 +154,87 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 		$this->assertEquals('z, y, x', $res[0]['JsonableComment']['details']);
 	}
 
+	public function testEncodeParams() {
+		// $depth param added in 5.5.0
+		$this->skipIf(!version_compare(PHP_VERSION, '5.5.0', '>='));
+
+		// Test encode depth = 1
+		$this->Comment->Behaviors->unload('Jsonable');
+		$this->Comment->Behaviors->load('Tools.Jsonable', array('fields' => array('details'), 'encodeParams' => array('depth' => 1)));
+
+		$data = array(
+			'comment' => 'blabla',
+			'url' => 'www.dereuromark.de',
+			'title' => 'param',
+			'details' => array('x' => array('y' => 'z')),
+		);
+		$this->Comment->save($data);
+
+		$res = $this->Comment->find('first', array('conditions' => array('title' => 'param')));
+		$expected = array();
+		$this->assertEquals($expected, $res['JsonableComment']['details']);
+
+
+		// Test encode depth = 2
+		$this->Comment->Behaviors->unload('Jsonable');
+		$this->Comment->Behaviors->load('Tools.Jsonable', array('fields' => array('details'), 'encodeParams' => array('depth' => 2)));
+
+		$data = array(
+			'comment' => 'blabla',
+			'url' => 'www.dereuromark.de',
+			'title' => 'param',
+			'details' => array('x' => array('y' => 'z')),
+		);
+		$this->Comment->save($data);
+
+		$res = $this->Comment->find('first', array('conditions' => array('title' => 'param')));
+		$obj = new stdClass();
+		$obj->y = 'z';
+		$expected = array('x' => $obj);
+		$this->assertEquals($expected, $res['JsonableComment']['details']);
+	}
+
+	public function testDecodeParams() {
+		$this->Comment->Behaviors->load('Tools.Jsonable', array('fields' => array('details')));
+
+		$data = array(
+			'comment' => 'blabla',
+			'url' => 'www.dereuromark.de',
+			'title' => 'param',
+			'details' => array('x' => array('y' => 'z')),
+		);
+		$this->Comment->save($data);
+
+		// Test decode with default params
+		$res = $this->Comment->find('first', array('conditions' => array('title' => 'param')));
+		$obj = new stdClass();
+		$obj->y = 'z';
+		$expected = array('x' => $obj);
+		$this->assertEquals($expected, $res['JsonableComment']['details']);
+
+
+		// Test decode with assoc = true
+		$this->Comment->Behaviors->unload('Jsonable');
+		$this->Comment->Behaviors->load('Tools.Jsonable', array('fields' => array('details'), 'decodeParams' => array('assoc' => true)));
+
+		$res = $this->Comment->find('first', array('conditions' => array('title' => 'param')));
+		$expected = array('x' => array('y' => 'z'));
+		$this->assertEquals($expected, $res['JsonableComment']['details']);
+
+		// Test decode with assoc = true and depth = 2
+		$this->Comment->Behaviors->unload('Jsonable');
+		$this->Comment->Behaviors->load('Tools.Jsonable', array('fields' => array('details'), 'decodeParams' => array('assoc' => true, 'depth' => 2)));
+
+		$res = $this->Comment->find('first', array('conditions' => array('title' => 'param')));
+		$expected = array();
+		$this->assertEquals($expected, $res['JsonableComment']['details']);
+
+		// Test decode with assoc = true and depth = 3
+		$this->Comment->Behaviors->unload('Jsonable');
+		$this->Comment->Behaviors->load('Tools.Jsonable', array('fields' => array('details'), 'decodeParams' => array('assoc' => true, 'depth' => 3)));
+
+		$res = $this->Comment->find('first', array('conditions' => array('title' => 'param')));
+		$expected = array('x' => array('y' => 'z'));
+		$this->assertEquals($expected, $res['JsonableComment']['details']);
+	}
 }
