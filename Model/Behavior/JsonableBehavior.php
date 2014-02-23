@@ -174,7 +174,13 @@ class JsonableBehavior extends ModelBehavior {
 			}
 		}
 		if (is_array($val)) {
-			$val = json_encode($val, $this->settings[$Model->alias]['encodeParams']['options'], $this->settings[$Model->alias]['encodeParams']['depth']);
+			// $depth param added in php 5.4
+			if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
+				$val = json_encode($val, $this->settings[$Model->alias]['encodeParams']['options'], $this->settings[$Model->alias]['encodeParams']['depth']);
+			} 
+			else {
+				$val = json_encode($val, $this->settings[$Model->alias]['encodeParams']['options']);
+			}
 		}
 		return $val;
 	}
@@ -194,7 +200,7 @@ class JsonableBehavior extends ModelBehavior {
 		else {
 		    $decoded = json_decode($val, $this->settings[$Model->alias]['decodeParams']['assoc'], $this->settings[$Model->alias]['decodeParams']['depth']); 
 		}
-        
+
 		if ($decoded === false) {
 			return false;
 		}
