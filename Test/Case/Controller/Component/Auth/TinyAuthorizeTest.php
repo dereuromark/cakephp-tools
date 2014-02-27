@@ -336,9 +336,7 @@ INI;
 		$res = $object->authorize($user, $this->request);
 		$this->assertTrue($res);
 
-		$this->request->params['controller'] = 'users';
-		$this->request->params['action'] = 'edit';
-
+		Configure::delete('Role');
 		$object = new TestTinyAuthorize($this->Collection, array('autoClearCache' => true));
 
 		$user = array(
@@ -349,24 +347,8 @@ INI;
 
 		$this->assertTrue((bool)(Configure::read('Role')));
 
-		// Multirole
+		// Multi-role test - failure
 		Configure::delete('Role');
-
-		$object = new TestTinyAuthorize($this->Collection, array('autoClearCache' => true));
-
-		// User role is 4 here, though. Also contains left joined Role date here just to check that it works, too.
-		$user = array(
-			'Role' => array(
-				array('id' => 4, 'alias' => 'user'),
-				array('id' => 6, 'alias' => 'partner'),
-			)
-		);
-		$res = $object->authorize($user, $this->request);
-		$this->assertTrue($res);
-
-		$this->request->params['controller'] = 'users';
-		$this->request->params['action'] = 'edit';
-
 		$object = new TestTinyAuthorize($this->Collection, array('autoClearCache' => true));
 
 		$user = array(
@@ -379,6 +361,19 @@ INI;
 		$this->assertFalse($res);
 
 		$this->assertTrue((bool)(Configure::read('Role')));
+
+		Configure::delete('Role');
+		$object = new TestTinyAuthorize($this->Collection, array('autoClearCache' => true));
+
+		// Multi-role test
+		$user = array(
+			'Role' => array(
+				array('id' => 4, 'alias' => 'user'),
+				array('id' => 6, 'alias' => 'partner'),
+			)
+		);
+		$res = $object->authorize($user, $this->request);
+		$this->assertTrue($res);
 	}
 
 }

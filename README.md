@@ -140,3 +140,4 @@ unless specified otherwise (in the classes).
 * 2013-02-25 Removed deprecated bootstrap functions and moved DebugTab functionality into Bootstrap namespace
   (you need to now manually include it if needed).
 * 2014-01 Changed Garbige to Garbage in method names.
+* 2014-02 Qlogin now uses Token model instead of deprecated CodeKey per default.

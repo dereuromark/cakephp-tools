@@ -91,7 +91,7 @@ class Qurl extends ToolsAppModel {
 		if (!$res) {
 			return false;
 		}
-		//$res['CodeKey']['url'] = Router::url($content['url'], true);
+
 		if ($res[$this->alias]['content']) {
 			$res[$this->alias]['content'] = unserialize($res[$this->alias]['content']);
 		} else {
