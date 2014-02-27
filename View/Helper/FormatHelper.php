@@ -5,8 +5,9 @@ App::uses('TextHelper', 'View/Helper');
  * Format helper with basic html snippets
  *
  * TODO: make snippets more "css and background image" (instead of inline img links)
- * TODO: test cases
  *
+ * @author Mark Scherer
+ * @license MIT
  */
 class FormatHelper extends TextHelper {
 
@@ -15,7 +16,7 @@ class FormatHelper extends TextHelper {
 	 *
 	 * @var array
 	 */
-	public $helpers = array('Html', 'Form', 'Tools.Common', 'Tools.Gravatar', 'Tools.PhpThumb');
+	public $helpers = array('Html', 'Tools.Numeric');
 
 	/**
 	 * jqueryAccess: {id}Pro, {id}Contra
@@ -66,7 +67,7 @@ class FormatHelper extends TextHelper {
 
 		}
 
-		$name = 'Record'; # translation further down!
+		$name = 'Record'; // Translation further down!
 		if (!empty($options['name'])) {
 			$name = ucfirst($options['name']);
 		}
@@ -124,6 +125,8 @@ class FormatHelper extends TextHelper {
 	/**
 	 * Allows icons to be added on the fly
 	 * NOTE: overriding not allowed by default
+	 *
+	 * @return void
 	 */
 	public function addIcon($name = null, $pic = null, $title = null, $allowOverride = false) {
 		if ($allowOverride === true || ($allowOverride !== true && !array_key_exists($name, $this->icons))) {
@@ -131,7 +134,6 @@ class FormatHelper extends TextHelper {
 				$this->icons[$name] = array('pic' => strtolower($pic), 'title' => (!empty($title) ? $title : ''));
 			}
 		}
-		return false;
 	}
 
 	const GENDER_FEMALE = 2;
@@ -314,17 +316,14 @@ class FormatHelper extends TextHelper {
 	public function icon($type, $t = null, $a = null, $translate = null, $options = array()) {
 		$html = '';
 
-		// title
 		if (isset($t) && $t === false) {
 			$title = '';
 		} elseif (empty($t)) {
 
 		} else {
 			$title = $t;
-			//$alt=$t;	// alt=title as default
 		}
 
-		#alt
 		if (isset($a) && $a === false) {
 			$alt = '';
 		} elseif (empty($a)) {
@@ -372,8 +371,8 @@ class FormatHelper extends TextHelper {
 		if (is_array($t)) {
 			$translate = isset($t['translate']) ? $t['translate'] : true;
 			$options = (array)$a;
-			$a = isset($t['alt']) ? $t['alt'] : null; # deprecated
-			$t = isset($t['title']) ? $t['title'] : null; # deprecated
+			$a = isset($t['alt']) ? $t['alt'] : null; // deprecated
+			$t = isset($t['title']) ? $t['title'] : null; // deprecated
 		}
 
 		$title = (isset($t) ? $t : ucfirst(extractPathInfo('filename', $icon)));
@@ -424,13 +423,13 @@ class FormatHelper extends TextHelper {
 			$text = '';
 			for ($i = 0;$i < $min;$i++) {
 				$attributes = array('alt' => '#', 'class' => 'full');
-				if (!empty($options['title'])) { $attributes['title'] = ($i + 1) . '/' . $max; } # ?
+				if (!empty($options['title'])) { $attributes['title'] = ($i + 1) . '/' . $max; } // ?
 				$text .= $this->Html->image('icons/star_icon2.gif', $attributes);
 
 			}
 			for ($i = $min;$i < $max;$i++) {
 				$attributes = array('alt' => '-', 'class' => 'empty');
-				if (!empty($options['title'])) { $attributes['title'] = ($i + 1) . '/' . $max; } # ?
+				if (!empty($options['title'])) { $attributes['title'] = ($i + 1) . '/' . $max; } // ?
 				if ($steps == 0.5 && $current == $i + 0.5) {
 					$text .= $this->Html->image('icons/star_icon2_half.gif', $attributes);
 				} else {
@@ -704,7 +703,7 @@ class FormatHelper extends TextHelper {
 		$defaults = array('inline' => true, 'font' => FILES . 'linotype.ttf', 'size' => 18, 'color' => '#7A7166');
 		$options = array_merge($defaults, $options);
 
-		if ($options['inline']) { # inline base 64 encoded
+		if ($options['inline']) { // Inline base 64 encoded
 			$folder = CACHE . 'imagick';
 		} else {
 			$folder = WWW_ROOT . 'img' . DS . 'content' . DS . 'imagick';
@@ -792,7 +791,7 @@ class FormatHelper extends TextHelper {
 			'min' => 0,
 			'max' => 100,
 			'steps' => 15,
-			'decimals' => 1 # TODO: rename to places!!!
+			'decimals' => 1 // TODO: rename to places!!!
 		);
 		$options = array_merge($defaults, $options);
 
@@ -804,9 +803,6 @@ class FormatHelper extends TextHelper {
 		$options['progress'] = number_format($current, $options['decimals'], null, '');
 
 		$params = Router::queryString($options, array(), true);
-
-		App::uses('NumericHelper', 'Tools.View/Helper');
-		$this->Numeric = new NumericHelper(new View(null));
 
 		$htmlDefaults = array('title' => $this->Numeric->format($percent, $options['decimals']) . ' ' . __('Percent'), 'class' => 'help');
 		$htmlDefaults['alt'] = $htmlDefaults['title'];
@@ -853,179 +849,6 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * Album image
-	 *
-	 * @deprecated
-	 */
-	public function image($id, $options = array(), $attr = array()) {
-		if (!empty($options['h'])) {
-			$attr['height'] = $options['h'];
-		}
-		if (!empty($options['w'])) {
-			$attr['width'] = $options['w'];
-		}
-
-		return $this->Html->image($this->imageUrl($id, $options), $attr);
-	}
-
-	public function imageUrl($id, $options = array()) {
-		return $this->Html->defaultUrl($this->imageUrlArray($id, $options), true);
-	}
-
-	public function imageUrlArray($id, $options = array()) {
-		$urlArray = array('controller' => 'images', 'action' => 'display', $id);
-		$urlArray = array_merge($urlArray, $options);
-		return $urlArray;
-	}
-
-	/**
-	 * Album image
-	 */
-	public function albumImage($image, $options = array(), $attr = array()) {
-		$subfolder = $image['Album']['id'];
-		$file = $image['Album']['id'] . DS . $image['Image']['filename'] . '.' . $image['Image']['ext'];
-
-		$optionsArray = array(
-			'save_path' => WWW_ROOT . 'img' . DS . 'albums' . DS . $subfolder,
-			'display_path' => '/img/albums' . '/' . $subfolder,
-			'error_image_path' => '/img/userpics/22.jpg',
-			'src' => FILES . 'images' . DS . $file,
-			// From here on out, you can pass any standard phpThumb parameters
-			'q' => 100,
-			'zc' => 1
-		);
-
-		$options = array_merge($optionsArray, $options);
-		if (!file_exists($options['save_path'])) {
-			App::uses('Folder', 'Utility');
-			$f = new Folder($options['save_path'], true, 0777);
-			//mkdir($options['save_path'], 0777);
-
-		}
-		$thumbnail = $this->PhpThumb->generate($options);
-		return $this->Html->image($thumbnail['src'], $attr); //'width' => $thumbnail['w'], 'height' => $thumbnail['h']
-	}
-
-	public function albumImageLink($image, $options = array()) {
-		$options = array_merge(array('escape' => false), $options);
-		return $this->Html->defaultLink($this->albumImage($image, array('h' => 50)), $this->imageUrlArray($image['Image']['id'], array('h' => 50)),
-			$options);
-	}
-
-	public function albumImageTexts($image, $options = array()) {
-		$display = array(
-			'title' => true,
-			'description' => true,
-			'controls' => true,
-			'autoHide' => true
-		);
-
-		if (!isset($image['Album']) && isset($options['album'])) {
-			$image['Album'] = $options['album'];
-		}
-
-		if ($image['Album']['user_id'] != UID || isset($options['controls']) && $options['controls'] === false) {
-			$display['controls'] = false;
-		}
-		if (isset($options['autoHide']) && $options['autoHide'] === false) {
-			$display['autoHide'] = false;
-		}
-
-		$res = $controls = $descr = '';
-		if ($display['title']) { // && (!$display['autoHide'] || !empty($image['Image']['title']))
-			$defTitle = ($display['autoHide'] ? '' : ': <i>kein Titel</i>');
-
-			$title = 'Album \'' . h($image['Album']['title']) . '\'' . (!empty($image['Image']['title']) ? ': ' . h($image['Image']['title']) : $defTitle);
-			$res .= '<div class="highslide-heading">' . $title . '</div>';
-		}
-
-		$navigation = '<div class="floatRight">&nbsp;' . $this->Html->defaultLink($this->cIcon(ICON_ALBUM, 'Zum Album wechseln'),
-			array('controller' => 'albums', 'action' => 'view', $image['Album']['id'], slug($image['Album']['title'])), array('escape' => false)) .
-			'</div>';
-		if (!empty($image['User']['id'])) {
-			$gender = '';
-			if (isset($image['UserInfo']['gender'])) {
-				$gender = $this->genderIcon($image['UserInfo']['gender']) . ' ';
-			}
-			$navigation .= '<div class="floatRight" style="margin-right: 6px;">' . __('Member') . ': ' . $gender . $this->profileLink($image['User']['id'], $image['User']['username']) . '</div>';
-		}
-
-		if ($display['controls']) {
-			$controls = '<div class="floatRight">&nbsp;' . $this->Html->defaultLink($this->icon('edit'), array('controller' => 'images',
-				'action' => 'edit', $image['Image']['id']), array('escape' => false)) . '&nbsp;' . $this->Form->postLink($this->icon('delete'),
-				array('plugin' => false, 'admin' => false, 'controller' => 'images', 'action' => 'delete', $image['Image']['id']), array('escape' => false), 'Sicher?') . '</div>';
-		}
-
-		if ($display['description']) {
-			$defDescr = ($display['autoHide'] ? '' : '<i>keine Beschreibung</i>');
-
-			$descr = (!empty($image['Image']['description']) ? nl2br(h($image['Image']['description'])) : $defDescr);
-		}
-
-		if ($display['controls'] || $display['description']) {
-			$res .= '<div class="highslide-caption">' . $controls . $navigation . $descr . '</div>';
-		}
-
-		return $res;
-	}
-
-	/**
-	 * Takes username + userId and forms a profile link out of it
-	 * if username is empty, return "deleted" text without link
-	 * maybe move to custom/community helper etc?
-	 */
-	public function profileLink($uid, $username, $text = null, $attr = array(), $options = array()) {
-		if (empty($username)) {
-			return '[' . __('%s deleted', __('Account')) . ']';
-		}
-		$title = isset($text) ? $text : $username;
-		$username = slug($username);
-		$url = array('plugin' => false, 'admin' => false, 'controller' => 'members', 'action' => 'view', $uid, $username);
-
-		if (!empty($options['hash'])) {
-			$url['#'] = $options['hash'];
-		}
-		return $this->Html->link($title, $url, $attr);
-	}
-
-	/**
-	 * @param mixed $uid
-	 * @param string $username
-	 * @param boolean $full
-	 * @param array $options
-	 * - hash (string)
-	 * @return string url
-	 */
-	public function profileUrl($uid, $username, $full = false, $options = array()) {
-		return $this->Html->url(array('plugin' => false, 'admin' => false, 'controller' => 'members', 'action' => 'view', $uid, slug($username)), $full);
-	}
-
-	/**
-	 * Better an element?
-	 */
-	public function profilePic($uid, $e, $rights = null) {
-	}
-
-	//deprecated?
-
-	public function avatar($setting, $uid, $email = null, $options = array()) {
-
-		$options = array_merge(array('title' => __('Avatar')), $options);
-
-		if ($setting == USER_AVATAR_OWN) {
-			if (!empty($options['size'])) {
-				$options['height'] = $options['width'] = $options['size'];
-				unset($options['size']);
-			}
-			return $this->Html->image(IMG_AVATARS . $uid . '.' . AVATAR_ENDING, $options);
-		} elseif ($setting == USER_AVATAR_GRAV) {
-			return $this->Gravatar->image($email, $options);
-		} else {
-			return $this->Gravatar->image($uid, $options);
-		}
-	}
-
-	/**
 	 * Display traffic light for status etc
 	 */
 	public function statusLight($color = null, $title = null, $alt = null, $options = array()) {
@@ -1060,22 +883,22 @@ class FormatHelper extends TextHelper {
 		$icons = array('healthbar0.gif', 'healthbar1.gif', 'healthbar1b.gif', 'healthbar2.gif', 'healthbar3.gif', 'healthbar4.gif', 'healthbar5.gif');
 
 		// default = offline
-		$res = $icons[0]; // inaktiv
+		$res = $icons[0]; // inactive
 
 		$time = strtotime($modified);
-		$timeAgo = time() - $time; # in seconds
+		$timeAgo = time() - $time; // in seconds
 
-		if ($timeAgo < 180) { # 3min // aktiv
+		if ($timeAgo < 180) { // 3min // active
 			$res = $icons[6];
-		} elseif ($timeAgo < 360) { # 6min
+		} elseif ($timeAgo < 360) { // 6min
 			$res = $icons[5];
-		} elseif ($timeAgo < 540) { # 9min
+		} elseif ($timeAgo < 540) { // 9min
 			$res = $icons[4];
-		} elseif ($timeAgo < 720) { # 12min
+		} elseif ($timeAgo < 720) { // 12min
 			$res = $icons[3];
-		} elseif ($timeAgo < 900) { # 15min
+		} elseif ($timeAgo < 900) { // 15min
 			$res = $icons[2];
-		} elseif ($timeAgo < 1080) { # 18min
+		} elseif ($timeAgo < 1080) { // 18min
 			$res = $icons[1];
 		}
 
@@ -1085,8 +908,9 @@ class FormatHelper extends TextHelper {
 	/**
 	 * Returns red colored if not ok
 	 *
+	 * @param string $value
 	 * @param $okValue
-	 * @return Value
+	 * @return string Value in HTML tags
 	 */
 	public function warning($value, $ok = false) {
 		if ($ok !== true) {
@@ -1097,6 +921,7 @@ class FormatHelper extends TextHelper {
 
 	/**
 	 * Returns green on ok, red otherwise
+	 *
 	 * @param mixed $currentValue
 	 * @param boolean $ok: true/false (defaults to false)
 	 * //@param string $comparizonType
@@ -1114,7 +939,9 @@ class FormatHelper extends TextHelper {
 
 	/**
 	 * test@test.de becomes t..t@t..t.de
+	 *
 	 * @param string $email: valid(!) email address
+	 * @return string
 	 */
 	public static function hideEmail($mail) {
 		$mailParts = explode('@', $mail, 2);
@@ -1126,7 +953,8 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * (intelligent) Shortening of a text string
+	 * (Intelligent) Shortening of a text string
+	 *
 	 * @param STRING textstring
 	 * @param integer chars = max-length
 	 * For options array:
@@ -1139,7 +967,7 @@ class FormatHelper extends TextHelper {
 	 * @deprecated use truncate instead
 	 */
 	public function shortenText($textstring, $chars, $options = array()) {
-		$chars++; # add +1 for correct cut
+		$chars++; // add +1 for correct cut
 		$needsEnding = false;
 
 		#Options
@@ -1195,7 +1023,7 @@ class FormatHelper extends TextHelper {
 			$text = trim($completeWordText);
 			// add ending only if result is shorter then original
 			if (strlen($text) < strlen(trim($completeWordTextLf))) {
-				$textEnding = ' ' . $ending; # additional whitespace as there is a new word added
+				$textEnding = ' ' . $ending; // additional whitespace as there is a new word added
 			}
 		} else {
 			$text = trim(substr($textstring, 0, $chars));
@@ -1220,9 +1048,14 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
+	 * Useful for displaying tabbed (code) content when the default of 8 spaces
+	 * inside <pre> is too much. This converts it to spaces for better output.
 	 *
 	 * Inspired by the tab2space function found at:
 	 * @see http://aidan.dotgeek.org/lib/?file=function.tab2space.php
+	 * @param string $text
+	 * @param integer $spaces
+	 * @return string
 	 */
 	public function tab2space($text, $spaces = 4) {
 		$spaces = str_repeat(" ", $spaces);
@@ -1268,6 +1101,7 @@ class FormatHelper extends TextHelper {
 	 * Supply a string and an array of disallowed words and any
 	 * matched words will be converted to #### or to the replacement
 	 * word you've submitted.
+	 *
 	 * @param string	the text string
 	 * @param string	the array of censoered words
 	 * @param string	the optional replacement value
@@ -1480,7 +1314,7 @@ class FormatHelper extends TextHelper {
 
 }
 
-# default icons
+// Default icons
 
 if (!defined('ICON_UP')) {
 	define('ICON_UP', 'up.gif');
