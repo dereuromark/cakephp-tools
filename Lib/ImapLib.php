@@ -232,15 +232,13 @@ class ImapLib {
 				$header = imap_headerinfo($this->stream, $i);
 				$msgNo = trim($header->Msgno);
 				foreach ($header as $id => $value) {
-					// fix to remove whitespaces
-
 					// Simple array
 					if (!is_array($value)) {
 						$return[$msgNo][$id] = imap_utf8($value);
 					} else {
 						foreach ($value as $newid => $arrayValue) {
-							foreach ($value[0] as $key => $aValue) {
-								$return[$msgNo][$id][$key] = quoted_printable_decode($aValue);
+							foreach ($arrayValue as $key => $aValue) {
+								$return[$msgNo][$id][$key] = imap_utf8($aValue);
 							}
 						}
 					}
@@ -276,9 +274,14 @@ class ImapLib {
 							}
 						}
 					}
-					// Let's add the body too!
-					$return[$header->Msgno]['body'] = imap_fetchbody($this->stream, $header->Msgno, 0);
 					$return[$header->Msgno]['structure'] = imap_fetchstructure($this->stream, $header->Msgno);
+					$encodingValue = $return[$header->Msgno]['structure']->encoding;
+					if (!empty($return[$header->Msgno]['structure']->parts)) {
+						$part = $return[$header->Msgno]['structure']->parts[0];
+						$encodingValue = $part->encoding;
+					}
+					// Let's add the body too!
+					$return[$header->Msgno]['body'] = $this->_getDecodedValue(imap_fetchbody($this->stream, $header->Msgno, 1), $encodingValue);
 					$return[$header->Msgno]['attachments'] = $this->attachments($header);
 				}
 			}
@@ -336,7 +339,7 @@ class ImapLib {
 				$params = $part->parameters;
 
 				$data = imap_fetchbody($this->stream, $header->Msgno, $fpos);
-				$attachment['filename'] = $part->parameters[0]->value;
+				$attachment['filename'] = $part->dparameters[0]->value;
 				$attachment['data'] = $this->_getDecodedValue($data, $part->encoding);
 				$attachment['filesize'] = strlen($attachment['data']);
 
@@ -378,14 +381,18 @@ class ImapLib {
 		if ($encoding == 0) {
 			$message = imap_8bit($message);
 			$message = $this->_decode7Bit($message);
+			$message = imap_utf8($message);
 		} elseif ($encoding == 1) {
-			$message = imap_8bit($message); // Additionally needs quoted_printable_decode()?
+			$message = imap_8bit($message);
+			$message = quoted_printable_decode($message);
+			$message = imap_utf8($message);
 		} elseif ($encoding == 2) {
 			$message = imap_binary($message);
 		} elseif ($encoding == 3) {
 			$message = imap_base64($message);
 		} elseif ($encoding == 4) {
 			$message = imap_qprint($message);
+			$message = mb_convert_encoding($message, "UTF-8", "ISO-8859-1");
 		} elseif ($encoding == 5) {
 			// plain
 		}
