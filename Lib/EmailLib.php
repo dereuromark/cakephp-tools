@@ -437,6 +437,8 @@ class EmailLib extends CakeEmail {
 
 			if (!empty($this->_config['logReport'])) {
 				$this->_logEmail();
+			} else {
+				CakeLog::write('error', $this->_error);
 			}
 			return false;
 		}
