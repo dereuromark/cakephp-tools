@@ -274,12 +274,12 @@ class ImapLib {
 							}
 						}
 					}
-		                    $return[$header->Msgno]['structure'] = imap_fetchstructure($this->stream, $header->Msgno);
-		                    $encodingValue = $return[$header->Msgno]['structure']->encoding;
-		                    if (!empty($return[$header->Msgno]['structure']->parts)) {
-		                        $part = $return[$header->Msgno]['structure']->parts[0];
-		                        $encodingValue = $part->encoding;
-		                    }
+					$return[$header->Msgno]['structure'] = imap_fetchstructure($this->stream, $header->Msgno);
+					$encodingValue = $return[$header->Msgno]['structure']->encoding;
+					if (!empty($return[$header->Msgno]['structure']->parts)) {
+						$part = $return[$header->Msgno]['structure']->parts[0];
+						$encodingValue = $part->encoding;
+					}
 					// Let's add the body too!
 					$return[$header->Msgno]['body'] = $this->_getDecodedValue(imap_fetchbody($this->stream, $header->Msgno, 1), $encodingValue);
 					$return[$header->Msgno]['attachments'] = $this->attachments($header);
