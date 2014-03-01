@@ -68,8 +68,7 @@ class CssToInlineStyles
     private $excludeMediaQueries = false;
 
 		/**
-		 * Necessary for OS Win to output in the correct encoding.
-		 * Only applicable for PHP5.4 and above.
+		 * Only necessary and applicable for PHP5.4 and above.
 		 *
 		 * @var bool
 		 */

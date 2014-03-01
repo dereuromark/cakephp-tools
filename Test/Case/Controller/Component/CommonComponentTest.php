@@ -13,6 +13,8 @@ class CommonComponentTest extends CakeTestCase {
 
 	public function setUp() {
 		parent::setUp();
+
+		// BUGFIX for CakePHP2.5 - One has to write to the session before deleting actually works
 		CakeSession::write('Auth', '');
 		CakeSession::delete('Auth');
 
