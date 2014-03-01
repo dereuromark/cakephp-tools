@@ -67,6 +67,12 @@ class CssToInlineStyles
      */
     private $excludeMediaQueries = false;
 
+		/**
+		 * Necessary for OS Win to output in the correct encoding.
+		 * Only applicable for PHP5.4 and above.
+		 *
+		 * @var bool
+		 */
     private $correctUtf8 = false;
 
     /**
@@ -81,6 +87,8 @@ class CssToInlineStyles
     {
         if($html !== null) $this->setHTML($html);
         if($css !== null) $this->setCSS($css);
+
+        $this->correctUtf8 = version_compare(PHP_VERSION, '5.4.0') >= 0;
     }
 
     /**
@@ -464,9 +472,7 @@ class CssToInlineStyles
             // Only for >PHP5.4
             // Correct scrambled UTF8 chars (&atilde;&#131;...) back to their correct representation.
             $html = html_entity_decode($html, ENT_XHTML, 'UTF-8');
-            if (DS === '\\') {
-            	$html = utf8_decode($html);
-            }
+    				$html = utf8_decode($html);
         }
 
         // cleanup the HTML if we need to
