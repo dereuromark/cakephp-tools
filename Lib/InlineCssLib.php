@@ -24,7 +24,7 @@ class InlineCssLib {
 		'xhtmlOutput' => false,
 		'removeCss' => true,
 		'debug' => false,
-		'correctUtf8' => false // Mainly necessary for OS Win
+		'correctUtf8' => false
 	);
 
 	public $settings = array();

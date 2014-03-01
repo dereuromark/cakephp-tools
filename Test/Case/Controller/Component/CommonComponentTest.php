@@ -13,6 +13,7 @@ class CommonComponentTest extends CakeTestCase {
 
 	public function setUp() {
 		parent::setUp();
+		CakeSession::write('Auth', '');
 		CakeSession::delete('Auth');
 
 		$this->Controller = new CommonComponentTestController(new CakeRequest, new CakeResponse);
