@@ -376,6 +376,32 @@ INI;
 		$this->assertTrue($res);
 	}
 
+	/**
+	 * Tests superadmin role, allowed to all actions
+	 *
+	 * @return void
+	 */
+	public function testSuperadminRole() {
+		$object = new TestTinyAuthorize($this->Collection, array(
+			'autoClearCache' => true,
+			'superadminRole' => 9
+		));
+		$res = $object->getAcl();
+		$user = array(
+			'role_id' => 9,
+		);
+
+		foreach ($object->getAcl() as $controller => $actions) {
+			foreach ($actions as $action => $allowed) {
+				$this->request->params['controller'] = $controller;
+				$this->request->params['action'] = $action;
+
+				$res = $object->authorize($user, $this->request);
+				$this->assertTrue($res);
+			}
+		}
+	}
+
 }
 
 class TestTinyAuthorize extends TinyAuthorize {

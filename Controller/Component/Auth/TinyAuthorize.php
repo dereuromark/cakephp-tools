@@ -4,13 +4,13 @@ App::uses('Hash', 'Utility');
 App::uses('BaseAuthorize', 'Controller/Component/Auth');
 
 if (!defined('CLASS_USER')) {
-	define('CLASS_USER', 'User'); # override if you have it in a plugin: PluginName.User etc
+	define('CLASS_USER', 'User'); // override if you have it in a plugin: PluginName.User etc
 }
 if (!defined('AUTH_CACHE')) {
-	define('AUTH_CACHE', '_cake_core_'); # use the most persistent cache by default
+	define('AUTH_CACHE', '_cake_core_'); // use the most persistent cache by default
 }
 if (!defined('ACL_FILE')) {
-	define('ACL_FILE', 'acl.ini'); # stored in /app/Config/
+	define('ACL_FILE', 'acl.ini'); // stored in /app/Config/
 }
 
 /**
@@ -37,15 +37,16 @@ class TinyAuthorize extends BaseAuthorize {
 	protected $_acl = null;
 
 	protected $_defaults = array(
-		'allowUser' => false, # quick way to allow user access to non prefixed urls
-		'allowAdmin' => false, # quick way to allow admin access to admin prefixed urls
+		'superadminRole' => null, // quick way to allow access to every action
+		'allowUser' => false, // quick way to allow user access to non prefixed urls
+		'allowAdmin' => false, // quick way to allow admin access to admin prefixed urls
 		'adminPrefix' => 'admin_',
-		'adminRole' => null, # needed together with adminPrefix if allowAdmin is enabled
+		'adminRole' => null, // needed together with adminPrefix if allowAdmin is enabled
 		'cache' => AUTH_CACHE,
 		'cacheKey' => 'tiny_auth_acl',
-		'autoClearCache' => false, # usually done by Cache automatically in debug mode,
-		'aclModel' => 'Role', # only for multiple roles per user (HABTM)
-		'aclKey' => 'role_id', # only for single roles per user (BT)
+		'autoClearCache' => false, // usually done by Cache automatically in debug mode,
+		'aclModel' => 'Role', // only for multiple roles per user (HABTM)
+		'aclKey' => 'role_id', // only for single roles per user (BT)
 	);
 
 	public function __construct(ComponentCollection $Collection, $settings = array()) {
@@ -116,6 +117,15 @@ class TinyAuthorize extends BaseAuthorize {
 
 		if ($this->_acl === null) {
 			$this->_acl = $this->_getAcl();
+		}
+
+		// allow_all check
+		if (!empty($this->settings['superadminRole'])) {
+			foreach ($roles as $role) {
+				if ($role == $this->settings['superadminRole']) {
+					return true;
+				}
+			}
 		}
 
 		// controller wildcard
