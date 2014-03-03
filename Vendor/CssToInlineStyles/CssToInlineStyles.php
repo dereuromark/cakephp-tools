@@ -67,11 +67,11 @@ class CssToInlineStyles
      */
     private $excludeMediaQueries = false;
 
-		/**
-		 * Only necessary and applicable for PHP5.4 and above.
-		 *
-		 * @var bool
-		 */
+    /**
+     * Only necessary and applicable for PHP5.4 and above.
+     *
+     * @var bool
+     */
     private $correctUtf8 = false;
 
     /**
@@ -471,7 +471,7 @@ class CssToInlineStyles
             // Only for >PHP5.4
             // Correct scrambled UTF8 chars (&atilde;&#131;...) back to their correct representation.
             $html = html_entity_decode($html, ENT_XHTML, 'UTF-8');
-    				$html = utf8_decode($html);
+            $html = utf8_decode($html);
         }
 
         // cleanup the HTML if we need to
