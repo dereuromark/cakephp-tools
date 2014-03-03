@@ -4,15 +4,15 @@ App::uses('ConsoleOutput', 'Console');
 /**
  * Use as
  *
- *  App::uses('MyConsoleOutput', 'Tools.TestSuite');
+ *  App::uses('TestConsoleOutput', 'Tools.TestSuite');
  *
- *  $stdOut = new MyConsoleOutput();
+ *  $stdOut = new TestConsoleOutput();
  *  $this->MyShell = new MyShell($stdOut);
  *
  * @license MIT
  * @author Mark Scherer
  */
-class MyConsoleOutput extends ConsoleOutput {
+class TestConsoleOutput extends ConsoleOutput {
 
 	/**
 	 * Holds all output messages.
