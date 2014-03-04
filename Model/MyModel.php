@@ -191,7 +191,6 @@ class MyModel extends Model {
 	 * @param string $value or array $keys or NULL for complete array result
 	 * @param array $options (actual data)
 	 * @return mixed string/array
-	 * static enums
 	 */
 	public static function enum($value, $options, $default = null) {
 		if ($value !== null && !is_array($value)) {
@@ -355,24 +354,6 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * Workaround for a cake bug which sets empty fields to NULL in Model::set()
-	 * we cannot use if (isset() && empty()) statements without this fix
-	 *
-	 * @param array $fields (which are supposed to be present in $this->data[$this->alias])
-	 * @param boolean $force (if init should be forced, otherwise only if array_key exists)
-	 * @return void
-	 */
-	public function init($fields = array(), $force = false) {
-		foreach ($fields as $field) {
-			if ($force || array_key_exists($field, $this->data[$this->alias])) {
-				if (!isset($this->data[$this->alias][$field])) {
-					$this->data[$this->alias][$field] = '';
-				}
-			}
-		}
-	}
-
-	/**
 	 * Fix for non atomic queries (MyISAM  etc) and saveAll to still return just the boolean result
 	 * Otherwise you would have to iterate over all result values to find out if the save was successful.
 	 *
@@ -419,7 +400,7 @@ class MyModel extends Model {
 	 * - key: functioName or other key used
 	 * @return boolean Success
 	 */
-	public function deleteCache($key) {
+	public function deleteCache($key = null) {
 		$key = Inflector::underscore($key);
 		if (!empty($key)) {
 			return Cache::delete(strtolower(Inflector::underscore($this->alias)) . '__' . $key, 'sql');
@@ -577,16 +558,6 @@ class MyModel extends Model {
 		return parent::find($type, $query);
 	}
 
-	/*
-	public function _findCount($state, $query, $results = array()) {
-		if (isset($query['fields'])) {
-			unset($query['fields']);
-		}
-		pr($results);
-		return parent::_findCount($state, $query, $results = array());
-	}
-	*/
-
 	/**
 	 * This code will add formatted list functionallity to find you can easy replace the $this->Model->find('list'); with $this->Model->find('formattedlist', array('fields' => array('Model.id', 'Model.field1', 'Model.field2', 'Model.field3'), 'format' => '%s-%s %s')); and get option tag output of: Model.field1-Model.field2 Model.field3. Even better part is being able to setup your own format for the output!
 	 *
@@ -668,7 +639,6 @@ class MyModel extends Model {
 					break;
 				default:
 					$res = parent::find($type, $options);
-					break;
 			}
 			if (!empty($this->useCache)) {
 				Cache::write($this->cacheName, $res, $this->cacheConfig);
@@ -683,51 +653,6 @@ class MyModel extends Model {
 		}
 		return $res;
 	}
-
-	/*
-	USAGE of formattetlist:
-	$this->Model->find('formattedlist',
-	array(
-	'fields'=>array(
-	'Model.id', // allows start with the value="" tags field
-	'Model.field1', // then put them in order of how you want the format to output.
-	'Model.field2',
-	'Model.field3',
-	'Model.field4',
-	'Model.field5',
-	),
-	'format'=>'%s-%s%s %s%s'
-	)
-	);
-	*/
-
-	/*
-	neighbor find problem:
-	This means it will sort the results on Model.created ASC and DESC.
-	However, in certain situations you would like to order on more than one
-	field. For example, on a rating and a uploaddate. Requirements could look
-	like: Get next en previous record of a certain Model based on the top
-	rated. When the rating is equal those should be ordered on creation date.
-	I suggest something similar to:
-
-	$this->Movie->find('neighbors', array(
-	'scope' => array(
-	array(
-	'field' => 'rating',
-	'order' => 'DESC',
-	'value' => 4.85
-	),
-	array(
-	'field' => 'created',
-	'order' => 'DESC',
-	'value' => '2009-05-26 06:20:03'
-	)
-	)
-	'conditions' => array(
-	'approved' => true,
-	'processed' => true
-	)
-	*/
 
 	/**
 	 * Core-fix for multiple sort orders
@@ -831,8 +756,6 @@ class MyModel extends Model {
 	public function deleteAllRaw($conditions = true) {
 		return $this->getDataSource()->delete($this, $conditions);
 	}
-
-/** Validation Functions **/
 
 	/**
 	 * Overwrite invalidate to allow last => true
@@ -1339,7 +1262,6 @@ class MyModel extends Model {
 	public function validateNotBlocked($params) {
 		$email = array_shift($params);
 		if (!isset($this->Blacklist)) {
-			//App::uses('Blacklist', 'Tools.Model'
 			$this->Blacklist = ClassRegistry::init('Tools.Blacklist');
 		}
 		if ($this->Blacklist->isBlacklisted(Blacklist::TYPE_EMAIL, $email)) {
@@ -1387,10 +1309,13 @@ class MyModel extends Model {
 	 * @param array $data (optional)
 	 * @return array
 	 */
-	public function whitelist($fieldList, $data = null) {
+	public function whitelist(array $fieldList, $data = null) {
 		$model = $this->alias;
 		if ($data === null) {
-			$data = $this->data;
+			$data =& $this->data;
+		}
+		if (empty($data[$model])) {
+			return array();
 		}
 		foreach ($data[$model] as $key => $val) {
 			if (!in_array($key, $fieldList)) {
@@ -1398,6 +1323,49 @@ class MyModel extends Model {
 			}
 		}
 		return $data;
+	}
+
+	/**
+	 * Instead of whitelisting this will remove all blacklisted keys.
+	 *
+	 * @param array $blacklist
+	 * - array: fields to blacklist
+	 * - boolean TRUE: removes all foreign_keys (_id)
+	 * note: one-dimensional
+	 * @return array
+	 */
+	public function blacklist($blacklist, $data = null) {
+		$model = $this->alias;
+		if ($data === null) {
+			$data =& $this->data;
+		}
+		if (empty($data[$model])) {
+			return array();
+		}
+		if ($blacklist === true) {
+			foreach ($data[$model] as $key => $value) {
+				if (substr($key, -3, 3) === '_id') {
+					unset($data[$model][$key]);
+				}
+			}
+			return;
+		}
+		foreach ($blacklist as $key) {
+			if (isset($data[$model][$key])) {
+				unset($data[$model][$key]);
+			}
+		}
+		return $data;
+	}
+
+	/**
+	 * Generate a whitelist, based on the current schema and a passed blacklist.
+	 *
+	 * @param array $blacklist
+	 * @return array
+	 */
+	public function generateWhitelistFromBlacklist(array $blacklist) {
+		return array_diff(array_keys($this->schema()), $blacklist);
 	}
 
 	/**
@@ -1474,22 +1442,6 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * Instead of whitelisting
-	 *
-	 * @param array $blackList
-	 * - array: fields to blacklist
-	 * - boolean TRUE: removes all foreign_keys (_id and _key)
-	 * note: one-dimensional
-	 * @return array
-	 */
-	public function blacklist($blackList = array()) {
-		if ($blackList === true) {
-			//TODO
-		}
-		return array_diff(array_keys($this->schema()), (array)$blackList);
-	}
-
-	/**
 	 * Shortcut method to find a specific entry via primary key.
 	 *
 	 * Either provide the id directly:
@@ -1553,7 +1505,10 @@ class MyModel extends Model {
 	 * @param array $options
 	 * @return array
 	 */
-	public function getRelatedInUse($modelName, $groupField, $type = 'all', $options = array()) {
+	public function getRelatedInUse($modelName, $groupField = null, $type = 'all', $options = array()) {
+		if ($groupField === null) {
+			$groupField = $this->belongsTo[$modelName]['foreignKey'];
+		}
 		$defaults = array(
 			'contain' => array($modelName),
 			'group' => $groupField,

@@ -26,6 +26,11 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertInstanceOf('MyModel', $this->Post);
 	}
 
+	/**
+	 * MyModelTest::testGet()
+	 *
+	 * @return void
+	 */
 	public function testGet() {
 		$record = $this->Post->get(2);
 		$this->assertEquals(2, $record['Post']['id']);
@@ -37,6 +42,34 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertEquals(3, $record['Author']['id']);
 	}
 
+	/**
+	 * MyModelTest::testGetRelatedInUse()
+	 *
+	 * @return void
+	 */
+	public function testGetRelatedInUse() {
+		$this->Post->Author->displayField = 'user';
+		$results = $this->Post->getRelatedInUse('Author', 'author_id', 'list');
+		$expected = array(1 => 'mariano', 3 => 'larry');
+		$this->assertEquals($expected, $results);
+	}
+
+	/**
+	 * MyModelTest::testGetFieldInUse()
+	 *
+	 * @return void
+	 */
+	public function testGetFieldInUse() {
+		$results = $this->Post->getFieldInUse('author_id', 'list');
+		$expected = array(1 => 'First Post', 2 => 'Second Post');
+		$this->assertEquals($expected, $results);
+	}
+
+	/**
+	 * MyModelTest::testEnum()
+	 *
+	 * @return void
+	 */
 	public function testEnum() {
 		$array = array(
 			1 => 'foo',
@@ -58,6 +91,8 @@ class MyModelTest extends MyCakeTestCase {
 
 	/**
 	 * More tests in MyModel Test directly
+	 *
+	 * @return void
 	 */
 	public function testGetFalse() {
 		$this->User->order = array();
@@ -67,6 +102,8 @@ class MyModelTest extends MyCakeTestCase {
 
 	/**
 	 * Test auto inc value of the current table
+	 *
+	 * @return void
 	 */
 	public function testGetNextAutoIncrement() {
 		$this->out($this->_header(__FUNCTION__), true);
@@ -81,6 +118,11 @@ class MyModelTest extends MyCakeTestCase {
 		}
 	}
 
+	/**
+	 * MyModelTest::testDeconstruct()
+	 *
+	 * @return void
+	 */
 	public function testDeconstruct() {
 		$data = array('year' => '2010', 'month' => '10', 'day' => 11);
 		$res = $this->User->deconstruct('User.dob', $data);
@@ -92,6 +134,8 @@ class MyModelTest extends MyCakeTestCase {
 
 	/**
 	 * Test that strings are correctly escaped using '
+	 *
+	 * @return void
 	 */
 	public function testEscapeValue() {
 		$res = $this->User->escapeValue(4);
@@ -117,6 +161,11 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertSame('`User`.`dob`', $res);
 	}
 
+	/**
+	 * MyModelTest::testSaveAll()
+	 *
+	 * @return void
+	 */
 	public function testSaveAll() {
 		$records = array(
 			array('title' => 'x', 'body' => 'bx'),
@@ -152,6 +201,8 @@ class MyModelTest extends MyCakeTestCase {
 
 	/**
 	 * Test truncate
+	 *
+	 * @return void
 	 */
 	public function testTruncate() {
 		$is = $this->User->find('count');
@@ -172,6 +223,7 @@ class MyModelTest extends MyCakeTestCase {
 	 * Test that 2.x invalidates() can behave like 1.x invalidates()
 	 * and that you are able to abort on single errors (similar to using last=>true)
 	 *
+	 * @return void
 	 */
 	public function testInvalidates() {
 		$TestModel = new AppTestModel();
@@ -218,6 +270,11 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * MyModelTest::testValidateIdentical()
+	 *
+	 * @return void
+	 */
 	public function testValidateIdentical() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$this->User->data = array($this->User->alias => array('y' => 'efg'));
@@ -237,6 +294,11 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertTrue($is);
 	}
 
+	/**
+	 * MyModelTest::testValidateKey()
+	 *
+	 * @return void
+	 */
 	public function testValidateKey() {
 		$this->out($this->_header(__FUNCTION__), true);
 		//$this->User->data = array($this->User->alias=>array('y'=>'efg'));
@@ -282,6 +344,11 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertTrue($is);
 	}
 
+	/**
+	 * MyModelTest::testValidateEnum()
+	 *
+	 * @return void
+	 */
 	public function testValidateEnum() {
 		$this->out($this->_header(__FUNCTION__), true);
 		//$this->User->data = array($this->User->alias=>array('y'=>'efg'));
@@ -299,6 +366,11 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertTrue($is);
 	}
 
+	/**
+	 * MyModelTest::testGuaranteeFields()
+	 *
+	 * @return void
+	 */
 	public function testGuaranteeFields() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$res = $this->User->guaranteeFields(array());
@@ -316,6 +388,44 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertEquals($res, array($this->modelName => array('x' => ''), 'OtherModel' => array('y' => '')));
 	}
 
+	/**
+	 * MyModelTest::testRequireFields()
+	 *
+	 * @return void
+	 */
+	public function testRequireFields() {
+		$this->User->requireFields(array('foo', 'bar'));
+		$data = array(
+			'foo' => 'foo',
+		);
+		$this->User->set($data);
+		$result = $this->User->validates();
+		$this->assertFalse($result);
+
+		$data = array(
+			'foo' => 'foo',
+			'bar' => '',
+		);
+		$this->User->set($data);
+		$result = $this->User->validates();
+		$this->assertTrue($result);
+
+		// Allow field to be empty as long as it is present
+		$this->User->requireFields(array('foo', 'test'), true);
+		$data = array(
+			'foo' => 'foo',
+			'test' => ''
+		);
+		$this->User->set($data);
+		$result = $this->User->validates();
+		$this->assertTrue($result);
+	}
+
+	/**
+	 * MyModelTest::testSet()
+	 *
+	 * @return void
+	 */
 	public function testSet() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$data = array($this->modelName => array('x' => 'hey'), 'OtherModel' => array('y' => ''));
@@ -332,6 +442,11 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertEquals($res, array($this->modelName => array('x' => 'hey', 'z' => ''), 'OtherModel' => array('y' => '')));
 	}
 
+	/**
+	 * MyModelTest::testValidateWithGuaranteeFields()
+	 *
+	 * @return void
+	 */
 	public function testValidateWithGuaranteeFields() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$data = array($this->modelName => array('x' => 'hey'), 'OtherModel' => array('y' => ''));
@@ -347,25 +462,50 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertEquals($res, array($this->modelName => array('x' => 'hey', 'z' => ''), 'OtherModel' => array('y' => '')));
 	}
 
-	// not really working?
-
-	public function testBlacklist() {
-		$this->out($this->_header(__FUNCTION__), true);
-		$data = array($this->modelName => array('name' => 'e', 'x' => 'hey'), 'OtherModel' => array('y' => ''));
-
-		$schema = $this->User->schema();
-
-		$data = $this->User->blacklist(array('x', 'z'));
-		$this->out($data);
-		if (!empty($schema)) {
-			$this->assertTrue(!empty($data));
-		} else {
-			$this->assertTrue(empty($data));
-		}
-
-		//$this->assertEquals($data, array($this->modelName=>array('x'=>'hey', 'z'=>''), 'OtherModel'=>array('y'=>'')));
+	public function testWhitelist() {
+		$data = array(
+			'name' => 'foo',
+			'x' => 'y',
+			'z' => 'yes'
+		);
+		$this->User->set($data);
+		$result = $this->User->whitelist(array('name', 'x'));
+		$this->assertEquals(array('name', 'x'), array_keys($this->User->data['User']));
 	}
 
+	/**
+	 * MyModelTest::testBlacklist()
+	 * Note that one should always prefer a whitelist over a blacklist.
+	 *
+	 * @return void
+	 */
+	public function testBlacklist() {
+		$data = array(
+			'name' => 'foo',
+			'x' => 'y',
+			'z' => 'yes'
+		);
+		$this->User->set($data);
+		$this->User->blacklist(array('x'));
+		$this->assertEquals(array('name', 'z'), array_keys($this->User->data['User']));
+	}
+
+	/**
+	 * MyModelTest::testGenerateWhitelistFromBlacklist()
+	 *
+	 * @return void
+	 */
+	public function testGenerateWhitelistFromBlacklist() {
+		$result = $this->User->generateWhitelistFromBlacklist(array('password'));
+		$expected = array('id', 'user', 'created', 'updated');
+		$this->assertEquals($expected, array_values($expected));
+	}
+
+	/**
+	 * MyModelTest::testInvalidate()
+	 *
+	 * @return void
+	 */
 	public function testInvalidate() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$this->User->create();
@@ -405,6 +545,11 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertTrue(!empty($res) && $res['fieldy'][0] === 'a 1 b 2 c 3 4 5 6 7 h 8');
 	}
 
+	/**
+	 * MyModelTest::testValidateDate()
+	 *
+	 * @return void
+	 */
 	public function testValidateDate() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$data = array('field' => '2010-01-22');
@@ -484,6 +629,11 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 	}
 
+	/**
+	 * MyModelTest::testValidateDatetime()
+	 *
+	 * @return void
+	 */
 	public function testValidateDatetime() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$data = array('field' => '2010-01-22 11:11:11');
@@ -554,6 +704,11 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertFalse($res);
 	}
 
+	/**
+	 * MyModelTest::testValidateTime()
+	 *
+	 * @return void
+	 */
 	public function testValidateTime() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$data = array('field' => '11:21:11');
@@ -579,6 +734,11 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertFalse($res);
 	}
 
+	/**
+	 * MyModelTest::testValidateUrl()
+	 *
+	 * @return void
+	 */
 	public function testValidateUrl() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$data = array('field' => 'www.dereuromark.de');
@@ -638,6 +798,11 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 	}
 
+	/**
+	 * MyModelTest::testValidateUnique()
+	 *
+	 * @return void
+	 */
 	public function testValidateUnique() {
 		$this->out($this->_header(__FUNCTION__), true);
 
