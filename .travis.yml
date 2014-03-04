@@ -6,36 +6,35 @@ php:
   - 5.5
 
 env:
-  - CAKE_VERSION=master
-  - CAKE_VERSION=2.5
+  global:
+    - PLUGIN_NAME=Tools
+    - DB=mysql
+  matrix:
+    - DB=mysql CAKE_VERSION=2.4
+    - DB=mysql CAKE_VERSION=2.5
+
+matrix:
+  include:
+    - php: 5.4
+      env:
+        - CAKE_VERSION=2.4
+        - COVERALLS=1
 
 before_script:
-  - git clone --depth 1 --branch $CAKE_VERSION git://github.com/cakephp/cakephp ../cakephp && cd ../cakephp
-  - rm -R app
-  - git clone --depth 1 --branch master git://github.com/dereuromark/tools-app app
-  - cp -R ../tools plugins/Tools
-  - sh -c "mysql -e 'CREATE DATABASE cakephp_test;'"
-  - mkdir ./app/tmp
-  - mkdir ./app/tmp/logs
-  - mkdir ./app/tmp/sessions
-  - mkdir ./app/tmp/tests
-  - mkdir ./app/tmp/cache
-  - mkdir ./app/tmp/cache/persistent
-  - mkdir ./app/tmp/cache/models
-  - chmod -R 0777 ./app/tmp
-  - echo "<?php
-    class DATABASE_CONFIG {
-    public \$test = array(
-      'datasource' => 'Database/Mysql',
-      'database' => 'cakephp_test',
-      'host' => '0.0.0.0',
-      'login' => 'travis',
-      'persistent' => false,
-    );
-    }" > app/Config/database.php
-  - cd app
+  - git clone https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
+  - ../travis/before_script.sh
+  - cd ../cakephp/app
+  - echo "Configure::write('Security.salt', 'AxcG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi');" >> Config/bootstrap.php
+  - echo "Configure::write('Security.cipherSeed', '16659201697453542496749683615');" >> Config/bootstrap.php
+  - echo "<?php App::uses('MyModel', 'Tools.Model'); class AppModel extends MyModel {}" > Model/AppModel.php
+  - echo "<?php App::uses('MyController', 'Tools.Controller'); class AppController extends MyController {}" > Controller/AppController.php
+  - cd ..
+
 script:
-  - ../lib/Cake/Console/cake test Tools AllTools --stderr
+  - ../travis/script.sh
+
+after_success:
+  - ../travis/after_success.sh
 
 notifications:
   email: false
