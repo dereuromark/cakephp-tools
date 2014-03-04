@@ -1,7 +1,7 @@
 <?php
 
 App::uses('CommonComponent', 'Tools.Controller/Component');
-App::uses('Component', 'Controller');
+App::uses('CakeSession', 'Model/Datasource');
 App::uses('Controller', 'Controller');
 App::uses('AppModel', 'Model');
 
