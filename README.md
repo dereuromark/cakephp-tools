@@ -1,6 +1,6 @@
 # CakePHP Tools Plugin
 
-A Cake2.x Plugin containing several useful tools that can be used in many projects.
+A CakePHP 2.x Plugin containing several useful tools that can be used in many projects.
 
 Please note: New functionality has been tested against 2.x (current master and dev) only. Please upgrade if possible.
 
