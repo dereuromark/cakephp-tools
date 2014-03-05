@@ -12,8 +12,6 @@ class AuthTest extends MyCakeTestCase {
 		parent::setUp();
 
 		ClassRegistry::init(array('table' => 'cake_sessions', 'class' => 'Session', 'alias' => 'Session'));
-
-		$this->skipIf(php_sapi_name() === 'cli', 'Cannot test session in CLI');
 	}
 
 	public function tearDown() {

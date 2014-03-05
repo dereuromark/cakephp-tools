@@ -1,6 +1,7 @@
 <?php
 
 App::uses('CommonComponent', 'Tools.Controller/Component');
+App::uses('Component', 'Controller');
 App::uses('CakeSession', 'Model/Datasource');
 App::uses('Controller', 'Controller');
 App::uses('AppModel', 'Model');
@@ -115,8 +116,6 @@ class CommonComponentTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testCurrentUrl() {
-		$this->skipIf(php_sapi_name() === 'cli', 'Cannot test session in CLI');
-
 		$is = $this->Controller->Common->currentUrl();
 		$this->assertTrue(is_array($is) && !empty($is));
 
@@ -130,13 +129,11 @@ class CommonComponentTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testIsForeignReferer() {
-		$this->skipIf(php_sapi_name() === 'cli', 'Cannot test session in CLI');
-
 		$ref = 'http://www.spiegel.de';
 		$is = $this->Controller->Common->isForeignReferer($ref);
 		$this->assertTrue($is);
 
-		$ref = HTTP_BASE . '/some/controller/action';
+		$ref = Configure::read('App.fullBaseUrl') . '/some/controller/action';
 		$is = $this->Controller->Common->isForeignReferer($ref);
 		$this->assertFalse($is);
 
@@ -166,8 +163,6 @@ class CommonComponentTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testFlashMessage() {
-		$this->skipIf(php_sapi_name() === 'cli', 'Cannot test session in CLI');
-
 		$this->Controller->Session->delete('messages');
 		$is = $this->Controller->Common->flashMessage('efg');
 
