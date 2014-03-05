@@ -135,9 +135,9 @@ class MyHelper extends Helper {
 		if (
 			!empty($options['ext']) &&
 			strpos($path, '?') === false &&
-			substr($path, -strlen($options['ext'])) !== $options['ext']
+			substr($path, -strlen($options['ext']) + 1) !== '.' . $options['ext']
 		) {
-			$path .= $options['ext'];
+			$path .= '.' . $options['ext'];
 		}
 		if (isset($plugin)) {
 			$path = Inflector::underscore($plugin) . '/' . $path;

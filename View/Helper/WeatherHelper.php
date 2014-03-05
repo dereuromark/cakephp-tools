@@ -12,48 +12,30 @@ class WeatherHelper extends AppHelper {
 
 	public $helpers = array('Html');
 
-	public $imagePath = ''; //'http://www.google.com/ig/images/weather/';
-
-	public $imageUrl = '';
+	protected $_defaults = array(
+		'imageUrl' => 'http://www.google.com/ig/images/weather/'
+	);
 
 	public function __construct($View = null, $settings = array()) {
-		parent::__construct($View, $settings);
-
-		$this->imageUrl = $this->imagePath;
+		$this->_defaults = (array)Configure::read('Weather') + $this->_defaults;
+		parent::__construct($View, $settings + $this->_defaults);
 	}
 
 	/**
-	 * Display a ready table
+	 * Generates icon URL.
 	 *
-	 * //TODO
+	 * @param string $icon
+	 * @param string $ext
+	 * @param boolean $full
+	 * @return string URL
+	 */
+	public function imageUrl($icon, $ext = 'gif', $full = false) {
+		return $this->Html->url($this->settings['imageUrl'] . $icon . '.' . $ext, $full);
+	}
+
+	/**
+	 * Gets weather data.
 	 *
-	 * @return string
-	 */
-	public function display($location) {
-		$weather = $this->get($location);
-
-		$res = '';
-		if (empty($weather)) {
-			return $res;
-		}
-
-		$res .= '<table><tr>';
-		//$res .= '<td>'.[].'</td>';
-		$res .= '</tr></table>';
-
-		$res .= '<h1>' . h($weather['city']) . ':</h1>';
-
-		return $res;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function imageUrl($icon, $full = false) {
-		return $this->imageUrl . $icon;
-	}
-
-	/**
 	 * @return array
 	 */
 	public function get($location, $cOptions = array()) {

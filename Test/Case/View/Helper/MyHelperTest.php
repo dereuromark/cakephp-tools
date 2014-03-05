@@ -40,6 +40,58 @@ class MyHelperTest extends MyCakeTestCase {
 		$this->assertTrue(class_exists('QrCodeHelper'));
 	}
 
+	/**
+	 * MyHelperTest::testBeforeRender()
+	 *
+	 * @return void
+	 */
+	public function testBeforeRender() {
+		$this->MyHelper->beforeRender('');
+	}
+
+	/**
+	 * MyHelperTest::testAfterLayout()
+	 *
+	 * @return void
+	 */
+	public function testAfterLayout() {
+		$this->MyHelper->afterLayout('');
+	}
+
+	/**
+	 * MyHelperTest::testUrl()
+	 *
+	 * @return void
+	 */
+	public function testUrl() {
+		$result = $this->MyHelper->url();
+		$this->assertEquals('/', $result);
+
+		$result = $this->MyHelper->url(null, true);
+		$this->assertEquals(Configure::read('App.fullBaseUrl') . '/', $result);
+	}
+
+	/**
+	 * MyHelperTest::testAssetUrl()
+	 *
+	 * @return void
+	 */
+	public function testAssetUrl() {
+		$result = $this->MyHelper->assetUrl('/some/string');
+		debug($result);
+		$this->assertEquals('/some/string', $result);
+
+		Configure::write('App.assetBaseUrl', 'http://cdn.domain.com');
+		$result = $this->MyHelper->assetUrl('/some/string');
+		$this->assertEquals(Configure::read('App.assetBaseUrl') . '/some/string', $result);
+
+		$result = $this->MyHelper->assetUrl('/some/string', array('ext' => 'json'));
+		$this->assertEquals(Configure::read('App.assetBaseUrl') . '/some/string.json', $result);
+
+		$result = $this->MyHelper->assetUrl('some/string', array('pathPrefix' => 'foo/'));
+		$this->assertEquals(Configure::read('App.assetBaseUrl') . '/foo/some/string', $result);
+	}
+
 }
 
 class MyHtmlHelper extends MyHelper {

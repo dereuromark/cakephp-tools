@@ -14,18 +14,50 @@ class WeatherHelperTest extends MyCakeTestCase {
 
 		$this->Weather = new WeatherHelper(new View(null));
 		$this->Weather->Html = new HtmlHelper(new View(null));
-
-		$this->skipIf(!Configure::read('Weather.key'));
 	}
 
-	/** TODO **/
+	/**
+	 * WeatherHelperTest::testImageUrl()
+	 *
+	 * @return void
+	 */
+	public function testImageUrl() {
+		$res = $this->Weather->imageUrl('sunny', 'gif');
+		$this->assertEquals('http://www.google.com/ig/images/weather/sunny.gif', $res);
 
-	public function testDisplay() {
+		Configure::write('Weather.imageUrl', '/img/');
+		$this->Weather = new WeatherHelper(new View(null));
+		$this->Weather->Html = new HtmlHelper(new View(null));
+		$res = $this->Weather->imageUrl('foo', 'jpg');
+		$this->assertEquals('/img/foo.jpg', $res);
+
+		$res = $this->Weather->imageUrl('foo', 'jpg', true);
+		$this->assertEquals(Configure::read('App.fullBaseUrl') . '/img/foo.jpg', $res);
+	}
+
+	/**
+	 * WeatherHelperTest::testGet()
+	 *
+	 * @return void
+	 */
+	public function testGet() {
+		$this->skipIf(!Configure::read('Weather.key'), 'Only for webrunner');
+		$res = $this->Weather->get('Berlin, Deutschland');
+		$this->out($res);
+	}
+
+	/**
+	 * WeatherHelperTest::testDisplayDebug()
+	 *
+	 * @return void
+	 */
+	public function testDisplayDebug() {
+		$this->skipIf(!Configure::read('Weather.key'), 'Only for webrunner');
+
 		$res = $this->Weather->get('51.0872,13.8028');
 		$res = $this->_displayForecast($res);
 		$this->out($res);
-		//debug($res);
-		$this->assertTrue(empty($res)); // NEW
+		$this->assertTrue(!empty($res));
 
 		$res = $this->Weather->get('Berlin, Deutschland');
 		$res = $this->_displayForecast($res);
@@ -42,7 +74,7 @@ class WeatherHelperTest extends MyCakeTestCase {
 		$this->assertTrue(empty($res));
 	}
 
-	public function _displayForecast($w) {
+	protected function _displayForecast($w) {
 		$res = '';
 		if (empty($w['request'])) {
 			return $res;
