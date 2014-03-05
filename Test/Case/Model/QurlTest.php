@@ -21,18 +21,13 @@ class QurlTest extends MyCakeTestCase {
 	}
 
 	public function testGenerate() {
-		$url = Router::url(array('admin' => false, 'plugin' => 'tools', 'controller' => 'qurls', 'action' => 'go'), true) . '/';
-		$this->debug($url);
-		$this->assertNotEmpty($url);
-		//$this->assertContains('/tools/qurl/go', $url);
+		$url = Router::url(array('admin' => false, 'plugin' => 'tools', 'controller' => 'qurls', 'action' => 'go'), true);
 
 		$res = $this->Qurl->url(array('controller' => 'test', 'action' => 'foo', 'bar'), array('note' => 'x'));
-		$this->debug($res);
 		$this->assertTrue(is_string($res) && !empty($res));
 		$this->assertTrue(strpos($res, $url) === 0);
 
 		$res = $this->Qurl->url('/test/foo/bar');
-		$this->debug($res);
 		$this->assertTrue(is_string($res) && !empty($res));
 	}
 

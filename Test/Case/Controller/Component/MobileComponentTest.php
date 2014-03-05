@@ -1,6 +1,7 @@
 <?php
 
 App::uses('MobileComponent', 'Tools.Controller/Component');
+App::uses('CakeSession', 'Model/Datasource');
 App::uses('Component', 'Controller');
 App::uses('AppController', 'Controller');
 
@@ -23,7 +24,10 @@ class MobileComponentTest extends CakeTestCase {
 		$this->Controller->constructClasses();
 		$this->Controller->Mobile->Controller = $this->Controller;
 
+		CakeSession::write('User', '');
 		CakeSession::delete('User');
+		CakeSession::write('Session', '');
+		CakeSession::delete('Session');
 		Configure::delete('User');
 	}
 
