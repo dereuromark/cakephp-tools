@@ -351,17 +351,17 @@ class ImapSource extends DataSource {
 	 *
 	 * @return the data requested by the model
 	 */
-	public function read(Model $Model, $query) {
-		if (!$this->connect($Model, $query)) {
+	public function read(Model $Model, $queryData = array(), $recursive = null) {
+		if (!$this->connect($Model, $queryData)) {
 			//throw new RuntimeException('something is wrong');
 			return $this->err($Model, 'Cannot connect to server');
 		}
 
-		$searchCriteria = $this->_makeSearch($Model, $query);
+		$searchCriteria = $this->_makeSearch($Model, $queryData);
 		$uids = $this->_uidsByCriteria($searchCriteria);
 		if ($uids === false) {
 			// Perform Search & Order. Returns list of ids
-			list($orderReverse, $orderCriteria) = $this->_makeOrder($Model, $query);
+			list($orderReverse, $orderCriteria) = $this->_makeOrder($Model, $queryData);
 			$uids = imap_sort($this->Stream, $orderCriteria, $orderReverse, SE_UID, join(' ', $searchCriteria));
 		}
 
@@ -371,10 +371,10 @@ class ImapSource extends DataSource {
 		}
 
 		// Trim resulting ids based on pagination / limitation
-		if (@$query['start'] && @$query['end']) {
-			$uids = array_slice($uids, @$query['start'], @$query['end'] - @$query['start']);
-		} elseif (@$query['limit']) {
-			$uids = array_slice($uids, @$query['start'] ? @$query['start'] : 0, @$query['limit']);
+		if (@$queryData['start'] && @$queryData['end']) {
+			$uids = array_slice($uids, @$queryData['start'], @$queryData['end'] - @$queryData['start']);
+		} elseif (@$queryData['limit']) {
+			$uids = array_slice($uids, @$queryData['start'] ? @$queryData['start'] : 0, @$queryData['limit']);
 		} elseif ($Model->findQueryType === 'first') {
 			$uids = array_slice($uids, 0, 1);
 		}
@@ -387,7 +387,7 @@ class ImapSource extends DataSource {
 			return array(array($Model->alias => array('count' => count($uids))));
 		}
 		if ($Model->findQueryType === 'all' || $Model->findQueryType === 'first') {
-			$recursive = isset($query['recursive']) ? $query['recursive'] : $Model->recursive;
+			$recursive = isset($queryData['recursive']) ? $queryData['recursive'] : $Model->recursive;
 			$fetchAttachments = $recursive > 0;
 			$mails = array();
 			foreach ($uids as $uid) {
@@ -398,7 +398,7 @@ class ImapSource extends DataSource {
 			return $mails;
 		}
 
-		return $this->err($Model, 'Unknown find type %s for query %s', $Model->findQueryType, $query);
+		return $this->err($Model, 'Unknown find type %s for query %s', $Model->findQueryType, $queryData);
 	}
 
 	/**
@@ -422,7 +422,7 @@ class ImapSource extends DataSource {
 	 *
 	 * @return boolean Success
 	 */
-	public function update(Model $model, $fields = null, $values = null) {
+	public function update(Model $model, $fields = null, $values = null, $conditions = null) {
 		if (empty($model->id)) {
 			return $this->err($model, 'Cannot update a record without id');
 		}

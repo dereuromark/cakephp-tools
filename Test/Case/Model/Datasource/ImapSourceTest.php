@@ -1,19 +1,9 @@
 <?php
-/**
- * Imap Datasource Test file
- *
- * PHP version 5
- *
- * Licensed under The MIT License
- * @author Mark Scherer
- */
 
 App::uses('ImapSource', 'Tools.Model/Datasource');
 App::uses('ConnectionManager', 'Model');
 App::uses('AppModel', 'Model');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
-
-//class_exists('TestImapSource');
 
 // Add new db config
 //ConnectionManager::create('test_imap', array('datasource' => 'TestImapSource', 'type' => 'imap'));
