@@ -8,7 +8,7 @@ App::uses('AppHelper', 'View/Helper');
  */
 class HcardHelper extends AppHelper {
 
-	public $data = array(
+	protected $_defaults = array(
 		'given_name' => 'Firstname',
 		'middle_name' => 'Middlename',
 		'family_name' => 'Lastname',
@@ -28,67 +28,55 @@ class HcardHelper extends AppHelper {
 	);
 
 	/**
-	 * TODO
+	 * @return string HTML
 	 */
-	public function addressFormatHtml($data, $prefix = false, $format = 'General') {
-		$data = $this->filter($data, $prefix);
-		$text = $this->style($data, $format);
+	public function addressFormatHtml($data = null, $format = 'General') {
+		if ($data === null) {
+			$data = $this->_defaults;
+		}
 		$text = '';
-		$text .= '<div id="hcard-' . $data['firstname'] . '-' . $data['lastname'] . '" class="vcard">';
-		$text .= '<span class="fn">' . $data['firstname'] . ' ' . $data['lastname'] . '</span>';
+		$text .= '<div id="hcard-' . $data['given_name'] . '-' . $data['family_name'] . '" class="vcard">';
+		$text .= '<span class="fn">' . $data['given_name'] . ' ' . $data['family_name'] . '</span>';
 		$text .= $this->address($data, $format);
 		$text .= '</div>';
 		return $text;
 	}
 
 	/**
-	 * TODO
+	 * @return string
 	 */
-	public function addressFormatRaw($data, $prefix = false, $format = 'General') {
-		$data = $this->filter($data, $prefix);
-		$text = $data['firstname'] . ' ' . $data['lastname'] . "\n";
-		$text .= $data['address'] . "\n";
-		if (Configure::read('Localization.address_format') === 'US') {
-			$text .= $data['city'] . ', ' . $data['state'] . ' ' . $data['postcode'] . "\n";
+	public function addressFormatRaw($data = null, $format = 'General') {
+		if ($data === null) {
+			$data = $this->_defaults;
+		}
+		$text = $data['given_name'] . ' ' . $data['family_name'] . "\n";
+		$text .= $data['street'] . "\n";
+		if (Configure::read('Localization.addressFormat') === 'US') {
+			$text .= $data['city'] . ', ' . $data['province'] . ' ' . $data['postal_code'] . "\n";
 		} else {
-			$text .= $data['postcode'] . ' ' . $data['city'] . "\n";
+			$text .= $data['postal_code'] . ' ' . $data['city'] . "\n";
 		}
 		$text .= $data['country'];
 		return $text;
 	}
 
 	/**
-	 * TODO
-	 */
-	public function style($data) {
-	}
-
-	/**
-	 * TODO
+	 * @return string
 	 */
 	public function address($data) {
-		$text = '<div class="adr">';
-		$text .= '<div class="street-address">' . $data['address'] . '</div> ';
-		$text .= '<span class="locality">' . $data['city'] . '</span>, ';
-		if (!empty($data['state'])) {
-			$text .= '<span class="region">' . $data['state'] . '</span> ';
+		if ($data === null) {
+			$data = $this->_defaults;
 		}
-		$text .= '<span class="postal-code">' . $data['postcode'] . '</span> ';
+		$text = '<div class="adr">';
+		$text .= '<div class="street-address">' . $data['street'] . '</div> ';
+		$text .= '<span class="locality">' . $data['city'] . '</span>, ';
+		if (!empty($data['province'])) {
+			$text .= '<span class="region">' . $data['province'] . '</span> ';
+		}
+		$text .= '<span class="postal-code">' . $data['postal_code'] . '</span> ';
 		$text .= '<span class="country-name">' . $data['country'] . '</span> ';
 		$text .= '</div>';
 		return $text;
-	}
-
-	/**
-	 * TODO
-	 */
-	public function filter($data, $prefix = '') {
-		if ($prefix) {
-			foreach ($data as $key => $row) {
-				$data[$prefix . $key] = $data[$key];
-			}
-		}
-		return $data;
 	}
 
 }

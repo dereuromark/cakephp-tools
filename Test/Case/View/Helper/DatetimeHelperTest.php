@@ -19,6 +19,7 @@ class DatetimeHelperTest extends MyCakeTestCase {
 	/**
 	 * Test user age
 	 *
+	 * @return void
 	 */
 	public function testUserAge() {
 		$res = $this->Datetime->userAge('2010-01-01');
@@ -28,9 +29,9 @@ class DatetimeHelperTest extends MyCakeTestCase {
 	/**
 	 * Test cweek
 	 *
+	 * @return void
 	 */
 	public function testLengthOfTime() {
-
 		$this->assertEquals('6 ' . __('Minutes') . ', 40 ' . __('Seconds'), $this->Datetime->lengthOfTime(400));
 
 		$res = $this->Datetime->lengthOfTime(400, 'i');
@@ -41,13 +42,15 @@ class DatetimeHelperTest extends MyCakeTestCase {
 		//pr($res);
 		$this->assertEquals('6 ' . __('Days') . ', 0 ' . __('Hours'), $res);
 
-		#TODO: more
-
+		//TODO: more
 	}
 
+	/**
+	 * DatetimeHelperTest::testRelLengthOfTime()
+	 *
+	 * @return void
+	 */
 	public function testRelLengthOfTime() {
-		//echo $this->_header(__FUNCTION__);
-
 		$res = $this->Datetime->relLengthOfTime(date(FORMAT_DB_DATETIME, time() - 3600));
 		//pr($res);
 		$this->assertTrue(!empty($res));
@@ -237,4 +240,5 @@ class DatetimeHelperTest extends MyCakeTestCase {
 
 		unset($this->Datetime);
 	}
+
 }

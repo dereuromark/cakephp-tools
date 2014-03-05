@@ -9,15 +9,18 @@ if (!defined('BR')) {
 
 /**
  * Convenience class for internal mailer.
+ *
  * Adds some useful features and fixes some bugs:
  * - enable easier attachment adding (and also from blob)
  * - enable embedded images in html mails
  * - extensive logging and error tracing
  * - create mails with blob attachments (embedded or attached)
  * - allow wrapLength to be adjusted
- * - Configure::read('Config.x-mailer') can modify the x-mailer
+ * - Configure::read('Config.xMailer') can modify the x-mailer
  * - basic validation supported
  * - allow priority to be set (1 to 5)
+ *
+ * Configs for auto-from can be set via Configure::read('Config.adminEmail').
  *
  * @author Mark Scherer
  * @license MIT
@@ -58,8 +61,8 @@ class EmailLib extends CakeEmail {
 	public static function systemEmail($subject, $message = 'System Email', $transportConfig = null) {
 		$class = __CLASS__;
 		$instance = new $class($transportConfig);
-		$instance->from(Configure::read('Config.system_email'), Configure::read('Config.system_name'));
-		$instance->to(Configure::read('Config.admin_email'), Configure::read('Config.admin_name'));
+		$instance->from(Configure::read('Config.systemEmail'), Configure::read('Config.systemName'));
+		$instance->to(Configure::read('Config.adminEmail'), Configure::read('Config.adminName'));
 		if ($subject !== null) {
 			$instance->subject($subject);
 		}
@@ -562,15 +565,15 @@ class EmailLib extends CakeEmail {
 		$this->_error = null;
 		$this->_debug = null;
 
-		if ($fromEmail = Configure::read('Config.system_email')) {
-			$fromName = Configure::read('Config.system_name');
+		if ($fromEmail = Configure::read('Config.systemEmail')) {
+			$fromName = Configure::read('Config.systemName');
 		} else {
-			$fromEmail = Configure::read('Config.admin_email');
-			$fromName = Configure::read('Config.admin_name');
+			$fromEmail = Configure::read('Config.adminEmail');
+			$fromName = Configure::read('Config.adminName');
 		}
 		$this->from($fromEmail, $fromName);
 
-		if ($xMailer = Configure::read('Config.x-mailer')) {
+		if ($xMailer = Configure::read('Config.xMailer')) {
 			$this->addHeaders(array('X-Mailer' => $xMailer));
 		}
 	}

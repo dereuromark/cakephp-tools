@@ -10,9 +10,6 @@ if (!defined('CLASS_USER')) {
 App::uses('AuthComponent', 'Controller/Component');
 
 /**
- * Important:
- * index the ACO on alias, index the Aro on model+id
- *
  * Extends AuthComponent with the following addons:
  * - allows multiple roles per user
  * - auto-raises login counter and sets last_login date
@@ -39,14 +36,11 @@ class AuthExtComponent extends AuthComponent {
 
 	public $loginError = null;
 
-	public $settings = array(
+	protected $_defaults = array(
 		'multi' => null, # null=auto - yes/no multiple roles (HABTM table between users and roles)
 		'parentModelAlias' => USER_ROLE_KEY,
 		'userModel' => CLASS_USER //TODO: allow plugin syntax
 	);
-
-	// field name in DB , if none is specified there will be no floodProtection
-	public $floodProtection = null;
 
 	/**
 	 * Merge in Configure::read('Auth') settings
@@ -55,7 +49,7 @@ class AuthExtComponent extends AuthComponent {
 	 * @param mixed $settings
 	 */
 	public function __construct(ComponentCollection $Collection, $settings = array()) {
-		$settings = array_merge($this->settings, (array)Configure::read('Auth'), (array)$settings);
+		$settings = array_merge($this->_defaults, (array)Configure::read('Auth'), $settings);
 
 		parent::__construct($Collection, $settings);
 	}
@@ -188,18 +182,9 @@ class AuthExtComponent extends AuthComponent {
 				$userArray[$parentModelAlias] = array(); # default: no roles!
 				$roles = $this->{$withModel}->find('list', array('fields' => array($withModel . '.role_id'), 'conditions' => array($withModel . '.user_id' => $userArray['id'])));
 				if (!empty($roles)) {
-					//$primaryRole = $this->user($this->fieldKey);
-					// retrieve associated role that are not the primary one
-
-					// MAYBE USEFUL FOR GUEST!!!
-					//$roles = set::extract('/'.$with.'['.$this->fieldKey.'!='.$primaryRole.']/'.$this->fieldKey, $roles);
-
 					// add the suplemental roles id under the Auth session key
 					$userArray[$parentModelAlias] = $roles;
-					//pr($completeAuth);
 				}
-			} else {
-				//$userArray[$parentModelAlias][] = $userArray['role_id'];
 			}
 		}
 
@@ -262,22 +247,6 @@ class AuthExtComponent extends AuthComponent {
 	public function getModel() {
 		$model = $this->settings['userModel'];
 		return ClassRegistry::init($model);
-	}
-
-	/**
-	 * @deprecated
-	 * @return boolean Success
-	 */
-	public function verifyUser($id, $pwd) {
-		trigger_error('deprecated - use Authenticate class');
-		$options = array(
-			'conditions' => array('id' => $id, 'password' => $this->password($pwd)),
-		);
-		return $this->getModel()->find('first', $options);
-
-		$this->constructAuthenticate();
-		$this->request->data['User']['password'] = $pwd;
-		return $this->identify($this->request, $this->response);
 	}
 
 }

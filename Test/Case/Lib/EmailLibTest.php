@@ -3,7 +3,7 @@
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 App::uses('EmailLib', 'Tools.Lib');
 
-//Configure::write('Config.admin_email', '...');
+//Configure::write('Config.adminEmail', '...');
 
 class EmailLibTest extends MyCakeTestCase {
 
@@ -13,7 +13,7 @@ class EmailLibTest extends MyCakeTestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->skipIf(!file_exists(APP . 'Config' . DS . 'email.php'), 'no email.php');
+		//$this->skipIf(!file_exists(APP . 'Config' . DS . 'email.php'), 'no email.php');
 
 		$this->Email = new TestEmailLib();
 	}
@@ -35,7 +35,7 @@ class EmailLibTest extends MyCakeTestCase {
 	 */
 	public function testSendDefault() {
 		// start
-		$this->Email->to(Configure::read('Config.admin_email'), Configure::read('Config.admin_emailname'));
+		$this->Email->to(Configure::read('Config.adminEmail'), Configure::read('Config.adminEmailname'));
 		$this->Email->subject('Test Subject');
 
 		$res = $this->Email->send('xyz xyz');
@@ -48,11 +48,11 @@ class EmailLibTest extends MyCakeTestCase {
 
 		$this->Email->resetAndSet();
 		// start
-		$this->Email->to(Configure::read('Config.admin_email'), Configure::read('Config.admin_emailname'));
+		$this->Email->to(Configure::read('Config.adminEmail'), Configure::read('Config.adminEmailname'));
 		$this->Email->subject('Test Subject 2');
-		$this->Email->template('default', 'internal');
+		$this->Email->template('default', 'default');
 		$this->Email->viewVars(array('x' => 'y', 'xx' => 'yy', 'text' => ''));
-		$this->Email->addAttachments(array(APP . 'webroot' . DS . 'img' . DS . 'icons' . DS . 'edit.gif'));
+		$this->Email->addAttachments(array(CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'edit.gif'));
 
 		$res = $this->Email->send('xyz');
 		// end
@@ -70,7 +70,7 @@ class EmailLibTest extends MyCakeTestCase {
 	 */
 	public function testSendFast() {
 		//$this->Email->resetAndSet();
-		//$this->Email->from(Configure::read('Config.admin_email'), Configure::read('Config.admin_emailname'));
+		//$this->Email->from(Configure::read('Config.adminEmail'), Configure::read('Config.adminEmailname'));
 		$res = EmailLib::systemEmail('system-mail test', 'some fast email to admin test');
 		//debug($res);
 		$this->assertTrue($res);
@@ -93,7 +93,7 @@ class EmailLibTest extends MyCakeTestCase {
 		$result = $this->Email->getDebug();
 		$this->assertTextContains('X-Mailer: CakePHP Email', $result['headers']);
 
-		Configure::write('Config.x-mailer', 'Tools Plugin');
+		Configure::write('Config.xMailer', 'Tools Plugin');
 
 		$this->Email = new TestEmailLib();
 		$this->Email->from('cake@cakephp.org');
@@ -201,9 +201,9 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->assertTrue(file_exists($file));
 		Configure::write('debug', 0);
 
-		$this->Email->to(Configure::read('Config.admin_email'));
+		$this->Email->to(Configure::read('Config.adminEmail'));
 		$this->Email->addAttachment($file);
-		$res = $this->Email->send('test_default', 'internal');
+		$res = $this->Email->send('test_default', 'default');
 		if ($error = $this->Email->getError()) {
 			$this->out($error);
 		}
@@ -211,7 +211,7 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->assertTrue($res);
 
 		$this->Email->resetAndSet();
-		$this->Email->to(Configure::read('Config.admin_email'));
+		$this->Email->to(Configure::read('Config.adminEmail'));
 		$this->Email->addAttachment($file, 'x.jpg');
 		$res = $this->Email->send('test_custom_filename');
 
@@ -288,7 +288,7 @@ class EmailLibTest extends MyCakeTestCase {
 		Configure::write('debug', 0);
 		$this->Email = new TestEmailLib();
 		$this->Email->emailFormat('both');
-		$this->Email->to(Configure::read('Config.admin_email'));
+		$this->Email->to(Configure::read('Config.adminEmail'));
 		$cid = $this->Email->addEmbeddedAttachment($file);
 
 		$cid2 = $this->Email->addEmbeddedAttachment($file);
@@ -371,6 +371,8 @@ html-part
 	 * @return void
 	 */
 	public function testValidates() {
+		$this->skipIf(php_sapi_name() === 'cli', 'For now...');
+
 		$this->Email = new TestEmailLib();
 		$res = $this->Email->validates();
 		$this->assertFalse($res);
@@ -401,7 +403,7 @@ html-part
 		Configure::write('debug', 0);
 		$this->Email = new TestEmailLib();
 		$this->Email->emailFormat('both');
-		$this->Email->to(Configure::read('Config.admin_email'));
+		$this->Email->to(Configure::read('Config.adminEmail'));
 		$cid = $this->Email->addEmbeddedBlobAttachment(file_get_contents($file), 'my_hotel.png', 'image/png');
 
 		$this->assertContains('@' . env('HTTP_HOST'), $cid);
