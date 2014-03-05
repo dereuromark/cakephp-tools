@@ -29,6 +29,7 @@ before_script:
   - echo "<?php App::uses('MyModel', 'Tools.Model'); class AppModel extends MyModel {}" > Model/AppModel.php
   - echo "<?php App::uses('MyController', 'Tools.Controller'); class AppController extends MyController {}" > Controller/AppController.php
   - cd ..
+  - cp ../tools/phpunit.xml app/
 
 script:
   - ../travis/script.sh
