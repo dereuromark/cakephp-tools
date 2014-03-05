@@ -301,6 +301,7 @@ class MobileComponent extends Component {
 			$result &= !$MobileDetect->isTablet();
 		}
 
+		$this->Session->write('Session.mobile', (bool)$result);
 		return (bool)$result;
 	}
 

@@ -123,7 +123,8 @@ class CommonHelper extends AppHelper {
 	 * @return string htmlMarkup
 	 */
 	public function metaAlternate($url, $lang, $full = false) {
-		$canonical = $this->Html->url($url, $full);
+		//$canonical = $this->Html->url($url, $full);
+		$url = $this->Html->url($url, $full);
 		//return $this->Html->meta('canonical', $canonical, array('rel'=>'canonical', 'type'=>null, 'title'=>null));
 		$lang = (array)$lang;
 		$res = array();

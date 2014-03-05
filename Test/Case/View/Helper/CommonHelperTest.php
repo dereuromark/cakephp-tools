@@ -14,9 +14,6 @@ class CommonHelperTest extends MyCakeTestCase {
 
 	public function setUp() {
 		parent::setUp();
-		if (!Configure::read('App.fullBaseUrl')) {
-			Configure::write('App.fullBaseUrl', 'http://localhost');
-		}
 
 		$View = new View(null);
 		$this->Common = new CommonHelper($View);
@@ -27,19 +24,17 @@ class CommonHelperTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testMetaCanonical() {
-		$this->skipIf(php_sapi_name() === 'cli', 'Strange result on travis - skip for now');
-
 		$is = $this->Common->metaCanonical('/some/url/param1');
-		$this->out(h($is));
-		$this->assertEquals('<link href="' . Configure::read('App.fullBaseUrl') . $this->Html->url('/some/url/param1') . '" rel="canonical" />', trim($is));
+		$this->assertEquals('<link href="' . $this->Html->url('/some/url/param1') . '" rel="canonical" />', trim($is));
+
+		$is = $this->Common->metaCanonical('/some/url/param1', true);
+		$this->assertEquals('<link href="' . $this->Html->url('/some/url/param1', true) . '" rel="canonical" />', trim($is));
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testMetaAlternate() {
-		$this->skipIf(php_sapi_name() === 'cli', 'Strange result on travis - skip for now');
-
 		$is = $this->Common->metaAlternate('/some/url/param1', 'de-de', true);
 		$this->out(h($is));
 		$this->assertEquals('<link href="' . $this->Html->url('/some/url/param1', true) . '" rel="alternate" hreflang="de-de" />', trim($is));

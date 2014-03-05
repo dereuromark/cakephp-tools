@@ -1006,11 +1006,11 @@ class MyModel extends Model {
 		}
 
 		// validation
-		if (!Validation::url($url, $options['strict']) && env('REMOTE_ADDR') !== '127.0.0.1') {
+		if (!Validation::url($url, $options['strict']) && env('REMOTE_ADDR') && env('REMOTE_ADDR') !== '127.0.0.1') {
 			return false;
 		}
 		// same domain?
-		if (!empty($options['sameDomain']) && !empty($_SERVER['HTTP_HOST'])) {
+		if (!empty($options['sameDomain']) && env('HTTP_HOST')) {
 			$is = parse_url($url, PHP_URL_HOST);
 			$expected = env('HTTP_HOST');
 			if (mb_strtolower($is) !== mb_strtolower($expected)) {

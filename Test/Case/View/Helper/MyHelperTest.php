@@ -78,7 +78,6 @@ class MyHelperTest extends MyCakeTestCase {
 	 */
 	public function testAssetUrl() {
 		$result = $this->MyHelper->assetUrl('/some/string');
-		debug($result);
 		$this->assertEquals('/some/string', $result);
 
 		Configure::write('App.assetBaseUrl', 'http://cdn.domain.com');
