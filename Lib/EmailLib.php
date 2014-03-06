@@ -7,6 +7,20 @@ if (!defined('BR')) {
 	define('BR', '<br />');
 }
 
+// Support BC (snake case config)
+if (!Configure::read('Config.systemEmail')) {
+	Configure::write('Config.systemEmail', Configure::read('Config.system_email'));
+}
+if (!Configure::read('Config.systemName')) {
+	Configure::write('Config.systemName', Configure::read('Config.system_name'));
+}
+if (!Configure::read('Config.adminEmail')) {
+	Configure::write('Config.adminEmail', Configure::read('Config.admin_email'));
+}
+if (!Configure::read('Config.adminName')) {
+	Configure::write('Config.adminName', Configure::read('Config.admin_name'));
+}
+
 /**
  * Convenience class for internal mailer.
  *
@@ -21,6 +35,7 @@ if (!defined('BR')) {
  * - allow priority to be set (1 to 5)
  *
  * Configs for auto-from can be set via Configure::read('Config.adminEmail').
+ * For systemEmail() one also needs Configure value Config.systemEmail to be set.
  *
  * @author Mark Scherer
  * @license MIT
