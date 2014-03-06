@@ -44,6 +44,7 @@ class PwdShell extends AppShell {
 			$passwordHasher = new $className();
 			$pw = $passwordHasher->hash($pwToHash);
 		} else {
+			$class = new $class(new ComponentCollection());
 			$pw = $class->password($pwToHash);
 		}
 
