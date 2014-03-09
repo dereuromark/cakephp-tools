@@ -52,6 +52,13 @@ class CommonComponent extends Component {
 			$this->Controller->request->params['pass'] = $this->trimDeep($this->Controller->request->params['pass']);
 		}
 
+		// Deprecation notices
+		if (Configure::read('App.warnAboutNamedParams')) {
+			if (!empty($Controller->request->params['named']) && ($referer = $Controller->request->referer(true)) && $referer !== '/') {
+				trigger_error('Named params ' . json_encode($Controller->request->params['named']) . ' - from ' . $referer, E_USER_DEPRECATED);
+			}
+		}
+
 		// Information gathering
 		if (!Configure::read('App.disableMobileDetection') && ($mobile = $this->Session->read('Session.mobile')) === null) {
 			App::uses('UserAgentLib', 'Tools.Lib');

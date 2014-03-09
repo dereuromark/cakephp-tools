@@ -59,7 +59,7 @@ class GravatarHelperTest extends MyCakeTestCase {
 		$this->out($is);
 		$this->assertTrue(!empty($is));
 
-		$is = $this->Gravatar->image(Configure::read('Config.admin_email'));
+		$is = $this->Gravatar->image(Configure::read('Config.adminEmail'));
 		$this->out($is);
 		$this->assertTrue(!empty($is));
 

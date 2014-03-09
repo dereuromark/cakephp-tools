@@ -305,7 +305,10 @@ function dump($var) {
  *
  * ENT_COMPAT	= Will convert double-quotes and leave single-quotes alone.
  * ENT_QUOTES	= Will convert both double and single quotes. !!!
- * ENT_NOQUOTES= Will leave both double and single quotes unconverted.
+ * ENT_NOQUOTES = Will leave both double and single quotes unconverted.
+ *
+ * @param string $text
+ * @return string Converted text
  */
 function ent($text) {
 	return (!empty($text) ? htmlentities($text, ENT_QUOTES, 'UTF-8') : '');
@@ -315,7 +318,7 @@ function ent($text) {
  * Convenience method for htmlspecialchars_decode
  *
  * @param string $text Text to wrap through htmlspecialchars_decode
- * @return string Wrapped text
+ * @return string Converted text
  */
 function hDec($text, $quoteStyle = ENT_QUOTES) {
 	if (is_array($text)) {
@@ -328,7 +331,7 @@ function hDec($text, $quoteStyle = ENT_QUOTES) {
  * Convenience method for html_entity_decode
  *
  * @param string $text Text to wrap through htmlspecialchars_decode
- * @return string Wrapped text
+ * @return string Converted text
  */
 function entDec($text, $quoteStyle = ENT_QUOTES) {
 	if (is_array($text)) {
@@ -410,7 +413,8 @@ function extractPathInfo($type = null, $filename, $fromUrl = false) {
 }
 
 /**
- * Shows pr() messages, even with debug=0
+ * Shows pr() messages, even with debug = 0.
+ * Also allows additional customization.
  *
  * @param mixed $content
  * @param boolean $collapsedAndExpandable
@@ -421,16 +425,20 @@ function extractPathInfo($type = null, $filename, $fromUrl = false) {
 function pre($var, $collapsedAndExpandable = false, $options = array()) {
 	$defaults = array(
 		'class' => 'cake-debug',
-		'showHtml' => false, # escape < and > (or manually escape with h() prior to calling this function)
-		'showFrom' => false, # display file + line
-		'jquery' => null, # auto - use jQuery (true/false to manually decide),
-		'returns' => false, # returns(),
-		'debug' => false # showOnlyOnDebug
+		'showHtml' => false, // Escape < and > (or manually escape with h() prior to calling this function)
+		'showFrom' => false, // Display file + line
+		'jquery' => null, // null => Auto - use jQuery (true/false to manually decide),
+		'returns' => false, // Use returns(),
+		'debug' => false // Show only with debug > 0
 	);
 	$options = array_merge($defaults, $options);
 	if ($options['debug'] && !Configure::read('debug')) {
 		return '';
 	}
+	if (php_sapi_name() === 'cli') {
+		return sprintf("\n%s\n", $options['returns'] ? returns($var) : print_r($var, true));
+	}
+
 	$res = '<div class="' . $options['class'] . '">';
 
 	$pre = '';
@@ -507,8 +515,8 @@ function endsWith($haystack, $needle, $caseSensitive = false) {
  * PrettyJson
  *
  * @link https://github.com/ndejong/pretty_json/blob/master/pretty_json.php
- * @param string $json - the original JSON string
- * @param string $ind - the string to indent with
+ * @param string $json The original JSON string
+ * @param string $ind The string to indent with
  * @return string
  */
 function prettyJson($json, $ind = "\t") {
