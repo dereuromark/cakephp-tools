@@ -110,7 +110,10 @@ class AjaxComponent extends Component {
 			}
 		}
 
+		$this->Controller->autoRender = true;
 		$this->Controller->set('_redirect', compact('url', 'status', 'exit'));
+		$this->Controller->set('_serialize', array('_redirect'));
+
 		return false;
 	}
 

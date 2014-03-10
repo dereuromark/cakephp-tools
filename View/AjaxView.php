@@ -81,7 +81,7 @@ class AjaxView extends View {
 			$view = false;
 		}
 
-		if ($view !== false && $this->_getViewFileName($view)) {
+		if ($view !== false && !isset($this->viewVars['_redirect']) && $this->_getViewFileName($view)) {
 			$response['content'] = parent::render($view, $layout);
 		}
 		if (isset($this->viewVars['_serialize'])) {
