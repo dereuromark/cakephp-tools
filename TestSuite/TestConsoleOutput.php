@@ -28,6 +28,9 @@ class TestConsoleOutput extends ConsoleOutput {
 	 * @return void
 	 */
 	protected function _write($message) {
+		if (php_sapi_name() !== 'cli' && !empty($_GET) && !empty($_GET['debug'])) {
+			debug($message);
+		}
 		$this->output[] = $message;
 	}
 
