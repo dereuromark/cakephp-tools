@@ -36,35 +36,6 @@ class MyController extends Controller {
 	}
 
 	/**
-	 * Fix encoding issues on Apache with mod_rewrite
-	 * Uses Configure::read('App.additionalEncoding') to additionally escape
-	 *
-	 * Tip: Set it to `1` for normal mod_rewrite websites routing directly into webroot
-	 * If you use another setup (like localhost/app/webroot) where you use multiple htaccess files or rewrite
-	 * rules you need to raise it accordingly.
-	 *
-	 * @overwrite to fix encoding issues on Apache with mod_rewrite
-	 * @param string|array $url A string or array-based URL
-	 * @param integer $status Optional HTTP status code (eg: 404)
-	 * @param boolean $exit If true, exit() will be called after the redirect
-	 * @return void
-	 */
-	public function redirect($url, $status = null, $exit = true) {
-		$run = Configure::read('App.additionalEncoding');
-		if ($run && is_array($url)) {
-			foreach ($url as $key => $value) {
-				if ($key === '?') {
-					continue;
-				}
-				$value = $this->_encodeUrlPiece($value, $run);
-
-				$url[$key] = $value;
-			}
-		}
-		return parent::redirect($url, $status, $exit);
-	}
-
-	/**
 	 * Handles automatic pagination of model records.
 	 *
 	 * @overwrite to support defaults like limit, querystring settings
@@ -78,35 +49,6 @@ class MyController extends Controller {
 			$this->paginate += $defaultSettings;
 		}
 		return parent::paginate($object, $scope, $whitelist);
-	}
-
-	/**
-	 * Additionally encode string to match the htaccess files processing it.
-	 *
-	 * @param mixed Url piece
-	 * @param integer $run How many times does the value have to be escaped
-	 * @return mixed Escaped piece
-	 */
-	protected function _encodeUrlPiece($value, $run) {
-		if (!is_array($value)) {
-			for ($i = 0; $i < $run; $i++) {
-				$value = urlencode($value);
-			}
-			return $value;
-		}
-		return $this->_encodeUrlPiece($value, $run);
-	}
-
-	/**
-	 * Init Packages class if enabled/included
-	 *
-	 * @deprecated?
-	 */
-	public function beforeRender() {
-		if (class_exists('Packages')) {
-			Packages::initialize($this, __CLASS__);
-		}
-		parent::beforeRender();
 	}
 
 }

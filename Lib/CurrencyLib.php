@@ -145,8 +145,8 @@ class CurrencyLib {
 			return $historyList;
 		}
 
-		$Xml = Xml::build(self::URL_HISTORY);
-		$currencies = Xml::toArray($Xml);
+		$currencies = $this->_loadXml(self::URL_HISTORY);
+
 		//Filter down to just the rates
 		$currencies = $currencies['Envelope']['Cube']['Cube']['Cube'];
 
@@ -173,8 +173,7 @@ class CurrencyLib {
 		}
 
 		// Retrieve rates as an XML object
-		$CurrencyXml = Xml::build(self::URL);
-		$currencies = Xml::toArray($CurrencyXml);
+		$currencies = $this->_loadXml(self::URL);
 
 		//Filter down to just the rates
 		$currencies = $currencies['Envelope']['Cube']['Cube']['Cube'];
@@ -221,6 +220,17 @@ class CurrencyLib {
 			return unserialize($res);
 		}
 		return false;
+	}
+
+	/**
+	 * CurrencyLib::_loadXml()
+	 *
+	 * @param string $url
+	 * @return array
+	 */
+	protected function _loadXml($url) {
+		$CurrencyXml = Xml::build($url);
+		return Xml::toArray($CurrencyXml);
 	}
 
 	public $currencies = array(

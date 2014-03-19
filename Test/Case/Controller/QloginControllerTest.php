@@ -23,6 +23,12 @@ class QloginControllerTest extends ControllerTestCase {
 		$this->QloginController->Auth = $Auth;
 	}
 
+	public function tearDown() {
+		CakeSession::delete('Auth.User');
+
+		parent::tearDown();
+	}
+
 	/**
 	 * QloginControllerTest::testObject()
 	 *
@@ -92,7 +98,6 @@ class QloginControllerTest extends ControllerTestCase {
 	 * @return void
 	 */
 	public function testAdminReset() {
-		$_SERVER['HTTP_REFERER'] = Router::url('/foo/bar', true);
 		$user = array(
 			'id' => 1,
 			'role_id' => 1
