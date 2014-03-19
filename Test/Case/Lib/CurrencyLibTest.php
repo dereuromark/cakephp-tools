@@ -52,15 +52,18 @@ class CurrencyLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testTable() {
-		$this->out('<h2>Currency Table</h2>', true);
 		$is = $this->CurrencyLib->table();
-		$this->debug($is);
 		$this->assertTrue(is_array($is) && !empty($is));
 
 		$is = $this->CurrencyLib->table('XYZ');
 		$this->assertFalse($is);
 
 		$this->assertTrue($this->CurrencyLib->cacheFileUsed());
+	}
+
+	public function testHistory() {
+		$is = $this->CurrencyLib->history();
+		$this->assertTrue(is_array($is) && !empty($is));
 	}
 
 	/**

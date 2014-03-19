@@ -89,6 +89,23 @@ class CurrencyLib {
 	}
 
 	/**
+	 * CurrencyLib::history()
+	 *
+	 * @param string $date Date in Format XXXX-XX-XX
+	 * @return array
+	 */
+	public function history($date = null) {
+		$history = $this->_retrieveHistory();
+		if ($date) {
+			if (!empty($history[$date])) {
+				return $history[$date];
+			}
+			return array();
+		}
+		return $history;
+	}
+
+	/**
 	 * CurrencyComponent::isAvailable()
 	 *
 	 * @param mixed $currency
@@ -147,19 +164,21 @@ class CurrencyLib {
 
 		$currencies = $this->_loadXml(self::URL_HISTORY);
 
-		//Filter down to just the rates
-		$currencies = $currencies['Envelope']['Cube']['Cube']['Cube'];
+		// Filter down to just the rates
+		$dates = $currencies['Envelope']['Cube']['Cube'];
 
 		$historyList = array();
-		//European Central bank gives us everything against Euro so add this manually
-		$historyList[$this->baseCurrency] = 1;
-
-		foreach ($currencies as $currency) {
-			$historyList[$currency['currency']] = $currency['rate'];
+		foreach ($dates as $date) {
+			$time = $date['@time'];
+			foreach ($date['Cube'] as $currency) {
+				$historyList[$time][$currency['@currency']] = $currency['@rate'];
+				// European Central bank gives us everything against Euro so add this manually
+				$historyList[$time][$this->baseCurrency] = 1;
+			}
 		}
 
 		$this->_store($historyList, 'history');
-		return $currencyList;
+		return $historyList;
 	}
 
 	/**
