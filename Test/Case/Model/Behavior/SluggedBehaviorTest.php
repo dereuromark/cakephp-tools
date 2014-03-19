@@ -130,6 +130,23 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 	/**
+	 * Test slug generation/update on beforeSave
+	 *
+	 * @return void
+	 */
+	public function testSlugGenerationBeforeSave() {
+		$this->Model->Behaviors->unload('Slugged');
+		$this->Model->Behaviors->load('Tools.Slugged', array(
+			'run' => 'beforeSave', 'overwrite' => true));
+
+		$this->Model->create(array('name' => 'Some Article 25271'));
+		$result = $this->Model->save();
+
+		$result[$this->Model->alias]['id'] = $this->Model->id;
+		$this->assertEquals('Some-Article-25271', $result[$this->Model->alias]['slug']);
+	}
+
+	/**
 	 * Test slug generation with i18n replacement pieces
 	 *
 	 * @return void

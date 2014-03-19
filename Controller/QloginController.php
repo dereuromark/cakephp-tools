@@ -19,12 +19,10 @@ class QloginController extends ToolsAppController {
 		}
 	}
 
-	/****************************************************************************************
-	* ADMIN functions
-	****************************************************************************************/
-
 	/**
 	 * Main login function
+	 *
+	 * @return void
 	 */
 	public function go($key = null) {
 		if (!$key) {
@@ -40,7 +38,7 @@ class QloginController extends ToolsAppController {
 			$this->Common->flashMessage(__('Invalid Key'), 'error');
 			return $this->Common->autoRedirect($default);
 		}
-		//die(returns($entry));
+
 		$alias = Configure::read('Qlogin.generator') ?: 'Token';
 		$uid = $entry[$alias]['user_id'];
 		$url = $entry[$alias]['url'];
