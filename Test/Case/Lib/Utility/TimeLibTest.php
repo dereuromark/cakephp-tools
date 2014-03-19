@@ -257,6 +257,32 @@ class TimeLibTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * TimeLibTest::testIsLeapYear()
+	 *
+	 * @return void
+	 */
+	public function testIsLeapYear() {
+		$is = TimeLib::isLeapYear('2000');
+		$this->assertTrue($is);
+
+		$is = TimeLib::isLeapYear('2001');
+		$this->assertFalse($is);
+	}
+
+	/**
+	 * TimeLibTest::testIsInRange()
+	 *
+	 * @return void
+	 */
+	public function testIsInRange() {
+		$is = TimeLib::isInRange(date(FORMAT_DB_DATETIME, time() + 22 * HOUR), DAY);
+		$this->assertTrue($is);
+
+		$is = TimeLib::isInRange(date(FORMAT_DB_DATETIME, time() + 26 * HOUR), DAY);
+		$this->assertFalse($is);
+	}
+
+	/**
 	 * TimeLibTest::testAgeBounds()
 	 *
 	 * @return void
@@ -467,7 +493,40 @@ class TimeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testCweekMod() {
-		//$result = TimeLib::cWeekMod();
+		$result = TimeLib::cWeekMod(0);
+		$this->assertEquals(0, $result);
+
+		$result = TimeLib::cWeekMod(1);
+		$this->assertEquals(1, $result);
+
+		$result = TimeLib::cWeekMod(6);
+		$this->assertEquals(0, $result);
+	}
+
+	/**
+	 * TimeLibTest::testGetGmtOffset()
+	 *
+	 * @return void
+	 */
+	public function testGetGmtOffset() {
+		$result = TimeLib::getGmtOffset();
+		$this->assertEquals(0, $result);
+
+		$result = TimeLib::getGmtOffset('Europe/Berlin');
+		$this->assertTrue($result > 0, $result);
+
+		$result = TimeLib::getGmtOffset('America/Los_Angeles');
+		$this->assertTrue($result < 0, $result);
+	}
+
+	/**
+	 * TimeLibTest::testTimezoneByCoordinates()
+	 *
+	 * @return void
+	 */
+	public function testTimezoneByCoordinates() {
+		$result = TimeLib::timezoneByCoordinates(48, 11);
+		$this->assertEquals('Europe/Vaduz', $result);
 	}
 
 	/**

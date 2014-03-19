@@ -692,12 +692,27 @@ class GeocodeLib {
 	 * @param float $unit (M=miles, K=kilometers, N=nautical miles, I=inches, F=feet)
 	 * @return integer distance: in km
 	 */
-	public function distance($pointX, $pointY, $unit = null) {
+	public function distance(array $pointX, array $pointY, $unit = null) {
 		if (empty($unit) || !array_key_exists(($unit = strtoupper($unit)), $this->units)) {
 			$unit = array_keys($this->units);
 			$unit = $unit[0];
 		}
 
+		$res = $this->calculateDistance($pointX, $pointY);
+		if (isset($this->units[$unit])) {
+			$res *= $this->units[$unit];
+		}
+		return ceil($res);
+	}
+
+	/**
+	 * GeocodeLib::calculateDistance()
+	 *
+	 * @param array $pointX
+	 * @param array $pointY
+	 * @return float
+	 */
+	public static function calculateDistance(array $pointX, array $pointY) {
 		/*
 		$res = 	6371.04 * ACOS( COS( PI()/2 - rad2deg(90 - $pointX['lat'])) *
 				COS( PI()/2 - rad2deg(90 - $pointY['lat'])) *
@@ -710,10 +725,7 @@ class GeocodeLib {
 
 		// seems to be the only working one (although slightly incorrect...)
 		$res = 69.09 * rad2deg(acos(sin(deg2rad($pointX['lat'])) * sin(deg2rad($pointY['lat'])) + cos(deg2rad($pointX['lat'])) * cos(deg2rad($pointY['lat'])) * cos(deg2rad($pointX['lng'] - $pointY['lng']))));
-		if (isset($this->units[$unit])) {
-			$res *= $this->units[$unit];
-		}
-		return ceil($res);
+		return $res;
 	}
 
 	/**

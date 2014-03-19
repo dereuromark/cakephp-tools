@@ -139,29 +139,6 @@ class DatetimeHelper extends TimeHelper {
 	}
 
 	/**
-	 * For birthdays etc
-	 *
-	 * @deprecated - use TimeLib::isInRange()
-	 * @param date
-	 * @param string days with +-
-	 * @param options
-	 */
-	public function isInRangeFromDays($dateString, $days, $options = array()) {
-		$date = explode(' ', $dateString);
-		list ($y, $m, $d) = explode('-', $date[0]);
-
-		$then = mktime(1, 1, 1, $m, $d, $y);
-		$now = mktime(1, 1, 1, date('n'), date('j'), $y);
-
-		$abs = abs($now - $then);
-
-		if ((int)($abs / DAY) <= $days) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
 	 * Takes time as hh:mm:ss,
 	 * returns hh:mm
 	 * TODO: move to lib, but more generic
