@@ -121,14 +121,16 @@ class SluggedBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * BeforeValidate method
+	 * BeforeCallback method for common logic for beforeValidate and beforeSave callbacks
 	 *
-	 * @param Model $Model
+	 * @param string $callback
+	 * @param Model $model
+	 * @param array $options
 	 * @return boolean Success
 	 */
-	public function beforeValidate(Model $Model, $options = array()) {
+	protected function _beforeCallback($callback, Model $Model, $options = array()) {
 		extract($this->settings[$Model->alias]);
-		if ($run !== 'beforeValidate') {
+		if ($run !== $callback) {
 			return true;
 		}
 		if (is_string($this->settings[$Model->alias]['trigger'])) {
@@ -141,23 +143,25 @@ class SluggedBehavior extends ModelBehavior {
 	}
 
 	/**
+	 * BeforeValidate method
+	 *
+	 * @param Model $Model
+	 * @param array $options
+	 * @return boolean Success
+	 */
+	public function beforeValidate(Model $Model, $options = array()) {
+		return $this->_beforeCallback('beforeValidate', $Model, $options);
+	}
+
+	/**
 	 * BeforeSave method
 	 *
 	 * @param Model $Model
+	 * @param array $options
 	 * @return boolean Success
 	 */
 	public function beforeSave(Model $Model, $options = array()) {
-		extract($this->settings[$Model->alias]);
-		if ($run !== 'beforeSave') {
-			return true;
-		}
-		if (is_string($this->settings[$Model->alias]['trigger'])) {
-			if (!$Model->{$this->settings[$Model->alias]['trigger']}) {
-				return true;
-			}
-		}
-		$this->generateSlug($Model);
-		return true;
+		return $this->_beforeCallback('beforeSave', $Model, $options);
 	}
 
 	/**
