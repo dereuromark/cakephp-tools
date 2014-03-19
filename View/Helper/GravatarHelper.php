@@ -84,21 +84,6 @@ class GravatarHelper extends AppHelper {
 	}
 
 	/**
-	 * GravatarHelper::url()
-	 *
-	 * @param mixed $email
-	 * @param boolean $options
-	 * @return void
-	 * @deprecated Use imageUrl() instead.
-	 */
-	public function url($email = null, $options = false) {
-		if ($options === false) {
-			$options = array();
-		}
-		$this->imageUrl($email, $options);
-	}
-
-	/**
 	 * Generate image URL
 	 * TODO: rename to avoid E_STRICT errors here
 	 *
