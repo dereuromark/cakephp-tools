@@ -167,12 +167,8 @@ class SluggedBehavior extends ModelBehavior {
 	/**
 	 * Generate slug method
 	 *
-	 * if a new row, or overwrite is set to true, check for a change to a label field and add the slug to the data
+	 * If a new row, or overwrite is set to true, check for a change to a label field and add the slug to the data
 	 * to be saved
-	 * If no slug at all is returned (should not be permitted and prevented by validating the label fields) the model
-	 * alias will be used as a slug.
-	 * If unique is set to true, check for a unique slug and if unavailable suffix the slug with -1, -2, -3 etc.
-	 * until a unique slug is found
 	 *
 	 * @param Model $Model
 	 * @return void
@@ -220,31 +216,6 @@ class SluggedBehavior extends ModelBehavior {
 				$slug = $this->display($Model);
 			}
 			$slug = $Model->slug($slug);
-			if (!$slug) {
-				$slug = $Model->alias;
-			}
-			if ($unique) {
-				$conditions = array($Model->alias . '.' . $slugField => $slug);
-				$conditions = array_merge($conditions, $this->settings[$Model->alias]['scope']);
-				if ($Model->id) {
-					$conditions['NOT'][$Model->alias . '.' . $Model->primaryKey] = $Model->id;
-				}
-				$i = 0;
-				$suffix = '';
-
-				while ($Model->hasAny($conditions)) {
-					$i++;
-					$suffix	= $separator . $i;
-					if (strlen($slug . $suffix) > $length) {
-						$slug = substr($slug, 0, $length - strlen($suffix));
-					}
-					$conditions[$Model->alias . '.' . $slugField] = $slug . $suffix;
-				}
-				if ($suffix) {
-					$slug .= $suffix;
-				}
-			}
-			$this->_addToWhitelist($Model, array($slugField));
 			$Model->data[$Model->alias][$slugField] = $slug;
 		}
 	}
@@ -361,6 +332,10 @@ class SluggedBehavior extends ModelBehavior {
 	 * (only possible if directly called - primarily for tracing and testing) separators will not be cleaned up
 	 * and so slugs like "-----as---df-----" are possible, which by default would otherwise be returned as "as-df".
 	 * If the mode is "id" and the first charcter of the regex-ed slug is numeric, it will be prefixed with an x.
+	 * If no slug at all is returned (should not be permitted and prevented by validating the label fields) the model
+	 * alias will be used as a slug.
+	 * If unique is set to true, check for a unique slug and if unavailable suffix the slug with -1, -2, -3 etc.
+	 * until a unique slug is found
 	 *
 	 * @param Model $Model
 	 * @param mixed $string
@@ -417,6 +392,30 @@ class SluggedBehavior extends ModelBehavior {
 				} elseif ($case === 'camel') {
 					$slug = implode($words);
 				}
+			}
+		}
+		if (!$slug) {
+			$slug = $Model->alias;
+		}
+		if ($unique) {
+			$conditions = array($Model->alias . '.' . $slugField => $slug);
+			$conditions = array_merge($conditions, $this->settings[$Model->alias]['scope']);
+			if ($Model->id) {
+				$conditions['NOT'][$Model->alias . '.' . $Model->primaryKey] = $Model->id;
+			}
+			$i = 0;
+			$suffix = '';
+
+			while ($Model->hasAny($conditions)) {
+				$i++;
+				$suffix	= $separator . $i;
+				if (strlen($slug . $suffix) > $length) {
+					$slug = substr($slug, 0, $length - strlen($suffix));
+				}
+				$conditions[$Model->alias . '.' . $slugField] = $slug . $suffix;
+			}
+			if ($suffix) {
+				$slug .= $suffix;
 			}
 		}
 
@@ -498,7 +497,7 @@ class SluggedBehavior extends ModelBehavior {
 	/**
 	 * Multi slug method
 	 *
-	 * Handle both slug and lable fields using the translate behavior, and being edited
+	 * Handle both slug and label fields using the translate behavior, and being edited
 	 * in multiple locales at once
 	 *
 	 * @param Model $Model
@@ -511,7 +510,7 @@ class SluggedBehavior extends ModelBehavior {
 		foreach ($Model->data[$Model->alias][$field] as $locale => $_) {
 			foreach ($label as $field) {
 				if (is_array($data[$Model->alias][$field])) {
-					$Model->data[$Model->alias][$field] = $data[$Model->alias][$field][$locale];
+					$Model->data[$Model->alias][$field] = $Model->slug($data[$Model->alias][$field][$locale]);
 				}
 			}
 			$this->beforeValidate($Model);
