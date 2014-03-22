@@ -1,21 +1,21 @@
 <?php
 App::uses('ToolsAppController', 'Tools.Controller');
-/*
 
-Apply this route (/Config/routes.php):
-
-Router::connect('/s/:id',
-	array('plugin'=>'tools', 'controller'=>'tiny_urls', 'action'=>'go'),
-	array('id'=>'[0-9a-zA-Z]+'));
-
-Result:
-/domain/s/ID
-
-*/
-
+/**
+ * Tiny Url Generation
+ *
+ * Tip:
+ * Apply this route (/Config/routes.php):
+ *
+ * Router::connect('/s/:id',
+ *   array('plugin' => 'tools', 'controller' => 'tiny_urls', 'action' => 'go'),
+ *   array('id' => '[0-9a-zA-Z]+'));
+ * Result:
+ * /domain/s/ID
+ */
 class TinyUrlsController extends ToolsAppController {
 
-	//public $uses = array('Tools.TinyUrl');
+	public $uses = array('Tools.TinyUrl');
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -31,17 +31,22 @@ class TinyUrlsController extends ToolsAppController {
 
 	/**
 	 * Main redirect function
+	 *
+	 * @return void
 	 */
 	public function go() {
-		if (empty($this->request->params['id'])) {
+		$id = $this->request->query('id');
+		if (!empty($this->request->params['id'])) {
+			$id = $this->request->params['id'];
+		}
+		if (!$id) {
 			throw new NotFoundException();
 		}
-		$entry = $this->TinyUrl->translate($this->request->params['id']);
+		$entry = $this->TinyUrl->translate($id);
 		if (empty($entry)) {
 			throw new NotFoundException();
 		}
 
-		//$message = $entry['TinyInt']['flash_message'];
 		$url = $entry['TinyUrl']['target'];
 
 		if (!empty($message)) {
@@ -52,9 +57,12 @@ class TinyUrlsController extends ToolsAppController {
 		return $this->redirect($url, 301);
 	}
 
+	/**
+	 * TinyUrlsController::admin_index()
+	 *
+	 * @return void
+	 */
 	public function admin_index() {
-		//TODO
-
 		if ($this->Common->isPosted()) {
 			$this->TinyUrl->set($this->request->data);
 			if ($this->TinyUrl->validates()) {
@@ -71,9 +79,19 @@ class TinyUrlsController extends ToolsAppController {
 		$this->set(compact('tinyUrls'));
 	}
 
+	/**
+	 * TinyUrlsController::admin_listing()
+	 *
+	 * @return void
+	 */
 	public function admin_listing() {
 	}
 
+	/**
+	 * TinyUrlsController::admin_reset()
+	 *
+	 * @return void
+	 */
 	public function admin_reset() {
 		if (!$this->Common->isPosted()) {
 			throw new MethodNotAllowedException();

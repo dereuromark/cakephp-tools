@@ -140,20 +140,13 @@ class RandomLib {
 	}
 
 	/**
-	 * @deprecated!
-	 */
-	public static function pwd($type = null, $length = null) {
-		return self::randomPwd($type, $length);
-	}
-
-	/**
 	 * Returns auto-generated password
 	 *
 	 * @param string $type: user, ...
 	 * @param integer $length (if no type is submitted)
 	 * @return pwd on success, empty string otherwise
 	 */
-	public static function randomPwd($type = null, $length = null) {
+	public static function pwd($type = null, $length = null) {
 		if (!empty($type) && $type === 'user') {
 			return self::generatePassword(6);
 		}
@@ -164,8 +157,20 @@ class RandomLib {
 	}
 
 	/**
+	 * Returns auto-generated password
+	 *
+	 * @param string $type: user, ...
+	 * @param integer $length (if no type is submitted)
+	 * @return pwd on success, empty string otherwise
+	 * @deprecated Use pwd() instead
+	 */
+	public static function randomPwd($type = null, $length = null) {
+		return self::pwd($type, $length);
+	}
+
+	/**
+	 * Generates random passwords.
 	 * //TODO: move to password lib?
-	 * Generate random passwords
 	 *
 	 * @param integer $lenght (necessary!)
 	 * @return string Password

@@ -1,6 +1,6 @@
 <?php
 App::uses('CakeTime', 'Utility');
-
+App::uses('GeocodeLib', 'Tools.Lib');
 /**
  * Extend CakeNumber with a few important improvements:
  * - correct timezones for date only input and therefore unchanged day here
@@ -33,7 +33,7 @@ class TimeLib extends CakeTime {
 	 * @param string|DateTimeZone $timezone User's timezone string or DateTimeZone object
 	 * @return integer Offset in hours
 	 */
-	public function getGmtOffset($timezone = null) {
+	public static function getGmtOffset($timezone = null) {
 		$timezone = self::timezone($timezone);
 		$offset = $timezone->getOffset(new DateTime('@' . time()));
 		$offset = $offset / HOUR;
@@ -47,11 +47,17 @@ class TimeLib extends CakeTime {
 	 * @param float $lng
 	 * @return DateTimeZone Timezone object
 	 */
-	public function timezoneByCoordinates($lat, $lng) {
+	public static function timezoneByCoordinates($lat, $lng) {
 		$current = array('timezone' => null, 'distance' => 0);
 		$identifiers = DateTimeZone::listIdentifiers();
 		foreach ($identifiers as $identifier) {
-			//TODO
+			$timezone = new DateTimeZone($identifier);
+			$location = $timezone->getLocation();
+			$point = array('lat' => $location['latitude'], 'lng' => $location['longitude']);
+	 		$distance = (int)GeocodeLib::calculateDistance(compact('lat', 'lng'), $point);
+	 		if (!$current['distance'] || $distance < $current['distance']) {
+	 			$current = array('timezone' => $identifier, 'distance' => $distance);
+	 		}
 		}
 		return $current['timezone'];
 	}
@@ -291,20 +297,20 @@ class TimeLib extends CakeTime {
 	 * @FIXME: offset
 	 * not needed, use localDate!
 	 */
-	public static function cWeekDay($cweek, $year, $day, $offset = 0) {
+	public static function cWeekDay($cweek, $year, $day) {
 		$cweekBeginning = self::cweekBeginning($year, $cweek);
 		return $cweekBeginning + $day * DAY;
 	}
 
 	/**
-	 * @FIXME ???
 	 * Get number of days since the start of the week.
-	 * 1 = monday, 7 = sunday ? should be 0=sunday to 7=saturday (default)
+	 * 0=sunday to 7=saturday (default)
+	 *
 	 * @param integer $num Number of day.
 	 * @return integer Days since the start of the week.
 	 */
-	public static function cWeekMod($num, $offset = 0) {
-		$base = 7;
+	public static function cWeekMod($num) {
+		$base = 6;
 		return ($num - $base * floor($num / $base));
 	}
 
@@ -660,113 +666,6 @@ class TimeLib extends CakeTime {
 			$res[$key] = self::day($key, $abbr, $offset);
 		}
 		return $res;
-	}
-
-	/**
-	 * Can convert time from one unit to another
-	 *
-	 * @param integer INT | time
-	 * @param from CHAR
-	 * @param to CHAR
-	 * @param options: acc=>INT [accuracy], showZero=>BOOL, returnArray=>BOOL
-	 * @return mixed
-	 */
-	public static function convertTime($int, $from, $to, $options = array()) {
-		$accuracy = 0;	// 0 = only the "to"-element, 1..n = higher accurancy
-		$showZero = false;	// show only the non-zero elements
-		$returnArray = false;	// return as array instead of as string
-		if (!empty($options)) {
-			if (isset($options['acc'])) {
-				$accuracy = (int)$options['acc'];
-			}
-			if (isset($options['showZero'])) {
-				$showZero = (int)$options['showZero'];
-			}
-			if (isset($options['returnArray'])) {
-				$returnArray = $options['returnArray'];
-			}
-		}
-
-		$times = array(
-			's' => '0',
-			'm' => '1',
-			'h' => '2',
-			'd' => '3',
-			'w' => '4',
-			'm' => '5',
-			'y' => '6',
-		);
-		$options = array(
-			'0' => array(
-				'steps' => array('1' => 60, '2' => 3600, '3' => 86400, '4' => 86400 * 7, '5' => 86400 * 30, '6' => 86400 * 365),
-				'down' => 0,
-				'up' => 60,
-				'short' => 's',
-				'long' => 'seconds'
-			),
-			'1' => array(
-				'steps' => array('0' => 60, '2' => 60, '3' => 60 * 24, '4' => 60 * 24 * 7, '5' => 60 * 24 * 30, '6' => 60 * 24 * 365),
-				'down' => 60,
-				'up' => 60,
-				'short' => 'm',
-				'long' => 'minutes'
-			),
-			'2' => array(
-				'steps' => array('0' => 3600, '1' => 60, '3' => 24, '4' => 24 * 7, '5' => 24 * 30, '6' => 24 * 365),
-				'down' => 60,
-				'up' => 24,
-				'short' => 'h',
-				'long' => 'hours'
-			),
-			'3' => array(
-				'steps' => array('0' => 86400, '1' => 3600, '2' => 24, '4' => 7, '5' => 30, '6' => 365),
-				'down' => 24,
-				'up' => 7,
-				'short' => 'd',
-				'long' => 'days'
-			),
-			'4' => array(
-				'steps' => array('0' => 86400 * 7, '1' => 60 * 24 * 7, '2' => 24 * 7, '3' => 7, '5' => 4.2, '6' => 52),
-				'down' => 7,
-				'up' => 4.2,
-				'short' => 'w',
-				'long' => 'weeks'
-			),
-			'5' => array(
-				'steps' => array('0' => 86400 * 30, '1' => 60 * 24 * 30, '2' => 24 * 30, '3' => 30, '4' => 4.2, '6' => 12),
-				'down' => 4.2,
-				'up' => 12,
-				'short' => 'm',
-				'long' => 'months'
-			),
-			'6' => array(
-				'steps' => array('0' => 86400 * 365, '1' => 60 * 24 * 365, '2' => 24 * 365, '3' => 365, '4' => 52, '5' => 12),
-				'down' => 12,
-				'up' => 0,
-				'short' => 'y',
-				'long' => 'years'
-			),
-		);
-
-		if (array_key_exists($from, $times) && array_key_exists($to, $times)) {
-			$begin = $times[$from];
-			$end = $times[$to];
-		}
-
-		$minutes = $int;
-		if ($minutes < 60) {
-			return $minutes . 'min';
-		}
-
-		$calculated = floor($minutes / 60) . "h " . ($minutes % 60) . "min";
-
-		if ($returnArray) {
-			// return as array
-		} else {
-			// convert to the desired string
-		}
-
-		return $calculated;
 	}
 
 	/**

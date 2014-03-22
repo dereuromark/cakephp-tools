@@ -1270,20 +1270,6 @@ class MyModel extends Model {
 		return true;
 	}
 
-/** General Model Functions **/
-
-	/**
-	 * CAREFUL: use LIMIT due to Starker Serverlastigkeit! or CACHE it!
-	 *
-	 * e.g.: 'ORDER BY ".$this->umlautsOrderFix('User.nic')." ASC'
-	 *
-	 * @param string variable (to be correctly ordered)
-	 * @deprecated
-	 */
-	public function umlautsOrderFix($var) {
-		return "REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(" . $var . ", 'Ä', 'Ae'), 'Ö', 'Oe'), 'Ü', 'Ue'), 'ä', 'ae'), 'ö', 'oe'), 'ü','ue'), 'ß', 'ss')";
-	}
-
 	/**
 	 * Set + guaranteeFields!
 	 * Extends the core set function (only using data!!!)
