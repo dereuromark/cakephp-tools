@@ -127,10 +127,12 @@ class CommonComponent extends Component {
 	 * Convenience method to check on POSTED data.
 	 * Doesn't matter if it's POST or PUT.
 	 *
-	 * @return boolean isPost
+	 * Note that since 2.4 you can use request->is(array('post', 'put') directly.
+	 *
+	 * @return boolean If it is of type POST/PUT
 	 */
 	public function isPosted() {
-		return $this->Controller->request->is('post') || $this->Controller->request->is('put');
+		return $this->Controller->request->is(array('post', 'put'));
 	}
 
 	/**

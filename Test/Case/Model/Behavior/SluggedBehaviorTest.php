@@ -48,7 +48,6 @@ class SluggedBehaviorTest extends CakeTestCase {
 	 */
 	public function getTests() {
 		ini_set('memory_limit', '256M');
-		$memoryLimit = (int)ini_get('memory_limit');
 		$max = 0;
 		$classMethods = get_class_methods(get_class($this));
 		$counter = 0;
