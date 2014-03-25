@@ -193,8 +193,13 @@ class TinyAuthorize extends BaseAuthorize {
 		if (!file_exists($path . ACL_FILE)) {
 			touch($path . ACL_FILE);
 		}
-		$iniArray = parse_ini_file($path . ACL_FILE, true);
-
+		
+		if (function_exists('parse_ini_file')) {
+			$iniArray = parse_ini_file($path . ACL_FILE, true);
+		} else {
+			$iniArray = parse_ini_string(file_get_contents($path . ACL_FILE), true);
+		}
+		
 		$availableRoles = Configure::read($this->settings['aclModel']);
 		if (!is_array($availableRoles)) {
 			$Model = $this->getModel();
