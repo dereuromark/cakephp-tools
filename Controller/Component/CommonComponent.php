@@ -485,7 +485,7 @@ class CommonComponent extends Component {
 	 * - passed params
 	 *
 	 * @param mixed $url
-	 * @param intger $status
+	 * @param integer $status
 	 * @param boolean $exit
 	 * @return void
 	 */
@@ -510,6 +510,8 @@ class CommonComponent extends Component {
 	 *
 	 * @see http://en.wikipedia.org/wiki/Post/Redirect/Get
 	 * TODO: change to 303 with backwardscompatability for older browsers...
+	 * @param integer $status
+	 * @return void
 	 */
 	public function prgRedirect($status = 302) {
 		if (!empty($_COOKIE[Configure::read('Session.cookie')])) {
@@ -666,14 +668,14 @@ class CommonComponent extends Component {
 		if (($pos = strpos($lang, '-')) !== false) {
 			$lang = substr($lang, 0, $pos);
 		}
-		if ($lang == DEFAULT_LANGUAGE) {
+		if ($lang === DEFAULT_LANGUAGE) {
 			return null;
 		}
 
-		if (!((array)$pattern = Configure::read('LocalizationPattern.' . $lang))) {
+		if (!($pattern = Configure::read('LocalizationPattern.' . $lang))) {
 			return false;
 		}
-		foreach ($pattern as $key => $value) {
+		foreach ((array)$pattern as $key => $value) {
 			Configure::write('Localization.' . $key, $value);
 		}
 		return true;
@@ -681,6 +683,9 @@ class CommonComponent extends Component {
 
 	/**
 	 * Main controller function for consistency in controller naming
+	 *
+	 * @deprecated
+	 * @return void
 	 */
 	public function ensureControllerConsistency() {
 		// problems with plugins
@@ -717,6 +722,9 @@ class CommonComponent extends Component {
 	/**
 	 * Main controller function for seo-slugs
 	 * passed titleSlug != current title => redirect to the expected one
+	 *
+	 * @deprecated
+	 * @return void
 	 */
 	public function ensureConsistency($id, $passedTitleSlug, $currentTitle) {
 		$expectedTitle = slug($currentTitle);
@@ -791,6 +799,7 @@ class CommonComponent extends Component {
 	 *
 	 * //TODO: 3.4. parameter as array, move to Lib
 	 *
+	 * @deprecated
 	 * @param string $string containing the parts
 	 * @param string $separator (defaults to ',')
 	 * @param boolean $camelize (true/false): problems with äöüß etc!
@@ -815,7 +824,7 @@ class CommonComponent extends Component {
 
 				if ($camelize === true) {
 					$t = mb_strtolower($t);
-					$t = Inflector::camelize(Inflector::underscore($t)); # problems with non-alpha chars!!
+					$t = Inflector::camelize(Inflector::underscore($t)); // problems with non-alpha chars!
 				} elseif ($capitalize === true) {
 					$t = ucwords($t);
 				}
