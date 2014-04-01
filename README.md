@@ -88,7 +88,7 @@ A quick reference or some larger modules: [USAGE.md](https://github.com/dereurom
 * RSS and Ajax Views for better responses (Ajax also comes with an optional component).
 * testAction() defaults to GET
 
-A full list of fixes and useful migration tweaks towards the next major version see [here]().
+A full list of fixes and useful migration tweaks towards the next major version see [here](https://github.com/dereuromark/tools/wiki/Included-fixes-and-migration-tweaks).
 
 ### Additional classes and features
 
