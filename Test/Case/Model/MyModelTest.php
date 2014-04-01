@@ -16,7 +16,6 @@ class MyModelTest extends MyCakeTestCase {
 		parent::setUp();
 
 		$this->Post = ClassRegistry::init('MyAppModelPost');
-
 		$this->User = ClassRegistry::init('MyAppModelUser');
 	}
 
@@ -35,10 +34,16 @@ class MyModelTest extends MyCakeTestCase {
 		$record = $this->Post->get(2);
 		$this->assertEquals(2, $record['Post']['id']);
 
-		$record = $this->Post->get(2, array('fields' => 'id', 'created'));
+		$record = $this->Post->get(2, array('fields' => array('id', 'created')));
 		$this->assertEquals(2, count($record['Post']));
 
-		$record = $this->Post->get(2, array('fields' => 'id', 'title', 'body'), array('Author'));
+		$record = $this->Post->get(2, array('fields' => array('id', 'title', 'body'), 'contain' => array('Author')));
+		$this->assertEquals(3, count($record['Post']));
+		$this->assertEquals(3, $record['Author']['id']);
+
+		// BC
+		$record = $this->Post->get(2, array('id', 'title', 'body'), array('Author'));
+		$this->assertEquals(3, count($record['Post']));
 		$this->assertEquals(3, $record['Author']['id']);
 	}
 

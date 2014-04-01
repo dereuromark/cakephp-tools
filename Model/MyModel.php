@@ -1440,11 +1440,11 @@ class MyModel extends Model {
 	 *   $record = $this->Model->get();
 	 *
 	 * @param mixed $id
-	 * @param string|array $fields
-	 * @param array $contain
+	 * @param array $options Options for find(). Used to be fields array/string.
+	 * @param array $contain Deprecated - use
 	 * @return mixed
 	 */
-	public function get($id = null, $fields = array(), $contain = array()) {
+	public function get($id = null, $options = array(), $contain = array()) {
 		if (is_array($id)) {
 			$column = $id[0];
 			$value = $id[1];
@@ -1457,6 +1457,17 @@ class MyModel extends Model {
 		}
 		if (!$value) {
 			return array();
+		}
+
+		// BC
+		$fields = null;
+		if (is_string($options)) {
+			$fields = $options;
+			$options = array();
+		}
+		if (!empty($options) && !array_key_exists('fields', $options) && !array_key_exists('contain', $options)) {
+			$fields = $options;
+			$options = array();
 		}
 
 		if ($fields === '*') {
@@ -1472,13 +1483,16 @@ class MyModel extends Model {
 
 		$options = array(
 			'conditions' => array($this->alias . '.' . $column => $value),
-		);
+		) + $options;
+
+		// BC
 		if (!empty($fields)) {
 			$options['fields'] = $fields;
 		}
 		if (!empty($contain)) {
 			$options['contain'] = $contain;
 		}
+
 		return $this->find('first', $options);
 	}
 
