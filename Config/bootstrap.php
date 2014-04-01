@@ -294,7 +294,7 @@ function returns($value) {
  * @return void
  */
 function dump($var) {
-	if (class_exists('Debugger')) {
+	if (!class_exists('Debugger')) {
 		App::uses('Debugger', 'Utility');
 	}
 	return Debugger::dump($var);
@@ -509,70 +509,4 @@ function endsWith($haystack, $needle, $caseSensitive = false) {
 		return mb_strrpos($haystack, $needle) === mb_strlen($haystack) - mb_strlen($needle);
 	}
 	return mb_strripos($haystack, $needle) === mb_strlen($haystack) - mb_strlen($needle);
-}
-
-/**
- * PrettyJson
- *
- * @link https://github.com/ndejong/pretty_json/blob/master/pretty_json.php
- * @param string $json The original JSON string
- * @param string $ind The string to indent with
- * @return string
- */
-function prettyJson($json, $ind = "\t") {
-	// Replace any escaped \" marks so we don't get tripped up on quotemarks_counter
-	$tokens = preg_split('|([\{\}\]\[,])|', str_replace('\"', '~~PRETTY_JSON_QUOTEMARK~~', $json), -1, PREG_SPLIT_DELIM_CAPTURE);
-
-	$indent = 0;
-	$result = '';
-	$quotemarksCounter = 0;
-	$nextTokenUsePrefix = true;
-
-	foreach ($tokens as $token) {
-		$quotemarksCounter = $quotemarksCounter + (count(explode('"', $token)) - 1);
-
-		if ($token === '') {
-			continue;
-		}
-
-		if ($nextTokenUsePrefix) {
-			$prefix = str_repeat($ind, $indent);
-		} else {
-			$prefix = null;
-		}
-
-		// Determine if the quote marks are open or closed
-		if ($quotemarksCounter & 1) {
-			// odd - thus quotemarks open
-			$nextTokenUsePrefix = false;
-			$newLine = null;
-		} else {
-			// even - thus quotemarks closed
-			$nextTokenUsePrefix = true;
-			$newLine = "\n";
-		}
-
-		if ($token === "{" || $token === "[") {
-			$indent++;
-			$result .= $token . $newLine;
-		} elseif ($token === "}" || $token === "]") {
-			$indent--;
-
-			if ($indent >= 0) {
-				$prefix = str_repeat($ind, $indent);
-			}
-
-			if ($nextTokenUsePrefix) {
-				$result .= $newLine . $prefix . $token;
-			} else {
-				$result .= $newLine . $token;
-			}
-		} elseif ($token === ",") {
-			$result .= $token . $newLine;
-		} else {
-			$result .= $prefix . $token;
-		}
-	}
-	$result = str_replace('~~PRETTY_JSON_QUOTEMARK~~', '\"', $result);
-	return $result;
 }

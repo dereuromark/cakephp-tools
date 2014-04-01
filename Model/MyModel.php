@@ -1559,7 +1559,6 @@ class MyModel extends Model {
 	 * @param STRING fieldName
 	 * @param integer id (cleaned!)
 	 * @return ARRAY record: [Model][values],...
-	 * AJAX?
 	 */
 	public function toggleField($fieldName, $id) {
 		$record = $this->get($id, array($this->primaryKey, $fieldName));
@@ -1585,8 +1584,6 @@ class MyModel extends Model {
 		$db = ConnectionManager::getDataSource($this->useDbConfig);
 		return $db->truncate($table);
 	}
-
-/** Deep Lists **/
 
 	/**
 	 * Recursive Dropdown Lists

@@ -84,10 +84,11 @@ A quick reference or some larger modules: [USAGE.md](https://github.com/dereurom
 * Auto-trim on POST (to make validation working properly).
 * Auto-aliasing for models' "order" properties.
 * Disable cache also works for older IE versions.
-* Redirect with additional encoding for Apache (if still using named params insteaf of query strings).
 * Default settings for Paginator, ... can be set using Configure.
 * RSS and Ajax Views for better responses (Ajax also comes with an optional component).
-* Minor misc. tweaks.
+* testAction() defaults to GET
+
+A full list of fixes and useful migration tweaks towards the next major version see [here]().
 
 ### Additional classes and features
 
