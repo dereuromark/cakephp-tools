@@ -145,7 +145,7 @@ if (!defined('FORMAT_NICE_YMDHMS')) {
 	define('FORMAT_LOCAL_Y', '%Y'); # xxxx
 	define('FORMAT_LOCAL_H', '%H');
 	define('FORMAT_LOCAL_S', '%S');
-	define('FORMAT_LOCAL_HM', '%H:%i');
+	define('FORMAT_LOCAL_HM', '%H:%M');
 	define('FORMAT_LOCAL_HMS', '%H:%M:%S');
 }
 
