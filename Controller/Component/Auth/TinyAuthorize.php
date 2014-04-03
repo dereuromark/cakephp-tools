@@ -211,7 +211,7 @@ class TinyAuthorize extends BaseAuthorize {
 		}
 		if (!is_array($availableRoles) || !is_array($iniArray)) {
 			trigger_error(__d('dev', 'Invalid Role Setup for TinyAuthorize (no roles found)'));
-			return false;
+			return array();
 		}
 
 		foreach ($iniArray as $key => $array) {
