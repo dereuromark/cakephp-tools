@@ -48,13 +48,13 @@ class BaseEmailConfig {
 			}
 		}
 		if ($config = Configure::read('Mail')) {
-			if (!empty($config['smtp_host'])) {
+			if (!empty($config['smtpHost'])) {
 				$this->default['host'] = $config['smtpHost'];
 			}
-			if (!empty($config['smtp_username'])) {
+			if (!empty($config['smtpUsername'])) {
 				$this->default['username'] = $config['smtpUsername'];
 			}
-			if (!empty($config['smtp_password'])) {
+			if (!empty($config['smtpPassword'])) {
 				$this->default['password'] = $config['smtpPassword'];
 			}
 		}
