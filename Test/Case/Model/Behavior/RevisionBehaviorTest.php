@@ -1,5 +1,8 @@
 <?php
 App::uses('RevisionBehavior', 'Tools.Model/Behavior');
+App::uses('Controller', 'Controller');
+App::uses('CakeRequest', 'Network');
+App::uses('CakeResponse', 'Network');
 
 class RevisionBehaviorTest extends CakeTestCase {
 
@@ -37,6 +40,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		parent::tearDown($method);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testSavePost()
+	 *
+	 * @return void
+	 */
 	public function testSavePost() {
 		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
 
@@ -58,6 +66,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testSaveWithoutChange()
+	 *
+	 * @return void
+	 */
 	public function testSaveWithoutChange() {
 		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
 
@@ -79,6 +92,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($count, 2);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testEditPost()
+	 *
+	 * @return void
+	 */
 	public function testEditPost() {
 		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
 
@@ -105,6 +123,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testShadow()
+	 *
+	 * @return void
+	 */
 	public function testShadow() {
 		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
 
@@ -152,6 +175,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testCurrentPost()
+	 *
+	 * @return void
+	 */
 	public function testCurrentPost() {
 		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
 
@@ -179,6 +207,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testRevisionsPost()
+	 *
+	 * @return void
+	 */
 	public function testRevisionsPost() {
 		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
 
@@ -249,6 +282,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testDiff()
+	 *
+	 * @return void
+	 */
 	public function testDiff() {
 		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
 
@@ -283,6 +321,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testDiffMultipleFields()
+	 *
+	 * @return void
+	 */
 	public function testDiffMultipleFields() {
 		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
 
@@ -316,6 +359,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testPrevious()
+	 *
+	 * @return void
+	 */
 	public function testPrevious() {
 		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
 
@@ -341,6 +389,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testUndoEdit()
+	 *
+	 * @return void
+	 */
 	public function testUndoEdit() {
 		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
 
@@ -368,6 +421,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testUndoCreate()
+	 *
+	 * @return void
+	 */
 	public function testUndoCreate() {
 		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
 
@@ -390,6 +448,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($result['Post']['title'], 'New post');
 	}
 
+	/**
+	 * RevisionBehaviorTest::testRevertTo()
+	 *
+	 * @return void
+	 */
 	public function testRevertTo() {
 		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
 
@@ -414,6 +477,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($result['Post']['title'], 'Edited Post 2');
 	}
 
+	/**
+	 * RevisionBehaviorTest::testLimit()
+	 *
+	 * @return void
+	 */
 	public function testLimit() {
 		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
 
@@ -471,6 +539,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testTree()
+	 *
+	 * @return void
+	 */
 	public function testTree() {
 		$this->loadFixtures('RevisionArticle', 'RevisionArticlesRev');
 
@@ -526,6 +599,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($result[3]['Article'], $expected);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testIgnore()
+	 *
+	 * @return void
+	 */
 	public function testIgnore() {
 		$this->loadFixtures('RevisionArticle', 'RevisionArticlesRev');
 
@@ -553,6 +631,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testWithoutShadowTable()
+	 *
+	 * @return void
+	 */
 	public function testWithoutShadowTable() {
 		$this->loadFixtures('RevisionUser');
 
@@ -564,6 +647,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertTrue((bool)$success);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testRevertToDate()
+	 *
+	 * @return void
+	 */
 	public function testRevertToDate() {
 		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
 
@@ -587,6 +675,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testCascade()
+	 *
+	 * @return void
+	 */
 	public function testCascade() {
 		$this->loadFixtures('RevisionComment', 'RevisionCommentsRev', 'RevisionVote', 'RevisionVotesRev');
 
@@ -626,6 +719,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($originalComments, $revertedComments);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testCreateRevision()
+	 *
+	 * @return void
+	 */
 	public function testCreateRevision() {
 		$this->loadFixtures('RevisionArticle', 'RevisionArticlesRev');
 
@@ -667,6 +765,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testUndelete()
+	 *
+	 * @return void
+	 */
 	public function testUndelete() {
 		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
 
@@ -696,6 +799,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testUndeleteCallbacks()
+	 *
+	 * @return void
+	 */
 	public function testUndeleteCallbacks() {
 		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
 
@@ -726,6 +834,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertNoErrors();
 	}
 
+	/**
+	 * RevisionBehaviorTest::testUndeleteTree1()
+	 *
+	 * @return void
+	 */
 	public function testUndeleteTree1() {
 		$this->loadFixtures('RevisionArticle', 'RevisionArticlesRev');
 
@@ -752,6 +865,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($result[2]['Article']['rght'], 5);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testUndeleteTree2()
+	 *
+	 * @return void
+	 */
 	public function testUndeleteTree2() {
 		$this->loadFixtures('RevisionArticle', 'RevisionArticlesRev');
 
@@ -799,6 +917,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($result[4]['Article']['rght'], 7);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testInitializeRevisionsWithLimit()
+	 *
+	 * @return void
+	 */
 	public function testInitializeRevisionsWithLimit() {
 		$this->loadFixtures('RevisionPost', 'RevisionPostsRev', 'RevisionArticle', 'RevisionArticlesRev', 'RevisionComment',
 			'RevisionCommentsRev', 'RevisionCommentsRevisionTag', 'RevisionVote', 'RevisionVotesRev', 'RevisionTag',
@@ -818,6 +941,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertFalse($Comment->Tag->initializeRevisions());
 	}
 
+	/**
+	 * RevisionBehaviorTest::testInitializeRevisions()
+	 *
+	 * @return void
+	 */
 	public function testInitializeRevisions() {
 		$this->loadFixtures('RevisionPost');
 
@@ -830,6 +958,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals(sizeof($result), 3);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testRevertAll()
+	 *
+	 * @return void
+	 */
 	public function testRevertAll() {
 		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
 
@@ -855,6 +988,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals(sizeof($result), 3);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testRevertAllConditions()
+	 *
+	 * @return void
+	 */
 	public function testRevertAllConditions() {
 		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
 
@@ -883,6 +1021,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals(sizeof($result), 3);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testOnWithModel()
+	 *
+	 * @return void
+	 */
 	public function testOnWithModel() {
 		$this->loadFixtures('RevisionComment', 'RevisionCommentsRev', 'RevisionCommentsRevisionTag',
 			'RevisionCommentsRevisionTagsRev', 'RevisionTag', 'RevisionTagsRev');
@@ -898,6 +1041,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($result['Tag'][2]['title'], 'Trick');
 	}
 
+	/**
+	 * RevisionBehaviorTest::testHABTMRelatedUndoed()
+	 *
+	 * @return void
+	 */
 	public function testHABTMRelatedUndoed() {
 		$this->loadFixtures('RevisionComment', 'RevisionCommentsRev', 'RevisionCommentsRevisionTag',
 			'RevisionCommentsRevisionTagsRev', 'RevisionTag', 'RevisionTagsRev');
@@ -912,6 +1060,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($result['Tag'][2]['title'], 'Tricks');
 	}
 
+	/**
+	 * RevisionBehaviorTest::testOnWithModelUndoed()
+	 *
+	 * @return void
+	 */
 	public function testOnWithModelUndoed() {
 		$this->loadFixtures('RevisionComment', 'RevisionCommentsRev', 'RevisionCommentsRevisionTag',
 			'RevisionCommentsRevisionTagsRev', 'RevisionTag', 'RevisionTagsRev');
@@ -937,6 +1090,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertNoErrors('Third Tag not back : %s');
 	}
 
+	/**
+	 * RevisionBehaviorTest::testHabtmRevSave()
+	 *
+	 * @return void
+	 */
 	public function testHabtmRevSave() {
 		$this->loadFixtures('RevisionComment', 'RevisionCommentsRev', 'RevisionCommentsRevisionTag',
 			'RevisionCommentsRevisionTagsRev', 'RevisionTag', 'RevisionTagsRev');
@@ -973,6 +1131,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($expected, $result['Comment']['Tag']);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testHabtmRevCreate()
+	 *
+	 * @return void
+	 */
 	public function testHabtmRevCreate() {
 		$this->loadFixtures('RevisionComment', 'RevisionCommentsRev', 'RevisionCommentsRevisionTag',
 			'RevisionCommentsRevisionTagsRev', 'RevisionTag', 'RevisionTagsRev');
@@ -995,6 +1158,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals('2,4', $result['Comment']['Tag']);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testHabtmRevIgnore()
+	 *
+	 * @return void
+	 */
 	public function testHabtmRevIgnore() {
 		$this->loadFixtures('RevisionComment', 'RevisionCommentsRev', 'RevisionCommentsRevisionTag',
 			'RevisionCommentsRevisionTagsRev', 'RevisionTag', 'RevisionTagsRev');
@@ -1015,6 +1183,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($originalResult, $result);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testHabtmRevUndo()
+	 *
+	 * @return void
+	 */
 	public function testHabtmRevUndo() {
 		$this->loadFixtures('RevisionComment', 'RevisionCommentsRev', 'RevisionCommentsRevisionTag',
 			'RevisionCommentsRevisionTagsRev', 'RevisionTag', 'RevisionTagsRev');
@@ -1036,6 +1209,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertNoErrors('3 tags : %s');
 	}
 
+	/**
+	 * RevisionBehaviorTest::testHabtmRevUndoJustHabtmChanges()
+	 *
+	 * @return void
+	 */
 	public function testHabtmRevUndoJustHabtmChanges() {
 		$this->loadFixtures('RevisionComment', 'RevisionCommentsRev', 'RevisionCommentsRevisionTag',
 			'RevisionCommentsRevisionTagsRev', 'RevisionTag', 'RevisionTagsRev');
@@ -1056,6 +1234,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertNoErrors('3 tags : %s');
 	}
 
+	/**
+	 * RevisionBehaviorTest::testHabtmRevRevert()
+	 *
+	 * @return void
+	 */
 	public function testHabtmRevRevert() {
 		$this->loadFixtures('RevisionComment', 'RevisionCommentsRev', 'RevisionCommentsRevisionTag',
 			'RevisionCommentsRevisionTagsRev', 'RevisionTag', 'RevisionTagsRev');
@@ -1077,6 +1260,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertNoErrors('3 tags : %s');
 	}
 
+	/**
+	 * RevisionBehaviorTest::testRevertToHabtm2()
+	 *
+	 * @return void
+	 */
 	public function testRevertToHabtm2() {
 		$this->loadFixtures('RevisionComment', 'RevisionCommentsRev', 'RevisionCommentsRevisionTag',
 			'RevisionCommentsRevisionTagsRev', 'RevisionTag', 'RevisionTagsRev');
@@ -1129,6 +1317,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($revOne['Comment']['Tag'], '1,2,3');
 	}
 
+	/**
+	 * RevisionBehaviorTest::testHabtmRevRevertToDate()
+	 *
+	 * @return void
+	 */
 	public function testHabtmRevRevertToDate() {
 		$this->loadFixtures('RevisionComment', 'RevisionCommentsRev', 'RevisionCommentsRevisionTag',
 			'RevisionCommentsRevisionTagsRev', 'RevisionTag', 'RevisionTagsRev');
@@ -1151,6 +1344,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertNoErrors('3 tags : %s');
 	}
 
+	/**
+	 * RevisionBehaviorTest::testRevertToTheTagsCommentHadBefore()
+	 *
+	 * @return void
+	 */
 	public function testRevertToTheTagsCommentHadBefore() {
 		$this->loadFixtures('RevisionComment', 'RevisionCommentsRev', 'RevisionCommentsRevisionTag',
 			'RevisionCommentsRevisionTagsRev', 'RevisionTag', 'RevisionTagsRev');
@@ -1191,6 +1389,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($result['Tag'][1]['title'], 'Fun');
 	}
 
+	/**
+	 * RevisionBehaviorTest::testSaveWithOutTags()
+	 *
+	 * @return void
+	 */
 	public function testSaveWithOutTags() {
 		$this->loadFixtures('RevisionComment', 'RevisionCommentsRev', 'RevisionCommentsRevisionTag',
 			'RevisionCommentsRevisionTagsRev', 'RevisionTag', 'RevisionTagsRev');
@@ -1208,6 +1411,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals($newest['Comment']['Tag'], $result['Comment']['Tag']);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testRevertToDeletedTag()
+	 *
+	 * @return void
+	 */
 	public function testRevertToDeletedTag() {
 		$this->loadFixtures('RevisionComment', 'RevisionCommentsRev', 'RevisionCommentsRevisionTag',
 			'RevisionCommentsRevisionTagsRev', 'RevisionTag', 'RevisionTagsRev');
@@ -1228,6 +1436,7 @@ class RevisionBehaviorTest extends CakeTestCase {
 
 	/**
 	 * @expectedException PHPUNIT_FRAMEWORK_ERROR_WARNING
+	 * @return void
 	 */
 	public function testBadKittyForgotId() {
 		$Comment = new RevisionComment();
@@ -1254,6 +1463,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertError(true);
 	}
 
+	/**
+	 * RevisionBehaviorTest::testBadKittyMakesUpStuff()
+	 *
+	 * @return void
+	 */
 	public function testBadKittyMakesUpStuff() {
 		$this->loadFixtures('RevisionComment', 'RevisionCommentsRev', 'RevisionCommentsRevisionTag',
 			'RevisionCommentsRevisionTagsRev', 'RevisionTag', 'RevisionTagsRev');
@@ -1268,6 +1482,7 @@ class RevisionBehaviorTest extends CakeTestCase {
 
 	/**
 	 * @expectedException PHPUNIT_FRAMEWORK_ERROR_WARNING
+	 * @return void
 	 */
 	public function testMethodsOnNonRevisedModel() {
 		$User = new RevisionUser();
@@ -1301,6 +1516,11 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertError();
 	}
 
+	/**
+	 * RevisionBehaviorTest::testRevisions()
+	 *
+	 * @return void
+	 */
 	public function testRevisions() {
 		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
 
@@ -1339,6 +1559,63 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$this->assertEquals('Machines (3)', $result[0]['Post']['title']);
 		$this->assertEquals('Things (2)', $result[1]['Post']['title']);
 		$this->assertEquals('Stuff (1)', $result[2]['Post']['title']);
+	}
+
+	/**
+	 * RevisionBehaviorTest::testFoo()
+	 *
+	 * @return void
+	 */
+	public function testNoAlias() {
+		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
+
+		$this->Controller = new Controller(new CakeRequest(null, false), new CakeResponse());
+		$this->Controller->loadModel('RevisionPost');
+		$this->Controller->RevisionPost->validate['title'] = array(
+			'minLength' => array(
+				'rule' => array('minLength', 6),
+				'message' => 'mL',
+			)
+		);
+		$data = array('Post' => array('title' => 'S (1)', 'content' => 'abc'));
+		$this->Controller->RevisionPost->create();
+		$result = $this->Controller->RevisionPost->save($data);
+		$this->assertFalse($result);
+		$expected = array('title' => array('mL'));
+		$this->assertEquals($expected, $this->Controller->RevisionPost->validationErrors);
+
+		$this->Controller->render(false, false);
+		$this->assertEquals(array(), $this->Controller->View->validationErrors['Post']);
+	}
+
+	/**
+	 * RevisionBehaviorTest::testFoo()
+	 *
+	 * @return void
+	 */
+	public function testAlias() {
+		$this->loadFixtures('RevisionPost', 'RevisionPostsRev');
+		Configure::write('Revision.alias', true);
+
+		$this->Controller = new Controller(new CakeRequest(null, false), new CakeResponse());
+		$this->Controller->loadModel('RevisionPost');
+
+		$this->Controller->RevisionPost->validate['title'] = array(
+			'minLength' => array(
+				'rule' => array('minLength', 6),
+				'message' => 'mL',
+			)
+		);
+		$data = array('Post' => array('title' => 'S (1)', 'content' => 'abc'));
+		$this->Controller->RevisionPost->create();
+		$result = $this->Controller->RevisionPost->save($data);
+		$this->assertFalse($result);
+		$expected = array('title' => array('mL'));
+		$this->assertEquals($expected, $this->Controller->RevisionPost->validationErrors);
+
+		$this->Controller->render(false, false);
+		$this->assertEquals($expected, $this->Controller->View->validationErrors['Post']);
+		$this->assertEquals(array(), $this->Controller->View->validationErrors['PostShadow']);
 	}
 
 }

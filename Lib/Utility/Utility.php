@@ -278,6 +278,7 @@ class Utility {
 	 * Do not use this for querystrings. Those will escape automatically.
 	 * This is only useful for named or passed params.
 	 *
+	 * @deprecated Use query strings instead
 	 * @param string $string Unsafe string
 	 * @return string Encoded string
 	 */
@@ -292,6 +293,7 @@ class Utility {
 	 * Do not use this for querystrings. Those will escape automatically.
 	 * This is only useful for named or passed params.
 	 *
+	 * @deprecated Use query strings instead
 	 * @param string $string Safe string
 	 * @return string Decoded string
 	 */
@@ -434,6 +436,34 @@ class Utility {
 	public static function deep($function, $value) {
 		$value = is_array($value) ? array_map('self::' . $function, $value) : $function($value);
 		return $value;
+	}
+
+	/**
+	 * Counts the dimensions of an array. If $all is set to false (which is the default) it will
+	 * only consider the dimension of the first element in the array.
+	 *
+	 * @param array $array Array to count dimensions on
+	 * @param boolean $all Set to true to count the dimension considering all elements in array
+	 * @param integer $count Start the dimension count at this number
+	 * @return integer The number of dimensions in $array
+	 */
+	public static function countDim($array = null, $all = false, $count = 0) {
+		if ($all) {
+			$depth = array($count);
+			if (is_array($array) && reset($array) !== false) {
+				foreach ($array as $value) {
+					$depth[] = self::countDim($value, true, $count + 1);
+				}
+			}
+			$return = max($depth);
+		} else {
+			if (is_array(reset($array))) {
+				$return = self::countDim(reset($array)) + 1;
+			} else {
+				$return = 1;
+			}
+		}
+		return $return;
 	}
 
 	/**

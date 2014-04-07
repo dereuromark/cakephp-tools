@@ -207,7 +207,7 @@ class UtilityTest extends MyCakeTestCase {
 
 		$_SERVER['HTTP_REFERER'] = '/foo/bar';
 		$res = Utility::getReferer(true);
-		$base = HTTP_BASE;
+		$base = Configure::read('App.fullBaseUrl');
 		if (!$base) {
 			$base = 'http://localhost';
 		}
@@ -303,6 +303,60 @@ class UtilityTest extends MyCakeTestCase {
 
 		$result = Utility::deep('trim', $is);
 		$this->assertSame($expected, $result);
+	}
+
+	/**
+	 * testCountDim method
+	 *
+	 * @return void
+	 */
+	public function testCountDim() {
+		$data = array('one', '2', 'three');
+		$result = Utility::countDim($data);
+		$this->assertEquals(1, $result);
+
+		$data = array('1' => '1.1', '2', '3');
+		$result = Utility::countDim($data);
+		$this->assertEquals(1, $result);
+
+		$data = array('1' => array('1.1' => '1.1.1'), '2', '3' => array('3.1' => '3.1.1'));
+		$result = Utility::countDim($data);
+		$this->assertEquals(2, $result);
+
+		$data = array('1' => '1.1', '2', '3' => array('3.1' => '3.1.1'));
+		$result = Utility::countDim($data);
+		$this->assertEquals(1, $result);
+
+		$data = array('1' => '1.1', '2', '3' => array('3.1' => '3.1.1'));
+		$result = Utility::countDim($data, true);
+		$this->assertEquals(2, $result);
+
+		$data = array('1' => array('1.1' => '1.1.1'), '2', '3' => array('3.1' => array('3.1.1' => '3.1.1.1')));
+		$result = Utility::countDim($data);
+		$this->assertEquals(2, $result);
+
+		$data = array('1' => array('1.1' => '1.1.1'), '2', '3' => array('3.1' => array('3.1.1' => '3.1.1.1')));
+		$result = Utility::countDim($data, true);
+		$this->assertEquals(3, $result);
+
+		$data = array('1' => array('1.1' => '1.1.1'), array('2' => array('2.1' => array('2.1.1' => '2.1.1.1'))), '3' => array('3.1' => array('3.1.1' => '3.1.1.1')));
+		$result = Utility::countDim($data, true);
+		$this->assertEquals(4, $result);
+
+		$data = array('1' => array('1.1' => '1.1.1'), array('2' => array('2.1' => array('2.1.1' => array('2.1.1.1')))), '3' => array('3.1' => array('3.1.1' => '3.1.1.1')));
+		$result = Utility::countDim($data, true);
+		$this->assertEquals(5, $result);
+
+		$data = array('1' => array('1.1' => '1.1.1'), array('2' => array('2.1' => array('2.1.1' => array('2.1.1.1' => '2.1.1.1.1')))), '3' => array('3.1' => array('3.1.1' => '3.1.1.1')));
+		$result = Utility::countDim($data, true);
+		$this->assertEquals(5, $result);
+
+		$set = array('1' => array('1.1' => '1.1.1'), array('2' => array('2.1' => array('2.1.1' => array('2.1.1.1' => '2.1.1.1.1')))), '3' => array('3.1' => array('3.1.1' => '3.1.1.1')));
+		$result = Utility::countDim($set, false, 0);
+		$this->assertEquals(2, $result);
+
+		$result = Utility::countDim($set, true);
+		$this->assertEquals(5, $result);
 	}
 
 	/**

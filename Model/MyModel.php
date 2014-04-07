@@ -1,6 +1,7 @@
 <?php
 App::uses('Model', 'Model');
 App::uses('Utility', 'Tools.Utility');
+App::uses('Hash', 'Utility');
 
 /**
  * Model enhancements for Cake2
@@ -635,7 +636,7 @@ class MyModel extends Model {
 						$tmpPath2[] = '{n}.' . $this->alias . '.' . $field[$i];
 					}
 					//do the magic?? read the code...
-					$res = Set::combine($list, '{n}.' . $this->alias . '.' . $this->primaryKey, $tmpPath2);
+					$res = Hash::combine($list, '{n}.' . $this->alias . '.' . $this->primaryKey, $tmpPath2);
 					break;
 				default:
 					$res = parent::find($type, $options);
@@ -726,17 +727,17 @@ class MyModel extends Model {
 		$return = array();
 
 		if (!empty($qryOptions['conditions'])) {
-			$findOptions['conditions'] = Set::merge($findOptions['conditions'], $qryOptions['conditions']);
+			$findOptions['conditions'] = Hash::merge($findOptions['conditions'], $qryOptions['conditions']);
 		}
 
 		$options = $findOptions;
-		$options['conditions'] = Set::merge($options['conditions'], array($this->alias . '.' . $sortField . ' ' . $sortDirSymb[1] => $field));
+		$options['conditions'] = Hash::merge($options['conditions'], array($this->alias . '.' . $sortField . ' ' . $sortDirSymb[1] => $field));
 		$options['order'] = array($this->alias . '.' . $sortField . '' => $sortDirWord[1]);
 		$this->id = $id;
 		$return['prev'] = $this->find('first', $options);
 
 		$options = $findOptions;
-		$options['conditions'] = Set::merge($options['conditions'], array($this->alias . '.' . $sortField . ' ' . $sortDirSymb[0] => $field));
+		$options['conditions'] = Hash::merge($options['conditions'], array($this->alias . '.' . $sortField . ' ' . $sortDirSymb[0] => $field));
 		$options['order'] = array($this->alias . '.' . $sortField . '' => $sortDirWord[0]); // ??? why 0 instead of 1
 		$this->id = $id;
 		$return['next'] = $this->find('first', $options);
@@ -1375,7 +1376,7 @@ class MyModel extends Model {
 			return $guaranteedFields;
 		}
 		if (!empty($guaranteedFields)) {
-			$data = Set::merge($guaranteedFields, $data);
+			$data = Hash::merge($guaranteedFields, $data);
 		}
 		return $data;
 	}
@@ -1551,20 +1552,6 @@ class MyModel extends Model {
 	public function update($id, $data, $validate = false) {
 		$this->id = $id;
 		return $this->save($data, $validate, array_keys($data));
-	}
-
-	/**
-	 * Automagic increasing of a field with e.g.:
-	 * $this->id = ID; $this->inc('weight',3);
-	 *
-	 * @deprecated use atomic updateAll() instead!
-	 * @param string fieldname
-	 * @param integer factor: defaults to 1 (could be negative as well - if field is signed and can be < 0)
-	 */
-	public function inc($field, $factor = 1) {
-		$value = Set::extract($this->read($field), $this->alias . '.' . $field);
-		$value += $factor;
-		return $this->saveField($field, $value);
 	}
 
 	/**
