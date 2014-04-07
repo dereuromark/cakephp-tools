@@ -1,5 +1,6 @@
 <?php
 App::uses('ToolsAppModel', 'Tools.Model');
+App::uses('Hash', 'Utility');
 
 /**
  * Manage Quick Urls
@@ -192,7 +193,7 @@ class Qurl extends ToolsAppModel {
 		$keys['used_invalid'] = $this->find('count', array('conditions' => array($this->alias . '.used' => 1, $this->alias . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity))));
 
 		$urls = $this->find('all', array('conditions' => array(), 'fields' => array('DISTINCT url')));
-		$keys['urls'] = !empty($urls) ? Set::extract('/' . $this->alias . '/url', $urls) : array();
+		$keys['urls'] = !empty($urls) ? Hash::extract('{n}.' . $this->alias . '.url', $urls) : array();
 		return $keys;
 	}
 

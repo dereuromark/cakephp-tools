@@ -1,6 +1,7 @@
 <?php
 App::uses('ToolsAppModel', 'Tools.Model');
 App::uses('CommonComponent', 'Tools.Controller/Component');
+App::uses('Hash', 'Utility');
 
 /**
  * A generic model to hold tokens
@@ -180,7 +181,7 @@ class Token extends ToolsAppModel {
 		$keys['used_invalid'] = $this->find('count', array('conditions' => array($this->alias . '.used' => 1, $this->alias . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity))));
 
 		$types = $this->find('all', array('conditions' => array(), 'fields' => array('DISTINCT type')));
-		$keys['types'] = !empty($types) ? Set::extract('/' . $this->alias . '/type', $types) : array();
+		$keys['types'] = !empty($types) ? Hash::extract('{n}.' . $this->alias . '.type', $types) : array();
 		return $keys;
 	}
 
