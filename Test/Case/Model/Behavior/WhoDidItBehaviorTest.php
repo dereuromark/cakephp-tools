@@ -38,12 +38,12 @@ class WhoDidItBehaviorTest extends MyCakeTestCase {
 		$this->Model->create();
 		$res = $this->Model->save($data);
 		$this->assertTrue((bool)$res);
-		$this->assertTrue(count($res['WhoDidItPlayer']) === 4);
+		$this->assertTrue(count($res['WhoDidItPlayer']) === 6);
 
 		// update (id + name + modified)
 		$res = $this->Model->save($data + array('id' => $this->Model->id));
 		$this->assertTrue((bool)$res);
-		$this->assertTrue(count($res['WhoDidItPlayer']) === 3);
+		$this->assertTrue(count($res['WhoDidItPlayer']) === 4);
 
 		// create a new one being logged in
 		CakeSession::write('Auth.User.id', '1');
