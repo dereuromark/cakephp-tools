@@ -22,7 +22,14 @@ In case you want the Tools bootstrap file included (recommended), you can do tha
 CakePlugin::load('Tools', array('bootstrap' => true));
 ```
 
-This can also be done after using `CakePlugin::loadAll()` - without problems.
+For `CakePlugin::loadAll()` it's
+
+```php
+CakePlugin::loadAll(array(
+		'Tools' => array('bootstrap' => true
+));
+```
+
 
 
 MyModel can be extended to use more powerful validation and other improvements:
