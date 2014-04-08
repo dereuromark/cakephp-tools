@@ -132,7 +132,6 @@ class TypographyHelper extends AppHelper {
 		// Build our finalized string. We cycle through the array, skipping tags, and processing the contained text
 		$str = '';
 		$process = true;
-		$paragraph = false;
 		$currentChunk = 0;
 		$totalChunks = count($chunks);
 

@@ -642,9 +642,9 @@ class CommonComponent extends Component {
 			}
 		}
 
-		if ($die) {
+		if ($exit) {
 			debug($log);
-			die();
+			exit();
 		}
 
 		$log = print_r($log, true);

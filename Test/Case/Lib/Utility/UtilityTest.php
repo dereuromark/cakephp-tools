@@ -357,6 +357,10 @@ class UtilityTest extends MyCakeTestCase {
 
 		$result = Utility::countDim($set, true);
 		$this->assertEquals(5, $result);
+
+		$data = array('one' => array(null), array('null' => null), 'three' => array(true, false, null));
+		$result = Utility::countDim($data, true);
+		$this->assertEquals(2, $result);
 	}
 
 	/**

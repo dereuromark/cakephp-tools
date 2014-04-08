@@ -171,7 +171,7 @@ class RssView extends View {
 	/**
 	 * Serialize view vars.
 	 *
-	 * @param array $serialize The viewVars that need to be serialized.
+	 * @param string|array $serialize The viewVars that need to be serialized.
 	 * @return string The serialized data
 	 * @throws RuntimeException When the prefix is not specified
 	 */
@@ -239,8 +239,8 @@ class RssView extends View {
 	/**
 	 * RssView::_prepareOutput()
 	 *
-	 * @param aray $item
-	 * @return void
+	 * @param array $item
+	 * @return array
 	 */
 	protected function _prepareOutput($item) {
 		foreach ($item as $key => $val) {

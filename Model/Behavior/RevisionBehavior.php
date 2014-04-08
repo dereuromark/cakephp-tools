@@ -27,7 +27,7 @@ App::uses('Hash', 'Utility');
  *
  * Install instructions :
  *
- * - Place the newest version of RevisionBehavior in your APP/Model/Behaviors folder
+ * - Place the newest version of RevisionBehavior in your APP/Model/Behavior folder
  * - Add the behavior to AppModel (or single models if you prefer)
  * - Create a shadow table for each model that you want revision for.
  * - Behavior will gracefully do nothing for models that has behavior, without table

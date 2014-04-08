@@ -447,7 +447,7 @@ class Utility {
 	 * @param integer $count Start the dimension count at this number
 	 * @return integer The number of dimensions in $array
 	 */
-	public static function countDim($array = null, $all = false, $count = 0) {
+	public static function countDim($array, $all = false, $count = 0) {
 		if ($all) {
 			$depth = array($count);
 			if (is_array($array) && reset($array) !== false) {
