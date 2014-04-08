@@ -824,7 +824,7 @@ class MyModelTest extends MyCakeTestCase {
 		$this->Post->create($data);
 		$res = $this->Post->validates();
 		$this->assertTrue($res);
-		$res = $this->Post->save($res, false);
+		$res = $this->Post->save($res, array('validate' => false));
 		$this->assertTrue((bool)$res);
 
 		$this->Post->create();
@@ -844,7 +844,7 @@ class MyModelTest extends MyCakeTestCase {
 		$this->Post->create($data);
 		$res = $this->Post->validates();
 		$this->assertTrue($res);
-		$res = $this->Post->save($res, false);
+		$res = $this->Post->save($res, array('validate' => false));
 		$this->assertTrue((bool)$res);
 
 		$this->Post->create();

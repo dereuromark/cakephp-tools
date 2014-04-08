@@ -1551,7 +1551,11 @@ class MyModel extends Model {
 	 */
 	public function update($id, $data, $validate = false) {
 		$this->id = $id;
-		return $this->save($data, $validate, array_keys($data));
+		$options = array(
+			'validate' => $validate,
+			'fieldList' => array_keys($data)
+		);
+		return $this->save($data, $options);
 	}
 
 	/**

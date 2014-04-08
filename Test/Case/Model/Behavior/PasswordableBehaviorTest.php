@@ -386,7 +386,8 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		);
 		$this->User->set($data);
 		// Test whitelist setting - only "password" needs to gets auto-added
-		$is = $this->User->save(null, true, array('id', 'pwd', 'pwd_repeat', 'pwd_current'));
+		$options = array('validate' => true, 'fieldList' => array('id', 'pwd', 'pwd_repeat', 'pwd_current'));
+		$is = $this->User->save(null, $options);
 		$this->assertTrue(!empty($is));
 
 		$user = $this->User->get($uid);
@@ -409,7 +410,8 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		// Test whitelist setting - only "password" gets auto-added, pwd, pwd_repeat etc need to be added manually
 		// NOTE that I had to remove the code for adding those fields from the behavior (as it was not functional)
 		// So of course, this won't work now as expected. But feel free to try to add them in the behavior. Results will be the same.
-		$is = $this->User->save(null, true, array('id', 'name'));
+		$options = array('validate' => true, 'fieldList' => array('id', 'name'));
+		$is = $this->User->save(null, $options);
 
 		if ((float)Configure::version() >= 2.5) {
 			// Validation errors triggered - as expected

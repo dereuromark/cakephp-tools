@@ -481,7 +481,11 @@ class SluggedBehavior extends ModelBehavior {
 		while ($rows = $Model->find('all', $params)) {
 			foreach ($rows as $row) {
 				$Model->create();
-				if (!$Model->save($row, true, array_merge(array($Model->primaryKey, $slugField), $label))) {
+				$options = array(
+					'validate' => true,
+					'fieldList' => array_merge(array($Model->primaryKey, $slugField), $label)
+				);
+				if (!$Model->save($row, $options)) {
 					throw new RuntimeException(print_r($row[$Model->alias], true) . ': ' . print_r($Model->validationErrors, true));
 				}
 			}

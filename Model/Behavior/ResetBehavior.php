@@ -117,27 +117,27 @@ class ResetBehavior extends ModelBehavior {
 		while ($rows = $Model->find('all', $params)) {
 			foreach ($rows as $row) {
 				$Model->create();
-				$fields = $params['fields'];
+				$fieldList = $params['fields'];
 				if (!empty($updateFields)) {
-					$fields = $updateFields;
+					$fieldList = $updateFields;
 				}
-				if ($fields && !in_array($Model->primaryKey, $fields)) {
-					$fields[] = $Model->primaryKey;
+				if ($fieldList && !in_array($Model->primaryKey, $fieldList)) {
+					$fieldList[] = $Model->primaryKey;
 				}
 
 				if ($callback) {
 					if (is_callable($callback)) {
-						$parameters = array(&$row, &$fields);
+						$parameters = array(&$row, &$fieldList);
 						$row = call_user_func_array($callback, $parameters);
 					} else {
-						$row = $Model->{$callback}($row, $fields);
+						$row = $Model->{$callback}($row, $fieldList);
 					}
 					if (!$row) {
 						continue;
 					}
 				}
 
-				$res = $Model->save($row, $validate, $fields);
+				$res = $Model->save($row, compact('validate', 'fieldList'));
 				if (!$res) {
 					throw new CakeException(print_r($Model->validationErrors, true));
 				}

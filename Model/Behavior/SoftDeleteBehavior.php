@@ -155,7 +155,11 @@ class SoftDeleteBehavior extends ModelBehavior {
 
 		$model->create();
 		$model->set($model->primaryKey, $id);
-		return (bool)$model->save(array($model->alias => $data), false, array_keys($data));
+		$options = array(
+			'validate' => false,
+			'fieldList' => array_keys($data)
+		);
+		return (bool)$model->save(array($model->alias => $data), $options);
 	}
 
 	/**
@@ -185,7 +189,11 @@ class SoftDeleteBehavior extends ModelBehavior {
 
 		$model->create();
 		$model->set($model->primaryKey, $id);
-		$result = $model->save(array($model->alias => $data), false, array_keys($data));
+		$options = array(
+			'validate' => false,
+			'fieldList' => array_keys($data)
+		);
+		$result = $model->save(array($model->alias => $data), $options);
 		$this->softDelete($model, $runtime);
 		return $result;
 	}

@@ -51,7 +51,7 @@ class TokenTest extends MyCakeTestCase {
 			'key' => 'x'
 		);
 		$this->Token->create();
-		$this->Token->save($data, false);
+		$this->Token->save($data, array('validate' => false));
 		$count = $this->Token->find('count');
 		$this->Token->garbageCollector();
 		$count2 = $this->Token->find('count');

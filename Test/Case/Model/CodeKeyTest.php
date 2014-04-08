@@ -51,7 +51,7 @@ class CodeKeyTest extends MyCakeTestCase {
 			'key' => 'x'
 		);
 		$this->CodeKey->create();
-		$this->CodeKey->save($data, false);
+		$this->CodeKey->save($data, array('validate' => false));
 		$count = $this->CodeKey->find('count');
 		$this->CodeKey->garbageCollector();
 		$count2 = $this->CodeKey->find('count');

@@ -166,7 +166,7 @@ class TypographicBehavior extends ModelBehavior {
 				}
 				if ($changed) {
 					if (!$dryRun) {
-						$Model->save($record, false);
+						$Model->save($record, array('validate' => false));
 					}
 					$count++;
 				}

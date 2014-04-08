@@ -150,7 +150,7 @@ class DirectAuthenticateTest extends CakeTestCase {
 		$PluginModel = ClassRegistry::init('TestPlugin.TestPluginAuthUser');
 		$user['id'] = 1;
 		$user['username'] = 'gwoo';
-		$PluginModel->save($user, false);
+		$PluginModel->save($user, array('validate' => false));
 
 		$this->auth->settings['userModel'] = 'TestPlugin.TestPluginAuthUser';
 		$this->auth->settings['fields']['username'] = 'username';
