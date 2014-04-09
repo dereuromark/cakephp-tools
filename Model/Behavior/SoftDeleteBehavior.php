@@ -97,7 +97,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 
 			foreach ($fields as $flag => $date) {
 				if ($runtime === true || $flag === $runtime) {
-					if (!in_array($flag, $conditions) && !in_array($model->name . '.' . $flag, $conditions)) {
+					if (!in_array($flag, $conditions) && !in_array($model->alias . '.' . $flag, $conditions)) {
 						$query['conditions'][$model->alias . '.' . $flag] = false;
 					}
 
