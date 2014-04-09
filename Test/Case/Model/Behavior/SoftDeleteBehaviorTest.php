@@ -148,6 +148,33 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 	}
 
 	/**
+	 * testSoftDeleteWithMultipleCounterCache
+	 *
+	 * @return void
+	 */
+	public function testSoftDeleteWithMultipleCounterCache() {
+		$this->Post->belongsTo['Category']['counterCache'] = array(
+			'post_count' => array('Post.deleted' => false),
+			'deleted_post_count' => array('Post.deleted' => true)
+		);
+
+		$this->Post->Category->id = 1;
+		$count = $this->Post->Category->field('post_count');
+		$this->assertEquals(2, $count);
+		$count = $this->Post->Category->field('deleted_post_count');
+		$this->assertEquals(0, $count);
+
+		$this->assertFalse($this->Post->softDeleted);
+		$this->Post->delete(1);
+		$this->assertTrue($this->Post->softDeleted);
+
+		$count = $this->Post->Category->field('post_count');
+		$this->assertEquals(1, $count);
+		$count = $this->Post->Category->field('deleted_post_count');
+		$this->assertEquals(1, $count);
+	}
+
+	/**
 	 * testSoftDeleteWithoutCounterCache
 	 *
 	 * @return void
@@ -176,6 +203,33 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 
 		$count = $this->Post->Category->field('post_count');
 		$this->assertEquals(1, $count);
+	}
+
+	/**
+	 * testUnDeleteWithMultipleCounterCache
+	 *
+	 * @return void
+	 */
+	public function testUnDeleteWithMultipleCounterCache() {
+		$this->Post->belongsTo['Category']['counterCache'] = array(
+			'post_count' => array('Post.deleted' => false),
+			'deleted_post_count' => array('Post.deleted' => true)
+		);
+
+		$this->Post->Category->id = 2;
+		$count = $this->Post->Category->field('post_count');
+		$this->assertEquals($count, 0);
+		$count = $this->Post->Category->field('deleted_post_count');
+		$this->assertEquals($count, 1);
+
+		$this->assertEmpty($this->Post->read(null, 3));
+
+		$this->Post->undelete(3);
+
+		$count = $this->Post->Category->field('post_count');
+		$this->assertEquals(1, $count);
+		$count = $this->Post->Category->field('deleted_post_count');
+		$this->assertEquals(0, $count);
 	}
 
 	/**
