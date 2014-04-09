@@ -200,7 +200,8 @@ class SoftDeleteBehavior extends ModelBehavior {
 		$model->set($model->primaryKey, $id);
 		$options = array(
 			'validate' => false,
-			'fieldList' => array_keys($data)
+			'fieldList' => array_keys($data),
+			'counterCache' => false
 		);
 		$result = $model->save(array($model->alias => $data), $options);
 		$this->softDelete($model, $runtime);
