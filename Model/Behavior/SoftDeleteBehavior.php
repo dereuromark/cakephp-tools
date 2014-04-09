@@ -153,13 +153,22 @@ class SoftDeleteBehavior extends ModelBehavior {
 			}
 		}
 
+		$keys = $this->_getCounterCacheKeys($model, $id);
+
 		$model->create();
 		$model->set($model->primaryKey, $id);
 		$options = array(
 			'validate' => false,
-			'fieldList' => array_keys($data)
+			'fieldList' => array_keys($data),
+			'counterCache' => false
 		);
-		return (bool)$model->save(array($model->alias => $data), $options);
+		$result = (bool)$model->save(array($model->alias => $data), $options);
+
+		if ($result && !empty($keys[$model->alias])) {
+			$model->updateCounterCache($keys[$model->alias]);
+		}
+
+		return $result;
 	}
 
 	/**
@@ -195,6 +204,14 @@ class SoftDeleteBehavior extends ModelBehavior {
 		);
 		$result = $model->save(array($model->alias => $data), $options);
 		$this->softDelete($model, $runtime);
+
+		if ($result) {
+			$keys = $this->_getCounterCacheKeys($model, $id);
+			if (!empty($keys[$model->alias])) {
+				$model->updateCounterCache($keys[$model->alias]);
+			}
+		}
+
 		return $result;
 	}
 
@@ -352,6 +369,62 @@ class SoftDeleteBehavior extends ModelBehavior {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Retrieves the foreign key values for the `belongsTo` associations
+	 * with enabled counter caching.
+	 *
+	 * The returned array has the following format:
+	 *
+	 * {{{
+	 * array(
+	 *     'ModelAlias' => array(
+	 *         'foreign_key_name' => foreign key value
+	 *     )
+	 * )
+	 * }}}
+	 *
+	 * @param Model $model
+	 * @param integer $id The ID of the current record
+	 * @return array|null
+	 */
+	protected function _getCounterCacheKeys(Model $model, $id) {
+		$keys = null;
+		if (!empty($model->belongsTo)) {
+			foreach ($model->belongsTo as $assoc) {
+				if (empty($assoc['counterCache'])) {
+					continue;
+				}
+
+				$keys = $model->find('first', array(
+					'fields' => $this->_collectForeignKeys($model),
+					'conditions' => array($model->alias . '.' . $model->primaryKey => $id),
+					'recursive' => -1,
+					'callbacks' => false
+				));
+				break;
+			}
+		}
+		return $keys;
+	}
+
+	/**
+	 * Collects foreign keys from `belongsTo` associations.
+	 *
+	 * @param Model $model
+	 * @return array
+	 */
+	protected function _collectForeignKeys(Model $model) {
+		$result = array();
+
+		foreach ($model->belongsTo as $assoc => $data) {
+			if (isset($data['foreignKey']) && is_string($data['foreignKey'])) {
+				$result[$assoc] = $data['foreignKey'];
+			}
+		}
+
+		return $result;
 	}
 
 }
