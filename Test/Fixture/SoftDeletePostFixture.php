@@ -13,6 +13,7 @@ class SoftDeletePostFixture extends CakeTestFixture {
 	public $fields = array(
 		'id' => array('type' => 'integer', 'key' => 'primary'),
 		'category_id' => array('type' => 'integer'),
+		'user_id' => array('type' => 'integer'),
 		'title' => array('type' => 'string', 'null' => false),
 		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'deleted_date' => 'datetime',
@@ -28,6 +29,7 @@ class SoftDeletePostFixture extends CakeTestFixture {
 		array(
 			'id' => 1,
 			'category_id' => 1,
+			'user_id' => 1,
 			'title' => 'First Post',
 			'deleted' => 0,
 			'deleted_date' => null,
@@ -36,6 +38,7 @@ class SoftDeletePostFixture extends CakeTestFixture {
 		array(
 			'id' => 2,
 			'category_id' => 1,
+			'user_id' => 1,
 			'title' => 'Second Post',
 			'deleted' => 0,
 			'deleted_date' => null,
@@ -44,6 +47,7 @@ class SoftDeletePostFixture extends CakeTestFixture {
 		array(
 			'id' => 3,
 			'category_id' => 2,
+			'user_id' => 1,
 			'title' => 'Third Post',
 			'deleted' => 1,
 			'deleted_date' => '2008-01-01 00:00:00',
