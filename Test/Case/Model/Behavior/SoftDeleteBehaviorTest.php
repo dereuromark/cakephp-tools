@@ -23,7 +23,10 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 	 *
 	 * @var array
 	 */
-	public $fixtures = array('plugin.tools.soft_delete_post');
+	public $fixtures = array(
+		'plugin.tools.soft_delete_category',
+		'plugin.tools.soft_delete_post'
+	);
 
 	/**
 	 * Creates the model instance
@@ -126,6 +129,68 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 		$this->assertEmpty($data);
 	}
 
+	/**
+	 * testSoftDeleteWithCounterCache
+	 *
+	 * @return void
+	 */
+	public function testSoftDeleteWithCounterCache() {
+		$this->Post->Category->id = 1;
+		$count = $this->Post->Category->field('post_count');
+		$this->assertEquals(2, $count);
+
+		$this->assertFalse($this->Post->softDeleted);
+		$this->Post->delete(1);
+		$this->assertTrue($this->Post->softDeleted);
+
+		$count = $this->Post->Category->field('post_count');
+		$this->assertEquals(1, $count);
+	}
+
+	/**
+	 * testSoftDeleteWithoutCounterCache
+	 *
+	 * @return void
+	 */
+	public function testSoftDeleteWithoutCounterCache() {
+		$Post = $this->getMock('SoftDeletedPost', array('updateCounterCache'));
+		$Post->expects($this->never())->method('updateCounterCache');
+
+		$Post->belongsTo = array();
+		$Post->delete(1);
+	}
+
+	/**
+	 * testUnDeleteWithCounterCache
+	 *
+	 * @return void
+	 */
+	public function testUnDeleteWithCounterCache() {
+		$this->Post->Category->id = 2;
+		$count = $this->Post->Category->field('post_count');
+		$this->assertEquals($count, 0);
+
+		$this->assertEmpty($this->Post->read(null, 3));
+
+		$this->Post->undelete(3);
+
+		$count = $this->Post->Category->field('post_count');
+		$this->assertEquals(1, $count);
+	}
+
+	/**
+	 * testUnDeleteWithoutCounterCache
+	 *
+	 * @return void
+	 */
+	public function testUnDeleteWithoutCounterCache() {
+		$Post = $this->getMock('SoftDeletedPost', array('updateCounterCache'));
+		$Post->expects($this->never())->method('updateCounterCache');
+
+		$Post->belongsTo = array();
+		$Post->undelete(3);
+	}
+
 		// $result = $this->Model->read();
 		// $this->assertEquals($result['SoftDeletedPost']['slug'], 'fourth_Post');
 
@@ -155,6 +220,28 @@ class SoftDeleteTestBehavior extends SoftDeleteBehavior {
 }
 
 /**
+ * SoftDeleteCategory
+ *
+ */
+class SoftDeleteCategory extends CakeTestModel {
+
+	/**
+	 * Use Table
+	 *
+	 * @var string
+	 */
+	public $useTable = 'soft_delete_categories';
+
+	/**
+	 * Alias
+	 *
+	 * @var string
+	 */
+	public $alias = 'Category';
+
+}
+
+/**
  * SoftDeletedPost
  *
  */
@@ -180,6 +267,18 @@ class SoftDeletedPost extends CakeTestModel {
 	 * @var string
 	 */
 	public $alias = 'Post';
+
+	/**
+	 * belongsTo associations
+	 *
+	 * @var array
+	 */
+	public $belongsTo = array(
+		'Category' => array(
+			'className' => 'SoftDeleteCategory',
+			'counterCache' => true
+		)
+	);
 
 }
 
