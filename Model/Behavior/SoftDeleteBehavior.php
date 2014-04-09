@@ -387,10 +387,10 @@ class SoftDeleteBehavior extends ModelBehavior {
 	 *
 	 * @param Model $model
 	 * @param integer $id The ID of the current record
-	 * @return array|null
+	 * @return array
 	 */
 	protected function _getCounterCacheKeys(Model $model, $id) {
-		$keys = null;
+		$keys = array();
 		if (!empty($model->belongsTo)) {
 			foreach ($model->belongsTo as $assoc) {
 				if (empty($assoc['counterCache'])) {
