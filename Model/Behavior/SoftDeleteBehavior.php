@@ -392,39 +392,23 @@ class SoftDeleteBehavior extends ModelBehavior {
 	protected function _getCounterCacheKeys(Model $model, $id) {
 		$keys = array();
 		if (!empty($model->belongsTo)) {
-			foreach ($model->belongsTo as $assoc) {
-				if (empty($assoc['counterCache'])) {
-					continue;
+			$fields = array();
+			foreach ($model->belongsTo as $alias => $assoc) {
+				if (!empty($assoc['counterCache']) && isset($assoc['foreignKey']) && is_string($assoc['foreignKey'])) {
+					$fields[$alias] = $assoc['foreignKey'];
 				}
+			}
 
+			if (!empty($fields)) {
 				$keys = $model->find('first', array(
-					'fields' => $this->_collectForeignKeys($model),
+					'fields' => $fields,
 					'conditions' => array($model->alias . '.' . $model->primaryKey => $id),
 					'recursive' => -1,
 					'callbacks' => false
 				));
-				break;
 			}
 		}
 		return $keys;
-	}
-
-	/**
-	 * Collects foreign keys from `belongsTo` associations.
-	 *
-	 * @param Model $model
-	 * @return array
-	 */
-	protected function _collectForeignKeys(Model $model) {
-		$result = array();
-
-		foreach ($model->belongsTo as $assoc => $data) {
-			if (isset($data['foreignKey']) && is_string($data['foreignKey'])) {
-				$result[$assoc] = $data['foreignKey'];
-			}
-		}
-
-		return $result;
 	}
 
 }
