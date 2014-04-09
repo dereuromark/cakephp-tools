@@ -13,6 +13,7 @@ class SoftDeleteCategoryFixture extends CakeTestFixture {
 	public $fields = array(
 		'id' => array('type' => 'integer', 'key' => 'primary'),
 		'post_count' => array('type' => 'integer'),
+		'deleted_post_count' => array('type' => 'integer'),
 		'title' => array('type' => 'string', 'null' => false));
 
 	/**
@@ -24,10 +25,12 @@ class SoftDeleteCategoryFixture extends CakeTestFixture {
 		array(
 			'id' => 1,
 			'post_count' => 2,
+			'deleted_post_count' => 0,
 			'title' => 'Category A'),
 		array(
 			'id' => 2,
 			'post_count' => 0,
+			'deleted_post_count' => 1,
 			'title' => 'Category B'));
 
 }
