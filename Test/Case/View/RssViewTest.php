@@ -422,7 +422,8 @@ RSS;
 				array('title' => 'Title One', 'link' => array('controller' => 'foo', 'action' => 'bar'), 'description' => 'Content one',
 					'category' => 'Internet'),
 				array('title' => 'Title Two', 'link' => array('controller' => 'foo', 'action' => 'bar'), 'description' => 'Content two',
-					'category' => array('News', 'Tutorial')),
+					'category' => array('News', 'Tutorial'),
+					'comments' => array('controller' => 'foo', 'action' => 'bar', 'ext' => 'rss')),
 			)
 		);
 		$Controller->set(array('channel' => $data, '_serialize' => 'channel'));
@@ -449,6 +450,7 @@ RSS;
       <description>Content two</description>
       <category>News</category>
       <category>Tutorial</category>
+      <comments>$this->baseUrl/foo/bar.rss</comments>
     </item>
   </channel>
 </rss>
