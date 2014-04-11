@@ -244,9 +244,11 @@ class RssView extends View {
 	 */
 	protected function _prepareOutput($item) {
 		foreach ($item as $key => $val) {
-			// Detect namespaces
 			$prefix = null;
-			$bareKey = $key;
+			// The cast prevents a PHP bug for switch() and false positives with integers
+			$bareKey = (string)$key;
+
+			// Detect namespaces
 			if (strpos($key, ':') !== false) {
 				list($prefix, $bareKey) = explode(':', $key, 2);
 				if (strpos($prefix, '@') !== false) {
@@ -266,24 +268,27 @@ class RssView extends View {
 				case 'pubDate':
 					$val = $this->time($val);
 					break;
-				/*
-				case 'category' :
-					if (is_array($val) && !empty($val[0])) {
+
+				case 'category':
+					if (is_array($val) && isset($val['domain'])) {
+						$attrib['@domain'] = $val['domain'];
+						$attrib['@'] = isset($val['content']) ? $val['content'] : $attrib['@domain'];
+						$val = $attrib;
+					} elseif (is_array($val) && !empty($val[0])) {
+						$categories = array();
 						foreach ($val as $category) {
 							$attrib = array();
 							if (is_array($category) && isset($category['domain'])) {
-								$attrib['domain'] = $category['domain'];
-								unset($category['domain']);
+								$attrib['@domain'] = $category['domain'];
+								$attrib['@'] = isset($val['content']) ? $val['content'] : $attrib['@domain'];
+								$category = $attrib;
 							}
-							$categories[] = $this->elem($key, $attrib, $category);
+							$categories[] = $category;
 						}
-						$elements[$key] = implode('', $categories);
-						continue 2;
-					} elseif (is_array($val) && isset($val['domain'])) {
-						$attrib['domain'] = $val['domain'];
+						$val = $categories;
 					}
 					break;
-				*/
+
 				case 'link':
 				case 'url':
 				case 'guid':
@@ -307,17 +312,20 @@ class RssView extends View {
 						$val = Router::url($val, true);
 					}
 					break;
+
 				case 'source':
 					if (is_array($val) && isset($val['url'])) {
-						$attrib['url'] = Router::url($val['url'], true);
-						$val = $val['title'];
-					} elseif (is_array($val)) {
-						$attrib['url'] = Router::url($val[0], true);
-						$val = $val[1];
+						$attrib['@url'] = Router::url($val['url'], true);
+						$attrib['@'] = isset($val['content']) ? $val['content'] : $attrib['@url'];
+					} elseif (!is_array($val)) {
+						$attrib['@url'] = Router::url($val, true);
+						$attrib['@'] = $attrib['@url'];
 					}
+					$val = $attrib;
 					break;
+
 				case 'enclosure':
-					if (is_string($val['url']) && is_file(WWW_ROOT . $val['url']) && file_exists(WWW_ROOT . $val['url'])) {
+					if (isset($val['url']) && is_string($val['url']) && is_file(WWW_ROOT . $val['url']) && file_exists(WWW_ROOT . $val['url'])) {
 						if (!isset($val['length']) && strpos($val['url'], '://') === false) {
 							$val['length'] = sprintf("%u", filesize(WWW_ROOT . $val['url']));
 						}
@@ -325,12 +333,14 @@ class RssView extends View {
 							$val['type'] = mime_content_type(WWW_ROOT . $val['url']);
 						}
 					}
-					$val['url'] = Router::url($val['url'], true);
-					$attrib = $val;
-					$val = null;
+					$attrib['@url'] = Router::url($val['url'], true);
+					$attrib['@length'] = $val['length'];
+					$attrib['@type'] = $val['type'];
+					$val = $attrib;
 					break;
+
 				default:
-					//$attrib = $att;
+					//nothing
 			}
 
 			if (is_array($val)) {

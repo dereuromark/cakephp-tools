@@ -35,7 +35,7 @@ class RssViewTest extends CakeTestCase {
 
 		$this->Rss = new RssView();
 
-		$this->baseUrl = php_sapi_name() === 'cli' ? 'http://localhost' : HTTP_BASE;
+		$this->baseUrl = trim(Router::url('/', true), '/');
 	}
 
 	/**
@@ -65,9 +65,14 @@ class RssViewTest extends CakeTestCase {
 				'description' => 'Channel description'
 			),
 			'items' => array(
-				array('title' => 'Title One', 'link' => 'http://example.org/one', 'author' => 'one@example.org', 'description' => 'Content one'),
-				array('title' => 'Title Two', 'link' => 'http://example.org/two', 'author' => 'two@example.org', 'description' => 'Content two'),
-			));
+				array('title' => 'Title One', 'link' => 'http://example.org/one',
+					'author' => 'one@example.org', 'description' => 'Content one',
+					'source' => array('url' => 'http://foo.bar')),
+				array('title' => 'Title Two', 'link' => 'http://example.org/two',
+					'author' => 'two@example.org', 'description' => 'Content two',
+					'source' => array('url' => 'http://foo.bar', 'content' => 'Foo bar')),
+			)
+		);
 		$Controller->set(array('channel' => $data, '_serialize' => 'channel'));
 		$View = new RssView($Controller);
 		$result = $View->render(false);
@@ -84,18 +89,19 @@ class RssViewTest extends CakeTestCase {
       <link>http://example.org/one</link>
       <author>one@example.org</author>
       <description>Content one</description>
+      <source url="http://foo.bar">http://foo.bar</source>
     </item>
     <item>
       <title>Title Two</title>
       <link>http://example.org/two</link>
       <author>two@example.org</author>
       <description>Content two</description>
+      <source url="http://foo.bar">Foo bar</source>
     </item>
   </channel>
 </rss>
 
 RSS;
-		//debug($result);
 		$this->assertSame('application/rss+xml', $Response->type());
 		$this->assertTextEquals($expected, $result);
 	}
@@ -120,8 +126,11 @@ RSS;
 				'sy:updateFrequency' => 1
 			),
 			'items' => array(
-				array('title' => 'Title One', 'link' => 'http://example.org/one', 'dc:creator' => 'Author One', 'pubDate' => $time),
-				array('title' => 'Title Two', 'link' => 'http://example.org/two', 'dc:creator' => 'Author Two', 'pubDate' => $time),
+				array('title' => 'Title One', 'link' => 'http://example.org/one',
+					'dc:creator' => 'Author One', 'pubDate' => $time),
+				array('title' => 'Title Two', 'link' => 'http://example.org/two',
+					'dc:creator' => 'Author Two', 'pubDate' => $time,
+					'source' => 'http://foo.bar'),
 			)
 		);
 		$Controller->set(array('channel' => $data, '_serialize' => 'channel'));
@@ -149,6 +158,7 @@ RSS;
       <link>http://example.org/two</link>
       <dc:creator>Author Two</dc:creator>
       <pubDate>$time</pubDate>
+      <source url="http://foo.bar">http://foo.bar</source>
     </item>
   </channel>
 </rss>
@@ -390,7 +400,147 @@ RSS;
 </rss>
 
 RSS;
-		//debug($result);
 		$this->assertTextEquals($expected, $result);
 	}
+
+	/**
+	 * RssViewTest::testSerializeWithCategories()
+	 *
+	 * @return void
+	 */
+	public function testSerializeWithCategories() {
+		$Request = new CakeRequest();
+		$Response = new CakeResponse();
+		$Controller = new Controller($Request, $Response);
+		$data = array(
+			'channel' => array(
+				'title' => 'Channel title',
+				'link' => 'http://channel.example.org',
+				'category' => 'IT/Internet/Web development & more',
+			),
+			'items' => array(
+				array('title' => 'Title One', 'link' => array('controller' => 'foo', 'action' => 'bar'), 'description' => 'Content one',
+					'category' => 'Internet'),
+				array('title' => 'Title Two', 'link' => array('controller' => 'foo', 'action' => 'bar'), 'description' => 'Content two',
+					'category' => array('News', 'Tutorial')),
+			)
+		);
+		$Controller->set(array('channel' => $data, '_serialize' => 'channel'));
+		$View = new RssView($Controller);
+		$result = $View->render(false);
+
+		$expected = <<<RSS
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Channel title</title>
+    <link>http://channel.example.org</link>
+    <category>IT/Internet/Web development &amp; more</category>
+    <description/>
+    <item>
+      <title>Title One</title>
+      <link>$this->baseUrl/foo/bar</link>
+      <description>Content one</description>
+      <category>Internet</category>
+    </item>
+    <item>
+      <title>Title Two</title>
+      <link>$this->baseUrl/foo/bar</link>
+      <description>Content two</description>
+      <category>News</category>
+      <category>Tutorial</category>
+    </item>
+  </channel>
+</rss>
+
+RSS;
+		$this->assertTextEquals($expected, $result);
+	}
+
+	/**
+	 * RssViewTest::testSerializeWithEnclosure()
+	 *
+	 * @return void
+	 */
+	public function testSerializeWithEnclosure() {
+		$Request = new CakeRequest();
+		$Response = new CakeResponse();
+		$Controller = new Controller($Request, $Response);
+		$data = array(
+			'channel' => array(
+				'title' => 'Channel title',
+				'link' => 'http://channel.example.org',
+			),
+			'items' => array(
+				array('title' => 'Title One', 'link' => array('controller' => 'foo', 'action' => 'bar'), 'description' => 'Content one',
+					'enclosure' => array('url' => 'http://www.w3schools.com/media/3d.wmv', 'length' => 78645, 'type' => 'video/wmv')),
+			)
+		);
+		$Controller->set(array('channel' => $data, '_serialize' => 'channel'));
+		$View = new RssView($Controller);
+		$result = $View->render(false);
+
+		$expected = <<<RSS
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Channel title</title>
+    <link>http://channel.example.org</link>
+    <description/>
+    <item>
+      <title>Title One</title>
+      <link>$this->baseUrl/foo/bar</link>
+      <description>Content one</description>
+      <enclosure url="http://www.w3schools.com/media/3d.wmv" length="78645" type="video/wmv"/>
+    </item>
+  </channel>
+</rss>
+
+RSS;
+		$this->assertTextEquals($expected, $result);
+	}
+
+	/**
+	 * RssViewTest::testSerializeWithCustomTags()
+	 *
+	 * @return void
+	 */
+	public function testSerializeWithCustomTags() {
+		$Request = new CakeRequest();
+		$Response = new CakeResponse();
+		$Controller = new Controller($Request, $Response);
+		$data = array(
+			'channel' => array(
+				'title' => 'Channel title',
+				'link' => 'http://channel.example.org',
+			),
+			'items' => array(
+				array('title' => 'Title One', 'link' => array('controller' => 'foo', 'action' => 'bar'), 'description' => 'Content one',
+					'foo' => array('@url' => 'http://www.w3schools.com/media/3d.wmv', '@length' => 78645, '@type' => 'video/wmv')),
+			)
+		);
+		$Controller->set(array('channel' => $data, '_serialize' => 'channel'));
+		$View = new RssView($Controller);
+		$result = $View->render(false);
+
+		$expected = <<<RSS
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Channel title</title>
+    <link>http://channel.example.org</link>
+    <description/>
+    <item>
+      <title>Title One</title>
+      <link>$this->baseUrl/foo/bar</link>
+      <description>Content one</description>
+      <foo url="http://www.w3schools.com/media/3d.wmv" length="78645" type="video/wmv"/>
+    </item>
+  </channel>
+</rss>
+
+RSS;
+		$this->assertTextEquals($expected, $result);
+	}
+
 }
