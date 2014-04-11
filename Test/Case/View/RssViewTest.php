@@ -473,7 +473,7 @@ RSS;
 			),
 			'items' => array(
 				array('title' => 'Title One', 'link' => array('controller' => 'foo', 'action' => 'bar'), 'description' => 'Content one',
-					'enclosure' => array('url' => 'http://www.w3schools.com/media/3d.wmv', 'length' => 78645, 'type' => 'video/wmv')),
+					'enclosure' => array('url' => 'http://www.example.com/media/3d.wmv', 'length' => 78645, 'type' => 'video/wmv')),
 			)
 		);
 		$Controller->set(array('channel' => $data, '_serialize' => 'channel'));
@@ -491,7 +491,7 @@ RSS;
       <title>Title One</title>
       <link>$this->baseUrl/foo/bar</link>
       <description>Content one</description>
-      <enclosure url="http://www.w3schools.com/media/3d.wmv" length="78645" type="video/wmv"/>
+      <enclosure url="http://www.example.com/media/3d.wmv" length="78645" type="video/wmv"/>
     </item>
   </channel>
 </rss>
@@ -516,7 +516,7 @@ RSS;
 			),
 			'items' => array(
 				array('title' => 'Title One', 'link' => array('controller' => 'foo', 'action' => 'bar'), 'description' => 'Content one',
-					'foo' => array('@url' => 'http://www.w3schools.com/media/3d.wmv', '@length' => 78645, '@type' => 'video/wmv')),
+					'foo' => array('@url' => 'http://www.example.com/media/3d.wmv', '@length' => 78645, '@type' => 'video/wmv')),
 			)
 		);
 		$Controller->set(array('channel' => $data, '_serialize' => 'channel'));
@@ -534,7 +534,7 @@ RSS;
       <title>Title One</title>
       <link>$this->baseUrl/foo/bar</link>
       <description>Content one</description>
-      <foo url="http://www.w3schools.com/media/3d.wmv" length="78645" type="video/wmv"/>
+      <foo url="http://www.example.com/media/3d.wmv" length="78645" type="video/wmv"/>
     </item>
   </channel>
 </rss>
