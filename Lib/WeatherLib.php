@@ -80,7 +80,14 @@ class WeatherLib {
 
 	//.../feed/weather.ashx?q=Neufahrn&format=json&num_of_days=2&key=598dfbdaeb121715111208
 
-	public function _get($url, $options) {
+	/**
+	 * WeatherLib::_get()
+	 *
+	 * @param mixed $url
+	 * @param mixed $options
+	 * @return array|false
+	 */
+	protected function _get($url, $options) {
 		if (isset($options['cache'])) {
 			$cache = $options['cache'];
 			unset($options['cache']);
@@ -103,13 +110,14 @@ class WeatherLib {
 		}
 		switch ($options['format']) {
 			case 'json':
-				$res = json_decode($content);
+				$res = json_decode($content, true);
 				break;
 			case 'xml':
 				$res = Xml::build($content);
 				$res = Xml::toArray($res);
 				break;
 			case 'csv':
+			default:
 				//TODO?
 				$res = array();
 				throw new CakeException('Not implemented yet');
@@ -128,7 +136,7 @@ class WeatherLib {
 	/**
 	 * @return string Url
 	 */
-	public function _url($url, $options = array()) {
+	protected function _url($url, $options = array()) {
 		$params = array();
 		foreach ($options as $key => $option) {
 			$params[] = $key . '=' . $option;

@@ -548,7 +548,7 @@ class MyModel extends Model {
 				$results = Cache::read($key, 'sql');
 			}
 
-			if ($results === null) {
+			if (!isset($results)) {
 				$results = parent::find($type, $query);
 				Cache::write($key, $results, 'sql');
 			}
@@ -1474,7 +1474,7 @@ class MyModel extends Model {
 		if ($fields === '*') {
 			$fields = $this->alias . '.*';
 		} elseif (!empty($fields)) {
-			foreach ($fields as $row => $field) {
+			foreach ((array)$fields as $row => $field) {
 				if (strpos($field, '.') !== false) {
 					continue;
 				}

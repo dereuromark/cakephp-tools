@@ -21,6 +21,52 @@ class CommonHelperTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * CommonHelperTest::testFlash()
+	 *
+	 * @return void
+	 */
+	public function testFlash() {
+		$this->Common->addFlashMessage(h('Foo & bar'), 'success');
+
+		$result = $this->Common->flash();
+		$expected = '<div class="flashMessages"><div class="message success">Foo &amp; bar</div></div>';
+		$this->assertEquals($expected, $result);
+
+		$this->Common->addFlashMessage('I am an error', 'error');
+		$this->Common->addFlashMessage('I am a warning', 'warning');
+		$this->Common->addFlashMessage('I am some info', 'info');
+		$this->Common->addFlashMessage('I am also some info');
+		$this->Common->addFlashMessage('I am sth custom', 'custom');
+
+		$result = $this->Common->flash();
+		$this->assertTextContains('message error', $result);
+		$this->assertTextContains('message warning', $result);
+		$this->assertTextContains('message info', $result);
+		$this->assertTextContains('message custom', $result);
+
+		$result = substr_count($result, 'message info');
+		$this->assertSame(2, $result);
+	}
+
+	/**
+	 * Test that you can define your own order or just output a subpart of
+	 * the types.
+	 *
+	 * @return void
+	 */
+	public function testFlashWithTypes() {
+		$this->Common->addFlashMessage('I am an error', 'error');
+		$this->Common->addFlashMessage('I am a warning', 'warning');
+		$this->Common->addFlashMessage('I am some info', 'info');
+		$this->Common->addFlashMessage('I am also some info');
+		$this->Common->addFlashMessage('I am sth custom', 'custom');
+
+		$result = $this->Common->flash(array('warning', 'error'));
+		$expected = '<div class="flashMessages"><div class="message warning">I am a warning</div><div class="message error">I am an error</div></div>';
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
 	 * @return void
 	 */
 	public function testMetaCanonical() {
@@ -45,7 +91,7 @@ class CommonHelperTest extends MyCakeTestCase {
 
 		$is = $this->Common->metaAlternate(array('controller' => 'some', 'action' => 'url'), array('de', 'de-ch'), true);
 		$this->out(h($is));
-		$this->assertEquals('<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="de" />' . PHP_EOL . '<link href="' . FULL_BASE_URL . $this->Html->url('/some/url') . '" rel="alternate" hreflang="de-ch" />', trim($is));
+		$this->assertEquals('<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="de" />' . PHP_EOL . '<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="de-ch" />', trim($is));
 
 		$is = $this->Common->metaAlternate(array('controller' => 'some', 'action' => 'url'), array('de' => array('ch', 'at'), 'en' => array('gb', 'us')), true);
 		$this->out(h($is));

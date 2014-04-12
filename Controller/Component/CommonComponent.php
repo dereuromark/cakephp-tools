@@ -1,4 +1,7 @@
 <?php
+if (!defined('CLASS_USER')) {
+	define('CLASS_USER', 'User');
+}
 
 App::uses('Component', 'Controller');
 App::uses('Sanitize', 'Utility');
@@ -15,7 +18,7 @@ class CommonComponent extends Component {
 
 	public $components = array('Session', 'RequestHandler');
 
-	public $userModel = 'User';
+	public $userModel = CLASS_USER;
 
 	/**
 	 * For automatic startup
@@ -136,55 +139,45 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * Updates FlashMessage SessionContent (to enable unlimited messages of one case)
+	 * Adds a flash message.
+	 * Updates "messages" session content (to enable multiple messages of one type).
 	 *
-	 * @param string messagestring
-	 * @param string class ['error', 'warning', 'success', 'info']
+	 * @param string $message Message to output.
+	 * @param string $type Type ('error', 'warning', 'success', 'info' or custom class).
 	 * @return void
 	 */
-	public function flashMessage($messagestring, $class = null) {
-		switch ($class) {
-			case 'error':
-			case 'warning':
-			case 'success':
-				break;
-			default:
-				$class = 'info';
-				break;
+	public function flashMessage($message, $type = null) {
+		if (!$type) {
+			$type = 'info';
 		}
 
 		$old = (array)$this->Session->read('messages');
-		if (isset($old[$class]) && count($old[$class]) > 99) {
-			array_shift($old[$class]);
+		if (isset($old[$type]) && count($old[$type]) > 99) {
+			array_shift($old[$type]);
 		}
-		$old[$class][] = $messagestring;
+		$old[$type][] = $message;
 		$this->Session->write('messages', $old);
 	}
 
 	/**
-	 * FlashMessages that are not saved (only for current view)
-	 * will be merged into the session flash ones prior to output
+	 * Adds a transient flash message.
+	 * These flash messages that are not saved (only available for current view),
+	 * will be merged into the session flash ones prior to output.
 	 *
-	 * @param string messagestring
-	 * @param string class ['error', 'warning', 'success', 'info']
+	 * @param string $message Message to output.
+	 * @param string $type Type ('error', 'warning', 'success', 'info' or custom class).
 	 * @return void
 	 */
-	public static function transientFlashMessage($messagestring, $class = null) {
-		switch ($class) {
-			case 'error':
-			case 'warning':
-			case 'success':
-				break;
-			default:
-				$class = 'info';
-				break;
+	public static function transientFlashMessage($message, $type = null) {
+		if (!$type) {
+			$type = 'info';
 		}
 
 		$old = (array)Configure::read('messages');
-		if (isset($old[$class]) && count($old[$class]) > 99) {
-			array_shift($old[$class]);
+		if (isset($old[$type]) && count($old[$type]) > 99) {
+			array_shift($old[$type]);
 		}
-		$old[$class][] = $messagestring;
+		$old[$type][] = $message;
 		Configure::write('messages', $old);
 	}
 

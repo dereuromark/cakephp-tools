@@ -9,8 +9,14 @@ class DatetimeHelper extends TimeHelper {
 
 	public $helpers = array('Html');
 
+	/**
+	 * @deprecated Let timezone handle that
+	 */
 	public $userOffset = null;
 
+	/**
+	 * @deprecated Let timezone handle that
+	 */
 	public $daylightSavings = false;
 
 	public function __construct($View = null, $settings = array()) {
@@ -27,6 +33,9 @@ class DatetimeHelper extends TimeHelper {
 	}
 
 	/**
+	 * Output the age of a person within a sane range.
+	 * Defaults to the $default string if outside of that range.
+	 *
 	 * @param string date (from db)
 	 * @return integer age on success, mixed $default otherwise
 	 */
@@ -61,7 +70,7 @@ class DatetimeHelper extends TimeHelper {
 
 	/**
 	 * Returns red/specialGreen/green date depending on the current day
-	 * // TODO refactor!
+	 * // TODO refactor! $userOffset is deprecated!
 	 *
 	 * @param date in DB Format (xxxx-xx-xx)
 	 * ...
@@ -143,11 +152,11 @@ class DatetimeHelper extends TimeHelper {
 	 * returns hh:mm
 	 * TODO: move to lib, but more generic
 	 *
-	 * @param badTime
-	 * @return string Nice time
+	 * @param string $time
+	 * @return string Time
 	 */
-	public function niceTime($badTime) {
-		return substr($badTime, 0, 5);
+	public function niceTime($time) {
+		return substr($time, 0, 5);
 	}
 
 	/**
