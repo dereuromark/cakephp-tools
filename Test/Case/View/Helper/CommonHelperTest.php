@@ -64,6 +64,14 @@ class CommonHelperTest extends MyCakeTestCase {
 		$result = $this->Common->flash(array('warning', 'error'));
 		$expected = '<div class="flashMessages"><div class="message warning">I am a warning</div><div class="message error">I am an error</div></div>';
 		$this->assertEquals($expected, $result);
+
+		$result = $this->Common->flash(array('info'));
+		$expected = '<div class="flashMessages"><div class="message info">I am some info</div><div class="message info">I am also some info</div></div>';
+		$this->assertEquals($expected, $result);
+
+		$result = $this->Common->flash();
+		$expected = '<div class="flashMessages"><div class="message custom">I am sth custom</div></div>';
+		$this->assertEquals($expected, $result);
 	}
 
 	/**

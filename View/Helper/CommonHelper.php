@@ -49,12 +49,15 @@ class CommonHelper extends AppHelper {
 				}
 			}
 			$html .= '</div>';
-			if (method_exists($this->Session, 'delete')) {
-				$this->Session->delete('messages');
+			if ($types) {
+				foreach ($types as $type) {
+					CakeSession::delete('messages.' . $type);
+					Configure::delete('messages.' . $type);
+				}
 			} else {
 				CakeSession::delete('messages');
+				Configure::delete('messages');
 			}
-			Configure::delete('messages');
 		}
 
 		return $html;
