@@ -11,10 +11,9 @@ class CommonHelper extends AppHelper {
 	public $helpers = array('Session', 'Html');
 
 	/**
-	 * Display all flash messages
+	 * Display all flash messages.
 	 *
 	 * TODO: export div wrapping method (for static messaging on a page)
-	 * TODO: sorting
 	 *
 	 * @param array $types Types to output. Defaults to all if none are specified.
 	 * @return string HTML
