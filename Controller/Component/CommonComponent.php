@@ -852,49 +852,9 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * //TODO: move somewhere else
-	 * Assign Array to Char Array
-	 *
-	 * PROTECTED NAMES (content cannot contain those): undefined
-	 *
-	 * @var content array
-	 * @var char array
-	 * @return array: chars with content
-	 */
-	public function assignToChar($contentArray, $charArray = null) {
-		$res = array();
-		$res['undefined'] = array();
-
-		if (empty($charArray)) {
-			$charArray = $this->alphaFilterSymbols();
-		}
-
-		foreach ($contentArray as $content) {
-			$done = false;
-
-			// loop them trough
-			foreach ($charArray as $char) {
-				if (empty($res[$char])) { // throws warnings otherwise
-					$res[$char] = array();
-				}
-				if (!empty($content) && strtolower(substr($content, 0, 1)) == $char) {
-					$res[$char][] = $content;
-					$done = true;
-				}
-			}
-
-			// no match?
-			if (!empty($content) && !$done) {
-				$res['undefined'][] = $content;
-			}
-
-		}
-		return $res;
-	}
-
-	/**
 	 * Expects email to be valid!
 	 * TODO: move to Lib
+	 *
 	 * @return array email - pattern: array('email'=>,'name'=>)
 	 */
 	public function splitEmail($email, $abortOnError = false) {
