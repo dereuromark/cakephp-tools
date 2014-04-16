@@ -572,7 +572,6 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$this->User->set($data);
 		$result = $this->User->save();
 		$this->assertTrue((bool)$result);
-		$uid = (string)$this->User->id;
 
 		$this->User->create();
 		$data = array(
@@ -587,6 +586,36 @@ class PasswordableBehaviorTest extends CakeTestCase {
 			'pwd_repeat' => array(__('valErrBetweenCharacters %s %s', 3, 6))
 		);
 		$this->assertEquals($expected, $this->User->validationErrors);
+	}
+
+	/**
+	 * Test that validate false also works.
+	 *
+	 * @return void
+	 */
+	public function testSaveWithValidateFalse() {
+		$this->User->Behaviors->load('Tools.Passwordable');
+		$this->User->create();
+		$data = array(
+			'pwd' => '123',
+			'pwd_repeat' => '123'
+		);
+		$this->User->set($data);
+		$result = $this->User->save(null, array('validate' => false));
+		$this->assertTrue((bool)$result);
+
+		$uid = (string)$this->User->id;
+
+		$data = array(
+			'id' => $uid,
+			'pwd' => '1234',
+			'pwd_repeat' => '1234'
+		);
+		$this->User->set($data);
+		$result2 = $this->User->save(null, array('validate' => false));
+		$this->assertTrue((bool)$result2);
+
+		$this->assertTrue($result['ToolsUser']['password'] !== $result2['ToolsUser']['password']);
 	}
 
 }
