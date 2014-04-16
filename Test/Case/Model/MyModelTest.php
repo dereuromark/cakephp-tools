@@ -276,6 +276,33 @@ class MyModelTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * MyModelTest::testValidateRange()
+	 *
+	 * @return void
+	 */
+	public function testValidateRange() {
+		$this->out($this->_header(__FUNCTION__), true);
+		$is = $this->User->validateRange(array('range' => 2), 1, 3);
+		$this->assertTrue($is);
+
+		$this->out($this->_header(__FUNCTION__), true);
+		$is = $this->User->validateRange(array('range' => 2.4), 1.5, 2.3);
+		$this->assertFalse($is);
+
+		$this->out($this->_header(__FUNCTION__), true);
+		$is = $this->User->validateRange(array('range' => -5), -10, 1);
+		$this->assertTrue($is);
+
+		$this->out($this->_header(__FUNCTION__), true);
+		$is = $this->User->validateRange(array('range' => 'word'), 1.5, 2.3);
+		$this->assertFalse($is);
+
+		$this->out($this->_header(__FUNCTION__), true);
+		$is = $this->User->validateRange(array('range' => 5.1));
+		$this->assertTrue($is);
+	}
+
+	/**
 	 * MyModelTest::testValidateIdentical()
 	 *
 	 * @return void

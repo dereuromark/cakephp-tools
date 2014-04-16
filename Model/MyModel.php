@@ -865,6 +865,31 @@ class MyModel extends Model {
 	}
 
 	/**
+	 * Validate range, but in a more sane way than CORE range().
+	 * This range() validation rule is inclusive regarding the borders.
+	 *
+	 * If $lower and $upper are not set, will return true if
+	 * $check is a legal finite on this platform
+	 *
+	 * @param string $check Value to check
+	 * @param float $lower Lower limit
+	 * @param float $upper Upper limit
+	 * @return boolean Success
+	 */
+	public function validateRange($data, $lower = null, $upper = null) {
+		foreach ($data as $key => $check) {
+			break;
+		}
+		if (!is_numeric($check)) {
+			return false;
+		}
+		if (isset($lower) && isset($upper)) {
+			return ($check >= $lower && $check <= $upper);
+		}
+		return is_finite($check);
+	}
+
+	/**
 	 * Checks a record, if it is unique - depending on other fields in this table (transfered as array)
 	 * example in model: 'rule' => array ('validateUnique', array('belongs_to_table_id','some_id','user_id')),
 	 * if all keys (of the array transferred) match a record, return false, otherwise true
