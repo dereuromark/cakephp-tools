@@ -75,8 +75,8 @@ class GeocodeLibTest extends MyCakeTestCase {
 
 	public function testUrl() {
 		$is = $this->Geocode->url();
-		//debug($is);
-		$this->assertTrue(!empty($is) && strpos($is, 'http://maps.googleapis.com/maps/api/geocode/xml?') === 0);
+		$this->assertFalse(empty($is));
+		$this->assertPattern('#https://maps.googleapis.com/maps/api/geocode/(json|xml)\?.+#', $is);
 	}
 
 	// not possible with protected method
@@ -168,6 +168,16 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$this->assertTrue(empty($is));
 	}
 
+	public function testGeocodeBadApiKey() {
+		$address = 'Oranienburger Straße 87, 10178 Berlin, Deutschland';
+		$is = $this->Geocode->geocode($address, array('sensor' => false, 'key' => 'testingBadApiKey'));
+		$this->assertFalse($is);
+		//pr($this->Geocode->debug());
+		$is = $this->Geocode->error();
+		$this->assertEqual('Error REQUEST_DENIED (The provided API key is invalid.)', $is);
+
+	}
+
 	public function testGeocodeInvalid() {
 		$address = 'Hjfjosdfhosj, 78878 Mdfkufsdfk';
 		//echo '<h2>'.$address.'</h2>';
@@ -182,35 +192,43 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$this->assertTrue(!empty($is));
 	}
 
-	public function testGeocodeMinAcc() {
-		$address = 'Deutschland';
-		//echo '<h2>'.$address.'</h2>';
-		$this->Geocode->setOptions(array('min_accuracy' => 3));
-		$is = $this->Geocode->geocode($address);
-		//debug($is);
-		$this->assertFalse($is);
+	public function testGetMaxAddress() {
+		$this->assertEqual($this->Geocode->_getMaxAccuracy(array('street_address' => 'abc')), GeocodeLib::ACC_STREET);
+		$this->assertEqual($this->Geocode->_getMaxAccuracy(array('intersection' => 'abc')), GeocodeLib::ACC_INTERSEC);
+		$this->assertEqual($this->Geocode->_getMaxAccuracy(array('route' => 'abc')), GeocodeLib::ACC_ROUTE);
+		$this->assertEqual($this->Geocode->_getMaxAccuracy(array('sublocality' => 'abc')), GeocodeLib::ACC_SUBLOC);
+		$this->assertEqual($this->Geocode->_getMaxAccuracy(array('locality' => 'abc')), GeocodeLib::ACC_LOC);
+		$this->assertEqual($this->Geocode->_getMaxAccuracy(array('postal_code' => 'abc')), GeocodeLib::ACC_POSTAL);
+		$this->assertEqual($this->Geocode->_getMaxAccuracy(array('country' => 'aa')), GeocodeLib::ACC_COUNTRY);
+		$this->assertEqual($this->Geocode->_getMaxAccuracy(array()), GeocodeLib::ACC_COUNTRY);
+		// mixed
+		$this->assertEqual($this->Geocode->_getMaxAccuracy(array(
+			'country' => 'aa',
+			'postal_code' => 'abc',
+			'locality' => '',
+			'street_address' => '',
+		)), GeocodeLib::ACC_POSTAL);
+	}
 
+	public function testGeocodeMinAcc() {
+		// address = postal_code, minimum = street level
+		$address = 'Deutschland';
+		$this->Geocode->setOptions(array('min_accuracy' => GeocodeLib::ACC_STREET));
+		$is = $this->Geocode->geocode($address);
+		$this->assertFalse($is);
 		$is = $this->Geocode->error();
-		//debug($is);
 		$this->assertTrue(!empty($is));
 	}
 
 	public function testGeocodeInconclusive() {
 		// seems like there is no inconclusive result anymore!!!
-
 		$address = 'Neustadt';
-		//echo '<h2>'.$address.'</h2>';
 
 		// allow_inconclusive = TRUE
-		$this->Geocode->setOptions(array('allow_inconclusive' => true, 'min_accuracy' => GeocodeLib::ACC_LOC));
+		$this->Geocode->setOptions(array('allow_inconclusive' => true, 'min_accuracy' => GeocodeLib::ACC_POSTAL));
 		$is = $this->Geocode->geocode($address);
-		//echo 'debug:';
-		//pr($this->Geocode->debug());
-		//echo 'debug end';
 		$this->assertTrue($is);
-
 		$res = $this->Geocode->getResult();
-		//pr($res);
 		$this->assertTrue(count($res) > 4);
 
 		$is = $this->Geocode->isInconclusive();
