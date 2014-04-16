@@ -1,6 +1,7 @@
 <?php
 App::uses('String', 'Utility');
 App::uses('Xml', 'Utility');
+App::uses('Hash', 'Utility');
 App::uses('HttpSocketLib', 'Tools.Lib');
 
 /**
@@ -397,9 +398,9 @@ class GeocodeLib {
 				}
 
 				$accuracy = $this->_getMaxAccuracy($result['result']);
-				$accuracyText = $this->accuracyTypes[$accuracy];
 
 				if ($this->_isNotAccurateEnough($accuracy)) {
+					$accuracyText = $this->accuracyTypes[$accuracy];
 					$minAccuracy = $this->accuracyTypes[$this->options['min_accuracy']];
 					$this->setError(__('Accuracy not good enough (%s instead of at least %s)', $accuracyText, $minAccuracy));
 					$this->result = $result['result'];
@@ -408,12 +409,12 @@ class GeocodeLib {
 
 				if (!empty($this->options['expect'])) {
 					$fields = (empty($result['result']['types']) ? array() : Hash::filter($result['result']['types']));
-					$found = array_intersect($fields, (array) $this->options['expect']);
+					$found = array_intersect($fields, (array)$this->options['expect']);
 					$validExpectation = !empty($found);
 					if (!$validExpectation) {
 						$this->setError(__('Expectation not reached (we have %s instead of at least %s)',
 							implode(', ', $found),
-							implode(', ', (array) $this->options['expect'])
+							implode(', ', (array)$this->options['expect'])
 						));
 						$this->result = $result['result'];
 						return false;
