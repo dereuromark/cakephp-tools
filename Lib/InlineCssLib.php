@@ -56,8 +56,10 @@ class InlineCssLib {
 	 */
 	protected function _processEmogrifier($html, $css) {
 		$css .= $this->_extractAndRemoveCss($html);
-		App::import('Vendor', 'Emogrifier', array('file' => 'emogrifier' . DS . 'emogrifier.php'));
+		App::import('Vendor', 'Tools.Emogrifier', array('file' => 'Emogrifier/Emogrifier.php'));
+
 		$Emogrifier = new Emogrifier($html, $css);
+		$Emogrifier->preserveEncoding = true;
 
 		return @$Emogrifier->emogrify();
 	}

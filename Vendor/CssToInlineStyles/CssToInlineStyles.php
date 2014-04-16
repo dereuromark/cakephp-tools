@@ -112,17 +112,17 @@ class CssToInlineStyles
             // E + F, Matches any F element immediately preceded by an element
             '/(\w)\s*\+\s*(\w)/',
             // E[foo], Matches any E element with the "foo" attribute set (whatever the value)
-            '/(\w)\[([\w\-]+)]/',
+            '/(\w)\[([\w\-_]+)]/',
             // E[foo="warning"], Matches any E element whose "foo" attribute value is exactly equal to "warning"
-            '/(\w)\[([\w\-]+)\=\"(.*)\"]/',
+            '/(\w)\[([\w\-_]+)\=\"(.*)\"]/',
             // div.warning, HTML only. The same as DIV[class~="warning"]
-            '/(\w+|\*)+\.([\w\-]+)+/',
+            '/(\w+|\*)+\.([\w\-_]+)+/',
             // .warning, HTML only. The same as *[class~="warning"]
-            '/\.([\w\-]+)/',
+            '/\.([\w\-_]+)/',
             // E#myid, Matches any E element with id-attribute equal to "myid"
-            '/(\w+)+\#([\w\-]+)/',
+            '/(\w+)+\#([\w\-_]+)/',
             // #myid, Matches any element with id-attribute equal to "myid"
-            '/\#([\w\-]+)/'
+            '/\#([\w\-_]+)/'
         );
 
         // the xPath-equivalent
@@ -164,13 +164,13 @@ class CssToInlineStyles
     private function calculateCSSSpecifity($selector)
     {
         // cleanup selector
-        $selector = str_replace(array('>', '+'), array(' > ', ' + '), $selector);
+        $selector = preg_replace('/\s?(\>|\+)\s?/', '$1', $selector);
 
         // init var
         $specifity = 0;
 
         // split the selector into chunks based on spaces
-        $chunks = explode(' ', $selector);
+        $chunks = preg_split( '/\>|\+|\s/', $selector);
 
         // loop chunks
         foreach ($chunks as $chunk) {
@@ -233,7 +233,7 @@ class CssToInlineStyles
             // any style-blocks found?
             if (!empty($matches[2])) {
                 // add
-                foreach($matches[2] as $match) $this->css .= trim($match) ."\n";
+                foreach($matches[2] as $match) $this->css .= "\n" . trim($match) ."\n";
             }
         }
 
@@ -245,6 +245,12 @@ class CssToInlineStyles
 
         // set error level
         libxml_use_internal_errors(true);
+
+				//Check if html has ISO encoding and convert to UTF-8
+				$encoding = mb_detect_encoding($this->html, array('UTF-8', 'ISO-8859-1'));
+				if ($encoding === 'ISO-8859-1') {
+					$this->html = utf8_encode($this->html);
+				}
 
         // load HTML
         $document->loadHTML($this->html);
@@ -442,7 +448,6 @@ class CssToInlineStyles
 
         // should we output XHTML?
         if ($outputXHTML) {
-            // set formating
             $document->formatOutput = true;
 
             // get the HTML as XML
@@ -457,21 +462,33 @@ class CssToInlineStyles
                 $endPosition = strpos($html, '?>', $startPosition);
 
                 // remove the XML-header
-                $html = ltrim(substr($html, $endPosition + 1));
+                $html = ltrim(substr($html, $endPosition + 2));
             }
         }
 
         // just regular HTML 4.01 as it should be used in newsletters
         else {
             // get the HTML
+            $document->formatOutput = true;
             $html = $document->saveHTML();
         }
 
         if ($this->correctUtf8) {
             // Only for >PHP5.4
+            $chars = array(
+							'&nbsp;', '&laquo;', '&raquo;', '&lt;', '&gt;',
+							'&copy;', '&reg;', '&trade;', '&apos;', '&amp;', '&quot;',
+						);
+						// Make sure chars dont annihilate the result
+            foreach ($chars as $char) {
+            	$html = str_replace($char, '[[' . substr($char, 1, -1) . ']]', $html);
+            }
             // Correct scrambled UTF8 chars (&atilde;&#131;...) back to their correct representation.
-            $html = html_entity_decode($html, ENT_XHTML, 'UTF-8');
+            $html = html_entity_decode($html, ENT_XHTML);
             $html = utf8_decode($html);
+            foreach ($chars as $char) {
+            	$html = str_replace('[[' . substr($char, 1, -1) . ']]', $char, $html);
+            }
         }
 
         // cleanup the HTML if we need to
@@ -482,10 +499,8 @@ class CssToInlineStyles
             $html = $this->stripOriginalStyleTags($html);
         }
 
-        // return
         return $html;
     }
-
 
     /**
      * Get the encoding to use
@@ -517,7 +532,7 @@ class CssToInlineStyles
         // remove comments
         $css = preg_replace('|/\*.*?\*/|', '', $css);
 
-        // remove spaces
+        // remove double spaces
         $css = preg_replace('/\s\s+/', ' ', $css);
 
         if ($this->excludeMediaQueries) {
