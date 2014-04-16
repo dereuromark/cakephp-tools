@@ -172,7 +172,7 @@ class GeocodeLib {
 	/**
 	 * Reset - ready for the next request
 	 *
-	 * @param mixed boolean $full or string == 'params' to reset just params
+	 * @param mixed boolean $full or string === 'params' to reset just params
 	 * @return void
 	 */
 	public function reset($full = true) {
@@ -181,7 +181,7 @@ class GeocodeLib {
 		if (empty($full)) {
 			return;
 		}
-		if ($full == 'params') {
+		if ($full === 'params') {
 			$this->params = $this->defaultParams;
 			return;
 		}
