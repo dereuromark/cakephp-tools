@@ -15,6 +15,53 @@ Configure::write('Google', array(
 
 class GeocodeLibTest extends MyCakeTestCase {
 
+
+	public $apiMockupReverseGeocode40206 = array(
+		'reverseGeocode' => array(
+			'lat' => '38.2643',
+			'lng' => '-85.6999',
+			'params' => array(
+				'address' => '40206',
+				'latlng' => '',
+				'region' => '',
+				'language' => 'en',
+				'bounds' => '',
+				'sensor' => 'false',
+				'key' => 'AIzaSyAcQWSeMp_RF9W2_g2vOfLlUNCieHtHfFA',
+				'result_type' => 'sublocality'
+			)
+		),
+		'_fetch' => 'https://maps.googleapis.com/maps/api/geocode/json?address=40206&latlng=38.2643%2C-85.6999&language=en&sensor=false',
+		'raw' => '{
+			"results" : [
+				{
+					"address_components" : [
+						{ "long_name" : "40206", "short_name" : "40206", "types" : [ "postal_code" ] },
+						{ "long_name" : "Louisville", "short_name" : "Louisville", "types" : [ "locality", "political" ] },
+						{ "long_name" : "Kentucky", "short_name" : "KY", "types" : [ "administrative_area_level_1", "political" ] },
+						{ "long_name" : "United States", "short_name" : "US", "types" : [ "country", "political" ] }
+					],
+					"formatted_address" : "Louisville, KY 40206, USA",
+					"geometry" : {
+						"bounds" : {
+							"northeast" : { "lat" : 38.2852558, "lng" : -85.664309 },
+							"southwest" : { "lat" : 38.2395658, "lng" : -85.744801 }
+						},
+						"location" : { "lat" : 38.26435780000001, "lng" : -85.69997889999999 },
+						"location_type" : "APPROXIMATE",
+						"viewport" : {
+							"northeast" : { "lat" : 38.2852558, "lng" : -85.664309 },
+							"southwest" : { "lat" : 38.2395658, "lng" : -85.744801 }
+						}
+					},
+					"types" : [ "postal_code" ]
+				}
+			],
+			"status" : "OK"
+		}',
+	);
+
+
 	public function setUp() {
 		parent::setUp();
 
@@ -257,7 +304,74 @@ class GeocodeLibTest extends MyCakeTestCase {
 		}
 	}
 
+	public function test_transformData() {
+		// non-full records
+		$data = array('record' => 'OK');
+		$this->assertEqual($this->Geocode->_transformData($data), $data);
+		$data = array();
+		$this->assertEqual($this->Geocode->_transformData($data), $data);
+		$data = '';
+		$this->assertEqual($this->Geocode->_transformData($data), $data);
+		$data = 'abc';
+		$this->assertEqual($this->Geocode->_transformData($data), $data);
+
+		// full record
+		$expect = array(
+			'results' => array(
+				0 => array (
+					'formatted_address' => 'Louisville, KY 40206, USA',
+					// organized location components
+					'country' => 'United States',
+					'country_code' => 'US',
+					'country_province' => 'Kentucky',
+					'country_province_code' => 'KY',
+					'postal_code' => '40206',
+					'locality' => 'Louisville',
+					'sublocality' => '',
+					'route' => '',
+					// vetted "types"
+					'types' => array (
+						0 => 'postal_code',
+					),
+					// simple lat/lng
+					'lat' => 38.264357800000013,
+					'lng' => -85.699978899999991,
+					'location_type' => 'APPROXIMATE',
+					'viewport' => array (
+						'sw' => array (
+							'lat' => 38.239565800000001,
+							'lng' => -85.744800999999995,
+						),
+						'ne' => array (
+							'lat' => 38.285255800000002,
+							'lng' => -85.664309000000003,
+						),
+					),
+					'bounds' => array (
+						'sw' => array (
+							'lat' => 38.239565800000001,
+							'lng' => -85.744800999999995,
+						),
+						'ne' => array (
+							'lat' => 38.285255800000002,
+							'lng' => -85.664309000000003,
+						),
+					),
+					// injected static maxAccuracy
+					'maxAccuracy' => 5,
+				),
+			),
+			'status' => 'OK',
+		);
+		$data = json_decode($this->apiMockupReverseGeocode40206['raw'], true);
+		$this->assertEqual($this->Geocode->_transformData($data), $expect);
+
+		// multiple full records
+		// TODO:...
+	}
+
 	public function testGetResult() {
+
 	}
 
 }

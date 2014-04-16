@@ -132,7 +132,6 @@ class GeocoderBehavior extends ModelBehavior {
 		}
 
 		$geocode = $this->_geocode($addressData, $this->settings[$Model->alias]);
-		//debug(compact('addressData', 'geocode'));
 
 		if (empty($geocode) && !empty($this->settings[$Model->alias]['allowEmpty'])) {
 			return true;
@@ -142,10 +141,8 @@ class GeocoderBehavior extends ModelBehavior {
 		}
 
 		// if both are 0, thats not valid, otherwise continue
-		if (!empty($geocode['lat']) || !empty($geocode['lng'])) { /** HACK to prevent 0 inserts of incorrect runs - 2009-04-07 ms */
-			$Model->data[$Model->alias][$this->settings[$Model->alias]['lat']] = $geocode['lat'];
-			$Model->data[$Model->alias][$this->settings[$Model->alias]['lng']] = $geocode['lng'];
-		} else {
+		if (empty($geocode['lat']) && empty($geocode['lng'])) {
+			/** HACK to prevent 0 inserts of incorrect runs - 2009-04-07 ms */
 			if (isset($Model->data[$Model->alias][$this->settings[$Model->alias]['lat']])) {
 				unset($Model->data[$Model->alias][$this->settings[$Model->alias]['lat']]);
 			}
@@ -159,6 +156,10 @@ class GeocoderBehavior extends ModelBehavior {
 				return false;
 			}
 		}
+
+		// valid lat/lng found
+		$Model->data[$Model->alias][$this->settings[$Model->alias]['lat']] = $geocode['lat'];
+		$Model->data[$Model->alias][$this->settings[$Model->alias]['lng']] = $geocode['lng'];
 
 		if (!empty($this->settings[$Model->alias]['formatted_address'])) {
 			$Model->data[$Model->alias][$this->settings[$Model->alias]['formatted_address']] = $geocode['formatted_address'];

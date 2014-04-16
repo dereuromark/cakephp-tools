@@ -397,27 +397,24 @@ class GeocodeLib {
 				}
 
 				$accuracy = $this->_getMaxAccuracy($result['result']);
+				$accuracyText = $this->accuracyTypes[$accuracy];
 
 				if ($this->_isNotAccurateEnough($accuracy)) {
-					$accuracy = $this->accuracyTypes[$accuracy];
 					$minAccuracy = $this->accuracyTypes[$this->options['min_accuracy']];
-					$this->setError(__('Accuracy not good enough (%s instead of at least %s)', $accuracy, $minAccuracy));
+					$this->setError(__('Accuracy not good enough (%s instead of at least %s)', $accuracyText, $minAccuracy));
 					$this->result = $result['result'];
 					return false;
 				}
 
 				if (!empty($this->options['expect'])) {
-					$types = (array)$accuracy;
-
-					$validExpectation = false;
-					foreach ($types as $type) {
-						if (in_array($type, (array)$this->options['expect'])) {
-							$validExpectation = true;
-							break;
-						}
-					}
+					$fields = (empty($result['result']['types']) ? array() : Hash::filter($result['result']['types']));
+					$found = array_intersect($fields, (array) $this->options['expect']);
+					$validExpectation = !empty($found);
 					if (!$validExpectation) {
-						$this->setError(__('Expectation not reached (%s instead of at least %s)', $accuracy, implode(', ', (array)$this->options['expect'])));
+						$this->setError(__('Expectation not reached (we have %s instead of at least %s)',
+							implode(', ', $found),
+							implode(', ', (array) $this->options['expect'])
+						));
 						$this->result = $result['result'];
 						return false;
 					}
@@ -571,8 +568,11 @@ class GeocodeLib {
 	 * Flattens result array and returns clean record
 	 * keys:
 	 * - formatted_address, type, country, country_code, country_province, country_province_code, locality, sublocality, postal_code, route, lat, lng, location_type, viewport, bounds
+	 *
+	 * @param mixed $record any level of input, whole raw array or records or single record
+	 * @return array $record organized & normalized
 	 */
-	protected function _transformData($record) {
+	public function _transformData($record) {
 		if (!is_array($record)) {
 			return $record;
 		}
@@ -584,6 +584,8 @@ class GeocodeLib {
 		}
 
 		$res = array();
+
+		// handle and organize address_components
 		$components = array();
 		if (!isset($record['address_components'][0])) {
 			$record['address_components'] = array($record['address_components']);
@@ -652,6 +654,13 @@ class GeocodeLib {
 			}
 		} else {
 			$res['route'] = '';
+		}
+
+		// determine accuracy types
+		if (array_key_exists('types', $record)) {
+			$res['types'] = $record['types'];
+		} else {
+			$res['types'] = array();
 		}
 
 		//TODO: add more
