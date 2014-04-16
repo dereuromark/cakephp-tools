@@ -598,7 +598,6 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$this->User->create();
 		$data = array(
 			'pwd' => '123',
-			'pwd_repeat' => '123'
 		);
 		$this->User->set($data);
 		$result = $this->User->save(null, array('validate' => false));
@@ -608,8 +607,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 
 		$data = array(
 			'id' => $uid,
-			'pwd' => '1234',
-			'pwd_repeat' => '1234'
+			'pwd' => '1234'
 		);
 		$this->User->set($data);
 		$result2 = $this->User->save(null, array('validate' => false));
