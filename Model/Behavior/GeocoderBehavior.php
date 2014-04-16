@@ -155,6 +155,7 @@ class GeocoderBehavior extends ModelBehavior {
 				}
 				return false;
 			}
+			return true;
 		}
 
 		// valid lat/lng found

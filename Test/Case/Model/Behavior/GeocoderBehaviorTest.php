@@ -154,10 +154,8 @@ class GeocoderBehaviorTest extends CakeTestCase {
 			'city' => 'Deutschland'
 		);
 		$res = $this->Comment->save($data);
-		//debug($this->Comment->Behaviors->Geocoder->Geocode->error()).BR;
-
+		//debug($this->Comment->Behaviors->Geocoder->Geocode->error());
 		//debug($res);
-
 		//debug($this->Comment->Behaviors->Geocoder->Geocode->debug());
 		$this->assertTrue(!empty($res['Comment']['lat']) && !empty($res['Comment']['lng']));
 	}
@@ -173,10 +171,8 @@ class GeocoderBehaviorTest extends CakeTestCase {
 			'city' => 'Deutschland'
 		);
 		$res = $this->Comment->save($data);
-		//debug($this->Comment->Behaviors->Geocoder->Geocode->error()).BR;
-
+		//debug($this->Comment->Behaviors->Geocoder->Geocode->error());
 		//debug($res);
-
 		//debug($this->Comment->Behaviors->Geocoder->Geocode->debug());
 		$this->assertTrue(!isset($res['Comment']['lat']) && !isset($res['Comment']['lng']));
 	}
