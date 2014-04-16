@@ -118,7 +118,7 @@ class TestQloginController extends QloginController {
 
 	public $uses = array('Tools.Qlogin');
 
-	public $redirectUrl	 = null;
+	public $redirectUrl = null;
 
 	public function redirect($url, $status = null, $exit = true) {
 		$this->redirectUrl = $url;

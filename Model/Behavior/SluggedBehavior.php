@@ -1,9 +1,5 @@
 <?php
 /**
- * Part based/inspired by the sluggable behavior of Mariano Iglesias
- *
- * PHP version 5
- *
  * @copyright Copyright (c) 2008, Andy Dawson
  * @author Andy Dawson
  * @author Mark Scherer
@@ -15,6 +11,7 @@ App::uses('ModelBehavior', 'Model');
 /**
  * SluggedBehavior
  *
+ * Part based/inspired by the sluggable behavior of Mariano Iglesias
  */
 class SluggedBehavior extends ModelBehavior {
 
@@ -52,7 +49,7 @@ class SluggedBehavior extends ModelBehavior {
 		'mode' => 'url',
 		'separator' => '-',
 		'defaultSuffix' => null,
-		'length' => 100,
+		'length' => null,
 		'overwrite' => false,
 		'unique' => false,
 		'notices' => true,
@@ -65,7 +62,7 @@ class SluggedBehavior extends ModelBehavior {
 		'run' => 'beforeValidate',
 		'language' => null,
 		'encoding' => null,
-		'trigger' => false,
+		'trigger' => null,
 		'scope' => array()
 	);
 
@@ -97,6 +94,13 @@ class SluggedBehavior extends ModelBehavior {
 		$this->_defaultSettings = array_merge($this->_defaultSettings, (array)Configure::read('Slugged'));
 
 		$this->settings[$Model->alias] = array_merge($this->_defaultSettings, $config);
+
+		if (!$this->settings[$Model->alias]['length']) {
+			$schema = $Model->schema($this->settings[$Model->alias]['slugField']);
+			$length = !empty($schema['length']) ? $schema['length'] : 100;
+			$this->settings[$Model->alias]['length'] = $length;
+		}
+
 		extract($this->settings[$Model->alias]);
 		$label = $this->settings[$Model->alias]['label'] = (array)$label;
 		if ($Model->Behaviors->loaded('Translate')) {
@@ -219,111 +223,6 @@ class SluggedBehavior extends ModelBehavior {
 			$this->_addToWhitelist($Model, array($slugField));
 			$Model->data[$Model->alias][$slugField] = $slug;
 		}
-	}
-
-	/**
-	 * RemoveStopWords from a string. if $splitOnStopWord is true, the following occurs:
-	 * 	input "apples bananas pears and red cars"
-	 * 	output array('apples bananas pears', 'red cars')
-	 *
-	 * If the passed string doesn't contain the separator, or after stripping out stop words there's
-	 * nothing left - the original input is returned (in the desired format)
-	 *
-	 * Therefore passing "contain" will return immediately array('contain')
-	 * Passing "contain this text" will return array('text')
-	 * 	both contain and this are stop words
-	 * Passing "contain this" will return array('contain this')
-	 *
-	 * @param Model $Model
-	 * @param mixed $string string or array of words
-	 * @param array $params
-	 * @return mixed
-	 */
-	public function removeStopWords(Model $Model, $string = '', $params = array()) {
-		if (!$string) {
-			return $string;
-		}
-		$separator = ' ';
-		$splitOnStopWord = true;
-		$return = 'array';
-		$originalIfEmpty = true;
-		extract($params);
-
-		if (!empty($this->settings[$Model->alias]['language'])) {
-			$lang = $this->settings[$Model->alias]['language'];
-		} else {
-			$lang = Configure::read('Config.language');
-			if (!$lang) {
-				$lang = 'eng';
-			}
-			$this->settings[$Model->alias]['language'] = $lang;
-		}
-
-		if (!array_key_exists($lang, $this->stopWords)) {
-			ob_start();
-			if (!App::import('Vendor', 'stop_words_' . $lang, array('file' => "stop_words" . DS . "$lang.txt"))) {
-				$res = App::import('Vendor', 'Tools.stop_words_' . $lang, array('file' => "stop_words" . DS . "$lang.txt"));
-				if (!$res) {
-					ob_get_clean();
-					return $string;
-				}
-			}
-			$stopWords = preg_replace('@/\*.*\*/@', '', ob_get_clean());
-			$this->stopWords[$lang] = array_filter(array_map('trim', explode("\n", $stopWords)));
-		}
-
-		if (is_array($string)) {
-			$originalTerms = $terms = $string;
-			foreach ($terms as $i => &$term) {
-				$term = trim(preg_replace('@[^\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}]@u', $separator, $term), $separator);
-			}
-			$lTerms = array_map('mb_strtolower', $terms);
-			$lTerms = array_diff($lTerms, $this->stopWords[$lang]);
-			$terms = array_intersect_key($terms, $lTerms);
-		} else {
-			if (!strpos($string, $separator)) {
-				if ($return === 'array') {
-					return array($string);
-				}
-				return $string;
-			}
-			$string = preg_replace('@[^\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}]@u', $separator, $string);
-			$originalTerms = $terms = array_filter(array_map('trim', explode($separator, $string)));
-
-			if ($splitOnStopWord) {
-				$terms = $chunk = array();
-				$snippet = '';
-				foreach ($originalTerms as $term) {
-					$lterm = strtolower($term);
-					if (in_array($lterm, $this->stopWords[$lang])) {
-						if ($chunk) {
-							$terms[] = $chunk;
-							$chunk = array();
-						}
-						continue;
-					}
-					$chunk[] = $term;
-				}
-				if ($chunk) {
-					$terms[] = $chunk;
-				}
-				foreach ($terms as &$phrase) {
-					$phrase = implode(' ', $phrase);
-				}
-			} else {
-				$lTerms = array_map('mb_strtolower', $terms);
-				$lTerms = array_diff($lTerms, $this->stopWords[$lang]);
-				$terms = array_intersect_key($terms, $lTerms);
-			}
-		}
-
-		if (!$terms && $originalIfEmpty) {
-			$terms = array(implode(' ', $originalTerms));
-		}
-		if ($return === 'array') {
-			return array_values(array_unique($terms));
-		}
-		return implode($separator, $terms);
 	}
 
 	/**

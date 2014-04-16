@@ -97,7 +97,7 @@ class TinyUrlsControllerTest extends ControllerTestCase {
 
 class TestTinyUrlsController extends TinyUrlsController {
 
-	public $redirectUrl	 = null;
+	public $redirectUrl = null;
 
 	public function redirect($url, $status = null, $exit = true) {
 		$this->redirectUrl = $url;
