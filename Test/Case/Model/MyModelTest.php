@@ -300,6 +300,14 @@ class MyModelTest extends MyCakeTestCase {
 		$this->out($this->_header(__FUNCTION__), true);
 		$is = $this->User->validateRange(array('range' => 5.1));
 		$this->assertTrue($is);
+
+		$this->out($this->_header(__FUNCTION__), true);
+		$is = $this->User->validateRange(array('range' => 2.1), 2.1, 3.2);
+		$this->assertTrue($is);
+
+		$this->out($this->_header(__FUNCTION__), true);
+		$is = $this->User->validateRange(array('range' => 3.2), 2.1, 3.2);
+		$this->assertTrue($is);
 	}
 
 	/**
