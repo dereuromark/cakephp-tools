@@ -72,7 +72,7 @@ class BaseEmailConfig {
 			}
 		}
 		// Add transport specific Configure settings
-		if ($config = Configure::read('Email.' . $tthis->default['transport'])) {
+		if ($config = Configure::read('Email.' . $this->default['transport'])) {
 			$this->default = $config + $this->default;
 		}
 
