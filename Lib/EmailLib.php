@@ -449,8 +449,28 @@ class EmailLib extends CakeEmail {
 
 		// Security measure to not sent to the actual addressee in debug mode
 		if (Configure::read('debug')) {
-			$this->to(Configure::read('Config.adminEmail'), Configure::read('Config.adminName'));
-			$this->_cc = $this->_bcc = array();
+			$adminEmail = Configure::read('Config.adminEmail');
+			foreach ($this->_to as $k => $v) {
+				if ($k === $adminEmail) {
+					continue;
+				}
+				unset($this->_to[$k]);
+				$this->_to[$adminEmail] = $v;
+			}
+			foreach ($this->_cc as $k => $v) {
+				if ($k === $adminEmail) {
+					continue;
+				}
+				unset($this->_cc[$k]);
+				$this->_cc[$adminEmail] = $v;
+			}
+			foreach ($this->_bcc as $k => $v) {
+				if ($k === $adminEmail) {
+					continue;
+				}
+				unset($this->_bcc[$k]);
+				$this->_bcc[] = $v;
+			}
 		}
 
 		try {
