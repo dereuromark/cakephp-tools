@@ -26,10 +26,20 @@ class WhoDidItBehaviorTest extends MyCakeTestCase {
 		$this->Model->Behaviors->load('Tools.WhoDidIt');
 	}
 
+	/**
+	 * WhoDidItBehaviorTest::testModel()
+	 *
+	 * @return void
+	 */
 	public function testModel() {
 		$this->assertInstanceOf('AppModel', $this->Model);
 	}
 
+	/**
+	 * WhoDidItBehaviorTest::testSaveWithDefaultSettings()
+	 *
+	 * @return void
+	 */
 	public function testSaveWithDefaultSettings() {
 		// create (id + name + created + modified)
 		$data = array(

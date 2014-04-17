@@ -28,7 +28,7 @@ App::uses('ModelBehavior', 'Model');
 class WhoDidItBehavior extends ModelBehavior {
 
 	/**
-	 * Default settings for a model that has this behavior attached.
+	 * Default config for a model that has this behavior attached.
 	 *
 	 * Setting force_modified to true will have the same effect as overriding the save method as
 	 * described in the code example for "Using created and modified" in the Cookbook.
@@ -36,9 +36,9 @@ class WhoDidItBehavior extends ModelBehavior {
 	 * @var array
 	 * @link http://book.cakephp.org/2.0/en/models/saving-your-data.html#using-created-and-modified
 	 */
-	protected $_defaults = array(
+	protected $_defaultConfig = array(
 		'auth_session' => 'Auth', // Name of Auth session key
-		'user_model' => 'User', // Name of the User model
+		'user_model' => 'User', // Name of the User model (for plugins use PluginName.ModelName)
 		'created_by_field' => 'created_by', // Name of the "created_by" field in the model
 		'modified_by_field' => 'modified_by', // Name of the "modified_by" field in the model
 		'confirmed_by_field' => 'confirmed_by', // Name of the "confirmed by" field in the model
@@ -57,42 +57,40 @@ class WhoDidItBehavior extends ModelBehavior {
 	 * @return void
 	 */
 	public function setup(Model $Model, $config = array()) {
-		$this->settings[$Model->alias] = array_merge($this->_defaults, (array)$config);
+		$config += $this->_defaultConfig;
 
-		$hasFieldCreatedBy = $Model->hasField($this->settings[$Model->alias]['created_by_field']);
-		$hasFieldModifiedBy = $Model->hasField($this->settings[$Model->alias]['modified_by_field']);
-		$hasFieldConfirmedBy = $Model->hasField($this->settings[$Model->alias]['confirmed_by_field']);
-
-		$this->settings[$Model->alias]['has_created_by'] = $hasFieldCreatedBy;
-		$this->settings[$Model->alias]['has_modified_by'] = $hasFieldModifiedBy;
-		$this->settings[$Model->alias]['has_confirmed_by'] = $hasFieldConfirmedBy;
+		$config['has_created_by'] = $Model->hasField($config['created_by_field']);
+		$config['has_modified_by'] = $Model->hasField($config['modified_by_field']);
+		$config['has_confirmed_by'] = $Model->hasField($config['confirmed_by_field']);
 
 		// Handles model binding to the User model according to the auto_bind settings (default true).
-		if ($this->settings[$Model->alias]['auto_bind']) {
-			if ($hasFieldCreatedBy) {
+		if ($config['auto_bind']) {
+			if ($config['has_created_by']) {
 				$commonBelongsTo = array(
 					'CreatedBy' => array(
-						'className' => $this->settings[$Model->alias]['user_model'],
-						'foreignKey' => $this->settings[$Model->alias]['created_by_field']));
+						'className' => $config['user_model'],
+						'foreignKey' => $config['created_by_field']));
 				$Model->bindModel(array('belongsTo' => $commonBelongsTo), false);
 			}
 
-			if ($hasFieldModifiedBy) {
+			if ($config['has_modified_by']) {
 				$commonBelongsTo = array(
 					'ModifiedBy' => array(
-						'className' => $this->settings[$Model->alias]['user_model'],
-						'foreignKey' => $this->settings[$Model->alias]['modified_by_field']));
+						'className' => $config['user_model'],
+						'foreignKey' => $config['modified_by_field']));
 				$Model->bindModel(array('belongsTo' => $commonBelongsTo), false);
 			}
 
-			if ($hasFieldConfirmedBy) {
+			if ($config['has_confirmed_by']) {
 				$commonBelongsTo = array(
 					'ConfirmedBy' => array(
-						'className' => $this->settings[$Model->alias]['user_model'],
-						'foreignKey' => $this->settings[$Model->alias]['confirmed_by_field']));
+						'className' => $config['user_model'],
+						'foreignKey' => $config['confirmed_by_field']));
 				$Model->bindModel(array('belongsTo' => $commonBelongsTo), false);
 			}
 		}
+
+		$this->settings[$Model->alias] = $config;
 	}
 
 	/**
@@ -106,34 +104,39 @@ class WhoDidItBehavior extends ModelBehavior {
 	 * or the "force_modified" setting is set to true.
 	 *
 	 * @param Model $Model The model using this behavior.
-	 * @return boolean True if the operation should continue, false if it should abort.
+	 * @return boolean True
 	 */
 	public function beforeSave(Model $Model, $options = array()) {
-		if ($this->settings[$Model->alias]['has_created_by'] || $this->settings[$Model->alias]['has_modified_by']) {
-			$authSession = $this->settings[$Model->alias]['auth_session'];
-			list($plugin, $userSession) = pluginSplit($this->settings[$Model->alias]['user_model']);
+		$config = $this->settings[$Model->alias];
+		if (!$config['has_created_by'] && !$config['has_modified_by']) {
+			return true;
+		}
 
-			$userId = CakeSession::read($authSession . '.' . $userSession . '.id');
+		$authSession = $config['auth_session'];
+		list($plugin, $userSession) = pluginSplit($config['user_model']);
 
-			if ($userId) {
-				$data = array();
-				$modifiedByField = $this->settings[$Model->alias]['modified_by_field'];
+		$userId = CakeSession::read($authSession . '.' . $userSession . '.id');
 
-				if (!isset($Model->data[$Model->alias][$modifiedByField]) || $this->settings[$Model->alias]['force_modified']) {
-					$data[$this->settings[$Model->alias]['modified_by_field']] = $userId;
-				} else {
-					$pos = strpos($this->settings[$Model->alias]['modified_by_field'], '_');
-					$field = substr($this->settings[$Model->alias]['modified_by_field'], 0, $pos);
-					$data[$field] = false;
-				}
+		if (!$userId) {
+			return true;
+		}
 
-				if (!$Model->exists()) {
-					$data[$this->settings[$Model->alias]['created_by_field']] = $userId;
-				}
-				if ($data) {
-					$Model->set($data);
-				}
-			}
+		$data = array();
+		$modifiedByField = $config['modified_by_field'];
+
+		if (!isset($Model->data[$Model->alias][$modifiedByField]) || $config['force_modified']) {
+			$data[$config['modified_by_field']] = $userId;
+		} else {
+			$pos = strpos($config['modified_by_field'], '_');
+			$field = substr($config['modified_by_field'], 0, $pos);
+			$data[$field] = false;
+		}
+
+		if (!$Model->exists()) {
+			$data[$config['created_by_field']] = $userId;
+		}
+		if ($data) {
+			$Model->set($data);
 		}
 		return true;
 	}
