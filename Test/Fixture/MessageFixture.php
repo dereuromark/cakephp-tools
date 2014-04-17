@@ -1,11 +1,5 @@
 <?php
 /**
- * Short description for message_fixture.php
- *
- * Long description for message_fixture.php
- *
- * PHP version 5
- *
  * Copyright (c) 2008, Andy Dawson
  *
  * Licensed under The MIT License

@@ -5,10 +5,6 @@
  * This test case is big. very big. You'll need 36mb or more allocated to php
  * to be able to load it (most likely only relevant for cli users).
  *
- * PHP version 5
- *
- * Copyright (c) 2008, Andy Dawson
- *
  * @copyright Copyright (c) 2008, Andy Dawson
  * @link www.ad7six.com
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License

@@ -1,10 +1,6 @@
 <?php
 
 /**
- * PHP versions 5
- *
- * Copyright (c) 2008, Andy Dawson
- *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
