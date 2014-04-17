@@ -170,7 +170,7 @@ class GeocoderBehavior extends ModelBehavior {
 
 		if (!empty($geocode['inconclusive'])) {
 			$Model->data[$Model->alias]['geocoder_inconclusive'] = $geocode['inconclusive'];
-			$Model->data[$Model->alias]['geocoder_results'] = $geocode['results'];
+			$Model->data[$Model->alias]['geocoder_results'] = $geocode['all'];
 		} else {
 			$Model->data[$Model->alias]['geocoder_result'] = $geocode;
 		}
