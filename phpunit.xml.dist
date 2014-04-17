@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+	colors="true"
+	processIsolation="false"
+	stopOnFailure="false"
+	syntaxCheck="false"
+	bootstrap="./tests/bootstrap.php"
+	>
+	<php>
+		<ini name="memory_limit" value="-1"/>
+		<ini name="apc.enable_cli" value="1"/>
+	</php>
+	<testsuite name="CakePHP Test Suite">
+		<directory>./Test/TestCase/</directory>
+		<exclude>./Test/TestCase/X/</exclude>
+	</testsuite>
+	<filter>
+		<whitelist>
+			<directory suffix=".php">Plugin/Tools</directory>
+			<exclude>
+				<directory suffix=".php">Plugin/Tools/Vendor</directory>
+				<directory suffix=".php">Plugin/Tools/Config/Schema</directory>
+				<directory suffix=".php">Plugin/Tools/Test</directory>
+				<directory suffix=".php">Plugin/Tools/TestSuite</directory>
+				<directory suffix=".php">Plugin/Tools/Lib/Error</directory>
+			</exclude>
+		</whitelist>
+	</filter>
+</phpunit>
