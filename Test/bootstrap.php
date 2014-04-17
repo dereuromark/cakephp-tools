@@ -1,23 +1,6 @@
 <?php
 //require dirname(__DIR__) . '/../Config/bootstrap.php';
 
-function find_root() {
-	$root = dirname(__DIR__);
-	if (is_dir($root . '/vendor/cakephp/cakephp')) {
-		return $root;
-	}
-
-	$root = dirname(dirname(__DIR__));
-	if (is_dir($root . '/vendor/cakephp/cakephp')) {
-		return $root;
-	}
-
-	$root = dirname(dirname(dirname(__DIR__)));
-	if (is_dir($root . '/vendor/cakephp/cakephp')) {
-		return $root;
-	}
-}
-
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', dirname(dirname(dirname(dirname(__FILE__)))));
 define('APP_DIR', 'App');
@@ -32,7 +15,7 @@ define('CAKE_CORE_INCLUDE_PATH', ROOT . '/vendor/cakephp/cakephp');
 define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
 define('CAKE', CORE_PATH . 'src' . DS);
 
-require ROOT . '/vendor/cakephp/cakephp/src/basics.php';
+//require ROOT . '/vendor/cakephp/cakephp/src/basics.php';
 require ROOT . '/vendor/autoload.php';
 
 $TMP = new \Cake\Utility\Folder(TMP);
