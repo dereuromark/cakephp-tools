@@ -4,7 +4,7 @@
 	processIsolation="false"
 	stopOnFailure="false"
 	syntaxCheck="false"
-	bootstrap="./tests/bootstrap.php"
+	bootstrap="./Test/bootstrap.php"
 	>
 	<php>
 		<ini name="memory_limit" value="-1"/>
