@@ -94,7 +94,6 @@ class GeocoderBehavior extends ModelBehavior {
 		if ($this->settings[$Model->alias]['real']) {
 			foreach ($addressfields as $field) {
 				if (!$Model->hasField($field)) {
-					//debug("Field Missing: {$field}");
 					return $return;
 				}
 			}
@@ -112,7 +111,6 @@ class GeocoderBehavior extends ModelBehavior {
 		// See if we should geocode //TODO: reverse and return here
 		$fieldsExist = (!$this->settings[$Model->alias]['real'] || ($Model->hasField($this->settings[$Model->alias]['lat']) && $Model->hasField($this->settings[$Model->alias]['lng'])));
 		if (!$fieldsExist) {
-			//debug(compact('fieldsExist'));
 			return false;
 		}
 
@@ -123,7 +121,7 @@ class GeocoderBehavior extends ModelBehavior {
 			return false;
 		}
 
-		// yup - we are geocoding
+		// Yup - we are geocoding
 		if (!empty($Model->whitelist) && (!in_array($this->settings[$Model->alias]['lat'], $Model->whitelist) || !in_array($this->settings[$Model->alias]['lng'], $Model->whitelist))) {
 			/** HACK to prevent 0 inserts if not wanted! just use whitelist now to narrow fields down - 2009-03-18 ms */
 			//$Model->whitelist[] = $this->settings[$Model->alias]['lat'];
@@ -142,7 +140,7 @@ class GeocoderBehavior extends ModelBehavior {
 
 		// if both are 0, thats not valid, otherwise continue
 		if (empty($geocode['lat']) && empty($geocode['lng'])) {
-			/** HACK to prevent 0 inserts of incorrect runs - 2009-04-07 ms */
+			// HACK to prevent 0 inserts of incorrect runs
 			if (isset($Model->data[$Model->alias][$this->settings[$Model->alias]['lat']])) {
 				unset($Model->data[$Model->alias][$this->settings[$Model->alias]['lat']]);
 			}
@@ -158,7 +156,7 @@ class GeocoderBehavior extends ModelBehavior {
 			return true;
 		}
 
-		// valid lat/lng found
+		// Valid lat/lng found
 		$Model->data[$Model->alias][$this->settings[$Model->alias]['lat']] = $geocode['lat'];
 		$Model->data[$Model->alias][$this->settings[$Model->alias]['lng']] = $geocode['lng'];
 

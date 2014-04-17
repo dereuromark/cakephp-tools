@@ -223,11 +223,13 @@ class GeocodeLib {
 	}
 
 	/**
+	 * Return the geocoder result or empty array on failure
+	 *
 	 * @return array result
 	 */
 	public function getResult() {
 		if ($this->result === null) {
-			return false;
+			return array();
 		}
 
 		if (is_string($this->result)) {
@@ -235,7 +237,7 @@ class GeocodeLib {
 		}
 
 		if (!is_array($this->result)) {
-			return false;
+			return array();
 		}
 
 		return $this->result;
@@ -276,7 +278,6 @@ class GeocodeLib {
 			}
 
 			$status = $result['status'];
-			//debug(compact('result', 'requestUrl', 'success'));
 
 			if ($status == self::CODE_SUCCESS) {
 
@@ -436,14 +437,14 @@ class GeocodeLib {
 			} else {
 
 				// something went wrong
-				$error_message = (isset($result['error_message']) ? $result['error_message'] : '');
-				if (empty($error_message)) {
-					$error_message = (isset($this->statusCodes[$status]) ? $this->statusCodes[$status] : '');
+				$errorMessage = (isset($result['error_message']) ? $result['error_message'] : '');
+				if (empty($errorMessage)) {
+					$errorMessage = (isset($this->statusCodes[$status]) ? $this->statusCodes[$status] : '');
 				}
-				if (empty($error_message)) {
-					$error_message = 'unknown';
+				if (empty($errorMessage)) {
+					$errorMessage = 'unknown';
 				}
-				$this->setError('Error ' . $status . ' (' . $error_message . ')');
+				$this->setError('Error ' . $status . ' (' . $errorMessage . ')');
 
 				if ($this->options['log']) {
 					CakeLog::write('geocode', __('Could not geocode \'%s\'', $address));
@@ -504,6 +505,12 @@ class GeocodeLib {
 		return $accuracy < $this->options['min_accuracy'];
 	}
 
+	/**
+	 * GeocodeLib::_transform()
+	 *
+	 * @param string $record
+	 * @return array
+	 */
 	protected function _transform($record) {
 		if ($this->options['output'] === 'json') {
 			return $this->_transformJson($record);
@@ -511,6 +518,12 @@ class GeocodeLib {
 		return $this->_transformXml($record);
 	}
 
+	/**
+	 * GeocodeLib::_transformJson()
+	 *
+	 * @param string $record
+	 * @return array
+	 */
 	protected function _transformJson($record) {
 		if (!is_array($record)) {
 			$record = json_decode($record, true);
@@ -518,7 +531,12 @@ class GeocodeLib {
 		return $this->_transformData($record);
 	}
 
+	/**
+	 * @return array
+	 * @deprecated
+	 */
 	protected function _transformXml($record) {
+		trigger_error('deprecated, use json instead', E_USER_DEPRECATED);
 		if (!is_array($record)) {
 			$xml = Xml::build($record);
 			$record = Xml::toArray($xml);
@@ -573,7 +591,7 @@ class GeocodeLib {
 	 * @param mixed $record any level of input, whole raw array or records or single record
 	 * @return array $record organized & normalized
 	 */
-	public function _transformData($record) {
+	protected function _transformData($record) {
 		if (!is_array($record)) {
 			return $record;
 		}
@@ -741,7 +759,7 @@ class GeocodeLib {
 	 * @param array pointX
 	 * @param array pointY
 	 * @param float $unit (M=miles, K=kilometers, N=nautical miles, I=inches, F=feet)
-	 * @return integer distance: in km
+	 * @return int Distance in km
 	 */
 	public function distance(array $pointX, array $pointY, $unit = null) {
 		if (empty($unit) || !array_key_exists(($unit = strtoupper($unit)), $this->units)) {
@@ -808,15 +826,15 @@ class GeocodeLib {
 	 * Useful if you store other users' locations and want to grant some
 	 * privacy protection. This way the coordinates will be slightly modified.
 	 *
-	 * @param float coord
-	 * @param integer level (0 = nothing to 5 = extrem)
+	 * @param float coord Coordinates
+	 * @param integer level The Level of blurness (0 = nothing to 5 = extrem)
 	 * - 1:
 	 * - 2:
 	 * - 3:
 	 * - 4:
 	 * - 5:
+	 * @return float Coordinates
 	 * @throws CakeException
-	 * @return float coord
 	 */
 	public static function blur($coord, $level = 0) {
 		if (!$level) {
@@ -874,242 +892,5 @@ class GeocodeLib {
 TODO:
 http://code.google.com/intl/de-DE/apis/maps/documentation/geocoding/
 - whats the difference to "http://maps.google.com/maps/api/geocode/output?parameters"
-
-*/
-
-/*
-
-Example: NEW:
-
-Array
-(
-	[status] => OK
-	[Result] => Array
-		(
-			[type] => postal_code
-			[formatted_address] => 74523, Deutschland
-			[AddressComponent] => Array
-				(
-					[0] => Array
-						(
-							[long_name] => 74523
-							[short_name] => 74523
-							[type] => postal_code
-						)
-
-					[1] => Array
-						(
-							[long_name] => Schwaebisch Hall
-							[short_name] => SHA
-							[Type] => Array
-								(
-									[0] => administrative_area_level_2
-									[1] => political
-								)
-
-						)
-
-					[2] => Array
-						(
-							[long_name] => Baden-Wuerttemberg
-							[short_name] => BW
-							[Type] => Array
-								(
-									[0] => administrative_area_level_1
-									[1] => political
-								)
-
-						)
-
-					[3] => Array
-						(
-							[long_name] => Deutschland
-							[short_name] => DE
-							[Type] => Array
-								(
-									[0] => country
-									[1] => political
-								)
-
-						)
-
-				)
-
-			[Geometry] => Array
-				(
-					[Location] => Array
-						(
-							[lat] => 49.1257616
-							[lng] => 9.7544127
-						)
-
-					[location_type] => APPROXIMATE
-					[Viewport] => Array
-						(
-							[Southwest] => Array
-								(
-									[lat] => 49.0451477
-									[lng] => 9.6132550
-								)
-
-							[Northeast] => Array
-								(
-									[lat] => 49.1670260
-									[lng] => 9.8756350
-								)
-
-						)
-
-					[Bounds] => Array
-						(
-							[Southwest] => Array
-								(
-									[lat] => 49.0451477
-									[lng] => 9.6132550
-								)
-
-							[Northeast] => Array
-								(
-									[lat] => 49.1670260
-									[lng] => 9.8756350
-								)
-
-						)
-
-				)
-
-		)
-
-)
-
-Example OLD:
-
-Array
-(
-	[name] => 74523 Deutschland
-	[Status] => Array
-		(
-			[code] => 200
-			[request] => geocode
-		)
-
-	[Result] => Array
-		(
-			[id] => p1
-			[address] => 74523, Deutschland
-			[AddressDetails] => Array
-				(
-					[Accuracy] => 5
-					[xmlns] => urn:oasis:names:tc:ciq:xsdschema:xAL:2.0
-					[Country] => Array
-						(
-							[CountryNameCode] => DE
-							[CountryName] => Deutschland
-							[AdministrativeArea] => Array
-								(
-									[AdministrativeAreaName] => Baden-Wuerttemberg
-									[SubAdministrativeArea] => Array
-										(
-											[SubAdministrativeAreaName] => Schwaebisch Hall
-											[PostalCode] => Array
-												(
-													[PostalCodeNumber] => 74523
-												)
-
-										)
-
-								)
-
-						)
-
-				)
-
-			[ExtendedData] => Array
-				(
-					[LatLonBox] => Array
-						(
-							[north] => 49.1670260
-							[south] => 49.0451477
-							[east] => 9.8756350
-							[west] => 9.6132550
-						)
-
-				)
-
-			[Point] => Array
-				(
-					[coordinates] => 9.7544127,49.1257616,0
-				)
-
-		)
-
-) {
-	"status": "OK",
-	"results": [ {
-	"types": [ "street_address" ],
-	"formatted_address": "Krebenweg 20, 74523 Schwäbisch Hall, Deutschland",
-	"address_components": [ {
-		"long_name": "20",
-		"short_name": "20",
-		"types": [ "street_number" ]
-	}, {
-		"long_name": "Krebenweg",
-		"short_name": "Krebenweg",
-		"types": [ "route" ]
-	}, {
-		"long_name": "Bibersfeld",
-		"short_name": "Bibersfeld",
-		"types": [ "sublocality", "political" ]
-	}, {
-		"long_name": "Schwäbisch Hall",
-		"short_name": "Schwäbisch Hall",
-		"types": [ "locality", "political" ]
-	}, {
-		"long_name": "Schwäbisch Hall",
-		"short_name": "SHA",
-		"types": [ "administrative_area_level_2", "political" ]
-	}, {
-		"long_name": "Baden-Württemberg",
-		"short_name": "BW",
-		"types": [ "administrative_area_level_1", "political" ]
-	}, {
-		"long_name": "Deutschland",
-		"short_name": "DE",
-		"types": [ "country", "political" ]
-	}, {
-		"long_name": "74523",
-		"short_name": "74523",
-		"types": [ "postal_code" ]
-	} ],
-	"geometry": {
-		"location": {
-		"lat": 49.0817369,
-		"lng": 9.6908451
-		},
-		"location_type": "RANGE_INTERPOLATED", //ROOFTOP //APPROXIMATE
-		"viewport": {
-		"southwest": {
-			"lat": 49.0785954,
-			"lng": 9.6876999
-		},
-		"northeast": {
-			"lat": 49.0848907,
-			"lng": 9.6939951
-		}
-		},
-		"bounds": {
-		"southwest": {
-			"lat": 49.0817369,
-			"lng": 9.6908451
-		},
-		"northeast": {
-			"lat": 49.0817492,
-			"lng": 9.6908499
-		}
-		}
-	},
-	"partial_match": true
-	} ]
-}
 
 */

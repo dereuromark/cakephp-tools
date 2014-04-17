@@ -7,7 +7,7 @@ App::uses('AppController', 'Controller');
 class GeocoderBehaviorTest extends CakeTestCase {
 
 	public $fixtures = array(
-		'core.comment', 'plugin.tools.address'
+		'core.comment', 'plugin.tools.address', 'core.cake_session'
 	);
 
 	public function setUp() {
@@ -18,6 +18,11 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$this->Comment->Behaviors->load('Tools.Geocoder', array('real' => false));
 	}
 
+	/**
+	 * GeocoderBehaviorTest::testDistance()
+	 *
+	 * @return void
+	 */
 	public function testDistance() {
 		$res = $this->Comment->distance(12, 14);
 		$expected = '6371.04 * ACOS(COS(PI()/2 - RADIANS(90 - Comment.lat)) * COS(PI()/2 - RADIANS(90 - 12)) * COS(RADIANS(Comment.lng) - RADIANS(14)) + SIN(PI()/2 - RADIANS(90 - Comment.lat)) * SIN(PI()/2 - RADIANS(90 - 12)))';
@@ -36,12 +41,22 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$this->assertEquals($expected, $res);
 	}
 
+	/**
+	 * GeocoderBehaviorTest::testDistanceField()
+	 *
+	 * @return void
+	 */
 	public function testDistanceField() {
 		$res = $this->Comment->distanceField(12, 14);
 		$expected = '6371.04 * ACOS(COS(PI()/2 - RADIANS(90 - Comment.lat)) * COS(PI()/2 - RADIANS(90 - 12)) * COS(RADIANS(Comment.lng) - RADIANS(14)) + SIN(PI()/2 - RADIANS(90 - Comment.lat)) * SIN(PI()/2 - RADIANS(90 - 12))) AS Comment.distance';
 		$this->assertEquals($expected, $res);
 	}
 
+	/**
+	 * GeocoderBehaviorTest::testSetDistanceAsVirtualField()
+	 *
+	 * @return void
+	 */
 	public function testSetDistanceAsVirtualField() {
 		$this->Address = ClassRegistry::init('Address');
 		$this->Address->Behaviors->load('Tools.Geocoder');
@@ -53,6 +68,11 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$this->assertTrue($res[0]['Address']['distance'] > 640 && $res[0]['Address']['distance'] < 650);
 	}
 
+	/**
+	 * GeocoderBehaviorTest::testSetDistanceAsVirtualFieldInMiles()
+	 *
+	 * @return void
+	 */
 	public function testSetDistanceAsVirtualFieldInMiles() {
 		$this->Address = ClassRegistry::init('Address');
 		$this->Address->Behaviors->load('Tools.Geocoder', array('unit' => GeocodeLib::UNIT_MILES));
@@ -64,6 +84,11 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$this->assertTrue($res[0]['Address']['distance'] > 390 && $res[0]['Address']['distance'] < 410);
 	}
 
+	/**
+	 * GeocoderBehaviorTest::testPagination()
+	 *
+	 * @return void
+	 */
 	public function testPagination() {
 		$this->Controller = new TestController(new CakeRequest(null, false), null);
 		$this->Controller->constructClasses();
@@ -78,6 +103,11 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$this->assertTrue($res[0]['Address']['distance'] < $res[1]['Address']['distance']);
 	}
 
+	/**
+	 * GeocoderBehaviorTest::testValidate()
+	 *
+	 * @return void
+	 */
 	public function testValidate() {
 		$is = $this->Comment->validateLatitude(44);
 		$this->assertTrue($is);
@@ -108,6 +138,8 @@ class GeocoderBehaviorTest extends CakeTestCase {
 
 	/**
 	 * Geocoding tests using the google webservice
+	 *
+	 * @return void
 	 */
 	public function testBasic() {
 		//echo '<h3>'.__FUNCTION__.'</h3>';
@@ -143,6 +175,11 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$this->assertEquals('', $this->Comment->Behaviors->Geocoder->Geocode->error());
 	}
 
+	/**
+	 * GeocoderBehaviorTest::testMinAccLow()
+	 *
+	 * @return void
+	 */
 	public function testMinAccLow() {
 		//echo '<h3>'.__FUNCTION__.'</h3>';
 
@@ -160,6 +197,11 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$this->assertTrue(!empty($res['Comment']['lat']) && !empty($res['Comment']['lng']));
 	}
 
+	/**
+	 * GeocoderBehaviorTest::testMinAccHigh()
+	 *
+	 * @return void
+	 */
 	public function testMinAccHigh() {
 		//echo '<h3>'.__FUNCTION__.'</h3>';
 
@@ -177,6 +219,11 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$this->assertTrue(!isset($res['Comment']['lat']) && !isset($res['Comment']['lng']));
 	}
 
+	/**
+	 * GeocoderBehaviorTest::testMinInc()
+	 *
+	 * @return void
+	 */
 	public function testMinInc() {
 		//echo '<h3>'.__FUNCTION__.'</h3>';
 
@@ -201,6 +248,11 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$this->assertTrue(!isset($res['Comment']['lat']) && !isset($res['Comment']['lng']));
 	}
 
+	/**
+	 * GeocoderBehaviorTest::testMinIncAllowed()
+	 *
+	 * @return void
+	 */
 	public function testMinIncAllowed() {
 		//echo '<h3>'.__FUNCTION__.'</h3>';
 
@@ -224,6 +276,11 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$this->assertTrue(!empty($res['Comment']['lat']) && !empty($res['Comment']['lng']));
 	}
 
+	/**
+	 * GeocoderBehaviorTest::testExpect()
+	 *
+	 * @return void
+	 */
 	public function testExpect() {
 		$this->Comment->Behaviors->unload('Geocoder');
 		$this->Comment->Behaviors->load('Tools.Geocoder', array('real' => false, 'expect' => array('postal_code')));
