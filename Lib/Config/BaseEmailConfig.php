@@ -13,6 +13,8 @@ if (!Configure::read('Mail.smtpPassword')) {
 /**
  * BaseEmailConfig for APP/Config/email.php
  *
+ * Defaults to `Smtp` as transport.
+ *
  * You can set up your $default and other configs without having to specify a password
  * Those will be read from Configure::read('Email.Pwd').
  *
@@ -20,9 +22,9 @@ if (!Configure::read('Mail.smtpPassword')) {
  * Per default it would not send mails in debug mode, but log them away.
  *
  * Additionally, you can set custom SMTP configs via Configure::read('Mail'):
- * - smtpHost
- * - smtpUsername
- * - smtpPassword
+ * - Smtp.host
+ * - Smtp.username
+ * - Smtp.password
  * Those will then be merged in.
  *
  * Your email.php config file then should not contain any sensitive information and can be part of version control.
@@ -48,12 +50,7 @@ class BaseEmailConfig {
 			$this->default['log'] = 'email_trace';
 		}
 
-		if (Configure::read('debug') && !Configure::read('Email.live')) {
-			$this->default['transport'] = 'Debug';
-			if (!isset($this->default['trace'])) {
-				$this->default['log'] = 'email_trace';
-			}
-		}
+		// Depreated, use Email.[TransportClass]. instead
 		if ($config = Configure::read('Mail')) {
 			if (!empty($config['smtpHost'])) {
 				$this->default['host'] = $config['smtpHost'];
@@ -74,11 +71,24 @@ class BaseEmailConfig {
 				$this->default['tls'] = $config['smtpTls'];
 			}
 		}
+		// Add transport specific Configure settings
+		if ($config = Configure::read('Email.' . $tthis->default['transport'])) {
+			$this->default = $config + $this->default;
+		}
 
+		// Add password data from Configure
 		$pwds = (array)Configure::read('Email.Pwd');
 		foreach ($pwds as $key => $val) {
 			if (isset($this->{$key})) {
 				$this->{$key}['password'] = $val;
+			}
+		}
+
+		// Prevent debug mails to be accidently sent
+		if (Configure::read('debug') && !Configure::read('Email.live')) {
+			$this->default['transport'] = 'Debug';
+			if (!isset($this->default['trace'])) {
+				$this->default['log'] = 'email_trace';
 			}
 		}
 	}
