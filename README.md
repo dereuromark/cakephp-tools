@@ -12,9 +12,14 @@ This cake3 branch only works for **cake3** - please use the master branch for Ca
 Installing the Plugin is pretty much as with every other CakePHP Plugin.
 
 Put the files in `APP/Plugin/Tools`, using packagist/composer:
+```
+"require": {
+	"dereuromark/tools-cakephp": "dev-cake3"
+}
+```
+and
 
-    "require": {
-		    "dereuromark/tools": "dev-cake3",
+	composer update
 
 Details @ https://packagist.org/packages/dereuromark/tools-cakephp
 
