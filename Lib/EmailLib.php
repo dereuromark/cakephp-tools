@@ -447,6 +447,12 @@ class EmailLib extends CakeEmail {
 			//$this->_headers['Importance'] = 'High';
 		}
 
+		// Security measure to not sent to the actual addressee in debug mode
+		if (Configure::read('debug')) {
+			$this->to(Configure::read('Config.adminEmail'), Configure::read('Config.adminName'));
+			$this->_cc = $this->_bcc = array();
+		}
+
 		try {
 			$this->_debug = parent::send($message);
 		} catch (Exception $e) {
