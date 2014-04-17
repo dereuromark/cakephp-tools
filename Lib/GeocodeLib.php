@@ -349,7 +349,9 @@ class GeocodeLib {
 	}
 
 	/**
-	 * Actual querying
+	 * Actual querying.
+	 * The query will be flatted, and if multiple results are fetched, they will be found
+	 * int $result['all'].
 	 *
 	 * @param string $address
 	 * @param array $params
@@ -368,7 +370,6 @@ class GeocodeLib {
 		$requestUrl = $this->url();
 
 		while (true) {
-
 			$result = $this->_fetch($requestUrl);
 			if ($result === false || $result === null) {
 				$this->setError('Could not retrieve url');
@@ -463,7 +464,9 @@ class GeocodeLib {
 		}
 
 		$this->result = $result['result'];
-		$this->result['all_results'] = $result['results'];
+		if (!empty($result['results']) && count($result['results']) > 1) {
+			$this->result['all'] = $result['results'];
+		}
 		return true;
 	}
 
@@ -536,7 +539,7 @@ class GeocodeLib {
 	 * @deprecated
 	 */
 	protected function _transformXml($record) {
-		trigger_error('deprecated, use json instead', E_USER_DEPRECATED);
+		//trigger_error('deprecated, use json instead', E_USER_DEPRECATED);
 		if (!is_array($record)) {
 			$xml = Xml::build($record);
 			$record = Xml::toArray($xml);
