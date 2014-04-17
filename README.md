@@ -109,6 +109,7 @@ A full list of fixes and useful migration tweaks towards the next major version 
 * DiffLib, ZipLib, WeatherLib and many more lib functionality.
 * The TextExt, Datetime, Numeric and FormExt helpers provide extended functionality if desired.
 * Tree helper for working with (complex) trees.
+* EmailLib as a wrapper for CakeEmail adding some more usefulness and making debugging/testing easier.
 * GoogleMapV3, Gravatar, Qrcode, Timeline, Typography, Ical, Hcard provide additional helper functionality.
 
 and much more
