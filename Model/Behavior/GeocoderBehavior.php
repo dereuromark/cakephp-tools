@@ -35,14 +35,15 @@ class GeocoderBehavior extends ModelBehavior {
 	 * - before: validate/save (defaults to save)
 	 * 			set to false if you only want to use the validation rules etc
 	 *
-	 * @param object $Model Model using the behaviour
+	 * @param Model $Model The model using the behaviour
 	 * @param array $settings Settings to override for model.
 	 */
 	public function setup(Model $Model, $settings = array()) {
 		$default = array(
 			'real' => false, 'address' => array('street', 'postal_code', 'city', 'country'),
 			'require' => false, 'allowEmpty' => true, 'invalidate' => array(), 'expect' => array(),
-			'lat' => 'lat', 'lng' => 'lng', 'formatted_address' => 'formatted_address', 'host' => null, 'language' => 'de', 'region' => '', 'bounds' => '',
+			'lat' => 'lat', 'lng' => 'lng', 'formatted_address' => 'formatted_address',
+			'host' => null, 'language' => 'de', 'region' => '', 'bounds' => '',
 			'overwrite' => false, 'update' => array(), 'before' => 'save',
 			'min_accuracy' => GeocodeLib::ACC_COUNTRY, 'allow_inconclusive' => true, 'unit' => GeocodeLib::UNIT_KM,
 			'log' => true, // log successfull results to geocode.log (errors will be logged to error.log in either case)
@@ -118,7 +119,7 @@ class GeocoderBehavior extends ModelBehavior {
 
 		if ($existingValues && !$this->settings[$Model->alias]['overwrite']) {
 			//debug(compact('existingValues'));
-			return false;
+			return $return;
 		}
 
 		// Yup - we are geocoding
