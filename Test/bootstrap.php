@@ -1,11 +1,22 @@
 <?php
-/**
- * Test runner bootstrap.
- *
- * Add additional configuration/setup your application needs when running
- * unit tests in this file.
- */
 //require dirname(__DIR__) . '/../Config/bootstrap.php';
+
+function find_root() {
+	$root = dirname(__DIR__);
+	if (is_dir($root . '/vendor/cakephp/cakephp')) {
+		return $root;
+	}
+
+	$root = dirname(dirname(__DIR__));
+	if (is_dir($root . '/vendor/cakephp/cakephp')) {
+		return $root;
+	}
+
+	$root = dirname(dirname(dirname(__DIR__)));
+	if (is_dir($root . '/vendor/cakephp/cakephp')) {
+		return $root;
+	}
+}
 
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', dirname(dirname(dirname(dirname(__FILE__)))));
