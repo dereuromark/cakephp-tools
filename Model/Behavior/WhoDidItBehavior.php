@@ -110,10 +110,10 @@ class WhoDidItBehavior extends ModelBehavior {
 	 */
 	public function beforeSave(Model $Model, $options = array()) {
 		if ($this->settings[$Model->alias]['has_created_by'] || $this->settings[$Model->alias]['has_modified_by']) {
-			$AuthSession = $this->settings[$Model->alias]['auth_session'];
-			$UserSession = $this->settings[$Model->alias]['user_model'];
+			$authSession = $this->settings[$Model->alias]['auth_session'];
+			list($plugin, $userSession) = pluginSplit($this->settings[$Model->alias]['user_model']);
 
-			$userId = CakeSession::read($AuthSession . '.' . $UserSession . '.id');
+			$userId = CakeSession::read($authSession . '.' . $userSession . '.id');
 
 			if ($userId) {
 				$data = array();
