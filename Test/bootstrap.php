@@ -1,6 +1,7 @@
 <?php
 //require dirname(__DIR__) . '/../Config/bootstrap.php';
 
+echo __FILE__;
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', dirname(dirname(dirname(dirname(__FILE__)))));
 define('APP_DIR', 'App');
