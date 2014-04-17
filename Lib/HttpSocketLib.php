@@ -186,7 +186,7 @@ class HttpSocketLib {
 	 * @param string Correctly encoded response
 	 */
 	protected function _assertEncoding($response) {
-		if (!WINDOWS) {
+		if (!defined('WINDOWS') || !WINDOWS) {
 			return $response;
 		}
 		$x = mb_detect_encoding($response, 'auto', true);

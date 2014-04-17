@@ -15,6 +15,53 @@ Configure::write('Google', array(
 
 class GeocodeLibTest extends MyCakeTestCase {
 
+
+	public $apiMockupReverseGeocode40206 = array(
+		'reverseGeocode' => array(
+			'lat' => '38.2643',
+			'lng' => '-85.6999',
+			'params' => array(
+				'address' => '40206',
+				'latlng' => '',
+				'region' => '',
+				'language' => 'en',
+				'bounds' => '',
+				'sensor' => 'false',
+				'key' => 'AIzaSyAcQWSeMp_RF9W2_g2vOfLlUNCieHtHfFA',
+				'result_type' => 'sublocality'
+			)
+		),
+		'_fetch' => 'https://maps.googleapis.com/maps/api/geocode/json?address=40206&latlng=38.2643%2C-85.6999&language=en&sensor=false',
+		'raw' => '{
+			"results" : [
+				{
+					"address_components" : [
+						{ "long_name" : "40206", "short_name" : "40206", "types" : [ "postal_code" ] },
+						{ "long_name" : "Louisville", "short_name" : "Louisville", "types" : [ "locality", "political" ] },
+						{ "long_name" : "Kentucky", "short_name" : "KY", "types" : [ "administrative_area_level_1", "political" ] },
+						{ "long_name" : "United States", "short_name" : "US", "types" : [ "country", "political" ] }
+					],
+					"formatted_address" : "Louisville, KY 40206, USA",
+					"geometry" : {
+						"bounds" : {
+							"northeast" : { "lat" : 38.2852558, "lng" : -85.664309 },
+							"southwest" : { "lat" : 38.2395658, "lng" : -85.744801 }
+						},
+						"location" : { "lat" : 38.26435780000001, "lng" : -85.69997889999999 },
+						"location_type" : "APPROXIMATE",
+						"viewport" : {
+							"northeast" : { "lat" : 38.2852558, "lng" : -85.664309 },
+							"southwest" : { "lat" : 38.2395658, "lng" : -85.744801 }
+						}
+					},
+					"types" : [ "postal_code" ]
+				}
+			],
+			"status" : "OK"
+		}',
+	);
+
+
 	public function setUp() {
 		parent::setUp();
 
@@ -75,8 +122,8 @@ class GeocodeLibTest extends MyCakeTestCase {
 
 	public function testUrl() {
 		$is = $this->Geocode->url();
-		//debug($is);
-		$this->assertTrue(!empty($is) && strpos($is, 'http://maps.googleapis.com/maps/api/geocode/xml?') === 0);
+		$this->assertFalse(empty($is));
+		$this->assertPattern('#https://maps.googleapis.com/maps/api/geocode/(json|xml)\?.+#', $is);
 	}
 
 	// not possible with protected method
@@ -168,6 +215,16 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$this->assertTrue(empty($is));
 	}
 
+	public function testGeocodeBadApiKey() {
+		$address = 'Oranienburger Straße 87, 10178 Berlin, Deutschland';
+		$is = $this->Geocode->geocode($address, array('sensor' => false, 'key' => 'testingBadApiKey'));
+		$this->assertFalse($is);
+		//pr($this->Geocode->debug());
+		$is = $this->Geocode->error();
+		$this->assertEqual('Error REQUEST_DENIED (The provided API key is invalid.)', $is);
+
+	}
+
 	public function testGeocodeInvalid() {
 		$address = 'Hjfjosdfhosj, 78878 Mdfkufsdfk';
 		//echo '<h2>'.$address.'</h2>';
@@ -182,35 +239,43 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$this->assertTrue(!empty($is));
 	}
 
-	public function testGeocodeMinAcc() {
-		$address = 'Deutschland';
-		//echo '<h2>'.$address.'</h2>';
-		$this->Geocode->setOptions(array('min_accuracy' => 3));
-		$is = $this->Geocode->geocode($address);
-		//debug($is);
-		$this->assertFalse($is);
+	public function testGetMaxAddress() {
+		$this->assertEqual($this->Geocode->_getMaxAccuracy(array('street_address' => 'abc')), GeocodeLib::ACC_STREET);
+		$this->assertEqual($this->Geocode->_getMaxAccuracy(array('intersection' => 'abc')), GeocodeLib::ACC_INTERSEC);
+		$this->assertEqual($this->Geocode->_getMaxAccuracy(array('route' => 'abc')), GeocodeLib::ACC_ROUTE);
+		$this->assertEqual($this->Geocode->_getMaxAccuracy(array('sublocality' => 'abc')), GeocodeLib::ACC_SUBLOC);
+		$this->assertEqual($this->Geocode->_getMaxAccuracy(array('locality' => 'abc')), GeocodeLib::ACC_LOC);
+		$this->assertEqual($this->Geocode->_getMaxAccuracy(array('postal_code' => 'abc')), GeocodeLib::ACC_POSTAL);
+		$this->assertEqual($this->Geocode->_getMaxAccuracy(array('country' => 'aa')), GeocodeLib::ACC_COUNTRY);
+		$this->assertEqual($this->Geocode->_getMaxAccuracy(array()), GeocodeLib::ACC_COUNTRY);
+		// mixed
+		$this->assertEqual($this->Geocode->_getMaxAccuracy(array(
+			'country' => 'aa',
+			'postal_code' => 'abc',
+			'locality' => '',
+			'street_address' => '',
+		)), GeocodeLib::ACC_POSTAL);
+	}
 
+	public function testGeocodeMinAcc() {
+		// address = postal_code, minimum = street level
+		$address = 'Deutschland';
+		$this->Geocode->setOptions(array('min_accuracy' => GeocodeLib::ACC_STREET));
+		$is = $this->Geocode->geocode($address);
+		$this->assertFalse($is);
 		$is = $this->Geocode->error();
-		//debug($is);
 		$this->assertTrue(!empty($is));
 	}
 
 	public function testGeocodeInconclusive() {
 		// seems like there is no inconclusive result anymore!!!
-
 		$address = 'Neustadt';
-		//echo '<h2>'.$address.'</h2>';
 
 		// allow_inconclusive = TRUE
-		$this->Geocode->setOptions(array('allow_inconclusive' => true, 'min_accuracy' => GeocodeLib::ACC_LOC));
+		$this->Geocode->setOptions(array('allow_inconclusive' => true, 'min_accuracy' => GeocodeLib::ACC_POSTAL));
 		$is = $this->Geocode->geocode($address);
-		//echo 'debug:';
-		//pr($this->Geocode->debug());
-		//echo 'debug end';
 		$this->assertTrue($is);
-
 		$res = $this->Geocode->getResult();
-		//pr($res);
 		$this->assertTrue(count($res) > 4);
 
 		$is = $this->Geocode->isInconclusive();
@@ -239,7 +304,74 @@ class GeocodeLibTest extends MyCakeTestCase {
 		}
 	}
 
+	public function test_transformData() {
+		// non-full records
+		$data = array('record' => 'OK');
+		$this->assertEqual($this->Geocode->_transformData($data), $data);
+		$data = array();
+		$this->assertEqual($this->Geocode->_transformData($data), $data);
+		$data = '';
+		$this->assertEqual($this->Geocode->_transformData($data), $data);
+		$data = 'abc';
+		$this->assertEqual($this->Geocode->_transformData($data), $data);
+
+		// full record
+		$expect = array(
+			'results' => array(
+				0 => array (
+					'formatted_address' => 'Louisville, KY 40206, USA',
+					// organized location components
+					'country' => 'United States',
+					'country_code' => 'US',
+					'country_province' => 'Kentucky',
+					'country_province_code' => 'KY',
+					'postal_code' => '40206',
+					'locality' => 'Louisville',
+					'sublocality' => '',
+					'route' => '',
+					// vetted "types"
+					'types' => array (
+						0 => 'postal_code',
+					),
+					// simple lat/lng
+					'lat' => 38.264357800000013,
+					'lng' => -85.699978899999991,
+					'location_type' => 'APPROXIMATE',
+					'viewport' => array (
+						'sw' => array (
+							'lat' => 38.239565800000001,
+							'lng' => -85.744800999999995,
+						),
+						'ne' => array (
+							'lat' => 38.285255800000002,
+							'lng' => -85.664309000000003,
+						),
+					),
+					'bounds' => array (
+						'sw' => array (
+							'lat' => 38.239565800000001,
+							'lng' => -85.744800999999995,
+						),
+						'ne' => array (
+							'lat' => 38.285255800000002,
+							'lng' => -85.664309000000003,
+						),
+					),
+					// injected static maxAccuracy
+					'maxAccuracy' => 5,
+				),
+			),
+			'status' => 'OK',
+		);
+		$data = json_decode($this->apiMockupReverseGeocode40206['raw'], true);
+		$this->assertEqual($this->Geocode->_transformData($data), $expect);
+
+		// multiple full records
+		// TODO:...
+	}
+
 	public function testGetResult() {
+
 	}
 
 }
