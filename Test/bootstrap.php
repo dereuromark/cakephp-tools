@@ -28,3 +28,45 @@ $TMP = new \Cake\Utility\Folder(TMP);
 $TMP->create(TMP . 'cache/models', 0777);
 $TMP->create(TMP . 'cache/persistent', 0777);
 $TMP->create(TMP . 'cache/views', 0777);
+
+$cache = [
+	'default' => [
+		'engine' => 'File'
+	],
+	'_cake_core_' => [
+		'className' => 'File',
+		'prefix' => 'crud_myapp_cake_core_',
+		'path' => CACHE . 'persistent/',
+		'serialize' => true,
+		'duration' => '+10 seconds'
+	],
+	'_cake_model_' => [
+		'className' => 'File',
+		'prefix' => 'crud_my_app_cake_model_',
+		'path' => CACHE . 'models/',
+		'serialize' => 'File',
+		'duration' => '+10 seconds'
+	]
+];
+
+Cake\Cache\Cache::config($cache);
+
+Cake\Core\Plugin::load('Tools', ['path' => './']);
+
+$datasources = [
+	'test' => [
+		'className' => 'Cake\Database\Connection',
+		'driver' => 'Cake\Database\Driver\Mysql',
+		'persistent' => false,
+		'host' => 'localhost',
+		'login' => 'tools',
+		'password' => 'tools',
+		'database' => 'tools',
+		'prefix' => false,
+		'encoding' => 'utf8',
+	]
+];
+
+$datasources['default'] = $datasources['test'];
+
+Cake\Datasource\ConnectionManager::config($datasources);
