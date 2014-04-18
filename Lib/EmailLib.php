@@ -87,6 +87,7 @@ class EmailLib extends CakeEmail {
 		} elseif ($message === null && array_key_exists('message', $config = $instance->config())) {
 			$message = $config['message'];
 		}
+		$instance->template(null);
 		return $instance->send($message);
 	}
 
@@ -448,7 +449,7 @@ class EmailLib extends CakeEmail {
 		}
 
 		// Security measure to not sent to the actual addressee in debug mode
-		if (Configure::read('debug')) {
+		if (Configure::read('debug') && Configure::read('Email.live')) {
 			$adminEmail = Configure::read('Config.adminEmail');
 			foreach ($this->_to as $k => $v) {
 				if ($k === $adminEmail) {

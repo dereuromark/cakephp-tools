@@ -16,6 +16,7 @@ class EmailLibTest extends MyCakeTestCase {
 		//$this->skipIf(!file_exists(APP . 'Config' . DS . 'email.php'), 'no email.php');
 
 		$this->Email = new TestEmailLib();
+		$this->Email->template(null);
 	}
 
 	/**
@@ -43,7 +44,7 @@ class EmailLibTest extends MyCakeTestCase {
 		if ($error = $this->Email->getError()) {
 			$this->out($error);
 		}
-		$this->assertEquals('', $this->Email->getError());
+		$this->assertNull($error);
 		$this->assertTrue($res);
 
 		$this->Email->resetAndSet();
@@ -72,7 +73,7 @@ class EmailLibTest extends MyCakeTestCase {
 		//$this->Email->resetAndSet();
 		//$this->Email->from(Configure::read('Config.adminEmail'), Configure::read('Config.adminEmailname'));
 		$res = EmailLib::systemEmail('system-mail test', 'some fast email to admin test');
-		//debug($res);
+
 		$this->assertTrue($res);
 	}
 
@@ -82,7 +83,7 @@ class EmailLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testXMailer() {
-		$this->Email = new TestEmailLib();
+		$this->Email->resetAndSet();
 		$this->Email->from('cake@cakephp.org');
 		$this->Email->to('cake@cakephp.org');
 		$this->Email->subject('My title');
@@ -95,7 +96,7 @@ class EmailLibTest extends MyCakeTestCase {
 
 		Configure::write('Config.xMailer', 'Tools Plugin');
 
-		$this->Email = new TestEmailLib();
+		$this->Email->resetAndSet();
 		$this->Email->from('cake@cakephp.org');
 		$this->Email->to('cake@cakephp.org');
 		$this->Email->subject('My title');
@@ -372,8 +373,8 @@ html-part
 	 */
 	public function testValidates() {
 		$this->skipIf(php_sapi_name() === 'cli', 'For now...');
+		Configure::write('Email.live', false);
 
-		$this->Email = new TestEmailLib();
 		$res = $this->Email->validates();
 		$this->assertFalse($res);
 		$res = $this->Email->send();
@@ -482,6 +483,43 @@ HTML;
 		$this->assertTrue(count($is) >= 16);
 	}
 
+	/**
+	 * EmailLibTest::testSendDebugMode()
+	 *
+	 * @return void
+	 */
+	public function testSendDebugMode() {
+		Configure::write('debug', 2);
+		Configure::write('Email.live', true);
+		$this->Email->to('test@test.de', 'test');
+		$this->Email->subject('Test Subject');
+		$this->Email->template(null);
+		$res = $this->Email->send('xyz xyz');
+		$this->assertTrue($res);
+		$toArray = $this->Email->getProtected('to');
+		$this->assertArrayNotHasKey('test@test.de', $toArray);
+
+		Configure::write('Email.live', false);
+		$this->Email->to('test@test.de', 'test');
+		$res = $this->Email->send('xyz xyz');
+		$this->assertTrue($res);
+		$toArray = $this->Email->getProtected('to');
+		$this->assertArrayHasKey('test@test.de', $toArray);
+	}
+
+	/**
+	 * EmailLibTest::testSmtpSettings()
+	 *
+	 * @return void
+	 */
+	public function testSmtpSettings() {
+		Configure::write('debug', 2);
+		Configure::write('Email.Smtp.username', 'test');
+		$this->Email = new TestEmailLib();
+		$settings = $this->Email->getProtected('config');
+		$this->assertEquals('test', $settings['username']);
+	}
+
 }
 
 /**
@@ -515,9 +553,14 @@ class TestEmailLib extends EmailLib {
 		return $this->_boundary;
 	}
 
+	/**
+	 * Get proteceted property of email lib
+	 *
+	 * @param string $attribute
+	 * @return string
+	 */
 	public function getProtected($attribute) {
-		$attribute = '_' . $attribute;
-		return $this->$attribute;
+		return $this->{'_' . $attribute};
 	}
 
 	/**
