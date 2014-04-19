@@ -82,7 +82,7 @@ App::uses('GeocoderBehavior', 'Tools.Model/Behavior');
 ```
 
 Tip: For how to use them, try to find some information in the test cases.
-A quick reference or some larger modules: [USAGE.md](https://github.com/dereuromark/tools/blob/master/USAGE.md)
+For a quick reference or some larger modules see the [Tools Plugin Wiki](https://github.com/dereuromark/tools/wiki)
 
 ## The cool stuff
 
