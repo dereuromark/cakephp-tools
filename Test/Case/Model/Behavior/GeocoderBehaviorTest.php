@@ -3,8 +3,9 @@ App::uses('GeocoderBehavior', 'Tools.Model/Behavior');
 App::uses('Set', 'Utility');
 App::uses('AppModel', 'Model');
 App::uses('AppController', 'Controller');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
-class GeocoderBehaviorTest extends CakeTestCase {
+class GeocoderBehaviorTest extends MyCakeTestCase {
 
 	public $fixtures = array(
 		'core.comment', 'plugin.tools.address', 'core.cake_session'
@@ -142,23 +143,22 @@ class GeocoderBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testBasic() {
-		//echo '<h3>'.__FUNCTION__.'</h3>';
-
 		$data = array(
 			'street' => 'Krebenweg 22',
 			'zip' => '74523',
 			'city' => 'Bibersfeld'
 		);
+		$this->Comment->create();
 		$res = $this->Comment->save($data);
-		//debug($res);
+		$this->debug($res);
 		$this->assertTrue(!empty($res['Comment']['lat']) && !empty($res['Comment']['lng']) && round($res['Comment']['lat']) === 49.0 && round($res['Comment']['lng']) === 10.0);
-		// accuracy = 4
 
 		// inconclusive
 		$data = array(
 			//'street' => 'Leopoldstraße',
 			'city' => 'München'
 		);
+		$this->Comment->create();
 		$res = $this->Comment->save($data);
 		$this->assertEquals('', $this->Comment->Behaviors->Geocoder->Geocode->error());
 
@@ -169,8 +169,9 @@ class GeocoderBehaviorTest extends CakeTestCase {
 		$data = array(
 			'city' => 'Bibersfeld'
 		);
+		$this->Comment->create();
 		$res = $this->Comment->save($data);
-		//debug($res);
+		$this->debug($res);
 		$this->assertTrue(!empty($res));
 		$this->assertEquals('', $this->Comment->Behaviors->Geocoder->Geocode->error());
 	}
@@ -181,20 +182,14 @@ class GeocoderBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testMinAccLow() {
-		//echo '<h3>'.__FUNCTION__.'</h3>';
-
 		$this->Comment->Behaviors->unload('Geocoder');
-		$this->Comment->Behaviors->load('Tools.Geocoder', array('real' => false, 'min_accuracy' => 0));
-		// accuracy = 1
+		$this->Comment->Behaviors->load('Tools.Geocoder', array('real' => false, 'min_accuracy' => GeocodeLib::ACC_COUNTRY));
 		$data = array(
-			//'street' => 'Leopoldstraße',
 			'city' => 'Deutschland'
 		);
+		$this->Comment->create();
 		$res = $this->Comment->save($data);
-		//debug($this->Comment->Behaviors->Geocoder->Geocode->error());
-		//debug($res);
-		//debug($this->Comment->Behaviors->Geocoder->Geocode->debug());
-		$this->assertTrue(!empty($res['Comment']['lat']) && !empty($res['Comment']['lng']));
+		$this->assertTrue((int)$res['Comment']['lat'] && (int)$res['Comment']['lng']);
 	}
 
 	/**
@@ -203,19 +198,13 @@ class GeocoderBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testMinAccHigh() {
-		//echo '<h3>'.__FUNCTION__.'</h3>';
-
 		$this->Comment->Behaviors->unload('Geocoder');
-		$this->Comment->Behaviors->load('Tools.Geocoder', array('real' => false, 'min_accuracy' => 4));
-		// accuracy = 1
+		$this->Comment->Behaviors->load('Tools.Geocoder', array('real' => false, 'min_accuracy' => GeocodeLib::ACC_POSTAL));
 		$data = array(
-			//'street' => 'Leopoldstraße',
 			'city' => 'Deutschland'
 		);
+		$this->Comment->create();
 		$res = $this->Comment->save($data);
-		//debug($this->Comment->Behaviors->Geocoder->Geocode->error());
-		//debug($res);
-		//debug($this->Comment->Behaviors->Geocoder->Geocode->debug());
 		$this->assertTrue(!isset($res['Comment']['lat']) && !isset($res['Comment']['lng']));
 	}
 
@@ -225,26 +214,18 @@ class GeocoderBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testMinInc() {
-		//echo '<h3>'.__FUNCTION__.'</h3>';
-
 		$this->Comment->Behaviors->unload('Geocoder');
 		$this->Comment->Behaviors->load('Tools.Geocoder', array('real' => false, 'min_accuracy' => GeocodeLib::ACC_SUBLOC));
 
 		$this->assertEquals(GeocodeLib::ACC_SUBLOC, $this->Comment->Behaviors->Geocoder->settings['Comment']['min_accuracy']);
 
-		// accuracy = 1
 		$data = array(
 			//'street' => 'Leopoldstraße',
 			'city' => 'Neustadt'
 		);
+		$this->Comment->create();
 		$res = $this->Comment->save($data);
-		//debug($this->Comment->Behaviors->Geocoder->Geocode->error()).BR;
 
-		//debug($this->Comment->Behaviors->Geocoder->Geocode->getResult()).BR;
-
-		//debug($res);
-
-		//debug($this->Comment->Behaviors->Geocoder->Geocode->debug());
 		$this->assertTrue(!isset($res['Comment']['lat']) && !isset($res['Comment']['lng']));
 	}
 
@@ -254,25 +235,15 @@ class GeocoderBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testMinIncAllowed() {
-		//echo '<h3>'.__FUNCTION__.'</h3>';
-
 		$this->Comment->Behaviors->unload('Geocoder');
 		$this->Comment->Behaviors->load('Tools.Geocoder', array('real' => false, 'allow_inconclusive' => true));
-		// accuracy = 1
+
 		$data = array(
-			//'street' => 'Leopoldstraße',
 			'city' => 'Neustadt'
 		);
+		$this->Comment->create();
 		$res = $this->Comment->save($data);
-		//debug($this->Comment->Behaviors->Geocoder->Geocode->error()).BR;
 
-		//debug($this->Comment->Behaviors->Geocoder->Geocode->url()).BR;
-
-		//debug($this->Comment->Behaviors->Geocoder->Geocode->getResult()).BR;
-
-		//debug($res);
-
-		//debug($this->Comment->Behaviors->Geocoder->Geocode->debug());
 		$this->assertTrue(!empty($res['Comment']['lat']) && !empty($res['Comment']['lng']));
 	}
 
@@ -284,25 +255,19 @@ class GeocoderBehaviorTest extends CakeTestCase {
 	public function testExpect() {
 		$this->Comment->Behaviors->unload('Geocoder');
 		$this->Comment->Behaviors->load('Tools.Geocoder', array('real' => false, 'expect' => array('postal_code')));
-		// accuracy = 1
+
 		$data = array(
-			//'street' => 'Leopoldstraße',
 			'city' => 'Bibersfeld'
 		);
+		$this->Comment->create();
 		$res = $this->Comment->save($data);
-		//debug($this->Comment->Behaviors->Geocoder->Geocode->error());
-		//debug($res);
-		//debug($this->Comment->Behaviors->Geocoder->Geocode->debug());
 		$this->assertTrue(empty($res['Comment']['lat']) && empty($res['Comment']['lng']));
 
 		$data = array(
-			//'street' => 'Leopoldstraße',
 			'city' => '74523'
 		);
+		$this->Comment->create();
 		$res = $this->Comment->save($data);
-		//debug($this->Comment->Behaviors->Geocoder->Geocode->error()).BR;
-		//debug($res);
-		//debug($this->Comment->Behaviors->Geocoder->Geocode->debug());
 		$this->assertTrue(!empty($res['Comment']['lat']) && !empty($res['Comment']['lng']));
 	}
 

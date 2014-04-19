@@ -1,7 +1,5 @@
 <?php
 App::uses('String', 'Utility');
-App::uses('Xml', 'Utility');
-App::uses('Hash', 'Utility');
 App::uses('HttpSocketLib', 'Tools.Lib');
 
 /**
@@ -70,15 +68,13 @@ class GeocodeLib {
 		'min_accuracy' => self::ACC_COUNTRY,
 		'allow_inconclusive' => true,
 		'expect' => array(), # see accuracyTypes for details
-		// static url params
-		'output' => 'json',
 		'host' => null, # results in maps.google.com - use if you wish to obtain the closest address
 	);
 
 	/**
 	 * Url params
 	 */
-	protected $params = array(
+	public $params = array(
 		'address' => '', # either address or latlng required!
 		'latlng' => '', # The textual latitude/longitude value for which you wish to obtain the closest, human-readable address
 		'region' => '', # The region code, specified as a ccTLD ("top-level domain") two-character
@@ -93,7 +89,7 @@ class GeocodeLib {
 
 	protected $result = null;
 
-	protected $statusCodes = array(
+	public $statusCodes = array(
 		self::CODE_SUCCESS => 'Success',
 		self::CODE_BAD_REQUEST => 'Sensor param missing',
 		self::CODE_MISSING_QUERY => 'Adress/LatLng missing',
@@ -101,18 +97,17 @@ class GeocodeLib {
 		self::CODE_TOO_MANY_QUERIES => 'Limit exceeded',
 	);
 
-	protected $accuracyTypes = array(
+	public $accuracyTypes = array(
 		self::ACC_COUNTRY => 'country',
 		self::ACC_AAL1 => 'administrative_area_level_1', # provinces/states
 		self::ACC_AAL2 => 'administrative_area_level_2 ',
 		self::ACC_AAL3 => 'administrative_area_level_3',
-		self::ACC_POSTAL => 'postal_code',
 		self::ACC_LOC => 'locality',
+		self::ACC_POSTAL => 'postal_code',
 		self::ACC_SUBLOC => 'sublocality',
 		self::ACC_ROUTE => 'route',
 		self::ACC_INTERSEC => 'intersection',
-		self::ACC_STREET => 'street_address'
-		//neighborhood premise subpremise natural_feature airport park point_of_interest colloquial_area political ?
+		self::ACC_STREET => 'street_address',
 	);
 
 	public function __construct($options = array()) {
@@ -147,9 +142,6 @@ class GeocodeLib {
 	 */
 	public function setOptions($options) {
 		foreach ($options as $key => $value) {
-			if ($key === 'output' && $value !== 'xml' && $value !== 'json') {
-				throw new CakeException('Invalid output format');
-			}
 			$this->options[$key] = $value;
 		}
 	}
@@ -158,7 +150,7 @@ class GeocodeLib {
 		if (empty($error)) {
 			return;
 		}
-		$this->debugSet('setError', $error);
+		$this->_setDebug('setError', $error);
 		$this->error[] = $error;
 	}
 
@@ -197,7 +189,7 @@ class GeocodeLib {
 	public function url() {
 		$params = array(
 			'host' => $this->options['host'],
-			'output' => $this->options['output']
+			'output' => 'json'
 		);
 		$url = String::insert(self::BASE_URL, $params, array('before' => '{', 'after' => '}', 'clean' => true));
 		$params = array();
@@ -210,16 +202,15 @@ class GeocodeLib {
 	}
 
 	/**
+	 * Seems like there are no inconclusive results anymore...
+	 *
 	 * @return boolean isInconclusive (or null if no query has been run yet)
 	 */
 	public function isInconclusive() {
 		if ($this->result === null) {
 			return null;
 		}
-		if (array_key_exists('location_type', $this->result) && !empty($this->result['location_type'])) {
-			return true;
-		}
-		return false;
+		return !empty($this->result['valid_results']) && $this->result['valid_results'] > 1;
 	}
 
 	/**
@@ -231,15 +222,6 @@ class GeocodeLib {
 		if ($this->result === null) {
 			return array();
 		}
-
-		if (is_string($this->result)) {
-			return $this->_transform($this->result);
-		}
-
-		if (!is_array($this->result)) {
-			return array();
-		}
-
 		return $this->result;
 	}
 
@@ -249,13 +231,11 @@ class GeocodeLib {
 	 * @param float $lat
 	 * @param float $lng
 	 * @param array $params
-	 * - allow_inconclusive
-	 * - min_accuracy
 	 * @return boolean Success
 	 */
 	public function reverseGeocode($lat, $lng, $params = array()) {
 		$this->reset(false);
-		$this->debugSet('reverseGeocode', compact('lat', 'lng', 'params'));
+		$this->_setDebug('reverseGeocode', compact('lat', 'lng', 'params'));
 		$latlng = $lat . ',' . $lng;
 		$this->setParams(array_merge($params, array('latlng' => $latlng)));
 
@@ -269,7 +249,7 @@ class GeocodeLib {
 				return false;
 			}
 
-			$this->debugSet('raw', $result);
+			$this->_setDebug('raw', $result);
 			$result = $this->_transform($result);
 			if (!is_array($result)) {
 				$this->setError('Result parsing failed');
@@ -280,25 +260,7 @@ class GeocodeLib {
 			$status = $result['status'];
 
 			if ($status == self::CODE_SUCCESS) {
-
-				// validate
-				if (isset($result['results'][0]) && !$this->options['allow_inconclusive']) {
-					$this->setError(__('Inconclusive result (total of %s)', count($result['results'])));
-					$this->result = $result['results'];
-					return false;
-				}
-
-				if (isset($result['results'][0])) {
-					$result['result'] = $result['results'][0];
-				}
-
-				$accuracy = $this->_getMaxAccuracy($result['result']);
-
-				if ($this->_isNotAccurateEnough($accuracy)) {
-					$accuracy = $this->accuracyTypes[$accuracy];
-					$minAccuracy = $this->accuracyTypes[$this->options['min_accuracy']];
-					$this->setError(__('Accuracy not good enough (%s instead of at least %s)', $accuracy, $minAccuracy));
-					$this->result = $result['result'];
+				if (!$this->_process($result)) {
 					return false;
 				}
 
@@ -333,7 +295,7 @@ class GeocodeLib {
 			}
 			$this->pause(true);
 		}
-		$this->result = $result['result'];
+
 		return true;
 	}
 
@@ -351,7 +313,7 @@ class GeocodeLib {
 	/**
 	 * Actual querying.
 	 * The query will be flatted, and if multiple results are fetched, they will be found
-	 * int $result['all'].
+	 * in $result['all'].
 	 *
 	 * @param string $address
 	 * @param array $params
@@ -359,12 +321,8 @@ class GeocodeLib {
 	 */
 	public function geocode($address, $params = array()) {
 		$this->reset(false);
-		$this->debugSet('reverseGeocode', compact('address', 'params'));
+		$this->_setDebug('geocode', compact('address', 'params'));
 		$this->setParams(array_merge($params, array('address' => $address)));
-		if ($this->options['allow_inconclusive']) {
-			// only host working with this setting?
-			//$this->options['host'] = self::DEFAULT_HOST;
-		}
 
 		$count = 0;
 		$requestUrl = $this->url();
@@ -377,7 +335,7 @@ class GeocodeLib {
 				return false;
 			}
 
-			$this->debugSet('raw', $result);
+			$this->_setDebug('raw', $result);
 			$result = $this->_transform($result);
 			if (!is_array($result)) {
 				$this->setError('Result parsing failed');
@@ -386,41 +344,10 @@ class GeocodeLib {
 			}
 
 			$status = $result['status'];
-			//debug(compact('result', 'requestUrl', 'success'));
 
 			if ($status == self::CODE_SUCCESS) {
-				// validate
-				if (isset($result['results'][0]) && !$this->options['allow_inconclusive']) {
-					$this->setError(__('Inconclusive result (total of %s)', count($result['results'])));
-					$this->result = $result['results'];
+				if (!$this->_process($result)) {
 					return false;
-				}
-				if (isset($result['results'][0])) {
-					$result['result'] = $result['results'][0];
-				}
-
-				$accuracy = $this->_getMaxAccuracy($result['result']);
-
-				if ($this->_isNotAccurateEnough($accuracy)) {
-					$accuracyText = $this->accuracyTypes[$accuracy];
-					$minAccuracy = $this->accuracyTypes[$this->options['min_accuracy']];
-					$this->setError(__('Accuracy not good enough (%s instead of at least %s)', $accuracyText, $minAccuracy));
-					$this->result = $result['result'];
-					return false;
-				}
-
-				if (!empty($this->options['expect'])) {
-					$fields = (empty($result['result']['types']) ? array() : Hash::filter($result['result']['types']));
-					$found = array_intersect($fields, (array)$this->options['expect']);
-					$validExpectation = !empty($found);
-					if (!$validExpectation) {
-						$this->setError(__('Expectation not reached (we have %s instead of at least %s)',
-							implode(', ', $found),
-							implode(', ', (array)$this->options['expect'])
-						));
-						$this->result = $result['result'];
-						return false;
-					}
 				}
 
 				// save Result
@@ -463,9 +390,61 @@ class GeocodeLib {
 			$this->pause(true);
 		}
 
-		$this->result = $result['result'];
-		if (!empty($result['results']) && count($result['results']) > 1) {
-			$this->result['all'] = $result['results'];
+		return true;
+	}
+
+	/**
+	 * GeocodeLib::_process()
+	 *
+	 * @param mixed $result
+	 * @return boolean Success
+	 */
+	protected function _process($result) {
+		$this->result = null;
+		$validResults = 0;
+
+		foreach ($result['results'] as $res) {
+			if (!$res['valid_type']) {
+				continue;
+			}
+			$validResults++;
+			if (isset($this->result)) {
+				continue;
+			}
+			$this->result = $res;
+		}
+		$this->result['valid_results'] = $validResults;
+		$this->result['all'] = $result['results'];
+
+		// validate
+		if (!$this->options['allow_inconclusive'] && $validResults > 1) {
+			$this->setError(__('Inconclusive result (total of %s)', $validResults));
+			return false;
+		}
+
+		if ($this->_isNotAccurateEnough($this->result['accuracy'])) {
+			$minAccuracy = $this->accuracyTypes[$this->options['min_accuracy']];
+			$this->setError(__('Accuracy not good enough (%s instead of at least %s)', $this->result['accuracy_name'], $minAccuracy));
+
+			return false;
+		}
+
+		if (!empty($this->options['expect'])) {
+			$expected = (array)$this->options['expect'];
+			foreach ($expected as $k => $v) {
+				$accuracy = is_int($v) ? $this->accuracyTypes[$v] : $v;
+				$expected[$k] = $accuracy;
+			}
+			$found = array_intersect($this->result['types'], $expected);
+			$validExpectation = !empty($found);
+
+			if (!$validExpectation) {
+				$this->setError(__('Expectation not reached (we have %s instead of at least one of %s)',
+					implode(', ', $found),
+					implode(', ', $expected)
+				));
+				return false;
+			}
 		}
 		return true;
 	}
@@ -486,21 +465,39 @@ class GeocodeLib {
 		return $this->accuracyTypes;
 	}
 
+	protected function _validate($result) {
+		$validType = false;
+		foreach ($result['types'] as $type) {
+			if (in_array($type, $this->accuracyTypes, true)) {
+				$validType = true;
+				break;
+			}
+		}
+		$result['valid_type'] = $validType;
+		return $result;
+	}
+
+	protected function _accuracy($result) {
+		$accuracyTypes = array_reverse($this->accuracyTypes, true);
+
+		$accuracy = 0;
+		foreach ($accuracyTypes as $key => $field) {
+			if (array_key_exists($field, $result) && !empty($result[$field])) {
+				$accuracy = $key;
+				break;
+			}
+		}
+
+		$result['accuracy'] = $accuracy;
+		$result['accuracy_name'] = $this->accuracyTypes[$accuracy];
+		return $result;
+	}
+
 	/**
+	 * @param int $accuracy
 	 * @return boolean $notAccurateEnough
 	 */
-	protected function _isNotAccurateEnough($accuracy = null) {
-		if (is_array($accuracy)) {
-			$accuracy = $this->_getMaxAccuracy($accuracy);
-		}
-		if (empty($accuracy)) {
-			$accuracy = 0;
-		}
-		// did we get a value instead of a key?
-		if (in_array($accuracy, $this->accuracyTypes, true)) {
-			$accuracy = array_search($accuracy, $this->accuracyTypes);
-		}
-		// validate key exists
+	protected function _isNotAccurateEnough($accuracy) {
 		if (!array_key_exists($accuracy, $this->accuracyTypes)) {
 			$accuracy = 0;
 		}
@@ -511,43 +508,15 @@ class GeocodeLib {
 	/**
 	 * GeocodeLib::_transform()
 	 *
-	 * @param string $record
+	 * @param string|array $record JSON string or array
 	 * @return array
 	 */
 	protected function _transform($record) {
-		if ($this->options['output'] === 'json') {
-			return $this->_transformJson($record);
-		}
-		return $this->_transformXml($record);
-	}
-
-	/**
-	 * GeocodeLib::_transformJson()
-	 *
-	 * @param string $record
-	 * @return array
-	 */
-	protected function _transformJson($record) {
 		if (!is_array($record)) {
 			$record = json_decode($record, true);
 		}
-		return $this->_transformData($record);
-	}
-
-	/**
-	 * @return array
-	 * @deprecated
-	 */
-	protected function _transformXml($record) {
-		//trigger_error('deprecated, use json instead', E_USER_DEPRECATED);
-		if (!is_array($record)) {
-			$xml = Xml::build($record);
-			$record = Xml::toArray($xml);
-			if (array_key_exists('GeocodeResponse', $record)) {
-				$record = $record['GeocodeResponse'];
-			}
-		}
-		return $this->_transformData($record);
+		$record['results'] = $this->_transformData($record['results']);
+		return $record;
 	}
 
 	/**
@@ -556,14 +525,13 @@ class GeocodeLib {
 	 *    attempt to find the first record which matches an accuracyTypes field
 	 *
 	 * @param array $record
-	 * @return int $maxAccuracy 9-0 as defined in $this->accuracyTypes
+	 * @return int|null $maxAccuracy 9-0 as defined in $this->accuracyTypes
 	 */
-	public function _getMaxAccuracy($record) {
+	protected function _getMaxAccuracy($record) {
 		if (!is_array($record)) {
 			return null;
 		}
-		$accuracyTypes = $this->accuracyTypes;
-		$accuracyTypes = array_reverse($accuracyTypes, true);
+		$accuracyTypes = array_reverse($this->accuracyTypes, true);
 		foreach ($accuracyTypes as $key => $field) {
 			if (array_key_exists($field, $record) && !empty($record[$field])) {
 				// found $field -- return it's $key
@@ -595,9 +563,6 @@ class GeocodeLib {
 	 * @return array $record organized & normalized
 	 */
 	protected function _transformData($record) {
-		if (!is_array($record)) {
-			return $record;
-		}
 		if (!array_key_exists('address_components', $record)) {
 			foreach (array_keys($record) as $key) {
 				$record[$key] = $this->_transformData($record[$key]);
@@ -609,31 +574,18 @@ class GeocodeLib {
 
 		// handle and organize address_components
 		$components = array();
-		if (!isset($record['address_components'][0])) {
-			$record['address_components'] = array($record['address_components']);
-		}
 		foreach ($record['address_components'] as $c) {
 			$types = array();
-			if (isset($c['types'])) { //!is_array($c['Type'])
-				if (!is_array($c['types'])) {
-					$c['types'] = (array)$c['types'];
-				}
+			$type = $c['types'][0];
+			$types = $c['types'];
 
-				$type = $c['types'][0];
-				array_shift($c['types']);
-				$types = $c['types'];
-			} elseif (isset($c['types'])) {
-				$type = $c['types'];
-			} else {
-				// error?
-				continue;
-			}
 			if (array_key_exists($type, $components)) {
 				$components[$type]['name'] .= ' ' . $c['long_name'];
 				$components[$type]['abbr'] .= ' ' . $c['short_name'];
 				$components[$type]['types'] += $types;
+			} else {
+				$components[$type] = array('name' => $c['long_name'], 'abbr' => $c['short_name'], 'types' => $types);
 			}
-			$components[$type] = array('name' => $c['long_name'], 'abbr' => $c['short_name'], 'types' => $types);
 		}
 
 		$res['formatted_address'] = $record['formatted_address'];
@@ -705,9 +657,17 @@ class GeocodeLib {
 		if (!empty($res['country_province_code']) && array_key_exists($res['country_province_code'], $array)) {
 			$res['country_province_code'] = $array[$res['country_province_code']];
 		}
+		if (!empty($record['postcode_localities'])) {
+			$res['postcode_localities'] = $record['postcode_localities'];
+		}
+		if (!empty($record['address_components'])) {
+			$res['address_components'] = $record['address_components'];
+		}
 
-		// inject maxAccuracy for transparency
-		$res['maxAccuracy'] = $this->_getMaxAccuracy($res);
+		$res = $this->_validate($res);
+		$res = $this->_accuracy($res);
+
+		//debug($res);die();
 		return $res;
 	}
 
@@ -720,7 +680,6 @@ class GeocodeLib {
 	 **/
 	protected function _fetch($url) {
 		$this->HttpSocket = new HttpSocketLib($this->use);
-		$this->debugSet('_fetch', $url);
 		if ($res = $this->HttpSocket->fetch($url, 'CakePHP Geocode Lib')) {
 			return $res;
 		}
@@ -745,7 +704,7 @@ class GeocodeLib {
 	 * @param mixed $data
 	 * @return void
 	 */
-	public function debugSet($key, $data = null) {
+	public function _setDebug($key, $data = null) {
 		$this->debug[$key] = $data;
 	}
 
