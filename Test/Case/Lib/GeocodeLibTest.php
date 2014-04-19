@@ -234,29 +234,19 @@ class GeocodeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testUrl() {
-		$is = $this->Geocode->url();
-		$this->assertFalse(empty($is));
-		$this->assertPattern('#https://maps.googleapis.com/maps/api/geocode/(json|xml)\?.+#', $is);
+		$ReflectionClass = new ReflectionClass('GeocodeLib');
+		$Method = $ReflectionClass->getMethod('_url');
+		$Method->setAccessible(true);
+
+		$is = $Method->invoke($this->Geocode);
+		$this->assertPattern('#https://maps.googleapis.com/maps/api/geocode/json#', $is);
 	}
 
 	/**
-	 * not possible with protected method
+	 * GeocodeLibTest::testSetParams()
 	 *
 	 * @return void
 	 */
-	public function _testFetch() {
-		$url = 'http://maps.google.com/maps/api/geocode/xml?sensor=false&address=74523';
-		$is = $this->Geocode->_fetch($url);
-		//debug($is);
-
-		$this->assertTrue(!empty($is) && substr($is, 0, 38) === '<?xml version="1.0" encoding="UTF-8"?>');
-
-		$url = 'http://maps.google.com/maps/api/geocode/json?sensor=false&address=74523';
-		$is = $this->Geocode->_fetch($url);
-		//debug($is);
-		$this->assertTrue(!empty($is) && substr($is, 0, 1) === '{');
-	}
-
 	public function testSetParams() {
 	}
 
@@ -266,14 +256,15 @@ class GeocodeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testSetOptions() {
-		// should be the default
-		$res = $this->Geocode->url();
-		$this->assertTextContains('maps.googleapis.com', $res);
-
 		$this->Geocode->setOptions(array('host' => 'maps.google.it'));
+
 		// should now be ".it"
-		$res = $this->Geocode->url();
-		$this->assertTextContains('maps.google.it', $res);
+		$ReflectionClass = new ReflectionClass('GeocodeLib');
+		$Method = $ReflectionClass->getMethod('_url');
+		$Method->setAccessible(true);
+
+		$result = $Method->invoke($this->Geocode);
+		$this->assertTextContains('maps.google.it', $result);
 	}
 
 	/**
