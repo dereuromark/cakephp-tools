@@ -248,7 +248,7 @@ class InlineCssLib {
 	 * _globRecursive
 	 *
 	 * @param string $pattern
-	 * @param integer $flags
+	 * @param int $flags
 	 * @return array
 	 */
 	protected function _globRecursive($pattern, $flags = 0) {

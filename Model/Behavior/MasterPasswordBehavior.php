@@ -80,7 +80,7 @@ class MasterPasswordBehavior extends ModelBehavior {
 	 * Run before a model is saved, used...
 	 *
 	 * @param object $Model Model about to be saved.
-	 * @return boolean true if save should proceed, false otherwise
+	 * @return bool true if save should proceed, false otherwise
 	 */
 	public function confirm(Model $Model, $return = true) {
 		$field = $this->settings[$Model->alias]['field'];
@@ -98,7 +98,7 @@ class MasterPasswordBehavior extends ModelBehavior {
 	 * Checks a string against the stored hash values of master passwords
 	 *
 	 * @param string $pwd: plain password string (not hashed etc)
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function isAuthorized(Model $Model, $field) {
 		if (empty($Model->data[$Model->alias][$field])) {

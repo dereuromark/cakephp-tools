@@ -29,7 +29,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	/**
 	 * SkipSetupTests property
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	public $skipSetupTests = true;
 
@@ -317,10 +317,10 @@ class SluggedBehaviorTest extends CakeTestCase {
 	/**
 	 * BuildTest method
 	 *
-	 * @param integer $hex1Limit
-	 * @param integer $hex2Limit
-	 * @param integer $hex1Start
-	 * @param integer $hex2Start
+	 * @param int $hex1Limit
+	 * @param int $hex2Limit
+	 * @param int $hex1Start
+	 * @param int $hex2Start
 	 * @return void
 	 */
 	protected function _buildTest($hex1Limit = 16, $hex2Limit = 16, $hex1Start = 16, $hex2Start = 0) {
@@ -409,10 +409,10 @@ class SluggedBehaviorTest extends CakeTestCase {
 	 * consuming.
 	 *
 	 * @param mixed $mode
-	 * @param integer $hex1Limit
-	 * @param integer $hex2Limit
-	 * @param integer $hex1Start
-	 * @param integer $hex2Start
+	 * @param int $hex1Limit
+	 * @param int $hex2Limit
+	 * @param int $hex1Start
+	 * @param int $hex2Start
 	 * @return void
 	 */
 	protected function _testMode($mode, $hex1Limit = 16, $hex2Limit = 16, $hex1Start = 0, $hex2Start = 0) {
@@ -18205,7 +18205,7 @@ class MessageSlugged extends CakeTestModel {
 	/**
 	 * UseTable property
 	 *
-	 * @var string 'messages'
+	 * @var string
 	 */
 	public $useTable = 'messages';
 

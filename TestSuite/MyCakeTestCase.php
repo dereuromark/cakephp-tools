@@ -25,7 +25,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	 * this is a convenience output handler since debug() or pr() have no effect
 	 *
 	 * @param mixed $data
-	 * @param boolean $force Should the output be flushed (forced)
+	 * @param bool $force Should the output be flushed (forced)
 	 * @return void
 	 */
 	public static function debug($data, $force = false) {
@@ -45,7 +45,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	 * this is a convenience output handler
 	 *
 	 * @param mixed $data
-	 * @param boolean $force Should the output be flushed (forced)
+	 * @param bool $force Should the output be flushed (forced)
 	 * @return void
 	 */
 	public static function out($data, $plain = false, $force = false) {
@@ -115,8 +115,8 @@ abstract class MyCakeTestCase extends CakeTestCase {
 
 	/**
 	 * @param float $time
-	 * @param integer precision
-	 * @param boolean $secs: usually in milliseconds (for long times set it to 'true')
+	 * @param int precision
+	 * @param bool $secs: usually in milliseconds (for long times set it to 'true')
 	 */
 	protected function _printElapsedTime($time = null, $precision = 8, $secs = false) {
 		if ($time === null) {

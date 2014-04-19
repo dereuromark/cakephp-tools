@@ -108,7 +108,7 @@ class KeyValueBehavior extends ModelBehavior {
 	 * @var string
 	 * @var array
 	 * @var string
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function saveSection(Model $Model, $foreignKey, $data, $section = null, $validate = true) {
 		if ($validate && !$this->validateSection($Model, $data)) {
@@ -152,7 +152,7 @@ class KeyValueBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function validateSection(Model $Model, $data, $section = null) {
 		$validate = $this->settings[$Model->alias]['validate'];
@@ -209,7 +209,7 @@ class KeyValueBehavior extends ModelBehavior {
 	 * Resets the custom data for the specific domains (model, foreign_id)
 	 * careful: passing both null values will result in a complete truncate command
 	 *
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function resetSection(Model $Model, $foreignKey = null, $section = null, $key = null) {
 		extract($this->settings[$Model->alias]);

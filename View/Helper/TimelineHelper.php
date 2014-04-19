@@ -107,7 +107,7 @@ class TimelineHelper extends AppHelper {
 	 * Finalize the timeline and write the javascript to the buffer.
 	 * Make sure that your view does also output the buffer at some place!
 	 *
-	 * @param boolean $return If the output should be returned instead
+	 * @param bool $return If the output should be returned instead
 	 * @return void or string Javascript if $return is true
 	 */
 	public function finalize($return = false) {

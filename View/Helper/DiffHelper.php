@@ -35,7 +35,7 @@ class DiffHelper extends AppHelper {
 	 * @param string $renderType
 	 * 'unified', 'inline', 'context', 'sidebyside'
 	 * defaults to "inline"
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function renderType($type = null) {
 		return $this->Diff->renderType($type);
@@ -45,7 +45,7 @@ class DiffHelper extends AppHelper {
 	 * @param string $engineType
 	 * 'auto', 'native', 'xdiff', 'shell', 'string'
 	 * defaults to "auto"
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function engineType($type = null) {
 		return $this->Diff->engineType($type);

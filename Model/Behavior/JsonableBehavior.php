@@ -117,7 +117,7 @@ class JsonableBehavior extends ModelBehavior {
 	 * Saves all fields that do not belong to the current Model into 'with' helper model.
 	 *
 	 * @param object $Model
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function beforeSave(Model $Model, $options = array()) {
 		$data = $Model->data[$Model->alias];
@@ -258,7 +258,7 @@ class JsonableBehavior extends ModelBehavior {
 	 * Checks if string is encoded array/object
 	 *
 	 * @param string string to check
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isEncoded(Model $Model, $str) {
 		$this->decoded = $this->_decode($Model, $str);

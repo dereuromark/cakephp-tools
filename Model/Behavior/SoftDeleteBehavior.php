@@ -115,7 +115,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 	 *
 	 * @param Model $model
 	 * @param array $query
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function beforeDelete(Model $model, $cascade = true) {
 		$runtime = $this->runtime[$model->alias];
@@ -133,8 +133,8 @@ class SoftDeleteBehavior extends ModelBehavior {
 	 * Mark record as deleted
 	 *
 	 * @param Model $model
-	 * @param integer $id
-	 * @return boolean Success
+	 * @param int $id
+	 * @return bool Success
 	 */
 	public function delete(Model $model, $id) {
 		$runtime = $this->runtime[$model->alias];
@@ -175,8 +175,8 @@ class SoftDeleteBehavior extends ModelBehavior {
 	 * Mark record as not deleted
 	 *
 	 * @param Model $model
-	 * @param integer $id
-	 * @return boolean Success
+	 * @param int $id
+	 * @return bool Success
 	 */
 	public function undelete(Model $model, $id) {
 		$runtime = $this->runtime[$model->alias];
@@ -245,7 +245,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 	 *
 	 * @param Model $model
 	 * @param mixed $expiration anything parseable by strtotime(), by default '-90 days'
-	 * @return integer
+	 * @return int
 	 */
 	public function purgeDeletedCount(Model $model, $expiration = '-90 days') {
 		$this->softDelete($model, false);
@@ -257,7 +257,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 	 *
 	 * @param Model $model
 	 * @param mixed $expiration anything parseable by strtotime(), by default '-90 days'
-	 * @return boolean If there were some outdated records
+	 * @return bool If there were some outdated records
 	 */
 	public function purgeDeleted(Model $model, $expiration = '-90 days') {
 		$this->softDelete($model, false);
@@ -387,7 +387,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 	 * }}}
 	 *
 	 * @param Model $model
-	 * @param integer $id The ID of the current record
+	 * @param int $id The ID of the current record
 	 * @return array
 	 */
 	protected function _getCounterCacheKeys(Model $model, $id) {

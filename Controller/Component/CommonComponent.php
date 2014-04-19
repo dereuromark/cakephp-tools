@@ -132,7 +132,7 @@ class CommonComponent extends Component {
 	 *
 	 * Note that since 2.4 you can use request->is(array('post', 'put') directly.
 	 *
-	 * @return boolean If it is of type POST/PUT
+	 * @return bool If it is of type POST/PUT
 	 */
 	public function isPosted() {
 		return $this->Controller->request->is(array('post', 'put'));
@@ -301,7 +301,7 @@ class CommonComponent extends Component {
 	 * Returns current url (with all missing params automatically added).
 	 * Necessary for Router::url() and comparison of urls to work.
 	 *
-	 * @param boolean $asString: defaults to false = array
+	 * @param bool $asString: defaults to false = array
 	 * @return mixed Url
 	 */
 	public function currentUrl($asString = false) {
@@ -327,7 +327,7 @@ class CommonComponent extends Component {
 	 *
 	 * Password can be passed as named param or query string param.
 	 *
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function validAdminUrlAccess() {
 		$pwd = Configure::read('Config.pwd');
@@ -353,7 +353,7 @@ class CommonComponent extends Component {
 	 * @param mixed $id User id
 	 * @param array $settings Settings for DirectAuthentication
 	 * - fields
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function manualLogin($id, $settings = array()) {
 		$requestData = $this->Controller->request->data;
@@ -379,7 +379,7 @@ class CommonComponent extends Component {
 	 * fields, contain, recursive and userModel.
 	 *
 	 * @param mixed $id User id
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function forceLogin($id) {
 		$settings = array(
@@ -404,8 +404,8 @@ class CommonComponent extends Component {
 	 * otherwise it will use the default url
 	 *
 	 * @param mixed $url
-	 * @param boolean $allowSelf if redirect to the same controller/action (url) is allowed
-	 * @param integer $status
+	 * @param bool $allowSelf if redirect to the same controller/action (url) is allowed
+	 * @param int $status
 	 * @return void
 	 */
 	public function autoRedirect($whereTo, $allowSelf = true, $status = null) {
@@ -423,7 +423,7 @@ class CommonComponent extends Component {
 	 *
 	 * @see http://en.wikipedia.org/wiki/Post/Redirect/Get
 	 * @param mixed $url
-	 * @param integer $status
+	 * @param int $status
 	 * @return void
 	 */
 	public function postRedirect($whereTo, $status = 302) {
@@ -434,8 +434,8 @@ class CommonComponent extends Component {
 	 * Combine auto with post
 	 * also allows whitelisting certain actions for autoRedirect (use Controller::$autoRedirectActions)
 	 * @param mixed $url
-	 * @param boolean $conditionalAutoRedirect false to skip whitelisting
-	 * @param integer $status
+	 * @param bool $conditionalAutoRedirect false to skip whitelisting
+	 * @param int $status
 	 * @return void
 	 */
 	public function autoPostRedirect($whereTo, $conditionalAutoRedirect = true, $status = 302) {
@@ -478,8 +478,8 @@ class CommonComponent extends Component {
 	 * - passed params
 	 *
 	 * @param mixed $url
-	 * @param integer $status
-	 * @param boolean $exit
+	 * @param int $status
+	 * @param bool $exit
 	 * @return void
 	 */
 	public function completeRedirect($url = null, $status = null, $exit = true) {
@@ -503,7 +503,7 @@ class CommonComponent extends Component {
 	 *
 	 * @see http://en.wikipedia.org/wiki/Post/Redirect/Get
 	 * TODO: change to 303 with backwardscompatability for older browsers...
-	 * @param integer $status
+	 * @param int $status
 	 * @return void
 	 */
 	public function prgRedirect($status = 302) {
@@ -540,7 +540,7 @@ class CommonComponent extends Component {
 	 * Opposite of Controller::disableCache()
 	 * TODO: set response class header instead
 	 *
-	 * @param integer $seconds
+	 * @param int $seconds
 	 * @return void
 	 */
 	public function forceCache($seconds = HOUR) {
@@ -553,7 +553,7 @@ class CommonComponent extends Component {
 	 * Referrer checking (where does the user come from)
 	 * Only returns true for a valid external referrer.
 	 *
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function isForeignReferer($ref = null) {
 		if ($ref === null) {
@@ -604,7 +604,7 @@ class CommonComponent extends Component {
 	/**
 	 * //todo: move to Utility?
 	 *
-	 * @return boolean true if disabled (bots, etc), false if enabled
+	 * @return bool true if disabled (bots, etc), false if enabled
 	 */
 	public static function cookiesDisabled() {
 		if (!empty($_COOKIE) && !empty($_COOKIE[Configure::read('Session.cookie')])) {
@@ -617,8 +617,8 @@ class CommonComponent extends Component {
 	 * Quick sql debug from controller dynamically
 	 * or statically from just about any other place in the script
 	 *
-	 * @param boolean $exit If script should exit.
-	 * @return boolean Success
+	 * @param bool $exit If script should exit.
+	 * @return bool Success
 	 */
 	public function sql($exit = true) {
 		if (isset($this->Controller)) {
@@ -648,7 +648,7 @@ class CommonComponent extends Component {
 	/**
 	 * Localize
 	 *
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	 public function localize($lang = null) {
 		if ($lang === null) {
@@ -795,7 +795,7 @@ class CommonComponent extends Component {
 	 * @deprecated
 	 * @param string $string containing the parts
 	 * @param string $separator (defaults to ',')
-	 * @param boolean $camelize (true/false): problems with äöüß etc!
+	 * @param bool $camelize (true/false): problems with äöüß etc!
 	 * @return array Results as list
 	 */
 	public function parseList($string, $separator = null, $camelize = false, $capitalize = true) {
@@ -977,7 +977,7 @@ class CommonComponent extends Component {
 	 * Returns auto-generated password
 	 *
 	 * @param string $type: user, ...
-	 * @param integer $length (if no type is submitted)
+	 * @param int $length (if no type is submitted)
 	 * @return pwd on success, empty string otherwise
 	 * @deprecated - use RandomLib
 	 */
@@ -1010,8 +1010,8 @@ class CommonComponent extends Component {
 	/**
 	 * Get the Corresponding Message to an HTTP Error Code
 	 *
-	 * @param integer $code: 100...505
-	 * @param boolean $autoTranslate
+	 * @param int $code: 100...505
+	 * @param bool $autoTranslate
 	 * @return array codes if code is NULL, otherwise string $code (empty string on failure)
 	 */
 	public function responseCodes($code = null, $autoTranslate = false) {
@@ -1084,7 +1084,7 @@ class CommonComponent extends Component {
 	/**
 	 * Get the Corresponding Message to an HTTP Error Code
 	 *
-	 * @param integer $code: 4xx...5xx
+	 * @param int $code: 4xx...5xx
 	 * @return string
 	 */
 	public function smtpResponseCodes($code = null, $autoTranslate = false) {

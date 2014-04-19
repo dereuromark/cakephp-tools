@@ -218,7 +218,7 @@ class MobileComponentTestController extends AppController {
 	/**
 	 * Failed property
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	public $failed = false;
 

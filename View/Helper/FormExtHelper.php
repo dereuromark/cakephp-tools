@@ -137,7 +137,7 @@ class FormExtHelper extends FormHelper {
 	 *
 	 * @param array $elements
 	 * @param array $parents
-	 * @param boolean $showParents
+	 * @param bool $showParents
 	 * @param array $attributes
 	 * @return array
 	 */
@@ -420,7 +420,7 @@ class FormExtHelper extends FormHelper {
 	 * Overwrite parent
 	 *
 	 * @param mixed $fieldName
-	 * @param boolean $format24Hours
+	 * @param bool $format24Hours
 	 * @param mixed $attributes
 	 * @return void
 	 */
@@ -971,7 +971,7 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 	 * FormExtHelper::scripts()
 	 *
 	 * @param string $type
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function scripts($type) {
 		switch ($type) {

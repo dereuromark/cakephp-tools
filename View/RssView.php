@@ -127,7 +127,7 @@ class RssView extends View {
 	/**
 	 * Converts a time in any format to an RSS time
 	 *
-	 * @param integer|string|DateTime $time
+	 * @param int|string|DateTime $time
 	 * @return string An RSS-formatted timestamp
 	 * @see CakeTime::toRSS
 	 */

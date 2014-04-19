@@ -45,7 +45,7 @@ class ZipLib {
 	/**
 	 * Count all files (not folders) - works recursivly.
 	 *
-	 * @return integer Size or false on failure
+	 * @return int Size or false on failure
 	 */
 	public function numFiles() {
 		if (!$this->Zip) {
@@ -62,7 +62,7 @@ class ZipLib {
 	/**
 	 * Size in bytes
 	 *
-	 * @return integer Size or false on failure
+	 * @return int Size or false on failure
 	 */
 	public function size() {
 		if (!$this->Zip) {
@@ -80,7 +80,7 @@ class ZipLib {
 	 * Open a file.
 	 *
 	 * @params string, boolean
-	 *	@return boolean Success
+	 *	@return bool Success
 	 */
 	public function open($path = null, $create = false) {
 		$this->filename = basename($path);
@@ -100,7 +100,7 @@ class ZipLib {
 	/**
 	 * Close the Zip
 	 *
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function close() {
 		if ($this->Zip !== null) {
@@ -115,8 +115,8 @@ class ZipLib {
 	 * Unzip to a specific location or the current path
 	 *
 	 * @param string $location
-	 * @param boolean $flatten
-	 * @return boolean Success
+	 * @param bool $flatten
+	 * @return bool Success
 	 */
 	public function unzip($location = null, $flatten = false) {
 		if (!$this->Zip) {

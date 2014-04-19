@@ -12,7 +12,7 @@ class TimeLib extends CakeTime {
 	 * Detect if a timezone has a DST
 	 *
 	 * @param string|DateTimeZone $timezone User's timezone string or DateTimeZone object
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function hasDaylightSavingTime($timezone = null) {
 		$timezone = self::timezone($timezone);
@@ -31,7 +31,7 @@ class TimeLib extends CakeTime {
 	 * Calculate the current GMT offset from a timezone string (respecting DST)
 	 *
 	 * @param string|DateTimeZone $timezone User's timezone string or DateTimeZone object
-	 * @return integer Offset in hours
+	 * @return int Offset in hours
 	 */
 	public static function getGmtOffset($timezone = null) {
 		$timezone = self::timezone($timezone);
@@ -71,7 +71,7 @@ class TimeLib extends CakeTime {
 	 *
 	 * @param mixed $start (db format or timestamp)
 	 * @param mixex §end (db format or timestamp)
-	 * @return integer: the distance in seconds
+	 * @return int: the distance in seconds
 	 */
 	public static function difference($startTime = null, $endTime = null, $options = array()) {
 		if (!is_int($startTime)) {
@@ -98,7 +98,7 @@ class TimeLib extends CakeTime {
 	 *  $now = mktime(0,0,0,date("m"),date("d"),date("Y"));
 	 *  $birth = mktime(0,0,0, $monat, $tag, $jahr);
 	 *  $age = intval(($now - $birth) / (3600 * 24 * 365));
-	 * @return integer age (0 if both timestamps are equal or empty, -1 on invalid dates)
+	 * @return int age (0 if both timestamps are equal or empty, -1 on invalid dates)
 	 */
 	public static function age($start = null, $end = null, $accuracy = 0) {
 		$age = 0;
@@ -156,9 +156,9 @@ class TimeLib extends CakeTime {
 	 * Try to return the age only with the year available
 	 * can be e.g. 22/23
 	 *
-	 * @param integer $year
-	 * @param integer $month (optional)
-	 * @return integer Age
+	 * @param int $year
+	 * @param int $month (optional)
+	 * @return int Age
 	 */
 	public static function ageByYear($year, $month = null) {
 		if ($month === null) {
@@ -178,8 +178,8 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * @param integer $year
-	 * @param integer $sign
+	 * @param int $year
+	 * @param int $sign
 	 * @return mixed
 	 */
 	public static function ageByHoroscope($year, $sign) {
@@ -207,10 +207,10 @@ class TimeLib extends CakeTime {
 	 * //FIXME
 	 * //TODO: move to helper?
 	 *
-	 * @param integer $year
-	 * @param integer $month
-	 * @param integer $day
-	 * @param integer $steps
+	 * @param int $year
+	 * @param int $month
+	 * @param int $day
+	 * @param int $steps
 	 * @return mixed
 	 */
 	public static function ageRange($year, $month = null, $day = null, $steps = 1) {
@@ -243,8 +243,8 @@ class TimeLib extends CakeTime {
 	/**
 	 * Return the days of a given month.
 	 *
-	 * @param integer $year
-	 * @param integer $month
+	 * @param int $year
+	 * @param int $month
 	 */
 	public static function daysInMonth($year, $month) {
 		return date("t", mktime(0, 0, 0, $month, 1, $year));
@@ -259,7 +259,7 @@ class TimeLib extends CakeTime {
 	 * last week of the previous year should be used.
 	 *
 	 * @param date in DB format - if none is passed, current day is used
-	 * @param integer $relative - weeks relative to the date (+1 next, -1 previous etc)
+	 * @param int $relative - weeks relative to the date (+1 next, -1 previous etc)
 	 * @return string
 	 */
 	public static function cWeek($dateString = null, $relative = 0) {
@@ -306,8 +306,8 @@ class TimeLib extends CakeTime {
 	 * Get number of days since the start of the week.
 	 * 0=sunday to 7=saturday (default)
 	 *
-	 * @param integer $num Number of day.
-	 * @return integer Days since the start of the week.
+	 * @param int $num Number of day.
+	 * @return int Days since the start of the week.
 	 */
 	public static function cWeekMod($num) {
 		$base = 6;
@@ -359,7 +359,7 @@ class TimeLib extends CakeTime {
 	 * Calculate the amount of calender weeks in a year
 	 *
 	 * @param year (format xxxx, defaults to current year)
-	 * @return integer: 52 or 53
+	 * @return int: 52 or 53
 	 */
 	public static function cWeeks($year = null) {
 		if ($year === null) {
@@ -370,7 +370,7 @@ class TimeLib extends CakeTime {
 
 	/**
 	 * @param year (format xxxx, defaults to current year)
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public static function isLeapYear($year) {
 		if ($year % 4 != 0) {
@@ -390,8 +390,8 @@ class TimeLib extends CakeTime {
 	 * Handles month/year increment calculations in a safe way, avoiding the pitfall of "fuzzy" month units.
 	 *
 	 * @param mixed $startDate Either a date string or a DateTime object
-	 * @param integer $years Years to increment/decrement
-	 * @param integer $months Months to increment/decrement
+	 * @param int $years Years to increment/decrement
+	 * @param int $months Months to increment/decrement
 	 * @param string|DateTimeZone $timezone Timezone string or DateTimeZone object
 	 * @return object DateTime with incremented/decremented month/year values.
 	 */
@@ -542,9 +542,9 @@ class TimeLib extends CakeTime {
 	/**
 	 * Return the translation to a specific week day
 	 *
-	 * @param integer $day:
+	 * @param int $day:
 	 * 0=sunday to 7=saturday (default numbers)
-	 * @param boolean $abbr (if abbreviation should be returned)
+	 * @param bool $abbr (if abbreviation should be returned)
 	 * @param offset: 0-6 (defaults to 0) [1 => 1=monday to 7=sunday]
 	 * @return string translatedText
 	 */
@@ -584,9 +584,9 @@ class TimeLib extends CakeTime {
 	/**
 	 * Return the translation to a specific week day
 	 *
-	 * @param integer $month:
+	 * @param int $month:
 	 * 1..12
-	 * @param boolean $abbr (if abbreviation should be returned)
+	 * @param bool $abbr (if abbreviation should be returned)
 	 * @param array $options
 	 * - appendDot (only for 3 letter abbr; defaults to false)
 	 * @return string translatedText
@@ -677,7 +677,7 @@ class TimeLib extends CakeTime {
 	 * $span = fuzzy(time() - 10); // "moments ago"
 	 * $span = fuzzy(time() + 20); // "in moments"
 	 *
-	 * @param integer "remote" timestamp
+	 * @param int "remote" timestamp
 	 * @return string
 	 */
 	public static function fuzzy($timestamp) {
@@ -688,8 +688,8 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * @param integer $offset in seconds
-	 * @param boolean $past (defaults to null: return plain text)
+	 * @param int $offset in seconds
+	 * @param bool $past (defaults to null: return plain text)
 	 * - new: if not boolean but a string use this as translating text
 	 * @return string text (i18n!)
 	 */
@@ -753,7 +753,7 @@ class TimeLib extends CakeTime {
 	/**
 	 * Time length to human readable format.
 	 *
-	 * @param integer $seconds
+	 * @param int $seconds
 	 * @param string format: format
 	 * @param options
 	 * - boolean v: verbose
@@ -911,7 +911,7 @@ class TimeLib extends CakeTime {
 	 *
 	 * @param string
 	 * @param string
-	 * @param integer $timezone User's timezone
+	 * @param int $timezone User's timezone
 	 * @return string Formatted date
 	 */
 	public static function convertDate($oldDateString, $newDateFormatString, $timezone = null) {
@@ -923,8 +923,8 @@ class TimeLib extends CakeTime {
 	 * Returns true if given datetime string was day before yesterday.
 	 *
 	 * @param string $dateString Datetime string or Unix timestamp
-	 * @param integer $timezone User's timezone
-	 * @return boolean True if datetime string was day before yesterday
+	 * @param int $timezone User's timezone
+	 * @return bool True if datetime string was day before yesterday
 	 */
 	public static function wasDayBeforeYesterday($dateString, $timezone = null) {
 		$date = self::fromString($dateString, $timezone);
@@ -935,8 +935,8 @@ class TimeLib extends CakeTime {
 	 * Returns true if given datetime string is the day after tomorrow.
 	 *
 	 * @param string $dateString Datetime string or Unix timestamp
-	 * @param integer $timezone User's timezone
-	 * @return boolean True if datetime string is day after tomorrow
+	 * @param int $timezone User's timezone
+	 * @return bool True if datetime string is day after tomorrow
 	 */
 	public static function isDayAfterTomorrow($dateString, $timezone = null) {
 		$date = self::fromString($dateString, $timezone);
@@ -947,8 +947,8 @@ class TimeLib extends CakeTime {
 	 * Returns true if given datetime string is not today AND is in the future.
 	 *
 	 * @param string $dateString Datetime string or Unix timestamp
-	 * @param integer $timezone User's timezone
-	 * @return boolean True if datetime is not today AND is in the future
+	 * @param int $timezone User's timezone
+	 * @return bool True if datetime is not today AND is in the future
 	 */
 	public static function isNotTodayAndInTheFuture($dateString, $timezone = null) {
 		$date = self::fromString($dateString, $timezone);
@@ -959,8 +959,8 @@ class TimeLib extends CakeTime {
 	 * Returns true if given datetime string is not now AND is in the future.
 	 *
 	 * @param string $dateString Datetime string or Unix timestamp
-	 * @param integer $timezone User's timezone
-	 * @return boolean True if datetime is not today AND is in the future
+	 * @param int $timezone User's timezone
+	 * @return bool True if datetime is not today AND is in the future
 	 */
 	public static function isInTheFuture($dateString, $timezone = null) {
 		$date = self::fromString($dateString, $timezone);
@@ -977,7 +977,7 @@ class TimeLib extends CakeTime {
 	 * @param type
 	 * - start: first second of this interval
 	 * - end: last second of this interval
-	 * @return integer timestamp
+	 * @return int timestamp
 	 */
 	public static function parseLocalizedDate($date, $format = null, $type = 'start') {
 		$date = trim($date);
@@ -1134,7 +1134,7 @@ class TimeLib extends CakeTime {
 	 * now supports negative values like -2,5 -2,5 -2:30 -:30 or -4
 	 *
 	 * @param string
-	 * @return integer: seconds
+	 * @return int: seconds
 	 */
 	public static function parseTime($duration, $allowed = array(':', '.', ',')) {
 		if (empty($duration)) {
@@ -1174,7 +1174,7 @@ class TimeLib extends CakeTime {
 	 * Parse 2022-11-12 or 12.11.2022 or even 12.11.22
 	 *
 	 * @param string $date
-	 * @return integer: seconds
+	 * @return int: seconds
 	 */
 	public static function parseDate($date, $allowed = array('.', '-')) {
 		$datePieces = explode(' ', $date, 2);
@@ -1204,7 +1204,7 @@ class TimeLib extends CakeTime {
 	/**
 	 * Return strings like 2:30 (later //TODO: or 2:33:99) from seconds etc
 	 *
-	 * @param integer: seconds
+	 * @param int: seconds
 	 * @return string
 	 */
 	public static function buildTime($duration, $mode = 'H:MM') {
@@ -1228,7 +1228,7 @@ class TimeLib extends CakeTime {
 	/**
 	 * Return strings like 2:33:99 from seconds etc
 	 *
-	 * @param integer: seconds
+	 * @param int: seconds
 	 * @return string
 	 */
 	public static function buildDefaultTime($duration) {

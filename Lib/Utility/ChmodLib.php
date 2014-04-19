@@ -34,7 +34,7 @@ class ChmodLib {
 	/**
 	 * From INT or STRING with or without leading 0 -> Octal 0xxx
 	 *
-	 * @return integer
+	 * @return int
 	 */
 	public static function convertToOctal($mode) {
 		return intval((string)$mode, 8);
@@ -59,7 +59,7 @@ class ChmodLib {
 	 *
 	 * @param options
 	 * - string: string/int/symbolic
-	 * @return integer Mode
+	 * @return int Mode
 	 */
 	public function getMode($options = array()) {
 		$mode = (string)($this->modes['user'] . $this->modes['group'] . $this->modes['other']);
@@ -116,10 +116,10 @@ class ChmodLib {
 	/**
 	 * ChmodLib::setMode()
 	 *
-	 * @param integer $r
-	 * @param integer $w
-	 * @param integer $e
-	 * @return integer
+	 * @param int $r
+	 * @param int $w
+	 * @param int $e
+	 * @return int
 	 */
 	protected function setMode($r, $w, $e) {
 		$mode = 0;

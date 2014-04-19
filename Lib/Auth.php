@@ -82,7 +82,7 @@ class Auth {
 	 *
 	 * @param mixed $role
 	 * @param mixed $providedRoles
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public static function hasRole($ownRole, $providedRoles = null) {
 		if ($providedRoles !== null) {
@@ -109,9 +109,9 @@ class Auth {
 	 * roles to match.
 	 *
 	 * @param mixed $roles
-	 * @param boolean $oneRoleIsEnough (if all $roles have to match instead of just one)
+	 * @param bool $oneRoleIsEnough (if all $roles have to match instead of just one)
 	 * @param mixed $providedRoles
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public static function hasRoles($ownRoles, $oneRoleIsEnough = true, $providedRoles = null) {
 		if ($providedRoles !== null) {
@@ -153,7 +153,7 @@ class Auth {
 	 *
 	 * @param mixed $role
 	 * @param mixed $providedRights
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public static function hasRight($ownRight, $providedRights = null) {
 		if ($providedRights !== null) {

@@ -34,14 +34,14 @@ class MobileComponent extends Component {
 	/**
 	 * Stores the result of the auto-detection.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	public $isMobile = null;
 
 	/**
 	 * Stores the final detection result including user preference.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	public $setMobile = null;
 
@@ -230,7 +230,7 @@ class MobileComponent extends Component {
 	 * Determines if we need to so serve mobile views based on session preference
 	 * and browser headers.
 	 *
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function isMobile() {
 		if ($this->isMobile !== null) {
@@ -252,7 +252,7 @@ class MobileComponent extends Component {
 	 * Note that the cake internal way might soon be deprecated:
 	 * https://github.com/cakephp/cakephp/issues/2546
 	 *
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function detect() {
 		// Deprecated - the vendor libs are far more accurate and up to date
@@ -273,7 +273,7 @@ class MobileComponent extends Component {
 	 * Simple auto-detection based on Tools plugin or vendor classes.
 	 *
 	 * @param string $engine
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function detectByVendor($engine) {
 		$isMobile = $this->Session->read('Session.mobile');

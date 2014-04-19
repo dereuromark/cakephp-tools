@@ -517,7 +517,7 @@ class TreeHelper extends AppHelper {
 	 *
 	 * @param array $tree
 	 * @param array $treePath
-	 * @param integer $level
+	 * @param int $level
 	 * @return void
 	 * @throws CakeException
 	 */

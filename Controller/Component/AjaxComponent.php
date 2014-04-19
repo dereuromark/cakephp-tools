@@ -92,8 +92,8 @@ class AjaxComponent extends Component {
 	 *
 	 * @param Controller $controller Controller with components to beforeRedirect
 	 * @param string|array $url Either the string or URL array that is being redirected to.
-	 * @param integer $status The status code of the redirect
-	 * @param boolean $exit Will the script exit.
+	 * @param int $status The status code of the redirect
+	 * @param bool $exit Will the script exit.
 	 * @return array|void Either an array or null.
 	 */
 	public function beforeRedirect(Controller $controller, $url, $status = null, $exit = true) {

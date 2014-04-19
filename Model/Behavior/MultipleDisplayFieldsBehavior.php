@@ -74,7 +74,7 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 	 *
 	 * @param Model $Model
 	 * @param array $results
-	 * @param boolean $primary
+	 * @param bool $primary
 	 * @return array Modified results
 	 */
 	public function afterFind(Model $Model, $results, $primary = false) {

@@ -35,7 +35,7 @@ final class Str {
 	 *
 	 * @param mixed $needle
 	 * @param string $haystack
-	 * @param boolean $beforeNeedle (defaults to false)
+	 * @param bool $beforeNeedle (defaults to false)
 	 * @return mixed
 	 */
 	final public static function str($needle, $haystack, $beforeNeedle = false) {
@@ -47,7 +47,7 @@ final class Str {
 	 *
 	 * @param mixed $needle
 	 * @param string $haystack
-	 * @param boolean $beforeNeedle (defaults to false)
+	 * @param bool $beforeNeedle (defaults to false)
 	 * @return mixed
 	 */
 	final public static function iStr($needle, $haystack, $beforeNeedle = false) {
@@ -59,7 +59,7 @@ final class Str {
 	 *
 	 * @param mixed $needle
 	 * @param string $haystack
-	 * @param boolean $beforeNeedle (defaults to false)
+	 * @param bool $beforeNeedle (defaults to false)
 	 * @return mixed
 	 */
 	final public static function chr($needle, $haystack, $beforeNeedle = false) {
@@ -87,7 +87,7 @@ final class Str {
 	 * @param mixed $search
 	 * @param mixed $replace
 	 * @param mixed $subject
-	 * @param integer $count Reference to store count in
+	 * @param int $count Reference to store count in
 	 * @return mixed
 	 */
 	final public static function replace($search, $replace, $subject, &$count = null) {
@@ -100,7 +100,7 @@ final class Str {
 	 * @param mixed $search
 	 * @param mixed $replace
 	 * @param mixed $subject
-	 * @param integer $count Reference to store count in
+	 * @param int $count Reference to store count in
 	 * @return mixed
 	 */
 	final public static function iReplace($search, $replace, $subject, &$count = null) {
@@ -123,9 +123,9 @@ final class Str {
 	 *
 	 * @param string $needle
 	 * @param string $haystack
-	 * @param integer $offset
-	 * @param integer $length
-	 * @return integer
+	 * @param int $offset
+	 * @param int $length
+	 * @return int
 	 */
 	final public static function count($needle, $haystack, $offset = 0, $length = null) {
 		if ($length === null) {
@@ -140,8 +140,8 @@ final class Str {
 	 *
 	 * @param string $mainStr
 	 * @param string $str
-	 * @param integer $offset
-	 * @param integer $length
+	 * @param int $offset
+	 * @param int $length
 	 * @return mixed
 	 */
 	final public static function compare($mainStr, $str, $offset = 0, $length = null) {
@@ -153,8 +153,8 @@ final class Str {
 	 *
 	 * @param string $mainStr
 	 * @param string $str
-	 * @param integer $offset
-	 * @param integer $length
+	 * @param int $offset
+	 * @param int $length
 	 * @return mixed
 	 */
 	final public static function iCompare($mainStr, $str, $offset = 0, $length = null) {
@@ -167,7 +167,7 @@ final class Str {
 	 *
 	 * @param string $needle
 	 * @param string $haystack
-	 * @param integer $offset
+	 * @param int $offset
 	 * @return mixed
 	 */
 	final public static function pos($needle, $haystack, $offset = 0) {
@@ -179,7 +179,7 @@ final class Str {
 	 *
 	 * @param string $needle
 	 * @param string $haystack
-	 * @param integer $offset
+	 * @param int $offset
 	 * @return mixed
 	 */
 	final public static function iPos($needle, $haystack, $offset = 0) {
@@ -192,7 +192,7 @@ final class Str {
 	 *
 	 * @param string $needle
 	 * @param string $haystack
-	 * @param integer $offset
+	 * @param int $offset
 	 * @return mixed
 	 */
 	final public static function lastPos($needle, $haystack, $offset = 0) {
@@ -204,7 +204,7 @@ final class Str {
 	 *
 	 * @param string $needle
 	 * @param string $haystack
-	 * @param integer $offset
+	 * @param int $offset
 	 * @return mixed
 	 */
 	final public static function iLastPos($needle, $haystack, $offset = 0) {

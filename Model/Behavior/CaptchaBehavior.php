@@ -62,7 +62,7 @@ class CaptchaBehavior extends ModelBehavior {
 	 *
 	 * @param Model $Model
 	 * @param array $options
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function beforeValidate(Model $Model, $options = array()) {
 		parent::beforeValidate($Model, $options);
@@ -109,7 +109,7 @@ class CaptchaBehavior extends ModelBehavior {
 	 * CaptchaBehavior::_validateDummyField()
 	 *
 	 * @param mixed $data
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	protected function _validateDummyField($data) {
 		$dummyField = $this->settings[$this->Model->alias]['dummyField'];
@@ -127,7 +127,7 @@ class CaptchaBehavior extends ModelBehavior {
 	 * Flood protection by time
 	 * TODO: SESSION based one as alternative
 	 *
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	protected function _validateCaptchaMinTime($data) {
 		if ($this->settings[$this->Model->alias]['minTime'] <= 0) {
@@ -145,7 +145,7 @@ class CaptchaBehavior extends ModelBehavior {
 	 * Validates maximum time
 	 *
 	 * @param array $data
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	protected function _validateCaptchaMaxTime($data) {
 		if ($this->settings[$this->Model->alias]['maxTime'] <= 0) {
@@ -165,7 +165,7 @@ class CaptchaBehavior extends ModelBehavior {
 	 * TODO: build in floodProtection (max Trials etc)
 	 * TODO: SESSION based one as alternative
 	 *
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	protected function _validateCaptcha($data) {
 		if (!isset($data['captcha'])) {
@@ -204,7 +204,7 @@ class CaptchaBehavior extends ModelBehavior {
 	 * Build and log error message
 	 * TODO: dont return boolean false
 	 *
-	 * @return boolean false
+	 * @return bool false
 	 */
 	protected function _setError($msg = null, $internalMsg = null) {
 		if (!empty($msg)) {
@@ -230,7 +230,7 @@ class CaptchaBehavior extends ModelBehavior {
 	/**
 	 * Logs attempts
 	 *
-	 * @param boolean ErrorsOnly (only if error occured, otherwise always)
+	 * @param bool ErrorsOnly (only if error occured, otherwise always)
 	 * @returns null if not logged, true otherwise
 	 */
 	protected function _logAttempt($errorsOnly = true) {

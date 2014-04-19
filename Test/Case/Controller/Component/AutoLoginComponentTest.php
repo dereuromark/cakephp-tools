@@ -107,7 +107,7 @@ class AutoLoginTestController extends Controller {
 	/**
 	 * Failed property
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	public $failed = false;
 

@@ -69,7 +69,7 @@ class CommonHelper extends AppHelper {
 	 *
 	 * @param string $message String to output.
 	 * @param string $type Type (success, warning, error, info)
-	 * @param boolean $escape Set to false to disable escaping.
+	 * @param bool $escape Set to false to disable escaping.
 	 * @return string HTML
 	 */
 	public function flashMessage($msg, $type = 'info', $escape = true) {
@@ -101,7 +101,7 @@ class CommonHelper extends AppHelper {
 	 *
 	 * @param string $msg
 	 * @param string $class
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function addFlashMessage($msg, $class = null) {
 		return CommonComponent::transientFlashMessage($msg, $class);
@@ -112,7 +112,7 @@ class CommonHelper extends AppHelper {
 	 *
 	 * @param mixed $msg
 	 * @param mixed $class
-	 * @return boolean Success
+	 * @return bool Success
 	 * @deprecated Use addFlashMessage() instead
 	 */
 	public function transientFlashMessage($msg, $class = null) {
@@ -195,7 +195,7 @@ class CommonHelper extends AppHelper {
 	 * //TODO: move to lib or bootstrap
 	 *
 	 * @param string $singular The string to be pl.
-	 * @param integer $count
+	 * @param int $count
 	 * @return string "member" or "members" OR "Mitglied"/"Mitglieder" if autoTranslate TRUE
 	 */
 	public function asp($singular, $count, $autoTranslate = false) {
@@ -213,7 +213,7 @@ class CommonHelper extends AppHelper {
 	 *
 	 * @param string $singular
 	 * @param string $plural
-	 * @param integer $count
+	 * @param int $count
 	 * @return string result
 	 */
 	public function sp($singular, $plural, $count, $autoTranslate = false) {
@@ -292,7 +292,7 @@ class CommonHelper extends AppHelper {
 	 *
 	 * @param string|array $keywords
 	 * @param string $language (iso2: de, en-us, ...)
-	 * @param boolean $escape
+	 * @param bool $escape
 	 * @return string HTML Markup
 	 */
 	public function metaKeywords($keywords = null, $language = null, $escape = true) {
@@ -317,7 +317,7 @@ class CommonHelper extends AppHelper {
 	 * Convenience function for "canonical" SEO links
 	 *
 	 * @param mixed $url
-	 * @param boolean $full
+	 * @param bool $full
 	 * @return string HTML Markup
 	 */
 	public function metaCanonical($url = null, $full = false) {
@@ -479,7 +479,7 @@ class CommonHelper extends AppHelper {
 	/**
 	 * Check if session works due to allowed cookies
 	 *
-	 * @param boolean Success
+	 * @param bool Success
 	 */
 	public function sessionCheck() {
 		return !CommonComponent::cookiesDisabled();

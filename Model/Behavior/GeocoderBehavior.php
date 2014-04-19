@@ -84,7 +84,7 @@ class GeocoderBehavior extends ModelBehavior {
 	 * Run before a model is saved, used to set up slug for model.
 	 *
 	 * @param object $Model Model about to be saved.
-	 * @return boolean True if save should proceed, false otherwise
+	 * @return bool True if save should proceed, false otherwise
 	 */
 	public function geocode(Model $Model, $return = true) {
 		// Make address fields an array
@@ -275,7 +275,7 @@ class GeocoderBehavior extends ModelBehavior {
 	/**
 	 * Snippet for custom pagination
 	 *
-	 * @return integer count
+	 * @return int count
 	 */
 	public function paginateDistanceCount(Model $Model, $conditions = null, $recursive = -1, $extra = array()) {
 		if (!empty($extra['radius'])) {
@@ -296,7 +296,7 @@ class GeocoderBehavior extends ModelBehavior {
 	 *
 	 * @param Model
 	 * @param float $latitude
-	 * @return boolean
+	 * @return bool
 	 */
 	public function validateLatitude(Model $Model, $latitude) {
 		if (is_array($latitude)) {
@@ -311,7 +311,7 @@ class GeocoderBehavior extends ModelBehavior {
 	 *
 	 * @param Model
 	 * @param float $longitude
-	 * @return boolean
+	 * @return bool
 	 */
 	public function validateLongitude(Model $Model, $longitude) {
 		if (is_array($longitude)) {
@@ -350,7 +350,7 @@ class GeocoderBehavior extends ModelBehavior {
 	/**
 	 * Get the current unit factor
 	 *
-	 * @param integer $unit Unit constant
+	 * @param int $unit Unit constant
 	 * @return float Value
 	 */
 	protected function _calculationValue($unit) {

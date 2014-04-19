@@ -309,7 +309,7 @@ class FormatHelper extends TextHelper {
 	 * @param type
 	 * @param title
 	 * @param alt (set to FALSE if no alt is supposed to be shown)
-	 * @param boolean automagic i18n translate [default true = __('xyz')]
+	 * @param bool automagic i18n translate [default true = __('xyz')]
 	 * @param options array ('class'=>'','width/height'=>'','onclick=>'') etc
 	 * @return string
 	 */
@@ -749,9 +749,9 @@ class FormatHelper extends TextHelper {
 	 * respects order (ASC/DESC)
 	 *
 	 * @param array $paginator
-	 * @param integer $count (current post count on this page)
+	 * @param int $count (current post count on this page)
 	 * @param string $dir (ASC/DESC)
-	 * @return integer
+	 * @return int
 	 */
 	public function absolutePaginateCount($paginator, $count, $dir = null) {
 		if ($dir === null) {
@@ -828,7 +828,7 @@ class FormatHelper extends TextHelper {
 	 * //TODO: move to textext helper?
 	 *
 	 * @param string $input
-	 * @param integer $padLength
+	 * @param int $padLength
 	 * @param string $padString
 	 * @param mixed $padType
 	 * @return string input
@@ -923,7 +923,7 @@ class FormatHelper extends TextHelper {
 	 * Returns green on ok, red otherwise
 	 *
 	 * @param mixed $currentValue
-	 * @param boolean $ok: true/false (defaults to false)
+	 * @param bool $ok: true/false (defaults to false)
 	 * //@param string $comparizonType
 	 * //@param mixed $okValue
 	 * @return string newValue nicely formatted/colored
@@ -956,11 +956,11 @@ class FormatHelper extends TextHelper {
 	 * (Intelligent) Shortening of a text string
 	 *
 	 * @param STRING textstring
-	 * @param integer chars = max-length
+	 * @param int chars = max-length
 	 * For options array:
-	 * @param BOOLEAN strict (default: FALSE = intelligent shortening, cutting only between whole words)
+	 * @param bool strict (default: FALSE = intelligent shortening, cutting only between whole words)
 	 * @param STRING ending (default: '...' no leading whitespace)
-	 * @param BOOLEAN remain_lf (default: false = \n to ' ')
+	 * @param bool remain_lf (default: false = \n to ' ')
 	 * Note: ONLY If intelligent:
 	 * - the word supposed to be cut is removed completely (instead of remaining as last one)
 	 * - Looses line breaks (for textarea content to work with this)!
@@ -1054,7 +1054,7 @@ class FormatHelper extends TextHelper {
 	 * Inspired by the tab2space function found at:
 	 * @see http://aidan.dotgeek.org/lib/?file=function.tab2space.php
 	 * @param string $text
-	 * @param integer $spaces
+	 * @param int $spaces
 	 * @return string
 	 */
 	public function tab2space($text, $spaces = 4) {
@@ -1138,7 +1138,7 @@ class FormatHelper extends TextHelper {
 	 * @version 1.3.2
 	 * @link http://aidanlister.com/2004/04/converting-arrays-to-human-readable-tables/
 	 * @param array $array The result (numericaly keyed, associative inner) array.
-	 * @param boolean $recursive Recursively generate tables for multi-dimensional arrays
+	 * @param bool $recursive Recursively generate tables for multi-dimensional arrays
 	 * @param string $null String to output for blank cells
 	 */
 	public function array2table($array, $options = array()) {

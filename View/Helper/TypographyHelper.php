@@ -69,7 +69,7 @@ class TypographyHelper extends AppHelper {
 	 * - Converts two spaces into entities
 	 *
 	 * @param string $str Text
-	 * @param boolean $reduceLinebreaks Whether to reduce more then two consecutive newlines to two
+	 * @param bool $reduceLinebreaks Whether to reduce more then two consecutive newlines to two
 	 * @return string Text
 	 */
 	public function autoTypography($str, $reduceLinebreaks = false) {

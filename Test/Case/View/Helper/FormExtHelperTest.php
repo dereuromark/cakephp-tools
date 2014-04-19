@@ -201,7 +201,7 @@ class ContactExt extends CakeTestModel {
 	/**
 	 * UseTable property
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	public $useTable = false;
 

@@ -109,7 +109,7 @@ class CurrencyLib {
 	 * CurrencyComponent::isAvailable()
 	 *
 	 * @param mixed $currency
-	 * @return boolean Success.
+	 * @return bool Success.
 	 */
 	public function isAvailable($currency) {
 		$rates = $this->_retrieveCurrencies();
@@ -118,7 +118,7 @@ class CurrencyLib {
 
 	/**
 	 * @param string $name: "" (none), "history", "full" (both)
-	 * @return boolean Success.
+	 * @return bool Success.
 	 */
 	public function reset($name = 'full') {
 		if ($name === 'full') {

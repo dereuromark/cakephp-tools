@@ -130,7 +130,7 @@ class SluggedBehavior extends ModelBehavior {
 	 * @param string $callback
 	 * @param Model $model
 	 * @param array $options
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	protected function _beforeCallback($callback, Model $Model, $options = array()) {
 		extract($this->settings[$Model->alias]);
@@ -151,7 +151,7 @@ class SluggedBehavior extends ModelBehavior {
 	 *
 	 * @param Model $Model
 	 * @param array $options
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function beforeValidate(Model $Model, $options = array()) {
 		return $this->_beforeCallback('beforeValidate', $Model, $options);
@@ -162,7 +162,7 @@ class SluggedBehavior extends ModelBehavior {
 	 *
 	 * @param Model $Model
 	 * @param array $options
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function beforeSave(Model $Model, $options = array()) {
 		return $this->_beforeCallback('beforeSave', $Model, $options);
@@ -237,7 +237,7 @@ class SluggedBehavior extends ModelBehavior {
 	 *
 	 * @param Model $Model
 	 * @param mixed $string
-	 * @param boolean $tidy
+	 * @param bool $tidy
 	 * @return string a slug
 	 */
 	public function slug(Model $Model, $string, $tidy = true) {
@@ -349,8 +349,8 @@ class SluggedBehavior extends ModelBehavior {
 	 *
 	 * @param AppModel $Model
 	 * @param array $conditions
-	 * @param integer $recursive
-	 * @return boolean Success
+	 * @param int $recursive
+	 * @return bool Success
 	 */
 	public function resetSlugs(Model $Model, $params = array()) {
 		$recursive = -1;

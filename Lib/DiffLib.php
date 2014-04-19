@@ -44,7 +44,7 @@ class DiffLib {
 	 * Do you want to use the Character diff renderer additionally to the sidebyside renderer ?
 	 * sidebyside renderer is the only one supporting the additional renderer
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	public $characterDiff = true;
 
@@ -59,7 +59,7 @@ class DiffLib {
 	/**
 	 * How many context lines do you want to see around the changed line?
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	public $contextLines = 4;
 
@@ -78,7 +78,7 @@ class DiffLib {
 	 * @param string $renderType
 	 * 'unified', 'inline', 'context', 'sidebyside'
 	 * defaults to "inline"
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function renderType($type = null) {
 		if ($type === null) {
@@ -97,7 +97,7 @@ class DiffLib {
 	 * @param string $engineType
 	 * 'auto', 'native', 'xdiff', 'shell', 'string'
 	 * defaults to "auto"
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function engineType($type = null) {
 		if ($type === null) {
@@ -253,7 +253,7 @@ class DiffLib {
 	 *
 	 * @param array &$text Array of Line objects
 	 * @param array $change Array of Change objects
-	 * @param integer &$offset how many lines to skip due to previous additions
+	 * @param int &$offset how many lines to skip due to previous additions
 	 */
 	public function applyChange(&$text, $change, &$offset = 0) {
 		$index = 0;

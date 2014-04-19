@@ -193,7 +193,7 @@ class LogableBehavior extends ModelBehavior {
 	 * @example $this->Model->findUserActions(301, array('events' => true));
 	 * @example $this->Model->findUserActions(301, array('fields' => array('id','model'),'model' => 'BookTest');
 	 * @param Model $Model
-	 * @param integer $userId
+	 * @param int $userId
 	 * @param array $params
 	 * @return array
 	 */
@@ -308,7 +308,7 @@ class LogableBehavior extends ModelBehavior {
 	 * @example $this->Boat->customLog('ship', 66, array('title' => 'Titanic heads out'));
 	 * @param Model $Model
 	 * @param string $action name of action that is taking place (dont use the crud ones)
-	 * @param integer $id id of the logged item (ie foreign_id in logs table)
+	 * @param int $id id of the logged item (ie foreign_id in logs table)
 	 * @param array $values optional other values for your logs table
 	 * @return mixed Success
 	 */

@@ -119,7 +119,7 @@ class IndentShell extends AppShell {
 	 *
 	 * @param mixed $file
 	 * @param mixed $text
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	protected function _write($file, $text) {
 		$text = implode(PHP_EOL, $text);

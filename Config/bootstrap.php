@@ -247,7 +247,7 @@ function safenl($str) {
  * Convenience function to check on "empty()"
  *
  * @param mixed $var
- * @return boolean Result
+ * @return bool Result
  */
 function isEmpty($var = null) {
 	if (empty($var)) {
@@ -417,7 +417,7 @@ function extractPathInfo($type = null, $filename, $fromUrl = false) {
  * Also allows additional customization.
  *
  * @param mixed $content
- * @param boolean $collapsedAndExpandable
+ * @param bool $collapsedAndExpandable
  * @param array $options
  * - class, showHtml, showFrom, jquery, returns, debug
  * @return string HTML
@@ -476,7 +476,7 @@ function pre($var, $collapsedAndExpandable = false, $options = array()) {
  *
  * @param string $haystack Input string.
  * @param string $needle Needed char or string.
- * @return boolean
+ * @return bool
  */
 function contains($haystack, $needle, $caseSensitive = false) {
 	$result = !$caseSensitive ? stripos($haystack, $needle) : strpos($haystack, $needle);
@@ -488,7 +488,7 @@ function contains($haystack, $needle, $caseSensitive = false) {
  *
  * @param string $haystack Input string.
  * @param string $needle Needed char or string.
- * @return boolean
+ * @return bool
  */
 function startsWith($haystack, $needle, $caseSensitive = false) {
 	if ($caseSensitive) {
@@ -502,7 +502,7 @@ function startsWith($haystack, $needle, $caseSensitive = false) {
  *
  * @param string $haystack Input string.
  * @param string $needle Needed char or string
- * @return boolean
+ * @return bool
  */
 function endsWith($haystack, $needle, $caseSensitive = false) {
 	if ($caseSensitive) {

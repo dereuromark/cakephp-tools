@@ -124,7 +124,7 @@ class PasswordableBehavior extends ModelBehavior {
 	 * @throws CakeException
 	 * @param Model $Model
 	 * @param array $data
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function validateCurrentPwd(Model $Model, $data) {
 		if (is_array($data)) {
@@ -179,7 +179,7 @@ class PasswordableBehavior extends ModelBehavior {
 	 * @param Model $Model
 	 * @param array $data
 	 * @param string $compareWith String to compare field value with
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function validateIdentical(Model $Model, $data, $compareWith = null) {
 		if (is_array($data)) {
@@ -194,7 +194,7 @@ class PasswordableBehavior extends ModelBehavior {
 	/**
 	 * If not implemented in AppModel
 	 *
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function validateNotSame(Model $Model, $data, $field1, $field2) {
 		$value1 = $Model->data[$Model->alias][$field1];
@@ -205,7 +205,7 @@ class PasswordableBehavior extends ModelBehavior {
 	/**
 	 * If not implemented in AppModel
 	 *
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function validateNotSameHash(Model $Model, $data, $formField) {
 		$field = $this->settings[$Model->alias]['field'];
@@ -303,7 +303,7 @@ class PasswordableBehavior extends ModelBehavior {
 	/**
 	 * Preparing the data
 	 *
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function beforeValidate(Model $Model, $options = array()) {
 		$formField = $this->settings[$Model->alias]['formField'];
@@ -359,7 +359,7 @@ class PasswordableBehavior extends ModelBehavior {
 	 * Hashing the password and whitelisting
 	 *
 	 * @param Model $Model
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function beforeSave(Model $Model, $options = array()) {
 		$formField = $this->settings[$Model->alias]['formField'];

@@ -62,7 +62,7 @@ class AutoLoginComponent extends Component {
 	/**
 	 * Determines whether to trigger startup() logic.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $_isValidRequest = false;
 

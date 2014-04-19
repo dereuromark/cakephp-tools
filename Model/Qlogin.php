@@ -52,7 +52,7 @@ class Qlogin extends ToolsAppModel {
 	 * Qlogin::_useKey()
 	 *
 	 * @param mixed $key
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	protected function _useKey($key) {
 		if (!isset($this->{$this->generator})) {
@@ -66,7 +66,7 @@ class Qlogin extends ToolsAppModel {
 	 *
 	 * @param mixed $uid
 	 * @param mixed $content
-	 * @return string $key
+	 * @return string key
 	 */
 	protected function _newKey($uid, $content) {
 		if (!isset($this->{$this->generator})) {

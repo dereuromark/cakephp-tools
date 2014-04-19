@@ -36,7 +36,7 @@ class IcalLib {
 	 * - class to upper
 	 *
 	 * @param array $data
-	 * @param boolean $addStartAndEnd
+	 * @param bool $addStartAndEnd
 	 * @return string icalContent (single vevent)
 	 */
 	public function build($data, $addStartAndEnd = true) {

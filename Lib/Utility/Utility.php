@@ -20,7 +20,7 @@ class Utility {
 	 *
 	 * @param mixed $needle
 	 * @param array $haystack
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public static function inArray($needle, $haystack) {
 		$strict = !is_numeric($needle);
@@ -73,8 +73,8 @@ class Utility {
 	 *
 	 * @param string $pattern The pattern to use.
 	 * @param string $subject The string to match.
-	 * @param integer $flags
-	 * @param integer $offset
+	 * @param int $flags
+	 * @param int $offset
 	 * @return array Result
 	 */
 	public static function pregMatchAll($pattern, $subject, $flags = PREG_SET_ORDER, $offset = null) {
@@ -96,8 +96,8 @@ class Utility {
 	 *
 	 * @param string $pattern The pattern to use.
 	 * @param string $subject The string to match.
-	 * @param integer $flags
-	 * @param integer $offset
+	 * @param int $flags
+	 * @param int $offset
 	 * @return array Result
 	 */
 	public static function pregMatch($pattern, $subject, $flags = null, $offset = null) {
@@ -111,7 +111,7 @@ class Utility {
 	 * By default this works properly with UTF8 strings.
 	 *
 	 * @param string $text
-	 * @param integer $length
+	 * @param int $length
 	 * @return array Result
 	 */
 	public static function strSplit($str, $length = 1) {
@@ -129,7 +129,7 @@ class Utility {
 	/**
 	 * Get the current IP address.
 	 *
-	 * @param boolean $safe
+	 * @param bool $safe
 	 * @return string IP address
 	 */
 	public static function getClientIp($safe = true) {
@@ -156,7 +156,7 @@ class Utility {
 	/**
 	 * Get the current referrer if available.
 	 *
-	 * @param boolean $full (defaults to false and leaves the url untouched)
+	 * @param bool $full (defaults to false and leaves the url untouched)
 	 * @return string referer (local or foreign)
 	 */
 	public static function getReferer($full = false) {
@@ -306,7 +306,7 @@ class Utility {
 	 * //TODO: maybe move to bootstrap?
 	 *
 	 * @param array $array
-	 * @return boolean Result
+	 * @return bool Result
 	 */
 	public static function logicalAnd($array) {
 		if (empty($array)) {
@@ -325,7 +325,7 @@ class Utility {
 	 * //TODO: maybe move to bootstrap?
 	 *
 	 * @param array $array
-	 * @return boolean Result
+	 * @return bool Result
 	 *
 	 */
 	public static function logicalOr($array) {
@@ -342,7 +342,7 @@ class Utility {
 	 * So we need to call this method inside the modified saveAll() method to return the expected single bool there, too.
 	 *
 	 * @param array
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function isValidSaveAll($array) {
 		if (empty($array)) {
@@ -443,9 +443,9 @@ class Utility {
 	 * only consider the dimension of the first element in the array.
 	 *
 	 * @param array $array Array to count dimensions on
-	 * @param boolean $all Set to true to count the dimension considering all elements in array
-	 * @param integer $count Start the dimension count at this number
-	 * @return integer The number of dimensions in $array
+	 * @param bool $all Set to true to count the dimension considering all elements in array
+	 * @param int $count Start the dimension count at this number
+	 * @return int The number of dimensions in $array
 	 */
 	public static function countDim($array, $all = false, $count = 0) {
 		if ($all) {
@@ -562,7 +562,7 @@ class Utility {
 	 * //TODO: check if it can be replace by Hash::flatten() or Utility::flatten().
 	 *
 	 * @param array $array to flatten
-	 * @param boolean $perserveKeys
+	 * @param bool $perserveKeys
 	 * @return array
 	 */
 	public static function arrayFlatten($array, $preserveKeys = false) {
@@ -645,7 +645,7 @@ class Utility {
 
 	/**
 	 * @param int $precision
-	 * @param boolean $restartClock
+	 * @param bool $restartClock
 	 * @return float
 	 */
 	public static function returnElapsedTime($precision = 8, $restartClock = false) {

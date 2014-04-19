@@ -90,11 +90,11 @@ class MyErrorHandler extends ErrorHandler {
 	/**
 	 * Generate an error page when some fatal error happens.
 	 *
-	 * @param integer $code Code of error
+	 * @param int $code Code of error
 	 * @param string $description Error description
 	 * @param string $file File on which error occurred
-	 * @param integer $line Line that triggered the error
-	 * @return boolean
+	 * @param int $line Line that triggered the error
+	 * @return bool
 	 */
 	public static function handleFatalError($code, $description, $file, $line) {
 		$logMessage = 'Fatal Error (' . $code . '): ' . $description . ' in [' . $file . ', line ' . $line . ']';

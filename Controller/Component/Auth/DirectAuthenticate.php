@@ -55,7 +55,7 @@ class DirectAuthenticate extends BaseAuthenticate {
 	 * @param CakeRequest $request The request that contains login information.
 	 * @param string $model The model used for login verification.
 	 * @param array $fields The fields to be checked.
-	 * @return boolean False if the fields have not been supplied. True if they exist.
+	 * @return bool False if the fields have not been supplied. True if they exist.
 	 */
 	protected function _checkFields(CakeRequest $request, $model, $fields) {
 		if (empty($request->data[$model])) {

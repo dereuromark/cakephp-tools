@@ -112,7 +112,7 @@ class TypographicBehavior extends ModelBehavior {
 	 * TypographicBehavior::beforeValidate()
 	 *
 	 * @param Model $Model
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function beforeValidate(Model $Model, $options = array()) {
 		parent::beforeValidate($Model, $options);
@@ -128,7 +128,7 @@ class TypographicBehavior extends ModelBehavior {
 	 * TypographicBehavior::beforeSave()
 	 *
 	 * @param Model $Model
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function beforeSave(Model $Model, $options = array()) {
 		parent::beforeSave($Model, $options);
@@ -145,7 +145,7 @@ class TypographicBehavior extends ModelBehavior {
 	 * This is useful if you attach it after some records have already been saved without it.
 	 *
 	 * @param Model $Model The model about to be saved.
-	 * @return integer count Number of affected/changed records
+	 * @return int count Number of affected/changed records
 	 */
 	public function updateTypography(Model $Model, $dryRun = false) {
 		$options = array('recursive' => -1, 'limit' => 100, 'offset' => 0);
@@ -180,7 +180,7 @@ class TypographicBehavior extends ModelBehavior {
 	 * Run before a model is saved
 	 *
 	 * @param object $Model Model about to be saved.
-	 * @return boolean true if save should proceed, false otherwise
+	 * @return bool true if save should proceed, false otherwise
 	 */
 	public function process(Model $Model, $return = true) {
 		foreach ($this->settings[$Model->alias]['fields'] as $field) {

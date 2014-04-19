@@ -161,7 +161,7 @@ class RevisionBehavior extends ModelBehavior {
 	 *
 	 * @example $this->Post->id = 5; $this->Post->createRevision();
 	 * @param object $Model
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function createRevision(Model $Model) {
 		if (!$Model->id) {
@@ -198,8 +198,8 @@ class RevisionBehavior extends ModelBehavior {
 	 * @example $this->Post->id = 4; $myChanges = $this->Post->diff(null,nul, array('conditions'=>array('user_id'=>4)));
 	 * @example $this->Post->id = 4; $difference = $this->Post->diff(45,192);
 	 * @param Object $Model
-	 * @param integer $fromVersionId
-	 * @param integer $toVersionId
+	 * @param int $fromVersionId
+	 * @param int $toVersionId
 	 * @param array $options
 	 * @return array
 	 */
@@ -269,8 +269,8 @@ class RevisionBehavior extends ModelBehavior {
 	 *
 	 * @example $this->Post->initializeRevisions();
 	 * @param object $Model
-	 * @param integer $limit number of rows to initialize in one go
-	 * @return boolean Success
+	 * @param int $limit number of rows to initialize in one go
+	 * @return bool Success
 	 */
 	public function initializeRevisions(Model $Model, $limit = 100) {
 		if (!$Model->ShadowModel) {
@@ -306,8 +306,8 @@ class RevisionBehavior extends ModelBehavior {
 	 * Saves revisions for rows matching page and limit given
 	 *
 	 * @param object $Model
-	 * @param integer $page
-	 * @param integer $limit
+	 * @param int $page
+	 * @param int $limit
 	 * @return void
 	 */
 	protected function _init(Model $Model, $page, $limit) {
@@ -424,7 +424,7 @@ class RevisionBehavior extends ModelBehavior {
 	 *
 	 * @param object $Model
 	 * @param array $options 'conditions','date'
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function revertAll(Model $Model, $options = array()) {
 		if (!$Model->ShadowModel) {
@@ -482,8 +482,8 @@ class RevisionBehavior extends ModelBehavior {
 	 *
 	 * @example $this->Post->id = 3; $this->Post->revertTo(12);
 	 * @param object $Model
-	 * @param integer $versionId
-	 * @return boolean Success
+	 * @param int $versionId
+	 * @return bool Success
 	 */
 	public function revertTo(Model $Model, $versionId) {
 		if (!$Model->id) {
@@ -515,9 +515,9 @@ class RevisionBehavior extends ModelBehavior {
 	 * @example $this->Post->id = 4; $this->Post->revertToDate('2008-09-01',true);
 	 * @param object $Model
 	 * @param string $datetime
-	 * @param boolean $cascade
-	 * @param boolean $forceDelete
-	 * @return boolean Success
+	 * @param bool $cascade
+	 * @param bool $forceDelete
+	 * @return bool Success
 	 */
 	public function revertToDate(Model $Model, $datetime, $cascade = false, $forceDelete = false) {
 		if (!$Model->id) {
@@ -642,7 +642,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * @example $this->Post->id = 4; $today = $this->Post->revisions(array('conditions'=>array('version_create >'=>'2008-12-10')));
 	 * @param object $Model
 	 * @param array $options
-	 * @param boolean $includeCurrent If true will include last saved (live) data
+	 * @param bool $includeCurrent If true will include last saved (live) data
 	 * @return array
 	 */
 	public function revisions(Model $Model, $options = array(), $includeCurrent = false) {
@@ -673,7 +673,7 @@ class RevisionBehavior extends ModelBehavior {
 	 *
 	 * @example $this->Post->id = 7; $this->Post->undelete();
 	 * @param object $Model
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function undelete(Model $Model) {
 		if (!$Model->id) {
@@ -726,7 +726,7 @@ class RevisionBehavior extends ModelBehavior {
 	 *
 	 * @example $this->Post->id = 2; $this->Post->undo();
 	 * @param object $Model
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function undo(Model $Model) {
 		if (!$Model->id) {
@@ -799,8 +799,8 @@ class RevisionBehavior extends ModelBehavior {
 	 * Also deletes oldest revision if limit is (active and) reached.
 	 *
 	 * @param object $Model
-	 * @param boolean $created
-	 * @return boolean Success
+	 * @param bool $created
+	 * @return bool Success
 	 */
 	public function afterSave(Model $Model, $created, $options = array()) {
 		if ($this->settings[$Model->alias]['auto'] === false) {
@@ -894,7 +894,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * to do the revision update in afterDelete.
 	 *
 	 * @param object $Model
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function beforeDelete(Model $Model, $cascade = true) {
 		if ($this->settings[$Model->alias]['auto'] === false) {
@@ -917,7 +917,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * Revision uses the beforeSave callback to remember the old data for comparison in afterSave
 	 *
 	 * @param object $Model
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function beforeSave(Model $Model, $options = array()) {
 		if ($this->settings[$Model->alias]['auto'] === false) {
@@ -947,7 +947,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * Returns a generic model that maps to the current $Model's shadow table.
 	 *
 	 * @param object $Model
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	protected function _createShadowModel(Model $Model) {
 		if ($this->settings[$Model->alias]['useDbConfig'] === null) {

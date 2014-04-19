@@ -314,7 +314,7 @@ class ImapSource extends DataSource {
 	 *
 	 * @param Model $Model
 	 * @param mixed $conditions
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function delete(Model $Model, $conditions = null) {
 		$query = compact('conditions');
@@ -420,7 +420,7 @@ class ImapSource extends DataSource {
 	/**
 	 * Update the email setting flags
 	 *
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function update(Model $model, $fields = null, $values = null, $conditions = null) {
 		if (empty($model->id)) {
@@ -473,7 +473,7 @@ class ImapSource extends DataSource {
 	 * @param Model $Model
 	 * @param mixed $format
 	 * @param mixed $args (3...x arguments)
-	 * @return boolean false if error handler is not set to `exception`
+	 * @return bool false if error handler is not set to `exception`
 	 */
 	public function err($Model, $format, $args = null) {
 		$arguments = func_get_args();
@@ -524,7 +524,7 @@ class ImapSource extends DataSource {
 	 * you will get a list of the entire mailbox hierarchy. '%' means to return the current level only.
 	 *
 	 * @param Model $Model
-	 * @param boolean|string $current
+	 * @param bool|string $current
 	 * @return array Array containing the names of the mailboxes.
 	 */
 	public function listMailboxes(Model $Model, $current = true) {
@@ -938,7 +938,7 @@ class ImapSource extends DataSource {
 	/**
 	 * Get the basic details like sender and reciver with flags like attatchments etc
 	 *
-	 * @param integer $uid the number of the message
+	 * @param int $uid the number of the message
 	 * @return array empty on error/nothing or array of formatted details
 	 */
 	protected function _getFormattedMail(Model $Model, $uid, $fetchAttachments = false) {
@@ -1276,7 +1276,7 @@ class ImapSource extends DataSource {
 	 * Figure out how many emails there are in the thread for this mail.
 	 *
 	 * @param object $Mail the imap header of the mail
-	 * @return integer the number of mails in the thred
+	 * @return int the number of mails in the thred
 	 */
 	protected function _getThreadCount($Mail) {
 		if (isset($Mail->reference) || isset($Mail->inReplyTo)) {

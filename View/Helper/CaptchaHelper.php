@@ -50,7 +50,7 @@ class CaptchaHelper extends AppHelper {
 	 * //TODO: move to Lib
 	 * shows the statusText of Relations
 	 *
-	 * @param integer $difficulty: not build in yet
+	 * @param int $difficulty: not build in yet
 	 * @return array
 	 */
 	protected function _generate($difficulty = null) {
@@ -117,7 +117,7 @@ class CaptchaHelper extends AppHelper {
 	 * either combined with between=true (all in this one funtion)
 	 * or seperated by =false (needs input(false) and captcha() calls then)
 	 *
-	 * @param boolean between: [default: true]
+	 * @param bool between: [default: true]
 	 * @return string HTML
 	 */
 	public function input($modelName = null, $options = array()) {

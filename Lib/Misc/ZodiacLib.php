@@ -27,7 +27,7 @@ class ZodiacLib {
 	}
 
 	/**
-	 * @param integer $sign
+	 * @param int $sign
 	 * @return array(array(m, d), array(m, d)) (first is min, second is max)
 	 */
 	public function getRange($sign) {
@@ -80,7 +80,7 @@ class ZodiacLib {
 	 * @param month
 	 * @param day
 	 * expects valid values
-	 * @return integer sign or false on failure
+	 * @return int sign or false on failure
 	 */
 	public function getSign($month, $day) {
 		switch ($month) {
@@ -176,7 +176,7 @@ class ZodiacLib {
 	/**
 	 * ZodiacLib::image()
 	 *
-	 * @param integer $sign
+	 * @param int $sign
 	 * @return string
 	 */
 	public static function image($sign) {

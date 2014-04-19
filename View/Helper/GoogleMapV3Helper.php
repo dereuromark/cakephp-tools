@@ -266,7 +266,7 @@ class GoogleMapV3Helper extends AppHelper {
 	 * Adds Key - more variables could be added after it with "&key=value&..."
 	 * - region
 	 *
-	 * @param boolean $sensor
+	 * @param bool $sensor
 	 * @param string $language (iso2: en, de, ja, ...)
 	 * @param string $append (more key-value-pairs to append)
 	 * @return string Full URL
@@ -630,7 +630,7 @@ function geocodeAddress(address) {
 
 	/**
 	 * @param string $content
-	 * @return integer Current marker counter
+	 * @return int Current marker counter
 	 */
 	public function addInfoContent($content) {
 		$this->infoContents[self::$markerCount] = $this->escapeString($content);
@@ -754,7 +754,7 @@ var iconShape = {
 	 * - size: array(width=>x, height=>y)
 	 * - origin: array(width=>x, height=>y)
 	 * - anchor: array(width=>x, height=>y)
-	 * @return integer Icon count
+	 * @return int Icon count
 	 */
 	public function icon($url, $options = array()) {
 		// The shadow image is larger in the horizontal dimension
@@ -793,7 +793,7 @@ var iconShape = {
 	 *
 	 * @param array $options
 	 * - lat, lng, content, maxWidth, pixelOffset, zIndex
-	 * @return integer windowCount
+	 * @return int windowCount
 	 */
 	public function addInfoWindow($options = array()) {
 		$defaults = $this->_currentOptions['infoWindow'];
@@ -821,9 +821,9 @@ var iconShape = {
 	/**
 	 * Add event to open marker on click.
 	 *
-	 * @param integer $marker
-	 * @param integer $infoWindow
-	 * @param boolean $open Also open it right away.
+	 * @param int $marker
+	 * @param int $infoWindow
+	 * @param bool $open Also open it right away.
 	 * @return void
 	 */
 	public function addEvent($marker, $infoWindow, $open = false) {
@@ -842,7 +842,7 @@ var iconShape = {
 	/**
 	 * Add a custom event for a marker on click.
 	 *
-	 * @param integer $marker
+	 * @param int $marker
 	 * @param string $event (js)
 	 * @return void
 	 */
@@ -980,7 +980,7 @@ var iconShape = {
 
 	/**
 	 * @param string $content (html/text)
-	 * @param integer $infoWindowCount
+	 * @param int $infoWindowCount
 	 * @return void
 	 */
 	public function setContentInfoWindow($con, $index) {
@@ -1016,7 +1016,7 @@ var iconShape = {
 	 * Finalize the map and write the javascript to the buffer.
 	 * Make sure that your view does also output the buffer at some place!
 	 *
-	 * @param boolean $return If the output should be returned instead
+	 * @param bool $return If the output should be returned instead
 	 * @return void or string Javascript if $return is true
 	 */
 	public function finalize($return = false) {
@@ -1051,7 +1051,7 @@ var iconShape = {
 	/**
 	 * Set a custom geolocate callback
 	 *
-	 * @param string|boolean $customJs
+	 * @param string|bool $customJs
 	 * false: no callback at all
 	 * @return void
 	 */
@@ -1656,7 +1656,7 @@ function Fluster2ProjectionOverlay(map) {google.maps.OverlayView.call(this);this
 	 *
 	 * @param array pointX
 	 * @param array pointY
-	 * @return integer distance: in km
+	 * @return int distance: in km
 	 * @DEPRECATED - use GeocodeLib::distance() instead!
 	 */
 	public function distance($pointX, $pointY) {
@@ -1685,8 +1685,8 @@ function Fluster2ProjectionOverlay(map) {google.maps.OverlayView.call(this);this
 	 *
 	 * @param string $name
 	 * @param array $array
-	 * @param boolean $asString
-	 * @param boolean $keyAsString
+	 * @param bool $asString
+	 * @param bool $keyAsString
 	 * @return string
 	 */
 	protected function _arrayToObject($name, $array, $asString = true, $keyAsString = false) {
@@ -1700,8 +1700,8 @@ function Fluster2ProjectionOverlay(map) {google.maps.OverlayView.call(this);this
 	 * GoogleMapV3Helper::_toObjectParams()
 	 *
 	 * @param array $array
-	 * @param boolean $asString
-	 * @param boolean $keyAsString
+	 * @param bool $asString
+	 * @param bool $keyAsString
 	 * @return string
 	 */
 	protected function _toObjectParams($array, $asString = true, $keyAsString = false) {

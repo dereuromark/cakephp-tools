@@ -18,7 +18,7 @@ class MyModel extends Model {
 	/**
 	 * MyModel::__construct()
 	 *
-	 * @param integer $id
+	 * @param int $id
 	 * @param string $table
 	 * @param string $ds
 	 */
@@ -343,7 +343,7 @@ class MyModel extends Model {
 	 * Return the next auto increment id from the current table
 	 * UUIDs will return false
 	 *
-	 * @return integer next auto increment value or False on failure
+	 * @return int next auto increment value or False on failure
 	 */
 	public function getNextAutoIncrement() {
 		$query = "SHOW TABLE STATUS WHERE name = '" . $this->tablePrefix . $this->table . "'";
@@ -365,7 +365,7 @@ class MyModel extends Model {
 	 *
 	 * @param mixed $data
 	 * @param array $options
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function saveAll($data = null, $options = array()) {
 		if (!isset($options['atomic']) && Configure::read('Model.atomic') !== null) {
@@ -384,7 +384,7 @@ class MyModel extends Model {
 	 * e.g. with
 	 * 'rule' => array('multiple', array('min' => 2))
 	 *
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function beforeValidate($options = array()) {
 		foreach ($this->hasAndBelongsToMany as $k => $v) {
@@ -399,7 +399,7 @@ class MyModel extends Model {
 	/**
 	 * @param params
 	 * - key: functioName or other key used
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function deleteCache($key = null) {
 		$key = Inflector::underscore($key);
@@ -425,7 +425,7 @@ class MyModel extends Model {
 	 * @param string $type The type of the query ('count'/'all'/'first' - first only works with some mysql versions)
 	 * @param array $options The options array
 	 * @param string $alias You can use this intead of $options['alias'] if you want
-	 * @param boolean $parenthesise Add parenthesis before and after
+	 * @param bool $parenthesise Add parenthesis before and after
 	 * @return string result sql snippet of the query to run
 	 * @modified Mark Scherer (cake2.x ready and improvements)
 	 * @link http://bakery.cakephp.org/articles/lucaswxp/2011/02/11/easy_and_simple_subquery_cakephp
@@ -752,7 +752,7 @@ class MyModel extends Model {
 	 * Does not do any callbacks
 	 *
 	 * @param mixed $conditions Conditions to match, true for all records
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function deleteAllRaw($conditions = true) {
 		return $this->getDataSource()->delete($this, $conditions);
@@ -764,7 +764,7 @@ class MyModel extends Model {
 	 * @param string $field The name of the field to invalidate
 	 * @param mixed $value Name of validation rule that was not failed, or validation message to
 	 *    be returned. If no validation key is provided, defaults to true.
-	 * @param boolean $last If this should be the last validation check for this validation run
+	 * @param bool $last If this should be the last validation check for this validation run
 	 * @return void
 	 */
 	public function invalidate($field, $value = true, $last = false) {
@@ -784,7 +784,7 @@ class MyModel extends Model {
 	 * @param array $data
 	 * @param array $options
 	 * - allowEmpty
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function validateKey($data = array(), $options = array()) {
 		$keys = array_keys($data);
@@ -816,7 +816,7 @@ class MyModel extends Model {
 	/**
 	 * Checks if the passed enum value is valid
 	 *
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function validateEnum(array $data, $enum = null, $additionalKeys = array()) {
 		$keys = array_keys($data);
@@ -845,7 +845,7 @@ class MyModel extends Model {
 	 * Checks if the content of 2 fields are equal
 	 * Does not check on empty fields! Return TRUE even if both are empty (secure against empty in another rule)!
 	 *
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function validateIdentical($data = array(), $compareWith = null, $options = array()) {
 		if (is_array($data)) {
@@ -874,7 +874,7 @@ class MyModel extends Model {
 	 * @param string $check Value to check
 	 * @param float $lower Lower limit
 	 * @param float $upper Upper limit
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function validateRange($data, $lower = null, $upper = null) {
 		foreach ($data as $key => $check) {
@@ -898,7 +898,7 @@ class MyModel extends Model {
 	 * TODO: add possibity of deep nested validation (User -> Comment -> CommentCategory: UNIQUE comment_id, Comment.user_id)
 	 * @param array $options
 	 * - requireDependentFields Require all dependent fields for the validation rule to return true
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function validateUnique($data, $fields = array(), $options = array()) {
 		$id = (!empty($this->data[$this->alias][$this->primaryKey]) ? $this->data[$this->alias][$this->primaryKey] : 0);
@@ -961,7 +961,7 @@ class MyModel extends Model {
 	 * example in model: 'rule' => array ('validateUniqueExt', array('scope'=>array('belongs_to_table_id','some_id','user_id'))),
 	 * http://groups.google.com/group/cake-php/browse_thread/thread/880ee963456739ec
 	 * //TODO: test!!!
-	 * @return boolean Success
+	 * @return bool Success
 	 * @deprecated in favor of validateUnique?
 	 */
 	public function validateUniqueExt($data, $options = array()) {
@@ -1003,7 +1003,7 @@ class MyModel extends Model {
 	 * - required TRUE/FALSE (TRUE: overrides allowEmpty)
 	 * - autoComplete (default: TRUE)
 	 * - deep (default: TRUE)
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function validateUrl($data, $options = array()) {
 		if (is_array($data)) {
@@ -1069,7 +1069,7 @@ class MyModel extends Model {
 	 * Checks if a url is valid
 	 *
 	 * @param string url
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	protected function _validUrl($url) {
 		$headers = Utility::getHeaderFromUrl($url);
@@ -1095,7 +1095,7 @@ class MyModel extends Model {
 	 * - allowEmpty
 	 * - after/before (fieldName to validate against)
 	 * - min/max (defaults to >= 1 - at least 1 minute apart)
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function validateDateTime($data, $options = array()) {
 		$format = !empty($options['dateFormat']) ? $options['dateFormat'] : 'ymd';
@@ -1144,7 +1144,7 @@ class MyModel extends Model {
 	 * - allowEmpty
 	 * - after/before (fieldName to validate against)
 	 * - min (defaults to 0 - equal is OK too)
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function validateDate($data, $options = array()) {
 		$format = !empty($options['format']) ? $options['format'] : 'ymd';
@@ -1186,7 +1186,7 @@ class MyModel extends Model {
 	 * - allowEmpty
 	 * - after/before (fieldName to validate against)
 	 * - min/max (defaults to >= 1 - at least 1 minute apart)
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function validateTime($data, $options = array()) {
 		if (is_array($data)) {
@@ -1236,7 +1236,7 @@ class MyModel extends Model {
 	/**
 	 * Model validation rule for email addresses
 	 *
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function validateUndisposable($data, $proceed = false) {
 		$email = array_shift($data);
@@ -1251,7 +1251,7 @@ class MyModel extends Model {
 	 * Checks if a email is not from a garbage hoster
 	 *
 	 * @param string email (necessary)
-	 * @return boolean true if valid, else false
+	 * @return bool true if valid, else false
 	 */
 	public function isUndisposableEmail($email, $onlineMode = false, $proceed = false) {
 		if (!isset($this->UndisposableEmail)) {
@@ -1283,7 +1283,7 @@ class MyModel extends Model {
 	 * Is blocked email?
 	 * //TODO: move outside of MyModel?
 	 *
-	 * @return boolean ifNotBlacklisted
+	 * @return bool ifNotBlacklisted
 	 */
 	public function validateNotBlocked($params) {
 		$email = array_shift($params);
@@ -1411,7 +1411,7 @@ class MyModel extends Model {
 	 * (they must only be present - can still be empty, though!)
 	 *
 	 * @param array $fieldList
-	 * @param boolean $allowEmpty (or NULL to not touch already set elements)
+	 * @param bool $allowEmpty (or NULL to not touch already set elements)
 	 * @return void
 	 */
 	public function requireFields($requiredFields, $allowEmpty = null) {
@@ -1570,9 +1570,9 @@ class MyModel extends Model {
 	/**
 	 * Update a row with certain fields (dont use "Model" as super-key)
 	 *
-	 * @param integer $id
+	 * @param int $id
 	 * @param array $data
-	 * @return boolean|array Success
+	 * @return bool|array Success
 	 */
 	public function update($id, $data, $validate = false) {
 		$this->id = $id;
@@ -1587,7 +1587,7 @@ class MyModel extends Model {
 	 * Toggles Field (Important/Deleted/Primary etc)
 	 *
 	 * @param STRING fieldName
-	 * @param integer id (cleaned!)
+	 * @param int id (cleaned!)
 	 * @return ARRAY record: [Model][values],...
 	 */
 	public function toggleField($fieldName, $id) {
@@ -1605,7 +1605,7 @@ class MyModel extends Model {
 	 * Truncate TABLE (already validated, that table exists)
 	 *
 	 * @param string table [default:FALSE = current model table]
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function truncate($table = null) {
 		if (empty($table)) {

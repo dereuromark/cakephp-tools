@@ -81,7 +81,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	/**
 	 * @param Model $Model
 	 * @param array $results
-	 * @param boolean $primary
+	 * @param bool $primary
 	 * @return array
 	 */
 	public function afterFind(Model $Model, $results, $primary = false) {
@@ -102,7 +102,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	/**
 	 * @param Model $Model
 	 * @param array $options
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function beforeValidate(Model $Model, $options = array()) {
 		if ($this->settings[$Model->alias]['before'] !== 'validate') {
@@ -115,7 +115,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	/**
 	 * @param Model $Model
 	 * @param array $options
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function beforeSave(Model $Model, $options = array()) {
 		if ($this->settings[$Model->alias]['before'] !== 'save') {
@@ -127,7 +127,7 @@ class BitmaskedBehavior extends ModelBehavior {
 
 	/**
 	 * @param Model $Model
-	 * @param integer $value Bitmask.
+	 * @param int $value Bitmask.
 	 * @return array Bitmask array (from DB to APP).
 	 */
 	public function decodeBitmask(Model $Model, $value) {
@@ -146,7 +146,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @param Model $Model
 	 * @param array $value Bitmask array.
 	 * @param array $defaultValue Default bitmask array.
-	 * @return integer Bitmask (from APP to DB).
+	 * @return int Bitmask (from APP to DB).
 	 */
 	public function encodeBitmask(Model $Model, $value, $defaultValue = null) {
 		$res = 0;
@@ -264,7 +264,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	/**
 	 * @param Model $Model
 	 * @param mixed $bits (int, array)
-	 * @param boolean $contain
+	 * @param bool $contain
 	 * @return array SQL snippet.
 	 */
 	protected function _containsBit(Model $Model, $bits, $contain = true) {

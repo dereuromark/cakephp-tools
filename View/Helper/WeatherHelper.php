@@ -26,7 +26,7 @@ class WeatherHelper extends AppHelper {
 	 *
 	 * @param string $icon
 	 * @param string $ext
-	 * @param boolean $full
+	 * @param bool $full
 	 * @return string URL
 	 */
 	public function imageUrl($icon, $ext = 'gif', $full = false) {

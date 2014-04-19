@@ -39,13 +39,13 @@ class FileLib extends File {
 	/**
 	 * A better csv reader which handles encoding as well as removes completely empty lines
 	 *
-	 * @param integer $length (0 = no limit)
+	 * @param int $length (0 = no limit)
 	 * @param string $delimiter (null defaults to ,)
 	 * @param string $enclosure (null defaults to " - do not pass empty string)
 	 * @param string $mode
 	 * @param string $force Force open/read the file
-	 * @param boolean $removeEmpty Remove empty lines (simple newline characters without meaning)
-	 * @param boolean $encode Encode to UTF-8
+	 * @param bool $removeEmpty Remove empty lines (simple newline characters without meaning)
+	 * @param bool $encode Encode to UTF-8
 	 * @return array Content or false on failure
 	 */
 	public function readCsv($length = 0, $delimiter = null, $enclosure = null, $mode = 'rb', $force = false, $removeEmpty = false, $encode = true) {
@@ -120,7 +120,7 @@ class FileLib extends File {
 	 * @param array $data
 	 * @param string $delimiter (null defaults to ,)
 	 * @param string $enclosure (null defaults to " - do not pass empty string)
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function writeCsv($data, $delimiter = null, $enclosure = null) {
 		if ($this->open('w', true) !== true) {
@@ -186,7 +186,7 @@ class FileLib extends File {
 	 *
 	 * @param string/array $tags: <tag><tag2><tag3> or array('<tag>',...) otherwise default tags are used
 	 * @param string $mode
-	 * @param boolean $force If true then the file will be re-opened even if its already opened, otherwise it won't
+	 * @param bool $force If true then the file will be re-opened even if its already opened, otherwise it won't
 	 * @return mixed string on success, false on failure
 	 */
 	public function readWithTags($tags = null, $mode = 'rb', $force = false) {
@@ -277,7 +277,7 @@ class FileLib extends File {
 	 * Useful for file_get_contents() + json_decode() that needs the BOM removed.
 	 *
 	 * @param string $content
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public static function hasByteOrderMark($content) {
 		return strpos($content, b"\xEF\xBB\xBF") === 0;

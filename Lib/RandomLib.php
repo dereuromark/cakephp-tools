@@ -9,8 +9,8 @@
 class RandomLib {
 
 	/**
-	 * @param integer $min
-	 * @param integer $max
+	 * @param int $min
+	 * @param int $max
 	 * @return random int value
 	 */
 	public static function int($min = 0, $max = 999) {
@@ -123,7 +123,7 @@ class RandomLib {
 	/**
 	 * Generates a password
 	 *
-	 * @param integer $length Password length
+	 * @param int $length Password length
 	 * @return string
 	 * @link https://github.com/CakeDC/users/blob/master/models/user.php#L498
 	 */
@@ -143,7 +143,7 @@ class RandomLib {
 	 * Returns auto-generated password
 	 *
 	 * @param string $type: user, ...
-	 * @param integer $length (if no type is submitted)
+	 * @param int $length (if no type is submitted)
 	 * @return pwd on success, empty string otherwise
 	 */
 	public static function pwd($type = null, $length = null) {
@@ -160,7 +160,7 @@ class RandomLib {
 	 * Returns auto-generated password
 	 *
 	 * @param string $type: user, ...
-	 * @param integer $length (if no type is submitted)
+	 * @param int $length (if no type is submitted)
 	 * @return pwd on success, empty string otherwise
 	 * @deprecated Use pwd() instead
 	 */
@@ -172,7 +172,7 @@ class RandomLib {
 	 * Generates random passwords.
 	 * //TODO: move to password lib?
 	 *
-	 * @param integer $lenght (necessary!)
+	 * @param int $lenght (necessary!)
 	 * @return string Password
 	 */
 	public static function generatePassword($length, $chars = null) {
@@ -278,7 +278,7 @@ class RandomLib {
 	 * as the type.
 	 *
 	 * @param string a type of pool, or a string of characters to use as the pool
-	 * @param integer length of string to return
+	 * @param int length of string to return
 	 * @return string
 	 */
 	public static function random($type = 'alnum', $length = 8) {

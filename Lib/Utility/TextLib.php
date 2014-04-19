@@ -52,7 +52,7 @@ class TextLib extends String {
 	 * //TODO use str_word_count() instead!!!
 	 *
 	 * @param string $text
-	 * @return integer
+	 * @return int
 	 */
 	public static function numberOfWords($text) {
 		$count = 0;
@@ -73,7 +73,7 @@ class TextLib extends String {
 	 * - 'whitespace': If whitespace should be counted, as well, defaults to false
 	 *
 	 * @param string $text
-	 * @return integer
+	 * @return int
 	 */
 	public static function numberOfChars($text, $options = array()) {
 		$text = str_replace(array("\r", "\n", "\t", ' '), '', $text);
@@ -86,7 +86,7 @@ class TextLib extends String {
 	 * excessively long string replaced by $ending.
 	 *
 	 * @param string $text The original string.
-	 * @param integer $length The length at which to abbreviate.
+	 * @param int $length The length at which to abbreviate.
 	 * @return string The abbreviated string, if longer than $length.
 	 */
 	public static function abbreviate($text, $length = 20, $ending = '...') {
@@ -258,7 +258,7 @@ class TextLib extends String {
 	 * </code>
 	 *
 	 * @param string  $value
-	 * @param integer     $words
+	 * @param int     $words
 	 * @param array $options
 	 * - ellipsis
 	 * - html
@@ -338,7 +338,7 @@ class TextLib extends String {
 	 * Converts character entities back to ASCII
 	 *
 	 * @param string
-	 * @param boolean
+	 * @param bool
 	 * @return string
 	 */
 	public function EntitiesToAscii($str, $all = true) {
@@ -406,7 +406,7 @@ class TextLib extends String {
 	 *
 	 * @param string
 	 * @param string	the character you wish to reduce
-	 * @param boolean	TRUE/FALSE - whether to trim the character from the beginning/end
+	 * @param bool	TRUE/FALSE - whether to trim the character from the beginning/end
 	 * @return string
 	 */
 	public function reduce_multiples($str, $character = ',', $trim = false) {

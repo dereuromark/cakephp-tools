@@ -181,7 +181,7 @@ class NumberLib extends CakeNumber {
 	 * Formats a number with a level of precision.
 	 *
 	 * @param float $number	A floating point number.
-	 * @param integer $precision The precision of the returned number.
+	 * @param int $precision The precision of the returned number.
 	 * @param string $decimals
 	 * @return float Formatted float.
 	 * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/number.html#NumberHelper::precision
@@ -197,7 +197,7 @@ class NumberLib extends CakeNumber {
 	/**
 	 * Returns a formatted-for-humans file size.
 	 *
-	 * @param integer $size Size in bytes
+	 * @param int $size Size in bytes
 	 * @return string Human readable size
 	 * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/number.html#NumberHelper::toReadableSize
 	 */
@@ -218,7 +218,7 @@ class NumberLib extends CakeNumber {
 	 * - `decimals`: Decimal character.
 	 *
 	 * @param float $number A floating point number
-	 * @param integer $precision The precision of the returned number
+	 * @param int $precision The precision of the returned number
 	 * @param string $decimals
 	 * @return string Percentage string
 	 * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/number.html#NumberHelper::toPercentage
@@ -235,7 +235,7 @@ class NumberLib extends CakeNumber {
 	 * Get the rounded average.
 	 *
 	 * @param array $values: int or float values
-	 * @param integer $precision
+	 * @param int $precision
 	 * @return float Average
 	 */
 	public static function average($values, $precision = 0) {
@@ -265,7 +265,7 @@ class NumberLib extends CakeNumber {
 	 * Round value up.
 	 *
 	 * @param float $number
-	 * @param integer $increment
+	 * @param int $increment
 	 * @return float result
 	 */
 	public static function roundUpTo($number, $increments = 1) {
@@ -276,7 +276,7 @@ class NumberLib extends CakeNumber {
 	 * Round value down.
 	 *
 	 * @param float $number
-	 * @param integer $increment
+	 * @param int $increment
 	 * @return float result
 	 */
 	public static function roundDownTo($number, $increments = 1) {
@@ -287,7 +287,7 @@ class NumberLib extends CakeNumber {
 	 * Get decimal places
 	 *
 	 * @param float $number
-	 * @return integer decimalPlaces
+	 * @return int decimalPlaces
 	 */
 	public static function getDecimalPlaces($number) {
 		$decimalPlaces = 0;
@@ -309,7 +309,7 @@ class NumberLib extends CakeNumber {
 	 * echo NumberLib::ordinal(10); // "th"
 	 * echo NumberLib::ordinal(33); // "rd"
 	 *
-	 * @param integer $number
+	 * @param int $number
 	 * @return string
 	 */
 	public static function ordinal($number) {
@@ -335,7 +335,7 @@ class NumberLib extends CakeNumber {
 	 * @param float $x
 	 * @param float $y
 	 * @param float $precision
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function isFloatEqual($x, $y, $precision = 0.0000001) {
 		return ($x + $precision >= $y) && ($x - $precision <= $y);

@@ -71,7 +71,7 @@ class EmailLib extends CakeEmail {
 	 * @param string $subject
 	 * @param string $message
 	 * @param string $transportConfig
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public static function systemEmail($subject, $message = 'System Email', $transportConfig = null) {
 		$class = __CLASS__;
@@ -87,7 +87,6 @@ class EmailLib extends CakeEmail {
 		} elseif ($message === null && array_key_exists('message', $config = $instance->config())) {
 			$message = $config['message'];
 		}
-		$instance->template(null);
 		return $instance->send($message);
 	}
 
@@ -255,7 +254,7 @@ class EmailLib extends CakeEmail {
 	 * Validate if the email has the required fields necessary to make send() work.
 	 * Assumes layouting (does not check on content to be present or if view/layout files are missing).
 	 *
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function validates() {
 		if (!empty($this->_subject) && !empty($this->_to)) {
@@ -429,7 +428,7 @@ class EmailLib extends CakeEmail {
 	 *
 	 * @overwrite
 	 * @param string/array: message
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function send($message = null) {
 		$this->_log = array(
@@ -449,7 +448,7 @@ class EmailLib extends CakeEmail {
 		}
 
 		// Security measure to not sent to the actual addressee in debug mode
-		if (Configure::read('debug') && Configure::read('Email.live')) {
+		if (Configure::read('debug')) {
 			$adminEmail = Configure::read('Config.adminEmail');
 			foreach ($this->_to as $k => $v) {
 				if ($k === $adminEmail) {
@@ -526,8 +525,8 @@ class EmailLib extends CakeEmail {
 	/**
 	 * Set/Get wrapLength
 	 *
-	 * @param integer $length Must not be more than CakeEmail::LINE_LENGTH_MUST
-	 * @return integer|CakeEmail
+	 * @param int $length Must not be more than CakeEmail::LINE_LENGTH_MUST
+	 * @return int|CakeEmail
 	 */
 	public function wrapLength($length = null) {
 		if ($length === null) {
@@ -540,8 +539,8 @@ class EmailLib extends CakeEmail {
 	/**
 	 * Set/Get priority
 	 *
-	 * @param integer $priority 1 (highest) to 5 (lowest)
-	 * @return integer|CakeEmail
+	 * @param int $priority 1 (highest) to 5 (lowest)
+	 * @return int|CakeEmail
 	 */
 	public function priority($priority = null) {
 		if ($priority === null) {

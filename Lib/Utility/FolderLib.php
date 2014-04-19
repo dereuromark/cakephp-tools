@@ -13,7 +13,7 @@ class FolderLib extends Folder {
 	 *
 	 * Note: It skips hidden folders (starting with a . dot).
 	 *
-	 * @return boolean Success or null on invalid folder
+	 * @return bool Success or null on invalid folder
 	 */
 	public function clear($path = null) {
 		if (!$path) {

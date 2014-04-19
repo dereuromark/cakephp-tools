@@ -65,7 +65,7 @@ class AuthExtComponent extends AuthComponent {
 	 *
 	 * @overwrite
 	 * @param mixed $user
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function login($user = null) {
 		$Model = $this->getModel();
@@ -200,7 +200,7 @@ class AuthExtComponent extends AuthComponent {
 	 *
 	 * @overwrite
 	 * @param Controller $controller A reference to the instantiating controller object
-	 * @return boolean
+	 * @return bool
 	 */
 	public function startup(Controller $controller) {
 		if ($controller->name === 'CakeError') {

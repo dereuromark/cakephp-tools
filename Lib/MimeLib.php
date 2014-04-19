@@ -726,8 +726,8 @@ class MimeLib extends CakeResponse {
 	 * e.g `getMimeType('pdf'); // returns 'application/pdf'`
 	 *
 	 * @param string $alias the content type alias to map
-	 * @param boolean $primaryOnly
-	 * @param boolean $coreHasPrecedence
+	 * @param bool $primaryOnly
+	 * @param bool $coreHasPrecedence
 	 * @return mixed string mapped mime type or false if $alias is not mapped
 	 */
 	public function getMimeType($alias, $primaryOnly = true, $coreHasPrecedence = false) {

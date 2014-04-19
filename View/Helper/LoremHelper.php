@@ -12,7 +12,7 @@ class LoremHelper extends AppHelper {
 	 * For a brief history of "lorem ipsum", see http://en.wikipedia.org/wiki/Lorem_ipsum
 	 * also, thanks http://www.lipsum.org for all the faithful placeholder
 	 *
-	 * @param integer $number depending on the
+	 * @param int $number depending on the
 	 * @param string $type trigger used to switch between words only, paragraph(s), or lists (ol/ul)
 	 * @param array $attributes Additional HTML attributes of the list (ol/ul) tag, or paragraph (when applicable)
 	 * @param array $itemAttributes Additional HTML attributes of the list item (LI) tag (when applicable)
@@ -58,9 +58,9 @@ class LoremHelper extends AppHelper {
 	/**
 	 * Internal function to return a greeked sentence
 	 *
-	 * @param integer $maxWords maximum number of words for this sentence
-	 * @param integer $minWords minimum number of words for this sentence
-	 * @param boolean $punctuation if false it will not append random commas and ending period
+	 * @param int $maxWords maximum number of words for this sentence
+	 * @param int $minWords minimum number of words for this sentence
+	 * @param bool $punctuation if false it will not append random commas and ending period
 	 * @return string greeked sentence
 	 */
 	protected function _sentence($maxWords = 10, $minWords = 4, $punctuation = true) {

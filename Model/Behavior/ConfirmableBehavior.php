@@ -31,7 +31,7 @@ class ConfirmableBehavior extends ModelBehavior {
 	 * ConfirmableBehavior::beforeValidate()
 	 *
 	 * @param Model $Model
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function beforeValidate(Model $Model, $options = array()) {
 		$return = parent::beforeValidate($Model, $options);
@@ -65,7 +65,7 @@ class ConfirmableBehavior extends ModelBehavior {
 	 * The actual logic
 	 *
 	 * @param object $Model Model about to be saved.
-	 * @return boolean true if save should proceed, false otherwise
+	 * @return bool true if save should proceed, false otherwise
 	 */
 	public function confirm(Model $Model, $return = true) {
 		$field = $this->settings[$Model->alias]['field'];

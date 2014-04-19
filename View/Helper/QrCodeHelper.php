@@ -237,7 +237,7 @@ class QrCodeHelper extends AppHelper {
 	/**
 	 * Change size
 	 * result format: chs=<size>x<size>
-	 * @return boolean Success
+	 * @return bool Success
 	 *
 	 * //TODO: automatic detection
 	 * //default is 2x size (plus margin) of typical QR version for the error correction level (L=V.2, M/Q=V.3, H=V.4)
@@ -258,7 +258,7 @@ class QrCodeHelper extends AppHelper {
 	/**
 	 * Change level and margin - optional
 	 * result format: chld=<EC level>|<margin>
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function setLevel($level, $margin = null) {
 		if (in_array($level, $this->ecLevels)) {
@@ -298,8 +298,8 @@ class QrCodeHelper extends AppHelper {
 	 * 25 => 21x21 (L)
 	 * ...
 	 * 4000 => 547x547 (L)
-	 * @param integer $length
-	 * @return integer size
+	 * @param int $length
+	 * @return int size
 	 */
 	protected function _findSuitableSize() {
 	}

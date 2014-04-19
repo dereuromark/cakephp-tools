@@ -195,7 +195,7 @@ class GeocodeLib {
 	/**
 	 * Seems like there are no inconclusive results anymore...
 	 *
-	 * @return boolean isInconclusive (or null if no query has been run yet)
+	 * @return bool isInconclusive (or null if no query has been run yet)
 	 */
 	public function isInconclusive() {
 		if ($this->result === null) {
@@ -218,7 +218,7 @@ class GeocodeLib {
 
 	/**
 	 * Trying to avoid "TOO_MANY_QUERIES" error
-	 * @param boolean $raise If the pause length should be raised
+	 * @param bool $raise If the pause length should be raised
 	 */
 	public function pause($raise = false) {
 		usleep($this->options['pause']);
@@ -234,7 +234,7 @@ class GeocodeLib {
 	 *
 	 * @param string $address
 	 * @param array $params
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function geocode($address, $params = array()) {
 		$this->reset(false);
@@ -317,7 +317,7 @@ class GeocodeLib {
 	 * @param float $lat
 	 * @param float $lng
 	 * @param array $params
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function reverseGeocode($lat, $lng, $params = array()) {
 		$this->reset(false);
@@ -389,7 +389,7 @@ class GeocodeLib {
 	 * GeocodeLib::_process()
 	 *
 	 * @param mixed $result
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	protected function _process($result) {
 		$this->result = null;
@@ -487,7 +487,7 @@ class GeocodeLib {
 
 	/**
 	 * @param int $accuracy
-	 * @return boolean $notAccurateEnough
+	 * @return bool notAccurateEnough
 	 */
 	protected function _isNotAccurateEnough($accuracy) {
 		if (!array_key_exists($accuracy, $this->accuracyTypes)) {
@@ -552,7 +552,7 @@ class GeocodeLib {
 	 * - formatted_address, type, country, country_code, country_province, country_province_code, locality, sublocality, postal_code, route, lat, lng, location_type, viewport, bounds
 	 *
 	 * @param mixed $record any level of input, whole raw array or records or single record
-	 * @return array $record organized & normalized
+	 * @return array record organized & normalized
 	 */
 	protected function _transformData($record) {
 		if (!array_key_exists('address_components', $record)) {
@@ -686,7 +686,7 @@ class GeocodeLib {
 	/**
 	 * return debugging info
 	 *
-	 * @return array $debug
+	 * @return array debug
 	 */
 	public function debug() {
 		$this->debug['result'] = $this->result;
@@ -789,7 +789,7 @@ class GeocodeLib {
 	 * privacy protection. This way the coordinates will be slightly modified.
 	 *
 	 * @param float coord Coordinates
-	 * @param integer level The Level of blurness (0 = nothing to 5 = extrem)
+	 * @param int level The Level of blurness (0 = nothing to 5 = extrem)
 	 * - 1:
 	 * - 2:
 	 * - 3:

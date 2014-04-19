@@ -14,7 +14,7 @@ class TextAnalysisLib extends TextLib {
 	/**
 	 * @param string $stringToCheck
 	 * @param tolerance (in %: 0 ... 1)
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function isScreamFont($str = null, $tolerance = 0.4) {
 		if ($str === null) {
@@ -58,7 +58,7 @@ class TextAnalysisLib extends TextLib {
 	 * $ascii = UTF8::is_ascii($str);
 	 *
 	 * @param string string to check
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isAscii($str = null) {
 		if ($str === null) {

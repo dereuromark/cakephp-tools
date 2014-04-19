@@ -17,7 +17,7 @@ class MyHelper extends Helper {
 	 * Also makes sure callbacks are triggered.
 	 *
 	 * @param array $helpers (either strings, or [string => array(config...)])
-	 * @param boolean $callbacks - trigger missed callbacks
+	 * @param bool $callbacks - trigger missed callbacks
 	 * @return void
 	 */
 	public function loadHelpers($helpers = array(), $callbacks = false) {
@@ -75,7 +75,7 @@ class MyHelper extends Helper {
 	 * Intercepts the parent url function to first look if the cache was already generated for the same params
 	 *
 	 * @param mixed $url url to generate using cakephp array syntax
-	 * @param boolean|array $full whether to generate a full url or not (http scheme). As array: full, escape.
+	 * @param bool|array $full whether to generate a full url or not (http scheme). As array: full, escape.
 	 * @return string
 	 * @see Helper::url()
 	 */

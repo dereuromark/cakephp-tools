@@ -37,7 +37,7 @@ class DatetimeHelper extends TimeHelper {
 	 * Defaults to the $default string if outside of that range.
 	 *
 	 * @param string date (from db)
-	 * @return integer age on success, mixed $default otherwise
+	 * @return int age on success, mixed $default otherwise
 	 */
 	public function userAge($date = null, $default = '---') {
 		if ((int)$date === 0) {
@@ -164,7 +164,7 @@ class DatetimeHelper extends TimeHelper {
 	 *
 	 * @param
 	 * @param
-	 * @return integer offset
+	 * @return int offset
 	 */
 	public function tzOffset($gmtoffset, $isDst) {
 		//global $gmtoffset, $isDst;

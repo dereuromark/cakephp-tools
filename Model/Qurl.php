@@ -153,7 +153,7 @@ class Qurl extends ToolsAppModel {
 	 * Sets Key to "used" (only once!) - directly by ID
 	 *
 	 * @param id of key to spend: necessary
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function markAsUsed($id = null) {
 		if (empty($id)) {
@@ -170,7 +170,7 @@ class Qurl extends ToolsAppModel {
 	 * Remove old/invalid keys
 	 * does not remove recently used ones (for proper feedback)!
 	 *
-	 * @return boolean success
+	 * @return bool success
 	 */
 	public function garbageCollector() {
 		$conditions = array(

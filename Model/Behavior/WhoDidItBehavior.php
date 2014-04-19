@@ -104,7 +104,7 @@ class WhoDidItBehavior extends ModelBehavior {
 	 * or the "force_modified" setting is set to true.
 	 *
 	 * @param Model $Model The model using this behavior.
-	 * @return boolean True
+	 * @return bool True
 	 */
 	public function beforeSave(Model $Model, $options = array()) {
 		$config = $this->settings[$Model->alias];

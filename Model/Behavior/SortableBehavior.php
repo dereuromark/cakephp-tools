@@ -86,14 +86,14 @@ class SortableBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function moveUp(Model $Model, $id, $steps = 1) {
 		return $this->_moveUpDown($Model, 'up', $id, $steps);
 	}
 
 	/**
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function moveDown(Model $Model, $id, $steps = 1) {
 		return $this->_moveUpDown($Model, 'down', $id, $steps);
@@ -103,7 +103,7 @@ class SortableBehavior extends ModelBehavior {
 	 * @param Model $Model
 	 * @param string $direction
 	 * @param int $steps Steps to jump. Defaults to 1.
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	protected function _moveUpDown(Model $Model, $direction, $id, $steps = 1) {
 		// FIXME: Sort over more than one placement.

@@ -364,7 +364,8 @@ class CopyShell extends AppShell {
 	}
 
 	/**
-	 * @return boolean isLocalPath (true/false)
+	 * @param string $line
+	 * @return bool If local path
 	 */
 	protected function isLocalPath($line) {
 		if (mb_strlen($line) > 7 && trim(mb_substr($line, 0, 6)) === 'local') {
@@ -435,7 +436,7 @@ class CopyShell extends AppShell {
 	}
 
 	/**
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	protected function _exec($silent = true, $options = array()) {
 		// make sure, folder exists

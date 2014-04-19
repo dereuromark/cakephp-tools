@@ -144,7 +144,7 @@ class ImapLib {
 	}
 
 	/**
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function connect($user, $pass, $server, $port = null) {
 		$this->settings[self::S_SERVER] = $server;
@@ -181,7 +181,7 @@ class ImapLib {
 	/**
 	 * ImapLib::msgCount()
 	 *
-	 * @return integer Count
+	 * @return int Count
 	 */
 	public function msgCount() {
 		return imap_num_msg($this->stream);
@@ -456,7 +456,7 @@ class ImapLib {
 	 * ImapLib::flag()
 	 *
 	 * @param mixed $flag
-	 * @return boolean
+	 * @return bool
 	 */
 	public function flag($flag) {
 		return imap_setflag_full($this->ImapFolder->Imap->stream, $this->uid, $flag, ST_UID);
@@ -467,7 +467,7 @@ class ImapLib {
 	 *
 	 * @param string|array $emails
 	 * @param bool $delete
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function delete($emails, $delete = false) {
 		$emails = (array)$emails;
@@ -598,7 +598,7 @@ class ImapLib {
 	 * Makes sure imap_open is available etc
 	 *
 	 * @throws InternalErrorException
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function dependenciesMatch() {
 		if (!function_exists('imap_open')) {
