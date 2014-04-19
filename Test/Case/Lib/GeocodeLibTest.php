@@ -116,6 +116,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$is = $this->Geocode->geocode($address);
 		$this->assertTrue($is);
 		$res = $this->Geocode->getResult();
+		$this->assertNotEmpty($res);
 
 		$is = $this->Geocode->isInconclusive();
 		$this->assertFalse($is);
@@ -185,10 +186,15 @@ class GeocodeLibTest extends MyCakeTestCase {
 
 		foreach ($coords as $coord) {
 			$is = $this->Geocode->distance($coord['x'], $coord['y']);
-			//echo $coord['name'].':';
-			//pr('is: '.$is.' - expected: '.$coord['d']);
 			$this->assertEquals($coord['d'], $is);
 		}
+
+		$is = $this->Geocode->distance($coords[0]['x'], $coords[0]['y'], GeocodeLib::UNIT_MILES);
+		$this->assertEquals(142, $is);
+
+		// String directly
+		$is = $this->Geocode->distance($coords[0]['x'], $coords[0]['y'], 'F');
+		$this->assertEquals(747236, $is);
 	}
 
 	/**
@@ -222,8 +228,6 @@ class GeocodeLibTest extends MyCakeTestCase {
 		);
 		foreach ($values as $value) {
 			$is = $this->Geocode->convert($value[0], $value[1], $value[2]);
-			//echo $value[0].$value[1].' in '.$value[2].':';
-			//pr('is: '.returns($is).' - expected: '.$value[3]);
 			$this->assertEquals($value[3], round($is, 8));
 		}
 	}

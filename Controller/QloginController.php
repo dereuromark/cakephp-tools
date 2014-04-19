@@ -76,12 +76,7 @@ class QloginController extends ToolsAppController {
 				$this->request->data = array();
 			}
 		} else {
-			if (!empty($this->request->params['named']['user_id'])) {
-				$this->request->data['Qlogin']['user_id'] = $this->request->params['named']['user_id'];
-			}
-			if (!empty($this->request->params['named']['url'])) {
-				$this->request->data['Qlogin']['url'] = base64_decode($this->request->params['named']['url']);
-			}
+			$this->request->data['Qlogin'] = $this->request->query;
 		}
 
 		$this->User = ClassRegistry::init(CLASS_USER);

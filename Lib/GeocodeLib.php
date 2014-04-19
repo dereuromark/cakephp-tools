@@ -567,7 +567,6 @@ class GeocodeLib {
 		// handle and organize address_components
 		$components = array();
 		foreach ($record['address_components'] as $c) {
-			$types = array();
 			$type = $c['types'][0];
 			$types = $c['types'];
 
@@ -717,13 +716,17 @@ class GeocodeLib {
 	 *
 	 * @param array pointX
 	 * @param array pointY
-	 * @param float $unit (M=miles, K=kilometers, N=nautical miles, I=inches, F=feet)
+	 * @param string $unit Unit char or constant (M=miles, K=kilometers, N=nautical miles, I=inches, F=feet)
 	 * @return int Distance in km
 	 */
 	public function distance(array $pointX, array $pointY, $unit = null) {
-		if (empty($unit) || !array_key_exists(($unit = strtoupper($unit)), $this->units)) {
+		if (empty($unit)) {
 			$unit = array_keys($this->units);
 			$unit = $unit[0];
+		}
+		$unit = strtoupper($unit);
+		if (!isset($this->units[$unit])) {
+			throw new CakeException(__('Invalid Unit: %s', $unit));
 		}
 
 		$res = $this->calculateDistance($pointX, $pointY);
@@ -760,8 +763,8 @@ class GeocodeLib {
 	 * Convert between units
 	 *
 	 * @param float $value
-	 * @param char $fromUnit (using class constants)
-	 * @param char $toUnit (using class constants)
+	 * @param string $fromUnit (using class constants)
+	 * @param string $toUnit (using class constants)
 	 * @return float convertedValue
 	 * @throws CakeException
 	 */
