@@ -122,8 +122,7 @@ class GeocoderBehavior extends ModelBehavior {
 		}
 
 		$geocode = $this->_geocode($addressData, $this->settings[$Model->alias]);
-		debug($addressData);
-debug($geocode);ob_flush();
+
 		if (empty($geocode) && !empty($this->settings[$Model->alias]['allowEmpty'])) {
 			return true;
 		}
@@ -171,9 +170,6 @@ debug($geocode);ob_flush();
 				}
 			}
 		}
-
-		debug($this->settings[$Model->alias]);
-		debug($Model->data[$Model->alias]);
 
 		return $return;
 	}
