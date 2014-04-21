@@ -1,10 +1,34 @@
 <?php
-//require dirname(__DIR__) . '/../Config/bootstrap.php';
+function find_root() {
+	$root = dirname(__DIR__);
+	if (is_dir($root . '/vendor/cakephp/cakephp')) {
+		return $root;
+	}
 
-echo __FILE__;
+	$root = dirname(dirname(__DIR__));
+	if (is_dir($root . '/vendor/cakephp/cakephp')) {
+		return $root;
+	}
+
+	$root = dirname(dirname(dirname(__DIR__)));
+	if (is_dir($root . '/vendor/cakephp/cakephp')) {
+		return $root;
+	}
+}
+
+function find_app() {
+	if (is_dir(ROOT . '/App')) {
+		return 'App';
+	}
+
+	if (is_dir(ROOT . '/vendor/cakephp/app/App')) {
+		return 'vendor/cakephp/app/App';
+	}
+}
+
 define('DS', DIRECTORY_SEPARATOR);
-define('ROOT', dirname(dirname(dirname(dirname(__FILE__)))));
-define('APP_DIR', 'App');
+define('ROOT', find_root());
+define('APP_DIR', find_app());
 define('WEBROOT_DIR', 'webroot');
 define('APP', ROOT . DS . APP_DIR . DS);
 define('WWW_ROOT', ROOT . DS . WEBROOT_DIR . DS);
@@ -16,8 +40,11 @@ define('CAKE_CORE_INCLUDE_PATH', ROOT . '/vendor/cakephp/cakephp');
 define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
 define('CAKE', CORE_PATH . 'src' . DS);
 
-//require ROOT . '/vendor/cakephp/cakephp/src/basics.php';
+require ROOT . '/vendor/cakephp/cakephp/src/basics.php';
 require ROOT . '/vendor/autoload.php';
+
+Cake\Core\Configure::write('App', ['namespace' => 'App']);
+Cake\Core\Configure::write('debug', 2);
 
 $TMP = new \Cake\Utility\Folder(TMP);
 $TMP->create(TMP . 'cache/models', 0777);
@@ -48,20 +75,19 @@ Cake\Cache\Cache::config($cache);
 
 Cake\Core\Plugin::load('Tools', ['path' => './']);
 
-$datasources = [
-	'test' => [
-		'className' => 'Cake\Database\Connection',
-		'driver' => 'Cake\Database\Driver\Mysql',
-		'persistent' => false,
-		'host' => 'localhost',
-		'login' => 'tools',
-		'password' => 'tools',
-		'database' => 'tools',
-		'prefix' => false,
-		'encoding' => 'utf8',
-	]
-];
+// Ensure default test connection is defined
+if (!getenv('db_class')) {
+	putenv('db_class=Cake\Database\Driver\Sqlite');
+	putenv('db_dsn=sqlite::memory:');
+}
 
-$datasources['default'] = $datasources['test'];
-
-Cake\Datasource\ConnectionManager::config($datasources);
+Cake\Datasource\ConnectionManager::config('test', [
+	'className' => 'Cake\Database\Connection',
+	'driver' => getenv('db_class'),
+	'dsn' => getenv('db_dsn'),
+	'database' => getenv('db_database'),
+	'login' => getenv('db_login'),
+	'password' => getenv('db_password'),
+	'timezone' => 'UTC',
+	'quoteIdentifiers' => true,
+]);

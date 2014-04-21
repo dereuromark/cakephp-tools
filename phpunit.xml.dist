@@ -10,10 +10,11 @@
 		<ini name="memory_limit" value="-1"/>
 		<ini name="apc.enable_cli" value="1"/>
 	</php>
-	<testsuite name="CakePHP Test Suite">
-		<directory>./Test/TestCase/</directory>
-		<exclude>./Test/TestCase/X/</exclude>
-	</testsuite>
+	<testsuites>
+		<testsuite name="Tools">
+			<directory>./Test/</directory>
+		</testsuite>
+	</testsuites>
 	<filter>
 		<whitelist>
 			<directory suffix=".php">Plugin/Tools</directory>
