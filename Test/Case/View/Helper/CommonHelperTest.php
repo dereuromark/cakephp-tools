@@ -10,6 +10,8 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
  */
 class CommonHelperTest extends MyCakeTestCase {
 
+	public $fixtures = array('core.cake_session');
+
 	public $Common;
 
 	public function setUp() {
@@ -29,7 +31,7 @@ class CommonHelperTest extends MyCakeTestCase {
 		$this->Common->addFlashMessage(h('Foo & bar'), 'success');
 
 		$result = $this->Common->flash();
-		$expected = '<div class="flashMessages"><div class="message success">Foo &amp; bar</div></div>';
+		$expected = '<div class="flash-messages flashMessages"><div class="message success">Foo &amp; bar</div></div>';
 		$this->assertEquals($expected, $result);
 
 		$this->Common->addFlashMessage('I am an error', 'error');
@@ -62,15 +64,15 @@ class CommonHelperTest extends MyCakeTestCase {
 		$this->Common->addFlashMessage('I am sth custom', 'custom');
 
 		$result = $this->Common->flash(array('warning', 'error'));
-		$expected = '<div class="flashMessages"><div class="message warning">I am a warning</div><div class="message error">I am an error</div></div>';
+		$expected = '<div class="flash-messages flashMessages"><div class="message warning">I am a warning</div><div class="message error">I am an error</div></div>';
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Common->flash(array('info'));
-		$expected = '<div class="flashMessages"><div class="message info">I am some info</div><div class="message info">I am also some info</div></div>';
+		$expected = '<div class="flash-messages flashMessages"><div class="message info">I am some info</div><div class="message info">I am also some info</div></div>';
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Common->flash();
-		$expected = '<div class="flashMessages"><div class="message custom">I am sth custom</div></div>';
+		$expected = '<div class="flash-messages flashMessages"><div class="message custom">I am sth custom</div></div>';
 		$this->assertEquals($expected, $result);
 	}
 

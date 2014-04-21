@@ -27,7 +27,7 @@ class CommonHelper extends AppHelper {
 		}
 		$html = '';
 		if (!empty($messages)) {
-			$html = '<div class="flashMessages">';
+			$html = '<div class="flash-messages flashMessages">';
 
 			if ($types) {
 				foreach ($types as $type) {
@@ -73,7 +73,7 @@ class CommonHelper extends AppHelper {
 	 * @return string HTML
 	 */
 	public function flashMessage($msg, $type = 'info', $escape = true) {
-		$html = '<div class="flashMessages">';
+		$html = '<div class="flash-messages flashMessages">';
 		if ($escape) {
 			$msg = h($msg);
 		}
