@@ -15,6 +15,13 @@
 			<directory>./Test/</directory>
 		</testsuite>
 	</testsuites>
+		<listeners>
+		<listener class="\Cake\TestSuite\Fixture\FixtureInjector">
+			<arguments>
+				<object class="\Cake\TestSuite\Fixture\FixtureManager" />
+			</arguments>
+		</listener>
+	</listeners>
 	<filter>
 		<whitelist>
 			<directory suffix=".php">Plugin/Tools</directory>
