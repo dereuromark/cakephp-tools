@@ -451,6 +451,7 @@ class CommonComponent extends Component {
 		if (!$conditionalAutoRedirect || empty($this->Controller->autoRedirectActions) || is_array($referer) && !empty($referer['action'])) {
 			// Be sure that controller offset exists, otherwise you
 			// will run into problems, if you use url rewriting.
+			$refererController = null;
 			if (isset($referer['controller'])) {
 				$refererController = Inflector::camelize($referer['controller']);
 			}
