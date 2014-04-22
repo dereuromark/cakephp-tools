@@ -18161,10 +18161,22 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$this->assertEquals(255, strlen($result['MessageSlugged']['slug']));
 
 		// No limit desired
-		$this->Model->Behaviors->load('Tools.Slugged', array('length' => 0, 'label' => 'name', 'unique' => true));
+		$this->Model->Behaviors->load('Tools.Slugged', array('length' => 0));
 		$this->Model->create();
 		$result = $this->Model->save(array('name' => str_repeat('foo bar ', 100)));
 		$this->assertEquals(799, strlen($result['MessageSlugged']['slug']));
+	}
+
+	/**
+	 * Length based on manual config.
+	 *
+	 * @return void
+	 */
+	public function testLengthRestrictionManual() {
+		$this->Model->Behaviors->load('Tools.Slugged', array('length' => 155));
+		$this->Model->create();
+		$result = $this->Model->save(array('name' => str_repeat('foo bar ', 100)));
+		$this->assertEquals(155, strlen($result['MessageSlugged']['slug']));
 	}
 
 }
