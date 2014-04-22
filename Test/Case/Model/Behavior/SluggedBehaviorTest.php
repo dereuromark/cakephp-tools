@@ -109,7 +109,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testSlugGenerationBasedOnTrigger() {
-		$this->Model->Behaviors->unload('Slugged');
+		$this->Model->Behaviors->unload('Tools.Slugged');
 		$this->Model->Behaviors->load('Tools.Slugged', array(
 			'trigger' => 'generateSlug', 'overwrite' => true));
 
@@ -130,7 +130,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testSlugGenerationBeforeSave() {
-		$this->Model->Behaviors->unload('Slugged');
+		$this->Model->Behaviors->unload('Tools.Slugged');
 		$this->Model->Behaviors->load('Tools.Slugged', array(
 			'run' => 'beforeSave', 'overwrite' => true));
 
@@ -147,7 +147,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testSlugGenerationI18nReplacementPieces() {
-		$this->Model->Behaviors->unload('Slugged');
+		$this->Model->Behaviors->unload('Tools.Slugged');
 		$this->Model->Behaviors->load('Tools.Slugged', array(
 			'overwrite' => true));
 
@@ -162,7 +162,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testSlugDynamicOverwrite() {
-		$this->Model->Behaviors->unload('Slugged');
+		$this->Model->Behaviors->unload('Tools.Slugged');
 		$this->Model->Behaviors->load('Tools.Slugged', array(
 			'overwrite' => false, 'overwriteField' => 'overwrite_my_slug'));
 
@@ -186,7 +186,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testSlugGenerationWithScope() {
-		$this->Model->Behaviors->unload('Slugged');
+		$this->Model->Behaviors->unload('Tools.Slugged');
 		$this->Model->Behaviors->load('Tools.Slugged', array('unique' => true));
 
 		$data = array('name' => 'Some Article 12345', 'section' => 0);
@@ -201,7 +201,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$this->assertTrue((bool)$result);
 		$this->assertEquals('Some-Article-12345-1', $result[$this->Model->alias]['slug']);
 
-		$this->Model->Behaviors->unload('Slugged');
+		$this->Model->Behaviors->unload('Tools.Slugged');
 		$this->Model->Behaviors->load('Tools.Slugged', array('unique' => true, 'scope' => array('section' => 1)));
 
 		$data = array('name' => 'Some Article 12345', 'section' => 1);
@@ -210,50 +210,6 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$result = $this->Model->save($data);
 		$this->assertTrue((bool)$result);
 		$this->assertEquals('Some-Article-12345', $result[$this->Model->alias]['slug']);
-	}
-
-	/**
-	 * Test remove stop words
-	 */
-	public function testRemoveStopWords() {
-		$this->skipIf(true, 'Does not work anymore');
-
-		$skip = false;
-		$lang = Configure::read('Config.language');
-		if (!$lang) {
-			$lang = 'eng';
-		}
-		if (
-			!App::import('Vendor', 'stop_words_' . $lang, array('file' => "stop_words" . DS . "$lang.txt")) &&
-			!App::import('Vendor', 'Tools.stop_words_' . $lang, array('file' => "stop_words" . DS . "$lang.txt"))
-		) {
-			$skip = true;
-		}
-		$this->skipIf($skip, 'no stop_words/' . $lang . '.txt file found');
-
-		$array = $this->Model->removeStopWords('My name is Michael Paine, and I am a nosey neighbour');
-		$expected = array(
-			'Michael Paine',
-			'nosey neighbour'
-		);
-		$this->assertEquals($expected, $array);
-
-		$wordList = $this->Model->removeStopWords('My name is Michael Paine, and I am a nosey neighbour', array(
-			'splitOnStopWord' => false
-		));
-		$expected = array(
-			'Michael',
-			'Paine',
-			'nosey',
-			'neighbour',
-		);
-		$this->assertEquals($expected, array_values($wordList));
-
-		$string = $this->Model->removeStopWords('My name is Michael Paine, and I am a nosey neighbour', array(
-			'return' => 'string'
-		));
-		$expected = 'Michael Paine nosey neighbour';
-		$this->assertEquals($expected, $string);
 	}
 
 	/**
@@ -396,7 +352,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$modes = array('id'); // overriden
 		$this->Socket = new HttpSocket('http://validator.w3.org:80');
 		foreach ($modes as $mode) {
-			$this->Model->Behaviors->load('Slugged', array('mode' => $mode));
+			$this->Model->Behaviors->load('Tools.Slugged', array('mode' => $mode));
 			$this->_testMode($mode, 1, 1); // overriden parameters
 		}
 	}
@@ -17995,7 +17951,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testUrlMode() {
-		$this->Model->Behaviors->load('Slugged', array('mode' => 'url', 'replace' => false));
+		$this->Model->Behaviors->load('Tools.Slugged', array('mode' => 'url', 'replace' => false));
 		$string = 'standard string';
 		$expects = 'standard-string';
 		$result = $this->Model->slug($string);
@@ -18118,7 +18074,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$encoding = Configure::read('App.encoding');
 		Configure::write('App.encoding', 'UTF-8');
 
-		$this->Model->Behaviors->load('Slugged', array('length' => 50));
+		$this->Model->Behaviors->load('Tools.Slugged', array('length' => 50));
 		$result = $this->Model->slug('モデルのデータベースとデータソース');
 		$expects = 'モデルのデータベースとデータソー';
 		$this->assertEquals($expects, $result);
@@ -18126,12 +18082,12 @@ class SluggedBehaviorTest extends CakeTestCase {
 		Configure::write('App.encoding', 'SJIS');
 		$sjisEncoded = mb_convert_encoding($testString, 'SJIS', 'UTF-8');
 
-		$this->Model->Behaviors->load('Slugged', array('length' => 33));
+		$this->Model->Behaviors->load('Tools.Slugged', array('length' => 33));
 		$result = $this->Model->slug($sjisEncoded);
 		$sjisExpects = mb_convert_encoding('モデルのデータベースとデータソー', 'SJIS', 'UTF-8');
 		$this->assertEquals($result, $sjisExpects);
 
-		$this->Model->Behaviors->load('Slugged', array('length' => 50, 'encoding' => 'UTF-8'));
+		$this->Model->Behaviors->load('Tools.Slugged', array('length' => 50, 'encoding' => 'UTF-8'));
 		$result = $this->Model->slug($sjisEncoded);
 		$expects = 'モデルのデータベースとデータソー';
 		$this->assertEquals($expects, $result);
@@ -18147,7 +18103,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testDuplicateWithLengthRestriction() {
-		$this->Model->Behaviors->load('Slugged', array('label' => 'name', 'length' => 10, 'unique' => true));
+		$this->Model->Behaviors->load('Tools.Slugged', array('label' => 'name', 'length' => 10, 'unique' => true));
 
 		$this->Model->create();
 		$this->Model->save(array('name' => 'Andy Dawson'));
@@ -18191,6 +18147,24 @@ class SluggedBehaviorTest extends CakeTestCase {
 			'Andy Dawso0' => 'Andy-Da-10'
 		);
 		$this->assertEquals($expects, $result);
+	}
+
+	/**
+	 * Ensure that you can overwrite length.
+	 *
+	 * @return void
+	 */
+	public function testLengthRestrictions() {
+		// Based on auto-detect of schema
+		$this->Model->create();
+		$result = $this->Model->save(array('name' => str_repeat('foo bar ', 100)));
+		$this->assertEquals(255, strlen($result['MessageSlugged']['slug']));
+
+		// No limit desired
+		$this->Model->Behaviors->load('Tools.Slugged', array('length' => 0, 'label' => 'name', 'unique' => true));
+		$this->Model->create();
+		$result = $this->Model->save(array('name' => str_repeat('foo bar ', 100)));
+		$this->assertEquals(799, strlen($result['MessageSlugged']['slug']));
 	}
 
 }
