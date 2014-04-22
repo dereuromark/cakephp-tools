@@ -35,9 +35,6 @@ before_script:
   - cd ..
   - cp ../tools/phpunit.xml app/
 
-  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
-  - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE cakephp_test;' -U postgres; fi"
-
 script:
   - ../travis/script.sh
 
