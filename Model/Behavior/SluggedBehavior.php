@@ -88,7 +88,7 @@ class SluggedBehavior extends Behavior {
 		foreach ($this->_defaultConfig['replace'] as $key => $value) {
 			$this->_defaultConfig['replace'][$key] = __($value);
 		}
-		$this->_defaultConfig = array_merge($this->_defaultConfig, (array)Configure::read('Slugged'));
+		$config += (array)Configure::read('Slugged');
 
 		parent::__construct($table, $config);
 
