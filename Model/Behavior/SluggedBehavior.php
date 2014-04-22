@@ -16,24 +16,26 @@ App::uses('ModelBehavior', 'Model');
 class SluggedBehavior extends ModelBehavior {
 
 	/**
-	 * Default settings
+	 * Default config
 	 *
-	 * label
+	 * - length
+	 *  Set to 0 for no length. Will be auto-detected if possible via schema.
+	 * - label
 	 * 	set to the name of a field to use for the slug, an array of fields to use as slugs or leave as null to rely
 	 * 	on the format returned by find('list') to determine the string to use for slugs
-	 * overwrite has 2 values
+	 * - overwrite has 2 values
 	 * 	false - once the slug has been saved, do not change it (use if you are doing lookups based on slugs)
 	 * 	true - if the label field values change, regenerate the slug (use if you are the slug is just window-dressing)
-	 * unique has 2 values
+	 * - unique has 2 values
 	 * 	false - will not enforce a unique slug, whatever the label is is direclty slugged without checking for duplicates
 	 * 	true - use if you are doing lookups based on slugs (see overwrite)
-	 * mode has the following values
+	 * - mode has the following values
 	 * 	ascii - retuns an ascii slug generated using the core Inflector::slug() function
 	 * 	display - a dummy mode which returns a slug legal for display - removes illegal (not unprintable) characters
 	 * 	url - returns a slug appropriate to put in a URL
 	 * 	class - a dummy mode which returns a slug appropriate to put in a html class (there are no restrictions)
 	 * 	id - retuns a slug appropriate to use in a html id
-	 * case has the following values
+	 * - case has the following values
 	 * 	null - don't change the case of the slug
 	 * 	low - force lower case. E.g. "this-is-the-slug"
 	 * 	up - force upper case E.g. "THIS-IS-THE-SLUG"
@@ -42,7 +44,7 @@ class SluggedBehavior extends ModelBehavior {
 	 *
 	 * @var array
 	 */
-	protected $_defaultSettings = array(
+	protected $_defaultConfig = array(
 		'label' => null,
 		'slugField' => 'slug',
 		'overwriteField' => 'overwrite_slug',
@@ -67,15 +69,6 @@ class SluggedBehavior extends ModelBehavior {
 	);
 
 	/**
-	 * StopWords property
-	 *
-	 * A (3 letter) language code indexed array of stop words
-	 *
-	 * @var array
-	 */
-	public $stopWords = array();
-
-	/**
 	 * Setup method
 	 *
 	 * Use the model's label field as the default field on which to base the slug, the label can be made up of multiple
@@ -86,22 +79,28 @@ class SluggedBehavior extends ModelBehavior {
 	 * @return void
 	 */
 	public function setup(Model $Model, $config = array()) {
-		$this->_defaultSettings['notices'] = Configure::read('debug');
-		$this->_defaultSettings['label'] = array($Model->displayField);
-		foreach ($this->_defaultSettings['replace'] as $key => $value) {
-			$this->_defaultSettings['replace'][$key] = __($value);
+		$defaults = array(
+			'notices' => Configure::read('debug'),
+			'label' => array($Model->displayField)
+		);
+		$defaults += $this->_defaultConfig;
+		foreach ($defaults['replace'] as $key => $value) {
+			$defaults['replace'][$key] = __($value);
 		}
-		$this->_defaultSettings = array_merge($this->_defaultSettings, (array)Configure::read('Slugged'));
 
-		$this->settings[$Model->alias] = array_merge($this->_defaultSettings, $config);
+		$config += (array)Configure::read('Slugged');
+		$config += $defaults;
 
-		if (!$this->settings[$Model->alias]['length']) {
-			$schema = $Model->schema($this->settings[$Model->alias]['slugField']);
-			$length = !empty($schema['length']) ? $schema['length'] : 100;
-			$this->settings[$Model->alias]['length'] = $length;
+		if ($config['length'] === null) {
+			$schema = $Model->schema($config['slugField']);
+			$length = !empty($schema['length']) ? $schema['length'] : 0;
+			$config['length'] = $length;
 		}
+
+		$this->settings[$Model->alias] = $config;
 
 		extract($this->settings[$Model->alias]);
+
 		$label = $this->settings[$Model->alias]['label'] = (array)$label;
 		if ($Model->Behaviors->loaded('Translate')) {
 			$notices = false;
@@ -248,6 +247,8 @@ class SluggedBehavior extends ModelBehavior {
 		if ($replace) {
 			$string = str_replace(array_keys($replace), array_values($replace), $string);
 		}
+
+		// TODO: Use `if (function_exists('transliterator_transliterate')) {}` for PHP5.4+
 		if ($mode === 'ascii') {
 			$slug = Inflector::slug($string, $separator);
 		} else {
@@ -265,7 +266,7 @@ class SluggedBehavior extends ModelBehavior {
 				$slug = 'x' . $slug;
 			}
 		}
-		if (strlen($slug) > $length) {
+		if ($length && strlen($slug) > $length) {
 			$slug = mb_substr($slug, 0, $length);
 			while ($slug && strlen($slug) > $length) {
 				$slug = mb_substr($slug, 0, mb_strlen($slug) - 1);
@@ -304,7 +305,7 @@ class SluggedBehavior extends ModelBehavior {
 			while ($Model->hasAny($conditions)) {
 				$i++;
 				$suffix	= $separator . $i;
-				if (strlen($slug . $suffix) > $length) {
+				if ($length && strlen($slug . $suffix) > $length) {
 					$slug = substr($slug, 0, $length - strlen($suffix));
 				}
 				$conditions[$Model->alias . '.' . $slugField] = $slug . $suffix;
