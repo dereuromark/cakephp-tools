@@ -24,24 +24,26 @@ use Cake\Error\Exception;
 class SluggedBehavior extends Behavior {
 
 	/**
-	 * Default settings
+	 * Default config
 	 *
-	 * label
+	 * - length
+	 *  Set to 0 for no length. Will be auto-detected if possible via schema.
+	 * - label
 	 * 	set to the name of a field to use for the slug, an array of fields to use as slugs or leave as null to rely
 	 * 	on the format returned by find('list') to determine the string to use for slugs
-	 * overwrite has 2 values
+	 * - overwrite has 2 values
 	 * 	false - once the slug has been saved, do not change it (use if you are doing lookups based on slugs)
 	 * 	true - if the label field values change, regenerate the slug (use if you are the slug is just window-dressing)
-	 * unique has 2 values
+	 * - unique has 2 values
 	 * 	false - will not enforce a unique slug, whatever the label is is direclty slugged without checking for duplicates
 	 * 	true - use if you are doing lookups based on slugs (see overwrite)
-	 * mode has the following values
+	 * - mode has the following values
 	 * 	ascii - retuns an ascii slug generated using the core Inflector::slug() function
 	 * 	display - a dummy mode which returns a slug legal for display - removes illegal (not unprintable) characters
 	 * 	url - returns a slug appropriate to put in a URL
 	 * 	class - a dummy mode which returns a slug appropriate to put in a html class (there are no restrictions)
 	 * 	id - retuns a slug appropriate to use in a html id
-	 * case has the following values
+	 * - case has the following values
 	 * 	null - don't change the case of the slug
 	 * 	low - force lower case. E.g. "this-is-the-slug"
 	 * 	up - force upper case E.g. "THIS-IS-THE-SLUG"
@@ -92,12 +94,9 @@ class SluggedBehavior extends Behavior {
 
 		parent::__construct($table, $config);
 
-		if (!$this->_config['length']) {
+		if ($this->_config['length'] === null) {
 			$length = $table->schema()->column($this->_config['field'])['length'];
-			if (!$length) {
-				$length = 255;
-			}
-			$this->_config['length'] = $length;
+			$this->_config['length'] = $length ?: 0;
 		}
 
 		$this->_table = $table;
@@ -255,7 +254,7 @@ class SluggedBehavior extends Behavior {
 				$slug = 'x' . $slug;
 			}
 		}
-		if (strlen($slug) > $this->_config['length']) {
+		if ($this->_config['length'] & (strlen($slug) > $this->_config['length'])) {
 			$slug = mb_substr($slug, 0, $this->_config['length']);
 			while ($slug && strlen($slug) > $this->_config['length']) {
 				$slug = mb_substr($slug, 0, mb_strlen($slug) - 1);
@@ -295,7 +294,7 @@ class SluggedBehavior extends Behavior {
 			while ($this->_table->exists($conditions)) {
 				$i++;
 				$suffix	= $separator . $i;
-				if (strlen($slug . $suffix) > $this->_config['length']) {
+				if ($this->_config['length'] && (strlen($slug . $suffix) > $this->_config['length'])) {
 					$slug = substr($slug, 0, $this->_config['length'] - strlen($suffix));
 				}
 				$conditions[$field] = $slug . $suffix;

@@ -96,13 +96,52 @@ class SluggedBehaviorTest extends TestCase {
 	}
 
 /**
+ * Length based on manual config.
+ *
+ * @return void
+ */
+	public function testLengthRestrictionManual() {
+		$this->articles->addBehavior('Tools.Slugged', ['length' => 155]);
+		$entity = $this->_getEntity(str_repeat('foo bar ', 100));
+
+		$result = $this->articles->save($entity);
+		$this->assertEquals(155, strlen($result->get('slug')));
+	}
+
+/**
+ * Length based on auto-detect of schema.
+ *
+ * @return void
+ */
+	public function testLengthRestrictionAutoDetect() {
+		$this->articles->addBehavior('Tools.Slugged');
+		$entity = $this->_getEntity(str_repeat('foo bar ', 100));
+
+		$result = $this->articles->save($entity);
+		$this->assertEquals(255, strlen($result->get('slug')));
+	}
+
+/**
+ * Ensure that you can overwrite length.
+ *
+ * @return void
+ */
+	public function testLengthRestrictionNoLimit() {
+		$this->articles->addBehavior('Tools.Slugged', ['length' => 0]);
+		$entity = $this->_getEntity(str_repeat('foo bar ', 100));
+		debug(strlen($entity->get('slug')));
+		$result = $this->articles->save($entity);
+		$this->assertEquals(799, strlen($result->get('slug')));
+	}
+
+/**
  * Get a new Entity
  *
  * @return Entity
  */
-	protected function _getEntity() {
+	protected function _getEntity($title = 'test 123') {
 		return new Entity([
-			'title' => 'test 123'
+			'title' => $title
 		]);
 	}
 
