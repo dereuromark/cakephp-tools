@@ -102,7 +102,7 @@ class SluggedBehaviorTest extends TestCase {
  */
 	public function testLengthRestrictionManual() {
 		$this->articles->addBehavior('Tools.Slugged', ['length' => 155]);
-		$entity = $this->_getEntity(str_repeat('foo bar ', 81));
+		$entity = $this->_getEntity(str_repeat('foo bar ', 31));
 
 		$result = $this->articles->save($entity);
 		$this->assertEquals(155, strlen($result->get('slug')));
@@ -115,7 +115,7 @@ class SluggedBehaviorTest extends TestCase {
  */
 	public function testLengthRestrictionAutoDetect() {
 		$this->articles->addBehavior('Tools.Slugged');
-		$entity = $this->_getEntity(str_repeat('foo bar ', 81));
+		$entity = $this->_getEntity(str_repeat('foo bar ', 31));
 
 		$result = $this->articles->save($entity);
 		$this->assertEquals(245, strlen($result->get('slug')));
