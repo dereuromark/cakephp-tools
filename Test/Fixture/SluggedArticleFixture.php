@@ -18,7 +18,10 @@ class SluggedArticleFixture extends TestFixture {
 	public $fields = array(
 		'id' => ['type' => 'integer'],
 		'title' => ['type' => 'string', 'length' => 255, 'null' => false],
-		'slug' => ['type' => 'string', 'length' => 255, 'null' => false],
+		'slug' => ['type' => 'string', 'length' => 245, 'null' => false],
+		'long_title' => array('type' => 'string', 'null' => false),
+		'long_slug' => array('type' => 'string', 'null' => false),
+		'section' => ['type' => 'integer', 'null' => true],
 		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
 	);
 
@@ -28,7 +31,13 @@ class SluggedArticleFixture extends TestFixture {
  * @var array
  */
 	public $records = array(
-		array('title' => 'Foo', 'slug' => 'foo'),
+		array(
+			'title' => 'Foo',
+			'slug' => 'foo',
+			'long_title' => 'Foo Bar',
+			'long_slug' => 'foo-bar',
+			'section' => null,
+		),
 	);
 
 }

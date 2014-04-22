@@ -32,7 +32,7 @@ class SluggedBehaviorTest extends TestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		$this->connection = ConnectionManager::get('test');
+		//$this->connection = ConnectionManager::get('test');
 
 		$options = ['alias' => 'Articles'];
 		$this->articles = TableRegistry::get('SluggedArticles', $options);
@@ -118,7 +118,7 @@ class SluggedBehaviorTest extends TestCase {
 		$entity = $this->_getEntity(str_repeat('foo bar ', 100));
 
 		$result = $this->articles->save($entity);
-		$this->assertEquals(255, strlen($result->get('slug')));
+		$this->assertEquals(245, strlen($result->get('slug')));
 	}
 
 /**
@@ -127,11 +127,11 @@ class SluggedBehaviorTest extends TestCase {
  * @return void
  */
 	public function testLengthRestrictionNoLimit() {
-		$this->articles->addBehavior('Tools.Slugged', ['length' => 0]);
-		$entity = $this->_getEntity(str_repeat('foo bar ', 100));
-		debug(strlen($entity->get('slug')));
+		$this->articles->addBehavior('Tools.Slugged', ['length' => 0, 'label' => 'long_title', 'field' => 'long_slug']);
+		$entity = $this->_getEntity(str_repeat('foo bar ', 100), 'long_title');
+		debug(strlen($entity->get('long_slug')));
 		$result = $this->articles->save($entity);
-		$this->assertEquals(799, strlen($result->get('slug')));
+		$this->assertEquals(799, strlen($result->get('long_slug')));
 	}
 
 /**
@@ -139,9 +139,9 @@ class SluggedBehaviorTest extends TestCase {
  *
  * @return Entity
  */
-	protected function _getEntity($title = 'test 123') {
+	protected function _getEntity($title = 'test 123', $field = 'title') {
 		return new Entity([
-			'title' => $title
+			$field => $title
 		]);
 	}
 
