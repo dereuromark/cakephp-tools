@@ -93,7 +93,8 @@ class SluggedBehavior extends Behavior {
 		parent::__construct($table, $config);
 
 		if (!$this->_config['length']) {
-			$this->_config['length'] = $table->schema()->column($this->_config['field'])['length'];
+			$length = $table->schema()->column($this->_config['field'])['length'];
+			$this->_config['length'] = min((int)$length, 255);
 		}
 
 		$this->_table = $table;
