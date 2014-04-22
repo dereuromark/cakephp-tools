@@ -114,6 +114,9 @@ class SluggedBehaviorTest extends TestCase {
  * @return void
  */
 	public function testLengthRestrictionAutoDetect() {
+		$config = ConnectionManager::config('test');
+		$this->skipIf(strpos($config['driver'], 'Mysql') === false, 'Only works with MySql field lengths.');
+
 		$this->articles->addBehavior('Tools.Slugged');
 		$entity = $this->_getEntity(str_repeat('foo bar ', 100));
 
