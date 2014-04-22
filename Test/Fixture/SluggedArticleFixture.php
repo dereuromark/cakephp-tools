@@ -17,8 +17,8 @@ class SluggedArticleFixture extends TestFixture {
  */
 	public $fields = array(
 		'id' => ['type' => 'integer'],
-		'title' => ['type' => 'string', 'null' => false],
-		'slug' => ['type' => 'string', 'null' => false],
+		'title' => ['type' => 'string', 'length' => 255, 'null' => false],
+		'slug' => ['type' => 'string', 'length' => 255, 'null' => false],
 		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
 	);
 
