@@ -24,7 +24,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	 *
 	 * @var array
 	 */
-	public $fixtures = array('plugin.tools.message');
+	public $fixtures = array('plugin.tools.slugged_article');
 
 	/**
 	 * SkipSetupTests property
@@ -98,7 +98,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->Model = new MessageSlugged();
+		$this->Model = ClassRegistry::init('SluggedArticle');
 
 		Configure::write('Config.language', 'eng');
 	}
@@ -114,11 +114,12 @@ class SluggedBehaviorTest extends CakeTestCase {
 			'trigger' => 'generateSlug', 'overwrite' => true));
 
 		$this->Model->generateSlug = false;
-		$this->Model->create(array('name' => 'Some Article 25271'));
+		$this->Model->create(array('title' => 'Some Article 25271'));
 		$result = $this->Model->save();
+		$this->assertTrue((bool)$result);
 
-		$result[$this->Model->alias]['id'] = $this->Model->id;
 		$this->assertTrue(empty($result[$this->Model->alias]['slug']));
+		$result[$this->Model->alias]['id'] = $this->Model->id;
 		$this->Model->generateSlug = true;
 		$result = $this->Model->save($result);
 		$this->assertEquals('Some-Article-25271', $result[$this->Model->alias]['slug']);
@@ -134,7 +135,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$this->Model->Behaviors->load('Tools.Slugged', array(
 			'run' => 'beforeSave', 'overwrite' => true));
 
-		$this->Model->create(array('name' => 'Some Article 25271'));
+		$this->Model->create(array('title' => 'Some Article 25271'));
 		$result = $this->Model->save();
 
 		$result[$this->Model->alias]['id'] = $this->Model->id;
@@ -151,7 +152,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$this->Model->Behaviors->load('Tools.Slugged', array(
 			'overwrite' => true));
 
-		$this->Model->create(array('name' => 'Some & More'));
+		$this->Model->create(array('title' => 'Some & More'));
 		$result = $this->Model->save();
 		$this->assertEquals('Some-' . __('and') . '-More', $result[$this->Model->alias]['slug']);
 	}
@@ -167,15 +168,15 @@ class SluggedBehaviorTest extends CakeTestCase {
 			'overwrite' => false, 'overwriteField' => 'overwrite_my_slug'));
 
 		$this->Model->create();
-		$data = array('name' => 'Some Cool String', 'overwrite_my_slug' => false);
+		$data = array('title' => 'Some Cool String', 'overwrite_my_slug' => false);
 		$result = $this->Model->save($data);
 		$this->assertEquals('Some-Cool-String', $result[$this->Model->alias]['slug']);
 
-		$data = array('name' => 'Some Cool Other String', 'overwrite_my_slug' => false, 'id' => $this->Model->id);
+		$data = array('title' => 'Some Cool Other String', 'overwrite_my_slug' => false, 'id' => $this->Model->id);
 		$result = $this->Model->save($data);
 		$this->assertTrue(empty($result[$this->Model->alias]['slug']));
 
-		$data = array('name' => 'Some Cool Other String', 'overwrite_my_slug' => true, 'id' => $this->Model->id);
+		$data = array('title' => 'Some Cool Other String', 'overwrite_my_slug' => true, 'id' => $this->Model->id);
 		$result = $this->Model->save($data);
 		$this->assertEquals('Some-Cool-Other-String', $result[$this->Model->alias]['slug']);
 	}
@@ -189,7 +190,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$this->Model->Behaviors->unload('Slugged');
 		$this->Model->Behaviors->load('Tools.Slugged', array('unique' => true));
 
-		$data = array('name' => 'Some Article 12345', 'section' => 0);
+		$data = array('title' => 'Some Article 12345', 'section' => 0);
 
 		$this->Model->create();
 		$result = $this->Model->save($data);
@@ -204,7 +205,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$this->Model->Behaviors->unload('Slugged');
 		$this->Model->Behaviors->load('Tools.Slugged', array('unique' => true, 'scope' => array('section' => 1)));
 
-		$data = array('name' => 'Some Article 12345', 'section' => 1);
+		$data = array('title' => 'Some Article 12345', 'section' => 1);
 
 		$this->Model->create();
 		$result = $this->Model->save($data);
@@ -18103,35 +18104,35 @@ class SluggedBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testDuplicateWithLengthRestriction() {
-		$this->Model->Behaviors->load('Tools.Slugged', array('label' => 'name', 'length' => 10, 'unique' => true));
+		$this->Model->Behaviors->load('Tools.Slugged', array('length' => 10, 'unique' => true));
 
 		$this->Model->create();
-		$this->Model->save(array('name' => 'Andy Dawson'));
+		$this->Model->save(array('title' => 'Andy Dawson'));
 		$this->Model->create();
-		$this->Model->save(array('name' => 'Andy Dawsom'));
+		$this->Model->save(array('title' => 'Andy Dawsom'));
 		$this->Model->create();
-		$this->Model->save(array('name' => 'Andy Dawsoo'));
+		$this->Model->save(array('title' => 'Andy Dawsoo'));
 		$this->Model->create();
-		$this->Model->save(array('name' => 'Andy Dawso3'));
+		$this->Model->save(array('title' => 'Andy Dawso3'));
 		$this->Model->create();
-		$this->Model->save(array('name' => 'Andy Dawso4'));
+		$this->Model->save(array('title' => 'Andy Dawso4'));
 		$this->Model->create();
-		$this->Model->save(array('name' => 'Andy Dawso5'));
+		$this->Model->save(array('title' => 'Andy Dawso5'));
 		$this->Model->create();
-		$this->Model->save(array('name' => 'Andy Dawso6'));
+		$this->Model->save(array('title' => 'Andy Dawso6'));
 		$this->Model->create();
-		$this->Model->save(array('name' => 'Andy Dawso7'));
+		$this->Model->save(array('title' => 'Andy Dawso7'));
 		$this->Model->create();
-		$this->Model->save(array('name' => 'Andy Dawso8'));
+		$this->Model->save(array('title' => 'Andy Dawso8'));
 		$this->Model->create();
-		$this->Model->save(array('name' => 'Andy Dawso9'));
+		$this->Model->save(array('title' => 'Andy Dawso9'));
 		$this->Model->create();
-		$this->Model->save(array('name' => 'Andy Dawso0'));
+		$this->Model->save(array('title' => 'Andy Dawso0'));
 
 		$result = $this->Model->find('list', array(
-			'conditions' => array('name LIKE' => 'Andy Daw%'),
-			'fields' => array('name', 'slug'),
-			'order' => 'name'
+			'conditions' => array('title LIKE' => 'Andy Daw%'),
+			'fields' => array('title', 'slug'),
+			'order' => 'title'
 		));
 		$expects = array(
 			'Andy Dawson' => 'Andy-Dawso',
@@ -18150,21 +18151,28 @@ class SluggedBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * Ensure that you can overwrite length.
+	 * Length based on auto-detect of schema.
+	 * Here 245 is the DB defined length of this field.
 	 *
 	 * @return void
 	 */
-	public function testLengthRestrictions() {
-		// Based on auto-detect of schema
+	public function testLengthRestrictionAutoDetect() {
 		$this->Model->create();
-		$result = $this->Model->save(array('name' => str_repeat('foo bar ', 100)));
-		$this->assertEquals(255, strlen($result['MessageSlugged']['slug']));
+		$result = $this->Model->save(array('title' => str_repeat('foo bar ', 81)));
+		$this->assertEquals(245, strlen($result['SluggedArticle']['slug']));
+	}
 
-		// No limit desired
-		$this->Model->Behaviors->load('Tools.Slugged', array('length' => 0));
+	/**
+	 * With 0 there is no limit. Careful with too long labels to slug.
+	 *
+	 * @return void
+	 */
+	public function testLengthNoLimit() {
+		$this->Model->Behaviors->unload('Slugged');
+		$this->Model->Behaviors->load('Tools.Slugged', array('length' => 0, 'label' => 'long_title', 'slugField' => 'long_slug'));
 		$this->Model->create();
-		$result = $this->Model->save(array('name' => str_repeat('foo bar ', 100)));
-		$this->assertEquals(799, strlen($result['MessageSlugged']['slug']));
+		$result = $this->Model->save(array('long_title' => str_repeat('foo bar ', 100)));
+		$this->assertEquals(799, strlen($result['SluggedArticle']['long_slug']));
 	}
 
 	/**
@@ -18175,25 +18183,18 @@ class SluggedBehaviorTest extends CakeTestCase {
 	public function testLengthRestrictionManual() {
 		$this->Model->Behaviors->load('Tools.Slugged', array('length' => 155));
 		$this->Model->create();
-		$result = $this->Model->save(array('name' => str_repeat('foo bar ', 100)));
-		$this->assertEquals(155, strlen($result['MessageSlugged']['slug']));
+		$result = $this->Model->save(array('title' => str_repeat('foo bar ', 81)));
+		$this->assertEquals(155, strlen($result['SluggedArticle']['slug']));
 	}
 
 }
 
 /**
- * MessageSlugged class
+ * SluggedArticle class
  *
  * @uses CakeTestModel
  */
-class MessageSlugged extends CakeTestModel {
-
-	/**
-	 * UseTable property
-	 *
-	 * @var string
-	 */
-	public $useTable = 'messages';
+class SluggedArticle extends CakeTestModel {
 
 	/**
 	 * ActsAs property
