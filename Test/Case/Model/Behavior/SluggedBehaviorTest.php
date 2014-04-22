@@ -18158,7 +18158,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	 */
 	public function testLengthRestrictionAutoDetect() {
 		$this->Model->create();
-		$result = $this->Model->save(array('title' => str_repeat('foo bar ', 81)));
+		$result = $this->Model->save(array('title' => str_repeat('foo bar ', 31)));
 		$this->assertEquals(245, strlen($result['SluggedArticle']['slug']));
 	}
 
@@ -18183,7 +18183,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	public function testLengthRestrictionManual() {
 		$this->Model->Behaviors->load('Tools.Slugged', array('length' => 155));
 		$this->Model->create();
-		$result = $this->Model->save(array('title' => str_repeat('foo bar ', 81)));
+		$result = $this->Model->save(array('title' => str_repeat('foo bar ', 31)));
 		$this->assertEquals(155, strlen($result['SluggedArticle']['slug']));
 	}
 
