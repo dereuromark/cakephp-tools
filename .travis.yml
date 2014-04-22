@@ -4,7 +4,6 @@ php:
   - 5.3
   - 5.4
   - 5.5
-  - 5.6
 
 env:
   global:
@@ -13,6 +12,8 @@ env:
   matrix:
     - DB=mysql CAKE_VERSION=2.4
     - DB=mysql CAKE_VERSION=2.5
+    - DB=sqlite CAKE_VERSION=2.5 db_class='Cake\Database\Driver\Sqlite' db_dsn='sqlite::memory:'
+    - DB=pgsql CAKE_VERSION=2.5 db_class='Cake\Database\Driver\Postgres' db_dsn='pgsql:host=127.0.0.1;dbname=cakephp_test' db_database="cakephp_test" db_login='postgres' db_password=''
 
 matrix:
   include:
@@ -33,6 +34,9 @@ before_script:
   - echo "Configure::write('Config.adminEmail', 'example@example.org');" >> Config/bootstrap.php
   - cd ..
   - cp ../tools/phpunit.xml app/
+
+  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
+  - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE cakephp_test;' -U postgres; fi"
 
 script:
   - ../travis/script.sh
