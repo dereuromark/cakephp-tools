@@ -109,7 +109,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testSlugGenerationBasedOnTrigger() {
-		$this->Model->Behaviors->unload('Tools.Slugged');
+		$this->Model->Behaviors->unload('Slugged');
 		$this->Model->Behaviors->load('Tools.Slugged', array(
 			'trigger' => 'generateSlug', 'overwrite' => true));
 
@@ -130,7 +130,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testSlugGenerationBeforeSave() {
-		$this->Model->Behaviors->unload('Tools.Slugged');
+		$this->Model->Behaviors->unload('Slugged');
 		$this->Model->Behaviors->load('Tools.Slugged', array(
 			'run' => 'beforeSave', 'overwrite' => true));
 
@@ -147,7 +147,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testSlugGenerationI18nReplacementPieces() {
-		$this->Model->Behaviors->unload('Tools.Slugged');
+		$this->Model->Behaviors->unload('Slugged');
 		$this->Model->Behaviors->load('Tools.Slugged', array(
 			'overwrite' => true));
 
@@ -162,7 +162,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testSlugDynamicOverwrite() {
-		$this->Model->Behaviors->unload('Tools.Slugged');
+		$this->Model->Behaviors->unload('Slugged');
 		$this->Model->Behaviors->load('Tools.Slugged', array(
 			'overwrite' => false, 'overwriteField' => 'overwrite_my_slug'));
 
@@ -186,7 +186,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testSlugGenerationWithScope() {
-		$this->Model->Behaviors->unload('Tools.Slugged');
+		$this->Model->Behaviors->unload('Slugged');
 		$this->Model->Behaviors->load('Tools.Slugged', array('unique' => true));
 
 		$data = array('name' => 'Some Article 12345', 'section' => 0);
@@ -201,7 +201,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$this->assertTrue((bool)$result);
 		$this->assertEquals('Some-Article-12345-1', $result[$this->Model->alias]['slug']);
 
-		$this->Model->Behaviors->unload('Tools.Slugged');
+		$this->Model->Behaviors->unload('Slugged');
 		$this->Model->Behaviors->load('Tools.Slugged', array('unique' => true, 'scope' => array('section' => 1)));
 
 		$data = array('name' => 'Some Article 12345', 'section' => 1);
