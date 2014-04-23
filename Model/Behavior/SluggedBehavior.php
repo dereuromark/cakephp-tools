@@ -65,7 +65,8 @@ class SluggedBehavior extends ModelBehavior {
 		'language' => null,
 		'encoding' => null,
 		'trigger' => null,
-		'scope' => array()
+		'scope' => array(),
+		'currencies' => false,
 	);
 
 	/**
@@ -250,7 +251,7 @@ class SluggedBehavior extends ModelBehavior {
 
 		// TODO: Use `if (function_exists('transliterator_transliterate')) {}` for PHP5.4+
 		if ($mode === 'ascii') {
-			$slug = Inflector::slug($string, $separator);
+			$slug = $this->_slug($Model, $string, $separator);
 		} else {
 			$regex = $this->_regex($mode);
 			if ($regex) {
@@ -316,6 +317,34 @@ class SluggedBehavior extends ModelBehavior {
 		}
 
 		return $slug;
+	}
+
+	/**
+	 * SluggedBehavior::_slug()
+	 *
+	 * @param Model $Model
+	 * @param string $string
+	 * @param string $separator
+	 * @return string
+	 */
+	protected function _slug(Model $Model, $string, $separator) {
+		$currencies = array(
+			'$' => 'USD',
+			'€' => 'EUR',
+			'£' => 'GBP',
+			'¥' => 'JPY',
+		);
+		if ($this->settings[$Model->alias]['currencies']) {
+			if (is_array($this->settings[$Model->alias]['currencies'])) {
+				$currencies = $this->settings[$Model->alias]['currencies'] + $currencies;
+			}
+			$string = str_replace(array_keys($currencies), array_values($currencies), $string);
+		}
+		$symbolMap = array(
+			'©' => 'c'
+		);
+		$string = str_replace(array_keys($symbolMap), array_values($symbolMap), $string);
+		return Inflector::slug($string, $separator);
 	}
 
 	/**
