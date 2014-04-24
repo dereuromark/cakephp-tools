@@ -42,6 +42,9 @@ class SluggedBehavior extends ModelBehavior {
 	 * 	title - force title case. E.g. "This-Is-The-Slug"
 	 * 	camel - force CamelCase. E.g. "ThisIsTheSlug"
 	 *
+	 * If you need to support more transliterations, make sure you adjust Inflection accordingly:
+	 *   Inflector::rules('transliteration', array('/α/' => 'a', '/β/' => 'b'));
+	 *
 	 * @var array
 	 */
 	protected $_defaultConfig = array(
@@ -249,7 +252,6 @@ class SluggedBehavior extends ModelBehavior {
 			$string = str_replace(array_keys($replace), array_values($replace), $string);
 		}
 
-		// TODO: Use `if (function_exists('transliterator_transliterate')) {}` for PHP5.4+
 		if ($mode === 'ascii') {
 			$slug = $this->_slug($Model, $string, $separator);
 		} else {
