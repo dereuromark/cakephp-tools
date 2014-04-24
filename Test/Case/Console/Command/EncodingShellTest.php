@@ -2,6 +2,7 @@
 
 App::uses('EncodingShell', 'Tools.Console/Command');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
+App::uses('TestConsoleOutput', 'Tools.TestSuite');
 
 class EncodingShellTest extends MyCakeTestCase {
 
@@ -10,7 +11,11 @@ class EncodingShellTest extends MyCakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->EncodingShell = new EncodingShell();
+		$output = new TestConsoleOutput();
+		$error = $this->getMock('ConsoleOutput', array(), array(), '', false);
+		$input = $this->getMock('ConsoleInput', array(), array(), '', false);
+
+		$this->EncodingShell = new EncodingShell($output, $error, $input);
 		$this->EncodingShell->initialize();
 		$this->EncodingShell->startup();
 	}

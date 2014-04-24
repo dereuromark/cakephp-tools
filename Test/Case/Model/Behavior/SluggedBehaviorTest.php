@@ -736,7 +736,17 @@ class SluggedBehaviorTest extends CakeTestCase {
 			}
 		}
 
-		$this->testCustomChars();
+		Inflector::rules('transliteration', $rules);
+
+		$this->Model->Behaviors->unload('Slugged');
+		$this->Model->Behaviors->load('Tools.Slugged', array('mode' => 'ascii'));
+
+		foreach (self::$customMaps as $language => $map) {
+			foreach ($map as $from => $to) {
+				$result = $this->Model->slug($from, false);
+				$this->assertEquals($to, $result, $from . ' (' . $language . ') should become ' . $to . ' - but became ' . $result);
+			}
+		}
 	}
 
 	/**
