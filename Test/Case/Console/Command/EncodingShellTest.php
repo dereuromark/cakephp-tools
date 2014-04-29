@@ -15,7 +15,7 @@ class EncodingShellTest extends MyCakeTestCase {
 		$error = $this->getMock('ConsoleOutput', array(), array(), '', false);
 		$input = $this->getMock('ConsoleInput', array(), array(), '', false);
 
-		$this->EncodingShell = new EncodingShell($output, $error, $input);
+		$this->EncodingShell = new TestEncodingShell($output, $error, $input);
 		$this->EncodingShell->initialize();
 		$this->EncodingShell->startup();
 	}

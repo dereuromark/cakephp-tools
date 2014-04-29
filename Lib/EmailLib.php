@@ -450,6 +450,9 @@ class EmailLib extends CakeEmail {
 		// Security measure to not sent to the actual addressee in debug mode
 		if (Configure::read('debug')) {
 			$adminEmail = Configure::read('Config.adminEmail');
+			if (!$adminEmail) {
+				$adminEmail = Configure::read('Config.systemEmail');
+			}
 			foreach ($this->_to as $k => $v) {
 				if ($k === $adminEmail) {
 					continue;
@@ -612,6 +615,9 @@ class EmailLib extends CakeEmail {
 		} else {
 			$fromEmail = Configure::read('Config.adminEmail');
 			$fromName = Configure::read('Config.adminName');
+		}
+		if (!$fromEmail) {
+			throw new RuntimeException('You need to either define systemEmail or adminEmail in Config.');
 		}
 		$this->from($fromEmail, $fromName);
 
