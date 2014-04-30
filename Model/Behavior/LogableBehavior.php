@@ -14,9 +14,9 @@ if (!defined('CLASS_USER')) {
  *
  * - "Log" model ( empty but for a order variable [created DESC]
  * - "logs" table with these fields required :
- * - id			[int]			:
- * - title 		[string] 		: automagically filled with the display field of the model that was modified.
- * 	 - created	[date/datetime] : filled by cake in normal way
+ *   - id	[int]
+ *   - title [string] : automagically filled with the display field of the model that was modified.
+ *   - created [date/datetime] : filled by cake in normal way
  *
  * - actsAs = array("Tools.Logable"); on models that should be logged
  *
@@ -38,11 +38,11 @@ if (!defined('CLASS_USER')) {
  *
  * Remember that Logable behavior needs to be added after RevisionBehavior. In fact, just put it last to be safe.
  *
- * Optionally register what user was responisble for the activity :
+ * Optionally register what user was responsable for the activity :
  *
  * - Supply configuration only if defaults are wrong. Example given with defaults :
  *
- * 		public $actsAs = array('Logable' => array('userModel' => 'User', 'userKey' => 'user_id'));
+ * 		public $actsAs = array('Tools.Logable' => array('userModel' => 'User', 'userKey' => 'user_id'));
  *
  * - In AppController (or single controller if only needed once) add these lines to beforeFilter :
  *
@@ -68,13 +68,15 @@ if (!defined('CLASS_USER')) {
  */
 class LogableBehavior extends ModelBehavior {
 
-	public $user = null; # user data array
+	public $user = null;
+
+	public $old = null;
 
 	public $UserModel = null;
 
 	protected $_defaults = array(
 		'enabled' => true,
-		'on' => 'save', // validate/save
+		'on' => 'save', // On validate/save
 		'userModel' => CLASS_USER,
 		'logModel' => 'Tools.Log',
 		'userKey' => 'user_id',
@@ -84,26 +86,25 @@ class LogableBehavior extends ModelBehavior {
 		'ignore' => array(),
 		'classField' => 'model',
 		'foreignKey' => 'foreign_id',
-		'autoRelation' => false, # attach relation to the model (hasMany Log)
+		'autoRelation' => false, // Attach relation to the model (hasMany Log)
 	);
 
 	/**
 	 * Config options are :
-	 * - userModel 		: 'User'. Class name of the user model you want to use (User by default), if you want to save User in log
-	 * - userKey 		: 'user_id'. The field for saving the user to (user_id by default).
-	 * - change 		: 'list' > [name, age]. Set to 'full' for [name (alek) => (Alek), age (28) => (29)]
-	 * - descriptionIds 	: TRUE. Set to false to not include model id and user id in the title field
-	 * - skip: array(). String array of actions to not log
-	 * - ignore: array(). Fields to ignore
+	 * - userModel : 'User'. Class name of the user model you want to use (User by default), if you want to save User in log
+	 * - userKey : 'user_id'. The field for saving the user to (user_id by default).
+	 * - change : 'list' > [name, age]. Set to 'full' for [name (alek) => (Alek), age (28) => (29)]
+	 * - descriptionIds : TRUE. Set to false to not include model id and user id in the title field
+	 * - skip: array(). String array of actions to not log.
+	 * - ignore: array(). Fields to ignore. The primary key will always be ignored.
 	 *
 	 * @param Model $Model
 	 * @param array $config
+	 * @return void
 	 */
 	public function setup(Model $Model, $config = array()) {
-		if (!is_array($config)) {
-			$config = array();
-		}
-		$this->settings[$Model->alias] = array_merge($this->_defaults, $config);
+		$config += (array)Configure::read('Logable');
+		$this->settings[$Model->alias] = $config + $this->_defaults;
 		$this->settings[$Model->alias]['ignore'][] = $Model->primaryKey;
 
 		$this->Log = ClassRegistry::init($this->settings[$Model->alias]['logModel']);
@@ -119,6 +120,13 @@ class LogableBehavior extends ModelBehavior {
 		return $this->settings[$Model->alias];
 	}
 
+	/**
+	 * LogableBehavior::enableLog()
+	 *
+	 * @param mixed $Model
+	 * @param mixed $enable
+	 * @deprecated Unload behavior instead?
+	 */
 	public function enableLog(Model $Model, $enable = null) {
 		if ($enable !== null) {
 			$this->settings[$Model->alias]['enabled'] = $enable;
@@ -169,7 +177,7 @@ class LogableBehavior extends ModelBehavior {
 			} elseif ($this->Log->hasField('description')) {
 				$options['conditions']['description LIKE '] = $params[$this->settings[$Model->alias]['classField']] . '%';
 			} else {
-				return false;
+				return array();
 			}
 		}
 		if ($params['action'] && $this->Log->hasField('action')) {
@@ -199,7 +207,7 @@ class LogableBehavior extends ModelBehavior {
 	 */
 	public function findUserActions(Model $Model, $userId, $params = array()) {
 		if (!$this->UserModel) {
-			return null;
+			return array();
 		}
 		// if logged in user is asking for her own log, use the data we allready have
 		if (isset($this->user) && isset($this->user[$this->UserModel->alias][$this->UserModel->primaryKey]) && $userId == $this->user[$this->
@@ -289,6 +297,7 @@ class LogableBehavior extends ModelBehavior {
 	 *
 	 * @param Model $Model
 	 * @param array $userData
+	 * @return void
 	 */
 	public function setUserData(Model $Model, $userData = null) {
 		if ($userData === null && isset($Model->Session)) {
@@ -385,7 +394,9 @@ class LogableBehavior extends ModelBehavior {
 			$logData[$this->Log->alias]['description'] .= __('deleted');
 		}
 		$logData[$this->Log->alias]['action'] = 'delete';
-		$this->_saveLog($Model, $logData);
+		if (!$this->_saveLog($Model, $logData)) {
+			throw new RuntimeException('Logging failed');
+		}
 	}
 
 	public function beforeValidate(Model $Model, $options = array()) {
@@ -402,22 +413,6 @@ class LogableBehavior extends ModelBehavior {
 		}
 		$this->_prepareLog($Model);
 		return true;
-	}
-
-	/**
-	 * LogableBehavior::_prepareLog()
-	 *
-	 * @param Model $Model
-	 * @return void
-	 */
-	protected function _prepareLog(Model $Model) {
-		if ($this->user === null) {
-			$this->setUserData($Model);
-		}
-		if ($Model->id && empty($this->old)) {
-			$options = array('conditions' => array($Model->primaryKey => $Model->id), 'recursive' => -1);
-			$this->old = $Model->find('first', $options);
-		}
 	}
 
 	public function afterSave(Model $Model, $created, $options = array()) {
@@ -504,6 +499,22 @@ class LogableBehavior extends ModelBehavior {
 	}
 
 	/**
+	 * LogableBehavior::_prepareLog()
+	 *
+	 * @param Model $Model
+	 * @return void
+	 */
+	protected function _prepareLog(Model $Model) {
+		if ($this->user === null) {
+			$this->setUserData($Model);
+		}
+		if ($Model->id && empty($this->old)) {
+			$options = array('conditions' => array($Model->primaryKey => $Model->id), 'recursive' => -1);
+			$this->old = $Model->find('first', $options);
+		}
+	}
+
+	/**
 	 * Does the actual saving of the Log model. Also adds the special field if possible.
 	 *
 	 * If model field in table, add the Model->alias
@@ -515,7 +526,7 @@ class LogableBehavior extends ModelBehavior {
 	 * @param array $logData
 	 * @return mixed Success
 	 */
-	public function _saveLog(Model $Model, $logData, $title = null) {
+	protected function _saveLog(Model $Model, $logData, $title = null) {
 		if ($title !== null) {
 			$logData[$this->Log->alias]['title'] = $title;
 		} elseif ($Model->displayField == $Model->primaryKey) {
@@ -580,7 +591,7 @@ class LogableBehavior extends ModelBehavior {
 
 			} else {
 				// UserModel is active, but the data hasnt been set. Assume system action.
-				$logData[$this->Log->alias]['description'] .= __(' by System');
+				$logData[$this->Log->alias]['description'] .= ' ' . __('by System');
 			}
 			$logData[$this->Log->alias]['description'] .= '.';
 		}

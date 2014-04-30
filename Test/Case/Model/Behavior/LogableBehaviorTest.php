@@ -11,11 +11,12 @@ class LogableBehaviorTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
+		Configure::delete('Logable');
+
 		Configure::write('Config.language', 'eng');
 
 		$this->LogableBook = ClassRegistry::init('LogableBook');
 		$this->Log = ClassRegistry::init('LogableLog');
-		//die(debug($this->Log->find('all')));
 		$this->LogableUser = ClassRegistry::init('LogableUser');
 		$this->LogableComment = ClassRegistry::init('LogableComment');
 	}
@@ -633,7 +634,6 @@ class LogableBook extends LogableTestModel {
 
 	public $actsAs = array(
 		'Tools.Logable' => array('userModel' => 'LogableUser', 'logModel' => 'LogableLog'),
-		//'Ordered' => array('foreign_key' => FALSE)
 	);
 
 	public $order = array('LogableBook.weight' => 'ASC');
@@ -642,12 +642,16 @@ class LogableBook extends LogableTestModel {
 
 class LogableUser extends LogableTestModel {
 
-	public $actsAs = array('Tools.Logable' => array('userModel' => 'LogableUser', 'logModel' => 'LogableLog', 'ignore' => array('counter')));
+	public $actsAs = array(
+		'Tools.Logable' => array('userModel' => 'LogableUser', 'logModel' => 'LogableLog', 'ignore' => array('counter'))
+	);
 
 }
 
 class LogableComment extends LogableTestModel {
 
-	public $actsAs = array('Tools.Logable' => array('userModel' => 'LogableUser', 'logModel' => 'LogableLog', ));
+	public $actsAs = array(
+		'Tools.Logable' => array('userModel' => 'LogableUser', 'logModel' => 'LogableLog')
+	);
 
 }
