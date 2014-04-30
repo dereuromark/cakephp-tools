@@ -251,7 +251,6 @@ class LogableBehavior extends ModelBehavior {
 				if ($one['action'] === 'edit') {
 					$result[$key][$this->Log->alias]['event'] .= ' edited ' . $one['change'] . ' of ' . strtolower($one[$this->settings[$Model->alias]['classField']]) .
 						'(id ' . $one[$this->settings[$Model->alias]['foreignKey']] . ')';
-					//	' at '.$one['created'];
 				} elseif ($one['action'] === 'add') {
 					$result[$key][$this->Log->alias]['event'] .= ' added a ' . strtolower($one[$this->settings[$Model->alias]['classField']]) . '(id ' . $one[$this->
 						settings[$Model->alias]['foreignKey']] . ')';
@@ -264,7 +263,6 @@ class LogableBehavior extends ModelBehavior {
 				if ($one['action'] === 'edit') {
 					$result[$key][$this->Log->alias]['event'] .= ' edited ' . strtolower($one[$this->settings[$Model->alias]['classField']]) . '(id ' . $one[$this->
 						settings[$Model->alias]['foreignKey']] . ')';
-					//	' at '.$one['created'];
 				} elseif ($one['action'] === 'add') {
 					$result[$key][$this->Log->alias]['event'] .= ' added a ' . strtolower($one[$this->settings[$Model->alias]['classField']]) . '(id ' . $one[$this->
 						settings[$Model->alias]['foreignKey']] . ')';
@@ -357,6 +355,13 @@ class LogableBehavior extends ModelBehavior {
 		$this->userIP = $userIP;
 	}
 
+	/**
+	 * LogableBehavior::beforeDelete()
+	 *
+	 * @param Model $Model
+	 * @param bool $cascade
+	 * @return bool Success
+	 */
 	public function beforeDelete(Model $Model, $cascade = true) {
 		$this->setUserData($Model);
 		if (!$this->settings[$Model->alias]['enabled']) {
@@ -370,6 +375,12 @@ class LogableBehavior extends ModelBehavior {
 		return true;
 	}
 
+	/**
+	 * LogableBehavior::afterDelete()
+	 *
+	 * @param Model $Model
+	 * @return bool
+	 */
 	public function afterDelete(Model $Model) {
 		if (!$this->settings[$Model->alias]['enabled']) {
 			return true;
@@ -395,6 +406,13 @@ class LogableBehavior extends ModelBehavior {
 		}
 	}
 
+	/**
+	 * LogableBehavior::beforeValidate()
+	 *
+	 * @param Model $Model
+	 * @param array $options
+	 * @return bool
+	 */
 	public function beforeValidate(Model $Model, $options = array()) {
 		if (!$this->settings[$Model->alias]['enabled'] || $this->settings[$Model->alias]['on'] !== 'validate') {
 			return true;
@@ -403,6 +421,13 @@ class LogableBehavior extends ModelBehavior {
 		return true;
 	}
 
+	/**
+	 * LogableBehavior::beforeSave()
+	 *
+	 * @param Model $Model
+	 * @param array $options
+	 * @return bool
+	 */
 	public function beforeSave(Model $Model, $options = array()) {
 		if (!$this->settings[$Model->alias]['enabled'] || $this->settings[$Model->alias]['on'] !== 'save') {
 			return true;
@@ -411,6 +436,14 @@ class LogableBehavior extends ModelBehavior {
 		return true;
 	}
 
+	/**
+	 * LogableBehavior::afterSave()
+	 *
+	 * @param Model $Model
+	 * @param bool $created
+	 * @param array $options
+	 * @return bool
+	 */
 	public function afterSave(Model $Model, $created, $options = array()) {
 		if (!$this->settings[$Model->alias]['enabled']) {
 			return true;
@@ -602,6 +635,7 @@ class LogableBehavior extends ModelBehavior {
 			}
 			$logData['description'] .= '.';
 		}
+
 		if (empty($logData['title'])) {
 			// Fallback in case the title is null - add the action + ed
 			$logData['title'] = $Model->alias . ' ' . $logData['action'] . 'ed';
