@@ -377,6 +377,7 @@ class LogableBehavior extends ModelBehavior {
 		if (isset($this->settings[$Model->alias]['skip']['delete']) && $this->settings[$Model->alias]['skip']['delete']) {
 			return true;
 		}
+
 		$logData = array();
 		if ($this->Log->hasField('description')) {
 			$logData['description'] = $Model->alias;
@@ -424,12 +425,15 @@ class LogableBehavior extends ModelBehavior {
 		if (count($diff) === 0 && empty($Model->logableAction)) {
 			return false;
 		}
+
+		$logData = array();
+
 		if ($Model->id) {
 			$id = $Model->id;
 		} elseif ($Model->insertId) {
 			$id = $Model->insertId;
 		}
-		if ($this->Log->hasField($this->settings[$Model->alias]['foreignKey'])) {
+		if (!empty($id) && $this->Log->hasField($this->settings[$Model->alias]['foreignKey'])) {
 			$logData[$this->settings[$Model->alias]['foreignKey']] = $id;
 		}
 		if ($this->Log->hasField('description')) {
@@ -438,7 +442,7 @@ class LogableBehavior extends ModelBehavior {
 				$logData['description'] .= '"' . $Model->data[$Model->alias][$Model->displayField] . '" ';
 			}
 
-			if ($this->settings[$Model->alias]['descriptionIds']) {
+			if (!empty($id) && $this->settings[$Model->alias]['descriptionIds']) {
 				$logData['description'] .= '(' . $id . ') ';
 			}
 
