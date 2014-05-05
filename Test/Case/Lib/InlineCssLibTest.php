@@ -206,4 +206,29 @@ bla';
 		$this->debug($result);
 	}
 
+	/**
+	 * InlineCssLibTest::testProcessSpecialChars()
+	 *
+	 * @return void
+	 */
+	public function testProcessCompleteTemplateAlternativeEngine() {
+		$path = CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'html' . DS;
+
+		$this->InlineCss = new InlineCssLib(array('engine' => InlineCssLib::ENGINE_EMOGRIFIER));
+		$html = file_get_contents($path . 'email_template.html');
+		$result = $this->InlineCss->process($html);
+		$this->debug($result);
+		$expected = '<td  style="vertical-align:top;';
+		$this->assertTextContains($expected, $result);
+
+		$this->InlineCss = new InlineCssLib(array('engine' => InlineCssLib::ENGINE_EMOGRIFIER));
+		$html = file_get_contents($path . 'email_template_utf8.html');
+		$result = $this->InlineCss->process($html);
+		$this->debug($result);
+		$expected = '<table  cellspacing="0" cellpadding="0" style=\'font-family:';
+		$this->assertTextContains($expected, $result);
+		$this->assertTextContains('香港酒店', $result);
+	}
+
+
 }

@@ -17,37 +17,44 @@ class InlineCssLib {
 
 	const ENGINE_EMOGRIFIER = 'emogrifier';
 
+	/**
+	 * Default config
+	 *
+	 * @var array
+	 */
 	protected $_defaults = array(
 		'engine' => self::ENGINE_CSS_TO_INLINE,
 		'cleanup' => true,
 		'useInlineStylesBlock' => true,
-		'xhtmlOutput' => false,
-		'removeCss' => true,
-		'debug' => false,
-		'correctUtf8' => false
+		'debug' => false, // only cssToInline
+		'xhtmlOutput' => false, // only cssToInline
+		'removeCss' => true, // only cssToInline
+		'correctUtf8' => false // only cssToInline
 	);
 
-	public $settings = array();
+	public $config = array();
 
 	/**
-	 * startup
+	 * Inits with auto merged config.
 	 */
-	public function __construct($settings = array()) {
-		$defaults = am($this->_defaults, (array) Configure::read('InlineCss'));
-		$this->settings = array_merge($defaults, $settings);
-		if (!method_exists($this, '_process' . ucfirst($this->settings['engine']))) {
-			throw new InternalErrorException('Engine does not exist');
+	public function __construct($config = array()) {
+		$defaults = (array)Configure::read('InlineCss') + $this->_defaults;
+		$this->config = $config + $defaults;
+		if (!method_exists($this, '_process' . ucfirst($this->config['engine']))) {
+			throw new InternalErrorException('Engine does not exist: ' . $this->config['engine']);
 		}
 	}
 
 	/**
+	 * Processes HTML and CSS.
+	 *
 	 * @return string Result
 	 */
 	public function process($html, $css = null) {
 		if (($html = trim($html)) === '') {
 			return $html;
 		}
-		$method = '_process' . ucfirst($this->settings['engine']);
+		$method = '_process' . ucfirst($this->config['engine']);
 		return $this->{$method}($html, $css);
 	}
 
@@ -55,13 +62,24 @@ class InlineCssLib {
 	 * @return string Result
 	 */
 	protected function _processEmogrifier($html, $css) {
-		$css .= $this->_extractAndRemoveCss($html);
+		//$css .= $this->_extractAndRemoveCss($html);
 		App::import('Vendor', 'Tools.Emogrifier', array('file' => 'Emogrifier/Emogrifier.php'));
 
 		$Emogrifier = new Emogrifier($html, $css);
-		$Emogrifier->preserveEncoding = true;
+		//$Emogrifier->preserveEncoding = true;
 
-		return @$Emogrifier->emogrify();
+		$result = $Emogrifier->emogrify();
+
+		if ($this->config['cleanup']) {
+			// Remove comments and whitespace
+			$result = preg_replace( '/<!--(.|\s)*?-->/', '', $result);
+			$result = preg_replace( '/\s\s+/', '', $result);
+
+			// Result classes and ids
+			$result = preg_replace('/\bclass="[^"]*"/', '', $result);
+			$result = preg_replace('/\bid="[^"]*"/', '', $result);
+		}
+		return $result;
 	}
 
 	/**
@@ -81,23 +99,23 @@ class InlineCssLib {
 		}
 
 		$CssToInlineStyles = new CssToInlineStyles($html, $css);
-		if ($this->settings['cleanup']) {
+		if ($this->config['cleanup']) {
 			$CssToInlineStyles->setCleanup();
 		}
-		if ($this->settings['useInlineStylesBlock']) {
+		if ($this->config['useInlineStylesBlock']) {
 			$CssToInlineStyles->setUseInlineStylesBlock();
 		}
-		if ($this->settings['removeCss']) {
+		if ($this->config['removeCss']) {
 			$CssToInlineStyles->setStripOriginalStyleTags();
 		}
-		if ($this->settings['correctUtf8']) {
+		if ($this->config['correctUtf8']) {
 			$CssToInlineStyles->setCorrectUtf8();
 		}
-		if ($this->settings['debug']) {
+		if ($this->config['debug']) {
 			CakeLog::write('css', $html);
 		}
-		$html = $CssToInlineStyles->convert($this->settings['xhtmlOutput']);
-		if ($this->settings['removeCss']) {
+		$html = $CssToInlineStyles->convert($this->config['xhtmlOutput']);
+		if ($this->config['removeCss']) {
 			//$html = preg_replace('/\<style(.*)\>(.*)\<\/style\>/i', '', $html);
 			$html = $this->stripOnly($html, array('style', 'script'), true);
 			//CakeLog::write('css', $html);
@@ -157,6 +175,8 @@ class InlineCssLib {
 
 				// find the css file and load contents
 				if ($link->hasAttribute('media')) {
+					// FOR NOW
+					continue;
 					foreach ($this->mediaTypes as $cssLinkMedia) {
 						if (strstr($link->getAttribute('media'), $cssLinkMedia)) {
 							$css .= $this->_findAndLoadCssFile($link->getAttribute('href')) . "\n\n";
@@ -189,7 +209,7 @@ class InlineCssLib {
 		}
 
 		// Remove
-		if ($this->settings['removeCss']) {
+		if ($this->config['removeCss']) {
 			foreach ($removeDoms as $removeDom) {
 				try {
 					$removeDom->parentNode->removeChild($removeDom);
@@ -211,7 +231,9 @@ class InlineCssLib {
 		$cssFilenames = array_merge($this->_globRecursive(CSS . '*.Css'), $this->_globRecursive(CSS . '*.CSS'), $this->_globRecursive(CSS . '*.css'));
 
 		// Build an array of the ever more path specific $cssHref location
-		$cssHrefs = split(DS, $cssHref);
+		$cssHref = str_replace(array('\\', '/'), '/', $cssHref);
+
+		$cssHrefs = explode(DS, $cssHref);
 		$cssHrefPaths = array();
 		for ($i = count($cssHrefs) - 1; $i > 0; $i--) {
 			if (isset($cssHrefPaths[count($cssHrefPaths) - 1])) {
@@ -269,10 +291,6 @@ class InlineCssLib {
 	 * @return string Result
 	 */
 	protected function _parseInlineCssAndLoadImports($css) {
-		// Remove any <!-- --> comment tags - they are valid in HTML but we probably
-		// don't want to be commenting out CSS
-		$css = str_replace('-->', '', str_replace('<!--', '', $css)) . "\n\n";
-
 		// Load up the @import CSS if any exists
 		preg_match_all("/\@import.*?url\((.*?)\)/i", $css, $matches);
 
