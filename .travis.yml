@@ -24,11 +24,10 @@ matrix:
 
 before_script:
   - composer global require 'phpunit/phpunit=3.7.33'
-  - mkdir ./vendors
-  - ln -s ~/.composer/vendor/phpunit/phpunit/PHPUnit ./vendors/PHPUnit
   - git clone https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
   - ../travis/before_script.sh
   - cd ../cakephp/app
+  - ln -s ~/.composer/vendor/phpunit/phpunit/PHPUnit Vendor/PHPUnit
   - echo "Configure::write('Security.salt', 'AxcG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi');" >> Config/bootstrap.php
   - echo "Configure::write('Security.cipherSeed', '16659201697453542496749683615');" >> Config/bootstrap.php
   - echo "<?php App::uses('MyModel', 'Tools.Model'); class AppModel extends MyModel {}" > Model/AppModel.php
