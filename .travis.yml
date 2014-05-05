@@ -24,6 +24,7 @@ matrix:
 
 before_script:
   - composer global require 'phpunit/phpunit=3.7.33'
+  - mkdir ./vendors
   - ln -s ~/.composer/vendor/phpunit/phpunit/PHPUnit ./vendors/PHPUnit
   - git clone https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
   - ../travis/before_script.sh
