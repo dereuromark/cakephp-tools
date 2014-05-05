@@ -916,7 +916,6 @@ class MyModel extends Model {
 			$this->alias . '.' . $fieldName => $fieldValue,
 			$this->alias . '.id !=' => $id);
 
-		// careful, if fields is not manually filled, the options will be the second param!!! big problem...
 		$fields = (array)$fields;
 		if (!array_key_exists('allowEmpty', $fields)) {
 			foreach ($fields as $dependingField) {
@@ -949,49 +948,6 @@ class MyModel extends Model {
 		$options = array('fields' => array($this->alias . '.' . $this->primaryKey), 'conditions' => $conditions);
 		$res = $this->find('first', $options);
 		return empty($res);
-	}
-
-	/**
-	 * Alterative for validating unique fields.
-	 *
-	 * @param array $data
-	 * @param array $options
-	 * - scope (array of other fields as scope - isUnique dependent on other fields of the table)
-	 * - batch (defaults to true, remembers previous values in order to validate batch imports)
-	 * example in model: 'rule' => array ('validateUniqueExt', array('scope'=>array('belongs_to_table_id','some_id','user_id'))),
-	 * http://groups.google.com/group/cake-php/browse_thread/thread/880ee963456739ec
-	 * //TODO: test!!!
-	 * @return bool Success
-	 * @deprecated in favor of validateUnique?
-	 */
-	public function validateUniqueExt($data, $options = array()) {
-		foreach ($data as $key => $value) {
-			$fieldName = $key;
-			$fieldValue = $value;
-		}
-		$defaults = array('batch' => true, 'scope' => array());
-		$options = array_merge($defaults, $options);
-
-		// for batch
-		if ($options['batch'] !== false && !empty($this->batchRecords)) {
-			if (array_key_exists($value, $this->batchRecords[$fieldName])) {
-				return $options['scope'] === $this->batchRecords[$fieldName][$value];
-			}
-		}
-
-		// continue with validation
-		if (!$this->validateUnique($data, $options['scope'])) {
-			return false;
-		}
-
-		// for batch
-		if ($options['batch'] !== false) {
-			if (!isset($this->batchRecords)) {
-				$this->batchRecords = array();
-			}
-			$this->batchRecords[$fieldName][$value] = $scope;
-		}
-		return true;
 	}
 
 	/**
