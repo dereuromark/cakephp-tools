@@ -23,6 +23,8 @@ matrix:
         - COVERALLS=1
 
 before_script:
+  - composer global require 'phpunit/phpunit=3.7.33'
+  - ln -s ~/.composer/vendor/phpunit/phpunit/PHPUnit ./vendors/PHPUnit
   - git clone https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
   - ../travis/before_script.sh
   - cd ../cakephp/app
