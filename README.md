@@ -26,7 +26,7 @@ For `CakePlugin::loadAll()` it's
 
 ```php
 CakePlugin::loadAll(array(
-		'Tools' => array('bootstrap' => true
+		'Tools' => array('bootstrap' => true)
 ));
 ```
 
