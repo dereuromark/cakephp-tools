@@ -57,7 +57,6 @@ class MultipleDisplayFieldsBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function testAdvanced() {
-		//$res = $this->Comment->find('first', array('contain' => array('User')));
 		$config = array(
 			'fields' => array(
 				$this->Comment->alias . '.comment', $this->Comment->User->alias . '.user', $this->Comment->alias . '.published'

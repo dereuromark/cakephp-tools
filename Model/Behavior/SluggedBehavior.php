@@ -406,8 +406,8 @@ class SluggedBehavior extends ModelBehavior {
 			set_time_limit(max($max, $count / 100));
 		}
 
-		$settings = $Model->Behaviors->Slugged->settings[$Model->alias];
-		$Model->Behaviors->load('Tools.Slugged', $params + $settings);
+		$config = $Model->Behaviors->Slugged->settings[$Model->alias];
+		$Model->Behaviors->load('Tools.Slugged', $params + $config);
 
 		while ($rows = $Model->find('all', $params)) {
 			foreach ($rows as $row) {

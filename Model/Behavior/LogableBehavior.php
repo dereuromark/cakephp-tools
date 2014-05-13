@@ -74,7 +74,7 @@ class LogableBehavior extends ModelBehavior {
 
 	public $UserModel = null;
 
-	protected $_defaults = array(
+	protected $_defaultConfig = array(
 		'enabled' => true,
 		'on' => 'save', // On validate/save
 		'userModel' => CLASS_USER,
@@ -104,7 +104,7 @@ class LogableBehavior extends ModelBehavior {
 	 */
 	public function setup(Model $Model, $config = array()) {
 		$config += (array)Configure::read('Logable');
-		$this->settings[$Model->alias] = $config + $this->_defaults;
+		$this->settings[$Model->alias] = $config + $this->_defaultConfig;
 		$this->settings[$Model->alias]['ignore'][] = $Model->primaryKey;
 
 		$this->Log = ClassRegistry::init($this->settings[$Model->alias]['logModel']);

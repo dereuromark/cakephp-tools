@@ -124,7 +124,7 @@ class RevisionBehavior extends ModelBehavior {
 	 *
 	 * @var array
 	 */
-	protected $_defaults = array(
+	protected $_defaultConfig = array(
 		'limit' => false,
 		'auto' => true,
 		'ignore' => array(),
@@ -147,7 +147,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * @return void
 	 */
 	public function setup(Model $Model, $config = array()) {
-		$defaults = (array)Configure::read('Revision') + $this->_defaults;
+		$defaults = (array)Configure::read('Revision') + $this->_defaultConfig;
 		$this->settings[$Model->alias] = $config + $defaults;
 
 		$this->_createShadowModel($Model);

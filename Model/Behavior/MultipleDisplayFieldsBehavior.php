@@ -30,7 +30,7 @@ App::uses('ModelBehavior', 'Model');
  */
 class MultipleDisplayFieldsBehavior extends ModelBehavior {
 
-	protected $_defaults = array(
+	protected $_defaultConfig = array(
 		'fields' => array(),
 		'defaults' => array(), // default values in case a field is empty/null
 		'pattern' => null, // automatically uses `%s %s %s ...` as many times as needed
@@ -47,7 +47,7 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 	 * @return void
 	 */
 	public function setup(Model $Model, $config = array()) {
-		$this->settings[$Model->alias] = $this->_defaults;
+		$this->settings[$Model->alias] = $this->_defaultConfig;
 
 		if (isset($config['fields'])) {
 			$myFields = array();

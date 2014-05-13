@@ -38,7 +38,7 @@ App::uses('ModelBehavior', 'Model');
  */
 class NamedScopeBehavior extends ModelBehavior {
 
-	protected $_defaults = array(
+	protected $_defaultConfig = array(
 		'scope' => array(), // Container to hold all scopes
 		'attribute' => 'scopes', // Model attribute to hold the custom scopes
 		'findAttribute' => 'scopedFinds' // Model attribute to hold the custom finds
@@ -48,15 +48,15 @@ class NamedScopeBehavior extends ModelBehavior {
 	 * Sets up the behavior including settings (i.e. scope).
 	 *
 	 * @param Model $Model
-	 * @param array $settings
+	 * @param array $config
 	 * @return void
 	 */
-	public function setup(Model $Model, $settings = array()) {
-		$attribute = !empty($settings['attribute']) ? $settings['attribute'] : $this->_defaults['attribute'];
+	public function setup(Model $Model, $config = array()) {
+		$attribute = !empty($config['attribute']) ? $config['attribute'] : $this->_defaultConfig['attribute'];
 		if (!empty($Model->$attribute)) {
-			$settings['scope'] = !empty($settings['scope']) ? array_merge($Model->$attribute, $settings['scope']) : $Model->$attribute;
+			$config['scope'] = !empty($config['scope']) ? array_merge($Model->$attribute, $config['scope']) : $Model->$attribute;
 		}
-		$this->settings[$Model->alias] = $settings + $this->_defaults;
+		$this->settings[$Model->alias] = $config + $this->_defaultConfig;
 	}
 
 	/**

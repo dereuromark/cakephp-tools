@@ -21,7 +21,7 @@ App::uses('ModelBehavior', 'Model');
  */
 class SortableBehavior extends ModelBehavior {
 
-	protected $_defaults = array(
+	protected $_defaultConfig = array(
 		'field' => 'sort',
 		'reverse' => false // To make 0 the "highest" value
 	);
@@ -30,15 +30,15 @@ class SortableBehavior extends ModelBehavior {
 	 * SortableBehavior::setup()
 	 *
 	 * @param Model $Model
-	 * @param mixed $settings
+	 * @param mixed $config
 	 * @return void
 	 */
-	public function setup(Model $Model, $settings = array()) {
+	public function setup(Model $Model, $config = array()) {
 		if (!isset($this->settings[$Model->alias])) {
-			$this->settings[$Model->alias] = $this->_defaults;
+			$this->settings[$Model->alias] = $this->_defaultConfig;
 		}
 		$this->settings[$Model->alias] = array_merge(
-		$this->settings[$Model->alias], (array)$settings);
+		$this->settings[$Model->alias], (array)$config);
 	}
 
 	/**
