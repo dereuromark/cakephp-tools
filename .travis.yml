@@ -10,8 +10,8 @@ env:
     - PLUGIN_NAME=Tools
     - DB=mysql
   matrix:
-    - DB=mysql CAKE_VERSION=2.4
     - DB=mysql CAKE_VERSION=2.5
+    - DB=mysql CAKE_VERSION=2.6
     - DB=sqlite CAKE_VERSION=2.5 db_class='Cake\Database\Driver\Sqlite' db_dsn='sqlite::memory:'
     - DB=pgsql CAKE_VERSION=2.5 db_class='Cake\Database\Driver\Postgres' db_dsn='pgsql:host=127.0.0.1;dbname=cakephp_test' db_database="cakephp_test" db_login='postgres' db_password=''
 
@@ -19,7 +19,7 @@ matrix:
   include:
     - php: 5.4
       env:
-        - CAKE_VERSION=2.4
+        - CAKE_VERSION=2.5
         - COVERALLS=1
 
 before_script:
