@@ -69,7 +69,6 @@ class NumberFormatBehavior extends ModelBehavior {
 		if ($this->settings[$Model->alias]['localeconv'] || !empty($config['localeconv'])) {
 			// use locale settings
 			$conv = localeconv();
-			debug($conv);ob_flush();
 			$loc = array(
 				'decimals' => $conv['decimal_point'],
 				'thousands' => $conv['thousands_sep']

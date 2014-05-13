@@ -146,9 +146,12 @@ class NumberFormatBehaviorTest extends MyCakeTestCase {
 	 */
 	public function testLocaleConv() {
 		$res = setlocale(LC_NUMERIC, 'de_DE.utf8', 'german');
-		$this->skipIf(empty($res));
-		debug($res);ob_flush();
+		$this->skipIf(empty($res), 'No valid locale found.');
+
 		$this->assertTrue(!empty($res));
+
+		$conv = localeconv();
+		$this->skipIf(empty($conv['thousands_sep']), 'No thousands separator in this locale.');
 
 		$this->Model->Behaviors->unload('NumberFormat');
 		$this->Model->Behaviors->load('Tools.NumberFormat', array('fields' => array('rel_rate', 'set_rate'), 'localeconv' => true, 'output' => true));

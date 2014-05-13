@@ -11,6 +11,8 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
+		Configure::delete('Localization');
+
 		$this->Model = ClassRegistry::init('PaymentMethod');
 
 		$this->Model->Behaviors->load('Tools.DecimalInput', array('fields' => array('rel_rate', 'set_rate'), 'output' => true));
@@ -126,9 +128,12 @@ class DecimalInputBehaviorTest extends MyCakeTestCase {
 
 	public function testLocaleConv() {
 		$res = setlocale(LC_NUMERIC, 'de_DE.utf8', 'german');
-		$this->skipIf(empty($res));
+		$this->skipIf(empty($res), 'No valid locale found.');
 
 		$this->assertTrue(!empty($res));
+
+		$conv = localeconv();
+		$this->skipIf(empty($conv['thousands_sep']), 'No thousands separator in this locale.');
 
 		$this->Model->Behaviors->unload('DecimalInput');
 		$this->Model->Behaviors->load('Tools.DecimalInput', array('fields' => array('rel_rate', 'set_rate'), 'localeconv' => true, 'output' => true));
