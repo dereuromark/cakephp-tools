@@ -177,8 +177,7 @@ class JsonableBehavior extends ModelBehavior {
 			// $depth param added in php 5.5
 			if (version_compare(PHP_VERSION, '5.5.0', '>=')) {
 				$val = json_encode($val, $this->settings[$Model->alias]['encodeParams']['options'], $this->settings[$Model->alias]['encodeParams']['depth']);
-			} 
-			else {
+			} else {
 				$val = json_encode($val, $this->settings[$Model->alias]['encodeParams']['options']);
 			}
 		}
@@ -195,10 +194,9 @@ class JsonableBehavior extends ModelBehavior {
 	public function _decode(Model $Model, $val) {
 		// $options param added in php 5.4
 		if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
-		    $decoded = json_decode($val, $this->settings[$Model->alias]['decodeParams']['assoc'], $this->settings[$Model->alias]['decodeParams']['depth'], $this->settings[$Model->alias]['decodeParams']['options']); 
-		} 
-		else {
-		    $decoded = json_decode($val, $this->settings[$Model->alias]['decodeParams']['assoc'], $this->settings[$Model->alias]['decodeParams']['depth']); 
+			$decoded = json_decode($val, $this->settings[$Model->alias]['decodeParams']['assoc'], $this->settings[$Model->alias]['decodeParams']['depth'], $this->settings[$Model->alias]['decodeParams']['options']); 
+		} else {
+			$decoded = json_decode($val, $this->settings[$Model->alias]['decodeParams']['assoc'], $this->settings[$Model->alias]['decodeParams']['depth']); 
 		}
 
 		if ($decoded === false) {

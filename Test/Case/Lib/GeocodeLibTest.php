@@ -60,7 +60,6 @@ class GeocodeLibTest extends MyCakeTestCase {
 		}',
 	);
 
-
 	public function setUp() {
 		parent::setUp();
 

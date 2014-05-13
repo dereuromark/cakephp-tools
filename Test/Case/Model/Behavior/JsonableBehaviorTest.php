@@ -174,7 +174,6 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 		$expected = array();
 		$this->assertEquals($expected, $res['JsonableComment']['details']);
 
-
 		// Test encode depth = 2
 		$this->Comment->Behaviors->unload('Jsonable');
 		$this->Comment->Behaviors->load('Tools.Jsonable', array('fields' => array('details'), 'encodeParams' => array('depth' => 2)));
@@ -211,7 +210,6 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 		$obj->y = 'z';
 		$expected = array('x' => $obj);
 		$this->assertEquals($expected, $res['JsonableComment']['details']);
-
 
 		// Test decode with assoc = true
 		$this->Comment->Behaviors->unload('Jsonable');

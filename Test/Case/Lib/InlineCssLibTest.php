@@ -230,5 +230,4 @@ bla';
 		$this->assertTextContains('香港酒店', $result);
 	}
 
-
 }

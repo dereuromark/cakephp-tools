@@ -245,7 +245,7 @@ class RssView extends View {
 	protected function _prepareOutput($item) {
 		foreach ($item as $key => $val) {
 			$prefix = null;
-			// The cast prevents a PHP bug for switch() and false positives with integers
+			// The cast prevents a PHP bug for switch case and false positives with integers
 			$bareKey = (string)$key;
 
 			// Detect namespaces

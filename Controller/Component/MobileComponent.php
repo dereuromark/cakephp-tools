@@ -149,7 +149,7 @@ class MobileComponent extends Component {
 		*      (int) 0 => '/var/www/maps-cakephp2/app/View/'
 		* )
 		*/
-		$mobileViewFile = $viewDir[0] . $this->viewPath . DS . 'Mobile' . DS . $this->request->params['action'] . '.ctp';
+		$mobileViewFile = $viewDir[0] . $this->viewPath . DS . 'Mobile' . DS . $this->params['action'] . '.ctp';
 
 		//Debugger::log($this->viewPath);
 		// use this to log the output to

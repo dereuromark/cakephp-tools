@@ -163,7 +163,6 @@ class CommonHelper extends AppHelper {
 		return $text;
 	}
 
-
 	/**
 	 * Alternates between two or more strings.
 	 *

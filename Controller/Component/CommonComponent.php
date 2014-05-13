@@ -569,7 +569,7 @@ class CommonComponent extends Component {
 	 * @return void
 	 */
 	public function monitorCookieProblems() {
-		$ip = $this->request->clientIp();
+		$ip = $this->Controller->request->clientIp();
 		$host = gethostbyaddr($ip);
 		$sessionId = session_id();
 		if (empty($sessionId)) {
