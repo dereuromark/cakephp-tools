@@ -102,7 +102,7 @@ class QloginController extends ToolsAppController {
 	 * @return void
 	 */
 	public function admin_reset() {
-		$this->request->onlyAllow('post', 'delete');
+		$this->request->allowMethod(array('post', 'delete'));
 		$this->Token = ClassRegistry::init('Tools.Token');
 		$this->Token->deleteAll(array('type' => 'qlogin'));
 		$this->Common->flashMessage(__('Success'), 'success');

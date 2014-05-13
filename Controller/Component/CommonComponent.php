@@ -259,31 +259,6 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * Used to get the value of a named param.
-	 * @deprecated - move to query strings instead
-	 *
-	 * @param mixed $var
-	 * @param mixed $default
-	 * @return mixed
-	 */
-	public function getNamedParam($var, $default = null) {
-		return (isset($this->Controller->request->params['named'][$var])) ? $this->Controller->request->params['named'][$var] : $default;
-	}
-
-	/**
-	 * Used to get the value of a get query.
-	 * @deprecated - use request->query() instead
-	 *
-	 * @param mixed $var
-	 * @param mixed $default
-	 * @return mixed
-	 */
-	public function getQueryParam($var, $default = null) {
-		trigger_error('deprecated - use $this->request->query()');
-		return (isset($this->Controller->request->query[$var])) ? $this->Controller->request->query[$var] : $default;
-	}
-
-	/**
 	 * Returns defaultUrlParams including configured prefixes.
 	 *
 	 * @return array Url params
@@ -594,7 +569,7 @@ class CommonComponent extends Component {
 	 * @return void
 	 */
 	public function monitorCookieProblems() {
-		$ip = $this->RequestHandler->getClientIP();
+		$ip = $this->request->clientIp();
 		$host = gethostbyaddr($ip);
 		$sessionId = session_id();
 		if (empty($sessionId)) {

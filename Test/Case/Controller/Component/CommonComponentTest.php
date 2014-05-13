@@ -93,10 +93,10 @@ class CommonComponentTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testGetParams() {
-		$is = $this->Controller->Common->getNamedParam('x');
+		$is = $this->Controller->Common->getPassedParam('x');
 		$this->assertNull($is);
 
-		$is = $this->Controller->Common->getNamedParam('x', 'y');
+		$is = $this->Controller->Common->getPassedParam('x', 'y');
 		$this->assertSame('y', $is);
 	}
 
