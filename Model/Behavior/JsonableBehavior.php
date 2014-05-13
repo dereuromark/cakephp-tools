@@ -35,7 +35,7 @@ class JsonableBehavior extends ModelBehavior {
 	 * //TODO: json input/ouput directly, clean
 	 * @var array
 	 */
-	public $_defaultSettings = array(
+	protected $_defaultConfig = array(
 		'fields' => array(), // empty => autodetect - only works with array!
 		'input' => 'array', // json, array, param, list (param/list only works with specific fields)
 		'output' => 'array', // json, array, param, list (param/list only works with specific fields)
@@ -47,7 +47,7 @@ class JsonableBehavior extends ModelBehavior {
 		'sort' => false, // only for list
 		'unique' => true, // only for list (autoclean values on insert),
 		'map' => array(), // map on a different DB field
-		'encodeParams' => array( // params for json_encode 
+		'encodeParams' => array( // params for json_encode
 			'options' => 0,
 			'depth' => 512,
 		),
@@ -59,7 +59,7 @@ class JsonableBehavior extends ModelBehavior {
 	);
 
 	public function setup(Model $Model, $config = array()) {
-		$this->settings[$Model->alias] = Hash::merge($this->_defaultSettings, $config);
+		$this->settings[$Model->alias] = Hash::merge($this->_defaultConfig, $config);
 		//extract($this->settings[$Model->alias]);
 		if (!is_array($this->settings[$Model->alias]['fields'])) {
 			$this->settings[$Model->alias]['fields'] = (array)$this->settings[$Model->alias]['fields'];
@@ -194,9 +194,9 @@ class JsonableBehavior extends ModelBehavior {
 	public function _decode(Model $Model, $val) {
 		// $options param added in php 5.4
 		if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
-			$decoded = json_decode($val, $this->settings[$Model->alias]['decodeParams']['assoc'], $this->settings[$Model->alias]['decodeParams']['depth'], $this->settings[$Model->alias]['decodeParams']['options']); 
+			$decoded = json_decode($val, $this->settings[$Model->alias]['decodeParams']['assoc'], $this->settings[$Model->alias]['decodeParams']['depth'], $this->settings[$Model->alias]['decodeParams']['options']);
 		} else {
-			$decoded = json_decode($val, $this->settings[$Model->alias]['decodeParams']['assoc'], $this->settings[$Model->alias]['decodeParams']['depth']); 
+			$decoded = json_decode($val, $this->settings[$Model->alias]['decodeParams']['assoc'], $this->settings[$Model->alias]['decodeParams']['depth']);
 		}
 
 		if ($decoded === false) {

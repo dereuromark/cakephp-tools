@@ -34,7 +34,7 @@ App::uses('HazardLib', 'Tools.Lib');
  */
 class HazardableBehavior extends ModelBehavior {
 
-	protected $_defaults = array(
+	protected $_defaultConfig = array(
 		'replaceFind' => false, // fake data after a find call (defaults to false)
 		'fields' => array(), // additional fields or custom mapping to a specific snippet type (defaults to XSS)
 		'skipFields' => array('id', 'slug') // fields of the schema that should be skipped
@@ -50,7 +50,7 @@ class HazardableBehavior extends ModelBehavior {
 	 * @return void
 	 */
 	public function setup(Model $Model, $config = array()) {
-		$this->settings[$Model->alias] = array_merge($this->_defaults, $config);
+		$this->settings[$Model->alias] = $config + $this->_defaultConfig;
 	}
 
 	/**

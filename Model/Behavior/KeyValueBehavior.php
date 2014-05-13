@@ -22,7 +22,7 @@ class KeyValueBehavior extends ModelBehavior {
 	 *
 	 * @var array
 	 */
-	protected $_defaults = array(
+	protected $_defaultConfig = array(
 		'foreignKeyField' => 'foreign_id',
 		'keyField' => 'key',
 		'valueField' => 'value',
@@ -39,8 +39,8 @@ class KeyValueBehavior extends ModelBehavior {
 	 * @param array $config
 	 */
 	public function setup(Model $Model, $config = array()) {
-		$settings = array_merge($this->_defaults, $config);
-		$this->settings[$Model->alias] = $settings;
+		$config = array_merge($this->_defaultConfig, $config);
+		$this->settings[$Model->alias] = $config;
 		if (!$this->KeyValue) {
 			$this->KeyValue = ClassRegistry::init('Tools.KeyValue');
 		}

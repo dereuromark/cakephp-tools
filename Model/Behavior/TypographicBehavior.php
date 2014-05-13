@@ -66,7 +66,7 @@ class TypographicBehavior extends ModelBehavior {
 		),
 	);
 
-	protected $_defaults = array(
+	protected $_defaultConfig = array(
 		'before' => 'save',
 		'fields' => array(),
 		'mergeQuotes' => false, // Set to true for " or explicitly set a char (" or ').
@@ -77,14 +77,14 @@ class TypographicBehavior extends ModelBehavior {
 	 * Available settings:
 	 *
 	 * @param object $Model Model using the behaviour
-	 * @param array $settings Settings to override for model.
+	 * @param array $config Settings to override for model.
 	 * @return void
 	 */
-	public function setup(Model $Model, $settings = array()) {
+	public function setup(Model $Model, $config = array()) {
 		if (!isset($this->settings[$Model->alias])) {
-			$this->settings[$Model->alias] = $this->_defaults;
+			$this->settings[$Model->alias] = $this->_defaultConfig;
 		}
-		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], $settings);
+		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], $config);
 
 		if (empty($this->settings[$Model->alias]['fields'])) {
 			$schema = $Model->schema();

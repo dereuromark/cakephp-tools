@@ -33,7 +33,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 	 *
 	 * @var array
 	 */
-	protected $_defaults = array(
+	protected $_defaultConfig = array(
 		'attribute' => 'softDeleted',
 		'fields' => array(
 			'deleted' => 'deleted_date'
@@ -51,14 +51,14 @@ class SoftDeleteBehavior extends ModelBehavior {
 	 * Setup callback
 	 *
 	 * @param Model $model
-	 * @param array $settings
+	 * @param array $config
 	 * @return void
 	 */
-	public function setup(Model $model, $settings = array()) {
-		$settings = array_merge($this->_defaults, $settings);
+	public function setup(Model $model, $config = array()) {
+		$config += $this->_defaultConfig;
 
 		$error = 'SoftDeleteBehavior::setup(): model ' . $model->alias . ' has no field ';
-		$fields = $this->_normalizeFields($model, $settings['fields']);
+		$fields = $this->_normalizeFields($model, $config['fields']);
 		foreach ($fields as $flag => $date) {
 			if ($model->hasField($flag)) {
 				if ($date && !$model->hasField($date)) {
@@ -71,7 +71,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 			return;
 		}
 
-		$this->settings[$model->alias] = array_merge($settings, array('fields' => $fields));
+		$this->settings[$model->alias] = array('fields' => $fields) + $config;
 		$this->softDelete($model, true);
 
 		$attribute = $this->settings[$model->alias]['attribute'];
@@ -297,15 +297,15 @@ class SoftDeleteBehavior extends ModelBehavior {
 	 * Return normalized field array
 	 *
 	 * @param Model $model
-	 * @param array $settings
+	 * @param array $config
 	 * @return array
 	 */
-	protected function _normalizeFields(Model $model, $settings = array()) {
-		if (empty($settings)) {
-			$settings = $this->settings[$model->alias]['fields'];
+	protected function _normalizeFields(Model $model, $config = array()) {
+		if (empty($config)) {
+			$config = $this->settings[$model->alias]['fields'];
 		}
 		$result = array();
-		foreach ($settings as $flag => $date) {
+		foreach ($config as $flag => $date) {
 			if (is_numeric($flag)) {
 				$flag = $date;
 				$date = false;

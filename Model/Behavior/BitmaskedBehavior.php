@@ -23,11 +23,11 @@ App::uses('ModelBehavior', 'Model');
 class BitmaskedBehavior extends ModelBehavior {
 
 	/**
-	 * Settings defaults
+	 * Default config
 	 *
 	 * @var array
 	 */
-	protected $_defaults = array(
+	protected $_defaultConfig = array(
 		'field' => 'status',
 		'mappedField' => null, // NULL = same as above
 		'bits' => null,
@@ -43,7 +43,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @return void
 	 */
 	public function setup(Model $Model, $config = array()) {
-		$config = array_merge($this->_defaults, $config);
+		$config += $this->_defaultConfig;
 
 		if (empty($config['bits'])) {
 			$config['bits'] = Inflector::pluralize($config['field']);

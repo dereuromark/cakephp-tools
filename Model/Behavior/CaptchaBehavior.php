@@ -31,29 +31,29 @@ class CaptchaBehavior extends ModelBehavior {
 	 * CaptchaBehavior::setup()
 	 *
 	 * @param Model $Model
-	 * @param array $settings
+	 * @param array $config
 	 * @return void
 	 */
-	public function setup(Model $Model, $settings = array()) {
+	public function setup(Model $Model, $config = array()) {
 		$defaults = array_merge(CaptchaLib::$defaults, $this->defaults);
 		$this->Model = $Model;
 
 		// Bootstrap configs
 		$this->settings[$Model->alias] = $defaults;
 		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], (array)Configure::read('Captcha'));
-		if (!empty($settings)) {
-			$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], $settings);
+		if (!empty($config)) {
+			$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], $config);
 		}
 
 		// Local configs in specific action
-		if (!empty($settings['minTime'])) {
-			$this->settings[$Model->alias]['minTime'] = (int)$settings['minTime'];
+		if (!empty($config['minTime'])) {
+			$this->settings[$Model->alias]['minTime'] = (int)$config['minTime'];
 		}
-		if (!empty($settings['maxTime'])) {
-			$this->settings[$Model->alias]['maxTime'] = (int)$settings['maxTime'];
+		if (!empty($config['maxTime'])) {
+			$this->settings[$Model->alias]['maxTime'] = (int)$config['maxTime'];
 		}
-		if (isset($settings['log'])) {
-			$this->settings[$Model->alias]['log'] = (bool)$settings['log'];
+		if (isset($config['log'])) {
+			$this->settings[$Model->alias]['log'] = (bool)$config['log'];
 		}
 	}
 

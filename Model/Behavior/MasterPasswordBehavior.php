@@ -33,7 +33,7 @@ App::uses('ModelBehavior', 'Model');
  */
 class MasterPasswordBehavior extends ModelBehavior {
 
-	protected $_defaults = array(
+	protected $_defaultConfig = array(
 		'message' => 'Incorrect Master Password',
 		'field' => 'master_pwd',
 		'model' => null,
@@ -43,11 +43,11 @@ class MasterPasswordBehavior extends ModelBehavior {
 		'log' => false //TODO: log the usage of pwds to a log file `master_password`
 	);
 
-	public function setup(Model $Model, $settings = array()) {
+	public function setup(Model $Model, $config = array()) {
 		if (!isset($this->settings[$Model->alias])) {
-			$this->settings[$Model->alias] = $this->_defaults;
+			$this->settings[$Model->alias] = $this->_defaultConfig;
 		}
-		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], is_array($settings) ? $settings : array());
+		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], $config);
 		// deactivate dynamically
 		if (Configure::read('MasterPassword.password') === false) {
 			$this->settings[$Model->alias]['before'] = '';

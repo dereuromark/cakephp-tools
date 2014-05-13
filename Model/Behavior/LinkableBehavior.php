@@ -37,11 +37,11 @@ class LinkableBehavior extends ModelBehavior {
 		'class' => true, 'defaults' => true
 	);
 
-	protected $_defaults = array('type' => 'LEFT');
+	protected $_defaultConfig = array('type' => 'LEFT');
 
 	public function beforeFind(Model $Model, $query) {
 		if (isset($query[$this->_key])) {
-			$optionsDefaults = $this->_defaults + array('reference' => $Model->alias, $this->_key => array());
+			$optionsDefaults = $this->_defaultConfig + array('reference' => $Model->alias, $this->_key => array());
 			$optionsKeys = $this->_options + array($this->_key => true);
 
 			// If containable is being used, then let it set the recursive!

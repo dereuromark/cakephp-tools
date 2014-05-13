@@ -31,7 +31,7 @@ App::uses('ModelBehavior', 'Model');
  */
 class NumberFormatBehavior extends ModelBehavior {
 
-	protected $_defaults = array(
+	protected $_defaultConfig = array(
 		'before' => 'validate', // save or validate
 		'input' => true, // true = activated
 		'output' => false, // true = activated
@@ -61,7 +61,7 @@ class NumberFormatBehavior extends ModelBehavior {
 	 * leave fields empty to auto-detect all float inputs
 	 */
 	public function setup(Model $Model, $config = array()) {
-		$this->settings[$Model->alias] = $this->_defaults;
+		$this->settings[$Model->alias] = $this->_defaultConfig;
 
 		if (!empty($config['strict'])) {
 			$this->settings[$Model->alias]['transform']['.'] = '#';

@@ -40,7 +40,7 @@ App::uses('ModelBehavior', 'Model');
  */
 class ResetBehavior extends ModelBehavior {
 
-	protected $_defaults = array(
+	protected $_defaultConfig = array(
 		'limit' => 100, // batch of records per loop
 		'timeout' => null, // in seconds
 		'fields' => array(), // if not displayField
@@ -57,12 +57,8 @@ class ResetBehavior extends ModelBehavior {
 	 * @param object $Model
 	 * @param array $config
 	 */
-	public function setup(Model $Model, $config = null) {
-		if (is_array($config)) {
-			$this->settings[$Model->alias] = array_merge($this->_defaults, $config);
-		} else {
-			$this->settings[$Model->alias] = $this->_defaults;
-		}
+	public function setup(Model $Model, $config = array()) {
+		$this->settings[$Model->alias] = $config + $this->_defaultConfig;
 	}
 
 	/**

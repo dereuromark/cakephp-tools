@@ -339,8 +339,8 @@ class GeocoderBehavior extends ModelBehavior {
 		);
 		$this->Geocode = new GeocodeLib($geocodeOptions);
 
-		$settings = array('language' => $options['language']);
-		if (!$this->Geocode->geocode($address, $settings)) {
+		$config = array('language' => $options['language']);
+		if (!$this->Geocode->geocode($address, $config)) {
 			return array('lat' => null, 'lng' => null, 'formatted_address' => '');
 		}
 

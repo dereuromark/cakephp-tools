@@ -12,19 +12,18 @@ App::uses('ModelBehavior', 'Model');
  */
 class ConfirmableBehavior extends ModelBehavior {
 
-	protected $_defaults = array(
+	protected $_defaultConfig = array(
 		'message' => 'Please confirm the checkbox',
 		'field' => 'confirm',
 		'model' => null,
 		'before' => 'validate',
 	);
 
-	public function setup(Model $Model, $settings = array()) {
+	public function setup(Model $Model, $config = array()) {
 		if (!isset($this->settings[$Model->alias])) {
-			$this->settings[$Model->alias] = $this->_defaults;
+			$this->settings[$Model->alias] = $this->_defaultConfig;
 		}
-
-		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], is_array($settings) ? $settings : array());
+		$this->settings[$Model->alias] = $config + $this->settings[$Model->alias];
 	}
 
 	/**
