@@ -448,7 +448,7 @@ class EmailLib extends CakeEmail {
 		}
 
 		// Security measure to not sent to the actual addressee in debug mode
-		if (Configure::read('debug')) {
+		if (Configure::read('debug') && !Configure::read('Email.live')) {
 			$adminEmail = Configure::read('Config.adminEmail');
 			if (!$adminEmail) {
 				$adminEmail = Configure::read('Config.systemEmail');
