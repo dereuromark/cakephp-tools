@@ -97,10 +97,21 @@ class TimeLibTest extends MyCakeTestCase {
 			array('2009-12-01 00:00:00', FORMAT_NICE_M_FULL, 'December'),
 		);
 		foreach ($values as $v) {
-			$ret = TimeLib::niceDate($v[0], $v[1]);
-			//$this->debug($ret);
-			$this->assertEquals($v[2], $ret);
+			$result = TimeLib::niceDate($v[0], $v[1]);
+			$this->assertEquals($v[2], $result);
 		}
+
+		$date = '2009-12-01 00:00:00';
+		$format = FORMAT_NICE_YMD;
+		$result = TimeLib::niceDate($date, $format, array('oclock' => true));
+		$expected = '01.12.2009';
+		$this->assertEquals($expected, $result);
+
+		$date = '2009-12-01 00:00:00';
+		$format = FORMAT_NICE_YMDHM;
+		$result = TimeLib::niceDate($date, $format, array('oclock' => true));
+		$expected = '01.12.2009, 00:00 ' . __('o\'clock');
+		$this->assertEquals($expected, $result);
 	}
 
 	/**
@@ -144,6 +155,18 @@ class TimeLibTest extends MyCakeTestCase {
 			//$this->debug($ret);
 			$this->assertEquals($v[2], $ret);
 		}
+
+		$date = '2009-12-01 00:00:00';
+		$format = FORMAT_LOCAL_YMD;
+		$result = TimeLib::localDate($date, $format, array('oclock' => true));
+		$expected = '01.12.2009';
+		$this->assertEquals($expected, $result);
+
+		$date = '2009-12-01 00:00:00';
+		$format = FORMAT_LOCAL_YMDHM;
+		$result = TimeLib::localDate($date, $format, array('oclock' => true));
+		$expected = '01.12.2009, 00:00 ' . __('o\'clock');
+		$this->assertEquals($expected, $result);
 	}
 
 	/**

@@ -458,11 +458,15 @@ class TimeLib extends CakeTime {
 	/**
 	 * Outputs Date(time) Sting nicely formatted (+ localized!)
 	 *
+	 * Options:
+	 * - timezone: User's timezone
+	 * - default: Default string (defaults to "-----")
+	 * - oclock: Set to true to append oclock string
+	 *
 	 * @param string $dateString,
-	 * @param string $format (YYYY-MM-DD, DD.MM.YYYY)
-	 * @param array $options
-		* - timezone: User's timezone
-		* - default (defaults to "-----")
+	 * @param string $format Format (YYYY-MM-DD, DD.MM.YYYY)
+	 * @param array $options @return string
+	 * @return string
 	 */
 	public static function localDate($dateString = null, $format = null, $options = array()) {
 		$defaults = array('default' => '-----', 'timezone' => null);
@@ -479,6 +483,7 @@ class TimeLib extends CakeTime {
 		if ($date === null || $date === false || $date <= 0) {
 			return $options['default'];
 		}
+
 		if ($format === null) {
 			if (is_int($dateString) || strpos($dateString, ' ') !== false) {
 				$format = FORMAT_LOCAL_YMDHM;
@@ -486,17 +491,35 @@ class TimeLib extends CakeTime {
 				$format = FORMAT_LOCAL_YMD;
 			}
 		}
-		return parent::_strftime($format, $date);
+
+		$date = parent::_strftime($format, $date);
+
+		if (!empty($options['oclock'])) {
+			switch ($format) {
+				case FORMAT_LOCAL_YMDHM:
+				case FORMAT_LOCAL_YMDHMS:
+				case FORMAT_LOCAL_YMDHM:
+				case FORMAT_LOCAL_HM:
+				case FORMAT_LOCAL_HMS:
+					$date .= ' ' . __('o\'clock');
+					break;
+			}
+		}
+		return $date;
 	}
 
 	/**
 	 * Outputs Date(time) Sting nicely formatted
 	 *
+	 * Options:
+	 * - timezone: User's timezone
+	 * - default: Default string (defaults to "-----")
+	 * - oclock: Set to true to append oclock string
+	 *
 	 * @param string $dateString,
-	 * @param string $format (YYYY-MM-DD, DD.MM.YYYY)
-	 * @param array $options
-		* - timezone: User's timezone
-		* - default (defaults to "-----")
+	 * @param string $format Format (YYYY-MM-DD, DD.MM.YYYY)
+	 * @param array $options Options
+	 * @return string
 	 */
 	public static function niceDate($dateString = null, $format = null, $options = array()) {
 		$defaults = array('default' => '-----', 'timezone' => null);
@@ -524,7 +547,7 @@ class TimeLib extends CakeTime {
 
 		$ret = date($format, $date);
 
-		if (!empty($options['oclock']) && $options['oclock']) {
+		if (!empty($options['oclock'])) {
 			switch ($format) {
 				case FORMAT_NICE_YMDHM:
 				case FORMAT_NICE_YMDHMS:

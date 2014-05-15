@@ -70,7 +70,7 @@ class FormExtHelper extends FormHelper {
 	public function deleteLink($title, $url = null, $options = array(), $confirmMessage = false) {
 		$options['method'] = 'delete';
 		if (!isset($options['class'])) {
-			$options['class'] = 'deleteLink';
+			$options['class'] = 'delete-link deleteLink';
 		}
 		return $this->postLink($title, $url, $options, $confirmMessage);
 	}
@@ -84,7 +84,7 @@ class FormExtHelper extends FormHelper {
 	 */
 	public function postLink($title, $url = null, $options = array(), $confirmMessage = false) {
 		if (!isset($options['class'])) {
-			$options['class'] = 'postLink';
+			$options['class'] = 'post-link postLink';
 		}
 		return parent::postLink($title, $url, $options, $confirmMessage);
 	}
@@ -1147,7 +1147,7 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 	 */
 	protected function _checkbox($id, $group = null, $options = array()) {
 		$defaults = array(
-			'class' => 'checkboxToggle'
+			'class' => 'checkbox-toggle checkboxToggle'
 		);
 		$options = array_merge($defaults, $options);
 		return $script . parent::checkbox($fieldName, $options);
