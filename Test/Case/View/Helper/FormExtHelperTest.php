@@ -30,7 +30,7 @@ class FormExtHelperTest extends MyCakeTestCase {
 			),
 			'input' => array('type' => 'hidden', 'name' => '_method', 'value' => 'POST'),
 			'/form',
-			'a' => array('href' => '#', 'class' => 'postLink', 'onclick' => 'preg:/document\.post_\w+\.submit\(\); event\.returnValue = false; return false;/'),
+			'a' => array('href' => '#', 'class' => 'post-link postLink', 'onclick' => 'preg:/document\.post_\w+\.submit\(\); event\.returnValue = false; return false;/'),
 			'Delete',
 			'/a'
 		));
@@ -50,7 +50,7 @@ class FormExtHelperTest extends MyCakeTestCase {
 			),
 			'input' => array('type' => 'hidden', 'name' => '_method', 'value' => 'DELETE'),
 			'/form',
-			'a' => array('href' => '#', 'class' => 'deleteLink', 'onclick' => 'preg:/document\.post_\w+\.submit\(\); event\.returnValue = false; return false;/'),
+			'a' => array('href' => '#', 'class' => 'delete-link deleteLink', 'onclick' => 'preg:/document\.post_\w+\.submit\(\); event\.returnValue = false; return false;/'),
 			'Delete',
 			'/a'
 		));
