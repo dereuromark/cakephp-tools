@@ -249,6 +249,10 @@ class PasswordableBehavior extends ModelBehavior {
 		$formFieldRepeat = $this->settings[$Model->alias]['formFieldRepeat'];
 		$formFieldCurrent = $this->settings[$Model->alias]['formFieldCurrent'];
 
+		if ($formField === $this->settings[$Model->alias]['field']) {
+			throw new CakeException('Invalid setup - the form field must to be different from the model field (' . $this->settings[$Model->alias]['field'] . ').');
+		}
+
 		$rules = $this->_validationRules;
 		foreach ($rules as $field => $fieldRules) {
 			foreach ($fieldRules as $key => $rule) {
