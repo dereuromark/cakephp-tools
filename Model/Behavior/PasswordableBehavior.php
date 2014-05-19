@@ -377,7 +377,9 @@ class PasswordableBehavior extends ModelBehavior {
 
 		if (isset($Model->data[$Model->alias][$formField])) {
 			$Model->data[$Model->alias][$field] = Security::hash($Model->data[$Model->alias][$formField], $type, $salt);
-			unset($Model->data[$Model->alias][$formField]);
+			if ($field !== $formField) {
+				unset($Model->data[$Model->alias][$formField]);
+			}
 			if ($this->settings[$Model->alias]['confirm']) {
 				$formFieldRepeat = $this->settings[$Model->alias]['formFieldRepeat'];
 				unset($Model->data[$Model->alias][$formFieldRepeat]);
