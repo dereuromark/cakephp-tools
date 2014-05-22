@@ -142,6 +142,7 @@ if (!defined('FORMAT_NICE_YMDHMS')) {
 	define('FORMAT_LOCAL_M_ABBR', '%b'); # needs translation
 	define('FORMAT_LOCAL_M_FULL', '%B'); # needs translation
 	define('FORMAT_LOCAL_Y_ABBR', '%y'); # xx
+	define('FORMAT_LOCAL_YMS_ABBR', '%d.%m.%y');
 	define('FORMAT_LOCAL_Y', '%Y'); # xxxx
 	define('FORMAT_LOCAL_H', '%H');
 	define('FORMAT_LOCAL_S', '%S');
