@@ -5,7 +5,7 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
 class InlineCssLibTest extends MyCakeTestCase {
 
 	public function setUp() {
-		$this->InlineCss = new InlineCssLib();
+		$this->InlineCss = new InlineCssLib(array('engine' => InlineCssLib::ENGINE_CSS_TO_INLINE));
 
 		$result = App::import('Vendor', 'Tools.CssToInlineStyles', array('file' => 'CssToInlineStyles' . DS . 'CssToInlineStyles.php'));
 		$this->skipIf(!$result);
