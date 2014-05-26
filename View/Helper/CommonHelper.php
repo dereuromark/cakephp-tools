@@ -101,10 +101,10 @@ class CommonHelper extends AppHelper {
 	 *
 	 * @param string $msg
 	 * @param string $class
-	 * @return bool Success
+	 * @return void
 	 */
 	public function addFlashMessage($msg, $class = null) {
-		return CommonComponent::transientFlashMessage($msg, $class);
+		CommonComponent::transientFlashMessage($msg, $class);
 	}
 
 	/**
@@ -112,11 +112,11 @@ class CommonHelper extends AppHelper {
 	 *
 	 * @param mixed $msg
 	 * @param mixed $class
-	 * @return bool Success
+	 * @return void
 	 * @deprecated Use addFlashMessage() instead
 	 */
 	public function transientFlashMessage($msg, $class = null) {
-		return $this->addFlashMessage($msg, $class);
+		$this->addFlashMessage($msg, $class);
 	}
 
 	/**

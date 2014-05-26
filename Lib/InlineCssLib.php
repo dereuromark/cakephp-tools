@@ -23,7 +23,7 @@ class InlineCssLib {
 	 * @var array
 	 */
 	protected $_defaults = array(
-		'engine' => self::ENGINE_CSS_TO_INLINE,
+		'engine' => self::ENGINE_EMOGRIFIER,
 		'cleanup' => true,
 		'useInlineStylesBlock' => true,
 		'debug' => false, // only cssToInline
