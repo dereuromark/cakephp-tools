@@ -108,8 +108,6 @@ class TextExtHelper extends TextHelper {
 		}
 
 		$Html = new HtmlHelper(new View(null));
-		//$Html->tags = $Html->loadConfig();
-		//debug($Html->tags);
 		if (!$obfuscate) {
 			return $Html->link($email, "mailto:" . $email, $options);
 		}

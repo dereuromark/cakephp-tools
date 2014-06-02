@@ -447,8 +447,8 @@ class EmailLib extends CakeEmail {
 			//$this->_headers['Importance'] = 'High';
 		}
 
-		// Security measure to not sent to the actual addressee in debug mode
-		if (Configure::read('debug') && !Configure::read('Email.live')) {
+		// Security measure to not sent to the actual addressee in debug mode while email sending is live
+		if (Configure::read('debug') && Configure::read('Email.live')) {
 			$adminEmail = Configure::read('Config.adminEmail');
 			if (!$adminEmail) {
 				$adminEmail = Configure::read('Config.systemEmail');
@@ -514,6 +514,15 @@ class EmailLib extends CakeEmail {
 	 */
 	public function getError() {
 		return $this->_error;
+	}
+
+	/**
+	 * Returns the log if existent
+	 *
+	 * @return string
+	 */
+	public function getLog() {
+		return $this->_log;
 	}
 
 	/**
