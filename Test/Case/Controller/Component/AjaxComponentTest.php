@@ -130,6 +130,26 @@ class AjaxComponentTest extends CakeTestCase {
 		$this->assertNull($session);
 	}
 
+	/**
+	 * AjaxComponentTest::testSetVars()
+	 *
+	 * @return void
+	 */
+	public function testSetVars() {
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+
+		$this->Controller->Components->unload('Ajax');
+
+		$content = array('id' => 1, 'title' => 'title');
+		$this->Controller->set(compact('content'));
+		$this->Controller->set('_serialize', array('content'));
+
+		$this->Controller->Components->load('Tools.Ajax');
+		$this->assertNotEmpty($this->Controller->viewVars);
+		$this->assertNotEmpty($this->Controller->viewVars['_serialize']);
+		$this->assertEquals('content', $this->Controller->viewVars['_serialize'][0]);
+	}
+
 }
 
 // Use Controller instead of AppController to avoid conflicts
