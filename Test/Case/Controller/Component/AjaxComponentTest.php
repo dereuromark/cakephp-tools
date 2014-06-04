@@ -150,6 +150,33 @@ class AjaxComponentTest extends CakeTestCase {
 		$this->assertEquals('content', $this->Controller->viewVars['_serialize'][0]);
 	}
 
+	/**
+	 * AjaxComponentTest::testSetVarsWithRedirect()
+	 *
+	 * @return void
+	 */
+	public function testSetVarsWithRedirect() {
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+		$this->Controller->startupProcess();
+
+		$content = array('id' => 1, 'title' => 'title');
+		$this->Controller->set(compact('content'));
+		$this->Controller->set('_serialize', array('content'));
+
+		$this->Controller->redirect('/');
+		$this->assertSame(array(), $this->Controller->response->header());
+
+		$expected = array(
+			'url' => Router::url('/', true),
+			'status' => null,
+			'exit' => true
+		);
+		$this->assertEquals($expected, $this->Controller->viewVars['_redirect']);
+
+		$this->assertNotEmpty($this->Controller->viewVars);
+		$this->assertNotEmpty($this->Controller->viewVars['_serialize']);
+		$this->assertTrue(in_array('content', $this->Controller->viewVars['_serialize']));
+	}
 }
 
 // Use Controller instead of AppController to avoid conflicts
