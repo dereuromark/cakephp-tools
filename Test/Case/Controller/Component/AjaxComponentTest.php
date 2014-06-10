@@ -50,8 +50,8 @@ class AjaxComponentTest extends CakeTestCase {
 		$this->assertEquals($expected, $session);
 
 		$this->Controller->Components->Ajax->beforeRender($this->Controller);
-		$this->assertEqual('Tools.Ajax', $this->Controller->viewClass);
 
+		$this->assertEquals('Tools.Ajax', $this->Controller->viewClass);
 		$this->assertEquals($expected, $this->Controller->viewVars['_message']);
 
 		$session = $this->Controller->Session->read('Message.flash');
