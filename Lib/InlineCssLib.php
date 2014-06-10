@@ -73,7 +73,7 @@ class InlineCssLib {
 		if ($this->config['cleanup']) {
 			// Remove comments and whitespace
 			$result = preg_replace( '/<!--(.|\s)*?-->/', '', $result);
-			$result = preg_replace( '/\s\s+/', '', $result);
+			//$result = preg_replace( '/\s\s+/', '\s', $result);
 
 			// Result classes and ids
 			$result = preg_replace('/\bclass="[^"]*"/', '', $result);

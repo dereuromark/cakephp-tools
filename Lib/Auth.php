@@ -7,6 +7,7 @@ if (!defined('USER_RIGHT_KEY')) {
 }
 
 App::uses('AuthComponent', 'Controller/Component');
+App::uses('Hash', 'Utility');
 
 /**
  * Convenience wrapper to access Auth data and check on rights/roles.
