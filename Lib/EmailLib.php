@@ -1,6 +1,7 @@
 <?php
 App::uses('CakeEmail', 'Network/Email');
 App::uses('CakeLog', 'Log');
+App::uses('Utility', 'Tools.Utility');
 App::uses('MimeLib', 'Tools.Lib');
 
 if (!defined('BR')) {
@@ -149,15 +150,14 @@ class EmailLib extends CakeEmail {
 	 * @return mixed resource $EmailLib or string $contentId
 	 */
 	public function addEmbeddedAttachment($file, $name = null, $contentId = null, $options = array()) {
-		$path = realpath($file);
 		if (empty($name)) {
 			$name = basename($file);
 		}
-		if ($contentId === null && ($cid = $this->_isEmbeddedAttachment($path, $name))) {
+		if ($contentId === null && ($cid = $this->_isEmbeddedAttachment($file, $name))) {
 			return $cid;
 		}
 
-		$options['file'] = $path;
+		$options['file'] = $file;
 		if (empty($options['mimetype'])) {
 			$options['mimetype'] = $this->_getMime($file);
 		}
@@ -217,15 +217,11 @@ class EmailLib extends CakeEmail {
 	 * Uses finfo_open() if availble, otherwise guesses it via file extension.
 	 *
 	 * @param string $filename
-	 * @param string Mimetype
+	 * @return string Mimetype
 	 */
 	protected function _getMime($filename) {
-		if (function_exists('finfo_open')) {
-			$finfo = finfo_open(FILEINFO_MIME);
-			$mimetype = finfo_file($finfo, $filename);
-			finfo_close($finfo);
-		} else {
-			//TODO: improve
+		$mimetype = Utility::getMimeType($filename);
+		if (!$mimetype) {
 			$ext = pathinfo($filename, PATHINFO_EXTENSION);
 			$mimetype = $this->_getMimeByExtension($ext);
 		}
@@ -240,6 +236,9 @@ class EmailLib extends CakeEmail {
 	 * @return string Mimetype (falls back to `application/octet-stream`)
 	 */
 	protected function _getMimeByExtension($ext, $default = 'application/octet-stream') {
+		if (!$ext) {
+			return $default;
+		}
 		if (!isset($this->_Mime)) {
 			$this->_Mime = new MimeLib();
 		}
@@ -248,6 +247,24 @@ class EmailLib extends CakeEmail {
 			$mime = $default;
 		}
 		return $mime;
+	}
+
+	/**
+	 * Read the file contents and return a base64 version of the file contents.
+	 * Overwrite parent to avoid File class and file_exists to false negative existent
+	 * remove images.
+	 *
+	 * @param string $path The absolute path to the file to read.
+	 * @return string File contents in base64 encoding
+	 */
+	protected function _readFile($path) {
+		$context = stream_context_create(
+			array('http' => array('header' => 'Connection: close')));
+		$content = file_get_contents($path, 0, $context);
+		if (!$content) {
+			trigger_error('No content found for ' . $path);
+		}
+		return chunk_split(base64_encode($content));
 	}
 
 	/**
@@ -354,7 +371,8 @@ class EmailLib extends CakeEmail {
 	/**
 	 * Add attachments to the email message
 	 *
-	 * CUSTOM FIX: blob data support
+	 * CUSTOM FIX: Allow URLs
+	 * CUSTOM FIX: Blob data support
 	 *
 	 * Attachments can be defined in a few forms depending on how much control you need:
 	 *
@@ -402,8 +420,10 @@ class EmailLib extends CakeEmail {
 					throw new SocketException(__d('cake_dev', 'File not specified.'));
 				}
 				$fileName = $fileInfo['file'];
-				$fileInfo['file'] = realpath($fileInfo['file']);
-				if ($fileInfo['file'] === false || !file_exists($fileInfo['file'])) {
+				if (!preg_match('~^https?://~i', $fileInfo['file'])) {
+					$fileInfo['file'] = realpath($fileInfo['file']);
+				}
+				if ($fileInfo['file'] === false || !Utility::fileExists($fileInfo['file'])) {
 					throw new SocketException(__d('cake_dev', 'File not found: "%s"', $fileName));
 				}
 				if (is_int($name)) {

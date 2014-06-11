@@ -53,9 +53,13 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->Email->template('default', 'default');
 		$this->Email->viewVars(array('x' => 'y', 'xx' => 'yy', 'text' => ''));
 		$this->Email->addAttachments(array(CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'edit.gif'));
+		$this->Email->addAttachments(array('http://www.spiegel.de/static/sys/v10/icons/home_v2.png'));
 
 		$res = $this->Email->send('xyz');
-		// end
+		$debug = $this->Email->getDebug();
+		$this->assertTextContains('Content-Disposition: attachment; filename="edit.gif"', $debug['message']);
+		$this->assertTextContains('Content-Disposition: attachment; filename="home_v2.png"', $debug['message']);
+
 		if ($error = $this->Email->getError()) {
 			$this->out($error);
 		}
@@ -270,7 +274,7 @@ class EmailLibTest extends MyCakeTestCase {
 		$expected = array(
 			'hotel.png' => array(
 				'file' => $file,
-				'mimetype' => 'image/png; charset=binary',
+				'mimetype' => 'image/png',
 				'contentId' => $cid
 			)
 		);
