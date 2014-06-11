@@ -193,6 +193,57 @@ class UtilityTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * UtilityTest::testGetMimeType()
+	 *
+	 * @covers Utility::getMimeType
+	 * @return void
+	 */
+	public function testGetMimeType() {
+		$res = Utility::getMimeType('http://www.spiegel.de/static/sys/v10/icons/home_v2.png');
+		$this->assertEquals('image/png', $res);
+
+		$res = Utility::getMimeType('http://www.spiegel.de/static/sys/v10/icons/home_v2_inexistent.png');
+		$this->assertEquals('', $res);
+
+		$res = Utility::getMimeType(CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.jpg');
+		$this->assertEquals('image/jpeg', $res);
+	}
+
+	/**
+	 * UtilityTest::testFileExists()
+	 *
+	 * @covers Utility::fileExists
+	 * @return void
+	 */
+	public function testFileExists() {
+		$res = Utility::fileExists('http://www.spiegel.de/static/sys/v10/icons/home_v2.png');
+		$this->assertTrue($res);
+
+		$res = Utility::fileExists(CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.jpg');
+		$this->assertTrue($res);
+
+		$res = Utility::fileExists('http://www.spiegel.de/static/sys/v10/icons/home_v2_inexistent.png');
+		$this->assertFalse($res);
+
+		$res = Utility::fileExists(CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'fooooo.jpg');
+		$this->assertFalse($res);
+	}
+
+	/**
+	 * UtilityTest::testUrlExists()
+	 *
+	 * @covers Utility::urlExists
+	 * @return void
+	 */
+	public function testUrlExists() {
+		$res = Utility::urlExists('http://www.spiegel.de');
+		$this->assertTrue($res);
+
+		$res = Utility::urlExists('http://www.spiegel.de/some/inexistent.img');
+		$this->assertFalse($res);
+	}
+
+	/**
 	 * UtilityTest::testGetReferer()
 	 *
 	 * @covers Utility::getReferer

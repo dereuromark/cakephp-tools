@@ -212,6 +212,72 @@ class Utility {
 	}
 
 	/**
+	 * A more robust wrapper around for file_exists() which easily
+	 * fails to return true for existent remote files.
+	 * Per default it allows http/https images to be looked up via urlExists()
+	 * for a better result.
+	 *
+	 * @param string $file File
+	 * @return bool Success
+	 */
+	public static function fileExists($file, $pattern = '~^https?://~i') {
+		if (!preg_match($pattern, $file)) {
+			return file_exists($file);
+		}
+		return self::urlExists($file);
+	}
+
+	/**
+	 * file_exists() does not always work with URLs.
+	 * So if you check on strpos(http) === 0 you can use this
+	 * to check for URLs instead.
+	 *
+	 * @param string $url Absolute URL
+	 * @return bool Success
+	 */
+	public static function urlExists($url) {
+		$headers = @get_headers($url);
+		if ($headers && preg_match('|\b200\b|', $headers[0])) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Utility::getMimeType()
+	 *
+	 * @param string $file File
+	 * @return string Mime type
+	 */
+	public static function getMimeType($file) {
+		if (!function_exists('finfo_open')) {
+			throw new InternalErrorException('finfo_open() required - please enable');
+		}
+
+		// Treat non local files differently
+		$pattern = '~^https?://~i';
+		if (preg_match($pattern, $file)) {
+			$headers = @get_headers($file);
+			if (!preg_match("|\b200\b|", $headers[0])) {
+				return '';
+			}
+			foreach ($headers as $header) {
+				if (strpos($header, 'Content-Type:') === 0) {
+					return trim(substr($header, 13));
+				}
+			}
+			return '';
+		}
+
+		$finfo = finfo_open(FILEINFO_MIME);
+		$mimetype = finfo_file($finfo, $file);
+		if (($pos = strpos($mimetype, ';')) !== false) {
+			$mimetype = substr($mimetype, 0, $pos);
+		}
+		return $mimetype;
+	}
+
+	/**
 	 * Parse headers from a specific URL content.
 	 *
 	 * @param string $url
