@@ -312,7 +312,7 @@ class LogableBehavior extends ModelBehavior {
 	 * @param Model $Model
 	 * @param string $action name of action that is taking place (dont use the crud ones)
 	 * @param int $id id of the logged item (ie foreign_id in logs table)
-	 * @param array $values optional other values for your logs table
+	 * @param array $logData optional other values for your logs table
 	 * @return mixed Success
 	 */
 	public function customLog(Model $Model, $action, $id = null, $logData = array()) {
@@ -323,8 +323,8 @@ class LogableBehavior extends ModelBehavior {
 			$logData[$this->settings[$Model->alias]['foreignKey']] = $id;
 		}
 		$title = null;
-		if (isset($values['title'])) {
-			$title = $values['title'];
+		if (isset($logData['title'])) {
+			$title = $logData['title'];
 			unset($logData['title']);
 		}
 		$logData['action'] = $action;
