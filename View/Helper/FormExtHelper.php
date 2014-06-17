@@ -591,8 +591,7 @@ class FormExtHelper extends FormHelper {
 			'empty' => false,
 			'return' => true,
 		);
-
-		$customOptions = array_merge($defaultOptions, $options);
+		$customOptions = $options + $defaultOptions;
 
 		$res[] = $this->date($field, $customOptions);
 		$res[] = $this->time($field, $customOptions);
@@ -864,13 +863,6 @@ class FormExtHelper extends FormHelper {
 
 		$customOptions = array_merge($defaultOptions, $options);
 		$format24Hours = (int)$customOptions['timeFormat'] !== 24 ? false : true;
-
-		if (strpos($field, '.') !== false) {
-			list($model, $field) = explode('.', $field, 2);
-		} else {
-			$entity = $this->entity();
-			$model = $this->model();
-		}
 
 		$blacklist = array('timeFormat' => null, 'dateFormat' => null, 'separator' => null);
 
