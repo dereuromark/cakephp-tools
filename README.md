@@ -4,6 +4,13 @@ A CakePHP 2.x Plugin containing several useful tools that can be used in many pr
 
 Please note: New functionality has been tested against 2.x (current master and dev) only. Please upgrade if possible.
 
+[![Build Status](https://api.travis-ci.org/dereuromark/tools.png?branch=master)](https://travis-ci.org/dereuromark/tools)
+[![Latest Stable Version](https://poser.pugx.org/dereuromark/tools-cakephp/v/stable.png)](https://packagist.org/packages/dereuromark/tools-cakephp)
+[![Coverage Status](https://coveralls.io/repos/dereuromark/tools/badge.png)](https://coveralls.io/r/dereuromark/tools)
+[![License](https://poser.pugx.org/dereuromark/tools-cakephp/license.png)](https://packagist.org/packages/dereuromark/tools-cakephp)
+[![Total Downloads](https://poser.pugx.org/dereuromark/tools-cakephp/d/total.png)](https://packagist.org/packages/dereuromark/tools-cakephp)
+
+
 ## How to include
 Installing the Plugin is pretty much as with every other CakePHP Plugin.
 
@@ -84,6 +91,17 @@ App::uses('GeocoderBehavior', 'Tools.Model/Behavior');
 Tip: For how to use them, try to find some information in the test cases.
 For a quick reference or some larger modules see the [Tools Plugin Wiki](https://github.com/dereuromark/tools/wiki)
 
+For including components, helper and behaviors you don't need App::uses() calls.
+So for a pretty standard CakePHP app with some Tools plugin enhancements, the AppController could look like this:
+```php
+public $components = array(
+	'Session', 'RequestHandler', 'Tools.Common', 'Auth');
+
+public $helpers = array(
+	'Session', 'Html', 'Form' => array('className' => 'Tools.FormExt'),
+	'Tools.Common', 'Tools.Format', 'Tools.Datetime', 'Tools.Numeric');
+```
+
 ## The cool stuff
 
 ### Useful fixes
@@ -119,13 +137,6 @@ and much more
 Use at your own risk. Please provide any fixes or enhancements via issue or better pull request.
 Some classes are still from 1.2 (and are merely upgraded to 2.x) and might still need some serious refactoring.
 If you are able to help on that one, that would be awesome.
-
-### Status
-[![Build Status](https://api.travis-ci.org/dereuromark/tools.png?branch=master)](https://travis-ci.org/dereuromark/tools)
-[![Latest Stable Version](https://poser.pugx.org/dereuromark/tools-cakephp/v/stable.png)](https://packagist.org/packages/dereuromark/tools-cakephp)
-[![Coverage Status](https://coveralls.io/repos/dereuromark/tools/badge.png)](https://coveralls.io/r/dereuromark/tools)
-[![License](https://poser.pugx.org/dereuromark/tools-cakephp/license.png)](https://packagist.org/packages/dereuromark/tools-cakephp)
-[![Total Downloads](https://poser.pugx.org/dereuromark/tools-cakephp/d/total.png)](https://packagist.org/packages/dereuromark/tools-cakephp)
 
 ### Branching strategy
 The master branch is the currently active and maintained one and works with the current 2.x stable version.
