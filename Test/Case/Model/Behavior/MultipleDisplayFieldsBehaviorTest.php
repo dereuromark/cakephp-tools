@@ -80,9 +80,9 @@ class MultipleDisplayFieldsBehaviorTest extends MyCakeTestCase {
 			'pattern' => '%s by %s (%s)',
 		);
 		$this->Comment->Behaviors->load('Tools.MultipleDisplayFields', $config);
-		$res = $this->Comment->find('all', array('contain' => array('User')));
+		$res = $this->Comment->find('all', array('order' => array(), 'contain' => array('User')));
 		$this->debug($res);
-		$this->assertEquals('First Comment for First Article by Y (nate)', $res[5]['Comment']['display_field']);
+		$this->assertEquals('First Comment for First Article by Y (nate)', $res[0]['Comment']['display_field']);
 	}
 
 }
