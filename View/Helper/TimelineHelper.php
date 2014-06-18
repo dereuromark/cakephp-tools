@@ -18,7 +18,7 @@ class TimelineHelper extends AppHelper {
 
 	public $helpers = array('Js');
 
-	protected $_defaults = array(
+	protected $_defaultConfig = array(
 		'id' => 'mytimeline',
 		'selectable' => false,
 		'editable' => false,
@@ -39,7 +39,7 @@ class TimelineHelper extends AppHelper {
 	 * @param array $settings Configuration settings for the helper.
 	 */
 	public function __construct(View $View, $settings = array()) {
-		$this->settings = $this->_defaults;
+		$this->settings = $this->_defaultConfig;
 		parent::__construct($View, $settings);
 	}
 

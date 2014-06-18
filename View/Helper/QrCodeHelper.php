@@ -95,7 +95,7 @@ class QrCodeHelper extends AppHelper {
 	 * @return string Url
 	 */
 	protected function _uri($params = array()) {
-		$params = array_merge($this->options, $params);
+		$params += $this->options;
 		$pieces = array();
 		foreach ($params as $key => $value) {
 			$pieces[] = $key . '=' . $value;

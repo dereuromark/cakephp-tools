@@ -471,7 +471,7 @@ class GoogleMapV3Helper extends AppHelper {
 			$defaults = array_merge($defaults, $options['icon']);
 			unset($options['icon']);
 		}
-		$options = array_merge($defaults, $options);
+		$options += $defaults;
 
 		$params = array();
 		$params['map'] = $this->name();
@@ -797,7 +797,7 @@ var iconShape = {
 	 */
 	public function addInfoWindow($options = array()) {
 		$defaults = $this->_currentOptions['infoWindow'];
-		$options = array_merge($defaults, $options);
+		$options += $defaults;
 
 		if (!empty($options['lat']) && !empty($options['lng'])) {
 			$position = "new google.maps.LatLng(" . $options['lat'] . ", " . $options['lng'] . ")";
@@ -1313,7 +1313,7 @@ var iconShape = {
 		*/
 
 		$defaults = array_merge($this->_defaultOptions, $this->_defaultOptions['staticMap']);
-		$mapOptions = array_merge($defaults, $options);
+		$mapOptions = $options + $defaults;
 
 		$params = array_intersect_key($mapOptions, array(
 			'sensor' => null,

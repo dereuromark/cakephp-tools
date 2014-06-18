@@ -45,7 +45,7 @@ class FlattrHelper extends AppHelper {
 			//'hidden' => '',
 			//'description' => '',
 		);
-		$options = array_merge($defaults, $options);
+		$options += $defaults;
 
 		$mode = $options['mode'];
 		unset($options['mode']);
@@ -63,7 +63,7 @@ class FlattrHelper extends AppHelper {
 			'style' => 'display:none;',
 			'rel' => 'flattr;' . implode(';', $rev)
 		);
-		$linkOptions = array_merge($linkOptions, $attr);
+		$linkOptions = $attr + $linkOptions;
 
 		$js = "(function() {
 	var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];

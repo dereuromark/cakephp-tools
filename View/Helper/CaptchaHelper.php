@@ -21,7 +21,7 @@ class CaptchaHelper extends AppHelper {
 
 	public $helpers = array('Form');
 
-	protected $_defaults = array(
+	protected $_defaultConfig = array(
 		'difficulty' => 1, # initial diff. level (@see operator: + = 0, +- = 1, +-* = 2)
 		'raiseDifficulty' => 2, # number of failed trails, after the x. one the following one it will be more difficult
 	);
@@ -39,10 +39,10 @@ class CaptchaHelper extends AppHelper {
 		// Set up an array with the operators that we want to use. With difficulty=1 it is only subtraction and addition.
 		$this->operatorConvert = array(0 => array('+', __('calcPlus')), 1 => array('-', __('calcMinus')), 2 => '*', __('calcTimes'));
 
-		$this->settings = array_merge(CaptchaLib::$defaults, $this->_defaults);
+		$this->settings = $this->_defaultConfig + CaptchaLib::$defaults;
 		$settings = (array)Configure::read('Captcha');
 		if (!empty($settings)) {
-			$this->settings = array_merge($this->settings, $settings);
+			$this->settings = $settings + $this->settings;
 		}
 	}
 
@@ -121,7 +121,7 @@ class CaptchaHelper extends AppHelper {
 	 * @return string HTML
 	 */
 	public function input($modelName = null, $options = array()) {
-		$defaultOptions = array(
+		$defaults = array(
 			'type' => 'text',
 			'class' => 'captcha',
 			'value' => '',
@@ -131,7 +131,7 @@ class CaptchaHelper extends AppHelper {
 			'autocomplete' => 'off',
 			'after' => __('captchaTip'),
 		);
-		$options = array_merge($defaultOptions, $options);
+		$options += $defaults;
 
 		if ($options['combined'] === true) {
 			$options['between'] = $this->captcha($modelName);

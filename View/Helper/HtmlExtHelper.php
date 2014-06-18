@@ -58,11 +58,12 @@ class HtmlExtHelper extends HtmlHelper {
 		if (!isset($this->tags['time'])) {
 			$this->tags['time'] = '<time%s>%s</time>';
 		}
-		$options = array_merge(array(
+		$defaults = array(
 			'datetime' => '%Y-%m-%d %T',
 			'pubdate' => false,
 			'format' => '%Y-%m-%d %T',
-		), $options);
+		);
+		$options += $defaults;
 
 		if ($options['format'] !== null) {
 			if (!isset($this->Time)) {

@@ -119,12 +119,12 @@ class TreeHelper extends AppHelper {
 	 * @return string html representation of the passed data
 	 * @throws CakeException
 	 */
-	public function generate($data, $settings = array()) {
+	public function generate(array $data, array $settings = array()) {
 		if (!$data) {
 			return '';
 		}
 
-		$this->_settings = array_merge($this->_defaults, (array)$settings);
+		$this->_settings = $settings + $this->_defaults;
 		if ($this->_settings['autoPath'] && !isset($this->_settings['autoPath'][2])) {
 			$this->_settings['autoPath'][2] = 'active';
 		}
@@ -255,7 +255,7 @@ class TreeHelper extends AppHelper {
 				$result['children'] = array();
 			}
 
-			$this->_settings = array_merge($this->_settings, $elementData);
+			$this->_settings = $elementData + $this->_settings;
 			if ($this->_settings['fullSettings']) {
 				$elementData = $this->_settings;
 			}
@@ -464,13 +464,13 @@ class TreeHelper extends AppHelper {
 	 *
 	 * Logic to apply styles to tags.
 	 *
-	 * @param mixed $rType
+	 * @param string $rType
 	 * @param array $elementData
 	 * @return void
 	 */
-	protected function _attributes($rType, $elementData = array(), $clear = true) {
+	protected function _attributes($rType, array $elementData = array(), $clear = true) {
 		extract($this->_settings);
-		if ($rType == $type) {
+		if ($rType === $type) {
 			$attributes = $this->_typeAttributes;
 			if ($clear) {
 				$this->_typeAttributes = $this->_typeAttributesNext;
@@ -483,7 +483,7 @@ class TreeHelper extends AppHelper {
 				$this->_itemAttributes = array();
 			}
 		}
-		if ($rType == $itemType && $elementData['activePathElement']) {
+		if ($rType === $itemType && $elementData['activePathElement']) {
 			if ($elementData['activePathElement'] === true) {
 				$attributes['class'][] = $autoPath[2];
 			} else {
@@ -515,13 +515,13 @@ class TreeHelper extends AppHelper {
 	 * Mark unrelated records as hidden using `'hide' => 1`.
 	 * In the callback or element you can then return early in this case.
 	 *
-	 * @param array $tree
-	 * @param array $treePath
+	 * @param array $tree Tree
+	 * @param array $path Tree path
 	 * @param int $level
 	 * @return void
 	 * @throws CakeException
 	 */
-	protected function _markUnrelatedAsHidden(&$tree, $path, $level = 0) {
+	protected function _markUnrelatedAsHidden(&$tree, array $path, $level = 0) {
 		extract($this->_settings);
 		$siblingIsActive = false;
 		foreach ($tree as $key => &$subTree) {

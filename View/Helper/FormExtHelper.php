@@ -861,7 +861,7 @@ class FormExtHelper extends FormHelper {
 		}
 		$fieldname = Inflector::camelize($field);
 
-		$customOptions = array_merge($defaultOptions, $options);
+		$customOptions = $options + $defaultOptions;
 		$format24Hours = (int)$customOptions['timeFormat'] !== 24 ? false : true;
 
 		$blacklist = array('timeFormat' => null, 'dateFormat' => null, 'separator' => null);
@@ -1038,10 +1038,10 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 	public function autoComplete($field = null, $options = array(), $jquery = null) {
 		$this->autoCompleteScripts();
 
-		$defaultOptions = array(
+		$defaults = array(
 			'autocomplete' => 'off'
 		);
-		$options = array_merge($defaultOptions, $options);
+		$options += $defaults;
 		if (empty($options['id']) && is_array($jquery)) {
 			$options['id'] = Inflector::camelize(str_replace(".", "_", $field));
 		}
@@ -1141,7 +1141,7 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 		$defaults = array(
 			'class' => 'checkbox-toggle checkboxToggle'
 		);
-		$options = array_merge($defaults, $options);
+		$options += $defaults;
 		return $script . parent::checkbox($fieldName, $options);
 	}
 

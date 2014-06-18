@@ -75,7 +75,7 @@ class DiffHelper extends AppHelper {
 		$defaults = array(
 			'class' => 'diff'
 		);
-		$options = array_merge($defaults, $options);
+		$options += $defaults;
 		$options['escape'] = null;
 		return $this->Html->tag('div', $string, $options);
 	}
@@ -94,7 +94,7 @@ class DiffHelper extends AppHelper {
 		$defaults = array(
 			'class' => 'diff'
 		);
-		$options = array_merge($defaults, $options);
+		$options += $defaults;
 		$options['escape'] = null;
 		return $this->Html->tag('div', $string, $options);
 	}
