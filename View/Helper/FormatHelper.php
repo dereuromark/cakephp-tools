@@ -354,8 +354,6 @@ class FormatHelper extends TextHelper {
 
 		if (isset($a) && $a === false) {
 			$alt = '';
-		} elseif (empty($a)) {
-
 		} else {
 			$alt = $a;
 		}
