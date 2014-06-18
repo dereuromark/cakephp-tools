@@ -102,10 +102,10 @@ class FormatHelper extends TextHelper {
 		$prevSlug = $nextSlug = null;
 		if (!empty($options['slug'])) {
 			if (!empty($neighbors['prev'])) {
-				$prevSlug = slug($neighbors['prev'][$alias][$field]);
+				$prevSlug = Inflector::slug($neighbors['prev'][$alias][$field], '-');
 			}
 			if (!empty($neighbors['next'])) {
-				$nextSlug = slug($neighbors['next'][$alias][$field]);
+				$nextSlug = Inflector::slug($neighbors['next'][$alias][$field], '-');
 			}
 		}
 		$titleAlias = $alias;
