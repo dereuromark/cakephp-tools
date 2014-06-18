@@ -404,15 +404,16 @@ class FormatHelper extends TextHelper {
 		}
 
 		$type = extractPathInfo('filename', $icon);
-		$title = isset($t) ? $t : ucfirst($type);
-		$alt = (isset($a) ? $a : Inflector::slug($title, '-'));
-		if ($translate !== false) {
-			$title = __($title);
-			$alt = __($alt);
-		}
-		$alt = '[' . $alt . ']';
 
 		if (!$this->settings['fontIcons'] || !isset($this->settings['fontIcons'][$type])) {
+			$title = isset($t) ? $t : ucfirst($type);
+			$alt = (isset($a) ? $a : Inflector::slug($title, '-'));
+			if ($translate !== false) {
+				$title = __($title);
+				$alt = __($alt);
+			}
+			$alt = '[' . $alt . ']';
+
 			$defaults = array('title' => $title, 'alt' => $alt, 'class' => 'icon');
 			$options += $defaults;
 			if (substr($icon, 0, 1) !== '/') {
@@ -421,7 +422,7 @@ class FormatHelper extends TextHelper {
 			return $this->Html->image($icon, $options);
 		}
 
-		$options['title'] = $title;
+		$options['title'] = $t;
 		$options['translate'] = $translate;
 		return $this->_fontIcon($type, $options);
 	}
