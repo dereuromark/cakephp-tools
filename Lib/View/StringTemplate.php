@@ -28,10 +28,10 @@ class StringTemplate {
  *
  * @var array
  */
-	protected $_defaultConfig = [
+	protected $_defaultConfig = array(
 		'attribute' => '{{name}}="{{value}}"',
 		'compactAttribute' => '{{name}}="{{value}}"',
-	];
+	);
 
 	protected $_config;
 
@@ -149,14 +149,14 @@ class StringTemplate {
 
 		$template = $this->config($name);
 		if ($template === null) {
-			return $this->_compiled[$name] = [null, null];
+			return $this->_compiled[$name] = array(null, null);
 		}
 
 		preg_match_all('#\{\{(\w+)\}\}#', $template, $matches);
-		return $this->_compiled[$name] = [
+		return $this->_compiled[$name] = array(
 			str_replace($matches[0], '%s', $template),
 			$matches[1]
-		];
+		);
 	}
 
 /**
@@ -206,13 +206,13 @@ class StringTemplate {
  */
 	public function formatAttributes($options, $exclude = null) {
 		$insertBefore = ' ';
-		$options = (array)$options + ['escape' => true];
+		$options = (array)$options + array('escape' => true);
 
 		if (!is_array($exclude)) {
 			$exclude = array();
 		}
 
-		$exclude = ['escape' => true, 'idPrefix' => true] + array_flip($exclude);
+		$exclude = array('escape' => true, 'idPrefix' => true) + array_flip($exclude);
 		$escape = $options['escape'];
 		$attributes = array();
 
@@ -239,26 +239,26 @@ class StringTemplate {
 			$value = implode(' ', $value);
 		}
 		if (is_numeric($key)) {
-			return $this->format('compactAttribute', [
+			return $this->format('compactAttribute', array(
 				'name' => $value,
 				'value' => $value
-			]);
+			));
 		}
-		$truthy = [1, '1', true, 'true', $key];
+		$truthy = array(1, '1', true, 'true', $key);
 		$isMinimized = in_array($key, $this->_compactAttributes);
 		if ($isMinimized && in_array($value, $truthy, true)) {
-			return $this->format('compactAttribute', [
+			return $this->format('compactAttribute', array(
 				'name' => $key,
 				'value' => $key
-			]);
+			));
 		}
 		if ($isMinimized) {
 			return '';
 		}
-		return $this->format('attribute', [
+		return $this->format('attribute', array(
 			'name' => $key,
 			'value' => $escape ? h($value) : $value
-		]);
+		));
 	}
 
 }
