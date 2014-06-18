@@ -336,6 +336,8 @@ class FormatHelper extends TextHelper {
 	/**
 	 * Quick way of printing default icons
 	 *
+	 * @todo refactor to $type, $options, $attributes
+	 *
 	 * @param type
 	 * @param title
 	 * @param alt (set to FALSE if no alt is supposed to be shown)
@@ -346,8 +348,6 @@ class FormatHelper extends TextHelper {
 	public function icon($type, $t = null, $a = null, $translate = null, $options = array()) {
 		if (isset($t) && $t === false) {
 			$title = '';
-		} elseif (empty($t)) {
-
 		} else {
 			$title = $t;
 		}
@@ -360,22 +360,19 @@ class FormatHelper extends TextHelper {
 			$alt = $a;
 		}
 
-		if (array_key_exists($type, $this->icons)) {
-			$pic = $this->icons[$type]['pic'];
-			$title = (isset($title) ? $title : $this->icons[$type]['title']);
-			$alt = (isset($alt) ? $alt : preg_replace('/[^a-zA-Z0-9]/', '', $this->icons[$type]['title']));
-			if ($translate !== false) {
-				$title = __($title);
-				$alt = __($alt);
-			}
-			$alt = '[' . $alt . ']';
-		} else {
-			$pic = 'pixelspace.gif';
-			$title = '';
-			$alt = '';
-		}
-
 		if (!$this->settings['fontIcons'] || !isset($this->settings['fontIcons'][$type])) {
+			if (array_key_exists($type, $this->icons)) {
+				$pic = $this->icons[$type]['pic'];
+				$title = (isset($title) ? $title : $this->icons[$type]['title']);
+				$alt = (isset($alt) ? $alt : preg_replace('/[^a-zA-Z0-9]/', '', $this->icons[$type]['title']));
+				if ($translate !== false) {
+					$title = __($title);
+					$alt = __($alt);
+				}
+				$alt = '[' . $alt . ']';
+			} else {
+				$pic = 'pixelspace.gif';
+			}
 			$defaults = array('title' => $title, 'alt' => $alt, 'class' => 'icon');
 			$newOptions = $options + $defaults;
 
@@ -445,7 +442,7 @@ class FormatHelper extends TextHelper {
 		$options += $defaults;
 
 		if (!isset($options['title'])) {
-			$options['title'] = ucfirst($options['title']);
+			$options['title'] = ucfirst($type);
 			if ($options['translate'] !== false) {
 				$options['title'] = __($options['title']);
 			}
