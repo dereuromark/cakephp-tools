@@ -63,6 +63,17 @@ class FormatHelperTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * FormatHelperTest::testCIcon()
+	 *
+	 * @return void
+	 */
+	public function testCIcon() {
+		$result = $this->Format->cIcon('edit.png');
+		$expected = '<img src="/img/icons/edit.png" title="' . __('Edit') . '" alt="[' . __('Edit') . ']" class="icon" />';
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
 	 * FormatHelperTest::testIconWithFontIcon()
 	 *
 	 * @return void
@@ -70,6 +81,18 @@ class FormatHelperTest extends MyCakeTestCase {
 	public function testIconWithFontIcon() {
 		$this->Format->settings['fontIcons'] = array('edit' => 'fa fa-pencil');
 		$result = $this->Format->icon('edit');
+		$expected = '<i class="fa fa-pencil edit" title="' . __('Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * FormatHelperTest::testCIconWithFontIcon()
+	 *
+	 * @return void
+	 */
+	public function testCIconWithFontIcon() {
+		$this->Format->settings['fontIcons'] = array('edit' => 'fa fa-pencil');
+		$result = $this->Format->cIcon('edit.png');
 		$expected = '<i class="fa fa-pencil edit" title="' . __('Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
 		$this->assertEquals($expected, $result);
 	}
@@ -121,6 +144,7 @@ class FormatHelperTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * @return void
 	 */
 	public function testOk() {
 		$content = 'xyz';
@@ -135,6 +159,42 @@ class FormatHelperTest extends MyCakeTestCase {
 		}
 	}
 
+	/**
+	 * FormatHelperTest::testConfigure()
+	 *
+	 * @return void
+	 */
+	public function testNeighbors() {
+		if (!defined('ICON_PREV')) {
+			define('ICON_PREV', 'prev');
+		}
+		if (!defined('ICON_NEXT')) {
+			define('ICON_NEXT', 'next');
+		}
+
+		$neighbors = array(
+			'prev' => array('ModelName' => array('id' => 1, 'foo' => 'bar')),
+			'next' => array('ModelName' => array('id' => 2, 'foo' => 'y')),
+		);
+		$result = $this->Format->neighbors($neighbors, 'foo');
+		$expected = '<div class="next-prev-navi nextPrevNavi"><a href="/index/1" title="bar"><img src="/img/icons/prev" alt="[]" class="icon" />&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/index/2" title="y"><img src="/img/icons/next" alt="[]" class="icon" />&nbsp;nextRecord</a></div>';
+
+		$this->assertEquals($expected, $result);
+
+
+		$this->Format->settings['fontIcons'] = array(
+			'prev' => 'fa fa-prev',
+			'next' => 'fa fa-next');
+		$result = $this->Format->neighbors($neighbors, 'foo');
+		$expected = '<div class="next-prev-navi nextPrevNavi"><a href="/index/1" title="bar"><i class="fa fa-prev prev" title="" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/index/2" title="y"><i class="fa fa-next next" title="" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;nextRecord</a></div>';
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * FormatHelperTest::testPriorityIcon()
+	 *
+	 * @return void
+	 */
 	public function testPriorityIcon() {
 		$values = array(
 			array(1, array(), '<div class="prio-low" title="prioLow">&nbsp;</div>'),

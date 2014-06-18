@@ -19,6 +19,8 @@ class FormatHelper extends TextHelper {
 	 */
 	public $helpers = array('Html', 'Tools.Numeric');
 
+	public $template;
+
 	protected $_defaultConfig = array(
 		'fontIcons' => false
 	);
@@ -28,6 +30,13 @@ class FormatHelper extends TextHelper {
 
 		if ($config['fontIcons'] === true) {
 			$config['fontIcons'] = (array)Configure::read('Format.fontIcons');
+		}
+
+		$templates = array(
+			'icon' => '<i class="{{class}}" title="{{title}}" data-placement="bottom" data-toggle="tooltip"></i>',
+		) + (array)Configure::read('Format.templates');
+		if (!isset($this->template)) {
+			$this->template = new StringTemplate($templates);
 		}
 
 		parent::__construct($View, $config);
@@ -40,8 +49,8 @@ class FormatHelper extends TextHelper {
 	 */
 	public function thumbs($id, $inactive = false, $inactiveTitle = null) {
 		$class = 'Active';
-		$upTitle = __('Zustimmen');
-		$downTitle = __('Dagegen');
+		$upTitle = __('consentThis');
+		$downTitle = __('dissentThis');
 		if ($inactive === true) {
 			$class = 'Inactive';
 			$upTitle = $downTitle = !empty($inactiveTitle) ? $inactiveTitle : __('alreadyVoted');
@@ -114,7 +123,7 @@ class FormatHelper extends TextHelper {
 			$titleField = h($titleField);
 		}
 
-		$ret = '<div class="nextPrevNavi">';
+		$ret = '<div class="next-prev-navi nextPrevNavi">';
 		if (!empty($neighbors['prev'])) {
 			$url = array($neighbors['prev'][$alias]['id'], $prevSlug);
 			if (!empty($options['url'])) {
@@ -124,7 +133,7 @@ class FormatHelper extends TextHelper {
 			$ret .= $this->Html->link($this->cIcon(ICON_PREV, false) . '&nbsp;' . __('prev' . $name), $url, array('escape' => false, 'title' => $neighbors['prev'][$titleAlias][$titleField]));
 		} else {
 			$ret .= $this->cIcon(ICON_PREV_DISABLED, __('noPrev' . $name)) . '&nbsp;' . __('prev' . $name);
-}
+		}
 		$ret .= '&nbsp;&nbsp;';
 		if (!empty($neighbors['next'])) {
 			$url = array($neighbors['next'][$alias]['id'], $prevSlug);
@@ -373,29 +382,9 @@ class FormatHelper extends TextHelper {
 			return $this->Html->image('icons/' . $pic, $newOptions);
 		}
 
-		$iconType = $this->settings['fontIcons'][$type];
-
-		$templates = array(
-			'icon' => '<i class="{{class}}" title="{{title}}" data-placement="bottom" data-toggle="tooltip"></i>',
-		);
-		if (!isset($this->template)) {
-			$this->template = new StringTemplate($templates);
-		}
-
-		if (!$title) {
-			$title = ucfirst($type);
-			if ($translate !== false) {
-				$title = __($title);
-			}
-		}
-
-		$defaults = array(
-			'title' => $title,
-			'class' => $iconType . ' ' . $type
-		);
-
-		$options += $defaults;
-		return $this->template->format('icon', $options);
+		$options['title'] = $title;
+		$options['translate'] = $translate;
+		return $this->_fontIcon($type, $options);
 	}
 
 	/**
@@ -417,8 +406,8 @@ class FormatHelper extends TextHelper {
 			$t = isset($t['title']) ? $t['title'] : null; // deprecated
 		}
 
-		$title = (isset($t) ? $t : ucfirst(extractPathInfo('filename', $icon)));
-		//$alt = (isset($a)?$a:preg_replace('/[^a-zA-Z0-9]/', '', $title));
+		$type = extractPathInfo('filename', $icon);
+		$title = isset($t) ? $t : ucfirst($type);
 		$alt = (isset($a) ? $a : Inflector::slug($title, '-'));
 		if ($translate !== false) {
 			$title = __($title);
@@ -426,12 +415,43 @@ class FormatHelper extends TextHelper {
 		}
 		$alt = '[' . $alt . ']';
 
-		$defaultOptions = array('title' => $title, 'alt' => $alt, 'class' => 'icon');
-		$options = array_merge($defaultOptions, $options);
-		if (substr($icon, 0, 1) !== '/') {
-			$icon = 'icons/' . $icon;
+		if (!$this->settings['fontIcons'] || !isset($this->settings['fontIcons'][$type])) {
+			$defaults = array('title' => $title, 'alt' => $alt, 'class' => 'icon');
+			$options += $defaults;
+			if (substr($icon, 0, 1) !== '/') {
+				$icon = 'icons/' . $icon;
+			}
+			return $this->Html->image($icon, $options);
 		}
-		return $this->Html->image($icon, $options);
+
+		$options['title'] = $title;
+		$options['translate'] = $translate;
+		return $this->_fontIcon($type, $options);
+	}
+
+	/**
+	 * FormatHelper::_fontIcon()
+	 *
+	 * @param string $type
+	 * @param array $options
+	 * @return string
+	 */
+	protected function _fontIcon($type, $options) {
+		$iconType = $this->settings['fontIcons'][$type];
+
+		$defaults = array(
+			'class' => $iconType . ' ' . $type
+		);
+		$options += $defaults;
+
+		if (!isset($options['title'])) {
+			$options['title'] = ucfirst($options['title']);
+			if ($options['translate'] !== false) {
+				$options['title'] = __($options['title']);
+			}
+		}
+
+		return $this->template->format('icon', $options);
 	}
 
 	/**
@@ -852,15 +872,29 @@ class FormatHelper extends TextHelper {
 		$htmlOptions = array_merge($htmlDefaults, $htmlOptions);
 		//return $this->Html->image('/files/progress_bar/index.php'.$params, $htmlOptions);
 
-		// bug in Html::webroot() ??? ommits ?...
 		return '<img src="' . $this->Html->url('/files') . '/progress_bar/index.php' . $params . '" title="' . $htmlOptions['title'] . '" class="' .
 			$htmlOptions['class'] . '" alt="' . $htmlOptions['title'] . '" />';
 	}
 
+	/**
+	 * FormatHelper::tip()
+	 *
+	 * @param mixed $type
+	 * @param mixed $file
+	 * @param mixed $title
+	 * @param mixed $icon
+	 * @return string
+	 */
 	public function tip($type, $file, $title, $icon) {
 		return $this->cIcon($icon, $title, null, null, array('class' => 'tip' . ucfirst($type) . ' hand', 'rel' => $file));
 	}
 
+	/**
+	 * FormatHelper::tipHelp()
+	 *
+	 * @param mixed $file
+	 * @return string
+	 */
 	public function tipHelp($file) {
 		return $this->tip('help', $file, 'Hilfe', ICON_HELP);
 	}
@@ -892,6 +926,8 @@ class FormatHelper extends TextHelper {
 
 	/**
 	 * Display traffic light for status etc
+	 *
+	 * @return void
 	 */
 	public function statusLight($color = null, $title = null, $alt = null, $options = array()) {
 		$icons = array(
