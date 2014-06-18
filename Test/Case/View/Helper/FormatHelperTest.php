@@ -36,6 +36,7 @@ class FormatHelperTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * @return void
 	 */
 	public function testWarning() {
 		$content = 'xyz';
@@ -51,6 +52,59 @@ class FormatHelperTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * FormatHelperTest::testIcon()
+	 *
+	 * @return void
+	 */
+	public function testIcon() {
+		$result = $this->Format->icon('edit');
+		$expected = '<img src="/img/icons/edit.gif" title="' . __('Edit') . '" alt="[' . __('Edit') . ']" class="icon" />';
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * FormatHelperTest::testIconWithFontIcon()
+	 *
+	 * @return void
+	 */
+	public function testIconWithFontIcon() {
+		$this->Format->settings['fontIcons'] = array('edit' => 'fa fa-pencil');
+		$result = $this->Format->icon('edit');
+		$expected = '<i class="fa fa-pencil edit" title="' . __('Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * FormatHelperTest::testSpeedOfIcons()
+	 *
+	 * @return void
+	 */
+	public function testSpeedOfIcons() {
+		$count = 1000;
+
+		$time1 = microtime(true);
+		for ($i = 0; $i < $count; $i++) {
+			$result = $this->Format->icon('edit');
+		}
+		$time2 = microtime(true);
+
+		$this->Format->settings['fontIcons'] = array('edit' => 'fa fa-pencil');
+
+		$time3 = microtime(true);
+		for ($i = 0; $i < $count; $i++) {
+			$result = $this->Format->icon('edit');
+		}
+		$time4 = microtime(true);
+
+		$normalIconSpeed = number_format($time2 - $time1, 2);
+		$this->debug('Normal Icons: ' . $normalIconSpeed);
+		$fontIconViaStringTemplateSpeed = number_format($time4 - $time3, 2);
+		$this->debug('StringTemplate and Font Icons: ' . $fontIconViaStringTemplateSpeed);
+		$this->assertTrue($fontIconViaStringTemplateSpeed < $normalIconSpeed);
+	}
+
+	/**
+	 * @return void
 	 */
 	public function testFontIcon() {
 		$result = $this->Format->fontIcon('signin');

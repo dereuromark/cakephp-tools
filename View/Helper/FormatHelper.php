@@ -1,5 +1,6 @@
 <?php
 App::uses('TextHelper', 'View/Helper');
+App::uses('StringTemplate', 'Tools.View');
 
 /**
  * Format helper with basic html snippets
@@ -18,8 +19,24 @@ class FormatHelper extends TextHelper {
 	 */
 	public $helpers = array('Html', 'Tools.Numeric');
 
+	protected $_defaultConfig = array(
+		'fontIcons' => false
+	);
+
+	public function __construct(View $View, $config = array()) {
+		$config += $this->_defaultConfig;
+
+		if ($config['fontIcons'] === true) {
+			$config['fontIcons'] = (array)Configure::read('Format.fontIcons');
+		}
+
+		parent::__construct($View, $config);
+	}
+
 	/**
 	 * jqueryAccess: {id}Pro, {id}Contra
+	 *
+	 * @return string
 	 */
 	public function thumbs($id, $inactive = false, $inactiveTitle = null) {
 		$class = 'Active';
@@ -46,6 +63,7 @@ class FormatHelper extends TextHelper {
 	 * - name: title name: next{Record} (if none is provided, "record" is used - not translated!)
 	 * - slug: true/false (defaults to false)
 	 * - titleField: field or Model.field
+	 * @return string
 	 */
 	public function neighbors($neighbors, $field, $options = array()) {
 		if (mb_strpos($field, '.') !== false) {
@@ -159,7 +177,10 @@ class FormatHelper extends TextHelper {
 	/**
 	 * Returns img from customImgFolder
 	 *
-	 * @param ARRAY options (ending [default: gif])
+	 * @param string $folder
+	 * @param string $icon
+	 * @param bool $checkExists
+	 * @param array $options (ending [default: gif])
 	 * @return string
 	 */
 	public function customIcon($folder, $icon = null, $checkExist = false, $options = array(), $attr = array()) {
@@ -275,9 +296,9 @@ class FormatHelper extends TextHelper {
 	 *
 	 * @param string|array $icon
 	 * @param array $options
-	 * @return void
+	 * @return string
 	 */
-	public function fontIcon($icon, $options = array()) {
+	public function fontIcon($icon, array $options = array(), array $attributes = array()) {
 		$icon = (array)$icon;
 		$class = array();
 		foreach ($icon as $i) {
@@ -304,7 +325,7 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * Quick way of printing default icons (have to be 16px X 16px !!!)
+	 * Quick way of printing default icons
 	 *
 	 * @param type
 	 * @param title
@@ -314,8 +335,6 @@ class FormatHelper extends TextHelper {
 	 * @return string
 	 */
 	public function icon($type, $t = null, $a = null, $translate = null, $options = array()) {
-		$html = '';
-
 		if (isset($t) && $t === false) {
 			$title = '';
 		} elseif (empty($t)) {
@@ -347,13 +366,36 @@ class FormatHelper extends TextHelper {
 			$alt = '';
 		}
 
-		$defaultOptions = array('title' => $title, 'alt' => $alt, 'class' => 'icon');
-		//$newOptions['onclick'] = $options['onclick'];
-		$newOptions = array_merge($defaultOptions, $options);
+		if (!$this->settings['fontIcons'] || !isset($this->settings['fontIcons'][$type])) {
+			$defaults = array('title' => $title, 'alt' => $alt, 'class' => 'icon');
+			$newOptions = $options + $defaults;
 
-		$html .= $this->Html->image('icons/' . $pic, $newOptions);
+			return $this->Html->image('icons/' . $pic, $newOptions);
+		}
 
-		return $html;
+		$iconType = $this->settings['fontIcons'][$type];
+
+		$templates = array(
+			'icon' => '<i class="{{class}}" title="{{title}}" data-placement="bottom" data-toggle="tooltip"></i>',
+		);
+		if (!isset($this->template)) {
+			$this->template = new StringTemplate($templates);
+		}
+
+		if (!$title) {
+			$title = ucfirst($type);
+			if ($translate !== false) {
+				$title = __($title);
+			}
+		}
+
+		$defaults = array(
+			'title' => $title,
+			'class' => $iconType . ' ' . $type
+		);
+
+		$options += $defaults;
+		return $this->template->format('icon', $options);
 	}
 
 	/**
@@ -599,11 +641,11 @@ class FormatHelper extends TextHelper {
 	/**
 	 * Display yes/no symbol.
 	 *
+	 * @todo $on=1, $text=false, $ontitle=false,... => in array(OPTIONS) packen
+	 *
 	 * @param text: default FALSE; if TRUE, text instead of the image
 	 * @param ontitle: default FALSE; if it is embadded in a link, set to TRUE
 	 * @return image:Yes/No or text:Yes/No
-	 *
-	 * @todo $on=1, $text=false, $ontitle=false,... => in array(OPTIONS) packen
 	 */
 	public function yesNo($v, $ontitle = null, $offtitle = null, $on = 1, $text = false, $notitle = false) {
 		$ontitle = (!empty($ontitle) ? $ontitle : __('Ja'));
@@ -633,7 +675,7 @@ class FormatHelper extends TextHelper {
 	/**
 	 * Get URL of a png img of a website (16x16 pixel).
 	 *
-	 * @parm string domain
+	 * @param string domain
 	 * @return string
 	 */
 	public function siteIconUrl($domain) {
@@ -745,7 +787,7 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * Generate a pagination count: #1 etc for each pagiation record
+	 * Generates a pagination count: #1 etc for each pagination record
 	 * respects order (ASC/DESC)
 	 *
 	 * @param array $paginator
