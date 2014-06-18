@@ -16,7 +16,7 @@ App::uses('Utility', 'Tools.Utility');
  */
 class CaptchaBehavior extends ModelBehavior {
 
-	protected $defaults = array(
+	protected $_defaultConfig = array(
 		'minTime' => CAPTCHA_MIN_TIME,
 		'maxTime' => CAPTCHA_MAX_TIME,
 		'log' => false, // Log errors
@@ -35,14 +35,14 @@ class CaptchaBehavior extends ModelBehavior {
 	 * @return void
 	 */
 	public function setup(Model $Model, $config = array()) {
-		$defaults = array_merge(CaptchaLib::$defaults, $this->defaults);
+		$defaults = $this->_defaultConfig + CaptchaLib::$defaults;
 		$this->Model = $Model;
 
 		// Bootstrap configs
 		$this->settings[$Model->alias] = $defaults;
-		$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], (array)Configure::read('Captcha'));
+		$this->settings[$Model->alias] = (array)Configure::read('Captcha') + $this->settings[$Model->alias];
 		if (!empty($config)) {
-			$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], $config);
+			$this->settings[$Model->alias] = $config + $this->settings[$Model->alias];
 		}
 
 		// Local configs in specific action

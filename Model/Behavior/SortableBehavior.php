@@ -37,8 +37,7 @@ class SortableBehavior extends ModelBehavior {
 		if (!isset($this->settings[$Model->alias])) {
 			$this->settings[$Model->alias] = $this->_defaultConfig;
 		}
-		$this->settings[$Model->alias] = array_merge(
-		$this->settings[$Model->alias], (array)$config);
+		$this->settings[$Model->alias] = $config + $this->settings[$Model->alias];
 	}
 
 	/**

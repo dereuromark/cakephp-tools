@@ -47,7 +47,7 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 	 * @return void
 	 */
 	public function setup(Model $Model, $config = array()) {
-		$this->settings[$Model->alias] = $this->_defaultConfig;
+		$this->settings[$Model->alias] = $config + $this->_defaultConfig;
 
 		if (isset($config['fields'])) {
 			$myFields = array();
