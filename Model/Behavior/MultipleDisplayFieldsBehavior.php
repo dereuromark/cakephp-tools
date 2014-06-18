@@ -67,6 +67,10 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 		if (isset($config['defaults'])) {
 			$this->settings[$Model->alias]['defaults'] = $config['defaults'];
 		}
+		if (isset($config['displayField'])) {
+			$this->settings[$Model->alias]['displayField'] = $config['displayField'];
+		}
+		//$this->settings[$Model->alias] += $config;
 	}
 
 	/**
@@ -78,9 +82,6 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 	 * @return array Modified results
 	 */
 	public function afterFind(Model $Model, $results, $primary = false) {
-		if (empty($this->settings[$Model->alias]['multiple_display_fields'])) {
-			return $results;
-		}
 		// if displayFields is set, attempt to populate
 		foreach ($results as $key => $result) {
 			$displayFieldValues = array();
@@ -136,10 +137,7 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 	 * @return array Modified queryData
 	 */
 	public function beforeFind(Model $Model, $queryData) {
-		if (isset($queryData['list']) && !isset($this->settings[$Model->alias]['multiple_display_fields'])) {
-			// MOD 2009-01-09 ms (fixes problems with model related index functions - somehow gets triggered even on normal find queries...)
-			$this->settings[$Model->alias]['multiple_display_fields'] = 1;
-
+		if (isset($queryData['list'])) {
 			// substr is used to get rid of "{n}" fields' prefix...
 			array_push($queryData['fields'], substr($queryData['list']['keyPath'], 4));
 			foreach ($this->settings[$Model->alias]['fields'] as $mName => $mFields) {
@@ -147,8 +145,6 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 					array_push($queryData['fields'], $mName . '.' . $mField);
 				}
 			}
-		} else {
-			$this->settings[$Model->alias]['multiple_display_fields'] = 0;
 		}
 		return $queryData;
 	}

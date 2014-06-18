@@ -39,7 +39,7 @@ class KeyValueBehavior extends ModelBehavior {
 	 * @param array $config
 	 */
 	public function setup(Model $Model, $config = array()) {
-		$config = array_merge($this->_defaultConfig, $config);
+		$config += $this->_defaultConfig;
 		$this->settings[$Model->alias] = $config;
 		if (!$this->KeyValue) {
 			$this->KeyValue = ClassRegistry::init('Tools.KeyValue');
