@@ -246,7 +246,7 @@ class FormatHelper extends TextHelper {
 			'map' => array(),
 			'css' => true,
 		);
-		$options = array_merge($defaults, $options);
+		$options += $defaults;
 		extract($options);
 
 		$matching = array(
@@ -759,7 +759,7 @@ class FormatHelper extends TextHelper {
 	 */
 	public function _textAsImage($text, $options = array(), $attr = array()) {
 		$defaults = array('inline' => true, 'font' => FILES . 'linotype.ttf', 'size' => 18, 'color' => '#7A7166');
-		$options = array_merge($defaults, $options);
+		$options += $defaults;
 
 		if ($options['inline']) { // Inline base 64 encoded
 			$folder = CACHE . 'imagick';
@@ -797,7 +797,7 @@ class FormatHelper extends TextHelper {
 	 */
 	public function disabledLink($text, $options = array()) {
 		$defaults = array('class' => 'disabledLink', 'title' => __('notAvailable'));
-		$options = array_merge($defaults, $options);
+		$options += $defaults;
 
 		return $this->Html->tag('span', $text, $options);
 	}
@@ -851,7 +851,7 @@ class FormatHelper extends TextHelper {
 			'steps' => 15,
 			'decimals' => 1 // TODO: rename to places!!!
 		);
-		$options = array_merge($defaults, $options);
+		$options += $defaults;
 
 		$current = (((float)$progress / $options['max']) - $options['min']);
 		$percent = $current * 100;
@@ -865,7 +865,7 @@ class FormatHelper extends TextHelper {
 		$htmlDefaults = array('title' => $this->Numeric->format($percent, $options['decimals']) . ' ' . __('Percent'), 'class' => 'help');
 		$htmlDefaults['alt'] = $htmlDefaults['title'];
 
-		$htmlOptions = array_merge($htmlDefaults, $htmlOptions);
+		$htmlOptions += $htmlOptions;
 		//return $this->Html->image('/files/progress_bar/index.php'.$params, $htmlOptions);
 
 		return '<img src="' . $this->Html->url('/files') . '/progress_bar/index.php' . $params . '" title="' . $htmlOptions['title'] . '" class="' .
@@ -938,9 +938,9 @@ class FormatHelper extends TextHelper {
 
 		$icon = (in_array($color, $icons) ? $color : 'blank');
 
-		$defaultOptions = array('title' => (!empty($title) ? $title : ucfirst(__('color' . ucfirst($color)))), 'alt' => (!empty($alt) ? $alt :
+		$defaults = array('title' => (!empty($title) ? $title : ucfirst(__('color' . ucfirst($color)))), 'alt' => (!empty($alt) ? $alt :
 			__('color' . ucfirst($color))), 'class' => 'icon help');
-		$options = array_merge($defaultOptions, $options);
+		$options += $defaults;
 
 		return $this->Html->image('icons/status_light_' . $icon . '.gif', $options);
 	}
@@ -1222,7 +1222,7 @@ class FormatHelper extends TextHelper {
 			'heading' => true,
 			'escape' => true
 		);
-		$options = array_merge($defaults, $options);
+		$options += $defaults;
 
 		// Sanity check
 		if (empty($array) || !is_array($array)) {
