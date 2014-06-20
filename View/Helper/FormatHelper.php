@@ -677,8 +677,7 @@ class FormatHelper extends TextHelper {
 	/**
 	 * Display yes/no symbol.
 	 *
-	 * @todo $on=1, $text=false, $ontitle=false,... => in array(OPTIONS) packen
-	 * @todo Try to use font icons with icon()
+	 * @todo $on=1, $text=false, $ontitle=false,... => in array(OPTIONS)
 	 *
 	 * @param text: default FALSE; if TRUE, text instead of the image
 	 * @param ontitle: default FALSE; if it is embadded in a link, set to TRUE
