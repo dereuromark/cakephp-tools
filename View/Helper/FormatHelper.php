@@ -52,16 +52,23 @@ class FormatHelper extends TextHelper {
 	 * @return string
 	 */
 	public function thumbs($id, $inactive = false, $inactiveTitle = null) {
-		$class = 'Active';
+		$status = 'Active';
 		$upTitle = __('consentThis');
 		$downTitle = __('dissentThis');
 		if ($inactive === true) {
-			$class = 'Inactive';
+			$status = 'Inactive';
 			$upTitle = $downTitle = !empty($inactiveTitle) ? $inactiveTitle : __('alreadyVoted');
 		}
+
+		if ($this->settings['fontIcons']) {
+			// TODO: Return proper font icons
+			// fa-thumbs-down
+			// fa-thumbs-up
+		}
+
 		$ret = '<div class="thumbsUpDown">';
-		$ret .= '<div id="' . $id . 'Pro' . $class . '" rel="' . $id . '" class="thumbUp up' . $class . '" title="' . $upTitle . '"></div>';
-		$ret .= '<div id="' . $id . 'Contra' . $class . '" rel="' . $id . '" class="thumbDown down' . $class . '" title="' . $downTitle . '"></div>';
+		$ret .= '<div id="' . $id . 'Pro' . $status . '" rel="' . $id . '" class="thumbUp up' . $status . '" title="' . $upTitle . '"></div>';
+		$ret .= '<div id="' . $id . 'Contra' . $status . '" rel="' . $id . '" class="thumbDown down' . $status . '" title="' . $downTitle . '"></div>';
 		$ret .= '<br class="clear"/>';
 		$ret .=	'</div>';
 		return $ret;
@@ -158,6 +165,7 @@ class FormatHelper extends TextHelper {
 	 * NOTE: overriding not allowed by default
 	 *
 	 * @return void
+	 * @deprecated Try to use font icons and templates with icon()
 	 */
 	public function addIcon($name = null, $pic = null, $title = null, $allowOverride = false) {
 		if ($allowOverride === true || ($allowOverride !== true && !array_key_exists($name, $this->icons))) {
@@ -195,6 +203,7 @@ class FormatHelper extends TextHelper {
 	 * @param bool $checkExists
 	 * @param array $options (ending [default: gif])
 	 * @return string
+	 * @deprecated Try to use font icons or move functionality into own helper.
 	 */
 	public function customIcon($folder, $icon = null, $checkExist = false, $options = array(), $attr = array()) {
 		$attachment = 'default';
@@ -224,6 +233,7 @@ class FormatHelper extends TextHelper {
 
 	/**
 	 * @return string
+	 * @deprecated Try to use font icons or move functionality into own helper.
 	 */
 	public function importantIcon($icon, $value) {
 		$ending = 'gif';
@@ -242,6 +252,7 @@ class FormatHelper extends TextHelper {
 	 * - map: array (manually map values, if you use 1 based values no need for that)
 	 * - title, alt, ...
 	 * @return string html
+	 * @deprecated Try to use font icons or move functionality into own helper.
 	 */
 	public function priorityIcon($value, $options = array()) {
 		$defaults = array(
@@ -525,6 +536,7 @@ class FormatHelper extends TextHelper {
 	 * Display language flags
 	 *
 	 * @return string HTML
+	 * @deprecated Try to use font icons or move functionality into own helper.
 	 */
 	public function languageFlags() {
 		$langs = Configure::read('LanguagesAvailable');
@@ -666,6 +678,7 @@ class FormatHelper extends TextHelper {
 	 * Display yes/no symbol.
 	 *
 	 * @todo $on=1, $text=false, $ontitle=false,... => in array(OPTIONS) packen
+	 * @todo Try to use font icons with icon()
 	 *
 	 * @param text: default FALSE; if TRUE, text instead of the image
 	 * @param ontitle: default FALSE; if it is embadded in a link, set to TRUE
@@ -686,14 +699,15 @@ class FormatHelper extends TextHelper {
 		}
 
 		if ($text !== false) {
-			$light = $bez[$value];
-		} else {
-			//$light='<img src="images/icons/'.$icon.'" alt="'.$sbez[$value].'" '.($notitle!==false?'title="'.$bez[$value].'"':'').'/>';
-			//$light=$this->Html->image('',)<img src="images/icons/'.$icon.'" alt="'.$sbez[$value].'" '.($notitle!==false?'title="'.$bez[$value].'"':'').'/>';
-			$options = array('title' => ($ontitle === false ? '' : $bez[$value]), 'alt' => $sbez[$value], 'class' => 'icon');
-			$light = $this->Html->image('icons/' . $icon, $options);
+			return $bez[$value];
 		}
-		return $light;
+
+		$options = array('title' => ($ontitle === false ? '' : $bez[$value]), 'alt' => $sbez[$value], 'class' => 'icon');
+
+		if ($this->settings['fontIcons']) {
+			return $this->cIcon($icon, $options['title']);
+		}
+		return $this->Html->image('icons/' . $icon, $options);
 	}
 
 	/**
@@ -851,6 +865,7 @@ class FormatHelper extends TextHelper {
 	 * - steps
 	 * - decimals (how precise should the result be displayed)
 	 * @return string HTML
+	 * @deprecated Try to use font icons or move to own helper
 	 */
 	public function progressBar($progress, $options = array(), $htmlOptions = array()) {
 		$defaults = array(
@@ -888,6 +903,7 @@ class FormatHelper extends TextHelper {
 	 * @param mixed $title
 	 * @param mixed $icon
 	 * @return string
+	 * @deprecated Try to use font icons or move to own helper
 	 */
 	public function tip($type, $file, $title, $icon) {
 		return $this->cIcon($icon, $title, null, null, array('class' => 'tip' . ucfirst($type) . ' hand', 'rel' => $file));
@@ -898,6 +914,7 @@ class FormatHelper extends TextHelper {
 	 *
 	 * @param mixed $file
 	 * @return string
+	 * @deprecated Try to use font icons or move to own helper
 	 */
 	public function tipHelp($file) {
 		return $this->tip('help', $file, 'Hilfe', ICON_HELP);
@@ -932,6 +949,7 @@ class FormatHelper extends TextHelper {
 	 * Display traffic light for status etc
 	 *
 	 * @return void
+	 * @deprecated Try to use font icons or move to own helper
 	 */
 	public function statusLight($color = null, $title = null, $alt = null, $options = array()) {
 		$icons = array(
@@ -959,6 +977,7 @@ class FormatHelper extends TextHelper {
 	 * @param mixed $modified
 	 * @param mixed $options
 	 * @return string
+	 * @deprecated Try to use font icons or move to own helper
 	 */
 	public function onlineIcon($modified = null, $options = array()) {
 		// from low (off) to high (on)
@@ -1004,6 +1023,8 @@ class FormatHelper extends TextHelper {
 	/**
 	 * Returns green on ok, red otherwise
 	 *
+	 * @todo Remove inline css and make classes better: green=>ok red=>not-ok
+	 *
 	 * @param mixed $currentValue
 	 * @param bool $ok: true/false (defaults to false)
 	 * //@param string $comparizonType
@@ -1029,9 +1050,9 @@ class FormatHelper extends TextHelper {
 		$mailParts = explode('@', $mail, 2);
 		$domainParts = explode('.', $mailParts[1], 2);
 
-		$email = mb_substr($mailParts[0], 0, 1) . '..' . mb_substr($mailParts[0], -1, 1) . '@' . mb_substr($domainParts[0], 0, 1) . '..' . mb_substr($domainParts[0],
-			-1, 1) . '.' . $domainParts[1];
-		return $email;
+		$user = mb_substr($mailParts[0], 0, 1) . '..' . mb_substr($mailParts[0], -1, 1);
+		$domain = mb_substr($domainParts[0], 0, 1) . '..' . mb_substr($domainParts[0], -1, 1) . '.' . $domainParts[1];
+		return $user . '@' . $domain;
 	}
 
 	/**
@@ -1158,7 +1179,6 @@ class FormatHelper extends TextHelper {
 			$wArray[] = $words;
 		}
 
-		// Clear $text
 		$text = '';
 
 		// Apply padding when appropriate and rebuild the string
@@ -1173,7 +1193,6 @@ class FormatHelper extends TextHelper {
 			$text .= str_replace("\t", $spaces, implode("", $wArray[$i])) . "\n";
 		}
 
-		// Finished
 		return $text;
 	}
 
@@ -1183,6 +1202,8 @@ class FormatHelper extends TextHelper {
 	 * Supply a string and an array of disallowed words and any
 	 * matched words will be converted to #### or to the replacement
 	 * word you've submitted.
+	 *
+	 * @todo Move to Text Helper etc.
 	 *
 	 * @param string	the text string
 	 * @param string	the array of censoered words
@@ -1215,6 +1236,8 @@ class FormatHelper extends TextHelper {
 
 	/**
 	 * Translate a result array into a HTML table
+	 *
+	 * @todo Move to Text Helper etc.
 	 *
 	 * @author Aidan Lister <aidan@php.net>
 	 * @version 1.3.2

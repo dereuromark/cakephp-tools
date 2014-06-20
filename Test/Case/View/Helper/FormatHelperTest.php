@@ -150,6 +150,32 @@ class FormatHelperTest extends MyCakeTestCase {
 	/**
 	 * @return void
 	 */
+	public function testYesNo() {
+		$result = $this->Format->yesNo(true);
+		$expected = '<img src="/img/icons/yes.gif" title="' . __('Yes') . '" alt=';
+		$this->assertTextContains($expected, $result);
+
+		$result = $this->Format->yesNo(false);
+		$expected = '<img src="/img/icons/no.gif" title="' . __('No') . '" alt=';
+		$this->assertTextContains($expected, $result);
+
+		$this->Format->settings['fontIcons'] = array(
+			'yes' => 'fa fa-check',
+			'no' => 'fa fa-times');
+
+		$result = $this->Format->yesNo(true);
+		$expected = '<i class="fa fa-check yes" title="' . __('Yes') . '" data-placement="bottom" data-toggle="tooltip"></i>';
+		$this->assertEquals($expected, $result);
+
+		$result = $this->Format->yesNo(false);
+		$expected = '<i class="fa fa-times no" title="' . __('No') . '" data-placement="bottom" data-toggle="tooltip"></i>';
+		$this->assertEquals($expected, $result);
+	}
+
+
+	/**
+	 * @return void
+	 */
 	public function testOk() {
 		$content = 'xyz';
 		$data = array(
