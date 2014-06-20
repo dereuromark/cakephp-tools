@@ -22,7 +22,8 @@ class FormatHelper extends TextHelper {
 	public $template;
 
 	protected $_defaultConfig = array(
-		'fontIcons' => false
+		'fontIcons' => false, // Defaults to false for BC
+		'iconNamespace' => 'fa',  // Used to be icon
 	);
 
 	public function __construct(View $View, $config = array()) {
@@ -30,6 +31,9 @@ class FormatHelper extends TextHelper {
 
 		if ($config['fontIcons'] === true) {
 			$config['fontIcons'] = (array)Configure::read('Format.fontIcons');
+			if ($namespace = Configure::read('Format.iconNamespace')) {
+				$config['iconNamespace'] = $namespace;
+			}
 		}
 
 		$templates = array(
@@ -308,27 +312,31 @@ class FormatHelper extends TextHelper {
 	 * @return string
 	 */
 	public function fontIcon($icon, array $options = array(), array $attributes = array()) {
+		$defaults = array(
+			'namespace' => $this->settings['iconNamespace']
+		);
+		$options += $defaults;
 		$icon = (array)$icon;
 		$class = array();
 		foreach ($icon as $i) {
-			$class[] = 'icon-' . $i;
+			$class[] = $options['namespace'] . '-' . $i;
 		}
 		if (!empty($options['extra'])) {
 			foreach ($options['extra'] as $i) {
-				$class[] = 'icon-' . $i;
+				$class[] = $options['namespace'] . '-' . $i;
 			}
 		}
 		if (!empty($options['size'])) {
-			$class[] = 'icon-' . ($options['size'] === 'large' ? 'large' : $options['size'] . 'x');
+			$class[] = $options['namespace'] . '-' . ($options['size'] === 'large' ? 'large' : $options['size'] . 'x');
 		}
 		if (!empty($options['pull'])) {
 			$class[] = 'pull-' . $options['pull'];
 		}
 		if (!empty($options['rotate'])) {
-			$class[] = 'icon-rotate-' . (int)$options['rotate'];
+			$class[] = $options['namespace'] . '-rotate-' . (int)$options['rotate'];
 		}
 		if (!empty($options['spin'])) {
-			$class[] = 'icon-spin';
+			$class[] = $options['namespace'] . '-spin';
 		}
 		return '<i class="' . implode(' ', $class) . '"></i>';
 	}

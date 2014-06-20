@@ -131,14 +131,18 @@ class FormatHelperTest extends MyCakeTestCase {
 	 */
 	public function testFontIcon() {
 		$result = $this->Format->fontIcon('signin');
-		$expected = '<i class="icon-signin"></i>';
+		$expected = '<i class="fa-signin"></i>';
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Format->fontIcon('signin', array('rotate' => 90));
-		$expected = '<i class="icon-signin icon-rotate-90"></i>';
+		$expected = '<i class="fa-signin fa-rotate-90"></i>';
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Format->fontIcon('signin', array('size' => 5, 'extra' => array('muted')));
+		$expected = '<i class="fa-signin fa-muted fa-5x"></i>';
+		$this->assertEquals($expected, $result);
+
+		$result = $this->Format->fontIcon('signin', array('size' => 5, 'extra' => array('muted'), 'namespace' => 'icon'));
 		$expected = '<i class="icon-signin icon-muted icon-5x"></i>';
 		$this->assertEquals($expected, $result);
 	}
