@@ -51,6 +51,9 @@ class MyHelper extends Helper {
 		if (!Configure::read('UrlCache.active') || Configure::read('UrlCache.runtime.beforeRender')) {
 			return;
 		}
+		if (empty($this->request)) {
+			return;
+		}
 
 		// todo: maybe lazy load with HtmlHelper::url()?
 		UrlCacheManager::init($this->_View);
@@ -64,6 +67,9 @@ class MyHelper extends Helper {
 	 */
 	public function afterLayout($layoutFile) {
 		if (!Configure::read('UrlCache.active') || Configure::read('UrlCache.runtime.afterLayout')) {
+			return;
+		}
+		if (empty($this->request)) {
 			return;
 		}
 
