@@ -358,7 +358,7 @@ class CcShell extends AppShell {
 		}
 
 		if (!isset($this->plugins)) {
-			$this->plugins = App::objects('plugin');
+			$this->plugins = CakePlugin::loaded();
 		}
 
 		if (!empty($this->plugins)) {

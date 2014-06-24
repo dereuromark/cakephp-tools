@@ -28,7 +28,7 @@ class CodeShell extends AppShell {
 		if ($customPath = $this->params['custom']) {
 			$this->_paths = array($customPath);
 		} elseif (!empty($this->params['plugin'])) {
-			$this->_paths = array(App::pluginPath($this->params['plugin']));
+			$this->_paths = array(CakePlugin::path($this->params['plugin']));
 		} else {
 			$this->_paths = array(APP);
 		}

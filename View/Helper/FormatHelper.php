@@ -684,8 +684,8 @@ class FormatHelper extends TextHelper {
 	 * @return image:Yes/No or text:Yes/No
 	 */
 	public function yesNo($v, $ontitle = null, $offtitle = null, $on = 1, $text = false, $notitle = false) {
-		$ontitle = (!empty($ontitle) ? $ontitle : __('Ja'));
-		$offtitle = (!empty($offtitle) ? $offtitle : __('Nein'));
+		$ontitle = (!empty($ontitle) ? $ontitle : __('Yes'));
+		$offtitle = (!empty($offtitle) ? $offtitle : __('No'));
 		$sbez = array('0' => @substr($offtitle, 0, 1), '1' => @substr($ontitle, 0, 1));
 		$bez = array('0' => $offtitle, '1' => $ontitle);
 
