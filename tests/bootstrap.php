@@ -17,13 +17,10 @@ function find_root() {
 }
 
 function find_app() {
-	if (is_dir(ROOT . '/App')) {
-		return 'App';
+	if (is_dir(ROOT . '/src')) {
+		return 'src';
 	}
-
-	if (is_dir(ROOT . '/vendor/cakephp/app/App')) {
-		return 'vendor/cakephp/app/App';
-	}
+	return 'App';
 }
 
 define('DS', DIRECTORY_SEPARATOR);
@@ -90,4 +87,5 @@ Cake\Datasource\ConnectionManager::config('test', [
 	'password' => getenv('db_password'),
 	'timezone' => 'UTC',
 	'quoteIdentifiers' => true,
+	'cacheMetadata' => true,
 ]);
