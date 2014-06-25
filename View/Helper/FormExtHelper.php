@@ -36,7 +36,7 @@ class FormExtHelper extends FormHelper {
 		'autoComplete' => false
 	);
 
-	public function __construct($View = null, $settings = array()) {
+	public function __construct($View = null, $config = array()) {
 		if (($webroot = Configure::read('Asset.webroot')) !== null) {
 			$this->settings['webroot'] = $webroot;
 		}
@@ -44,7 +44,7 @@ class FormExtHelper extends FormHelper {
 			$this->settings['js'] = $js;
 		}
 
-		parent::__construct($View, $settings);
+		parent::__construct($View, $config);
 	}
 
 	/**

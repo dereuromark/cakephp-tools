@@ -30,20 +30,17 @@ class CaptchaHelper extends AppHelper {
 
 	protected $operatorConvert = null;
 
-	public function __construct($View = null, $settings = array()) {
-		parent::__construct($View, $settings);
+	public function __construct($View = null, $config = array()) {
+		$defaults = CaptchaLib::$defaults + $this->_defaultConfig;
+		$defaults = (array)Configure::read('Captcha') + $defaults;
+		$config += $defaults;
+		parent::__construct($View, $config);
 
 		// First of all we are going to set up an array with the text equivalents of all the numbers we will be using.
 		$this->numberConvert = array(0 => 'zero', 1 => 'one', 2 => 'two', 3 => 'three', 4 => 'four', 5 => 'five', 6 => 'six', 7 => 'seven', 8 => 'eight', 9 => 'nine', 10 => 'ten');
 
 		// Set up an array with the operators that we want to use. With difficulty=1 it is only subtraction and addition.
 		$this->operatorConvert = array(0 => array('+', __('calcPlus')), 1 => array('-', __('calcMinus')), 2 => '*', __('calcTimes'));
-
-		$this->settings = $this->_defaultConfig + CaptchaLib::$defaults;
-		$settings = (array)Configure::read('Captcha');
-		if (!empty($settings)) {
-			$this->settings = $settings + $this->settings;
-		}
 	}
 
 	/**

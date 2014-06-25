@@ -9,6 +9,8 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
+		Configure::delete('Google');
+
 		$this->GoogleMapV3 = new GoogleMapV3Helper(new View(null));
 	}
 
@@ -16,9 +18,26 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 		$this->assertInstanceOf('GoogleMapV3Helper', $this->GoogleMapV3);
 	}
 
-	public function testMapUrl() {
-		//echo $this->_header(__FUNCTION__);
+	/**
+	 * GoogleMapV3HelperTest::testConfigMerge()
+	 *
+	 * @return void
+	 */
+	public function testConfigMerge() {
+		$config = array(
+			'map' => array(
+				'type' => 'foo',
+			)
+		);
+		Configure::write('Google.zoom', 8);
+		$this->GoogleMapV3 = new GoogleMapV3Helper(new View(null), $config);
 
+		$result = $this->GoogleMapV3->settings;
+		$this->assertEquals('foo', $result['map']['type']);
+		$this->assertEquals(8, $result['map']['zoom']);
+	}
+
+	public function testMapUrl() {
 		$url = $this->GoogleMapV3->mapUrl(array('to' => 'Munich, Germany'));
 		$this->assertEquals('http://maps.google.com/maps?daddr=Munich%2C+Germany', $url);
 
@@ -27,8 +46,6 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 	}
 
 	public function testMapLink() {
-		//echo $this->_header(__FUNCTION__);
-
 		$result = $this->GoogleMapV3->mapLink('<To Munich>!', array('to' => '<Munich>, Germany'));
 		$expected = '<a href="http://maps.google.com/maps?daddr=%3CMunich%3E%2C+Germany">&lt;To Munich&gt;!</a>';
 		//echo $result;
@@ -36,8 +53,6 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 	}
 
 	public function testLinkWithMapUrl() {
-		//echo $this->_header(__FUNCTION__);
-
 		$url = $this->GoogleMapV3->mapUrl(array('to' => '<München>, Germany'));
 		$result = $this->GoogleMapV3->Html->link('Some title', $url);
 		$expected = '<a href="http://maps.google.com/maps?daddr=%3CM%C3%BCnchen%3E%2C+Germany">Some title</a>';
@@ -46,7 +61,6 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 	}
 
 	public function testStaticPaths() {
-		//echo '<h2>Paths</h2>';
 		$m = $this->pathElements = array(
 			array(
 				'path' => array('Berlin', 'Stuttgart'),
@@ -76,7 +90,6 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 	}
 
 	public function testStaticMarkers() {
-		//echo '<h2>Markers</h2>';
 		$m = $this->markerElements = array(
 			array(
 				'address' => '44.3,11.2',

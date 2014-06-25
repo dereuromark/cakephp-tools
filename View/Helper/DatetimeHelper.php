@@ -9,9 +9,10 @@ class DatetimeHelper extends TimeHelper {
 
 	public $helpers = array('Html');
 
-	public function __construct($View = null, $settings = array()) {
-		$settings = Set::merge(array('engine' => 'Tools.TimeLib'), $settings);
-		parent::__construct($View, $settings);
+	public function __construct($View = null, $config = array()) {
+		$defaults = array('engine' => 'Tools.TimeLib');
+		$config += $defaults;
+		parent::__construct($View, $config);
 	}
 
 	/**

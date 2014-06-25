@@ -16,8 +16,8 @@ class IcalHelper extends AppHelper {
 
 	protected $_data = array();
 
-	public function __construct($View = null, $settings = array()) {
-		parent::__construct($View, $settings);
+	public function __construct($View = null, $config = array()) {
+		parent::__construct($View, $config);
 
 		$this->Ical = new IcalLib();
 	}
