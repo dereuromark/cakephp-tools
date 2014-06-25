@@ -2,7 +2,7 @@
 
 App::uses('FormatHelper', 'Tools.View/Helper');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
-App::uses('HtmlHelper', 'View/Helper');
+App::uses('HtmlExtHelper', 'Tools.View/Helper');
 App::uses('View', 'View');
 
 /**
@@ -16,10 +16,11 @@ class FormatHelperTest extends MyCakeTestCase {
 		parent::setUp();
 
 		$this->Format = new FormatHelper(new View(null));
-		$this->Format->Html = new HtmlHelper(new View(null));
+		$this->Format->Html = new HtmlExtHelper(new View(null));
 	}
 
 	/**
+	 * @return void
 	 */
 	public function testDisabledLink() {
 		$content = 'xyz';
@@ -190,6 +191,186 @@ class FormatHelperTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * FormatHelperTest::testThumbs()
+	 *
+	 * @return void
+	 */
+	public function testThumbs() {
+		$result = $this->Format->thumbs(1);
+	}
+
+	/**
+	 * FormatHelperTest::testGenderIcon()
+	 *
+	 * @return void
+	 */
+	public function testGenderIcon() {
+		$result = $this->Format->genderIcon();
+	}
+
+	/**
+	 * FormatHelperTest::testShowStars()
+	 *
+	 * @return void
+	 */
+	public function testShowStars() {
+		$result = $this->Format->showStars(1, 3);
+		$expected = '<span class="star-bar';
+		$this->assertContains($expected, $result);
+	}
+
+	/**
+	 * FormatHelperTest::testTextAsImage()
+	 *
+	 * @return void
+	 */
+	public function testTextAsImage() {
+		$command = 'convert';
+		exec($command, $a, $r);
+		$this->skipIf($r !== 0, 'convert / imagick is not available');
+
+		$result = $this->Format->textAsImage('foo bar');
+		$expected = '<img src="data:image/png;base64,';
+		$this->assertContains($expected, $result);
+	}
+
+	/**
+	 * FormatHelperTest::testLanguageFlags()
+	 *
+	 * @return void
+	 */
+	public function testLanguageFlags() {
+		$result = $this->Format->languageFlags();
+		$this->debug($result);
+	}
+
+	/**
+	 * FormatHelperTest::testTipHelp()
+	 *
+	 * @return void
+	 */
+	public function testTipHelp() {
+		$result = $this->Format->tipHelp('foo');
+		$this->debug($result);
+		$expected = '<img src="/img/icons/help.gif"';
+		$this->assertContains($expected, $result);
+	}
+
+	/**
+	 * FormatHelperTest::testPad()
+	 *
+	 * @return void
+	 */
+	public function testPad() {
+		$result = $this->Format->pad('foo bar', 20, '-');
+		$expected = 'foo bar-------------';
+		$this->assertEquals($expected, $result);
+
+		$result = $this->Format->pad('foo bar', 20, '-', STR_PAD_LEFT);
+		$expected = '-------------foo bar';
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * FormatHelperTest::testOnlineIcon()
+	 *
+	 * @return void
+	 */
+	public function testOnlineIcon() {
+		$result = $this->Format->onlineIcon();
+		$this->debug($result);
+		$expected = '<img src="/img/misc/healthbar0.gif"';
+		$this->assertContains($expected, $result);
+	}
+
+	/**
+	 * FormatHelperTest::testStatusLight()
+	 *
+	 * @return void
+	 */
+	public function testStatusLight() {
+		$result = $this->Format->statusLight();
+		$this->debug($result);
+		$expected = '<img src="/img/icons/status_light_blank.gif"';
+		$this->assertContains($expected, $result);
+	}
+
+	/**
+	 * FormatHelperTest::testProgressBar()
+	 *
+	 * @return void
+	 */
+	public function testProgressBar() {
+		$result = $this->Format->progressBar(14);
+		$this->debug($result);
+	}
+
+	/**
+	 * FormatHelperTest::testAbsolutePaginateCount()
+	 *
+	 * @return void
+	 */
+	public function testAbsolutePaginateCount() {
+		$paginator = array(
+			'page' => 1,
+			'pageCount' => 3,
+			'count' => 25,
+			'limit' => 10
+		);
+		$result = $this->Format->absolutePaginateCount($paginator, 2);
+		$this->debug($result);
+		$this->assertEquals(2, $result);
+	}
+
+	/**
+	 * FormatHelperTest::testSiteIcon()
+	 *
+	 * @return void
+	 */
+	public function testSiteIcon() {
+		$result = $this->Format->siteIcon('http://www.example.org');
+		$this->debug($result);
+		$expected = '<img src="http://www.google.com/s2/favicons?domain=www.example.org';
+		$this->assertContains($expected, $result);
+	}
+
+	/**
+	 * FormatHelperTest::testEncodeEmails()
+	 *
+	 * @return void
+	 */
+	public function testEncodeEmail() {
+		$result = $this->Format->encodeEmail('foobar@somedomain.com');
+		$this->debug($result);
+		$expected = '<span>@</span>';
+		$this->assertContains($expected, $result);
+	}
+
+	/**
+	 * FormatHelperTest::testEncodeEmailUrl()
+	 *
+	 * @return void
+	 */
+	public function testEncodeEmailUrl() {
+		$result = $this->Format->encodeEmailUrl('foobar@somedomain.com');
+		$this->debug($result);
+		$expected = '<script language=javascript>';
+		$this->assertContains($expected, $result);
+	}
+
+	/**
+	 * FormatHelperTest::testEncodeText()
+	 *
+	 * @return void
+	 */
+	public function testEncodeText() {
+		$result = $this->Format->encodeText('foobar@somedomain.com');
+		$this->debug($result);
+		$expected = ';&#x';
+		$this->assertContains($expected, $result);
+	}
+
+	/**
 	 * FormatHelperTest::testConfigure()
 	 *
 	 * @return void
@@ -251,6 +432,7 @@ class FormatHelperTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * @return void
 	 */
 	public function testShortenText() {
 		$data = array(
@@ -268,6 +450,7 @@ class FormatHelperTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * @return void
 	 */
 	public function testTruncate() {
 		$data = array(
@@ -291,6 +474,7 @@ class FormatHelperTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * @return void
 	 */
 	public function testHideEmail() {
 		$mails = array(
@@ -307,6 +491,7 @@ class FormatHelperTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * @return void
 	 */
 	public function testWordCensor() {
 		$data = array(
@@ -325,51 +510,26 @@ class FormatHelperTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * FormatHelperTest::testTab2space()
+	 *
+	 * @return void
 	 */
-/*
-	public function testReverseAscii() {
-		$is = $this->Format->reverseAscii('f&eacute;s');
-		$expected = 'fés';
-		$this->assertEquals($expected, $is);
-
-		$is = entDec('f&eacute;s');
-		$expected = 'fés';
-		$this->assertEquals($expected, $is);
-
-		$is = html_entity_decode('f&eacute;s');
-		$expected = 'fés';
-		$this->assertEquals($expected, $is);
-
-		#TODO: correct it + more
-
-	}
-*/
-
-	/**
-	 */
-/*
-	public function testDecodeEntities() {
-		$is = $this->Format->decodeEntities('f&eacute;s');
-		$expected = 'fés';
-		$this->assertEquals($expected, $is);
-
-	}
-*/
-
 	public function testTab2space() {
-		//echo '<h2>'.__FUNCTION__.'</h2>';
-
 		$text = "foo\t\tfoobar\tbla\n";
 		$text .= "fooo\t\tbar\t\tbla\n";
 		$text .= "foooo\t\tbar\t\tbla\n";
+		$result = $this->Format->tab2space($text);
 		//echo "<pre>" . $text . "</pre>";
 		//echo'becomes';
-		//echo "<pre>" . $this->Format->tab2space($text) . "</pre>";
-
+		//echo "<pre>" . $result . "</pre>";
 	}
 
+	/**
+	 * FormatHelperTest::testArray2table()
+	 *
+	 * @return void
+	 */
 	public function testArray2table() {
-		//echo '<h2>'.__FUNCTION__.'</h2>';
 		$array = array(
 			array('x' => '0', 'y' => '0.5', 'z' => '0.9'),
 			array('1', '2', '3'),

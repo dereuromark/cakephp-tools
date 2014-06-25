@@ -17,9 +17,110 @@ class CommonHelperTest extends MyCakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
+		Router::reload();
 		$View = new View(null);
 		$this->Common = new CommonHelper($View);
 		$this->Html = new CommonHelper($View);
+	}
+
+	/**
+	 * CommonHelperTest::testFlashMessage()
+	 *
+	 * @return void
+	 */
+	public function testFlashMessage() {
+		$result = $this->Common->flashMessage(h('Foo & bar'), 'success');
+		$expected = '<div class="flash-messages flashMessages"><div class="message success">Foo &amp;amp; bar</div></div>';
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * CommonHelperTest::testAlternate()
+	 *
+	 * @return void
+	 */
+	public function testAlternate() {
+		$result = $this->Common->alternate('one', 'two');
+		$this->assertEquals('one', $result);
+		$result = $this->Common->alternate('one', 'two');
+		$this->assertEquals('two', $result);
+		$result = $this->Common->alternate('one', 'two');
+		$this->assertEquals('one', $result);
+	}
+
+	/**
+	 * CommonHelperTest::testMetaRobots()
+	 *
+	 * @return void
+	 */
+	public function testMetaRobots() {
+		$result = $this->Common->metaRobots();
+		$this->assertContains('<meta name="robots" content="', $result);
+	}
+
+	/**
+	 * CommonHelperTest::testMetaName()
+	 *
+	 * @return void
+	 */
+	public function testMetaName() {
+		$result = $this->Common->metaName('foo', array(1, 2, 3));
+		$expected = '<meta name="foo" content="1, 2, 3" />';
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * CommonHelperTest::testMetaDescription()
+	 *
+	 * @return void
+	 */
+	public function testMetaDescription() {
+		$result = $this->Common->metaDescription('foo', 'deu');
+		$expected = '<meta lang="deu" name="description" content="foo" />';
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * CommonHelperTest::testMetaKeywords()
+	 *
+	 * @return void
+	 */
+	public function testMetaKeywords() {
+		$result = $this->Common->metaKeywords('foo bar', 'deu');
+		$expected = '<meta lang="deu" name="keywords" content="foo bar" />';
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * CommonHelperTest::testMetaRss()
+	 *
+	 * @return void
+	 */
+	public function testMetaRss() {
+		$result = $this->Common->metaRss('/some/url', 'some title');
+		$expected = '<link rel="alternate" type="application/rss+xml" title="some title" href="/some/url" />';
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * CommonHelperTest::testMetaEquiv()
+	 *
+	 * @return void
+	 */
+	public function testMetaEquiv() {
+		$result = $this->Common->metaEquiv('type', 'value');
+		$expected = '<meta http-equiv="type" content="value" />';
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * CommonHelperTest::testDisplayErrors()
+	 *
+	 * @return void
+	 */
+	public function testDisplayErrors() {
+		$result = $this->Common->displayErrors();
+		$this->assertEquals('', $result);
 	}
 
 	/**

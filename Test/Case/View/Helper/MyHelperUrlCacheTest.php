@@ -17,6 +17,7 @@ class MyHelperUrlCacheTest extends CakeTestCase {
 		Configure::write('UrlCache.pageFiles', true);
 		Configure::write('UrlCache.verbosePrefixes', true);
 		Configure::write('Routing.prefixes', array('admin'));
+		Router::reload();
 
 		$this->HtmlHelper = new MyHelper(new View(new Controller(new CakeRequest('/test', false))));
 		$this->HtmlHelper->beforeRender('foo');

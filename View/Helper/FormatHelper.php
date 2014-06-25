@@ -183,7 +183,7 @@ class FormatHelper extends TextHelper {
 	 *
 	 * @return string
 	 */
-	public function genderIcon($value = null, $type = null) {
+	public function genderIcon($value = null) {
 		$value = (int)$value;
 		if ($value == self::GENDER_FEMALE) {
 			$icon =	$this->icon('genderFemale', null, null, null, array('class' => 'gender'));
@@ -229,19 +229,6 @@ class FormatHelper extends TextHelper {
 			return $this->Html->image(IMG_ICONS . 'custom' . '/' . $folder . '_' . $attachment . '.' . $ending, $attr);
 		}
 		return $this->Html->image(IMG_CONTENT . $folder . '/' . $image . '.' . $ending, $attr);
-	}
-
-	/**
-	 * @return string
-	 * @deprecated Try to use font icons or move functionality into own helper.
-	 */
-	public function importantIcon($icon, $value) {
-		$ending = 'gif';
-		$image = 'default';
-		if (!empty($value)) {
-			$image = 'important';
-		}
-		return $this->Html->image(IMG_ICONS . $icon . '_' . $image . '.' . $ending);
 	}
 
 	/**
@@ -478,7 +465,7 @@ class FormatHelper extends TextHelper {
 	 * @return string
 	 * @deprecated use RatingHelper::stars() instead
 	 */
-	public function showStars($current = null, $max = null, $options = array(), $attr = array()) {
+	public function showStars($current, $max, $options = array(), $attr = array()) {
 		$res = '---';
 
 		if (!empty($options['steps']) && $options['steps'] == 0.5) {
@@ -492,19 +479,14 @@ class FormatHelper extends TextHelper {
 		$max = (int)$max;
 
 		if ((!empty($current) || (!empty($options['show_zero']) && $current == 0)) && (!empty($max)) && $current <= $max) {
-
-			if (!empty($options) && is_array($options)) {
-
-			}
-
 			$text = '';
-			for ($i = 0;$i < $min;$i++) {
+			for ($i = 0; $i < $min; $i++) {
 				$attributes = array('alt' => '#', 'class' => 'full');
 				if (!empty($options['title'])) { $attributes['title'] = ($i + 1) . '/' . $max; } // ?
 				$text .= $this->Html->image('icons/star_icon2.gif', $attributes);
 
 			}
-			for ($i = $min;$i < $max;$i++) {
+			for ($i = $min; $i < $max; $i++) {
 				$attributes = array('alt' => '-', 'class' => 'empty');
 				if (!empty($options['title'])) { $attributes['title'] = ($i + 1) . '/' . $max; } // ?
 				if ($steps == 0.5 && $current == $i + 0.5) {
@@ -514,7 +496,7 @@ class FormatHelper extends TextHelper {
 				}
 			}
 
-			$attributes = array('class' => 'starBar');
+			$attributes = array('class' => 'star-bar starBar');
 			$attributes = array_merge($attributes, $attr);
 			if (empty($attributes['title']) && empty($options['title'])) {
 				$attributes['title'] = ($current) . ' ' . __('of') . ' ' . $max;
@@ -539,7 +521,7 @@ class FormatHelper extends TextHelper {
 	 * @deprecated Try to use font icons or move functionality into own helper.
 	 */
 	public function languageFlags() {
-		$langs = Configure::read('LanguagesAvailable');
+		$langs = (array)Configure::read('LanguagesAvailable');
 		$supportedLangs = array(
 			'de' => array('title' => 'Deutsch'),
 			'en' => array('title' => 'English'),
@@ -558,7 +540,7 @@ class FormatHelper extends TextHelper {
 		} else {
 			$lang = '';
 		}
-		echo '<span class="country">';
+		$languageChange .= '<span class="country">';
 		foreach ($languages as $code => $la) {
 			if ($lang == $code) {
 				$languageChange .= $this->Html->image('language_flags/' . $code . '.gif', array('alt' => $code, 'title' => $la['title'] . ' (' . __('active') . ')', 'class' => 'country_flag active')) . '';
@@ -684,8 +666,8 @@ class FormatHelper extends TextHelper {
 	 * @return image:Yes/No or text:Yes/No
 	 */
 	public function yesNo($v, $ontitle = null, $offtitle = null, $on = 1, $text = false, $notitle = false) {
-		$ontitle = (!empty($ontitle) ? $ontitle : __('Ja'));
-		$offtitle = (!empty($offtitle) ? $offtitle : __('Nein'));
+		$ontitle = (!empty($ontitle) ? $ontitle : __('Yes'));
+		$offtitle = (!empty($offtitle) ? $offtitle : __('No'));
 		$sbez = array('0' => @substr($offtitle, 0, 1), '1' => @substr($ontitle, 0, 1));
 		$bez = array('0' => $offtitle, '1' => $ontitle);
 
@@ -771,7 +753,7 @@ class FormatHelper extends TextHelper {
 		$image->trim($mw,0);
 		*/
 		$defaults = array('alt' => $text);
-		$attr = array_merge($defaults, $attr);
+		$attr += $defaults;
 		return $this->_textAsImage($text, $options, $attr);
 	}
 
@@ -832,7 +814,7 @@ class FormatHelper extends TextHelper {
 	 * @param string $dir (ASC/DESC)
 	 * @return int
 	 */
-	public function absolutePaginateCount($paginator, $count, $dir = null) {
+	public function absolutePaginateCount(array $paginator, $count, $dir = null) {
 		if ($dir === null) {
 			$dir = 'ASC';
 		}
@@ -884,10 +866,12 @@ class FormatHelper extends TextHelper {
 
 		$params = Router::queryString($options, array(), true);
 
-		$htmlDefaults = array('title' => $this->Numeric->format($percent, $options['decimals']) . ' ' . __('Percent'), 'class' => 'help');
+		$htmlDefaults = array(
+			'title' => $this->Numeric->format($percent, $options['decimals']) . ' ' . __('Percent'),
+			'class' => 'help');
 		$htmlDefaults['alt'] = $htmlDefaults['title'];
 
-		$htmlOptions += $htmlOptions;
+		$htmlOptions += $htmlDefaults;
 		//return $this->Html->image('/files/progress_bar/index.php'.$params, $htmlOptions);
 
 		return '<img src="' . $this->Html->url('/files') . '/progress_bar/index.php' . $params . '" title="' . $htmlOptions['title'] . '" class="' .
@@ -905,7 +889,7 @@ class FormatHelper extends TextHelper {
 	 * @deprecated Try to use font icons or move to own helper
 	 */
 	public function tip($type, $file, $title, $icon) {
-		return $this->cIcon($icon, $title, null, null, array('class' => 'tip' . ucfirst($type) . ' hand', 'rel' => $file));
+		return $this->cIcon($icon, $title, null, null, array('class' => 'tip-' . $type . ' tip' . ucfirst($type) . ' hand', 'rel' => $file));
 	}
 
 	/**
