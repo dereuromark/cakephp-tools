@@ -357,6 +357,7 @@ class TimeLibTest extends MyCakeTestCase {
 
 		$this->assertEquals('2', TimeLib::age('2005-03-01', '2008-02-28'));
 		if (WINDOWS) {
+			// On some local devs this seems to return the wrong age 3...
 			$this->assertEquals('3', TimeLib::age('2005-03-01', '2008-02-29'));
 		} else {
 			$this->assertEquals('2', TimeLib::age('2005-03-01', '2008-02-29'));

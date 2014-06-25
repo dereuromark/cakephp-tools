@@ -34,6 +34,8 @@ class DatetimeHelper extends TimeHelper {
 
 	/**
 	 * Like localDate(), only with additional markup <span> and class="today", if today, etc
+	 *
+	 * @return string
 	 */
 	public function localDateMarkup($dateString = null, $format = null, $options = array()) {
 		$date = $this->localDate($dateString, $format, $options);
@@ -43,6 +45,8 @@ class DatetimeHelper extends TimeHelper {
 
 	/**
 	 * Like niceDate(), only with additional markup <span> and class="today", if today, etc
+	 *
+	 * @return string
 	 */
 	public function niceDateMarkup($dateString = null, $format = null, $options = array()) {
 		$date = $this->niceDate($dateString, $format, $options);
