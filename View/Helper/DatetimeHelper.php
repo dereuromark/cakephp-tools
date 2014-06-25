@@ -9,27 +9,9 @@ class DatetimeHelper extends TimeHelper {
 
 	public $helpers = array('Html');
 
-	/**
-	 * @deprecated Let timezone handle that
-	 */
-	public $userOffset = null;
-
-	/**
-	 * @deprecated Let timezone handle that
-	 */
-	public $daylightSavings = false;
-
 	public function __construct($View = null, $settings = array()) {
 		$settings = Set::merge(array('engine' => 'Tools.TimeLib'), $settings);
 		parent::__construct($View, $settings);
-
-		$i18n = Configure::read('Localization');
-		if (!empty($i18n['time_offset'])) {
-			$this->userOffset = (int)$i18n['time_offset'];
-		}
-		if (!empty($i18n['daylight_savings'])) {
-			$this->daylightSavings = (bool)$i18n['daylight_savings'];
-		}
 	}
 
 	/**
@@ -46,12 +28,14 @@ class DatetimeHelper extends TimeHelper {
 		$age = $this->age($date, null);
 		if ($age >= 1 && $age <= 99) {
 			return $age;
-			}
-			return $default;
+		}
+		return $default;
 	}
 
 	/**
 	 * Like localDate(), only with additional markup <span> and class="today", if today, etc
+	 *
+	 * @return string
 	 */
 	public function localDateMarkup($dateString = null, $format = null, $options = array()) {
 		$date = $this->localDate($dateString, $format, $options);
@@ -61,6 +45,8 @@ class DatetimeHelper extends TimeHelper {
 
 	/**
 	 * Like niceDate(), only with additional markup <span> and class="today", if today, etc
+	 *
+	 * @return string
 	 */
 	public function niceDateMarkup($dateString = null, $format = null, $options = array()) {
 		$date = $this->niceDate($dateString, $format, $options);
@@ -137,42 +123,8 @@ class DatetimeHelper extends TimeHelper {
 				$attr['title'] = $titles[$when];
 			}
 			$attr['class'] = 'published ' . $whenArray[$when];
-			//$span = '<span class="published '..'">';	// -1/-2 = ago | 1/2 = ahead | 0 = today
-			//$spanEnd = '</span>';
-		}
-		if (!isset($this->Html)) {
-			//TODO: fixme
-			$this->loadHelpers(array('Html'));
 		}
 		return $this->Html->tag('span', $niceDate, $attr);
-	}
-
-	/**
-	 * Takes time as hh:mm:ss,
-	 * returns hh:mm
-	 * TODO: move to lib, but more generic
-	 *
-	 * @param string $time
-	 * @return string Time
-	 */
-	public function niceTime($time) {
-		return substr($time, 0, 5);
-	}
-
-	/**
-	 * EXPERIMENTAL!!!
-	 *
-	 * @param
-	 * @param
-	 * @return int offset
-	 */
-	public function tzOffset($gmtoffset, $isDst) {
-		//global $gmtoffset, $isDst;
-		extract(getdate());
-		$serveroffset = gmmktime(0, 0, 0, $mon, $mday, $year) - mktime(0, 0, 0, $mon, $mday, $year);
-		$offset = $gmtoffset - $serveroffset;
-
-		return $offset + ($isDst ? 3600 : 0);
 	}
 
 	/**

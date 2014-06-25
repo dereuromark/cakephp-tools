@@ -58,7 +58,7 @@ class FlattrHelper extends AppHelper {
 			$rev[] = $key . ':' . $option;
 		}
 		$linkOptions = array(
-			'title' => $_SERVER['HTTP_HOST'],
+			'title' => env('HTTP_HOST'),
 			'class' => 'FlattrButton',
 			'style' => 'display:none;',
 			'rel' => 'flattr;' . implode(';', $rev)

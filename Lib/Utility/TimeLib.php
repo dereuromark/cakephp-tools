@@ -101,55 +101,24 @@ class TimeLib extends CakeTime {
 	 * @return int age (0 if both timestamps are equal or empty, -1 on invalid dates)
 	 */
 	public static function age($start = null, $end = null, $accuracy = 0) {
-		$age = 0;
 		if (empty($start) && empty($end) || $start == $end) {
 			return 0;
 		}
 
-		if (empty($start)) {
-			list($yearS, $monthS, $dayS) = explode('-', date(FORMAT_DB_DATE));
-		} else {
-			$startDate = self::fromString($start);
-			$yearS = date('Y', $startDate);
-			$monthS = date('m', $startDate);
-			$dayS = date('d', $startDate);
-			if (!checkdate($monthS, $dayS, $yearS)) {
-				return -1;
-			}
+		if (is_int($start)) {
+			$start = date(FORMAT_DB_DATE, $start);
 		}
-		if (empty($end)) {
-			list($yearE, $monthE, $dayE) = explode('-', date(FORMAT_DB_DATE));
-		} else {
-			$endDate = self::fromString($end);
-			$yearE = date('Y', $endDate);
-			$monthE = date('m', $endDate);
-			$dayE = date('d', $endDate);
-			if (!checkdate($monthE, $dayE, $yearE)) {
-				return -1;
-			}
+		if (is_int($end)) {
+			$end = date(FORMAT_DB_DATE, $end);
 		}
 
-		//$startDate = mktime(0,0,0, $monthS, $dayS, $yearS);
-		//$endDate = mktime(0,0,0, $monthE, $dayE, $yearE);
-		//$age = intval(($endDate - $startDate) / (3600 * 24 * 365));
-		//$age = self::timef($endDate-$startDate, 'Y'); # !!! timef function
-
-		$nTag = $dayE;
-		$nMonat = $monthE;
-		$nJahr = $yearE;
-		$gTag = $dayS;
-		$gMonat = $monthS;
-		$gJahr = $yearS;
-		$gDate = mktime(0, 0, 0, $gTag, $gMonat, $gJahr);
-
-		if (($nMonat > $gMonat)||(($nMonat == $gMonat)&&($nTag > $gTag))||(($nMonat == $gMonat)&&($nTag == $gTag))) {
-			$age = $nJahr - $gJahr; // is correct if one already had his birthday this year
-		} else {
-			$age = $nJahr - $gJahr - 1; // is correct if one didnt have his birthday yet in this year
+		$endDate = new DateTime($end);
+		$startDate = new DateTime($start);
+		if ($startDate > $endDate) {
+			return -1;
 		}
-		return $age;
-		//TODO: test this short method
-		//return (date("Y",time()) - $val);
+		$oDateInterval = $endDate->diff($startDate);
+		return $oDateInterval->y;
 	}
 
 	/**
@@ -337,7 +306,7 @@ class TimeLib extends CakeTime {
 			}
 			return $firstmonday;
 		}
-		$monday = strtotime($year . 'W' . str_pad($cweek, 2, '0', STR_PAD_LEFT) . '1');
+		$monday = strtotime($year . 'W' . self::pad($cweek) . '1');
 		return $monday;
 	}
 
@@ -563,6 +532,19 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
+	 * Takes time as hh:mm:ss or YYYY-MM-DD hh:mm:ss
+	 *
+	 * @param string $time
+	 * @return string Time in format hh:mm
+	 */
+	public static function niceTime($time) {
+		if (($pos = strpos($time, ' ')) !== false) {
+			$time = substr($time, $pos + 1);
+		}
+		return substr($time, 0, 5);
+	}
+
+	/**
 	 * Return the translation to a specific week day
 	 *
 	 * @param int $day:
@@ -668,7 +650,7 @@ class TimeLib extends CakeTime {
 		$res = array();
 		$abbr = isset($options['abbr']) ? $options['abbr'] : false;
 		foreach ($monthKeys as $key) {
-			$res[str_pad($key, 2, '0', STR_PAD_LEFT)] = self::month($key, $abbr, $options);
+			$res[self::pad($key)] = self::month($key, $abbr, $options);
 		}
 		return $res;
 	}
@@ -1000,7 +982,7 @@ class TimeLib extends CakeTime {
 	 * @param type
 	 * - start: first second of this interval
 	 * - end: last second of this interval
-	 * @return int timestamp
+	 * @return string timestamp
 	 */
 	public static function parseLocalizedDate($date, $format = null, $type = 'start') {
 		$date = trim($date);
@@ -1032,11 +1014,11 @@ class TimeLib extends CakeTime {
 		} else {
 			$explode = array($date);
 		}
-		if (isset($explode)) {
+		if ($explode) {
 			for ($i = 0; $i < count($explode); $i++) {
-				$explode[$i] = str_pad($explode[$i], 2, '0', STR_PAD_LEFT);
+				$explode[$i] = self::pad($explode[$i]);
 			}
-			$explode[0] = str_pad($explode[0], 4, '20', STR_PAD_LEFT);
+			$explode[0] = self::pad($explode[0], 4, '20');
 
 			if (count($explode) === 3) {
 				return implode('-', $explode) . ' ' . ($type === 'end' ? '23:59:59' : '00:00:00');
@@ -1047,7 +1029,7 @@ class TimeLib extends CakeTime {
 			return $explode[0] . '-' . ($type === 'end' ? '12' : '01') . '-' . ($type === 'end' ? '31' : '01') . ' ' . ($type === 'end' ? '23:59:59' : '00:00:00');
 		}
 
-		return false;
+		return '';
 	}
 
 	/**
@@ -1069,35 +1051,9 @@ class TimeLib extends CakeTime {
 		$min = $filters[0];
 		$max = $filters[1];
 
-		//$x = preg_match('/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/', $date, $dateParts);
-
-		//$x = Datetime::createFromFormat('Y-m-d', $string);
-		//die(returns($x));
-
-		//$actualDateTime = new DateTime($min);
-		//$actualDateTime->add(new DateInterval('P1M'));
-
 		$min = self::parseLocalizedDate($min);
 		$max = self::parseLocalizedDate($max, null, 'end');
 
-		//die($actualDateTime->format('Y-m-d'));
-
-		//$searchParameters['conditions']['Coupon.date'] = $actualDateTime->format('Y-m-d');
-
-		/*
-		if ($min == $max) {
-			if (strlen($max) > 8) {
-				$max = date(FORMAT_DB_DATE, strtotime($max)+DAY);
-			} elseif (strlen($max) > 5) {
-				$max = date(FORMAT_DB_DATE, strtotime($max)+MONTH);
-			} else {
-				$max = date(FORMAT_DB_DATE, strtotime($max)+YEAR+MONTH);
-			}
-
-		}
-		$min = date(FORMAT_DB_DATE, strtotime($min));
-		$max = date(FORMAT_DB_DATE, strtotime($max));
-		*/
 		return array($min, $max);
 	}
 
@@ -1238,7 +1194,7 @@ class TimeLib extends CakeTime {
 
 		$minutes = $duration % HOUR;
 		$hours = ($duration - $minutes) / HOUR;
-		$res = (int)$hours . ':' . str_pad(intval($minutes / MINUTE), 2, '0', STR_PAD_LEFT);
+		$res = (int)$hours . ':' . self::pad(intval($minutes / MINUTE));
 		if (strpos($mode, 'SS') !== false) {
 			//TODO
 		}
@@ -1263,8 +1219,31 @@ class TimeLib extends CakeTime {
 		return self::pad($hours) . ':' . self::pad($minutes / MINUTE) . ':' . self::pad($seconds / SECOND);
 	}
 
-	public static function pad($value, $length = 2) {
-		return str_pad(intval($value), $length, '0', STR_PAD_LEFT);
+	/**
+	 * TimeLib::pad()
+	 *
+	 * @param string $value
+	 * @param int $length
+	 * @param string $string
+	 * @return string
+	 */
+	public static function pad($value, $length = 2, $string = '0') {
+		return str_pad(intval($value), $length, $string, STR_PAD_LEFT);
+	}
+
+	/**
+	 * EXPERIMENTAL!!!
+	 *
+	 * @param int $gmtoffset Offset in seconds
+	 * @param bool $isDst If DST
+	 * @return int offset Calculated offset
+	 */
+	public static function tzOffset($gmtoffset, $isDst) {
+		extract(getdate());
+		$serveroffset = gmmktime(0, 0, 0, $mon, $mday, $year) - mktime(0, 0, 0, $mon, $mday, $year);
+		$offset = $gmtoffset - $serveroffset;
+
+		return $offset + ($isDst ? 3600 : 0);
 	}
 
 }

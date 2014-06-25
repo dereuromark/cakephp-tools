@@ -115,6 +115,20 @@ class TimeLibTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * TimeLibTest::testNiceTime()
+	 *
+	 * @return void
+	 */
+	public function testNiceTime() {
+		$result = TimeLib::niceTime('22:11:18');
+		$expected = '22:11';
+		$this->assertEquals($expected, $result);
+
+		$result = TimeLib::niceTime('2014-11-12 22:11:18');
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
 	 * Test that input as date only (YYYY-MM-DD) does not suddendly return a
 	 * different date on output due to timezone differences.
 	 * Here the timezone should not apply since we only input date and only output
@@ -134,6 +148,45 @@ class TimeLibTest extends MyCakeTestCase {
 		$ret = TimeLib::localDate('2009-12-01');
 		//debug($ret);
 		$this->assertEquals('01.12.2009', $ret);
+	}
+
+
+	/**
+	 * TimeLibTest::testParseLocalizedDate()
+	 *
+	 * @return void
+	 */
+	public function testParseLocalizedDate() {
+		$ret = TimeLib::parseLocalizedDate('15-Feb-2009', 'j-M-Y', 'start');
+		//$this->debug($ret);
+		$this->assertEquals('2009-02-15 00:00:00', $ret);
+
+		// problem when not passing months or days as well - no way of knowing how exact the date was
+		$ret = TimeLib::parseLocalizedDate('2009', 'Y', 'start');
+		//pr($ret);
+		//$this->assertEquals($ret, '2009-01-01 00:00:00');
+		$ret = TimeLib::parseLocalizedDate('Feb 2009', 'M Y', 'start');
+		//pr($ret);
+		//$this->assertEquals($ret, '2009-02-01 00:00:00');
+
+		$values = array(
+			array(__('Today'), array(date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))), date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y'))))),
+			array('2010', array('2010-01-01 00:00:00', '2010-12-31 23:59:59')),
+			array('23.02.2011', array('2011-02-23 00:00:00', '2011-02-23 23:59:59')),
+			array('22/02/2011', array('2011-02-22 00:00:00', '2011-02-22 23:59:59')),
+			array('3/2/11', array('2011-02-03 00:00:00', '2011-02-03 23:59:59')),
+			//array('2/12/9', array('2009-12-02 00:00:00', '2009-12-02 23:59:59')),
+			//array('12/2009', array('2009-12-01 00:00:00', '2009-12-31 23:59:59')),
+		);
+		foreach ($values as $v) {
+			$ret = TimeLib::parseLocalizedDate($v[0], null, 'start');
+			//pr($ret);
+			$this->assertEquals($v[1][0], $ret);
+
+			$ret = TimeLib::parseLocalizedDate($v[0], null, 'end');
+			//pr($ret);
+			$this->assertEquals($v[1][1], $ret);
+		}
 	}
 
 	/**
@@ -167,46 +220,6 @@ class TimeLibTest extends MyCakeTestCase {
 		$result = TimeLib::localDate($date, $format, array('oclock' => true));
 		$expected = '01.12.2009, 00:00 ' . __('o\'clock');
 		$this->assertEquals($expected, $result);
-	}
-
-	/**
-	 * TimeLibTest::testParseLocalizedDate()
-	 *
-	 * @return void
-	 */
-	public function testParseLocalizedDate() {
-		$this->out($this->_header(__FUNCTION__), true);
-
-		$ret = TimeLib::parseLocalizedDate('15-Feb-2009', 'j-M-Y', 'start');
-		//$this->debug($ret);
-		$this->assertEquals('2009-02-15 00:00:00', $ret);
-
-		// problem when not passing months or days as well - no way of knowing how exact the date was
-		$ret = TimeLib::parseLocalizedDate('2009', 'Y', 'start');
-		//pr($ret);
-		//$this->assertEquals($ret, '2009-01-01 00:00:00');
-		$ret = TimeLib::parseLocalizedDate('Feb 2009', 'M Y', 'start');
-		//pr($ret);
-		//$this->assertEquals($ret, '2009-02-01 00:00:00');
-
-		$values = array(
-			array(__('Today'), array(date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))), date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y'))))),
-			array('2010', array('2010-01-01 00:00:00', '2010-12-31 23:59:59')),
-			array('23.02.2011', array('2011-02-23 00:00:00', '2011-02-23 23:59:59')),
-			array('22/02/2011', array('2011-02-22 00:00:00', '2011-02-22 23:59:59')),
-			array('3/2/11', array('2011-02-03 00:00:00', '2011-02-03 23:59:59')),
-			array('2/12/9', array('2009-12-02 00:00:00', '2009-12-02 23:59:59')),
-			array('12/2009', array('2009-12-01 00:00:00', '2009-12-31 23:59:59')),
-		);
-		foreach ($values as $v) {
-			$ret = TimeLib::parseLocalizedDate($v[0], null, 'start');
-			//pr($ret);
-			$this->assertEquals($v[1][0], $ret);
-
-			$ret = TimeLib::parseLocalizedDate($v[0], null, 'end');
-			//pr($ret);
-			$this->assertEquals($v[1][1], $ret);
-		}
 	}
 
 	/**
@@ -303,6 +316,75 @@ class TimeLibTest extends MyCakeTestCase {
 
 		$is = TimeLib::isInRange(date(FORMAT_DB_DATETIME, time() + 26 * HOUR), DAY);
 		$this->assertFalse($is);
+
+		$day = date(FORMAT_DB_DATETIME, time() + 10 * DAY);
+
+		$this->assertTrue(TimeLib::isInRange($day, 11 * DAY));
+		$this->assertTrue(TimeLib::isInRange($day, 10 * DAY));
+		$this->assertFalse(TimeLib::isInRange($day, 9 * DAY));
+
+		$day = date(FORMAT_DB_DATETIME, time() - 78 * DAY);
+		$this->assertTrue(TimeLib::isInRange($day, 79 * DAY));
+		$this->assertTrue(TimeLib::isInRange($day, 78 * DAY));
+		$this->assertFalse(TimeLib::isInRange($day, 77 * DAY));
+	}
+
+	/**
+	 * Test age
+	 *
+	 * @return void
+	 */
+	public function testAge() {
+		$this->assertEquals('0', TimeLib::age());
+
+		list($year, $month, $day) = explode('-', date('Y-m-d'));
+		$this->assertEquals('0', TimeLib::age($year . '-' . $month . '-' . $day, null));
+
+		list($year, $month, $day) = explode('-', date('Y-m-d', strtotime('-10 years')));
+		$this->assertEquals('10', TimeLib::age($year . '-' . $month . '-' . $day, null));
+
+		list($year, $month, $day) = explode('-', date('Y-m-d', strtotime('-10 years +1 day')));
+		$this->assertEquals('9', TimeLib::age($year . '-' . $month . '-' . $day, null));
+
+		list($year, $month, $day) = explode('-', date('Y-m-d', strtotime('-10 years -1 day')));
+		$this->assertEquals('10', TimeLib::age($year . '-' . $month . '-' . $day, null));
+
+		// Crossing years
+		$this->assertEquals('2', TimeLib::age('2005-12-01', '2008-02-29'));
+		$this->assertEquals('6', TimeLib::age('2002-01-29', '2008-12-02'));
+
+		// Leap year
+
+		$this->assertEquals('2', TimeLib::age('2005-03-01', '2008-02-28'));
+		if (WINDOWS) {
+			// On some local devs this seems to return the wrong age 3...
+			$this->assertEquals('3', TimeLib::age('2005-03-01', '2008-02-29'));
+		} else {
+			$this->assertEquals('2', TimeLib::age('2005-03-01', '2008-02-29'));
+		}
+		$this->assertEquals('3', TimeLib::age('2005-03-01', '2008-03-01'));
+		$this->assertEquals('3', TimeLib::age('2005-02-29', '2008-03-01'));
+
+		// Future
+		list($yearE, $monthE, $dayE) = explode('-', date('Y-m-d', strtotime('+10 years -1 day')));
+		$this->assertEquals('9', TimeLib::age(null, $yearE . '-' . $monthE . '-' . $dayE));
+
+		list($yearE, $monthE, $dayE) = explode('-', date('Y-m-d', strtotime('+10 years +1 day')));
+		$this->assertEquals('10', TimeLib::age(null, $yearE . '-' . $monthE . '-' . $dayE));
+
+		$birthday = '2033-04-09';
+		$this->assertEquals(-1, TimeLib::age($birthday));
+
+		$birthday = '1985-04-08';
+
+		$relativeDate = '2010-04-07';
+		$this->assertEquals('24', TimeLib::age($birthday, $relativeDate));
+
+		$relativeDate = '2010-04-08';
+		$this->assertEquals('25', TimeLib::age($birthday, $relativeDate));
+
+		$relativeDate = '2010-04-09';
+		$this->assertEquals('25', TimeLib::age($birthday, $relativeDate));
 	}
 
 	/**
@@ -457,13 +539,104 @@ class TimeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testRelLengthOfTime() {
-		$this->out($this->_header(__FUNCTION__), true);
-
 		$ret = TimeLib::relLengthOfTime('1990-11-20');
 		//pr($ret);
 
 		$ret = TimeLib::relLengthOfTime('2012-11-20');
 		//pr($ret);
+
+		$res = TimeLib::relLengthOfTime(date(FORMAT_DB_DATETIME, time() - 3600));
+		//pr($res);
+		$this->assertTrue(!empty($res));
+
+		$res = TimeLib::relLengthOfTime(date(FORMAT_DB_DATETIME, time() - 4 * DAY - 5 * HOUR), null, array('plural' => 'n'));
+		//pr($res);
+		//$this->assertEquals($res, 'Vor 4 Tagen, 5 '.__('Hours'));
+		$this->assertEquals(__('%s ago', '4 ' . __('Days') . ', ' . '5 ' . __('Hours')), $res);
+
+		$res = TimeLib::relLengthOfTime(date(FORMAT_DB_DATETIME, time() + 4 * DAY + 5 * HOUR), null, array('plural' => 'n'));
+		//pr($res);
+		$this->assertEquals(__('In %s', '4 ' . __('Days') . ', ' . '5 ' . __('Hours')), $res);
+
+		$res = TimeLib::relLengthOfTime(date(FORMAT_DB_DATETIME, time()), null, array('plural' => 'n'));
+		//pr($res);
+		$this->assertEquals($res, __('justNow'));
+	}
+
+	/**
+	 * Test cweek
+	 *
+	 * @return void
+	 */
+	public function testCweek() {
+		$year = 2008;
+		$month = 12;
+		$day = 29;
+		$date = mktime(0, 0, 0, $month, $day, $year);
+		$this->assertEquals('01/' . $year, TimeLib::cweek($year . '-' . $month . '-' . $day));
+
+		$year = 2009;
+		$month = 1;
+		$day = 1;
+		$date = mktime(0, 0, 0, $month, $day, $year);
+		$this->assertEquals('01/' . $year, TimeLib::cweek($year . '-' . $month . '-' . $day));
+
+		$year = 2009;
+		$month = 1;
+		$day = 9;
+		$date = mktime(0, 0, 0, $month, $day, $year);
+		$this->assertEquals('02/' . $year, TimeLib::cweek($year . '-' . $month . '-' . $day . ' 00:00:00'));
+
+		$year = 2009;
+		$month = 12;
+		$day = 26;
+		$date = mktime(0, 0, 0, $month, $day, $year);
+		$this->assertEquals('52/' . $year, TimeLib::cweek($year . '-' . $month . '-' . $day));
+	}
+
+	/**
+	 * Test IsInTheFuture
+	 *
+	 * @return void
+	 */
+	public function testIsInTheFuture() {
+		$testDate = date(FORMAT_DB_DATE, time() + 2 * DAY);
+		$is = TimeLib::isInTheFuture($testDate);
+		$this->assertTrue($is);
+
+		$testDate = date(FORMAT_DB_DATETIME, time() - 1 * MINUTE);
+		$is = TimeLib::isInTheFuture($testDate);
+		$this->assertFalse($is);
+	}
+
+	/**
+	 * Test IsNotTodayAndInTheFuture
+	 *
+	 * @return void
+	 */
+	public function testIsNotTodayAndInTheFuture() {
+		$testDate = date(FORMAT_DB_DATE, time());
+		$is = TimeLib::isNotTodayAndInTheFuture($testDate);
+		$this->assertFalse($is);
+
+		$testDate = date(FORMAT_DB_DATETIME, time() + 1 * DAY);
+		$is = TimeLib::isNotTodayAndInTheFuture($testDate);
+		$this->assertTrue($is);
+	}
+
+	/**
+	 * Test IsDayAfterTomorrow
+	 *
+	 * @return void
+	 */
+	public function testIsDayAfterTomorrow() {
+		$testDate = date(FORMAT_DB_DATE, time() + 2 * DAY);
+		$is = TimeLib::isDayAfterTomorrow($testDate);
+		$this->assertTrue($is);
+
+		$testDate = date(FORMAT_DB_DATETIME, time() - 1 * MINUTE);
+		$is = TimeLib::isDayAfterTomorrow($testDate);
+		$this->assertFalse($is);
 	}
 
 	/**
@@ -483,6 +656,16 @@ class TimeLibTest extends MyCakeTestCase {
 
 		$ret = TimeLib::lengthOfTime(-121);
 		//pr($ret);
+
+		$this->assertEquals('6 ' . __('Minutes') . ', 40 ' . __('Seconds'), TimeLib::lengthOfTime(400));
+
+		$res = TimeLib::lengthOfTime(400, 'i');
+		//pr($res);
+		$this->assertEquals('6 ' . __('Minutes'), $res);
+
+		$res = TimeLib::lengthOfTime(6 * DAY);
+		//pr($res);
+		$this->assertEquals('6 ' . __('Days') . ', 0 ' . __('Hours'), $res);
 	}
 
 	/**
@@ -524,22 +707,6 @@ class TimeLibTest extends MyCakeTestCase {
 
 		$result = TimeLib::cWeekMod(6);
 		$this->assertEquals(0, $result);
-	}
-
-	/**
-	 * TimeLibTest::testGetGmtOffset()
-	 *
-	 * @return void
-	 */
-	public function testGetGmtOffset() {
-		$result = TimeLib::getGmtOffset();
-		$this->assertEquals(0, $result);
-
-		$result = TimeLib::getGmtOffset('Europe/Berlin');
-		$this->assertTrue($result > 0, $result);
-
-		$result = TimeLib::getGmtOffset('America/Los_Angeles');
-		$this->assertTrue($result < 0, $result);
 	}
 
 	/**
@@ -904,6 +1071,55 @@ class TimeLibTest extends MyCakeTestCase {
 
 		$phpTimezone = date_default_timezone_get();
 		$this->assertEquals($name, $phpTimezone);
+	}
+
+	/**
+	 * TimeLibTest::testGetGmtOffset()
+	 *
+	 * @return void
+	 */
+	public function testGetGmtOffset() {
+		$timezone = Configure::read('Config.timezone');
+		$phpTimezone = date_default_timezone_get();
+		Configure::write('Config.timezone', 'UTC');
+		date_default_timezone_set('UTC');
+
+		$result = TimeLib::getGmtOffset();
+		$this->assertEquals(0, $result);
+
+		$result = TimeLib::getGmtOffset('Europe/Berlin');
+		$this->assertTrue($result > 0, $result);
+
+		$result = TimeLib::getGmtOffset('America/Los_Angeles');
+		$this->assertTrue($result < 0, $result);
+
+		Configure::write('Config.timezone', $timezone);
+		date_default_timezone_set($phpTimezone);
+	}
+
+	/**
+	 * DatetimeHelperTest::testTzOffset()
+	 *
+	 * @return void
+	 */
+	public function testTzOffset() {
+		$timezone = Configure::read('Config.timezone');
+		$phpTimezone = date_default_timezone_get();
+
+		Configure::write('Config.timezone', 'UTC');
+		date_default_timezone_set('UTC');
+
+		$result = TimeLib::tzOffset(0, false);
+		$this->assertEquals(0, $result);
+
+		Configure::write('Config.timezone', 'Europe/Berlin');
+		date_default_timezone_set('Europe/Berlin');
+
+		$result = TimeLib::tzOffset(2 * HOUR, false);
+		$this->assertEquals(0, $result);
+
+		Configure::write('Config.timezone', $timezone);
+		date_default_timezone_set($phpTimezone);
 	}
 
 }

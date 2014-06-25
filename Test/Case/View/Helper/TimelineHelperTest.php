@@ -51,6 +51,27 @@ class TimelineHelperTest extends MyCakeTestCase {
 		$this->assertSame(3, count($items));
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testFinalize() {
+		$this->testAddItem();
+		$data = array(
+			'start' => new DateTime(),
+			'content' => '',
+		);
+		$this->Timeline->addItem($data);
+		$data = array(
+			'start' => date(FORMAT_DB_DATETIME),
+			'content' => '',
+		);
+		$this->Timeline->addItem($data);
+
+		$result = $this->Timeline->finalize(true);
+		$this->debug($result);
+		$this->assertContains('\'start\': new Date(, -1, 0)', $result);
+	}
+
 	public function tearDown() {
 		parent::tearDown();
 
