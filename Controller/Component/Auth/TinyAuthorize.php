@@ -36,7 +36,7 @@ class TinyAuthorize extends BaseAuthorize {
 
 	protected $_acl = null;
 
-	protected $_defaults = array(
+	protected $_defaultConfig = array(
 		'superadminRole' => null, // quick way to allow access to every action
 		'allowUser' => false, // quick way to allow user access to non prefixed urls
 		'allowAdmin' => false, // quick way to allow admin access to admin prefixed urls
@@ -49,11 +49,17 @@ class TinyAuthorize extends BaseAuthorize {
 		'aclKey' => 'role_id', // only for single roles per user (BT)
 	);
 
-	public function __construct(ComponentCollection $Collection, $settings = array()) {
-		$settings = array_merge($this->_defaults, $settings);
-		parent::__construct($Collection, $settings);
+	/**
+	 * TinyAuthorize::__construct()
+	 *
+	 * @param ComponentCollection $Collection
+	 * @param array $config
+	 */
+	public function __construct(ComponentCollection $Collection, $config = array()) {
+		$config = array_merge($this->_defaultConfig, $config);
+		parent::__construct($Collection, $config);
 
-		if (Cache::config($settings['cache']) === false) {
+		if (Cache::config($config['cache']) === false) {
 			throw new CakeException(__d('dev', 'TinyAuth could not find `%s` cache - expects at least a `default` cache', $settings['cache']));
 		}
 	}

@@ -50,7 +50,7 @@ class MobileComponent extends Component {
 	 *
 	 * @param array
 	 */
-	protected $_defaults = array(
+	protected $_defaultConfig = array(
 		'on' => 'startup', // initialize (prior to controller's beforeRender) or startup
 		'engine' => 'vendor', // cake internal (deprecated), tools (deprecated) or vendor
 		'themed' => false, // If false uses subfolders instead of themes: /View/.../mobile/
@@ -62,11 +62,11 @@ class MobileComponent extends Component {
 	 * MobileComponent::__construct()
 	 *
 	 * @param ComponentCollection $collection
-	 * @param array $settings
+	 * @param array $config
 	 */
-	public function __construct(ComponentCollection $collection, $settings = array()) {
-		$settings = array_merge($this->_defaults, (array)Configure::read('Mobile'), $settings);
-		parent::__construct($collection, $settings);
+	public function __construct(ComponentCollection $collection, $config = array()) {
+		$config = array_merge($this->_defaultConfig, (array)Configure::read('Mobile'), $config);
+		parent::__construct($collection, $config);
 	}
 
 	/**

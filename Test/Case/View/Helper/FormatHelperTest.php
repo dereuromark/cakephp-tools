@@ -10,6 +10,8 @@ App::uses('View', 'View');
  */
 class FormatHelperTest extends MyCakeTestCase {
 
+	public $fixtures = array('core.cake_session');
+
 	public $Format;
 
 	public function setUp() {

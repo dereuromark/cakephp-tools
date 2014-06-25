@@ -542,7 +542,7 @@ class FormatHelper extends TextHelper {
 		}
 		$languageChange .= '<span class="country">';
 		foreach ($languages as $code => $la) {
-			if ($lang == $code) {
+			if ($lang === $code) {
 				$languageChange .= $this->Html->image('language_flags/' . $code . '.gif', array('alt' => $code, 'title' => $la['title'] . ' (' . __('active') . ')', 'class' => 'country_flag active')) . '';
 			} else {
 				$languageChange .= $this->Html->link($this->Html->image('language_flags/' . $code . '.gif', array('alt' => $code, 'title' => $la['title'], 'class' => 'country_flag')), '/lang/' . $code, array('escape' => false)) . '';
@@ -997,7 +997,7 @@ class FormatHelper extends TextHelper {
 	 * @return string Value in HTML tags
 	 */
 	public function warning($value, $ok = false) {
-		if ($ok !== true) {
+		if ($ok) {
 			return $this->ok($value, false);
 		}
 		return $value;
@@ -1015,7 +1015,7 @@ class FormatHelper extends TextHelper {
 	 * @return string newValue nicely formatted/colored
 	 */
 	public function ok($value, $ok = false) {
-		if ($ok === true) {
+		if ($ok) {
 			$value = '<span class="green" style="color:green">' . $value . '</span>';
 		} else {
 			$value = '<span class="red" style="color:red">' . $value . '</span>';

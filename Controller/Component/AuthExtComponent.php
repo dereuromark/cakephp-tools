@@ -36,7 +36,7 @@ class AuthExtComponent extends AuthComponent {
 
 	public $loginError = null;
 
-	protected $_defaults = array(
+	protected $_defaultConfig = array(
 		'multi' => null, # null=auto - yes/no multiple roles (HABTM table between users and roles)
 		'parentModelAlias' => USER_ROLE_KEY,
 		'userModel' => CLASS_USER //TODO: allow plugin syntax
@@ -45,13 +45,13 @@ class AuthExtComponent extends AuthComponent {
 	/**
 	 * Merge in Configure::read('Auth') settings
 	 *
-	 * @param mixed $Collection
-	 * @param mixed $settings
+	 * @param ComponentCollection $Collection
+	 * @param array $config
 	 */
-	public function __construct(ComponentCollection $Collection, $settings = array()) {
-		$settings = array_merge($this->_defaults, (array)Configure::read('Auth'), $settings);
+	public function __construct(ComponentCollection $Collection, $config = array()) {
+		$config = array_merge($this->_defaultConfig, (array)Configure::read('Auth'), $config);
 
-		parent::__construct($Collection, $settings);
+		parent::__construct($Collection, $config);
 	}
 
 	public function initialize(Controller $Controller) {
