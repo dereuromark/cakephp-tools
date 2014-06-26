@@ -17,7 +17,7 @@ function find_root() {
 }
 
 function find_app() {
-	if (is_dir(ROOT . '/src')) {
+	if (is_dir($root . '/src')) {
 		return 'src';
 	}
 	return 'App';
