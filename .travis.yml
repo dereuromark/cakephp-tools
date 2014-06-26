@@ -12,8 +12,6 @@ env:
   matrix:
     - DB=mysql CAKE_VERSION=master
     - DB=mysql CAKE_VERSION=2.6
-    - DB=sqlite CAKE_VERSION=master db_class='Cake\Database\Driver\Sqlite' db_dsn='sqlite::memory:'
-    - DB=pgsql CAKE_VERSION=master db_class='Cake\Database\Driver\Postgres' db_dsn='pgsql:host=127.0.0.1;dbname=cakephp_test' db_database="cakephp_test" db_login='postgres' db_password=''
 
 matrix:
   include:
@@ -22,9 +20,6 @@ matrix:
         - CAKE_VERSION=master
         - COVERALLS=1
   fast_finish: true
-  allow_failures:
-    - env: DB=sqlite
-    - env: DB=pqsql
 
 before_script:
   - composer global require 'phpunit/phpunit=3.7.33'
