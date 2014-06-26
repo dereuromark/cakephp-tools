@@ -436,7 +436,7 @@ function pre($var, $collapsedAndExpandable = false, $options = array()) {
 		'returns' => false, // Use returns(),
 		'debug' => false // Show only with debug > 0
 	);
-	$options = array_merge($defaults, $options);
+	$options += $defaults;
 	if ($options['debug'] && !Configure::read('debug')) {
 		return '';
 	}

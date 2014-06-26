@@ -73,7 +73,7 @@ class TimeLib extends CakeTime {
 	 * @param mixex §end (db format or timestamp)
 	 * @return int: the distance in seconds
 	 */
-	public static function difference($startTime = null, $endTime = null, $options = array()) {
+	public static function difference($startTime, $endTime = null, $options = array()) {
 		if (!is_int($startTime)) {
 			$startTime = strtotime($startTime);
 		}
@@ -85,22 +85,15 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * Calculate the age using start and optional end date.
-	 * End date defaults to current date.
+	 * Calculates the age using start and optional end date.
+	 * Both dates default to current date. Note that start needs
+	 * to be before end for a valid result.
 	 *
-	 * @param start date (if empty, use today)
-	 * @param end date (if empty, use today)
-	 * start and end cannot be both empty!
-	 * @param accuracy (year only = 0, incl months/days = 2)
-	 * if > 0, returns array!!! ('days'=>x,'months'=>y,'years'=>z)
-	 *
-	 * does this work too?
-	 *  $now = mktime(0,0,0,date("m"),date("d"),date("Y"));
-	 *  $birth = mktime(0,0,0, $monat, $tag, $jahr);
-	 *  $age = intval(($now - $birth) / (3600 * 24 * 365));
-	 * @return int age (0 if both timestamps are equal or empty, -1 on invalid dates)
+	 * @param int|string $start Start date (if empty, use today)
+	 * @param int|string $end End date (if empty, use today)
+	 * @return int Age (0 if both timestamps are equal or empty, -1 on invalid dates)
 	 */
-	public static function age($start = null, $end = null, $accuracy = 0) {
+	public static function age($start, $end = null) {
 		if (empty($start) && empty($end) || $start == $end) {
 			return 0;
 		}
@@ -122,12 +115,12 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * Try to return the age only with the year available
+	 * Returns the age only with the year available
 	 * can be e.g. 22/23
 	 *
 	 * @param int $year
 	 * @param int $month (optional)
-	 * @return int Age
+	 * @return int|string Age
 	 */
 	public static function ageByYear($year, $month = null) {
 		if ($month === null) {
@@ -147,9 +140,11 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * @param int $year
-	 * @param int $sign
-	 * @return mixed
+	 * Returns age by horoscope info.
+	 *
+	 * @param int $year Year
+	 * @param int $sign Sign
+	 * @return int|array Age
 	 */
 	public static function ageByHoroscope($year, $sign) {
 		App::uses('ZodiacLib', 'Tools.Misc');
@@ -216,7 +211,7 @@ class TimeLib extends CakeTime {
 	 * @param int $month
 	 */
 	public static function daysInMonth($year, $month) {
-		return date("t", mktime(0, 0, 0, $month, 1, $year));
+		return date('t', mktime(0, 0, 0, $month, 1, $year));
 	}
 
 	/**
@@ -253,18 +248,17 @@ class TimeLib extends CakeTime {
 			$kw = 1 + date($t - DAY * date('w', $t), 'W');
 			$y--;
 		}
-		//echo "Der $d.$m.$y liegt in der Kalenderwoche $kw/$y";
 
 		return $kw . '/' . $y;
 	}
 
 	/**
-	 * Return the timestamp to a day in a specific cweek
+	 * Returns the timestamp to a day in a specific cweek
 	 * 0=sunday to 7=saturday (default)
 	 *
 	 * @return timestamp of the weekDay
 	 * @FIXME: offset
-	 * not needed, use localDate!
+	 * @deprecated Not needed, use localDate!
 	 */
 	public static function cWeekDay($cweek, $year, $day) {
 		$cweekBeginning = self::cweekBeginning($year, $cweek);
@@ -287,11 +281,12 @@ class TimeLib extends CakeTime {
 	 * Calculate the beginning of a calenderweek
 	 * if no cweek is given get the beginning of the first week of the year
 	 *
-	 * @param year (format xxxx)
-	 * @param cweek (optional, defaults to first, range 1...52/53)
+	 * @param int $year (format xxxx)
+	 * @param int $cweek (optional, defaults to first, range 1...52/53)
+	 * @return int Timestamp
 	 */
-	public static function cWeekBeginning($year, $cweek = null) {
-		if ((int)$cweek <= 1 || (int)$cweek > self::cweeks($year)) {
+	public static function cWeekBeginning($year, $cweek = 0) {
+		if ($cweek <= 1 || $cweek > self::cweeks($year)) {
 			$first = mktime(0, 0, 0, 1, 1, $year);
 			$wtag = date('w', $first);
 
@@ -314,21 +309,22 @@ class TimeLib extends CakeTime {
 	 * Calculate the ending of a calenderweek
 	 * if no cweek is given get the ending of the last week of the year
 	 *
-	 * @param year (format xxxx)
-	 * @param cweek (optional, defaults to last, range 1...52/53)
+	 * @param int $year (format xxxx)
+	 * @param int $cweek (optional, defaults to last, range 1...52/53)
+	 * @return int Timestamp
 	 */
-	public static function cWeekEnding($year, $cweek = null) {
-		if ((int)$cweek < 1 || (int)$cweek >= self::cweeks($year)) {
+	public static function cWeekEnding($year, $cweek = 0) {
+		if ($cweek < 1 || $cweek >= self::cweeks($year)) {
 			return self::cweekBeginning($year + 1) - 1;
 		}
-		return self::cweekBeginning($year, intval($cweek) + 1) - 1;
+		return self::cweekBeginning($year, $cweek + 1) - 1;
 	}
 
 	/**
 	 * Calculate the amount of calender weeks in a year
 	 *
-	 * @param year (format xxxx, defaults to current year)
-	 * @return int: 52 or 53
+	 * @param int $year (format xxxx, defaults to current year)
+	 * @return int Amount of weeks - 52 or 53
 	 */
 	public static function cWeeks($year = null) {
 		if ($year === null) {
@@ -338,7 +334,7 @@ class TimeLib extends CakeTime {
 	}
 
 	/**
-	 * @param year (format xxxx, defaults to current year)
+	 * @param int $year (format xxxx, defaults to current year)
 	 * @return bool Success
 	 */
 	public static function isLeapYear($year) {
@@ -389,8 +385,8 @@ class TimeLib extends CakeTime {
 	 * Get the age bounds (min, max) as timestamp that would result in the given age(s)
 	 * note: expects valid age (> 0 and < 120)
 	 *
-	 * @param $firstAge
-	 * @param $secondAge (defaults to first one if not specified)
+	 * @param int $firstAge
+	 * @param int $secondAge (defaults to first one if not specified)
 	 * @return array('min'=>$min, 'max'=>$max);
 	 */
 	public static function ageBounds($firstAge, $secondAge = null, $returnAsString = false, $relativeTime = null) {
@@ -415,11 +411,9 @@ class TimeLib extends CakeTime {
 	 *
 	 * @param date
 	 * @param string days with +-
-	 * @param options
+	 * @return bool Success
 	 */
-	public static function isInRange($dateString, $seconds, $options = array()) {
-		//$newDate = is_int($dateString) ? $dateString : strtotime($dateString);
-		//$newDate += $seconds;
+	public static function isInRange($dateString, $seconds) {
 		$newDate = time();
 		return self::difference($dateString, $newDate) <= $seconds;
 	}
@@ -439,7 +433,7 @@ class TimeLib extends CakeTime {
 	 */
 	public static function localDate($dateString = null, $format = null, $options = array()) {
 		$defaults = array('default' => '-----', 'timezone' => null);
-		$options = array_merge($defaults, $options);
+		$options += $defaults;
 
 		if ($options['timezone'] === null && strlen($dateString) === 10) {
 			$options['timezone'] = date_default_timezone_get();
@@ -492,7 +486,7 @@ class TimeLib extends CakeTime {
 	 */
 	public static function niceDate($dateString = null, $format = null, $options = array()) {
 		$defaults = array('default' => '-----', 'timezone' => null);
-		$options = array_merge($defaults, $options);
+		$options += $defaults;
 
 		if ($options['timezone'] === null && strlen($dateString) === 10) {
 			$options['timezone'] = date_default_timezone_get();
@@ -769,10 +763,7 @@ class TimeLib extends CakeTime {
 	 */
 	public static function lengthOfTime($seconds, $format = null, $options = array()) {
 		$defaults = array('verbose' => true, 'zero' => false, 'separator' => ', ', 'default' => '');
-		$ret = '';
-			$j = 0;
-
-		$options = array_merge($defaults, $options);
+		$options += $defaults;
 
 		if (!$options['verbose']) {
 			$s = array(
@@ -801,14 +792,19 @@ class TimeLib extends CakeTime {
 		}
 
 		if (!isset($format)) {
-			//if (floor($seconds / MONTH) > 0) $format = 'Md';
-			if (floor($seconds / DAY) > 0) $format = 'Dh';
-			elseif (floor($seconds / 3600) > 0) $format = 'Hi';
-			elseif (floor($seconds / 60) > 0) $format = 'Is';
-			else $format = 'S';
+			if (floor($seconds / DAY) > 0) {
+				$format = 'Dh';
+			} elseif (floor($seconds / 3600) > 0) {
+				$format = 'Hi';
+			} elseif (floor($seconds / 60) > 0) {
+				$format = 'Is';
+			} else {
+				$format = 'S';
+			}
 		}
 
-		for ($i = 0; $i < mb_strlen($format); $i++) {
+		$length = mb_strlen($format);
+		for ($i = 0; $i < $length; $i++) {
 			switch (mb_substr($format, $i, 1)) {
 			case 'D':
 				$str = floor($seconds / 86400);
@@ -839,6 +835,8 @@ class TimeLib extends CakeTime {
 				break;
 			}
 
+			$ret = '';
+			$j = 0;
 			if ($str > 0 || $j > 0 || $options['zero'] || $i == mb_strlen($format) - 1) {
 				if ($j > 0) {
 					$ret .= $options['separator'];
@@ -869,11 +867,12 @@ class TimeLib extends CakeTime {
 	 * //TODO: make "now" adjustable
 	 *
 	 * @param mixed $datestring
-	 * @param string format: format
-	 * @param options
+	 * @param string $format Format
+	 * @param array $options Options
 	 * - default, separator
 	 * - boolean zero: if false: 0 days 5 hours => 5 hours etc.
 	 * - verbose/past/future: string with %s or boolean true/false
+	 * @return string
 	 */
 	public static function relLengthOfTime($dateString, $format = null, $options = array()) {
 		if ($dateString !== null) {
@@ -889,7 +888,7 @@ class TimeLib extends CakeTime {
 		$defaults = array(
 			'verbose' => __('justNow'), 'zero' => false, 'separator' => ', ',
 			'future' => __('In %s'), 'past' => __('%s ago'), 'default' => '');
-		$options = array_merge($defaults, $options);
+		$options += $defaults;
 
 		$ret = self::lengthOfTime($sec, $format, $options);
 

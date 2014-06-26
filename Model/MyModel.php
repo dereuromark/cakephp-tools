@@ -799,7 +799,7 @@ class MyModel extends Model {
 		$defaults = array(
 			'allowEmpty' => false,
 		);
-		$options = array_merge($defaults, $options);
+		$options += $defaults;
 
 		if ($schema['type'] !== 'integer') {
 			if ($options['allowEmpty'] && $value === '') {
