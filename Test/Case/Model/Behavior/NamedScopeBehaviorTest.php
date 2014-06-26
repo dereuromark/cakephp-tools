@@ -147,6 +147,9 @@ class NamedScopeBehaviorTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testScopedFindWithVirtualFields() {
+		$this->db = ConnectionManager::getDataSource('test');
+		$this->skipIf(!($this->db instanceof Mysql), 'The virtualFields test is only compatible with Mysql.');
+
 		$this->Comment->scopes = array('active' => array('Comment.published' => 'Y'));
 		$this->Comment->User->scopes = array('senior' => array('User.id <' => '2'));
 

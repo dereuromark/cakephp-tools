@@ -16,10 +16,10 @@ class TransactionFixture extends CakeTestFixture {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary', 'collate' => null, 'comment' => ''),
 		'title' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
 		'token' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'foreign_id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
+		'foreign_id' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 36, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
 		'model' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
 		'type' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => 'paypal, ...', 'charset' => 'utf8'),
-		'transaction_id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
+		'transaction_id' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
 		'transaction_type' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
 		'note' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
 		'amount' => array('type' => 'float', 'null' => false, 'default' => '0.00', 'length' => '9,2', 'collate' => null, 'comment' => ''),
@@ -30,8 +30,8 @@ class TransactionFixture extends CakeTestFixture {
 		'payment_status' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
 		'pending_reason' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
 		'reason_code' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'order_time' => array('type' => 'datetime', 'null' => false, 'default' => null, 'collate' => null, 'comment' => ''),
-		'created' => array('type' => 'datetime', 'null' => false, 'default' => null, 'collate' => null, 'comment' => ''),
+		'order_time' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array()
 	);
@@ -60,7 +60,7 @@ class TransactionFixture extends CakeTestFixture {
 			'payment_status' => '',
 			'pending_reason' => '',
 			'reason_code' => '',
-			'order_time' => '0000-00-00 00:00:00',
+			'order_time' => null,
 			'created' => '2011-09-23 14:58:38'
 		),
 		array(
@@ -81,7 +81,7 @@ class TransactionFixture extends CakeTestFixture {
 			'payment_status' => '',
 			'pending_reason' => '',
 			'reason_code' => '',
-			'order_time' => '0000-00-00 00:00:00',
+			'order_time' => null,
 			'created' => '2011-09-23 15:19:42'
 		),
 		array(
@@ -102,7 +102,7 @@ class TransactionFixture extends CakeTestFixture {
 			'payment_status' => '',
 			'pending_reason' => '',
 			'reason_code' => '',
-			'order_time' => '0000-00-00 00:00:00',
+			'order_time' => null,
 			'created' => '2011-09-23 17:13:59'
 		),
 		array(
@@ -123,7 +123,7 @@ class TransactionFixture extends CakeTestFixture {
 			'payment_status' => '',
 			'pending_reason' => '',
 			'reason_code' => '',
-			'order_time' => '0000-00-00 00:00:00',
+			'order_time' => null,
 			'created' => '2011-09-23 17:07:40'
 		),
 		array(
@@ -207,7 +207,7 @@ class TransactionFixture extends CakeTestFixture {
 			'payment_status' => '',
 			'pending_reason' => '',
 			'reason_code' => '',
-			'order_time' => '0000-00-00 00:00:00',
+			'order_time' => null,
 			'created' => '2011-09-29 23:40:48'
 		),
 		array(
@@ -228,7 +228,7 @@ class TransactionFixture extends CakeTestFixture {
 			'payment_status' => '',
 			'pending_reason' => '',
 			'reason_code' => '',
-			'order_time' => '0000-00-00 00:00:00',
+			'order_time' => null,
 			'created' => '2011-10-03 16:35:08'
 		),
 		array(
@@ -249,7 +249,7 @@ class TransactionFixture extends CakeTestFixture {
 			'payment_status' => '',
 			'pending_reason' => '',
 			'reason_code' => '',
-			'order_time' => '0000-00-00 00:00:00',
+			'order_time' => null,
 			'created' => '2011-10-27 02:58:50'
 		),
 	);

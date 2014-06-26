@@ -12,8 +12,8 @@ class BitmaskedCommentFixture extends CakeTestFixture {
 	 */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'key' => 'primary'),
-		'article_id' => array('type' => 'integer', 'null' => false),
-		'user_id' => array('type' => 'integer', 'null' => false),
+		'article_id' => array('type' => 'integer', 'null' => true),
+		'user_id' => array('type' => 'integer', 'null' => true),
 		'comment' => 'text',
 		'status' => array('type' => 'integer', 'null' => false, 'length' => 2, 'default' => '0'),
 		'created' => 'datetime',

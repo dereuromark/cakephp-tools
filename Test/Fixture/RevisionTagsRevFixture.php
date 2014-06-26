@@ -3,8 +3,8 @@
 class RevisionTagsRevFixture extends CakeTestFixture {
 
 	public $fields = array(
-			'version_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-			'version_created' => array('type' => 'datetime', 'null' => false, 'default' => null),
+			'version_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'primary'),
+			'version_created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 			'id' => array('type' => 'integer', 'null' => false, 'default' => null),
 			'title' => array('type' => 'string', 'null' => false, 'default' => null)
 	);

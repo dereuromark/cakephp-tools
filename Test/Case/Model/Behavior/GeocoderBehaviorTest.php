@@ -122,6 +122,9 @@ class GeocoderBehaviorTest extends MyCakeTestCase {
 		$is = $this->Comment->validateLongitude(-190);
 		$this->assertFalse($is);
 
+		$this->db = ConnectionManager::getDataSource('test');
+		$this->skipIf(!($this->db instanceof Mysql), 'The virtualFields test is only compatible with Mysql.');
+
 		$this->Comment->validator()->add('lat', 'validateLatitude', array('rule' => 'validateLatitude', 'message' => 'validateLatitudeError'));
 		$this->Comment->validator()->add('lng', 'validateLongitude', array('rule' => 'validateLongitude', 'message' => 'validateLongitudeError'));
 		$data = array(
@@ -143,6 +146,9 @@ class GeocoderBehaviorTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testBasic() {
+		$this->db = ConnectionManager::getDataSource('test');
+		$this->skipIf(!($this->db instanceof Mysql), 'The virtualFields test is only compatible with Mysql.');
+
 		$data = array(
 			'street' => 'Krebenweg 22',
 			'zip' => '74523',

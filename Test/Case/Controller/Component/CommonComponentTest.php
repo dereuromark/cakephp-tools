@@ -196,7 +196,7 @@ class CommonComponentTest extends CakeTestCase {
 		$this->assertTrue($is);
 
 		$res = CakeSession::read('Auth');
-		$this->assertSame($User->id, $res['User']['id']);
+		$this->assertEquals($User->id, $res['User']['id']);
 		$this->assertTrue(!empty($res['User']['Role']));
 	}
 
@@ -224,7 +224,7 @@ class CommonComponentTest extends CakeTestCase {
 		$this->assertTrue($is);
 
 		$res = CakeSession::read('Auth');
-		$this->assertSame($User->id, $res['User']['id']);
+		$this->assertEquals($User->id, $res['User']['id']);
 		$this->assertTrue(!empty($res['User']['Role']));
 	}
 

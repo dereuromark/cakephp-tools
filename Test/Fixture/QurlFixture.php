@@ -21,7 +21,7 @@ class QurlFixture extends CakeTestFixture {
 		'used' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10),
 		'last_used' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
-		'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),

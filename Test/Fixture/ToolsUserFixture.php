@@ -14,7 +14,7 @@ class ToolsUserFixture extends CakeTestFixture {
 		'id' => array('type' => 'integer', 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => false),
 		'password' => array('type' => 'string', 'null' => false),
-		'role_id' => array('type' => 'integer', 'null' => false),
+		'role_id' => array('type' => 'integer', 'null' => true),
 	);
 
 	/**

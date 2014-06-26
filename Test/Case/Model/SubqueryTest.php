@@ -16,6 +16,9 @@ class SubqueryTest extends MyCakeTestCase {
 	public function setUp() {
 		$this->Model = ClassRegistry::init('Country');
 
+		$this->db = ConnectionManager::getDataSource('test');
+		$this->skipIf(!($this->db instanceof Mysql), 'The subquery test is only compatible with Mysql.');
+
 		parent::setUp();
 	}
 
