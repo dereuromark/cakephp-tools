@@ -22,7 +22,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Tools\\": "."
+			"Tools\\": "src"
 		}
 	},
 	"support":{
