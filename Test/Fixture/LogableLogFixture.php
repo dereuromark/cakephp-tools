@@ -16,18 +16,18 @@ class LogableLogFixture extends CakeTestFixture {
 			'type' => 'string',
 			'length' => 255,
 			'null' => false),
-		'foreign_id' => array('type' => 'integer', 'null' => false),
+		'foreign_id' => array('type' => 'integer', 'null' => true),
 		'action' => array(
 			'type' => 'string',
 			'length' => 25,
 			'null' => false),
-		'user_id' => array('type' => 'integer', 'null' => false),
+		'user_id' => array('type' => 'integer', 'null' => true),
 		'change' => array(
 			'type' => 'string',
 			'length' => 255,
 			'null' => false),
-		'created' => array('type' => 'datetime', 'null' => false, 'default' => null, 'collate' => null, 'comment' => ''),
-		'modified' => array('type' => 'datetime', 'null' => false, 'default' => null, 'collate' => null, 'comment' => ''),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array()
 	);

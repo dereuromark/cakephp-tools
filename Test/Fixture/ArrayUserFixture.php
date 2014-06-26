@@ -29,7 +29,7 @@ class ArrayUserFixture extends CakeTestFixture {
 	 */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'key' => 'primary'),
-		'born_id' => array('type' => 'integer', 'null' => false),
+		'born_id' => array('type' => 'integer', 'null' => true),
 		'name' => array('type' => 'string', 'null' => false)
 	);
 

@@ -21,8 +21,8 @@ class TimeFixture extends CakeTestFixture {
 		'description' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
 		'price' => array('type' => 'float', 'null' => false, 'default' => null, 'length' => '8,2', 'collate' => null, 'comment' => ''),
 		'price_premium' => array('type' => 'float', 'null' => false, 'default' => null, 'length' => '8,2', 'collate' => null, 'comment' => ''),
-		'created' => array('type' => 'datetime', 'null' => false, 'default' => null, 'collate' => null, 'comment' => ''),
-		'modified' => array('type' => 'datetime', 'null' => false, 'default' => null, 'collate' => null, 'comment' => ''),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array()
 	);

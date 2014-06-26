@@ -219,7 +219,7 @@ class LogableBehaviorTest extends CakeTestCase {
 				'model' => 'LogableBook',
 				'foreign_id' => 5,
 				'action' => 'edit',
-				'user_id' => 0,
+				'user_id' => null,
 				'change' => 'title',
 			));
 		$this->assertEquals($expected, $result);
@@ -236,7 +236,7 @@ class LogableBehaviorTest extends CakeTestCase {
 				'model' => 'LogableBook',
 				'foreign_id' => 5,
 				'action' => 'delete',
-				'user_id' => 0,
+				'user_id' => null,
 				'change' => '',
 			));
 		$this->assertEquals($expected, $result);
@@ -253,7 +253,7 @@ class LogableBehaviorTest extends CakeTestCase {
 				'model' => 'LogableUser',
 				'foreign_id' => 302,
 				'action' => 'add',
-				'user_id' => 0,
+				'user_id' => null,
 				'change' => 'name',
 			)
 		);
@@ -269,7 +269,7 @@ class LogableBehaviorTest extends CakeTestCase {
 				'model' => 'LogableUser',
 				'foreign_id' => 302,
 				'action' => 'delete',
-				'user_id' => 0,
+				'user_id' => null,
 				'change' => '',
 			)
 		);
@@ -288,7 +288,7 @@ class LogableBehaviorTest extends CakeTestCase {
 				'model' => 'LogableComment',
 				'foreign_id' => 5,
 				'action' => 'add',
-				'user_id' => 0,
+				'user_id' => null,
 				'change' => 'content',
 			)
 		);
@@ -311,7 +311,7 @@ class LogableBehaviorTest extends CakeTestCase {
 				'model' => 'LogableBook',
 				'foreign_id' => (string)7,
 				'action' => 'add',
-				'user_id' => (string)0,
+				'user_id' => null,
 				'change' => 'title, weight',
 			)
 		);
@@ -330,7 +330,7 @@ class LogableBehaviorTest extends CakeTestCase {
 				'model' => 'LogableBook',
 				'foreign_id' => 5,
 				'action' => 'edit',
-				'user_id' => 0,
+				'user_id' => null,
 				'change' => 'title',
 			));
 
@@ -347,7 +347,7 @@ class LogableBehaviorTest extends CakeTestCase {
 				'model' => 'LogableBook',
 				'foreign_id' => 5,
 				'action' => 'delete',
-				'user_id' => 0,
+				'user_id' => null,
 				'change' => '',
 			));
 		$this->assertEquals($expected, $result);
@@ -371,9 +371,9 @@ class LogableBehaviorTest extends CakeTestCase {
 				//'description' => 'LogableBook "Denver" (7) added by System.',
 				'description' => '',
 				'model' => '',
-				'foreign_id' => '0',
+				'foreign_id' => null,
 				'action' => 'add',
-				'user_id' => (string)0,
+				'user_id' => null,
 				'change' => 'title',
 			)
 		);
@@ -388,9 +388,9 @@ class LogableBehaviorTest extends CakeTestCase {
 				//'description' => 'LogableBook "Forth book" (5) deleted by System.',
 				'description' => '',
 				'model' => '',
-				'foreign_id' => '0',
+				'foreign_id' => null,
 				'action' => 'delete',
-				'user_id' => 0,
+				'user_id' => null,
 				'change' => '',
 			));
 
@@ -413,7 +413,7 @@ class LogableBehaviorTest extends CakeTestCase {
 				'model' => 'LogableBook',
 				'foreign_id' => (string)7,
 				'action' => 'add',
-				'user_id' => '0',
+				'user_id' => null,
 				'change' => 'title',
 			)
 		);
@@ -470,7 +470,7 @@ class LogableBehaviorTest extends CakeTestCase {
 				'model' => 'LogableBook',
 				'foreign_id' => (string)5,
 				'action' => 'delete',
-				'user_id' => '0',
+				'user_id' => null,
 				'change' => '',
 			)
 		);
@@ -511,7 +511,7 @@ class LogableBehaviorTest extends CakeTestCase {
 				'model' => 'LogableBook',
 				'foreign_id' => '5',
 				'action' => 'delete',
-				'user_id' => '0',
+				'user_id' => null,
 				'change' => ''
 			)
 		);

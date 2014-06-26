@@ -65,6 +65,9 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testGetFieldInUse() {
+		$this->db = ConnectionManager::getDataSource('test');
+		$this->skipIf(!($this->db instanceof Mysql), 'The test is only compatible with Mysql.');
+
 		$results = $this->Post->getFieldInUse('author_id', 'list');
 		$expected = array(1 => 'First Post', 2 => 'Second Post');
 		$this->assertEquals($expected, $results);
@@ -111,7 +114,9 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testGetNextAutoIncrement() {
-		$this->out($this->_header(__FUNCTION__), true);
+		$this->db = ConnectionManager::getDataSource('test');
+		$this->skipIf(!($this->db instanceof Mysql), 'The test is only compatible with Mysql.');
+
 		$is = $this->User->getNextAutoIncrement();
 		$this->out(returns($is));
 
@@ -143,6 +148,9 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testEscapeValue() {
+		$this->db = ConnectionManager::getDataSource('test');
+		$this->skipIf(!($this->db instanceof Mysql), 'The test is only compatible with Mysql.');
+
 		$res = $this->User->escapeValue(4);
 		$this->assertSame(4, $res);
 
@@ -281,31 +289,30 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateRange() {
-		$this->out($this->_header(__FUNCTION__), true);
 		$is = $this->User->validateRange(array('range' => 2), 1, 3);
 		$this->assertTrue($is);
 
-		$this->out($this->_header(__FUNCTION__), true);
+
 		$is = $this->User->validateRange(array('range' => 2.4), 1.5, 2.3);
 		$this->assertFalse($is);
 
-		$this->out($this->_header(__FUNCTION__), true);
+
 		$is = $this->User->validateRange(array('range' => -5), -10, 1);
 		$this->assertTrue($is);
 
-		$this->out($this->_header(__FUNCTION__), true);
+
 		$is = $this->User->validateRange(array('range' => 'word'), 1.5, 2.3);
 		$this->assertFalse($is);
 
-		$this->out($this->_header(__FUNCTION__), true);
+
 		$is = $this->User->validateRange(array('range' => 5.1));
 		$this->assertTrue($is);
 
-		$this->out($this->_header(__FUNCTION__), true);
+
 		$is = $this->User->validateRange(array('range' => 2.1), 2.1, 3.2);
 		$this->assertTrue($is);
 
-		$this->out($this->_header(__FUNCTION__), true);
+
 		$is = $this->User->validateRange(array('range' => 3.2), 2.1, 3.2);
 		$this->assertTrue($is);
 	}
@@ -316,7 +323,6 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateIdentical() {
-		$this->out($this->_header(__FUNCTION__), true);
 		$this->User->data = array($this->User->alias => array('y' => 'efg'));
 		$is = $this->User->validateIdentical(array('x' => 'efg'), 'y');
 		$this->assertTrue($is);
@@ -340,7 +346,7 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateKey() {
-		$this->out($this->_header(__FUNCTION__), true);
+
 		//$this->User->data = array($this->User->alias=>array('y'=>'efg'));
 		$testModel = new AppTestModel();
 
@@ -390,7 +396,7 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateEnum() {
-		$this->out($this->_header(__FUNCTION__), true);
+
 		//$this->User->data = array($this->User->alias=>array('y'=>'efg'));
 		$testModel = new AppTestModel();
 		$is = $testModel->validateEnum(array('x' => '1'), true);
@@ -412,7 +418,7 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testGuaranteeFields() {
-		$this->out($this->_header(__FUNCTION__), true);
+
 		$res = $this->User->guaranteeFields(array());
 		//debug($res);
 		$this->assertTrue(empty($res));
@@ -467,7 +473,7 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testSet() {
-		$this->out($this->_header(__FUNCTION__), true);
+
 		$data = array($this->modelName => array('x' => 'hey'), 'OtherModel' => array('y' => ''));
 		$this->User->data = array();
 
@@ -488,7 +494,7 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateWithGuaranteeFields() {
-		$this->out($this->_header(__FUNCTION__), true);
+
 		$data = array($this->modelName => array('x' => 'hey'), 'OtherModel' => array('y' => ''));
 
 		$data = $this->User->guaranteeFields(array('x', 'z'), $data);
@@ -547,7 +553,7 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testInvalidate() {
-		$this->out($this->_header(__FUNCTION__), true);
+
 		$this->User->create();
 		$this->User->invalidate('fieldx', __('e %s f', 33));
 		$res = $this->User->validationErrors;
@@ -591,7 +597,7 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateDate() {
-		$this->out($this->_header(__FUNCTION__), true);
+
 		$data = array('field' => '2010-01-22');
 		$res = $this->User->validateDate($data);
 		//debug($res);
@@ -675,7 +681,7 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateDatetime() {
-		$this->out($this->_header(__FUNCTION__), true);
+
 		$data = array('field' => '2010-01-22 11:11:11');
 		$res = $this->User->validateDatetime($data);
 		//debug($res);
@@ -750,7 +756,7 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateTime() {
-		$this->out($this->_header(__FUNCTION__), true);
+
 		$data = array('field' => '11:21:11');
 		$res = $this->User->validateTime($data);
 		//debug($res);
@@ -780,7 +786,7 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateUrl() {
-		$this->out($this->_header(__FUNCTION__), true);
+
 		$data = array('field' => 'www.dereuromark.de');
 		$res = $this->User->validateUrl($data, array('allowEmpty' => true));
 		$this->assertTrue($res);
@@ -844,7 +850,7 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateUnique() {
-		$this->out($this->_header(__FUNCTION__), true);
+
 
 		$this->Post->validate['title'] = array(
 			'validateUnique' => array(
