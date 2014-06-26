@@ -803,6 +803,8 @@ class TimeLib extends CakeTime {
 			}
 		}
 
+		$ret = '';
+		$j = 0;
 		$length = mb_strlen($format);
 		for ($i = 0; $i < $length; $i++) {
 			switch (mb_substr($format, $i, 1)) {
@@ -835,9 +837,7 @@ class TimeLib extends CakeTime {
 				break;
 			}
 
-			$ret = '';
-			$j = 0;
-			if ($str > 0 || $j > 0 || $options['zero'] || $i == mb_strlen($format) - 1) {
+			if ($str > 0 || $j > 0 || $options['zero'] || $i === mb_strlen($format) - 1) {
 				if ($j > 0) {
 					$ret .= $options['separator'];
 				}
@@ -1073,6 +1073,7 @@ class TimeLib extends CakeTime {
 	 * Hours, minutes
 	 * e.g. 9.3 => 9.5
 	 *
+	 * @param int $value
 	 * @return float
 	 */
 	public static function standardToDecimalTime($value) {
@@ -1091,6 +1092,9 @@ class TimeLib extends CakeTime {
 	 * e.g. 9.5 => 9.3
 	 * with pad=2: 9.30
 	 *
+	 * @param int $value
+	 * @param string $pad
+	 * @param string $decPoint
 	 * @return string
 	 */
 	public static function decimalToStandardTime($value, $pad = null, $decPoint = '.') {
@@ -1112,7 +1116,8 @@ class TimeLib extends CakeTime {
 	 * now supports negative values like -2,5 -2,5 -2:30 -:30 or -4
 	 *
 	 * @param string
-	 * @return int: seconds
+	 * @param array $allowed
+	 * @return int Seconds
 	 */
 	public static function parseTime($duration, $allowed = array(':', '.', ',')) {
 		if (empty($duration)) {
@@ -1152,7 +1157,8 @@ class TimeLib extends CakeTime {
 	 * Parse 2022-11-12 or 12.11.2022 or even 12.11.22
 	 *
 	 * @param string $date
-	 * @return int: seconds
+	 * @param array $allowed
+	 * @return int Seconds
 	 */
 	public static function parseDate($date, $allowed = array('.', '-')) {
 		$datePieces = explode(' ', $date, 2);
@@ -1182,8 +1188,9 @@ class TimeLib extends CakeTime {
 	/**
 	 * Return strings like 2:30 (later //TODO: or 2:33:99) from seconds etc
 	 *
-	 * @param int: seconds
-	 * @return string
+	 * @param int $duraton Duraction in seconds
+	 * @param string $mode
+	 * @return string Time
 	 */
 	public static function buildTime($duration, $mode = 'H:MM') {
 		if ($duration < 0) {
@@ -1206,8 +1213,8 @@ class TimeLib extends CakeTime {
 	/**
 	 * Return strings like 2:33:99 from seconds etc
 	 *
-	 * @param int: seconds
-	 * @return string
+	 * @param int $duration Duration in seconds
+	 * @return string Time
 	 */
 	public static function buildDefaultTime($duration) {
 		$minutes = $duration % HOUR;

@@ -335,7 +335,7 @@ class TimeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testAge() {
-		$this->assertEquals('0', TimeLib::age());
+		$this->assertEquals('0', TimeLib::age(null));
 
 		list($year, $month, $day) = explode('-', date('Y-m-d'));
 		$this->assertEquals('0', TimeLib::age($year . '-' . $month . '-' . $day, null));
@@ -356,12 +356,8 @@ class TimeLibTest extends MyCakeTestCase {
 		// Leap year
 
 		$this->assertEquals('2', TimeLib::age('2005-03-01', '2008-02-28'));
-		if (WINDOWS) {
-			// On some local devs this seems to return the wrong age 3...
-			$this->assertEquals('3', TimeLib::age('2005-03-01', '2008-02-29'));
-		} else {
-			$this->assertEquals('2', TimeLib::age('2005-03-01', '2008-02-29'));
-		}
+		$this->assertEquals('2', TimeLib::age('2005-03-01', '2008-02-29'));
+
 		$this->assertEquals('3', TimeLib::age('2005-03-01', '2008-03-01'));
 		$this->assertEquals('3', TimeLib::age('2005-02-29', '2008-03-01'));
 
