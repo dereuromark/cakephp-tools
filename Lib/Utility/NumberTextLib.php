@@ -73,8 +73,8 @@ class NumberTextLib {
 	protected static function load($lang) {
 		$lang = self::setLang($lang);
 
-		$url = self::$_dir . "$lang.sor";
-		$st = file_get_contents($url);
+		$file = self::$_dir . "$lang.sor";
+		$st = file_get_contents($file);
 		if ($st === false) {
 			return null;
 		}

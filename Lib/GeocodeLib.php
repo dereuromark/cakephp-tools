@@ -239,7 +239,8 @@ class GeocodeLib {
 	public function geocode($address, $params = array()) {
 		$this->reset(false);
 		$this->_setDebug('geocode', compact('address', 'params'));
-		$this->setParams(array_merge($params, array('address' => $address)));
+		$params = array('address' => $address) + $params;
+		$this->setParams($params);
 
 		$count = 0;
 		$requestUrl = $this->_url();
@@ -323,7 +324,8 @@ class GeocodeLib {
 		$this->reset(false);
 		$this->_setDebug('reverseGeocode', compact('lat', 'lng', 'params'));
 		$latlng = $lat . ',' . $lng;
-		$this->setParams(array_merge($params, array('latlng' => $latlng)));
+		$params = array('latlng' => $latlng) + $params;
+		$this->setParams($params);
 
 		$count = 0;
 		$requestUrl = $this->_url();

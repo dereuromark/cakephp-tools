@@ -60,14 +60,7 @@ class IndexShell extends AppShell {
 	 */
 	public function initialize() {
 		parent::initialize();
-		/*
-		if (file_exists(APP . 'Config' . DS . 'index.php')) {
-			include(APP . 'Config' . DS . 'index.php');
-			if (!empty($config)) {
-				$this->settings = array_merge($this->settings, $config);
-			}
-		}
-		*/
+
 		$this->_loadModels();
 	}
 

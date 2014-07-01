@@ -56,7 +56,7 @@ class TinyAuthorize extends BaseAuthorize {
 	 * @param array $config
 	 */
 	public function __construct(ComponentCollection $Collection, $config = array()) {
-		$config = array_merge($this->_defaultConfig, $config);
+		$config += $this->_defaultConfig;
 		parent::__construct($Collection, $config);
 
 		if (Cache::config($config['cache']) === false) {

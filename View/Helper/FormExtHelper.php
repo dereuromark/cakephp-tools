@@ -199,11 +199,8 @@ class FormExtHelper extends FormHelper {
 	 * @link http://book.cakephp.org/view/1390/Automagic-Form-Elements
 	 */
 	public function inputExt($fieldName, $options = array()) {
-		$options = array_merge(
-			array('before' => null, 'between' => null, 'after' => null, 'format' => null),
-			$this->_inputDefaults,
-			$options
-		);
+		$defaults = $this->_inputDefaults + array('before' => null, 'between' => null, 'after' => null, 'format' => null);
+		$options += $defaults;
 
 		$modelKey = $this->model();
 		$fieldKey = $this->field();
@@ -706,7 +703,7 @@ class FormExtHelper extends FormHelper {
 			'minYear' => date('Y') - 10,
 			'maxYear' => date('Y') + 10
 		);
-		$defaultOptions = array_merge($defaultOptions, (array)Configure::read('Form.date'));
+		$defaultOptions = (array)Configure::read('Form.date') + $defaultOptions;
 
 		$fieldName = Inflector::camelize($fieldName);
 

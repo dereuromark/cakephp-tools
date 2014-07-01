@@ -97,7 +97,7 @@ class NumberLib extends CakeNumber {
 			$formatOptions = array('places' => $formatOptions);
 		}
 		$options = array('before' => '', 'after' => '', 'places' => 2, 'thousands' => self::$_thousands, 'decimals' => self::$_decimals, 'escape' => false);
-		$options = array_merge($options, $formatOptions);
+		$options = $formatOptions + $options;
 
 		if (!empty($options['currency'])) {
 			if (!empty(self::$_symbolRight)) {
@@ -158,7 +158,7 @@ class NumberLib extends CakeNumber {
 			'decimals' => ',', 'thousands' => '.',
 			'spacer' => $currency === 'EUR' ? true : false
 		);
-		$options = array_merge($defaults, $formatOptions);
+		$options = $formatOptions + $defaults;
 
 		if (!empty($options['spacer'])) {
 			$spacer = is_string($options['spacer']) ? $options['spacer'] : ' ';

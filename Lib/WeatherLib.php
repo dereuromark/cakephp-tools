@@ -40,7 +40,7 @@ class WeatherLib {
 	);
 
 	public function __construct() {
-		$this->settings = array_merge($this->settings, (array)Configure::read('Weather'));
+		$this->settings = (array)Configure::read('Weather') + $this->settings;
 	}
 
 	/**

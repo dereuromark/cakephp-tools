@@ -253,6 +253,8 @@ class EmailLib extends CakeEmail {
 	 * Read the file contents and return a base64 version of the file contents.
 	 * Overwrite parent to avoid File class and file_exists to false negative existent
 	 * remove images.
+	 * Also fixes file_get_contents (used via File class) to close the connection again
+	 * after getting remote files. So far it would have kept the connection open in HTTP/1.1.
 	 *
 	 * @param string $path The absolute path to the file to read.
 	 * @return string File contents in base64 encoding

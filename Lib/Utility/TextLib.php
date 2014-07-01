@@ -265,13 +265,13 @@ class TextLib extends String {
 	 * @return string
 	 */
 	public static function maxWords($value, $words = 100, $options = array()) {
-		$default = array(
+		$defaults = array(
 			'ellipsis' => '...'
 		);
 		if (!empty($options['html']) && Configure::read('App.encoding') === 'UTF-8') {
-			$default['ellipsis'] = "\xe2\x80\xa6";
+			$defaults['ellipsis'] = "\xe2\x80\xa6";
 		}
-		$options = array_merge($default, $options);
+		$options += $defaults;
 
 		if (trim($value) === '') {
 			return '';

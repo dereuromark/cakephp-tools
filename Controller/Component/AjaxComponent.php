@@ -35,7 +35,8 @@ class AjaxComponent extends Component {
 	 * @param array $config
 	 */
 	public function __construct(ComponentCollection $collection, $config = array()) {
-		$config = array_merge($this->_defaultConfig, (array)Configure::read('Ajax'), $config);
+		$defaults = (array)Configure::read('Ajax') + $this->_defaultConfig;
+		$config += $defaults;
 		parent::__construct($collection, $config);
 	}
 

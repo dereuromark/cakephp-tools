@@ -65,7 +65,8 @@ class MobileComponent extends Component {
 	 * @param array $config
 	 */
 	public function __construct(ComponentCollection $collection, $config = array()) {
-		$config = array_merge($this->_defaultConfig, (array)Configure::read('Mobile'), $config);
+		$defaults = (array)Configure::read('Mobile') + $this->_defaultConfig;
+		$config += $defaults;
 		parent::__construct($collection, $config);
 	}
 

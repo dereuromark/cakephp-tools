@@ -18,7 +18,7 @@ class CurrencyBitcoinLib {
 	 * @see https://bitmarket.eu/api
 	 */
 	public function bitmarket($options = array()) {
-		$options = array_merge($this->settings, $options);
+		$options += $this->settings;
 		$url = 'https://bitmarket.eu/api/ticker';
 		$res = $this->_getBitmarket($url);
 
@@ -40,7 +40,7 @@ class CurrencyBitcoinLib {
 	 * @see http://bitcoincharts.com/about/markets-api/
 	 */
 	public function bitcoincharts($options = array()) {
-		$options = array_merge($this->settings, $options);
+		$options += $this->settings;
 		$url = 'http://bitcoincharts.com/t/markets.json';
 		$res = $this->_getBitcoincharts($url);
 		if (!$res) {
@@ -67,7 +67,7 @@ class CurrencyBitcoinLib {
 	 * - api
 	 */
 	public function rate($options = array()) {
-		$options = array_merge($this->settings, $options);
+		$options += $this->settings;
 		$res = $this->{$options['api']}($options);
 
 		if ($res && isset($res['sell'])) {

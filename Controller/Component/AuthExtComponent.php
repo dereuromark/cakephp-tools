@@ -49,7 +49,8 @@ class AuthExtComponent extends AuthComponent {
 	 * @param array $config
 	 */
 	public function __construct(ComponentCollection $Collection, $config = array()) {
-		$config = array_merge($this->_defaultConfig, (array)Configure::read('Auth'), $config);
+		$defaults = (array)Configure::read('Auth') + $this->_defaultConfig;
+		$config += $defaults;
 
 		parent::__construct($Collection, $config);
 	}

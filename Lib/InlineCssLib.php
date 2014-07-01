@@ -260,7 +260,9 @@ class InlineCssLib {
 
 		$css = null;
 		if (!empty($bestCssFilename) && is_file($bestCssFilename)) {
-			$css = file_get_contents($bestCssFilename);
+			$context = stream_context_create(
+				array('http' => array('header' => 'Connection: close')));
+			$css = file_get_contents($bestCssFilename, 0, $context);
 		}
 
 		return $css;
@@ -298,10 +300,12 @@ class InlineCssLib {
 			// First remove the @imports
 			$css = preg_replace("/\@import.*?url\(.*?\).*?;/i", '', $css);
 
+			$context = stream_context_create(
+				array('http' => array('header' => 'Connection: close')));
 			foreach ($matches[1] as $url) {
 				if (preg_match("/^http/i", $url)) {
 					if ($this->importExternalCss) {
-						$css .= file_get_contents($url);
+						$css .= file_get_contents($url, 0, $context);
 					}
 				} else {
 					$css .= $this->_findAndLoadCssFile($url);
