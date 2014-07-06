@@ -37,6 +37,16 @@ class FormExtHelperTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * FormExtHelperTest::testPostLinkShim()
+	 *
+	 * @return void
+	 */
+	public function testPostLinkShim() {
+		$result = $this->Form->postLink('foo', '/bar', array('confirm' => 'Confirm me'));
+		$this->assertTextContains('onclick="if (confirm(&quot;Confirm me&quot;)) {', $result);
+	}
+
+	/**
 	 * FormExtHelperTest::testDeleteLink()
 	 *
 	 * @return void

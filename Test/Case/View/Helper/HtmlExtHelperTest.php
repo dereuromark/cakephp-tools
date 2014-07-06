@@ -22,7 +22,7 @@ class HtmlExtHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * MyHelperTest::testTime()
+	 * HtmlExtHelperTest::testTime()
 	 *
 	 * @return void
 	 */
@@ -36,7 +36,18 @@ class HtmlExtHelperTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * MyHelperTest::testImageFromBlob()
+	 * HtmlExtHelperTest::testLinkShim()
+	 *
+	 * @return void
+	 */
+	public function testLinkShim() {
+		$result = $this->Html->link('foo', '/bar', array('confirm' => 'Confirm me'));
+		$expected = '<a href="/bar" onclick="if (confirm(&quot;Confirm me&quot;)) { return true; } return false;">foo</a>';
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * HtmlExtHelperTest::testImageFromBlob()
 	 *
 	 * @return void
 	 */
