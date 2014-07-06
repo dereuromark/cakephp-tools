@@ -125,7 +125,8 @@ A full list of fixes and useful migration tweaks towards the next major version 
 * With MyModel you can build subqueries the Cake way.
 * Tokens, Qlogin, TinyUrl, KeyValue functionality included.
 * DiffLib, ZipLib, WeatherLib and many more lib functionality.
-* The TextExt, Datetime, Numeric and FormExt helpers provide extended functionality if desired.
+* The TextExt, Datetime, Numeric helpers etc provide extended functionality if desired.
+* FormExt and HtmlExt helpers also provide extended functionality and 3.x shims.
 * Tree helper for working with (complex) trees.
 * EmailLib as a wrapper for CakeEmail adding some more usefulness and making debugging/testing easier.
 * GoogleMapV3, Gravatar, Qrcode, Timeline, Typography, Ical, Hcard provide additional helper functionality.
