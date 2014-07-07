@@ -3,6 +3,11 @@ App::uses('ComponentCollection', 'Controller');
 App::uses('AuthComponent', 'Controller/Component');
 App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
 
+if (!function_exists('password_hash')) {
+	require_once CakePlugin::path('Tools') . 'Lib/Bootstrap/Password.php';
+}
+
+
 class PasswordableBehaviorTest extends CakeTestCase {
 
 	public $fixtures = array(
@@ -231,7 +236,6 @@ class PasswordableBehaviorTest extends CakeTestCase {
 			'formFieldCurrent' => 'passw_current',
 			'allowSame' => false,
 			'current' => true,
-			//'userModel' => 'ToolsUser'
 		));
 		$this->User->create();
 		$data = array(
@@ -503,6 +507,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 			'current' => false,
 			'authType' => 'Blowfish',
 		));
+
 		$this->User->create();
 		$data = array(
 			'pwd' => 'somepwd',
@@ -513,8 +518,9 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$this->assertTrue((bool)$result);
 		$uid = (string)$this->User->id;
 
-		// Without the current password it will not continue
 		$this->User->Behaviors->load('Tools.Passwordable', array('current' => true));
+
+		// Without the current password it will not continue
 		$this->User->create();
 		$data = array(
 			'id' => $uid,
@@ -549,6 +555,133 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$this->User->set($data);
 		$result = $this->User->save();
 		$this->assertTrue((bool)$result);
+	}
+
+	/**
+	 * Tests that passwords prior to PHP5.5 and/or password_hash() are still working
+	 * if Tools.Modern is being used.
+	 *
+	 * @return void
+	 */
+	public function testBlowfishWithBC() {
+		$this->skipIf(!function_exists('password_hash'), 'password_hash() is not available.');
+
+		$oldHash = Security::hash('foobar', 'blowfish', false);
+		$newHash = password_hash('foobar', PASSWORD_BCRYPT);
+
+		$this->User->Behaviors->load('Tools.Passwordable', array(
+			'allowSame' => false,
+			'current' => false,
+			'authType' => 'Blowfish',
+			'passwordHasher' => 'Tools.Modern'
+		));
+		$this->User->create();
+		$data = array(
+			'pwd' => 'somepwd',
+			'pwd_repeat' => 'somepwd'
+		);
+		$this->User->set($data);
+		$result = $this->User->save();
+		$this->assertTrue((bool)$result);
+		$uid = (string)$this->User->id;
+
+		// Same pwd is not allowed
+		$this->User->create();
+		$data = array(
+			'id' => $uid,
+			'pwd' => 'somepwd',
+			'pwd_repeat' => 'somepwd'
+		);
+		$this->User->set($data);
+		$result = $this->User->save();
+		$this->assertFalse($result);
+
+		$this->User->Behaviors->load('Tools.Passwordable', array('current' => true));
+
+		// Without the correct current password it will not continue
+		$this->User->create();
+		$data = array(
+			'id' => $uid,
+			'pwd_current' => 'somepwdxyz',
+			'pwd' => '123456',
+			'pwd_repeat' => '123456'
+		);
+		$this->User->set($data);
+		$result = $this->User->save();
+		$this->assertFalse($result);
+
+		// Now it will
+		$this->User->create();
+		$data = array(
+			'id' => $uid,
+			'pwd_current' => 'somepwd',
+			'pwd' => '123456',
+			'pwd_repeat' => '123456'
+		);
+		$this->User->set($data);
+		$result = $this->User->save();
+		$this->assertTrue((bool)$result);
+
+		// Lets set a BC password (without password_hash() method but Security class)
+		$data = array(
+			'id' => $uid,
+			'password' => $oldHash,
+		);
+		$result = $this->User->save($data, array('validate' => false));
+		$this->assertTrue((bool)$result);
+
+		// Now it will still work
+		$this->User->create();
+		$data = array(
+			'id' => $uid,
+			'pwd_current' => 'foobar',
+			'pwd' => '123456',
+			'pwd_repeat' => '123456'
+		);
+		$this->User->set($data);
+		$result = $this->User->save();
+		$this->assertTrue((bool)$result);
+
+		// Lets set an invalid BC password (without password_hash() method but Security class)
+		$data = array(
+			'id' => $uid,
+			'password' => $oldHash . 'x',
+		);
+		$result = $this->User->save($data, array('validate' => false));
+		$this->assertTrue((bool)$result);
+
+		// Now it will still work
+		$this->User->create();
+		$data = array(
+			'id' => $uid,
+			'pwd_current' => 'foobar',
+			'pwd' => '123456',
+			'pwd_repeat' => '123456'
+		);
+		$this->User->set($data);
+		$result = $this->User->save();
+		$this->assertFalse($result);
+
+		// Lets set a valid BC password (without password_hash() method but Security class)
+		// But the provided pwd is incorrect
+		$data = array(
+			'id' => $uid,
+			'password' => $oldHash,
+		);
+		$result = $this->User->save($data, array('validate' => false));
+		$this->assertTrue((bool)$result);
+
+		// Now it will still work
+		$this->User->create();
+		$data = array(
+			'id' => $uid,
+			'pwd_current' => 'foobarx',
+			'pwd' => '123456',
+			'pwd_repeat' => '123456'
+		);
+		$this->User->set($data);
+		$result = $this->User->save();
+		$this->assertFalse($result);
 	}
 
 	/**

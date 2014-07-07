@@ -1,8 +1,5 @@
 <?php
 App::uses('ModelBehavior', 'Model');
-App::uses('Router', 'Routing');
-App::uses('CakeRequest', 'Network');
-App::uses('CakeResponse', 'Network');
 App::uses('Security', 'Utility');
 
 // @deprecated Use Configure settings instead.
@@ -32,11 +29,13 @@ if (!defined('PWD_MAX_LENGTH')) {
  * keeps the code clean and lean.
  *
  * Now also is capable of:
- * - require current password prior to altering it (current=>true)
- * - don't allow the same password it was before (allowSame=>false)
- * - supporting different auth types and password hashing algorythms
+ * - Require current password prior to altering it (current=>true)
+ * - Don't allow the same password it was before (allowSame=>false)
+ * - Support different auth types and password hashing algorythms
+ * - PasswordHasher support
+ * - Tools.Modern PasswordHasher and password_hash()/password_verify() support
  *
- * @version 1.7 (Now CakePHP2.4/2.5 ready - with passwordHasher support)
+ * @version 1.8 (Now supports Tools.Modern PasswordHasher and password_hash() method)
  * @author Mark Scherer
  * @link http://www.dereuromark.de/2011/08/25/working-with-passwords-in-cakephp
  * @license MIT
@@ -56,11 +55,11 @@ class PasswordableBehavior extends ModelBehavior {
 		'formFieldRepeat' => 'pwd_repeat',
 		'formFieldCurrent' => 'pwd_current',
 		'userModel' => null, // Defaults to User
-		'hashType' => null, // Only for authType Form [cake2.3]
-		'hashSalt' => true, // Only for authType Form [cake2.3]
+		'hashType' => null, // Only for authType Form [Cake2.3]
+		'hashSalt' => true, // Only for authType Form [Cake2.3]
 		'auth' => null, // Which component (defaults to AuthComponent),
-		'authType' => 'Form', // Which type of authenticate (Form, Blowfish, ...) [cake2.4]
-		'passwordHasher' => null, // If a custom pwd hasher is been used [cake2.4]
+		'authType' => 'Form', // Which type of authenticate (Form, Blowfish, ...) [Cake2.4+]
+		'passwordHasher' => null, // If a custom pwd hasher is been used [Cake2.4+]
 		'allowSame' => true, // Don't allow the old password on change
 		'minLength' => PWD_MIN_LENGTH,
 		'maxLength' => PWD_MAX_LENGTH
@@ -143,34 +142,15 @@ class PasswordableBehavior extends ModelBehavior {
 			return false;
 		}
 
-		$auth = 'Auth';
-		if (empty($this->settings[$Model->alias]['auth']) && class_exists('AuthExtComponent')) {
-			$auth = 'AuthExt';
-		} elseif ($this->settings[$Model->alias]['auth']) {
-			$auth = $this->settings[$Model->alias]['auth'];
-		}
-		$authClass = $auth . 'Component';
-		if (!class_exists($authClass)) {
-			throw new CakeException('No Authentication class found (' . $authClass . ')');
-		}
+		return $this->_validateSameHash($Model, $pwd);
 
-		$this->Auth = new $authClass(new ComponentCollection());
 
-		// Easiest authenticate method via form and (id + pwd)
-		$authConfig = array(
-			'fields' => array('username' => 'id', 'password' => $this->settings[$Model->alias]['field']),
-			'userModel' => $this->settings[$Model->alias]['userModel'] ? $this->settings[$Model->alias]['userModel'] : $Model->alias
-		);
 		if (!empty($this->settings[$Model->alias]['passwordHasher'])) {
 			$authConfig['passwordHasher'] = $this->settings[$Model->alias]['passwordHasher'];
 		}
 		$this->Auth->authenticate = array(
 			$this->settings[$Model->alias]['authType'] => $authConfig
 		);
-		$request = Router::getRequest();
-		$request->data[$Model->alias] = array('id' => $uid, 'password' => $pwd);
-		$response = new CakeResponse();
-		return (bool)$this->Auth->identify($request, $response);
 	}
 
 	/**
@@ -218,13 +198,89 @@ class PasswordableBehavior extends ModelBehavior {
 		if (!isset($Model->data[$Model->alias][$Model->primaryKey])) {
 			return true;
 		}
+
 		$primaryKey = $Model->data[$Model->alias][$Model->primaryKey];
-		$value = Security::hash($Model->data[$Model->alias][$formField], $type, $salt);
+		if ($type === 'blowfish' && function_exists('password_hash') && !empty($this->settings[$Model->alias]['passwordHasher'])) {
+			$value = $Model->data[$Model->alias][$formField];
+		} else {
+			$value = Security::hash($Model->data[$Model->alias][$formField], $type, $salt);
+		}
+
 		$dbValue = $Model->field($field, array($Model->primaryKey => $primaryKey));
 		if (!$dbValue) {
 			return true;
 		}
+
+		if ($type === 'blowfish' && function_exists('password_hash') && !empty($this->settings[$Model->alias]['passwordHasher'])) {
+			$PasswordHasher = $this->_getPasswordHasher($this->settings[$Model->alias]['passwordHasher']);
+			return !$PasswordHasher->check($value, $dbValue);
+		}
 		return ($value !== $dbValue);
+	}
+
+	/**
+	 * PasswordableBehavior::_validateSameHash()
+	 *
+	 * @param Model $Model
+	 * @param string $pwd
+	 * @return bool Success
+	 */
+	protected function _validateSameHash(Model $Model, $pwd) {
+		$field = $this->settings[$Model->alias]['field'];
+		$type = $this->settings[$Model->alias]['hashType'];
+		$salt = $this->settings[$Model->alias]['hashSalt'];
+		if ($this->settings[$Model->alias]['authType'] === 'Blowfish') {
+			$type = 'blowfish';
+			$salt = false;
+		}
+
+		$primaryKey = $Model->data[$Model->alias][$Model->primaryKey];
+		$dbValue = $Model->field($field, array($Model->primaryKey => $primaryKey));
+		if (!$dbValue && $pwd) {
+			return false;
+		}
+
+		if ($type === 'blowfish' && function_exists('password_hash') && !empty($this->settings[$Model->alias]['passwordHasher'])) {
+			$value = $pwd;
+		} else {
+			if ($type === 'blowfish') {
+				$salt = $dbValue;
+			}
+			$value = Security::hash($pwd, $type, $salt);
+		}
+
+		if ($type === 'blowfish' && function_exists('password_hash') && !empty($this->settings[$Model->alias]['passwordHasher'])) {
+			$PasswordHasher = $this->_getPasswordHasher($this->settings[$Model->alias]['passwordHasher']);
+			return $PasswordHasher->check($value, $dbValue);
+		}
+		return $value === $dbValue;
+	}
+
+	/**
+	 * PasswordableBehavior::_getPasswordHasher()
+	 *
+	 * @param mixed $hasher Name or options array.
+	 * @return PasswordHasher
+	 */
+	protected function _getPasswordHasher($hasher) {
+		$class = $hasher;
+		$config = array();
+		if (is_array($hasher)) {
+			$class = $hasher['className'];
+			unset($hasher['className']);
+			$config = $hasher;
+		}
+
+		list($plugin, $class) = pluginSplit($class, true);
+		$className = $class . 'PasswordHasher';
+		App::uses($className, $plugin . 'Controller/Component/Auth');
+		if (!class_exists($className)) {
+			throw new CakeException(__d('cake_dev', 'Password hasher class "%s" was not found.', $class));
+		}
+		if (!is_subclass_of($className, 'AbstractPasswordHasher')) {
+			throw new CakeException(__d('cake_dev', 'Password hasher must extend AbstractPasswordHasher class.'));
+		}
+		return new $className($config);
 	}
 
 	/**
@@ -376,7 +432,18 @@ class PasswordableBehavior extends ModelBehavior {
 		}
 
 		if (isset($Model->data[$Model->alias][$formField])) {
-			$Model->data[$Model->alias][$field] = Security::hash($Model->data[$Model->alias][$formField], $type, $salt);
+			if ($type === 'blowfish' && function_exists('password_hash') && !empty($this->settings[$Model->alias]['passwordHasher'])) {
+				$cost = !empty($this->settings[$Model->alias]['hashCost']) ? $this->settings[$Model->alias]['hashCost'] : 10;
+				$options = array('cost' => $cost);
+				$PasswordHasher = $this->_getPasswordHasher($this->settings[$Model->alias]['passwordHasher']);
+				$Model->data[$Model->alias][$field] = $PasswordHasher->hash($Model->data[$Model->alias][$formField], $options);
+			} else {
+				$Model->data[$Model->alias][$field] = Security::hash($Model->data[$Model->alias][$formField], $type, $salt);
+			}
+			if (!$Model->data[$Model->alias][$field]) {
+				return false;
+			}
+
 			unset($Model->data[$Model->alias][$formField]);
 			if ($this->settings[$Model->alias]['confirm']) {
 				$formFieldRepeat = $this->settings[$Model->alias]['formFieldRepeat'];
@@ -391,7 +458,6 @@ class PasswordableBehavior extends ModelBehavior {
 
 		// Update whitelist
 		$this->_modifyWhitelist($Model, true);
-
 		return true;
 	}
 
