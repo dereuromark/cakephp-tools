@@ -131,6 +131,7 @@ A full list of fixes and useful migration tweaks towards the next major version 
 * EmailLib as a wrapper for CakeEmail adding some more usefulness and making debugging/testing easier.
 * GoogleMapV3, Gravatar, Qrcode, Timeline, Typography, Ical, Hcard provide additional helper functionality.
 * NEW: Backported StringTemplate class (from CakePHP3.0) can be used to use template based rendering of HTML tags.
+* NEW: Backported password_hash() functionality via Tools.Modern PasswordHasher and Passwordable out of the box.
 
 and much more
 

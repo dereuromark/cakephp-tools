@@ -7,9 +7,10 @@ App::uses('AbstractPasswordHasher', 'Controller/Component/Auth');
  *
  * This requires either PHP5.5+ or the password_hash() shim from
  * https://github.com/ircmaxell/password_compat
- * If you don't use composer, you can also use the class in this repo:
+ * If you don't use composer, you can also directly use the class in this repo:
  *   require CakePlugin::path('Tools') . 'Lib/Bootstrap/Password.php';
- * Ideally, in your bootstrap.php
+ * You would then require it in your bootstrap.php.
+ * But the preferred way would be a composer dependency.
  */
 class ModernPasswordHasher extends AbstractPasswordHasher {
 
@@ -54,7 +55,7 @@ class ModernPasswordHasher extends AbstractPasswordHasher {
 	 *
 	 * @param string $password Plain text password to hash.
 	 * @param string Existing hashed password.
-	 * @return boolean True if hashes match else false.
+	 * @return bool True if hashes match else false.
 	 */
 	public function check($password, $hashedPassword) {
 		return password_verify($password, $hashedPassword);
