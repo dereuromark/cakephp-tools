@@ -4,6 +4,7 @@ App::uses('AbstractPasswordHasher', 'Controller/Component/Auth');
 
 /**
  * Modern password hashing class for PHP5.5+.
+ * A backport of the 3.x DefaultPasswordHasher class.
  *
  * This requires either PHP5.5+ or the password_hash() shim from
  * https://github.com/ircmaxell/password_compat
