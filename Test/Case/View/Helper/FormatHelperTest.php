@@ -368,7 +368,7 @@ class FormatHelperTest extends MyCakeTestCase {
 	public function testEncodeText() {
 		$result = $this->Format->encodeText('foobar@somedomain.com');
 		$this->debug($result);
-		$expected = ';&#x';
+		$expected = ';&#';
 		$this->assertContains($expected, $result);
 	}
 
