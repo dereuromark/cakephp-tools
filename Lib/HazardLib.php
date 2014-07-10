@@ -65,7 +65,7 @@ class HazardLib {
 		}
 		if (empty($texts)) {
 			$texts = array();
-			$contents = self::_parseXml(self::URL);
+			$contents = static::_parseXml(static::URL);
 			foreach ($contents as $content) {
 				if ($content['code'] === 'See Below') {
 					continue;

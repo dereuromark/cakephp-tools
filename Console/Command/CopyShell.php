@@ -120,11 +120,11 @@ class CopyShell extends AppShell {
 
 		// change type if param given
 		if (!empty($this->params['cake'])) { # cake core
-			$this->type = self::TYPE_CAKE;
+			$this->type = static::TYPE_CAKE;
 		} elseif (!empty($this->params['vendors'])) {
-			$this->type = self::TYPE_VENDOR;
+			$this->type = static::TYPE_VENDOR;
 		} elseif (!empty($this->params['plugins'])) {
-			$this->type = self::TYPE_PLUGIN;
+			$this->type = static::TYPE_PLUGIN;
 		}
 		$this->out($this->types[$this->type]);
 

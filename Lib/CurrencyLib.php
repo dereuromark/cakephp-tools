@@ -162,7 +162,7 @@ class CurrencyLib {
 			return $historyList;
 		}
 
-		$currencies = $this->_loadXml(self::URL_HISTORY);
+		$currencies = $this->_loadXml(static::URL_HISTORY);
 
 		// Filter down to just the rates
 		$dates = $currencies['Envelope']['Cube']['Cube'];
@@ -192,7 +192,7 @@ class CurrencyLib {
 		}
 
 		// Retrieve rates as an XML object
-		$currencies = $this->_loadXml(self::URL);
+		$currencies = $this->_loadXml(static::URL);
 
 		//Filter down to just the rates
 		$currencies = $currencies['Envelope']['Cube']['Cube']['Cube'];

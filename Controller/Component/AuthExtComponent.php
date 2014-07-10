@@ -138,7 +138,7 @@ class AuthExtComponent extends AuthComponent {
 			}
 
 			$this->Session->renew();
-			$this->Session->write(self::$sessionKey, $user);
+			$this->Session->write(static::$sessionKey, $user);
 		}
 		return $this->loggedIn();
 	}
