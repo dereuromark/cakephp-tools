@@ -342,6 +342,14 @@ class PasswordableBehavior extends ModelBehavior {
 		}
 
 		return $this->_validateSameHash($Model, $pwd);
+
+
+		if (!empty($this->settings[$Model->alias]['passwordHasher'])) {
+			$authConfig['passwordHasher'] = $this->settings[$Model->alias]['passwordHasher'];
+		}
+		$this->Auth->authenticate = array(
+			$this->settings[$Model->alias]['authType'] => $authConfig
+		);
 	}
 
 	/**
