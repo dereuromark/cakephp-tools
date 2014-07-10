@@ -1,5 +1,6 @@
 <?php
 App::uses('ModelBehavior', 'Model');
+
 /**
  * ConfirmableBehavior allows forms to easily require a checkbox toggled (confirmed).
  * Example: Terms of use on registration forms or some "confirm delete checkbox"

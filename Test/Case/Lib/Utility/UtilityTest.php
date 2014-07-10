@@ -357,7 +357,7 @@ class UtilityTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * testCountDim method
+	 * TestCountDim method
 	 *
 	 * @return void
 	 */

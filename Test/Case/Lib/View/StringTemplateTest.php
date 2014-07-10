@@ -3,21 +3,21 @@ App::uses('StringTemplate', 'Tools.View');
 
 class StringTemplateTest extends CakeTestCase {
 
-/**
- * setUp
- *
- * @return void
- */
+	/**
+	 * SetUp
+	 *
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 		$this->template = new StringTemplate();
 	}
 
-/**
- * Test adding templates through the constructor.
- *
- * @return void
- */
+	/**
+	 * Test adding templates through the constructor.
+	 *
+	 * @return void
+	 */
 	public function testConstructorAdd() {
 		$templates = array(
 			'link' => '<a href="{{url}}">{{text}}</a>'
@@ -27,11 +27,11 @@ class StringTemplateTest extends CakeTestCase {
 		$this->assertEquals($templates['link'], $template->config('link'));
 	}
 
-/**
- * test adding templates.
- *
- * @return void
- */
+	/**
+	 * Test adding templates.
+	 *
+	 * @return void
+	 */
 	public function testAdd() {
 		$templates = array(
 			'link' => '<a href="{{url}}">{{text}}</a>'
@@ -46,11 +46,11 @@ class StringTemplateTest extends CakeTestCase {
 		$this->assertEquals($templates['link'], $this->template->config('link'));
 	}
 
-/**
- * Test remove.
- *
- * @return void
- */
+	/**
+	 * Test remove.
+	 *
+	 * @return void
+	 */
 	public function testRemove() {
 		$templates = array(
 			'link' => '<a href="{{url}}">{{text}}</a>'
@@ -60,11 +60,11 @@ class StringTemplateTest extends CakeTestCase {
 		$this->assertNull($this->template->config('link'), 'Template should be gone.');
 	}
 
-/**
- * Test formatting strings.
- *
- * @return void
- */
+	/**
+	 * Test formatting strings.
+	 *
+	 * @return void
+	 */
 	public function testFormat() {
 		$templates = array(
 			'link' => '<a href="{{url}}">{{text}}</a>'
@@ -81,11 +81,11 @@ class StringTemplateTest extends CakeTestCase {
 		$this->assertEquals('<a href="/">example</a>', $result);
 	}
 
-/**
- * Test loading templates files in the app.
- *
- * @return void
- */
+	/**
+	 * Test loading templates files in the app.
+	 *
+	 * @return void
+	 */
 	public function testLoad() {
 		$this->skipIf(true, 'Find a way to mock the path from /Tools/Config to /Tools/Test/test_app/Config');
 
@@ -96,21 +96,21 @@ class StringTemplateTest extends CakeTestCase {
 		$this->assertEquals('<a href="{{url}}">{{text}}</a>', $this->template->config('link'));
 	}
 
-/**
- * Test that loading non-existing templates causes errors.
- *
- * @expectedException ConfigureException
- * @expectedExceptionMessage Could not load configuration file
- */
+	/**
+	 * Test that loading non-existing templates causes errors.
+	 *
+	 * @expectedException ConfigureException
+	 * @expectedExceptionMessage Could not load configuration file
+	 */
 	public function testLoadErrorNoFile() {
 		$this->template->load('no_such_file');
 	}
 
-/**
- * Test formatting compact attributes.
- *
- * @return void
- */
+	/**
+	 * Test formatting compact attributes.
+	 *
+	 * @return void
+	 */
 	public function testFormatAttributesCompact() {
 		$attrs = array('disabled' => true, 'selected' => 1, 'checked' => '1', 'multiple' => 'multiple');
 		$result = $this->template->formatAttributes($attrs);
@@ -127,11 +127,11 @@ class StringTemplateTest extends CakeTestCase {
 		);
 	}
 
-/**
- * Test formatting normal attributes.
- *
- * @return void
- */
+	/**
+	 * Test formatting normal attributes.
+	 *
+	 * @return void
+	 */
 	public function testFormatAttributes() {
 		$attrs = array('name' => 'bruce', 'data-hero' => '<batman>');
 		$result = $this->template->formatAttributes($attrs);
@@ -155,11 +155,11 @@ class StringTemplateTest extends CakeTestCase {
 		);
 	}
 
-/**
- * Test formatting array attributes.
- *
- * @return void
- */
+	/**
+	 * Test formatting array attributes.
+	 *
+	 * @return void
+	 */
 	public function testFormatAttributesArray() {
 		$attrs = array('name' => array('bruce', 'wayne'));
 		$result = $this->template->formatAttributes($attrs);
@@ -169,11 +169,11 @@ class StringTemplateTest extends CakeTestCase {
 		);
 	}
 
-/**
- * Tests that compile information is refreshed on adds and removes
- *
- * @return void
- */
+	/**
+	 * Tests that compile information is refreshed on adds and removes
+	 *
+	 * @return void
+	 */
 	public function testCopiledInfoRefresh() {
 		$compilation = $this->template->compile('link');
 		$this->template->add([

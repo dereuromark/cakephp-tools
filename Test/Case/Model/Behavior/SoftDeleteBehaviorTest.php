@@ -131,7 +131,7 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * testSoftDeleteWithCounterCache
+	 * TestSoftDeleteWithCounterCache
 	 *
 	 * @return void
 	 */
@@ -149,7 +149,7 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * testSoftDeleteWithMultipleCounterCache
+	 * TestSoftDeleteWithMultipleCounterCache
 	 *
 	 * @return void
 	 */
@@ -176,7 +176,7 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * testSoftDeleteWithCounterCacheOnMultipleAssociations
+	 * TestSoftDeleteWithCounterCacheOnMultipleAssociations
 	 *
 	 * @return void
 	 */
@@ -212,7 +212,7 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * testSoftDeleteWithoutCounterCache
+	 * TestSoftDeleteWithoutCounterCache
 	 *
 	 * @return void
 	 */
@@ -225,7 +225,7 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * testUnDeleteWithCounterCache
+	 * TestUnDeleteWithCounterCache
 	 *
 	 * @return void
 	 */
@@ -243,7 +243,7 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * testUnDeleteWithMultipleCounterCache
+	 * TestUnDeleteWithMultipleCounterCache
 	 *
 	 * @return void
 	 */
@@ -270,7 +270,7 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * testUnDeleteWithCounterCacheOnMultipleAssociations
+	 * TestUnDeleteWithCounterCacheOnMultipleAssociations
 	 *
 	 * @return void
 	 */
@@ -304,7 +304,7 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 	}
 
 	/**
-	 * testUnDeleteWithoutCounterCache
+	 * TestUnDeleteWithoutCounterCache
 	 *
 	 * @return void
 	 */

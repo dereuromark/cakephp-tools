@@ -292,26 +292,20 @@ class MyModelTest extends MyCakeTestCase {
 		$is = $this->User->validateRange(array('range' => 2), 1, 3);
 		$this->assertTrue($is);
 
-
 		$is = $this->User->validateRange(array('range' => 2.4), 1.5, 2.3);
 		$this->assertFalse($is);
-
 
 		$is = $this->User->validateRange(array('range' => -5), -10, 1);
 		$this->assertTrue($is);
 
-
 		$is = $this->User->validateRange(array('range' => 'word'), 1.5, 2.3);
 		$this->assertFalse($is);
-
 
 		$is = $this->User->validateRange(array('range' => 5.1));
 		$this->assertTrue($is);
 
-
 		$is = $this->User->validateRange(array('range' => 2.1), 2.1, 3.2);
 		$this->assertTrue($is);
-
 
 		$is = $this->User->validateRange(array('range' => 3.2), 2.1, 3.2);
 		$this->assertTrue($is);
@@ -850,7 +844,6 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateUnique() {
-
 
 		$this->Post->validate['title'] = array(
 			'validateUnique' => array(

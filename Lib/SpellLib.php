@@ -43,7 +43,7 @@ class SpellLib {
 		$defaults = array(
 			'path' => VENDORS . 'dictionaries' . DS,
 			'lang' => 'en_GB',
-			'engine' => self::ENGINE_MYSPELL
+			'engine' => static::ENGINE_MYSPELL
 		);
 		$defaults = array_merge($defaults, (array)Configure::read('Spell'));
 		$options = array_merge($defaults, $options);
@@ -70,7 +70,7 @@ class SpellLib {
 	}
 
 	/**
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function check($word) {
 		return enchant_dict_check($this->_Dict, $word);

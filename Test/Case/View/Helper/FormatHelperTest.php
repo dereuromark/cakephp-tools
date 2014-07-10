@@ -394,7 +394,6 @@ class FormatHelperTest extends MyCakeTestCase {
 
 		$this->assertEquals($expected, $result);
 
-
 		$this->Format->settings['fontIcons'] = array(
 			'prev' => 'fa fa-prev',
 			'next' => 'fa fa-next');
