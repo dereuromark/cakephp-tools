@@ -7,7 +7,6 @@ if (!function_exists('password_hash')) {
 	require_once CakePlugin::path('Tools') . 'Lib/Bootstrap/Password.php';
 }
 
-
 class PasswordableBehaviorTest extends CakeTestCase {
 
 	public $fixtures = array(
@@ -685,6 +684,58 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	}
 
 	/**
+	 * Tests needsPasswordRehash()
+	 *
+	 * @return void
+	 */
+	public function testNeedsPasswordRehash() {
+		$this->skipIf(!function_exists('password_hash'), 'password_hash() is not available.');
+
+		$this->User->Behaviors->load('Tools.Passwordable', array(
+			'allowSame' => false,
+			'current' => false,
+			'authType' => 'Blowfish',
+			'passwordHasher' => 'Tools.Modern'
+		));
+
+		$hash =  password_hash('foobar', PASSWORD_BCRYPT);
+		$result = $this->User->needsPasswordRehash($hash);
+		$this->assertFalse($result);
+
+		$hash =  sha1('foobar');
+		$result = $this->User->needsPasswordRehash($hash);
+		$this->assertTrue($result);
+	}
+
+	/**
+	 * Tests needsPasswordRehash()
+	 *
+	 * @return void
+	 */
+	public function testNeedsPasswordRehashWithNotSupportedHasher() {
+		$this->User->Behaviors->load('Tools.Passwordable', array(
+			'allowSame' => false,
+			'current' => false,
+			'authType' => 'Blowfish',
+		));
+
+		$hash =  password_hash('foobar', PASSWORD_BCRYPT);
+		$result = $this->User->needsPasswordRehash($hash);
+		$this->assertFalse($result);
+
+		$this->User->Behaviors->load('Tools.Passwordable', array(
+			'allowSame' => false,
+			'current' => false,
+			'authType' => 'Blowfish',
+			'passwordHasher' => 'Simple'
+		));
+
+		$hash =  password_hash('foobar', PASSWORD_BCRYPT);
+		$result = $this->User->needsPasswordRehash($hash);
+		$this->assertFalse($result);
+	}
+
+	/**
 	 * PasswordableBehaviorTest::testSettings()
 	 *
 	 * @return void
@@ -755,11 +806,6 @@ class PasswordableBehaviorTest extends CakeTestCase {
  * Test component
  */
 class AuthTestComponent extends AuthComponent {
-}
-
-if (!class_exists('SimplePasswordHasher')) {
-	class SimplePasswordHasher {
-	}
 }
 
 class ComplexPasswordHasher extends SimplePasswordHasher {

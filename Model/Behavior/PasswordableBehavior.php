@@ -185,109 +185,6 @@ class PasswordableBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * If not implemented in AppModel
-	 *
-	 * Note: requires the used Auth component to be App::uses() loaded.
-	 * It also reqires the same Auth setup as in your AppController's beforeFilter().
-	 * So if you set up any special passwordHasher or auth type, you need to provide those
-	 * with the settings passed to the behavior:
-	 *
-	 * 'authType' => 'Blowfish', 'passwordHasher' => array(
-	 *     'className' => 'Simple',
-	 *     'hashType' => 'sha256'
-	 * )
-	 *
-	 * @throws CakeException
-	 * @param Model $Model
-	 * @param array $data
-	 * @return bool Success
-	 */
-	public function validateCurrentPwd(Model $Model, $data) {
-		if (is_array($data)) {
-			$pwd = array_shift($data);
-		} else {
-			$pwd = $data;
-		}
-
-		$uid = null;
-		if ($Model->id) {
-			$uid = $Model->id;
-		} elseif (!empty($Model->data[$Model->alias]['id'])) {
-			$uid = $Model->data[$Model->alias]['id'];
-		} else {
-			trigger_error('No user id given');
-			return false;
-		}
-
-		return $this->_validateSameHash($Model, $pwd);
-	}
-
-	/**
-	 * If not implemented in AppModel
-	 *
-	 * @param Model $Model
-	 * @param array $data
-	 * @param string $compareWith String to compare field value with
-	 * @return bool Success
-	 */
-	public function validateIdentical(Model $Model, $data, $compareWith = null) {
-		if (is_array($data)) {
-			$value = array_shift($data);
-		} else {
-			$value = $data;
-		}
-		$compareValue = $Model->data[$Model->alias][$compareWith];
-		return ($compareValue === $value);
-	}
-
-	/**
-	 * If not implemented in AppModel
-	 *
-	 * @return bool Success
-	 */
-	public function validateNotSame(Model $Model, $data, $field1, $field2) {
-		$value1 = $Model->data[$Model->alias][$field1];
-		$value2 = $Model->data[$Model->alias][$field2];
-		return ($value1 !== $value2);
-	}
-
-	/**
-	 * If not implemented in AppModel
-	 *
-	 * @return bool Success
-	 */
-	public function validateNotSameHash(Model $Model, $data, $formField) {
-		$field = $this->settings[$Model->alias]['field'];
-		$type = $this->settings[$Model->alias]['hashType'];
-		$salt = $this->settings[$Model->alias]['hashSalt'];
-		if ($this->settings[$Model->alias]['authType'] === 'Blowfish') {
-			$type = 'blowfish';
-			$salt = false;
-		}
-		if (!isset($Model->data[$Model->alias][$Model->primaryKey])) {
-			return true;
-		}
-
-		$primaryKey = $Model->data[$Model->alias][$Model->primaryKey];
-		if ($type === 'blowfish' && function_exists('password_hash') && !empty($this->settings[$Model->alias]['passwordHasher'])) {
-			$value = $Model->data[$Model->alias][$formField];
-		} else {
-			$value = Security::hash($Model->data[$Model->alias][$formField], $type, $salt);
-		}
-
-		$dbValue = $Model->field($field, array($Model->primaryKey => $primaryKey));
-		if (!$dbValue) {
-			return true;
-		}
-
-		if ($type === 'blowfish' && function_exists('password_hash') && !empty($this->settings[$Model->alias]['passwordHasher'])) {
-			$PasswordHasher = $this->_getPasswordHasher($this->settings[$Model->alias]['passwordHasher']);
-			return !$PasswordHasher->check($value, $dbValue);
-		}
-		return ($value !== $dbValue);
-	}
-
-	/**
 	 * Preparing the data
 	 *
 	 * @return bool Success
@@ -383,8 +280,141 @@ class PasswordableBehavior extends ModelBehavior {
 
 		}
 
+		// Update whitelist
 		$this->_modifyWhitelist($Model, true);
 		return true;
+	}
+
+	/**
+	 * Checks if the PasswordHasher class supports this and if so, whether the
+	 * password needs to be rehashed or not.
+	 * This is mainly supported by Tools.Modern (using Bcrypt) yet.
+	 *
+	 * @param Model $Model
+	 * @param string $hash Currently hashed password.
+	 * @return bool Success
+	 */
+	public function needsPasswordRehash(Model $Model, $hash) {
+		if (empty($this->settings[$Model->alias]['passwordHasher'])) {
+			return false;
+		}
+
+		$PasswordHasher = $this->_getPasswordHasher($this->settings[$Model->alias]['passwordHasher']);
+		if (!method_exists($PasswordHasher, 'needsRehash')) {
+			return false;
+		}
+		return $PasswordHasher->needsRehash($hash);
+	}
+
+	/**
+	 * If not implemented in AppModel
+	 *
+	 * Note: requires the used Auth component to be App::uses() loaded.
+	 * It also reqires the same Auth setup as in your AppController's beforeFilter().
+	 * So if you set up any special passwordHasher or auth type, you need to provide those
+	 * with the settings passed to the behavior:
+	 *
+	 * 'authType' => 'Blowfish', 'passwordHasher' => array(
+	 *     'className' => 'Simple',
+	 *     'hashType' => 'sha256'
+	 * )
+	 *
+	 * @throws CakeException
+	 * @param Model $Model
+	 * @param array $data
+	 * @return bool Success
+	 */
+	public function validateCurrentPwd(Model $Model, $data) {
+		if (is_array($data)) {
+			$pwd = array_shift($data);
+		} else {
+			$pwd = $data;
+		}
+
+		$uid = null;
+		if ($Model->id) {
+			$uid = $Model->id;
+		} elseif (!empty($Model->data[$Model->alias]['id'])) {
+			$uid = $Model->data[$Model->alias]['id'];
+		} else {
+			trigger_error('No user id given');
+			return false;
+		}
+
+		return $this->_validateSameHash($Model, $pwd);
+
+
+		if (!empty($this->settings[$Model->alias]['passwordHasher'])) {
+			$authConfig['passwordHasher'] = $this->settings[$Model->alias]['passwordHasher'];
+		}
+		$this->Auth->authenticate = array(
+			$this->settings[$Model->alias]['authType'] => $authConfig
+		);
+	}
+
+	/**
+	 * If not implemented in AppModel
+	 *
+	 * @param Model $Model
+	 * @param array $data
+	 * @param string $compareWith String to compare field value with
+	 * @return bool Success
+	 */
+	public function validateIdentical(Model $Model, $data, $compareWith = null) {
+		if (is_array($data)) {
+			$value = array_shift($data);
+		} else {
+			$value = $data;
+		}
+		$compareValue = $Model->data[$Model->alias][$compareWith];
+		return ($compareValue === $value);
+	}
+
+	/**
+	 * If not implemented in AppModel
+	 *
+	 * @return bool Success
+	 */
+	public function validateNotSame(Model $Model, $data, $field1, $field2) {
+		$value1 = $Model->data[$Model->alias][$field1];
+		$value2 = $Model->data[$Model->alias][$field2];
+		return ($value1 !== $value2);
+	}
+
+	/**
+	 * If not implemented in AppModel
+	 *
+	 * @return bool Success
+	 */
+	public function validateNotSameHash(Model $Model, $data, $formField) {
+		$field = $this->settings[$Model->alias]['field'];
+		$type = $this->settings[$Model->alias]['hashType'];
+		$salt = $this->settings[$Model->alias]['hashSalt'];
+		if ($this->settings[$Model->alias]['authType'] === 'Blowfish') {
+			$type = 'blowfish';
+			$salt = false;
+		}
+		if (!isset($Model->data[$Model->alias][$Model->primaryKey])) {
+			return true;
+		}
+
+		$primaryKey = $Model->data[$Model->alias][$Model->primaryKey];
+		if ($type === 'blowfish' && function_exists('password_hash') && !empty($this->settings[$Model->alias]['passwordHasher'])) {
+			$value = $Model->data[$Model->alias][$formField];
+		} else {
+			$value = Security::hash($Model->data[$Model->alias][$formField], $type, $salt);
+		}
+
+		$dbValue = $Model->field($field, array($Model->primaryKey => $primaryKey));
+		if (!$dbValue) {
+			return true;
+		}
+
+		if ($type === 'blowfish' && function_exists('password_hash') && !empty($this->settings[$Model->alias]['passwordHasher'])) {
+			$PasswordHasher = $this->_getPasswordHasher($this->settings[$Model->alias]['passwordHasher']);
+			return !$PasswordHasher->check($value, $dbValue);
+		}
+		return ($value !== $dbValue);
 	}
 
 	/**
@@ -426,6 +456,33 @@ class PasswordableBehavior extends ModelBehavior {
 	}
 
 	/**
+	 * PasswordableBehavior::_getPasswordHasher()
+	 *
+	 * @param mixed $hasher Name or options array.
+	 * @return PasswordHasher
+	 */
+	protected function _getPasswordHasher($hasher) {
+		$class = $hasher;
+		$config = array();
+		if (is_array($hasher)) {
+			$class = $hasher['className'];
+			unset($hasher['className']);
+			$config = $hasher;
+		}
+
+		list($plugin, $class) = pluginSplit($class, true);
+		$className = $class . 'PasswordHasher';
+		App::uses($className, $plugin . 'Controller/Component/Auth');
+		if (!class_exists($className)) {
+			throw new CakeException(__d('cake_dev', 'Password hasher class "%s" was not found.', $class));
+		}
+		if (!is_subclass_of($className, 'AbstractPasswordHasher')) {
+			throw new CakeException(__d('cake_dev', 'Password hasher must extend AbstractPasswordHasher class.'));
+		}
+		return new $className($config);
+	}
+
+	/**
 	 * Modify the model's whitelist.
 	 *
 	 * Since 2.5 behaviors can also modify the whitelist for validate, thus this behavior can now
@@ -453,33 +510,6 @@ class PasswordableBehavior extends ModelBehavior {
 				$Model->whitelist = array_merge($Model->whitelist, array($field));
 			}
 		}
-	}
-
-	/**
-	 * PasswordableBehavior::_getPasswordHasher()
-	 *
-	 * @param mixed $hasher Name or options array.
-	 * @return PasswordHasher
-	 */
-	protected function _getPasswordHasher($hasher) {
-		$class = $hasher;
-		$config = array();
-		if (is_array($hasher)) {
-			$class = $hasher['className'];
-			unset($hasher['className']);
-			$config = $hasher;
-		}
-
-		list($plugin, $class) = pluginSplit($class, true);
-		$className = $class . 'PasswordHasher';
-		App::uses($className, $plugin . 'Controller/Component/Auth');
-		if (!class_exists($className)) {
-			throw new CakeException(__d('cake_dev', 'Password hasher class "%s" was not found.', $class));
-		}
-		if (!is_subclass_of($className, 'AbstractPasswordHasher')) {
-			throw new CakeException(__d('cake_dev', 'Password hasher must extend AbstractPasswordHasher class.'));
-		}
-		return new $className($config);
 	}
 
 }
