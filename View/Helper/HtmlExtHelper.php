@@ -96,24 +96,6 @@ class HtmlExtHelper extends HtmlHelper {
 	}
 
 	/**
-	 * HtmlExtHelper::link()
-	 *
-	 * Shim option
-	 * - confirm: replaces 4th param
-	 *
-	 * @see HtmlHelper::link for details
-	 *
-	 * @return string
-	 */
-	public function link($title, $url = null, $options = array(), $confirmMessage = false) {
-		if (isset($options['confirm'])) {
-			$confirmMessage = $options['confirm'];
-			unset($options['confirm']);
-		}
-		return parent::link($title, $url, $options, $confirmMessage);
-	}
-
-	/**
 	 * Keep named and query params for pagination/filter after edit etc.
 	 *
 	 * @params same as Html::link($title, $url, $options, $confirmMessage)

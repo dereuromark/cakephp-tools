@@ -79,19 +79,12 @@ class FormExtHelper extends FormHelper {
 	 * Create postLinks with a default class "postLink"
 	 *
 	 * @see FormHelper::postLink for details
-	 *
-	 * Shim option
-	 * - confirm: replaces 3rd param
-	 *
+
 	 * @return string
 	 */
 	public function postLink($title, $url = null, $options = array(), $confirmMessage = false) {
 		if (!isset($options['class'])) {
 			$options['class'] = 'post-link postLink';
-		}
-		if (isset($options['confirm'])) {
-			$confirmMessage = $options['confirm'];
-			unset($options['confirm']);
 		}
 		return parent::postLink($title, $url, $options, $confirmMessage);
 	}
