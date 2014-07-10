@@ -11,7 +11,7 @@ App::uses('Component', 'Controller');
  * @license		http://opensource.org/licenses/mit-license.php - Licensed under The MIT License
  * @link		http://milesj.me/code/cakephp/auto-login
  *
- * @modified 	Mark Scherer - 2012-01-08 ms
+ * @modified Mark Scherer - 2012-01-08 ms
  * - now works with Controller::beforeFilter() modifications to allow username/email login switch
  * - can be disabled dynamically and will skip on CakeError view
  */

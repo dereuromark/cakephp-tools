@@ -34,7 +34,7 @@ class FileLib extends File {
 		'<a>',
 		'<img>');
 
-	protected $defaultFormat = '%s'; // %s\t%s\t%s => 	some	nice	text
+	protected $defaultFormat = '%s';
 
 	/**
 	 * A better csv reader which handles encoding as well as removes completely empty lines
