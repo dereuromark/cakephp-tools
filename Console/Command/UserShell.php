@@ -5,7 +5,6 @@ if (!defined('CLASS_USER')) {
 }
 
 App::uses('AppShell', 'Console/Command');
-App::uses('ComponentCollection', 'Controller');
 
 /**
  * Create a new user from CLI
@@ -25,13 +24,6 @@ class UserShell extends AppShell {
 	 * @return void
 	 */
 	public function main() {
-		if (App::import('Component', 'Tools.AuthExt') && class_exists('AuthExtComponent')) {
-			$this->Auth = new AuthExtComponent(new ComponentCollection());
-		} else {
-			App::import('Component', 'Auth');
-			$this->Auth = new AuthComponent(new ComponentCollection());
-		}
-
 		while (empty($username)) {
 			$username = $this->in(__('Username (2 characters at least)'));
 		}

@@ -185,6 +185,128 @@ class PasswordableBehavior extends ModelBehavior {
 	}
 
 	/**
+	 * Preparing the data
+	 *
+	 * @return bool Success
+	 */
+	public function beforeValidate(Model $Model, $options = array()) {
+		$formField = $this->settings[$Model->alias]['formField'];
+		$formFieldRepeat = $this->settings[$Model->alias]['formFieldRepeat'];
+		$formFieldCurrent = $this->settings[$Model->alias]['formFieldCurrent'];
+
+		// Make sure fields are set and validation rules are triggered - prevents tempering of form data
+		if (!isset($Model->data[$Model->alias][$formField])) {
+			$Model->data[$Model->alias][$formField] = '';
+		}
+		if ($this->settings[$Model->alias]['confirm'] && !isset($Model->data[$Model->alias][$formFieldRepeat])) {
+			$Model->data[$Model->alias][$formFieldRepeat] = '';
+		}
+		if ($this->settings[$Model->alias]['current'] && !isset($Model->data[$Model->alias][$formFieldCurrent])) {
+			$Model->data[$Model->alias][$formFieldCurrent] = '';
+		}
+
+		// Check if we need to trigger any validation rules
+		if (!$this->settings[$Model->alias]['require']) {
+			$current = !empty($Model->data[$Model->alias][$formFieldCurrent]);
+			$new = !empty($Model->data[$Model->alias][$formField]) || !empty($Model->data[$Model->alias][$formFieldRepeat]);
+			if (!$new && !$current) {
+				//$Model->validator()->remove($formField); // tmp only!
+				//unset($Model->validate[$formField]);
+				unset($Model->data[$Model->alias][$formField]);
+				if ($this->settings[$Model->alias]['confirm']) {
+					//$Model->validator()->remove($formFieldRepeat); // tmp only!
+					//unset($Model->validate[$formFieldRepeat]);
+					unset($Model->data[$Model->alias][$formFieldRepeat]);
+				}
+				if ($this->settings[$Model->alias]['current']) {
+					//$Model->validator()->remove($formFieldCurrent); // tmp only!
+					//unset($Model->validate[$formFieldCurrent]);
+					unset($Model->data[$Model->alias][$formFieldCurrent]);
+				}
+				return true;
+			}
+			// Make sure we trigger validation if allowEmpty is set but we have the password field set
+			if ($new) {
+				if ($this->settings[$Model->alias]['confirm'] && empty($Model->data[$Model->alias][$formFieldRepeat])) {
+					$Model->invalidate($formFieldRepeat, __('valErrPwdNotMatch'));
+				}
+			}
+		}
+
+		// Update whitelist
+		$this->_modifyWhitelist($Model);
+
+		return true;
+	}
+
+	/**
+	 * Hashing the password and whitelisting
+	 *
+	 * @param Model $Model
+	 * @return bool Success
+	 */
+	public function beforeSave(Model $Model, $options = array()) {
+		$formField = $this->settings[$Model->alias]['formField'];
+		$field = $this->settings[$Model->alias]['field'];
+		$type = $this->settings[$Model->alias]['hashType'];
+		$salt = $this->settings[$Model->alias]['hashSalt'];
+		if ($this->settings[$Model->alias]['authType'] === 'Blowfish') {
+			$type = 'blowfish';
+			$salt = false;
+		}
+
+		if (isset($Model->data[$Model->alias][$formField])) {
+			if ($type === 'blowfish' && function_exists('password_hash') && !empty($this->settings[$Model->alias]['passwordHasher'])) {
+				$cost = !empty($this->settings[$Model->alias]['hashCost']) ? $this->settings[$Model->alias]['hashCost'] : 10;
+				$options = array('cost' => $cost);
+				$PasswordHasher = $this->_getPasswordHasher($this->settings[$Model->alias]['passwordHasher']);
+				$Model->data[$Model->alias][$field] = $PasswordHasher->hash($Model->data[$Model->alias][$formField], $options);
+			} else {
+				$Model->data[$Model->alias][$field] = Security::hash($Model->data[$Model->alias][$formField], $type, $salt);
+			}
+			if (!$Model->data[$Model->alias][$field]) {
+				return false;
+			}
+
+			unset($Model->data[$Model->alias][$formField]);
+			if ($this->settings[$Model->alias]['confirm']) {
+				$formFieldRepeat = $this->settings[$Model->alias]['formFieldRepeat'];
+				unset($Model->data[$Model->alias][$formFieldRepeat]);
+			}
+			if ($this->settings[$Model->alias]['current']) {
+				$formFieldCurrent = $this->settings[$Model->alias]['formFieldCurrent'];
+				unset($Model->data[$Model->alias][$formFieldCurrent]);
+			}
+
+		}
+
+		// Update whitelist
+		$this->_modifyWhitelist($Model, true);
+		return true;
+	}
+
+	/**
+	 * Checks if the PasswordHasher class supports this and if so, whether the
+	 * password needs to be rehashed or not.
+	 * This is mainly supported by Tools.Modern (using Bcrypt) yet.
+	 *
+	 * @param Model $Model
+	 * @param string $hash Currently hashed password.
+	 * @return bool Success
+	 */
+	public function needsPasswordRehash(Model $Model, $hash) {
+		if (empty($this->settings[$Model->alias]['passwordHasher'])) {
+			return false;
+		}
+
+		$PasswordHasher = $this->_getPasswordHasher($this->settings[$Model->alias]['passwordHasher']);
+		if (!method_exists($PasswordHasher, 'needsRehash')) {
+			return false;
+		}
+		return $PasswordHasher->needsRehash($hash);
+	}
+
+	/**
 	 * If not implemented in AppModel
 	 *
 	 * Note: requires the used Auth component to be App::uses() loaded.
@@ -288,106 +410,6 @@ class PasswordableBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * Preparing the data
-	 *
-	 * @return bool Success
-	 */
-	public function beforeValidate(Model $Model, $options = array()) {
-		$formField = $this->settings[$Model->alias]['formField'];
-		$formFieldRepeat = $this->settings[$Model->alias]['formFieldRepeat'];
-		$formFieldCurrent = $this->settings[$Model->alias]['formFieldCurrent'];
-
-		// Make sure fields are set and validation rules are triggered - prevents tempering of form data
-		if (!isset($Model->data[$Model->alias][$formField])) {
-			$Model->data[$Model->alias][$formField] = '';
-		}
-		if ($this->settings[$Model->alias]['confirm'] && !isset($Model->data[$Model->alias][$formFieldRepeat])) {
-			$Model->data[$Model->alias][$formFieldRepeat] = '';
-		}
-		if ($this->settings[$Model->alias]['current'] && !isset($Model->data[$Model->alias][$formFieldCurrent])) {
-			$Model->data[$Model->alias][$formFieldCurrent] = '';
-		}
-
-		// Check if we need to trigger any validation rules
-		if (!$this->settings[$Model->alias]['require']) {
-			$current = !empty($Model->data[$Model->alias][$formFieldCurrent]);
-			$new = !empty($Model->data[$Model->alias][$formField]) || !empty($Model->data[$Model->alias][$formFieldRepeat]);
-			if (!$new && !$current) {
-				//$Model->validator()->remove($formField); // tmp only!
-				//unset($Model->validate[$formField]);
-				unset($Model->data[$Model->alias][$formField]);
-				if ($this->settings[$Model->alias]['confirm']) {
-					//$Model->validator()->remove($formFieldRepeat); // tmp only!
-					//unset($Model->validate[$formFieldRepeat]);
-					unset($Model->data[$Model->alias][$formFieldRepeat]);
-				}
-				if ($this->settings[$Model->alias]['current']) {
-					//$Model->validator()->remove($formFieldCurrent); // tmp only!
-					//unset($Model->validate[$formFieldCurrent]);
-					unset($Model->data[$Model->alias][$formFieldCurrent]);
-				}
-				return true;
-			}
-			// Make sure we trigger validation if allowEmpty is set but we have the password field set
-			if ($new) {
-				if ($this->settings[$Model->alias]['confirm'] && empty($Model->data[$Model->alias][$formFieldRepeat])) {
-					$Model->invalidate($formFieldRepeat, __('valErrPwdNotMatch'));
-				}
-			}
-		}
-
-		// Update whitelist
-		$this->_modifyWhitelist($Model);
-
-		return true;
-	}
-
-	/**
-	 * Hashing the password and whitelisting
-	 *
-	 * @param Model $Model
-	 * @return bool Success
-	 */
-	public function beforeSave(Model $Model, $options = array()) {
-		$formField = $this->settings[$Model->alias]['formField'];
-		$field = $this->settings[$Model->alias]['field'];
-		$type = $this->settings[$Model->alias]['hashType'];
-		$salt = $this->settings[$Model->alias]['hashSalt'];
-		if ($this->settings[$Model->alias]['authType'] === 'Blowfish') {
-			$type = 'blowfish';
-			$salt = false;
-		}
-
-		if (isset($Model->data[$Model->alias][$formField])) {
-			if ($type === 'blowfish' && function_exists('password_hash') && !empty($this->settings[$Model->alias]['passwordHasher'])) {
-				$cost = !empty($this->settings[$Model->alias]['hashCost']) ? $this->settings[$Model->alias]['hashCost'] : 10;
-				$options = array('cost' => $cost);
-				$PasswordHasher = $this->_getPasswordHasher($this->settings[$Model->alias]['passwordHasher']);
-				$Model->data[$Model->alias][$field] = $PasswordHasher->hash($Model->data[$Model->alias][$formField], $options);
-			} else {
-				$Model->data[$Model->alias][$field] = Security::hash($Model->data[$Model->alias][$formField], $type, $salt);
-			}
-			if (!$Model->data[$Model->alias][$field]) {
-				return false;
-			}
-
-			unset($Model->data[$Model->alias][$formField]);
-			if ($this->settings[$Model->alias]['confirm']) {
-				$formFieldRepeat = $this->settings[$Model->alias]['formFieldRepeat'];
-				unset($Model->data[$Model->alias][$formFieldRepeat]);
-			}
-			if ($this->settings[$Model->alias]['current']) {
-				$formFieldCurrent = $this->settings[$Model->alias]['formFieldCurrent'];
-				unset($Model->data[$Model->alias][$formFieldCurrent]);
-			}
-
-		}
-
-		$this->_modifyWhitelist($Model, true);
-		return true;
-	}
-
-	/**
 	 * PasswordableBehavior::_validateSameHash()
 	 *
 	 * @param Model $Model
@@ -426,6 +448,33 @@ class PasswordableBehavior extends ModelBehavior {
 	}
 
 	/**
+	 * PasswordableBehavior::_getPasswordHasher()
+	 *
+	 * @param mixed $hasher Name or options array.
+	 * @return PasswordHasher
+	 */
+	protected function _getPasswordHasher($hasher) {
+		$class = $hasher;
+		$config = array();
+		if (is_array($hasher)) {
+			$class = $hasher['className'];
+			unset($hasher['className']);
+			$config = $hasher;
+		}
+
+		list($plugin, $class) = pluginSplit($class, true);
+		$className = $class . 'PasswordHasher';
+		App::uses($className, $plugin . 'Controller/Component/Auth');
+		if (!class_exists($className)) {
+			throw new CakeException(__d('cake_dev', 'Password hasher class "%s" was not found.', $class));
+		}
+		if (!is_subclass_of($className, 'AbstractPasswordHasher')) {
+			throw new CakeException(__d('cake_dev', 'Password hasher must extend AbstractPasswordHasher class.'));
+		}
+		return new $className($config);
+	}
+
+	/**
 	 * Modify the model's whitelist.
 	 *
 	 * Since 2.5 behaviors can also modify the whitelist for validate, thus this behavior can now
@@ -453,33 +502,6 @@ class PasswordableBehavior extends ModelBehavior {
 				$Model->whitelist = array_merge($Model->whitelist, array($field));
 			}
 		}
-	}
-
-	/**
-	 * PasswordableBehavior::_getPasswordHasher()
-	 *
-	 * @param mixed $hasher Name or options array.
-	 * @return PasswordHasher
-	 */
-	protected function _getPasswordHasher($hasher) {
-		$class = $hasher;
-		$config = array();
-		if (is_array($hasher)) {
-			$class = $hasher['className'];
-			unset($hasher['className']);
-			$config = $hasher;
-		}
-
-		list($plugin, $class) = pluginSplit($class, true);
-		$className = $class . 'PasswordHasher';
-		App::uses($className, $plugin . 'Controller/Component/Auth');
-		if (!class_exists($className)) {
-			throw new CakeException(__d('cake_dev', 'Password hasher class "%s" was not found.', $class));
-		}
-		if (!is_subclass_of($className, 'AbstractPasswordHasher')) {
-			throw new CakeException(__d('cake_dev', 'Password hasher must extend AbstractPasswordHasher class.'));
-		}
-		return new $className($config);
 	}
 
 }
