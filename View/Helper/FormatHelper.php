@@ -185,9 +185,9 @@ class FormatHelper extends TextHelper {
 	 */
 	public function genderIcon($value = null) {
 		$value = (int)$value;
-		if ($value == self::GENDER_FEMALE) {
+		if ($value == static::GENDER_FEMALE) {
 			$icon =	$this->icon('genderFemale', null, null, null, array('class' => 'gender'));
-		} elseif ($value == self::GENDER_MALE) {
+		} elseif ($value == static::GENDER_MALE) {
 			$icon =	$this->icon('genderMale', null, null, null, array('class' => 'gender'));
 		} else {
 			$icon =	$this->icon('genderUnknown', null, null, null, array('class' => 'gender'));
@@ -1273,7 +1273,7 @@ class FormatHelper extends TextHelper {
 
 				if ($options['recursive'] && is_array($cell) && !empty($cell)) {
 					// Recursive mode
-					$table .= "\n" . self::array2table($cell, $options) . "\n";
+					$table .= "\n" . static::array2table($cell, $options) . "\n";
 				} else {
 					$table .= (!is_array($cell) && strlen($cell) > 0) ? ($options['escape'] ? h($cell) : $cell) : $options['null'];
 				}

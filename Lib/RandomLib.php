@@ -39,12 +39,12 @@ class RandomLib {
 		}
 		if ($integerKeys) {
 			$max = count($array) - 1;
-			return $array[self::int(0, $max)];
+			return $array[static::int(0, $max)];
 		}
 		$keys = array_keys($array);
 		$values = array_values($array);
 		$max = count($keys) - 1;
-		return $values[self::int(0, $max)];
+		return $values[static::int(0, $max)];
 	}
 
 	public static function arrayValues($array, $minAmount = null, $maxAmount = null) {
@@ -60,7 +60,7 @@ class RandomLib {
 	elseif ($min > 0 && $max === null)
 		$res = $min;
 	elseif ($min > 0 && $max > 0)
-		$res = self::int($min, $max);
+		$res = static::int($min, $max);
 	else
 		$res = time();
 
@@ -99,9 +99,9 @@ class RandomLib {
 	 * @return (string) $dob a db (ISO) format datetime string
 	 */
 	public static function dob($min = 18, $max = 100) {
-		$dobYear = date('Y') - (self::int($min, $max));
+		$dobYear = date('Y') - (static::int($min, $max));
 
-		$dobMonth = self::int(1, 12);
+		$dobMonth = static::int(1, 12);
 
 		if ($dobMonth == 2) {
 			// leap year?
@@ -114,7 +114,7 @@ class RandomLib {
 		else
 			$maxDays = 31;
 
-		$dobDay = self::int(1, $maxDays);
+		$dobDay = static::int(1, $maxDays);
 
 		$dob = sprintf("%4d-%02d-%02d", $dobYear, $dobMonth, $dobDay);
 		return $dob;
@@ -148,10 +148,10 @@ class RandomLib {
 	 */
 	public static function pwd($type = null, $length = null) {
 		if (!empty($type) && $type === 'user') {
-			return self::generatePassword(6);
+			return static::generatePassword(6);
 		}
 		if (!empty($length)) {
-			return self::generatePassword($length);
+			return static::generatePassword($length);
 		}
 		return '';
 	}
@@ -165,7 +165,7 @@ class RandomLib {
 	 * @deprecated Use pwd() instead
 	 */
 	public static function randomPwd($type = null, $length = null) {
-		return self::pwd($type, $length);
+		return static::pwd($type, $length);
 	}
 
 	/**

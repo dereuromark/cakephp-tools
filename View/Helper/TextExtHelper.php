@@ -267,7 +267,7 @@ class TextExtHelper extends TextHelper {
 	public static function prepareLinkName($link, $options = array()) {
 		// strip protocol if desired (default)
 		if (!isset($options['stripProtocol']) || $options['stripProtocol'] !== false) {
-			$link = self::stripProtocol($link);
+			$link = static::stripProtocol($link);
 		}
 		if (!isset($options['maxLength'])) {
 			$options['maxLength'] = 50; # should be long enough for most cases

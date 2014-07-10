@@ -18,7 +18,7 @@ class MyErrorHandler extends ErrorHandler {
 				get_class($exception),
 				$exception->getMessage(),
 				$exception->getTraceAsString(),
-				self::traceDetails()
+				static::traceDetails()
 			);
 			$log = LOG_ERR;
 			if (in_array(get_class($exception), array('MissingControllerException', 'MissingActionException', 'PrivateActionException', 'NotFoundException'))) {
@@ -41,7 +41,7 @@ class MyErrorHandler extends ErrorHandler {
 				get_class($e),
 				$e->getMessage(),
 				$e->getTraceAsString(),
-				self::traceDetails()
+				static::traceDetails()
 			);
 			trigger_error($message, E_USER_ERROR);
 		}
@@ -57,9 +57,9 @@ class MyErrorHandler extends ErrorHandler {
 			return false;
 		}
 		$errorConfig = Configure::read('Error');
-		list($error, $log) = self::mapErrorCode($code);
+		list($error, $log) = static::mapErrorCode($code);
 		if ($log === LOG_ERR) {
-			return self::handleFatalError($code, $description, $file, $line);
+			return static::handleFatalError($code, $description, $file, $line);
 		}
 
 		$debug = Configure::read('debug');
@@ -81,7 +81,7 @@ class MyErrorHandler extends ErrorHandler {
 			if (!empty($errorConfig['trace'])) {
 				$trace = Debugger::trace(array('start' => 1, 'format' => 'log'));
 				$message .= "\nTrace:\n" . $trace . "\n";
-				$message .= self::traceDetails();
+				$message .= static::traceDetails();
 			}
 			return CakeLog::write($log, $message);
 		}

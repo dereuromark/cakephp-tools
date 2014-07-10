@@ -14,7 +14,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	protected static function assertNotWithinMargin($result, $expected, $margin, $message = '') {
 		$upper = $result + $margin;
 		$lower = $result - $margin;
-		return self::assertFalse((($expected <= $upper) && ($expected >= $lower)), $message);
+		return static::assertFalse((($expected <= $upper) && ($expected >= $lower)), $message);
 	}
 
 /*** Helper Functions **/
@@ -102,13 +102,13 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	}
 
 	protected function _startClock($precision = 8) {
-		self::$_startTime = self::_microtime();
+		static::$_startTime = static::_microtime();
 	}
 
 	protected function _elapsedTime($precision = 8, $restart = false) {
-		$elapsed = self::_microtime() - self::$_startTime;
+		$elapsed = static::_microtime() - static::$_startTime;
 		if ($restart) {
-			self::_startClock();
+			static::_startClock();
 		}
 		return round($elapsed, $precision);
 	}
@@ -120,7 +120,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	 */
 	protected function _printElapsedTime($time = null, $precision = 8, $secs = false) {
 		if ($time === null) {
-			$time = self::_elapsedTime($precision);
+			$time = static::_elapsedTime($precision);
 		}
 		if ($secs) {
 			$unit = 's';
@@ -147,7 +147,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 		if (empty($_SERVER['HTTP_HOST']) || !isset($_GET['show_passes']) || !$_GET['show_passes']) {
 			return false;
 		}
-		echo self::_title($expectation, $title);
+		echo static::_title($expectation, $title);
 	}
 
 	protected function _printResults($expected, $is, $pre = null, $status = false) {

@@ -28,7 +28,7 @@ class HashShell extends AppShell {
 			$this->out(($key + 1) . ': ' . $t . (in_array($t, $this->active) ? ' (!)' : ''));
 		}
 		while (!isset($type) || !in_array($type - 1, $types)) {
-			$type = $this->in(__('Select hashType - or [q] to quit'), null, self::DEFAULT_HASH_ALG);
+			$type = $this->in(__('Select hashType - or [q] to quit'), null, static::DEFAULT_HASH_ALG);
 			if ($type === 'q') {
 				return $this->error('Aborted!');
 			}

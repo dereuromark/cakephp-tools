@@ -714,7 +714,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$this->Model->Behaviors->unload('Slugged');
 		$this->Model->Behaviors->load('Tools.Slugged', array('mode' => 'ascii'));
 
-		foreach (self::$maps as $language => $map) {
+		foreach (static::$maps as $language => $map) {
 			foreach ($map as $from => $to) {
 				$result = $this->Model->slug($from, false);
 				$this->assertEquals($to, $result, $from . ' (' . $language . ') should become ' . $to . ' - but became ' . $result);
@@ -730,7 +730,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	 */
 	public function testCustomCharsAdditional() {
 		$rules = array();
-		foreach (self::$customMaps as $language => $map) {
+		foreach (static::$customMaps as $language => $map) {
 			foreach ($map as $from => $to) {
 				$rules['/' . $from . '/'] = $to;
 			}
@@ -741,7 +741,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 		$this->Model->Behaviors->unload('Slugged');
 		$this->Model->Behaviors->load('Tools.Slugged', array('mode' => 'ascii'));
 
-		foreach (self::$customMaps as $language => $map) {
+		foreach (static::$customMaps as $language => $map) {
 			foreach ($map as $from => $to) {
 				$result = $this->Model->slug($from, false);
 				$this->assertEquals($to, $result, $from . ' (' . $language . ') should become ' . $to . ' - but became ' . $result);

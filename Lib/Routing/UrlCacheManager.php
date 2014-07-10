@@ -75,22 +75,22 @@ class UrlCacheManager {
 				}
 				$cachePageKey = '_' . $path;
 			}
-			self::$cachePageKey = self::$cacheKey . $cachePageKey;
-			self::$cachePage = Cache::read(self::$cachePageKey, '_cake_core_');
+			static::$cachePageKey = static::$cacheKey . $cachePageKey;
+			static::$cachePage = Cache::read(static::$cachePageKey, '_cake_core_');
 		}
-		self::$cache = Cache::read(self::$cacheKey, '_cake_core_');
+		static::$cache = Cache::read(static::$cacheKey, '_cake_core_');
 
 		// still old "prefix true/false" syntax?
 		if (Configure::read('UrlCache.verbosePrefixes')) {
-			unset(self::$paramFields[3]);
-			self::$paramFields = array_merge(self::$paramFields, (array)Configure::read('Routing.prefixes'));
+			unset(static::$paramFields[3]);
+			static::$paramFields = array_merge(static::$paramFields, (array)Configure::read('Routing.prefixes'));
 		}
-		self::$extras = array_intersect_key($params, array_combine(self::$paramFields, self::$paramFields));
+		static::$extras = array_intersect_key($params, array_combine(static::$paramFields, static::$paramFields));
 		$defaults = array();
-		foreach (self::$paramFields as $field) {
+		foreach (static::$paramFields as $field) {
 			$defaults[$field] = '';
 		}
-		self::$extras = array_merge($defaults, self::$extras);
+		static::$extras = array_merge($defaults, static::$extras);
 	}
 
 	/**
@@ -98,9 +98,9 @@ class UrlCacheManager {
 	 *
 	 */
 	public static function finalize() {
-		Cache::write(self::$cacheKey, self::$cache, '_cake_core_');
-		if (Configure::read('UrlCache.pageFiles') && !empty(self::$cachePage)) {
-			Cache::write(self::$cachePageKey, self::$cachePage, '_cake_core_');
+		Cache::write(static::$cacheKey, static::$cache, '_cake_core_');
+		if (Configure::read('UrlCache.pageFiles') && !empty(static::$cachePage)) {
+			Cache::write(static::$cachePageKey, static::$cachePage, '_cake_core_');
 		}
 	}
 
@@ -113,7 +113,7 @@ class UrlCacheManager {
 	public static function get($url, $full) {
 		$keyUrl = $url;
 		if (is_array($keyUrl)) {
-			$keyUrl += self::$extras;
+			$keyUrl += static::$extras;
 			// prevent different hashs on different orders
 			ksort($keyUrl, SORT_STRING);
 			// prevent different hashs on different types (int/string/bool)
@@ -121,21 +121,21 @@ class UrlCacheManager {
 				$keyUrl[$key] = (string) $val;
 			}
 		}
-		self::$key = md5(serialize($keyUrl) . $full);
+		static::$key = md5(serialize($keyUrl) . $full);
 
 		if (Configure::read('UrlCache.pageFiles')) {
-			self::$type = 'cachePage';
+			static::$type = 'cachePage';
 			if (is_array($keyUrl)) {
-				$res = array_diff_key($keyUrl, self::$extras);
+				$res = array_diff_key($keyUrl, static::$extras);
 				if (empty($res)) {
-					self::$type = 'cache';
+					static::$type = 'cache';
 				}
 			}
-			if (self::$type === 'cachePage') {
-				return isset(self::$cachePage[self::$key]) ? self::$cachePage[self::$key] : false;
+			if (static::$type === 'cachePage') {
+				return isset(static::$cachePage[static::$key]) ? static::$cachePage[static::$key] : false;
 			}
 		}
-		return isset(self::$cache[self::$key]) ? self::$cache[self::$key] : false;
+		return isset(static::$cache[static::$key]) ? static::$cache[static::$key] : false;
 	}
 
 	/**
@@ -146,10 +146,10 @@ class UrlCacheManager {
 	 * @return void
 	 */
 	public static function set($data) {
-		if (Configure::read('UrlCache.pageFiles') && self::$type === 'cachePage') {
-			self::$cachePage[self::$key] = $data;
+		if (Configure::read('UrlCache.pageFiles') && static::$type === 'cachePage') {
+			static::$cachePage[static::$key] = $data;
 		} else {
-			self::$cache[self::$key] = $data;
+			static::$cache[static::$key] = $data;
 		}
 	}
 

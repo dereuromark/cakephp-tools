@@ -73,50 +73,50 @@ class ImapLib {
 	public function buildConnector($data = array()) {
 		$data = array_merge($this->settings, $data);
 		$string = '{';
-		$string .= $data[self::S_SERVER];
-		if ($data[self::S_PORT]) {
-			$string .= ':' . $data[self::S_PORT];
+		$string .= $data[static::S_SERVER];
+		if ($data[static::S_PORT]) {
+			$string .= ':' . $data[static::S_PORT];
 		}
-		if ($data[self::S_SERVICE]) {
-			$string .= '/service=' . $data[self::S_SERVICE];
+		if ($data[static::S_SERVICE]) {
+			$string .= '/service=' . $data[static::S_SERVICE];
 		}
-		if ($data[self::S_USER]) {
-			$string .= '/user=' . $data[self::S_USER];
+		if ($data[static::S_USER]) {
+			$string .= '/user=' . $data[static::S_USER];
 		} else {
 			$string .= '/anonymous';
 		}
-		if ($data[self::S_AUTHUSER]) {
-			$string .= '/authuser=' . $data[self::S_AUTHUSER];
+		if ($data[static::S_AUTHUSER]) {
+			$string .= '/authuser=' . $data[static::S_AUTHUSER];
 		}
-		if ($data[self::S_DEBUG]) {
+		if ($data[static::S_DEBUG]) {
 			$string .= '/debug';
 		}
-		if ($data[self::S_SECURE]) {
+		if ($data[static::S_SECURE]) {
 			$string .= '/secure';
 		}
-		if ($data[self::S_NORSH]) {
+		if ($data[static::S_NORSH]) {
 			$string .= '/norsh';
 		}
-		if ($data[self::S_SSL]) {
+		if ($data[static::S_SSL]) {
 			$string .= '/ssl';
 		}
-		if ($data[self::S_VALIDATECERT]) {
+		if ($data[static::S_VALIDATECERT]) {
 			$string .= '/validate-cert';
 		} else {
 			$string .= '/novalidate-cert';
 		}
-		if ($data[self::S_TLS]) {
+		if ($data[static::S_TLS]) {
 			$string .= '/tls';
 		}
-		if ($data[self::S_NOTLS]) {
+		if ($data[static::S_NOTLS]) {
 			$string .= '/notls';
 		}
-		if ($data[self::S_READONLY]) {
+		if ($data[static::S_READONLY]) {
 			$string .= '/readonly';
 		}
 		$string .= '}';
 
-		$string .= $data[self::S_MAILBOX];
+		$string .= $data[static::S_MAILBOX];
 
 		$this->currentRef = $string;
 		$this->currentSettings = $data;
@@ -147,12 +147,12 @@ class ImapLib {
 	 * @return bool Success
 	 */
 	public function connect($user, $pass, $server, $port = null) {
-		$this->settings[self::S_SERVER] = $server;
-		if ($port || !$port && $this->settings[self::S_SERVICE] === 'imap') {
-			$this->settings[self::S_PORT] = $port;
+		$this->settings[static::S_SERVER] = $server;
+		if ($port || !$port && $this->settings[static::S_SERVICE] === 'imap') {
+			$this->settings[static::S_PORT] = $port;
 		}
-		$this->settings[self::S_USER] = $user;
-		$this->settings[self::S_PASSWORD] = $pass;
+		$this->settings[static::S_USER] = $user;
+		$this->settings[static::S_PASSWORD] = $pass;
 		$connector = $this->buildConnector();
 
 		//$options = OP_DEBUG;
@@ -696,9 +696,9 @@ class ImapMessageInfoLib {
 			return $this->seen;
 		}
 		if ($set) {
-			return $this->flag(self::BS . 'Seen');
+			return $this->flag(static::BS . 'Seen');
 		}
-		return $this->unFlag(self::BS . 'Seen');
+		return $this->unFlag(static::BS . 'Seen');
 	}
 
 	public function answered($set = null) {
@@ -706,9 +706,9 @@ class ImapMessageInfoLib {
 			return $this->answered;
 		}
 		if ($set) {
-			return $this->flag(self::BS . 'Answered');
+			return $this->flag(static::BS . 'Answered');
 		}
-		return $this->unFlag(self::BS . 'Answered');
+		return $this->unFlag(static::BS . 'Answered');
 	}
 
 	public function flagged($set = null) {
@@ -716,9 +716,9 @@ class ImapMessageInfoLib {
 			return $this->flagged;
 		}
 		if ($set) {
-			return $this->flag(self::BS . 'Flagged');
+			return $this->flag(static::BS . 'Flagged');
 		}
-		return $this->unFlag(self::BS . 'Flagged');
+		return $this->unFlag(static::BS . 'Flagged');
 	}
 
 	public function deleted($set = null) {
@@ -726,9 +726,9 @@ class ImapMessageInfoLib {
 			return $this->deleted;
 		}
 		if ($set) {
-			return $this->flag(self::BS . 'Deleted');
+			return $this->flag(static::BS . 'Deleted');
 		}
-		return $this->unFlag(self::BS . 'Deleted');
+		return $this->unFlag(static::BS . 'Deleted');
 	}
 
 	public function draft($set = null) {
@@ -736,9 +736,9 @@ class ImapMessageInfoLib {
 			return $this->draft;
 		}
 		if ($set) {
-			return $this->flag(self::BS . 'Draft');
+			return $this->flag(static::BS . 'Draft');
 		}
-		return $this->unFlag(self::BS . 'Draft');
+		return $this->unFlag(static::BS . 'Draft');
 	}
 
 }
@@ -871,7 +871,7 @@ class ImapFolderLib {
 				$value = null;
 			}
 			switch ($key) {
-				case self::S_FROM:
+				case static::S_FROM:
 					$param = '"' . $value . '" ';
 					break;
 				default:

@@ -29,10 +29,10 @@ class NumberLib extends CakeNumber {
 		$config = $options + (array)Configure::read('Localization');
 		foreach ($config as $key => $value) {
 			$key = '_' . $key;
-			if (!isset(self::${$key})) {
+			if (!isset(static::${$key})) {
 				continue;
 			}
-			self::${$key} = $value;
+			static::${$key} = $value;
 		}
 	}
 
@@ -60,7 +60,7 @@ class NumberLib extends CakeNumber {
 			}
 			$val = max(0, $price);
 		}
-		return self::money($val, $formatOptions);
+		return static::money($val, $formatOptions);
 	}
 
 	/**
@@ -71,7 +71,7 @@ class NumberLib extends CakeNumber {
 	 * @return string
 	 */
 	public static function money($amount, $formatOptions = array()) {
-		return self::currency($amount, null, $formatOptions);
+		return static::currency($amount, null, $formatOptions);
 	}
 
 	/**
@@ -96,14 +96,14 @@ class NumberLib extends CakeNumber {
 		} elseif (!is_array($formatOptions)) {
 			$formatOptions = array('places' => $formatOptions);
 		}
-		$options = array('before' => '', 'after' => '', 'places' => 2, 'thousands' => self::$_thousands, 'decimals' => self::$_decimals, 'escape' => false);
+		$options = array('before' => '', 'after' => '', 'places' => 2, 'thousands' => static::$_thousands, 'decimals' => static::$_decimals, 'escape' => false);
 		$options = $formatOptions + $options;
 
 		if (!empty($options['currency'])) {
-			if (!empty(self::$_symbolRight)) {
-				$options['after'] = ' ' . self::$_symbolRight;
-			} elseif (!empty(self::$_symbolLeft)) {
-				$options['before'] = self::$_symbolLeft . ' ';
+			if (!empty(static::$_symbolRight)) {
+				$options['after'] = ' ' . static::$_symbolRight;
+			} elseif (!empty(static::$_symbolLeft)) {
+				$options['before'] = static::$_symbolLeft . ' ';
 			}
 		}
 
@@ -142,11 +142,11 @@ class NumberLib extends CakeNumber {
 	 */
 	public static function currency($number, $currency = null, $formatOptions = array()) {
 		if ($currency === null) {
-			$currency = self::$_currency;
+			$currency = static::$_currency;
 		}
 		$defaults = array();
-		if ($currency !== 'EUR' && isset(self::$_currencies[$currency])) {
-			$defaults = self::$_currencies[$currency];
+		if ($currency !== 'EUR' && isset(static::$_currencies[$currency])) {
+			$defaults = static::$_currencies[$currency];
 		} elseif ($currency !== 'EUR' && is_string($currency)) {
 			$defaults['wholeSymbol'] = $currency;
 			$defaults['wholePosition'] = 'before';
@@ -228,7 +228,7 @@ class NumberLib extends CakeNumber {
 		if ($options['multiply']) {
 			$number *= 100;
 		}
-		return self::precision($number, $precision, $options['decimals']) . '%';
+		return static::precision($number, $precision, $options['decimals']) . '%';
 	}
 
 	/**
@@ -253,7 +253,7 @@ class NumberLib extends CakeNumber {
 	 * @return float result
 	 */
 	public static function roundTo($number, $increments = 1.0) {
-		$precision = self::getDecimalPlaces($increments);
+		$precision = static::getDecimalPlaces($increments);
 		$res = round($number, $precision);
 		if ($precision <= 0) {
 			$res = (int)$res;
@@ -348,10 +348,10 @@ class NumberLib extends CakeNumber {
 	 * @return array currencySettings or null on failure
 	 */
 	public static function getFormat($formatName) {
-		if (!isset(self::$_currencies[$formatName])) {
+		if (!isset(static::$_currencies[$formatName])) {
 			return null;
 		}
-		return self::$_currencies[$formatName];
+		return static::$_currencies[$formatName];
 	}
 
 }

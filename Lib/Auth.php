@@ -89,7 +89,7 @@ class Auth {
 		if ($providedRoles !== null) {
 			$roles = $providedRoles;
 		} else {
-			$roles = self::roles();
+			$roles = static::roles();
 		}
 		if (is_array($roles)) {
 			if (in_array($ownRole, $roles)) {
@@ -118,7 +118,7 @@ class Auth {
 		if ($providedRoles !== null) {
 			$roles = $providedRoles;
 		} else {
-			$roles = self::roles();
+			$roles = static::roles();
 		}
 		$ownRoles = (array)$ownRoles;
 		if (empty($ownRoles)) {
@@ -126,7 +126,7 @@ class Auth {
 		}
 		$count = 0;
 		foreach ($ownRoles as $role) {
-			if (self::hasRole($role, $roles)) {
+			if (static::hasRole($role, $roles)) {
 				if ($oneRoleIsEnough) {
 					return true;
 				}

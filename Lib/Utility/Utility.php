@@ -185,11 +185,11 @@ class Utility {
 		if ($url === '' || $url === 'http://' || $url === 'http://www' || $url === 'http://www.') {
 			$url = '';
 		} else {
-			$url = self::autoPrefixUrl($url, 'http://');
+			$url = static::autoPrefixUrl($url, 'http://');
 		}
 
 		if ($headerRedirect && !empty($url)) {
-			$headers = self::getHeaderFromUrl($url);
+			$headers = static::getHeaderFromUrl($url);
 			if ($headers !== false) {
 				$headerString = implode("\n", $headers);
 
@@ -224,7 +224,7 @@ class Utility {
 		if (!preg_match($pattern, $file)) {
 			return file_exists($file);
 		}
-		return self::urlExists($file);
+		return static::urlExists($file);
 	}
 
 	/**
@@ -518,13 +518,13 @@ class Utility {
 			$depth = array($count);
 			if (is_array($array) && reset($array) !== false) {
 				foreach ($array as $value) {
-					$depth[] = self::countDim($value, true, $count + 1);
+					$depth[] = static::countDim($value, true, $count + 1);
 				}
 			}
 			$return = max($depth);
 		} else {
 			if (is_array(reset($array))) {
-				$return = self::countDim(reset($array)) + 1;
+				$return = static::countDim(reset($array)) + 1;
 			} else {
 				$return = 1;
 			}
@@ -633,7 +633,7 @@ class Utility {
 	 */
 	public static function arrayFlatten($array, $preserveKeys = false) {
 		if ($preserveKeys) {
-			return self::_arrayFlatten($array);
+			return static::_arrayFlatten($array);
 		}
 		if (!$array) {
 			return array();
@@ -641,7 +641,7 @@ class Utility {
 		$result = array();
 		foreach ($array as $key => $value) {
 			if (is_array($value)) {
-				$result = array_merge($result, self::arrayFlatten($value));
+				$result = array_merge($result, static::arrayFlatten($value));
 			} else {
 				$result[$key] = $value;
 			}
@@ -667,7 +667,7 @@ class Utility {
 		}
 		foreach ($a as $k => $v) {
 			if (is_array($v)) {
-				$f = self::_arrayFlatten($v, $f);
+				$f = static::_arrayFlatten($v, $f);
 			} else {
 				$f[$k] = $v;
 			}
@@ -706,7 +706,7 @@ class Utility {
 	 * @return void
 	 */
 	public static function startClock() {
-		self::$_counterStartTime = self::microtime();
+		static::$_counterStartTime = static::microtime();
 	}
 
 	/**
@@ -715,11 +715,11 @@ class Utility {
 	 * @return float
 	 */
 	public static function returnElapsedTime($precision = 8, $restartClock = false) {
-		$startTime = self::$_counterStartTime;
+		$startTime = static::$_counterStartTime;
 		if ($restartClock) {
-			self::startClock();
+			static::startClock();
 		}
-		return self::calcElapsedTime($startTime, self::microtime(), $precision);
+		return static::calcElapsedTime($startTime, static::microtime(), $precision);
 	}
 
 	/**
