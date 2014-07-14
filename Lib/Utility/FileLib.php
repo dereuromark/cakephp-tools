@@ -39,17 +39,44 @@ class FileLib extends File {
 	/**
 	 * A better csv reader which handles encoding as well as removes completely empty lines
 	 *
-	 * @param int $length (0 = no limit)
-	 * @param string $delimiter (null defaults to ,)
-	 * @param string $enclosure (null defaults to " - do not pass empty string)
-	 * @param string $mode
-	 * @param string $force Force open/read the file
-	 * @param bool $removeEmpty Remove empty lines (simple newline characters without meaning)
-	 * @param bool $encode Encode to UTF-8
+	 * Options:
+	 * - int length (0 = no limit)
+	 * - string delimiter (null defaults to ,)
+	 * - string enclosure (null defaults to " - do not pass empty string)
+	 * - string mode
+	 * - string force Force open/read the file
+	 * - bool removeEmpty Remove empty lines (simple newline characters without meaning)
+	 * - bool encode Encode to UTF-8
+	 *
+	 * @param array $options Options
 	 * @return array Content or false on failure
 	 */
-	public function readCsv($length = 0, $delimiter = null, $enclosure = null, $mode = 'rb', $force = false, $removeEmpty = false, $encode = true) {
-		$res = array();
+	public function readCsv($options = array(), $delimiter = null, $enclosure = null, $mode = 'rb', $force = false, $removeEmpty = false, $encode = true) {
+		// For BC
+		if (!is_array($options)) {
+			$options = array(
+				'delimiter' => $delimiter !== null ? $delimiter : ',',
+				'enclosure' => $enclosure !== null ? $enclosure : '"',
+				'mode' => $mode,
+				'force' => $force,
+				'removeEmpty' => $removeEmpty,
+				'encode' => $encode,
+				'length' => $options
+			);
+		}
+		$defaults = array(
+			'delimiter' => ',',
+			'enclosure' => '"',
+			'escape' => "\\",
+			'mode' => 'rb',
+			'force' => false,
+			'removeEmpty' => false,
+			'encode' => true,
+			'length' => 0
+		);
+		$options += $defaults;
+		extract($options);
+
 		if ($this->open($mode, $force) === false) {
 			return false;
 		}
@@ -58,59 +85,92 @@ class FileLib extends File {
 			return false;
 		}
 
-		// php cannot handle delimiters with more than a single char
-		if (mb_strlen($delimiter) > 1) {
-			$count = 0;
-			while (!feof($this->handle)) {
-				if ($count > 100) {
-					throw new RuntimeException('max recursion depth');
-				}
-				$count++;
-				$tmp = fgets($this->handle, 8000);
-				$tmp = explode($delimiter, $tmp);
-				if ($encode) {
-					$tmp = $this->_encode($tmp);
-				}
-				$isEmpty = true;
-				foreach ($tmp as $key => $val) {
-					if (!empty($val)) {
-						$isEmpty = false;
-						break;
-					}
-				}
-				if ($isEmpty) {
-					continue;
-				}
-				$res[] = $tmp;
-			}
+		// PHP cannot handle delimiters with more than a single char
+		if (strlen($delimiter) > 1) {
+			throw new InternalErrorException('Invalid delimiter');
+		}
 
-		} else {
-			while (true) {
-				$data = fgetcsv($this->handle, $length, (isset($delimiter) ? $delimiter : ','), (isset($enclosure) ? $enclosure : '"'));
-				if ($data === false) {
+		$res = array();
+		while (true) {
+			$data = fgetcsv($this->handle, $length, $delimiter, $enclosure, $escape);
+			if ($data === false) {
+				break;
+			}
+			if ($encode) {
+				$data = $this->_encode($data);
+			}
+			$isEmpty = true;
+			foreach ($data as $key => $val) {
+				if (!empty($val)) {
+					$isEmpty = false;
 					break;
 				}
-				if ($encode) {
-					$data = $this->_encode($data);
-				}
-				$isEmpty = true;
-				foreach ($data as $key => $val) {
-					if (!empty($val)) {
-						$isEmpty = false;
-						break;
-					}
-				}
-				if ($isEmpty && $removeEmpty) {
-					continue;
-				}
-				$res[] = $data;
 			}
+			if ($isEmpty && $removeEmpty) {
+				continue;
+			}
+			$res[] = $data;
 		}
 
 		if ($this->lock !== null) {
 			flock($this->handle, LOCK_UN);
 		}
 		$this->close();
+		return $res;
+	}
+
+	/**
+	 * FileLib::readCsvFromString()
+	 *
+	 * @param string $string CSV content
+	 * @param array $options Options array
+	 * @return array Parsed content
+	 */
+	public static function readCsvFromString($string, $options = array()) {
+		$file = fopen("php://memory", "rw");
+		fwrite($file, $string);
+		fseek($file, 0);
+
+		$defaults = array(
+			'delimiter' => ',',
+			'enclosure' => '"',
+			'escape' => "\\",
+			'eol' => "\n",
+			'encode' => false,
+			'removeEmpty' => false
+		);
+		$options += $defaults;
+		extract($options);
+
+		// PHP cannot handle delimiters with more than a single char
+		if (strlen($delimiter) > 1) {
+			throw new InternalErrorException('Invalid delimiter');
+		}
+
+		$res = array();
+		while (true) {
+			$data = fgetcsv($file, 0, $delimiter, $enclosure, $escape);
+
+			if ($data === false) {
+				break;
+			}
+			if ($encode) {
+				$data = $this->_encode($data);
+			}
+			$isEmpty = true;
+			foreach ($data as $key => $val) {
+				if (!empty($val)) {
+					$isEmpty = false;
+					break;
+				}
+			}
+			if ($isEmpty && $removeEmpty) {
+				continue;
+			}
+			$res[] = $data;
+		}
+
+		fclose($file);
 		return $res;
 	}
 
