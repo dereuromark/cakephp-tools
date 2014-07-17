@@ -513,7 +513,7 @@ RSS;
 		$Controller = new Controller($Request, $Response);
 		$data = array(
 			'channel' => array(
-				'title' => 'Channel title with äöü umlauts',
+				'title' => 'Channel title',
 				'link' => 'http://channel.example.org',
 			),
 			'items' => array(
@@ -529,7 +529,7 @@ RSS;
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>Channel title with äöü umlauts</title>
+    <title>Channel title</title>
     <link>http://channel.example.org</link>
     <description/>
     <item>
@@ -537,6 +537,50 @@ RSS;
       <link>$this->baseUrl/foo/bar</link>
       <description>Content one</description>
       <foo url="http://www.example.com/media/3d.wmv" length="78645" type="video/wmv"/>
+    </item>
+  </channel>
+</rss>
+
+RSS;
+		$this->assertTextEquals($expected, $result);
+	}
+
+	/**
+	 * RssViewTest::testSerializeWithSpecialChars()
+	 *
+	 * @return void
+	 */
+	public function testSerializeWithSpecialChars() {
+		$Request = new CakeRequest();
+		$Response = new CakeResponse();
+		$Controller = new Controller($Request, $Response);
+		$data = array(
+			'channel' => array(
+				'title' => 'Channel title with äöü umlauts and <!> special chars',
+				'link' => 'http://channel.example.org',
+			),
+			'items' => array(
+				array(
+					'title' => 'A <unsafe title',
+					'link' => array('controller' => 'foo', 'action' => 'bar'),
+					'description' => 'My content "&" and <other> stuff here should also be escaped safely'),
+			)
+		);
+		$Controller->set(array('channel' => $data, '_serialize' => 'channel'));
+		$View = new RssView($Controller);
+		$result = $View->render(false);
+
+		$expected = <<<RSS
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Channel title with äöü umlauts and &lt;!&gt; special chars</title>
+    <link>http://channel.example.org</link>
+    <description/>
+    <item>
+      <title>A &lt;unsafe title</title>
+      <link>$this->baseUrl/foo/bar</link>
+      <description>My content "&amp;" and &lt;other&gt; stuff here should also be escaped safely</description>
     </item>
   </channel>
 </rss>
