@@ -513,7 +513,7 @@ RSS;
 		$Controller = new Controller($Request, $Response);
 		$data = array(
 			'channel' => array(
-				'title' => 'Channel title',
+				'title' => 'Channel title with äöü umlauts',
 				'link' => 'http://channel.example.org',
 			),
 			'items' => array(
@@ -529,7 +529,7 @@ RSS;
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>Channel title</title>
+    <title>Channel title with äöü umlauts</title>
     <link>http://channel.example.org</link>
     <description/>
     <item>
