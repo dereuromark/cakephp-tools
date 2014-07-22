@@ -997,7 +997,7 @@ class FormatHelper extends TextHelper {
 	 * @return string Value in HTML tags
 	 */
 	public function warning($value, $ok = false) {
-		if ($ok) {
+		if (!$ok) {
 			return $this->ok($value, false);
 		}
 		return $value;
