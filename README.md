@@ -165,3 +165,4 @@ unless specified otherwise (in the classes).
   (you need to now manually include it if needed).
 * 2014-01 Changed Garbige to Garbage in method names.
 * 2014-02 Qlogin now uses Token model instead of deprecated CodeKey per default.
+* 2014-07 Packagist package name has been renamed to "cakephp-tools".
