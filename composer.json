@@ -8,7 +8,8 @@
 	"authors": [
 		{
 			"name": "Mark Scherer",
-			"homepage": "http://www.dereuromark.de"
+			"homepage": "http://www.dereuromark.de",
+			"role": "Maintainer"
 		}
 	],
 	"require": {
@@ -19,9 +20,6 @@
 		"source": "https://github.com/dereuromark/tools"
 	},
 	"extra": {
-		"installer-name": "Tools",
-		"installer-paths": {
-			"Plugin/Tools/": ["dereuromark/tools-cakephp"]
-		}
+		"installer-name": "Tools"
 	}
 }
