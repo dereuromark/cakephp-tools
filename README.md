@@ -6,10 +6,10 @@ This plugin requires PHP5.3+
 Please note: New functionality has been tested against 2.x (current master and dev) only. Please upgrade if possible.
 
 [![Build Status](https://api.travis-ci.org/dereuromark/cakephp-tools.png?branch=master)](https://travis-ci.org/dereuromark/cakephp-tools)
-[![Latest Stable Version](https://poser.pugx.org/dereuromark/tools-cakephp/v/stable.png)](https://packagist.org/packages/dereuromark/tools-cakephp)
+[![Latest Stable Version](https://poser.pugx.org/dereuromark/cakephp-tools/v/stable.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
 [![Coverage Status](https://coveralls.io/repos/dereuromark/cakephp-tools/badge.png)](https://coveralls.io/r/dereuromark/cakephp-tools)
-[![License](https://poser.pugx.org/dereuromark/tools-cakephp/license.png)](https://packagist.org/packages/dereuromark/tools-cakephp)
-[![Total Downloads](https://poser.pugx.org/dereuromark/tools-cakephp/d/total.png)](https://packagist.org/packages/dereuromark/tools-cakephp)
+[![License](https://poser.pugx.org/dereuromark/cakephp-tools/license.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
+[![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-tools/d/total.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
 
 
 ## How to include
