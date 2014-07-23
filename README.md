@@ -90,7 +90,7 @@ App::uses('GeocoderBehavior', 'Tools.Model/Behavior');
 ```
 
 Tip: For how to use them, try to find some information in the test cases.
-For a quick reference or some larger modules see the [Tools Plugin Wiki](https://github.com/dereuromark/tools/wiki)
+For a quick reference or some larger modules see the [Tools Plugin Wiki](https://github.com/dereuromark/cakephp-tools/wiki)
 
 For including components, helper and behaviors you don't need App::uses() calls.
 So for a pretty standard CakePHP app with some Tools plugin enhancements, the AppController could look like this:
@@ -114,7 +114,7 @@ public $helpers = array(
 * RSS and Ajax Views for better responses (Ajax also comes with an optional component).
 * testAction() defaults to GET
 
-A full list of fixes and useful migration tweaks towards the next major version see [here](https://github.com/dereuromark/tools/wiki/Included-fixes-and-migration-tweaks).
+A full list of fixes and useful migration tweaks towards the next major version see [here](https://github.com/dereuromark/cakephp-tools/wiki/Included-fixes-and-migration-tweaks).
 
 ### Additional classes and features
 

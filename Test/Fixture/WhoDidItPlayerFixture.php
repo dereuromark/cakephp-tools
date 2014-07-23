@@ -5,7 +5,6 @@
  * @author Mark Scherer
  * @author Marc Würth
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
- * @link https://github.com/dereuromark/tools
  */
 
 /**

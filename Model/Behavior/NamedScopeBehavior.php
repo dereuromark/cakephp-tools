@@ -34,7 +34,7 @@ App::uses('ModelBehavior', 'Model');
  *
  * @license MIT
  * @author Mark Scherer
- * @link https://github.com/dereuromark/tools/wiki/Model-Behavior-NamedScope
+ * @link https://github.com/dereuromark/cakephp-tools/wiki/Model-Behavior-NamedScope
  */
 class NamedScopeBehavior extends ModelBehavior {
 
