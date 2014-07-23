@@ -6,10 +6,10 @@ This plugin requires PHP5.3+
 Please note: New functionality has been tested against 2.x (current master and dev) only. Please upgrade if possible.
 
 [![Build Status](https://api.travis-ci.org/dereuromark/cakephp-tools.png?branch=master)](https://travis-ci.org/dereuromark/cakephp-tools)
-[![Latest Stable Version](https://poser.pugx.org/dereuromark/tools-cakephp/v/stable.png)](https://packagist.org/packages/dereuromark/tools-cakephp)
+[![Latest Stable Version](https://poser.pugx.org/dereuromark/cakephp-tools/v/stable.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
 [![Coverage Status](https://coveralls.io/repos/dereuromark/cakephp-tools/badge.png)](https://coveralls.io/r/dereuromark/cakephp-tools)
-[![License](https://poser.pugx.org/dereuromark/tools-cakephp/license.png)](https://packagist.org/packages/dereuromark/tools-cakephp)
-[![Total Downloads](https://poser.pugx.org/dereuromark/tools-cakephp/d/total.png)](https://packagist.org/packages/dereuromark/tools-cakephp)
+[![License](https://poser.pugx.org/dereuromark/cakephp-tools/license.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
+[![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-tools/d/total.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
 
 
 ## How to include
@@ -18,7 +18,7 @@ Installing the Plugin is pretty much as with every other CakePHP Plugin.
 * Put the files in `APP/Plugin/Tools`
 * Make sure you have `CakePlugin::load('Tools')` or `CakePlugin::loadAll()` in your bootstrap
 
-Tip: You can also use packagist now @ https://packagist.org/packages/dereuromark/tools-cakephp
+Tip: You can also use packagist now @ https://packagist.org/packages/dereuromark/cakephp-tools
 
 That's it. It should be up and running.
 
@@ -90,7 +90,7 @@ App::uses('GeocoderBehavior', 'Tools.Model/Behavior');
 ```
 
 Tip: For how to use them, try to find some information in the test cases.
-For a quick reference or some larger modules see the [Tools Plugin Wiki](https://github.com/dereuromark/tools/wiki)
+For a quick reference or some larger modules see the [Tools Plugin Wiki](https://github.com/dereuromark/cakephp-tools/wiki)
 
 For including components, helper and behaviors you don't need App::uses() calls.
 So for a pretty standard CakePHP app with some Tools plugin enhancements, the AppController could look like this:
@@ -114,7 +114,7 @@ public $helpers = array(
 * RSS and Ajax Views for better responses (Ajax also comes with an optional component).
 * testAction() defaults to GET
 
-A full list of fixes and useful migration tweaks towards the next major version see [here](https://github.com/dereuromark/tools/wiki/Included-fixes-and-migration-tweaks).
+A full list of fixes and useful migration tweaks towards the next major version see [here](https://github.com/dereuromark/cakephp-tools/wiki/Included-fixes-and-migration-tweaks).
 
 ### Additional classes and features
 
