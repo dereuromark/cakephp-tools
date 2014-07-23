@@ -5,9 +5,9 @@ This plugin requires PHP5.3+
 
 Please note: New functionality has been tested against 2.x (current master and dev) only. Please upgrade if possible.
 
-[![Build Status](https://api.travis-ci.org/dereuromark/tools.png?branch=master)](https://travis-ci.org/dereuromark/tools)
+[![Build Status](https://api.travis-ci.org/dereuromark/cakephp-tools.png?branch=master)](https://travis-ci.org/dereuromark/cakephp-tools)
 [![Latest Stable Version](https://poser.pugx.org/dereuromark/tools-cakephp/v/stable.png)](https://packagist.org/packages/dereuromark/tools-cakephp)
-[![Coverage Status](https://coveralls.io/repos/dereuromark/tools/badge.png)](https://coveralls.io/r/dereuromark/tools)
+[![Coverage Status](https://coveralls.io/repos/dereuromark/cakephp-tools/badge.png)](https://coveralls.io/r/dereuromark/cakephp-tools)
 [![License](https://poser.pugx.org/dereuromark/tools-cakephp/license.png)](https://packagist.org/packages/dereuromark/tools-cakephp)
 [![Total Downloads](https://poser.pugx.org/dereuromark/tools-cakephp/d/total.png)](https://packagist.org/packages/dereuromark/tools-cakephp)
 

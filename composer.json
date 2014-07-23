@@ -3,7 +3,7 @@
 	"type": "cakephp-plugin",
 	"description": "A CakePHP plugin containing lots of useful and reusable tools",
 	"keywords": ["cakephp", "plugin", "tools", "utils", "helpers", "components", "behaviors", "datasources"],
-	"homepage": "https://github.com/dereuromark/tools",
+	"homepage": "https://github.com/dereuromark/cakephp-tools",
 	"license": "MIT",
 	"authors": [
 		{
@@ -17,7 +17,7 @@
 		"composer/installers": "*"
 	},
 	"support": {
-		"source": "https://github.com/dereuromark/tools"
+		"source": "https://github.com/dereuromark/cakephp-tools"
 	},
 	"extra": {
 		"installer-name": "Tools"
