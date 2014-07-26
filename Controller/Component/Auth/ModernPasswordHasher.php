@@ -12,6 +12,10 @@ App::uses('AbstractPasswordHasher', 'Controller/Component/Auth');
  *   require CakePlugin::path('Tools') . 'Lib/Bootstrap/Password.php';
  * You would then require it in your bootstrap.php.
  * But the preferred way would be a composer dependency.
+ *
+ * @author Mark Scherer
+ * @license MIT
+ * @link http://www.dereuromark.de/2011/08/25/working-with-passwords-in-cakephp/
  */
 class ModernPasswordHasher extends AbstractPasswordHasher {
 
