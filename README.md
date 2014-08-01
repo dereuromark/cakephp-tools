@@ -41,7 +41,7 @@ In case you want the Tools bootstrap file included (recommended), you can do tha
 Plugin::load('Tools', array('bootstrap' => true));
 ```
 
-For `Plugin::loadAll()` it's
+or
 
 ```php
 Plugin::loadAll(array(
@@ -84,7 +84,7 @@ the vendor name there:
 Plugin::load('Tools', array('namespace' => 'Dereuromark\\Tools'));
 ```
 
-For `Plugin::loadAll()` it's
+or
 
 ```php
 Plugin::loadAll(array(
