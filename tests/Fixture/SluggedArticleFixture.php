@@ -1,6 +1,6 @@
 <?php
 
-namespace Tools\Test\Fixture;
+namespace Dereuromark\Tools\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
 

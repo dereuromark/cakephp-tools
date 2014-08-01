@@ -1,5 +1,5 @@
 <?php
-namespace Tools\Console\Command;
+namespace Dereuromark\Tools\Console\Command;
 
 use Cake\Console\Shell;
 use Cake\Utility\Folder;

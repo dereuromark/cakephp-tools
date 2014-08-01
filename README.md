@@ -42,18 +42,48 @@ CakePlugin::loadAll(array(
 ```
 
 ## Namespacing
-Using Cake3 and namespaces, don't forget to add "Tools" as namespace to new files.
-Also don't forget the `use` statements. So for a new behavior "Extendable":
+Using Cake3 and namespaces, don't forget to add "Dereuromark\Tools" as namespace to new files.
+Also don't forget the `use` statements.
+
+So for a new behavior "MySlugged" that extends "Slugged" it is:
 ```php
-namespace Tools\Model\Behavior;
+namespace App\Model\Behavior;
 
-use Cake\ORM\Behavior;
+use Dereuromark\Tools\Model\Behavior\SluggedBehavior;
 
-class SluggedBehavior extends Behavior {
+class MySluggedBehavior extends SluggedBehavior {
 }
 ```
 Note that use statements should be in alphabetical order.
 See CakePHP coding standards for details.
+
+### Shortened namespacing
+As long as you don't have a "Tools" namespace already in use and if you want to save
+yourself some namespace typing, you can configure it the way that it does not need the
+the vendor name:
+
+```php
+CakePlugin::load('Tools', array('namespace' => 'Dereuromark\\Tools'));
+```
+
+For `CakePlugin::loadAll()` it's
+
+```php
+CakePlugin::loadAll(array(
+		'Tools' => array('namespace' => 'Dereuromark\\Tools'
+));
+```
+Personally, this is my default configuration for all plugins.
+
+So for a new behavior "MySlugged" that extends "Slugged" it is now:
+```php
+namespace App\Model\Behavior;
+
+use Tools\Model\Behavior\SluggedBehavior;
+
+class MySluggedBehavior extends SluggedBehavior {
+}
+```
 
 ## Testing
 You can test using a local installation of phpunit or the phar version of it:

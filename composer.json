@@ -14,15 +14,16 @@
 	],
 	"require":{
 		"php": ">=5.4",
-		"composer/installers": "*"
+		"composer/installers": "*",
+		"cakephp/cakephp": "3.0.*-dev"
 	},
 	"require-dev": {
-		"cakephp/cakephp": "3.0.*-dev",
 		"cakephp/app": "dev-master"
 	},
 	"autoload": {
 		"psr-4": {
-			"Tools\\": "src"
+			"Dereuromark\\Tools\\": "src",
+			"Dereuromark\\Tools\\Test\\": "tests"
 		}
 	},
 	"support":{
