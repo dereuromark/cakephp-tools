@@ -5,7 +5,7 @@ A CakePHP 3.x Plugin containing several useful tools that can be used in many pr
 
 ## Version notice
 
-This cake3 branch only works for **cake3** - please use the master branch for CakePHP 2.x!
+This cake3 branch only works for **CakePHP3.x** - please use the master branch for CakePHP 2.x!
 
 
 ## How to include
