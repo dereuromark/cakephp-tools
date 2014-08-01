@@ -26,17 +26,25 @@ Details @ https://packagist.org/packages/dereuromark/tools-cakephp
 That's it. It should be up and running.
 
 ## The basics
+This will load the plugin:
+```php
+Plugin::load('Tools');
+```
+or
+```php
+Plugin::loadAll();
+```
 
 In case you want the Tools bootstrap file included (recommended), you can do that in your `APP/Config/bootstrap.php` with
 
 ```php
-CakePlugin::load('Tools', array('bootstrap' => true));
+Plugin::load('Tools', array('bootstrap' => true));
 ```
 
-For `CakePlugin::loadAll()` it's
+For `Plugin::loadAll()` it's
 
 ```php
-CakePlugin::loadAll(array(
+Plugin::loadAll(array(
 		'Tools' => array('bootstrap' => true
 ));
 ```
@@ -45,7 +53,17 @@ CakePlugin::loadAll(array(
 Using Cake3 and namespaces, don't forget to add "Dereuromark\Tools" as namespace to new files.
 Also don't forget the `use` statements.
 
-So for a new behavior "MySlugged" that extends "Slugged" it is:
+If you create a new behavior in the plugin, it might look like this:
+```php
+namespace Dereuromark\Tools\Model\Behavior;
+
+use Cake\ORM\Behavior;
+
+class CoolBehavior extends Behavior {
+}
+```
+
+For a new APP behavior "MySlugged" that extends "Tools.Slugged" it is:
 ```php
 namespace App\Model\Behavior;
 
@@ -59,23 +77,23 @@ See CakePHP coding standards for details.
 
 ### Shortened namespacing
 As long as you don't have a "Tools" namespace already in use and if you want to save
-yourself some namespace typing, you can configure it the way that it does not need the
-the vendor name:
+yourself some namespace typing in your APP, you can configure it the way that it does not need the
+the vendor name there:
 
 ```php
-CakePlugin::load('Tools', array('namespace' => 'Dereuromark\\Tools'));
+Plugin::load('Tools', array('namespace' => 'Dereuromark\\Tools'));
 ```
 
-For `CakePlugin::loadAll()` it's
+For `Plugin::loadAll()` it's
 
 ```php
-CakePlugin::loadAll(array(
+Plugin::loadAll(array(
 		'Tools' => array('namespace' => 'Dereuromark\\Tools'
 ));
 ```
 Personally, this is my default configuration for all plugins.
 
-So for a new behavior "MySlugged" that extends "Slugged" it is now:
+So for a new APP behavior "MySlugged" it is now:
 ```php
 namespace App\Model\Behavior;
 
