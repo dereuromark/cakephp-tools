@@ -132,7 +132,15 @@ class NamedScopeBehavior extends ModelBehavior {
 		}
 
 		$config = $finds[$key];
-		$config['find'] = array_merge_recursive($config['find'], $customConfig);
+		foreach ($customConfig as $keyCustom => $custom) {
+			if ($keyCustom === 'options') {
+				foreach ($custom as $keyOptions => $option) {
+					$config['find']['options'][$keyOptions] = $option;
+				}
+			} else {
+				$config['find'][$keyCustom] = $custom;
+			}
+		}
 		if (!isset($config['find']['type'])) {
 			$config['find']['type'] = 'all';
 		}
