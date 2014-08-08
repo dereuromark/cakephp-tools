@@ -28,24 +28,26 @@ That's it. It should be up and running.
 ## The basics
 This will load the plugin:
 ```php
-Plugin::load('Tools');
+Plugin::load('Tools', array('namespace' => 'Dereuromark\\Tools'));
 ```
 or
 ```php
-Plugin::loadAll();
+Plugin::loadAll(array(
+		'Tools' => array('namespace' => 'Dereuromark\\Tools'
+));
 ```
 
 In case you want the Tools bootstrap file included (recommended), you can do that in your `APP/Config/bootstrap.php` with
 
 ```php
-Plugin::load('Tools', array('bootstrap' => true));
+Plugin::load('Tools', array('bootstrap' => true, 'namespace' => 'Dereuromark\\Tools'));
 ```
 
 or
 
 ```php
 Plugin::loadAll(array(
-		'Tools' => array('bootstrap' => true
+		'Tools' => array('bootstrap' => true, 'namespace' => 'Dereuromark\\Tools'
 ));
 ```
 
@@ -75,32 +77,14 @@ class MySluggedBehavior extends SluggedBehavior {
 Note that use statements should be in alphabetical order.
 See CakePHP coding standards for details.
 
-### Shortened namespacing
-As long as you don't have a "Tools" namespace already in use and if you want to save
-yourself some namespace typing in your APP, you can configure it the way that it does not need the
-the vendor name there:
-
+### Shortened namespacing for internal handling
+Internally (method access), you don't use the vendor namespace. The plugin name suffices:
 ```php
-Plugin::load('Tools', array('namespace' => 'Dereuromark\\Tools'));
-```
+// In a Table
+$this->addBehavior('Tools.Slugged');
 
-or
-
-```php
-Plugin::loadAll(array(
-		'Tools' => array('namespace' => 'Dereuromark\\Tools'
-));
-```
-Personally, this is my default configuration for all plugins.
-
-So for a new APP behavior "MySlugged" it is now:
-```php
-namespace App\Model\Behavior;
-
-use Tools\Model\Behavior\SluggedBehavior;
-
-class MySluggedBehavior extends SluggedBehavior {
-}
+// In a controller
+public $helpers = array('Tools.Foo');
 ```
 
 ## Testing
