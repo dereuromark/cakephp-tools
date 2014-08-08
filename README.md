@@ -19,6 +19,13 @@ Installing the Plugin is pretty much as with every other CakePHP Plugin.
 
 Tip: You can also use packagist now @ https://packagist.org/packages/dereuromark/cakephp-tools
 
+```
+"require": {
+	"dereuromark/cakephp-tools": "dev-master"
+}
+```
+or use the tags, e.g. `0.4` directly.
+
 That's it. It should be up and running.
 
 ## The basics
