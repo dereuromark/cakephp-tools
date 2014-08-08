@@ -11,17 +11,17 @@ This cake3 branch only works for **CakePHP3.x** - please use the master branch f
 ## How to include
 Installing the Plugin is pretty much as with every other CakePHP Plugin.
 
-Put the files in `APP/Plugin/Tools`, using packagist/composer:
+Put the files in `APP/Plugin/Tools`, using Packagist/Composer:
 ```
 "require": {
-	"dereuromark/tools-cakephp": "dev-cake3"
+	"dereuromark/cakephp-tools": "dev-cake3"
 }
 ```
 and
 
 	composer update
 
-Details @ https://packagist.org/packages/dereuromark/tools-cakephp
+Details @ https://packagist.org/packages/dereuromark/cakephp-tools
 
 That's it. It should be up and running.
 
@@ -81,10 +81,10 @@ See CakePHP coding standards for details.
 Internally (method access), you don't use the vendor namespace. The plugin name suffices:
 ```php
 // In a Table
-$this->addBehavior('Tools.Slugged');
+$this->addBehavior('Tools.Slugged'); // Adding SluggedBehavior
 
-// In a controller
-public $helpers = array('Tools.Foo');
+// In a Controller
+public $helpers = array('Tools.Foo'); // Adding FooHelper
 ```
 
 ## Testing
