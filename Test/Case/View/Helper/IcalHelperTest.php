@@ -12,7 +12,6 @@ App::uses('View', 'View');
  *
  * @author Mark Scherer
  * @license MIT
- * @cakephp 2.x
  */
 class IcalHelperTest extends MyCakeTestCase {
 

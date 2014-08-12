@@ -9,7 +9,6 @@ App::uses('AppShell', 'Console/Command');
 /**
  * Reset user data
  *
- * @cakephp 2.x
  * @author Mark Scherer
  * @license MIT
  */

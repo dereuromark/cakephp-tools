@@ -22,7 +22,6 @@ App::uses('AppHelper', 'View/Helper');
  * For German: "Some quote" might become „Some quote“
  *
  * @modified Mark Scherer
- * @cakephp 2.x
  * @php 5
  * @link http://www.dereuromark.de/2012/08/12/typographic-behavior-and-typography-helper/
  */

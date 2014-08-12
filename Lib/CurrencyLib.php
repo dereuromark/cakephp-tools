@@ -18,7 +18,6 @@ App::uses('Xml', 'Utility');
  *
  * @author Mark Scherer
  * @license MIT
- * @cakephp 2.x
  */
 class CurrencyLib {
 

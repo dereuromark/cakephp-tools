@@ -4,7 +4,6 @@ App::uses('ToolsAppModel', 'Tools.Model');
 /**
  * "Fake" model to validate all contact forms
  * @author Mark Scherer
- * @cakephp 2.x
  * @license MIT
  */
 class ContactForm extends ToolsAppModel {

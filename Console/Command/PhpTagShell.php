@@ -7,7 +7,6 @@ App::uses('Folder', 'Utility');
  * it also makes sure there is no whitespace at the beginning of the file
  *
  * @author Mark Scherer, Maximilian Ruta
- * @cakephp 2.x
  * @license MIT
  */
 class PhpTagShell extends AppShell {

@@ -35,7 +35,6 @@ App::uses('ModelBehavior', 'Model');
  *
  * @author Mark Scherer
  * @license MIT
- * @cakephp 2.x
  * @version 1.0
  */
 class ResetBehavior extends ModelBehavior {

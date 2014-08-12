@@ -40,7 +40,6 @@ if (!Configure::read('Config.adminName')) {
  *
  * @author Mark Scherer
  * @license MIT
- * @cakephp 2.x
  */
 class EmailLib extends CakeEmail {
 

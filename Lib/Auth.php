@@ -34,7 +34,6 @@ App::uses('Hash', 'Utility');
  * @author Mark Scherer
  * @license MIT
  * @php 5
- * @cakephp 2
  */
 class Auth {
 

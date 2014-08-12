@@ -10,7 +10,6 @@ App::uses('CakeSession', 'Model/Datasource');
  * TODO: Remove CodeKey BC
  *
  * @author Mark Scherer
- * @cakephp 2.x
  * @license MIT
  */
 class Qlogin extends ToolsAppModel {

@@ -8,7 +8,6 @@ App::uses('AppShell', 'Console/Command');
  * You can also remove files in a if they are not longer existent in b
  *
  * @version 1.0
- * @cakephp 2.x
  * @author Mark Scherer
  * @license MIT
  */

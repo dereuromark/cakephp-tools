@@ -6,7 +6,6 @@ App::uses('Hash', 'Utility');
  * Manage Quick Urls
  *
  * @author Mark Scherer
- * @cakephp 2.x
  * @license MIT
  */
 class Qurl extends ToolsAppModel {

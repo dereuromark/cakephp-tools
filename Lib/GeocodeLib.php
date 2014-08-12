@@ -12,7 +12,6 @@ App::uses('HttpSocket', 'Network/Http');
  * - Work with exceptions in 2.x
  *
  * @author Mark Scherer
- * @cakephp 2.x
  * @licence MIT
  */
 class GeocodeLib {

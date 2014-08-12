@@ -11,7 +11,6 @@
  *
  * @modified 2011-11-13 Mark Scherer
  * @php 5
- * @cakephp 2.x
  *
  * ImapLib for accessing IMAP and POP email accounts
  */

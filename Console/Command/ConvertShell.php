@@ -15,7 +15,6 @@ App::uses('AppShell', 'Console/Command');
  *
  * It is also possible to manually define the binPath (for Windows for example).
  *
- * @cakephp 2.x
  * @author Mark Scherer
  * @license MIT
  */

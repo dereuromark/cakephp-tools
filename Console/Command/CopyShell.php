@@ -35,7 +35,6 @@ if (!defined('WINDOWS')) {
  *
  * @author Mark Scherer
  * @license MIT
- * @cakephp 2.x
  */
 class CopyShell extends AppShell {
 

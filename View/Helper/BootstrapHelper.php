@@ -13,7 +13,6 @@ App::uses('AppHelper', 'View/Helper');
  *
  * @license MIT
  * @author Mark Scherer
- * @cakephp 2.x
  * @php 5
  * @version 1.0
  */

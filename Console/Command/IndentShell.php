@@ -33,7 +33,6 @@ App::uses('AppShell', 'Console/Command');
  *
  * Oh, and: Use TABS for indentation of code - ALWAYS.
  *
- * @cakephp 2.x
  * @author Mark Scherer
  * @license MIT
  */

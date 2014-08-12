@@ -3,7 +3,6 @@
  * PHP 5
  *
  * @author Mark Scherer
- * @cakephp 2.x
  * @license MIT
  */
 

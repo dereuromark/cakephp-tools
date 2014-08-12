@@ -12,7 +12,6 @@ if (!defined('LF')) {
  * Workes perfectly with PHPDesigner - but should also work with most other IDEs out of the box
  *
  * @version 1.1
- * @cakephp 2.x
  * @author Mark Scherer
  * @license MIT
  */

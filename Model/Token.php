@@ -7,7 +7,6 @@ App::uses('Hash', 'Utility');
  * A generic model to hold tokens
  *
  * @author Mark Scherer
- * @cakephp 2.x
  * @license MIT
  */
 class Token extends ToolsAppModel {

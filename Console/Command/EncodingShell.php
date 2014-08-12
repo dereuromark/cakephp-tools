@@ -5,7 +5,6 @@ App::uses('AppShell', 'Console/Command');
 /**
  * Detect encoding or find invalid files (starting with BOM)
  *
- * @cakephp 2.x
  * @author Mark Scherer
  * @license MIT
  */

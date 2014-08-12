@@ -107,7 +107,6 @@ App::uses('Hash', 'Utility');
  * @modifed 27. march 2009
  * @version 2.0.6
  * @modified 2012-07-28 Mark Scherer (2.x ready)
- * @cakephp 2.x
  */
 class RevisionBehavior extends ModelBehavior {
 

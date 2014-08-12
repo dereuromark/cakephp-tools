@@ -17,7 +17,6 @@ App::uses('AuthComponent', 'Controller/Component');
  * - dynamic login scope validation
  *
  * @author Mark Scherer
- * @cakephp 2.x
  * @license MIT
  */
 class AuthExtComponent extends AuthComponent {

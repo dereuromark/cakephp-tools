@@ -9,7 +9,6 @@ App::uses('AppShell', 'Console/Command');
 /**
  * Create a new user from CLI
  *
- * @cakephp 2.x
  * @author Mark Scherer
  * @license MIT
  */

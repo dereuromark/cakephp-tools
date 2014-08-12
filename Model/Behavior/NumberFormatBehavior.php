@@ -27,7 +27,6 @@ App::uses('ModelBehavior', 'Model');
  *
  * @author Mark Scherer
  * @license MIT
- * @cakephp 2.x
  */
 class NumberFormatBehavior extends ModelBehavior {
 

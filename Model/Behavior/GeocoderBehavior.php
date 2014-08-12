@@ -13,7 +13,6 @@ App::uses('GeocodeLib', 'Tools.Lib');
  * If you need 0.0, cast it in your beforeSave() callback.
  *
  * @author Mark Scherer
- * @cakephp 2.x
  * @licence MIT
  * @link http://www.dereuromark.de/2012/06/12/geocoding-with-cakephp/
  */

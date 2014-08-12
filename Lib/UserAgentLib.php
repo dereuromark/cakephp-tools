@@ -9,7 +9,6 @@ App::uses('CakeRequest', 'Network');
  *
  * @author Mark Scherer
  * @license MIT
- * @cakephp 2
  *
  */
 class UserAgentLib extends CakeRequest {

@@ -29,7 +29,6 @@ if (!defined('ACL_FILE')) {
  *
  * @version 1.2 - now allows other parent model relations besides Role/role_id
  * @author Mark Scherer
- * @cakephp 2.x
  * @license MIT
  */
 class TinyAuthorize extends BaseAuthorize {

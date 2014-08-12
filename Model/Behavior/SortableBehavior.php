@@ -15,7 +15,6 @@ App::uses('ModelBehavior', 'Model');
  * Reversed order:
  * The sort value of a new record will be calculated (currently highest + 1).
  *
- * @cakephp 2.x
  * @author Mark Scherer
  * @license MIT
  */

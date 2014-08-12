@@ -6,7 +6,6 @@
  * - can simulate/establish tor connection
  *
  * @license MIT
- * @cakephp 2.x
  */
 class CurlLib {
 

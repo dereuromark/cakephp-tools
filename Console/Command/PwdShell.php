@@ -5,7 +5,6 @@ App::uses('ComponentCollection', 'Controller');
 /**
  * Password hashing and output
  *
- * @cakephp 2.x
  * @author Mark Scherer
  * @license MIT
  */
