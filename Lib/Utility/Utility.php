@@ -744,7 +744,7 @@ class Utility {
 	 * @param string $ind The string to indent with
 	 * @return string
 	 */
-	public function prettyJson($json, $ind = "\t") {
+	public static function prettyJson($json, $indString = "\t") {
 		// Replace any escaped \" marks so we don't get tripped up on quotemarks_counter
 		$tokens = preg_split('|([\{\}\]\[,])|', str_replace('\"', '~~PRETTY_JSON_QUOTEMARK~~', $json), -1, PREG_SPLIT_DELIM_CAPTURE);
 
@@ -761,7 +761,7 @@ class Utility {
 			}
 
 			if ($nextTokenUsePrefix) {
-				$prefix = str_repeat($ind, $indent);
+				$prefix = str_repeat($indString, $indent);
 			} else {
 				$prefix = null;
 			}
@@ -784,7 +784,7 @@ class Utility {
 				$indent--;
 
 				if ($indent >= 0) {
-					$prefix = str_repeat($ind, $indent);
+					$prefix = str_repeat($indString, $indent);
 				}
 
 				if ($nextTokenUsePrefix) {
@@ -798,8 +798,7 @@ class Utility {
 				$result .= $prefix . $token;
 			}
 		}
-		$result = str_replace('~~PRETTY_JSON_QUOTEMARK~~', '\"', $result);
-		return $result;
+		return str_replace('~~PRETTY_JSON_QUOTEMARK~~', '\"', $result);
 	}
 
 }
