@@ -1,5 +1,5 @@
 <?php
-namespace Dereuromark\Tools\Utility;
+namespace Tools\Utility;
 
 /**
  * BC wrapper for 2.x methods until they can be rewritten.

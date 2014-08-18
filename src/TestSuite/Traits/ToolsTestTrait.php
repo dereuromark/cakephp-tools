@@ -1,5 +1,5 @@
 <?php
-namespace Dereuromark\Tools\TestSuite\Traits;
+namespace Tools\TestSuite\Traits;
 
 use Cake\Controller\Controller;
 use Cake\Network\Response;

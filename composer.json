@@ -17,13 +17,14 @@
 		"composer/installers": "*",
 		"cakephp/cakephp": "3.0.*-dev"
 	},
-	"require-dev": {
-		"cakephp/app": "dev-master"
-	},
 	"autoload": {
 		"psr-4": {
-			"Dereuromark\\Tools\\": "src",
-			"Dereuromark\\Tools\\Test\\": "tests"
+			"Tools\\": "src"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Tools\\Test\\": "tests"
 		}
 	},
 	"support":{

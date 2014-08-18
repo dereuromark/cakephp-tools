@@ -57,7 +57,7 @@ Also don't forget the `use` statements.
 
 If you create a new behavior in the plugin, it might look like this:
 ```php
-namespace Dereuromark\Tools\Model\Behavior;
+namespace Tools\Model\Behavior;
 
 use Cake\ORM\Behavior;
 
@@ -69,7 +69,7 @@ For a new APP behavior "MySlugged" that extends "Tools.Slugged" it is:
 ```php
 namespace App\Model\Behavior;
 
-use Dereuromark\Tools\Model\Behavior\SluggedBehavior;
+use Tools\Model\Behavior\SluggedBehavior;
 
 class MySluggedBehavior extends SluggedBehavior {
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Dereuromark\Tools\Test\TestCase\Model\Behavior;
+namespace Tools\Test\TestCase\Model\Behavior;
 
 use Cake\Database\Query;
 use Cake\Datasource\ConnectionManager;

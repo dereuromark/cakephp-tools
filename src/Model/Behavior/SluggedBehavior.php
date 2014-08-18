@@ -6,7 +6,7 @@
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 
-namespace Dereuromark\Tools\Model\Behavior;
+namespace Tools\Model\Behavior;
 
 use Cake\Event\Event;
 use Cake\ORM\Behavior;

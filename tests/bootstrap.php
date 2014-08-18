@@ -42,7 +42,7 @@ $cache = [
 
 Cake\Cache\Cache::config($cache);
 
-Cake\Core\Plugin::load('Tools', ['namespace' => 'Dereuromark\\Tools', 'path' => './']);
+Cake\Core\Plugin::load('Tools', ['path' => './']);
 
 // Ensure default test connection is defined
 if (!getenv('db_class')) {

@@ -1,7 +1,7 @@
 <?php
-namespace Dereuromark\Tools\Test\TestCase\Console\Command;
+namespace Tools\Test\TestCase\Console\Command;
 
-use Dereuromark\Tools\Console\Command\WhitespaceShell;
+use Tools\Console\Command\WhitespaceShell;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOutput;
 use Cake\Console\Shell;
@@ -38,7 +38,7 @@ class WhitespaceShellTest extends TestCase {
 		$io = new ConsoleIo($this->out);
 
 		$this->Shell = $this->getMock(
-			'Dereuromark\Tools\Console\Command\WhitespaceShell',
+			'Tools\Console\Command\WhitespaceShell',
 			['in', 'err', '_stop'],
 			[$io]
 		);
