@@ -28,31 +28,29 @@ That's it. It should be up and running.
 ## The basics
 This will load the plugin:
 ```php
-Plugin::load('Tools', array('namespace' => 'Dereuromark\\Tools'));
+Plugin::load('Tools');
 ```
 or
 ```php
-Plugin::loadAll(array(
-		'Tools' => array('namespace' => 'Dereuromark\\Tools'
-));
+Plugin::loadAll();
 ```
 
 In case you want the Tools bootstrap file included (recommended), you can do that in your `APP/Config/bootstrap.php` with
 
 ```php
-Plugin::load('Tools', array('bootstrap' => true, 'namespace' => 'Dereuromark\\Tools'));
+Plugin::load('Tools', array('bootstrap' => true));
 ```
 
 or
 
 ```php
 Plugin::loadAll(array(
-		'Tools' => array('bootstrap' => true, 'namespace' => 'Dereuromark\\Tools'
+		'Tools' => array('bootstrap' => true
 ));
 ```
 
 ## Namespacing
-Using Cake3 and namespaces, don't forget to add "Dereuromark\Tools" as namespace to new files.
+Using Cake3 and namespaces, don't forget to add "Tools" as namespace to new files.
 Also don't forget the `use` statements.
 
 If you create a new behavior in the plugin, it might look like this:
@@ -77,8 +75,8 @@ class MySluggedBehavior extends SluggedBehavior {
 Note that use statements should be in alphabetical order.
 See CakePHP coding standards for details.
 
-### Shortened namespacing for internal handling
-Internally (method access), you don't use the vendor namespace. The plugin name suffices:
+### Internal handling via plugin dot notation
+Internally (method access), you don't use the namespace declaration. The plugin name suffices:
 ```php
 // In a Table
 $this->addBehavior('Tools.Slugged'); // Adding SluggedBehavior
