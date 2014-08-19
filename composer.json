@@ -24,7 +24,8 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Tools\\Test\\": "tests"
+			"Tools\\Test\\": "tests",
+			"Cake\\Test\\Fixture\\": "vendor/cakephp/cakephp/tests/Fixture"
 		}
 	},
 	"support":{

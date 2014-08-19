@@ -7,7 +7,10 @@
  * @copyright Copyright (c) 2008, Andy Dawson
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
-App::uses('AppHelper', 'View/Helper');
+namespace Tools\View\Helper;
+
+use Cake\Core\Configure;
+use Cake\View\Helper;
 
 /**
  * Helper to generate tree representations of MPTT or recursively nested data.
@@ -16,7 +19,7 @@ App::uses('AppHelper', 'View/Helper');
  * @author Mark Scherer
  * @link http://www.dereuromark.de/2013/02/17/cakephp-and-tree-structures/
  */
-class TreeHelper extends AppHelper {
+class TreeHelper extends Helper {
 
 	/**
 	 * Default settings
@@ -132,15 +135,15 @@ class TreeHelper extends AppHelper {
 		if ($indent === null && Configure::read('debug')) {
 			$indent = true;
 		}
-		if ($model === null && $this->_View->params['models']) {
-			foreach ($this->_View->params['models'] as $model => $value) {
+		if ($model === null && !empty($this->_View->request->params['models'])) {
+			foreach ($this->_View->request->params['models'] as $model => $value) {
 				break;
 			}
 		}
 		if ($model === null) {
 			foreach ($data as $key => $value) {
-				foreach ($value as $model => $array) {
-					break;
+				if (is_object($value)) {
+					//debug($value->__debugInfo());die();
 				}
 			}
 		}
@@ -169,8 +172,11 @@ class TreeHelper extends AppHelper {
 
 		foreach ($data as $i => &$result) {
 			/* Allow 2d data arrays */
-			if ($model && isset($result[$model])) {
-				$row =& $result[$model];
+			if (is_object($result)) {
+				$result = $result->toArray();
+			}
+			if ($model && isset($result)) {
+				$row =& $result;
 			} else {
 				$row =& $result;
 			}
@@ -212,11 +218,11 @@ class TreeHelper extends AppHelper {
 				if ($row[$left] != ($row[$right] - 1) && $depth < $maxDepth) {
 					$hasChildren = true;
 					$numberOfTotalChildren = ($row[$right] - $row[$left] - 1) / 2;
-					if (isset($data[$i + 1]) && $data[$i + 1][$model][$right] < $row[$right]) {
+					if (isset($data[$i + 1]) && $data[$i + 1][$right] < $row[$right]) {
 						$hasVisibleChildren = true;
 					}
 				}
-				if (!isset($data[$i - 1]) || ($data[$i - 1][$model][$left] == ($row[$left] - 1))) {
+				if (!isset($data[$i - 1]) || ($data[$i - 1][$left] == ($row[$left] - 1))) {
 					$firstChild = true;
 				}
 				if (!isset($data[$i + 1]) || ($stack && $stack[count($stack) - 1] == ($row[$right] + 1))) {
@@ -228,9 +234,9 @@ class TreeHelper extends AppHelper {
 
 			$activePathElement = null;
 			if ($autoPath) {
-				if ($result[$model][$left] <= $autoPath[0] && $result[$model][$right] >= $autoPath[1]) {
+				if ($result[$left] <= $autoPath[0] && $result[$right] >= $autoPath[1]) {
 					$activePathElement = true;
-				} elseif (isset($autoPath[3]) && $result[$model][$left] == $autoPath[0]) {
+				} elseif (isset($autoPath[3]) && $result[$left] == $autoPath[0]) {
 					$activePathElement = $autoPath[3];
 				} else {
 					$activePathElement = false;
@@ -525,17 +531,20 @@ class TreeHelper extends AppHelper {
 		extract($this->_config);
 		$siblingIsActive = false;
 		foreach ($tree as $key => &$subTree) {
+			if (is_object($subTree)) {
+				$subTree = $subTree->toArray();
+			}
 			if (!isset($subTree['children'])) {
 				throw new CakeException('Only workes with threaded (nested children) results');
 			}
 
-			if (!empty($path[$level]) && $subTree[$model]['id'] == $path[$level][$model]['id']) {
-				$subTree[$model]['show'] = 1;
+			if (!empty($path[$level]) && $subTree['id'] == $path[$level]['id']) {
+				$subTree['show'] = 1;
 				$siblingIsActive = true;
 			}
-			if (!empty($subTree[$model]['show'])) {
+			if (!empty($subTree['show'])) {
 				foreach ($subTree['children'] as &$v) {
-					$v[$model]['parent_show'] = 1;
+					$v['parent_show'] = 1;
 				}
 			}
 			if (is_numeric($hideUnrelated) && $hideUnrelated > $level) {
@@ -543,8 +552,8 @@ class TreeHelper extends AppHelper {
 			}
 		}
 		foreach ($tree as $key => &$subTree) {
-			if ($level && !$siblingIsActive && !isset($subTree[$model]['parent_show'])) {
-				$subTree[$model]['hide'] = 1;
+			if ($level && !$siblingIsActive && !isset($subTree['parent_show'])) {
+				$subTree['hide'] = 1;
 			}
 			$this->_markUnrelatedAsHidden($subTree['children'], $path, $level + 1);
 		}
