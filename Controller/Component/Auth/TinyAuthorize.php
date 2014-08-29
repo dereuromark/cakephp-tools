@@ -52,13 +52,13 @@ class TinyAuthorize extends BaseAuthorize {
 	 * TinyAuthorize::__construct()
 	 *
 	 * @param ComponentCollection $Collection
-	 * @param array $config
+	 * @param array $settings
 	 */
-	public function __construct(ComponentCollection $Collection, $config = array()) {
-		$config += $this->_defaultConfig;
-		parent::__construct($Collection, $config);
+	public function __construct(ComponentCollection $Collection, $settings = array()) {
+		$settings += $this->_defaultConfig;
+		parent::__construct($Collection, $settings);
 
-		if (Cache::config($config['cache']) === false) {
+		if (Cache::config($settings['cache']) === false) {
 			throw new CakeException(__d('dev', 'TinyAuth could not find `%s` cache - expects at least a `default` cache', $settings['cache']));
 		}
 	}
