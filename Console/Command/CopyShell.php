@@ -605,6 +605,7 @@ class CopyShell extends AppShell {
 	 *
 	 * @param string $config name
 	 * @param array $content
+	 * @return array
 	 */
 	protected function getConfig($config, $content) {
 		$configs = array();
@@ -640,66 +641,66 @@ class CopyShell extends AppShell {
 				/*
 				'plugin' => array(
 					'short' => 'g',
-					'help' => __d('cake_console', 'The plugin to update. Only the specified plugin will be updated.'),
+					'help' => 'The plugin to update. Only the specified plugin will be updated.'),
 					'default' => ''
 				),
 				'dry-run'=> array(
 					'short' => 'd',
-					'help' => __d('cake_console', 'Dry run the update, no files will actually be modified.'),
+					'help' => 'Dry run the update, no files will actually be modified.'),
 					'boolean' => true
 				),
 				'log'=> array(
 					'short' => 'l',
-					'help' => __d('cake_console', 'Log all ouput to file log.txt in TMP dir'),
+					'help' => 'Log all ouput to file log.txt in TMP dir'),
 					'boolean' => true
 				),
 				*/
 				'silent' => array(
 					'short' => 's',
-					'help' => __d('cake_console', 'Silent mode (no beep sound)'),
+					'help' => 'Silent mode (no beep sound)',
 					'boolean' => true
 				),
 				'vendors' => array(
 					'short' => 'e',
-					'help' => __d('cake_console', 'ROOT/vendor'),
+					'help' => 'ROOT/vendor',
 					'boolean' => true
 				),
 				'cake' => array(
 					'short' => 'c',
-					'help' => __d('cake_console', 'ROOT/lib/Cake'),
+					'help' => 'ROOT/lib/Cake',
 					'boolean' => true
 				),
 				'app' => array(
 					'short' => 'a',
-					'help' => __d('cake_console', 'ROOT/app'),
+					'help' => 'ROOT/app',
 					'boolean' => true
 				),
 				'plugins' => array(
 					'short' => 'p',
-					'help' => __d('cake_console', 'ROOT/plugin'),
+					'help' => 'ROOT/plugin',
 					'boolean' => true
 				),
 				'custom' => array(
 					'short' => 'u',
-					'help' => __d('cake_console', 'custom'),
+					'help' => 'Custom path',
 					'boolean' => true
 				),
 				'force' => array(
 					'short' => 'f',
-					'help' => __d('cake_console', 'force (keep going regardless of errors)'),
+					'help' => 'Force (keep going regardless of errors)',
 					'boolean' => true
 				),
 				'debug' => array(
-					'help' => __d('cake_console', 'Debug output only'),
+					'help' => 'Debug output only',
 					'boolean' => true
 				)
 			)
 		);
 
 		return parent::getOptionParser()
-			->description(__d('cake_console', "A shell to quickly upload modified files (diff) only."))
+			->description("A shell to quickly upload modified files (diff) only.")
 			->addSubcommand('run', array(
-				'help' => __d('cake_console', 'Update'),
+				'help' => 'Update',
 				'parser' => $subcommandParser
 			));
 	}

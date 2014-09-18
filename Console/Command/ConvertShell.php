@@ -48,10 +48,10 @@ class ConvertShell extends AppShell {
 		$this->binPath = Configure::read('Cli.dos2unixPath');
 
 		if ($this->params['dry-run']) {
-			$this->out(__d('cake_console', '<warning>Dry-run mode enabled!</warning>'), 1, Shell::QUIET);
+			$this->out('<warning>Dry-run mode enabled!</warning>', 1, Shell::QUIET);
 		}
 		if (false && !$this->_test()) {
-			$this->out(__d('cake_console', '<warning>dos2unix not available</warning>'), 1, Shell::QUIET);
+			$this->out('<warning>dos2unix not available</warning>', 1, Shell::QUIET);
 		}
 	}
 
@@ -155,22 +155,22 @@ class ConvertShell extends AppShell {
 			'options' => array(
 				'mode' => array(
 					'short' => 'm',
-					'help' => __d('cake_console', 'Mode'),
+					'help' => 'Mode',
 					'default' => '' # auto detect
 				),
 				'ext' => array(
 					'short' => 'e',
-					'help' => __d('cake_console', 'Specify extensions [php|txt|...]'),
+					'help' => 'Specify extensions [php|txt|...]',
 					'default' => '',
 				),
 				'dry-run' => array(
 					'short' => 'd',
-					'help' => __d('cake_console', 'Dry run the clear command, no files will actually be deleted. Should be combined with verbose!'),
+					'help' => 'Dry run the clear command, no files will actually be deleted. Should be combined with verbose!',
 					'boolean' => true
 				),
 				'exclude' => array(
 					'short' => 'x',
-					'help' => __d('cake_console', 'exclude the following files or folders'),
+					'help' => 'Exclude the following files or folders',
 					'boolean' => true,
 					'default' => ''
 				)
@@ -178,13 +178,13 @@ class ConvertShell extends AppShell {
 		);
 
 		return parent::getOptionParser()
-			->description(__d('cake_console', "The Convert Shell converts files from dos/unix/mac to another system"))
+			->description("The Convert Shell converts files from dos/unix/mac to another system")
 			->addSubcommand('version', array(
-				'help' => __d('cake_console', 'Test and display version.'),
+				'help' => 'Test and display version.',
 				'parser' => $subcommandParser
 			))
 			->addSubcommand('folder', array(
-				'help' => __d('cake_console', 'Convert folder recursivly (Tools.Convert folder [options] [path])'),
+				'help' => 'Convert folder recursivly (Tools.Convert folder [options] [path])',
 				'parser' => $subcommandParser
 			));
 	}

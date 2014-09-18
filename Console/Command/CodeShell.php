@@ -35,11 +35,11 @@ class CodeShell extends AppShell {
 
 		$this->_findFiles('php');
 		foreach ($this->_files as $file) {
-			$this->out(__d('cake_console', 'Updating %s...', $file), 1, Shell::VERBOSE);
+			$this->out(sprintf('Updating %s...', $file), 1, Shell::VERBOSE);
 
 			$this->_correctFile($file);
 
-			$this->out(__d('cake_console', 'Done updating %s', $file), 1, Shell::VERBOSE);
+			$this->out(sprintf('Done updating %s', $file), 1, Shell::VERBOSE);
 		}
 	}
 
@@ -168,7 +168,7 @@ class CodeShell extends AppShell {
 
 		if (empty($this->params['dry-run'])) {
 			file_put_contents($file, $fileContent);
-			$this->out(__d('cake_console', 'Correcting %s', $file), 1, Shell::VERBOSE);
+			$this->out(sprintf('Correcting %s', $file), 1, Shell::VERBOSE);
 		}
 	}
 
@@ -206,7 +206,7 @@ class CodeShell extends AppShell {
 	protected function _filesRegexpUpdate($patterns) {
 		$this->_findFiles($this->params['ext']);
 		foreach ($this->_files as $file) {
-			$this->out(__d('cake_console', 'Updating %s...', $file), 1, Shell::VERBOSE);
+			$this->out(sprintf('Updating %s...', $file), 1, Shell::VERBOSE);
 			$this->_utf8File($file, $patterns);
 		}
 	}
@@ -267,11 +267,11 @@ class CodeShell extends AppShell {
 		$contents = $fileContent = file_get_contents($file);
 
 		foreach ($patterns as $pattern) {
-			$this->out(__d('cake_console', ' * Updating %s', $pattern[0]), 1, Shell::VERBOSE);
+			$this->out(sprintf(' * Updating %s', $pattern[0]), 1, Shell::VERBOSE);
 			$contents = preg_replace($pattern[1], $pattern[2], $contents);
 		}
 
-		$this->out(__d('cake_console', 'Done updating %s', $file), 1, Shell::VERBOSE);
+		$this->out(sprintf('Done updating %s', $file), 1, Shell::VERBOSE);
 		if (!$this->params['dry-run'] && $contents !== $fileContent) {
 			if (file_exists($file)) {
 				unlink($file);
@@ -288,45 +288,45 @@ class CodeShell extends AppShell {
 			'options' => array(
 				'plugin' => array(
 					'short' => 'p',
-					'help' => __d('cake_console', 'The plugin to update. Only the specified plugin will be updated.'),
+					'help' => 'The plugin to update. Only the specified plugin will be updated.',
 					'default' => ''
 				),
 				'custom' => array(
 					'short' => 'c',
-					'help' => __d('cake_console', 'Custom path to update recursivly.'),
+					'help' => 'Custom path to update recursivly.',
 					'default' => ''
 				),
 				'ext' => array(
 					'short' => 'e',
-					'help' => __d('cake_console', 'The extension(s) to search. A pipe delimited list, or a preg_match compatible subpattern'),
+					'help' => 'The extension(s) to search. A pipe delimited list, or a preg_match compatible subpattern',
 					'default' => 'php|ctp|thtml|inc|tpl'
 				),
 				'vendor' => array(
 					'short' => 'e',
-					'help' => __d('cake_console', 'Include vendor files, as well'),
+					'help' => 'Include vendor files, as well',
 					'boolean' => true
 				),
 				'dry-run' => array(
 					'short' => 'd',
-					'help' => __d('cake_console', 'Dry run the update, no files will actually be modified.'),
+					'help' => 'Dry run the update, no files will actually be modified.',
 					'boolean' => true
 				)
 			)
 		);
 
 		return parent::getOptionParser()
-			->description(__d('cake_console', "A shell to help automate code cleanup. \n" .
-				"Be sure to have a backup of your application before running these commands."))
+			->description("A shell to help automate code cleanup. \n" .
+				"Be sure to have a backup of your application before running these commands.")
 			->addSubcommand('group', array(
-				'help' => __d('cake_console', 'Run multiple commands.'),
+				'help' => 'Run multiple commands.',
 				'parser' => $subcommandParser
 			))
 			->addSubcommand('dependencies', array(
-				'help' => __d('cake_console', 'Correct dependencies'),
+				'help' => 'Correct dependencies',
 				'parser' => $subcommandParser
 			))
 			->addSubcommand('utf8', array(
-				'help' => __d('cake_console', 'Make files utf8 compliant'),
+				'help' => 'Make files utf8 compliant',
 				'parser' => $subcommandParser
 			));
 	}

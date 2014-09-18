@@ -327,41 +327,41 @@ class IndentShell extends AppShell {
 			'options' => array(
 				'dry-run' => array(
 					'short' => 'd',
-					'help' => __d('cake_console', 'Dry run the update, no files will actually be modified.'),
+					'help' => 'Dry run the update, no files will actually be modified.',
 					'boolean' => true
 				),
 				'log' => array(
 					'short' => 'l',
-					'help' => __d('cake_console', 'Log all ouput to file log.txt in TMP dir'),
+					'help' => 'Log all ouput to file log.txt in TMP dir',
 					'boolean' => true
 				),
 				'interactive' => array(
 					'short' => 'i',
-					'help' => __d('cake_console', 'Interactive'),
+					'help' => 'Interactive',
 					'boolean' => true
 				),
 				'spaces' => array(
 					'short' => 's',
-					'help' => __d('cake_console', 'Spaces per Tab'),
+					'help' => 'Spaces per Tab',
 					'default' => '4',
 				),
 				'extensions' => array(
 					'short' => 'e',
-					'help' => __d('cake_console', 'Extensions (comma-separated)'),
+					'help' => 'Extensions (comma-separated)',
 					'default' => '',
 				),
 				'again' => array(
 					'short' => 'a',
-					'help' => __d('cake_console', 'Again (with half) afterwards'),
+					'help' => 'Again (with half) afterwards',
 					'boolean' => true
 				),
 			)
 		);
 
 		return parent::getOptionParser()
-			->description(__d('cake_console', "Correct indentation of files"))
+			->description("Correct indentation of files")
 			->addSubcommand('folder', array(
-				'help' => __d('cake_console', 'Indent all files in a folder'),
+				'help' => 'Indent all files in a folder',
 				'parser' => $subcommandParser
 			));
 	}

@@ -152,31 +152,31 @@ class WhitespaceShell extends AppShell {
 			'options' => array(
 				'ext' => array(
 					'short' => 'e',
-					'help' => __d('cake_console', 'Specify extensions [php|txt|...]'),
+					'help' => 'Specify extensions [php|txt|...]'),
 					'default' => '',
 				),
 				'dry-run' => array(
 					'short' => 'd',
-					'help' => __d('cake_console', 'Dry run the clear command, no files will actually be deleted. Should be combined with verbose!'),
+					'help' => 'Dry run the clear command, no files will actually be deleted. Should be combined with verbose!'),
 					'boolean' => true
 				),
 				'plugin' => array(
 					'short' => 'p',
-					'help' => __d('cake_console', 'Plugin'),
+					'help' => 'Plugin'),
 					'default' => '',
 				),
 			)
 		);
 
 		return parent::getOptionParser()
-			->description(__d('cake_console', 'The Whitespace Shell removes uncessary/wrong whitespaces.
+			->description('The Whitespace Shell removes uncessary/wrong whitespaces.
 Either provide a path as first argument, use -p PluginName or run it as it is for the complete APP dir.'))
 			->addSubcommand('find', array(
-				'help' => __d('cake_console', 'Detect any leading/trailing whitespaces'),
+				'help' => 'Detect any leading/trailing whitespaces'),
 				'parser' => $subcommandParser
 			))
 			->addSubcommand('eof', array(
-				'help' => __d('cake_console', 'Fix whitespaces at the end of PHP files (a single newline as per coding standards)'),
+				'help' => 'Fix whitespaces at the end of PHP files (a single newline as per coding standards)'),
 				'parser' => $subcommandParser
 			));
 	}

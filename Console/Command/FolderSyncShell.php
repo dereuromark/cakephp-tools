@@ -167,46 +167,46 @@ class FolderSyncShell extends AppShell {
 			'options' => array(
 				'source' => array(
 					'short' => 's',
-					'help' => __d('cake_console', 'source - defaults to app'),
+					'help' => 'source - defaults to app',
 					'default' => '',
 				),
 				'target' => array(
 					'short' => 't',
-					'help' => __d('cake_console', 'target - required'),
+					'help' => 'target - required',
 					'default' => '',
 				),
 				'plugin' => array(
 					'short' => 'p',
-					'help' => __d('cake_console', 'The plugin folder - can only be used with app as source'),
+					'help' => 'The plugin folder - can only be used with app as source',
 					'default' => '',
 				),
 				'remove' => array(
 					'short' => 'r',
-					'help' => __d('cake_console', 'Remove files if source is non-existent'),
+					'help' => 'Remove files if source is non-existent',
 					'boolean' => true
 				),
 				'invert' => array(
 					'short' => 'i',
-					'help' => __d('cake_console', 'Invert direction (target to source)'),
+					'help' => 'Invert direction (target to source)',
 					'boolean' => true
 				),
 				'dry-run' => array(
 					'short' => 'd',
-					'help' => __d('cake_console', 'Dry run the update, no files will actually be modified.'),
+					'help' => 'Dry run the update, no files will actually be modified.',
 					'boolean' => true
 				),
 				'log' => array(
 					'short' => 'l',
-					'help' => __d('cake_console', 'Log all ouput to file log.txt in TMP dir'),
+					'help' => 'Log all ouput to file log.txt in TMP dir',
 					'boolean' => true
 				),
 			)
 		);
 
 		return parent::getOptionParser()
-			->description(__d('cake_console', "..."))
+			->description('Sync folders via CakePHP shell')
 			->addSubcommand('update', array(
-				'help' => __d('cake_console', 'Update'),
+				'help' => 'Update',
 				'parser' => $subcommandParser
 			));
 	}

@@ -120,17 +120,17 @@ class EncodingShell extends AppShell {
 			'options' => array(
 				'ext' => array(
 					'short' => 'e',
-					'help' => __d('cake_console', 'Specify extensions [php|txt|...] - defaults to [php].'),
+					'help' => 'Specify extensions [php|txt|...] - defaults to [php].',
 					'default' => '',
 				),
 				'dry-run' => array(
 					'short' => 'd',
-					'help' => __d('cake_console', 'Dry run the command, no files will actually be modified. Should be combined with verbose.'),
+					'help' => 'Dry run the command, no files will actually be modified. Should be combined with verbose.',
 					'boolean' => true
 				),
 				'exclude' => array(
 					'short' => 'x',
-					'help' => __d('cake_console', 'exclude the following files'),
+					'help' => 'Exclude the following files',
 					'boolean' => true,
 					'default' => ''
 				)
@@ -138,9 +138,9 @@ class EncodingShell extends AppShell {
 		);
 
 		return parent::getOptionParser()
-			->description(__d('cake_console', 'The %sShell finds BOM files and can correct them.', $this->name))
+			->description(sprintf('The %sShell finds BOM files and can correct them.', $this->name))
 			->addSubcommand('folder', array(
-				'help' => __d('cake_console', 'Search and correct folder recursivly.'),
+				'help' => 'Search and correct folder recursivly.',
 				'parser' => $subcommandParser
 			));
 	}
