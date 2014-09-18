@@ -147,22 +147,27 @@ class WhitespaceShell extends AppShell {
 		$this->out('Done');
 	}
 
+	/**
+	 * WhitespaceShell::getOptionParser()
+	 *
+	 * @return ConsoleOptionParser
+	 */
 	public function getOptionParser() {
 		$subcommandParser = array(
 			'options' => array(
 				'ext' => array(
 					'short' => 'e',
-					'help' => 'Specify extensions [php|txt|...]'),
+					'help' => 'Specify extensions [php|txt|...]',
 					'default' => '',
 				),
 				'dry-run' => array(
 					'short' => 'd',
-					'help' => 'Dry run the clear command, no files will actually be deleted. Should be combined with verbose!'),
+					'help' => 'Dry run the clear command, no files will actually be deleted. Should be combined with verbose!',
 					'boolean' => true
 				),
 				'plugin' => array(
 					'short' => 'p',
-					'help' => 'Plugin'),
+					'help' => 'Plugin',
 					'default' => '',
 				),
 			)
@@ -170,13 +175,13 @@ class WhitespaceShell extends AppShell {
 
 		return parent::getOptionParser()
 			->description('The Whitespace Shell removes uncessary/wrong whitespaces.
-Either provide a path as first argument, use -p PluginName or run it as it is for the complete APP dir.'))
+Either provide a path as first argument, use -p PluginName or run it as it is for the complete APP dir.')
 			->addSubcommand('find', array(
-				'help' => 'Detect any leading/trailing whitespaces'),
+				'help' => 'Detect any leading/trailing whitespaces',
 				'parser' => $subcommandParser
 			))
 			->addSubcommand('eof', array(
-				'help' => 'Fix whitespaces at the end of PHP files (a single newline as per coding standards)'),
+				'help' => 'Fix whitespaces at the end of PHP files (a single newline as per coding standards)',
 				'parser' => $subcommandParser
 			));
 	}

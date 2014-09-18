@@ -4,7 +4,7 @@ App::uses('Folder', 'Utility');
 App::uses('File', 'Utility');
 
 if (!defined('LF')) {
-	define('LF', PHP_EOL); # use PHP to detect default linebreak
+	define('LF', PHP_EOL); // Use PHP to detect default linebreak
 }
 
 /**
