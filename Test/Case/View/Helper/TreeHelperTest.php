@@ -57,10 +57,20 @@ class TreeHelperTest extends MyCakeTestCase {
 		parent::tearDown();
 	}
 
+	/**
+	 * TreeHelperTest::testObject()
+	 *
+	 * @return void
+	 */
 	public function testObject() {
 		$this->assertInstanceOf('TreeHelper', $this->Tree);
 	}
 
+	/**
+	 * TreeHelperTest::testGenerate()
+	 *
+	 * @return void
+	 */
 	public function testGenerate() {
 		$tree = $this->Model->find('threaded');
 
@@ -101,8 +111,11 @@ TEXT;
 		$this->assertTrue(substr_count($output, '<li>') === substr_count($output, '</li>'));
 	}
 
-	//TODO: beautify debug output
-
+	/**
+	 * TreeHelperTest::testGenerateWithFindAll()
+	 *
+	 * @return void
+	 */
 	public function testGenerateWithFindAll() {
 		$tree = $this->Model->find('all', array('order' => array('lft' => 'ASC')));
 
@@ -143,6 +156,11 @@ TEXT;
 		$this->assertTextEquals($expected, $output);
 	}
 
+	/**
+	 * TreeHelperTest::testGenerateWithDepth()
+	 *
+	 * @return void
+	 */
 	public function testGenerateWithDepth() {
 		$tree = $this->Model->find('threaded');
 
@@ -180,6 +198,11 @@ TEXT;
 		$this->assertTextEquals($expected, $output);
 	}
 
+	/**
+	 * TreeHelperTest::testGenerateWithSettings()
+	 *
+	 * @return void
+	 */
 	public function testGenerateWithSettings() {
 		$tree = $this->Model->find('threaded');
 
@@ -217,6 +240,11 @@ TEXT;
 		$this->assertTextEquals($expected, $output);
 	}
 
+	/**
+	 * TreeHelperTest::testGenerateWithMaxDepth()
+	 *
+	 * @return void
+	 */
 	public function testGenerateWithMaxDepth() {
 		$tree = $this->Model->find('threaded');
 
@@ -250,6 +278,11 @@ TEXT;
 		$this->assertTextEquals($expected, $output);
 	}
 
+	/**
+	 * TreeHelperTest::testGenerateWithAutoPath()
+	 *
+	 * @return void
+	 */
 	public function testGenerateWithAutoPath() {
 		$tree = $this->Model->find('threaded');
 		//debug($tree);
@@ -459,12 +492,16 @@ TEXT;
 		return $data['data']['AfterTree']['name'] . ($data['activePathElement'] ? ' (active)' : '');
 	}
 
+	/**
+	 * TreeHelperTest::testGenerateProductive()
+	 *
+	 * @return void
+	 */
 	public function testGenerateProductive() {
 		$tree = $this->Model->find('threaded');
 
-		$expected = '<ul><li>One<ul><li>One-SubA</li></ul></li><li>Two<ul><li>Two-SubA<ul><li>Two-SubA-1<ul><li>Two-SubA-1-1</li></ul></li></ul></li></ul></li><li>Three</li><li>Four<ul><li>Four-SubA</li></ul></li></ul>';
-
 		$output = $this->Tree->generate($tree, array('indent' => false));
+		$expected = '<ul><li>One<ul><li>One-SubA</li></ul></li><li>Two<ul><li>Two-SubA<ul><li>Two-SubA-1<ul><li>Two-SubA-1-1</li></ul></li></ul></li></ul></li><li>Three</li><li>Four<ul><li>Four-SubA</li></ul></li></ul>';
 
 		$this->assertTextEquals($expected, $output);
 	}
