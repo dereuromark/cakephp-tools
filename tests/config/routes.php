@@ -3,7 +3,7 @@ namespace Tools\Test\App\Config;
 
 use Cake\Routing\Router;
 
-//Router::extensions(['json']);
+//Router::extensions(['rss']);
 
 Router::scope('/', function($routes) {
 	$routes->extensions(['rss']);
