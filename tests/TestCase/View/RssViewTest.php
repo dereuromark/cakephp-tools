@@ -360,7 +360,7 @@ RSS;
 		$Request = new Request();
 		$Response = new Response();
 
-		$url = array('controller' => 'topics', 'action' => 'feed', 'ext' => 'rss');
+		$url = array('controller' => 'topics', 'action' => 'feed', '_ext' => 'rss');
 		$data = array(
 			'channel' => array(
 				'title' => 'Channel title',
@@ -422,7 +422,7 @@ RSS;
 					'category' => 'Internet'),
 				array('title' => 'Title Two', 'link' => array('controller' => 'foo', 'action' => 'bar'), 'description' => 'Content two',
 					'category' => array('News', 'Tutorial'),
-					'comments' => array('controller' => 'foo', 'action' => 'bar', 'ext' => 'rss')),
+					'comments' => array('controller' => 'foo', 'action' => 'bar', '_ext' => 'rss')),
 			)
 		);
 		$viewVars = array('channel' => $data, '_serialize' => 'channel');
