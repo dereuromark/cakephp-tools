@@ -10,12 +10,20 @@ define('CAKE_CORE_INCLUDE_PATH', ROOT . '/vendor/cakephp/cakephp');
 define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
 define('CAKE', CORE_PATH . APP_DIR . DS);
 
+define('WWW_ROOT', ROOT . DS . 'webroot' . DS);
+define('CONFIG', dirname(__FILE__) . DS . 'config' . DS);
+
 require ROOT . '/vendor/cakephp/cakephp/src/basics.php';
 require ROOT . '/vendor/autoload.php';
 
-Cake\Core\Configure::write('App', ['namespace' => 'App']);
+Cake\Core\Configure::write('App', [
+		'namespace' => 'App',
+		'encoding' => 'UTF-8']);
+Cake\Core\Configure::write('debug', true);
 
-$Tmp = new \Cake\Utility\Folder(TMP);
+mb_internal_encoding('UTF-8');
+
+$Tmp = new \Cake\Filesystem\Folder(TMP);
 $Tmp->create(TMP . 'cache/models', 0770);
 $Tmp->create(TMP . 'cache/persistent', 0770);
 $Tmp->create(TMP . 'cache/views', 0770);

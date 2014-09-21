@@ -2,7 +2,7 @@
 namespace Tools\Console\Command;
 
 use Cake\Console\Shell;
-use Cake\Utility\Folder;
+use Cake\Filesystem\Folder;
 use Cake\Utility\Inflector;
 use Cake\Core\Plugin;
 
