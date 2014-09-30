@@ -92,15 +92,12 @@ public $helpers = array('Tools.Foo'); // Adding FooHelper
 You can test using a local installation of phpunit or the phar version of it:
 
 	cd Plugin/Tools
-	phpunit --stderr
+	composer update
+	phpunit
 
 To test a specific file:
 
-	phpunit --stderr /path/to/class.php
-
-### License
-Licensed under [The MIT License](http://www.opensource.org/licenses/mit-license.php)
-unless specified otherwise (in the classes).
+	phpunit /path/to/class.php
 
 ### TODOs
 
