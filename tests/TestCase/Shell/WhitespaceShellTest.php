@@ -1,7 +1,7 @@
 <?php
-namespace Tools\Test\TestCase\Console\Command;
+namespace Tools\Test\TestCase\Shell;
 
-use Tools\Console\Command\WhitespaceShell;
+use Tools\Shell\WhitespaceShell;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOutput;
 use Cake\Console\Shell;
@@ -38,7 +38,7 @@ class WhitespaceShellTest extends TestCase {
 		$io = new ConsoleIo($this->out);
 
 		$this->Shell = $this->getMock(
-			'Tools\Console\Command\WhitespaceShell',
+			'Tools\Shell\WhitespaceShell',
 			['in', 'err', '_stop'],
 			[$io]
 		);

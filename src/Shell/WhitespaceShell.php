@@ -1,5 +1,5 @@
 <?php
-namespace Tools\Console\Command;
+namespace Tools\Shell;
 
 use Cake\Console\Shell;
 use Cake\Filesystem\Folder;
