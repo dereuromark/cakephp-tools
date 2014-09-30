@@ -13,7 +13,7 @@ use Cake\Core\Configure;
 
 class TreeHelperTest extends TestCase {
 
-	public $fixtures = array('core.after_tree');
+	public $fixtures = array('plugin.tools.after_trees');
 
 	public $Table;
 
