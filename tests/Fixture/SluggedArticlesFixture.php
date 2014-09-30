@@ -5,10 +5,8 @@ namespace Tools\Test\Fixture;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * Class SluggedArticleFixture
- *
  */
-class SluggedArticleFixture extends TestFixture {
+class SluggedArticlesFixture extends TestFixture {
 
 /**
  * fields property
