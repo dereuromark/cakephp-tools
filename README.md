@@ -1,15 +1,15 @@
 # CakePHP Tools Plugin
 
-A CakePHP 2.x Plugin containing several useful tools that can be used in many projects.
-This plugin requires PHP5.3+
-
-Please note: New functionality has been tested against 2.x (current master and dev) only. Please upgrade if possible.
-
 [![Build Status](https://api.travis-ci.org/dereuromark/cakephp-tools.png?branch=master)](https://travis-ci.org/dereuromark/cakephp-tools)
 [![Latest Stable Version](https://poser.pugx.org/dereuromark/cakephp-tools/v/stable.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
 [![Coverage Status](https://coveralls.io/repos/dereuromark/cakephp-tools/badge.png)](https://coveralls.io/r/dereuromark/cakephp-tools)
 [![License](https://poser.pugx.org/dereuromark/cakephp-tools/license.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
 [![Total Downloads](https://poser.pugx.org/dereuromark/tools-cakephp/d/total.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
+
+A CakePHP 2.x Plugin containing several useful tools that can be used in many projects.
+This plugin requires PHP5.3+
+
+Please note: New functionality has been tested against 2.x (current master and dev) only. Please upgrade if possible.
 
 ## How to include
 Installing the Plugin is pretty much as with every other CakePHP Plugin.
@@ -154,10 +154,6 @@ Older versions might be found in their respective branches (1.3, 2.0, 2.3, ...).
 Please provide PRs mainly against master branch then.
 
 For details on how to contribute please read the [CONTRIBUTING page](CONTRIBUTING.md).
-
-### License
-Licensed under [The MIT License](http://www.opensource.org/licenses/mit-license.php)
-unless specified otherwise (in the classes).
 
 ### TODOs
 
