@@ -17,8 +17,9 @@ use Cake\Network\Response;
 use Cake\View\View;
 use Cake\Utility\Xml;
 use Cake\I18n\Time;
-use App\Router\Routing;
 use Cake\Utility\Hash;
+use Cake\Event\EventManager;
+use App\Router\Routing;
 
 /**
  * A view class that is used for creating RSS feeds.
