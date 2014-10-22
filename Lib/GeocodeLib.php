@@ -61,7 +61,8 @@ class GeocodeLib {
 	 */
 	public $options = array(
 		'log' => false,
-		'pause' => 10000, # in ms
+		'pause' => 10000, # in microseconds (10000 = 0.01 seconds)
+		'repeats' => 5, # if over limits, how many times to repeat
 		'min_accuracy' => self::ACC_COUNTRY,
 		'allow_inconclusive' => true,
 		'expect' => array(), # see accuracyTypes for details
@@ -81,6 +82,7 @@ class GeocodeLib {
 		//'key' => '' # not necessary anymore
 	);
 
+	public $reachedQueryLimit = false;
 	protected $error = array();
 	protected $debug = array();
 
@@ -167,6 +169,7 @@ class GeocodeLib {
 	public function reset($full = true) {
 		$this->error = array();
 		$this->result = null;
+		$this->reachedQueryLimit = false;
 		if (empty($full)) {
 			return;
 		}
@@ -236,6 +239,10 @@ class GeocodeLib {
 	 * @return bool Success
 	 */
 	public function geocode($address, $params = array()) {
+		if ($this->reachedQueryLimit) {
+			$this->setError('Over Query Limit - abort');
+			return false;
+		}
 		$this->reset(false);
 		$this->_setDebug('geocode', compact('address', 'params'));
 		$params = array('address' => $address) + $params;
@@ -298,11 +305,12 @@ class GeocodeLib {
 				return false; # for now...
 			}
 
-			if ($count > 5) {
+			if ($count > $this->options['repeats']) {
 				if ($this->options['log']) {
 					CakeLog::write('geocode', __('Aborted after too many trials with \'%s\'', $address));
 				}
 				$this->setError('Too many trials - abort');
+				$this->reachedQueryLimit = true;
 				return false;
 			}
 			$this->pause(true);
@@ -320,6 +328,10 @@ class GeocodeLib {
 	 * @return bool Success
 	 */
 	public function reverseGeocode($lat, $lng, $params = array()) {
+		if ($this->reachedQueryLimit) {
+			$this->setError('Over Query Limit - abort');
+			return false;
+		}
 		$this->reset(false);
 		$this->_setDebug('reverseGeocode', compact('lat', 'lng', 'params'));
 		$latlng = $lat . ',' . $lng;
@@ -373,11 +385,12 @@ class GeocodeLib {
 				}
 				return false; # for now...
 			}
-			if ($count > 5) {
+			if ($count > $this->options['repeats']) {
 				if ($this->options['log']) {
 					CakeLog::write('geocode', __('Aborted after too many trials with \'%s\'', $latlng));
 				}
 				$this->setError(__('Too many trials - abort'));
+				$this->reachedQueryLimit = true;
 				return false;
 			}
 			$this->pause(true);
