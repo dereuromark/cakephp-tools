@@ -61,8 +61,8 @@ class GeocodeLib {
 	 */
 	public $options = array(
 		'log' => false,
-		'pause' => 10000, # in microseconds (10000 = 0.01 seconds)
-		'repeats' => 5, # if over limits, how many times to repeat
+		'pause' => 2000000, # in microseconds (2000000 = 2 seconds = recommended by Google)
+		'repeat' => 2, # if over limits, how many times to repeat
 		'min_accuracy' => self::ACC_COUNTRY,
 		'allow_inconclusive' => true,
 		'expect' => array(), # see accuracyTypes for details
@@ -305,7 +305,7 @@ class GeocodeLib {
 				return false; # for now...
 			}
 
-			if ($count > $this->options['repeats']) {
+			if ($count > $this->options['repeat']) {
 				if ($this->options['log']) {
 					CakeLog::write('geocode', __('Aborted after too many trials with \'%s\'', $address));
 				}
@@ -385,7 +385,7 @@ class GeocodeLib {
 				}
 				return false; # for now...
 			}
-			if ($count > $this->options['repeats']) {
+			if ($count > $this->options['repeat']) {
 				if ($this->options['log']) {
 					CakeLog::write('geocode', __('Aborted after too many trials with \'%s\'', $latlng));
 				}
