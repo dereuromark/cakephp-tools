@@ -220,13 +220,9 @@ class GeocodeLib {
 
 	/**
 	 * Trying to avoid "TOO_MANY_QUERIES" error
-	 * @param bool $raise If the pause length should be raised
 	 */
-	public function pause($raise = false) {
+	public function pause() {
 		usleep($this->options['pause']);
-		if ($raise) {
-			$this->options['pause'] += 10000;
-		}
 	}
 
 	/**
@@ -313,7 +309,7 @@ class GeocodeLib {
 				$this->reachedQueryLimit = true;
 				return false;
 			}
-			$this->pause(true);
+			$this->pause();
 		}
 
 		return true;
@@ -393,7 +389,7 @@ class GeocodeLib {
 				$this->reachedQueryLimit = true;
 				return false;
 			}
-			$this->pause(true);
+			$this->pause();
 		}
 
 		return true;
