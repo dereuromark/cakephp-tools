@@ -517,6 +517,10 @@ class GeocodeLib {
 		if (!is_array($record)) {
 			$record = json_decode($record, true);
 		}
+		if (empty($record['results'])) {
+			$record['results'] = array();
+			return $record;
+		}
 		$record['results'] = $this->_transformData($record['results']);
 		return $record;
 	}
@@ -565,6 +569,9 @@ class GeocodeLib {
 	 * @return array record organized & normalized
 	 */
 	protected function _transformData($record) {
+		if (!is_array($record)) {
+			return array();
+		}
 		if (!array_key_exists('address_components', $record)) {
 			foreach (array_keys($record) as $key) {
 				$record[$key] = $this->_transformData($record[$key]);
