@@ -105,10 +105,6 @@ class MyErrorHandler extends ErrorHandler {
 			return false;
 		}
 
-		if (Configure::read('debug')) {
-			return false;
-		}
-
 		if (ob_get_level()) {
 			ob_end_clean();
 		}
