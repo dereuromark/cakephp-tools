@@ -22,8 +22,11 @@ App::uses('ModelBehavior', 'Model');
  * - "list" is useful as some kind of pseudo enums or simple lists
  * - "params" is useful for multiple key/value pairs
  * - can be used to create dynamic forms (and tables)
- *
  * Also automatically cleans lists and works with custom separators etc
+ *
+ * Tip: If you have other behaviors that might modify the array data prior to saving, better use a higher priority:
+ * public $actsAs = array('Tools.Jsonable' => array('priority' => 11, ...));
+ * So that it is run last.
  *
  * @link http://www.dereuromark.de/2011/07/05/introducing-two-cakephp-behaviors/
  */

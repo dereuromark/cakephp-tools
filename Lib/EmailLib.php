@@ -144,12 +144,14 @@ class EmailLib extends CakeEmail {
 	/**
 	 * Add an inline attachment from file
 	 *
+	 * Options:
+	 * - mimetype
+	 * - contentDisposition
+	 *
 	 * @param string $file: absolute path
 	 * @param string $filename (optional)
 	 * @param string $contentId (optional)
-	 * @param array $options
-	 * - mimetype
-	 * - contentDisposition
+	 * @param array $options Options
 	 * @return mixed resource $EmailLib or string $contentId
 	 */
 	public function addEmbeddedAttachment($file, $name = null, $contentId = null, $options = array()) {
@@ -176,12 +178,14 @@ class EmailLib extends CakeEmail {
 	/**
 	 * Add an inline attachment as blob
 	 *
+	 * Options:
+	 * - contentDisposition
+	 *
 	 * @param binary $content: blob data
 	 * @param string $filename to attach it
 	 * @param string $mimeType (leave it empty to get mimetype from $filename)
 	 * @param string $contentId (optional)
-	 * @param array $options
-	 * - contentDisposition
+	 * @param array $options Options
 	 * @return mixed resource $EmailLib or string $contentId
 	 */
 	public function addEmbeddedBlobAttachment($content, $filename, $mimeType = null, $contentId = null, $options = array()) {
