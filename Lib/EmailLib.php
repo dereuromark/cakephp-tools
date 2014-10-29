@@ -130,10 +130,14 @@ class EmailLib extends CakeEmail {
 	 * @param array $fileInfo
 	 * @return resource EmailLib
 	 */
-	public function addBlobAttachment($content, $name, $mimeType = null, $fileInfo = array()) {
+	public function addBlobAttachment($content, $filename, $mimeType = null, $fileInfo = array()) {
+		if ($mimeType === null) {
+			$ext = pathinfo($filename, PATHINFO_EXTENSION);
+			$mimeType = $this->_getMimeByExtension($ext);
+		}
 		$fileInfo['content'] = $content;
 		$fileInfo['mimetype'] = $mimeType;
-		$file = array($name => $fileInfo);
+		$file = array($filename => $fileInfo);
 		return $this->addAttachments($file);
 	}
 
@@ -180,11 +184,15 @@ class EmailLib extends CakeEmail {
 	 * - contentDisposition
 	 * @return mixed resource $EmailLib or string $contentId
 	 */
-	public function addEmbeddedBlobAttachment($content, $name, $mimeType = null, $contentId = null, $options = array()) {
+	public function addEmbeddedBlobAttachment($content, $filename, $mimeType = null, $contentId = null, $options = array()) {
+		if ($mimeType === null) {
+			$ext = pathinfo($filename, PATHINFO_EXTENSION);
+			$mimeType = $this->_getMimeByExtension($ext);
+		}
 		$options['content'] = $content;
 		$options['mimetype'] = $mimeType;
 		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', String::uuid()) . '@' . $this->_domain;
-		$file = array($name => $options);
+		$file = array($filename => $options);
 		$res = $this->addAttachments($file);
 		if ($contentId === null) {
 			return $options['contentId'];
@@ -219,12 +227,12 @@ class EmailLib extends CakeEmail {
 	 * @return string Mimetype
 	 */
 	protected function _getMime($filename) {
-		$mimetype = Utility::getMimeType($filename);
-		if (!$mimetype) {
+		$mimeType = Utility::getMimeType($filename);
+		if (!$mimeType) {
 			$ext = pathinfo($filename, PATHINFO_EXTENSION);
-			$mimetype = $this->_getMimeByExtension($ext);
+			$mimeType = $this->_getMimeByExtension($ext);
 		}
-		return $mimetype;
+		return $mimeType;
 	}
 
 	/**
