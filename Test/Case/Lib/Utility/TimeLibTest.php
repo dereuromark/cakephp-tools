@@ -1111,7 +1111,8 @@ class TimeLibTest extends MyCakeTestCase {
 		Configure::write('Config.timezone', 'Europe/Berlin');
 		date_default_timezone_set('Europe/Berlin');
 
-		$result = TimeLib::tzOffset(2 * HOUR, false);
+		$factor = date('I') ? 2 : 1;
+		$result = TimeLib::tzOffset($factor * HOUR, false);
 		$this->assertEquals(0, $result);
 
 		Configure::write('Config.timezone', $timezone);
