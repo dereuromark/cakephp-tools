@@ -324,6 +324,21 @@ class GeocodeLibTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * GeocodeLibTest::testGeocodeReachedQueryLimit()
+	 *
+	 * @return void
+	 */
+	public function testGeocodeReachedQueryLimit() {
+		$this->Geocode->reachedQueryLimit = true;
+		$address = 'Oranienburger Straße 87, 10178 Berlin, Deutschland';
+		$result = $this->Geocode->geocode($address);
+		$this->assertFalse($result);
+
+		$result = $this->Geocode->error();
+		$this->assertEquals('Over Query Limit - abort', $result);
+	}
+
+	/**
 	 * GeocodeLibTest::testGeocodeBadApiKey()
 	 *
 	 * @return void

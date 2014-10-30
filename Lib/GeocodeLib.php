@@ -61,7 +61,8 @@ class GeocodeLib {
 	 */
 	public $options = array(
 		'log' => false,
-		'pause' => 10000, # in ms
+		'pause' => 2000000, # in microseconds (2000000 = 2 seconds = recommended by Google)
+		'repeat' => 2, # if over limits, how many times to repeat
 		'min_accuracy' => self::ACC_COUNTRY,
 		'allow_inconclusive' => true,
 		'expect' => array(), # see accuracyTypes for details
@@ -81,6 +82,7 @@ class GeocodeLib {
 		//'key' => '' # not necessary anymore
 	);
 
+	public $reachedQueryLimit = false;
 	protected $error = array();
 	protected $debug = array();
 
@@ -167,6 +169,7 @@ class GeocodeLib {
 	public function reset($full = true) {
 		$this->error = array();
 		$this->result = null;
+		$this->reachedQueryLimit = false;
 		if (empty($full)) {
 			return;
 		}
@@ -217,13 +220,9 @@ class GeocodeLib {
 
 	/**
 	 * Trying to avoid "TOO_MANY_QUERIES" error
-	 * @param bool $raise If the pause length should be raised
 	 */
-	public function pause($raise = false) {
+	public function pause() {
 		usleep($this->options['pause']);
-		if ($raise) {
-			$this->options['pause'] += 10000;
-		}
 	}
 
 	/**
@@ -236,6 +235,10 @@ class GeocodeLib {
 	 * @return bool Success
 	 */
 	public function geocode($address, $params = array()) {
+		if ($this->reachedQueryLimit) {
+			$this->setError('Over Query Limit - abort');
+			return false;
+		}
 		$this->reset(false);
 		$this->_setDebug('geocode', compact('address', 'params'));
 		$params = array('address' => $address) + $params;
@@ -298,14 +301,15 @@ class GeocodeLib {
 				return false; # for now...
 			}
 
-			if ($count > 5) {
+			if ($count > $this->options['repeat']) {
 				if ($this->options['log']) {
 					CakeLog::write('geocode', __('Aborted after too many trials with \'%s\'', $address));
 				}
 				$this->setError('Too many trials - abort');
+				$this->reachedQueryLimit = true;
 				return false;
 			}
-			$this->pause(true);
+			$this->pause();
 		}
 
 		return true;
@@ -320,6 +324,10 @@ class GeocodeLib {
 	 * @return bool Success
 	 */
 	public function reverseGeocode($lat, $lng, $params = array()) {
+		if ($this->reachedQueryLimit) {
+			$this->setError('Over Query Limit - abort');
+			return false;
+		}
 		$this->reset(false);
 		$this->_setDebug('reverseGeocode', compact('lat', 'lng', 'params'));
 		$latlng = $lat . ',' . $lng;
@@ -373,14 +381,15 @@ class GeocodeLib {
 				}
 				return false; # for now...
 			}
-			if ($count > 5) {
+			if ($count > $this->options['repeat']) {
 				if ($this->options['log']) {
 					CakeLog::write('geocode', __('Aborted after too many trials with \'%s\'', $latlng));
 				}
 				$this->setError(__('Too many trials - abort'));
+				$this->reachedQueryLimit = true;
 				return false;
 			}
-			$this->pause(true);
+			$this->pause();
 		}
 
 		return true;
@@ -508,6 +517,10 @@ class GeocodeLib {
 		if (!is_array($record)) {
 			$record = json_decode($record, true);
 		}
+		if (empty($record['results'])) {
+			$record['results'] = array();
+			return $record;
+		}
 		$record['results'] = $this->_transformData($record['results']);
 		return $record;
 	}
@@ -556,6 +569,9 @@ class GeocodeLib {
 	 * @return array record organized & normalized
 	 */
 	protected function _transformData($record) {
+		if (!is_array($record)) {
+			return array();
+		}
 		if (!array_key_exists('address_components', $record)) {
 			foreach (array_keys($record) as $key) {
 				$record[$key] = $this->_transformData($record[$key]);
