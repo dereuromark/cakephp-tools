@@ -657,7 +657,7 @@ class CommonComponent extends Component {
 	/**
 	 * Main controller function for consistency in controller naming
 	 *
-	 * @deprecated
+	 * @deprecated Will be removed in 1.0
 	 * @return void
 	 */
 	public function ensureControllerConsistency() {
@@ -696,7 +696,7 @@ class CommonComponent extends Component {
 	 * Main controller function for seo-slugs
 	 * passed titleSlug != current title => redirect to the expected one
 	 *
-	 * @deprecated
+	 * @deprecated Will be removed in 1.0
 	 * @return void
 	 */
 	public function ensureConsistency($id, $passedTitleSlug, $currentTitle) {
@@ -772,7 +772,7 @@ class CommonComponent extends Component {
 	 *
 	 * //TODO: 3.4. parameter as array, move to Lib
 	 *
-	 * @deprecated
+	 * @deprecated Will be removed in 1.0.
 	 * @param string $string containing the parts
 	 * @param string $separator (defaults to ',')
 	 * @param bool $camelize (true/false): problems with äöüß etc!
@@ -959,7 +959,7 @@ class CommonComponent extends Component {
 	 * @param string $type: user, ...
 	 * @param int $length (if no type is submitted)
 	 * @return pwd on success, empty string otherwise
-	 * @deprecated - use RandomLib
+	 * @deprecated Will be removed in 1.0. Use RandomLib
 	 */
 	public static function pwd($type = null, $length = null) {
 		trigger_error('deprecated');
