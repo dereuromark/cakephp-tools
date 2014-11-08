@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2014-11-08 22:21+0000\n"
+"POT-Creation-Date: 2014-11-08 23:24+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -650,6 +650,50 @@ msgstr ""
 
 #: View/Elements/pagination.ctp:38
 msgid "Page %page% of %pages%, showing %current% records out of %count% total"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "zero"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "one"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "two"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "three"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "four"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "five"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "six"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "seven"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "eight"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "nine"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "ten"
 msgstr ""
 
 #: View/Helper/CaptchaHelper.php:43

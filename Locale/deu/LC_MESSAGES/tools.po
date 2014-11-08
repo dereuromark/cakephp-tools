@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2014-11-08 22:21+0000\n"
+"POT-Creation-Date: 2014-11-08 23:24+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -653,6 +653,50 @@ msgstr ""
 msgid "Page %page% of %pages%, showing %current% records out of %count% total"
 msgstr ""
 
+#: View/Helper/CaptchaHelper.php:40
+msgid "zero"
+msgstr "null"
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "one"
+msgstr "eins"
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "two"
+msgstr "zwei"
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "three"
+msgstr "drei"
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "four"
+msgstr "vier"
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "five"
+msgstr "fünf"
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "six"
+msgstr "sechs"
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "seven"
+msgstr "sieben"
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "eight"
+msgstr "acht"
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "nine"
+msgstr "neun"
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "ten"
+msgstr "zehn"
+
 #: View/Helper/CaptchaHelper.php:43
 msgid "calcPlus"
 msgstr "plus"
@@ -825,39 +869,6 @@ msgstr ""
 #: View/Qlogin/admin_index.ctp:29
 msgid "List %s"
 msgstr ""
-
-#~ msgid "one"
-#~ msgstr "eins"
-
-#~ msgid "two"
-#~ msgstr "zwei"
-
-#~ msgid "three"
-#~ msgstr "drei"
-
-#~ msgid "four"
-#~ msgstr "vier"
-
-#~ msgid "five"
-#~ msgstr "fünf"
-
-#~ msgid "six"
-#~ msgstr "sechs"
-
-#~ msgid "seven"
-#~ msgstr "sieben"
-
-#~ msgid "eight"
-#~ msgstr "acht"
-
-#~ msgid "nine"
-#~ msgstr "neun"
-
-#~ msgid "ten"
-#~ msgstr "zehn"
-
-#~ msgid "zero"
-#~ msgstr "null"
 
 #~ msgid "valErrProvideCurrentPwd"
 #~ msgstr "Bitte das bisherige Passwort eingeben"

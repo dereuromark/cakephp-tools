@@ -37,7 +37,7 @@ class CaptchaHelper extends AppHelper {
 		parent::__construct($View, $config);
 
 		// First of all we are going to set up an array with the text equivalents of all the numbers we will be using.
-		$this->numberConvert = array(0 => 'zero', 1 => 'one', 2 => 'two', 3 => 'three', 4 => 'four', 5 => 'five', 6 => 'six', 7 => 'seven', 8 => 'eight', 9 => 'nine', 10 => 'ten');
+		$this->numberConvert = array(0 => __d('tools', 'zero'), 1 => __d('tools', 'one'), 2 => __d('tools', 'two'), 3 => __d('tools', 'three'), 4 => __d('tools', 'four'), 5 => __d('tools', 'five'), 6 => __d('tools', 'six'), 7 => __d('tools', 'seven'), 8 => __d('tools', 'eight'), 9 => __d('tools', 'nine'), 10 => __d('tools', 'ten'));
 
 		// Set up an array with the operators that we want to use. With difficulty=1 it is only subtraction and addition.
 		$this->operatorConvert = array(0 => array('+', __d('tools', 'calcPlus')), 1 => array('-', __d('tools', 'calcMinus')), 2 => '*', __d('tools', 'calcTimes'));
@@ -60,7 +60,7 @@ class CaptchaHelper extends AppHelper {
 		$captchaOperator = $captchaOperatorSelection[mt_rand(0, 1)];
 
 		// Get the equation in textual form to show to the user.
-		$code = (mt_rand(0, 1) == 1 ? __d('tools', $this->numberConvert[$numberOne]) : $numberOne) . ' ' . $captchaOperator . ' ' . (mt_rand(0, 1) == 1 ? __d('tools', $this->numberConvert[$numberTwo]) : $numberTwo);
+		$code = (mt_rand(0, 1) == 1 ? $this->numberConvert[$numberOne] : $numberOne) . ' ' . $captchaOperator . ' ' . (mt_rand(0, 1) == 1 ? $this->numberConvert[$numberTwo] : $numberTwo);
 
 		// Evaluate the equation and get the result.
 		eval('$result = ' . $numberOne . ' ' . $captchaOperatorSelection[0] . ' ' . $numberTwo . ';');
