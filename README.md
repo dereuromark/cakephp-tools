@@ -162,6 +162,7 @@ For details on how to contribute please read the [CONTRIBUTING page](CONTRIBUTIN
 
 ### Recent changes (possibly BC breaking)
 
+* 2014-11 All translations now use the `tools` domain; development messages are not translated anymore
 * 2013-02 Removed PasswordChangeBehavior in favor of its new name Passwordable.
 * 2013-02-25 Removed deprecated bootstrap functions and moved DebugTab functionality into Bootstrap namespace
   (you need to now manually include it if needed).
