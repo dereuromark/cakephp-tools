@@ -430,14 +430,14 @@ class EmailLib extends CakeEmail {
 			}
 			if (empty($fileInfo['content'])) {
 				if (!isset($fileInfo['file'])) {
-					throw new SocketException(__d('cake_dev', 'File not specified.'));
+					throw new SocketException('File not specified.');
 				}
 				$fileName = $fileInfo['file'];
 				if (!preg_match('~^https?://~i', $fileInfo['file'])) {
 					$fileInfo['file'] = realpath($fileInfo['file']);
 				}
 				if ($fileInfo['file'] === false || !Utility::fileExists($fileInfo['file'])) {
-					throw new SocketException(__d('cake_dev', 'File not found: "%s"', $fileName));
+					throw new SocketException(sprintf('File not found: "%s"', $fileName));
 				}
 				if (is_int($name)) {
 					$name = basename($fileInfo['file']);

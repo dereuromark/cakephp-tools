@@ -1,7 +1,7 @@
 <?php
 App::import('Vendor', 'Tools.Soros/Soros');
 if (!class_exists('Soros')) {
-	throw new CakeException(__d('dev', 'Vendor class Soros cannot be found'));
+	throw new CakeException('Vendor class Soros cannot be found');
 }
 /**
  * Sample classes
