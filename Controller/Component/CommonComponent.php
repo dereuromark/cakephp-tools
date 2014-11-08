@@ -503,7 +503,7 @@ class CommonComponent extends Component {
 	 */
 	public function setMeta($type, $content, $prep = true) {
 		if (!in_array($type, array('title', 'canonical', 'description', 'keywords', 'robots', 'language', 'custom'))) {
-			trigger_error(__('Meta Type invalid'), E_USER_WARNING);
+			trigger_error(__d('tools', 'Meta Type invalid'), E_USER_WARNING);
 			return;
 		}
 		if ($type === 'canonical' && $prep) {
@@ -816,8 +816,8 @@ class CommonComponent extends Component {
 	public static function separators($s = null, $valueOnly = false) {
 		$separatorsValues = array(SEPARATOR_COMMA => ',', SEPARATOR_SEMI => ';', SEPARATOR_SPACE => ' ', SEPARATOR_TAB => TB, SEPARATOR_NL => NL);
 
-		$separators = array(SEPARATOR_COMMA => '[ , ] ' . __('Comma'), SEPARATOR_SEMI => '[ ; ] ' . __('Semicolon'), SEPARATOR_SPACE => '[ &nbsp; ] ' . __('Space'), SEPARATOR_TAB =>
-			'[ &nbsp;&nbsp;&nbsp;&nbsp; ] ' . __('Tabulator'), SEPARATOR_NL => '[ \n ] ' . __('New Line'));
+		$separators = array(SEPARATOR_COMMA => '[ , ] ' . __d('tools', 'Comma'), SEPARATOR_SEMI => '[ ; ] ' . __d('tools', 'Semicolon'), SEPARATOR_SPACE => '[ &nbsp; ] ' . __d('tools', 'Space'), SEPARATOR_TAB =>
+			'[ &nbsp;&nbsp;&nbsp;&nbsp; ] ' . __d('tools', 'Tabulator'), SEPARATOR_NL => '[ \n ] ' . __d('tools', 'New Line'));
 
 		if ($s !== null) {
 			if (array_key_exists($s, $separators)) {
@@ -1041,7 +1041,7 @@ class CommonComponent extends Component {
 		if ($code === null) {
 			if ($autoTranslate) {
 				foreach ($responses as $key => $value) {
-					$responses[$key] = __($value);
+					$responses[$key] = __d('tools', $value);
 				}
 			}
 			return $responses;
@@ -1054,7 +1054,7 @@ class CommonComponent extends Component {
 
 		if (!empty($code) && array_key_exists((int)$code, $responses)) {
 			if ($autoTranslate) {
-				return __($responses[$code]);
+				return __d('tools', $responses[$code]);
 			}
 			return $responses[$code];
 		}
@@ -1078,7 +1078,7 @@ class CommonComponent extends Component {
 		);
 		if (!empty($code) && array_key_exists((int)$code, $responses)) {
 			if ($autoTranslate) {
-				return __($responses[$code]);
+				return __d('tools', $responses[$code]);
 			}
 			return $responses[$code];
 		}

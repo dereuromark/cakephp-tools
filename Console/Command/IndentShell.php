@@ -92,7 +92,7 @@ class IndentShell extends AppShell {
 			if (!empty($this->params['dry-run'])) {
 				$this->out('TEST DONE');
 			} else {
-				$continue = $this->in(__('Modifying files! Continue?'), array('y', 'n'), 'n');
+				$continue = $this->in(__d('tools', 'Modifying files! Continue?'), array('y', 'n'), 'n');
 				if (strtolower($continue) !== 'y' && strtolower($continue) !== 'yes') {
 					return $this->error('...aborted');
 				}

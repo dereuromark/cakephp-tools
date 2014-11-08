@@ -237,11 +237,11 @@ class CommonHelperTest extends MyCakeTestCase {
 	 */
 	public function testAsp() {
 		$res = $this->Common->asp('House', 2, true);
-		$expected = __('Houses');
+		$expected = __d('tools', 'Houses');
 		$this->assertEquals($expected, $res);
 
 		$res = $this->Common->asp('House', 1, true);
-		$expected = __('House');
+		$expected = __d('tools', 'House');
 		$this->assertEquals($expected, $res);
 	}
 
@@ -252,14 +252,14 @@ class CommonHelperTest extends MyCakeTestCase {
 	 */
 	public function testSp() {
 		$res = $this->Common->sp('House', 'Houses', 0, true);
-		$expected = __('Houses');
+		$expected = __d('tools', 'Houses');
 		$this->assertEquals($expected, $res);
 
 		$res = $this->Common->sp('House', 'Houses', 2, true);
 		$this->assertEquals($expected, $res);
 
 		$res = $this->Common->sp('House', 'Houses', 1, true);
-		$expected = __('House');
+		$expected = __d('tools', 'House');
 		$this->assertEquals($expected, $res);
 
 		$res = $this->Common->sp('House', 'Houses', 1);

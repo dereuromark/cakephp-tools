@@ -31,7 +31,7 @@ class ZodiacLibTest extends MyCakeTestCase {
 
 		$is = $this->Zodiac->signs($is);
 		$this->debug($is);
-		$this->assertEquals($is, __('zodiacAries'));
+		$this->assertEquals($is, __d('tools', 'zodiacAries'));
 
 		// january
 		$is = $this->Zodiac->getSign(1, 20);

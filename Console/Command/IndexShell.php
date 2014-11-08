@@ -208,7 +208,7 @@ class IndexShell extends AppShell {
 		if (empty($this->params['interactive'])) {
 			$continue = 'Y';
 		} else {
-			$continue = strtoupper($this->in(__('Run this statement?'), array('Y', 'N', 'A', 'Q')));
+			$continue = strtoupper($this->in(__d('tools', 'Run this statement?'), array('Y', 'N', 'A', 'Q')));
 			switch ($continue) {
 				case 'Q':
 					return $this->_stop();

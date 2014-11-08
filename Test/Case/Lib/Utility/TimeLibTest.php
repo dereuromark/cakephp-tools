@@ -110,7 +110,7 @@ class TimeLibTest extends MyCakeTestCase {
 		$date = '2009-12-01 00:00:00';
 		$format = FORMAT_NICE_YMDHM;
 		$result = TimeLib::niceDate($date, $format, array('oclock' => true));
-		$expected = '01.12.2009, 00:00 ' . __('o\'clock');
+		$expected = '01.12.2009, 00:00 ' . __d('tools', 'o\'clock');
 		$this->assertEquals($expected, $result);
 	}
 
@@ -170,7 +170,7 @@ class TimeLibTest extends MyCakeTestCase {
 		//$this->assertEquals($ret, '2009-02-01 00:00:00');
 
 		$values = array(
-			array(__('Today'), array(date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))), date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y'))))),
+			array(__d('tools', 'Today'), array(date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))), date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y'))))),
 			array('2010', array('2010-01-01 00:00:00', '2010-12-31 23:59:59')),
 			array('23.02.2011', array('2011-02-23 00:00:00', '2011-02-23 23:59:59')),
 			array('22/02/2011', array('2011-02-22 00:00:00', '2011-02-22 23:59:59')),
@@ -218,7 +218,7 @@ class TimeLibTest extends MyCakeTestCase {
 		$date = '2009-12-01 00:00:00';
 		$format = FORMAT_LOCAL_YMDHM;
 		$result = TimeLib::localDate($date, $format, array('oclock' => true));
-		$expected = '01.12.2009, 00:00 ' . __('o\'clock');
+		$expected = '01.12.2009, 00:00 ' . __d('tools', 'o\'clock');
 		$this->assertEquals($expected, $result);
 	}
 
@@ -230,7 +230,7 @@ class TimeLibTest extends MyCakeTestCase {
 	public function testPeriod() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$values = array(
-			array(__('Today'), array(date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))), date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y'))))),
+			array(__d('tools', 'Today'), array(date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))), date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y'))))),
 
 			array('2010', array('2010-01-01 00:00:00', '2010-12-31 23:59:59')),
 			array('2011-02', array('2011-02-01 00:00:00', '2011-02-28 23:59:59')),
@@ -259,10 +259,10 @@ class TimeLibTest extends MyCakeTestCase {
 	public function testPeriodAsSql() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$values = array(
-			array(__('Today'), "(Model.field >= '" . date(FORMAT_DB_DATE) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE) . " 23:59:59')"),
-			array(__('Yesterday') . ' ' . __('until') . ' ' . __('Today'), "(Model.field >= '" . date(FORMAT_DB_DATE, time() - DAY) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE) . " 23:59:59')"),
-			array(__('Today') . ' ' . __('until') . ' ' . __('Tomorrow'), "(Model.field >= '" . date(FORMAT_DB_DATE, time()) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE, time() + DAY) . " 23:59:59')"),
-			array(__('Yesterday') . ' ' . __('until') . ' ' . __('Tomorrow'), "(Model.field >= '" . date(FORMAT_DB_DATE, time() - DAY) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE, time() + DAY) . " 23:59:59')"),
+			array(__d('tools', 'Today'), "(Model.field >= '" . date(FORMAT_DB_DATE) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE) . " 23:59:59')"),
+			array(__d('tools', 'Yesterday') . ' ' . __d('tools', 'until') . ' ' . __d('tools', 'Today'), "(Model.field >= '" . date(FORMAT_DB_DATE, time() - DAY) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE) . " 23:59:59')"),
+			array(__d('tools', 'Today') . ' ' . __d('tools', 'until') . ' ' . __d('tools', 'Tomorrow'), "(Model.field >= '" . date(FORMAT_DB_DATE, time()) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE, time() + DAY) . " 23:59:59')"),
+			array(__d('tools', 'Yesterday') . ' ' . __d('tools', 'until') . ' ' . __d('tools', 'Tomorrow'), "(Model.field >= '" . date(FORMAT_DB_DATE, time() - DAY) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE, time() + DAY) . " 23:59:59')"),
 		);
 
 		foreach ($values as $v) {
@@ -469,22 +469,22 @@ class TimeLibTest extends MyCakeTestCase {
 	public function testDay() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$ret = TimeLib::day('0');
-		$this->assertEquals(__('Sunday'), $ret);
+		$this->assertEquals(__d('tools', 'Sunday'), $ret);
 
 		$ret = TimeLib::day(2, true);
-		$this->assertEquals(__('Tue'), $ret);
+		$this->assertEquals(__d('tools', 'Tue'), $ret);
 
 		$ret = TimeLib::day(6);
-		$this->assertEquals(__('Saturday'), $ret);
+		$this->assertEquals(__d('tools', 'Saturday'), $ret);
 
 		$ret = TimeLib::day(6, false, 1);
-		$this->assertEquals(__('Sunday'), $ret);
+		$this->assertEquals(__d('tools', 'Sunday'), $ret);
 
 		$ret = TimeLib::day(0, false, 2);
-		$this->assertEquals(__('Tuesday'), $ret);
+		$this->assertEquals(__d('tools', 'Tuesday'), $ret);
 
 		$ret = TimeLib::day(1, false, 6);
-		$this->assertEquals(__('Sunday'), $ret);
+		$this->assertEquals(__d('tools', 'Sunday'), $ret);
 	}
 
 	/**
@@ -495,16 +495,16 @@ class TimeLibTest extends MyCakeTestCase {
 	public function testMonth() {
 		$this->out($this->_header(__FUNCTION__), true);
 		$ret = TimeLib::month('11');
-		$this->assertEquals(__('November'), $ret);
+		$this->assertEquals(__d('tools', 'November'), $ret);
 
 		$ret = TimeLib::month(1);
-		$this->assertEquals(__('January'), $ret);
+		$this->assertEquals(__d('tools', 'January'), $ret);
 
 		$ret = TimeLib::month(2, true, array('appendDot' => true));
-		$this->assertEquals(__('Feb') . '.', $ret);
+		$this->assertEquals(__d('tools', 'Feb') . '.', $ret);
 
 		$ret = TimeLib::month(5, true, array('appendDot' => true));
-		$this->assertEquals(__('May'), $ret);
+		$this->assertEquals(__d('tools', 'May'), $ret);
 	}
 
 	/**
@@ -547,16 +547,16 @@ class TimeLibTest extends MyCakeTestCase {
 
 		$res = TimeLib::relLengthOfTime(date(FORMAT_DB_DATETIME, time() - 4 * DAY - 5 * HOUR), null, array('plural' => 'n'));
 		//pr($res);
-		//$this->assertEquals($res, 'Vor 4 Tagen, 5 '.__('Hours'));
-		$this->assertEquals(__('%s ago', '4 ' . __('Days') . ', ' . '5 ' . __('Hours')), $res);
+		//$this->assertEquals($res, 'Vor 4 Tagen, 5 '.__d('tools', 'Hours'));
+		$this->assertEquals(__d('tools', '%s ago', '4 ' . __d('tools', 'Days') . ', ' . '5 ' . __d('tools', 'Hours')), $res);
 
 		$res = TimeLib::relLengthOfTime(date(FORMAT_DB_DATETIME, time() + 4 * DAY + 5 * HOUR), null, array('plural' => 'n'));
 		//pr($res);
-		$this->assertEquals(__('In %s', '4 ' . __('Days') . ', ' . '5 ' . __('Hours')), $res);
+		$this->assertEquals(__d('tools', 'In %s', '4 ' . __d('tools', 'Days') . ', ' . '5 ' . __d('tools', 'Hours')), $res);
 
 		$res = TimeLib::relLengthOfTime(date(FORMAT_DB_DATETIME, time()), null, array('plural' => 'n'));
 		//pr($res);
-		$this->assertEquals($res, __('justNow'));
+		$this->assertEquals($res, __d('tools', 'justNow'));
 	}
 
 	/**
@@ -653,15 +653,15 @@ class TimeLibTest extends MyCakeTestCase {
 		$ret = TimeLib::lengthOfTime(-121);
 		//pr($ret);
 
-		$this->assertEquals('6 ' . __('Minutes') . ', 40 ' . __('Seconds'), TimeLib::lengthOfTime(400));
+		$this->assertEquals('6 ' . __d('tools', 'Minutes') . ', 40 ' . __d('tools', 'Seconds'), TimeLib::lengthOfTime(400));
 
 		$res = TimeLib::lengthOfTime(400, 'i');
 		//pr($res);
-		$this->assertEquals('6 ' . __('Minutes'), $res);
+		$this->assertEquals('6 ' . __d('tools', 'Minutes'), $res);
 
 		$res = TimeLib::lengthOfTime(6 * DAY);
 		//pr($res);
-		$this->assertEquals('6 ' . __('Days') . ', 0 ' . __('Hours'), $res);
+		$this->assertEquals('6 ' . __d('tools', 'Days') . ', 0 ' . __d('tools', 'Hours'), $res);
 	}
 
 	/**

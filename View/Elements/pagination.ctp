@@ -9,16 +9,16 @@ if (!isset($separator)) {
 }
 
 if (empty($first)) {
-	$first = __('first');
+	$first = __d('tools', 'first');
 }
 if (empty($last)) {
-	$last = __('last');
+	$last = __d('tools', 'last');
 }
 if (empty($prev)) {
-	$prev = __('previous');
+	$prev = __d('tools', 'previous');
 }
 if (empty($next)) {
-	$next = __('next');
+	$next = __d('tools', 'next');
 }
 if (!empty($reverse)) {
 	$tmp = $first;
@@ -35,7 +35,7 @@ if (!empty($addArrows)) {
 }
 
 echo $this->Paginator->counter(array(
-'format' => __('Page %page% of %pages%, showing %current% records out of %count% total')));?></p>
+'format' => __d('tools', 'Page %page% of %pages%, showing %current% records out of %count% total')));?></p>
 <div class="paging">
 	<?php echo $this->Paginator->first($first, array());?>
  <?php echo $separator; ?>

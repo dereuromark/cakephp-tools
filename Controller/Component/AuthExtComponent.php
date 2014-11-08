@@ -77,53 +77,53 @@ class AuthExtComponent extends AuthComponent {
 		$user = $this->completeAuth($user);
 
 		if (empty($user)) {
-			$this->loginError = __('invalidLoginCredentials');
+			$this->loginError = __d('tools', 'invalidLoginCredentials');
 			return false;
 		}
 
 		// custom checks
 		if (isset($user['active'])) {
 			if (empty($user['active'])) {
-				$this->loginError = __('Account not active yet');
+				$this->loginError = __d('tools', 'Account not active yet');
 				return false;
 			}
 			if (!empty($user['suspended'])) {
-				$this->loginError = __('Account temporarily locked');
+				$this->loginError = __d('tools', 'Account temporarily locked');
 				if (!empty($user['suspended_reason'])) {
-					$this->loginError .= BR . BR . __('Reason') . ':' . BR . nl2br(h($user['suspended_reason']));
+					$this->loginError .= BR . BR . __d('tools', 'Reason') . ':' . BR . nl2br(h($user['suspended_reason']));
 				}
 				return false;
 			}
 		} else {
 			if (isset($user['status']) && empty($user['status'])) {
-				$this->loginError = __('Account not active yet');
+				$this->loginError = __d('tools', 'Account not active yet');
 				return false;
 			}
 			if (isset($user['status']) && defined('User::STATUS_PENDING') && $user['status'] == User::STATUS_PENDING) {
-				$this->loginError = __('Account not active yet');
+				$this->loginError = __d('tools', 'Account not active yet');
 				return false;
 			}
 			if (isset($user['status']) && defined('User::STATUS_SUSPENDED') && $user['status'] == User::STATUS_SUSPENDED) {
-				$this->loginError = __('Account temporarily locked');
+				$this->loginError = __d('tools', 'Account temporarily locked');
 				if (!empty($user['suspended_reason'])) {
-					$this->loginError .= BR . BR . __('Reason') . ':' . BR . nl2br(h($user['suspended_reason']));
+					$this->loginError .= BR . BR . __d('tools', 'Reason') . ':' . BR . nl2br(h($user['suspended_reason']));
 				}
 				return false;
 			}
 			if (isset($user['status']) && defined('User::STATUS_DEL') && $user['status'] == User::STATUS_DEL) {
-				$this->loginError = __('Account deleted');
+				$this->loginError = __d('tools', 'Account deleted');
 				if (!empty($user['suspended_reason'])) {
-					$this->loginError .= BR . BR . __('Reason') . ':' . BR . nl2br(h($user['suspended_reason']));
+					$this->loginError .= BR . BR . __d('tools', 'Reason') . ':' . BR . nl2br(h($user['suspended_reason']));
 				}
 				return false;
 			}
 			if (isset($user['status']) && defined('User::STATUS_ACTIVE') && $user['status'] != User::STATUS_ACTIVE) {
-				$this->loginError = __('Unknown Error');
+				$this->loginError = __d('tools', 'Unknown Error');
 				return false;
 			}
 		}
 		if (isset($user['email_confirmed']) && empty($user['email_confirmed'])) {
-			$this->loginError = __('Email not active yet');
+			$this->loginError = __d('tools', 'Email not active yet');
 			return false;
 		}
 

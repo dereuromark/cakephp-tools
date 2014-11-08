@@ -39,9 +39,9 @@ class FolderLib extends Folder {
 			}
 			if (is_file($file)) {
 				if (@unlink($file)) {
-					$this->_messages[] = __('%s removed', $file);
+					$this->_messages[] = __d('tools', '%s removed', $file);
 				} else {
-					$this->_errors[] = __('%s NOT removed', $file);
+					$this->_errors[] = __d('tools', '%s NOT removed', $file);
 				}
 			} elseif (is_dir($file) && $this->delete($file) === false) {
 				return false;

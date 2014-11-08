@@ -72,7 +72,7 @@ class DatetimeHelper extends TimeHelper {
 		$span = '';
 		$spanEnd = '';
 		$whenArray = array('-1' => 'already', '0' => 'today', '1' => 'notyet');
-		$titles = array('-1' => __('publishedAlready'), '0' => __('publishedToday'), '1' => __('publishedNotYet'));
+		$titles = array('-1' => __d('tools', 'publishedAlready'), '0' => __d('tools', 'publishedToday'), '1' => __d('tools', 'publishedNotYet'));
 
 		if (!empty($date)) {
 
@@ -90,13 +90,13 @@ class DatetimeHelper extends TimeHelper {
 
 			if ($this->isToday($date)) {
 				$when = 0;
-				$niceDate = __('Today') . $timeAttachment;
+				$niceDate = __d('tools', 'Today') . $timeAttachment;
 			} elseif ($this->isTomorrow($date)) {
 				$when = 1;
-				$niceDate = __('Tomorrow') . $timeAttachment;
+				$niceDate = __d('tools', 'Tomorrow') . $timeAttachment;
 			} elseif ($this->wasYesterday($date)) {
 				$when = -1;
-				$niceDate = __('Yesterday') . $timeAttachment;
+				$niceDate = __d('tools', 'Yesterday') . $timeAttachment;
 			} else {
 				// before or after?
 				if ($this->isNotTodayAndInTheFuture($date)) {

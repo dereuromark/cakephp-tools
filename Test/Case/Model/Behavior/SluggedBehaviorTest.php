@@ -285,7 +285,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 
 		$this->Model->create(array('title' => 'Some & More'));
 		$result = $this->Model->save();
-		$this->assertEquals('Some-' . __('and') . '-More', $result[$this->Model->alias]['slug']);
+		$this->assertEquals('Some-' . __d('tools', 'and') . '-More', $result[$this->Model->alias]['slug']);
 	}
 
 	/**

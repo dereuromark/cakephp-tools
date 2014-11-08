@@ -223,7 +223,7 @@ class CommonHelper extends AppHelper {
 		}
 
 		if ($autoTranslate) {
-			$result = __($result);
+			$result = __d('tools', $result);
 		}
 		return $result;
 	}
@@ -370,7 +370,7 @@ class CommonHelper extends AppHelper {
 			'meta' => '<link rel="alternate" type="application/rss+xml" title="%s" href="%s" />',
 		);
 		if (empty($title)) {
-			$title = __('Subscribe to this feed');
+			$title = __d('tools', 'Subscribe to this feed');
 		} else {
 			$title = h($title);
 		}
@@ -499,7 +499,7 @@ class CommonHelper extends AppHelper {
 		if ($this->sessionCheck()) {
 			return '';
 		}
-		return '<div class="cookieWarning">' . __('Please enable cookies') . '</div>';
+		return '<div class="cookieWarning">' . __d('tools', 'Please enable cookies') . '</div>';
 	}
 
 	/**
@@ -699,10 +699,10 @@ piwikTracker.enableLinkTracking();
 		$translate = (array)Configure::read('Role');
 		if (is_array($value)) {
 			foreach ($value as $k => $v) {
-				$ret[$v] = __($translate[$v]);
+				$ret[$v] = __d('tools', $translate[$v]);
 			}
 		} else {
-			$ret[$value] = __($translate[$value]);
+			$ret[$value] = __d('tools', $translate[$value]);
 		}
 		return $ret;
 	}

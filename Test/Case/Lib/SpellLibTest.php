@@ -10,7 +10,7 @@ class SpellLibTest extends MyCakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->skipIf(!function_exists('enchant_broker_init'), __('Module %s not installed', 'Enchant'));
+		$this->skipIf(!function_exists('enchant_broker_init'), __d('tools', 'Module %s not installed', 'Enchant'));
 
 		$this->SpellLib = new SpellLib();
 	}

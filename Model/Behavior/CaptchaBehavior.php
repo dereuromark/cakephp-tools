@@ -70,19 +70,19 @@ class CaptchaBehavior extends ModelBehavior {
 			$this->Model->whitelist = array_merge($Model->whitelist, $this->fields());
 		}
 		if (empty($Model->data[$Model->alias])) {
-			$this->Model->invalidate('captcha', __('captchaContentMissing'));
+			$this->Model->invalidate('captcha', __d('tools', 'captchaContentMissing'));
 
 		} elseif (!$this->_validateDummyField($Model->data[$Model->alias])) {
-			$this->Model->invalidate('captcha', __('captchaIllegalContent'));
+			$this->Model->invalidate('captcha', __d('tools', 'captchaIllegalContent'));
 
 		} elseif (!$this->_validateCaptchaMinTime($Model->data[$Model->alias])) {
-			$this->Model->invalidate('captcha', __('captchaResultTooFast'));
+			$this->Model->invalidate('captcha', __d('tools', 'captchaResultTooFast'));
 
 		} elseif (!$this->_validateCaptchaMaxTime($Model->data[$Model->alias])) {
-			$this->Model->invalidate('captcha', __('captchaResultTooLate'));
+			$this->Model->invalidate('captcha', __d('tools', 'captchaResultTooLate'));
 
 		} elseif (in_array($this->settings[$Model->alias]['type'], array('active', 'both')) && !$this->_validateCaptcha($Model->data[$Model->alias])) {
-			$this->Model->invalidate('captcha', __('captchaResultIncorrect'));
+			$this->Model->invalidate('captcha', __d('tools', 'captchaResultIncorrect'));
 
 		}
 
@@ -114,11 +114,11 @@ class CaptchaBehavior extends ModelBehavior {
 	protected function _validateDummyField($data) {
 		$dummyField = $this->settings[$this->Model->alias]['dummyField'];
 		if (!isset($data[$dummyField])) {
-			return $this->_setError(__('Illegal call'));
+			return $this->_setError(__d('tools', 'Illegal call'));
 		}
 		if (!empty($data[$dummyField])) {
 			// Dummy field not empty - SPAM!
-			return $this->_setError(__('Illegal content'), 'DummyField = \'' . $data[$dummyField] . '\'');
+			return $this->_setError(__d('tools', 'Illegal content'), 'DummyField = \'' . $data[$dummyField] . '\'');
 		}
 		return true;
 	}
@@ -170,7 +170,7 @@ class CaptchaBehavior extends ModelBehavior {
 	protected function _validateCaptcha($data) {
 		if (!isset($data['captcha'])) {
 			// form inputs missing? SPAM!
-			return $this->_setError(__('captchaContentMissing'));
+			return $this->_setError(__d('tools', 'captchaContentMissing'));
 		}
 
 		$hash = $this->_buildHash($data);
@@ -179,7 +179,7 @@ class CaptchaBehavior extends ModelBehavior {
 			return true;
 		}
 		// wrong captcha content or session expired
-		return $this->_setError(__('Captcha incorrect'), 'SubmittedResult = \'' . $data['captcha'] . '\'');
+		return $this->_setError(__d('tools', 'Captcha incorrect'), 'SubmittedResult = \'' . $data['captcha'] . '\'');
 	}
 
 	/**

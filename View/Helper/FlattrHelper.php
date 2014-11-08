@@ -98,7 +98,7 @@ class FlattrHelper extends AppHelper {
 			$uid = Configure::read('Flattr.uid');
 		}
 		if (!isset($options['tle'])) {
-			$options['tle'] = __('Donate');
+			$options['tle'] = __d('tools', 'Donate');
 		}
 
 		$vars = '';

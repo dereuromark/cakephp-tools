@@ -27,13 +27,13 @@ class PwdShell extends AppShell {
 			}
 		}
 		if (!$class || !method_exists($class, 'password')) {
-			return $this->error(__('No Auth Component found'));
+			return $this->error(__d('tools', 'No Auth Component found'));
 		}
 
 		$this->out('Using: ' . $class);
 
 		while (empty($pwToHash) || mb_strlen($pwToHash) < 2) {
-			$pwToHash = $this->in(__('Password to Hash (2 characters at least)'));
+			$pwToHash = $this->in(__d('tools', 'Password to Hash (2 characters at least)'));
 		}
 
 		if ($authType = Configure::read('Passwordable.authType')) {

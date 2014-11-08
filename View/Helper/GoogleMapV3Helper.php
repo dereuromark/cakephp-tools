@@ -431,7 +431,7 @@ class GoogleMapV3Helper extends AppHelper {
 		$this->settings['div']['style'] .= 'height: ' . $this->settings['div']['height'] . ';';
 		unset($this->settings['div']['width']); unset($this->settings['div']['height']);
 
-		$defaultText = isset($this->settings['content']) ? $this->settings['content'] : __('Map cannot be displayed!');
+		$defaultText = isset($this->settings['content']) ? $this->settings['content'] : __d('tools', 'Map cannot be displayed!');
 		$result .= $this->Html->tag('div', $defaultText, $this->settings['div']);
 
 		return $result;
@@ -593,8 +593,8 @@ function geocodeAddress(address) {
 		$options = array(
 			'from' => null,
 			'to' => null,
-			'label' => __('Enter your address'),
-			'submit' => __('Get directions'),
+			'label' => __d('tools', 'Enter your address'),
+			'submit' => __d('tools', 'Get directions'),
 			'escape' => true,
 			'zoom' => null, // auto
 		);
@@ -1269,7 +1269,7 @@ var iconShape = {
 	 * @return string imageTag
 	 */
 	public function staticMap($options = array(), $attributes = array()) {
-		$defaultAttributes = array('alt' => __('Map'));
+		$defaultAttributes = array('alt' => __d('tools', 'Map'));
 
 		return $this->Html->image($this->staticMapUrl($options), array_merge($defaultAttributes, $attributes));
 	}

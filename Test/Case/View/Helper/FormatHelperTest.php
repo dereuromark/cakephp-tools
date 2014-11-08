@@ -61,7 +61,7 @@ class FormatHelperTest extends MyCakeTestCase {
 	 */
 	public function testIcon() {
 		$result = $this->Format->icon('edit');
-		$expected = '<img src="/img/icons/edit.gif" title="' . __('Edit') . '" alt="[' . __('Edit') . ']" class="icon" />';
+		$expected = '<img src="/img/icons/edit.gif" title="' . __d('tools', 'Edit') . '" alt="[' . __d('tools', 'Edit') . ']" class="icon" />';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -72,7 +72,7 @@ class FormatHelperTest extends MyCakeTestCase {
 	 */
 	public function testCIcon() {
 		$result = $this->Format->cIcon('edit.png');
-		$expected = '<img src="/img/icons/edit.png" title="' . __('Edit') . '" alt="[' . __('Edit') . ']" class="icon" />';
+		$expected = '<img src="/img/icons/edit.png" title="' . __d('tools', 'Edit') . '" alt="[' . __d('tools', 'Edit') . ']" class="icon" />';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -84,7 +84,7 @@ class FormatHelperTest extends MyCakeTestCase {
 	public function testIconWithFontIcon() {
 		$this->Format->settings['fontIcons'] = array('edit' => 'fa fa-pencil');
 		$result = $this->Format->icon('edit');
-		$expected = '<i class="fa fa-pencil edit" title="' . __('Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
+		$expected = '<i class="fa fa-pencil edit" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -96,7 +96,7 @@ class FormatHelperTest extends MyCakeTestCase {
 	public function testCIconWithFontIcon() {
 		$this->Format->settings['fontIcons'] = array('edit' => 'fa fa-pencil');
 		$result = $this->Format->cIcon('edit.png');
-		$expected = '<i class="fa fa-pencil edit" title="' . __('Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
+		$expected = '<i class="fa fa-pencil edit" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -155,11 +155,11 @@ class FormatHelperTest extends MyCakeTestCase {
 	 */
 	public function testYesNo() {
 		$result = $this->Format->yesNo(true);
-		$expected = '<img src="/img/icons/yes.gif" title="' . __('Yes') . '" alt=';
+		$expected = '<img src="/img/icons/yes.gif" title="' . __d('tools', 'Yes') . '" alt=';
 		$this->assertTextContains($expected, $result);
 
 		$result = $this->Format->yesNo(false);
-		$expected = '<img src="/img/icons/no.gif" title="' . __('No') . '" alt=';
+		$expected = '<img src="/img/icons/no.gif" title="' . __d('tools', 'No') . '" alt=';
 		$this->assertTextContains($expected, $result);
 
 		$this->Format->settings['fontIcons'] = array(
@@ -167,11 +167,11 @@ class FormatHelperTest extends MyCakeTestCase {
 			'no' => 'fa fa-times');
 
 		$result = $this->Format->yesNo(true);
-		$expected = '<i class="fa fa-check yes" title="' . __('Yes') . '" data-placement="bottom" data-toggle="tooltip"></i>';
+		$expected = '<i class="fa fa-check yes" title="' . __d('tools', 'Yes') . '" data-placement="bottom" data-toggle="tooltip"></i>';
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Format->yesNo(false);
-		$expected = '<i class="fa fa-times no" title="' . __('No') . '" data-placement="bottom" data-toggle="tooltip"></i>';
+		$expected = '<i class="fa fa-times no" title="' . __d('tools', 'No') . '" data-placement="bottom" data-toggle="tooltip"></i>';
 		$this->assertEquals($expected, $result);
 	}
 
