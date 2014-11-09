@@ -188,10 +188,10 @@ class BitmaskedComment extends CakeTestModel {
 
 	public static function statuses($value = null) {
 		$options = array(
-			static::STATUS_ACTIVE => __('Active'),
-			static::STATUS_PUBLISHED => __('Published'),
-			static::STATUS_APPROVED => __('Approved'),
-			static::STATUS_FLAGGED => __('Flagged'),
+			static::STATUS_ACTIVE => __d('tools', 'Active'),
+			static::STATUS_PUBLISHED => __d('tools', 'Published'),
+			static::STATUS_APPROVED => __d('tools', 'Approved'),
+			static::STATUS_FLAGGED => __d('tools', 'Flagged'),
 		);
 
 		return MyModel::enum($value, $options);

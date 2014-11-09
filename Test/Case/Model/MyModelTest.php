@@ -549,19 +549,19 @@ class MyModelTest extends MyCakeTestCase {
 	public function testInvalidate() {
 
 		$this->User->create();
-		$this->User->invalidate('fieldx', __('e %s f', 33));
+		$this->User->invalidate('fieldx', __d('tools', 'e %s f', 33));
 		$res = $this->User->validationErrors;
 		$this->out($res);
 		$this->assertTrue(!empty($res));
 
 		$this->User->create();
-		$this->User->invalidate('Model.fieldy', __('e %s f %s g', 33, 'xyz'));
+		$this->User->invalidate('Model.fieldy', __d('tools', 'e %s f %s g', 33, 'xyz'));
 		$res = $this->User->validationErrors;
 		$this->out($res);
 		$this->assertTrue(!empty($res) && $res['Model.fieldy'][0] === 'e 33 f xyz g');
 
 		$this->User->create();
-		$this->User->invalidate('fieldy', __('e %s f %s g %s', true, 'xyz', 55));
+		$this->User->invalidate('fieldy', __d('tools', 'e %s f %s g %s', true, 'xyz', 55));
 		$res = $this->User->validationErrors;
 		$this->out($res);
 		$this->assertTrue(!empty($res) && $res['fieldy'][0] === 'e 1 f xyz g 55');
@@ -579,7 +579,7 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertTrue(!empty($res));
 
 		$this->User->create();
-		$this->User->invalidate('fieldy', __('a %s b %s c %s %s %s %s %s h %s', 1, 2, 3, 4, 5, 6, 7, 8));
+		$this->User->invalidate('fieldy', __d('tools', 'a %s b %s c %s %s %s %s %s h %s', 1, 2, 3, 4, 5, 6, 7, 8));
 		$res = $this->User->validationErrors;
 		$this->out($res);
 		$this->assertTrue(!empty($res) && $res['fieldy'][0] === 'a 1 b 2 c 3 4 5 6 7 h 8');

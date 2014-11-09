@@ -398,7 +398,7 @@ class LogableBehavior extends ModelBehavior {
 			if ($this->settings[$Model->alias]['descriptionIds']) {
 				$logData['description'] .= ' (' . $Model->id . ') ';
 			}
-			$logData['description'] .= __('deleted');
+			$logData['description'] .= __d('tools', 'deleted');
 		}
 		$logData['action'] = 'delete';
 		if (!$this->_saveLog($Model, $logData)) {
@@ -480,9 +480,9 @@ class LogableBehavior extends ModelBehavior {
 			}
 
 			if ($created) {
-				$logData['description'] .= __('added');
+				$logData['description'] .= __d('tools', 'added');
 			} else {
-				$logData['description'] .= __('updated');
+				$logData['description'] .= __d('tools', 'updated');
 			}
 		}
 		if ($this->Log->hasField('action')) {
@@ -621,17 +621,17 @@ class LogableBehavior extends ModelBehavior {
 
 		if ($this->Log->hasField('description')) {
 			if (empty($logData['description'])) {
-				$logData['description'] = __('Custom action');
+				$logData['description'] = __d('tools', 'Custom action');
 			}
 			if ($this->user && $this->UserModel && isset($this->user[$this->UserModel->alias])) {
-				$logData['description'] .= ' ' . __('by') . ' ' . $this->settings[$Model->alias]['userModel'] . ' "' . $this->user[$this->UserModel->alias][$this->UserModel->displayField] . '"';
+				$logData['description'] .= ' ' . __d('tools', 'by') . ' ' . $this->settings[$Model->alias]['userModel'] . ' "' . $this->user[$this->UserModel->alias][$this->UserModel->displayField] . '"';
 				if ($this->settings[$Model->alias]['descriptionIds']) {
 					$logData['description'] .= ' (' . $this->user[$this->UserModel->alias][$this->UserModel->primaryKey] . ')';
 				}
 
 			} else {
 				// UserModel is active, but the data hasnt been set. Assume system action.
-				$logData['description'] .= ' ' . __('by System');
+				$logData['description'] .= ' ' . __d('tools', 'by System');
 			}
 			$logData['description'] .= '.';
 		}

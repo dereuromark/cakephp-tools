@@ -89,7 +89,7 @@ class SluggedBehavior extends ModelBehavior {
 		);
 		$defaults += $this->_defaultConfig;
 		foreach ($defaults['replace'] as $key => $value) {
-			$defaults['replace'][$key] = __($value);
+			$defaults['replace'][$key] = __d('tools', $value);
 		}
 
 		$config += (array)Configure::read('Slugged');

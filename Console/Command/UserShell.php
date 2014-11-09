@@ -24,10 +24,10 @@ class UserShell extends AppShell {
 	 */
 	public function main() {
 		while (empty($username)) {
-			$username = $this->in(__('Username (2 characters at least)'));
+			$username = $this->in('Username (2 characters at least)');
 		}
 		while (empty($password)) {
-			$password = $this->in(__('Password (2 characters at least)'));
+			$password = $this->in('Password (2 characters at least)');
 		}
 
 		$schema = $this->User->schema();
@@ -42,7 +42,7 @@ class UserShell extends AppShell {
 
 			$roleIds = array_keys($roles);
 			while (!empty($roles) && empty($role)) {
-				$role = $this->in(__('Role'), $roleIds);
+				$role = $this->in('Role', $roleIds);
 			}
 		} elseif (method_exists($this->User, 'roles')) {
 			$roles = User::roles();
@@ -54,12 +54,12 @@ class UserShell extends AppShell {
 
 			$roleIds = array_keys($roles);
 			while (!empty($roles) && empty($role)) {
-				$role = $this->in(__('Role'), $roleIds);
+				$role = $this->in('Role', $roleIds);
 			}
 		}
 		if (empty($roles)) {
 			$this->out('No Role found (either no table, or no data)');
-			$role = $this->in(__('Please insert a role manually'));
+			$role = $this->in('Please insert a role manually');
 		}
 
 		$this->out('');
@@ -83,15 +83,15 @@ class UserShell extends AppShell {
 		if (!empty($schema['status']) && method_exists('User', 'statuses')) {
 			$statuses = User::statuses();
 			$this->out(print_r($statuses, true));
-			$status = $this->in(__('Please insert a status'), array_keys($statuses));
+			$status = $this->in('Please insert a status', array_keys($statuses));
 
 			$data['User']['status'] = $status;
 		}
 
 		if (!empty($schema['email'])) {
-			$provideEmail = $this->in(__('Provide Email? '), array('y', 'n'), 'n');
+			$provideEmail = $this->in('Provide Email?', array('y', 'n'), 'n');
 			if ($provideEmail === 'y') {
-				$email = $this->in(__('Please insert an email'));
+				$email = $this->in('Please insert an email');
 				$data['User']['email'] = $email;
 			}
 			if (!empty($schema['email_confirmed'])) {
@@ -100,7 +100,7 @@ class UserShell extends AppShell {
 		}
 
 		$this->out('');
-		$continue = $this->in(__('Continue?'), array('y', 'n'), 'n');
+		$continue = $this->in('Continue?', array('y', 'n'), 'n');
 		if ($continue !== 'y') {
 			return $this->error('Not Executed!');
 		}

@@ -147,7 +147,7 @@ class TextExtHelper extends TextHelper {
 		}
 
 		$defaults = array(
-			'title' => __('for use in an external mail client'),
+			'title' => __d('tools', 'for use in an external mail client'),
 			'class' => 'email',
 			'escape' => false
 		);

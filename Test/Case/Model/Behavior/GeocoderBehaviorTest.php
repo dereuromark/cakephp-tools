@@ -135,7 +135,7 @@ class GeocoderBehaviorTest extends MyCakeTestCase {
 		$res = $this->Comment->validates();
 		$this->assertFalse($res);
 		$expectedErrors = array(
-			'lng' => array(__('validateLongitudeError'))
+			'lng' => array(__d('tools', 'validateLongitudeError'))
 		);
 		$this->assertEquals($expectedErrors, $this->Comment->validationErrors);
 	}

@@ -1,0 +1,736 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2014-11-09 00:23+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: Controller/QloginController.php:38
+msgid "Invalid Key"
+msgstr ""
+
+#: Controller/QloginController.php:50
+msgid "You successfully logged in via qlogin"
+msgstr ""
+
+#: Controller/QloginController.php:108
+msgid "Success"
+msgstr ""
+
+#: Controller/TinyUrlsController.php:100
+msgid "Done"
+msgstr ""
+
+#: Controller/Component/AuthExtComponent.php:80
+msgid "invalidLoginCredentials"
+msgstr ""
+
+#: Controller/Component/AuthExtComponent.php:87;99;103
+msgid "Account not active yet"
+msgstr ""
+
+#: Controller/Component/AuthExtComponent.php:91;107
+msgid "Account temporarily locked"
+msgstr ""
+
+#: Controller/Component/AuthExtComponent.php:93;109;116
+msgid "Reason"
+msgstr ""
+
+#: Controller/Component/AuthExtComponent.php:114
+msgid "Account deleted"
+msgstr ""
+
+#: Controller/Component/AuthExtComponent.php:121
+msgid "Unknown Error"
+msgstr ""
+
+#: Controller/Component/AuthExtComponent.php:126
+msgid "Email not active yet"
+msgstr ""
+
+#: Controller/Component/CalendarComponent.php:65;77
+msgid "invalid date"
+msgstr ""
+
+#: Controller/Component/CommonComponent.php:506
+msgid "Meta Type invalid"
+msgstr ""
+
+#: Controller/Component/CommonComponent.php:819
+msgid "Comma"
+msgstr ""
+
+#: Controller/Component/CommonComponent.php:819
+msgid "Semicolon"
+msgstr ""
+
+#: Controller/Component/CommonComponent.php:819
+msgid "Space"
+msgstr ""
+
+#: Controller/Component/CommonComponent.php:820
+msgid "Tabulator"
+msgstr ""
+
+#: Controller/Component/CommonComponent.php:820
+msgid "New Line"
+msgstr ""
+
+#: Controller/Component/MobileComponent.php:268
+msgid "Engine %s not available"
+msgstr ""
+
+#: Lib/GeocodeLib.php:263
+msgid "Failed geocode parsing of '%s'"
+msgstr ""
+
+#: Lib/GeocodeLib.php:276;364
+msgid "Address '%s' has been geocoded"
+msgstr ""
+
+#: Lib/GeocodeLib.php:283
+msgid "Delay necessary for address '%s'"
+msgstr ""
+
+#: Lib/GeocodeLib.php:299;380
+msgid "Could not geocode '%s'"
+msgstr ""
+
+#: Lib/GeocodeLib.php:306;386
+msgid "Aborted after too many trials with '%s'"
+msgstr ""
+
+#: Lib/GeocodeLib.php:343
+msgid "Could not retrieve url with '%s'"
+msgstr ""
+
+#: Lib/GeocodeLib.php:351
+msgid "Failed reverseGeocode parsing of '%s'"
+msgstr ""
+
+#: Lib/GeocodeLib.php:371
+msgid "Delay necessary for '%s'"
+msgstr ""
+
+#: Lib/GeocodeLib.php:388
+msgid "Too many trials - abort"
+msgstr ""
+
+#: Lib/GeocodeLib.php:423
+msgid "Inconclusive result (total of %s)"
+msgstr ""
+
+#: Lib/GeocodeLib.php:429
+msgid "Accuracy not good enough (%s instead of at least %s)"
+msgstr ""
+
+#: Lib/GeocodeLib.php:444
+msgid "Expectation not reached (we have %s instead of at least one of %s)"
+msgstr ""
+
+#: Lib/GeocodeLib.php:746
+msgid "Invalid Unit: %s"
+msgstr ""
+
+#: Lib/GeocodeLib.php:790
+msgid "Invalid Unit"
+msgstr ""
+
+#: Lib/GeocodeLib.php:835
+msgid "Invalid level '%s'"
+msgstr ""
+
+#: Lib/SpellLib.php:39
+#: Test/Case/Lib/SpellLibTest.php:13
+msgid "Module %s not installed"
+msgstr ""
+
+#: Lib/SpellLib.php:52
+msgid "Engine %s not found"
+msgstr ""
+
+#: Lib/SpellLib.php:58
+msgid "Dictionary %s not found"
+msgstr ""
+
+#: Lib/Misc/ZodiacLib.php:157
+msgid "zodiacAquarius"
+msgstr ""
+
+#: Lib/Misc/ZodiacLib.php:158
+msgid "zodiacPisces"
+msgstr ""
+
+#: Lib/Misc/ZodiacLib.php:159
+#: Test/Case/Lib/Misc/ZodiacLibTest.php:34
+msgid "zodiacAries"
+msgstr ""
+
+#: Lib/Misc/ZodiacLib.php:160
+msgid "zodiacTaurus"
+msgstr ""
+
+#: Lib/Misc/ZodiacLib.php:161
+msgid "zodiacGemini"
+msgstr ""
+
+#: Lib/Misc/ZodiacLib.php:162
+msgid "zodiacCancer"
+msgstr ""
+
+#: Lib/Misc/ZodiacLib.php:163
+msgid "zodiacLeo"
+msgstr ""
+
+#: Lib/Misc/ZodiacLib.php:164
+msgid "zodiacVirgo"
+msgstr ""
+
+#: Lib/Misc/ZodiacLib.php:165
+msgid "zodiacLibra"
+msgstr ""
+
+#: Lib/Misc/ZodiacLib.php:166
+msgid "zodiacScorpio"
+msgstr ""
+
+#: Lib/Misc/ZodiacLib.php:167
+msgid "zodiacSagittarius"
+msgstr ""
+
+#: Lib/Misc/ZodiacLib.php:168
+msgid "zodiacCapricorn"
+msgstr ""
+
+#: Lib/Utility/FolderLib.php:42
+msgid "%s removed"
+msgstr ""
+
+#: Lib/Utility/FolderLib.php:44
+msgid "%s NOT removed"
+msgstr ""
+
+#: Lib/Utility/TimeLib.php:468;521
+#: Test/Case/Lib/Utility/TimeLibTest.php:113;221
+msgid "o'clock"
+msgstr ""
+
+#: Lib/Utility/TimeLib.php:740;891
+#: Test/Case/Lib/Utility/TimeLibTest.php:551
+msgid "%s ago"
+msgstr ""
+
+#: Lib/Utility/TimeLib.php:744
+msgid "in %s"
+msgstr ""
+
+#: Lib/Utility/TimeLib.php:780
+msgid "Month"
+msgstr ""
+
+#: Lib/Utility/TimeLib.php:781
+msgid "Day"
+msgstr ""
+
+#: Lib/Utility/TimeLib.php:782
+msgid "Hour"
+msgstr ""
+
+#: Lib/Utility/TimeLib.php:783
+msgid "Minute"
+msgstr ""
+
+#: Lib/Utility/TimeLib.php:784
+msgid "Second"
+msgstr ""
+
+#: Lib/Utility/TimeLib.php:787
+msgid "Months"
+msgstr ""
+
+#: Lib/Utility/TimeLib.php:788
+#: Test/Case/Lib/Utility/TimeLibTest.php:551;555;664
+msgid "Days"
+msgstr ""
+
+#: Lib/Utility/TimeLib.php:789
+#: Test/Case/Lib/Utility/TimeLibTest.php:551;555;664
+msgid "Hours"
+msgstr ""
+
+#: Lib/Utility/TimeLib.php:790
+#: Test/Case/Lib/Utility/TimeLibTest.php:656;660
+msgid "Minutes"
+msgstr ""
+
+#: Lib/Utility/TimeLib.php:791
+#: Test/Case/Lib/Utility/TimeLibTest.php:656
+msgid "Seconds"
+msgstr ""
+
+#: Lib/Utility/TimeLib.php:890
+#: Test/Case/Lib/Utility/TimeLibTest.php:559
+msgid "justNow"
+msgstr ""
+
+#: Lib/Utility/TimeLib.php:891
+#: Test/Case/Lib/Utility/TimeLibTest.php:555
+msgid "In %s"
+msgstr ""
+
+#: Lib/Utility/TimeLib.php:990
+#: Test/Case/Lib/Utility/TimeLibTest.php:173;233;262;263;264
+#: View/Helper/DatetimeHelper.php:93
+msgid "Today"
+msgstr ""
+
+#: Lib/Utility/TimeLib.php:991
+#: Test/Case/Lib/Utility/TimeLibTest.php:264;265
+#: View/Helper/DatetimeHelper.php:96
+msgid "Tomorrow"
+msgstr ""
+
+#: Lib/Utility/TimeLib.php:992
+#: Test/Case/Lib/Utility/TimeLibTest.php:263;265
+#: View/Helper/DatetimeHelper.php:99
+msgid "Yesterday"
+msgstr ""
+
+#: Lib/Utility/TimeLib.php:993
+msgid "The day after tomorrow"
+msgstr ""
+
+#: Lib/Utility/TimeLib.php:994
+msgid "The day before yesterday"
+msgstr ""
+
+#: Model/Behavior/CaptchaBehavior.php:73;173
+msgid "captchaContentMissing"
+msgstr ""
+
+#: Model/Behavior/CaptchaBehavior.php:76
+msgid "captchaIllegalContent"
+msgstr ""
+
+#: Model/Behavior/CaptchaBehavior.php:79
+msgid "captchaResultTooFast"
+msgstr ""
+
+#: Model/Behavior/CaptchaBehavior.php:82
+msgid "captchaResultTooLate"
+msgstr ""
+
+#: Model/Behavior/CaptchaBehavior.php:85
+msgid "captchaResultIncorrect"
+msgstr ""
+
+#: Model/Behavior/CaptchaBehavior.php:117
+msgid "Illegal call"
+msgstr ""
+
+#: Model/Behavior/CaptchaBehavior.php:121
+msgid "Illegal content"
+msgstr ""
+
+#: Model/Behavior/CaptchaBehavior.php:182
+msgid "Captcha incorrect"
+msgstr ""
+
+#: Model/Behavior/CustomFindsBehavior.php:39
+msgid "The behavior \"Containable\", if used together with \"CustomFinds\" needs to be loaded before."
+msgstr ""
+
+#: Model/Behavior/LogableBehavior.php:401
+msgid "deleted"
+msgstr ""
+
+#: Model/Behavior/LogableBehavior.php:483
+msgid "added"
+msgstr ""
+
+#: Model/Behavior/LogableBehavior.php:485
+msgid "updated"
+msgstr ""
+
+#: Model/Behavior/LogableBehavior.php:624
+msgid "Custom action"
+msgstr ""
+
+#: Model/Behavior/LogableBehavior.php:627
+msgid "by"
+msgstr ""
+
+#: Model/Behavior/LogableBehavior.php:634
+msgid "by System"
+msgstr ""
+
+#: Model/Behavior/PasswordableBehavior.php:231
+#: Test/Case/Model/Behavior/PasswordableBehaviorTest.php:95
+msgid "valErrPwdNotMatch"
+msgstr ""
+
+#: Test/Case/Lib/Utility/TimeLibTest.php:263;264;265
+msgid "until"
+msgstr ""
+
+#: Test/Case/Lib/Utility/TimeLibTest.php:472;481;487
+msgid "Sunday"
+msgstr ""
+
+#: Test/Case/Lib/Utility/TimeLibTest.php:475
+msgid "Tue"
+msgstr ""
+
+#: Test/Case/Lib/Utility/TimeLibTest.php:478
+msgid "Saturday"
+msgstr ""
+
+#: Test/Case/Lib/Utility/TimeLibTest.php:484
+msgid "Tuesday"
+msgstr ""
+
+#: Test/Case/Lib/Utility/TimeLibTest.php:498
+msgid "November"
+msgstr ""
+
+#: Test/Case/Lib/Utility/TimeLibTest.php:501
+msgid "January"
+msgstr ""
+
+#: Test/Case/Lib/Utility/TimeLibTest.php:504
+msgid "Feb"
+msgstr ""
+
+#: Test/Case/Lib/Utility/TimeLibTest.php:507
+msgid "May"
+msgstr ""
+
+#: Test/Case/Model/MyModelTest.php:552
+msgid "e %s f"
+msgstr ""
+
+#: Test/Case/Model/MyModelTest.php:558
+msgid "e %s f %s g"
+msgstr ""
+
+#: Test/Case/Model/MyModelTest.php:564
+msgid "e %s f %s g %s"
+msgstr ""
+
+#: Test/Case/Model/MyModelTest.php:582
+msgid "a %s b %s c %s %s %s %s %s h %s"
+msgstr ""
+
+#: Test/Case/Model/Behavior/BitmaskedBehaviorTest.php:191
+msgid "Active"
+msgstr ""
+
+#: Test/Case/Model/Behavior/BitmaskedBehaviorTest.php:192
+msgid "Published"
+msgstr ""
+
+#: Test/Case/Model/Behavior/BitmaskedBehaviorTest.php:193
+msgid "Approved"
+msgstr ""
+
+#: Test/Case/Model/Behavior/BitmaskedBehaviorTest.php:194
+msgid "Flagged"
+msgstr ""
+
+#: Test/Case/Model/Behavior/GeocoderBehaviorTest.php:138
+msgid "validateLongitudeError"
+msgstr ""
+
+#: Test/Case/Model/Behavior/MasterPasswordBehaviorTest.php:78
+msgid "No way"
+msgstr ""
+
+#: Test/Case/Model/Behavior/PasswordableBehaviorTest.php:769;770
+msgid "valErrBetweenCharacters %s %s"
+msgstr ""
+
+#: Test/Case/Model/Behavior/SluggedBehaviorTest.php:288
+msgid "and"
+msgstr ""
+
+#: Test/Case/View/Helper/CommonHelperTest.php:240;255
+msgid "Houses"
+msgstr ""
+
+#: Test/Case/View/Helper/CommonHelperTest.php:244;262
+msgid "House"
+msgstr ""
+
+#: Test/Case/View/Helper/FormatHelperTest.php:64;75;87;99
+msgid "Edit"
+msgstr ""
+
+#: Test/Case/View/Helper/FormatHelperTest.php:158;170
+#: View/Helper/FormatHelper.php:669
+msgid "Yes"
+msgstr ""
+
+#: Test/Case/View/Helper/FormatHelperTest.php:162;174
+#: View/Helper/FormatHelper.php:670
+msgid "No"
+msgstr ""
+
+#: View/RssView.php:222
+msgid "The prefix %s is not specified."
+msgstr ""
+
+#: View/Elements/master_password.ctp:9
+msgid "Master Password"
+msgstr ""
+
+#: View/Elements/master_password.ctp:10
+msgid "Password"
+msgstr ""
+
+#: View/Elements/pagination.ctp:12
+msgid "first"
+msgstr ""
+
+#: View/Elements/pagination.ctp:15
+msgid "last"
+msgstr ""
+
+#: View/Elements/pagination.ctp:18
+msgid "previous"
+msgstr ""
+
+#: View/Elements/pagination.ctp:21
+#: View/Helper/FormatHelper.php:155;157
+msgid "next"
+msgstr ""
+
+#: View/Elements/pagination.ctp:38
+msgid "Page %page% of %pages%, showing %current% records out of %count% total"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "zero"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "one"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "two"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "three"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "four"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "five"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "six"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "seven"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "eight"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "nine"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:40
+msgid "ten"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:43
+msgid "calcPlus"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:43
+msgid "calcMinus"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:43
+msgid "calcTimes"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:126
+msgid "Captcha"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:126
+msgid "captchaExplained"
+msgstr ""
+
+#: View/Helper/CaptchaHelper.php:129
+msgid "captchaTip"
+msgstr ""
+
+#: View/Helper/CommonHelper.php:373
+msgid "Subscribe to this feed"
+msgstr ""
+
+#: View/Helper/CommonHelper.php:502
+msgid "Please enable cookies"
+msgstr ""
+
+#: View/Helper/DatetimeHelper.php:75
+msgid "publishedAlready"
+msgstr ""
+
+#: View/Helper/DatetimeHelper.php:75
+msgid "publishedToday"
+msgstr ""
+
+#: View/Helper/DatetimeHelper.php:75
+msgid "publishedNotYet"
+msgstr ""
+
+#: View/Helper/FlattrHelper.php:101
+msgid "Donate"
+msgstr ""
+
+#: View/Helper/FormExtHelper.php:1118
+msgid "Selection"
+msgstr ""
+
+#: View/Helper/FormExtHelper.php:1120
+msgid "All"
+msgstr ""
+
+#: View/Helper/FormExtHelper.php:1121
+msgid "None"
+msgstr ""
+
+#: View/Helper/FormExtHelper.php:1122
+msgid "Revert"
+msgstr ""
+
+#: View/Helper/FormatHelper.php:56
+msgid "consentThis"
+msgstr ""
+
+#: View/Helper/FormatHelper.php:57
+msgid "dissentThis"
+msgstr ""
+
+#: View/Helper/FormatHelper.php:60
+msgid "alreadyVoted"
+msgstr ""
+
+#: View/Helper/FormatHelper.php:144;146
+msgid "prev"
+msgstr ""
+
+#: View/Helper/FormatHelper.php:146
+msgid "noPrev"
+msgstr ""
+
+#: View/Helper/FormatHelper.php:157
+msgid "noNext"
+msgstr ""
+
+#: View/Helper/FormatHelper.php:279
+msgid "prio"
+msgstr ""
+
+#: View/Helper/FormatHelper.php:502
+msgid "of"
+msgstr ""
+
+#: View/Helper/FormatHelper.php:531
+msgid "Language"
+msgstr ""
+
+#: View/Helper/FormatHelper.php:546
+msgid "active"
+msgstr ""
+
+#: View/Helper/FormatHelper.php:588
+#: View/Helper/TextExtHelper.php:150
+msgid "for use in an external mail client"
+msgstr ""
+
+#: View/Helper/FormatHelper.php:802
+msgid "notAvailable"
+msgstr ""
+
+#: View/Helper/FormatHelper.php:870
+msgid "Percent"
+msgstr ""
+
+#: View/Helper/FormatHelper.php:950;951
+msgid "color"
+msgstr ""
+
+#: View/Helper/GoogleMapV3Helper.php:434
+msgid "Map cannot be displayed!"
+msgstr ""
+
+#: View/Helper/GoogleMapV3Helper.php:596
+msgid "Enter your address"
+msgstr ""
+
+#: View/Helper/GoogleMapV3Helper.php:597
+msgid "Get directions"
+msgstr ""
+
+#: View/Helper/GoogleMapV3Helper.php:1272
+msgid "Map"
+msgstr ""
+
+#: View/Qlogin/admin_index.ctp:3;27;29
+msgid "Qlogins"
+msgstr ""
+
+#: View/Qlogin/admin_index.ctp:4
+msgid "valid ones"
+msgstr ""
+
+#: View/Qlogin/admin_index.ctp:7
+msgid "Generated Link"
+msgstr ""
+
+#: View/Qlogin/admin_index.ctp:11;14
+msgid "Add %s"
+msgstr ""
+
+#: View/Qlogin/admin_index.ctp:11;14
+msgid "Qlogin"
+msgstr ""
+
+#: View/Qlogin/admin_index.ctp:20
+msgid "Submit"
+msgstr ""
+
+#: View/Qlogin/admin_index.ctp:27
+msgid "Reset %s"
+msgstr ""
+
+#: View/Qlogin/admin_index.ctp:27
+msgid "Sure?"
+msgstr ""
+
+#: View/Qlogin/admin_index.ctp:29
+msgid "List %s"
+msgstr ""

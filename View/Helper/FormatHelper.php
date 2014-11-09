@@ -53,11 +53,11 @@ class FormatHelper extends TextHelper {
 	 */
 	public function thumbs($id, $inactive = false, $inactiveTitle = null) {
 		$status = 'Active';
-		$upTitle = __('consentThis');
-		$downTitle = __('dissentThis');
+		$upTitle = __d('tools', 'consentThis');
+		$downTitle = __d('tools', 'dissentThis');
 		if ($inactive === true) {
 			$status = 'Inactive';
-			$upTitle = $downTitle = !empty($inactiveTitle) ? $inactiveTitle : __('alreadyVoted');
+			$upTitle = $downTitle = !empty($inactiveTitle) ? $inactiveTitle : __d('tools', 'alreadyVoted');
 		}
 
 		if ($this->settings['fontIcons']) {
@@ -141,9 +141,9 @@ class FormatHelper extends TextHelper {
 				$url += $options['url'];
 			}
 
-			$ret .= $this->Html->link($this->cIcon(ICON_PREV, false) . '&nbsp;' . __('prev' . $name), $url, array('escape' => false, 'title' => $neighbors['prev'][$titleAlias][$titleField]));
+			$ret .= $this->Html->link($this->cIcon(ICON_PREV, false) . '&nbsp;' . __d('tools', 'prev' . $name), $url, array('escape' => false, 'title' => $neighbors['prev'][$titleAlias][$titleField]));
 		} else {
-			$ret .= $this->cIcon(ICON_PREV_DISABLED, __('noPrev' . $name)) . '&nbsp;' . __('prev' . $name);
+			$ret .= $this->cIcon(ICON_PREV_DISABLED, __d('tools', 'noPrev' . $name)) . '&nbsp;' . __d('tools', 'prev' . $name);
 		}
 		$ret .= '&nbsp;&nbsp;';
 		if (!empty($neighbors['next'])) {
@@ -152,9 +152,9 @@ class FormatHelper extends TextHelper {
 				$url += $options['url'];
 			}
 
-			$ret .= $this->Html->link($this->cIcon(ICON_NEXT, false) . '&nbsp;' . __('next' . $name), $url, array('escape' => false, 'title' => $neighbors['next'][$titleAlias][$titleField]));
+			$ret .= $this->Html->link($this->cIcon(ICON_NEXT, false) . '&nbsp;' . __d('tools', 'next' . $name), $url, array('escape' => false, 'title' => $neighbors['next'][$titleAlias][$titleField]));
 		} else {
-			$ret .= $this->cIcon(ICON_NEXT_DISABLED, __('noNext' . $name)) . '&nbsp;' . __('next' . $name);
+			$ret .= $this->cIcon(ICON_NEXT_DISABLED, __d('tools', 'noNext' . $name)) . '&nbsp;' . __d('tools', 'next' . $name);
 		}
 		$ret .= '</div>';
 		return $ret;
@@ -276,7 +276,7 @@ class FormatHelper extends TextHelper {
 
 		$attr = array(
 			'class' => 'prio-' . $matching[$value],
-			'title' => __('prio' . ucfirst($matching[$value])),
+			'title' => __d('tools', 'prio' . ucfirst($matching[$value])),
 		);
 		if (!$css) {
 			$attr['alt'] = $matching[$value];
@@ -347,7 +347,7 @@ class FormatHelper extends TextHelper {
 	 * @param type
 	 * @param title
 	 * @param alt (set to FALSE if no alt is supposed to be shown)
-	 * @param bool automagic i18n translate [default true = __('xyz')]
+	 * @param bool automagic i18n translate [default true = __d('tools', 'xyz')]
 	 * @param options array ('class'=>'','width/height'=>'','onclick=>'') etc
 	 * @return string
 	 */
@@ -370,8 +370,8 @@ class FormatHelper extends TextHelper {
 				$title = (isset($title) ? $title : $this->icons[$type]['title']);
 				$alt = (isset($alt) ? $alt : preg_replace('/[^a-zA-Z0-9]/', '', $this->icons[$type]['title']));
 				if ($translate !== false) {
-					$title = __($title);
-					$alt = __($alt);
+					$title = __d('tools', $title);
+					$alt = __d('tools', $alt);
 				}
 				$alt = '[' . $alt . ']';
 			} else {
@@ -413,8 +413,8 @@ class FormatHelper extends TextHelper {
 			$title = isset($t) ? $t : ucfirst($type);
 			$alt = (isset($a) ? $a : Inflector::slug($title, '-'));
 			if ($translate !== false) {
-				$title = __($title);
-				$alt = __($alt);
+				$title = __d('tools', $title);
+				$alt = __d('tools', $alt);
 			}
 			$alt = '[' . $alt . ']';
 
@@ -449,7 +449,7 @@ class FormatHelper extends TextHelper {
 		if (!isset($options['title'])) {
 			$options['title'] = ucfirst($type);
 			if ($options['translate'] !== false) {
-				$options['title'] = __($options['title']);
+				$options['title'] = __d('tools', $options['title']);
 			}
 		}
 
@@ -499,7 +499,7 @@ class FormatHelper extends TextHelper {
 			$attributes = array('class' => 'star-bar starBar');
 			$attributes = array_merge($attributes, $attr);
 			if (empty($attributes['title']) && empty($options['title'])) {
-				$attributes['title'] = ($current) . ' ' . __('of') . ' ' . $max;
+				$attributes['title'] = ($current) . ' ' . __d('tools', 'of') . ' ' . $max;
 			}
 
 			$res = $this->Html->tag('span', $text, $attributes);
@@ -528,7 +528,7 @@ class FormatHelper extends TextHelper {
 			'it' => array('title' => 'Italiano'),
 		);
 
-		$languageChange = __('Language') . ': ';
+		$languageChange = __d('tools', 'Language') . ': ';
 
 		$languages = array();
 		foreach ($langs as $lang) {
@@ -543,13 +543,13 @@ class FormatHelper extends TextHelper {
 		$languageChange .= '<span class="country">';
 		foreach ($languages as $code => $la) {
 			if ($lang === $code) {
-				$languageChange .= $this->Html->image('language_flags/' . $code . '.gif', array('alt' => $code, 'title' => $la['title'] . ' (' . __('active') . ')', 'class' => 'country_flag active')) . '';
+				$languageChange .= $this->Html->image('language_flags/' . $code . '.gif', array('alt' => $code, 'title' => $la['title'] . ' (' . __d('tools', 'active') . ')', 'class' => 'country_flag active')) . '';
 			} else {
 				$languageChange .= $this->Html->link($this->Html->image('language_flags/' . $code . '.gif', array('alt' => $code, 'title' => $la['title'], 'class' => 'country_flag')), '/lang/' . $code, array('escape' => false)) . '';
 			}
 		}
 
-		$languageChange .= '</span>'; //.__('(Translation not complete yet)');
+		$languageChange .= '</span>'; //.__d('tools', '(Translation not complete yet)');
 		return $languageChange;
 	}
 
@@ -585,7 +585,7 @@ class FormatHelper extends TextHelper {
 		if (empty($class)) { $class = 'email';}
 
 		$defaults = array(
-			'title' => __('for use in an external mail client'),
+			'title' => __d('tools', 'for use in an external mail client'),
 			'class' => 'email',
 			'escape' => false
 		);
@@ -666,8 +666,8 @@ class FormatHelper extends TextHelper {
 	 * @return image:Yes/No or text:Yes/No
 	 */
 	public function yesNo($v, $ontitle = null, $offtitle = null, $on = 1, $text = false, $notitle = false) {
-		$ontitle = (!empty($ontitle) ? $ontitle : __('Yes'));
-		$offtitle = (!empty($offtitle) ? $offtitle : __('No'));
+		$ontitle = (!empty($ontitle) ? $ontitle : __d('tools', 'Yes'));
+		$offtitle = (!empty($offtitle) ? $offtitle : __d('tools', 'No'));
 		$sbez = array('0' => @substr($offtitle, 0, 1), '1' => @substr($ontitle, 0, 1));
 		$bez = array('0' => $offtitle, '1' => $ontitle);
 
@@ -799,7 +799,7 @@ class FormatHelper extends TextHelper {
 	 * @return string
 	 */
 	public function disabledLink($text, $options = array()) {
-		$defaults = array('class' => 'disabledLink', 'title' => __('notAvailable'));
+		$defaults = array('class' => 'disabledLink', 'title' => __d('tools', 'notAvailable'));
 		$options += $defaults;
 
 		return $this->Html->tag('span', $text, $options);
@@ -867,7 +867,7 @@ class FormatHelper extends TextHelper {
 		$params = Router::queryString($options, array(), true);
 
 		$htmlDefaults = array(
-			'title' => $this->Numeric->format($percent, $options['decimals']) . ' ' . __('Percent'),
+			'title' => $this->Numeric->format($percent, $options['decimals']) . ' ' . __d('tools', 'Percent'),
 			'class' => 'help');
 		$htmlDefaults['alt'] = $htmlDefaults['title'];
 
@@ -947,8 +947,8 @@ class FormatHelper extends TextHelper {
 
 		$icon = (in_array($color, $icons) ? $color : 'blank');
 
-		$defaults = array('title' => (!empty($title) ? $title : ucfirst(__('color' . ucfirst($color)))), 'alt' => (!empty($alt) ? $alt :
-			__('color' . ucfirst($color))), 'class' => 'icon help');
+		$defaults = array('title' => (!empty($title) ? $title : ucfirst(__d('tools', 'color' . ucfirst($color)))), 'alt' => (!empty($alt) ? $alt :
+			__d('tools', 'color' . ucfirst($color))), 'class' => 'icon help');
 		$options += $defaults;
 
 		return $this->Html->image('icons/status_light_' . $icon . '.gif', $options);

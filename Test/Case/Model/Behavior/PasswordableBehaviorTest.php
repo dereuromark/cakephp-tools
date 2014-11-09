@@ -92,7 +92,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$is = $this->User->save();
 		//debug($this->User->validationErrors);
 		$this->assertFalse($is);
-		$this->assertEquals(array(__('valErrPwdNotMatch')), $this->User->validationErrors['pwd_repeat']);
+		$this->assertEquals(array(__d('tools', 'valErrPwdNotMatch')), $this->User->validationErrors['pwd_repeat']);
 
 		$this->User->create();
 		$data = array(
@@ -766,8 +766,8 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$result = $this->User->save();
 		$this->assertFalse($result);
 		$expected = array(
-			'pwd' => array(__('valErrBetweenCharacters %s %s', 3, 6)),
-			'pwd_repeat' => array(__('valErrBetweenCharacters %s %s', 3, 6))
+			'pwd' => array(__d('tools', 'valErrBetweenCharacters %s %s', 3, 6)),
+			'pwd_repeat' => array(__d('tools', 'valErrBetweenCharacters %s %s', 3, 6))
 		);
 		$this->assertEquals($expected, $this->User->validationErrors);
 	}

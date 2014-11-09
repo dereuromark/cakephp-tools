@@ -75,7 +75,7 @@ class MasterPasswordBehaviorTest extends MyCakeTestCase {
 		$this->Model->set($data);
 		$res = $this->Model->validates();
 		$this->assertFalse($res);
-		$this->assertEquals(__('No way'), $this->Model->validationErrors['master_password'][0]);
+		$this->assertEquals(__d('tools', 'No way'), $this->Model->validationErrors['master_password'][0]);
 
 		$data = array(
 			'some_comment' => 'xyz',

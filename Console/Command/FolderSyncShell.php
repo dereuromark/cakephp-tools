@@ -75,11 +75,11 @@ class FolderSyncShell extends AppShell {
 		$excludes = $this->excludes;
 		$this->_sync($this->sourceFolder, $this->targetFolder, $excludes);
 
-		$this->out(__('Files: %s', $this->files));
+		$this->out(sprintf('Files: %s', $this->files));
 		$this->out();
 
 		if (!empty($this->missing)) {
-			$this->out(__('%s missing files', count($this->missing)));
+			$this->out(sprintf('%s missing files', count($this->missing)));
 			foreach ($this->missing as $missing) {
 				$this->out('- ' . $missing, 1, Shell::VERBOSE);
 			}
@@ -87,10 +87,10 @@ class FolderSyncShell extends AppShell {
 		}
 
 		if ($this->updatedFiles) {
-			$this->out(__('%s target files updated', $this->updatedFiles));
+			$this->out(sprintf('%s target files updated', $this->updatedFiles));
 		}
 		if ($this->removedFiles) {
-			$this->out(__('%s source files removed', $this->removedFiles));
+			$this->out(sprintf('%s source files removed', $this->removedFiles));
 		}
 		if (!$this->updatedFiles && !$this->removedFiles) {
 			$this->out('(nothing to do)');
@@ -152,9 +152,9 @@ class FolderSyncShell extends AppShell {
 	}
 
 	public function help() {
-		$head = __("Usage: cake FolderSync <command>") . "\n";
+		$head = 'Usage: cake FolderSync <command>' . "\n";
 		$head .= "-----------------------------------------------\n";
-		$head .= __("Commands:") . "\n\n";
+		$head .= 'Commands:' . "\n\n";
 
 		$head .= "\t" . 'update' . "\n\n";
 		//$head .= "\t" . 'update' . "\n\n";

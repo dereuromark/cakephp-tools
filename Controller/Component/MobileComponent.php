@@ -265,7 +265,7 @@ class MobileComponent extends Component {
 			return call_user_func($this->settings['engine']);
 		}
 		if (!in_array($this->settings['engine'], array('tools', 'vendor'))) {
-			throw new CakeException(__('Engine %s not available', $this->settings['engine']));
+			throw new CakeException(__d('tools', 'Engine %s not available', $this->settings['engine']));
 		}
 		return $this->detectByVendor($this->settings['engine']);
 	}

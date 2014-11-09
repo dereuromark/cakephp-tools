@@ -932,7 +932,7 @@ class FormExtHelper extends FormHelper {
 	public function maxLength($selectors = array(), $options = array()) {
 		$this->maxLengthScripts();
 		$js = '';
-		$this->maxLengthOptions['statusText'] = __($this->maxLengthOptions['statusText']);
+		$this->maxLengthOptions['statusText'] = __d('tools', $this->maxLengthOptions['statusText']);
 
 		$selectors = (array)$selectors;
 		foreach ($selectors as $selector => $settings) {
@@ -1115,11 +1115,11 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 	 */
 	public function checkboxButtons($buttonsOnly = false) {
 		$res = '<div>';
-		$res .= __('Selection') . ': ';
+		$res .= __d('tools', 'Selection') . ': ';
 
-		$res .= $this->Html->link(__('All'), 'javascript:void(0)');
-		$res .= $this->Html->link(__('None'), 'javascript:void(0)');
-		$res .= $this->Html->link(__('Revert'), 'javascript:void(0)');
+		$res .= $this->Html->link(__d('tools', 'All'), 'javascript:void(0)');
+		$res .= $this->Html->link(__d('tools', 'None'), 'javascript:void(0)');
+		$res .= $this->Html->link(__d('tools', 'Revert'), 'javascript:void(0)');
 
 		$res .= '</div>';
 		if ($buttonsOnly !== true) {

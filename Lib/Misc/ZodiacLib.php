@@ -154,18 +154,18 @@ class ZodiacLib {
 	 */
 	public static function signs($value = null) {
 		$res = array(
-			static::SIGN_AQUARIUS	=> __('zodiacAquarius'),
-			static::SIGN_PISCES	=> __('zodiacPisces'),
-			static::SIGN_ARIES	=> __('zodiacAries'),
-			static::SIGN_TAURUS	=> __('zodiacTaurus'),
-			static::SIGN_GEMINI	=> __('zodiacGemini'),
-			static::SIGN_CANCER	=> __('zodiacCancer'),
-			static::SIGN_LEO	=> __('zodiacLeo'),
-			static::SIGN_VIRGO	=> __('zodiacVirgo'),
-			static::SIGN_LIBRA	=> __('zodiacLibra'),
-			static::SIGN_SCORPIO	=> __('zodiacScorpio'),
-			static::SIGN_SAGITTARIUS	=> __('zodiacSagittarius'),
-			static::SIGN_CAPRICORN	=> __('zodiacCapricorn'),
+			static::SIGN_AQUARIUS	=> __d('tools', 'zodiacAquarius'),
+			static::SIGN_PISCES	=> __d('tools', 'zodiacPisces'),
+			static::SIGN_ARIES	=> __d('tools', 'zodiacAries'),
+			static::SIGN_TAURUS	=> __d('tools', 'zodiacTaurus'),
+			static::SIGN_GEMINI	=> __d('tools', 'zodiacGemini'),
+			static::SIGN_CANCER	=> __d('tools', 'zodiacCancer'),
+			static::SIGN_LEO	=> __d('tools', 'zodiacLeo'),
+			static::SIGN_VIRGO	=> __d('tools', 'zodiacVirgo'),
+			static::SIGN_LIBRA	=> __d('tools', 'zodiacLibra'),
+			static::SIGN_SCORPIO	=> __d('tools', 'zodiacScorpio'),
+			static::SIGN_SAGITTARIUS	=> __d('tools', 'zodiacSagittarius'),
+			static::SIGN_CAPRICORN	=> __d('tools', 'zodiacCapricorn'),
 		);
 		if ($value === null) {
 			return $res;

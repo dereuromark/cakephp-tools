@@ -36,7 +36,7 @@ class CustomFindsBehavior extends ModelBehavior {
 	protected function _verifyContainable(Model $Model, $query) {
 		if (is_array($Model->actsAs) && in_array('Containable', $Model->actsAs) && isset($query['contain'])) {
 			if (array_search('CustomFinds', $Model->actsAs) > array_search('Containable', $Model->actsAs)) {
-				trigger_error(__('The behavior "Containable", if used together with "CustomFinds" needs to be loaded before.'), E_USER_WARNING);
+				trigger_error(__d('tools', 'The behavior "Containable", if used together with "CustomFinds" needs to be loaded before.'), E_USER_WARNING);
 			}
 		}
 	}

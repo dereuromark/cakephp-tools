@@ -35,7 +35,7 @@ class QloginController extends ToolsAppController {
 		}
 
 		if (empty($entry)) {
-			$this->Common->flashMessage(__('Invalid Key'), 'error');
+			$this->Common->flashMessage(__d('tools', 'Invalid Key'), 'error');
 			return $this->Common->autoRedirect($default);
 		}
 
@@ -47,7 +47,7 @@ class QloginController extends ToolsAppController {
 			if ($this->Common->manualLogin($uid)) {
 				$this->Session->write('Auth.User.Login.qlogin', true);
 				if (!Configure::read('Qlogin.suppressMessage')) {
-					$this->Common->flashMessage(__('You successfully logged in via qlogin'), 'success');
+					$this->Common->flashMessage(__d('tools', 'You successfully logged in via qlogin'), 'success');
 				}
 			} else {
 				$this->Common->flashMessage($this->Auth->loginError, 'error');
@@ -105,7 +105,7 @@ class QloginController extends ToolsAppController {
 		$this->request->allowMethod(array('post', 'delete'));
 		$this->Token = ClassRegistry::init('Tools.Token');
 		$this->Token->deleteAll(array('type' => 'qlogin'));
-		$this->Common->flashMessage(__('Success'), 'success');
+		$this->Common->flashMessage(__d('tools', 'Success'), 'success');
 		return $this->Common->autoRedirect(array('action' => 'index'));
 	}
 

@@ -97,7 +97,7 @@ class TinyUrlsController extends ToolsAppController {
 			throw new MethodNotAllowedException();
 		}
 		$this->TinyUrl->truncate();
-		$this->Common->flashMessage(__('Done'), 'success');
+		$this->Common->flashMessage(__d('tools', 'Done'), 'success');
 		return $this->Common->autoRedirect(array('action' => 'index'));
 	}
 

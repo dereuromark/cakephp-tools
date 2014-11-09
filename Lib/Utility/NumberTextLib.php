@@ -1,7 +1,7 @@
 <?php
 App::import('Vendor', 'Tools.Soros/Soros');
 if (!class_exists('Soros')) {
-	throw new CakeException(__d('dev', 'Vendor class Soros cannot be found'));
+	throw new CakeException('Vendor class Soros cannot be found');
 }
 
 /**
@@ -33,7 +33,7 @@ class NumberTextLib {
 			static::$_dir = CakePlugin::path('Tools') . 'Vendor' . DS . 'Soros' . DS;
 		}
 		if (!file_exists(static::$_dir . "$lang.sor")) {
-			throw new CakeException(__d('dev', 'Language file %s.sor not found', $lang));
+			throw new CakeException(sprintf('Language file %s.sor not found', $lang));
 		}
 		return $lang;
 	}

@@ -74,7 +74,7 @@ class PhpTagShell extends AppShell {
 
 					while (empty($action)) {
 						//TODO: [r]!
-						$action = $this->in(__('Remove? [y]/[n], [a] for all in this folder, [r] for all below, [*] for all files(!), [q] to quit'), array('y', 'n', 'r', 'a', 'q', '*'), 'q');
+						$action = $this->in('Remove? [y]/[n], [a] for all in this folder, [r] for all below, [*] for all files(!), [q] to quit', array('y', 'n', 'r', 'a', 'q', '*'), 'q');
 					}
 				} else {
 					$action = 'y';

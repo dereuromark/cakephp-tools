@@ -195,7 +195,7 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 		$mapMarkers = $this->GoogleMapV3->staticMarkers($markers);
 
 		$staticMapUrl = $this->GoogleMapV3->staticMapUrl(array('center' => 48 . ',' . 11, 'markers' => $mapMarkers, 'size' => '640x510', 'zoom' => 6));
-		//echo $this->GoogleMapV3->Html->link('Open Static Map', $staticMapUrl, array('class'=>'staticMap', 'title'=>__('click for full map'))); //, 'escape'=>false
+		//echo $this->GoogleMapV3->Html->link('Open Static Map', $staticMapUrl, array('class'=>'staticMap', 'title'=>__d('tools', 'click for full map'))); //, 'escape'=>false
 
 	}
 

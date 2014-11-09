@@ -465,7 +465,7 @@ class TimeLib extends CakeTime {
 				case FORMAT_LOCAL_YMDHM:
 				case FORMAT_LOCAL_HM:
 				case FORMAT_LOCAL_HMS:
-					$date .= ' ' . __('o\'clock');
+					$date .= ' ' . __d('tools', 'o\'clock');
 					break;
 			}
 		}
@@ -518,7 +518,7 @@ class TimeLib extends CakeTime {
 				case FORMAT_NICE_YMDHM:
 				case FORMAT_NICE_HM:
 				case FORMAT_NICE_HMS:
-					$ret .= ' ' . __('o\'clock');
+					$ret .= ' ' . __d('tools', 'o\'clock');
 					break;
 			}
 		}
@@ -576,9 +576,9 @@ class TimeLib extends CakeTime {
 		}
 		//pr($day);
 		if ($abbr) {
-			return __($days['short'][$day]);
+			return __d('tools', $days['short'][$day]);
 		}
-		return __($days['long'][$day]);
+		return __d('tools', $days['long'][$day]);
 	}
 
 	/**
@@ -624,10 +624,10 @@ class TimeLib extends CakeTime {
 		);
 		$month = (int) ($month - 1);
 		if (!$abbr) {
-			return __($months['long'][$month]);
+			return __d('tools', $months['long'][$month]);
 		}
-		$monthName = __($months['short'][$month]);
-		if (!empty($options['appendDot']) && strlen(__($months['long'][$month])) > 3) {
+		$monthName = __d('tools', $months['short'][$month]);
+		if (!empty($options['appendDot']) && strlen(__d('tools', $months['long'][$month])) > 3) {
 			$monthName .= '.';
 		}
 		return $monthName;
@@ -737,17 +737,17 @@ class TimeLib extends CakeTime {
 		}
 		if ($past === true) {
 			// This is in the past
-			return __('%s ago', __($span));
+			return __d('tools', '%s ago', __d('tools', $span));
 		}
 		if ($past === false) {
 			// This in the future
-			return __('in %s', __($span));
+			return __d('tools', 'in %s', __d('tools', $span));
 		}
 		if ($past !== null) {
 			// Custom translation
-			return __($past, __($span));
+			return __d('tools', $past, __d('tools', $span));
 		}
-		return __($span);
+		return __d('tools', $span);
 	}
 
 	/**
@@ -777,18 +777,18 @@ class TimeLib extends CakeTime {
 			$p = $s;
 		} else {
 			$s = array(
-		'm' => ' ' . __('Month'), # translated
-				'd' => ' ' . __('Day'),
-				'h' => ' ' . __('Hour'),
-				'i' => ' ' . __('Minute'),
-				's' => ' ' . __('Second'),
+		'm' => ' ' . __d('tools', 'Month'), # translated
+				'd' => ' ' . __d('tools', 'Day'),
+				'h' => ' ' . __d('tools', 'Hour'),
+				'i' => ' ' . __d('tools', 'Minute'),
+				's' => ' ' . __d('tools', 'Second'),
 			);
 			$p = array(
-		'm' => ' ' . __('Months'), # translated
-				'd' => ' ' . __('Days'),
-				'h' => ' ' . __('Hours'),
-				'i' => ' ' . __('Minutes'),
-				's' => ' ' . __('Seconds'),
+		'm' => ' ' . __d('tools', 'Months'), # translated
+				'd' => ' ' . __d('tools', 'Days'),
+				'h' => ' ' . __d('tools', 'Hours'),
+				'i' => ' ' . __d('tools', 'Minutes'),
+				's' => ' ' . __d('tools', 'Seconds'),
 			);
 		}
 
@@ -887,8 +887,8 @@ class TimeLib extends CakeTime {
 		}
 
 		$defaults = array(
-			'verbose' => __('justNow'), 'zero' => false, 'separator' => ', ',
-			'future' => __('In %s'), 'past' => __('%s ago'), 'default' => '');
+			'verbose' => __d('tools', 'justNow'), 'zero' => false, 'separator' => ', ',
+			'future' => __d('tools', 'In %s'), 'past' => __d('tools', '%s ago'), 'default' => '');
 		$options += $defaults;
 
 		$ret = static::lengthOfTime($sec, $format, $options);
@@ -987,11 +987,11 @@ class TimeLib extends CakeTime {
 	public static function parseLocalizedDate($date, $format = null, $type = 'start') {
 		$date = trim($date);
 		$i18n = array(
-			strtolower(__('Today')) => array('start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')))),
-			strtolower(__('Tomorrow')) => array('start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y')) + DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')) + DAY)),
-			strtolower(__('Yesterday')) => array('start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y')) - DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')) - DAY)),
-			strtolower(__('The day after tomorrow')) => array('start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y')) + 2 * DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')) + 2 * DAY)),
-			strtolower(__('The day before yesterday')) => array('start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y')) - 2 * DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')) - 2 * DAY)),
+			strtolower(__d('tools', 'Today')) => array('start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')))),
+			strtolower(__d('tools', 'Tomorrow')) => array('start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y')) + DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')) + DAY)),
+			strtolower(__d('tools', 'Yesterday')) => array('start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y')) - DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')) - DAY)),
+			strtolower(__d('tools', 'The day after tomorrow')) => array('start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y')) + 2 * DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')) + 2 * DAY)),
+			strtolower(__d('tools', 'The day before yesterday')) => array('start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y')) - 2 * DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')) - 2 * DAY)),
 		);
 		if (isset($i18n[strtolower($date)])) {
 			return $i18n[strtolower($date)][$type];

@@ -72,7 +72,7 @@ class ConfirmableBehavior extends ModelBehavior {
 		$message = $this->settings[$Model->alias]['message'];
 
 		if (empty($Model->data[$Model->alias][$field])) {
-				$Model->invalidate($field, __($message));
+				$Model->invalidate($field, __d('tools', $message));
 				return false;
 		}
 
