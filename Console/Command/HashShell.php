@@ -28,7 +28,7 @@ class HashShell extends AppShell {
 			$this->out(($key + 1) . ': ' . $t . (in_array($t, $this->active) ? ' (!)' : ''));
 		}
 		while (!isset($type) || !in_array($type - 1, $types)) {
-			$type = $this->in(__d('tools', 'Select hashType - or [q] to quit'), null, static::DEFAULT_HASH_ALG);
+			$type = $this->in('Select hashType - or [q] to quit', null, static::DEFAULT_HASH_ALG);
 			if ($type === 'q') {
 				return $this->error('Aborted!');
 			}
@@ -36,7 +36,7 @@ class HashShell extends AppShell {
 		$type--;
 
 		while (empty($pwToHash) || mb_strlen($pwToHash) < 2) {
-			$pwToHash = $this->in(__d('tools', 'String to Hash (2 characters at least)'));
+			$pwToHash = $this->in('String to Hash (2 characters at least)');
 		}
 
 		$pw = $this->_hash($hashAlgos[$type], $pwToHash);
@@ -112,25 +112,25 @@ class HashShell extends AppShell {
 	public function getOptionParser() {
 		$parser = parent::getOptionParser();
 
-		$parser->description(__d('tools', 'A console tool for hashing strings'))
+		$parser->description('A console tool for hashing strings')
 			->addSubcommand('string', array(
-				'help' => __d('tools', 'Hash a string'),
+				'help' => 'Hash a string',
 				'parser' => array(
-					'description' => __d('tools', 'hash'),
+					'description' => 'hash',
 				)
 			))->addSubcommand('compare', array(
-				'help' => __d('tools', 'Compare algs'),
+				'help' => 'Compare algs',
 				'parser' => array(
-					'description' => __d('tools', 'Compare algs'),
+					'description' => 'Compare algs',
 				)
 			))->addSubcommand('time', array(
-				'help' => __d('tools', 'Measure alg times'),
+				'help' => 'Measure alg times',
 				'parser' => array(
-					'description' => __d('tools', 'Measure alg times'),
+					'description' => 'Measure alg times',
 				)
 			))->epilog(
 				array(
-					__d('tools', 'sha1 is the default algorithm')
+					'sha1 is the default algorithm'
 				)
 			);
 		return $parser;

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2014-11-08 23:24+0000\n"
+"POT-Creation-Date: 2014-11-09 00:23+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -13,140 +13,6 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-
-#: Console/Command/CopyShell.php:162
-msgid "Use Sitecopy Config ([q] to quit, [h] for help)"
-msgstr ""
-
-#: Console/Command/CopyShell.php:297
-msgid "Init, Catchup, List, Fetch, Update, Synch (or [q] to quit)"
-msgstr ""
-
-#: Console/Command/CopyShell.php:306
-msgid "Local files might be overridden... Continue?"
-msgstr ""
-
-#: Console/Command/CopyShell.php:481
-msgid "Show script help, too?"
-msgstr ""
-
-#: Console/Command/FolderSyncShell.php:78
-msgid "Files: %s"
-msgstr ""
-
-#: Console/Command/FolderSyncShell.php:82
-msgid "%s missing files"
-msgstr ""
-
-#: Console/Command/FolderSyncShell.php:90
-msgid "%s target files updated"
-msgstr ""
-
-#: Console/Command/FolderSyncShell.php:93
-msgid "%s source files removed"
-msgstr ""
-
-#: Console/Command/FolderSyncShell.php:155
-msgid "Usage: cake FolderSync <command>"
-msgstr ""
-
-#: Console/Command/FolderSyncShell.php:157
-msgid "Commands:"
-msgstr ""
-
-#: Console/Command/HashShell.php:31
-msgid "Select hashType - or [q] to quit"
-msgstr ""
-
-#: Console/Command/HashShell.php:39
-msgid "String to Hash (2 characters at least)"
-msgstr ""
-
-#: Console/Command/HashShell.php:115
-msgid "A console tool for hashing strings"
-msgstr ""
-
-#: Console/Command/HashShell.php:117
-msgid "Hash a string"
-msgstr ""
-
-#: Console/Command/HashShell.php:119
-msgid "hash"
-msgstr ""
-
-#: Console/Command/HashShell.php:122;124
-msgid "Compare algs"
-msgstr ""
-
-#: Console/Command/HashShell.php:127;129
-msgid "Measure alg times"
-msgstr ""
-
-#: Console/Command/HashShell.php:133
-msgid "sha1 is the default algorithm"
-msgstr ""
-
-#: Console/Command/IndentShell.php:95
-msgid "Modifying files! Continue?"
-msgstr ""
-
-#: Console/Command/IndexShell.php:211
-msgid "Run this statement?"
-msgstr ""
-
-#: Console/Command/PhpTagShell.php:77
-#: Console/Command/WhitespaceShell.php:67
-msgid "Remove? [y]/[n], [a] for all in this folder, [r] for all below, [*] for all files(!), [q] to quit"
-msgstr ""
-
-#: Console/Command/PwdShell.php:30
-msgid "No Auth Component found"
-msgstr ""
-
-#: Console/Command/PwdShell.php:36
-#: Console/Command/ResetShell.php:79
-msgid "Password to Hash (2 characters at least)"
-msgstr ""
-
-#: Console/Command/ResetShell.php:37
-msgid "New email address (must have a valid form at least)"
-msgstr ""
-
-#: Console/Command/UserShell.php:27
-msgid "Username (2 characters at least)"
-msgstr ""
-
-#: Console/Command/UserShell.php:30
-msgid "Password (2 characters at least)"
-msgstr ""
-
-#: Console/Command/UserShell.php:45;57
-msgid "Role"
-msgstr ""
-
-#: Console/Command/UserShell.php:62
-msgid "Please insert a role manually"
-msgstr ""
-
-#: Console/Command/UserShell.php:86
-msgid "Please insert a status"
-msgstr ""
-
-#: Console/Command/UserShell.php:92
-msgid "Provide Email? "
-msgstr ""
-
-#: Console/Command/UserShell.php:94
-msgid "Please insert an email"
-msgstr ""
-
-#: Console/Command/UserShell.php:103
-msgid "Continue?"
-msgstr ""
-
-#: Console/Command/WhitespaceShell.php:31;124
-msgid "Continue? [y]/[n]"
-msgstr ""
 
 #: Controller/QloginController.php:38
 msgid "Invalid Key"

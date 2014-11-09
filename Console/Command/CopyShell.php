@@ -159,7 +159,7 @@ class CopyShell extends AppShell {
 		*/
 		} else {
 			array_unshift($connections, 'q', 'h');
-			$connection = $this->in(__d('tools', 'Use Sitecopy Config ([q] to quit, [h] for help)') . ':', $connections, 'q');
+			$connection = $this->in('Use Sitecopy Config ([q] to quit, [h] for help)' . ':', $connections, 'q');
 		}
 
 		$this->out('');
@@ -294,7 +294,7 @@ class CopyShell extends AppShell {
 				$this->args[0] = null; # only the first time
 			}
 			if (empty($action) || !in_array($action, $allowedActions)) {
-				$action = strtolower($this->in(__d('tools', 'Init, Catchup, List, Fetch, Update, Synch (or [q] to quit)') . ':', array_merge($allowedActions, array('q')), 'l'));
+				$action = strtolower($this->in('Init, Catchup, List, Fetch, Update, Synch (or [q] to quit)' . ':', array_merge($allowedActions, array('q')), 'l'));
 			}
 
 			if ($action === 'q') {
@@ -303,7 +303,7 @@ class CopyShell extends AppShell {
 			if (in_array($action, $allowedActions)) {
 				// synch can destroy local information that might not have been saved yet, so confirm
 				if ($action === 's') {
-					$continue = $this->in(__d('tools', 'Local files might be overridden... Continue?'), array('y', 'n'), 'n');
+					$continue = $this->in('Local files might be overridden... Continue?', array('y', 'n'), 'n');
 					if (strtolower($continue) !== 'y' && strtolower($continue) !== 'yes') {
 						$action = '';
 						continue;
@@ -478,7 +478,7 @@ class CopyShell extends AppShell {
 		$this->out("\ts: Synch (Get remote content and override local files");
 		$this->out("");
 
-		$continue = $this->in(__d('tools', 'Show script help, too?'), array('y', 'n'), 'y');
+		$continue = $this->in('Show script help, too?', array('y', 'n'), 'y');
 		if (strtolower($continue) === 'y' || strtolower($continue) === 'yes') {
 			// somehow does not work yet (inside cake console anyway...)
 			$this->_exec(false, array('--help'));

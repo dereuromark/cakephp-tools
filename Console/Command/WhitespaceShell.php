@@ -28,7 +28,7 @@ class WhitespaceShell extends AppShell {
 		$files = $App->findRecursive('.*\.php');
 		$this->out('Found ' . count($files) . ' files.');
 
-		$action = $this->in(__d('tools', 'Continue? [y]/[n]'), array('y', 'n'), 'n');
+		$action = $this->in('Continue? [y]/[n]', array('y', 'n'), 'n');
 		if ($action !== 'y') {
 			return $this->error('Aborted');
 		}
@@ -64,7 +64,7 @@ class WhitespaceShell extends AppShell {
 
 				while (empty($action)) {
 					//TODO: [r]!
-					$action = $this->in(__d('tools', 'Remove? [y]/[n], [a] for all in this folder, [r] for all below, [*] for all files(!), [q] to quit'), array('y', 'n', 'r', 'a', 'q', '*'), 'q');
+					$action = $this->in('Remove? [y]/[n], [a] for all in this folder, [r] for all below, [*] for all files(!), [q] to quit', array('y', 'n', 'r', 'a', 'q', '*'), 'q');
 				}
 			} else {
 				$action = 'y';
@@ -121,7 +121,7 @@ class WhitespaceShell extends AppShell {
 
 		$this->out('Found ' . count($files) . ' files.');
 
-		$action = $this->in(__d('tools', 'Continue? [y]/[n]'), array('y', 'n'), 'n');
+		$action = $this->in('Continue? [y]/[n]', array('y', 'n'), 'n');
 		if ($action !== 'y') {
 			return $this->error('Aborted');
 		}
