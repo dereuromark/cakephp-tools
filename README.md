@@ -158,7 +158,7 @@ For details on how to contribute please read the [CONTRIBUTING page](CONTRIBUTIN
 ### TODOs
 
 * Better test coverage (once it's >= 75% I will declare the plugin stable 1.0)
-* Use __d() and https://www.transifex.com/projects/p/tools/resources/ for translations
+* Use [Transifex plugin](https://github.com/dereuromark/cakephp-transifex) and [transifex.com](https://www.transifex.com/projects/p/tools/resources/) (you need to have a login) for translations
 
 ### Recent changes (possibly BC breaking)
 
