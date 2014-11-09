@@ -503,7 +503,7 @@ class CommonComponent extends Component {
 	 */
 	public function setMeta($type, $content, $prep = true) {
 		if (!in_array($type, array('title', 'canonical', 'description', 'keywords', 'robots', 'language', 'custom'))) {
-			trigger_error(__d('tools', 'Meta Type invalid'), E_USER_WARNING);
+			trigger_error(sprintf('Meta Type %s invalid', $type), E_USER_WARNING);
 			return;
 		}
 		if ($type === 'canonical' && $prep) {

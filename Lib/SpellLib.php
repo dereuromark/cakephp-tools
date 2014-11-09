@@ -36,7 +36,7 @@ class SpellLib {
 
 	public function __construct($options = array()) {
 		if (!function_exists('enchant_broker_init')) {
-			throw new InternalErrorException(__d('tools', 'Module %s not installed', 'Enchant'));
+			throw new InternalErrorException(sprintf('Module %s not installed', 'Enchant'));
 		}
 		$this->_Broker = enchant_broker_init();
 
@@ -49,13 +49,13 @@ class SpellLib {
 		$options = array_merge($defaults, $options);
 
 		if (!isset($this->_engines[$options['engine']])) {
-			throw new InternalErrorException(__d('tools', 'Engine %s not found', (string) $options['engine']));
+			throw new InternalErrorException(sprintf('Engine %s not found', (string) $options['engine']));
 		}
 		$engineFolder = $this->_engines[$options['engine']];
 		enchant_broker_set_dict_path($this->_Broker, $options['engine'], $options['path'] . $engineFolder . DS);
 
 		if (!enchant_broker_dict_exists($this->_Broker, $options['lang'])) {
-			throw new InternalErrorException(__d('tools', 'Dictionary %s not found', $options['lang']));
+			throw new InternalErrorException(sprintf('Dictionary %s not found', $options['lang']));
 		}
 
 		$this->_Dict = enchant_broker_request_dict($this->_Broker, $options['lang']);

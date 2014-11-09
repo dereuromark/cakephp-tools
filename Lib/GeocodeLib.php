@@ -743,7 +743,7 @@ class GeocodeLib {
 		}
 		$unit = strtoupper($unit);
 		if (!isset($this->units[$unit])) {
-			throw new CakeException(__d('tools', 'Invalid Unit: %s', $unit));
+			throw new CakeException(sprintf('Invalid Unit: %s', $unit));
 		}
 
 		$res = $this->calculateDistance($pointX, $pointY);
@@ -787,7 +787,7 @@ class GeocodeLib {
 	 */
 	public function convert($value, $fromUnit, $toUnit) {
 		if (!isset($this->units[($fromUnit = strtoupper($fromUnit))]) || !isset($this->units[($toUnit = strtoupper($toUnit))])) {
-			throw new CakeException(__d('tools', 'Invalid Unit'));
+			throw new CakeException('Invalid Unit');
 		}
 		if ($fromUnit === 'M') {
 			$value *= $this->units[$toUnit];
@@ -832,7 +832,7 @@ class GeocodeLib {
 			case 5:
 				break;
 			default:
-				throw new CakeException(__d('tools', 'Invalid level \'%s\'', $level));
+				throw new CakeException(sprintf('Invalid level \'%s\'', $level));
 		}
 		$scrambleVal = 0.000001 * mt_rand(1000, 2000) * (mt_rand(0, 1) === 0 ? 1 : -1);
 
