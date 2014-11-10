@@ -14,7 +14,7 @@ This cake3 branch only works for **CakePHP3.x** - please use the master branch f
 ## How to include
 Installing the Plugin is pretty much as with every other CakePHP Plugin.
 
-Put the files in `APP/Plugin/Tools`, using Packagist/Composer:
+Put the files in `ROOT/plugins/Tools`, using Packagist/Composer:
 ```
 "require": {
 	"dereuromark/cakephp-tools": "dev-cake3"
@@ -26,10 +26,7 @@ and
 
 Details @ https://packagist.org/packages/dereuromark/cakephp-tools
 
-That's it. It should be up and running.
-
-## The basics
-This will load the plugin:
+This will load the plugin (within your boostrap file):
 ```php
 Plugin::load('Tools');
 ```
@@ -48,7 +45,7 @@ or
 
 ```php
 Plugin::loadAll(array(
-		'Tools' => array('bootstrap' => true
+		'Tools' => array('bootstrap' => true)
 ));
 ```
 
