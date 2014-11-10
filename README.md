@@ -9,7 +9,10 @@ A CakePHP 3.x Plugin containing several useful tools that can be used in many pr
 ## Version notice
 
 This cake3 branch only works for **CakePHP3.x** - please use the master branch for CakePHP 2.x!
+**It is still dev** (not even alpha), please be careful with using it.
 
+### Planned Release Cycle:
+Dev (currently), Alpha, Beta, RC, 1.0 stable (incl. tagged release then).
 
 ## How to include
 Installing the Plugin is pretty much as with every other CakePHP Plugin.
