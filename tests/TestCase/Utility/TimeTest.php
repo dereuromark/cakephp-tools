@@ -23,7 +23,7 @@ class TimeTest extends TestCase {
 	 */
 	public function testObject() {
 		$this->assertTrue(is_object($this->Time));
-		$this->assertInstanceOf('Time', $this->Time);
+		$this->assertInstanceOf('Tools\Utility\Time', $this->Time);
 	}
 
 	/**
@@ -33,58 +33,58 @@ class TimeTest extends TestCase {
 	 */
 	public function testIncrementDate() {
 		$timezone = Configure::read('Config.timezone');
-		//$timezone = Datetime::timezone();
+		//$timezone = Date$this->Time->timezone();
 		Configure::write('Config.timezone', 'Europe/Berlin');
 		$phpTimezone = date_default_timezone_get();
 		date_default_timezone_set('Europe/Berlin');
 
 		$from = '2012-12-31';
-		$Date = Time::incrementDate($from, 0, 0);
+		$Date = $this->Time->incrementDate($from, 0, 0);
 		$this->assertSame($from, $Date->format(FORMAT_DB_DATE));
 
 		$from = '2012-12-31';
-		$Date = Time::incrementDate($from, 0, 1);
+		$Date = $this->Time->incrementDate($from, 0, 1);
 		$this->assertSame('2013-01-31', $Date->format(FORMAT_DB_DATE));
 
 		$from = '2012-12-31';
-		$Date = Time::incrementDate($from, 0, 2);
+		$Date = $this->Time->incrementDate($from, 0, 2);
 		$this->assertSame('2013-02-28', $Date->format(FORMAT_DB_DATE));
 
 		$from = '2012-12-31';
-		$Date = Time::incrementDate($from, 0, 4);
+		$Date = $this->Time->incrementDate($from, 0, 4);
 		$this->assertSame('2013-04-30', $Date->format(FORMAT_DB_DATE));
 
 		$from = '2012-12-31';
-		$Date = Time::incrementDate($from, 1, 0);
+		$Date = $this->Time->incrementDate($from, 1, 0);
 		$this->assertSame('2013-12-31', $Date->format(FORMAT_DB_DATE));
 
 		// from leap year
 		$from = '2008-02-29';
-		$Date = Time::incrementDate($from, 1, 0);
+		$Date = $this->Time->incrementDate($from, 1, 0);
 		$this->assertSame('2009-02-28', $Date->format(FORMAT_DB_DATE));
 
 		// into leap year
 		$from = '2007-02-28';
-		$Date = Time::incrementDate($from, 1, 0);
+		$Date = $this->Time->incrementDate($from, 1, 0);
 		$this->assertSame('2008-02-29', $Date->format(FORMAT_DB_DATE));
 
 		// other direction
 		$from = '2012-12-31';
-		$Date = Time::incrementDate($from, 0, -1);
+		$Date = $this->Time->incrementDate($from, 0, -1);
 		$this->assertSame('2012-11-30', $Date->format(FORMAT_DB_DATE));
 
 		$from = '2012-12-31';
-		$Date = Time::incrementDate($from, -1, -1);
+		$Date = $this->Time->incrementDate($from, -1, -1);
 		$this->assertSame('2011-11-30', $Date->format(FORMAT_DB_DATE));
 
 		// including days
 		$from = '2012-12-31';
-		$Date = Time::incrementDate($from, 0, 1, 1);
+		$Date = $this->Time->incrementDate($from, 0, 1, 1);
 		$this->assertSame('2013-02-01', $Date->format(FORMAT_DB_DATE));
 
 		// including days
 		$from = '2012-12-31';
-		$Date = Time::incrementDate($from, 0, 1, 5);
+		$Date = $this->Time->incrementDate($from, 0, 1, 5);
 		$this->assertSame('2013-02-05', $Date->format(FORMAT_DB_DATE));
 
 		Configure::write('Config.timezone', $timezone);
@@ -105,19 +105,19 @@ class TimeTest extends TestCase {
 			array('2009-12-01 00:00:00', FORMAT_NICE_M_FULL, 'December'),
 		);
 		foreach ($values as $v) {
-			$result = Time::niceDate($v[0], $v[1]);
+			$result = $this->Time->niceDate($v[0], $v[1]);
 			$this->assertEquals($v[2], $result);
 		}
 
 		$date = '2009-12-01 00:00:00';
 		$format = FORMAT_NICE_YMD;
-		$result = Time::niceDate($date, $format, array('oclock' => true));
+		$result = $this->Time->niceDate($date, $format, array('oclock' => true));
 		$expected = '01.12.2009';
 		$this->assertEquals($expected, $result);
 
 		$date = '2009-12-01 00:00:00';
 		$format = FORMAT_NICE_YMDHM;
-		$result = Time::niceDate($date, $format, array('oclock' => true));
+		$result = $this->Time->niceDate($date, $format, array('oclock' => true));
 		$expected = '01.12.2009, 00:00 ' . __d('tools', 'o\'clock');
 		$this->assertEquals($expected, $result);
 	}
@@ -128,11 +128,11 @@ class TimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testNiceTime() {
-		$result = Time::niceTime('22:11:18');
+		$result = $this->Time->niceTime('22:11:18');
 		$expected = '22:11';
 		$this->assertEquals($expected, $result);
 
-		$result = Time::niceTime('2014-11-12 22:11:18');
+		$result = $this->Time->niceTime('2014-11-12 22:11:18');
 		$this->assertEquals($expected, $result);
 	}
 
@@ -149,11 +149,11 @@ class TimeTest extends TestCase {
 		//$this->assertTrue(!empty($res));
 		Configure::write('Config.timezone', 'America/Anchorage');
 
-		$ret = Time::niceDate('2009-12-01');
+		$ret = $this->Time->niceDate('2009-12-01');
 		//debug($ret);
 		$this->assertEquals('01.12.2009', $ret);
 
-		$ret = Time::localDate('2009-12-01');
+		$ret = $this->Time->localDate('2009-12-01');
 		//debug($ret);
 		$this->assertEquals('01.12.2009', $ret);
 	}
@@ -165,15 +165,15 @@ class TimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testParseLocalizedDate() {
-		$ret = Time::parseLocalizedDate('15-Feb-2009', 'j-M-Y', 'start');
+		$ret = $this->Time->parseLocalizedDate('15-Feb-2009', 'j-M-Y', 'start');
 		//$this->debug($ret);
 		$this->assertEquals('2009-02-15 00:00:00', $ret);
 
 		// problem when not passing months or days as well - no way of knowing how exact the date was
-		$ret = Time::parseLocalizedDate('2009', 'Y', 'start');
+		$ret = $this->Time->parseLocalizedDate('2009', 'Y', 'start');
 		//pr($ret);
 		//$this->assertEquals($ret, '2009-01-01 00:00:00');
-		$ret = Time::parseLocalizedDate('Feb 2009', 'M Y', 'start');
+		$ret = $this->Time->parseLocalizedDate('Feb 2009', 'M Y', 'start');
 		//pr($ret);
 		//$this->assertEquals($ret, '2009-02-01 00:00:00');
 
@@ -187,11 +187,11 @@ class TimeTest extends TestCase {
 			//array('12/2009', array('2009-12-01 00:00:00', '2009-12-31 23:59:59')),
 		);
 		foreach ($values as $v) {
-			$ret = Time::parseLocalizedDate($v[0], null, 'start');
+			$ret = $this->Time->parseLocalizedDate($v[0], null, 'start');
 			//pr($ret);
 			$this->assertEquals($v[1][0], $ret);
 
-			$ret = Time::parseLocalizedDate($v[0], null, 'end');
+			$ret = $this->Time->parseLocalizedDate($v[0], null, 'end');
 			//pr($ret);
 			$this->assertEquals($v[1][1], $ret);
 		}
@@ -212,20 +212,20 @@ class TimeTest extends TestCase {
 			array('2009-12-01 00:00:00', FORMAT_LOCAL_M_FULL, 'Dezember'),
 		);
 		foreach ($values as $v) {
-			$ret = Time::localDate($v[0], $v[1]);
+			$ret = $this->Time->localDate($v[0], $v[1]);
 			//$this->debug($ret);
 			$this->assertEquals($v[2], $ret);
 		}
 
 		$date = '2009-12-01 00:00:00';
 		$format = FORMAT_LOCAL_YMD;
-		$result = Time::localDate($date, $format, array('oclock' => true));
+		$result = $this->Time->localDate($date, $format, array('oclock' => true));
 		$expected = '01.12.2009';
 		$this->assertEquals($expected, $result);
 
 		$date = '2009-12-01 00:00:00';
 		$format = FORMAT_LOCAL_YMDHM;
-		$result = Time::localDate($date, $format, array('oclock' => true));
+		$result = $this->Time->localDate($date, $format, array('oclock' => true));
 		$expected = '01.12.2009, 00:00 ' . __d('tools', 'o\'clock');
 		$this->assertEquals($expected, $result);
 	}
@@ -252,7 +252,7 @@ class TimeTest extends TestCase {
 		);
 
 		foreach ($values as $v) {
-			$ret = Time::period($v[0]);
+			$ret = $this->Time->period($v[0]);
 			//pr($ret);
 			$this->assertEquals($v[1], $ret);
 
@@ -274,7 +274,7 @@ class TimeTest extends TestCase {
 		);
 
 		foreach ($values as $v) {
-			$ret = Time::periodAsSql($v[0], 'Model.field');
+			$ret = $this->Time->periodAsSql($v[0], 'Model.field');
 			//pr($v[1]);
 			//pr($ret);
 			$this->assertSame($v[1], $ret);
@@ -295,7 +295,7 @@ class TimeTest extends TestCase {
 		);
 
 		foreach ($values as $v) {
-			$ret = Time::difference($v[0], $v[1]);
+			$ret = $this->Time->difference($v[0], $v[1]);
 			$this->assertEquals($v[2], $ret);
 		}
 	}
@@ -306,10 +306,10 @@ class TimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testIsLeapYear() {
-		$is = Time::isLeapYear('2000');
+		$is = $this->Time->isLeapYear('2000');
 		$this->assertTrue($is);
 
-		$is = Time::isLeapYear('2001');
+		$is = $this->Time->isLeapYear('2001');
 		$this->assertFalse($is);
 	}
 
@@ -319,22 +319,22 @@ class TimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testIsInRange() {
-		$is = Time::isInRange(date(FORMAT_DB_DATETIME, time() + 22 * HOUR), DAY);
+		$is = $this->Time->isInRange(date(FORMAT_DB_DATETIME, time() + 22 * HOUR), DAY);
 		$this->assertTrue($is);
 
-		$is = Time::isInRange(date(FORMAT_DB_DATETIME, time() + 26 * HOUR), DAY);
+		$is = $this->Time->isInRange(date(FORMAT_DB_DATETIME, time() + 26 * HOUR), DAY);
 		$this->assertFalse($is);
 
 		$day = date(FORMAT_DB_DATETIME, time() + 10 * DAY);
 
-		$this->assertTrue(Time::isInRange($day, 11 * DAY));
-		$this->assertTrue(Time::isInRange($day, 10 * DAY));
-		$this->assertFalse(Time::isInRange($day, 9 * DAY));
+		$this->assertTrue($this->Time->isInRange($day, 11 * DAY));
+		$this->assertTrue($this->Time->isInRange($day, 10 * DAY));
+		$this->assertFalse($this->Time->isInRange($day, 9 * DAY));
 
 		$day = date(FORMAT_DB_DATETIME, time() - 78 * DAY);
-		$this->assertTrue(Time::isInRange($day, 79 * DAY));
-		$this->assertTrue(Time::isInRange($day, 78 * DAY));
-		$this->assertFalse(Time::isInRange($day, 77 * DAY));
+		$this->assertTrue($this->Time->isInRange($day, 79 * DAY));
+		$this->assertTrue($this->Time->isInRange($day, 78 * DAY));
+		$this->assertFalse($this->Time->isInRange($day, 77 * DAY));
 	}
 
 	/**
@@ -343,52 +343,52 @@ class TimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testAge() {
-		$this->assertEquals('0', Time::age(null));
+		$this->assertEquals('0', $this->Time->age(null));
 
 		list($year, $month, $day) = explode('-', date('Y-m-d'));
-		$this->assertEquals('0', Time::age($year . '-' . $month . '-' . $day, null));
+		$this->assertEquals('0', $this->Time->age($year . '-' . $month . '-' . $day, null));
 
 		list($year, $month, $day) = explode('-', date('Y-m-d', strtotime('-10 years')));
-		$this->assertEquals('10', Time::age($year . '-' . $month . '-' . $day, null));
+		$this->assertEquals('10', $this->Time->age($year . '-' . $month . '-' . $day, null));
 
 		list($year, $month, $day) = explode('-', date('Y-m-d', strtotime('-10 years +1 day')));
-		$this->assertEquals('9', Time::age($year . '-' . $month . '-' . $day, null));
+		$this->assertEquals('9', $this->Time->age($year . '-' . $month . '-' . $day, null));
 
 		list($year, $month, $day) = explode('-', date('Y-m-d', strtotime('-10 years -1 day')));
-		$this->assertEquals('10', Time::age($year . '-' . $month . '-' . $day, null));
+		$this->assertEquals('10', $this->Time->age($year . '-' . $month . '-' . $day, null));
 
 		// Crossing years
-		$this->assertEquals('2', Time::age('2005-12-01', '2008-02-29'));
-		$this->assertEquals('6', Time::age('2002-01-29', '2008-12-02'));
+		$this->assertEquals('2', $this->Time->age('2005-12-01', '2008-02-29'));
+		$this->assertEquals('6', $this->Time->age('2002-01-29', '2008-12-02'));
 
 		// Leap year
 
-		$this->assertEquals('2', Time::age('2005-03-01', '2008-02-28'));
-		$this->assertEquals('2', Time::age('2005-03-01', '2008-02-29'));
+		$this->assertEquals('2', $this->Time->age('2005-03-01', '2008-02-28'));
+		$this->assertEquals('2', $this->Time->age('2005-03-01', '2008-02-29'));
 
-		$this->assertEquals('3', Time::age('2005-03-01', '2008-03-01'));
-		$this->assertEquals('3', Time::age('2005-02-29', '2008-03-01'));
+		$this->assertEquals('3', $this->Time->age('2005-03-01', '2008-03-01'));
+		$this->assertEquals('3', $this->Time->age('2005-02-29', '2008-03-01'));
 
 		// Future
 		list($yearE, $monthE, $dayE) = explode('-', date('Y-m-d', strtotime('+10 years -1 day')));
-		$this->assertEquals('9', Time::age(null, $yearE . '-' . $monthE . '-' . $dayE));
+		$this->assertEquals('9', $this->Time->age(null, $yearE . '-' . $monthE . '-' . $dayE));
 
 		list($yearE, $monthE, $dayE) = explode('-', date('Y-m-d', strtotime('+10 years +1 day')));
-		$this->assertEquals('10', Time::age(null, $yearE . '-' . $monthE . '-' . $dayE));
+		$this->assertEquals('10', $this->Time->age(null, $yearE . '-' . $monthE . '-' . $dayE));
 
 		$birthday = '2033-04-09';
-		$this->assertEquals(-1, Time::age($birthday));
+		$this->assertEquals(-1, $this->Time->age($birthday));
 
 		$birthday = '1985-04-08';
 
 		$relativeDate = '2010-04-07';
-		$this->assertEquals('24', Time::age($birthday, $relativeDate));
+		$this->assertEquals('24', $this->Time->age($birthday, $relativeDate));
 
 		$relativeDate = '2010-04-08';
-		$this->assertEquals('25', Time::age($birthday, $relativeDate));
+		$this->assertEquals('25', $this->Time->age($birthday, $relativeDate));
 
 		$relativeDate = '2010-04-09';
-		$this->assertEquals('25', Time::age($birthday, $relativeDate));
+		$this->assertEquals('25', $this->Time->age($birthday, $relativeDate));
 	}
 
 	/**
@@ -406,12 +406,12 @@ class TimeTest extends TestCase {
 
 		foreach ($values as $v) {
 			//echo $v[0].'/'.$v[1];
-			$ret = Time::ageBounds($v[0], $v[1], true, '2011-07-06'); //TODO: relative time
+			$ret = $this->Time->ageBounds($v[0], $v[1], true, '2011-07-06'); //TODO: relative time
 			//pr($ret);
 			if (isset($v[2])) {
 				$this->assertSame($v[2], $ret);
-				$this->assertEquals($v[0], Time::age($v[2]['max'], '2011-07-06'));
-				$this->assertEquals($v[1], Time::age($v[2]['min'], '2011-07-06'));
+				$this->assertEquals($v[0], $this->Time->age($v[2]['max'], '2011-07-06'));
+				$this->assertEquals($v[1], $this->Time->age($v[2]['min'], '2011-07-06'));
 			}
 		}
 	}
@@ -425,23 +425,23 @@ class TimeTest extends TestCase {
 		//$this->out($this->_header(__FUNCTION__), true);
 
 		// year only
-		$is = Time::ageByYear(2000);
+		$is = $this->Time->ageByYear(2000);
 		//$this->out($is);
 		$this->assertEquals((date('Y') - 2001) . '/' . (date('Y') - 2000), $is);
 
-		$is = Time::ageByYear(1985);
+		$is = $this->Time->ageByYear(1985);
 		$this->assertEquals((date('Y') - 1986) . '/' . (date('Y') - 1985), $is);
 
 		// with month
 		if (($month = date('n') + 1) <= 12) {
-			$is = Time::ageByYear(2000, $month);
+			$is = $this->Time->ageByYear(2000, $month);
 			//$this->out($is);
 			//$this->assertEquals($is, (date('Y')-2001).'/'.(date('Y')-2000), null, '2000/'.$month);
 			$this->assertSame(date('Y') - 2001, $is); //null, '2000/'.$month
 		}
 
 		if (($month = date('n') - 1) >= 1) {
-			$is = Time::ageByYear(2000, $month);
+			$is = $this->Time->ageByYear(2000, $month);
 			//$this->out($is);
 			//$this->assertEquals($is, (date('Y')-2001).'/'.(date('Y')-2000), null, '2000/'.$month);
 			$this->assertSame(date('Y') - 2000, $is); //null, '2000/'.$month)
@@ -456,16 +456,16 @@ class TimeTest extends TestCase {
 	public function testDaysInMonth() {
 		//$this->out($this->_header(__FUNCTION__), true);
 
-		$ret = Time::daysInMonth('2004', '3');
+		$ret = $this->Time->daysInMonth('2004', '3');
 		$this->assertEquals(31, $ret);
 
-		$ret = Time::daysInMonth('2006', '4');
+		$ret = $this->Time->daysInMonth('2006', '4');
 		$this->assertEquals(30, $ret);
 
-		$ret = Time::daysInMonth('2007', '2');
+		$ret = $this->Time->daysInMonth('2007', '2');
 		$this->assertEquals(28, $ret);
 
-		$ret = Time::daysInMonth('2008', '2');
+		$ret = $this->Time->daysInMonth('2008', '2');
 		$this->assertEquals(29, $ret);
 	}
 
@@ -476,22 +476,22 @@ class TimeTest extends TestCase {
 	 */
 	public function testDayName() {
 		//$this->out($this->_header(__FUNCTION__), true);
-		$ret = Time::dayName('0');
+		$ret = $this->Time->dayName('0');
 		$this->assertEquals(__d('tools', 'Sunday'), $ret);
 
-		$ret = Time::dayName(2, true);
+		$ret = $this->Time->dayName(2, true);
 		$this->assertEquals(__d('tools', 'Tue'), $ret);
 
-		$ret = Time::dayName(6);
+		$ret = $this->Time->dayName(6);
 		$this->assertEquals(__d('tools', 'Saturday'), $ret);
 
-		$ret = Time::dayName(6, false, 1);
+		$ret = $this->Time->dayName(6, false, 1);
 		$this->assertEquals(__d('tools', 'Sunday'), $ret);
 
-		$ret = Time::dayName(0, false, 2);
+		$ret = $this->Time->dayName(0, false, 2);
 		$this->assertEquals(__d('tools', 'Tuesday'), $ret);
 
-		$ret = Time::dayName(1, false, 6);
+		$ret = $this->Time->dayName(1, false, 6);
 		$this->assertEquals(__d('tools', 'Sunday'), $ret);
 	}
 
@@ -502,16 +502,16 @@ class TimeTest extends TestCase {
 	 */
 	public function testMonthName() {
 		//$this->out($this->_header(__FUNCTION__), true);
-		$ret = Time::monthName('11');
+		$ret = $this->Time->monthName('11');
 		$this->assertEquals(__d('tools', 'November'), $ret);
 
-		$ret = Time::monthName(1);
+		$ret = $this->Time->monthName(1);
 		$this->assertEquals(__d('tools', 'January'), $ret);
 
-		$ret = Time::monthName(2, true, array('appendDot' => true));
+		$ret = $this->Time->monthName(2, true, array('appendDot' => true));
 		$this->assertEquals(__d('tools', 'Feb') . '.', $ret);
 
-		$ret = Time::monthName(5, true, array('appendDot' => true));
+		$ret = $this->Time->monthName(5, true, array('appendDot' => true));
 		$this->assertEquals(__d('tools', 'May'), $ret);
 	}
 
@@ -522,7 +522,7 @@ class TimeTest extends TestCase {
 	 */
 	public function testDays() {
 		//$this->out($this->_header(__FUNCTION__), true);
-		$ret = Time::days();
+		$ret = $this->Time->days();
 		$this->assertTrue(count($ret) === 7);
 	}
 
@@ -533,7 +533,7 @@ class TimeTest extends TestCase {
 	 */
 	public function testMonths() {
 		//$this->out($this->_header(__FUNCTION__), true);
-		$ret = Time::months();
+		$ret = $this->Time->months();
 		$this->assertTrue(count($ret) === 12);
 	}
 
@@ -543,26 +543,26 @@ class TimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testRelLengthOfTime() {
-		$ret = Time::relLengthOfTime('1990-11-20');
+		$ret = $this->Time->relLengthOfTime('1990-11-20');
 		//pr($ret);
 
-		$ret = Time::relLengthOfTime('2012-11-20');
+		$ret = $this->Time->relLengthOfTime('2012-11-20');
 		//pr($ret);
 
-		$res = Time::relLengthOfTime(date(FORMAT_DB_DATETIME, time() - 3600));
+		$res = $this->Time->relLengthOfTime(date(FORMAT_DB_DATETIME, time() - 3600));
 		//pr($res);
 		$this->assertTrue(!empty($res));
 
-		$res = Time::relLengthOfTime(date(FORMAT_DB_DATETIME, time() - 4 * DAY - 5 * HOUR), null, array('plural' => 'n'));
+		$res = $this->Time->relLengthOfTime(date(FORMAT_DB_DATETIME, time() - 4 * DAY - 5 * HOUR), null, array('plural' => 'n'));
 		//pr($res);
 		//$this->assertEquals($res, 'Vor 4 Tagen, 5 '.__d('tools', 'Hours'));
 		$this->assertEquals(__d('tools', '%s ago', '4 ' . __d('tools', 'Days') . ', ' . '5 ' . __d('tools', 'Hours')), $res);
 
-		$res = Time::relLengthOfTime(date(FORMAT_DB_DATETIME, time() + 4 * DAY + 5 * HOUR), null, array('plural' => 'n'));
+		$res = $this->Time->relLengthOfTime(date(FORMAT_DB_DATETIME, time() + 4 * DAY + 5 * HOUR), null, array('plural' => 'n'));
 		//pr($res);
 		$this->assertEquals(__d('tools', 'In %s', '4 ' . __d('tools', 'Days') . ', ' . '5 ' . __d('tools', 'Hours')), $res);
 
-		$res = Time::relLengthOfTime(date(FORMAT_DB_DATETIME, time()), null, array('plural' => 'n'));
+		$res = $this->Time->relLengthOfTime(date(FORMAT_DB_DATETIME, time()), null, array('plural' => 'n'));
 		//pr($res);
 		$this->assertEquals($res, __d('tools', 'justNow'));
 	}
@@ -577,25 +577,25 @@ class TimeTest extends TestCase {
 		$month = 12;
 		$day = 29;
 		$date = mktime(0, 0, 0, $month, $day, $year);
-		$this->assertEquals('01/' . $year, Time::cweek($year . '-' . $month . '-' . $day));
+		$this->assertEquals('01/' . $year, $this->Time->cweek($year . '-' . $month . '-' . $day));
 
 		$year = 2009;
 		$month = 1;
 		$day = 1;
 		$date = mktime(0, 0, 0, $month, $day, $year);
-		$this->assertEquals('01/' . $year, Time::cweek($year . '-' . $month . '-' . $day));
+		$this->assertEquals('01/' . $year, $this->Time->cweek($year . '-' . $month . '-' . $day));
 
 		$year = 2009;
 		$month = 1;
 		$day = 9;
 		$date = mktime(0, 0, 0, $month, $day, $year);
-		$this->assertEquals('02/' . $year, Time::cweek($year . '-' . $month . '-' . $day . ' 00:00:00'));
+		$this->assertEquals('02/' . $year, $this->Time->cweek($year . '-' . $month . '-' . $day . ' 00:00:00'));
 
 		$year = 2009;
 		$month = 12;
 		$day = 26;
 		$date = mktime(0, 0, 0, $month, $day, $year);
-		$this->assertEquals('52/' . $year, Time::cweek($year . '-' . $month . '-' . $day));
+		$this->assertEquals('52/' . $year, $this->Time->cweek($year . '-' . $month . '-' . $day));
 	}
 
 	/**
@@ -605,11 +605,11 @@ class TimeTest extends TestCase {
 	 */
 	public function testIsInTheFuture() {
 		$testDate = date(FORMAT_DB_DATE, time() + 2 * DAY);
-		$is = Time::isInTheFuture($testDate);
+		$is = $this->Time->isInTheFuture($testDate);
 		$this->assertTrue($is);
 
 		$testDate = date(FORMAT_DB_DATETIME, time() - 1 * MINUTE);
-		$is = Time::isInTheFuture($testDate);
+		$is = $this->Time->isInTheFuture($testDate);
 		$this->assertFalse($is);
 	}
 
@@ -620,11 +620,11 @@ class TimeTest extends TestCase {
 	 */
 	public function testIsNotTodayAndInTheFuture() {
 		$testDate = date(FORMAT_DB_DATE, time());
-		$is = Time::isNotTodayAndInTheFuture($testDate);
+		$is = $this->Time->isNotTodayAndInTheFuture($testDate);
 		$this->assertFalse($is);
 
 		$testDate = date(FORMAT_DB_DATETIME, time() + 1 * DAY);
-		$is = Time::isNotTodayAndInTheFuture($testDate);
+		$is = $this->Time->isNotTodayAndInTheFuture($testDate);
 		$this->assertTrue($is);
 	}
 
@@ -635,11 +635,11 @@ class TimeTest extends TestCase {
 	 */
 	public function testIsDayAfterTomorrow() {
 		$testDate = date(FORMAT_DB_DATE, time() + 2 * DAY);
-		$is = Time::isDayAfterTomorrow($testDate);
+		$is = $this->Time->isDayAfterTomorrow($testDate);
 		$this->assertTrue($is);
 
 		$testDate = date(FORMAT_DB_DATETIME, time() - 1 * MINUTE);
-		$is = Time::isDayAfterTomorrow($testDate);
+		$is = $this->Time->isDayAfterTomorrow($testDate);
 		$this->assertFalse($is);
 	}
 
@@ -651,23 +651,23 @@ class TimeTest extends TestCase {
 	public function testLengthOfTime() {
 		//$this->out($this->_header(__FUNCTION__), true);
 
-		$ret = Time::lengthOfTime(60);
+		$ret = $this->Time->lengthOfTime(60);
 		//pr($ret);
 
 		// FIX ME! Doesn't work!
-		$ret = Time::lengthOfTime(-60);
+		$ret = $this->Time->lengthOfTime(-60);
 		//pr($ret);
 
-		$ret = Time::lengthOfTime(-121);
+		$ret = $this->Time->lengthOfTime(-121);
 		//pr($ret);
 
-		$this->assertEquals('6 ' . __d('tools', 'Minutes') . ', 40 ' . __d('tools', 'Seconds'), Time::lengthOfTime(400));
+		$this->assertEquals('6 ' . __d('tools', 'Minutes') . ', 40 ' . __d('tools', 'Seconds'), $this->Time->lengthOfTime(400));
 
-		$res = Time::lengthOfTime(400, 'i');
+		$res = $this->Time->lengthOfTime(400, 'i');
 		//pr($res);
 		$this->assertEquals('6 ' . __d('tools', 'Minutes'), $res);
 
-		$res = Time::lengthOfTime(6 * DAY);
+		$res = $this->Time->lengthOfTime(6 * DAY);
 		//pr($res);
 		$this->assertEquals('6 ' . __d('tools', 'Days') . ', 0 ' . __d('tools', 'Hours'), $res);
 	}
@@ -680,20 +680,20 @@ class TimeTest extends TestCase {
 	public function testFuzzyFromOffset() {
 		//$this->out($this->_header(__FUNCTION__), true);
 
-		$ret = Time::fuzzyFromOffset(MONTH);
+		$ret = $this->Time->fuzzyFromOffset(MONTH);
 		//pr($ret);
 
-		$ret = Time::fuzzyFromOffset(120);
+		$ret = $this->Time->fuzzyFromOffset(120);
 		//pr($ret);
 
-		$ret = Time::fuzzyFromOffset(DAY);
+		$ret = $this->Time->fuzzyFromOffset(DAY);
 		//pr($ret);
 
-		$ret = Time::fuzzyFromOffset(DAY + 2 * MINUTE);
+		$ret = $this->Time->fuzzyFromOffset(DAY + 2 * MINUTE);
 		//pr($ret);
 
 		// FIX ME! Doesn't work!
-		$ret = Time::fuzzyFromOffset(-DAY);
+		$ret = $this->Time->fuzzyFromOffset(-DAY);
 		//pr($ret);
 	}
 
@@ -703,13 +703,13 @@ class TimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testCweekMod() {
-		$result = Time::cWeekMod(0);
+		$result = $this->Time->cWeekMod(0);
 		$this->assertEquals(0, $result);
 
-		$result = Time::cWeekMod(1);
+		$result = $this->Time->cWeekMod(1);
 		$this->assertEquals(1, $result);
 
-		$result = Time::cWeekMod(6);
+		$result = $this->Time->cWeekMod(6);
 		$this->assertEquals(0, $result);
 	}
 
@@ -721,26 +721,26 @@ class TimeTest extends TestCase {
 	public function testTimezoneByCoordinates() {
 		$this->skipIf(true);
 
-		$result = Time::timezoneByCoordinates(48, 11);
+		$result = $this->Time->timezoneByCoordinates(48, 11);
 		$this->assertEquals('Europe/Vaduz', $result);
 	}
 
 	public function testCweeks() {
 		//$this->out($this->_header(__FUNCTION__), true);
-		$ret = Time::cweeks('2004');
+		$ret = $this->Time->cweeks('2004');
 		$this->assertEquals(53, $ret);
 
-		$ret = Time::cweeks('2010');
+		$ret = $this->Time->cweeks('2010');
 		$this->assertEquals(52, $ret);
 
-		$ret = Time::cweeks('2006');
+		$ret = $this->Time->cweeks('2006');
 		$this->assertEquals(52, $ret);
 
-		$ret = Time::cweeks('2007');
+		$ret = $this->Time->cweeks('2007');
 		$this->assertEquals(52, $ret);
 		/*
 		for ($i = 1990; $i < 2020; $i++) {
-			//$this->out(Time::cweeks($i).BR;
+			//$this->out($this->Time->cweeks($i).BR;
 		}
 		*/
 	}
@@ -754,9 +754,9 @@ class TimeTest extends TestCase {
 			'2013' => 1356908400, # Mon 31.12.2012, 00:00
 		);
 		foreach ($values as $year => $expected) {
-			$ret = Time::cweekBeginning($year);
+			$ret = $this->Time->cweekBeginning($year);
 			//$this->out($ret);
-			//$this->out(Time::niceDate($ret, 'D') . ' ' . Time::niceDate($ret, FORMAT_NICE_YMDHMS));
+			//$this->out($this->Time->niceDate($ret, 'D') . ' ' . $this->Time->niceDate($ret, FORMAT_NICE_YMDHMS));
 			//$this->assertEquals($ret, $expected, null, $year);
 			$this->assertTrue($ret <= $expected + HOUR && $ret >= $expected);
 		}
@@ -770,9 +770,9 @@ class TimeTest extends TestCase {
 			array('2006', '3', 1137366000), # Mon 16.01.2006, 00:00:00
 		);
 		foreach ($values as $v) {
-			$ret = Time::cweekBeginning($v[0], $v[1]);
+			$ret = $this->Time->cweekBeginning($v[0], $v[1]);
 			//$this->out($ret);
-			//$this->out(Time::niceDate($ret, 'D') . ' ' . Time::niceDate($ret, FORMAT_NICE_YMDHMS));
+			//$this->out($this->Time->niceDate($ret, 'D') . ' ' . $this->Time->niceDate($ret, FORMAT_NICE_YMDHMS));
 			//$this->assertSame($v[2], $ret, null, $v[1].'/'.$v[0]);
 			$this->assertTrue($ret <= $v[2] + HOUR && $ret >= $v[2]);
 		}
@@ -788,9 +788,9 @@ class TimeTest extends TestCase {
 			'2013' => 1388357999, # Sun 29.12.2013, 23:59:59
 		);
 		foreach ($values as $year => $expected) {
-			$ret = Time::cweekEnding($year);
+			$ret = $this->Time->cweekEnding($year);
 			//$this->out($ret);
-			//$this->out(Time::niceDate($ret, 'D') . ' ' . Time::niceDate($ret, FORMAT_NICE_YMDHMS));
+			//$this->out($this->Time->niceDate($ret, 'D') . ' ' . $this->Time->niceDate($ret, FORMAT_NICE_YMDHMS));
 			//$this->assertSame($expected, $ret);
 			$this->assertTrue($ret <= $expected + HOUR && $ret >= $expected);
 		}
@@ -804,9 +804,9 @@ class TimeTest extends TestCase {
 			array('2006', '3', 1137970799), # Sun 22.01.2006, 23:59:59
 		);
 		foreach ($values as $v) {
-			$ret = Time::cweekEnding($v[0], $v[1]);
+			$ret = $this->Time->cweekEnding($v[0], $v[1]);
 			//$this->out($ret);
-			//$this->out(Time::niceDate($ret, 'D') . ' ' . Time::niceDate($ret, FORMAT_NICE_YMDHMS));
+			//$this->out($this->Time->niceDate($ret, 'D') . ' ' . $this->Time->niceDate($ret, FORMAT_NICE_YMDHMS));
 			//$this->assertSame($v[2], $ret, null, $v[1].'/'.$v[0]);
 			$this->assertTrue($ret <= $v[2] + HOUR && $ret >= $v[2]);
 		}
@@ -820,20 +820,20 @@ class TimeTest extends TestCase {
 	public function testAgeByHoroscop() {
 		$this->skipIf(php_sapi_name() === 'cli', 'Fix these tests');
 
-		$is = Time::ageByHoroscope(2000, ZodiacLib::SIGN_VIRGO);
+		$is = $this->Time->ageByHoroscope(2000, ZodiacLib::SIGN_VIRGO);
 		// between xxxx-08-24 and xxxx-09-23 the latter, otherwise the first:
 		$this->assertEquals(date('Y') - 2000 - 1, $is);
 		$this->assertEquals(array(date('Y') - 2000 - 1, date('Y') - 2000), $is);
 
-		$is = Time::ageByHoroscope(1991, ZodiacLib::SIGN_LIBRA);
+		$is = $this->Time->ageByHoroscope(1991, ZodiacLib::SIGN_LIBRA);
 		//pr($is);
 		$this->assertEquals(date('Y') - 1991 - 1, $is);
 
-		$is = Time::ageByHoroscope(1986, ZodiacLib::SIGN_CAPRICORN);
+		$is = $this->Time->ageByHoroscope(1986, ZodiacLib::SIGN_CAPRICORN);
 		//pr($is);
 		$this->assertEquals(array(date('Y') - 1986 - 1, date('Y') - 1986), $is);
 
-		$is = Time::ageByHoroscope(2000, ZodiacLib::SIGN_SCORPIO);
+		$is = $this->Time->ageByHoroscope(2000, ZodiacLib::SIGN_SCORPIO);
 		//debug($is);
 		$this->assertEquals(date('Y') - 2000 - 1, $is); //array(10, 11)
 	}
@@ -844,22 +844,22 @@ class TimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testAgeRange() {
-		$is = Time::ageRange(2000);
+		$is = $this->Time->ageRange(2000);
 		$this->assertEquals(date('Y') - 2000 - 1, $is);
 
-		$is = Time::ageRange(date('Y') - 11, null, null, 5);
+		$is = $this->Time->ageRange(date('Y') - 11, null, null, 5);
 		$this->assertEquals(array(6, 10), $is);
 
-		$is = Time::ageRange(date('Y') - 13, null, null, 5);
+		$is = $this->Time->ageRange(date('Y') - 13, null, null, 5);
 		$this->assertEquals(array(11, 15), $is);
 
-		$is = Time::ageRange(1985, 23, 11);
+		$is = $this->Time->ageRange(1985, 23, 11);
 		$this->assertEquals(date('Y') - 1985 - 1, $is);
 
-		$is = Time::ageRange(date('Y') - 29, null, null, 6);
+		$is = $this->Time->ageRange(date('Y') - 29, null, null, 6);
 		$this->assertEquals(array(25, 30), $is);
 
-		$is = Time::ageRange(date('Y') - 29, 21, 11, 7);
+		$is = $this->Time->ageRange(date('Y') - 29, 21, 11, 7);
 		$this->assertEquals(array(22, 28), $is);
 	}
 
@@ -882,7 +882,7 @@ class TimeTest extends TestCase {
 			'2010-01-02 22:11' => 1262386800,
 		);
 		foreach ($tests as $was => $expected) {
-			$is = Time::parseDate($was);
+			$is = $this->Time->parseDate($was);
 			$this->assertTrue($is <= $expected + HOUR && $is >= $expected);
 		}
 	}
@@ -916,7 +916,7 @@ class TimeTest extends TestCase {
 
 		// positive
 		foreach ($tests as $was => $expected) {
-			$is = Time::parseTime($was);
+			$is = $this->Time->parseTime($was);
 			//pr($is);
 			$this->assertEquals($expected, $is);
 		}
@@ -924,7 +924,7 @@ class TimeTest extends TestCase {
 		unset($tests['2011-11-12 10:10:10']);
 		// negative
 		foreach ($tests as $was => $expected) {
-			$is = Time::parseTime('-' . $was);
+			$is = $this->Time->parseTime('-' . $was);
 			//pr($is);
 			$this->assertEquals(-$expected, $is);
 		}
@@ -946,14 +946,14 @@ class TimeTest extends TestCase {
 
 		// positive
 		foreach ($tests as $was => $expected) {
-			$is = Time::buildTime($was);
+			$is = $this->Time->buildTime($was);
 			//pr($is);
 			$this->assertEquals($expected, $is);
 		}
 
 		// negative
 		foreach ($tests as $was => $expected) {
-			$is = Time::buildTime(-$was);
+			$is = $this->Time->buildTime(-$was);
 			//pr($is);
 			$this->assertEquals('-' . $expected, $is);
 		}
@@ -975,7 +975,7 @@ class TimeTest extends TestCase {
 		);
 
 		foreach ($tests as $was => $expected) {
-			$is = Time::buildDefaultTime($was);
+			$is = $this->Time->buildDefaultTime($was);
 			//pr($is);
 			$this->assertEquals($expected, $is);
 		}
@@ -989,11 +989,11 @@ class TimeTest extends TestCase {
 	public function testStandardDecimal() {
 		//echo $this->_header(__FUNCTION__);
 		$value = '9.30';
-		$is = Time::standardToDecimalTime($value);
+		$is = $this->Time->standardToDecimalTime($value);
 		$this->assertEquals('9.50', round($is, 2));
 
 		$value = '9.3';
-		$is = Time::standardToDecimalTime($value);
+		$is = $this->Time->standardToDecimalTime($value);
 		$this->assertEquals('9.50', round($is, 2));
 	}
 
@@ -1005,19 +1005,19 @@ class TimeTest extends TestCase {
 	public function testDecimalStandard() {
 		//echo $this->_header(__FUNCTION__);
 		$value = '9.50';
-		$is = Time::decimalToStandardTime($value);
+		$is = $this->Time->decimalToStandardTime($value);
 		$this->assertEquals('9.3', round($is, 2));
 
 		$value = '9.5';
-		$is = Time::decimalToStandardTime($value);
+		$is = $this->Time->decimalToStandardTime($value);
 		//pr($is);
 		$this->assertEquals('9.3', $is);
 
-		$is = Time::decimalToStandardTime($value, 2);
+		$is = $this->Time->decimalToStandardTime($value, 2);
 		//pr($is);
 		$this->assertEquals('9.30', $is);
 
-		$is = Time::decimalToStandardTime($value, 2, ':');
+		$is = $this->Time->decimalToStandardTime($value, 2, ':');
 		//pr($is);
 		$this->assertEquals('9:30', $is);
 	}
@@ -1029,11 +1029,11 @@ class TimeTest extends TestCase {
 	 */
 	public function testHasDaylightSavingTime() {
 		$timezone = 'Europe/Berlin';
-		$x = Time::hasDaylightSavingTime($timezone);
+		$x = $this->Time->hasDaylightSavingTime($timezone);
 		$this->assertTrue($x);
 
 		$timezone = 'Asia/Baghdad';
-		$x = Time::hasDaylightSavingTime($timezone);
+		$x = $this->Time->hasDaylightSavingTime($timezone);
 		$this->assertFalse($x);
 	}
 
@@ -1098,14 +1098,14 @@ class TimeTest extends TestCase {
 		Configure::write('Config.timezone', 'UTC');
 		date_default_timezone_set('UTC');
 
-		$result = Time::tzOffset(0, false);
+		$result = $this->Time->tzOffset(0, false);
 		$this->assertEquals(0, $result);
 
 		Configure::write('Config.timezone', 'Europe/Berlin');
 		date_default_timezone_set('Europe/Berlin');
 
 		$factor = date('I') ? 2 : 1;
-		$result = Time::tzOffset($factor * HOUR, false);
+		$result = $this->Time->tzOffset($factor * HOUR, false);
 		$this->assertEquals(0, $result);
 
 		Configure::write('Config.timezone', $timezone);

@@ -1,5 +1,10 @@
 <?php
 
+// For date()
+define('FORMAT_DB_DATETIME', 'Y-m-d H:i:s');
+define('FORMAT_DB_DATE', 'Y-m-d');
+define('FORMAT_DB_TIME', 'H:i:s');
+
 # Make the app and l10n play nice with Windows.
 if (substr(PHP_OS, 0, 3) === 'WIN') { // || strpos(@php_uname(), 'ARCH')
 	define('WINDOWS', true);
