@@ -1,17 +1,19 @@
 <?php
 namespace Tools\TestCase\Utility;
-App::uses('TextLib', 'Tools.Utility');
+
+use Tools\Utility\Text;
+use Cake\TestSuite\TestCase;
 
 /**
  */
-class TextLibTest extends CakeTestCase {
+class TextTest extends TestCase {
 
-	public $TextLib;
+	public $Text;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->TextLib = new TextLib();
+		$this->Text = new Text();
 	}
 
 	public function testReadTab() {
@@ -19,8 +21,8 @@ class TextLibTest extends CakeTestCase {
 some	tabbed	data
 and	another	line
 TXT;
-		$this->TextLib = new TextLib($data);
-		$result = $this->TextLib->readTab();
+		$this->Text = new Text($data);
+		$result = $this->Text->readTab();
 
 		$this->assertSame(2, count($result));
 		$this->assertSame(array('and', 'another', 'line'), $result[1]);
@@ -32,37 +34,37 @@ some random data
 and another line
 and a   third
 TXT;
-		$this->TextLib = new TextLib($data);
-		$result = $this->TextLib->readWithPattern("%s %s %s");
+		$this->Text = new Text($data);
+		$result = $this->Text->readWithPattern("%s %s %s");
 
 		$this->assertSame(3, count($result));
 		$this->assertSame(array('and', 'a', 'third'), $result[2]);
 	}
 
 	public function testConvertToOrd() {
-		$this->TextLib = new TextLib('h H');
-		$is = $this->TextLib->convertToOrd();
+		$this->Text = new Text('h H');
+		$is = $this->Text->convertToOrd();
 		//pr($is);
 		$this->assertEquals($is, '0-104-32-72-0');
 
-		$is = $this->TextLib->convertToOrd('x' . NL . 'x' . LF . 'x' . PHP_EOL . 'x' . CR . 'x' . TB . 'x');
+		$is = $this->Text->convertToOrd('x' . NL . 'x' . LF . 'x' . PHP_EOL . 'x' . CR . 'x' . TB . 'x');
 		//pr($is);
 	}
 
 	public function testConvertToOrdTable() {
-		$is = $this->TextLib->convertToOrdTable('x' . NL . 'x' . LF . 'x' . PHP_EOL . 'x' . CR . 'x' . TB . 'x');
+		$is = $this->Text->convertToOrdTable('x' . NL . 'x' . LF . 'x' . PHP_EOL . 'x' . CR . 'x' . TB . 'x');
 		//pr($is);
 	}
 
 	public function testMaxWords() {
-		$this->assertEquals('Taylor...', TextLib::maxWords('Taylor Otwell', 1));
-		$this->assertEquals('Taylor___', TextLib::maxWords('Taylor Otwell', 1, array('ellipsis' => '___')));
-		$this->assertEquals('Taylor Otwell', TextLib::maxWords('Taylor Otwell', 3));
+		$this->assertEquals('Taylor...', Text::maxWords('Taylor Otwell', 1));
+		$this->assertEquals('Taylor___', Text::maxWords('Taylor Otwell', 1, array('ellipsis' => '___')));
+		$this->assertEquals('Taylor Otwell', Text::maxWords('Taylor Otwell', 3));
 	}
 
 	public function testWords() {
-		$this->TextLib = new TextLib('Hochhaus, Unter dem Bau von ae Äußeren Einflüssen - und von Autos.');
-		$is = $this->TextLib->words(array('min_char' => 3));
+		$this->Text = new Text('Hochhaus, Unter dem Bau von ae Äußeren Einflüssen - und von Autos.');
+		$is = $this->Text->words(array('min_char' => 3));
 		//pr($is);
 		$this->assertTrue(!empty($is) && is_array($is) && count($is) === 9);
 	}

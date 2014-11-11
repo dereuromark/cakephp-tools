@@ -1,12 +1,14 @@
 <?php
 namespace Tools\TestCase\Utility;
-App::uses('Utility', 'Tools.Utility');
-App::uses('MyCakeTestCase', 'Tools.TestSuite');
+use Tools\Utility\Utility;
+use Cake\TestSuite\TestCase;
+use Cake\Core\Plugin;
+use Cake\Core\Configure;
 
 /**
  * @covers Utility
  */
-class UtilityTest extends MyCakeTestCase {
+class UtilityTest extends TestCase {
 
 	/**
 	 * UtilityTest::testInArray()
@@ -206,7 +208,7 @@ class UtilityTest extends MyCakeTestCase {
 		$res = Utility::getMimeType('http://www.spiegel.de/static/sys/v10/icons/home_v2_inexistent.png');
 		$this->assertEquals('', $res);
 
-		$res = Utility::getMimeType(CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.jpg');
+		$res = Utility::getMimeType(Plugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.jpg');
 		$this->assertEquals('image/jpeg', $res);
 	}
 
@@ -220,13 +222,13 @@ class UtilityTest extends MyCakeTestCase {
 		$res = Utility::fileExists('http://www.spiegel.de/static/sys/v10/icons/home_v2.png');
 		$this->assertTrue($res);
 
-		$res = Utility::fileExists(CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.jpg');
+		$res = Utility::fileExists(Plugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.jpg');
 		$this->assertTrue($res);
 
 		$res = Utility::fileExists('http://www.spiegel.de/static/sys/v10/icons/home_v2_inexistent.png');
 		$this->assertFalse($res);
 
-		$res = Utility::fileExists(CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'fooooo.jpg');
+		$res = Utility::fileExists(Plugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'fooooo.jpg');
 		$this->assertFalse($res);
 	}
 

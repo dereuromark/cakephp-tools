@@ -148,8 +148,10 @@ class Number extends CakeNumber {
 			$currency = static::$_currency;
 		}
 		$defaults = array();
-		if ($currency !== 'EUR' && isset(static::$_currencies[$currency])) {
-			$defaults = static::$_currencies[$currency];
+		if ($currency !== 'EUR') {
+			//FIXME
+			$default = static::defaultCurrency();
+			//$defaults = static::$_currencies[$currency];
 		} elseif ($currency !== 'EUR' && is_string($currency)) {
 			$defaults['wholeSymbol'] = $currency;
 			$defaults['wholePosition'] = 'before';

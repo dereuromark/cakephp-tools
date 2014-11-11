@@ -1,22 +1,23 @@
 <?php
 namespace Tools\TestCase\Utility;
-App::uses('MimeLib', 'Tools.Lib');
-App::uses('MyCakeTestCase', 'Tools.TestSuite');
-App::uses('CakeResponse', 'Network');
 
-class MimeTest extends CakeTestCase {
+use Tools\Utility\Mime;
+use Cake\TestSuite\TestCase;
+use Cake\Network\Response;
+
+class MimeTest extends TestCase {
 
 	public $Mime;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->Mime = new MimeLib();
+		$this->Mime = new Mime();
 	}
 
 	public function testObject() {
 		$this->assertTrue(is_object($this->Mime));
-		$this->assertInstanceOf('MimeLib', $this->Mime);
+		$this->assertInstanceOf('Mime', $this->Mime);
 	}
 
 	public function testAll() {
@@ -102,7 +103,7 @@ class MimeTest extends CakeTestCase {
 	 */
 	public function testDifferenceBetweenPluginAndCore() {
 		$this->TestCakeResponse = new TestCakeResponse();
-		$this->TestMime = new TestMimeLib();
+		$this->TestMime = new TestMime();
 
 		$core = $this->TestCakeResponse->getMimeTypes();
 		$plugin = $this->TestMime->getMimeTypes();
@@ -123,12 +124,12 @@ class MimeTest extends CakeTestCase {
 		foreach ($plugin as $key => $value) {
 			$diff['pluginonly'][$key] = $value;
 		}
-		$this->debug($diff);
+		//$this->debug($diff);
 	}
 
 }
 
-class TestCakeResponse extends CakeResponse {
+class TestCakeResponse extends Response {
 
 	public function getMimeTypes() {
 		return $this->_mimeTypes;
@@ -136,7 +137,7 @@ class TestCakeResponse extends CakeResponse {
 
 }
 
-class TestMimeLib extends MimeLib {
+class TestMime extends Mime {
 
 	public function getMimeTypes($coreHasPrecedence = false) {
 		return $this->_mimeTypesExt;

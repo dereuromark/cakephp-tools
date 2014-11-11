@@ -2,6 +2,7 @@
 namespace Tools\View\Helper;
 
 use Cake\View\Helper;
+use Cake\Utility\Hash;
 
 /**
  * This is a CakePHP helper that helps users to integrate GoogleMap v3
@@ -348,7 +349,7 @@ class GoogleMapV3Helper extends Helper {
 	 */
 	public function map($options = array()) {
 		$this->reset();
-		$this->settings = Set::merge($this->settings, $options);
+		$this->settings = Hash::merge($this->settings, $options);
 		$this->settings['map'] = array_merge($this->settings['map'], array('zoom' => $this->settings['zoom'], 'lat' => $this->settings['lat'], 'lng' => $this->settings['lng'], 'type' => $this->settings['type']), $options);
 		if (!$this->settings['map']['lat'] || !$this->settings['map']['lng']) {
 			$this->settings['map']['lat'] = $this->settings['map']['defaultLat'];

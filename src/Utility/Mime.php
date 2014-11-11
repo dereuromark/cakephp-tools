@@ -3,8 +3,6 @@ namespace Tools\Utility;
 
 use Cake\Network\Response;
 
-App::uses('CakeResponse', 'Network');
-
 /**
  * Wrapper to be able to read cake core's mime types as well as fix for missing ones
  *
