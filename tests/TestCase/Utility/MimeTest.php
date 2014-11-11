@@ -1,4 +1,5 @@
 <?php
+namespace Tools\TestCase\Utility;
 App::uses('MimeLib', 'Tools.Lib');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 App::uses('CakeResponse', 'Network');

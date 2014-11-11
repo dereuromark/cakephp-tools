@@ -1,4 +1,5 @@
 <?php
+namespace Tools\TestCase\Utility;
 App::uses('Utility', 'Tools.Utility');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 

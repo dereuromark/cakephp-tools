@@ -1,5 +1,6 @@
 <?php
 
+namespace Tools\TestCase\Utility;
 App::uses('NumberLib', 'Tools.Utility');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 

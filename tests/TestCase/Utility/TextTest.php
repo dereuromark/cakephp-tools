@@ -1,4 +1,5 @@
 <?php
+namespace Tools\TestCase\Utility;
 App::uses('TextLib', 'Tools.Utility');
 
 /**
