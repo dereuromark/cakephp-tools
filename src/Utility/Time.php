@@ -17,8 +17,8 @@ class Time extends CakeTime {
 	 * @param string|DateTimeZone $timezone User's timezone string or DateTimeZone object
 	 * @return bool
 	 */
-	public static function hasDaylightSavingTime($timezone = null) {
-		$timezone = static::timezone($timezone);
+	public function hasDaylightSavingTime($timezone = null) {
+		$timezone = $this->timezone($timezone);
 		// a date outside of DST
 		$offset = $timezone->getOffset(new \DateTime('@' . mktime(0, 0, 0, 2, 1, date('Y'))));
 		$offset = $offset / HOUR;
@@ -36,8 +36,8 @@ class Time extends CakeTime {
 	 * @param string|DateTimeZone $timezone User's timezone string or DateTimeZone object
 	 * @return int Offset in hours
 	 */
-	public static function getGmtOffset($timezone = null) {
-		$timezone = static::timezone($timezone);
+	public function getGmtOffset($timezone = null) {
+		$timezone = $this->timezone($timezone);
 		$offset = $timezone->getOffset(new \DateTime('@' . time()));
 		$offset = $offset / HOUR;
 		return $offset;
@@ -257,19 +257,6 @@ class Time extends CakeTime {
 	}
 
 	/**
-	 * Returns the timestamp to a day in a specific cweek
-	 * 0=sunday to 7=saturday (default)
-	 *
-	 * @return timestamp of the weekDay
-	 * @FIXME: offset
-	 * @deprecated Not needed, use localDate!
-	 */
-	public static function cWeekDay($cweek, $year, $day) {
-		$cweekBeginning = static::cweekBeginning($year, $cweek);
-		return $cweekBeginning + $day * DAY;
-	}
-
-	/**
 	 * Get number of days since the start of the week.
 	 * 0=sunday to 7=saturday (default)
 	 *
@@ -346,10 +333,10 @@ class Time extends CakeTime {
 	 * @param string|DateTimeZone $timezone Timezone string or DateTimeZone object
 	 * @return object DateTime with incremented/decremented month/year values.
 	 */
-	public static function incrementDate($startDate, $years = 0, $months = 0, $days = 0, $timezone = null) {
+	public function incrementDate($startDate, $years = 0, $months = 0, $days = 0, $timezone = null) {
 		if (!is_object($startDate)) {
 			$startDate = new \DateTime($startDate);
-			$startDate->setTimezone($timezone ? new \DateTimeZone($timezone) : static::timezone());
+			$startDate->setTimezone($timezone ? new \DateTimeZone($timezone) : $this->timezone());
 		}
 		$startingTimeStamp = $startDate->getTimestamp();
 		// Get the month value of the given date:

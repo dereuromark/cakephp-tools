@@ -40,36 +40,9 @@ class Number extends CakeNumber {
 	}
 
 	/**
-	 * Display price (or was price if available)
-	 * Without allowNegative it will always default all non-positive values to 0
-	 *
-	 * @param price
-	 * @param specialPrice (outranks the price)
-	 * @param options
-	 * - places
-	 * - allowNegative (defaults to false - price needs to be > 0)
-	 *
-	 * @deprecated use currency()
-	 * @return string
-	 */
-	public static function price($price, $specialPrice = null, $formatOptions = array()) {
-		if ($specialPrice !== null && $specialPrice > 0) {
-			$val = $specialPrice;
-		} elseif ($price > 0 || !empty($formatOptions['allowNegative'])) {
-			$val = $price;
-		} else {
-			if (isset($formatOptions['default'])) {
-				return $formatOptions['default'];
-			}
-			$val = max(0, $price);
-		}
-		return static::money($val, $formatOptions);
-	}
-
-	/**
 	 * Convenience method to display the default currency
 	 *
-	 * @param mixed $amount
+	 * @param float $amount
 	 * @param array $formatOptions
 	 * @return string
 	 */

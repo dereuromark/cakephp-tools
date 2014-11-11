@@ -111,18 +111,6 @@ class CommonHelper extends Helper {
 	}
 
 	/**
-	 * CommonHelper::transientFlashMessage()
-	 *
-	 * @param mixed $msg
-	 * @param mixed $class
-	 * @return void
-	 * @deprecated Use addFlashMessage() instead
-	 */
-	public function transientFlashMessage($msg, $class = null) {
-		$this->addFlashMessage($msg, $class);
-	}
-
-	/**
 	 * Auto-pluralizing a word using the Inflection class
 	 * //TODO: move to lib or bootstrap
 	 *

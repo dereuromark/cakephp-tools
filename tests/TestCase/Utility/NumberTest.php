@@ -65,19 +65,8 @@ class NumberTest extends TestCase {
 		$is = Number::money(-22.11);
 		$expected = '-22,11 €';
 		$this->assertSame($expected, $is);
-	}
 
-	/**
-	 * NumberTest::testPrice()
-	 *
-	 * @return void
-	 */
-	public function testPrice() {
-		$is = Number::price(22.11);
-		$expected = '22,11 €';
-		$this->assertSame($expected, $is);
-
-		$is = Number::price(-22.11);
+		$is = Number::money(-22.11);
 		$expected = '0,00 €';
 		$this->assertSame($expected, $is);
 	}

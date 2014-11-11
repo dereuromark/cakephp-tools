@@ -315,7 +315,6 @@ class CommonComponent extends Component {
 	/**
 	 * Automatically add missing url parts of the current url including
 	 * - querystring (especially for 3.x then)
-	 * - named params (until 3.x when they will become deprecated)
 	 * - passed params
 	 *
 	 * @param mixed $url
@@ -326,12 +325,10 @@ class CommonComponent extends Component {
 	public function completeRedirect($url = null, $status = null, $exit = true) {
 		if ($url === null) {
 			$url = $this->Controller->request->params;
-			unset($url['named']);
 			unset($url['pass']);
 			unset($url['isAjax']);
 		}
 		if (is_array($url)) {
-			$url += $this->Controller->request->params['named'];
 			$url += $this->Controller->request->params['pass'];
 		}
 		return $this->Controller->redirect($url, $status, $exit);

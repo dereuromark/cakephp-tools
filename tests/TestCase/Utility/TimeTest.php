@@ -10,13 +10,18 @@ class TimeTest extends TestCase {
 
 	public $Time = null;
 
+	public function setUp() {
+		$this->Time = new Time();
+
+		parent::setUp();
+	}
+
 	/**
 	 * TimeTest::testObject()
 	 *
 	 * @return void
 	 */
 	public function testObject() {
-		$this->Time = new Time();
 		$this->assertTrue(is_object($this->Time));
 		$this->assertInstanceOf('Time', $this->Time);
 	}
@@ -469,24 +474,24 @@ class TimeTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testDay() {
+	public function testDayName() {
 		//$this->out($this->_header(__FUNCTION__), true);
-		$ret = Time::day('0');
+		$ret = Time::dayName('0');
 		$this->assertEquals(__d('tools', 'Sunday'), $ret);
 
-		$ret = Time::day(2, true);
+		$ret = Time::dayName(2, true);
 		$this->assertEquals(__d('tools', 'Tue'), $ret);
 
-		$ret = Time::day(6);
+		$ret = Time::dayName(6);
 		$this->assertEquals(__d('tools', 'Saturday'), $ret);
 
-		$ret = Time::day(6, false, 1);
+		$ret = Time::dayName(6, false, 1);
 		$this->assertEquals(__d('tools', 'Sunday'), $ret);
 
-		$ret = Time::day(0, false, 2);
+		$ret = Time::dayName(0, false, 2);
 		$this->assertEquals(__d('tools', 'Tuesday'), $ret);
 
-		$ret = Time::day(1, false, 6);
+		$ret = Time::dayName(1, false, 6);
 		$this->assertEquals(__d('tools', 'Sunday'), $ret);
 	}
 
@@ -495,18 +500,18 @@ class TimeTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testMonth() {
+	public function testMonthName() {
 		//$this->out($this->_header(__FUNCTION__), true);
-		$ret = Time::month('11');
+		$ret = Time::monthName('11');
 		$this->assertEquals(__d('tools', 'November'), $ret);
 
-		$ret = Time::month(1);
+		$ret = Time::monthName(1);
 		$this->assertEquals(__d('tools', 'January'), $ret);
 
-		$ret = Time::month(2, true, array('appendDot' => true));
+		$ret = Time::monthName(2, true, array('appendDot' => true));
 		$this->assertEquals(__d('tools', 'Feb') . '.', $ret);
 
-		$ret = Time::month(5, true, array('appendDot' => true));
+		$ret = Time::monthName(5, true, array('appendDot' => true));
 		$this->assertEquals(__d('tools', 'May'), $ret);
 	}
 
@@ -718,22 +723,6 @@ class TimeTest extends TestCase {
 
 		$result = Time::timezoneByCoordinates(48, 11);
 		$this->assertEquals('Europe/Vaduz', $result);
-	}
-
-	/**
-	 * TimeTest::testCweekDay()
-	 *
-	 * @return void
-	 */
-	public function testCweekDay() {
-		//$this->out($this->_header(__FUNCTION__), true);
-
-		// wednesday
-		$ret = Time::cweekDay(51, 2011, 2);
-		//$this->out('51, 2011, 2');
-		//$this->out(date(FORMAT_DB_DATETIME, $ret));
-		$this->assertTrue($ret >= 1324422000 && $ret <= 1324425600);
-		//$this->assertEquals(1324422000, $ret);
 	}
 
 	public function testCweeks() {
@@ -1054,7 +1043,7 @@ class TimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testTimezone() {
-		$timezone = Time::timezone();
+		$timezone = $this->Time->timezone();
 		// usually UTC
 		$name = $timezone->getName();
 		//$this->debug($name);
@@ -1084,13 +1073,13 @@ class TimeTest extends TestCase {
 		Configure::write('Config.timezone', 'UTC');
 		date_default_timezone_set('UTC');
 
-		$result = Time::getGmtOffset();
+		$result = $this->Time->getGmtOffset();
 		$this->assertEquals(0, $result);
 
-		$result = Time::getGmtOffset('Europe/Berlin');
+		$result = $this->Time->getGmtOffset('Europe/Berlin');
 		$this->assertTrue($result > 0, $result);
 
-		$result = Time::getGmtOffset('America/Los_Angeles');
+		$result = $this->Time->getGmtOffset('America/Los_Angeles');
 		$this->assertTrue($result < 0, $result);
 
 		Configure::write('Config.timezone', $timezone);

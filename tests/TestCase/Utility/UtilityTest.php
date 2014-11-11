@@ -208,7 +208,7 @@ class UtilityTest extends TestCase {
 		$res = Utility::getMimeType('http://www.spiegel.de/static/sys/v10/icons/home_v2_inexistent.png');
 		$this->assertEquals('', $res);
 
-		$res = Utility::getMimeType(Plugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.jpg');
+		$res = Utility::getMimeType(Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.jpg');
 		$this->assertEquals('image/jpeg', $res);
 	}
 
@@ -222,13 +222,13 @@ class UtilityTest extends TestCase {
 		$res = Utility::fileExists('http://www.spiegel.de/static/sys/v10/icons/home_v2.png');
 		$this->assertTrue($res);
 
-		$res = Utility::fileExists(Plugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.jpg');
+		$res = Utility::fileExists(Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.jpg');
 		$this->assertTrue($res);
 
 		$res = Utility::fileExists('http://www.spiegel.de/static/sys/v10/icons/home_v2_inexistent.png');
 		$this->assertFalse($res);
 
-		$res = Utility::fileExists(Plugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'fooooo.jpg');
+		$res = Utility::fileExists(Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'fooooo.jpg');
 		$this->assertFalse($res);
 	}
 
@@ -263,7 +263,7 @@ class UtilityTest extends TestCase {
 		$res = Utility::getReferer(true);
 		$base = Configure::read('App.fullBaseUrl');
 		if (!$base) {
-			$base = 'http://localhost';
+			$base = ''; //'http://localhost';
 		}
 		$this->assertEquals($base . env('HTTP_REFERER'), $res);
 	}

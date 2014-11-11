@@ -82,7 +82,7 @@ class Email extends CakeEmail {
 			$fromName = Configure::read('Config.adminName');
 		}
 		if (!$fromEmail) {
-			throw new RuntimeException('You need to either define Config.systemEmail or Config.adminEmail in Configure.');
+			throw new \RuntimeException('You need to either define Config.systemEmail or Config.adminEmail in Configure.');
 		}
 		$this->from($fromEmail, $fromName);
 
