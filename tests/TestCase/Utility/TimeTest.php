@@ -1042,8 +1042,8 @@ class TimeTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testTimezone() {
-		$timezone = $this->Time->timezone();
+	public function testGetTimezone() {
+		$timezone = $this->Time->getTimezone();
 		// usually UTC
 		$name = $timezone->getName();
 		//$this->debug($name);
@@ -1055,7 +1055,7 @@ class TimeTest extends TestCase {
 		$this->assertTrue(isset($location['latitude']));
 		$this->assertTrue(isset($location['longitude']));
 
-		$offset = $timezone->getOffset(new DateTime('@' . mktime(0, 0, 0, 1, 1, date('Y'))));
+		$offset = $timezone->getOffset(new \DateTime('@' . mktime(0, 0, 0, 1, 1, date('Y'))));
 		//$this->debug($offset);
 
 		$phpTimezone = date_default_timezone_get();

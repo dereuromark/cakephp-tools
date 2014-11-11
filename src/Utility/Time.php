@@ -18,7 +18,7 @@ class Time extends CakeTime {
 	 * @return bool
 	 */
 	public function hasDaylightSavingTime($timezone = null) {
-		$timezone = $this->timezone($timezone);
+		$timezone = $this->safeCreateDateTimeZone($timezone);
 		// a date outside of DST
 		$offset = $timezone->getOffset(new \DateTime('@' . mktime(0, 0, 0, 2, 1, date('Y'))));
 		$offset = $offset / HOUR;
@@ -37,7 +37,11 @@ class Time extends CakeTime {
 	 * @return int Offset in hours
 	 */
 	public function getGmtOffset($timezone = null) {
-		$timezone = $this->timezone($timezone);
+		if ($timezone) {
+			$timezone = $this->safeCreateDateTimeZone($timezone);
+		} else {
+			$timezone = $this->getTimezone();
+		}
 		$offset = $timezone->getOffset(new \DateTime('@' . time()));
 		$offset = $offset / HOUR;
 		return $offset;
@@ -336,7 +340,9 @@ class Time extends CakeTime {
 	public function incrementDate($startDate, $years = 0, $months = 0, $days = 0, $timezone = null) {
 		if (!is_object($startDate)) {
 			$startDate = new \DateTime($startDate);
-			$startDate->setTimezone($timezone ? new \DateTimeZone($timezone) : $this->timezone());
+			if ($timezone) {
+				$startDate->setTimezone($this->safeCreateDateTimeZone($timezone));
+			}
 		}
 		$startingTimeStamp = $startDate->getTimestamp();
 		// Get the month value of the given date:
@@ -414,6 +420,9 @@ class Time extends CakeTime {
 		if ($dateString === null) {
 			$dateString = time();
 		}
+		if ($options['timezone']) {
+			$options['timezone'] = static::safeCreateDateTimeZone($options['timezone']);
+		}
 		$date = new \DateTime($dateString, $options['timezone']);
 		$date = $date->format('U');
 
@@ -429,7 +438,7 @@ class Time extends CakeTime {
 			}
 		}
 
-		$date = parent::_strftime($format, $date);
+		$date = static::_strftime($format, $date);
 
 		if (!empty($options['oclock'])) {
 			switch ($format) {
@@ -443,6 +452,28 @@ class Time extends CakeTime {
 			}
 		}
 		return $date;
+	}
+
+	/**
+	 * Multibyte wrapper for strftime.
+	 *
+	 * Handles utf8_encoding the result of strftime when necessary.
+	 *
+	 * @param string $format Format string.
+	 * @param int $date Timestamp to format.
+	 * @return string formatted string with correct encoding.
+	 */
+	protected static function _strftime($format, $date) {
+		$format = strftime($format, $date);
+		$encoding = Configure::read('App.encoding');
+
+		if (!empty($encoding) && $encoding === 'UTF-8') {
+			$valid = mb_check_encoding($format, $encoding);
+			if (!$valid) {
+				$format = utf8_encode($format);
+			}
+		}
+		return $format;
 	}
 
 	/**
@@ -467,6 +498,10 @@ class Time extends CakeTime {
 		}
 		if ($dateString === null) {
 			$dateString = time();
+		}
+
+		if ($options['timezone']) {
+			$options['timezone'] = static::safeCreateDateTimeZone($options['timezone']);
 		}
 		$date = new \DateTime($dateString, $options['timezone']);
 		$date = $date->format('U');
