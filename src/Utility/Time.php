@@ -978,7 +978,7 @@ class Time extends CakeTime {
 		}
 
 		if ($format) {
-			$res = DateTime::createFromFormat($format, $date);
+			$res = \DateTime::createFromFormat($format, $date);
 			$res = $res->format(FORMAT_DB_DATE) . ' ' . ($type === 'end' ? '23:59:59' : '00:00:00');
 			return $res;
 		}
