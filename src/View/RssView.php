@@ -227,7 +227,7 @@ class RssView extends View {
 		$namespaces = array();
 		foreach ($this->_usedNamespaces as $usedNamespacePrefix) {
 			if (!isset($this->_namespaces[$usedNamespacePrefix])) {
-				throw new \RuntimeException(__('The prefix %s is not specified.', $usedNamespacePrefix));
+				throw new \RuntimeException(sprintf('The prefix %s is not specified.', $usedNamespacePrefix));
 			}
 			$namespaces['xmlns:' . $usedNamespacePrefix] = $this->_namespaces[$usedNamespacePrefix];
 		}

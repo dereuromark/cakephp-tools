@@ -57,11 +57,11 @@ class FormatHelper extends TextHelper {
 	 */
 	public function thumbs($id, $inactive = false, $inactiveTitle = null) {
 		$status = 'Active';
-		$upTitle = __('consentThis');
-		$downTitle = __('dissentThis');
+		$upTitle = __d('tools', 'consentThis');
+		$downTitle = __d('tools', 'dissentThis');
 		if ($inactive === true) {
 			$status = 'Inactive';
-			$upTitle = $downTitle = !empty($inactiveTitle) ? $inactiveTitle : __('alreadyVoted');
+			$upTitle = $downTitle = !empty($inactiveTitle) ? $inactiveTitle : __d('tools', 'alreadyVoted');
 		}
 
 		if ($this->settings['fontIcons']) {
@@ -145,9 +145,9 @@ class FormatHelper extends TextHelper {
 				$url += $options['url'];
 			}
 
-			$ret .= $this->Html->link($this->cIcon(ICON_PREV, false) . '&nbsp;' . __('prev' . $name), $url, array('escape' => false, 'title' => $neighbors['prev'][$titleAlias][$titleField]));
+			$ret .= $this->Html->link($this->cIcon(ICON_PREV, false) . '&nbsp;' . __d('tools', 'prev' . $name), $url, array('escape' => false, 'title' => $neighbors['prev'][$titleAlias][$titleField]));
 		} else {
-			$ret .= $this->cIcon(ICON_PREV_DISABLED, __('noPrev' . $name)) . '&nbsp;' . __('prev' . $name);
+			$ret .= $this->cIcon(ICON_PREV_DISABLED, __d('tools', 'noPrev' . $name)) . '&nbsp;' . __d('tools', 'prev' . $name);
 		}
 		$ret .= '&nbsp;&nbsp;';
 		if (!empty($neighbors['next'])) {
@@ -156,9 +156,9 @@ class FormatHelper extends TextHelper {
 				$url += $options['url'];
 			}
 
-			$ret .= $this->Html->link($this->cIcon(ICON_NEXT, false) . '&nbsp;' . __('next' . $name), $url, array('escape' => false, 'title' => $neighbors['next'][$titleAlias][$titleField]));
+			$ret .= $this->Html->link($this->cIcon(ICON_NEXT, false) . '&nbsp;' . __d('tools', 'next' . $name), $url, array('escape' => false, 'title' => $neighbors['next'][$titleAlias][$titleField]));
 		} else {
-			$ret .= $this->cIcon(ICON_NEXT_DISABLED, __('noNext' . $name)) . '&nbsp;' . __('next' . $name);
+			$ret .= $this->cIcon(ICON_NEXT_DISABLED, __d('tools', 'noNext' . $name)) . '&nbsp;' . __d('tools', 'next' . $name);
 		}
 		$ret .= '</div>';
 		return $ret;
@@ -356,8 +356,8 @@ class FormatHelper extends TextHelper {
 	 * @return image:Yes/No or text:Yes/No
 	 */
 	public function yesNo($v, $ontitle = null, $offtitle = null, $on = 1, $text = false, $notitle = false) {
-		$ontitle = (!empty($ontitle) ? $ontitle : __('Yes'));
-		$offtitle = (!empty($offtitle) ? $offtitle : __('No'));
+		$ontitle = (!empty($ontitle) ? $ontitle : __d('tools', 'Yes'));
+		$offtitle = (!empty($offtitle) ? $offtitle : __d('tools', 'No'));
 		$sbez = array('0' => @substr($offtitle, 0, 1), '1' => @substr($ontitle, 0, 1));
 		$bez = array('0' => $offtitle, '1' => $ontitle);
 
@@ -424,7 +424,7 @@ class FormatHelper extends TextHelper {
 	 * @return string
 	 */
 	public function disabledLink($text, $options = array()) {
-		$defaults = array('class' => 'disabledLink', 'title' => __('notAvailable'));
+		$defaults = array('class' => 'disabledLink', 'title' => __d('tools', 'notAvailable'));
 		$options += $defaults;
 
 		return $this->Html->tag('span', $text, $options);

@@ -88,7 +88,7 @@ class SluggedBehavior extends Behavior {
 		$this->_defaultConfig['notices'] = Configure::read('debug');
 		$this->_defaultConfig['label'] = $table->displayField();
 		foreach ($this->_defaultConfig['replace'] as $key => $value) {
-			$this->_defaultConfig['replace'][$key] = __($value);
+			$this->_defaultConfig['replace'][$key] = __d('tools', $value);
 		}
 		$config += (array)Configure::read('Slugged');
 

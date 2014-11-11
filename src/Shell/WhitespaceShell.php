@@ -44,7 +44,7 @@ class WhitespaceShell extends Shell {
 		$files = $App->findRecursive('.*\.php');
 		$this->out('Found ' . count($files) . ' files.');
 
-		$action = $this->in(__('Continue? [y]/[n]'), array('y', 'n'), 'n');
+		$action = $this->in('Continue? [y]/[n]', array('y', 'n'), 'n');
 		if ($action !== 'y') {
 			return $this->error('Aborted');
 		}
@@ -79,7 +79,7 @@ class WhitespaceShell extends Shell {
 			}
 
 			while (empty($action)) {
-				$action = $this->in(__('Remove? [y]/[n], [a] for all in this folder, [r] for all below, [*] for all files(!), [q] to quit'), array('y', 'n', 'r', 'a', 'q', '*'), 'q');
+				$action = $this->in('Remove? [y]/[n], [a] for all in this folder, [r] for all below, [*] for all files(!), [q] to quit', array('y', 'n', 'r', 'a', 'q', '*'), 'q');
 			}
 
 			if ($action === '*') {
@@ -135,7 +135,7 @@ class WhitespaceShell extends Shell {
 
 		$this->out('Found ' . count($files) . ' files.');
 
-		$action = $this->in(__('Continue? [y]/[n]'), array('y', 'n'), 'n');
+		$action = $this->in('Continue? [y]/[n]', array('y', 'n'), 'n');
 		if ($action !== 'y') {
 			return $this->error('Aborted');
 		}
@@ -166,31 +166,31 @@ class WhitespaceShell extends Shell {
 			'options' => array(
 				'ext' => array(
 					'short' => 'e',
-					'help' => __d('cake_console', 'Specify extensions [php|txt|...]'),
+					'help' => 'Specify extensions [php|txt|...]',
 					'default' => '',
 				),
 				'dry-run' => array(
 					'short' => 'd',
-					'help' => __d('cake_console', 'Dry run the clear command, no files will actually be deleted. Should be combined with verbose!'),
+					'help' => 'Dry run the clear command, no files will actually be deleted. Should be combined with verbose!',
 					'boolean' => true
 				),
 				'plugin' => array(
 					'short' => 'p',
-					'help' => __d('cake_console', 'Plugin'),
+					'help' => 'Plugin',
 					'default' => '',
 				),
 			)
 		);
 
 		return parent::getOptionParser()
-			->description(__d('cake_console', 'The Whitespace Shell removes uncessary/wrong whitespaces.
-Either provide a path as first argument, use -p PluginName or run it as it is for the complete APP dir.'))
+			->description('The Whitespace Shell removes uncessary/wrong whitespaces.
+Either provide a path as first argument, use -p PluginName or run it as it is for the complete APP dir.')
 			->addSubcommand('clean', array(
-				'help' => __d('cake_console', 'Detect and remove any leading/trailing whitespaces'),
+				'help' => 'Detect and remove any leading/trailing whitespaces',
 				'parser' => $subcommandParser
 			))
 			->addSubcommand('eof', array(
-				'help' => __d('cake_console', 'Fix whitespace issues at the end of PHP files (a single newline as per coding standards)'),
+				'help' => 'Fix whitespace issues at the end of PHP files (a single newline as per coding standards)',
 				'parser' => $subcommandParser
 			));
 	}

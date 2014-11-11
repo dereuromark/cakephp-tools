@@ -303,7 +303,7 @@ class CommonHelper extends Helper {
 			'meta' => '<link rel="alternate" type="application/rss+xml" title="%s" href="%s" />',
 		);
 		if (empty($title)) {
-			$title = __('Subscribe to this feed');
+			$title = __d('tools', 'Subscribe to this feed');
 		} else {
 			$title = h($title);
 		}
