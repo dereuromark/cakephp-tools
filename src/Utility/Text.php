@@ -222,7 +222,7 @@ class Text extends String {
 	 */
 	public function words($options = array()) {
 		if (true || !$this->xrWord) {
-			$text = str_replace(array(PHP_EOL, NL, TB), ' ', $this->text);
+			$text = str_replace(array(PHP_EOL, "\t"), ' ', $this->text);
 
 			$pieces = explode(' ', $text);
 			$pieces = array_unique($pieces);

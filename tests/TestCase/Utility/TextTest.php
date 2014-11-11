@@ -47,12 +47,12 @@ TXT;
 		//pr($is);
 		$this->assertEquals($is, '0-104-32-72-0');
 
-		$is = $this->Text->convertToOrd('x' . PHP_EOL . 'x' . PHP_EOL . 'x' . PHP_EOL . 'x' . CR . 'x' . TB . 'x');
+		$is = $this->Text->convertToOrd('x' . PHP_EOL . 'x' . PHP_EOL . 'x' . PHP_EOL . 'x' . PHP_EOL . 'x' . TB . 'x');
 		//pr($is);
 	}
 
 	public function testConvertToOrdTable() {
-		$is = $this->Text->convertToOrdTable('x' . PHP_EOL . 'x' . PHP_EOL . 'x' . PHP_EOL . 'x' . CR . 'x' . TB . 'x');
+		$is = $this->Text->convertToOrdTable('x' . PHP_EOL . 'x' . PHP_EOL . 'x' . PHP_EOL . 'x' . PHP_EOL . 'x' . TB . 'x');
 		//pr($is);
 	}
 

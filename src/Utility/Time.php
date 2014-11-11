@@ -613,14 +613,14 @@ class Time extends CakeTime {
 	 *
 	 * @return array (for forms etc)
 	 */
-	public static function months($monthKeys = array(), $options = array()) {
+	public static function monthNames($monthKeys = array(), $options = array()) {
 		if (!$monthKeys) {
 			$monthKeys = range(1, 12);
 		}
 		$res = array();
 		$abbr = isset($options['abbr']) ? $options['abbr'] : false;
 		foreach ($monthKeys as $key) {
-			$res[static::pad($key)] = static::month($key, $abbr, $options);
+			$res[static::pad($key)] = static::monthName($key, $abbr, $options);
 		}
 		return $res;
 	}
@@ -630,7 +630,7 @@ class Time extends CakeTime {
 	 *
 	 * @return array (for forms etc)
 	 */
-	public static function days($dayKeys = array(), $options = array()) {
+	public static function dayNames($dayKeys = array(), $options = array()) {
 		if (!$dayKeys) {
 			$dayKeys = range(0, 6);
 		}
@@ -638,7 +638,7 @@ class Time extends CakeTime {
 		$abbr = isset($options['abbr']) ? $options['abbr'] : false;
 		$offset = isset($options['offset']) ? $options['offset'] : 0;
 		foreach ($dayKeys as $key) {
-			$res[$key] = static::day($key, $abbr, $offset);
+			$res[$key] = static::dayName($key, $abbr, $offset);
 		}
 		return $res;
 	}
@@ -1048,6 +1048,39 @@ class Time extends CakeTime {
 	public static function periodAsSql($string, $fieldName, $options = array()) {
 		$period = static::period($string, $options);
 		return static::daysAsSql($period[0], $period[1], $fieldName);
+	}
+
+	/**
+	 * Returns a partial SQL string to search for all records between two dates.
+	 *
+	 * @param int|string|DateTime $begin UNIX timestamp, strtotime() valid string or DateTime object
+	 * @param int|string|DateTime $end UNIX timestamp, strtotime() valid string or DateTime object
+	 * @param string $fieldName Name of database field to compare with
+	 * @param string|DateTimeZone $timezone Timezone string or DateTimeZone object
+	 * @return string Partial SQL string.
+	 */
+	public static function daysAsSql($begin, $end, $fieldName, $timezone = null) {
+		$begin = new \DateTime($begin, $timezone);
+		$begin = $begin->format('U');
+		$end = new \DateTime($end, $timezone);
+		$end = $end->format('U');
+		$begin = date('Y-m-d', $begin) . ' 00:00:00';
+		$end = date('Y-m-d', $end) . ' 23:59:59';
+
+		return "($fieldName >= '$begin') AND ($fieldName <= '$end')";
+	}
+
+/**
+ * Returns a partial SQL string to search for all records between two times
+ * occurring on the same day.
+ *
+ * @param int|string|DateTime $dateString UNIX timestamp, strtotime() valid string or DateTime object
+ * @param string $fieldName Name of database field to compare with
+ * @param string|DateTimeZone $timezone Timezone string or DateTimeZone object
+ * @return string Partial SQL string.
+ */
+	public static function dayAsSql($dateString, $fieldName, $timezone = null) {
+		return static::daysAsSql($dateString, $dateString, $fieldName, $timezone);
 	}
 
 	/**

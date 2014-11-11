@@ -520,9 +520,9 @@ class TimeTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testDays() {
+	public function testDayNames() {
 		//$this->out($this->_header(__FUNCTION__), true);
-		$ret = $this->Time->days();
+		$ret = $this->Time->dayNames();
 		$this->assertTrue(count($ret) === 7);
 	}
 
@@ -531,9 +531,9 @@ class TimeTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testMonths() {
+	public function testMonthNames() {
 		//$this->out($this->_header(__FUNCTION__), true);
-		$ret = $this->Time->months();
+		$ret = $this->Time->monthNames();
 		$this->assertTrue(count($ret) === 12);
 	}
 
