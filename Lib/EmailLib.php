@@ -632,7 +632,7 @@ class EmailLib extends CakeEmail {
 	 *
 	 * @return void
 	 */
-	public function reset() {
+	public function resetAndSet() {
 		parent::reset();
 		$this->_priority = null;
 		$this->_wrapLength = null;
