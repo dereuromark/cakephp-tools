@@ -340,7 +340,9 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * Quick way of printing default icons
+	 * Quick way of printing default icons.
+	 *
+	 * I18n will be done using default domain.
 	 *
 	 * @todo refactor to $type, $options, $attributes
 	 *
@@ -370,8 +372,8 @@ class FormatHelper extends TextHelper {
 				$title = (isset($title) ? $title : $this->icons[$type]['title']);
 				$alt = (isset($alt) ? $alt : preg_replace('/[^a-zA-Z0-9]/', '', $this->icons[$type]['title']));
 				if ($translate !== false) {
-					$title = __d('tools', $title);
-					$alt = __d('tools', $alt);
+					$title = __($title);
+					$alt = __($alt);
 				}
 				$alt = '[' . $alt . ']';
 			} else {
@@ -390,6 +392,8 @@ class FormatHelper extends TextHelper {
 
 	/**
 	 * Custom Icons
+	 *
+	 * I18n will be done using default domain.
 	 *
 	 * @param string $icon (constant or filename)
 	 * @param array $options:
@@ -413,8 +417,8 @@ class FormatHelper extends TextHelper {
 			$title = isset($t) ? $t : ucfirst($type);
 			$alt = (isset($a) ? $a : Inflector::slug($title, '-'));
 			if ($translate !== false) {
-				$title = __d('tools', $title);
-				$alt = __d('tools', $alt);
+				$title = __($title);
+				$alt = __($alt);
 			}
 			$alt = '[' . $alt . ']';
 
@@ -434,6 +438,8 @@ class FormatHelper extends TextHelper {
 	/**
 	 * FormatHelper::_fontIcon()
 	 *
+	 * I18n will be done using default domain.
+	 *
 	 * @param string $type
 	 * @param array $options
 	 * @return string
@@ -449,7 +455,7 @@ class FormatHelper extends TextHelper {
 		if (!isset($options['title'])) {
 			$options['title'] = ucfirst($type);
 			if ($options['translate'] !== false) {
-				$options['title'] = __d('tools', $options['title']);
+				$options['title'] = __($options['title']);
 			}
 		}
 

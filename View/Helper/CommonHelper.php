@@ -208,7 +208,8 @@ class CommonHelper extends AppHelper {
 
 	/**
 	 * Manual pluralizing a word using the Inflection class
-	 * //TODO: move to lib or bootstrap
+	 *
+	 * I18n will be done using default domain.
 	 *
 	 * @param string $singular
 	 * @param string $plural
@@ -223,7 +224,7 @@ class CommonHelper extends AppHelper {
 		}
 
 		if ($autoTranslate) {
-			$result = __d('tools', $result);
+			$result = __($result);
 		}
 		return $result;
 	}

@@ -925,6 +925,7 @@ class FormExtHelper extends FormHelper {
 	/**
 	 * MaxLength js for textarea input
 	 * final output
+	 *
 	 * @param array $selectors with specific settings
 	 * @param array $globalOptions
 	 * @return string with JS code

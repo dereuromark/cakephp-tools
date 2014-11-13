@@ -4,10 +4,6 @@ App::uses('CakeLog', 'Log');
 App::uses('Utility', 'Tools.Utility');
 App::uses('MimeLib', 'Tools.Lib');
 
-if (!defined('BR')) {
-	define('BR', '<br />');
-}
-
 // Support BC (snake case config)
 if (!Configure::read('Config.systemEmail')) {
 	Configure::write('Config.systemEmail', Configure::read('Config.system_email'));
@@ -636,19 +632,12 @@ class EmailLib extends CakeEmail {
 	 *
 	 * @return void
 	 */
-	public function resetAndSet() {
-		$this->_to = array();
-		$this->_cc = array();
-		$this->_bcc = array();
-		$this->_messageId = true;
-		$this->_subject = '';
-		$this->_headers = array();
-		$this->_viewVars = array();
-		$this->_textMessage = '';
-		$this->_htmlMessage = '';
-		$this->_message = '';
-		$this->_attachments = array();
+	public function reset() {
+		parent::reset();
+		$this->_priority = null;
+		$this->_wrapLength = null;
 
+		$this->_log = null;
 		$this->_error = null;
 		$this->_debug = null;
 
@@ -659,7 +648,7 @@ class EmailLib extends CakeEmail {
 			$fromName = Configure::read('Config.adminName');
 		}
 		if (!$fromEmail) {
-			throw new RuntimeException('You need to either define systemEmail or adminEmail in Config.');
+			throw new RuntimeException('You need to either define Config.systemEmail or Config.adminEmail in Configure.');
 		}
 		$this->from($fromEmail, $fromName);
 
