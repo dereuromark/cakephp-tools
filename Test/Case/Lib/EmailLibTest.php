@@ -15,6 +15,8 @@ class EmailLibTest extends MyCakeTestCase {
 		parent::setUp();
 		//$this->skipIf(!file_exists(APP . 'Config' . DS . 'email.php'), 'no email.php');
 
+		Configure::write('Email.live', false);
+
 		$this->Email = new TestEmailLib();
 	}
 
@@ -35,6 +37,7 @@ class EmailLibTest extends MyCakeTestCase {
 	 */
 	public function testSendDefault() {
 		// start
+		$this->Email->transport('debug');
 		$this->Email->to(Configure::read('Config.adminEmail'), Configure::read('Config.adminEmailname'));
 		$this->Email->subject('Test Subject');
 
@@ -48,6 +51,7 @@ class EmailLibTest extends MyCakeTestCase {
 
 		$this->Email->resetAndSet();
 		// start
+		$this->Email->transport('debug');
 		$this->Email->to(Configure::read('Config.adminEmail'), Configure::read('Config.adminEmailname'));
 		$this->Email->subject('Test Subject 2');
 		$this->Email->template('default', 'default');
@@ -73,6 +77,8 @@ class EmailLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testSendFast() {
+		$this->skipIf(php_sapi_name() === 'cli');
+
 		//$this->Email->resetAndSet();
 		//$this->Email->from(Configure::read('Config.adminEmail'), Configure::read('Config.adminEmailname'));
 		$res = EmailLib::systemEmail('system-mail test', 'some fast email to admin test');
@@ -91,6 +97,7 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->Email->to('cake@cakephp.org');
 		$this->Email->subject('My title');
 		$this->Email->emailFormat('both');
+		$this->Email->transport('debug');
 
 		$result = $this->Email->send();
 		$this->assertTrue($result);
@@ -104,6 +111,7 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->Email->to('cake@cakephp.org');
 		$this->Email->subject('My title');
 		$this->Email->emailFormat('both');
+		$this->Email->transport('debug');
 
 		$result = $this->Email->send();
 		$this->assertTrue($result);
@@ -375,9 +383,8 @@ html-part
 	 * @return void
 	 */
 	public function testValidates() {
-		$this->skipIf(php_sapi_name() === 'cli', 'For now...');
-
 		$this->Email = new TestEmailLib();
+		$this->Email->transport('debug');
 		$res = $this->Email->validates();
 		$this->assertFalse($res);
 		$res = $this->Email->send();
