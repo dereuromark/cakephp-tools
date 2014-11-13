@@ -55,7 +55,7 @@ class EmailLib extends CakeEmail {
 		}
 		parent::__construct($config);
 
-		$this->resetAndSet();
+		$this->resetAndSet($config);
 	}
 
 	/**
@@ -632,14 +632,20 @@ class EmailLib extends CakeEmail {
 	 *
 	 * @return void
 	 */
-	public function resetAndSet() {
+	public function resetAndSet($config = null) {
+		if ($config === null) {
+			$config = 'default';
+		}
 		parent::reset();
+
 		$this->_priority = null;
 		$this->_wrapLength = null;
 
 		$this->_log = null;
 		$this->_error = null;
 		$this->_debug = null;
+
+		$this->_applyConfig($config);
 
 		if ($fromEmail = Configure::read('Config.systemEmail')) {
 			$fromName = Configure::read('Config.systemName');
