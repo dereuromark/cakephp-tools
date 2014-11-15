@@ -5,6 +5,7 @@ namespace Tools\Model\Table;
 use Cake\ORM\Table as CakeTable;
 use Cake\Validation\Validator;
 use Cake\Utility\Inflector;
+use Cake\Core\Configure;
 
 class Table extends CakeTable {
 
@@ -121,6 +122,38 @@ class Table extends CakeTable {
 			return parent::find('all', $options)->first();
 		}
 		return parent::find($type, $options);
+	}
+
+	/**
+	 * Table::field()
+	 *
+	 * @param string $name
+	 * @param array $options
+	 * @return mixed Field value or null if not available
+	 */
+	public function field($name, array $options = array()) {
+		$result = $this->find('all', $options)->first();
+		if (!$result) {
+			return null;
+		}
+		return $result->get($name);
+	}
+
+	/**
+	 * Overwrite to allow markNew => auto
+	 *
+	 * @param array $data The data to build an entity with.
+	 * @param array $options A list of options for the object hydration.
+	 * @return \Cake\Datasource\EntityInterface
+	 */
+	public function newEntity(array $data = [], array $options = []) {
+		$options += ['markNew' => Configure::read('Entity.autoMarkNew') ? 'auto' : null];
+		if (isset($options['markNew']) && $options['markNew'] === 'auto') {
+			$this->_primaryKey = (array)$this->primaryKey();
+			$this->_primaryKey = $this->_primaryKey[0];
+			$options['markNew'] = !empty($data[$this->_primaryKey]);
+		}
+		return parent::newEntity($data, $options);
 	}
 
 	/**

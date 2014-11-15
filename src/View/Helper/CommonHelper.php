@@ -54,11 +54,11 @@ class CommonHelper extends Helper {
 			$html .= '</div>';
 			if ($types) {
 				foreach ($types as $type) {
-					CakeSession::delete('messages.' . $type);
+					$this->request->session()->delete('messages.' . $type);
 					Configure::delete('messages.' . $type);
 				}
 			} else {
-				CakeSession::delete('messages');
+				$this->request->session()->delete('messages');
 				Configure::delete('messages');
 			}
 		}

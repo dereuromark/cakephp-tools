@@ -21,7 +21,7 @@ if (!defined('CLASS_USER')) {
  */
 class CommonComponent extends Component {
 
-	public $components = array('Session', 'RequestHandler');
+	public $components = array('RequestHandler');
 
 	public $userModel = CLASS_USER;
 
@@ -36,13 +36,13 @@ class CommonComponent extends Component {
 
 		// Data preparation
 		if (!empty($this->Controller->request->data) && !Configure::read('DataPreparation.notrim')) {
-			$this->Controller->request->data = $this->trimDeep($this->Controller->request->data);
+			$this->Controller->request->data = Utility::trimDeep($this->Controller->request->data);
 		}
 		if (!empty($this->Controller->request->query) && !Configure::read('DataPreparation.notrim')) {
-			$this->Controller->request->query = $this->trimDeep($this->Controller->request->query);
+			$this->Controller->request->query = Utility::trimDeep($this->Controller->request->query);
 		}
 		if (!empty($this->Controller->request->params['pass']) && !Configure::read('DataPreparation.notrim')) {
-			$this->Controller->request->params['pass'] = $this->trimDeep($this->Controller->request->params['pass']);
+			$this->Controller->request->params['pass'] = Utility::trimDeep($this->Controller->request->params['pass']);
 		}
 		/*
 		// Auto layout switch
@@ -60,22 +60,22 @@ class CommonComponent extends Component {
 	 * @return void
 	 */
 	public function beforeRender(Event $event) {
-		if ($messages = $this->Session->read('Message')) {
+		if ($messages = $this->Controller->request->session()->read('Message')) {
 			foreach ($messages as $message) {
 				$this->flashMessage($message['message'], 'error');
 			}
-			$this->Session->delete('Message');
+			$this->Controller->request->session()->delete('Message');
 		}
 
 		if ($this->Controller->request->is('ajax')) {
 			$ajaxMessages = array_merge(
-				(array)$this->Session->read('messages'),
+				(array)$this->Controller->request->session()->read('messages'),
 				(array)Configure::read('messages')
 			);
 			// The header can be read with JavaScript and a custom Message can be displayed
 			$this->Controller->response->header('X-Ajax-Flashmessage', json_encode($ajaxMessages));
 
-			$this->Session->delete('messages');
+			$this->Controller->request->session()->delete('messages');
 		}
 
 		// Custom options
@@ -127,12 +127,12 @@ class CommonComponent extends Component {
 			$type = 'info';
 		}
 
-		$old = (array)$this->Session->read('messages');
+		$old = (array)$this->Controller->request->session()->read('messages');
 		if (isset($old[$type]) && count($old[$type]) > 99) {
 			array_shift($old[$type]);
 		}
 		$old[$type][] = $message;
-		$this->Session->write('messages', $old);
+		$this->Controller->request->session()->write('messages', $old);
 	}
 
 	/**

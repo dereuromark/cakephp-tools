@@ -2,6 +2,7 @@
 namespace Tools\Controller;
 
 use Cake\Controller\Controller as CakeController;
+use Cake\Core\Configure;
 
 /**
  * DRY Controller stuff
