@@ -127,25 +127,6 @@ class SessionComponentTest extends TestCase {
 	}
 
 /**
- * testSessionFlash method
- *
- * @return void
- */
-	public function testSessionFlash() {
-		$Session = new SessionComponent($this->ComponentRegistry);
-
-		$this->assertNull($Session->read('Flash.flash'));
-
-		$Session->setFlash('This is a test message');
-		$this->assertEquals(array(
-				'message' => 'This is a test message',
-				'element' => null,
-				'params' => array(),
-				'key' => 'flash'
-			), $Session->read('Flash.flash'));
-	}
-
-/**
  * testSessionId method
  *
  * @return void
