@@ -195,6 +195,8 @@ class PasswordableBehavior extends Behavior {
 				$validator->allowEmpty($formField, !$this->_config['require']);
 			}
 		}
+
+		$this->_table = $table;
 	}
 
 	/**
@@ -326,24 +328,16 @@ class PasswordableBehavior extends Behavior {
 	 * @param array $data
 	 * @return bool Success
 	 */
-	public function validateCurrentPwd($data) {
-		if (is_array($data)) {
-			$pwd = array_shift($data);
-		} else {
-			$pwd = $data;
-		}
-die(debug($data));
+	public function validateCurrentPwd($pwd, $config) {
 		$uid = null;
-		if ($Model->id) {
-			$uid = $Model->id;
-		} elseif (!empty($Model->data[$table->alias()]['id'])) {
-			$uid = $Model->data[$table->alias()]['id'];
+		if (!empty($config['data'][$this->_table->primaryKey()])) {
+			$uid = $config['data'][$this->_table->primaryKey()];
 		} else {
 			trigger_error('No user id given');
 			return false;
 		}
 
-		return $this->_validateSameHash($pwd);
+		return $this->_validateSameHash($pwd, $config);
 	}
 
 	/**
@@ -364,10 +358,9 @@ die(debug($data));
 	 *
 	 * @return bool Success
 	 */
-	public function validateNotSame($data, $field1, $field2) {
-		die(debug($data));
-		$value1 = $Model->data[$table->alias()][$field1];
-		$value2 = $Model->data[$table->alias()][$field2];
+	public function validateNotSame($data, $field1, $field2, $config) {
+		$value1 = $config['providers']['entity']->get($field1);
+		$value2 = $config['providers']['entity']->get($field2);
 		return ($value1 !== $value2);
 	}
 
@@ -376,17 +369,20 @@ die(debug($data));
 	 *
 	 * @return bool Success
 	 */
-	public function validateNotSameHash($data, $formField) {
+	public function validateNotSameHash($data, $formField, $config) {
 		$field = $this->_config['field'];
-die(debug($formField));
-		if (!isset($Model->data[$table->alias()][$Model->primaryKey])) {
+		if (!$config['providers']['entity']->get($this->_table->primaryKey())) {
 			return true;
 		}
 
-		$primaryKey = $Model->data[$table->alias()][$Model->primaryKey];
-		$value = $Model->data[$table->alias()][$formField];
+		$primaryKey = $config['providers']['entity']->get($this->_table->primaryKey());
+		$value = $config['providers']['entity']->get($formField);
 
-		$dbValue = $Model->field($field, array($Model->primaryKey => $primaryKey));
+		$dbValue = $this->_table->find()->where(array($this->_table->primaryKey() => $primaryKey))->first();
+		if (!$dbValue) {
+			return true;
+		}
+		$dbValue = $dbValue[$field];
 		if (!$dbValue) {
 			return true;
 		}
@@ -402,11 +398,15 @@ die(debug($formField));
 	 * @param string $pwd
 	 * @return bool Success
 	 */
-	protected function _validateSameHash($pwd) {
+	protected function _validateSameHash($pwd, $config) {
 		$field = $this->_config['field'];
 
-		$primaryKey = $Model->data[$table->alias()][$Model->primaryKey];
-		$dbValue = $Model->field($field, array($Model->primaryKey => $primaryKey));
+		$primaryKey = $config['providers']['entity']->get($this->_table->primaryKey());
+		$dbValue = $this->_table->find()->where(array($this->_table->primaryKey() => $primaryKey))->first();
+		if (!$dbValue) {
+			return false;
+		}
+		$dbValue = $dbValue[$field];
 		if (!$dbValue && $pwd) {
 			return false;
 		}
