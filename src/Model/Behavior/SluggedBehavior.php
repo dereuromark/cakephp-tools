@@ -75,6 +75,7 @@ class SluggedBehavior extends Behavior {
 		'scope' => array(),
 		'tidy' => true,
 		//'implementedFinders' => ['slugged' => 'findSlugged'],
+		//'implementedMethods' => ['slug' => 'slug']
 	);
 
 /**
@@ -148,6 +149,12 @@ class SluggedBehavior extends Behavior {
 		$this->slug($entity);
 	}
 
+	/**
+	 * SluggedBehavior::slug()
+	 *
+	 * @param Entity $entity
+	 * @return void
+	 */
 	public function slug(Entity $entity) {
 		foreach ((array)$this->_config['label'] as $k => $v) {
 			break;
@@ -318,7 +325,7 @@ class SluggedBehavior extends Behavior {
 	 * @param mixed $id
 	 * @return mixed string (the display name) or false
 	 */
-	public function display(Model $Model, $id = null) {
+	public function display($id = null) {
 		if (!$id) {
 			if (!$Model->id) {
 				return false;
@@ -342,7 +349,7 @@ class SluggedBehavior extends Behavior {
 	 * @param integer $recursive
 	 * @return boolean Success
 	 */
-	public function resetSlugs(Model $Model, $params = array()) {
+	public function resetSlugs($params = array()) {
 		$recursive = -1;
 		extract($this->_config);
 		if (!$Model->hasField($slugField)) {
@@ -392,7 +399,7 @@ class SluggedBehavior extends Behavior {
 	 * @param Model $Model
 	 * @return void
 	 */
-	protected function _multiSlug(Model $Model) {
+	protected function _multiSlug(Entity $entity) {
 		extract($this->_config);
 		$data = $Model->data;
 		$field = current($label);

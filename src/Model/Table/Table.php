@@ -18,6 +18,12 @@ class Table extends CakeTable {
 	 */
 	public function initialize(array $config) {
 		// Shims
+		if (isset($this->primaryKey)) {
+			$this->primaryKey($this->primaryKey);
+		}
+		if (isset($this->displayField)) {
+			$this->displayField($this->displayField);
+		}
 		$this->_shimRelations();
 
 		$this->addBehavior('Timestamp');
