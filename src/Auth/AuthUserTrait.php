@@ -5,10 +5,10 @@ namespace Tools\Auth;
 use Cake\Utility\Hash;
 
 if (!defined('USER_ROLE_KEY')) {
-	define('USER_ROLE_KEY', 'Role');
+	define('USER_ROLE_KEY', 'Roles');
 }
 if (!defined('USER_RIGHT_KEY')) {
-	define('USER_RIGHT_KEY', 'Right');
+	define('USER_RIGHT_KEY', 'Rights');
 }
 
 /**

@@ -103,7 +103,7 @@ class TimelineHelper extends Helper {
 	 * Make sure that your view does also output the buffer at some place!
 	 *
 	 * @param bool $return If the output should be returned instead
-	 * @return void or string Javascript if $return is true
+	 * @return void|string Javascript if $return is true
 	 */
 	public function finalize($return = false) {
 		$settings = $this->config();
@@ -206,34 +206,19 @@ JS;
 	/**
 	 * Format date to JS code.
 	 *
-	 * @param string|DateTime $date
+	 * @param \DateTime $date
 	 * @return string
 	 */
-	protected function _date($date) {
-		if (is_object($date)) {
-			// Datetime?
-			$datePieces = array();
-			$datePieces[] = $date->format('Y');
-			// JavaScript uses 0-indexed months, so we need to subtract 1 month from PHP's output
-			$datePieces[] = (int)($date->format('m') - 1);
-			$datePieces[] = (int)$date->format('d');
-			$datePieces[] = (int)$date->format('H');
-			$datePieces[] = (int)$date->format('i');
-			$datePieces[] = (int)$date->format('s');
-		} else {
-			// As string (fallback).
-			$dateTime = explode(' ', $date, 2);
-			$datePieces = array();
-			$datePieces[] = substr($dateTime[0], 0, 4);
-			// JavaScript uses 0-indexed months, so we need to subtract 1 month from the output
-			$datePieces[] = (int)(substr($dateTime[0], 5, 2) - 1);
-			$datePieces[] = (int)substr($dateTime[0], 8, 2);
-			if (!empty($dateTime[1])) {
-				$datePieces[] = (int)substr($dateTime[1], 0, 2);
-				$datePieces[] = (int)substr($dateTime[1], 3, 2);
-				$datePieces[] = (int)substr($dateTime[1], 6, 2);
-			}
-		}
+	protected function _date(\DateTime $date) {
+		$datePieces = array();
+		$datePieces[] = $date->format('Y');
+		// JavaScript uses 0-indexed months, so we need to subtract 1 month from PHP's output
+		$datePieces[] = (int)($date->format('m') - 1);
+		$datePieces[] = (int)$date->format('d');
+		$datePieces[] = (int)$date->format('H');
+		$datePieces[] = (int)$date->format('i');
+		$datePieces[] = (int)$date->format('s');
+
 		return 'new Date(' . implode(', ', $datePieces) . ')';
 	}
 

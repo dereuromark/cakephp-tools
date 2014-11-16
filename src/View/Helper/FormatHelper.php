@@ -5,6 +5,7 @@ use Cake\Core\Configure;
 use Cake\View\View;
 use Cake\View\Helper\TextHelper;
 use Cake\View\StringTemplate;
+use Cake\Utility\Inflector;
 
 /**
  * Format helper with basic html snippets
@@ -64,7 +65,7 @@ class FormatHelper extends TextHelper {
 			$upTitle = $downTitle = !empty($inactiveTitle) ? $inactiveTitle : __d('tools', 'alreadyVoted');
 		}
 
-		if ($this->settings['fontIcons']) {
+		if ($this->_config['fontIcons']) {
 			// TODO: Return proper font icons
 			// fa-thumbs-down
 			// fa-thumbs-up
@@ -201,7 +202,7 @@ class FormatHelper extends TextHelper {
 	 */
 	public function fontIcon($icon, array $options = array(), array $attributes = array()) {
 		$defaults = array(
-			'namespace' => $this->settings['iconNamespace']
+			'namespace' => $this->_config['iconNamespace']
 		);
 		$options += $defaults;
 		$icon = (array)$icon;
@@ -254,7 +255,7 @@ class FormatHelper extends TextHelper {
 			$alt = $a;
 		}
 
-		if (!$this->settings['fontIcons'] || !isset($this->settings['fontIcons'][$type])) {
+		if (!$this->_config['fontIcons'] || !isset($this->_config['fontIcons'][$type])) {
 			if (array_key_exists($type, $this->icons)) {
 				$pic = $this->icons[$type]['pic'];
 				$title = (isset($title) ? $title : $this->icons[$type]['title']);
@@ -263,7 +264,9 @@ class FormatHelper extends TextHelper {
 					$title = __($title);
 					$alt = __($alt);
 				}
-				$alt = '[' . $alt . ']';
+				if ($alt) {
+					$alt = '[' . $alt . ']';
+				}
 			} else {
 				$pic = 'pixelspace.gif';
 			}
@@ -297,17 +300,18 @@ class FormatHelper extends TextHelper {
 			$t = isset($t['title']) ? $t['title'] : null; // deprecated
 		}
 
-		$type = extractPathInfo('filename', $icon);
+		$type = extractPathInfo($icon, 'filename');
 
-		if (!$this->settings['fontIcons'] || !isset($this->settings['fontIcons'][$type])) {
+		if (!$this->_config['fontIcons'] || !isset($this->_config['fontIcons'][$type])) {
 			$title = isset($t) ? $t : ucfirst($type);
-			$alt = (isset($a) ? $a : Inflector::slug($title, '-'));
+			$alt = (isset($a) ? $a : Inflector::slug($title));
 			if ($translate !== false) {
 				$title = __($title);
 				$alt = __($alt);
 			}
-			$alt = '[' . $alt . ']';
-
+			if ($alt) {
+				$alt = '[' . $alt . ']';
+			}
 			$defaults = array('title' => $title, 'alt' => $alt, 'class' => 'icon');
 			$options += $defaults;
 			if (substr($icon, 0, 1) !== '/') {
@@ -329,7 +333,7 @@ class FormatHelper extends TextHelper {
 	 * @return string
 	 */
 	protected function _fontIcon($type, $options) {
-		$iconType = $this->settings['fontIcons'][$type];
+		$iconType = $this->_config['fontIcons'][$type];
 
 		$defaults = array(
 			'class' => $iconType . ' ' . $type
@@ -375,7 +379,7 @@ class FormatHelper extends TextHelper {
 
 		$options = array('title' => ($ontitle === false ? '' : $bez[$value]), 'alt' => $sbez[$value], 'class' => 'icon');
 
-		if ($this->settings['fontIcons']) {
+		if ($this->_config['fontIcons']) {
 			return $this->cIcon($icon, $options['title']);
 		}
 		return $this->Html->image('icons/' . $icon, $options);

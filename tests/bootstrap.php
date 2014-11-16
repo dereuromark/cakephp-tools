@@ -16,6 +16,13 @@ define('CONFIG', dirname(__FILE__) . DS . 'config' . DS);
 require ROOT . '/vendor/cakephp/cakephp/src/basics.php';
 require ROOT . '/vendor/autoload.php';
 
+require CAKE . 'Core/ClassLoader.php';
+
+$loader = new Cake\Core\ClassLoader;
+$loader->register();
+
+$loader->addNamespace('TestApp', ROOT . DS . 'tests' . DS . 'TestApp' . DS);
+
 Cake\Core\Configure::write('App', [
 		'namespace' => 'App',
 		'encoding' => 'UTF-8']);
@@ -23,7 +30,7 @@ Cake\Core\Configure::write('debug', true);
 
 mb_internal_encoding('UTF-8');
 
-$Tmp = new \Cake\Filesystem\Folder(TMP);
+$Tmp = new Cake\Filesystem\Folder(TMP);
 $Tmp->create(TMP . 'cache/models', 0770);
 $Tmp->create(TMP . 'cache/persistent', 0770);
 $Tmp->create(TMP . 'cache/views', 0770);

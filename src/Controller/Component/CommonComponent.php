@@ -5,6 +5,7 @@ use Cake\Controller\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Tools\Utility\Utility;
+use Cake\Routing\Router;
 
 use Tools\Lib\UserAgentLib;
 
@@ -25,6 +26,10 @@ class CommonComponent extends Component {
 
 	public $userModel = CLASS_USER;
 
+	public function beforeFilter(Event $event) {
+		$this->Controller = $event->subject();
+	}
+
 	/**
 	 * For this helper the controller has to be passed as reference
 	 * for manual startup with $disableStartup = true (requires this to be called prior to any other method)
@@ -32,8 +37,6 @@ class CommonComponent extends Component {
 	 * @return void
 	 */
 	public function startup(Event $event) {
-		$this->Controller = $event->subject();
-
 		// Data preparation
 		if (!empty($this->Controller->request->data) && !Configure::read('DataPreparation.notrim')) {
 			$this->Controller->request->data = Utility::trimDeep($this->Controller->request->data);
@@ -127,7 +130,7 @@ class CommonComponent extends Component {
 			$type = 'info';
 		}
 
-		$old = (array)$this->Controller->request->session()->read('messages');
+		$old = $this->Controller->request->session()->read('messages');
 		if (isset($old[$type]) && count($old[$type]) > 99) {
 			array_shift($old[$type]);
 		}
@@ -160,30 +163,21 @@ class CommonComponent extends Component {
 	/**
 	 * Add component just in time (inside actions - only when needed)
 	 * aware of plugins and config array (if passed)
+	 *
 	 * @param mixed $components (single string or multiple array)
-	 * @poaram bool $callbacks (defaults to true)
+	 * @param bool $callbacks (defaults to true)
 	 */
-	public function loadComponent($components = array(), $callbacks = true) {
-		foreach ((array)$components as $component => $config) {
-			if (is_int($component)) {
-				$component = $config;
-				$config = array();
-			}
-			list($plugin, $componentName) = pluginSplit($component);
-			if (isset($this->Controller->{$componentName})) {
-				continue;
-			}
-
-			$this->Controller->{$componentName} = $this->Controller->Components->load($component, $config);
-			if (!$callbacks) {
-				continue;
-			}
-			if (method_exists($this->Controller->{$componentName}, 'initialize')) {
-				$this->Controller->{$componentName}->initialize($this->Controller);
-			}
-			if (method_exists($this->Controller->{$componentName}, 'startup')) {
-				$this->Controller->{$componentName}->startup($this->Controller);
-			}
+	public function loadComponent($component, array $config = array(), $callbacks = true) {
+		list($plugin, $componentName) = pluginSplit($component);
+		$this->Controller->loadComponent($component, $config);
+		if (!$callbacks) {
+			return;
+		}
+		if (method_exists($this->Controller->{$componentName}, 'beforeFilter')) {
+			$this->Controller->{$componentName}->beforeFilter(new \Cake\Event\Event('Controller.initialize', $this->Controller->{$componentName}));
+		}
+		if (method_exists($this->Controller->{$componentName}, 'startup')) {
+			$this->Controller->{$componentName}->startup(new \Cake\Event\Event('Controller.startup', $this->Controller->{$componentName}));
 		}
 	}
 
@@ -226,7 +220,7 @@ class CommonComponent extends Component {
 			$action = $this->Controller->request->params['action'];
 		}
 
-		$url = array_merge($this->Controller->request->params['named'], $this->Controller->request->params['pass'], array('prefix' => isset($this->Controller->request->params['prefix']) ? $this->Controller->request->params['prefix'] : null,
+		$url = array_merge($this->Controller->request->params['pass'], array('prefix' => isset($this->Controller->request->params['prefix']) ? $this->Controller->request->params['prefix'] : null,
 			'plugin' => $this->Controller->request->params['plugin'], 'action' => $action, 'controller' => $this->Controller->request->params['controller']));
 
 		if ($asString === true) {

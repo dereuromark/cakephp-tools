@@ -258,7 +258,7 @@ class JsHelper extends Helper {
 	public function writeBuffer($options = array()) {
 		$domReady = !$this->request->is('ajax');
 		$defaults = array(
-			'onDomReady' => $domReady, 'inline' => true,
+			'onDomReady' => $domReady,
 			'cache' => false, 'clear' => true, 'safe' => true
 		);
 		$options += $defaults;
@@ -274,21 +274,9 @@ class JsHelper extends Helper {
 		$opts = $options;
 		unset($opts['onDomReady'], $opts['cache'], $opts['clear']);
 
-		if ($options['cache'] && $options['inline']) {
-			$filename = md5($script);
-			$path = WWW_ROOT . Configure::read('App.jsBaseUrl');
-			if (file_exists($path . $filename . '.js')
-				|| cache(str_replace(WWW_ROOT, '', $path) . $filename . '.js', $script, '+999 days', 'public')
-				) {
-				return $this->Html->script($filename);
-			}
-		}
-
 		$return = $this->Html->scriptBlock($script, $opts);
-		if ($options['inline']) {
-			return $return;
-		}
-		return null;
+
+		return $return;
 	}
 
 /**
