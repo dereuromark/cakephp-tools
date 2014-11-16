@@ -158,23 +158,9 @@ class CommonComponentTest extends TestCase {
 
 }
 
-/*** additional helper classes ***/
-
-class MyToolsUser extends \Cake\Orm\Entity {
-
-	public $useTable = 'tools_users';
-
-	public $name = 'MyToolsUser';
-
-	public $alias = 'User';
-
-	public $belongsTo = array(
-		'Role',
-	);
-
-}
-
-// Use Controller instead of AppController to avoid conflicts
+/**
+ * Use Controller instead of AppController to avoid conflicts
+ */
 class CommonComponentTestController extends Controller {
 
 	public $components = array('Tools.Common');
