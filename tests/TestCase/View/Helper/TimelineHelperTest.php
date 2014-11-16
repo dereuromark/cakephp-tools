@@ -1,0 +1,91 @@
+<?php
+namespace Tools\TestCase\View\Helper;
+
+use Tools\View\Helper\TimelineHelper;
+use Cake\TestSuite\TestCase;
+use Cake\View\View;
+use Cake\Core\Configure;
+
+/**
+ * Timeline Helper Test Case
+ */
+class TimelineHelperTest extends TestCase {
+
+	public $Timeline;
+
+	/**
+	 * TimelineHelperTest::setUp()
+	 *
+	 * @return void
+	 */
+	public function setUp() {
+		parent::setUp();
+
+		$this->Timeline = new TimelineTestHelper(new View(null));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAddItem() {
+		$data = array(
+			'start' => null,
+			'content' => '',
+		);
+		$this->Timeline->addItem($data);
+		$items = $this->Timeline->items();
+		$this->assertSame(1, count($items));
+
+		$data = array(
+			array(
+				'start' => null,
+				'content' => '',
+			),
+			array(
+				'start' => null,
+				'content' => '',
+			)
+		);
+		$this->Timeline->addItems($data);
+		$items = $this->Timeline->items();
+		$this->assertSame(3, count($items));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testFinalize() {
+		$this->testAddItem();
+		$data = array(
+			'start' => new \DateTime(),
+			'content' => '',
+		);
+		$this->Timeline->addItem($data);
+		$data = array(
+			'start' => new \DateTime(date(FORMAT_DB_DATE)),
+			'content' => '',
+		);
+		$this->Timeline->addItem($data);
+
+		$result = $this->Timeline->finalize(true);
+		$this->assertContains('\'start\': new Date(', $result);
+	}
+
+	public function tearDown() {
+		parent::tearDown();
+
+		unset($this->Timeline);
+	}
+
+}
+
+class TimelineTestHelper extends TimelineHelper {
+
+	/**
+	 * @return array
+	 */
+	public function items() {
+		return $this->_items;
+	}
+
+}

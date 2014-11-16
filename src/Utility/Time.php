@@ -11,6 +11,16 @@ use Cake\Core\Configure;
  */
 class Time extends CakeTime {
 
+/**
+ * {@inheritDoc}
+ */
+	public function __construct($time = null, $tz = null) {
+		if (is_array($time)) {
+			return;
+		}
+		parent::__construct($time, $tz);
+	}
+
 	/**
 	 * Detect if a timezone has a DST
 	 *

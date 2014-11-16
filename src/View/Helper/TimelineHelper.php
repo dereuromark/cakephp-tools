@@ -209,7 +209,10 @@ JS;
 	 * @param \DateTime $date
 	 * @return string
 	 */
-	protected function _date(\DateTime $date) {
+	protected function _date($date = null) {
+		if ($date === null || !$date instanceof \DateTime) {
+			return '';
+		}
 		$datePieces = array();
 		$datePieces[] = $date->format('Y');
 		// JavaScript uses 0-indexed months, so we need to subtract 1 month from PHP's output

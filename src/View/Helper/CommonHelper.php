@@ -3,6 +3,9 @@ namespace Tools\View\Helper;
 
 use Cake\Core\Configure;
 use Cake\View\Helper;
+use Cake\Utility\Hash;
+use Cake\Utility\Inflector;
+use Tools\Controller\Component\CommonComponent;
 
 /**
  * Common helper
@@ -11,7 +14,7 @@ use Cake\View\Helper;
  */
 class CommonHelper extends Helper {
 
-	public $helpers = array('Session', 'Html');
+	public $helpers = array('Session', 'Html', 'Url');
 
 	/**
 	 * Display all flash messages.
@@ -241,9 +244,9 @@ class CommonHelper extends Helper {
 	 * @return string HTML Markup
 	 */
 	public function metaCanonical($url = null, $full = false) {
-		$canonical = $this->Html->url($url, $full);
-		$options = array('rel' => 'canonical', 'type' => null, 'title' => null);
-		return $this->Html->meta('canonical', $canonical, $options);
+		$canonical = $this->Url->build($url, $full);
+		$options = array('rel' => 'canonical', 'link' => $canonical);
+		return $this->Html->meta($options);
 	}
 
 	/**
@@ -258,8 +261,8 @@ class CommonHelper extends Helper {
 	 * @return string HTML Markup
 	 */
 	public function metaAlternate($url, $lang, $full = false) {
-		//$canonical = $this->Html->url($url, $full);
-		$url = $this->Html->url($url, $full);
+		//$canonical = $this->Url->build($url, $full);
+		$url = $this->Url->build($url, $full);
 		//return $this->Html->meta('canonical', $canonical, array('rel'=>'canonical', 'type'=>null, 'title'=>null));
 		$lang = (array)$lang;
 		$res = array();
@@ -272,8 +275,8 @@ class CommonHelper extends Helper {
 			$countries = (array)$countries;
 			foreach ($countries as $country) {
 				$l = $language . $country;
-				$options = array('rel' => 'alternate', 'hreflang' => $l, 'type' => null, 'title' => null);
-				$res[] = $this->Html->meta('alternate', $url, $options) . PHP_EOL;
+				$options = array('rel' => 'alternate', 'hreflang' => $l, 'link' => $url);
+				$res[] = $this->Html->meta($options) . PHP_EOL;
 			}
 		}
 		return implode('', $res);
@@ -296,7 +299,7 @@ class CommonHelper extends Helper {
 			$title = h($title);
 		}
 
-		return sprintf($tags['meta'], $title, $this->url($url));
+		return sprintf($tags['meta'], $title, $this->Url->build($url));
 	}
 
 	/**

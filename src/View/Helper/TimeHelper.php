@@ -3,6 +3,8 @@
 namespace Tools\View\Helper;
 
 use Cake\View\Helper\TimeHelper as CakeTimeHelper;
+use Cake\View\View;
+use Cake\Core\App;
 
 /**
  * Wrapper for TimeHelper and TimeLib
@@ -11,10 +13,56 @@ class TimeHelper extends CakeTimeHelper {
 
 	public $helpers = array('Html');
 
-	public function __construct($View = null, $config = array()) {
-		$defaults = array('engine' => 'Tools.Time');
-		$config += $defaults;
+/**
+ * Default config for this class
+ *
+ * @var mixed
+ */
+	protected $_defaultConfig = [
+		'engine' => 'Tools\Utility\Time'
+	];
+
+/**
+ * Cake\I18n\LocalizedNumber instance
+ *
+ * @var \Cake\I18n\Number
+ */
+	protected $_engine = null;
+
+/**
+ * Default Constructor
+ *
+ * ### Settings:
+ *
+ * - `engine` Class name to use to replace Cake\I18n\Time functionality
+ *            The class needs to be placed in the `Utility` directory.
+ *
+ * @param \Cake\View\View $View The View this helper is being attached to.
+ * @param array $config Configuration settings for the helper
+ * @throws \Cake\Core\Exception\Exception When the engine class could not be found.
+ */
+	public function __construct(View $View, array $config = array()) {
 		parent::__construct($View, $config);
+
+		$config = $this->_config;
+
+		$engineClass = App::className($config['engine'], 'Utility');
+		if ($engineClass) {
+			$this->_engine = new $engineClass($config);
+		} else {
+			throw new Exception(sprintf('Class for %s could not be found', $config['engine']));
+		}
+	}
+
+/**
+ * Call methods from Cake\I18n\Number utility class
+ *
+ * @param string $method Method to invoke
+ * @param array $params Array of params for the method.
+ * @return mixed Whatever is returned by called method, or false on failure
+ */
+	public function __call($method, $params) {
+		return call_user_func_array(array($this->_engine, $method), $params);
 	}
 
 	/**
@@ -67,8 +115,7 @@ class TimeHelper extends CakeTimeHelper {
 	 * @param array $attr: html attributes
 	 * @return nicely formatted date
 	 */
-	public function published($dateString = null, $userOffset = null, $options = array(), $attr = array()) {
-		$date = $dateString ? $this->fromString($dateString, $userOffset) : null; // time() ?
+	public function published(\DateTime $date, $options = array(), $attr = array()) {
 		$niceDate = '';
 		$when = null;
 		$span = '';
@@ -76,47 +123,43 @@ class TimeHelper extends CakeTimeHelper {
 		$whenArray = array('-1' => 'already', '0' => 'today', '1' => 'notyet');
 		$titles = array('-1' => __d('tools', 'publishedAlready'), '0' => __d('tools', 'publishedToday'), '1' => __d('tools', 'publishedNotYet'));
 
-		if (!empty($date)) {
+		$y = $this->isThisYear($date) ? '' : ' Y';
 
-			$y = $this->isThisYear($date) ? '' : ' Y';
+		$format = (!empty($options['format']) ? $options['format'] : FORMAT_NICE_YMD);
 
-			$format = (!empty($options['format']) ? $options['format'] : FORMAT_NICE_YMD);
+		// Hack
+		// //TODO: get this to work with datetime - somehow cleaner
+		$timeAttachment = '';
+		if (isset($options['niceDateTime'])) {
+			$timeAttachment = ', ' . $this->nice($date, $options['niceDateTime']);
+			$whenOverride = true;
+		}
 
-			// Hack
-			// //TODO: get this to work with datetime - somehow cleaner
-			$timeAttachment = '';
-			if (isset($options['niceDateTime'])) {
-				$timeAttachment = ', ' . $this->niceDate($date, $options['niceDateTime']);
-				$whenOverride = true;
-			}
-
-			if ($this->isToday($date)) {
-				$when = 0;
-				$niceDate = __d('tools', 'Today') . $timeAttachment;
-			} elseif ($this->isTomorrow($date)) {
+		if ($this->isToday($date)) {
+			$when = 0;
+			$niceDate = __d('tools', 'Today') . $timeAttachment;
+		} elseif ($this->isTomorrow($date)) {
+			$when = 1;
+			$niceDate = __d('tools', 'Tomorrow') . $timeAttachment;
+		} elseif ($this->wasYesterday($date)) {
+			$when = -1;
+			$niceDate = __d('tools', 'Yesterday') . $timeAttachment;
+		} else {
+			// before or after?
+			if ($this->isFuture($date)) {
 				$when = 1;
-				$niceDate = __d('tools', 'Tomorrow') . $timeAttachment;
-			} elseif ($this->wasYesterday($date)) {
-				$when = -1;
-				$niceDate = __d('tools', 'Yesterday') . $timeAttachment;
 			} else {
-				// before or after?
-				if ($this->isNotTodayAndInTheFuture($date)) {
-					$when = 1;
-				} else {
-					$when = -1;
-				}
-				$niceDate = $this->niceDate($date, $format) . $timeAttachment; //date("M jS{$y}", $date);
+				$when = -1;
 			}
+			$niceDate = $this->format($date, $format) . $timeAttachment; //date("M jS{$y}", $date);
+		}
 
-			if (!empty($whenOverride) && $when == 0) {
-				if ($this->isInTheFuture($date)) {
-					$when = 1;
-				} else {
-					$when = -1;
-				}
+		if (!empty($whenOverride) && $when == 0) {
+			if ($this->isInTheFuture($date)) {
+				$when = 1;
+			} else {
+				$when = -1;
 			}
-
 		}
 
 		if (empty($niceDate) || $when === null) {

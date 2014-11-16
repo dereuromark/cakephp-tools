@@ -31,7 +31,6 @@ class GoogleMapV3HelperTest extends TestCase {
 		$this->GoogleMapV3 = new GoogleMapV3Helper(new View(null), $config);
 
 		$result = $this->GoogleMapV3->config();
-		debug($result);
 		$this->assertEquals('foo', $result['map']['type']);
 		$this->assertEquals(8, $result['map']['zoom']);
 	}

@@ -4,6 +4,7 @@ namespace Tools\View\Helper;
 use Cake\View\Helper;
 use Cake\Utility\Hash;
 use Cake\Core\Configure;
+use Cake\Router\Router;
 
 /**
  * This is a CakePHP helper that helps users to integrate GoogleMap v3
