@@ -13,6 +13,8 @@ define('CAKE', CORE_PATH . APP_DIR . DS);
 define('WWW_ROOT', ROOT . DS . 'webroot' . DS);
 define('CONFIG', dirname(__FILE__) . DS . 'config' . DS);
 
+ini_set('intl.default_locale', 'de-DE');
+
 require ROOT . '/vendor/cakephp/cakephp/src/basics.php';
 require ROOT . '/vendor/autoload.php';
 
@@ -28,7 +30,13 @@ Cake\Core\Configure::write('App', [
 		'encoding' => 'UTF-8']);
 Cake\Core\Configure::write('debug', true);
 
-Cake\Network\Email\Email::config('defualt', array('transport' => 'Debug'));
+Cake\Core\Configure::write('Config', [
+		'adminEmail' => 'test@example.com',
+		'adminName' => 'Mark']);
+Cake\Network\Email\Email::config('default', array('transport' => 'Debug'));
+Cake\Network\Email\Email::configTransport('Debug', [
+		'className' => 'Debug'
+]);
 
 mb_internal_encoding('UTF-8');
 
@@ -59,7 +67,7 @@ $cache = [
 
 Cake\Cache\Cache::config($cache);
 
-Cake\Core\Plugin::load('Tools', ['path' => './', 'bootstrap' => true]);
+Cake\Core\Plugin::load('Tools', ['path' => ROOT . DS, 'bootstrap' => true]);
 
 // Ensure default test connection is defined
 if (!getenv('db_class')) {

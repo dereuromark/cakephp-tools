@@ -306,11 +306,17 @@ class TimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testIsLeapYear() {
-		$is = $this->Time->isLeapYear('2000');
+		$this->Time = new Time('2001-01-01');
+		$is = $this->Time->isLeapYear();
+		$this->assertFalse($is);
+
+		$this->Time = new Time('2008-01-01');
+		$is = $this->Time->isLeapYear();
 		$this->assertTrue($is);
 
-		$is = $this->Time->isLeapYear('2001');
-		$this->assertFalse($is);
+		$this->Time = new Time('2000-01-01');
+		$is = $this->Time->isLeapYear();
+		$this->assertTrue($is);
 	}
 
 	/**
@@ -556,11 +562,11 @@ class TimeTest extends TestCase {
 		$res = $this->Time->relLengthOfTime(date(FORMAT_DB_DATETIME, time() - 4 * DAY - 5 * HOUR), null, array('plural' => 'n'));
 		//pr($res);
 		//$this->assertEquals($res, 'Vor 4 Tagen, 5 '.__d('tools', 'Hours'));
-		$this->assertEquals(__d('tools', '%s ago', '4 ' . __d('tools', 'Days') . ', ' . '5 ' . __d('tools', 'Hours')), $res);
+		$this->assertEquals(__d('tools', '{0} ago', '4 ' . __d('tools', 'Days') . ', ' . '5 ' . __d('tools', 'Hours')), $res);
 
 		$res = $this->Time->relLengthOfTime(date(FORMAT_DB_DATETIME, time() + 4 * DAY + 5 * HOUR), null, array('plural' => 'n'));
 		//pr($res);
-		$this->assertEquals(__d('tools', 'In %s', '4 ' . __d('tools', 'Days') . ', ' . '5 ' . __d('tools', 'Hours')), $res);
+		$this->assertEquals(__d('tools', 'In {0}', '4 ' . __d('tools', 'Days') . ', ' . '5 ' . __d('tools', 'Hours')), $res);
 
 		$res = $this->Time->relLengthOfTime(date(FORMAT_DB_DATETIME, time()), null, array('plural' => 'n'));
 		//pr($res);

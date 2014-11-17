@@ -4,10 +4,9 @@ namespace Tools\View\Helper;
 
 use Cake\View\Helper\NumberHelper as CakeNumberHelper;
 use Cake\Utility\Hash;
+
 /**
- * Todo: rename to MyNumberHelper some day?
- * Aliasing it then as Number again in the project
- *
+ * Ovewrite to allow usage of own Number class.
  */
 class NumberHelper extends CakeNumberHelper {
 
