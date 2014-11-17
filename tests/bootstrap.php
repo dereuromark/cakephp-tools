@@ -28,6 +28,8 @@ Cake\Core\Configure::write('App', [
 		'encoding' => 'UTF-8']);
 Cake\Core\Configure::write('debug', true);
 
+Cake\Network\Email\Email::config('defualt', array('transport' => 'Debug'));
+
 mb_internal_encoding('UTF-8');
 
 $Tmp = new Cake\Filesystem\Folder(TMP);
