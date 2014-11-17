@@ -182,7 +182,7 @@ class PasswordableBehavior extends Behavior {
 
 			if (!$this->_config['allowSame']) {
 				$validator->add($formField, 'validateNotSame', array(
-					'rule' => array('validateNotSame', $formField, $formFieldCurrent),
+					'rule' => array('validateNotSame', ['compare' => $formFieldCurrent]),
 					'message' => __d('tools', 'valErrPwdSameAsBefore'),
 					'last' => true,
 					'provider' => 'table'
@@ -192,7 +192,7 @@ class PasswordableBehavior extends Behavior {
 			// Try to match the password against the hash in the DB
 			if (!$this->_config['allowSame']) {
 				$validator->add($formField, 'validateNotSame', array(
-					'rule' => array('validateNotSameHash', $formField),
+					'rule' => array('validateNotSameHash'),
 					'message' => __d('tools', 'valErrPwdSameAsBefore'),
 					//'allowEmpty' => !$this->_config['require'],
 					'last' => true,
@@ -368,9 +368,13 @@ class PasswordableBehavior extends Behavior {
 	 *
 	 * @return bool Success
 	 */
-	public function validateNotSame($data, $field1, $field2, $context) {
-		$value1 = $context['providers']['entity']->get($field1);
-		$value2 = $context['providers']['entity']->get($field2);
+	public function validateNotSame($data, $options, $context) {
+		if (!is_array($options)) {
+			$options = array('compare' => $options);
+		}
+
+		$value1 = $context['providers']['entity']->get($context['field']);
+		$value2 = $context['providers']['entity']->get($options['compare']);
 		return ($value1 !== $value2);
 	}
 
@@ -379,14 +383,14 @@ class PasswordableBehavior extends Behavior {
 	 *
 	 * @return bool Success
 	 */
-	public function validateNotSameHash($data, $formField, $context) {
+	public function validateNotSameHash($data, $context) {
 		$field = $this->_config['field'];
 		if (!$context['providers']['entity']->get($this->_table->primaryKey())) {
 			return true;
 		}
 
 		$primaryKey = $context['providers']['entity']->get($this->_table->primaryKey());
-		$value = $context['providers']['entity']->get($formField);
+		$value = $context['providers']['entity']->get($context['field']);
 
 		$dbValue = $this->_table->find()->where(array($this->_table->primaryKey() => $primaryKey))->first();
 		if (!$dbValue) {
@@ -446,6 +450,7 @@ class PasswordableBehavior extends Behavior {
 	 *
 	 * @param Model $Model
 	 * @return void
+	 * @deprecated 3.0
 	 */
 	protected function _modifyWhitelist(Entity $entity, $onSave = false) {
 		$fields = array();
