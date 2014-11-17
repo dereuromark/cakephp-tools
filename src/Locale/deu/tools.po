@@ -17,15 +17,15 @@ msgstr ""
 
 #: Controller/QloginController.php:38
 msgid "Invalid Key"
-msgstr ""
+msgstr "Ungültiger Schlüssel"
 
 #: Controller/QloginController.php:50
 msgid "You successfully logged in via qlogin"
-msgstr ""
+msgstr "Du wurdest erfolgreich eingeloggt."
 
 #: Controller/QloginController.php:108
 msgid "Success"
-msgstr ""
+msgstr "Erfolg"
 
 #: Controller/TinyUrlsController.php:100
 msgid "Done"
@@ -321,11 +321,11 @@ msgstr ""
 
 #: Model/Behavior/CaptchaBehavior.php:76
 msgid "captchaIllegalContent"
-msgstr ""
+msgstr "Illegaler Inhalt im Formular"
 
 #: Model/Behavior/CaptchaBehavior.php:79
 msgid "captchaResultTooFast"
-msgstr ""
+msgstr "Das Formular wurde zu schnell abgeschickt - kannst du so schnell rechnen? :-)"
 
 #: Model/Behavior/CaptchaBehavior.php:82
 msgid "captchaResultTooLate"
@@ -333,7 +333,7 @@ msgstr ""
 
 #: Model/Behavior/CaptchaBehavior.php:85
 msgid "captchaResultIncorrect"
-msgstr ""
+msgstr "Das eingegebene Captcha-Ergebnis war nicht korrekt"
 
 #: Model/Behavior/CaptchaBehavior.php:117
 msgid "Illegal call"
@@ -378,7 +378,7 @@ msgstr ""
 #: Model/Behavior/PasswordableBehavior.php:231
 #: Test/Case/Model/Behavior/PasswordableBehaviorTest.php:95
 msgid "valErrPwdNotMatch"
-msgstr "Hesla se neshodují"
+msgstr "Die beiden Passwörter stimmen nicht überein"
 
 #: Test/Case/Lib/Utility/TimeLibTest.php:263;264;265
 msgid "until"
@@ -457,8 +457,8 @@ msgid "No way"
 msgstr ""
 
 #: Test/Case/Model/Behavior/PasswordableBehaviorTest.php:769;770
-msgid "valErrBetweenCharacters %s %s"
-msgstr "Počet znaků musí být mezi %s a %s"
+msgid "valErrBetweenCharacters {0} {1}"
+msgstr "Zwischen {0} und {1} Zeichen"
 
 #: Test/Case/Model/Behavior/SluggedBehaviorTest.php:288
 msgid "and"
@@ -521,67 +521,67 @@ msgstr ""
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "zero"
-msgstr ""
+msgstr "null"
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "one"
-msgstr ""
+msgstr "eins"
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "two"
-msgstr ""
+msgstr "zwei"
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "three"
-msgstr ""
+msgstr "drei"
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "four"
-msgstr ""
+msgstr "vier"
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "five"
-msgstr ""
+msgstr "fünf"
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "six"
-msgstr ""
+msgstr "sechs"
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "seven"
-msgstr ""
+msgstr "sieben"
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "eight"
-msgstr ""
+msgstr "acht"
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "nine"
-msgstr ""
+msgstr "neun"
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "ten"
-msgstr ""
+msgstr "zehn"
 
 #: View/Helper/CaptchaHelper.php:43
 msgid "calcPlus"
-msgstr ""
+msgstr "plus"
 
 #: View/Helper/CaptchaHelper.php:43
 msgid "calcMinus"
-msgstr ""
+msgstr "minus"
 
 #: View/Helper/CaptchaHelper.php:43
 msgid "calcTimes"
-msgstr ""
+msgstr "mal"
 
 #: View/Helper/CaptchaHelper.php:126
 msgid "Captcha"
-msgstr ""
+msgstr "Captcha"
 
 #: View/Helper/CaptchaHelper.php:126
 msgid "captchaExplained"
-msgstr ""
+msgstr "<small>Schutz vor Spam</small>"
 
 #: View/Helper/CaptchaHelper.php:129
 msgid "captchaTip"
@@ -737,7 +737,7 @@ msgid "List %s"
 msgstr ""
 
 #~ msgid "valErrProvideCurrentPwd"
-#~ msgstr "Je třeba zadat stávající heslo"
+#~ msgstr "Bitte das bisherige Passwort eingeben"
 
 #~ msgid "valErrCurrentPwdIncorrect"
-#~ msgstr "Stávající heslo není správné"
+#~ msgstr "Das bisherige Passwort ist nicht korrekt"

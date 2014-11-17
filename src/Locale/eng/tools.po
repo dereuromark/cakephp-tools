@@ -15,54 +15,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: Controller/QloginController.php:38
-msgid "Invalid Key"
-msgstr ""
-
-#: Controller/QloginController.php:50
-msgid "You successfully logged in via qlogin"
-msgstr ""
-
-#: Controller/QloginController.php:108
-msgid "Success"
-msgstr ""
-
-#: Controller/TinyUrlsController.php:100
-msgid "Done"
-msgstr ""
-
-#: Controller/Component/AuthExtComponent.php:80
-msgid "invalidLoginCredentials"
-msgstr ""
-
-#: Controller/Component/AuthExtComponent.php:87;99;103
-msgid "Account not active yet"
-msgstr ""
-
-#: Controller/Component/AuthExtComponent.php:91;107
-msgid "Account temporarily locked"
-msgstr ""
-
-#: Controller/Component/AuthExtComponent.php:93;109;116
-msgid "Reason"
-msgstr ""
-
-#: Controller/Component/AuthExtComponent.php:114
-msgid "Account deleted"
-msgstr ""
-
-#: Controller/Component/AuthExtComponent.php:121
-msgid "Unknown Error"
-msgstr ""
-
-#: Controller/Component/AuthExtComponent.php:126
-msgid "Email not active yet"
-msgstr ""
-
-#: Controller/Component/CalendarComponent.php:65;77
-msgid "invalid date"
-msgstr ""
-
 #: Controller/Component/CommonComponent.php:506
 msgid "Meta Type invalid"
 msgstr ""
@@ -321,11 +273,11 @@ msgstr ""
 
 #: Model/Behavior/CaptchaBehavior.php:76
 msgid "captchaIllegalContent"
-msgstr ""
+msgstr "Illegal content"
 
 #: Model/Behavior/CaptchaBehavior.php:79
 msgid "captchaResultTooFast"
-msgstr ""
+msgstr "The form has been submitted too fast."
 
 #: Model/Behavior/CaptchaBehavior.php:82
 msgid "captchaResultTooLate"
@@ -333,7 +285,7 @@ msgstr ""
 
 #: Model/Behavior/CaptchaBehavior.php:85
 msgid "captchaResultIncorrect"
-msgstr ""
+msgstr "Das eingegebene Captcha-Ergebnis war nicht korrekt"
 
 #: Model/Behavior/CaptchaBehavior.php:117
 msgid "Illegal call"
@@ -378,7 +330,7 @@ msgstr ""
 #: Model/Behavior/PasswordableBehavior.php:231
 #: Test/Case/Model/Behavior/PasswordableBehaviorTest.php:95
 msgid "valErrPwdNotMatch"
-msgstr "Las contraseñas no coinciden"
+msgstr "The passwords don't match."
 
 #: Test/Case/Lib/Utility/TimeLibTest.php:263;264;265
 msgid "until"
@@ -429,7 +381,7 @@ msgid "e %s f %s g %s"
 msgstr ""
 
 #: Test/Case/Model/MyModelTest.php:582
-msgid "a %s b %s c %s %s %s %s %s h %s"
+msgid "a %s b %s c {0} {1} {0} {1} %s h %s"
 msgstr ""
 
 #: Test/Case/Model/Behavior/BitmaskedBehaviorTest.php:191
@@ -448,17 +400,13 @@ msgstr ""
 msgid "Flagged"
 msgstr ""
 
-#: Test/Case/Model/Behavior/GeocoderBehaviorTest.php:138
-msgid "validateLongitudeError"
-msgstr ""
-
 #: Test/Case/Model/Behavior/MasterPasswordBehaviorTest.php:78
 msgid "No way"
 msgstr ""
 
 #: Test/Case/Model/Behavior/PasswordableBehaviorTest.php:769;770
-msgid "valErrBetweenCharacters %s %s"
-msgstr "La contraseña debe tener entre %s y %s caracteres"
+msgid "valErrBetweenCharacters {0} {1}"
+msgstr "Please enter between {0} and {1} chars."
 
 #: Test/Case/Model/Behavior/SluggedBehaviorTest.php:288
 msgid "and"
@@ -521,67 +469,67 @@ msgstr ""
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "zero"
-msgstr ""
+msgstr "null"
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "one"
-msgstr ""
+msgstr "eins"
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "two"
-msgstr ""
+msgstr "zwei"
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "three"
-msgstr ""
+msgstr "drei"
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "four"
-msgstr ""
+msgstr "vier"
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "five"
-msgstr ""
+msgstr "fünf"
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "six"
-msgstr ""
+msgstr "sechs"
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "seven"
-msgstr ""
+msgstr "sieben"
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "eight"
-msgstr ""
+msgstr "acht"
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "nine"
-msgstr ""
+msgstr "neun"
 
 #: View/Helper/CaptchaHelper.php:40
 msgid "ten"
-msgstr ""
+msgstr "zehn"
 
 #: View/Helper/CaptchaHelper.php:43
 msgid "calcPlus"
-msgstr ""
+msgstr "plus"
 
 #: View/Helper/CaptchaHelper.php:43
 msgid "calcMinus"
-msgstr ""
+msgstr "minus"
 
 #: View/Helper/CaptchaHelper.php:43
 msgid "calcTimes"
-msgstr ""
+msgstr "mal"
 
 #: View/Helper/CaptchaHelper.php:126
 msgid "Captcha"
-msgstr ""
+msgstr "Captcha"
 
 #: View/Helper/CaptchaHelper.php:126
 msgid "captchaExplained"
-msgstr ""
+msgstr "<small>Schutz vor Spam</small>"
 
 #: View/Helper/CaptchaHelper.php:129
 msgid "captchaTip"
@@ -736,8 +684,8 @@ msgstr ""
 msgid "List %s"
 msgstr ""
 
-#~ msgid "valErrProvideCurrentPwd"
-#~ msgstr "Provea la contraseña actual correcta"
+msgid "valErrProvideCurrentPwd"
+msgstr "Please provide the current password."
 
-#~ msgid "valErrCurrentPwdIncorrect"
-#~ msgstr "La contraseña actual es incorrecta"
+msgid "valErrCurrentPwdIncorrect"
+msgstr "The current password is not correct"

@@ -102,7 +102,7 @@ class Table extends CakeTable {
 					$field = $rules;
 					$rules = array();
 				}
-				foreach ((array)$rules as $rule) {
+				foreach ((array)$rules as $key => $rule) {
 					if (isset($rule['required'])) {
 						$validator->requirePresence($field, $rule['required']);
 						unset($rule['required']);
@@ -110,6 +110,9 @@ class Table extends CakeTable {
 					if (isset($rule['allowEmpty'])) {
 						$validator->allowEmpty($field, $rule['allowEmpty']);
 						unset($rule['allowEmpty']);
+					}
+					if (isset($rule['message'])) {
+						$rules[$key]['message'] = __($rule['message']);
 					}
 				}
 				$validator->add($field, $rules);
@@ -356,7 +359,7 @@ class Table extends CakeTable {
 	 * @param array $options
 	 * @return bool Success
 	 */
-	public function validateIdentical($value, array $options, array $context = []) {
+	public function validateIdentical($value, $options = [], array $context = []) {
 		if (!is_array($options)) {
 			$options = array('compare' => $options);
 		}

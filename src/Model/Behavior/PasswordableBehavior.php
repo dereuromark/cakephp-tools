@@ -76,7 +76,7 @@ class PasswordableBehavior extends Behavior {
 		'formField' => array(
 			'between' => array(
 				'rule' => array('lengthBetween', PWD_MIN_LENGTH, PWD_MAX_LENGTH),
-				'message' => array('valErrBetweenCharacters %s %s', PWD_MIN_LENGTH, PWD_MAX_LENGTH),
+				'message' => array('valErrBetweenCharacters {0} {1}', PWD_MIN_LENGTH, PWD_MAX_LENGTH),
 				'last' => true,
 				//'provider' => 'table'
 			)
@@ -84,12 +84,12 @@ class PasswordableBehavior extends Behavior {
 		'formFieldRepeat' => array(
 			'between' => array(
 				'rule' => array('lengthBetween', PWD_MIN_LENGTH, PWD_MAX_LENGTH),
-				'message' => array('valErrBetweenCharacters %s %s', PWD_MIN_LENGTH, PWD_MAX_LENGTH),
+				'message' => array('valErrBetweenCharacters {0} {1}', PWD_MIN_LENGTH, PWD_MAX_LENGTH),
 				'last' => true,
 				//'provider' => 'table'
 			),
 			'validateIdentical' => array(
-				'rule' => array('validateIdentical', 'formField'),
+				'rule' => array('validateIdentical', ['compare' => 'formField']),
 				'message' => 'valErrPwdNotMatch',
 				'last' => true,
 				'provider' => 'table'
@@ -151,6 +151,12 @@ class PasswordableBehavior extends Behavior {
 					$rule['message'][2] = $this->_config['maxLength'];
 				}
 
+				if (is_array($rule['message'])) {
+					$message = array_shift($rule['message']);
+					$rule['message'] = __d('tools', $message, $rule['message']);
+				} else {
+					$rule['message'] = __d('tools', $rule['message']);
+				}
 				$fieldRules[$key] = $rule;
 			}
 			$rules[$field] = $fieldRules;
@@ -177,7 +183,7 @@ class PasswordableBehavior extends Behavior {
 			if (!$this->_config['allowSame']) {
 				$validator->add($formField, 'validateNotSame', array(
 					'rule' => array('validateNotSame', $formField, $formFieldCurrent),
-					'message' => 'valErrPwdSameAsBefore',
+					'message' => __d('tools', 'valErrPwdSameAsBefore'),
 					'last' => true,
 					'provider' => 'table'
 				));
@@ -187,7 +193,7 @@ class PasswordableBehavior extends Behavior {
 			if (!$this->_config['allowSame']) {
 				$validator->add($formField, 'validateNotSame', array(
 					'rule' => array('validateNotSameHash', $formField),
-					'message' => 'valErrPwdSameAsBefore',
+					'message' => __d('tools', 'valErrPwdSameAsBefore'),
 					//'allowEmpty' => !$this->_config['require'],
 					'last' => true,
 					'provider' => 'table'
@@ -328,16 +334,16 @@ class PasswordableBehavior extends Behavior {
 	 * @param array $data
 	 * @return bool Success
 	 */
-	public function validateCurrentPwd($pwd, $config) {
+	public function validateCurrentPwd($pwd, $context) {
 		$uid = null;
-		if (!empty($config['data'][$this->_table->primaryKey()])) {
-			$uid = $config['data'][$this->_table->primaryKey()];
+		if (!empty($context['data'][$this->_table->primaryKey()])) {
+			$uid = $context['data'][$this->_table->primaryKey()];
 		} else {
 			trigger_error('No user id given');
 			return false;
 		}
 
-		return $this->_validateSameHash($pwd, $config);
+		return $this->_validateSameHash($pwd, $context);
 	}
 
 	/**
@@ -348,8 +354,12 @@ class PasswordableBehavior extends Behavior {
 	 * @param string $compareWith String to compare field value with
 	 * @return bool Success
 	 */
-	public function validateIdentical($value, $field, $config) {
-		$compareValue = $config['providers']['entity']->get($field);
+	public function validateIdentical($value, $options, $context) {
+		if (!is_array($options)) {
+			$options = array('compare' => $options);
+		}
+
+		$compareValue = $context['providers']['entity']->get($options['compare']);
 		return ($compareValue === $value);
 	}
 
@@ -358,9 +368,9 @@ class PasswordableBehavior extends Behavior {
 	 *
 	 * @return bool Success
 	 */
-	public function validateNotSame($data, $field1, $field2, $config) {
-		$value1 = $config['providers']['entity']->get($field1);
-		$value2 = $config['providers']['entity']->get($field2);
+	public function validateNotSame($data, $field1, $field2, $context) {
+		$value1 = $context['providers']['entity']->get($field1);
+		$value2 = $context['providers']['entity']->get($field2);
 		return ($value1 !== $value2);
 	}
 
@@ -369,14 +379,14 @@ class PasswordableBehavior extends Behavior {
 	 *
 	 * @return bool Success
 	 */
-	public function validateNotSameHash($data, $formField, $config) {
+	public function validateNotSameHash($data, $formField, $context) {
 		$field = $this->_config['field'];
-		if (!$config['providers']['entity']->get($this->_table->primaryKey())) {
+		if (!$context['providers']['entity']->get($this->_table->primaryKey())) {
 			return true;
 		}
 
-		$primaryKey = $config['providers']['entity']->get($this->_table->primaryKey());
-		$value = $config['providers']['entity']->get($formField);
+		$primaryKey = $context['providers']['entity']->get($this->_table->primaryKey());
+		$value = $context['providers']['entity']->get($formField);
 
 		$dbValue = $this->_table->find()->where(array($this->_table->primaryKey() => $primaryKey))->first();
 		if (!$dbValue) {
@@ -398,10 +408,10 @@ class PasswordableBehavior extends Behavior {
 	 * @param string $pwd
 	 * @return bool Success
 	 */
-	protected function _validateSameHash($pwd, $config) {
+	protected function _validateSameHash($pwd, $context) {
 		$field = $this->_config['field'];
 
-		$primaryKey = $config['providers']['entity']->get($this->_table->primaryKey());
+		$primaryKey = $context['providers']['entity']->get($this->_table->primaryKey());
 		$dbValue = $this->_table->find()->where(array($this->_table->primaryKey() => $primaryKey))->first();
 		if (!$dbValue) {
 			return false;

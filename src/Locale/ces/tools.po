@@ -9,8 +9,9 @@ msgstr ""
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
@@ -377,7 +378,7 @@ msgstr ""
 #: Model/Behavior/PasswordableBehavior.php:231
 #: Test/Case/Model/Behavior/PasswordableBehaviorTest.php:95
 msgid "valErrPwdNotMatch"
-msgstr ""
+msgstr "Hesla se neshodují"
 
 #: Test/Case/Lib/Utility/TimeLibTest.php:263;264;265
 msgid "until"
@@ -457,7 +458,7 @@ msgstr ""
 
 #: Test/Case/Model/Behavior/PasswordableBehaviorTest.php:769;770
 msgid "valErrBetweenCharacters {0} {1}"
-msgstr ""
+msgstr "Počet znaků musí být mezi {0} a {1}"
 
 #: Test/Case/Model/Behavior/SluggedBehaviorTest.php:288
 msgid "and"
@@ -734,3 +735,9 @@ msgstr ""
 #: View/Qlogin/admin_index.ctp:29
 msgid "List %s"
 msgstr ""
+
+#~ msgid "valErrProvideCurrentPwd"
+#~ msgstr "Je třeba zadat stávající heslo"
+
+#~ msgid "valErrCurrentPwdIncorrect"
+#~ msgstr "Stávající heslo není správné"
