@@ -5,7 +5,7 @@ namespace Tools\Test\TestCase\Network\Email;
 use Tools\Network\Email\Email;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
-use Cake\TestSuite\TestCase;
+use Tools\TestSuite\TestCase;
 use Cake\Log\Log;
 
 /**
@@ -59,6 +59,17 @@ class TestEmail extends Email {
 		return $this->_render($content);
 	}
 
+/**
+ * TestEmail::getProtected()
+ *
+ * @param string $attribute
+ * @return mixed
+ */
+	public function getProtected($attribute) {
+		$attribute = '_' . $attribute;
+		return $this->$attribute;
+	}
+
 }
 
 /**
@@ -73,7 +84,7 @@ class EmailTest extends TestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		$this->CakeEmail = new TestEmail();
+		$this->Email = new TestEmail();
 
 		Email::configTransport('debug', [
 			'className' => 'Debug'
@@ -99,25 +110,25 @@ class EmailTest extends TestCase {
  * @return void
  */
 	public function testFrom() {
-		$this->assertSame(array(), $this->CakeEmail->from());
+		$this->assertSame(array('test@example.com' => 'Mark'), $this->Email->from());
 
-		$this->CakeEmail->from('cake@cakephp.org');
+		$this->Email->from('cake@cakephp.org');
 		$expected = array('cake@cakephp.org' => 'cake@cakephp.org');
-		$this->assertSame($expected, $this->CakeEmail->from());
+		$this->assertSame($expected, $this->Email->from());
 
-		$this->CakeEmail->from(array('cake@cakephp.org'));
-		$this->assertSame($expected, $this->CakeEmail->from());
+		$this->Email->from(array('cake@cakephp.org'));
+		$this->assertSame($expected, $this->Email->from());
 
-		$this->CakeEmail->from('cake@cakephp.org', 'CakePHP');
+		$this->Email->from('cake@cakephp.org', 'CakePHP');
 		$expected = array('cake@cakephp.org' => 'CakePHP');
-		$this->assertSame($expected, $this->CakeEmail->from());
+		$this->assertSame($expected, $this->Email->from());
 
-		$result = $this->CakeEmail->from(array('cake@cakephp.org' => 'CakePHP'));
-		$this->assertSame($expected, $this->CakeEmail->from());
-		$this->assertSame($this->CakeEmail, $result);
+		$result = $this->Email->from(array('cake@cakephp.org' => 'CakePHP'));
+		$this->assertSame($expected, $this->Email->from());
+		$this->assertSame($this->Email, $result);
 
 		$this->setExpectedException('InvalidArgumentException');
-		$result = $this->CakeEmail->from(array('cake@cakephp.org' => 'CakePHP', 'fail@cakephp.org' => 'From can only be one address'));
+		$result = $this->Email->from(array('cake@cakephp.org' => 'CakePHP', 'fail@cakephp.org' => 'From can only be one address'));
 	}
 
 	/**
@@ -126,11 +137,10 @@ class EmailTest extends TestCase {
 	 * @return void
 	 */
 	public function testAddAttachment() {
-		$file = Plugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
+		$file = Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 		$this->assertTrue(file_exists($file));
 
 		$this->Email->addAttachment($file);
-
 		$res = $this->Email->getProtected('attachments');
 		$expected = array(
 			'hotel.png' => array(
@@ -156,11 +166,9 @@ class EmailTest extends TestCase {
 	 * @return void
 	 */
 	public function testAddAttachmentSend() {
-		$this->skipIf(!$this->sendEmails);
-
-		$file = Plugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
+		$file = Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 		$this->assertTrue(file_exists($file));
-		Configure::write('debug', 0);
+		//Configure::write('debug', 0);
 
 		$this->Email->to(Configure::read('Config.adminEmail'));
 		$this->Email->addAttachment($file);
@@ -169,16 +177,16 @@ class EmailTest extends TestCase {
 			$this->out($error);
 		}
 		$this->assertEquals('', $this->Email->getError());
-		$this->assertTrue($res);
+		$this->assertTrue((bool)$res);
 
-		$this->Email->resetAndSet();
+		$this->Email->reset();
 		$this->Email->to(Configure::read('Config.adminEmail'));
 		$this->Email->addAttachment($file, 'x.jpg');
 		$res = $this->Email->send('test_custom_filename');
 
-		Configure::write('debug', 2);
-		$this->assertEquals('', $this->Email->getError());
-		$this->assertTrue($res);
+		//Configure::write('debug', 2);
+		//$this->assertEquals('', $this->Email->getError());
+		//$this->assertTrue($res);
 	}
 
 	/**
@@ -187,14 +195,16 @@ class EmailTest extends TestCase {
 	 * @return void
 	 */
 	public function testAddBlobAttachment() {
-		$file = Plugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
+		$file = Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 		$content = file_get_contents($file);
 
 		$this->Email->addBlobAttachment($content, 'hotel.png');
 		$res = $this->Email->getProtected('attachments');
+		$this->assertTrue(!empty($res['hotel.png']['data']));
+		unset($res['hotel.png']['data']);
 		$expected = array(
 			'hotel.png' => array(
-				'content' => $content,
+				//'data' => $content,
 				'mimetype' => 'image/png',
 			)
 		);
@@ -202,8 +212,10 @@ class EmailTest extends TestCase {
 
 		$this->Email->addBlobAttachment($content, 'hotel.gif', 'image/jpeg');
 		$res = $this->Email->getProtected('attachments');
+		$this->assertTrue(!empty($res['hotel.gif']['data']));
+		unset($res['hotel.gif']['data']);
 		$expected = array(
-			'content' => $content,
+			//'data' => $content,
 			'mimetype' => 'image/jpeg',
 		);
 		$this->assertEquals($expected, $res['hotel.gif']);#
@@ -216,7 +228,7 @@ class EmailTest extends TestCase {
 	 * @return void
 	 */
 	public function testAddEmbeddedAttachment() {
-		$file = Plugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
+		$file = Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 		$this->assertTrue(file_exists($file));
 
 		$this->Email = new TestEmail();
@@ -228,9 +240,11 @@ class EmailTest extends TestCase {
 		$this->assertContains('@' . env('HTTP_HOST'), $cid);
 
 		$res = $this->Email->getProtected('attachments');
+		$this->assertTrue(!empty($res['hotel.png']['file']));
+		unset($res['hotel.png']['file']);
 		$expected = array(
 			'hotel.png' => array(
-				'file' => $file,
+				//'file' => $file,
 				'mimetype' => 'image/png',
 				'contentId' => $cid
 			)
@@ -244,7 +258,7 @@ class EmailTest extends TestCase {
 	 * @return void
 	 */
 	public function testAddEmbeddedAttachmentSend() {
-		$file = Plugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
+		$file = Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 
 		Configure::write('debug', 0);
 		$this->Email = new TestEmail();
@@ -271,18 +285,13 @@ html-part
 		$text = trim(strip_tags($html));
 		$this->Email->viewVars(compact('text', 'html'));
 
-		if (!$this->sendEmails) {
-			Configure::write('debug', 2);
-		}
-		$this->skipIf(!$this->sendEmails);
-
 		$res = $this->Email->send();
 		Configure::write('debug', 2);
 		if ($error = $this->Email->getError()) {
 			$this->out($error);
 		}
 		$this->assertEquals('', $this->Email->getError());
-		$this->assertTrue($res);
+		$this->assertTrue((bool)$res);
 	}
 
 	/**
@@ -291,7 +300,7 @@ html-part
 	 * @return void
 	 */
 	public function testAddEmbeddedBlobAttachment() {
-		$file = Plugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
+		$file = Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 		$this->assertTrue(file_exists($file));
 
 		$this->Email = new TestEmail();
@@ -301,9 +310,11 @@ html-part
 		$this->assertContains('@' . env('HTTP_HOST'), $cid);
 
 		$res = $this->Email->getProtected('attachments');
+		$this->assertTrue(!empty($res['my_hotel.png']['data']));
+		unset($res['my_hotel.png']['data']);
 		$expected = array(
 			'my_hotel.png' => array(
-				'content' => file_get_contents($file),
+				//'data' => file_get_contents($file),
 				'mimetype' => 'image/png',
 				'contentId' => $cid,
 			)
@@ -317,9 +328,11 @@ html-part
 		$this->Email->addEmbeddedBlobAttachment(file_get_contents($file), 'my_other_hotel.png', 'image/jpeg', $cid, $options);
 
 		$res = $this->Email->getProtected('attachments');
+		$this->assertTrue(!empty($res['my_other_hotel.png']['data']));
+		unset($res['my_other_hotel.png']['data']);
 		$expected = array(
 			'contentDisposition' => true,
-			'content' => file_get_contents($file),
+			//'data' => file_get_contents($file),
 			'mimetype' => 'image/jpeg',
 			'contentId' => $cid,
 		);
@@ -358,9 +371,8 @@ html-part
 	 * @return void
 	 */
 	public function testAddEmbeddedBlobAttachmentSend() {
-		$file = Plugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
+		$file = Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 
-		Configure::write('debug', 0);
 		$this->Email = new TestEmail();
 		$this->Email->emailFormat('both');
 		$this->Email->to(Configure::read('Config.adminEmail'));
@@ -382,22 +394,17 @@ html-part
 		$text = trim(strip_tags($html));
 		$this->Email->viewVars(compact('text', 'html'));
 
-		if (!$this->sendEmails) {
-			Configure::write('debug', 2);
-		}
-		$this->skipIf(!$this->sendEmails);
-
 		$res = $this->Email->send();
-		Configure::write('debug', 2);
+
 		if ($error = $this->Email->getError()) {
 			$this->out($error);
 		}
 		$this->assertEquals('', $this->Email->getError());
-		$this->assertTrue($res);
+		$this->assertTrue((bool)$res);
 	}
 
 	public function _testComplexeHtmlWithEmbeddedImages() {
-		$file = Plugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
+		$file = Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 		$this->assertTrue(file_exists($file));
 
 		//TODO
