@@ -59,7 +59,7 @@ class Number extends CakeNumber {
 	 * @param array $options : currency=true/false, ... (leave empty for no special treatment)
 	 * @return string
 	 */
-	public static function format($number, array $formatOptions = array()) {
+	public static function _format($number, array $formatOptions = array()) {
 		if (!is_numeric($number)) {
 			$default = '---';
 			if (!empty($options['default'])) {
@@ -108,68 +108,41 @@ class Number extends CakeNumber {
 		return $sign . parent::format($number, $options);
 	}
 
+	public static function format($number, array $options = array()) {
+		$defaults = array(
+			'positive' => '+', 'signed' => false
+		);
+		$options += $defaults;
+		$sign = '';
+		if ($number > 0 && !empty($options['signed'])) {
+			$sign = '+';
+		}
+		if (isset($options['signed'])) {
+			unset($options['signed']);
+		}
+		return $sign . parent::format($number, $options);
+	}
+
 	/**
-	 * Correct the default for European countries
+	 * Overwrite to allow
 	 *
-	 * @param mixed $number
+	 * - signed: true/false
+	 *
+	 * @param float $number
 	 * @param string $currency
-	 * @param array $formatOptions
+	 * @param array $options
 	 * @return string
 	 */
-	public static function currency($number, $currency = null, array $formatOptions = array()) {
-		if ($currency === null) {
-			$currency = static::$_currency;
-		}
-		$defaults = array();
-		if ($currency !== 'EUR') {
-			//FIXME
-			$default = static::defaultCurrency();
-			//$defaults = static::$_currencies[$currency];
-		} elseif ($currency !== 'EUR' && is_string($currency)) {
-			$defaults['wholeSymbol'] = $currency;
-			$defaults['wholePosition'] = 'before';
-			$defaults['spacer'] = true;
-		}
-		$defaults += array(
-			'wholeSymbol' => '€', 'wholePosition' => 'after',
-			'negative' => '-', 'positive' => '+', 'escape' => true,
-			'decimals' => ',', 'thousands' => '.',
-			'spacer' => $currency === 'EUR' ? true : false
+	public static function currency($number, $currency = null, array $options = array()) {
+		$defaults = array(
+			'positive' => '+', 'signed' => false
 		);
-		$options = $formatOptions + $defaults;
-
-		if (!empty($options['spacer'])) {
-			$spacer = is_string($options['spacer']) ? $options['spacer'] : ' ';
-
-			if ($options['wholePosition'] === 'after') {
-				$options['wholeSymbol'] = $spacer . $options['wholeSymbol'];
-			} elseif ($options['wholePosition'] === 'before') {
-				$options['wholeSymbol'] .= $spacer;
-			}
-		}
-
+		$options += $defaults;
 		$sign = '';
 		if ($number > 0 && !empty($options['signed'])) {
 			$sign = $options['positive'];
 		}
-		return $sign . parent::currency($number, null, $options);
-	}
-
-	/**
-	 * Formats a number with a level of precision.
-	 *
-	 * @param float $number	A floating point number.
-	 * @param int $precision The precision of the returned number.
-	 * @param string $decimals
-	 * @return float Formatted float.
-	 * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/number.html#NumberHelper::precision
-	 */
-	public static function precision($number, $precision = 3, $decimals = '.') {
-		$number = parent::precision($number, $precision);
-		if ($decimals !== '.' && $precision > 0) {
-			$number = str_replace('.', $decimals, $number);
-		}
-		return $number;
+		return $sign . parent::currency($number, $currency, $options);
 	}
 
 	/**
@@ -179,34 +152,12 @@ class Number extends CakeNumber {
 	 * @return string Human readable size
 	 * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/number.html#NumberHelper::toReadableSize
 	 */
-	public static function toReadableSize($size, $decimals = '.') {
+	public static function _toReadableSize($size, $decimals = '.') {
 		$size = parent::toReadableSize($size);
 		if ($decimals !== '.') {
 			$size = str_replace('.', $decimals, $size);
 		}
 		return $size;
-	}
-
-	/**
-	 * Formats a number into a percentage string.
-	 *
-	 * Options:
-	 *
-	 * - `multiply`: Multiply the input value by 100 for decimal percentages.
-	 * - `decimals`: Decimal character.
-	 *
-	 * @param float $number A floating point number
-	 * @param int $precision The precision of the returned number
-	 * @param string $decimals
-	 * @return string Percentage string
-	 * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/number.html#NumberHelper::toPercentage
-	 */
-	public static function toPercentage($number, $precision = 2, array $options = array()) {
-		$options += array('multiply' => false, 'decimals' => '.');
-		if ($options['multiply']) {
-			$number *= 100;
-		}
-		return static::precision($number, $precision, $options['decimals']) . '%';
 	}
 
 	/**

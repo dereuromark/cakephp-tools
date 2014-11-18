@@ -5,6 +5,7 @@ namespace Tools\TestCase\Utility;
 use Tools\Utility\Number;
 use Cake\TestSuite\TestCase;
 use Cake\Core\Configure;
+use Cake\I18n\I18n;
 
 class NumberTest extends TestCase {
 
@@ -13,11 +14,7 @@ class NumberTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		Configure::write('Localization', array(
-			'decimals' => ',',
-			'thousands' => '.'
-		));
-		Number::config();
+		Number::defaultCurrency(false);
 	}
 
 	/**
@@ -58,16 +55,21 @@ class NumberTest extends TestCase {
 	 * @return void
 	 */
 	public function testMoney() {
-		$is = Number::money(22.11);
-		$expected = '22,11 €';
+		Number::defaultCurrency('EUR');
+
+		$is = Number::money(22.11, ['locale' => 'DE']);
+		$expected = '22,11 €';
+
 		$this->assertSame($expected, $is);
 
-		$is = Number::money(-22.11);
-		$expected = '-22,11 €';
+		$is = Number::money(-22.11, ['locale' => 'DE']);
+		//$expected = '-22,11 €';
+		$expected = '-22,11 €';
+		//file_put_contents(TMP . 'x.txt', $is);
 		$this->assertSame($expected, $is);
 
-		$is = Number::money(-22.11);
-		$expected = '0,00 €';
+		$is = Number::money(0, ['locale' => 'DE']);
+		$expected = '0,00 €';
 		$this->assertSame($expected, $is);
 	}
 
@@ -77,21 +79,31 @@ class NumberTest extends TestCase {
 	 * @return void
 	 */
 	public function testCurrency() {
+		Number::defaultCurrency('EUR');
+
 		$is = Number::currency(22.11);
-		$expected = '22,11 €';
+		$expected = '22,11 €';
+		$this->assertSame($expected, $is);
+
+		$is = Number::currency(22.11, null, ['useIntlCode' => true]);
+		$expected = '22,11 EUR';
 		$this->assertSame($expected, $is);
 
 		$is = Number::currency(-22.11);
-		$expected = '-22,11 €';
+		$expected = '-22,11 €';
 		$this->assertSame($expected, $is);
 
-		$is = Number::currency(-22.11, 'EUR', array('signed' => true));
-		$expected = '-22,11 €';
+		$is = Number::currency(-22.11, null, ['signed' => true]);
+		$expected = '-22,11 €';
 		$this->assertSame($expected, $is);
 
-		$is = Number::currency(22.11, 'EUR', array('signed' => true));
-		$expected = '+22,11 €';
+		$is = Number::currency(22.11, null, ['signed' => true]);
+		$expected = '+22,11 €';
 		$this->assertSame($expected, $is);
+
+		$result = Number::currency('4.111', 'GBP', ['locale' => 'EN', 'useIntlCode' => true]);
+		$expected = 'GBP 4.11';
+		$this->assertEquals($expected, $result);
 	}
 
 	/**
@@ -105,10 +117,14 @@ class NumberTest extends TestCase {
 		$this->assertSame($expected, $is);
 
 		$is = Number::format(22933773);
+		$expected = '22.933.773';
+		$this->assertSame($expected, $is);
+
+		$is = Number::format(22933773, ['places' => 2]);
 		$expected = '22.933.773,00';
 		$this->assertSame($expected, $is);
 
-		$is = Number::format(-0.895, array('places' => 3));
+		$is = Number::format(-0.895, ['places' => 3]);
 		$expected = '-0,895';
 		$this->assertSame($expected, $is);
 	}
@@ -118,11 +134,11 @@ class NumberTest extends TestCase {
 	 */
 	public function testToPercentage() {
 		$is = Number::toPercentage(22.11, 2, array('decimals' => '.'));
-		$expected = '22.11%';
+		$expected = '22,11%';
 		$this->assertSame($expected, $is);
 
-		$is = Number::toPercentage(22.11, 2, array('decimals' => ','));
-		$expected = '22,11%';
+		$is = Number::toPercentage(22.11, 2, array('locale' => 'en'));
+		$expected = '22.11%';
 		$this->assertSame($expected, $is);
 
 		$is = Number::toPercentage(22.11, 0, array('decimals' => '.'));
@@ -167,6 +183,7 @@ class NumberTest extends TestCase {
 	}
 
 	/**
+	 * @return void
 	 */
 	public function testRoundUpTo() {
 		//increment = 10
@@ -198,6 +215,7 @@ class NumberTest extends TestCase {
 	}
 
 	/**
+	 * @return void
 	 */
 	public function testRoundDownTo() {
 		//increment = 10
@@ -246,50 +264,14 @@ class NumberTest extends TestCase {
 	}
 
 	/**
-	 * Test spacer format options for currency() method
-	 *
-	 * @return void
-	 */
-	public function testCurrencySpacer() {
-		if ((float)Configure::version() < 2.4) {
-			$format = Number::getFormat('GBP');
-			$format['wholeSymbol'] = '£';
-			Number::addFormat('GBP', $format);
-		}
-
-		$result = Number::currency('4.111', 'GBP');
-		$expected = '£4.11';
-		$this->assertEquals($expected, $result);
-
-		$result = Number::currency('4.111', 'GBP', array('spacer' => false));
-		$expected = '£4.11';
-		$this->assertEquals($expected, $result);
-
-		$result = Number::currency('4.111', 'GBP', array('spacer' => true));
-		$expected = '£ 4.11';
-		$this->assertEquals($expected, $result);
-
-		$result = Number::currency('-4.111', 'GBP', array('spacer' => false, 'negative' => '-'));
-		$expected = '-£4.11';
-		$this->assertEquals($expected, $result);
-
-		$result = Number::currency('-4.111', 'GBP', array('spacer' => true, 'negative' => '-'));
-		$expected = '-£ 4.11';
-		$this->assertEquals($expected, $result);
-
-		$result = Number::currency('4.111', 'GBP', array('spacer' => '&nbsp;', 'escape' => false));
-		$expected = '£&nbsp;4.11';
-		$this->assertEquals($expected, $result);
-	}
-
-	/**
 	 * NumberTest::testCurrencyUnknown()
 	 *
 	 * @return void
 	 */
 	public function testCurrencyUnknown() {
-		$result = Number::currency('4.111', 'XYZ');
-		$expected = 'XYZ 4,11';
+		$result = Number::currency('4.111', 'XYZ', ['locale' => 'DE']);
+		$expected = '4,11 XYZ';
+		file_put_contents(TMP . 'x.txt', $result);
 		$this->assertEquals($expected, $result);
 	}
 
