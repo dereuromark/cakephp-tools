@@ -126,6 +126,8 @@ A full list of fixes and useful migration tweaks towards the next major version 
 
 * Using the Common component's flashMessage() you can have colorful (success, warning, error, ...) flash messages.
   They also can stack up (multiple messages per type). This way no message is lost when redirecting twice etc.
+  You will also need `echo $this->Common->flash();` then instead of the default flash code in your layout.ctp template.
+  And bear in mind that it will eat all your normal flash messages and outputs it though the same method.
 * TinyAuth authorization adapter with single and multi-role support - extremely fast and easy to use.
 * The Passwordable behavior allows easy to use functionality for frontend and backend.
 * Geocodeable, WhoDidIt, Confirmable and Bitmasked behaviors.
