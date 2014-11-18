@@ -36,9 +36,9 @@ class FormatHelper extends TextHelper {
 			}
 		}
 
-		$templates = array(
+		$templates = (array)Configure::read('Format.templates') + array(
 			'icon' => '<i class="{{class}}" title="{{title}}" data-placement="bottom" data-toggle="tooltip"></i>',
-		) + (array)Configure::read('Format.templates');
+		);
 		if (!isset($this->template)) {
 			$this->template = new StringTemplate($templates);
 		}
