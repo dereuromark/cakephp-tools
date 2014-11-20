@@ -113,7 +113,7 @@ public $helpers = array(
 
 ### Useful fixes
 
-* Auto-trim on POST (to make validation working properly).
+* Auto-trim on POST (to make - not only notEmpty - validation working properly).
 * Auto-aliasing for models' "order" properties.
 * Disable cache also works for older IE versions.
 * Default settings for Paginator, ... can be set using Configure.
@@ -159,15 +159,12 @@ For details on how to contribute please read the [CONTRIBUTING page](CONTRIBUTIN
 
 ### TODOs
 
-* Better test coverage (once it's >= 75% I will declare the plugin stable 1.0)
+* Better test coverage (once it's >= 75% I will declare the plugin stable)
 * Use [Transifex plugin](https://github.com/dereuromark/cakephp-transifex) and [transifex.com](https://www.transifex.com/projects/p/tools/resources/) (you need to have a login) for translations
 
 ### Recent changes (possibly BC breaking)
 
-* 2014-11 All translations now use the `tools` domain; development messages are not translated anymore
-* 2013-02 Removed PasswordChangeBehavior in favor of its new name Passwordable.
-* 2013-02-25 Removed deprecated bootstrap functions and moved DebugTab functionality into Bootstrap namespace
-  (you need to now manually include it if needed).
 * 2014-01 Changed Garbige to Garbage in method names.
 * 2014-02 Qlogin now uses Token model instead of deprecated CodeKey per default.
 * 2014-07 Packagist package name has been renamed to "cakephp-tools".
+* 2014-11 All translations now use the `tools` domain; development messages are not translated anymore
