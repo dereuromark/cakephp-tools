@@ -218,7 +218,7 @@ class EmailTest extends TestCase {
 			//'data' => $content,
 			'mimetype' => 'image/jpeg',
 		);
-		$this->assertEquals($expected, $res['hotel.gif']);#
+		$this->assertEquals($expected, $res['hotel.gif']);
 		$this->assertSame(2, count($res));
 	}
 

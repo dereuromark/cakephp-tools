@@ -169,8 +169,9 @@ class ObfuscateHelper extends Helper {
 			if ($replacement !== null) {
 				$str = preg_replace("/({$delim})(" . str_replace('\*', '\w*?', preg_quote($badword, '/')) . ")({$delim})/i", "\\1{$replacement}\\3", $str);
 			} else {
-				$str = preg_replace("/({$delim})(" . str_replace('\*', '\w*?', preg_quote($badword, '/')) . ")({$delim})/ie", "'\\1'.str_repeat('#', strlen('\\2')).'\\3'",
-					$str);
+				$str = preg_replace_callback("/({$delim})(" . str_replace('\*', '\w*?', preg_quote($badword, '/')) . ")({$delim})/i", function($matches) {
+					return $matches[1] . str_repeat('#', strlen($matches[2])). $matches[3];
+				}, $str);
 			}
 		}
 
