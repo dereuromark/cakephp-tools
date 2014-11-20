@@ -196,23 +196,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * UtilityTest::testGetMimeType()
-	 *
-	 * @covers Utility::getMimeType
-	 * @return void
-	 */
-	public function testGetMimeType() {
-		$res = Utility::getMimeType('http://www.spiegel.de/static/sys/v10/icons/home_v2.png');
-		$this->assertEquals('image/png', $res);
-
-		$res = Utility::getMimeType('http://www.spiegel.de/static/sys/v10/icons/home_v2_inexistent.png');
-		$this->assertEquals('', $res);
-
-		$res = Utility::getMimeType(Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.jpg');
-		$this->assertEquals('image/jpeg', $res);
-	}
-
-	/**
 	 * UtilityTest::testFileExists()
 	 *
 	 * @covers Utility::fileExists

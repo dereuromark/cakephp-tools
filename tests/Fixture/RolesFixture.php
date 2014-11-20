@@ -16,14 +16,14 @@ class RolesFixture extends TestFixture {
 	 */
 	public $fields = array(
 		'id' => ['type' => 'integer'],
-		'name' => array('type' => 'string', 'null' => false, 'length' => 64, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'description' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'alias' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 20, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'default_role' => array('type' => 'boolean', 'null' => false, 'default' => false, 'collate' => null, 'comment' => 'set at register'),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
-		'sort' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10, 'collate' => null, 'comment' => ''),
-		'active' => array('type' => 'boolean', 'null' => false, 'default' => false, 'collate' => null, 'comment' => ''),
+		'name' => ['type' => 'string', 'null' => false, 'length' => 64, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'description' => ['type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'alias' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 20, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'default_role' => ['type' => 'boolean', 'null' => false, 'default' => false, 'collate' => null, 'comment' => 'set at register'],
+		'created' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
+		'modified' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
+		'sort' => ['type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10, 'collate' => null, 'comment' => ''],
+		'active' => ['type' => 'boolean', 'null' => false, 'default' => false, 'collate' => null, 'comment' => ''],
 		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
 	);
 

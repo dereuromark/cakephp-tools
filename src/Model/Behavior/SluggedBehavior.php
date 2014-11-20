@@ -124,11 +124,11 @@ class SluggedBehavior extends Behavior {
 				if (strpos($field, '.')) {
 					list($alias, $field) = explode('.', $field);
 					if (!$Model->$alias->hasField($field)) {
-						throw new Exception('(SluggedBehavior::setup) model ' . $Model->$alias->name . ' is missing the field ' . $field .
+						throw new \Exception('(SluggedBehavior::setup) model ' . $Model->$alias->name . ' is missing the field ' . $field .
 							' (specified in the setup for model ' . $Model->name . ') ');
 					}
 				} elseif (!$Model->hasField($field)) {
-					throw new Exception('(SluggedBehavior::setup) model ' . $Model->name . ' is missing the field ' . $field . ' specified in the setup.');
+					throw new \Exception('(SluggedBehavior::setup) model ' . $Model->name . ' is missing the field ' . $field . ' specified in the setup.');
 				}
 			}
 		}
@@ -382,7 +382,7 @@ class SluggedBehavior extends Behavior {
 					'fieldList' => array_merge(array($this->_table->primaryKey(), $slugField), $label)
 				);
 				if (!$Model->save($row, $options)) {
-					throw new RuntimeException(print_r($row[$this->_table->alias()], true) . ': ' . print_r($Model->validationErrors, true));
+					throw new \Exception(print_r($row[$this->_table->alias()], true) . ': ' . print_r($Model->validationErrors, true));
 				}
 			}
 			$params['page']++;
