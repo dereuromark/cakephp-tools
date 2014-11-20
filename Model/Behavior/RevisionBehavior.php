@@ -212,9 +212,9 @@ class RevisionBehavior extends ModelBehavior {
 			return array();
 		}
 		if (isset($options['conditions'])) {
-			$conditions = array_merge($options['conditions'], array($Model->primaryKey => $Model->id));
+			$conditions = array_merge($options['conditions'], array($Model->alias . '.' . $Model->primaryKey => $Model->id));
 		} else {
-			$conditions = array($Model->primaryKey => $Model->id);
+			$conditions = array($Model->alias . '.' . $Model->primaryKey => $Model->id);
 		}
 		if (is_numeric($fromVersionId) || is_numeric($toVersionId)) {
 			if (is_numeric($fromVersionId) && is_numeric($toVersionId)) {
@@ -233,7 +233,7 @@ class RevisionBehavior extends ModelBehavior {
 				}
 			}
 		}
-		$conditions = array($Model->primaryKey => $Model->id);
+		$conditions = array($Model->alias . '.' . $Model->primaryKey => $Model->id);
 		if (is_numeric($fromVersionId)) {
 			$conditions['version_id >='] = $fromVersionId;
 		}
@@ -377,9 +377,9 @@ class RevisionBehavior extends ModelBehavior {
 			return array();
 		}
 		if (isset($options['conditions'])) {
-			$options['conditions'] = array_merge($options['conditions'], array($Model->primaryKey => $Model->id));
+			$options['conditions'] = array_merge($options['conditions'], array($Model->alias . '.' . $Model->primaryKey => $Model->id));
 		} else {
-			$options['conditions'] = array($Model->primaryKey => $Model->id);
+			$options['conditions'] = array($Model->alias . '.' . $Model->primaryKey => $Model->id);
 		}
 		$options['order'] = 'version_created ASC, version_id ASC';
 		return $Model->ShadowModel->find('first', $options);
@@ -405,9 +405,9 @@ class RevisionBehavior extends ModelBehavior {
 		$options['limit'] = 1;
 		$options['page'] = 2;
 		if (isset($options['conditions'])) {
-			$options['conditions'] = array_merge($options['conditions'], array($Model->primaryKey => $Model->id));
+			$options['conditions'] = array_merge($options['conditions'], array($Model->alias . '.' . $Model->primaryKey => $Model->id));
 		} else {
-			$options['conditions'] = array($Model->primaryKey => $Model->id);
+			$options['conditions'] = array($Model->alias . '.' . $Model->primaryKey => $Model->id);
 		}
 		$revisions = $Model->ShadowModel->find('all', $options);
 		if (!$revisions) {
@@ -569,7 +569,7 @@ class RevisionBehavior extends ModelBehavior {
 		if (empty($Model->ShadowModel)) {
 			return true;
 		}
-		$data = $Model->ShadowModel->find('first', array('conditions' => array($Model->primaryKey => $Model->id,
+		$data = $Model->ShadowModel->find('first', array('conditions' => array($Model->alias . '.' . $Model->primaryKey => $Model->id,
 					'version_created <=' => $datetime), 'order' => 'version_created ASC, version_id ASC'));
 		/* If no previous version was found and revertToDate() was called with force_delete, then delete the live data, else leave it alone */
 		if (!$data) {
@@ -708,8 +708,8 @@ class RevisionBehavior extends ModelBehavior {
 			return false;
 		}
 		$Model->updateAll(
-			array($Model->primaryKey => $modelId),
-			array($Model->primaryKey => $Model->id)
+			array($Model->alias . '.' . $Model->primaryKey => $modelId),
+			array($Model->alias . '.' . $Model->primaryKey => $Model->id)
 		);
 		$Model->id = $modelId;
 		$Model->createRevision();
