@@ -289,20 +289,15 @@ class Email extends CakeEmail {
 		return false;
 	}
 
-	/**
-	 * Try to determine the mimetype by filename.
-	 * Uses finfo_open() if availble, otherwise guesses it via file extension.
-	 *
-	 * @param string $filename
-	 * @return string Mimetype
-	 */
-	protected function _getMime($filename) {
-		$mimeType = Utility::getMimeType($filename);
-		if (!$mimeType) {
-			$ext = pathinfo($filename, PATHINFO_EXTENSION);
-			$mimeType = $this->_getMimeByExtension($ext);
+	protected function _getMimeByExtension($ext, $default = 'application/octet-stream') {
+		if (!isset($this->_Mime)) {
+			$this->_Mime = new Mime();
 		}
-		return $mimeType;
+		$mime = $this->_Mime->getMimeTypeByAlias($ext);
+		if (!$mime) {
+			$mime = $default;
+		}
+		return $mime;
 	}
 
 	/**
@@ -312,16 +307,15 @@ class Email extends CakeEmail {
 	 * @param string $defaultMimeType
 	 * @return string Mimetype (falls back to `application/octet-stream`)
 	 */
-	protected function _getMimeByExtension($ext, $default = 'application/octet-stream') {
-		if (!$ext) {
-			return $default;
-		}
+	protected function _getMime($filename, $default = 'application/octet-stream') {
 		if (!isset($this->_Mime)) {
 			$this->_Mime = new Mime();
 		}
-		$mime = $this->_Mime->getMimeType($ext);
-		if (!$mime) {
-			$mime = $default;
+		$mime = $this->_Mime->detectMimeType($filename);
+		// Some environments falsely return the default too fast, better fallback to extension here
+		if (!$mime || $mime === $default) {
+			$ext = pathinfo($filename, PATHINFO_EXTENSION);
+			$mime = $this->_Mime->getMimeTypeByAlias($ext);
 		}
 		return $mime;
 	}

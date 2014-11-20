@@ -4,6 +4,7 @@ namespace Tools\TestCase\Utility;
 use Tools\Utility\Mime;
 use Cake\TestSuite\TestCase;
 use Cake\Network\Response;
+use Cake\Core\Plugin;
 
 class MimeTest extends TestCase {
 
@@ -21,37 +22,37 @@ class MimeTest extends TestCase {
 	}
 
 	public function testAll() {
-		$res = $this->Mime->getMimeTypes();
+		$res = $this->Mime->mimeTypes();
 		$this->assertTrue(is_array($res) && count($res) > 100);
 	}
 
 	public function testSingle() {
-		$res = $this->Mime->getMimeType('odxs');
+		$res = $this->Mime->getMimeTypeByAlias('odxs');
 		$this->assertFalse($res);
 
-		$res = $this->Mime->getMimeType('ods');
+		$res = $this->Mime->getMimeTypeByAlias('ods');
 		$this->assertEquals('application/vnd.oasis.opendocument.spreadsheet', $res);
 	}
 
 	public function testOverwrite() {
-		$res = $this->Mime->getMimeType('ics');
+		$res = $this->Mime->getMimeTypeByAlias('ics');
 		$this->assertEquals('application/ics', $res);
 	}
 
 	public function testReverseToSingle() {
-		$res = $this->Mime->getMimeType('html');
+		$res = $this->Mime->getMimeTypeByAlias('html');
 		$this->assertEquals('text/html', $res);
 
-		$res = $this->Mime->getMimeType('csv');
+		$res = $this->Mime->getMimeTypeByAlias('csv');
 		$this->assertEquals('text/csv', $res);
 	}
 
 	public function testReverseToMultiple() {
-		$res = $this->Mime->getMimeType('html', false);
+		$res = $this->Mime->getMimeTypeByAlias('html', false);
 		$this->assertTrue(is_array($res));
 		$this->assertSame(2, count($res));
 
-		$res = $this->Mime->getMimeType('csv', false);
+		$res = $this->Mime->getMimeTypeByAlias('csv', false);
 		$this->assertTrue(is_array($res)); //  && count($res) > 2
 		$this->assertSame(2, count($res));
 	}
@@ -61,7 +62,7 @@ class MimeTest extends TestCase {
 	 */
 	public function testCorrectFileExtension() {
 		file_put_contents(TMP . 'sometest.txt', 'xyz');
-		$is = $this->Mime->extractMimeType(TMP . 'sometest.txt');
+		$is = $this->Mime->detectMimeType(TMP . 'sometest.txt');
 		//pr($is);
 		$this->assertEquals($is, 'text/plain');
 	}
@@ -71,10 +72,28 @@ class MimeTest extends TestCase {
 	 */
 	public function testWrongFileExtension() {
 		file_put_contents(TMP . 'sometest.zip', 'xyz');
-		$is = $this->Mime->extractMimeType(TMP . 'sometest.zip');
+		$is = $this->Mime->detectMimeType(TMP . 'sometest.zip');
 		//pr($is);
 		$this->assertEquals($is, 'text/plain');
 		//Test failes? finfo_open not availaible??
+	}
+
+
+	/**
+	 * testgetMimeTypeByAlias()
+	 *
+	 * @cover detectMimeType
+	 * @return void
+	 */
+	public function testgetMimeTypeByAlias() {
+		$res = $this->Mime->detectMimeType('http://www.spiegel.de/static/sys/v10/icons/home_v2.png');
+		$this->assertEquals('image/png', $res);
+
+		$res = $this->Mime->detectMimeType('http://www.spiegel.de/static/sys/v10/icons/home_v2_inexistent.png');
+		$this->assertEquals('', $res);
+
+		$res = $this->Mime->detectMimeType(Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.jpg');
+		$this->assertEquals('image/jpeg', $res);
 	}
 
 	/**

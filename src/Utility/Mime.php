@@ -714,7 +714,7 @@ class Mime extends Response {
 	 *
 	 * @return array
 	 */
-	public function getMimeTypes($coreHasPrecedence = false) {
+	public function mimeTypes($coreHasPrecedence = false) {
 		if ($coreHasPrecedence) {
 			return $this->_mimeTypes += $this->_mimeTypesExt;
 		}
@@ -722,7 +722,7 @@ class Mime extends Response {
 	}
 
 	/**
-	 * Returns the primary mime type definition for an alias
+	 * Returns the primary mime type definition for an alias/extension.
 	 *
 	 * e.g `getMimeType('pdf'); // returns 'application/pdf'`
 	 *
@@ -731,9 +731,9 @@ class Mime extends Response {
 	 * @param bool $coreHasPrecedence
 	 * @return mixed string mapped mime type or false if $alias is not mapped
 	 */
-	public function getMimeType($alias, $primaryOnly = true, $coreHasPrecedence = false) {
+	public function getMimeTypeByAlias($alias, $primaryOnly = true, $coreHasPrecedence = false) {
 		if (empty($this->_mimeTypeTmp)) {
-			$this->_mimeTypesTmp = $this->getMimeTypes($coreHasPrecedence);
+			$this->_mimeTypesTmp = $this->mimeTypes($coreHasPrecedence);
 		}
 		if (!isset($this->_mimeTypesTmp[$alias])) {
 			return false;
@@ -750,7 +750,7 @@ class Mime extends Response {
 	 *
 	 * e.g `mapType('application/pdf'); // returns 'pdf'`
 	 *
-	 * @param mixed $ctype Either a string content type to map, or an array of types.
+	 * @param string|array $ctype Either a string content type to map, or an array of types.
 	 * @return mixed Aliases for the types provided.
 	 */
 	public function mapType($ctype) {
@@ -760,19 +760,14 @@ class Mime extends Response {
 	/**
 	 * Retrieve the corresponding MIME type, if one exists
 	 *
-	 * @param String $file File Name (relative location such as "image_test.jpg" or full "http://site.com/path/to/image_test.jpg")
-	 * @return String MIMEType - The type of the file passed in the argument
+	 * @param string $file File Name (relative location such as "image_test.jpg" or full "http://site.com/path/to/image_test.jpg")
+	 * @return string MIMEType - The type of the file passed in the argument
 	 */
-	public function extractMimeType($file = null) {
-		if (!is_file($file)) {
-			return false;
-		}
-		/**
-		* Attempts to retrieve file info from FINFO
-		* If FINFO functions are not available then try to retrieve MIME type from pre-defined MIMEs
-		* If MIME type doesn't exist, then try (as a last resort) to use the (deprecated) mime_content_type function
-		* If all else fails, just return application/octet-stream
-		*/
+	public function detectMimeType($file = null) {
+		// Attempts to retrieve file info from FINFO
+		// If FINFO functions are not available then try to retrieve MIME type from pre-defined MIMEs
+		// If MIME type doesn't exist, then try (as a last resort) to use the (deprecated) mime_content_type function
+		// If all else fails, just return application/octet-stream
 		if (!function_exists("finfo_open")) {
 			if (function_exists("mime_content_type")) {
 				$type = mime_content_type($file);
@@ -781,15 +776,57 @@ class Mime extends Response {
 				}
 			}
 			$extension = $this->_getExtension($file);
-			if ($mimeType = $this->getMimeType($extension)) {
+			if ($mimeType = $this->getMimeTypeByAlias($extension)) {
 				return $mimeType;
 			}
 			return "application/octet-stream";
 		}
-		$finfo = finfo_open(FILEINFO_MIME_TYPE);
-		$mimeType = finfo_file($finfo, $file);
-		finfo_close($finfo);
-		return $mimeType;
+		return $this->_detectMimeType($file);
+	}
+
+	/**
+	 * Utility::getMimeType()
+	 *
+	 * @param string $file File
+	 * @return string Mime type
+	 */
+	public static function _detectMimeType($file) {
+		if (!function_exists('finfo_open')) {
+			//throw new InternalErrorException('finfo_open() required - please enable');
+		}
+
+		// Treat non local files differently
+		$pattern = '~^https?://~i';
+		if (preg_match($pattern, $file)) {
+			$headers = @get_headers($file);
+			if (!preg_match("|\b200\b|", $headers[0])) {
+				return '';
+			}
+			foreach ($headers as $header) {
+				if (strpos($header, 'Content-Type:') === 0) {
+					return trim(substr($header, 13));
+				}
+			}
+			return '';
+		}
+
+		if (!is_file($file)) {
+			return '';
+		}
+
+		$finfo = finfo_open(FILEINFO_MIME);
+		$mimetype = finfo_file($finfo, $file);
+		if (($pos = strpos($mimetype, ';')) !== false) {
+			$mimetype = substr($mimetype, 0, $pos);
+		}
+		if ($mimetype) {
+			return $mimetype;
+		}
+		$extension = $this->_getExtension($file);
+		if ($mimeType = $this->getMimeTypeByAlias($extension)) {
+			return $mimeType;
+		}
+		return "application/octet-stream";
 	}
 
 	/**
@@ -818,13 +855,10 @@ class Mime extends Response {
 	 * @param String $file The full file name
 	 * @return String ext The file extension
 	 */
-	protected function _getExtension($file = null) {
-		if ($file !== null) {
-			$pieces = explode('.', $file);
-			$ext = strtolower(array_pop($pieces));
-			return $ext;
-		}
-		return false;
+	protected function _getExtension($file) {
+		$pieces = explode('.', $file);
+		$ext = strtolower(array_pop($pieces));
+		return $ext;
 	}
 
 }

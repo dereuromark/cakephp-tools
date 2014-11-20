@@ -245,40 +245,6 @@ class Utility {
 	}
 
 	/**
-	 * Utility::getMimeType()
-	 *
-	 * @param string $file File
-	 * @return string Mime type
-	 */
-	public static function getMimeType($file) {
-		if (!function_exists('finfo_open')) {
-			throw new InternalErrorException('finfo_open() required - please enable');
-		}
-
-		// Treat non local files differently
-		$pattern = '~^https?://~i';
-		if (preg_match($pattern, $file)) {
-			$headers = @get_headers($file);
-			if (!preg_match("|\b200\b|", $headers[0])) {
-				return '';
-			}
-			foreach ($headers as $header) {
-				if (strpos($header, 'Content-Type:') === 0) {
-					return trim(substr($header, 13));
-				}
-			}
-			return '';
-		}
-
-		$finfo = finfo_open(FILEINFO_MIME);
-		$mimetype = finfo_file($finfo, $file);
-		if (($pos = strpos($mimetype, ';')) !== false) {
-			$mimetype = substr($mimetype, 0, $pos);
-		}
-		return $mimetype;
-	}
-
-	/**
 	 * Parse headers from a specific URL content.
 	 *
 	 * @param string $url
@@ -410,6 +376,7 @@ class Utility {
 	 *
 	 * @param array
 	 * @return bool
+	 * @deprecated Not sure this is useful for CakePHP 3.0
 	 */
 	public static function isValidSaveAll($array) {
 		if (empty($array)) {
