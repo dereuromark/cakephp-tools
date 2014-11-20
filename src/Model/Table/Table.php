@@ -253,6 +253,9 @@ class Table extends CakeTable {
 		if ($type === 'first') {
 			return parent::find('all', $options)->first();
 		}
+		if ($type === 'count') {
+			return parent::find('all', $options)->count();
+		}
 		return parent::find($type, $options);
 	}
 
