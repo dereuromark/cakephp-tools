@@ -17,7 +17,7 @@ matrix:
   fast_finish: true
 
   allow_failures:
-    - env: DB=sqlite
+    - env: DB=sqlite db_class='Cake\Database\Driver\Sqlite' db_dsn='sqlite::memory:'
     - env: DB=pqsql
 
 before_script:
