@@ -7,6 +7,7 @@ use Cake\Validation\Validator;
 use Cake\Validation\Validation;
 use Cake\Utility\Inflector;
 use Cake\Core\Configure;
+use Tools\Utility\Utility;
 
 class Table extends CakeTable {
 
@@ -260,7 +261,8 @@ class Table extends CakeTable {
 	}
 
 	/**
-	 * Table::field()
+	 * Shim of 2.x field() method. Only difference: full $options array
+	 * instead of just conditions.
 	 *
 	 * @param string $name
 	 * @param array $options
@@ -308,23 +310,23 @@ class Table extends CakeTable {
 	/**
 	 * Get all related entries that have been used so far
 	 *
-	 * @param string $modelName The related model
+	 * @param string $tableName The related model
 	 * @param string $groupField Field to group by
 	 * @param string $type Find type
 	 * @param array $options
 	 * @return array
 	 */
-	public function getRelatedInUse($modelName, $groupField = null, $type = 'all', $options = array()) {
+	public function getRelatedInUse($tableName, $groupField = null, $type = 'all', $options = array()) {
 		if ($groupField === null) {
-			$groupField = $this->belongsTo[$modelName]['foreignKey'];
+			$groupField = $this->belongsTo[$tableName]['foreignKey'];
 		}
 		$defaults = array(
-			'contain' => array($modelName),
+			'contain' => array($tableName),
 			'group' => $groupField,
-			'order' => $this->$modelName->order ? $this->$modelName->order : array($modelName . '.' . $this->$modelName->displayField => 'ASC'),
+			'order' => isset($this->$tableName->order) ? $this->$tableName->order : array($tableName . '.' . $this->$tableName->displayField() => 'ASC'),
 		);
 		if ($type === 'list') {
-			$defaults['fields'] = array($modelName . '.' . $this->$modelName->primaryKey, $modelName . '.' . $this->$modelName->displayField);
+			$defaults['fields'] = array($tableName . '.' . $this->$tableName->primaryKey(), $tableName . '.' . $this->$tableName->displayField());
 		}
 		$options += $defaults;
 		return $this->find($type, $options);
@@ -391,7 +393,7 @@ class Table extends CakeTable {
 	 * - deep (default: TRUE)
 	 * @return bool Success
 	 */
-	public function validateUrl($url, $options = array()) {
+	public function validateUrl($url, $options = array(), array $context = []) {
 		if (empty($url)) {
 			if (!empty($options['allowEmpty']) && empty($options['required'])) {
 				return true;
@@ -475,7 +477,13 @@ class Table extends CakeTable {
 	 * - min/max (defaults to >= 1 - at least 1 minute apart)
 	 * @return bool Success
 	 */
-	public function validateDateTime($value, $options = array(), $config = array()) {
+	public function validateDateTime($value, $options = array(), array $context = []) {
+		if (!$value) {
+			if (!empty($options['allowEmpty'])) {
+				return true;
+			}
+			return false;
+		}
 		$format = !empty($options['dateFormat']) ? $options['dateFormat'] : 'ymd';
 
 		$pieces = $value->format(FORMAT_DB_DATETIME);
@@ -490,16 +498,16 @@ class Table extends CakeTable {
 		//TODO: cleanup
 		if (Validation::date($date, $format) && Validation::time($time)) {
 			// after/before?
-			$minutes = isset($options['min']) ? $options['min'] : 1;
-			if (!empty($options['after']) && isset($config['data'][$options['after']])) {
-				$compare = $value->subMinutes($minutes);
-				if ($config['data'][$options['after']]->gt($compare)) {
+			$seconds = isset($options['min']) ? $options['min'] : 1;
+			if (!empty($options['after']) && isset($context['data'][$options['after']])) {
+				$compare = $value->subSeconds($seconds);
+				if ($context['data'][$options['after']]->gt($compare)) {
 					return false;
 				}
 			}
-			if (!empty($options['before']) && isset($config['data'][$options['before']])) {
-				$compare = $value->addMinutes($minutes);
-				if ($config['data'][$options['before']]->lt($compare)) {
+			if (!empty($options['before']) && isset($context['data'][$options['before']])) {
+				$compare = $value->addSeconds($seconds);
+				if ($context['data'][$options['before']]->lt($compare)) {
 					return false;
 				}
 			}
@@ -518,11 +526,15 @@ class Table extends CakeTable {
 	 * - min (defaults to 0 - equal is OK too)
 	 * @return bool Success
 	 */
-	public function validateDate($value, $options = array()) {
+	public function validateDate($value, $options = array(), array $context = []) {
+		if (!$value) {
+			if (!empty($options['allowEmpty'])) {
+				return true;
+			}
+			return false;
+		}
 		$format = !empty($options['format']) ? $options['format'] : 'ymd';
-
-		$dateTime = explode(' ', $value, 2);
-		$date = $dateTime[0];
+		$date = $value->format(FORMAT_DB_DATE);
 
 		if (!empty($options['allowEmpty']) && (empty($date) || $date == DEFAULT_DATE)) {
 			return true;
@@ -530,13 +542,15 @@ class Table extends CakeTable {
 		if (Validation::date($date, $format)) {
 			// after/before?
 			$days = !empty($options['min']) ? $options['min'] : 0;
-			if (!empty($options['after']) && isset($this->data[$this->alias][$options['after']])) {
-				if ($this->data[$this->alias][$options['after']] > date(FORMAT_DB_DATE, strtotime($date) - $days * DAY)) {
+			if (!empty($options['after']) && isset($context['data'][$options['after']])) {
+				$compare = $value->subDays($days);
+				if ($context['data'][$options['after']]->gt($compare)) {
 					return false;
 				}
 			}
-			if (!empty($options['before']) && isset($this->data[$this->alias][$options['before']])) {
-				if ($this->data[$this->alias][$options['before']] < date(FORMAT_DB_DATE, strtotime($date) + $days * DAY)) {
+			if (!empty($options['before']) && isset($context['data'][$options['before']])) {
+				$compare = $value->addDays($days);
+				if ($context['data'][$options['before']]->lt($compare)) {
 					return false;
 				}
 			}
@@ -555,19 +569,22 @@ class Table extends CakeTable {
 	 * - min/max (defaults to >= 1 - at least 1 minute apart)
 	 * @return bool Success
 	 */
-	public function validateTime($value, $options = array()) {
+	public function validateTime($value, $options = array(), array $context = []) {
+		if (!$value) {
+			return false;
+		}
 		$dateTime = explode(' ', $value, 2);
 		$value = array_pop($dateTime);
 
 		if (Validation::time($value)) {
 			// after/before?
-			if (!empty($options['after']) && isset($this->data[$this->alias][$options['after']])) {
-				if ($this->data[$this->alias][$options['after']] >= $value) {
+			if (!empty($options['after']) && isset($context['data'][$options['after']])) {
+				if ($context['data'][$options['after']] >= $value) {
 					return false;
 				}
 			}
-			if (!empty($options['before']) && isset($this->data[$this->alias][$options['before']])) {
-				if ($this->data[$this->alias][$options['before']] <= $value) {
+			if (!empty($options['before']) && isset($context['data'][$options['before']])) {
+				if ($context['data'][$options['before']] <= $value) {
 					return false;
 				}
 			}
@@ -582,7 +599,7 @@ class Table extends CakeTable {
 	 * @param options
 	 * - min/max (TODO!!)
 	 */
-	public function validateDateRange($value, $options = array()) {
+	public function validateDateRange($value, $options = array(), array $context = []) {
 	}
 
 	/**
@@ -591,7 +608,7 @@ class Table extends CakeTable {
 	 * @param options
 	 * - min/max (TODO!!)
 	 */
-	public function validateTimeRange($value, $options = array()) {
+	public function validateTimeRange($value, $options = array(), array $context = []) {
 	}
 
 }
