@@ -64,7 +64,7 @@ class ConfirmableBehavior extends ModelBehavior {
 	/**
 	 * The actual logic
 	 *
-	 * @param object $Model Model about to be saved.
+	 * @param Model $Model Model about to be saved.
 	 * @return bool true if save should proceed, false otherwise
 	 */
 	public function confirm(Model $Model, $return = true) {

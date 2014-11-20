@@ -53,7 +53,7 @@ class ResetBehavior extends ModelBehavior {
 	/**
 	 * Configure the behavior through the Model::actsAs property
 	 *
-	 * @param object $Model
+	 * @param Model $Model
 	 * @param array $config
 	 */
 	public function setup(Model $Model, $config = array()) {

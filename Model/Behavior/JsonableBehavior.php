@@ -75,7 +75,7 @@ class JsonableBehavior extends ModelBehavior {
 	/**
 	 * Decodes the fields
 	 *
-	 * @param object $Model
+	 * @param Model $Model
 	 * @param array $results
 	 * @return array
 	 */
@@ -119,7 +119,7 @@ class JsonableBehavior extends ModelBehavior {
 	/**
 	 * Saves all fields that do not belong to the current Model into 'with' helper model.
 	 *
-	 * @param object $Model
+	 * @param Model $Model
 	 * @return bool Success
 	 */
 	public function beforeSave(Model $Model, $options = array()) {

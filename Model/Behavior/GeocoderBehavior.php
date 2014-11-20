@@ -82,7 +82,7 @@ class GeocoderBehavior extends ModelBehavior {
 	/**
 	 * Run before a model is saved, used to set up slug for model.
 	 *
-	 * @param object $Model Model about to be saved.
+	 * @param Model $Model Model about to be saved.
 	 * @return bool True if save should proceed, false otherwise
 	 */
 	public function geocode(Model $Model, $return = true) {

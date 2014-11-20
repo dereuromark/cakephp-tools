@@ -141,7 +141,7 @@ class RevisionBehavior extends ModelBehavior {
 	/**
 	 * Configure the behavior through the Model::actsAs property
 	 *
-	 * @param object $Model
+	 * @param Model $Model
 	 * @param array $config
 	 * @return void
 	 */
@@ -159,7 +159,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * Manually create a revision of the current record of Model->id
 	 *
 	 * @example $this->Post->id = 5; $this->Post->createRevision();
-	 * @param object $Model
+	 * @param Model $Model
 	 * @return bool Success
 	 */
 	public function createRevision(Model $Model) {
@@ -196,7 +196,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * @example $this->Post->id = 4; $changes = $this->Post->diff();
 	 * @example $this->Post->id = 4; $myChanges = $this->Post->diff(null,nul, array('conditions'=>array('user_id'=>4)));
 	 * @example $this->Post->id = 4; $difference = $this->Post->diff(45,192);
-	 * @param Object $Model
+	 * @param Model $Model
 	 * @param int $fromVersionId
 	 * @param int $toVersionId
 	 * @param array $options
@@ -267,7 +267,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * number of rows that is run at once.
 	 *
 	 * @example $this->Post->initializeRevisions();
-	 * @param object $Model
+	 * @param Model $Model
 	 * @param int $limit number of rows to initialize in one go
 	 * @return bool Success
 	 */
@@ -304,7 +304,7 @@ class RevisionBehavior extends ModelBehavior {
 	/**
 	 * Saves revisions for rows matching page and limit given
 	 *
-	 * @param object $Model
+	 * @param Model $Model
 	 * @param int $page
 	 * @param int $limit
 	 * @return void
@@ -335,7 +335,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * of ignore fields.
 	 *
 	 * @example $this->Post->id = 6; $newestRevision = $this->Post->newest();
-	 * @param object $Model
+	 * @param Model $Model
 	 * @param array $options
 	 * @return array
 	 */
@@ -363,7 +363,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * since start, this call will return the original first record.
 	 *
 	 * @example $this->Post->id = 2; $original = $this->Post->oldest();
-	 * @param object $Model
+	 * @param Model $Model
 	 * @param array $options
 	 * @return array
 	 */
@@ -389,7 +389,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * Find the second newest revisions, including the current one.
 	 *
 	 * @example $this->Post->id = 6; $undoRevision = $this->Post->previous();
-	 * @param object $Model
+	 * @param Model $Model
 	 * @param array $options
 	 * @return array
 	 */
@@ -421,7 +421,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * Model rows outside condition or not edited will not be affected. Edits since date
 	 * will be reverted and rows created since date deleted.
 	 *
-	 * @param object $Model
+	 * @param Model $Model
 	 * @param array $options 'conditions','date'
 	 * @return bool Success
 	 */
@@ -480,7 +480,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * Will return false if version id is invalid or save fails
 	 *
 	 * @example $this->Post->id = 3; $this->Post->revertTo(12);
-	 * @param object $Model
+	 * @param Model $Model
 	 * @param int $versionId
 	 * @return bool Success
 	 */
@@ -512,7 +512,7 @@ class RevisionBehavior extends ModelBehavior {
 	 *
 	 * @example $this->Post->id = 3; $this->Post->revertToDate(date('Y-m-d H:i:s',strtotime('Yesterday')));
 	 * @example $this->Post->id = 4; $this->Post->revertToDate('2008-09-01',true);
-	 * @param object $Model
+	 * @param Model $Model
 	 * @param string $datetime
 	 * @param bool $cascade
 	 * @param bool $forceDelete
@@ -639,7 +639,7 @@ class RevisionBehavior extends ModelBehavior {
 	 *
 	 * @example $this->Post->id = 4; $history = $this->Post->revisions();
 	 * @example $this->Post->id = 4; $today = $this->Post->revisions(array('conditions'=>array('version_create >'=>'2008-12-10')));
-	 * @param object $Model
+	 * @param Model $Model
 	 * @param array $options
 	 * @param bool $includeCurrent If true will include last saved (live) data
 	 * @return array
@@ -671,7 +671,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * Calls Model::beforeUndelete and Model::afterUndelete
 	 *
 	 * @example $this->Post->id = 7; $this->Post->undelete();
-	 * @param object $Model
+	 * @param Model $Model
 	 * @return bool Success
 	 */
 	public function undelete(Model $Model) {
@@ -724,7 +724,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * Update to previous revision
 	 *
 	 * @example $this->Post->id = 2; $this->Post->undo();
-	 * @param object $Model
+	 * @param Model $Model
 	 * @return bool Success
 	 */
 	public function undo(Model $Model) {
@@ -755,7 +755,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * Calls create revision for all rows matching primary key list of $idlist
 	 *
 	 * @example $this->Model->updateRevisions(array(1,2,3));
-	 * @param object $Model
+	 * @param Model $Model
 	 * @param array $idlist
 	 * @return void
 	 */
@@ -797,7 +797,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * Will create a new revision if changes have been made in the models non-ignore fields.
 	 * Also deletes oldest revision if limit is (active and) reached.
 	 *
-	 * @param object $Model
+	 * @param Model $Model
 	 * @param bool $created
 	 * @return bool Success
 	 */
@@ -892,7 +892,7 @@ class RevisionBehavior extends ModelBehavior {
 	 * on their relationship. BeforeDelete identifies the related models that will need
 	 * to do the revision update in afterDelete.
 	 *
-	 * @param object $Model
+	 * @param Model $Model
 	 * @return bool Success
 	 */
 	public function beforeDelete(Model $Model, $cascade = true) {
@@ -915,7 +915,7 @@ class RevisionBehavior extends ModelBehavior {
 	/**
 	 * Revision uses the beforeSave callback to remember the old data for comparison in afterSave
 	 *
-	 * @param object $Model
+	 * @param Model $Model
 	 * @return bool Success
 	 */
 	public function beforeSave(Model $Model, $options = array()) {
@@ -945,7 +945,7 @@ class RevisionBehavior extends ModelBehavior {
 	/**
 	 * Returns a generic model that maps to the current $Model's shadow table.
 	 *
-	 * @param object $Model
+	 * @param Model $Model
 	 * @return bool Success
 	 */
 	protected function _createShadowModel(Model $Model) {

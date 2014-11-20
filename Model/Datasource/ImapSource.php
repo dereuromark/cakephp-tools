@@ -667,7 +667,7 @@ class ImapSource extends DataSource {
 	 *  TO "string" - match messages with "string" in the To:
 	 *  UNKEYWORD "string" - match messages that do not have the keyword "string"
 	 *
-	 * @param object $Model
+	 * @param Model $Model
 	 * @param array  $query
 	 *
 	 * @return array
@@ -732,7 +732,7 @@ class ImapSource extends DataSource {
 	 *  SORTCC - mailbox in first cc address
 	 *  SORTSIZE - size of message in octets
 	 *
-	 * @param object $Model
+	 * @param Model $Model
 	 * @param array  $query
 	 *
 	 * @return array
@@ -763,7 +763,7 @@ class ImapSource extends DataSource {
 	/**
 	 * Returns a query condition, or null if it wasn't found
 	 *
-	 * @param object $Model
+	 * @param Model $Model
 	 * @param array  $query
 	 * @param string $field
 	 *

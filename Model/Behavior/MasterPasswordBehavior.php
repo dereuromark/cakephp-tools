@@ -79,7 +79,7 @@ class MasterPasswordBehavior extends ModelBehavior {
 	/**
 	 * Run before a model is saved, used...
 	 *
-	 * @param object $Model Model about to be saved.
+	 * @param Model $Model Model about to be saved.
 	 * @return bool true if save should proceed, false otherwise
 	 */
 	public function confirm(Model $Model, $return = true) {

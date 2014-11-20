@@ -75,7 +75,7 @@ class TypographicBehavior extends ModelBehavior {
 	 * Initiate behavior for the model using specified settings.
 	 * Available settings:
 	 *
-	 * @param object $Model Model using the behaviour
+	 * @param Model $Model Model using the behaviour
 	 * @param array $config Settings to override for model.
 	 * @return void
 	 */
@@ -178,7 +178,7 @@ class TypographicBehavior extends ModelBehavior {
 	/**
 	 * Run before a model is saved
 	 *
-	 * @param object $Model Model about to be saved.
+	 * @param Model $Model Model about to be saved.
 	 * @return bool true if save should proceed, false otherwise
 	 */
 	public function process(Model $Model, $return = true) {
