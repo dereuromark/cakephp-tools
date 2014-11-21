@@ -35,20 +35,6 @@ class PasswordableBehaviorTest extends TestCase {
 		Configure::write('Passwordable.auth', 'AuthTest');
 
 		$this->Users = TableRegistry::get('ToolsUsers');
-		/*
-		if (isset($this->Users->validate['pwd'])) {
-			unset($this->Users->validate['pwd']);
-		}
-		if (isset($this->Users->validate['pwd_repeat'])) {
-			unset($this->Users->validate['pwd_repeat']);
-		}
-		if (isset($this->Users->validate['pwd_current'])) {
-			unset($this->Users->validate['pwd_current']);
-		}
-		if (isset($this->Users->order)) {
-			unset($this->Users->order);
-		}
-		*/
 
 		$this->hasher = PasswordHasherFactory::build('Default');
 		$user = $this->Users->newEntity();
@@ -60,7 +46,7 @@ class PasswordableBehaviorTest extends TestCase {
 		);
 		$this->Users->patchEntity($user, $data);
 		$result = $this->Users->save($user);
-		//$this->assertTrue();
+		$this->assertTrue((bool)$result);
 
 		Router::setRequestInfo(new Request());
 	}

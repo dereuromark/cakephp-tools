@@ -94,13 +94,22 @@ class SluggedBehavior extends Behavior {
 		$config += (array)Configure::read('Slugged');
 
 		parent::__construct($table, $config);
+	}
 
+	/**
+	 * Constructor hook method.
+	 *
+	 * Implement this method to avoid having to overwrite
+	 * the constructor and call parent.
+	 *
+	 * @param array $config The configuration array this behavior is using.
+	 * @return void
+	 */
+	public function initialize(array $config) {
 		if ($this->_config['length'] === null) {
 			$length = $table->schema()->column($this->_config['field'])['length'];
 			$this->_config['length'] = $length ?: 0;
 		}
-
-		$this->_table = $table;
 	}
 
 	/**

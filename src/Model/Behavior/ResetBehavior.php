@@ -70,8 +70,6 @@ class ResetBehavior extends Behavior {
 		}
 		$config + $defaults;
 		parent::__construct($table, $config);
-
-		$this->_table = $table;
 	}
 
 	/**

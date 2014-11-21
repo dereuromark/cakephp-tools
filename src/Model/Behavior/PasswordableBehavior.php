@@ -4,7 +4,6 @@ namespace Tools\Model\Behavior;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
-use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Utility\Inflector;
 use Cake\Core\Configure;
@@ -124,13 +123,24 @@ class PasswordableBehavior extends Behavior {
 	 * @return void
 	 */
 	public function __construct(Table $table, array $config = []) {
-		$defaults = $this->_defaultConfig;
+				$defaults = $this->_defaultConfig;
 		if ($configureDefaults = Configure::read('Passwordable')) {
 			$defaults = $configureDefaults + $defaults;
 		}
 		$config + $defaults;
 		parent::__construct($table, $config);
+	}
 
+	/**
+	 * Constructor hook method.
+	 *
+	 * Implement this method to avoid having to overwrite
+	 * the constructor and call parent.
+	 *
+	 * @param array $config The configuration array this behavior is using.
+	 * @return void
+	 */
+	public function initialize(array $config) {
 		$formField = $this->_config['formField'];
 		$formFieldRepeat = $this->_config['formFieldRepeat'];
 		$formFieldCurrent = $this->_config['formFieldCurrent'];
@@ -162,7 +172,7 @@ class PasswordableBehavior extends Behavior {
 			$rules[$field] = $fieldRules;
 		}
 
-		$validator = $table->validator($this->_config['validator']);
+		$validator = $this->_table->validator($this->_config['validator']);
 
 		// Add the validation rules if not already attached
 		if (!count($validator->field($formField))) {
@@ -201,8 +211,6 @@ class PasswordableBehavior extends Behavior {
 				$validator->allowEmpty($formField, !$this->_config['require']);
 			}
 		}
-
-		$this->_table = $table;
 	}
 
 	/**
