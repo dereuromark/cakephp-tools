@@ -296,6 +296,22 @@ class Table extends CakeTable {
 	}
 
 	/**
+	 * Return the next auto increment id from the current table
+	 * UUIDs will return false
+	 *
+	 * @return int|bool next auto increment value or False on failure
+	 */
+	public function getNextAutoIncrement() {
+		$query = "SHOW TABLE STATUS WHERE name = '" . $this->table() . "'";
+		$statement = $this->_connection->execute($query);
+		$result = $statement->fetch();
+		if (!isset($result[10])) {
+			return false;
+		}
+		return (int)$result[10];
+	}
+
+	/**
 	 * truncate()
 	 *
 	 * @return void

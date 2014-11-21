@@ -21,11 +21,15 @@ Dev (currently), Alpha, Beta, RC, 1.0 stable (incl. tagged release then).
 - Disable cache also works for older IE versions.
 - With flashMessage() you can have colorful (success, warning, error, ...) flash messages.
   They also can stack up (multiple messages per type) which the core currently doesn't support.
+- Provide enum support as "static enums"
+- Default settings for Paginator, ... can be set using Configure.
+- Provided a less error-prone inArray() method when using Utility class.
 
 ### Additional features
 - The Passwordable behavior allows easy to use password functionality for frontend and backend.
 - Tree helper for working with (complex) trees and their output.
 - RSS and Ajax Views for better responses (Ajax also comes with an optional component).
+- Slugged and Reset behavior
 - The Text, Time, Number libs and helpers etc provide extended functionality if desired.
 - GoogleMapV3, Timeline, Typography, etc provide additional helper functionality.
 - Email as a wrapper for core's Email adding some more usefulness and making debugging/testing easier.
@@ -34,7 +38,7 @@ Dev (currently), Alpha, Beta, RC, 1.0 stable (incl. tagged release then).
 This plugin for the Cake 3 version also contains some 2.x shims to ease migration of existing applications from 2.x to 3.x:
 - find('first') and find('count')
 - Model::$validate, Model::$primaryKey, Model::$displayField and Model relations as properties
-
+- Set/Multibyte class, Session component and a cut down version of JsHelper
 
 ## How to include
 Installing the Plugin is pretty much as with every other CakePHP Plugin.

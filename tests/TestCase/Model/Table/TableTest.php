@@ -15,6 +15,7 @@ use Cake\Routing\Router;
 use Cake\Network\Request;
 use Cake\Auth\PasswordHasherFactory;
 use Cake\I18n\Time;
+use Cake\Datasource\ConnectionManager;
 
 class TableTest extends TestCase {
 
@@ -45,6 +46,31 @@ class TableTest extends TestCase {
 		TableRegistry::clear();
 
 		parent::tearDown();
+	}
+
+	/**
+	 * Test truncate
+	 *
+	 * @return void
+	 */
+	public function testTruncate() {
+		$is = $this->Users->find('count');
+		$this->assertEquals(4, $is);
+
+		$config = ConnectionManager::config('test');
+		if ((strpos($config['driver'], 'Mysql') !== false)) {
+			$is = $this->Users->getNextAutoIncrement();
+			$this->assertEquals(5, $is);
+		}
+
+		$is = $this->Users->truncate();
+		$is = $this->Users->find('count');
+		$this->assertEquals(0, $is);
+
+		if ((strpos($config['driver'], 'Mysql') !== false)) {
+			$is = $this->Users->getNextAutoIncrement();
+			$this->assertEquals(1, $is);
+		}
 	}
 
 	/**
@@ -82,7 +108,7 @@ class TableTest extends TestCase {
 	}
 
 	/**
-	 * MyModelTest::testGetRelatedInUse()
+	 * TableTest::testGetRelatedInUse()
 	 *
 	 * @return void
 	 */
@@ -95,7 +121,7 @@ class TableTest extends TestCase {
 	}
 
 	/**
-	 * MyModelTest::testGetFieldInUse()
+	 * TableTest::testGetFieldInUse()
 	 *
 	 * @return void
 	 */
@@ -110,7 +136,7 @@ class TableTest extends TestCase {
 	}
 
 	/**
-	 * MyModelTest::testValidateDate()
+	 * TableTest::testValidateDate()
 	 *
 	 * @return void
 	 */
@@ -196,7 +222,7 @@ class TableTest extends TestCase {
 	}
 
 	/**
-	 * MyModelTest::testValidateDatetime()
+	 * TableTest::testValidateDatetime()
 	 *
 	 * @return void
 	 */
@@ -277,7 +303,7 @@ class TableTest extends TestCase {
 	}
 
 	/**
-	 * MyModelTest::testValidateTime()
+	 * TableTest::testValidateTime()
 	 *
 	 * @return void
 	 */
@@ -307,7 +333,7 @@ class TableTest extends TestCase {
 	}
 
 	/**
-	 * MyModelTest::testValidateUrl()
+	 * TableTest::testValidateUrl()
 	 *
 	 * @return void
 	 */
@@ -371,7 +397,7 @@ class TableTest extends TestCase {
 	}
 
 	/**
-	 * MyModelTest::testValidateUnique()
+	 * TableTest::testValidateUnique()
 	 *
 	 * @return void
 	 */

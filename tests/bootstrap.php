@@ -1,5 +1,13 @@
 <?php
 define('DS', DIRECTORY_SEPARATOR);
+if (!defined('WINDOWS')) {
+	if (DS == '\\' || substr(PHP_OS, 0, 3) === 'WIN') {
+		define('WINDOWS', true);
+	} else {
+		define('WINDOWS', false);
+	}
+}
+
 define('ROOT', dirname(__DIR__));
 define('TMP', ROOT . DS . 'tmp' . DS);
 define('LOGS', TMP . 'logs' . DS);
@@ -73,6 +81,20 @@ Cake\Core\Plugin::load('Tools', ['path' => ROOT . DS, 'bootstrap' => true]);
 if (!getenv('db_class')) {
 	putenv('db_class=Cake\Database\Driver\Sqlite');
 	putenv('db_dsn=sqlite::memory:');
+}
+
+if (WINDOWS) {
+	Cake\Datasource\ConnectionManager::config('test', [
+		'className' => 'Cake\Database\Connection',
+		'driver' => 'Cake\Database\Driver\Mysql',
+		'database' => 'cake_test',
+		'username' => 'root',
+		'password' => '',
+		'timezone' => 'UTC',
+		'quoteIdentifiers' => true,
+		'cacheMetadata' => true,
+	]);
+	return;
 }
 
 Cake\Datasource\ConnectionManager::config('test', [
