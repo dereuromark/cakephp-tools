@@ -27,6 +27,17 @@ Also capable of:
 - 'maxLength' => PWD_MAX_LENGTH,
 - 'validator' => 'default'
 
+You can either pass those to the behavior at runtime, or globally via Configure and `app.php`:
+```
+$config = [
+	'Passwordable' => [
+		'passwordHasher' => ['className' => 'Fallback', 'hashers' => ['Default', 'Weak']]
+	]
+]
+```
+In this case we use the Fallback hasher class and both Default (Blowfish, CakePHP3 default) and Weak (E.g. sha1) hashing algorithms.
+The latter is necessary when you try to upgrade an existing CakePHP2 application which used some weak hashing algo to Cake3. This way
+you can use both parallel. And new accounts will use the new hasher. Order matters!
 
 ## Usage
 Do NOT hard-add it in the model itself.
@@ -49,6 +60,12 @@ And do NOT add any password stuff to your Table or Entity classes. That would ha
 
 ### Register (Add) form
 ```php
+namespace App\Controller;
+
+use Tools\Controller\Controller;
+
+class UsersController extends Controller {
+
 	public function register() {
 		$this->Users->addBehavior('Tools.Passwordable');
 		$user = $this->Users->newEntity($this->request->data);
@@ -71,6 +88,8 @@ And do NOT add any password stuff to your Table or Entity classes. That would ha
 
 		$this->set(compact('user'));
 	}
+
+}
 ```
 
 ### Edit form
@@ -107,6 +126,9 @@ class UsersController extends Controller {
 ```
 
 ### Login with Fallback hasher class and automatic rehashing
+In the config example above you can see both Default and Weak hashers being used.
+We want to upgrade all accounts piece by piece upon login automatically. This way it can be done
+without the user noticing:
 ```php
 public function login() {
 	if ($this->request->is(['put', 'post'])) {
@@ -137,3 +159,4 @@ public function login() {
 	}
 }
 ```
+Note that the `passwordHasher` config has been set here globabally to assert the Fallback hasher class to kick in.
