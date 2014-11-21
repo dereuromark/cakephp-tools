@@ -14,7 +14,6 @@ class ToolsUsersFixture extends TestFixture {
 	 * @var array
 	 */
 	public $fields = array(
-		'id' => ['type' => 'integer'],
 		'name' => ['type' => 'string', 'null' => true],
 		'password' => ['type' => 'string', 'null' => true],
 		'role_id' => ['type' => 'integer', 'null' => true],
