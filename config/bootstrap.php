@@ -49,11 +49,13 @@ if (!defined('FORMAT_NICE_YMDHMS')) {
 	define('FORMAT_LOCAL_HMS', '%H:%M:%S');
 }
 
-# Make the app and l10n play nice with Windows.
-if (substr(PHP_OS, 0, 3) === 'WIN') { // || strpos(@php_uname(), 'ARCH')
-	define('WINDOWS', true);
-} else {
-	define('WINDOWS', false);
+// Make the app and L10n play nice with Windows.
+if (!defined('WINDOWS')) {
+	if (DS == '\\' || substr(PHP_OS, 0, 3) === 'WIN') {
+		define('WINDOWS', true);
+	} else {
+		define('WINDOWS', false);
+	}
 }
 
 /**
