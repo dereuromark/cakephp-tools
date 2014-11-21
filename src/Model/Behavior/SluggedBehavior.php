@@ -107,7 +107,7 @@ class SluggedBehavior extends Behavior {
 	 */
 	public function initialize(array $config) {
 		if ($this->_config['length'] === null) {
-			$length = $table->schema()->column($this->_config['field'])['length'];
+			$length = $this->_table->schema()->column($this->_config['field'])['length'];
 			$this->_config['length'] = $length ?: 0;
 		}
 	}
@@ -353,45 +353,43 @@ class SluggedBehavior extends Behavior {
 	 * Regenerate all slugs. On large dbs this can take more than 30 seconds - a time
 	 * limit is set to allow a minimum 100 updates per second as a preventative measure.
 	 *
-	 * @param AppModel $Model
+	 * Note that you should use the Reset behavior if you need additional functionality such
+	 * as callbacks or timeouts.
+	 *
 	 * @param array $conditions
-	 * @param integer $recursive
-	 * @return boolean Success
+	 * @return bool Success
 	 */
 	public function resetSlugs($params = array()) {
-		$recursive = -1;
-		extract($this->_config);
-		if (!$Model->hasField($slugField)) {
-			return false;
+		if (!$this->_table->hasField($this->_config['slugField'])) {
+			throw new \Exception('Table does not have field ' . $this->_config['slugField']);
 		}
 		$defaults = array(
 			'page' => 1,
 			'limit' => 100,
-			'fields' => array_merge(array($this->_table->primaryKey()), $label),
-			'order' => $Model->displayField . ' ASC',
-			'conditions' => $scope,
-			'recursive' => $recursive,
+			'fields' => array_merge(array($this->_table->primaryKey()), $this->_config['label']),
+			'order' => $this->_table->displayField() . ' ASC',
+			'conditions' => $this->_config['scope'],
 			'overwrite' => true,
 		);
 		$params = array_merge($defaults, $params);
-		$count = $Model->find('count', compact('conditions'));
+		$count = $this->_table->find('count', compact('conditions'));
 		$max = ini_get('max_execution_time');
 		if ($max) {
 			set_time_limit(max($max, $count / 100));
 		}
 
-		$settings = $Model->Behaviors->Slugged->settings[$this->_table->alias()];
-		$Model->Behaviors->load('Tools.Slugged', $params + $settings);
+		$config = $this->_table->behaviors()->Slugged->config();
+		$this->_table->addBehavior('Tools.Slugged', $params + $config);
 
-		while ($rows = $Model->find('all', $params)) {
-			foreach ($rows as $row) {
-				$Model->create();
+		while (($records = $this->_table->find('all', $params)->toArray())) {
+			foreach ($records as $record) {
+				//$Model->create();
 				$options = array(
 					'validate' => true,
-					'fieldList' => array_merge(array($this->_table->primaryKey(), $slugField), $label)
+					'fieldList' => array_merge(array($this->_table->primaryKey(), $this->_config['slugField']), $this->_config['label'])
 				);
-				if (!$Model->save($row, $options)) {
-					throw new \Exception(print_r($row[$this->_table->alias()], true) . ': ' . print_r($Model->validationErrors, true));
+				if (!$Model->save($record, $options)) {
+					throw new \Exception(print_r($this->_table->errors(), true));
 				}
 			}
 			$params['page']++;

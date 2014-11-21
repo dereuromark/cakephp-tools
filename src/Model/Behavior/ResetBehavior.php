@@ -87,7 +87,6 @@ class ResetBehavior extends Behavior {
 			'fields' => array(),
 			'order' => $this->_table->alias() . '.' . $this->_table->primaryKey() . ' ASC',
 			'conditions' => $this->_config['scope'],
-			//'recursive' => $this->_config['recursive'],
 		);
 		if (!empty($this->_config['fields'])) {
 			foreach ((array)$this->_config['fields'] as $field) {

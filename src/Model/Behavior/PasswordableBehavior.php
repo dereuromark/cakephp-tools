@@ -28,18 +28,15 @@ if (!defined('PWD_MAX_LENGTH')) {
  * $this->Users->addBehavior('Tools.Passwordable', array(SETTINGSARRAY));
  * as first line in any action where you want to allow the user to change his password
  * also add the two form fields in the form (pwd, PWD_confirm)
- * the rest is cake automagic :)
+ * the rest is CakePHP automagic :)
  *
  * Also note that you can apply global settings via Configure key 'Passwordable', as well,
  * if you don't want to manually pass them along each time you use the behavior. This also
  * keeps the code clean and lean.
  *
- * Now also is capable of:
+ * Also capable of:
  * - Require current password prior to altering it (current=>true)
  * - Don't allow the same password it was before (allowSame=>false)
- * - Support different auth types and password hashing algorythms
- * - PasswordHasher support
- * - Tools.Modern PasswordHasher and password_hash()/password_verify() support
  *
  * @author Mark Scherer
  * @link http://www.dereuromark.de/2011/08/25/working-with-passwords-in-cakephp
@@ -325,7 +322,7 @@ class PasswordableBehavior extends Behavior {
 	}
 
 	/**
-	 * If not implemented in AppModel
+	 * If not implemented in Table class
 	 *
 	 * Note: requires the used Auth component to be App::uses() loaded.
 	 * It also reqires the same Auth setup as in your AppController's beforeFilter().
@@ -355,7 +352,7 @@ class PasswordableBehavior extends Behavior {
 	}
 
 	/**
-	 * If not implemented in AppModel
+	 * If not implemented in Table class
 	 *
 	 * @param Model $Model
 	 * @param array $data
@@ -372,7 +369,7 @@ class PasswordableBehavior extends Behavior {
 	}
 
 	/**
-	 * If not implemented in AppModel
+	 * If not implemented in Table class
 	 *
 	 * @return bool Success
 	 */
@@ -387,7 +384,7 @@ class PasswordableBehavior extends Behavior {
 	}
 
 	/**
-	 * If not implemented in AppModel
+	 * If not implemented in Table class
 	 *
 	 * @return bool Success
 	 */
