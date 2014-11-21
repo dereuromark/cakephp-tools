@@ -1,0 +1,139 @@
+# Passwordable Behavior
+
+A CakePHP behavior to work with passwords the easy way
+- Complete validation
+- Hashing of password
+- Requires fields (no tempering even without security component)
+- Usable for edit forms (require => false for optional password update)
+
+Also capable of:
+- Require current password prior to altering it (current => true)
+- Don't allow the same password it was before (allowSame => false)
+
+## Configs
+- 'field' => 'password',
+- 'confirm' => true, // Set to false if in admin view and no confirmation (pwd_repeat) is required
+- 'require' => true, // If a password change is required (set to false for edit forms, leave it true for pure password update forms)
+- 'current' => false, // Enquire the current password for security purposes
+- 'formField' => 'pwd',
+- 'formFieldRepeat' => 'pwd_repeat',
+- 'formFieldCurrent' => 'pwd_current',
+- 'userModel' => null, // Defaults to Users
+- 'auth' => null, // Which component (defaults to AuthComponent),
+- 'authType' => 'Form', // Which type of authenticate (Form, Blowfish, ...)
+- 'passwordHasher' => 'Default', // If a custom pwd hasher is been used
+- 'allowSame' => true, // Don't allow the old password on change
+- 'minLength' => PWD_MIN_LENGTH,
+- 'maxLength' => PWD_MAX_LENGTH,
+- 'validator' => 'default'
+
+
+## Usage
+Do NOT hard-add it in the model itself.
+Attach it dynamically in only those actions where you actually change the password like so:
+```php
+$this->Users->addBehavior('Tools.Passwordable', $config);
+```
+as first line in any action where you want to allow the user to change his password.
+Also add the two form fields in the form (pwd, pwd_confirm)
+
+The rest is CakePHP automagic :)
+
+Also note that you can apply global settings via Configure key 'Passwordable', as well,
+if you don't want to manually pass them along each time you use the behavior. This also
+keeps the code clean and lean. See the `app.default.php` file for details.
+
+And do NOT add any password stuff to your Table or Entity classes. That would hash the password twice.
+
+## Examples
+
+### Register (Add) form
+```php
+	public function register() {
+		$this->Users->addBehavior('Tools.Passwordable');
+		$user = $this->Users->newEntity($this->request->data);
+
+		if ($this->request->is(['put', 'post'])) {
+			$user->role_id = Configure::read('Roles.user');
+
+			if ($this->Users->save($user)) {
+				// Log in right away
+				$this->Auth->setUser($user->toArray());
+				// Flash message OK
+				return $this->redirect(array('action' => 'index'));
+			}
+			// Flash message ERROR
+
+			// Pwd should not be passed to the view again for security reasons
+			$user->unsetProperty('pwd');
+			$user->unsetProperty('pwd_repeat');
+		}
+
+		$this->set(compact('user'));
+	}
+```
+
+### Edit form
+```php
+namespace App\Controller;
+
+use Tools\Controller\Controller;
+
+class UsersController extends Controller {
+
+	public function edit() {
+		$uid = $this->request->session()->read('Auth.User.id');
+		$user = $this->Users->get($uid);
+		$this->Users->addBehavior('Tools.Passwordable', array('require' => false));
+
+		if ($this->request->is(['put', 'post'])) {
+			$options = array(
+				'fieldList' => array(...)
+			);
+			$user = $this->Users->patchEntity($user, $this->request->data);
+			if ($this->Users->save($user, $options)) {
+				// Update session data, as well
+				$this->Auth->setUser($user->toArray());
+				// Flash message OK
+				return $this->redirect(array('action' => 'index'));
+			}
+			// Flash message ERROR
+		}
+
+		$this->set(compact('user'));
+	}
+
+}
+```
+
+### Login with Fallback hasher class and automatic rehashing
+```php
+public function login() {
+	if ($this->request->is(['put', 'post'])) {
+		$user = $this->Auth->identify();
+		if ($user) {
+			$this->Users->addBehavior('Tools.Passwordable', array('confirm' => false));
+			$password = $this->request->data['password'];
+			$dbPassword = $this->Users->field('password', array('id' => $user['id']));
+
+			if ($this->Users->needsPasswordRehash($dbPassword)) {
+				$data = array(
+					'id' => $user['id'],
+					'pwd' => $password,
+					'modified' => false
+				);
+				$updatedUser = $this->Users->newEntity($data, ['markNew' => false]);
+				if (!$this->Users->save($updatedUser, ['validate' => false])) {
+					trigger_error(sprintf('Could not store new pwd for user %s.', $user['id']));
+				}
+			}
+			unset($user['password']);
+			$this->Auth->setUser($user);
+			// Flash message OK
+			return $this->redirect($this->Auth->redirectUrl());
+		}
+		// Flash message ERROR
+
+	}
+}
+```

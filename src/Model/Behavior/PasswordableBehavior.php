@@ -23,20 +23,11 @@ if (!defined('PWD_MAX_LENGTH')) {
  * - requires fields (no tempering even without security component)
  * - usable for edit forms (require=>false for optional password update)
  *
- * Usage: Do NOT hard-add it in the model itself.
- * attach it dynamically in only those actions where you actually change the password like so:
- * $this->Users->addBehavior('Tools.Passwordable', array(SETTINGSARRAY));
- * as first line in any action where you want to allow the user to change his password
- * also add the two form fields in the form (pwd, PWD_confirm)
- * the rest is CakePHP automagic :)
- *
- * Also note that you can apply global settings via Configure key 'Passwordable', as well,
- * if you don't want to manually pass them along each time you use the behavior. This also
- * keeps the code clean and lean.
- *
  * Also capable of:
  * - Require current password prior to altering it (current=>true)
  * - Don't allow the same password it was before (allowSame=>false)
+ *
+ * Usage: See docs
  *
  * @author Mark Scherer
  * @link http://www.dereuromark.de/2011/08/25/working-with-passwords-in-cakephp

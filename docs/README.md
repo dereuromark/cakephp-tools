@@ -5,6 +5,10 @@
 This cake3 branch only works for **CakePHP3.x** - please use the master branch for CakePHP 2.x!
 **It is still dev** (not even alpha), please be careful with using it.
 
+## Detailed Documentation
+* [Passwordable](Passwordable.md)
+* ...
+
 ## Basic enhancements of the core
 
 ### Model
