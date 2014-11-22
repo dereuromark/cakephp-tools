@@ -82,7 +82,6 @@ class MimeTest extends TestCase {
 	/**
 	 * testgetMimeTypeByAlias()
 	 *
-	 * @cover detectMimeType
 	 * @return void
 	 */
 	public function testgetMimeTypeByAlias() {

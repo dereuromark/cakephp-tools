@@ -6,14 +6,14 @@ use Cake\Core\Plugin;
 use Cake\Core\Configure;
 
 /**
- * @covers Utility
+ * @coversDefaultClass \Tools\Utility\Utility
  */
 class UtilityTest extends TestCase {
 
 	/**
 	 * UtilityTest::testInArray()
 	 *
-	 * @covers Utility::inArray
+	 * @covers ::inArray
 	 * @return void
 	 */
 	public function testInArray() {
@@ -56,7 +56,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testPregMatch()
 	 *
-	 * @covers Utility::pregMatch
+	 * @covers ::pregMatch
 	 * @return void
 	 */
 	public function testPregMatch() {
@@ -92,7 +92,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testPregMatchWithPatternEscape()
 	 *
-	 * @covers Utility::pregMatch
+	 * @covers ::pregMatch
 	 * @return void
 	 */
 	public function testPregMatchWithPatternEscape() {
@@ -114,7 +114,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testPregMatchAll()
 	 *
-	 * @covers Utility::pregMatchAll
+	 * @covers ::pregMatchAll
 	 * @return void
 	 */
 	public function testPregMatchAll() {
@@ -138,7 +138,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testStrSplit()
 	 *
-	 * @covers Utility::strSplit
+	 * @covers ::strSplit
 	 * @return void
 	 */
 	public function testStrSplit() {
@@ -153,7 +153,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testUrlEncode()
 	 *
-	 * @covers Utility::urlEncode
+	 * @covers ::urlEncode
 	 * @return void
 	 */
 	public function testUrlEncode() {
@@ -164,7 +164,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testUrlDecode()
 	 *
-	 * @covers Utility::urlDecode
+	 * @covers ::urlDecode
 	 * @return void
 	 */
 	public function testUrlDecode() {
@@ -175,7 +175,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testTypeCast()
 	 *
-	 * @covers Utility::typeCast
+	 * @covers ::typeCast
 	 * @return void
 	 */
 	public function testTypeCast() {
@@ -187,7 +187,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testGetClientIp()
 	 *
-	 * @covers Utility::getClientIp
+	 * @covers ::getClientIp
 	 * @return void
 	 */
 	public function testGetClientIp() {
@@ -198,7 +198,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testFileExists()
 	 *
-	 * @covers Utility::fileExists
+	 * @covers ::fileExists
 	 * @return void
 	 */
 	public function testFileExists() {
@@ -218,7 +218,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testUrlExists()
 	 *
-	 * @covers Utility::urlExists
+	 * @covers ::urlExists
 	 * @return void
 	 */
 	public function testUrlExists() {
@@ -232,7 +232,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testGetReferer()
 	 *
-	 * @covers Utility::getReferer
+	 * @covers ::getReferer
 	 * @return void
 	 */
 	public function testGetReferer() {
@@ -254,7 +254,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testGetHeaderFromUrl()
 	 *
-	 * @covers Utility::getHeaderFromUrl
+	 * @covers ::getHeaderFromUrl
 	 * @return void
 	 */
 	public function testGetHeaderFromUrl() {
@@ -266,7 +266,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testAutoPrefixUrl()
 	 *
-	 * @covers Utility::autoPrefixUrl
+	 * @covers ::autoPrefixUrl
 	 * @return void
 	 */
 	public function testAutoPrefixUrl() {
@@ -277,7 +277,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testCleanUrl()
 	 *
-	 * @covers Utility::cleanUrl
+	 * @covers ::cleanUrl
 	 * @return void
 	 */
 	public function testCleanUrl() {
@@ -301,7 +301,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testDeep()
 	 *
-	 * @covers Utility::trimDeep
+	 * @covers ::trimDeep
 	 * @return void
 	 */
 	public function testDeep() {
@@ -512,7 +512,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testArrayFlattenBasic()
 	 *
-	 * @covers Utility::arrayFlatten
+	 * @covers ::arrayFlatten
 	 * @return void
 	 */
 	public function testArrayFlattenBasic() {
@@ -537,7 +537,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * Test that deeper nested values overwrite higher ones.
 	 *
-	 * @covers Utility::arrayFlatten
+	 * @covers ::arrayFlatten
 	 * @return void
 	 */
 	public function testArrayFlatten() {
@@ -560,7 +560,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testArrayFlattenAndPreserveKeys()
 	 *
-	 * @covers Utility::arrayFlatten
+	 * @covers ::arrayFlatten
 	 * @return void
 	 */
 	public function testArrayFlattenAndPreserveKeys() {
@@ -582,7 +582,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testArrayShiftKeys()
 	 *
-	 * @covers Utility::arrayShiftKeys
+	 * @covers ::arrayShiftKeys
 	 * @return void
 	 */
 	public function testArrayShiftKeys() {
@@ -605,7 +605,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testTime()
 	 *
-	 * @covers Utility::returnElapsedTime
+	 * @covers ::returnElapsedTime
 	 * @return void
 	 */
 	public function testTime() {
@@ -626,7 +626,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testLogicalAnd()
 	 *
-	 * @covers Utility::logicalAnd
+	 * @covers ::logicalAnd
 	 * @return void
 	 */
 	public function testLogicalAnd() {
@@ -652,7 +652,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testLogicalOr()
 	 *
-	 * @covers Utility::logicalOr
+	 * @covers ::logicalOr
 	 * @return void
 	 */
 	public function testLogicalOr() {
@@ -687,7 +687,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testIsValidSaveAll()
 	 *
-	 * @covers Utility::isValidSaveAll
+	 * @covers ::isValidSaveAll
 	 * @return void
 	 */
 	public function testIsValidSaveAll() {

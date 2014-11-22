@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
+	backupGlobals="false"
 	colors="true"
 	backupStaticAttributes="false"
 	processIsolation="false"
@@ -23,15 +24,12 @@
 		</listener>
 	</listeners>
 	<filter>
-		<whitelist>
-			<directory suffix=".php">Plugin/Tools</directory>
-			<exclude>
-				<directory suffix=".php">Plugin/Tools/Vendor</directory>
-				<directory suffix=".php">Plugin/Tools/Config/Schema</directory>
-				<directory suffix=".php">Plugin/Tools/Test</directory>
-				<directory suffix=".php">Plugin/Tools/TestSuite</directory>
-				<directory suffix=".php">Plugin/Tools/Lib/Error</directory>
-			</exclude>
-		</whitelist>
+		<blacklist>
+			<directory suffix=".php">./vendor/</directory>
+			<directory suffix=".ctp">./vendor/</directory>
+
+			<directory suffix=".php">./tests/</directory>
+			<directory suffix=".ctp">./tests/</directory>
+		</blacklist>
 	</filter>
 </phpunit>
