@@ -3,6 +3,9 @@
 ## TinyAuth
 - TinyAuth has been moved to its own [plugin](https://github.com/dereuromark/cakephp-tinyauth).
 
+## Auth
+- As session is not static anymore Auth class has been refactored into component and helper (incl. trait) and can be used as AuthUser.
+
 ## Geo
 - Behaviors Geocodable and Helper GoogleMapsV3 are now moved to a separate [Geo plugin](https://github.com/dereuromark/cakephp-geo).
 

@@ -19,7 +19,7 @@ Dev (currently), Alpha, Beta, RC, 1.0 stable (incl. tagged release then).
 ### Enhancing the core
 - Auto-trim on POST (to make - not only notEmpty - validation working properly).
 - Disable cache also works for older IE versions.
-- With flashMessage() you can have colorful (success, warning, error, ...) flash messages.
+- With $this->Flash->message() you can have colorful (success, warning, error, ...) flash messages.
   They also can stack up (multiple messages per type) which the core currently doesn't support.
 - Provide enum support as "static enums"
 - Default settings for Paginator, ... can be set using Configure.

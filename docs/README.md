@@ -10,7 +10,7 @@ This cake3 branch only works for **CakePHP3.x** - please use the master branch f
 * ...
 
 ## Upgrade Guide
-* [Upgrad guide from 2.x to 3.x](Upgrade.md)
+* [Upgrade guide from 2.x to 3.x](Upgrade.md)
 
 ## Basic enhancements of the core
 
