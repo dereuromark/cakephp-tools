@@ -26,8 +26,6 @@ class NumberHelperTest extends TestCase {
 	/**
 	 * Test format
 	 *
-	 * TODO: move to NumberLib test?
-	 *
 	 * @return void
 	 */
 	public function testFormat() {
@@ -71,8 +69,38 @@ class NumberHelperTest extends TestCase {
 		$expected = 'v22,30x';
 		$this->assertEquals($expected, $is);
 
-		#TODO: more
+		$is = $this->Number->format('22.3', array('places' => 2, 'locale' => 'en-US'));
+		$expected = '22.30';
+		$this->assertEquals($expected, $is);
+	}
 
+	/**
+	 * NumberHelperTest::testCurrency()
+	 *
+	 * @return void
+	 */
+	public function testCurrency() {
+		$is = Number::defaultCurrency();
+		$this->assertEquals('EUR', $is);
+
+		$is = $this->Number->currency(22.2);
+		$this->assertEquals('22,20 €', $is);
+	}
+
+	/**
+	 * NumberHelperTest::testToReadableSize()
+	 *
+	 * @return void
+	 */
+	public function testToReadableSize() {
+		$is = $this->Number->toReadableSize(1206);
+		$this->assertEquals('1,18 KB', $is);
+
+		$is = $this->Number->toReadableSize(1024 * 1024 * 1024);
+		$this->assertEquals('1 GB', $is);
+
+		$is = $this->Number->toReadableSize(1024 * 1024 * 1024 * 1024 * 2.5);
+		$this->assertEquals('2,5 TB', $is);
 	}
 
 	public function tearDown() {
