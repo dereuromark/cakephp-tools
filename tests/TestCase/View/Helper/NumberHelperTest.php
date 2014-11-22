@@ -39,9 +39,7 @@ class NumberHelperTest extends TestCase {
 		$expected = '22,01';
 		$this->assertEquals($expected, $is);
 
-		$this->skipIf(true, 'FIXME');
-
-		$is = $this->Number->format('22');
+		$is = $this->Number->format('22', ['places' => 2]);
 		$expected = '22,00';
 		$this->assertEquals($expected, $is);
 
@@ -49,12 +47,8 @@ class NumberHelperTest extends TestCase {
 		$expected = '22,3';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Number->format('22.30', array('places' => -1));
-		$expected = '20';
-		$this->assertEquals($expected, $is);
-
-		$is = $this->Number->format('22.30', array('places' => -2));
-		$expected = '0';
+		$is = $this->Number->format('22.30', array('precision' => -1));
+		$expected = '22';
 		$this->assertEquals($expected, $is);
 
 		$is = $this->Number->format('22.30', array('places' => 3));
@@ -62,14 +56,8 @@ class NumberHelperTest extends TestCase {
 		$this->assertEquals($expected, $is);
 
 		$is = $this->Number->format('abc', array('places' => 2));
-		$expected = '---';
+		$expected = '0,00';
 		$this->assertEquals($expected, $is);
-
-		/*
-		$is = $this->Number->format('12.2', array('places'=>'a'));
-		$expected = '12,20';
-		$this->assertEquals($expected, $is);
-		*/
 
 		$is = $this->Number->format('22.3', array('places' => 2, 'before' => 'EUR '));
 		$expected = 'EUR 22,30';
