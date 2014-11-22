@@ -22,8 +22,6 @@ if (!defined('CLASS_USER')) {
  */
 class CommonComponent extends Component {
 
-	public $components = array('RequestHandler');
-
 	public $userModel = CLASS_USER;
 
 	public function beforeFilter(Event $event) {
@@ -47,12 +45,6 @@ class CommonComponent extends Component {
 		if (!empty($this->Controller->request->params['pass']) && !Configure::read('DataPreparation.notrim')) {
 			$this->Controller->request->params['pass'] = Utility::trimDeep($this->Controller->request->params['pass']);
 		}
-		/*
-		// Auto layout switch
-		if ($this->Controller->request->is('ajax')) {
-			$this->Controller->layout = 'ajax';
-		}
-		*/
 	}
 
 	/**
@@ -63,24 +55,6 @@ class CommonComponent extends Component {
 	 * @return void
 	 */
 	public function beforeRender(Event $event) {
-		if ($messages = $this->Controller->request->session()->read('Message')) {
-			foreach ($messages as $message) {
-				$this->flashMessage($message['message'], 'error');
-			}
-			$this->Controller->request->session()->delete('Message');
-		}
-
-		if ($this->Controller->request->is('ajax')) {
-			$ajaxMessages = array_merge(
-				(array)$this->Controller->request->session()->read('messages'),
-				(array)Configure::read('messages')
-			);
-			// The header can be read with JavaScript and a custom Message can be displayed
-			$this->Controller->response->header('X-Ajax-Flashmessage', json_encode($ajaxMessages));
-
-			$this->Controller->request->session()->delete('messages');
-		}
-
 		// Custom options
 		if (isset($Controller->options)) {
 			$Controller->set('options', $Controller->options);
@@ -115,49 +89,6 @@ class CommonComponent extends Component {
 	 */
 	public function isPosted() {
 		return $this->Controller->request->is(array('post', 'put', 'patch'));
-	}
-
-	/**
-	 * Adds a flash message.
-	 * Updates "messages" session content (to enable multiple messages of one type).
-	 *
-	 * @param string $message Message to output.
-	 * @param string $type Type ('error', 'warning', 'success', 'info' or custom class).
-	 * @return void
-	 */
-	public function flashMessage($message, $type = null) {
-		if (!$type) {
-			$type = 'info';
-		}
-
-		$old = $this->Controller->request->session()->read('messages');
-		if (isset($old[$type]) && count($old[$type]) > 99) {
-			array_shift($old[$type]);
-		}
-		$old[$type][] = $message;
-		$this->Controller->request->session()->write('messages', $old);
-	}
-
-	/**
-	 * Adds a transient flash message.
-	 * These flash messages that are not saved (only available for current view),
-	 * will be merged into the session flash ones prior to output.
-	 *
-	 * @param string $message Message to output.
-	 * @param string $type Type ('error', 'warning', 'success', 'info' or custom class).
-	 * @return void
-	 */
-	public static function transientFlashMessage($message, $type = null) {
-		if (!$type) {
-			$type = 'info';
-		}
-
-		$old = (array)Configure::read('messages');
-		if (isset($old[$type]) && count($old[$type]) > 99) {
-			array_shift($old[$type]);
-		}
-		$old[$type][] = $message;
-		Configure::write('messages', $old);
 	}
 
 	/**

@@ -28,7 +28,7 @@ Also capable of:
 - 'validator' => 'default'
 
 You can either pass those to the behavior at runtime, or globally via Configure and `app.php`:
-```
+```php
 $config = [
 	'Passwordable' => [
 		'passwordHasher' => ['className' => 'Fallback', 'hashers' => ['Default', 'Weak']]

@@ -12,8 +12,6 @@ use Cake\Routing\Router;
  */
 class CommonHelperTest extends TestCase {
 
-	public $fixtures = array('core.sessions');
-
 	public $Common;
 
 	public function setUp() {
@@ -22,17 +20,6 @@ class CommonHelperTest extends TestCase {
 		Router::reload();
 		$View = new View(null);
 		$this->Common = new CommonHelper($View);
-	}
-
-	/**
-	 * CommonHelperTest::testFlashMessage()
-	 *
-	 * @return void
-	 */
-	public function testFlashMessage() {
-		$result = $this->Common->flashMessage(h('Foo & bar'), 'success');
-		$expected = '<div class="flash-messages flashMessages"><div class="message success">Foo &amp;amp; bar</div></div>';
-		$this->assertEquals($expected, $result);
 	}
 
 	/**
@@ -97,60 +84,6 @@ class CommonHelperTest extends TestCase {
 	public function testMetaEquiv() {
 		$result = $this->Common->metaEquiv('type', 'value');
 		$expected = '<meta http-equiv="type" content="value" />';
-		$this->assertEquals($expected, $result);
-	}
-
-	/**
-	 * CommonHelperTest::testFlash()
-	 *
-	 * @return void
-	 */
-	public function testFlash() {
-		$this->Common->addFlashMessage(h('Foo & bar'), 'success');
-
-		$result = $this->Common->flash();
-		$expected = '<div class="flash-messages flashMessages"><div class="message success">Foo &amp; bar</div></div>';
-		$this->assertEquals($expected, $result);
-
-		$this->Common->addFlashMessage('I am an error', 'error');
-		$this->Common->addFlashMessage('I am a warning', 'warning');
-		$this->Common->addFlashMessage('I am some info', 'info');
-		$this->Common->addFlashMessage('I am also some info');
-		$this->Common->addFlashMessage('I am sth custom', 'custom');
-
-		$result = $this->Common->flash();
-		$this->assertTextContains('message error', $result);
-		$this->assertTextContains('message warning', $result);
-		$this->assertTextContains('message info', $result);
-		$this->assertTextContains('message custom', $result);
-
-		$result = substr_count($result, 'message info');
-		$this->assertSame(2, $result);
-	}
-
-	/**
-	 * Test that you can define your own order or just output a subpart of
-	 * the types.
-	 *
-	 * @return void
-	 */
-	public function testFlashWithTypes() {
-		$this->Common->addFlashMessage('I am an error', 'error');
-		$this->Common->addFlashMessage('I am a warning', 'warning');
-		$this->Common->addFlashMessage('I am some info', 'info');
-		$this->Common->addFlashMessage('I am also some info');
-		$this->Common->addFlashMessage('I am sth custom', 'custom');
-
-		$result = $this->Common->flash(array('warning', 'error'));
-		$expected = '<div class="flash-messages flashMessages"><div class="message warning">I am a warning</div><div class="message error">I am an error</div></div>';
-		$this->assertEquals($expected, $result);
-
-		$result = $this->Common->flash(array('info'));
-		$expected = '<div class="flash-messages flashMessages"><div class="message info">I am some info</div><div class="message info">I am also some info</div></div>';
-		$this->assertEquals($expected, $result);
-
-		$result = $this->Common->flash();
-		$expected = '<div class="flash-messages flashMessages"><div class="message custom">I am sth custom</div></div>';
 		$this->assertEquals($expected, $result);
 	}
 
