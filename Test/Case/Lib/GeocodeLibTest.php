@@ -83,7 +83,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 	 */
 	public function testReverseGeocode() {
 		$coords = array(
-			array(-34.594445, -58.37446, 'Calle Florida 1134-1200, Buenos Aires'),
+			array(-34.594445, -58.37446, 'Florida 1134-1200, Buenos Aires'),
 			array(48.8934, 8.70492, 'B294, 75175 Pforzheim, Deutschland')
 		);
 
