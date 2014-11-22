@@ -5,12 +5,15 @@
 This cake3 branch only works for **CakePHP3.x** - please use the master branch for CakePHP 2.x!
 **It is still dev** (not even alpha), please be careful with using it.
 
-## Detailed Documentation - Quicklinks
-* [Passwordable](Passwordable.md)
-* ...
+## Installation
+* [Installation](Install.md)
 
 ## Upgrade Guide
 * [Upgrade guide from 2.x to 3.x](Upgrade.md)
+
+## Detailed Documentation - Quicklinks
+* [Passwordable](Passwordable.md)
+* ...
 
 ## Basic enhancements of the core
 
@@ -80,4 +83,15 @@ class AppController extends Controller {
 }
 ```
 
+
+## Testing
+You can test using a local installation of phpunit or the phar version of it:
+
+	cd Plugin/Tools
+	composer update
+	phpunit
+
+To test a specific file:
+
+	phpunit /path/to/class.php
 
