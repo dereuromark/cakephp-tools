@@ -8,7 +8,7 @@ use Cake\Core\Configure;
 use Tools\Utility\Number;
 
 /**
- * Numeric Test Case
+ * Number Test Case
  */
 class NumberHelperTest extends TestCase {
 
@@ -20,7 +20,7 @@ class NumberHelperTest extends TestCase {
 			'thousands' => '.'
 		));
 		Number::config();
-		$this->Numeric = new NumberHelper(new View(null));
+		$this->Number = new NumberHelper(new View(null));
 	}
 
 	/**
@@ -31,47 +31,55 @@ class NumberHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testFormat() {
+		$is = $this->Number->format('22');
+		$expected = '22';
+		$this->assertEquals($expected, $is);
+
+		$is = $this->Number->format('22.01');
+		$expected = '22,01';
+		$this->assertEquals($expected, $is);
+
 		$this->skipIf(true, 'FIXME');
 
-		$is = $this->Numeric->format('22');
+		$is = $this->Number->format('22');
 		$expected = '22,00';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Numeric->format('22.30', array('places' => 1));
+		$is = $this->Number->format('22.30', array('places' => 1));
 		$expected = '22,3';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Numeric->format('22.30', array('places' => -1));
+		$is = $this->Number->format('22.30', array('places' => -1));
 		$expected = '20';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Numeric->format('22.30', array('places' => -2));
+		$is = $this->Number->format('22.30', array('places' => -2));
 		$expected = '0';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Numeric->format('22.30', array('places' => 3));
+		$is = $this->Number->format('22.30', array('places' => 3));
 		$expected = '22,300';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Numeric->format('abc', array('places' => 2));
+		$is = $this->Number->format('abc', array('places' => 2));
 		$expected = '---';
 		$this->assertEquals($expected, $is);
 
 		/*
-		$is = $this->Numeric->format('12.2', array('places'=>'a'));
+		$is = $this->Number->format('12.2', array('places'=>'a'));
 		$expected = '12,20';
 		$this->assertEquals($expected, $is);
 		*/
 
-		$is = $this->Numeric->format('22.3', array('places' => 2, 'before' => 'EUR '));
+		$is = $this->Number->format('22.3', array('places' => 2, 'before' => 'EUR '));
 		$expected = 'EUR 22,30';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Numeric->format('22.3', array('places' => 2, 'after' => ' EUR'));
+		$is = $this->Number->format('22.3', array('places' => 2, 'after' => ' EUR'));
 		$expected = '22,30 EUR';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Numeric->format('22.3', array('places' => 2, 'after' => 'x', 'before' => 'v'));
+		$is = $this->Number->format('22.3', array('places' => 2, 'after' => 'x', 'before' => 'v'));
 		$expected = 'v22,30x';
 		$this->assertEquals($expected, $is);
 
@@ -82,6 +90,6 @@ class NumberHelperTest extends TestCase {
 	public function tearDown() {
 		parent::tearDown();
 
-		unset($this->Numeric);
+		unset($this->Number);
 	}
 }
