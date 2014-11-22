@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2014-11-09 00:23+0000\n"
+"POT-Creation-Date: 2014-11-22 19:39+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -62,10 +62,6 @@ msgstr ""
 msgid "invalid date"
 msgstr ""
 
-#: Controller/Component/CommonComponent.php:506
-msgid "Meta Type invalid"
-msgstr ""
-
 #: Controller/Component/CommonComponent.php:819
 msgid "Comma"
 msgstr ""
@@ -84,10 +80,6 @@ msgstr ""
 
 #: Controller/Component/CommonComponent.php:820
 msgid "New Line"
-msgstr ""
-
-#: Controller/Component/MobileComponent.php:268
-msgid "Engine %s not available"
 msgstr ""
 
 #: Lib/GeocodeLib.php:263
@@ -136,31 +128,6 @@ msgstr ""
 
 #: Lib/GeocodeLib.php:444
 msgid "Expectation not reached (we have %s instead of at least one of %s)"
-msgstr ""
-
-#: Lib/GeocodeLib.php:746
-msgid "Invalid Unit: %s"
-msgstr ""
-
-#: Lib/GeocodeLib.php:790
-msgid "Invalid Unit"
-msgstr ""
-
-#: Lib/GeocodeLib.php:835
-msgid "Invalid level '%s'"
-msgstr ""
-
-#: Lib/SpellLib.php:39
-#: Test/Case/Lib/SpellLibTest.php:13
-msgid "Module %s not installed"
-msgstr ""
-
-#: Lib/SpellLib.php:52
-msgid "Engine %s not found"
-msgstr ""
-
-#: Lib/SpellLib.php:58
-msgid "Dictionary %s not found"
 msgstr ""
 
 #: Lib/Misc/ZodiacLib.php:157
@@ -346,10 +313,6 @@ msgstr ""
 msgid "Captcha incorrect"
 msgstr ""
 
-#: Model/Behavior/CustomFindsBehavior.php:39
-msgid "The behavior \"Containable\", if used together with \"CustomFinds\" needs to be loaded before."
-msgstr ""
-
 #: Model/Behavior/LogableBehavior.php:401
 msgid "deleted"
 msgstr ""
@@ -377,6 +340,10 @@ msgstr ""
 #: Model/Behavior/PasswordableBehavior.php:231
 #: Test/Case/Model/Behavior/PasswordableBehaviorTest.php:95
 msgid "valErrPwdNotMatch"
+msgstr ""
+
+#: Test/Case/Lib/SpellLibTest.php:13
+msgid "Module %s not installed"
 msgstr ""
 
 #: Test/Case/Lib/Utility/TimeLibTest.php:263;264;265
@@ -483,10 +450,6 @@ msgstr ""
 #: Test/Case/View/Helper/FormatHelperTest.php:162;174
 #: View/Helper/FormatHelper.php:670
 msgid "No"
-msgstr ""
-
-#: View/RssView.php:222
-msgid "The prefix %s is not specified."
 msgstr ""
 
 #: View/Elements/master_password.ctp:9
