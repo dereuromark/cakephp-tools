@@ -84,7 +84,7 @@ class CommonComponent extends Component {
 	 * @return void
 	 */
 	public function beforeRender(Controller $Controller) {
-		if ($messages = $this->Session->read('Message')) {
+		if (Configure::read('Common.messages') !== false && $messages = $this->Session->read('Message')) {
 			foreach ($messages as $message) {
 				$this->flashMessage($message['message'], 'error');
 			}

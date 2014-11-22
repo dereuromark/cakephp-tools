@@ -1050,7 +1050,7 @@ class MyModel extends Model {
 	 * - dateFormat (defaults to 'ymd')
 	 * - allowEmpty
 	 * - after/before (fieldName to validate against)
-	 * - min/max (defaults to >= 1 - at least 1 minute apart)
+	 * - min/max (defaults to >= 1 - at least 1 second apart)
 	 * @return bool Success
 	 */
 	public function validateDateTime($data, $options = array()) {
@@ -1076,14 +1076,14 @@ class MyModel extends Model {
 		*/
 		if (Validation::date($date, $format) && Validation::time($time)) {
 			// after/before?
-			$minutes = isset($options['min']) ? $options['min'] : 1;
+			$seconds = isset($options['min']) ? $options['min'] : 1;
 			if (!empty($options['after']) && isset($this->data[$this->alias][$options['after']])) {
-				if (strtotime($this->data[$this->alias][$options['after']]) > strtotime($value) - $minutes) {
+				if (strtotime($this->data[$this->alias][$options['after']]) > strtotime($value) - $seconds) {
 					return false;
 				}
 			}
 			if (!empty($options['before']) && isset($this->data[$this->alias][$options['before']])) {
-				if (strtotime($this->data[$this->alias][$options['before']]) < strtotime($value) + $minutes) {
+				if (strtotime($this->data[$this->alias][$options['before']]) < strtotime($value) + $seconds) {
 					return false;
 				}
 			}
