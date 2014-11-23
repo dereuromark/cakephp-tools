@@ -19,3 +19,6 @@
 - $this->Common->flashMessage() is now $this->Flash->message().
 - $this->Common->transientFlashMessage() is now $this->Flash->transientMessage().
 
+## Behavior
+- `run`/`before` config options for callback decisions have been unified to `on` and complete callback/event name, e.g. `'on' => 'beforeValidate'`.
+- model names are now table names, and plural.

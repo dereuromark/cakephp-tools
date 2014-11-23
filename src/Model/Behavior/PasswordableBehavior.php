@@ -46,9 +46,6 @@ class PasswordableBehavior extends Behavior {
 		'formField' => 'pwd',
 		'formFieldRepeat' => 'pwd_repeat',
 		'formFieldCurrent' => 'pwd_current',
-		'userModel' => null, // Defaults to Users
-		'auth' => null, // Which component (defaults to AuthComponent),
-		'authType' => 'Form', // Which type of authenticate (Form, Blowfish, ...)
 		'passwordHasher' => 'Default', // If a custom pwd hasher is been used
 		'allowSame' => true, // Don't allow the old password on change
 		'minLength' => PWD_MIN_LENGTH,
@@ -320,7 +317,7 @@ class PasswordableBehavior extends Behavior {
 	 * So if you set up any special passwordHasher or auth type, you need to provide those
 	 * with the settings passed to the behavior:
 	 *
-	 * 'authType' => 'Blowfish', 'passwordHasher' => array(
+	 * 'passwordHasher' => array(
 	 *     'className' => 'Simple',
 	 *     'hashType' => 'sha256'
 	 * )

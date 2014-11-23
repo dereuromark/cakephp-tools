@@ -69,7 +69,7 @@ class SluggedBehavior extends Behavior {
 			'+' => 'and',
 			'#' => 'hash',
 		),
-		//'run' => 'beforeValidate',
+		'on' => 'beforeValidate',
 		'language' => null,
 		'encoding' => null,
 		'scope' => array(),
@@ -110,41 +110,50 @@ class SluggedBehavior extends Behavior {
 			$length = $this->_table->schema()->column($this->_config['field'])['length'];
 			$this->_config['length'] = $length ?: 0;
 		}
-	}
 
-	/**
-	 * Setup method
-	 *
-	 * Use the model's label field as the default field on which to base the slug, the label can be made up of multiple
-	 * fields by specifying an array of fields
-	 *
-	 * @param Model $Model
-	 * @param array $config
-	 * @return void
-	 */
-	public function __setup(Model $Model, $config = array()) {
 		$label = $this->_config['label'] = (array)$this->_config['label'];
-		if ($Model->Behaviors->loaded('Translate')) {
-			$notices = false;
+
+		if ($this->_table->behaviors()->loaded('Translate')) {
+			$this->_config['length'] = false;
 		}
-		if ($notices) {
+		if ($this->_config['length']) {
 			foreach ($label as $field) {
 				$alias = $this->_table->alias();
 				if (strpos($field, '.')) {
 					list($alias, $field) = explode('.', $field);
-					if (!$Model->$alias->hasField($field)) {
-						throw new \Exception('(SluggedBehavior::setup) model ' . $Model->$alias->name . ' is missing the field ' . $field .
-							' (specified in the setup for model ' . $Model->name . ') ');
+					if (!$this->_table->$alias->hasField($field)) {
+						throw new \Exception('(SluggedBehavior::setup) model ' . $this->_table->$alias->name . ' is missing the field ' . $field .
+							' (specified in the setup for model ' . $this->_table->name . ') ');
 					}
-				} elseif (!$Model->hasField($field)) {
-					throw new \Exception('(SluggedBehavior::setup) model ' . $Model->name . ' is missing the field ' . $field . ' specified in the setup.');
+				} elseif (!$this->_table->hasField($field)) {
+					throw new \Exception('(SluggedBehavior::setup) model ' . $this->_table->name . ' is missing the field ' . $field . ' specified in the setup.');
 				}
 			}
 		}
 	}
 
+	/**
+	 * SluggedBehavior::findSlugged()
+	 *
+	 * @param mixed $query
+	 * @param mixed $options
+	 * @return Query
+	 */
 	public function findSlugged(Query $query, array $options) {
 		return $query->where([$this->_config['field'] => $options['slug']]);
+	}
+
+	/**
+	 * SluggedBehavior::beforeValidate()
+	 *
+	 * @param mixed $event
+	 * @param mixed $entity
+	 * @return void
+	 */
+	public function beforeValidate(Event $event, Entity $entity) {
+		if ($this->_config['on'] === 'beforeValidate') {
+			$this->slug($entity);
+		}
 	}
 
 	/**
@@ -155,7 +164,9 @@ class SluggedBehavior extends Behavior {
 	 * @return void
 	 */
 	public function beforeSave(Event $event, Entity $entity) {
-		$this->slug($entity);
+		if ($this->_config['on'] === 'beforeSave') {
+			$this->slug($entity);
+		}
 	}
 
 	/**
@@ -179,12 +190,10 @@ class SluggedBehavior extends Behavior {
 	 * If a new row, or overwrite is set to true, check for a change to a label field and add the slug to the data
 	 * to be saved
 	 *
-	 * @param Model $Model
 	 * @return void
 	 */
 	public function _generateSlug(Model $Model) {
-		extract($this->_config);
-		if ($notices && !$Model->hasField($slugField)) {
+		if ($this->_config['length'] && !$Model->hasField($this->_config['field'])) {
 			return;
 		}
 		if (!$overwrite && !empty($Model->data[$this->_table->alias()][$overwriteField])) {
@@ -247,7 +256,7 @@ class SluggedBehavior extends Behavior {
 	 */
 	public function generateSlug(Entity $entity, $value) {
 		$separator = $this->_config['separator'];
-		$case = $this->_config['separator'];
+		$case = $this->_config['case'];
 
 		$string = str_replace(array("\r\n", "\r", "\n"), ' ', $value);
 		if ($replace = $this->_config['replace']) {
@@ -334,17 +343,12 @@ class SluggedBehavior extends Behavior {
 	 * @param mixed $id
 	 * @return mixed string (the display name) or false
 	 */
-	public function display($id = null) {
-		if (!$id) {
-			if (!$Model->id) {
-				return false;
-			}
-			$id = $Model->id;
-		}
+	public function display($id) {
 		$conditions = array_merge(array(
 			$this->_table->alias() . '.' . $this->_table->primaryKey() => $id),
 			$this->_config['scope']);
-		return current($Model->find('list', array('conditions' => $conditions)));
+		$record = $this->_table->find('first', array('conditions' => $conditions));
+		return $record->get($this->_table->displayField());
 	}
 
 	/**
@@ -360,8 +364,8 @@ class SluggedBehavior extends Behavior {
 	 * @return bool Success
 	 */
 	public function resetSlugs($params = array()) {
-		if (!$this->_table->hasField($this->_config['slugField'])) {
-			throw new \Exception('Table does not have field ' . $this->_config['slugField']);
+		if (!$this->_table->hasField($this->_config['field'])) {
+			throw new \Exception('Table does not have field ' . $this->_config['field']);
 		}
 		$defaults = array(
 			'page' => 1,
@@ -372,23 +376,21 @@ class SluggedBehavior extends Behavior {
 			'overwrite' => true,
 		);
 		$params = array_merge($defaults, $params);
-		$count = $this->_table->find('count', compact('conditions'));
+		$count = $this->_table->find('all', compact('conditions'))->count();
 		$max = ini_get('max_execution_time');
 		if ($max) {
 			set_time_limit(max($max, $count / 100));
 		}
 
-		$config = $this->_table->behaviors()->Slugged->config();
-		$this->_table->addBehavior('Tools.Slugged', $params + $config);
-
+		$this->_table->behaviors()->Slugged->config($params, null, false);
 		while (($records = $this->_table->find('all', $params)->toArray())) {
 			foreach ($records as $record) {
-				//$Model->create();
+				$record->isNew(true);
 				$options = array(
 					'validate' => true,
-					'fieldList' => array_merge(array($this->_table->primaryKey(), $this->_config['slugField']), $this->_config['label'])
+					'fieldList' => array_merge(array($this->_table->primaryKey(), $this->_config['field']), $this->_config['label'])
 				);
-				if (!$Model->save($record, $options)) {
+				if (!$this->_table->save($record, $options)) {
 					throw new \Exception(print_r($this->_table->errors(), true));
 				}
 			}

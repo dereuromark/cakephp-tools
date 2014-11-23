@@ -106,6 +106,12 @@ class SluggedBehaviorTest extends TestCase {
 
 		$result = $this->articles->save($entity);
 		$this->assertEquals(155, strlen($result->get('slug')));
+
+		// For non ascii chars it might be longer, though...
+		$this->articles->behaviors()->Slugged->config(['length' => 10, 'mode' => 'ascii']);
+		$entity = $this->_getEntity('ä ö ü ä ö ü');
+		$result = $this->articles->save($entity);
+		$this->assertEquals('ae-oe-ue-ae-oe-ue', $result->get('slug'));
 	}
 
 /**
@@ -132,6 +138,100 @@ class SluggedBehaviorTest extends TestCase {
 
 		$result = $this->articles->save($entity);
 		$this->assertEquals(799, strlen($result->get('long_slug')));
+	}
+
+	/**
+	 * SluggedBehaviorTest::testResetSlugs()
+	 *
+	 * @return void
+	 */
+	public function testResetSlugs() {
+		$article = $this->articles->newEntity(array('title' => 'Andy Dawson', 'slug' => 'foo'));
+		$this->articles->save($article);
+		$article = $this->articles->newEntity(array('title' => 'Andy Dawsom', 'slug' => 'bar'));
+		$this->articles->save($article);
+
+		$result = $this->articles->find('all', array(
+			'conditions' => array('title LIKE' => 'Andy Daw%'),
+			'fields' => array('title', 'slug'),
+			'order' => 'title'
+		))->combine('title', 'slug')->toArray();
+		$expected = array(
+			'Andy Dawsom' => 'bar',
+			'Andy Dawson' => 'foo'
+		);
+		$this->assertEquals($expected, $result);
+
+		$this->articles->addBehavior('Tools.Slugged');
+		$result = $this->articles->resetSlugs(['limit' => 1]);
+		$this->assertTrue($result);
+
+		$result = $this->articles->find('all', array(
+			'conditions' => array('title LIKE' => 'Andy Daw%'),
+			'fields' => array('title', 'slug'),
+			'order' => 'title'
+		))->combine('title', 'slug')->toArray();
+		$expected = array(
+			'Andy Dawsom' => 'Andy-Dawsom',
+			'Andy Dawson' => 'Andy-Dawson'
+		);
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * TestDuplicateWithLengthRestriction method
+	 *
+	 * If there's a length restriction - ensure it's respected by the unique slug routine
+	 *
+	 * @return void
+	 */
+	public function testDuplicateWithLengthRestriction() {
+		return;
+
+		$this->articles->addBehavior('Tools.Slugged', ['length' => 10, 'unique' => true]);
+
+		$article = $this->articles->newEntity(array('title' => 'Andy Dawson'));
+		$this->articles->save($article);
+		$article = $this->articles->newEntity(array('title' => 'Andy Dawsom'));
+		$this->articles->save($article);
+		$article = $this->articles->newEntity(array('title' => 'Andy Dawsoo'));
+		$this->articles->save($article);
+		$article = $this->articles->newEntity(array('title' => 'Andy Dawso3'));
+		$this->articles->save($article);
+		$article = $this->articles->newEntity(array('title' => 'Andy Dawso4'));
+		$this->articles->save($article);
+		$article = $this->articles->newEntity(array('title' => 'Andy Dawso5'));
+		$this->articles->save($article);
+		$article = $this->articles->newEntity(array('title' => 'Andy Dawso6'));
+		$this->articles->save($article);
+		$article = $this->articles->newEntity(array('title' => 'Andy Dawso7'));
+		$this->articles->save($article);
+		$article = $this->articles->newEntity(array('title' => 'Andy Dawso8'));
+		$this->articles->save($article);
+		$article = $this->articles->newEntity(array('title' => 'Andy Dawso9'));
+		$this->articles->save($article);
+		$article = $this->articles->newEntity(array('title' => 'Andy Dawso0'));
+		$this->articles->save($article);
+
+		$result = $this->articles->find('all', array(
+			'conditions' => array('title LIKE' => 'Andy Daw%'),
+			'fields' => array('title', 'slug'),
+			'order' => 'title'
+		))->combine('title', 'slug')->toArray();
+		$expects = array(
+			'Andy Dawson' => 'Andy-Dawso',
+			'Andy Dawsom' => 'Andy-Daw-1',
+			'Andy Dawsoo' => 'Andy-Daw-2',
+			'Andy Dawso3' => 'Andy-Daw-3',
+			'Andy Dawso4' => 'Andy-Daw-4',
+			'Andy Dawso5' => 'Andy-Daw-5',
+			'Andy Dawso6' => 'Andy-Daw-6',
+			'Andy Dawso7' => 'Andy-Daw-7',
+			'Andy Dawso8' => 'Andy-Daw-8',
+			'Andy Dawso9' => 'Andy-Daw-9',
+			'Andy Dawso0' => 'Andy-Da-10'
+		);
+		$this->assertEquals($expects, $result);
 	}
 
 /**
