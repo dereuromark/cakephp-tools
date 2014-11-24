@@ -176,12 +176,36 @@ class SluggedBehavior extends Behavior {
 	 * @return void
 	 */
 	public function slug(Entity $entity) {
-		foreach ((array)$this->_config['label'] as $k => $v) {
-			break;
+		$overwrite = $this->_config['overwrite'];
+		if (!$overwrite && $entity->get($this->_config['overwriteField'])) {
+			$overwrite = true;
 		}
-		$value = $entity->get($v);
+		if ($overwrite || $entity->isNew()) {
+			$slug = array();
+			foreach ((array)$this->_config['label'] as $v) {
+				$v = $this->generateSlug($entity->get($v), $entity);
+				if ($v) {
+					$slug[] = $v;
+				}
+			}
+			$slug = implode($slug, $this->_config['separator']);
+			$entity->set($this->_config['field'], $slug);
+		}
+	}
 
-		$entity->set($this->_config['field'], $this->generateSlug($entity, $value));
+	/**
+	 * SluggedBehavior::_needsUpdating()
+	 *
+	 * @param Entity $entity
+	 * @return bool
+	 */
+	protected function _needsUpdating($entity) {
+		foreach ((array)$this->_config['label'] as $label) {
+			if ($entity->dirty($label)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -192,14 +216,12 @@ class SluggedBehavior extends Behavior {
 	 *
 	 * @return void
 	 */
-	public function _generateSlug(Model $Model) {
-		if ($this->_config['length'] && !$Model->hasField($this->_config['field'])) {
-			return;
-		}
-		if (!$overwrite && !empty($Model->data[$this->_table->alias()][$overwriteField])) {
+	public function _slug(Entity $entity) {
+		$overwrite = $this->config['overwrite'];
+		if (!$overwrite && !$entity->get($overwriteField)) {
 			$overwrite = true;
 		}
-		if ($overwrite || !$Model->id) {
+		if ($overwrite || $entity->isNew()) {
 			if ($label) {
 				$somethingToDo = false;
 				foreach ($label as $field) {
@@ -249,14 +271,12 @@ class SluggedBehavior extends Behavior {
 	 * If unique is set to true, check for a unique slug and if unavailable suffix the slug with -1, -2, -3 etc.
 	 * until a unique slug is found
 	 *
-	 * @param Model $Model
-	 * @param mixed $string
-	 * @param boolean $tidy
+	 * @param string $string
+	 * @param Entity $entity
 	 * @return string a slug
 	 */
-	public function generateSlug(Entity $entity, $value) {
+	public function generateSlug($value, Entity $entity = null) {
 		$separator = $this->_config['separator'];
-		$case = $this->_config['case'];
 
 		$string = str_replace(array("\r\n", "\r", "\n"), ' ', $value);
 		if ($replace = $this->_config['replace']) {
@@ -279,13 +299,11 @@ class SluggedBehavior extends Behavior {
 				$slug = 'x' . $slug;
 			}
 		}
-		if ($this->_config['length'] & (strlen($slug) > $this->_config['length'])) {
+		if ($this->_config['length'] && (mb_strlen($slug) > $this->_config['length'])) {
 			$slug = mb_substr($slug, 0, $this->_config['length']);
-			while ($slug && strlen($slug) > $this->_config['length']) {
-				$slug = mb_substr($slug, 0, mb_strlen($slug) - 1);
-			}
 		}
-		if ($case) {
+		if ($this->_config['case']) {
+			$case = $this->_config['case'];
 			if ($case === 'up') {
 				$slug = mb_strtoupper($slug);
 			} else {
@@ -307,6 +325,9 @@ class SluggedBehavior extends Behavior {
 			}
 		}
 		if ($this->_config['unique']) {
+			if (!$entity) {
+				throw new \Exception('Needs an Entity to work on');
+			}
 			$field = $this->_table->alias() . '.' . $this->_config['field'];
 			$conditions = array($field => $slug);
 			$conditions = array_merge($conditions, $this->_config['scope']);
@@ -319,8 +340,8 @@ class SluggedBehavior extends Behavior {
 			while ($this->_table->exists($conditions)) {
 				$i++;
 				$suffix	= $separator . $i;
-				if ($this->_config['length'] && (strlen($slug . $suffix) > $this->_config['length'])) {
-					$slug = substr($slug, 0, $this->_config['length'] - strlen($suffix));
+				if ($this->_config['length'] && (mb_strlen($slug . $suffix) > $this->_config['length'])) {
+					$slug = mb_substr($slug, 0, $this->_config['length'] - mb_strlen($suffix));
 				}
 				$conditions[$field] = $slug . $suffix;
 			}
@@ -405,23 +426,27 @@ class SluggedBehavior extends Behavior {
 	 * Handle both slug and label fields using the translate behavior, and being edited
 	 * in multiple locales at once
 	 *
+	 * //FIXME
 	 * @param Model $Model
 	 * @return void
 	 */
 	protected function _multiSlug(Entity $entity) {
 		extract($this->_config);
-		$data = $Model->data;
 		$field = current($label);
-		foreach ($Model->data[$this->_table->alias()][$field] as $locale => $_) {
+		$fields = (array)$entity->get($field);
+
+		$locale = array();
+		foreach ($fields as $locale => $_) {
 			foreach ($label as $field) {
-				if (is_array($data[$this->_table->alias()][$field])) {
-					$Model->data[$this->_table->alias()][$field] = $Model->slug($data[$this->_table->alias()][$field][$locale]);
+				$res = $entity->get($field);
+				if (is_array($entity->get($field))) {
+					$res = $this->generateSlug($field[$locale], $entity);
 				}
 			}
-			$this->beforeValidate($Model);
-			$data[$this->_table->alias()][$slugField][$locale] = $Model->data[$this->_table->alias()][$field];
+			//$this->beforeValidate($entity);
+			$locale[$locale] = $res;
 		}
-		$Model->data = $data;
+		$entity->set($slugField, $locale);
 	}
 
 	/**

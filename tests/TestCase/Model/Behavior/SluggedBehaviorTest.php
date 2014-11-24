@@ -36,8 +36,9 @@ class SluggedBehaviorTest extends TestCase {
 
 		$options = ['alias' => 'Articles'];
 		$this->articles = TableRegistry::get('SluggedArticles', $options);
-
 		Configure::delete('Slugged');
+
+		$this->articles->addBehavior('Tools.Slugged');
 	}
 
 /**
@@ -58,8 +59,6 @@ class SluggedBehaviorTest extends TestCase {
  * @return void
  */
 	public function testAdd() {
-		$this->articles->addBehavior('Tools.Slugged');
-
 		$entity = $this->_getEntity();
 		$result = $this->articles->save($entity);
 
@@ -72,7 +71,7 @@ class SluggedBehaviorTest extends TestCase {
  * @return void
  */
 	public function testAddUnique() {
-		$this->articles->addBehavior('Tools.Slugged', ['unique' => true]);
+		$this->articles->behaviors()->Slugged->config(['unique' => true]);
 
 		$entity = $this->_getEntity();
 		$result = $this->articles->save($entity);
@@ -90,7 +89,6 @@ class SluggedBehaviorTest extends TestCase {
  * @return void
  */
 	public function testCustomFinder() {
-		$this->articles->addBehavior('Tools.Slugged');
 		$article = $this->articles->find()->find('slugged', ['slug' => 'foo'])->first();
 		$this->assertEquals('Foo', $article->get('title'));
 	}
@@ -101,17 +99,16 @@ class SluggedBehaviorTest extends TestCase {
  * @return void
  */
 	public function testLengthRestrictionManual() {
-		$this->articles->addBehavior('Tools.Slugged', ['length' => 155]);
+		$this->articles->behaviors()->Slugged->config(['length' => 155]);
 		$entity = $this->_getEntity(str_repeat('foo bar ', 31));
 
 		$result = $this->articles->save($entity);
 		$this->assertEquals(155, strlen($result->get('slug')));
 
-		// For non ascii chars it might be longer, though...
 		$this->articles->behaviors()->Slugged->config(['length' => 10, 'mode' => 'ascii']);
 		$entity = $this->_getEntity('ä ö ü ä ö ü');
 		$result = $this->articles->save($entity);
-		$this->assertEquals('ae-oe-ue-ae-oe-ue', $result->get('slug'));
+		$this->assertEquals('ae-oe-ue-a', $result->get('slug'));
 	}
 
 /**
@@ -120,7 +117,6 @@ class SluggedBehaviorTest extends TestCase {
  * @return void
  */
 	public function testLengthRestrictionAutoDetect() {
-		$this->articles->addBehavior('Tools.Slugged');
 		$entity = $this->_getEntity(str_repeat('foo bar ', 31));
 
 		$result = $this->articles->save($entity);
@@ -133,7 +129,7 @@ class SluggedBehaviorTest extends TestCase {
  * @return void
  */
 	public function testLengthRestrictionNoLimit() {
-		$this->articles->addBehavior('Tools.Slugged', ['length' => 0, 'label' => 'long_title', 'field' => 'long_slug']);
+		$this->articles->behaviors()->Slugged->config(['length' => 0, 'label' => 'long_title', 'field' => 'long_slug']);
 		$entity = $this->_getEntity(str_repeat('foo bar ', 100), 'long_title');
 
 		$result = $this->articles->save($entity);
@@ -146,6 +142,8 @@ class SluggedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testResetSlugs() {
+		$this->articles->removeBehavior('Slugged');
+
 		$article = $this->articles->newEntity(array('title' => 'Andy Dawson', 'slug' => 'foo'));
 		$this->articles->save($article);
 		$article = $this->articles->newEntity(array('title' => 'Andy Dawsom', 'slug' => 'bar'));
@@ -188,7 +186,7 @@ class SluggedBehaviorTest extends TestCase {
 	public function testDuplicateWithLengthRestriction() {
 		return;
 
-		$this->articles->addBehavior('Tools.Slugged', ['length' => 10, 'unique' => true]);
+		$this->articles->behaviors()->Slugged->config(['length' => 10, 'unique' => true]);
 
 		$article = $this->articles->newEntity(array('title' => 'Andy Dawson'));
 		$this->articles->save($article);
@@ -218,7 +216,7 @@ class SluggedBehaviorTest extends TestCase {
 			'fields' => array('title', 'slug'),
 			'order' => 'title'
 		))->combine('title', 'slug')->toArray();
-		$expects = array(
+		$expected = array(
 			'Andy Dawson' => 'Andy-Dawso',
 			'Andy Dawsom' => 'Andy-Daw-1',
 			'Andy Dawsoo' => 'Andy-Daw-2',
@@ -231,7 +229,243 @@ class SluggedBehaviorTest extends TestCase {
 			'Andy Dawso9' => 'Andy-Daw-9',
 			'Andy Dawso0' => 'Andy-Da-10'
 		);
-		$this->assertEquals($expects, $result);
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * TestTruncateMultibyte method
+	 *
+	 * @return void
+	 */
+	/**
+	 * TestTruncateMultibyte method
+	 *
+	 * Ensure that the first test doesn't cut a multibyte character The test string is:
+	 * 	17 chars
+	 * 	51 bytes UTF-8 encoded
+	 *
+	 * @return void
+	 */
+	public function testTruncateMultibyte() {
+		$this->articles->behaviors()->Slugged->config(array('length' => 16));
+
+		$result = $this->articles->generateSlug('モデルのデータベースとデータソース');
+		$expected = 'モデルのデータベースとデータソー';
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * Test Url method
+	 *
+	 * @return void
+	 */
+	public function testUrlMode() {
+		$this->articles->behaviors()->Slugged->config(array('mode' => 'url', 'replace' => false));
+
+		$string = 'standard string';
+		$expected = 'standard-string';
+		$result = $this->articles->generateSlug($string);
+		$this->assertEquals($expected, $result);
+
+		$string = 'something with a \' in it';
+		$expected = 'something-with-a-in-it';
+		$result = $this->articles->generateSlug($string);
+		$this->assertEquals($expected, $result);
+
+		$string = 'something with a " in it';
+		$expected = 'something-with-a-in-it';
+		$result = $this->articles->generateSlug($string);
+		$this->assertEquals($expected, $result);
+
+		$string = 'something with a / in it';
+		$expected = 'something-with-a-in-it';
+		$result = $this->articles->generateSlug($string);
+		$this->assertEquals($expected, $result);
+
+		$string = 'something with a ? in it';
+		$expected = 'something-with-a-in-it';
+		$result = $this->articles->generateSlug($string);
+		$this->assertEquals($expected, $result);
+
+		$string = 'something with a < in it';
+		$expected = 'something-with-a-in-it';
+		$result = $this->articles->generateSlug($string);
+		$this->assertEquals($expected, $result);
+
+		$string = 'something with a > in it';
+		$expected = 'something-with-a-in-it';
+		$result = $this->articles->generateSlug($string);
+		$this->assertEquals($expected, $result);
+
+		$string = 'something with a . in it';
+		$expected = 'something-with-a-in-it';
+		$result = $this->articles->generateSlug($string);
+		$this->assertEquals($expected, $result);
+
+		$string = 'something with a $ in it';
+		$expected = 'something-with-a-in-it';
+		$result = $this->articles->generateSlug($string);
+		$this->assertEquals($expected, $result);
+
+		$string = 'something with a / in it';
+		$expected = 'something-with-a-in-it';
+		$result = $this->articles->generateSlug($string);
+		$this->assertEquals($expected, $result);
+
+		$string = 'something with a : in it';
+		$expected = 'something-with-a-in-it';
+		$result = $this->articles->generateSlug($string);
+		$this->assertEquals($expected, $result);
+
+		$string = 'something with a ; in it';
+		$expected = 'something-with-a-in-it';
+		$result = $this->articles->generateSlug($string);
+		$this->assertEquals($expected, $result);
+
+		$string = 'something with a ? in it';
+		$expected = 'something-with-a-in-it';
+		$result = $this->articles->generateSlug($string);
+		$this->assertEquals($expected, $result);
+
+		$string = 'something with a @ in it';
+		$expected = 'something-with-a-in-it';
+		$result = $this->articles->generateSlug($string);
+		$this->assertEquals($expected, $result);
+
+		$string = 'something with a = in it';
+		$expected = 'something-with-a-in-it';
+		$result = $this->articles->generateSlug($string);
+		$this->assertEquals($expected, $result);
+
+		$string = 'something with a + in it';
+		$expected = 'something-with-a-in-it';
+		$result = $this->articles->generateSlug($string);
+		$this->assertEquals($expected, $result);
+
+		$string = 'something with a & in it';
+		$expected = 'something-with-a-in-it';
+		$result = $this->articles->generateSlug($string);
+		$this->assertEquals($expected, $result);
+
+		$string = 'something with a % in it';
+		$expected = 'something-with-a-in-it';
+		$result = $this->articles->generateSlug($string);
+		$this->assertEquals($expected, $result);
+
+		$string = 'something with a \ in it';
+		$expected = 'something-with-a-in-it';
+		$result = $this->articles->generateSlug($string);
+		$this->assertEquals($expected, $result);
+
+		$string = 'something with a # in it';
+		$expected = 'something-with-a-in-it';
+		$result = $this->articles->generateSlug($string);
+		$this->assertEquals($expected, $result);
+	}
+
+
+	/**
+	 * Test slug with ascii
+	 *
+	 * @return void
+	 */
+	public function testSlugGenerationModeAscii() {
+		$this->articles->removeBehavior('Slugged');
+		$this->articles->addBehavior('Tools.Slugged', array(
+			'mode' => 'ascii'));
+
+		$article = $this->articles->newEntity(array('title' => 'Some Article 25271'));
+		$result = $this->articles->save($article);
+		$this->assertTrue((bool)$result);
+
+		$this->assertEquals('Some-Article-25271', $result['slug']);
+	}
+
+	/**
+	 * Test slug generation/update on beforeSave
+	 *
+	 * @return void
+	 */
+	public function testSlugGenerationBeforeSave() {
+		$this->articles->removeBehavior('Slugged');
+		$this->articles->addBehavior('Tools.Slugged', array(
+			'on' => 'beforeSave', 'overwrite' => true));
+
+		$article = $this->articles->newEntity(array('title' => 'Some Article 25271'));
+		$result = $this->articles->save($article);
+
+		//$result['id'] = $result['id'];
+		$this->assertEquals('Some-Article-25271', $result['slug']);
+	}
+
+	/**
+	 * Test slug generation with i18n replacement pieces
+	 *
+	 * @return void
+	 */
+	public function testSlugGenerationI18nReplacementPieces() {
+		$this->articles->removeBehavior('Slugged');
+		$this->articles->addBehavior('Tools.Slugged', array(
+			'overwrite' => true));
+
+		$article = $this->articles->newEntity(array('title' => 'Some & More'));
+		$result = $this->articles->save($article);
+		$this->assertEquals('Some-' . __d('tools', 'and') . '-More', $result['slug']);
+	}
+
+	/**
+	 * Test dynamic slug overwrite
+	 *
+	 * @return void
+	 */
+	public function testSlugDynamicOverwrite() {
+		$this->articles->removeBehavior('Slugged');
+		$this->articles->addBehavior('Tools.Slugged', array(
+			'overwrite' => false, 'overwriteField' => 'overwrite_my_slug'));
+
+		$article = $this->articles->newEntity(array('title' => 'Some Cool String', 'overwrite_my_slug' => false));
+		$result = $this->articles->save($article);
+		$this->assertEquals('Some-Cool-String', $result['slug']);
+
+		$this->articles->patchEntity($article, ['title' => 'Some Cool Other String']);
+		$result = $this->articles->save($article);
+		$this->assertEquals('Some-Cool-String', $result['slug']);
+
+		$this->articles->patchEntity($article, ['title' => 'Some Cool Other String', 'overwrite_my_slug' => true]);
+		$result = $this->articles->save($article);
+		$this->assertEquals('Some-Cool-Other-String', $result['slug']);
+	}
+
+	/**
+	 * Test slug generation/update based on scope
+	 *
+	 * @return void
+	 */
+	public function testSlugGenerationWithScope() {
+		$this->articles->removeBehavior('Slugged');
+		$this->articles->addBehavior('Tools.Slugged', array('unique' => true));
+
+		$data = array('title' => 'Some Article 12345', 'section' => 0);
+
+		$article = $this->articles->newEntity($data);
+		$result = $this->articles->save($article);
+		$this->assertTrue((bool)$result);
+		$this->assertEquals('Some-Article-12345', $result['slug']);
+
+		$article = $this->articles->newEntity($data);
+		$result = $this->articles->save($article);
+		$this->assertTrue((bool)$result);
+		$this->assertEquals('Some-Article-12345-1', $result['slug']);
+
+		$this->articles->removeBehavior('Slugged');
+		$this->articles->addBehavior('Tools.Slugged', array('unique' => true, 'scope' => array('section' => 1)));
+
+		$data = array('title' => 'Some Article 12345', 'section' => 1);
+
+		$article = $this->articles->newEntity($data);
+		$result = $this->articles->save($article);
+		$this->assertTrue((bool)$result);
+		$this->assertEquals('Some-Article-12345', $result['slug']);
 	}
 
 /**
