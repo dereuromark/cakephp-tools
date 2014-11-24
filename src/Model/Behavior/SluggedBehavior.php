@@ -74,7 +74,7 @@ class SluggedBehavior extends Behavior {
 		'encoding' => null,
 		'scope' => array(),
 		'tidy' => true,
-		//'implementedFinders' => ['slugged' => 'findSlugged'],
+		'implementedFinders' => ['slugged' => 'findSlugged'],
 		//'implementedMethods' => ['slug' => 'slug']
 	);
 

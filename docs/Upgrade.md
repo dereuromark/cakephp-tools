@@ -22,4 +22,4 @@
 ## Behavior
 - `run`/`before` config options for callback decisions have been unified to `on` and complete callback/event name, e.g. `'on' => 'beforeValidate'`.
 - model names are now table names, and plural.
-- Slugged option "slugField" is now "field"
+- Slugged option "slugField" is now "field", "multiSlug" has been removed for now as well as currencies.
