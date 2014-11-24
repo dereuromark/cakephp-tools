@@ -175,8 +175,8 @@ class SluggedBehavior extends Behavior {
 	 * @param Entity $entity
 	 * @return void
 	 */
-	public function slug(Entity $entity) {
-		$overwrite = $this->_config['overwrite'];
+	public function slug(Entity $entity, array $options = array()) {
+		$overwrite = isset($options['overwrite']) ? $options['overwrite'] : $this->_config['overwrite'];
 		if (!$overwrite && $entity->get($this->_config['overwriteField'])) {
 			$overwrite = true;
 		}
@@ -194,16 +194,26 @@ class SluggedBehavior extends Behavior {
 	}
 
 	/**
-	 * SluggedBehavior::_needsUpdating()
+	 * Method to find out if the current slug needs updating.
+	 *
+	 * The deep option is useful if you cannot rely on dirty() because
+	 * of maybe some not in sync slugs anymore (saving the same title again,
+	 * but the slug is completely different, for example).
 	 *
 	 * @param Entity $entity
+	 * @param bool $deep If true it will generate a new slug and compare it to the currently stored one.
 	 * @return bool
 	 */
-	protected function _needsUpdating($entity) {
+	public function needsSlugUpdate($entity, $deep = false) {
 		foreach ((array)$this->_config['label'] as $label) {
 			if ($entity->dirty($label)) {
 				return true;
 			}
+		}
+		if ($deep) {
+			$copy = clone $entity;
+			$this->slug($copy, ['overwrite' => true]);
+			return $copy->get($this->_config['field']) !== $entity->get($this->_config['field']);
 		}
 		return false;
 	}
@@ -214,6 +224,7 @@ class SluggedBehavior extends Behavior {
 	 * If a new row, or overwrite is set to true, check for a change to a label field and add the slug to the data
 	 * to be saved
 	 *
+	 * @deprecated Not in use anymore!
 	 * @return void
 	 */
 	public function _slug(Entity $entity) {
@@ -256,7 +267,6 @@ class SluggedBehavior extends Behavior {
 				$slug = $this->display($Model);
 			}
 			$slug = $Model->slug($slug);
-			$this->_addToWhitelist($Model, array($slugField));
 			$Model->data[$this->_table->alias()][$slugField] = $slug;
 		}
 	}
@@ -361,6 +371,7 @@ class SluggedBehavior extends Behavior {
 	 * to get the display name
 	 * Otherwise, read from the database
 	 *
+	 * @deprecated Not in use anymore!
 	 * @param mixed $id
 	 * @return mixed string (the display name) or false
 	 */

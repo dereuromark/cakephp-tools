@@ -112,6 +112,95 @@ class SluggedBehaviorTest extends TestCase {
 	}
 
 /**
+ * Test that fieldList doesnt mess with slug storing.
+ *
+ * @return void
+ */
+	public function testFieldList() {
+		// field list is only relevant for newEntity(), not for what the behavior does
+		$entity = $this->articles->newEntity(['title' => 'Some title'], ['fieldList' => ['title']]);
+
+		$result = $this->articles->save($entity);
+		$this->assertEquals('Some-title', $result->get('slug'));
+	}
+
+/**
+ * Tests needSlugUpdate()
+ *
+ * @return void
+ */
+	public function testNeedsSlugUpdate() {
+		// No title change
+		$entity = $this->articles->newEntity(['title' => 'Some title'], ['fieldList' => []]);
+		$result = $this->articles->needsSlugUpdate($entity);
+		$this->assertFalse($result);
+
+		// Title change
+		$entity = $this->articles->newEntity(['title' => 'Some title']);
+		$result = $this->articles->needsSlugUpdate($entity);
+		$this->assertTrue($result);
+
+		$result = $this->articles->save($entity);
+		$this->assertEquals('Some-title', $result->get('slug'));
+
+		// No title change
+		$entity = $this->articles->patchEntity($entity, ['description' => 'Foo bar']);
+		$result = $this->articles->needsSlugUpdate($entity);
+		$this->assertFalse($result);
+
+		// Needs an update, but overwrite is still false: will not modify the slug
+		$entity = $this->articles->patchEntity($entity, ['title' => 'Some other title']);
+		$result = $this->articles->needsSlugUpdate($entity);
+		$this->assertTrue($result);
+
+		$result = $this->articles->save($entity);
+		$this->assertEquals('Some-title', $result->get('slug'));
+
+		$this->articles->behaviors()->Slugged->config(['overwrite' => true]);
+		// Now it can modify the slug
+		$entity = $this->articles->patchEntity($entity, ['title' => 'Some really other title']);
+		$result = $this->articles->needsSlugUpdate($entity);
+		$this->assertTrue($result);
+
+		$result = $this->articles->save($entity);
+		$this->assertEquals('Some-really-other-title', $result->get('slug'));
+	}
+
+/**
+ * Tests needSlugUpdate() with deep
+ *
+ * @return void
+ */
+	public function testNeedsSlugUpdateDeep() {
+		// No title change
+		$entity = $this->articles->newEntity(['title' => 'Some title']);
+		$result = $this->articles->needsSlugUpdate($entity);
+		$this->assertTrue($result);
+		$result = $this->articles->needsSlugUpdate($entity, true);
+		$this->assertTrue($result);
+
+		$result = $this->articles->save($entity);
+		$this->assertEquals('Some-title', $result->get('slug'));
+
+		// Needs an update, but overwrite is still false: will not modify the slug
+		$entity = $this->articles->patchEntity($entity, ['title' => 'Some other title']);
+		$result = $this->articles->needsSlugUpdate($entity);
+		$this->assertTrue($result);
+		$result = $this->articles->needsSlugUpdate($entity, true);
+		$this->assertTrue($result);
+
+		$result = $this->articles->save($entity);
+		$this->assertEquals('Some-title', $result->get('slug'));
+
+		// Here deep would tell the truth
+		$entity = $this->articles->patchEntity($entity, ['title' => 'Some other title']);
+		$result = $this->articles->needsSlugUpdate($entity);
+		$this->assertFalse($result);
+		$result = $this->articles->needsSlugUpdate($entity, true);
+		$this->assertTrue($result);
+	}
+
+/**
  * Length based on auto-detect of schema.
  *
  * @return void
@@ -427,7 +516,7 @@ class SluggedBehaviorTest extends TestCase {
 		$result = $this->articles->save($article);
 		$this->assertEquals('Some-Cool-String', $result['slug']);
 
-		$this->articles->patchEntity($article, ['title' => 'Some Cool Other String']);
+		$this->articles->patchEntity($article, ['title' => 'Some Cool Other String', 'overwrite_my_slug' => false]);
 		$result = $this->articles->save($article);
 		$this->assertEquals('Some-Cool-String', $result['slug']);
 
@@ -473,10 +562,10 @@ class SluggedBehaviorTest extends TestCase {
  *
  * @return Entity
  */
-	protected function _getEntity($title = 'test 123', $field = 'title') {
+	protected function _getEntity($title = 'test 123', $field = 'title', array $options = array()) {
 		return new Entity([
 			$field => $title
-		]);
+		], $options);
 	}
 
 }
