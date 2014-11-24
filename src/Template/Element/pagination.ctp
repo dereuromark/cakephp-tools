@@ -4,7 +4,7 @@ if (!isset($separator)) {
 	if (defined('PAGINATOR_SEPARATOR')) {
 		$separator = PAGINATOR_SEPARATOR;
 	} else {
-		$separator = ' ';
+		$separator = '';
 	}
 }
 
@@ -19,6 +19,9 @@ if (empty($prev)) {
 }
 if (empty($next)) {
 	$next = __d('tools', 'next');
+}
+if (!isset($format)) {
+	$format = __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total');
 }
 if (!empty($reverse)) {
 	$tmp = $first;
@@ -35,9 +38,9 @@ if (!empty($addArrows)) {
 }
 $escape = isset($escape) ? $escape : true;
 
-echo $this->Paginator->counter(array(
-		'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total'))); ?></p>
+echo $this->Paginator->counter(array('format' => $format)); ?></p>
 <div class="paging">
+	<ul class="pagination">
 	<?php echo $this->Paginator->first($first, array('escape' => $escape));?>
  <?php echo $separator; ?>
 	<?php echo $this->Paginator->prev($prev, array('escape' => $escape), null, array('class' => 'prev disabled'));?>
@@ -47,12 +50,13 @@ echo $this->Paginator->counter(array(
 	<?php echo $this->Paginator->next($next, array('escape' => $escape), null, array('class' => 'next disabled'));?>
  <?php echo $separator; ?>
 	<?php echo $this->Paginator->last($last, array('escape' => $escape));?>
+	</ul>
 </div>
 <?php if (!empty($options['ajaxPagination'])) {
 	$ajaxContainer = !empty($options['paginationContainer']) ? $options['paginationContainer'] : '.page';
 
 	$script = "$(document).ready(function() {
-	$('div.paging a').live('click', function () {
+	$('div.pagination a').live('click', function () {
 		$('$ajaxContainer').fadeTo(300, 0);
 
 		var thisHref = $(this).attr('href');
