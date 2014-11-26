@@ -93,6 +93,25 @@ class SluggedBehaviorTest extends TestCase {
 		$this->assertEquals('Foo', $article->get('title'));
 	}
 
+	/**
+	 * Tests that manual slugging works.
+	 *
+	 * @return void
+	 */
+	public function testSlugManualSave() {
+		$article = $this->articles->newEntity(array('title' => 'Some Cool String'));
+		$result = $this->articles->save($article);
+		$this->assertEquals('Some-Cool-String', $result['slug']);
+
+		$this->articles->patchEntity($article, ['title' => 'Some Cool Other String', 'slug' => 'foo-bar']);
+		$result = $this->articles->save($article);
+		$this->assertEquals('foo-bar', $result['slug']);
+
+		$this->articles->patchEntity($article, ['title' => 'Some Cool Other String', 'slug' => 'foo-bar-bat']);
+		$result = $this->articles->save($article);
+		$this->assertEquals('foo-bar-bat', $result['slug']);
+	}
+
 /**
  * Length based on manual config.
  *
