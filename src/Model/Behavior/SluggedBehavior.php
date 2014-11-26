@@ -180,7 +180,7 @@ class SluggedBehavior extends Behavior {
 		if (!$overwrite && $entity->get($this->_config['overwriteField'])) {
 			$overwrite = true;
 		}
-		if ($overwrite || $entity->isNew() || $entity->get($this->_config['field']) === null) {
+		if ($overwrite || $entity->isNew() || !$entity->get($this->_config['field'])) {
 			$slug = array();
 			foreach ((array)$this->_config['label'] as $v) {
 				$v = $this->generateSlug($entity->get($v), $entity);

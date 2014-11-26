@@ -114,6 +114,10 @@ class SluggedBehaviorTest extends TestCase {
 		$this->articles->patchEntity($article, ['title' => 'Some Cool Other String', 'slug' => 'foo-bar-bat']);
 		$result = $this->articles->save($article);
 		$this->assertEquals('foo-bar-bat', $result['slug']);
+
+		$this->articles->patchEntity($article, ['title' => 'Some Cool Other String', 'slug' => '']);
+		$result = $this->articles->save($article);
+		$this->assertEquals('Some-Cool-Other-String', $result['slug']);
 	}
 
 /**
