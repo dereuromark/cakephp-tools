@@ -54,7 +54,7 @@ Also note that you can apply global settings via Configure key 'Passwordable', a
 if you don't want to manually pass them along each time you use the behavior. This also
 keeps the code clean and lean. See the `app.default.php` file for details.
 
-And do NOT add any password stuff to your Table or Entity classes. That would hash the password twice.
+And do NOT add any password hashing to your Table or Entity classes. That would hash the password twice.
 
 ## Examples
 
