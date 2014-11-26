@@ -138,8 +138,13 @@ class SluggedBehavior extends Behavior {
 	 * @param mixed $query
 	 * @param mixed $options
 	 * @return Query
+	 * @throws \InvalidArgumentException If the 'slug' key is missing in options
 	 */
 	public function findSlugged(Query $query, array $options) {
+		if (empty($options['slug'])) {
+			throw new \InvalidArgumentException("The 'slug' key is required for find('slugged')");
+		}
+
 		return $query->where([$this->_config['field'] => $options['slug']]);
 	}
 
