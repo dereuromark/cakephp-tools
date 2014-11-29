@@ -971,10 +971,10 @@ class RevisionBehavior extends ModelBehavior {
 		}
 		$shadowModel = $this->settings[$Model->alias]['model'];
 		if ($shadowModel) {
-			$options = array('class' => $shadowModel, 'table' => $fullTableName, 'ds' => $dbConfig);
+			$options = array('class' => $shadowModel, 'table' => $shadowTable, 'ds' => $dbConfig);
 			$Model->ShadowModel = ClassRegistry::init($options);
 		} else {
-			$Model->ShadowModel = new Model(false, $fullTableName, $dbConfig);
+			$Model->ShadowModel = new Model(false, $shadowTable, $dbConfig);
 		}
 		if ($Model->tablePrefix) {
 			$Model->ShadowModel->tablePrefix = $Model->tablePrefix;
