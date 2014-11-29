@@ -113,7 +113,7 @@ class SluggedBehavior extends Behavior {
 
 		$label = $this->_config['label'] = (array)$this->_config['label'];
 
-		if ($this->_table->behaviors()->loaded('Translate')) {
+		if ($this->_table->behaviors()->has('Translate')) {
 			$this->_config['length'] = false;
 		}
 		if ($this->_config['length']) {
