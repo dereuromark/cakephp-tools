@@ -210,18 +210,22 @@ class IndentShell extends AppShell {
 
 	/**
 	 * NEW TRY!
-	 * idea: hardcore replaceing
+	 * idea: hardcoded replaceing
 	 *
 	 * @deprecated
 	 */
-	protected function _processSpaceErrors($piece) {
-		$space = 1;
-
+	protected function _processSpaceErrors($piece, $space = 1) {
 		$newPiece = $piece;
-		if (mb_substr($piece, 0, $space) === ' ' && mb_substr($piece, $space, 1) === TB) {
-			$newPiece = mb_substr($piece, $space);
+		$spaceChar = str_repeat(' ', $space);
+
+		if (mb_substr($newPiece, 0, $space) === $spaceChar && mb_substr($newPiece, $space, 1) === TB) {
+			$newPiece = mb_substr($newPiece, $space);
 		}
-		if ($newPiece != $piece || strlen($newPiece) !== strlen($piece)) {
+		if (($pos = mb_strpos($newPiece, $space)) > 0 && mb_substr($newPiece, $pos - 1, 1) === TB) {
+			$newPiece = mb_substr($newPiece, $pos) . mb_substr($newPiece, $pos + 2);
+		}
+		$newPiece = str_replace($spaceChar . TB, TB, $newPiece);
+		if ($newPiece !== $piece) {
 			$this->_changes = true;
 		}
 		return $newPiece;
