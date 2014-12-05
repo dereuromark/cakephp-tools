@@ -9,6 +9,8 @@
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 App::uses('ModelBehavior', 'Model');
+App::uses('Hash', 'Utility');
+App::uses('String', 'Utility');
 
 /**
  * A behavior that will json_encode (and json_decode) fields if they contain an array or specific pattern.
