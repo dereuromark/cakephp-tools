@@ -341,7 +341,7 @@ class PasswordableBehaviorTest extends TestCase {
 	 * Needs faking of pwd check...
 	 */
 	public function testValidateCurrent() {
-		$this->assertFalse($this->Users->behaviors()->loaded('Passwordable'));
+		$this->assertFalse($this->Users->behaviors()->has('Passwordable'));
 		$user = $this->Users->newEntity();
 		$data = array(
 			'name' => 'xyz',
@@ -361,7 +361,7 @@ class PasswordableBehaviorTest extends TestCase {
 			//'pwd_current' => '',
 		);
 		$this->Users->patchEntity($user, $data);
-		$this->assertTrue($this->Users->behaviors()->loaded('Passwordable'));
+		$this->assertTrue($this->Users->behaviors()->has('Passwordable'));
 		$is = $this->Users->save($user);
 		$this->assertFalse($is);
 
@@ -460,7 +460,7 @@ class PasswordableBehaviorTest extends TestCase {
 			//'pwd_current' => '',
 		);
 		$this->Users->patchEntity($user, $data);
-		$this->assertTrue($this->Users->behaviors()->loaded('Passwordable'));
+		$this->assertTrue($this->Users->behaviors()->has('Passwordable'));
 		$is = $this->Users->save($user);
 		$this->assertFalse($is);
 
@@ -520,7 +520,7 @@ class PasswordableBehaviorTest extends TestCase {
 			'pwd_repeat' => '12345678',
 		);
 		$this->Users->patchEntity($user, $data);
-		$this->assertTrue($this->Users->behaviors()->loaded('Passwordable'));
+		$this->assertTrue($this->Users->behaviors()->has('Passwordable'));
 		$result = $this->Users->save($user);
 		$this->assertFalse($result);
 
