@@ -183,21 +183,18 @@ class BitmaskedBehaviorTest extends TestCase {
 	}
 
 	public function testContains() {
-		$this->skipIf(true, 'FIXME');
-
 		$res = $this->Comments->containsBit(BitmaskedComment::STATUS_PUBLISHED);
-		$expected = array('(BitmaskedComments.status & ? = ?)' => array(2, 2));
+		$expected = array('(BitmaskedComments.status & 2 = 2)');
 		$this->assertEquals($expected, $res);
 
 		$conditions = $res;
-		debug($conditions);
 		$res = $this->Comments->find('all', array('conditions' => $conditions))->toArray();
 		$this->assertTrue(!empty($res) && count($res) === 3);
 
 		// multiple (AND)
 		$res = $this->Comments->containsBit(array(BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_ACTIVE));
 
-		$expected = array('(BitmaskedComments.status & ? = ?)' => array(3, 3));
+		$expected = array('(BitmaskedComments.status & 3 = 3)');
 		$this->assertEquals($expected, $res);
 
 		$conditions = $res;
@@ -206,10 +203,8 @@ class BitmaskedBehaviorTest extends TestCase {
 	}
 
 	public function testNotContains() {
-		$this->skipIf(true, 'FIXME');
-
 		$res = $this->Comments->containsNotBit(BitmaskedComment::STATUS_PUBLISHED);
-		$expected = array('(BitmaskedComments.status & ? != ?)' => array(2, 2));
+		$expected = array('(BitmaskedComments.status & 2 != 2)');
 		$this->assertEquals($expected, $res);
 
 		$conditions = $res;
@@ -219,7 +214,7 @@ class BitmaskedBehaviorTest extends TestCase {
 		// multiple (AND)
 		$res = $this->Comments->containsNotBit(array(BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_ACTIVE));
 
-		$expected = array('(BitmaskedComments.status & ? != ?)' => array(3, 3));
+		$expected = array('(BitmaskedComments.status & 3 != 3)');
 		$this->assertEquals($expected, $res);
 
 		$conditions = $res;

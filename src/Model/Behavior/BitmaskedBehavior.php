@@ -7,6 +7,7 @@ use Cake\ORM\Entity;
 use Cake\Utility\Inflector;
 use Cake\Core\Configure;
 use Cake\ORM\Query;
+use Cake\Utility\String;
 
 /**
  * BitmaskedBehavior
@@ -261,7 +262,8 @@ class BitmaskedBehavior extends Behavior {
 
 		$field = $this->_config['field'];
 		$contain = $contain ? ' & ? = ?' : ' & ? != ?';
-		return array('(' . $this->_table->alias() . '.' . $field . $contain . ')' => array($bitmask, $bitmask));
+		$contain = String::insert($contain, array($bitmask, $bitmask));
+		return array('(' . $this->_table->alias() . '.' . $field . $contain . ')');
 	}
 
 }
