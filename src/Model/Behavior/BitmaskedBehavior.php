@@ -90,8 +90,8 @@ class BitmaskedBehavior extends Behavior {
 		$mapper = function ($row, $key, $mr) use ($field, $mappedField) {
 			$row->set($mappedField, $this->decodeBitmask($row->get($field)));
 			$mr->emit($row);
-    };
-    $query->mapReduce($mapper);
+		};
+		$query->mapReduce($mapper);
 	}
 
 	/**
