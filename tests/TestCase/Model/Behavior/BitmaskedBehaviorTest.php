@@ -3,16 +3,12 @@
 namespace Tools\Test\TestCase\Model\Behavior;
 
 use Cake\Database\Query;
-use Cake\Datasource\ConnectionManager;
 use Cake\Event\Event;
 use TestApp\Model\Entity\BitmaskedComment;
-//use TestApp\Model\Table\BitmaskedCommentsTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use Cake\Core\Configure;
 use Tools\Model\Behavior\BitmaskedBehavior;
-
-//App::uses('AppModel', 'Model');
 
 class BitmaskedBehaviorTest extends TestCase {
 
@@ -129,6 +125,8 @@ class BitmaskedBehaviorTest extends TestCase {
 
 	/**
 	 * Assert that you can manually trigger "notEmpty" rule with null instead of 0 for "not null" db fields
+	 *
+	 * @return void
 	 */
 	public function testSaveWithDefaultValue() {
 		$data = array(
@@ -156,6 +154,8 @@ class BitmaskedBehaviorTest extends TestCase {
 
 	/**
 	 * Assert that it also works with beforeSave event callback.
+	 *
+	 * @return void
 	 */
 	public function testSaveOnBeforeSave() {
 		$this->Comments->removeBehavior('Bitmasked');
@@ -170,18 +170,33 @@ class BitmaskedBehaviorTest extends TestCase {
 		$this->assertSame(BitmaskedComment::STATUS_PUBLISHED | BitmaskedComment::STATUS_APPROVED, $res['status']);
 	}
 
+	/**
+	 * BitmaskedBehaviorTest::testIs()
+	 *
+	 * @return void
+	 */
 	public function testIs() {
 		$res = $this->Comments->isBit(BitmaskedComment::STATUS_PUBLISHED);
 		$expected = array('BitmaskedComments.status' => 2);
 		$this->assertEquals($expected, $res);
 	}
 
+	/**
+	 * BitmaskedBehaviorTest::testIsNot()
+	 *
+	 * @return void
+	 */
 	public function testIsNot() {
 		$res = $this->Comments->isNotBit(BitmaskedComment::STATUS_PUBLISHED);
 		$expected = array('NOT' => array('BitmaskedComments.status' => 2));
 		$this->assertEquals($expected, $res);
 	}
 
+	/**
+	 * BitmaskedBehaviorTest::testContains()
+	 *
+	 * @return void
+	 */
 	public function testContains() {
 		$res = $this->Comments->containsBit(BitmaskedComment::STATUS_PUBLISHED);
 		$expected = array('(BitmaskedComments.status & 2 = 2)');
@@ -202,6 +217,11 @@ class BitmaskedBehaviorTest extends TestCase {
 		$this->assertTrue(!empty($res) && count($res) === 2);
 	}
 
+	/**
+	 * BitmaskedBehaviorTest::testNotContains()
+	 *
+	 * @return void
+	 */
 	public function testNotContains() {
 		$res = $this->Comments->containsNotBit(BitmaskedComment::STATUS_PUBLISHED);
 		$expected = array('(BitmaskedComments.status & 2 != 2)');
