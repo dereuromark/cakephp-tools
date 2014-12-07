@@ -38,7 +38,7 @@ A CakePHP behavior to automatically create and store slugs.
 - tidy: If cleanup should be run on slugging
 
 ## Usage
-Attach it to your models in `initialze()` like so:
+Attach it to your models in `initialize()` like so:
 ```php
 $this->addBehavior('Tools.Slugged', $config);
 ```

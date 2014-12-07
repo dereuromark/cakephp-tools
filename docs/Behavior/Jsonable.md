@@ -20,7 +20,7 @@ A CakePHP behavior to automatically store nested data as JSON string and return 
 - 'decodeParams' // params for json_decode
 
 ## Usage
-Attach it to your models in `initialze()` like so:
+Attach it to your models in `initialize()` like so:
 ```php
 $this->addBehavior('Tools.Jsonable', $config);
 ```
@@ -79,7 +79,7 @@ debug($entity->get('details'));
 we can also simulate an ENUM by using
 ```php
 $this->addBehavior('Tools.Jsonable',
-	array('fields' => 'tags', 'sort' => true, 'input' => 'list', 'output' => 'array'));
+	array('fields' => 'tags', 'sort' => true, 'unique' => true, 'input' => 'list', 'output' => 'array'));
 ```
 Dont' forget to use `'output' => 'list'` for add/edit actions.
 
