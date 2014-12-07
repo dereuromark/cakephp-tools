@@ -20,6 +20,11 @@ use Cake\Error\Exception;
 /**
  * SluggedBehavior
  * Part based/inspired by the sluggable behavior of Mariano Iglesias
+ *
+ * Usage: See docs
+ *
+ * @author Mark Scherer
+ * @license MIT
  */
 class SluggedBehavior extends Behavior {
 

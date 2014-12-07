@@ -1,13 +1,4 @@
 <?php
-/**
- * Copyright 2011, PJ Hile (http://www.pjhile.com)
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- *
- * @version 0.1
- * @license http://www.opensource.org/licenses/mit-license.php The MIT License
- */
 namespace Tools\Model\Behavior;
 
 use Cake\Event\Event;
@@ -22,7 +13,7 @@ use Cake\ORM\Entity;
 /**
  * A behavior that will json_encode (and json_decode) fields if they contain an array or specific pattern.
  *
- * Requres: PHP 5 >= 5.4.0 or PECL json >= 1.2.0
+ * Requires: PHP 5 >= 5.4.0 or PECL json >= 1.2.0
  *
  * This is a port of the Serializeable behavior by Matsimitsu (http://www.matsimitsu.nl)
  * Modified by Mark Scherer (http://www.dereuromark.de)
@@ -37,7 +28,11 @@ use Cake\ORM\Entity;
  *   $this->addBehavior('Tools.Jsonable', array('priority' => 11, ...));
  * So that it is run last.
  *
- * @link http://www.dereuromark.de/2011/07/05/introducing-two-cakephp-behaviors/
+ * Usage: See docs
+ *
+ * @author PJ Hile (http://www.pjhile.com)
+ * @author Mark Scherer
+ * @license MIT
  */
 class JsonableBehavior extends Behavior {
 
