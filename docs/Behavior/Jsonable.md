@@ -97,8 +97,8 @@ debug($entity->get('tags'));
 
 Note: The cleanup automation you can additionally turn on/off. There are more things to explore. Dig into the source code for that.
 
-Yes – you could make a new table/relation for this in the first place.
-But sometimes it’s just quicker to create such an enumeration field.
+Yes - you could make a new table/relation for this in the first place.
+But sometimes it's just quicker to create such an enumeration field.
 
 Bear in mind: It then cannot be sorted/searched by those values, though.
 For a more static solution take a look at my [Static Enums](http://www.dereuromark.de/2010/06/24/static-enums-or-semihardcoded-attributes/).
