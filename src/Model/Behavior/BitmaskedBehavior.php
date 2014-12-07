@@ -179,7 +179,7 @@ class BitmaskedBehavior extends Behavior {
 				$foo->setValue($this->encodeBitmask($foo->getValue()));
 			}
 			if ($field !== $mappedField) {
-				$foo->field($field);
+				$foo->setField($field);
 			}
 
 			return $foo;
