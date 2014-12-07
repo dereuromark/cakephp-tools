@@ -26,29 +26,36 @@ class SluggedBehavior extends Behavior {
 	/**
 	 * Default config
 	 *
-	 * - length
-	 *  Set to 0 for no length. Will be auto-detected if possible via schema.
-	 * - label
+	 * - label:
 	 * 	set to the name of a field to use for the slug, an array of fields to use as slugs or leave as null to rely
 	 * 	on the format returned by find('list') to determine the string to use for slugs
-	 * - overwrite has 2 values
-	 * 	false - once the slug has been saved, do not change it (use if you are doing lookups based on slugs)
-	 * 	true - if the label field values change, regenerate the slug (use if you are the slug is just window-dressing)
-	 * - unique has 2 values
-	 * 	false - will not enforce a unique slug, whatever the label is is direclty slugged without checking for duplicates
-	 * 	true - use if you are doing lookups based on slugs (see overwrite)
-	 * - mode has the following values
+	 * - field: The slug field name
+	 * - overwriteField: The boolean field to trigger overwriting if "overwrite" is false
+	 * - mode: has the following values
 	 * 	ascii - retuns an ascii slug generated using the core Inflector::slug() function
 	 * 	display - a dummy mode which returns a slug legal for display - removes illegal (not unprintable) characters
 	 * 	url - returns a slug appropriate to put in a URL
 	 * 	class - a dummy mode which returns a slug appropriate to put in a html class (there are no restrictions)
 	 * 	id - retuns a slug appropriate to use in a html id
-	 * - case has the following values
+	 * - separator: The separator to use
+	 * - length:
+	 *  Set to 0 for no length. Will be auto-detected if possible via schema.
+	 * - overwrite: has 2 values
+	 * 	false - once the slug has been saved, do not change it (use if you are doing lookups based on slugs)
+	 * 	true - if the label field values change, regenerate the slug (use if you are the slug is just window-dressing)
+	 * - unique: has 2 values
+	 * 	false - will not enforce a unique slug, whatever the label is is direclty slugged without checking for duplicates
+	 * 	true - use if you are doing lookups based on slugs (see overwrite)
+	 * - case: has the following values
 	 * 	null - don't change the case of the slug
 	 * 	low - force lower case. E.g. "this-is-the-slug"
 	 * 	up - force upper case E.g. "THIS-IS-THE-SLUG"
 	 * 	title - force title case. E.g. "This-Is-The-Slug"
 	 * 	camel - force CamelCase. E.g. "ThisIsTheSlug"
+	 * - replace: custom replacements as array
+	 * - on: beforeSave or beforeValidate
+	 * - scope: certain conditions to use as scope
+	 * - tidy: If cleanup should be run on slugging
 	 *
 	 * @var array
 	 */
@@ -58,7 +65,6 @@ class SluggedBehavior extends Behavior {
 		'overwriteField' => 'overwrite_slug',
 		'mode' => 'url',
 		'separator' => '-',
-		'defaultSuffix' => null,
 		'length' => null,
 		'overwrite' => false,
 		'unique' => false,
@@ -70,8 +76,6 @@ class SluggedBehavior extends Behavior {
 			'#' => 'hash',
 		),
 		'on' => 'beforeValidate',
-		'language' => null,
-		'encoding' => null,
 		'scope' => array(),
 		'tidy' => true,
 		'implementedFinders' => ['slugged' => 'findSlugged'],
@@ -471,7 +475,6 @@ class SluggedBehavior extends Behavior {
 	 * @param mixed $pattern
 	 * @param mixed $replace
 	 * @param mixed $string
-	 * @param string $encoding
 	 * @return void
 	 */
 	protected function _pregReplace($pattern, $replace, $string) {

@@ -12,7 +12,9 @@ This cake3 branch only works for **CakePHP3.x** - please use the master branch f
 * [Upgrade guide from 2.x to 3.x](Upgrade.md)
 
 ## Detailed Documentation - Quicklinks
-* [Passwordable](Passwordable.md)
+* [Behavior/Passwordable](Behavior/Passwordable.md)
+* [Behavior/Slugged](Behavior/Slugged.md)
+* [Behavior/Jsonable](Behavior/Jsonable.md)
 * ...
 
 ## Basic enhancements of the core
