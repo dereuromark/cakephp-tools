@@ -176,7 +176,7 @@ class BitmaskedBehavior extends Behavior {
 			}
 			$key = $foo->getField();
 			if ($key === $mappedField || $key === $this->_table->alias() . '.' . $mappedField) {
-				$foo->value($this->encodeBitmask($foo->getValue()));
+				$foo->setValue($this->encodeBitmask($foo->getValue()));
 			}
 			if ($field !== $mappedField) {
 				$foo->field($field);
