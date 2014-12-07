@@ -216,7 +216,7 @@ class JsonableBehaviorTest extends TestCase {
 		$this->Comments->save($entity);
 
 		$res = $this->Comments->find('all', array('conditions' => array('title' => 'param')))->first();
-		$obj = new stdClass();
+		$obj = new \stdClass();
 		$obj->y = 'z';
 		$expected = array('x' => $obj);
 		$this->assertEquals($expected, $res['details']);
