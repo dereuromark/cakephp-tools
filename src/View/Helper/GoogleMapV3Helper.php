@@ -15,18 +15,19 @@ use Cake\Router\Router;
  * CodeAPI: http://code.google.com/intl/de-DE/apis/maps/documentation/javascript/basics.html
  * Icons/Images: http://gmapicons.googlepages.com/home
  *
- * @author Rajib Ahmed
- * @author Mark Scherer
- * @link http://www.dereuromark.de/2010/12/21/googlemapsv3-cakephp-helper/
- * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
- * @version 1.5
- *
  * You can now either keep map() + script(), or you can now write the script to the buffer with
  * map() + finalize(). You can then decide wether the JS should be in the head or the footer of your layout.
  * Don't forget to put `echo $this->Js->writeBuffer(array('inline' => true));` somewhere in your layout then, though.
  *
  * You can now also add directions using addDirections().
  * Markers can be open now by default on page load. Works for both single and multi window mode.
+ *
+ * @author Rajib Ahmed
+ * @author Mark Scherer
+ * @link http://www.dereuromark.de/2010/12/21/googlemapsv3-cakephp-helper/
+ * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @version 1.5
+ * @deprecated Use dereuromark/cakephp-geo and the Geo plugin instead
  */
 class GoogleMapV3Helper extends Helper {
 

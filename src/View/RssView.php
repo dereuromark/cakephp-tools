@@ -1,13 +1,4 @@
 <?php
-/**
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @author Mark Scherer
- * @license http://www.opensource.org/licenses/mit-license.php MIT License
- * @link http://www.dereuromark.de/2013/10/03/rss-feeds-in-cakephp
- */
 namespace Tools\View;
 
 use Cake\Core\Configure;
@@ -40,6 +31,12 @@ use App\Router\Routing;
  *
  * If you don't use the `_serialize` key, you will need a view. You can use extended
  * views to provide layout like functionality. This is currently not yet tested/supported.
+ *
+ * Usage see docs.
+ *
+ * @author Mark Scherer
+ * @license http://www.opensource.org/licenses/mit-license.php MIT License
+ * @link http://www.dereuromark.de/2013/10/03/rss-feeds-in-cakephp
  */
 class RssView extends View {
 
