@@ -1,0 +1,279 @@
+<?php
+/**
+ * Copyright 2011, PJ Hile (http://www.pjhile.com)
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @version 0.1
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ */
+namespace Tools\Model\Behavior;
+
+use Cake\Event\Event;
+use Cake\ORM\Query;
+use Cake\ORM\Behavior;
+use Cake\Utility\Inflector;
+use Cake\Core\Configure;
+use Cake\Utility\String;
+use Cake\Utility\Hash;
+use Cake\ORM\Entity;
+
+/**
+ * A behavior that will json_encode (and json_decode) fields if they contain an array or specific pattern.
+ *
+ * Requres: PHP 5 >= 5.4.0 or PECL json >= 1.2.0
+ *
+ * This is a port of the Serializeable behavior by Matsimitsu (http://www.matsimitsu.nl)
+ * Modified by Mark Scherer (http://www.dereuromark.de)
+ *
+ * Supports different input/output formats:
+ * - "list" is useful as some kind of pseudo enums or simple lists
+ * - "params" is useful for multiple key/value pairs
+ * - can be used to create dynamic forms (and tables)
+ * Also automatically cleans lists and works with custom separators etc
+ *
+ * Tip: If you have other behaviors that might modify the array data prior to saving, better use a higher priority:
+ *   $this->addBehavior('Tools.Jsonable', array('priority' => 11, ...));
+ * So that it is run last.
+ *
+ * @link http://www.dereuromark.de/2011/07/05/introducing-two-cakephp-behaviors/
+ */
+class JsonableBehavior extends Behavior {
+
+	public $decoded = null;
+
+	/**
+	 * //TODO: json input/ouput directly, clean
+	 * @var array
+	 */
+	protected $_defaultConfig = array(
+		'fields' => array(), // Fields to convert
+		'input' => 'array', // json, array, param, list (param/list only works with specific fields)
+		'output' => 'array', // json, array, param, list (param/list only works with specific fields)
+		'separator' => '|', // only for param or list
+		'keyValueSeparator' => ':', // only for param
+		'leftBound' => '{', // only for list
+		'rightBound' => '}', // only for list
+		'clean' => true, // only for param or list (autoclean values on insert)
+		'sort' => false, // only for list
+		'unique' => true, // only for list (autoclean values on insert),
+		'map' => array(), // map on a different DB field
+		'encodeParams' => array( // params for json_encode
+			'options' => 0,
+			'depth' => 512,
+		),
+		'decodeParams' => array( // params for json_decode
+			'assoc' => false, // useful when working with multidimensional arrays
+			'depth' => 512,
+			'options' => 0
+		)
+	);
+
+	/**
+	 * JsonableBehavior::initialize()
+	 *
+	 * @param array $config
+	 * @return void
+	 */
+	public function initialize(array $config = array()) {
+		if (empty($this->_config['fields'])) {
+			throw new \Exception('Fields are required');
+		}
+		if (!is_array($this->_config['fields'])) {
+			$this->_config['fields'] = (array)$this->_config['fields'];
+		}
+		if (!is_array($this->_config['map'])) {
+			$this->_config['map'] = (array)$this->_config['map'];
+		}
+		if (!empty($this->_config['map']) && count($this->_config['fields']) !== count($this->_config['map'])) {
+			throw new \Exception('Fields and Map need to be of the same length if map is specified.');
+		}
+	}
+
+	/**
+	 * Decode the fields on after find
+	 *
+	 * @param Event $event
+	 * @param Query $query
+	 * @return void
+	 */
+	public function beforeFind(Event $event, Query $query) {
+		$query->formatResults(function (\Cake\Datasource\ResultSetInterface $results, Query $query) {
+			return $results->map(function ($row) {
+				$this->decodeItems($row);
+				return $row;
+			});
+		});
+	}
+
+	/**
+	 * Decodes the fields of an array/entity (if the value itself was encoded)
+	 *
+	 * @param Entity $entity
+	 * @return void
+	 */
+	public function decodeItems(Entity $entity) {
+		$fields = $this->_getMappedFields();
+
+		foreach ($fields as $map => $field) {
+			$val = $entity->get($field);
+			if ($this->isEncoded($val)) {
+				$entity->set($map, $this->decoded);
+			}
+		}
+	}
+
+	/**
+	 * Saves all fields that do not belong to the current Model into 'with' helper model.
+	 *
+	 * @param Event $event
+	 * @return void
+	 */
+	public function beforeSave(Event $event, Entity $entity, \ArrayObject $options) {
+		$fields = $this->_getMappedFields();
+
+		foreach ($fields as $map => $field) {
+			if (!$entity->get($map)) {
+				continue;
+			}
+			$val = $entity->get($map);
+			$entity->set($field, $this->_encode($val));
+		}
+	}
+
+	/**
+	 * JsonableBehavior::_getMappedFields()
+	 *
+	 * @return array
+	 */
+	protected function _getMappedFields() {
+		$usedFields = $this->_config['fields'];
+		$mappedFields = $this->_config['map'];
+		if (empty($mappedFields)) {
+			$mappedFields = $usedFields;
+		}
+
+		$fields = array();
+
+		foreach ($mappedFields as $index => $map) {
+			if (empty($map) || $map == $usedFields[$index]) {
+				$fields[$usedFields[$index]] = $usedFields[$index];
+				continue;
+			}
+			$fields[$map] = $usedFields[$index];
+		}
+		return $fields;
+	}
+
+	/**
+	 * JsonableBehavior::_encode()
+	 *
+	 * @param Model $Model
+	 * @param mixed $val
+	 * @return string
+	 */
+	public function _encode($val) {
+		if (!empty($this->_config['fields'])) {
+			if ($this->_config['input'] === 'param') {
+				$val = $this->_fromParam($val);
+			} elseif ($this->_config['input'] === 'list') {
+				$val = $this->_fromList($val);
+				if ($this->_config['unique']) {
+					$val = array_unique($val);
+				}
+				if ($this->_config['sort']) {
+					sort($val);
+				}
+			}
+		}
+		if (is_array($val)) {
+			// Depth param added in PHP 5.5
+			if (version_compare(PHP_VERSION, '5.5.0', '>=')) {
+				$val = json_encode($val, $this->_config['encodeParams']['options'], $this->_config['encodeParams']['depth']);
+			} else {
+				$val = json_encode($val, $this->_config['encodeParams']['options']);
+			}
+		}
+		return $val;
+	}
+
+	/**
+	 * Fields are absolutely necessary to function properly!
+	 *
+	 * @param Model $Model
+	 * @param mixed $val
+	 * @return mixed
+	 */
+	public function _decode($val) {
+		$decoded = json_decode($val, $this->_config['decodeParams']['assoc'], $this->_config['decodeParams']['depth'], $this->_config['decodeParams']['options']);
+
+		if ($decoded === false) {
+			return false;
+		}
+		$decoded = (array)$decoded;
+		if ($this->_config['output'] === 'param') {
+			$decoded = $this->_toParam($decoded);
+		} elseif ($this->_config['output'] === 'list') {
+			$decoded = $this->_toList($decoded);
+		}
+		return $decoded;
+	}
+
+	/**
+	 * array() => param1:value1|param2:value2|...
+	 */
+	public function _toParam($val) {
+		$res = array();
+		foreach ($val as $key => $v) {
+			$res[] = $key . $this->_config['keyValueSeparator'] . $v;
+		}
+		return implode($this->_config['separator'], $res);
+	}
+
+	public function _fromParam($val) {
+		$leftBound = $this->_config['leftBound'];
+		$rightBound = $this->_config['rightBound'];
+		$separator = $this->_config['separator'];
+
+		$res = array();
+		$pieces = String::tokenize($val, $separator, $leftBound, $rightBound);
+		foreach ($pieces as $piece) {
+			$subpieces = String::tokenize($piece, $this->_config['keyValueSeparator'], $leftBound, $rightBound);
+			if (count($subpieces) < 2) {
+				continue;
+			}
+			$res[$subpieces[0]] = $subpieces[1];
+		}
+		return $res;
+	}
+
+	/**
+	 * array() => value1|value2|value3|...
+	 */
+	public function _toList($val) {
+		return implode($this->_config['separator'], $val);
+	}
+
+	public function _fromList($val) {
+		extract($this->_config);
+
+		return String::tokenize($val, $separator, $leftBound, $rightBound);
+	}
+
+	/**
+	 * Checks if string is encoded array/object
+	 *
+	 * @param string string to check
+	 * @return bool
+	 */
+	public function isEncoded($str) {
+		$this->decoded = $this->_decode($str);
+
+		if ($this->decoded !== false) {
+			return true;
+		}
+		return false;
+	}
+
+}
