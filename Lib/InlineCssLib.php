@@ -25,6 +25,7 @@ class InlineCssLib {
 	protected $_defaults = array(
 		'engine' => self::ENGINE_EMOGRIFIER,
 		'cleanup' => true,
+		'responsive' => false, // If classes/ids should not be remove, only relevant for cleanup=>true
 		'useInlineStylesBlock' => true,
 		'debug' => false, // only cssToInline
 		'xhtmlOutput' => false, // only cssToInline
@@ -76,8 +77,10 @@ class InlineCssLib {
 			//$result = preg_replace( '/\s\s+/', '\s', $result);
 
 			// Result classes and ids
-			$result = preg_replace('/\bclass="[^"]*"/', '', $result);
-			$result = preg_replace('/\bid="[^"]*"/', '', $result);
+			if (!$this->config['responsive']) {
+				$result = preg_replace('/\bclass="[^"]*"/', '', $result);
+				$result = preg_replace('/\bid="[^"]*"/', '', $result);
+			}
 		}
 		return $result;
 	}
