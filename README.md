@@ -41,7 +41,7 @@ This plugin for the Cake 3 version also contains some 2.x shims to ease migratio
 - Model::$validate, Model::$primaryKey, Model::$displayField and Model relations as properties
 - Set/Multibyte class, Session component and a cut down version of JsHelper
 
-## Docs
+## Installation & Docs
 
 - [Documentation](docs/README.md)
 
