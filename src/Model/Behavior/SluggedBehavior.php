@@ -1,11 +1,4 @@
 <?php
-/**
- * @copyright Copyright (c) 2008, Andy Dawson
- * @author Andy Dawson
- * @author Mark Scherer
- * @license http://www.opensource.org/licenses/mit-license.php The MIT License
- */
-
 namespace Tools\Model\Behavior;
 
 use Cake\Event\Event;
@@ -23,6 +16,7 @@ use Cake\Error\Exception;
  *
  * Usage: See docs
  *
+ * @author Andy Dawson
  * @author Mark Scherer
  * @license MIT
  */

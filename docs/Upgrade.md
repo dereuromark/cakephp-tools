@@ -24,10 +24,10 @@
 
 ### SluggedBehavior
 - Model names are now table names, and plural.
-- Slugged option "slugField" is now "field", "multiSlug" has been removed for now as well as currencies.
+- Slug field name option "slugField" is now "field", "multiSlug" has been removed for now as well as currencies.
 
 ### PasswordableBehavior
-- You can/should now specify a "validator", defaluts to "default".
+- You can/should now specify a "validator", it defaults to "default".
 
 ### JsonableBehavior
 - No auto-detect anymore, fields need to be specified manually

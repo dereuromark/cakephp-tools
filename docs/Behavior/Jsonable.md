@@ -24,6 +24,24 @@ Attach it to your models in `initialize()` like so:
 ```php
 $this->addBehavior('Tools.Jsonable', $config);
 ```
+
+Tip: If you have other behaviors that might modify the array data prior to saving, better use a higher priority:
+```php
+$this->addBehavior('Tools.Jsonable', array('priority' => 11, ...));
+```
+So that it is run last.
+
+## Examples
+
+The behavior supports different input/output formats:
+- "array" is the default input and output format
+- "list" is useful as some kind of pseudo enums or simple lists
+- "params" is useful for multiple key/value pairs
+- can be used to create dynamic forms (and tables)
+
+Also automatically cleans lists and works with custom separators/markup etc if you want it to.
+
+### Array
 In my first scenario where I used it, I had a geocoder behavior attached to the model which returned an array.
 I wanted to save all the returned values, though, for debugging purposes in a field "debug".
 By using the following snippet I was able to do exactly that with a single line of config.
@@ -41,8 +59,6 @@ I might need to access this array later on in the model. So I "jsonable" it in t
 and leave the source field untouched for any later usage.
 The same goes for the output: It will map the JSON content of "debug" back to the field "geocoder_result" as array, so
 I have both types available then.
-
-## Examples
 
 ### Params
 What if needed something more frontend suitable.
