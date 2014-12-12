@@ -24,12 +24,11 @@
 		</listener>
 	</listeners>
 	<filter>
+		<whitelist>
+			<directory suffix=".php">./src</directory>
+		</whitelist>
 		<blacklist>
-			<directory suffix=".php">./vendor/</directory>
-			<directory suffix=".ctp">./vendor/</directory>
-
-			<directory suffix=".php">./tests/</directory>
-			<directory suffix=".ctp">./tests/</directory>
+			<directory suffix=".ctp">./src/Template</directory>
 		</blacklist>
 	</filter>
 </phpunit>
