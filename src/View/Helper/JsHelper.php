@@ -2,18 +2,8 @@
 /**
  * Javascript Generator class file.
  *
- * CakePHP :  Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       Cake.View.Helper
- * @since         CakePHP(tm) v 1.2
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * This is deprecated and only here to easy migration from 2.x applications
+ * that rely on the JsHelper buffer functionality.
  */
 namespace Tools\View\Helper;
 
@@ -25,6 +15,8 @@ use Tools\Utility\Multibyte;
  *
  * JsHelper provides an abstract interface for authoring JavaScript with a
  * given client-side library.
+ *
+ * Note: onDomReady always defaults to false now, you will to add this yourself.
  */
 class JsHelper extends Helper {
 
@@ -256,7 +248,7 @@ class JsHelper extends Helper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/js.html#JsHelper::writeBuffer
  */
 	public function writeBuffer($options = array()) {
-		$domReady = !$this->request->is('ajax');
+		$domReady = false;
 		$defaults = array(
 			'onDomReady' => $domReady,
 			'cache' => false, 'clear' => true, 'safe' => true
@@ -274,6 +266,9 @@ class JsHelper extends Helper {
 		$opts = $options;
 		unset($opts['onDomReady'], $opts['cache'], $opts['clear']);
 
+		if (isset($opts['inline'])) {
+			unset($opts['inline']);
+		}
 		$return = $this->Html->scriptBlock($script, $opts);
 
 		return $return;
@@ -326,53 +321,6 @@ class JsHelper extends Helper {
 	}
 
 /**
- * Generate an 'Ajax' link. Uses the selected JS engine to create a link
- * element that is enhanced with Javascript. Options can include
- * both those for HtmlHelper::link() and JsBaseEngine::request(), JsBaseEngine::event();
- *
- * ### Options
- *
- * - `confirm` - Generate a confirm() dialog before sending the event.
- * - `id` - use a custom id.
- * - `htmlAttributes` - additional non-standard htmlAttributes. Standard attributes are class, id,
- *    rel, title, escape, onblur and onfocus.
- * - `buffer` - Disable the buffering and return a script tag in addition to the link.
- *
- * @param string $title Title for the link.
- * @param string|array $url Mixed either a string URL or a CakePHP URL array.
- * @param array $options Options for both the HTML element and Js::request()
- * @return string Completed link. If buffering is disabled a script tag will be returned as well.
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/js.html#JsHelper::link
- */
-	public function link($title, $url = null, $options = array()) {
-		if (!isset($options['id'])) {
-			$options['id'] = 'link-' . (int)mt_rand();
-		}
-		list($options, $htmlOptions) = $this->_getHtmlOptions($options);
-		$out = $this->Html->link($title, $url, $htmlOptions);
-		$this->get('#' . $htmlOptions['id']);
-		$requestString = $event = '';
-		if (isset($options['confirm'])) {
-			$requestString = $this->confirmReturn($options['confirm']);
-			unset($options['confirm']);
-		}
-		$buffer = isset($options['buffer']) ? $options['buffer'] : null;
-		$safe = isset($options['safe']) ? $options['safe'] : true;
-		unset($options['buffer'], $options['safe']);
-
-		$requestString .= $this->request($url, $options);
-
-		if (!empty($requestString)) {
-			$event = $this->event('click', $requestString, $options + array('buffer' => $buffer));
-		}
-		if (isset($buffer) && !$buffer) {
-			$opts = array('safe' => $safe);
-			$out .= $this->Html->scriptBlock($event, $opts);
-		}
-		return $out;
-	}
-
-/**
  * Pass variables into Javascript. Allows you to set variables that will be
  * output when the buffer is fetched with `JsHelper::getBuffer()` or `JsHelper::writeBuffer()`
  * The Javascript variable used to output set variables can be controlled with `JsHelper::$setVariable`
@@ -397,94 +345,6 @@ class JsHelper extends Helper {
 			return false;
 		}
 		$this->_jsVars = array_merge($this->_jsVars, $data);
-	}
-
-/**
- * Uses the selected JS engine to create a submit input
- * element that is enhanced with Javascript. Options can include
- * both those for FormHelper::submit() and JsBaseEngine::request(), JsBaseEngine::event();
- *
- * Forms submitting with this method, cannot send files. Files do not transfer over XmlHttpRequest
- * and require an iframe or flash.
- *
- * ### Options
- *
- * - `url` The url you wish the XHR request to submit to.
- * - `confirm` A string to use for a confirm() message prior to submitting the request.
- * - `method` The method you wish the form to send by, defaults to POST
- * - `buffer` Whether or not you wish the script code to be buffered, defaults to true.
- * - Also see options for JsHelper::request() and JsHelper::event()
- *
- * @param string $caption The display text of the submit button.
- * @param array $options Array of options to use. See the options for the above mentioned methods.
- * @return string Completed submit button.
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/js.html#JsHelper::submit
- */
-	public function submit($caption = null, $options = array()) {
-		if (!isset($options['id'])) {
-			$options['id'] = 'submit-' . (int)mt_rand();
-		}
-		$formOptions = array('div');
-		list($options, $htmlOptions) = $this->_getHtmlOptions($options, $formOptions);
-		$out = $this->Form->submit($caption, $htmlOptions);
-
-		$this->get('#' . $htmlOptions['id']);
-
-		$options['data'] = $this->serializeForm(array('isForm' => false, 'inline' => true));
-		$requestString = $url = '';
-		if (isset($options['confirm'])) {
-			$requestString = $this->confirmReturn($options['confirm']);
-			unset($options['confirm']);
-		}
-		if (isset($options['url'])) {
-			$url = $options['url'];
-			unset($options['url']);
-		}
-		if (!isset($options['method'])) {
-			$options['method'] = 'post';
-		}
-		$options['dataExpression'] = true;
-
-		$buffer = isset($options['buffer']) ? $options['buffer'] : null;
-		$safe = isset($options['safe']) ? $options['safe'] : true;
-		unset($options['buffer'], $options['safe']);
-
-		$requestString .= $this->request($url, $options);
-		if (!empty($requestString)) {
-			$event = $this->event('click', $requestString, $options + array('buffer' => $buffer));
-		}
-		if (isset($buffer) && !$buffer) {
-			$opts = array('safe' => $safe);
-			$out .= $this->Html->scriptBlock($event, $opts);
-		}
-		return $out;
-	}
-
-/**
- * Parse a set of Options and extract the Html options.
- * Extracted Html Options are removed from the $options param.
- *
- * @param array $options Options to filter.
- * @param array $additional Array of additional keys to extract and include in the return options array.
- * @return array Array of js options and Htmloptions
- */
-	protected function _getHtmlOptions($options, $additional = array()) {
-		$htmlKeys = array_merge(
-			array('class', 'id', 'escape', 'onblur', 'onfocus', 'rel', 'title', 'style'),
-			$additional
-		);
-		$htmlOptions = array();
-		foreach ($htmlKeys as $key) {
-			if (isset($options[$key])) {
-				$htmlOptions[$key] = $options[$key];
-			}
-			unset($options[$key]);
-		}
-		if (isset($options['htmlAttributes'])) {
-			$htmlOptions = array_merge($htmlOptions, $options['htmlAttributes']);
-			unset($options['htmlAttributes']);
-		}
-		return array($options, $htmlOptions);
 	}
 
 }
