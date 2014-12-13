@@ -59,7 +59,7 @@ class FlashComponent extends Component {
 			$type = 'info';
 		}
 
-		$old = $this->Controller->request->session()->read('messages');
+		$old = (array)$this->Controller->request->session()->read('messages');
 		if (isset($old[$type]) && count($old[$type]) > 99) {
 			array_shift($old[$type]);
 		}

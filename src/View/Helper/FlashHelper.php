@@ -7,7 +7,7 @@ use Cake\Utility\Hash;
 use Tools\Controller\Component\FlashComponent;
 
 /**
- * Common helper
+ * Flash helper
  *
  * @author Mark Scherer
  */
