@@ -145,6 +145,7 @@ class CommonComponent extends Component {
 	 * @param string $message Message to output.
 	 * @param string $type Type ('error', 'warning', 'success', 'info' or custom class).
 	 * @return void
+	 * @deprecated Use FlashComponent::message() instead.
 	 */
 	public function flashMessage($message, $type = null) {
 		if (!$type) {
@@ -167,6 +168,7 @@ class CommonComponent extends Component {
 	 * @param string $message Message to output.
 	 * @param string $type Type ('error', 'warning', 'success', 'info' or custom class).
 	 * @return void
+	 * @deprecated Use FlashComponent::transientMessage() instead.
 	 */
 	public static function transientFlashMessage($message, $type = null) {
 		if (!$type) {
