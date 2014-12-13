@@ -13,7 +13,7 @@ class AuthUserComponent extends Component {
 
 	use AuthUserTrait;
 
-	public $components = array('Auth', 'Tools.Session');
+	public $components = ['Auth', 'Tools.Session'];
 
 	/**
 	 * AuthUserComponent::beforeRender()

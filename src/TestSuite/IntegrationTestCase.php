@@ -3,7 +3,7 @@ namespace Tools\TestSuite;
 
 use Cake\TestSuite\IntegrationTestCase as CakeIntegrationTestCase;
 use Cake\Routing\Router;
-use Tools\TestSuite\Traits\ToolsTestTrait;
+use Tools\TestSuite\ToolsTestTrait;
 
 /**
  * Tools TestCase class

@@ -2,7 +2,7 @@
 namespace Tools\TestSuite;
 
 use Cake\TestSuite\TestCase as CakeTestCase;
-use Tools\TestSuite\Traits\ToolsTestTrait;
+use Tools\TestSuite\ToolsTestTrait;
 
 /**
  * Tools TestCase class

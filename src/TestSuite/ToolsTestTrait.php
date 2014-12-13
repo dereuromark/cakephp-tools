@@ -1,5 +1,5 @@
 <?php
-namespace Tools\TestSuite\Traits;
+namespace Tools\TestSuite;
 
 /**
  * Utility methods for easier testing in CakePHP & PHPUnit

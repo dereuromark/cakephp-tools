@@ -15,9 +15,9 @@ class Controller extends CakeController {
 	 * @return void
 	 */
 	public function disableCache() {
-		$this->response->header(array(
+		$this->response->header([
 			'Pragma' => 'no-cache',
-		));
+		]);
 		$this->response->disableCache();
 	}
 

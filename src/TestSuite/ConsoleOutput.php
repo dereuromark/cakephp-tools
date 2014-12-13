@@ -2,7 +2,7 @@
 namespace Tools\TestSuite;
 
 use Cake\Console\ConsoleOutput as CakeConsoleOutput;
-use Tools\TestSuite\Traits\ToolsTestTrait;
+use Tools\TestSuite\ToolsTestTrait;
 
 /**
  * Use for testing as

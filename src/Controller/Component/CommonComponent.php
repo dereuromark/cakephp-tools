@@ -4,14 +4,8 @@ namespace Tools\Controller\Component;
 use Cake\Controller\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
-use Tools\Utility\Utility;
 use Cake\Routing\Router;
-
-use Tools\Lib\UserAgentLib;
-
-if (!defined('CLASS_USER')) {
-	define('CLASS_USER', 'User');
-}
+use Tools\Utility\Utility;
 
 /**
  * A component included in every app to take care of common stuff.
@@ -22,8 +16,12 @@ if (!defined('CLASS_USER')) {
  */
 class CommonComponent extends Component {
 
-	public $userModel = CLASS_USER;
-
+	/**
+	 * CommonComponent::beforeFilter()
+	 *
+	 * @param Event $event
+	 * @return void
+	 */
 	public function beforeFilter(Event $event) {
 		$this->Controller = $event->subject();
 	}
@@ -88,7 +86,7 @@ class CommonComponent extends Component {
 	 * @return bool If it is of type POST/PUT/PATCH
 	 */
 	public function isPosted() {
-		return $this->Controller->request->is(array('post', 'put', 'patch'));
+		return $this->Controller->request->is(['post', 'put', 'patch']);
 	}
 
 	/**
@@ -98,7 +96,7 @@ class CommonComponent extends Component {
 	 * @param mixed $components (single string or multiple array)
 	 * @param bool $callbacks (defaults to true)
 	 */
-	public function loadComponent($component, array $config = array(), $callbacks = true) {
+	public function loadComponent($component, array $config = [], $callbacks = true) {
 		list($plugin, $componentName) = pluginSplit($component);
 		$this->Controller->loadComponent($component, $config);
 		if (!$callbacks) {
@@ -129,7 +127,7 @@ class CommonComponent extends Component {
 	 * @return array Url params
 	 */
 	public static function defaultUrlParams() {
-		$defaults = array('plugin' => false);
+		$defaults = ['plugin' => false];
 		$prefixes = (array)Configure::read('Routing.prefixes');
 		foreach ($prefixes as $prefix) {
 			$defaults[$prefix] = false;
@@ -151,8 +149,8 @@ class CommonComponent extends Component {
 			$action = $this->Controller->request->params['action'];
 		}
 
-		$url = array_merge($this->Controller->request->params['pass'], array('prefix' => isset($this->Controller->request->params['prefix']) ? $this->Controller->request->params['prefix'] : null,
-			'plugin' => $this->Controller->request->params['plugin'], 'action' => $action, 'controller' => $this->Controller->request->params['controller']));
+		$url = array_merge($this->Controller->request->params['pass'], ['prefix' => isset($this->Controller->request->params['prefix']) ? $this->Controller->request->params['prefix'] : null,
+			'plugin' => $this->Controller->request->params['plugin'], 'action' => $action, 'controller' => $this->Controller->request->params['controller']]);
 
 		if ($asString === true) {
 			return Router::url($url);
@@ -218,7 +216,7 @@ class CommonComponent extends Component {
 			}
 			// fixme
 			if (!isset($this->Controller->autoRedirectActions)) {
-				$this->Controller->autoRedirectActions = array();
+				$this->Controller->autoRedirectActions = [];
 			}
 			foreach ($this->Controller->autoRedirectActions as $action) {
 				list($controller, $action) = pluginSplit($action);
@@ -228,7 +226,7 @@ class CommonComponent extends Component {
 				if (empty($controller) && $refererController != Inflector::camelize($this->Controller->request->params['controller'])) {
 					continue;
 				}
-				if (!in_array($referer['action'], $this->Controller->autoRedirectActions)) {
+				if (!in_array($referer['action'], $this->Controller->autoRedirectActions, true)) {
 					continue;
 				}
 				$this->autoRedirect($whereTo, true, $status);
