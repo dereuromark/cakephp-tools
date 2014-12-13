@@ -108,11 +108,11 @@ class PasswordableBehavior extends Behavior {
 	 * @return void
 	 */
 	public function __construct(Table $table, array $config = []) {
-				$defaults = $this->_defaultConfig;
+		$defaults = $this->_defaultConfig;
 		if ($configureDefaults = Configure::read('Passwordable')) {
 			$defaults = $configureDefaults + $defaults;
 		}
-		$config + $defaults;
+		$config += $defaults;
 		parent::__construct($table, $config);
 	}
 
