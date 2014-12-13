@@ -410,6 +410,11 @@ html-part
 		//TODO
 	}
 
+	/**
+	 * EmailTest::testWrapLongEmailContent()
+	 *
+	 * @return void
+	 */
 	public function testWrapLongEmailContent() {
 		$this->Email = new TestEmail();
 
@@ -429,6 +434,11 @@ HTML;
 		$this->assertTrue(count($is) >= 5);
 	}
 
+	/**
+	 * EmailTest::testWrapCustomized()
+	 *
+	 * @return void
+	 */
 	public function testWrapCustomized() {
 		$this->Email = new TestEmail();
 

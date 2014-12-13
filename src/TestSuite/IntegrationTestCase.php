@@ -3,12 +3,15 @@ namespace Tools\TestSuite;
 
 use Cake\TestSuite\IntegrationTestCase as CakeIntegrationTestCase;
 use Cake\Routing\Router;
+use Tools\TestSuite\Traits\ToolsTestTrait;
 
 /**
  * Tools TestCase class
  *
  */
 abstract class IntegrationTestCase extends CakeIntegrationTestCase {
+
+	use ToolsTestTrait;
 
 	/**
 	 * Create a request object with the configured options and parameters.

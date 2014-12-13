@@ -1,45 +1,40 @@
 <?php
 namespace Tools\TestSuite\Traits;
 
-use Cake\Controller\Controller;
-use Cake\Network\Response;
-use Cake\Routing\Router;
-
 /**
  * Utility methods for easier testing in CakePHP & PHPUnit
  */
 trait ToolsTestTrait {
 
-/**
- * Assert a redirect happened
- *
- * `$actual` can be a string, Controller or Response instance
- *
- * @param  string $expected
- * @param  mixed  $actual
- * @return void
- */
-	public function assertRedirect($expected, $actual = null) {
-		if ($actual === null) {
-			$actual = $this->controller;
-		}
+	/**
+	 * OsFix method
+	 *
+	 * @param string $string
+	 * @return string
+	 */
+	protected static function _osFix($string) {
+		return str_replace(array("\r\n", "\r"), "\n", $string);
+	}
 
-		if ($actual instanceof Controller) {
-			$actual = $actual->response->location();
+	/**
+	 * Outputs debug information during a test run.
+	 * This is a convenience output handler since debug() itself is not desired
+	 * for tests in general.
+	 *
+	 * Force flushing the output
+	 *
+	 * @param mixed $data
+	 * @param bool $force Should the output be flushed (forced)
+	 * @return void
+	 */
+	protected static function debug($data) {
+		$output = !empty($_SERVER['argv']) && (in_array('-v', $_SERVER['argv'], true) || in_array('-vv', $_SERVER['argv'], true));
+		if (!$output) {
+			return;
 		}
+		$showFrom = in_array('-vv', $_SERVER['argv'], true);
 
-		if ($actual instanceof Response) {
-			$actual = $actual->location();
-		}
-
-		if (empty($actual)) {
-			throw new \Exception('assertRedirect: Expected "actual" to be a non-empty string');
-		}
-
-		if (is_array($expected)) {
-			$expected = Router::url($expected);
-		}
-		$this->assertEquals($expected, $actual,	'Was not redirected to ' . $expected);
+		debug($data, null, $showFrom);
 	}
 
 }
