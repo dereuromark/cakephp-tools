@@ -17,6 +17,7 @@ class CommonHelper extends AppHelper {
 	 *
 	 * @param array $types Types to output. Defaults to all if none are specified.
 	 * @return string HTML
+	 * @deprecated Use FlashHelper::flash() instead.
 	 */
 	public function flash(array $types = array()) {
 		// Get the messages from the session
@@ -71,6 +72,7 @@ class CommonHelper extends AppHelper {
 	 * @param string $type Type (success, warning, error, info)
 	 * @param bool $escape Set to false to disable escaping.
 	 * @return string HTML
+	 * @deprecated Use FlashHelper::flashMessage() instead.
 	 */
 	public function flashMessage($msg, $type = 'info', $escape = true) {
 		$html = '<div class="flash-messages flashMessages">';
@@ -102,6 +104,7 @@ class CommonHelper extends AppHelper {
 	 * @param string $msg
 	 * @param string $class
 	 * @return void
+	 * @deprecated Use FlashHelper::addTransientMessage() instead.
 	 */
 	public function addFlashMessage($msg, $class = null) {
 		CommonComponent::transientFlashMessage($msg, $class);
@@ -113,7 +116,7 @@ class CommonHelper extends AppHelper {
 	 * @param mixed $msg
 	 * @param mixed $class
 	 * @return void
-	 * @deprecated Use addFlashMessage() instead
+	 * @deprecated Use FlashHelper::addTransientMessage() instead.
 	 */
 	public function transientFlashMessage($msg, $class = null) {
 		$this->addFlashMessage($msg, $class);
