@@ -91,9 +91,9 @@ class AppController extends Controller {
 ## Testing
 You can test using a local installation of phpunit or the phar version of it:
 
-	cd Plugin/Tools
-	composer update
-	phpunit
+	cd plugins/Tools
+	composer update // or: php composer.phar update
+	phpunit // or: php phpunit.phar
 
 To test a specific file:
 
