@@ -18,6 +18,7 @@ This cake3 branch only works for **CakePHP3.x** - please use the master branch f
 * [Behavior/Reset](Behavior/Reset.md)
 * [View/Rss](View/Rss.md)
 * ...
+* [Testing](TestSuite/Testing.md)
 
 ## Basic enhancements of the core
 
@@ -88,7 +89,7 @@ class AppController extends Controller {
 ```
 
 
-## Testing
+## Testing the Plugin
 You can test using a local installation of phpunit or the phar version of it:
 
 	cd plugins/Tools
