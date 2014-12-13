@@ -26,6 +26,13 @@ additional debug output is printed to the screen.
 
 By default this trait is attached to IntegrationTestCase, TestCase and ConsoleOutput.
 
+Tip: This verbose debug feature is best used in combination with `--filter testMethodToTest`, as
+otherwise there might be too much output on the screen. So better filter down to the actual method
+you are currently working on or debugging:
+```
+php phpunit.phar --filter testFooBar /path/to/SomeTest.php -vv
+```
+
 ## IntegrationTestCase
 
 You can directly pass an array as URL now:
