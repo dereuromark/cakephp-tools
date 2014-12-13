@@ -33,6 +33,11 @@ class GooglLibTest extends CakeTestCase {
 		die();
 	}
 
+	/**
+	 * GooglLibTest::testShortenAndUnshorten()
+	 *
+	 * @return void
+	 */
 	public function testShortenAndUnshorten() {
 		//echo '<h2>Shorten without key (publically)</h2>';
 		Configure::write('Googl.key', '');
@@ -40,24 +45,31 @@ class GooglLibTest extends CakeTestCase {
 		$url = 'http://www.spiegel.de';
 		$is = $this->Googl->getShort($url);
 		//pr($is);
-		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] === 'urlshortener#url' && $is['longUrl'] == $url . '/');
+		$this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] === 'urlshortener#url' && $is['longUrl'] == $url . '/');
 
 		//echo '<h2>Unshorten</h2>';
 
 		$shortUrl = $is['id'];
 		$is = $this->Googl->getLong($shortUrl);
-		//pr($is);
-		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] === 'urlshortener#url' && $is['status'] === 'OK' && $is['longUrl'] == $url . '/');
+		$this->assertTrue(!empty($is));
+		$this->assertTrue(!empty($is['id']));
+		$this->assertSame('urlshortener#url', $is['kind']);
+		$this->assertSame('OK', $is['status']);
+		$this->assertSame($url . '/', $is['longUrl']);
 	}
 
+	/**
+	 * GooglLibTest::testApi()
+	 *
+	 * @return void
+	 */
 	public function testApi() {
 		$this->skipIf(!Configure::write('Googl.key'), 'No Api Key found');
 
 		//echo '<h2>Shorten with key</h2>';
 
-		$url = 'http://www.gmx.de';
+		$url = 'http://www.blue.de';
 		$is = $this->Googl->getShort($url);
-		//pr($is);
 		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] === 'urlshortener#url' && $is['longUrl'] == $url . '/');
 
 		//echo '<h2>Unshorten</h2>';

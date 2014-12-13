@@ -1,8 +1,6 @@
 <?php
 
 App::uses('Component', 'Controller');
-App::uses('Sanitize', 'Utility');
-App::uses('Utility', 'Tools.Utility');
 
 /**
  * A flash component to enhance flash message support with stackable messages, both
@@ -15,8 +13,6 @@ App::uses('Utility', 'Tools.Utility');
 class FlashComponent extends Component {
 
 	public $components = array('Session');
-
-	public $userModel = CLASS_USER;
 
 	/**
 	 * For automatic startup
