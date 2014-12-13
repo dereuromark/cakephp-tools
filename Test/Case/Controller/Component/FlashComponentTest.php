@@ -22,6 +22,8 @@ class FlashComponentTest extends CakeTestCase {
 		$this->Controller = new FlashComponentTestController(new CakeRequest, new CakeResponse);
 		$this->Controller->constructClasses();
 		$this->Controller->startupProcess();
+
+		$this->Controller->Session->delete('messages');
 	}
 
 	public function tearDown() {
@@ -36,8 +38,7 @@ class FlashComponentTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testTransientMessage() {
-		$is = $this->Controller->Flash->transientMessage('xyz', 'success');
-		//$this->assertTrue($is);
+		$this->Controller->Flash->transientMessage('xyz', 'success');
 
 		$res = Configure::read('messages');
 		//debug($res);
@@ -51,12 +52,24 @@ class FlashComponentTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testFlashMessage() {
-		$this->Controller->Session->delete('messages');
-		$is = $this->Controller->Flash->message('efg');
+		$this->Controller->Flash->message('efg');
 
 		$res = $this->Controller->Session->read('messages');
 		$this->assertTrue(!empty($res));
 		$this->assertTrue(isset($res['info'][0]) && $res['info'][0] === 'efg');
+	}
+
+	public function testMagicMessage() {
+		$this->Controller->Flash->success('s');
+		$this->Controller->Flash->error('e');
+		$this->Controller->Flash->warning('w');
+
+		$res = $this->Controller->Session->read('messages');
+		$expected = array(
+			'success' => array('s'),
+			'error' => array('e'),
+			'warning' => array('w'));
+		$this->assertSame($expected, $res);
 	}
 
 }

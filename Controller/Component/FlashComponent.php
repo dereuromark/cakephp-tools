@@ -36,7 +36,7 @@ class FlashComponent extends Component {
 	public function beforeRender(Controller $Controller) {
 		if (Configure::read('Common.messages') !== false && $messages = $this->Session->read('Message')) {
 			foreach ($messages as $message) {
-				$this->flashMessage($message['message'], 'error');
+				$this->message($message['message'], 'error');
 			}
 			$this->Session->delete('Message');
 		}
@@ -94,6 +94,24 @@ class FlashComponent extends Component {
 		}
 		$old[$type][] = $message;
 		Configure::write('messages', $old);
+	}
+
+	/**
+	 * Magic method for verbose flash methods based on types.
+	 *
+	 * For example: $this->Flash->success('My message')
+	 *
+	 * @param string $name Element name to use.
+	 * @param array $args Parameters to pass when calling `FlashComponent::set()`.
+	 * @return void
+	 * @throws InternalErrorException If missing the flash message.
+	 */
+	public function __call($name, $args) {
+		if (count($args) < 1) {
+			throw new InternalErrorException('Flash message missing.');
+		}
+
+		$this->message($args[0], $name);
 	}
 
 }
