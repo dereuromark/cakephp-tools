@@ -17,9 +17,6 @@
 		"cakephp/plugin-installer": "*",
 		"cakephp/cakephp": "3.0.*-dev"
 	},
-	"require-dev":{
-		"dereuromark/cakephp-setup": "dev-cake3"
-	},
 	"autoload": {
 		"psr-4": {
 			"Tools\\": "src"
