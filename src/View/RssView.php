@@ -2,15 +2,14 @@
 namespace Tools\View;
 
 use Cake\Core\Configure;
-use Cake\Routing\Router;
+use Cake\Event\EventManager;
+use Cake\I18n\Time;
 use Cake\Network\Request;
 use Cake\Network\Response;
-use Cake\View\View;
-use Cake\Utility\Xml;
-use Cake\I18n\Time;
+use Cake\Routing\Router;
 use Cake\Utility\Hash;
-use Cake\Event\EventManager;
-use App\Router\Routing;
+use Cake\Utility\Xml;
+use Cake\View\View;
 
 /**
  * A view class that is used for creating RSS feeds.
@@ -306,7 +305,6 @@ class RssView extends View {
 							$attrib['@type'] = 'application/rss+xml';
 						}
 						$val = $attrib;
-
 					} elseif (is_array($val) && isset($val['url'])) {
 						$val['url'] = Router::url($val['url'], true);
 						if ($bareKey === 'guid') {

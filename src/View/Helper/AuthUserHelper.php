@@ -1,7 +1,6 @@
 <?php
 namespace Tools\View\Helper;
 
-use Cake\Core\Configure;
 use Cake\View\Helper;
 use Tools\Auth\AuthUserTrait;
 

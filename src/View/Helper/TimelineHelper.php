@@ -2,9 +2,8 @@
 
 namespace Tools\View\Helper;
 
-use Cake\View\View;
 use Cake\View\Helper;
-use Cake\Utility\Hash;
+use Cake\View\View;
 
 /**
  * TimelineHelper for easy output of a timeline with multiple items.
@@ -35,7 +34,6 @@ class TimelineHelper extends Helper {
 	);
 
 	protected $_items = array();
-
 
 	/**
 	 * Apply settings and merge them with the defaults.

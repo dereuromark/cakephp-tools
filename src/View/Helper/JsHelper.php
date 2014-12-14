@@ -8,7 +8,6 @@
 namespace Tools\View\Helper;
 
 use Cake\View\Helper;
-use Cake\Core\Configure;
 use Tools\Utility\Multibyte;
 /**
  * Javascript Generator helper class for easy use of JavaScript.

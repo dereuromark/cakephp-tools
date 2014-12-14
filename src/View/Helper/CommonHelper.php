@@ -2,8 +2,8 @@
 namespace Tools\View\Helper;
 
 use Cake\Core\Configure;
-use Cake\View\Helper;
 use Cake\Utility\Inflector;
+use Cake\View\Helper;
 
 /**
  * Common helper
@@ -67,7 +67,6 @@ class CommonHelper extends Helper {
 		if ($type === 'public') {
 			$this->privatePage = false;
 			$content['robots'] = array('index', 'follow', 'noarchive');
-
 		} else {
 			$this->privatePage = true;
 			$content['robots'] = array('noindex', 'nofollow', 'noarchive');

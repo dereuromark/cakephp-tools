@@ -1,12 +1,11 @@
 <?php
 namespace Tools\Network\Email;
 
+use Cake\Core\Configure;
 use Cake\Network\Email\Email as CakeEmail;
-use Tools\Utility\Utility;
-use Tools\Utility\Mime;
 use Cake\Utility\String;
 use InvalidArgumentException;
-use Cake\Core\Configure;
+use Tools\Utility\Mime;
 
 class Email extends CakeEmail {
 
@@ -454,10 +453,8 @@ class Email extends CakeEmail {
 			if (!empty($fileInfo['data'])) {
 				$data = $fileInfo['data'];
 				$data = chunk_split(base64_encode($data));
-
 			} elseif (!empty($fileInfo['file'])) {
 				$data = $this->_readFile($fileInfo['file']);
-
 			} else {
 				continue;
 			}
@@ -496,10 +493,8 @@ class Email extends CakeEmail {
 			if (!empty($fileInfo['data'])) {
 				$data = $fileInfo['data'];
 				$data = chunk_split(base64_encode($data));
-
 			} elseif (!empty($fileInfo['file'])) {
 				$data = $this->_readFile($fileInfo['file']);
-
 			} else {
 				continue;
 			}

@@ -1,8 +1,8 @@
 <?php
 namespace Tools\Utility;
 
-use Cake\I18n\Number as CakeNumber;
 use Cake\Core\Configure;
+use Cake\I18n\Number as CakeNumber;
 
 /**
  * Extend CakeNumber with a few important improvements:

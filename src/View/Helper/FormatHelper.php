@@ -2,10 +2,10 @@
 namespace Tools\View\Helper;
 
 use Cake\Core\Configure;
-use Cake\View\View;
+use Cake\Utility\Inflector;
 use Cake\View\Helper\TextHelper;
 use Cake\View\StringTemplate;
-use Cake\Utility\Inflector;
+use Cake\View\View;
 
 /**
  * Format helper with basic html snippets
@@ -32,7 +32,7 @@ class FormatHelper extends TextHelper {
 	);
 
 	public function __construct(View $View, array $config = array()) {
-  $config += $this->_defaults;
+		$config += $this->_defaults;
 
 		if ($config['fontIcons'] === true) {
 			$config['fontIcons'] = (array)Configure::read('Format.fontIcons');
@@ -107,7 +107,6 @@ class FormatHelper extends TextHelper {
 			}
 		}
 		if (empty($field)) {
-
 		}
 
 		$name = 'Record'; // Translation further down!

@@ -1,8 +1,6 @@
 <?php
 namespace Tools\View\Helper;
 
-use Cake\Core\Configure;
-use Cake\View\View;
 use Cake\View\Helper;
 
 /**
@@ -53,7 +51,9 @@ class ObfuscateHelper extends Helper {
 	 * @return string Save string with JS generated link around email (and non JS fallback)
 	 */
 	public function encodeEmailUrl($mail, $text = null, $params = array(), $attr = array()) {
-		if (empty($class)) { $class = 'email';}
+		if (empty($class)) {
+			$class = 'email';
+		}
 
 		$defaults = array(
 			'title' => __d('tools', 'for use in an external mail client'),
@@ -169,8 +169,8 @@ class ObfuscateHelper extends Helper {
 			if ($replacement !== null) {
 				$str = preg_replace("/({$delim})(" . str_replace('\*', '\w*?', preg_quote($badword, '/')) . ")({$delim})/i", "\\1{$replacement}\\3", $str);
 			} else {
-				$str = preg_replace_callback("/({$delim})(" . str_replace('\*', '\w*?', preg_quote($badword, '/')) . ")({$delim})/i", function($matches) {
-					return $matches[1] . str_repeat('#', strlen($matches[2])). $matches[3];
+				$str = preg_replace_callback("/({$delim})(" . str_replace('\*', '\w*?', preg_quote($badword, '/')) . ")({$delim})/i", function ($matches) {
+					return $matches[1] . str_repeat('#', strlen($matches[2])) . $matches[3];
 				}, $str);
 			}
 		}

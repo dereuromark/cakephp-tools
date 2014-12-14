@@ -2,8 +2,8 @@
 namespace Tools\View\Helper;
 
 use Cake\Core\Configure;
-use Cake\View\Helper;
 use Cake\Utility\Hash;
+use Cake\View\Helper;
 use Tools\Controller\Component\FlashComponent;
 
 /**

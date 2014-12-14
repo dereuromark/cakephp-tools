@@ -1,9 +1,8 @@
 <?php
 namespace Tools\TestSuite;
 
-use Cake\TestSuite\IntegrationTestCase as CakeIntegrationTestCase;
 use Cake\Routing\Router;
-use Tools\TestSuite\ToolsTestTrait;
+use Cake\TestSuite\IntegrationTestCase as CakeIntegrationTestCase;
 
 /**
  * Tools TestCase class
