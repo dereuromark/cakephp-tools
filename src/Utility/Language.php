@@ -80,8 +80,9 @@ class Language {
 		$a = explode('-', $a);
 		$b = explode('-', $b);
 		for ($i = 0, $n = min(count($a), count($b)); $i < $n; $i++) {
-			if ($a[$i] !== $b[$i])
+			if ($a[$i] !== $b[$i]) {
 				break;
+			}
 		}
 		return $i === 0 ? 0 : (float)$i / count($a);
 	}

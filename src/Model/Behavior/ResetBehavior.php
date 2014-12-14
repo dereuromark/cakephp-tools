@@ -1,11 +1,9 @@
 <?php
 namespace Tools\Model\Behavior;
 
-use Cake\Event\Event;
+use Cake\Core\Configure;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
-use Cake\ORM\Query;
-use Cake\Core\Configure;
 use Cake\ORM\Table;
 
 /**

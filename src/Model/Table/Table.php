@@ -2,11 +2,11 @@
 
 namespace Tools\Model\Table;
 
-use Cake\ORM\Table as CakeTable;
-use Cake\Validation\Validator;
-use Cake\Validation\Validation;
-use Cake\Utility\Inflector;
 use Cake\Core\Configure;
+use Cake\ORM\Table as CakeTable;
+use Cake\Utility\Inflector;
+use Cake\Validation\Validation;
+use Cake\Validation\Validator;
 use Tools\Utility\Utility;
 
 class Table extends CakeTable {
@@ -214,10 +214,8 @@ class Table extends CakeTable {
 			foreach ($fields as $dependingField) {
 				if (isset($this->data[$this->alias][$dependingField])) { // add ONLY if some content is transfered (check on that first!)
 					$conditions[$this->alias . '.' . $dependingField] = $this->data[$this->alias][$dependingField];
-
 				} elseif (isset($this->data['Validation'][$dependingField])) { // add ONLY if some content is transfered (check on that first!
 					$conditions[$this->alias . '.' . $dependingField] = $this->data['Validation'][$dependingField];
-
 				} elseif (!empty($id)) {
 					// manual query! (only possible on edit)
 					$res = $this->find('first', array('fields' => array($this->alias . '.' . $dependingField), 'conditions' => array($this->alias . '.id' => $id)));

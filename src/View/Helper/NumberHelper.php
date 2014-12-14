@@ -2,8 +2,8 @@
 
 namespace Tools\View\Helper;
 
-use Cake\View\Helper\NumberHelper as CakeNumberHelper;
 use Cake\Utility\Hash;
+use Cake\View\Helper\NumberHelper as CakeNumberHelper;
 
 /**
  * Ovewrite to allow usage of own Number class.

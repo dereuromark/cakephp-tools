@@ -176,9 +176,9 @@ class TreeHelper extends Helper {
 				$result = $result->toArray();
 			}
 			if ($model && isset($result)) {
-				$row =& $result;
+				$row = & $result;
 			} else {
-				$row =& $result;
+				$row = & $result;
 			}
 
 			/* Close open items as appropriate */
@@ -458,7 +458,7 @@ class TreeHelper extends Helper {
 			if (!$splitDepth || $depth == $splitDepth) {
 				$_splitCounter++;
 				if ($type && ($_splitCounter % $_splitCount) === 0 && !$lastChild) {
-					unset ($this->_config['callback']);
+					unset($this->_config['callback']);
 					return '</' . $type . '><' . $type . '>';
 				}
 			}

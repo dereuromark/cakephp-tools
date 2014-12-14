@@ -1,8 +1,8 @@
 <?php
 namespace Tools\Utility;
 
-use Cake\I18n\Time as CakeTime;
 use Cake\Core\Configure;
+use Cake\I18n\Time as CakeTime;
 
 /**
  * Extend CakeTime with a few important improvements:
@@ -199,15 +199,17 @@ class Time extends CakeTime {
 		if ($month == null && $day == null) {
 			$age = date('Y') - $year - 1;
 		} elseif ($day == null) {
-			if ($month >= date('m'))
+			if ($month >= date('m')) {
 				$age = date('Y') - $year - 1;
-			else
+			} else {
 				$age = date('Y') - $year;
+			}
 		} else {
-			if ($month > date('m') || ($month == date('m') && $day > date('d')))
+			if ($month > date('m') || ($month == date('m') && $day > date('d'))) {
 				$age = date('Y') - $year - 1;
-			else
+			} else {
 				$age = date('Y') - $year;
+			}
 		}
 		if ($age % $steps == 0) {
 			$lowerRange = $age - $steps + 1;
@@ -248,7 +250,7 @@ class Time extends CakeTime {
 		//$time = self::fromString($dateString);
 		if (!empty($dateString)) {
 			$date = explode(' ', $dateString);
-			list ($y, $m, $d) = explode('-', $date[0]);
+			list($y, $m, $d) = explode('-', $date[0]);
 			$t = mktime(0, 0, 0, $m, $d, $y);
 		} else {
 			$d = date('d');
@@ -589,7 +591,7 @@ class Time extends CakeTime {
 				'Sat'
 			)
 		);
-		$day = (int) $day;
+		$day = (int)$day;
 		//pr($day);
 		if ($offset) {
 			$day = ($day + $offset) % 7;
@@ -642,7 +644,7 @@ class Time extends CakeTime {
 				'Dec'
 			),
 		);
-		$month = (int) ($month - 1);
+		$month = (int)($month - 1);
 		if (!$abbr) {
 			return __d('tools', $months['long'][$month]);
 		}
@@ -1234,7 +1236,6 @@ class Time extends CakeTime {
 				}
 			}
 			$date = mktime(0, 0, 0, $pieces[1], $pieces[0], $year);
-
 		} elseif (strpos($date, '-') !== false) {
 			//$pieces = explode('-', $date);
 			$date = strtotime($date);

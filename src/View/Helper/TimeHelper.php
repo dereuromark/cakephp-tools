@@ -2,9 +2,9 @@
 
 namespace Tools\View\Helper;
 
+use Cake\Core\App;
 use Cake\View\Helper\TimeHelper as CakeTimeHelper;
 use Cake\View\View;
-use Cake\Core\App;
 
 /**
  * Wrapper for TimeHelper and TimeLib

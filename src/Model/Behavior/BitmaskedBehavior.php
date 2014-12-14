@@ -4,9 +4,8 @@ namespace Tools\Model\Behavior;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
-use Cake\Utility\Inflector;
-use Cake\Core\Configure;
 use Cake\ORM\Query;
+use Cake\Utility\Inflector;
 use Cake\Utility\String;
 
 /**
@@ -58,7 +57,6 @@ class BitmaskedBehavior extends Behavior {
 
 		if (is_callable($config['bits'])) {
 			$config['bits'] = call_user_func($config['bits']);
-
 		} elseif (is_string($config['bits']) && method_exists($entity, $config['bits'])) {
 			$config['bits'] = $entity->{$config['bits']}();
 		} elseif (is_string($config['bits']) && method_exists($this->_table, $config['bits'])) {
@@ -151,7 +149,7 @@ class BitmaskedBehavior extends Behavior {
 		}
 		if ($res === 0) {
 			return $defaultValue; // Make sure notEmpty validation rule triggers
-		}
+}
 		return $res;
 	}
 

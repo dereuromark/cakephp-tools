@@ -2,13 +2,10 @@
 namespace Tools\Model\Behavior;
 
 use Cake\Event\Event;
-use Cake\ORM\Query;
 use Cake\ORM\Behavior;
-use Cake\Utility\Inflector;
-use Cake\Core\Configure;
-use Cake\Utility\String;
-use Cake\Utility\Hash;
 use Cake\ORM\Entity;
+use Cake\ORM\Query;
+use Cake\Utility\String;
 
 /**
  * A behavior that will json_encode (and json_decode) fields if they contain an array or specific pattern.
