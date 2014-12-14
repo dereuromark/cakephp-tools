@@ -793,7 +793,7 @@ class Mime extends Response {
 	public static function _detectMimeType($file) {
 		if (!function_exists('finfo_open')) {
 			//throw new InternalErrorException('finfo_open() required - please enable');
-}
+		}
 
 		// Treat non local files differently
 		$pattern = '~^https?://~i';
