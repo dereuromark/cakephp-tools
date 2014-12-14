@@ -35,12 +35,7 @@ php phpunit.phar --filter testFooBar /path/to/SomeTest.php -vv
 
 ## IntegrationTestCase
 
-You can directly pass an array as URL now:
-```php
-$this->post(array('controller' => 'ControllerName', ...), $data);
-```
-
-Also see the above trait features.
+See the above trait features.
 
 ## TestCase
 `assertNotWithinMargin()` as the opposite of `assertWithinMargin()` is available.
