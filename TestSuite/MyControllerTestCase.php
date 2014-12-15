@@ -1,4 +1,6 @@
 <?php
+App::uses('ControllerTestCase', 'TestSuite');
+App::uses('Router', 'Routing');
 
 /**
  * MyControllerTestCase Test Case
@@ -29,9 +31,13 @@ class MyControllerTestCase extends ControllerTestCase {
 	 * @return mixed
 	 */
 	protected function _testAction($url = '', $options = array()) {
-		$options = array_merge(array(
+		$options += array(
 			'method' => 'GET',
-		), $options);
+		);
+		if (is_array($url)) {
+			$url = Router::url($url);
+		}
+
 		return parent::_testAction($url, $options);
 	}
 
