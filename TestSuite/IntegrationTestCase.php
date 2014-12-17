@@ -8,7 +8,8 @@ App::uses('EventManager', 'Event');
  * A test case class intended to make integration tests of
  * your controllers easier.
  *
- * This class has been backported from 3.0
+ * This class has been backported from 3.0.
+ * Does not support cookies or non 2xx/3xx responses yet, though.
  *
  * This test class provides a number of helper methods and features
  * that make dispatching requests and checking their responses simpler.
@@ -20,6 +21,7 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 
 	/**
 	 * The data used to build the next request.
+	 * Use the headers key to set specific $_ENV headers.
 	 *
 	 * @var array
 	 */
@@ -31,13 +33,6 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 	 * @var array
 	 */
 	protected $_sessionData = [];
-
-/**
- * Cookie data to use in the next request.
- *
- * @var array
- */
-	protected $_cookieData = [];
 
 /**
  * Configure the data for the *next* request.
@@ -69,24 +64,6 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
  */
 	public function session(array $data) {
 		$this->_sessionData = $data + $this->_sessionData;
-	}
-
-/**
- * Set a request cookie for future requests.
- *
- * This method lets you configure the session data
- * you want to be used for requests that follow. The session
- * state is reset in each tearDown().
- *
- * You can call this method multiple times to append into
- * the current state.
- *
- * @param string $name The cookie name to use.
- * @param mixed $value The value of the cookie.
- * @return void
- */
-	public function cookie($name, $value) {
-		$this->_cookieData[$name] = $value;
 	}
 
 /**
@@ -180,6 +157,7 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 			'return' => 'vars'
 		);
 
+		$env = array();
 		if (isset($this->_requestData['headers'])) {
 			foreach ($this->_requestData['headers'] as $k => $v) {
 				$env['HTTP_' . str_replace('-', '_', strtoupper($k))] = $v;
@@ -188,8 +166,17 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 		}
 
 		CakeSession::write($this->_sessionData);
+		$envBackup = array();
+		foreach ($env as $k => $v) {
+			$envBackup[$k] = isset($_ENV[$k]) ? $_ENV[$k] : null;
+			$_ENV[$k] = $v;
+		}
 
 		$result = $this->testAction($url, $options);
+
+		foreach ($env as $k => $v) {
+			$_ENV[$k] = $envBackup[$k];
+		}
 
 		$this->_response = $this->controller->response;
 		$this->_request = $this->controller->request;
