@@ -138,7 +138,7 @@ class CommonHelper extends AppHelper {
 			//$text = str_replace(' ', '&nbsp;', h($text));
 			$text = h($text);
 			// try to fix indends made out of spaces
-			$text = explode(NL, $text);
+			$text = explode("\n", $text);
 			foreach ($text as $key => $t) {
 				$i = 0;
 				while (!empty($t[$i]) && $t[$i] === ' ') {
@@ -149,7 +149,7 @@ class CommonHelper extends AppHelper {
 					$text[$key] = $t;
 				}
 			}
-			$text = implode(NL, $text);
+			$text = implode("\n", $text);
 			$esc = true;
 		}
 		if (!isset($options['nl2br']) || $options['nl2br'] !== false) {
@@ -160,7 +160,7 @@ class CommonHelper extends AppHelper {
 		}
 		if (!empty($options['tabsToSpaces'])) {
 
-			$text = str_replace(TB, str_repeat(!empty($esc) ? '&nbsp;' : ' ', $options['tabsToSpaces']), $text);
+			$text = str_replace("\t", str_repeat(!empty($esc) ? '&nbsp;' : ' ', $options['tabsToSpaces']), $text);
 		}
 
 		return $text;
