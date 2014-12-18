@@ -143,35 +143,6 @@ class CommonComponentTest extends CakeTestCase {
 	}
 
 	/**
-	 * CommonComponentTest::testTransientFlashMessage()
-	 *
-	 * @return void
-	 */
-	public function testTransientFlashMessage() {
-		$is = $this->Controller->Flash->transientMessage('xyz', 'success');
-		//$this->assertTrue($is);
-
-		$res = Configure::read('messages');
-		//debug($res);
-		$this->assertTrue(!empty($res));
-		$this->assertTrue(isset($res['success'][0]) && $res['success'][0] === 'xyz');
-	}
-
-	/**
-	 * CommonComponentTest::testFlashMessage()
-	 *
-	 * @return void
-	 */
-	public function testFlashMessage() {
-		$this->Controller->Session->delete('messages');
-		$is = $this->Controller->Flash->message('efg');
-
-		$res = $this->Controller->Session->read('messages');
-		$this->assertTrue(!empty($res));
-		$this->assertTrue(isset($res['info'][0]) && $res['info'][0] === 'efg');
-	}
-
-	/**
 	 * CommonComponentTest::testManualLogin()
 	 *
 	 * @return void
