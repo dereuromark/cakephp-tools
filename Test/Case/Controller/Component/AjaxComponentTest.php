@@ -114,7 +114,7 @@ class AjaxComponentTest extends CakeTestCase {
 		$this->Controller->startupProcess();
 		$this->assertTrue($this->Controller->Components->Ajax->respondAsAjax);
 
-		$this->Controller->Common->flashMessage('A message', 'success');
+		$this->Controller->Flash->message('A message', 'success');
 		$session = $this->Controller->Session->read('messages');
 		$expected = array(
 			'success' => array('A message')

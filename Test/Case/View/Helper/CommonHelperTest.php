@@ -29,7 +29,7 @@ class CommonHelperTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testFlashMessage() {
-		$result = $this->Common->flashMessage(h('Foo & bar'), 'success');
+		$result = $this->Flash->message(h('Foo & bar'), 'success');
 		$expected = '<div class="flash-messages flashMessages"><div class="message success">Foo &amp;amp; bar</div></div>';
 		$this->assertEquals($expected, $result);
 	}

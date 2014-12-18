@@ -148,7 +148,7 @@ class CommonComponentTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testTransientFlashMessage() {
-		$is = $this->Controller->Common->transientFlashMessage('xyz', 'success');
+		$is = $this->Controller->Flash->transientMessage('xyz', 'success');
 		//$this->assertTrue($is);
 
 		$res = Configure::read('messages');
@@ -164,7 +164,7 @@ class CommonComponentTest extends CakeTestCase {
 	 */
 	public function testFlashMessage() {
 		$this->Controller->Session->delete('messages');
-		$is = $this->Controller->Common->flashMessage('efg');
+		$is = $this->Controller->Flash->message('efg');
 
 		$res = $this->Controller->Session->read('messages');
 		$this->assertTrue(!empty($res));
