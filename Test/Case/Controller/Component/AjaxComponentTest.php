@@ -182,6 +182,6 @@ class AjaxComponentTest extends CakeTestCase {
 // Use Controller instead of AppController to avoid conflicts
 class AjaxComponentTestController extends Controller {
 
-	public $components = array('Session', 'Tools.Ajax', 'Tools.Common');
+	public $components = array('Session', 'Tools.Ajax', 'Tools.Common', 'Tools.Flash');
 
 }
