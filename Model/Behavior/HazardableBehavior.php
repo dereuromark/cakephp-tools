@@ -30,7 +30,7 @@ App::uses('HazardLib', 'Tools.Lib');
  * to the reality as possible.
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class HazardableBehavior extends ModelBehavior {
 

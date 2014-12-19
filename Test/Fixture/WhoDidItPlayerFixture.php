@@ -4,7 +4,7 @@
  *
  * @author Mark Scherer
  * @author Marc Würth
- * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 
 /**

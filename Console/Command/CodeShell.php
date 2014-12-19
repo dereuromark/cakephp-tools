@@ -11,7 +11,7 @@ if (!defined('LF')) {
  * - Fix missing App::uses() statements
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class CodeShell extends AppShell {
 

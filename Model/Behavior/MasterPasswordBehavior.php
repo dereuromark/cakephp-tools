@@ -26,7 +26,7 @@ App::uses('ModelBehavior', 'Model');
  *
  * @author Mark Scherer
  * @link http://github.com/dereuromark/
- * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 
 /**

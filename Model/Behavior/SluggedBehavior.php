@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2008, Andy Dawson
  * @author Andy Dawson
  * @author Mark Scherer
- * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 
 App::uses('ModelBehavior', 'Model');

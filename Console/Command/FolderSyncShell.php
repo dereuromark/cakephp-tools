@@ -9,7 +9,7 @@ App::uses('AppShell', 'Console/Command');
  *
  * @version 1.0
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class FolderSyncShell extends AppShell {
 

@@ -11,7 +11,7 @@ App::uses('AppHelper', 'View/Helper');
  * Dependencies:
  * The respective JS plugins for the widgets.
  *
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  * @author Mark Scherer
  * @php 5
  * @version 1.0

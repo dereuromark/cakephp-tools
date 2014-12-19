@@ -6,7 +6,7 @@ App::uses('AppShell', 'Console/Command');
  * Detect encoding or find invalid files (starting with BOM)
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class EncodingShell extends AppShell {
 

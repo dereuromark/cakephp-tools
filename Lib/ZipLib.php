@@ -7,7 +7,7 @@
  * @see http://www.php.net/manual/de/class.ziparchive.php
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class ZipLib {
 

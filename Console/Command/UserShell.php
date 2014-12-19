@@ -10,7 +10,7 @@ App::uses('AppShell', 'Console/Command');
  * Create a new user from CLI
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class UserShell extends AppShell {
 

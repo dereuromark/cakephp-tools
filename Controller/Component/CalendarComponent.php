@@ -9,7 +9,7 @@ App::uses('Component', 'Controller');
  *
  * @author Mark Scherer
  * @copyright 2012 Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  *
  */
 class CalendarComponent extends Component {

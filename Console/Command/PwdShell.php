@@ -6,7 +6,7 @@ App::uses('ComponentCollection', 'Controller');
  * Password hashing and output
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class PwdShell extends AppShell {
 

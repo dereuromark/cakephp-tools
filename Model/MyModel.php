@@ -7,7 +7,7 @@ App::uses('Hash', 'Utility');
  * Model enhancements for Cake2
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class MyModel extends Model {
 

@@ -5,9 +5,9 @@
  * @copyright http://www.4webby.com
  * @author Daniel Vecchiato
  * @author Mark Scherer
- * @author Marc Würth
+ * @author Marc Wï¿½rth
  * @version 1.3
- * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 
 App::uses('CakeSession', 'Model/Datasource');

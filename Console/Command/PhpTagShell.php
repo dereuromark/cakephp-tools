@@ -7,7 +7,7 @@ App::uses('Folder', 'Utility');
  * it also makes sure there is no whitespace at the beginning of the file
  *
  * @author Mark Scherer, Maximilian Ruta
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class PhpTagShell extends AppShell {
 

@@ -18,7 +18,7 @@ App::uses('AppShell', 'Console/Command');
  * - PRIMARY_KEY Indexes for primary keys ("id")
  *
  * @author Mark Scherer
- * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class IndexShell extends AppShell {
 

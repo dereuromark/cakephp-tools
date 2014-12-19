@@ -16,7 +16,7 @@ App::uses('AppHelper', 'View/Helper');
  * @author Rajib Ahmed
  * @author Mark Scherer
  * @link http://www.dereuromark.de/2010/12/21/googlemapsv3-cakephp-helper/
- * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license http://opensource.org/licenses/mit-license.php MIT
  * @version 1.5
  *
  * Changelog:

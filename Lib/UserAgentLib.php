@@ -8,7 +8,7 @@ App::uses('CakeRequest', 'Network');
  * Last but not least it should be capable of detecting if it is a real user or a bot
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  *
  */
 class UserAgentLib extends CakeRequest {

@@ -8,7 +8,7 @@ App::uses('StringTemplate', 'Tools.View');
  * TODO: make snippets more "css and background image" (instead of inline img links)
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class FormatHelper extends TextHelper {
 

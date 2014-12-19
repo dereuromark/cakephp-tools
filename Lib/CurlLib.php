@@ -5,7 +5,7 @@
  * - can switch the UA to test certain browser sensitive features
  * - can simulate/establish tor connection
  *
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class CurlLib {
 

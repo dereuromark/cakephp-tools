@@ -4,7 +4,7 @@
  * Random Lib
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class RandomLib {
 

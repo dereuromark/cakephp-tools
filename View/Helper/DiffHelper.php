@@ -13,7 +13,7 @@ App::uses('DiffLib', 'Tools.Lib');
  * Wraps the DiffLib (which does all the heavy lifting) for the view layer.
  *
  * @author Marcin Domanski aka kabturek <blog@kabturek.info>
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  * @modified Mark Scherer (Make it work with 2.x and clean it up into Lib + Helper)
  */
 class DiffHelper extends AppHelper {

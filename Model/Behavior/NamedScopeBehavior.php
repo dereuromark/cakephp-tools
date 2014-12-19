@@ -32,7 +32,7 @@ App::uses('ModelBehavior', 'Model');
  *
  * See the test cases for more complex examples.
  *
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  * @author Mark Scherer
  * @link https://github.com/dereuromark/cakephp-tools/wiki/Model-Behavior-NamedScope
  */

@@ -14,7 +14,7 @@ App::uses('AbstractPasswordHasher', 'Controller/Component/Auth');
  * But the preferred way would be a composer dependency.
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  * @link http://www.dereuromark.de/2011/08/25/working-with-passwords-in-cakephp/
  */
 class ModernPasswordHasher extends AbstractPasswordHasher {

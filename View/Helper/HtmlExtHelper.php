@@ -8,7 +8,7 @@ App::uses('HtmlHelper', 'View/Helper');
  * Use with aliasing to map it back to $this->Html attribute.
  *
  * @author Mark Scherer
- * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class HtmlExtHelper extends HtmlHelper {
 

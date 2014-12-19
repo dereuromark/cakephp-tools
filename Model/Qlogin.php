@@ -10,7 +10,7 @@ App::uses('CakeSession', 'Model/Datasource');
  * TODO: Remove CodeKey BC
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class Qlogin extends ToolsAppModel {
 

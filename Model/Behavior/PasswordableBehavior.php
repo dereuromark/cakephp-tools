@@ -38,7 +38,7 @@ if (!defined('PWD_MAX_LENGTH')) {
  * @version 1.8 (Now supports Tools.Modern PasswordHasher and password_hash() method)
  * @author Mark Scherer
  * @link http://www.dereuromark.de/2011/08/25/working-with-passwords-in-cakephp
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class PasswordableBehavior extends ModelBehavior {
 

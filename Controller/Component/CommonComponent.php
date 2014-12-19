@@ -12,7 +12,7 @@ App::uses('Utility', 'Tools.Utility');
  *
  * @author Mark Scherer
  * @copyright 2012 Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class CommonComponent extends Component {
 

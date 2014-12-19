@@ -9,7 +9,7 @@ App::uses('ConsoleOutput', 'Console');
  *  $stdOut = new TestConsoleOutput();
  *  $this->MyShell = new MyShell($stdOut);
  *
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  * @author Mark Scherer
  */
 class TestConsoleOutput extends ConsoleOutput {

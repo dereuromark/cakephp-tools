@@ -34,7 +34,7 @@ App::uses('ModelBehavior', 'Model');
  * For tables with lots of records you might want to use a shell and the CLI to invoke the reset/update process.
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  * @version 1.0
  */
 class ResetBehavior extends ModelBehavior {

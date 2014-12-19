@@ -12,7 +12,7 @@ App::uses('Component', 'Controller');
  * of the JSON response object.
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class AjaxComponent extends Component {
 
