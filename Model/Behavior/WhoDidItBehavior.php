@@ -113,7 +113,7 @@ class WhoDidItBehavior extends ModelBehavior {
 		}
 
 		$authSession = $config['auth_session'];
-		list($plugin, $userSession) = pluginSplit($config['user_model']);
+		list(, $userSession) = pluginSplit($config['user_model']);
 
 		$userId = CakeSession::read($authSession . '.' . $userSession . '.id');
 
