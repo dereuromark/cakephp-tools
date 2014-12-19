@@ -11,7 +11,7 @@ App::uses('Set', 'Utility');
  *
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
  * @link http://www.infinitas-cms.org
- * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @license http://opensource.org/licenses/mit-license.php MIT
  *
  * @author dogmatic69
  * @author kvz

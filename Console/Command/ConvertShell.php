@@ -16,7 +16,7 @@ App::uses('AppShell', 'Console/Command');
  * It is also possible to manually define the binPath (for Windows for example).
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class ConvertShell extends AppShell {
 

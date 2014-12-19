@@ -7,7 +7,7 @@ App::uses('ModelBehavior', 'Model');
  * TODO: long text? separate table or not at all?
  * TODO: caching
  *
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  * @modified Mark Scherer
  */
 class KeyValueBehavior extends ModelBehavior {

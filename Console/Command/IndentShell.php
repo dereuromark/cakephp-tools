@@ -34,7 +34,7 @@ App::uses('AppShell', 'Console/Command');
  * Oh, and: Use TABS for indentation of code - ALWAYS.
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class IndentShell extends AppShell {
 

@@ -6,7 +6,7 @@ App::uses('Hash', 'Utility');
  * Manage Quick Urls
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class Qurl extends ToolsAppModel {
 

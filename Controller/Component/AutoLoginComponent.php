@@ -8,7 +8,7 @@ App::uses('Component', 'Controller');
  *
  * @author		Miles Johnson - http://milesj.me
  * @copyright	Copyright 2006-2011, Miles Johnson, Inc.
- * @license		http://opensource.org/licenses/mit-license.php - Licensed under The MIT License
+ * @license http://opensource.org/licenses/mit-license.php MIT
  * @link		http://milesj.me/code/cakephp/auto-login
  *
  * @modified Mark Scherer - 2012-01-08 ms

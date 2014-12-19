@@ -25,7 +25,7 @@ App::uses('ModelBehavior', 'Model');
  * $Model->Behaviors->load('Tools.MultipleDisplayFields', $config);
  *
  * @see: http://bakery.cakephp.org/articles/view/multiple-display-field-3
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  * @modified Mark Scherer
  */
 class MultipleDisplayFieldsBehavior extends ModelBehavior {

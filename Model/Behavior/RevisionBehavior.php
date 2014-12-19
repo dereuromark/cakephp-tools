@@ -103,7 +103,7 @@ App::uses('Hash', 'Utility');
  *
  * @author Ronny Vindenes
  * @author Alexander 'alkemann' Morland
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  * @modifed 27. march 2009
  * @version 2.0.6
  * @modified 2012-07-28 Mark Scherer (2.x ready)

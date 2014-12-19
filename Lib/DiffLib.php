@@ -13,7 +13,7 @@
  * Currently uses Horde classes, but could also use PEAR or php-diff packages.
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class DiffLib {
 

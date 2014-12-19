@@ -8,7 +8,7 @@ App::uses('ModelBehavior', 'Model');
  * Copyright 2011, dereuromark (http://www.dereuromark.de)
  *
  * @link http://github.com/dereuromark/
- * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @license http://opensource.org/licenses/mit-license.php MIT
  * @link http://www.dereuromark.de/2011/07/05/introducing-two-cakephp-behaviors/
  */
 class ConfirmableBehavior extends ModelBehavior {

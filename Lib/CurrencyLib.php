@@ -17,7 +17,7 @@ App::uses('Xml', 'Utility');
  * alternativly: http://www.currencyserver.de/webservice/CurrencyServerWebService.asmx/getXmlStream?provider=AVERAGE
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class CurrencyLib {
 

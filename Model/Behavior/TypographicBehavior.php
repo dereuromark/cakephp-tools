@@ -3,7 +3,7 @@
  * PHP 5
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 
 App::uses('ModelBehavior', 'Model');

@@ -17,7 +17,7 @@ App::uses('ModelBehavior', 'Model');
  * @version 1.1
  * @author Mark Scherer
  * @cake 2.x
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  * @link http://www.dereuromark.de/2012/02/26/bitmasked-using-bitmasks-in-cakephp/
  */
 class BitmaskedBehavior extends ModelBehavior {

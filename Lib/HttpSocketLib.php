@@ -15,7 +15,7 @@ App::uses('CurlLib', 'Tools.Lib');
  * TODO: throw exceptions instead of error stuff here
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class HttpSocketLib {
 

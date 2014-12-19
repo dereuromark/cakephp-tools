@@ -5,9 +5,9 @@
  * @copyright http://www.4webby.com
  * @author Daniel Vecchiato
  * @author Mark Scherer
- * @author Marc Würth
+ * @author Marc WÃ¼rth
  * @version 1.3
- * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 
 App::uses('CakeSession', 'Model/Datasource');
@@ -102,8 +102,9 @@ class WhoDidItBehavior extends ModelBehavior {
 	 * ... the modified by field only if it is not in the data array
 	 * or the "force_modified" setting is set to true.
 	 *
-	 * @param Model $Model The model using this behavior.
-	 * @return bool True
+	 * @param Model $Model The Model using this behavior
+	 * @param array $options Options passed from Model::save(), unused.
+	 * @return mixed False if the operation should abort. Any other result will continue.
 	 */
 	public function beforeSave(Model $Model, $options = array()) {
 		$config = $this->settings[$Model->alias];
@@ -112,7 +113,7 @@ class WhoDidItBehavior extends ModelBehavior {
 		}
 
 		$authSession = $config['auth_session'];
-		list($plugin, $userSession) = pluginSplit($config['user_model']);
+		list(, $userSession) = pluginSplit($config['user_model']);
 
 		$userId = CakeSession::read($authSession . '.' . $userSession . '.id');
 

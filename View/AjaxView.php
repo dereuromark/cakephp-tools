@@ -12,7 +12,7 @@ App::uses('View', 'View');
  * You can add more data using _serialize.
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class AjaxView extends View {
 

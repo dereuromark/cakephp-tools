@@ -17,7 +17,7 @@ App::uses('AuthComponent', 'Controller/Component');
  * - dynamic login scope validation
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class AuthExtComponent extends AuthComponent {
 

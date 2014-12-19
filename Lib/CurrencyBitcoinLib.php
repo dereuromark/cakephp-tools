@@ -5,7 +5,7 @@ App::uses('HttpSocketLib', 'Tools.Lib');
  * Use Webservices to get current rates etc
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class CurrencyBitcoinLib {
 

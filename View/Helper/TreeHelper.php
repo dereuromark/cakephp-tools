@@ -5,7 +5,7 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright Copyright (c) 2008, Andy Dawson
- * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 App::uses('AppHelper', 'View/Helper');
 

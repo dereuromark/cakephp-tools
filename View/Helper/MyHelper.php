@@ -7,7 +7,7 @@ App::uses('UrlCacheManager', 'Tools.Routing');
  * Helper enhancements for CakePHP
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class MyHelper extends Helper {
 

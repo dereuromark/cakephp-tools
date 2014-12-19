@@ -16,7 +16,7 @@ App::uses('ModelBehavior', 'Model');
  * The sort value of a new record will be calculated (currently highest + 1).
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class SortableBehavior extends ModelBehavior {
 

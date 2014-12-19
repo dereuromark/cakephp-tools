@@ -10,7 +10,7 @@ App::uses('AppShell', 'Console/Command');
  * Reset user data
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class ResetShell extends AppShell {
 

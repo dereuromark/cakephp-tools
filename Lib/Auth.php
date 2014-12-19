@@ -32,7 +32,7 @@ App::uses('Hash', 'Utility');
  * Note: This uses AuthComponent internally to work with both stateful and stateless auth.
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  * @php 5
  */
 class Auth {

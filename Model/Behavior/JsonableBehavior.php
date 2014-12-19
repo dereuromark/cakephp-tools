@@ -6,7 +6,7 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @version 0.1
- * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 App::uses('ModelBehavior', 'Model');
 App::uses('Hash', 'Utility');

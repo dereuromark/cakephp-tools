@@ -10,7 +10,7 @@
  * @since v 1.0
  * @modifiedBy $LastChangedBy$
  * @lastModified $Date$
- * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 
 /**

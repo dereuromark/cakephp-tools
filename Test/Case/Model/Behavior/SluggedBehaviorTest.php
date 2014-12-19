@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2008, Andy Dawson
  * @link www.ad7six.com
- * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 App::uses('SluggedBehavior', 'Tools.Model/Behavior');
 App::uses('HttpSocket', 'Network/Http');

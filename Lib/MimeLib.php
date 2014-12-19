@@ -6,7 +6,7 @@ App::uses('CakeResponse', 'Network');
  * Wrapper to be able to read cake core's mime types as well as fix for missing ones
  *
  * @version 1.0
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  * @author	Mark Scherer
  */
 class MimeLib extends CakeResponse {

@@ -7,7 +7,7 @@ App::uses('Hash', 'Utility');
  * A generic model to hold tokens
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class Token extends ToolsAppModel {
 

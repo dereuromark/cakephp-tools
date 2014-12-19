@@ -8,7 +8,7 @@ App::uses('Xml', 'Utility');
  * used in configurations controller + debug helper
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class HazardLib {
 

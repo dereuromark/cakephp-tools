@@ -11,7 +11,7 @@ App::uses('View', 'View');
  * @see http://www.dereuromark.de/2011/11/21/serving-views-as-files-in-cake2 for details
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class IcalHelperTest extends MyCakeTestCase {
 

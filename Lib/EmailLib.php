@@ -35,7 +35,7 @@ if (!Configure::read('Config.adminName')) {
  * For systemEmail() one also needs Configure value Config.systemEmail to be set.
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class EmailLib extends CakeEmail {
 

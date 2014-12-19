@@ -29,7 +29,7 @@ if (!defined('ACL_FILE')) {
  *
  * @version 1.2 - now allows other parent model relations besides Role/role_id
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class TinyAuthorize extends BaseAuthorize {
 

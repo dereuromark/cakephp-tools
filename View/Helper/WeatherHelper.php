@@ -6,7 +6,7 @@ App::uses('WeatherLib', 'Tools.Lib');
  * Display weather in the view
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class WeatherHelper extends AppHelper {
 

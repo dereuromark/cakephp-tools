@@ -34,7 +34,7 @@ if (!defined('WINDOWS')) {
  * - sitecopy [linux] (maybe switch to "rsync" some time...? way more powerful and reliable!)
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class CopyShell extends AppShell {
 

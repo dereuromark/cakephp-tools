@@ -26,7 +26,7 @@ App::uses('ModelBehavior', 'Model');
  * 20.01 => 20,01
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class NumberFormatBehavior extends ModelBehavior {
 

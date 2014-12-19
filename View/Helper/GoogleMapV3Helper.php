@@ -16,7 +16,7 @@ App::uses('AppHelper', 'View/Helper');
  * @author Rajib Ahmed
  * @author Mark Scherer
  * @link http://www.dereuromark.de/2010/12/21/googlemapsv3-cakephp-helper/
- * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license http://opensource.org/licenses/mit-license.php MIT
  * @version 1.5
  *
  * Changelog:
@@ -27,7 +27,7 @@ App::uses('AppHelper', 'View/Helper');
  *
  * v1.4: Better handling of script output and directions added
  * You can now either keep map() + script(), or you can now write the script to the buffer with
- * map() + finalize(). You can then decide wether the JS should be in the head or the footer of your layout.
+ * map() + finalize(). You can then decide whether the JS should be in the head or the footer of your layout.
  * Don't forget to put `echo $this->Js->writeBuffer(array('inline' => true));` somewhere in your layout then, though.
  * You can now also add directions using addDirections().
  *

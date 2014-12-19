@@ -13,7 +13,7 @@ if (!defined('LF')) {
  *
  * @version 1.1
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class CcShell extends AppShell {
 

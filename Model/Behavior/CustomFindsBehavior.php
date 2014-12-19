@@ -11,7 +11,7 @@ App::uses('ModelBehavior', 'Model');
  * Redistributions of files must retain the above copyright notice.
  *
  * @author Ariel Patschiki, Daniel L. Pakuschewski
- * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license http://opensource.org/licenses/mit-license.php MIT
  * @copyright Copyright 2010, MobVox Solu??es Digitais.
  * @version 0.1
  */

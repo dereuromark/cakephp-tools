@@ -6,7 +6,7 @@
  *   require CakePlugin::path('Tools') . 'Lib/Bootstrap/Password.php';
  *
  * @author Anthony Ferrara <ircmaxell@php.net>
- * @license http://www.opensource.org/licenses/mit-license.html MIT License
+ * @license http://opensource.org/licenses/mit-license.html MIT
  * @copyright 2012 The Authors
  */
 

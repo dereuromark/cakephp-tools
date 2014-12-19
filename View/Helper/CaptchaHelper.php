@@ -11,7 +11,7 @@ if (!defined('BR')) {
  *
  * @author Mark Scherer
  * @link http://www.dereuromark.de
- * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 
 /**

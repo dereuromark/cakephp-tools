@@ -12,7 +12,7 @@ App::uses('AppHelper', 'View/Helper');
  *
  * @link http://almende.github.io/chap-links-library/timeline.html
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class TimelineHelper extends AppHelper {
 

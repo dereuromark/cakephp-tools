@@ -7,7 +7,7 @@ App::uses('Router', 'Routing');
  * Main class for all app-wide utility methods
  *
  * @author Mark Scherer
- * @license MIT
+ * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class Utility {
 
