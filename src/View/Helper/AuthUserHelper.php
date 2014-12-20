@@ -13,8 +13,6 @@ class AuthUserHelper extends Helper {
 
 	use AuthUserTrait;
 
-	public $helpers = array('Session');
-
 	/**
 	 * AuthUserHelper::_getUser()
 	 *
