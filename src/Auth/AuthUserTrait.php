@@ -14,13 +14,6 @@ if (!defined('USER_RIGHT_KEY')) {
 /**
  * Convenience wrapper to access Auth data and check on rights/roles.
  *
- * It can be used anywhere in the application due to static access.
- * So in the view we can use this shortcut to check if a user is logged in:
- *
- *   if (Auth::id()) {
- *     // Display element
- *   }
- *
  * Simply add it at the class file:
  *
  *   trait AuthUserTrait;
@@ -49,10 +42,37 @@ trait AuthUserTrait {
 	 *
 	 * This can be used anywhere to check if a user is logged in.
 	 *
+	 * @param string $field Field name. Defaults to `id`.
 	 * @return mixed User id if existent, null otherwise.
 	 */
-	public function id() {
-		return $this->user('id');
+	public function id($field = 'id') {
+		return $this->user($field);
+	}
+
+	/**
+	 * This check can be used to tell if a record that belongs to some user is the
+	 * current logged in user
+	 *
+	 * @param string|int $userId
+	 * @param string $field Field name. Defaults to `id`.
+	 * @return boolean
+	 */
+	public function isMe($userId, $field = 'id') {
+		return ($userId && (string)$userId === (string)$this->user($field));
+	}
+
+	/**
+	 * Get the user data of the current session.
+	 *
+	 * @param string $key Key in dot syntax.
+	 * @return mixed Data
+	 */
+	public function user($key = null) {
+		$user = $this->_getUser();
+		if ($key === null) {
+			return $user;
+		}
+		return Hash::get($user, $key);
 	}
 
 	/**
@@ -75,36 +95,24 @@ trait AuthUserTrait {
 	}
 
 	/**
-	 * Get the user data of the current session.
-	 *
-	 * @param string $key Key in dot syntax.
-	 * @return mixed Data
-	 */
-	public function user($key = null) {
-		return Hash::get($this->_getUser(), $key);
-	}
-
-	/**
 	 * Check if the current session has this role.
 	 *
 	 * @param mixed $role
 	 * @param mixed $providedRoles
 	 * @return bool Success
 	 */
-	public function hasRole($ownRole, $providedRoles = null) {
+	public function hasRole($expectedRole, $providedRoles = null) {
 		if ($providedRoles !== null) {
-			$roles = $providedRoles;
+			$roles = (array)$providedRoles;
 		} else {
-			$roles = $this->roles();
+			$roles = (array)$this->roles();
 		}
-		if (is_array($roles)) {
-			if (in_array($ownRole, $roles)) {
-				return true;
-			}
-		} elseif (!empty($roles)) {
-			if ($ownRole == $roles) {
-				return true;
-			}
+		if (empty($roles)) {
+			return false;
+		}
+
+		if (in_array($expectedRole, $roles)) {
+			return true;
 		}
 		return false;
 	}
@@ -115,24 +123,24 @@ trait AuthUserTrait {
 	 * You can either require one of the roles (default), or you can require all
 	 * roles to match.
 	 *
-	 * @param mixed $roles
+	 * @param mixed $expectedRoles
 	 * @param bool $oneRoleIsEnough (if all $roles have to match instead of just one)
 	 * @param mixed $providedRoles
 	 * @return bool Success
 	 */
-	public function hasRoles($ownRoles, $oneRoleIsEnough = true, $providedRoles = null) {
+	public function hasRoles($expectedRoles, $oneRoleIsEnough = true, $providedRoles = null) {
 		if ($providedRoles !== null) {
 			$roles = $providedRoles;
 		} else {
 			$roles = $this->roles();
 		}
-		$ownRoles = (array)$ownRoles;
-		if (empty($ownRoles)) {
+		$expectedRoles = (array)$expectedRoles;
+		if (empty($expectedRoles)) {
 			return false;
 		}
 		$count = 0;
-		foreach ($ownRoles as $role) {
-			if ($this->hasRole($role, $roles)) {
+		foreach ($expectedRoles as $expectedRole) {
+			if ($this->hasRole($expectedRole, $roles)) {
 				if ($oneRoleIsEnough) {
 					return true;
 				}
@@ -144,7 +152,7 @@ trait AuthUserTrait {
 			}
 		}
 
-		if ($count === count($ownRoles)) {
+		if ($count === count($expectedRoles)) {
 			return true;
 		}
 		return false;
@@ -162,14 +170,14 @@ trait AuthUserTrait {
 	 * @param mixed $providedRights
 	 * @return bool Success
 	 */
-	public function hasRight($ownRight, $providedRights = null) {
+	public function hasRight($expectedRight, $providedRights = null) {
 		if ($providedRights !== null) {
 			$rights = $providedRights;
 		} else {
 			$rights = $this->user(USER_RIGHT_KEY);
 		}
 		$rights = (array)$rights;
-		if (array_key_exists($ownRight, $rights) && !empty($rights[$ownRight])) {
+		if (array_key_exists($expectedRight, $rights) && !empty($rights[$expectedRight])) {
 			return true;
 		}
 		return false;

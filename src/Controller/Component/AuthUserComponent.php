@@ -13,7 +13,7 @@ class AuthUserComponent extends Component {
 
 	use AuthUserTrait;
 
-	public $components = ['Auth', 'Tools.Session'];
+	public $components = ['Auth'];
 
 	/**
 	 * AuthUserComponent::beforeRender()
@@ -27,6 +27,11 @@ class AuthUserComponent extends Component {
 		$controller->set(compact('authUser'));
 	}
 
+	/**
+	 * AuthUserComponent::_getUser()
+	 *
+	 * @return array
+	 */
 	protected function _getUser() {
 		return (array)$this->Auth->user();
 	}
