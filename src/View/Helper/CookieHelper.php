@@ -9,10 +9,9 @@ use Cake\View\Helper;
 class CookieHelper extends Helper {
 
 /**
- * Used to read a cookie values set in a controller for a key or return values for all keys.
+ * Reads a cookie value for a key or return values for all keys.
  *
- * In your view: `$this->Cookie->read('Controller.sessKey');`
- * Calling the method without a param will return all cookie vars
+ * In your view: `$this->Cookie->read('key');`
  *
  * @param string $name the name of the cookie key you want to read
  * @return mixed values from the cookie vars
@@ -22,11 +21,11 @@ class CookieHelper extends Helper {
 	}
 
 /**
- * Used to check is a session key has been set
+ * Checks if a cookie key has been set.
  *
- * In your view: `$this->Session->check('Controller.sessKey');`
+ * In your view: `$this->Cookie->check('key');`
  *
- * @param string $name Session key to check.
+ * @param string $name Cookie name to check.
  * @return bool
  */
 	public function check($name) {
