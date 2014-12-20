@@ -51,7 +51,7 @@ if (!defined('FORMAT_NICE_YMDHMS')) {
 
 // Make the app and L10n play nice with Windows.
 if (!defined('WINDOWS')) {
-	if (DS == '\\' || substr(PHP_OS, 0, 3) === 'WIN') {
+	if (DS === '\\' || substr(PHP_OS, 0, 3) === 'WIN') {
 		define('WINDOWS', true);
 	} else {
 		define('WINDOWS', false);

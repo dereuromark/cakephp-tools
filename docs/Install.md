@@ -73,3 +73,11 @@ $this->addBehavior('Tools.Slugged'); // Adding SluggedBehavior
 // In a Controller
 public $helpers = array('Tools.Foo'); // Adding FooHelper
 ```
+
+### Class Alias Shortcuts
+
+For Configure usage especially in view files, you can add this to the bootstrap:
+```php
+class_alias('Cake\Core\Configure', 'Configure');
+```
+This avoids having to add tons of `use` statements at the top of your view ctps.

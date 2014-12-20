@@ -32,7 +32,7 @@ Dev (currently), Alpha, Beta, RC, 1.0 stable (incl. tagged release then).
 - RSS and Ajax Views for better responses (Ajax also comes with an optional component).
 - Slugged and Reset behavior
 - The Text, Time, Number libs and helpers etc provide extended functionality if desired.
-- GoogleMapV3, Timeline, Typography, etc provide additional helper functionality.
+- AuthUser, Timeline, Typography, etc provide additional helper functionality.
 - Email as a wrapper for core's Email adding some more usefulness and making debugging/testing easier.
 
 ### Providing 2.x shims
