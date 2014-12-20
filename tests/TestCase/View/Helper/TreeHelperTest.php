@@ -36,8 +36,6 @@ class TreeHelperTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		Configure::write('debug', true);
-
 		$this->Tree = new TreeHelper(new View(null));
 		$this->Table = TableRegistry::get('AfterTrees');
 		$this->Table->addBehavior('Tree');
@@ -81,6 +79,11 @@ class TreeHelperTest extends TestCase {
 		$this->assertInstanceOf('Tools\View\Helper\TreeHelper', $this->Tree);
 	}
 
+	/**
+	 * TreeHelperTest::testGenerate()
+	 *
+	 * @return void
+	 */
 	public function testGenerate() {
 		$tree = $this->Table->find('threaded')->toArray();
 
@@ -166,6 +169,11 @@ TEXT;
 		$this->assertTextEquals($expected, $output);
 	}
 
+	/**
+	 * TreeHelperTest::testGenerateWithDepth()
+	 *
+	 * @return void
+	 */
 	public function testGenerateWithDepth() {
 		$tree = $this->Table->find('threaded')->toArray();
 
@@ -203,6 +211,11 @@ TEXT;
 		$this->assertTextEquals($expected, $output);
 	}
 
+	/**
+	 * TreeHelperTest::testGenerateWithSettings()
+	 *
+	 * @return void
+	 */
 	public function testGenerateWithSettings() {
 		$tree = $this->Table->find('threaded')->toArray();
 
@@ -240,6 +253,11 @@ TEXT;
 		$this->assertTextEquals($expected, $output);
 	}
 
+	/**
+	 * TreeHelperTest::testGenerateWithMaxDepth()
+	 *
+	 * @return void
+	 */
 	public function testGenerateWithMaxDepth() {
 		$tree = $this->Table->find('threaded')->toArray();
 
@@ -273,6 +291,11 @@ TEXT;
 		$this->assertTextEquals($expected, $output);
 	}
 
+	/**
+	 * TreeHelperTest::testGenerateWithAutoPath()
+	 *
+	 * @return void
+	 */
 	public function testGenerateWithAutoPath() {
 		$tree = $this->Table->find('threaded')->toArray();
 		//debug($tree);
@@ -359,6 +382,8 @@ TEXT;
 	 * - Three
 	 * - Four
 	 * -- Four-SubA
+	 *
+	 * @return void
 	 */
 	public function testGenerateWithAutoPathAndHideUnrelated() {
 		$this->skipIf(true, 'FIXME');
@@ -418,6 +443,8 @@ TEXT;
 	 * - Three
 	 * - Four
 	 * -- Four-SubA
+	 *
+	 * @return void
 	 */
 	public function testGenerateWithAutoPathAndHideUnrelatedAndSiblings() {
 		$this->skipIf(true, 'FIXME');
