@@ -90,3 +90,8 @@ To test a specific file:
 
 	phpunit /path/to/class.php
 
+
+## Contributing
+Your help is greatly appreciated.
+
+* See [Contributing](Contributing.md) for details.

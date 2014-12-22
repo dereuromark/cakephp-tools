@@ -632,7 +632,6 @@ class PasswordableBehaviorTest extends TestCase {
 		$this->assertFalse($result);
 		$expected = array(
 			'pwd' => array('between' => __d('tools', 'valErrBetweenCharacters {0} {1}', 3, 6)),
-			'pwd_repeat' => array('between' =>__d('tools', 'valErrBetweenCharacters {0} {1}', 3, 6))
 		);
 		$this->assertEquals($expected, $user->errors());
 	}
@@ -664,6 +663,64 @@ class PasswordableBehaviorTest extends TestCase {
 		$this->assertTrue((bool)$result2);
 		$hash2 = $user['password'];
 		$this->assertTrue($hash !== $hash2);
+	}
+
+	/**
+	 * PasswordableBehaviorTest::testValidateCustomRule()
+	 *
+	 * @return void
+	 */
+	public function testValidateCustomRule() {
+		$rules = array(
+			'validateCustom' => array(
+				'rule' => array('custom', '#^[a-z0-9]+$#'), // Just a test example, never use this regexp!
+				'message' => 'Foo Bar',
+				'last' => true,
+			),
+			'validateCustomExt' => array(
+				'rule' => array('custom', '#^[a-z]+$#'), // Just a test example, never use this regexp!
+				'message' => 'Foo Bar Ext',
+				'last' => true,
+			)
+		);
+		$this->Users->addBehavior('Tools.Passwordable', array(
+			'customValidation' => $rules));
+
+		$user = $this->Users->newEntity();
+		$data = array(
+			'pwd' => '%123456',
+			'pwd_repeat' => '%123456'
+		);
+		$this->Users->patchEntity($user, $data);
+
+		$is = $this->Users->save($user);
+		$this->assertFalse($is);
+
+		$result = $user->errors();
+		$expected = array('pwd' => array('validateCustom' => 'Foo Bar'));
+		$this->assertSame($expected, $result);
+
+		$user = $this->Users->newEntity();
+		$data = array(
+			'pwd' => 'abc123',
+			'pwd_repeat' => 'abc123'
+		);
+		$this->Users->patchEntity($user, $data);
+		$is = $this->Users->save($user);
+		$this->assertFalse($is);
+
+		$result = $user->errors();
+		$expected = array('pwd' => array('validateCustomExt' => 'Foo Bar Ext'));
+		$this->assertSame($expected, $result);
+
+		$user = $this->Users->newEntity();
+		$data = array(
+			'pwd' => 'abcdef',
+			'pwd_repeat' => 'abcdef'
+		);
+		$this->Users->patchEntity($user, $data);
+		$is = $this->Users->save($user);
+		$this->assertTrue((bool)$is);
 	}
 
 }

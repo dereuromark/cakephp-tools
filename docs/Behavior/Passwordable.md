@@ -25,7 +25,8 @@ Also capable of:
 - 'allowSame' => true, // Don't allow the old password on change
 - 'minLength' => PWD_MIN_LENGTH,
 - 'maxLength' => PWD_MAX_LENGTH,
-- 'validator' => 'default'
+- 'validator' => 'default',
+- 'customValidation' => null, // Custom validation rule(s) for the formField on top
 
 You can either pass those to the behavior at runtime, or globally via Configure and `app.php`:
 ```php
@@ -160,3 +161,27 @@ public function login() {
 }
 ```
 Note that the `passwordHasher` config has been set here globabally to assert the Fallback hasher class to kick in.
+
+
+### Adding custom validation rules on top
+If the default rules don't satisfy your needs, you can add some more on top:
+```php
+$rules = array('validateCustom' => array(
+		'rule' => array('custom', '#^[a-z0-9]+$#'), // Just a test example, never use this regex!
+		'message' => __('Foo Bar'),
+		'last' => true,
+	),
+	'validateCustomExt' => array(
+		'rule' => array('custom', '#^[a-z]+$#'), // Just a test example, never use this regex!
+		'message' => __('Foo Bar Ext'),
+		'last' => true,
+	)
+);
+$this->User->Behaviors->load('Tools.Passwordable', array(
+	'customValidation' => $rules));
+```
+But please do NOT use the above regex examples. Also never try to limit the chars to only a subset of characters.
+Always allow [a-z], [0-9] and ALL special chars a user can possibly type in.
+Regex rules can be useful to assert that the password is strong enough, though. That means, that it contains not just letters/numbers, but
+also some special chars. This would be way more secure and useful. But also try to be reasonable here, some developers tend to overreach here,
+making it very annoying to set up passwords.

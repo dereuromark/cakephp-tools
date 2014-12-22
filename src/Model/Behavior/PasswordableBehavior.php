@@ -49,7 +49,8 @@ class PasswordableBehavior extends Behavior {
 		'allowSame' => true, // Don't allow the old password on change
 		'minLength' => PWD_MIN_LENGTH,
 		'maxLength' => PWD_MAX_LENGTH,
-		'validator' => 'default'
+		'validator' => 'default',
+		'customValidation' => null // Custom validation rule(s) for the formField
 	);
 
 	/**
@@ -65,12 +66,6 @@ class PasswordableBehavior extends Behavior {
 			)
 		),
 		'formFieldRepeat' => array(
-			'between' => array(
-				'rule' => array('lengthBetween', PWD_MIN_LENGTH, PWD_MAX_LENGTH),
-				'message' => array('valErrBetweenCharacters {0} {1}', PWD_MIN_LENGTH, PWD_MAX_LENGTH),
-				'last' => true,
-				//'provider' => 'table'
-			),
 			'validateIdentical' => array(
 				'rule' => array('validateIdentical', ['compare' => 'formField']),
 				'message' => 'valErrPwdNotMatch',
@@ -194,6 +189,11 @@ class PasswordableBehavior extends Behavior {
 				));
 				$validator->allowEmpty($formField, !$this->_config['require']);
 			}
+		}
+
+		// Add custom rule(s) if configured
+		if ($this->_config['customValidation']) {
+			$validator->add($formField, $this->_config['customValidation']);
 		}
 	}
 
