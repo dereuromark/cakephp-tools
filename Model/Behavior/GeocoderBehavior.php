@@ -26,6 +26,7 @@ class GeocoderBehavior extends ModelBehavior {
 		'overwrite' => false, 'update' => array(), 'before' => 'save',
 		'min_accuracy' => GeocodeLib::ACC_COUNTRY, 'allow_inconclusive' => true, 'unit' => GeocodeLib::UNIT_KM,
 		'log' => true, // log successfull results to geocode.log (errors will be logged to error.log in either case)
+		'params' => array(), // Array of parameters to pass to GeocoderLib
 	);
 
 	public $Geocode;
@@ -337,6 +338,11 @@ class GeocoderBehavior extends ModelBehavior {
 			'host' => $options['host']
 		);
 		$this->Geocode = new GeocodeLib($geocodeOptions);
+		if (isset($options['params'] && is_array($options['params'])) {
+			foreach ($options['params'] as $v) {
+			    $this->Geocode->setParams($v);
+			}
+		}
 
 		$config = array('language' => $options['language']);
 		if (!$this->Geocode->geocode($address, $config)) {
