@@ -187,7 +187,6 @@ class PasswordableBehavior extends ModelBehavior {
 		// Add custom rule(s) if configured
 		if ($this->settings[$Model->alias]['customValidation']) {
 			$Model->validator()->add($formField, $this->settings[$Model->alias]['customValidation']);
-			//debug($Model->validator()[$formField]);die();
 		}
 	}
 
