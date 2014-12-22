@@ -298,7 +298,7 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 		$result = $this->GoogleMapV3->script();
 		$this->assertContains('draggable: true,', $result);
 
-		$this->GoogleMapV3->map();
+		$this->GoogleMapV3->map(['marker' => array('draggable' => true)]);
 		$this->GoogleMapV3->addMarker(array(
 				'lat' => 48.69847, 'lng' => 10.9514,
 				'title' => 'Marker', 'content' => 'Some Html-<b>Content</b>',
