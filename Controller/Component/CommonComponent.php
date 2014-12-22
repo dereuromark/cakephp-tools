@@ -186,6 +186,10 @@ class CommonComponent extends Component {
 	/**
 	 * Add helper just in time (inside actions - only when needed)
 	 * aware of plugins
+	 *
+	 * Note that this method will not exist in 3.x anymore. Lazyloading of helpers
+	 * makes this unnecessary.
+	 *
 	 * @param mixed $helpers (single string or multiple array)
 	 */
 	public function loadHelper($helpers = array()) {
@@ -196,8 +200,12 @@ class CommonComponent extends Component {
 	 * Add lib just in time (inside actions - only when needed)
 	 * aware of plugins and config array (if passed)
 	 * ONLY works if constructor consists only of one param (settings)!
+	 *
+	 * Note that this method will not exist in 3.x anymore.
+	 *
 	 * @param mixed $libs (single string or multiple array)
 	 * e.g.: array('Tools.MyLib'=>array('key'=>'value'), ...)
+	 * @return void
 	 */
 	public function loadLib($libs = array()) {
 		foreach ((array)$libs as $lib => $config) {
