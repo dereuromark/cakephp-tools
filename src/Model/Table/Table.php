@@ -8,8 +8,12 @@ use Cake\Utility\Inflector;
 use Cake\Validation\Validation;
 use Cake\Validation\Validator;
 use Tools\Utility\Utility;
+use Cake\ORM\Query;
+use Cake\Event\Event;
 
 class Table extends CakeTable {
+
+	public $order = null;
 
 	/**
 	 * initialize()
@@ -26,6 +30,8 @@ class Table extends CakeTable {
 			$this->displayField($this->displayField);
 		}
 		$this->_shimRelations();
+
+		$this->prefixOrderProperty();
 
 		$this->addBehavior('Timestamp');
 	}
@@ -291,6 +297,65 @@ class Table extends CakeTable {
 			$options['markNew'] = !empty($data[$this->_primaryKey]);
 		}
 		return parent::newEntity($data, $options);
+	}
+
+	/**
+	 * Set the default ordering as 2.x shim
+	 *
+	 * If you don't want that, don't call parent when overwriting it in extending classses.
+	 *
+	 * @param Event $event
+	 * @param Query $query
+	 * @param array $options
+	 * @param boolean $primary
+	 * @return Query
+	 */
+	public function beforeFind(Event $event, Query $query, $options, $primary) {
+		if ($query->clause('order') === null && !empty($this->order)) {
+			$query->order($this->order);
+		}
+
+		return $query;
+	}
+
+	/**
+	 * Prefixes the order property with the actual alias if its a string or array.
+	 *
+	 * The core fails on using the proper prefix when building the query with two
+	 * different tables.
+	 *
+	 * @return void
+	 */
+	public function prefixOrderProperty() {
+		if (is_string($this->order)) {
+			$this->order = $this->_prefixAlias($this->order);
+		}
+		if (is_array($this->order)) {
+			foreach ($this->order as $key => $value) {
+				if (is_numeric($key)) {
+					$this->order[$key] = $this->_prefixAlias($value);
+				} else {
+					$newKey = $this->_prefixAlias($key);
+					$this->order[$newKey] = $value;
+					if ($newKey !== $key) {
+						unset($this->order[$key]);
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Checks if a string of a field name contains a dot if not it will add it and add the alias prefix.
+	 *
+	 * @param string
+	 * @return string
+	 */
+	protected function _prefixAlias($string) {
+		if (strpos($string, '.') === false) {
+			return $this->alias() . '.' . $string;
+		}
+		return $string;
 	}
 
 	/**

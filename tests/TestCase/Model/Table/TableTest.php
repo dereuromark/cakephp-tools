@@ -108,6 +108,39 @@ class TableTest extends TestCase {
 	}
 
 	/**
+	 * Test 2.x shimmed order property
+	 *
+	 *   $this->order = array('field_name' => 'ASC') etc
+	 *
+	 * becomes
+	 *
+	 *   $this->order = array('TableName.field_name' => 'ASC') and a beforeFind addition.
+	 *
+	 * @return void
+	 */
+	public function testOrder() {
+		$this->Users->truncate();
+		$rows = array(
+			array('role_id' => 1, 'name' => 'Gandalf'),
+			array('role_id' => 2, 'name' => 'Asterix'),
+			array('role_id' => 1, 'name' => 'Obelix'),
+			array('role_id' => 3, 'name' => 'Harry Potter'));
+		foreach ($rows as $row) {
+			$entity = $this->Users->newEntity($row);
+			$this->Users->save($entity);
+		}
+
+		$result = $this->Users->find('list')->toArray();
+		$expected = array(
+			'Asterix',
+			'Gandalf',
+			'Harry Potter',
+			'Obelix'
+		);
+		$this->assertSame($expected, array_values($result));
+	}
+
+	/**
 	 * TableTest::testGetRelatedInUse()
 	 *
 	 * @return void
