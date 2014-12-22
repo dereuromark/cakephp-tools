@@ -17,14 +17,15 @@ Installing the Plugin is pretty much as with every other CakePHP Plugin.
 * Put the files in `APP/Plugin/Tools`
 * Make sure you have `CakePlugin::load('Tools')` or `CakePlugin::loadAll()` in your bootstrap
 
-Tip: You can also use packagist now @ https://packagist.org/packages/dereuromark/cakephp-tools
+You should use composer/packagist now @ https://packagist.org/packages/dereuromark/cakephp-tools
 
 ```
 "require": {
-	"dereuromark/cakephp-tools": "dev-master"
+	"dereuromark/cakephp-tools": "[version].*"
 }
 ```
-or use the tags, e.g. `0.4` directly.
+With `0.5` as `[version]`, for example, it would be: `0.5.*`.
+The `*` asserts that you get all bugfix versions if existing.
 
 That's it. It should be up and running.
 
