@@ -455,7 +455,7 @@ class GoogleMapV3Helper extends AppHelper {
 	 *
 	 * Options:
 	 * - lat and lng or address (to geocode on demand, not recommended, though)
-	 * - title, content, icon, directions, maxWidth, open (optional)
+	 * - title, content, icon, directions, maxWidth, open, draggable (optional)
 	 *
 	 * Note, that you can only set one marker to "open" for single window mode.
 	 * If you declare multiple ones, the last one will be the one shown as open.
@@ -474,9 +474,9 @@ class GoogleMapV3Helper extends AppHelper {
 
 		$params = array();
 		$params['map'] = $this->name();
-		
-		if (isset($options['draggable'])) {
-    			$params['draggable'] = $options['draggable'];
+
+		if (!empty($options['draggable'])) {
+			$params['draggable'] = 'true';
 		}
 
 		if (isset($options['title'])) {

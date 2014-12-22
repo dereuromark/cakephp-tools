@@ -37,6 +37,11 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 		$this->assertEquals(8, $result['map']['zoom']);
 	}
 
+	/**
+	 * GoogleMapV3HelperTest::testMapUrl()
+	 *
+	 * @return void
+	 */
 	public function testMapUrl() {
 		$url = $this->GoogleMapV3->mapUrl(array('to' => 'Munich, Germany'));
 		$this->assertEquals('http://maps.google.com/maps?daddr=Munich%2C+Germany', $url);
@@ -45,6 +50,11 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 		$this->assertEquals('http://maps.google.com/maps?daddr=%3CM%C3%BCnchen%3E%2C+Germany', $url);
 	}
 
+	/**
+	 * GoogleMapV3HelperTest::testMapLink()
+	 *
+	 * @return void
+	 */
 	public function testMapLink() {
 		$result = $this->GoogleMapV3->mapLink('<To Munich>!', array('to' => '<Munich>, Germany'));
 		$expected = '<a href="http://maps.google.com/maps?daddr=%3CMunich%3E%2C+Germany">&lt;To Munich&gt;!</a>';
@@ -52,6 +62,11 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * GoogleMapV3HelperTest::testLinkWithMapUrl()
+	 *
+	 * @return void
+	 */
 	public function testLinkWithMapUrl() {
 		$url = $this->GoogleMapV3->mapUrl(array('to' => '<München>, Germany'));
 		$result = $this->GoogleMapV3->Html->link('Some title', $url);
@@ -60,6 +75,11 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * GoogleMapV3HelperTest::testStaticPaths()
+	 *
+	 * @return void
+	 */
 	public function testStaticPaths() {
 		$m = $this->pathElements = array(
 			array(
@@ -89,6 +109,11 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 		//echo $is;
 	}
 
+	/**
+	 * GoogleMapV3HelperTest::testStaticMarkers()
+	 *
+	 * @return void
+	 */
 	public function testStaticMarkers() {
 		$m = $this->markerElements = array(
 			array(
@@ -112,6 +137,11 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 //	http://maps.google.com/staticmap?size=500x500&maptype=hybrid&markers=color:red|label:S|48.3,11.2&sensor=false
 //	http://maps.google.com/maps/api/staticmap?size=512x512&maptype=roadmap&markers=color:blue|label:S|40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|40.718217,-73.998284&sensor=false
 
+	/**
+	 * GoogleMapV3HelperTest::testStatic()
+	 *
+	 * @return void
+	 */
 	public function testStatic() {
 		//echo '<h2>StaticMap</h2>';
 		$m = array(
@@ -188,6 +218,11 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 		//echo $link;
 	}
 
+	/**
+	 * GoogleMapV3HelperTest::testStaticMapWithStaticMapLink()
+	 *
+	 * @return void
+	 */
 	public function testStaticMapWithStaticMapLink() {
 		//echo '<h2>testStaticMapWithStaticMapLink</h2>';
 		$markers = array();
@@ -199,6 +234,11 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 
 	}
 
+	/**
+	 * GoogleMapV3HelperTest::testMarkerIcons()
+	 *
+	 * @return void
+	 */
 	public function testMarkerIcons() {
 		$tests = array(
 			array('green', null),
@@ -233,6 +273,39 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 
 		$expected = 'var map0 = new google.maps.Map(document.getElementById("map_canvas"), myOptions);';
 		$this->assertTextContains($expected, $result);
+	}
+
+	/**
+	 * GoogleMapV3HelperTest::testMarker() and draggable property
+	 *
+	 * @return void
+	 */
+	public function testMarker() {
+		$this->GoogleMapV3->map();
+		$this->GoogleMapV3->addMarker(array(
+				'lat' => 48.69847, 'lng' => 10.9514,
+				'title' => 'Marker', 'content' => 'Some Html-<b>Content</b>',
+				'draggable' => true));
+
+		$result = $this->GoogleMapV3->script();
+		$this->assertContains('draggable: true,', $result);
+
+		$this->GoogleMapV3->map(['marker' => array('draggable' => true)]);
+		$this->GoogleMapV3->addMarker(array(
+				'lat' => 48.69847, 'lng' => 10.9514,
+				'title' => 'Marker', 'content' => 'Some Html-<b>Content</b>'));
+
+		$result = $this->GoogleMapV3->script();
+		$this->assertContains('draggable: true,', $result);
+
+		$this->GoogleMapV3->map();
+		$this->GoogleMapV3->addMarker(array(
+				'lat' => 48.69847, 'lng' => 10.9514,
+				'title' => 'Marker', 'content' => 'Some Html-<b>Content</b>',
+				'draggable' => false));
+
+		$result = $this->GoogleMapV3->script();
+		$this->assertNotContains('draggable: true,', $result);
 	}
 
 	/**
