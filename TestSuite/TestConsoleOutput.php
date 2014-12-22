@@ -28,7 +28,7 @@ class TestConsoleOutput extends ConsoleOutput {
 	 * @return void
 	 */
 	protected function _write($message) {
-		if (php_sapi_name() !== 'cli' && !empty($_GET) && !empty($_GET['debug'])) {
+		if (!empty($_GET['debug']) || !empty($_SERVER['argv']) && (in_array('-v', $_SERVER['argv'], true) || in_array('-vv', $_SERVER['argv'], true))) {
 			debug($message);
 		}
 		$this->output[] = $message;

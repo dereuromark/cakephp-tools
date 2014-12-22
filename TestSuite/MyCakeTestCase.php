@@ -26,13 +26,18 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	 *
 	 * @param mixed $data
 	 * @param bool $force Should the output be flushed (forced)
+	 * @param bool $showHtml
 	 * @return void
 	 */
-	public static function debug($data, $force = false) {
-		if (php_sapi_name() === 'cli') {
+	public static function debug($data, $force = false, $showHtml = null) {
+		if (!empty($_GET['debug']) || !empty($_SERVER['argv']) && (in_array('-v', $_SERVER['argv'], true) || in_array('-vv', $_SERVER['argv'], true))) {
+			if ($showHtml === null && php_sapi_name() === 'cli') {
+				$showHtml = true;
+			}
+			debug($data, $showHtml);
+		} else {
 			return;
 		}
-		debug($data, null, false);
 		if (!$force) {
 			return;
 		}
@@ -43,6 +48,8 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	 * Outputs debug information during a web tester (browser) test case
 	 * since PHPUnit>=3.6 swallowes all output by default
 	 * this is a convenience output handler
+	 *
+	 * This method will not be part of 3.x! Please switch to debug().
 	 *
 	 * @param mixed $data
 	 * @param bool $force Should the output be flushed (forced)

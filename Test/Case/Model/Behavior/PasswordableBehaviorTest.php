@@ -213,7 +213,8 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testValidateCustomRule() {
-		$rules = array('validateCustom' => array(
+		$rules = array(
+			'validateCustom' => array(
 				'rule' => array('custom', '#^[a-z0-9]+$#'), // Just a test example, never use this regexp!
 				'message' => 'Foo Bar',
 				'last' => true,
