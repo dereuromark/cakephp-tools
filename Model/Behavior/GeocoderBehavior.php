@@ -338,7 +338,7 @@ class GeocoderBehavior extends ModelBehavior {
 			'host' => $options['host']
 		);
 		$this->Geocode = new GeocodeLib($geocodeOptions);
-		if (isset($options['params'] && is_array($options['params'])) {
+		if (isset($options['params']) && is_array($options['params'])) {
 			foreach ($options['params'] as $v) {
 			    $this->Geocode->setParams($v);
 			}
