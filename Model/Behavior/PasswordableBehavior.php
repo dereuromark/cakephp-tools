@@ -67,9 +67,18 @@ class PasswordableBehavior extends ModelBehavior {
 		'customValidation' => null // Custom validation rule(s) for the formField
 	);
 
-	function __construct() {
-		parent::__construct();
+	/**
+	 * @var array
+	 */
+	protected $_validationRules = array();
 
+	/**
+	 * Adding validation rules
+	 * also adds and merges config settings (direct + configure)
+	 *
+	 * @return void
+	 */
+	public function setup(Model $Model, $config = array()) {
 		$this->_validationRules = array(
 			'formField' => array(
 				'between' => array(
@@ -108,15 +117,7 @@ class PasswordableBehavior extends ModelBehavior {
 				)
 			)
 		);
-	}
 
-	/**
-	 * Adding validation rules
-	 * also adds and merges config settings (direct + configure)
-	 *
-	 * @return void
-	 */
-	public function setup(Model $Model, $config = array()) {
 		$defaults = $this->_defaultConfig;
 		if ($configureDefaults = Configure::read('Passwordable')) {
 			$defaults = $configureDefaults + $defaults;
