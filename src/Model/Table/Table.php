@@ -18,6 +18,9 @@ class Table extends CakeTable {
 	/**
 	 * initialize()
 	 *
+	 * All models will automatically get Timestamp behavior attached
+	 * if created or modified exists.
+	 *
 	 * @param mixed $config
 	 * @return void
 	 */
@@ -33,7 +36,9 @@ class Table extends CakeTable {
 
 		$this->prefixOrderProperty();
 
-		$this->addBehavior('Timestamp');
+		if ($this->hasField('created') || $this->hasField('modified')) {
+			$this->addBehavior('Timestamp');
+		}
 	}
 
 	/**

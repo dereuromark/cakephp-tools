@@ -74,6 +74,19 @@ class TableTest extends TestCase {
 	}
 
 	/**
+	 * TableTest::testTimestamp()
+	 *
+	 * @return void
+	 */
+	public function testTimestamp() {
+		$this->Roles = TableRegistry::get('Roles');
+		$entity = $this->Roles->newEntity(['name' => 'Foo', 'alias' => 'foo']);
+		$result = $this->Roles->save($entity);
+		$this->assertTrue(!empty($result['created']));
+		$this->assertTrue(!empty($result['modified']));
+	}
+
+	/**
 	 * Check shims
 	 *
 	 * @return void
@@ -99,6 +112,11 @@ class TableTest extends TestCase {
 		$this->assertEquals(1, $result);
 	}
 
+	/**
+	 * TableTest::testField()
+	 *
+	 * @return void
+	 */
 	public function testField() {
 		$result = $this->Users->field('name', ['conditions' => ['name' => 'User 1']]);
 		$this->assertEquals('User 1', $result);

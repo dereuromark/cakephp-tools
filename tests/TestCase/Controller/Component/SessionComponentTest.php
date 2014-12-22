@@ -99,6 +99,34 @@ class SessionComponentTest extends TestCase {
 	}
 
 /**
+ * Test consuming session data.
+ *
+ * @return void
+ */
+	public function testConsume() {
+		$Session = new SessionComponent($this->ComponentRegistry);
+
+		$Session->write('Some.string', 'value');
+		$Session->write('Some.array', ['key1' => 'value1', 'key2' => 'value2']);
+		$this->assertEquals('value', $Session->read('Some.string'));
+
+		$value = $Session->consume('Some.string');
+		$this->assertEquals('value', $value);
+		$this->assertFalse($Session->check('Some.string'));
+
+		$value = $Session->consume('');
+		$this->assertNull($value);
+
+		$value = $Session->consume(null);
+		$this->assertNull($value);
+
+		$value = $Session->consume('Some.array');
+		$expected = ['key1' => 'value1', 'key2' => 'value2'];
+		$this->assertEquals($expected, $value);
+		$this->assertFalse($Session->check('Some.array'));
+	}
+
+/**
  * testSessionDelete method
  *
  * @return void

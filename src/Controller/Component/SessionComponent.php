@@ -38,7 +38,6 @@ class SessionComponent extends Component {
 	 *    This should be in a Controller.key format for better organizing
 	 * @param string $value The value you want to store in a session.
 	 * @return void
-	 * @link http://book.cakephp.org/2.0/en/core-libraries/components/sessions.html#SessionComponent::write
 	 */
 	public function write($name, $value = null) {
 		$this->_session->write($name, $value);
@@ -52,10 +51,21 @@ class SessionComponent extends Component {
 	 *
 	 * @param string $name the name of the session key you want to read
 	 * @return mixed value from the session vars
-	 * @link http://book.cakephp.org/2.0/en/core-libraries/components/sessions.html#SessionComponent::read
 	 */
 	public function read($name = null) {
 		return $this->_session->read($name);
+	}
+
+	/**
+	 * Used to read and delete a session values for a key.
+	 *
+	 * In your controller: $this->Session->consume('Controller.sessKey');
+	 *
+	 * @param string $name the name of the session key you want to read
+	 * @return mixed value from the session vars
+	 */
+	public function consume($name) {
+		return $this->_session->consume($name);
 	}
 
 	/**
@@ -65,7 +75,6 @@ class SessionComponent extends Component {
 	 *
 	 * @param string $name the name of the session key you want to delete
 	 * @return void
-	 * @link http://book.cakephp.org/2.0/en/core-libraries/components/sessions.html#SessionComponent::delete
 	 */
 	public function delete($name) {
 		$this->_session->delete($name);
@@ -78,7 +87,6 @@ class SessionComponent extends Component {
 	 *
 	 * @param string $name the name of the session key you want to check
 	 * @return bool true is session variable is set, false if not
-	 * @link http://book.cakephp.org/2.0/en/core-libraries/components/sessions.html#SessionComponent::check
 	 */
 	public function check($name) {
 		return $this->_session->check($name);
@@ -101,7 +109,6 @@ class SessionComponent extends Component {
 	 * In your controller: $this->Session->destroy();
 	 *
 	 * @return void
-	 * @link http://book.cakephp.org/2.0/en/core-libraries/components/sessions.html#SessionComponent::destroy
 	 */
 	public function destroy() {
 		$this->_session->destroy();

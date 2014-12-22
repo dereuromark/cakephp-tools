@@ -17,7 +17,6 @@ class RolesFixture extends TestFixture {
 	public $fields = array(
 		'id' => ['type' => 'integer'],
 		'name' => ['type' => 'string', 'null' => false, 'length' => 64, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
-		'description' => ['type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
 		'alias' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 20, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
 		'default_role' => ['type' => 'boolean', 'null' => false, 'default' => false, 'collate' => null, 'comment' => 'set at register'],
 		'created' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
@@ -36,7 +35,6 @@ class RolesFixture extends TestFixture {
 		array(
 			'id' => '2',
 			'name' => 'Admin',
-			'description' => 'Zuständig für die Verwaltung der Seite und Mitglieder, Ahndung von Missbrauch und CO',
 			'alias' => 'admin',
 			'default_role' => 0,
 			'created' => '2010-01-07 03:36:33',
@@ -47,7 +45,6 @@ class RolesFixture extends TestFixture {
 		array(
 			'id' => '4',
 			'name' => 'User',
-			'description' => 'Standardrolle jedes Mitglieds (ausreichend für die meisten Aktionen)',
 			'alias' => 'user',
 			'default_role' => 1,
 			'created' => '2010-01-07 03:36:33',
@@ -58,7 +55,6 @@ class RolesFixture extends TestFixture {
 		array(
 			'id' => '6',
 			'name' => 'Partner',
-			'description' => 'Partner',
 			'alias' => 'partner',
 			'default_role' => 0,
 			'created' => '2010-01-07 03:36:33',
@@ -69,7 +65,6 @@ class RolesFixture extends TestFixture {
 		array(
 			'id' => '1',
 			'name' => 'Super-Admin',
-			'description' => 'Zuständig für Programmierung, Sicherheit, Bugfixes, Hosting und CO',
 			'alias' => 'superadmin',
 			'default_role' => 0,
 			'created' => '2010-01-07 03:36:33',

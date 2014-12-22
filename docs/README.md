@@ -72,22 +72,12 @@ The Tools plugin controller will allow you to:
 
 
 
-
 ### BC shims for easier migration from 2.x
-The session component of the core is deprecated and will throw a warning as it will soon be removed.
-Better use the plugin one right away. It is a 1:1 clone of it.
-```php
-namespace App\Controller;
+It contains many shims to provide 2.x functionality when upgrading apps to 3.0.
+This eases migration as complete parts of the code, such as validation and other model property settings
+can be reused immediatelly without refactoring them right away.
 
-use Tools\Controller\Controller;
-
-class AppController extends Controller {
-
-	public $components = array('Tools.Session');
-
-}
-```
-
+* See [Shims](Shims.md) for details.
 
 ## Testing the Plugin
 You can test using a local installation of phpunit or the phar version of it:
