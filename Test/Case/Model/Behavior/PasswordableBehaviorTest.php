@@ -21,6 +21,8 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
+		Configure::write('Config.language', 'deu');
+
 		Configure::delete('Passwordable');
 		Configure::write('Passwordable.auth', 'AuthTest');
 
@@ -203,6 +205,62 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		);
 		$is = $this->User->save($data);
 		$this->assertTrue(!empty($is));
+	}
+
+	/**
+	 * PasswordableBehaviorTest::testValidateCustomRule()
+	 *
+	 * @return void
+	 */
+	public function testValidateCustomRule() {
+		$rules = array('validateCustom' => array(
+				'rule' => array('custom', '#^[a-z0-9]+$#'), // Just a test example, never use this regexp!
+				'message' => 'Foo Bar',
+				'last' => true,
+			),
+			'validateCustomExt' => array(
+				'rule' => array('custom', '#^[a-z]+$#'), // Just a test example, never use this regexp!
+				'message' => 'Foo Bar Ext',
+				'last' => true,
+			)
+		);
+		$this->User->Behaviors->load('Tools.Passwordable', array(
+			'customValidation' => $rules));
+
+		$this->User->create();
+		$data = array(
+			'pwd' => '%123456',
+			'pwd_repeat' => '%123456'
+		);
+		$this->User->set($data);
+		$is = $this->User->save();
+		$this->assertFalse($is);
+
+		$result = $this->User->validationErrors;
+		$expected = array('pwd' => array('Foo Bar'));
+		$this->assertSame($expected, $result);
+
+		$this->User->create();
+		$data = array(
+			'pwd' => 'abc123',
+			'pwd_repeat' => 'abc123'
+		);
+		$this->User->set($data);
+		$is = $this->User->save();
+		$this->assertFalse($is);
+
+		$result = $this->User->validationErrors;
+		$expected = array('pwd' => array('Foo Bar Ext'));
+		$this->assertSame($expected, $result);
+
+		$this->User->create();
+		$data = array(
+			'pwd' => 'abcdef',
+			'pwd_repeat' => 'abcdef'
+		);
+		$this->User->set($data);
+		$is = $this->User->save();
+		$this->assertTrue((bool)$is);
 	}
 
 	/**
@@ -393,7 +451,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$is = $this->User->save(null, $options);
 		$this->assertTrue(!empty($is));
 
-		$user = $this->User->get($uid);
+		$user = $this->User->findById($uid);
 		// The password is updated, the name not
 		$this->assertSame($is['ToolsUser']['password'], $user['ToolsUser']['password']);
 		$this->assertSame('xyz', $user['ToolsUser']['name']);
@@ -766,8 +824,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$result = $this->User->save();
 		$this->assertFalse($result);
 		$expected = array(
-			'pwd' => array(__d('tools', 'valErrBetweenCharacters %s %s', 3, 6)),
-			'pwd_repeat' => array(__d('tools', 'valErrBetweenCharacters %s %s', 3, 6))
+			'pwd' => array(__d('tools', 'valErrBetweenCharacters %s %s', 3, 6))
 		);
 		$this->assertEquals($expected, $this->User->validationErrors);
 	}

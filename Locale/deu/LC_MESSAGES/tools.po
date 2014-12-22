@@ -341,7 +341,7 @@ msgstr ""
 #: Model/Behavior/PasswordableBehavior.php:231
 #: Test/Case/Model/Behavior/PasswordableBehaviorTest.php:95
 msgid "valErrPwdNotMatch"
-msgstr "Die beiden Passwörter stimmen nicht überein"
+msgstr "Die beiden Passwörter stimmen nicht überein."
 
 #: Test/Case/Lib/SpellLibTest.php:13
 msgid "Module %s not installed"
@@ -425,7 +425,7 @@ msgstr ""
 
 #: Test/Case/Model/Behavior/PasswordableBehaviorTest.php:769;770
 msgid "valErrBetweenCharacters %s %s"
-msgstr "Zwischen %s und %s Zeichen"
+msgstr "Bitte zwischen %s und %s Zeichen eingeben."
 
 #: Test/Case/Model/Behavior/SluggedBehaviorTest.php:288
 msgid "and"
@@ -699,8 +699,14 @@ msgstr ""
 msgid "List %s"
 msgstr ""
 
-#~ msgid "valErrProvideCurrentPwd"
-#~ msgstr "Bitte das bisherige Passwort eingeben"
+msgid "valErrProvideCurrentPwd"
+msgstr "Bitte das bisherige Passwort eingeben."
 
-#~ msgid "valErrCurrentPwdIncorrect"
-#~ msgstr "Das bisherige Passwort ist nicht korrekt"
+msgid "valErrCurrentPwdIncorrect"
+msgstr "Das bisherige Passwort ist nicht korrekt."
+
+msgid "valErrPwdRepeat"
+msgstr "Bitte das Passwort erneut eingeben."
+
+msgid "valErrPwdSameAsBefore"
+msgstr "Bitte ein anderes Passwort benutzen als das bisherige."

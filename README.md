@@ -168,3 +168,4 @@ For details on how to contribute please read the [CONTRIBUTING page](CONTRIBUTIN
 * 2014-02 Qlogin now uses Token model instead of deprecated CodeKey per default.
 * 2014-07 Packagist package name has been renamed to "cakephp-tools".
 * 2014-11 All translations now use the `tools` domain; development messages are not translated anymore
+* 2014-12 Some model validations have also been transformed from generic `validation` into `tools` domain.

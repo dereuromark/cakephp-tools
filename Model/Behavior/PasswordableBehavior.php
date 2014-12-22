@@ -64,18 +64,17 @@ class PasswordableBehavior extends ModelBehavior {
 		'allowSame' => true, // Don't allow the old password on change
 		'minLength' => PWD_MIN_LENGTH,
 		'maxLength' => PWD_MAX_LENGTH,
-		'customValidationRule' => null,
-		'customValidationMessage' => null
+		'customValidation' => null // Custom validation rule(s) for the formField
 	);
 
 	function __construct() {
 		parent::__construct();
-		
+
 		$this->_validationRules = array(
 			'formField' => array(
 				'between' => array(
 					'rule' => array('between', PWD_MIN_LENGTH, PWD_MAX_LENGTH),
-					'message' => __('Your password has to be between %s and %s characters long', PWD_MIN_LENGTH, PWD_MAX_LENGTH),
+					'message' => __d('tools', 'valErrBetweenCharacters %s %s', PWD_MIN_LENGTH, PWD_MAX_LENGTH),
 					'allowEmpty' => null,
 					'last' => true,
 				)
@@ -83,13 +82,13 @@ class PasswordableBehavior extends ModelBehavior {
 			'formFieldRepeat' => array(
 				'validateNotEmpty' => array(
 					'rule' => array('notEmpty'),
-					'message' => __('Please repeat your password'),
+					'message' => __d('tools', 'valErrPwdRepeat'),
 					'allowEmpty' => true,
 					'last' => true,
 				),
 				'validateIdentical' => array(
 					'rule' => array('validateIdentical', 'formField'),
-					'message' => __('These passwords do not match'),
+					'message' => __d('tools', 'valErrPwdNotMatch'),
 					'allowEmpty' => null,
 					'last' => true,
 				),
@@ -97,13 +96,13 @@ class PasswordableBehavior extends ModelBehavior {
 			'formFieldCurrent' => array(
 				'notEmpty' => array(
 					'rule' => array('notEmpty'),
-					'message' => __('Please provide your current password'),
+					'message' => __d('tools', 'valErrProvideCurrentPwd'),
 					'allowEmpty' => null,
 					'last' => true,
 				),
 				'validateCurrentPwd' => array(
 					'rule' => 'validateCurrentPwd',
-					'message' => __('Your current password is not correct'),
+					'message' => __d('tools', 'valErrCurrentPwdIncorrect'),
 					'allowEmpty' => null,
 					'last' => true,
 				)
@@ -142,9 +141,9 @@ class PasswordableBehavior extends ModelBehavior {
 			foreach ($fieldRules as $key => $rule) {
 				$rule['allowEmpty'] = !$this->settings[$Model->alias]['require'];
 
-				if ($key === 'between') {				
+				if ($key === 'between') {
 					$rule['rule'] = array('between', $this->settings[$Model->alias]['minLength'], $this->settings[$Model->alias]['maxLength']);
-					$rule['message'] = __('Your password has to be between %s and %s characters', $this->settings[$Model->alias]['minLength'], $this->settings[$Model->alias]['maxLength']);
+					$rule['message'] = __d('tools', 'valErrBetweenCharacters %s %s', $this->settings[$Model->alias]['minLength'], $this->settings[$Model->alias]['maxLength']);
 				}
 
 				$fieldRules[$key] = $rule;
@@ -168,7 +167,7 @@ class PasswordableBehavior extends ModelBehavior {
 			if (!$this->settings[$Model->alias]['allowSame']) {
 				$Model->validator()->add($formField, 'validateNotSame', array(
 					'rule' => array('validateNotSame', $formField, $formFieldCurrent),
-					'message' => __('Please use a different password than your previous one'),
+					'message' => __d('tools', 'valErrPwdSameAsBefore'),
 					'allowEmpty' => !$this->settings[$Model->alias]['require'],
 					'last' => true,
 				));
@@ -178,20 +177,17 @@ class PasswordableBehavior extends ModelBehavior {
 			if (!$this->settings[$Model->alias]['allowSame']) {
 				$Model->validator()->add($formField, 'validateNotSame', array(
 					'rule' => array('validateNotSameHash', $formField),
-					'message' => __('Please use a different password than your previous one'),
+					'message' => __d('tools', 'valErrPwdSameAsBefore'),
 					'allowEmpty' => !$this->settings[$Model->alias]['require'],
 					'last' => true,
 				));
 			}
 		}
-		
-		// Add custom rule if configured
-		if ($this->settings[$Model->alias]['customValidationRule']) {
-			$Model->validator()->add($formField, 'validateCustom', array(
-				'rule' => array('custom', $this->settings[$Model->alias]['customValidationRule']),
-				'message' => $this->settings[$Model->alias]['customValidationMessage'],
-				'last' => true,
-			));			
+
+		// Add custom rule(s) if configured
+		if ($this->settings[$Model->alias]['customValidation']) {
+			$Model->validator()->add($formField, $this->settings[$Model->alias]['customValidation']);
+			//debug($Model->validator()[$formField]);die();
 		}
 	}
 
