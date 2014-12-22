@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2014-11-22 19:39+0000\n"
+"POT-Creation-Date: 2014-12-22 15:51+0100\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Success"
 msgstr ""
 
-#: Controller/TinyUrlsController.php:100
+#: Controller/TinyUrlsController.php:98
 msgid "Done"
 msgstr ""
 
@@ -62,23 +62,23 @@ msgstr ""
 msgid "invalid date"
 msgstr ""
 
-#: Controller/Component/CommonComponent.php:819
+#: Controller/Component/CommonComponent.php:829
 msgid "Comma"
 msgstr ""
 
-#: Controller/Component/CommonComponent.php:819
+#: Controller/Component/CommonComponent.php:829
 msgid "Semicolon"
 msgstr ""
 
-#: Controller/Component/CommonComponent.php:819
+#: Controller/Component/CommonComponent.php:829
 msgid "Space"
 msgstr ""
 
-#: Controller/Component/CommonComponent.php:820
+#: Controller/Component/CommonComponent.php:830
 msgid "Tabulator"
 msgstr ""
 
-#: Controller/Component/CommonComponent.php:820
+#: Controller/Component/CommonComponent.php:830
 msgid "New Line"
 msgstr ""
 
@@ -337,9 +337,30 @@ msgstr ""
 msgid "by System"
 msgstr ""
 
-#: Model/Behavior/PasswordableBehavior.php:231
-#: Test/Case/Model/Behavior/PasswordableBehaviorTest.php:95
+#: Model/Behavior/PasswordableBehavior.php:77;146
+#: Test/Case/Model/Behavior/PasswordableBehaviorTest.php:828
+msgid "valErrBetweenCharacters %s %s"
+msgstr ""
+
+#: Model/Behavior/PasswordableBehavior.php:85
+msgid "valErrPwdRepeat"
+msgstr ""
+
+#: Model/Behavior/PasswordableBehavior.php:91;238
+#: Test/Case/Model/Behavior/PasswordableBehaviorTest.php:97
 msgid "valErrPwdNotMatch"
+msgstr ""
+
+#: Model/Behavior/PasswordableBehavior.php:99
+msgid "valErrProvideCurrentPwd"
+msgstr ""
+
+#: Model/Behavior/PasswordableBehavior.php:105
+msgid "valErrCurrentPwdIncorrect"
+msgstr ""
+
+#: Model/Behavior/PasswordableBehavior.php:170;180
+msgid "valErrPwdSameAsBefore"
 msgstr ""
 
 #: Test/Case/Lib/SpellLibTest.php:13
@@ -422,19 +443,15 @@ msgstr ""
 msgid "No way"
 msgstr ""
 
-#: Test/Case/Model/Behavior/PasswordableBehaviorTest.php:769;770
-msgid "valErrBetweenCharacters %s %s"
-msgstr ""
-
 #: Test/Case/Model/Behavior/SluggedBehaviorTest.php:288
 msgid "and"
 msgstr ""
 
-#: Test/Case/View/Helper/CommonHelperTest.php:240;255
+#: Test/Case/View/Helper/CommonHelperTest.php:177;192
 msgid "Houses"
 msgstr ""
 
-#: Test/Case/View/Helper/CommonHelperTest.php:244;262
+#: Test/Case/View/Helper/CommonHelperTest.php:181;199
 msgid "House"
 msgstr ""
 
@@ -443,12 +460,12 @@ msgid "Edit"
 msgstr ""
 
 #: Test/Case/View/Helper/FormatHelperTest.php:158;170
-#: View/Helper/FormatHelper.php:669
+#: View/Helper/FormatHelper.php:675
 msgid "Yes"
 msgstr ""
 
 #: Test/Case/View/Helper/FormatHelperTest.php:162;174
-#: View/Helper/FormatHelper.php:670
+#: View/Helper/FormatHelper.php:676
 msgid "No"
 msgstr ""
 
@@ -549,11 +566,11 @@ msgstr ""
 msgid "captchaTip"
 msgstr ""
 
-#: View/Helper/CommonHelper.php:373
+#: View/Helper/CommonHelper.php:377
 msgid "Subscribe to this feed"
 msgstr ""
 
-#: View/Helper/CommonHelper.php:502
+#: View/Helper/CommonHelper.php:506
 msgid "Please enable cookies"
 msgstr ""
 
@@ -573,19 +590,19 @@ msgstr ""
 msgid "Donate"
 msgstr ""
 
-#: View/Helper/FormExtHelper.php:1118
+#: View/Helper/FormExtHelper.php:1119
 msgid "Selection"
 msgstr ""
 
-#: View/Helper/FormExtHelper.php:1120
+#: View/Helper/FormExtHelper.php:1121
 msgid "All"
 msgstr ""
 
-#: View/Helper/FormExtHelper.php:1121
+#: View/Helper/FormExtHelper.php:1122
 msgid "None"
 msgstr ""
 
-#: View/Helper/FormExtHelper.php:1122
+#: View/Helper/FormExtHelper.php:1123
 msgid "Revert"
 msgstr ""
 
@@ -617,32 +634,32 @@ msgstr ""
 msgid "prio"
 msgstr ""
 
-#: View/Helper/FormatHelper.php:502
+#: View/Helper/FormatHelper.php:508
 msgid "of"
 msgstr ""
 
-#: View/Helper/FormatHelper.php:531
+#: View/Helper/FormatHelper.php:537
 msgid "Language"
 msgstr ""
 
-#: View/Helper/FormatHelper.php:546
+#: View/Helper/FormatHelper.php:552
 msgid "active"
 msgstr ""
 
-#: View/Helper/FormatHelper.php:588
+#: View/Helper/FormatHelper.php:594
 #: View/Helper/TextExtHelper.php:150
 msgid "for use in an external mail client"
 msgstr ""
 
-#: View/Helper/FormatHelper.php:802
+#: View/Helper/FormatHelper.php:808
 msgid "notAvailable"
 msgstr ""
 
-#: View/Helper/FormatHelper.php:870
+#: View/Helper/FormatHelper.php:876
 msgid "Percent"
 msgstr ""
 
-#: View/Helper/FormatHelper.php:950;951
+#: View/Helper/FormatHelper.php:956;957
 msgid "color"
 msgstr ""
 
@@ -650,15 +667,15 @@ msgstr ""
 msgid "Map cannot be displayed!"
 msgstr ""
 
-#: View/Helper/GoogleMapV3Helper.php:596
+#: View/Helper/GoogleMapV3Helper.php:600
 msgid "Enter your address"
 msgstr ""
 
-#: View/Helper/GoogleMapV3Helper.php:597
+#: View/Helper/GoogleMapV3Helper.php:601
 msgid "Get directions"
 msgstr ""
 
-#: View/Helper/GoogleMapV3Helper.php:1272
+#: View/Helper/GoogleMapV3Helper.php:1276
 msgid "Map"
 msgstr ""
 
@@ -697,3 +714,4 @@ msgstr ""
 #: View/Qlogin/admin_index.ctp:29
 msgid "List %s"
 msgstr ""
+
