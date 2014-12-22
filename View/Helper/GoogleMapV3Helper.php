@@ -474,6 +474,10 @@ class GoogleMapV3Helper extends AppHelper {
 
 		$params = array();
 		$params['map'] = $this->name();
+		
+		if (isset($options['draggable'])) {
+            		$params['draggable'] = 'true';
+        	}
 
 		if (isset($options['title'])) {
 			$params['title'] = json_encode($options['title']);
