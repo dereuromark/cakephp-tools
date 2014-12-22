@@ -25,7 +25,6 @@ assert coding standards are met. You can either use this pre-build repo and the 
 
 # Additional Resources
 
-* [My coding standards (extending the CakePHP ones)](http://www.dereuromark.de/coding-standards/)
-* [CakePHP coding standards](http://book.cakephp.org/2.0/en/contributing/cakephp-coding-conventions.html)
+* [Coding standards guide (extending the CakePHP ones)](https://github.com/php-fig-rectified/fig-rectified-standards/)
 * [General GitHub documentation](http://help.github.com/)
 * [GitHub pull request documentation](http://help.github.com/send-pull-requests/)
