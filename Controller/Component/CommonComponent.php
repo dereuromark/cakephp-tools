@@ -6,6 +6,7 @@ if (!defined('CLASS_USER')) {
 App::uses('Component', 'Controller');
 App::uses('Sanitize', 'Utility');
 App::uses('Utility', 'Tools.Utility');
+App::uses('Hash', 'Utility');
 
 /**
  * A component included in every app to take care of common stuff.
@@ -896,7 +897,7 @@ class CommonComponent extends Component {
 	 */
 	public function extractEmailInfo($email, $type = null) {
 		//$checkpos = strrpos($email, '@');
-		$nameParts = explode('@', $email);
+		$nameParts = Hash::filter(explode('@', $email));
 		if (count($nameParts) !== 2) {
 			return false;
 		}
