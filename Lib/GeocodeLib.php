@@ -415,10 +415,19 @@ class GeocodeLib {
 			}
 			$this->result = $res;
 		}
+		// Only necessary for allow_inconclusive and no valid results found
+		if (!$this->result && !empty($result['results'])) {
+			$this->result = $result['results'][0];
+		}
+
 		$this->result['valid_results'] = $validResults;
 		$this->result['all'] = $result['results'];
 
 		// validate
+		if (!$this->options['allow_inconclusive'] && $validResults === 0) {
+			$this->setError(__d('tools', 'No results found'));
+			return false;
+		}
 		if (!$this->options['allow_inconclusive'] && $validResults > 1) {
 			$this->setError(__d('tools', 'Inconclusive result (total of %s)', $validResults));
 			return false;

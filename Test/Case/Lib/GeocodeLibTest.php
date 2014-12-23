@@ -134,6 +134,17 @@ class GeocodeLibTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * GeocodeLibTest::testInvalid()
+	 *
+	 * @return void
+	 */
+	public function testInvalid() {
+		$this->Geocode->setOptions(array('allow_inconclusive' => false));
+		$result = $this->Geocode->geocode('204 HWY 287 SOUTH, CACTUS, TX, 79013');
+		$this->assertFalse($result);
+	}
+
+	/**
 	 * With lower min accuracy
 	 *
 	 * @return void
