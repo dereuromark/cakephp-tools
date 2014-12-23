@@ -255,7 +255,61 @@ class CommonComponentTest extends CakeTestCase {
 		$this->assertSame($array, $this->Controller->request->data);
 		$this->assertSame($array, $this->Controller->request->query);
 	}
+	
+	/**
+	* CommonComponentTest::testExtractEmailInfo()
+	*
+	*/
+	public function testExtractEmailInfoWithValidEmail() {
+		$email = 'xyz@e.abc.de';
+		$result = $this->Controller->Common->extractEmailInfo($email, 'username');
+		$expected = 'xyz';
+		$this->assertEquals($expected, $result);
+		
+		$result = $this->Controller->Common->extractEmailInfo($email, 'hostname');
+		$expected = 'e.abc.de';
+		$this->assertEquals($expected, $result);
+		
+		$result = $this->Controller->Common->extractEmailInfo($email, 'tld');
+		$expected = 'de';
+		$this->assertEquals($expected, $result);
+		
+		$result = $this->Controller->Common->extractEmailInfo($email, 'domain');
+		$expected = 'abc';
+		$this->assertEquals($expected, $result);
+		
+		$result = $this->Controller->Common->extractEmailInfo($email, 'subdomain');
+		$expected = 'e';
+		$this->assertEquals($expected, $result);
+	}
+	
+	/**
+	* CommonComponentTest::testExtractEmailInfo()
+	*
+	*/
+	public function testExtractEmailInfoWithInvalidEmail() {
+		$email = 'abc.de';
+		$result = $this->Controller->Common->extractEmailInfo($email, 'username');
+		$this->assertFalse($result);
+		
+		$email = 'xyz@';
+		$result = $this->Controller->Common->extractEmailInfo($email, 'username');
+		$this->assertFalse($result); 
+	}
 
+	/**
+	* CommonComponentTest::testContainsAtSign()
+	*
+	*/
+	public function testContainsAtSign() {
+		$email = 'xyz@e.abc.de';
+		$result = $this->Controller->Common->containsAtSign($email);
+		$this->assertTrue($result);
+		
+		$email = 'e.abc.de';
+		$result = $this->Controller->Common->containsAtSign($email);
+		$this->assertFalse($result);
+	}
 }
 
 /*** additional helper classes ***/
