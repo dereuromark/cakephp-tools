@@ -1,0 +1,68 @@
+{
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "100",
+               "short_name" : "100",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "Leopoldstraße",
+               "short_name" : "Leopoldstraße",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Schwabing-Freimann",
+               "short_name" : "Schwabing-Freimann",
+               "types" : [ "sublocality_level_1", "sublocality", "political" ]
+            },
+            {
+               "long_name" : "München",
+               "short_name" : "M",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Oberbayern",
+               "short_name" : "Oberbayern",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Bayern",
+               "short_name" : "BY",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Deutschland",
+               "short_name" : "DE",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "80802",
+               "short_name" : "80802",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "Leopoldstraße 100, 80802 München, Deutschland",
+         "geometry" : {
+            "location" : {
+               "lat" : 48.16485000000001,
+               "lng" : 11.58681
+            },
+            "location_type" : "ROOFTOP",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 48.16619898029151,
+                  "lng" : 11.5881589802915
+               },
+               "southwest" : {
+                  "lat" : 48.16350101970851,
+                  "lng" : 11.5854610197085
+               }
+            }
+         },
+         "types" : [ "street_address" ]
+      }
+   ],
+   "status" : "OK"
+}

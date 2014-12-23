@@ -29,7 +29,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	 * @param bool $showHtml
 	 * @return void
 	 */
-	public static function debug($data, $force = false, $showHtml = null) {
+	protected static function debug($data, $force = false, $showHtml = null) {
 		if (!empty($_GET['debug']) || !empty($_SERVER['argv']) && (in_array('-v', $_SERVER['argv'], true) || in_array('-vv', $_SERVER['argv'], true))) {
 			if ($showHtml === null && php_sapi_name() === 'cli') {
 				$showHtml = true;
@@ -55,7 +55,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	 * @param bool $force Should the output be flushed (forced)
 	 * @return void
 	 */
-	public static function out($data, $plain = false, $force = false) {
+	protected static function out($data, $plain = false, $force = false) {
 		if (php_sapi_name() === 'cli') {
 			return;
 		}
@@ -68,6 +68,18 @@ abstract class MyCakeTestCase extends CakeTestCase {
 			return;
 		}
 		ob_flush();
+	}
+
+	/**
+	 * MyCakeTestCase::isDebug()
+	 *
+	 * @return bool Success
+	 */
+	protected static function isDebug() {
+		if (!empty($_GET['debug']) || !empty($_SERVER['argv']) && in_array('--debug', $_SERVER['argv'], true)) {
+			return true;
+		}
+		return false;
 	}
 
 	protected function _basePath($full = false) {

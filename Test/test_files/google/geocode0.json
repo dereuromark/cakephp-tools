@@ -1,0 +1,69 @@
+{
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "74523",
+               "short_name" : "74523",
+               "types" : [ "postal_code" ]
+            },
+            {
+               "long_name" : "Schwäbisch Hall",
+               "short_name" : "Schwäbisch Hall",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Schwäbisch Hall",
+               "short_name" : "SHA",
+               "types" : [ "administrative_area_level_3", "political" ]
+            },
+            {
+               "long_name" : "Stuttgart",
+               "short_name" : "Süd",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Baden-Württemberg",
+               "short_name" : "BW",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Deutschland",
+               "short_name" : "DE",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "74523 Schwäbisch Hall, Deutschland",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 49.1670039,
+                  "lng" : 9.875680899999999
+               },
+               "southwest" : {
+                  "lat" : 49.04597,
+                  "lng" : 9.5970288
+               }
+            },
+            "location" : {
+               "lat" : 49.1257616,
+               "lng" : 9.7544127
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 49.1670039,
+                  "lng" : 9.875680899999999
+               },
+               "southwest" : {
+                  "lat" : 49.04597,
+                  "lng" : 9.5970288
+               }
+            }
+         },
+         "postcode_localities" : [ "Braunsbach", "Michelbach an der Bilz", "Schwäbisch Hall" ],
+         "types" : [ "postal_code" ]
+      }
+   ],
+   "status" : "OK"
+}

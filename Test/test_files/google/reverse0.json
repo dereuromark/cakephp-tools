@@ -1,0 +1,245 @@
+{
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "1134-1200",
+               "short_name" : "1134-1200",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "Florida",
+               "short_name" : "Florida",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Retiro",
+               "short_name" : "Retiro",
+               "types" : [ "neighborhood", "political" ]
+            },
+            {
+               "long_name" : "Buenos Aires",
+               "short_name" : "CF",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Ciudad Autónoma de Buenos Aires",
+               "short_name" : "CABA",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Argentinien",
+               "short_name" : "AR",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Florida 1134-1200, Buenos Aires, Ciudad Autónoma de Buenos Aires, Argentinien",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : -34.5936149,
+                  "lng" : -58.37387880000001
+               },
+               "southwest" : {
+                  "lat" : -34.5945235,
+                  "lng" : -58.3744494
+               }
+            },
+            "location" : {
+               "lat" : -34.5944581,
+               "lng" : -58.3744291
+            },
+            "location_type" : "RANGE_INTERPOLATED",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : -34.5927202197085,
+                  "lng" : -58.37281511970851
+               },
+               "southwest" : {
+                  "lat" : -34.5954181802915,
+                  "lng" : -58.37551308029151
+               }
+            }
+         },
+         "types" : [ "street_address" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Retiro",
+               "short_name" : "Retiro",
+               "types" : [ "neighborhood", "political" ]
+            },
+            {
+               "long_name" : "Buenos Aires",
+               "short_name" : "CF",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Autonomen Stadt Buenos Aires",
+               "short_name" : "CABA",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Argentinien",
+               "short_name" : "AR",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Retiro, Buenos Aires, Autonomen Stadt Buenos Aires, Argentinien",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : -34.5795029,
+                  "lng" : -58.365667
+               },
+               "southwest" : {
+                  "lat" : -34.5992928,
+                  "lng" : -58.38790969999999
+               }
+            },
+            "location" : {
+               "lat" : -34.594722,
+               "lng" : -58.37583300000001
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : -34.5795029,
+                  "lng" : -58.365667
+               },
+               "southwest" : {
+                  "lat" : -34.5992928,
+                  "lng" : -58.38790969999999
+               }
+            }
+         },
+         "types" : [ "neighborhood", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Autonomen Stadt Buenos Aires",
+               "short_name" : "CABA",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Argentinien",
+               "short_name" : "AR",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Autonomen Stadt Buenos Aires, Argentinien",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : -34.5316663,
+                  "lng" : -58.3360216
+               },
+               "southwest" : {
+                  "lat" : -34.709049,
+                  "lng" : -58.53126899999999
+               }
+            },
+            "location" : {
+               "lat" : -34.6143048,
+               "lng" : -58.4401655
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : -34.5316663,
+                  "lng" : -58.3360216
+               },
+               "southwest" : {
+                  "lat" : -34.709049,
+                  "lng" : -58.53126899999999
+               }
+            }
+         },
+         "types" : [ "administrative_area_level_1", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Buenos Aires",
+               "short_name" : "CF",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Argentinien",
+               "short_name" : "AR",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Buenos Aires, Argentinien",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : -34.5265464,
+                  "lng" : -58.33514479999999
+               },
+               "southwest" : {
+                  "lat" : -34.7051589,
+                  "lng" : -58.5314522
+               }
+            },
+            "location" : {
+               "lat" : -34.6036844,
+               "lng" : -58.3815591
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : -34.5265464,
+                  "lng" : -58.33514479999999
+               },
+               "southwest" : {
+                  "lat" : -34.7051589,
+                  "lng" : -58.5314522
+               }
+            }
+         },
+         "types" : [ "locality", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Argentinien",
+               "short_name" : "AR",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Argentinien",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : -21.7808136,
+                  "lng" : -53.637481
+               },
+               "southwest" : {
+                  "lat" : -55.0577146,
+                  "lng" : -73.56036019999999
+               }
+            },
+            "location" : {
+               "lat" : -38.416097,
+               "lng" : -63.61667199999999
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : -21.7808136,
+                  "lng" : -53.637481
+               },
+               "southwest" : {
+                  "lat" : -55.0577146,
+                  "lng" : -73.56036019999999
+               }
+            }
+         },
+         "types" : [ "country", "political" ]
+      }
+   ],
+   "status" : "OK"
+}

@@ -2,6 +2,7 @@
 
 App::uses('GeocodeLib', 'Tools.Lib');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
+App::uses('HttpSocketResponse', 'Network/Http');
 
 # google maps
 Configure::write('Google', array(
@@ -64,6 +65,8 @@ class GeocodeLibTest extends MyCakeTestCase {
 		parent::setUp();
 
 		$this->Geocode = new GeocodeLib();
+
+		$this->mockFilePath = CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'google' . DS;
 	}
 
 	public function tearDown() {
@@ -87,7 +90,11 @@ class GeocodeLibTest extends MyCakeTestCase {
 			array(48.8934, 8.70492, 'B294, 75175 Pforzheim, Deutschland')
 		);
 
-		foreach ($coords as $coord) {
+		foreach ($coords as $k => $coord) {
+			if (!$this->isDebug()) {
+				$this->_getMock('reverse' . $k);
+			}
+
 			$is = $this->Geocode->reverseGeocode($coord[0], $coord[1]);
 			$this->assertTrue($is);
 
@@ -110,6 +117,10 @@ class GeocodeLibTest extends MyCakeTestCase {
 	 */
 	public function testGeocodeInconclusive() {
 		$address = 'Bibersfeld';
+
+		if (!$this->isDebug()) {
+			$this->_getMock('inconclusive', 2);
+		}
 
 		$this->Geocode->setOptions(array('allow_inconclusive' => true, 'min_accuracy' => GeocodeLib::ACC_POSTAL));
 		$is = $this->Geocode->geocode($address);
@@ -139,6 +150,11 @@ class GeocodeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testInvalid() {
+		// Dont mock in debug mode (live query), otherwise mock it out
+		if (!$this->isDebug()) {
+			$this->_getMock('invalid');
+		}
+
 		$this->Geocode->setOptions(array('allow_inconclusive' => false));
 		$result = $this->Geocode->geocode('204 HWY 287 SOUTH, CACTUS, TX, 79013');
 		$this->assertFalse($result);
@@ -151,6 +167,9 @@ class GeocodeLibTest extends MyCakeTestCase {
 	 */
 	public function testGeocodeInconclusiveMinAccuracy() {
 		$address = 'Bibersfeld';
+		if (!$this->isDebug()) {
+			$this->_getMock('inconclusive');
+		}
 
 		$this->Geocode->setOptions(array('allow_inconclusive' => true, 'min_accuracy' => GeocodeLib::ACC_STREET));
 		$is = $this->Geocode->geocode($address);
@@ -168,6 +187,9 @@ class GeocodeLibTest extends MyCakeTestCase {
 	 */
 	public function testGeocodeExpect() {
 		$address = 'Bibersfeld';
+		if (!$this->isDebug()) {
+			$this->_getMock('inconclusive');
+		}
 
 		$this->Geocode->setOptions(array(
 			'allow_inconclusive' => true,
@@ -287,6 +309,10 @@ class GeocodeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testGeocode() {
+		if (!$this->isDebug()) {
+			$this->_getMock('geocode0');
+		}
+
 		$address = '74523 Deutschland';
 		//echo '<h2>'.$address.'</h2>';
 		$is = $this->Geocode->geocode($address);
@@ -300,6 +326,10 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$is = $this->Geocode->error();
 		//debug($is);
 		$this->assertTrue(empty($is));
+
+		if (!$this->isDebug()) {
+			$this->_getMock('geocode1');
+		}
 
 		$address = 'Leopoldstraße 100, München';
 		//echo '<h2>'.$address.'</h2>';
@@ -316,6 +346,10 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$is = $this->Geocode->error();
 		//debug($is);
 		$this->assertTrue(empty($is));
+
+		if (!$this->isDebug()) {
+			$this->_getMock('geocode2');
+		}
 
 		$address = 'Oranienburger Straße 87, 10178 Berlin, Deutschland';
 		//echo '<h2>'.$address.'</h2>';
@@ -355,6 +389,10 @@ class GeocodeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testGeocodeBadApiKey() {
+		if (!$this->isDebug()) {
+			$this->_getMock('apikey');
+		}
+
 		$address = 'Oranienburger Straße 87, 10178 Berlin, Deutschland';
 		$result = $this->Geocode->geocode($address, array('sensor' => false, 'key' => 'testingBadApiKey'));
 		$this->assertFalse($result);
@@ -369,6 +407,10 @@ class GeocodeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testGeocodeInvalid() {
+		if (!$this->isDebug()) {
+			$this->_getMock('zero');
+		}
+
 		$address = 'Hjfjosdfhosj, 78878 Mdfkufsdfk';
 		$result = $this->Geocode->geocode($address);
 		$this->assertFalse($result);
@@ -427,8 +469,13 @@ class GeocodeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testGeocodeMinAcc() {
+		if (!$this->isDebug()) {
+			$this->_getMock('minacc');
+		}
+
 		// address = postal_code, minimum = street level
 		$address = 'Deutschland';
+
 		$this->Geocode->setOptions(array('min_accuracy' => GeocodeLib::ACC_STREET));
 		$is = $this->Geocode->geocode($address);
 		$this->assertFalse($is);
@@ -541,6 +588,20 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$result = $Method->invoke($this->Geocode, $data);
 
 		$this->assertEquals($expected, $result);
+	}
+
+	protected function _getMock($type, $count = 1) {
+		$this->Geocode->HttpSocket = $this->getMock('HttpSocket', array('get'));
+		$responseContent = file_get_contents($this->mockFilePath . $type . '.json');
+		$response = new HttpSocketResponse();
+		$response->body = $responseContent;
+		$response->code = 200;
+		$this->Geocode->HttpSocket->response = $response;
+		for ($i = 0; $i < $count; $i++) {
+			$this->Geocode->HttpSocket->expects($this->at($i))
+				->method('get')
+				->will($this->returnValue($response));
+		}
 	}
 
 }

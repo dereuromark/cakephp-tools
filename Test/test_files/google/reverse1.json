@@ -1,0 +1,303 @@
+{
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "B294",
+               "short_name" : "B294",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Pforzheim",
+               "short_name" : "Pforzheim",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Karlsruhe",
+               "short_name" : "KA",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Baden-Württemberg",
+               "short_name" : "BW",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Deutschland",
+               "short_name" : "DE",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "75175",
+               "short_name" : "75175",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "B294, 75175 Pforzheim, Deutschland",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 48.8933797,
+                  "lng" : 8.7060979
+               },
+               "southwest" : {
+                  "lat" : 48.8933129,
+                  "lng" : 8.7047872
+               }
+            },
+            "location" : {
+               "lat" : 48.8933602,
+               "lng" : 8.705446
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 48.8946952802915,
+                  "lng" : 8.706791530291502
+               },
+               "southwest" : {
+                  "lat" : 48.8919973197085,
+                  "lng" : 8.704093569708498
+               }
+            }
+         },
+         "types" : [ "route" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "75175",
+               "short_name" : "75175",
+               "types" : [ "postal_code" ]
+            },
+            {
+               "long_name" : "Pforzheim",
+               "short_name" : "Pforzheim",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Karlsruhe",
+               "short_name" : "KA",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Baden-Württemberg",
+               "short_name" : "BW",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Deutschland",
+               "short_name" : "DE",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "75175 Pforzheim, Deutschland",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 48.90549790000001,
+                  "lng" : 8.750241899999999
+               },
+               "southwest" : {
+                  "lat" : 48.864719,
+                  "lng" : 8.697930899999999
+               }
+            },
+            "location" : {
+               "lat" : 48.88593849999999,
+               "lng" : 8.7208104
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 48.90549790000001,
+                  "lng" : 8.750241899999999
+               },
+               "southwest" : {
+                  "lat" : 48.864719,
+                  "lng" : 8.697930899999999
+               }
+            }
+         },
+         "types" : [ "postal_code" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Pforzheim",
+               "short_name" : "Pforzheim",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Karlsruhe",
+               "short_name" : "KA",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Baden-Württemberg",
+               "short_name" : "BW",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Deutschland",
+               "short_name" : "DE",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Pforzheim, Deutschland",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 48.9297027,
+                  "lng" : 8.808734899999999
+               },
+               "southwest" : {
+                  "lat" : 48.819013,
+                  "lng" : 8.6247957
+               }
+            },
+            "location" : {
+               "lat" : 48.8921862,
+               "lng" : 8.6946286
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 48.9297027,
+                  "lng" : 8.808734899999999
+               },
+               "southwest" : {
+                  "lat" : 48.819013,
+                  "lng" : 8.6247957
+               }
+            }
+         },
+         "types" : [ "locality", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Karlsruhe",
+               "short_name" : "KA",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Deutschland",
+               "short_name" : "DE",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Karlsruhe, Deutschland",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 49.663763,
+                  "lng" : 9.603785499999999
+               },
+               "southwest" : {
+                  "lat" : 48.3005128,
+                  "lng" : 7.959448499999999
+               }
+            },
+            "location" : {
+               "lat" : 48.9540631,
+               "lng" : 8.725925699999999
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 49.663763,
+                  "lng" : 9.603785499999999
+               },
+               "southwest" : {
+                  "lat" : 48.3005128,
+                  "lng" : 7.959448499999999
+               }
+            }
+         },
+         "types" : [ "administrative_area_level_2", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Baden-Württemberg",
+               "short_name" : "BW",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Deutschland",
+               "short_name" : "DE",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Baden-Württemberg, Deutschland",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 49.7913278,
+                  "lng" : 10.495573
+               },
+               "southwest" : {
+                  "lat" : 47.5323664,
+                  "lng" : 7.511756799999999
+               }
+            },
+            "location" : {
+               "lat" : 48.6616037,
+               "lng" : 9.350133599999999
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 49.7913278,
+                  "lng" : 10.495573
+               },
+               "southwest" : {
+                  "lat" : 47.5323664,
+                  "lng" : 7.511756799999999
+               }
+            }
+         },
+         "types" : [ "administrative_area_level_1", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Deutschland",
+               "short_name" : "DE",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Deutschland",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 55.058347,
+                  "lng" : 15.0418962
+               },
+               "southwest" : {
+                  "lat" : 47.2701115,
+                  "lng" : 5.8663425
+               }
+            },
+            "location" : {
+               "lat" : 51.165691,
+               "lng" : 10.451526
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 55.058347,
+                  "lng" : 15.0418962
+               },
+               "southwest" : {
+                  "lat" : 47.2701115,
+                  "lng" : 5.8663425
+               }
+            }
+         },
+         "types" : [ "country", "political" ]
+      }
+   ],
+   "status" : "OK"
+}

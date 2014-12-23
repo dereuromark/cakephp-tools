@@ -1,0 +1,261 @@
+{
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "Cactus City Hall",
+               "short_name" : "Cactus City Hall",
+               "types" : [ "point_of_interest", "establishment" ]
+            },
+            {
+               "long_name" : "201",
+               "short_name" : "201",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "U.S. 287",
+               "short_name" : "US-287",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Cactus",
+               "short_name" : "Cactus",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Moore County",
+               "short_name" : "Moore County",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Texas",
+               "short_name" : "TX",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "USA",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "79013",
+               "short_name" : "79013",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "Cactus City Hall, 201 U.S. 287, Cactus, TX 79013, USA",
+         "geometry" : {
+            "location" : {
+               "lat" : 36.0499078,
+               "lng" : -102.0053272
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 36.0512567802915,
+                  "lng" : -102.0039782197085
+               },
+               "southwest" : {
+                  "lat" : 36.0485588197085,
+                  "lng" : -102.0066761802915
+               }
+            }
+         },
+         "partial_match" : true,
+         "types" : [ "point_of_interest", "establishment" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Cactus Fire Department",
+               "short_name" : "Cactus Fire Department",
+               "types" : [ "point_of_interest", "establishment" ]
+            },
+            {
+               "long_name" : "201",
+               "short_name" : "201",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "U.S. 287",
+               "short_name" : "US-287",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Cactus",
+               "short_name" : "Cactus",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Moore County",
+               "short_name" : "Moore County",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Texas",
+               "short_name" : "TX",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "USA",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "79013",
+               "short_name" : "79013",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "Cactus Fire Department, 201 U.S. 287, Cactus, TX 79013, USA",
+         "geometry" : {
+            "location" : {
+               "lat" : 36.0499078,
+               "lng" : -102.0053272
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 36.0512567802915,
+                  "lng" : -102.0039782197085
+               },
+               "southwest" : {
+                  "lat" : 36.0485588197085,
+                  "lng" : -102.0066761802915
+               }
+            }
+         },
+         "partial_match" : true,
+         "types" : [ "fire_station", "point_of_interest", "establishment" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Cactus Police Department",
+               "short_name" : "Cactus Police Department",
+               "types" : [ "point_of_interest", "establishment" ]
+            },
+            {
+               "long_name" : "200",
+               "short_name" : "200",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "U.S. 287",
+               "short_name" : "US-287",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Cactus",
+               "short_name" : "Cactus",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Moore County",
+               "short_name" : "Moore County",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Texas",
+               "short_name" : "TX",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "USA",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "79013",
+               "short_name" : "79013",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "Cactus Police Department, 200 U.S. 287, Cactus, TX 79013, USA",
+         "geometry" : {
+            "location" : {
+               "lat" : 36.04991,
+               "lng" : -102.0053283
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 36.05125898029149,
+                  "lng" : -102.0039793197085
+               },
+               "southwest" : {
+                  "lat" : 36.0485610197085,
+                  "lng" : -102.0066772802915
+               }
+            }
+         },
+         "partial_match" : true,
+         "types" : [ "police", "point_of_interest", "establishment" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Cactus City Shop",
+               "short_name" : "Cactus City Shop",
+               "types" : [ "point_of_interest", "establishment" ]
+            },
+            {
+               "long_name" : "201",
+               "short_name" : "201",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "U.S. 287",
+               "short_name" : "US-287",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Cactus",
+               "short_name" : "Cactus",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Moore County",
+               "short_name" : "Moore County",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Texas",
+               "short_name" : "TX",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "USA",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "79013",
+               "short_name" : "79013",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "Cactus City Shop, 201 U.S. 287, Cactus, TX 79013, USA",
+         "geometry" : {
+            "location" : {
+               "lat" : 36.0499089,
+               "lng" : -102.0053278
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 36.0512578802915,
+                  "lng" : -102.0039788197085
+               },
+               "southwest" : {
+                  "lat" : 36.0485599197085,
+                  "lng" : -102.0066767802915
+               }
+            }
+         },
+         "partial_match" : true,
+         "types" : [ "point_of_interest", "establishment" ]
+      }
+   ],
+   "status" : "OK"
+}

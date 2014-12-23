@@ -1,0 +1,121 @@
+{
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "Bibersfeld",
+               "short_name" : "Bibersfeld",
+               "types" : [ "sublocality_level_1", "sublocality", "political" ]
+            },
+            {
+               "long_name" : "Schwäbisch Hall",
+               "short_name" : "Schwäbisch Hall",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Stuttgart",
+               "short_name" : "Süd",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Baden-Württemberg",
+               "short_name" : "BW",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Deutschland",
+               "short_name" : "DE",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "74523",
+               "short_name" : "74523",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "Bibersfeld, 74523 Schwäbisch Hall, Deutschland",
+         "geometry" : {
+            "location" : {
+               "lat" : 49.08035659999999,
+               "lng" : 9.6881269
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 49.0876645,
+                  "lng" : 9.7041343
+               },
+               "southwest" : {
+                  "lat" : 49.0730476,
+                  "lng" : 9.672119499999999
+               }
+            }
+         },
+         "types" : [ "sublocality_level_1", "sublocality", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Bibersfelder Besen Weinstube",
+               "short_name" : "Bibersfelder Besen Weinstube",
+               "types" : [ "point_of_interest", "establishment" ]
+            },
+            {
+               "long_name" : "1",
+               "short_name" : "1",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "Luckenbacher Straße",
+               "short_name" : "Luckenbacher Str.",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Schwäbisch Hall",
+               "short_name" : "Schwäbisch Hall",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Stuttgart",
+               "short_name" : "Süd",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Baden-Württemberg",
+               "short_name" : "BW",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Deutschland",
+               "short_name" : "DE",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "74523",
+               "short_name" : "74523",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "Bibersfelder Besen Weinstube, Luckenbacher Straße 1, 74523 Schwäbisch Hall, Deutschland",
+         "geometry" : {
+            "location" : {
+               "lat" : 49.0821772,
+               "lng" : 9.68801
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 49.0835261802915,
+                  "lng" : 9.689358980291502
+               },
+               "southwest" : {
+                  "lat" : 49.0808282197085,
+                  "lng" : 9.686661019708499
+               }
+            }
+         },
+         "types" : [ "point_of_interest", "school", "establishment" ]
+      }
+   ],
+   "status" : "OK"
+}

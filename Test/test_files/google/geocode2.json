@@ -1,0 +1,68 @@
+{
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "87",
+               "short_name" : "87",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "Oranienburger Straße",
+               "short_name" : "Oranienburger Str.",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Mitte",
+               "short_name" : "Mitte",
+               "types" : [ "sublocality_level_2", "sublocality", "political" ]
+            },
+            {
+               "long_name" : "Bezirk Mitte",
+               "short_name" : "Bezirk Mitte",
+               "types" : [ "sublocality_level_1", "sublocality", "political" ]
+            },
+            {
+               "long_name" : "Berlin",
+               "short_name" : "Berlin",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Berlin",
+               "short_name" : "Berlin",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Deutschland",
+               "short_name" : "DE",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "10178",
+               "short_name" : "10178",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "Oranienburger Straße 87, 10178 Berlin, Deutschland",
+         "geometry" : {
+            "location" : {
+               "lat" : 52.52332999999999,
+               "lng" : 13.40021
+            },
+            "location_type" : "ROOFTOP",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 52.5246789802915,
+                  "lng" : 13.4015589802915
+               },
+               "southwest" : {
+                  "lat" : 52.5219810197085,
+                  "lng" : 13.3988610197085
+               }
+            }
+         },
+         "types" : [ "street_address" ]
+      }
+   ],
+   "status" : "OK"
+}

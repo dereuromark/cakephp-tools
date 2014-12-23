@@ -695,7 +695,9 @@ class GeocodeLib {
 	 * @return mixed
 	 **/
 	protected function _fetch($url, $query) {
-		$this->HttpSocket = new HttpSocket();
+		if (!isset($this->HttpSocket)) {
+			$this->HttpSocket = new HttpSocket();
+		}
 		foreach ($query as $k => $v) {
 			if ($v === '') {
 				unset($query[$k]);
