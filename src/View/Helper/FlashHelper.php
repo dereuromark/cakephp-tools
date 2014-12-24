@@ -18,12 +18,23 @@ class FlashHelper extends Helper {
 	/**
 	 * Display all flash messages.
 	 *
+	 * @param array $types Types to output. Defaults to all if none are specified.
+	 * @return string HTML
+	 * @deprecated Use render() instead
+	 */
+	public function flash(array $types = array()) {
+		return $this->render($types);
+	}
+
+	/**
+	 * Display all flash messages.
+	 *
 	 * TODO: export div wrapping method (for static messaging on a page)
 	 *
 	 * @param array $types Types to output. Defaults to all if none are specified.
 	 * @return string HTML
 	 */
-	public function flash(array $types = array()) {
+	public function render(array $types = array()) {
 		// Get the messages from the session
 		$messages = (array)$this->Session->read('messages');
 		$cMessages = (array)Configure::read('messages');

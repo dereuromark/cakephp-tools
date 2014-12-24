@@ -36,14 +36,14 @@ class FlashHelperTest extends TestCase {
 	}
 
 	/**
-	 * FlashHelperTest::testFlash()
+	 * FlashHelperTest::testRender()
 	 *
 	 * @return void
 	 */
-	public function testFlash() {
+	public function testRender() {
 		$this->Flash->addTransientMessage(h('Foo & bar'), 'success');
 
-		$result = $this->Flash->flash();
+		$result = $this->Flash->render();
 		$expected = '<div class="flash-messages flashMessages"><div class="message success">Foo &amp; bar</div></div>';
 		$this->assertEquals($expected, $result);
 
@@ -53,7 +53,7 @@ class FlashHelperTest extends TestCase {
 		$this->Flash->addTransientMessage('I am also some info');
 		$this->Flash->addTransientMessage('I am sth custom', 'custom');
 
-		$result = $this->Flash->flash();
+		$result = $this->Flash->render();
 		$this->assertTextContains('message error', $result);
 		$this->assertTextContains('message warning', $result);
 		$this->assertTextContains('message info', $result);
@@ -76,15 +76,15 @@ class FlashHelperTest extends TestCase {
 		$this->Flash->addTransientMessage('I am also some info');
 		$this->Flash->addTransientMessage('I am sth custom', 'custom');
 
-		$result = $this->Flash->flash(array('warning', 'error'));
+		$result = $this->Flash->render(array('warning', 'error'));
 		$expected = '<div class="flash-messages flashMessages"><div class="message warning">I am a warning</div><div class="message error">I am an error</div></div>';
 		$this->assertEquals($expected, $result);
 
-		$result = $this->Flash->flash(array('info'));
+		$result = $this->Flash->render(array('info'));
 		$expected = '<div class="flash-messages flashMessages"><div class="message info">I am some info</div><div class="message info">I am also some info</div></div>';
 		$this->assertEquals($expected, $result);
 
-		$result = $this->Flash->flash();
+		$result = $this->Flash->render();
 		$expected = '<div class="flash-messages flashMessages"><div class="message custom">I am sth custom</div></div>';
 		$this->assertEquals($expected, $result);
 	}
