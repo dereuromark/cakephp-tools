@@ -12,8 +12,42 @@ trait ToolsTestTrait {
 	 * @param string $string
 	 * @return string
 	 */
-	protected static function _osFix($string) {
+	protected static function osFix($string) {
 		return str_replace(array("\r\n", "\r"), "\n", $string);
+	}
+
+	/**
+	 * Checks if debug flag is set.
+	 *
+	 * Flag is set via `--debug`.
+	 * Allows additional stuff like non-mocking when enabling debug.
+	 *
+	 * @return bool Success
+	 */
+	protected static function isDebug() {
+		return !empty($_SERVER['argv']) && in_array('--debug', $_SERVER['argv'], true);
+	}
+
+	/**
+	 * Checks if debug flag is set.
+	 *
+	 * Flags are `-v` and `-vv`.
+	 * Allows additional stuff like non-mocking when enabling debug.
+	 *
+	 * @param bool $onlyVeryVerbose If only -vv should be counted.
+	 * @return bool Success
+	 */
+	protected static function isVerbose($onlyVeryVerbose = false) {
+		if (empty($_SERVER['argv'])) {
+			return false;
+		}
+		if (!$onlyVeryVerbose && in_array('-v', $_SERVER['argv'], true)) {
+			return true;
+		}
+		if (in_array('-vv', $_SERVER['argv'], true)) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -28,11 +62,10 @@ trait ToolsTestTrait {
 	 * @return void
 	 */
 	protected static function debug($data) {
-		$output = !empty($_SERVER['argv']) && (in_array('-v', $_SERVER['argv'], true) || in_array('-vv', $_SERVER['argv'], true));
-		if (!$output) {
+		if (!static::isVerbose()) {
 			return;
 		}
-		$showFrom = in_array('-vv', $_SERVER['argv'], true);
+		$showFrom = static::isVerbose(true);
 
 		debug($data, null, $showFrom);
 	}
