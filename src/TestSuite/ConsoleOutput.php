@@ -12,6 +12,11 @@ use Tools\TestSuite\ToolsTestTrait;
  *  $stdOut = new ConsoleOutput();
  *  $stdErr = new ConsoleOutput();
  *  $io = new ConsoleIo($stdOut, $stdErr);
+ *  $this->Shell = $this->getMock(
+ *    'App\Shell\FooBarShell',
+ *    ['in', '_stop'],
+ *    [$io]
+ *  );
  *
  * @license MIT
  * @author Mark Scherer
