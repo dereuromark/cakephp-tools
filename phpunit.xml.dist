@@ -26,10 +26,13 @@
 	<filter>
 		<whitelist>
 			<directory suffix=".php">./src</directory>
+			<exclude>
+				<file>./src/Utility/Set.php</file>
+				<file>./src/Utility/Multibyte.php</file>
+			</exclude>
 		</whitelist>
 		<blacklist>
 			<directory suffix=".ctp">./src/Template</directory>
-			<file>./src/Utility/Set.php</file>
 		</blacklist>
 	</filter>
 </phpunit>

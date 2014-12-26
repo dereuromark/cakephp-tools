@@ -2,6 +2,7 @@
 namespace Tools\Controller\Component;
 
 use Cake\Controller\Component as CakeComponent;
+use Cake\Event\Event;
 
 /**
  * Convenience class that automatically provides the component's methods with
