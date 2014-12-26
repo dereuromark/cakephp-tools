@@ -2,7 +2,7 @@
 namespace Tools\Test\TestCase\Controller\Component;
 
 use Cake\Controller\ComponentRegistry;
-use Cake\Controller\Component;
+use Tools\Controller\Component\Component;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Network\Request;

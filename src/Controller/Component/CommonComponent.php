@@ -1,7 +1,7 @@
 <?php
 namespace Tools\Controller\Component;
 
-use Cake\Controller\Component;
+use Tools\Controller\Component\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Routing\Router;
@@ -15,16 +15,6 @@ use Tools\Utility\Utility;
  * @license MIT
  */
 class CommonComponent extends Component {
-
-	/**
-	 * CommonComponent::beforeFilter()
-	 *
-	 * @param Event $event
-	 * @return void
-	 */
-	public function beforeFilter(Event $event) {
-		$this->Controller = $event->subject();
-	}
 
 	/**
 	 * For this helper the controller has to be passed as reference

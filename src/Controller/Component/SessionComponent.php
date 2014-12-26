@@ -1,7 +1,7 @@
 <?php
 namespace Tools\Controller\Component;
 
-use Cake\Controller\Component;
+use Tools\Controller\Component\Component;
 
 /**
  * The CakePHP SessionComponent provides a way to persist client data between

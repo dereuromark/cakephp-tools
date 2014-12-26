@@ -1,7 +1,7 @@
 <?php
 namespace Tools\Controller\Component;
 
-use Cake\Controller\Component;
+use Tools\Controller\Component\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Utility\Inflector;
@@ -23,16 +23,6 @@ class FlashComponent extends Component {
 		'headerKey' => 'X-Flash', // Set to empty string to deactivate AJAX response
 		'sessionLimit' => 99 // Max message limit for session (Configure doesn't need one)
 	];
-
-	/**
-	 * FlashComponent::beforeFilter()
-	 *
-	 * @param Event $event
-	 * @return void
-	 */
-	public function beforeFilter(Event $event) {
-		$this->Controller = $event->subject();
-	}
 
 	/**
 	 * Called after the Controller::beforeRender(), after the view class is loaded, and before the
