@@ -11,7 +11,7 @@ use Cake\Utility\Inflector;
  * persistent and transient.
  *
  * @author Mark Scherer
- * @copyright 2012 Mark Scherer
+ * @copyright 2014 Mark Scherer
  * @license MIT
  */
 class FlashComponent extends Component {
@@ -20,10 +20,16 @@ class FlashComponent extends Component {
 	 * @var array
 	 */
 	protected $_defaultConfig = [
-		'headerKey' => 'X-Flash', // Set to empty string to deactivate
+		'headerKey' => 'X-Flash', // Set to empty string to deactivate AJAX response
 		'sessionLimit' => 99 // Max message limit for session (Configure doesn't need one)
 	];
 
+	/**
+	 * FlashComponent::beforeFilter()
+	 *
+	 * @param Event $event
+	 * @return void
+	 */
 	public function beforeFilter(Event $event) {
 		$this->Controller = $event->subject();
 	}
@@ -118,18 +124,18 @@ class FlashComponent extends Component {
 		Configure::write('FlashMessage', $old);
 	}
 
-/**
- * Magic method for verbose flash methods based on element names.
- *
- * For example: $this->Flash->success('My message') would use the
- * success.ctp element under `App/Template/Element/Flash` for rendering the
- * flash message.
- *
- * @param string $name Element name to use.
- * @param array $args Parameters to pass when calling `FlashComponent::set()`.
- * @return void
- * @throws \Cake\Network\Exception\InternalErrorException If missing the flash message.
- */
+	/**
+	 * Magic method for verbose flash methods based on element names.
+	 *
+	 * For example: $this->Flash->success('My message') would use the
+	 * success.ctp element under `App/Template/Element/Flash` for rendering the
+	 * flash message.
+	 *
+	 * @param string $name Element name to use.
+	 * @param array $args Parameters to pass when calling `FlashComponent::message()` or `set()`.
+	 * @return void
+	 * @throws \Cake\Network\Exception\InternalErrorException If missing the flash message.
+	 */
 	public function __call($name, $args) {
 		$options = ['element' => Inflector::underscore($name)];
 

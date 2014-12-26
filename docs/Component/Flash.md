@@ -3,11 +3,11 @@
 An enhanced FlashComponent capable of
 - Stackable messages for each type
 - Persistent (across requests) and transient messages
-- Inject it into the headers as `X-Ajax-Flashmessage` for REST/AJAX requests
+- Inject it into the headers, as `X-Flash` for example, for REST/AJAX requests
 
 ## Configs
 - 'headerKey' => 'X-Flash', // Set to empty string to deactivate
-- 'sessionLimit' => 99 // Max message limit for session to avoid session flooding (Configure doesn't need one)
+- 'sessionLimit' => 99 // Max message limit for Session to avoid session flooding (Configure uses 99 fixed)
 
 ## Usage
 Attach it to your controllers in `initialize()` like so:
@@ -39,5 +39,7 @@ $this->Flash->error('O o.');
 ```
 
 ## Notes
+It will also work with the AuthComponent, which internally uses FlashComponent::set(). This method has been provides as core hook internally.
+
 You can use any type (success, warning, error, info, ...) of message, except the two reserved ones `message` and `set`.
 At least if you plan on using the magic method invokation. But even if not, it would be good practice to not use those two.
