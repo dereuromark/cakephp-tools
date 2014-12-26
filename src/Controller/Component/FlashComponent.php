@@ -4,6 +4,7 @@ namespace Tools\Controller\Component;
 use Cake\Controller\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\Utility\Inflector;
 
 /**
  * A flash component to enhance flash message support with stackable messages, both
@@ -14,6 +15,14 @@ use Cake\Event\Event;
  * @license MIT
  */
 class FlashComponent extends Component {
+
+	/**
+	 * @var array
+	 */
+	protected $_defaultConfig = [
+		'headerKey' => 'X-Flash', // Set to empty string to deactivate
+		'sessionLimit' => 99 // Max message limit for session (Configure doesn't need one)
+	];
 
 	public function beforeFilter(Event $event) {
 		$this->Controller = $event->subject();
@@ -27,23 +36,21 @@ class FlashComponent extends Component {
 	 * @return void
 	 */
 	public function beforeRender(Event $event) {
-		if ($messages = $this->Controller->request->session()->read('Message')) {
-			foreach ($messages as $message) {
-				$this->flashMessage($message['message'], 'error');
-			}
-			$this->Controller->request->session()->delete('Message');
+		if (!$this->Controller->request->is('ajax')) {
+			return;
 		}
 
-		if ($this->Controller->request->is('ajax')) {
-			$ajaxMessages = array_merge(
-				(array)$this->Controller->request->session()->read('messages'),
-				(array)Configure::read('messages')
-			);
-			// The header can be read with JavaScript and a custom Message can be displayed
-			$this->Controller->response->header('X-Ajax-Flashmessage', json_encode($ajaxMessages));
-
-			$this->Controller->request->session()->delete('messages');
+		$headerKey = $this->config('headerKey');
+		if (!$headerKey) {
+			return;
 		}
+
+		$ajaxMessages = array_merge(
+			(array)$this->Controller->request->session()->consume('FlashMessage'),
+			(array)Configure::consume('FlashMessage')
+		);
+		// The header can be read with JavaScript and a custom Message can be displayed
+		$this->Controller->response->header($headerKey, json_encode($ajaxMessages));
 	}
 
 	/**
@@ -54,17 +61,24 @@ class FlashComponent extends Component {
 	 * @param string $type Type ('error', 'warning', 'success', 'info' or custom class).
 	 * @return void
 	 */
-	public function message($message, $type = null) {
-		if (!$type) {
-			$type = 'info';
+	public function message($message, $options = null) {
+		if (!is_array($options)) {
+			$type = $options;
+			if (!$type) {
+				$type = 'info';
+			}
+			$options = array();
+		} else {
+			$options += ['element' => 'info'];
+			$type = $options['element'];
 		}
 
-		$old = (array)$this->Controller->request->session()->read('messages');
-		if (isset($old[$type]) && count($old[$type]) > 99) {
+		$old = (array)$this->Controller->request->session()->read('FlashMessage');
+		if (isset($old[$type]) && count($old[$type]) > $this->config('sessionLimit')) {
 			array_shift($old[$type]);
 		}
 		$old[$type][] = $message;
-		$this->Controller->request->session()->write('messages', $old);
+		$this->Controller->request->session()->write('FlashMessage', $old);
 	}
 
 	/**
@@ -77,7 +91,7 @@ class FlashComponent extends Component {
 	 */
 	public function set($message, array $config = []) {
 		// For now we only use the element name
-		$defaults = ['element' => 'default'];
+		$defaults = ['element' => 'info'];
 		$config += $defaults;
 		$this->message($message, $config['element']);
 	}
@@ -96,12 +110,37 @@ class FlashComponent extends Component {
 			$type = 'info';
 		}
 
-		$old = (array)Configure::read('messages');
+		$old = (array)Configure::read('FlashMessage');
 		if (isset($old[$type]) && count($old[$type]) > 99) {
 			array_shift($old[$type]);
 		}
 		$old[$type][] = $message;
-		Configure::write('messages', $old);
+		Configure::write('FlashMessage', $old);
+	}
+
+/**
+ * Magic method for verbose flash methods based on element names.
+ *
+ * For example: $this->Flash->success('My message') would use the
+ * success.ctp element under `App/Template/Element/Flash` for rendering the
+ * flash message.
+ *
+ * @param string $name Element name to use.
+ * @param array $args Parameters to pass when calling `FlashComponent::set()`.
+ * @return void
+ * @throws \Cake\Network\Exception\InternalErrorException If missing the flash message.
+ */
+	public function __call($name, $args) {
+		$options = ['element' => Inflector::underscore($name)];
+
+		if (count($args) < 1) {
+			throw new InternalErrorException('Flash message missing.');
+		}
+
+		if (!empty($args[1])) {
+			$options += (array)$args[1];
+		}
+		$this->message($args[0], $options);
 	}
 
 }
