@@ -68,6 +68,21 @@ class FlashComponent extends Component {
 	}
 
 	/**
+	 * Wrapper for original core functionality going into this extended component.
+	 * Core Auth component, for example, requires this.
+	 *
+	 * @param string $message
+	 * @param array $config
+	 * @return void
+	 */
+	public function set($message, array $config = []) {
+		// For now we only use the element name
+		$defaults = ['element' => 'default'];
+		$config += $defaults;
+		$this->message($message, $config['element']);
+	}
+
+	/**
 	 * Adds a transient flash message.
 	 * These flash messages that are not saved (only available for current view),
 	 * will be merged into the session flash ones prior to output.
