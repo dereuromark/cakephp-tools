@@ -31,7 +31,7 @@ class FlashHelperTest extends TestCase {
 	 */
 	public function testMessage() {
 		$result = $this->Flash->message(h('Foo & bar'), 'success');
-		$expected = '<div class="flash-messages flashMessages"><div class="message success">Foo &amp;amp; bar</div></div>';
+		$expected = '<div class="flash-messages"><div class="message success">Foo &amp;amp; bar</div></div>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -44,7 +44,7 @@ class FlashHelperTest extends TestCase {
 		$this->Flash->addTransientMessage(h('Foo & bar'), 'success');
 
 		$result = $this->Flash->render();
-		$expected = '<div class="flash-messages flashMessages"><div class="message success">Foo &amp; bar</div></div>';
+		$expected = '<div class="flash-messages"><div class="message success">Foo &amp; bar</div></div>';
 		$this->assertEquals($expected, $result);
 
 		$this->Flash->addTransientMessage('I am an error', 'error');
@@ -77,15 +77,15 @@ class FlashHelperTest extends TestCase {
 		$this->Flash->addTransientMessage('I am sth custom', 'custom');
 
 		$result = $this->Flash->render(array('warning', 'error'));
-		$expected = '<div class="flash-messages flashMessages"><div class="message warning">I am a warning</div><div class="message error">I am an error</div></div>';
+		$expected = '<div class="flash-messages"><div class="message warning">I am a warning</div><div class="message error">I am an error</div></div>';
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Flash->render(array('info'));
-		$expected = '<div class="flash-messages flashMessages"><div class="message info">I am some info</div><div class="message info">I am also some info</div></div>';
+		$expected = '<div class="flash-messages"><div class="message info">I am some info</div><div class="message info">I am also some info</div></div>';
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Flash->render();
-		$expected = '<div class="flash-messages flashMessages"><div class="message custom">I am sth custom</div></div>';
+		$expected = '<div class="flash-messages"><div class="message custom">I am sth custom</div></div>';
 		$this->assertEquals($expected, $result);
 	}
 

@@ -36,14 +36,14 @@ class FlashHelper extends Helper {
 	 */
 	public function render(array $types = array()) {
 		// Get the messages from the session
-		$messages = (array)$this->Session->read('messages');
-		$cMessages = (array)Configure::read('messages');
+		$messages = (array)$this->Session->read('FlashMessage');
+		$cMessages = (array)Configure::read('FlashMessage');
 		if (!empty($cMessages)) {
 			$messages = (array)Hash::merge($messages, $cMessages);
 		}
 		$html = '';
 		if (!empty($messages)) {
-			$html = '<div class="flash-messages flashMessages">';
+			$html = '<div class="flash-messages">';
 
 			if ($types) {
 				foreach ($types as $type) {
@@ -67,12 +67,12 @@ class FlashHelper extends Helper {
 			$html .= '</div>';
 			if ($types) {
 				foreach ($types as $type) {
-					$this->request->session()->delete('messages.' . $type);
-					Configure::delete('messages.' . $type);
+					$this->request->session()->delete('FlashMessage.' . $type);
+					Configure::delete('FlashMessage.' . $type);
 				}
 			} else {
-				$this->request->session()->delete('messages');
-				Configure::delete('messages');
+				$this->request->session()->delete('FlashMessage');
+				Configure::delete('FlashMessage');
 			}
 		}
 
@@ -89,7 +89,7 @@ class FlashHelper extends Helper {
 	 * @return string HTML
 	 */
 	public function message($msg, $type = 'info', $escape = true) {
-		$html = '<div class="flash-messages flashMessages">';
+		$html = '<div class="flash-messages">';
 		if ($escape) {
 			$msg = h($msg);
 		}
