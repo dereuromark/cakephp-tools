@@ -16,6 +16,7 @@ This cake3 branch only works for **CakePHP3.x** - please use the master branch f
 * [Behavior/Passwordable](Behavior/Passwordable.md)
 * [Behavior/Slugged](Behavior/Slugged.md)
 * [Behavior/Reset](Behavior/Reset.md)
+* [Component/Flash](Component/Flash.md)
 * [View/Rss](View/Rss.md)
 * ...
 * [Testing](TestSuite/Testing.md)

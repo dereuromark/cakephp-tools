@@ -6,7 +6,7 @@ Let's you test even faster.
 
 This trait adds the following methods to your test suite:
 
-### _osFix()
+### osFix()
 
 In case you need to format certain os specific files to "\n" before comparing
 them as strings.
@@ -32,6 +32,23 @@ you are currently working on or debugging:
 ```
 php phpunit.phar --filter testFooBar /path/to/SomeTest.php -vv
 ```
+
+### isDebug()
+With this method you can apply additional testing code if a `--debug` flag has been set.
+
+As an example you can by default mock out some API call, but with the debug flat set use
+the real API connection (for local testing). This way you can quickly confirm that the API
+connection is not only still working in simulated (mocking) the way it used to, but also
+that it's still the real deal.
+```php
+$this->Api = new ApiClass();
+
+if (!$this->isDebug()) {
+	$this->Api = $this->getMock('ApiClass');
+	$this->Api->expects(...)->...;
+}
+```
+
 
 ## IntegrationTestCase
 

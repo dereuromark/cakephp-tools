@@ -29,6 +29,7 @@
 		</whitelist>
 		<blacklist>
 			<directory suffix=".ctp">./src/Template</directory>
+			<file>./src/Utility/Set.php</file>
 		</blacklist>
 	</filter>
 </phpunit>

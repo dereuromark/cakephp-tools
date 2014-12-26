@@ -12,7 +12,7 @@ abstract class TestCase extends CakeTestCase {
 	use ToolsTestTrait;
 
 	/**
-	 * Opposite wrapper method of assertWithinMargin.
+	 * Opposite wrapper method of assertWithinRange().
 	 *
 	 * @param float $result
 	 * @param float $expected
@@ -20,10 +20,11 @@ abstract class TestCase extends CakeTestCase {
 	 * @param string $message
 	 * @return void
 	 */
-	protected static function assertNotWithinMargin($result, $expected, $margin, $message = '') {
+	protected static function assertNotWithinRange($expected, $result, $margin, $message = '') {
 		$upper = $result + $margin;
 		$lower = $result - $margin;
-		return static::assertFalse((($expected <= $upper) && ($expected >= $lower)), $message);
+
+		return static::assertTrue((($expected > $upper) || ($expected < $lower)), $message);
 	}
 
 }
