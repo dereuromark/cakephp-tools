@@ -3,6 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/dereuromark/cakephp-tools/badge.png?branch=cake3)](https://coveralls.io/r/dereuromark/cakephp-tools)
 [![License](https://poser.pugx.org/dereuromark/cakephp-tools/license.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
 [![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-tools/d/total.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dereuromark/cakephp-tools?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 A CakePHP 3.x Plugin containing several useful tools that can be used in many projects.
 
