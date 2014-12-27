@@ -1,12 +1,11 @@
 # CakePHP Tools Plugin
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dereuromark/cakephp-tools?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 [![Build Status](https://api.travis-ci.org/dereuromark/cakephp-tools.png?branch=master)](https://travis-ci.org/dereuromark/cakephp-tools)
 [![Latest Stable Version](https://poser.pugx.org/dereuromark/cakephp-tools/v/stable.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
 [![Coverage Status](https://coveralls.io/repos/dereuromark/cakephp-tools/badge.png)](https://coveralls.io/r/dereuromark/cakephp-tools)
 [![License](https://poser.pugx.org/dereuromark/cakephp-tools/license.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
 [![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-tools/d/total.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dereuromark/cakephp-tools?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 A CakePHP 2.x Plugin containing several useful tools that can be used in many projects.
 This plugin requires PHP5.3+
