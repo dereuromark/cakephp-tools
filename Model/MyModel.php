@@ -417,7 +417,7 @@ class MyModel extends Model {
 	 * @return bool True on success, false on failure
 	 */
 	public function deleteAllJoinless($conditions, $dependent = true, $callbacks = false) {
-		$associated = [];
+		$associated = array();
 		foreach ($this->getAssociated() as $model => $type) {
 			$associated[$type][] = $model;
 		}
