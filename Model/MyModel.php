@@ -380,6 +380,54 @@ class MyModel extends Model {
 	}
 
 	/**
+	 * Override default updateAll to workaround forced joins.
+	 *
+	 * This is a shim method to more easily migrate to 3.x as there
+	 * updateAll() does not allow joining anymore.
+	 *
+	 * @param array $fields Set of fields and values, indexed by fields.
+	 *   Fields are treated as SQL snippets, to insert literal values manually escape your data.
+	 * @param mixed $conditions Conditions to match, true for all records
+	 * @return bool True on success, false on failure
+	 */
+	public function updateAllJoinless($fields, $conditions = true) {
+		$name = $this->name;
+		$this->name = '_model_';
+
+		try {
+			$result = $this->updateAll($fields, $conditions);
+		} catch (Exception $e) {
+			$this->name = $name;
+			throw $e;
+		}
+
+		$this->name = $name;
+		return $result;
+	}
+
+	/**
+	 * Override default deleteAll to workaround forced joins
+	 *
+	 * This is a shim method to more easily migrate to 3.x as there
+	 * deleteAll() does not allow joining anymore.
+	 *
+	 * @param mixed $conditions Conditions to match
+	 * @param bool $cascade Set to true to delete records that depend on this record
+	 * @param bool $callbacks Run callbacks
+	 * @return bool True on success, false on failure
+	 */
+	public function deleteAllJoinless($conditions, $dependent = true, $callbacks = false) {
+		$associated = [];
+		foreach ($this->getAssociated() as $model => $type) {
+			$associated[$type][] = $model;
+		}
+
+		$this->unbindModel($associated);
+
+		return $this->deleteAll($conditions, $dependent, $callbacks);
+	}
+
+	/**
 	 * Enables HABTM-Validation
 	 * e.g. with
 	 * 'rule' => array('multiple', array('min' => 2))

@@ -196,6 +196,78 @@ class MyModelTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * MyModelTest::testUpdateAllJoinless()
+	 *
+	 * @return void
+	 */
+	public function testUpdateAllJoinless() {
+		$db = ConnectionManager::getDataSource($this->Post->useDbConfig);
+		$db->getLog();
+		$postTable = $db->fullTableName($this->Post->table);
+		$authorTable = $db->fullTableName($this->Post->Author->table);
+
+		$result = $this->Post->updateAll(array('title' => '"Foo"'), array('title !=' => 'Foo'));
+		$this->assertTrue($result);
+
+		$queries = $db->getLog();
+		$expected = 'UPDATE ' . $postTable . ' AS `Post` LEFT JOIN ' . $authorTable . ' AS `Author` ON (`Post`.`author_id` = `Author`.`id`) SET `Post`.`title` = "Foo"  WHERE `title` != \'Foo\'';
+		$this->assertSame($expected, $queries['log'][0]['query']);
+
+		// Now joinless
+		$result = $this->Post->updateAllJoinless(array('title' => '"Foo"'), array('title !=' => 'Foo'));
+		$this->assertTrue($result);
+
+		$queries = $db->getLog();
+		$expected = 'UPDATE ' . $postTable . ' AS `Post`  SET `Post`.`title` = "Foo"  WHERE `title` != \'Foo\'';
+		$this->assertSame($expected, $queries['log'][0]['query']);
+	}
+
+	/**
+	 * MyModelTest::testDeleteAll()
+	 *
+	 * @return void
+	 */
+	public function testDeleteAll() {
+		$db = ConnectionManager::getDataSource($this->Post->useDbConfig);
+		$db->getLog();
+		$postTable = $db->fullTableName($this->Post->table);
+		$authorTable = $db->fullTableName($this->Post->Author->table);
+
+		$result = $this->Post->deleteAll(array('title !=' => 'Foo'));
+		$this->assertTrue($result);
+
+		$queries = $db->getLog();
+		$expected = 'SELECT `Post`.`id` FROM ' . $postTable . ' AS `Post` LEFT JOIN ' . $authorTable . ' AS `Author` ON (`Post`.`author_id` = `Author`.`id`)  WHERE `title` != \'Foo\'  GROUP BY `Post`.`id`';
+		$this->assertSame($expected, $queries['log'][0]['query']);
+
+		$expected = 'DELETE `Post` FROM ' . $postTable . ' AS `Post`   WHERE `Post`.`id` IN';
+		$this->assertContains($expected, $queries['log'][1]['query']);
+	}
+
+	/**
+	 * MyModelTest::testDeleteAllJoinless()
+	 *
+	 * @return void
+	 */
+	public function testDeleteAllJoinless() {
+		// Now joinless
+		$db = ConnectionManager::getDataSource($this->Post->useDbConfig);
+		$db->getLog();
+		$postTable = $db->fullTableName($this->Post->table);
+		$authorTable = $db->fullTableName($this->Post->Author->table);
+
+		$result = $this->Post->deleteAllJoinless(array('title !=' => 'Foo'));
+		$this->assertTrue($result);
+
+		$queries = $db->getLog();
+		$expected = 'SELECT `Post`.`id` FROM ' . $postTable . ' AS `Post`   WHERE `title` != \'Foo\'  GROUP BY `Post`.`id`';
+		$this->assertSame($expected, $queries['log'][0]['query']);
+
+		$expected = 'DELETE `Post` FROM ' . $postTable . ' AS `Post`   WHERE `Post`.`id` IN';
+		$this->assertContains($expected, $queries['log'][1]['query']);
+	}
+
+	/**
 	 * Test deleteAllRaw()
 	 *
 	 * @return void
