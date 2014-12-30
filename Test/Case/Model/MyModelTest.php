@@ -206,6 +206,7 @@ class MyModelTest extends MyCakeTestCase {
 		$postTable = $db->fullTableName($this->Post->table);
 		$authorTable = $db->fullTableName($this->Post->Author->table);
 
+		// Note that the $fields argument needs manual string escaping whereas the $conditions one doesn't!
 		$result = $this->Post->updateAll(array('title' => '"Foo"'), array('title !=' => 'Foo'));
 		$this->assertTrue($result);
 
