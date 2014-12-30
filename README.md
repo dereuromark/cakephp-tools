@@ -120,7 +120,8 @@ public $helpers = array(
 * Disable cache also works for older IE versions.
 * Default settings for Paginator, ... can be set using Configure.
 * RSS and Ajax Views for better responses (Ajax also comes with an optional component).
-* testAction() defaults to GET
+* testAction() defaults to GET.
+* [Shims](docs/Shims.md) to write cutting edge 2.x code - and prepare for 3.x.
 
 A full list of fixes and useful migration tweaks towards the next major version see [here](https://github.com/dereuromark/cakephp-tools/wiki/Included-fixes-and-migration-tweaks).
 
@@ -154,7 +155,7 @@ If you are able to help on that one, that would be awesome.
 
 ### Branching strategy
 The master branch is the currently active and maintained one and works with the current 2.x stable version.
-Older versions might be found in their respective branches (1.3, 2.0, 2.3, ...).
+Older versions might be found in their respective branches (2.0, 2.4, ...).
 Please provide PRs mainly against master branch then.
 
 For details on how to contribute please read the [CONTRIBUTING page](CONTRIBUTING.md).
@@ -166,9 +167,7 @@ For details on how to contribute please read the [CONTRIBUTING page](CONTRIBUTIN
 
 ### Recent changes (possibly BC breaking)
 
-* 2014-01 Changed Garbige to Garbage in method names.
-* 2014-02 Qlogin now uses Token model instead of deprecated CodeKey per default.
 * 2014-07 Packagist package name has been renamed to "cakephp-tools".
 * 2014-11 All translations now use the `tools` domain; development messages are not translated anymore
 * 2014-12 Some model validations have also been transformed from generic `validation` into `tools` domain.
-* 2014-12 All `tools` domain translations need to exist in `APP/Locale` due to a core issue when trying to overwrite them in the application.
+* 2014-12 All `tools` domain translations need to exist in `APP/Locale` due to a core issue in `CakePHP <= 2.5` when trying to overwrite them in the application.
