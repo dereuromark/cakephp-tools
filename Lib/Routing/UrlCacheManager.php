@@ -151,7 +151,10 @@ class UrlCacheManager {
 	}
 	
 	/**
+	* Sorts array and casts all values to string.
 	*
+	* @param array $array Array to sort and cast.
+	* @return mixed On success or the argument passed
 	*/
 	public static function prepareForSerialize($array) {
 		if (!is_array($array)) {
@@ -164,7 +167,7 @@ class UrlCacheManager {
 			if (is_array($val)) {
 				$array[$key] = static::prepareForSerialize($val);
 			} else {
-				$array[$key] = (string) $val;
+				$array[$key] = (string)$val;
 			}
 		}
 		return $array;
