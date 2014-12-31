@@ -171,7 +171,7 @@ class MyHelperUrlCacheTest extends CakeTestCase {
 *
 */
 	public function testPaginationUrlsWithQueryString() {
-		$urlArray = array('controller' => 'posts', 'action' => 'list_posts', '?' => ['page' => 2]);
+		$urlArray = array('controller' => 'posts', 'action' => 'list_posts', '?' => array('page' => 2));
 		$this->HtmlHelper->beforeRender('foo');
 		$url = $this->HtmlHelper->url($urlArray);
 		$this->assertEquals(array('e8383c43f33fcf11621240f22814603b'), array_keys(UrlCacheManager::$cachePage));
