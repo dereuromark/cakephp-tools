@@ -1,4 +1,5 @@
 # How to contribute
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dereuromark/cakephp-tools?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## Branching strategy
 The master branch is the currently active and maintained one and works with the current 2.x stable version.
