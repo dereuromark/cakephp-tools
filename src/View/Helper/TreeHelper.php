@@ -120,7 +120,7 @@ class TreeHelper extends Helper {
 	 * @param array $data data to loop on
 	 * @param array $config
 	 * @return string html representation of the passed data
-	 * @throws CakeException
+	 * @throws \Exception
 	 */
 	public function generate(array $data, array $config = array()) {
 		if (!$data) {
@@ -229,7 +229,7 @@ class TreeHelper extends Helper {
 					$lastChild = true;
 				}
 			} else {
-				throw new CakeException('Invalid Tree Structure');
+				throw new \Exception('Invalid Tree Structure');
 			}
 
 			$activePathElement = null;
@@ -525,7 +525,7 @@ class TreeHelper extends Helper {
 	 * @param array $path Tree path
 	 * @param int $level
 	 * @return void
-	 * @throws CakeException
+	 * @throws \Exception
 	 */
 	protected function _markUnrelatedAsHidden(&$tree, array $path, $level = 0) {
 		extract($this->_config);
@@ -535,7 +535,7 @@ class TreeHelper extends Helper {
 				$subTree = $subTree->toArray();
 			}
 			if (!isset($subTree['children'])) {
-				throw new CakeException('Only workes with threaded (nested children) results');
+				throw new \Exception('Only workes with threaded (nested children) results');
 			}
 
 			if (!empty($path[$level]) && $subTree['id'] == $path[$level]['id']) {
