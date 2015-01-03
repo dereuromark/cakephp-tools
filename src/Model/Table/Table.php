@@ -286,25 +286,6 @@ class Table extends CakeTable {
 	}
 
 	/**
-	 * Overwrite to allow markNew => auto
-	 *
-	 * @param array $data The data to build an entity with.
-	 * @param array $options A list of options for the object hydration.
-	 * @return \Cake\Datasource\EntityInterface
-	 */
-	public function newEntity(array $data = [], array $options = []) {
-		if (Configure::read('Entity.autoMarkNew')) {
-			$options += ['markNew' => 'auto'];
-		}
-		if (isset($options['markNew']) && $options['markNew'] === 'auto') {
-			$this->_primaryKey = (array)$this->primaryKey();
-			$this->_primaryKey = $this->_primaryKey[0];
-			$options['markNew'] = !empty($data[$this->_primaryKey]);
-		}
-		return parent::newEntity($data, $options);
-	}
-
-	/**
 	 * Set the default ordering as 2.x shim
 	 *
 	 * If you don't want that, don't call parent when overwriting it in extending classses.
