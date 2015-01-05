@@ -354,7 +354,7 @@ class TimeLibTest extends MyCakeTestCase {
 		$this->assertEquals('6', TimeLib::age('2002-01-29', '2008-12-02'));
 
 		// Leap year
-
+		// These tests might fail on windows / some strange setup?
 		$this->assertEquals('2', TimeLib::age('2005-03-01', '2008-02-28'));
 		$this->assertEquals('2', TimeLib::age('2005-03-01', '2008-02-29'));
 
@@ -418,8 +418,12 @@ class TimeLibTest extends MyCakeTestCase {
 
 		// year only
 		$is = TimeLib::ageByYear(2000);
-		$this->out($is);
-		$this->assertEquals((date('Y') - 2001) . '/' . (date('Y') - 2000), $is);
+		//$this->out($is);
+		if (date('n') == 1 && date('j') == 1) {
+			$this->assertEquals(date('Y') - 2000, $is);
+		} else {
+			$this->assertEquals((date('Y') - 2001) . '/' . (date('Y') - 2000), $is);
+		}
 
 		$is = TimeLib::ageByYear(1985);
 		$this->assertEquals((date('Y') - 1986) . '/' . (date('Y') - 1985), $is);
@@ -548,11 +552,11 @@ class TimeLibTest extends MyCakeTestCase {
 		$res = TimeLib::relLengthOfTime(date(FORMAT_DB_DATETIME, time() - 4 * DAY - 5 * HOUR), null, array('plural' => 'n'));
 		//pr($res);
 		//$this->assertEquals($res, 'Vor 4 Tagen, 5 '.__d('tools', 'Hours'));
-		$this->assertEquals(__d('tools', '%s ago', '4 ' . __d('tools', 'Days') . ', ' . '5 ' . __d('tools', 'Hours')), $res);
+		$this->assertEquals(__d('tools', '%s ago', '4 ' . __d('tools', 'Days') . 'n' . ', ' . '5 ' . __d('tools', 'Hours')), $res);
 
 		$res = TimeLib::relLengthOfTime(date(FORMAT_DB_DATETIME, time() + 4 * DAY + 5 * HOUR), null, array('plural' => 'n'));
 		//pr($res);
-		$this->assertEquals(__d('tools', 'In %s', '4 ' . __d('tools', 'Days') . ', ' . '5 ' . __d('tools', 'Hours')), $res);
+		$this->assertEquals(__d('tools', 'In %s', '4 ' . __d('tools', 'Days') . 'n' . ', ' . '5 ' . __d('tools', 'Hours')), $res);
 
 		$res = TimeLib::relLengthOfTime(date(FORMAT_DB_DATETIME, time()), null, array('plural' => 'n'));
 		//pr($res);
