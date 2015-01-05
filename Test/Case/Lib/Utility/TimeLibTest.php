@@ -16,6 +16,8 @@ class TimeLibTest extends MyCakeTestCase {
 		$this->Time = new TimeLib();
 		$this->assertTrue(is_object($this->Time));
 		$this->assertInstanceOf('TimeLib', $this->Time);
+
+		Configure::write('Config.language', 'deu');
 	}
 
 	/**
