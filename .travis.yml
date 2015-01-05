@@ -12,7 +12,7 @@ env:
     - DB=mysql
   matrix:
     - DB=mysql CAKE_VERSION=master
-    - DB=mysql CAKE_VERSION=2.6
+    - DB=mysql CAKE_VERSION=2.7
 
 matrix:
   include:

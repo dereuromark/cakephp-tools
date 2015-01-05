@@ -7,15 +7,17 @@
 [![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-tools/d/total.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
 
 A CakePHP 2.x Plugin containing several useful tools that can be used in many projects.
-This plugin requires PHP5.3+
+This plugin requires PHP5.3+.
 
-Please note: New functionality has been tested against 2.x (current master and dev) only. Please upgrade if possible.
+Please note: New functionality has been tested against 2.x (current master branch) only.
+Please upgrade your app to latest CakePHP 2.x if possible.
+User a different 2.x branch if you need temporary support for older versions.
 
 ## How to include
 Installing the Plugin is pretty much as with every other CakePHP Plugin.
 
-* Put the files in `APP/Plugin/Tools`
-* Make sure you have `CakePlugin::load('Tools')` or `CakePlugin::loadAll()` in your bootstrap
+* Put the files in `APP/Plugin/Tools`.
+* Make sure you have `CakePlugin::load('Tools')` or `CakePlugin::loadAll()` in your bootstrap.
 
 You should use composer/packagist now @ https://packagist.org/packages/dereuromark/cakephp-tools
 
@@ -44,8 +46,6 @@ CakePlugin::loadAll(array(
 		'Tools' => array('bootstrap' => true)
 ));
 ```
-
-
 
 MyModel can be extended to use more powerful validation and other improvements:
 
@@ -166,7 +166,7 @@ For details on how to contribute please read the [CONTRIBUTING page](CONTRIBUTIN
 
 ### Recent changes (possibly BC breaking)
 
-* 2014-07 Packagist package name has been renamed to "cakephp-tools".
 * 2014-11 All translations now use the `tools` domain; development messages are not translated anymore
 * 2014-12 Some model validations have also been transformed from generic `validation` into `tools` domain.
 * 2014-12 All `tools` domain translations need to exist in `APP/Locale` due to a core issue in `CakePHP <= 2.5` when trying to overwrite them in the application.
+* 2015-01 With CakePHP2.6 support now we can re-add the Locale files again. Use `App.preferApp` Configure key to overwrite the plugin's locale files.
