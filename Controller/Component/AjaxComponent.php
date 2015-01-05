@@ -79,7 +79,6 @@ class AjaxComponent extends Component {
 			$_message = $this->Session->read($this->settings['flashKey']);
 			$this->Session->delete($this->settings['flashKey']);
 			$this->Controller->set(compact('_message'));
-			//$this->Controller->set('_serialize', array('_message'));
 		}
 	}
 
