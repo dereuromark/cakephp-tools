@@ -5,7 +5,7 @@ use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
-use Cake\Utility\String;
+use Cake\Utility\Text;
 
 /**
  * A behavior that will json_encode (and json_decode) fields if they contain an array or specific pattern.
@@ -229,9 +229,9 @@ class JsonableBehavior extends Behavior {
 		$separator = $this->_config['separator'];
 
 		$res = array();
-		$pieces = String::tokenize($val, $separator, $leftBound, $rightBound);
+		$pieces = Text::tokenize($val, $separator, $leftBound, $rightBound);
 		foreach ($pieces as $piece) {
-			$subpieces = String::tokenize($piece, $this->_config['keyValueSeparator'], $leftBound, $rightBound);
+			$subpieces = Text::tokenize($piece, $this->_config['keyValueSeparator'], $leftBound, $rightBound);
 			if (count($subpieces) < 2) {
 				continue;
 			}
@@ -250,7 +250,7 @@ class JsonableBehavior extends Behavior {
 	public function _fromList($val) {
 		extract($this->_config);
 
-		return String::tokenize($val, $separator, $leftBound, $rightBound);
+		return Text::tokenize($val, $separator, $leftBound, $rightBound);
 	}
 
 	/**

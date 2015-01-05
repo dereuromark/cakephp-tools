@@ -2,7 +2,7 @@
 namespace Tools\Utility;
 
 use Cake\Core\Configure;
-use Cake\Utility\String;
+use Cake\Utility\Text;
 
 /**
  * Extend String.

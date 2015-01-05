@@ -3,7 +3,7 @@ namespace Tools\Network\Email;
 
 use Cake\Core\Configure;
 use Cake\Network\Email\Email as CakeEmail;
-use Cake\Utility\String;
+use Cake\Utility\Text;
 use InvalidArgumentException;
 use Tools\Utility\Mime;
 
@@ -231,7 +231,7 @@ class Email extends CakeEmail {
 		if (empty($options['mimetype'])) {
 			$options['mimetype'] = $this->_getMime($file);
 		}
-		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', String::uuid()) . '@' . $this->_domain;
+		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', Text::uuid()) . '@' . $this->_domain;
 		$file = array($name => $options);
 		$res = $this->addAttachments($file);
 		if ($contentId === null) {
@@ -260,7 +260,7 @@ class Email extends CakeEmail {
 		}
 		$options['data'] = $content;
 		$options['mimetype'] = $mimeType;
-		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', String::uuid()) . '@' . $this->_domain;
+		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', Text::uuid()) . '@' . $this->_domain;
 		$file = array($filename => $options);
 		$res = $this->addAttachments($file);
 		if ($contentId === null) {
