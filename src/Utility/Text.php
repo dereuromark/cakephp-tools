@@ -2,14 +2,14 @@
 namespace Tools\Utility;
 
 use Cake\Core\Configure;
-use Cake\Utility\Text;
+use Cake\Utility\Text as CakeText;
 
 /**
- * Extend String.
+ * Extends CakeText.
  * //TODO: cleanup
  *
  */
-class Text extends String {
+class Text extends CakeText {
 
 	public $text, $length, $char, $letter, $space, $word, $rWord, $sen, $rSen, $para, $rPara, $beautified;
 

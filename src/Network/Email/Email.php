@@ -3,7 +3,7 @@ namespace Tools\Network\Email;
 
 use Cake\Core\Configure;
 use Cake\Network\Email\Email as CakeEmail;
-use Cake\Utility\Text;
+use Tools\Utility\Text;
 use InvalidArgumentException;
 use Tools\Utility\Mime;
 

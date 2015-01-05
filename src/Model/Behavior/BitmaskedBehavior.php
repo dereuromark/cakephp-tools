@@ -6,7 +6,7 @@ use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\Utility\Inflector;
-use Cake\Utility\Text;
+use Tools\Utility\Text;
 
 /**
  * BitmaskedBehavior

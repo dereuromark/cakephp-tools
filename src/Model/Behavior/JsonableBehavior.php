@@ -5,7 +5,7 @@ use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
-use Cake\Utility\Text;
+use Tools\Utility\Text;
 
 /**
  * A behavior that will json_encode (and json_decode) fields if they contain an array or specific pattern.
