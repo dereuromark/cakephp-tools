@@ -115,11 +115,8 @@ class UrlCacheManager {
 		if (is_array($keyUrl)) {
 			$keyUrl += static::$extras;
 			// prevent different hashs on different orders
-			ksort($keyUrl, SORT_STRING);
 			// prevent different hashs on different types (int/string/bool)
-			foreach ($keyUrl as $key => $val) {
-				$keyUrl[$key] = (string) $val;
-			}
+			$keyUrl = static::prepareForSerialize($keyUrl);
 		}
 		static::$key = md5(serialize($keyUrl) . $full);
 
@@ -151,6 +148,29 @@ class UrlCacheManager {
 		} else {
 			static::$cache[static::$key] = $data;
 		}
+	}
+	
+	/**
+	* Sorts array and casts all values to string.
+	*
+	* @param array $array Array to sort and cast.
+	* @return mixed On success or the argument passed
+	*/
+	public static function prepareForSerialize($array) {
+		if (!is_array($array)) {
+			return $array;
+		}
+		// prevent different hashs on different orders
+		ksort($array, SORT_STRING);
+		// prevent different hashs on different types (int/string/bool)
+		foreach ($array as $key => $val) {
+			if (is_array($val)) {
+				$array[$key] = static::prepareForSerialize($val);
+			} else {
+				$array[$key] = (string)$val;
+			}
+		}
+		return $array;
 	}
 
 }
