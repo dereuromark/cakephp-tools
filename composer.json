@@ -15,7 +15,8 @@
 	"require":{
 		"php": ">=5.4",
 		"cakephp/plugin-installer": "*",
-		"cakephp/cakephp": "3.0.*-dev"
+		"cakephp/cakephp": "3.0.*-dev",
+		"yangqi/htmldom": "dev-master"
 	},
 	"autoload": {
 		"psr-4": {
