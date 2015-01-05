@@ -590,6 +590,7 @@ class SluggedBehaviorTest extends TestCase {
  * @return Entity
  */
 	protected function _getEntity($title = 'test 123', $field = 'title', array $options = array()) {
+		$options += ['validate' => false];
 		return new Entity([
 			$field => $title
 		], $options);

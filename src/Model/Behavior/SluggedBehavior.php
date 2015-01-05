@@ -52,7 +52,7 @@ class SluggedBehavior extends Behavior {
 	 * 	title - force title case. E.g. "This-Is-The-Slug"
 	 * 	camel - force CamelCase. E.g. "ThisIsTheSlug"
 	 * - replace: custom replacements as array
-	 * - on: beforeSave or beforeValidate
+	 * - on: beforeSave or beforeRules
 	 * - scope: certain conditions to use as scope
 	 * - tidy: If cleanup should be run on slugging
 	 *
@@ -74,7 +74,7 @@ class SluggedBehavior extends Behavior {
 			'+' => 'and',
 			'#' => 'hash',
 		),
-		'on' => 'beforeValidate',
+		'on' => 'beforeRules',
 		'scope' => array(),
 		'tidy' => true,
 		'implementedFinders' => ['slugged' => 'findSlugged'],
@@ -152,14 +152,14 @@ class SluggedBehavior extends Behavior {
 	}
 
 	/**
-	 * SluggedBehavior::beforeValidate()
+	 * SluggedBehavior::beforeRules()
 	 *
 	 * @param mixed $event
 	 * @param mixed $entity
 	 * @return void
 	 */
-	public function beforeValidate(Event $event, Entity $entity) {
-		if ($this->_config['on'] === 'beforeValidate') {
+	public function beforeRules(Event $event, Entity $entity) {
+		if ($this->_config['on'] === 'beforeRules') {
 			$this->slug($entity);
 		}
 	}
@@ -462,7 +462,7 @@ class SluggedBehavior extends Behavior {
 					$res = $this->generateSlug($field[$locale], $entity);
 				}
 			}
-			//$this->beforeValidate($entity);
+			//$this->beforeRules($entity);
 			$locale[$locale] = $res;
 		}
 		$entity->set($slugField, $locale);

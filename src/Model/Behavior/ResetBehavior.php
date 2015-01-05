@@ -8,7 +8,7 @@ use Cake\ORM\Table;
 
 /**
  * Allows the model to reset all records as batch command.
- * This way any slugging, geocoding or other beforeValidate, beforeSave, ... callbacks
+ * This way any slugging, geocoding or other beforeRules, beforeSave, ... callbacks
  * can be retriggered for them.
  *
  * By default it will not update the modified timestamp and will re-save id and displayName.
@@ -49,7 +49,7 @@ class ResetBehavior extends Behavior {
 		'timeout' => null, // in seconds
 		'fields' => array(), // if not displayField
 		'updateFields' => array(), // if saved fields should be different from fields
-		'validate' => true, // trigger beforeValidate callback
+		'validate' => true, // trigger beforeRules callback
 		'updateTimestamp' => false, // update modified/updated timestamp
 		'scope' => array(), // optional conditions
 		'callback' => null,
@@ -71,7 +71,7 @@ class ResetBehavior extends Behavior {
 	}
 
 	/**
-	 * Regenerate all records (including possible beforeValidate/beforeSave callbacks).
+	 * Regenerate all records (including possible beforeRules/beforeSave callbacks).
 	 *
 	 * @param Model $Model
 	 * @param array $conditions
