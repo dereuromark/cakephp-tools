@@ -173,6 +173,10 @@ class AjaxComponentTest extends CakeTestCase {
 		);
 		$this->assertEquals($expected, $this->Controller->viewVars['_redirect']);
 
+		$this->Controller->set(array('_message' => 'test'));
+		$this->Controller->redirect('/');
+		$this->assertArrayHasKey('_message', $this->Controller->viewVars);
+
 		$this->assertNotEmpty($this->Controller->viewVars);
 		$this->assertNotEmpty($this->Controller->viewVars['_serialize']);
 		$this->assertTrue(in_array('content', $this->Controller->viewVars['_serialize']));

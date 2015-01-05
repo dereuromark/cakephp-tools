@@ -116,7 +116,7 @@ class AjaxComponent extends Component {
 
 		$this->Controller->autoRender = true;
 		$this->Controller->set('_redirect', compact('url', 'status', 'exit'));
-		$serializeKeys = array('_redirect');
+		$serializeKeys = array('_redirect', '_message');
 		if (!empty($this->Controller->viewVars['_serialize'])) {
 			$serializeKeys = array_merge($serializeKeys, $this->Controller->viewVars['_serialize']);
 		}
