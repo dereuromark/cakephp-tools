@@ -387,13 +387,9 @@ html-part
 		$this->Email->transport('debug');
 		$res = $this->Email->validates();
 		$this->assertFalse($res);
-		$res = $this->Email->send();
-		$this->assertFalse($res);
 
 		$this->Email->subject('foo');
 		$res = $this->Email->validates();
-		$this->assertFalse($res);
-		$res = $this->Email->send();
 		$this->assertFalse($res);
 
 		$this->Email->to('some@web.de');
