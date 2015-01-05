@@ -202,7 +202,7 @@ class PasswordableBehavior extends Behavior {
 	 *
 	 * @return void
 	 */
-	public function beforeValidate(Event $event, Entity $entity) {
+	public function beforeRules(Event $event, Entity $entity) {
 		$formField = $this->_config['formField'];
 		$formFieldRepeat = $this->_config['formFieldRepeat'];
 		$formFieldCurrent = $this->_config['formFieldCurrent'];

@@ -73,8 +73,8 @@ class BitmaskedBehaviorTest extends TestCase {
 		);
 
 		$entity = $this->Comments->newEntity($data);
-		$res = $this->Comments->validate($entity);
-		$this->assertTrue($res);
+		$this->assertEmpty($entity->errors());
+		//debug($entity);die();
 		$this->assertSame('0', $entity->get('status'));
 
 		$data = array(
@@ -82,14 +82,15 @@ class BitmaskedBehaviorTest extends TestCase {
 			'statuses' => array(BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_APPROVED),
 		);
 		$entity = $this->Comments->newEntity($data);
-		$res = $this->Comments->validate($entity);
-		$this->assertTrue($res);
+		$this->assertEmpty($entity->errors());
 
 		$is = $entity->get('status');
 		$this->assertSame(BitmaskedComment::STATUS_PUBLISHED | BitmaskedComment::STATUS_APPROVED, $is);
 
 		// save + find
 		$entity = $this->Comments->newEntity($data);
+		$this->assertEmpty($entity->errors());
+
 		$res = $this->Comments->save($entity);
 		$this->assertTrue((bool)$res);
 
@@ -165,6 +166,8 @@ class BitmaskedBehaviorTest extends TestCase {
 			'statuses' => array(BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_APPROVED),
 		);
 		$entity = $this->Comments->newEntity($data);
+		$this->assertEmpty($entity->errors());
+
 		$res = $this->Comments->save($entity);
 		$this->assertTrue((bool)$res);
 		$this->assertSame(BitmaskedComment::STATUS_PUBLISHED | BitmaskedComment::STATUS_APPROVED, $res['status']);
