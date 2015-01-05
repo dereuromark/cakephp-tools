@@ -3,7 +3,7 @@
 namespace Tools\TestCase\View\Helper;
 
 use Tools\View\Helper\CookieHelper;
-use Cake\TestSuite\TestCase;
+use Tools\TestSuite\TestCase;
 use Cake\View\View;
 use Cake\ORM\Entity;
 use Cake\ORM\Table;

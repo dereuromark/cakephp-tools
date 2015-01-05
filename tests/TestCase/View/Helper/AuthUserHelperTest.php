@@ -3,7 +3,7 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Tools\View\Helper\AuthUserHelper;
 use Cake\Core\Configure;
-use Cake\TestSuite\TestCase;
+use Tools\TestSuite\TestCase;
 use Cake\View\View;
 
 /**

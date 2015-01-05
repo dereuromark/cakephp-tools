@@ -1,7 +1,7 @@
 <?php
 namespace Tools\TestCase\Utility;
 use Tools\Utility\Utility;
-use Cake\TestSuite\TestCase;
+use Tools\TestSuite\TestCase;
 use Cake\Core\Plugin;
 use Cake\Core\Configure;
 

@@ -2,7 +2,7 @@
 
 namespace Tools\TestCase\Utility;
 use Tools\Utility\Time;
-use Cake\TestSuite\TestCase;
+use Tools\TestSuite\TestCase;
 use Tools\Misc\ZodiacLib;
 use Cake\Core\Configure;
 

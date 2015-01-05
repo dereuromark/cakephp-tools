@@ -9,7 +9,7 @@ use Cake\Core\Configure;
 use Cake\Network\Request;
 use Cake\Network\Session;
 use Cake\Routing\DispatcherFactory;
-use Cake\TestSuite\TestCase;
+use Tools\TestSuite\TestCase;
 
 /**
  */

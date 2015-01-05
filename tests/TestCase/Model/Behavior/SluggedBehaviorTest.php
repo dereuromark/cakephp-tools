@@ -8,7 +8,7 @@ use Cake\Event\Event;
 use Cake\ORM\Entity;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
-use Cake\TestSuite\TestCase;
+use Tools\TestSuite\TestCase;
 use Cake\Core\Configure;
 
 /**

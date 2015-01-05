@@ -2,7 +2,7 @@
 namespace Tools\TestCase\Utility;
 
 use Tools\Utility\Text;
-use Cake\TestSuite\TestCase;
+use Tools\TestSuite\TestCase;
 
 /**
  */

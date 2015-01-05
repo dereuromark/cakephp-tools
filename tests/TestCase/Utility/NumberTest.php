@@ -3,7 +3,7 @@
 namespace Tools\TestCase\Utility;
 
 use Tools\Utility\Number;
-use Cake\TestSuite\TestCase;
+use Tools\TestSuite\TestCase;
 use Cake\Core\Configure;
 use Cake\I18n\I18n;
 

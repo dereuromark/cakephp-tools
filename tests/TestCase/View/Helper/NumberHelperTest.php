@@ -2,7 +2,7 @@
 namespace Tools\TestCase\View\Helper;
 
 use Tools\View\Helper\NumberHelper;
-use Cake\TestSuite\TestCase;
+use Tools\TestSuite\TestCase;
 use Cake\View\View;
 use Cake\Core\Configure;
 use Tools\Utility\Number;

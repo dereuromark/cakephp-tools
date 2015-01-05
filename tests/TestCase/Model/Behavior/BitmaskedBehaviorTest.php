@@ -6,7 +6,7 @@ use Cake\Database\Query;
 use Cake\Event\Event;
 use TestApp\Model\Entity\BitmaskedComment;
 use Cake\ORM\TableRegistry;
-use Cake\TestSuite\TestCase;
+use Tools\TestSuite\TestCase;
 use Cake\Core\Configure;
 use Tools\Model\Behavior\BitmaskedBehavior;
 

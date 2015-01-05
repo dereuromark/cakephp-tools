@@ -5,7 +5,7 @@ use Cake\Routing\Router;
 use Cake\Controller\Controller;
 use Cake\Network\Request;
 use Cake\Network\Response;
-use Cake\TestSuite\TestCase;
+use Tools\TestSuite\TestCase;
 use Tools\View\RssView;
 
 /**

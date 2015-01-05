@@ -2,7 +2,7 @@
 
 namespace Tools\Model\Behavior;
 
-use Cake\TestSuite\TestCase;
+use Tools\TestSuite\TestCase;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;

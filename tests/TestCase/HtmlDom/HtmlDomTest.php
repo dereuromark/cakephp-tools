@@ -3,7 +3,7 @@
 namespace Tools\TestCase\HtmlDom;
 
 use Tools\HtmlDom\HtmlDom;
-use Cake\TestSuite\TestCase;
+use Tools\TestSuite\TestCase;
 use Cake\Core\Configure;
 
 class HtmlDomTest extends TestCase {

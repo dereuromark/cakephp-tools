@@ -3,7 +3,7 @@
 namespace Tools\Test\TestCase\Model\Behavior;
 
 use Cake\ORM\TableRegistry;
-use Cake\TestSuite\TestCase;
+use Tools\TestSuite\TestCase;
 use Cake\Core\Configure;
 use Tools\Model\Behavior\JsonableBehavior;
 

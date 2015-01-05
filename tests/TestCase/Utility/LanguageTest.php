@@ -2,7 +2,7 @@
 namespace Tools\TestCase\Utility;
 
 use Tools\Utility\Language;
-use Cake\TestSuite\TestCase;
+use Tools\TestSuite\TestCase;
 
 class LanguageTest extends TestCase {
 

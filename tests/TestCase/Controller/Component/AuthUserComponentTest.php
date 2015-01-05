@@ -6,7 +6,7 @@ use Tools\Controller\Component\AuthUserComponent;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Network\Session;
-use Cake\TestSuite\TestCase;
+use Tools\TestSuite\TestCase;
 use Cake\Network\Request;
 
 /**

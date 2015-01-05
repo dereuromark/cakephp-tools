@@ -2,7 +2,7 @@
 namespace Tools\TestCase\Utility;
 
 use Tools\Utility\Mime;
-use Cake\TestSuite\TestCase;
+use Tools\TestSuite\TestCase;
 use Cake\Network\Response;
 use Cake\Core\Plugin;
 

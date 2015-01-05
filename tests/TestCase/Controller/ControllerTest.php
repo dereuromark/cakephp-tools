@@ -7,7 +7,7 @@ use Cake\Controller\Component\CommonComponent;
 use Cake\Core\Configure;
 use Cake\Network\Request;
 use Cake\Network\Session;
-use Cake\TestSuite\TestCase;
+use Tools\TestSuite\TestCase;
 use Tools\Controller\Controller;
 
 /**
