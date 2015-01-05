@@ -209,7 +209,7 @@ The reason is that Authenticate comes before Authorize. So without Authenticatio
 
 #### NOTE 2013-02-12
 You can use this in conjunction with my [Auth class](https://github.com/dereuromark/tools/blob/master/Lib/Auth.php) for a quick way to check on the current user and its role(s) anywhere in your application:
-{code type=php}
+```php
 App::uses('Auth', 'Tools.Lib'); // In your bootstrap (after plugin is loaded)
 
 if (Auth::id()) {
@@ -224,7 +224,7 @@ if (Auth::hasRole(Configure::read('moderator'))) { // if you used configure slug
 if (Auth::hasRoles(array(ROLE_ADMIN, ROLE_MODERATOR)) { // if you used configure and constants instead of magic numbers
 	// do sth
 }
-{/code}
+```
 See the inline class documentation or the test cases for details.
 
 #### Upcoming
