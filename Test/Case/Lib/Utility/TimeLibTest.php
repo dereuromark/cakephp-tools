@@ -551,6 +551,8 @@ class TimeLibTest extends MyCakeTestCase {
 		//pr($res);
 		$this->assertTrue(!empty($res));
 
+		$this->skipIf(__d('tools', 'Days') !== 'Tage', 'Needs German po file.');
+
 		$res = TimeLib::relLengthOfTime(date(FORMAT_DB_DATETIME, time() - 4 * DAY - 5 * HOUR), null, array('plural' => 'n'));
 		//pr($res);
 		//$this->assertEquals($res, 'Vor 4 Tagen, 5 '.__d('tools', 'Hours'));
