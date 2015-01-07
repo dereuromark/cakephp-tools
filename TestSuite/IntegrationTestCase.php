@@ -274,7 +274,7 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 		if (empty($result['Location'])) {
 			$this->fail('No location header set. ' . $message);
 		}
-		$this->assertEquals(Router::url($url, ['_full' => true]), $result['Location'], $message);
+		$this->assertEquals(Router::url($url, true), $result['Location'], $message);
 	}
 
 /**
