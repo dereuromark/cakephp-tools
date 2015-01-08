@@ -30,7 +30,7 @@ Dev (currently), Alpha, Beta, RC, 1.0 stable (incl. tagged release then).
 ### Additional features
 - The Passwordable behavior allows easy to use password functionality for frontend and backend.
 - Tree helper for working with (complex) trees and their output.
-- RSS and Ajax Views for better responses (Ajax also comes with an optional component).
+- Ajax Views for better responses (Ajax also comes with an optional component).
 - Slugged and Reset behavior
 - The Text, Time, Number libs and helpers etc provide extended functionality if desired.
 - AuthUser, Timeline, Typography, etc provide additional helper functionality.
