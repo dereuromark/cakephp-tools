@@ -1,30 +1,33 @@
 # CakePHP Tools Plugin
-
 [![Build Status](https://api.travis-ci.org/dereuromark/cakephp-tools.png?branch=master)](https://travis-ci.org/dereuromark/cakephp-tools)
 [![Latest Stable Version](https://poser.pugx.org/dereuromark/cakephp-tools/v/stable.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
 [![Coverage Status](https://coveralls.io/repos/dereuromark/cakephp-tools/badge.png)](https://coveralls.io/r/dereuromark/cakephp-tools)
+[![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.3-8892BF.svg)](https://php.net/)
 [![License](https://poser.pugx.org/dereuromark/cakephp-tools/license.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
 [![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-tools/d/total.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
 
 A CakePHP 2.x Plugin containing several useful tools that can be used in many projects.
-This plugin requires PHP5.3+
+This plugin requires PHP5.3+.
 
-Please note: New functionality has been tested against 2.x (current master and dev) only. Please upgrade if possible.
+Please note: New functionality has been tested against 2.x (current master branch) only.
+Please upgrade your app to latest CakePHP 2.x if possible.
+User a different 2.x branch if you need temporary support for older versions.
 
 ## How to include
 Installing the Plugin is pretty much as with every other CakePHP Plugin.
 
-* Put the files in `APP/Plugin/Tools`
-* Make sure you have `CakePlugin::load('Tools')` or `CakePlugin::loadAll()` in your bootstrap
+* Put the files in `APP/Plugin/Tools`.
+* Make sure you have `CakePlugin::load('Tools')` or `CakePlugin::loadAll()` in your bootstrap.
 
-Tip: You can also use packagist now @ https://packagist.org/packages/dereuromark/cakephp-tools
+You should use composer/packagist now @ https://packagist.org/packages/dereuromark/cakephp-tools
 
 ```
 "require": {
-	"dereuromark/cakephp-tools": "dev-master"
+	"dereuromark/cakephp-tools": "[version].*"
 }
 ```
-or use the tags, e.g. `0.4` directly.
+With `0.5` as `[version]`, for example, it would be: `0.5.*`.
+The `*` asserts that you get all bugfix versions if existing.
 
 That's it. It should be up and running.
 
@@ -43,8 +46,6 @@ CakePlugin::loadAll(array(
 		'Tools' => array('bootstrap' => true)
 ));
 ```
-
-
 
 MyModel can be extended to use more powerful validation and other improvements:
 
@@ -118,7 +119,9 @@ public $helpers = array(
 * Disable cache also works for older IE versions.
 * Default settings for Paginator, ... can be set using Configure.
 * RSS and Ajax Views for better responses (Ajax also comes with an optional component).
-* testAction() defaults to GET
+* testAction() defaults to GET.
+* [Useful Features](docs/Features.md).
+* [Shims](docs/Shims.md) to write cutting edge 2.x code - and prepare for 3.x.
 
 A full list of fixes and useful migration tweaks towards the next major version see [here](https://github.com/dereuromark/cakephp-tools/wiki/Included-fixes-and-migration-tweaks).
 
@@ -152,7 +155,7 @@ If you are able to help on that one, that would be awesome.
 
 ### Branching strategy
 The master branch is the currently active and maintained one and works with the current 2.x stable version.
-Older versions might be found in their respective branches (1.3, 2.0, 2.3, ...).
+Older versions might be found in their respective branches (2.0, 2.4, ...).
 Please provide PRs mainly against master branch then.
 
 For details on how to contribute please read the [CONTRIBUTING page](CONTRIBUTING.md).
@@ -164,8 +167,7 @@ For details on how to contribute please read the [CONTRIBUTING page](CONTRIBUTIN
 
 ### Recent changes (possibly BC breaking)
 
-* 2014-01 Changed Garbige to Garbage in method names.
-* 2014-02 Qlogin now uses Token model instead of deprecated CodeKey per default.
-* 2014-07 Packagist package name has been renamed to "cakephp-tools".
 * 2014-11 All translations now use the `tools` domain; development messages are not translated anymore
 * 2014-12 Some model validations have also been transformed from generic `validation` into `tools` domain.
+* 2014-12 All `tools` domain translations need to exist in `APP/Locale` due to a core issue in `CakePHP <= 2.5` when trying to overwrite them in the application.
+* 2015-01 With CakePHP2.6 support now we can re-add the Locale files again. Use `App.preferApp` Configure key to overwrite the plugin's locale files.
