@@ -71,7 +71,6 @@ class PasswordableBehaviorTest extends TestCase {
 		);
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
-		//debug($user->errors());
 		$this->assertFalse($is);
 		$this->assertEquals(array('pwd_repeat'), array_keys($user->errors()));
 
@@ -82,7 +81,6 @@ class PasswordableBehaviorTest extends TestCase {
 		);
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
-		//debug($user->errors());
 		$this->assertFalse($is);
 		$this->assertEquals(array('validateIdentical' => __d('tools', 'valErrPwdNotMatch')), $user->errors()['pwd_repeat']);
 
@@ -92,8 +90,7 @@ class PasswordableBehaviorTest extends TestCase {
 			'pwd_repeat' => '123456'
 		);
 		$this->Users->patchEntity($user, $data);
-		//debug($this->Users->validate);
-		$is = $this->Users->validate($user);
+		$is = $this->Users->save($user);
 		$this->assertTrue(!empty($is));
 	}
 
@@ -314,6 +311,17 @@ class PasswordableBehaviorTest extends TestCase {
 		$is = $this->Users->save($user);
 		$this->assertTrue((bool)$is);
 		$id = $is['id'];
+
+		$user = $this->Users->newEntity([], ['markNew' => false]);
+		$data = array(
+			'id' => $id,
+			'passw' => '',
+			'passw_repeat' => ''
+		);
+		$this->Users->patchEntity($user, $data);
+		$is = $this->Users->save($user);
+		$this->assertTrue((bool)$is);
+		//debug($user->errors());
 
 		$user = $this->Users->newEntity([], ['markNew' => false]);
 		$data = array(

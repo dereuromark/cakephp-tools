@@ -36,7 +36,7 @@ class BitmaskedBehavior extends Behavior {
 		'field' => 'status',
 		'mappedField' => null, // NULL = same as above
 		'bits' => null, // Method or callback to get the bits data
-		'on' => 'beforeValidate', // beforeSave or beforeValidate
+		'on' => 'beforeRules', // beforeRules or beforeSave
 		'defaultValue' => null, // NULL = auto (use empty string to trigger "notEmpty" rule for "default NOT NULL" db fields)
 	);
 
@@ -98,8 +98,8 @@ class BitmaskedBehavior extends Behavior {
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeValidate(Event $event, Entity $entity, \ArrayObject $options) {
-		if ($this->_config['on'] !== 'beforeValidate' || !$options['validate']) {
+	public function beforeRules(Event $event, Entity $entity, \ArrayObject $options) {
+		if ($this->_config['on'] !== 'beforeRules' || !$options['checkRules']) {
 			return;
 		}
 		$this->encodeBitmaskData($entity);

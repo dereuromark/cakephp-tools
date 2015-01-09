@@ -202,7 +202,7 @@ class PasswordableBehavior extends Behavior {
 	 *
 	 * @return void
 	 */
-	public function beforeValidate(Event $event, Entity $entity) {
+	public function beforeRules(Event $event, Entity $entity) {
 		$formField = $this->_config['formField'];
 		$formFieldRepeat = $this->_config['formFieldRepeat'];
 		$formFieldCurrent = $this->_config['formFieldCurrent'];
@@ -351,7 +351,7 @@ class PasswordableBehavior extends Behavior {
 			$options = array('compare' => $options);
 		}
 
-		$compareValue = $context['providers']['entity']->get($options['compare']);
+		$compareValue = $context['data'][$options['compare']];
 		return ($compareValue === $value);
 	}
 
@@ -365,9 +365,8 @@ class PasswordableBehavior extends Behavior {
 			$options = array('compare' => $options);
 		}
 
-		$value1 = $context['providers']['entity']->get($context['field']);
-		$value2 = $context['providers']['entity']->get($options['compare']);
-		return ($value1 !== $value2);
+		$compareValue = $context['data'][$options['compare']];
+		return ($compareValue !== $data);
 	}
 
 	/**
@@ -377,12 +376,12 @@ class PasswordableBehavior extends Behavior {
 	 */
 	public function validateNotSameHash($data, $context) {
 		$field = $this->_config['field'];
-		if (!$context['providers']['entity']->get($this->_table->primaryKey())) {
+		if (empty($context['data'][$this->_table->primaryKey()])) {
 			return true;
 		}
 
-		$primaryKey = $context['providers']['entity']->get($this->_table->primaryKey());
-		$value = $context['providers']['entity']->get($context['field']);
+		$primaryKey = $context['data'][$this->_table->primaryKey()];
+		$value = $context['data'][$context['field']];
 
 		$dbValue = $this->_table->find()->where(array($this->_table->primaryKey() => $primaryKey))->first();
 		if (!$dbValue) {
@@ -407,7 +406,7 @@ class PasswordableBehavior extends Behavior {
 	protected function _validateSameHash($pwd, $context) {
 		$field = $this->_config['field'];
 
-		$primaryKey = $context['providers']['entity']->get($this->_table->primaryKey());
+		$primaryKey = $context['data'][$this->_table->primaryKey()];
 		$dbValue = $this->_table->find()->where(array($this->_table->primaryKey() => $primaryKey))->first();
 		if (!$dbValue) {
 			return false;
