@@ -393,32 +393,4 @@ class Text extends CakeText {
 		return preg_replace("#([^:])//+#", "\\1/", $str);
 	}
 
-	// ------------------------------------------------------------------------
-
-	/**
-	 * Reduce Multiples
-	 *
-	 * Reduces multiple instances of a particular character. Example:
-	 *
-	 * Fred, Bill,, Joe, Jimmy
-	 *
-	 * becomes:
-	 *
-	 * Fred, Bill, Joe, Jimmy
-	 *
-	 * @param string
-	 * @param string	the character you wish to reduce
-	 * @param bool	TRUE/FALSE - whether to trim the character from the beginning/end
-	 * @return string
-	 */
-	public function reduce_multiples($str, $character = ',', $trim = false) {
-		$str = preg_replace('#' . preg_quote($character, '#') . '{2,}#', $character, $str);
-
-		if ($trim === true) {
-			$str = trim($str, $character);
-		}
-
-		return $str;
-	}
-
 }

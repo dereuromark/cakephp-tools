@@ -29,18 +29,18 @@ class TimeHelper extends CakeTimeHelper {
  */
 	protected $_engine = null;
 
-/**
- * Default Constructor
- *
- * ### Settings:
- *
- * - `engine` Class name to use to replace Cake\I18n\Time functionality
- *            The class needs to be placed in the `Utility` directory.
- *
- * @param \Cake\View\View $View The View this helper is being attached to.
- * @param array $config Configuration settings for the helper
- * @throws \Cake\Core\Exception\Exception When the engine class could not be found.
- */
+	/**
+	 * Default Constructor
+	 *
+	 * ### Settings:
+	 *
+	 * - `engine` Class name to use to replace Cake\I18n\Time functionality
+	 *            The class needs to be placed in the `Utility` directory.
+	 *
+	 * @param \Cake\View\View $View The View this helper is being attached to.
+	 * @param array $config Configuration settings for the helper
+	 * @throws \Cake\Core\Exception\Exception When the engine class could not be found.
+	 */
 	public function __construct(View $View, array $config = array()) {
 		parent::__construct($View, $config);
 
@@ -54,13 +54,13 @@ class TimeHelper extends CakeTimeHelper {
 		}
 	}
 
-/**
- * Call methods from Cake\I18n\Number utility class
- *
- * @param string $method Method to invoke
- * @param array $params Array of params for the method.
- * @return mixed Whatever is returned by called method, or false on failure
- */
+	/**
+	 * Call methods from Cake\I18n\Number utility class
+	 *
+	 * @param string $method Method to invoke
+	 * @param array $params Array of params for the method.
+	 * @return mixed Whatever is returned by called method, or false on failure
+	 */
 	public function __call($method, $params) {
 		return call_user_func_array(array($this->_engine, $method), $params);
 	}

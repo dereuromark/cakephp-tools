@@ -24,6 +24,16 @@ class NumberHelperTest extends TestCase {
 	}
 
 	/**
+	 * Test calling Utility.Number class
+	 *
+	 * @return void
+	 */
+	public function testParentCall() {
+		$result = $this->Number->average(array(1, 3, 5));
+		$this->assertSame(3.0, $result);
+	}
+
+	/**
 	 * Test format
 	 *
 	 * @return void

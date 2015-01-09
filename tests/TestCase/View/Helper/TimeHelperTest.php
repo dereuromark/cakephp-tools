@@ -20,6 +20,16 @@ class TimeHelperTest extends TestCase {
 	}
 
 	/**
+	 * Test calling Utility.Number class
+	 *
+	 * @return void
+	 */
+	public function testParentCall() {
+		$result = $this->Time->age((date('Y') - 15) . '-01-01');
+		$this->assertSame(15, $result);
+	}
+
+	/**
 	 * Test user age
 	 *
 	 * @return void
