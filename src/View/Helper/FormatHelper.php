@@ -299,7 +299,7 @@ class FormatHelper extends TextHelper {
 			$t = isset($t['title']) ? $t['title'] : null; // deprecated
 		}
 
-		$type = extractPathInfo($icon, 'filename');
+		$type = pathinfo($icon, PATHINFO_FILENAME);
 
 		if (!$this->_config['fontIcons'] || !isset($this->_config['fontIcons'][$type])) {
 			$title = isset($t) ? $t : ucfirst($type);
