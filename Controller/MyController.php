@@ -51,4 +51,23 @@ class MyController extends Controller {
 		return parent::paginate($object, $scope, $whitelist);
 	}
 
+	/**
+	 * Hook to monitor headers being sent.
+	 *
+	 * @return void
+	 */
+	public function afterFilter() {
+		parent::afterFilter();
+
+		if (Configure::read('App.monitorHeaders') && $this->name !== 'CakeError') {
+			if (headers_sent($filename, $linenum)) {
+				$message = sprintf('Headers already sent in %s on line %s', $filename, $linenum);
+				if (Configure::read('debug')) {
+					throw new CakeException($message);
+				}
+				trigger_error($message);
+			}
+		}
+	}
+
 }
