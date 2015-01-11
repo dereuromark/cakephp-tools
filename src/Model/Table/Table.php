@@ -36,6 +36,16 @@ class Table extends CakeTable {
 
 		$this->prefixOrderProperty();
 
+		if (isset($this->actsAs)) {
+			foreach ($this->actsAs as $name => $options) {
+				if (is_numeric($name)) {
+					$name = $options;
+					$options = [];
+				}
+				$this->addBehavior($name, $options);
+			}
+		}
+
 		if ($this->hasField('created') || $this->hasField('modified')) {
 			$this->addBehavior('Timestamp');
 		}
