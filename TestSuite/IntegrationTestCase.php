@@ -344,11 +344,25 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
  * @param string $message The failure message that will be appended to the generated message.
  * @return void
  */
+	public function assertResponseEquals($content, $message = '') {
+		if (!$this->_response) {
+			$this->fail('No response set, cannot assert content. ' . $message);
+		}
+		$this->assertSame($content, (string)$this->_response->body(), $message);
+	}
+
+/**
+ * Assert content exists in the response body.
+ *
+ * @param string $content The content to check for.
+ * @param string $message The failure message that will be appended to the generated message.
+ * @return void
+ */
 	public function assertResponseContains($content, $message = '') {
 		if (!$this->_response) {
 			$this->fail('No response set, cannot assert content. ' . $message);
 		}
-		$this->assertContains($content, $this->_response->body(), $message);
+		$this->assertContains($content, (string)$this->_response->body(), $message);
 	}
 
 /**
