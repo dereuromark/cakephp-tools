@@ -348,7 +348,7 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 		if (!$this->_response) {
 			$this->fail('No response set, cannot assert content. ' . $message);
 		}
-		$this->assertSame($content, (string)$this->_response->body(), $message);
+		$this->assertEquals($content, $this->_response->body(), $message);
 	}
 
 /**
