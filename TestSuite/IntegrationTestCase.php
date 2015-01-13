@@ -166,16 +166,19 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 		}
 
 		CakeSession::write($this->_sessionData);
-		$envBackup = array();
+		$envBackup = $serverBackup = array();
 		foreach ($env as $k => $v) {
 			$envBackup[$k] = isset($_ENV[$k]) ? $_ENV[$k] : null;
+			$serverBackup[$k] = isset($_ENV[$k]) ? $_ENV[$k] : null;
 			$_ENV[$k] = $v;
+			$_SERVER[$k] = $v;
 		}
 
 		$result = $this->testAction($url, $options);
 
 		foreach ($env as $k => $v) {
 			$_ENV[$k] = $envBackup[$k];
+			$_SERVER[$k] = $serverBackup[$k];
 		}
 
 		$this->_response = $this->controller->response;
