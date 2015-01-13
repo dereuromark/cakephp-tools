@@ -109,7 +109,7 @@ class GeocodeLib {
 		self::ACC_STREET => 'street_address',
 	);
 
-	public function __construct($options = array()) {
+	public function __construct(array $options = array()) {
 		$this->defaultParams = $this->params;
 		$this->defaultOptions = $this->options;
 		if (Configure::read('debug') > 0) {
@@ -126,7 +126,7 @@ class GeocodeLib {
 	 * @param array $params
 	 * @return void
 	 */
-	public function setParams($params) {
+	public function setParams(array $params) {
 		foreach ($params as $key => $value) {
 			if ($key === 'sensor' && $value !== 'false' && $value !== 'true') {
 				$value = !empty($value) ? 'true' : 'false';
@@ -139,7 +139,7 @@ class GeocodeLib {
 	 * @param array $options
 	 * @return void
 	 */
-	public function setOptions($options) {
+	public function setOptions(array $options) {
 		foreach ($options as $key => $value) {
 			$this->options[$key] = $value;
 		}
@@ -234,7 +234,7 @@ class GeocodeLib {
 	 * @param array $params
 	 * @return bool Success
 	 */
-	public function geocode($address, $params = array()) {
+	public function geocode($address, array $params = array()) {
 		if ($this->reachedQueryLimit) {
 			$this->setError('Over Query Limit - abort');
 			return false;
@@ -321,7 +321,7 @@ class GeocodeLib {
 	 * @param array $params
 	 * @return bool Success
 	 */
-	public function reverseGeocode($lat, $lng, $params = array()) {
+	public function reverseGeocode($lat, $lng, array $params = array()) {
 		if ($this->reachedQueryLimit) {
 			$this->setError('Over Query Limit - abort');
 			return false;

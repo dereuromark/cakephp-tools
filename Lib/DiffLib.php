@@ -122,7 +122,7 @@ class DiffLib {
 	 * - escape: defaults to true
 	 * @return string output
 	 */
-	public function compare($original, $changed, $options = array()) {
+	public function compare($original, $changed, array $options = array()) {
 		if (!is_array($original)) {
 			$original = $this->_explode($original);
 		}
@@ -143,7 +143,7 @@ class DiffLib {
 	 * @param array $options
 	 * - mode (autodetect, context, unified)
 	 */
-	public function reverse($string, $options = array()) {
+	public function reverse($string, array $options = array()) {
 		$defaults = array(
 			'mode' => 'autodetect',
 		);
