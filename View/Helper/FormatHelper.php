@@ -518,7 +518,7 @@ class FormatHelper extends TextHelper {
 				}
 			}
 		}
-}
+
 		return $res;
 	}
 
