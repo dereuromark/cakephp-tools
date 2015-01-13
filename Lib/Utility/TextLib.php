@@ -157,13 +157,13 @@ class TextLib extends String {
 
 		$tags = array();
 		foreach ($typedTags as $tag) {
-		// If a user has escaped a term (to demonstrate that it is a group,
+			// If a user has escaped a term (to demonstrate that it is a group,
 		// or includes a comma or quote character), we remove the escape
 		// formatting so to save the term into the database as the user intends.
 		$tag = trim(str_replace('""', '"', preg_replace('/^"(.*)"$/', '\1', $tag)));
-		if ($tag) {
-			$tags[] = $tag;
-		}
+			if ($tag) {
+				$tags[] = $tag;
+			}
 		}
 
 		return $tags;
@@ -175,12 +175,12 @@ class TextLib extends String {
 	public function implodeTags($tags) {
 		$encodedTags = array();
 		foreach ($tags as $tag) {
-		// Commas and quotes in tag names are special cases, so encode them.
+			// Commas and quotes in tag names are special cases, so encode them.
 		if (strpos($tag, ',') !== false || strpos($tag, '"') !== false) {
 			$tag = '"' . str_replace('"', '""', $tag) . '"';
 		}
 
-		$encodedTags[] = $tag;
+			$encodedTags[] = $tag;
 		}
 		return implode(', ', $encodedTags);
 	}
@@ -350,7 +350,6 @@ class TextLib extends String {
 
 				if ($digits < 128) {
 					$out .= chr($digits);
-
 				} elseif ($digits < 2048) {
 					$out .= chr(192 + (($digits - ($digits % 64)) / 64));
 					$out .= chr(128 + ($digits % 64));

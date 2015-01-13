@@ -284,7 +284,6 @@ class PasswordableBehavior extends ModelBehavior {
 				$formFieldCurrent = $this->settings[$Model->alias]['formFieldCurrent'];
 				unset($Model->data[$Model->alias][$formFieldCurrent]);
 			}
-
 		}
 
 		// Update whitelist

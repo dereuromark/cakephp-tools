@@ -113,7 +113,7 @@ class TextExtHelper extends TextHelper {
 		}
 
 		$class = __CLASS__;
-		$Common = new $class;
+		$Common = new $class();
 		$Common->Html = $Html;
 		return $Common->encodeEmailUrl($email, null, array(), $options);
 	}
@@ -184,7 +184,7 @@ class TextExtHelper extends TextHelper {
 		}
 		$join = implode('\'+\'', $par);
 
-			return '<script language=javascript><!--
+		return '<script language=javascript><!--
 		document.write(\'' . $join . '\');
 		//--></script>
 			' . $text . '

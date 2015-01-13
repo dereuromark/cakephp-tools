@@ -112,4 +112,5 @@ class AddressFixture extends CakeTestFixture {
 			'type_id' => null
 		),
 	);
+
 }

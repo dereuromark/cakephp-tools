@@ -141,7 +141,6 @@ class AutoLoginComponent extends Component {
 			if ($this->settings['redirect']) {
 				$controller->redirect(array(), 301);
 			}
-
 		} else {
 			$this->debug('loginFail', $this->Cookie, $this->Auth->user());
 
@@ -197,7 +196,6 @@ class AutoLoginComponent extends Component {
 
 						if (!empty($username) && !empty($password) && $autoLogin) {
 							$this->_writeCookie($username, $password);
-
 						} elseif (!$autoLogin) {
 							$this->delete();
 						}

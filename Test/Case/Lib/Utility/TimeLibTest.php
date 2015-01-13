@@ -152,7 +152,6 @@ class TimeLibTest extends MyCakeTestCase {
 		$this->assertEquals('01.12.2009', $ret);
 	}
 
-
 	/**
 	 * TimeLibTest::testParseLocalizedDate()
 	 *
@@ -249,7 +248,6 @@ class TimeLibTest extends MyCakeTestCase {
 			$ret = TimeLib::period($v[0]);
 			//pr($ret);
 			$this->assertEquals($v[1], $ret);
-
 		}
 	}
 
@@ -272,7 +270,6 @@ class TimeLibTest extends MyCakeTestCase {
 			//pr($v[1]);
 			//pr($ret);
 			$this->assertSame($v[1], $ret);
-
 		}
 	}
 

@@ -175,7 +175,6 @@ class CcShell extends AppShell {
 	protected function _prepModels($files) {
 		$res = '';
 		foreach ($files as $name) {
-
 			$res .= '
 	/**
 	* ' . $name . '
@@ -363,16 +362,16 @@ class CcShell extends AppShell {
 		if (!empty($this->plugins)) {
 			foreach ($this->plugins as $plugin) {
 				$pluginType = $plugin . '.' . $type;
-					$pluginFiles = App::objects($pluginType, null, false);
-					if (!empty($pluginFiles)) {
-						foreach ($pluginFiles as $file) {
-							if (strpos($file, 'App' . $type) !== false) {
-								//$this->appFiles[$file] = $plugin.'.'.$type;
+				$pluginFiles = App::objects($pluginType, null, false);
+				if (!empty($pluginFiles)) {
+					foreach ($pluginFiles as $file) {
+						if (strpos($file, 'App' . $type) !== false) {
+							//$this->appFiles[$file] = $plugin.'.'.$type;
 								continue;
-							}
-							$files[] = $file;
 						}
+						$files[] = $file;
 					}
+				}
 			}
 		}
 		$files = array_unique($files);

@@ -204,7 +204,7 @@ class CurlLib {
 	}
 
 	protected function _prepareData($url, $getdata = array(), $data = array()) {
-		if (strpos($url, '?') === false && ( //If Url has not a "?" in it
+		if (strpos($url, '?') === false && ( // If Url has not a "?" in it
 				(is_array($getdata) && !empty($getdata)) || //And $getdata is array and has more than one value
 				(!is_array($getdata) && strlen($getdata) > 0))) { //or its a a string and is longer than 0
 			$url .= '?';

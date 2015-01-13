@@ -95,8 +95,8 @@ class HashShell extends AppShell {
 
 		$i = 1;
 		foreach ($results as $k => $v) {
-		foreach ($v as $k1 => $v1) {
-		echo ' ' . str_pad($i++ . '.', 4, ' ', STR_PAD_LEFT) . '  ' . str_pad($v1, 30, ' ') . ($k / 1000000) . ' ms' . PHP_EOL;
+			foreach ($v as $k1 => $v1) {
+				echo ' ' . str_pad($i++ . '.', 4, ' ', STR_PAD_LEFT) . '  ' . str_pad($v1, 30, ' ') . ($k / 1000000) . ' ms' . PHP_EOL;
 			}
 		}
 	}

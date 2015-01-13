@@ -15,4 +15,5 @@ class AllBehaviorTestsTest extends PHPUnit_Framework_TestSuite {
 		$Suite->addTestDirectory($path . DS . 'Model' . DS . 'Behavior');
 		return $Suite;
 	}
+
 }

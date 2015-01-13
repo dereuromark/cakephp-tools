@@ -84,12 +84,12 @@ class PhpThumbHelper extends AppHelper {
 			$phpthumbConfig['error_die_on_source_failure'] = false;
 		}
 
-			if (!empty($phpthumbConfig)) {
-				foreach ($phpthumbConfig as $key => $value) {
-					$keyname = 'config_' . $key;
-					$this->PhpThumb->setParameter($keyname, $value);
-				}
+		if (!empty($phpthumbConfig)) {
+			foreach ($phpthumbConfig as $key => $value) {
+				$keyname = 'config_' . $key;
+				$this->PhpThumb->setParameter($keyname, $value);
 			}
+		}
 			// addon end
 
 		foreach ($this->PhpThumb as $var => $value) {
@@ -121,7 +121,7 @@ class PhpThumbHelper extends AppHelper {
 		}
 
 		if (isset($this->options['h'])) {
-			 $this->thumbData['h'] = $this->options['h'];
+			$this->thumbData['h'] = $this->options['h'];
 		}
 
 		return $this->thumbData;
@@ -165,7 +165,7 @@ class PhpThumbHelper extends AppHelper {
 		return (string)$this->errorDetail;
 	}
 
-/** NOT IN USE YET **/
+	/** NOT IN USE YET **/
 
 	/**
 	 * Image tag

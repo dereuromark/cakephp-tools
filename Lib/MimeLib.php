@@ -767,11 +767,11 @@ class MimeLib extends CakeResponse {
 			return false;
 		}
 		/**
-		* Attempts to retrieve file info from FINFO
-		* If FINFO functions are not available then try to retrieve MIME type from pre-defined MIMEs
-		* If MIME type doesn't exist, then try (as a last resort) to use the (deprecated) mime_content_type function
-		* If all else fails, just return application/octet-stream
-		*/
+		 * Attempts to retrieve file info from FINFO
+		 * If FINFO functions are not available then try to retrieve MIME type from pre-defined MIMEs
+		 * If MIME type doesn't exist, then try (as a last resort) to use the (deprecated) mime_content_type function
+		 * If all else fails, just return application/octet-stream
+		 */
 		if (!function_exists("finfo_open")) {
 			if (function_exists("mime_content_type")) {
 				$type = mime_content_type($file);

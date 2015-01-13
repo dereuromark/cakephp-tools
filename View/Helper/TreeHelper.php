@@ -452,7 +452,7 @@ class TreeHelper extends AppHelper {
 			if (!$splitDepth || $depth == $splitDepth) {
 				$_splitCounter++;
 				if ($type && ($_splitCounter % $_splitCount) === 0 && !$lastChild) {
-					unset ($this->_config['callback']);
+					unset($this->_config['callback']);
 					return '</' . $type . '><' . $type . '>';
 				}
 			}

@@ -83,7 +83,6 @@ class PhpTagShell extends AppShell {
 				if ($action === '*') {
 					$action = 'y';
 					$this->autoCorrectAll = true;
-
 				} elseif ($action === 'a') {
 					$action = 'y';
 					$folders[] = $dirname;

@@ -340,7 +340,7 @@ class GeocoderBehavior extends ModelBehavior {
 		$this->Geocode = new GeocodeLib($geocodeOptions);
 		if (!empty($options['params'])) {
 			foreach ($options['params'] as $v) {
-			    $this->Geocode->setParams($v);
+				$this->Geocode->setParams($v);
 			}
 		}
 

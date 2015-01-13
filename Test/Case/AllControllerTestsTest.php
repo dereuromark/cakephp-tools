@@ -15,4 +15,5 @@ class AllControllerTestsTest extends PHPUnit_Framework_TestSuite {
 		$Suite->addTestDirectory($path . DS . 'Controller');
 		return $Suite;
 	}
+
 }

@@ -301,7 +301,6 @@ class RssView extends View {
 							$attrib['@type'] = 'application/rss+xml';
 						}
 						$val = $attrib;
-
 					} elseif (is_array($val) && isset($val['url'])) {
 						$val['url'] = Router::url($val['url'], true);
 						if ($bareKey === 'guid') {

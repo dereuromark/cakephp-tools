@@ -309,11 +309,11 @@ class MyModel extends Model {
 	public function up($id, $customOptions = array()) {
 		$step = 1;
 		if (isset($customOptions['step'])) {
-				$step = $customOptions['step'];
+			$step = $customOptions['step'];
 		}
 		$field = 'count';
 		if (isset($customOptions['field'])) {
-				$field = $customOptions['field'];
+			$field = $customOptions['field'];
 		}
 
 		if (isset($customOptions['reset'])) {
@@ -669,7 +669,9 @@ class MyModel extends Model {
 					//setup formating
 					$format = '';
 					if (!isset($options['format'])) {
-						for ($i = 0; $i < (count($options['fields']) - 1); $i++) $format .= '%s ';
+						for ($i = 0; $i < (count($options['fields']) - 1); $i++) {
+							$format .= '%s ';
+						}
 
 						$format = substr($format, 0, -1);
 					} else {
@@ -969,10 +971,8 @@ class MyModel extends Model {
 			foreach ($fields as $dependingField) {
 				if (isset($this->data[$this->alias][$dependingField])) { // add ONLY if some content is transfered (check on that first!)
 					$conditions[$this->alias . '.' . $dependingField] = $this->data[$this->alias][$dependingField];
-
 				} elseif (isset($this->data['Validation'][$dependingField])) { // add ONLY if some content is transfered (check on that first!
 					$conditions[$this->alias . '.' . $dependingField] = $this->data['Validation'][$dependingField];
-
 				} elseif (!empty($id)) {
 					// manual query! (only possible on edit)
 					$res = $this->find('first', array('fields' => array($this->alias . '.' . $dependingField), 'conditions' => array($this->alias . '.id' => $id)));

@@ -149,13 +149,13 @@ class UrlCacheManager {
 			static::$cache[static::$key] = $data;
 		}
 	}
-	
+
 	/**
-	* Sorts array and casts all values to string.
-	*
-	* @param array $array Array to sort and cast.
-	* @return mixed On success or the argument passed
-	*/
+	 * Sorts array and casts all values to string.
+	 *
+	 * @param array $array Array to sort and cast.
+	 * @return mixed On success or the argument passed
+	 */
 	public static function prepareForSerialize($array) {
 		if (!is_array($array)) {
 			return $array;

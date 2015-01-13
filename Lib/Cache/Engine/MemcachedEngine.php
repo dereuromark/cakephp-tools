@@ -103,10 +103,11 @@ class MemcachedEngine extends CacheEngine {
 				if ($this->_Memcached->addServers($servers)) {
 					$return = true;
 				}
-
 			}
 
-			if (!$this->_Memcached->get($this->_keys)) $this->_Memcached->set($this->_keys, '');
+			if (!$this->_Memcached->get($this->_keys)) {
+				$this->_Memcached->set($this->_keys, '');
+			}
 			return $return;
 		}
 
@@ -229,11 +230,13 @@ class MemcachedEngine extends CacheEngine {
 	public function clear($check) {
 		$keys = array_slice(explode($this->_keySeparator, $this->_Memcached->get($this->_keys)), 1);
 
-		foreach ($keys as $key)
+		foreach ($keys as $key) {
 			$this->_Memcached->delete($this->settings['prefix'] . $key);
+		}
 
 		$this->_Memcached->delete($this->_keys);
 
 		return true;
 	}
+
 }

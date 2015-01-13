@@ -258,7 +258,6 @@ class LogableBehavior extends ModelBehavior {
 					$result[$key][$this->Log->alias]['event'] .= ' deleted the ' . strtolower($one[$this->settings[$Model->alias]['classField']]) . '(id ' . $one[$this->
 						settings[$Model->alias]['foreignKey']] . ')';
 				}
-
 			} elseif (isset($one[$this->settings[$Model->alias]['classField']]) && isset($one['action']) && isset($one[$this->settings[$Model->alias]['foreignKey']])) { // have model,foreign_id and action
 				if ($one['action'] === 'edit') {
 					$result[$key][$this->Log->alias]['event'] .= ' edited ' . strtolower($one[$this->settings[$Model->alias]['classField']]) . '(id ' . $one[$this->
@@ -273,7 +272,6 @@ class LogableBehavior extends ModelBehavior {
 			} else { // only description field exist
 				$result[$key][$this->Log->alias]['event'] = $one['description'];
 			}
-
 		}
 		return $result;
 	}
@@ -506,10 +504,10 @@ class LogableBehavior extends ModelBehavior {
 					if ($this->settings[$Model->alias]['change'] === 'full') {
 						$changedFields[] = $key . ' (' . $old . ') => (' . $value . ')';
 					} elseif ($this->settings[$Model->alias]['change'] === 'serialize') {
-							$changedFields[$key] = array('old' => $old, 'value' => $value);
-						} else {
-							$changedFields[] = $key;
-						}
+						$changedFields[$key] = array('old' => $old, 'value' => $value);
+					} else {
+						$changedFields[] = $key;
+					}
 				}
 			}
 			$changes = count($changedFields);
@@ -628,7 +626,6 @@ class LogableBehavior extends ModelBehavior {
 				if ($this->settings[$Model->alias]['descriptionIds']) {
 					$logData['description'] .= ' (' . $this->user[$this->UserModel->alias][$this->UserModel->primaryKey] . ')';
 				}
-
 			} else {
 				// UserModel is active, but the data hasnt been set. Assume system action.
 				$logData['description'] .= ' ' . __d('tools', 'by System');

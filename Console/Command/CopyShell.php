@@ -428,7 +428,6 @@ class CopyShell extends AppShell {
 		//$sound = 'sndrec32 /play /close "'.$this->scriptFolder.'files'.DS.'notify.wav';
 		//system($sound);
 		if (WINDOWS) {
-
 		} else {
 			exec('echo -e "\a"');
 		}

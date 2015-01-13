@@ -87,8 +87,8 @@ class MasterPasswordBehavior extends ModelBehavior {
 		$message = $this->settings[$Model->alias]['message'];
 
 		if (!$this->isAuthorized($Model, $field)) {
-				$Model->invalidate($field, $message);
-				return false;
+			$Model->invalidate($field, $message);
+			return false;
 		}
 
 		return $return;

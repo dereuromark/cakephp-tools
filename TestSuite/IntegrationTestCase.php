@@ -34,122 +34,122 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 	 */
 	protected $_sessionData = [];
 
-/**
- * Configure the data for the *next* request.
- *
- * This data is cleared in the tearDown() method.
- *
- * You can call this method multiple times to append into
- * the current state.
- *
- * @param array $data The request data to use.
- * @return void
- */
+	/**
+	 * Configure the data for the *next* request.
+	 *
+	 * This data is cleared in the tearDown() method.
+	 *
+	 * You can call this method multiple times to append into
+	 * the current state.
+	 *
+	 * @param array $data The request data to use.
+	 * @return void
+	 */
 	public function configRequest(array $data) {
 		$this->_requestData = $data + $this->_requestData;
 	}
 
-/**
- * Set session data.
- *
- * This method lets you configure the session data
- * you want to be used for requests that follow. The session
- * state is reset in each tearDown().
- *
- * You can call this method multiple times to append into
- * the current state.
- *
- * @param array $data The session data to use.
- * @return void
- */
+	/**
+	 * Set session data.
+	 *
+	 * This method lets you configure the session data
+	 * you want to be used for requests that follow. The session
+	 * state is reset in each tearDown().
+	 *
+	 * You can call this method multiple times to append into
+	 * the current state.
+	 *
+	 * @param array $data The session data to use.
+	 * @return void
+	 */
 	public function session(array $data) {
 		$this->_sessionData = $data + $this->_sessionData;
 	}
 
-/**
- * Perform a GET request using the current request data.
- *
- * The response of the dispatched request will be stored as
- * a property. You can use various assert methods to check the
- * response.
- *
- * @param string $url The url to request.
- * @return void
- */
+	/**
+	 * Perform a GET request using the current request data.
+	 *
+	 * The response of the dispatched request will be stored as
+	 * a property. You can use various assert methods to check the
+	 * response.
+	 *
+	 * @param string $url The url to request.
+	 * @return void
+	 */
 	public function get($url) {
 		return $this->_sendRequest($url, 'GET');
 	}
 
-/**
- * Perform a POST request using the current request data.
- *
- * The response of the dispatched request will be stored as
- * a property. You can use various assert methods to check the
- * response.
- *
- * @param string $url The url to request.
- * @param array $data The data for the request.
- * @return void
- */
+	/**
+	 * Perform a POST request using the current request data.
+	 *
+	 * The response of the dispatched request will be stored as
+	 * a property. You can use various assert methods to check the
+	 * response.
+	 *
+	 * @param string $url The url to request.
+	 * @param array $data The data for the request.
+	 * @return void
+	 */
 	public function post($url, $data = []) {
 		return $this->_sendRequest($url, 'POST', $data);
 	}
 
-/**
- * Perform a PATCH request using the current request data.
- *
- * The response of the dispatched request will be stored as
- * a property. You can use various assert methods to check the
- * response.
- *
- * @param string $url The url to request.
- * @param array $data The data for the request.
- * @return void
- */
+	/**
+	 * Perform a PATCH request using the current request data.
+	 *
+	 * The response of the dispatched request will be stored as
+	 * a property. You can use various assert methods to check the
+	 * response.
+	 *
+	 * @param string $url The url to request.
+	 * @param array $data The data for the request.
+	 * @return void
+	 */
 	public function patch($url, $data = []) {
 		return $this->_sendRequest($url, 'PATCH', $data);
 	}
 
-/**
- * Perform a PUT request using the current request data.
- *
- * The response of the dispatched request will be stored as
- * a property. You can use various assert methods to check the
- * response.
- *
- * @param string $url The url to request.
- * @param array $data The data for the request.
- * @return void
- */
+	/**
+	 * Perform a PUT request using the current request data.
+	 *
+	 * The response of the dispatched request will be stored as
+	 * a property. You can use various assert methods to check the
+	 * response.
+	 *
+	 * @param string $url The url to request.
+	 * @param array $data The data for the request.
+	 * @return void
+	 */
 	public function put($url, $data = []) {
 		return $this->_sendRequest($url, 'PUT', $data);
 	}
 
-/**
- * Perform a DELETE request using the current request data.
- *
- * The response of the dispatched request will be stored as
- * a property. You can use various assert methods to check the
- * response.
- *
- * @param string $url The url to request.
- * @return void
- */
+	/**
+	 * Perform a DELETE request using the current request data.
+	 *
+	 * The response of the dispatched request will be stored as
+	 * a property. You can use various assert methods to check the
+	 * response.
+	 *
+	 * @param string $url The url to request.
+	 * @return void
+	 */
 	public function delete($url) {
 		return $this->_sendRequest($url, 'DELETE');
 	}
 
-/**
- * Create and send the request into a Dispatcher instance.
- *
- * Receives and stores the response for future inspection.
- *
- * @param string $url The url
- * @param string $method The HTTP method
- * @param array|null $data The request data.
- * @return mixed
- * @throws \Exception
- */
+	/**
+	 * Create and send the request into a Dispatcher instance.
+	 *
+	 * Receives and stores the response for future inspection.
+	 *
+	 * @param string $url The url
+	 * @param string $method The HTTP method
+	 * @param array|null $data The request data.
+	 * @return mixed
+	 * @throws \Exception
+	 */
 	protected function _sendRequest($url, $method, $data = []) {
 		$options = array(
 			'data' => $data,
@@ -185,14 +185,14 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 		return $result;
 	}
 
-/**
- * Fetch a view variable by name.
- *
- * If the view variable does not exist null will be returned.
- *
- * @param string $name The view variable to get.
- * @return mixed The view variable if set.
- */
+	/**
+	 * Fetch a view variable by name.
+	 *
+	 * If the view variable does not exist null will be returned.
+	 *
+	 * @param string $name The view variable to get.
+	 * @return mixed The view variable if set.
+	 */
 	public function viewVariable($name) {
 		if (empty($this->controller->viewVars)) {
 			$this->fail('There are no view variables, perhaps you need to run a request?');
@@ -203,52 +203,52 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 		return null;
 	}
 
-/**
- * Assert that the response status code is in the 2xx range.
- *
- * @return void
- */
+	/**
+	 * Assert that the response status code is in the 2xx range.
+	 *
+	 * @return void
+	 */
 	public function assertResponseOk() {
 		$this->_assertStatus(200, 204, 'Status code is not between 200 and 204');
 	}
 
-/**
- * Assert that the response status code is in the 4xx range.
- *
- * @return void
- */
+	/**
+	 * Assert that the response status code is in the 4xx range.
+	 *
+	 * @return void
+	 */
 	public function assertResponseError() {
 		$this->_assertStatus(400, 417, 'Status code is not between 400 and 417');
 	}
 
-/**
- * Assert that the response status code is in the 5xx range.
- *
- * @return void
- */
+	/**
+	 * Assert that the response status code is in the 5xx range.
+	 *
+	 * @return void
+	 */
 	public function assertResponseFailure() {
 		$this->_assertStatus(500, 505, 'Status code is not between 500 and 505');
 	}
 
-/**
- * Asserts a specific response status code.
- *
- * @param int $code Status code to assert.
- * @return void
- */
+	/**
+	 * Asserts a specific response status code.
+	 *
+	 * @param int $code Status code to assert.
+	 * @return void
+	 */
 	public function assertResponseCode($code) {
 		$actual = $this->_response->statusCode();
 		$this->_assertStatus($code, $code, 'Status code is not ' . $code . ' but ' . $actual);
 	}
 
-/**
- * Helper method for status assertions.
- *
- * @param int $min Min status code.
- * @param int $max Max status code.
- * @param string $message The error message.
- * @return void
- */
+	/**
+	 * Helper method for status assertions.
+	 *
+	 * @param int $min Min status code.
+	 * @param int $max Max status code.
+	 * @param string $message The error message.
+	 * @return void
+	 */
 	protected function _assertStatus($min, $max, $message) {
 		if (!$this->_response) {
 			$this->fail('No response set, cannot assert status code.');
@@ -258,14 +258,14 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 		$this->assertLessThanOrEqual($max, $status, $message);
 	}
 
-/**
- * Assert that the Location header is correct.
- *
- * @param string|array|null $url The URL you expected the client to go to. This
- *   can either be a string URL or an array compatible with Router::url()
- * @param string $message The failure message that will be appended to the generated message.
- * @return void
- */
+	/**
+	 * Assert that the Location header is correct.
+	 *
+	 * @param string|array|null $url The URL you expected the client to go to. This
+	 *   can either be a string URL or an array compatible with Router::url()
+	 * @param string $message The failure message that will be appended to the generated message.
+	 * @return void
+	 */
 	public function assertRedirect($url = null, $message = '') {
 		if (!$this->_response) {
 			$this->fail('No response set, cannot assert location header. ' . $message);
@@ -281,14 +281,14 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 		$this->assertEquals(Router::url($url, true), $result['Location'], $message);
 	}
 
-/**
- * Asserts that the Location header is correct.
- *
- * @param string|array $url The url you expected the client to go to. This
- *   can either be a string URL or an array compatible with Router::url()
- * @param string $message The failure message that will be appended to the generated message.
- * @return void
- */
+	/**
+	 * Asserts that the Location header is correct.
+	 *
+	 * @param string|array $url The url you expected the client to go to. This
+	 *   can either be a string URL or an array compatible with Router::url()
+	 * @param string $message The failure message that will be appended to the generated message.
+	 * @return void
+	 */
 	public function assertNoRedirect($message = '') {
 		if (!$this->_response) {
 			$this->fail('No response set, cannot assert location header. ' . $message);
@@ -303,14 +303,14 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 		$this->assertTrue(empty($result['Location']), $message);
 	}
 
-/**
- * Assert response headers
- *
- * @param string $header The header to check
- * @param string $content The content to check for.
- * @param string $message The failure message that will be appended to the generated message.
- * @return void
- */
+	/**
+	 * Assert response headers
+	 *
+	 * @param string $header The header to check
+	 * @param string $content The content to check for.
+	 * @param string $message The failure message that will be appended to the generated message.
+	 * @return void
+	 */
 	public function assertHeader($header, $content, $message = '') {
 		if (!$this->_response) {
 			$this->fail('No response set, cannot assert headers. ' . $message);
@@ -322,13 +322,13 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 		$this->assertEquals($headers[$header], $content, $message);
 	}
 
-/**
- * Assert content type
- *
- * @param string $type The content-type to check for.
- * @param string $message The failure message that will be appended to the generated message.
- * @return void
- */
+	/**
+	 * Assert content type
+	 *
+	 * @param string $type The content-type to check for.
+	 * @param string $message The failure message that will be appended to the generated message.
+	 * @return void
+	 */
 	public function assertContentType($type, $message = '') {
 		if (!$this->_response) {
 			$this->fail('No response set, cannot assert content-type. ' . $message);
@@ -341,13 +341,13 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 		$this->assertEquals($type, $result, $message);
 	}
 
-/**
- * Assert content exists in the response body.
- *
- * @param string $content The content to check for.
- * @param string $message The failure message that will be appended to the generated message.
- * @return void
- */
+	/**
+	 * Assert content exists in the response body.
+	 *
+	 * @param string $content The content to check for.
+	 * @param string $message The failure message that will be appended to the generated message.
+	 * @return void
+	 */
 	public function assertResponseEquals($content, $message = '') {
 		if (!$this->_response) {
 			$this->fail('No response set, cannot assert content. ' . $message);
@@ -355,13 +355,13 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 		$this->assertEquals($content, $this->_response->body(), $message);
 	}
 
-/**
- * Assert content exists in the response body.
- *
- * @param string $content The content to check for.
- * @param string $message The failure message that will be appended to the generated message.
- * @return void
- */
+	/**
+	 * Assert content exists in the response body.
+	 *
+	 * @param string $content The content to check for.
+	 * @param string $message The failure message that will be appended to the generated message.
+	 * @return void
+	 */
 	public function assertResponseContains($content, $message = '') {
 		if (!$this->_response) {
 			$this->fail('No response set, cannot assert content. ' . $message);
@@ -369,13 +369,13 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 		$this->assertContains($content, (string)$this->_response->body(), $message);
 	}
 
-/**
- * Assert content does not exist in the response body.
- *
- * @param string $content The content to check for.
- * @param string $message The failure message that will be appended to the generated message.
- * @return void
- */
+	/**
+	 * Assert content does not exist in the response body.
+	 *
+	 * @param string $content The content to check for.
+	 * @param string $message The failure message that will be appended to the generated message.
+	 * @return void
+	 */
 	public function assertResponseNotContains($content, $message = '') {
 		if (!$this->_response) {
 			$this->fail('No response set, cannot assert content. ' . $message);
@@ -383,13 +383,13 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 		$this->assertNotContains($content, (string)$this->_response->body(), $message);
 	}
 
-/**
- * Assert that the search string was in the template name.
- *
- * @param string $content The content to check for.
- * @param string $message The failure message that will be appended to the generated message.
- * @return void
- */
+	/**
+	 * Assert that the search string was in the template name.
+	 *
+	 * @param string $content The content to check for.
+	 * @param string $message The failure message that will be appended to the generated message.
+	 * @return void
+	 */
 	public function assertTemplate($content, $message = '') {
 		if (!$this->_viewName) {
 			$this->fail('No view name stored. ' . $message);
@@ -397,13 +397,13 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 		$this->assertContains($content, $this->_viewName, $message);
 	}
 
-/**
- * Assert that the search string was in the layout name.
- *
- * @param string $content The content to check for.
- * @param string $message The failure message that will be appended to the generated message.
- * @return void
- */
+	/**
+	 * Assert that the search string was in the layout name.
+	 *
+	 * @param string $content The content to check for.
+	 * @param string $message The failure message that will be appended to the generated message.
+	 * @return void
+	 */
 	public function assertLayout($content, $message = '') {
 		if (!$this->_layoutName) {
 			$this->fail('No layout name stored. ' . $message);
@@ -411,14 +411,14 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 		$this->assertContains($content, $this->_layoutName, $message);
 	}
 
-/**
- * Assert session contents
- *
- * @param string $expected The expected contents.
- * @param string $path The session data path. Uses Hash::get() compatible notation
- * @param string $message The failure message that will be appended to the generated message.
- * @return void
- */
+	/**
+	 * Assert session contents
+	 *
+	 * @param string $expected The expected contents.
+	 * @param string $path The session data path. Uses Hash::get() compatible notation
+	 * @param string $message The failure message that will be appended to the generated message.
+	 * @return void
+	 */
 	public function assertSession($expected, $path, $message = '') {
 		if (empty($this->_requestSession)) {
 			$this->fail('There is no stored session data. Perhaps you need to run a request?');
@@ -427,14 +427,14 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 		$this->assertEquals($expected, $result, 'Session content differs. ' . $message);
 	}
 
-/**
- * Assert cookie values
- *
- * @param string $expected The expected contents.
- * @param string $name The cookie name.
- * @param string $message The failure message that will be appended to the generated message.
- * @return void
- */
+	/**
+	 * Assert cookie values
+	 *
+	 * @param string $expected The expected contents.
+	 * @param string $name The cookie name.
+	 * @param string $message The failure message that will be appended to the generated message.
+	 * @return void
+	 */
 	public function assertCookie($expected, $name, $message = '') {
 		if (empty($this->_response)) {
 			$this->fail('Not response set, cannot assert cookies.');

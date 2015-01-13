@@ -15,4 +15,5 @@ class AllShellTestsTest extends PHPUnit_Framework_TestSuite {
 		$Suite->addTestDirectory($path . DS . 'Console' . DS . 'Command');
 		return $Suite;
 	}
+
 }

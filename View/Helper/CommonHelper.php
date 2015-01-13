@@ -159,7 +159,6 @@ class CommonHelper extends AppHelper {
 			$options['tabsToSpaces'] = 4;
 		}
 		if (!empty($options['tabsToSpaces'])) {
-
 			$text = str_replace("\t", str_repeat(!empty($esc) ? '&nbsp;' : ' ', $options['tabsToSpaces']), $text);
 		}
 
@@ -246,7 +245,6 @@ class CommonHelper extends AppHelper {
 		if ($type === 'public') {
 			$this->privatePage = false;
 			$content['robots'] = array('index', 'follow', 'noarchive');
-
 		} else {
 			$this->privatePage = true;
 			$content['robots'] = array('noindex', 'nofollow', 'noarchive');
@@ -530,7 +528,7 @@ if (top!=self) top.location.ref=self.location.href;
 		$engine = 'js';
 
 		if (!isset($options['escape']) || $options['escape'] !== false) {
-				$message = h($message);
+			$message = h($message);
 		}
 		return $this->Html->scriptBlock('
 // Returns the version of Internet Explorer or a -1
@@ -598,7 +596,7 @@ jQuery(document).ready(function() {
 			if (!empty($viewPath) && $viewPath === 'errors') {
 				$error = true;
 			}
-$res .= '
+			$res .= '
 <script type="text/javascript">
 var pkBaseURL = (("https:" == document.location.protocol) ? "https://' . HTTP_HOST . '/' . $trackingUrl . '/" : "http://' . HTTP_HOST . '/' . $trackingUrl . '/");
 document.write(unescape("%3Cscript src=\'" + pkBaseURL + "piwik.js\' type=\'text/javascript\'%3E%3C/script%3E"));
@@ -657,10 +655,9 @@ piwikTracker.enableLinkTracking();
 		}
 		if (!empty($sessionRoles)) {
 			if (is_array($sessionRoles)) {
-
 				foreach ($sessionRoles as $sessionRole) {
 					if (!$sessionRole) {
-					continue;
+						continue;
 					}
 					if (array_key_exists((int)$sessionRole, $roles)) {
 						$tmp[$sessionRole] = $roles[(int)$sessionRole];

@@ -73,7 +73,7 @@ class InlineCssLib {
 
 		if ($this->config['cleanup']) {
 			// Remove comments and whitespace
-			$result = preg_replace( '/<!--(.|\s)*?-->/', '', $result);
+			$result = preg_replace('/<!--(.|\s)*?-->/', '', $result);
 			//$result = preg_replace( '/\s\s+/', '\s', $result);
 
 			// Result classes and ids
@@ -148,7 +148,7 @@ class InlineCssLib {
 		}
 		foreach ($tags as $tag) {
 			if ($stripContent) {
-				 $content = '(.+</' . $tag . '[^>]*>|)';
+				$content = '(.+</' . $tag . '[^>]*>|)';
 			}
 			$str = preg_replace('#</?' . $tag . '[^>]*>' . $content . '#is', '', $str);
 		}
@@ -164,7 +164,7 @@ class InlineCssLib {
 	protected function _extractAndRemoveCss($html) {
 		$css = null;
 
-		$DOM = new DOMDocument;
+		$DOM = new DOMDocument();
 		$DOM->loadHTML($html);
 
 		// DOM removal queue
@@ -175,7 +175,6 @@ class InlineCssLib {
 
 		foreach ($links as $link) {
 			if ($link->hasAttribute('href') && preg_match("/\.css$/i", $link->getAttribute('href'))) {
-
 				// find the css file and load contents
 				if ($link->hasAttribute('media')) {
 					// FOR NOW
@@ -216,7 +215,8 @@ class InlineCssLib {
 			foreach ($removeDoms as $removeDom) {
 				try {
 					$removeDom->parentNode->removeChild($removeDom);
-				} catch (DOMException $e) {}
+				} catch (DOMException $e) {
+				}
 			}
 			$html = $DOM->saveHTML();
 		}
@@ -279,7 +279,6 @@ class InlineCssLib {
 	 * @return array
 	 */
 	protected function _globRecursive($pattern, $flags = 0) {
-
 		$files = glob($pattern, $flags);
 
 		foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {

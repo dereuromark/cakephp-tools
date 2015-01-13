@@ -79,7 +79,6 @@ class HazardLib {
 			if ($cache) {
 				Cache::write('hazard_lib_texts', $texts);
 			}
-
 		}
 		return $texts;
 	}

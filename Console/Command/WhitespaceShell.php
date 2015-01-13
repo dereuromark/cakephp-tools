@@ -73,7 +73,6 @@ class WhitespaceShell extends AppShell {
 			if ($action === '*') {
 				$action = 'y';
 				$this->autoCorrectAll = true;
-
 			} elseif ($action === 'a') {
 				$action = 'y';
 				$folders[] = $dirname;
@@ -82,7 +81,6 @@ class WhitespaceShell extends AppShell {
 
 			if ($action === 'q') {
 				return $this->error('Abort... Done');
-
 			}
 			if ($action === 'y') {
 				if ($error === 'leading') {

@@ -13,7 +13,6 @@ class HazardLibTest extends CakeTestCase {
 	/**
 	 */
 	public function _testParse() {
-
 		$is = $this->HazardLib->_parseXml(HazardLib::URL);
 		//pr(h($is));
 		$this->assertTrue(!empty($is));
@@ -23,7 +22,6 @@ class HazardLibTest extends CakeTestCase {
 	/**
 	 */
 	public function testXssStrings() {
-
 		$is = $this->HazardLib->xssStrings(false);
 		//pr(h($is));
 		$this->assertTrue(!empty($is));

@@ -24,8 +24,6 @@ class IcalLib {
 		$this->ICalObject = new ICalObject();
 	}
 
-/** BUILDING **/
-
 	/**
 	 *
 	 * some automagic
@@ -110,8 +108,6 @@ class IcalLib {
 	public function createEnd() {
 		return 'END:VCALENDAR';
 	}
-
-/** PARSING **/
 
 	public function parse($url) {
 		$context = stream_context_create(

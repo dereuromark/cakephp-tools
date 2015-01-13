@@ -206,7 +206,7 @@ if (!function_exists('slug')) {
 			'/™/' => 'TM',
 			// more missing?
 		);
-	
+
 		if ($separator === null) {
 			$separator = defined('SEO_SEPARATOR') ? SEO_SEPARATOR : '-';
 		}

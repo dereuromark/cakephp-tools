@@ -505,8 +505,6 @@ class FormExtHelper extends FormHelper {
 		return $options;
 	}
 
-/** date(time) **/
-
 	//TODO: use http://trentrichardson.com/examples/timepicker/
 	// or maybe: http://pttimeselect.sourceforge.net/example/index.html (if 24 hour + select dropdowns are supported)
 
@@ -542,7 +540,6 @@ class FormExtHelper extends FormHelper {
 					case 'time':
 						continue;
 						if ($this->settings['webroot']) {
-
 						} else {
 							//'Tools.Jquery|ui/core/jquery.ui.core', 'Tools.Jquery|ui/core/jquery.ui.widget', 'Tools.Jquery|ui/widgets/jquery.ui.slider',
 							$this->Common->script(array('Tools.Jquery|plugins/jquery.timepicker.core', 'Tools.Jquery|plugins/jquery.timepicker'), false);
@@ -555,7 +552,6 @@ class FormExtHelper extends FormHelper {
 				}
 
 				if ($quicklinks) {
-
 				}
 			}
 		}
@@ -1070,7 +1066,6 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 
 		$options = '';
 		if (!empty($jquery['options'])) {
-
 		}
 
 		$js = 'jQuery("#' . $id . '").autocomplete(' . $var . ', {

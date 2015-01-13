@@ -362,7 +362,7 @@ class ImapSource extends DataSource {
 		if ($uids === false) {
 			// Perform Search & Order. Returns list of ids
 			list($orderReverse, $orderCriteria) = $this->_makeOrder($Model, $queryData);
-			$uids = imap_sort($this->Stream, $orderCriteria, $orderReverse, SE_UID, join(' ', $searchCriteria));
+			$uids = imap_sort($this->Stream, $orderCriteria, $orderReverse, SE_UID, implode(' ', $searchCriteria));
 		}
 
 		// Nothing was found
@@ -1007,7 +1007,7 @@ class ImapSource extends DataSource {
 
 		// Auto mark after read
 		if (!empty($this->config['auto_mark_as'])) {
-			$marks = '\\' . join(' \\', $this->config['auto_mark_as']);
+			$marks = '\\' . implode(' \\', $this->config['auto_mark_as']);
 			if (!imap_setflag_full($this->Stream, $uid, $marks, ST_UID)) {
 				$this->err($Model, 'Unable to mark email %s as %s', $uid, $marks);
 			}
@@ -1086,7 +1086,7 @@ class ImapSource extends DataSource {
 		if (!empty($Structure->parts)) {
 			$decimas = explode('.', $partnr);
 			$decimas[count($decimas) - 1] -= 1;
-			$Structure->path = join('.', $decimas);
+			$Structure->path = implode('.', $decimas);
 		} else {
 			$Structure->path = $partnr;
 		}
@@ -1097,7 +1097,7 @@ class ImapSource extends DataSource {
 				if ($n >= 1) {
 					$arrDecimas = explode('.', $partnr);
 					$arrDecimas[count($arrDecimas) - 1] += 1;
-					$partnr = join('.', $arrDecimas);
+					$partnr = implode('.', $arrDecimas);
 				}
 				$Part->path = $partnr;
 

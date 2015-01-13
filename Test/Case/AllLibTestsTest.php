@@ -15,4 +15,5 @@ class AllLibTestsTest extends PHPUnit_Framework_TestSuite {
 		$Suite->addTestDirectory($path . DS . 'Lib');
 		return $Suite;
 	}
+
 }

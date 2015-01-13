@@ -222,22 +222,22 @@ class DiffLib {
 					$instance->symbol = $line[0];
 					$instance->length++;
 
-				array_push($instance->oldline, substr($line, 1));
-			} elseif ($_check === '+' && $_check == $line[0]) {
-				if ($instance->length == 0) {
-					$instance->line = $start + $i - $minus;
-					$instance->symbol = $line[0];
+					array_push($instance->oldline, substr($line, 1));
+				} elseif ($_check === '+' && $_check == $line[0]) {
+					if ($instance->length == 0) {
+						$instance->line = $start + $i - $minus;
+						$instance->symbol = $line[0];
+					}
+					$instance->length++;
+				} else {
+					if ($instance->length > 0) {
+						array_push($changes, $instance);
+						$instance = new Changes();
+					}
 				}
-				$instance->length++;
-			} else {
-				if ($instance->length > 0) {
-					array_push($changes, $instance);
-					$instance = new Changes();
+				if ($line[0] === '-') {
+					$minus++;
 				}
-
-			}
-			if ($line[0] === '-')
-				$minus++;
 			}
 		}
 		if ($instance->length > 0) {
@@ -320,4 +320,5 @@ class Line {
 	public $symbol = '';
 
 	public $changed = false;
+
 }

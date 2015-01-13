@@ -15,4 +15,5 @@ class AllAuthTestsTest extends PHPUnit_Framework_TestSuite {
 		$Suite->addTestDirectory($path . DS . 'Controller' . DS . 'Component' . DS . 'Auth');
 		return $Suite;
 	}
+
 }

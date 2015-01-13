@@ -75,7 +75,6 @@ class DatetimeHelper extends TimeHelper {
 		$titles = array('-1' => __d('tools', 'publishedAlready'), '0' => __d('tools', 'publishedToday'), '1' => __d('tools', 'publishedNotYet'));
 
 		if (!empty($date)) {
-
 			$y = $this->isThisYear($date) ? '' : ' Y';
 
 			$format = (!empty($options['format']) ? $options['format'] : FORMAT_NICE_YMD);
@@ -114,7 +113,6 @@ class DatetimeHelper extends TimeHelper {
 					$when = -1;
 				}
 			}
-
 		}
 
 		if (empty($niceDate) || $when === null) {

@@ -74,7 +74,7 @@ class Qurl extends ToolsAppModel {
 		parent::beforeSave($options);
 
 		if (isset($this->data[$this->alias]['content'])) {
-			 $this->data[$this->alias]['content'] = serialize($this->data[$this->alias]['content']);
+			$this->data[$this->alias]['content'] = serialize($this->data[$this->alias]['content']);
 		}
 
 		return true;

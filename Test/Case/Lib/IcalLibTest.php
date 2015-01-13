@@ -24,19 +24,17 @@ class IcalLibTest extends CakeTestCase {
 		$this->assertTrue(is_object($this->Ical));
 	}
 
-/** building **/
+	/** building **/
 	// see IcalHelper() for this
 
-/** parsing **/
+	/** parsing **/
 
 	public function testParse() {
-
 		$is = $this->Ical->parse($this->file);
 		$this->assertTrue(!empty($is));
 	}
 
 	public function testCalendarInfos() {
-
 		$is = $this->Ical->parse($this->file);
 		$is = $this->Ical->getCalendarInfos();
 		//pr($is);
@@ -44,7 +42,6 @@ class IcalLibTest extends CakeTestCase {
 	}
 
 	public function testEvents() {
-
 		$is = $this->Ical->parse($this->file);
 		$is = $this->Ical->getEvents();
 		//pr($is);
@@ -52,7 +49,6 @@ class IcalLibTest extends CakeTestCase {
 	}
 
 	public function testTodos() {
-
 		$is = $this->Ical->parse($this->file);
 		$is = $this->Ical->getTodos();
 		//debug($is).BR;
@@ -60,7 +56,6 @@ class IcalLibTest extends CakeTestCase {
 	}
 
 	public function testEventsAsList() {
-
 		$is = $this->Ical->parse($this->file);
 		$is = $this->Ical->getEventsAsList();
 		foreach ($is as $i => $val) {
