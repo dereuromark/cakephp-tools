@@ -102,7 +102,6 @@ class FormatHelper extends TextHelper {
 			}
 		}
 		if (empty($field)) {
-
 		}
 
 		$name = 'Record'; // Translation further down!
@@ -285,7 +284,6 @@ class FormatHelper extends TextHelper {
 
 		if ($css) {
 			$html = $this->Html->tag('div', '&nbsp;', $attr);
-
 		} else {
 			$icon = 'priority_' . $matching[$value] . '.gif';
 			$html = $this->Html->image('icons/' . $icon, $attr);
@@ -488,13 +486,16 @@ class FormatHelper extends TextHelper {
 			$text = '';
 			for ($i = 0; $i < $min; $i++) {
 				$attributes = array('alt' => '#', 'class' => 'full');
-				if (!empty($options['title'])) { $attributes['title'] = ($i + 1) . '/' . $max; } // ?
+				if (!empty($options['title'])) {
+					$attributes['title'] = ($i + 1) . '/' . $max;
+				} // ?
 				$text .= $this->Html->image('icons/star_icon2.gif', $attributes);
-
 			}
 			for ($i = $min; $i < $max; $i++) {
 				$attributes = array('alt' => '-', 'class' => 'empty');
-				if (!empty($options['title'])) { $attributes['title'] = ($i + 1) . '/' . $max; } // ?
+				if (!empty($options['title'])) {
+					$attributes['title'] = ($i + 1) . '/' . $max;
+				} // ?
 				if ($steps == 0.5 && $current == $i + 0.5) {
 					$text .= $this->Html->image('icons/star_icon2_half.gif', $attributes);
 				} else {
@@ -517,6 +518,7 @@ class FormatHelper extends TextHelper {
 				}
 			}
 		}
+
 		return $res;
 	}
 
@@ -588,7 +590,9 @@ class FormatHelper extends TextHelper {
 	 * @return string Save string with JS generated link around email (and non JS fallback)
 	 */
 	public function encodeEmailUrl($mail, $text = null, $params = array(), $attr = array()) {
-		if (empty($class)) { $class = 'email';}
+		if (empty($class)) {
+			$class = 'email';
+		}
 
 		$defaults = array(
 			'title' => __d('tools', 'for use in an external mail client'),

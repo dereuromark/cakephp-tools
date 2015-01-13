@@ -59,7 +59,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 		if (php_sapi_name() === 'cli') {
 			return;
 		}
-		if (!$plain|| is_array($data)) {
+		if (!$plain || is_array($data)) {
 			pr($data);
 		} else {
 			echo '<div>' . $data . '</div>';

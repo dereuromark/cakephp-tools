@@ -134,10 +134,11 @@ class LinkableBehavior extends ModelBehavior {
 					}
 
 					if (isset($options['conditions']['exactly'])) {
-						if (is_array($options['conditions']['exactly']))
+						if (is_array($options['conditions']['exactly'])) {
 							$options['conditions'] = reset($options['conditions']['exactly']);
-						else
+						} else {
 							$options['conditions'] = array($options['conditions']['exactly']);
+						}
 					} else {
 						if ($type === 'belongsTo') {
 							$modelKey = $_Model->escapeField($association['foreignKey']);
@@ -206,9 +207,9 @@ class LinkableBehavior extends ModelBehavior {
 							}
 						} elseif (!isset($options['fields']) || (isset($options['fields']) && !is_array($options['fields']))) {
 							if (!empty($association['fields'])) {
-									$options['fields'] = $db->fields($_Model, null, $association['fields']);
+								$options['fields'] = $db->fields($_Model, null, $association['fields']);
 							} else {
-									$options['fields'] = $db->fields($_Model);
+								$options['fields'] = $db->fields($_Model);
 							}
 						}
 

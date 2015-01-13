@@ -204,7 +204,6 @@ class MobileComponent extends Component {
 			$urlParams['?']['mobile'] = 0;
 			$url = Router::url($urlParams);
 			$this->Controller->set('desktopUrl', $url);
-
 		} else {
 			$urlParams['?']['mobile'] = 1;
 			$url = Router::url($urlParams);

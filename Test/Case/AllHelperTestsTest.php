@@ -15,4 +15,5 @@ class AllHelperTestsTest extends PHPUnit_Framework_TestSuite {
 		$Suite->addTestDirectory($path . DS . 'View' . DS . 'Helper');
 		return $Suite;
 	}
+
 }

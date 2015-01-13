@@ -413,7 +413,6 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateKey() {
-
 		//$this->User->data = array($this->User->alias=>array('y'=>'efg'));
 		$testModel = new AppTestModel();
 
@@ -463,7 +462,6 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateEnum() {
-
 		//$this->User->data = array($this->User->alias=>array('y'=>'efg'));
 		$testModel = new AppTestModel();
 		$is = $testModel->validateEnum(array('x' => '1'), true);
@@ -485,7 +483,6 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testGuaranteeFields() {
-
 		$res = $this->User->guaranteeFields(array());
 		//debug($res);
 		$this->assertTrue(empty($res));
@@ -540,7 +537,6 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testSet() {
-
 		$data = array($this->modelName => array('x' => 'hey'), 'OtherModel' => array('y' => ''));
 		$this->User->data = array();
 
@@ -561,7 +557,6 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateWithGuaranteeFields() {
-
 		$data = array($this->modelName => array('x' => 'hey'), 'OtherModel' => array('y' => ''));
 
 		$data = $this->User->guaranteeFields(array('x', 'z'), $data);
@@ -620,7 +615,6 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testInvalidate() {
-
 		$this->User->create();
 		$this->User->invalidate('fieldx', __d('tools', 'e %s f', 33));
 		$res = $this->User->validationErrors;
@@ -664,7 +658,6 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateDate() {
-
 		$data = array('field' => '2010-01-22');
 		$res = $this->User->validateDate($data);
 		//debug($res);
@@ -748,7 +741,6 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateDatetime() {
-
 		$data = array('field' => '2010-01-22 11:11:11');
 		$res = $this->User->validateDatetime($data);
 		//debug($res);
@@ -823,7 +815,6 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateTime() {
-
 		$data = array('field' => '11:21:11');
 		$res = $this->User->validateTime($data);
 		//debug($res);
@@ -853,7 +844,6 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateUrl() {
-
 		$data = array('field' => 'www.dereuromark.de');
 		$res = $this->User->validateUrl($data, array('allowEmpty' => true));
 		$this->assertTrue($res);
@@ -917,7 +907,6 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateUnique() {
-
 		$this->Post->validate['title'] = array(
 			'validateUnique' => array(
 				'rule' => 'validateUnique',
@@ -984,7 +973,7 @@ class AppTestModel extends MyModel {
 	public $useTable = false;
 
 	protected $_schema = array(
-		'id' => array (
+		'id' => array(
 			'type' => 'string',
 			'null' => false,
 			'default' => '',
@@ -993,7 +982,7 @@ class AppTestModel extends MyModel {
 			'collate' => 'utf8_unicode_ci',
 			'charset' => 'utf8',
 		),
-		'foreign_id' => array (
+		'foreign_id' => array(
 			'type' => 'integer',
 			'null' => false,
 			'default' => '0',

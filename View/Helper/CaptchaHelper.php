@@ -178,7 +178,7 @@ class CaptchaHelper extends AppHelper {
 	 */
 	protected function _fieldName($modelName = null) {
 		$fieldName = 'captcha';
-		if (isSet($modelName)) {
+		if (isset($modelName)) {
 			$fieldName = $modelName . '.' . $fieldName;
 		}
 		return $fieldName;

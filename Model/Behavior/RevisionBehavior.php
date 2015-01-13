@@ -287,7 +287,6 @@ class RevisionBehavior extends ModelBehavior {
 		if ($limit < $count) {
 			$remaining = $count;
 			for ($p = 1; true; $p++) {
-
 				$this->_init($Model, $p, $limit);
 
 				$remaining = $remaining - $limit;
@@ -526,7 +525,6 @@ class RevisionBehavior extends ModelBehavior {
 		if ($cascade) {
 			$associated = array_merge($Model->hasMany, $Model->hasOne);
 			foreach ($associated as $assoc => $data) {
-
 				// Continue with next association if no shadow model
 				if (empty($Model->$assoc->ShadowModel)) {
 					continue;
@@ -837,7 +835,6 @@ class RevisionBehavior extends ModelBehavior {
 		foreach ($data[$Model->alias] as $key => $value) {
 			if (isset($data[$Model->alias][$Model->primaryKey]) && !empty($this->_oldData[$Model->alias]) && isset($this->_oldData[$Model->
 				alias][$Model->alias][$key])) {
-
 				$oldValue = $this->_oldData[$Model->alias][$Model->alias][$key];
 			} else {
 				$oldValue = '';

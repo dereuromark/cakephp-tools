@@ -100,7 +100,6 @@ class IndentShell extends AppShell {
 				$this->_correctFiles();
 				$this->out('DONE');
 			}
-
 		} else {
 			$this->out('Usage: cake intend folder');
 			$this->out('"folder" is then intended recursivly');
@@ -305,7 +304,7 @@ class IndentShell extends AppShell {
 				$this->_write($file, $textCorrect);
 			}
 			//die();
-		}
+}
 	}
 
 	/**

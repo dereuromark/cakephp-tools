@@ -15,4 +15,5 @@ class AllComponentTestsTest extends PHPUnit_Framework_TestSuite {
 		$Suite->addTestDirectory($path . DS . 'Controller' . DS . 'Component');
 		return $Suite;
 	}
+
 }

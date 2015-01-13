@@ -241,7 +241,6 @@ class ImapLib {
 							}
 						}
 					}
-
 				}
 
 				//lets add attachments
@@ -329,7 +328,6 @@ class ImapLib {
 
 				$fpos++;
 				$attachments[] = $attachment;
-
 			} elseif (isset($part->subtype) && $part->subtype === "OCTET-STREAM") {
 				$attachment["pid"] = $i;
 				$attachment["type"][$i] = $message["attachment"]["type"][$part->type] . "/" . strtolower($part->subtype);
@@ -344,7 +342,6 @@ class ImapLib {
 
 				$fpos++;
 				$attachments[] = $attachment;
-
 			} else { // inline attachments etc
 				$attachment["pid"] = $i;
 				$type = '';

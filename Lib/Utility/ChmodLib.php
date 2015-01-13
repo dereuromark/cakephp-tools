@@ -123,9 +123,15 @@ class ChmodLib {
 	 */
 	protected function setMode($r, $w, $e) {
 		$mode = 0;
-		if ($r) $mode += 4;
-		if ($w) $mode += 2;
-		if ($e) $mode += 1;
+		if ($r) {
+			$mode += 4;
+		}
+		if ($w) {
+			$mode += 2;
+		}
+		if ($e) {
+			$mode += 1;
+		}
 		return $mode;
 	}
 

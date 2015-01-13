@@ -76,7 +76,7 @@ class BootstrapHelper extends AppHelper {
 	</div>
 	' . $this->carouselControl() . '
 </div>';
-	return $res;
+		return $res;
 	}
 
 	public function carouselControl() {

@@ -636,34 +636,34 @@ class CommonComponent extends Component {
 		return CakeLog::write('sql', $log);
 	}
 
-	/**
-	 * Localize
-	 *
-	 * @return bool Success
-	 */
+	 /**
+	  * Localize
+	  *
+	  * @return bool Success
+	  */
 	 public function localize($lang = null) {
-		if ($lang === null) {
-			$lang = Configure::read('Config.language');
-		}
-		if (empty($lang)) {
-			return false;
-		}
+	 	if ($lang === null) {
+	 		$lang = Configure::read('Config.language');
+	 	}
+	 	if (empty($lang)) {
+	 		return false;
+	 	}
 
-		if (($pos = strpos($lang, '-')) !== false) {
-			$lang = substr($lang, 0, $pos);
-		}
-		if ($lang === DEFAULT_LANGUAGE) {
-			return null;
-		}
+	 	if (($pos = strpos($lang, '-')) !== false) {
+	 		$lang = substr($lang, 0, $pos);
+	 	}
+	 	if ($lang === DEFAULT_LANGUAGE) {
+	 		return null;
+	 	}
 
-		if (!($pattern = Configure::read('LocalizationPattern.' . $lang))) {
-			return false;
-		}
-		foreach ((array)$pattern as $key => $value) {
-			Configure::write('Localization.' . $key, $value);
-		}
-		return true;
-	}
+	 	if (!($pattern = Configure::read('LocalizationPattern.' . $lang))) {
+	 		return false;
+	 	}
+	 	foreach ((array)$pattern as $key => $value) {
+	 		Configure::write('Localization.' . $key, $value);
+	 	}
+	 	return true;
+	 }
 
 	/**
 	 * Main controller function for consistency in controller naming
@@ -805,7 +805,6 @@ class CommonComponent extends Component {
 		foreach ($stringArray as $t) {
 			$t = trim($t);
 			if (!empty($t)) {
-
 				if ($camelize === true) {
 					$t = mb_strtolower($t);
 					$t = Inflector::camelize(Inflector::underscore($t)); // problems with non-alpha chars!
@@ -949,7 +948,6 @@ class CommonComponent extends Component {
 	 * @return array Cleaned array('keyword'=>'searchphrase') or array('keyword LIKE'=>'searchphrase')
 	 */
 	public function getSearchItem($keyword = null, $searchphrase = null, $options = array()) {
-
 		if (isset($options['wildcard']) && $options['wildcard'] == true) {
 			if (strpos($searchphrase, '*') !== false || strpos($searchphrase, '_') !== false) {
 				$keyword .= ' LIKE';

@@ -38,12 +38,12 @@ class SluggedBehaviorTest extends CakeTestCase {
 	 *
 	 * @var array
 	 */
-	public static $maps = array (
-		'de' => array ( /* German */
+	public static $maps = array(
+		'de' => array( /* German */
 			'Ä' => 'Ae', 'Ö' => 'Oe', 'Ü' => 'Ue', 'ä' => 'ae', 'ö' => 'oe', 'ü' => 'ue', 'ß' => 'ss',
 			'ẞ' => 'SS'
 		),
-		'latin' => array (
+		'latin' => array(
 			'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Å' => 'A', 'Ă' => 'A', 'Æ' => 'AE', 'Ç' =>
 			'C', 'È' => 'E', 'É' => 'E', 'Ê' => 'E', 'Ë' => 'E', 'Ì' => 'I', 'Í' => 'I', 'Î' => 'I',
 			'Ï' => 'I', 'Ð' => 'D', 'Ñ' => 'N', 'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ő' => 'O', 'Ø' => 'O',
@@ -54,34 +54,34 @@ class SluggedBehaviorTest extends CakeTestCase {
 			'o', 'ô' => 'o', 'õ' => 'o', 'ő' => 'o', 'ø' => 'o', 'ș' => 's', 'ț' => 't', 'ù' => 'u', 'ú' => 'u',
 			'û' => 'u', 'ű' => 'u', 'ý' => 'y', 'þ' => 'th', 'ÿ' => 'y'
 		),
-		'latin_symbols' => array (
+		'latin_symbols' => array(
 			'©' => 'c'
 		),
-		'tr' => array ( /* Turkish */
+		'tr' => array( /* Turkish */
 			'ş' => 's', 'Ş' => 'S', 'ı' => 'i', 'İ' => 'I', 'ç' => 'c', 'Ç' => 'C', 'ğ' => 'g', 'Ğ' => 'G'
 		),
-		'uk' => array ( /* Ukrainian */
+		'uk' => array( /* Ukrainian */
 			'Є' => 'Ye', 'І' => 'I', 'Ї' => 'Yi', 'Ґ' => 'G', 'є' => 'ye', 'і' => 'i', 'ї' => 'yi', 'ґ' => 'g'
 		),
-		'cs' => array ( /* Czech */
+		'cs' => array( /* Czech */
 			'č' => 'c', 'ď' => 'd', 'ě' => 'e', 'ň' => 'n', 'ř' => 'r', 'š' => 's', 'ť' => 't', 'ů' => 'u',
 			'ž' => 'z', 'Č' => 'C', 'Ď' => 'D', 'Ě' => 'E', 'Ň' => 'N', 'Ř' => 'R', 'Š' => 'S', 'Ť' => 'T',
 			'Ů' => 'U', 'Ž' => 'Z'
 		),
-		'pl' => array ( /* Polish */
+		'pl' => array( /* Polish */
 			'ą' => 'a', 'ć' => 'c', 'ę' => 'e', 'ł' => 'l', 'ń' => 'n', 'ó' => 'o', 'ś' => 's', 'ź' => 'z',
 			'ż' => 'z', 'Ą' => 'A', 'Ć' => 'C', 'Ł' => 'L', 'Ń' => 'N', 'Ó' => 'O', 'Ś' => 'S',
 			'Ź' => 'Z', 'Ż' => 'Z'
 		),
-		'ro' => array ( /* Romanian */
+		'ro' => array( /* Romanian */
 			'ă' => 'a', 'â' => 'a', 'î' => 'i', 'ș' => 's', 'ț' => 't', 'Ţ' => 'T', 'ţ' => 't'
 		),
-		'lv' => array ( /* Latvian */
+		'lv' => array( /* Latvian */
 			'ā' => 'a', 'č' => 'c', 'ē' => 'e', 'ģ' => 'g', 'ī' => 'i', 'ķ' => 'k', 'ļ' => 'l', 'ņ' => 'n',
 			'š' => 's', 'ū' => 'u', 'ž' => 'z', 'Ā' => 'A', 'Č' => 'C', 'Ē' => 'E', 'Ģ' => 'G', 'Ī' => 'I',
 			'Ķ' => 'K', 'Ļ' => 'L', 'Ņ' => 'N', 'Š' => 'S', 'Ū' => 'U', 'Ž' => 'Z'
 		),
-		'lt' => array ( /* Lithuanian */
+		'lt' => array( /* Lithuanian */
 			'ą' => 'a', 'č' => 'c', 'ę' => 'e', 'ė' => 'e', 'į' => 'i', 'š' => 's', 'ų' => 'u', 'ū' => 'u', 'ž' => 'z',
 			'Ą' => 'A', 'Č' => 'C', 'Ę' => 'E', 'Ė' => 'E', 'Į' => 'I', 'Š' => 'S', 'Ų' => 'U', 'Ū' => 'U', 'Ž' => 'Z'
 		),
@@ -94,7 +94,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	 * @var array
 	 */
 	public static $customMaps = array(
-		'el' => array ( /* Greek */
+		'el' => array( /* Greek */
 			'α' => 'a', 'β' => 'b', 'γ' => 'g', 'δ' => 'd', 'ε' => 'e', 'ζ' => 'z', 'η' => 'h', 'θ' => 'th',
 			'ι' => 'i', 'κ' => 'k', 'λ' => 'l', 'μ' => 'm', 'ν' => 'n', 'ξ' => 'x', 'ο' => 'o', 'π' => 'p',
 			'ρ' => 'r', 'σ' => 's', 'τ' => 't', 'υ' => 'y', 'φ' => 'f', 'χ' => 'x', 'ψ' => 'ps', 'ω' => 'w',
@@ -106,7 +106,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 			'Ά' => 'A', 'Έ' => 'E', 'Ί' => 'I', 'Ό' => 'O', 'Ύ' => 'Y', 'Ή' => 'H', 'Ώ' => 'W', 'Ϊ' => 'I',
 			'Ϋ' => 'Y'
 		),
-		'ru' => array ( /* Russian */
+		'ru' => array( /* Russian */
 			'а' => 'a', 'б' => 'b', 'в' => 'v', 'г' => 'g', 'д' => 'd', 'е' => 'e', 'ё' => 'yo', 'ж' => 'zh',
 			'з' => 'z', 'и' => 'i', 'й' => 'j', 'к' => 'k', 'л' => 'l', 'м' => 'm', 'н' => 'n', 'о' => 'o',
 			'п' => 'p', 'р' => 'r', 'с' => 's', 'т' => 't', 'у' => 'u', 'ф' => 'f', 'х' => 'h', 'ц' => 'c',
@@ -118,7 +118,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 			'Ч' => 'Ch', 'Ш' => 'Sh', 'Щ' => 'Sh', 'Ы' => 'Y', 'Э' => 'E', 'Ю' => 'Yu',
 			'Я' => 'Ya',
 		),
-		'vn' => array ( /* Vietnamese */
+		'vn' => array( /* Vietnamese */
 			'Á' => 'A', 'À' => 'A', 'Ả' => 'A', 'Ã' => 'A', 'Ạ' => 'A', 'Ă' => 'A', 'Ắ' => 'A', 'Ằ' => 'A', 'Ẳ' => 'A', 'Ẵ' => 'A', 'Ặ' => 'A', 'Â' => 'A', 'Ấ' => 'A', 'Ầ' => 'A', 'Ẩ' => 'A', 'Ẫ' => 'A', 'Ậ' => 'A',
 			'á' => 'a', 'à' => 'a', 'ả' => 'a', 'ã' => 'a', 'ạ' => 'a', 'ă' => 'a', 'ắ' => 'a', 'ằ' => 'a', 'ẳ' => 'a', 'ẵ' => 'a', 'ặ' => 'a', 'â' => 'a', 'ấ' => 'a', 'ầ' => 'a', 'ẩ' => 'a', 'ẫ' => 'a', 'ậ' => 'a',
 			'É' => 'E', 'È' => 'E', 'Ẻ' => 'E', 'Ẽ' => 'E', 'Ẹ' => 'E', 'Ê' => 'E', 'Ế' => 'E', 'Ề' => 'E', 'Ể' => 'E', 'Ễ' => 'E', 'Ệ' => 'E',
@@ -131,17 +131,17 @@ class SluggedBehaviorTest extends CakeTestCase {
 			'Ý' => 'Y', 'Ỳ' => 'Y', 'Ỷ' => 'Y', 'Ỹ' => 'Y', 'Ỵ' => 'Y', 'ý' => 'y', 'ỳ' => 'y', 'ỷ' => 'y', 'ỹ' => 'y', 'ỵ' => 'y',
 			'Đ' => 'D', 'đ' => 'd'
 		),
-		'ar' => array ( /* Arabic */
+		'ar' => array( /* Arabic */
 			'أ' => 'a', 'ب' => 'b', 'ت' => 't', 'ث' => 'th', 'ج' => 'g', 'ح' => 'h', 'خ' => 'kh', 'د' => 'd',
 			'ذ' => 'th', 'ر' => 'r', 'ز' => 'z', 'س' => 's', 'ش' => 'sh', 'ص' => 's', 'ض' => 'd', 'ط' => 't',
 			'ظ' => 'th', 'ع' => 'aa', 'غ' => 'gh', 'ف' => 'f', 'ق' => 'k', 'ك' => 'k', 'ل' => 'l', 'م' => 'm',
 			'ن' => 'n', 'ه' => 'h', 'و' => 'o', 'ي' => 'y'
 		),
-		'sr' => array ( /* Serbian */
+		'sr' => array( /* Serbian */
 			'ђ' => 'dj', 'ј' => 'j', 'љ' => 'lj', 'њ' => 'nj', 'ћ' => 'c', 'џ' => 'dz',
 			'Ђ' => 'Dj', 'Ј' => 'j', 'Љ' => 'Lj', 'Њ' => 'Nj', 'Ћ' => 'C', 'Џ' => 'Dz',
 		),
-		'az' => array ( /* Azerbaijani */
+		'az' => array( /* Azerbaijani */
 			'ç' => 'c', 'ə' => 'e', 'ğ' => 'g', 'ı' => 'i', 'ş' => 's',
 			'Ç' => 'C', 'Ə' => 'E', 'Ğ' => 'G', 'İ' => 'I', 'Ş' => 'S',
 		)
@@ -192,7 +192,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 			return false;
 		}
 		$buildTests = array('testw3validity', 'testbuildregex', 'testbuildtest');
-		if (in_array(strtolower($method), $buildTests )) {
+		if (in_array(strtolower($method), $buildTests)) {
 			return !$this->skipSetupTests;
 		}
 		if (strtolower(substr($method, 0, 4)) === 'test') {
@@ -450,7 +450,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 				if ($string) {
 					$slugged = $this->Model->slug($string, false);
 					if ($slugged !== '----------------') {
-							$allEmpty = false;
+						$allEmpty = false;
 					}
 					$out .= "\t\t" . '$string = \'' . str_replace("'", "\'", $string) . '\';' . "\n";
 					$out .= "\t\t" . '$expects = \'' . $slugged . '\';' . "\n";

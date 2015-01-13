@@ -15,4 +15,5 @@ class AllViewTestsTest extends PHPUnit_Framework_TestSuite {
 		$Suite->addTestDirectory($path . DS . 'View');
 		return $Suite;
 	}
+
 }

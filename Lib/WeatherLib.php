@@ -49,8 +49,8 @@ class WeatherLib {
 	 *
 	 * @return array Data or false on failure
 	 */
-	public function get($q, $options = array()) {
-		$options = array_merge($this->settings, $options);
+	public function get($q, array $options = array()) {
+		$options += $this->settings;
 		$options['q'] = urlencode($q);
 		$data = $this->_get('weather.ashx', $options);
 		if (empty($data) || empty($data['data'])) {

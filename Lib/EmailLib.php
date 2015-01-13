@@ -311,10 +311,8 @@ class EmailLib extends CakeEmail {
 			if (!empty($fileInfo['content'])) {
 				$data = $fileInfo['content'];
 				$data = chunk_split(base64_encode($data));
-
 			} elseif (!empty($fileInfo['file'])) {
 				$data = $this->_readFile($fileInfo['file']);
-
 			} else {
 				continue;
 			}
@@ -353,10 +351,8 @@ class EmailLib extends CakeEmail {
 			if (!empty($fileInfo['content'])) {
 				$data = $fileInfo['content'];
 				$data = chunk_split(base64_encode($data));
-
 			} elseif (!empty($fileInfo['file'])) {
 				$data = $this->_readFile($fileInfo['file']);
-
 			} else {
 				continue;
 			}

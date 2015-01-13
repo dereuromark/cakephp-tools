@@ -53,7 +53,9 @@ class MultipleDisplayFieldsBehavior extends ModelBehavior {
 			$myFields = array();
 			foreach ($config['fields'] as $key => $val) {
 				$modelField = explode('.', $val);
-				if (empty($myFields[$modelField[0]])) $myFields[$modelField[0]] = array();
+				if (empty($myFields[$modelField[0]])) {
+					$myFields[$modelField[0]] = array();
+				}
 				$myFields[$modelField[0]][] = $modelField[1];
 			}
 			$this->settings[$Model->alias]['fields'] = $myFields;

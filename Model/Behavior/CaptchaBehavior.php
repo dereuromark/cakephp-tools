@@ -71,19 +71,14 @@ class CaptchaBehavior extends ModelBehavior {
 		}
 		if (empty($Model->data[$Model->alias])) {
 			$this->Model->invalidate('captcha', __d('tools', 'captchaContentMissing'));
-
 		} elseif (!$this->_validateDummyField($Model->data[$Model->alias])) {
 			$this->Model->invalidate('captcha', __d('tools', 'captchaIllegalContent'));
-
 		} elseif (!$this->_validateCaptchaMinTime($Model->data[$Model->alias])) {
 			$this->Model->invalidate('captcha', __d('tools', 'captchaResultTooFast'));
-
 		} elseif (!$this->_validateCaptchaMaxTime($Model->data[$Model->alias])) {
 			$this->Model->invalidate('captcha', __d('tools', 'captchaResultTooLate'));
-
 		} elseif (in_array($this->settings[$Model->alias]['type'], array('active', 'both')) && !$this->_validateCaptcha($Model->data[$Model->alias])) {
 			$this->Model->invalidate('captcha', __d('tools', 'captchaResultIncorrect'));
-
 		}
 
 		unset($Model->data[$Model->alias]['captcha']);

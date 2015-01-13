@@ -256,7 +256,7 @@ class GoogleMapV3Helper extends AppHelper {
 		parent::__construct($View, $config);
 	}
 
-/** Google Maps JS **/
+	/** Google Maps JS **/
 
 	/**
 	 * JS maps.google API url
@@ -429,7 +429,8 @@ class GoogleMapV3Helper extends AppHelper {
 
 		$this->settings['div']['style'] .= 'width: ' . $this->settings['div']['width'] . ';';
 		$this->settings['div']['style'] .= 'height: ' . $this->settings['div']['height'] . ';';
-		unset($this->settings['div']['width']); unset($this->settings['div']['height']);
+		unset($this->settings['div']['width']);
+		unset($this->settings['div']['height']);
 
 		$defaultText = isset($this->settings['content']) ? $this->settings['content'] : __d('tools', 'Map cannot be displayed!');
 		$result .= $this->Html->tag('div', $defaultText, $this->settings['div']);
@@ -558,7 +559,6 @@ function geocodeAddress(address) {
 		if (!empty($options['content']) && $this->settings['infoWindow']['useMultiple']) {
 			$x = $this->addInfoWindow(array('content' => $options['content']));
 			$this->addEvent(static::$markerCount, $x, $options['open']);
-
 		} elseif (!empty($options['content'])) {
 			if (!isset($this->settings['marker']['infoWindow'])) {
 				$this->settings['marker']['infoWindow'] = $this->addInfoWindow();
@@ -1198,7 +1198,7 @@ var iconShape = {
 		return '{' . implode(', ', $res) . '}';
 	}
 
-/** Google Maps Link **/
+	/** Google Maps Link **/
 
 	/**
 	 * Returns a maps.google link
@@ -1248,9 +1248,9 @@ var iconShape = {
 		return $url . implode('&', $urlArray);
 	}
 
-/** STATIC MAP **/
+	/** STATIC MAP **/
 
-/** http://maps.google.com/staticmap?center=40.714728,-73.998672&zoom=14&size=512x512&maptype=mobile&markers=40.702147,-74.015794,blues%7C40.711614,-74.012318,greeng%7C40.718217,-73.998284,redc&mobile=true&sensor=false **/
+	/** http://maps.google.com/staticmap?center=40.714728,-73.998672&zoom=14&size=512x512&maptype=mobile&markers=40.702147,-74.015794,blues%7C40.711614,-74.012318,greeng%7C40.718217,-73.998284,redc&mobile=true&sensor=false **/
 
 	/**
 	 * Create a plain image map
@@ -1330,7 +1330,7 @@ var iconShape = {
 			//'type' => null,
 		));
 		// do we want zoom to auto-correct itself?
-		if (!isset($options['zoom']) && !empty($mapOptions['markers'])|| !empty($mapOptions['paths']) || !empty($mapOptions['visible'])) {
+		if (!isset($options['zoom']) && !empty($mapOptions['markers']) || !empty($mapOptions['paths']) || !empty($mapOptions['visible'])) {
 			$options['zoom'] = 'auto';
 		}
 
@@ -1531,7 +1531,6 @@ var iconShape = {
 
 		//TODO: shortcut? only possible if no custom params!
 		if ($verbose) {
-
 		}
 		// long: markers=styles1|address1&markers=styles2|address2&...
 		// short: markers=styles,address1|address2|address3|...
@@ -1567,7 +1566,7 @@ var iconShape = {
 		return $color;
 	}
 
-/** TODOS/EXP **/
+	/** TODOS/EXP **/
 
 /*
 TODOS:
@@ -1592,7 +1591,6 @@ http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/
 	public function geocoder() {
 		$js = 'var geocoder = new google.maps.Geocoder();';
 		//TODO
-
 	}
 
 	/**

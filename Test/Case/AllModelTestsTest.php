@@ -15,4 +15,5 @@ class AllModelTestsTest extends PHPUnit_Framework_TestSuite {
 		$Suite->addTestDirectory($path . DS . 'Model');
 		return $Suite;
 	}
+
 }

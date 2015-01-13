@@ -91,7 +91,6 @@ $config['Localization'] = array(
 $config['LocalizationPattern'] = array(
 );
 
-
 $config['AutoLogin'] = array(
 );
 

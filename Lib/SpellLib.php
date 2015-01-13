@@ -49,7 +49,7 @@ class SpellLib {
 		$options = array_merge($defaults, $options);
 
 		if (!isset($this->_engines[$options['engine']])) {
-			throw new InternalErrorException(sprintf('Engine %s not found', (string) $options['engine']));
+			throw new InternalErrorException(sprintf('Engine %s not found', (string)$options['engine']));
 		}
 		$engineFolder = $this->_engines[$options['engine']];
 		enchant_broker_set_dict_path($this->_Broker, $options['engine'], $options['path'] . $engineFolder . DS);
@@ -66,7 +66,7 @@ class SpellLib {
 	}
 
 	public function listBrokers() {
-		 return enchant_broker_describe($this->_Broker);
+		return enchant_broker_describe($this->_Broker);
 	}
 
 	/**
