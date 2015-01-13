@@ -261,16 +261,20 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 /**
  * Assert that the Location header is correct.
  *
- * @param string|array $url The url you expected the client to go to. This
+ * @param string|array|null $url The URL you expected the client to go to. This
  *   can either be a string URL or an array compatible with Router::url()
  * @param string $message The failure message that will be appended to the generated message.
  * @return void
  */
-	public function assertRedirect($url, $message = '') {
+	public function assertRedirect($url = null, $message = '') {
 		if (!$this->_response) {
 			$this->fail('No response set, cannot assert location header. ' . $message);
 		}
 		$result = $this->_response->header();
+		if ($url === null) {
+			$this->assertTrue(!empty($result['Location']), $message);
+			return;
+		}
 		if (empty($result['Location'])) {
 			$this->fail('No location header set. ' . $message);
 		}
