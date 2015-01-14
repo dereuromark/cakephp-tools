@@ -15,14 +15,8 @@ class Component extends CakeComponent {
 	 */
 	public $Controller;
 
-	/**
-	 * Component::beforeFilter()
-	 *
-	 * @param \Cake\Event\Event $event
-	 * @return void
-	 */
-	public function beforeFilter(Event $event) {
-		$this->Controller = $event->subject();
+	public function initialize(array $config) {
+		$this->Controller = $this->_registry->getController();
 	}
 
 }
