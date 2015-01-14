@@ -30,8 +30,6 @@ class ComponentTest extends TestCase {
  */
 	public function testBeforeFilter() {
 		$Component = new Component($this->ComponentRegistry);
-		$event = new Event('Controller.startup', $this->Controller);
-		$Component->beforeFilter($event);
 
 		$this->assertInstanceOf('Cake\Controller\Controller', $Component->Controller);
 	}
