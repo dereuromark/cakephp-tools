@@ -106,7 +106,6 @@ class FlashComponentTest extends TestCase {
 			->will($this->returnValue(true));
 
 		$event = new Event('Controller.startup', $this->Controller);
-		$this->Controller->Flash->beforeFilter($event);
 		$this->Controller->Flash->beforeRender($event);
 
 		$result = $this->Controller->response->header();
