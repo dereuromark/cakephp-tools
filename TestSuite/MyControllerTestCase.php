@@ -9,6 +9,21 @@ App::uses('Router', 'Routing');
 class MyControllerTestCase extends ControllerTestCase {
 
 	/**
+	 * Constructor.
+	 *
+	 * Overwrite to default headers in case of non-cli (webtestrunner)
+	 *
+	 * @param string $base The base directory for the application. Writes `App.base` to Configure.
+	 */
+	public function __construct($base = false) {
+		if (php_sapi_name() !== 'cli') {
+			$_SERVER['HTTP_REFERER'] = '';
+		}
+
+		parent::__construct($base);
+	}
+
+	/**
 	 * Overwrite to fix issue that it always defaults to POST.
 	 * That should be GET - which it now is.
 	 *
