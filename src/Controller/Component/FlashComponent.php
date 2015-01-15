@@ -45,6 +45,7 @@ class FlashComponent extends Component {
 			(array)$this->Controller->request->session()->consume('FlashMessage'),
 			(array)Configure::consume('FlashMessage')
 		);
+
 		// The header can be read with JavaScript and a custom Message can be displayed
 		$this->Controller->response->header($headerKey, json_encode($ajaxMessages));
 	}
