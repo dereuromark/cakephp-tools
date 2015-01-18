@@ -2,6 +2,9 @@
 
 namespace Tools\Utility;
 
+/**
+ * @deprecated ? Should be in the core now
+ */
 class Language {
 
 	public static function parseLanguageList($languageList = null) {
