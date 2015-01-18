@@ -8,6 +8,8 @@ namespace Tools\Utility;
  * codes and their language names.
  *
  * //TODO: Make locale and localeFallback always iso2-letter-codes (deu => de) as per 3.x convention.
+ *
+ * @deprecated Only for upgrading and matching. Use intl PHP libs directly instead.
  */
 class L10n {
 
