@@ -1,9 +1,10 @@
 <?php
 
 App::uses('AjaxComponent', 'Tools.Controller/Component');
-App::uses('Component', 'Controller');
 App::uses('Controller', 'Controller');
 App::uses('AppModel', 'Model');
+App::uses('CakeRequest', 'Network');
+App::uses('CakeResponse', 'Network');
 
 /**
  */
@@ -15,7 +16,7 @@ class AjaxComponentTest extends CakeTestCase {
 		parent::setUp();
 		Configure::delete('Ajax');
 
-		$this->Controller = new AjaxComponentTestController(new CakeRequest, new CakeResponse);
+		$this->Controller = new AjaxComponentTestController(new CakeRequest(), new CakeResponse());
 		$this->Controller->constructClasses();
 	}
 
