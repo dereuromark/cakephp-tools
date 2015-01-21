@@ -296,9 +296,9 @@ class Table extends CakeTable {
 	}
 
 	/**
-	 * Set the default ordering as 2.x shim
+	 * Sets the default ordering as 2.x shim.
 	 *
-	 * If you don't want that, don't call parent when overwriting it in extending classses.
+	 * If you don't want that, don't call parent when overwriting it in extending classes.
 	 *
 	 * @param Event $event
 	 * @param Query $query
@@ -307,7 +307,8 @@ class Table extends CakeTable {
 	 * @return Query
 	 */
 	public function beforeFind(Event $event, Query $query, $options, $primary) {
-		if ($query->clause('order') === null && !empty($this->order)) {
+		$order = $query->clause('order');
+		if (($order === null || !count($order)) && !empty($this->order)) {
 			$query->order($this->order);
 		}
 
