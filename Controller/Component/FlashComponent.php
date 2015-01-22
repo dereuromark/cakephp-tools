@@ -1,6 +1,8 @@
 <?php
 
 App::uses('Component', 'Controller');
+App::uses('Configure', 'Core');
+App::uses('Inflector', 'Utility');
 
 /**
  * A flash component to enhance flash message support with stackable messages, both
