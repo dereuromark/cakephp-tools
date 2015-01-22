@@ -5,13 +5,25 @@ App::uses('Hash', 'Utility');
 
 /**
  * Flash helper
+ *
+ * Partial backport from the 3.x one to ease migration.
  */
 class FlashHelper extends AppHelper {
 
 	public $helpers = array('Session');
 
+	protected $_defaultConfig = array(
+		'useElements' => false, //Set to true to use 3.x flash message rendering via Elements
+	);
+
+	public function __construct(View $View, $settings = array()) {
+		$defaults = (array)Configure::read('Flash') + $this->_defaultConfig;
+		$settings += $defaults;
+		parent::__construct($View, $settings);
+	}
+
 	/**
-	 * Display all flash messages.
+	 * Displays all flash messages.
 	 *
 	 * TODO: export div wrapping method (for static messaging on a page)
 	 *
@@ -67,16 +79,20 @@ class FlashHelper extends AppHelper {
 	 * Outputs a single flash message directly.
 	 * Note that this does not use the Session.
 	 *
-	 * @param string $message String to output.
+	 * $escape is deprecated as it is already part of the message
+	 *
+	 * @param array|string $message String to output.
 	 * @param string $type Type (success, warning, error, info)
-	 * @param bool $escape Set to false to disable escaping.
+	 * @param bool|null $escape Set to false to disable escaping.
 	 * @return string HTML
 	 */
-	public function message($msg, $type = 'info', $escape = true) {
-		$html = '<div class="flash-messages flashMessages">';
-		if ($escape) {
-			$msg = h($msg);
+	public function message($msg, $type = 'info', $escape = null) {
+		if ($escape === null && is_array($msg) && !isset($msg['escape'])) {
+			$msg['escape'] = true;
 		}
+		$escape = is_array($msg) && isset($msg['escape']) ? $msg['escape'] : true;
+
+		$html = '<div class="flash-messages flashMessages">';
 		$html .= $this->_message($msg, $type);
 		$html .= '</div>';
 		return $html;
@@ -90,21 +106,30 @@ class FlashHelper extends AppHelper {
 	 * @return string
 	 */
 	protected function _message($msg, $type) {
-		if (!empty($msg)) {
-			return '<div class="message' . (!empty($type) ? ' ' . $type : '') . '">' . $msg . '</div>';
+		if (!is_array($msg)) {
+			if (!empty($msg)) {
+				return '<div class="message' . (!empty($type) ? ' ' . $type : '') . '">' . $msg . '</div>';
+			}
+			return '';
 		}
-		return '';
+		$msg['type'] = $type;
+		return $this->_View->element($msg['element'], $msg);
 	}
 
 	/**
-	 * Add a message on the fly
+	 * Adds a message on the fly.
+	 *
+	 * Only works with static Configure configuration.
+	 *
+	 * This method might not be in 3.x branch anymore, since the overhead of maintaining
+	 * this static method is not worth it. Try switching to addMessage instead().
 	 *
 	 * @param string $msg
 	 * @param string $class
 	 * @return void
 	 */
-	public function addTransientMessage($msg, $class = null) {
-		FlashComponent::transientMessage($msg, $class);
+	public function addTransientMessage($msg, $options = array()) {
+		FlashComponent::transientMessage($msg, $options);
 	}
 
 	/**
@@ -115,8 +140,8 @@ class FlashHelper extends AppHelper {
 	 * @return void
 	 * @deprecated Use addFlashMessage() instead
 	 */
-	public function transientFlashMessage($msg, $class = null) {
-		$this->addFlashMessage($msg, $class);
+	public function transientFlashMessage($msg, $options = array()) {
+		$this->addFlashMessage($msg, $options);
 	}
 
 }

@@ -59,6 +59,31 @@ class FlashComponentTest extends CakeTestCase {
 		$this->assertTrue(isset($res['info'][0]) && $res['info'][0] === 'efg');
 	}
 
+	/**
+	 * FlashComponentTest::testFlashMessage()
+	 *
+	 * @return void
+	 */
+	public function testFlashMessageComplex() {
+		$this->Controller->Flash->settings['useElements'] = true;
+		$this->Controller->Flash->message('efg', array('escape' => true, 'element' => 'PluginName.Baz', 'params' => array('foo' => 'bar')));
+
+		$res = $this->Controller->Session->read('messages');
+		$this->assertTrue(!empty($res));
+		$expected = array(
+			'message' => 'efg',
+			'params' => array('foo' => 'bar'),
+			'escape' => true,
+			'element' => 'PluginName.Flash/Baz'
+		);
+		$this->assertSame($expected, $res['info'][0]);
+	}
+
+	/**
+	 * FlashComponentTest::testMagicMessage()
+	 *
+	 * @return void
+	 */
 	public function testMagicMessage() {
 		$this->Controller->Flash->success('s');
 		$this->Controller->Flash->error('e');
