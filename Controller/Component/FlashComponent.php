@@ -171,7 +171,7 @@ class FlashComponent extends Component {
 		$options += $defaults;
 
 		$message = array(
-			'message' => $options['escape'] ? h($message) : $message,
+			'message' => $message,
 			'params' => $options['params'],
 			'escape' => $options['escape']
 		);
