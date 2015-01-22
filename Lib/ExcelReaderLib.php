@@ -1,5 +1,5 @@
 <?php
-App::import('Vendor', 'Tools.SpreadsheetExcelReader', array('file' => 'SpreadsheetExcelReader' . DS . 'SpreadsheetExcelReader.php'));
+App::import('Vendor', 'Tools.SpreadsheetExcelReader', ['file' => 'SpreadsheetExcelReader' . DS . 'SpreadsheetExcelReader.php']);
 if (!class_exists('SpreadsheetExcelReader')) {
 	throw new CakeException('Cannot load SpreadsheetExcelReader class');
 }

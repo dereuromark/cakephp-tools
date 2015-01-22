@@ -40,8 +40,8 @@ class JsonableBehavior extends ModelBehavior {
 	 * //TODO: json input/ouput directly, clean
 	 * @var array
 	 */
-	protected $_defaultConfig = array(
-		'fields' => array(), // empty => autodetect - only works with array!
+	protected $_defaultConfig = [
+		'fields' => [], // empty => autodetect - only works with array!
 		'input' => 'array', // json, array, param, list (param/list only works with specific fields)
 		'output' => 'array', // json, array, param, list (param/list only works with specific fields)
 		'separator' => '|', // only for param or list
@@ -51,19 +51,19 @@ class JsonableBehavior extends ModelBehavior {
 		'clean' => true, // only for param or list (autoclean values on insert)
 		'sort' => false, // only for list
 		'unique' => true, // only for list (autoclean values on insert),
-		'map' => array(), // map on a different DB field
-		'encodeParams' => array( // params for json_encode
+		'map' => [], // map on a different DB field
+		'encodeParams' => [ // params for json_encode
 			'options' => 0,
 			'depth' => 512,
-		),
-		'decodeParams' => array( // params for json_decode
+		],
+		'decodeParams' => [ // params for json_decode
 			'assoc' => false, // useful when working with multidimensional arrays
 			'depth' => 512,
 			'options' => 0
-		)
-	);
+		]
+	];
 
-	public function setup(Model $Model, $config = array()) {
+	public function setup(Model $Model, $config = []) {
 		$this->settings[$Model->alias] = Hash::merge($this->_defaultConfig, $config);
 		//extract($this->settings[$Model->alias]);
 		if (!is_array($this->settings[$Model->alias]['fields'])) {
@@ -124,7 +124,7 @@ class JsonableBehavior extends ModelBehavior {
 	 * @param Model $Model
 	 * @return bool Success
 	 */
-	public function beforeSave(Model $Model, $options = array()) {
+	public function beforeSave(Model $Model, $options = []) {
 		$data = $Model->data[$Model->alias];
 		$usedFields = $this->settings[$Model->alias]['fields'];
 		$mappedFields = $this->settings[$Model->alias]['map'];
@@ -132,7 +132,7 @@ class JsonableBehavior extends ModelBehavior {
 			$mappedFields = $usedFields;
 		}
 
-		$fields = array();
+		$fields = [];
 
 		foreach ($mappedFields as $index => $map) {
 			if (empty($map) || $map == $usedFields[$index]) {
@@ -220,7 +220,7 @@ class JsonableBehavior extends ModelBehavior {
 	 * array() => param1:value1|param2:value2|...
 	 */
 	public function _toParam(Model $Model, $val) {
-		$res = array();
+		$res = [];
 		foreach ($val as $key => $v) {
 			$res[] = $key . $this->settings[$Model->alias]['keyValueSeparator'] . $v;
 		}
@@ -232,7 +232,7 @@ class JsonableBehavior extends ModelBehavior {
 		$rightBound = $this->settings[$Model->alias]['rightBound'];
 		$separator = $this->settings[$Model->alias]['separator'];
 
-		$res = array();
+		$res = [];
 		$pieces = String::tokenize($val, $separator, $leftBound, $rightBound);
 		foreach ($pieces as $piece) {
 			$subpieces = String::tokenize($piece, $this->settings[$Model->alias]['keyValueSeparator'], $leftBound, $rightBound);

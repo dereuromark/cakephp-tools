@@ -9,7 +9,7 @@ class NamedScopeBehaviorTest extends MyCakeTestCase {
 
 	public $Comment;
 
-	public $fixtures = array('core.comment', 'core.user');
+	public $fixtures = ['core.comment', 'core.user'];
 
 	public function setUp() {
 		parent::setUp();
@@ -17,7 +17,7 @@ class NamedScopeBehaviorTest extends MyCakeTestCase {
 		$this->NamedScopeBehavior = new NamedScopeBehavior();
 
 		$this->Comment = ClassRegistry::init('Comment');
-		$this->Comment->bindModel(array('belongsTo' => array('User')), false);
+		$this->Comment->bindModel(['belongsTo' => ['User']], false);
 		$this->Comment->displayField = 'comment';
 		$this->Comment->Behaviors->load('Tools.NamedScope');
 		$this->Comment->User->Behaviors->load('Tools.NamedScope');
@@ -37,16 +37,16 @@ class NamedScopeBehaviorTest extends MyCakeTestCase {
 		$result = $this->Comment->scope('active');
 		$this->assertNull($result);
 
-		$this->Comment->scope('active', array('published' => 'Y'));
+		$this->Comment->scope('active', ['published' => 'Y']);
 		$result = $this->Comment->scope('active');
-		$this->assertEquals(array('published' => 'Y'), $result);
+		$this->assertEquals(['published' => 'Y'], $result);
 
-		$this->Comment->scope('active', array('published' => 'Y', 'active' => 1));
+		$this->Comment->scope('active', ['published' => 'Y', 'active' => 1]);
 		$result = $this->Comment->scope('active');
-		$this->assertEquals(array('published' => 'Y', 'active' => 1), $result);
+		$this->assertEquals(['published' => 'Y', 'active' => 1], $result);
 
 		$result = $this->Comment->scope();
-		$this->assertEquals(array('active' => array('published' => 'Y', 'active' => 1)), $result);
+		$this->assertEquals(['active' => ['published' => 'Y', 'active' => 1]], $result);
 	}
 
 	/**
@@ -57,10 +57,10 @@ class NamedScopeBehaviorTest extends MyCakeTestCase {
 	public function testBasic() {
 		$before = $this->Comment->find('count');
 
-		$this->Comment->scope('active', array('published' => 'Y'));
-		$options = array(
-			'scope' => array('active')
-		);
+		$this->Comment->scope('active', ['published' => 'Y']);
+		$options = [
+			'scope' => ['active']
+		];
 		$after = $this->Comment->find('count', $options);
 		$this->assertTrue($before > $after);
 		$this->assertSame(5, $after);
@@ -74,13 +74,13 @@ class NamedScopeBehaviorTest extends MyCakeTestCase {
 	public function testCrossModel() {
 		$before = $this->Comment->find('count');
 
-		$this->Comment->scope('active', array('Comment.published' => 'Y'));
-		$this->Comment->User->scope('senior', array('User.id <' => '3'));
+		$this->Comment->scope('active', ['Comment.published' => 'Y']);
+		$this->Comment->User->scope('senior', ['User.id <' => '3']);
 
-		$options = array(
-			'contain' => array('User'),
-			'scope' => array('Comment.active', 'User.senior')
-		);
+		$options = [
+			'contain' => ['User'],
+			'scope' => ['Comment.active', 'User.senior']
+		];
 		$after = $this->Comment->find('count', $options);
 		$this->assertTrue($before > $after);
 		$this->assertSame(4, $after);
@@ -92,16 +92,16 @@ class NamedScopeBehaviorTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testCrossModelWithAttributeScope() {
-		$this->Comment->scopes = array('active' => array('Comment.published' => 'Y'));
-		$this->Comment->User->scopes = array('senior' => array('User.id <' => '2'));
+		$this->Comment->scopes = ['active' => ['Comment.published' => 'Y']];
+		$this->Comment->User->scopes = ['senior' => ['User.id <' => '2']];
 
 		$this->Comment->Behaviors->load('Tools.NamedScope');
 		$this->Comment->User->Behaviors->load('Tools.NamedScope');
 
-		$options = array(
-			'contain' => array('User'),
-			'scope' => array('Comment.active', 'User.senior')
-		);
+		$options = [
+			'contain' => ['User'],
+			'scope' => ['Comment.active', 'User.senior']
+		];
 		$after = $this->Comment->find('count', $options);
 		$this->assertSame(2, $after);
 	}
@@ -112,32 +112,32 @@ class NamedScopeBehaviorTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testScopedFind() {
-		$this->Comment->scopes = array('active' => array('Comment.published' => 'Y'));
-		$this->Comment->User->scopes = array('senior' => array('User.id <' => '2'));
+		$this->Comment->scopes = ['active' => ['Comment.published' => 'Y']];
+		$this->Comment->User->scopes = ['senior' => ['User.id <' => '2']];
 
 		$this->Comment->Behaviors->load('Tools.NamedScope');
 		$this->Comment->User->Behaviors->load('Tools.NamedScope');
 
-		$this->Comment->scopedFinds = array(
-			'activeAndSenior' => array(
+		$this->Comment->scopedFinds = [
+			'activeAndSenior' => [
 				'name' => 'Active and Senior',
-				'find' => array(
-					'virtualFields' => array(
+				'find' => [
+					'virtualFields' => [
 						//'fullname' => "CONCAT(User.id, '-', User.user)"
-					),
-					'options' => array(
-						'scope' => array('Comment.active', 'User.senior'),
-						'contain' => array('User'),
-						'fields' => array('User.id', 'User.user'),
-						'order' => array('User.user' => 'ASC'),
-					),
-				)
-			)
-		);
+					],
+					'options' => [
+						'scope' => ['Comment.active', 'User.senior'],
+						'contain' => ['User'],
+						'fields' => ['User.id', 'User.user'],
+						'order' => ['User.user' => 'ASC'],
+					],
+				]
+			]
+		];
 		$result = $this->Comment->scopedFind('activeAndSenior');
 		$this->assertSame(2, count($result));
 
-		$result = $this->Comment->scopedFind('activeAndSenior', array('type' => 'count'));
+		$result = $this->Comment->scopedFind('activeAndSenior', ['type' => 'count']);
 		$this->assertSame(2, $result);
 	}
 
@@ -150,33 +150,33 @@ class NamedScopeBehaviorTest extends MyCakeTestCase {
 		$this->db = ConnectionManager::getDataSource('test');
 		$this->skipIf(!($this->db instanceof Mysql), 'The virtualFields test is only compatible with Mysql.');
 
-		$this->Comment->scopes = array('active' => array('Comment.published' => 'Y'));
-		$this->Comment->User->scopes = array('senior' => array('User.id <' => '2'));
+		$this->Comment->scopes = ['active' => ['Comment.published' => 'Y']];
+		$this->Comment->User->scopes = ['senior' => ['User.id <' => '2']];
 
 		$this->Comment->Behaviors->load('Tools.NamedScope');
 		$this->Comment->User->Behaviors->load('Tools.NamedScope');
 
-		$this->Comment->scopedFinds = array(
-			'activeAndSenior' => array(
+		$this->Comment->scopedFinds = [
+			'activeAndSenior' => [
 				'name' => 'Active and Senior',
-				'find' => array(
-					'virtualFields' => array(
+				'find' => [
+					'virtualFields' => [
 						'fullname' => "CONCAT(User.id, '-', User.user)"
-					),
-					'options' => array(
-						'scope' => array('Comment.active', 'User.senior'),
-						'contain' => array('User'),
-						'fields' => array('User.id', 'fullname'),
-						'order' => array('fullname' => 'ASC'),
-					),
-				)
-			)
-		);
+					],
+					'options' => [
+						'scope' => ['Comment.active', 'User.senior'],
+						'contain' => ['User'],
+						'fields' => ['User.id', 'fullname'],
+						'order' => ['fullname' => 'ASC'],
+					],
+				]
+			]
+		];
 		$result = $this->Comment->scopedFind('activeAndSenior');
 		$this->assertSame(2, count($result));
 
 		$scopedFinds = $this->Comment->scopedFinds();
-		$this->assertSame(array('activeAndSenior' => 'Active and Senior'), $scopedFinds);
+		$this->assertSame(['activeAndSenior' => 'Active and Senior'], $scopedFinds);
 	}
 
 	/**
@@ -185,29 +185,29 @@ class NamedScopeBehaviorTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testScopedFindWithLimit() {
-		$this->Comment->scopes = array('active' => array('Comment.published' => 'Y'));
-		$this->Comment->User->scopes = array('senior' => array('User.id <' => '2'));
+		$this->Comment->scopes = ['active' => ['Comment.published' => 'Y']];
+		$this->Comment->User->scopes = ['senior' => ['User.id <' => '2']];
 
 		$this->Comment->Behaviors->load('Tools.NamedScope');
 		$this->Comment->User->Behaviors->load('Tools.NamedScope');
 
-		$this->Comment->scopedFinds = array(
-			'activeAndSenior' => array(
+		$this->Comment->scopedFinds = [
+			'activeAndSenior' => [
 				'name' => 'Active and Senior',
-				'find' => array(
-					'virtualFields' => array(
+				'find' => [
+					'virtualFields' => [
 						'fullname' => "CONCAT(User.id, '-', User.user)"
-					),
-					'options' => array(
-						'scope' => array('Comment.active', 'User.senior'),
-						'contain' => array('User'),
-						'fields' => array('User.id', 'fullname'),
-						'order' => array('fullname' => 'ASC'),
-					),
-				)
-			)
-		);
-		$result = $this->Comment->scopedFind('activeAndSenior', array('options' => array('limit' => 1)));
+					],
+					'options' => [
+						'scope' => ['Comment.active', 'User.senior'],
+						'contain' => ['User'],
+						'fields' => ['User.id', 'fullname'],
+						'order' => ['fullname' => 'ASC'],
+					],
+				]
+			]
+		];
+		$result = $this->Comment->scopedFind('activeAndSenior', ['options' => ['limit' => 1]]);
 		$this->assertSame(1, count($result));
 	}
 
@@ -217,41 +217,41 @@ class NamedScopeBehaviorTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testScopedFindOverwrite() {
-		$this->Comment->scopes = array('active' => array('Comment.published' => 'Y'));
+		$this->Comment->scopes = ['active' => ['Comment.published' => 'Y']];
 
 		$this->Comment->Behaviors->load('Tools.NamedScope');
 		$this->Comment->User->Behaviors->load('Tools.NamedScope');
-		$this->Comment->scopedFinds = array(
-			'active' => array(
+		$this->Comment->scopedFinds = [
+			'active' => [
 				'name' => 'Active Comentators',
-				'find' => array(
+				'find' => [
 					'type' => 'all',
-					'virtualFields' => array(
+					'virtualFields' => [
 						'fullname' => "CONCAT(User.id, '-', User.user)"
-					),
-					'options' => array(
-						'scope' => array('Comment.active'),
-						'contain' => array('User'),
-						'fields' => array('User.id', 'fullname'),
-						'order' => array('fullname' => 'ASC'),
+					],
+					'options' => [
+						'scope' => ['Comment.active'],
+						'contain' => ['User'],
+						'fields' => ['User.id', 'fullname'],
+						'order' => ['fullname' => 'ASC'],
 						'limit' => 5
-					)
-				)
-			)
-		);
-		$result = $this->Comment->scopedFind('active', array('options' => array('limit' => 2)));
+					]
+				]
+			]
+		];
+		$result = $this->Comment->scopedFind('active', ['options' => ['limit' => 2]]);
 		$this->assertSame(2, count($result));
 
-		$result = $this->Comment->scopedFind('active', array('type' => 'count'));
+		$result = $this->Comment->scopedFind('active', ['type' => 'count']);
 		$this->assertSame(5, $result);
 
-		$result = $this->Comment->scopedFind('active', array('type' => 'first', 'options' => array('fields' => array('User.id', 'User.created'), 'order' => array('User.id' => 'DESC'))));
-		$expected = array(
-			'User' => array(
+		$result = $this->Comment->scopedFind('active', ['type' => 'first', 'options' => ['fields' => ['User.id', 'User.created'], 'order' => ['User.id' => 'DESC']]]);
+		$expected = [
+			'User' => [
 				'id' => 4,
 				'created' => '2007-03-17 01:22:23'
-			)
-		);
+			]
+		];
 		$this->assertEquals($expected, $result);
 	}
 

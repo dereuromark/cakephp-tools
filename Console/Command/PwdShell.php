@@ -16,7 +16,7 @@ class PwdShell extends AppShell {
 	 * @return void
 	 */
 	public function hash() {
-		$components = array('Tools.AuthExt', 'Auth');
+		$components = ['Tools.AuthExt', 'Auth'];
 
 		$class = null;
 		foreach ($components as $component) {

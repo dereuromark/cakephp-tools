@@ -10,7 +10,7 @@ App::uses('AppModel', 'Model');
  */
 class FlashComponentTest extends CakeTestCase {
 
-	public $fixtures = array('core.cake_session');
+	public $fixtures = ['core.cake_session'];
 
 	public function setUp() {
 		parent::setUp();
@@ -66,16 +66,16 @@ class FlashComponentTest extends CakeTestCase {
 	 */
 	public function testFlashMessageComplex() {
 		$this->Controller->Flash->settings['useElements'] = true;
-		$this->Controller->Flash->message('efg', array('escape' => true, 'element' => 'PluginName.Baz', 'params' => array('foo' => 'bar')));
+		$this->Controller->Flash->message('efg', ['escape' => true, 'element' => 'PluginName.Baz', 'params' => ['foo' => 'bar']]);
 
 		$res = $this->Controller->Session->read('messages');
 		$this->assertTrue(!empty($res));
-		$expected = array(
+		$expected = [
 			'message' => 'efg',
-			'params' => array('foo' => 'bar'),
+			'params' => ['foo' => 'bar'],
 			'escape' => true,
 			'element' => 'PluginName.Flash/Baz'
-		);
+		];
 		$this->assertSame($expected, $res['info'][0]);
 	}
 
@@ -88,9 +88,9 @@ class FlashComponentTest extends CakeTestCase {
 		$this->Controller->Flash->settings['useElements'] = true;
 		$this->Controller->Flash->settings['typeToElement'] = true;
 		$this->Controller->Flash->settings['plugin'] = 'Tools';
-		$this->Controller->Flash->message('INFO', array('escape' => true, 'params' => array('foo' => 'bar')));
-		$this->Controller->Flash->success('OK', array('escape' => true, 'plugin' => 'BarBaz', 'params' => array('foo' => 'bar')));
-		$this->Controller->Flash->error('NO', array('escape' => true, 'plugin' => null, 'params' => array('foo' => 'bar')));
+		$this->Controller->Flash->message('INFO', ['escape' => true, 'params' => ['foo' => 'bar']]);
+		$this->Controller->Flash->success('OK', ['escape' => true, 'plugin' => 'BarBaz', 'params' => ['foo' => 'bar']]);
+		$this->Controller->Flash->error('NO', ['escape' => true, 'plugin' => null, 'params' => ['foo' => 'bar']]);
 
 		$res = $this->Controller->Session->read('messages');
 		$this->assertTrue(!empty($res));
@@ -113,10 +113,10 @@ class FlashComponentTest extends CakeTestCase {
 		$this->Controller->Flash->warning('w');
 
 		$res = $this->Controller->Session->read('messages');
-		$expected = array(
-			'success' => array('s'),
-			'error' => array('e'),
-			'warning' => array('w'));
+		$expected = [
+			'success' => ['s'],
+			'error' => ['e'],
+			'warning' => ['w']];
 		$this->assertSame($expected, $res);
 	}
 
@@ -125,11 +125,11 @@ class FlashComponentTest extends CakeTestCase {
 // Use Controller instead of AppController to avoid conflicts
 class FlashComponentTestController extends Controller {
 
-	public $components = array('Session', 'Tools.Flash');
+	public $components = ['Session', 'Tools.Flash'];
 
 	public $failed = false;
 
-	public $testHeaders = array();
+	public $testHeaders = [];
 
 	public function fail() {
 		$this->failed = true;

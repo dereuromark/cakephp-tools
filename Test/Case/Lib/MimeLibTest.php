@@ -106,16 +106,16 @@ class MimeLibTest extends MyCakeTestCase {
 		$core = $this->TestCakeResponse->getMimeTypes();
 		$plugin = $this->TestMime->getMimeTypes();
 
-		$diff = array(
-			'coreonly' => array(),
-			'pluginonly' => array(),
-			'modified' => array()
-		);
+		$diff = [
+			'coreonly' => [],
+			'pluginonly' => [],
+			'modified' => []
+		];
 		foreach ($core as $key => $value) {
 			if (!isset($plugin[$key])) {
 				$diff['coreonly'][$key] = $value;
 			} elseif ($value !== $plugin[$key]) {
-				$diff['modified'][$key] = array('was' => $value, 'is' => $plugin[$key]);
+				$diff['modified'][$key] = ['was' => $value, 'is' => $plugin[$key]];
 			}
 			unset($plugin[$key]);
 		}

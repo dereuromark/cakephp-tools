@@ -16,12 +16,12 @@ App::uses('Utility', 'Tools.Utility');
  */
 class CaptchaBehavior extends ModelBehavior {
 
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'minTime' => CAPTCHA_MIN_TIME,
 		'maxTime' => CAPTCHA_MAX_TIME,
 		'log' => false, // Log errors
 		'hashType' => null,
-	);
+	];
 
 	protected $error = '';
 
@@ -34,7 +34,7 @@ class CaptchaBehavior extends ModelBehavior {
 	 * @param array $config
 	 * @return void
 	 */
-	public function setup(Model $Model, $config = array()) {
+	public function setup(Model $Model, $config = []) {
 		$defaults = $this->_defaultConfig + CaptchaLib::$defaults;
 		$this->Model = $Model;
 
@@ -64,7 +64,7 @@ class CaptchaBehavior extends ModelBehavior {
 	 * @param array $options
 	 * @return bool Success
 	 */
-	public function beforeValidate(Model $Model, $options = array()) {
+	public function beforeValidate(Model $Model, $options = []) {
 		parent::beforeValidate($Model, $options);
 		if (!empty($this->Model->whitelist)) {
 			$this->Model->whitelist = array_merge($Model->whitelist, $this->fields());
@@ -77,7 +77,7 @@ class CaptchaBehavior extends ModelBehavior {
 			$this->Model->invalidate('captcha', __d('tools', 'captchaResultTooFast'));
 		} elseif (!$this->_validateCaptchaMaxTime($Model->data[$Model->alias])) {
 			$this->Model->invalidate('captcha', __d('tools', 'captchaResultTooLate'));
-		} elseif (in_array($this->settings[$Model->alias]['type'], array('active', 'both')) && !$this->_validateCaptcha($Model->data[$Model->alias])) {
+		} elseif (in_array($this->settings[$Model->alias]['type'], ['active', 'both']) && !$this->_validateCaptcha($Model->data[$Model->alias])) {
 			$this->Model->invalidate('captcha', __d('tools', 'captchaResultIncorrect'));
 		}
 
@@ -93,7 +93,7 @@ class CaptchaBehavior extends ModelBehavior {
 	 * @return array
 	 */
 	public function fields() {
-		$list = array('captcha', 'captcha_hash', 'captcha_time');
+		$list = ['captcha', 'captcha_hash', 'captcha_time'];
 		if ($this->settings[$this->Model->alias]['dummyField']) {
 			$list[] = $this->settings[$this->Model->alias]['dummyField'];
 		}

@@ -191,7 +191,7 @@ define('CHAR_DOUBLE_RPIME', '&#8243;'); # ? (seconds)
  */
 if (!function_exists('slug')) {
 	function slug($string, $separator = null, $low = true) {
-		$additionalSlugElements = array(
+		$additionalSlugElements = [
 			'/º|°/' => 0,
 			'/¹/' => 1,
 			'/²/' => 2,
@@ -205,7 +205,7 @@ if (!function_exists('slug')) {
 			'/€/' => 'EUR',
 			'/™/' => 'TM',
 			// more missing?
-		);
+		];
 
 		if ($separator === null) {
 			$separator = defined('SEO_SEPARATOR') ? SEO_SEPARATOR : '-';
@@ -429,15 +429,15 @@ function extractPathInfo($type = null, $filename, $fromUrl = false) {
  * - class, showHtml, showFrom, jquery, returns, debug
  * @return string HTML
  */
-function pre($var, $collapsedAndExpandable = false, $options = array()) {
-	$defaults = array(
+function pre($var, $collapsedAndExpandable = false, $options = []) {
+	$defaults = [
 		'class' => 'cake-debug',
 		'showHtml' => false, // Escape < and > (or manually escape with h() prior to calling this function)
 		'showFrom' => false, // Display file + line
 		'jquery' => null, // null => Auto - use jQuery (true/false to manually decide),
 		'returns' => false, // Use returns(),
 		'debug' => false // Show only with debug > 0
-	);
+	];
 	$options += $defaults;
 	if ($options['debug'] && !Configure::read('debug')) {
 		return '';

@@ -40,7 +40,7 @@ class CurrencyBitcoinLibTest extends MyCakeTestCase {
 		$this->assertTrue(is_numeric($is) && $is > 0 && $is < 100);
 
 		$this->debug($this->_header('rate - bitcoincharts - ' . $this->CurrencyBitcoin->settings['currency']), true);
-		$is = $this->CurrencyBitcoin->rate(array('api' => 'bitcoincharts'));
+		$is = $this->CurrencyBitcoin->rate(['api' => 'bitcoincharts']);
 		$this->debug($is);
 		$this->assertTrue(is_numeric($is) && $is > 0 && $is < 100);
 	}

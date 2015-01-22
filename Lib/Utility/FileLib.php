@@ -10,29 +10,29 @@ class FileLib extends File {
 	/**
 	 * Allowed delimiters for csv
 	 */
-	protected $allowedDelimiters = array(
+	protected $allowedDelimiters = [
 		',',
 		';',
 		'|',
 		' ',
-		'#');
+		'#'];
 
 	/**
 	 * Allowed enclosures for csv
 	 */
-	protected $allowedEnclosures = array('"', '\'');
+	protected $allowedEnclosures = ['"', '\''];
 
 	/**
 	 * Allowed tags for pattern reading
 	 */
-	protected $allowedTags = array(
+	protected $allowedTags = [
 		'<h1>',
 		'<h2>',
 		'<h3>',
 		'<p>',
 		'<b>',
 		'<a>',
-		'<img>');
+		'<img>'];
 
 	protected $defaultFormat = '%s';
 
@@ -51,10 +51,10 @@ class FileLib extends File {
 	 * @param array $options Options
 	 * @return array Content or false on failure
 	 */
-	public function readCsv($options = array(), $delimiter = null, $enclosure = null, $mode = 'rb', $force = false, $removeEmpty = false, $encode = true) {
+	public function readCsv($options = [], $delimiter = null, $enclosure = null, $mode = 'rb', $force = false, $removeEmpty = false, $encode = true) {
 		// For BC
 		if (!is_array($options)) {
-			$options = array(
+			$options = [
 				'delimiter' => $delimiter !== null ? $delimiter : ',',
 				'enclosure' => $enclosure !== null ? $enclosure : '"',
 				'mode' => $mode,
@@ -62,9 +62,9 @@ class FileLib extends File {
 				'removeEmpty' => $removeEmpty,
 				'encode' => $encode,
 				'length' => $options
-			);
+			];
 		}
-		$defaults = array(
+		$defaults = [
 			'delimiter' => ',',
 			'enclosure' => '"',
 			'escape' => "\\",
@@ -73,7 +73,7 @@ class FileLib extends File {
 			'removeEmpty' => false,
 			'encode' => true,
 			'length' => 0
-		);
+		];
 		$options += $defaults;
 		extract($options);
 
@@ -90,7 +90,7 @@ class FileLib extends File {
 			throw new InternalErrorException('Invalid delimiter');
 		}
 
-		$res = array();
+		$res = [];
 		while (true) {
 			$data = fgetcsv($this->handle, $length, $delimiter, $enclosure, $escape);
 			if ($data === false) {
@@ -126,19 +126,19 @@ class FileLib extends File {
 	 * @param array $options Options array
 	 * @return array Parsed content
 	 */
-	public static function readCsvFromString($string, $options = array()) {
+	public static function readCsvFromString($string, $options = []) {
 		$file = fopen("php://memory", "rw");
 		fwrite($file, $string);
 		fseek($file, 0);
 
-		$defaults = array(
+		$defaults = [
 			'delimiter' => ',',
 			'enclosure' => '"',
 			'escape' => "\\",
 			'eol' => "\n",
 			'encode' => false,
 			'removeEmpty' => false
-		);
+		];
 		$options += $defaults;
 		extract($options);
 
@@ -147,7 +147,7 @@ class FileLib extends File {
 			throw new InternalErrorException('Invalid delimiter');
 		}
 
-		$res = array();
+		$res = [];
 		while (true) {
 			$data = fgetcsv($file, 0, $delimiter, $enclosure, $escape);
 
@@ -213,7 +213,7 @@ class FileLib extends File {
 	 * @return array Content or false on failure
 	 */
 	public function readWithPattern($format = null, $mode = 'rb', $force = false) {
-		$res = array();
+		$res = [];
 		if ($this->open($mode, $force) === false) {
 			return false;
 		}
@@ -287,8 +287,8 @@ class FileLib extends File {
 	 * - preserve_keys (do not slug and lowercase)
 	 * @return array Result
 	 */
-	public function transfer($data, $options = array()) {
-		$res = array();
+	public function transfer($data, $options = []) {
+		$res = [];
 
 		if (empty($options['keys'])) {
 			$keys = array_shift($data);
@@ -314,7 +314,7 @@ class FileLib extends File {
 	 * @return array Output
 	 */
 	protected function _encode(array $array) {
-		$convertedArray = array();
+		$convertedArray = [];
 		foreach ($array as $key => $value) {
 			if (!mb_check_encoding($key, 'UTF-8')) {
 				$key = utf8_encode($key);

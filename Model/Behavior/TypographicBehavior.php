@@ -33,8 +33,8 @@ App::uses('ModelBehavior', 'Model');
  */
 class TypographicBehavior extends ModelBehavior {
 
-	protected $_map = array(
-		'in' => array(
+	protected $_map = [
+		'in' => [
 			'‘' => '\'',
 			// Translates to '&lsquo;'.
 			'’' => '\'',
@@ -59,17 +59,17 @@ class TypographicBehavior extends ModelBehavior {
 			// Translates to '&laquo;'.
 			'›' => '\'',
 			// Translates to '&raquo;'.
-		),
-		'out' => array(
+		],
+		'out' => [
 			// Use the TypographyHelper for this at runtime.
-		),
-	);
+		],
+	];
 
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'before' => 'save',
-		'fields' => array(),
+		'fields' => [],
 		'mergeQuotes' => false, // Set to true for " or explicitly set a char (" or ').
-	);
+	];
 
 	/**
 	 * Initiate behavior for the model using specified settings.
@@ -79,7 +79,7 @@ class TypographicBehavior extends ModelBehavior {
 	 * @param array $config Settings to override for model.
 	 * @return void
 	 */
-	public function setup(Model $Model, $config = array()) {
+	public function setup(Model $Model, $config = []) {
 		if (!isset($this->settings[$Model->alias])) {
 			$this->settings[$Model->alias] = $this->_defaultConfig;
 		}
@@ -87,9 +87,9 @@ class TypographicBehavior extends ModelBehavior {
 
 		if (empty($this->settings[$Model->alias]['fields'])) {
 			$schema = $Model->schema();
-			$fields = array();
+			$fields = [];
 			foreach ($schema as $field => $v) {
-				if (!in_array($v['type'], array('string', 'text'))) {
+				if (!in_array($v['type'], ['string', 'text'])) {
 					continue;
 				}
 				if (!empty($v['key'])) {
@@ -113,7 +113,7 @@ class TypographicBehavior extends ModelBehavior {
 	 * @param Model $Model
 	 * @return bool Success
 	 */
-	public function beforeValidate(Model $Model, $options = array()) {
+	public function beforeValidate(Model $Model, $options = []) {
 		parent::beforeValidate($Model, $options);
 
 		if ($this->settings[$Model->alias]['before'] === 'validate') {
@@ -129,7 +129,7 @@ class TypographicBehavior extends ModelBehavior {
 	 * @param Model $Model
 	 * @return bool Success
 	 */
-	public function beforeSave(Model $Model, $options = array()) {
+	public function beforeSave(Model $Model, $options = []) {
 		parent::beforeSave($Model, $options);
 
 		if ($this->settings[$Model->alias]['before'] === 'save') {
@@ -147,7 +147,7 @@ class TypographicBehavior extends ModelBehavior {
 	 * @return int count Number of affected/changed records
 	 */
 	public function updateTypography(Model $Model, $dryRun = false) {
-		$options = array('recursive' => -1, 'limit' => 100, 'offset' => 0);
+		$options = ['recursive' => -1, 'limit' => 100, 'offset' => 0];
 		$count = 0;
 		while ($records = $Model->find('all', $options)) {
 			foreach ($records as $record) {
@@ -165,7 +165,7 @@ class TypographicBehavior extends ModelBehavior {
 				}
 				if ($changed) {
 					if (!$dryRun) {
-						$Model->save($record, array('validate' => false));
+						$Model->save($record, ['validate' => false]);
 					}
 					$count++;
 				}

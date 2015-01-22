@@ -4,7 +4,7 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 class HazardableBehaviorTest extends MyCakeTestCase {
 
-	public $fixtures = array('core.comment');
+	public $fixtures = ['core.comment'];
 
 	public $Model;
 
@@ -30,14 +30,14 @@ class HazardableBehaviorTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testSaveAndFind() {
-		$data = array(
+		$data = [
 			'comment' => 'foo',
-		);
+		];
 		$this->Model->create();
 		$res = $this->Model->save($data);
 		$this->assertTrue((bool)$res);
 
-		$res = $this->Model->find('first', array('conditions' => array('id' => $this->Model->id)));
+		$res = $this->Model->find('first', ['conditions' => ['id' => $this->Model->id]]);
 		$this->assertTrue((bool)$res);
 
 		$this->assertEquals('<', $res['Comment']['published']);
@@ -51,20 +51,20 @@ class HazardableBehaviorTest extends MyCakeTestCase {
 	 */
 	public function testReplaceFind() {
 		$this->Model->Behaviors->unload('Hazardable');
-		$data = array(
+		$data = [
 			'comment' => 'foo',
-		);
+		];
 		$this->Model->create();
 		$res = $this->Model->save($data);
 		$this->assertTrue((bool)$res);
 
-		$res = $this->Model->find('first', array('conditions' => array('id' => $this->Model->id)));
+		$res = $this->Model->find('first', ['conditions' => ['id' => $this->Model->id]]);
 		$this->assertTrue((bool)$res);
 
 		$this->assertEquals('foo', $res['Comment']['comment']);
 
-		$this->Model->Behaviors->load('Tools.Hazardable', array('replaceFind' => true));
-		$res = $this->Model->find('first', array('conditions' => array('id' => $this->Model->id)));
+		$this->Model->Behaviors->load('Tools.Hazardable', ['replaceFind' => true]);
+		$res = $this->Model->find('first', ['conditions' => ['id' => $this->Model->id]]);
 		$this->assertTrue((bool)$res);
 
 		$this->assertEquals('<', $res['Comment']['published']);

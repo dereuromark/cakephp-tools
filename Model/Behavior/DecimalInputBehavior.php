@@ -31,29 +31,29 @@ App::uses('ModelBehavior', 'Model');
  */
 class DecimalInputBehavior extends ModelBehavior {
 
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'before' => 'validate', // save or validate
 		'input' => true, // true = activated
 		'output' => false, // true = activated
-		'fields' => array(
-		),
-		'observedTypes' => array(
+		'fields' => [
+		],
+		'observedTypes' => [
 			'float'
-		),
+		],
 		'localeconv' => false,
 		// based on input (output other direction)
-		'transform' => array(
+		'transform' => [
 			'.' => '',
 			',' => '.',
-		),
+		],
 		'multiply' => 0, // direction => in (revert is out)
-		'transformReverse' => array(),
+		'transformReverse' => [],
 		'strict' => false,
-	);
+	];
 
-	public $delimiterBaseFormat = array();
+	public $delimiterBaseFormat = [];
 
-	public $delimiterFromFormat = array();
+	public $delimiterFromFormat = [];
 
 	/**
 	 * Adjust configs like: $Model->Behaviors-attach('Tools.DecimalInput', array('fields'=>array('xyz')))
@@ -61,7 +61,7 @@ class DecimalInputBehavior extends ModelBehavior {
 	 *
 	 * @return void
 	 */
-	public function setup(Model $Model, $config = array()) {
+	public function setup(Model $Model, $config = []) {
 		$this->settings[$Model->alias] = $this->_defaultConfig;
 
 		if (!empty($config['strict'])) {
@@ -70,24 +70,24 @@ class DecimalInputBehavior extends ModelBehavior {
 		if ($this->settings[$Model->alias]['localeconv'] || !empty($config['localeconv'])) {
 			// use locale settings
 			$conv = localeconv();
-			$loc = array(
+			$loc = [
 				'decimals' => $conv['decimal_point'],
 				'thousands' => $conv['thousands_sep']
-			);
+			];
 		} elseif ($configure = Configure::read('Localization')) {
 			// Use configure settings
 			$loc = (array)$configure;
 		}
 		if (!empty($loc)) {
-			$this->settings[$Model->alias]['transform'] = array(
+			$this->settings[$Model->alias]['transform'] = [
 				$loc['thousands'] => $this->settings[$Model->alias]['transform']['.'],
 				$loc['decimals'] => $this->settings[$Model->alias]['transform'][','],
-			);
+			];
 		}
 
 		$this->settings[$Model->alias] = $config + $this->settings[$Model->alias];
 
-		$numberFields = array();
+		$numberFields = [];
 		$schema = $Model->schema();
 		foreach ($schema as $key => $values) {
 			if (isset($values['type']) && !in_array($key, $this->settings[$Model->alias]['fields']) && in_array($values['type'], $this->settings[$Model->alias]['observedTypes'])) {
@@ -97,7 +97,7 @@ class DecimalInputBehavior extends ModelBehavior {
 		$this->settings[$Model->alias]['fields'] = array_merge($this->settings[$Model->alias]['fields'], $numberFields);
 	}
 
-	public function beforeValidate(Model $Model, $options = array()) {
+	public function beforeValidate(Model $Model, $options = []) {
 		if ($this->settings[$Model->alias]['before'] !== 'validate') {
 			return true;
 		}
@@ -106,7 +106,7 @@ class DecimalInputBehavior extends ModelBehavior {
 		return true;
 	}
 
-	public function beforeSave(Model $Model, $options = array()) {
+	public function beforeSave(Model $Model, $options = []) {
 		if ($this->settings[$Model->alias]['before'] !== 'save') {
 			return true;
 		}
@@ -187,8 +187,8 @@ class DecimalInputBehavior extends ModelBehavior {
 	 * @return void
 	 */
 	protected function _setTransformations(Model $Model, $dir) {
-		$from = array();
-		$base = array();
+		$from = [];
+		$base = [];
 		$transform = $this->settings[$Model->alias]['transform'];
 		if (!empty($this->settings[$Model->alias]['transformReverse'])) {
 			$transform = $this->settings[$Model->alias]['transformReverse'];

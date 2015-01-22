@@ -24,7 +24,7 @@ class ModernPasswordHasher extends AbstractPasswordHasher {
 	 *
 	 * @param array $config Array of config.
 	 */
-	public function __construct($config = array()) {
+	public function __construct($config = []) {
 		if (!function_exists('password_hash')) {
 			throw new CakeException('password_hash() is not available.');
 		}
@@ -36,11 +36,11 @@ class ModernPasswordHasher extends AbstractPasswordHasher {
 	 *
 	 * @var array
 	 */
-	protected $_config = array(
+	protected $_config = [
 		'salt' => null,
 		'cost' => 10,
 		'hashType' => PASSWORD_BCRYPT
-	);
+	];
 
 	/**
 	 * Generates password hash.
@@ -50,7 +50,7 @@ class ModernPasswordHasher extends AbstractPasswordHasher {
 	 * @link http://book.cakephp.org/2.0/en/core-libraries/components/authentication.html#using-bcrypt-for-passwords
 	 */
 	public function hash($password) {
-		$options = array('cost' => $this->_config['cost'], 'salt' => $this->_config['salt']);
+		$options = ['cost' => $this->_config['cost'], 'salt' => $this->_config['salt']];
 		$options = array_filter($options);
 		return password_hash($password, $this->_config['hashType'], $options);
 	}

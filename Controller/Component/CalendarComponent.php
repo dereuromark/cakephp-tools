@@ -16,12 +16,12 @@ class CalendarComponent extends Component {
 
 	public $Controller = null;
 
-	public $monthList = array(
-		'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december');
+	public $monthList = [
+		'january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
 
-	public $dayList = array(
+	public $dayList = [
 		'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'
-	);
+	];
 
 	public $year = null;
 
@@ -63,7 +63,7 @@ class CalendarComponent extends Component {
 
 		if (empty($month) || $year < $current - $span || $year > $current + $span) {
 			$this->Controller->Flash->message(__d('tools', 'invalid date'), 'error');
-			$this->Controller->redirect(array('action' => 'index'));
+			$this->Controller->redirect(['action' => 'index']);
 		}
 
 		$this->year = $year;
@@ -75,7 +75,7 @@ class CalendarComponent extends Component {
 
 		if ($month < 1 || $month > 12) {
 			$this->Controller->Flash->message(__d('tools', 'invalid date'), 'error');
-			$this->Controller->redirect(array('action' => 'index'));
+			$this->Controller->redirect(['action' => 'index']);
 		}
 		return true;
 	}

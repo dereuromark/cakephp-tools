@@ -9,21 +9,21 @@ class KeyValue extends ToolsAppModel {
 
 	public $displayField = 'value';
 
-	public $order = array();
+	public $order = [];
 
-	public $validate = array(
-		'foreign_id' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+	public $validate = [
+		'foreign_id' => [
+			'notEmpty' => [
+				'rule' => ['notEmpty'],
 				'message' => 'valErrMandatoryField',
-			),
-		),
-		'key' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+			],
+		],
+		'key' => [
+			'notEmpty' => [
+				'rule' => ['notEmpty'],
 				'message' => 'valErrMandatoryField',
-			),
-		),
-	);
+			],
+		],
+	];
 
 }

@@ -16,7 +16,7 @@ App::uses('CakeResponse', 'Network');
  */
 class DirectAuthenticateTest extends CakeTestCase {
 
-	public $fixtures = array('core.user', 'core.auth_user');
+	public $fixtures = ['core.user', 'core.auth_user'];
 
 	/**
 	 * Setup
@@ -26,12 +26,12 @@ class DirectAuthenticateTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->Collection = $this->getMock('ComponentCollection');
-		$this->auth = new DirectAuthenticate($this->Collection, array(
-			'fields' => array('username' => 'user'),
+		$this->auth = new DirectAuthenticate($this->Collection, [
+			'fields' => ['username' => 'user'],
 			'userModel' => 'User'
-		));
+		]);
 		$User = ClassRegistry::init('User');
-		$User->belongsTo = array();
+		$User->belongsTo = [];
 		$this->response = $this->getMock('CakeResponse');
 	}
 
@@ -41,12 +41,12 @@ class DirectAuthenticateTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testConstructor() {
-		$object = new DirectAuthenticate($this->Collection, array(
+		$object = new DirectAuthenticate($this->Collection, [
 			'userModel' => 'AuthUser',
-			'fields' => array('username' => 'user')
-		));
+			'fields' => ['username' => 'user']
+		]);
 		$this->assertEquals('AuthUser', $object->settings['userModel']);
-		$this->assertEquals(array('username' => 'user', 'password' => 'password'), $object->settings['fields']);
+		$this->assertEquals(['username' => 'user', 'password' => 'password'], $object->settings['fields']);
 	}
 
 	/**
@@ -56,7 +56,7 @@ class DirectAuthenticateTest extends CakeTestCase {
 	 */
 	public function testAuthenticateNoData() {
 		$request = new CakeRequest('posts/index', false);
-		$request->data = array();
+		$request->data = [];
 		$this->assertFalse($this->auth->authenticate($request, $this->response));
 	}
 
@@ -67,7 +67,7 @@ class DirectAuthenticateTest extends CakeTestCase {
 	 */
 	public function testAuthenticateNoUsername() {
 		$request = new CakeRequest('posts/index', false);
-		$request->data = array('User' => array('x' => 'foobar'));
+		$request->data = ['User' => ['x' => 'foobar']];
 		$this->assertFalse($this->auth->authenticate($request, $this->response));
 	}
 
@@ -78,10 +78,10 @@ class DirectAuthenticateTest extends CakeTestCase {
 	 */
 	public function testAuthenticateUsernameDoesNotExist() {
 		$request = new CakeRequest('posts/index', false);
-		$request->data = array(
-			'User' => array(
+		$request->data = [
+			'User' => [
 				'user' => 'foo',
-		));
+		]];
 		$this->assertFalse($this->auth->authenticate($request, $this->response));
 	}
 
@@ -92,10 +92,10 @@ class DirectAuthenticateTest extends CakeTestCase {
 	 */
 	public function testAuthenticateInjection() {
 		$request = new CakeRequest('posts/index', false);
-		$request->data = array(
-			'User' => array(
+		$request->data = [
+			'User' => [
 				'user' => "> 1 ' OR 1 = 1",
-		));
+		]];
 		$this->assertFalse($this->auth->authenticate($request, $this->response));
 	}
 
@@ -106,17 +106,17 @@ class DirectAuthenticateTest extends CakeTestCase {
 	 */
 	public function testAuthenticateSuccess() {
 		$request = new CakeRequest('posts/index', false);
-		$request->data = array('User' => array(
+		$request->data = ['User' => [
 			'user' => 'mariano',
-		));
+		]];
 		$result = $this->auth->authenticate($request, $this->response);
 		//debug($result);
-		$expected = array(
+		$expected = [
 			'id' => 1,
 			'user' => 'mariano',
 			'created' => '2007-03-17 01:16:23',
 			'updated' => '2007-03-17 01:18:31'
-		);
+		];
 		$this->assertEquals($expected, $result);
 	}
 
@@ -126,11 +126,11 @@ class DirectAuthenticateTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testAuthenticateScopeFail() {
-		$this->auth->settings['scope'] = array('user' => 'nate');
+		$this->auth->settings['scope'] = ['user' => 'nate'];
 		$request = new CakeRequest('posts/index', false);
-		$request->data = array('User' => array(
+		$request->data = ['User' => [
 			'user' => 'mariano',
-		));
+		]];
 
 		$this->assertFalse($this->auth->authenticate($request, $this->response));
 	}
@@ -142,31 +142,31 @@ class DirectAuthenticateTest extends CakeTestCase {
 	 */
 	public function testPluginModel() {
 		Cache::delete('object_map', '_cake_core_');
-		App::build(array(
-			'Plugin' => array(CAKE . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS),
-		), App::RESET);
+		App::build([
+			'Plugin' => [CAKE . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS],
+		], App::RESET);
 		CakePlugin::load('TestPlugin');
 
 		$PluginModel = ClassRegistry::init('TestPlugin.TestPluginAuthUser');
 		$user['id'] = 1;
 		$user['username'] = 'gwoo';
-		$PluginModel->save($user, array('validate' => false));
+		$PluginModel->save($user, ['validate' => false]);
 
 		$this->auth->settings['userModel'] = 'TestPlugin.TestPluginAuthUser';
 		$this->auth->settings['fields']['username'] = 'username';
 
 		$request = new CakeRequest('posts/index', false);
-		$request->data = array('TestPluginAuthUser' => array(
+		$request->data = ['TestPluginAuthUser' => [
 			'username' => 'gwoo',
 
-		));
+		]];
 
 		$result = $this->auth->authenticate($request, $this->response);
-		$expected = array(
+		$expected = [
 			'id' => 1,
 			'username' => 'gwoo',
 			'created' => '2007-03-17 01:16:23'
-		);
+		];
 		$this->assertEquals(static::date(), $result['updated']);
 		unset($result['updated']);
 		$this->assertEquals($expected, $result);

@@ -80,7 +80,7 @@ class ImapLibTest extends MyCakeTestCase {
 		$this->Email->subject('UTF8 ÄÖÜ Test Mail ' . date(FORMAT_DB_DATETIME));
 		$this->Email->layout('blank');
 		$this->Email->template('simple_email');
-		$this->Email->addAttachment($file, 'test.php', array('contentDisposition' => $contentDisposition));
+		$this->Email->addAttachment($file, 'test.php', ['contentDisposition' => $contentDisposition]);
 		$text = '';
 		$this->Email->viewVars(compact('text'));
 		if ($this->Email->send()) {
@@ -141,7 +141,7 @@ class ImapLibTest extends MyCakeTestCase {
 		}
 		$Imap->close();
 		if (!is_array($messages)) {
-			return array();
+			return [];
 		}
 		return $messages;
 	}

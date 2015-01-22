@@ -11,21 +11,21 @@ class RandomLibTest extends CakeTestCase {
 	}
 
 	public function testArrayValue() {
-		$array = array(
+		$array = [
 			'x',
 			'y',
 			'z',
-		);
+		];
 		$is = RandomLib::arrayValue($array, null, null, true);
 		//pr($is);
 		$this->assertTrue(in_array($is, $array));
 
 		// non-numerical indexes
-		$array = array(
+		$array = [
 			'e' => 'x',
 			'f' => 'y',
 			'g' => 'z',
-		);
+		];
 		$is = RandomLib::arrayValue($array);
 		//pr($is);
 		$this->assertTrue(in_array($is, $array));

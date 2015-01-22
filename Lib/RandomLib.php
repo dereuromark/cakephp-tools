@@ -110,7 +110,7 @@ class RandomLib {
 			} else {
 				$maxDays = 28;
 			}
-		} elseif (in_array($dobMonth, array(4, 6, 9, 11))) {
+		} elseif (in_array($dobMonth, [4, 6, 9, 11])) {
 			$maxDays = 30;
 		} else {
 			$maxDays = 31;
@@ -132,9 +132,9 @@ class RandomLib {
 	public static function pronounceablePwd($length = 10) {
 		srand((double)microtime() * 1000000);
 		$password = '';
-		$vowels = array("a", "e", "i", "o", "u");
-		$cons = array("b", "c", "d", "g", "h", "j", "k", "l", "m", "n", "p", "r", "s", "t", "u", "v", "w", "tr",
-							"cr", "br", "fr", "th", "dr", "ch", "ph", "wr", "st", "sp", "sw", "pr", "sl", "cl");
+		$vowels = ["a", "e", "i", "o", "u"];
+		$cons = ["b", "c", "d", "g", "h", "j", "k", "l", "m", "n", "p", "r", "s", "t", "u", "v", "w", "tr",
+							"cr", "br", "fr", "th", "dr", "ch", "ph", "wr", "st", "sp", "sw", "pr", "sl", "cl"];
 		for ($i = 0; $i < $length; $i++) {
 			$password .= $cons[mt_rand(0, 31)] . $vowels[mt_rand(0, 4)];
 		}
@@ -198,8 +198,8 @@ class RandomLib {
 	 * @link http://www.gelembjuk.com/index.php?option=com_content&view=article&id=60&catid=37:php&Itemid=56
 	 */
 	public static function sentences($sentences, $wordscount = 2) {
-		$hash = array();
-		$resultsentences = array();
+		$hash = [];
+		$resultsentences = [];
 
 		for ($i = 0; $i < count($sentences); $i++) {
 			$words = split(' ', trim($sentences[$i]));
@@ -211,7 +211,7 @@ class RandomLib {
 				}
 
 				if (empty($hash[$prefix])) {
-					$hash[$prefix] = array($words[$k + $wordscount]);
+					$hash[$prefix] = [$words[$k + $wordscount]];
 
 					for ($j = $i + 1; $j < count($sentences); $j++) {
 						if (preg_match('/' . ereg_replace('/', '\/', preg_quote($prefix)) . '(.*)$/', $sentences[$j], $m)) {
@@ -228,7 +228,7 @@ class RandomLib {
 
 		$prefixes = array_keys($hash);
 
-		$stpr = array();
+		$stpr = [];
 		foreach ($prefixes as $pr) {
 			if ($pr[0] == strtoupper($pr[0])) {
 				array_push($stpr, $pr);

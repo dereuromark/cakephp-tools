@@ -31,13 +31,13 @@ class WeatherLib {
 
 	const API_URL_FREE = 'http://api.worldweatheronline.com/free/v1/';
 
-	public $settings = array(
+	public $settings = [
 		'format' => 'xml',
 		'num_of_days' => 5,
 		'q' => '', # e.g. 48.00,11.00
 		'key' => '',
 		'free' => true,
-	);
+	];
 
 	public function __construct() {
 		$this->settings = (array)Configure::read('Weather') + $this->settings;
@@ -49,7 +49,7 @@ class WeatherLib {
 	 *
 	 * @return array Data or false on failure
 	 */
-	public function get($q, array $options = array()) {
+	public function get($q, array $options = []) {
 		$options += $this->settings;
 		$options['q'] = urlencode($q);
 		$data = $this->_get('weather.ashx', $options);
@@ -66,14 +66,14 @@ class WeatherLib {
 	 * @return array
 	 */
 	public function conditions() {
-		$options = array();
+		$options = [];
 		$options['format'] = $this->settings['format'];
 		if ($options['format'] === 'json') {
 			$options['format'] = 'xml';
 		}
 		$conditions = $this->_get('wwoConditionCodes.xml', $options);
 		if (empty($conditions) || empty($conditions['codes']['condition'])) {
-			return array();
+			return [];
 		}
 		return $conditions['codes']['condition'];
 	}
@@ -102,7 +102,7 @@ class WeatherLib {
 			}
 		}
 
-		$Socket = new HttpSocket(array('timeout' => 5));
+		$Socket = new HttpSocket(['timeout' => 5]);
 		$file = $Socket->get($url);
 		$content = $file->body;
 		if (empty($content)) {
@@ -119,7 +119,7 @@ class WeatherLib {
 			case 'csv':
 			default:
 				//TODO?
-				$res = array();
+				$res = [];
 				throw new CakeException('Not implemented yet');
 		}
 
@@ -136,8 +136,8 @@ class WeatherLib {
 	/**
 	 * @return string Url
 	 */
-	protected function _url($url, $options = array()) {
-		$params = array();
+	protected function _url($url, $options = []) {
+		$params = [];
 		foreach ($options as $key => $option) {
 			$params[] = $key . '=' . $option;
 		}

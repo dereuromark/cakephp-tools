@@ -14,13 +14,13 @@ class TextAnalysisLibTest extends CakeTestCase {
 	}
 
 	public function testIsScreamFont() {
-		$strings = array(
+		$strings = [
 			'Some Äext' => false,
 			'SOME ÄEXT' => true,
 			'ST' => true,
 			'SOme TExt' => true,
 			'SOme Text' => false,
-		);
+		];
 
 		foreach ($strings as $string => $expected) {
 			$this->TextAnalysis = new TextAnalysisLib($string);
@@ -32,12 +32,12 @@ class TextAnalysisLibTest extends CakeTestCase {
 
 	public function testWordCount() {
 		$this->TextAnalysis = new TextAnalysisLib('Hochhaus, Unter dem Bau von ae Äußeren Einflüssen - und von Autos.');
-		$is = $this->TextAnalysis->wordCount(array('min_char' => 3));
+		$is = $this->TextAnalysis->wordCount(['min_char' => 3]);
 		//pr($is);
 		$this->assertTrue(!empty($is) && is_array($is) && count($is) === 9);
 
 		$this->TextAnalysis = new TextAnalysisLib('Hochhaus, Unter dem Bau von ae Äußeren Einflüssen - und von Autos.');
-		$is = $this->TextAnalysis->wordCount(array('min_char' => 3, 'sort' => 'DESC', 'limit' => 5));
+		$is = $this->TextAnalysis->wordCount(['min_char' => 3, 'sort' => 'DESC', 'limit' => 5]);
 		//pr($is);
 		$this->assertTrue(!empty($is) && is_array($is) && count($is) === 5);
 	}

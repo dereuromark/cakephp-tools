@@ -2,8 +2,8 @@
 
 //$path = dirname(__FILE__);
 //require_once($path . DS . 'Vendor' . DS . 'ical'.DS.'ical.php');
-App::import('Vendor', 'Tools.ical', array('file' => 'ical/ical.php'));
-App::import('Vendor', 'Tools.icalobject', array('file' => 'ical/i_cal_object.php'));
+App::import('Vendor', 'Tools.ical', ['file' => 'ical/ical.php']);
+App::import('Vendor', 'Tools.icalobject', ['file' => 'ical/i_cal_object.php']);
 
 App::uses('TimeLib', 'Tools.Utility');
 
@@ -37,7 +37,7 @@ class IcalLib {
 	 * @return string icalContent (single vevent)
 	 */
 	public function build($data, $addStartAndEnd = true) {
-		$replacements = array('-', ':');
+		$replacements = ['-', ':'];
 		if (isset($data['timezone'])) {
 			$replacements[] = 'Z';
 		}
@@ -54,7 +54,7 @@ class IcalLib {
 		}
 		if (isset($data['timestamp'])) {
 			$data['dtstamp'] = TimeLib::toAtom($data['timestamp']);
-			$data['dtstamp'] = str_replace(array('-', ':'), '', $data['dtstamp']);
+			$data['dtstamp'] = str_replace(['-', ':'], '', $data['dtstamp']);
 			unset($data['timestamp']);
 		}
 		if (isset($data['timezone'])) {
@@ -84,15 +84,15 @@ class IcalLib {
 	 * @param array $data
 	 * @return string
 	 */
-	public function createStart($data = array()) {
-		$defaults = array(
+	public function createStart($data = []) {
+		$defaults = [
 			'version' => '2.0',
 			'prodid' => '-//' . env('HTTP_HOST'),
 			'method' => 'PUBLISH',
-		);
+		];
 		$data = array_merge($defaults, $data);
 
-		$res = array();
+		$res = [];
 		$res[] = 'BEGIN:VCALENDAR';
 		foreach ($data as $key => $val) {
 			$res[] = strtoupper($key) . ':' . $val;
@@ -111,7 +111,7 @@ class IcalLib {
 
 	public function parse($url) {
 		$context = stream_context_create(
-			array('http' => array('header' => 'Connection: close')));
+			['http' => ['header' => 'Connection: close']]);
 		if (!file_exists($url) || !($res = file_get_contents($url, 0, $context))) {
 			return false;
 		}
@@ -135,7 +135,7 @@ class IcalLib {
 	 * @return array
 	 */
 	public function getEventsAsList() {
-		$res = array();
+		$res = [];
 		$events = $this->getEvents();
 		foreach ($events as $event) {
 			$res[$event['DTSTART']['unixtime']] = $event['SUMMARY'];

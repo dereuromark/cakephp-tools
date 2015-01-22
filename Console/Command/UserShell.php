@@ -14,7 +14,7 @@ App::uses('AppShell', 'Console/Command');
  */
 class UserShell extends AppShell {
 
-	public $uses = array(CLASS_USER);
+	public $uses = [CLASS_USER];
 
 	/**
 	 * UserShell::main()
@@ -63,12 +63,12 @@ class UserShell extends AppShell {
 		}
 
 		$this->out('');
-		$this->User->Behaviors->load('Tools.Passwordable', array('confirm' => false));
+		$this->User->Behaviors->load('Tools.Passwordable', ['confirm' => false]);
 		//$this->User->validate['pwd']
-		$data = array('User' => array(
+		$data = ['User' => [
 			'pwd' => $password,
 			'active' => 1
-		));
+		]];
 		if (!empty($username)) {
 			$usernameField = $this->User->displayField;
 			$data['User'][$usernameField] = $username;
@@ -89,7 +89,7 @@ class UserShell extends AppShell {
 		}
 
 		if (!empty($schema['email'])) {
-			$provideEmail = $this->in('Provide Email?', array('y', 'n'), 'n');
+			$provideEmail = $this->in('Provide Email?', ['y', 'n'], 'n');
 			if ($provideEmail === 'y') {
 				$email = $this->in('Please insert an email');
 				$data['User']['email'] = $email;
@@ -100,7 +100,7 @@ class UserShell extends AppShell {
 		}
 
 		$this->out('');
-		$continue = $this->in('Continue?', array('y', 'n'), 'n');
+		$continue = $this->in('Continue?', ['y', 'n'], 'n');
 		if ($continue !== 'y') {
 			return $this->error('Not Executed!');
 		}

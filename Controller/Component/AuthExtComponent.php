@@ -27,19 +27,19 @@ class AuthExtComponent extends AuthComponent {
 
 	public $fieldKey = 'role_id';
 
-	public $loginAction = array('controller' => 'account', 'action' => 'login', 'admin' => false, 'plugin' => false);
+	public $loginAction = ['controller' => 'account', 'action' => 'login', 'admin' => false, 'plugin' => false];
 
-	public $loginRedirect = array('controller' => 'overview', 'action' => 'home', 'admin' => false, 'plugin' => false);
+	public $loginRedirect = ['controller' => 'overview', 'action' => 'home', 'admin' => false, 'plugin' => false];
 
 	public $autoRedirect = false;
 
 	public $loginError = null;
 
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'multi' => null, # null=auto - yes/no multiple roles (HABTM table between users and roles)
 		'parentModelAlias' => USER_ROLE_KEY,
 		'userModel' => CLASS_USER //TODO: allow plugin syntax
-	);
+	];
 
 	/**
 	 * Merge in Configure::read('Auth') settings
@@ -47,7 +47,7 @@ class AuthExtComponent extends AuthComponent {
 	 * @param ComponentCollection $Collection
 	 * @param array $config
 	 */
-	public function __construct(ComponentCollection $Collection, $config = array()) {
+	public function __construct(ComponentCollection $Collection, $config = []) {
 		$defaults = (array)Configure::read('Auth') + $this->_defaultConfig;
 		$config += $defaults;
 
@@ -153,7 +153,7 @@ class AuthExtComponent extends AuthComponent {
 		if (!is_array($userArray)) {
 			$user = $Model->get($user);
 			if (!$user) {
-				return array();
+				return [];
 			}
 			$userArray = array_shift($user);
 		}
@@ -179,8 +179,8 @@ class AuthExtComponent extends AuthComponent {
 			// only for multi
 			if ($this->settings['multi'] || !isset($userArray['role_id'])) {
 				$parentModelAlias = $this->settings['parentModelAlias'];
-				$userArray[$parentModelAlias] = array(); # default: no roles!
-				$roles = $this->{$withModel}->find('list', array('fields' => array($withModel . '.role_id'), 'conditions' => array($withModel . '.user_id' => $userArray['id'])));
+				$userArray[$parentModelAlias] = []; # default: no roles!
+				$roles = $this->{$withModel}->find('list', ['fields' => [$withModel . '.role_id'], 'conditions' => [$withModel . '.user_id' => $userArray['id']]]);
 				if (!empty($roles)) {
 					// add the suplemental roles id under the Auth session key
 					$userArray[$parentModelAlias] = $roles;

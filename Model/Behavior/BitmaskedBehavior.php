@@ -27,13 +27,13 @@ class BitmaskedBehavior extends ModelBehavior {
 	 *
 	 * @var array
 	 */
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'field' => 'status',
 		'mappedField' => null, // NULL = same as above
 		'bits' => null,
 		'before' => 'validate', // on: save or validate
 		'defaultValue' => null, // NULL = auto (use empty string to trigger "notEmpty" rule for "default NOT NULL" db fields)
-	);
+	];
 
 	/**
 	 * Behavior configuration
@@ -42,7 +42,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @param array $config
 	 * @return void
 	 */
-	public function setup(Model $Model, $config = array()) {
+	public function setup(Model $Model, $config = []) {
 		$config += $this->_defaultConfig;
 
 		if (empty($config['bits'])) {
@@ -104,7 +104,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @param array $options
 	 * @return bool Success
 	 */
-	public function beforeValidate(Model $Model, $options = array()) {
+	public function beforeValidate(Model $Model, $options = []) {
 		if ($this->settings[$Model->alias]['before'] !== 'validate') {
 			return true;
 		}
@@ -117,7 +117,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @param array $options
 	 * @return bool Success
 	 */
-	public function beforeSave(Model $Model, $options = array()) {
+	public function beforeSave(Model $Model, $options = []) {
 		if ($this->settings[$Model->alias]['before'] !== 'save') {
 			return true;
 		}
@@ -131,7 +131,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @return array Bitmask array (from DB to APP).
 	 */
 	public function decodeBitmask(Model $Model, $value) {
-		$res = array();
+		$res = [];
 		$value = (int)$value;
 		foreach ($this->settings[$Model->alias]['bits'] as $key => $val) {
 			$val = (($value & $key) !== 0) ? true : false;
@@ -231,7 +231,7 @@ class BitmaskedBehavior extends ModelBehavior {
 		$bitmask = $this->encodeBitmask($Model, $bits);
 
 		$field = $this->settings[$Model->alias]['field'];
-		return array($Model->alias . '.' . $field => $bitmask);
+		return [$Model->alias . '.' . $field => $bitmask];
 	}
 
 	/**
@@ -240,7 +240,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @return array SQL snippet.
 	 */
 	public function isNotBit(Model $Model, $bits) {
-		return array('NOT' => $this->isBit($Model, $bits));
+		return ['NOT' => $this->isBit($Model, $bits)];
 	}
 
 	/**
@@ -273,7 +273,7 @@ class BitmaskedBehavior extends ModelBehavior {
 
 		$field = $this->settings[$Model->alias]['field'];
 		$contain = $contain ? ' & ? = ?' : ' & ? != ?';
-		return array('(' . $Model->alias . '.' . $field . $contain . ')' => array($bitmask, $bitmask));
+		return ['(' . $Model->alias . '.' . $field . $contain . ')' => [$bitmask, $bitmask]];
 	}
 
 }

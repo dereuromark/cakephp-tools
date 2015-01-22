@@ -9,7 +9,7 @@ App::uses('Controller', 'Controller');
  */
 class AutoLoginComponentTest extends CakeTestCase {
 
-	public $fixtures = array('core.cake_session', 'core.user');
+	public $fixtures = ['core.cake_session', 'core.user'];
 
 	/**
 	 * SetUp method
@@ -102,7 +102,7 @@ class AutoLoginTestController extends Controller {
 	 *
 	 * @var array
 	 */
-	public $components = array('Tools.AutoLogin');
+	public $components = ['Tools.AutoLogin'];
 
 	/**
 	 * Failed property
@@ -116,7 +116,7 @@ class AutoLoginTestController extends Controller {
 	 *
 	 * @var array
 	 */
-	public $testHeaders = array();
+	public $testHeaders = [];
 
 	/**
 	 * Fail method

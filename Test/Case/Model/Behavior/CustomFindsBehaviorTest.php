@@ -12,15 +12,15 @@ class CustomFindsBehaviorTest extends MyCakeTestCase {
 
 		$this->Model = new CustomFindsTest();
 
-		$this->Model->customFinds = array(
-			'topSellers' => array(
-				'fields' => array('Product.name', 'Product.price'),
-				'contain' => array('ProductImage.source'),
-				'conditions' => array('Product.countSeller >' => 20, 'Product.is_active' => 1),
+		$this->Model->customFinds = [
+			'topSellers' => [
+				'fields' => ['Product.name', 'Product.price'],
+				'contain' => ['ProductImage.source'],
+				'conditions' => ['Product.countSeller >' => 20, 'Product.is_active' => 1],
 				'recursive' => 1,
 				//All other find options
-			)
-		);
+			]
+		];
 	}
 
 	public function tearDown() {
@@ -32,11 +32,11 @@ class CustomFindsBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function testModify() {
-		$query = array(
+		$query = [
 			'custom' => 'topSellers',
 			'recursive' => 0,
-			'conditions' => array('Product.count >' => 0),
-		);
+			'conditions' => ['Product.count >' => 0],
+		];
 
 		$res = $this->Model->Behaviors->CustomFinds->beforeFind($this->Model, $query);
 		//pr($res);
@@ -50,26 +50,26 @@ class CustomFindsBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function testModifyWithRemove() {
-		$query = array(
+		$query = [
 			'custom' => 'topSellers',
-			'conditions' => array('Product.count >' => 0),
-			'remove' => array('conditions')
-		);
+			'conditions' => ['Product.count >' => 0],
+			'remove' => ['conditions']
+		];
 
 		$res = $this->Model->Behaviors->CustomFinds->beforeFind($this->Model, $query);
 		//pr($res);
 		$queryResult = $this->Model->customFinds['topSellers'];
-		$queryResult['conditions'] = array('Product.count >' => 0);
+		$queryResult['conditions'] = ['Product.count >' => 0];
 
 		$this->assertTrue(!empty($res));
 		$this->assertSame($queryResult['recursive'], $res['recursive']);
 		$this->assertSame($queryResult['conditions'], $res['conditions']);
 
-		$query = array(
+		$query = [
 			'custom' => 'topSellers',
-			'conditions' => array('Product.count >' => 0),
-			'remove' => array('conditions' => array('Product.countSeller >'))
-		);
+			'conditions' => ['Product.count >' => 0],
+			'remove' => ['conditions' => ['Product.countSeller >']]
+		];
 
 		$res = $this->Model->Behaviors->CustomFinds->beforeFind($this->Model, $query);
 		//pr($res);
@@ -87,6 +87,6 @@ class CustomFindsTest extends AppModel {
 
 	public $useTable = false;
 
-	public $actsAs = array('Tools.CustomFinds');
+	public $actsAs = ['Tools.CustomFinds'];
 
 }

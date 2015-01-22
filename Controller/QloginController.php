@@ -7,9 +7,9 @@ App::uses('ToolsAppController', 'Tools.Controller');
 
 class QloginController extends ToolsAppController {
 
-	public $uses = array('Tools.Qlogin');
+	public $uses = ['Tools.Qlogin'];
 
-	public $components = array('Tools.Common');
+	public $components = ['Tools.Common'];
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -73,7 +73,7 @@ class QloginController extends ToolsAppController {
 				$this->Flash->message('New Key: ' . h($id), 'success');
 				$url = $this->Qlogin->urlByKey($id);
 				$this->set(compact('url'));
-				$this->request->data = array();
+				$this->request->data = [];
 			}
 		} else {
 			$this->request->data['Qlogin'] = $this->request->query;
@@ -83,7 +83,7 @@ class QloginController extends ToolsAppController {
 		$users = $this->User->find('list');
 
 		$this->Token = ClassRegistry::init('Tools.Token');
-		$qlogins = $this->Token->find('count', array('conditions' => array('type' => 'qlogin')));
+		$qlogins = $this->Token->find('count', ['conditions' => ['type' => 'qlogin']]);
 
 		$this->set(compact('users', 'qlogins'));
 	}
@@ -102,11 +102,11 @@ class QloginController extends ToolsAppController {
 	 * @return void
 	 */
 	public function admin_reset() {
-		$this->request->allowMethod(array('post', 'delete'));
+		$this->request->allowMethod(['post', 'delete']);
 		$this->Token = ClassRegistry::init('Tools.Token');
-		$this->Token->deleteAll(array('type' => 'qlogin'));
+		$this->Token->deleteAll(['type' => 'qlogin']);
 		$this->Flash->message(__d('tools', 'Success'), 'success');
-		return $this->Common->autoRedirect(array('action' => 'index'));
+		return $this->Common->autoRedirect(['action' => 'index']);
 	}
 
 }

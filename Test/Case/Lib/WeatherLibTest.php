@@ -16,7 +16,7 @@ class WeatherLibTest extends MyCakeTestCase {
 		$res = $this->Weather->_url('x.xml');
 		$this->assertEquals('http://api.worldweatheronline.com/free/v1/x.xml', $res);
 
-		$res = $this->Weather->_url('x.xml', array('y' => 'z'));
+		$res = $this->Weather->_url('x.xml', ['y' => 'z']);
 		$this->assertEquals('http://api.worldweatheronline.com/free/v1/x.xml?y=z', $res);
 	}
 

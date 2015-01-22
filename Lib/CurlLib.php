@@ -9,9 +9,9 @@
  */
 class CurlLib {
 
-	public $settings = array(
+	public $settings = [
 		'CURLOPT_SSL_VERIFYPEER' => false,
-	);
+	];
 
 	protected $Ch = null;
 
@@ -19,40 +19,40 @@ class CurlLib {
 
 	public $tor = '127.0.0.1:9050';
 
-	public $header = array();
+	public $header = [];
 
-	public $persistentHeader = array();
+	public $persistentHeader = [];
 
 	protected $lastUrl = '';
 
-	public $ua = array(
-		'Firefox' => array(
+	public $ua = [
+		'Firefox' => [
 			'Firefox/3.0.2 Linux' => 'Mozilla/5.0 (X11; U; Linux i686; de; rv:1.9.0.2) Gecko/2008091700 SUSE/3.0.2-5.2 Firefox/3.0.2'
-		),
-		'IE' => array(
+		],
+		'IE' => [
 			'6' => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)',
 			'7' => 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)',
 			'8' => 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)'
-		),
-		'Konqueror' => array(
+		],
+		'Konqueror' => [
 			'Konqueror/3.5' => 'Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.5 (like Gecko).'
-		),
-		'Opera' => array(
+		],
+		'Opera' => [
 			'9.60' => 'Opera/9.60 (X11; Linux i686; U; de) Presto/2.1.1',
 			'10' => 'Opera/9.80 (Windows NT 6.1; U; en) Presto/2.2.15 Version/10.00'
-		),
-		'Safari' => array(
+		],
+		'Safari' => [
 			'1.0' => 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; de-de) AppleWebKit/85.7 (KHTML, like Gecko) Safari/85.7',
 			'1.2' => 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; de-de) AppleWebKit/125.2 (KHTML, like Gecko) Safari/125.8',
 			'3.3' => 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; de-de) AppleWebKit/522.15.5 (KHTML, like Gecko) Version/3.0.3 Safari/522.15.5'
-		),
-		'Chrome' => array(
+		],
+		'Chrome' => [
 			'8' => 'Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/540.0 (KHTML, like Gecko) Ubuntu/10.10 Chrome/8.1.0.0 Safari/540.0'
-		),
-		'Bots' => array(
+		],
+		'Bots' => [
 			'Google' => 'Googlebot/2.1 (+http://www.google.com/bot.html)'
-		)
-	);
+		]
+	];
 
 	public function set($key, $value) {
 		return curl_setopt($this->Ch, $key, $value);
@@ -101,7 +101,7 @@ class CurlLib {
 
 	public function randomizeUserAgent() {
 		//list of browsers
-		$agentBrowser = array(
+		$agentBrowser = [
 			'Firefox',
 			'Safari',
 			'Opera',
@@ -110,9 +110,9 @@ class CurlLib {
 			'Seamonkey',
 			'Konqueror',
 			'GoogleBot'
-		);
+		];
 		//list of operating systems
-		$agentOS = array(
+		$agentOS = [
 			'Windows 3.1',
 			'Windows 95',
 			'Windows 98',
@@ -125,7 +125,7 @@ class CurlLib {
 			'Fedora',
 			'AmigaOS',
 			'OS 10.5'
-		);
+		];
 		//randomly generate UserAgent
 		$ua = $agentBrowser[rand(0, count($agentBrowser) - 1)] . '/' . rand(1, 8) . '.' . rand(0, 9) . ' (' . $agentOS[rand(0, count($agentOS) - 1)] . ' ' . rand(1, 7) . '.' . rand(0, 9) . '; en-US;)';
 		$this->setUserAgent($ua);
@@ -174,7 +174,7 @@ class CurlLib {
 	}
 
 	public function exec() {
-		$header = array();
+		$header = [];
 		foreach ($this->header as $tk => $tv) {
 			$header[] = $tk . ': ' . $tv;
 		}
@@ -182,7 +182,7 @@ class CurlLib {
 		$this->header = $this->persistentHeader;
 		$content = curl_exec($this->Ch);
 		$info = curl_getinfo($this->Ch);
-		return array($content, $info);
+		return [$content, $info];
 	}
 
 	/**
@@ -203,16 +203,16 @@ class CurlLib {
 		return false;
 	}
 
-	protected function _prepareData($url, $getdata = array(), $data = array()) {
+	protected function _prepareData($url, $getdata = [], $data = []) {
 		if (strpos($url, '?') === false && ( // If Url has not a "?" in it
 				(is_array($getdata) && !empty($getdata)) || //And $getdata is array and has more than one value
 				(!is_array($getdata) && strlen($getdata) > 0))) { //or its a a string and is longer than 0
 			$url .= '?';
 		}
-		$data = array(
+		$data = [
 			$getdata,
 			$data
-		);
+		];
 		foreach ($data as $i => $part) {
 			if (is_array($part)) {
 				$string = '';
@@ -229,7 +229,7 @@ class CurlLib {
 		return $data;
 	}
 
-	public function post($url, $data = array(), $getdata = array()) {
+	public function post($url, $data = [], $getdata = []) {
 		$this->referer();
 		$this->set(CURLOPT_POST, true);
 
@@ -240,7 +240,7 @@ class CurlLib {
 		return $this->exec();
 	}
 
-	public function get($url, $data = array()) {
+	public function get($url, $data = []) {
 		$this->referer();
 		$this->set(CURLOPT_HTTPGET, true);
 

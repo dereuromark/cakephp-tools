@@ -21,15 +21,15 @@ class CaptchaLibTest extends MyCakeTestCase {
 	}
 
 	public function testBuildHash() {
-		$data = array(
+		$data = [
 			'captcha_time' => time(),
 			'captcha' => '2'
-		);
-		$options = array(
+		];
+		$options = [
 			'salt' => 'xyz',
 			'checkIp' => true,
 			'checkSession' => true
-		);
+		];
 		$res = CaptchaLib::buildHash($data, $options);
 		//pr($res);
 		$this->assertTrue(strlen($res) === 40);

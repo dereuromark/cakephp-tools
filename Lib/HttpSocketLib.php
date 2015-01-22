@@ -20,7 +20,7 @@ App::uses('CurlLib', 'Tools.Lib');
 class HttpSocketLib {
 
 	// First tries with curl, then cake, then php
-	public $use = array('curl' => true, 'cake' => true, 'php' => true);
+	public $use = ['curl' => true, 'cake' => true, 'php' => true];
 
 	public $debug = null;
 
@@ -28,11 +28,11 @@ class HttpSocketLib {
 
 	public $cacheUsed = null;
 
-	public $error = array();
+	public $error = [];
 
-	public $allowRedirects = array(301);
+	public $allowRedirects = [301];
 
-	public function __construct($use = array()) {
+	public function __construct($use = []) {
 		if (is_array($use)) {
 			foreach ($use as $key => $value) {
 				if (array_key_exists($key, $this->use)) {
@@ -67,7 +67,7 @@ class HttpSocketLib {
 	}
 
 	public function reset() {
-		$this->error = array();
+		$this->error = [];
 		$this->debug = null;
 	}
 
@@ -80,17 +80,17 @@ class HttpSocketLib {
 	 * @param array $options
 	 * @return string Response or false on failure
 	 */
-	public function fetch($url, $options = array()) {
+	public function fetch($url, $options = []) {
 		if (!is_array($options)) {
-			$options = array('agent' => $options);
+			$options = ['agent' => $options];
 		}
-		$defaults = array(
+		$defaults = [
 			'agent' => 'cakephp http socket lib',
 			'cache' => false,
 			'clearCache' => false,
 			'use' => $this->use,
 			'timeout' => $this->timeout,
-		);
+		];
 		$options += $defaults;
 
 		// cached?
@@ -119,7 +119,7 @@ class HttpSocketLib {
 	 * @return string Response or false on failure
 	 */
 	public function _fetch($url, $options) {
-		$allowedCodes = array_merge($this->allowRedirects, array(200, 201, 202, 203, 204, 205, 206));
+		$allowedCodes = array_merge($this->allowRedirects, [200, 201, 202, 203, 204, 205, 206]);
 
 		if ($options['use']['curl'] && function_exists('curl_init')) {
 			$this->debug = 'curl';
@@ -138,7 +138,7 @@ class HttpSocketLib {
 		if ($options['use']['cake']) {
 			$this->debug = 'cake';
 
-			$HttpSocket = new HttpSocket(array('timeout' => $options['timeout']));
+			$HttpSocket = new HttpSocket(['timeout' => $options['timeout']]);
 			$response = $HttpSocket->get($url);
 			if (!in_array($response->code, $allowedCodes)) {
 				return false;
@@ -149,13 +149,13 @@ class HttpSocketLib {
 		if ($options['use']['php']) {
 			$this->debug = 'php';
 
-			$opts = array(
-				'http' => array(
+			$opts = [
+				'http' => [
 					'method' => 'GET',
-					'header' => array('Connection: close'),
+					'header' => ['Connection: close'],
 					'timeout' => $options['timeout']
-				)
-			);
+				]
+			];
 			if (isset($options['http'])) {
 				$opts['http'] = array_merge($opts['http'], $options['http']);
 			}

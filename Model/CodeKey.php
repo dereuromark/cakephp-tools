@@ -9,6 +9,6 @@ App::uses('Token', 'Tools.Model');
  */
 class CodeKey extends Token {
 
-	public $order = array('CodeKey.created' => 'DESC');
+	public $order = ['CodeKey.created' => 'DESC'];
 
 }

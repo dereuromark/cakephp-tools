@@ -5,9 +5,9 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
 class InlineCssLibTest extends MyCakeTestCase {
 
 	public function setUp() {
-		$this->InlineCss = new InlineCssLib(array('engine' => InlineCssLib::ENGINE_CSS_TO_INLINE));
+		$this->InlineCss = new InlineCssLib(['engine' => InlineCssLib::ENGINE_CSS_TO_INLINE]);
 
-		$result = App::import('Vendor', 'Tools.CssToInlineStyles', array('file' => 'CssToInlineStyles' . DS . 'CssToInlineStyles.php'));
+		$result = App::import('Vendor', 'Tools.CssToInlineStyles', ['file' => 'CssToInlineStyles' . DS . 'CssToInlineStyles.php']);
 		$this->skipIf(!$result);
 
 		parent::setUp();
@@ -133,7 +133,7 @@ bla';
 	 */
 	public function testProcessAlternativeEngine() {
 		$this->out('Emogrifier');
-		$this->InlineCss = new InlineCssLib(array('engine' => InlineCssLib::ENGINE_EMOGRIFIER));
+		$this->InlineCss = new InlineCssLib(['engine' => InlineCssLib::ENGINE_EMOGRIFIER]);
 		$html = '<b>blabla</b><style>
 div#container { margin: 1em auto; }
 h1 { font-weight: bold; font-size: 2em; }
@@ -158,7 +158,7 @@ bla';
 	 * @return void
 	 */
 	public function testProcessUtf8AlternativeEngine() {
-		$this->InlineCss = new InlineCssLib(array('engine' => InlineCssLib::ENGINE_EMOGRIFIER));
+		$this->InlineCss = new InlineCssLib(['engine' => InlineCssLib::ENGINE_EMOGRIFIER]);
 
 		$html = 'チェック
 	<style>
@@ -186,7 +186,7 @@ bla';
 	 * @return void
 	 */
 	public function testProcessSpecialCharsAlternativeEngine() {
-		$this->InlineCss = new InlineCssLib(array('engine' => InlineCssLib::ENGINE_EMOGRIFIER));
+		$this->InlineCss = new InlineCssLib(['engine' => InlineCssLib::ENGINE_EMOGRIFIER]);
 
 		$html = '<style>
 div#container { margin: 1em auto; }
@@ -214,14 +214,14 @@ bla';
 	public function testProcessCompleteTemplateAlternativeEngine() {
 		$path = CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'html' . DS;
 
-		$this->InlineCss = new InlineCssLib(array('engine' => InlineCssLib::ENGINE_EMOGRIFIER));
+		$this->InlineCss = new InlineCssLib(['engine' => InlineCssLib::ENGINE_EMOGRIFIER]);
 		$html = file_get_contents($path . 'email_template.html');
 		$result = $this->InlineCss->process($html);
 		$this->debug($result);
 		$expected = '<td  style="vertical-align:top;';
 		$this->assertTextContains($expected, $result);
 
-		$this->InlineCss = new InlineCssLib(array('engine' => InlineCssLib::ENGINE_EMOGRIFIER));
+		$this->InlineCss = new InlineCssLib(['engine' => InlineCssLib::ENGINE_EMOGRIFIER]);
 		$html = file_get_contents($path . 'email_template_utf8.html');
 		$result = $this->InlineCss->process($html);
 		$this->debug($result);

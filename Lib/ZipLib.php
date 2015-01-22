@@ -183,7 +183,7 @@ class ZipLib {
 	 */
 	public function errMsg($errno) {
 		// using constant name as a string to make this function PHP4 compatible
-		$zipFileFunctionsErrors = array(
+		$zipFileFunctionsErrors = [
 			'ZIPARCHIVE::ER_MULTIDISK' => 'Multi-disk zip archives not supported.',
 			'ZIPARCHIVE::ER_RENAME' => 'Renaming temporary file failed.',
 			'ZIPARCHIVE::ER_CLOSE' => 'Closing zip archive failed',
@@ -207,7 +207,7 @@ class ZipLib {
 			'ZIPARCHIVE::ER_INCONS' => 'Zip archive inconsistent',
 			'ZIPARCHIVE::ER_REMOVE' => 'Can\'t remove file',
 			'ZIPARCHIVE::ER_DELETED' => 'Entry has been deleted',
-		);
+		];
 		$errmsg = 'unknown';
 		foreach ($zipFileFunctionsErrors as $constName => $errorMessage) {
 			if (defined($constName) && constant($constName) === $errno) {

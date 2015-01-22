@@ -10,7 +10,7 @@ App::uses('AppController', 'Controller');
  */
 class MobileComponentTest extends CakeTestCase {
 
-	public $fixtures = array('core.cake_session');
+	public $fixtures = ['core.cake_session'];
 
 	/**
 	 * SetUp method
@@ -54,7 +54,7 @@ class MobileComponentTest extends CakeTestCase {
 		$this->assertFalse($this->Controller->Mobile->isMobile);
 
 		$session = CakeSession::read('User');
-		$this->assertSame(array('mobile' => 0), $session);
+		$this->assertSame(['mobile' => 0], $session);
 	}
 
 	public function testMobileForceActivated() {
@@ -62,12 +62,12 @@ class MobileComponentTest extends CakeTestCase {
 		$this->Controller->Mobile->initialize($this->Controller);
 		$this->Controller->Mobile->startup($this->Controller);
 		$session = CakeSession::read('User');
-		$this->assertSame(array('nomobile' => 0, 'mobile' => 0), $session);
+		$this->assertSame(['nomobile' => 0, 'mobile' => 0], $session);
 
 		$this->Controller->Mobile->setMobile();
 		$configure = Configure::read('User');
-		$this->assertSame(array('isMobile' => 0, 'setMobile' => 1), $configure);
-		$this->assertEquals(array('desktopUrl' => '/?mobile=0'), $this->Controller->viewVars);
+		$this->assertSame(['isMobile' => 0, 'setMobile' => 1], $configure);
+		$this->assertEquals(['desktopUrl' => '/?mobile=0'], $this->Controller->viewVars);
 	}
 
 	public function testMobileForceDeactivated() {
@@ -75,12 +75,12 @@ class MobileComponentTest extends CakeTestCase {
 		$this->Controller->Mobile->initialize($this->Controller);
 		$this->Controller->Mobile->startup($this->Controller);
 		$session = CakeSession::read('User');
-		$this->assertSame(array('nomobile' => 1, 'mobile' => 0), $session);
+		$this->assertSame(['nomobile' => 1, 'mobile' => 0], $session);
 
 		$this->Controller->Mobile->setMobile();
 		$configure = Configure::read('User');
-		$this->assertSame(array('isMobile' => 0, 'setMobile' => 0), $configure);
-		$this->assertEquals(array('mobileUrl' => '/?mobile=1'), $this->Controller->viewVars);
+		$this->assertSame(['isMobile' => 0, 'setMobile' => 0], $configure);
+		$this->assertEquals(['mobileUrl' => '/?mobile=1'], $this->Controller->viewVars);
 	}
 
 	public function testMobileFakeMobile() {
@@ -89,13 +89,13 @@ class MobileComponentTest extends CakeTestCase {
 		$this->Controller->Mobile->initialize($this->Controller);
 		$this->Controller->Mobile->startup($this->Controller);
 		$session = CakeSession::read('User');
-		$this->assertSame(array('mobile' => 1), $session);
+		$this->assertSame(['mobile' => 1], $session);
 
 		$this->assertTrue($this->Controller->Mobile->isMobile);
 
 		$this->Controller->Mobile->setMobile();
 		$configure = Configure::read('User');
-		$this->assertSame(array('isMobile' => 1, 'setMobile' => 1), $configure);
+		$this->assertSame(['isMobile' => 1, 'setMobile' => 1], $configure);
 	}
 
 	public function testMobileFakeMobileForceDeactivated() {
@@ -105,13 +105,13 @@ class MobileComponentTest extends CakeTestCase {
 		$this->Controller->Mobile->initialize($this->Controller);
 		$this->Controller->Mobile->startup($this->Controller);
 		$session = CakeSession::read('User');
-		$this->assertSame(array('nomobile' => 1, 'mobile' => 1), $session);
+		$this->assertSame(['nomobile' => 1, 'mobile' => 1], $session);
 
 		$this->assertTrue($this->Controller->Mobile->isMobile);
 
 		$this->Controller->Mobile->setMobile();
 		$configure = Configure::read('User');
-		$this->assertSame(array('isMobile' => 1, 'setMobile' => 0), $configure);
+		$this->assertSame(['isMobile' => 1, 'setMobile' => 0], $configure);
 	}
 
 	public function testMobileFakeMobileAuto() {
@@ -121,11 +121,11 @@ class MobileComponentTest extends CakeTestCase {
 		$this->Controller->Mobile->initialize($this->Controller);
 		$this->Controller->Mobile->startup($this->Controller);
 		$session = CakeSession::read('User');
-		$this->assertSame(array('mobile' => 1), $session);
+		$this->assertSame(['mobile' => 1], $session);
 		$this->assertTrue($this->Controller->Mobile->isMobile);
 
 		$configure = Configure::read('User');
-		$this->assertSame(array('isMobile' => 1, 'setMobile' => 1), $configure);
+		$this->assertSame(['isMobile' => 1, 'setMobile' => 1], $configure);
 		$this->assertTrue($this->Controller->Mobile->setMobile);
 	}
 
@@ -136,7 +136,7 @@ class MobileComponentTest extends CakeTestCase {
 		$this->Controller->Mobile->initialize($this->Controller);
 		$this->Controller->Mobile->startup($this->Controller);
 		$session = CakeSession::read('User');
-		$this->assertSame(array('mobile' => 1), $session);
+		$this->assertSame(['mobile' => 1], $session);
 		$this->assertTrue($this->Controller->Mobile->isMobile);
 	}
 
@@ -147,48 +147,48 @@ class MobileComponentTest extends CakeTestCase {
 		$this->Controller->Mobile->initialize($this->Controller);
 		$this->Controller->Mobile->startup($this->Controller);
 		$session = CakeSession::read('User');
-		$this->assertSame(array('mobile' => 1), $session);
+		$this->assertSame(['mobile' => 1], $session);
 		$this->assertTrue($this->Controller->Mobile->isMobile);
 	}
 
 	public function testMobileCustomMobile() {
-		$this->Controller->Mobile->settings['mobile'] = array();
+		$this->Controller->Mobile->settings['mobile'] = [];
 		$_SERVER['HTTP_USER_AGENT'] = 'Some Ipad device';
 
 		$this->Controller->Mobile->initialize($this->Controller);
 		$this->Controller->Mobile->startup($this->Controller);
 		$session = CakeSession::read('User');
-		$this->assertSame(array('mobile' => 0), $session);
+		$this->assertSame(['mobile' => 0], $session);
 	}
 
 	public function testMobileCustomMobileMobile() {
-		$this->Controller->Mobile->settings['mobile'] = array('mobile');
+		$this->Controller->Mobile->settings['mobile'] = ['mobile'];
 		$_SERVER['HTTP_USER_AGENT'] = 'Some Android device';
 
 		$this->Controller->Mobile->initialize($this->Controller);
 		$this->Controller->Mobile->startup($this->Controller);
 		$session = CakeSession::read('User');
-		$this->assertSame(array('mobile' => 1), $session);
+		$this->assertSame(['mobile' => 1], $session);
 	}
 
 	public function testMobileCustomMobileTablet() {
-		$this->Controller->Mobile->settings['mobile'] = array('tablet');
+		$this->Controller->Mobile->settings['mobile'] = ['tablet'];
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A403 Safari/8536.25';
 
 		$this->Controller->Mobile->initialize($this->Controller);
 		$this->Controller->Mobile->startup($this->Controller);
 		$session = CakeSession::read('User');
-		$this->assertSame(array('mobile' => 1), $session);
+		$this->assertSame(['mobile' => 1], $session);
 	}
 
 	public function testMobileCustomMobileTablet2() {
-		$this->Controller->Mobile->settings['mobile'] = array('mobile');
+		$this->Controller->Mobile->settings['mobile'] = ['mobile'];
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A403 Safari/8536.25';
 
 		$this->Controller->Mobile->initialize($this->Controller);
 		$this->Controller->Mobile->startup($this->Controller);
 		$session = CakeSession::read('User');
-		$this->assertSame(array('mobile' => 0), $session);
+		$this->assertSame(['mobile' => 0], $session);
 	}
 
 	public function testMobileEngineClosure() {
@@ -201,7 +201,7 @@ class MobileComponentTest extends CakeTestCase {
 		$this->Controller->Mobile->initialize($this->Controller);
 		$this->Controller->Mobile->startup($this->Controller);
 		$session = CakeSession::read('User');
-		$this->assertSame(array('mobile' => 1), $session);
+		$this->assertSame(['mobile' => 1], $session);
 	}
 
 }
@@ -213,7 +213,7 @@ class MobileComponentTestController extends AppController {
 	 *
 	 * @var array
 	 */
-	public $components = array('Tools.Mobile');
+	public $components = ['Tools.Mobile'];
 
 	/**
 	 * Failed property
@@ -227,7 +227,7 @@ class MobileComponentTestController extends AppController {
 	 *
 	 * @var array
 	 */
-	public $testHeaders = array();
+	public $testHeaders = [];
 
 	/**
 	 * Fail method

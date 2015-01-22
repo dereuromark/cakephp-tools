@@ -6,9 +6,9 @@ class HashShell extends AppShell {
 
 	const DEFAULT_HASH_ALG = 4; # sha1
 
-	public $active = array('md5', 'sha1', 'sha256', 'sha512');
+	public $active = ['md5', 'sha1', 'sha256', 'sha512'];
 
-	public $tasks = array();
+	public $tasks = [];
 
 	/**
 	 * Override main() for help message hook
@@ -23,7 +23,7 @@ class HashShell extends AppShell {
 		$this->out('Hash Strings...');
 		$hashAlgos = hash_algos();
 
-		$types = array_merge(array_keys($hashAlgos), array('q'));
+		$types = array_merge(array_keys($hashAlgos), ['q']);
 		foreach ($hashAlgos as $key => $t) {
 			$this->out(($key + 1) . ': ' . $t . (in_array($t, $this->active) ? ' (!)' : ''));
 		}
@@ -75,7 +75,7 @@ class HashShell extends AppShell {
 		}
 		echo strlen($data) . ' bytes of random data built !' . PHP_EOL . PHP_EOL . 'Testing hash algorithms ...' . PHP_EOL;
 
-		$results = array();
+		$results = [];
 		foreach (hash_algos() as $v) {
 			echo $v . PHP_EOL;
 
@@ -113,25 +113,25 @@ class HashShell extends AppShell {
 		$parser = parent::getOptionParser();
 
 		$parser->description('A console tool for hashing strings')
-			->addSubcommand('string', array(
+			->addSubcommand('string', [
 				'help' => 'Hash a string',
-				'parser' => array(
+				'parser' => [
 					'description' => 'hash',
-				)
-			))->addSubcommand('compare', array(
+				]
+			])->addSubcommand('compare', [
 				'help' => 'Compare algs',
-				'parser' => array(
+				'parser' => [
 					'description' => 'Compare algs',
-				)
-			))->addSubcommand('time', array(
+				]
+			])->addSubcommand('time', [
 				'help' => 'Measure alg times',
-				'parser' => array(
+				'parser' => [
 					'description' => 'Measure alg times',
-				)
-			))->epilog(
-				array(
+				]
+			])->epilog(
+				[
 					'sha1 is the default algorithm'
-				)
+				]
 			);
 		return $parser;
 	}

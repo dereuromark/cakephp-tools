@@ -14,40 +14,40 @@ class UtilityTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testInArray() {
-		$res = Utility::inArray(2, array(1, 2, 3));
+		$res = Utility::inArray(2, [1, 2, 3]);
 		$this->assertTrue($res);
 
-		$res = Utility::inArray(4, array(1, 2, 7));
+		$res = Utility::inArray(4, [1, 2, 7]);
 		$this->assertFalse($res);
 
-		$res = Utility::inArray('2', array(1, 2, 3));
+		$res = Utility::inArray('2', [1, 2, 3]);
 		$this->assertTrue($res);
 
-		$res = Utility::inArray(2, array('1x', '2x', '3x'));
+		$res = Utility::inArray(2, ['1x', '2x', '3x']);
 		$this->assertFalse($res);
 
-		$res = Utility::inArray('3x', array('1x', '2x', '3x'));
+		$res = Utility::inArray('3x', ['1x', '2x', '3x']);
 		$this->assertTrue($res);
 
-		$res = Utility::inArray(3, array('1', '2', '3'));
+		$res = Utility::inArray(3, ['1', '2', '3']);
 		$this->assertTrue($res);
 
-		$res = Utility::inArray('2x', array(1, 2, 3));
+		$res = Utility::inArray('2x', [1, 2, 3]);
 		$this->assertFalse($res);
 	}
 
 	public function testTokenize() {
 		$res = Utility::tokenize('');
-		$this->assertSame(array(), $res);
+		$this->assertSame([], $res);
 
 		$res = Utility::tokenize('some');
-		$this->assertSame(array('some'), $res);
+		$this->assertSame(['some'], $res);
 
 		$res = Utility::tokenize('some, thing');
-		$this->assertSame(array('some', 'thing'), $res);
+		$this->assertSame(['some', 'thing'], $res);
 
 		$res = Utility::tokenize(',some,,, ,, thing,');
-		$this->assertSame(array('some', 'thing'), array_values($res));
+		$this->assertSame(['some', 'thing'], array_values($res));
 	}
 
 	/**
@@ -59,26 +59,26 @@ class UtilityTest extends MyCakeTestCase {
 	public function testPregMatch() {
 		$string = '<abc>';
 		preg_match('/\<(\w+)\>/', $string, $matches);
-		$this->assertSame(array($string, 'abc'), $matches);
+		$this->assertSame([$string, 'abc'], $matches);
 
 		$matches = Utility::pregMatch('/\<(\w+)\>/', $string);
-		$this->assertSame(array($string, 'abc'), $matches);
+		$this->assertSame([$string, 'abc'], $matches);
 
 		$string = '<äöü>';
 		preg_match('/\<(.+)\>/', $string, $matches);
-		$this->assertSame(array($string, 'äöü'), $matches);
+		$this->assertSame([$string, 'äöü'], $matches);
 
 		$matches = Utility::pregMatch('/\<(.+)\>/', $string);
-		$this->assertSame(array($string, 'äöü'), $matches);
+		$this->assertSame([$string, 'äöü'], $matches);
 
 		$string = 'D-81245 München';
 		preg_match('/(*UTF8)([\w+])-([a-z0-9]+)\s+\b([\w\s]+)\b/iu', $string, $matches);
-		$expected = array(
+		$expected = [
 			$string,
 			'D',
 			'81245',
 			'München'
-		);
+		];
 		$this->assertSame($expected, $matches);
 
 		// we dont need the utf8 hack:
@@ -104,7 +104,7 @@ class UtilityTest extends MyCakeTestCase {
 		$res = '/a\s*' . $res . '\s*z/i';
 		$string = 'a ' . $string . ' z';
 		$matches = Utility::pregMatch($res, $string);
-		$expected = array($string);
+		$expected = [$string];
 		$this->assertSame($expected, $matches);
 	}
 
@@ -117,14 +117,14 @@ class UtilityTest extends MyCakeTestCase {
 	public function testPregMatchAll() {
 		$string = 'D-81245 München';
 		preg_match_all('/(*UTF8)([\w+])-([a-z0-9]+)\s+\b([\w\s]+)\b/iu', $string, $matches, PREG_SET_ORDER);
-		$expected = array(
-			array(
+		$expected = [
+			[
 				$string,
 				'D',
 				'81245',
 				'München'
-			)
-		);
+			]
+		];
 		$this->assertSame($expected, $matches);
 
 		// we dont need the utf8 hack:
@@ -140,7 +140,7 @@ class UtilityTest extends MyCakeTestCase {
 	 */
 	public function testStrSplit() {
 		$res = str_split('some äöü string', 7);
-		$expected = array('some äö', 'ü strin', 'g');
+		$expected = ['some äö', 'ü strin', 'g'];
 		$this->assertNotSame($expected, $res);
 
 		$res = Utility::strSplit('some äöü string', 7);
@@ -319,16 +319,16 @@ class UtilityTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testDeep() {
-		$is = array(
+		$is = [
 			'f some',
 			'e 49r ' => 'rf r ',
-			'er' => array(array('ee' => array('rr ' => ' tt ')))
-		);
-		$expected = array(
+			'er' => [['ee' => ['rr ' => ' tt ']]]
+		];
+		$expected = [
 			'f some',
 			'e 49r ' => 'rf r',
-			'er' => array(array('ee' => array('rr ' => 'tt')))
-		);
+			'er' => [['ee' => ['rr ' => 'tt']]]
+		];
 		//$this->assertSame($expected, $is);
 
 		$res = Utility::trimDeep($is);
@@ -341,16 +341,16 @@ class UtilityTest extends MyCakeTestCase {
 	//TODO: move to boostrap
 
 	public function _testDeepFunction() {
-		$is = array(
+		$is = [
 			'f some',
 			'e 49r ' => 'rf r ',
-			'er' => array(array('ee' => array('rr ' => ' tt ')))
-		);
-		$expected = array(
+			'er' => [['ee' => ['rr ' => ' tt ']]]
+		];
+		$expected = [
 			'f some',
 			'e 49r ' => 'rf r',
-			'er' => array(array('ee' => array('rr ' => 'tt')))
-		);
+			'er' => [['ee' => ['rr ' => 'tt']]]
+		];
 
 		$result = Utility::deep('trim', $is);
 		$this->assertSame($expected, $result);
@@ -362,54 +362,54 @@ class UtilityTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testCountDim() {
-		$data = array('one', '2', 'three');
+		$data = ['one', '2', 'three'];
 		$result = Utility::countDim($data);
 		$this->assertEquals(1, $result);
 
-		$data = array('1' => '1.1', '2', '3');
+		$data = ['1' => '1.1', '2', '3'];
 		$result = Utility::countDim($data);
 		$this->assertEquals(1, $result);
 
-		$data = array('1' => array('1.1' => '1.1.1'), '2', '3' => array('3.1' => '3.1.1'));
+		$data = ['1' => ['1.1' => '1.1.1'], '2', '3' => ['3.1' => '3.1.1']];
 		$result = Utility::countDim($data);
 		$this->assertEquals(2, $result);
 
-		$data = array('1' => '1.1', '2', '3' => array('3.1' => '3.1.1'));
+		$data = ['1' => '1.1', '2', '3' => ['3.1' => '3.1.1']];
 		$result = Utility::countDim($data);
 		$this->assertEquals(1, $result);
 
-		$data = array('1' => '1.1', '2', '3' => array('3.1' => '3.1.1'));
+		$data = ['1' => '1.1', '2', '3' => ['3.1' => '3.1.1']];
 		$result = Utility::countDim($data, true);
 		$this->assertEquals(2, $result);
 
-		$data = array('1' => array('1.1' => '1.1.1'), '2', '3' => array('3.1' => array('3.1.1' => '3.1.1.1')));
+		$data = ['1' => ['1.1' => '1.1.1'], '2', '3' => ['3.1' => ['3.1.1' => '3.1.1.1']]];
 		$result = Utility::countDim($data);
 		$this->assertEquals(2, $result);
 
-		$data = array('1' => array('1.1' => '1.1.1'), '2', '3' => array('3.1' => array('3.1.1' => '3.1.1.1')));
+		$data = ['1' => ['1.1' => '1.1.1'], '2', '3' => ['3.1' => ['3.1.1' => '3.1.1.1']]];
 		$result = Utility::countDim($data, true);
 		$this->assertEquals(3, $result);
 
-		$data = array('1' => array('1.1' => '1.1.1'), array('2' => array('2.1' => array('2.1.1' => '2.1.1.1'))), '3' => array('3.1' => array('3.1.1' => '3.1.1.1')));
+		$data = ['1' => ['1.1' => '1.1.1'], ['2' => ['2.1' => ['2.1.1' => '2.1.1.1']]], '3' => ['3.1' => ['3.1.1' => '3.1.1.1']]];
 		$result = Utility::countDim($data, true);
 		$this->assertEquals(4, $result);
 
-		$data = array('1' => array('1.1' => '1.1.1'), array('2' => array('2.1' => array('2.1.1' => array('2.1.1.1')))), '3' => array('3.1' => array('3.1.1' => '3.1.1.1')));
+		$data = ['1' => ['1.1' => '1.1.1'], ['2' => ['2.1' => ['2.1.1' => ['2.1.1.1']]]], '3' => ['3.1' => ['3.1.1' => '3.1.1.1']]];
 		$result = Utility::countDim($data, true);
 		$this->assertEquals(5, $result);
 
-		$data = array('1' => array('1.1' => '1.1.1'), array('2' => array('2.1' => array('2.1.1' => array('2.1.1.1' => '2.1.1.1.1')))), '3' => array('3.1' => array('3.1.1' => '3.1.1.1')));
+		$data = ['1' => ['1.1' => '1.1.1'], ['2' => ['2.1' => ['2.1.1' => ['2.1.1.1' => '2.1.1.1.1']]]], '3' => ['3.1' => ['3.1.1' => '3.1.1.1']]];
 		$result = Utility::countDim($data, true);
 		$this->assertEquals(5, $result);
 
-		$set = array('1' => array('1.1' => '1.1.1'), array('2' => array('2.1' => array('2.1.1' => array('2.1.1.1' => '2.1.1.1.1')))), '3' => array('3.1' => array('3.1.1' => '3.1.1.1')));
+		$set = ['1' => ['1.1' => '1.1.1'], ['2' => ['2.1' => ['2.1.1' => ['2.1.1.1' => '2.1.1.1.1']]]], '3' => ['3.1' => ['3.1.1' => '3.1.1.1']]];
 		$result = Utility::countDim($set, false, 0);
 		$this->assertEquals(2, $result);
 
 		$result = Utility::countDim($set, true);
 		$this->assertEquals(5, $result);
 
-		$data = array('one' => array(null), array('null' => null), 'three' => array(true, false, null));
+		$data = ['one' => [null], ['null' => null], 'three' => [true, false, null]];
 		$result = Utility::countDim($data, true);
 		$this->assertEquals(2, $result);
 	}
@@ -420,25 +420,25 @@ class UtilityTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testExpandList() {
-		$is = array(
+		$is = [
 			'Some.Deep.Value1',
 			'Some.Deep.Value2',
 			'Some.Even.Deeper.Nested.Value',
 			'Empty.',
 			'0.1.2',
 			'.EmptyString'
-		);
+		];
 		$result = Utility::expandList($is);
 
-		$expected = array(
-			'Some' => array(
-				'Deep' => array('Value1', 'Value2'),
-				'Even' => array('Deeper' => array('Nested' => array('Value')))
-			),
-			'Empty' => array(''),
-			'0' => array('1' => array('2')),
-			'' => array('EmptyString')
-		);
+		$expected = [
+			'Some' => [
+				'Deep' => ['Value1', 'Value2'],
+				'Even' => ['Deeper' => ['Nested' => ['Value']]]
+			],
+			'Empty' => [''],
+			'0' => ['1' => ['2']],
+			'' => ['EmptyString']
+		];
 		$this->assertSame($expected, $result);
 	}
 
@@ -449,10 +449,10 @@ class UtilityTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testExpandListWithKeyLessListInvalid() {
-		$is = array(
+		$is = [
 			'Some',
 			'ValueOnly',
-		);
+		];
 		Utility::expandList($is);
 	}
 
@@ -462,16 +462,16 @@ class UtilityTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testExpandListWithKeyLessList() {
-		$is = array(
+		$is = [
 			'Some',
 			'Thing',
 			'.EmptyString'
-		);
+		];
 		$result = Utility::expandList($is, '.', '');
 
-		$expected = array(
-			'' => array('Some', 'Thing', 'EmptyString'),
-		);
+		$expected = [
+			'' => ['Some', 'Thing', 'EmptyString'],
+		];
 		$this->assertSame($expected, $result);
 	}
 
@@ -481,19 +481,19 @@ class UtilityTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testFlatten() {
-		$is = array(
-			'Some' => array(
-				'Deep' => array('Value1', 'Value2'),
-				'Even' => array('Deeper' => array('Nested' => array('Value')))
-			),
-			'Empty' => array(''),
-			'0' => array('1' => array('2')),
+		$is = [
+			'Some' => [
+				'Deep' => ['Value1', 'Value2'],
+				'Even' => ['Deeper' => ['Nested' => ['Value']]]
+			],
+			'Empty' => [''],
+			'0' => ['1' => ['2']],
 			//'ValueOnly',
-			'' => array('EmptyString')
-		);
+			'' => ['EmptyString']
+		];
 		$result = Utility::flattenList($is);
 
-		$expected = array(
+		$expected = [
 			'Some.Deep.Value1',
 			'Some.Deep.Value2',
 			'Some.Even.Deeper.Nested.Value',
@@ -501,25 +501,25 @@ class UtilityTest extends MyCakeTestCase {
 			'0.1.2',
 			//'1.ValueOnly'
 			'.EmptyString'
-		);
+		];
 		$this->assertSame($expected, $result);
 
 		// Test integers als booleans
-		$is = array(
-			'Some' => array(
-				'Deep' => array(true),
-				'Even' => array('Deeper' => array('Nested' => array(false, true)))
-			),
-			'Integer' => array('Value' => array(-3)),
-		);
+		$is = [
+			'Some' => [
+				'Deep' => [true],
+				'Even' => ['Deeper' => ['Nested' => [false, true]]]
+			],
+			'Integer' => ['Value' => [-3]],
+		];
 		$result = Utility::flattenList($is);
 
-		$expected = array(
+		$expected = [
 			'Some.Deep.1',
 			'Some.Even.Deeper.Nested.0',
 			'Some.Even.Deeper.Nested.1',
 			'Integer.Value.-3',
-		);
+		];
 		$this->assertSame($expected, $result);
 	}
 
@@ -530,21 +530,21 @@ class UtilityTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testArrayFlattenBasic() {
-		$strings = array(
-			'a' => array('a' => 'A'),
-			'b' => array('b' => 'B', 'c' => 'C'),
-			'c' => array(),
-			'd' => array(array(array('z' => 'Z'), 'y' => 'Y'))
-		);
+		$strings = [
+			'a' => ['a' => 'A'],
+			'b' => ['b' => 'B', 'c' => 'C'],
+			'c' => [],
+			'd' => [[['z' => 'Z'], 'y' => 'Y']]
+		];
 
 		$result = Utility::arrayFlatten($strings);
-		$expected = array(
+		$expected = [
 			'a' => 'A',
 			'b' => 'B',
 			'c' => 'C',
 			'z' => 'Z',
 			'y' => 'Y'
-		);
+		];
 		$this->assertSame($expected, $result);
 	}
 
@@ -555,19 +555,19 @@ class UtilityTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testArrayFlatten() {
-		$array = array(
+		$array = [
 			'a' => 1,
-			'b' => array('h' => false, 'c' => array('d' => array('f' => 'g', 'h' => true))),
+			'b' => ['h' => false, 'c' => ['d' => ['f' => 'g', 'h' => true]]],
 			'k' => 'm',
-		);
+		];
 		$res = Utility::arrayFlatten($array);
 
-		$expected = array(
+		$expected = [
 			'a' => 1,
 			'h' => true,
 			'f' => 'g',
 			'k' => 'm',
-		);
+		];
 		$this->assertSame($expected, $res);
 	}
 
@@ -578,18 +578,18 @@ class UtilityTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testArrayFlattenAndPreserveKeys() {
-		$array = array(
+		$array = [
 			0 => 1,
-			1 => array('c' => array('d' => array('g', 'h' => true))),
+			1 => ['c' => ['d' => ['g', 'h' => true]]],
 			2 => 'm',
-		);
+		];
 		$res = Utility::arrayFlatten($array, true);
 
-		$expected = array(
+		$expected = [
 			0 => 'g',
 			'h' => true,
 			2 => 'm',
-		);
+		];
 		$this->assertSame($expected, $res);
 	}
 
@@ -600,19 +600,19 @@ class UtilityTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testArrayShiftKeys() {
-		$array = array(
+		$array = [
 			'a' => 1,
-			'b' => array('c' => array('d' => array('f' => 'g', 'h' => true))),
+			'b' => ['c' => ['d' => ['f' => 'g', 'h' => true]]],
 			'k' => 'm',
-		);
+		];
 		$res = Utility::arrayShiftKeys($array);
 
 		$expected = 'a';
 		$this->assertSame($expected, $res);
-		$expected = array(
-			'b' => array('c' => array('d' => array('f' => 'g', 'h' => true))),
+		$expected = [
+			'b' => ['c' => ['d' => ['f' => 'g', 'h' => true]]],
 			'k' => 'm',
-		);
+		];
 		$this->assertSame($expected, $array);
 	}
 
@@ -644,21 +644,21 @@ class UtilityTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testLogicalAnd() {
-		$array = array(
+		$array = [
 			'a' => 1,
 			'b' => 1,
 			'c' => 0,
 			'd' => 1,
-		);
+		];
 		$is = Utility::logicalAnd($array);
 		$this->assertFalse($is);
 
-		$array = array(
+		$array = [
 			'a' => 1,
 			'b' => 1,
 			'c' => 1,
 			'd' => 1,
-		);
+		];
 		$is = Utility::logicalAnd($array);
 		$this->assertTrue($is);
 	}
@@ -670,30 +670,30 @@ class UtilityTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testLogicalOr() {
-		$array = array(
+		$array = [
 			'a' => 0,
 			'b' => 1,
 			'c' => 0,
 			'd' => 1,
-		);
+		];
 		$is = Utility::logicalOr($array);
 		$this->assertTrue($is);
 
-		$array = array(
+		$array = [
 			'a' => 1,
 			'b' => 1,
 			'c' => 1,
 			'd' => 1,
-		);
+		];
 		$is = Utility::logicalOr($array);
 		$this->assertTrue($is);
 
-		$array = array(
+		$array = [
 			'a' => 0,
 			'b' => 0,
 			'c' => 0,
 			'd' => 0,
-		);
+		];
 		$is = Utility::logicalOr($array);
 		$this->assertFalse($is);
 	}
@@ -705,13 +705,13 @@ class UtilityTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testIsValidSaveAll() {
-		$result = Utility::isValidSaveAll(array());
+		$result = Utility::isValidSaveAll([]);
 		$this->assertFalse($result);
 
-		$result = Utility::isValidSaveAll(array(true, true));
+		$result = Utility::isValidSaveAll([true, true]);
 		$this->assertTrue($result);
 
-		$result = Utility::isValidSaveAll(array(true, false));
+		$result = Utility::isValidSaveAll([true, false]);
 		$this->assertFalse($result);
 	}
 

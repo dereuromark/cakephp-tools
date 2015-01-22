@@ -4,7 +4,7 @@ App::uses('TinyUrlsController', 'Tools.Controller');
 
 class TinyUrlsControllerTest extends ControllerTestCase {
 
-	public $fixtures = array('core.cake_session', 'plugin.tools.user', 'plugin.tools.role', 'plugin.tools.tiny_url');
+	public $fixtures = ['core.cake_session', 'plugin.tools.user', 'plugin.tools.role', 'plugin.tools.tiny_url'];
 
 	public $TinyUrlsController;
 
@@ -38,7 +38,7 @@ class TinyUrlsControllerTest extends ControllerTestCase {
 	public function testGo() {
 		$this->TinyUrl = ClassRegistry::init('Tools.TinyUrl');
 
-		$url = $this->TinyUrl->url(array('controller' => 'test', 'action' => 'foo', 'bar'), 1);
+		$url = $this->TinyUrl->url(['controller' => 'test', 'action' => 'foo', 'bar'], 1);
 		$this->assertContains('/tools/tiny_urls/go?id=m', $url);
 
 		$key = 'm';
@@ -59,17 +59,17 @@ class TinyUrlsControllerTest extends ControllerTestCase {
 	 * @return void
 	 */
 	public function testAdminIndex() {
-		$user = array(
+		$user = [
 			'id' => 1,
 			'role_id' => 1
-		);
+		];
 		CakeSession::write('Auth.User', $user);
 
-		$url = Router::url(array('admin' => true, 'plugin' => 'tools', 'controller' => 'tiny_urls', 'action' => 'index'));
-		$result = $this->testAction($url, array(
+		$url = Router::url(['admin' => true, 'plugin' => 'tools', 'controller' => 'tiny_urls', 'action' => 'index']);
+		$result = $this->testAction($url, [
 			'method' => 'get',
 			'return' => 'contents'
-		));
+		]);
 		$this->assertNotEmpty($result);
 	}
 
@@ -79,16 +79,16 @@ class TinyUrlsControllerTest extends ControllerTestCase {
 	 * @return void
 	 */
 	public function testAdminReset() {
-		$user = array(
+		$user = [
 			'id' => 1,
 			'role_id' => 1
-		);
+		];
 		CakeSession::write('Auth.User', $user);
 
-		$url = Router::url(array('admin' => true, 'plugin' => 'tools', 'controller' => 'tiny_urls', 'action' => 'reset'));
-		$result = $this->testAction($url, array(
+		$url = Router::url(['admin' => true, 'plugin' => 'tools', 'controller' => 'tiny_urls', 'action' => 'reset']);
+		$result = $this->testAction($url, [
 			'return' => 'contents'
-		));
+		]);
 		$this->assertNull($result);
 		$this->assertTextContains('admin/tools/tiny_urls', $this->headers['Location']);
 	}

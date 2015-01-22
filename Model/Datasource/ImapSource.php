@@ -25,8 +25,8 @@ class ImapSource extends DataSource {
 
 	protected $_connectionType = '';
 
-	protected $_defaultConfigs = array(
-		'global' => array(
+	protected $_defaultConfigs = [
+		'global' => [
 			'username' => false,
 			'password' => false,
 			'email' => false,
@@ -36,22 +36,22 @@ class ImapSource extends DataSource {
 			'mailbox' => 'INBOX',
 			'retry' => 3,
 			'error_handler' => 'php',
-			'auto_mark_as' => array('seen'),
+			'auto_mark_as' => ['seen'],
 			'auto_transform' => true // transform attachments back into the original file content
-			),
-		'imap' => array('port' => 143),
-		'pop3' => array('port' => 110),
-		);
+			],
+		'imap' => ['port' => 143],
+		'pop3' => ['port' => 110],
+		];
 
-	public $marks = array(
+	public $marks = [
 		'\Seen',
 		'\Answered',
 		'\Flagged',
 		'\Deleted',
 		'\Draft',
-		);
+		];
 
-	public $config = array();
+	public $config = [];
 
 	public $driver = null;
 
@@ -60,180 +60,180 @@ class ImapSource extends DataSource {
 	 *
 	 * @var array
 	 */
-	protected $_schema = array(
-		'id' => array(
+	protected $_schema = [
+		'id' => [
 			'type' => 'integer',
 			'default' => null,
 			'length' => 15,
 			'key' => 'primary',
-			),
-		'message_id' => array(
+			],
+		'message_id' => [
 			'type' => 'string',
 			'default' => null,
 			'length' => 255,
-			),
-		'email_number' => array(
+			],
+		'email_number' => [
 			'type' => 'integer',
 			'default' => null,
 			'length' => 15,
-			),
+			],
 
-		'to' => array(
+		'to' => [
 			'type' => 'string',
 			'default' => null,
 			'length' => 255,
-			),
-		'to_name' => array(
+			],
+		'to_name' => [
 			'type' => 'string',
 			'default' => null,
 			'length' => 255,
-			),
-		'from' => array(
+			],
+		'from' => [
 			'type' => 'string',
 			'default' => null,
 			'length' => 255,
-			),
-		'from_name' => array(
+			],
+		'from_name' => [
 			'type' => 'string',
 			'default' => null,
 			'length' => 255,
-			),
-		'reply_to' => array(
+			],
+		'reply_to' => [
 			'type' => 'string',
 			'default' => null,
 			'length' => 255,
-			),
-		'reply_to_name' => array(
+			],
+		'reply_to_name' => [
 			'type' => 'string',
 			'default' => null,
 			'length' => 255,
-			),
-		'sender' => array(
+			],
+		'sender' => [
 			'type' => 'string',
 			'default' => null,
 			'length' => 255,
-			),
-		'sender_name' => array(
+			],
+		'sender_name' => [
 			'type' => 'string',
 			'default' => null,
 			'length' => 255,
-			),
+			],
 
-		'subject' => array(
+		'subject' => [
 			'type' => 'string',
 			'default' => null,
 			'length' => 255,
-			),
-		'slug' => array(
+			],
+		'slug' => [
 			'type' => 'string',
 			'default' => null,
 			'length' => 255,
-			),
-		'body_html' => array(
+			],
+		'body_html' => [
 			'type' => 'text',
 			'default' => null,
-			),
-		'body_text' => array(
+			],
+		'body_text' => [
 			'type' => 'text',
 			'default' => null,
-			),
-		'size' => array(
+			],
+		'size' => [
 			'type' => 'string',
 			'default' => null,
 			'length' => 255,
-			),
+			],
 
-		'recent' => array(
+		'recent' => [
 			'type' => 'boolean',
 			'default' => null,
 			'length' => 1,
-			),
-		'seen' => array(
+			],
+		'seen' => [
 			'type' => 'boolean',
 			'default' => null,
 			'length' => 1,
-			),
-		'flagged' => array(
+			],
+		'flagged' => [
 			'type' => 'boolean',
 			'default' => null,
 			'length' => 1,
-			),
-		'answered' => array(
+			],
+		'answered' => [
 			'type' => 'boolean',
 			'default' => null,
 			'length' => 1,
-			),
-		'draft' => array(
+			],
+		'draft' => [
 			'type' => 'boolean',
 			'default' => null,
 			'length' => 1,
-			),
-		'deleted' => array(
+			],
+		'deleted' => [
 			'type' => 'boolean',
 			'default' => null,
 			'length' => 1,
-			),
+			],
 
-		'thread_count' => array(
+		'thread_count' => [
 			'type' => 'integer',
 			'default' => null,
 			'length' => 15,
 			'key' => 'primary',
-			),
-		'attachments' => array(
+			],
+		'attachments' => [
 			'type' => 'text',
 			'default' => null,
-			),
-		'in_reply_to' => array(
+			],
+		'in_reply_to' => [
 			'type' => 'string',
 			'default' => null,
 			'length' => 255,
-			),
-		'reference' => array(
+			],
+		'reference' => [
 			'type' => 'string',
 			'default' => null,
 			'length' => 255,
-			),
-		'new' => array(
+			],
+		'new' => [
 			'type' => 'boolean',
 			'default' => null,
 			'length' => 1,
-			),
-		'created' => array(
+			],
+		'created' => [
 			'type' => 'datetime',
 			'default' => null,
-			),
-		);
+			],
+		];
 
-	public $columns = array(
-		'primary_key' => array('name' => 'NOT NULL AUTO_INCREMENT'),
-		'string' => array('name' => 'varchar', 'limit' => '255'),
-		'text' => array('name' => 'text'),
-		'integer' => array(
+	public $columns = [
+		'primary_key' => ['name' => 'NOT NULL AUTO_INCREMENT'],
+		'string' => ['name' => 'varchar', 'limit' => '255'],
+		'text' => ['name' => 'text'],
+		'integer' => [
 			'name' => 'int',
 			'limit' => '11',
-			'formatter' => 'intval'),
-		'float' => array('name' => 'float', 'formatter' => 'floatval'),
-		'datetime' => array(
+			'formatter' => 'intval'],
+		'float' => ['name' => 'float', 'formatter' => 'floatval'],
+		'datetime' => [
 			'name' => 'datetime',
 			'format' => 'Y-m-d H:i:s',
-			'formatter' => 'date'),
-		'timestamp' => array(
+			'formatter' => 'date'],
+		'timestamp' => [
 			'name' => 'timestamp',
 			'format' => 'Y-m-d H:i:s',
-			'formatter' => 'date'),
-		'time' => array(
+			'formatter' => 'date'],
+		'time' => [
 			'name' => 'time',
 			'format' => 'H:i:s',
-			'formatter' => 'date'),
-		'date' => array(
+			'formatter' => 'date'],
+		'date' => [
 			'name' => 'date',
 			'format' => 'Y-m-d',
-			'formatter' => 'date'),
-		'binary' => array('name' => 'blob'),
-		'boolean' => array('name' => 'tinyint', 'limit' => '1'));
+			'formatter' => 'date'],
+		'binary' => ['name' => 'blob'],
+		'boolean' => ['name' => 'tinyint', 'limit' => '1']];
 
-	public $dataTypes = array(
+	public $dataTypes = [
 		0 => 'text',
 		1 => 'multipart',
 		2 => 'message',
@@ -242,16 +242,16 @@ class ImapSource extends DataSource {
 		5 => 'image',
 		6 => 'video',
 		7 => 'other',
-		);
+		];
 
-	public $encodingTypes = array(
+	public $encodingTypes = [
 		0 => '7bit',
 		1 => '8bit',
 		2 => 'binary',
 		3 => 'base64',
 		4 => 'quoted-printable',
 		5 => 'other',
-		);
+		];
 
 	/**
 	 * __construct()
@@ -306,7 +306,7 @@ class ImapSource extends DataSource {
 	 * @return array Sources
 	 */
 	public function listSources($data = null) {
-		return array('listSources');
+		return ['listSources'];
 	}
 
 	/**
@@ -351,7 +351,7 @@ class ImapSource extends DataSource {
 	 *
 	 * @return the data requested by the model
 	 */
-	public function read(Model $Model, $queryData = array(), $recursive = null) {
+	public function read(Model $Model, $queryData = [], $recursive = null) {
 		if (!$this->connect($Model, $queryData)) {
 			//throw new RuntimeException('something is wrong');
 			return $this->err($Model, 'Cannot connect to server');
@@ -367,7 +367,7 @@ class ImapSource extends DataSource {
 
 		// Nothing was found
 		if (empty($uids)) {
-			return array();
+			return [];
 		}
 
 		// Trim resulting ids based on pagination / limitation
@@ -384,12 +384,12 @@ class ImapSource extends DataSource {
 			return $uids;
 		}
 		if ($Model->findQueryType === 'count') {
-			return array(array($Model->alias => array('count' => count($uids))));
+			return [[$Model->alias => ['count' => count($uids)]]];
 		}
 		if ($Model->findQueryType === 'all' || $Model->findQueryType === 'first') {
 			$recursive = isset($queryData['recursive']) ? $queryData['recursive'] : $Model->recursive;
 			$fetchAttachments = $recursive > 0;
-			$mails = array();
+			$mails = [];
 			foreach ($uids as $uid) {
 				if (($mail = $this->_getFormattedMail($Model, $uid, $fetchAttachments))) {
 					$mails[] = $mail;
@@ -409,7 +409,7 @@ class ImapSource extends DataSource {
 	 * @param <type> $params
 	 * @return string
 	 */
-	public function calculate(Model $Model, $func, $params = array()) {
+	public function calculate(Model $Model, $func, $params = []) {
 		$params = (array)$params;
 		switch (strtolower($func)) {
 			case 'count':
@@ -427,13 +427,13 @@ class ImapSource extends DataSource {
 			return $this->err($model, 'Cannot update a record without id');
 		}
 
-		$flags = array(
+		$flags = [
 			'recent',
 			'seen',
 			'flagged',
 			'answered',
 			'draft',
-			'deleted');
+			'deleted'];
 		$data = array_combine($fields, $values);
 		foreach ($data as $field => $value) {
 			if (!in_array($field, $flags)) {
@@ -464,7 +464,7 @@ class ImapSource extends DataSource {
 	 */
 	public function query($method, $params, Model $Model) {
 		array_unshift($params, $Model);
-		return call_user_func_array(array($this, $method), $params);
+		return call_user_func_array([$this, $method], $params);
 	}
 
 	/**
@@ -535,7 +535,7 @@ class ImapSource extends DataSource {
 				$current = '*';
 			}
 		}
-		$this->connect($Model, array());
+		$this->connect($Model, []);
 		return imap_list($this->Stream, $this->_connectionString, $current);
 	}
 
@@ -673,10 +673,10 @@ class ImapSource extends DataSource {
 	 * @return array
 	 */
 	protected function _makeSearch(Model $Model, $query) {
-		$searchCriteria = array();
+		$searchCriteria = [];
 
 		if (empty($query['conditions'])) {
-			$query['conditions'] = array();
+			$query['conditions'] = [];
 		}
 
 		// Special case. When somebody specifies primaryKey(s),
@@ -686,14 +686,14 @@ class ImapSource extends DataSource {
 		}
 
 		// Flag search parameters
-		$flags = array(
+		$flags = [
 			'recent',
 			'seen',
 			'flagged',
 			'answered',
 			'draft',
 			'deleted',
-			);
+			];
 
 		foreach ($flags as $flag) {
 			if (($val = $this->_cond($Model, $query, $flag)) === null) {
@@ -738,23 +738,23 @@ class ImapSource extends DataSource {
 	 * @return array
 	 */
 	protected function _makeOrder(Model $Model, $query) {
-		$criterias = array(
+		$criterias = [
 			'date',
 			'arrival',
 			'from',
 			'subject',
 			'to',
 			'cc',
-			'size');
+			'size'];
 
-		$order = array(1, SORTDATE);
+		$order = [1, SORTDATE];
 		if (empty($query['order']) || empty($query['order'][0])) {
 			return $order;
 		}
 
 		foreach ($query['order'][0] as $key => $dir) {
 			if (in_array($key, $criterias)) {
-				return array((strtoupper($dir) === 'ASC') ? 0 : 1, constant('SORT' . strtoupper($key)));
+				return [(strtoupper($dir) === 'ASC') ? 0 : 1, constant('SORT' . strtoupper($key))];
 			}
 		}
 		return $order;
@@ -770,11 +770,11 @@ class ImapSource extends DataSource {
 	 * @return mixed or null
 	 */
 	protected function _cond(Model $Model, $query, $field) {
-		$keys = array(
+		$keys = [
 			'`' . $Model->alias . '`.`' . $field . '`',
 			$Model->alias . '.' . $field,
 			$field,
-		);
+		];
 		if (empty($query['conditions'])) {
 			return null;
 		}
@@ -799,7 +799,7 @@ class ImapSource extends DataSource {
 			// We already know the id, or list of ids
 			$results = $searchCriteria;
 			if (!is_array($results)) {
-				$results = array($results);
+				$results = [$results];
 			}
 			return $results;
 		}
@@ -823,7 +823,7 @@ class ImapSource extends DataSource {
 			}
 			return $arguments;
 		}
-		$arr = array();
+		$arr = [];
 		foreach ($arguments as $key => $val) {
 			if (is_array($val)) {
 				$val = json_encode($val);
@@ -858,16 +858,16 @@ class ImapSource extends DataSource {
 			$type = 'from';
 		}
 		if (!isset($Mail->{$type})) {
-			return array();
+			return [];
 		}
 
-		$results = array();
+		$results = [];
 		foreach ($Mail->{$type} as $person) {
-			$info = array(
+			$info = [
 				'box' => '',
 				'host' => '',
 				'address' => '',
-				);
+				];
 
 			if (isset($person->mailbox)) {
 				$info['box'] = $person->mailbox;
@@ -965,7 +965,7 @@ class ImapSource extends DataSource {
 		$text = $this->_fetchFirstByMime($flatStructure, 'text/plain');
 		$html = $this->_fetchFirstByMime($flatStructure, 'text/html');
 
-		$return[$Model->alias] = array(
+		$return[$Model->alias] = [
 			'id' => $this->_toId($uid),
 			'message_id' => $Mail->messageId,
 			'email_number' => $Mail->Msgno,
@@ -996,7 +996,7 @@ class ImapSource extends DataSource {
 			'reference' => @$Mail->references,
 			'new' => (int)@$Mail->inReplyTo,
 			'created' => date('Y-m-d H:i:s', strtotime($Mail->date)),
-			);
+			];
 		$return['Recipient'] = $this->_personId($Mail, 'to');
 		$return['RecipientCopy'] = $this->_personId($Mail, 'cc');
 		$return['RecipientBlindCopy'] = $this->_personId($Mail, 'bcc');
@@ -1053,8 +1053,8 @@ class ImapSource extends DataSource {
 			}
 		}
 
-		$Part->isAttachment = (!empty($Part->disposition) && !empty($Part->filename) && in_array(strtolower($Part->disposition), array('attachment',
-				'inline')));
+		$Part->isAttachment = (!empty($Part->disposition) && !empty($Part->filename) && in_array(strtolower($Part->disposition), ['attachment',
+				'inline']));
 
 		return $Part;
 	}
@@ -1081,7 +1081,7 @@ class ImapSource extends DataSource {
 				return $this->err($Model, 'No type in structure');
 			}
 		}
-		$flatParts = array();
+		$flatParts = [];
 
 		if (!empty($Structure->parts)) {
 			$decimas = explode('.', $partnr);
@@ -1151,12 +1151,12 @@ class ImapSource extends DataSource {
 	 * @return array
 	 */
 	protected function _fetchAttachments($flatStructure, Model $Model) {
-		$attachments = array();
+		$attachments = [];
 		foreach ($flatStructure as $path => $Part) {
 			if (!$Part->isAttachment) {
 				continue;
 			}
-			$attachments[] = array(
+			$attachments[] = [
 				strtolower(Inflector::singularize($Model->alias) . '_id') => $this->_toId($Part->uid),
 				'message_id' => $Part->uid,
 				'isAttachment' => $Part->isAttachment,
@@ -1168,7 +1168,7 @@ class ImapSource extends DataSource {
 				'name' => $Part->name,
 				'size' => $Part->bytes,
 				'attachment' => $this->_fetchPart($Part),
-			);
+			];
 		}
 
 		return $attachments;
@@ -1229,10 +1229,10 @@ class ImapSource extends DataSource {
 					if ($param->attribute !== 'charset') {
 						continue;
 					}
-					$params = (object)array(
+					$params = (object)[
 						'charset' => $param->value,
 						'text' => $text,
-						);
+						];
 					return $this->_decode($params);
 				}
 
@@ -1250,7 +1250,7 @@ class ImapSource extends DataSource {
 	 */
 	protected function _toUid($id) {
 		if (is_array($id)) {
-			return array_map(array($this, __FUNCTION__), $id);
+			return array_map([$this, __FUNCTION__], $id);
 		}
 
 		$uid = $id;
@@ -1265,7 +1265,7 @@ class ImapSource extends DataSource {
 	 */
 	protected function _toId($uid) {
 		if (is_array($uid)) {
-			return array_map(array($this, __function__ ), $uid);
+			return array_map([$this, __function__ ], $uid);
 		}
 
 		$id = $uid;

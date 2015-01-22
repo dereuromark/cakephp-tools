@@ -29,12 +29,12 @@ class SpellLibTest extends MyCakeTestCase {
 		$res = $this->SpellLib->listBrokers();
 		//debug($res);
 		$this->assertTrue(is_array($res) && count($res) > 1);
-		$this->assertTrue(in_array($res[0]['name'], array('ispell', 'myspell')));
+		$this->assertTrue(in_array($res[0]['name'], ['ispell', 'myspell']));
 
 		$res = $this->SpellLib->listDictionaries();
 		//debug($res);
 		$this->assertTrue(is_array($res) && count($res) > 1);
-		$this->assertTrue(in_array($res[0]['lang_tag'], array('de_DE', 'en_GB')));
+		$this->assertTrue(in_array($res[0]['lang_tag'], ['de_DE', 'en_GB']));
 	}
 
 	public function testDefaults() {
@@ -56,7 +56,7 @@ class SpellLibTest extends MyCakeTestCase {
 	}
 
 	public function testGerman() {
-		$this->SpellLib = new SpellLib(array('lang' => 'de_DE'));
+		$this->SpellLib = new SpellLib(['lang' => 'de_DE']);
 
 		$word = 'Wand';
 		$res = $this->SpellLib->check($word);

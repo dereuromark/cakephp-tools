@@ -22,7 +22,7 @@ class KeyValueBehavior extends ModelBehavior {
 	 *
 	 * @var array
 	 */
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'foreignKeyField' => 'foreign_id',
 		'keyField' => 'key',
 		'valueField' => 'value',
@@ -30,7 +30,7 @@ class KeyValueBehavior extends ModelBehavior {
 		'validate' => null, // looks for `public $keyValueValidate` property in the model
 		'defaultOnEmpty' => false, // if nothing is posted, delete (0 is not nothing)
 		'deleteIfDefault' => false, // if default value is posted, delete
-	);
+	];
 
 	/**
 	 * Setup
@@ -38,7 +38,7 @@ class KeyValueBehavior extends ModelBehavior {
 	 * @param object AppModel
 	 * @param array $config
 	 */
-	public function setup(Model $Model, $config = array()) {
+	public function setup(Model $Model, $config = []) {
 		$config += $this->_defaultConfig;
 		$this->settings[$Model->alias] = $config;
 		if (!$this->KeyValue) {
@@ -62,15 +62,15 @@ class KeyValueBehavior extends ModelBehavior {
 	 */
 	public function getSection(Model $Model, $foreignKey, $section = null, $key = null) {
 		extract($this->settings[$Model->alias]);
-		$results = $this->KeyValue->find('all', array(
+		$results = $this->KeyValue->find('all', [
 			'recursive' => -1,
-			'conditions' => array($foreignKeyField => $foreignKey),
-			'fields' => array('key', 'value')
-		));
+			'conditions' => [$foreignKeyField => $foreignKey],
+			'fields' => ['key', 'value']
+		]);
 
 		$defaultValues = $this->defaultValues($Model);
 
-		$detailArray = array();
+		$detailArray = [];
 		foreach ($results as $value) {
 			$keyArray = preg_split('/\./', $value[$this->KeyValue->alias]['key'], 2);
 			$detailArray[$keyArray[0]][$keyArray[1]] = $value[$this->KeyValue->alias]['value'];
@@ -89,7 +89,7 @@ class KeyValueBehavior extends ModelBehavior {
 			return $detailArray;
 		}
 		if (empty($detailArray[$section])) {
-			return array();
+			return [];
 		}
 		if ($key === null) {
 			return $detailArray[$section];
@@ -122,7 +122,7 @@ class KeyValueBehavior extends ModelBehavior {
 			}
 
 			foreach ($details as $field => $value) {
-				$newDetail = array();
+				$newDetail = [];
 				$section = $section ? $section : $model;
 				$key = $section . '.' . $field;
 
@@ -130,10 +130,10 @@ class KeyValueBehavior extends ModelBehavior {
 					return $this->resetSection($Model, $foreignKey, $section, $field);
 				}
 
-				$tmp = $this->KeyValue->find('first', array(
+				$tmp = $this->KeyValue->find('first', [
 					'recursive' => -1,
-					'conditions' => array($foreignKeyField => $foreignKey, $keyField => $key),
-					'fields' => array('id')));
+					'conditions' => [$foreignKeyField => $foreignKey, $keyField => $key],
+					'fields' => ['id']]);
 
 				if ($tmp) {
 					$newDetail[$this->KeyValue->alias]['id'] = $tmp[$this->KeyValue->alias]['id'];
@@ -171,7 +171,7 @@ class KeyValueBehavior extends ModelBehavior {
 			if (empty($rules[$model])) {
 				continue;
 			}
-			$this->KeyValue->{$model} = ClassRegistry::init(array('class' => 'AppModel', 'alias' => $model, 'table' => false));
+			$this->KeyValue->{$model} = ClassRegistry::init(['class' => 'AppModel', 'alias' => $model, 'table' => false]);
 			$this->KeyValue->{$model}->validate = $rules[$model];
 			$this->KeyValue->{$model}->set($array);
 			$res = $res && $this->KeyValue->{$model}->validates();
@@ -192,7 +192,7 @@ class KeyValueBehavior extends ModelBehavior {
 		if ($defaults === null) {
 			$defaults = 'keyValueDefaults';
 		}
-		$defaultValues = array();
+		$defaultValues = [];
 		if (!empty($Model->{$defaults})) {
 			$defaultValues = $Model->{$defaults};
 		}
@@ -213,7 +213,7 @@ class KeyValueBehavior extends ModelBehavior {
 	 */
 	public function resetSection(Model $Model, $foreignKey = null, $section = null, $key = null) {
 		extract($this->settings[$Model->alias]);
-		$conditions = array();
+		$conditions = [];
 		if ($foreignKey !== null) {
 			$conditions[$foreignKeyField] = $foreignKey;
 		}

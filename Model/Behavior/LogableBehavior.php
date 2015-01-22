@@ -74,7 +74,7 @@ class LogableBehavior extends ModelBehavior {
 
 	public $UserModel = null;
 
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'enabled' => true,
 		'on' => 'save', // On validate/save
 		'userModel' => CLASS_USER,
@@ -82,12 +82,12 @@ class LogableBehavior extends ModelBehavior {
 		'userKey' => 'user_id',
 		'change' => 'list',
 		'descriptionIds' => true,
-		'skip' => array(),
-		'ignore' => array(),
+		'skip' => [],
+		'ignore' => [],
 		'classField' => 'model',
 		'foreignKey' => 'foreign_id',
 		'autoRelation' => false, // Attach relation to the model (hasMany Log)
-	);
+	];
 
 	/**
 	 * Config options are :
@@ -102,7 +102,7 @@ class LogableBehavior extends ModelBehavior {
 	 * @param array $config
 	 * @return void
 	 */
-	public function setup(Model $Model, $config = array()) {
+	public function setup(Model $Model, $config = []) {
 		$config += (array)Configure::read('Logable');
 		$this->settings[$Model->alias] = $config + $this->_defaultConfig;
 		$this->settings[$Model->alias]['ignore'][] = $Model->primaryKey;
@@ -150,20 +150,20 @@ class LogableBehavior extends ModelBehavior {
 	 * @param array $params
 	 * @return array
 	 */
-	public function findLog(Model $Model, $params = array()) {
-		$defaults = array(
+	public function findLog(Model $Model, $params = []) {
+		$defaults = [
 			 $this->settings[$Model->alias]['classField'] => null,
 			 'action' => null,
 			 'order' => $this->Log->alias . '.id DESC',
 			 $this->settings[$Model->alias]['userKey'] => null,
-			 'conditions' => array(),
+			 'conditions' => [],
 			 $this->settings[$Model->alias]['foreignKey'] => null,
-			 'fields' => array(),
+			 'fields' => [],
 			 'limit' => 50,
-		);
+		];
 
 		$params += $defaults;
-		$options = array('order' => $params['order'], 'conditions' => $params['conditions'], 'fields' => $params['fields'], 'limit' => $params['limit']);
+		$options = ['order' => $params['order'], 'conditions' => $params['conditions'], 'fields' => $params['fields'], 'limit' => $params['limit']];
 		if ($params[$this->settings[$Model->alias]['classField']] === null) {
 			$params[$this->settings[$Model->alias]['classField']] = $Model->alias;
 		}
@@ -173,7 +173,7 @@ class LogableBehavior extends ModelBehavior {
 			} elseif ($this->Log->hasField('description')) {
 				$options['conditions']['description LIKE '] = $params[$this->settings[$Model->alias]['classField']] . '%';
 			} else {
-				return array();
+				return [];
 			}
 		}
 		if ($params['action'] && $this->Log->hasField('action')) {
@@ -201,9 +201,9 @@ class LogableBehavior extends ModelBehavior {
 	 * @param array $params
 	 * @return array
 	 */
-	public function findUserActions(Model $Model, $userId, $params = array()) {
+	public function findUserActions(Model $Model, $userId, $params = []) {
 		if (!$this->UserModel) {
-			return array();
+			return [];
 		}
 		// if logged in user is asking for her own log, use the data we allready have
 		if (isset($this->user) && isset($this->user[$this->UserModel->alias][$this->UserModel->primaryKey]) && $userId == $this->user[$this->
@@ -211,36 +211,36 @@ class LogableBehavior extends ModelBehavior {
 			$username = $this->user[$this->UserModel->alias][$this->UserModel->displayField];
 		} else {
 			$this->UserModel->recursive = -1;
-			$user = $this->UserModel->find('first', array('conditions' => array($this->UserModel->primaryKey => $userId)));
+			$user = $this->UserModel->find('first', ['conditions' => [$this->UserModel->primaryKey => $userId]]);
 			$username = $user[$this->UserModel->alias][$this->UserModel->displayField];
 		}
-		$fields = array();
+		$fields = [];
 		if (isset($params['fields'])) {
 			if (is_array($params['fields'])) {
 				$fields = $params['fields'];
 			} else {
-				$fields = array($params['fields']);
+				$fields = [$params['fields']];
 			}
 		}
-		$conditions = array($this->settings[$Model->alias]['userKey'] => $userId);
+		$conditions = [$this->settings[$Model->alias]['userKey'] => $userId];
 		if (isset($params[$this->settings[$Model->alias]['classField']])) {
 			$conditions[$this->settings[$Model->alias]['classField']] = $params[$this->settings[$Model->alias]['classField']];
 		}
-		$order = array($this->Log->alias . '.id' => 'DESC');
+		$order = [$this->Log->alias . '.id' => 'DESC'];
 		if (isset($params['order'])) {
 			$order = $params['order'];
 		}
 
-		$data = $this->Log->find('all', array(
+		$data = $this->Log->find('all', [
 			'conditions' => $conditions,
 			'recursive' => -1,
 			'fields' => $fields,
 			'order' => $order
-		));
+		]);
 		if (!isset($params['events']) || (isset($params['events']) && $params['events'] == false)) {
 			return $data;
 		}
-		$result = array();
+		$result = [];
 		foreach ($data as $key => $row) {
 			$one = $row[$this->Log->alias];
 			$result[$key][$this->Log->alias]['id'] = $one['id'];
@@ -313,7 +313,7 @@ class LogableBehavior extends ModelBehavior {
 	 * @param array $logData optional other values for your logs table
 	 * @return mixed Success
 	 */
-	public function customLog(Model $Model, $action, $id = null, $logData = array()) {
+	public function customLog(Model $Model, $action, $id = null, $logData = []) {
 		if ($id === null) {
 			$id = $Model->id;
 		}
@@ -387,7 +387,7 @@ class LogableBehavior extends ModelBehavior {
 			return true;
 		}
 
-		$logData = array();
+		$logData = [];
 		if ($this->Log->hasField('description')) {
 			$logData['description'] = $Model->alias;
 			if (isset($Model->data[$Model->alias][$Model->displayField]) && $Model->displayField != $Model->primaryKey) {
@@ -411,7 +411,7 @@ class LogableBehavior extends ModelBehavior {
 	 * @param array $options
 	 * @return bool
 	 */
-	public function beforeValidate(Model $Model, $options = array()) {
+	public function beforeValidate(Model $Model, $options = []) {
 		if (!$this->settings[$Model->alias]['enabled'] || $this->settings[$Model->alias]['on'] !== 'validate') {
 			return true;
 		}
@@ -426,7 +426,7 @@ class LogableBehavior extends ModelBehavior {
 	 * @param array $options
 	 * @return bool
 	 */
-	public function beforeSave(Model $Model, $options = array()) {
+	public function beforeSave(Model $Model, $options = []) {
 		if (!$this->settings[$Model->alias]['enabled'] || $this->settings[$Model->alias]['on'] !== 'save') {
 			return true;
 		}
@@ -442,7 +442,7 @@ class LogableBehavior extends ModelBehavior {
 	 * @param array $options
 	 * @return bool
 	 */
-	public function afterSave(Model $Model, $created, $options = array()) {
+	public function afterSave(Model $Model, $created, $options = []) {
 		if (!$this->settings[$Model->alias]['enabled']) {
 			return true;
 		}
@@ -457,7 +457,7 @@ class LogableBehavior extends ModelBehavior {
 			return false;
 		}
 
-		$logData = array();
+		$logData = [];
 
 		if ($Model->id) {
 			$id = $Model->id;
@@ -493,7 +493,7 @@ class LogableBehavior extends ModelBehavior {
 		if ($this->Log->hasField('change')) {
 			$logData['change'] = '';
 			$dbFields = array_keys($Model->schema());
-			$changedFields = array();
+			$changedFields = [];
 			foreach ($Model->data[$Model->alias] as $key => $value) {
 				if (isset($Model->data[$Model->alias][$Model->primaryKey]) && !empty($this->old) && isset($this->old[$Model->alias][$key])) {
 					$old = $this->old[$Model->alias][$key];
@@ -504,7 +504,7 @@ class LogableBehavior extends ModelBehavior {
 					if ($this->settings[$Model->alias]['change'] === 'full') {
 						$changedFields[] = $key . ' (' . $old . ') => (' . $value . ')';
 					} elseif ($this->settings[$Model->alias]['change'] === 'serialize') {
-						$changedFields[$key] = array('old' => $old, 'value' => $value);
+						$changedFields[$key] = ['old' => $old, 'value' => $value];
 					} else {
 						$changedFields[] = $key;
 					}
@@ -550,7 +550,7 @@ class LogableBehavior extends ModelBehavior {
 			$this->setUserData($Model);
 		}
 		if ($Model->id && empty($this->old)) {
-			$options = array('conditions' => array($Model->primaryKey => $Model->id), 'recursive' => -1);
+			$options = ['conditions' => [$Model->primaryKey => $Model->id], 'recursive' => -1];
 			$this->old = $Model->find('first', $options);
 		}
 	}
@@ -577,10 +577,10 @@ class LogableBehavior extends ModelBehavior {
 		} elseif ($Model->id && $title = $Model->field($Model->displayField)) {
 			$logData['title'] = $title;
 		} elseif (!empty($logData[$this->settings[$Model->alias]['foreignKey']])) {
-			$options = array(
+			$options = [
 				'conditions' => $logData[$this->settings[$Model->alias]['foreignKey']],
 				'recursive' => -1
-			);
+			];
 			$record = $Model->find('first', $options);
 			if ($record) {
 				$logData['title'] = $record[$Model->alias][$Model->displayField];
@@ -639,7 +639,7 @@ class LogableBehavior extends ModelBehavior {
 		}
 
 		$this->Log->create($logData);
-		return $this->Log->save(null, array('validate' => false, 'callbacks' => false));
+		return $this->Log->save(null, ['validate' => false, 'callbacks' => false]);
 	}
 
 }

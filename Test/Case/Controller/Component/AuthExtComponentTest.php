@@ -8,7 +8,7 @@ App::uses('AppModel', 'Model');
  */
 class AuthExtComponentTest extends CakeTestCase {
 
-	public $fixtures = array('plugin.tools.tools_user', 'plugin.tools.role', 'core.cake_session');
+	public $fixtures = ['plugin.tools.tools_user', 'plugin.tools.role', 'core.cake_session'];
 
 	public function setUp() {
 		parent::setUp();
@@ -19,11 +19,11 @@ class AuthExtComponentTest extends CakeTestCase {
 		$this->Controller->constructClasses();
 		$this->Controller->startupProcess();
 
-		$this->Controller->User->belongsTo = array(
-			'Role' => array(
+		$this->Controller->User->belongsTo = [
+			'Role' => [
 				'className' => 'Tools.Role'
-			)
-		);
+			]
+		];
 	}
 
 	public function tearDown() {
@@ -67,14 +67,14 @@ class TestAuthExtComponent extends AuthExtComponent {
 
 class AuthExtTestController extends Controller {
 
-	public $uses = array('User');
+	public $uses = ['User'];
 
 	/**
 	 * Components property
 	 *
 	 * @var array
 	 */
-	public $components = array('Session', 'TestAuthExt' => array('userModel' => 'AuthUser', 'parentModelAlias' => 'Role'));
+	public $components = ['Session', 'TestAuthExt' => ['userModel' => 'AuthUser', 'parentModelAlias' => 'Role']];
 
 	/**
 	 * Failed property
@@ -88,7 +88,7 @@ class AuthExtTestController extends Controller {
 	 *
 	 * @var array
 	 */
-	public $testHeaders = array();
+	public $testHeaders = [];
 
 	/**
 	 * Fail method

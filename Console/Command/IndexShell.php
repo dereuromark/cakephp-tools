@@ -27,16 +27,16 @@ class IndexShell extends AppShell {
 	 *
 	 * @var array
 	 */
-	public $settings = array(
+	public $settings = [
 		'ds' => 'default',
-	);
+	];
 
 	/**
 	 * The Stack of sql queries to run as an array
 	 *
 	 * @var array
 	 */
-	protected $_script = array();
+	protected $_script = [];
 
 	/**
 	 * Startup method
@@ -84,7 +84,7 @@ class IndexShell extends AppShell {
 	 * @param array $sources array()
 	 * @return void
 	 */
-	protected function _buildScript($sources = array()) {
+	protected function _buildScript($sources = []) {
 		foreach ($sources as $ds) {
 			$this->_buildScriptForDataSource($ds);
 		}
@@ -106,17 +106,17 @@ class IndexShell extends AppShell {
 
 		$doneSomething = false;
 		foreach ($tables as $table) {
-			if (in_array($table, array('i18n'))) {
+			if (in_array($table, ['i18n'])) {
 				continue;
 			}
 
 			$model = Inflector::classify($table);
-			$Inst = ClassRegistry::init(array(
+			$Inst = ClassRegistry::init([
 				'class' => $model,
 				'table' => $table,
 				'ds' => $ds
-			));
-			if (!is_callable(array($Inst, 'schema'))) {
+			]);
+			if (!is_callable([$Inst, 'schema'])) {
 				continue;
 			}
 			$fields = $Inst->schema();
@@ -156,19 +156,19 @@ class IndexShell extends AppShell {
 
 	protected function _tables($useDbConfig = 'default') {
 		if (!$useDbConfig) {
-			return array();
+			return [];
 		}
 		require_once CONFIGS . 'database.php';
 		$connections = get_class_vars('DATABASE_CONFIG');
 		if (!isset($connections[$useDbConfig])) {
-			return array();
+			return [];
 		}
 		$db = ConnectionManager::getDataSource($useDbConfig);
 		if (!$db) {
-			return array();
+			return [];
 		}
 		$usePrefix = empty($db->config['prefix']) ? '' : $db->config['prefix'];
-		$tables = array();
+		$tables = [];
 		if ($usePrefix) {
 			foreach ($db->listSources() as $table) {
 				if (!strncmp($table, $usePrefix, strlen($usePrefix))) {
@@ -208,7 +208,7 @@ class IndexShell extends AppShell {
 		if (empty($this->params['interactive'])) {
 			$continue = 'Y';
 		} else {
-			$continue = strtoupper($this->in('Run this statement?', array('Y', 'N', 'A', 'Q')));
+			$continue = strtoupper($this->in('Run this statement?', ['Y', 'N', 'A', 'Q']));
 			switch ($continue) {
 				case 'Q':
 					return $this->_stop();
@@ -245,37 +245,37 @@ class IndexShell extends AppShell {
 	}
 
 	public function getOptionParser() {
-		$subcommandParser = array(
-			'options' => array(
-				'dry-run' => array(
+		$subcommandParser = [
+			'options' => [
+				'dry-run' => [
 					'short' => 'd',
 					'help' => 'Dry run the update, no files will actually be modified.',
 					'boolean' => true
-				),
-				'log' => array(
+				],
+				'log' => [
 					'short' => 'l',
 					'help' => 'Log all ouput to file log.txt in TMP dir',
 					'boolean' => true
-				),
-				'interactive' => array(
+				],
+				'interactive' => [
 					'short' => 'i',
 					'help' => 'Interactive',
 					'boolean' => true
-				),
-				'ds' => array(
+				],
+				'ds' => [
 					'short' => 'c',
 					'help' => 'Custom ds',
 					'boolean' => true
-				)
-			)
-		);
+				]
+			]
+		];
 
 		return parent::getOptionParser()
 			->description("...")
-			->addSubcommand('run', array(
+			->addSubcommand('run', [
 				'help' => 'Run',
 				'parser' => $subcommandParser
-			));
+			]);
 	}
 
 }

@@ -10,7 +10,7 @@ class ResetBehaviorTest extends MyCakeTestCase {
 
 	public $Model;
 
-	public $fixtures = array('core.comment');
+	public $fixtures = ['core.comment'];
 
 	public function setUp() {
 		parent::setUp();
@@ -27,106 +27,106 @@ class ResetBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function testResetRecords() {
-		$x = $this->Model->find('first', array('order' => array('updated' => 'DESC')));
+		$x = $this->Model->find('first', ['order' => ['updated' => 'DESC']]);
 
 		$result = $this->Model->resetRecords();
 		$this->assertTrue((bool)$result);
 
-		$y = $this->Model->find('first', array('order' => array('updated' => 'DESC')));
+		$y = $this->Model->find('first', ['order' => ['updated' => 'DESC']]);
 		$this->assertSame($x, $y);
 	}
 
 	public function testResetRecordsWithUpdatedTimestamp() {
 		$this->Model->Behaviors->unload('Reset');
-		$this->Model->Behaviors->load('Tools.Reset', array('updateTimestamp' => true));
+		$this->Model->Behaviors->load('Tools.Reset', ['updateTimestamp' => true]);
 
-		$x = $this->Model->find('first', array('order' => array('updated' => 'DESC')));
+		$x = $this->Model->find('first', ['order' => ['updated' => 'DESC']]);
 		$this->assertTrue($x['MyComment']['updated'] < '2007-12-31');
 
 		$result = $this->Model->resetRecords();
 		$this->assertTrue((bool)$result);
 
-		$x = $this->Model->find('first', array('order' => array('updated' => 'ASC')));
+		$x = $this->Model->find('first', ['order' => ['updated' => 'ASC']]);
 		$this->assertTrue($x['MyComment']['updated'] > (date('Y') - 1) . '-12-31');
 	}
 
 	public function testResetWithCallback() {
 		$this->Model->Behaviors->unload('Reset');
-		$this->Model->Behaviors->load('Tools.Reset', array('callback' => 'customCallback'));
+		$this->Model->Behaviors->load('Tools.Reset', ['callback' => 'customCallback']);
 
-		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
+		$x = $this->Model->find('first', ['conditions' => ['id' => 6]]);
 		$this->assertEquals('Second Comment for Second Article', $x['MyComment']['comment']);
 
 		$result = $this->Model->resetRecords();
 		$this->assertTrue((bool)$result);
 
-		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
+		$x = $this->Model->find('first', ['conditions' => ['id' => 6]]);
 		$expected = 'Second Comment for Second Article xyz';
 		$this->assertEquals($expected, $x['MyComment']['comment']);
 	}
 
 	public function testResetWithObjectCallback() {
 		$this->Model->Behaviors->unload('Reset');
-		$this->Model->Behaviors->load('Tools.Reset', array('callback' => array($this->Model, 'customObjectCallback')));
+		$this->Model->Behaviors->load('Tools.Reset', ['callback' => [$this->Model, 'customObjectCallback']]);
 
-		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
+		$x = $this->Model->find('first', ['conditions' => ['id' => 6]]);
 		$this->assertEquals('Second Comment for Second Article', $x['MyComment']['comment']);
 
 		$result = $this->Model->resetRecords();
 		$this->assertTrue((bool)$result);
 
-		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
+		$x = $this->Model->find('first', ['conditions' => ['id' => 6]]);
 		$expected = 'Second Comment for Second Article xxx';
 		$this->assertEquals($expected, $x['MyComment']['comment']);
 	}
 
 	public function testResetWithStaticCallback() {
 		$this->Model->Behaviors->unload('Reset');
-		$this->Model->Behaviors->load('Tools.Reset', array('callback' => 'MyComment::customStaticCallback'));
+		$this->Model->Behaviors->load('Tools.Reset', ['callback' => 'MyComment::customStaticCallback']);
 
-		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
+		$x = $this->Model->find('first', ['conditions' => ['id' => 6]]);
 		$this->assertEquals('Second Comment for Second Article', $x['MyComment']['comment']);
 
 		$result = $this->Model->resetRecords();
 		$this->assertTrue((bool)$result);
 
-		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
+		$x = $this->Model->find('first', ['conditions' => ['id' => 6]]);
 		$expected = 'Second Comment for Second Article yyy';
 		$this->assertEquals($expected, $x['MyComment']['comment']);
 	}
 
 	public function testResetWithCallbackAndFields() {
 		$this->Model->Behaviors->unload('Reset');
-		$this->Model->Behaviors->load('Tools.Reset', array(
-			'fields' => array('id'),
-			'updateFields' => array('comment'),
-			'callback' => 'MyComment::fieldsCallback'));
+		$this->Model->Behaviors->load('Tools.Reset', [
+			'fields' => ['id'],
+			'updateFields' => ['comment'],
+			'callback' => 'MyComment::fieldsCallback']);
 
-		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
+		$x = $this->Model->find('first', ['conditions' => ['id' => 6]]);
 		$this->assertEquals('Second Comment for Second Article', $x['MyComment']['comment']);
 
 		$result = $this->Model->resetRecords();
 		$this->assertTrue((bool)$result);
 
-		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
+		$x = $this->Model->find('first', ['conditions' => ['id' => 6]]);
 		$expected = 'foo';
 		$this->assertEquals($expected, $x['MyComment']['comment']);
 	}
 
 	public function testResetWithCallbackAndFieldsAutoAdded() {
 		$this->Model->Behaviors->unload('Reset');
-		$this->Model->Behaviors->load('Tools.Reset', array(
-			'fields' => array('id'),
-			'updateFields' => array('id'),
-			'callback' => 'MyComment::fieldsCallbackAuto'));
+		$this->Model->Behaviors->load('Tools.Reset', [
+			'fields' => ['id'],
+			'updateFields' => ['id'],
+			'callback' => 'MyComment::fieldsCallbackAuto']);
 
-		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
+		$x = $this->Model->find('first', ['conditions' => ['id' => 6]]);
 		$this->assertEquals('Second Comment for Second Article', $x['MyComment']['comment']);
 
 		$result = $this->Model->resetRecords();
 		$this->assertTrue((bool)$result);
 
-		$x = $this->Model->find('first', array('conditions' => array('id' => 6)));
+		$x = $this->Model->find('first', ['conditions' => ['id' => 6]]);
 		$expected = 'bar';
 		$this->assertEquals($expected, $x['MyComment']['comment']);
 	}

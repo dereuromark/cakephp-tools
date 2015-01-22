@@ -5,22 +5,22 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
 App::uses('HttpSocketResponse', 'Network/Http');
 
 # google maps
-Configure::write('Google', array(
+Configure::write('Google', [
 	'key' => 'ABQIAAAAk-aSeht5vBRyVc9CjdBKLRRnhS8GMCOqu88EXp1O-QqtMSdzHhQM4y1gkHFQdUvwiZgZ6jaKlW40kw',	//local
 	'api' => '2.x',
 	'zoom' => 16,
 	'lat' => null,
 	'lng' => null,
 	'type' => 'G_NORMAL_MAP'
-));
+]);
 
 class GeocodeLibTest extends MyCakeTestCase {
 
-	public $apiMockupReverseGeocode40206 = array(
-		'reverseGeocode' => array(
+	public $apiMockupReverseGeocode40206 = [
+		'reverseGeocode' => [
 			'lat' => '38.2643',
 			'lng' => '-85.6999',
-			'params' => array(
+			'params' => [
 				'address' => '40206',
 				'latlng' => '',
 				'region' => '',
@@ -29,8 +29,8 @@ class GeocodeLibTest extends MyCakeTestCase {
 				'sensor' => 'false',
 				'key' => 'AIzaSyAcQWSeMp_RF9W2_g2vOfLlUNCieHtHfFA',
 				'result_type' => 'sublocality'
-			)
-		),
+			]
+		],
 		'_fetch' => 'https://maps.googleapis.com/maps/api/geocode/json?address=40206&latlng=38.2643%2C-85.6999&language=en&sensor=false',
 		'raw' => '{
 			"results" : [
@@ -59,7 +59,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 			],
 			"status" : "OK"
 		}',
-	);
+	];
 
 	public function setUp() {
 		parent::setUp();
@@ -85,10 +85,10 @@ class GeocodeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testReverseGeocode() {
-		$coords = array(
-			array(-34.594445, -58.37446, 'Florida 1134-1200, Buenos Aires'),
-			array(48.8934, 8.70492, 'B294, 75175 Pforzheim, Deutschland')
-		);
+		$coords = [
+			[-34.594445, -58.37446, 'Florida 1134-1200, Buenos Aires'],
+			[48.8934, 8.70492, 'B294, 75175 Pforzheim, Deutschland']
+		];
 
 		foreach ($coords as $k => $coord) {
 			if (!$this->isDebug()) {
@@ -122,7 +122,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 			$this->_getMock('inconclusive', 2);
 		}
 
-		$this->Geocode->setOptions(array('allow_inconclusive' => true, 'min_accuracy' => GeocodeLib::ACC_POSTAL));
+		$this->Geocode->setOptions(['allow_inconclusive' => true, 'min_accuracy' => GeocodeLib::ACC_POSTAL]);
 		$is = $this->Geocode->geocode($address);
 		$this->assertTrue($is);
 		$res = $this->Geocode->getResult();
@@ -133,7 +133,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 
 		// Fake inconclusive here by adding an additional type
 		$this->Geocode->accuracyTypes[99] = 'point_of_interest';
-		$this->Geocode->setOptions(array('allow_inconclusive' => false));
+		$this->Geocode->setOptions(['allow_inconclusive' => false]);
 		$is = $this->Geocode->geocode($address);
 		$this->assertFalse($is);
 
@@ -155,7 +155,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 			$this->_getMock('invalid');
 		}
 
-		$this->Geocode->setOptions(array('allow_inconclusive' => false));
+		$this->Geocode->setOptions(['allow_inconclusive' => false]);
 		$result = $this->Geocode->geocode('204 HWY 287 SOUTH, CACTUS, TX, 79013');
 		$this->assertFalse($result);
 	}
@@ -171,7 +171,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 			$this->_getMock('inconclusive');
 		}
 
-		$this->Geocode->setOptions(array('allow_inconclusive' => true, 'min_accuracy' => GeocodeLib::ACC_STREET));
+		$this->Geocode->setOptions(['allow_inconclusive' => true, 'min_accuracy' => GeocodeLib::ACC_STREET]);
 		$is = $this->Geocode->geocode($address);
 		$this->assertFalse($is);
 	}
@@ -191,15 +191,15 @@ class GeocodeLibTest extends MyCakeTestCase {
 			$this->_getMock('inconclusive');
 		}
 
-		$this->Geocode->setOptions(array(
+		$this->Geocode->setOptions([
 			'allow_inconclusive' => true,
-			'expect' => array(GeocodeLib::ACC_POSTAL, GeocodeLib::ACC_LOC, GeocodeLib::ACC_SUBLOC)));
+			'expect' => [GeocodeLib::ACC_POSTAL, GeocodeLib::ACC_LOC, GeocodeLib::ACC_SUBLOC]]);
 		$is = $this->Geocode->geocode($address);
 		$this->assertTrue($is);
 
-		$this->Geocode->setOptions(array(
+		$this->Geocode->setOptions([
 			'allow_inconclusive' => true,
-			'expect' => array(GeocodeLib::ACC_POSTAL, GeocodeLib::ACC_LOC)));
+			'expect' => [GeocodeLib::ACC_POSTAL, GeocodeLib::ACC_LOC]]);
 		$is = $this->Geocode->geocode($address);
 		$this->assertFalse($is);
 	}
@@ -210,11 +210,11 @@ class GeocodeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testDistance() {
-		$coords = array(
-			array('name' => 'MUC/Pforzheim (269km road, 2:33h)', 'x' => array('lat' => 48.1391, 'lng' => 11.5802), 'y' => array('lat' => 48.8934, 'lng' => 8.70492), 'd' => 228),
-			array('name' => 'MUC/London (1142km road, 11:20h)', 'x' => array('lat' => 48.1391, 'lng' => 11.5802), 'y' => array('lat' => 51.508, 'lng' => -0.124688), 'd' => 919),
-			array('name' => 'MUC/NewYork (--- road, ---h)', 'x' => array('lat' => 48.1391, 'lng' => 11.5802), 'y' => array('lat' => 40.700943, 'lng' => -73.853531), 'd' => 6479)
-		);
+		$coords = [
+			['name' => 'MUC/Pforzheim (269km road, 2:33h)', 'x' => ['lat' => 48.1391, 'lng' => 11.5802], 'y' => ['lat' => 48.8934, 'lng' => 8.70492], 'd' => 228],
+			['name' => 'MUC/London (1142km road, 11:20h)', 'x' => ['lat' => 48.1391, 'lng' => 11.5802], 'y' => ['lat' => 51.508, 'lng' => -0.124688], 'd' => 919],
+			['name' => 'MUC/NewYork (--- road, ---h)', 'x' => ['lat' => 48.1391, 'lng' => 11.5802], 'y' => ['lat' => 40.700943, 'lng' => -73.853531], 'd' => 6479]
+		];
 
 		foreach ($coords as $coord) {
 			$is = $this->Geocode->distance($coord['x'], $coord['y']);
@@ -235,10 +235,10 @@ class GeocodeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testBlur() {
-		$coords = array(
-			array(48.1391, 1, 0.002), //'y'=>array('lat'=>48.8934, 'lng'=>8.70492), 'd'=>228),
-			array(11.5802, 1, 0.002),
-		);
+		$coords = [
+			[48.1391, 1, 0.002], //'y'=>array('lat'=>48.8934, 'lng'=>8.70492), 'd'=>228),
+			[11.5802, 1, 0.002],
+		];
 		foreach ($coords as $coord) {
 			$is = $this->Geocode->blur($coord[0], $coord[1]);
 			//pr('is: '.$is.' - expected: '.$coord[0].' +- '.$coord[2]);
@@ -253,11 +253,11 @@ class GeocodeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testConvert() {
-		$values = array(
-			array(3, 'M', 'K', 4.828032),
-			array(3, 'K', 'M', 1.86411358),
-			array(100000, 'I', 'K', 2.54),
-		);
+		$values = [
+			[3, 'M', 'K', 4.828032],
+			[3, 'K', 'M', 1.86411358],
+			[100000, 'I', 'K', 2.54],
+		];
 		foreach ($values as $value) {
 			$is = $this->Geocode->convert($value[0], $value[1], $value[2]);
 			$this->assertEquals($value[3], round($is, 8));
@@ -292,7 +292,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testSetOptions() {
-		$this->Geocode->setOptions(array('host' => 'maps.google.it'));
+		$this->Geocode->setOptions(['host' => 'maps.google.it']);
 
 		// should now be ".it"
 		$ReflectionClass = new ReflectionClass('GeocodeLib');
@@ -394,7 +394,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 		}
 
 		$address = 'Oranienburger Straße 87, 10178 Berlin, Deutschland';
-		$result = $this->Geocode->geocode($address, array('sensor' => false, 'key' => 'testingBadApiKey'));
+		$result = $this->Geocode->geocode($address, ['sensor' => false, 'key' => 'testingBadApiKey']);
 		$this->assertFalse($result);
 
 		$result = $this->Geocode->error();
@@ -429,37 +429,37 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$Method = $ReflectionClass->getMethod('_getMaxAccuracy');
 		$Method->setAccessible(true);
 
-		$result = $Method->invoke($this->Geocode, array('street_address' => 'abc'));
+		$result = $Method->invoke($this->Geocode, ['street_address' => 'abc']);
 		$this->assertSame(GeocodeLib::ACC_STREET, $result);
 
-		$result = $Method->invoke($this->Geocode, array('intersection' => 'abc'));
+		$result = $Method->invoke($this->Geocode, ['intersection' => 'abc']);
 		$this->assertSame(GeocodeLib::ACC_INTERSEC, $result);
 
-		$result = $Method->invoke($this->Geocode, array('route' => 'abc'));
+		$result = $Method->invoke($this->Geocode, ['route' => 'abc']);
 		$this->assertSame(GeocodeLib::ACC_ROUTE, $result);
 
-		$result = $Method->invoke($this->Geocode, array('sublocality' => 'abc'));
+		$result = $Method->invoke($this->Geocode, ['sublocality' => 'abc']);
 		$this->assertSame(GeocodeLib::ACC_SUBLOC, $result);
 
-		$result = $Method->invoke($this->Geocode, array('locality' => 'abc'));
+		$result = $Method->invoke($this->Geocode, ['locality' => 'abc']);
 		$this->assertSame(GeocodeLib::ACC_LOC, $result);
 
-		$result = $Method->invoke($this->Geocode, array('postal_code' => 'abc'));
+		$result = $Method->invoke($this->Geocode, ['postal_code' => 'abc']);
 		$this->assertSame(GeocodeLib::ACC_POSTAL, $result);
 
-		$result = $Method->invoke($this->Geocode, array('country' => 'abc'));
+		$result = $Method->invoke($this->Geocode, ['country' => 'abc']);
 		$this->assertSame(GeocodeLib::ACC_COUNTRY, $result);
 
-		$result = $Method->invoke($this->Geocode, array());
+		$result = $Method->invoke($this->Geocode, []);
 		$this->assertSame(null, $result);
 
 		// mixed
-		$result = $Method->invoke($this->Geocode, array(
+		$result = $Method->invoke($this->Geocode, [
 			'country' => 'aa',
 			'postal_code' => 'abc',
 			'locality' => '',
 			'street_address' => '',
-		));
+		]);
 		$this->assertSame(GeocodeLib::ACC_POSTAL, $result);
 	}
 
@@ -476,7 +476,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 		// address = postal_code, minimum = street level
 		$address = 'Deutschland';
 
-		$this->Geocode->setOptions(array('min_accuracy' => GeocodeLib::ACC_STREET));
+		$this->Geocode->setOptions(['min_accuracy' => GeocodeLib::ACC_STREET]);
 		$is = $this->Geocode->geocode($address);
 		$this->assertFalse($is);
 		$is = $this->Geocode->error();
@@ -494,9 +494,9 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$Method->setAccessible(true);
 
 		// non-full records
-		$data = array('types' => array());
+		$data = ['types' => []];
 		$this->assertEquals($data, $Method->invoke($this->Geocode, $data));
-		$data = array();
+		$data = [];
 		$this->assertEquals($data, $Method->invoke($this->Geocode, $data));
 
 		// Full record
@@ -504,9 +504,9 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$Method = $ReflectionClass->getMethod('_transform');
 		$Method->setAccessible(true);
 		$data = json_decode($this->apiMockupReverseGeocode40206['raw'], true);
-		$expected = array(
-			'results' => array(
-				array(
+		$expected = [
+			'results' => [
+				[
 					'formatted_address' => 'Louisville, KY 40206, USA',
 					// organized location components
 					'country' => 'United States',
@@ -518,80 +518,80 @@ class GeocodeLibTest extends MyCakeTestCase {
 					'sublocality' => '',
 					'route' => '',
 					// vetted "types"
-					'types' => array(
+					'types' => [
 						'postal_code',
-					),
+					],
 					// simple lat/lng
 					'lat' => 38.264357800000013,
 					'lng' => -85.699978899999991,
 					'location_type' => 'APPROXIMATE',
-					'viewport' => array(
-						'sw' => array(
+					'viewport' => [
+						'sw' => [
 							'lat' => 38.239565800000001,
 							'lng' => -85.744800999999995,
-						),
-						'ne' => array(
+						],
+						'ne' => [
 							'lat' => 38.285255800000002,
 							'lng' => -85.664309000000003,
-						),
-					),
-					'bounds' => array(
-						'sw' => array(
+						],
+					],
+					'bounds' => [
+						'sw' => [
 							'lat' => 38.239565800000001,
 							'lng' => -85.744800999999995,
-						),
-						'ne' => array(
+						],
+						'ne' => [
 							'lat' => 38.285255800000002,
 							'lng' => -85.664309000000003,
-						),
-					),
-					'address_components' => array(
-							array(
+						],
+					],
+					'address_components' => [
+							[
 								'long_name' => '40206',
 								'short_name' => '40206',
-								'types' => array(
+								'types' => [
 									'postal_code',
-								),
-							),
-							array(
+								],
+							],
+							[
 								'long_name' => 'Louisville',
 								'short_name' => 'Louisville',
-								'types' => array(
+								'types' => [
 									'locality',
 									'political',
-								),
-							),
-							array(
+								],
+							],
+							[
 								'long_name' => 'Kentucky',
 								'short_name' => 'KY',
-								'types' => array(
+								'types' => [
 									'administrative_area_level_1',
 									'political',
-								),
-							),
-							array(
+								],
+							],
+							[
 								'long_name' => 'United States',
 								'short_name' => 'US',
-								'types' => array(
+								'types' => [
 									'country',
 									'political',
-								),
-							),
-						),
+								],
+							],
+						],
 						'valid_type' => true,
 						'accuracy' => 4,
 						'accuracy_name' => 'postal_code',
-				),
-			),
+				],
+			],
 			'status' => 'OK',
-		);
+		];
 		$result = $Method->invoke($this->Geocode, $data);
 
 		$this->assertEquals($expected, $result);
 	}
 
 	protected function _getMock($type, $count = 1) {
-		$this->Geocode->HttpSocket = $this->getMock('HttpSocket', array('get'));
+		$this->Geocode->HttpSocket = $this->getMock('HttpSocket', ['get']);
 		$responseContent = file_get_contents($this->mockFilePath . $type . '.json');
 		$response = new HttpSocketResponse();
 		$response->body = $responseContent;

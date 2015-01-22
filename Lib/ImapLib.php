@@ -34,7 +34,7 @@ class ImapLib {
 
 	public $stream;
 
-	public $settings = array(
+	public $settings = [
 		self::S_MAILBOX => 'INBOX',
 		self::S_SERVER => '',
 		self::S_PORT => '',
@@ -50,9 +50,9 @@ class ImapLib {
 		self::S_TLS => false,
 		self::S_NOTLS => false,
 		self::S_READONLY => false
-	);
+	];
 
-	public $currentSettings = array();
+	public $currentSettings = [];
 
 	public $currentRef = '';
 
@@ -69,7 +69,7 @@ class ImapLib {
 	 * @param array $data
 	 * @return string
 	 */
-	public function buildConnector($data = array()) {
+	public function buildConnector($data = []) {
 		$data = array_merge($this->settings, $data);
 		$string = '{';
 		$string .= $data[static::S_SERVER];
@@ -222,8 +222,8 @@ class ImapLib {
 	 *
 	 * @return array
 	 */
-	public function msgList($msgList = array()) {
-		$return = array();
+	public function msgList($msgList = []) {
+		$return = [];
 
 		if (empty($msgList)) {
 			$count = $this->msgCount();
@@ -295,11 +295,11 @@ class ImapLib {
 	public function attachments($header) {
 		$structure = imap_fetchstructure($this->stream, $header->Msgno);
 		if (!$structure || !isset($structure->parts)) {
-			return array();
+			return [];
 		}
 		$parts = $structure->parts;
 		$fpos = 2;
-		$message = array();
+		$message = [];
 		$message["attachment"]["type"][0] = 'text';
 		$message["attachment"]["type"][1] = 'multipart';
 		$message["attachment"]["type"][2] = 'message';
@@ -309,10 +309,10 @@ class ImapLib {
 		$message["attachment"]["type"][6] = 'video';
 		$message["attachment"]["type"][7] = 'other';
 
-		$attachments = array();
+		$attachments = [];
 		$count = count($parts);
 		for ($i = 1; $i < $count; $i++) {
-			$attachment = array();
+			$attachment = [];
 			$part = $parts[$i];
 			if (isset($part->disposition) && $part->disposition === 'ATTACHMENT') {
 				$attachment["pid"] = $i;
@@ -403,7 +403,7 @@ class ImapLib {
 	 */
 	protected function _decode7Bit($text) {
 		// Manually convert common encoded characters into their UTF-8 equivalents.
-		$characters = array(
+		$characters = [
 			'=20' => ' ', // space.
 			'=E2=80=99' => "'", // single quote.
 			'=0A' => "\r\n", // line break.
@@ -412,7 +412,7 @@ class ImapLib {
 			"=\r\n" => '', // joined line.
 			'=E2=80=A6' => '…', // ellipsis.
 			'=E2=80=A2' => '•', // bullet.
-		);
+		];
 		foreach ($characters as $key => $value) {
 			$text = str_replace($key, $value, $text);
 		}
@@ -492,7 +492,7 @@ class ImapLib {
 		// Let's delete multiple emails
 		if (count($emails) > 0) {
 			$deleteString = '';
-			$emailError = array();
+			$emailError = [];
 			foreach ($emails as $email) {
 				if ($delete) {
 					if (!imap_delete($this->stream, $email)) {
@@ -662,7 +662,7 @@ class ImapMessageInfoLib {
 
 	public function __construct($ImapFolder, $data) {
 		if (!is_object($data)) {
-			$list = new ImapMessagesListLib($ImapFolder, array($data));
+			$list = new ImapMessagesListLib($ImapFolder, [$data]);
 			$list = $list->overview(false);
 			$data = $list[0];
 		}
@@ -784,7 +784,7 @@ class ImapMessagesListLib {
 
 	public $ImapFolder;
 
-	public $messageUIDs = array();
+	public $messageUIDs = [];
 
 	public function __construct($ImapFolder, $messageUIDs) {
 		$this->ImapFolder = $ImapFolder;
@@ -809,7 +809,7 @@ class ImapMessagesListLib {
 		//CHANGE DIR TO CURRENT
 		$overview = imap_fetch_overview($this->ImapFolder->Imap->stream, implode(',', $this->messageUIDs), FT_UID);
 		if ($returnInfo) {
-			$msgObjs = array();
+			$msgObjs = [];
 			foreach ($overview as $info) {
 				$msgObjs[] = new ImapMessageInfoLib($this->ImapFolder, $info);
 			}
@@ -859,7 +859,7 @@ class ImapFolderLib {
 	public function listFolder() {
 	}
 
-	public function searchMessages($options = array(self::ALL)) {
+	public function searchMessages($options = [self::ALL]) {
 		$optionstring = '';
 		foreach ($options as $key => $value) {
 			if (is_int($key)) {

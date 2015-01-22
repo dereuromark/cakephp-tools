@@ -33,19 +33,19 @@ class SoftDeleteBehavior extends ModelBehavior {
 	 *
 	 * @var array
 	 */
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'attribute' => 'softDeleted',
-		'fields' => array(
+		'fields' => [
 			'deleted' => 'deleted_date'
-		)
-	);
+		]
+	];
 
 	/**
 	 * Holds activity flags for models
 	 *
 	 * @var array
 	 */
-	public $runtime = array();
+	public $runtime = [];
 
 	/**
 	 * Setup callback
@@ -54,7 +54,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 	 * @param array $config
 	 * @return void
 	 */
-	public function setup(Model $model, $config = array()) {
+	public function setup(Model $model, $config = []) {
 		$config += $this->_defaultConfig;
 
 		$error = 'SoftDeleteBehavior::setup(): model ' . $model->alias . ' has no field ';
@@ -71,7 +71,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 			return;
 		}
 
-		$this->settings[$model->alias] = array('fields' => $fields) + $config;
+		$this->settings[$model->alias] = ['fields' => $fields] + $config;
 		$this->softDelete($model, true);
 
 		$attribute = $this->settings[$model->alias]['attribute'];
@@ -89,7 +89,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 		$runtime = $this->runtime[$model->alias];
 		if ($runtime) {
 			if (!is_array($query['conditions'])) {
-				$query['conditions'] = array();
+				$query['conditions'] = [];
 			}
 			$conditions = array_filter(array_keys($query['conditions']));
 
@@ -139,7 +139,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 	public function delete(Model $model, $id) {
 		$runtime = $this->runtime[$model->alias];
 
-		$data = array();
+		$data = [];
 		$fields = $this->_normalizeFields($model);
 		foreach ($fields as $flag => $date) {
 			if ($runtime === true || $flag === $runtime) {
@@ -157,12 +157,12 @@ class SoftDeleteBehavior extends ModelBehavior {
 
 		$model->create();
 		$model->set($model->primaryKey, $id);
-		$options = array(
+		$options = [
 			'validate' => false,
 			'fieldList' => array_keys($data),
 			'counterCache' => false
-		);
-		$result = (bool)$model->save(array($model->alias => $data), $options);
+		];
+		$result = (bool)$model->save([$model->alias => $data], $options);
 
 		if ($result && !empty($keys[$model->alias])) {
 			$model->updateCounterCache($keys[$model->alias]);
@@ -182,7 +182,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 		$runtime = $this->runtime[$model->alias];
 		$this->softDelete($model, false);
 
-		$data = array();
+		$data = [];
 		$fields = $this->_normalizeFields($model);
 		foreach ($fields as $flag => $date) {
 			if ($runtime === true || $flag === $runtime) {
@@ -198,12 +198,12 @@ class SoftDeleteBehavior extends ModelBehavior {
 
 		$model->create();
 		$model->set($model->primaryKey, $id);
-		$options = array(
+		$options = [
 			'validate' => false,
 			'fieldList' => array_keys($data),
 			'counterCache' => false
-		);
-		$result = $model->save(array($model->alias => $data), $options);
+		];
+		$result = $model->save([$model->alias => $data], $options);
 		$this->softDelete($model, $runtime);
 
 		if ($result) {
@@ -249,7 +249,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 	 */
 	public function purgeDeletedCount(Model $model, $expiration = '-90 days') {
 		$this->softDelete($model, false);
-		return $model->find('count', array('conditions' => $this->_purgeDeletedConditions($model, $expiration), 'recursive' => -1));
+		return $model->find('count', ['conditions' => $this->_purgeDeletedConditions($model, $expiration), 'recursive' => -1]);
 	}
 
 	/**
@@ -261,10 +261,10 @@ class SoftDeleteBehavior extends ModelBehavior {
 	 */
 	public function purgeDeleted(Model $model, $expiration = '-90 days') {
 		$this->softDelete($model, false);
-		$records = $model->find('all', array(
+		$records = $model->find('all', [
 			'conditions' => $this->_purgeDeletedConditions($model, $expiration),
-			'fields' => array($model->primaryKey),
-			'recursive' => -1));
+			'fields' => [$model->primaryKey],
+			'recursive' => -1]);
 		if ($records) {
 			foreach ($records as $record) {
 				$model->delete($record[$model->alias][$model->primaryKey]);
@@ -283,7 +283,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 	 */
 	protected function _purgeDeletedConditions(Model $model, $expiration = '-90 days') {
 		$purgeDate = date('Y-m-d H:i:s', strtotime($expiration));
-		$conditions = array();
+		$conditions = [];
 		foreach ($this->settings[$model->alias]['fields'] as $flag => $date) {
 			$conditions[$model->alias . '.' . $flag] = true;
 			if ($date) {
@@ -300,11 +300,11 @@ class SoftDeleteBehavior extends ModelBehavior {
 	 * @param array $config
 	 * @return array
 	 */
-	protected function _normalizeFields(Model $model, $config = array()) {
+	protected function _normalizeFields(Model $model, $config = []) {
 		if (empty($config)) {
 			$config = $this->settings[$model->alias]['fields'];
 		}
-		$result = array();
+		$result = [];
 		foreach ($config as $flag => $date) {
 			if (is_numeric($flag)) {
 				$flag = $date;
@@ -333,7 +333,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 		$parentModels = array_keys($model->belongsTo);
 
 		foreach ($parentModels as $parentModel) {
-			foreach (array('hasOne', 'hasMany') as $assocType) {
+			foreach (['hasOne', 'hasMany'] as $assocType) {
 				if (empty($model->{$parentModel}->{$assocType})) {
 					continue;
 				}
@@ -346,7 +346,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 
 					$conditions = $model->{$parentModel}->{$assocType}[$assoc]['conditions'];
 					if (!is_array($conditions)) {
-						$model->{$parentModel}->{$assocType}[$assoc]['conditions'] = array();
+						$model->{$parentModel}->{$assocType}[$assoc]['conditions'] = [];
 					}
 
 					$multiFields = 1 < count($fields);
@@ -391,9 +391,9 @@ class SoftDeleteBehavior extends ModelBehavior {
 	 * @return array
 	 */
 	protected function _getCounterCacheKeys(Model $model, $id) {
-		$keys = array();
+		$keys = [];
 		if (!empty($model->belongsTo)) {
-			$fields = array();
+			$fields = [];
 			foreach ($model->belongsTo as $alias => $assoc) {
 				if (!empty($assoc['counterCache']) && isset($assoc['foreignKey']) && is_string($assoc['foreignKey'])) {
 					$fields[$alias] = $assoc['foreignKey'];
@@ -401,12 +401,12 @@ class SoftDeleteBehavior extends ModelBehavior {
 			}
 
 			if (!empty($fields)) {
-				$keys = $model->find('first', array(
+				$keys = $model->find('first', [
 					'fields' => $fields,
-					'conditions' => array($model->alias . '.' . $model->primaryKey => $id),
+					'conditions' => [$model->alias . '.' . $model->primaryKey => $id],
 					'recursive' => -1,
 					'callbacks' => false
-				));
+				]);
 			}
 		}
 		return $keys;

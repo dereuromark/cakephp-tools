@@ -38,18 +38,18 @@ App::uses('AppShell', 'Console/Command');
  */
 class IndentShell extends AppShell {
 
-	public $settings = array(
-		'files' => array('php', 'ctp', 'inc', 'tpl'),
+	public $settings = [
+		'files' => ['php', 'ctp', 'inc', 'tpl'],
 		'againWithHalf' => false, # if 4, go again with 2 afterwards
 		'outputToTmp' => false, # write to filename_.ext
 		'debug' => false # add debug info after each line
-	);
+	];
 
 	protected $_changes = null;
 
-	protected $_paths = array();
+	protected $_paths = [];
 
-	protected $_files = array();
+	protected $_files = [];
 
 	/**
 	 * Main execution function to indent a folder recursivly
@@ -92,7 +92,7 @@ class IndentShell extends AppShell {
 			if (!empty($this->params['dry-run'])) {
 				$this->out('TEST DONE');
 			} else {
-				$continue = $this->in('Modifying files! Continue?', array('y', 'n'), 'n');
+				$continue = $this->in('Modifying files! Continue?', ['y', 'n'], 'n');
 				if (strtolower($continue) !== 'y' && strtolower($continue) !== 'yes') {
 					return $this->error('...aborted');
 				}
@@ -140,7 +140,7 @@ class IndentShell extends AppShell {
 	protected function _read($file) {
 		$text = file_get_contents($file);
 		if (empty($text)) {
-			return array();
+			return [];
 		}
 		$pieces = explode(NL, $text);
 		return $pieces;
@@ -155,7 +155,7 @@ class IndentShell extends AppShell {
 	protected function _correctFiles() {
 		foreach ($this->_files as $file) {
 			$this->_changes = false;
-			$textCorrect = array();
+			$textCorrect = [];
 
 			$pieces = $this->_read($file);
 			$spacesPerTab = $this->params['spaces'];
@@ -239,7 +239,7 @@ class IndentShell extends AppShell {
 	protected function _correctFilesTry() {
 		foreach ($this->_files as $file) {
 			$changes = false;
-			$textCorrect = array();
+			$textCorrect = [];
 
 			$pieces = $this->_read($file);
 			foreach ($pieces as $piece) {
@@ -326,47 +326,47 @@ class IndentShell extends AppShell {
 	}
 
 	public function getOptionParser() {
-		$subcommandParser = array(
-			'options' => array(
-				'dry-run' => array(
+		$subcommandParser = [
+			'options' => [
+				'dry-run' => [
 					'short' => 'd',
 					'help' => 'Dry run the update, no files will actually be modified.',
 					'boolean' => true
-				),
-				'log' => array(
+				],
+				'log' => [
 					'short' => 'l',
 					'help' => 'Log all ouput to file log.txt in TMP dir',
 					'boolean' => true
-				),
-				'interactive' => array(
+				],
+				'interactive' => [
 					'short' => 'i',
 					'help' => 'Interactive',
 					'boolean' => true
-				),
-				'spaces' => array(
+				],
+				'spaces' => [
 					'short' => 's',
 					'help' => 'Spaces per Tab',
 					'default' => '4',
-				),
-				'extensions' => array(
+				],
+				'extensions' => [
 					'short' => 'e',
 					'help' => 'Extensions (comma-separated)',
 					'default' => '',
-				),
-				'again' => array(
+				],
+				'again' => [
 					'short' => 'a',
 					'help' => 'Again (with half) afterwards',
 					'boolean' => true
-				),
-			)
-		);
+				],
+			]
+		];
 
 		return parent::getOptionParser()
 			->description("Correct indentation of files")
-			->addSubcommand('folder', array(
+			->addSubcommand('folder', [
 				'help' => 'Indent all files in a folder',
 				'parser' => $subcommandParser
-			));
+			]);
 	}
 
 }

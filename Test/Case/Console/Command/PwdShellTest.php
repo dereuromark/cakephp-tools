@@ -17,8 +17,8 @@ class PwdShellTest extends MyCakeTestCase {
 		parent::setUp();
 
 		$output = new TestConsoleOutput();
-		$error = $this->getMock('ConsoleOutput', array(), array(), '', false);
-		$input = $this->getMock('ConsoleInput', array(), array(), '', false);
+		$error = $this->getMock('ConsoleOutput', [], [], '', false);
+		$input = $this->getMock('ConsoleInput', [], [], '', false);
 
 		$this->PwdShell = new PwdShell($output, $error, $input);
 	}

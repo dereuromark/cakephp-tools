@@ -10,7 +10,7 @@ class MyController extends Controller {
 	 * @var array
 	 * @link https://github.com/cakephp/cakephp/pull/857
 	 */
-	public $paginate = array();
+	public $paginate = [];
 
 	/**
 	 * Fix for asset compress to not run into fatal error loops
@@ -29,9 +29,9 @@ class MyController extends Controller {
 	 * @return void
 	 */
 	public function disableCache() {
-		$this->response->header(array(
+		$this->response->header([
 			'Pragma' => 'no-cache',
-		));
+		]);
 		return parent::disableCache();
 	}
 
@@ -44,7 +44,7 @@ class MyController extends Controller {
 	 * @param array $whitelist List of allowed options for paging
 	 * @return array Model query results
 	 */
-	public function paginate($object = null, $scope = array(), $whitelist = array()) {
+	public function paginate($object = null, $scope = [], $whitelist = []) {
 		if ($defaultSettings = (array)Configure::read('Paginator')) {
 			$this->paginate += $defaultSettings;
 		}
