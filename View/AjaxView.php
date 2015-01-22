@@ -21,10 +21,10 @@ class AjaxView extends View {
 	 *
 	 * @var array
 	 */
-	protected $_passedVars = array(
+	protected $_passedVars = [
 			'viewVars', 'autoLayout', 'ext', 'helpers', 'view', 'layout', 'name', 'theme',
 			'layoutPath', 'viewPath', 'request', 'plugin', 'passedArgs', 'cacheAction', 'subDir'
-	);
+	];
 
 	/**
 	 * The subdirectory. AJAX views are always in ajax.
@@ -72,10 +72,10 @@ class AjaxView extends View {
 	 * @return string The rendered view.
 	 */
 	public function render($view = null, $layout = null) {
-		$response = array(
+		$response = [
 			'error' => null,
 			'content' => null,
-		);
+		];
 
 		if (!empty($this->viewVars['error'])) {
 			$view = false;

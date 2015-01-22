@@ -1,31 +1,31 @@
 <?php
 class RevisionTagFixture extends CakeTestFixture {
 
-	public $fields = array(
-			'id' => array(
+	public $fields = [
+			'id' => [
 					'type' => 'integer',
 					'null' => false,
 					'default' => null,
-					'key' => 'primary'),
-			'title' => array('type' => 'string', 'null' => false, 'default' => null),
-			'indexes' => array('PRIMARY' => array('column' => 'id')));
+					'key' => 'primary'],
+			'title' => ['type' => 'string', 'null' => false, 'default' => null],
+			'indexes' => ['PRIMARY' => ['column' => 'id']]];
 
-	public $records = array(
-		array(
+	public $records = [
+		[
 			'id' => 1,
 			'title' => 'Fun',
-		),
-		array(
+		],
+		[
 			'id' => 2,
 			'title' => 'Hard'
-		),
-		array(
+		],
+		[
 			'id' => 3,
 			'title' => 'Trick'
-		),
-		array(
+		],
+		[
 			'id' => 4,
 			'title' => 'News'
-		),
-	);
+		],
+	];
 }

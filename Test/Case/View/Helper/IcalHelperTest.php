@@ -32,7 +32,7 @@ class IcalHelperTest extends MyCakeTestCase {
 	}
 
 	public function testAdd() {
-		$data = array(
+		$data = [
 			'url' => 'http://www.spiegel.de',
 			'start' => '2010-10-09 22:23:34',
 			'end' => '2010-10-09 23:23:34',
@@ -40,13 +40,13 @@ class IcalHelperTest extends MyCakeTestCase {
 			'description' => 'xyz hjdhfj dhfäöüp e',
 			'organizer' => 'CEO',
 			'class' => 'public',
-		);
+		];
 		$res = $this->Ical->add($data);
 		$this->assertTrue($res);
 	}
 
 	public function testGenerate() {
-		$data = array(
+		$data = [
 			'url' => 'http://www.spiegel.de',
 			'start' => '2010-10-09 22:23:34',
 			'end' => '2010-10-09 23:23:34',
@@ -57,7 +57,7 @@ class IcalHelperTest extends MyCakeTestCase {
 			'timestamp' => '2010-10-08 22:23:34',
 			'id' => String::uuid(),
 			'location' => 'München'
-		);
+		];
 		$this->Ical->add($data);
 		$this->Ical->add($data);
 		$res = $this->Ical->generate();

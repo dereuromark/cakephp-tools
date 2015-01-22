@@ -12,35 +12,35 @@ class CountryFixture extends CakeTestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary', 'collate' => null, 'comment' => ''),
-		'name' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 64, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'ori_name' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 64, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'iso2' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 2, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'iso3' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 3, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'continent_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 10, 'collate' => null, 'comment' => ''),
-		'country_code' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4, 'collate' => null, 'comment' => ''),
-		'eu_member' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'collate' => null, 'comment' => 'Member of the EU'),
-		'special' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 40, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'zip_length' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 2, 'collate' => null, 'comment' => 'if > 0 validate on this length'),
-		'zip_regexp' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'sort' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10, 'collate' => null, 'comment' => ''),
-		'lat' => array('type' => 'float', 'null' => false, 'default' => '0.000000', 'length' => '10,6', 'collate' => null, 'comment' => 'forGoogleMap'),
-		'lng' => array('type' => 'float', 'null' => false, 'default' => '0.000000', 'length' => '10,6', 'collate' => null, 'comment' => 'forGoogleMap'),
-		'address_format' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'status' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 2, 'collate' => null, 'comment' => ''),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-		'tableParameters' => array()
-	);
+	public $fields = [
+		'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary', 'collate' => null, 'comment' => ''],
+		'name' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 64, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'ori_name' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 64, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'iso2' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 2, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'iso3' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 3, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'continent_id' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 10, 'collate' => null, 'comment' => ''],
+		'country_code' => ['type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4, 'collate' => null, 'comment' => ''],
+		'eu_member' => ['type' => 'boolean', 'null' => false, 'default' => '0', 'collate' => null, 'comment' => 'Member of the EU'],
+		'special' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 40, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'zip_length' => ['type' => 'integer', 'null' => false, 'default' => '0', 'length' => 2, 'collate' => null, 'comment' => 'if > 0 validate on this length'],
+		'zip_regexp' => ['type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'sort' => ['type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10, 'collate' => null, 'comment' => ''],
+		'lat' => ['type' => 'float', 'null' => false, 'default' => '0.000000', 'length' => '10,6', 'collate' => null, 'comment' => 'forGoogleMap'],
+		'lng' => ['type' => 'float', 'null' => false, 'default' => '0.000000', 'length' => '10,6', 'collate' => null, 'comment' => 'forGoogleMap'],
+		'address_format' => ['type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'status' => ['type' => 'integer', 'null' => false, 'default' => '0', 'length' => 2, 'collate' => null, 'comment' => ''],
+		'modified' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
+		'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+		'tableParameters' => []
+	];
 
 	/**
 	 * Records
 	 *
 	 * @var array
 	 */
-	public $records = array(
-		array(
+	public $records = [
+		[
 			'id' => '1',
 			'name' => 'Deutschland',
 			'ori_name' => 'Deutschland',
@@ -58,8 +58,8 @@ class CountryFixture extends CakeTestFixture {
 			'address_format' => ':name :street_address D-:postcode :city :country',
 			'status' => '1',
 			'modified' => '2010-06-06 00:19:04'
-		),
-		array(
+		],
+		[
 			'id' => '2',
 			'name' => 'Österreich',
 			'ori_name' => 'Österreich',
@@ -77,8 +77,8 @@ class CountryFixture extends CakeTestFixture {
 			'address_format' => '',
 			'status' => '1',
 			'modified' => '2010-06-06 00:19:04'
-		),
-		array(
+		],
+		[
 			'id' => '3',
 			'name' => 'Schweiz',
 			'ori_name' => 'Schweiz',
@@ -96,8 +96,8 @@ class CountryFixture extends CakeTestFixture {
 			'address_format' => '',
 			'status' => '1',
 			'modified' => '2010-06-06 00:19:04'
-		),
-		array(
+		],
+		[
 			'id' => '4',
 			'name' => 'Belgien',
 			'ori_name' => 'Belgium',
@@ -115,8 +115,8 @@ class CountryFixture extends CakeTestFixture {
 			'address_format' => '',
 			'status' => '1',
 			'modified' => '2010-06-06 00:19:09'
-		),
-		array(
+		],
+		[
 			'id' => '5',
 			'name' => 'Niederlande',
 			'ori_name' => 'Netherlands',
@@ -134,8 +134,8 @@ class CountryFixture extends CakeTestFixture {
 			'address_format' => '',
 			'status' => '1',
 			'modified' => '2010-06-06 00:19:40'
-		),
-		array(
+		],
+		[
 			'id' => '6',
 			'name' => 'Dänemark',
 			'ori_name' => 'Denmark',
@@ -153,8 +153,8 @@ class CountryFixture extends CakeTestFixture {
 			'address_format' => '',
 			'status' => '1',
 			'modified' => '2010-06-06 00:19:14'
-		),
-		array(
+		],
+		[
 			'id' => '7',
 			'name' => 'Luxemburg',
 			'ori_name' => 'Luxembourg',
@@ -172,8 +172,8 @@ class CountryFixture extends CakeTestFixture {
 			'address_format' => '',
 			'status' => '1',
 			'modified' => '2010-06-06 00:19:34'
-		),
-		array(
+		],
+		[
 			'id' => '8',
 			'name' => 'Frankreich',
 			'ori_name' => 'France',
@@ -191,8 +191,8 @@ class CountryFixture extends CakeTestFixture {
 			'address_format' => '',
 			'status' => '1',
 			'modified' => '2010-06-06 00:19:17'
-		),
-		array(
+		],
+		[
 			'id' => '9',
 			'name' => 'Großbritannien',
 			'ori_name' => 'United Kingdom (Great Britian)',
@@ -210,8 +210,8 @@ class CountryFixture extends CakeTestFixture {
 			'address_format' => '',
 			'status' => '1',
 			'modified' => '2010-06-06 00:19:19'
-		),
-		array(
+		],
+		[
 			'id' => '12',
 			'name' => 'Ukraine',
 			'ori_name' => 'Ukraine',
@@ -229,6 +229,6 @@ class CountryFixture extends CakeTestFixture {
 			'address_format' => '',
 			'status' => '1',
 			'modified' => '2010-06-06 00:19:57'
-		),
-	);
+		],
+	];
 }

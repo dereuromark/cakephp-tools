@@ -45,10 +45,10 @@ class MyControllerTestCase extends ControllerTestCase {
 	 * @param array $options See options
 	 * @return mixed
 	 */
-	protected function _testAction($url = '', $options = array()) {
-		$options += array(
+	protected function _testAction($url = '', $options = []) {
+		$options += [
 			'method' => 'GET',
-		);
+		];
 		if (is_array($url)) {
 			$url = Router::url($url);
 		}

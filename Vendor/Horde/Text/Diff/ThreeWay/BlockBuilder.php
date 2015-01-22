@@ -54,7 +54,7 @@ class Horde_Text_Diff_ThreeWay_BlockBuilder
 
     protected function _init()
     {
-        $this->orig = $this->final1 = $this->final2 = array();
+        $this->orig = $this->final1 = $this->final2 = [];
     }
 
     protected function _append(&$array, $lines)

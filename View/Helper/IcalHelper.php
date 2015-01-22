@@ -14,9 +14,9 @@ class IcalHelper extends AppHelper {
 
 	public $Ical;
 
-	protected $_data = array();
+	protected $_data = [];
 
-	public function __construct($View = null, $config = array()) {
+	public function __construct($View = null, $config = []) {
 		parent::__construct($View, $config);
 
 		$this->Ical = new IcalLib();
@@ -28,7 +28,7 @@ class IcalHelper extends AppHelper {
 	 * @return void
 	 */
 	public function reset() {
-		$this->$_data = array();
+		$this->$_data = [];
 	}
 
 	/**
@@ -36,7 +36,7 @@ class IcalHelper extends AppHelper {
 	 *
 	 * @return bool Success
 	 */
-	public function add($data = array()) {
+	public function add($data = []) {
 		//TODO: validate!
 		$this->_data[] = $data;
 
@@ -48,8 +48,8 @@ class IcalHelper extends AppHelper {
 	 *
 	 * @return string
 	 */
-	public function generate($globalData = array(), $addStartAndEnd = true) {
-		$res = array();
+	public function generate($globalData = [], $addStartAndEnd = true) {
+		$res = [];
 		foreach ($this->_data as $data) {
 			$res[] = $this->Ical->build($data);
 		}

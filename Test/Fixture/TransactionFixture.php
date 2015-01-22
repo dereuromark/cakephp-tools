@@ -12,37 +12,37 @@ class TransactionFixture extends CakeTestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary', 'collate' => null, 'comment' => ''),
-		'title' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'token' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'foreign_id' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 36, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'model' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'type' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => 'paypal, ...', 'charset' => 'utf8'),
-		'transaction_id' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'transaction_type' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'note' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'amount' => array('type' => 'float', 'null' => false, 'default' => '0.00', 'length' => '9,2', 'collate' => null, 'comment' => ''),
-		'fee_amount' => array('type' => 'float', 'null' => false, 'default' => '0.00', 'length' => '9,2', 'collate' => null, 'comment' => ''),
-		'tax_amount' => array('type' => 'float', 'null' => false, 'default' => '0.00', 'length' => '9,2', 'collate' => null, 'comment' => ''),
-		'currency_code' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 3, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'payment_type' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'payment_status' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'pending_reason' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'reason_code' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'order_time' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-		'tableParameters' => array()
-	);
+	public $fields = [
+		'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary', 'collate' => null, 'comment' => ''],
+		'title' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'token' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'foreign_id' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 36, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'model' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'type' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => 'paypal, ...', 'charset' => 'utf8'],
+		'transaction_id' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'transaction_type' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'note' => ['type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'amount' => ['type' => 'float', 'null' => false, 'default' => '0.00', 'length' => '9,2', 'collate' => null, 'comment' => ''],
+		'fee_amount' => ['type' => 'float', 'null' => false, 'default' => '0.00', 'length' => '9,2', 'collate' => null, 'comment' => ''],
+		'tax_amount' => ['type' => 'float', 'null' => false, 'default' => '0.00', 'length' => '9,2', 'collate' => null, 'comment' => ''],
+		'currency_code' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 3, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'payment_type' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'payment_status' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'pending_reason' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'reason_code' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'order_time' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
+		'created' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
+		'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+		'tableParameters' => []
+	];
 
 	/**
 	 * Records
 	 *
 	 * @var array
 	 */
-	public $records = array(
-		array(
+	public $records = [
+		[
 			'id' => '1',
 			'title' => 'Paypal-Bezahlung von admin@admin.de',
 			'token' => 'EC-0P828508TM680313G',
@@ -62,8 +62,8 @@ class TransactionFixture extends CakeTestFixture {
 			'reason_code' => '',
 			'order_time' => null,
 			'created' => '2011-09-23 14:58:38'
-		),
-		array(
+		],
+		[
 			'id' => '2',
 			'title' => 'Paypal-Bezahlung von admin@admin.de',
 			'token' => 'EC-48H402745D559663N',
@@ -83,8 +83,8 @@ class TransactionFixture extends CakeTestFixture {
 			'reason_code' => '',
 			'order_time' => null,
 			'created' => '2011-09-23 15:19:42'
-		),
-		array(
+		],
+		[
 			'id' => '5',
 			'title' => 'Test-Konto-Einzahlung von user@user.de',
 			'token' => 'EC-0MA508270G1912621',
@@ -104,8 +104,8 @@ class TransactionFixture extends CakeTestFixture {
 			'reason_code' => '',
 			'order_time' => null,
 			'created' => '2011-09-23 17:13:59'
-		),
-		array(
+		],
+		[
 			'id' => '4',
 			'title' => 'Test-Konto-Einzahlung von user@user.de',
 			'token' => 'EC-89F71804C0644512T',
@@ -125,8 +125,8 @@ class TransactionFixture extends CakeTestFixture {
 			'reason_code' => '',
 			'order_time' => null,
 			'created' => '2011-09-23 17:07:40'
-		),
-		array(
+		],
+		[
 			'id' => '6',
 			'title' => '',
 			'token' => '',
@@ -146,8 +146,8 @@ class TransactionFixture extends CakeTestFixture {
 			'reason_code' => 'None',
 			'order_time' => '2011-09-23 15:14:42',
 			'created' => '2011-09-23 17:14:57'
-		),
-		array(
+		],
+		[
 			'id' => '7',
 			'title' => 'Test-Konto-Einzahlung von user@user.de',
 			'token' => 'EC-5SH71547J6537800X',
@@ -167,8 +167,8 @@ class TransactionFixture extends CakeTestFixture {
 			'reason_code' => 'None',
 			'order_time' => '2011-09-23 15:17:45',
 			'created' => '2011-09-23 17:17:32'
-		),
-		array(
+		],
+		[
 			'id' => '8',
 			'title' => 'Paypal-Bezahlung von admin@admin.de',
 			'token' => 'EC-1YA81486XV646422E',
@@ -188,8 +188,8 @@ class TransactionFixture extends CakeTestFixture {
 			'reason_code' => 'None',
 			'order_time' => '2011-09-23 19:45:34',
 			'created' => '2011-09-23 21:45:01'
-		),
-		array(
+		],
+		[
 			'id' => '9',
 			'title' => 'Test-Konto-Einzahlung von admin@admin.de',
 			'token' => 'EC-89362070VF0669840',
@@ -209,8 +209,8 @@ class TransactionFixture extends CakeTestFixture {
 			'reason_code' => '',
 			'order_time' => null,
 			'created' => '2011-09-29 23:40:48'
-		),
-		array(
+		],
+		[
 			'id' => '10',
 			'title' => 'Test-Konto-Einzahlung von admin@admin.de',
 			'token' => 'EC-3UH10864KV965382X',
@@ -230,8 +230,8 @@ class TransactionFixture extends CakeTestFixture {
 			'reason_code' => '',
 			'order_time' => null,
 			'created' => '2011-10-03 16:35:08'
-		),
-		array(
+		],
+		[
 			'id' => '11',
 			'title' => 'Paypal-Bezahlung von admin@admin.de',
 			'token' => 'EC-7TD59178A43867932',
@@ -251,6 +251,6 @@ class TransactionFixture extends CakeTestFixture {
 			'reason_code' => '',
 			'order_time' => null,
 			'created' => '2011-10-27 02:58:50'
-		),
-	);
+		],
+	];
 }

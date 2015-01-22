@@ -23,8 +23,8 @@ class NumericHelper extends NumberHelper {
 	protected $thousandsPoint = ',';
 	*/
 
-	public function __construct($View = null, $settings = array()) {
-		$settings = Set::merge(array('engine' => 'Tools.NumberLib'), $settings);
+	public function __construct($View = null, $settings = []) {
+		$settings = Set::merge(['engine' => 'Tools.NumberLib'], $settings);
 		parent::__construct($View, $settings);
 		/*
 		$i18n = Configure::read('Currency');

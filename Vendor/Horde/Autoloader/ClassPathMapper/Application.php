@@ -11,7 +11,7 @@
 class Horde_Autoloader_ClassPathMapper_Application implements Horde_Autoloader_ClassPathMapper
 {
     protected $_appDir;
-    protected $_mappings = array();
+    protected $_mappings = [];
 
     /**
      * The following constants are for naming the positions in the regex for

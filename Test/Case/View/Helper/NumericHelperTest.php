@@ -12,10 +12,10 @@ class NumericHelperTest extends MyCakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		Configure::write('Localization', array(
+		Configure::write('Localization', [
 			'decimals' => ',',
 			'thousands' => '.'
-		));
+		]);
 		NumberLib::config();
 		$this->Numeric = new NumericHelper(new View(null));
 	}
@@ -32,23 +32,23 @@ class NumericHelperTest extends MyCakeTestCase {
 		$expected = '22,00';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Numeric->format('22.30', array('places' => 1));
+		$is = $this->Numeric->format('22.30', ['places' => 1]);
 		$expected = '22,3';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Numeric->format('22.30', array('places' => -1));
+		$is = $this->Numeric->format('22.30', ['places' => -1]);
 		$expected = '20';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Numeric->format('22.30', array('places' => -2));
+		$is = $this->Numeric->format('22.30', ['places' => -2]);
 		$expected = '0';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Numeric->format('22.30', array('places' => 3));
+		$is = $this->Numeric->format('22.30', ['places' => 3]);
 		$expected = '22,300';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Numeric->format('abc', array('places' => 2));
+		$is = $this->Numeric->format('abc', ['places' => 2]);
 		$expected = '---';
 		$this->assertEquals($expected, $is);
 
@@ -58,15 +58,15 @@ class NumericHelperTest extends MyCakeTestCase {
 		$this->assertEquals($expected, $is);
 		*/
 
-		$is = $this->Numeric->format('22.3', array('places' => 2, 'before' => 'EUR '));
+		$is = $this->Numeric->format('22.3', ['places' => 2, 'before' => 'EUR ']);
 		$expected = 'EUR 22,30';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Numeric->format('22.3', array('places' => 2, 'after' => ' EUR'));
+		$is = $this->Numeric->format('22.3', ['places' => 2, 'after' => ' EUR']);
 		$expected = '22,30 EUR';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Numeric->format('22.3', array('places' => 2, 'after' => 'x', 'before' => 'v'));
+		$is = $this->Numeric->format('22.3', ['places' => 2, 'after' => 'x', 'before' => 'v']);
 		$expected = 'v22,30x';
 		$this->assertEquals($expected, $is);
 

@@ -8,7 +8,7 @@ App::uses('AppHelper', 'View/Helper');
  */
 class HcardHelper extends AppHelper {
 
-	protected $_defaults = array(
+	protected $_defaults = [
 		'given_name' => 'Firstname',
 		'middle_name' => 'Middlename',
 		'family_name' => 'Lastname',
@@ -25,7 +25,7 @@ class HcardHelper extends AppHelper {
 		'yim_screenname' => 'yimname',
 		'avatar' => '/images/your_photo.png',
 		'title' => 'title',
-	);
+	];
 
 	/**
 	 * @return string HTML

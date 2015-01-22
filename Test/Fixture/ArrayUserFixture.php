@@ -27,22 +27,22 @@ class ArrayUserFixture extends CakeTestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'key' => 'primary'),
-		'born_id' => array('type' => 'integer', 'null' => true),
-		'name' => array('type' => 'string', 'null' => false)
-	);
+	public $fields = [
+		'id' => ['type' => 'integer', 'key' => 'primary'],
+		'born_id' => ['type' => 'integer', 'null' => true],
+		'name' => ['type' => 'string', 'null' => false]
+	];
 
 	/**
 	 * Records
 	 *
 	 * @var array
 	 */
-	public $records = array(
-		array('born_id' => 1, 'name' => 'User 1'),
-		array('born_id' => 2, 'name' => 'User 2'),
-		array('born_id' => 1, 'name' => 'User 3'),
-		array('born_id' => 3, 'name' => 'User 4')
-	);
+	public $records = [
+		['born_id' => 1, 'name' => 'User 1'],
+		['born_id' => 2, 'name' => 'User 2'],
+		['born_id' => 1, 'name' => 'User 3'],
+		['born_id' => 3, 'name' => 'User 4']
+	];
 
 }

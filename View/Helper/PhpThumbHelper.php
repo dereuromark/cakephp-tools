@@ -23,10 +23,10 @@ class PhpThumbHelper extends AppHelper {
 
 	public $errorDetail;
 
-	public function init($options = array()) {
+	public function init($options = []) {
 		$this->options = $options;
 		$this->set_file_extension();
-		$this->thumbData = array();
+		$this->thumbData = [];
 		$this->error = 0;
 	}
 
@@ -36,8 +36,8 @@ class PhpThumbHelper extends AppHelper {
 
 	public function set_cache_filename() {
 		ksort($this->options);
-		$filenameParts = array();
-		$cacheableProperties = array('src', 'new', 'w', 'h', 'wp', 'hp', 'wl', 'hl', 'ws', 'hs', 'f', 'q', 'sx', 'sy', 'sw', 'sh', 'zc', 'bc', 'bg', 'fltr');
+		$filenameParts = [];
+		$cacheableProperties = ['src', 'new', 'w', 'h', 'wp', 'hp', 'wl', 'hl', 'ws', 'hs', 'f', 'q', 'sx', 'sy', 'sw', 'sh', 'zc', 'bc', 'bg', 'fltr'];
 
 		foreach ($this->options as $key => $value) {
 			if (in_array($key, $cacheableProperties)) {
@@ -65,14 +65,14 @@ class PhpThumbHelper extends AppHelper {
 
 	public function create_thumb() {
 		if (!isset($this->PhpThumb) || !is_object($this->PhpThumb)) {
-			App::import('Vendor', 'phpThumb', array('file' => 'phpThumb' . DS . 'phpthumb.class.php'));
+			App::import('Vendor', 'phpThumb', ['file' => 'phpThumb' . DS . 'phpthumb.class.php']);
 		}
 		$this->PhpThumb = new PhpThumb();
 		set_time_limit(30);
 
 		//TODO: make it cleaner
 		// addon
-		$phpthumbConfig = array();
+		$phpthumbConfig = [];
 		$phpthumbConfig['allow_src_above_docroot'] = true;
 		$phpthumbConfig['cache_disable_warning'] = true;
 		$phpthumbConfig['max_source_pixels'] = 1920000;
@@ -134,7 +134,7 @@ class PhpThumbHelper extends AppHelper {
 			return;
 		}
 
-		$validExtensions = array('.gif', '.jpg', '.jpeg', '.png');
+		$validExtensions = ['.gif', '.jpg', '.jpeg', '.png'];
 
 		if (!in_array($this->fileExtension, $validExtensions)) {
 			$this->error = 1;
@@ -143,7 +143,7 @@ class PhpThumbHelper extends AppHelper {
 		}
 	}
 
-	public function generate($options = array()) {
+	public function generate($options = []) {
 		$this->init($options);
 
 		$this->validate();
@@ -170,7 +170,7 @@ class PhpThumbHelper extends AppHelper {
 	/**
 	 * Image tag
 	 */
-	public function show($options = array(), $tagOptions = array()) {
+	public function show($options = [], $tagOptions = []) {
 		$this->init($options, $tagOptions);
 		if ($this->image_is_cached()) {
 			return $this->show_image_tag();
@@ -183,7 +183,7 @@ class PhpThumbHelper extends AppHelper {
 	/**
 	 * Image src only
 	 */
-	public function show_src($options = array()) {
+	public function show_src($options = []) {
 		$this->init($options);
 		if ($this->image_is_cached()) {
 			return $this->get_image_src();

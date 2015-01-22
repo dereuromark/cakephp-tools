@@ -17,7 +17,7 @@ class WhoDidItBehaviorTest extends MyCakeTestCase {
 	 *
 	 * @var array
 	 */
-	public $fixtures = array('plugin.tools.who_did_it_player', 'core.cake_session');
+	public $fixtures = ['plugin.tools.who_did_it_player', 'core.cake_session'];
 
 	public function setUp() {
 		parent::setUp();
@@ -42,24 +42,24 @@ class WhoDidItBehaviorTest extends MyCakeTestCase {
 	 */
 	public function testSaveWithDefaultSettings() {
 		// create (id + name + created + modified)
-		$data = array(
+		$data = [
 			'name' => 'Foo'
-		);
+		];
 		$this->Model->create();
 		$res = $this->Model->save($data);
 		$this->assertTrue((bool)$res);
 		$this->assertTrue(count($res['WhoDidItPlayer']) === 4);
 
 		// update (id + name + modified)
-		$res = $this->Model->save($data + array('id' => $this->Model->id));
+		$res = $this->Model->save($data + ['id' => $this->Model->id]);
 		$this->assertTrue((bool)$res);
 		$this->assertTrue(count($res['WhoDidItPlayer']) === 3);
 
 		// create a new one being logged in
 		CakeSession::write('Auth.User.id', '1');
-		$data = array(
+		$data = [
 			'name' => 'Foo2'
-		);
+		];
 		$this->Model->create();
 		$res = $this->Model->save($data);
 		$this->assertTrue((bool)$res);
@@ -68,7 +68,7 @@ class WhoDidItBehaviorTest extends MyCakeTestCase {
 		$this->assertEquals('1', $res['WhoDidItPlayer']['modified_by']);
 
 		// now update being logged in
-		$res = $this->Model->save($data + array('id' => $this->Model->id));
+		$res = $this->Model->save($data + ['id' => $this->Model->id]);
 		$this->assertTrue((bool)$res);
 		$this->assertTrue(count($res['WhoDidItPlayer']) === 4);
 		$this->assertEquals('1', $res['WhoDidItPlayer']['modified_by']);
@@ -84,9 +84,9 @@ class WhoDidItBehaviorTest extends MyCakeTestCase {
 	public function testSaveWithAlreadySetModified() {
 		CakeSession::write('Auth.User.id', '1');
 
-		$data = array(
+		$data = [
 			'name' => 'Foo'
-		);
+		];
 		$this->Model->create();
 		$res = $this->Model->save($data);
 		$this->assertTrue((bool)$res);
@@ -94,8 +94,8 @@ class WhoDidItBehaviorTest extends MyCakeTestCase {
 
 		// update (id + name + modified)
 		CakeSession::write('Auth.User.id', '2');
-		$data += array('modified_by' => $res['WhoDidItPlayer']['modified_by']);
-		$res = $this->Model->save($data + array('id' => $this->Model->id));
+		$data += ['modified_by' => $res['WhoDidItPlayer']['modified_by']];
+		$res = $this->Model->save($data + ['id' => $this->Model->id]);
 
 		$this->assertTrue((bool)$res);
 		$this->assertFalse($res['WhoDidItPlayer']['modified']);

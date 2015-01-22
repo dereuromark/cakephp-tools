@@ -23,17 +23,17 @@ class FormExtHelperTest extends MyCakeTestCase {
 	 */
 	public function testPostLink() {
 		$result = $this->Form->postLink('Delete', '/posts/delete/1');
-		$this->assertTags($result, array(
-			'form' => array(
+		$this->assertTags($result, [
+			'form' => [
 				'method' => 'post', 'action' => '/posts/delete/1',
 				'name' => 'preg:/post_\w+/', 'id' => 'preg:/post_\w+/', 'style' => 'display:none;'
-			),
-			'input' => array('type' => 'hidden', 'name' => '_method', 'value' => 'POST'),
+			],
+			'input' => ['type' => 'hidden', 'name' => '_method', 'value' => 'POST'],
 			'/form',
-			'a' => array('href' => '#', 'class' => 'post-link postLink', 'onclick' => 'preg:/document\.post_\w+\.submit\(\); event\.returnValue = false; return false;/'),
+			'a' => ['href' => '#', 'class' => 'post-link postLink', 'onclick' => 'preg:/document\.post_\w+\.submit\(\); event\.returnValue = false; return false;/'],
 			'Delete',
 			'/a'
-		));
+		]);
 	}
 
 	/**
@@ -42,7 +42,7 @@ class FormExtHelperTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testPostLinkShim() {
-		$result = $this->Form->postLink('foo', '/bar', array('confirm' => 'Confirm me'));
+		$result = $this->Form->postLink('foo', '/bar', ['confirm' => 'Confirm me']);
 		$this->assertTextContains('onclick="if (confirm(&quot;Confirm me&quot;)) {', $result);
 	}
 
@@ -53,17 +53,17 @@ class FormExtHelperTest extends MyCakeTestCase {
 	 */
 	public function testDeleteLink() {
 		$result = $this->Form->deleteLink('Delete', '/posts/delete/1');
-		$this->assertTags($result, array(
-			'form' => array(
+		$this->assertTags($result, [
+			'form' => [
 				'method' => 'post', 'action' => '/posts/delete/1',
 				'name' => 'preg:/post_\w+/', 'id' => 'preg:/post_\w+/', 'style' => 'display:none;'
-			),
-			'input' => array('type' => 'hidden', 'name' => '_method', 'value' => 'DELETE'),
+			],
+			'input' => ['type' => 'hidden', 'name' => '_method', 'value' => 'DELETE'],
 			'/form',
-			'a' => array('href' => '#', 'class' => 'delete-link deleteLink', 'onclick' => 'preg:/document\.post_\w+\.submit\(\); event\.returnValue = false; return false;/'),
+			'a' => ['href' => '#', 'class' => 'delete-link deleteLink', 'onclick' => 'preg:/document\.post_\w+\.submit\(\); event\.returnValue = false; return false;/'],
 			'Delete',
 			'/a'
-		));
+		]);
 	}
 
 	//Not needed right now as autoRequire has been disabled
@@ -76,30 +76,30 @@ class FormExtHelperTest extends MyCakeTestCase {
 
 		$result = $this->Form->input('ContactExt.imrequiredonupdate');
 
-		$this->assertTags($result, array(
-			'div' => array(
+		$this->assertTags($result, [
+			'div' => [
 				'class' => 'input text'
-			),
-			'label' => array('for' => 'ContactExtImrequiredonupdate'),
+			],
+			'label' => ['for' => 'ContactExtImrequiredonupdate'],
 			'Imrequiredonupdate',
 			'/label',
-			'input' => array('name' => 'data[ContactExt][imrequiredonupdate]', 'type' => 'text', 'id' => 'ContactExtImrequiredonupdate'),
+			'input' => ['name' => 'data[ContactExt][imrequiredonupdate]', 'type' => 'text', 'id' => 'ContactExtImrequiredonupdate'],
 			'/div'
-		));
+		]);
 
 		Configure::write('Validation.autoRequire', true);
 
 		$result = $this->Form->input('ContactExt.imrequiredonupdate');
-		$this->assertTags($result, array(
-			'div' => array(
+		$this->assertTags($result, [
+			'div' => [
 				'class' => 'input text required'
-			),
-			'label' => array('for' => 'ContactExtImrequiredonupdate'),
+			],
+			'label' => ['for' => 'ContactExtImrequiredonupdate'],
 			'Imrequiredonupdate',
 			'/label',
-			'input' => array('name' => 'data[ContactExt][imrequiredonupdate]', 'type' => 'text', 'id' => 'ContactExtImrequiredonupdate'),
+			'input' => ['name' => 'data[ContactExt][imrequiredonupdate]', 'type' => 'text', 'id' => 'ContactExtImrequiredonupdate'],
 			'/div'
-		));
+		]);
 	}
 
 	/**
@@ -113,45 +113,45 @@ class FormExtHelperTest extends MyCakeTestCase {
 		Configure::write('Validation.browserAutoRequire', false);
 
 		$result = $this->Form->create('ContactExt');
-		$this->assertTags($result, array(
-			'form' => array(
+		$this->assertTags($result, [
+			'form' => [
 				'action' => '/',
 				'novalidate' => 'novalidate',
 				'id' => 'ContactExtForm',
 				'method' => 'post',
 				'accept-charset' => 'utf-8',
-			),
-			'div' => array(
+			],
+			'div' => [
 				'style' => 'display:none;'
-			),
-			'input' => array(
+			],
+			'input' => [
 				'type' => 'hidden',
 				'name' => '_method',
 				'value' => 'PUT'
-			),
+			],
 			'/div',
-		));
+		]);
 
 		Configure::write('Validation.browserAutoRequire', true);
 
 		$result = $this->Form->create('ContactExt');
-		$this->assertTags($result, array(
-			'form' => array(
+		$this->assertTags($result, [
+			'form' => [
 				'action' => '/',
 				'id' => 'ContactExtForm',
 				'method' => 'post',
 				'accept-charset' => 'utf-8',
-			),
-			'div' => array(
+			],
+			'div' => [
 				'style' => 'display:none;'
-			),
-			'input' => array(
+			],
+			'input' => [
 				'type' => 'hidden',
 				'name' => '_method',
 				'value' => 'PUT'
-			),
+			],
 			'/div',
-		));
+		]);
 	}
 
 	/**
@@ -164,40 +164,40 @@ class FormExtHelperTest extends MyCakeTestCase {
 	public function testNormalize() {
 		$this->Form->request->data['Model']['field'] = "My\nvalue";
 		$result = $this->Form->text('Model.field');
-		$this->assertTags($result, array('input' => array('type' => 'text', 'name' => 'data[Model][field]', 'value' => 'My value', 'id' => 'ModelField')));
+		$this->assertTags($result, ['input' => ['type' => 'text', 'name' => 'data[Model][field]', 'value' => 'My value', 'id' => 'ModelField']]);
 
 		$this->Form->request->data['Model']['field'] = "My\nvalue";
 		$result = $this->Form->textarea('Model.field');
-		$this->assertTags($result, array(
-			'textarea' => array('name' => 'data[Model][field]', 'id' => 'ModelField'),
+		$this->assertTags($result, [
+			'textarea' => ['name' => 'data[Model][field]', 'id' => 'ModelField'],
 			"My\nvalue",
 			'/textarea'
-		));
+		]);
 
 		$this->Form->request->data['Model']['field'] = "My\nvalue";
-		$result = $this->Form->input('Model.field', array('type' => 'text'));
-		$this->assertTags($result, array(
-			'div' => array('class' => 'input text'),
-			'label' => array('for' => 'ModelField'),
+		$result = $this->Form->input('Model.field', ['type' => 'text']);
+		$this->assertTags($result, [
+			'div' => ['class' => 'input text'],
+			'label' => ['for' => 'ModelField'],
 			'Field',
 			'/label',
-			'input' => array('name' => 'data[Model][field]', 'type' => 'text', 'value' => 'My value', 'id' => 'ModelField'),
+			'input' => ['name' => 'data[Model][field]', 'type' => 'text', 'value' => 'My value', 'id' => 'ModelField'],
 			'/div'
-		));
+		]);
 
 		$this->Form->request->data['Model']['field'] = "My\nvalue";
-		$result = $this->Form->input('Model.field', array('type' => 'textarea'));
+		$result = $this->Form->input('Model.field', ['type' => 'textarea']);
 		//debug($result);
-		$this->assertTags($result, array(
-			'div' => array('class' => 'input textarea'),
-			'label' => array('for' => 'ModelField'),
+		$this->assertTags($result, [
+			'div' => ['class' => 'input textarea'],
+			'label' => ['for' => 'ModelField'],
 			'Field',
 			'/label',
-			'textarea' => array('name' => 'data[Model][field]', 'cols' => '30', 'rows' => 6, 'id' => 'ModelField'),
+			'textarea' => ['name' => 'data[Model][field]', 'cols' => '30', 'rows' => 6, 'id' => 'ModelField'],
 			"My\nvalue",
 			'/textarea',
 			'/div'
-		));
+		]);
 	}
 
 }
@@ -220,52 +220,52 @@ class ContactExt extends CakeTestModel {
 	 *
 	 * @var array
 	 */
-	protected $_schema = array(
-		'id' => array('type' => 'integer', 'null' => '', 'default' => '', 'length' => '8'),
-		'name' => array('type' => 'string', 'null' => '', 'default' => '', 'length' => '255'),
-		'email' => array('type' => 'string', 'null' => '', 'default' => '', 'length' => '255'),
-		'phone' => array('type' => 'string', 'null' => '', 'default' => '', 'length' => '255'),
-		'password' => array('type' => 'string', 'null' => '', 'default' => '', 'length' => '255'),
-		'published' => array('type' => 'date', 'null' => true, 'default' => null, 'length' => null),
-		'created' => array('type' => 'date', 'null' => '1', 'default' => '', 'length' => ''),
-		'updated' => array('type' => 'datetime', 'null' => '1', 'default' => '', 'length' => null),
-		'age' => array('type' => 'integer', 'null' => '', 'default' => '', 'length' => null)
-	);
+	protected $_schema = [
+		'id' => ['type' => 'integer', 'null' => '', 'default' => '', 'length' => '8'],
+		'name' => ['type' => 'string', 'null' => '', 'default' => '', 'length' => '255'],
+		'email' => ['type' => 'string', 'null' => '', 'default' => '', 'length' => '255'],
+		'phone' => ['type' => 'string', 'null' => '', 'default' => '', 'length' => '255'],
+		'password' => ['type' => 'string', 'null' => '', 'default' => '', 'length' => '255'],
+		'published' => ['type' => 'date', 'null' => true, 'default' => null, 'length' => null],
+		'created' => ['type' => 'date', 'null' => '1', 'default' => '', 'length' => ''],
+		'updated' => ['type' => 'datetime', 'null' => '1', 'default' => '', 'length' => null],
+		'age' => ['type' => 'integer', 'null' => '', 'default' => '', 'length' => null]
+	];
 
 	/**
 	 * Validate property
 	 *
 	 * @var array
 	 */
-	public $validate = array(
-		'non_existing' => array(),
-		'idontexist' => array(),
-		'imrequired' => array('rule' => array('between', 5, 30), 'allowEmpty' => false),
-		'imrequiredonupdate' => array('notEmpty' => array('rule' => 'alphaNumeric', 'on' => 'update')),
-		'imrequiredoncreate' => array('required' => array('rule' => 'alphaNumeric', 'on' => 'create')),
-		'imrequiredonboth' => array(
-			'required' => array('rule' => 'alphaNumeric'),
-		),
+	public $validate = [
+		'non_existing' => [],
+		'idontexist' => [],
+		'imrequired' => ['rule' => ['between', 5, 30], 'allowEmpty' => false],
+		'imrequiredonupdate' => ['notEmpty' => ['rule' => 'alphaNumeric', 'on' => 'update']],
+		'imrequiredoncreate' => ['required' => ['rule' => 'alphaNumeric', 'on' => 'create']],
+		'imrequiredonboth' => [
+			'required' => ['rule' => 'alphaNumeric'],
+		],
 		'string_required' => 'notEmpty',
-		'imalsorequired' => array('rule' => 'alphaNumeric', 'allowEmpty' => false),
-		'imrequiredtoo' => array('rule' => 'notEmpty'),
-		'required_one' => array('required' => array('rule' => array('notEmpty'))),
-		'imnotrequired' => array('required' => false, 'rule' => 'alphaNumeric', 'allowEmpty' => true),
-		'imalsonotrequired' => array(
-			'alpha' => array('rule' => 'alphaNumeric', 'allowEmpty' => true),
-			'between' => array('rule' => array('between', 5, 30)),
-		),
-		'imalsonotrequired2' => array(
-			'alpha' => array('rule' => 'alphaNumeric', 'allowEmpty' => true),
-			'between' => array('rule' => array('between', 5, 30), 'allowEmpty' => true),
-		),
-		'imnotrequiredeither' => array('required' => true, 'rule' => array('between', 5, 30), 'allowEmpty' => true),
-		'iamrequiredalways' => array(
-			'email' => array('rule' => 'email'),
-			'rule_on_create' => array('rule' => array('maxLength', 50), 'on' => 'create'),
-			'rule_on_update' => array('rule' => array('between', 1, 50), 'on' => 'update'),
-		),
-	);
+		'imalsorequired' => ['rule' => 'alphaNumeric', 'allowEmpty' => false],
+		'imrequiredtoo' => ['rule' => 'notEmpty'],
+		'required_one' => ['required' => ['rule' => ['notEmpty']]],
+		'imnotrequired' => ['required' => false, 'rule' => 'alphaNumeric', 'allowEmpty' => true],
+		'imalsonotrequired' => [
+			'alpha' => ['rule' => 'alphaNumeric', 'allowEmpty' => true],
+			'between' => ['rule' => ['between', 5, 30]],
+		],
+		'imalsonotrequired2' => [
+			'alpha' => ['rule' => 'alphaNumeric', 'allowEmpty' => true],
+			'between' => ['rule' => ['between', 5, 30], 'allowEmpty' => true],
+		],
+		'imnotrequiredeither' => ['required' => true, 'rule' => ['between', 5, 30], 'allowEmpty' => true],
+		'iamrequiredalways' => [
+			'email' => ['rule' => 'email'],
+			'rule_on_create' => ['rule' => ['maxLength', 50], 'on' => 'create'],
+			'rule_on_update' => ['rule' => ['between', 1, 50], 'on' => 'update'],
+		],
+	];
 
 	/**
 	 * Schema method

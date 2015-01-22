@@ -206,7 +206,7 @@ abstract class MyCakeTestCase extends CakeTestCase {
 	 * @return string
 	 */
 	protected function _osFix($string) {
-		return str_replace(array("\r\n", "\r"), "\n", $string);
+		return str_replace(["\r\n", "\r"], "\n", $string);
 	}
 
 }

@@ -11,7 +11,7 @@ class HtmlExtHelperTest extends MyCakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		Configure::write('Routing.prefixes', array('admin'));
+		Configure::write('Routing.prefixes', ['admin']);
 		Router::reload();
 		$this->Html = new HtmlExtHelper(new View(null));
 	}
@@ -41,7 +41,7 @@ class HtmlExtHelperTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testLinkShim() {
-		$result = $this->Html->link('foo', '/bar', array('confirm' => 'Confirm me'));
+		$result = $this->Html->link('foo', '/bar', ['confirm' => 'Confirm me']);
 		$expected = '<a href="/bar" onclick="if (confirm(&quot;Confirm me&quot;)) { return true; } return false;">foo</a>';
 		$this->assertEquals($expected, $result);
 	}
@@ -64,7 +64,7 @@ class HtmlExtHelperTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testDefaultUrl() {
-		$result = $this->Html->defaultUrl(array('controller' => 'foo'));
+		$result = $this->Html->defaultUrl(['controller' => 'foo']);
 		$this->debug($result);
 		$expected = '/foo';
 		$this->assertEquals($expected, $result);
@@ -76,12 +76,12 @@ class HtmlExtHelperTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testDefaultLink() {
-		$result = $this->Html->defaultLink('Title', array('controller' => 'foo'));
+		$result = $this->Html->defaultLink('Title', ['controller' => 'foo']);
 		$this->debug($result);
 		$expected = '<a href="/foo">Title</a>';
 		$this->assertEquals($expected, $result);
 
-		$result = $this->Html->defaultLink('Title', array('admin' => true, 'controller' => 'foo'));
+		$result = $this->Html->defaultLink('Title', ['admin' => true, 'controller' => 'foo']);
 		$this->debug($result);
 		$expected = '<a href="/admin/foo" rel="nofollow">Title</a>';
 		$this->assertEquals($expected, $result);
@@ -93,12 +93,12 @@ class HtmlExtHelperTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testCompleteUrl() {
-		$result = $this->Html->completeUrl(array('controller' => 'foo'));
+		$result = $this->Html->completeUrl(['controller' => 'foo']);
 		$expected = '/foo';
 		$this->assertEquals($expected, $result);
 
-		$this->Html->request->query = array('x' => 'y');
-		$result = $this->Html->completeUrl(array('controller' => 'foo'));
+		$this->Html->request->query = ['x' => 'y'];
+		$result = $this->Html->completeUrl(['controller' => 'foo']);
 		$expected = '/foo?x=y';
 		$this->assertEquals($expected, $result);
 	}
@@ -109,12 +109,12 @@ class HtmlExtHelperTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testCompleteLink() {
-		$result = $this->Html->completeLink('Title', array('controller' => 'foo'));
+		$result = $this->Html->completeLink('Title', ['controller' => 'foo']);
 		$expected = '<a href="/foo">Title</a>';
 		$this->assertEquals($expected, $result);
 
-		$this->Html->request->query = array('x' => 'y');
-		$result = $this->Html->completeLink('Title', array('controller' => 'foo'));
+		$this->Html->request->query = ['x' => 'y'];
+		$result = $this->Html->completeLink('Title', ['controller' => 'foo']);
 		$expected = '<a href="/foo?x=y">Title</a>';
 		$this->assertEquals($expected, $result);
 	}

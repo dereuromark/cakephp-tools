@@ -3,34 +3,34 @@
 //TODO: make a helper
 class ICalObject {
 
-	var $config = array('database' => '');
+	var $config = ['database' => ''];
 	var $__count = 0;
 	var $__lastInsertId = null;
 	var $__data = null;
 
-	var $__timezones = array('US-Eastern');
-	var $columns = array('primary_key' => array('name' => 'uid'),
-						'string' => array('name' => 'string'),
-						'timestamp' => array('name' => 'timestamp', 'format' => 'Ymd/T/His'),
-						'datetime' => array('name' => 'timestamp', 'format' => 'Ymd/T/His')//,
-	);
-	var $__keyMap = array(
+	var $__timezones = ['US-Eastern'];
+	var $columns = ['primary_key' => ['name' => 'uid'],
+						'string' => ['name' => 'string'],
+						'timestamp' => ['name' => 'timestamp', 'format' => 'Ymd/T/His'],
+						'datetime' => ['name' => 'timestamp', 'format' => 'Ymd/T/His']//,
+	];
+	var $__keyMap = [
 			'id'			=> 'uid',
 			'end_date'		=> 'dtend',
 			'start_date'	=> 'dtstart',
 			'date_stamp'	=> 'dtstamp'
-	);
-	var $__textMap = array(
+	];
+	var $__textMap = [
 			'"'		=> 'DQUOTE',
 			','		=> '\,',
 			//':'		=> '":"', // Not sure about this one
 			';'		=> '\;',
 			'\\'	=> '\\\\',
 			'\n'	=> '\\n'
-	);
+	];
 
 	function listSources() {
-		return array('calendars', 'events', 'todos', 'alarms', 'journals');
+		return ['calendars', 'events', 'todos', 'alarms', 'journals'];
 	}
 
 	function create($data) {
@@ -60,7 +60,7 @@ class ICalObject {
 		foreach($data as $key => $val) {
 
 			$keyAppend = '';
-			if (in_array($key, array('Calendar', 'Event', 'Timezone', 'Todo', 'Alarm', 'Journals'))) {
+			if (in_array($key, ['Calendar', 'Event', 'Timezone', 'Todo', 'Alarm', 'Journals'])) {
 				$key = 'v' . $key;
 			}
 
@@ -78,7 +78,7 @@ class ICalObject {
 				}
 			} else {
 				if (is_array($val)) {
-					$tmp = array();
+					$tmp = [];
 					foreach ($val as $key2 => $val2) {
 						if ($key2 !== 0) {
 							$tmp[] = strtoupper($key2) . '=' . $val2;
@@ -176,7 +176,7 @@ class ICalObject {
 			}
 		}
 
-		$data = array();
+		$data = [];
 		for ($i = $this->__count; $i < count($lines); $i++) {
 
 			$idx = strpos($lines[$i], ':');
@@ -202,7 +202,7 @@ class ICalObject {
 					$key = $key[0];
 					array_shift($props);
 	
-					$value = array($value);
+					$value = [$value];
 					foreach ($props as $v) {
 						$tmp = explode('=', $v);
 						if (isset($tmp[1])) {
@@ -260,7 +260,7 @@ class ICalObject {
 
 			if (isset($data[$key])) {
 				if (!isset($data[$key][0])) {
-					$data[$key] = array($data[$key]);
+					$data[$key] = [$data[$key]];
 					$data[$key][] = $value;
 				} elseif (isset($data[$key][0]) && is_array($data[$key])) {
 					$data[$key][] = $value;
@@ -275,7 +275,7 @@ class ICalObject {
 
 	// Event UID generator
 	function __insertID() {
-		$chunk = array();
+		$chunk = [];
 		$hash = strtoupper(md5(intval(str_replace('.', '', env('SERVER_ADDR'))).''.intval(rand() * 1000).time()));
 		$chunk[] = substr($hash, 0, 8);
 		$chunk[] = substr($hash, 8, 4);
@@ -325,7 +325,7 @@ class ICalObject {
 
 		$out = 'P';
 		$t = false;
-		$offset = array('W' => 604800, 'D' => 86400, 'H' => 3600, 'M' => 60, 'S' => 1);
+		$offset = ['W' => 604800, 'D' => 86400, 'H' => 3600, 'M' => 60, 'S' => 1];
 
 		if ($date != null) {
 			$time = strtotime($date) - strtotime($time);
@@ -338,7 +338,7 @@ class ICalObject {
 			}
 			
 			if ($tmp >= 1) {
-				if (in_array($key, array('H', 'M', 'S')) && $t == false) {
+				if (in_array($key, ['H', 'M', 'S']) && $t == false) {
 					$t = true;
 					$out .= 'T';
 				}

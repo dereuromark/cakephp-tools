@@ -10,7 +10,7 @@ class MyModelTest extends MyCakeTestCase {
 
 	public $modelName = 'User';
 
-	public $fixtures = array('core.user', 'core.post', 'core.author');
+	public $fixtures = ['core.user', 'core.post', 'core.author'];
 
 	public function setUp() {
 		parent::setUp();
@@ -34,15 +34,15 @@ class MyModelTest extends MyCakeTestCase {
 		$record = $this->Post->get(2);
 		$this->assertEquals(2, $record['Post']['id']);
 
-		$record = $this->Post->get(2, array('fields' => array('id', 'created')));
+		$record = $this->Post->get(2, ['fields' => ['id', 'created']]);
 		$this->assertEquals(2, count($record['Post']));
 
-		$record = $this->Post->get(2, array('fields' => array('id', 'title', 'body'), 'contain' => array('Author')));
+		$record = $this->Post->get(2, ['fields' => ['id', 'title', 'body'], 'contain' => ['Author']]);
 		$this->assertEquals(3, count($record['Post']));
 		$this->assertEquals(3, $record['Author']['id']);
 
 		// BC
-		$record = $this->Post->get(2, array('id', 'title', 'body'), array('Author'));
+		$record = $this->Post->get(2, ['id', 'title', 'body'], ['Author']);
 		$this->assertEquals(3, count($record['Post']));
 		$this->assertEquals(3, $record['Author']['id']);
 	}
@@ -55,7 +55,7 @@ class MyModelTest extends MyCakeTestCase {
 	public function testGetRelatedInUse() {
 		$this->Post->Author->displayField = 'user';
 		$results = $this->Post->getRelatedInUse('Author', 'author_id', 'list');
-		$expected = array(1 => 'mariano', 3 => 'larry');
+		$expected = [1 => 'mariano', 3 => 'larry'];
 		$this->assertEquals($expected, $results);
 	}
 
@@ -69,7 +69,7 @@ class MyModelTest extends MyCakeTestCase {
 		$this->skipIf(!($this->db instanceof Mysql), 'The test is only compatible with Mysql.');
 
 		$results = $this->Post->getFieldInUse('author_id', 'list');
-		$expected = array(1 => 'First Post', 2 => 'Second Post');
+		$expected = [1 => 'First Post', 2 => 'Second Post'];
 		$this->assertEquals($expected, $results);
 	}
 
@@ -79,10 +79,10 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testEnum() {
-		$array = array(
+		$array = [
 			1 => 'foo',
 			2 => 'bar',
-		);
+		];
 
 		$res = AppTestModel::enum(null, $array, false);
 		$this->assertEquals($array, $res);
@@ -103,9 +103,9 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testGetFalse() {
-		$this->User->order = array();
+		$this->User->order = [];
 		$is = $this->User->get('xyz');
-		$this->assertSame(array(), $is);
+		$this->assertSame([], $is);
 	}
 
 	/**
@@ -134,7 +134,7 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testDeconstruct() {
-		$data = array('year' => '2010', 'month' => '10', 'day' => 11);
+		$data = ['year' => '2010', 'month' => '10', 'day' => 11];
 		$res = $this->User->deconstruct('User.dob', $data);
 		$this->assertEquals('2010-10-11', $res);
 
@@ -180,18 +180,18 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testSaveAll() {
-		$records = array(
-			array('title' => 'x', 'body' => 'bx'),
-			array('title' => 'y', 'body' => 'by'),
-		);
+		$records = [
+			['title' => 'x', 'body' => 'bx'],
+			['title' => 'y', 'body' => 'by'],
+		];
 		$result = $this->User->saveAll($records);
 		$this->assertTrue($result);
 
-		$result = $this->User->saveAll($records, array('atomic' => false));
+		$result = $this->User->saveAll($records, ['atomic' => false]);
 		$this->assertTrue($result);
 
-		$result = $this->User->saveAll($records, array('atomic' => false, 'returnArray' => true));
-		$expected = array(true, true);
+		$result = $this->User->saveAll($records, ['atomic' => false, 'returnArray' => true]);
+		$expected = [true, true];
 		$this->assertSame($expected, $result);
 	}
 
@@ -207,7 +207,7 @@ class MyModelTest extends MyCakeTestCase {
 		$authorTable = $db->fullTableName($this->Post->Author->table);
 
 		// Note that the $fields argument needs manual string escaping whereas the $conditions one doesn't!
-		$result = $this->Post->updateAll(array('title' => '"Foo"'), array('title !=' => 'Foo'));
+		$result = $this->Post->updateAll(['title' => '"Foo"'], ['title !=' => 'Foo']);
 		$this->assertTrue($result);
 
 		$queries = $db->getLog();
@@ -215,7 +215,7 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertSame($expected, $queries['log'][0]['query']);
 
 		// Now joinless
-		$result = $this->Post->updateAllJoinless(array('title' => '"Foo"'), array('title !=' => 'Foo'));
+		$result = $this->Post->updateAllJoinless(['title' => '"Foo"'], ['title !=' => 'Foo']);
 		$this->assertTrue($result);
 
 		$queries = $db->getLog();
@@ -234,7 +234,7 @@ class MyModelTest extends MyCakeTestCase {
 		$postTable = $db->fullTableName($this->Post->table);
 		$authorTable = $db->fullTableName($this->Post->Author->table);
 
-		$result = $this->Post->deleteAll(array('title !=' => 'Foo'));
+		$result = $this->Post->deleteAll(['title !=' => 'Foo']);
 		$this->assertTrue($result);
 
 		$queries = $db->getLog();
@@ -257,7 +257,7 @@ class MyModelTest extends MyCakeTestCase {
 		$postTable = $db->fullTableName($this->Post->table);
 		$authorTable = $db->fullTableName($this->Post->Author->table);
 
-		$result = $this->Post->deleteAllJoinless(array('title !=' => 'Foo'));
+		$result = $this->Post->deleteAllJoinless(['title !=' => 'Foo']);
 		$this->assertTrue($result);
 
 		$queries = $db->getLog();
@@ -274,7 +274,7 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testDeleteAllRaw() {
-		$result = $this->User->deleteAllRaw(array('user !=' => 'foo', 'created <' => date(FORMAT_DB_DATE), 'id >' => 1));
+		$result = $this->User->deleteAllRaw(['user !=' => 'foo', 'created <' => date(FORMAT_DB_DATE), 'id >' => 1]);
 		$this->assertTrue($result);
 		$result = $this->User->getAffectedRows();
 		$this->assertIdentical(3, $result);
@@ -314,18 +314,18 @@ class MyModelTest extends MyCakeTestCase {
 	public function testInvalidates() {
 		$TestModel = new AppTestModel();
 
-		$TestModel->validate = array(
-			'title' => array(
-				'tooShort' => array(
-					'rule' => array('minLength', 50),
+		$TestModel->validate = [
+			'title' => [
+				'tooShort' => [
+					'rule' => ['minLength', 50],
 					'last' => false
-				),
-				'onlyLetters' => array('rule' => '/^[a-z]+$/i')
-			),
-		);
-		$data = array(
+				],
+				'onlyLetters' => ['rule' => '/^[a-z]+$/i']
+			],
+		];
+		$data = [
 			'title' => 'I am a short string'
-		);
+		];
 		$TestModel->create($data);
 		$TestModel->invalidate('title', 'someCustomMessage');
 
@@ -333,9 +333,9 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertFalse($result);
 
 		$result = $TestModel->validationErrors;
-		$expected = array(
-			'title' => array('someCustomMessage', 'tooShort', 'onlyLetters')
-		);
+		$expected = [
+			'title' => ['someCustomMessage', 'tooShort', 'onlyLetters']
+		];
 		$this->assertEquals($expected, $result);
 		$result = $TestModel->validationErrors;
 		$this->assertEquals($expected, $result);
@@ -348,9 +348,9 @@ class MyModelTest extends MyCakeTestCase {
 		$result = $TestModel->validates();
 		$this->assertFalse($result);
 		$result = $TestModel->validationErrors;
-		$expected = array(
-			'title' => array('someCustomMessage')
-		);
+		$expected = [
+			'title' => ['someCustomMessage']
+		];
 		$this->assertEquals($expected, $result);
 		$result = $TestModel->validationErrors;
 		$this->assertEquals($expected, $result);
@@ -362,25 +362,25 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateRange() {
-		$is = $this->User->validateRange(array('range' => 2), 1, 3);
+		$is = $this->User->validateRange(['range' => 2], 1, 3);
 		$this->assertTrue($is);
 
-		$is = $this->User->validateRange(array('range' => 2.4), 1.5, 2.3);
+		$is = $this->User->validateRange(['range' => 2.4], 1.5, 2.3);
 		$this->assertFalse($is);
 
-		$is = $this->User->validateRange(array('range' => -5), -10, 1);
+		$is = $this->User->validateRange(['range' => -5], -10, 1);
 		$this->assertTrue($is);
 
-		$is = $this->User->validateRange(array('range' => 'word'), 1.5, 2.3);
+		$is = $this->User->validateRange(['range' => 'word'], 1.5, 2.3);
 		$this->assertFalse($is);
 
-		$is = $this->User->validateRange(array('range' => 5.1));
+		$is = $this->User->validateRange(['range' => 5.1]);
 		$this->assertTrue($is);
 
-		$is = $this->User->validateRange(array('range' => 2.1), 2.1, 3.2);
+		$is = $this->User->validateRange(['range' => 2.1], 2.1, 3.2);
 		$this->assertTrue($is);
 
-		$is = $this->User->validateRange(array('range' => 3.2), 2.1, 3.2);
+		$is = $this->User->validateRange(['range' => 3.2], 2.1, 3.2);
 		$this->assertTrue($is);
 	}
 
@@ -390,20 +390,20 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateIdentical() {
-		$this->User->data = array($this->User->alias => array('y' => 'efg'));
-		$is = $this->User->validateIdentical(array('x' => 'efg'), 'y');
+		$this->User->data = [$this->User->alias => ['y' => 'efg']];
+		$is = $this->User->validateIdentical(['x' => 'efg'], 'y');
 		$this->assertTrue($is);
 
-		$this->User->data = array($this->User->alias => array('y' => '2'));
-		$is = $this->User->validateIdentical(array('x' => 2), 'y');
+		$this->User->data = [$this->User->alias => ['y' => '2']];
+		$is = $this->User->validateIdentical(['x' => 2], 'y');
 		$this->assertFalse($is);
 
-		$this->User->data = array($this->User->alias => array('y' => '3'));
-		$is = $this->User->validateIdentical(array('x' => 3), 'y', array('cast' => 'int'));
+		$this->User->data = [$this->User->alias => ['y' => '3']];
+		$is = $this->User->validateIdentical(['x' => 3], 'y', ['cast' => 'int']);
 		$this->assertTrue($is);
 
-		$this->User->data = array($this->User->alias => array('y' => '3'));
-		$is = $this->User->validateIdentical(array('x' => 3), 'y', array('cast' => 'string'));
+		$this->User->data = [$this->User->alias => ['y' => '3']];
+		$is = $this->User->validateIdentical(['x' => 3], 'y', ['cast' => 'string']);
 		$this->assertTrue($is);
 	}
 
@@ -416,43 +416,43 @@ class MyModelTest extends MyCakeTestCase {
 		//$this->User->data = array($this->User->alias=>array('y'=>'efg'));
 		$testModel = new AppTestModel();
 
-		$is = $testModel->validateKey(array('id' => '2'));
+		$is = $testModel->validateKey(['id' => '2']);
 		$this->assertFalse($is);
 
-		$is = $testModel->validateKey(array('id' => 2));
+		$is = $testModel->validateKey(['id' => 2]);
 		$this->assertFalse($is);
 
-		$is = $testModel->validateKey(array('id' => '4e6f-a2f2-19a4ab957338'));
+		$is = $testModel->validateKey(['id' => '4e6f-a2f2-19a4ab957338']);
 		$this->assertFalse($is);
 
-		$is = $testModel->validateKey(array('id' => '4dff6725-f0e8-4e6f-a2f2-19a4ab957338'));
+		$is = $testModel->validateKey(['id' => '4dff6725-f0e8-4e6f-a2f2-19a4ab957338']);
 		$this->assertTrue($is);
 
-		$is = $testModel->validateKey(array('id' => ''));
+		$is = $testModel->validateKey(['id' => '']);
 		$this->assertFalse($is);
 
-		$is = $testModel->validateKey(array('id' => ''), array('allowEmpty' => true));
+		$is = $testModel->validateKey(['id' => ''], ['allowEmpty' => true]);
 		$this->assertTrue($is);
 
-		$is = $testModel->validateKey(array('foreign_id' => '2'));
+		$is = $testModel->validateKey(['foreign_id' => '2']);
 		$this->assertTrue($is);
 
-		$is = $testModel->validateKey(array('foreign_id' => 2));
+		$is = $testModel->validateKey(['foreign_id' => 2]);
 		$this->assertTrue($is);
 
-		$is = $testModel->validateKey(array('foreign_id' => 2.3));
+		$is = $testModel->validateKey(['foreign_id' => 2.3]);
 		$this->assertFalse($is);
 
-		$is = $testModel->validateKey(array('foreign_id' => -2));
+		$is = $testModel->validateKey(['foreign_id' => -2]);
 		$this->assertFalse($is);
 
-		$is = $testModel->validateKey(array('foreign_id' => '4dff6725-f0e8-4e6f-a2f2-19a4ab957338'));
+		$is = $testModel->validateKey(['foreign_id' => '4dff6725-f0e8-4e6f-a2f2-19a4ab957338']);
 		$this->assertFalse($is);
 
-		$is = $testModel->validateKey(array('foreign_id' => 0));
+		$is = $testModel->validateKey(['foreign_id' => 0]);
 		$this->assertFalse($is);
 
-		$is = $testModel->validateKey(array('foreign_id' => 0), array('allowEmpty' => true));
+		$is = $testModel->validateKey(['foreign_id' => 0], ['allowEmpty' => true]);
 		$this->assertTrue($is);
 	}
 
@@ -464,16 +464,16 @@ class MyModelTest extends MyCakeTestCase {
 	public function testValidateEnum() {
 		//$this->User->data = array($this->User->alias=>array('y'=>'efg'));
 		$testModel = new AppTestModel();
-		$is = $testModel->validateEnum(array('x' => '1'), true);
+		$is = $testModel->validateEnum(['x' => '1'], true);
 		$this->assertTrue($is);
 
-		$is = $testModel->validateEnum(array('x' => '4'), true);
+		$is = $testModel->validateEnum(['x' => '4'], true);
 		$this->assertFalse($is);
 
-		$is = $testModel->validateEnum(array('x' => '5'), true, array('4', '5'));
+		$is = $testModel->validateEnum(['x' => '5'], true, ['4', '5']);
 		$this->assertTrue($is);
 
-		$is = $testModel->validateEnum(array('some_key' => '3'), 'x', array('4', '5'));
+		$is = $testModel->validateEnum(['some_key' => '3'], 'x', ['4', '5']);
 		$this->assertTrue($is);
 	}
 
@@ -483,19 +483,19 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testGuaranteeFields() {
-		$res = $this->User->guaranteeFields(array());
+		$res = $this->User->guaranteeFields([]);
 		//debug($res);
 		$this->assertTrue(empty($res));
 
-		$res = $this->User->guaranteeFields(array('x', 'y'));
+		$res = $this->User->guaranteeFields(['x', 'y']);
 		//debug($res);
 		$this->assertTrue(!empty($res));
-		$this->assertEquals($res, array($this->modelName => array('x' => '', 'y' => '')));
+		$this->assertEquals($res, [$this->modelName => ['x' => '', 'y' => '']]);
 
-		$res = $this->User->guaranteeFields(array('x', 'OtherModel.y'));
+		$res = $this->User->guaranteeFields(['x', 'OtherModel.y']);
 		//debug($res);
 		$this->assertTrue(!empty($res));
-		$this->assertEquals($res, array($this->modelName => array('x' => ''), 'OtherModel' => array('y' => '')));
+		$this->assertEquals($res, [$this->modelName => ['x' => ''], 'OtherModel' => ['y' => '']]);
 	}
 
 	/**
@@ -504,28 +504,28 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testRequireFields() {
-		$this->User->requireFields(array('foo', 'bar'));
-		$data = array(
+		$this->User->requireFields(['foo', 'bar']);
+		$data = [
 			'foo' => 'foo',
-		);
+		];
 		$this->User->set($data);
 		$result = $this->User->validates();
 		$this->assertFalse($result);
 
-		$data = array(
+		$data = [
 			'foo' => 'foo',
 			'bar' => '',
-		);
+		];
 		$this->User->set($data);
 		$result = $this->User->validates();
 		$this->assertTrue($result);
 
 		// Allow field to be empty as long as it is present
-		$this->User->requireFields(array('foo', 'test'), true);
-		$data = array(
+		$this->User->requireFields(['foo', 'test'], true);
+		$data = [
 			'foo' => 'foo',
 			'test' => ''
-		);
+		];
 		$this->User->set($data);
 		$result = $this->User->validates();
 		$this->assertTrue($result);
@@ -537,18 +537,18 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testSet() {
-		$data = array($this->modelName => array('x' => 'hey'), 'OtherModel' => array('y' => ''));
-		$this->User->data = array();
+		$data = [$this->modelName => ['x' => 'hey'], 'OtherModel' => ['y' => '']];
+		$this->User->data = [];
 
-		$res = $this->User->set($data, null, array('x', 'z'));
+		$res = $this->User->set($data, null, ['x', 'z']);
 		$this->out($res);
 		$this->assertTrue(!empty($res));
-		$this->assertEquals($res, array($this->modelName => array('x' => 'hey', 'z' => ''), 'OtherModel' => array('y' => '')));
+		$this->assertEquals($res, [$this->modelName => ['x' => 'hey', 'z' => ''], 'OtherModel' => ['y' => '']]);
 
 		$res = $this->User->data;
 		$this->out($res);
 		$this->assertTrue(!empty($res));
-		$this->assertEquals($res, array($this->modelName => array('x' => 'hey', 'z' => ''), 'OtherModel' => array('y' => '')));
+		$this->assertEquals($res, [$this->modelName => ['x' => 'hey', 'z' => ''], 'OtherModel' => ['y' => '']]);
 	}
 
 	/**
@@ -557,28 +557,28 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateWithGuaranteeFields() {
-		$data = array($this->modelName => array('x' => 'hey'), 'OtherModel' => array('y' => ''));
+		$data = [$this->modelName => ['x' => 'hey'], 'OtherModel' => ['y' => '']];
 
-		$data = $this->User->guaranteeFields(array('x', 'z'), $data);
+		$data = $this->User->guaranteeFields(['x', 'z'], $data);
 		$this->out($data);
 		$this->assertTrue(!empty($data));
-		$this->assertEquals(array($this->modelName => array('x' => 'hey', 'z' => ''), 'OtherModel' => array('y' => '')), $data);
+		$this->assertEquals([$this->modelName => ['x' => 'hey', 'z' => ''], 'OtherModel' => ['y' => '']], $data);
 
 		$res = $this->User->set($data);
 		$this->out($res);
 		$this->assertTrue(!empty($res));
-		$this->assertEquals($res, array($this->modelName => array('x' => 'hey', 'z' => ''), 'OtherModel' => array('y' => '')));
+		$this->assertEquals($res, [$this->modelName => ['x' => 'hey', 'z' => ''], 'OtherModel' => ['y' => '']]);
 	}
 
 	public function testWhitelist() {
-		$data = array(
+		$data = [
 			'name' => 'foo',
 			'x' => 'y',
 			'z' => 'yes'
-		);
+		];
 		$this->User->set($data);
-		$result = $this->User->whitelist(array('name', 'x'));
-		$this->assertEquals(array('name', 'x'), array_keys($this->User->data['User']));
+		$result = $this->User->whitelist(['name', 'x']);
+		$this->assertEquals(['name', 'x'], array_keys($this->User->data['User']));
 	}
 
 	/**
@@ -588,14 +588,14 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testBlacklist() {
-		$data = array(
+		$data = [
 			'name' => 'foo',
 			'x' => 'y',
 			'z' => 'yes'
-		);
+		];
 		$this->User->set($data);
-		$this->User->blacklist(array('x'));
-		$this->assertEquals(array('name', 'z'), array_keys($this->User->data['User']));
+		$this->User->blacklist(['x']);
+		$this->assertEquals(['name', 'z'], array_keys($this->User->data['User']));
 	}
 
 	/**
@@ -604,8 +604,8 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testGenerateWhitelistFromBlacklist() {
-		$result = $this->User->generateWhitelistFromBlacklist(array('password'));
-		$expected = array('id', 'user', 'created', 'updated');
+		$result = $this->User->generateWhitelistFromBlacklist(['password']);
+		$expected = ['id', 'user', 'created', 'updated'];
 		$this->assertEquals($expected, array_values($expected));
 	}
 
@@ -634,7 +634,7 @@ class MyModelTest extends MyCakeTestCase {
 		$this->assertTrue(!empty($res) && $res['fieldy'][0] === 'e 1 f xyz g 55');
 
 		$this->User->create();
-		$this->User->invalidate('fieldy', array('valErrMandatoryField'));
+		$this->User->invalidate('fieldy', ['valErrMandatoryField']);
 		$res = $this->User->validationErrors;
 		$this->out($res);
 		$this->assertTrue(!empty($res));
@@ -658,79 +658,79 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateDate() {
-		$data = array('field' => '2010-01-22');
+		$data = ['field' => '2010-01-22'];
 		$res = $this->User->validateDate($data);
 		//debug($res);
 		$this->assertTrue($res);
 
-		$data = array('field' => '2010-02-29');
+		$data = ['field' => '2010-02-29'];
 		$res = $this->User->validateDate($data);
 		//debug($res);
 		$this->assertFalse($res);
 
-		$this->User->data = array($this->User->alias => array('after' => '2010-02-22'));
-		$data = array('field' => '2010-02-23 11:11:11');
-		$res = $this->User->validateDate($data, array('after' => 'after'));
+		$this->User->data = [$this->User->alias => ['after' => '2010-02-22']];
+		$data = ['field' => '2010-02-23 11:11:11'];
+		$res = $this->User->validateDate($data, ['after' => 'after']);
 		//debug($res);
 		$this->assertTrue($res);
 
-		$this->User->data = array($this->User->alias => array('after' => '2010-02-24 11:11:11'));
-		$data = array('field' => '2010-02-23');
-		$res = $this->User->validateDate($data, array('after' => 'after'));
+		$this->User->data = [$this->User->alias => ['after' => '2010-02-24 11:11:11']];
+		$data = ['field' => '2010-02-23'];
+		$res = $this->User->validateDate($data, ['after' => 'after']);
 		//debug($res);
 		$this->assertFalse($res);
 
-		$this->User->data = array($this->User->alias => array('after' => '2010-02-25'));
-		$data = array('field' => '2010-02-25');
-		$res = $this->User->validateDate($data, array('after' => 'after'));
+		$this->User->data = [$this->User->alias => ['after' => '2010-02-25']];
+		$data = ['field' => '2010-02-25'];
+		$res = $this->User->validateDate($data, ['after' => 'after']);
 		//debug($res);
 		$this->assertTrue($res);
 
-		$this->User->data = array($this->User->alias => array('after' => '2010-02-25'));
-		$data = array('field' => '2010-02-25');
-		$res = $this->User->validateDate($data, array('after' => 'after', 'min' => 1));
+		$this->User->data = [$this->User->alias => ['after' => '2010-02-25']];
+		$data = ['field' => '2010-02-25'];
+		$res = $this->User->validateDate($data, ['after' => 'after', 'min' => 1]);
 		//debug($res);
 		$this->assertFalse($res);
 
-		$this->User->data = array($this->User->alias => array('after' => '2010-02-24'));
-		$data = array('field' => '2010-02-25');
-		$res = $this->User->validateDate($data, array('after' => 'after', 'min' => 2));
+		$this->User->data = [$this->User->alias => ['after' => '2010-02-24']];
+		$data = ['field' => '2010-02-25'];
+		$res = $this->User->validateDate($data, ['after' => 'after', 'min' => 2]);
 		//debug($res);
 		$this->assertFalse($res);
 
-		$this->User->data = array($this->User->alias => array('after' => '2010-02-24'));
-		$data = array('field' => '2010-02-25');
-		$res = $this->User->validateDate($data, array('after' => 'after', 'min' => 1));
+		$this->User->data = [$this->User->alias => ['after' => '2010-02-24']];
+		$data = ['field' => '2010-02-25'];
+		$res = $this->User->validateDate($data, ['after' => 'after', 'min' => 1]);
 		//debug($res);
 		$this->assertTrue($res);
 
-		$this->User->data = array($this->User->alias => array('after' => '2010-02-24'));
-		$data = array('field' => '2010-02-25');
-		$res = $this->User->validateDate($data, array('after' => 'after', 'min' => 2));
+		$this->User->data = [$this->User->alias => ['after' => '2010-02-24']];
+		$data = ['field' => '2010-02-25'];
+		$res = $this->User->validateDate($data, ['after' => 'after', 'min' => 2]);
 		//debug($res);
 		$this->assertFalse($res);
 
-		$this->User->data = array($this->User->alias => array('before' => '2010-02-24'));
-		$data = array('field' => '2010-02-24');
-		$res = $this->User->validateDate($data, array('before' => 'before', 'min' => 1));
+		$this->User->data = [$this->User->alias => ['before' => '2010-02-24']];
+		$data = ['field' => '2010-02-24'];
+		$res = $this->User->validateDate($data, ['before' => 'before', 'min' => 1]);
 		//debug($res);
 		$this->assertFalse($res);
 
-		$this->User->data = array($this->User->alias => array('before' => '2010-02-25'));
-		$data = array('field' => '2010-02-24');
-		$res = $this->User->validateDate($data, array('before' => 'before', 'min' => 1));
+		$this->User->data = [$this->User->alias => ['before' => '2010-02-25']];
+		$data = ['field' => '2010-02-24'];
+		$res = $this->User->validateDate($data, ['before' => 'before', 'min' => 1]);
 		//debug($res);
 		$this->assertTrue($res);
 
-		$this->User->data = array($this->User->alias => array('before' => '2010-02-25'));
-		$data = array('field' => '2010-02-24');
-		$res = $this->User->validateDate($data, array('before' => 'before', 'min' => 2));
+		$this->User->data = [$this->User->alias => ['before' => '2010-02-25']];
+		$data = ['field' => '2010-02-24'];
+		$res = $this->User->validateDate($data, ['before' => 'before', 'min' => 2]);
 		//debug($res);
 		$this->assertFalse($res);
 
-		$this->User->data = array($this->User->alias => array('before' => '2010-02-26'));
-		$data = array('field' => '2010-02-24');
-		$res = $this->User->validateDate($data, array('before' => 'before', 'min' => 2));
+		$this->User->data = [$this->User->alias => ['before' => '2010-02-26']];
+		$data = ['field' => '2010-02-24'];
+		$res = $this->User->validateDate($data, ['before' => 'before', 'min' => 2]);
 		//debug($res);
 		$this->assertTrue($res);
 	}
@@ -741,70 +741,70 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateDatetime() {
-		$data = array('field' => '2010-01-22 11:11:11');
+		$data = ['field' => '2010-01-22 11:11:11'];
 		$res = $this->User->validateDatetime($data);
 		//debug($res);
 		$this->assertTrue($res);
 
-		$data = array('field' => '2010-01-22 11:61:11');
+		$data = ['field' => '2010-01-22 11:61:11'];
 		$res = $this->User->validateDatetime($data);
 		//debug($res);
 		$this->assertFalse($res);
 
-		$data = array('field' => '2010-02-29 11:11:11');
+		$data = ['field' => '2010-02-29 11:11:11'];
 		$res = $this->User->validateDatetime($data);
 		//debug($res);
 		$this->assertFalse($res);
 
-		$data = array('field' => '');
-		$res = $this->User->validateDatetime($data, array('allowEmpty' => true));
+		$data = ['field' => ''];
+		$res = $this->User->validateDatetime($data, ['allowEmpty' => true]);
 		//debug($res);
 		$this->assertTrue($res);
 
-		$data = array('field' => '0000-00-00 00:00:00');
-		$res = $this->User->validateDatetime($data, array('allowEmpty' => true));
+		$data = ['field' => '0000-00-00 00:00:00'];
+		$res = $this->User->validateDatetime($data, ['allowEmpty' => true]);
 		//debug($res);
 		$this->assertTrue($res);
 
-		$this->User->data = array($this->User->alias => array('after' => '2010-02-22 11:11:11'));
-		$data = array('field' => '2010-02-23 11:11:11');
-		$res = $this->User->validateDatetime($data, array('after' => 'after'));
+		$this->User->data = [$this->User->alias => ['after' => '2010-02-22 11:11:11']];
+		$data = ['field' => '2010-02-23 11:11:11'];
+		$res = $this->User->validateDatetime($data, ['after' => 'after']);
 		//debug($res);
 		$this->assertTrue($res);
 
-		$this->User->data = array($this->User->alias => array('after' => '2010-02-24 11:11:11'));
-		$data = array('field' => '2010-02-23 11:11:11');
-		$res = $this->User->validateDatetime($data, array('after' => 'after'));
+		$this->User->data = [$this->User->alias => ['after' => '2010-02-24 11:11:11']];
+		$data = ['field' => '2010-02-23 11:11:11'];
+		$res = $this->User->validateDatetime($data, ['after' => 'after']);
 		//debug($res);
 		$this->assertFalse($res);
 
-		$this->User->data = array($this->User->alias => array('after' => '2010-02-23 11:11:11'));
-		$data = array('field' => '2010-02-23 11:11:11');
-		$res = $this->User->validateDatetime($data, array('after' => 'after'));
+		$this->User->data = [$this->User->alias => ['after' => '2010-02-23 11:11:11']];
+		$data = ['field' => '2010-02-23 11:11:11'];
+		$res = $this->User->validateDatetime($data, ['after' => 'after']);
 		//debug($res);
 		$this->assertFalse($res);
 
-		$this->User->data = array($this->User->alias => array('after' => '2010-02-23 11:11:11'));
-		$data = array('field' => '2010-02-23 11:11:11');
-		$res = $this->User->validateDatetime($data, array('after' => 'after', 'min' => 1));
+		$this->User->data = [$this->User->alias => ['after' => '2010-02-23 11:11:11']];
+		$data = ['field' => '2010-02-23 11:11:11'];
+		$res = $this->User->validateDatetime($data, ['after' => 'after', 'min' => 1]);
 		//debug($res);
 		$this->assertFalse($res);
 
-		$this->User->data = array($this->User->alias => array('after' => '2010-02-23 11:11:11'));
-		$data = array('field' => '2010-02-23 11:11:11');
-		$res = $this->User->validateDatetime($data, array('after' => 'after', 'min' => 0));
+		$this->User->data = [$this->User->alias => ['after' => '2010-02-23 11:11:11']];
+		$data = ['field' => '2010-02-23 11:11:11'];
+		$res = $this->User->validateDatetime($data, ['after' => 'after', 'min' => 0]);
 		//debug($res);
 		$this->assertTrue($res);
 
-		$this->User->data = array($this->User->alias => array('after' => '2010-02-23 11:11:10'));
-		$data = array('field' => '2010-02-23 11:11:11');
-		$res = $this->User->validateDatetime($data, array('after' => 'after'));
+		$this->User->data = [$this->User->alias => ['after' => '2010-02-23 11:11:10']];
+		$data = ['field' => '2010-02-23 11:11:11'];
+		$res = $this->User->validateDatetime($data, ['after' => 'after']);
 		//debug($res);
 		$this->assertTrue($res);
 
-		$this->User->data = array($this->User->alias => array('after' => '2010-02-23 11:11:12'));
-		$data = array('field' => '2010-02-23 11:11:11');
-		$res = $this->User->validateDatetime($data, array('after' => 'after'));
+		$this->User->data = [$this->User->alias => ['after' => '2010-02-23 11:11:12']];
+		$data = ['field' => '2010-02-23 11:11:11'];
+		$res = $this->User->validateDatetime($data, ['after' => 'after']);
 		//debug($res);
 		$this->assertFalse($res);
 	}
@@ -815,25 +815,25 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateTime() {
-		$data = array('field' => '11:21:11');
+		$data = ['field' => '11:21:11'];
 		$res = $this->User->validateTime($data);
 		//debug($res);
 		$this->assertTrue($res);
 
-		$data = array('field' => '11:71:11');
+		$data = ['field' => '11:71:11'];
 		$res = $this->User->validateTime($data);
 		//debug($res);
 		$this->assertFalse($res);
 
-		$this->User->data = array($this->User->alias => array('before' => '2010-02-23 11:11:12'));
-		$data = array('field' => '2010-02-23 11:11:11');
-		$res = $this->User->validateTime($data, array('before' => 'before'));
+		$this->User->data = [$this->User->alias => ['before' => '2010-02-23 11:11:12']];
+		$data = ['field' => '2010-02-23 11:11:11'];
+		$res = $this->User->validateTime($data, ['before' => 'before']);
 		//debug($res);
 		$this->assertTrue($res);
 
-		$this->User->data = array($this->User->alias => array('after' => '2010-02-23 11:11:12'));
-		$data = array('field' => '2010-02-23 11:11:11');
-		$res = $this->User->validateTime($data, array('after' => 'after'));
+		$this->User->data = [$this->User->alias => ['after' => '2010-02-23 11:11:12']];
+		$data = ['field' => '2010-02-23 11:11:11'];
+		$res = $this->User->validateTime($data, ['after' => 'after']);
 		//debug($res);
 		$this->assertFalse($res);
 	}
@@ -844,60 +844,60 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateUrl() {
-		$data = array('field' => 'www.dereuromark.de');
-		$res = $this->User->validateUrl($data, array('allowEmpty' => true));
+		$data = ['field' => 'www.dereuromark.de'];
+		$res = $this->User->validateUrl($data, ['allowEmpty' => true]);
 		$this->assertTrue($res);
 
-		$data = array('field' => 'www.xxxde');
-		$res = $this->User->validateUrl($data, array('allowEmpty' => true));
+		$data = ['field' => 'www.xxxde'];
+		$res = $this->User->validateUrl($data, ['allowEmpty' => true]);
 		$this->assertFalse($res);
 
-		$data = array('field' => 'www.dereuromark.de');
-		$res = $this->User->validateUrl($data, array('allowEmpty' => true, 'autoComplete' => false));
+		$data = ['field' => 'www.dereuromark.de'];
+		$res = $this->User->validateUrl($data, ['allowEmpty' => true, 'autoComplete' => false]);
 		$this->assertFalse($res);
 
-		$data = array('field' => 'http://www.dereuromark.de');
-		$res = $this->User->validateUrl($data, array('allowEmpty' => true, 'autoComplete' => false));
+		$data = ['field' => 'http://www.dereuromark.de'];
+		$res = $this->User->validateUrl($data, ['allowEmpty' => true, 'autoComplete' => false]);
 		$this->assertTrue($res);
 
-		$data = array('field' => 'www.dereuromark.de');
-		$res = $this->User->validateUrl($data, array('strict' => true));
+		$data = ['field' => 'www.dereuromark.de'];
+		$res = $this->User->validateUrl($data, ['strict' => true]);
 		$this->assertTrue($res); # aha
 
-		$data = array('field' => 'http://www.dereuromark.de');
-		$res = $this->User->validateUrl($data, array('strict' => false));
+		$data = ['field' => 'http://www.dereuromark.de'];
+		$res = $this->User->validateUrl($data, ['strict' => false]);
 		$this->assertTrue($res);
 
 		$this->skipIf(empty($_SERVER['HTTP_HOST']), 'No HTTP_HOST');
 
-		$data = array('field' => 'http://xyz.de/some/link');
-		$res = $this->User->validateUrl($data, array('deep' => false, 'sameDomain' => true));
+		$data = ['field' => 'http://xyz.de/some/link'];
+		$res = $this->User->validateUrl($data, ['deep' => false, 'sameDomain' => true]);
 		$this->assertFalse($res);
 
-		$data = array('field' => '/some/link');
-		$res = $this->User->validateUrl($data, array('deep' => false, 'autoComplete' => true));
+		$data = ['field' => '/some/link'];
+		$res = $this->User->validateUrl($data, ['deep' => false, 'autoComplete' => true]);
 		$this->assertTrue($_SERVER['HTTP_HOST'] === 'localhost' ? !$res : $res);
 
-		$data = array('field' => 'http://' . $_SERVER['HTTP_HOST'] . '/some/link');
-		$res = $this->User->validateUrl($data, array('deep' => false));
+		$data = ['field' => 'http://' . $_SERVER['HTTP_HOST'] . '/some/link'];
+		$res = $this->User->validateUrl($data, ['deep' => false]);
 		$this->assertTrue($_SERVER['HTTP_HOST'] === 'localhost' ? !$res : $res);
 
-		$data = array('field' => '/some/link');
-		$res = $this->User->validateUrl($data, array('deep' => false, 'autoComplete' => false));
+		$data = ['field' => '/some/link'];
+		$res = $this->User->validateUrl($data, ['deep' => false, 'autoComplete' => false]);
 		$this->assertTrue((env('REMOTE_ADDR') !== '127.0.0.1') ? !$res : $res);
 
 		//$this->skipIf(strpos($_SERVER['HTTP_HOST'], '.') === false, 'No online HTTP_HOST');
 
-		$data = array('field' => '/some/link');
-		$res = $this->User->validateUrl($data, array('deep' => false, 'sameDomain' => true));
+		$data = ['field' => '/some/link'];
+		$res = $this->User->validateUrl($data, ['deep' => false, 'sameDomain' => true]);
 		$this->assertTrue($_SERVER['HTTP_HOST'] === 'localhost' ? !$res : $res);
 
-		$data = array('field' => 'https://github.com/');
-		$res = $this->User->validateUrl($data, array('deep' => false));
+		$data = ['field' => 'https://github.com/'];
+		$res = $this->User->validateUrl($data, ['deep' => false]);
 		$this->assertTrue($res);
 
-		$data = array('field' => 'https://github.com/');
-		$res = $this->User->validateUrl($data, array('deep' => true));
+		$data = ['field' => 'https://github.com/'];
+		$res = $this->User->validateUrl($data, ['deep' => true]);
 		$this->assertTrue($res);
 	}
 
@@ -907,40 +907,40 @@ class MyModelTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testValidateUnique() {
-		$this->Post->validate['title'] = array(
-			'validateUnique' => array(
+		$this->Post->validate['title'] = [
+			'validateUnique' => [
 				'rule' => 'validateUnique',
 				'message' => 'valErrRecordTitleExists'
-			),
-		);
-		$data = array(
+			],
+		];
+		$data = [
 			'title' => 'abc',
 			'published' => 'N'
-		);
+		];
 		$this->Post->create($data);
 		$res = $this->Post->validates();
 		$this->assertTrue($res);
-		$res = $this->Post->save($res, array('validate' => false));
+		$res = $this->Post->save($res, ['validate' => false]);
 		$this->assertTrue((bool)$res);
 
 		$this->Post->create();
 		$res = $this->Post->save($data);
 		$this->assertFalse($res);
 
-		$this->Post->validate['title'] = array(
-			'validateUnique' => array(
-				'rule' => array('validateUnique', array('published')),
+		$this->Post->validate['title'] = [
+			'validateUnique' => [
+				'rule' => ['validateUnique', ['published']],
 				'message' => 'valErrRecordTitleExists'
-			),
-		);
-		$data = array(
+			],
+		];
+		$data = [
 			'title' => 'abc',
 			'published' => 'Y'
-		);
+		];
 		$this->Post->create($data);
 		$res = $this->Post->validates();
 		$this->assertTrue($res);
-		$res = $this->Post->save($res, array('validate' => false));
+		$res = $this->Post->save($res, ['validate' => false]);
 		$this->assertTrue((bool)$res);
 
 		$this->Post->create();
@@ -972,8 +972,8 @@ class AppTestModel extends MyModel {
 
 	public $useTable = false;
 
-	protected $_schema = array(
-		'id' => array(
+	protected $_schema = [
+		'id' => [
 			'type' => 'string',
 			'null' => false,
 			'default' => '',
@@ -981,17 +981,17 @@ class AppTestModel extends MyModel {
 			'key' => 'primary',
 			'collate' => 'utf8_unicode_ci',
 			'charset' => 'utf8',
-		),
-		'foreign_id' => array(
+		],
+		'foreign_id' => [
 			'type' => 'integer',
 			'null' => false,
 			'default' => '0',
 			'length' => 10,
-		),
-	);
+		],
+	];
 
 	public static function x() {
-		return array('1' => 'x', '2' => 'y', '3' => 'z');
+		return ['1' => 'x', '2' => 'y', '3' => 'z'];
 	}
 
 }

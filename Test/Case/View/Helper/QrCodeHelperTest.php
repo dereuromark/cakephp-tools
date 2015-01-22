@@ -101,16 +101,16 @@ class QrCodeHelperTest extends MyCakeTestCase {
 		$this->QrCode->setSize(300);
 		$this->QrCode->setLevel('H');
 		//echo 'CARD'.BR;
-		$string = $this->QrCode->formatCard(array(
+		$string = $this->QrCode->formatCard([
 			'name' => 'Maier,Susanne',
-			'tel' => array('0111222123', '012224344'),
+			'tel' => ['0111222123', '012224344'],
 			'nickname' => 'sssnick',
 			'birthday' => '1999-01-03',
 			'address' => 'Bluetenweg 11, 85375, Neufahrn, Deutschland',
 			'email' => 'test@test.de',
 			'note' => 'someNote;someOtherNote :)',
 			'url' => 'http://www.some_url.de'
-		));
+		]);
 		$is = $this->QrCode->image($string);
 		//echo $is;
 		$this->assertTrue(!empty($is));

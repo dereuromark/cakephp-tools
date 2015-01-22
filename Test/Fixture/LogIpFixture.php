@@ -12,28 +12,28 @@ class LogIpFixture extends CakeTestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary', 'collate' => null, 'comment' => ''),
-		'ip' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 39, 'key' => 'index', 'collate' => 'utf8_unicode_ci', 'comment' => '15chars=IPv4, 39chars=IPv6', 'charset' => 'utf8'),
-		'referer' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'host' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 128, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'agent' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => 'browser', 'charset' => 'utf8'),
-		'user_id' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'lat' => array('type' => 'float', 'null' => false, 'default' => '0.000000', 'length' => '10,6', 'collate' => null, 'comment' => ''),
-		'lng' => array('type' => 'float', 'null' => false, 'default' => '0.000000', 'length' => '10,6', 'collate' => null, 'comment' => ''),
-		'city' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 60, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => 'each ip is only valid for a few hours'),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'user_id' => array('column' => 'user_id', 'unique' => 0), 'ip' => array('column' => 'ip', 'unique' => 0)),
-		'tableParameters' => array()
-	);
+	public $fields = [
+		'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary', 'collate' => null, 'comment' => ''],
+		'ip' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 39, 'key' => 'index', 'collate' => 'utf8_unicode_ci', 'comment' => '15chars=IPv4, 39chars=IPv6', 'charset' => 'utf8'],
+		'referer' => ['type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'host' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 128, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'agent' => ['type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => 'browser', 'charset' => 'utf8'],
+		'user_id' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'lat' => ['type' => 'float', 'null' => false, 'default' => '0.000000', 'length' => '10,6', 'collate' => null, 'comment' => ''],
+		'lng' => ['type' => 'float', 'null' => false, 'default' => '0.000000', 'length' => '10,6', 'collate' => null, 'comment' => ''],
+		'city' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 60, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'created' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => 'each ip is only valid for a few hours'],
+		'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1], 'user_id' => ['column' => 'user_id', 'unique' => 0], 'ip' => ['column' => 'ip', 'unique' => 0]],
+		'tableParameters' => []
+	];
 
 	/**
 	 * Records
 	 *
 	 * @var array
 	 */
-	public $records = array(
-		array(
+	public $records = [
+		[
 			'id' => '163',
 			'ip' => '127.0.0.1',
 			'referer' => '',
@@ -44,8 +44,8 @@ class LogIpFixture extends CakeTestFixture {
 			'lng' => '0.000000',
 			'city' => '',
 			'created' => '2011-07-17 14:14:15'
-		),
-		array(
+		],
+		[
 			'id' => '164',
 			'ip' => '127.0.0.1',
 			'referer' => '',
@@ -56,8 +56,8 @@ class LogIpFixture extends CakeTestFixture {
 			'lng' => '0.000000',
 			'city' => '',
 			'created' => '2011-07-23 11:59:48'
-		),
-		array(
+		],
+		[
 			'id' => '165',
 			'ip' => '127.0.0.1',
 			'referer' => '',
@@ -68,8 +68,8 @@ class LogIpFixture extends CakeTestFixture {
 			'lng' => '0.000000',
 			'city' => '',
 			'created' => '2011-07-26 02:17:14'
-		),
-		array(
+		],
+		[
 			'id' => '166',
 			'ip' => '127.0.0.1',
 			'referer' => 'http://ordofood/login',
@@ -80,8 +80,8 @@ class LogIpFixture extends CakeTestFixture {
 			'lng' => '0.000000',
 			'city' => '',
 			'created' => '2011-08-07 15:26:13'
-		),
-		array(
+		],
+		[
 			'id' => '167',
 			'ip' => '127.0.0.1',
 			'referer' => '',
@@ -92,8 +92,8 @@ class LogIpFixture extends CakeTestFixture {
 			'lng' => '0.000000',
 			'city' => '',
 			'created' => '2011-08-10 20:21:15'
-		),
-		array(
+		],
+		[
 			'id' => '168',
 			'ip' => '127.0.0.1',
 			'referer' => '',
@@ -104,8 +104,8 @@ class LogIpFixture extends CakeTestFixture {
 			'lng' => '0.000000',
 			'city' => '',
 			'created' => '2011-08-12 19:14:53'
-		),
-		array(
+		],
+		[
 			'id' => '169',
 			'ip' => '127.0.0.1',
 			'referer' => '',
@@ -116,8 +116,8 @@ class LogIpFixture extends CakeTestFixture {
 			'lng' => '0.000000',
 			'city' => '',
 			'created' => '2011-08-18 23:18:28'
-		),
-		array(
+		],
+		[
 			'id' => '170',
 			'ip' => '127.0.0.1',
 			'referer' => '',
@@ -128,8 +128,8 @@ class LogIpFixture extends CakeTestFixture {
 			'lng' => '0.000000',
 			'city' => '',
 			'created' => '2011-08-23 17:59:35'
-		),
-		array(
+		],
+		[
 			'id' => '171',
 			'ip' => '127.0.0.1',
 			'referer' => '',
@@ -140,8 +140,8 @@ class LogIpFixture extends CakeTestFixture {
 			'lng' => '0.000000',
 			'city' => '',
 			'created' => '2011-09-16 10:19:34'
-		),
-		array(
+		],
+		[
 			'id' => '172',
 			'ip' => '127.0.0.1',
 			'referer' => '',
@@ -152,6 +152,6 @@ class LogIpFixture extends CakeTestFixture {
 			'lng' => '0.000000',
 			'city' => '',
 			'created' => '2011-09-23 10:18:43'
-		),
-	);
+		],
+	];
 }

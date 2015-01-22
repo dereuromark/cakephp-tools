@@ -10,20 +10,20 @@ class SoftDeleteUserFixture extends CakeTestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'key' => 'primary'),
-		'post_count' => array('type' => 'integer'),
-		'name' => array('type' => 'string', 'null' => false));
+	public $fields = [
+		'id' => ['type' => 'integer', 'key' => 'primary'],
+		'post_count' => ['type' => 'integer'],
+		'name' => ['type' => 'string', 'null' => false]];
 
 	/**
 	 * Records property
 	 *
 	 * @var array
 	 */
-	public $records = array(
-		array(
+	public $records = [
+		[
 			'id' => 1,
 			'post_count' => 2,
-			'name' => 'User'));
+			'name' => 'User']];
 
 }

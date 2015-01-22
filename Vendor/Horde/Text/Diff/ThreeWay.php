@@ -49,16 +49,16 @@ class Horde_Text_Diff_ThreeWay
      */
     public function mergedOutput($label1 = false, $label2 = false)
     {
-        $lines = array();
+        $lines = [];
         foreach ($this->_edits as $edit) {
             if ($edit->isConflict()) {
                 /* FIXME: this should probably be moved somewhere else. */
                 $lines = array_merge($lines,
-                                     array('<<<<<<<' . ($label1 ? ' ' . $label1 : '')),
+                                     ['<<<<<<<' . ($label1 ? ' ' . $label1 : '')],
                                      $edit->final1,
-                                     array("======="),
+                                     ["======="],
                                      $edit->final2,
-                                     array('>>>>>>>' . ($label2 ? ' ' . $label2 : '')));
+                                     ['>>>>>>>' . ($label2 ? ' ' . $label2 : '')]);
                 $this->_conflictingBlocks++;
             } else {
                 $lines = array_merge($lines, $edit->merged());
@@ -72,7 +72,7 @@ class Horde_Text_Diff_ThreeWay
      */
     protected function _diff3($edits1, $edits2)
     {
-        $edits = array();
+        $edits = [];
         $bb = new Horde_Text_Diff_ThreeWay_BlockBuilder();
 
         $e1 = current($edits1);

@@ -23,11 +23,11 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 	 *
 	 * @var array
 	 */
-	public $fixtures = array(
+	public $fixtures = [
 		'plugin.tools.soft_delete_category',
 		'plugin.tools.soft_delete_post',
 		'plugin.tools.soft_delete_user'
-	);
+	];
 
 	/**
 	 * Creates the model instance
@@ -154,10 +154,10 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testSoftDeleteWithMultipleCounterCache() {
-		$this->Post->belongsTo['Category']['counterCache'] = array(
-			'post_count' => array('Post.deleted' => false),
-			'deleted_post_count' => array('Post.deleted' => true)
-		);
+		$this->Post->belongsTo['Category']['counterCache'] = [
+			'post_count' => ['Post.deleted' => false],
+			'deleted_post_count' => ['Post.deleted' => true]
+		];
 
 		$this->Post->Category->id = 1;
 		$count = $this->Post->Category->field('post_count');
@@ -181,14 +181,14 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testSoftDeleteWithCounterCacheOnMultipleAssociations() {
-		$this->Post->bindModel(array(
-			'belongsTo' => array(
-				'User' => array(
+		$this->Post->bindModel([
+			'belongsTo' => [
+				'User' => [
 					'className' => 'SoftDeleteUser',
 					'counterCache' => true
-				)
-			)
-		),
+				]
+			]
+		],
 		false);
 
 		$this->Post->Category->id = 1;
@@ -217,10 +217,10 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testSoftDeleteWithoutCounterCache() {
-		$Post = $this->getMock('SoftDeletedPost', array('updateCounterCache'));
+		$Post = $this->getMock('SoftDeletedPost', ['updateCounterCache']);
 		$Post->expects($this->never())->method('updateCounterCache');
 
-		$Post->belongsTo = array();
+		$Post->belongsTo = [];
 		$Post->delete(1);
 	}
 
@@ -248,10 +248,10 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testUnDeleteWithMultipleCounterCache() {
-		$this->Post->belongsTo['Category']['counterCache'] = array(
-			'post_count' => array('Post.deleted' => false),
-			'deleted_post_count' => array('Post.deleted' => true)
-		);
+		$this->Post->belongsTo['Category']['counterCache'] = [
+			'post_count' => ['Post.deleted' => false],
+			'deleted_post_count' => ['Post.deleted' => true]
+		];
 
 		$this->Post->Category->id = 2;
 		$count = $this->Post->Category->field('post_count');
@@ -275,14 +275,14 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testUnDeleteWithCounterCacheOnMultipleAssociations() {
-		$this->Post->bindModel(array(
-				'belongsTo' => array(
-					'User' => array(
+		$this->Post->bindModel([
+				'belongsTo' => [
+					'User' => [
 						'className' => 'SoftDeleteUser',
 						'counterCache' => true
-					)
-				)
-			),
+					]
+				]
+			],
 			false);
 
 		$this->Post->Category->id = 2;
@@ -309,10 +309,10 @@ class SoftDeleteBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testUnDeleteWithoutCounterCache() {
-		$Post = $this->getMock('SoftDeletedPost', array('updateCounterCache'));
+		$Post = $this->getMock('SoftDeletedPost', ['updateCounterCache']);
 		$Post->expects($this->never())->method('updateCounterCache');
 
-		$Post->belongsTo = array();
+		$Post->belongsTo = [];
 		$Post->undelete(3);
 	}
 
@@ -406,7 +406,7 @@ class SoftDeletedPost extends CakeTestModel {
 	 *
 	 * @var array
 	 */
-	public $actsAs = array('Tools.SoftDeleteTest');
+	public $actsAs = ['Tools.SoftDeleteTest'];
 
 	/**
 	 * Alias
@@ -420,12 +420,12 @@ class SoftDeletedPost extends CakeTestModel {
 	 *
 	 * @var array
 	 */
-	public $belongsTo = array(
-		'Category' => array(
+	public $belongsTo = [
+		'Category' => [
 			'className' => 'SoftDeleteCategory',
 			'counterCache' => true
-		)
-	);
+		]
+	];
 
 }
 

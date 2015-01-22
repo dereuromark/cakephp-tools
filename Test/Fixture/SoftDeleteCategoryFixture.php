@@ -10,27 +10,27 @@ class SoftDeleteCategoryFixture extends CakeTestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'key' => 'primary'),
-		'post_count' => array('type' => 'integer'),
-		'deleted_post_count' => array('type' => 'integer'),
-		'title' => array('type' => 'string', 'null' => false));
+	public $fields = [
+		'id' => ['type' => 'integer', 'key' => 'primary'],
+		'post_count' => ['type' => 'integer'],
+		'deleted_post_count' => ['type' => 'integer'],
+		'title' => ['type' => 'string', 'null' => false]];
 
 	/**
 	 * Records property
 	 *
 	 * @var array
 	 */
-	public $records = array(
-		array(
+	public $records = [
+		[
 			'id' => 1,
 			'post_count' => 2,
 			'deleted_post_count' => 0,
-			'title' => 'Category A'),
-		array(
+			'title' => 'Category A'],
+		[
 			'id' => 2,
 			'post_count' => 0,
 			'deleted_post_count' => 1,
-			'title' => 'Category B'));
+			'title' => 'Category B']];
 
 }

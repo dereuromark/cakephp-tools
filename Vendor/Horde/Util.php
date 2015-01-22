@@ -22,13 +22,13 @@ class Horde_Util
      *
      * @var array
      */
-    static public $patterns = array(
+    static public $patterns = [
         "\x55", "\xaa", "\x92\x49\x24", "\x49\x24\x92", "\x24\x92\x49",
         "\x00", "\x11", "\x22", "\x33", "\x44", "\x55", "\x66", "\x77",
         "\x88", "\x99", "\xaa", "\xbb", "\xcc", "\xdd", "\xee", "\xff",
         "\x92\x49\x24", "\x49\x24\x92", "\x24\x92\x49", "\x6d\xb6\xdb",
         "\xb6\xdb\x6d", "\xdb\x6d\xb6"
-    );
+    ];
 
     /**
      * Are magic quotes in use?
@@ -42,11 +42,11 @@ class Horde_Util
      *
      * @var array
      */
-    static protected $_shutdowndata = array(
-        'dirs' => array(),
-        'files' => array(),
-        'secure' => array()
-    );
+    static protected $_shutdowndata = [
+        'dirs' => [],
+        'files' => [],
+        'secure' => []
+    ];
 
     /**
      * Has the shutdown method been registered?
@@ -60,7 +60,7 @@ class Horde_Util
      *
      * @var array
      */
-    static protected $_cache = array();
+    static protected $_cache = [];
 
     /**
      * Checks to see if a value has been set by the script and not by GET,
@@ -120,7 +120,7 @@ class Horde_Util
 
         if (self::$_magicquotes) {
             $var = is_array($var)
-                ? array_map(array(__CLASS__, 'dispelMagicQuotes'), $var)
+                ? array_map([__CLASS__, 'dispelMagicQuotes'], $var)
                 : stripslashes($var);
         }
 
@@ -339,7 +339,7 @@ class Horde_Util
 
         /* xx////xx -> xx/xx
          * xx/././xx -> xx/xx */
-        $path = preg_replace(array("|/+|", "@(/\.)+(/|\Z(?!\n))@"), array('/', '/'), $path);
+        $path = preg_replace(["|/+|", "@(/\.)+(/|\Z(?!\n))@"], ['/', '/'], $path);
 
         /* ./xx -> xx */
         if ($path != './') {
@@ -391,7 +391,7 @@ class Horde_Util
     {
         /* Initialization of variables and shutdown functions. */
         if (!self::$_shutdownreg) {
-            register_shutdown_function(array(__CLASS__, 'shutdown'));
+            register_shutdown_function([__CLASS__, 'shutdown']);
             self::$_shutdownreg = true;
         }
 
@@ -541,7 +541,7 @@ class Horde_Util
             if (substr($search, -1) == '/') {
                 $search = substr($search, 0, -1);
             }
-            $search = array($search);
+            $search = [$search];
             if (!empty($_SERVER['QUERY_STRING'])) {
                 // We can't use QUERY_STRING directly because URL rewriting
                 // might add more parameters to the query string than those

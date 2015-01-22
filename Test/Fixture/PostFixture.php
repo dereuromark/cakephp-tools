@@ -10,29 +10,29 @@ class PostFixture extends CakeTestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary'),
-		'title' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'slug' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'markup' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 2),
-		'content' => array('type' => 'text', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'foreign_key' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 10),
-		'model' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'created_by' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'modified_by' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
-	);
+	public $fields = [
+		'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary'],
+		'title' => ['type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'],
+		'slug' => ['type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'],
+		'markup' => ['type' => 'integer', 'null' => false, 'default' => '0', 'length' => 2],
+		'content' => ['type' => 'text', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'],
+		'foreign_key' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 10],
+		'model' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'],
+		'created_by' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'],
+		'modified_by' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'],
+		'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
+		'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
+		'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+		'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM']
+	];
 
 	/**
 	 * Records
 	 *
 	 * @var array
 	 */
-	public $records = array(
-		array(
+	public $records = [
+		[
 			'id' => 1,
 			'title' => 'Lorem ipsum dolor sit amet',
 			'slug' => 'Lorem ipsum dolor sit amet',
@@ -44,8 +44,8 @@ class PostFixture extends CakeTestFixture {
 			'modified_by' => 'Lorem ipsum dolor sit amet',
 			'created' => '2012-02-05 15:23:31',
 			'modified' => '2012-02-05 15:23:31'
-		),
-		array(
+		],
+		[
 			'id' => 2,
 			'title' => 'Lorem ipsum dolor sit amet',
 			'slug' => 'Lorem ipsum dolor sit amet',
@@ -57,8 +57,8 @@ class PostFixture extends CakeTestFixture {
 			'modified_by' => 'Lorem ipsum dolor sit amet',
 			'created' => '2012-02-05 15:23:31',
 			'modified' => '2012-02-05 15:23:31'
-		),
-		array(
+		],
+		[
 			'id' => 3,
 			'title' => 'Lorem ipsum dolor sit amet',
 			'slug' => 'Lorem ipsum dolor sit amet',
@@ -70,8 +70,8 @@ class PostFixture extends CakeTestFixture {
 			'modified_by' => 'Lorem ipsum dolor sit amet',
 			'created' => '2012-02-05 15:23:31',
 			'modified' => '2012-02-05 15:23:31'
-		),
-		array(
+		],
+		[
 			'id' => 4,
 			'title' => 'Lorem ipsum dolor sit amet',
 			'slug' => 'Lorem ipsum dolor sit amet',
@@ -83,8 +83,8 @@ class PostFixture extends CakeTestFixture {
 			'modified_by' => 'Lorem ipsum dolor sit amet',
 			'created' => '2012-02-05 15:23:31',
 			'modified' => '2012-02-05 15:23:31'
-		),
-		array(
+		],
+		[
 			'id' => 5,
 			'title' => 'Lorem ipsum dolor sit amet',
 			'slug' => 'Lorem ipsum dolor sit amet',
@@ -96,8 +96,8 @@ class PostFixture extends CakeTestFixture {
 			'modified_by' => 'Lorem ipsum dolor sit amet',
 			'created' => '2012-02-05 15:23:31',
 			'modified' => '2012-02-05 15:23:31'
-		),
-		array(
+		],
+		[
 			'id' => 6,
 			'title' => 'Lorem ipsum dolor sit amet',
 			'slug' => 'Lorem ipsum dolor sit amet',
@@ -109,8 +109,8 @@ class PostFixture extends CakeTestFixture {
 			'modified_by' => 'Lorem ipsum dolor sit amet',
 			'created' => '2012-02-05 15:23:31',
 			'modified' => '2012-02-05 15:23:31'
-		),
-		array(
+		],
+		[
 			'id' => 7,
 			'title' => 'Lorem ipsum dolor sit amet',
 			'slug' => 'Lorem ipsum dolor sit amet',
@@ -122,8 +122,8 @@ class PostFixture extends CakeTestFixture {
 			'modified_by' => 'Lorem ipsum dolor sit amet',
 			'created' => '2012-02-05 15:23:31',
 			'modified' => '2012-02-05 15:23:31'
-		),
-		array(
+		],
+		[
 			'id' => 8,
 			'title' => 'Lorem ipsum dolor sit amet',
 			'slug' => 'Lorem ipsum dolor sit amet',
@@ -135,8 +135,8 @@ class PostFixture extends CakeTestFixture {
 			'modified_by' => 'Lorem ipsum dolor sit amet',
 			'created' => '2012-02-05 15:23:31',
 			'modified' => '2012-02-05 15:23:31'
-		),
-		array(
+		],
+		[
 			'id' => 9,
 			'title' => 'Lorem ipsum dolor sit amet',
 			'slug' => 'Lorem ipsum dolor sit amet',
@@ -148,8 +148,8 @@ class PostFixture extends CakeTestFixture {
 			'modified_by' => 'Lorem ipsum dolor sit amet',
 			'created' => '2012-02-05 15:23:31',
 			'modified' => '2012-02-05 15:23:31'
-		),
-		array(
+		],
+		[
 			'id' => 10,
 			'title' => 'Lorem ipsum dolor sit amet',
 			'slug' => 'Lorem ipsum dolor sit amet',
@@ -161,6 +161,6 @@ class PostFixture extends CakeTestFixture {
 			'modified_by' => 'Lorem ipsum dolor sit amet',
 			'created' => '2012-02-05 15:23:31',
 			'modified' => '2012-02-05 15:23:31'
-		),
-	);
+		],
+	];
 }

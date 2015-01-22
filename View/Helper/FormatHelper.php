@@ -17,16 +17,16 @@ class FormatHelper extends TextHelper {
 	 *
 	 * @var array
 	 */
-	public $helpers = array('Html', 'Tools.Numeric');
+	public $helpers = ['Html', 'Tools.Numeric'];
 
 	public $template;
 
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'fontIcons' => false, // Defaults to false for BC
 		'iconNamespace' => 'fa',  // Used to be icon
-	);
+	];
 
-	public function __construct(View $View, $config = array()) {
+	public function __construct(View $View, $config = []) {
 		$config += $this->_defaultConfig;
 
 		if ($config['fontIcons'] === true) {
@@ -36,9 +36,9 @@ class FormatHelper extends TextHelper {
 			}
 		}
 
-		$templates = (array)Configure::read('Format.templates') + array(
+		$templates = (array)Configure::read('Format.templates') + [
 			'icon' => '<i class="{{class}}" title="{{title}}" data-placement="bottom" data-toggle="tooltip"></i>',
-		);
+		];
 		if (!isset($this->template)) {
 			$this->template = new StringTemplate($templates);
 		}
@@ -85,7 +85,7 @@ class FormatHelper extends TextHelper {
 	 * - titleField: field or Model.field
 	 * @return string
 	 */
-	public function neighbors($neighbors, $field, $options = array()) {
+	public function neighbors($neighbors, $field, $options = []) {
 		if (mb_strpos($field, '.') !== false) {
 			$fieldArray = explode('.', $field, 2);
 			$alias = $fieldArray[0];
@@ -135,23 +135,23 @@ class FormatHelper extends TextHelper {
 
 		$ret = '<div class="next-prev-navi nextPrevNavi">';
 		if (!empty($neighbors['prev'])) {
-			$url = array($neighbors['prev'][$alias]['id'], $prevSlug);
+			$url = [$neighbors['prev'][$alias]['id'], $prevSlug];
 			if (!empty($options['url'])) {
 				$url += $options['url'];
 			}
 
-			$ret .= $this->Html->link($this->cIcon(ICON_PREV, false) . '&nbsp;' . __d('tools', 'prev' . $name), $url, array('escape' => false, 'title' => $neighbors['prev'][$titleAlias][$titleField]));
+			$ret .= $this->Html->link($this->cIcon(ICON_PREV, false) . '&nbsp;' . __d('tools', 'prev' . $name), $url, ['escape' => false, 'title' => $neighbors['prev'][$titleAlias][$titleField]]);
 		} else {
 			$ret .= $this->cIcon(ICON_PREV_DISABLED, __d('tools', 'noPrev' . $name)) . '&nbsp;' . __d('tools', 'prev' . $name);
 		}
 		$ret .= '&nbsp;&nbsp;';
 		if (!empty($neighbors['next'])) {
-			$url = array($neighbors['next'][$alias]['id'], $prevSlug);
+			$url = [$neighbors['next'][$alias]['id'], $prevSlug];
 			if (!empty($options['url'])) {
 				$url += $options['url'];
 			}
 
-			$ret .= $this->Html->link($this->cIcon(ICON_NEXT, false) . '&nbsp;' . __d('tools', 'next' . $name), $url, array('escape' => false, 'title' => $neighbors['next'][$titleAlias][$titleField]));
+			$ret .= $this->Html->link($this->cIcon(ICON_NEXT, false) . '&nbsp;' . __d('tools', 'next' . $name), $url, ['escape' => false, 'title' => $neighbors['next'][$titleAlias][$titleField]]);
 		} else {
 			$ret .= $this->cIcon(ICON_NEXT_DISABLED, __d('tools', 'noNext' . $name)) . '&nbsp;' . __d('tools', 'next' . $name);
 		}
@@ -169,7 +169,7 @@ class FormatHelper extends TextHelper {
 	public function addIcon($name = null, $pic = null, $title = null, $allowOverride = false) {
 		if ($allowOverride === true || ($allowOverride !== true && !array_key_exists($name, $this->icons))) {
 			if (!empty($name) && !empty($pic)) {
-				$this->icons[$name] = array('pic' => strtolower($pic), 'title' => (!empty($title) ? $title : ''));
+				$this->icons[$name] = ['pic' => strtolower($pic), 'title' => (!empty($title) ? $title : '')];
 			}
 		}
 	}
@@ -185,11 +185,11 @@ class FormatHelper extends TextHelper {
 	public function genderIcon($value = null) {
 		$value = (int)$value;
 		if ($value == static::GENDER_FEMALE) {
-			$icon =	$this->icon('genderFemale', null, null, null, array('class' => 'gender'));
+			$icon =	$this->icon('genderFemale', null, null, null, ['class' => 'gender']);
 		} elseif ($value == static::GENDER_MALE) {
-			$icon =	$this->icon('genderMale', null, null, null, array('class' => 'gender'));
+			$icon =	$this->icon('genderMale', null, null, null, ['class' => 'gender']);
 		} else {
-			$icon =	$this->icon('genderUnknown', null, null, null, array('class' => 'gender'));
+			$icon =	$this->icon('genderUnknown', null, null, null, ['class' => 'gender']);
 		}
 		return $icon;
 	}
@@ -204,7 +204,7 @@ class FormatHelper extends TextHelper {
 	 * @return string
 	 * @deprecated Try to use font icons or move functionality into own helper.
 	 */
-	public function customIcon($folder, $icon = null, $checkExist = false, $options = array(), $attr = array()) {
+	public function customIcon($folder, $icon = null, $checkExist = false, $options = [], $attr = []) {
 		$attachment = 'default';
 		$ending = 'gif';
 		$image = null;
@@ -240,23 +240,23 @@ class FormatHelper extends TextHelper {
 	 * @return string html
 	 * @deprecated Try to use font icons or move functionality into own helper.
 	 */
-	public function priorityIcon($value, $options = array()) {
-		$defaults = array(
+	public function priorityIcon($value, $options = []) {
+		$defaults = [
 			'max' => 5,
 			'normal' => false,
-			'map' => array(),
+			'map' => [],
 			'css' => true,
-		);
+		];
 		$options += $defaults;
 		extract($options);
 
-		$matching = array(
+		$matching = [
 			1 => 'low',
 			2 => 'lower',
 			3 => 'normal',
 			4 => 'higher',
 			5 => 'high'
-		);
+		];
 
 		if (!empty($map)) {
 			$value = $map[$value];
@@ -273,10 +273,10 @@ class FormatHelper extends TextHelper {
 			}
 		}
 
-		$attr = array(
+		$attr = [
 			'class' => 'prio-' . $matching[$value],
 			'title' => __d('tools', 'prio' . ucfirst($matching[$value])),
-		);
+		];
 		if (!$css) {
 			$attr['alt'] = $matching[$value];
 		}
@@ -307,13 +307,13 @@ class FormatHelper extends TextHelper {
 	 * @param array $options
 	 * @return string
 	 */
-	public function fontIcon($icon, array $options = array(), array $attributes = array()) {
-		$defaults = array(
+	public function fontIcon($icon, array $options = [], array $attributes = []) {
+		$defaults = [
 			'namespace' => $this->settings['iconNamespace']
-		);
+		];
 		$options += $defaults;
 		$icon = (array)$icon;
-		$class = array();
+		$class = [];
 		foreach ($icon as $i) {
 			$class[] = $options['namespace'] . '-' . $i;
 		}
@@ -351,7 +351,7 @@ class FormatHelper extends TextHelper {
 	 * @param options array ('class'=>'','width/height'=>'','onclick=>'') etc
 	 * @return string
 	 */
-	public function icon($type, $t = null, $a = null, $translate = null, $options = array()) {
+	public function icon($type, $t = null, $a = null, $translate = null, $options = []) {
 		if (isset($t) && $t === false) {
 			$title = '';
 		} else {
@@ -377,7 +377,7 @@ class FormatHelper extends TextHelper {
 			} else {
 				$pic = 'pixelspace.gif';
 			}
-			$defaults = array('title' => $title, 'alt' => $alt, 'class' => 'icon');
+			$defaults = ['title' => $title, 'alt' => $alt, 'class' => 'icon'];
 			$newOptions = $options + $defaults;
 
 			return $this->Html->image('icons/' . $pic, $newOptions);
@@ -401,7 +401,7 @@ class FormatHelper extends TextHelper {
 	 * THE REST IS DEPRECATED
 	 * @return string
 	 */
-	public function cIcon($icon, $t = null, $a = null, $translate = true, $options = array()) {
+	public function cIcon($icon, $t = null, $a = null, $translate = true, $options = []) {
 		if (is_array($t)) {
 			$translate = isset($t['translate']) ? $t['translate'] : true;
 			$options = (array)$a;
@@ -420,7 +420,7 @@ class FormatHelper extends TextHelper {
 			}
 			$alt = '[' . $alt . ']';
 
-			$defaults = array('title' => $title, 'alt' => $alt, 'class' => 'icon');
+			$defaults = ['title' => $title, 'alt' => $alt, 'class' => 'icon'];
 			$options += $defaults;
 			if (substr($icon, 0, 1) !== '/') {
 				$icon = 'icons/' . $icon;
@@ -445,9 +445,9 @@ class FormatHelper extends TextHelper {
 	protected function _fontIcon($type, $options) {
 		$iconType = $this->settings['fontIcons'][$type];
 
-		$defaults = array(
+		$defaults = [
 			'class' => $iconType . ' ' . $type
-		);
+		];
 		$options += $defaults;
 
 		if (!isset($options['title'])) {
@@ -469,7 +469,7 @@ class FormatHelper extends TextHelper {
 	 * @return string
 	 * @deprecated use RatingHelper::stars() instead
 	 */
-	public function showStars($current, $max, $options = array(), $attr = array()) {
+	public function showStars($current, $max, $options = [], $attr = []) {
 		$res = '---';
 
 		if (!empty($options['steps']) && $options['steps'] == 0.5) {
@@ -485,14 +485,14 @@ class FormatHelper extends TextHelper {
 		if ((!empty($current) || (!empty($options['show_zero']) && $current == 0)) && (!empty($max)) && $current <= $max) {
 			$text = '';
 			for ($i = 0; $i < $min; $i++) {
-				$attributes = array('alt' => '#', 'class' => 'full');
+				$attributes = ['alt' => '#', 'class' => 'full'];
 				if (!empty($options['title'])) {
 					$attributes['title'] = ($i + 1) . '/' . $max;
 				} // ?
 				$text .= $this->Html->image('icons/star_icon2.gif', $attributes);
 			}
 			for ($i = $min; $i < $max; $i++) {
-				$attributes = array('alt' => '-', 'class' => 'empty');
+				$attributes = ['alt' => '-', 'class' => 'empty'];
 				if (!empty($options['title'])) {
 					$attributes['title'] = ($i + 1) . '/' . $max;
 				} // ?
@@ -503,7 +503,7 @@ class FormatHelper extends TextHelper {
 				}
 			}
 
-			$attributes = array('class' => 'star-bar starBar');
+			$attributes = ['class' => 'star-bar starBar'];
 			$attributes = array_merge($attributes, $attr);
 			if (empty($attributes['title']) && empty($options['title'])) {
 				$attributes['title'] = ($current) . ' ' . __d('tools', 'of') . ' ' . $max;
@@ -530,15 +530,15 @@ class FormatHelper extends TextHelper {
 	 */
 	public function languageFlags() {
 		$langs = (array)Configure::read('LanguagesAvailable');
-		$supportedLangs = array(
-			'de' => array('title' => 'Deutsch'),
-			'en' => array('title' => 'English'),
-			'it' => array('title' => 'Italiano'),
-		);
+		$supportedLangs = [
+			'de' => ['title' => 'Deutsch'],
+			'en' => ['title' => 'English'],
+			'it' => ['title' => 'Italiano'],
+		];
 
 		$languageChange = __d('tools', 'Language') . ': ';
 
-		$languages = array();
+		$languages = [];
 		foreach ($langs as $lang) {
 			$languages[$lang] = $supportedLangs[$lang];
 		}
@@ -551,9 +551,9 @@ class FormatHelper extends TextHelper {
 		$languageChange .= '<span class="country">';
 		foreach ($languages as $code => $la) {
 			if ($lang === $code) {
-				$languageChange .= $this->Html->image('language_flags/' . $code . '.gif', array('alt' => $code, 'title' => $la['title'] . ' (' . __d('tools', 'active') . ')', 'class' => 'country_flag active')) . '';
+				$languageChange .= $this->Html->image('language_flags/' . $code . '.gif', ['alt' => $code, 'title' => $la['title'] . ' (' . __d('tools', 'active') . ')', 'class' => 'country_flag active']) . '';
 			} else {
-				$languageChange .= $this->Html->link($this->Html->image('language_flags/' . $code . '.gif', array('alt' => $code, 'title' => $la['title'], 'class' => 'country_flag')), '/lang/' . $code, array('escape' => false)) . '';
+				$languageChange .= $this->Html->link($this->Html->image('language_flags/' . $code . '.gif', ['alt' => $code, 'title' => $la['title'], 'class' => 'country_flag']), '/lang/' . $code, ['escape' => false]) . '';
 			}
 		}
 
@@ -589,16 +589,16 @@ class FormatHelper extends TextHelper {
 	 * @param array params: ?subject=y&body=y to be attached to "mailto:xyz"
 	 * @return string Save string with JS generated link around email (and non JS fallback)
 	 */
-	public function encodeEmailUrl($mail, $text = null, $params = array(), $attr = array()) {
+	public function encodeEmailUrl($mail, $text = null, $params = [], $attr = []) {
 		if (empty($class)) {
 			$class = 'email';
 		}
 
-		$defaults = array(
+		$defaults = [
 			'title' => __d('tools', 'for use in an external mail client'),
 			'class' => 'email',
 			'escape' => false
-		);
+		];
 
 		if (empty($text)) {
 			$text = $this->encodeEmail($mail);
@@ -678,8 +678,8 @@ class FormatHelper extends TextHelper {
 	public function yesNo($v, $ontitle = null, $offtitle = null, $on = 1, $text = false, $notitle = false) {
 		$ontitle = (!empty($ontitle) ? $ontitle : __d('tools', 'Yes'));
 		$offtitle = (!empty($offtitle) ? $offtitle : __d('tools', 'No'));
-		$sbez = array('0' => @substr($offtitle, 0, 1), '1' => @substr($ontitle, 0, 1));
-		$bez = array('0' => $offtitle, '1' => $ontitle);
+		$sbez = ['0' => @substr($offtitle, 0, 1), '1' => @substr($ontitle, 0, 1)];
+		$bez = ['0' => $offtitle, '1' => $ontitle];
 
 		if ($v == $on) {
 			$icon = ICON_YES;
@@ -693,7 +693,7 @@ class FormatHelper extends TextHelper {
 			return $bez[$value];
 		}
 
-		$options = array('title' => ($ontitle === false ? '' : $bez[$value]), 'alt' => $sbez[$value], 'class' => 'icon');
+		$options = ['title' => ($ontitle === false ? '' : $bez[$value]), 'alt' => $sbez[$value], 'class' => 'icon'];
 
 		if ($this->settings['fontIcons']) {
 			return $this->cIcon($icon, $options['title']);
@@ -723,7 +723,7 @@ class FormatHelper extends TextHelper {
 	 * @param domain (preferably without protocol, e.g. "www.site.com")
 	 * @return string
 	 */
-	public function siteIcon($domain, $options = array()) {
+	public function siteIcon($domain, $options = []) {
 		$url = $this->siteIconUrl($domain);
 		$options['width'] = 16;
 		$options['height'] = 16;
@@ -746,7 +746,7 @@ class FormatHelper extends TextHelper {
 	 * @param array $tagAttributes (for image)
 	 * @return string result - as image
 	 */
-	public function textAsImage($text, $options = array(), $attr = array()) {
+	public function textAsImage($text, $options = [], $attr = []) {
 		/*
 		$image = new Imagick();
 		//$image->newImage(218, 46, new ImagickPixel('white'));
@@ -762,7 +762,7 @@ class FormatHelper extends TextHelper {
 		$image->writeImage(TMP.'x.gif');
 		$image->trim($mw,0);
 		*/
-		$defaults = array('alt' => $text);
+		$defaults = ['alt' => $text];
 		$attr += $defaults;
 		return $this->_textAsImage($text, $options, $attr);
 	}
@@ -770,8 +770,8 @@ class FormatHelper extends TextHelper {
 	/**
 	 * @return string htmlImage tag (or empty string on failure)
 	 */
-	public function _textAsImage($text, $options = array(), $attr = array()) {
-		$defaults = array('inline' => true, 'font' => FILES . 'linotype.ttf', 'size' => 18, 'color' => '#7A7166');
+	public function _textAsImage($text, $options = [], $attr = []) {
+		$defaults = ['inline' => true, 'font' => FILES . 'linotype.ttf', 'size' => 18, 'color' => '#7A7166'];
 		$options += $defaults;
 
 		if ($options['inline']) { // Inline base 64 encoded
@@ -808,8 +808,8 @@ class FormatHelper extends TextHelper {
 	 * @param array $options
 	 * @return string
 	 */
-	public function disabledLink($text, $options = array()) {
-		$defaults = array('class' => 'disabledLink', 'title' => __d('tools', 'notAvailable'));
+	public function disabledLink($text, $options = []) {
+		$defaults = ['class' => 'disabledLink', 'title' => __d('tools', 'notAvailable')];
 		$options += $defaults;
 
 		return $this->Html->tag('span', $text, $options);
@@ -858,13 +858,13 @@ class FormatHelper extends TextHelper {
 	 * @return string HTML
 	 * @deprecated Try to use font icons or move to own helper
 	 */
-	public function progressBar($progress, $options = array(), $htmlOptions = array()) {
-		$defaults = array(
+	public function progressBar($progress, $options = [], $htmlOptions = []) {
+		$defaults = [
 			'min' => 0,
 			'max' => 100,
 			'steps' => 15,
 			'decimals' => 1 // TODO: rename to places!!!
-		);
+		];
 		$options += $defaults;
 
 		$current = (((float)$progress / $options['max']) - $options['min']);
@@ -874,11 +874,11 @@ class FormatHelper extends TextHelper {
 
 		$options['progress'] = number_format($current, $options['decimals'], null, '');
 
-		$params = Router::queryString($options, array(), true);
+		$params = Router::queryString($options, [], true);
 
-		$htmlDefaults = array(
+		$htmlDefaults = [
 			'title' => $this->Numeric->format($percent, $options['decimals']) . ' ' . __d('tools', 'Percent'),
-			'class' => 'help');
+			'class' => 'help'];
 		$htmlDefaults['alt'] = $htmlDefaults['title'];
 
 		$htmlOptions += $htmlDefaults;
@@ -899,7 +899,7 @@ class FormatHelper extends TextHelper {
 	 * @deprecated Try to use font icons or move to own helper
 	 */
 	public function tip($type, $file, $title, $icon) {
-		return $this->cIcon($icon, $title, null, null, array('class' => 'tip-' . $type . ' tip' . ucfirst($type) . ' hand', 'rel' => $file));
+		return $this->cIcon($icon, $title, null, null, ['class' => 'tip-' . $type . ' tip' . ucfirst($type) . ' hand', 'rel' => $file]);
 	}
 
 	/**
@@ -944,8 +944,8 @@ class FormatHelper extends TextHelper {
 	 * @return void
 	 * @deprecated Try to use font icons or move to own helper
 	 */
-	public function statusLight($color = null, $title = null, $alt = null, $options = array()) {
-		$icons = array(
+	public function statusLight($color = null, $title = null, $alt = null, $options = []) {
+		$icons = [
 			'green', 'yellow', 'red', 'blue'
 			/*
 			'red' => array(
@@ -953,12 +953,12 @@ class FormatHelper extends TextHelper {
 				'alt'=>''
 			),
 			*/
-		);
+		];
 
 		$icon = (in_array($color, $icons) ? $color : 'blank');
 
-		$defaults = array('title' => (!empty($title) ? $title : ucfirst(__d('tools', 'color' . ucfirst($color)))), 'alt' => (!empty($alt) ? $alt :
-			__d('tools', 'color' . ucfirst($color))), 'class' => 'icon help');
+		$defaults = ['title' => (!empty($title) ? $title : ucfirst(__d('tools', 'color' . ucfirst($color)))), 'alt' => (!empty($alt) ? $alt :
+			__d('tools', 'color' . ucfirst($color))), 'class' => 'icon help'];
 		$options += $defaults;
 
 		return $this->Html->image('icons/status_light_' . $icon . '.gif', $options);
@@ -972,9 +972,9 @@ class FormatHelper extends TextHelper {
 	 * @return string
 	 * @deprecated Try to use font icons or move to own helper
 	 */
-	public function onlineIcon($modified = null, $options = array()) {
+	public function onlineIcon($modified = null, $options = []) {
 		// from low (off) to high (on)
-		$icons = array('healthbar0.gif', 'healthbar1.gif', 'healthbar1b.gif', 'healthbar2.gif', 'healthbar3.gif', 'healthbar4.gif', 'healthbar5.gif');
+		$icons = ['healthbar0.gif', 'healthbar1.gif', 'healthbar1b.gif', 'healthbar2.gif', 'healthbar3.gif', 'healthbar4.gif', 'healthbar5.gif'];
 
 		// default = offline
 		$res = $icons[0]; // inactive
@@ -996,7 +996,7 @@ class FormatHelper extends TextHelper {
 			$res = $icons[1];
 		}
 
-		return $this->Html->image('misc/' . $res, array('style' => 'width: 60px; height: 16px'));
+		return $this->Html->image('misc/' . $res, ['style' => 'width: 60px; height: 16px']);
 	}
 
 	/**
@@ -1062,7 +1062,7 @@ class FormatHelper extends TextHelper {
 	 * - Looses line breaks (for textarea content to work with this)!
 	 * @deprecated use truncate instead
 	 */
-	public function shortenText($textstring, $chars, $options = array()) {
+	public function shortenText($textstring, $chars, $options = []) {
 		$chars++; // add +1 for correct cut
 		$needsEnding = false;
 
@@ -1156,8 +1156,8 @@ class FormatHelper extends TextHelper {
 	public function tab2space($text, $spaces = 4) {
 		$spaces = str_repeat(" ", $spaces);
 		$text = preg_split("/\r\n|\r|\n/", trim($text));
-		$wordLengths = array();
-		$wArray = array();
+		$wordLengths = [];
+		$wArray = [];
 
 		// Store word lengths
 		foreach ($text as $line) {
@@ -1239,13 +1239,13 @@ class FormatHelper extends TextHelper {
 	 * @param bool $recursive Recursively generate tables for multi-dimensional arrays
 	 * @param string $null String to output for blank cells
 	 */
-	public function array2table($array, $options = array()) {
-		$defaults = array(
+	public function array2table($array, $options = []) {
+		$defaults = [
 			'null' => '&nbsp;',
 			'recursive' => false,
 			'heading' => true,
 			'escape' => true
-		);
+		];
 		$options += $defaults;
 
 		// Sanity check
@@ -1254,7 +1254,7 @@ class FormatHelper extends TextHelper {
 		}
 
 		if (!isset($array[0]) || !is_array($array[0])) {
-			$array = array($array);
+			$array = [$array];
 		}
 
 		// Start the table
@@ -1298,117 +1298,117 @@ class FormatHelper extends TextHelper {
 		return $table;
 	}
 
-	public $icons = array(
-		'up' => array(
+	public $icons = [
+		'up' => [
 			'pic' => ICON_UP,
 			'title' => 'Up',
-		),
-		'down' => array(
+		],
+		'down' => [
 			'pic' => ICON_DOWN,
 			'title' => 'Down',
-		),
-		'edit' => array(
+		],
+		'edit' => [
 			'pic' => ICON_EDIT,
 			'title' => 'Edit',
-		),
-		'view' => array(
+		],
+		'view' => [
 			'pic' => ICON_VIEW,
 			'title' => 'View',
-		),
-		'delete' => array(
+		],
+		'delete' => [
 			'pic' => ICON_DELETE,
 			'title' => 'Delete',
-		),
-		'reset' => array(
+		],
+		'reset' => [
 			'pic' => ICON_RESET,
 			'title' => 'Reset',
-		),
-		'help' => array(
+		],
+		'help' => [
 			'pic' => ICON_HELP,
 			'title' => 'Help',
-		),
-		'loader' => array(
+		],
+		'loader' => [
 			'pic' => 'loader.white.gif',
 			'title' => 'Loading...',
-		),
-		'loader-alt' => array(
+		],
+		'loader-alt' => [
 			'pic' => 'loader.black.gif',
 			'title' => 'Loading...',
-		),
-		'details' => array(
+		],
+		'details' => [
 			'pic' => ICON_DETAILS,
 			'title' => 'Details',
-		),
-		'use' => array(
+		],
+		'use' => [
 			'pic' => ICON_USE,
 			'title' => 'Use',
-		),
-		'yes' => array(
+		],
+		'yes' => [
 			'pic' => ICON_YES,
 			'title' => 'Yes',
-		),
-		'no' => array(
+		],
+		'no' => [
 			'pic' => ICON_NO,
 			'title' => 'No',
-		),
+		],
 		// deprecated from here down
-		'close' => array(
+		'close' => [
 			'pic' => ICON_CLOCK,
 			'title' => 'Close',
-		),
-		'reply' => array(
+		],
+		'reply' => [
 			'pic' => ICON_REPLY,
 			'title' => 'Reply',
-		),
-		'time' => array(
+		],
+		'time' => [
 			'pic' => ICON_CLOCK,
 			'title' => 'Time',
-		),
-		'check' => array(
+		],
+		'check' => [
 			'pic' => ICON_CHECK,
 			'title' => 'Check',
-		),
-		'role' => array(
+		],
+		'role' => [
 			'pic' => ICON_ROLE,
 			'title' => 'Role',
-		),
-		'add' => array(
+		],
+		'add' => [
 			'pic' => ICON_ADD,
 			'title' => 'Add',
-		),
-		'remove' => array(
+		],
+		'remove' => [
 			'pic' => ICON_REMOVE,
 			'title' => 'Remove',
-		),
-		'email' => array(
+		],
+		'email' => [
 			'pic' => ICON_EMAIL,
 			'title' => 'Email',
-		),
-		'options' => array(
+		],
+		'options' => [
 			'pic' => ICON_SETTINGS,
 			'title' => 'Options',
-		),
-		'lock' => array(
+		],
+		'lock' => [
 			'pic' => ICON_LOCK,
 			'title' => 'Locked',
-		),
-		'warning' => array(
+		],
+		'warning' => [
 			'pic' => ICON_WARNING,
 			'title' => 'Warning',
-		),
-		'genderUnknown' => array(
+		],
+		'genderUnknown' => [
 			'pic' => 'gender_icon.gif',
 			'title' => 'genderUnknown',
-		),
-		'genderMale' => array(
+		],
+		'genderMale' => [
 			'pic' => 'gender_icon_m.gif',
 			'title' => 'genderMale',
-		),
-		'genderFemale' => array(
+		],
+		'genderFemale' => [
 			'pic' => 'gender_icon_f.gif',
 			'title' => 'genderFemale',
-		),
-	);
+		],
+	];
 
 }
 

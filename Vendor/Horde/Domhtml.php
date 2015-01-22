@@ -163,7 +163,7 @@ class Horde_Domhtml implements Iterator
      *
      * @return string  HTML text.
      */
-    public function returnHtml(array $opts = array())
+    public function returnHtml(array $opts = [])
     {
         $curr_charset = $this->getCharset();
         if (strcasecmp($curr_charset, 'US-ASCII') === 0) {
@@ -269,8 +269,8 @@ class Horde_Domhtml implements Iterator
          * w/removeChild() may exit iteration after removal is complete. */
 
         if ($this->_iterator instanceof DOMDocument) {
-            $this->_iterator = array();
-            $curr = array();
+            $this->_iterator = [];
+            $curr = [];
             $node = $this->dom;
         } elseif (empty($this->_iterator)) {
             $this->_iterator = null;
@@ -284,11 +284,11 @@ class Horde_Domhtml implements Iterator
             ($node instanceof DOMNode) &&
             $node->hasChildNodes()) {
             $curr['child'] = true;
-            $this->_iterator[] = array(
+            $this->_iterator[] = [
                 'child' => false,
                 'i' => $node->childNodes->length - 1,
                 'list' => $node->childNodes
-            );
+            ];
         } elseif (--$curr['i'] < 0) {
             array_pop($this->_iterator);
             $this->next();

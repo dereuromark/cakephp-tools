@@ -16,9 +16,9 @@ App::uses('AppHelper', 'View/Helper');
  */
 class TimelineHelper extends AppHelper {
 
-	public $helpers = array('Js');
+	public $helpers = ['Js'];
 
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'id' => 'mytimeline',
 		'selectable' => false,
 		'editable' => false,
@@ -28,9 +28,9 @@ class TimelineHelper extends AppHelper {
 		'height' => null, // Auto.
 		'style' => 'box',
 		'current' => null, // Current time.
-	);
+	];
 
-	protected $_items = array();
+	protected $_items = [];
 
 	/**
 	 * Constructor
@@ -38,7 +38,7 @@ class TimelineHelper extends AppHelper {
 	 * @param View $View The View this helper is being attached to.
 	 * @param array $settings Configuration settings for the helper.
 	 */
-	public function __construct(View $View, $settings = array()) {
+	public function __construct(View $View, $settings = []) {
 		$this->settings = $this->_defaultConfig;
 		parent::__construct($View, $settings);
 	}
@@ -158,7 +158,7 @@ JS;
 	 * @return string
 	 */
 	protected function _options($options) {
-		$e = array();
+		$e = [];
 		foreach ($options as $option => $value) {
 			if ($value === null) {
 				continue;
@@ -186,9 +186,9 @@ JS;
 	 * @return string
 	 */
 	protected function _format($items) {
-		$e = array();
+		$e = [];
 		foreach ($items as $item) {
-			$tmp = array();
+			$tmp = [];
 			foreach ($item as $key => $row) {
 				switch ($key) {
 					case 'editable':
@@ -217,7 +217,7 @@ JS;
 	protected function _date($date) {
 		if (is_object($date)) {
 			// Datetime?
-			$datePieces = array();
+			$datePieces = [];
 			$datePieces[] = $date->format('Y');
 			// JavaScript uses 0-indexed months, so we need to subtract 1 month from PHP's output
 			$datePieces[] = (int)($date->format('m') - 1);
@@ -228,7 +228,7 @@ JS;
 		} else {
 			// As string (fallback).
 			$dateTime = explode(' ', $date, 2);
-			$datePieces = array();
+			$datePieces = [];
 			$datePieces[] = substr($dateTime[0], 0, 4);
 			// JavaScript uses 0-indexed months, so we need to subtract 1 month from the output
 			$datePieces[] = (int)(substr($dateTime[0], 5, 2) - 1);

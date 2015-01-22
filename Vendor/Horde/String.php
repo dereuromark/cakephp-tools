@@ -19,14 +19,14 @@ class Horde_String
      *
      * @var array
      */
-    static protected $_lowers = array();
+    static protected $_lowers = [];
 
     /**
      * upper() cache.
      *
      * @var array
      */
-    static protected $_uppers = array();
+    static protected $_uppers = [];
 
     /**
      * Converts a string from one charset to another.
@@ -62,7 +62,7 @@ class Horde_String
         }
 
         if (is_array($input)) {
-            $tmp = array();
+            $tmp = [];
             reset($input);
             while (list($key, $val) = each($input)) {
                 $tmp[self::_convertCharset($key, $from, $to)] = self::convertCharset($val, $from, $to, $force);
@@ -113,12 +113,12 @@ class Horde_String
              !Horde_Util::extensionExists('iconv') ||
              !Horde_Util::extensionExists('mbstring'))) {
             if (($to == 'utf-8') &&
-                in_array($from, array('iso-8859-1', 'us-ascii', 'utf-8'))) {
+                in_array($from, ['iso-8859-1', 'us-ascii', 'utf-8'])) {
                 return utf8_encode($input);
             }
 
             if (($from == 'utf-8') &&
-                in_array($to, array('iso-8859-1', 'us-ascii', 'utf-8'))) {
+                in_array($to, ['iso-8859-1', 'us-ascii', 'utf-8'])) {
                 return utf8_decode($input);
             }
         }
@@ -557,7 +557,7 @@ class Horde_String
     static public function wrap($text, $length = 80, $break_char = "\n",
                                 $quote = false)
     {
-        $paragraphs = array();
+        $paragraphs = [];
 
         foreach (preg_split('/\r?\n/', $text) as $input) {
             if ($quote && (strpos($input, '>') === 0)) {
@@ -703,7 +703,7 @@ class Horde_String
             $text = self::convertCharset($text, $charset, 'utf-8');
         }
 
-        $matches = array();
+        $matches = [];
         foreach ($regex as $val) {
             if (preg_match('/' . $val . '/u', $text, $matches)) {
                 break;
@@ -775,7 +775,7 @@ class Horde_String
          * example, by various versions of Outlook to send Korean characters.
          * Use UHC (CP949) encoding instead. See, e.g.,
          * http://lists.w3.org/Archives/Public/ietf-charsets/2001AprJun/0030.html */
-        return in_array(self::lower($charset), array('ks_c_5601-1987', 'ks_c_5601-1989'))
+        return in_array(self::lower($charset), ['ks_c_5601-1987', 'ks_c_5601-1989'])
             ? 'UHC'
             : $charset;
     }

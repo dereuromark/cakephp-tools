@@ -3,9 +3,9 @@ App::uses('AppHelper', 'View/Helper');
 
 class LoremHelper extends AppHelper {
 
-	public $helpers = array('Html');
+	public $helpers = ['Html'];
 
-	public $words = array();
+	public $words = [];
 
 	/**
 	 * Return placeholder text. By default, a single html-formatted paragraph.
@@ -18,7 +18,7 @@ class LoremHelper extends AppHelper {
 	 * @param array $itemAttributes Additional HTML attributes of the list item (LI) tag (when applicable)
 	 * @return string placeholder text
 	 */
-	public function ipsum($number = 1, $type = 'p', $attributes = array(), $itemAttributes = array()) {
+	public function ipsum($number = 1, $type = 'p', $attributes = [], $itemAttributes = []) {
 		if (!$this->words) {
 			$this->words = explode(' ', 'lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum');
 		}

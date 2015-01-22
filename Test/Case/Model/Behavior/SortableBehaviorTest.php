@@ -5,7 +5,7 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 class SortableBehaviorTest extends MyCakeTestCase {
 
-	public $fixtures = array('plugin.tools.role');
+	public $fixtures = ['plugin.tools.role'];
 
 	public $SortableBehavior;
 
@@ -126,9 +126,9 @@ class SortableBehaviorTest extends MyCakeTestCase {
 	 */
 	public function testAddNew() {
 		$this->Model->create();
-		$data = array(
+		$data = [
 			'name' => 'new'
-		);
+		];
 		$this->Model->save($data);
 		$id = $this->Model->id;
 		$list = $this->_getList();
@@ -143,7 +143,7 @@ class SortableBehaviorTest extends MyCakeTestCase {
 	 * @param mixed $list
 	 * @return int Position or null if not found
 	 */
-	protected function _getPosition($id, $list = array()) {
+	protected function _getPosition($id, $list = []) {
 		if (!$list) {
 			$list = $this->_getList();
 		}
@@ -165,10 +165,10 @@ class SortableBehaviorTest extends MyCakeTestCase {
 	 * @return array
 	 */
 	protected function _getList() {
-		$options = array(
-			'order' => array('sort' => 'DESC'),
-			'fields' => array('id', 'sort')
-		);
+		$options = [
+			'order' => ['sort' => 'DESC'],
+			'fields' => ['id', 'sort']
+		];
 		return $this->Model->find('list', $options);
 	}
 

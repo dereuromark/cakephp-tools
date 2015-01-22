@@ -34,8 +34,8 @@ class TextExtHelper extends TextHelper {
 	 * @param array $settings Settings array Settings array
 	 * @throws CakeException when the engine class could not be found.
 	 */
-	public function __construct(View $View, $settings = array()) {
-		$settings = Hash::merge(array('engine' => 'Tools.TextLib'), $settings);
+	public function __construct(View $View, $settings = []) {
+		$settings = Hash::merge(['engine' => 'Tools.TextLib'], $settings);
 		parent::__construct($View, $settings);
 	}
 
@@ -47,7 +47,7 @@ class TextExtHelper extends TextHelper {
 	 * @return string The text with links
 	 * @link http://book.cakephp.org/view/1469/Text#autoLink-1620
 	 */
-	public function autoLink($text, $options = array(), $htmlOptions = array()) {
+	public function autoLink($text, $options = [], $htmlOptions = []) {
 		if (!isset($options['escape']) || $options['escape'] !== false) {
 			$text = h($text);
 			$options['escape'] = false;
@@ -66,7 +66,7 @@ class TextExtHelper extends TextHelper {
 	 * @return string html
 	 * @override
 	 */
-	public function autoLinkEmails($text, $options = array(), $htmlOptions = array()) {
+	public function autoLinkEmails($text, $options = [], $htmlOptions = []) {
 		if (!isset($options['escape']) || $options['escape'] !== false) {
 			$text = h($text);
 		}
@@ -96,7 +96,7 @@ class TextExtHelper extends TextHelper {
 	 * - obfuscate: true/false (defaults to false)
 	 * @return string html
 	 */
-	public static function prepareEmail($email, $options = array(), $customOptions = array()) {
+	public static function prepareEmail($email, $options = [], $customOptions = []) {
 		$obfuscate = false;
 		if (isset($options['obfuscate'])) {
 			$obfuscate = $options['obfuscate'];
@@ -115,7 +115,7 @@ class TextExtHelper extends TextHelper {
 		$class = __CLASS__;
 		$Common = new $class();
 		$Common->Html = $Html;
-		return $Common->encodeEmailUrl($email, null, array(), $options);
+		return $Common->encodeEmailUrl($email, null, [], $options);
 	}
 
 	/**
@@ -141,16 +141,16 @@ class TextExtHelper extends TextHelper {
 	 * @param array params: ?subject=y&body=y to be attached to "mailto:xyz"
 	 * @return string html with js generated link around email (and non js fallback)
 	 */
-	public function encodeEmailUrl($mail, $text = null, $params = array(), $attr = array()) {
+	public function encodeEmailUrl($mail, $text = null, $params = [], $attr = []) {
 		if (empty($class)) {
 			$class = 'email';
 		}
 
-		$defaults = array(
+		$defaults = [
 			'title' => __d('tools', 'for use in an external mail client'),
 			'class' => 'email',
 			'escape' => false
-		);
+		];
 
 		if (empty($text)) {
 			$text = $this->encodeEmail($mail);
@@ -233,7 +233,7 @@ class TextExtHelper extends TextHelper {
 	 * @return string html
 	 * @override
 	 */
-	public function autoLinkUrls($text, $options = array(), $htmlOptions = array()) {
+	public function autoLinkUrls($text, $options = [], $htmlOptions = []) {
 		if (!isset($options['escape']) || $options['escape'] !== false) {
 			$text = h($text);
 			$matchString = 'hDec($matches[0])';
@@ -264,7 +264,7 @@ class TextExtHelper extends TextHelper {
 	 * - escape (defaults to false, true needed for hellip to work)
 	 * @return string html/$plain
 	 */
-	public static function prepareLinkName($link, $options = array()) {
+	public static function prepareLinkName($link, $options = []) {
 		// strip protocol if desired (default)
 		if (!isset($options['stripProtocol']) || $options['stripProtocol'] !== false) {
 			$link = static::stripProtocol($link);
@@ -308,7 +308,7 @@ class TextExtHelper extends TextHelper {
 	 * - placeholder
 	 * @return string the manipulated url (+ eventuell ...)
 	 */
-	public function minimizeUrl($url = null, $max = null, $options = array()) {
+	public function minimizeUrl($url = null, $max = null, $options = []) {
 		// check if there is nothing to do
 		if (empty($url) || mb_strlen($url) <= (int)$max) {
 			return (string)$url;

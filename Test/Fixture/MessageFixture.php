@@ -24,13 +24,13 @@ class MessageFixture extends CakeTestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'key' => 'primary'),
-		'random' => array('type' => 'integer', 'null' => false),
-		'name' => array('type' => 'string', 'null' => false),
-		'slug' => array('type' => 'string', 'null' => true),
-		'section' => array('type' => 'integer', 'null' => true),
-	);
+	public $fields = [
+		'id' => ['type' => 'integer', 'key' => 'primary'],
+		'random' => ['type' => 'integer', 'null' => false],
+		'name' => ['type' => 'string', 'null' => false],
+		'slug' => ['type' => 'string', 'null' => true],
+		'section' => ['type' => 'integer', 'null' => true],
+	];
 
 	/**
 	 * Records property
@@ -40,17 +40,17 @@ class MessageFixture extends CakeTestFixture {
 	 *
 	 * @var array
 	 */
-	public $records = array(
-		array('random' => 1, 'name' => 'First'),
-		array('random' => 10, 'name' => 'Tenth'),
-		array('random' => 4, 'name' => 'Fourth'),
-		array('random' => 8, 'name' => 'Eigth'),
-		array('random' => 5, 'name' => 'Fifth'),
-		array('random' => 7, 'name' => 'Seventh'),
-		array('random' => 3, 'name' => 'Third'),
-		array('random' => 9, 'name' => 'Ninth'),
-		array('random' => 2, 'name' => 'Second'),
-		array('random' => 6, 'name' => 'Sixth'),
-	);
+	public $records = [
+		['random' => 1, 'name' => 'First'],
+		['random' => 10, 'name' => 'Tenth'],
+		['random' => 4, 'name' => 'Fourth'],
+		['random' => 8, 'name' => 'Eigth'],
+		['random' => 5, 'name' => 'Fifth'],
+		['random' => 7, 'name' => 'Seventh'],
+		['random' => 3, 'name' => 'Third'],
+		['random' => 9, 'name' => 'Ninth'],
+		['random' => 2, 'name' => 'Second'],
+		['random' => 6, 'name' => 'Sixth'],
+	];
 
 }

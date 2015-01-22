@@ -7,7 +7,7 @@ class TokenTest extends MyCakeTestCase {
 
 	public $Token = null;
 
-	public $fixtures = array('plugin.tools.token');
+	public $fixtures = ['plugin.tools.token'];
 
 	public function setUp() {
 		parent::setUp();
@@ -45,13 +45,13 @@ class TokenTest extends MyCakeTestCase {
 	}
 
 	public function testGarbageCollector() {
-		$data = array(
+		$data = [
 			'created' => date(FORMAT_DB_DATETIME, time() - 3 * MONTH),
 			'type' => 'y',
 			'key' => 'x'
-		);
+		];
 		$this->Token->create();
-		$this->Token->save($data, array('validate' => false));
+		$this->Token->save($data, ['validate' => false]);
 		$count = $this->Token->find('count');
 		$this->Token->garbageCollector();
 		$count2 = $this->Token->find('count');

@@ -33,9 +33,9 @@ class AjaxViewTest extends CakeTestCase {
 
 		$this->Ajax = new AjaxView();
 
-		App::build(array(
-			'View' => array(CakePlugin::path('Tools') . 'Test' . DS . 'test_app' . DS . 'View' . DS)
-		), App::RESET);
+		App::build([
+			'View' => [CakePlugin::path('Tools') . 'Test' . DS . 'test_app' . DS . 'View' . DS]
+		], App::RESET);
 	}
 
 	/**
@@ -47,16 +47,16 @@ class AjaxViewTest extends CakeTestCase {
 		$Request = new CakeRequest();
 		$Response = new CakeResponse();
 		$Controller = new Controller($Request, $Response);
-		$items = array(
-			array('title' => 'Title One', 'link' => 'http://example.org/one', 'author' => 'one@example.org', 'description' => 'Content one'),
-			array('title' => 'Title Two', 'link' => 'http://example.org/two', 'author' => 'two@example.org', 'description' => 'Content two'),
-		);
-		$Controller->set(array('items' => $items, '_serialize' => array('items')));
+		$items = [
+			['title' => 'Title One', 'link' => 'http://example.org/one', 'author' => 'one@example.org', 'description' => 'Content one'],
+			['title' => 'Title Two', 'link' => 'http://example.org/two', 'author' => 'two@example.org', 'description' => 'Content two'],
+		];
+		$Controller->set(['items' => $items, '_serialize' => ['items']]);
 		$View = new AjaxView($Controller);
 		$result = $View->render(false);
 
 		$this->assertSame('application/json', $Response->type());
-		$expected = array('error' => null, 'content' => null, 'items' => $items);
+		$expected = ['error' => null, 'content' => null, 'items' => $items];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
 	}
@@ -70,17 +70,17 @@ class AjaxViewTest extends CakeTestCase {
 		$Request = new CakeRequest();
 		$Response = new CakeResponse();
 		$Controller = new Controller($Request, $Response);
-		$items = array(
-			array('title' => 'Title One', 'link' => 'http://example.org/one', 'author' => 'one@example.org', 'description' => 'Content one'),
-			array('title' => 'Title Two', 'link' => 'http://example.org/two', 'author' => 'two@example.org', 'description' => 'Content two'),
-		);
-		$Controller->set(array('items' => $items, '_serialize' => 'items'));
+		$items = [
+			['title' => 'Title One', 'link' => 'http://example.org/one', 'author' => 'one@example.org', 'description' => 'Content one'],
+			['title' => 'Title Two', 'link' => 'http://example.org/two', 'author' => 'two@example.org', 'description' => 'Content two'],
+		];
+		$Controller->set(['items' => $items, '_serialize' => 'items']);
 		$View = new AjaxView($Controller);
 		$View->viewPath = 'Items';
 		$result = $View->render('index');
 
 		$this->assertSame('application/json', $Response->type());
-		$expected = array('error' => null, 'content' => 'My Index Test ctp', 'items' => $items);
+		$expected = ['error' => null, 'content' => 'My Index Test ctp', 'items' => $items];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
 	}
@@ -94,17 +94,17 @@ class AjaxViewTest extends CakeTestCase {
 		$Request = new CakeRequest();
 		$Response = new CakeResponse();
 		$Controller = new Controller($Request, $Response);
-		$items = array(
-			array('title' => 'Title One', 'link' => 'http://example.org/one', 'author' => 'one@example.org', 'description' => 'Content one'),
-			array('title' => 'Title Two', 'link' => 'http://example.org/two', 'author' => 'two@example.org', 'description' => 'Content two'),
-		);
-		$Controller->set(array('error' => 'Some message', 'items' => $items, '_serialize' => array('error', 'items')));
+		$items = [
+			['title' => 'Title One', 'link' => 'http://example.org/one', 'author' => 'one@example.org', 'description' => 'Content one'],
+			['title' => 'Title Two', 'link' => 'http://example.org/two', 'author' => 'two@example.org', 'description' => 'Content two'],
+		];
+		$Controller->set(['error' => 'Some message', 'items' => $items, '_serialize' => ['error', 'items']]);
 		$View = new AjaxView($Controller);
 		$View->viewPath = 'Items';
 		$result = $View->render('index');
 
 		$this->assertSame('application/json', $Response->type());
-		$expected = array('error' => 'Some message', 'content' => null, 'items' => $items);
+		$expected = ['error' => 'Some message', 'content' => null, 'items' => $items];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
 	}
@@ -124,7 +124,7 @@ class AjaxViewTest extends CakeTestCase {
 		$result = $View->render('index');
 
 		$this->assertSame('application/json', $Response->type());
-		$expected = array('error' => null, 'content' => 'My Index Test ctp');
+		$expected = ['error' => null, 'content' => 'My Index Test ctp'];
 		$expected = json_encode($expected);
 		$this->assertTextEquals($expected, $result);
 	}

@@ -10,13 +10,13 @@ App::uses('WeatherLib', 'Tools.Lib');
  */
 class WeatherHelper extends AppHelper {
 
-	public $helpers = array('Html');
+	public $helpers = ['Html'];
 
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'imageUrl' => 'http://www.google.com/ig/images/weather/'
-	);
+	];
 
-	public function __construct($View = null, $settings = array()) {
+	public function __construct($View = null, $settings = []) {
 		$this->_defaultConfig = (array)Configure::read('Weather') + $this->_defaultConfig;
 		parent::__construct($View, $settings + $this->_defaultConfig);
 	}
@@ -38,12 +38,12 @@ class WeatherHelper extends AppHelper {
 	 *
 	 * @return array
 	 */
-	public function get($location, $options = array()) {
+	public function get($location, $options = []) {
 		$Weather = new WeatherLib();
 
-		$defaults = array(
+		$defaults = [
 			'cache' => '+1 hour'
-		);
+		];
 		$options += $defaults;
 		return $Weather->get($location, $options);
 	}

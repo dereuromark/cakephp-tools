@@ -12,28 +12,28 @@ class LocationFixture extends CakeTestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary', 'collate' => null, 'comment' => ''),
-		'name' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 50, 'collate' => 'utf8_general_ci', 'comment' => '', 'charset' => 'utf8'),
-		'country_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 10, 'collate' => null, 'comment' => ''),
-		'lat' => array('type' => 'float', 'null' => false, 'default' => null, 'collate' => null, 'comment' => ''),
-		'lng' => array('type' => 'float', 'null' => false, 'default' => null, 'collate' => null, 'comment' => ''),
-		'formatted_address' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'locality' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 50, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'sublocality' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 50, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-		'tableParameters' => array()
-	);
+	public $fields = [
+		'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary', 'collate' => null, 'comment' => ''],
+		'name' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 50, 'collate' => 'utf8_general_ci', 'comment' => '', 'charset' => 'utf8'],
+		'country_id' => ['type' => 'integer', 'null' => true, 'default' => null, 'length' => 10, 'collate' => null, 'comment' => ''],
+		'lat' => ['type' => 'float', 'null' => false, 'default' => null, 'collate' => null, 'comment' => ''],
+		'lng' => ['type' => 'float', 'null' => false, 'default' => null, 'collate' => null, 'comment' => ''],
+		'formatted_address' => ['type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'locality' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 50, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'sublocality' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 50, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'created' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
+		'modified' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
+		'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+		'tableParameters' => []
+	];
 
 	/**
 	 * Records
 	 *
 	 * @var array
 	 */
-	public $records = array(
-		array(
+	public $records = [
+		[
 			'id' => '1',
 			'name' => 'münchen',
 			'country_id' => '1',
@@ -44,8 +44,8 @@ class LocationFixture extends CakeTestFixture {
 			'sublocality' => '0',
 			'created' => '2011-10-22 14:33:48',
 			'modified' => '2011-10-22 14:33:48'
-		),
-		array(
+		],
+		[
 			'id' => '2',
 			'name' => 'Allach',
 			'country_id' => '1',
@@ -56,8 +56,8 @@ class LocationFixture extends CakeTestFixture {
 			'sublocality' => '0',
 			'created' => '2011-10-22 14:34:35',
 			'modified' => '2011-10-22 14:34:35'
-		),
-		array(
+		],
+		[
 			'id' => '3',
 			'name' => 'Sendling',
 			'country_id' => '1',
@@ -68,8 +68,8 @@ class LocationFixture extends CakeTestFixture {
 			'sublocality' => 'Sendling',
 			'created' => '2011-10-22 14:45:10',
 			'modified' => '2011-10-22 14:45:10'
-		),
-		array(
+		],
+		[
 			'id' => '4',
 			'name' => 'Obermenzing',
 			'country_id' => '1',
@@ -80,8 +80,8 @@ class LocationFixture extends CakeTestFixture {
 			'sublocality' => 'Obermenzing',
 			'created' => '2011-10-22 14:46:48',
 			'modified' => '2011-10-22 14:46:48'
-		),
-		array(
+		],
+		[
 			'id' => '5',
 			'name' => '74523',
 			'country_id' => '1',
@@ -92,8 +92,8 @@ class LocationFixture extends CakeTestFixture {
 			'sublocality' => '',
 			'created' => '2011-10-22 14:47:06',
 			'modified' => '2011-10-22 14:47:06'
-		),
-		array(
+		],
+		[
 			'id' => '11',
 			'name' => 'thiemestr. 7',
 			'country_id' => '1',
@@ -104,8 +104,8 @@ class LocationFixture extends CakeTestFixture {
 			'sublocality' => 'München',
 			'created' => '2011-10-22 15:09:14',
 			'modified' => '2011-10-22 15:09:14'
-		),
-		array(
+		],
+		[
 			'id' => '12',
 			'name' => 'thiemestr. 8',
 			'country_id' => '1',
@@ -116,8 +116,8 @@ class LocationFixture extends CakeTestFixture {
 			'sublocality' => 'Liebertwolkwitz',
 			'created' => '2011-10-22 15:09:24',
 			'modified' => '2011-10-22 15:09:24'
-		),
-		array(
+		],
+		[
 			'id' => '13',
 			'name' => 'neufahrn',
 			'country_id' => '1',
@@ -128,8 +128,8 @@ class LocationFixture extends CakeTestFixture {
 			'sublocality' => '',
 			'created' => '2011-10-22 15:15:12',
 			'modified' => '2011-10-22 15:15:12'
-		),
-		array(
+		],
+		[
 			'id' => '15',
 			'name' => '85375',
 			'country_id' => '1',
@@ -140,8 +140,8 @@ class LocationFixture extends CakeTestFixture {
 			'sublocality' => '',
 			'created' => '2011-10-22 15:17:16',
 			'modified' => '2011-10-22 15:17:16'
-		),
-		array(
+		],
+		[
 			'id' => '18',
 			'name' => 'hamburg',
 			'country_id' => '1',
@@ -152,6 +152,6 @@ class LocationFixture extends CakeTestFixture {
 			'sublocality' => '',
 			'created' => '2011-10-22 16:10:04',
 			'modified' => '2011-10-22 16:10:04'
-		),
-	);
+		],
+	];
 }

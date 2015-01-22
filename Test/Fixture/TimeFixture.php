@@ -12,28 +12,28 @@ class TimeFixture extends CakeTestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary', 'collate' => null, 'comment' => ''),
-		'name' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => 'noon, evening, ...', 'charset' => 'utf8'),
-		'slug' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 20, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'min_hour' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 2, 'collate' => null, 'comment' => 'inclusivly'),
-		'max_hour' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 2, 'collate' => null, 'comment' => 'inclusivly'),
-		'description' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'price' => array('type' => 'float', 'null' => false, 'default' => null, 'length' => '8,2', 'collate' => null, 'comment' => ''),
-		'price_premium' => array('type' => 'float', 'null' => false, 'default' => null, 'length' => '8,2', 'collate' => null, 'comment' => ''),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-		'tableParameters' => array()
-	);
+	public $fields = [
+		'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary', 'collate' => null, 'comment' => ''],
+		'name' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => 'noon, evening, ...', 'charset' => 'utf8'],
+		'slug' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 20, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'min_hour' => ['type' => 'integer', 'null' => false, 'default' => '0', 'length' => 2, 'collate' => null, 'comment' => 'inclusivly'],
+		'max_hour' => ['type' => 'integer', 'null' => false, 'default' => '0', 'length' => 2, 'collate' => null, 'comment' => 'inclusivly'],
+		'description' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'price' => ['type' => 'float', 'null' => false, 'default' => null, 'length' => '8,2', 'collate' => null, 'comment' => ''],
+		'price_premium' => ['type' => 'float', 'null' => false, 'default' => null, 'length' => '8,2', 'collate' => null, 'comment' => ''],
+		'created' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
+		'modified' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
+		'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+		'tableParameters' => []
+	];
 
 	/**
 	 * Records
 	 *
 	 * @var array
 	 */
-	public $records = array(
-		array(
+	public $records = [
+		[
 			'id' => '2',
 			'name' => 'Abend',
 			'slug' => 'evening',
@@ -44,8 +44,8 @@ class TimeFixture extends CakeTestFixture {
 			'price_premium' => '12.00',
 			'created' => '2011-03-09 14:47:54',
 			'modified' => '2011-10-07 15:13:29'
-		),
-		array(
+		],
+		[
 			'id' => '1',
 			'name' => 'Mittag',
 			'slug' => 'noon',
@@ -56,6 +56,6 @@ class TimeFixture extends CakeTestFixture {
 			'price_premium' => '9.90',
 			'created' => '2011-03-09 14:47:54',
 			'modified' => '2011-10-07 15:13:06'
-		),
-	);
+		],
+	];
 }

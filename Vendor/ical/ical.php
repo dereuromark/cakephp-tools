@@ -52,11 +52,11 @@ class ical
 	/** @var string content of file */
 	private $plain_content = null;
 	/** @var array save iCalendar parse data */
-	private $cal = array ();
+	private $cal = [];
 	/** @var string Help variable save last key (multiline string) */
 	private $last_key = '';
 	/** @var array buffer */
-	private $buffer = array ();
+	private $buffer = [];
 	/** @var string nesting or open tag */
 	private $nesting = 'VCALENDAR';
 
@@ -148,7 +148,7 @@ class ical
 			case "BEGIN:VTODO":
 			case "BEGIN:VEVENT":
 			$this->nesting = substr($text, 6);
-			$this->buffer[$this->nesting] = array (); // null buffer
+			$this->buffer[$this->nesting] = []; // null buffer
 			break;
 
 
@@ -192,7 +192,7 @@ class ical
 
 	if (empty($matches))
 	{
-		return array (false, $text);
+		return [false, $text];
 	}
 	else
 	{
@@ -228,7 +228,7 @@ class ical
 	 */
 	private function ical_date_to_unix($ical_date)
 	{
-	$ical_date = preg_replace(array ('/T/', '/Z/'), '', $ical_date); // remove T and Z from strig
+	$ical_date = preg_replace(['/T/', '/Z/'], '', $ical_date); // remove T and Z from strig
 
 	if (preg_match('/([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{0,2})([0-9]{0,2})([0-9]{0,2})/', $ical_date, $date))
 	{
@@ -265,7 +265,7 @@ class ical
 	{
 			// 2011-06-02 ms fix
 		$value = str_replace('T', '', $value);
-		return array ($key, $value);
+		return [$key, $value];
 	}
 	// pridani $value a $tzid do pole
 	$key = $temp[0];
@@ -273,7 +273,7 @@ class ical
 	$return_value[$temp[0]] = $temp[1];
 	$return_value['unixtime'] = $value;
 
-	return array ($key, $return_value);
+	return [$key, $return_value];
 	}
 
 
@@ -292,7 +292,7 @@ class ical
 	$temp = $this->get_event_list();
 	if (!empty($temp))
 	{
-		usort($temp, array (&$this, "ical_dtstart_compare"));
+		usort($temp, [&$this, "ical_dtstart_compare"]);
 		return $temp;
 	}
 	else
@@ -334,7 +334,7 @@ class ical
 	public function get_todo_list()
 	{
 	if (empty($this->cal['VTODO'])) {
-		return array();
+		return [];
 	}
 	return $this->cal['VTODO'];
 	}

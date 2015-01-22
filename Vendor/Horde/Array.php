@@ -48,9 +48,9 @@ class Horde_Array
         $helper->key = $key;
         $function = $dir ? 'reverseCompare' : 'compare';
         if ($assoc) {
-            uasort($array, array($helper, $function));
+            uasort($array, [$helper, $function]);
         } else {
-            usort($array, array($helper, $function));
+            usort($array, [$helper, $function]);
         }
     }
 
@@ -119,7 +119,7 @@ class Horde_Array
     static public function getRectangle(array $array, $row, $col, $height,
                                         $width)
     {
-        $rec = array();
+        $rec = [];
         for ($y = $row; $y < $row + $height; $y++) {
             $rec[] = array_slice($array[$y], $col, $width);
         }
@@ -142,6 +142,6 @@ class Horde_Array
     {
         return $array
             ? array_combine($array, $array)
-            : array();
+            : [];
     }
 }

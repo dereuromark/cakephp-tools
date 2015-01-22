@@ -11,26 +11,26 @@ class CodeKeyFixture extends CakeTestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary', 'collate' => null, 'comment' => ''),
-		'user_id' => array('type' => 'string', 'null' => true, 'length' => 36, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'type' => array('type' => 'string', 'null' => false, 'length' => 10, 'collate' => 'utf8_unicode_ci', 'comment' => 'e.g.:activate,reactivate', 'charset' => 'utf8'),
-		'key' => array('type' => 'string', 'null' => false, 'length' => 60, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'content' => array('type' => 'string', 'null' => false, 'collate' => 'utf8_unicode_ci', 'comment' => 'can transport some information', 'charset' => 'utf8'),
-		'used' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'collate' => null, 'comment' => ''),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-		'tableParameters' => array()
-	);
+	public $fields = [
+		'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary', 'collate' => null, 'comment' => ''],
+		'user_id' => ['type' => 'string', 'null' => true, 'length' => 36, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'type' => ['type' => 'string', 'null' => false, 'length' => 10, 'collate' => 'utf8_unicode_ci', 'comment' => 'e.g.:activate,reactivate', 'charset' => 'utf8'],
+		'key' => ['type' => 'string', 'null' => false, 'length' => 60, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'content' => ['type' => 'string', 'null' => false, 'collate' => 'utf8_unicode_ci', 'comment' => 'can transport some information', 'charset' => 'utf8'],
+		'used' => ['type' => 'boolean', 'null' => false, 'default' => '0', 'collate' => null, 'comment' => ''],
+		'created' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
+		'modified' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
+		'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+		'tableParameters' => []
+	];
 
 	/**
 	 * Records
 	 *
 	 * @var array
 	 */
-	public $records = array(
-		array(
+	public $records = [
+		[
 			'id' => '77',
 			'user_id' => '1',
 			'type' => 'qlogin',
@@ -39,8 +39,8 @@ class CodeKeyFixture extends CakeTestFixture {
 			'used' => 0,
 			'created' => '2011-08-02 18:00:41',
 			'modified' => '2011-08-02 18:00:41'
-		),
-		array(
+		],
+		[
 			'id' => '78',
 			'user_id' => '2',
 			'type' => 'qlogin',
@@ -49,8 +49,8 @@ class CodeKeyFixture extends CakeTestFixture {
 			'used' => 0,
 			'created' => '2011-08-02 18:00:41',
 			'modified' => '2011-08-02 18:00:41'
-		),
-		array(
+		],
+		[
 			'id' => '79',
 			'user_id' => '1',
 			'type' => 'qlogin',
@@ -59,8 +59,8 @@ class CodeKeyFixture extends CakeTestFixture {
 			'used' => 1,
 			'created' => '2011-08-02 18:00:41',
 			'modified' => '2011-08-02 18:00:41'
-		),
-		array(
+		],
+		[
 			'id' => '80',
 			'user_id' => '2',
 			'type' => 'qlogin',
@@ -69,8 +69,8 @@ class CodeKeyFixture extends CakeTestFixture {
 			'used' => 1,
 			'created' => '2011-08-02 18:00:41',
 			'modified' => '2011-08-02 18:00:41'
-		),
-		array(
+		],
+		[
 			'id' => '81',
 			'user_id' => '1',
 			'type' => 'qlogin',
@@ -79,8 +79,8 @@ class CodeKeyFixture extends CakeTestFixture {
 			'used' => 0,
 			'created' => '2011-08-02 18:01:16',
 			'modified' => '2011-08-02 18:01:16'
-		),
-		array(
+		],
+		[
 			'id' => '82',
 			'user_id' => '2',
 			'type' => 'qlogin',
@@ -89,8 +89,8 @@ class CodeKeyFixture extends CakeTestFixture {
 			'used' => 0,
 			'created' => '2011-08-02 18:01:16',
 			'modified' => '2011-08-02 18:01:16'
-		),
-		array(
+		],
+		[
 			'id' => '83',
 			'user_id' => '1',
 			'type' => 'qlogin',
@@ -99,8 +99,8 @@ class CodeKeyFixture extends CakeTestFixture {
 			'used' => 1,
 			'created' => '2011-08-02 18:01:16',
 			'modified' => '2011-08-02 18:01:16'
-		),
-		array(
+		],
+		[
 			'id' => '84',
 			'user_id' => '2',
 			'type' => 'qlogin',
@@ -109,8 +109,8 @@ class CodeKeyFixture extends CakeTestFixture {
 			'used' => 1,
 			'created' => '2011-08-02 18:01:16',
 			'modified' => '2011-08-02 18:01:16'
-		),
-		array(
+		],
+		[
 			'id' => '85',
 			'user_id' => '1',
 			'type' => 'qlogin',
@@ -119,8 +119,8 @@ class CodeKeyFixture extends CakeTestFixture {
 			'used' => 0,
 			'created' => '2011-08-02 18:01:54',
 			'modified' => '2011-08-02 18:01:54'
-		),
-		array(
+		],
+		[
 			'id' => '86',
 			'user_id' => '2',
 			'type' => 'qlogin',
@@ -129,6 +129,6 @@ class CodeKeyFixture extends CakeTestFixture {
 			'used' => 0,
 			'created' => '2011-08-02 18:01:54',
 			'modified' => '2011-08-02 18:01:54'
-		),
-	);
+		],
+	];
 }

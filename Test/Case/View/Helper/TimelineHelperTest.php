@@ -28,24 +28,24 @@ class TimelineHelperTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testAddItem() {
-		$data = array(
+		$data = [
 			'start' => '',
 			'content' => '',
-		);
+		];
 		$this->Timeline->addItem($data);
 		$items = $this->Timeline->items();
 		$this->assertSame(1, count($items));
 
-		$data = array(
-			array(
+		$data = [
+			[
 				'start' => '',
 				'content' => '',
-			),
-			array(
+			],
+			[
 				'start' => '',
 				'content' => '',
-			)
-		);
+			]
+		];
 		$this->Timeline->addItems($data);
 		$items = $this->Timeline->items();
 		$this->assertSame(3, count($items));
@@ -56,15 +56,15 @@ class TimelineHelperTest extends MyCakeTestCase {
 	 */
 	public function testFinalize() {
 		$this->testAddItem();
-		$data = array(
+		$data = [
 			'start' => new DateTime(),
 			'content' => '',
-		);
+		];
 		$this->Timeline->addItem($data);
-		$data = array(
+		$data = [
 			'start' => date(FORMAT_DB_DATETIME),
 			'content' => '',
-		);
+		];
 		$this->Timeline->addItem($data);
 
 		$result = $this->Timeline->finalize(true);

@@ -8,7 +8,7 @@ class QurlTest extends MyCakeTestCase {
 
 	public $Qurl = null;
 
-	public $fixtures = array('plugin.tools.qurl');
+	public $fixtures = ['plugin.tools.qurl'];
 
 	public function setUp() {
 		parent::setUp();
@@ -21,9 +21,9 @@ class QurlTest extends MyCakeTestCase {
 	}
 
 	public function testGenerate() {
-		$url = Router::url(array('admin' => false, 'plugin' => 'tools', 'controller' => 'qurls', 'action' => 'go'), true);
+		$url = Router::url(['admin' => false, 'plugin' => 'tools', 'controller' => 'qurls', 'action' => 'go'], true);
 
-		$res = $this->Qurl->url(array('controller' => 'test', 'action' => 'foo', 'bar'), array('note' => 'x'));
+		$res = $this->Qurl->url(['controller' => 'test', 'action' => 'foo', 'bar'], ['note' => 'x']);
 		$this->assertTrue(is_string($res) && !empty($res));
 		$this->assertTrue(strpos($res, $url) === 0);
 
@@ -32,7 +32,7 @@ class QurlTest extends MyCakeTestCase {
 	}
 
 	public function testUse() {
-		$key = $this->Qurl->generate(array('controller' => 'test', 'action' => 'foo', 'bar'), array('note' => 'x'));
+		$key = $this->Qurl->generate(['controller' => 'test', 'action' => 'foo', 'bar'], ['note' => 'x']);
 		$res = $this->Qurl->translate($key);
 		$this->assertTrue(is_array($res) && !empty($res));
 		$this->assertSame('x', $res['Qurl']['note']);

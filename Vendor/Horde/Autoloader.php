@@ -12,8 +12,8 @@
  */
 class Horde_Autoloader
 {
-    private $_mappers = array();
-    private $_callbacks = array();
+    private $_mappers = [];
+    private $_callbacks = [];
 
     public function loadClass($className)
     {
@@ -51,7 +51,7 @@ class Horde_Autoloader
     {
         // Register the autoloader in a way to play well with as many
         // configurations as possible.
-        spl_autoload_register(array($this, 'loadClass'));
+        spl_autoload_register([$this, 'loadClass']);
         if (function_exists('__autoload')) {
             spl_autoload_register('__autoload');
         }

@@ -34,18 +34,18 @@ if (!empty($addArrows)) {
 	$next .= ' »';
 }
 
-echo $this->Paginator->counter(array(
-'format' => __d('tools', 'Page %page% of %pages%, showing %current% records out of %count% total')));?></p>
+echo $this->Paginator->counter([
+'format' => __d('tools', 'Page %page% of %pages%, showing %current% records out of %count% total')]);?></p>
 <div class="paging">
-	<?php echo $this->Paginator->first($first, array());?>
+	<?php echo $this->Paginator->first($first, []);?>
  <?php echo $separator; ?>
-	<?php echo $this->Paginator->prev($prev, array(), null, array('class' => 'disabled'));?>
+	<?php echo $this->Paginator->prev($prev, [], null, ['class' => 'disabled']);?>
  <?php echo $separator; ?>
-	<?php echo $this->Paginator->numbers(array('separator' => $separator));?>
+	<?php echo $this->Paginator->numbers(['separator' => $separator]);?>
  <?php echo $separator; ?>
-	<?php echo $this->Paginator->next($next, array(), null, array('class' => 'disabled'));?>
+	<?php echo $this->Paginator->next($next, [], null, ['class' => 'disabled']);?>
  <?php echo $separator; ?>
-	<?php echo $this->Paginator->last($last, array());?>
+	<?php echo $this->Paginator->last($last, []);?>
 </div>
 <?php if (!empty($options['ajaxPagination'])) {
 	$ajaxContainer = !empty($options['paginationContainer']) ? $options['paginationContainer'] : '.page';

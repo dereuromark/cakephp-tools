@@ -151,13 +151,13 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 	 * @throws \Exception
 	 */
 	protected function _sendRequest($url, $method, $data = []) {
-		$options = array(
+		$options = [
 			'data' => $data,
 			'method' => $method,
 			'return' => 'vars'
-		);
+		];
 
-		$env = array();
+		$env = [];
 		if (isset($this->_requestData['headers'])) {
 			foreach ($this->_requestData['headers'] as $k => $v) {
 				$env['HTTP_' . str_replace('-', '_', strtoupper($k))] = $v;
@@ -166,7 +166,7 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 		}
 
 		CakeSession::write($this->_sessionData);
-		$envBackup = $serverBackup = array();
+		$envBackup = $serverBackup = [];
 		foreach ($env as $k => $v) {
 			$envBackup[$k] = isset($_ENV[$k]) ? $_ENV[$k] : null;
 			$serverBackup[$k] = isset($_ENV[$k]) ? $_ENV[$k] : null;

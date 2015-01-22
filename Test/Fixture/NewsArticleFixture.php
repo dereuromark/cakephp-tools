@@ -2,15 +2,15 @@
 
 class NewsArticleFixture extends CakeTestFixture {
 
-	public $fields = array(
-		'id' => array('type' => 'integer', 'key' => 'primary'),
-		'title' => array('type' => 'string', 'length' => 255, 'null' => false)
-	);
+	public $fields = [
+		'id' => ['type' => 'integer', 'key' => 'primary'],
+		'title' => ['type' => 'string', 'length' => 255, 'null' => false]
+	];
 
-	public $records = array(
-		array('id' => 1, 'title' => 'CakePHP the best framework'),
-		array('id' => 2, 'title' => 'Zend the oldest framework'),
-		array('id' => 3, 'title' => 'Symfony the engineers framwork'),
-		array('id' => 4, 'title' => 'CodeIgniter wassat?')
-	);
+	public $records = [
+		['id' => 1, 'title' => 'CakePHP the best framework'],
+		['id' => 2, 'title' => 'Zend the oldest framework'],
+		['id' => 3, 'title' => 'Symfony the engineers framwork'],
+		['id' => 4, 'title' => 'CodeIgniter wassat?']
+	];
 }
