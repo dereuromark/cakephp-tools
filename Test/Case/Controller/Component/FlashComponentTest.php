@@ -80,6 +80,29 @@ class FlashComponentTest extends CakeTestCase {
 	}
 
 	/**
+	 * FlashComponentTest::testFlashMessage()
+	 *
+	 * @return void
+	 */
+	public function testFlashMessageTypeToElement() {
+		$this->Controller->Flash->settings['useElements'] = true;
+		$this->Controller->Flash->settings['typeToElement'] = true;
+		$this->Controller->Flash->settings['plugin'] = 'Tools';
+		$this->Controller->Flash->message('INFO', array('escape' => true, 'params' => array('foo' => 'bar')));
+		$this->Controller->Flash->success('OK', array('escape' => true, 'plugin' => 'BarBaz', 'params' => array('foo' => 'bar')));
+		$this->Controller->Flash->error('NO', array('escape' => true, 'plugin' => null, 'params' => array('foo' => 'bar')));
+
+		$res = $this->Controller->Session->read('messages');
+		$this->assertTrue(!empty($res));
+		$expected = 'Tools.Flash/info';
+		$this->assertSame($expected, $res['info'][0]['element']);
+		$expected = 'BarBaz.Flash/success';
+		$this->assertSame($expected, $res['success'][0]['element']);
+		$expected = 'Flash/error';
+		$this->assertSame($expected, $res['error'][0]['element']);
+	}
+
+	/**
 	 * FlashComponentTest::testMagicMessage()
 	 *
 	 * @return void

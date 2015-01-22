@@ -22,7 +22,7 @@ class FlashComponent extends Component {
 		'typeToElement' => false, // Set to true to have a single type to Element matching
 		'plugin' => null, // Only for typeToElement
 		'element' => 'Tools.default',
-		'params' => [],
+		'params' => array(),
 		'escape' => false
 	);
 
