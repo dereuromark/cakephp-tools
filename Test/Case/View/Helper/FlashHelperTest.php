@@ -105,7 +105,7 @@ class FlashHelperTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testFlashComplexMocked() {
-		$this->View = $this->getMock('View', ['element']);
+		$this->View = $this->getMock('View', array('element'));
 		$this->Flash = new FlashHelper($this->View);
 
 		$this->Flash->settings['useElements'] = true;
