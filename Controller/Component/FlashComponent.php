@@ -210,7 +210,7 @@ class FlashComponent extends Component {
 			throw new InternalErrorException('Flash message missing.');
 		}
 
-		$options = ['type' => Inflector::underscore($name)];
+		$options = array('type' => Inflector::underscore($name));
 		if (!empty($args[1])) {
 			$options += (array)$args[1];
 		}
