@@ -12,7 +12,7 @@ use Cake\Network\Response;
  */
 class Mime extends Response {
 
-	protected $_mimeTypesExt = array(
+	protected $_mimeTypesExt = [
 		'3dm' => 'x-world/x-3dmf',
 		'3dmf' => 'x-world/x-3dmf',
 		'a' => 'application/octet-stream',
@@ -646,7 +646,7 @@ class Mime extends Response {
 		'xwd' => 'image/x-xwd',
 		'xwd' => 'image/x-xwindowdump',
 		'xyz' => 'chemical/x-pdb',
-		'z' => array('application/x-compress', 'application/x-compressed'),
+		'z' => ['application/x-compress', 'application/x-compressed'],
 		'zip' => 'application/x-compressed',
 		'zip' => 'application/x-zip-compressed',
 		'zip' => 'application/zip',
@@ -700,13 +700,13 @@ class Mime extends Response {
 		'ppt' => 'application/vnd.ms-powerpoint',
 		'odt' => 'application/vnd.oasis.opendocument.text',
 		'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
-		'swf' => array('application/x-shockwave-flash', 'application/x-shockwave-flash2-preview', 'application/futuresplash', 'image/vnd.rn-realflash')
-	);
+		'swf' => ['application/x-shockwave-flash', 'application/x-shockwave-flash2-preview', 'application/futuresplash', 'image/vnd.rn-realflash']
+	];
 
 	/**
 	 * Override constructor
 	 */
-	public function __construct(array $options = array()) {
+	public function __construct(array $options = []) {
 	}
 
 	/**

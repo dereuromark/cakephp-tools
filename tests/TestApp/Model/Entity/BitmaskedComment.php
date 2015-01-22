@@ -7,12 +7,12 @@ use Tools\Model\Entity\Entity;
 class BitmaskedComment extends Entity {
 
 	public static function statuses($value = null) {
-		$options = array(
+		$options = [
 			static::STATUS_ACTIVE => __d('tools', 'Active'),
 			static::STATUS_PUBLISHED => __d('tools', 'Published'),
 			static::STATUS_APPROVED => __d('tools', 'Approved'),
 			static::STATUS_FLAGGED => __d('tools', 'Flagged'),
-		);
+		];
 
 		return parent::enum($value, $options);
 	}

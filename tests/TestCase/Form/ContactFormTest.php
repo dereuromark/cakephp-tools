@@ -20,10 +20,10 @@ use Cake\Datasource\ConnectionManager;
 
 class ContactFormTest extends TestCase {
 
-	public $fixtures = array(
+	public $fixtures = [
 		'core.posts', 'core.authors',
 		'plugin.tools.tools_users', 'plugin.tools.roles',
-	);
+	];
 
 	public $Form;
 
@@ -46,24 +46,24 @@ class ContactFormTest extends TestCase {
 	 * @return void
 	 */
 	public function testValidate() {
-		$requestData = array(
+		$requestData = [
 			'name' => 'Foo',
 			'email' => 'foo',
 			'subject' => '',
 			'message' => 'Some message'
-		);
+		];
 		$result = $this->Form->validate($requestData);
 		$this->assertFalse($result);
 
 		$errors = $this->Form->errors();
 		$this->assertSame(['email', 'subject'], array_keys($errors));
 
-		$requestData = array(
+		$requestData = [
 			'name' => 'Foo',
 			'email' => 'foo@example.org',
 			'subject' => 'Yeah',
 			'message' => 'Some message'
-		);
+		];
 		$result = $this->Form->validate($requestData);
 		$this->assertTrue($result);
 	}
@@ -74,12 +74,12 @@ class ContactFormTest extends TestCase {
 	 * @return void
 	 */
 	public function testExecute() {
-		$requestData = array(
+		$requestData = [
 			'name' => 'Foo',
 			'email' => 'foo@example.org',
 			'subject' => 'Yeah',
 			'message' => 'Some message'
-		);
+		];
 		$result = $this->Form->execute($requestData);
 		$this->assertTrue($result);
 	}

@@ -38,18 +38,18 @@ if (!empty($addArrows)) {
 }
 $escape = isset($escape) ? $escape : true;
 
-echo $this->Paginator->counter(array('format' => $format)); ?></p>
+echo $this->Paginator->counter(['format' => $format]); ?></p>
 <div class="paging">
 	<ul class="pagination">
-	<?php echo $this->Paginator->first($first, array('escape' => $escape));?>
+	<?php echo $this->Paginator->first($first, ['escape' => $escape]);?>
  <?php echo $separator; ?>
-	<?php echo $this->Paginator->prev($prev, array('escape' => $escape), null, array('class' => 'prev disabled'));?>
+	<?php echo $this->Paginator->prev($prev, ['escape' => $escape], null, ['class' => 'prev disabled']);?>
  <?php echo $separator; ?>
-	<?php echo $this->Paginator->numbers(array('escape' => $escape, 'separator' => $separator));?>
+	<?php echo $this->Paginator->numbers(['escape' => $escape, 'separator' => $separator]);?>
  <?php echo $separator; ?>
-	<?php echo $this->Paginator->next($next, array('escape' => $escape), null, array('class' => 'next disabled'));?>
+	<?php echo $this->Paginator->next($next, ['escape' => $escape], null, ['class' => 'next disabled']);?>
  <?php echo $separator; ?>
-	<?php echo $this->Paginator->last($last, array('escape' => $escape));?>
+	<?php echo $this->Paginator->last($last, ['escape' => $escape]);?>
 	</ul>
 </div>
 <?php if (!empty($options['ajaxPagination'])) {

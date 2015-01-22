@@ -54,7 +54,7 @@ class CommonComponentTest extends TestCase {
 		// with options
 		$this->Controller->Test = null;
 		$this->assertTrue(!isset($this->Controller->Test));
-		$this->Controller->Common->loadComponent('Test', array('x' => 'z'), false);
+		$this->Controller->Common->loadComponent('Test', ['x' => 'z'], false);
 		$this->assertTrue(isset($this->Controller->Test));
 		$this->assertFalse($this->Controller->Test->isInit);
 		$this->assertFalse($this->Controller->Test->isStartup);
@@ -63,7 +63,7 @@ class CommonComponentTest extends TestCase {
 		$this->Controller->components()->unload('Test');
 		$this->Controller->Test = null;
 		$this->assertTrue(!isset($this->Controller->Test));
-		$this->Controller->Common->loadComponent('Test', array('x' => 'y'));
+		$this->Controller->Common->loadComponent('Test', ['x' => 'y']);
 		$this->assertTrue(isset($this->Controller->Test));
 		$this->assertTrue($this->Controller->Test->isInit);
 		$this->assertTrue($this->Controller->Test->isStartup);
@@ -134,11 +134,11 @@ class CommonComponentTest extends TestCase {
  */
 class CommonComponentTestController extends Controller {
 
-	public $components = array('Tools.Common');
+	public $components = ['Tools.Common'];
 
 	public $failed = false;
 
-	public $testHeaders = array();
+	public $testHeaders = [];
 
 	public function fail() {
 		$this->failed = true;

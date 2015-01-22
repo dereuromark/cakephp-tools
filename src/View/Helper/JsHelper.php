@@ -31,7 +31,7 @@ class JsHelper extends Helper {
  *
  * @var array
  */
-	public $helpers = array('Html', 'Form');
+	public $helpers = ['Html', 'Form'];
 
 /**
  * Variables to pass to Javascript.
@@ -39,7 +39,7 @@ class JsHelper extends Helper {
  * @var array
  * @see JsHelper::set()
  */
-	protected $_jsVars = array();
+	protected $_jsVars = [];
 
 /**
  * Scripts that are queued for output
@@ -47,7 +47,7 @@ class JsHelper extends Helper {
  * @var array
  * @see JsHelper::buffer()
  */
-	protected $_bufferedScripts = array();
+	protected $_bufferedScripts = [];
 
 /**
  * The javascript variable created by set() variables.
@@ -69,10 +69,10 @@ class JsHelper extends Helper {
  * @param array $options Set of options, see above.
  * @return string A JSON code block
  */
-	public function object($data = array(), $options = array()) {
-		$defaultOptions = array(
+	public function object($data = [], $options = []) {
+		$defaultOptions = [
 			'prefix' => '', 'postfix' => '',
-		);
+		];
 		$options += $defaultOptions;
 
 		return $options['prefix'] . json_encode($data) . $options['postfix'];
@@ -86,7 +86,7 @@ class JsHelper extends Helper {
  * @param string $key Key name.
  * @return string a JavaScript-safe/JSON representation of $val
  */
-	public function value($val = array(), $quoteString = null, $key = 'value') {
+	public function value($val = [], $quoteString = null, $key = 'value') {
 		if ($quoteString === null) {
 			$quoteString = true;
 		}
@@ -246,12 +246,12 @@ class JsHelper extends Helper {
  *   scripts null will be returned.
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/js.html#JsHelper::writeBuffer
  */
-	public function writeBuffer($options = array()) {
+	public function writeBuffer($options = []) {
 		$domReady = false;
-		$defaults = array(
+		$defaults = [
 			'onDomReady' => $domReady,
 			'cache' => false, 'clear' => true, 'safe' => true
-		);
+		];
 		$options += $defaults;
 		$script = implode("\n", $this->getBuffer($options['clear']));
 
@@ -301,8 +301,8 @@ class JsHelper extends Helper {
 		$this->_createVars();
 		$scripts = $this->_bufferedScripts;
 		if ($clear) {
-			$this->_bufferedScripts = array();
-			$this->_jsVars = array();
+			$this->_bufferedScripts = [];
+			$this->_jsVars = [];
 		}
 		return $scripts;
 	}
@@ -338,7 +338,7 @@ class JsHelper extends Helper {
 				$data = $one;
 			}
 		} else {
-			$data = array($one => $two);
+			$data = [$one => $two];
 		}
 		if (!$data) {
 			return false;

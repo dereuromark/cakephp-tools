@@ -223,15 +223,15 @@ function extractPathInfo($filename, $type = null, $fromUrl = false) {
  * - class, showHtml, showFrom, jquery, returns, debug
  * @return string HTML
  */
-function pre($var, $collapsedAndExpandable = false, $options = array()) {
-	$defaults = array(
+function pre($var, $collapsedAndExpandable = false, $options = []) {
+	$defaults = [
 		'class' => 'cake-debug',
 		'showHtml' => false, // Escape < and > (or manually escape with h() prior to calling this function)
 		'showFrom' => false, // Display file + line
 		'jquery' => null, // null => Auto - use jQuery (true/false to manually decide),
 		'returns' => false, // Use returns(),
 		'debug' => false // Show only with debug > 0
-	);
+	];
 	$options += $defaults;
 	if ($options['debug'] && !Configure::read('debug')) {
 		return '';

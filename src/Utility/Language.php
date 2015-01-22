@@ -10,11 +10,11 @@ class Language {
 	public static function parseLanguageList($languageList = null) {
 		if ($languageList === null) {
 			if (empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-				return array();
+				return [];
 			}
 			$languageList = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
 		}
-		$languages = array();
+		$languages = [];
 		$languageRanges = explode(',', trim($languageList));
 		foreach ($languageRanges as $languageRange) {
 			if (preg_match('/(\*|[a-zA-Z0-9]{1,8}(?:-[a-zA-Z0-9]{1,8})*)(?:\s*;\s*q\s*=\s*(0(?:\.\d{0,3})|1(?:\.0{0,3})))?/', trim($languageRange), $match)) {
@@ -27,7 +27,7 @@ class Language {
 					if ($match[2] === '1') {
 						$match[2] = '1.0';
 					}
-					$languages[$match[2]] = array();
+					$languages[$match[2]] = [];
 				}
 				$languages[$match[2]][] = strtolower($match[1]);
 			}
@@ -42,7 +42,7 @@ class Language {
 	 * @return array
 	 */
 	public static function findMatches(array $accepted, array $available = []) {
-		$matches = array();
+		$matches = [];
 		if (!$available) {
 			$available = static::parseLanguageList();
 		}
@@ -61,7 +61,7 @@ class Language {
 							$q = '1.0';
 						}
 						if (!isset($matches[$q])) {
-							$matches[$q] = array();
+							$matches[$q] = [];
 						}
 						if (!in_array($availableValue, $matches[$q])) {
 							$matches[$q][] = $availableValue;

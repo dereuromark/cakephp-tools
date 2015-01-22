@@ -110,25 +110,25 @@ class EmailTest extends TestCase {
  * @return void
  */
 	public function testFrom() {
-		$this->assertSame(array('test@example.com' => 'Mark'), $this->Email->from());
+		$this->assertSame(['test@example.com' => 'Mark'], $this->Email->from());
 
 		$this->Email->from('cake@cakephp.org');
-		$expected = array('cake@cakephp.org' => 'cake@cakephp.org');
+		$expected = ['cake@cakephp.org' => 'cake@cakephp.org'];
 		$this->assertSame($expected, $this->Email->from());
 
-		$this->Email->from(array('cake@cakephp.org'));
+		$this->Email->from(['cake@cakephp.org']);
 		$this->assertSame($expected, $this->Email->from());
 
 		$this->Email->from('cake@cakephp.org', 'CakePHP');
-		$expected = array('cake@cakephp.org' => 'CakePHP');
+		$expected = ['cake@cakephp.org' => 'CakePHP'];
 		$this->assertSame($expected, $this->Email->from());
 
-		$result = $this->Email->from(array('cake@cakephp.org' => 'CakePHP'));
+		$result = $this->Email->from(['cake@cakephp.org' => 'CakePHP']);
 		$this->assertSame($expected, $this->Email->from());
 		$this->assertSame($this->Email, $result);
 
 		$this->setExpectedException('InvalidArgumentException');
-		$result = $this->Email->from(array('cake@cakephp.org' => 'CakePHP', 'fail@cakephp.org' => 'From can only be one address'));
+		$result = $this->Email->from(['cake@cakephp.org' => 'CakePHP', 'fail@cakephp.org' => 'From can only be one address']);
 	}
 
 	/**
@@ -142,21 +142,21 @@ class EmailTest extends TestCase {
 
 		$this->Email->addAttachment($file);
 		$res = $this->Email->getProtected('attachments');
-		$expected = array(
-			'hotel.png' => array(
+		$expected = [
+			'hotel.png' => [
 				'file' => $file,
 				'mimetype' => 'image/png',
-			)
-		);
+			]
+		];
 		$this->assertEquals($expected, $res);
 
 		$this->Email->addAttachment($file, 'my_image.jpg');
 
 		$res = $this->Email->getProtected('attachments');
-		$expected = array(
+		$expected = [
 			'file' => $file,
 			'mimetype' => 'image/jpeg',
-		);
+		];
 		$this->assertEquals($expected, $res['my_image.jpg']);
 	}
 
@@ -202,22 +202,22 @@ class EmailTest extends TestCase {
 		$res = $this->Email->getProtected('attachments');
 		$this->assertTrue(!empty($res['hotel.png']['data']));
 		unset($res['hotel.png']['data']);
-		$expected = array(
-			'hotel.png' => array(
+		$expected = [
+			'hotel.png' => [
 				//'data' => $content,
 				'mimetype' => 'image/png',
-			)
-		);
+			]
+		];
 		$this->assertEquals($expected, $res);
 
 		$this->Email->addBlobAttachment($content, 'hotel.gif', 'image/jpeg');
 		$res = $this->Email->getProtected('attachments');
 		$this->assertTrue(!empty($res['hotel.gif']['data']));
 		unset($res['hotel.gif']['data']);
-		$expected = array(
+		$expected = [
 			//'data' => $content,
 			'mimetype' => 'image/jpeg',
-		);
+		];
 		$this->assertEquals($expected, $res['hotel.gif']);
 		$this->assertSame(2, count($res));
 	}
@@ -242,13 +242,13 @@ class EmailTest extends TestCase {
 		$res = $this->Email->getProtected('attachments');
 		$this->assertTrue(!empty($res['hotel.png']['file']));
 		unset($res['hotel.png']['file']);
-		$expected = array(
-			'hotel.png' => array(
+		$expected = [
+			'hotel.png' => [
 				//'file' => $file,
 				'mimetype' => 'image/png',
 				'contentId' => $cid
-			)
-		);
+			]
+		];
 		$this->assertSame($expected, $res);
 	}
 
@@ -312,30 +312,30 @@ html-part
 		$res = $this->Email->getProtected('attachments');
 		$this->assertTrue(!empty($res['my_hotel.png']['data']));
 		unset($res['my_hotel.png']['data']);
-		$expected = array(
-			'my_hotel.png' => array(
+		$expected = [
+			'my_hotel.png' => [
 				//'data' => file_get_contents($file),
 				'mimetype' => 'image/png',
 				'contentId' => $cid,
-			)
-		);
+			]
+		];
 		$this->assertEquals($expected, $res);
 
-		$options = array(
+		$options = [
 			'contentDisposition' => true,
-		);
+		];
 		$cid = 'abcdef';
 		$this->Email->addEmbeddedBlobAttachment(file_get_contents($file), 'my_other_hotel.png', 'image/jpeg', $cid, $options);
 
 		$res = $this->Email->getProtected('attachments');
 		$this->assertTrue(!empty($res['my_other_hotel.png']['data']));
 		unset($res['my_other_hotel.png']['data']);
-		$expected = array(
+		$expected = [
 			'contentDisposition' => true,
 			//'data' => file_get_contents($file),
 			'mimetype' => 'image/jpeg',
 			'contentId' => $cid,
-		);
+		];
 		$this->assertEquals($expected, $res['my_other_hotel.png']);
 	}
 

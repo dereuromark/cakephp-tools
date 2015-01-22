@@ -37,7 +37,7 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * @var array
 	 */
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'field' => 'password',
 		'confirm' => true, // Set to false if in admin view and no confirmation (pwd_repeat) is required
 		'require' => true, // If a password change is required (set to false for edit forms, leave it true for pure password update forms)
@@ -51,42 +51,42 @@ class PasswordableBehavior extends Behavior {
 		'maxLength' => PWD_MAX_LENGTH,
 		'validator' => 'default',
 		'customValidation' => null // Custom validation rule(s) for the formField
-	);
+	];
 
 	/**
 	 * @var array
 	 */
-	protected $_validationRules = array(
-		'formField' => array(
-			'between' => array(
-				'rule' => array('lengthBetween', PWD_MIN_LENGTH, PWD_MAX_LENGTH),
-				'message' => array('valErrBetweenCharacters {0} {1}', PWD_MIN_LENGTH, PWD_MAX_LENGTH),
+	protected $_validationRules = [
+		'formField' => [
+			'between' => [
+				'rule' => ['lengthBetween', PWD_MIN_LENGTH, PWD_MAX_LENGTH],
+				'message' => ['valErrBetweenCharacters {0} {1}', PWD_MIN_LENGTH, PWD_MAX_LENGTH],
 				'last' => true,
 				//'provider' => 'table'
-			)
-		),
-		'formFieldRepeat' => array(
-			'validateIdentical' => array(
-				'rule' => array('validateIdentical', ['compare' => 'formField']),
+			]
+		],
+		'formFieldRepeat' => [
+			'validateIdentical' => [
+				'rule' => ['validateIdentical', ['compare' => 'formField']],
 				'message' => 'valErrPwdNotMatch',
 				'last' => true,
 				'provider' => 'table'
-			),
-		),
-		'formFieldCurrent' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+			],
+		],
+		'formFieldCurrent' => [
+			'notEmpty' => [
+				'rule' => ['notEmpty'],
 				'message' => 'valErrProvideCurrentPwd',
 				'last' => true,
-			),
-			'validateCurrentPwd' => array(
+			],
+			'validateCurrentPwd' => [
 				'rule' => 'validateCurrentPwd',
 				'message' => 'valErrCurrentPwdIncorrect',
 				'last' => true,
 				'provider' => 'table'
-			)
-		),
-	);
+			]
+		],
+	];
 
 	/**
 	 * Password hasher instance.
@@ -170,23 +170,23 @@ class PasswordableBehavior extends Behavior {
 			$validator->allowEmpty($formFieldCurrent, !$this->_config['require']);
 
 			if (!$this->_config['allowSame']) {
-				$validator->add($formField, 'validateNotSame', array(
-					'rule' => array('validateNotSame', ['compare' => $formFieldCurrent]),
+				$validator->add($formField, 'validateNotSame', [
+					'rule' => ['validateNotSame', ['compare' => $formFieldCurrent]],
 					'message' => __d('tools', 'valErrPwdSameAsBefore'),
 					'last' => true,
 					'provider' => 'table'
-				));
+				]);
 			}
 		} elseif (!count($validator->field($formFieldCurrent))) {
 			// Try to match the password against the hash in the DB
 			if (!$this->_config['allowSame']) {
-				$validator->add($formField, 'validateNotSame', array(
-					'rule' => array('validateNotSameHash'),
+				$validator->add($formField, 'validateNotSame', [
+					'rule' => ['validateNotSameHash'],
 					'message' => __d('tools', 'valErrPwdSameAsBefore'),
 					//'allowEmpty' => !$this->_config['require'],
 					'last' => true,
 					'provider' => 'table'
-				));
+				]);
 				$validator->allowEmpty($formField, !$this->_config['require']);
 			}
 		}
@@ -264,7 +264,7 @@ class PasswordableBehavior extends Behavior {
 
 		if ($entity->get($formField) !== null) {
 			$cost = !empty($this->_config['hashCost']) ? $this->_config['hashCost'] : 10;
-			$options = array('cost' => $cost);
+			$options = ['cost' => $cost];
 			$PasswordHasher = $this->_getPasswordHasher($this->_config['passwordHasher']);
 			$entity->set($field, $PasswordHasher->hash($entity->get($formField), $options));
 
@@ -348,7 +348,7 @@ class PasswordableBehavior extends Behavior {
 	 */
 	public function validateIdentical($value, $options, $context) {
 		if (!is_array($options)) {
-			$options = array('compare' => $options);
+			$options = ['compare' => $options];
 		}
 
 		$compareValue = $context['data'][$options['compare']];
@@ -362,7 +362,7 @@ class PasswordableBehavior extends Behavior {
 	 */
 	public function validateNotSame($data, $options, $context) {
 		if (!is_array($options)) {
-			$options = array('compare' => $options);
+			$options = ['compare' => $options];
 		}
 
 		$compareValue = $context['data'][$options['compare']];
@@ -383,7 +383,7 @@ class PasswordableBehavior extends Behavior {
 		$primaryKey = $context['data'][$this->_table->primaryKey()];
 		$value = $context['data'][$context['field']];
 
-		$dbValue = $this->_table->find()->where(array($this->_table->primaryKey() => $primaryKey))->first();
+		$dbValue = $this->_table->find()->where([$this->_table->primaryKey() => $primaryKey])->first();
 		if (!$dbValue) {
 			return true;
 		}
@@ -407,7 +407,7 @@ class PasswordableBehavior extends Behavior {
 		$field = $this->_config['field'];
 
 		$primaryKey = $context['data'][$this->_table->primaryKey()];
-		$dbValue = $this->_table->find()->where(array($this->_table->primaryKey() => $primaryKey))->first();
+		$dbValue = $this->_table->find()->where([$this->_table->primaryKey() => $primaryKey])->first();
 		if (!$dbValue) {
 			return false;
 		}
@@ -444,7 +444,7 @@ class PasswordableBehavior extends Behavior {
 	 * @deprecated 3.0
 	 */
 	protected function _modifyWhitelist(Entity $entity, $onSave = false) {
-		$fields = array();
+		$fields = [];
 		if ($onSave) {
 			$fields[] = $this->_config['field'];
 		} else {
@@ -459,7 +459,7 @@ class PasswordableBehavior extends Behavior {
 
 		foreach ($fields as $field) {
 			if (!empty($Model->whitelist) && !in_array($field, $Model->whitelist)) {
-				$Model->whitelist = array_merge($Model->whitelist, array($field));
+				$Model->whitelist = array_merge($Model->whitelist, [$field]);
 			}
 		}
 	}

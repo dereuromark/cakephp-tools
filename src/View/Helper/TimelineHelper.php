@@ -19,9 +19,9 @@ use Cake\View\View;
  */
 class TimelineHelper extends Helper {
 
-	public $helpers = array('Tools.Js');
+	public $helpers = ['Tools.Js'];
 
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'id' => 'mytimeline',
 		'selectable' => false,
 		'editable' => false,
@@ -31,9 +31,9 @@ class TimelineHelper extends Helper {
 		'height' => null, // Auto.
 		'style' => 'box',
 		'current' => null, // Current time.
-	);
+	];
 
-	protected $_items = array();
+	protected $_items = [];
 
 	/**
 	 * Apply settings and merge them with the defaults.
@@ -151,7 +151,7 @@ JS;
 	 * @return string
 	 */
 	protected function _options($options) {
-		$e = array();
+		$e = [];
 		foreach ($options as $option => $value) {
 			if ($value === null) {
 				continue;
@@ -179,9 +179,9 @@ JS;
 	 * @return string
 	 */
 	protected function _format($items) {
-		$e = array();
+		$e = [];
 		foreach ($items as $item) {
-			$tmp = array();
+			$tmp = [];
 			foreach ($item as $key => $row) {
 				switch ($key) {
 					case 'editable':
@@ -211,7 +211,7 @@ JS;
 		if ($date === null || !$date instanceof \DateTime) {
 			return '';
 		}
-		$datePieces = array();
+		$datePieces = [];
 		$datePieces[] = $date->format('Y');
 		// JavaScript uses 0-indexed months, so we need to subtract 1 month from PHP's output
 		$datePieces[] = (int)($date->format('m') - 1);

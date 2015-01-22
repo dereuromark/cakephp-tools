@@ -12,9 +12,9 @@ use Cake\Utility\Hash;
  */
 class FormHelper extends CakeFormHelper {
 
-	protected $_defaultConfigExt = array(
+	protected $_defaultConfigExt = [
 		'novalidate' => false
-	);
+	];
 
 	/**
 	 * Construct the widgets and binds the default context providers

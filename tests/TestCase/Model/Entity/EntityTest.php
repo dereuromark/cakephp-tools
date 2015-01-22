@@ -11,9 +11,9 @@ use Cake\ORM\TableRegistry;
 
 class PasswordableBehaviorTest extends TestCase {
 
-	public $fixtures = array(
+	public $fixtures = [
 		'plugin.tools.tools_users', 'plugin.tools.roles',
-	);
+	];
 
 	public $Users;
 
@@ -42,10 +42,10 @@ class PasswordableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testEnum() {
-		$array = array(
+		$array = [
 			1 => 'foo',
 			2 => 'bar',
-		);
+		];
 
 		$res = Entity::enum(null, $array, false);
 		$this->assertEquals($array, $res);

@@ -11,7 +11,7 @@ use Cake\Core\Configure;
  */
 class FormatHelperTest extends TestCase {
 
-	public $fixtures = array('core.sessions');
+	public $fixtures = ['core.sessions'];
 
 	public $Format;
 
@@ -28,11 +28,11 @@ class FormatHelperTest extends TestCase {
 	 */
 	public function testDisabledLink() {
 		$content = 'xyz';
-		$data = array(
-			array(),
-			array('class' => 'disabledLink', 'title' => false),
-			array('class' => 'helloClass', 'title' => 'helloTitle')
-		);
+		$data = [
+			[],
+			['class' => 'disabledLink', 'title' => false],
+			['class' => 'helloClass', 'title' => 'helloTitle']
+		];
 		foreach ($data as $key => $value) {
 			$res = $this->Format->disabledLink($content, $value);
 			//echo ''.$res.' (\''.h($res).'\')';
@@ -45,10 +45,10 @@ class FormatHelperTest extends TestCase {
 	 */
 	public function testWarning() {
 		$content = 'xyz';
-		$data = array(
+		$data = [
 			true,
 			false
-		);
+		];
 		foreach ($data as $key => $value) {
 			$res = $this->Format->warning($content . ' ' . (int)$value, $value);
 			//echo ''.$res.'';
@@ -84,7 +84,7 @@ class FormatHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testIconWithFontIcon() {
-		$this->Format->config('fontIcons', array('edit' => 'fa fa-pencil'));
+		$this->Format->config('fontIcons', ['edit' => 'fa fa-pencil']);
 		$result = $this->Format->icon('edit');
 		$expected = '<i class="fa fa-pencil edit" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
 		$this->assertEquals($expected, $result);
@@ -96,7 +96,7 @@ class FormatHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testCIconWithFontIcon() {
-		$this->Format->config('fontIcons', array('edit' => 'fa fa-pencil'));
+		$this->Format->config('fontIcons', ['edit' => 'fa fa-pencil']);
 		$result = $this->Format->cIcon('edit.png');
 		$expected = '<i class="fa fa-pencil edit" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
 		$this->assertEquals($expected, $result);
@@ -116,7 +116,7 @@ class FormatHelperTest extends TestCase {
 		}
 		$time2 = microtime(true);
 
-		$this->Format->config('fontIcons', array('edit' => 'fa fa-pencil'));
+		$this->Format->config('fontIcons', ['edit' => 'fa fa-pencil']);
 
 		$time3 = microtime(true);
 		for ($i = 0; $i < $count; $i++) {
@@ -139,15 +139,15 @@ class FormatHelperTest extends TestCase {
 		$expected = '<i class="fa-signin"></i>';
 		$this->assertEquals($expected, $result);
 
-		$result = $this->Format->fontIcon('signin', array('rotate' => 90));
+		$result = $this->Format->fontIcon('signin', ['rotate' => 90]);
 		$expected = '<i class="fa-signin fa-rotate-90"></i>';
 		$this->assertEquals($expected, $result);
 
-		$result = $this->Format->fontIcon('signin', array('size' => 5, 'extra' => array('muted')));
+		$result = $this->Format->fontIcon('signin', ['size' => 5, 'extra' => ['muted']]);
 		$expected = '<i class="fa-signin fa-muted fa-5x"></i>';
 		$this->assertEquals($expected, $result);
 
-		$result = $this->Format->fontIcon('signin', array('size' => 5, 'extra' => array('muted'), 'namespace' => 'icon'));
+		$result = $this->Format->fontIcon('signin', ['size' => 5, 'extra' => ['muted'], 'namespace' => 'icon']);
 		$expected = '<i class="icon-signin icon-muted icon-5x"></i>';
 		$this->assertEquals($expected, $result);
 	}
@@ -164,9 +164,9 @@ class FormatHelperTest extends TestCase {
 		$expected = '<img src="/img/icons/no.gif" title="' . __d('tools', 'No') . '" alt=';
 		$this->assertTextContains($expected, $result);
 
-		$this->Format->config('fontIcons', array(
+		$this->Format->config('fontIcons', [
 			'yes' => 'fa fa-check',
-			'no' => 'fa fa-times'));
+			'no' => 'fa fa-times']);
 
 		$result = $this->Format->yesNo(true);
 		$expected = '<i class="fa fa-check yes" title="' . __d('tools', 'Yes') . '" data-placement="bottom" data-toggle="tooltip"></i>';
@@ -183,10 +183,10 @@ class FormatHelperTest extends TestCase {
 	 */
 	public function testOk() {
 		$content = 'xyz';
-		$data = array(
+		$data = [
 			true,
 			false
-		);
+		];
 		foreach ($data as $key => $value) {
 			$res = $this->Format->ok($content . ' ' . (int)$value, $value);
 			//echo ''.$res.'';
@@ -235,12 +235,12 @@ class FormatHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testAbsolutePaginateCount() {
-		$paginator = array(
+		$paginator = [
 			'page' => 1,
 			'pageCount' => 3,
 			'count' => 25,
 			'limit' => 10
-		);
+		];
 		$result = $this->Format->absolutePaginateCount($paginator, 2);
 		$this->debug($result);
 		$this->assertEquals(2, $result);
@@ -271,18 +271,18 @@ class FormatHelperTest extends TestCase {
 			define('ICON_NEXT', 'next');
 		}
 
-		$neighbors = array(
-			'prev' => array('ModelName' => array('id' => 1, 'foo' => 'bar')),
-			'next' => array('ModelName' => array('id' => 2, 'foo' => 'y')),
-		);
+		$neighbors = [
+			'prev' => ['ModelName' => ['id' => 1, 'foo' => 'bar']],
+			'next' => ['ModelName' => ['id' => 2, 'foo' => 'y']],
+		];
 		$result = $this->Format->neighbors($neighbors, 'foo');
 		$expected = '<div class="next-prev-navi nextPrevNavi"><a href="/index/1" title="bar"><img src="/img/icons/prev" alt="" class="icon"/>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/index/2" title="y"><img src="/img/icons/next" alt="" class="icon"/>&nbsp;nextRecord</a></div>';
 
 		$this->assertEquals($expected, $result);
 
-		$this->Format->config('fontIcons', array(
+		$this->Format->config('fontIcons', [
 			'prev' => 'fa fa-prev',
-			'next' => 'fa fa-next'));
+			'next' => 'fa fa-next']);
 		$result = $this->Format->neighbors($neighbors, 'foo');
 		$expected = '<div class="next-prev-navi nextPrevNavi"><a href="/index/1" title="bar"><i class="fa fa-prev prev" title="" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/index/2" title="y"><i class="fa fa-next next" title="" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;nextRecord</a></div>';
 		$this->assertEquals($expected, $result);
@@ -309,24 +309,24 @@ class FormatHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testArray2table() {
-		$array = array(
-			array('x' => '0', 'y' => '0.5', 'z' => '0.9'),
-			array('1', '2', '3'),
-			array('4', '5', '6'),
-		);
+		$array = [
+			['x' => '0', 'y' => '0.5', 'z' => '0.9'],
+			['1', '2', '3'],
+			['4', '5', '6'],
+		];
 
 		$is = $this->Format->array2table($array);
 		//echo $is;
 		//$this->assertEquals($expected, $is);
 
 		// recursive?
-		$array = array(
-			array('a' => array('2'), 'b' => array('2'), 'c' => array('2')),
-			array(array('2'), array('2'), array('2')),
-			array(array('2'), array('2'), array(array('s' => '3', 't' => '4'))),
-		);
+		$array = [
+			['a' => ['2'], 'b' => ['2'], 'c' => ['2']],
+			[['2'], ['2'], ['2']],
+			[['2'], ['2'], [['s' => '3', 't' => '4']]],
+		];
 
-		$is = $this->Format->array2table($array, array('recursive' => true));
+		$is = $this->Format->array2table($array, ['recursive' => true]);
 		//echo $is;
 	}
 

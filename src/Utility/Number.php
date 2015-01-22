@@ -28,7 +28,7 @@ class Number extends CakeNumber {
 	 *
 	 * @return void
 	 */
-	public static function config($options = array()) {
+	public static function config($options = []) {
 		$config = $options + (array)Configure::read('Localization');
 		foreach ($config as $key => $value) {
 			$key = '_' . $key;
@@ -46,7 +46,7 @@ class Number extends CakeNumber {
 	 * @param array $formatOptions
 	 * @return string
 	 */
-	public static function money($amount, array $formatOptions = array()) {
+	public static function money($amount, array $formatOptions = []) {
 		return static::currency($amount, null, $formatOptions);
 	}
 
@@ -59,7 +59,7 @@ class Number extends CakeNumber {
 	 * @param array $options : currency=true/false, ... (leave empty for no special treatment)
 	 * @return string
 	 */
-	public static function _format($number, array $formatOptions = array()) {
+	public static function _format($number, array $formatOptions = []) {
 		if (!is_numeric($number)) {
 			$default = '---';
 			if (!empty($options['default'])) {
@@ -68,11 +68,11 @@ class Number extends CakeNumber {
 			return $default;
 		}
 		if ($formatOptions === false) {
-			$formatOptions = array();
+			$formatOptions = [];
 		} elseif (!is_array($formatOptions)) {
-			$formatOptions = array('places' => $formatOptions);
+			$formatOptions = ['places' => $formatOptions];
 		}
-		$options = array('before' => '', 'after' => '', 'places' => 2, 'thousands' => static::$_thousands, 'decimals' => static::$_decimals, 'escape' => false);
+		$options = ['before' => '', 'after' => '', 'places' => 2, 'thousands' => static::$_thousands, 'decimals' => static::$_decimals, 'escape' => false];
 		$options = $formatOptions + $options;
 
 		if (!empty($options['currency'])) {
@@ -108,10 +108,10 @@ class Number extends CakeNumber {
 		return $sign . parent::format($number, $options);
 	}
 
-	public static function format($number, array $options = array()) {
-		$defaults = array(
+	public static function format($number, array $options = []) {
+		$defaults = [
 			'positive' => '+', 'signed' => false
-		);
+		];
 		$options += $defaults;
 		$sign = '';
 		if ($number > 0 && !empty($options['signed'])) {
@@ -133,10 +133,10 @@ class Number extends CakeNumber {
 	 * @param array $options
 	 * @return string
 	 */
-	public static function currency($number, $currency = null, array $options = array()) {
-		$defaults = array(
+	public static function currency($number, $currency = null, array $options = []) {
+		$defaults = [
 			'positive' => '+', 'signed' => false
-		);
+		];
 		$options += $defaults;
 		$sign = '';
 		if ($number > 0 && !empty($options['signed'])) {

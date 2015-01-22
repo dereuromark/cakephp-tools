@@ -12,9 +12,9 @@ use Tools\Model\Behavior\BitmaskedBehavior;
 
 class BitmaskedBehaviorTest extends TestCase {
 
-	public $fixtures = array(
+	public $fixtures = [
 		'plugin.tools.bitmasked_comments'
-	);
+	];
 
 	public $Comments;
 
@@ -24,7 +24,7 @@ class BitmaskedBehaviorTest extends TestCase {
 		Configure::write('App.namespace', 'TestApp');
 
 		$this->Comments = TableRegistry::get('BitmaskedComments');
-		$this->Comments->addBehavior('Tools.Bitmasked', array('mappedField' => 'statuses'));
+		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
 	}
 
 	/**
@@ -33,7 +33,7 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testEncodeBitmask() {
-		$res = $this->Comments->encodeBitmask(array(BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_APPROVED));
+		$res = $this->Comments->encodeBitmask([BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_APPROVED]);
 		$expected = BitmaskedComment::STATUS_PUBLISHED | BitmaskedComment::STATUS_APPROVED;
 		$this->assertSame($expected, $res);
 	}
@@ -45,7 +45,7 @@ class BitmaskedBehaviorTest extends TestCase {
 	 */
 	public function testDecodeBitmask() {
 		$res = $this->Comments->decodeBitmask(BitmaskedComment::STATUS_PUBLISHED | BitmaskedComment::STATUS_APPROVED);
-		$expected = array(BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_APPROVED);
+		$expected = [BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_APPROVED];
 		$this->assertSame($expected, $res);
 	}
 
@@ -67,20 +67,20 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testSaveBasic() {
-		$data = array(
+		$data = [
 			'comment' => 'test save',
-			'statuses' => array(),
-		);
+			'statuses' => [],
+		];
 
 		$entity = $this->Comments->newEntity($data);
 		$res = $this->Comments->save($entity);
 		$this->assertTrue((bool)$res);
 		$this->assertSame('0', $entity->get('status'));
 
-		$data = array(
+		$data = [
 			'comment' => 'test save',
-			'statuses' => array(BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_APPROVED),
-		);
+			'statuses' => [BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_APPROVED],
+		];
 		$entity = $this->Comments->newEntity($data);
 		$res = $this->Comments->save($entity);
 		$this->assertTrue((bool)$res);
@@ -95,7 +95,7 @@ class BitmaskedBehaviorTest extends TestCase {
 		$res = $this->Comments->save($entity);
 		$this->assertTrue((bool)$res);
 
-		$res = $this->Comments->find('first', array('conditions' => array('statuses' => $data['statuses'])));
+		$res = $this->Comments->find('first', ['conditions' => ['statuses' => $data['statuses']]]);
 		$this->assertTrue(!empty($res));
 		$expected = BitmaskedComment::STATUS_APPROVED | BitmaskedComment::STATUS_PUBLISHED; // 6
 		$this->assertEquals($expected, $res['status']);
@@ -104,23 +104,23 @@ class BitmaskedBehaviorTest extends TestCase {
 		$this->assertEquals($expected, $res['statuses']);
 
 		// model.field syntax
-		$res = $this->Comments->find('first', array('conditions' => array('BitmaskedComments.statuses' => $data['statuses'])));
+		$res = $this->Comments->find('first', ['conditions' => ['BitmaskedComments.statuses' => $data['statuses']]]);
 		$this->assertTrue((bool)$res->toArray());
 
 		// explicit
 		$activeApprovedAndPublished = BitmaskedComment::STATUS_ACTIVE | BitmaskedComment::STATUS_APPROVED | BitmaskedComment::STATUS_PUBLISHED;
-		$data = array(
+		$data = [
 			'comment' => 'another post comment',
 			'status' => $activeApprovedAndPublished,
-		);
+		];
 		$entity = $this->Comments->newEntity($data);
 		$res = $this->Comments->save($entity);
 		$this->assertTrue((bool)$res);
 
-		$res = $this->Comments->find('first', array('conditions' => array('status' => $activeApprovedAndPublished)));
+		$res = $this->Comments->find('first', ['conditions' => ['status' => $activeApprovedAndPublished]]);
 		$this->assertTrue((bool)$res);
 		$this->assertEquals($activeApprovedAndPublished, $res['status']);
-		$expected = array(BitmaskedComment::STATUS_ACTIVE, BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_APPROVED);
+		$expected = [BitmaskedComment::STATUS_ACTIVE, BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_APPROVED];
 
 		$this->assertEquals($expected, $res['statuses']);
 	}
@@ -131,10 +131,10 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testSaveWithDefaultValue() {
-		$data = array(
+		$data = [
 			'comment' => 'test save',
-			'statuses' => array(),
-		);
+			'statuses' => [],
+		];
 		$entity = $this->Comments->newEntity($data);
 		$res = $this->Comments->save($entity);
 		$this->assertTrue((bool)$res);
@@ -144,11 +144,11 @@ class BitmaskedBehaviorTest extends TestCase {
 
 		// Now let's set the default value
 		$this->Comments->removeBehavior('Bitmasked');
-		$this->Comments->addBehavior('Tools.Bitmasked', array('mappedField' => 'statuses', 'defaultValue' => ''));
-		$data = array(
+		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses', 'defaultValue' => '']);
+		$data = [
 			'comment' => 'test save',
-			'statuses' => array(),
-		);
+			'statuses' => [],
+		];
 		$entity = $this->Comments->newEntity($data);
 		$res = $this->Comments->save($entity);
 		$this->assertFalse($res);
@@ -163,11 +163,11 @@ class BitmaskedBehaviorTest extends TestCase {
 	 */
 	public function testSaveOnBeforeSave() {
 		$this->Comments->removeBehavior('Bitmasked');
-		$this->Comments->addBehavior('Tools.Bitmasked', array('mappedField' => 'statuses', 'on' => 'beforeSave'));
-		$data = array(
+		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses', 'on' => 'beforeSave']);
+		$data = [
 			'comment' => 'test save',
-			'statuses' => array(BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_APPROVED),
-		);
+			'statuses' => [BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_APPROVED],
+		];
 		$entity = $this->Comments->newEntity($data);
 		$this->assertEmpty($entity->errors());
 
@@ -183,7 +183,7 @@ class BitmaskedBehaviorTest extends TestCase {
 	 */
 	public function testIs() {
 		$res = $this->Comments->isBit(BitmaskedComment::STATUS_PUBLISHED);
-		$expected = array('BitmaskedComments.status' => 2);
+		$expected = ['BitmaskedComments.status' => 2];
 		$this->assertEquals($expected, $res);
 	}
 
@@ -194,7 +194,7 @@ class BitmaskedBehaviorTest extends TestCase {
 	 */
 	public function testIsNot() {
 		$res = $this->Comments->isNotBit(BitmaskedComment::STATUS_PUBLISHED);
-		$expected = array('NOT' => array('BitmaskedComments.status' => 2));
+		$expected = ['NOT' => ['BitmaskedComments.status' => 2]];
 		$this->assertEquals($expected, $res);
 	}
 
@@ -205,21 +205,21 @@ class BitmaskedBehaviorTest extends TestCase {
 	 */
 	public function testContains() {
 		$res = $this->Comments->containsBit(BitmaskedComment::STATUS_PUBLISHED);
-		$expected = array('(BitmaskedComments.status & 2 = 2)');
+		$expected = ['(BitmaskedComments.status & 2 = 2)'];
 		$this->assertEquals($expected, $res);
 
 		$conditions = $res;
-		$res = $this->Comments->find('all', array('conditions' => $conditions))->toArray();
+		$res = $this->Comments->find('all', ['conditions' => $conditions])->toArray();
 		$this->assertTrue(!empty($res) && count($res) === 3);
 
 		// multiple (AND)
-		$res = $this->Comments->containsBit(array(BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_ACTIVE));
+		$res = $this->Comments->containsBit([BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_ACTIVE]);
 
-		$expected = array('(BitmaskedComments.status & 3 = 3)');
+		$expected = ['(BitmaskedComments.status & 3 = 3)'];
 		$this->assertEquals($expected, $res);
 
 		$conditions = $res;
-		$res = $this->Comments->find('all', array('conditions' => $conditions))->toArray();
+		$res = $this->Comments->find('all', ['conditions' => $conditions])->toArray();
 		$this->assertTrue(!empty($res) && count($res) === 2);
 	}
 
@@ -230,21 +230,21 @@ class BitmaskedBehaviorTest extends TestCase {
 	 */
 	public function testNotContains() {
 		$res = $this->Comments->containsNotBit(BitmaskedComment::STATUS_PUBLISHED);
-		$expected = array('(BitmaskedComments.status & 2 != 2)');
+		$expected = ['(BitmaskedComments.status & 2 != 2)'];
 		$this->assertEquals($expected, $res);
 
 		$conditions = $res;
-		$res = $this->Comments->find('all', array('conditions' => $conditions))->toArray();
+		$res = $this->Comments->find('all', ['conditions' => $conditions])->toArray();
 		$this->assertTrue(!empty($res) && count($res) === 4);
 
 		// multiple (AND)
-		$res = $this->Comments->containsNotBit(array(BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_ACTIVE));
+		$res = $this->Comments->containsNotBit([BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_ACTIVE]);
 
-		$expected = array('(BitmaskedComments.status & 3 != 3)');
+		$expected = ['(BitmaskedComments.status & 3 != 3)'];
 		$this->assertEquals($expected, $res);
 
 		$conditions = $res;
-		$res = $this->Comments->find('all', array('conditions' => $conditions))->toArray();
+		$res = $this->Comments->find('all', ['conditions' => $conditions])->toArray();
 		$this->assertTrue(!empty($res) && count($res) === 5);
 	}
 

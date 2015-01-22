@@ -119,7 +119,7 @@ class Email extends CakeEmail {
 		$this->from($fromEmail, $fromName);
 
 		if ($xMailer = Configure::read('Config.xMailer')) {
-			$this->addHeaders(array('X-Mailer' => $xMailer));
+			$this->addHeaders(['X-Mailer' => $xMailer]);
 		}
 
 		return $this;
@@ -135,10 +135,10 @@ class Email extends CakeEmail {
 		if ($attachments === null) {
 			return $this->_attachments;
 		}
-		$attach = array();
+		$attach = [];
 		foreach ((array)$attachments as $name => $fileInfo) {
 			if (!is_array($fileInfo)) {
-				$fileInfo = array('file' => $fileInfo);
+				$fileInfo = ['file' => $fileInfo];
 			}
 			if (!isset($fileInfo['file'])) {
 				if (!isset($fileInfo['data'])) {
@@ -176,12 +176,12 @@ class Email extends CakeEmail {
 	 * @param array $fileInfo
 	 * @return resource EmailLib
 	 */
-	public function addAttachment($file, $name = null, $fileInfo = array()) {
+	public function addAttachment($file, $name = null, $fileInfo = []) {
 		$fileInfo['file'] = $file;
 		if (!empty($name)) {
-			$fileInfo = array($name => $fileInfo);
+			$fileInfo = [$name => $fileInfo];
 		} else {
-			$fileInfo = array($fileInfo);
+			$fileInfo = [$fileInfo];
 		}
 		return $this->addAttachments($fileInfo);
 	}
@@ -195,14 +195,14 @@ class Email extends CakeEmail {
 	 * @param array $fileInfo
 	 * @return resource EmailLib
 	 */
-	public function addBlobAttachment($content, $filename, $mimeType = null, $fileInfo = array()) {
+	public function addBlobAttachment($content, $filename, $mimeType = null, $fileInfo = []) {
 		if ($mimeType === null) {
 			$ext = pathinfo($filename, PATHINFO_EXTENSION);
 			$mimeType = $this->_getMimeByExtension($ext);
 		}
 		$fileInfo['data'] = $content;
 		$fileInfo['mimetype'] = $mimeType;
-		$file = array($filename => $fileInfo);
+		$file = [$filename => $fileInfo];
 		return $this->addAttachments($file);
 	}
 
@@ -219,7 +219,7 @@ class Email extends CakeEmail {
 	 * @param array $options Options
 	 * @return mixed resource $EmailLib or string $contentId
 	 */
-	public function addEmbeddedAttachment($file, $name = null, $contentId = null, $options = array()) {
+	public function addEmbeddedAttachment($file, $name = null, $contentId = null, $options = []) {
 		if (empty($name)) {
 			$name = basename($file);
 		}
@@ -232,7 +232,7 @@ class Email extends CakeEmail {
 			$options['mimetype'] = $this->_getMime($file);
 		}
 		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', Text::uuid()) . '@' . $this->_domain;
-		$file = array($name => $options);
+		$file = [$name => $options];
 		$res = $this->addAttachments($file);
 		if ($contentId === null) {
 			return $options['contentId'];
@@ -253,7 +253,7 @@ class Email extends CakeEmail {
 	 * @param array $options Options
 	 * @return mixed resource $EmailLib or string $contentId
 	 */
-	public function addEmbeddedBlobAttachment($content, $filename, $mimeType = null, $contentId = null, $options = array()) {
+	public function addEmbeddedBlobAttachment($content, $filename, $mimeType = null, $contentId = null, $options = []) {
 		if ($mimeType === null) {
 			$ext = pathinfo($filename, PATHINFO_EXTENSION);
 			$mimeType = $this->_getMimeByExtension($ext);
@@ -261,7 +261,7 @@ class Email extends CakeEmail {
 		$options['data'] = $content;
 		$options['mimetype'] = $mimeType;
 		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', Text::uuid()) . '@' . $this->_domain;
-		$file = array($filename => $options);
+		$file = [$filename => $options];
 		$res = $this->addAttachments($file);
 		if ($contentId === null) {
 			return $options['contentId'];
@@ -331,7 +331,7 @@ class Email extends CakeEmail {
 	 */
 	protected function _readFile($path) {
 		$context = stream_context_create(
-			array('http' => array('header' => 'Connection: close')));
+			['http' => ['header' => 'Connection: close']]);
 		$content = file_get_contents($path, 0, $context);
 		if (!$content) {
 			trigger_error('No content found for ' . $path);
@@ -365,7 +365,7 @@ class Email extends CakeEmail {
 	public function send($message = null) {
 		$this->profile('default');
 
-		$this->_log = array(
+		$this->_log = [
 			'to' => $this->_to,
 			'from' => $this->_from,
 			'sender' => $this->_sender,
@@ -374,7 +374,7 @@ class Email extends CakeEmail {
 			'subject' => $this->_subject,
 			'bcc' => $this->_bcc,
 			'transport' => $this->_transport
-		);
+		];
 		if ($this->_priority) {
 			$this->_headers['X-Priority'] = $this->_priority;
 			//$this->_headers['X-MSMail-Priority'] = 'High';
@@ -445,7 +445,7 @@ class Email extends CakeEmail {
 			$boundary = $this->_boundary;
 		}
 
-		$msg = array();
+		$msg = [];
 		foreach ($this->_attachments as $filename => $fileInfo) {
 			if (empty($fileInfo['contentId'])) {
 				continue;
@@ -485,7 +485,7 @@ class Email extends CakeEmail {
 			$boundary = $this->_boundary;
 		}
 
-		$msg = array();
+		$msg = [];
 		foreach ($this->_attachments as $filename => $fileInfo) {
 			if (!empty($fileInfo['contentId'])) {
 				continue;

@@ -28,28 +28,28 @@ class BootstrapTest extends TestCase {
 	 * return void
 	 */
 	public function testStartsWith() {
-		$strings = array(
-			array(
+		$strings = [
+			[
 				'auto',
 				'au',
 				true
-			),
-			array(
+			],
+			[
 				'auto',
 				'ut',
 				false
-			),
-			array(
+			],
+			[
 				'Auto',
 				'au',
 				true
-			),
-			array(
+			],
+			[
 				'auto',
 				'Ut',
 				false
-			),
-		);
+			],
+		];
 
 		foreach ($strings as $string) {
 			$is = startsWith($string[0], $string[1]);
@@ -67,28 +67,28 @@ class BootstrapTest extends TestCase {
 	 * @return void
 	 */
 	public function testEndsWith() {
-		$strings = array(
-			array(
+		$strings = [
+			[
 				'auto',
 				'to',
 				true
-			),
-			array(
+			],
+			[
 				'auto',
 				'ut',
 				false
-			),
-			array(
+			],
+			[
 				'auto',
 				'To',
 				true
-			),
-			array(
+			],
+			[
 				'auto',
 				'Ut',
 				false
-			),
-		);
+			],
+		];
 
 		foreach ($strings as $string) {
 			$is = endsWith($string[0], $string[1]);
@@ -106,28 +106,28 @@ class BootstrapTest extends TestCase {
 	 * @return void
 	 */
 	public function testContains() {
-		$strings = array(
-			array(
+		$strings = [
+			[
 				'auto',
 				'to',
 				true
-			),
-			array(
+			],
+			[
 				'auto',
 				'ut',
 				true
-			),
-			array(
+			],
+			[
 				'auto',
 				'To',
 				true
-			),
-			array(
+			],
+			[
 				'auto',
 				'ot',
 				false
-			),
-		);
+			],
+		];
 
 		foreach ($strings as $string) {
 			$is = contains($string[0], $string[1]);

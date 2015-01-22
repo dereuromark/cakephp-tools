@@ -15,10 +15,10 @@ class NumberHelperTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		Configure::write('Localization', array(
+		Configure::write('Localization', [
 			'decimals' => ',',
 			'thousands' => '.'
-		));
+		]);
 		Number::config();
 		$this->Number = new NumberHelper(new View(null));
 	}
@@ -29,7 +29,7 @@ class NumberHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testParentCall() {
-		$result = $this->Number->average(array(1, 3, 5));
+		$result = $this->Number->average([1, 3, 5]);
 		$this->assertSame(3.0, $result);
 	}
 
@@ -51,35 +51,35 @@ class NumberHelperTest extends TestCase {
 		$expected = '22,00';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Number->format('22.30', array('places' => 1));
+		$is = $this->Number->format('22.30', ['places' => 1]);
 		$expected = '22,3';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Number->format('22.30', array('precision' => -1));
+		$is = $this->Number->format('22.30', ['precision' => -1]);
 		$expected = '22';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Number->format('22.30', array('places' => 3));
+		$is = $this->Number->format('22.30', ['places' => 3]);
 		$expected = '22,300';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Number->format('abc', array('places' => 2));
+		$is = $this->Number->format('abc', ['places' => 2]);
 		$expected = '0,00';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Number->format('22.3', array('places' => 2, 'before' => 'EUR '));
+		$is = $this->Number->format('22.3', ['places' => 2, 'before' => 'EUR ']);
 		$expected = 'EUR 22,30';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Number->format('22.3', array('places' => 2, 'after' => ' EUR'));
+		$is = $this->Number->format('22.3', ['places' => 2, 'after' => ' EUR']);
 		$expected = '22,30 EUR';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Number->format('22.3', array('places' => 2, 'after' => 'x', 'before' => 'v'));
+		$is = $this->Number->format('22.3', ['places' => 2, 'after' => 'x', 'before' => 'v']);
 		$expected = 'v22,30x';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Number->format('22.3', array('places' => 2, 'locale' => 'en-US'));
+		$is = $this->Number->format('22.3', ['places' => 2, 'locale' => 'en-US']);
 		$expected = '22.30';
 		$this->assertEquals($expected, $is);
 	}

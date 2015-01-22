@@ -30,7 +30,7 @@ class ConsoleOutput extends CakeConsoleOutput {
 	 *
 	 * @var array
 	 */
-	public $output = array();
+	public $output = [];
 
 	/**
 	 * Overwrite _write to output the message to debug instead of CLI.

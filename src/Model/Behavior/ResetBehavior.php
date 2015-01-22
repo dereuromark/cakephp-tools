@@ -44,16 +44,16 @@ use Cake\ORM\Table;
  */
 class ResetBehavior extends Behavior {
 
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'limit' => 100, // batch of records per loop
 		'timeout' => null, // in seconds
-		'fields' => array(), // if not displayField
-		'updateFields' => array(), // if saved fields should be different from fields
+		'fields' => [], // if not displayField
+		'updateFields' => [], // if saved fields should be different from fields
 		'validate' => true, // trigger beforeRules callback
 		'updateTimestamp' => false, // update modified/updated timestamp
-		'scope' => array(), // optional conditions
+		'scope' => [], // optional conditions
 		'callback' => null,
-	);
+	];
 
 	/**
 	 * Adding validation rules
@@ -78,29 +78,29 @@ class ResetBehavior extends Behavior {
 	 * @param int $recursive
 	 * @return int Modified records
 	 */
-	public function resetRecords($params = array()) {
-		$defaults = array(
+	public function resetRecords($params = []) {
+		$defaults = [
 			'page' => 1,
 			'limit' => $this->_config['limit'],
-			'fields' => array(),
+			'fields' => [],
 			'order' => $this->_table->alias() . '.' . $this->_table->primaryKey() . ' ASC',
 			'conditions' => $this->_config['scope'],
-		);
+		];
 		if (!empty($this->_config['fields'])) {
 			foreach ((array)$this->_config['fields'] as $field) {
 				if (!$this->_table->hasField($field)) {
 					throw new \Exception('Table does not have field ' . $field);
 				}
 			}
-			$defaults['fields'] = array_merge(array($this->_table->alias() . '.' . $this->_table->primaryKey()), $this->_config['fields']);
+			$defaults['fields'] = array_merge([$this->_table->alias() . '.' . $this->_table->primaryKey()], $this->_config['fields']);
 		} else {
-			$defaults['fields'] = array($this->_table->alias() . '.' . $this->_table->primaryKey());
+			$defaults['fields'] = [$this->_table->alias() . '.' . $this->_table->primaryKey()];
 			if ($this->_table->displayField() !== $this->_table->primaryKey()) {
 				$defaults['fields'][] = $this->_table->alias() . '.' . $this->_table->displayField();
 			}
 		}
 		if (!$this->_config['updateTimestamp']) {
-			$fields = array('modified', 'updated');
+			$fields = ['modified', 'updated'];
 			foreach ($fields as $field) {
 				if ($this->_table->schema()->column($field)) {
 					$defaults['fields'][] = $field;
@@ -129,7 +129,7 @@ class ResetBehavior extends Behavior {
 
 				if ($this->_config['callback']) {
 					if (is_callable($this->_config['callback'])) {
-						$parameters = array($record, &$fieldList);
+						$parameters = [$record, &$fieldList];
 						$record = call_user_func_array($this->_config['callback'], $parameters);
 					} else {
 						$record = $this->_table->{$this->_config['callback']}($record, $fieldList);

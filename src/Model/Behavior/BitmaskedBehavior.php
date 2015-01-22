@@ -32,13 +32,13 @@ class BitmaskedBehavior extends Behavior {
 	 *
 	 * @var array
 	 */
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'field' => 'status',
 		'mappedField' => null, // NULL = same as above
 		'bits' => null, // Method or callback to get the bits data
 		'on' => 'beforeRules', // beforeRules or beforeSave
 		'defaultValue' => null, // NULL = auto (use empty string to trigger "notEmpty" rule for "default NOT NULL" db fields)
-	);
+	];
 
 	/**
 	 * Behavior configuration
@@ -46,7 +46,7 @@ class BitmaskedBehavior extends Behavior {
 	 * @param array $config
 	 * @return void
 	 */
-	public function initialize(array $config = array()) {
+	public function initialize(array $config = []) {
 		$config = $this->_config;
 
 		if (empty($config['bits'])) {
@@ -123,7 +123,7 @@ class BitmaskedBehavior extends Behavior {
 	 * @return array Bitmask array (from DB to APP).
 	 */
 	public function decodeBitmask($value) {
-		$res = array();
+		$res = [];
 		$value = (int)$value;
 		foreach ($this->_config['bits'] as $key => $val) {
 			$val = (($value & $key) !== 0) ? true : false;
@@ -222,7 +222,7 @@ class BitmaskedBehavior extends Behavior {
 		$bitmask = $this->encodeBitmask($bits);
 
 		$field = $this->_config['field'];
-		return array($this->_table->alias() . '.' . $field => $bitmask);
+		return [$this->_table->alias() . '.' . $field => $bitmask];
 	}
 
 	/**
@@ -230,7 +230,7 @@ class BitmaskedBehavior extends Behavior {
 	 * @return array SQL snippet.
 	 */
 	public function isNotBit($bits) {
-		return array('NOT' => $this->isBit($bits));
+		return ['NOT' => $this->isBit($bits)];
 	}
 
 	/**
@@ -260,8 +260,8 @@ class BitmaskedBehavior extends Behavior {
 
 		$field = $this->_config['field'];
 		$contain = $contain ? ' & ? = ?' : ' & ? != ?';
-		$contain = Text::insert($contain, array($bitmask, $bitmask));
-		return array('(' . $this->_table->alias() . '.' . $field . $contain . ')');
+		$contain = Text::insert($contain, [$bitmask, $bitmask]);
+		return ['(' . $this->_table->alias() . '.' . $field . $contain . ')'];
 	}
 
 }

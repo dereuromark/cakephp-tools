@@ -18,7 +18,7 @@ class ObfuscateHelper extends Helper {
 	 *
 	 * @var array
 	 */
-	public $helpers = array('Html');
+	public $helpers = ['Html'];
 
 	/**
 	 * It is still believed that encoding will stop spam-bots being able to find your email address.
@@ -50,16 +50,16 @@ class ObfuscateHelper extends Helper {
 	 * @param array params: ?subject=y&body=y to be attached to "mailto:xyz"
 	 * @return string Save string with JS generated link around email (and non JS fallback)
 	 */
-	public function encodeEmailUrl($mail, $text = null, $params = array(), $attr = array()) {
+	public function encodeEmailUrl($mail, $text = null, $params = [], $attr = []) {
 		if (empty($class)) {
 			$class = 'email';
 		}
 
-		$defaults = array(
+		$defaults = [
 			'title' => __d('tools', 'for use in an external mail client'),
 			'class' => 'email',
 			'escape' => false
-		);
+		];
 
 		if (empty($text)) {
 			$text = $this->encodeEmail($mail);

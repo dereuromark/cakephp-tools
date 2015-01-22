@@ -16,7 +16,7 @@ class AppleComponent extends Component {
  *
  * @var array
  */
-	public $components = array('Banana');
+	public $components = ['Banana'];
 
 /**
  * startup method

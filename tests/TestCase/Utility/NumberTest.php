@@ -23,27 +23,27 @@ class NumberTest extends TestCase {
 	 * @return void
 	 */
 	public function testAverage() {
-		$array = array();
+		$array = [];
 		$is = Number::average($array);
 		$expected = 0.0;
 		$this->assertSame($expected, $is);
 
-		$array = array(3, 8, 4);
+		$array = [3, 8, 4];
 		$is = Number::average($array);
 		$expected = 5.0;
 		$this->assertSame($expected, $is);
 
-		$array = array(0.0, 3.8);
+		$array = [0.0, 3.8];
 		$is = Number::average($array);
 		$expected = 2.0;
 		$this->assertSame($expected, $is);
 
-		$array = array(0.0, 3.7);
+		$array = [0.0, 3.7];
 		$is = Number::average($array, 1);
 		$expected = 1.9;
 		$this->assertSame($expected, $is);
 
-		$array = array(0.0, 3.7);
+		$array = [0.0, 3.7];
 		$is = Number::average($array, 2);
 		$expected = 1.85;
 		$this->assertSame($expected, $is);
@@ -133,19 +133,19 @@ class NumberTest extends TestCase {
 	 * @return void
 	 */
 	public function testToPercentage() {
-		$is = Number::toPercentage(22.11, 2, array('decimals' => '.'));
+		$is = Number::toPercentage(22.11, 2, ['decimals' => '.']);
 		$expected = '22,11%';
 		$this->assertSame($expected, $is);
 
-		$is = Number::toPercentage(22.11, 2, array('locale' => 'en'));
+		$is = Number::toPercentage(22.11, 2, ['locale' => 'en']);
 		$expected = '22.11%';
 		$this->assertSame($expected, $is);
 
-		$is = Number::toPercentage(22.11, 0, array('decimals' => '.'));
+		$is = Number::toPercentage(22.11, 0, ['decimals' => '.']);
 		$expected = '22%';
 		$this->assertSame($expected, $is);
 
-		$is = Number::toPercentage(0.2311, 0, array('multiply' => true, 'decimals' => '.'));
+		$is = Number::toPercentage(0.2311, 0, ['multiply' => true, 'decimals' => '.']);
 		$expected = '23%';
 		$this->assertSame($expected, $is);
 	}
@@ -155,27 +155,27 @@ class NumberTest extends TestCase {
 	 */
 	public function testRoundTo() {
 		//increment = 10
-		$values = array(
+		$values = [
 			'22' => 20,
 			'15' => 20,
 			'3.4' => 0,
 			'6' => 10,
 			'-3.12' => 0,
 			'-10' => -10
-		);
+		];
 		foreach ($values as $was => $expected) {
 			$is = Number::roundTo($was, 10);
 			$this->assertSame($expected, $is, null, $was);
 		}
 		//increment = 0.1
-		$values2 = array(
+		$values2 = [
 			'22' => 22.0,
 			'15.234' => 15.2,
 			'3.4' => 3.4,
 			'6.131' => 6.1,
 			'-3.17' => -3.2,
 			'-10.99' => -11.0
-		);
+		];
 		foreach ($values2 as $was => $expected) {
 			$is = Number::roundTo($was, 0.1);
 			$this->assertSame($expected, $is, null, $was);
@@ -187,27 +187,27 @@ class NumberTest extends TestCase {
 	 */
 	public function testRoundUpTo() {
 		//increment = 10
-		$values = array(
+		$values = [
 			'22.765' => 30.0,
 			'15.22' => 20.0,
 			'3.4' => 10.0,
 			'6' => 10.0,
 			'-3.12' => -0.0,
 			'-10' => -10.0
-		);
+		];
 		foreach ($values as $was => $expected) {
 			$is = Number::roundUpTo($was, 10);
 			$this->assertSame($expected, $is, null, $was);
 		}
 		//increment = 5
-		$values = array(
+		$values = [
 			'22' => 25.0,
 			'15.234' => 20.0,
 			'3.4' => 5.0,
 			'6.131' => 10.0,
 			'-3.17' => -0.0,
 			'-10.99' => -10.0
-		);
+		];
 		foreach ($values as $was => $expected) {
 			$is = Number::roundUpTo($was, 5);
 			$this->assertSame($expected, $is, null, $was);
@@ -219,27 +219,27 @@ class NumberTest extends TestCase {
 	 */
 	public function testRoundDownTo() {
 		//increment = 10
-		$values = array(
+		$values = [
 			'22.765' => 20.0,
 			'15.22' => 10.0,
 			'3.4' => 0.0,
 			'6' => 0.0,
 			'-3.12' => -10.0,
 			'-10' => -10.0
-		);
+		];
 		foreach ($values as $was => $expected) {
 			$is = Number::roundDownTo($was, 10);
 			$this->assertSame($expected, $is, null, $was);
 		}
 		//increment = 3
-		$values = array(
+		$values = [
 			'22' => 21.0,
 			'15.234' => 15.0,
 			'3.4' => 3.0,
 			'6.131' => 6.0,
 			'-3.17' => -6.0,
 			'-10.99' => -12.0
-		);
+		];
 		foreach ($values as $was => $expected) {
 			$is = Number::roundDownTo($was, 3);
 			$this->assertSame($expected, $is, null, $was);
@@ -249,14 +249,14 @@ class NumberTest extends TestCase {
 	/**
 	 */
 	public function testGetDecimalPlaces() {
-		$values = array(
+		$values = [
 			'100' => -2,
 			'0.0001' => 4,
 			'10' => -1,
 			'0.1' => 1,
 			'1' => 0,
 			'0.001' => 3
-		);
+		];
 		foreach ($values as $was => $expected) {
 			$is = Number::getDecimalPlaces($was, 10);
 			$this->assertSame($expected, $is); //, null, $was

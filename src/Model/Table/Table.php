@@ -61,7 +61,7 @@ class Table extends CakeTable {
 			foreach ($this->belongsTo as $k => $v) {
 				if (is_int($k)) {
 					$k = $v;
-					$v = array();
+					$v = [];
 				}
 				if (!empty($v['className'])) {
 					$v['className'] = Inflector::pluralize($v['className']);
@@ -74,7 +74,7 @@ class Table extends CakeTable {
 			foreach ($this->hasOne as $k => $v) {
 				if (is_int($k)) {
 					$k = $v;
-					$v = array();
+					$v = [];
 				}
 				if (!empty($v['className'])) {
 					$v['className'] = Inflector::pluralize($v['className']);
@@ -87,7 +87,7 @@ class Table extends CakeTable {
 			foreach ($this->hasMany as $k => $v) {
 				if (is_int($k)) {
 					$k = $v;
-					$v = array();
+					$v = [];
 				}
 				if (!empty($v['className'])) {
 					$v['className'] = Inflector::pluralize($v['className']);
@@ -100,7 +100,7 @@ class Table extends CakeTable {
 			foreach ($this->hasAndBelongsToMany as $k => $v) {
 				if (is_int($k)) {
 					$k = $v;
-					$v = array();
+					$v = [];
 				}
 				if (!empty($v['className'])) {
 					$v['className'] = Inflector::pluralize($v['className']);
@@ -122,7 +122,7 @@ class Table extends CakeTable {
 			foreach ($this->validate as $field => $rules) {
 				if (is_int($field)) {
 					$field = $rules;
-					$rules = array();
+					$rules = [];
 				}
 				foreach ((array)$rules as $key => $rule) {
 					if (isset($rule['required'])) {
@@ -220,15 +220,15 @@ class Table extends CakeTable {
 	 * - requireDependentFields Require all dependent fields for the validation rule to return true
 	 * @return bool Success
 	 */
-	public function validateUniqueExt($fieldValue, $fields = array(), $options = array()) {
+	public function validateUniqueExt($fieldValue, $fields = [], $options = []) {
 		$id = (!empty($this->data[$this->alias][$this->primaryKey]) ? $this->data[$this->alias][$this->primaryKey] : 0);
 		if (!$id && $this->id) {
 			$id = $this->id;
 		}
 
-		$conditions = array(
+		$conditions = [
 			$this->alias . '.' . $fieldName => $fieldValue,
-			$this->alias . '.id !=' => $id);
+			$this->alias . '.id !=' => $id];
 
 		$fields = (array)$fields;
 		if (!array_key_exists('allowEmpty', $fields)) {
@@ -239,7 +239,7 @@ class Table extends CakeTable {
 					$conditions[$this->alias . '.' . $dependingField] = $this->data['Validation'][$dependingField];
 				} elseif (!empty($id)) {
 					// manual query! (only possible on edit)
-					$res = $this->find('first', array('fields' => array($this->alias . '.' . $dependingField), 'conditions' => array($this->alias . '.id' => $id)));
+					$res = $this->find('first', ['fields' => [$this->alias . '.' . $dependingField], 'conditions' => [$this->alias . '.id' => $id]]);
 					if (!empty($res)) {
 						$conditions[$this->alias . '.' . $dependingField] = $res[$this->alias][$dependingField];
 					}
@@ -257,7 +257,7 @@ class Table extends CakeTable {
 		if (count($conditions) > 2) {
 			$this->recursive = 0;
 		}
-		$options = array('fields' => array($this->alias . '.' . $this->primaryKey), 'conditions' => $conditions);
+		$options = ['fields' => [$this->alias . '.' . $this->primaryKey], 'conditions' => $conditions];
 		$res = $this->find('first', $options);
 		return empty($res);
 	}
@@ -287,7 +287,7 @@ class Table extends CakeTable {
 	 * @param array $options
 	 * @return mixed Field value or null if not available
 	 */
-	public function field($name, array $options = array()) {
+	public function field($name, array $options = []) {
 		$result = $this->find('all', $options)->first();
 		if (!$result) {
 			return null;
@@ -303,7 +303,7 @@ class Table extends CakeTable {
 	 * @return mixed Field value or null if not available
 	 * @deprecated Port to field() with full $options array
 	 */
-	public function fieldByConditions($name, array $conditions = array()) {
+	public function fieldByConditions($name, array $conditions = []) {
 		return $this->field($name, ['conditions' => $conditions]);
 	}
 
@@ -404,17 +404,17 @@ class Table extends CakeTable {
 	 * @param array $options
 	 * @return array
 	 */
-	public function getRelatedInUse($tableName, $groupField = null, $type = 'all', $options = array()) {
+	public function getRelatedInUse($tableName, $groupField = null, $type = 'all', $options = []) {
 		if ($groupField === null) {
 			$groupField = $this->belongsTo[$tableName]['foreignKey'];
 		}
-		$defaults = array(
-			'contain' => array($tableName),
+		$defaults = [
+			'contain' => [$tableName],
 			'group' => $groupField,
-			'order' => isset($this->$tableName->order) ? $this->$tableName->order : array($tableName . '.' . $this->$tableName->displayField() => 'ASC'),
-		);
+			'order' => isset($this->$tableName->order) ? $this->$tableName->order : [$tableName . '.' . $this->$tableName->displayField() => 'ASC'],
+		];
 		if ($type === 'list') {
-			$defaults['fields'] = array($tableName . '.' . $this->$tableName->primaryKey(), $tableName . '.' . $this->$tableName->displayField());
+			$defaults['fields'] = [$tableName . '.' . $this->$tableName->primaryKey(), $tableName . '.' . $this->$tableName->displayField()];
 		}
 		$options += $defaults;
 		return $this->find($type, $options);
@@ -428,13 +428,13 @@ class Table extends CakeTable {
 	 * @param array $options
 	 * @return array
 	 */
-	public function getFieldInUse($groupField, $type = 'all', $options = array()) {
-		$defaults = array(
+	public function getFieldInUse($groupField, $type = 'all', $options = []) {
+		$defaults = [
 			'group' => $groupField,
-			'order' => array($this->alias . '.' . $this->displayField => 'ASC'),
-		);
+			'order' => [$this->alias . '.' . $this->displayField => 'ASC'],
+		];
 		if ($type === 'list') {
-			$defaults['fields'] = array($this->alias . '.' . $this->primaryKey, $this->alias . '.' . $this->displayField);
+			$defaults['fields'] = [$this->alias . '.' . $this->primaryKey, $this->alias . '.' . $this->displayField];
 		}
 		$options += $defaults;
 		return $this->find($type, $options);
@@ -454,14 +454,14 @@ class Table extends CakeTable {
 	 */
 	public function validateIdentical($value, $options = [], array $context = []) {
 		if (!is_array($options)) {
-			$options = array('compare' => $options);
+			$options = ['compare' => $options];
 		}
 		if (!isset($context['data'][$options['compare']])) {
 			return false;
 		}
 		$compareValue = $context['data'][$options['compare']];
 
-		$matching = array('string' => 'string', 'int' => 'integer', 'float' => 'float', 'bool' => 'boolean');
+		$matching = ['string' => 'string', 'int' => 'integer', 'float' => 'float', 'bool' => 'boolean'];
 		if (!empty($options['cast']) && array_key_exists($options['cast'], $matching)) {
 			// cast values to string/int/float/bool if desired
 			settype($compareValue, $matching[$options['cast']]);
@@ -481,7 +481,7 @@ class Table extends CakeTable {
 	 * - deep (default: TRUE)
 	 * @return bool Success
 	 */
-	public function validateUrl($url, $options = array(), array $context = []) {
+	public function validateUrl($url, $options = [], array $context = []) {
 		if (empty($url)) {
 			if (!empty($options['allowEmpty']) && empty($options['required'])) {
 				return true;
@@ -565,7 +565,7 @@ class Table extends CakeTable {
 	 * - min/max (defaults to >= 1 - at least 1 minute apart)
 	 * @return bool Success
 	 */
-	public function validateDateTime($value, $options = array(), array $context = []) {
+	public function validateDateTime($value, $options = [], array $context = []) {
 		if (!$value) {
 			if (!empty($options['allowEmpty'])) {
 				return true;
@@ -614,7 +614,7 @@ class Table extends CakeTable {
 	 * - min (defaults to 0 - equal is OK too)
 	 * @return bool Success
 	 */
-	public function validateDate($value, $options = array(), array $context = []) {
+	public function validateDate($value, $options = [], array $context = []) {
 		if (!$value) {
 			if (!empty($options['allowEmpty'])) {
 				return true;
@@ -657,7 +657,7 @@ class Table extends CakeTable {
 	 * - min/max (defaults to >= 1 - at least 1 minute apart)
 	 * @return bool Success
 	 */
-	public function validateTime($value, $options = array(), array $context = []) {
+	public function validateTime($value, $options = [], array $context = []) {
 		if (!$value) {
 			return false;
 		}
@@ -687,7 +687,7 @@ class Table extends CakeTable {
 	 * @param options
 	 * - min/max (TODO!!)
 	 */
-	public function validateDateRange($value, $options = array(), array $context = []) {
+	public function validateDateRange($value, $options = [], array $context = []) {
 	}
 
 	/**
@@ -696,7 +696,7 @@ class Table extends CakeTable {
 	 * @param options
 	 * - min/max (TODO!!)
 	 */
-	public function validateTimeRange($value, $options = array(), array $context = []) {
+	public function validateTimeRange($value, $options = [], array $context = []) {
 	}
 
 }

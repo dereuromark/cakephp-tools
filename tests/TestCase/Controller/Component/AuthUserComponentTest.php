@@ -20,7 +20,7 @@ class AuthUserComponentTest extends TestCase {
 	 *
 	 * @var string
 	 */
-	public $fixtures = array('core.sessions');
+	public $fixtures = ['core.sessions'];
 
 	public $AuthUser;
 

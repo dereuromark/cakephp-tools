@@ -26,7 +26,7 @@ class TreeHelper extends Helper {
 	 *
 	 * @var array
 	 */
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'model' => null,
 		'alias' => 'name',
 		'type' => 'ul',
@@ -37,7 +37,7 @@ class TreeHelper extends Helper {
 		'callback' => false,
 		'autoPath' => false,
 		'hideUnrelated' => false,
-		'treePath' => array(),
+		'treePath' => [],
 		'left' => 'lft',
 		'right' => 'rght',
 		'depth' => 0,
@@ -48,42 +48,42 @@ class TreeHelper extends Helper {
 		'splitCount' => null,
 		'totalNodes' => null,
 		'fullSettings' => false,
-	);
+	];
 
 	/**
 	 * Config settings property
 	 *
 	 * @var array
 	 */
-	protected $_config = array();
+	protected $_config = [];
 
 	/**
 	 * TypeAttributes property
 	 *
 	 * @var array
 	 */
-	protected $_typeAttributes = array();
+	protected $_typeAttributes = [];
 
 	/**
 	 * TypeAttributesNext property
 	 *
 	 * @var array
 	 */
-	protected $_typeAttributesNext = array();
+	protected $_typeAttributesNext = [];
 
 	/**
 	 * ItemAttributes property
 	 *
 	 * @var array
 	 */
-	protected $_itemAttributes = array();
+	protected $_itemAttributes = [];
 
 	/**
 	 * Helpers variable
 	 *
 	 * @var array
 	 */
-	public $helpers = array('Html');
+	public $helpers = ['Html'];
 
 	/**
 	 * Tree generation method.
@@ -122,7 +122,7 @@ class TreeHelper extends Helper {
 	 * @return string html representation of the passed data
 	 * @throws \Exception
 	 */
-	public function generate(array $data, array $config = array()) {
+	public function generate(array $data, array $config = []) {
 		if (!$data) {
 			return '';
 		}
@@ -149,8 +149,8 @@ class TreeHelper extends Helper {
 		}
 		$this->_config['model'] = $model;
 
-		$this->_itemAttributes = $this->_typeAttributes = $this->_typeAttributesNext = array();
-		$stack = array();
+		$this->_itemAttributes = $this->_typeAttributes = $this->_typeAttributesNext = [];
+		$stack = [];
 		if ($depth == 0) {
 			if ($class) {
 				$this->addTypeAttribute('class', $class, null, 'previous');
@@ -245,7 +245,7 @@ class TreeHelper extends Helper {
 
 			$depth = $depth ? $depth : count($stack);
 
-			$elementData = array(
+			$elementData = [
 				'data' => $result,
 				'depth' => $depth,
 				'hasChildren' => $hasChildren,
@@ -256,9 +256,9 @@ class TreeHelper extends Helper {
 				'hasVisibleChildren' => $hasVisibleChildren,
 				'activePathElement' => $activePathElement,
 				'isSibling' => ($depth == 0 && !$activePathElement) ? true : false,
-			);
+			];
 			if ($elementData['isSibling'] && $hideUnrelated) {
-				$result['children'] = array();
+				$result['children'] = [];
 			}
 
 			$this->_config = $elementData + $this->_config;
@@ -270,7 +270,7 @@ class TreeHelper extends Helper {
 			if ($element) {
 				$content = $this->_View->element($element, $elementData);
 			} elseif ($callback) {
-				list($content) = array_map($callback, array($elementData));
+				list($content) = array_map($callback, [$elementData]);
 			} else {
 				$content = $row[$alias];
 			}
@@ -288,7 +288,7 @@ class TreeHelper extends Helper {
 					$return .= "\r\n" . $whiteSpace;
 				}
 				if ($type) {
-					$typeAttributes = $this->_attributes($type, array('data' => $elementData));
+					$typeAttributes = $this->_attributes($type, ['data' => $elementData]);
 					$return .= '<' . $type . $typeAttributes . '>';
 				}
 			}
@@ -474,19 +474,19 @@ class TreeHelper extends Helper {
 	 * @param array $elementData
 	 * @return void
 	 */
-	protected function _attributes($rType, array $elementData = array(), $clear = true) {
+	protected function _attributes($rType, array $elementData = [], $clear = true) {
 		extract($this->_config);
 		if ($rType === $type) {
 			$attributes = $this->_typeAttributes;
 			if ($clear) {
 				$this->_typeAttributes = $this->_typeAttributesNext;
-				$this->_typeAttributesNext = array();
+				$this->_typeAttributesNext = [];
 			}
 		} else {
 			$attributes = $this->_itemAttributes;
-			$this->_itemAttributes = array();
+			$this->_itemAttributes = [];
 			if ($clear) {
-				$this->_itemAttributes = array();
+				$this->_itemAttributes = [];
 			}
 		}
 		if ($rType === $itemType && $elementData['activePathElement']) {

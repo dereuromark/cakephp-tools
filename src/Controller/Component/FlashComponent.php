@@ -64,7 +64,7 @@ class FlashComponent extends Component {
 			if (!$type) {
 				$type = 'info';
 			}
-			$options = array();
+			$options = [];
 		} else {
 			$options += ['element' => 'info'];
 			$type = $options['element'];

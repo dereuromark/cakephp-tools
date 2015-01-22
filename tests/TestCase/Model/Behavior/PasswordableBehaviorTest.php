@@ -17,9 +17,9 @@ use Cake\Auth\PasswordHasherFactory;
 
 class PasswordableBehaviorTest extends TestCase {
 
-	public $fixtures = array(
+	public $fixtures = [
 		'plugin.tools.tools_users', 'plugin.tools.roles',
-	);
+	];
 
 	/**
 	 * SetUp method
@@ -38,12 +38,12 @@ class PasswordableBehaviorTest extends TestCase {
 
 		$this->hasher = PasswordHasherFactory::build('Default');
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'id' => '5',
 			'name' => 'admin',
 			'password' => $this->hasher->hash('somepwd'),
 			'role_id' => '1'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$result = $this->Users->save($user);
 		$this->assertTrue((bool)$result);
@@ -63,32 +63,32 @@ class PasswordableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testValidate() {
-		$this->Users->addBehavior('Tools.Passwordable', array());
+		$this->Users->addBehavior('Tools.Passwordable', []);
 
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'pwd' => '123456',
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertFalse($is);
-		$this->assertEquals(array('pwd_repeat'), array_keys($user->errors()));
+		$this->assertEquals(['pwd_repeat'], array_keys($user->errors()));
 
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'pwd' => '1234ab',
 			'pwd_repeat' => '123456'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertFalse($is);
-		$this->assertEquals(array('validateIdentical' => __d('tools', 'valErrPwdNotMatch')), $user->errors()['pwd_repeat']);
+		$this->assertEquals(['validateIdentical' => __d('tools', 'valErrPwdNotMatch')], $user->errors()['pwd_repeat']);
 
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'pwd' => '123456',
 			'pwd_repeat' => '123456'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertTrue(!empty($is));
@@ -100,11 +100,11 @@ class PasswordableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testValidateNoConfirm() {
-		$this->Users->addBehavior('Tools.Passwordable', array('confirm' => false));
+		$this->Users->addBehavior('Tools.Passwordable', ['confirm' => false]);
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'pwd' => '123456',
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		//debug($is);
@@ -119,14 +119,14 @@ class PasswordableBehaviorTest extends TestCase {
 	public function testValidateRequired() {
 		$this->Users->addBehavior('Tools.Passwordable');
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'pwd' => '',
 			'pwd_repeat' => ''
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertFalse($is);
-		$this->assertEquals(array('pwd', 'pwd_repeat'), array_keys($user->errors()));
+		$this->assertEquals(['pwd', 'pwd_repeat'], array_keys($user->errors()));
 	}
 
 	/**
@@ -135,29 +135,29 @@ class PasswordableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testValidateNotRequired() {
-		$this->Users->addBehavior('Tools.Passwordable', array('require' => false));
+		$this->Users->addBehavior('Tools.Passwordable', ['require' => false]);
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'name' => 'foo', // we need at least one field besides the password on CREATE
 			'pwd' => '',
 			'pwd_repeat' => ''
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertTrue((bool)$is);
-		$this->assertEquals(array('name', 'id'), $is->visibleProperties());
+		$this->assertEquals(['name', 'id'], $is->visibleProperties());
 
 		$id = $user->id;
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'id' => $id,
 			'pwd' => '',
 			'pwd_repeat' => ''
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertTrue((bool)$is);
-		$this->assertEquals(array('id'), $is->visibleProperties());
+		$this->assertEquals(['id'], $is->visibleProperties());
 	}
 
 	/**
@@ -166,32 +166,32 @@ class PasswordableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testValidateEmptyWithCurrentPassword() {
-		$this->Users->addBehavior('Tools.Passwordable', array('current' => true));
+		$this->Users->addBehavior('Tools.Passwordable', ['current' => true]);
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'id' => '123',
 			'pwd' => '',
 			'pwd_repeat' => '',
 			'pwd_current' => '123456',
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		//debug($user->errors());
 		$this->assertFalse($is);
-		$this->assertEquals(array('pwd', 'pwd_repeat', 'pwd_current'), array_keys($user->errors()));
+		$this->assertEquals(['pwd', 'pwd_repeat', 'pwd_current'], array_keys($user->errors()));
 
 		$this->tearDown();
 		$this->setUp();
 
 		$this->Users->removeBehavior('Passwordable');
-		$this->Users->addBehavior('Tools.Passwordable', array('require' => false, 'current' => true));
+		$this->Users->addBehavior('Tools.Passwordable', ['require' => false, 'current' => true]);
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'name' => 'foo',
 			'pwd' => '',
 			'pwd_repeat' => '',
 			'pwd_current' => '',
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertTrue(!empty($is));
@@ -201,16 +201,16 @@ class PasswordableBehaviorTest extends TestCase {
 	 * Test aliases for field names
 	 */
 	public function testDifferentFieldNames() {
-		$this->Users->addBehavior('Tools.Passwordable', array(
+		$this->Users->addBehavior('Tools.Passwordable', [
 			'formField' => 'passw',
 			'formFieldRepeat' => 'passw_repeat',
 			'formFieldCurrent' => 'passw_current',
-		));
+		]);
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'passw' => '123456',
 			'passw_repeat' => '123456'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		//debug($this->Users->data);
 		$is = $this->Users->save($user);
@@ -221,32 +221,32 @@ class PasswordableBehaviorTest extends TestCase {
 	 * Assert that allowSame false does not allow storing the same password as previously entered
 	 */
 	public function testNotSame() {
-		$this->Users->addBehavior('Tools.Passwordable', array(
+		$this->Users->addBehavior('Tools.Passwordable', [
 			'formField' => 'passw',
 			'formFieldRepeat' => 'passw_repeat',
 			'formFieldCurrent' => 'passw_current',
 			'allowSame' => false,
 			'current' => true,
-		));
+		]);
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'id' => '5',
 			'passw_current' => 'something',
 			'passw' => 'somepwd',
 			'passw_repeat' => 'somepwd'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		//debug($user->errors());
 		$this->assertFalse($is);
 
 		$user = $this->Users->newEntity([], ['markNew' => false]);
-		$data = array(
+		$data = [
 			'id' => '5',
 			'passw_current' => 'somepwd',
 			'passw' => 'newpwd',
 			'passw_repeat' => 'newpwd'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertTrue(!empty($is));
@@ -256,38 +256,38 @@ class PasswordableBehaviorTest extends TestCase {
 	 * Assert that allowSame false does not allow storing the same password as previously entered
 	 */
 	public function testNotSameWithoutCurrentField() {
-		$this->Users->addBehavior('Tools.Passwordable', array(
+		$this->Users->addBehavior('Tools.Passwordable', [
 			'formField' => 'passw',
 			'formFieldRepeat' => 'passw_repeat',
 			'allowSame' => false,
 			'current' => false
-		));
+		]);
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'passw' => 'somepwd',
 			'passw_repeat' => 'somepwd'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertTrue((bool)$is);
 		$id = $is['id'];
 
 		$user = $this->Users->newEntity([], ['markNew' => false]);
-		$data = array(
+		$data = [
 			'id' => $id,
 			'passw' => 'somepwd',
 			'passw_repeat' => 'somepwd'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertFalse((bool)$is);
 
 		$user = $this->Users->newEntity([], ['markNew' => false]);
-		$data = array(
+		$data = [
 			'id' => $id,
 			'passw' => 'newpwd',
 			'passw_repeat' => 'newpwd'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertTrue((bool)$is);
@@ -297,49 +297,49 @@ class PasswordableBehaviorTest extends TestCase {
 	 * Assert that on edit it does not wrongly pass validation (require => false)
 	 */
 	public function testRequireFalse() {
-		$this->Users->addBehavior('Tools.Passwordable', array(
+		$this->Users->addBehavior('Tools.Passwordable', [
 			'formField' => 'passw',
 			'formFieldRepeat' => 'passw_repeat',
 			'require' => false
-		));
+		]);
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'passw' => 'somepwd',
 			'passw_repeat' => 'somepwd'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertTrue((bool)$is);
 		$id = $is['id'];
 
 		$user = $this->Users->newEntity([], ['markNew' => false]);
-		$data = array(
+		$data = [
 			'id' => $id,
 			'passw' => '',
 			'passw_repeat' => ''
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertTrue((bool)$is);
 		//debug($user->errors());
 
 		$user = $this->Users->newEntity([], ['markNew' => false]);
-		$data = array(
+		$data = [
 			'id' => $id,
 			'passw' => 'somepwd2',
 			'passw_repeat' => ''
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertFalse((bool)$is);
 		//debug($user->errors());
 
 		$user = $this->Users->newEntity([], ['markNew' => false]);
-		$data = array(
+		$data = [
 			'id' => $id,
 			'passw' => 'somepwd2',
 			'passw_repeat' => 'somepwd2'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertTrue((bool)$is);
@@ -351,52 +351,52 @@ class PasswordableBehaviorTest extends TestCase {
 	public function testValidateCurrent() {
 		$this->assertFalse($this->Users->behaviors()->has('Passwordable'));
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'name' => 'xyz',
-			'password' => $this->hasher->hash('somepwd'));
+			'password' => $this->hasher->hash('somepwd')];
 		$this->Users->patchEntity($user, $data);
 		$result = $this->Users->save($user);
 		$this->assertTrue(!empty($result));
 		$uid = (string)$user->id;
 
 		$this->Users->removeBehavior('Passwordable');
-		$this->Users->addBehavior('Tools.Passwordable', array('current' => true));
+		$this->Users->addBehavior('Tools.Passwordable', ['current' => true]);
 		$user = $this->Users->newEntity([], ['markNew' => false]);
-		$data = array(
+		$data = [
 			'id' => $uid,
 			'pwd' => '123456',
 			'pwd_repeat' => '12345678',
 			//'pwd_current' => '',
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$this->assertTrue($this->Users->behaviors()->has('Passwordable'));
 		$is = $this->Users->save($user);
 		$this->assertFalse($is);
 
 		$user = $this->Users->newEntity([], ['markNew' => false]);
-		$data = array(
+		$data = [
 			'id' => $uid,
 			'pwd_current' => 'somepwdx',
 			'pwd' => '123456',
 			'pwd_repeat' => '123456'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertFalse($is);
 
 		$user = $this->Users->newEntity([], ['markNew' => false]);
-		$data = array(
+		$data = [
 			'id' => $uid,
 			'name' => 'Yeah',
 			'pwd_current' => 'somepwd',
 			'pwd' => '123456',
 			'pwd_repeat' => '123456'
-		);
+		];
 		$user->accessible('*', false); // Mark all properties as protected
-		$user->accessible(array('id', 'pwd', 'pwd_repeat', 'pwd_current'), true);
+		$user->accessible(['id', 'pwd', 'pwd_repeat', 'pwd_current'], true);
 		$this->Users->patchEntity($user, $data);
 		// Test whitelist setting - only "password" needs to gets auto-added
-		$options = array('validate' => true, 'fieldList' => array('id', 'pwd', 'pwd_repeat', 'pwd_current'));
+		$options = ['validate' => true, 'fieldList' => ['id', 'pwd', 'pwd_repeat', 'pwd_current']];
 
 		$is = $this->Users->save($user, $options);
 		$this->assertTrue(!empty($is));
@@ -412,25 +412,25 @@ class PasswordableBehaviorTest extends TestCase {
 		// not validating of additional whitelist fields. Validation for those will be just skipped, no matter what the behavior tries
 		// to set.
 		$user = $this->Users->newEntity([], ['markNew' => false]);
-		$data = array(
+		$data = [
 			'id' => $uid,
 			'name' => 'Yeah',
 			'pwd_current' => '123', // Obviously wrong
 			'pwd' => 'some', // Too short
 			'pwd_repeat' => 'somex' // Don't match
-		);
+		];
 		$user->accessible('*', false); // Mark all properties as protected
-		$user->accessible(array('id', 'name'), true);
+		$user->accessible(['id', 'name'], true);
 		$this->Users->patchEntity($user, $data);
 		// Test whitelist setting - only "password" gets auto-added, pwd, pwd_repeat etc need to be added manually
 		// NOTE that I had to remove the code for adding those fields from the behavior (as it was not functional)
 		// So of course, this won't work now as expected. But feel free to try to add them in the behavior. Results will be the same.
-		$options = array('validate' => true, 'fieldList' => array('id', 'name'));
+		$options = ['validate' => true, 'fieldList' => ['id', 'name']];
 		$is = $this->Users->save($user, $options);
 
 		// Validation errors triggered - as expected
 		$this->assertFalse($is);
-		$this->assertSame(array('pwd', 'pwd_repeat', 'pwd_current'), array_keys($user->errors()));
+		$this->assertSame(['pwd', 'pwd_repeat', 'pwd_current'], array_keys($user->errors()));
 	}
 
 	/**
@@ -441,55 +441,55 @@ class PasswordableBehaviorTest extends TestCase {
 	public function testPasswordHasher() {
 		$this->skipIf((float)Configure::version() < 2.4, 'Needs 2.4 and above');
 
-		$this->Users->addBehavior('Tools.Passwordable', array(
+		$this->Users->addBehavior('Tools.Passwordable', [
 			'formField' => 'pwd',
 			'formFieldRepeat' => 'pwd_repeat',
 			'allowSame' => false,
 			'current' => false,
 			'passwordHasher' => 'Complex',
-		));
+		]);
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'pwd' => 'somepwd',
 			'pwd_repeat' => 'somepwd'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$result = $this->Users->save($user);
 		$this->assertTrue((bool)$result);
 		$uid = (string)$user->id;
 
 		$this->Users->removeBehavior('Passwordable');
-		$this->Users->addBehavior('Tools.Passwordable', array('current' => true));
+		$this->Users->addBehavior('Tools.Passwordable', ['current' => true]);
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'id' => $uid,
 			'pwd' => '123456',
 			'pwd_repeat' => '12345678',
 			//'pwd_current' => '',
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$this->assertTrue($this->Users->behaviors()->has('Passwordable'));
 		$is = $this->Users->save($user);
 		$this->assertFalse($is);
 
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'id' => $uid,
 			'pwd_current' => 'somepwdx',
 			'pwd' => '123456',
 			'pwd_repeat' => '123456'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertFalse($is);
 
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'id' => $uid,
 			'pwd_current' => 'somepwd',
 			'pwd' => '123456',
 			'pwd_repeat' => '123456'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertTrue(!empty($is));
@@ -501,32 +501,32 @@ class PasswordableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testBlowfish() {
-		$this->Users->addBehavior('Tools.Passwordable', array(
+		$this->Users->addBehavior('Tools.Passwordable', [
 			'allowSame' => false,
 			'current' => false,
 			'authType' => 'Blowfish',
-		));
+		]);
 
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'pwd' => 'somepwd',
 			'pwd_repeat' => 'somepwd'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$result = $this->Users->save($user);
 		$this->assertTrue((bool)$result);
 		$uid = (string)$user->id;
 
 		$this->Users->removeBehavior('Passwordable');
-		$this->Users->addBehavior('Tools.Passwordable', array('current' => true));
+		$this->Users->addBehavior('Tools.Passwordable', ['current' => true]);
 
 		// Without the current password it will not continue
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'id' => $uid,
 			'pwd' => '123456',
 			'pwd_repeat' => '12345678',
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$this->assertTrue($this->Users->behaviors()->has('Passwordable'));
 		$result = $this->Users->save($user);
@@ -534,24 +534,24 @@ class PasswordableBehaviorTest extends TestCase {
 
 		// Without the correct current password it will not continue
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'id' => $uid,
 			'pwd_current' => 'somepwdx',
 			'pwd' => '123456',
 			'pwd_repeat' => '123456'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$result = $this->Users->save($user);
 		$this->assertFalse($result);
 
 		// Now it will
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'id' => $uid,
 			'pwd_current' => 'somepwd',
 			'pwd' => '123456',
 			'pwd_repeat' => '123456'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$result = $this->Users->save($user);
 		$this->assertTrue((bool)$result);
@@ -563,12 +563,12 @@ class PasswordableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testNeedsPasswordRehash() {
-		$this->Users->addBehavior('Tools.Passwordable', array(
+		$this->Users->addBehavior('Tools.Passwordable', [
 			'allowSame' => false,
 			'current' => false,
 			'authType' => 'Blowfish',
 			'passwordHasher' => 'Default'
-		));
+		]);
 
 		$hash =  password_hash('foobar', PASSWORD_BCRYPT);
 		$result = $this->Users->needsPasswordRehash($hash);
@@ -585,23 +585,23 @@ class PasswordableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testNeedsPasswordRehashWithNotSupportedHasher() {
-		$this->Users->addBehavior('Tools.Passwordable', array(
+		$this->Users->addBehavior('Tools.Passwordable', [
 			'allowSame' => false,
 			'current' => false,
 			'authType' => 'Blowfish',
-		));
+		]);
 
 		$hash =  password_hash('foobar', PASSWORD_BCRYPT);
 		$result = $this->Users->needsPasswordRehash($hash);
 		$this->assertFalse($result);
 
 		$this->Users->removeBehavior('Passwordable');
-		$this->Users->addBehavior('Tools.Passwordable', array(
+		$this->Users->addBehavior('Tools.Passwordable', [
 			'allowSame' => false,
 			'current' => false,
 			'authType' => 'Blowfish',
 			'passwordHasher' => 'Default'
-		));
+		]);
 
 		$hash =  password_hash('foobar', PASSWORD_BCRYPT);
 		$result = $this->Users->needsPasswordRehash($hash);
@@ -615,32 +615,32 @@ class PasswordableBehaviorTest extends TestCase {
 	 */
 	public function testSettings() {
 		// Pwd min and max length
-		$this->Users->addBehavior('Tools.Passwordable', array(
+		$this->Users->addBehavior('Tools.Passwordable', [
 			'allowSame' => false,
 			'current' => false,
 			'minLength' => 3,
 			'maxLength' => 6,
-		));
+		]);
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'pwd' => '123',
 			'pwd_repeat' => '123'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$result = $this->Users->save($user);
 		$this->assertTrue((bool)$result);
 
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'pwd' => '12345678',
 			'pwd_repeat' => '12345678'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$result = $this->Users->save($user);
 		$this->assertFalse($result);
-		$expected = array(
-			'pwd' => array('between' => __d('tools', 'valErrBetweenCharacters {0} {1}', 3, 6)),
-		);
+		$expected = [
+			'pwd' => ['between' => __d('tools', 'valErrBetweenCharacters {0} {1}', 3, 6)],
+		];
 		$this->assertEquals($expected, $user->errors());
 	}
 
@@ -652,22 +652,22 @@ class PasswordableBehaviorTest extends TestCase {
 	public function testSaveWithValidateFalse() {
 		$this->Users->addBehavior('Tools.Passwordable');
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'pwd' => '123',
-		);
+		];
 		$this->Users->patchEntity($user, $data);
-		$result = $this->Users->save($user, array('validate' => false));
+		$result = $this->Users->save($user, ['validate' => false]);
 		$this->assertTrue((bool)$result);
 
 		$uid = (string)$user->id;
 		$hash = $user['password'];
 
-		$data = array(
+		$data = [
 			'id' => $uid,
 			'pwd' => '1234'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
-		$result2 = $this->Users->save($user, array('validate' => false));
+		$result2 = $this->Users->save($user, ['validate' => false]);
 		$this->assertTrue((bool)$result2);
 		$hash2 = $user['password'];
 		$this->assertTrue($hash !== $hash2);
@@ -679,53 +679,53 @@ class PasswordableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testValidateCustomRule() {
-		$rules = array(
-			'validateCustom' => array(
-				'rule' => array('custom', '#^[a-z0-9]+$#'), // Just a test example, never use this regexp!
+		$rules = [
+			'validateCustom' => [
+				'rule' => ['custom', '#^[a-z0-9]+$#'], // Just a test example, never use this regexp!
 				'message' => 'Foo Bar',
 				'last' => true,
-			),
-			'validateCustomExt' => array(
-				'rule' => array('custom', '#^[a-z]+$#'), // Just a test example, never use this regexp!
+			],
+			'validateCustomExt' => [
+				'rule' => ['custom', '#^[a-z]+$#'], // Just a test example, never use this regexp!
 				'message' => 'Foo Bar Ext',
 				'last' => true,
-			)
-		);
-		$this->Users->addBehavior('Tools.Passwordable', array(
-			'customValidation' => $rules));
+			]
+		];
+		$this->Users->addBehavior('Tools.Passwordable', [
+			'customValidation' => $rules]);
 
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'pwd' => '%123456',
 			'pwd_repeat' => '%123456'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 
 		$is = $this->Users->save($user);
 		$this->assertFalse($is);
 
 		$result = $user->errors();
-		$expected = array('pwd' => array('validateCustom' => 'Foo Bar'));
+		$expected = ['pwd' => ['validateCustom' => 'Foo Bar']];
 		$this->assertSame($expected, $result);
 
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'pwd' => 'abc123',
 			'pwd_repeat' => 'abc123'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertFalse($is);
 
 		$result = $user->errors();
-		$expected = array('pwd' => array('validateCustomExt' => 'Foo Bar Ext'));
+		$expected = ['pwd' => ['validateCustomExt' => 'Foo Bar Ext']];
 		$this->assertSame($expected, $result);
 
 		$user = $this->Users->newEntity();
-		$data = array(
+		$data = [
 			'pwd' => 'abcdef',
 			'pwd_repeat' => 'abcdef'
-		);
+		];
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertTrue((bool)$is);

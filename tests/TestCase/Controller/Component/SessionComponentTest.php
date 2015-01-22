@@ -23,7 +23,7 @@ class SessionComponentTest extends TestCase {
  *
  * @var string
  */
-	public $fixtures = array('core.sessions');
+	public $fixtures = ['core.sessions'];
 
 /**
  * test case startup
@@ -82,18 +82,18 @@ class SessionComponentTest extends TestCase {
 
 		$Session->write('Test.key.path', 'some value');
 		$this->assertEquals('some value', $Session->read('Test.key.path'));
-		$this->assertEquals(array('path' => 'some value'), $Session->read('Test.key'));
+		$this->assertEquals(['path' => 'some value'], $Session->read('Test.key'));
 		$Session->write('Test.key.path2', 'another value');
-		$this->assertEquals(array('path' => 'some value', 'path2' => 'another value'), $Session->read('Test.key'));
+		$this->assertEquals(['path' => 'some value', 'path2' => 'another value'], $Session->read('Test.key'));
 		$Session->delete('Test');
 
-		$array = array('key1' => 'val1', 'key2' => 'val2', 'key3' => 'val3');
+		$array = ['key1' => 'val1', 'key2' => 'val2', 'key3' => 'val3'];
 		$Session->write('Test', $array);
 		$this->assertEquals($Session->read('Test'), $array);
 		$Session->delete('Test');
 
-		$Session->write(array('Test'), 'some value');
-		$Session->write(array('Test' => 'some value'));
+		$Session->write(['Test'], 'some value');
+		$Session->write(['Test' => 'some value']);
 		$this->assertEquals('some value', $Session->read('Test'));
 		$Session->delete('Test');
 	}

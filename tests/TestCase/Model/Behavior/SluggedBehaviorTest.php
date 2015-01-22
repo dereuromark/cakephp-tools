@@ -99,11 +99,11 @@ class SluggedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testSlugManualSave() {
-		$article = $this->articles->newEntity(array('title' => 'Some Cool String'));
+		$article = $this->articles->newEntity(['title' => 'Some Cool String']);
 		$result = $this->articles->save($article);
 		$this->assertEquals('Some-Cool-String', $result['slug']);
 
-		$article = $this->articles->newEntity(array('title' => 'Some Other String'));
+		$article = $this->articles->newEntity(['title' => 'Some Other String']);
 		$result = $this->articles->save($article);
 		$this->assertEquals('Some-Other-String', $result['slug']);
 
@@ -260,35 +260,35 @@ class SluggedBehaviorTest extends TestCase {
 	public function testResetSlugs() {
 		$this->articles->removeBehavior('Slugged');
 
-		$article = $this->articles->newEntity(array('title' => 'Andy Dawson', 'slug' => 'foo'));
+		$article = $this->articles->newEntity(['title' => 'Andy Dawson', 'slug' => 'foo']);
 		$this->articles->save($article);
-		$article = $this->articles->newEntity(array('title' => 'Andy Dawsom', 'slug' => 'bar'));
+		$article = $this->articles->newEntity(['title' => 'Andy Dawsom', 'slug' => 'bar']);
 		$this->articles->save($article);
 
-		$result = $this->articles->find('all', array(
-			'conditions' => array('title LIKE' => 'Andy Daw%'),
-			'fields' => array('title', 'slug'),
+		$result = $this->articles->find('all', [
+			'conditions' => ['title LIKE' => 'Andy Daw%'],
+			'fields' => ['title', 'slug'],
 			'order' => 'title'
-		))->combine('title', 'slug')->toArray();
-		$expected = array(
+		])->combine('title', 'slug')->toArray();
+		$expected = [
 			'Andy Dawsom' => 'bar',
 			'Andy Dawson' => 'foo'
-		);
+		];
 		$this->assertEquals($expected, $result);
 
 		$this->articles->addBehavior('Tools.Slugged');
 		$result = $this->articles->resetSlugs(['limit' => 1]);
 		$this->assertTrue($result);
 
-		$result = $this->articles->find('all', array(
-			'conditions' => array('title LIKE' => 'Andy Daw%'),
-			'fields' => array('title', 'slug'),
+		$result = $this->articles->find('all', [
+			'conditions' => ['title LIKE' => 'Andy Daw%'],
+			'fields' => ['title', 'slug'],
 			'order' => 'title'
-		))->combine('title', 'slug')->toArray();
-		$expected = array(
+		])->combine('title', 'slug')->toArray();
+		$expected = [
 			'Andy Dawsom' => 'Andy-Dawsom',
 			'Andy Dawson' => 'Andy-Dawson'
-		);
+		];
 		$this->assertEquals($expected, $result);
 	}
 
@@ -304,35 +304,35 @@ class SluggedBehaviorTest extends TestCase {
 
 		$this->articles->behaviors()->Slugged->config(['length' => 10, 'unique' => true]);
 
-		$article = $this->articles->newEntity(array('title' => 'Andy Dawson'));
+		$article = $this->articles->newEntity(['title' => 'Andy Dawson']);
 		$this->articles->save($article);
-		$article = $this->articles->newEntity(array('title' => 'Andy Dawsom'));
+		$article = $this->articles->newEntity(['title' => 'Andy Dawsom']);
 		$this->articles->save($article);
-		$article = $this->articles->newEntity(array('title' => 'Andy Dawsoo'));
+		$article = $this->articles->newEntity(['title' => 'Andy Dawsoo']);
 		$this->articles->save($article);
-		$article = $this->articles->newEntity(array('title' => 'Andy Dawso3'));
+		$article = $this->articles->newEntity(['title' => 'Andy Dawso3']);
 		$this->articles->save($article);
-		$article = $this->articles->newEntity(array('title' => 'Andy Dawso4'));
+		$article = $this->articles->newEntity(['title' => 'Andy Dawso4']);
 		$this->articles->save($article);
-		$article = $this->articles->newEntity(array('title' => 'Andy Dawso5'));
+		$article = $this->articles->newEntity(['title' => 'Andy Dawso5']);
 		$this->articles->save($article);
-		$article = $this->articles->newEntity(array('title' => 'Andy Dawso6'));
+		$article = $this->articles->newEntity(['title' => 'Andy Dawso6']);
 		$this->articles->save($article);
-		$article = $this->articles->newEntity(array('title' => 'Andy Dawso7'));
+		$article = $this->articles->newEntity(['title' => 'Andy Dawso7']);
 		$this->articles->save($article);
-		$article = $this->articles->newEntity(array('title' => 'Andy Dawso8'));
+		$article = $this->articles->newEntity(['title' => 'Andy Dawso8']);
 		$this->articles->save($article);
-		$article = $this->articles->newEntity(array('title' => 'Andy Dawso9'));
+		$article = $this->articles->newEntity(['title' => 'Andy Dawso9']);
 		$this->articles->save($article);
-		$article = $this->articles->newEntity(array('title' => 'Andy Dawso0'));
+		$article = $this->articles->newEntity(['title' => 'Andy Dawso0']);
 		$this->articles->save($article);
 
-		$result = $this->articles->find('all', array(
-			'conditions' => array('title LIKE' => 'Andy Daw%'),
-			'fields' => array('title', 'slug'),
+		$result = $this->articles->find('all', [
+			'conditions' => ['title LIKE' => 'Andy Daw%'],
+			'fields' => ['title', 'slug'],
 			'order' => 'title'
-		))->combine('title', 'slug')->toArray();
-		$expected = array(
+		])->combine('title', 'slug')->toArray();
+		$expected = [
 			'Andy Dawson' => 'Andy-Dawso',
 			'Andy Dawsom' => 'Andy-Daw-1',
 			'Andy Dawsoo' => 'Andy-Daw-2',
@@ -344,7 +344,7 @@ class SluggedBehaviorTest extends TestCase {
 			'Andy Dawso8' => 'Andy-Daw-8',
 			'Andy Dawso9' => 'Andy-Daw-9',
 			'Andy Dawso0' => 'Andy-Da-10'
-		);
+		];
 		$this->assertEquals($expected, $result);
 	}
 
@@ -363,7 +363,7 @@ class SluggedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testTruncateMultibyte() {
-		$this->articles->behaviors()->Slugged->config(array('length' => 16));
+		$this->articles->behaviors()->Slugged->config(['length' => 16]);
 
 		$result = $this->articles->generateSlug('モデルのデータベースとデータソース');
 		$expected = 'モデルのデータベースとデータソー';
@@ -376,7 +376,7 @@ class SluggedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testUrlMode() {
-		$this->articles->behaviors()->Slugged->config(array('mode' => 'url', 'replace' => false));
+		$this->articles->behaviors()->Slugged->config(['mode' => 'url', 'replace' => false]);
 
 		$string = 'standard string';
 		$expected = 'standard-string';
@@ -487,10 +487,10 @@ class SluggedBehaviorTest extends TestCase {
 	 */
 	public function testSlugGenerationModeAscii() {
 		$this->articles->removeBehavior('Slugged');
-		$this->articles->addBehavior('Tools.Slugged', array(
-			'mode' => 'ascii'));
+		$this->articles->addBehavior('Tools.Slugged', [
+			'mode' => 'ascii']);
 
-		$article = $this->articles->newEntity(array('title' => 'Some Article 25271'));
+		$article = $this->articles->newEntity(['title' => 'Some Article 25271']);
 		$result = $this->articles->save($article);
 		$this->assertTrue((bool)$result);
 
@@ -504,10 +504,10 @@ class SluggedBehaviorTest extends TestCase {
 	 */
 	public function testSlugGenerationBeforeSave() {
 		$this->articles->removeBehavior('Slugged');
-		$this->articles->addBehavior('Tools.Slugged', array(
-			'on' => 'beforeSave', 'overwrite' => true));
+		$this->articles->addBehavior('Tools.Slugged', [
+			'on' => 'beforeSave', 'overwrite' => true]);
 
-		$article = $this->articles->newEntity(array('title' => 'Some Article 25271'));
+		$article = $this->articles->newEntity(['title' => 'Some Article 25271']);
 		$result = $this->articles->save($article);
 
 		//$result['id'] = $result['id'];
@@ -521,10 +521,10 @@ class SluggedBehaviorTest extends TestCase {
 	 */
 	public function testSlugGenerationI18nReplacementPieces() {
 		$this->articles->removeBehavior('Slugged');
-		$this->articles->addBehavior('Tools.Slugged', array(
-			'overwrite' => true));
+		$this->articles->addBehavior('Tools.Slugged', [
+			'overwrite' => true]);
 
-		$article = $this->articles->newEntity(array('title' => 'Some & More'));
+		$article = $this->articles->newEntity(['title' => 'Some & More']);
 		$result = $this->articles->save($article);
 		$this->assertEquals('Some-' . __d('tools', 'and') . '-More', $result['slug']);
 	}
@@ -536,10 +536,10 @@ class SluggedBehaviorTest extends TestCase {
 	 */
 	public function testSlugDynamicOverwrite() {
 		$this->articles->removeBehavior('Slugged');
-		$this->articles->addBehavior('Tools.Slugged', array(
-			'overwrite' => false, 'overwriteField' => 'overwrite_my_slug'));
+		$this->articles->addBehavior('Tools.Slugged', [
+			'overwrite' => false, 'overwriteField' => 'overwrite_my_slug']);
 
-		$article = $this->articles->newEntity(array('title' => 'Some Cool String', 'overwrite_my_slug' => false));
+		$article = $this->articles->newEntity(['title' => 'Some Cool String', 'overwrite_my_slug' => false]);
 		$result = $this->articles->save($article);
 		$this->assertEquals('Some-Cool-String', $result['slug']);
 
@@ -559,9 +559,9 @@ class SluggedBehaviorTest extends TestCase {
 	 */
 	public function testSlugGenerationWithScope() {
 		$this->articles->removeBehavior('Slugged');
-		$this->articles->addBehavior('Tools.Slugged', array('unique' => true));
+		$this->articles->addBehavior('Tools.Slugged', ['unique' => true]);
 
-		$data = array('title' => 'Some Article 12345', 'section' => 0);
+		$data = ['title' => 'Some Article 12345', 'section' => 0];
 
 		$article = $this->articles->newEntity($data);
 		$result = $this->articles->save($article);
@@ -574,9 +574,9 @@ class SluggedBehaviorTest extends TestCase {
 		$this->assertEquals('Some-Article-12345-1', $result['slug']);
 
 		$this->articles->removeBehavior('Slugged');
-		$this->articles->addBehavior('Tools.Slugged', array('unique' => true, 'scope' => array('section' => 1)));
+		$this->articles->addBehavior('Tools.Slugged', ['unique' => true, 'scope' => ['section' => 1]]);
 
-		$data = array('title' => 'Some Article 12345', 'section' => 1);
+		$data = ['title' => 'Some Article 12345', 'section' => 1];
 
 		$article = $this->articles->newEntity($data);
 		$result = $this->articles->save($article);
@@ -589,7 +589,7 @@ class SluggedBehaviorTest extends TestCase {
  *
  * @return Entity
  */
-	protected function _getEntity($title = 'test 123', $field = 'title', array $options = array()) {
+	protected function _getEntity($title = 'test 123', $field = 'title', array $options = []) {
 		$options += ['validate' => false];
 		return new Entity([
 			$field => $title

@@ -58,7 +58,7 @@ class SluggedBehavior extends Behavior {
 	 *
 	 * @var array
 	 */
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'label' => null,
 		'field' => 'slug',
 		'overwriteField' => 'overwrite_slug',
@@ -69,17 +69,17 @@ class SluggedBehavior extends Behavior {
 		'unique' => false,
 		'notices' => true,
 		'case' => null,
-		'replace' => array(
+		'replace' => [
 			'&' => 'and',
 			'+' => 'and',
 			'#' => 'hash',
-		),
+		],
 		'on' => 'beforeRules',
-		'scope' => array(),
+		'scope' => [],
 		'tidy' => true,
 		'implementedFinders' => ['slugged' => 'findSlugged'],
 		//'implementedMethods' => ['slug' => 'slug']
-	);
+	];
 
 /**
  * Table instance
@@ -183,13 +183,13 @@ class SluggedBehavior extends Behavior {
 	 * @param Entity $entity
 	 * @return void
 	 */
-	public function slug(Entity $entity, array $options = array()) {
+	public function slug(Entity $entity, array $options = []) {
 		$overwrite = isset($options['overwrite']) ? $options['overwrite'] : $this->_config['overwrite'];
 		if (!$overwrite && $entity->get($this->_config['overwriteField'])) {
 			$overwrite = true;
 		}
 		if ($overwrite || $entity->isNew() || !$entity->get($this->_config['field'])) {
-			$slug = array();
+			$slug = [];
 			foreach ((array)$this->_config['label'] as $v) {
 				$v = $this->generateSlug($entity->get($v), $entity);
 				if ($v) {
@@ -255,7 +255,7 @@ class SluggedBehavior extends Behavior {
 				if (!$somethingToDo) {
 					return;
 				}
-				$slug = array();
+				$slug = [];
 				foreach ($label as $field) {
 					$alias = $this->_table->alias();
 					if (strpos($field, '.')) {
@@ -296,7 +296,7 @@ class SluggedBehavior extends Behavior {
 	public function generateSlug($value, Entity $entity = null) {
 		$separator = $this->_config['separator'];
 
-		$string = str_replace(array("\r\n", "\r", "\n"), ' ', $value);
+		$string = str_replace(["\r\n", "\r", "\n"], ' ', $value);
 		if ($replace = $this->_config['replace']) {
 			$string = str_replace(array_keys($replace), array_values($replace), $string);
 		}
@@ -327,7 +327,7 @@ class SluggedBehavior extends Behavior {
 			} else {
 				$slug = mb_strtolower($slug);
 			}
-			if (in_array($case, array('title', 'camel'))) {
+			if (in_array($case, ['title', 'camel'])) {
 				$words = explode($separator, $slug);
 				foreach ($words as $i => &$word) {
 					$firstChar = mb_substr($word, 0, 1);
@@ -347,7 +347,7 @@ class SluggedBehavior extends Behavior {
 				throw new \Exception('Needs an Entity to work on');
 			}
 			$field = $this->_table->alias() . '.' . $this->_config['field'];
-			$conditions = array($field => $slug);
+			$conditions = [$field => $slug];
 			$conditions = array_merge($conditions, $this->_config['scope']);
 			if ($id = $entity->get($this->_table->primaryKey())) {
 				$conditions['NOT'][$this->_table->alias() . '.' . $this->_table->primaryKey()] = $id;
@@ -384,10 +384,10 @@ class SluggedBehavior extends Behavior {
 	 * @return mixed string (the display name) or false
 	 */
 	public function display($id) {
-		$conditions = array_merge(array(
-			$this->_table->alias() . '.' . $this->_table->primaryKey() => $id),
+		$conditions = array_merge([
+			$this->_table->alias() . '.' . $this->_table->primaryKey() => $id],
 			$this->_config['scope']);
-		$record = $this->_table->find('first', array('conditions' => $conditions));
+		$record = $this->_table->find('first', ['conditions' => $conditions]);
 		return $record->get($this->_table->displayField());
 	}
 
@@ -403,18 +403,18 @@ class SluggedBehavior extends Behavior {
 	 * @param array $conditions
 	 * @return bool Success
 	 */
-	public function resetSlugs($params = array()) {
+	public function resetSlugs($params = []) {
 		if (!$this->_table->hasField($this->_config['field'])) {
 			throw new \Exception('Table does not have field ' . $this->_config['field']);
 		}
-		$defaults = array(
+		$defaults = [
 			'page' => 1,
 			'limit' => 100,
-			'fields' => array_merge(array($this->_table->primaryKey()), $this->_config['label']),
+			'fields' => array_merge([$this->_table->primaryKey()], $this->_config['label']),
 			'order' => $this->_table->displayField() . ' ASC',
 			'conditions' => $this->_config['scope'],
 			'overwrite' => true,
-		);
+		];
 		$params = array_merge($defaults, $params);
 		$count = $this->_table->find('all', compact('conditions'))->count();
 		$max = ini_get('max_execution_time');
@@ -426,10 +426,10 @@ class SluggedBehavior extends Behavior {
 		while (($records = $this->_table->find('all', $params)->toArray())) {
 			foreach ($records as $record) {
 				$record->isNew(true);
-				$options = array(
+				$options = [
 					'validate' => true,
-					'fieldList' => array_merge(array($this->_table->primaryKey(), $this->_config['field']), $this->_config['label'])
-				);
+					'fieldList' => array_merge([$this->_table->primaryKey(), $this->_config['field']], $this->_config['label'])
+				];
 				if (!$this->_table->save($record, $options)) {
 					throw new \Exception(print_r($this->_table->errors(), true));
 				}
@@ -454,7 +454,7 @@ class SluggedBehavior extends Behavior {
 		$field = current($label);
 		$fields = (array)$entity->get($field);
 
-		$locale = array();
+		$locale = [];
 		foreach ($fields as $locale => $_) {
 			foreach ($label as $field) {
 				$res = $entity->get($field);

@@ -19,10 +19,10 @@ use Cake\Datasource\ConnectionManager;
 
 class TableTest extends TestCase {
 
-	public $fixtures = array(
+	public $fixtures = [
 		'core.posts', 'core.authors',
 		'plugin.tools.tools_users', 'plugin.tools.roles',
-	);
+	];
 
 	public $Users;
 
@@ -151,23 +151,23 @@ class TableTest extends TestCase {
 	 */
 	public function testOrder() {
 		$this->Users->truncate();
-		$rows = array(
-			array('role_id' => 1, 'name' => 'Gandalf'),
-			array('role_id' => 2, 'name' => 'Asterix'),
-			array('role_id' => 1, 'name' => 'Obelix'),
-			array('role_id' => 3, 'name' => 'Harry Potter'));
+		$rows = [
+			['role_id' => 1, 'name' => 'Gandalf'],
+			['role_id' => 2, 'name' => 'Asterix'],
+			['role_id' => 1, 'name' => 'Obelix'],
+			['role_id' => 3, 'name' => 'Harry Potter']];
 		foreach ($rows as $row) {
 			$entity = $this->Users->newEntity($row);
 			$this->Users->save($entity);
 		}
 
 		$result = $this->Users->find('list')->toArray();
-		$expected = array(
+		$expected = [
 			'Asterix',
 			'Gandalf',
 			'Harry Potter',
 			'Obelix'
-		);
+		];
 		$this->assertSame($expected, array_values($result));
 	}
 
@@ -180,7 +180,7 @@ class TableTest extends TestCase {
 		$this->skipIf(true, 'TODO');
 		$results = $this->Posts->getRelatedInUse('Authors', 'author_id', 'list');
 		//die(debug($results->toArray()));
-		$expected = array(1 => 'mariano', 3 => 'larry');
+		$expected = [1 => 'mariano', 3 => 'larry'];
 		$this->assertEquals($expected, $results->toArray());
 	}
 
@@ -195,7 +195,7 @@ class TableTest extends TestCase {
 		$this->skipIf(!($this->db instanceof Mysql), 'The test is only compatible with Mysql.');
 
 		$results = $this->Posts->getFieldInUse('author_id', 'list');
-		$expected = array(1 => 'First Post', 2 => 'Second Post');
+		$expected = [1 => 'First Post', 2 => 'Second Post'];
 		$this->assertEquals($expected, $results);
 	}
 
@@ -219,68 +219,68 @@ class TableTest extends TestCase {
 		$this->assertTrue($res);
 
 		$date = new Time('2010-02-23 11:11:11');
-		$context = array('data' => array('after' => new Time('2010-02-22')));
-		$res = $this->Users->validateDate($date, array('after' => 'after'), $context);
+		$context = ['data' => ['after' => new Time('2010-02-22')]];
+		$res = $this->Users->validateDate($date, ['after' => 'after'], $context);
 		//debug($res);
 		$this->assertTrue($res);
 
 		$date = new Time('2010-02-23');
-		$context = array('data' => array('after' => new Time('2010-02-24 11:11:11')));
-		$res = $this->Users->validateDate($date, array('after' => 'after'), $context);
+		$context = ['data' => ['after' => new Time('2010-02-24 11:11:11')]];
+		$res = $this->Users->validateDate($date, ['after' => 'after'], $context);
 		//debug($res);
 		$this->assertFalse($res);
 
 		$date = new Time('2010-02-25');
-		$context = array('data' => array('after' => new Time('2010-02-25')));
-		$res = $this->Users->validateDate($date, array('after' => 'after'), $context);
+		$context = ['data' => ['after' => new Time('2010-02-25')]];
+		$res = $this->Users->validateDate($date, ['after' => 'after'], $context);
 		//debug($res);
 		$this->assertTrue($res);
 
 		$date = new Time('2010-02-25');
-		$context = array('data' => array('after' => new Time('2010-02-25')));
-		$res = $this->Users->validateDate($date, array('after' => 'after', 'min' => 1), $context);
+		$context = ['data' => ['after' => new Time('2010-02-25')]];
+		$res = $this->Users->validateDate($date, ['after' => 'after', 'min' => 1], $context);
 		//debug($res);
 		$this->assertFalse($res);
 
 		$date = new Time('2010-02-25');
-		$context = array('data' => array('after' => new Time('2010-02-24')));
-		$res = $this->Users->validateDate($date, array('after' => 'after', 'min' => 2), $context);
+		$context = ['data' => ['after' => new Time('2010-02-24')]];
+		$res = $this->Users->validateDate($date, ['after' => 'after', 'min' => 2], $context);
 		//debug($res);
 		$this->assertFalse($res);
 
 		$date = new Time('2010-02-25');
-		$context = array('data' => array('after' => new Time('2010-02-24')));
-		$res = $this->Users->validateDate($date, array('after' => 'after', 'min' => 1), $context);
+		$context = ['data' => ['after' => new Time('2010-02-24')]];
+		$res = $this->Users->validateDate($date, ['after' => 'after', 'min' => 1], $context);
 		//debug($res);
 		$this->assertTrue($res);
 
 		$date = new Time('2010-02-25');
-		$context = array('data' => array('after' => new Time('2010-02-24')));
-		$res = $this->Users->validateDate($date, array('after' => 'after', 'min' => 2), $context);
+		$context = ['data' => ['after' => new Time('2010-02-24')]];
+		$res = $this->Users->validateDate($date, ['after' => 'after', 'min' => 2], $context);
 		//debug($res);
 		$this->assertFalse($res);
 
 		$date = new Time('2010-02-24');
-		$context = array('data' => array('before' => new Time('2010-02-24')));
-		$res = $this->Users->validateDate($date, array('before' => 'before', 'min' => 1), $context);
+		$context = ['data' => ['before' => new Time('2010-02-24')]];
+		$res = $this->Users->validateDate($date, ['before' => 'before', 'min' => 1], $context);
 		//debug($res);
 		$this->assertFalse($res);
 
 		$date = new Time('2010-02-24');
-		$context = array('data' => array('before' => new Time('2010-02-25')));
-		$res = $this->Users->validateDate($date, array('before' => 'before', 'min' => 1), $context);
+		$context = ['data' => ['before' => new Time('2010-02-25')]];
+		$res = $this->Users->validateDate($date, ['before' => 'before', 'min' => 1], $context);
 		//debug($res);
 		$this->assertTrue($res);
 
 		$date = new Time('2010-02-24');
-		$context = array('data' => array('before' => new Time('2010-02-25')));
-		$res = $this->Users->validateDate($date, array('before' => 'before', 'min' => 2), $context);
+		$context = ['data' => ['before' => new Time('2010-02-25')]];
+		$res = $this->Users->validateDate($date, ['before' => 'before', 'min' => 2], $context);
 		//debug($res);
 		$this->assertFalse($res);
 
 		$date = new Time('2010-02-24');
-		$context = array('data' => array('before' => new Time('2010-02-26')));
-		$res = $this->Users->validateDate($date, array('before' => 'before', 'min' => 2), $context);
+		$context = ['data' => ['before' => new Time('2010-02-26')]];
+		$res = $this->Users->validateDate($date, ['before' => 'before', 'min' => 2], $context);
 		//debug($res);
 		$this->assertTrue($res);
 	}
@@ -312,7 +312,7 @@ class TableTest extends TestCase {
 		$this->assertTrue($res);
 
 		$date = null;
-		$res = $this->Users->validateDatetime($date, array('allowEmpty' => true));
+		$res = $this->Users->validateDatetime($date, ['allowEmpty' => true]);
 		//debug($res);
 		$this->assertTrue($res);
 
@@ -324,44 +324,44 @@ class TableTest extends TestCase {
 		*/
 
 		$date = new Time('2010-02-23 11:11:11');
-		$context = array('data' => array('after' => new Time('2010-02-22 11:11:11')));
-		$res = $this->Users->validateDatetime($date, array('after' => 'after'), $context);
+		$context = ['data' => ['after' => new Time('2010-02-22 11:11:11')]];
+		$res = $this->Users->validateDatetime($date, ['after' => 'after'], $context);
 		//debug($res);
 		$this->assertTrue($res);
 
 		$date = new Time('2010-02-23 11:11:11');
-		$context = array('data' => array('after' => new Time('2010-02-24 11:11:11')));
-		$res = $this->Users->validateDatetime($date, array('after' => 'after'), $context);
+		$context = ['data' => ['after' => new Time('2010-02-24 11:11:11')]];
+		$res = $this->Users->validateDatetime($date, ['after' => 'after'], $context);
 		//debug($res);
 		$this->assertFalse($res);
 
 		$date = new Time('2010-02-23 11:11:11');
-		$context = array('data' => array('after' => new Time('2010-02-23 11:11:11')));
-		$res = $this->Users->validateDatetime($date, array('after' => 'after'), $context);
+		$context = ['data' => ['after' => new Time('2010-02-23 11:11:11')]];
+		$res = $this->Users->validateDatetime($date, ['after' => 'after'], $context);
 		//debug($res);
 		$this->assertFalse($res);
 
 		$date = new Time('2010-02-23 11:11:11');
-		$context = array('data' => array('after' => new Time('2010-02-23 11:11:11')));
-		$res = $this->Users->validateDatetime($date, array('after' => 'after', 'min' => 1), $context);
+		$context = ['data' => ['after' => new Time('2010-02-23 11:11:11')]];
+		$res = $this->Users->validateDatetime($date, ['after' => 'after', 'min' => 1], $context);
 		//debug($res);
 		$this->assertFalse($res);
 
 		$date = new Time('2010-02-23 11:11:11');
-		$context = array('data' => array('after' => new Time('2010-02-23 11:11:11')));
-		$res = $this->Users->validateDatetime($date, array('after' => 'after', 'min' => 0), $context);
+		$context = ['data' => ['after' => new Time('2010-02-23 11:11:11')]];
+		$res = $this->Users->validateDatetime($date, ['after' => 'after', 'min' => 0], $context);
 		//debug($res);
 		$this->assertTrue($res);
 
 		$date = new Time('2010-02-23 11:11:11');
-		$context = array('data' => array('after' => new Time('2010-02-23 11:11:10')));
-		$res = $this->Users->validateDatetime($date, array('after' => 'after'), $context);
+		$context = ['data' => ['after' => new Time('2010-02-23 11:11:10')]];
+		$res = $this->Users->validateDatetime($date, ['after' => 'after'], $context);
 		//debug($res);
 		$this->assertTrue($res);
 
 		$date = new Time('2010-02-23 11:11:11');
-		$context = array('data' => array('after' => new Time('2010-02-23 11:11:12')));
-		$res = $this->Users->validateDatetime($date, array('after' => 'after'), $context);
+		$context = ['data' => ['after' => new Time('2010-02-23 11:11:12')]];
+		$res = $this->Users->validateDatetime($date, ['after' => 'after'], $context);
 		//debug($res);
 		$this->assertFalse($res);
 	}
@@ -384,14 +384,14 @@ class TableTest extends TestCase {
 		$this->assertFalse($res);
 
 		$date = '2010-02-23 11:11:11';
-		$context = array('data' => array('before' => new Time('2010-02-23 11:11:12')));
-		$res = $this->Users->validateTime($date, array('before' => 'before'), $context);
+		$context = ['data' => ['before' => new Time('2010-02-23 11:11:12')]];
+		$res = $this->Users->validateTime($date, ['before' => 'before'], $context);
 		//debug($res);
 		$this->assertTrue($res);
 
 		$date = '2010-02-23 11:11:11';
-		$context = array('data' => array('after' => new Time('2010-02-23 11:11:12')));
-		$res = $this->Users->validateTime($date, array('after' => 'after'), $context);
+		$context = ['data' => ['after' => new Time('2010-02-23 11:11:12')]];
+		$res = $this->Users->validateTime($date, ['after' => 'after'], $context);
 		//debug($res);
 		$this->assertFalse($res);
 	}
@@ -404,59 +404,59 @@ class TableTest extends TestCase {
 	public function testValidateUrl() {
 
 		$data = 'www.dereuromark.de';
-		$res = $this->Users->validateUrl($data, array('allowEmpty' => true));
+		$res = $this->Users->validateUrl($data, ['allowEmpty' => true]);
 		$this->assertTrue($res);
 
 		$data = 'www.xxxde';
-		$res = $this->Users->validateUrl($data, array('allowEmpty' => true));
+		$res = $this->Users->validateUrl($data, ['allowEmpty' => true]);
 		$this->assertFalse($res);
 
 		$data = 'www.dereuromark.de';
-		$res = $this->Users->validateUrl($data, array('allowEmpty' => true, 'autoComplete' => false));
+		$res = $this->Users->validateUrl($data, ['allowEmpty' => true, 'autoComplete' => false]);
 		$this->assertFalse($res);
 
 		$data = 'http://www.dereuromark.de';
-		$res = $this->Users->validateUrl($data, array('allowEmpty' => true, 'autoComplete' => false));
+		$res = $this->Users->validateUrl($data, ['allowEmpty' => true, 'autoComplete' => false]);
 		$this->assertTrue($res);
 
 		$data = 'www.dereuromark.de';
-		$res = $this->Users->validateUrl($data, array('strict' => true));
+		$res = $this->Users->validateUrl($data, ['strict' => true]);
 		$this->assertTrue($res); # aha
 
 		$data = 'http://www.dereuromark.de';
-		$res = $this->Users->validateUrl($data, array('strict' => false));
+		$res = $this->Users->validateUrl($data, ['strict' => false]);
 		$this->assertTrue($res);
 
 		$this->skipIf(empty($_SERVER['HTTP_HOST']), 'No HTTP_HOST');
 
 		$data = 'http://xyz.de/some/link';
-		$res = $this->Users->validateUrl($data, array('deep' => false, 'sameDomain' => true));
+		$res = $this->Users->validateUrl($data, ['deep' => false, 'sameDomain' => true]);
 		$this->assertFalse($res);
 
 		$data = '/some/link';
-		$res = $this->Users->validateUrl($data, array('deep' => false, 'autoComplete' => true));
+		$res = $this->Users->validateUrl($data, ['deep' => false, 'autoComplete' => true]);
 		$this->assertTrue($_SERVER['HTTP_HOST'] === 'localhost' ? !$res : $res);
 
 		$data = 'http://' . $_SERVER['HTTP_HOST'] . '/some/link';
-		$res = $this->Users->validateUrl($data, array('deep' => false));
+		$res = $this->Users->validateUrl($data, ['deep' => false]);
 		$this->assertTrue($_SERVER['HTTP_HOST'] === 'localhost' ? !$res : $res);
 
 		$data = '/some/link';
-		$res = $this->Users->validateUrl($data, array('deep' => false, 'autoComplete' => false));
+		$res = $this->Users->validateUrl($data, ['deep' => false, 'autoComplete' => false]);
 		$this->assertTrue((env('REMOTE_ADDR') !== '127.0.0.1') ? !$res : $res);
 
 		//$this->skipIf(strpos($_SERVER['HTTP_HOST'], '.') === false, 'No online HTTP_HOST');
 
 		$data = '/some/link';
-		$res = $this->Users->validateUrl($data, array('deep' => false, 'sameDomain' => true));
+		$res = $this->Users->validateUrl($data, ['deep' => false, 'sameDomain' => true]);
 		$this->assertTrue($_SERVER['HTTP_HOST'] === 'localhost' ? !$res : $res);
 
 		$data = 'https://github.com/';
-		$res = $this->Users->validateUrl($data, array('deep' => false));
+		$res = $this->Users->validateUrl($data, ['deep' => false]);
 		$this->assertTrue($res);
 
 		$data = 'https://github.com/';
-		$res = $this->Users->validateUrl($data, array('deep' => true));
+		$res = $this->Users->validateUrl($data, ['deep' => true]);
 		$this->assertTrue($res);
 	}
 
@@ -467,40 +467,40 @@ class TableTest extends TestCase {
 	 */
 	public function _testValidateUnique() {
 
-		$this->Post->validate['title'] = array(
-			'validateUnique' => array(
+		$this->Post->validate['title'] = [
+			'validateUnique' => [
 				'rule' => 'validateUnique',
 				'message' => 'valErrRecordTitleExists'
-			),
-		);
-		$data = array(
+			],
+		];
+		$data = [
 			'title' => 'abc',
 			'published' => 'N'
-		);
+		];
 		$this->Post->create($data);
 		$res = $this->Post->validates();
 		$this->assertTrue($res);
-		$res = $this->Post->save($res, array('validate' => false));
+		$res = $this->Post->save($res, ['validate' => false]);
 		$this->assertTrue((bool)$res);
 
 		$this->Post->create();
 		$res = $this->Post->save($data);
 		$this->assertFalse($res);
 
-		$this->Post->validate['title'] = array(
-			'validateUnique' => array(
-				'rule' => array('validateUnique', array('published')),
+		$this->Post->validate['title'] = [
+			'validateUnique' => [
+				'rule' => ['validateUnique', ['published']],
 				'message' => 'valErrRecordTitleExists'
-			),
-		);
-		$data = array(
+			],
+		];
+		$data = [
 			'title' => 'abc',
 			'published' => 'Y'
-		);
+		];
 		$this->Post->create($data);
 		$res = $this->Post->validates();
 		$this->assertTrue($res);
-		$res = $this->Post->save($res, array('validate' => false));
+		$res = $this->Post->save($res, ['validate' => false]);
 		$this->assertTrue((bool)$res);
 
 		$this->Post->create();

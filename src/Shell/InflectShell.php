@@ -20,22 +20,22 @@ class InflectShell extends Shell {
 	 *
 	 * @var string
 	 */
-	public $validMethods = array(
+	public $validMethods = [
 		'pluralize', 'singularize', 'camelize',
 		'underscore', 'humanize', 'tableize',
 		'classify', 'variable', 'dasherize', 'slug'
-	);
+	];
 
 	/**
 	 * Valid inflection rules
 	 *
 	 * @var string
 	 */
-	public $validCommands = array(
+	public $validCommands = [
 		'pluralize', 'singularize', 'camelize',
 		'underscore', 'humanize', 'tableize',
 		'classify', 'variable', 'dasherize', 'slug', 'all', 'quit'
-	);
+	];
 
 	/**
 	 * Inflects words
@@ -60,7 +60,7 @@ class InflectShell extends Shell {
 	protected function _interactive() {
 		$method = $this->_getMethod();
 		$words = $this->_getWords();
-		return array('method' => $method, 'words' => $words);
+		return ['method' => $method, 'words' => $words];
 	}
 
 	/**
@@ -70,7 +70,7 @@ class InflectShell extends Shell {
 	 * @author Jose Diaz-Gonzalez
 	 */
 	protected function _getMethod() {
-		$validCharacters = array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'q');
+		$validCharacters = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'q'];
 		$validCommands = array_merge($validCharacters, $this->validCommands);
 
 		$command = null;
@@ -171,7 +171,7 @@ class InflectShell extends Shell {
 		$words = null;
 		$function = $arguments[0];
 		unset($arguments[0]);
-		if (!in_array($function, array_merge($this->validMethods, array('all')))) {
+		if (!in_array($function, array_merge($this->validMethods, ['all']))) {
 			$function = $this->_getMethod();
 		}
 
@@ -187,7 +187,7 @@ class InflectShell extends Shell {
 			}
 		}
 
-		return array('method' => $function, 'words' => $words);
+		return ['method' => $function, 'words' => $words];
 	}
 
 	/**
@@ -214,7 +214,7 @@ class InflectShell extends Shell {
 	 * @return void
 	 */
 	protected function _getMessage($function) {
-		$messages = array(
+		$messages = [
 			'camelize' => 'CamelCase form             ',
 			'classify' => 'Cake Model Class form      ',
 			'humanize' => 'Human Readable Group form  ',
@@ -225,7 +225,7 @@ class InflectShell extends Shell {
 			'tableize' => 'table_names form           ',
 			'underscore' => 'under_scored_form          ',
 			'variable' => 'variableForm               '
-		);
+		];
 		return $messages[$function];
 	}
 

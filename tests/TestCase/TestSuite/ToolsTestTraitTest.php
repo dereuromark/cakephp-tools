@@ -11,7 +11,7 @@ class ToolsTestTraitTest extends TestCase {
 		parent::setUp();
 
 		$this->serverArgBackup = !empty($_SERVER['argv']) ? $_SERVER['argv'] : null;
-		$_SERVER['argv'] = array();
+		$_SERVER['argv'] = [];
 	}
 
 	public function tearDown() {
@@ -41,7 +41,7 @@ class ToolsTestTraitTest extends TestCase {
 		$result = $this->isDebug();
 		$this->assertFalse($result);
 
-		$_SERVER['argv'] = array('--debug');
+		$_SERVER['argv'] = ['--debug'];
 		$result = $this->isDebug();
 		$this->assertTrue($result);
 	}
@@ -52,31 +52,31 @@ class ToolsTestTraitTest extends TestCase {
 	 * @return void
 	 */
 	public function testIsVerbose() {
-		$_SERVER['argv'] = array('--debug');
+		$_SERVER['argv'] = ['--debug'];
 		$result = $this->isVerbose();
 		$this->assertFalse($result);
 
-		$_SERVER['argv'] = array('-v');
+		$_SERVER['argv'] = ['-v'];
 		$result = $this->isVerbose();
 		$this->assertTrue($result);
 
-		$_SERVER['argv'] = array('-vv');
+		$_SERVER['argv'] = ['-vv'];
 		$result = $this->isVerbose();
 		$this->assertTrue($result);
 
-		$_SERVER['argv'] = array('-v', '-vv');
+		$_SERVER['argv'] = ['-v', '-vv'];
 		$result = $this->isVerbose();
 		$this->assertTrue($result);
 
-		$_SERVER['argv'] = array('-v');
+		$_SERVER['argv'] = ['-v'];
 		$result = $this->isVerbose(true);
 		$this->assertFalse($result);
 
-		$_SERVER['argv'] = array('-vv');
+		$_SERVER['argv'] = ['-vv'];
 		$result = $this->isVerbose(true);
 		$this->assertTrue($result);
 
-		$_SERVER['argv'] = array('-v', '-vv');
+		$_SERVER['argv'] = ['-v', '-vv'];
 		$result = $this->isVerbose(true);
 		$this->assertTrue($result);
 	}

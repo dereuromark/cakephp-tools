@@ -29,8 +29,8 @@ $config = [
 
 	// Helpers
 	'Format' => [
-		'fontIcons' => array(),
-		'templates' => array()
+		'fontIcons' => [],
+		'templates' => []
 	],
 	'Google' => [
 	],

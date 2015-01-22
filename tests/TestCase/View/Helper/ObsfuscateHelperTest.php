@@ -63,11 +63,11 @@ class ObfuscateHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testHideEmail() {
-		$mails = array(
+		$mails = [
 			'test@test.de' => 't..t@t..t.de',
 			'xx@yy.de' => 'x..x@y..y.de',
 			'erk-wf@ve-eeervdg.com' => 'e..f@v..g.com',
-		);
+		];
 		foreach ($mails as $mail => $expected) {
 			$res = $this->Obfuscate->hideEmail($mail);
 
@@ -80,15 +80,15 @@ class ObfuscateHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testWordCensor() {
-		$data = array(
+		$data = [
 			'dfssdfsdj sdkfj sdkfj ksdfj bitch ksdfj' => 'dfssdfsdj sdkfj sdkfj ksdfj ##### ksdfj',
 			'122 jsdf ficken Sjdkf sdfj sdf' => '122 jsdf ###### Sjdkf sdfj sdf',
 			'122 jsdf FICKEN sjdkf sdfjs sdf' => '122 jsdf ###### sjdkf sdfjs sdf',
 			'dddddddddd ARSCH ddddddddddddd' => 'dddddddddd ##### ddddddddddddd',
 			//'\';alert(String.fromCharCode(88,83,83))//\';alert(String.fromCharCode(88,83,83))//";alert(String.fromCharCode(88,83,83))//\";alert(String.fromCharCode(88,83,83))//--></SCRIPT>">\'><SCRIPT>alert(String.fromCharCode(88,83,83))</SCRIPT>' => null
-		);
+		];
 		foreach ($data as $value => $expected) {
-			$res = $this->Obfuscate->wordCensor($value, array('Arsch', 'Ficken', 'Bitch'));
+			$res = $this->Obfuscate->wordCensor($value, ['Arsch', 'Ficken', 'Bitch']);
 
 			//debug('\''.h($value).'\' becomes \''.h($res).'\'', null, false);
 			$this->assertEquals($expected === null ? $value : $expected, $res);

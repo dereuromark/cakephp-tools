@@ -38,7 +38,7 @@ class CommonHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testMetaName() {
-		$result = $this->Common->metaName('foo', array(1, 2, 3));
+		$result = $this->Common->metaName('foo', [1, 2, 3]);
 		$expected = '<meta name="foo" content="1, 2, 3" />';
 		$this->assertEquals($expected, $result);
 	}
@@ -105,13 +105,13 @@ class CommonHelperTest extends TestCase {
 		$is = $this->Common->metaAlternate('/some/url/param1', 'de-de', true);
 		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url/param1', true) . '" rel="alternate" hreflang="de-de"/>', trim($is));
 
-		$is = $this->Common->metaAlternate(array('controller' => 'some', 'action' => 'url'), 'de', true);
+		$is = $this->Common->metaAlternate(['controller' => 'some', 'action' => 'url'], 'de', true);
 		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url', true) . '" rel="alternate" hreflang="de"/>', trim($is));
 
-		$is = $this->Common->metaAlternate(array('controller' => 'some', 'action' => 'url'), array('de', 'de-ch'), true);
+		$is = $this->Common->metaAlternate(['controller' => 'some', 'action' => 'url'], ['de', 'de-ch'], true);
 		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url', true) . '" rel="alternate" hreflang="de"/>' . PHP_EOL . '<link href="' . $this->Common->Url->build('/some/url', true) . '" rel="alternate" hreflang="de-ch"/>', trim($is));
 
-		$is = $this->Common->metaAlternate(array('controller' => 'some', 'action' => 'url'), array('de' => array('ch', 'at'), 'en' => array('gb', 'us')), true);
+		$is = $this->Common->metaAlternate(['controller' => 'some', 'action' => 'url'], ['de' => ['ch', 'at'], 'en' => ['gb', 'us']], true);
 		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url', true) . '" rel="alternate" hreflang="de-ch"/>' . PHP_EOL .
 			'<link href="' . $this->Common->Url->build('/some/url', true) . '" rel="alternate" hreflang="de-at"/>' . PHP_EOL .
 			'<link href="' . $this->Common->Url->build('/some/url', true) . '" rel="alternate" hreflang="en-gb"/>' . PHP_EOL .

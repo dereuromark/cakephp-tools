@@ -120,11 +120,11 @@ class FlashComponentTest extends TestCase {
  */
 class FlashComponentTestController extends Controller {
 
-	public $components = array('Tools.Flash');
+	public $components = ['Tools.Flash'];
 
 	public $failed = false;
 
-	public $testHeaders = array();
+	public $testHeaders = [];
 
 	public function fail() {
 		$this->failed = true;

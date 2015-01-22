@@ -39,8 +39,8 @@ class JsonableBehavior extends Behavior {
 	 * //TODO: json input/ouput directly, clean
 	 * @var array
 	 */
-	protected $_defaultConfig = array(
-		'fields' => array(), // Fields to convert
+	protected $_defaultConfig = [
+		'fields' => [], // Fields to convert
 		'input' => 'array', // json, array, param, list (param/list only works with specific fields)
 		'output' => 'array', // json, array, param, list (param/list only works with specific fields)
 		'separator' => '|', // only for param or list
@@ -50,17 +50,17 @@ class JsonableBehavior extends Behavior {
 		'clean' => true, // only for param or list (autoclean values on insert)
 		'sort' => false, // only for list
 		'unique' => true, // only for list (autoclean values on insert),
-		'map' => array(), // map on a different DB field
-		'encodeParams' => array( // params for json_encode
+		'map' => [], // map on a different DB field
+		'encodeParams' => [ // params for json_encode
 			'options' => 0,
 			'depth' => 512,
-		),
-		'decodeParams' => array( // params for json_decode
+		],
+		'decodeParams' => [ // params for json_decode
 			'assoc' => false, // useful when working with multidimensional arrays
 			'depth' => 512,
 			'options' => 0
-		)
-	);
+		]
+	];
 
 	/**
 	 * JsonableBehavior::initialize()
@@ -68,7 +68,7 @@ class JsonableBehavior extends Behavior {
 	 * @param array $config
 	 * @return void
 	 */
-	public function initialize(array $config = array()) {
+	public function initialize(array $config = []) {
 		if (empty($this->_config['fields'])) {
 			throw new \Exception('Fields are required');
 		}
@@ -146,7 +146,7 @@ class JsonableBehavior extends Behavior {
 			$mappedFields = $usedFields;
 		}
 
-		$fields = array();
+		$fields = [];
 
 		foreach ($mappedFields as $index => $map) {
 			if (empty($map) || $map == $usedFields[$index]) {
@@ -216,7 +216,7 @@ class JsonableBehavior extends Behavior {
 	 * array() => param1:value1|param2:value2|...
 	 */
 	public function _toParam($val) {
-		$res = array();
+		$res = [];
 		foreach ($val as $key => $v) {
 			$res[] = $key . $this->_config['keyValueSeparator'] . $v;
 		}
@@ -228,7 +228,7 @@ class JsonableBehavior extends Behavior {
 		$rightBound = $this->_config['rightBound'];
 		$separator = $this->_config['separator'];
 
-		$res = array();
+		$res = [];
 		$pieces = Text::tokenize($val, $separator, $leftBound, $rightBound);
 		foreach ($pieces as $piece) {
 			$subpieces = Text::tokenize($piece, $this->_config['keyValueSeparator'], $leftBound, $rightBound);

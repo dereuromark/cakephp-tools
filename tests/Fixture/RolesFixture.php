@@ -14,7 +14,7 @@ class RolesFixture extends TestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = array(
+	public $fields = [
 		'id' => ['type' => 'integer'],
 		'name' => ['type' => 'string', 'null' => false, 'length' => 64, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
 		'alias' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 20, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
@@ -24,15 +24,15 @@ class RolesFixture extends TestFixture {
 		'sort' => ['type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10, 'collate' => null, 'comment' => ''],
 		'active' => ['type' => 'boolean', 'null' => false, 'default' => false, 'collate' => null, 'comment' => ''],
 		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
-	);
+	];
 
 	/**
 	 * Records
 	 *
 	 * @var array
 	 */
-	public $records = array(
-		array(
+	public $records = [
+		[
 			'id' => '2',
 			'name' => 'Admin',
 			'alias' => 'admin',
@@ -41,8 +41,8 @@ class RolesFixture extends TestFixture {
 			'modified' => '2010-01-07 03:36:33',
 			'sort' => '6',
 			'active' => 1
-		),
-		array(
+		],
+		[
 			'id' => '4',
 			'name' => 'User',
 			'alias' => 'user',
@@ -51,8 +51,8 @@ class RolesFixture extends TestFixture {
 			'modified' => '2010-01-07 03:36:33',
 			'sort' => '1',
 			'active' => 1
-		),
-		array(
+		],
+		[
 			'id' => '6',
 			'name' => 'Partner',
 			'alias' => 'partner',
@@ -61,8 +61,8 @@ class RolesFixture extends TestFixture {
 			'modified' => '2010-01-07 03:36:33',
 			'sort' => '0',
 			'active' => 1
-		),
-		array(
+		],
+		[
 			'id' => '1',
 			'name' => 'Super-Admin',
 			'alias' => 'superadmin',
@@ -71,7 +71,7 @@ class RolesFixture extends TestFixture {
 			'modified' => '2010-01-07 03:36:33',
 			'sort' => '7',
 			'active' => 1
-		),
-	);
+		],
+	];
 
 }

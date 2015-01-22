@@ -22,8 +22,8 @@ class NumberHelper extends CakeNumberHelper {
 	 * @param array $config Configuration settings for the helper
 	 * @throws \Cake\Core\Exception\Exception When the engine class could not be found.
 	 */
-	public function __construct($View = null, $options = array()) {
-		$options = Hash::merge(array('engine' => 'Tools.Number'), $options);
+	public function __construct($View = null, $options = []) {
+		$options = Hash::merge(['engine' => 'Tools.Number'], $options);
 		parent::__construct($View, $options);
 	}
 

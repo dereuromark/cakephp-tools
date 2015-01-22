@@ -38,8 +38,8 @@ class TextHelper extends CakeTextHelper {
 	 * @param array $settings Settings array Settings array
 	 * @throws CakeException when the engine class could not be found.
 	 */
-	public function __construct(View $View, array $config = array()) {
-		$config = Hash::merge(array('engine' => 'Tools.Text'), $config);
+	public function __construct(View $View, array $config = []) {
+		$config = Hash::merge(['engine' => 'Tools.Text'], $config);
 		parent::__construct($View, $config);
 	}
 
@@ -52,7 +52,7 @@ class TextHelper extends CakeTextHelper {
 	 * - placeholder
 	 * @return string the manipulated url (+ eventuell ...)
 	 */
-	public function minimizeUrl($url, $max = null, array $options = array()) {
+	public function minimizeUrl($url, $max = null, array $options = []) {
 		// check if there is nothing to do
 		if (empty($url) || mb_strlen($url) <= (int)$max) {
 			return $url;

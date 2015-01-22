@@ -58,31 +58,31 @@ class GravatarHelperTest extends TestCase {
 		//$this->debug($is);
 		$this->assertTrue(!empty($is));
 
-		$is = $this->Gravatar->image($this->testEmail, array('size' => '200'));
+		$is = $this->Gravatar->image($this->testEmail, ['size' => '200']);
 		//$this->debug($is);
 		$this->assertTrue(!empty($is));
 
-		$is = $this->Gravatar->image($this->testEmail, array('size' => '20'));
+		$is = $this->Gravatar->image($this->testEmail, ['size' => '20']);
 		//$this->debug($is);
 		$this->assertTrue(!empty($is));
 
-		$is = $this->Gravatar->image($this->testEmail, array('rating' => 'X')); # note the capit. x
+		$is = $this->Gravatar->image($this->testEmail, ['rating' => 'X']); # note the capit. x
 		//$this->debug($is);
 		$this->assertTrue(!empty($is));
 
-		$is = $this->Gravatar->image($this->testEmail, array('ext' => true));
+		$is = $this->Gravatar->image($this->testEmail, ['ext' => true]);
 		//$this->debug($is);
 		$this->assertTrue(!empty($is));
 
-		$is = $this->Gravatar->image($this->testEmail, array('default' => 'none'));
+		$is = $this->Gravatar->image($this->testEmail, ['default' => 'none']);
 		//$this->debug($is);
 		$this->assertTrue(!empty($is));
 
-		$is = $this->Gravatar->image($this->garageEmail, array('default' => 'none'));
+		$is = $this->Gravatar->image($this->garageEmail, ['default' => 'none']);
 		//$this->debug($is);
 		$this->assertTrue(!empty($is));
 
-		$is = $this->Gravatar->image($this->garageEmail, array('default' => 'http://2.gravatar.com/avatar/8379aabc84ecee06f48d8ca48e09eef4?d=identicon'));
+		$is = $this->Gravatar->image($this->garageEmail, ['default' => 'http://2.gravatar.com/avatar/8379aabc84ecee06f48d8ca48e09eef4?d=identicon']);
 		//$this->debug($is);
 		$this->assertTrue(!empty($is));
 	}
@@ -96,7 +96,7 @@ class GravatarHelperTest extends TestCase {
 	 */
 	public function testBaseUrlGeneration() {
 		$expected = 'http://www.gravatar.com/avatar/' . md5('example@gravatar.com');
-		$result = $this->Gravatar->url('example@gravatar.com', array('ext' => false, 'default' => 'wavatar'));
+		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => false, 'default' => 'wavatar']);
 		list($url, $params) = explode('?', $result);
 		$this->assertEquals($expected, $url);
 	}
@@ -107,7 +107,7 @@ class GravatarHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testExtensions() {
-		$result = $this->Gravatar->url('example@gravatar.com', array('ext' => true, 'default' => 'wavatar'));
+		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => true, 'default' => 'wavatar']);
 		$this->assertRegExp('/\.jpg(?:$|\?)/', $result);
 	}
 
@@ -117,7 +117,7 @@ class GravatarHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testRating() {
-		$result = $this->Gravatar->url('example@gravatar.com', array('ext' => true, 'default' => 'wavatar'));
+		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => true, 'default' => 'wavatar']);
 		$this->assertRegExp('/\.jpg(?:$|\?)/', $result);
 	}
 
@@ -127,7 +127,7 @@ class GravatarHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testAlternateDefaultIcon() {
-		$result = $this->Gravatar->url('example@gravatar.com', array('ext' => false, 'default' => 'wavatar'));
+		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => false, 'default' => 'wavatar']);
 		list($url, $params) = explode('?', $result);
 		$this->assertRegExp('/default=wavatar/', $params);
 	}
@@ -138,7 +138,7 @@ class GravatarHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testAlternateDefaultIconCorrection() {
-		$result = $this->Gravatar->url('example@gravatar.com', array('ext' => false, 'default' => '12345'));
+		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => false, 'default' => '12345']);
 		$this->assertRegExp('/[^\?]+/', $result);
 	}
 
@@ -148,7 +148,7 @@ class GravatarHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testSize() {
-		$result = $this->Gravatar->url('example@gravatar.com', array('size' => '120'));
+		$result = $this->Gravatar->url('example@gravatar.com', ['size' => '120']);
 		list($url, $params) = explode('?', $result);
 		$this->assertRegExp('/size=120/', $params);
 	}
@@ -160,11 +160,11 @@ class GravatarHelperTest extends TestCase {
 	 */
 	public function testImageTag() {
 		$expected = '<img src="http://www.gravatar.com/avatar/' . md5('example@gravatar.com') . '" alt=""/>';
-		$result = $this->Gravatar->image('example@gravatar.com', array('ext' => false));
+		$result = $this->Gravatar->image('example@gravatar.com', ['ext' => false]);
 		$this->assertEquals($expected, $result);
 
 		$expected = '<img src="http://www.gravatar.com/avatar/' . md5('example@gravatar.com') . '" alt="Gravatar"/>';
-		$result = $this->Gravatar->image('example@gravatar.com', array('ext' => false, 'alt' => 'Gravatar'));
+		$result = $this->Gravatar->image('example@gravatar.com', ['ext' => false, 'alt' => 'Gravatar']);
 		$this->assertEquals($expected, $result);
 	}
 
@@ -174,7 +174,7 @@ class GravatarHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testDefaulting() {
-		$result = $this->Gravatar->url('example@gravatar.com', array('default' => 'wavatar', 'size' => 'default'));
+		$result = $this->Gravatar->url('example@gravatar.com', ['default' => 'wavatar', 'size' => 'default']);
 		list($url, $params) = explode('?', $result);
 		$this->assertEquals($params, 'default=wavatar');
 	}
@@ -188,16 +188,16 @@ class GravatarHelperTest extends TestCase {
 		$_SERVER['HTTPS'] = false;
 
 		$expected = 'http://www.gravatar.com/avatar/' . md5('example@gravatar.com');
-		$result = $this->Gravatar->url('example@gravatar.com', array('ext' => false));
+		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => false]);
 		$this->assertEquals($expected, $result);
 
 		$expected = 'http://www.gravatar.com/avatar/' . md5('example@gravatar.com');
-		$result = $this->Gravatar->url('example@gravatar.com', array('ext' => false, 'secure' => false));
+		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => false, 'secure' => false]);
 		$this->assertEquals($expected, $result);
 
 		$_SERVER['HTTPS'] = true;
 		$expected = 'http://www.gravatar.com/avatar/' . md5('example@gravatar.com');
-		$result = $this->Gravatar->url('example@gravatar.com', array('ext' => false, 'secure' => false));
+		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => false, 'secure' => false]);
 		$this->assertEquals($expected, $result);
 	}
 
@@ -208,7 +208,7 @@ class GravatarHelperTest extends TestCase {
 	 */
 	public function testSecureUrl() {
 		$expected = 'https://secure.gravatar.com/avatar/' . md5('example@gravatar.com');
-		$result = $this->Gravatar->url('example@gravatar.com', array('ext' => false, 'secure' => true));
+		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => false, 'secure' => true]);
 		$this->assertEquals($expected, $result);
 
 		$_SERVER['HTTPS'] = true;
@@ -216,11 +216,11 @@ class GravatarHelperTest extends TestCase {
 		$this->Gravatar = new GravatarHelper(new View(null));
 
 		$expected = 'https://secure.gravatar.com/avatar/' . md5('example@gravatar.com');
-		$result = $this->Gravatar->url('example@gravatar.com', array('ext' => false));
+		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => false]);
 		$this->assertEquals($expected, $result);
 
 		$expected = 'https://secure.gravatar.com/avatar/' . md5('example@gravatar.com');
-		$result = $this->Gravatar->url('example@gravatar.com', array('ext' => false, 'secure' => true));
+		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => false, 'secure' => true]);
 		$this->assertEquals($expected, $result);
 	}
 

@@ -11,7 +11,7 @@ use Cake\View\View;
  */
 class TimeHelper extends CakeTimeHelper {
 
-	public $helpers = array('Html');
+	public $helpers = ['Html'];
 
 /**
  * Default config for this class
@@ -41,7 +41,7 @@ class TimeHelper extends CakeTimeHelper {
 	 * @param array $config Configuration settings for the helper
 	 * @throws \Cake\Core\Exception\Exception When the engine class could not be found.
 	 */
-	public function __construct(View $View, array $config = array()) {
+	public function __construct(View $View, array $config = []) {
 		parent::__construct($View, $config);
 
 		$config = $this->_config;
@@ -62,7 +62,7 @@ class TimeHelper extends CakeTimeHelper {
 	 * @return mixed Whatever is returned by called method, or false on failure
 	 */
 	public function __call($method, $params) {
-		return call_user_func_array(array($this->_engine, $method), $params);
+		return call_user_func_array([$this->_engine, $method], $params);
 	}
 
 	/**
@@ -88,7 +88,7 @@ class TimeHelper extends CakeTimeHelper {
 	 *
 	 * @return string
 	 */
-	public function localDateMarkup($dateString = null, $format = null, $options = array()) {
+	public function localDateMarkup($dateString = null, $format = null, $options = []) {
 		$date = $this->localDate($dateString, $format, $options);
 		$date = '<span' . ($this->isToday($dateString, (isset($options['userOffset']) ? $options['userOffset'] : null)) ? ' class="today"' : '') . '>' . $date . '</span>';
 		return $date;
@@ -99,7 +99,7 @@ class TimeHelper extends CakeTimeHelper {
 	 *
 	 * @return string
 	 */
-	public function niceDateMarkup($dateString = null, $format = null, $options = array()) {
+	public function niceDateMarkup($dateString = null, $format = null, $options = []) {
 		$date = $this->niceDate($dateString, $format, $options);
 		$date = '<span' . ($this->isToday($dateString, (isset($options['userOffset']) ? $options['userOffset'] : null)) ? ' class="today"' : '') . '>' . $date . '</span>';
 		return $date;
@@ -115,13 +115,13 @@ class TimeHelper extends CakeTimeHelper {
 	 * @param array $attr: html attributes
 	 * @return nicely formatted date
 	 */
-	public function published(\DateTime $date, $options = array(), $attr = array()) {
+	public function published(\DateTime $date, $options = [], $attr = []) {
 		$niceDate = '';
 		$when = null;
 		$span = '';
 		$spanEnd = '';
-		$whenArray = array('-1' => 'already', '0' => 'today', '1' => 'notyet');
-		$titles = array('-1' => __d('tools', 'publishedAlready'), '0' => __d('tools', 'publishedToday'), '1' => __d('tools', 'publishedNotYet'));
+		$whenArray = ['-1' => 'already', '0' => 'today', '1' => 'notyet'];
+		$titles = ['-1' => __d('tools', 'publishedAlready'), '0' => __d('tools', 'publishedToday'), '1' => __d('tools', 'publishedNotYet')];
 
 		$y = $this->isThisYear($date) ? '' : ' Y';
 
@@ -179,7 +179,7 @@ class TimeHelper extends CakeTimeHelper {
 	 * @return array
 	 */
 	public function timezones() {
-		$timezones = array(
+		$timezones = [
 			'America/Adak' => '(GMT-10:00) America/Adak (Hawaii-Aleutian Standard Time)',
 			'America/Atka' => '(GMT-10:00) America/Atka (Hawaii-Aleutian Standard Time)',
 			'America/Anchorage' => '(GMT-9:00) America/Anchorage (Alaska Standard Time)',
@@ -580,7 +580,7 @@ class TimeHelper extends CakeTimeHelper {
 			'Antarctica/South_Pole' => '(GMT+12:00) Antarctica/South_Pole (New Zealand Standard Time)',
 			'Asia/Anadyr' => '(GMT+12:00) Asia/Anadyr (Anadyr Time)',
 			'Asia/Kamchatka' => '(GMT+12:00) Asia/Kamchatka (Petropavlovsk-Kamchatski Time)',
-		);
+		];
 		return $timezones;
 	}
 

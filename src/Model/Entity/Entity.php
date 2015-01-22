@@ -22,7 +22,7 @@ class Entity extends CakeEntity {
 			return $default;
 		}
 		if ($value !== null) {
-			$newOptions = array();
+			$newOptions = [];
 			foreach ($value as $v) {
 				$newOptions[$v] = $options[$v];
 			}

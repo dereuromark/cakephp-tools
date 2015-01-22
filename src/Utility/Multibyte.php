@@ -20,9 +20,9 @@ class Multibyte {
 	 * @return array
 	 */
 	public static function utf8($string) {
-		$map = array();
+		$map = [];
 
-		$values = array();
+		$values = [];
 		$find = 1;
 		$length = strlen($string);
 
@@ -43,7 +43,7 @@ class Multibyte {
 					} else {
 						$map[] = (($values[0] % 32) * 64) + ($values[1] % 64);
 					}
-					$values = array();
+					$values = [];
 					$find = 1;
 				}
 			}

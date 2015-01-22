@@ -12,7 +12,7 @@ use Cake\View\Helper;
  */
 class CommonHelper extends Helper {
 
-	public $helpers = array('Html', 'Url');
+	public $helpers = ['Html', 'Url'];
 
 	/**
 	 * Auto-pluralizing a word using the Inflection class
@@ -63,13 +63,13 @@ class CommonHelper extends Helper {
 		if ($type === null && ($meta = Configure::read('Config.robots')) !== null) {
 			$type = $meta;
 		}
-		$content = array();
+		$content = [];
 		if ($type === 'public') {
 			$this->privatePage = false;
-			$content['robots'] = array('index', 'follow', 'noarchive');
+			$content['robots'] = ['index', 'follow', 'noarchive'];
 		} else {
 			$this->privatePage = true;
-			$content['robots'] = array('noindex', 'nofollow', 'noarchive');
+			$content['robots'] = ['noindex', 'nofollow', 'noarchive'];
 		}
 
 		$return = '<meta name="robots" content="' . implode(',', $content['robots']) . '" />';
@@ -101,7 +101,7 @@ class CommonHelper extends Helper {
 	 * @param array $additionalOptions
 	 * @return string HTML Markup
 	 */
-	public function metaDescription($content, $language = null, $options = array()) {
+	public function metaDescription($content, $language = null, $options = []) {
 		if (!empty($language)) {
 			$options['lang'] = mb_strtolower($language);
 		} elseif ($language !== false) {
@@ -145,7 +145,7 @@ class CommonHelper extends Helper {
 	 */
 	public function metaCanonical($url = null, $full = false) {
 		$canonical = $this->Url->build($url, $full);
-		$options = array('rel' => 'canonical', 'link' => $canonical);
+		$options = ['rel' => 'canonical', 'link' => $canonical];
 		return $this->Html->meta($options);
 	}
 
@@ -165,7 +165,7 @@ class CommonHelper extends Helper {
 		$url = $this->Url->build($url, $full);
 		//return $this->Html->meta('canonical', $canonical, array('rel'=>'canonical', 'type'=>null, 'title'=>null));
 		$lang = (array)$lang;
-		$res = array();
+		$res = [];
 		foreach ($lang as $language => $countries) {
 			if (is_numeric($language)) {
 				$language = '';
@@ -175,7 +175,7 @@ class CommonHelper extends Helper {
 			$countries = (array)$countries;
 			foreach ($countries as $country) {
 				$l = $language . $country;
-				$options = array('rel' => 'alternate', 'hreflang' => $l, 'link' => $url);
+				$options = ['rel' => 'alternate', 'hreflang' => $l, 'link' => $url];
 				$res[] = $this->Html->meta($options) . PHP_EOL;
 			}
 		}
@@ -190,9 +190,9 @@ class CommonHelper extends Helper {
 	 * @return string HTML Markup
 	 */
 	public function metaRss($url, $title = null) {
-		$tags = array(
+		$tags = [
 			'meta' => '<link rel="alternate" type="application/rss+xml" title="%s" href="%s" />',
-		);
+		];
 		if (empty($title)) {
 			$title = __d('tools', 'Subscribe to this feed');
 		} else {
@@ -210,9 +210,9 @@ class CommonHelper extends Helper {
 	 * @return string HTML Markup
 	 */
 	public function metaEquiv($type, $value, $escape = true) {
-		$tags = array(
+		$tags = [
 			'meta' => '<meta http-equiv="%s"%s />',
-		);
+		];
 		if ($value === null) {
 			return '';
 		}
