@@ -126,6 +126,19 @@ class TableTest extends TestCase {
 	}
 
 	/**
+	 * TableTest::testField()
+	 *
+	 * @return void
+	 */
+	public function testFieldByConditions() {
+		$result = $this->Users->fieldByConditions('name', ['name' => 'User 1']);
+		$this->assertEquals('User 1', $result);
+
+		$result = $this->Users->fieldByConditions('name', ['name' => 'User xxx']);
+		$this->assertNull($result);
+	}
+
+	/**
 	 * Test 2.x shimmed order property
 	 *
 	 *   $this->order = array('field_name' => 'ASC') etc

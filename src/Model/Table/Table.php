@@ -280,8 +280,8 @@ class Table extends CakeTable {
 	}
 
 	/**
-	 * Shim of 2.x field() method. Only difference: full $options array
-	 * instead of just conditions.
+	 * Convenience wrapper inspired by 2.x field() method. Only difference: full $options array
+	 * instead of just $conditions array.
 	 *
 	 * @param string $name
 	 * @param array $options
@@ -293,6 +293,18 @@ class Table extends CakeTable {
 			return null;
 		}
 		return $result->get($name);
+	}
+
+	/**
+	 * Shim of 2.x field() method.
+	 *
+	 * @param string $name
+	 * @param array $conditions
+	 * @return mixed Field value or null if not available
+	 * @deprecated Port to field() with full $options array
+	 */
+	public function fieldByConditions($name, array $conditions = array()) {
+		return $this->field($name, ['conditions' => $conditions]);
 	}
 
 	/**
