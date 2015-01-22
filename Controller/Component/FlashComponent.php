@@ -95,13 +95,15 @@ class FlashComponent extends Component {
 	 * - `element` The element used to render the flash message. Default to 'default'.
 	 * - `params` An array of variables to make available when using an element.
 	 * - `escape` If content should be escaped or not in the element itself or if elements are not used in the component.
+	 * - `typeToElement`
+	 * - `plugin`
 	 *
 	 * @param string $message Message to output.
 	 * @param array|string $options Options or Type ('error', 'warning', 'success', 'info' or custom class).
 	 * @return void
 	 */
 	public function message($message, $options = array()) {
-		$message = $this->_prepMessage($message, $options);
+		$message = $this->_prepMessage($message, $options, $this->settings);
 
 		$old = (array)$this->Session->read('messages');
 		$type = $options['type'];
@@ -110,46 +112,6 @@ class FlashComponent extends Component {
 		}
 		$old[$type][] = $message;
 		$this->Session->write('messages', $old);
-	}
-
-	/**
-	 * FlashComponent::_prepMessage()
-	 *
-	 * @param string $message
-	 * @param array $options
-	 * @return array
-	 */
-	protected function _prepMessage($message, &$options) {
-		if (!is_array($options)) {
-			$type = $options ?: $this->settings['type'];
-			$options = array('type' => $type);
-		}
-		$defaults = $this->settings;
-		$options += $defaults;
-
-		$message = array(
-			'message' => $options['escape'] ? h($message) : $message,
-			'params' => $options['params'],
-			'escape' => $options['escape']
-		);
-
-		if ($this->settings['useElements']) {
-			if ($options['typeToElement'] && $options['element'] === $defaults['element']) {
-				$options['element'] = ($options['plugin'] ? $options['plugin'] . '.' : '') . $options['type'];
-			}
-			list($plugin, $element) = pluginSplit($options['element']);
-			if ($plugin) {
-				$message['element'] = $plugin . '.Flash/' . $element;
-			} else {
-				$message['element'] = 'Flash/' . $element;
-			}
-		} else {
-			// Simplify?
-			if (!$message['escape'] && !$message['params']) {
-				$message = $message['message'];
-			}
-		}
-		return $message;
 	}
 
 	/**
@@ -165,6 +127,9 @@ class FlashComponent extends Component {
 	 * - `element` The element used to render the flash message. Default to 'default'.
 	 * - `params` An array of variables to make available when using an element.
 	 * - `escape` If content should be escaped or not in the element itself or if elements are not used in the component.
+	 * - `typeToElement`
+	 * - `plugin`
+	 * - `useElements`
 	 *
 	 * @param string $message Message to output.
 	 * @param array|string $options Options or Type ('error', 'warning', 'success', 'info' or custom class).
@@ -180,6 +145,25 @@ class FlashComponent extends Component {
 			'useElements' => false,
 			'plugin' => null,
 		);
+		$message = static::_prepMessage($message, $options, $defaults);
+
+		$old = (array)Configure::read('messages');
+		$type = $options['type'];
+		if (isset($old[$type]) && count($old[$type]) > 99) {
+			array_shift($old[$type]);
+		}
+		$old[$type][] = $message;
+		Configure::write('messages', $old);
+	}
+
+	/**
+	 * FlashComponent::_prepMessage()
+	 *
+	 * @param string $message
+	 * @param array $options
+	 * @return array
+	 */
+	protected static function _prepMessage($message, &$options, $defaults) {
 		if (!is_array($options)) {
 			$type = $options ?: $defaults['type'];
 			$options = array('type' => $type);
@@ -187,7 +171,7 @@ class FlashComponent extends Component {
 		$options += $defaults;
 
 		$message = array(
-			'message' => $message, // $options['escape'] ? h($message) : $message,
+			'message' => $options['escape'] ? h($message) : $message,
 			'params' => $options['params'],
 			'escape' => $options['escape']
 		);
@@ -208,14 +192,7 @@ class FlashComponent extends Component {
 				$message = $message['message'];
 			}
 		}
-
-		$old = (array)Configure::read('messages');
-		$type = $options['type'];
-		if (isset($old[$type]) && count($old[$type]) > 99) {
-			array_shift($old[$type]);
-		}
-		$old[$type][] = $message;
-		Configure::write('messages', $old);
+		return $message;
 	}
 
 	/**

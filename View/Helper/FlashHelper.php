@@ -121,9 +121,6 @@ class FlashHelper extends AppHelper {
 	 *
 	 * Only works with static Configure configuration.
 	 *
-	 * This method might not be in 3.x branch anymore, since the overhead of maintaining
-	 * this static method is not worth it. Try switching to addMessage instead().
-	 *
 	 * @param string $msg
 	 * @param string $class
 	 * @return void
