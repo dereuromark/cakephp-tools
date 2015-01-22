@@ -6,6 +6,7 @@ use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Tools\Utility\Text;
+use Cake\Datasource\ResultSetInterface;
 
 /**
  * A behavior that will json_encode (and json_decode) fields if they contain an array or specific pattern.
@@ -91,7 +92,7 @@ class JsonableBehavior extends Behavior {
 	 * @return void
 	 */
 	public function beforeFind(Event $event, Query $query) {
-		$query->formatResults(function (\Cake\Datasource\ResultSetInterface $results, Query $query) {
+		$query->formatResults(function (ResultSetInterface $results) {
 			return $results->map(function ($row) {
 				$this->decodeItems($row);
 				return $row;
