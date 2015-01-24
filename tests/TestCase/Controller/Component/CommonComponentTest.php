@@ -22,7 +22,7 @@ class CommonComponentTest extends TestCase {
 
 		Configure::write('App.namespace', 'TestApp');
 
-		$this->Controller = new CommonComponentTestController();
+		$this->Controller = new CommonComponentTestController(new Request('/test'));
 		$this->Controller->startupProcess();
 	}
 
@@ -127,6 +127,42 @@ class CommonComponentTest extends TestCase {
 		$this->assertFalse($is);
 	}
 
+	/**
+	 * CommonComponentTest::testAutoRedirect()
+	 *
+	 * @return void
+	 */
+	public function testPostRedirect() {
+		$is = $this->Controller->Common->postRedirect(array('action' => 'foo'));
+		$is = $this->Controller->response->header();
+		$this->assertSame('/foo', $is['Location']);
+		$this->assertSame(302, $this->Controller->response->statusCode());
+	}
+
+	/**
+	 * CommonComponentTest::testAutoRedirect()
+	 *
+	 * @return void
+	 */
+	public function testAutoRedirect() {
+		$is = $this->Controller->Common->autoRedirect(array('action' => 'foo'));
+		$is = $this->Controller->response->header();
+		$this->assertSame('/foo', $is['Location']);
+		$this->assertSame(200, $this->Controller->response->statusCode());
+	}
+
+	/**
+	 * CommonComponentTest::testAutoRedirect()
+	 *
+	 * @return void
+	 */
+	public function testAutoRedirectReferer() {
+		$is = $this->Controller->Common->autoRedirect(array('action' => 'foo'), true);
+		$is = $this->Controller->response->header();
+		$this->assertSame('/foo', $is['Location']);
+		$this->assertSame(200, $this->Controller->response->statusCode());
+	}
+
 }
 
 /**
@@ -136,19 +172,4 @@ class CommonComponentTestController extends Controller {
 
 	public $components = ['Tools.Common'];
 
-	public $failed = false;
-
-	public $testHeaders = [];
-
-	public function fail() {
-		$this->failed = true;
-	}
-
-	public function redirect($url, $status = null, $exit = true) {
-		return $status;
-	}
-
-	public function header($status) {
-		$this->testHeaders[] = $status;
-	}
 }

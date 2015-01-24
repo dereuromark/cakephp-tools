@@ -85,6 +85,7 @@ class CommonComponent extends Component {
 	 *
 	 * @param mixed $components (single string or multiple array)
 	 * @param bool $callbacks (defaults to true)
+	 * @return void
 	 */
 	public function loadComponent($component, array $config = [], $callbacks = true) {
 		list($plugin, $componentName) = pluginSplit($component);
@@ -155,13 +156,13 @@ class CommonComponent extends Component {
 	 * @param mixed $url
 	 * @param bool $allowSelf if redirect to the same controller/action (url) is allowed
 	 * @param int $status
-	 * @return void
+	 * @return void|Response
 	 */
-	public function autoRedirect($whereTo, $allowSelf = true, $status = null) {
+	public function autoRedirect($whereTo, $allowSelf = false, $status = null) {
 		if ($allowSelf || $this->Controller->referer(null, true) !== '/' . $this->Controller->request->url) {
-			$this->Controller->redirect($this->Controller->referer($whereTo, true), $status);
+			return $this->Controller->redirect($this->Controller->referer($whereTo, true), $status);
 		}
-		$this->Controller->redirect($whereTo, $status);
+		return $this->Controller->redirect($whereTo, $status);
 	}
 
 	/**
@@ -173,10 +174,10 @@ class CommonComponent extends Component {
 	 * @see http://en.wikipedia.org/wiki/Post/Redirect/Get
 	 * @param mixed $url
 	 * @param int $status
-	 * @return void
+	 * @return void|Response
 	 */
 	public function postRedirect($whereTo, $status = 302) {
-		$this->Controller->redirect($whereTo, $status);
+		return $this->Controller->redirect($whereTo, $status);
 	}
 
 	/**
@@ -185,12 +186,12 @@ class CommonComponent extends Component {
 	 * @param mixed $url
 	 * @param bool $conditionalAutoRedirect false to skip whitelisting
 	 * @param int $status
-	 * @return void
+	 * @return void|Response
 	 */
 	public function autoPostRedirect($whereTo, $conditionalAutoRedirect = true, $status = 302) {
 		$referer = $this->Controller->referer($whereTo, true);
 		if (!$conditionalAutoRedirect && !empty($referer)) {
-			$this->postRedirect($referer, $status);
+			return $this->postRedirect($referer, $status);
 		}
 
 		if (!empty($referer)) {
@@ -202,7 +203,7 @@ class CommonComponent extends Component {
 			// will run into problems, if you use url rewriting.
 			$refererController = null;
 			if (isset($referer['controller'])) {
-				$refererController = Inflector::camelize($referer['controller']);
+				$refererController = $referer['controller'];
 			}
 			// fixme
 			if (!isset($this->Controller->autoRedirectActions)) {
@@ -213,16 +214,16 @@ class CommonComponent extends Component {
 				if (!empty($controller) && $refererController !== '*' && $refererController != $controller) {
 					continue;
 				}
-				if (empty($controller) && $refererController != Inflector::camelize($this->Controller->request->params['controller'])) {
+				if (empty($controller) && $refererController != $this->Controller->request->params['controller']) {
 					continue;
 				}
 				if (!in_array($referer['action'], $this->Controller->autoRedirectActions, true)) {
 					continue;
 				}
-				$this->autoRedirect($whereTo, true, $status);
+				return $this->autoRedirect($whereTo, true, $status);
 			}
 		}
-		$this->postRedirect($whereTo, $status);
+		return $this->postRedirect($whereTo, $status);
 	}
 
 	/**
@@ -235,7 +236,7 @@ class CommonComponent extends Component {
 	 * @param bool $exit
 	 * @return void
 	 */
-	public function completeRedirect($url = null, $status = null, $exit = true) {
+	public function completeRedirect($url = null, $status = null) {
 		if ($url === null) {
 			$url = $this->Controller->request->params;
 			unset($url['pass']);
@@ -244,23 +245,7 @@ class CommonComponent extends Component {
 		if (is_array($url)) {
 			$url += $this->Controller->request->params['pass'];
 		}
-		return $this->Controller->redirect($url, $status, $exit);
-	}
-
-	/**
-	 * Only redirect to itself if cookies are on
-	 * Prevents problems with lost data
-	 * Note: Many pre-HTTP/1.1 user agents do not understand the 303 status. When interoperability with such clients is a concern, the 302 status code may be used instead, since most user agents react to a 302 response as described here for 303.
-	 *
-	 * @see http://en.wikipedia.org/wiki/Post/Redirect/Get
-	 * TODO: change to 303 with backwardscompatability for older browsers...
-	 * @param int $status
-	 * @return void
-	 */
-	public function prgRedirect($status = 302) {
-		if (!empty($_COOKIE[Configure::read('Session.cookie')])) {
-			$this->Controller->redirect('/' . $this->Controller->request->url, $status);
-		}
+		return $this->Controller->redirect($url, $status);
 	}
 
 	/**

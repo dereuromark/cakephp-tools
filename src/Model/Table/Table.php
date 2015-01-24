@@ -579,7 +579,7 @@ class Table extends CakeTable {
 		$date = $dateTime[0];
 		$time = (!empty($dateTime[1]) ? $dateTime[1] : '');
 
-		if (!empty($options['allowEmpty']) && (empty($date) && empty($time) || $date == DEFAULT_DATE && $time == DEFAULT_TIME || $date == DEFAULT_DATE && empty($time))) {
+		if (!empty($options['allowEmpty']) && (empty($date) && empty($time) || $date === DEFAULT_DATE && $time === DEFAULT_TIME || $date === DEFAULT_DATE && empty($time))) {
 			return true;
 		}
 
