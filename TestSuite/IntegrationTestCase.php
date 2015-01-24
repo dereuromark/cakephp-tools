@@ -188,6 +188,16 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 		return $result;
 	}
 
+	public function tearDown() {
+		parent::tearDown();
+
+		if ((float)Configure::version() >= 2.7) {
+			CakeSession::clear(false);
+		} else {
+			$_SESSION = null;
+		}
+	}
+
 	/**
 	 * Fetch a view variable by name.
 	 *

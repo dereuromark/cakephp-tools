@@ -372,17 +372,6 @@ class CommonComponent extends Component {
 			'scope' => [],
 		];
 		return $this->manualLogin($id, $settings);
-		/*
-		if (!isset($this->User)) {
-			$this->User = ClassRegistry::init(defined('CLASS_USER') ? CLASS_USER : $this->userModel);
-		}
-		$data = $this->User->get($id);
-		if (!$data) {
-			return false;
-		}
-		$data = $data[$this->userModel];
-		return $this->Controller->Auth->login($data);
-		*/
 	}
 
 	/**
@@ -396,9 +385,9 @@ class CommonComponent extends Component {
 	 */
 	public function autoRedirect($whereTo, $allowSelf = true, $status = null) {
 		if ($allowSelf || $this->Controller->referer(null, true) !== '/' . $this->Controller->request->url) {
-			$this->Controller->redirect($this->Controller->referer($whereTo, true), $status);
+			return $this->Controller->redirect($this->Controller->referer($whereTo, true), $status);
 		}
-		$this->Controller->redirect($whereTo, $status);
+		return $this->Controller->redirect($whereTo, $status);
 	}
 
 	/**
@@ -413,7 +402,7 @@ class CommonComponent extends Component {
 	 * @return void
 	 */
 	public function postRedirect($whereTo, $status = 302) {
-		$this->Controller->redirect($whereTo, $status);
+		return $this->Controller->redirect($whereTo, $status);
 	}
 
 	/**
@@ -427,7 +416,7 @@ class CommonComponent extends Component {
 	public function autoPostRedirect($whereTo, $conditionalAutoRedirect = true, $status = 302) {
 		$referer = $this->Controller->referer($whereTo, true);
 		if (!$conditionalAutoRedirect && !empty($referer)) {
-			$this->postRedirect($referer, $status);
+			return $this->postRedirect($referer, $status);
 		}
 
 		if (!empty($referer)) {
@@ -456,10 +445,10 @@ class CommonComponent extends Component {
 				if (!in_array($referer['action'], $this->Controller->autoRedirectActions)) {
 					continue;
 				}
-				$this->autoRedirect($whereTo, true, $status);
+				return $this->autoRedirect($whereTo, true, $status);
 			}
 		}
-		$this->postRedirect($whereTo, $status);
+		return $this->postRedirect($whereTo, $status);
 	}
 
 	/**
@@ -499,7 +488,7 @@ class CommonComponent extends Component {
 	 */
 	public function prgRedirect($status = 302) {
 		if (!empty($_COOKIE[Configure::read('Session.cookie')])) {
-			$this->Controller->redirect('/' . $this->Controller->request->url, $status);
+			return $this->Controller->redirect('/' . $this->Controller->request->url, $status);
 		}
 	}
 
