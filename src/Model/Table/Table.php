@@ -10,6 +10,7 @@ use Cake\Validation\Validator;
 use Tools\Utility\Utility;
 use Cake\ORM\Query;
 use Cake\Event\Event;
+use Cake\I18n\Time;
 
 class Table extends CakeTable {
 
@@ -574,6 +575,9 @@ class Table extends CakeTable {
 		}
 		$format = !empty($options['dateFormat']) ? $options['dateFormat'] : 'ymd';
 
+		if (!is_object($value)) {
+			$value = new Time($value);
+		}
 		$pieces = $value->format(FORMAT_DB_DATETIME);
 		$dateTime = explode(' ', $pieces, 2);
 		$date = $dateTime[0];
@@ -589,12 +593,18 @@ class Table extends CakeTable {
 			$seconds = isset($options['min']) ? $options['min'] : 1;
 			if (!empty($options['after']) && isset($context['data'][$options['after']])) {
 				$compare = $value->subSeconds($seconds);
+				if (!is_object($context['data'][$options['after']])) {
+					$context['data'][$options['after']] = new Time($context['data'][$options['after']]);
+				}
 				if ($context['data'][$options['after']]->gt($compare)) {
 					return false;
 				}
 			}
 			if (!empty($options['before']) && isset($context['data'][$options['before']])) {
 				$compare = $value->addSeconds($seconds);
+				if (!is_object($context['data'][$options['before']])) {
+					$context['data'][$options['before']] = new Time($context['data'][$options['before']]);
+				}
 				if ($context['data'][$options['before']]->lt($compare)) {
 					return false;
 				}
@@ -622,6 +632,9 @@ class Table extends CakeTable {
 			return false;
 		}
 		$format = !empty($options['format']) ? $options['format'] : 'ymd';
+		if (!is_object($value)) {
+			$value = new Time($value);
+		}
 		$date = $value->format(FORMAT_DB_DATE);
 
 		if (!empty($options['allowEmpty']) && (empty($date) || $date == DEFAULT_DATE)) {
