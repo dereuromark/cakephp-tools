@@ -10,7 +10,7 @@ use Cake\Validation\Validator;
 use Tools\Utility\Utility;
 use Cake\ORM\Query;
 use Cake\Event\Event;
-use Cake\I18n\Time;
+use Tools\Utility\Time;
 
 class Table extends CakeTable {
 

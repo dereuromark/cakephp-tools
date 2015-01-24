@@ -16,8 +16,30 @@ class Time extends CakeTime {
  */
 	public function __construct($time = null, $tz = null) {
 		if (is_array($time)) {
-			return;
+			$value = $time + ['hour' => 0, 'minute' => 0, 'second' => 0];
+
+			$format = '';
+			if (
+				isset($value['year'], $value['month'], $value['day']) &&
+				(is_numeric($value['year']) && is_numeric($value['month']) && is_numeric($value['day']))
+			) {
+				$format .= sprintf('%d-%02d-%02d', $value['year'], $value['month'], $value['day']);
+			}
+
+			if (isset($value['meridian'])) {
+				$value['hour'] = strtolower($value['meridian']) === 'am' ? $value['hour'] : $value['hour'] + 12;
+			}
+			$format .= sprintf(
+				'%s%02d:%02d:%02d',
+				empty($format) ? '' : ' ',
+				$value['hour'],
+				$value['minute'],
+				$value['second']
+			);
+
+			$time = $format;
 		}
+
 		parent::__construct($time, $tz);
 	}
 
