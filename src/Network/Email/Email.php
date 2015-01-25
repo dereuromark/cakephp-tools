@@ -20,7 +20,6 @@ class Email extends CakeEmail {
 			$config = 'default';
 		}
 		parent::__construct($config);
-		$this->profile($config);
 	}
 
 	/**

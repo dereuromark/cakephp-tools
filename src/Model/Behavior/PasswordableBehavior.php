@@ -7,6 +7,7 @@ use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Table;
+use ArrayObject;
 
 if (!defined('PWD_MIN_LENGTH')) {
 	define('PWD_MIN_LENGTH', 6);
@@ -202,7 +203,7 @@ class PasswordableBehavior extends Behavior {
 	 *
 	 * @return void
 	 */
-	public function beforeRules(Event $event, Entity $entity) {
+	public function beforeRules(Event $event, Entity $entity, ArrayObject $options, $operation) {
 		$formField = $this->_config['formField'];
 		$formFieldRepeat = $this->_config['formFieldRepeat'];
 		$formFieldCurrent = $this->_config['formFieldCurrent'];
@@ -248,8 +249,6 @@ class PasswordableBehavior extends Behavior {
 
 		// Update whitelist
 		$this->_modifyWhitelist($entity);
-
-		return true;
 	}
 
 	/**
