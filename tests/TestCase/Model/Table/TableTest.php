@@ -474,6 +474,7 @@ class TableTest extends TestCase {
 		]);
 		$data = [
 			'title' => 'abc',
+			'author_id' => 1,
 			'published' => 'N'
 		];
 		$post = $this->Posts->newEntity($data);
@@ -494,6 +495,7 @@ class TableTest extends TestCase {
 		]);
 		$data = [
 			'title' => 'abc',
+			'author_id' => 1,
 			'published' => 'Y'
 		];
 		$post = $this->Posts->newEntity($data);
