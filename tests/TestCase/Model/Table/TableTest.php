@@ -402,7 +402,6 @@ class TableTest extends TestCase {
 	 * @return void
 	 */
 	public function testValidateUrl() {
-
 		$data = 'www.dereuromark.de';
 		$res = $this->Users->validateUrl($data, ['allowEmpty' => true]);
 		$this->assertTrue($res);
@@ -465,47 +464,46 @@ class TableTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function _testValidateUnique() {
-
-		$this->Post->validate['title'] = [
+	public function testValidateUnique() {
+		$this->Posts->validator()->add('title', [
 			'validateUnique' => [
-				'rule' => 'validateUnique',
-				'message' => 'valErrRecordTitleExists'
+				'rule' => 'validateUniqueExt',
+				'message' => 'valErrRecordTitleExists',
+				'provider' => 'table'
 			],
-		];
+		]);
 		$data = [
 			'title' => 'abc',
 			'published' => 'N'
 		];
-		$this->Post->create($data);
-		$res = $this->Post->validates();
-		$this->assertTrue($res);
-		$res = $this->Post->save($res, ['validate' => false]);
+		$post = $this->Posts->newEntity($data);
+		$this->assertEmpty($post->errors());
+
+		$res = $this->Posts->save($post);
 		$this->assertTrue((bool)$res);
 
-		$this->Post->create();
-		$res = $this->Post->save($data);
-		$this->assertFalse($res);
+		$post = $this->Posts->newEntity($data);
+		$this->assertNotEmpty($post->errors());
 
-		$this->Post->validate['title'] = [
+		$this->Posts->validator()->add('title', [
 			'validateUnique' => [
-				'rule' => ['validateUnique', ['published']],
-				'message' => 'valErrRecordTitleExists'
+				'rule' => ['validateUniqueExt', ['scope' => array('published')]],
+				'message' => 'valErrRecordTitleExists',
+				'provider' => 'table'
 			],
-		];
+		]);
 		$data = [
 			'title' => 'abc',
 			'published' => 'Y'
 		];
-		$this->Post->create($data);
-		$res = $this->Post->validates();
-		$this->assertTrue($res);
-		$res = $this->Post->save($res, ['validate' => false]);
+		$post = $this->Posts->newEntity($data);
+		$this->assertEmpty($post->errors());
+
+		$res = $this->Posts->save($post);
 		$this->assertTrue((bool)$res);
 
-		$this->Post->create();
-		$res = $this->Post->save($data);
-		$this->assertFalse($res);
+		$post = $this->Posts->newEntity($data);
+		$this->assertNotEmpty($post->errors());
 	}
 
 }

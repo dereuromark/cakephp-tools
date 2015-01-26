@@ -180,34 +180,9 @@ class Table extends CakeTable {
  * @param array $context The validation context as provided by the validation routine
  * @return bool true if the value is unique
  */
-	public function validateUnique($value, array $options, array $context = []) {
-		if (empty($context)) {
-			$context = $options;
-		}
-
-		$conditions = [$context['field'] => $value];
-		if (!empty($options['scope'])) {
-			foreach ((array)$options['scope'] as $scope) {
-				if (!isset($context['data'][$scope])) {
-					continue;
-				}
-				$scopedValue = $context['data'][$scope];
-				$conditions[$scope] = $scopedValue;
-			}
-		}
-
-		if (!$context['newRecord']) {
-			$keys = (array)$this->primaryKey();
-			$not = [];
-			foreach ($keys as $key) {
-				if (isset($context['data'][$key])) {
-					$not[$key] = $context['data'][$key];
-				}
-			}
-			$conditions['NOT'] = $not;
-		}
-
-		return !$this->exists($conditions);
+	public function validateUniqueExt($value, array $options, array $context = []) {
+		$context += $options;
+		return parent::validateUnique($value, $context);
 	}
 
 	/**
@@ -220,9 +195,10 @@ class Table extends CakeTable {
 	 * @param array $options
 	 * - requireDependentFields Require all dependent fields for the validation rule to return true
 	 * @return bool Success
+	 * @deprecated NOT WORKING anymore, use core validateUnique
 	 */
-	public function validateUniqueExt($fieldValue, $fields = [], $options = []) {
-		$id = (!empty($this->data[$this->alias][$this->primaryKey]) ? $this->data[$this->alias][$this->primaryKey] : 0);
+	public function validateUniqueOld($fieldValue, $fields = [], $options = []) {
+		$id = (!empty($this->data[$this->primaryKey]) ? $this->data[$this->primaryKey] : 0);
 		if (!$id && $this->id) {
 			$id = $this->id;
 		}
@@ -234,15 +210,15 @@ class Table extends CakeTable {
 		$fields = (array)$fields;
 		if (!array_key_exists('allowEmpty', $fields)) {
 			foreach ($fields as $dependingField) {
-				if (isset($this->data[$this->alias][$dependingField])) { // add ONLY if some content is transfered (check on that first!)
-					$conditions[$this->alias . '.' . $dependingField] = $this->data[$this->alias][$dependingField];
+				if (isset($this->data[$dependingField])) { // add ONLY if some content is transfered (check on that first!)
+					$conditions[$this->alias . '.' . $dependingField] = $this->data[$dependingField];
 				} elseif (isset($this->data['Validation'][$dependingField])) { // add ONLY if some content is transfered (check on that first!
 					$conditions[$this->alias . '.' . $dependingField] = $this->data['Validation'][$dependingField];
 				} elseif (!empty($id)) {
 					// manual query! (only possible on edit)
 					$res = $this->find('first', ['fields' => [$this->alias . '.' . $dependingField], 'conditions' => [$this->alias . '.id' => $id]]);
 					if (!empty($res)) {
-						$conditions[$this->alias . '.' . $dependingField] = $res[$this->alias][$dependingField];
+						$conditions[$this->alias . '.' . $dependingField] = $res[$dependingField];
 					}
 				} else {
 					if (!empty($options['requireDependentFields'])) {
@@ -491,9 +467,6 @@ class Table extends CakeTable {
 		}
 		if (!isset($options['autoComplete']) || $options['autoComplete'] !== false) {
 			$url = $this->_autoCompleteUrl($url);
-			if (isset($key)) {
-				$this->data[$this->alias][$key] = $url;
-			}
 		}
 
 		if (!isset($options['strict']) || $options['strict'] !== false) {
