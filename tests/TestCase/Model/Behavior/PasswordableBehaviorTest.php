@@ -655,8 +655,8 @@ class PasswordableBehaviorTest extends TestCase {
 		$data = [
 			'pwd' => '123',
 		];
-		$this->Users->patchEntity($user, $data);
-		$result = $this->Users->save($user, ['validate' => false]);
+		$this->Users->patchEntity($user, $data, ['validate' => false]);
+		$result = $this->Users->save($user);
 		$this->assertTrue((bool)$result);
 
 		$uid = (string)$user->id;
@@ -666,8 +666,8 @@ class PasswordableBehaviorTest extends TestCase {
 			'id' => $uid,
 			'pwd' => '1234'
 		];
-		$this->Users->patchEntity($user, $data);
-		$result2 = $this->Users->save($user, ['validate' => false]);
+		$this->Users->patchEntity($user, $data, ['validate' => false]);
+		$result2 = $this->Users->save($user);
 		$this->assertTrue((bool)$result2);
 		$hash2 = $user['password'];
 		$this->assertTrue($hash !== $hash2);
