@@ -163,7 +163,13 @@ class PasswordableBehavior extends Behavior {
 			$ruleSet = $rules['formFieldRepeat'];
 			$ruleSet['validateIdentical']['rule'][1] = $formField;
 			$validator->add($formFieldRepeat, $ruleSet);
-			$validator->allowEmpty($formFieldRepeat, !$this->_config['require']);
+			$require = $this->_config['require'];
+			$validator->allowEmpty($formFieldRepeat, function ($context) use ($require, $formField) {
+				if (!$require && !empty($context['data'][$formField])) {
+					return false;
+				}
+				return !$require;
+			});
 		}
 
 		if ($this->_config['current'] && !count($validator->field($formFieldCurrent))) {
@@ -203,21 +209,62 @@ class PasswordableBehavior extends Behavior {
 	 *
 	 * @return void
 	 */
-	public function beforeRules(Event $event, Entity $entity, ArrayObject $options, $operation) {
+	public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options) {
 		$formField = $this->_config['formField'];
 		$formFieldRepeat = $this->_config['formFieldRepeat'];
 		$formFieldCurrent = $this->_config['formFieldCurrent'];
 
 		// Make sure fields are set and validation rules are triggered - prevents tempering of form data
-		if ($entity->get($formField) === null) {
-			$entity->set($formField, '');
+		if (!isset($data[$formField])) {
+			$data[$formField] = '';
 		}
-		if ($this->_config['confirm'] && $entity->get($formFieldRepeat) === null) {
-			$entity->set($formFieldRepeat, '');
+		if ($this->_config['confirm'] && !isset($data[$formFieldRepeat])) {
+			$data[$formFieldRepeat] = '';
 		}
-		if ($this->_config['current'] && $entity->get($formFieldCurrent) === null) {
-			$entity->set($formFieldCurrent, '');
+		if ($this->_config['current'] && !isset($data[$formFieldCurrent])) {
+			$data[$formFieldCurrent] = '';
 		}
+
+		// Check if we need to trigger any validation rules
+		if (!$this->_config['require']) {
+			$new = !empty($data[$formField]) || !empty($data[$formFieldRepeat]);
+			/*
+			if (!$new && !$current) {
+				//$validator->remove($formField); // tmp only!
+				//unset($Model->validate[$formField]);
+				$entity->unsetProperty($formField);
+				if ($this->_config['confirm']) {
+					//$validator->remove($formFieldRepeat); // tmp only!
+					//unset($Model->validate[$formFieldRepeat]);
+					$entity->unsetProperty($formFieldRepeat);
+				}
+				if ($this->_config['current']) {
+					//$validator->remove($formFieldCurrent); // tmp only!
+					//unset($Model->validate[$formFieldCurrent]);
+					$entity->unsetProperty($formFieldCurrent);
+				}
+				return true;
+			}
+			*/
+			// Make sure we trigger validation if allowEmpty is set but we have the password field set
+			if ($new) {
+				if ($this->_config['confirm'] && empty($data[$formFieldRepeat])) {
+					//$entity->errors($formFieldRepeat, __d('tools', 'valErrPwdNotMatch'));
+					//die('E');
+				}
+			}
+		}
+	}
+
+	/**
+	 * Preparing the data
+	 *
+	 * @return void
+	 */
+	public function beforeRules(Event $event, Entity $entity, ArrayObject $options, $operation) {
+		$formField = $this->_config['formField'];
+		$formFieldRepeat = $this->_config['formFieldRepeat'];
+		$formFieldCurrent = $this->_config['formFieldCurrent'];
 
 		// Check if we need to trigger any validation rules
 		if (!$this->_config['require']) {
