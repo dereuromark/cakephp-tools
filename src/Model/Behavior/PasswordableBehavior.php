@@ -286,12 +286,6 @@ class PasswordableBehavior extends Behavior {
 				}
 				return true;
 			}
-			// Make sure we trigger validation if allowEmpty is set but we have the password field set
-			if ($new) {
-				if ($this->_config['confirm'] && !$entity->get($formFieldRepeat)) {
-					$entity->errors($formFieldRepeat, __d('tools', 'valErrPwdNotMatch'));
-				}
-			}
 		}
 
 		// Update whitelist
