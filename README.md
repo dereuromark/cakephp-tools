@@ -153,6 +153,13 @@ Use at your own risk. Please provide any fixes or enhancements via issue or bett
 Some classes are still from 1.2 (and are merely upgraded to 2.x) and might still need some serious refactoring.
 If you are able to help on that one, that would be awesome.
 
+### Critique
+
+nuluke in IRC:
+> "I've been using Tiny(Auth) for a year now, it's dead simple amazing. tiny + tools plugin saved me tons of time."
+
+[Yours here? Contact me]
+
 ### Branching strategy
 The master branch is the currently active and maintained one and works with the current 2.x stable version.
 Older versions might be found in their respective branches (2.0, 2.4, ...).
