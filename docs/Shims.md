@@ -1,6 +1,8 @@
 ## Shims and CO
 Write cutting edge 2.x code - and prepare for 3.x.
 
+Note that most of the functionality will be moved to a separate [Shim plugin](https://github.com/dereuromark/cakephp-shim).
+
 ### Write smart (future aware) code
 - Drop deprecated stuff early.
 - Upgrade to new ways as soon as possible and while it's still easy to do so (minor changes well testable).
