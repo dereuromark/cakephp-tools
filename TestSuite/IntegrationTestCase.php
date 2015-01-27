@@ -187,7 +187,7 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 		$this->_requestSession = $this->controller->Session;
 
 		// Shim result of https://github.com/cakephp/cakephp/pull/5744 for earlier versions
-		if ((float)Configure::version() < 2.6) {
+		if ((float)Configure::version() <= 2.6) {
 			$header = $this->_response->header();
 			if (isset($header['Location']) && $this->_response->statusCode() === 200) {
 				$this->_response->statusCode(302);
