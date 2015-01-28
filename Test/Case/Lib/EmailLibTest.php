@@ -3,9 +3,9 @@
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 App::uses('EmailLib', 'Tools.Lib');
 
-//if (!Configure::check('Config.adminEmail')) {
-Configure::write('Config.adminEmail', 'example@gmx.de');
-//}
+if (!Configure::read('Config.adminEmail')) {
+	Configure::write('Config.adminEmail', 'example@gmx.de');
+}
 
 class EmailLibTest extends MyCakeTestCase {
 
