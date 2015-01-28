@@ -204,7 +204,10 @@ abstract class IntegrationTestCase extends MyControllerTestCase {
 		if ((float)Configure::version() >= 2.7) {
 			CakeSession::clear(false);
 		} else {
-			$_SESSION = null;
+			$keys = array_keys((array)CakeSession::read());
+			foreach ($keys as $key) {
+				CakeSession::delete($key);
+			}
 		}
 	}
 

@@ -250,17 +250,19 @@ function safenl($str) {
 	return $str;
 }
 
-/**
- * Convenience function to check on "empty()"
- *
- * @param mixed $var
- * @return bool Result
- */
-function isEmpty($var = null) {
-	if (empty($var)) {
-		return true;
+if (!function_exists('isEmpty')) {
+	/**
+	 * Convenience function to check on "empty()"
+	 *
+	 * @param mixed $var
+	 * @return bool Result
+	 */
+	function isEmpty($var = null) {
+		if (empty($var)) {
+			return true;
+		}
+		return false;
 	}
-	return false;
 }
 
 /**
