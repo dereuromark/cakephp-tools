@@ -22,7 +22,7 @@ class TypographicBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function testBeforeValidate() {
-		$this->out($this->_header(__FUNCTION__), false);
+		//$this->out($this->_header(__FUNCTION__), false);
 		$data = [
 			'title' => 'some «cool» title',
 			'body' => 'A title with normal "qotes" - should be left untouched',
