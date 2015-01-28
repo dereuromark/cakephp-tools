@@ -541,18 +541,6 @@ class MyModel extends Model {
 			}
 		}
 
-		// custom fixes
-		if (is_string($type)) {
-			switch ($type) {
-				case 'count':
-					if (isset($query['fields'])) {
-						unset($query['fields']);
-					}
-					break;
-				default:
-			}
-		}
-
 		// having and group clauses enhancement
 		if (is_array($query) && !empty($query['having']) && !empty($query['group'])) {
 			if (!is_array($query['group'])) {
