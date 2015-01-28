@@ -4,7 +4,7 @@ App::uses('AuthComponent', 'Controller/Component');
 App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
 
 if (!function_exists('password_hash')) {
-	require_once CakePlugin::path('Tools') . 'Lib/Bootstrap/Password.php';
+	require_once CakePlugin::path('Shim') . 'Lib/Bootstrap/Password.php';
 }
 
 class PasswordableBehaviorTest extends CakeTestCase {
