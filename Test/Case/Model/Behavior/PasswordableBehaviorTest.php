@@ -631,7 +631,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 			'allowSame' => false,
 			'current' => false,
 			'authType' => 'Blowfish',
-			'passwordHasher' => 'Tools.Modern'
+			'passwordHasher' => 'Shim.Modern'
 		]);
 		$this->User->create();
 		$data = [
@@ -754,7 +754,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 			'allowSame' => false,
 			'current' => false,
 			'authType' => 'Blowfish',
-			'passwordHasher' => 'Tools.Modern'
+			'passwordHasher' => 'Shim.Modern'
 		]);
 
 		$hash =  password_hash('foobar', PASSWORD_BCRYPT);
