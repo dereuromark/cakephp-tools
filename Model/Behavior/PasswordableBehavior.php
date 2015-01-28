@@ -1,6 +1,7 @@
 <?php
 App::uses('ModelBehavior', 'Model');
 App::uses('Security', 'Utility');
+App::uses('PasswordHasherFactory', 'Shim.Controller/Component/Auth');
 
 // @deprecated Use Configure settings instead.
 if (!defined('PWD_MIN_LENGTH')) {
@@ -460,6 +461,8 @@ class PasswordableBehavior extends ModelBehavior {
 	 * @return PasswordHasher
 	 */
 	protected function _getPasswordHasher($hasher) {
+		return PasswordHasherFactory::build($hasher);
+
 		$class = $hasher;
 		$config = [];
 		if (is_array($hasher)) {
