@@ -34,7 +34,48 @@ class ConfirmableBehaviorTest extends TestCase {
 		);
 		$animal = $this->Animals->patchEntity($animal, $data);
 		$this->assertNotEmpty($animal->errors());
-		$this->assertSame(array('confirm' => array('notEmpty' => 'The provided value is invalid')), $animal->errors());
+		$this->assertSame(array('confirm' => array('notEmpty' => __d('tools', 'Please confirm the checkbox'))), $animal->errors());
+
+		$data = array(
+			'name' => 'FooBar',
+			'confirm' => '1'
+		);
+		$animal = $this->Animals->patchEntity($animal, $data);
+		$this->assertEmpty($animal->errors());
+	}
+
+	/**
+	 * ConfirmableBehaviorTest::testBasicValidation()
+	 *
+	 * @return void
+	 */
+	public function testValidationThatHasBeenModifiedBefore() {
+		$this->Animals = TableRegistry::get('SluggedArticles');
+		/*
+		$this->Animals->validator()->add('confirm', 'notEmpty', [
+				'rule' => function ($value, $context) {
+					return !empty($value);
+				},
+				'message' => __('Please select checkbox to continue.'),
+				'requirePresence' => true,
+				'allowEmpty' => false,
+				'last' => true,
+			]);
+		$this->Animals->validator()->remove('confirm');
+		*/
+
+		$this->Animals->addBehavior('Tools.Confirmable');
+
+		$animal = $this->Animals->newEntity();
+
+		$data = array(
+			'name' => 'FooBar',
+			'confirm' => '0'
+		);
+		$animal = $this->Animals->patchEntity($animal, $data);
+		$this->assertNotEmpty($animal->errors());
+
+		$this->assertSame(array('confirm' => array('notEmpty' => __d('tools', 'Please confirm the checkbox'))), $animal->errors());
 
 		$data = array(
 			'name' => 'FooBar',

@@ -8,6 +8,7 @@ use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Event\Event;
 use ArrayObject;
+use Cake\Validation\Validator;
 
 /**
  * ConfirmableBehavior allows forms to easily require a checkbox toggled (confirmed).
@@ -36,14 +37,14 @@ class ConfirmableBehavior extends Behavior {
 		}
 	}
 
-	/**
-	 * ConfirmableBehavior::initialize()
-	 *
-	 * @param mixed $config
-	 * @return void
-	 */
-	public function initialize(array $config) {
-		$validator = $this->_table->validator($this->_config['validator']);
+	public function buildValidator(Event $event, Validator $validator, $name) {
+		$this->build($validator, $name);
+	}
+
+	public function build(Validator $validator, $name = 'default') {
+		if ($name !== $this->_config['validator']) {
+			return;
+		}
 
 		$field = $this->_config['field'];
 		$message = $this->_config['message'];
