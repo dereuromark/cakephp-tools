@@ -66,3 +66,6 @@ FormExt and HtmlExt helpers also provide extended functionality and 3.x shims.
 
 #### Ajax
 Use the AjaxView which will easily be upgradable as a clean component approach.
+
+
+Also see the [Shim plugin](https://github.com/dereuromark/cakephp-shim) for details and documentation on more possible shims you can leverage.
