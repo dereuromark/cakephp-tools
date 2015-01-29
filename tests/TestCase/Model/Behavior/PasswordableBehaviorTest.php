@@ -1,6 +1,6 @@
 <?php
 
-namespace Tools\Model\Behavior;
+namespace Tools\Test\TestCase\Model\Behavior;
 
 use Tools\TestSuite\TestCase;
 use Cake\ORM\Behavior;
