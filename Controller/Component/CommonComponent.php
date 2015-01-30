@@ -56,13 +56,6 @@ class CommonComponent extends Component {
 			$this->Controller->request->params['pass'] = $this->trimDeep($this->Controller->request->params['pass']);
 		}
 
-		// Deprecation notices
-		if (Configure::read('App.warnAboutNamedParams')) {
-			if (!empty($Controller->request->params['named']) && ($referer = $Controller->request->referer(true)) && $referer !== '/') {
-				trigger_error('Named params ' . json_encode($Controller->request->params['named']) . ' - from ' . $referer, E_USER_DEPRECATED);
-			}
-		}
-
 		// Information gathering
 		if (!Configure::read('App.disableMobileDetection') && ($mobile = $this->Session->read('Session.mobile')) === null) {
 			App::uses('UserAgentLib', 'Tools.Lib');
@@ -693,26 +686,6 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * Main controller function for seo-slugs
-	 * passed titleSlug != current title => redirect to the expected one
-	 *
-	 * @deprecated Will be removed in 1.0
-	 * @return void
-	 */
-	public function ensureConsistency($id, $passedTitleSlug, $currentTitle) {
-		$expectedTitle = slug($currentTitle);
-		if (empty($passedTitleSlug) || $expectedTitle != $passedTitleSlug) { # case sensitive!!!
-			$ref = env('HTTP_REFERER');
-			if (!$this->isForeignReferer($ref)) {
-				$this->Controller->log('Internal ConsistencyProblem at \'' . $ref . '\' - [' . $passedTitleSlug . '] instead of [' . $expectedTitle . ']', 'referer');
-			} else {
-				$this->Controller->log('External ConsistencyProblem at \'' . $ref . '\' - [' . $passedTitleSlug . '] instead of [' . $expectedTitle . ']', 'referer');
-			}
-			$this->Controller->redirect([$id, $expectedTitle], 301);
-		}
-	}
-
-	/**
 	 * Try to detect group for a multidim array for select boxes.
 	 * Extracts the group name of the selected key.
 	 *
@@ -949,26 +922,6 @@ class CommonComponent extends Component {
 		}
 
 		return [$keyword => $searchphrase];
-	}
-
-	/**
-	 * Returns auto-generated password
-	 *
-	 * @param string $type: user, ...
-	 * @param int $length (if no type is submitted)
-	 * @return pwd on success, empty string otherwise
-	 * @deprecated Will be removed in 1.0. Use RandomLib
-	 */
-	public static function pwd($type = null, $length = null) {
-		trigger_error('deprecated');
-		App::uses('RandomLib', 'Tools.Lib');
-		if (!empty($type) && $type === 'user') {
-			return RandomLib::pronounceablePwd(6);
-		}
-		if (!empty($length)) {
-			return RandomLib::pronounceablePwd($length);
-		}
-		return '';
 	}
 
 	/**

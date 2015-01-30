@@ -229,7 +229,7 @@ class TimeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testPeriod() {
-		$this->out($this->_header(__FUNCTION__), true);
+		//$this->out($this->_header(__FUNCTION__), true);
 		$values = [
 			[__d('tools', 'Today'), [date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))), date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')))]],
 
@@ -257,7 +257,7 @@ class TimeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testPeriodAsSql() {
-		$this->out($this->_header(__FUNCTION__), true);
+		//$this->out($this->_header(__FUNCTION__), true);
 		$values = [
 			[__d('tools', 'Today'), "(Model.field >= '" . date(FORMAT_DB_DATE) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE) . " 23:59:59')"],
 			[__d('tools', 'Yesterday') . ' ' . __d('tools', 'until') . ' ' . __d('tools', 'Today'), "(Model.field >= '" . date(FORMAT_DB_DATE, time() - DAY) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE) . " 23:59:59')"],
@@ -279,7 +279,7 @@ class TimeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testDifference() {
-		$this->out($this->_header(__FUNCTION__), true);
+		//$this->out($this->_header(__FUNCTION__), true);
 		$values = [
 			['2010-02-23 11:11:11', '2010-02-23 11:12:01', 50],
 			['2010-02-23 11:11:11', '2010-02-24 11:12:01', DAY + 50]
@@ -388,7 +388,7 @@ class TimeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testAgeBounds() {
-		$this->out($this->_header(__FUNCTION__), true);
+		//$this->out($this->_header(__FUNCTION__), true);
 		$values = [
 			[20, 20, ['min' => '1990-07-07', 'max' => '1991-07-06']],
 			[10, 30, ['min' => '1980-07-07', 'max' => '2001-07-06']],
@@ -413,7 +413,7 @@ class TimeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testAgeByYear() {
-		$this->out($this->_header(__FUNCTION__), true);
+		//$this->out($this->_header(__FUNCTION__), true);
 
 		// year only
 		$is = TimeLib::ageByYear(2000);
@@ -449,7 +449,7 @@ class TimeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testDaysInMonth() {
-		$this->out($this->_header(__FUNCTION__), true);
+		//$this->out($this->_header(__FUNCTION__), true);
 
 		$ret = TimeLib::daysInMonth('2004', '3');
 		$this->assertEquals(31, $ret);
@@ -470,7 +470,7 @@ class TimeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testDay() {
-		$this->out($this->_header(__FUNCTION__), true);
+		//$this->out($this->_header(__FUNCTION__), true);
 		$ret = TimeLib::day('0');
 		$this->assertEquals(__d('tools', 'Sunday'), $ret);
 
@@ -496,7 +496,7 @@ class TimeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testMonth() {
-		$this->out($this->_header(__FUNCTION__), true);
+		//$this->out($this->_header(__FUNCTION__), true);
 		$ret = TimeLib::month('11');
 		$this->assertEquals(__d('tools', 'November'), $ret);
 
@@ -516,7 +516,7 @@ class TimeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testDays() {
-		$this->out($this->_header(__FUNCTION__), true);
+		//$this->out($this->_header(__FUNCTION__), true);
 		$ret = TimeLib::days();
 		$this->assertTrue(count($ret) === 7);
 	}
@@ -527,7 +527,7 @@ class TimeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testMonths() {
-		$this->out($this->_header(__FUNCTION__), true);
+		//$this->out($this->_header(__FUNCTION__), true);
 		$ret = TimeLib::months();
 		$this->assertTrue(count($ret) === 12);
 	}
@@ -646,7 +646,7 @@ class TimeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testLengthOfTime() {
-		$this->out($this->_header(__FUNCTION__), true);
+		//$this->out($this->_header(__FUNCTION__), true);
 
 		$ret = TimeLib::lengthOfTime(60);
 		//pr($ret);
@@ -675,7 +675,7 @@ class TimeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testFuzzyFromOffset() {
-		$this->out($this->_header(__FUNCTION__), true);
+		//$this->out($this->_header(__FUNCTION__), true);
 
 		$ret = TimeLib::fuzzyFromOffset(MONTH);
 		//pr($ret);
@@ -726,7 +726,7 @@ class TimeLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testCweekDay() {
-		$this->out($this->_header(__FUNCTION__), true);
+		//$this->out($this->_header(__FUNCTION__), true);
 
 		// wednesday
 		$ret = TimeLib::cweekDay(51, 2011, 2);
@@ -737,7 +737,7 @@ class TimeLibTest extends MyCakeTestCase {
 	}
 
 	public function testCweeks() {
-		$this->out($this->_header(__FUNCTION__), true);
+		//$this->out($this->_header(__FUNCTION__), true);
 		$ret = TimeLib::cweeks('2004');
 		$this->assertEquals(53, $ret);
 
@@ -757,7 +757,7 @@ class TimeLibTest extends MyCakeTestCase {
 	}
 
 	public function testCweekBeginning() {
-		$this->out($this->_header(__FUNCTION__), true);
+		//$this->out($this->_header(__FUNCTION__), true);
 		$values = [
 			'2001' => 978303600, # Mon 01.01.2001, 00:00
 			'2006' => 1136156400, # Mon 02.01.2006, 00:00
@@ -790,7 +790,7 @@ class TimeLibTest extends MyCakeTestCase {
 	}
 
 	public function testCweekEnding() {
-		$this->out($this->_header(__FUNCTION__), true);
+		//$this->out($this->_header(__FUNCTION__), true);
 
 		$values = [
 			'2001' => 1009753199, # Sun 30.12.2001, 23:59:59

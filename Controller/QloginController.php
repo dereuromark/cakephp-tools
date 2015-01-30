@@ -9,7 +9,7 @@ class QloginController extends ToolsAppController {
 
 	public $uses = ['Tools.Qlogin'];
 
-	public $components = ['Tools.Common'];
+	public $components = ['Tools.Flash', 'Tools.Common'];
 
 	public function beforeFilter() {
 		parent::beforeFilter();

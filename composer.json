@@ -14,7 +14,8 @@
 	],
 	"require": {
 		"php": ">=5.3",
-		"composer/installers": "*"
+		"composer/installers": "*",
+		"dereuromark/cakephp-shim": "dev-master"
 	},
 	"support": {
 		"source": "https://github.com/dereuromark/cakephp-tools"
