@@ -1,7 +1,7 @@
 <?php
 namespace TestApp\Controller\Component;
 
-use Tools\Controller\Component\Component;
+use Shim\Controller\Component\Component;
 use Cake\Event\Event;
 
 class TestComponent extends Component {

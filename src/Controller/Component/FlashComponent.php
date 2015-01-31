@@ -1,7 +1,7 @@
 <?php
 namespace Tools\Controller\Component;
 
-use Tools\Controller\Component\Component;
+use Shim\Controller\Component\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Utility\Inflector;

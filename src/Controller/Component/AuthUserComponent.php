@@ -2,7 +2,7 @@
 
 namespace Tools\Controller\Component;
 
-use Tools\Controller\Component\Component;
+use Shim\Controller\Component\Component;
 use Cake\Event\Event;
 use Tools\Auth\AuthUserTrait;
 

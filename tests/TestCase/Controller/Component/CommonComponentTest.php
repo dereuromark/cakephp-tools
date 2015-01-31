@@ -2,7 +2,7 @@
 namespace Tools\Test\TestCase\Controller\Component;
 
 use Cake\Controller\ComponentRegistry;
-use Tools\Controller\Component\Component;
+use Shim\Controller\Component\Component;
 use Cake\Controller\Component\CommonComponent;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
@@ -46,9 +46,9 @@ class CommonComponentTest extends TestCase {
 		// with plugin
 		$this->Controller->Session = null;
 		$this->assertTrue(!isset($this->Controller->Session));
-		$this->Controller->Common->loadComponent('Tools.Session', ['foo' => 'bar']);
+		$this->Controller->Common->loadComponent('Shim.Session', ['foo' => 'bar']);
 		$this->Controller->components()->unload('Session');
-		$this->Controller->Common->loadComponent('Tools.Session',['foo' => 'baz']);
+		$this->Controller->Common->loadComponent('Shim.Session',['foo' => 'baz']);
 		$this->assertTrue(isset($this->Controller->Session));
 
 		// with options

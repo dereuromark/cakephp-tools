@@ -54,6 +54,8 @@ if (!$this->isDebug()) {
 
 See the above trait features.
 
+For details on this see [Shim plugin](https://github.com/dereuromark/cakephp-shim).
+
 ## TestCase
 `assertNotWithinMargin()` as the opposite of `assertWithinMargin()` is available.
 

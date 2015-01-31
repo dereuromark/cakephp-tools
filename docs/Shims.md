@@ -1,11 +1,13 @@
 # Migration from 2.x to 3.x: Shims
 Shims ease migration as complete parts of the code, such as validation and other model property settings
-can be reused immediatelly without refactoring them right away.
+can be reused immediately without refactoring them right away.
+
+See the [Shim plugin](https://github.com/dereuromark/cakephp-shim) for details.
 
 Note: It does not hurt to have them, if you don't use them. The overhead is minimal.
 
 ## Model
-The following can be used in 3.x via shim support:
+The following can be used in 3.x (mainly via Shim plugin support):
 
 ### Table
 - $order property
@@ -31,8 +33,8 @@ use Tools\Controller\Controller;
 
 class AppController extends Controller {
 
-	public $components = array('Tools.Session');
+	public $components = array('Shim.Session');
 
 }
 ```
-It also contains the new consume() method.
+It also contains the new `consume()` method.
