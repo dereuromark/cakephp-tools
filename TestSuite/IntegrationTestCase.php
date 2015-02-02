@@ -1,5 +1,5 @@
 <?php
-App::uses('ShimControllerTestCase', 'Shim.TestSuite');
+App::uses('ShimIntegrationTestCase', 'Shim.TestSuite');
 App::uses('Router', 'Routing');
 App::uses('Dispatcher', 'Routing');
 App::uses('EventManager', 'Event');
@@ -18,5 +18,5 @@ App::uses('CakeSession', 'Model/Datasource');
  * more of your code easily and avoid some of the maintenance pitfalls
  * that mock objects create.
  */
-abstract class IntegrationTestCase extends ShimControllerTestCase {
+abstract class IntegrationTestCase extends ShimIntegrationTestCase {
 }
