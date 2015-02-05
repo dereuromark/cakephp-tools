@@ -151,7 +151,7 @@ class AuthExtComponent extends AuthComponent {
 		$Model = $this->getModel();
 		$userArray = $user;
 		if (!is_array($userArray)) {
-			$user = $Model->get($user);
+			$user = $Model->get($user, ['noException' => true]);
 			if (!$user) {
 				return [];
 			}
