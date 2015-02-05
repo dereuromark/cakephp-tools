@@ -26,7 +26,7 @@ You should use composer/packagist now @ https://packagist.org/packages/dereuroma
 	"dereuromark/cakephp-tools": "[version].*"
 }
 ```
-With `0.7` as `[version]`, for example, it would be: `0.7.*`.
+With `0.9` as `[version]`, for example, it would be: `0.9.*`.
 The `*` asserts that you get all bugfix versions if existing.
 
 That's it. It should be up and running.
