@@ -99,7 +99,7 @@ class ConfirmableBehaviorTest extends TestCase {
 			'name' => 'FooBar'
 		);
 		$animal = $this->Articles->patchEntity($animal, $data);
-		$this->assertSame(array('confirm' => array('This field is required')), $animal->errors());
+		$this->assertSame(array('confirm' => array('_required' => 'This field is required')), $animal->errors());
 	}
 
 }

@@ -26,13 +26,6 @@ ini_set('intl.default_locale', 'de-DE');
 require ROOT . '/vendor/cakephp/cakephp/src/basics.php';
 require ROOT . '/vendor/autoload.php';
 
-require CAKE . 'Core/ClassLoader.php';
-
-$loader = new Cake\Core\ClassLoader;
-$loader->register();
-
-$loader->addNamespace('TestApp', ROOT . DS . 'tests' . DS . 'TestApp' . DS);
-
 Cake\Core\Configure::write('App', [
 		'namespace' => 'App',
 		'encoding' => 'UTF-8']);
