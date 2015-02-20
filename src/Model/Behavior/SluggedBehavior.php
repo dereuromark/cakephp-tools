@@ -128,7 +128,7 @@ class SluggedBehavior extends Behavior {
 						throw new \Exception('(SluggedBehavior::setup) model ' . $this->_table->$alias->name . ' is missing the field ' . $field .
 							' (specified in the setup for model ' . $this->_table->name . ') ');
 					}
-				} elseif (!$this->_table->hasField($field)) {
+				} elseif (!$this->_table->hasField($field) && !method_exists($this->_table->entityClass(), '_get' . Inflector::classify($field))) {
 					throw new \Exception('(SluggedBehavior::setup) model ' . $this->_table->name . ' is missing the field ' . $field . ' specified in the setup.');
 				}
 			}

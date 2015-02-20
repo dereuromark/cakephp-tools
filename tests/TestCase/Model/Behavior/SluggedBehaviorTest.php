@@ -584,6 +584,29 @@ class SluggedBehaviorTest extends TestCase {
 		$this->assertEquals('Some-Article-12345', $result['slug']);
 	}
 
+	/**
+	 * Test slug generation works with virtual fields.
+	 *
+	 * @return void
+	 */
+	public function testSlugGenerationWithVirualField() {
+		$this->articles->removeBehavior('Slugged');
+		$this->articles->entityClass('\TestApp\Model\Entity\SluggedArticle');
+		$this->articles->addBehavior('Tools.Slugged', [
+			'label' => [
+				'title',
+				'special'
+			],
+		]);
+
+		$data = ['title' => 'Some Article 12345', 'section' => 0];
+
+		$article = $this->articles->newEntity($data);
+		$result = $this->articles->save($article);
+		$this->assertTrue((bool)$result);
+		$this->assertEquals('Some-Article-12345-dereuromark', $result['slug']);
+	}
+
 /**
  * Get a new Entity
  *
