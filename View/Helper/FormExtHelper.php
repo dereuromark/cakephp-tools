@@ -1,5 +1,5 @@
 <?php
-App::uses('FormHelper', 'View/Helper');
+App::uses('FormShimHelper', 'Shim.View/Helper');
 
 /**
  * Enhance Forms with JS widget stuff
@@ -20,7 +20,7 @@ App::uses('FormHelper', 'View/Helper');
  *   $this->Js->writeBuffer() with onDomReady=>false then, though.
  *
  */
-class FormExtHelper extends FormHelper {
+class FormExtHelper extends FormShimHelper {
 
 	public $helpers = ['Html', 'Js', 'Tools.Common'];
 

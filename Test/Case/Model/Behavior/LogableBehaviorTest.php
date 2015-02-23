@@ -244,7 +244,7 @@ class LogableBehaviorTest extends CakeTestCase {
 
 	public function testUserLogging() {
 		$this->LogableUser->save(['LogableUser' => ['name' => 'Jonny']]);
-		$result = $this->Log->get(6, ['id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change']);
+		$result = $this->Log->get(6, ['fields' => ['id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change']]);
 		$expected = [
 			'LogableLog' => [
 				'id' => 6,
@@ -260,7 +260,7 @@ class LogableBehaviorTest extends CakeTestCase {
 		// check with LogableUser
 		$this->assertEquals($expected, $result);
 		$this->LogableUser->delete(302);
-		$result = $this->Log->get(7, ['id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change']);
+		$result = $this->Log->get(7, ['fields' => ['id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change']]);
 		$expected = [
 			'LogableLog' => [
 				'id' => 7,
@@ -279,7 +279,7 @@ class LogableBehaviorTest extends CakeTestCase {
 
 	public function testLoggingWithoutDisplayField() {
 		$this->LogableComment->save(['LogableComment' => ['content' => 'You too?']]);
-		$result = $this->Log->get(6, ['id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change']);
+		$result = $this->Log->get(6, ['fields' => ['id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change']]);
 		$expected = [
 			'LogableLog' => [
 				'id' => 6,
@@ -522,7 +522,7 @@ class LogableBehaviorTest extends CakeTestCase {
 		$this->LogableComment->Behaviors->load('Logable', ['descriptionIds' => false, 'userModel' => 'LogableUser']);
 		$this->LogableComment->setUserData(['LogableUser' => ['id' => 66, 'name' => 'Alexander']]);
 		$this->LogableComment->save(['LogableComment' => ['id' => 1, 'content' => 'You too?']]);
-		$result = $this->Log->get(6, ['id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change']);
+		$result = $this->Log->get(6, ['fields' => ['id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change']]);
 		$expected = [
 			'LogableLog' => [
 				'id' => (string)6,
@@ -541,7 +541,7 @@ class LogableBehaviorTest extends CakeTestCase {
 	public function testIgnoreExtraFields() {
 		$this->LogableComment->setUserData(['LogableUser' => ['id' => 66, 'name' => 'Alexander']]);
 		$this->LogableComment->save(['LogableComment' => ['id' => 1, 'content' => 'You too?', 'extra_field' => 'some data']]);
-		$result = $this->Log->get(6, ['id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change']);
+		$result = $this->Log->get(6, ['fields' => ['id', 'title', 'description', 'model', 'foreign_id', 'action', 'user_id', 'change']]);
 		$expected = [
 			'LogableLog' => [
 				'id' => (string)6,

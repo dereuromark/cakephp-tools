@@ -1226,71 +1226,20 @@ class MyModel extends ShimModel {
 
 	/**
 	 * Shortcut method to find a specific entry via primary key.
-	 *
-	 * Either provide the id directly:
+	 * Wraps ShimModel::get() for an exception free response.
 	 *
 	 *   $record = $this->Model->get($id);
 	 *
-	 * Or use
-	 *
-	 *   $this->Model->id = $id;
-	 *   $record = $this->Model->get();
-	 *
 	 * @param mixed $id
-	 * @param array $options Options for find(). Used to be fields array/string.
-	 * @param array $contain Deprecated - use
-	 * @return mixed
+	 * @param array $options Options for find().
+	 * @return array
 	 */
-	public function get($id = null, $options = [], $contain = []) {
-		if (is_array($id)) {
-			$column = $id[0];
-			$value = $id[1];
-		} else {
-			$column = $this->primaryKey;
-			$value = $id;
-			if ($value === null) {
-				$value = $this->id;
-			}
+	public function record($id, array $options = []) {
+		try {
+			return $this->get($id, $options);
+		} catch (RecordNotFoundException $e) {
 		}
-		if (!$value) {
-			return [];
-		}
-
-		// BC
-		$fields = null;
-		if (is_string($options)) {
-			$fields = $options;
-			$options = [];
-		}
-		if (!empty($options) && !array_key_exists('fields', $options) && !array_key_exists('contain', $options)) {
-			$fields = $options;
-			$options = [];
-		}
-
-		if ($fields === '*') {
-			$fields = $this->alias . '.*';
-		} elseif (!empty($fields)) {
-			foreach ((array)$fields as $row => $field) {
-				if (strpos($field, '.') !== false) {
-					continue;
-				}
-				$fields[$row] = $this->alias . '.' . $field;
-			}
-		}
-
-		$options = [
-			'conditions' => [$this->alias . '.' . $column => $value],
-		] + $options;
-
-		// BC
-		if (!empty($fields)) {
-			$options['fields'] = $fields;
-		}
-		if (!empty($contain)) {
-			$options['contain'] = $contain;
-		}
-
-		return $this->find('first', $options);
+		return array();
 	}
 
 	/**
@@ -1362,7 +1311,7 @@ class MyModel extends ShimModel {
 	 * @return ARRAY record: [Model][values],...
 	 */
 	public function toggleField($fieldName, $id) {
-		$record = $this->get($id, [$this->primaryKey, $fieldName]);
+		$record = $this->get($id, ['conditions' => [$this->primaryKey, $fieldName]]);
 
 		if (!empty($record) && !empty($fieldName) && $this->hasField($fieldName)) {
 			$record[$this->alias][$fieldName] = ($record[$this->alias][$fieldName] == 1 ? 0 : 1);

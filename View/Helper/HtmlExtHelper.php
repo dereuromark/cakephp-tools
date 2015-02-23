@@ -1,5 +1,5 @@
 <?php
-App::uses('HtmlHelper', 'View/Helper');
+App::uses('HtmlShimHelper', 'Shim.View/Helper');
 
 /**
  * HtmlExt Helper
@@ -10,7 +10,7 @@ App::uses('HtmlHelper', 'View/Helper');
  * @author Mark Scherer
  * @license http://opensource.org/licenses/mit-license.php MIT
  */
-class HtmlExtHelper extends HtmlHelper {
+class HtmlExtHelper extends HtmlShimHelper {
 
 	/**
 	 * For convenience functions Html::defaultLink() and defaultUrl().

@@ -40,11 +40,6 @@ class MyModelTest extends MyCakeTestCase {
 		$record = $this->Post->get(2, ['fields' => ['id', 'title', 'body'], 'contain' => ['Author']]);
 		$this->assertEquals(3, count($record['Post']));
 		$this->assertEquals(3, $record['Author']['id']);
-
-		// BC
-		$record = $this->Post->get(2, ['id', 'title', 'body'], ['Author']);
-		$this->assertEquals(3, count($record['Post']));
-		$this->assertEquals(3, $record['Author']['id']);
 	}
 
 	/**
@@ -98,13 +93,41 @@ class MyModelTest extends MyCakeTestCase {
 	}
 
 	/**
-	 * More tests in MyModel Test directly
+	 * Test 3.x shim get()
+	 *
+	 * @expectedException RecordNotFoundException
+	 * @return void
+	 */
+	public function testGetInvalid() {
+		$this->User->order = [];
+		$this->User->get('xyz');
+	}
+
+	/**
+	 * MyModelTest::testRecord()
 	 *
 	 * @return void
 	 */
-	public function testGetFalse() {
+	public function testRecord() {
+		$record = $this->Post->record(2);
+		$this->assertEquals(2, $record['Post']['id']);
+
+		$record = $this->Post->record(2, ['fields' => ['id', 'created']]);
+		$this->assertEquals(2, count($record['Post']));
+
+		$record = $this->Post->record(2, ['fields' => ['id', 'title', 'body'], 'contain' => ['Author']]);
+		$this->assertEquals(3, count($record['Post']));
+		$this->assertEquals(3, $record['Author']['id']);
+	}
+
+	/**
+	 * Test record()
+	 *
+	 * @return void
+	 */
+	public function testRecordInvalid() {
 		$this->User->order = [];
-		$is = $this->User->get('xyz');
+		$is = $this->User->record('xyz');
 		$this->assertSame([], $is);
 	}
 
