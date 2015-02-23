@@ -1,6 +1,7 @@
 <?php
 App::uses('ToolsAppModel', 'Tools.Model');
 App::uses('Hash', 'Utility');
+App::uses('RandomLib', 'Tools.Lib');
 
 /**
  * Manage Quick Urls
@@ -207,7 +208,6 @@ class Qurl extends ToolsAppModel {
 			$length = $this->defaultLength;
 		}
 
-		App::uses('RandomLib', 'Tools.Lib');
 		return RandomLib::generatePassword($length);
 	}
 
