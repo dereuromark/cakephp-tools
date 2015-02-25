@@ -76,7 +76,7 @@ class FlashComponent extends Component {
 			$this->Session->delete('Message');
 		}
 
-		if ($this->settings['headerOnAjax'] && $this->Controller->request->is('ajax')) {
+		if ($this->settings['headerOnAjax'] && isset($this->Controller->request) && $this->Controller->request->is('ajax')) {
 			$ajaxMessages = array_merge(
 				(array)$this->Session->read('messages'),
 				(array)Configure::read('messages')

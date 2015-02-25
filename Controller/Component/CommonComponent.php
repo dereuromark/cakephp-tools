@@ -85,7 +85,7 @@ class CommonComponent extends Component {
 			$this->Session->delete('Message');
 		}
 
-		if ($this->Controller->request->is('ajax')) {
+		if (isset($this->Controller->request) && $this->Controller->request->is('ajax')) {
 			$ajaxMessages = array_merge(
 				(array)$this->Session->read('messages'),
 				(array)Configure::read('messages')

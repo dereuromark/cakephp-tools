@@ -532,8 +532,8 @@ class FormExtHelper extends FormShimHelper {
 							$this->Html->script('datepicker/datepicker', false);
 							$this->Html->css('common/datepicker', ['inline' => false]);
 						} else {
-							$this->Common->script(['Tools.Asset|datepicker/lang/' . $lang, 'Tools.Asset|datepicker/datepicker'], false);
-							$this->Common->css(['Tools.Asset|datepicker/datepicker'], ['inline' => false]);
+							$this->Common->script(['ToolsExtra.Asset|datepicker/lang/' . $lang, 'ToolsExtra.Asset|datepicker/datepicker'], false);
+							$this->Common->css(['ToolsExtra.Asset|datepicker/datepicker'], ['inline' => false]);
 						}
 						$this->scriptsAdded['date'] = true;
 						break;
@@ -541,9 +541,9 @@ class FormExtHelper extends FormShimHelper {
 						continue;
 						if ($this->settings['webroot']) {
 						} else {
-							//'Tools.Jquery|ui/core/jquery.ui.core', 'Tools.Jquery|ui/core/jquery.ui.widget', 'Tools.Jquery|ui/widgets/jquery.ui.slider',
-							$this->Common->script(['Tools.Jquery|plugins/jquery.timepicker.core', 'Tools.Jquery|plugins/jquery.timepicker'], false);
-							$this->Common->css(['Tools.Jquery|ui/core/jquery.ui', 'Tools.Jquery|plugins/jquery.timepicker'], ['inline' => false]);
+							//'ToolsExtra.Jquery|ui/core/jquery.ui.core', 'ToolsExtra.Jquery|ui/core/jquery.ui.widget', 'ToolsExtra.Jquery|ui/widgets/jquery.ui.slider',
+							$this->Common->script(['ToolsExtra.Jquery|plugins/jquery.timepicker.core', 'ToolsExtra.Jquery|plugins/jquery.timepicker'], false);
+							$this->Common->css(['ToolsExtra.Jquery|ui/core/jquery.ui', 'ToolsExtra.Jquery|plugins/jquery.timepicker'], ['inline' => false]);
 						}
 						break;
 					default:
