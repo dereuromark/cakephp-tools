@@ -218,7 +218,7 @@ bla';
 		$html = file_get_contents($path . 'email_template.html');
 		$result = $this->InlineCss->process($html);
 		$this->debug($result);
-		$expected = '<td  style="vertical-align:top;';
+		$expected = '<td  style="vertical-align:';
 		$this->assertTextContains($expected, $result);
 
 		$this->InlineCss = new InlineCssLib(['engine' => InlineCssLib::ENGINE_EMOGRIFIER]);

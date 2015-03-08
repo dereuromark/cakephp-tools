@@ -63,10 +63,12 @@ class InlineCssLib {
 	 * @return string Result
 	 */
 	protected function _processEmogrifier($html, $css) {
-		//$css .= $this->_extractAndRemoveCss($html);
-		App::import('Vendor', 'Tools.Emogrifier', ['file' => 'Emogrifier/Emogrifier.php']);
-
-		$Emogrifier = new Emogrifier($html, $css);
+		if (class_exists('\Pelago\Emogrifier')) {
+			$Emogrifier = new \Pelago\Emogrifier($html, $css);
+		} else {
+			App::import('Vendor', 'Tools.Emogrifier', ['file' => 'Emogrifier/Emogrifier.php']);
+			$Emogrifier = new Emogrifier($html, $css);
+		}
 		//$Emogrifier->preserveEncoding = true;
 
 		$result = $Emogrifier->emogrify();

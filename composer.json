@@ -22,5 +22,8 @@
 	},
 	"extra": {
 		"installer-name": "Tools"
+	},
+	"suggest": {
+		"pelago/emogrifier": "When using InlineCss lib and CSS to inline HTML transformation."
 	}
 }
