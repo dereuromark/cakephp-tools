@@ -3,7 +3,7 @@
 App::uses('QloginController', 'Tools.Controller');
 App::uses('ComponentCollection', 'Controller');
 
-Configure::write('Routing.prefixes', array('admin'));
+Configure::write('Routing.prefixes', ['admin']);
 
 class QloginControllerTest extends ControllerTestCase {
 

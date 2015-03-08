@@ -1239,7 +1239,7 @@ class MyModel extends ShimModel {
 			return $this->get($id, $options);
 		} catch (RecordNotFoundException $e) {
 		}
-		return array();
+		return [];
 	}
 
 	/**
