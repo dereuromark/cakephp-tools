@@ -849,12 +849,12 @@ class RevisionBehavior extends ModelBehavior {
 				if (in_array($assocAlias, $this->settings[$Model->alias]['ignore'])) {
 					continue;
 				}
-				$oldIds = Hash::extract($this->_oldData[$Model->alias], $assocAlias . '.{n}.id');
+				$oldIds = Hash::extract($this->_oldData[$Model->alias], $assocAlias . '.{n}.' . $Model->{$assocAlias}->primaryKey);
 				if (!isset($Model->data[$assocAlias])) {
 					$Model->ShadowModel->set($assocAlias, implode(',', $oldIds));
 					continue;
 				}
-				$currentIds = Hash::extract($data, $assocAlias . '.{n}.id');
+				$currentIds = Hash::extract($data, $assocAlias . '.{n}.' . $Model->{$assocAlias}->primaryKey);
 				$idChanges = array_diff($currentIds, $oldIds);
 				if (!empty($idChanges)) {
 					$Model->ShadowModel->set($assocAlias, implode(',', $currentIds));
