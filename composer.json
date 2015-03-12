@@ -26,7 +26,8 @@
 	"autoload-dev": {
 		"psr-4": {
 			"Tools\\Test\\": "tests",
-			"Cake\\Test\\": "vendor/cakephp/cakephp/tests"
+			"Cake\\Test\\": "vendor/cakephp/cakephp/tests",
+			"TestApp\\": "tests/TestApp"
 		}
 	},
 	"support":{
