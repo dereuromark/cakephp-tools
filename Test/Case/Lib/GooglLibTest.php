@@ -63,7 +63,7 @@ class GooglLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testApi() {
-		$this->skipIf(!Configure::write('Googl.key'), 'No Api Key found');
+		$this->skipIf(!Configure::read('Googl.key'), 'No Api Key found');
 
 		// Shorten with key
 		$url = 'http://www.blue.de';
