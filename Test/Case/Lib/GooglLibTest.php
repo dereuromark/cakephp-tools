@@ -1,17 +1,19 @@
 <?php
 
 App::uses('GooglLib', 'Tools.Lib');
+App::uses('MyCakeTestCase', 'Tools.TestSuite');
 
 /**
  */
-class GooglLibTest extends CakeTestCase {
+class GooglLibTest extends MyCakeTestCase {
 
 	public function setUp() {
 		parent::setUp();
 
 		//Configure::write('Googl.key', 'YOUR KEY');
 
-		$this->Googl = new GooglLib();
+		$this->Googl = new TestGooglLib();
+		$this->Googl->setLive(!$this->isDebug());
 	}
 
 	public function tearDown() {
@@ -26,11 +28,10 @@ class GooglLibTest extends CakeTestCase {
 	}
 
 	public function testHistory() {
-		$this->skipIf(true);
+		$this->skipIf(true, 'Login required');
 
 		$is = $this->Googl->getHistory();
-		//pr($is);
-		die();
+		$this->debug($is);
 	}
 
 	/**
@@ -39,16 +40,14 @@ class GooglLibTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testShortenAndUnshorten() {
-		//echo '<h2>Shorten without key (publically)</h2>';
+		// Shorten without key (publically)
 		Configure::write('Googl.key', '');
 
 		$url = 'http://www.spiegel.de';
 		$is = $this->Googl->getShort($url);
-		//pr($is);
 		$this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] === 'urlshortener#url' && $is['longUrl'] == $url . '/');
 
-		//echo '<h2>Unshorten</h2>';
-
+		// Unshorten
 		$shortUrl = $is['id'];
 		$is = $this->Googl->getLong($shortUrl);
 		$this->assertTrue(!empty($is));
@@ -66,31 +65,113 @@ class GooglLibTest extends CakeTestCase {
 	public function testApi() {
 		$this->skipIf(!Configure::write('Googl.key'), 'No Api Key found');
 
-		//echo '<h2>Shorten with key</h2>';
-
+		// Shorten with key
 		$url = 'http://www.blue.de';
 		$is = $this->Googl->getShort($url);
+		$this->debug($is);
 		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] === 'urlshortener#url' && $is['longUrl'] == $url . '/');
 
-		//echo '<h2>Unshorten</h2>';
-
+		// Unshorten
 		$shortUrl = $is['id'];
 		$is = $this->Googl->getLong($shortUrl);
-		//pr($is);
+		$this->debug($is);
 		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] === 'urlshortener#url' && $is['status'] === 'OK' && $is['longUrl'] == $url . '/');
 
-		//echo '<h2>FULL INFOS</h2>';
-
+		// FULL INFOS
 		$url = 'http://www.web.de#123456';
 		$is = $this->Googl->getShort($url);
-		//debug($is);
+		$this->debug($is);
 		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] === 'urlshortener#url' && $is['longUrl'] === 'http://www.web.de/#123456');
 
 		$shortUrl = $is['id'];
 		$is = $this->Googl->getLong($shortUrl, GooglLib::PROJECTION_CLICKS);
-
-		//debug($is);
+		$this->debug($is);
 		$res = $this->assertTrue(!empty($is) && is_array($is) && !empty($is['id']) && $is['kind'] === 'urlshortener#url' && $is['status'] === 'OK' && $is['longUrl'] === 'http://www.web.de/#123456');
+	}
+
+}
+
+/**
+ * Wrapper to mock the API calls away
+ */
+class TestGooglLib extends GooglLib {
+
+	protected $_debug = true;
+
+	protected $_map = [
+		'http://www.spiegel.de' => '{
+ "kind": "urlshortener#url",
+ "id": "http://goo.gl/nBBg",
+ "longUrl": "http://www.spiegel.de/"
+}',
+		'http://goo.gl/nBBg' => '{
+ "kind": "urlshortener#url",
+ "id": "http://goo.gl/nBBg",
+ "longUrl": "http://www.spiegel.de/",
+ "status": "OK"
+}',
+		'http://www.blue.de' => '{
+ "kind": "urlshortener#url",
+ "id": "http://goo.gl/leVfu4",
+ "longUrl": "http://www.blue.de/"
+}',
+		'http://goo.gl/leVfu4' => '{
+ "kind": "urlshortener#url",
+ "id": "http://goo.gl/leVfu4",
+ "longUrl": "http://www.blue.de/",
+ "status": "OK"
+}',
+		'http://www.web.de#123456' => '{
+ "kind": "urlshortener#url",
+ "id": "http://goo.gl/7937W",
+ "longUrl": "http://www.web.de/#123456"
+}',
+		'http://goo.gl/7937W' => '{
+ "kind": "urlshortener#url",
+ "id": "http://goo.gl/7937W",
+ "longUrl": "http://www.web.de/#123456",
+ "status": "OK",
+ "analytics": {
+  "allTime": {
+   "shortUrlClicks": "1",
+   "longUrlClicks": "1"
+  },
+  "month": {
+   "shortUrlClicks": "0",
+   "longUrlClicks": "0"
+  },
+  "week": {
+   "shortUrlClicks": "0",
+   "longUrlClicks": "0"
+  },
+  "day": {
+   "shortUrlClicks": "0",
+   "longUrlClicks": "0"
+  },
+  "twoHours": {
+   "shortUrlClicks": "0",
+   "longUrlClicks": "0"
+  }
+ }
+}'
+	];
+
+	public function setLive($live = true) {
+		$this->_debug = !$live;
+	}
+
+	public function getShort($url) {
+		if ($this->_debug) {
+			return json_decode($this->_map[$url], true);
+		}
+		return parent::getShort($url);
+	}
+
+	public function getLong($url, $projection = null) {
+		if ($this->_debug) {
+			return json_decode($this->_map[$url], true);
+		}
+		return parent::getLong($url, $projection);
 	}
 
 }
