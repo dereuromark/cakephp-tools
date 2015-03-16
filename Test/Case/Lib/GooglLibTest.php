@@ -13,7 +13,9 @@ class GooglLibTest extends MyCakeTestCase {
 		//Configure::write('Googl.key', 'YOUR KEY');
 
 		$this->Googl = new TestGooglLib();
-		$this->Googl->setLive(!$this->isDebug());
+		if ($this->isDebug()) {
+			$this->Googl->setLive();
+		}
 	}
 
 	public function tearDown() {
@@ -40,7 +42,7 @@ class GooglLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testShortenAndUnshorten() {
-		// Shorten without key (publically)
+		// Shorten without key (publicly)
 		Configure::write('Googl.key', '');
 
 		$url = 'http://www.spiegel.de';
