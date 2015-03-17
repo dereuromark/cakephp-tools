@@ -17,7 +17,7 @@
 		echo $this->Form->input('user_id', ['empty' => '---']);
 	?>
 	</fieldset>
-<?php echo $this->Form->end(__d('tools', 'Submit'));?>
+<?php echo $this->Form->submit(__d('tools', 'Submit')); echo $this->Form->end();?>
 </div>
 
 <br /><br />

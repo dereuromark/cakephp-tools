@@ -528,11 +528,11 @@ class FormExtHelper extends FormShimHelper {
 							$lang = 'en';
 						}
 						if ($this->settings['webroot']) {
-							$this->Html->script('datepicker/lang/' . $lang, false);
-							$this->Html->script('datepicker/datepicker', false);
+							$this->Html->script('datepicker/lang/' . $lang, ['inline' => false]);
+							$this->Html->script('datepicker/datepicker', ['inline' => false]);
 							$this->Html->css('common/datepicker', ['inline' => false]);
 						} else {
-							$this->Common->script(['ToolsExtra.Asset|datepicker/lang/' . $lang, 'ToolsExtra.Asset|datepicker/datepicker'], false);
+							$this->Common->script(['ToolsExtra.Asset|datepicker/lang/' . $lang, 'ToolsExtra.Asset|datepicker/datepicker'], ['inline' => false]);
 							$this->Common->css(['ToolsExtra.Asset|datepicker/datepicker'], ['inline' => false]);
 						}
 						$this->scriptsAdded['date'] = true;
@@ -542,7 +542,7 @@ class FormExtHelper extends FormShimHelper {
 						if ($this->settings['webroot']) {
 						} else {
 							//'ToolsExtra.Jquery|ui/core/jquery.ui.core', 'ToolsExtra.Jquery|ui/core/jquery.ui.widget', 'ToolsExtra.Jquery|ui/widgets/jquery.ui.slider',
-							$this->Common->script(['ToolsExtra.Jquery|plugins/jquery.timepicker.core', 'ToolsExtra.Jquery|plugins/jquery.timepicker'], false);
+							$this->Common->script(['ToolsExtra.Jquery|plugins/jquery.timepicker.core', 'ToolsExtra.Jquery|plugins/jquery.timepicker'], ['inline' => false]);
 							$this->Common->css(['ToolsExtra.Jquery|ui/core/jquery.ui', 'ToolsExtra.Jquery|plugins/jquery.timepicker'], ['inline' => false]);
 						}
 						break;
