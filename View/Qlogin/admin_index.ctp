@@ -24,7 +24,7 @@
 
 <div class="actions">
 	<ul>
-		<li><?php echo $this->Html->link(__d('tools', 'Reset %s', __d('tools', 'Qlogins')), ['action' => 'reset'], [], __d('tools', 'Sure?'));?></li>
+		<li><?php echo $this->Html->link(__d('tools', 'Reset %s', __d('tools', 'Qlogins')), ['action' => 'reset'], ['confirm' => __d('tools', 'Sure?')]);?></li>
 	<?php if (false) { ?>
 		<li><?php echo $this->Html->link(__d('tools', 'List %s', __d('tools', 'Qlogins')), ['action' => 'listing']);?></li>
 	<?php } ?>
