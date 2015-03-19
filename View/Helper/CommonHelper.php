@@ -261,7 +261,7 @@ class CommonHelper extends AppHelper {
 	 * @param mixed $content: if array, it will be seperated by commas
 	 * @return string HTML Markup
 	 */
-	public function metaName($name = null, $content = null) {
+	public function metaName($name, $content = null) {
 		if (empty($name) || empty($content)) {
 			return '';
 		}
@@ -409,7 +409,7 @@ class CommonHelper extends AppHelper {
 	 * @return string HTML Markup
 	 * @deprecated Use AssetCompress plugin instead
 	 */
-	public function css($files = [], $options = []) {
+	public function css($files, array $options = []) {
 		$files = (array)$files;
 		$pieces = [];
 		foreach ($files as $file) {
@@ -431,7 +431,7 @@ class CommonHelper extends AppHelper {
 	 * @return string HTML Markup
 	 * @deprecated Use AssetCompress plugin instead
 	 */
-	public function script($files = [], $options = []) {
+	public function script($files, array $options = []) {
 		$files = (array)$files;
 		foreach ($files as $file) {
 			$pieces[] = 'file=' . $file;
