@@ -7,6 +7,7 @@ use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Tools\Utility\Text;
 use Cake\Datasource\ResultSetInterface;
+use Cake\Database\Type;
 
 /**
  * A behavior that will json_encode (and json_decode) fields if they contain an array or specific pattern.
@@ -70,6 +71,7 @@ class JsonableBehavior extends Behavior {
 	 * @return void
 	 */
 	public function initialize(array $config = []) {
+		Type::map('array', 'Tools\Database\Type\ArrayType');
 		if (empty($this->_config['fields'])) {
 			throw new \Exception('Fields are required');
 		}
@@ -81,6 +83,9 @@ class JsonableBehavior extends Behavior {
 		}
 		if (!empty($this->_config['map']) && count($this->_config['fields']) !== count($this->_config['map'])) {
 			throw new \Exception('Fields and Map need to be of the same length if map is specified.');
+		}
+		foreach ($this->_config['fields'] as $field) {
+			$this->_table->schema()->columnType($field, 'array');
 		}
 	}
 
