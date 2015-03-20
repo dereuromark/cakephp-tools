@@ -8,6 +8,9 @@ App::uses('HttpSocket', 'Network/Http');
  *
  * Used by Tools.GeocoderBehavior
  *
+ * Pass HttpSocket options as config:
+ * Configure::write('Geocode.HttpSocket.ssl_verify_host', false);
+ *
  * TODOS (since 1.2):
  * - Work with exceptions in 2.x
  *
@@ -691,8 +694,9 @@ class GeocodeLib {
 	 * @return mixed
 	 */
 	protected function _fetch($url, $query) {
+		$options = (array)Configure::read('Geocode.HttpSocket');
 		if (!isset($this->HttpSocket)) {
-			$this->HttpSocket = new HttpSocket();
+			$this->HttpSocket = new HttpSocket($options);
 		}
 		foreach ($query as $k => $v) {
 			if ($v === '') {
