@@ -313,7 +313,7 @@ class GoogleMapV3HelperTest extends MyCakeTestCase {
 	 */
 	public function testDynamic() {
 		//echo '<h2>Map 1</h2>';
-		//echo '<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>';
+		//echo '<script type="text/javascript" src="http://ajax.google.com/ajax/libs/jquery/1/jquery.min.js"></script>';
 		//echo $this->GoogleMapV3->map($defaul, array('style'=>'width:100%; height: 800px'));
 		//echo '<script type="text/javascript" src="'.$this->GoogleMapV3->apiUrl().'"></script>';
 		//echo '<script type="text/javascript" src="'.$this->GoogleMapV3->gearsUrl().'"></script>';

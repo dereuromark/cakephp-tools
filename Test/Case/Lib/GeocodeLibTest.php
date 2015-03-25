@@ -31,7 +31,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 				'result_type' => 'sublocality'
 			]
 		],
-		'_fetch' => 'https://maps.googleapis.com/maps/api/geocode/json?address=40206&latlng=38.2643%2C-85.6999&language=en&sensor=false',
+		'_fetch' => 'https://maps.google.com/maps/api/geocode/json?address=40206&latlng=38.2643%2C-85.6999&language=en&sensor=false',
 		'raw' => '{
 			"results" : [
 				{
@@ -275,7 +275,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$Method->setAccessible(true);
 
 		$is = $Method->invoke($this->Geocode);
-		$this->assertPattern('#https://maps.googleapis.com/maps/api/geocode/json#', $is);
+		$this->assertPattern('#https://maps.google.com/maps/api/geocode/json#', $is);
 	}
 
 	/**
