@@ -32,7 +32,7 @@ class MyHelperUrlCacheTest extends CakeTestCase {
 	}
 
 	public function testInstance() {
-		$this->assertTrue(is_a($this->HtmlHelper, 'MyHelper'));
+		$this->assertInstanceOf('MyHelper', $this->HtmlHelper);
 	}
 
 	public function testSettings() {
@@ -52,14 +52,14 @@ class MyHelperUrlCacheTest extends CakeTestCase {
 
 	public function testUrlFull() {
 		$url = $this->HtmlHelper->url(['controller' => 'posts'], true);
-		$this->assertPattern('/http:\/\/(.*)\/posts/', $url);
+		$this->assertRegExp('/http:\/\/(.*)\/posts/', $url);
 		$this->assertEquals(['8f45f5c31d138d700742b01ccb673e1e'], array_keys(UrlCacheManager::$cache));
-		$this->assertPattern('/http:\/\/(.*)\/posts/', UrlCacheManager::$cache['8f45f5c31d138d700742b01ccb673e1e']);
+		$this->assertRegExp('/http:\/\/(.*)\/posts/', UrlCacheManager::$cache['8f45f5c31d138d700742b01ccb673e1e']);
 
 		$this->HtmlHelper->afterLayout('foo');
 		$cache = Cache::read(UrlCacheManager::$cacheKey, '_cake_core_');
 		$this->assertEquals(['8f45f5c31d138d700742b01ccb673e1e'], array_keys($cache));
-		$this->assertPattern('/http:\/\/(.*)\/posts/', $cache['8f45f5c31d138d700742b01ccb673e1e']);
+		$this->assertRegExp('/http:\/\/(.*)\/posts/', $cache['8f45f5c31d138d700742b01ccb673e1e']);
 	}
 
 	public function testUrlRelativeAndFull() {

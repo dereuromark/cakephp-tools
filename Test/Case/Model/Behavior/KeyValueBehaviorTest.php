@@ -62,7 +62,7 @@ class KeyValueBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue(!empty($res['Profile']));
 
 		$res = $this->Model->getSection(2, 'Profile');
-		$this->assertIdentical(['x' => '3', 'y' => 'abc'], $res);
+		$this->assertSame(['x' => '3', 'y' => 'abc'], $res);
 	}
 
 	public function testDefaults() {

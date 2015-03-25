@@ -300,12 +300,12 @@ class MyModelTest extends MyCakeTestCase {
 		$result = $this->User->deleteAllRaw(['user !=' => 'foo', 'created <' => date(FORMAT_DB_DATE), 'id >' => 1]);
 		$this->assertTrue($result);
 		$result = $this->User->getAffectedRows();
-		$this->assertIdentical(3, $result);
+		$this->assertSame(3, $result);
 
 		$result = $this->User->deleteAllRaw();
 		$this->assertTrue($result);
 		$result = $this->User->getAffectedRows();
-		$this->assertIdentical(1, $result);
+		$this->assertSame(1, $result);
 	}
 
 	/**

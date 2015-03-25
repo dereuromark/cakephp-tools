@@ -275,7 +275,7 @@ class GeocodeLibTest extends MyCakeTestCase {
 		$Method->setAccessible(true);
 
 		$is = $Method->invoke($this->Geocode);
-		$this->assertPattern('#https://maps.google.com/maps/api/geocode/json#', $is);
+		$this->assertRegExp('#https://maps.google.com/maps/api/geocode/json#', $is);
 	}
 
 	/**
