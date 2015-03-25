@@ -11,14 +11,14 @@ env:
     - PLUGIN_NAME=Tools
     - DB=mysql
   matrix:
-    - DB=mysql CAKE_VERSION=master
+    - DB=mysql CAKE_VERSION=2.6
     - DB=mysql CAKE_VERSION=2.7
 
 matrix:
   include:
     - php: 5.4
       env:
-        - CAKE_VERSION=master
+        - CAKE_VERSION=2.6
         - COVERALLS=1
   fast_finish: true
 
