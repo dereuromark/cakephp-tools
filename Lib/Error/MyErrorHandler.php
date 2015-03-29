@@ -131,7 +131,7 @@ class MyErrorHandler extends ErrorHandler {
 		$uid = (!empty($_SESSION) && !empty($_SESSION['Auth']['User']['id'])) ? $_SESSION['Auth']['User']['id'] : null;
 
 		$data = [
-			@CakeRequest::clientIp(),
+			Utility::getClientIp(),
 			$currentUrl . (!empty($refererUrl) ? (' (' . $refererUrl . ')') : ''),
 			$uid,
 			env('HTTP_USER_AGENT')
