@@ -47,7 +47,7 @@ class Controller extends CakeController {
 	 * @return void
 	 */
 	public function afterFilter(Event $event) {
-		if (Configure::read('App.monitorHeaders') && $this->name !== 'Error') {
+		if (Configure::read('App.monitorHeaders') && $this->name !== 'Error' && php_sapi_name() !== 'cli') {
 			if (headers_sent($filename, $linenum)) {
 				$message = sprintf('Headers already sent in %s on line %s', $filename, $linenum);
 				if (Configure::read('debug')) {
