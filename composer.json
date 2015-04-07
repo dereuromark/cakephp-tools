@@ -15,7 +15,6 @@
 	"require":{
 		"php": ">=5.4",
 		"cakephp/cakephp": "3.0.*-dev",
-		"yangqi/htmldom": "dev-master",
 		"dereuromark/cakephp-shim": "3.0.*-dev"
 	},
 	"autoload": {
@@ -33,6 +32,9 @@
 	"support":{
 		"source": "https://github.com/dereuromark/cakephp-tools",
 		"issues": "https://github.com/dereuromark/cakephp-tools/issues"
+	},
+	"suggest": {
+		"yangqi/htmldom": "A Htmldom package for Laravel 4 and 5 based on Simple HTML Dom Parser"
 	},
 	"extra": {
 		"installer-name": "Tools"
