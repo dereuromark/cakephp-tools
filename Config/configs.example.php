@@ -47,7 +47,7 @@ $config['Google'] = [
 	'lat' => 51,
 	'lng' => 11,
 	'type' => 'G_NORMAL_MAP',
- 	'static_size' => '500x500'
+	'static_size' => '500x500'
 ];
 
 $config['Config'] = [

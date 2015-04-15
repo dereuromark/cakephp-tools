@@ -42,13 +42,13 @@ class ImapSourceTest extends MyCakeTestCase {
 		//$this->assertEquals($expected, $result);
 		$this->debug($result);
 	}
-	
+
 	/**
 	 * @return void
 	 */
 	public function testMakeSearch() {
 		$this->skipIf(!function_exists('imap_open'), 'No imap_open() function available. Please install extension/module.');
-	
+
 		$query = [
 			'answered' => 1,
 			'seen' => true,

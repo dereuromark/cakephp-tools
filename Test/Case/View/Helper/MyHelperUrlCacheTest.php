@@ -176,7 +176,7 @@ class MyHelperUrlCacheTest extends CakeTestCase {
 		$url = $this->HtmlHelper->url($urlArray);
 		$this->assertEquals(['e8383c43f33fcf11621240f22814603b'], array_keys(UrlCacheManager::$cachePage));
 		$this->assertEquals('/posts/list_posts?page=2', $url);
-		
+
 		$this->HtmlHelper->afterLayout('foo');
 	}
 }
