@@ -201,7 +201,7 @@ class IndentShell extends AppShell {
 		}
 
 		$newPiece = rtrim($newPiece) . $debug;
-		if ($newPiece != $piece || strlen($newPiece) !== strlen($piece)) {
+		if ($newPiece !== $piece || strlen($newPiece) !== strlen($piece)) {
 			$this->_changes = true;
 		}
 		return $newPiece;
@@ -216,14 +216,16 @@ class IndentShell extends AppShell {
 	protected function _processSpaceErrors($piece, $space = 1) {
 		$newPiece = $piece;
 		$spaceChar = str_repeat(' ', $space);
-
+		// At the beginning of the line
 		if (mb_substr($newPiece, 0, $space) === $spaceChar && mb_substr($newPiece, $space, 1) === TB) {
 			$newPiece = mb_substr($newPiece, $space);
 		}
-		if (($pos = mb_strpos($newPiece, $space)) > 0 && mb_substr($newPiece, $pos - 1, 1) === TB) {
+		// In the middle
+		if (($pos = mb_strpos($newPiece, $space)) > 0 && mb_substr($newPiece, $pos - 1, 1) === TB
+			&& mb_substr($newPiece, $pos + 1, 1) === TB) {
 			$newPiece = mb_substr($newPiece, $pos) . mb_substr($newPiece, $pos + 2);
 		}
-		$newPiece = str_replace($spaceChar . TB, TB, $newPiece);
+		$newPiece = str_replace(TB . $spaceChar . TB, TB . TB, $newPiece);
 		if ($newPiece !== $piece) {
 			$this->_changes = true;
 		}
