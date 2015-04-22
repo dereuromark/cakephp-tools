@@ -32,7 +32,7 @@ class QurlsController extends ToolsAppController {
 		$url = $entry['Qurl']['url'];
 
 		if ($note) {
-			$this->Flash->message(nl2br($note), 'info');
+			$this->Flash->info(nl2br($note));
 		}
 		$this->Qurl->markAsUsed($entry['Qurl']['id']);
 		return $this->redirect($url);
@@ -53,7 +53,7 @@ class QurlsController extends ToolsAppController {
 	public function admin_view($id = null) {
 		$this->Qurl->recursive = 0;
 		if (empty($id) || !($qurl = $this->Qurl->find('first', ['conditions' => ['Qurl.id' => $id]]))) {
-			$this->Flash->message(__('invalidRecord'), 'error');
+			$this->Flash->error(__('invalidRecord'));
 			return $this->Common->autoRedirect(['action' => 'index']);
 		}
 		$this->set(compact('qurl'));
@@ -69,10 +69,10 @@ class QurlsController extends ToolsAppController {
 			if ($res = $this->Qurl->save($this->request->data)) {
 				$var = $this->Qurl->urlByKey($res['Qurl']['key'], $res['Qurl']['title']);
 
-				$this->Flash->message(__('Qurl: %s', $var), 'success');
+				$this->Flash->success(__('Qurl: %s', $var));
 				return $this->Common->postRedirect(['action' => 'index']);
 			} else {
-				$this->Flash->message(__('formContainsErrors'), 'error');
+				$this->Flash->error(__('formContainsErrors'));
 			}
 		} else {
 			$this->request->data['Qurl']['active'] = 1;
@@ -88,16 +88,16 @@ class QurlsController extends ToolsAppController {
 	 */
 	public function admin_edit($id = null) {
 		if (empty($id) || !($qurl = $this->Qurl->find('first', ['conditions' => ['Qurl.id' => $id]]))) {
-			$this->Flash->message(__('invalidRecord'), 'error');
+			$this->Flash->error(__('invalidRecord'));
 			return $this->Common->autoRedirect(['action' => 'index']);
 		}
 		if ($this->Common->isPosted()) {
 			if ($this->Qurl->save($this->request->data)) {
 				$var = $this->request->data['Qurl']['key'];
-				$this->Flash->message(__('record edit %s saved', h($var)), 'success');
+				$this->Flash->success(__('record edit %s saved', h($var)));
 				return $this->Common->postRedirect(['action' => 'index']);
 			} else {
-				$this->Flash->message(__('formContainsErrors'), 'error');
+				$this->Flash->error(__('formContainsErrors'));
 			}
 		}
 		if (empty($this->request->data)) {
@@ -111,16 +111,16 @@ class QurlsController extends ToolsAppController {
 	public function admin_delete($id = null) {
 		$this->request->allowMethod('post');
 		if (empty($id) || !($qurl = $this->Qurl->find('first', ['conditions' => ['Qurl.id' => $id], 'fields' => ['id', 'key']]))) {
-			$this->Flash->message(__('invalidRecord'), 'error');
+			$this->Flash->error(__('invalidRecord'));
 			return $this->Common->autoRedirect(['action' => 'index']);
 		}
 		$var = $qurl['Qurl']['key'];
 
 		if ($this->Qurl->delete($id)) {
-			$this->Flash->message(__('record del %s done', h($var)), 'success');
+			$this->Flash->success(__('record del %s done', h($var)));
 			return $this->redirect(['action' => 'index']);
 		}
-		$this->Flash->message(__('record del %s not done exception', h($var)), 'error');
+		$this->Flash->error(__('record del %s not done exception', h($var)));
 		return $this->Common->autoRedirect(['action' => 'index']);
 	}
 

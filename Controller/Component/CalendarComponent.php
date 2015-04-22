@@ -62,7 +62,7 @@ class CalendarComponent extends Component {
 		$current = date('Y');
 
 		if (empty($month) || $year < $current - $span || $year > $current + $span) {
-			$this->Controller->Flash->message(__d('tools', 'invalid date'), 'error');
+			$this->Controller->Flash->error(__d('tools', 'invalid date'));
 			$this->Controller->redirect(['action' => 'index']);
 		}
 
@@ -74,7 +74,7 @@ class CalendarComponent extends Component {
 		}
 
 		if ($month < 1 || $month > 12) {
-			$this->Controller->Flash->message(__d('tools', 'invalid date'), 'error');
+			$this->Controller->Flash->error(__d('tools', 'invalid date'));
 			$this->Controller->redirect(['action' => 'index']);
 		}
 		return true;

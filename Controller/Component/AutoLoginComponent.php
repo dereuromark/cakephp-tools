@@ -14,6 +14,7 @@ App::uses('Component', 'Controller');
  * @modified Mark Scherer - 2012-01-08 ms
  * - now works with Controller::beforeFilter() modifications to allow username/email login switch
  * - can be disabled dynamically and will skip on CakeError view
+ *  @deprecated Use CookieAuthenticate from https://github.com/FriendsOfCake/Authenticate/
  */
 class AutoLoginComponent extends Component {
 

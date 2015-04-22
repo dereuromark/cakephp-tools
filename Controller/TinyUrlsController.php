@@ -67,7 +67,7 @@ class TinyUrlsController extends ToolsAppController {
 			$this->TinyUrl->set($this->request->data);
 			if ($this->TinyUrl->validates()) {
 				$id = $this->TinyUrl->generate($this->TinyUrl->data['TinyUrl']['url']);
-				$this->Flash->message('New Key: ' . h($id), 'success');
+				$this->Flash->success('New Key: ' . h($id));
 				$url = $this->TinyUrl->urlByKey($id);
 				$this->set(compact('url'));
 				$this->request->data = [];
@@ -95,7 +95,7 @@ class TinyUrlsController extends ToolsAppController {
 	public function admin_reset() {
 		$this->request->allowMethod('post');
 		$this->TinyUrl->truncate();
-		$this->Flash->message(__d('tools', 'Done'), 'success');
+		$this->Flash->success(__d('tools', 'Done'));
 		return $this->Common->autoRedirect(['action' => 'index']);
 	}
 
