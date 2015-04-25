@@ -15,7 +15,6 @@
 	"require":{
 		"php": ">=5.4",
 		"cakephp/cakephp": "3.0.*-dev",
-		"yangqi/htmldom": "dev-master",
 		"dereuromark/cakephp-shim": "3.0.*-dev"
 	},
 	"autoload": {
@@ -29,6 +28,9 @@
 			"Cake\\Test\\": "vendor/cakephp/cakephp/tests",
 			"TestApp\\": "tests/TestApp"
 		}
+	},
+	"suggest": {
+		"yangqi/htmldom": "For HtmlDom usage"
 	},
 	"support":{
 		"source": "https://github.com/dereuromark/cakephp-tools",
