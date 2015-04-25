@@ -13,7 +13,7 @@ use Tools\Controller\Component\FlashComponent;
  */
 class FlashHelper extends Helper {
 
-	public $helpers = ['Session'];
+	public $helpers = [];
 
 	/**
 	 * Display all flash messages.
@@ -36,7 +36,7 @@ class FlashHelper extends Helper {
 	 */
 	public function render(array $types = []) {
 		// Get the messages from the session
-		$messages = (array)$this->Session->read('FlashMessage');
+		$messages = (array)$this->request->session()->read('FlashMessage');
 		$cMessages = (array)Configure::read('FlashMessage');
 		if (!empty($cMessages)) {
 			$messages = (array)Hash::merge($messages, $cMessages);

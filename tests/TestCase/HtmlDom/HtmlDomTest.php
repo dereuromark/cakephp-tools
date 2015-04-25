@@ -12,6 +12,8 @@ class HtmlDomTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
+
+		$this->skipIf(!class_exists('Yangqi\Htmldom\Htmldom'));
 	}
 
 	/**

@@ -75,8 +75,8 @@ class PasswordableBehavior extends Behavior {
 			],
 		],
 		'formFieldCurrent' => [
-			'notEmpty' => [
-				'rule' => ['notEmpty'],
+			'notBlank' => [
+				'rule' => ['notBlank'],
 				'message' => 'valErrProvideCurrentPwd',
 				'last' => true,
 			],
