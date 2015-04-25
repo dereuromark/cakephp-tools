@@ -38,6 +38,5 @@
 	},
 	"extra": {
 		"installer-name": "Tools"
-	},
-	"minimum-stability": "dev"
+	}
 }
