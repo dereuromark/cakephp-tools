@@ -13,7 +13,7 @@ if (!defined('PWD_MIN_LENGTH')) {
 	define('PWD_MIN_LENGTH', 6);
 }
 if (!defined('PWD_MAX_LENGTH')) {
-	define('PWD_MAX_LENGTH', 20);
+	define('PWD_MAX_LENGTH', 50);
 }
 
 /**
