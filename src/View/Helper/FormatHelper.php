@@ -205,7 +205,7 @@ class FormatHelper extends TextHelper {
 		];
 		$options += $defaults;
 		$icon = (array)$icon;
-		$class = [];
+		$class = [$options['namespace']];
 		foreach ($icon as $i) {
 			$class[] = $options['namespace'] . '-' . $i;
 		}
