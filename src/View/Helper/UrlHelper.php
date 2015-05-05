@@ -26,17 +26,41 @@ use Cake\View\View;
 class UrlHelper extends CoreUrlHelper {
 
 	/**
-	 * Returns a URL based on provided parameters.
+	 * @deprecated
+	 */
+	public function defaultBuild($url = null, $full = false) {
+		return $this->reset($url, $full);
+	}
+
+	/**
+	 * Creates a reset URL.
+	 * The prefix and plugin params are resetting to default false.
 	 *
-	 * @param string|array $url Either a relative string url like `/products/view/23` or
-	 *    an array of URL parameters. Using an array for URLs will allow you to leverage
-	 *    the reverse routing features of CakePHP.
+	 * @param string|array $url URL.
 	 * @param bool $full If true, the full base URL will be prepended to the result
 	 * @return string Full translated URL with base path.
 	 */
-	public function defaultBuild($url = null, $full = false) {
+	public function reset($url = null, $full = false) {
 		if (is_array($url)) {
 			$url += ['prefix' => false, 'plugin' => false];
+		}
+		return parent::build($url, $full);
+	}
+
+	/**
+	 * Returns a URL based on provided parameters.
+	 *
+	 * @param string|array $url URL.
+	 * @param bool $full If true, the full base URL will be prepended to the result
+	 * @return string Full translated URL with base path.
+	 */
+	public function complete($url = null, $full = false) {
+		if (is_array($url)) {
+			// Add query strings
+			if (!isset($url['?'])) {
+				$url['?'] = [];
+			}
+			$url['?'] += $this->request->query;
 		}
 		return parent::build($url, $full);
 	}

@@ -117,12 +117,15 @@ class TreeHelper extends Helper {
 	 *	'splitCount' => the number of "parallel" types. defaults to null (disabled) set the splitCount,
 	 *		and optionally set the splitDepth to get parallel lists
 	 *
-	 * @param array $data data to loop on
-	 * @param array $config
-	 * @return string html representation of the passed data
+	 * @param array|Query $data Data to loop over
+	 * @param array $config Config
+	 * @return string HTML representation of the passed data
 	 * @throws \Exception
 	 */
-	public function generate(array $data, array $config = []) {
+	public function generate($data, array $config = []) {
+		if (is_object($data)) {
+			$data = $data->toArray();
+		}
 		if (!$data) {
 			return '';
 		}
