@@ -24,7 +24,6 @@ matrix:
       env: COVERALLS=1 DEFAULT=0
 
   allow_failures:
-    - env: DB=sqlite db_class='Cake\Database\Driver\Sqlite' db_dsn='sqlite::memory:'
     - env: DB=pgsql db_class='Cake\Database\Driver\Postgres' db_dsn='pgsql:host=127.0.0.1;dbname=cakephp_test' db_database="cakephp_test" db_username='postgres' db_password=''
     - php: 5.4
       env: PHPCS=1 DEFAULT=0
