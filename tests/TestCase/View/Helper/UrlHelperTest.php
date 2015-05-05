@@ -13,7 +13,7 @@ use Cake\Routing\Router;
  * Datetime Test Case
  *
  */
-class TimeHelperTest extends TestCase {
+class UrlHelperTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
