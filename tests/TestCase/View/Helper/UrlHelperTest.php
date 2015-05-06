@@ -50,7 +50,7 @@ class UrlHelperTest extends TestCase {
 
 		$result = $this->Url->build(['controller' => 'foobar', 'action' => 'test']);
 		$expected = '/admin/foobar/test';
-		debug($result);
+		//debug($result);
 		//$this->assertEquals($expected, $result);
 
 		$result = $this->Url->reset(['controller' => 'foobar', 'action' => 'test']);

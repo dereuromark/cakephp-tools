@@ -51,7 +51,7 @@ class HtmlHelperTest extends TestCase {
 
 		$result = $this->Html->link('Foo', ['controller' => 'foobar', 'action' => 'test']);
 		$expected = '<a href="/admin/foobar/test">Foo</a>';
-		debug($result);
+		//debug($result);
 		//$this->assertEquals($expected, $result);
 
 		$result = $this->Html->resetLink('Foo', ['controller' => 'foobar', 'action' => 'test']);

@@ -77,20 +77,6 @@ if (!getenv('db_class')) {
 	putenv('db_dsn=sqlite::memory:');
 }
 
-if (WINDOWS) {
-	Cake\Datasource\ConnectionManager::config('test', [
-		'className' => 'Cake\Database\Connection',
-		'driver' => 'Cake\Database\Driver\Mysql',
-		'database' => 'cake_test',
-		'username' => 'root',
-		'password' => '',
-		'timezone' => 'UTC',
-		'quoteIdentifiers' => true,
-		'cacheMetadata' => true,
-	]);
-	return;
-}
-
 Cake\Datasource\ConnectionManager::config('test', [
 	'className' => 'Cake\Database\Connection',
 	'driver' => getenv('db_class'),
