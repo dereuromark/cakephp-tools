@@ -15,7 +15,7 @@
 	"require":{
 		"php": ">=5.4",
 		"cakephp/cakephp": "~3.0",
-		"dereuromark/cakephp-shim": "3.0.*-dev"
+		"dereuromark/cakephp-shim": "dev-master"
 	},
 	"autoload": {
 		"psr-4": {
