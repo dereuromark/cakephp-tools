@@ -1,26 +1,13 @@
 <?php
 namespace Tools\Controller;
 
-use Cake\Controller\Controller as CakeController;
+use Shim\Controller\Controller as ShimController;
 use Cake\Core\Configure;
-use Cake\Event\Event;
 
 /**
  * DRY Controller stuff
  */
-class Controller extends CakeController {
-
-	/**
-	 * Add headers for IE8 etc to fix caching issues in those stupid browsers.
-	 *
-	 * @return void
-	 */
-	public function disableCache() {
-		$this->response->header([
-			'Pragma' => 'no-cache',
-		]);
-		$this->response->disableCache();
-	}
+class Controller extends ShimController {
 
 	/**
 	 * Handles automatic pagination of model records.
@@ -35,27 +22,6 @@ class Controller extends CakeController {
 			$this->paginate += $defaultSettings;
 		}
 		return parent::paginate($object);
-	}
-
-	/**
-	 * Hook to monitor headers being sent.
-	 *
-	 * This, if desired, adds a check if your controller actions are cleanly built and no headers
-	 * or output is being sent prior to the response class, which should be the only one doing this.
-	 *
-	 * @param Event $event An Event instance
-	 * @return void
-	 */
-	public function afterFilter(Event $event) {
-		if (Configure::read('App.monitorHeaders') && $this->name !== 'Error' && php_sapi_name() !== 'cli') {
-			if (headers_sent($filename, $linenum)) {
-				$message = sprintf('Headers already sent in %s on line %s', $filename, $linenum);
-				if (Configure::read('debug')) {
-					throw new \Exception($message);
-				}
-				trigger_error($message);
-			}
-		}
 	}
 
 }
