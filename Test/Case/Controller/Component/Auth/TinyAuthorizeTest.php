@@ -189,9 +189,12 @@ INI;
 		$res = $object->authorize($user, $this->request);
 		$this->assertTrue($res);
 
-		// verbose role defition using the new 2.x contain param for Auth
+		// verbose role definition using the new 2.x contain param for Auth
 		$user = [
-			'Role' => [['id' => 1, 'RoleUser' => []], ['id' => 3, 'RoleUser' => []]],
+			'Role' => [
+				['id' => 1, 'RoleUser' => []],
+				['id' => 3, 'RoleUser' => []]
+			],
 		];
 		$res = $object->authorize($user, $this->request);
 		$this->assertTrue($res);
