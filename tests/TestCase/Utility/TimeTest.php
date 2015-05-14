@@ -941,13 +941,45 @@ class TimeTest extends TestCase {
 	 *
 	 * @return void
 	 */
+	public function testDuration() {
+		$tests = [
+			7440 => '2:04:00',
+			7220 => '2:00:20',
+			5400 => '1:30:00',
+			3660 => '1:01:00',
+		];
+
+		// positive
+		foreach ($tests as $was => $expected) {
+			$is = $this->Time->duration($was);
+			//pr($is);
+			$this->assertEquals($expected, $is);
+		}
+
+		// M:SS
+		$tests = [
+			7440 => '124:00',
+		];
+		foreach ($tests as $was => $expected) {
+			$is = $this->Time->duration($was, '%i:%S');
+			//pr($is);
+			$this->assertEquals($expected, $is);
+		}
+	}
+
+	/**
+	 * TimeTest::testBuildTime()
+	 *
+	 * @return void
+	 */
 	public function testBuildTime() {
 		//echo $this->_header(__FUNCTION__);
 		$tests = [
-			7440 => '2:04',
-			7220 => '2:00', # 02:00:20 => rounded to 2:00:00
-			5400 => '1:30',
-			3660 => '1:01',
+			7440 => '2:04:00',
+			7220 => '2:00:20',
+			5400 => '1:30:00',
+			3660 => '1:01:00',
+			43202 => '12:00:02'
 		];
 
 		// positive
@@ -963,6 +995,36 @@ class TimeTest extends TestCase {
 			//pr($is);
 			$this->assertEquals('-' . $expected, $is);
 		}
+
+		$tests = [
+			7220 => '2:00', # 02:00:20 => rounded to 2:00:00
+			7441 => '2:04',
+			43202 => '12:00'
+		];
+
+		// positive
+		foreach ($tests as $was => $expected) {
+			$is = $this->Time->buildTime($was, 'H:MM');
+			//pr($is);
+			$this->assertEquals($expected, $is);
+		}
+
+		// using DateTime interval
+		$datetime1 = new \DateTime('2009-10-11 13:13:13');
+		$datetime2 = new \DateTime('2009-10-12 13:13:15');
+		$interval = $datetime1->diff($datetime2);
+		$result = $this->Time->buildTime($interval, 'H:MM:SS');
+		$this->assertEquals('24:00:02', $result);
+
+		// using Time/Carbon
+		$start = new Time();
+		$end = (new Time())->addMinutes(3);
+		$diff = $end->diffInSeconds($start);
+		$result = $this->Time->buildTime($diff, 'H:MM:SS');
+		$this->assertEquals('0:03:00', $result);
+
+		$result = $this->Time->buildTime($diff, 'M:SS');
+		$this->assertEquals('3:00', $result);
 	}
 
 	/**

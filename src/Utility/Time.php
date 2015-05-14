@@ -110,7 +110,7 @@ class Time extends CakeTime {
 	 * should only be used for < month (due to the different month lenghts it gets fuzzy)
 	 *
 	 * @param mixed $start (db format or timestamp)
-	 * @param mixex §end (db format or timestamp)
+	 * @param mixex $end (db format or timestamp)
 	 * @return int: the distance in seconds
 	 */
 	public static function difference($startTime, $endTime = null, $options = []) {
@@ -320,10 +320,10 @@ class Time extends CakeTime {
 			$wtag = date('w', $first);
 
 			if ($wtag <= 4) {
-				/*Donnerstag oder kleiner: auf den Montag zurückrechnen.*/
+				/* Thursday or less: back to Monday */
 				$firstmonday = mktime(0, 0, 0, 1, 1 - ($wtag - 1), $year);
 			} elseif ($wtag != 1) {
-				/*auf den Montag nach vorne rechnen.*/
+				/* Back to Monday */
 				$firstmonday = mktime(0, 0, 0, 1, 1 + (7 - $wtag + 1), $year);
 			} else {
 				$firstmonday = $first;
@@ -1268,13 +1268,63 @@ class Time extends CakeTime {
 	}
 
 	/**
-	 * Return strings like 2:30 (later //TODO: or 2:33:99) from seconds etc
+	 * Returns nicely formatted duration difference
+	 * as string like 2:30 (H:MM) or 2:30:06 (H:MM:SS) etc.
+	 * Note that the more than days is currently not supported accurately.
 	 *
-	 * @param int $duraton Duraction in seconds
-	 * @param string $mode
+	 * E.g. for days and hours set format to: $d:$H
+	 *
+	 * @param int|DateInterval $duraton Duration in seconds or as DateInterval object
+	 * @param string $mode Defaults to hours, minutes and seconds
 	 * @return string Time
 	 */
-	public static function buildTime($duration, $mode = 'H:MM') {
+	public static function duration($duration, $format = '%h:%I:%S') {
+		if (!$duration instanceof \DateInterval) {
+			$d1 = new \DateTime();
+			$d2 = new \DateTime();
+			$d2->add(new \DateInterval('PT' . $duration . 'S'));
+
+			$duration = $d2->diff($d1);
+		}
+		if (stripos($format, 'd') === false && $duration->d) {
+			$duration->h += $duration->d * 24;
+		}
+		if (stripos($format, 'h') === false && $duration->h) {
+			$duration->i += $duration->h * 60;
+		}
+		if (stripos($format, 'i') === false && $duration->i) {
+			$duration->s += $duration->m * 60;
+		}
+
+		return $duration->format($format);
+	}
+
+	/**
+	 * Returns nicely formatted duration difference
+	 * as string like 2:30 or 2:30:06.
+	 * Note that the more than hours is currently not supported.
+	 *
+	 * Note that duration with DateInterval supports only values < month with accuracy,
+	 * as it approximates month as "30".
+	 *
+	 * @param int|DateInterval $duraton Duration in seconds or as DateInterval object
+	 * @param string $mode Defaults to hours and minutes
+	 * @return string Time
+	 * @deprecated Use duration() instead?
+	 */
+	public static function buildTime($duration, $mode = 'H:MM:SS') {
+		if ($duration instanceof \DateInterval) {
+			$m = $duration->invert ? -1 : 1;
+
+			$duration = ($duration->y * YEAR) +
+			($duration->m * MONTH) +
+			($duration->d * DAY) +
+			($duration->h * HOUR) +
+			($duration->i * MINUTE) +
+			$duration->s;
+			$duration *= $m;
+		}
+
 		if ($duration < 0) {
 			$duration = abs($duration);
 			$isNegative = true;
@@ -1282,10 +1332,21 @@ class Time extends CakeTime {
 
 		$minutes = $duration % HOUR;
 		$hours = ($duration - $minutes) / HOUR;
-		$res = (int)$hours . ':' . static::pad(intval($minutes / MINUTE));
-		if (strpos($mode, 'SS') !== false) {
-			//TODO
+
+		$res = [];
+		if (strpos($mode, 'H') !== false) {
+			$res[] = (int)$hours . ':' . static::pad(intval($minutes / MINUTE));
+		} else {
+			$res[] = intval($minutes / MINUTE);
 		}
+
+		if (strpos($mode, 'SS') !== false) {
+			$seconds = $duration % MINUTE;
+			$res[] = static::pad(intval($seconds));
+		}
+
+		$res = implode(':', $res);
+
 		if (!empty($isNegative)) {
 			$res = '-' . $res;
 		}
