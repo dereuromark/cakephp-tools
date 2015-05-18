@@ -15,7 +15,7 @@
 	"require":{
 		"php": ">=5.4",
 		"cakephp/cakephp": "~3.0",
-		"dereuromark/cakephp-shim": "dev-master"
+		"dereuromark/cakephp-shim": "~1.0"
 	},
 	"autoload": {
 		"psr-4": {
@@ -35,8 +35,5 @@
 	"support":{
 		"source": "https://github.com/dereuromark/cakephp-tools",
 		"issues": "https://github.com/dereuromark/cakephp-tools/issues"
-	},
-	"extra": {
-		"installer-name": "Tools"
 	}
 }
