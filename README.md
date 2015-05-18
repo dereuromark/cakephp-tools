@@ -1,6 +1,6 @@
 # CakePHP Tools Plugin
-[![Build Status](https://api.travis-ci.org/dereuromark/cakephp-tools.png?branch=cake3)](https://travis-ci.org/dereuromark/cakephp-tools)
-[![Coverage Status](https://coveralls.io/repos/dereuromark/cakephp-tools/badge.png?branch=cake3)](https://coveralls.io/r/dereuromark/cakephp-tools)
+[![Build Status](https://api.travis-ci.org/dereuromark/cakephp-tools.svg)](https://travis-ci.org/dereuromark/cakephp-tools)
+[![Coverage Status](https://coveralls.io/repos/dereuromark/cakephp-tools/badge.png)](https://coveralls.io/r/dereuromark/cakephp-tools)
 [![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)](https://php.net/)
 [![License](https://poser.pugx.org/dereuromark/cakephp-tools/license.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
 [![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-tools/d/total.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
@@ -11,7 +11,7 @@ A CakePHP 3.x Plugin containing several useful tools that can be used in many pr
 ## Version notice
 
 This cake3 branch only works for **CakePHP3.x** - please use the master branch for CakePHP 2.x!
-**It is still dev** (not even alpha), please be careful with using it.
+**It is still dev** (no stable release yet), please be careful with using it.
 
 ### Planned Release Cycle:
 Dev (currently), Alpha, Beta, RC, 1.0 stable (incl. tagged release then).
