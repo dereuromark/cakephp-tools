@@ -15,7 +15,7 @@ class HazardLib {
 	const URL = 'http://ha.ckers.org/xssAttacks.xml';
 
 	/**
-	 * Get dangerous sql strings to test with
+	 * Get dangerous SQL strings to test with
 	 *
 	 * @return array
 	 */
@@ -42,7 +42,7 @@ class HazardLib {
 	}
 
 	/**
-	 * Get dangerous php strings to test with
+	 * Get dangerous PHP strings to test with
 	 *
 	 * @return array
 	 */
@@ -55,7 +55,7 @@ class HazardLib {
 	}
 
 	/**
-	 * Get dangerous html strings to test with
+	 * Get dangerous HTML strings to test with
 	 *
 	 * @return array
 	 */
