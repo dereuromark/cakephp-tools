@@ -79,13 +79,6 @@ class TreeHelper extends Helper {
 	protected $_itemAttributes = [];
 
 	/**
-	 * Helpers variable
-	 *
-	 * @var array
-	 */
-	public $helpers = ['Html'];
-
-	/**
 	 * Tree generation method.
 	 *
 	 * Accepts the results of
@@ -138,19 +131,6 @@ class TreeHelper extends Helper {
 		if ($indent === null && Configure::read('debug')) {
 			$indent = true;
 		}
-		if ($model === null && !empty($this->_View->request->params['models'])) {
-			foreach ($this->_View->request->params['models'] as $model => $value) {
-				break;
-			}
-		}
-		if ($model === null) {
-			foreach ($data as $key => $value) {
-				if (is_object($value)) {
-					//debug($value->__debugInfo());die();
-				}
-			}
-		}
-		$this->_config['model'] = $model;
 
 		$this->_itemAttributes = $this->_typeAttributes = $this->_typeAttributesNext = [];
 		$stack = [];
@@ -178,8 +158,8 @@ class TreeHelper extends Helper {
 			if (is_object($result)) {
 				$result = $result->toArray();
 			}
-			if ($model && isset($result)) {
-				$row = & $result;
+			if ($model && isset($result->$model)) {
+				$row = & $result->$model;
 			} else {
 				$row = & $result;
 			}
@@ -210,11 +190,12 @@ class TreeHelper extends Helper {
 					$hasChildren = $hasVisibleChildren = true;
 					$numberOfDirectChildren = count($result['children']);
 				}
+
 				$key = array_search($i, $keys);
 				if ($key === 0) {
 					$firstChild = true;
 				}
-				if ($key == count($keys) - 1) {
+				if ($key === count($keys) - 1) {
 					$lastChild = true;
 				}
 			} elseif (isset($row[$left])) {
@@ -260,6 +241,7 @@ class TreeHelper extends Helper {
 				'activePathElement' => $activePathElement,
 				'isSibling' => ($depth == 0 && !$activePathElement) ? true : false,
 			];
+
 			if ($elementData['isSibling'] && $hideUnrelated) {
 				$result['children'] = [];
 			}
@@ -417,19 +399,12 @@ class TreeHelper extends Helper {
 	}
 
 	/**
-	 * SupressChildren method
-	 *
-	 * @return void
-	 */
-	public function supressChildren() {
-	}
-
-	/**
 	 * Suffix method.
 	 *
 	 * Used to close and reopen a ul/ol to allow easier listings
 	 *
-	 * @return void
+	 * @param bool $reset
+	 * @return string
 	 */
 	protected function _suffix($reset = false) {
 		static $_splitCount = 0;
@@ -475,7 +450,7 @@ class TreeHelper extends Helper {
 	 *
 	 * @param string $rType
 	 * @param array $elementData
-	 * @return void
+	 * @return string
 	 */
 	protected function _attributes($rType, array $elementData = [], $clear = true) {
 		extract($this->_config);
@@ -538,7 +513,7 @@ class TreeHelper extends Helper {
 				$subTree = $subTree->toArray();
 			}
 			if (!isset($subTree['children'])) {
-				throw new \Exception('Only workes with threaded (nested children) results');
+				throw new \Exception('Only works with threaded (nested children) results');
 			}
 
 			if (!empty($path[$level]) && $subTree['id'] == $path[$level]['id']) {
