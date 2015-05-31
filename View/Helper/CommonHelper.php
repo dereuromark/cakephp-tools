@@ -234,7 +234,7 @@ class CommonHelper extends AppHelper {
 	/**
 	 * Convenience method for clean ROBOTS allowance
 	 *
-	 * @param string $type - private/public
+	 * @param string|array $type - private/public or array of (noindex,nofollow,noarchive,...)
 	 * @return string HTML
 	 */
 	public function metaRobots($type = null) {
@@ -243,10 +243,10 @@ class CommonHelper extends AppHelper {
 		}
 		$content = [];
 		if ($type === 'public') {
-			$this->privatePage = false;
 			$content['robots'] = ['index', 'follow', 'noarchive'];
+		} elseif (is_array($type)) {
+			$content['robots'] = $type;
 		} else {
-			$this->privatePage = true;
 			$content['robots'] = ['noindex', 'nofollow', 'noarchive'];
 		}
 
