@@ -149,7 +149,7 @@ class TokensTable extends Table {
 		//$expression = new \Cake\Database\Expression\QueryExpression(['used = used + 1', 'modified' => date(FORMAT_DB_DATETIME)]);
 		if ($x = $this->updateAll(
 			['used = used + 1', 'modified' => date(FORMAT_DB_DATETIME)],
-			[$this->alias() . '.id' => $id])
+			['id' => $id])
 		) {
 			return true;
 		}
