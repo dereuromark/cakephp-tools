@@ -42,7 +42,7 @@ class TokensTable extends Table {
 		'content' => [
 			'maxLength' => [
 				'rule' => ['maxLength', 255],
-				//'message' => ['valErrMaxCharacters %s', 255],
+				'message' => ['valErrMaxCharacters {0}', 255],
 				'allowEmpty' => true
 			],
 		],
