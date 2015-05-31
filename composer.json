@@ -17,6 +17,9 @@
 		"cakephp/cakephp": "~3.0",
 		"dereuromark/cakephp-shim": "~1.0"
 	},
+	"require-dev":{
+		"mobiledetect/mobiledetectlib": "2.*"
+	},
 	"autoload": {
 		"psr-4": {
 			"Tools\\": "src"
