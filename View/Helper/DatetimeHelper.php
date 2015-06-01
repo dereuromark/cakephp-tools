@@ -1,6 +1,7 @@
 <?php
 
 App::uses('TimeHelper', 'View/Helper');
+App::uses('HtmlHelper', 'View/Helper');
 
 /**
  * Wrapper for TimeHelper and TimeLib
@@ -22,7 +23,7 @@ class DatetimeHelper extends TimeHelper {
 	 * @param string date (from db)
 	 * @return int age on success, mixed $default otherwise
 	 */
-	public function userAge($date = null, $default = '---') {
+	public function userAge($date, $default = '---') {
 		if ((int)$date === 0) {
 			return $default;
 		}
@@ -122,6 +123,11 @@ class DatetimeHelper extends TimeHelper {
 				$attr['title'] = $titles[$when];
 			}
 			$attr['class'] = 'published ' . $whenArray[$when];
+		}
+
+		// Why is this hack necessary?
+		if (!isset($this->Html)) {
+			$this->Html = new HtmlHelper($this->_View);
 		}
 		return $this->Html->tag('span', $niceDate, $attr);
 	}
