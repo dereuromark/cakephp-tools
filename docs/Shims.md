@@ -32,10 +32,6 @@ any of your code still uses the deprecated named params.
 In 3.x there will be a FlashComponent instead. Mine also provides stackable (multi) messages.
 See https://github.com/dereuromark/cakephp-tools/wiki/Flash-messages for details.
 
-### Login/Passwords
-Already use the PHP5.5+ password functionality with the ModernPasswordHasher class and the Passwordable behavior.
-Easily upgradable to 3.x in minutes.
-
 ### RSS
 Use RssView instead of the akward and limited helper approach.
 
