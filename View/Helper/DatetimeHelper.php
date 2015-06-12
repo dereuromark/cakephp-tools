@@ -1,7 +1,6 @@
 <?php
 
 App::uses('TimeHelper', 'View/Helper');
-App::uses('HtmlHelper', 'View/Helper');
 
 /**
  * Wrapper for TimeHelper and TimeLib
@@ -127,7 +126,7 @@ class DatetimeHelper extends TimeHelper {
 
 		// Why is this hack necessary?
 		if (!isset($this->Html)) {
-			$this->Html = new HtmlHelper($this->_View);
+			$this->Html = $this->_View->Html;
 		}
 		return $this->Html->tag('span', $niceDate, $attr);
 	}
