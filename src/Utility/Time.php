@@ -530,9 +530,6 @@ class Time extends CakeTime {
 		if ($options['timezone'] === null && strlen($dateString) === 10) {
 			$options['timezone'] = date_default_timezone_get();
 		}
-		if ($dateString === null) {
-			$dateString = time();
-		}
 
 		if ($options['timezone']) {
 			$options['timezone'] = static::safeCreateDateTimeZone($options['timezone']);
