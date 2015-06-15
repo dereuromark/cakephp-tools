@@ -20,6 +20,7 @@ class DatetimeHelper extends TimeHelper {
 	 * Defaults to the $default string if outside of that range.
 	 *
 	 * @param string date (from db)
+	 * @param string $default
 	 * @return int age on success, mixed $default otherwise
 	 */
 	public function userAge($date, $default = '---') {
