@@ -18,8 +18,7 @@ class KeyValueFixture extends CakeTestFixture {
 		'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
 		'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
 		'indexes' => [
-			'PRIMARY' => ['column' => 'id', 'unique' => 1],
-			'foreign_id' => ['column' => 'foreign_id', 'unique' => 0]
+			'PRIMARY' => ['column' => 'id', 'unique' => 1]
 		],
 		'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM']
 	];
