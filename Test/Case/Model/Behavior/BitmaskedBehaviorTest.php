@@ -52,8 +52,6 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		];
 		$this->Comment->create();
 		$this->Comment->set($data);
-		debug($this->Comment->validate);
-		debug($this->Comment->data); ob_flush();
 		$res = $this->Comment->validates();
 		$this->assertTrue($res);
 
