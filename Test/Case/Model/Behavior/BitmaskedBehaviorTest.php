@@ -16,7 +16,11 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->Comment = new BitmaskedComment();
+		App::build([
+			'Model' => [CakePlugin::path('Tools') . 'Test' . DS . 'test_app' . DS . 'Model' . DS],
+		], App::RESET);
+
+		$this->Comment = ClassRegistry::init('BitmaskedComment');
 		$this->Comment->Behaviors->load('Tools.Bitmasked', ['mappedField' => 'statuses']);
 	}
 
@@ -48,6 +52,8 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		];
 		$this->Comment->create();
 		$this->Comment->set($data);
+		debug($this->Comment->validate);
+		debug($this->Comment->data); ob_flush();
 		$res = $this->Comment->validates();
 		$this->assertTrue($res);
 
@@ -173,33 +179,4 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue(!empty($res) && count($res) === 5);
 	}
 
-}
-
-class BitmaskedComment extends CakeTestModel {
-
-	public $validate = [
-		'status' => [
-			'notBlank' => [
-				'rule' => 'notBlank',
-				'last' => true
-			]
-		]
-	];
-
-	public static function statuses($value = null) {
-		$options = [
-			static::STATUS_ACTIVE => __d('tools', 'Active'),
-			static::STATUS_PUBLISHED => __d('tools', 'Published'),
-			static::STATUS_APPROVED => __d('tools', 'Approved'),
-			static::STATUS_FLAGGED => __d('tools', 'Flagged'),
-		];
-
-		return MyModel::enum($value, $options);
-	}
-
-	const STATUS_NONE = 0;
-	const STATUS_ACTIVE = 1;
-	const STATUS_PUBLISHED = 2;
-	const STATUS_APPROVED = 4;
-	const STATUS_FLAGGED = 8;
 }

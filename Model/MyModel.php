@@ -1336,8 +1336,9 @@ class MyModel extends ShimModel {
 
 	/**
 	 * Shim wrapper for 2.6 to allow 2.7 notBlank validation rule to work already.
+	 * This is only there to avoid the deprecation errors in 2.6 test runs.
 	 *
-	 * @param $data
+	 * @param array $data
 	 * @return bool
 	 */
 	public function notBlank($data) {
@@ -1346,6 +1347,17 @@ class MyModel extends ShimModel {
 			return Validation::notEmpty($value);
 		}
 		return Validation::notBlank($value);
+	}
+
+	/**
+	 * Shim wrapper for 2.6 to allow 2.7 notBlank validation rule to work already.
+	 * This is only there to avoid the deprecation errors in 2.6 test runs.
+	 *
+	 * @param array $data
+	 * @return bool
+	 */
+	public function notEmpty($data) {
+		return $this->notBlank($data);
 	}
 
 	/**
