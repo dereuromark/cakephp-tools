@@ -19,8 +19,8 @@ class ContactForm extends ToolsAppModel {
 
 	public $validate = [
 		'name' => [
-			'notEmpty' => [
-				'rule' => ['notEmpty'],
+			'notBlank' => [
+				'rule' => ['notBlank'],
 				'message' => 'valErrMandatoryField',
 				'last' => true
 			]
@@ -33,15 +33,15 @@ class ContactForm extends ToolsAppModel {
 			],
 		],
 		'subject' => [
-			'notEmpty' => [
-				'rule' => ['notEmpty'],
+			'notBlank' => [
+				'rule' => ['notBlank'],
 				'message' => 'valErrMandatoryField',
 				'last' => true
 			]
 		],
 		'message' => [
-			'notEmpty' => [
-				'rule' => ['notEmpty'],
+			'notBlank' => [
+				'rule' => ['notBlank'],
 				'message' => 'valErrMandatoryField',
 				'last' => true
 			]

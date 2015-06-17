@@ -23,8 +23,8 @@ class Qurl extends ToolsAppModel {
 
 	public $validate = [
 		'key' => [
-			'notEmpty' => [
-				'rule' => ['notEmpty'],
+			'notBlank' => [
+				'rule' => ['notBlank'],
 				'message' => 'valErrMandatoryField',
 				'last' => true,
 			],
@@ -34,8 +34,8 @@ class Qurl extends ToolsAppModel {
 			],
 		],
 		'url' => [
-			'notEmpty' => [
-				'rule' => ['notEmpty'],
+			'notBlank' => [
+				'rule' => ['notBlank'],
 				'message' => 'valErrMandatoryField',
 				'last' => true
 			],

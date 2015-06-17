@@ -179,8 +179,8 @@ class BitmaskedComment extends CakeTestModel {
 
 	public $validate = [
 		'status' => [
-			'notEmpty' => [
-				'rule' => 'notEmpty',
+			'notBlank' => [
+				'rule' => 'notBlank',
 				'last' => true
 			]
 		]
