@@ -24,22 +24,13 @@ class ContactForm extends Form {
 
 	protected function _buildValidator(Validator $validator) {
 		return $validator
-			->add('name', 'length', [
-					'rule' => ['minLength', 1],
-					'message' => 'A name is required'
-			])
+			->notEmpty('name', __('This field cannot be left empty'))
 			->add('email', 'format', [
 					'rule' => 'email',
-					'message' => 'A valid email address is required',
+					'message' => __('A valid email address is required'),
 			])
-			->add('subject', 'length', [
-					'rule' => ['minLength', 1],
-					'message' => 'A subject is required',
-			])
-			->add('message', 'length', [
-					'rule' => ['minLength', 1],
-					'message' => 'A message body is required',
-			]);
+			->notEmpty('subject', __('This field cannot be left empty'))
+			->notEmpty('message', __('This field cannot be left empty'));
 	}
 
 	protected function _execute(array $data) {
