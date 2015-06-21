@@ -29,7 +29,7 @@ class KeyValueBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue(!empty($res));
 
 		$this->Model->keyValueValidate = [
-			'User' => ['y' => 'notEmpty'],
+			'User' => ['y' => 'notBlank'],
 		];
 		$res = $this->Model->validateSection(['User' => ['x' => 1, 'y' => '']]);
 		$this->assertFalse($res);

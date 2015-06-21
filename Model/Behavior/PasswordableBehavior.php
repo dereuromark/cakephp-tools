@@ -91,7 +91,7 @@ class PasswordableBehavior extends ModelBehavior {
 			],
 			'formFieldRepeat' => [
 				'validateNotEmpty' => [
-					'rule' => ['notEmpty'],
+					'rule' => ['notBlank'],
 					'message' => __d('tools', 'valErrPwdRepeat'),
 					'allowEmpty' => true,
 					'last' => true,
@@ -104,8 +104,8 @@ class PasswordableBehavior extends ModelBehavior {
 				],
 			],
 			'formFieldCurrent' => [
-				'notEmpty' => [
-					'rule' => ['notEmpty'],
+				'notBlank' => [
+					'rule' => ['notBlank'],
 					'message' => __d('tools', 'valErrProvideCurrentPwd'),
 					'allowEmpty' => null,
 					'last' => true,

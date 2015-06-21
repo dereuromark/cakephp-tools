@@ -20,8 +20,8 @@ class Qlogin extends ToolsAppModel {
 
 	public $validate = [
 		'url' => [
-			'notEmpty' => [
-				'rule' => ['notEmpty'],
+			'notBlank' => [
+				'rule' => ['notBlank'],
 				'message' => 'valErrMandatoryField',
 				'last' => true
 			],
@@ -32,8 +32,8 @@ class Qlogin extends ToolsAppModel {
 			]
 		],
 		'user_id' => [
-			'notEmpty' => [
-				'rule' => ['notEmpty'],
+			'notBlank' => [
+				'rule' => ['notBlank'],
 				'message' => 'valErrMandatoryField',
 				'last' => true
 			],

@@ -2,6 +2,7 @@
 App::uses('ShimModel', 'Shim.Model');
 App::uses('Utility', 'Tools.Utility');
 App::uses('Hash', 'Utility');
+App::uses('Validation', 'Utility');
 
 /**
  * Model enhancements for Cake2
@@ -1033,9 +1034,7 @@ class MyModel extends ShimModel {
 			// crashed with white screen of death otherwise... (if foreign page is 404)
 			$this->UndisposableEmail->useOnlineList(false);
 		}
-		if (!class_exists('Validation')) {
-			App::uses('Validation', 'Utility');
-		}
+
 		if (!Validation::email($email)) {
 			return false;
 		}
@@ -1204,7 +1203,7 @@ class MyModel extends ShimModel {
 			}
 
 			if (empty($this->validate[$column])) {
-				$this->validate[$column]['notEmpty'] = ['rule' => 'notEmpty', 'required' => true, 'allowEmpty' => $setAllowEmpty, 'message' => 'valErrMandatoryField'];
+				$this->validate[$column]['notBlank'] = ['rule' => 'notBlank', 'required' => true, 'allowEmpty' => $setAllowEmpty, 'message' => 'valErrMandatoryField'];
 			} else {
 				$keys = array_keys($this->validate[$column]);
 				if (!in_array('rule', $keys)) {
@@ -1333,6 +1332,32 @@ class MyModel extends ShimModel {
 		}
 		$db = ConnectionManager::getDataSource($this->useDbConfig);
 		return $db->truncate($table);
+	}
+
+	/**
+	 * Shim wrapper for 2.6 to allow 2.7 notBlank validation rule to work already.
+	 * This is only there to avoid the deprecation errors in 2.6 test runs.
+	 *
+	 * @param array $data
+	 * @return bool
+	 */
+	public function notBlank($data) {
+		$value = array_shift($data);
+		if ((float)Configure::version() < 2.7) {
+			return Validation::notEmpty($value);
+		}
+		return Validation::notBlank($value);
+	}
+
+	/**
+	 * Shim wrapper for 2.6 to allow 2.7 notBlank validation rule to work already.
+	 * This is only there to avoid the deprecation errors in 2.6 test runs.
+	 *
+	 * @param array $data
+	 * @return bool
+	 */
+	public function notEmpty($data) {
+		return $this->notBlank($data);
 	}
 
 	/**
