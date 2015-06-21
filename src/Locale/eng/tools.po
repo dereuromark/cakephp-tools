@@ -40,39 +40,39 @@ msgid "New Line"
 msgstr ""
 
 #: Controller/Component/MobileComponent.php:268
-msgid "Engine %s not available"
+msgid "Engine {0} not available"
 msgstr ""
 
 #: Lib/GeocodeLib.php:263
-msgid "Failed geocode parsing of '%s'"
+msgid "Failed geocode parsing of '{0}'"
 msgstr ""
 
 #: Lib/GeocodeLib.php:276;364
-msgid "Address '%s' has been geocoded"
+msgid "Address '{0}' has been geocoded"
 msgstr ""
 
 #: Lib/GeocodeLib.php:283
-msgid "Delay necessary for address '%s'"
+msgid "Delay necessary for address '{0}'"
 msgstr ""
 
 #: Lib/GeocodeLib.php:299;380
-msgid "Could not geocode '%s'"
+msgid "Could not geocode '{0}'"
 msgstr ""
 
 #: Lib/GeocodeLib.php:306;386
-msgid "Aborted after too many trials with '%s'"
+msgid "Aborted after too many trials with '{0}'"
 msgstr ""
 
 #: Lib/GeocodeLib.php:343
-msgid "Could not retrieve url with '%s'"
+msgid "Could not retrieve url with '{0}'"
 msgstr ""
 
 #: Lib/GeocodeLib.php:351
-msgid "Failed reverseGeocode parsing of '%s'"
+msgid "Failed reverseGeocode parsing of '{0}'"
 msgstr ""
 
 #: Lib/GeocodeLib.php:371
-msgid "Delay necessary for '%s'"
+msgid "Delay necessary for '{0}'"
 msgstr ""
 
 #: Lib/GeocodeLib.php:388
@@ -80,19 +80,19 @@ msgid "Too many trials - abort"
 msgstr ""
 
 #: Lib/GeocodeLib.php:423
-msgid "Inconclusive result (total of %s)"
+msgid "Inconclusive result (total of {0})"
 msgstr ""
 
 #: Lib/GeocodeLib.php:429
-msgid "Accuracy not good enough (%s instead of at least %s)"
+msgid "Accuracy not good enough ({0} instead of at least {1})"
 msgstr ""
 
 #: Lib/GeocodeLib.php:444
-msgid "Expectation not reached (we have %s instead of at least one of %s)"
+msgid "Expectation not reached (we have {0} instead of at least one of {1})"
 msgstr ""
 
 #: Lib/GeocodeLib.php:746
-msgid "Invalid Unit: %s"
+msgid "Invalid Unit: {0}"
 msgstr ""
 
 #: Lib/GeocodeLib.php:790
@@ -100,20 +100,20 @@ msgid "Invalid Unit"
 msgstr ""
 
 #: Lib/GeocodeLib.php:835
-msgid "Invalid level '%s'"
+msgid "Invalid level '{0}'"
 msgstr ""
 
 #: Lib/SpellLib.php:39
 #: Test/Case/Lib/SpellLibTest.php:13
-msgid "Module %s not installed"
+msgid "Module {0} not installed"
 msgstr ""
 
 #: Lib/SpellLib.php:52
-msgid "Engine %s not found"
+msgid "Engine {0} not found"
 msgstr ""
 
 #: Lib/SpellLib.php:58
-msgid "Dictionary %s not found"
+msgid "Dictionary {0} not found"
 msgstr ""
 
 #: Lib/Misc/ZodiacLib.php:157
@@ -166,11 +166,11 @@ msgid "zodiacCapricorn"
 msgstr ""
 
 #: Lib/Utility/FolderLib.php:42
-msgid "%s removed"
+msgid "{0} removed"
 msgstr ""
 
 #: Lib/Utility/FolderLib.php:44
-msgid "%s NOT removed"
+msgid "{0} NOT removed"
 msgstr ""
 
 #: Lib/Utility/TimeLib.php:468;521
@@ -180,11 +180,11 @@ msgstr ""
 
 #: Lib/Utility/TimeLib.php:740;891
 #: Test/Case/Lib/Utility/TimeLibTest.php:551
-msgid "%s ago"
+msgid "{0} ago"
 msgstr ""
 
 #: Lib/Utility/TimeLib.php:744
-msgid "in %s"
+msgid "in {0}"
 msgstr ""
 
 #: Lib/Utility/TimeLib.php:780
@@ -238,7 +238,7 @@ msgstr ""
 
 #: Lib/Utility/TimeLib.php:891
 #: Test/Case/Lib/Utility/TimeLibTest.php:555
-msgid "In %s"
+msgid "In {0}"
 msgstr ""
 
 #: Lib/Utility/TimeLib.php:990
@@ -369,19 +369,19 @@ msgid "May"
 msgstr ""
 
 #: Test/Case/Model/MyModelTest.php:552
-msgid "e %s f"
+msgid "e {0} f"
 msgstr ""
 
 #: Test/Case/Model/MyModelTest.php:558
-msgid "e %s f %s g"
+msgid "e {0} f {1} g"
 msgstr ""
 
 #: Test/Case/Model/MyModelTest.php:564
-msgid "e %s f %s g %s"
+msgid "e {0} f {1} g {2}"
 msgstr ""
 
 #: Test/Case/Model/MyModelTest.php:582
-msgid "a %s b %s c {0} {1} {0} {1} %s h %s"
+msgid "a {0} b {1} c {0} {1} {0} {1} {2} h {3}"
 msgstr ""
 
 #: Test/Case/Model/Behavior/BitmaskedBehaviorTest.php:191
@@ -435,7 +435,7 @@ msgid "No"
 msgstr ""
 
 #: View/RssView.php:222
-msgid "The prefix %s is not specified."
+msgid "The prefix {0} is not specified."
 msgstr ""
 
 #: View/Elements/master_password.ctp:9
@@ -464,7 +464,7 @@ msgid "next"
 msgstr ""
 
 #: View/Elements/pagination.ctp:38
-msgid "Page %page% of %pages%, showing %current% records out of %count% total"
+msgid "Page %page% of %pages%, showing {0}urrent% records out of {1}ount% total"
 msgstr ""
 
 #: View/Helper/CaptchaHelper.php:40
@@ -661,7 +661,7 @@ msgid "Generated Link"
 msgstr ""
 
 #: View/Qlogin/admin_index.ctp:11;14
-msgid "Add %s"
+msgid "Add {0}"
 msgstr ""
 
 #: View/Qlogin/admin_index.ctp:11;14
@@ -673,7 +673,7 @@ msgid "Submit"
 msgstr ""
 
 #: View/Qlogin/admin_index.ctp:27
-msgid "Reset %s"
+msgid "Reset {0}"
 msgstr ""
 
 #: View/Qlogin/admin_index.ctp:27
@@ -681,7 +681,7 @@ msgid "Sure?"
 msgstr ""
 
 #: View/Qlogin/admin_index.ctp:29
-msgid "List %s"
+msgid "List {0}"
 msgstr ""
 
 msgid "valErrProvideCurrentPwd"
