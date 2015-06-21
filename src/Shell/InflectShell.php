@@ -137,7 +137,7 @@ class InflectShell extends Shell {
 			case 'q' :
 			case 'quit' :
 			default :
-				$this->out(__("Exit"));
+				$this->out("Exit");
 				return $this->_stop();
 		}
 	}
