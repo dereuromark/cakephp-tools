@@ -34,6 +34,10 @@ App::uses('Hash', 'Utility');
  *
  * If you don't use the `_serialize` key, you will need a view. You can use extended
  * views to provide layout like functionality. This is currently not yet tested/supported.
+ *
+ * @license MIT
+ * @author Mark Scherer
+ * @deprecated Use https://github.com/dereuromark/cakephp-feed/tree/2.x
  */
 class RssView extends View {
 

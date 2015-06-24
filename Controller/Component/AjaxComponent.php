@@ -16,6 +16,7 @@ App::uses('Component', 'Controller');
  *
  * @author Mark Scherer
  * @license http://opensource.org/licenses/mit-license.php MIT
+ * @deprecated Use https://github.com/dereuromark/cakephp-ajax/tree/2.x
  */
 class AjaxComponent extends Component {
 
