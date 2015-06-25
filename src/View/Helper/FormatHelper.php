@@ -22,31 +22,43 @@ class FormatHelper extends TextHelper {
 	 *
 	 * @var array
 	 */
-	public $helpers = ['Html', 'Tools.Numeric'];
+	public $helpers = ['Html'];
 
 	public $template;
 
+	protected $_defaultIcons= [
+		'yes' => 'fa fa-check',
+		'no' => 'fa fa-times',
+		'edit' => 'fa fa-pencil',
+		'add' => 'fa fa-plus',
+		'delete' => 'fa fa-trash',
+		'prev' => 'fa fa-prev',
+		'next' => 'fa fa-next',
+		'pro' => 'fa fa-thumbs-up',
+		'contra' => 'fa fa-thumbs-down',
+		'male' => 'fa fa-mars',
+		'female' => 'fa fa-venus',
+		//'genderless' => 'fa fa-genderless'
+	];
+
 	protected $_defaults = [
-		'fontIcons' => false, // Defaults to false for BC
-		'iconNamespace' => 'fa',  // Used to be icon
+		'fontIcons' => null,
+		'iconNamespace' => 'fa',  // Used to be icon,
+		'templates' => [
+			'icon' => '<i class="{{class}}"{{attributes}}></i>',
+			'ok' => '<span class="ok-{{type}}" style="color:{{color}}"{{attributes}}>{{content}}</span>'
+		]
 	];
 
 	public function __construct(View $View, array $config = []) {
-		$config += $this->_defaults;
+		$defaults = (array)Configure::read('Format') + $this->_defaults;
+		$config += $defaults;
 
-		if ($config['fontIcons'] === true) {
-			$config['fontIcons'] = (array)Configure::read('Format.fontIcons');
-			if ($namespace = Configure::read('Format.iconNamespace')) {
-				$config['iconNamespace'] = $namespace;
-			}
+		if ($config['fontIcons'] !== false) {
+			$config['fontIcons'] = (array)$config['fontIcons'] + $this->_defaultIcons;
 		}
 
-		$templates = [
-			'icon' => '<i class="{{class}}" title="{{title}}" data-placement="bottom" data-toggle="tooltip"></i>',
-		] + (array)Configure::read('Format.templates');
-		if (!isset($this->template)) {
-			$this->template = new StringTemplate($templates);
-		}
+		$this->template = new StringTemplate($config['templates']);
 
 		parent::__construct($View, $config);
 	}
@@ -56,27 +68,10 @@ class FormatHelper extends TextHelper {
 	 *
 	 * @return string
 	 */
-	public function thumbs($id, $inactive = false, $inactiveTitle = null) {
-		$status = 'Active';
-		$upTitle = __d('tools', 'consentThis');
-		$downTitle = __d('tools', 'dissentThis');
-		if ($inactive === true) {
-			$status = 'Inactive';
-			$upTitle = $downTitle = !empty($inactiveTitle) ? $inactiveTitle : __d('tools', 'alreadyVoted');
-		}
+	public function thumbs($value, $options = [], $attributes = []) {
+		$icon = !empty($value) ? 'pro' : 'contra';
 
-		if ($this->_config['fontIcons']) {
-			// TODO: Return proper font icons
-			// fa-thumbs-down
-			// fa-thumbs-up
-		}
-
-		$ret = '<div class="thumbsUpDown">';
-		$ret .= '<div id="' . $id . 'Pro' . $status . '" rel="' . $id . '" class="thumbUp up' . $status . '" title="' . $upTitle . '"></div>';
-		$ret .= '<div id="' . $id . 'Contra' . $status . '" rel="' . $id . '" class="thumbDown down' . $status . '" title="' . $downTitle . '"></div>';
-		$ret .= '<br class="clear"/>';
-		$ret .=	'</div>';
-		return $ret;
+		return $this->icon($icon, $options, $attributes);
 	}
 
 	/**
@@ -90,7 +85,7 @@ class FormatHelper extends TextHelper {
 	 * - titleField: field or Model.field
 	 * @return string
 	 */
-	public function neighbors($neighbors, $field, $options = []) {
+	public function neighbors(array $neighbors, $field, array $options = []) {
 		if (mb_strpos($field, '.') !== false) {
 			$fieldArray = explode('.', $field, 2);
 			$alias = $fieldArray[0];
@@ -145,9 +140,11 @@ class FormatHelper extends TextHelper {
 				$url += $options['url'];
 			}
 
-			$ret .= $this->Html->link($this->cIcon(ICON_PREV, false) . '&nbsp;' . __d('tools', 'prev' . $name), $url, ['escape' => false, 'title' => $neighbors['prev'][$titleAlias][$titleField]]);
+			// ICON_PREV, false
+			$ret .= $this->Html->link($this->icon('prev') . '&nbsp;' . __d('tools', 'prev' . $name), $url, ['escape' => false, 'title' => $neighbors['prev'][$titleAlias][$titleField]]);
 		} else {
-			$ret .= $this->cIcon(ICON_PREV_DISABLED, __d('tools', 'noPrev' . $name)) . '&nbsp;' . __d('tools', 'prev' . $name);
+			//ICON_PREV_DISABLED, __d('tools', 'noPrev' . $name)) . '&nbsp;' . __d('tools', 'prev' . $name
+			$ret .= $this->icon('prev');
 		}
 		$ret .= '&nbsp;&nbsp;';
 		if (!empty($neighbors['next'])) {
@@ -156,9 +153,11 @@ class FormatHelper extends TextHelper {
 				$url += $options['url'];
 			}
 
-			$ret .= $this->Html->link($this->cIcon(ICON_NEXT, false) . '&nbsp;' . __d('tools', 'next' . $name), $url, ['escape' => false, 'title' => $neighbors['next'][$titleAlias][$titleField]]);
+			// ICON_NEXT, false
+			$ret .= $this->Html->link($this->icon('next') . '&nbsp;' . __d('tools', 'next' . $name), $url, ['escape' => false, 'title' => $neighbors['next'][$titleAlias][$titleField]]);
 		} else {
-			$ret .= $this->cIcon(ICON_NEXT_DISABLED, __d('tools', 'noNext' . $name)) . '&nbsp;' . __d('tools', 'next' . $name);
+			// ICON_NEXT_DISABLED, __d('tools', 'noNext' . $name)
+			$ret .= $this->icon('next') . '&nbsp;' . __d('tools', 'next' . $name);
 		}
 		$ret .= '</div>';
 		return $ret;
@@ -175,11 +174,11 @@ class FormatHelper extends TextHelper {
 	public function genderIcon($value = null) {
 		$value = (int)$value;
 		if ($value == static::GENDER_FEMALE) {
-			$icon =	$this->icon('genderFemale', null, null, null, ['class' => 'gender']);
+			$icon =	$this->icon('female');
 		} elseif ($value == static::GENDER_MALE) {
-			$icon =	$this->icon('genderMale', null, null, null, ['class' => 'gender']);
+			$icon =	$this->icon('male');
 		} else {
-			$icon =	$this->icon('genderUnknown', null, null, null, ['class' => 'gender']);
+			$icon =	$this->icon('genderless', [], ['title' => 'Unknown']);
 		}
 		return $icon;
 	}
@@ -197,6 +196,7 @@ class FormatHelper extends TextHelper {
 	 *
 	 * @param string|array $icon
 	 * @param array $options
+	 * @param array $attributes
 	 * @return string
 	 */
 	public function fontIcon($icon, array $options = [], array $attributes = []) {
@@ -230,98 +230,25 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * Quick way of printing default icons
-	 *
-	 * @todo refactor to $type, $options, $attributes
-	 *
-	 * @param type
-	 * @param title
-	 * @param alt (set to FALSE if no alt is supposed to be shown)
-	 * @param bool automagic i18n translate [default true = __('xyz')]
-	 * @param options array ('class'=>'','width/height'=>'','onclick=>'') etc
-	 * @return string
-	 */
-	public function icon($type, $t = null, $a = null, $translate = null, $options = []) {
-		if (isset($t) && $t === false) {
-			$title = '';
-		} else {
-			$title = $t;
-		}
-
-		if (isset($a) && $a === false) {
-			$alt = '';
-		} else {
-			$alt = $a;
-		}
-
-		if (!$this->_config['fontIcons'] || !isset($this->_config['fontIcons'][$type])) {
-			if (array_key_exists($type, $this->icons)) {
-				$pic = $this->icons[$type]['pic'];
-				$title = (isset($title) ? $title : $this->icons[$type]['title']);
-				$alt = (isset($alt) ? $alt : preg_replace('/[^a-zA-Z0-9]/', '', $this->icons[$type]['title']));
-				if ($translate !== false) {
-					$title = __($title);
-					$alt = __($alt);
-				}
-				if ($alt) {
-					$alt = '[' . $alt . ']';
-				}
-			} else {
-				$pic = 'pixelspace.gif';
-			}
-			$defaults = ['title' => $title, 'alt' => $alt, 'class' => 'icon'];
-			$newOptions = $options + $defaults;
-
-			return $this->Html->image('icons/' . $pic, $newOptions);
-		}
-
-		$options['title'] = $title;
-		$options['translate'] = $translate;
-		return $this->_fontIcon($type, $options);
-	}
-
-	/**
-	 * Custom Icons
+	 * Icons using the default namespace
 	 *
 	 * @param string $icon (constant or filename)
 	 * @param array $options:
 	 * - translate, ...
 	 * @param array $attributes:
 	 * - title, alt, ...
-	 * THE REST IS DEPRECATED
 	 * @return string
 	 */
-	public function cIcon($icon, $t = null, $a = null, $translate = true, $options = []) {
-		if (is_array($t)) {
-			$translate = isset($t['translate']) ? $t['translate'] : true;
-			$options = (array)$a;
-			$a = isset($t['alt']) ? $t['alt'] : null; // deprecated
-			$t = isset($t['title']) ? $t['title'] : null; // deprecated
+	public function icon($icon, array $options = [], array $attributes = []) {
+		$defaults = [
+			'translate' => true,
+		];
+		$options += $defaults;
+		if (empty($attributes['title'])) {
+			$attributes['title'] = Inflector::humanize($icon);
 		}
 
-		$type = pathinfo($icon, PATHINFO_FILENAME);
-
-		if (!$this->_config['fontIcons'] || !isset($this->_config['fontIcons'][$type])) {
-			$title = isset($t) ? $t : ucfirst($type);
-			$alt = (isset($a) ? $a : Inflector::slug($title));
-			if ($translate !== false) {
-				$title = __($title);
-				$alt = __($alt);
-			}
-			if ($alt) {
-				$alt = '[' . $alt . ']';
-			}
-			$defaults = ['title' => $title, 'alt' => $alt, 'class' => 'icon'];
-			$options += $defaults;
-			if (substr($icon, 0, 1) !== '/') {
-				$icon = 'icons/' . $icon;
-			}
-			return $this->Html->image($icon, $options);
-		}
-
-		$options['title'] = $t;
-		$options['translate'] = $translate;
-		return $this->_fontIcon($type, $options);
+		return $this->_fontIcon($icon, $options, $attributes);
 	}
 
 	/**
@@ -331,57 +258,64 @@ class FormatHelper extends TextHelper {
 	 * @param array $options
 	 * @return string
 	 */
-	protected function _fontIcon($type, $options) {
-		$iconType = $this->_config['fontIcons'][$type];
+	protected function _fontIcon($type, $options, $attributes) {
+		$iconClass = $type;
+		if (isset($this->_config['fontIcons'][$type])) {
+			$iconClass = $this->_config['fontIcons'][$type];
+		}
 
 		$defaults = [
-			'class' => $iconType . ' ' . $type
+			'class' => 'icon icon-' . $type . ' ' . $iconClass
 		];
 		$options += $defaults;
 
-		if (!isset($options['title'])) {
-			$options['title'] = ucfirst($type);
-			if ($options['translate'] !== false) {
-				$options['title'] = __($options['title']);
+		if (!isset($attributes['title'])) {
+			$attributes['title'] = ucfirst($type);
+			if (!isset($options['translate']) || $options['translate'] !== false) {
+				$attributes['title'] = __($attributes['title']);
 			}
 		}
 
+		$attributes += [
+			'data-placement'=> 'bottom',
+			'data-toggle' => 'tooltip'
+		];
+
+		$options['attributes'] = $this->template->formatAttributes($attributes);
 		return $this->template->format('icon', $options);
 	}
 
 	/**
 	 * Display yes/no symbol.
 	 *
-	 * @todo $on=1, $text=false, $ontitle=false,... => in array(OPTIONS)
-	 *
-	 * @param text: default FALSE; if TRUE, text instead of the image
-	 * @param ontitle: default FALSE; if it is embadded in a link, set to TRUE
-	 * @return image:Yes/No or text:Yes/No
+	 * @param int|bool $value Value
+	 * @param array $options
+	 * - on (defaults to 1/true)
+	 * - onTitle
+	 * - offTitle
+	 * @param array $attributes
+	 * - title, ...
+	 * @return string HTML icon Yes/No
 	 */
-	public function yesNo($v, $ontitle = null, $offtitle = null, $on = 1, $text = false, $notitle = false) {
-		$ontitle = (!empty($ontitle) ? $ontitle : __d('tools', 'Yes'));
-		$offtitle = (!empty($offtitle) ? $offtitle : __d('tools', 'No'));
-		$sbez = ['0' => @substr($offtitle, 0, 1), '1' => @substr($ontitle, 0, 1)];
-		$bez = ['0' => $offtitle, '1' => $ontitle];
+	public function yesNo($value, array $options = [], array $attributes = []) {
+		$defaults = [
+			'on' => 1,
+			'onTitle' => __d('tools', 'Yes'),
+			'offTitle' => __d('tools', 'No'),
+		];
+		$options += $defaults;
 
-		if ($v == $on) {
-			$icon = ICON_YES;
-			$value = 1;
+		if ($value == $options['on']) {
+			$icon = 'yes';
+			$value = 'on';
 		} else {
-			$icon = ICON_NO;
-			$value = 0;
+			$icon = 'no';
+			$value = 'off';
 		}
 
-		if ($text !== false) {
-			return $bez[$value];
-		}
+		$attributes += ['title' => $options[$value . 'Title']];
 
-		$options = ['title' => ($ontitle === false ? '' : $bez[$value]), 'alt' => $sbez[$value], 'class' => 'icon'];
-
-		if ($this->_config['fontIcons']) {
-			return $this->cIcon($icon, $options['title']);
-		}
-		return $this->Html->image('icons/' . $icon, $options);
+		return $this->icon($icon, $options, $attributes);
 	}
 
 	/**
@@ -451,10 +385,8 @@ class FormatHelper extends TextHelper {
 		$currentPage = $paginator['page'];
 		$pageCount = $paginator['pageCount'];
 		$totalCount = $paginator['count'];
-
 		$limit = $paginator['limit'];
-		$step = 1; //$paginator['step'];
-		//pr($paginator);
+		$step = isset($paginator['step']) ? $paginator['step'] : 1;
 
 		if ($dir === 'DESC') {
 			$currentCount = $count + ($pageCount - $currentPage) * $limit * $step;
@@ -519,13 +451,22 @@ class FormatHelper extends TextHelper {
 	 * //@param mixed $okValue
 	 * @return string newValue nicely formatted/colored
 	 */
-	public function ok($value, $ok = false) {
+	public function ok($content, $ok = false, $attributes = []) {
 		if ($ok) {
-			$value = '<span class="green" style="color:green">' . $value . '</span>';
+			$type = 'yes';
+			$color = 'green';
 		} else {
-			$value = '<span class="red" style="color:red">' . $value . '</span>';
+			$type = 'no';
+			$color = 'red';
 		}
-		return $value;
+
+		$options = [
+			'type' => $type,
+			'color' => $color
+		];
+		$options['content'] = $content;
+		$options['attributes'] = $this->template->formatAttributes($attributes);
+		return $this->template->format('ok', $options);
 	}
 
 	/**

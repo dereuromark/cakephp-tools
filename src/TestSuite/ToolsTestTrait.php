@@ -29,7 +29,7 @@ trait ToolsTestTrait {
 	}
 
 	/**
-	 * Checks if debug flag is set.
+	 * Checks if verbose flag is set.
 	 *
 	 * Flags are `-v` and `-vv`.
 	 * Allows additional stuff like non-mocking when enabling debug.
@@ -55,7 +55,7 @@ trait ToolsTestTrait {
 	 * This is a convenience output handler since debug() itself is not desired
 	 * for tests in general.
 	 *
-	 * Force flushing the output
+	 * Forces flushing the output if -v or -vv is set.
 	 *
 	 * @param mixed $data
 	 * @param bool $force Should the output be flushed (forced)
