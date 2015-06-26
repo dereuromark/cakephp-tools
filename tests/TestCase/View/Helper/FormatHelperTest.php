@@ -160,9 +160,19 @@ class FormatHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testGenderIcon() {
-		$result = $this->Format->genderIcon();
+		$result = $this->Format->genderIcon(0);
 
-		$expected = '<i class="icon icon-genderless genderless" title="Unknown" data-placement="bottom" data-toggle="tooltip"></i>';
+		$expected = '<i class="icon icon-genderless fa fa-genderless" title="Unknown" data-placement="bottom" data-toggle="tooltip"></i>';
+		$this->assertEquals($expected, $result);
+
+		$result = $this->Format->genderIcon(1);
+
+		$expected = '<i class="icon icon-male fa fa-mars" title="Male" data-placement="bottom" data-toggle="tooltip"></i>';
+		$this->assertEquals($expected, $result);
+
+		$result = $this->Format->genderIcon(2);
+
+		$expected = '<i class="icon icon-female fa fa-venus" title="Female" data-placement="bottom" data-toggle="tooltip"></i>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -255,10 +265,11 @@ class FormatHelperTest extends TestCase {
 		];
 
 		$is = $this->Format->array2table($array);
-		//echo $is;
-		//$this->assertEquals($expected, $is);
+		$this->assertTextContains('<table class="table">', $is);
+		$this->assertTextContains('</table>', $is);
+		$this->assertTextContains('<th>', $is);
 
-		// recursive?
+		// recursive
 		$array = [
 			['a' => ['2'], 'b' => ['2'], 'c' => ['2']],
 			[['2'], ['2'], ['2']],
@@ -266,7 +277,78 @@ class FormatHelperTest extends TestCase {
 		];
 
 		$is = $this->Format->array2table($array, ['recursive' => true]);
-		//echo $is;
+		$expected = <<<TEXT
+<table class="table">
+	<tr><th>a</th><th>b</th><th>c</th></tr>
+	<tr><td>
+<table class="table">
+	<tr><th>0</th></tr>
+	<tr><td>2</td></tr>
+</table>
+</td><td>
+<table class="table">
+	<tr><th>0</th></tr>
+	<tr><td>2</td></tr>
+</table>
+</td><td>
+<table class="table">
+	<tr><th>0</th></tr>
+	<tr><td>2</td></tr>
+</table>
+</td></tr>
+	<tr><td>
+<table class="table">
+	<tr><th>0</th></tr>
+	<tr><td>2</td></tr>
+</table>
+</td><td>
+<table class="table">
+	<tr><th>0</th></tr>
+	<tr><td>2</td></tr>
+</table>
+</td><td>
+<table class="table">
+	<tr><th>0</th></tr>
+	<tr><td>2</td></tr>
+</table>
+</td></tr>
+	<tr><td>
+<table class="table">
+	<tr><th>0</th></tr>
+	<tr><td>2</td></tr>
+</table>
+</td><td>
+<table class="table">
+	<tr><th>0</th></tr>
+	<tr><td>2</td></tr>
+</table>
+</td><td>
+<table class="table">
+	<tr><th>s</th><th>t</th></tr>
+	<tr><td>3</td><td>4</td></tr>
+</table>
+</td></tr>
+</table>
+TEXT;
+		$this->assertTextEquals($expected, $is);
+
+		$array = [
+			['x' => '0', 'y' => '0.5', 'z' => '0.9'],
+			['1', '2', '3'],
+		];
+
+		$options = [
+			'heading' => false
+		];
+		$attributes = [
+			'class' => 'foo',
+			'data-x' => 'y'
+		];
+
+		$is = $this->Format->array2table($array, $options, $attributes);
+		$this->assertTextContains('<table class="foo" data-x="y">', $is);
+		$this->assertTextContains('</table>', $is);
+		$this->assertTextNotContains('<th>', $is);
 	}
 
 	public function tearDown() {
