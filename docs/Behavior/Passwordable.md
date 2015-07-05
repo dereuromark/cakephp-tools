@@ -107,11 +107,11 @@ class UsersController extends Controller {
 		$this->Users->addBehavior('Tools.Passwordable', array('require' => false));
 
 		if ($this->request->is(['put', 'post'])) {
-			$options = array(
-				'fieldList' => array(...)
-			);
-			$user = $this->Users->patchEntity($user, $this->request->data);
-			if ($this->Users->save($user, $options)) {
+			$options = [
+				'fieldList' => [ 'pwd', 'pwd_repeat', ... ]
+			];
+			$user = $this->Users->patchEntity($user, $this->request->data, $options);
+			if ($this->Users->save($user)) {
 				// Update session data, as well
 				$this->Auth->setUser($user->toArray());
 				// Flash message OK
