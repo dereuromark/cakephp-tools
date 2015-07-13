@@ -361,8 +361,6 @@ class Email extends CakeEmail {
 	 * @return bool Success
 	 */
 	public function send($message = null) {
-		$this->profile('default');
-
 		$this->_log = [
 			'to' => $this->_to,
 			'from' => $this->_from,
