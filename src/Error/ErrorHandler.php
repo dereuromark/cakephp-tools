@@ -21,6 +21,9 @@ use Exception;
  *
  * If you don't want the errors to also show up in the debug and error log, make sure you set
  * `'scopes' => false` for those two in your app.php file.
+ *
+ * In case you need custom 404 mappings for some additional custom exceptions, make use of `log404` option.
+ * It will overwrite the current defaults completely.
  */
 class ErrorHandler extends CoreErrorHandler {
 
