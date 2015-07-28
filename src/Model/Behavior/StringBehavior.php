@@ -55,7 +55,8 @@ class StringBehavior extends Behavior {
 	public function beforeFind(Event $event, Query $query) {
 		$query->formatResults(function (ResultSetInterface $results) {
 			return $results->map(function ($row) {
-				$this->processItems($row, 'output');
+				//TODO?
+				//$this->processItems($row, 'output');
 				return $row;
 			});
 		});
