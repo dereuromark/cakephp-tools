@@ -207,7 +207,9 @@ class JsonableBehavior extends ModelBehavior {
 		if ($decoded === false) {
 			return false;
 		}
-		$decoded = (array)$decoded;
+		if ($this->settings[$Model->alias]['decodeParams']['assoc']) {
+			$decoded = (array)$decoded;
+		}
 		if ($this->settings[$Model->alias]['output'] === 'param') {
 			$decoded = $this->_toParam($Model, $decoded);
 		} elseif ($this->settings[$Model->alias]['output'] === 'list') {

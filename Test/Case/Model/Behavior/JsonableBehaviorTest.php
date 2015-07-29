@@ -187,9 +187,10 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 		$this->Comment->save($data);
 
 		$res = $this->Comment->find('first', ['conditions' => ['title' => 'param']]);
-		$obj = new stdClass();
-		$obj->y = 'z';
-		$expected = ['x' => $obj];
+		$obj = new \stdClass();
+		$obj->x = new \stdClass();
+		$obj->x->y = 'z';
+		$expected = $obj;
 		$this->assertEquals($expected, $res['JsonableComment']['details']);
 	}
 
@@ -206,9 +207,10 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 
 		// Test decode with default params
 		$res = $this->Comment->find('first', ['conditions' => ['title' => 'param']]);
-		$obj = new stdClass();
-		$obj->y = 'z';
-		$expected = ['x' => $obj];
+		$obj = new \stdClass();
+		$obj->x = new \stdClass();
+		$obj->x->y = 'z';
+		$expected = $obj;
 		$this->assertEquals($expected, $res['JsonableComment']['details']);
 
 		// Test decode with assoc = true
