@@ -250,7 +250,7 @@ class CommonHelper extends AppHelper {
 			$content['robots'] = ['noindex', 'nofollow', 'noarchive'];
 		}
 
-		$return = '<meta name="robots" content="' . implode(',', $content['robots']) . '" />';
+		$return = '<meta name="robots" content="' . implode(',', $content['robots']) . '"/>';
 		return $return;
 	}
 
@@ -267,7 +267,7 @@ class CommonHelper extends AppHelper {
 		}
 
 		$content = (array)$content;
-		$return = '<meta name="' . $name . '" content="' . implode(', ', $content) . '" />';
+		$return = '<meta name="' . $name . '" content="' . implode(', ', $content) . '"/>';
 		return $return;
 	}
 
@@ -369,7 +369,7 @@ class CommonHelper extends AppHelper {
 	 */
 	public function metaRss($url, $title = null) {
 		$tags = [
-			'meta' => '<link rel="alternate" type="application/rss+xml" title="%s" href="%s" />',
+			'meta' => '<link rel="alternate" type="application/rss+xml" title="%s" href="%s"/>',
 		];
 		if (empty($title)) {
 			$title = __d('tools', 'Subscribe to this feed');
@@ -389,7 +389,7 @@ class CommonHelper extends AppHelper {
 	 */
 	public function metaEquiv($type, $value, $escape = true) {
 		$tags = [
-			'meta' => '<meta http-equiv="%s"%s />',
+			'meta' => '<meta http-equiv="%s"%s/>',
 		];
 		if ($value === null) {
 			return '';

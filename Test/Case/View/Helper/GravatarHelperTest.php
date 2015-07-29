@@ -168,11 +168,11 @@ class GravatarHelperTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testImageTag() {
-		$expected = '<img src="http://www.gravatar.com/avatar/' . md5('example@gravatar.com') . '" alt="" />';
+		$expected = '<img src="http://www.gravatar.com/avatar/' . md5('example@gravatar.com') . '" alt=""/>';
 		$result = $this->Gravatar->image('example@gravatar.com', ['ext' => false]);
 		$this->assertEquals($expected, $result);
 
-		$expected = '<img src="http://www.gravatar.com/avatar/' . md5('example@gravatar.com') . '" alt="Gravatar" />';
+		$expected = '<img src="http://www.gravatar.com/avatar/' . md5('example@gravatar.com') . '" alt="Gravatar"/>';
 		$result = $this->Gravatar->image('example@gravatar.com', ['ext' => false, 'alt' => 'Gravatar']);
 		$this->assertEquals($expected, $result);
 	}

@@ -61,7 +61,7 @@ class FormatHelperTest extends MyCakeTestCase {
 	 */
 	public function testIcon() {
 		$result = $this->Format->icon('edit');
-		$expected = '<img src="/img/icons/edit.gif" title="' . __d('tools', 'Edit') . '" alt="[' . __d('tools', 'Edit') . ']" class="icon" />';
+		$expected = '<img src="/img/icons/edit.gif" title="' . __d('tools', 'Edit') . '" alt="[' . __d('tools', 'Edit') . ']" class="icon"/>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -72,7 +72,7 @@ class FormatHelperTest extends MyCakeTestCase {
 	 */
 	public function testCIcon() {
 		$result = $this->Format->cIcon('edit.png');
-		$expected = '<img src="/img/icons/edit.png" title="' . __d('tools', 'Edit') . '" alt="[' . __d('tools', 'Edit') . ']" class="icon" />';
+		$expected = '<img src="/img/icons/edit.png" title="' . __d('tools', 'Edit') . '" alt="[' . __d('tools', 'Edit') . ']" class="icon"/>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -390,7 +390,7 @@ class FormatHelperTest extends MyCakeTestCase {
 			'next' => ['ModelName' => ['id' => 2, 'foo' => 'y']],
 		];
 		$result = $this->Format->neighbors($neighbors, 'foo');
-		$expected = '<div class="next-prev-navi nextPrevNavi"><a href="/index/1" title="bar"><img src="/img/icons/prev" alt="[]" class="icon" />&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/index/2" title="y"><img src="/img/icons/next" alt="[]" class="icon" />&nbsp;nextRecord</a></div>';
+		$expected = '<div class="next-prev-navi nextPrevNavi"><a href="/index/1" title="bar"><img src="/img/icons/prev" alt="[]" class="icon"/>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/index/2" title="y"><img src="/img/icons/next" alt="[]" class="icon"/>&nbsp;nextRecord</a></div>';
 
 		$this->assertEquals($expected, $result);
 
