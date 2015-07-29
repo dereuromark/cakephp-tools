@@ -174,6 +174,7 @@ class NumberLib extends CakeNumber {
 		if ($number > 0 && !empty($options['signed'])) {
 			$sign = $options['positive'];
 		}
+		$options['signed'] = false;
 		return $sign . parent::currency($number, null, $options);
 	}
 
