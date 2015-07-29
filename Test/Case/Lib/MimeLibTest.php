@@ -49,7 +49,7 @@ class MimeLibTest extends MyCakeTestCase {
 		$this->assertTrue(is_array($res) && count($res) === 2);
 
 		$res = $this->Mime->getMimeType('csv', false);
-		$this->assertTrue(is_array($res) && count($res) > 2);
+		$this->assertTrue(is_array($res) && count($res) > 1);
 	}
 
 	/**
