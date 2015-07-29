@@ -57,7 +57,7 @@ class JsonableBehavior extends ModelBehavior {
 			'depth' => 512,
 		],
 		'decodeParams' => [ // params for json_decode
-			'assoc' => false, // useful when working with multidimensional arrays
+			'assoc' => true, // useful when working with multidimensional arrays
 			'depth' => 512,
 			'options' => 0
 		]

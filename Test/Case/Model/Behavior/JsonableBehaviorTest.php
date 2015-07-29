@@ -176,7 +176,7 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 
 		// Test encode depth = 2
 		$this->Comment->Behaviors->unload('Jsonable');
-		$this->Comment->Behaviors->load('Tools.Jsonable', ['fields' => ['details'], 'encodeParams' => ['depth' => 2]]);
+		$this->Comment->Behaviors->load('Tools.Jsonable', ['fields' => ['details'], 'decodeParams' => ['assoc'=> false], 'encodeParams' => ['depth' => 2]]);
 
 		$data = [
 			'comment' => 'blabla',
@@ -194,7 +194,7 @@ class JsonableBehaviorTest extends MyCakeTestCase {
 	}
 
 	public function testDecodeParams() {
-		$this->Comment->Behaviors->load('Tools.Jsonable', ['fields' => ['details']]);
+		$this->Comment->Behaviors->load('Tools.Jsonable', ['fields' => ['details'], 'decodeParams' => ['assoc'=> false]]);
 
 		$data = [
 			'comment' => 'blabla',

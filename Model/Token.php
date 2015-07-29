@@ -2,6 +2,7 @@
 App::uses('ToolsAppModel', 'Tools.Model');
 App::uses('CommonComponent', 'Tools.Controller/Component');
 App::uses('Hash', 'Utility');
+App::uses('RandomLib', 'Tools.Lib');
 
 /**
  * A generic model to hold tokens
@@ -194,7 +195,6 @@ class Token extends ToolsAppModel {
 		if (empty($length)) {
 			$length = $this->defaultLength;
 		}
-		App::uses('RandomLib', 'Tools.Lib');
 		return RandomLib::generatePassword($length);
 	}
 
