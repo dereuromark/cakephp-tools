@@ -230,7 +230,7 @@ class JsonableBehaviorTest extends TestCase {
 	public function testEncodeParamsAssocFalse() {
 		// $depth param added in 5.5.0
 		$this->skipIf(!version_compare(PHP_VERSION, '5.5.0', '>='));
-		
+
 		// Test encode depth = 1
 		$this->Comments->removeBehavior('Jsonable');
 		$this->Comments->addBehavior('Tools.Jsonable', ['fields' => ['details'], 'encodeParams' => ['depth' => 1], 'decodeParams' => ['assoc' => false]]);
