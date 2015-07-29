@@ -58,7 +58,7 @@ class JsonableBehavior extends Behavior {
 			'depth' => 512,
 		],
 		'decodeParams' => [ // params for json_decode
-			'assoc' => false, // useful when working with multidimensional arrays
+			'assoc' => true, // useful when working with multidimensional arrays
 			'depth' => 512,
 			'options' => 0
 		]
@@ -185,6 +185,7 @@ class JsonableBehavior extends Behavior {
 				}
 			}
 		}
+
 		if (is_array($val)) {
 			// Depth param added in PHP 5.5
 			if (version_compare(PHP_VERSION, '5.5.0', '>=')) {
@@ -193,6 +194,7 @@ class JsonableBehavior extends Behavior {
 				$val = json_encode($val, $this->_config['encodeParams']['options']);
 			}
 		}
+
 		return $val;
 	}
 
@@ -209,7 +211,9 @@ class JsonableBehavior extends Behavior {
 		if ($decoded === false) {
 			return false;
 		}
-		$decoded = (array)$decoded;
+		if ($this->_config['decodeParams']['assoc']) {
+			$decoded = (array)$decoded;
+		}
 		if ($this->_config['output'] === 'param') {
 			$decoded = $this->_toParam($decoded);
 		} elseif ($this->_config['output'] === 'list') {

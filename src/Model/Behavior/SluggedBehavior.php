@@ -236,6 +236,8 @@ class SluggedBehavior extends Behavior {
 	 * @return void
 	 */
 	public function _slug(Entity $entity) {
+		extract($this->_config);
+
 		$overwrite = $this->config['overwrite'];
 		if (!$overwrite && !$entity->get($overwriteField)) {
 			$overwrite = true;
