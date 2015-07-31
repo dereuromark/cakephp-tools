@@ -10,7 +10,7 @@
  */
 App::uses('ModelBehavior', 'Model');
 App::uses('Hash', 'Utility');
-App::uses('String', 'Utility');
+App::uses('CakeText', 'Utility');
 
 /**
  * A behavior that will json_encode (and json_decode) fields if they contain an array or specific pattern.
@@ -235,9 +235,9 @@ class JsonableBehavior extends ModelBehavior {
 		$separator = $this->settings[$Model->alias]['separator'];
 
 		$res = [];
-		$pieces = String::tokenize($val, $separator, $leftBound, $rightBound);
+		$pieces = CakeText::tokenize($val, $separator, $leftBound, $rightBound);
 		foreach ($pieces as $piece) {
-			$subpieces = String::tokenize($piece, $this->settings[$Model->alias]['keyValueSeparator'], $leftBound, $rightBound);
+			$subpieces = CakeText::tokenize($piece, $this->settings[$Model->alias]['keyValueSeparator'], $leftBound, $rightBound);
 			if (count($subpieces) < 2) {
 				continue;
 			}
@@ -256,7 +256,7 @@ class JsonableBehavior extends ModelBehavior {
 	public function _fromList(Model $Model, $val) {
 		extract($this->settings[$Model->alias]);
 
-		return String::tokenize($val, $separator, $leftBound, $rightBound);
+		return CakeText::tokenize($val, $separator, $leftBound, $rightBound);
 	}
 
 	/**

@@ -1,5 +1,5 @@
 <?php
-App::uses('String', 'Utility');
+App::uses('CakeText', 'Utility');
 App::uses('HttpSocket', 'Network/Http');
 
 /**
@@ -193,7 +193,7 @@ class GeocodeLib {
 		$params = [
 			'host' => $this->options['host']
 		];
-		$url = String::insert(static::BASE_URL, $params, ['before' => '{', 'after' => '}', 'clean' => true]);
+		$url = CakeText::insert(static::BASE_URL, $params, ['before' => '{', 'after' => '}', 'clean' => true]);
 		return $url;
 	}
 

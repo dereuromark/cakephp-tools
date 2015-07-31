@@ -2,7 +2,7 @@
 
 App::uses('IcalHelper', 'Tools.View/Helper');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
-App::uses('String', 'Utility');
+App::uses('CakeText', 'Utility');
 App::uses('View', 'View');
 
 /**
@@ -55,7 +55,7 @@ class IcalHelperTest extends MyCakeTestCase {
 			'organizer' => 'CEO',
 			'class' => 'public',
 			'timestamp' => '2010-10-08 22:23:34',
-			'id' => String::uuid(),
+			'id' => CakeText::uuid(),
 			'location' => 'München'
 		];
 		$this->Ical->add($data);

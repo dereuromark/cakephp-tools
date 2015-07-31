@@ -1,12 +1,12 @@
 <?php
-App::uses('String', 'Utility');
+App::uses('CakeText', 'Utility');
 
 /**
  * Extend String.
  * //TODO: cleanup
  *
  */
-class TextLib extends String {
+class TextLib extends CakeText {
 
 	public $text, $length, $char, $letter, $space, $word, $rWord, $sen, $rSen, $para, $rPara, $beautified;
 

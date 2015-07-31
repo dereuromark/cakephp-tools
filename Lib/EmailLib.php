@@ -3,6 +3,7 @@ App::uses('CakeEmail', 'Network/Email');
 App::uses('CakeLog', 'Log');
 App::uses('Utility', 'Tools.Utility');
 App::uses('MimeLib', 'Tools.Lib');
+App::uses('CakeText', 'Utility);
 
 // Support BC (snake case config)
 if (!Configure::read('Config.systemEmail')) {
@@ -162,7 +163,7 @@ class EmailLib extends CakeEmail {
 		if (empty($options['mimetype'])) {
 			$options['mimetype'] = $this->_getMime($file);
 		}
-		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', String::uuid()) . '@' . $this->_domain;
+		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', CakeText::uuid()) . '@' . $this->_domain;
 		$file = [$name => $options];
 		$res = $this->addAttachments($file);
 		if ($contentId === null) {
@@ -191,7 +192,7 @@ class EmailLib extends CakeEmail {
 		}
 		$options['content'] = $content;
 		$options['mimetype'] = $mimeType;
-		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', String::uuid()) . '@' . $this->_domain;
+		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', CakeText::uuid()) . '@' . $this->_domain;
 		$file = [$filename => $options];
 		$res = $this->addAttachments($file);
 		if ($contentId === null) {

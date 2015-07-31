@@ -12,6 +12,7 @@ if (!defined('CR')) {
 }
 App::uses('Folder', 'Utility');
 App::uses('AppShell', 'Console/Command');
+App::uses('CakeText', 'Utility);
 
 /**
  * Indent Shell
@@ -58,7 +59,7 @@ class IndentShell extends AppShell {
 	 */
 	public function folder() {
 		if (!empty($this->params['extensions'])) {
-			$this->settings['files'] = String::tokenize($this->params['extensions']);
+			$this->settings['files'] = CakeText::tokenize($this->params['extensions']);
 		}
 		if (!empty($this->params['again'])) {
 			$this->settings['againWithHalf'] = true;
