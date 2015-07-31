@@ -3,7 +3,7 @@ App::uses('CakeEmail', 'Network/Email');
 App::uses('CakeLog', 'Log');
 App::uses('Utility', 'Tools.Utility');
 App::uses('MimeLib', 'Tools.Lib');
-App::uses('CakeText', 'Utility);
+App::uses('CakeText', 'Utility');
 
 // Support BC (snake case config)
 if (!Configure::read('Config.systemEmail')) {

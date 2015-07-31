@@ -7,7 +7,7 @@ App::uses('Component', 'Controller');
 App::uses('Sanitize', 'Utility');
 App::uses('Utility', 'Tools.Utility');
 App::uses('Hash', 'Utility');
-App::uses('CakeText', 'Utility);
+App::uses('CakeText', 'Utility');
 
 /**
  * A component included in every app to take care of common stuff.

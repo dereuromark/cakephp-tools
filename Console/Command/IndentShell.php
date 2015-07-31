@@ -12,7 +12,7 @@ if (!defined('CR')) {
 }
 App::uses('Folder', 'Utility');
 App::uses('AppShell', 'Console/Command');
-App::uses('CakeText', 'Utility);
+App::uses('CakeText', 'Utility');
 
 /**
  * Indent Shell
