@@ -108,6 +108,17 @@ class Number extends CakeNumber {
 		return $sign . parent::format($number, $options);
 	}
 
+	/**
+	 * Format
+	 *
+	 * Additional options
+	 * - signed
+	 * - positive
+	 *
+	 * @param $number
+	 * @param array $options
+	 * @return string
+	 */
 	public static function format($number, array $options = []) {
 		$defaults = [
 			'positive' => '+', 'signed' => false

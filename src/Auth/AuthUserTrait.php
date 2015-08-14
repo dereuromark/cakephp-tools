@@ -29,6 +29,13 @@ if (!defined('USER_RIGHT_KEY')) {
  * 	- `Auth.User.Role` (multi - flat array of roles, or array role data)
  * and can be adjusted via constants and defined().
  * Same goes for Right data.
+ * 
+ * If roles are defined in configuration file (non-db roles setup) the constant
+ * `USER_ROLE_KEY` has to be defined in `bootstrap.php`.
+ * ```
+ * // if role key in User model is role_id
+ * define('USER_ROLE_KEY', 'role_id');
+ * ```
  *
  * Note: This uses AuthComponent internally to work with both stateful and stateless auth.
  *

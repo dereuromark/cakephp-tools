@@ -29,6 +29,7 @@ class FormatHelper extends TextHelper {
 	protected $_defaultIcons = [
 		'yes' => 'fa fa-check',
 		'no' => 'fa fa-times',
+		'view' => 'fa fa-eye',
 		'edit' => 'fa fa-pencil',
 		'add' => 'fa fa-plus',
 		'delete' => 'fa fa-trash',
@@ -38,6 +39,7 @@ class FormatHelper extends TextHelper {
 		'contra' => 'fa fa-thumbs-down',
 		'male' => 'fa fa-mars',
 		'female' => 'fa fa-venus',
+		'config' => 'fa fa-cogs'
 		//'genderless' => 'fa fa-genderless'
 	];
 

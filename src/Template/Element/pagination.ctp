@@ -1,5 +1,4 @@
-<p class="paging-description"><?php
-
+<?php
 if (!isset($separator)) {
 	if (defined('PAGINATOR_SEPARATOR')) {
 		$separator = PAGINATOR_SEPARATOR;
@@ -37,8 +36,8 @@ if (!empty($addArrows)) {
 	$next .= ' »';
 }
 $escape = isset($escape) ? $escape : true;
+?>
 
-echo $this->Paginator->counter(['format' => $format]); ?></p>
 <div class="paging">
 	<ul class="pagination">
 	<?php echo $this->Paginator->first($first, ['escape' => $escape]);?>
@@ -51,6 +50,10 @@ echo $this->Paginator->counter(['format' => $format]); ?></p>
  <?php echo $separator; ?>
 	<?php echo $this->Paginator->last($last, ['escape' => $escape]);?>
 	</ul>
+
+	<p class="paging-description">
+		<?php echo $this->Paginator->counter(['format' => $format]); ?>
+	</p>
 </div>
 <?php if (!empty($options['ajaxPagination'])) {
 	$ajaxContainer = !empty($options['paginationContainer']) ? $options['paginationContainer'] : '.page';
