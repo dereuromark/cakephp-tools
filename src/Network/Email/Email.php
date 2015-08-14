@@ -6,8 +6,12 @@ use Cake\Network\Email\Email as CakeEmail;
 use Tools\Utility\Text;
 use InvalidArgumentException;
 use Tools\Utility\Mime;
+use Cake\Log\LogTrait;
+use Psr\Log\LogLevel;
 
 class Email extends CakeEmail {
+
+	use LogTrait;
 
 	protected $_wrapLength = null;
 
@@ -369,7 +373,7 @@ class Email extends CakeEmail {
 			'cc' => $this->_cc,
 			'subject' => $this->_subject,
 			'bcc' => $this->_bcc,
-			'transport' => $this->_transport
+			'transport' => get_class($this->_transport),
 		];
 		if ($this->_priority) {
 			$this->_headers['X-Priority'] = $this->_priority;
@@ -377,12 +381,20 @@ class Email extends CakeEmail {
 			//$this->_headers['Importance'] = 'High';
 		}
 
+		// if not live, just log but do not send any mails
+		if (! Configure::read('Config.live')) {
+        	$this->_logEmail();
+        	return true;
+		}
+
 		// Security measure to not sent to the actual addressee in debug mode while email sending is live
-		if (Configure::read('debug') && Configure::read('Email.live')) {
+		if (Configure::read('debug') && Configure::read('Config.live')) {
 			$adminEmail = Configure::read('Config.adminEmail');
+
 			if (!$adminEmail) {
 				$adminEmail = Configure::read('Config.systemEmail');
 			}
+
 			foreach ($this->_to as $k => $v) {
 				if ($k === $adminEmail) {
 					continue;
@@ -413,18 +425,32 @@ class Email extends CakeEmail {
 			$this->_error .= ' (line ' . $e->getLine() . ' in ' . $e->getFile() . ')' . PHP_EOL .
 				$e->getTraceAsString();
 
-			if (!empty($this->_config['logReport'])) {
-				$this->_logEmail();
-			} else {
-				//Log::write('error', $this->_error);
-			}
+			// always log report
+			$this->_logEmail(LogLevel::ERROR);
+
+			// log error
+			$this->log($this->_error, LogLevel::ERROR);
+			
 			return false;
 		}
 
-		if (!empty($this->_config['logReport'])) {
+		if ( $this->_profile['logReport'] ) {
 			$this->_logEmail();
 		}
+
 		return true;
+	}
+
+	protected function _logEmail($level = LogLevel::INFO)
+	{
+		$content =
+			$this->_log['transport'] .
+			' - ' . 'TO:' . implode(',', array_keys($this->_log['to'])) .
+			'||FROM:' . implode(',', array_keys($this->_log['from'])) .
+			'||REPLY:' . implode(',', array_keys($this->_log['replyTo'])) .
+			'||S:' . $this->_log['subject'];
+
+		$this->log($content, $level);
 	}
 
 	/**
