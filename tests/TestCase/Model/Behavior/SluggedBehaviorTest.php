@@ -83,6 +83,22 @@ class SluggedBehaviorTest extends TestCase {
 		//debug($result);
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testAddUniqueMultipleLabels() {
+		//$this->articles->behaviors()->Slugged->config('label', ''); // Hack necessary right now to avoid title showing up twice
+		$this->articles->behaviors()->Slugged->configShallow(['mode' => 'ascii', 'unique' => true, 'label' => ['title', 'long_title']]);
+
+		$entity = $this->_getEntity(null, null, ['long_title' => 'blae']);
+		$result = $this->articles->save($entity);
+		$this->assertEquals('test-123-blae', $result->get('slug'));
+
+		$entity = $this->_getEntity(null, null, ['long_title' => 'blä']);
+		$result = $this->articles->save($entity);
+		$this->assertEquals('test-123-blae-1', $result->get('slug'));
+	}
+
 /**
  * SluggedBehaviorTest::testCustomFinder()
  *
@@ -612,11 +628,19 @@ class SluggedBehaviorTest extends TestCase {
  *
  * @return Entity
  */
-	protected function _getEntity($title = 'test 123', $field = 'title', array $options = []) {
+	protected function _getEntity($title = null, $field = null, array $data = [], array $options = []) {
 		$options += ['validate' => false];
-		return new Entity([
+		if ($title === null) {
+			$title = 'test 123';
+		}
+		if ($field === null) {
+			$field = 'title';
+		}
+
+		$data = [
 			$field => $title
-		], $options);
+		] + $data;
+		return new Entity($data, $options);
 	}
 
 }
