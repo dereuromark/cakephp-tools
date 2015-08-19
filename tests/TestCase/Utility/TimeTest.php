@@ -368,7 +368,6 @@ class TimeTest extends TestCase {
 		$this->assertEquals('6', $this->Time->age('2002-01-29', '2008-12-02'));
 
 		// Leap year
-
 		$this->assertEquals('2', $this->Time->age('2005-03-01', '2008-02-28'));
 		$this->assertEquals('2', $this->Time->age('2005-03-01', '2008-02-29'));
 
@@ -1141,6 +1140,8 @@ class TimeTest extends TestCase {
 		Configure::write('Config.timezone', 'UTC');
 		date_default_timezone_set('UTC');
 
+		$this->Time = new Time();
+
 		$result = $this->Time->getGmtOffset();
 		$this->assertEquals(0, $result);
 
@@ -1166,17 +1167,17 @@ class TimeTest extends TestCase {
 		Configure::write('Config.timezone', 'UTC');
 		date_default_timezone_set('UTC');
 
+		$this->Time = new Time();
+
 		$result = $this->Time->tzOffset(0, false);
 		$this->assertEquals(0, $result);
 
 		Configure::write('Config.timezone', 'Europe/Berlin');
 		date_default_timezone_set('Europe/Berlin');
 
-		/*
 		$factor = date('I') ? 2 : 1;
 		$result = $this->Time->tzOffset($factor * HOUR, false);
 		$this->assertEquals(0, $result);
-		*/
 
 		Configure::write('Config.timezone', $timezone);
 		date_default_timezone_set($phpTimezone);

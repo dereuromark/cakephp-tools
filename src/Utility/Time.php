@@ -74,6 +74,7 @@ class Time extends CakeTime {
 		} else {
 			$timezone = $this->getTimezone();
 		}
+
 		$offset = $timezone->getOffset(new \DateTime('@' . time()));
 		$offset = $offset / HOUR;
 		return $offset;
