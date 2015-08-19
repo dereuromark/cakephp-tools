@@ -180,7 +180,8 @@ class SluggedBehavior extends Behavior {
 	/**
 	 * SluggedBehavior::slug()
 	 *
-	 * @param Entity $entity
+	 * @param \Cake\ORM\Entity $entity Entity
+	 * @param array $options Options
 	 * @return void
 	 */
 	public function slug(Entity $entity, array $options = []) {
@@ -191,12 +192,13 @@ class SluggedBehavior extends Behavior {
 		if ($overwrite || $entity->isNew() || !$entity->get($this->_config['field'])) {
 			$slug = [];
 			foreach ((array)$this->_config['label'] as $v) {
-				$v = $this->generateSlug($entity->get($v), $entity);
-				if ($v) {
+				$v = $entity->get($v);
+				if ($v !== null && $v !== '') {
 					$slug[] = $v;
 				}
 			}
 			$slug = implode($slug, $this->_config['separator']);
+			$slug = $this->generateSlug($slug, $entity);
 			$entity->set($this->_config['field'], $slug);
 		}
 	}
