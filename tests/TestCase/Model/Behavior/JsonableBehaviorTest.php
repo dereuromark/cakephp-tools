@@ -45,6 +45,27 @@ class JsonableBehaviorTest extends TestCase {
 	}
 
 	/**
+	 * Find list should still work
+	 *
+	 * @return void
+	 */
+	public function testList() {
+		$data = [
+			'comment' => 'blabla',
+			'url' => 'www.dereuromark.de',
+			'title' => 'some Name',
+			'details' => ['x' => 'y'],
+		];
+		$entity = $this->Comments->newEntity($data);
+		$res = $this->Comments->save($entity);
+		$this->assertTrue((bool)$res);
+
+		$result = $this->Comments->find('list');
+		$expected = [1 => 'some Name'];
+		$this->assertSame($expected, $result->toArray());
+	}
+
+	/**
 	 * JsonableBehaviorTest::testFieldsWithList()
 	 *
 	 * @return void

@@ -97,8 +97,12 @@ class JsonableBehavior extends Behavior {
 	 * @return void
 	 */
 	public function beforeFind(Event $event, Query $query) {
-		$query->formatResults(function (ResultSetInterface $results) {
+		$query->formatResults(function ($results) {
 			return $results->map(function ($row) {
+				if (!$row instanceOf Entity) {
+					return $row;
+				}
+
 				$this->decodeItems($row);
 				return $row;
 			});
