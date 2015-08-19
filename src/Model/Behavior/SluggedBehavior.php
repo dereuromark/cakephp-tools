@@ -229,61 +229,6 @@ class SluggedBehavior extends Behavior {
 	}
 
 	/**
-	 * Generate slug method
-	 *
-	 * If a new row, or overwrite is set to true, check for a change to a label field and add the slug to the data
-	 * to be saved
-	 *
-	 * @deprecated Not in use anymore!
-	 * @return void
-	 */
-	public function _slug(Entity $entity) {
-		extract($this->_config);
-
-		$overwrite = $this->config['overwrite'];
-		if (!$overwrite && !$entity->get($overwriteField)) {
-			$overwrite = true;
-		}
-		if ($overwrite || $entity->isNew()) {
-			if ($label) {
-				$somethingToDo = false;
-				foreach ($label as $field) {
-					$alias = $this->_table->alias();
-					if (strpos($field, '.') !== false) {
-						list($alias, $field) = explode('.', $field, 2);
-					}
-					if (isset($Model->data[$alias][$field])) {
-						$somethingToDo = true;
-					}
-				}
-				if (!$somethingToDo) {
-					return;
-				}
-				$slug = [];
-				foreach ($label as $field) {
-					$alias = $this->_table->alias();
-					if (strpos($field, '.')) {
-						list($alias, $field) = explode('.', $field);
-					}
-					if (isset($Model->data[$alias][$field])) {
-						if (is_array($Model->data[$alias][$field])) {
-							return $this->_multiSlug($Model);
-						}
-						$slug[] = $Model->data[$alias][$field];
-					} elseif ($Model->id) {
-						$slug[] = $Model->field($field);
-					}
-				}
-				$slug = implode($slug, $separator);
-			} else {
-				$slug = $this->display($Model);
-			}
-			$slug = $Model->slug($slug);
-			$Model->data[$this->_table->alias()][$slugField] = $slug;
-		}
-	}
-
-	/**
 	 * Slug method
 	 *
 	 * For the given string, generate a slug. The replacements used are based on the mode setting, If tidy is false
@@ -373,26 +318,6 @@ class SluggedBehavior extends Behavior {
 		}
 
 		return $slug;
-	}
-
-	/**
-	 * Display method
-	 *
-	 * Cheat - use find('list') and assume it has been modified such that lists show in the desired format.
-	 * First check (since this method is called in beforeSave) if there is data to be saved, and use that
-	 * to get the display name
-	 * Otherwise, read from the database
-	 *
-	 * @deprecated Not in use anymore!
-	 * @param mixed $id
-	 * @return mixed string (the display name) or false
-	 */
-	public function display($id) {
-		$conditions = array_merge([
-			$this->_table->alias() . '.' . $this->_table->primaryKey() => $id],
-			$this->_config['scope']);
-		$record = $this->_table->find('first', ['conditions' => $conditions]);
-		return $record->get($this->_table->displayField());
 	}
 
 	/**
