@@ -87,8 +87,8 @@ class SluggedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testAddUniqueMultipleLabels() {
-		$this->articles->behaviors()->Slugged->config('label', ''); // Hack necessary right now to avoid title showing up twice
-		$this->articles->behaviors()->Slugged->config(['mode' => 'ascii', 'unique' => true, 'label' => ['title', 'long_title']]);
+		//$this->articles->behaviors()->Slugged->config('label', ''); // Hack necessary right now to avoid title showing up twice
+		$this->articles->behaviors()->Slugged->configShallow(['mode' => 'ascii', 'unique' => true, 'label' => ['title', 'long_title']]);
 
 		$entity = $this->_getEntity(null, null, ['long_title' => 'blae']);
 		$result = $this->articles->save($entity);
