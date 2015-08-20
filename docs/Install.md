@@ -3,10 +3,10 @@
 ## How to include
 Installing the Plugin is pretty much as with every other CakePHP Plugin.
 
-Put the files in `ROOT/plugins/Tools`, using Packagist/Composer:
+Include the plugin using Packagist/Composer:
 ```
 "require": {
-	"dereuromark/cakephp-tools": "dev-cake3"
+	"dereuromark/cakephp-tools": "dev-master"
 }
 ```
 and
@@ -24,7 +24,7 @@ or
 Plugin::loadAll(...);
 ```
 
-In case you want the Tools bootstrap file included (recommended), you can do that in your `ROOT/Config/bootstrap.php` with
+In case you want the Tools bootstrap file included (recommended), you can do that in your `ROOT/config/bootstrap.php` with
 
 ```php
 Plugin::load('Tools', array('bootstrap' => true));
@@ -70,8 +70,11 @@ Internally (method access), you don't use the namespace declaration. The plugin 
 // In a Table
 $this->addBehavior('Tools.Slugged'); // Adding SluggedBehavior
 
-// In a Controller
-public $helpers = array('Tools.Foo'); // Adding FooHelper
+// In a View
+$this->loadHelper('Tools.Foo'); // Adding FooHelper
+
+// In a Controller (deprecated)
+public $helpers = ['Tools.Foo']; // Adding FooHelper
 ```
 
 ### Class Alias Shortcuts
