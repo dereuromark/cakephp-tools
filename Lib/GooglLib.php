@@ -118,6 +118,23 @@ class GooglLib {
 	}
 
 	/**
+	 * Retrieve the statistics for this key.
+	 *
+	 * @param string $key
+	 * @return array
+	 */
+	public function getStatistics($key) {
+		$url = $this->API = '?shortUrl=http://goo.gl/' . $key . '&projection=FULL&key=' . $this->APIKey;
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		$result = curl_exec($ch);
+		curl_close($ch);
+		$array = json_decode($result, true);
+		return $array;
+	}
+
+	/**
 	 * Retrieve the url for the statistics page for this key
 	 *
 	 * @param string $key
