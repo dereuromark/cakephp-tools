@@ -25,12 +25,12 @@ class GooglLib {
 	/**
 	 * Application key
 	 */
-	protected $APIKey;
+	protected $apiKey;
 
 	/**
-	 * Api url
+	 * API URL
 	 */
-	protected $API = "https://www.googleapis.com/urlshortener/v1/url";
+	protected $apiUrl = "https://www.googleapis.com/urlshortener/v1/url";
 
 	/**
 	 * @param string $apiKey (optional)
@@ -40,7 +40,7 @@ class GooglLib {
 			$apiKey = Configure::read('Googl.key');
 		}
 		if ($apiKey) {
-			$this->APIKey = $apiKey;
+			$this->apiKey = $apiKey;
 		}
 	}
 
@@ -56,10 +56,10 @@ class GooglLib {
 		if ($projection) {
 			$vars .= '&projection=' . $projection;
 		}
-		if ($this->APIKey) {
-			$vars .= '&key=' . $this->APIKey;
+		if ($this->apiKey) {
+			$vars .= '&key=' . $this->apiKey;
 		}
-		$ch = curl_init($this->API . $vars);
+		$ch = curl_init($this->apiUrl . $vars);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$result = curl_exec($ch);
@@ -76,16 +76,16 @@ class GooglLib {
 	 */
 	public function getShort($longURL) {
 		$vars = '';
-		if ($this->APIKey) {
-			$vars .= "?key=$this->APIKey";
+		if ($this->apiKey) {
+			$vars .= "?key=$this->apiKey";
 		}
 
-		$ch = curl_init($this->API . $vars);
+		$ch = curl_init($this->apiUrl . $vars);
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, '{"key": "' . $this->APIKey . '", "longUrl": "' . $longURL . '"}');
+		curl_setopt($ch, CURLOPT_POSTFIELDS, '{"key": "' . $this->apiKey . '", "longUrl": "' . $longURL . '"}');
 		$result = curl_exec($ch);
 		curl_close($ch);
 		$array = json_decode($result, true);
@@ -107,7 +107,7 @@ class GooglLib {
 	 */
 	public function getHistory() {
 		$vars = '';
-		$url = $this->API . '/history';
+		$url = $this->apiUrl . '/history';
 		$ch = curl_init($url . $vars);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -124,7 +124,7 @@ class GooglLib {
 	 * @return array
 	 */
 	public function getStatistics($key) {
-		$url = $this->API = '?shortUrl=http://goo.gl/' . $key . '&projection=FULL&key=' . $this->APIKey;
+		$url = $this->apiUrl . '?shortUrl=http://goo.gl/' . $key . '&projection=FULL&key=' . $this->apiKey;
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
