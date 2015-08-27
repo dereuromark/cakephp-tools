@@ -21,7 +21,7 @@ class AuthExtComponentTest extends CakeTestCase {
 
 		$this->Controller->User->belongsTo = [
 			'Role' => [
-				'className' => 'Tools.Role'
+				//'className' => 'Tools.Role'
 			]
 		];
 	}
