@@ -10,6 +10,32 @@ use Cake\Core\Configure;
  */
 class UtilityTest extends TestCase {
 
+	public function testNotEmpty() {
+		$res = Utility::notEmpty('a');
+		$this->assertTrue($res);
+
+		$res = Utility::notEmpty(2);
+		$this->assertTrue($res);
+
+		$res = Utility::notEmpty(0);
+		$this->assertFalse($res);
+
+		$res = Utility::notEmpty('0');
+		$this->assertTrue($res);
+
+		$res = Utility::notEmpty(null);
+		$this->assertFalse($res);
+
+		$res = Utility::notEmpty(false);
+		$this->assertFalse($res);
+
+		$res = Utility::notEmpty('');
+		$this->assertFalse($res);
+
+		$res = Utility::notEmpty([]);
+		$this->assertFalse($res);
+	}
+
 	/**
 	 * UtilityTest::testInArray()
 	 *

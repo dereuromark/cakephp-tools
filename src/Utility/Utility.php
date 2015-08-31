@@ -13,6 +13,16 @@ use Cake\Utility\Hash;
 class Utility {
 
 	/**
+	 * More sane !empty() method to not false positive `'0'` (0 as string) as empty.
+	 *
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public static function notEmpty($value) {
+		return !empty($value) || $value === '0';
+	}
+
+	/**
 	 * Clean implementation of inArray to avoid false positives.
 	 *
 	 * in_array itself has some PHP flaws regarding cross-type comparison:
