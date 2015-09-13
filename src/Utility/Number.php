@@ -243,32 +243,6 @@ class Number extends CakeNumber {
 	}
 
 	/**
-	 * Returns the English ordinal suffix (th, st, nd, etc) of a number.
-	 *
-	 * echo NumberLib::ordinal(2); // "nd"
-	 * echo NumberLib::ordinal(10); // "th"
-	 * echo NumberLib::ordinal(33); // "rd"
-	 *
-	 * @param int $number
-	 * @return string
-	 */
-	public static function ordinal($number) {
-		if ($number % 100 > 10 && $number % 100 < 14) {
-			return 'th';
-		}
-		switch ($number % 10) {
-			case 1:
-				return 'st';
-			case 2:
-				return 'nd';
-			case 3:
-				return 'rd';
-			default:
-				return 'th';
-		}
-	}
-
-	/**
 	 * Can compare two float values
 	 *
 	 * @link http://php.net/manual/en/language.types.float.php
