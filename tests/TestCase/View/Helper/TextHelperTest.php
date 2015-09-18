@@ -7,7 +7,7 @@ use Cake\View\View;
 use Cake\Core\Configure;
 use Tools\Utility\Text;
 
-class TextExtHelperTest extends TestCase {
+class TextHelperTest extends TestCase {
 
 	public $Text;
 
@@ -270,20 +270,6 @@ class TextExtHelperTest extends TestCase {
 
 		$url = 'www.testpage.de';
 		$this->assertEquals('www.te&#8230;ge.de', $this->Text->minimizeUrl($url, 14));
-	}
-
-	/**
-	 * Test testOrdinalNumber
-	 *
-	 * @return void
-	 */
-	public function testOrdinalNumber() {
-		$result = $this->Text->ordinalNumber(1);
-		$this->assertSame('1st', $result);
-
-		$result = $this->Text->ordinalNumber(1, true);
-		//debug($result);
-		$this->assertSame('1<sup>st</sup>', $result);
 	}
 
 }
