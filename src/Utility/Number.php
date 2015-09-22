@@ -24,11 +24,12 @@ class Number extends CakeNumber {
 	protected static $_thousands = '.';
 
 	/**
-	 * Correct the defaul values according to localization
+	 * Correct the default values according to localization
 	 *
 	 * @return void
+	 * @deprecated Should not be used anymore with 3.x functionality?
 	 */
-	public static function config($options = []) {
+	public static function setConfig($options = []) {
 		$config = $options + (array)Configure::read('Localization');
 		foreach ($config as $key => $value) {
 			$key = '_' . $key;
