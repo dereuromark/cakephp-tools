@@ -191,7 +191,7 @@ class TableTest extends TestCase {
 	 */
 	public function testGetFieldInUse() {
 		$this->skipIf(true, 'TODO');
-		$this->db = ConnectionManager::getDataSource('test');
+		$this->db = ConnectionManager::get('test');
 		$this->skipIf(!($this->db instanceof Mysql), 'The test is only compatible with Mysql.');
 
 		$results = $this->Posts->getFieldInUse('author_id', 'list');

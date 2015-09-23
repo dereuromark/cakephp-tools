@@ -19,7 +19,7 @@ class NumberHelperTest extends TestCase {
 			'decimals' => ',',
 			'thousands' => '.'
 		]);
-		Number::config();
+		Number::config('en_EN');
 		$this->Number = new NumberHelper(new View(null));
 	}
 

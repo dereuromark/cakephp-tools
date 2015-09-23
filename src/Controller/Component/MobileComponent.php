@@ -168,7 +168,7 @@ class MobileComponent extends Component {
 		}
 
 		$this->Controller->viewClass = 'Theme';
-		$this->Controller->theme = 'Mobile';
+		$this->Controller->viewBuilder()->theme('Mobile');
 	}
 
 	/**
