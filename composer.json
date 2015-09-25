@@ -14,7 +14,7 @@
 	],
 	"require":{
 		"php": ">=5.4",
-		"cakephp/cakephp": "~3.0",
+		"cakephp/cakephp": "~3.1",
 		"dereuromark/cakephp-shim": "~1.0"
 	},
 	"require-dev":{

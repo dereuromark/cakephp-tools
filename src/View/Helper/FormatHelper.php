@@ -3,7 +3,7 @@ namespace Tools\View\Helper;
 
 use Cake\Core\Configure;
 use Cake\Utility\Inflector;
-use Cake\View\Helper\TextHelper;
+use Cake\View\Helper;
 use Cake\View\StringTemplate;
 use Cake\View\View;
 
@@ -15,7 +15,7 @@ use Cake\View\View;
  * @author Mark Scherer
  * @license MIT
  */
-class FormatHelper extends TextHelper {
+class FormatHelper extends Helper {
 
 	/**
 	 * Other helpers used by FormHelper

@@ -19,7 +19,7 @@ class NumberHelper extends CakeNumberHelper {
 	 *            The class needs to be placed in the `Utility` directory.
 	 *
 	 * @param \Cake\View\View $View The View this helper is being attached to.
-	 * @param array $config Configuration settings for the helper
+	 * @param array $options Configuration settings for the helper
 	 * @throws \Cake\Core\Exception\Exception When the engine class could not be found.
 	 */
 	public function __construct($View = null, $options = []) {

@@ -66,14 +66,32 @@ class TimeHelper extends CakeTimeHelper {
 	}
 
 	/**
+	 * Returns a nicely formatted date string for given Datetime string.
+	 *
+	 * @param int|string|\DateTime|null $dateString UNIX timestamp, strtotime() valid string or DateTime object
+	 * @param string|\DateTimeZone|null $timezone User's timezone string or DateTimeZone object
+	 * @param string|null $locale Locale string.
+	 * @param string|bool $default Default string to use when no dateString is given. Use false to allow null as current date.
+	 * @return string Formatted date string
+	 */
+	public function nice($dateString = null, $timezone = null, $locale = null, $default = '') {
+		if ($dateString === null && $default !== false) {
+			return $default;
+		}
+		return parent::nice($dateString, $timezone, $locale);
+	}
+
+	/**
 	 * Output the age of a person within a sane range.
 	 * Defaults to the $default string if outside of that range.
 	 *
-	 * @param string date (from db)
+	 * @param null $date
+	 * @param string|bool $default
 	 * @return int age on success, mixed $default otherwise
+	 * @internal param date $string
 	 */
-	public function userAge($date = null, $default = '---') {
-		if ((int)$date === 0) {
+	public function userAge($date = null, $default = '') {
+		if ($date === null) {
 			return $default;
 		}
 		$age = $this->age($date, null);
@@ -86,6 +104,9 @@ class TimeHelper extends CakeTimeHelper {
 	/**
 	 * Like localDate(), only with additional markup <span> and class="today", if today, etc
 	 *
+	 * @param null $dateString
+	 * @param null $format
+	 * @param array $options
 	 * @return string
 	 */
 	public function localDateMarkup($dateString = null, $format = null, $options = []) {
@@ -97,6 +118,9 @@ class TimeHelper extends CakeTimeHelper {
 	/**
 	 * Like niceDate(), only with additional markup <span> and class="today", if today, etc
 	 *
+	 * @param null $dateString
+	 * @param null $format
+	 * @param array $options
 	 * @return string
 	 */
 	public function niceDateMarkup($dateString = null, $format = null, $options = []) {
@@ -113,9 +137,9 @@ class TimeHelper extends CakeTimeHelper {
 	 * ...
 	 * @param array $options
 	 * @param array $attr: html attributes
-	 * @return nicely formatted date
+	 * @return string Nicely formatted date
 	 */
-	public function published(\DateTime $date, $options = [], $attr = []) {
+	public function published(\DateTime $date, array $options = [], array $attr = []) {
 		$niceDate = '';
 		$when = null;
 		$span = '';

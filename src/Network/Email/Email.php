@@ -381,10 +381,10 @@ class Email extends CakeEmail {
 			//$this->_headers['Importance'] = 'High';
 		}
 
-		// if not live, just log but do not send any mails
-		if (! Configure::read('Config.live')) {
-        	$this->_logEmail();
-        	return true;
+		// if not live, just log but do not send any mails //TODO: remove and use Debug Transport!
+		if (!Configure::read('Config.live')) {
+			$this->_logEmail();
+			return true;
 		}
 
 		// Security measure to not sent to the actual addressee in debug mode while email sending is live
@@ -430,25 +430,29 @@ class Email extends CakeEmail {
 
 			// log error
 			$this->log($this->_error, LogLevel::ERROR);
-			
+
 			return false;
 		}
 
-		if ( $this->_profile['logReport'] ) {
+		if (!empty($this->_profile['logReport'])) {
 			$this->_logEmail();
 		}
 
 		return true;
 	}
 
+	/**
+	 * @param string $level
+	 * @return void
+	 */
 	protected function _logEmail($level = LogLevel::INFO)
 	{
 		$content =
-			$this->_log['transport'] .
-			' - ' . 'TO:' . implode(',', array_keys($this->_log['to'])) .
-			'||FROM:' . implode(',', array_keys($this->_log['from'])) .
-			'||REPLY:' . implode(',', array_keys($this->_log['replyTo'])) .
-			'||S:' . $this->_log['subject'];
+			$this->_log['transport'] . (!Configure::read('Config.live') ? ' (simulated)' : '')
+			. ' - ' . 'TO:' . implode(',', array_keys($this->_log['to']))
+			. '||FROM:' . implode(',', array_keys($this->_log['from']))
+			. '||REPLY:' . implode(',', array_keys($this->_log['replyTo']))
+			. '||S:' . $this->_log['subject'];
 
 		$this->log($content, $level);
 	}
