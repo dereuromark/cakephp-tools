@@ -1,8 +1,8 @@
 <?php
 
-namespace Tools\Test\TestCase\Network\Email;
+namespace Tools\Test\TestCase\Mailer;
 
-use Tools\Network\Email\Email;
+use Tools\Mailer\Email;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Tools\TestSuite\TestCase;
