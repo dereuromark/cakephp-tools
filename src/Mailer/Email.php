@@ -1,15 +1,15 @@
 <?php
-namespace Tools\Network\Email;
+namespace Tools\Mailer;
 
 use Cake\Core\Configure;
-use Tools\Mailer\Email as ToolsEmail;
+use Cake\Mailer\Email as CakeEmail;
 use Tools\Utility\Text;
 use InvalidArgumentException;
 use Tools\Utility\Mime;
 use Cake\Log\LogTrait;
 use Psr\Log\LogLevel;
 
-class Email extends ToolsEmail {
+class Email extends CakeEmail {
 
 	use LogTrait;
 
@@ -20,7 +20,6 @@ class Email extends ToolsEmail {
 	protected $_error = null;
 
 	public function __construct($config = null) {
-		trigger_error('Use Tools\Mailer\Email instead.', E_USER_DEPRECATED);
 		if ($config === null) {
 			$config = 'default';
 		}
