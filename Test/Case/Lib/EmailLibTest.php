@@ -51,7 +51,7 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->assertEquals('', $this->Email->getError());
 		$this->assertTrue($res);
 
-		$this->Email->resetAndSet();
+		$this->Email->reset();
 		// start
 		$this->Email->transport('debug');
 		$this->Email->to(Configure::read('Config.adminEmail'), Configure::read('Config.adminEmailname'));
@@ -81,7 +81,7 @@ class EmailLibTest extends MyCakeTestCase {
 	public function testSendFast() {
 		$this->skipIf(php_sapi_name() === 'cli');
 
-		//$this->Email->resetAndSet();
+		//$this->Email->reset();
 		//$this->Email->from(Configure::read('Config.adminEmail'), Configure::read('Config.adminEmailname'));
 		$res = EmailLib::systemEmail('system-mail test', 'some fast email to admin test');
 		//debug($res);
@@ -224,7 +224,7 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->assertEquals('', $this->Email->getError());
 		$this->assertTrue($res);
 
-		$this->Email->resetAndSet();
+		$this->Email->reset();
 		$this->Email->to(Configure::read('Config.adminEmail'));
 		$this->Email->addAttachment($file, 'x.jpg');
 		$res = $this->Email->send('test_custom_filename');
