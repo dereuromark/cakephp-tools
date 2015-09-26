@@ -752,7 +752,7 @@ class CommonComponent extends Component {
 	 * @param bool $camelize (true/false): problems with äöüß etc!
 	 * @return array Results as list
 	 */
-	public function parseList($string, $separator = null, $camelize = false, $capitalize = true) {
+	public static function parseList($string, $separator = null, $camelize = false, $capitalize = true) {
 		if ($separator === null) {
 			$separator = ',';
 		}
@@ -785,6 +785,7 @@ class CommonComponent extends Component {
 	 *
 	 * @param string $s
 	 * @return mixed
+	 * @deprecated
 	 */
 	public static function separators($s = null, $valueOnly = false) {
 		$separatorsValues = [SEPARATOR_COMMA => ',', SEPARATOR_SEMI => ';', SEPARATOR_SPACE => ' ', SEPARATOR_TAB => TB, SEPARATOR_NL => NL];
@@ -806,11 +807,11 @@ class CommonComponent extends Component {
 
 	/**
 	 * Expects email to be valid!
-	 * TODO: move to Lib
 	 *
 	 * @return array email - pattern: array('email'=>,'name'=>)
+	 * @deprecated
 	 */
-	public function splitEmail($email, $abortOnError = false) {
+	public function splitEmail($email) {
 		$array = ['email' => '', 'name' => ''];
 		if (($pos = mb_strpos($email, '<')) !== false) {
 			$name = substr($email, 0, $pos);
@@ -831,9 +832,9 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * TODO: move to Lib
 	 * @param string $email
 	 * @param string $name (optional, will use email otherwise)
+	 * @deprecated
 	 */
 	public function combineEmail($email, $name = null) {
 		if (empty($email)) {
@@ -856,6 +857,7 @@ class CommonComponent extends Component {
 	 * @param string $email: well formatted email! (containing one @ and one .)
 	 * @param string $type (TODO: defaults to return all elements)
 	 * @return string or false on failure
+	 * @deprecated
 	 */
 	public function extractEmailInfo($email, $type = null) {
 		//$checkpos = strrpos($email, '@');

@@ -40,23 +40,34 @@ class Utility {
 	 */
 	public static function tokenize($data, $separator = ',', array $options = []) {
 		$defaults = [
-			'clean' => true
+			'clean' => true,
+			'callback' => null
 		];
 		$options += $defaults;
 		if (empty($data)) {
 			return [];
 		}
+
 		$tokens = explode($separator, $data);
+		$tokens = array_map('trim', $tokens);
+
+		if ($options['callback']) {
+			foreach ($tokens as $key => $token) {
+				debug($token);
+				$tokens[$key] = $options['callback']($token);
+			}
+		}
+
 		if (empty($tokens) || !$options['clean']) {
 			return $tokens;
 		}
 
-		$tokens = array_map('trim', $tokens);
 		foreach ($tokens as $key => $token) {
 			if ($token === '') {
 				unset($tokens[$key]);
 			}
 		}
+
 		return $tokens;
 	}
 

@@ -36,6 +36,9 @@ class UtilityTest extends MyCakeTestCase {
 		$this->assertFalse($res);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testTokenize() {
 		$res = Utility::tokenize('');
 		$this->assertSame([], $res);
@@ -48,6 +51,10 @@ class UtilityTest extends MyCakeTestCase {
 
 		$res = Utility::tokenize(',some,,, ,, thing,');
 		$this->assertSame(['some', 'thing'], array_values($res));
+
+		$options = ['callback' => function ($token) { return ucfirst($token); }];
+		$res = Utility::tokenize('some, thing', ',', $options);
+		$this->assertSame(['Some', 'Thing'], $res);
 	}
 
 	/**
