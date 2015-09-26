@@ -56,7 +56,7 @@ class EmailLib extends CakeEmail {
 		}
 		parent::__construct($config);
 
-		$this->resetAndSet($config);
+		$this->reset($config);
 	}
 
 	/**
@@ -629,7 +629,7 @@ class EmailLib extends CakeEmail {
 	 *
 	 * @return void
 	 */
-	public function resetAndSet($config = null) {
+	public function reset($config = null) {
 		if ($config === null) {
 			$config = 'default';
 		}
