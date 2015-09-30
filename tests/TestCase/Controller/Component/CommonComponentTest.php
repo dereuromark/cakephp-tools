@@ -133,7 +133,7 @@ class CommonComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testPostRedirect() {
-		$is = $this->Controller->Common->postRedirect(array('action' => 'foo'));
+		$is = $this->Controller->Common->postRedirect(['action' => 'foo']);
 		$is = $this->Controller->response->header();
 		$this->assertSame('/foo', $is['Location']);
 		$this->assertSame(302, $this->Controller->response->statusCode());
@@ -145,7 +145,7 @@ class CommonComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testAutoRedirect() {
-		$is = $this->Controller->Common->autoRedirect(array('action' => 'foo'));
+		$is = $this->Controller->Common->autoRedirect(['action' => 'foo']);
 		$is = $this->Controller->response->header();
 		$this->assertSame('/foo', $is['Location']);
 		$this->assertSame(200, $this->Controller->response->statusCode());
@@ -157,7 +157,7 @@ class CommonComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testAutoRedirectReferer() {
-		$is = $this->Controller->Common->autoRedirect(array('action' => 'foo'), true);
+		$is = $this->Controller->Common->autoRedirect(['action' => 'foo'], true);
 		$is = $this->Controller->response->header();
 		$this->assertSame('/foo', $is['Location']);
 		$this->assertSame(200, $this->Controller->response->statusCode());

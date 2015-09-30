@@ -27,8 +27,8 @@ class NeighborBehavior extends Behavior {
 	 * @var array
 	 * @link http://book.cakephp.org/2.0/en/models/saving-your-data.html#using-created-and-modified
 	 */
-	protected $_defaultConfig = array(
-	);
+	protected $_defaultConfig = [
+	];
 
 	public function neighbors($id, array $options = []) {
 		if (empty($id)) {

@@ -488,7 +488,7 @@ class TableTest extends TestCase {
 
 		$this->Posts->validator()->add('title', [
 			'validateUnique' => [
-				'rule' => ['validateUniqueExt', ['scope' => array('published')]],
+				'rule' => ['validateUniqueExt', ['scope' => ['published']]],
 				'message' => 'valErrRecordTitleExists',
 				'provider' => 'table'
 			],

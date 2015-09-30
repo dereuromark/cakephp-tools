@@ -11,7 +11,7 @@ class ConfirmableBehaviorTest extends TestCase {
 
 	public $ConfirmableBehavior;
 
-	public $fixtures = array('plugin.Tools.SluggedArticles');
+	public $fixtures = ['plugin.Tools.SluggedArticles'];
 
 	public function setUp() {
 		parent::setUp();
@@ -28,18 +28,18 @@ class ConfirmableBehaviorTest extends TestCase {
 
 		$animal = $this->Articles->newEntity();
 
-		$data = array(
+		$data = [
 			'name' => 'FooBar',
 			'confirm' => '0'
-		);
+		];
 		$animal = $this->Articles->patchEntity($animal, $data);
 		$this->assertNotEmpty($animal->errors());
-		$this->assertSame(array('confirm' => array('notEmpty' => __d('tools', 'Please confirm the checkbox'))), $animal->errors());
+		$this->assertSame(['confirm' => ['notEmpty' => __d('tools', 'Please confirm the checkbox')]], $animal->errors());
 
-		$data = array(
+		$data = [
 			'name' => 'FooBar',
 			'confirm' => '1'
-		);
+		];
 		$animal = $this->Articles->patchEntity($animal, $data);
 		$this->assertEmpty($animal->errors());
 	}
@@ -68,19 +68,19 @@ class ConfirmableBehaviorTest extends TestCase {
 
 		$animal = $this->Articles->newEntity();
 
-		$data = array(
+		$data = [
 			'name' => 'FooBar',
 			'confirm' => '0'
-		);
+		];
 		$animal = $this->Articles->patchEntity($animal, $data);
 		$this->assertNotEmpty($animal->errors());
 
-		$this->assertSame(array('confirm' => array('notEmpty' => __d('tools', 'Please confirm the checkbox'))), $animal->errors());
+		$this->assertSame(['confirm' => ['notEmpty' => __d('tools', 'Please confirm the checkbox')]], $animal->errors());
 
-		$data = array(
+		$data = [
 			'name' => 'FooBar',
 			'confirm' => '1'
-		);
+		];
 		$animal = $this->Articles->patchEntity($animal, $data);
 		$this->assertEmpty($animal->errors());
 	}
@@ -95,11 +95,11 @@ class ConfirmableBehaviorTest extends TestCase {
 		$this->Articles->addBehavior('Tools.Confirmable');
 
 		$animal = $this->Articles->newEntity();
-		$data = array(
+		$data = [
 			'name' => 'FooBar'
-		);
+		];
 		$animal = $this->Articles->patchEntity($animal, $data);
-		$this->assertSame(array('confirm' => array('_required' => 'This field is required')), $animal->errors());
+		$this->assertSame(['confirm' => ['_required' => 'This field is required']], $animal->errors());
 	}
 
 }
