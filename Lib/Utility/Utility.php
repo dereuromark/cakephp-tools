@@ -36,7 +36,7 @@ class Utility {
 	 * @param string $data The data to tokenize
 	 * @param string $separator The token to split the data on.
 	 * @param array $options
-	 * @return void
+	 * @return array
 	 */
 	public static function tokenize($data, $separator = ',', array $options = []) {
 		$defaults = [
@@ -485,24 +485,6 @@ class Utility {
 	 */
 	public static function specialcharsDeep($value) {
 		$value = is_array($value) ? array_map('self::specialcharsDeep', $value) : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-		return $value;
-	}
-
-	/**
-	 * Removes all except A-Z,a-z,0-9 and allowedChars (allowedChars array) recursivly
-	 *
-	 */
-	public static function paranoidDeep($value) {
-		$value = is_array($value) ? array_map('self::paranoidDeep', $value) : Sanatize::paranoid($value, $this->allowedChars);
-		return $value;
-	}
-
-	/**
-	 * Transfers/removes all < > from text (remove TRUE/FALSE)
-	 *
-	 */
-	public static function htmlDeep($value) {
-		$value = is_array($value) ? array_map('self::htmlDeep', $value) : Sanatize::html($value, $this->removeChars);
 		return $value;
 	}
 

@@ -124,8 +124,12 @@ class MyErrorHandler extends ErrorHandler {
 	 */
 	public static function traceDetails() {
 		if (empty($_SERVER['REQUEST_URI']) || strpos($_SERVER['REQUEST_URI'], '/test.php?') === 0) {
-			return null;
+			return '';
 		}
+		if (!class_exists('Utility') || !class_exists('Router')) {
+			return '';
+		}
+
 		$currentUrl = Router::url(); //isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : 'n/a';
 		$refererUrl = Utility::getReferer(); //Router::getRequest()->url().'
 		$uid = (!empty($_SESSION) && !empty($_SESSION['Auth']['User']['id'])) ? $_SESSION['Auth']['User']['id'] : null;
