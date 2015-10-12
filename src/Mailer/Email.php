@@ -19,6 +19,10 @@ class Email extends CakeEmail {
 
 	protected $_error = null;
 
+	protected $_debug = null;
+
+	protected $_log = [];
+
 	public function __construct($config = null) {
 		if ($config === null) {
 			$config = 'default';
@@ -29,8 +33,8 @@ class Email extends CakeEmail {
 	/**
 	 * Change the layout
 	 *
-	 * @param string $layout Layout to use (or false to use none)
-	 * @return resource EmailLib
+	 * @param string|bool $layout Layout to use (or false to use none)
+	 * @return self
 	 */
 	public function layout($layout = false) {
 		if ($layout !== false) {
@@ -42,8 +46,8 @@ class Email extends CakeEmail {
 	/**
 	 * Set/Get wrapLength
 	 *
-	 * @param int $length Must not be more than CakeEmail::LINE_LENGTH_MUST
-	 * @return int|CakeEmail
+	 * @param int|null $length Must not be more than CakeEmail::LINE_LENGTH_MUST
+	 * @return int|self
 	 */
 	public function wrapLength($length = null) {
 		if ($length === null) {
@@ -57,7 +61,7 @@ class Email extends CakeEmail {
 	 * Set/Get priority
 	 *
 	 * @param int $priority 1 (highest) to 5 (lowest)
-	 * @return int|CakeEmail
+	 * @return int|self
 	 */
 	public function priority($priority = null) {
 		if ($priority === null) {
@@ -71,7 +75,9 @@ class Email extends CakeEmail {
 	 * Fix line length
 	 *
 	 * @overwrite
+	 *
 	 * @param string $message Message to wrap
+	 * @param int $wrapLength
 	 * @return array Wrapped message
 	 */
 	protected function _wrap($message, $wrapLength = CakeEmail::LINE_LENGTH_MUST) {
@@ -99,7 +105,7 @@ class Email extends CakeEmail {
 	 * Ovewrite to allow custom enhancements
 	 *
 	 * @param mixed $config
-	 * @return null|$this
+	 * @return string|null|self
 	 */
 	public function profile($config = null) {
 		if ($config === null) {
@@ -131,7 +137,7 @@ class Email extends CakeEmail {
 	 * Overwrite to allow mimetype detection
 	 *
 	 * @param mixed $attachments
-	 * @return
+	 * @return self
 	 */
 	public function attachments($attachments = null) {
 		if ($attachments === null) {
@@ -174,9 +180,9 @@ class Email extends CakeEmail {
 	 * Add an attachment from file
 	 *
 	 * @param string $file: absolute path
-	 * @param string $filename
+	 * @param string $name
 	 * @param array $fileInfo
-	 * @return resource EmailLib
+	 * @return self
 	 */
 	public function addAttachment($file, $name = null, $fileInfo = []) {
 		$fileInfo['file'] = $file;
@@ -195,7 +201,7 @@ class Email extends CakeEmail {
 	 * @param string $filename to attach it
 	 * @param string $mimeType (leave it empty to get mimetype from $filename)
 	 * @param array $fileInfo
-	 * @return resource EmailLib
+	 * @return self
 	 */
 	public function addBlobAttachment($content, $filename, $mimeType = null, $fileInfo = []) {
 		if ($mimeType === null) {
@@ -216,10 +222,10 @@ class Email extends CakeEmail {
 	 * - contentDisposition
 	 *
 	 * @param string $file: absolute path
-	 * @param string $filename (optional)
+	 * @param string $name (optional)
 	 * @param string $contentId (optional)
 	 * @param array $options Options
-	 * @return mixed resource $EmailLib or string $contentId
+	 * @return string|self $contentId or $this
 	 */
 	public function addEmbeddedAttachment($file, $name = null, $contentId = null, $options = []) {
 		if (empty($name)) {
@@ -253,7 +259,7 @@ class Email extends CakeEmail {
 	 * @param string $mimeType (leave it empty to get mimetype from $filename)
 	 * @param string $contentId (optional)
 	 * @param array $options Options
-	 * @return mixed resource $EmailLib or string $contentId
+	 * @return string|self $contentId or $this
 	 */
 	public function addEmbeddedBlobAttachment($content, $filename, $mimeType = null, $contentId = null, $options = []) {
 		if ($mimeType === null) {
@@ -276,7 +282,9 @@ class Email extends CakeEmail {
 	 * to prevent the same image to overwrite each other and also to only send this image once.
 	 * Allows multiple usage of the same embedded image (using the same cid)
 	 *
-	 * @return string cid of the found file or false if no such attachment can be found
+	 * @param string $file
+	 * @param string $name
+	 * @return bool|string Cid of the found file or false if no such attachment can be found
 	 */
 	protected function _isEmbeddedAttachment($file, $name) {
 		foreach ($this->_attachments as $filename => $fileInfo) {
@@ -290,6 +298,11 @@ class Email extends CakeEmail {
 		return false;
 	}
 
+	/**
+	 * @param $ext
+	 * @param string $default
+	 * @return mixed
+	 */
 	protected function _getMimeByExtension($ext, $default = 'application/octet-stream') {
 		if (!isset($this->_Mime)) {
 			$this->_Mime = new Mime();

@@ -705,6 +705,8 @@ class Mime extends Response {
 
 	/**
 	 * Override constructor
+	 *
+	 * @param array $options
 	 */
 	public function __construct(array $options = []) {
 	}
@@ -712,6 +714,7 @@ class Mime extends Response {
 	/**
 	 * Get all mime types that are supported right now
 	 *
+	 * @param bool $coreHasPrecedence
 	 * @return array
 	 */
 	public function mimeTypes($coreHasPrecedence = false) {
@@ -822,8 +825,8 @@ class Mime extends Response {
 		if ($mimetype) {
 			return $mimetype;
 		}
-		$extension = $this->_getExtension($file);
-		if ($mimeType = $this->getMimeTypeByAlias($extension)) {
+		$extension = static::_getExtension($file);
+		if ($mimeType = static::getMimeTypeByAlias($extension)) {
 			return $mimeType;
 		}
 		return "application/octet-stream";
@@ -834,9 +837,9 @@ class Mime extends Response {
 	 *
 	 * @param string $file
 	 * @param string $default
-	 * @return void
+	 * @return string
 	 */
-	public function getEncoding($file = null, $default = 'utf-8') {
+	public static function getEncoding($file = null, $default = 'utf-8') {
 		if (!function_exists("finfo_open")) {
 			return $default;
 		}
@@ -855,7 +858,7 @@ class Mime extends Response {
 	 * @param String $file The full file name
 	 * @return String ext The file extension
 	 */
-	protected function _getExtension($file) {
+	protected static function _getExtension($file) {
 		$pieces = explode('.', $file);
 		$ext = strtolower(array_pop($pieces));
 		return $ext;
