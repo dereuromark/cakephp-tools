@@ -23,6 +23,9 @@ class Email extends CakeEmail {
 
 	protected $_log = [];
 
+	/**
+	 * @param string|null $config
+     */
 	public function __construct($config = null) {
 		if ($config === null) {
 			$config = 'default';
@@ -60,7 +63,7 @@ class Email extends CakeEmail {
 	/**
 	 * Set/Get priority
 	 *
-	 * @param int $priority 1 (highest) to 5 (lowest)
+	 * @param int|null $priority 1 (highest) to 5 (lowest)
 	 * @return int|self
 	 */
 	public function priority($priority = null) {
@@ -180,7 +183,7 @@ class Email extends CakeEmail {
 	 * Add an attachment from file
 	 *
 	 * @param string $file: absolute path
-	 * @param string $name
+	 * @param string|null $name
 	 * @param array $fileInfo
 	 * @return self
 	 */
@@ -199,7 +202,7 @@ class Email extends CakeEmail {
 	 *
 	 * @param binary $content: blob data
 	 * @param string $filename to attach it
-	 * @param string $mimeType (leave it empty to get mimetype from $filename)
+	 * @param string|null $mimeType (leave it empty to get mimetype from $filename)
 	 * @param array $fileInfo
 	 * @return self
 	 */
@@ -222,12 +225,12 @@ class Email extends CakeEmail {
 	 * - contentDisposition
 	 *
 	 * @param string $file: absolute path
-	 * @param string $name (optional)
-	 * @param string $contentId (optional)
+	 * @param string|null $name (optional)
+	 * @param string|null $contentId (optional)
 	 * @param array $options Options
 	 * @return string|self $contentId or $this
 	 */
-	public function addEmbeddedAttachment($file, $name = null, $contentId = null, $options = []) {
+	public function addEmbeddedAttachment($file, $name = null, $contentId = null, array $options = []) {
 		if (empty($name)) {
 			$name = basename($file);
 		}
@@ -256,12 +259,12 @@ class Email extends CakeEmail {
 	 *
 	 * @param binary $content: blob data
 	 * @param string $filename to attach it
-	 * @param string $mimeType (leave it empty to get mimetype from $filename)
-	 * @param string $contentId (optional)
+	 * @param string|null $mimeType (leave it empty to get mimetype from $filename)
+	 * @param string|null $contentId (optional)
 	 * @param array $options Options
 	 * @return string|self $contentId or $this
 	 */
-	public function addEmbeddedBlobAttachment($content, $filename, $mimeType = null, $contentId = null, $options = []) {
+	public function addEmbeddedBlobAttachment($content, $filename, $mimeType = null, $contentId = null, array $options = []) {
 		if ($mimeType === null) {
 			$ext = pathinfo($filename, PATHINFO_EXTENSION);
 			$mimeType = $this->_getMimeByExtension($ext);
@@ -317,8 +320,8 @@ class Email extends CakeEmail {
 	/**
 	 * Try to find mimetype by file extension
 	 *
-	 * @param string $ext lowercase (jpg, png, pdf, ...)
-	 * @param string $defaultMimeType
+	 * @param string $filename File name
+	 * @param string $default default MimeType
 	 * @return string Mimetype (falls back to `application/octet-stream`)
 	 */
 	protected function _getMime($filename, $default = 'application/octet-stream') {
@@ -374,7 +377,7 @@ class Email extends CakeEmail {
 	 * Do NOT pass a message if you use $this->set() in combination with templates
 	 *
 	 * @overwrite
-	 * @param string/array: message
+	 * @param string|array|null $message Message
 	 * @return bool Success
 	 */
 	public function send($message = null) {
@@ -476,7 +479,7 @@ class Email extends CakeEmail {
 	 * CUSTOM FIX: blob data support
 	 *
 	 * @override
-	 * @param string $boundary Boundary to use. If null, will default to $this->_boundary
+	 * @param string|null $boundary Boundary to use. If null, will default to $this->_boundary
 	 * @return array An array of lines to add to the message
 	 */
 	protected function _attachInlineFiles($boundary = null) {
@@ -516,7 +519,7 @@ class Email extends CakeEmail {
 	 * CUSTOM FIX: blob data support
 	 *
 	 * @override
-	 * @param string $boundary Boundary to use. If null, will default to $this->_boundary
+	 * @param string|null $boundary Boundary to use. If null, will default to $this->_boundary
 	 * @return array An array of lines to add to the message
 	 */
 	protected function _attachFiles($boundary = null) {
