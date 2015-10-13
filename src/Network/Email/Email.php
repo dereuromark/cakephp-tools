@@ -222,7 +222,7 @@ class Email extends ToolsEmail {
 	 * @param array $options Options
 	 * @return mixed resource $EmailLib or string $contentId
 	 */
-	public function addEmbeddedAttachment($file, $name = null, $contentId = null, $options = []) {
+	public function addEmbeddedAttachment($file, $name = null, $contentId = null, array $options = []) {
 		if (empty($name)) {
 			$name = basename($file);
 		}
@@ -256,7 +256,7 @@ class Email extends ToolsEmail {
 	 * @param array $options Options
 	 * @return mixed resource $EmailLib or string $contentId
 	 */
-	public function addEmbeddedBlobAttachment($content, $filename, $mimeType = null, $contentId = null, $options = []) {
+	public function addEmbeddedBlobAttachment($content, $filename, $mimeType = null, $contentId = null, array $options = []) {
 		if ($mimeType === null) {
 			$ext = pathinfo($filename, PATHINFO_EXTENSION);
 			$mimeType = $this->_getMimeByExtension($ext);
