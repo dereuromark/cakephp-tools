@@ -6,15 +6,7 @@ use Cake\ORM\Query;
 use Cake\Utility\Hash;
 
 /**
- * WhoDidIt Behavior
- *
- * Handles created_by, modified_by fields for a given Model, if they exist in the Model DB table.
- * It's similar to the created, modified automagic, but it stores the id of the logged in user
- * in the models that have $actsAs = array('WhoDidIt').
- *
- * This is useful to track who created records, and the last user that has changed them.
- *
- * @link http://book.cakephp.org/2.0/en/models/saving-your-data.html#using-created-and-modified
+ * Neighbor Behavior
  */
 class NeighborBehavior extends Behavior {
 
