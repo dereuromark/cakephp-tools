@@ -105,6 +105,7 @@ class WhoDidItBehavior extends ModelBehavior {
 	 * @param Model $Model The Model using this behavior
 	 * @param array $options Options passed from Model::save(), unused.
 	 * @return mixed False if the operation should abort. Any other result will continue.
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
 	 */
 	public function beforeSave(Model $Model, $options = []) {
 		$config = $this->settings[$Model->alias];
