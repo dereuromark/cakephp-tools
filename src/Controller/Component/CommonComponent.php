@@ -83,7 +83,8 @@ class CommonComponent extends Component {
 	 * Add component just in time (inside actions - only when needed)
 	 * aware of plugins and config array (if passed)
 	 *
-	 * @param mixed $components (single string or multiple array)
+	 * @param string $component Component
+	 * @param array $config
 	 * @param bool $callbacks (defaults to true)
 	 * @return void
 	 */
@@ -115,7 +116,7 @@ class CommonComponent extends Component {
 	/**
 	 * Returns defaultUrlParams including configured prefixes.
 	 *
-	 * @return array Url params
+	 * @return array URL params
 	 */
 	public static function defaultUrlParams() {
 		$defaults = ['plugin' => false];
@@ -131,7 +132,7 @@ class CommonComponent extends Component {
 	 * Necessary for Router::url() and comparison of urls to work.
 	 *
 	 * @param bool $asString: defaults to false = array
-	 * @return mixed Url
+	 * @return mixed URL
 	 */
 	public function currentUrl($asString = false) {
 		if (isset($this->Controller->request->params['prefix']) && mb_strpos($this->Controller->request->params['action'], $this->Controller->request->params['prefix']) === 0) {
@@ -153,10 +154,10 @@ class CommonComponent extends Component {
 	 * Smart Referer Redirect - will try to use an existing referer first
 	 * otherwise it will use the default url
 	 *
-	 * @param mixed $url
+	 * @param mixed $url URL
 	 * @param bool $allowSelf if redirect to the same controller/action (url) is allowed
 	 * @param int $status
-	 * @return void|Response
+	 * @return Response
 	 */
 	public function autoRedirect($whereTo, $allowSelf = false, $status = null) {
 		if ($allowSelf || $this->Controller->referer(null, true) !== '/' . $this->Controller->request->url) {
@@ -172,9 +173,10 @@ class CommonComponent extends Component {
 	 * TODO: change to 303 with backwardscompatability for older browsers...
 	 *
 	 * @see http://en.wikipedia.org/wiki/Post/Redirect/Get
-	 * @param mixed $url
+	 *
+	 * @param mixed $url URL
 	 * @param int $status
-	 * @return void|Response
+	 * @return Response
 	 */
 	public function postRedirect($whereTo, $status = 302) {
 		return $this->Controller->redirect($whereTo, $status);
@@ -183,10 +185,11 @@ class CommonComponent extends Component {
 	/**
 	 * Combine auto with post
 	 * also allows whitelisting certain actions for autoRedirect (use Controller::$autoRedirectActions)
-	 * @param mixed $url
+	 *
+	 * @param mixed $whereTo URL
 	 * @param bool $conditionalAutoRedirect false to skip whitelisting
 	 * @param int $status
-	 * @return void|Response
+	 * @return Response
 	 */
 	public function autoPostRedirect($whereTo, $conditionalAutoRedirect = true, $status = 302) {
 		$referer = $this->Controller->referer($whereTo, true);
