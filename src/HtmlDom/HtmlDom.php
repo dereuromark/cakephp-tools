@@ -13,19 +13,19 @@ use Yangqi\Htmldom\Htmldom as BaseHtmlDom;
 class HtmlDom extends BaseHtmlDom {
 
 	/**
-	 * @param url or path to file content
+	 * @param string $url URL or path to file content
 	 * @return object Dom
 	 */
-	public static function domFromFile($url) {
-		return static::file_get_html($url);
+	public function domFromFile($url) {
+		return parent::file_get_html($url);
 	}
 
 	/**
 	 * @param string $content
 	 * @return object Dom
 	 */
-	public static function domFromString($str, $lowercase = true) {
-		return static::str_get_html($str, $lowercase);
+	public function domFromString($str, $lowercase = true) {
+		return parent::str_get_html($str, $lowercase);
 	}
 
 }
