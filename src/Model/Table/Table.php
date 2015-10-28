@@ -15,6 +15,35 @@ use Cake\Routing\Router;
 
 class Table extends ShimTable {
 
+	/**
+	 * @param array $entities
+	 * @return bool
+	 */
+	public function validateAll(array $entities) {
+		foreach ($entities as $entity) {
+			if ($entity->errors()) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param array $entities
+	 * @return bool
+	 */
+	public function saveAll(array $entities) {
+		$result = true;
+		foreach ($entities as $entity) {
+			if (!$this->save($entity)) {
+				$result = false;
+			}
+		}
+
+		return $result;
+	}
+
 /**
  * Validator method used to check the uniqueness of a value for a column.
  * This is meant to be used with the validation API and not to be called
