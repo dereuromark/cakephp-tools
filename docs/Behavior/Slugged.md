@@ -49,7 +49,7 @@ $this->addBehavior('Tools.Slugged', $config);
 We want to store categories and we need a slug for nice SEO URLs like `/category/[slugname]/`.
 
 ```php
-$this->addBehavior('Tools.Jsonable',
+$this->addBehavior('Tools.Slugged',
 	array('label' => 'name', 'unique' => true, 'mode' => 'ascii'));
 ```
 
@@ -68,7 +68,7 @@ Once that boolean checkbox is clicked it will then perform the slug update on sa
 ### Non persistent slugs
 If we just append the slug to the URL, such as `/category/123-[slugname]`, then we don't need to persist the slug.
 ```php
-$this->addBehavior('Tools.Jsonable',
+$this->addBehavior('Tools.Slugged',
 	array('label' => 'name', 'overwrite' => true, 'mode' => 'ascii'));
 ```
 Note that we don't need "unique" either then.
