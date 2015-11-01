@@ -36,20 +36,6 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * Called after the Controller::beforeRender(), after the view class is loaded, and before the
-	 * Controller::render()
-	 *
-	 * @param object $Controller Controller with components to beforeRender
-	 * @return void
-	 */
-	public function beforeRender(Event $event) {
-		// Custom options
-		if (isset($Controller->options)) {
-			$Controller->set('options', $Controller->options);
-		}
-	}
-
-	/**
 	 * List all direct actions of a controller
 	 *
 	 * @return array Actions
