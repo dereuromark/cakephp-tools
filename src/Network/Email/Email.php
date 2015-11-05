@@ -75,7 +75,7 @@ class Email extends ToolsEmail {
 	 * @param string $message Message to wrap
 	 * @return array Wrapped message
 	 */
-	protected function _wrap($message, $wrapLength = CakeEmail::LINE_LENGTH_MUST) {
+	protected function _wrap($message, $wrapLength = Email::LINE_LENGTH_MUST) {
 		if ($this->_wrapLength !== null) {
 			$wrapLength = $this->_wrapLength;
 		}
