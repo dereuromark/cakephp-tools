@@ -39,13 +39,13 @@ class TimeHelperTest extends TestCase {
 		$this->assertTrue($res >= 3 && $res <= 5);
 
 		$res = $this->Time->userAge('2023-01-01');
-		$this->assertSame('---', $res);
+		$this->assertSame('', $res);
 
 		$res = $this->Time->userAge('1903-01-01');
-		$this->assertSame('---', $res);
+		$this->assertSame('', $res);
 
 		$res = $this->Time->userAge('1901-01-01');
-		$this->assertSame('---', $res);
+		$this->assertSame('', $res);
 	}
 
 	/**
