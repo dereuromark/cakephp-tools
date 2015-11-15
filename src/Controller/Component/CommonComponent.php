@@ -143,7 +143,7 @@ class CommonComponent extends Component {
 	 * @param mixed $url URL
 	 * @param bool $allowSelf if redirect to the same controller/action (url) is allowed
 	 * @param int $status
-	 * @return Response
+	 * @return \Cake\Network\Response
 	 */
 	public function autoRedirect($whereTo, $allowSelf = false, $status = null) {
 		if ($allowSelf || $this->Controller->referer(null, true) !== '/' . $this->Controller->request->url) {
@@ -162,7 +162,7 @@ class CommonComponent extends Component {
 	 *
 	 * @param mixed $url URL
 	 * @param int $status
-	 * @return Response
+	 * @return \Cake\Network\Response
 	 */
 	public function postRedirect($whereTo, $status = 302) {
 		return $this->Controller->redirect($whereTo, $status);
@@ -175,7 +175,7 @@ class CommonComponent extends Component {
 	 * @param mixed $whereTo URL
 	 * @param bool $conditionalAutoRedirect false to skip whitelisting
 	 * @param int $status
-	 * @return Response
+	 * @return \Cake\Network\Response
 	 */
 	public function autoPostRedirect($whereTo, $conditionalAutoRedirect = true, $status = 302) {
 		$referer = $this->Controller->referer($whereTo, true);
@@ -223,7 +223,7 @@ class CommonComponent extends Component {
 	 * @param mixed $url
 	 * @param int $status
 	 * @param bool $exit
-	 * @return void
+	 * @return \Cake\Network\Response
 	 */
 	public function completeRedirect($url = null, $status = null) {
 		if ($url === null) {
