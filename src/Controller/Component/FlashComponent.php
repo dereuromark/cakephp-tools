@@ -1,6 +1,7 @@
 <?php
 namespace Tools\Controller\Component;
 
+use Cake\Network\Exception\InternalErrorException;
 use Shim\Controller\Component\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
@@ -13,6 +14,11 @@ use Cake\Utility\Inflector;
  * @author Mark Scherer
  * @copyright 2014 Mark Scherer
  * @license MIT
+ *
+ * @method void success(string $message, array $options = []) Set a message using "success" element
+ * @method void error(string $message, array $options = []) Set a message using "error" element
+ * @method void warning(string $message, array $options = []) Set a message using "warning" element
+ * @method void info(string $message, array $options = []) Set a message using "info" element
  */
 class FlashComponent extends Component {
 

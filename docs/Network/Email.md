@@ -19,8 +19,8 @@ An enhanced class to
 ## Configs
 First, replace the use statement in the bootstrap:
 ```php
-//use Cake\Network\Email\Email;
-use Tools\Network\Email\Email;
+//use Cake\Mailer\Email;
+use Tools\Mailer\Email;
 ```
 The other two lines can stay as they are:
 ```php

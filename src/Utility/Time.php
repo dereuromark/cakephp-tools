@@ -535,9 +535,13 @@ class Time extends CakeTime {
 		if ($options['timezone']) {
 			$options['timezone'] = static::safeCreateDateTimeZone($options['timezone']);
 		}
-		$date = new \DateTime($dateString, $options['timezone']);
+
+		if (!is_object($dateString)) {
+			$date = new \DateTime($dateString, $options['timezone']);
+		} else {
+			$date = $dateString;
+		}
 		$date = $date->format('U');
-		//$date = static::fromString($dateString, $options['timezone']);
 
 		if ($date === null || $date === false || $date <= 0) {
 			return $options['default'];
@@ -557,7 +561,6 @@ class Time extends CakeTime {
 			switch ($format) {
 				case FORMAT_NICE_YMDHM:
 				case FORMAT_NICE_YMDHMS:
-				case FORMAT_NICE_YMDHM:
 				case FORMAT_NICE_HM:
 				case FORMAT_NICE_HMS:
 					$ret .= ' ' . __d('tools', 'o\'clock');
