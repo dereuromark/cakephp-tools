@@ -12,27 +12,27 @@ class ImageFixture extends CakeTestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = array(
-		'id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'name' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'description' => array('type' => 'text', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'is_master' => array('type' => 'boolean', 'null' => false, 'default' => null, 'collate' => null, 'comment' => ''),
-		'filename' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'model' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'foreign_id' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 36, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-		'tableParameters' => array()
-	);
+	public $fields = [
+		'id' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'name' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'description' => ['type' => 'text', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'is_master' => ['type' => 'boolean', 'null' => false, 'default' => null, 'collate' => null, 'comment' => ''],
+		'filename' => ['type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'model' => ['type' => 'string', 'null' => false, 'default' => null, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'foreign_id' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 36, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'created' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
+		'modified' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
+		'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1]],
+		'tableParameters' => []
+	];
 
 	/**
 	 * Records
 	 *
 	 * @var array
 	 */
-	public $records = array(
-		array(
+	public $records = [
+		[
 			'id' => '4e0db616-1378-475f-8cd2-0c707cb063f2',
 			'name' => 'Burger',
 			'description' => '',
@@ -42,8 +42,8 @@ class ImageFixture extends CakeTestFixture {
 			'foreign_id' => '112',
 			'created' => '2011-07-01 13:57:10',
 			'modified' => '2011-07-01 13:57:10'
-		),
-		array(
+		],
+		[
 			'id' => '4e0db616-bf60-4418-9c39-0c707cb063f2',
 			'name' => 'Chili Con Carne',
 			'description' => '',
@@ -53,8 +53,8 @@ class ImageFixture extends CakeTestFixture {
 			'foreign_id' => '108',
 			'created' => '2011-07-01 13:57:10',
 			'modified' => '2011-07-01 13:57:10'
-		),
-		array(
+		],
+		[
 			'id' => '4e0db616-7b0c-487a-bd8c-0c707cb063f2',
 			'name' => 'Currywurst',
 			'description' => '',
@@ -64,8 +64,8 @@ class ImageFixture extends CakeTestFixture {
 			'foreign_id' => '63',
 			'created' => '2011-07-01 13:57:10',
 			'modified' => '2011-07-01 13:57:10'
-		),
-		array(
+		],
+		[
 			'id' => '4e0db616-db7c-47b6-a4ae-0c707cb063f2',
 			'name' => 'Dampfnudeln',
 			'description' => '',
@@ -75,8 +75,8 @@ class ImageFixture extends CakeTestFixture {
 			'foreign_id' => '31',
 			'created' => '2011-07-01 13:57:10',
 			'modified' => '2011-07-01 13:57:10'
-		),
-		array(
+		],
+		[
 			'id' => '4e0db617-0a40-4607-94c5-0c707cb063f2',
 			'name' => 'Enchilada',
 			'description' => '',
@@ -86,8 +86,8 @@ class ImageFixture extends CakeTestFixture {
 			'foreign_id' => '109',
 			'created' => '2011-07-01 13:57:11',
 			'modified' => '2011-07-01 13:57:11'
-		),
-		array(
+		],
+		[
 			'id' => '4e0db617-e104-476e-b264-0c707cb063f2',
 			'name' => 'Entenfleisch',
 			'description' => '',
@@ -97,8 +97,8 @@ class ImageFixture extends CakeTestFixture {
 			'foreign_id' => '52',
 			'created' => '2011-07-01 13:57:11',
 			'modified' => '2011-07-01 13:57:11'
-		),
-		array(
+		],
+		[
 			'id' => '4e0db617-b7ac-4e25-99a8-0c707cb063f2',
 			'name' => 'Griechischer Salat',
 			'description' => '',
@@ -108,8 +108,8 @@ class ImageFixture extends CakeTestFixture {
 			'foreign_id' => '99',
 			'created' => '2011-07-01 13:57:11',
 			'modified' => '2011-07-01 13:57:11'
-		),
-		array(
+		],
+		[
 			'id' => '4e0db617-17e4-4755-a2c1-0c707cb063f2',
 			'name' => 'Gyros',
 			'description' => '',
@@ -119,8 +119,8 @@ class ImageFixture extends CakeTestFixture {
 			'foreign_id' => '81',
 			'created' => '2011-07-01 13:57:11',
 			'modified' => '2011-07-01 13:57:11'
-		),
-		array(
+		],
+		[
 			'id' => '4e0db617-88bc-4e5c-af7c-0c707cb063f2',
 			'name' => 'Hähnchenschnitzel',
 			'description' => '',
@@ -130,8 +130,8 @@ class ImageFixture extends CakeTestFixture {
 			'foreign_id' => '33',
 			'created' => '2011-07-01 13:57:11',
 			'modified' => '2011-07-01 13:57:11'
-		),
-		array(
+		],
+		[
 			'id' => '4e0db617-f5a0-450a-ab52-0c707cb063f2',
 			'name' => 'Hühnerfleisch',
 			'description' => '',
@@ -141,6 +141,6 @@ class ImageFixture extends CakeTestFixture {
 			'foreign_id' => '72',
 			'created' => '2011-07-01 13:57:11',
 			'modified' => '2011-07-01 13:57:11'
-		),
-	);
+		],
+	];
 }

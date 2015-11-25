@@ -49,15 +49,15 @@ class TimeLib extends CakeTime {
 	 * @return DateTimeZone Timezone object
 	 */
 	public static function timezoneByCoordinates($lat, $lng) {
-		$current = array('timezone' => null, 'distance' => 0);
+		$current = ['timezone' => null, 'distance' => 0];
 		$identifiers = DateTimeZone::listIdentifiers();
 		foreach ($identifiers as $identifier) {
 			$timezone = new DateTimeZone($identifier);
 			$location = $timezone->getLocation();
-			$point = array('lat' => $location['latitude'], 'lng' => $location['longitude']);
+			$point = ['lat' => $location['latitude'], 'lng' => $location['longitude']];
 			$distance = (int)GeocodeLib::calculateDistance(compact('lat', 'lng'), $point);
 			if (!$current['distance'] || $distance < $current['distance']) {
-				$current = array('timezone' => $identifier, 'distance' => $distance);
+				$current = ['timezone' => $identifier, 'distance' => $distance];
 			}
 		}
 		return $current['timezone'];
@@ -74,7 +74,7 @@ class TimeLib extends CakeTime {
 	 * @param mixex §end (db format or timestamp)
 	 * @return int: the distance in seconds
 	 */
-	public static function difference($startTime, $endTime = null, $options = array()) {
+	public static function difference($startTime, $endTime = null, $options = []) {
 		if (!is_int($startTime)) {
 			$startTime = strtotime($startTime);
 		}
@@ -127,14 +127,14 @@ class TimeLib extends CakeTime {
 		if ($month === null) {
 			$maxAge = static::age(mktime(0, 0, 0, 1, 1, $year));
 			$minAge = static::age(mktime(23, 59, 59, 12, 31, $year));
-			$ages = array_unique(array($minAge, $maxAge));
+			$ages = array_unique([$minAge, $maxAge]);
 			return implode('/', $ages);
 		}
 		if (date('n') == $month) {
 			$maxAge = static::age(mktime(0, 0, 0, $month, 1, $year));
 			$minAge = static::age(mktime(23, 59, 59, $month, static::daysInMonth($year, $month), $year));
 
-			$ages = array_unique(array($minAge, $maxAge));
+			$ages = array_unique([$minAge, $maxAge]);
 			return implode('/', $ages);
 		}
 		return static::age(mktime(0, 0, 0, $month, 1, $year));
@@ -154,7 +154,7 @@ class TimeLib extends CakeTime {
 
 		if ($sign == ZodiacLib::SIGN_CAPRICORN) {
 			// undefined
-			return array(date('Y') - $year - 1, date('Y') - $year);
+			return [date('Y') - $year - 1, date('Y') - $year];
 		}
 		if ($range[0][0] > date('m') || ($range[0][0] == date('m') && $range[0][1] > date('d'))) {
 			// not over
@@ -164,7 +164,7 @@ class TimeLib extends CakeTime {
 			// over
 			return date('Y') - $year;
 		}
-		return array(date('Y') - $year - 1, date('Y') - $year);
+		return [date('Y') - $year - 1, date('Y') - $year];
 	}
 
 	/**
@@ -204,7 +204,7 @@ class TimeLib extends CakeTime {
 		if ($lowerRange == $upperRange) {
 			return $upperRange;
 		}
-		return array($lowerRange, $upperRange);
+		return [$lowerRange, $upperRange];
 	}
 
 	/**
@@ -406,7 +406,7 @@ class TimeLib extends CakeTime {
 			$max = date(FORMAT_DB_DATE, $max);
 			$min = date(FORMAT_DB_DATE, $min);
 		}
-		return array('min' => $min, 'max' => $max);
+		return ['min' => $min, 'max' => $max];
 	}
 
 	/**
@@ -434,8 +434,8 @@ class TimeLib extends CakeTime {
 	 * @param array $options @return string
 	 * @return string
 	 */
-	public static function localDate($dateString = null, $format = null, $options = array()) {
-		$defaults = array('default' => '-----', 'timezone' => null);
+	public static function localDate($dateString = null, $format = null, $options = []) {
+		$defaults = ['default' => '-----', 'timezone' => null];
 		$options += $defaults;
 
 		if ($options['timezone'] === null && strlen($dateString) === 10) {
@@ -487,8 +487,8 @@ class TimeLib extends CakeTime {
 	 * @param array $options Options
 	 * @return string
 	 */
-	public static function niceDate($dateString = null, $format = null, $options = array()) {
-		$defaults = array('default' => '-----', 'timezone' => null);
+	public static function niceDate($dateString = null, $format = null, $options = []) {
+		$defaults = ['default' => '-----', 'timezone' => null];
 		$options += $defaults;
 
 		if ($options['timezone'] === null && strlen($dateString) === 10) {
@@ -551,8 +551,8 @@ class TimeLib extends CakeTime {
 	 * @return string translatedText
 	 */
 	public static function day($day, $abbr = false, $offset = 0) {
-		$days = array(
-			'long' => array(
+		$days = [
+			'long' => [
 				'Sunday',
 				'Monday',
 				'Tuesday',
@@ -560,8 +560,8 @@ class TimeLib extends CakeTime {
 				'Thursday',
 				'Friday',
 				'Saturday'
-			),
-			'short' => array(
+			],
+			'short' => [
 				'Sun',
 				'Mon',
 				'Tue',
@@ -569,8 +569,8 @@ class TimeLib extends CakeTime {
 				'Thu',
 				'Fri',
 				'Sat'
-			)
-		);
+			]
+		];
 		$day = (int)$day;
 		//pr($day);
 		if ($offset) {
@@ -593,9 +593,9 @@ class TimeLib extends CakeTime {
 	 * - appendDot (only for 3 letter abbr; defaults to false)
 	 * @return string translatedText
 	 */
-	public static function month($month, $abbr = false, $options = array()) {
-		$months = array(
-			'long' => array(
+	public static function month($month, $abbr = false, $options = []) {
+		$months = [
+			'long' => [
 				'January',
 				'February',
 				'March',
@@ -608,8 +608,8 @@ class TimeLib extends CakeTime {
 				'October',
 				'November',
 				'December'
-			),
-			'short' => array(
+			],
+			'short' => [
 				'Jan',
 				'Feb',
 				'Mar',
@@ -622,8 +622,8 @@ class TimeLib extends CakeTime {
 				'Oct',
 				'Nov',
 				'Dec'
-			),
-		);
+			],
+		];
 		$month = (int)($month - 1);
 		if (!$abbr) {
 			return __d('tools', $months['long'][$month]);
@@ -640,11 +640,11 @@ class TimeLib extends CakeTime {
 	 *
 	 * @return array (for forms etc)
 	 */
-	public static function months($monthKeys = array(), $options = array()) {
+	public static function months($monthKeys = [], $options = []) {
 		if (!$monthKeys) {
 			$monthKeys = range(1, 12);
 		}
-		$res = array();
+		$res = [];
 		$abbr = isset($options['abbr']) ? $options['abbr'] : false;
 		foreach ($monthKeys as $key) {
 			$res[static::pad($key)] = static::month($key, $abbr, $options);
@@ -657,11 +657,11 @@ class TimeLib extends CakeTime {
 	 *
 	 * @return array (for forms etc)
 	 */
-	public static function days($dayKeys = array(), $options = array()) {
+	public static function days($dayKeys = [], $options = []) {
 		if (!$dayKeys) {
 			$dayKeys = range(0, 6);
 		}
-		$res = array();
+		$res = [];
 		$abbr = isset($options['abbr']) ? $options['abbr'] : false;
 		$offset = isset($options['offset']) ? $options['offset'] : 0;
 		foreach ($dayKeys as $key) {
@@ -764,34 +764,34 @@ class TimeLib extends CakeTime {
 	 * 2009-11-21 ms
 	 * @see timeAgoInWords()
 	 */
-	public static function lengthOfTime($seconds, $format = null, $options = array()) {
-		$defaults = array('verbose' => true, 'zero' => false, 'separator' => ', ', 'default' => '');
+	public static function lengthOfTime($seconds, $format = null, $options = []) {
+		$defaults = ['verbose' => true, 'zero' => false, 'separator' => ', ', 'default' => ''];
 		$options += $defaults;
 
 		if (!$options['verbose']) {
-			$s = array(
+			$s = [
 				'm' => 'mth',
 				'd' => 'd',
 				'h' => 'h',
 				'i' => 'm',
 				's' => 's'
-			);
+			];
 			$p = $s;
 		} else {
-			$s = array(
+			$s = [
 		'm' => ' ' . __d('tools', 'Month'), # translated
 				'd' => ' ' . __d('tools', 'Day'),
 				'h' => ' ' . __d('tools', 'Hour'),
 				'i' => ' ' . __d('tools', 'Minute'),
 				's' => ' ' . __d('tools', 'Second'),
-			);
-			$p = array(
+			];
+			$p = [
 		'm' => ' ' . __d('tools', 'Months'), # translated
 				'd' => ' ' . __d('tools', 'Days'),
 				'h' => ' ' . __d('tools', 'Hours'),
 				'i' => ' ' . __d('tools', 'Minutes'),
 				's' => ' ' . __d('tools', 'Seconds'),
-			);
+			];
 		}
 
 		if (!isset($format)) {
@@ -877,7 +877,7 @@ class TimeLib extends CakeTime {
 	 * - verbose/past/future: string with %s or boolean true/false
 	 * @return string
 	 */
-	public static function relLengthOfTime($dateString, $format = null, $options = array()) {
+	public static function relLengthOfTime($dateString, $format = null, $options = []) {
 		if ($dateString !== null) {
 			$timezone = null;
 			$sec = time() - static::fromString($dateString, $timezone);
@@ -888,9 +888,9 @@ class TimeLib extends CakeTime {
 			$type = 0;
 		}
 
-		$defaults = array(
+		$defaults = [
 			'verbose' => __d('tools', 'justNow'), 'zero' => false, 'separator' => ', ',
-			'future' => __d('tools', 'In %s'), 'past' => __d('tools', '%s ago'), 'default' => '');
+			'future' => __d('tools', 'In %s'), 'past' => __d('tools', '%s ago'), 'default' => ''];
 		$options += $defaults;
 
 		$ret = static::lengthOfTime($sec, $format, $options);
@@ -899,13 +899,13 @@ class TimeLib extends CakeTime {
 			if ($options['future'] !== false) {
 				return sprintf($options['future'], $ret);
 			}
-			return array('future' => $ret);
+			return ['future' => $ret];
 		}
 		if ($type == -1) {
 			if ($options['past'] !== false) {
 				return sprintf($options['past'], $ret);
 			}
-			return array('past' => $ret);
+			return ['past' => $ret];
 		}
 		if ($options['verbose'] !== false) {
 			return $options['verbose'];
@@ -988,13 +988,13 @@ class TimeLib extends CakeTime {
 	 */
 	public static function parseLocalizedDate($date, $format = null, $type = 'start') {
 		$date = trim($date);
-		$i18n = array(
-			strtolower(__d('tools', 'Today')) => array('start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')))),
-			strtolower(__d('tools', 'Tomorrow')) => array('start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y')) + DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')) + DAY)),
-			strtolower(__d('tools', 'Yesterday')) => array('start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y')) - DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')) - DAY)),
-			strtolower(__d('tools', 'The day after tomorrow')) => array('start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y')) + 2 * DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')) + 2 * DAY)),
-			strtolower(__d('tools', 'The day before yesterday')) => array('start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y')) - 2 * DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')) - 2 * DAY)),
-		);
+		$i18n = [
+			strtolower(__d('tools', 'Today')) => ['start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y'))), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')))],
+			strtolower(__d('tools', 'Tomorrow')) => ['start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y')) + DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')) + DAY)],
+			strtolower(__d('tools', 'Yesterday')) => ['start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y')) - DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')) - DAY)],
+			strtolower(__d('tools', 'The day after tomorrow')) => ['start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y')) + 2 * DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')) + 2 * DAY)],
+			strtolower(__d('tools', 'The day before yesterday')) => ['start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, date('m'), date('d'), date('Y')) - 2 * DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, date('m'), date('d'), date('Y')) - 2 * DAY)],
+		];
 		if (isset($i18n[strtolower($date)])) {
 			return $i18n[strtolower($date)][$type];
 		}
@@ -1014,7 +1014,7 @@ class TimeLib extends CakeTime {
 		} elseif (strpos($date, '-') !== false) {
 			$explode = explode('-', $date, 3);
 		} else {
-			$explode = array($date);
+			$explode = [$date];
 		}
 		if ($explode) {
 			for ($i = 0; $i < count($explode); $i++) {
@@ -1043,12 +1043,12 @@ class TimeLib extends CakeTime {
 	 * - format (defaults to Y-m-d H:i:s)
 	 * @return array period [0=>min, 1=>max]
 	 */
-	public static function period($string, $options = array()) {
+	public static function period($string, $options = []) {
 		if (strpos($string, ' ') !== false) {
 			$filters = explode(' ', $string);
-			$filters = array(array_shift($filters), array_pop($filters));
+			$filters = [array_shift($filters), array_pop($filters)];
 		} else {
-			$filters = array($string, $string);
+			$filters = [$string, $string];
 		}
 		$min = $filters[0];
 		$max = $filters[1];
@@ -1056,7 +1056,7 @@ class TimeLib extends CakeTime {
 		$min = static::parseLocalizedDate($min);
 		$max = static::parseLocalizedDate($max, null, 'end');
 
-		return array($min, $max);
+		return [$min, $max];
 	}
 
 	/**
@@ -1067,7 +1067,7 @@ class TimeLib extends CakeTime {
 	 * @param array $options (see TimeLib::period)
 	 * @return string query SQL Query
 	 */
-	public static function periodAsSql($string, $fieldName, $options = array()) {
+	public static function periodAsSql($string, $fieldName, $options = []) {
 		$period = static::period($string, $options);
 		return static::daysAsSql($period[0], $period[1], $fieldName);
 	}
@@ -1122,7 +1122,7 @@ class TimeLib extends CakeTime {
 	 * @param array $allowed
 	 * @return int Seconds
 	 */
-	public static function parseTime($duration, $allowed = array(':', '.', ',')) {
+	public static function parseTime($duration, $allowed = [':', '.', ',']) {
 		if (empty($duration)) {
 			return 0;
 		}
@@ -1163,7 +1163,7 @@ class TimeLib extends CakeTime {
 	 * @param array $allowed
 	 * @return int Seconds
 	 */
-	public static function parseDate($date, $allowed = array('.', '-')) {
+	public static function parseDate($date, $allowed = ['.', '-']) {
 		$datePieces = explode(' ', $date, 2);
 		$date = array_shift($datePieces);
 

@@ -32,7 +32,7 @@ class FlattrHelperTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testBadge() {
-		$res = $this->Flattr->badge($this->uid, array());
+		$res = $this->Flattr->badge($this->uid, []);
 		$this->assertTrue(!empty($res));
 	}
 
@@ -42,7 +42,7 @@ class FlattrHelperTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testBadgeWithOptions() {
-		$options = array('dsc' => 'Eine Beschreibung', 'lng' => 'de_DE', 'tags' => array('Spende', 'Geld', 'Hilfe'));
+		$options = ['dsc' => 'Eine Beschreibung', 'lng' => 'de_DE', 'tags' => ['Spende', 'Geld', 'Hilfe']];
 
 		$res = $this->Flattr->badge($this->uid, $options);
 		$this->assertTrue(!empty($res));

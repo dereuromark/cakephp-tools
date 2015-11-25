@@ -1,22 +1,22 @@
 <?php
 class RevisionArticleFixture extends CakeTestFixture {
 
-	public $fields = array(
-			'id' => array(
+	public $fields = [
+			'id' => [
 					'type' => 'integer',
 					'null' => false,
 					'default' => null,
-					'key' => 'primary'),
-			'user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-			'parent_id' => array('type' => 'integer', 'null' => true, 'default' => null),
-			'lft' => array('type' => 'integer', 'null' => true, 'default' => null),
-			'rght' => array('type' => 'integer', 'null' => true, 'default' => null),
-			'title' => array('type' => 'string', 'null' => false, 'default' => null),
-			'content' => array('type' => 'text', 'null' => false, 'default' => null),
-			'indexes' => array('PRIMARY' => array('column' => 'id')));
+					'key' => 'primary'],
+			'user_id' => ['type' => 'integer', 'null' => true, 'default' => null],
+			'parent_id' => ['type' => 'integer', 'null' => true, 'default' => null],
+			'lft' => ['type' => 'integer', 'null' => true, 'default' => null],
+			'rght' => ['type' => 'integer', 'null' => true, 'default' => null],
+			'title' => ['type' => 'string', 'null' => false, 'default' => null],
+			'content' => ['type' => 'text', 'null' => false, 'default' => null],
+			'indexes' => ['PRIMARY' => ['column' => 'id']]];
 
-	public $records = array(
-		array(
+	public $records = [
+		[
 			'id' => 1,
 			'user_id' => 1,
 			'parent_id' => null,
@@ -24,8 +24,8 @@ class RevisionArticleFixture extends CakeTestFixture {
 			'rght' => 6,
 			'title' => 'Lorem ipsum dolor sit amet',
 			'content' => 'Lorem ipsum dolor sit amet, aliquet feugiat.'
-		),
-		array(
+		],
+		[
 			'id' => 2,
 			'user_id' => 1,
 			'parent_id' => 1,
@@ -33,8 +33,8 @@ class RevisionArticleFixture extends CakeTestFixture {
 			'rght' => 3,
 			'title' => 'Lorem ipsum',
 			'content' => 'Lorem ipsum dolor sit amet, aliquet feugiat.'
-		),
-		array(
+		],
+		[
 			'id' => 3,
 			'user_id' => 1,
 			'parent_id' => 1,
@@ -42,6 +42,6 @@ class RevisionArticleFixture extends CakeTestFixture {
 			'rght' => 5,
 			'title' => 'Lorem ipsum',
 			'content' => 'Lorem ipsum dolor sit amet, aliquet feugiat.'
-		),
-	);
+		],
+	];
 }

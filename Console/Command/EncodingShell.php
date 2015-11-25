@@ -15,7 +15,7 @@ class EncodingShell extends AppShell {
 	 *
 	 * @var array
 	 */
-	protected $_found = array();
+	protected $_found = [];
 
 	/**
 	 * ConvertShell::folder()
@@ -49,7 +49,7 @@ class EncodingShell extends AppShell {
 
 		$in = '';
 		if ($this->_found) {
-			$in = $this->in('Correct those files?', array('y', 'n'), 'n');
+			$in = $this->in('Correct those files?', ['y', 'n'], 'n');
 		}
 		if ($in === 'y') {
 			if (empty($this->params['dry-run'])) {
@@ -73,7 +73,7 @@ class EncodingShell extends AppShell {
 	 * @param array $excludes
 	 * @return void
 	 */
-	protected function _detect($path, $extensions, $excludes = array()) {
+	protected function _detect($path, $extensions, $excludes = []) {
 		$Iterator = new RegexIterator(
 			new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path)),
 			'/^.+\.(' . $extensions . ')$/i',
@@ -116,33 +116,33 @@ class EncodingShell extends AppShell {
 	 * @return ConsoleOptionParser
 	 */
 	public function getOptionParser() {
-		$subcommandParser = array(
-			'options' => array(
-				'ext' => array(
+		$subcommandParser = [
+			'options' => [
+				'ext' => [
 					'short' => 'e',
 					'help' => 'Specify extensions [php|txt|...] - defaults to [php].',
 					'default' => '',
-				),
-				'dry-run' => array(
+				],
+				'dry-run' => [
 					'short' => 'd',
 					'help' => 'Dry run the command, no files will actually be modified. Should be combined with verbose.',
 					'boolean' => true
-				),
-				'exclude' => array(
+				],
+				'exclude' => [
 					'short' => 'x',
 					'help' => 'Exclude the following files',
 					'boolean' => true,
 					'default' => ''
-				)
-			)
-		);
+				]
+			]
+		];
 
 		return parent::getOptionParser()
 			->description(sprintf('The %sShell finds BOM files and can correct them.', $this->name))
-			->addSubcommand('folder', array(
+			->addSubcommand('folder', [
 				'help' => 'Search and correct folder recursivly.',
 				'parser' => $subcommandParser
-			));
+			]);
 	}
 
 }

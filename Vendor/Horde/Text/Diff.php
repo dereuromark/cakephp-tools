@@ -44,7 +44,7 @@ class Horde_Text_Diff
         $class = 'Horde_Text_Diff_Engine_' . $engine;
         $diff_engine = new $class();
 
-        $this->_edits = call_user_func_array(array($diff_engine, 'diff'), $params);
+        $this->_edits = call_user_func_array([$diff_engine, 'diff'], $params);
     }
 
     /**
@@ -110,7 +110,7 @@ class Horde_Text_Diff
         } else {
             $rev = $this;
         }
-        $rev->_edits = array();
+        $rev->_edits = [];
         foreach ($this->_edits as $edit) {
             $rev->_edits[] = $edit->reverse();
         }
@@ -159,7 +159,7 @@ class Horde_Text_Diff
      */
     public function getOriginal()
     {
-        $lines = array();
+        $lines = [];
         foreach ($this->_edits as $edit) {
             if ($edit->orig) {
                 array_splice($lines, count($lines), 0, $edit->orig);
@@ -177,7 +177,7 @@ class Horde_Text_Diff
      */
     public function getFinal()
     {
-        $lines = array();
+        $lines = [];
         foreach ($this->_edits as $edit) {
             if ($edit->final) {
                 array_splice($lines, count($lines), 0, $edit->final);
@@ -195,7 +195,7 @@ class Horde_Text_Diff
      */
     static public function trimNewlines(&$line, $key)
     {
-        $line = str_replace(array("\n", "\r"), '', $line);
+        $line = str_replace(["\n", "\r"], '', $line);
     }
 
     /**

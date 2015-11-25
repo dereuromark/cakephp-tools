@@ -35,7 +35,7 @@ if (!defined('QS_CODE_DEFAULT_LEVEL')) {
  */
 class QrCodeHelper extends AppHelper {
 
-	public $helpers = array('Html');
+	public $helpers = ['Html'];
 
 	const MIN_SIZE = 58; # not readable anymore below this value
 	const MAX_SIZE = 540; # max of 300000 pixels
@@ -57,13 +57,13 @@ class QrCodeHelper extends AppHelper {
 	 * - choe: string $outputEncoding
 	 * - chs: size (...x...)
 	 */
-	public $options = array('cht' => 'qr', 'chl' => '', 'choe' => '', 'chs' => '');
+	public $options = ['cht' => 'qr', 'chl' => '', 'choe' => '', 'chs' => ''];
 
-	public $ecLevels = array('H', 'Q', 'M', 'L'); # 30%..7%
+	public $ecLevels = ['H', 'Q', 'M', 'L']; # 30%..7%
 
-	public $formattingTypes = array('url' => 'http', 'tel' => 'tel', 'sms' => 'smsto', 'card' => 'mecard');
+	public $formattingTypes = ['url' => 'http', 'tel' => 'tel', 'sms' => 'smsto', 'card' => 'mecard'];
 
-	public function __construct(View $View, $settings = array()) {
+	public function __construct(View $View, $settings = []) {
 		parent::__construct($View, $settings);
 		$this->reset();
 	}
@@ -74,7 +74,7 @@ class QrCodeHelper extends AppHelper {
 	 * @param array $imageOptions
 	 * NOTE: set size or level manually prior to calling this method
 	 */
-	public function image($text, $options = array()) {
+	public function image($text, $options = []) {
 		return $this->Html->image($this->uri($text), $options);
 	}
 
@@ -86,7 +86,7 @@ class QrCodeHelper extends AppHelper {
 	 * @return string Url
 	 */
 	public function uri($text) {
-		$params = array();
+		$params = [];
 		$params['chl'] = rawurlencode($text);
 		return $this->_uri($params);
 	}
@@ -94,9 +94,9 @@ class QrCodeHelper extends AppHelper {
 	/**
 	 * @return string Url
 	 */
-	protected function _uri($params = array()) {
+	protected function _uri($params = []) {
 		$params += $this->options;
-		$pieces = array();
+		$pieces = [];
 		foreach ($params as $key => $value) {
 			$pieces[] = $key . '=' . $value;
 		}
@@ -144,7 +144,7 @@ class QrCodeHelper extends AppHelper {
 	 */
 	public function formatCard($data) {
 		$data = (array)$data;
-		$res = array();
+		$res = [];
 		foreach ($data as $key => $val) {
 			switch ($key) {
 				case 'name':

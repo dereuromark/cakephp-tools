@@ -7,7 +7,7 @@ class ZodiacLib {
 
 	public $error = null;
 
-	public static $res = array(
+	public static $res = [
 		self::SIGN_AQUARIUS	=> 'aquarius',
 		self::SIGN_ARIES	=> 'aries',
 		self::SIGN_CANCER	=> 'cancer',
@@ -20,7 +20,7 @@ class ZodiacLib {
 		self::SIGN_SCORPIO	=> 'scorpio',
 		self::SIGN_TAURUS	=> 'taurus',
 		self::SIGN_VIRGO	=> 'virgo',
-	);
+	];
 
 	public function error() {
 		return $this->error;
@@ -34,40 +34,40 @@ class ZodiacLib {
 		$range = null;
 		switch ($sign) {
 			case static::SIGN_AQUARIUS:
-				$range = array(array(1, 21), array(2, 19));
+				$range = [[1, 21], [2, 19]];
 				break;
 			case static::SIGN_PISCES:
-				$range = array(array(2, 20), array(3, 20));
+				$range = [[2, 20], [3, 20]];
 				break;
 			case static::SIGN_ARIES:
-				$range = array(array(3, 21), array(4, 20));
+				$range = [[3, 21], [4, 20]];
 				break;
 			case static::SIGN_TAURUS:
-				$range = array(array(4, 21), array(5, 21));
+				$range = [[4, 21], [5, 21]];
 				break;
 			case static::SIGN_GEMINI:
-				$range = array(array(5, 22), array(6, 21));
+				$range = [[5, 22], [6, 21]];
 				break;
 			case static::SIGN_CANCER:
-				$range = array(array(6, 22), array(7, 23));
+				$range = [[6, 22], [7, 23]];
 				break;
 			case static::SIGN_LEO:
-				$range = array(array(7, 24), array(8, 23));
+				$range = [[7, 24], [8, 23]];
 				break;
 			case static::SIGN_VIRGO:
-				$range = array(array(8, 24), array(9, 23));
+				$range = [[8, 24], [9, 23]];
 				break;
 			case static::SIGN_LIBRA:
-				$range = array(array(9, 24), array(10, 23));
+				$range = [[9, 24], [10, 23]];
 				break;
 			case static::SIGN_SCORPIO:
-				$range = array(array(10, 24), array(11, 22));
+				$range = [[10, 24], [11, 22]];
 				break;
 			case static::SIGN_SAGITTARIUS:
-				$range = array(array(11, 23), array(12, 21));
+				$range = [[11, 23], [12, 21]];
 				break;
 			case static::SIGN_CAPRICORN:
-				$range = array(array(12, 22), array(1, 20));
+				$range = [[12, 22], [1, 20]];
 				break;
 		}
 
@@ -153,7 +153,7 @@ class ZodiacLib {
 	 * @return mixed
 	 */
 	public static function signs($value = null) {
-		$res = array(
+		$res = [
 			static::SIGN_AQUARIUS	=> __d('tools', 'zodiacAquarius'),
 			static::SIGN_PISCES	=> __d('tools', 'zodiacPisces'),
 			static::SIGN_ARIES	=> __d('tools', 'zodiacAries'),
@@ -166,7 +166,7 @@ class ZodiacLib {
 			static::SIGN_SCORPIO	=> __d('tools', 'zodiacScorpio'),
 			static::SIGN_SAGITTARIUS	=> __d('tools', 'zodiacSagittarius'),
 			static::SIGN_CAPRICORN	=> __d('tools', 'zodiacCapricorn'),
-		);
+		];
 		if ($value === null) {
 			return $res;
 		}

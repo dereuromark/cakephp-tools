@@ -15,7 +15,7 @@ class KeyValueTest extends MyCakeTestCase {
 	 *
 	 * @var array
 	 */
-	public $fixtures = array('plugin.tools.key_value');
+	public $fixtures = ['plugin.tools.key_value'];
 
 	/**
 	 * SetUp method

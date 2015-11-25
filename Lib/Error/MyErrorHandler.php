@@ -21,7 +21,7 @@ class MyErrorHandler extends ErrorHandler {
 				static::traceDetails()
 			);
 			$log = LOG_ERR;
-			if (in_array(get_class($exception), array('MissingControllerException', 'MissingActionException', 'PrivateActionException', 'NotFoundException'))) {
+			if (in_array(get_class($exception), ['MissingControllerException', 'MissingActionException', 'PrivateActionException', 'NotFoundException'])) {
 				$log = '404';
 			}
 			CakeLog::write($log, $message);
@@ -64,7 +64,7 @@ class MyErrorHandler extends ErrorHandler {
 
 		$debug = Configure::read('debug');
 		if ($debug) {
-			$data = array(
+			$data = [
 				'level' => $log,
 				'code' => $code,
 				'error' => $error,
@@ -74,12 +74,12 @@ class MyErrorHandler extends ErrorHandler {
 				'context' => $context,
 				'start' => 2,
 				'path' => Debugger::trimPath($file)
-			);
+			];
 			return Debugger::getInstance()->outputError($data);
 		} else {
 			$message = $error . ' (' . $code . '): ' . $description . ' in [' . $file . ', line ' . $line . ']';
 			if (!empty($errorConfig['trace'])) {
-				$trace = Debugger::trace(array('start' => 1, 'format' => 'log'));
+				$trace = Debugger::trace(['start' => 1, 'format' => 'log']);
 				$message .= "\nTrace:\n" . $trace . "\n";
 				$message .= static::traceDetails();
 			}
@@ -124,18 +124,22 @@ class MyErrorHandler extends ErrorHandler {
 	 */
 	public static function traceDetails() {
 		if (empty($_SERVER['REQUEST_URI']) || strpos($_SERVER['REQUEST_URI'], '/test.php?') === 0) {
-			return null;
+			return '';
 		}
+		if (!class_exists('Utility') || !class_exists('Router')) {
+			return '';
+		}
+
 		$currentUrl = Router::url(); //isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : 'n/a';
 		$refererUrl = Utility::getReferer(); //Router::getRequest()->url().'
 		$uid = (!empty($_SESSION) && !empty($_SESSION['Auth']['User']['id'])) ? $_SESSION['Auth']['User']['id'] : null;
 
-		$data = array(
-			@CakeRequest::clientIp(),
+		$data = [
+			Utility::getClientIp(),
 			$currentUrl . (!empty($refererUrl) ? (' (' . $refererUrl . ')') : ''),
 			$uid,
 			env('HTTP_USER_AGENT')
-		);
+		];
 		return implode(' - ', $data);
 	}
 

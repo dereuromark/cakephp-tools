@@ -33,7 +33,7 @@ App::uses('ModelBehavior', 'Model');
  */
 class MasterPasswordBehavior extends ModelBehavior {
 
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'message' => 'Incorrect Master Password',
 		'field' => 'master_pwd',
 		'model' => null,
@@ -41,9 +41,9 @@ class MasterPasswordBehavior extends ModelBehavior {
 		'hash' => 'sha1',
 		'salt' => false, //TODO: maybe allow to use core salt for additional security?
 		'log' => false //TODO: log the usage of pwds to a log file `master_password`
-	);
+	];
 
-	public function setup(Model $Model, $config = array()) {
+	public function setup(Model $Model, $config = []) {
 		if (!isset($this->settings[$Model->alias])) {
 			$this->settings[$Model->alias] = $this->_defaultConfig;
 		}
@@ -54,7 +54,7 @@ class MasterPasswordBehavior extends ModelBehavior {
 		}
 	}
 
-	public function beforeValidate(Model $Model, $options = array()) {
+	public function beforeValidate(Model $Model, $options = []) {
 		$return = parent::beforeValidate($Model, $options);
 
 		if ($this->settings[$Model->alias]['before'] === 'validate') {
@@ -66,7 +66,7 @@ class MasterPasswordBehavior extends ModelBehavior {
 		return $return;
 	}
 
-	public function beforeSave(Model $Model, $options = array()) {
+	public function beforeSave(Model $Model, $options = []) {
 		$return = parent::beforeSave($Model, $options);
 
 		if ($this->settings[$Model->alias]['before'] === 'save') {

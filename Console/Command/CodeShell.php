@@ -26,11 +26,11 @@ class CodeShell extends AppShell {
 	 */
 	public function dependencies() {
 		if ($customPath = $this->params['custom']) {
-			$this->_paths = array($customPath);
+			$this->_paths = [$customPath];
 		} elseif (!empty($this->params['plugin'])) {
-			$this->_paths = array(CakePlugin::path($this->params['plugin']));
+			$this->_paths = [CakePlugin::path($this->params['plugin'])];
 		} else {
-			$this->_paths = array(APP);
+			$this->_paths = [APP];
 		}
 
 		$this->_findFiles('php');
@@ -51,8 +51,8 @@ class CodeShell extends AppShell {
 			continue;
 		}
 
-		$excludes = array('Fixture', 'Exception', 'TestSuite', 'CakeTestModel');
-		$missingClasses = array();
+		$excludes = ['Fixture', 'Exception', 'TestSuite', 'CakeTestModel'];
+		$missingClasses = [];
 
 		foreach ($matches[1] as $match) {
 			$match = trim($match);
@@ -88,7 +88,7 @@ class CodeShell extends AppShell {
 		}
 
 		$fileContent = explode(LF, $fileContent);
-		$inserted = array();
+		$inserted = [];
 		$pos = 1;
 
 		if (!empty($fileContent[1]) && $fileContent[1] === '/**') {
@@ -113,7 +113,7 @@ class CodeShell extends AppShell {
 		}
 
 		foreach ($missingClasses as $missingClass) {
-			$classes = array(
+			$classes = [
 				'Controller' => 'Controller',
 				'Component' => 'Controller/Component',
 				'Shell' => 'Console/Command',
@@ -123,7 +123,7 @@ class CodeShell extends AppShell {
 				'Task' => 'Console/Command/Task',
 				'View' => 'View',
 				'Helper' => 'View/Helper',
-			);
+			];
 			$type = null;
 			foreach ($classes as $class => $namespace) {
 				if (($t = strposReverse($missingClass, $class)) === 0) {
@@ -179,19 +179,19 @@ class CodeShell extends AppShell {
 	 * @return void
 	 */
 	public function utf8() {
-		$this->_paths = array(APP . 'View' . DS);
+		$this->_paths = [APP . 'View' . DS];
 		$this->params['ext'] = 'php|ctp';
 		//$this->out('found: '.count($this->_files));
 
-		$patterns = array(
-		);
-		$umlauts = array('ä', 'ö', 'ü', 'Ä', 'Ö', 'Ü', 'ß');
+		$patterns = [
+		];
+		$umlauts = ['ä', 'ö', 'ü', 'Ä', 'Ö', 'Ü', 'ß'];
 		foreach ($umlauts as $umlaut) {
-			$patterns[] = array(
+			$patterns[] = [
 				ent($umlaut) . ' => ' . $umlaut,
 				'/' . ent($umlaut) . '/',
 				$umlaut,
-			);
+			];
 		}
 
 		$this->_filesRegexpUpdate($patterns);
@@ -218,7 +218,7 @@ class CodeShell extends AppShell {
 	 * @return void
 	 */
 	protected function _findFiles($extensions = '') {
-		$this->_files = array();
+		$this->_files = [];
 		foreach ($this->_paths as $path) {
 			if (!is_dir($path)) {
 				continue;
@@ -229,13 +229,13 @@ class CodeShell extends AppShell {
 				RegexIterator::MATCH
 			);
 			foreach ($Iterator as $file) {
-				$excludes = array('Config');
+				$excludes = ['Config'];
 				//Iterator processes plugins even if not asked to
 				if (empty($this->params['plugin'])) {
-					$excludes = array_merge($excludes, array('Plugin', 'plugins'));
+					$excludes = array_merge($excludes, ['Plugin', 'plugins']);
 				}
 				if (empty($this->params['vendor'])) {
-					$excludes = array_merge($excludes, array('Vendor', 'vendors'));
+					$excludes = array_merge($excludes, ['Vendor', 'vendors']);
 				}
 				if (!empty($excludes)) {
 					$isIllegalPluginPath = false;
@@ -284,51 +284,51 @@ class CodeShell extends AppShell {
 	}
 
 	public function getOptionParser() {
-		$subcommandParser = array(
-			'options' => array(
-				'plugin' => array(
+		$subcommandParser = [
+			'options' => [
+				'plugin' => [
 					'short' => 'p',
 					'help' => 'The plugin to update. Only the specified plugin will be updated.',
 					'default' => ''
-				),
-				'custom' => array(
+				],
+				'custom' => [
 					'short' => 'c',
 					'help' => 'Custom path to update recursivly.',
 					'default' => ''
-				),
-				'ext' => array(
+				],
+				'ext' => [
 					'short' => 'e',
 					'help' => 'The extension(s) to search. A pipe delimited list, or a preg_match compatible subpattern',
 					'default' => 'php|ctp|thtml|inc|tpl'
-				),
-				'vendor' => array(
+				],
+				'vendor' => [
 					'short' => 'e',
 					'help' => 'Include vendor files, as well',
 					'boolean' => true
-				),
-				'dry-run' => array(
+				],
+				'dry-run' => [
 					'short' => 'd',
 					'help' => 'Dry run the update, no files will actually be modified.',
 					'boolean' => true
-				)
-			)
-		);
+				]
+			]
+		];
 
 		return parent::getOptionParser()
 			->description("A shell to help automate code cleanup. \n" .
 				"Be sure to have a backup of your application before running these commands.")
-			->addSubcommand('group', array(
+			->addSubcommand('group', [
 				'help' => 'Run multiple commands.',
 				'parser' => $subcommandParser
-			))
-			->addSubcommand('dependencies', array(
+			])
+			->addSubcommand('dependencies', [
 				'help' => 'Correct dependencies',
 				'parser' => $subcommandParser
-			))
-			->addSubcommand('utf8', array(
+			])
+			->addSubcommand('utf8', [
 				'help' => 'Make files utf8 compliant',
 				'parser' => $subcommandParser
-			));
+			]);
 	}
 
 	/**
@@ -336,10 +336,10 @@ class CodeShell extends AppShell {
 	 *
 	 * @var array
 	 */
-	public $tasks = array(
+	public $tasks = [
 		'CodeConvention',
 		'CodeWhitespace'
-	);
+	];
 
 	/**
 	 * Main execution function

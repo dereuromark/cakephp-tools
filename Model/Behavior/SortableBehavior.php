@@ -20,10 +20,10 @@ App::uses('ModelBehavior', 'Model');
  */
 class SortableBehavior extends ModelBehavior {
 
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'field' => 'sort',
 		'reverse' => false // To make 0 the "highest" value
-	);
+	];
 
 	/**
 	 * SortableBehavior::setup()
@@ -32,7 +32,7 @@ class SortableBehavior extends ModelBehavior {
 	 * @param mixed $config
 	 * @return void
 	 */
-	public function setup(Model $Model, $config = array()) {
+	public function setup(Model $Model, $config = []) {
 		if (!isset($this->settings[$Model->alias])) {
 			$this->settings[$Model->alias] = $this->_defaultConfig;
 		}
@@ -46,7 +46,7 @@ class SortableBehavior extends ModelBehavior {
 	 * @param mixed $options
 	 * @return void
 	 */
-	public function beforeSave(Model $Model, $options = array()) {
+	public function beforeSave(Model $Model, $options = []) {
 		if ($Model->id === false && isset($Model->data[$Model->alias]) &&
 			!isset($Model->data[$Model->alias][$this->settings[$Model->alias]['field']])) {
 			$sort = $this->_determineNextSortValue($Model);
@@ -66,14 +66,14 @@ class SortableBehavior extends ModelBehavior {
 		if (empty($this->settings[$Model->alias]['reverse'])) {
 			return 0;
 		}
-		$sort = $Model->find('first', array(
-			'fields' => array(
+		$sort = $Model->find('first', [
+			'fields' => [
 				$this->settings[$Model->alias]['field']
-			),
-			'order' => array(
+			],
+			'order' => [
 				$this->settings[$Model->alias]['field'] => 'DESC'
-			)
-		));
+			]
+		]);
 		if (!empty($sort)) {
 			$sort = $sort[$Model->alias][$this->settings[$Model->alias]['field']];
 			$sort++;
@@ -112,31 +112,31 @@ class SortableBehavior extends ModelBehavior {
 			$order = '>=';
 			$findOrder = 'ASC';
 		}
-		$sort = $Model->find('list', array(
-			'fields' => array(
+		$sort = $Model->find('list', [
+			'fields' => [
 				$this->settings[$Model->alias]['field']
-			),
-			'conditions' => array(
+			],
+			'conditions' => [
 				'id' => $id
-			)
-		));
+			]
+		]);
 		if (empty($sort)) {
 			return false;
 		}
 		list($sort) = array_values($sort);
-		$data = $Model->find('list', array(
-			'fields' => array(
+		$data = $Model->find('list', [
+			'fields' => [
 				'id',
 				$this->settings[$Model->alias]['field']
-			),
-			'conditions' => array(
+			],
+			'conditions' => [
 				$this->settings[$Model->alias]['field'] . ' ' . $order => $sort
-			),
-			'order' => array(
+			],
+			'order' => [
 				$this->settings[$Model->alias]['field'] => $findOrder
-			),
+			],
 			'limit' => $steps + 1
-		));
+		]);
 		$value = end($data);
 		$key = key($data);
 		if ($key == $id) {

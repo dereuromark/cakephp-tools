@@ -7,9 +7,9 @@ App::uses('ToolsAppController', 'Tools.Controller');
 
 class QloginController extends ToolsAppController {
 
-	public $uses = array('Tools.Qlogin');
+	public $uses = ['Tools.Qlogin'];
 
-	public $components = array('Tools.Common');
+	public $components = ['Tools.Flash', 'Tools.Common'];
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -35,7 +35,7 @@ class QloginController extends ToolsAppController {
 		}
 
 		if (empty($entry)) {
-			$this->Flash->message(__d('tools', 'Invalid Key'), 'error');
+			$this->Flash->error(__d('tools', 'Invalid Key'));
 			return $this->Common->autoRedirect($default);
 		}
 
@@ -47,10 +47,10 @@ class QloginController extends ToolsAppController {
 			if ($this->Common->manualLogin($uid)) {
 				$this->Session->write('Auth.User.Login.qlogin', true);
 				if (!Configure::read('Qlogin.suppressMessage')) {
-					$this->Flash->message(__d('tools', 'You successfully logged in via qlogin'), 'success');
+					$this->Flash->success(__d('tools', 'You successfully logged in via qlogin'));
 				}
 			} else {
-				$this->Flash->message($this->Auth->loginError, 'error');
+				$this->Flash->error($this->Auth->loginError);
 				$url = $default;
 				trigger_error($this->Auth->loginError . ' - uid ' . $uid);
 			}
@@ -70,10 +70,10 @@ class QloginController extends ToolsAppController {
 			$this->Qlogin->set($this->request->data);
 			if ($this->Qlogin->validates()) {
 				$id = $this->Qlogin->generate($this->Qlogin->data['Qlogin']['url'], $this->Qlogin->data['Qlogin']['user_id']);
-				$this->Flash->message('New Key: ' . h($id), 'success');
+				$this->Flash->success('New Key: ' . h($id));
 				$url = $this->Qlogin->urlByKey($id);
 				$this->set(compact('url'));
-				$this->request->data = array();
+				$this->request->data = [];
 			}
 		} else {
 			$this->request->data['Qlogin'] = $this->request->query;
@@ -83,7 +83,7 @@ class QloginController extends ToolsAppController {
 		$users = $this->User->find('list');
 
 		$this->Token = ClassRegistry::init('Tools.Token');
-		$qlogins = $this->Token->find('count', array('conditions' => array('type' => 'qlogin')));
+		$qlogins = $this->Token->find('count', ['conditions' => ['type' => 'qlogin']]);
 
 		$this->set(compact('users', 'qlogins'));
 	}
@@ -102,11 +102,11 @@ class QloginController extends ToolsAppController {
 	 * @return void
 	 */
 	public function admin_reset() {
-		$this->request->allowMethod(array('post', 'delete'));
+		$this->request->allowMethod(['post', 'delete']);
 		$this->Token = ClassRegistry::init('Tools.Token');
-		$this->Token->deleteAll(array('type' => 'qlogin'));
-		$this->Flash->message(__d('tools', 'Success'), 'success');
-		return $this->Common->autoRedirect(array('action' => 'index'));
+		$this->Token->deleteAll(['type' => 'qlogin']);
+		$this->Flash->success(__d('tools', 'Success'));
+		return $this->Common->autoRedirect(['action' => 'index']);
 	}
 
 }

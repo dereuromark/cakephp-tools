@@ -13,6 +13,7 @@ App::uses('View', 'View');
  *
  * @author Mark Scherer
  * @license http://opensource.org/licenses/mit-license.php MIT
+ * @deprecated Use https://github.com/dereuromark/cakephp-ajax/tree/2.x
  */
 class AjaxView extends View {
 
@@ -21,10 +22,10 @@ class AjaxView extends View {
 	 *
 	 * @var array
 	 */
-	protected $_passedVars = array(
+	protected $_passedVars = [
 			'viewVars', 'autoLayout', 'ext', 'helpers', 'view', 'layout', 'name', 'theme',
 			'layoutPath', 'viewPath', 'request', 'plugin', 'passedArgs', 'cacheAction', 'subDir'
-	);
+	];
 
 	/**
 	 * The subdirectory. AJAX views are always in ajax.
@@ -72,10 +73,10 @@ class AjaxView extends View {
 	 * @return string The rendered view.
 	 */
 	public function render($view = null, $layout = null) {
-		$response = array(
+		$response = [
 			'error' => null,
 			'content' => null,
-		);
+		];
 
 		if (!empty($this->viewVars['error'])) {
 			$view = false;

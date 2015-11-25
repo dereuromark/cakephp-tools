@@ -23,8 +23,8 @@ class Horde_Text_Diff_Engine_Xdiff
             throw new Horde_Text_Diff_Exception('The xdiff extension is required for this diff engine');
         }
 
-        array_walk($from_lines, array('Horde_Text_Diff', 'trimNewlines'));
-        array_walk($to_lines, array('Horde_Text_Diff', 'trimNewlines'));
+        array_walk($from_lines, ['Horde_Text_Diff', 'trimNewlines']);
+        array_walk($to_lines, ['Horde_Text_Diff', 'trimNewlines']);
 
         /* Convert the two input arrays into strings for xdiff processing. */
         $from_string = implode("\n", $from_lines);
@@ -42,22 +42,22 @@ class Horde_Text_Diff_Engine_Xdiff
          * lines using this approach, so we can't add Horde_Text_Diff_Op_Changed
          * instances to the $edits array.  The result is still perfectly
          * valid, albeit a little less descriptive and efficient. */
-        $edits = array();
+        $edits = [];
         foreach ($diff as $line) {
             if (!strlen($line)) {
                 continue;
             }
             switch ($line[0]) {
             case ' ':
-                $edits[] = new Horde_Text_Diff_Op_Copy(array(substr($line, 1)));
+                $edits[] = new Horde_Text_Diff_Op_Copy([substr($line, 1)]);
                 break;
 
             case '+':
-                $edits[] = new Horde_Text_Diff_Op_Add(array(substr($line, 1)));
+                $edits[] = new Horde_Text_Diff_Op_Add([substr($line, 1)]);
                 break;
 
             case '-':
-                $edits[] = new Horde_Text_Diff_Op_Delete(array(substr($line, 1)));
+                $edits[] = new Horde_Text_Diff_Op_Delete([substr($line, 1)]);
                 break;
             }
         }

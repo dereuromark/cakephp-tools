@@ -35,7 +35,7 @@ class TinyAuthorize extends BaseAuthorize {
 
 	protected $_acl = null;
 
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'superadminRole' => null, // quick way to allow access to every action
 		'allowUser' => false, // quick way to allow user access to non prefixed urls
 		'allowAdmin' => false, // quick way to allow admin access to admin prefixed urls
@@ -46,7 +46,7 @@ class TinyAuthorize extends BaseAuthorize {
 		'autoClearCache' => false, // usually done by Cache automatically in debug mode,
 		'aclModel' => 'Role', // only for multiple roles per user (HABTM)
 		'aclKey' => 'role_id', // only for single roles per user (BT)
-	);
+	];
 
 	/**
 	 * TinyAuthorize::__construct()
@@ -54,7 +54,7 @@ class TinyAuthorize extends BaseAuthorize {
 	 * @param ComponentCollection $Collection
 	 * @param array $config
 	 */
-	public function __construct(ComponentCollection $Collection, $config = array()) {
+	public function __construct(ComponentCollection $Collection, $config = []) {
 		$config += $this->_defaultConfig;
 		parent::__construct($Collection, $config);
 
@@ -80,16 +80,16 @@ class TinyAuthorize extends BaseAuthorize {
 			if (isset($user[$this->settings['aclModel']][0]['id'])) {
 				$roles = Hash::extract($user[$this->settings['aclModel']], '{n}.id');
 			} elseif (isset($user[$this->settings['aclModel']]['id'])) {
-				$roles = array($user[$this->settings['aclModel']]['id']);
+				$roles = [$user[$this->settings['aclModel']]['id']];
 			} else {
 				$roles = (array)$user[$this->settings['aclModel']];
 			}
 		} elseif (isset($user[$this->settings['aclKey']])) {
-			$roles = array($user[$this->settings['aclKey']]);
+			$roles = [$user[$this->settings['aclKey']]];
 		} else {
 			$acl = $this->settings['aclModel'] . '/' . $this->settings['aclKey'];
 			trigger_error(sprintf('Missing acl information (%s) in user session', $acl));
-			$roles = array();
+			$roles = [];
 		}
 		return $this->validate($roles, $request->params['plugin'], $request->params['controller'], $request->params['action']);
 	}
@@ -193,7 +193,7 @@ class TinyAuthorize extends BaseAuthorize {
 			$path = APP . 'Config' . DS;
 		}
 
-		$res = array();
+		$res = [];
 		if ($this->settings['autoClearCache'] && Configure::read('debug') > 0) {
 			Cache::delete($this->settings['cacheKey'], $this->settings['cache']);
 		}
@@ -216,12 +216,12 @@ class TinyAuthorize extends BaseAuthorize {
 			if (!isset($Model->{$this->settings['aclModel']})) {
 				throw new CakeException('Missing relationship between User and Role.');
 			}
-			$availableRoles = $Model->{$this->settings['aclModel']}->find('list', array('fields' => array('alias', 'id')));
+			$availableRoles = $Model->{$this->settings['aclModel']}->find('list', ['fields' => ['alias', 'id']]);
 			Configure::write($this->settings['aclModel'], $availableRoles);
 		}
 		if (!is_array($availableRoles) || !is_array($iniArray)) {
 			trigger_error('Invalid Role Setup for TinyAuthorize (no roles found)');
-			return array();
+			return [];
 		}
 
 		foreach ($iniArray as $key => $array) {

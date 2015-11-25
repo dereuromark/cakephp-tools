@@ -1,35 +1,35 @@
 <?php
 
-$config['App'] = array(
+$config['App'] = [
 	'warnAboutNamedParams' => false,
 	'disableMobileDetection' => false
-);
+];
 
-$config['DataPreparation'] = array(
+$config['DataPreparation'] = [
 	'noTrim' => false,
 	'disableMobileDetection' => false
-);
+];
 
-$config['Passwordable'] = array(
+$config['Passwordable'] = [
 	'authType' => ''
-);
+];
 
-$config['Reset'] = array(
-);
+$config['Reset'] = [
+];
 
-$config['Qlogin'] = array(
-);
+$config['Qlogin'] = [
+];
 
-$config['Mobile'] = array(
-);
+$config['Mobile'] = [
+];
 
-$config['Weather'] = array(
-);
+$config['Weather'] = [
+];
 
-$config['UrlCache'] = array(
-);
+$config['UrlCache'] = [
+];
 
-$config['Mail'] = array(
+$config['Mail'] = [
 	'debug' => 0,	# 0=no,1=flashMessageAfterwards,2=fullDebug(noMailSent)
 	'log' => 1,
 	'useSmtp' => 1,
@@ -38,19 +38,19 @@ $config['Mail'] = array(
 	'smtpHost' => '',
 	'smtpUsername' => '',
 	'smtpPassword' => '',
-);
+];
 
-$config['Google'] = array(
+$config['Google'] = [
 	'key' => '',
 	'api' => '2.x',
 	'zoom' => 6,
 	'lat' => 51,
 	'lng' => 11,
 	'type' => 'G_NORMAL_MAP',
- 	'static_size' => '500x500'
-);
+	'static_size' => '500x500'
+];
 
-$config['Config'] = array(
+$config['Config'] = [
 	'language' => 'en',
 	'adminName' => 'Site Owner',
 	'adminEmail' => 'test@test.de',
@@ -59,56 +59,56 @@ $config['Config'] = array(
 	'keywords' => '',
 	'description' => '',
 	'pwd' => ''
-);
+];
 
-$config['Paginator'] = array(
+$config['Paginator'] = [
 	'paramType' => 'querystring'
-);
+];
 
-$config['Common'] = array(
+$config['Common'] = [
 	'messages' => true
-);
+];
 
-$config['Typography'] = array(
+$config['Typography'] = [
 	'locale' => ''
-);
+];
 
-$config['Currency'] = array(
+$config['Currency'] = [
 	'code' => 'USD',
 	'symbolLeft' => '',
 	'symbolRight' => '$',
 	'places' => '2',
 	'thousands' => ',',
 	'decimals' => '.',
-);
+];
 
-$config['Localization'] = array(
+$config['Localization'] = [
 	'addressFormat' => 'en',
 	'thousands' => ',',
 	'decimals' => '.',
-);
+];
 
-$config['LocalizationPattern'] = array(
-);
+$config['LocalizationPattern'] = [
+];
 
-$config['AutoLogin'] = array(
-);
+$config['AutoLogin'] = [
+];
 
-$config['Validation'] = array(
+$config['Validation'] = [
 	'browserAutoRequire' => false,
-);
+];
 
-$config['Country'] = array(
+$config['Country'] = [
 	'imagePath' => 'Data./img/country_flags/',
-);
+];
 
-$config['Select'] = array(
+$config['Select'] = [
 	'defaultBefore' => ' -[ ',
 	'defaultAfter' => ' ]- ',
 	'naBefore' => ' -- ',
 	'naAfter' => ' -- '
-);
+];
 
-$config['Cli'] = array(
+$config['Cli'] = [
 	'dos2unixPath' => ''
-);
+];

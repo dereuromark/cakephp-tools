@@ -1,6 +1,7 @@
 <?php
 App::uses('ToolsAppModel', 'Tools.Model');
 App::uses('Hash', 'Utility');
+App::uses('RandomLib', 'Tools.Lib');
 
 /**
  * Manage Quick Urls
@@ -12,51 +13,51 @@ class Qurl extends ToolsAppModel {
 
 	public $displayField = 'key';
 
-	public $scaffoldSkipFields = array('note', 'key', 'content');
+	public $scaffoldSkipFields = ['note', 'key', 'content'];
 
-	public $order = array('Qurl.created' => 'DESC');
+	public $order = ['Qurl.created' => 'DESC'];
 
 	protected $defaultLength = 22;
 
 	protected $validity = YEAR;
 
-	public $validate = array(
-		'key' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+	public $validate = [
+		'key' => [
+			'notBlank' => [
+				'rule' => ['notBlank'],
 				'message' => 'valErrMandatoryField',
 				'last' => true,
-			),
-			'isUnique' => array(
-				'rule' => array('isUnique'),
+			],
+			'isUnique' => [
+				'rule' => ['isUnique'],
 				'message' => 'valErrQurlKeyExists',
-			),
-		),
-		'url' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+			],
+		],
+		'url' => [
+			'notBlank' => [
+				'rule' => ['notBlank'],
 				'message' => 'valErrMandatoryField',
 				'last' => true
-			),
-			'validateUrl' => array(
-				'rule' => array('validateUrl', array('deep' => false, 'sameDomain' => true, 'autoComplete' => true)),
+			],
+			'validateUrl' => [
+				'rule' => ['validateUrl', ['deep' => false, 'sameDomain' => true, 'autoComplete' => true]],
 				'message' => 'valErrInvalidQurlUrl',
 				'last' => true
-			)
-		),
-		'note' => array(
-		),
-		'comment' => array(
-		),
-		'used' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
+			]
+		],
+		'note' => [
+		],
+		'comment' => [
+		],
+		'used' => [
+			'numeric' => [
+				'rule' => ['numeric'],
 				'message' => 'valErrMandatoryField',
-			),
-		),
-	);
+			],
+		],
+	];
 
-	public function beforeValidate($options = array()) {
+	public function beforeValidate($options = []) {
 		parent::beforeValidate($options);
 
 		if (isset($this->data[$this->alias]['key']) && empty($this->data[$this->alias]['key'])) {
@@ -70,7 +71,7 @@ class Qurl extends ToolsAppModel {
 		return true;
 	}
 
-	public function beforeSave($options = array()) {
+	public function beforeSave($options = []) {
 		parent::beforeSave($options);
 
 		if (isset($this->data[$this->alias]['content'])) {
@@ -87,7 +88,7 @@ class Qurl extends ToolsAppModel {
 	 * @return array
 	 */
 	public function translate($key) {
-		$res = $this->find('first', array('conditions' => array($this->alias . '.key' => $key, $this->alias . '.active' => 1)));
+		$res = $this->find('first', ['conditions' => [$this->alias . '.key' => $key, $this->alias . '.active' => 1]]);
 		if (!$res) {
 			return false;
 		}
@@ -95,7 +96,7 @@ class Qurl extends ToolsAppModel {
 		if ($res[$this->alias]['content']) {
 			$res[$this->alias]['content'] = unserialize($res[$this->alias]['content']);
 		} else {
-			$res[$this->alias]['content'] = array();
+			$res[$this->alias]['content'] = [];
 		}
 		return $res;
 	}
@@ -110,7 +111,7 @@ class Qurl extends ToolsAppModel {
 		if ($title && $slugTitle) {
 			$title = Inflector::slug($title, '-');
 		}
-		return Router::url(array('admin' => false, 'plugin' => 'tools', 'controller' => 'qurls', 'action' => 'go', $key, $title), true);
+		return Router::url(['admin' => false, 'plugin' => 'tools', 'controller' => 'qurls', 'action' => 'go', $key, $title], true);
 	}
 
 	/**
@@ -120,7 +121,7 @@ class Qurl extends ToolsAppModel {
 	 * @param mixed $url
 	 * @return string Url (absolute)
 	 */
-	public function url($url, $data = array()) {
+	public function url($url, $data = []) {
 		$key = $this->generate($url, $data);
 		if (!$key) {
 			return false;
@@ -135,9 +136,9 @@ class Qurl extends ToolsAppModel {
 	 * @param string $uid
 	 * @return string Key
 	 */
-	public function generate($url, $data = array()) {
+	public function generate($url, $data = []) {
 		$url = Router::url($url, true);
-		$content = array_merge($data, array('url' => $url));
+		$content = array_merge($data, ['url' => $url]);
 		if (!isset($content['key'])) {
 			$content['key'] = '';
 		}
@@ -159,7 +160,7 @@ class Qurl extends ToolsAppModel {
 			return false;
 		}
 		//$this->id = $id;
-		if ($this->updateAll(array($this->alias . '.used' => $this->alias . '.used + 1', $this->alias . '.last_used' => '"' . date(FORMAT_DB_DATETIME) . '"'), array($this->alias . '.id' => $id))) {
+		if ($this->updateAll([$this->alias . '.used' => $this->alias . '.used + 1', $this->alias . '.last_used' => '"' . date(FORMAT_DB_DATETIME) . '"'], [$this->alias . '.id' => $id])) {
 			return true;
 		}
 		return false;
@@ -172,9 +173,9 @@ class Qurl extends ToolsAppModel {
 	 * @return bool success
 	 */
 	public function garbageCollector() {
-		$conditions = array(
+		$conditions = [
 			$this->alias . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity),
-		);
+		];
 		return $this->deleteAll($conditions, false);
 	}
 
@@ -184,15 +185,15 @@ class Qurl extends ToolsAppModel {
 	 * @return array
 	 */
 	public function stats() {
-		$keys = array();
-		$keys['unused_valid'] = $this->find('count', array('conditions' => array($this->alias . '.used' => 0, $this->alias . '.created >=' => date(FORMAT_DB_DATETIME, time() - $this->validity))));
-		$keys['used_valid'] = $this->find('count', array('conditions' => array($this->alias . '.used' => 1, $this->alias . '.created >=' => date(FORMAT_DB_DATETIME, time() - $this->validity))));
+		$keys = [];
+		$keys['unused_valid'] = $this->find('count', ['conditions' => [$this->alias . '.used' => 0, $this->alias . '.created >=' => date(FORMAT_DB_DATETIME, time() - $this->validity)]]);
+		$keys['used_valid'] = $this->find('count', ['conditions' => [$this->alias . '.used' => 1, $this->alias . '.created >=' => date(FORMAT_DB_DATETIME, time() - $this->validity)]]);
 
-		$keys['unused_invalid'] = $this->find('count', array('conditions' => array($this->alias . '.used' => 0, $this->alias . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity))));
-		$keys['used_invalid'] = $this->find('count', array('conditions' => array($this->alias . '.used' => 1, $this->alias . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity))));
+		$keys['unused_invalid'] = $this->find('count', ['conditions' => [$this->alias . '.used' => 0, $this->alias . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity)]]);
+		$keys['used_invalid'] = $this->find('count', ['conditions' => [$this->alias . '.used' => 1, $this->alias . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity)]]);
 
-		$urls = $this->find('all', array('conditions' => array(), 'fields' => array('DISTINCT url')));
-		$keys['urls'] = !empty($urls) ? Hash::extract('{n}.' . $this->alias . '.url', $urls) : array();
+		$urls = $this->find('all', ['conditions' => [], 'fields' => ['DISTINCT url']]);
+		$keys['urls'] = !empty($urls) ? Hash::extract('{n}.' . $this->alias . '.url', $urls) : [];
 		return $keys;
 	}
 
@@ -207,7 +208,6 @@ class Qurl extends ToolsAppModel {
 			$length = $this->defaultLength;
 		}
 
-		App::uses('RandomLib', 'Tools.Lib');
 		return RandomLib::generatePassword($length);
 	}
 

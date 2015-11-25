@@ -10,7 +10,7 @@ App::uses('AppModel', 'Model');
  */
 class CommonComponentTest extends CakeTestCase {
 
-	public $fixtures = array('core.cake_session', 'plugin.tools.tools_user', 'plugin.tools.role');
+	public $fixtures = ['core.cake_session', 'plugin.tools.tools_user', 'plugin.tools.role'];
 
 	public function setUp() {
 		parent::setUp();
@@ -61,7 +61,7 @@ class CommonComponentTest extends CakeTestCase {
 		// with options
 		$this->Controller->Test = null;
 		$this->assertTrue(!isset($this->Controller->Test));
-		$this->Controller->Common->loadComponent(array('RequestHandler', 'Test' => array('x' => 'y')));
+		$this->Controller->Common->loadComponent(['RequestHandler', 'Test' => ['x' => 'y']]);
 		$this->assertTrue(isset($this->Controller->Test));
 		$this->assertTrue($this->Controller->Test->isInit);
 		$this->assertTrue($this->Controller->Test->isStartup);
@@ -82,7 +82,7 @@ class CommonComponentTest extends CakeTestCase {
 
 		// with options
 		$this->assertTrue(!isset($this->Controller->TestLib));
-		$this->Controller->Common->loadLib(array('Tools.RandomLib', 'TestLib' => array('x' => 'y')));
+		$this->Controller->Common->loadLib(['Tools.RandomLib', 'TestLib' => ['x' => 'y']]);
 		$this->assertTrue(isset($this->Controller->TestLib));
 		$this->assertTrue($this->Controller->TestLib->hasOptions);
 	}
@@ -148,11 +148,11 @@ class CommonComponentTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testManualLogin() {
-		$user = array(
+		$user = [
 			'name' => 'foo',
 			'password' => 123,
 			'role_id' => 1,
-		);
+		];
 		$User = ClassRegistry::init('MyToolsUser');
 		$User->create();
 		$res = $User->save($user);
@@ -177,11 +177,11 @@ class CommonComponentTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testForceLogin() {
-		$user = array(
+		$user = [
 			'name' => 'foo',
 			'password' => 123,
 			'role_id' => 1,
-		);
+		];
 		$User = ClassRegistry::init('MyToolsUser');
 		$User->create();
 		$res = $User->save($user);
@@ -200,17 +200,17 @@ class CommonComponentTest extends CakeTestCase {
 	}
 
 	public function testGetGroup() {
-		$list = array(
-			'Models' => array(
+		$list = [
+			'Models' => [
 				'1' => 'Foo',
 				'2' => 'Bar'
-			),
-			'Mitarbeiter' => array(
+			],
+			'Mitarbeiter' => [
 				'3' => 'Some',
 				'4' => 'Thing'
-			),
-		);
-		$matching = array('Models' => 'Model', 'Mitarbeiter' => 'Contributor');
+			],
+		];
+		$matching = ['Models' => 'Model', 'Mitarbeiter' => 'Contributor'];
 
 		$res = CommonComponent::getGroup($list, 111);
 		$this->assertEquals('', $res);
@@ -231,7 +231,7 @@ class CommonComponentTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testDataTrim() {
-		$array = array('Some' => array('Deep' => array('array' => '  bla  ')));
+		$array = ['Some' => ['Deep' => ['array' => '  bla  ']]];
 
 		$this->Controller = new CommonComponentTestController(new CakeRequest(), new CakeResponse());
 		$this->Controller->request->data = $array;
@@ -239,7 +239,7 @@ class CommonComponentTest extends CakeTestCase {
 		$this->Controller->constructClasses();
 		$this->Controller->startupProcess();
 
-		$expected = array('Some' => array('Deep' => array('array' => 'bla')));
+		$expected = ['Some' => ['Deep' => ['array' => 'bla']]];
 		$this->assertSame($expected, $this->Controller->request->data);
 		$this->assertSame($expected, $this->Controller->request->query);
 
@@ -323,20 +323,20 @@ class MyToolsUser extends AppModel {
 
 	public $alias = 'User';
 
-	public $belongsTo = array(
+	public $belongsTo = [
 		'Role',
-	);
+	];
 
 }
 
 // Use Controller instead of AppController to avoid conflicts
 class CommonComponentTestController extends Controller {
 
-	public $components = array('Session', 'Tools.Common', 'Auth');
+	public $components = ['Session', 'Tools.Common', 'Auth'];
 
 	public $failed = false;
 
-	public $testHeaders = array();
+	public $testHeaders = [];
 
 	public function fail() {
 		$this->failed = true;
@@ -380,7 +380,7 @@ class TestLib {
 
 	public $hasOptions = false;
 
-	public function __construct($options = array()) {
+	public function __construct($options = []) {
 		if (!empty($options)) {
 			$this->hasOptions = true;
 		}

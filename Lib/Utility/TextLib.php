@@ -1,12 +1,12 @@
 <?php
-App::uses('String', 'Utility');
+App::uses('CakeText', 'Utility');
 
 /**
  * Extend String.
  * //TODO: cleanup
  *
  */
-class TextLib extends String {
+class TextLib extends CakeText {
 
 	public $text, $length, $char, $letter, $space, $word, $rWord, $sen, $rSen, $para, $rPara, $beautified;
 
@@ -21,7 +21,7 @@ class TextLib extends String {
 	 */
 	public function readTab() {
 		$pieces = explode("\n", $this->text);
-		$result = array();
+		$result = [];
 		foreach ($pieces as $piece) {
 			$tmp = explode("\t", trim($piece, "\r\n"));
 			$result[] = $tmp;
@@ -39,7 +39,7 @@ class TextLib extends String {
 	 */
 	public function readWithPattern($pattern) {
 		$pieces = explode("\n", $this->text);
-		$result = array();
+		$result = [];
 		foreach ($pieces as $piece) {
 			$result[] = sscanf(trim($piece, "\r\n"), $pattern);
 		}
@@ -75,8 +75,8 @@ class TextLib extends String {
 	 * @param string $text
 	 * @return int
 	 */
-	public static function numberOfChars($text, $options = array()) {
-		$text = str_replace(array("\r", "\n", "\t", ' '), '', $text);
+	public static function numberOfChars($text, $options = []) {
+		$text = str_replace(["\r", "\n", "\t", ' '], '', $text);
 		$count = mb_strlen($text);
 		return $count;
 	}
@@ -113,7 +113,7 @@ class TextLib extends String {
 			$str = $this->text;
 		}
 		$chars = preg_split('//', $str, -1);
-		$res = array();
+		$res = [];
 		foreach ($chars as $char) {
 			//$res[] = UnicodeLib::ord($char);
 			$res[] = ord($char);
@@ -123,7 +123,7 @@ class TextLib extends String {
 
 	public static function convertToOrdTable($str, $maxCols = 20) {
 		$res = '<table>';
-		$r = array('chr' => array(), 'ord' => array());
+		$r = ['chr' => [], 'ord' => []];
 		$chars = preg_split('//', $str, -1);
 		$count = 0;
 		foreach ($chars as $key => $char) {
@@ -133,7 +133,7 @@ class TextLib extends String {
 				$res .= '<tr>';
 				$res .= '<td>' . implode('</th><th>', $r['ord']) . '</td></tr>';
 				$count = 0;
-				$r = array('chr' => array(), 'ord' => array());
+				$r = ['chr' => [], 'ord' => []];
 			}
 			$count++;
 			//$res[] = UnicodeLib::ord($char);
@@ -155,7 +155,7 @@ class TextLib extends String {
 		preg_match_all($regexp, $tags, $matches);
 		$typedTags = array_unique($matches[1]);
 
-		$tags = array();
+		$tags = [];
 		foreach ($typedTags as $tag) {
 			// If a user has escaped a term (to demonstrate that it is a group,
 		// or includes a comma or quote character), we remove the escape
@@ -173,7 +173,7 @@ class TextLib extends String {
 	 * Implode an array of tags into a string.
 	 */
 	public function implodeTags($tags) {
-		$encodedTags = array();
+		$encodedTags = [];
 		foreach ($tags as $tag) {
 			// Commas and quotes in tag names are special cases, so encode them.
 		if (strpos($tag, ',') !== false || strpos($tag, '"') !== false) {
@@ -217,9 +217,9 @@ class TextLib extends String {
 	 * - min_char, max_char, case_sensititive, ...
 	 * @return array
 	 */
-	public function words($options = array()) {
+	public function words($options = []) {
 		if (true || !$this->xrWord) {
-			$text = str_replace(array(PHP_EOL, NL, TB), ' ', $this->text);
+			$text = str_replace([PHP_EOL, NL, TB], ' ', $this->text);
 
 			$pieces = explode(' ', $text);
 			$pieces = array_unique($pieces);
@@ -229,8 +229,8 @@ class TextLib extends String {
 				if (empty($options['case_sensitive'])) {
 					$piece = mb_strtolower($piece);
 				}
-				$search = array(',', '.', ';', ':', '#', '', '(', ')', '{', '}', '[', ']', '$', '%', '"', '!', '?', '<', '>', '=', '/');
-				$search = array_merge($search, array(1, 2, 3, 4, 5, 6, 7, 8, 9, 0));
+				$search = [',', '.', ';', ':', '#', '', '(', ')', '{', '}', '[', ']', '$', '%', '"', '!', '?', '<', '>', '=', '/'];
+				$search = array_merge($search, [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
 				$piece = str_replace($search, '', $piece);
 				$piece = trim($piece);
 
@@ -264,10 +264,10 @@ class TextLib extends String {
 	 * - html
 	 * @return string
 	 */
-	public static function maxWords($value, $words = 100, $options = array()) {
-		$defaults = array(
+	public static function maxWords($value, $words = 100, $options = []) {
+		$defaults = [
 			'ellipsis' => '...'
-		);
+		];
 		if (!empty($options['html']) && Configure::read('App.encoding') === 'UTF-8') {
 			$defaults['ellipsis'] = "\xe2\x80\xa6";
 		}
@@ -296,7 +296,7 @@ class TextLib extends String {
 	public function asciiToEntities($str) {
 		$count = 1;
 		$out = '';
-		$temp = array();
+		$temp = [];
 
 		for ($i = 0, $s = strlen($str); $i < $s; $i++) {
 			$ordinal = ord($str[$i]);
@@ -325,7 +325,7 @@ class TextLib extends String {
 
 					$out .= '&#' . $number . ';';
 					$count = 1;
-					$temp = array();
+					$temp = [];
 				}
 			}
 		}
@@ -364,8 +364,8 @@ class TextLib extends String {
 		}
 
 		if ($all) {
-			$str = str_replace(array("&amp;", "&lt;", "&gt;", "&quot;", "&apos;", "&#45;"),
-				array("&", "<", ">", "\"", "'", "-"), $str);
+			$str = str_replace(["&amp;", "&lt;", "&gt;", "&quot;", "&apos;", "&#45;"],
+				["&", "<", ">", "\"", "'", "-"], $str);
 		}
 
 		return $str;

@@ -46,7 +46,7 @@ class ResetShell extends AppShell {
 		$this->out('resetting...');
 		Configure::write('debug', 2);
 		$this->User->recursive = -1;
-		$this->User->updateAll(array('User.email' => '\'' . $email . '\''), array('User.email !=' => $email));
+		$this->User->updateAll(['User.email' => '\'' . $email . '\''], ['User.email !=' => $email]);
 		$count = $this->User->getAffectedRows();
 		$this->out($count . ' emails resetted - DONE');
 	}
@@ -57,7 +57,7 @@ class ResetShell extends AppShell {
 	 * @return void
 	 */
 	public function pwd() {
-		$components = array('Tools.AuthExt', 'Auth');
+		$components = ['Tools.AuthExt', 'Auth'];
 		foreach ($components as $component) {
 			if (App::import('Component', $component)) {
 				$component .= 'Component';
@@ -105,7 +105,7 @@ class ResetShell extends AppShell {
 
 		$newPwd = '\'' . $pw . '\'';
 		$this->User->recursive = -1;
-		$this->User->updateAll(array('password' => $newPwd), array('password !=' => $pw));
+		$this->User->updateAll(['password' => $newPwd], ['password !=' => $pw]);
 		$count = $this->User->getAffectedRows();
 		$this->out($count . ' pwds resetted - DONE');
 	}

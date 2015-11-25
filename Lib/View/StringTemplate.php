@@ -17,21 +17,21 @@ class StringTemplate {
 	 *
 	 * @var array
 	 */
-	protected $_compactAttributes = array(
+	protected $_compactAttributes = [
 		'compact', 'checked', 'declare', 'readonly', 'disabled', 'selected',
 		'defer', 'ismap', 'nohref', 'noshade', 'nowrap', 'multiple', 'noresize',
 		'autoplay', 'controls', 'loop', 'muted', 'required', 'novalidate', 'formnovalidate'
-	);
+	];
 
 	/**
 	 * The default templates this instance holds.
 	 *
 	 * @var array
 	 */
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'attribute' => '{{name}}="{{value}}"',
 		'compactAttribute' => '{{name}}="{{value}}"',
-	);
+	];
 
 	protected $_config;
 
@@ -40,14 +40,14 @@ class StringTemplate {
 	 *
 	 * @var array
 	 */
-	protected $_compiled = array();
+	protected $_compiled = [];
 
 	/**
 	 * Constructor.
 	 *
 	 * @param array $config A set of templates to add.
 	 */
-	public function __construct(array $config = array()) {
+	public function __construct(array $config = []) {
 		$this->config($config);
 	}
 
@@ -149,14 +149,14 @@ class StringTemplate {
 
 		$template = $this->config($name);
 		if ($template === null) {
-			return $this->_compiled[$name] = array(null, null);
+			return $this->_compiled[$name] = [null, null];
 		}
 
 		preg_match_all('#\{\{(\w+)\}\}#', $template, $matches);
-		return $this->_compiled[$name] = array(
+		return $this->_compiled[$name] = [
 			str_replace($matches[0], '%s', $template),
 			$matches[1]
-		);
+		];
 	}
 
 	/**
@@ -171,7 +171,7 @@ class StringTemplate {
 		if ($template === null) {
 			return '';
 		}
-		$replace = array();
+		$replace = [];
 		foreach ($placeholders as $placeholder) {
 			$replace[] = isset($data[$placeholder]) ? $data[$placeholder] : null;
 		}
@@ -206,15 +206,15 @@ class StringTemplate {
 	 */
 	public function formatAttributes($options, $exclude = null) {
 		$insertBefore = ' ';
-		$options = (array)$options + array('escape' => true);
+		$options = (array)$options + ['escape' => true];
 
 		if (!is_array($exclude)) {
-			$exclude = array();
+			$exclude = [];
 		}
 
-		$exclude = array('escape' => true, 'idPrefix' => true) + array_flip($exclude);
+		$exclude = ['escape' => true, 'idPrefix' => true] + array_flip($exclude);
 		$escape = $options['escape'];
-		$attributes = array();
+		$attributes = [];
 
 		foreach ($options as $key => $value) {
 			if (!isset($exclude[$key]) && $value !== false && $value !== null) {
@@ -239,26 +239,26 @@ class StringTemplate {
 			$value = implode(' ', $value);
 		}
 		if (is_numeric($key)) {
-			return $this->format('compactAttribute', array(
+			return $this->format('compactAttribute', [
 				'name' => $value,
 				'value' => $value
-			));
+			]);
 		}
-		$truthy = array(1, '1', true, 'true', $key);
+		$truthy = [1, '1', true, 'true', $key];
 		$isMinimized = in_array($key, $this->_compactAttributes);
 		if ($isMinimized && in_array($value, $truthy, true)) {
-			return $this->format('compactAttribute', array(
+			return $this->format('compactAttribute', [
 				'name' => $key,
 				'value' => $key
-			));
+			]);
 		}
 		if ($isMinimized) {
 			return '';
 		}
-		return $this->format('attribute', array(
+		return $this->format('attribute', [
 			'name' => $key,
 			'value' => $escape ? h($value) : $value
-		));
+		]);
 	}
 
 }

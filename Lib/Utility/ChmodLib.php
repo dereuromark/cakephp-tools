@@ -13,7 +13,7 @@
 class ChmodLib {
 
 	//protected $dir;
-	protected $modes = array('user' => 0, 'group' => 0, 'other' => 0);
+	protected $modes = ['user' => 0, 'group' => 0, 'other' => 0];
 
 /*** calc octal ***/
 
@@ -61,7 +61,7 @@ class ChmodLib {
 	 * - string: string/int/symbolic
 	 * @return int Mode
 	 */
-	public function getMode($options = array()) {
+	public function getMode($options = []) {
 		$mode = (string)($this->modes['user'] . $this->modes['group'] . $this->modes['other']);
 		if (!empty($options['type'])) {
 			if ($options['type'] === 'string') {
@@ -81,7 +81,7 @@ class ChmodLib {
 	 * //TODO
 	 */
 	public function table() {
-		$res = array();
+		$res = [];
 
 		return $res;
 	}

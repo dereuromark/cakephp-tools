@@ -18,50 +18,50 @@ class GravatarHelper extends AppHelper {
 	 *
 	 * @var string
 	 */
-	protected $_url = array(
+	protected $_url = [
 		'http' => 'http://www.gravatar.com/avatar/',
 		'https' => 'https://secure.gravatar.com/avatar/'
-	);
+	];
 
 	/**
 	 * Collection of allowed ratings
 	 *
 	 * @var array
 	 */
-	protected $_allowedRatings = array(
-		'g', 'pg', 'r', 'x');
+	protected $_allowedRatings = [
+		'g', 'pg', 'r', 'x'];
 
 	/**
 	 * Default Icon sets
 	 *
 	 * @var array
 	 */
-	protected $_defaultIcons = array(
-		'none', 'mm', 'identicon', 'monsterid', 'retro', 'wavatar', '404');
+	protected $_defaultIcons = [
+		'none', 'mm', 'identicon', 'monsterid', 'retro', 'wavatar', '404'];
 
 	/**
 	 * Default settings
 	 *
 	 * @var array
 	 */
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'default' => null,
 		'size' => null,
 		'rating' => null,
-		'ext' => false);
+		'ext' => false];
 
 	/**
 	 * Helpers used by this helper
 	 *
 	 * @var array
 	 */
-	public $helpers = array('Html');
+	public $helpers = ['Html'];
 
 	/**
 	 * Constructor
 	 *
 	 */
-	public function __construct($View = null, $config = array()) {
+	public function __construct($View = null, $config = []) {
 		$config += $this->_defaultConfig;
 
 		// Default the secure option to match the current URL.
@@ -76,7 +76,7 @@ class GravatarHelper extends AppHelper {
 	 * @param array $options Array of options, keyed from default settings
 	 * @return string Gravatar image string
 	 */
-	public function image($email, $options = array()) {
+	public function image($email, $options = []) {
 		$imageUrl = $this->imageUrl($email, $options);
 		unset($options['default'], $options['size'], $options['rating'], $options['ext']);
 		return $this->Html->image($imageUrl, $options);
@@ -90,7 +90,7 @@ class GravatarHelper extends AppHelper {
 	 * @param string $options Array of options, keyed from default settings
 	 * @return string Gravatar Image URL
 	 */
-	public function imageUrl($email, $options = array()) {
+	public function imageUrl($email, $options = []) {
 		$options = $this->_cleanOptions($options + $this->settings);
 		$ext = $options['ext'];
 		$secure = $options['secure'];
@@ -113,9 +113,9 @@ class GravatarHelper extends AppHelper {
 	 * @param array $options Array of options, keyed from default settings
 	 * @return array Default images array
 	 */
-	public function defaultImages($options = array()) {
+	public function defaultImages($options = []) {
 		$options = $this->_cleanOptions($options + $this->settings);
-		$images = array();
+		$images = [];
 		foreach ($this->_defaultIcons as $defaultIcon) {
 			$options['default'] = $defaultIcon;
 			$images[$defaultIcon] = $this->image(null, $options);
@@ -168,10 +168,10 @@ class GravatarHelper extends AppHelper {
 	 * @param array $options Array of options, keyed from default settings
 	 * @return string URL string of options
 	 */
-	protected function _buildOptions($options = array()) {
+	protected function _buildOptions($options = []) {
 		$gravatarOptions = array_intersect(array_keys($options), array_keys($this->_defaultConfig));
 		if (!empty($gravatarOptions)) {
-			$optionArray = array();
+			$optionArray = [];
 			foreach ($gravatarOptions as $key) {
 				$value = $options[$key];
 				$optionArray[] = $key . '=' . mb_strtolower($value);

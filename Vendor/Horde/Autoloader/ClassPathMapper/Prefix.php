@@ -23,9 +23,9 @@ class Horde_Autoloader_ClassPathMapper_Prefix implements Horde_Autoloader_ClassP
             if (strcasecmp($matches[0][0], $className) === 0) {
                 return "$this->_includePath/$className.php";
             } else {
-                return str_replace(array('\\', '_'), '/', substr($className, 0, $matches[0][1])) .
+                return str_replace(['\\', '_'], '/', substr($className, 0, $matches[0][1])) .
                     $this->_includePath . '/' .
-                    str_replace(array('\\', '_'), '/', substr($className, $matches[0][1] + strlen($matches[0][0]))) .
+                    str_replace(['\\', '_'], '/', substr($className, $matches[0][1] + strlen($matches[0][0]))) .
                     '.php';
             }
         }

@@ -13,11 +13,16 @@ class WeatherLibTest extends MyCakeTestCase {
 	}
 
 	public function testUrl() {
-		$res = $this->Weather->_url('x.xml');
-		$this->assertEquals('http://api.worldweatheronline.com/free/v1/x.xml', $res);
+		$Weather = new ReflectionMethod('WeatherLib', '_url');
+		$Weather->setAccessible(true);
 
-		$res = $this->Weather->_url('x.xml', array('y' => 'z'));
-		$this->assertEquals('http://api.worldweatheronline.com/free/v1/x.xml?y=z', $res);
+		$res = $Weather->invoke($this->Weather, 'x.xml');
+		//$res = $this->Weather->_url('x.xml');
+		$this->assertEquals(WeatherLib::API_URL_FREE . 'x.xml', $res);
+
+		$res = $Weather->invoke($this->Weather, 'x.xml', ['y' => 'z']);
+		//$res = $this->Weather->_url('x.xml', ['y' => 'z']);
+		$this->assertEquals(WeatherLib::API_URL_FREE . 'x.xml?y=z', $res);
 	}
 
 	public function testWeatherConditions() {
@@ -27,9 +32,17 @@ class WeatherLibTest extends MyCakeTestCase {
 	}
 
 	public function testWeather() {
+		$res = $this->Weather->get('Berlin');
+		$this->debug($res);
+		$this->assertTrue(!empty($res));
+		$this->assertSame('City', $res['request']['type']);
+	}
+
+	public function testWeatherCoords() {
 		$res = $this->Weather->get('48.2,11.1');
 		$this->debug($res);
 		$this->assertTrue(!empty($res));
+		$this->assertSame('LatLon', $res['request']['type']);
 	}
 
 }

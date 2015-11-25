@@ -21,7 +21,7 @@ class CcShell extends AppShell {
 
 	public $content = '';
 
-	public $appFiles = array();
+	public $appFiles = [];
 
 	/**
 	 * CcShell::main()

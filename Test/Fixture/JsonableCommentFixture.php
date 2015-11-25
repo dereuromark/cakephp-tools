@@ -2,14 +2,14 @@
 
 class JsonableCommentFixture extends CakeTestFixture {
 
-	public $fields = array(
-		'id'		=> array('type' => 'integer', 'key' => 'primary'),
-		'comment'		=> array('type' => 'string', 'length' => 255, 'null' => false),
-		'url'		=> array('type' => 'string', 'length' => 255, 'null' => false),
-		'title'		=> array('type' => 'string', 'length' => 255, 'null' => false),
-		'details'		=> array('type' => 'string', 'length' => 255, 'null' => false)
-	);
+	public $fields = [
+		'id'		=> ['type' => 'integer', 'key' => 'primary'],
+		'comment'		=> ['type' => 'string', 'length' => 255, 'null' => false],
+		'url'		=> ['type' => 'string', 'length' => 255, 'null' => false],
+		'title'		=> ['type' => 'string', 'length' => 255, 'null' => false],
+		'details'		=> ['type' => 'string', 'length' => 255, 'null' => false]
+	];
 
-	public $records = array(
-	);
+	public $records = [
+	];
 }

@@ -19,13 +19,13 @@ class FolderSyncShell extends AppShell {
 
 	public $files = 0;
 
-	public $missing = array();
+	public $missing = [];
 
 	public $updatedFiles = 0;
 
 	public $removedFiles = 0;
 
-	public $excludes = array('.git', '.svn');
+	public $excludes = ['.git', '.svn'];
 
 	/**
 	 * Main
@@ -97,7 +97,7 @@ class FolderSyncShell extends AppShell {
 		}
 	}
 
-	protected function _sync($from, $to, $excludes = array()) {
+	protected function _sync($from, $to, $excludes = []) {
 		$Folder = new Folder($to);
 		$content = $Folder->read(true, true, true);
 		foreach ($content[0] as $folder) {
@@ -163,52 +163,52 @@ class FolderSyncShell extends AppShell {
 	}
 
 	public function getOptionParser() {
-		$subcommandParser = array(
-			'options' => array(
-				'source' => array(
+		$subcommandParser = [
+			'options' => [
+				'source' => [
 					'short' => 's',
 					'help' => 'source - defaults to app',
 					'default' => '',
-				),
-				'target' => array(
+				],
+				'target' => [
 					'short' => 't',
 					'help' => 'target - required',
 					'default' => '',
-				),
-				'plugin' => array(
+				],
+				'plugin' => [
 					'short' => 'p',
 					'help' => 'The plugin folder - can only be used with app as source',
 					'default' => '',
-				),
-				'remove' => array(
+				],
+				'remove' => [
 					'short' => 'r',
 					'help' => 'Remove files if source is non-existent',
 					'boolean' => true
-				),
-				'invert' => array(
+				],
+				'invert' => [
 					'short' => 'i',
 					'help' => 'Invert direction (target to source)',
 					'boolean' => true
-				),
-				'dry-run' => array(
+				],
+				'dry-run' => [
 					'short' => 'd',
 					'help' => 'Dry run the update, no files will actually be modified.',
 					'boolean' => true
-				),
-				'log' => array(
+				],
+				'log' => [
 					'short' => 'l',
 					'help' => 'Log all ouput to file log.txt in TMP dir',
 					'boolean' => true
-				),
-			)
-		);
+				],
+			]
+		];
 
 		return parent::getOptionParser()
 			->description('Sync folders via CakePHP shell')
-			->addSubcommand('update', array(
+			->addSubcommand('update', [
 				'help' => 'Update',
 				'parser' => $subcommandParser
-			));
+			]);
 	}
 
 }

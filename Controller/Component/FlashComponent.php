@@ -14,9 +14,9 @@ App::uses('Inflector', 'Utility');
  */
 class FlashComponent extends Component {
 
-	public $components = array('Session');
+	public $components = ['Session'];
 
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'headerOnAjax' => true,
 		'transformCore' => true,
 		'useElements' => false, // Set to true to use 3.x flash message rendering via Elements
@@ -24,9 +24,9 @@ class FlashComponent extends Component {
 		'typeToElement' => false, // Set to true to have a single type to Element matching
 		'plugin' => null, // Only for typeToElement
 		'element' => 'Tools.default',
-		'params' => array(),
+		'params' => [],
 		'escape' => false
-	);
+	];
 
 	/**
 	 * Constructor.
@@ -34,7 +34,7 @@ class FlashComponent extends Component {
 	 * @param ComponentCollection $collection
 	 * @param array $config
 	 */
-	public function __construct(ComponentCollection $collection, $config = array()) {
+	public function __construct(ComponentCollection $collection, $config = []) {
 		$defaults = (array)Configure::read('Flash') + $this->_defaultConfig;
 		//BC
 		if (Configure::read('Common.messages') !== null) {
@@ -76,7 +76,7 @@ class FlashComponent extends Component {
 			$this->Session->delete('Message');
 		}
 
-		if ($this->settings['headerOnAjax'] && $this->Controller->request->is('ajax')) {
+		if ($this->settings['headerOnAjax'] && isset($this->Controller->request) && $this->Controller->request->is('ajax')) {
 			$ajaxMessages = array_merge(
 				(array)$this->Session->read('messages'),
 				(array)Configure::read('messages')
@@ -104,7 +104,7 @@ class FlashComponent extends Component {
 	 * @param array|string $options Options or Type ('error', 'warning', 'success', 'info' or custom class).
 	 * @return void
 	 */
-	public function message($message, $options = array()) {
+	public function message($message, $options = []) {
 		$message = $this->_prepMessage($message, $options, $this->settings);
 
 		$old = (array)$this->Session->read('messages');
@@ -137,16 +137,16 @@ class FlashComponent extends Component {
 	 * @param array|string $options Options or Type ('error', 'warning', 'success', 'info' or custom class).
 	 * @return void
 	 */
-	public static function transientMessage($message, $options = array()) {
-		$defaults = (array)Configure::read('Flash') + array(
+	public static function transientMessage($message, $options = []) {
+		$defaults = (array)Configure::read('Flash') + [
 			'type' => 'info',
 			'escape' => false,
-			'params' => array(),
+			'params' => [],
 			'element' => 'Tools.default',
 			'typeToElement' => false,
 			'useElements' => false,
 			'plugin' => null,
-		);
+		];
 		$message = static::_prepMessage($message, $options, $defaults);
 
 		$old = (array)Configure::read('messages');
@@ -168,15 +168,15 @@ class FlashComponent extends Component {
 	protected static function _prepMessage($message, &$options, $defaults) {
 		if (!is_array($options)) {
 			$type = $options ?: $defaults['type'];
-			$options = array('type' => $type);
+			$options = ['type' => $type];
 		}
 		$options += $defaults;
 
-		$message = array(
+		$message = [
 			'message' => $message,
 			'params' => $options['params'],
 			'escape' => $options['escape']
-		);
+		];
 
 		if ($options['useElements']) {
 			if ($options['typeToElement'] && $options['element'] === $defaults['element']) {
@@ -212,7 +212,7 @@ class FlashComponent extends Component {
 			throw new InternalErrorException('Flash message missing.');
 		}
 
-		$options = array('type' => Inflector::underscore($name));
+		$options = ['type' => Inflector::underscore($name)];
 		if (!empty($args[1])) {
 			$options += (array)$args[1];
 		}

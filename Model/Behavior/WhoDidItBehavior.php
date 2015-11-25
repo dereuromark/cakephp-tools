@@ -35,7 +35,7 @@ class WhoDidItBehavior extends ModelBehavior {
 	 * @var array
 	 * @link http://book.cakephp.org/2.0/en/models/saving-your-data.html#using-created-and-modified
 	 */
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'auth_session' => 'Auth', // Name of Auth session key
 		'user_model' => 'User', // Name of the User model (for plugins use PluginName.ModelName)
 		'created_by_field' => 'created_by', // Name of the "created_by" field in the model
@@ -43,7 +43,7 @@ class WhoDidItBehavior extends ModelBehavior {
 		'confirmed_by_field' => 'confirmed_by', // Name of the "confirmed by" field in the model
 		'auto_bind' => true, // Automatically bind the model to the User model (default true)
 		'force_modified' => false // Force update of the "modified" field even if not empty
-	);
+	];
 
 	/**
 	 * Initiate WhoDidIt Behavior.
@@ -55,7 +55,7 @@ class WhoDidItBehavior extends ModelBehavior {
 	 * @param array $config Behavior settings you would like to override.
 	 * @return void
 	 */
-	public function setup(Model $Model, $config = array()) {
+	public function setup(Model $Model, $config = []) {
 		$config += $this->_defaultConfig;
 
 		$config['has_created_by'] = $Model->hasField($config['created_by_field']);
@@ -65,27 +65,27 @@ class WhoDidItBehavior extends ModelBehavior {
 		// Handles model binding to the User model according to the auto_bind settings (default true).
 		if ($config['auto_bind']) {
 			if ($config['has_created_by']) {
-				$commonBelongsTo = array(
-					'CreatedBy' => array(
+				$commonBelongsTo = [
+					'CreatedBy' => [
 						'className' => $config['user_model'],
-						'foreignKey' => $config['created_by_field']));
-				$Model->bindModel(array('belongsTo' => $commonBelongsTo), false);
+						'foreignKey' => $config['created_by_field']]];
+				$Model->bindModel(['belongsTo' => $commonBelongsTo], false);
 			}
 
 			if ($config['has_modified_by']) {
-				$commonBelongsTo = array(
-					'ModifiedBy' => array(
+				$commonBelongsTo = [
+					'ModifiedBy' => [
 						'className' => $config['user_model'],
-						'foreignKey' => $config['modified_by_field']));
-				$Model->bindModel(array('belongsTo' => $commonBelongsTo), false);
+						'foreignKey' => $config['modified_by_field']]];
+				$Model->bindModel(['belongsTo' => $commonBelongsTo], false);
 			}
 
 			if ($config['has_confirmed_by']) {
-				$commonBelongsTo = array(
-					'ConfirmedBy' => array(
+				$commonBelongsTo = [
+					'ConfirmedBy' => [
 						'className' => $config['user_model'],
-						'foreignKey' => $config['confirmed_by_field']));
-				$Model->bindModel(array('belongsTo' => $commonBelongsTo), false);
+						'foreignKey' => $config['confirmed_by_field']]];
+				$Model->bindModel(['belongsTo' => $commonBelongsTo], false);
 			}
 		}
 
@@ -105,8 +105,9 @@ class WhoDidItBehavior extends ModelBehavior {
 	 * @param Model $Model The Model using this behavior
 	 * @param array $options Options passed from Model::save(), unused.
 	 * @return mixed False if the operation should abort. Any other result will continue.
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
 	 */
-	public function beforeSave(Model $Model, $options = array()) {
+	public function beforeSave(Model $Model, $options = []) {
 		$config = $this->settings[$Model->alias];
 		if (!$config['has_created_by'] && !$config['has_modified_by']) {
 			return true;
@@ -121,7 +122,7 @@ class WhoDidItBehavior extends ModelBehavior {
 			return true;
 		}
 
-		$data = array();
+		$data = [];
 		$modifiedByField = $config['modified_by_field'];
 
 		if (!isset($Model->data[$Model->alias][$modifiedByField]) || $config['force_modified']) {

@@ -38,11 +38,11 @@ App::uses('ModelBehavior', 'Model');
  */
 class NamedScopeBehavior extends ModelBehavior {
 
-	protected $_defaultConfig = array(
-		'scope' => array(), // Container to hold all scopes
+	protected $_defaultConfig = [
+		'scope' => [], // Container to hold all scopes
 		'attribute' => 'scopes', // Model attribute to hold the custom scopes
 		'findAttribute' => 'scopedFinds' // Model attribute to hold the custom finds
-	);
+	];
 
 	/**
 	 * Sets up the behavior including settings (i.e. scope).
@@ -51,7 +51,7 @@ class NamedScopeBehavior extends ModelBehavior {
 	 * @param array $config
 	 * @return void
 	 */
-	public function setup(Model $Model, $config = array()) {
+	public function setup(Model $Model, $config = []) {
 		$attribute = !empty($config['attribute']) ? $config['attribute'] : $this->_defaultConfig['attribute'];
 		if (!empty($Model->$attribute)) {
 			$config['scope'] = !empty($config['scope']) ? array_merge($Model->$attribute, $config['scope']) : $Model->$attribute;
@@ -67,15 +67,15 @@ class NamedScopeBehavior extends ModelBehavior {
 	 * @return mixed
 	 */
 	public function beforeFind(Model $Model, $queryData) {
-		$scopes = array();
+		$scopes = [];
 		// Passed as scopes (preferred)
 		if (!empty($queryData['scope'])) {
-			$scope = !is_array($queryData['scope']) ? array($queryData['scope']) : $queryData['scope'];
+			$scope = !is_array($queryData['scope']) ? [$queryData['scope']] : $queryData['scope'];
 			$scopes = array_merge($scopes, $scope);
 		}
 		// Passed as conditions['scope']
 		if (is_array($queryData['conditions']) && !empty($queryData['conditions']['scope'])) {
-			$scope = !is_array($queryData['conditions']['scope']) ? array($queryData['conditions']['scope']) : $queryData['conditions']['scope'];
+			$scope = !is_array($queryData['conditions']['scope']) ? [$queryData['conditions']['scope']] : $queryData['conditions']['scope'];
 			unset($queryData['conditions']['scope']);
 			$scopes = array_merge($scopes, $scope);
 		}
@@ -121,7 +121,7 @@ class NamedScopeBehavior extends ModelBehavior {
 	 * @return mixed
 	 * @throws RuntimeException On invalid configs.
 	 */
-	public function scopedFind(Model $Model, $key, array $customConfig = array()) {
+	public function scopedFind(Model $Model, $key, array $customConfig = []) {
 		$attribute = $this->settings[$Model->alias]['findAttribute'];
 		if (empty($Model->$attribute)) {
 			throw new RuntimeException('No scopedFinds configs in ' . $Model->alias);
@@ -165,10 +165,10 @@ class NamedScopeBehavior extends ModelBehavior {
 	public function scopedFinds(Model $Model) {
 		$attribute = $this->settings[$Model->alias]['findAttribute'];
 		if (empty($Model->$attribute)) {
-			return array();
+			return [];
 		}
 
-		$data = array();
+		$data = [];
 		foreach ($Model->$attribute as $group => $config) {
 			$data[$group] = $config['name'];
 		}
@@ -184,7 +184,7 @@ class NamedScopeBehavior extends ModelBehavior {
 	 * @return array
 	 */
 	protected function _conditions(array $scopes, $modelName) {
-		$conditions = array();
+		$conditions = [];
 		foreach ($scopes as $scope) {
 			if (strpos($scope, '.')) {
 				list($scopeModel, $scope) = explode('.', $scope);
@@ -192,7 +192,7 @@ class NamedScopeBehavior extends ModelBehavior {
 				$scopeModel = $modelName;
 			}
 			if (!empty($this->settings[$scopeModel]['scope'][$scope])) {
-				$conditions[] = array($this->settings[$scopeModel]['scope'][$scope]);
+				$conditions[] = [$this->settings[$scopeModel]['scope'][$scope]];
 			}
 		}
 

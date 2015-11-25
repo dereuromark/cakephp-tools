@@ -28,10 +28,10 @@ class ExcelReaderLibTest extends MyCakeTestCase {
 		$this->assertSame(3, $sheets);
 
 		$array = $this->ExcelReader->dumpToArray();
-		$expected = array(
-			array('A', 'B', 'C'),
-			array('titleA', 'titleB', 'titleC'),
-		);
+		$expected = [
+			['A', 'B', 'C'],
+			['titleA', 'titleB', 'titleC'],
+		];
 		$this->assertSame($expected, $array);
 	}
 
@@ -49,25 +49,25 @@ class ExcelReaderLibTest extends MyCakeTestCase {
 		$this->assertSame(3, $sheets);
 
 		$array = $this->ExcelReader->dumpToArray();
-		$expected = array(
-			array('A', 'B', 'C'),
-			array('titleA', 'titleB', 'titleC'),
-		);
+		$expected = [
+			['A', 'B', 'C'],
+			['titleA', 'titleB', 'titleC'],
+		];
 		$this->assertSame($expected, $array);
 
 		$array = $this->ExcelReader->dumpToArray(1);
 		//debug($array);
-		$expected = array(
-			array('A1', '0'),
-			array('A2', '1'),
-			array('A3', '2'),
-			array('A4', '3'),
-		);
+		$expected = [
+			['A1', '0'],
+			['A2', '1'],
+			['A3', '2'],
+			['A4', '3'],
+		];
 		$this->assertSame($expected, $array);
 
 		$array = $this->ExcelReader->dumpToArray(2);
-		$expected = array(
-		);
+		$expected = [
+		];
 		$this->assertSame($expected, $array);
 
 		$file = $path . 'excel_1995.xls';

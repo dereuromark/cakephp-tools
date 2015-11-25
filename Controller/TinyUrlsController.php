@@ -15,7 +15,7 @@ App::uses('ToolsAppController', 'Tools.Controller');
  */
 class TinyUrlsController extends ToolsAppController {
 
-	public $uses = array('Tools.TinyUrl');
+	public $uses = ['Tools.TinyUrl'];
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -53,7 +53,7 @@ class TinyUrlsController extends ToolsAppController {
 			$type = !empty($entry['TinyUrl']['flash_type']) ? $entry['TinyUrl']['flash_type'] : 'success';
 			$this->Flash->message($message, $type);
 		}
-		$this->TinyUrl->up($entry['TinyUrl']['id'], array('field' => 'used', 'modify' => true, 'timestampField' => 'last_used'));
+		$this->TinyUrl->up($entry['TinyUrl']['id'], ['field' => 'used', 'modify' => true, 'timestampField' => 'last_used']);
 		return $this->redirect($url, 301);
 	}
 
@@ -67,14 +67,14 @@ class TinyUrlsController extends ToolsAppController {
 			$this->TinyUrl->set($this->request->data);
 			if ($this->TinyUrl->validates()) {
 				$id = $this->TinyUrl->generate($this->TinyUrl->data['TinyUrl']['url']);
-				$this->Flash->message('New Key: ' . h($id), 'success');
+				$this->Flash->success('New Key: ' . h($id));
 				$url = $this->TinyUrl->urlByKey($id);
 				$this->set(compact('url'));
-				$this->request->data = array();
+				$this->request->data = [];
 			}
 		}
 
-		$tinyUrls = $this->TinyUrl->find('count', array('conditions' => array()));
+		$tinyUrls = $this->TinyUrl->find('count', ['conditions' => []]);
 
 		$this->set(compact('tinyUrls'));
 	}
@@ -95,8 +95,8 @@ class TinyUrlsController extends ToolsAppController {
 	public function admin_reset() {
 		$this->request->allowMethod('post');
 		$this->TinyUrl->truncate();
-		$this->Flash->message(__d('tools', 'Done'), 'success');
-		return $this->Common->autoRedirect(array('action' => 'index'));
+		$this->Flash->success(__d('tools', 'Done'));
+		return $this->Common->autoRedirect(['action' => 'index']);
 	}
 
 }

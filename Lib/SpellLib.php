@@ -21,12 +21,12 @@ class SpellLib {
 	/**
 	 * Available engines
 	 */
-	protected $_engines = array(self::ENGINE_MYSPELL => 'myspell', self::ENGINE_ISPELL => 'ispell');
+	protected $_engines = [self::ENGINE_MYSPELL => 'myspell', self::ENGINE_ISPELL => 'ispell'];
 
 	/**
 	 * Available languages
 	 */
-	protected $_langs = array('en_GB', 'de_DE');
+	protected $_langs = ['en_GB', 'de_DE'];
 
 	protected $_Broker;
 
@@ -34,17 +34,17 @@ class SpellLib {
 
 	//public $settings = array();
 
-	public function __construct($options = array()) {
+	public function __construct($options = []) {
 		if (!function_exists('enchant_broker_init')) {
 			throw new InternalErrorException(sprintf('Module %s not installed', 'Enchant'));
 		}
 		$this->_Broker = enchant_broker_init();
 
-		$defaults = array(
+		$defaults = [
 			'path' => VENDORS . 'dictionaries' . DS,
 			'lang' => 'en_GB',
 			'engine' => static::ENGINE_MYSPELL
-		);
+		];
 		$defaults = array_merge($defaults, (array)Configure::read('Spell'));
 		$options = array_merge($defaults, $options);
 

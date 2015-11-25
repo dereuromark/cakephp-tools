@@ -10,10 +10,10 @@
  */
 class Soros {
 
-	private $patterns = array();
-	private $values = array();
-	private $begins = array();
-	private $ends = array();
+	private $patterns = [];
+	private $values = [];
+	private $begins = [];
+	private $ends = [];
 	private $m;
 	private $m2;
 	private $c;
@@ -28,30 +28,30 @@ class Soros {
 	 * @param string $source
 	 */
 	public function __construct($source) {
-		$this->m = array(
+		$this->m = [
 			"\\",
 			"\"",
 			";",
-			"#");
-		$this->m2 = array(
+			"#"];
+		$this->m2 = [
 			"$",
 			"(",
 			")",
-			"|");
-		$this->c = array(
+			"|"];
+		$this->c = [
 			json_decode('"\uE000"'),
 			json_decode('"\uE001"'),
 			json_decode('"\uE002"'),
 			json_decode('"\uE003"'),
-			);
-		$this->c2 = array(
+			];
+		$this->c2 = [
 			json_decode('"\uE004"'),
 			json_decode('"\uE005"'),
 			json_decode('"\uE006"'),
 			json_decode('"\uE007"'),
-			);
-		$this->slash = array(json_decode('"\uE000"'));
-		$this->pipe = array(json_decode('"\uE003"'));
+			];
+		$this->slash = [json_decode('"\uE000"')];
+		$this->pipe = [json_decode('"\uE003"')];
 
 		$source = self::translate($source, $this->m, $this->c, "\\");
 		$source = preg_replace("/(#[^\n]*)?(\n|$)/", ";", $source);

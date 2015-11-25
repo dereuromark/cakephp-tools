@@ -13,13 +13,17 @@
 		}
 	],
 	"require": {
-		"php": ">=5.3",
-		"composer/installers": "*"
+		"php": ">=5.4",
+		"composer/installers": "*",
+		"dereuromark/cakephp-shim": "0.4.*"
 	},
 	"support": {
 		"source": "https://github.com/dereuromark/cakephp-tools"
 	},
 	"extra": {
 		"installer-name": "Tools"
+	},
+	"suggest": {
+		"pelago/emogrifier": "When using InlineCss lib and CSS to inline HTML transformation."
 	}
 }

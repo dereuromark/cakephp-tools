@@ -14,6 +14,7 @@ App::uses('Component', 'Controller');
  * @modified Mark Scherer - 2012-01-08 ms
  * - now works with Controller::beforeFilter() modifications to allow username/email login switch
  * - can be disabled dynamically and will skip on CakeError view
+ *  @deprecated Use CookieAuthenticate from https://github.com/FriendsOfCake/Authenticate/
  */
 class AutoLoginComponent extends Component {
 
@@ -29,21 +30,21 @@ class AutoLoginComponent extends Component {
 	 *
 	 * @var array
 	 */
-	public $components = array('Auth', 'Cookie');
+	public $components = ['Auth', 'Cookie'];
 
 	/**
 	 * Settings.
 	 *
 	 * @var array
 	 */
-	public $settings = array();
+	public $settings = [];
 
 	/**
 	 * Default settings.
 	 *
 	 * @var array
 	 */
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'active' => true,
 		'model' => 'User',
 		'username' => 'username',
@@ -57,7 +58,7 @@ class AutoLoginComponent extends Component {
 		'redirect' => true,
 		'requirePrompt' => true, # Displayed checkbox determines if cookie is created
 		'debug' => null # Auto-Select based on debug mode or ip range
-	);
+	];
 
 	/**
 	 * Determines whether to trigger startup() logic.
@@ -72,7 +73,7 @@ class AutoLoginComponent extends Component {
 	 * @param ComponentCollection $collection
 	 * @param array $config
 	 */
-	public function __construct(ComponentCollection $collection, $config = array()) {
+	public function __construct(ComponentCollection $collection, $config = []) {
 		$defaultConfig = (array)Configure::read('AutoLogin') + $this->_defaultConfig;
 		$config += $defaultConfig;
 
@@ -134,20 +135,20 @@ class AutoLoginComponent extends Component {
 			$this->debug('login', $this->Cookie, $this->Auth->user());
 
 			if (in_array('_autoLogin', get_class_methods($controller))) {
-				call_user_func_array(array($controller, '_autoLogin'), array(
+				call_user_func_array([$controller, '_autoLogin'], [
 					$this->Auth->user()
-				));
+				]);
 			}
 			if ($this->settings['redirect']) {
-				$controller->redirect(array(), 301);
+				$controller->redirect([], 301);
 			}
 		} else {
 			$this->debug('loginFail', $this->Cookie, $this->Auth->user());
 
 			if (in_array('_autoLoginError', get_class_methods($controller))) {
-				call_user_func_array(array($controller, '_autoLoginError'), array(
+				call_user_func_array([$controller, '_autoLoginError'], [
 					$this->_readCookie()
-				));
+				]);
 			}
 		}
 	}
@@ -227,8 +228,8 @@ class AutoLoginComponent extends Component {
 	 * @param array $user
 	 * @return void
 	 */
-	public function debug($key, $cookie = array(), $user = array()) {
-		$scopes = array(
+	public function debug($key, $cookie = [], $user = []) {
+		$scopes = [
 			'login'				=> 'Login Successful',
 			'loginFail'			=> 'Login Failure',
 			'loginCallback'		=> 'Login Callback',
@@ -238,7 +239,7 @@ class AutoLoginComponent extends Component {
 			'cookieFail'		=> 'Cookie Mismatch',
 			'hashFail'			=> 'Hash Mismatch',
 			'custom'			=> 'Custom Callback'
-		);
+		];
 
 		if ($this->settings['debug'] && isset($scopes[$key])) {
 			$debug = (array)Configure::read('AutoLogin');
@@ -276,7 +277,7 @@ class AutoLoginComponent extends Component {
 	protected function _writeCookie($username, $password) {
 		$time = time();
 
-		$cookie = array();
+		$cookie = [];
 		$cookie['username'] = base64_encode($username);
 		$cookie['password'] = base64_encode($password);
 		$cookie['hash'] = $this->Auth->password($username . $time);

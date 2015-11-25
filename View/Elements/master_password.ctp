@@ -7,5 +7,5 @@ if (!isset($model)) {
 ?>
 <fieldset>
 	<legend><?php echo __d('tools', 'Master Password');?></legend>
-	<?php echo $this->Form->input($model.'master_pwd', array('label'=>__d('tools', 'Password'))); ?>
+	<?php echo $this->Form->input($model.'master_pwd', ['label'=>__d('tools', 'Password')]); ?>
 </fieldset>

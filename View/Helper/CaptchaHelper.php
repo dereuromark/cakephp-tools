@@ -19,28 +19,28 @@ if (!defined('BR')) {
  */
 class CaptchaHelper extends AppHelper {
 
-	public $helpers = array('Form');
+	public $helpers = ['Form'];
 
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'difficulty' => 1, # initial diff. level (@see operator: + = 0, +- = 1, +-* = 2)
 		'raiseDifficulty' => 2, # number of failed trails, after the x. one the following one it will be more difficult
-	);
+	];
 
 	protected $numberConvert = null;
 
 	protected $operatorConvert = null;
 
-	public function __construct($View = null, $config = array()) {
+	public function __construct($View = null, $config = []) {
 		$defaults = CaptchaLib::$defaults + $this->_defaultConfig;
 		$defaults = (array)Configure::read('Captcha') + $defaults;
 		$config += $defaults;
 		parent::__construct($View, $config);
 
 		// First of all we are going to set up an array with the text equivalents of all the numbers we will be using.
-		$this->numberConvert = array(0 => __d('tools', 'zero'), 1 => __d('tools', 'one'), 2 => __d('tools', 'two'), 3 => __d('tools', 'three'), 4 => __d('tools', 'four'), 5 => __d('tools', 'five'), 6 => __d('tools', 'six'), 7 => __d('tools', 'seven'), 8 => __d('tools', 'eight'), 9 => __d('tools', 'nine'), 10 => __d('tools', 'ten'));
+		$this->numberConvert = [0 => __d('tools', 'zero'), 1 => __d('tools', 'one'), 2 => __d('tools', 'two'), 3 => __d('tools', 'three'), 4 => __d('tools', 'four'), 5 => __d('tools', 'five'), 6 => __d('tools', 'six'), 7 => __d('tools', 'seven'), 8 => __d('tools', 'eight'), 9 => __d('tools', 'nine'), 10 => __d('tools', 'ten')];
 
 		// Set up an array with the operators that we want to use. With difficulty=1 it is only subtraction and addition.
-		$this->operatorConvert = array(0 => array('+', __d('tools', 'calcPlus')), 1 => array('-', __d('tools', 'calcMinus')), 2 => '*', __d('tools', 'calcTimes'));
+		$this->operatorConvert = [0 => ['+', __d('tools', 'calcPlus')], 1 => ['-', __d('tools', 'calcMinus')], 2 => '*', __d('tools', 'calcTimes')];
 	}
 
 	/**
@@ -65,7 +65,7 @@ class CaptchaHelper extends AppHelper {
 		// Evaluate the equation and get the result.
 		eval('$result = ' . $numberOne . ' ' . $captchaOperatorSelection[0] . ' ' . $numberTwo . ';');
 
-		return array('code' => $code, 'result' => $result);
+		return ['code' => $code, 'result' => $result];
 	}
 
 	/**
@@ -92,7 +92,7 @@ class CaptchaHelper extends AppHelper {
 
 		$return = '';
 
-		if (in_array($this->settings['type'], array('active', 'both'))) {
+		if (in_array($this->settings['type'], ['active', 'both'])) {
 			// //todo obscure html here?
 			$fill = ''; //'<span></span>';
 			$return .= '<span id="captchaCode">' . $fill . '' . $captchaCode['code'] . '</span>';
@@ -102,9 +102,9 @@ class CaptchaHelper extends AppHelper {
 
 		// add passive part on active forms as well
 		$return .= '<div style="display:none">' .
-			$this->Form->input($field . '_hash', array('value' => $hash)) .
-			$this->Form->input($field . '_time', array('value' => time())) .
-			$this->Form->input((!empty($modelName) ? $modelName . '.' : '') . $this->settings['dummyField'], array('value' => '')) .
+			$this->Form->input($field . '_hash', ['value' => $hash]) .
+			$this->Form->input($field . '_time', ['value' => time()]) .
+			$this->Form->input((!empty($modelName) ? $modelName . '.' : '') . $this->settings['dummyField'], ['value' => '']) .
 		'</div>';
 		return $return;
 	}
@@ -117,8 +117,8 @@ class CaptchaHelper extends AppHelper {
 	 * @param bool between: [default: true]
 	 * @return string HTML
 	 */
-	public function input($modelName = null, $options = array()) {
-		$defaults = array(
+	public function input($modelName = null, $options = []) {
+		$defaults = [
 			'type' => 'text',
 			'class' => 'captcha',
 			'value' => '',
@@ -127,12 +127,12 @@ class CaptchaHelper extends AppHelper {
 			'combined' => true,
 			'autocomplete' => 'off',
 			'after' => __d('tools', 'captchaTip'),
-		);
+		];
 		$options += $defaults;
 
 		if ($options['combined'] === true) {
 			$options['between'] = $this->captcha($modelName);
-			if (in_array($this->settings['type'], array('active', 'both'))) {
+			if (in_array($this->settings['type'], ['active', 'both'])) {
 				$options['between'] .= ' = ';
 			}
 		}
@@ -147,7 +147,7 @@ class CaptchaHelper extends AppHelper {
 	 *
 	 * @return string HTML
 	 */
-	public function passive($modelName = null, $options = array()) {
+	public function passive($modelName = null, $options = []) {
 		$tmp = $this->settings['type'];
 		$this->settings['type'] = 'passive';
 		$res = $this->captcha($modelName);
@@ -161,7 +161,7 @@ class CaptchaHelper extends AppHelper {
 	 *
 	 * @return string Form input
 	 */
-	public function active($modelName = null, $options = array()) {
+	public function active($modelName = null, $options = []) {
 		return $this->input($modelName, $options);
 	}
 

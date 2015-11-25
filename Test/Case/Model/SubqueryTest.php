@@ -9,7 +9,7 @@ App::uses('Controller', 'Controller');
  */
 class SubqueryTest extends MyCakeTestCase {
 
-	public $fixtures = array('plugin.tools.country', 'plugin.tools.country_province');
+	public $fixtures = ['plugin.tools.country', 'plugin.tools.country_province'];
 
 	public $Model;
 
@@ -28,31 +28,31 @@ class SubqueryTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testSubquery() {
-		$res = $this->Model->find('all', array('conditions' => array()));
+		$res = $this->Model->find('all', ['conditions' => []]);
 		$this->debug(count($res));
 		$this->assertEquals(10, count($res));
 
 		$res = $this->Model->subquery('count');
 		$this->debug($res);
 
-		$res = $this->Model->find('all', array('conditions' => array('lat <=' => $this->Model->subquery('count'))));
+		$res = $this->Model->find('all', ['conditions' => ['lat <=' => $this->Model->subquery('count')]]);
 		$this->debug(count($res));
 		$this->assertEquals(0, count($res));
 
-		$subqueryOptions = array('fields' => array('MAX(lat)'));
+		$subqueryOptions = ['fields' => ['MAX(lat)']];
 		$res = $this->Model->subquery('all', $subqueryOptions);
 		$this->debug($res);
 
-		$subqueryOptions = array('fields' => array('MAX(lat)'));
-		$res = $this->Model->find('all', array('conditions' => array('lat <=' => $this->Model->subquery('first', $subqueryOptions))));
+		$subqueryOptions = ['fields' => ['MAX(lat)']];
+		$res = $this->Model->find('all', ['conditions' => ['lat <=' => $this->Model->subquery('first', $subqueryOptions)]]);
 		$this->debug(count($res));
 		$this->assertEquals(0, count($res));
 
-		$subqueryOptions = array('fields' => array('id'), 'conditions' => array('id' => 1));
+		$subqueryOptions = ['fields' => ['id'], 'conditions' => ['id' => 1]];
 		$res = $this->Model->subquery('first', $subqueryOptions);
 		$this->debug($res);
 
-		$res = $this->Model->find('all', array('conditions' => array('id NOT IN ' . $this->Model->subquery('all', $subqueryOptions))));
+		$res = $this->Model->find('all', ['conditions' => ['id NOT IN ' . $this->Model->subquery('all', $subqueryOptions)]]);
 		$this->debug(count($res));
 		$this->debug($res);
 		$this->assertEquals(9, count($res));
@@ -69,16 +69,16 @@ class SubqueryTest extends MyCakeTestCase {
 		$source = $Controller->Country->getDataSource();
 		$database = $source->config['database'];
 
-		$subquery = $Controller->Country->subquery('list', array('conditions' => array('NOT' => array('SubCountry.id' => array(1, 2, 3)))));
+		$subquery = $Controller->Country->subquery('list', ['conditions' => ['NOT' => ['SubCountry.id' => [1, 2, 3]]]]);
 		$expected = '(SELECT SubCountry.id FROM `' . $database . '`.`countries` AS `SubCountry`   WHERE NOT (`SubCountry`.`id` IN (1, 2, 3)))';
 		$this->assertEquals($expected, $subquery);
 
 		$res = $Controller->Country->query($subquery);
 		$this->assertTrue(count($res) === 7);
 
-		$Controller->paginate = array(
-			'conditions' => array('Country.id IN ' . $subquery)
-		);
+		$Controller->paginate = [
+			'conditions' => ['Country.id IN ' . $subquery]
+		];
 
 		$res = $Controller->paginate();
 		$this->assertTrue(count($res) === 7);
@@ -89,6 +89,6 @@ class SubqueryTest extends MyCakeTestCase {
 
 class CountriesTestsController extends Controller {
 
-	public $uses = array('Country');
+	public $uses = ['Country'];
 
 }

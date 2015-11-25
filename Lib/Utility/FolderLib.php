@@ -29,8 +29,8 @@ class FolderLib extends Folder {
 		$normalFiles = glob($path . '*');
 		$hiddenFiles = glob($path . '\.?*');
 
-		$normalFiles = $normalFiles ? $normalFiles : array();
-		$hiddenFiles = $hiddenFiles ? $hiddenFiles : array();
+		$normalFiles = $normalFiles ? $normalFiles : [];
+		$hiddenFiles = $hiddenFiles ? $hiddenFiles : [];
 
 		$files = array_merge($normalFiles, $hiddenFiles);
 		foreach ($files as $file) {

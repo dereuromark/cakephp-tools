@@ -18,16 +18,16 @@ App::uses('GeocodeLib', 'Tools.Lib');
  */
 class GeocoderBehavior extends ModelBehavior {
 
-	protected $_defaultConfig = array(
-		'real' => false, 'address' => array('street', 'postal_code', 'city', 'country'),
-		'require' => false, 'allowEmpty' => true, 'invalidate' => array(), 'expect' => array(),
+	protected $_defaultConfig = [
+		'real' => false, 'address' => ['street', 'postal_code', 'city', 'country'],
+		'require' => false, 'allowEmpty' => true, 'invalidate' => [], 'expect' => [],
 		'lat' => 'lat', 'lng' => 'lng', 'formatted_address' => 'formatted_address',
 		'host' => null, 'language' => 'de', 'region' => '', 'bounds' => '',
-		'overwrite' => false, 'update' => array(), 'before' => 'save',
+		'overwrite' => false, 'update' => [], 'before' => 'save',
 		'min_accuracy' => GeocodeLib::ACC_COUNTRY, 'allow_inconclusive' => true, 'unit' => GeocodeLib::UNIT_KM,
 		'log' => true, // log successfull results to geocode.log (errors will be logged to error.log in either case)
-		'params' => array(), // Array of parameters to pass to GeocoderLib
-	);
+		'params' => [], // Array of parameters to pass to GeocoderLib
+	];
 
 	public $Geocode;
 
@@ -55,12 +55,12 @@ class GeocoderBehavior extends ModelBehavior {
 	 * @param Model $Model The model using the behaviour
 	 * @param array $config Settings to override for model.
 	 */
-	public function setup(Model $Model, $config = array()) {
+	public function setup(Model $Model, $config = []) {
 		$this->settings[$Model->alias] = $this->_defaultConfig;
 		$this->settings[$Model->alias] = $config + $this->settings[$Model->alias];
 	}
 
-	public function beforeValidate(Model $Model, $options = array()) {
+	public function beforeValidate(Model $Model, $options = []) {
 		parent::beforeValidate($Model, $options);
 
 		if ($this->settings[$Model->alias]['before'] === 'validate') {
@@ -70,7 +70,7 @@ class GeocoderBehavior extends ModelBehavior {
 		return true;
 	}
 
-	public function beforeSave(Model $Model, $options = array()) {
+	public function beforeSave(Model $Model, $options = []) {
 		parent::beforeSave($Model, $options);
 
 		if ($this->settings[$Model->alias]['before'] === 'save') {
@@ -89,7 +89,7 @@ class GeocoderBehavior extends ModelBehavior {
 	public function geocode(Model $Model, $return = true) {
 		// Make address fields an array
 		if (!is_array($this->settings[$Model->alias]['address'])) {
-			$addressfields = array($this->settings[$Model->alias]['address']);
+			$addressfields = [$this->settings[$Model->alias]['address']];
 		} else {
 			$addressfields = $this->settings[$Model->alias]['address'];
 		}
@@ -104,14 +104,14 @@ class GeocoderBehavior extends ModelBehavior {
 			}
 		}
 
-		$addressData = array();
+		$addressData = [];
 		foreach ($addressfields as $field) {
 			if (!empty($Model->data[$Model->alias][$field])) {
 				$addressData[] = $Model->data[$Model->alias][$field];
 			}
 		}
 
-		$Model->data[$Model->alias]['geocoder_result'] = array();
+		$Model->data[$Model->alias]['geocoder_result'] = [];
 
 		if ((!$this->settings[$Model->alias]['real'] || ($Model->hasField($this->settings[$Model->alias]['lat']) && $Model->hasField($this->settings[$Model->alias]['lng']))) &&
 			($this->settings[$Model->alias]['overwrite'] || empty($Model->data[$Model->alias][$this->settings[$Model->alias]['lat']]) || ((int)$Model->data[$Model->alias][$this->settings[$Model->alias]['lat']] === 0 && (int)$Model->data[$Model->alias][$this->settings[$Model->alias]['lng']] === 0))
@@ -228,10 +228,10 @@ class GeocoderBehavior extends ModelBehavior {
 		if ($modelName === null) {
 			$modelName = $Model->alias;
 		}
-		$conditions = array(
+		$conditions = [
 			$modelName . '.' . $fieldLat . ' <> 0',
 			$modelName . '.' . $fieldLng . ' <> 0',
-		);
+		];
 		$fieldName = !empty($fieldName) ? $fieldName : 'distance';
 		if ($distance !== null) {
 			$conditions[] = '1=1 HAVING ' . $modelName . '.' . $fieldName . ' < ' . intval($distance);
@@ -277,7 +277,7 @@ class GeocoderBehavior extends ModelBehavior {
 	 *
 	 * @return int count
 	 */
-	public function paginateDistanceCount(Model $Model, $conditions = null, $recursive = -1, $extra = array()) {
+	public function paginateDistanceCount(Model $Model, $conditions = null, $recursive = -1, $extra = []) {
 		if (!empty($extra['radius'])) {
 			$conditions[] = $extra['distance'] . ' < ' . $extra['radius'] .
 				(!empty($extra['startRadius']) ? ' AND ' . $extra['distance'] . ' > ' . $extra['startRadius'] : '') .
@@ -326,17 +326,17 @@ class GeocoderBehavior extends ModelBehavior {
 	 * @param array $addressFields (simple array of address pieces)
 	 * @return array
 	 */
-	protected function _geocode($addressFields, $options = array()) {
+	protected function _geocode($addressFields, $options = []) {
 		$address = implode(' ', $addressFields);
 		if (empty($address)) {
-			return array();
+			return [];
 		}
 
-		$geocodeOptions = array(
+		$geocodeOptions = [
 			'log' => $options['log'], 'min_accuracy' => $options['min_accuracy'],
 			'expect' => $options['expect'], 'allow_inconclusive' => $options['allow_inconclusive'],
 			'host' => $options['host']
-		);
+		];
 		$this->Geocode = new GeocodeLib($geocodeOptions);
 		if (!empty($options['params'])) {
 			foreach ($options['params'] as $v) {
@@ -344,9 +344,9 @@ class GeocoderBehavior extends ModelBehavior {
 			}
 		}
 
-		$config = array('language' => $options['language']);
+		$config = ['language' => $options['language']];
 		if (!$this->Geocode->geocode($address, $config)) {
-			return array('lat' => null, 'lng' => null, 'formatted_address' => '');
+			return ['lat' => null, 'lng' => null, 'formatted_address' => ''];
 		}
 
 		return $this->Geocode->getResult();

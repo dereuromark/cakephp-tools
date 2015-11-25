@@ -15,7 +15,7 @@ class HazardLib {
 	const URL = 'http://ha.ckers.org/xssAttacks.xml';
 
 	/**
-	 * Get dangerous sql strings to test with
+	 * Get dangerous SQL strings to test with
 	 *
 	 * @return array
 	 */
@@ -28,13 +28,13 @@ class HazardLib {
 			"SELECT * FROM users WHERE email = 'x'; DROP TABLE users; --'; -- Boom!"
 		);
 		*/
-		$strings = array(
+		$strings = [
 			"x'; INSERT INTO users ('username', 'password') VALUES ('x', 'y')",
-		);
+		];
 
-		$veryDangerous = array(
+		$veryDangerous = [
 			"x'; DROP TABLE users; --",
-		);
+		];
 		if ($veryDangerousToo) {
 			$strings = array_merge($strings, $veryDangerous);
 		}
@@ -42,20 +42,20 @@ class HazardLib {
 	}
 
 	/**
-	 * Get dangerous php strings to test with
+	 * Get dangerous PHP strings to test with
 	 *
 	 * @return array
 	 */
 	public static function phpStrings() {
-		$res = array(
+		$res = [
 			'a:100000000:{}', # serialized objects run the magic _ _wakeup() function when they're unserialized
 			':3:"PDO":0:{}' # If the PDO extension is enabled -- and it is by default in PHP 5 -- you can cause a fatal error
-		);
+		];
 		return $res;
 	}
 
 	/**
-	 * Get dangerous html strings to test with
+	 * Get dangerous HTML strings to test with
 	 *
 	 * @return array
 	 */
@@ -64,7 +64,7 @@ class HazardLib {
 			$texts = Cache::read('hazard_lib_texts');
 		}
 		if (empty($texts)) {
-			$texts = array();
+			$texts = [];
 			$contents = static::_parseXml(static::URL);
 			foreach ($contents as $content) {
 				if ($content['code'] === 'See Below') {
@@ -74,7 +74,7 @@ class HazardLib {
 			}
 			if (empty($texts)) {
 				trigger_error('ha.ckers.org FAILED - XML not available', E_WARNING);
-				return array();
+				return [];
 			}
 			if ($cache) {
 				Cache::write('hazard_lib_texts', $texts);
@@ -96,7 +96,7 @@ class HazardLib {
 			return (array)$res['xss']['attack'];
 		}
 
-		return array();
+		return [];
 	}
 
 }

@@ -32,8 +32,8 @@ class Horde_Text_Diff_Engine_Shell
      */
     public function diff($from_lines, $to_lines)
     {
-        array_walk($from_lines, array('Horde_Text_Diff', 'trimNewlines'));
-        array_walk($to_lines, array('Horde_Text_Diff', 'trimNewlines'));
+        array_walk($from_lines, ['Horde_Text_Diff', 'trimNewlines']);
+        array_walk($to_lines, ['Horde_Text_Diff', 'trimNewlines']);
 
         // Execute gnu diff or similar to get a standard diff file.
         $from_file = Horde_Util::getTempFile('Horde_Text_Diff');
@@ -50,12 +50,12 @@ class Horde_Text_Diff_Engine_Shell
 
         if (is_null($diff)) {
             // No changes were made
-            return array(new Horde_Text_Diff_Op_Copy($from_lines));
+            return [new Horde_Text_Diff_Op_Copy($from_lines)];
         }
 
         $from_line_no = 1;
         $to_line_no = 1;
-        $edits = array();
+        $edits = [];
 
         // Get changed lines by parsing something like:
         // 0a1,2
@@ -142,14 +142,14 @@ class Horde_Text_Diff_Engine_Shell
     protected function _getLines(&$text_lines, &$line_no, $end = false)
     {
         if (!empty($end)) {
-            $lines = array();
+            $lines = [];
             // We can shift even more
             while ($line_no <= $end) {
                 array_push($lines, array_shift($text_lines));
                 $line_no++;
             }
         } else {
-            $lines = array(array_shift($text_lines));
+            $lines = [array_shift($text_lines)];
             $line_no++;
         }
 

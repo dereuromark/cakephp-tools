@@ -12,7 +12,7 @@ class Horde_Text_Diff_ThreeWay_Op_Copy extends Horde_Text_Diff_ThreeWay_Op_Base
 {
     public function __construct($lines = false)
     {
-        $this->orig = $lines ? $lines : array();
+        $this->orig = $lines ? $lines : [];
         $this->final1 = &$this->orig;
         $this->final2 = &$this->orig;
     }

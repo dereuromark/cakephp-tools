@@ -38,7 +38,7 @@ class TypographyHelper extends AppHelper {
 		'a|abbr|acronym|b|bdo|big|br|button|cite|code|del|dfn|em|i|img|ins|input|label|map|kbd|q|samp|select|small|span|strong|sub|sup|textarea|tt|var';
 
 	// array of block level elements that require inner content to be within another block level element
-	public $innerBlockRequired = array('blockquote');
+	public $innerBlockRequired = ['blockquote'];
 
 	// the last block element parsed
 	public $lastBlockElement = '';
@@ -46,11 +46,11 @@ class TypographyHelper extends AppHelper {
 	// whether or not to protect quotes within { curly braces }
 	public $protectBracedQuotes = false;
 
-	public $matching = array(
+	public $matching = [
 		'deu' => 'low', // except for Switzerland
 		'eng' => 'default',
 		'fra' => 'angle',
-	);
+	];
 
 	/**
 	 * Automatically uses the typography specified.
@@ -78,7 +78,7 @@ class TypographyHelper extends AppHelper {
 
 		// Standardize Newlines to make matching easier
 		if (strpos($str, "\r") !== false) {
-			$str = str_replace(array("\r\n", "\r"), "\n", $str);
+			$str = str_replace(["\r\n", "\r"], "\n", $str);
 		}
 
 		// Reduce line breaks. If there are more than two consecutive linebreaks
@@ -88,7 +88,7 @@ class TypographyHelper extends AppHelper {
 		}
 
 		// HTML comment tags don't conform to patterns of normal tags, so pull them out separately, only if needed
-		$htmlComments = array();
+		$htmlComments = [];
 		if (strpos($str, '<!--') !== false) {
 			if (preg_match_all("#(<!\-\-.*?\-\->)#s", $str, $matches)) {
 				for ($i = 0, $total = count($matches[0]); $i < $total; $i++) {
@@ -101,15 +101,15 @@ class TypographyHelper extends AppHelper {
 		// match and yank <pre> tags if they exist. It's cheaper to do this separately since most content will
 		// not contain <pre> tags, and it keeps the PCRE patterns below simpler and faster
 		if (strpos($str, '<pre') !== false) {
-			$str = preg_replace_callback("#<pre.*?>.*?</pre>#si", array($this, '_protectCharacters'), $str);
+			$str = preg_replace_callback("#<pre.*?>.*?</pre>#si", [$this, '_protectCharacters'], $str);
 		}
 
 		// Convert quotes within tags to temporary markers.
-		$str = preg_replace_callback("#<.+?>#si", array($this, '_protectCharacters'), $str);
+		$str = preg_replace_callback("#<.+?>#si", [$this, '_protectCharacters'], $str);
 
 		// Do the same with braces if necessary
 		if ($this->protectBracedQuotes === true) {
-			$str = preg_replace_callback("#\{.+?\}#si", array($this, '_protectCharacters'), $str);
+			$str = preg_replace_callback("#\{.+?\}#si", [$this, '_protectCharacters'], $str);
 		}
 
 		// Convert "ignore" tags to temporary marker. The parser splits out the string at every tag
@@ -183,7 +183,7 @@ class TypographyHelper extends AppHelper {
 		}
 
 		// Final clean up
-		$table = array(
+		$table = [
 			// If the user submitted their own paragraph tags within the text
 			// we will retain them instead of using our tags.
 			'/(<p[^>*?]>)<p>/'	=> '$1', // <?php BBEdit syntax coloring bug fix
@@ -214,7 +214,7 @@ class TypographyHelper extends AppHelper {
 			// Similarly, there might be cases where a closing </block> will follow
 			// a closing </p> tag, so we'll correct it by adding a newline in between
 			"#</p></#"			=> "</p>\n</"
-			);
+			];
 
 		// Do we need to reduce empty lines?
 		if ($reduceLinebreaks === true) {
@@ -251,29 +251,29 @@ class TypographyHelper extends AppHelper {
 			}
 		}
 
-		$locales = array(
-			'default' => array(
+		$locales = [
+			'default' => [
 				'leftSingle' => '&#8216;', // &lsquo; / ‘
 				'rightSingle' => '&#8217;', // &rsquo; / ’
 				'leftDouble' => '&#8220;', // &ldquo; / “
 				'rightDouble' => '&#8221;', // &rdquo; / ”
-			),
-			'low' => array(
+			],
+			'low' => [
 				'leftSingle' => '&sbquo;', // &sbquo; / ‚
 				'rightSingle' => '&#8219;', // &rsquo; / ’
 				'leftDouble' => '&bdquo;', // &bdquo; / „
 				'rightDouble' => '&#8223;', // &rdquo; / ”
-			),
-			'angle' => array(
+			],
+			'angle' => [
 				'leftSingle' => '&lsaquo;', // ‹
 				'rightSingle' => '&rsaquo;', // ›
 				'leftDouble' => '&#171;', // &laquo; / «
 				'rightDouble' => '&#187;', // &raquo; / »
-			),
-		);
+			],
+		];
 
 		if (!isset($table)) {
-			$table = array(
+			$table = [
 				// nested smart quotes, opening and closing
 				// note that rules for grammar (English) allow only for two levels deep
 				// and that single quotes are _supposed_ to always be on the outside
@@ -314,7 +314,7 @@ class TypographyHelper extends AppHelper {
 
 				// ampersands, if not a character entity
 				'/&(?!#?[a-zA-Z0-9]{2,};)/'		=> '&amp;'
-			);
+			];
 			if ($locale && !empty($locales[$locale])) {
 				foreach ($table as $key => $val) {
 					$table[$key] = str_replace($locales['default'], $locales[$locale], $val);
@@ -375,7 +375,7 @@ class TypographyHelper extends AppHelper {
 	 * @return string
 	 */
 	protected function _protectCharacters($match) {
-		return str_replace(array("'", '"', '--', '  '), array('{@SQ}', '{@DQ}', '{@DD}', '{@NBS}'), $match[0]);
+		return str_replace(["'", '"', '--', '  '], ['{@SQ}', '{@DQ}', '{@DD}', '{@NBS}'], $match[0]);
 	}
 
 	/**

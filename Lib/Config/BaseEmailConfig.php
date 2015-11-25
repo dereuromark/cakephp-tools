@@ -31,9 +31,9 @@ if (!Configure::read('Mail.smtpPassword')) {
  */
 class BaseEmailConfig {
 
-	public $default = array(
+	public $default = [
 		'transport' => 'Smtp',
-	);
+	];
 
 	/**
 	 * Read Configure Email pwds and assign them to the configs.

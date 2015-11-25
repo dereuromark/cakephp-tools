@@ -43,9 +43,9 @@ class DirectAuthenticate extends BaseAuthenticate {
 		if (!$this->_checkFields($request, $model, $fields)) {
 			return false;
 		}
-		$conditions = array(
+		$conditions = [
 			$model . '.' . $fields['username'] => $request->data[$model][$fields['username']]
-		);
+		];
 		return $this->_findUser($conditions);
 	}
 

@@ -22,7 +22,7 @@ TXT;
 		$result = $this->TextLib->readTab();
 
 		$this->assertSame(2, count($result));
-		$this->assertSame(array('and', 'another', 'line'), $result[1]);
+		$this->assertSame(['and', 'another', 'line'], $result[1]);
 	}
 
 	public function testReadWithPattern() {
@@ -35,7 +35,7 @@ TXT;
 		$result = $this->TextLib->readWithPattern("%s %s %s");
 
 		$this->assertSame(3, count($result));
-		$this->assertSame(array('and', 'a', 'third'), $result[2]);
+		$this->assertSame(['and', 'a', 'third'], $result[2]);
 	}
 
 	public function testConvertToOrd() {
@@ -55,13 +55,13 @@ TXT;
 
 	public function testMaxWords() {
 		$this->assertEquals('Taylor...', TextLib::maxWords('Taylor Otwell', 1));
-		$this->assertEquals('Taylor___', TextLib::maxWords('Taylor Otwell', 1, array('ellipsis' => '___')));
+		$this->assertEquals('Taylor___', TextLib::maxWords('Taylor Otwell', 1, ['ellipsis' => '___']));
 		$this->assertEquals('Taylor Otwell', TextLib::maxWords('Taylor Otwell', 3));
 	}
 
 	public function testWords() {
 		$this->TextLib = new TextLib('Hochhaus, Unter dem Bau von ae Äußeren Einflüssen - und von Autos.');
-		$is = $this->TextLib->words(array('min_char' => 3));
+		$is = $this->TextLib->words(['min_char' => 3]);
 		//pr($is);
 		$this->assertTrue(!empty($is) && is_array($is) && count($is) === 9);
 	}

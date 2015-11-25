@@ -29,7 +29,7 @@ class Horde_Autoloader_ClassPathMapper_Default implements Horde_Autoloader_Class
     public function mapToPath($className)
     {
         // @FIXME: Follow reference implementation
-        $relativePath = str_replace(array('\\', '_'), DIRECTORY_SEPARATOR, $className) . '.php';
+        $relativePath = str_replace(['\\', '_'], DIRECTORY_SEPARATOR, $className) . '.php';
         return $this->_includePath . DIRECTORY_SEPARATOR . $relativePath;
     }
 }

@@ -18,14 +18,14 @@ App::uses('DiffLib', 'Tools.Lib');
  */
 class DiffHelper extends AppHelper {
 
-	public $helpers = array('Html');
+	public $helpers = ['Html'];
 
 	/**
 	 * Construct function
 	 * Loads the vendor classes and sets the include path for autoloader to work
 	 *
 	 */
-	public function __construct($View = null, $config = array()) {
+	public function __construct($View = null, $config = []) {
 		parent::__construct($View, $config);
 
 		$this->Diff = new DiffLib();
@@ -63,7 +63,7 @@ class DiffHelper extends AppHelper {
 	 * - escape: defaults to true
 	 * @return string output
 	 */
-	public function compare($original, $changed, $options = array()) {
+	public function compare($original, $changed, $options = []) {
 		$original = $this->_prep($original);
 
 		$changed = $this->_prep($changed);
@@ -72,9 +72,9 @@ class DiffHelper extends AppHelper {
 		if (isset($options['div']) && $options['div'] === false) {
 			return $string;
 		}
-		$defaults = array(
+		$defaults = [
 			'class' => 'diff'
-		);
+		];
 		$options += $defaults;
 		$options['escape'] = null;
 		return $this->Html->tag('div', $string, $options);
@@ -86,14 +86,14 @@ class DiffHelper extends AppHelper {
 	 * - mode (autodetect, context, unified)
 	 * @return string
 	 */
-	public function reverse($string, $options = array()) {
+	public function reverse($string, $options = []) {
 		$string = $this->Diff->reverse($string, $options);
 		if (isset($options['div']) && $options['div'] === false) {
 			return $string;
 		}
-		$defaults = array(
+		$defaults = [
 			'class' => 'diff'
-		);
+		];
 		$options += $defaults;
 		$options['escape'] = null;
 		return $this->Html->tag('div', $string, $options);
@@ -107,7 +107,7 @@ class DiffHelper extends AppHelper {
 	 * @param array $options
 	 * @return string
 	 */
-	protected function _prep($string, $options = array()) {
+	protected function _prep($string, $options = []) {
 		if ($this->renderer === 'inline' || isset($options['escape']) && $options['escape'] === false) {
 			return $string;
 		}

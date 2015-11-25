@@ -68,7 +68,7 @@ TEXT;
 ! 9999944449977
 TEXT;
 		$this->Diff->renderType('unified');
-		$res = $this->Diff->reverse($text, array('mode' => 'context'));
+		$res = $this->Diff->reverse($text, ['mode' => 'context']);
 		$this->out($res);
 	}
 
@@ -93,18 +93,18 @@ TEXT;
 	 *
 	 */
 	public function testDiffDefault() {
-		$t1 = array(
+		$t1 = [
 			'errgrshrth',
 			'srhrthrt777 ssshsrjtz jrjtjtjt',
 			'1dfdf' . PHP_EOL . 'jtzth6h6h6th6' . PHP_EOL . 'xcsdfdf',
 			'99999999777'
-		);
-		$t2 = array(
+		];
+		$t2 = [
 			'errgrsh3333rth',
 			'srhrthrt777 hsrthsrjt888 jrjtjtjt',
 			'1dfdf' . PHP_EOL . 'jtzh6h6th6' . PHP_EOL . 'xcsdfdf',
 			'9999944449977'
-		);
+		];
 		$this->out('Inline - auto', false);
 		for ($i = 0; $i < 4; $i++) {
 			$res = $this->Diff->compare($t1[$i], $t2[$i]);
@@ -120,18 +120,18 @@ TEXT;
 	 * - xdiff (skip if not available)
 	 */
 	public function testDiffInline() {
-		$t1 = array(
+		$t1 = [
 			'errgrshrth',
 			'srhrthrt777 ssshsrjtz jrjtjtjt',
 			'1dfdf' . PHP_EOL . 'jtzth6h6h6th6' . PHP_EOL . 'xcsdfdf',
 			'99999999777'
-		);
-		$t2 = array(
+		];
+		$t2 = [
 			'errgrsh3333rth',
 			'srhrthrt777 hsrthsrjt888 jrjtjtjt',
 			'1dfdf' . PHP_EOL . 'jtzh6h6th6' . PHP_EOL . 'xcsdfdf',
 			'9999944449977'
-		);
+		];
 
 		$this->out('Inline - Native', false);
 		for ($i = 0; $i < 4; $i++) {
@@ -164,18 +164,18 @@ TEXT;
 	 * Unified renderer
 	 */
 	public function testDiffUnified() {
-		$t1 = array(
+		$t1 = [
 			'errgrshrth',
 			'srhrthrt777 ssshsrjtz jrjtjtjt',
 			'1dfdf' . PHP_EOL . 'jtzth6h6h6th6' . PHP_EOL . 'xcsdfdf',
 			'99999999777'
-		);
-		$t2 = array(
+		];
+		$t2 = [
 			'errgrsh3333rth',
 			'srhrthrt777 hsrthsrjt888 jrjtjtjt',
 			'1dfdf' . PHP_EOL . 'jtzh6h6th6' . PHP_EOL . 'xcsdfdf',
 			'9999944449977'
-		);
+		];
 
 		$max = 4;
 
@@ -213,18 +213,18 @@ TEXT;
 	 * Context renderer
 	 */
 	public function testDiffContext() {
-		$t1 = array(
+		$t1 = [
 			'errgrshrth',
 			'srhrthrt777 ssshsrjtz jrjtjtjt',
 			'1dfdf' . PHP_EOL . 'jtzth6h6h6th6' . PHP_EOL . 'xcsdfdf',
 			'99999999777'
-		);
-		$t2 = array(
+		];
+		$t2 = [
 			'errgrsh3333rth',
 			'srhrthrt777 hsrthsrjt888 jrjtjtjt',
 			'1dfdf' . PHP_EOL . 'jtzh6h6th6' . PHP_EOL . 'xcsdfdf',
 			'9999944449977'
-		);
+		];
 
 		$this->out('Context - Native', false);
 		for ($i = 0; $i < 4; $i++) {

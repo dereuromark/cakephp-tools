@@ -18,27 +18,27 @@ class Qlogin extends ToolsAppModel {
 
 	public $generator = 'Token'; // TODO: switch to Token ASAP, then remove this
 
-	public $validate = array(
-		'url' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+	public $validate = [
+		'url' => [
+			'notBlank' => [
+				'rule' => ['notBlank'],
 				'message' => 'valErrMandatoryField',
 				'last' => true
-			),
-			'validateUrl' => array(
-				'rule' => array('validateUrl', array('deep' => false, 'sameDomain' => true, 'autoComplete' => true)),
+			],
+			'validateUrl' => [
+				'rule' => ['validateUrl', ['deep' => false, 'sameDomain' => true, 'autoComplete' => true]],
 				'message' => 'valErrInvalidQloginUrl',
 				'last' => true
-			)
-		),
-		'user_id' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+			]
+		],
+		'user_id' => [
+			'notBlank' => [
+				'rule' => ['notBlank'],
 				'message' => 'valErrMandatoryField',
 				'last' => true
-			),
-		),
-	);
+			],
+		],
+	];
 
 	public function __construct($id = false, $table = null, $ds = null) {
 		if ($generator = Configure::read('Qlogin.generator')) {
@@ -109,7 +109,7 @@ class Qlogin extends ToolsAppModel {
 	 * @return string URL (absolute)
 	 */
 	public static function urlByKey($key) {
-		return Router::url(array('admin' => false, 'plugin' => 'tools', 'controller' => 'qlogin', 'action' => 'go', $key), true);
+		return Router::url(['admin' => false, 'plugin' => 'tools', 'controller' => 'qlogin', 'action' => 'go', $key], true);
 	}
 
 	/**

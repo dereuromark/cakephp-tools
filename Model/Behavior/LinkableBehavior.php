@@ -33,24 +33,24 @@ class LinkableBehavior extends ModelBehavior {
 
 	protected $_key = 'link';
 
-	protected $_options = array(
+	protected $_options = [
 		'type' => true, 'table' => true, 'alias' => true,
 		'conditions' => true, 'fields' => true, 'reference' => true,
 		'class' => true, 'defaults' => true
-	);
+	];
 
-	protected $_defaultConfig = array('type' => 'LEFT');
+	protected $_defaultConfig = ['type' => 'LEFT'];
 
 	public function beforeFind(Model $Model, $query) {
 		if (isset($query[$this->_key])) {
-			$optionsDefaults = $this->_defaultConfig + array('reference' => $Model->alias, $this->_key => array());
-			$optionsKeys = $this->_options + array($this->_key => true);
+			$optionsDefaults = $this->_defaultConfig + ['reference' => $Model->alias, $this->_key => []];
+			$optionsKeys = $this->_options + [$this->_key => true];
 
 			// If containable is being used, then let it set the recursive!
 			if (empty($query['contain'])) {
-				$query = array_merge(array('joins' => array()), $query, array('recursive' => -1));
+				$query = array_merge(['joins' => []], $query, ['recursive' => -1]);
 			} else {
-				$query = array_merge(array('joins' => array()), $query);
+				$query = array_merge(['joins' => []], $query);
 			}
 			$iterators[] = $query[$this->_key];
 			$cont = 0;
@@ -64,7 +64,7 @@ class LinkableBehavior extends ModelBehavior {
 				$iterations = Set::normalize($iterator);
 				foreach ($iterations as $alias => $options) {
 					if ($options === null) {
-						$options = array();
+						$options = [];
 					}
 					$options = array_merge($defaults, compact('alias'), $options);
 					if (empty($options['alias'])) {
@@ -102,7 +102,7 @@ class LinkableBehavior extends ModelBehavior {
 					}
 
 					// the incoming model to be linked in query using class and alias
-					$_Model = ClassRegistry::init(array('class' => $options['class'], 'alias' => $options['alias']));
+					$_Model = ClassRegistry::init(['class' => $options['class'], 'alias' => $options['alias']]);
 					// the already in query model that links to $_Model
 					$Reference = ClassRegistry::init($options['reference']);
 					$db = $_Model->getDataSource();
@@ -120,24 +120,24 @@ class LinkableBehavior extends ModelBehavior {
 						$type = $associations[$Reference->alias];
 						$association = $_Model->{$type}[$Reference->alias];
 					} else {
-						$_Model->bindModel(array('belongsTo' => array($Reference->alias)));
+						$_Model->bindModel(['belongsTo' => [$Reference->alias]]);
 						$type = 'belongsTo';
 						$association = $_Model->{$type}[$Reference->alias];
-						$_Model->unbindModel(array('belongsTo' => array($Reference->alias)));
+						$_Model->unbindModel(['belongsTo' => [$Reference->alias]]);
 					}
 
 					if (!isset($options['conditions'])) {
-						$options['conditions'] = array();
+						$options['conditions'] = [];
 					} elseif (!is_array($options['conditions'])) {
 						// Support for string conditions
-						$options['conditions'] = array($options['conditions']);
+						$options['conditions'] = [$options['conditions']];
 					}
 
 					if (isset($options['conditions']['exactly'])) {
 						if (is_array($options['conditions']['exactly'])) {
 							$options['conditions'] = reset($options['conditions']['exactly']);
 						} else {
-							$options['conditions'] = array($options['conditions']['exactly']);
+							$options['conditions'] = [$options['conditions']['exactly']];
 						}
 					} else {
 						if ($type === 'belongsTo') {
@@ -173,12 +173,12 @@ class LinkableBehavior extends ModelBehavior {
 								$referenceLink = $Link->escapeField($association['associationForeignKey']);
 							}
 							$referenceKey = $Reference->escapeField();
-							$query['joins'][] = array(
+							$query['joins'][] = [
 								'alias' => $Link->alias,
 								'table' => $Link->table, //$Link->getDataSource()->fullTableName($Link),
 								'conditions' => "{$referenceLink} = {$referenceKey}",
 								'type' => 'LEFT',
-							);
+							];
 							$modelKey = $_Model->escapeField();
 							$modelKey = str_replace($_Model->alias, $options['alias'], $modelKey);
 							$options['conditions'][] = "{$modelLink} = {$modelKey}";
@@ -227,10 +227,10 @@ class LinkableBehavior extends ModelBehavior {
 					$options[$this->_key] = array_merge($options[$this->_key], array_diff_key($options, $optionsKeys));
 					$options = array_intersect_key($options, $optionsKeys);
 					if (!empty($options[$this->_key])) {
-						$iterators[] = $options[$this->_key] + array('defaults' => array_merge($defaults, array('reference' => $options['class'])));
+						$iterators[] = $options[$this->_key] + ['defaults' => array_merge($defaults, ['reference' => $options['class']])];
 					}
 
-					$query['joins'][] = array_intersect_key($options, array('type' => true, 'alias' => true, 'table' => true, 'conditions' => true));
+					$query['joins'][] = array_intersect_key($options, ['type' => true, 'alias' => true, 'table' => true, 'conditions' => true]);
 				}
 				$cont++;
 				$notDone = isset($iterators[$cont]);

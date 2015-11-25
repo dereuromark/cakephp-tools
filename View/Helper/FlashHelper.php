@@ -10,13 +10,13 @@ App::uses('Hash', 'Utility');
  */
 class FlashHelper extends AppHelper {
 
-	public $helpers = array('Session');
+	public $helpers = ['Session'];
 
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'useElements' => false, //Set to true to use 3.x flash message rendering via Elements
-	);
+	];
 
-	public function __construct(View $View, $settings = array()) {
+	public function __construct(View $View, $settings = []) {
 		$defaults = (array)Configure::read('Flash') + $this->_defaultConfig;
 		$settings += $defaults;
 		parent::__construct($View, $settings);
@@ -30,7 +30,7 @@ class FlashHelper extends AppHelper {
 	 * @param array $types Types to output. Defaults to all if none are specified.
 	 * @return string HTML
 	 */
-	public function flash(array $types = array()) {
+	public function flash(array $types = []) {
 		// Get the messages from the session
 		$messages = (array)$this->Session->read('messages');
 		$cMessages = (array)Configure::read('messages');
@@ -125,7 +125,7 @@ class FlashHelper extends AppHelper {
 	 * @param string $class
 	 * @return void
 	 */
-	public function addTransientMessage($msg, $options = array()) {
+	public function addTransientMessage($msg, $options = []) {
 		FlashComponent::transientMessage($msg, $options);
 	}
 
@@ -137,7 +137,7 @@ class FlashHelper extends AppHelper {
 	 * @return void
 	 * @deprecated Use addFlashMessage() instead
 	 */
-	public function transientFlashMessage($msg, $options = array()) {
+	public function transientFlashMessage($msg, $options = []) {
 		$this->addFlashMessage($msg, $options);
 	}
 

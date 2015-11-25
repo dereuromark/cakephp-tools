@@ -34,13 +34,13 @@ App::uses('HazardLib', 'Tools.Lib');
  */
 class HazardableBehavior extends ModelBehavior {
 
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'replaceFind' => false, // fake data after a find call (defaults to false)
-		'fields' => array(), // additional fields or custom mapping to a specific snippet type (defaults to XSS)
-		'skipFields' => array('id', 'slug') // fields of the schema that should be skipped
-	);
+		'fields' => [], // additional fields or custom mapping to a specific snippet type (defaults to XSS)
+		'skipFields' => ['id', 'slug'] // fields of the schema that should be skipped
+	];
 
-	protected $_snippets = array();
+	protected $_snippets = [];
 
 	/**
 	 * HazardableBehavior::setup()
@@ -49,7 +49,7 @@ class HazardableBehavior extends ModelBehavior {
 	 * @param array $config
 	 * @return void
 	 */
-	public function setup(Model $Model, $config = array()) {
+	public function setup(Model $Model, $config = []) {
 		$this->settings[$Model->alias] = $config + $this->_defaultConfig;
 	}
 
@@ -59,7 +59,7 @@ class HazardableBehavior extends ModelBehavior {
 	 * Note: Remember to disable validation as you want to insert those strings just for
 	 * testing purposes.
 	 */
-	public function beforeSave(Model $Model, $options = array()) {
+	public function beforeSave(Model $Model, $options = []) {
 		$fields = $this->_fields($Model);
 		foreach ($fields as $field) {
 			$length = 0;
@@ -130,7 +130,7 @@ class HazardableBehavior extends ModelBehavior {
 		$snippetArray[] = '<SCRIPT>alert(\'X\')</SCRIPT>';
 		$snippetArray[] = '<';
 
-		usort($snippetArray, array($this, '_sort'));
+		usort($snippetArray, [$this, '_sort']);
 
 		$this->_snippets = $snippetArray;
 		return $snippetArray;
@@ -147,10 +147,10 @@ class HazardableBehavior extends ModelBehavior {
 	 * @return array
 	 */
 	protected function _fields(Model $Model) {
-		$fields = array();
+		$fields = [];
 		$schema = $Model->schema();
 		foreach ($schema as $key => $field) {
-			if (!in_array($field['type'], array('text', 'string'))) {
+			if (!in_array($field['type'], ['text', 'string'])) {
 				continue;
 			}
 			if ($this->settings[$Model->alias]['skipFields'] && in_array($key, $this->settings[$Model->alias]['skipFields'])) {

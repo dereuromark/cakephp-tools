@@ -52,12 +52,12 @@ class Numbertext {
 			return null;
 		$s = new Soros($st);
 		if ($lang != null)
-			self::addModule(array($lang, $s));
+			self::addModule([$lang, $s]);
 		return $s;
 	}
 
 	private static function getModules($m = null) {
-		static $modules = array();
+		static $modules = [];
 		if (is_array($m))
 			$modules[] = $m;
 		return $modules;

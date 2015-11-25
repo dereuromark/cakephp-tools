@@ -46,18 +46,18 @@ TEXT;
 	}
 
 	public function testParseDiff() {
-		$t1 = array(
+		$t1 = [
 			'errgrshrth',
 			'srhrthrt777 ssshsrjtz jrjtjtjt',
 			'1dfdf' . PHP_EOL . 'jtzth6h6h6th6' . PHP_EOL . 'xcsdfdf',
 			'99999999777'
-		);
-		$t2 = array(
+		];
+		$t2 = [
 			'errgrsh3333rth',
 			'srhrthrt777 hsrthsrjt888 jrjtjtjt',
 			'1dfdf' . PHP_EOL . 'jtzh6h6th6' . PHP_EOL . 'xcsdfdf',
 			'9999944449977'
-		);
+		];
 		$this->out('Inline - auto', false);
 		for ($i = 0; $i < 4; $i++) {
 			$res = $this->Diff->compare($t1[$i], $t2[$i]);

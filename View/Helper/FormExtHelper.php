@@ -1,5 +1,5 @@
 <?php
-App::uses('FormHelper', 'View/Helper');
+App::uses('FormShimHelper', 'Shim.View/Helper');
 
 /**
  * Enhance Forms with JS widget stuff
@@ -20,23 +20,23 @@ App::uses('FormHelper', 'View/Helper');
  *   $this->Js->writeBuffer() with onDomReady=>false then, though.
  *
  */
-class FormExtHelper extends FormHelper {
+class FormExtHelper extends FormShimHelper {
 
-	public $helpers = array('Html', 'Js', 'Tools.Common');
+	public $helpers = ['Html', 'Js', 'Tools.Common'];
 
-	public $settings = array(
+	public $settings = [
 		'webroot' => true, // true => APP webroot, false => tools plugin
 		'js' => 'inline', // inline, buffer
-	);
+	];
 
-	public $scriptsAdded = array(
+	public $scriptsAdded = [
 		'date' => false,
 		'time' => false,
 		'maxLength' => false,
 		'autoComplete' => false
-	);
+	];
 
-	public function __construct($View = null, $config = array()) {
+	public function __construct($View = null, $config = []) {
 		if (($webroot = Configure::read('Asset.webroot')) !== null) {
 			$this->settings['webroot'] = $webroot;
 		}
@@ -67,7 +67,7 @@ class FormExtHelper extends FormHelper {
 	 * @param string $confirmMessage JavaScript confirmation message.
 	 * @return string An `<a />` element.
 	 */
-	public function deleteLink($title, $url = null, $options = array(), $confirmMessage = false) {
+	public function deleteLink($title, $url = null, $options = [], $confirmMessage = false) {
 		$options['method'] = 'delete';
 		if (!isset($options['class'])) {
 			$options['class'] = 'delete-link deleteLink';
@@ -82,7 +82,7 @@ class FormExtHelper extends FormHelper {
 
 	 * @return string
 	 */
-	public function postLink($title, $url = null, $options = array(), $confirmMessage = false) {
+	public function postLink($title, $url = null, $options = [], $confirmMessage = false) {
 		if (!isset($options['class'])) {
 			$options['class'] = 'post-link postLink';
 		}
@@ -98,17 +98,17 @@ class FormExtHelper extends FormHelper {
 	 * @param array $options
 	 * @return string
 	 */
-	public function create($model = null, $options = array()) {
+	public function create($model = null, $options = []) {
 		if (Configure::read('Validation.browserAutoRequire') === false && !isset($options['novalidate'])) {
 			$options['novalidate'] = true;
 		}
 		if (!isset($options['inputDefaults'])) {
-			$options['inputDefaults'] = array();
+			$options['inputDefaults'] = [];
 		}
 		$options['inputDefaults'] += (array)Configure::read('Form.inputDefaults');
-		$options['inputDefaults'] += array(
-			'class' => array('form-control'),
-		);
+		$options['inputDefaults'] += [
+			'class' => ['form-control'],
+		];
 
 		return parent::create($model, $options);
 	}
@@ -124,7 +124,7 @@ class FormExtHelper extends FormHelper {
 	 * @param string $key the key to use for class.
 	 * @return array Array of options with $key set.
 	 */
-	public function addClass($options = array(), $class = null, $key = 'class') {
+	public function addClass($options = [], $class = null, $key = 'class') {
 		if ($key === 'class' && $class === 'form-error') {
 			return $options;
 		}
@@ -141,9 +141,9 @@ class FormExtHelper extends FormHelper {
 	 * @param array $attributes
 	 * @return array
 	 */
-	protected function _selectOptions($elements = array(), $parents = array(), $showParents = null, $attributes = array()) {
+	protected function _selectOptions($elements = [], $parents = [], $showParents = null, $attributes = []) {
 		if ($attributes['style'] === 'checkbox') {
-			if (!empty($attributes['class']) && $attributes['class'] === array('form-control')) {
+			if (!empty($attributes['class']) && $attributes['class'] === ['form-control']) {
 				unset($attributes['class']);
 			}
 		}
@@ -163,7 +163,7 @@ class FormExtHelper extends FormHelper {
 	 * @return string A generated HTML text input element
 	 * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::textarea
 	 */
-	public function textarea($fieldName, $options = array()) {
+	public function textarea($fieldName, $options = []) {
 		$options['normalize'] = false;
 		return parent::textarea($fieldName, $options);
 	}
@@ -198,8 +198,8 @@ class FormExtHelper extends FormHelper {
 	 * @return string Completed form widget.
 	 * @link http://book.cakephp.org/view/1390/Automagic-Form-Elements
 	 */
-	public function inputExt($fieldName, $options = array()) {
-		$defaults = $this->_inputDefaults + array('before' => null, 'between' => null, 'after' => null, 'format' => null);
+	public function inputExt($fieldName, $options = []) {
+		$defaults = $this->_inputDefaults + ['before' => null, 'between' => null, 'after' => null, 'format' => null];
 		$options += $defaults;
 
 		$modelKey = $this->model();
@@ -213,9 +213,9 @@ class FormExtHelper extends FormHelper {
 			$options['type'] = 'text';
 			if (isset($options['options'])) {
 				$options['type'] = 'select';
-			} elseif (in_array($fieldKey, array('color', 'email', 'number', 'range', 'url'))) {
+			} elseif (in_array($fieldKey, ['color', 'email', 'number', 'range', 'url'])) {
 				$options['type'] = $fieldKey;
-			} elseif (in_array($fieldKey, array('psword', 'passwd', 'password'))) {
+			} elseif (in_array($fieldKey, ['psword', 'passwd', 'password'])) {
 				$options['type'] = 'password';
 			} elseif (isset($this->fieldset[$modelKey]['fields'][$fieldKey])) {
 				$fieldDef = $this->fieldset[$modelKey]['fields'][$fieldKey];
@@ -224,11 +224,11 @@ class FormExtHelper extends FormHelper {
 			}
 
 			if (isset($type)) {
-				$map = array(
+				$map = [
 					'string' => 'text', 'datetime' => 'datetime', 'boolean' => 'checkbox',
 					'timestamp' => 'datetime', 'text' => 'textarea', 'time' => 'time',
 					'date' => 'date', 'float' => 'text', 'integer' => 'number',
-				);
+				];
 
 				if (isset($this->map[$type])) {
 					$options['type'] = $this->map[$type];
@@ -250,7 +250,7 @@ class FormExtHelper extends FormHelper {
 				}
 			}
 		}
-		$types = array('checkbox', 'radio', 'select');
+		$types = ['checkbox', 'radio', 'select'];
 
 		if (
 			(!isset($options['options']) && in_array($options['type'], $types)) ||
@@ -276,7 +276,7 @@ class FormExtHelper extends FormHelper {
 			$options['maxlength'] = array_sum(explode(',', $fieldDef['length'])) + 1;
 		}
 
-		$divOptions = array();
+		$divOptions = [];
 		$div = $this->_extractOption('div', $options, true);
 		unset($options['div']);
 
@@ -328,7 +328,7 @@ class FormExtHelper extends FormHelper {
 		}
 
 		if ($options['type'] === 'datetime' || $options['type'] === 'date' || $options['type'] === 'time' || $options['type'] === 'select') {
-			$options += array('empty' => false);
+			$options += ['empty' => false];
 		}
 		if ($options['type'] === 'datetime' || $options['type'] === 'date' || $options['type'] === 'time') {
 			$dateFormat = $this->_extractOption('dateFormat', $options, 'MDY');
@@ -340,8 +340,8 @@ class FormExtHelper extends FormHelper {
 
 		$type = $options['type'];
 		$out = array_merge(
-			array('before' => null, 'label' => null, 'between' => null, 'input' => null, 'after' => null, 'error' => null),
-			array('before' => $options['before'], 'label' => $label, 'between' => $options['between'], 'after' => $options['after'])
+			['before' => null, 'label' => null, 'between' => null, 'input' => null, 'after' => null, 'error' => null],
+			['before' => $options['before'], 'label' => $label, 'between' => $options['between'], 'after' => $options['after']]
 		);
 		$format = null;
 		if (is_array($options['format']) && in_array('input', $options['format'])) {
@@ -352,18 +352,18 @@ class FormExtHelper extends FormHelper {
 		switch ($type) {
 			case 'hidden':
 				$input = $this->hidden($fieldName, $options);
-				$format = array('input');
+				$format = ['input'];
 				unset($divOptions);
 			break;
 			case 'checkbox':
 				$input = $this->checkbox($fieldName, $options);
-				$format = $format ? $format : array('before', 'input', 'between', 'label', 'after', 'error');
+				$format = $format ? $format : ['before', 'input', 'between', 'label', 'after', 'error'];
 			break;
 			case 'radio':
 				$input = $this->radio($fieldName, $radioOptions, $options);
 			break;
 			case 'select':
-				$options += array('options' => array());
+				$options += ['options' => []];
 				$list = $options['options'];
 				unset($options['options']);
 				$input = $this->select($fieldName, $list, $selected, $options);
@@ -378,7 +378,7 @@ class FormExtHelper extends FormHelper {
 				$input = $this->dateTime($fieldName, $dateFormat, $timeFormat, $selected, $options);
 			break;
 			case 'textarea':
-				$input = $this->textarea($fieldName, $options + array('cols' => '30', 'rows' => '6'));
+				$input = $this->textarea($fieldName, $options + ['cols' => '30', 'rows' => '6']);
 			break;
 			case 'password':
 			case 'file':
@@ -398,7 +398,7 @@ class FormExtHelper extends FormHelper {
 		}
 
 		$out['input'] = $input;
-		$format = $format ? $format : array('before', 'label', 'between', 'input', 'after', 'error');
+		$format = $format ? $format : ['before', 'label', 'between', 'input', 'after', 'error'];
 		$output = '';
 		foreach ($format as $element) {
 			$output .= $out[$element];
@@ -421,7 +421,7 @@ class FormExtHelper extends FormHelper {
 	 * @param mixed $attributes
 	 * @return void
 	 */
-	public function hour($fieldName, $format24Hours = true, $attributes = array()) {
+	public function hour($fieldName, $format24Hours = true, $attributes = []) {
 		return parent::hour($fieldName, $format24Hours, $attributes);
 	}
 
@@ -435,7 +435,7 @@ class FormExtHelper extends FormHelper {
 	 *
 	 * @return string
 	 */
-	public function input($fieldName, $options = array()) {
+	public function input($fieldName, $options = []) {
 		$this->setEntity($fieldName);
 
 		$modelKey = $this->model();
@@ -476,9 +476,9 @@ class FormExtHelper extends FormHelper {
 	 * @param mixed $attributes
 	 * @return void
 	 */
-	public function radio($fieldName, $options = array(), $attributes = array()) {
+	public function radio($fieldName, $options = [], $attributes = []) {
 		$attributes = $this->_initInputField($fieldName, $attributes);
-		if (!empty($attributes['class']) && $attributes['class'] == array('form-control')) {
+		if (!empty($attributes['class']) && $attributes['class'] == ['form-control']) {
 			$attributes['class'] = false;
 		}
 		return parent::radio($fieldName, $options, $attributes);
@@ -489,7 +489,7 @@ class FormExtHelper extends FormHelper {
 	 *
 	 * @return array options
 	 */
-	protected function _initInputField($field, $options = array()) {
+	protected function _initInputField($field, $options = []) {
 		$normalize = true;
 		if (isset($options['normalize'])) {
 			$normalize = $options['normalize'];
@@ -499,7 +499,7 @@ class FormExtHelper extends FormHelper {
 		$options = parent::_initInputField($field, $options);
 
 		if (!empty($options['value']) && is_string($options['value']) && $normalize) {
-			$options['value'] = str_replace(array("\t", "\r\n", "\n"), ' ', $options['value']);
+			$options['value'] = str_replace(["\t", "\r\n", "\n"], ' ', $options['value']);
 		}
 
 		return $options;
@@ -513,7 +513,7 @@ class FormExtHelper extends FormHelper {
 	 *
 	 * @return void
 	 */
-	public function dateScripts($scripts = array(), $quicklinks = false) {
+	public function dateScripts($scripts = [], $quicklinks = false) {
 		foreach ($scripts as $script) {
 			if (!$this->scriptsAdded[$script]) {
 				switch ($script) {
@@ -528,12 +528,12 @@ class FormExtHelper extends FormHelper {
 							$lang = 'en';
 						}
 						if ($this->settings['webroot']) {
-							$this->Html->script('datepicker/lang/' . $lang, false);
-							$this->Html->script('datepicker/datepicker', false);
-							$this->Html->css('common/datepicker', array('inline' => false));
+							$this->Html->script('datepicker/lang/' . $lang, ['inline' => false]);
+							$this->Html->script('datepicker/datepicker', ['inline' => false]);
+							$this->Html->css('common/datepicker', ['inline' => false]);
 						} else {
-							$this->Common->script(array('Tools.Asset|datepicker/lang/' . $lang, 'Tools.Asset|datepicker/datepicker'), false);
-							$this->Common->css(array('Tools.Asset|datepicker/datepicker'), array('inline' => false));
+							$this->Common->script(['ToolsExtra.Asset|datepicker/lang/' . $lang, 'ToolsExtra.Asset|datepicker/datepicker'], ['inline' => false]);
+							$this->Common->css(['ToolsExtra.Asset|datepicker/datepicker'], ['inline' => false]);
 						}
 						$this->scriptsAdded['date'] = true;
 						break;
@@ -541,9 +541,9 @@ class FormExtHelper extends FormHelper {
 						continue;
 						if ($this->settings['webroot']) {
 						} else {
-							//'Tools.Jquery|ui/core/jquery.ui.core', 'Tools.Jquery|ui/core/jquery.ui.widget', 'Tools.Jquery|ui/widgets/jquery.ui.slider',
-							$this->Common->script(array('Tools.Jquery|plugins/jquery.timepicker.core', 'Tools.Jquery|plugins/jquery.timepicker'), false);
-							$this->Common->css(array('Tools.Jquery|ui/core/jquery.ui', 'Tools.Jquery|plugins/jquery.timepicker'), array('inline' => false));
+							//'ToolsExtra.Jquery|ui/core/jquery.ui.core', 'ToolsExtra.Jquery|ui/core/jquery.ui.widget', 'ToolsExtra.Jquery|ui/widgets/jquery.ui.slider',
+							$this->Common->script(['ToolsExtra.Jquery|plugins/jquery.timepicker.core', 'ToolsExtra.Jquery|plugins/jquery.timepicker'], ['inline' => false]);
+							$this->Common->css(['ToolsExtra.Jquery|ui/core/jquery.ui', 'ToolsExtra.Jquery|plugins/jquery.timepicker'], ['inline' => false]);
 						}
 						break;
 					default:
@@ -564,8 +564,8 @@ class FormExtHelper extends FormHelper {
 	 * @param mixed $options
 	 * @return string
 	 */
-	public function dateTimeExt($field, $options = array()) {
-		$res = array();
+	public function dateTimeExt($field, $options = []) {
+		$res = [];
 		if (!isset($options['separator'])) {
 			$options['separator'] = null;
 		}
@@ -580,10 +580,10 @@ class FormExtHelper extends FormHelper {
 			$modelName = $this->model();
 		}
 
-		$defaultOptions = array(
+		$defaultOptions = [
 			'empty' => false,
 			'return' => true,
-		);
+		];
 		$customOptions = $options + $defaultOptions;
 
 		$res[] = $this->date($field, $customOptions);
@@ -630,7 +630,7 @@ class FormExtHelper extends FormHelper {
 	 * @deprecated
 	 * use Form::dateExt
 	 */
-	public function date($field, $options = array()) {
+	public function date($field, $options = []) {
 		return $this->dateExt($field, $options);
 	}
 
@@ -645,7 +645,7 @@ class FormExtHelper extends FormHelper {
 	 * - disableDays (TODO!)
 	 * - minYear/maxYear (TODO!) / rangeLow/rangeHigh (xxxx-xx-xx or today)
 	 */
-	public function dateExt($field, $options = array()) {
+	public function dateExt($field, $options = []) {
 		$return = false;
 		if (isset($options['return'])) {
 			$return = $options['return'];
@@ -661,8 +661,8 @@ class FormExtHelper extends FormHelper {
 			unset($options['callbacks']);
 		}
 
-		$this->dateScripts(array('date'), $quicklinks);
-		$res = array();
+		$this->dateScripts(['date'], $quicklinks);
+		$res = [];
 		if (!isset($options['separator'])) {
 			$options['separator'] = '-';
 		}
@@ -692,36 +692,36 @@ class FormExtHelper extends FormHelper {
 			unset($options['class']);
 		}
 
-		$blacklist = array('timeFormat' => null, 'dateFormat' => null, 'minYear' => null, 'maxYear' => null, 'separator' => null);
+		$blacklist = ['timeFormat' => null, 'dateFormat' => null, 'minYear' => null, 'maxYear' => null, 'separator' => null];
 
-		$defaultOptions = array(
+		$defaultOptions = [
 			'empty' => false,
 			'minYear' => date('Y') - 10,
 			'maxYear' => date('Y') + 10
-		);
+		];
 		$defaultOptions = (array)Configure::read('Form.date') + $defaultOptions;
 
 		$fieldName = Inflector::camelize($fieldName);
 
-		$customOptions = array(
+		$customOptions = [
 			'id' => $modelName . $fieldName . '-dd',
 			'class' => 'form-control day'
-		);
+		];
 		$customOptions = array_merge($defaultOptions, $customOptions, $options);
 		$customOptions = array_diff_key($customOptions, $blacklist);
 		$res['d'] = $this->day($field, $customOptions);
-		$customOptions = array(
+		$customOptions = [
 			'id' => $modelName . $fieldName . '-mm',
 			'class' => 'form-control month',
-		);
+		];
 		$customOptions = array_merge($defaultOptions, $customOptions, $options);
 		$customOptions = array_diff_key($customOptions, $blacklist);
 		$res['m'] = $this->month($field, $customOptions);
 
-		$customOptions = array(
+		$customOptions = [
 			'id' => $modelName . $fieldName,
 			'class' => 'form-control year'
-		);
+		];
 		$customOptions = array_merge($defaultOptions, $customOptions, $options);
 		$minYear = $customOptions['minYear'];
 		$maxYear = $customOptions['maxYear'];
@@ -762,7 +762,7 @@ class FormExtHelper extends FormHelper {
 				$script = '';
 			}
 
-			$options = array_merge(array('id' => $modelName . $fieldName), $options);
+			$options = array_merge(['id' => $modelName . $fieldName], $options);
 			$select = $this->text($field, $options);
 			return '<div class="input date' . (!empty($error) ? ' error' : '') . '">' . $this->label($modelName . '.' . $field, $options['label']) . '' . $select . '' . $error . '</div>' . $script;
 		}
@@ -802,7 +802,7 @@ class FormExtHelper extends FormHelper {
 	 * @param mixed $options
 	 * @return string Generated set of select boxes for the date and time formats chosen.
 	 */
-	public function dateTime($field, $options = array(), $timeFormat = 24, $attributes = array()) {
+	public function dateTime($field, $options = [], $timeFormat = 24, $attributes = []) {
 		// temp fix
 		if (!is_array($options)) {
 			return parent::dateTime($field, $options, $timeFormat, $attributes);
@@ -814,7 +814,7 @@ class FormExtHelper extends FormHelper {
 	 * @deprecated
 	 * use Form::timeExt
 	 */
-	public function time($field, $options = array()) {
+	public function time($field, $options = []) {
 		return $this->timeExt($field, $options);
 	}
 
@@ -825,15 +825,15 @@ class FormExtHelper extends FormHelper {
 	 * @param array $options
 	 * @return string
 	 */
-	public function timeExt($field, $options = array()) {
+	public function timeExt($field, $options = []) {
 		$return = false;
 		if (isset($options['return'])) {
 			$return = $options['return'];
 			unset($options['return']);
 		}
 
-		$this->dateScripts(array('time'));
-		$res = array();
+		$this->dateScripts(['time']);
+		$res = [];
 		if (!isset($options['separator'])) {
 			$options['separator'] = ':';
 		}
@@ -841,10 +841,10 @@ class FormExtHelper extends FormHelper {
 			$options['label'] = null;
 		}
 
-		$defaultOptions = array(
+		$defaultOptions = [
 			'empty' => false,
 			'timeFormat' => 24,
-		);
+		];
 
 		if (strpos($field, '.') !== false) {
 			list($model, $field) = explode('.', $field, 2);
@@ -857,13 +857,13 @@ class FormExtHelper extends FormHelper {
 		$customOptions = $options + $defaultOptions;
 		$format24Hours = (int)$customOptions['timeFormat'] !== 24 ? false : true;
 
-		$blacklist = array('timeFormat' => null, 'dateFormat' => null, 'separator' => null);
+		$blacklist = ['timeFormat' => null, 'dateFormat' => null, 'separator' => null];
 
-		$hourOptions = array_merge($customOptions, array('class' => 'form-control hour'));
+		$hourOptions = array_merge($customOptions, ['class' => 'form-control hour']);
 		$hourOptions = array_diff_key($hourOptions, $blacklist);
 		$res['h'] = $this->hour($field, $format24Hours, $hourOptions);
 
-		$minuteOptions = array_merge($customOptions, array('class' => 'form-control minute'));
+		$minuteOptions = array_merge($customOptions, ['class' => 'form-control minute']);
 		$minuteOptions = array_diff_key($minuteOptions, $blacklist);
 		$res['m'] = $this->minute($field, $minuteOptions);
 
@@ -897,14 +897,14 @@ class FormExtHelper extends FormHelper {
 		return '<div class="input date' . (!empty($error) ? ' error' : '') . '">' . $this->label($model . '.' . $field, $options['label']) . '' . $select . '' . $error . '</div>' . $script;
 	}
 
-	public $maxLengthOptions = array(
+	public $maxLengthOptions = [
 		'maxCharacters' => 255,
 		//'events' => array(),
 		'status' => true,
 		'statusClass' => 'status',
 		'statusText' => 'characters left',
 		'slider' => true
-	);
+	];
 
 	/**
 	 * FormExtHelper::maxLengthScripts()
@@ -913,7 +913,7 @@ class FormExtHelper extends FormHelper {
 	 */
 	public function maxLengthScripts() {
 		if (!$this->scriptsAdded['maxLength']) {
-			$this->Html->script('jquery/maxlength/jquery.maxlength', array('inline' => false));
+			$this->Html->script('jquery/maxlength/jquery.maxlength', ['inline' => false]);
 			$this->scriptsAdded['maxLength'] = true;
 		}
 	}
@@ -926,7 +926,7 @@ class FormExtHelper extends FormHelper {
 	 * @param array $globalOptions
 	 * @return string with JS code
 	 */
-	public function maxLength($selectors = array(), $options = array()) {
+	public function maxLength($selectors = [], $options = []) {
 		$this->maxLengthScripts();
 		$js = '';
 		$this->maxLengthOptions['statusText'] = __d('tools', $this->maxLengthOptions['statusText']);
@@ -935,7 +935,7 @@ class FormExtHelper extends FormHelper {
 		foreach ($selectors as $selector => $settings) {
 			if (is_int($selector)) {
 				$selector = $settings;
-				$settings = array();
+				$settings = [];
 			}
 			$js .= $this->_maxLengthJs($selector, array_merge($this->maxLengthOptions, $settings));
 		}
@@ -947,9 +947,9 @@ class FormExtHelper extends FormHelper {
 		return $this->Html->scriptBlock($js);
 	}
 
-	protected function _maxLengthJs($selector, $settings = array()) {
+	protected function _maxLengthJs($selector, $settings = []) {
 		return '
-jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('quoteKeys' => false)) . ');
+jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, ['quoteKeys' => false]) . ');
 ';
 	}
 
@@ -962,8 +962,8 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 	public function scripts($type) {
 		switch ($type) {
 			case 'charCount':
-				$this->Html->script('jquery/plugins/charCount', array('inline' => false));
-				$this->Html->css('/js/jquery/plugins/charCount', array('inline' => false));
+				$this->Html->script('jquery/plugins/charCount', ['inline' => false]);
+				$this->Html->css('/js/jquery/plugins/charCount', ['inline' => false]);
 				break;
 			default:
 				return false;
@@ -972,9 +972,9 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 		return true;
 	}
 
-	public $charCountOptions = array(
+	public $charCountOptions = [
 		'allowed' => 255,
-	);
+	];
 
 	/**
 	 * FormExtHelper::charCount()
@@ -983,7 +983,7 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 	 * @param array $options
 	 * @return string
 	 */
-	public function charCount($selectors = array(), $options = array()) {
+	public function charCount($selectors = [], $options = []) {
 		$this->scripts('charCount');
 		$js = '';
 
@@ -991,13 +991,13 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 		foreach ($selectors as $selector => $settings) {
 			if (is_int($selector)) {
 				$selector = $settings;
-				$settings = array();
+				$settings = [];
 			}
 			$settings = array_merge($this->charCountOptions, $options, $settings);
-			$js .= 'jQuery(\'' . $selector . '\').charCount(' . $this->Js->object($settings, array('quoteKeys' => false)) . ');';
+			$js .= 'jQuery(\'' . $selector . '\').charCount(' . $this->Js->object($settings, ['quoteKeys' => false]) . ');';
 		}
 		$js = $this->documentReady($js);
-		return $this->Html->scriptBlock($js, array('inline' => isset($options['inline']) ? $options['inline'] : true));
+		return $this->Html->scriptBlock($js, ['inline' => isset($options['inline']) ? $options['inline'] : true]);
 	}
 
 	/**
@@ -1018,7 +1018,7 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 	public function autoCompleteScripts() {
 		if (!$this->scriptsAdded['autoComplete']) {
 			$this->Html->script('jquery/autocomplete/jquery.autocomplete', false);
-			$this->Html->css('/js/jquery/autocomplete/jquery.autocomplete', array('inline' => false));
+			$this->Html->css('/js/jquery/autocomplete/jquery.autocomplete', ['inline' => false]);
 			$this->scriptsAdded['autoComplete'] = true;
 		}
 	}
@@ -1029,12 +1029,12 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 	 * - url, data, object (one is necessary), options
 	 * @return string
 	 */
-	public function autoComplete($field = null, $options = array(), $jquery = null) {
+	public function autoComplete($field = null, $options = [], $jquery = null) {
 		$this->autoCompleteScripts();
 
-		$defaults = array(
+		$defaults = [
 			'autocomplete' => 'off'
-		);
+		];
 		$options += $defaults;
 		if (empty($options['id']) && is_array($jquery)) {
 			$options['id'] = Inflector::camelize(str_replace(".", "_", $field));
@@ -1055,7 +1055,7 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 	 * @param array $jquery
 	 * @return string
 	 */
-	protected function _autoCompleteJs($id, $jquery = array()) {
+	protected function _autoCompleteJs($id, $jquery = []) {
 		if (!empty($jquery['url'])) {
 			$var = '"' . $this->Html->url($jquery['url']) . '"';
 		} elseif (!empty($jquery['var'])) {
@@ -1130,10 +1130,10 @@ jQuery(\'' . $selector . '\').maxlength(' . $this->Js->object($settings, array('
 	 *
 	 * @return string
 	 */
-	protected function _checkbox($id, $group = null, $options = array()) {
-		$defaults = array(
+	protected function _checkbox($id, $group = null, $options = []) {
+		$defaults = [
 			'class' => 'checkbox-toggle checkboxToggle'
-		);
+		];
 		$options += $defaults;
 		return $script . parent::checkbox($fieldName, $options);
 	}

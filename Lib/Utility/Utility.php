@@ -36,27 +36,38 @@ class Utility {
 	 * @param string $data The data to tokenize
 	 * @param string $separator The token to split the data on.
 	 * @param array $options
-	 * @return void
+	 * @return array
 	 */
-	public static function tokenize($data, $separator = ',', array $options = array()) {
-		$defaults = array(
-			'clean' => true
-		);
+	public static function tokenize($data, $separator = ',', array $options = []) {
+		$defaults = [
+			'clean' => true,
+			'callback' => null
+		];
 		$options += $defaults;
 		if (empty($data)) {
-			return array();
+			return [];
 		}
+
 		$tokens = explode($separator, $data);
+		$tokens = array_map('trim', $tokens);
+
+		if ($options['callback']) {
+			foreach ($tokens as $key => $token) {
+				debug($token);
+				$tokens[$key] = $options['callback']($token);
+			}
+		}
+
 		if (empty($tokens) || !$options['clean']) {
 			return $tokens;
 		}
 
-		$tokens = array_map('trim', $tokens);
 		foreach ($tokens as $key => $token) {
 			if ($token === '') {
 				unset($tokens[$key]);
 			}
 		}
+
 		return $tokens;
 	}
 
@@ -118,7 +129,7 @@ class Utility {
 		if ($length < 1) {
 			return false;
 		}
-		$result = array();
+		$result = [];
 		$c = mb_strlen($str);
 		for ($i = 0; $i < $c; $i += $length) {
 			$result[] = mb_substr($str, $i, $length);
@@ -300,13 +311,13 @@ class Utility {
 
 		$path .= (isset($url['query'])) ? "?$url[query]" : '';
 
-		$defaults = array(
-			'http' => array(
+		$defaults = [
+			'http' => [
 				'header' => "Accept: text/html\r\n" .
 					"Connection: Close\r\n" .
 					"User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64)\r\n",
-			)
-		);
+			]
+		];
 		stream_context_get_default($defaults);
 
 		if (isset($url['host']) && $url['host'] !== gethostbyname($url['host'])) {
@@ -349,7 +360,7 @@ class Utility {
 	 * @return string Encoded string
 	 */
 	public static function urlEncode($string) {
-		return str_replace(array('/', '='), array('-', '_'), base64_encode($string));
+		return str_replace(['/', '='], ['-', '_'], base64_encode($string));
 	}
 
 	/**
@@ -364,7 +375,7 @@ class Utility {
 	 * @return string Decoded string
 	 */
 	public static function urlDecode($string) {
-		return base64_decode(str_replace(array('-', '_'), array('/', '='), $string));
+		return base64_decode(str_replace(['-', '_'], ['/', '='], $string));
 	}
 
 	/**
@@ -478,24 +489,6 @@ class Utility {
 	}
 
 	/**
-	 * Removes all except A-Z,a-z,0-9 and allowedChars (allowedChars array) recursivly
-	 *
-	 */
-	public static function paranoidDeep($value) {
-		$value = is_array($value) ? array_map('self::paranoidDeep', $value) : Sanatize::paranoid($value, $this->allowedChars);
-		return $value;
-	}
-
-	/**
-	 * Transfers/removes all < > from text (remove TRUE/FALSE)
-	 *
-	 */
-	public static function htmlDeep($value) {
-		$value = is_array($value) ? array_map('self::htmlDeep', $value) : Sanatize::html($value, $this->removeChars);
-		return $value;
-	}
-
-	/**
 	 * Main deep method
 	 *
 	 */
@@ -515,7 +508,7 @@ class Utility {
 	 */
 	public static function countDim($array, $all = false, $count = 0) {
 		if ($all) {
-			$depth = array($count);
+			$depth = [$count];
 			if (is_array($array) && reset($array) !== false) {
 				foreach ($array as $value) {
 					$depth[] = static::countDim($value, true, $count + 1);
@@ -549,7 +542,7 @@ class Utility {
 	 * @return array
 	 */
 	public static function expandList(array $data, $separator = '.', $undefinedKey = null) {
-		$result = array();
+		$result = [];
 		foreach ($data as $value) {
 			$keys = explode($separator, $value);
 			$value = array_pop($keys);
@@ -561,12 +554,12 @@ class Utility {
 				}
 				$keys[0] = $undefinedKey;
 			}
-			$child = array($keys[0] => array($value));
+			$child = [$keys[0] => [$value]];
 			array_shift($keys);
 			foreach ($keys as $k) {
-				$child = array(
+				$child = [
 					$k => $child
-				);
+				];
 			}
 			$result = Set::merge($result, $child);
 		}
@@ -587,8 +580,8 @@ class Utility {
 	 * @return array
 	 */
 	public static function flattenList(array $data, $separator = '.') {
-		$result = array();
-		$stack = array();
+		$result = [];
+		$stack = [];
 		$path = null;
 
 		reset($data);
@@ -599,7 +592,7 @@ class Utility {
 
 			if (is_array($element) && !empty($element)) {
 				if (!empty($data)) {
-					$stack[] = array($data, $path);
+					$stack[] = [$data, $path];
 				}
 				$data = $element;
 				reset($data);
@@ -636,9 +629,9 @@ class Utility {
 			return static::_arrayFlatten($array);
 		}
 		if (!$array) {
-			return array();
+			return [];
 		}
-		$result = array();
+		$result = [];
 		foreach ($array as $key => $value) {
 			if (is_array($value)) {
 				$result = array_merge($result, static::arrayFlatten($value));
@@ -661,9 +654,9 @@ class Utility {
 	 * @param array $f
 	 * @return array
 	 */
-	protected static function _arrayFlatten($a, $f = array()) {
+	protected static function _arrayFlatten($a, $f = []) {
 		if (!$a) {
-			return array();
+			return [];
 		}
 		foreach ($a as $k => $v) {
 			if (is_array($v)) {

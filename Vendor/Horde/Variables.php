@@ -20,7 +20,7 @@ class Horde_Variables implements Countable, Iterator, ArrayAccess
      *
      * @var array
      */
-    protected $_expected = array();
+    protected $_expected = [];
 
     /**
      * Has the input been sanitized?
@@ -55,7 +55,7 @@ class Horde_Variables implements Countable, Iterator, ArrayAccess
      *                          to PHP's $_REQUEST value).
      * @param string $sanitize  Sanitize the input variables?
      */
-    public function __construct($vars = array(), $sanitize = false)
+    public function __construct($vars = [], $sanitize = false)
     {
         if (is_null($vars)) {
             $request_copy = $_REQUEST;
@@ -193,7 +193,7 @@ class Horde_Variables implements Countable, Iterator, ArrayAccess
      */
     public function __set($varname, $value)
     {
-        $keys = array();
+        $keys = [];
 
         if (Horde_Array::getArrayParts($varname, $base, $keys)) {
             array_unshift($keys, $base);
@@ -203,7 +203,7 @@ class Horde_Variables implements Countable, Iterator, ArrayAccess
             while ($i--) {
                 $key = array_shift($keys);
                 if (!isset($place[$key])) {
-                    $place[$key] = array();
+                    $place[$key] = [];
                 }
                 $place = &$place[$key];
             }

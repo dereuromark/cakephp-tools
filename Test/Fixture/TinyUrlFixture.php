@@ -10,28 +10,28 @@ class TinyUrlFixture extends CakeTestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary', 'collate' => null, 'comment' => ''),
-		'user_id' => array('type' => 'string', 'null' => true, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'model' => array('type' => 'string', 'null' => false, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'foreign_id' => array('type' => 'string', 'null' => true, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'),
-		'url' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => 'for external urls', 'charset' => 'utf8'),
-		'content' => array('type' => 'text', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => 'can transport some information', 'charset' => 'utf8'),
-		'used' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10, 'collate' => null, 'comment' => ''),
-		'last_used' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'user_id' => array('column' => 'user_id', 'unique' => 0), 'foreign_id' => array('column' => 'foreign_id', 'unique' => 0)),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
-	);
+	public $fields = [
+		'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary', 'collate' => null, 'comment' => ''],
+		'user_id' => ['type' => 'string', 'null' => true, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'model' => ['type' => 'string', 'null' => false, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'foreign_id' => ['type' => 'string', 'null' => true, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'url' => ['type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => 'for external urls', 'charset' => 'utf8'],
+		'content' => ['type' => 'text', 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => 'can transport some information', 'charset' => 'utf8'],
+		'used' => ['type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10, 'collate' => null, 'comment' => ''],
+		'last_used' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
+		'created' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
+		'modified' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
+		'indexes' => ['PRIMARY' => ['column' => 'id', 'unique' => 1], 'user_id' => ['column' => 'user_id', 'unique' => 0], 'foreign_id' => ['column' => 'foreign_id', 'unique' => 0]],
+		'tableParameters' => ['charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM']
+	];
 
 	/**
 	 * Records
 	 *
 	 * @var array
 	 */
-	public $records = array(
-		array(
+	public $records = [
+		[
 			'id' => 1,
 			'user_id' => 'Lorem ipsum dolor sit amet',
 			'model' => 'Lorem ipsum dolor sit amet',
@@ -42,8 +42,8 @@ class TinyUrlFixture extends CakeTestFixture {
 			'last_used' => '2011-12-15 00:35:33',
 			'created' => '2011-12-15 00:35:33',
 			'modified' => '2011-12-15 00:35:33'
-		),
-		array(
+		],
+		[
 			'id' => 2,
 			'user_id' => 'Lorem ipsum dolor sit amet',
 			'model' => 'Lorem ipsum dolor sit amet',
@@ -54,8 +54,8 @@ class TinyUrlFixture extends CakeTestFixture {
 			'last_used' => '2011-12-15 00:35:33',
 			'created' => '2011-12-15 00:35:33',
 			'modified' => '2011-12-15 00:35:33'
-		),
-		array(
+		],
+		[
 			'id' => 3,
 			'user_id' => 'Lorem ipsum dolor sit amet',
 			'model' => 'Lorem ipsum dolor sit amet',
@@ -66,8 +66,8 @@ class TinyUrlFixture extends CakeTestFixture {
 			'last_used' => '2011-12-15 00:35:33',
 			'created' => '2011-12-15 00:35:33',
 			'modified' => '2011-12-15 00:35:33'
-		),
-		array(
+		],
+		[
 			'id' => 4,
 			'user_id' => 'Lorem ipsum dolor sit amet',
 			'model' => 'Lorem ipsum dolor sit amet',
@@ -78,8 +78,8 @@ class TinyUrlFixture extends CakeTestFixture {
 			'last_used' => '2011-12-15 00:35:33',
 			'created' => '2011-12-15 00:35:33',
 			'modified' => '2011-12-15 00:35:33'
-		),
-		array(
+		],
+		[
 			'id' => 5,
 			'user_id' => 'Lorem ipsum dolor sit amet',
 			'model' => 'Lorem ipsum dolor sit amet',
@@ -90,8 +90,8 @@ class TinyUrlFixture extends CakeTestFixture {
 			'last_used' => '2011-12-15 00:35:33',
 			'created' => '2011-12-15 00:35:33',
 			'modified' => '2011-12-15 00:35:33'
-		),
-		array(
+		],
+		[
 			'id' => 6,
 			'user_id' => 'Lorem ipsum dolor sit amet',
 			'model' => 'Lorem ipsum dolor sit amet',
@@ -102,8 +102,8 @@ class TinyUrlFixture extends CakeTestFixture {
 			'last_used' => '2011-12-15 00:35:33',
 			'created' => '2011-12-15 00:35:33',
 			'modified' => '2011-12-15 00:35:33'
-		),
-		array(
+		],
+		[
 			'id' => 7,
 			'user_id' => 'Lorem ipsum dolor sit amet',
 			'model' => 'Lorem ipsum dolor sit amet',
@@ -114,8 +114,8 @@ class TinyUrlFixture extends CakeTestFixture {
 			'last_used' => '2011-12-15 00:35:33',
 			'created' => '2011-12-15 00:35:33',
 			'modified' => '2011-12-15 00:35:33'
-		),
-		array(
+		],
+		[
 			'id' => 8,
 			'user_id' => 'Lorem ipsum dolor sit amet',
 			'model' => 'Lorem ipsum dolor sit amet',
@@ -126,8 +126,8 @@ class TinyUrlFixture extends CakeTestFixture {
 			'last_used' => '2011-12-15 00:35:33',
 			'created' => '2011-12-15 00:35:33',
 			'modified' => '2011-12-15 00:35:33'
-		),
-		array(
+		],
+		[
 			'id' => 9,
 			'user_id' => 'Lorem ipsum dolor sit amet',
 			'model' => 'Lorem ipsum dolor sit amet',
@@ -138,8 +138,8 @@ class TinyUrlFixture extends CakeTestFixture {
 			'last_used' => '2011-12-15 00:35:33',
 			'created' => '2011-12-15 00:35:33',
 			'modified' => '2011-12-15 00:35:33'
-		),
-		array(
+		],
+		[
 			'id' => 10,
 			'user_id' => 'Lorem ipsum dolor sit amet',
 			'model' => 'Lorem ipsum dolor sit amet',
@@ -150,6 +150,6 @@ class TinyUrlFixture extends CakeTestFixture {
 			'last_used' => '2011-12-15 00:35:33',
 			'created' => '2011-12-15 00:35:33',
 			'modified' => '2011-12-15 00:35:33'
-		),
-	);
+		],
+	];
 }

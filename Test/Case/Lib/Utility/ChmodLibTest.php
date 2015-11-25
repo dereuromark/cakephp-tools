@@ -52,15 +52,15 @@ class ChmodLibTest extends CakeTestCase {
 		$expected = 0777;
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Chmod->getMode(array('type' => 'string'));
+		$is = $this->Chmod->getMode(['type' => 'string']);
 		$expected = '777';
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Chmod->getMode(array('type' => 'int'));
+		$is = $this->Chmod->getMode(['type' => 'int']);
 		$expected = 777;
 		$this->assertEquals($expected, $is);
 
-		$is = $this->Chmod->getMode(array('type' => 'symbolic'));
+		$is = $this->Chmod->getMode(['type' => 'symbolic']);
 		$expected = 'rwxrwxrwx';
 		$this->assertEquals($expected, $is);
 	}

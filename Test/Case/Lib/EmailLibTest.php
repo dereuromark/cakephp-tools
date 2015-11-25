@@ -3,7 +3,9 @@
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 App::uses('EmailLib', 'Tools.Lib');
 
-//Configure::write('Config.adminEmail', '...');
+if (!Configure::read('Config.adminEmail')) {
+	Configure::write('Config.adminEmail', 'example@gmx.de');
+}
 
 class EmailLibTest extends MyCakeTestCase {
 
@@ -49,15 +51,15 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->assertEquals('', $this->Email->getError());
 		$this->assertTrue($res);
 
-		$this->Email->resetAndSet();
+		$this->Email->reset();
 		// start
 		$this->Email->transport('debug');
 		$this->Email->to(Configure::read('Config.adminEmail'), Configure::read('Config.adminEmailname'));
 		$this->Email->subject('Test Subject 2');
 		$this->Email->template('default', 'default');
-		$this->Email->viewVars(array('x' => 'y', 'xx' => 'yy', 'text' => ''));
-		$this->Email->addAttachments(array(CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'edit.gif'));
-		$this->Email->addAttachments(array('http://www.spiegel.de/static/sys/v10/icons/home_v2.png'));
+		$this->Email->viewVars(['x' => 'y', 'xx' => 'yy', 'text' => '']);
+		$this->Email->addAttachments([CakePlugin::path('Tools') . 'Test' . DS . 'test_files' . DS . 'img' . DS . 'edit.gif']);
+		$this->Email->addAttachments(['http://www.spiegel.de/static/sys/v10/icons/home_v2.png']);
 
 		$res = $this->Email->send('xyz');
 		$debug = $this->Email->getDebug();
@@ -79,7 +81,7 @@ class EmailLibTest extends MyCakeTestCase {
 	public function testSendFast() {
 		$this->skipIf(php_sapi_name() === 'cli');
 
-		//$this->Email->resetAndSet();
+		//$this->Email->reset();
 		//$this->Email->from(Configure::read('Config.adminEmail'), Configure::read('Config.adminEmailname'));
 		$res = EmailLib::systemEmail('system-mail test', 'some fast email to admin test');
 		//debug($res);
@@ -183,21 +185,21 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->Email->addAttachment($file);
 
 		$res = $this->Email->getProtected('attachments');
-		$expected = array(
-			'hotel.png' => array(
+		$expected = [
+			'hotel.png' => [
 				'file' => $file,
 				'mimetype' => 'image/png',
-			)
-		);
+			]
+		];
 		$this->assertEquals($expected, $res);
 
 		$this->Email->addAttachment($file, 'my_image.jpg');
 
 		$res = $this->Email->getProtected('attachments');
-		$expected = array(
+		$expected = [
 			'file' => $file,
 			'mimetype' => 'image/jpeg',
-		);
+		];
 		$this->assertEquals($expected, $res['my_image.jpg']);
 	}
 
@@ -222,7 +224,7 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->assertEquals('', $this->Email->getError());
 		$this->assertTrue($res);
 
-		$this->Email->resetAndSet();
+		$this->Email->reset();
 		$this->Email->to(Configure::read('Config.adminEmail'));
 		$this->Email->addAttachment($file, 'x.jpg');
 		$res = $this->Email->send('test_custom_filename');
@@ -243,20 +245,20 @@ class EmailLibTest extends MyCakeTestCase {
 
 		$this->Email->addBlobAttachment($content, 'hotel.png');
 		$res = $this->Email->getProtected('attachments');
-		$expected = array(
-			'hotel.png' => array(
+		$expected = [
+			'hotel.png' => [
 				'content' => $content,
 				'mimetype' => 'image/png',
-			)
-		);
+			]
+		];
 		$this->assertEquals($expected, $res);
 
 		$this->Email->addBlobAttachment($content, 'hotel.gif', 'image/jpeg');
 		$res = $this->Email->getProtected('attachments');
-		$expected = array(
+		$expected = [
 			'content' => $content,
 			'mimetype' => 'image/jpeg',
-		);
+		];
 		$this->assertEquals($expected, $res['hotel.gif']);#
 		$this->assertSame(2, count($res));
 	}
@@ -279,13 +281,13 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->assertContains('@' . env('HTTP_HOST'), $cid);
 
 		$res = $this->Email->getProtected('attachments');
-		$expected = array(
-			'hotel.png' => array(
+		$expected = [
+			'hotel.png' => [
 				'file' => $file,
 				'mimetype' => 'image/png',
 				'contentId' => $cid
-			)
-		);
+			]
+		];
 		$this->assertSame($expected, $res);
 	}
 
@@ -352,28 +354,28 @@ html-part
 		$this->assertContains('@' . env('HTTP_HOST'), $cid);
 
 		$res = $this->Email->getProtected('attachments');
-		$expected = array(
-			'my_hotel.png' => array(
+		$expected = [
+			'my_hotel.png' => [
 				'content' => file_get_contents($file),
 				'mimetype' => 'image/png',
 				'contentId' => $cid,
-			)
-		);
+			]
+		];
 		$this->assertEquals($expected, $res);
 
-		$options = array(
+		$options = [
 			'contentDisposition' => true,
-		);
+		];
 		$cid = 'abcdef';
 		$this->Email->addEmbeddedBlobAttachment(file_get_contents($file), 'my_other_hotel.png', 'image/jpeg', $cid, $options);
 
 		$res = $this->Email->getProtected('attachments');
-		$expected = array(
+		$expected = [
 			'contentDisposition' => true,
 			'content' => file_get_contents($file),
 			'mimetype' => 'image/jpeg',
 			'contentId' => $cid,
-		);
+		];
 		$this->assertEquals($expected, $res['my_other_hotel.png']);
 	}
 

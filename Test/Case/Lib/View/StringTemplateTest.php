@@ -19,9 +19,9 @@ class StringTemplateTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testConstructorAdd() {
-		$templates = array(
+		$templates = [
 			'link' => '<a href="{{url}}">{{text}}</a>'
-		);
+		];
 		$template = new StringTemplate($templates);
 		debug($template->config('link'));
 		$this->assertEquals($templates['link'], $template->config('link'));
@@ -33,9 +33,9 @@ class StringTemplateTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testAdd() {
-		$templates = array(
+		$templates = [
 			'link' => '<a href="{{url}}">{{text}}</a>'
-		);
+		];
 		$result = $this->template->add($templates);
 		$this->assertSame(
 			$this->template,
@@ -52,9 +52,9 @@ class StringTemplateTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testRemove() {
-		$templates = array(
+		$templates = [
 			'link' => '<a href="{{url}}">{{text}}</a>'
-		);
+		];
 		$this->template->add($templates);
 		$this->assertNull($this->template->remove('link'), 'No return');
 		$this->assertNull($this->template->config('link'), 'Template should be gone.');
@@ -66,9 +66,9 @@ class StringTemplateTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testFormat() {
-		$templates = array(
+		$templates = [
 			'link' => '<a href="{{url}}">{{text}}</a>'
-		);
+		];
 		$this->template->add($templates);
 
 		$result = $this->template->format('not there', []);
@@ -112,14 +112,14 @@ class StringTemplateTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testFormatAttributesCompact() {
-		$attrs = array('disabled' => true, 'selected' => 1, 'checked' => '1', 'multiple' => 'multiple');
+		$attrs = ['disabled' => true, 'selected' => 1, 'checked' => '1', 'multiple' => 'multiple'];
 		$result = $this->template->formatAttributes($attrs);
 		$this->assertEquals(
 			' disabled="disabled" selected="selected" checked="checked" multiple="multiple"',
 			$result
 		);
 
-		$attrs = array('disabled' => false, 'selected' => 0, 'checked' => '0', 'multiple' => null);
+		$attrs = ['disabled' => false, 'selected' => 0, 'checked' => '0', 'multiple' => null];
 		$result = $this->template->formatAttributes($attrs);
 		$this->assertEquals(
 			'',
@@ -133,22 +133,22 @@ class StringTemplateTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testFormatAttributes() {
-		$attrs = array('name' => 'bruce', 'data-hero' => '<batman>');
+		$attrs = ['name' => 'bruce', 'data-hero' => '<batman>'];
 		$result = $this->template->formatAttributes($attrs);
 		$this->assertEquals(
 			' name="bruce" data-hero="&lt;batman&gt;"',
 			$result
 		);
 
-		$attrs = array('escape' => false, 'name' => 'bruce', 'data-hero' => '<batman>');
+		$attrs = ['escape' => false, 'name' => 'bruce', 'data-hero' => '<batman>'];
 		$result = $this->template->formatAttributes($attrs);
 		$this->assertEquals(
 			' name="bruce" data-hero="<batman>"',
 			$result
 		);
 
-		$attrs = array('name' => 'bruce', 'data-hero' => '<batman>');
-		$result = $this->template->formatAttributes($attrs, array('name'));
+		$attrs = ['name' => 'bruce', 'data-hero' => '<batman>'];
+		$result = $this->template->formatAttributes($attrs, ['name']);
 		$this->assertEquals(
 			' data-hero="&lt;batman&gt;"',
 			$result
@@ -161,7 +161,7 @@ class StringTemplateTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testFormatAttributesArray() {
-		$attrs = array('name' => array('bruce', 'wayne'));
+		$attrs = ['name' => ['bruce', 'wayne']];
 		$result = $this->template->formatAttributes($attrs);
 		$this->assertEquals(
 			' name="bruce wayne"',

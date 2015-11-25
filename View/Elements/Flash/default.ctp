@@ -1,10 +1,10 @@
 <?php
 $class = 'message';
 if (!empty($params['class'])) {
-    $class .= ' ' . $params['class'];
+	$class .= ' ' . $params['class'];
 }
 if (!empty($type)) {
-    $class .= ' ' . $type;
+	$class .= ' ' . $type;
 }
 
 if (!isset($escape) || $escape) {

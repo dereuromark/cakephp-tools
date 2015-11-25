@@ -80,13 +80,13 @@ class NumberTextLib {
 		}
 		$s = new Soros($st);
 		if ($lang != null) {
-			static::addModule(array($lang, $s));
+			static::addModule([$lang, $s]);
 		}
 		return $s;
 	}
 
 	protected static function getModules($m = null) {
-		static $modules = array();
+		static $modules = [];
 		if (is_array($m)) {
 			$modules[] = $m;
 		}

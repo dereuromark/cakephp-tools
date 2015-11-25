@@ -27,7 +27,7 @@ App::uses('Router', 'Routing');
  */
 class MobileComponent extends Component {
 
-	public $components = array('Session');
+	public $components = ['Session'];
 
 	public $Controller = null;
 
@@ -50,13 +50,13 @@ class MobileComponent extends Component {
 	 *
 	 * @param array
 	 */
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'on' => 'startup', // initialize (prior to controller's beforeRender) or startup
 		'engine' => 'vendor', // cake internal (deprecated), tools (deprecated) or vendor
 		'themed' => false, // If false uses subfolders instead of themes: /View/.../mobile/
-		'mobile' => array('mobile', 'tablet'), // what is mobile? tablets as well? only for vendor
+		'mobile' => ['mobile', 'tablet'], // what is mobile? tablets as well? only for vendor
 		'auto' => false, // auto set mobile views
-	);
+	];
 
 	/**
 	 * MobileComponent::__construct()
@@ -64,7 +64,7 @@ class MobileComponent extends Component {
 	 * @param ComponentCollection $collection
 	 * @param array $config
 	 */
-	public function __construct(ComponentCollection $collection, $config = array()) {
+	public function __construct(ComponentCollection $collection, $config = []) {
 		$defaults = (array)Configure::read('Mobile') + $this->_defaultConfig;
 		$config += $defaults;
 		parent::__construct($collection, $config);
@@ -188,10 +188,10 @@ class MobileComponent extends Component {
 
 		$urlParams = Router::getParams(true);
 		if (!isset($urlParams['named'])) {
-			$urlParams['named'] = array();
+			$urlParams['named'] = [];
 		}
 		if (!isset($urlParams['pass'])) {
-			$urlParams['pass'] = array();
+			$urlParams['pass'] = [];
 		}
 		$urlParams = array_merge($urlParams, $urlParams['named'], $urlParams['pass']);
 		unset($urlParams['named']);
@@ -257,13 +257,13 @@ class MobileComponent extends Component {
 	public function detect() {
 		// Deprecated - the vendor libs are far more accurate and up to date
 		if ($this->settings['engine'] === 'cake') {
-			$this->Controller->request->addDetector('mobile', array('options' => array('OMNIA7')));
+			$this->Controller->request->addDetector('mobile', ['options' => ['OMNIA7']]);
 			return $this->Controller->request->is('mobile');
 		}
 		if (is_callable($this->settings['engine'])) {
 			return call_user_func($this->settings['engine']);
 		}
-		if (!in_array($this->settings['engine'], array('tools', 'vendor'))) {
+		if (!in_array($this->settings['engine'], ['tools', 'vendor'])) {
 			throw new CakeException(sprintf('Engine %s not available', $this->settings['engine']));
 		}
 		return $this->detectByVendor($this->settings['engine']);
@@ -288,7 +288,7 @@ class MobileComponent extends Component {
 			return (bool)$UserAgentLib->isMobile();
 		}
 
-		App::import('Vendor', 'Tools.MobileDetect', array('file' => 'MobileDetect/Mobile_Detect.php'));
+		App::import('Vendor', 'Tools.MobileDetect', ['file' => 'MobileDetect/Mobile_Detect.php']);
 		$MobileDetect = new Mobile_Detect();
 
 		$result = empty($this->settings['mobile']) ? 0 : 1;

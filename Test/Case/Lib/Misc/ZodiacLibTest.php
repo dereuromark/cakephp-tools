@@ -148,40 +148,40 @@ class ZodiacLibTest extends MyCakeTestCase {
 
 	public function testRange() {
 		$is = $this->Zodiac->getRange(ZodiacLib::SIGN_AQUARIUS);
-		$this->assertEquals($is, array(array(1, 21), array(2, 19)));
+		$this->assertEquals($is, [[1, 21], [2, 19]]);
 
 		$is = $this->Zodiac->getRange(ZodiacLib::SIGN_PISCES);
-		$this->assertEquals($is, array(array(2, 20), array(3, 20)));
+		$this->assertEquals($is, [[2, 20], [3, 20]]);
 
 		$is = $this->Zodiac->getRange(ZodiacLib::SIGN_ARIES);
-		$this->assertEquals($is, array(array(3, 21), array(4, 20)));
+		$this->assertEquals($is, [[3, 21], [4, 20]]);
 
 		$is = $this->Zodiac->getRange(ZodiacLib::SIGN_TAURUS);
-		$this->assertEquals($is, array(array(4, 21), array(5, 21)));
+		$this->assertEquals($is, [[4, 21], [5, 21]]);
 
 		$is = $this->Zodiac->getRange(ZodiacLib::SIGN_GEMINI);
-		$this->assertEquals($is, array(array(5, 22), array(6, 21)));
+		$this->assertEquals($is, [[5, 22], [6, 21]]);
 
 		$is = $this->Zodiac->getRange(ZodiacLib::SIGN_CANCER);
-		$this->assertEquals($is, array(array(6, 22), array(7, 23)));
+		$this->assertEquals($is, [[6, 22], [7, 23]]);
 
 		$is = $this->Zodiac->getRange(ZodiacLib::SIGN_LEO);
-		$this->assertEquals($is, array(array(7, 24), array(8, 23)));
+		$this->assertEquals($is, [[7, 24], [8, 23]]);
 
 		$is = $this->Zodiac->getRange(ZodiacLib::SIGN_VIRGO);
-		$this->assertEquals($is, array(array(8, 24), array(9, 23)));
+		$this->assertEquals($is, [[8, 24], [9, 23]]);
 
 		$is = $this->Zodiac->getRange(ZodiacLib::SIGN_LIBRA);
-		$this->assertEquals($is, array(array(9, 24), array(10, 23)));
+		$this->assertEquals($is, [[9, 24], [10, 23]]);
 
 		$is = $this->Zodiac->getRange(ZodiacLib::SIGN_SCORPIO);
-		$this->assertEquals($is, array(array(10, 24), array(11, 22)));
+		$this->assertEquals($is, [[10, 24], [11, 22]]);
 
 		$is = $this->Zodiac->getRange(ZodiacLib::SIGN_SAGITTARIUS);
-		$this->assertEquals($is, array(array(11, 23), array(12, 21)));
+		$this->assertEquals($is, [[11, 23], [12, 21]]);
 
 		$is = $this->Zodiac->getRange(ZodiacLib::SIGN_CAPRICORN);
-		$this->assertEquals($is, array(array(12, 22), array(1, 20)));
+		$this->assertEquals($is, [[12, 22], [1, 20]]);
 	}
 
 	public function testSignViaRange() {

@@ -9,7 +9,7 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
  */
 class FlashHelperTest extends MyCakeTestCase {
 
-	public $fixtures = array('core.cake_session');
+	public $fixtures = ['core.cake_session'];
 
 	public $Flash;
 
@@ -68,8 +68,8 @@ class FlashHelperTest extends MyCakeTestCase {
 	public function testFlashComplex() {
 		$this->Flash->settings['useElements'] = true;
 
-		FlashComponent::transientMessage('efg', array('type' => 'success', 'escape' => true,
-			'useElements' => true, 'params' => array('foo' => 'bar')));
+		FlashComponent::transientMessage('efg', ['type' => 'success', 'escape' => true,
+			'useElements' => true, 'params' => ['foo' => 'bar']]);
 
 		$res = $this->Flash->flash();
 		$this->assertTrue(!empty($res));
@@ -86,10 +86,10 @@ class FlashHelperTest extends MyCakeTestCase {
 	public function testFlashHtml() {
 		$this->Flash->settings['useElements'] = true;
 
-		FlashComponent::transientMessage('<b>OK<b>', array('type' => 'success', 'escape' => false,
-			'useElements' => true, 'params' => array('foo' => 'bar')));
-		FlashComponent::transientMessage('<b>Error<b>', array('type' => 'error', 'escape' => true,
-			'useElements' => true, 'params' => array('foo' => 'bar')));
+		FlashComponent::transientMessage('<b>OK<b>', ['type' => 'success', 'escape' => false,
+			'useElements' => true, 'params' => ['foo' => 'bar']]);
+		FlashComponent::transientMessage('<b>Error<b>', ['type' => 'error', 'escape' => true,
+			'useElements' => true, 'params' => ['foo' => 'bar']]);
 
 		$res = $this->Flash->flash();
 		$this->assertTrue(!empty($res));
@@ -105,13 +105,13 @@ class FlashHelperTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testFlashComplexMocked() {
-		$this->View = $this->getMock('View', array('element'));
+		$this->View = $this->getMock('View', ['element']);
 		$this->Flash = new FlashHelper($this->View);
 
 		$this->Flash->settings['useElements'] = true;
 
-		FlashComponent::transientMessage('efg', array('type' => 'success', 'escape' => true,
-			'useElements' => true, 'element' => 'PluginName.default_element', 'params' => array('foo' => 'bar')));
+		FlashComponent::transientMessage('efg', ['type' => 'success', 'escape' => true,
+			'useElements' => true, 'element' => 'PluginName.default_element', 'params' => ['foo' => 'bar']]);
 
 		$this->View->expects($this->once())
 			->method('element')
@@ -137,11 +137,11 @@ class FlashHelperTest extends MyCakeTestCase {
 		$this->Flash->addTransientMessage('I am also some info');
 		$this->Flash->addTransientMessage('I am sth custom', 'custom');
 
-		$result = $this->Flash->flash(array('warning', 'error'));
+		$result = $this->Flash->flash(['warning', 'error']);
 		$expected = '<div class="flash-messages flashMessages"><div class="message warning">I am a warning</div><div class="message error">I am an error</div></div>';
 		$this->assertEquals($expected, $result);
 
-		$result = $this->Flash->flash(array('info'));
+		$result = $this->Flash->flash(['info']);
 		$expected = '<div class="flash-messages flashMessages"><div class="message info">I am some info</div><div class="message info">I am also some info</div></div>';
 		$this->assertEquals($expected, $result);
 

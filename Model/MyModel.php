@@ -1,7 +1,8 @@
 <?php
-App::uses('Model', 'Model');
+App::uses('ShimModel', 'Shim.Model');
 App::uses('Utility', 'Tools.Utility');
 App::uses('Hash', 'Utility');
+App::uses('Validation', 'Utility');
 
 /**
  * Model enhancements for Cake2
@@ -9,11 +10,7 @@ App::uses('Hash', 'Utility');
  * @author Mark Scherer
  * @license http://opensource.org/licenses/mit-license.php MIT
  */
-class MyModel extends Model {
-
-	public $recursive = -1;
-
-	public $actsAs = array('Containable');
+class MyModel extends ShimModel {
 
 	/**
 	 * MyModel::__construct()
@@ -30,16 +27,13 @@ class MyModel extends Model {
 			if (!file_exists(CACHE . 'sql')) {
 				mkdir(CACHE . 'sql', CHOWN_PUBLIC);
 			}
-			Cache::config('sql', array(
+			Cache::config('sql', [
 				'engine' => 'File',
 				'serialize' => true,
 				'prefix'	=> '',
 				'path' => CACHE . 'sql' . DS,
 				'duration'	=> '+1 day'
-			));
-		}
-		if (!Configure::read('Model.disablePrefixing')) {
-			$this->prefixOrderProperty();
+			]);
 		}
 
 		// Get a notice if there is an AppModel instance instead of a real Model (in those cases usually a dev error!)
@@ -47,141 +41,6 @@ class MyModel extends Model {
 			&& !Configure::read('Core.disableModelInstanceNotice')) {
 			trigger_error('AppModel instance! Expected: ' . $this->name);
 		}
-	}
-
-	/**
-	 * Prefixes the order property with the actual alias if its a string or array.
-	 *
-	 * The core fails on using the proper prefix when building the query with two
-	 * different tables.
-	 *
-	 * @return void
-	 */
-	public function prefixOrderProperty() {
-		if (is_string($this->order)) {
-			$this->order = $this->prefixAlias($this->order);
-		}
-		if (is_array($this->order)) {
-			foreach ($this->order as $key => $value) {
-				if (is_numeric($key)) {
-					$this->order[$key] = $this->prefixAlias($value);
-				} else {
-					$newKey = $this->prefixAlias($key);
-					$this->order[$newKey] = $value;
-					if ($newKey !== $key) {
-						unset($this->order[$key]);
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * Checks if a string of a field name contains a dot if not it will add it and add the alias prefix.
-	 *
-	 * @param string
-	 * @return string
-	 */
-	public function prefixAlias($string) {
-		if (strpos($string, '.') === false) {
-			return $this->alias . '.' . $string;
-		}
-		return $string;
-	}
-
-	/**
-	 * Deconstructs a complex data type (array or object) into a single field value.
-	 * BUGFIXED VERSION - autodetects type and allows manual override
-	 *
-	 * @param string $field The name of the field to be deconstructed
-	 * @param array|object $data An array or object to be deconstructed into a field
-	 * @return mixed The resulting data that should be assigned to a field
-	 */
-	public function deconstruct($field, $data, $type = null) {
-		if (!is_array($data)) {
-			return $data;
-		}
-		if ($type === null) {
-			$type = $this->getColumnType($field);
-		}
-		if ($type === null) {
-			//try to autodetect
-			if (isset($data['day']) || isset($data['month']) || isset($data['year'])) {
-				$type = 'date';
-			}
-			if (isset($data['hour']) || isset($data['min']) || isset($data['sec'])) {
-				$type .= 'time';
-			}
-		}
-
-		if (in_array($type, array('datetime', 'timestamp', 'date', 'time'))) {
-			$useNewDate = (isset($data['year']) || isset($data['month']) ||
-				isset($data['day']) || isset($data['hour']) || isset($data['minute']));
-
-			$dateFields = array('Y' => 'year', 'm' => 'month', 'd' => 'day', 'H' => 'hour', 'i' => 'min', 's' => 'sec');
-			$timeFields = array('H' => 'hour', 'i' => 'min', 's' => 'sec');
-			$date = array();
-
-			if (isset($data['meridian']) && empty($data['meridian'])) {
-				return null;
-			}
-
-			if (
-				isset($data['hour']) &&
-				isset($data['meridian']) &&
-				!empty($data['hour']) &&
-				$data['hour'] != 12 &&
-				'pm' == $data['meridian']
-			) {
-				$data['hour'] = $data['hour'] + 12;
-			}
-			if (isset($data['hour']) && isset($data['meridian']) && $data['hour'] == 12 && 'am' == $data['meridian']) {
-				$data['hour'] = '00';
-			}
-			if ($type === 'time') {
-				foreach ($timeFields as $key => $val) {
-					if (!isset($data[$val]) || $data[$val] === '0' || $data[$val] === '00') {
-						$data[$val] = '00';
-					} elseif ($data[$val] !== '') {
-						$data[$val] = sprintf('%02d', $data[$val]);
-					}
-					if (!empty($data[$val])) {
-						$date[$key] = $data[$val];
-					} else {
-						return null;
-					}
-				}
-			}
-
-			if ($type === 'datetime' || $type === 'timestamp' || $type === 'date') {
-				foreach ($dateFields as $key => $val) {
-					if ($val === 'hour' || $val === 'min' || $val === 'sec') {
-						if (!isset($data[$val]) || $data[$val] === '0' || $data[$val] === '00') {
-							$data[$val] = '00';
-						} else {
-							$data[$val] = sprintf('%02d', $data[$val]);
-						}
-					}
-					if (!isset($data[$val]) || isset($data[$val]) && (empty($data[$val]) || $data[$val][0] === '-')) {
-						return null;
-					}
-					if (isset($data[$val]) && !empty($data[$val])) {
-						$date[$key] = $data[$val];
-					}
-				}
-			}
-
-			if ($useNewDate && !empty($date)) {
-				$format = $this->getDataSource()->columns[$type]['format'];
-				foreach (array('m', 'd', 'H', 'i', 's') as $index) {
-					if (isset($date[$index])) {
-						$date[$index] = sprintf('%02d', $date[$index]);
-					}
-				}
-				return str_replace(array_keys($date), array_values($date), $format);
-			}
-		}
-		return $data;
 	}
 
 	/**
@@ -200,7 +59,7 @@ class MyModel extends Model {
 			}
 			return $default;
 		} elseif ($value !== null) {
-			$newOptions = array();
+			$newOptions = [];
 			foreach ($value as $v) {
 				$newOptions[$v] = $options[$v];
 			}
@@ -227,8 +86,8 @@ class MyModel extends Model {
 	 * @param array $virtualFields to include
 	 * @return array
 	 */
-	public function virtualFields($fields = array()) {
-		$res = array();
+	public function virtualFields($fields = []) {
+		$res = [];
 		foreach ((array)$fields as $field => $sql) {
 			if (is_int($field)) {
 				$field = $sql;
@@ -306,7 +165,7 @@ class MyModel extends Model {
 	 * - timestampField (if provided it will be filled with NOW())
 	 * @return See Model::save()
 	 */
-	public function up($id, $customOptions = array()) {
+	public function up($id, $customOptions = []) {
 		$step = 1;
 		if (isset($customOptions['step'])) {
 			$step = $customOptions['step'];
@@ -319,7 +178,7 @@ class MyModel extends Model {
 		if (isset($customOptions['reset'])) {
 			$currentValue = $step = 0;
 		} elseif (!isset($customOptions['current'])) {
-			$currentValue = $this->field($field, array($this->alias . '.id' => $id));
+			$currentValue = $this->field($field, [$this->alias . '.id' => $id]);
 			if ($currentValue === false) {
 				return false;
 			}
@@ -328,7 +187,7 @@ class MyModel extends Model {
 		}
 
 		$value = (int)$currentValue + (int)$step;
-		$data = array($field => $value);
+		$data = [$field => $value];
 		if (empty($customOptions['modify'])) {
 			$data['modified'] = false;
 		}
@@ -367,7 +226,7 @@ class MyModel extends Model {
 	 * @param array $options
 	 * @return bool Success
 	 */
-	public function saveAll($data = null, $options = array()) {
+	public function saveAll($data = null, $options = []) {
 		if (!isset($options['atomic']) && Configure::read('Model.atomic') !== null) {
 			$options['atomic'] = (bool)Configure::read('Model.atomic');
 		}
@@ -380,61 +239,13 @@ class MyModel extends Model {
 	}
 
 	/**
-	 * Override default updateAll to workaround forced joins.
-	 *
-	 * This is a shim method to more easily migrate to 3.x as there
-	 * updateAll() does not allow joining anymore.
-	 *
-	 * @param array $fields Set of fields and values, indexed by fields.
-	 *   Fields are treated as SQL snippets, to insert literal values manually escape your data.
-	 * @param mixed $conditions Conditions to match, true for all records
-	 * @return bool True on success, false on failure
-	 */
-	public function updateAllJoinless($fields, $conditions = true) {
-		$name = $this->name;
-		$this->name = '_model_';
-
-		try {
-			$result = $this->updateAll($fields, $conditions);
-		} catch (Exception $e) {
-			$this->name = $name;
-			throw $e;
-		}
-
-		$this->name = $name;
-		return $result;
-	}
-
-	/**
-	 * Override default deleteAll to workaround forced joins
-	 *
-	 * This is a shim method to more easily migrate to 3.x as there
-	 * deleteAll() does not allow joining anymore.
-	 *
-	 * @param mixed $conditions Conditions to match
-	 * @param bool $cascade Set to true to delete records that depend on this record
-	 * @param bool $callbacks Run callbacks
-	 * @return bool True on success, false on failure
-	 */
-	public function deleteAllJoinless($conditions, $dependent = true, $callbacks = false) {
-		$associated = array();
-		foreach ($this->getAssociated() as $model => $type) {
-			$associated[$type][] = $model;
-		}
-
-		$this->unbindModel($associated);
-
-		return $this->deleteAll($conditions, $dependent, $callbacks);
-	}
-
-	/**
 	 * Enables HABTM-Validation
 	 * e.g. with
 	 * 'rule' => array('multiple', array('min' => 2))
 	 *
 	 * @return bool Success
 	 */
-	public function beforeValidate($options = array()) {
+	public function beforeValidate($options = []) {
 		foreach ($this->hasAndBelongsToMany as $k => $v) {
 			if (isset($this->data[$k][$k])) {
 				$this->data[$this->alias][$k] = $this->data[$k][$k];
@@ -478,16 +289,16 @@ class MyModel extends Model {
 	 * @modified Mark Scherer (cake2.x ready and improvements)
 	 * @link http://bakery.cakephp.org/articles/lucaswxp/2011/02/11/easy_and_simple_subquery_cakephp
 	 */
-	public function subquery($type, $options = array(), $alias = null, $parenthesise = true) {
+	public function subquery($type, $options = [], $alias = null, $parenthesise = true) {
 		if ($alias === null) {
 			$alias = 'Sub' . $this->alias . '';
 		}
 
-		$fields = array($alias . '.id');
+		$fields = [$alias . '.id'];
 		$limit = null;
 		switch ($type) {
 			case 'count':
-				$fields = array('COUNT(*)');
+				$fields = ['COUNT(*)'];
 				break;
 			case 'first':
 				$limit = 1;
@@ -496,17 +307,17 @@ class MyModel extends Model {
 
 		$dbo = $this->getDataSource();
 
-		$default = array(
+		$default = [
 			'fields' => $fields,
 			'table' => $dbo->fullTableName($this),
 			'alias' => $alias,
 			'limit' => $limit,
 			'offset' => null,
-			'joins' => array(),
-			'conditions' => array(),
+			'joins' => [],
+			'conditions' => [],
 			'order' => null,
 			'group' => null
-		);
+		];
 		$params = array_merge($default, $options);
 		$subQuery = trim($dbo->buildStatement($params, $this));
 		if ($parenthesise) {
@@ -524,7 +335,7 @@ class MyModel extends Model {
 	 * @param string $recursive
 	 * @return array
 	 */
-	public function find($type = null, $query = array()) {
+	public function find($type = null, $query = []) {
 		// reset/delete
 		if (!empty($query['reset'])) {
 			if (!empty($query['cache'])) {
@@ -541,22 +352,10 @@ class MyModel extends Model {
 			}
 		}
 
-		// custom fixes
-		if (is_string($type)) {
-			switch ($type) {
-				case 'count':
-					if (isset($query['fields'])) {
-						unset($query['fields']);
-					}
-					break;
-				default:
-			}
-		}
-
 		// having and group clauses enhancement
 		if (is_array($query) && !empty($query['having']) && !empty($query['group'])) {
 			if (!is_array($query['group'])) {
-				$query['group'] = array($query['group']);
+				$query['group'] = [$query['group']];
 			}
 			$ds = $this->getDataSource();
 			$having = $ds->conditions($query['having'], true, false);
@@ -585,7 +384,7 @@ class MyModel extends Model {
 				$expires = DAY;
 			}
 
-			$options = array('prefix' => strtolower(Inflector::underscore($this->alias)) . '__', );
+			$options = ['prefix' => strtolower(Inflector::underscore($this->alias)) . '__', ];
 			if (!empty($expires)) {
 				$options['duration'] = $expires;
 			}
@@ -614,7 +413,7 @@ class MyModel extends Model {
 	 * @deprecated
 	 * added Caching
 	 */
-	protected function _find($type, $options = array()) {
+	protected function _find($type, $options = []) {
 		$res = false;
 		if ($res === false) {
 			if (isset($options['cache'])) {
@@ -628,7 +427,7 @@ class MyModel extends Model {
 					// @see http://bakery.cakephp.org/deu/articles/nate/2010/10/10/quick-tipp_-_doing_ad-hoc-joins_bei_model_find
 				case 'matches':
 					if (!isset($options['joins'])) {
-						$options['joins'] = array();
+						$options['joins'] = [];
 					}
 
 					if (!isset($options['model']) || !isset($options['scope'])) {
@@ -637,24 +436,24 @@ class MyModel extends Model {
 					$assoc = $this->hasAndBelongsToMany[$options['model']];
 					$bind = "{$assoc['with']}.{$assoc['foreignKey']} = {$this->alias}.{$this->primaryKey}";
 
-					$options['joins'][] = array(
+					$options['joins'][] = [
 						'table' => $assoc['joinTable'],
 						'alias' => $assoc['with'],
 						'type' => 'inner',
 						'foreignKey' => false,
-						'conditions' => array($bind)
-					);
+						'conditions' => [$bind]
+					];
 
 					$bind = $options['model'] . '.' . $this->{$options['model']}->primaryKey . ' = ';
 					$bind .= "{$assoc['with']}.{$assoc['associationForeignKey']}";
 
-					$options['joins'][] = array(
+					$options['joins'][] = [
 						'table' => $this->{$options['model']}->table,
 						'alias' => $options['model'],
 						'type' => 'inner',
 						'foreignKey' => false,
-						'conditions' => array($bind) + (array)$options['scope'],
-					);
+						'conditions' => [$bind] + (array)$options['scope'],
+					];
 					unset($options['model'], $options['scope']);
 					$type = 'all';
 					break;
@@ -712,7 +511,7 @@ class MyModel extends Model {
 	 * @return mixed
 	 * TODO: fix it
 	 */
-	protected function _findNeighbors($state, $query, $results = array()) {
+	protected function _findNeighbors($state, $query, $results = []) {
 		return parent::_findNeighbors($state, $query, $results);
 
 		if (isset($query['scope'])) {
@@ -733,11 +532,11 @@ class MyModel extends Model {
 	 * TODO: try to use core function, TRY TO ALLOW MULTIPLE SORT FIELDS
 	 * @return array
 	 */
-	public function neighbors($id = null, $options = array(), $qryOptions = array()) {
+	public function neighbors($id = null, $options = [], $qryOptions = []) {
 		$sortField = (!empty($options['field']) ? $options['field'] : 'created');
 		$normalDirection = (!empty($options['reverse']) ? false : true);
-		$sortDirWord = $normalDirection ? array('ASC', 'DESC') : array('DESC', 'ASC');
-		$sortDirSymb = $normalDirection ? array('>=', '<=') : array('<=', '>=');
+		$sortDirWord = $normalDirection ? ['ASC', 'DESC'] : ['DESC', 'ASC'];
+		$sortDirSymb = $normalDirection ? ['>=', '<='] : ['<=', '>='];
 
 		$displayField = (!empty($options['displayField']) ? $options['displayField'] : $this->displayField);
 
@@ -748,15 +547,15 @@ class MyModel extends Model {
 			$id = $this->id;
 		}
 		if (!empty($id)) {
-			$data = $this->find('first', array('conditions' => array($this->primaryKey => $id), 'contain' => array()));
+			$data = $this->find('first', ['conditions' => [$this->primaryKey => $id], 'contain' => []]);
 		}
 
 		if (empty($id) || empty($data) || empty($data[$this->alias][$sortField])) {
-			return array();
+			return [];
 		} else {
 			$field = $data[$this->alias][$sortField];
 		}
-		$findOptions = array('recursive' => -1);
+		$findOptions = ['recursive' => -1];
 		if (isset($qryOptions['recursive'])) {
 			$findOptions['recursive'] = $qryOptions['recursive'];
 		}
@@ -764,7 +563,7 @@ class MyModel extends Model {
 			$findOptions['contain'] = $qryOptions['contain'];
 		}
 
-		$findOptions['fields'] = array($this->alias . '.' . $this->primaryKey, $this->alias . '.' . $displayField);
+		$findOptions['fields'] = [$this->alias . '.' . $this->primaryKey, $this->alias . '.' . $displayField];
 		$findOptions['conditions'][$this->alias . '.' . $this->primaryKey . ' !='] = $id;
 
 		// //TODO: take out
@@ -774,56 +573,25 @@ class MyModel extends Model {
 			$findOptions['conditions'][$this->alias . '.status >='] = REQUEST_STATUS_DECLINED;
 		}
 
-		$return = array();
+		$return = [];
 
 		if (!empty($qryOptions['conditions'])) {
 			$findOptions['conditions'] = Hash::merge($findOptions['conditions'], $qryOptions['conditions']);
 		}
 
 		$options = $findOptions;
-		$options['conditions'] = Hash::merge($options['conditions'], array($this->alias . '.' . $sortField . ' ' . $sortDirSymb[1] => $field));
-		$options['order'] = array($this->alias . '.' . $sortField . '' => $sortDirWord[1]);
+		$options['conditions'] = Hash::merge($options['conditions'], [$this->alias . '.' . $sortField . ' ' . $sortDirSymb[1] => $field]);
+		$options['order'] = [$this->alias . '.' . $sortField . '' => $sortDirWord[1]];
 		$this->id = $id;
 		$return['prev'] = $this->find('first', $options);
 
 		$options = $findOptions;
-		$options['conditions'] = Hash::merge($options['conditions'], array($this->alias . '.' . $sortField . ' ' . $sortDirSymb[0] => $field));
-		$options['order'] = array($this->alias . '.' . $sortField . '' => $sortDirWord[0]); // ??? why 0 instead of 1
+		$options['conditions'] = Hash::merge($options['conditions'], [$this->alias . '.' . $sortField . ' ' . $sortDirSymb[0] => $field]);
+		$options['order'] = [$this->alias . '.' . $sortField . '' => $sortDirWord[0]]; // ??? why 0 instead of 1
 		$this->id = $id;
 		$return['next'] = $this->find('first', $options);
 
 		return $return;
-	}
-
-	/**
-	 * Delete all records using an atomic query similar to updateAll().
-	 * Note: Does not need manual sanitizing/escaping, though.
-	 *
-	 * Does not do any callbacks
-	 *
-	 * @param mixed $conditions Conditions to match, true for all records
-	 * @return bool Success
-	 */
-	public function deleteAllRaw($conditions = true) {
-		return $this->getDataSource()->delete($this, $conditions);
-	}
-
-	/**
-	 * Overwrite invalidate to allow last => true
-	 *
-	 * @param string $field The name of the field to invalidate
-	 * @param mixed $value Name of validation rule that was not failed, or validation message to
-	 *    be returned. If no validation key is provided, defaults to true.
-	 * @param bool $last If this should be the last validation check for this validation run
-	 * @return void
-	 */
-	public function invalidate($field, $value = true, $last = false) {
-		parent::invalidate($field, $value);
-		if (!$last) {
-			return;
-		}
-
-		$this->validator()->remove($field);
 	}
 
 	/**
@@ -836,7 +604,7 @@ class MyModel extends Model {
 	 * - allowEmpty
 	 * @return bool Success
 	 */
-	public function validateKey($data = array(), $options = array()) {
+	public function validateKey($data = [], $options = []) {
 		$keys = array_keys($data);
 		$key = array_shift($keys);
 		$value = array_shift($data);
@@ -846,9 +614,9 @@ class MyModel extends Model {
 			return true;
 		}
 
-		$defaults = array(
+		$defaults = [
 			'allowEmpty' => false,
-		);
+		];
 		$options += $defaults;
 
 		if ($schema['type'] !== 'integer') {
@@ -868,11 +636,11 @@ class MyModel extends Model {
 	 *
 	 * @return bool Success
 	 */
-	public function validateEnum(array $data, $enum = null, $additionalKeys = array()) {
+	public function validateEnum(array $data, $enum = null, $additionalKeys = []) {
 		$keys = array_keys($data);
 		$valueKey = array_shift($keys);
 		$value = $data[$valueKey];
-		$keys = array();
+		$keys = [];
 		if ($enum === true) {
 			$enum = $valueKey;
 		}
@@ -897,7 +665,7 @@ class MyModel extends Model {
 	 *
 	 * @return bool Success
 	 */
-	public function validateIdentical($data = array(), $compareWith = null, $options = array()) {
+	public function validateIdentical($data = [], $compareWith = null, $options = []) {
 		if (is_array($data)) {
 			$value = array_shift($data);
 		} else {
@@ -905,7 +673,7 @@ class MyModel extends Model {
 		}
 		$compareValue = $this->data[$this->alias][$compareWith];
 
-		$matching = array('string' => 'string', 'int' => 'integer', 'float' => 'float', 'bool' => 'boolean');
+		$matching = ['string' => 'string', 'int' => 'integer', 'float' => 'float', 'bool' => 'boolean'];
 		if (!empty($options['cast']) && array_key_exists($options['cast'], $matching)) {
 			// cast values to string/int/float/bool if desired
 			settype($compareValue, $matching[$options['cast']]);
@@ -950,7 +718,7 @@ class MyModel extends Model {
 	 * - requireDependentFields Require all dependent fields for the validation rule to return true
 	 * @return bool Success
 	 */
-	public function validateUnique($data, $fields = array(), $options = array()) {
+	public function validateUnique($data, $fields = [], $options = []) {
 		$id = (!empty($this->data[$this->alias][$this->primaryKey]) ? $this->data[$this->alias][$this->primaryKey] : 0);
 		if (!$id && $this->id) {
 			$id = $this->id;
@@ -962,9 +730,9 @@ class MyModel extends Model {
 			break;
 		}
 
-		$conditions = array(
+		$conditions = [
 			$this->alias . '.' . $fieldName => $fieldValue,
-			$this->alias . '.id !=' => $id);
+			$this->alias . '.id !=' => $id];
 
 		$fields = (array)$fields;
 		if (!array_key_exists('allowEmpty', $fields)) {
@@ -975,7 +743,7 @@ class MyModel extends Model {
 					$conditions[$this->alias . '.' . $dependingField] = $this->data['Validation'][$dependingField];
 				} elseif (!empty($id)) {
 					// manual query! (only possible on edit)
-					$res = $this->find('first', array('fields' => array($this->alias . '.' . $dependingField), 'conditions' => array($this->alias . '.id' => $id)));
+					$res = $this->find('first', ['fields' => [$this->alias . '.' . $dependingField], 'conditions' => [$this->alias . '.id' => $id]]);
 					if (!empty($res)) {
 						$conditions[$this->alias . '.' . $dependingField] = $res[$this->alias][$dependingField];
 					}
@@ -993,7 +761,7 @@ class MyModel extends Model {
 		if (count($conditions) > 2) {
 			$this->recursive = 0;
 		}
-		$options = array('fields' => array($this->alias . '.' . $this->primaryKey), 'conditions' => $conditions);
+		$options = ['fields' => [$this->alias . '.' . $this->primaryKey], 'conditions' => $conditions];
 		$res = $this->find('first', $options);
 		return empty($res);
 	}
@@ -1009,7 +777,7 @@ class MyModel extends Model {
 	 * - deep (default: TRUE)
 	 * @return bool Success
 	 */
-	public function validateUrl($data, $options = array()) {
+	public function validateUrl($data, $options = []) {
 		if (is_array($data)) {
 			foreach ($data as $key => $url) {
 				break;
@@ -1101,7 +869,7 @@ class MyModel extends Model {
 	 * - min/max (defaults to >= 1 - at least 1 second apart)
 	 * @return bool Success
 	 */
-	public function validateDateTime($data, $options = array()) {
+	public function validateDateTime($data, $options = []) {
 		$format = !empty($options['dateFormat']) ? $options['dateFormat'] : 'ymd';
 
 		if (is_array($data)) {
@@ -1150,7 +918,7 @@ class MyModel extends Model {
 	 * - min (defaults to 0 - equal is OK too)
 	 * @return bool Success
 	 */
-	public function validateDate($data, $options = array()) {
+	public function validateDate($data, $options = []) {
 		$format = !empty($options['format']) ? $options['format'] : 'ymd';
 		if (is_array($data)) {
 			$value = array_shift($data);
@@ -1192,7 +960,7 @@ class MyModel extends Model {
 	 * - min/max (defaults to >= 1 - at least 1 minute apart)
 	 * @return bool Success
 	 */
-	public function validateTime($data, $options = array()) {
+	public function validateTime($data, $options = []) {
 		if (is_array($data)) {
 			$value = array_shift($data);
 		} else {
@@ -1225,7 +993,7 @@ class MyModel extends Model {
 	 * @param options
 	 * - min/max (TODO!!)
 	 */
-	public function validateDateRange($data, $options = array()) {
+	public function validateDateRange($data, $options = []) {
 	}
 
 	/**
@@ -1234,7 +1002,7 @@ class MyModel extends Model {
 	 * @param options
 	 * - min/max (TODO!!)
 	 */
-	public function validateTimeRange($data, $options = array()) {
+	public function validateTimeRange($data, $options = []) {
 	}
 
 	/**
@@ -1266,9 +1034,7 @@ class MyModel extends Model {
 			// crashed with white screen of death otherwise... (if foreign page is 404)
 			$this->UndisposableEmail->useOnlineList(false);
 		}
-		if (!class_exists('Validation')) {
-			App::uses('Validation', 'Utility');
-		}
+
 		if (!Validation::email($email)) {
 			return false;
 		}
@@ -1310,7 +1076,7 @@ class MyModel extends Model {
 	 * @param array $fieldList Whitelist / Allowed fields
 	 * @return array
 	 */
-	public function set($data, $data2 = null, $requiredFields = array(), $fieldList = array()) {
+	public function set($data, $data2 = null, $requiredFields = [], $fieldList = []) {
 		if (!empty($requiredFields)) {
 			$data = $this->guaranteeFields($requiredFields, $data);
 		}
@@ -1331,7 +1097,7 @@ class MyModel extends Model {
 			$data =& $this->data;
 		}
 		if (empty($data[$model])) {
-			return array();
+			return [];
 		}
 		foreach ($data[$model] as $key => $val) {
 			if (!in_array($key, $fieldList)) {
@@ -1356,7 +1122,7 @@ class MyModel extends Model {
 			$data =& $this->data;
 		}
 		if (empty($data[$model])) {
-			return array();
+			return [];
 		}
 		if ($blacklist === true) {
 			foreach ($data[$model] as $key => $value) {
@@ -1392,7 +1158,7 @@ class MyModel extends Model {
 	 * @return array
 	 */
 	public function guaranteeFields($requiredFields, $data = null) {
-		$guaranteedFields = array();
+		$guaranteedFields = [];
 		foreach ($requiredFields as $column) {
 			if (strpos($column, '.') !== false) {
 				list($model, $column) = explode('.', $column, 2);
@@ -1437,7 +1203,7 @@ class MyModel extends Model {
 			}
 
 			if (empty($this->validate[$column])) {
-				$this->validate[$column]['notEmpty'] = array('rule' => 'notEmpty', 'required' => true, 'allowEmpty' => $setAllowEmpty, 'message' => 'valErrMandatoryField');
+				$this->validate[$column]['notBlank'] = ['rule' => 'notBlank', 'required' => true, 'allowEmpty' => $setAllowEmpty, 'message' => 'valErrMandatoryField'];
 			} else {
 				$keys = array_keys($this->validate[$column]);
 				if (!in_array('rule', $keys)) {
@@ -1459,71 +1225,20 @@ class MyModel extends Model {
 
 	/**
 	 * Shortcut method to find a specific entry via primary key.
-	 *
-	 * Either provide the id directly:
+	 * Wraps ShimModel::get() for an exception free response.
 	 *
 	 *   $record = $this->Model->get($id);
 	 *
-	 * Or use
-	 *
-	 *   $this->Model->id = $id;
-	 *   $record = $this->Model->get();
-	 *
 	 * @param mixed $id
-	 * @param array $options Options for find(). Used to be fields array/string.
-	 * @param array $contain Deprecated - use
-	 * @return mixed
+	 * @param array $options Options for find().
+	 * @return array
 	 */
-	public function get($id = null, $options = array(), $contain = array()) {
-		if (is_array($id)) {
-			$column = $id[0];
-			$value = $id[1];
-		} else {
-			$column = $this->primaryKey;
-			$value = $id;
-			if ($value === null) {
-				$value = $this->id;
-			}
+	public function record($id, array $options = []) {
+		try {
+			return $this->get($id, $options);
+		} catch (RecordNotFoundException $e) {
 		}
-		if (!$value) {
-			return array();
-		}
-
-		// BC
-		$fields = null;
-		if (is_string($options)) {
-			$fields = $options;
-			$options = array();
-		}
-		if (!empty($options) && !array_key_exists('fields', $options) && !array_key_exists('contain', $options)) {
-			$fields = $options;
-			$options = array();
-		}
-
-		if ($fields === '*') {
-			$fields = $this->alias . '.*';
-		} elseif (!empty($fields)) {
-			foreach ((array)$fields as $row => $field) {
-				if (strpos($field, '.') !== false) {
-					continue;
-				}
-				$fields[$row] = $this->alias . '.' . $field;
-			}
-		}
-
-		$options = array(
-			'conditions' => array($this->alias . '.' . $column => $value),
-		) + $options;
-
-		// BC
-		if (!empty($fields)) {
-			$options['fields'] = $fields;
-		}
-		if (!empty($contain)) {
-			$options['contain'] = $contain;
-		}
-
-		return $this->find('first', $options);
+		return [];
 	}
 
 	/**
@@ -1535,17 +1250,17 @@ class MyModel extends Model {
 	 * @param array $options
 	 * @return array
 	 */
-	public function getRelatedInUse($modelName, $groupField = null, $type = 'all', $options = array()) {
+	public function getRelatedInUse($modelName, $groupField = null, $type = 'all', $options = []) {
 		if ($groupField === null) {
 			$groupField = $this->belongsTo[$modelName]['foreignKey'];
 		}
-		$defaults = array(
-			'contain' => array($modelName),
+		$defaults = [
+			'contain' => [$modelName],
 			'group' => $groupField,
-			'order' => $this->$modelName->order ? $this->$modelName->order : array($modelName . '.' . $this->$modelName->displayField => 'ASC'),
-		);
+			'order' => $this->$modelName->order ? $this->$modelName->order : [$modelName . '.' . $this->$modelName->displayField => 'ASC'],
+		];
 		if ($type === 'list') {
-			$defaults['fields'] = array($modelName . '.' . $this->$modelName->primaryKey, $modelName . '.' . $this->$modelName->displayField);
+			$defaults['fields'] = [$modelName . '.' . $this->$modelName->primaryKey, $modelName . '.' . $this->$modelName->displayField];
 		}
 		$options += $defaults;
 		return $this->find($type, $options);
@@ -1559,13 +1274,13 @@ class MyModel extends Model {
 	 * @param array $options
 	 * @return array
 	 */
-	public function getFieldInUse($groupField, $type = 'all', $options = array()) {
-		$defaults = array(
+	public function getFieldInUse($groupField, $type = 'all', $options = []) {
+		$defaults = [
 			'group' => $groupField,
-			'order' => array($this->alias . '.' . $this->displayField => 'ASC'),
-		);
+			'order' => [$this->alias . '.' . $this->displayField => 'ASC'],
+		];
 		if ($type === 'list') {
-			$defaults['fields'] = array($this->alias . '.' . $this->primaryKey, $this->alias . '.' . $this->displayField);
+			$defaults['fields'] = [$this->alias . '.' . $this->primaryKey, $this->alias . '.' . $this->displayField];
 		}
 		$options += $defaults;
 		return $this->find($type, $options);
@@ -1580,10 +1295,10 @@ class MyModel extends Model {
 	 */
 	public function update($id, $data, $validate = false) {
 		$this->id = $id;
-		$options = array(
+		$options = [
 			'validate' => $validate,
 			'fieldList' => array_keys($data)
-		);
+		];
 		return $this->save($data, $options);
 	}
 
@@ -1595,7 +1310,7 @@ class MyModel extends Model {
 	 * @return ARRAY record: [Model][values],...
 	 */
 	public function toggleField($fieldName, $id) {
-		$record = $this->get($id, array($this->primaryKey, $fieldName));
+		$record = $this->get($id, ['conditions' => [$this->primaryKey, $fieldName]]);
 
 		if (!empty($record) && !empty($fieldName) && $this->hasField($fieldName)) {
 			$record[$this->alias][$fieldName] = ($record[$this->alias][$fieldName] == 1 ? 0 : 1);
@@ -1620,11 +1335,37 @@ class MyModel extends Model {
 	}
 
 	/**
+	 * Shim wrapper for 2.6 to allow 2.7 notBlank validation rule to work already.
+	 * This is only there to avoid the deprecation errors in 2.6 test runs.
+	 *
+	 * @param array $data
+	 * @return bool
+	 */
+	public function notBlank($data) {
+		$value = array_shift($data);
+		if ((float)Configure::version() < 2.7) {
+			return Validation::notEmpty($value);
+		}
+		return Validation::notBlank($value);
+	}
+
+	/**
+	 * Shim wrapper for 2.6 to allow 2.7 notBlank validation rule to work already.
+	 * This is only there to avoid the deprecation errors in 2.6 test runs.
+	 *
+	 * @param array $data
+	 * @return bool
+	 */
+	public function notEmpty($data) {
+		return $this->notBlank($data);
+	}
+
+	/**
 	 * Recursive Dropdown Lists
 	 * NEEDS tree behavior, NEEDS lft, rght, parent_id (!)
 	 * //FIXME
 	 */
-	public function recursiveSelect($conditions = array(), $attachTree = false, $spacer = '-- ') {
+	public function recursiveSelect($conditions = [], $attachTree = false, $spacer = '-- ') {
 		if ($attachTree) {
 			$this->Behaviors->load('Tree');
 		}
@@ -1640,10 +1381,10 @@ class MyModel extends Model {
 	 * @deprecated use generateTreeList instead
 	 */
 	public function generateNestedList($conditions = null, $indent = '--') {
-		$cats = $this->find('threaded', array('conditions' => $conditions, 'fields' => array(
+		$cats = $this->find('threaded', ['conditions' => $conditions, 'fields' => [
 				$this->alias . '.' . $this->primaryKey,
 				$this->alias . '.' . $this->displayField,
-				$this->alias . '.parent_id')));
+				$this->alias . '.parent_id']]);
 		return $this->_generateNestedList($cats, $indent);
 	}
 
@@ -1653,7 +1394,7 @@ class MyModel extends Model {
 	 * @deprecated use generateTreeList instead
 	 */
 	public function _generateNestedList($cats, $indent = '--', $level = 0) {
-		static $list = array();
+		static $list = [];
 		$c = count($cats);
 		for ($i = 0; $i < $c; $i++) {
 			$list[$cats[$i][$this->alias][$this->primaryKey]] = str_repeat($indent, $level) . $cats[$i][$this->alias][$this->displayField];

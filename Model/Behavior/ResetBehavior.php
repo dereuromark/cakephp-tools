@@ -39,16 +39,16 @@ App::uses('ModelBehavior', 'Model');
  */
 class ResetBehavior extends ModelBehavior {
 
-	protected $_defaultConfig = array(
+	protected $_defaultConfig = [
 		'limit' => 100, // batch of records per loop
 		'timeout' => null, // in seconds
-		'fields' => array(), // if not displayField
-		'updateFields' => array(), // if saved fields should be different from fields
+		'fields' => [], // if not displayField
+		'updateFields' => [], // if saved fields should be different from fields
 		'validate' => true, // trigger beforeValidate callback
 		'updateTimestamp' => false, // update modified/updated timestamp
-		'scope' => array(), // optional conditions
+		'scope' => [], // optional conditions
 		'callback' => null,
-	);
+	];
 
 	/**
 	 * Configure the behavior through the Model::actsAs property
@@ -56,7 +56,7 @@ class ResetBehavior extends ModelBehavior {
 	 * @param Model $Model
 	 * @param array $config
 	 */
-	public function setup(Model $Model, $config = array()) {
+	public function setup(Model $Model, $config = []) {
 		$this->settings[$Model->alias] = $config + $this->_defaultConfig;
 	}
 
@@ -68,31 +68,31 @@ class ResetBehavior extends ModelBehavior {
 	 * @param int $recursive
 	 * @return int Modified records
 	 */
-	public function resetRecords(Model $Model, $params = array()) {
+	public function resetRecords(Model $Model, $params = []) {
 		$recursive = -1;
 		extract($this->settings[$Model->alias]);
 
-		$defaults = array(
+		$defaults = [
 			'page' => 1,
 			'limit' => $limit,
-			'fields' => array(),
+			'fields' => [],
 			'order' => $Model->alias . '.' . $Model->primaryKey . ' ASC',
 			'conditions' => $scope,
 			'recursive' => $recursive,
-		);
+		];
 		if (!empty($fields)) {
 			if (!$Model->hasField($fields)) {
 				throw new CakeException('Model does not have fields ' . print_r($fields, true));
 			}
-			$defaults['fields'] = array_merge(array($Model->primaryKey), $fields);
+			$defaults['fields'] = array_merge([$Model->primaryKey], $fields);
 		} else {
-			$defaults['fields'] = array($Model->primaryKey);
+			$defaults['fields'] = [$Model->primaryKey];
 			if ($Model->displayField !== $Model->primaryKey) {
 				$defaults['fields'][] = $Model->displayField;
 			}
 		}
 		if (!$updateTimestamp) {
-			$fields = array('modified', 'updated');
+			$fields = ['modified', 'updated'];
 			foreach ($fields as $field) {
 				if ($Model->schema($field)) {
 					$defaults['fields'][] = $field;
@@ -108,7 +108,7 @@ class ResetBehavior extends ModelBehavior {
 			set_time_limit(max($max, $count / $limit));
 		}
 
-		$modifed = 0;
+		$modified = 0;
 		while ($rows = $Model->find('all', $params)) {
 			foreach ($rows as $row) {
 				$Model->create();
@@ -122,7 +122,7 @@ class ResetBehavior extends ModelBehavior {
 
 				if ($callback) {
 					if (is_callable($callback)) {
-						$parameters = array(&$row, &$fieldList);
+						$parameters = [&$row, &$fieldList];
 						$row = call_user_func_array($callback, $parameters);
 					} else {
 						$row = $Model->{$callback}($row, $fieldList);
@@ -136,14 +136,14 @@ class ResetBehavior extends ModelBehavior {
 				if (!$res) {
 					throw new CakeException(print_r($Model->validationErrors, true));
 				}
-				$modifed++;
+				$modified++;
 			}
 			$params['page']++;
 			if ($timeout) {
 				sleep((int)$timeout);
 			}
 		}
-		return $modifed;
+		return $modified;
 	}
 
 }

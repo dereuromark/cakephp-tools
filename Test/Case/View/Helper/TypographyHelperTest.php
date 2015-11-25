@@ -41,7 +41,7 @@ class TypographyHelperTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testFormatCharacter() {
-		$strs = array(
+		$strs = [
 			'"double quotes"' => '&#8220;double quotes&#8221;',
 			'"testing" in "theory" that is' => '&#8220;testing&#8221; in &#8220;theory&#8221; that is',
 			"Here's what I'm" => 'Here&rsquo;s what I&rsquo;m',
@@ -53,7 +53,7 @@ class TypographyHelperTest extends MyCakeTestCase {
 			'foo..' => 'foo..',
 			'foo...bar.' => 'foo&#8230;bar.',
 			'test.  new' => 'test.&nbsp; new',
-		);
+		];
 
 		foreach ($strs as $str => $expected) {
 			$result = $this->Typography->formatCharacters($str);
@@ -62,11 +62,11 @@ class TypographyHelperTest extends MyCakeTestCase {
 		}
 
 		Configure::write('Typography.locale', 'low');
-		$strs = array(
+		$strs = [
 			'"double quotes"' => '&bdquo;double quotes&#8223;',
 			'"testing" in "theory" that is' => '&bdquo;testing&#8223; in &bdquo;theory&#8223; that is',
 			"Here's what I'm" => 'Here&rsquo;s what I&rsquo;m',
-		);
+		];
 		foreach ($strs as $str => $expected) {
 			$result = $this->Typography->formatCharacters($str);
 			//echo pre($result);
@@ -74,11 +74,11 @@ class TypographyHelperTest extends MyCakeTestCase {
 		}
 
 		Configure::write('Typography.locale', 'angle');
-		$strs = array(
+		$strs = [
 			'"double quotes"' => '&#171;double quotes&#187;',
 			'"testing" in "theory" that is' => '&#171;testing&#187; in &#171;theory&#187; that is',
 			"Here's what I'm" => 'Here&rsquo;s what I&rsquo;m',
-		);
+		];
 		foreach ($strs as $str => $expected) {
 			$result = $this->Typography->formatCharacters($str);
 			//echo debug($result);

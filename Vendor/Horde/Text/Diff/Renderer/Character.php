@@ -32,7 +32,7 @@ class Horde_Text_Diff_Renderer_Character extends Horde_Text_Diff_Renderer {
 	public function render($diff) {
 		$xi = $yi = 1;
 		$block = false;
-		$context = array();
+		$context = [];
 
 		$nlead = $this->_leading_context_lines;
 		$ntrail = $this->_trailing_context_lines;
@@ -74,7 +74,7 @@ class Horde_Text_Diff_Renderer_Character extends Horde_Text_Diff_Renderer {
 					$context = array_slice($context, count($context) - (int)$nlead);
 					$x0 = $xi - count($context);
 					$y0 = $yi - count($context);
-					$block = array();
+					$block = [];
 					if ($context) {
 						$block[] = &new Text_Diff_Op_copy($context);
 					}
@@ -101,7 +101,7 @@ class Horde_Text_Diff_Renderer_Character extends Horde_Text_Diff_Renderer {
 	}
 
 	protected function _endDiff() {
-		return array($this->orig, $this->final);
+		return [$this->orig, $this->final];
 	}
 
 	protected function _blockHeader($xbeg, $xlen, $ybeg, $ylen) {
@@ -157,7 +157,7 @@ class Horde_Text_Diff_Renderer_Character extends Horde_Text_Diff_Renderer {
 			}
 		}
 
-		return array($this->orig, $this->final);
+		return [$this->orig, $this->final];
 	}
 
 	protected function _context($lines) {

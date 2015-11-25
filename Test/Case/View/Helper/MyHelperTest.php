@@ -35,7 +35,7 @@ class MyHelperTest extends MyCakeTestCase {
 
 		$this->assertTrue(!class_exists('QrCodeHelper'));
 
-		$this->MyHelper->loadHelpers(array('Tools.QrCode'));
+		$this->MyHelper->loadHelpers(['Tools.QrCode']);
 
 		$this->assertTrue(class_exists('QrCodeHelper'));
 	}
@@ -84,10 +84,10 @@ class MyHelperTest extends MyCakeTestCase {
 		$result = $this->MyHelper->assetUrl('/some/string');
 		$this->assertEquals(Configure::read('App.assetBaseUrl') . '/some/string', $result);
 
-		$result = $this->MyHelper->assetUrl('/some/string', array('ext' => 'json'));
+		$result = $this->MyHelper->assetUrl('/some/string', ['ext' => 'json']);
 		$this->assertEquals(Configure::read('App.assetBaseUrl') . '/some/string.json', $result);
 
-		$result = $this->MyHelper->assetUrl('some/string', array('pathPrefix' => 'foo/'));
+		$result = $this->MyHelper->assetUrl('some/string', ['pathPrefix' => 'foo/']);
 		$this->assertEquals(Configure::read('App.assetBaseUrl') . '/foo/some/string', $result);
 	}
 
@@ -95,8 +95,8 @@ class MyHelperTest extends MyCakeTestCase {
 
 class MyHtmlHelper extends MyHelper {
 
-	protected $_tags = array(
+	protected $_tags = [
 		'image' => '<img src="%s" %s/>',
-	);
+	];
 
 }

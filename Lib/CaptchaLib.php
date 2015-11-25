@@ -11,20 +11,20 @@ if (!defined('FORMAT_DB_DATE')) {
  */
 class CaptchaLib {
 
-	public static $defaults = array(
+	public static $defaults = [
 		'dummyField' => 'homepage',
 		'method' => 'hash',
 		'type' => 'both',
 		'checkSession' => false,
 		'checkIp' => false,
 		'salt' => '',
-	);
+	];
 
 	// what type of captcha
-	public static $types = array('passive', 'active', 'both');
+	public static $types = ['passive', 'active', 'both'];
 
 	// what method to use
-	public static $methods = array('hash', 'db', 'session');
+	public static $methods = ['hash', 'db', 'session'];
 
 	/**
 	 * @param array $data:

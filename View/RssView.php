@@ -34,6 +34,10 @@ App::uses('Hash', 'Utility');
  *
  * If you don't use the `_serialize` key, you will need a view. You can use extended
  * views to provide layout like functionality. This is currently not yet tested/supported.
+ *
+ * @license MIT
+ * @author Mark Scherer
+ * @deprecated Use https://github.com/dereuromark/cakephp-feed/tree/2.x
  */
 class RssView extends View {
 
@@ -57,26 +61,26 @@ class RssView extends View {
 	 * @var array
 	 * @link http://validator.w3.org/feed/docs/howto/declare_namespaces.html
 	 */
-	protected $_namespaces = array(
+	protected $_namespaces = [
 		'atom' => 'http://www.w3.org/2005/Atom',
 		'content' => 'http://purl.org/rss/1.0/modules/content/',
 		'dc' => 'http://purl.org/dc/elements/1.1/',
 		'sy' => 'http://purl.org/rss/1.0/modules/syndication/'
-	);
+	];
 
 	/**
 	 * Holds the namespace keys in use.
 	 *
 	 * @var array
 	 */
-	protected $_usedNamespaces = array();
+	protected $_usedNamespaces = [];
 
 	/**
 	 * Holds CDATA placeholders.
 	 *
 	 * @var array
 	 */
-	protected $_cdata = array();
+	protected $_cdata = [];
 
 	/**
 	 * Constructor
@@ -179,7 +183,7 @@ class RssView extends View {
 		$rootNode = isset($this->viewVars['_rootNode']) ? $this->viewVars['_rootNode'] : 'channel';
 
 		if (is_array($serialize)) {
-			$data = array($rootNode => array());
+			$data = [$rootNode => []];
 			foreach ($serialize as $alias => $key) {
 				if (is_numeric($alias)) {
 					$alias = $key;
@@ -189,11 +193,11 @@ class RssView extends View {
 		} else {
 			$data = isset($this->viewVars[$serialize]) ? $this->viewVars[$serialize] : null;
 			if (is_array($data) && Hash::numeric(array_keys($data))) {
-				$data = array($rootNode => array($serialize => $data));
+				$data = [$rootNode => [$serialize => $data]];
 			}
 		}
 
-		$defaults = array('document' => array(), 'channel' => array(), 'items' => array());
+		$defaults = ['document' => [], 'channel' => [], 'items' => []];
 		$data += $defaults;
 		if (!empty($data['document']['namespace'])) {
 			foreach ($data['document']['namespace'] as $prefix => $url) {
@@ -210,13 +214,13 @@ class RssView extends View {
 			$channel['item'][] = $this->_prepareOutput($item);
 		}
 
-		$array = array(
-			'rss' => array(
+		$array = [
+			'rss' => [
 				'@version' => $this->version,
 				'channel' => $channel,
-			)
-		);
-		$namespaces = array();
+			]
+		];
+		$namespaces = [];
 		foreach ($this->_usedNamespaces as $usedNamespacePrefix) {
 			if (!isset($this->_namespaces[$usedNamespacePrefix])) {
 				throw new RuntimeException(sprintf('The prefix %s is not specified.', $usedNamespacePrefix));
@@ -225,7 +229,7 @@ class RssView extends View {
 		}
 		$array['rss'] += $namespaces;
 
-		$options = array();
+		$options = [];
 		if (Configure::read('debug')) {
 			$options['pretty'] = true;
 		}
@@ -275,9 +279,9 @@ class RssView extends View {
 						$attrib['@'] = isset($val['content']) ? $val['content'] : $attrib['@domain'];
 						$val = $attrib;
 					} elseif (is_array($val) && !empty($val[0])) {
-						$categories = array();
+						$categories = [];
 						foreach ($val as $category) {
-							$attrib = array();
+							$attrib = [];
 							if (is_array($category) && isset($category['domain'])) {
 								$attrib['@domain'] = $category['domain'];
 								$attrib['@'] = isset($val['content']) ? $val['content'] : $attrib['@domain'];

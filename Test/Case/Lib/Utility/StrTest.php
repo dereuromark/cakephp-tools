@@ -14,8 +14,8 @@ class StrTest extends MyCakeTestCase {
 
 	public function testDebugInfo() {
 		$this->skipIf(php_sapi_name() === 'cli', 'Only for webtest runner');
-		$functionLists = array(
-			'Array' => array(
+		$functionLists = [
+			'Array' => [
 				'array_change_key_case',
 				'array_chunk',
 				'array_combine',
@@ -92,8 +92,8 @@ class StrTest extends MyCakeTestCase {
 				'sort',
 				'uasort',
 				'uksort',
-				'usort'),
-			'String' => array(
+				'usort'],
+			'String' => [
 				'addcslashes',
 				'addslashes',
 				'bin2hex',
@@ -191,8 +191,8 @@ class StrTest extends MyCakeTestCase {
 				'vfprintf',
 				'vprintf',
 				'vsprintf',
-				'wordwrap'),
-			);
+				'wordwrap'],
+			];
 		$res = '';
 		foreach ($functionLists as $type => $functions) {
 			$res .= "$type functions:\n";

@@ -101,8 +101,8 @@ class Horde_Text_Diff_Renderer_Sidebyside extends Horde_Text_Diff_Renderer {
 	protected function _changed($orig, $final) {
 		if ($this->_character_diff) {
 			$lines = $this->diffChar($orig, $final);
-			$this->_deleted(array($lines[0]), true);
-			$this->_added(array($lines[1]), true);
+			$this->_deleted([$lines[0]], true);
+			$this->_added([$lines[1]], true);
 		} else {
 
 			$this->_deleted($orig, true);
@@ -116,7 +116,7 @@ class Horde_Text_Diff_Renderer_Sidebyside extends Horde_Text_Diff_Renderer {
 		$line2 = preg_split('//', implode("<br />", $final), -1, PREG_SPLIT_NO_EMPTY);
 		$z = new Horde_Text_Diff($line1, $line2);
 		if ($z->isEmpty()) {
-			return array($orig[0], $final[0]);
+			return [$orig[0], $final[0]];
 		}
 		// echo "<pre>";print_r($z);echo "</pre>";
 		$renderer = new Horde_Text_Diff_Renderer_Character(10000);

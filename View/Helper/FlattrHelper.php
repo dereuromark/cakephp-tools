@@ -19,7 +19,7 @@ btn The badge to use. Currently the only option is compact but if not specified 
  */
 class FlattrHelper extends AppHelper {
 
-	public $helpers = array('Html');
+	public $helpers = ['Html'];
 
 	const API_URL = 'http://api.flattr.com/';
 
@@ -30,21 +30,21 @@ class FlattrHelper extends AppHelper {
 	 * @param array $options
 	 * @return string
 	 */
-	public function button($url, $options = array(), $attr = array()) {
+	public function button($url, $options = [], $attr = []) {
 		if (empty($options['uid'])) {
 			$options['uid'] = Configure::read('Flattr.uid');
 		}
-		$categories = array();
+		$categories = [];
 
-		$defaults = array(
+		$defaults = [
 			'mode' => 'auto',
 			'language' => 'de_DE',
 			'category' => 'text',
 			'button' => 'default', # none or compact
-			'tags' => array(),
+			'tags' => [],
 			//'hidden' => '',
 			//'description' => '',
-		);
+		];
 		$options += $defaults;
 
 		$mode = $options['mode'];
@@ -53,16 +53,16 @@ class FlattrHelper extends AppHelper {
 			$options['tags'] = implode(',', $options['tags']);
 		}
 
-		$rev = array();
+		$rev = [];
 		foreach ($options as $key => $option) {
 			$rev[] = $key . ':' . $option;
 		}
-		$linkOptions = array(
+		$linkOptions = [
 			'title' => env('HTTP_HOST'),
 			'class' => 'FlattrButton',
 			'style' => 'display:none;',
 			'rel' => 'flattr;' . implode(';', $rev)
-		);
+		];
 		$linkOptions = $attr + $linkOptions;
 
 		$js = "(function() {
@@ -80,7 +80,7 @@ class FlattrHelper extends AppHelper {
 
 		// static: <a href="http://flattr.com/thing/X" target="_blank"><img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" /></a>
 
-		$code .= $this->Html->scriptBlock($js, array('inline' => true));
+		$code .= $this->Html->scriptBlock($js, ['inline' => true]);
 		return $code;
 	}
 
@@ -93,7 +93,7 @@ class FlattrHelper extends AppHelper {
 	 * - tle, cat, lng, dsc, url, btn, tags, hidden (optional)
 	 * @return string html with js script tag
 	 */
-	public function badge($uid = null, $options = array()) {
+	public function badge($uid = null, $options = []) {
 		if (!$uid) {
 			$uid = Configure::read('Flattr.uid');
 		}
@@ -127,8 +127,8 @@ class FlattrHelper extends AppHelper {
 		if (isset($options['btn']) && $options['btn'] === 'compact') {
 			$vars .= "var flattr_btn = 'compact';\r\n";
 		}
-		$code = $this->Html->scriptBlock($vars, array('inline' => true));
-		$code .= $this->Html->script(static::API_URL . 'button/load.js', array('inline' => true));
+		$code = $this->Html->scriptBlock($vars, ['inline' => true]);
+		$code .= $this->Html->script(static::API_URL . 'button/load.js', ['inline' => true]);
 		return $code;
 	}
 

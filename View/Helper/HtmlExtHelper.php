@@ -1,5 +1,5 @@
 <?php
-App::uses('HtmlHelper', 'View/Helper');
+App::uses('HtmlShimHelper', 'Shim.View/Helper');
 
 /**
  * HtmlExt Helper
@@ -10,7 +10,7 @@ App::uses('HtmlHelper', 'View/Helper');
  * @author Mark Scherer
  * @license http://opensource.org/licenses/mit-license.php MIT
  */
-class HtmlExtHelper extends HtmlHelper {
+class HtmlExtHelper extends HtmlShimHelper {
 
 	/**
 	 * For convenience functions Html::defaultLink() and defaultUrl().
@@ -30,8 +30,8 @@ class HtmlExtHelper extends HtmlHelper {
 	 * @param array $options
 	 * @return string html imageTag
 	 */
-	public function imageFromBlob($content, $options = array()) {
-		$options += array('type' => 'png');
+	public function imageFromBlob($content, $options = []) {
+		$options += ['type' => 'png'];
 		$mimeType = 'image/' . $options['type'];
 
 		$text = 'data:' . $mimeType . ';base64,' . base64_encode($content);
@@ -54,15 +54,15 @@ class HtmlExtHelper extends HtmlHelper {
 	 * @param $options array Options
 	 * @return string HTML time tag.
 	 */
-	public function time($content, $options = array()) {
+	public function time($content, $options = []) {
 		if (!isset($this->tags['time'])) {
 			$this->tags['time'] = '<time%s>%s</time>';
 		}
-		$defaults = array(
+		$defaults = [
 			'datetime' => '%Y-%m-%d %T',
 			'pubdate' => false,
 			'format' => '%Y-%m-%d %T',
-		);
+		];
 		$options += $defaults;
 
 		if ($options['format'] !== null) {
@@ -87,7 +87,7 @@ class HtmlExtHelper extends HtmlHelper {
 		}
 		unset($options['format']);
 		unset($options['pubdate']);
-		$attributes = $this->_parseAttributes($options, array(0), ' ', '');
+		$attributes = $this->_parseAttributes($options, [0], ' ', '');
 
 		if (isset($pubdate)) {
 			$attributes .= ' pubdate';
@@ -101,14 +101,14 @@ class HtmlExtHelper extends HtmlHelper {
 	 * @params same as Html::link($title, $url, $options, $confirmMessage)
 	 * @return string Link
 	 */
-	public function completeLink($title, $url = null, $options = array(), $confirmMessage = false) {
+	public function completeLink($title, $url = null, $options = [], $confirmMessage = false) {
 		if (is_array($url)) {
 			// Named are deprecated
 			$url += $this->params['named'];
 
 			// Add query strings
 			if (!isset($url['?'])) {
-				$url['?'] = array();
+				$url['?'] = [];
 			}
 			$url['?'] += $this->request->query;
 		}
@@ -128,7 +128,7 @@ class HtmlExtHelper extends HtmlHelper {
 
 			// Add query strings
 			if (!isset($url['?'])) {
-				$url['?'] = array();
+				$url['?'] = [];
 			}
 			$url['?'] += $this->request->query;
 		}
@@ -143,7 +143,7 @@ class HtmlExtHelper extends HtmlHelper {
 	 * @params same as Html::link($title, $url, $options, $confirmMessage)
 	 * @return string HTML Link
 	 */
-	public function defaultLink($title, $url = null, $options = array(), $confirmMessage = false) {
+	public function defaultLink($title, $url = null, $options = [], $confirmMessage = false) {
 		if ($this->_linkDefaults === null) {
 			if (!class_exists('CommonComponent')) {
 				App::uses('CommonComponent', 'Tools.Controller/Component');
@@ -195,7 +195,7 @@ class HtmlExtHelper extends HtmlHelper {
 	 * @return void
 	 */
 	public function resetCrumbs() {
-		$this->_crumbs = array();
+		$this->_crumbs = [];
 	}
 
 }

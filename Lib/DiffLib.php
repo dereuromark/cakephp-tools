@@ -26,7 +26,7 @@ class DiffLib {
 	public $engine = 'auto';
 
 	// xdiff needs external libs
-	public $engines = array('auto', 'native', 'shell', 'xdiff');
+	public $engines = ['auto', 'native', 'shell', 'xdiff'];
 
 	/**
 	 * What renderer to use
@@ -38,7 +38,7 @@ class DiffLib {
 	 */
 	public $renderer = 'inline';
 
-	public $renderers = array('inline', 'unified', 'context'); //'sidebyside'
+	public $renderers = ['inline', 'unified', 'context']; //'sidebyside'
 
 	/**
 	 * Do you want to use the Character diff renderer additionally to the sidebyside renderer ?
@@ -69,7 +69,7 @@ class DiffLib {
 	 */
 	public function __construct() {
 		set_include_path(get_include_path() . PATH_SEPARATOR . CakePlugin::path('Tools') . 'Vendor' . DS);
-		App::import('Vendor', 'Tools.HordeAutoloader', array('file' => 'Horde/Autoloader/Default.php'));
+		App::import('Vendor', 'Tools.HordeAutoloader', ['file' => 'Horde/Autoloader/Default.php']);
 	}
 
 	/**
@@ -122,7 +122,7 @@ class DiffLib {
 	 * - escape: defaults to true
 	 * @return string output
 	 */
-	public function compare($original, $changed, array $options = array()) {
+	public function compare($original, $changed, array $options = []) {
 		if (!is_array($original)) {
 			$original = $this->_explode($original);
 		}
@@ -131,8 +131,8 @@ class DiffLib {
 		}
 		$rendererClassName = 'Horde_Text_Diff_Renderer_' . ucfirst($this->renderer);
 
-		$renderer = new $rendererClassName(array('context_lines' => $this->contextLines, 'character_diff' => $this->characterDiff));
-		$diff = new Horde_Text_Diff($this->engine, array($original, $changed));
+		$renderer = new $rendererClassName(['context_lines' => $this->contextLines, 'character_diff' => $this->characterDiff]);
+		$diff = new Horde_Text_Diff($this->engine, [$original, $changed]);
 
 		$string = $renderer->render($diff);
 		return $string;
@@ -143,15 +143,15 @@ class DiffLib {
 	 * @param array $options
 	 * - mode (autodetect, context, unified)
 	 */
-	public function reverse($string, array $options = array()) {
-		$defaults = array(
+	public function reverse($string, array $options = []) {
+		$defaults = [
 			'mode' => 'autodetect',
-		);
+		];
 		$options += $defaults;
 
-		$diff = new Horde_Text_Diff('string', array($string, $options['mode']));
+		$diff = new Horde_Text_Diff('string', [$string, $options['mode']]);
 		$rendererClassName = 'Horde_Text_Diff_Renderer_' . ucfirst($this->renderer);
-		$renderer = new $rendererClassName(array('context_lines' => $this->contextLines, 'character_diff' => $this->characterDiff));
+		$renderer = new $rendererClassName(['context_lines' => $this->contextLines, 'character_diff' => $this->characterDiff]);
 		$string = $renderer->render($diff);
 		return $string;
 	}
@@ -183,9 +183,9 @@ class DiffLib {
 	public function parseDiff($text, $_check) {
 		$start = 0; // Start of the diff
 		$length = 0; // number of lines to recurse
-		$changes = array(); // all the changes
+		$changes = []; // all the changes
 
-		$regs = array();
+		$regs = [];
 
 		if (preg_match("/^@@ ([\+\-])([0-9]+)(?:,([0-9]+))? [\+\-]([0-9]+)(?:,([0-9]+))? @@$/", array_shift($text), $regs) == false) {
 			return;
@@ -308,7 +308,7 @@ class Changes {
 
 	public $symbol;
 
-	public $oldline = array(); // only for code removed
+	public $oldline = []; // only for code removed
 }
 
 // This object is created for every line of text in the file.

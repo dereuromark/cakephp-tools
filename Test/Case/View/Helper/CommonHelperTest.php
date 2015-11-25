@@ -10,7 +10,7 @@ App::uses('MyCakeTestCase', 'Tools.TestSuite');
  */
 class CommonHelperTest extends MyCakeTestCase {
 
-	public $fixtures = array('core.cake_session');
+	public $fixtures = ['core.cake_session'];
 
 	public $Common;
 
@@ -53,8 +53,8 @@ class CommonHelperTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testMetaName() {
-		$result = $this->Common->metaName('foo', array(1, 2, 3));
-		$expected = '<meta name="foo" content="1, 2, 3" />';
+		$result = $this->Common->metaName('foo', [1, 2, 3]);
+		$expected = '<meta name="foo" content="1, 2, 3"/>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -65,7 +65,7 @@ class CommonHelperTest extends MyCakeTestCase {
 	 */
 	public function testMetaDescription() {
 		$result = $this->Common->metaDescription('foo', 'deu');
-		$expected = '<meta lang="deu" name="description" content="foo" />';
+		$expected = '<meta lang="deu" name="description" content="foo"/>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -76,7 +76,7 @@ class CommonHelperTest extends MyCakeTestCase {
 	 */
 	public function testMetaKeywords() {
 		$result = $this->Common->metaKeywords('foo bar', 'deu');
-		$expected = '<meta lang="deu" name="keywords" content="foo bar" />';
+		$expected = '<meta lang="deu" name="keywords" content="foo bar"/>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -87,7 +87,7 @@ class CommonHelperTest extends MyCakeTestCase {
 	 */
 	public function testMetaRss() {
 		$result = $this->Common->metaRss('/some/url', 'some title');
-		$expected = '<link rel="alternate" type="application/rss+xml" title="some title" href="/some/url" />';
+		$expected = '<link rel="alternate" type="application/rss+xml" title="some title" href="/some/url"/>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -98,7 +98,7 @@ class CommonHelperTest extends MyCakeTestCase {
 	 */
 	public function testMetaEquiv() {
 		$result = $this->Common->metaEquiv('type', 'value');
-		$expected = '<meta http-equiv="type" content="value" />';
+		$expected = '<meta http-equiv="type" content="value"/>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -117,10 +117,10 @@ class CommonHelperTest extends MyCakeTestCase {
 	 */
 	public function testMetaCanonical() {
 		$is = $this->Common->metaCanonical('/some/url/param1');
-		$this->assertEquals('<link href="' . $this->Html->url('/some/url/param1') . '" rel="canonical" />', trim($is));
+		$this->assertEquals('<link href="' . $this->Html->url('/some/url/param1') . '" rel="canonical"/>', trim($is));
 
 		$is = $this->Common->metaCanonical('/some/url/param1', true);
-		$this->assertEquals('<link href="' . $this->Html->url('/some/url/param1', true) . '" rel="canonical" />', trim($is));
+		$this->assertEquals('<link href="' . $this->Html->url('/some/url/param1', true) . '" rel="canonical"/>', trim($is));
 	}
 
 	/**
@@ -129,22 +129,22 @@ class CommonHelperTest extends MyCakeTestCase {
 	public function testMetaAlternate() {
 		$is = $this->Common->metaAlternate('/some/url/param1', 'de-de', true);
 		$this->out(h($is));
-		$this->assertEquals('<link href="' . $this->Html->url('/some/url/param1', true) . '" rel="alternate" hreflang="de-de" />', trim($is));
+		$this->assertEquals('<link href="' . $this->Html->url('/some/url/param1', true) . '" rel="alternate" hreflang="de-de"/>', trim($is));
 
-		$is = $this->Common->metaAlternate(array('controller' => 'some', 'action' => 'url'), 'de', true);
+		$is = $this->Common->metaAlternate(['controller' => 'some', 'action' => 'url'], 'de', true);
 		$this->out(h($is));
-		$this->assertEquals('<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="de" />', trim($is));
+		$this->assertEquals('<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="de"/>', trim($is));
 
-		$is = $this->Common->metaAlternate(array('controller' => 'some', 'action' => 'url'), array('de', 'de-ch'), true);
+		$is = $this->Common->metaAlternate(['controller' => 'some', 'action' => 'url'], ['de', 'de-ch'], true);
 		$this->out(h($is));
-		$this->assertEquals('<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="de" />' . PHP_EOL . '<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="de-ch" />', trim($is));
+		$this->assertEquals('<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="de"/>' . PHP_EOL . '<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="de-ch"/>', trim($is));
 
-		$is = $this->Common->metaAlternate(array('controller' => 'some', 'action' => 'url'), array('de' => array('ch', 'at'), 'en' => array('gb', 'us')), true);
+		$is = $this->Common->metaAlternate(['controller' => 'some', 'action' => 'url'], ['de' => ['ch', 'at'], 'en' => ['gb', 'us']], true);
 		$this->out(h($is));
-		$this->assertEquals('<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="de-ch" />' . PHP_EOL .
-			'<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="de-at" />' . PHP_EOL .
-			'<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="en-gb" />' . PHP_EOL .
-			'<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="en-us" />', trim($is));
+		$this->assertEquals('<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="de-ch"/>' . PHP_EOL .
+			'<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="de-at"/>' . PHP_EOL .
+			'<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="en-gb"/>' . PHP_EOL .
+			'<link href="' . $this->Html->url('/some/url', true) . '" rel="alternate" hreflang="en-us"/>', trim($is));
 	}
 
 	/**
@@ -161,7 +161,7 @@ class CommonHelperTest extends MyCakeTestCase {
 		$expected = 'Some Cool<br />' . PHP_EOL . '&nbsp;&nbsp;2 indends and<br />' . PHP_EOL . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5 indends<br />' . PHP_EOL . 'YEAH';
 		$this->assertEquals($expected, $is);
 
-		$options = array('tabsToSpaces' => 2);
+		$options = ['tabsToSpaces' => 2];
 		$is = $this->Common->esc('Some Cool' . PHP_EOL . "\t" . '1 tab and' . PHP_EOL . "\t" . "\t" . '2 tabs' . PHP_EOL . 'YEAH', $options);
 		$expected = 'Some Cool<br />' . PHP_EOL . '&nbsp;&nbsp;1 tab and<br />' . PHP_EOL . '&nbsp;&nbsp;&nbsp;&nbsp;2 tabs<br />' . PHP_EOL . 'YEAH';
 		$this->assertEquals($expected, $is);
