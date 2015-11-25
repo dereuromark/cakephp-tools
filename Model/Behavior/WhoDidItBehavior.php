@@ -116,7 +116,7 @@ class WhoDidItBehavior extends ModelBehavior {
 		$authSession = $config['auth_session'];
 		list(, $userSession) = pluginSplit($config['user_model']);
 
-		$userId = AuthComponent::user($authSession . '.' . $userSession . '.id');
+		$userId = AuthComponent::user('id');
 
 		if (!$userId) {
 			return true;
