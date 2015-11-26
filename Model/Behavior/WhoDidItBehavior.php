@@ -11,6 +11,7 @@
  */
 
 App::uses('AuthComponent', 'Controller/Component');
+App::uses('CakeSession', 'Model/Datasource');
 App::uses('ModelBehavior', 'Model');
 
 /**
@@ -117,6 +118,9 @@ class WhoDidItBehavior extends ModelBehavior {
 		list(, $userSession) = pluginSplit($config['user_model']);
 
 		$userId = AuthComponent::user('id');
+		if (empty($userId)) {
+			$userId = CakeSession::read($authSession . '.' . $userSession . '.id');
+		}
 
 		if (!$userId) {
 			return true;
