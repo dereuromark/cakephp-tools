@@ -10,6 +10,7 @@
  * @license http://opensource.org/licenses/mit-license.php MIT
  */
 
+App::uses('AuthComponent', 'Controller/Component');
 App::uses('CakeSession', 'Model/Datasource');
 App::uses('ModelBehavior', 'Model');
 
@@ -116,7 +117,10 @@ class WhoDidItBehavior extends ModelBehavior {
 		$authSession = $config['auth_session'];
 		list(, $userSession) = pluginSplit($config['user_model']);
 
-		$userId = CakeSession::read($authSession . '.' . $userSession . '.id');
+		$userId = AuthComponent::user('id');
+		if (empty($userId)) {
+			$userId = CakeSession::read($authSession . '.' . $userSession . '.id');
+		}
 
 		if (!$userId) {
 			return true;
