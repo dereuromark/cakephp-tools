@@ -2,10 +2,9 @@
 App::uses('AppHelper', 'View/Helper');
 
 /**
+ * Helper as wrapper around PHPThumb library.
+ * 
  * @see http://code621.com/content/1/phpthumb-helper-for-cakephp
- * some mods?
- * //TODO: make to lib!?
- * //TODO: integrate ThumbnailHelper !!!
  */
 class PhpThumbHelper extends AppHelper {
 

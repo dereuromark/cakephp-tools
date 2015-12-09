@@ -898,8 +898,6 @@ class CommonComponent extends Component {
 			return $subdomain;
 		}
 
-		//$hostParts = explode();
-		//$check = trim(mb_substr($email, $checkpos));
 		return '';
 	}
 
