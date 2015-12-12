@@ -53,7 +53,6 @@ class Utility {
 
 		if ($options['callback']) {
 			foreach ($tokens as $key => $token) {
-				debug($token);
 				$tokens[$key] = $options['callback']($token);
 			}
 		}
