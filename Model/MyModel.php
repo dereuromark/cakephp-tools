@@ -757,12 +757,12 @@ class MyModel extends ShimModel {
 			}
 		}
 
-		$this->recursive = -1;
-		if (count($conditions) > 2) {
-			$this->recursive = 0;
+		if (count($conditions) > 2 && !isset($options['contain']) && !isset($options['recursive'])) {
+			$options['recursive'] = 0;
 		}
-		$options = ['fields' => [$this->alias . '.' . $this->primaryKey], 'conditions' => $conditions];
-		$res = $this->find('first', $options);
+
+		$options = ['fields' => [$this->alias . '.' . $this->primaryKey], 'conditions' => $conditions] + $options;
+		$res = $this->find('count', $options);
 		return empty($res);
 	}
 

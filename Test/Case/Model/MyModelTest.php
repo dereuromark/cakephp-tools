@@ -950,6 +950,7 @@ class MyModelTest extends MyCakeTestCase {
 		$res = $this->Post->save($data);
 		$this->assertFalse($res);
 
+		// One dependent field
 		$this->Post->validate['title'] = [
 			'validateUnique' => [
 				'rule' => ['validateUnique', ['published']],
@@ -964,6 +965,30 @@ class MyModelTest extends MyCakeTestCase {
 		$res = $this->Post->validates();
 		$this->assertTrue($res);
 		$res = $this->Post->save($res, ['validate' => false]);
+		$this->assertTrue((bool)$res);
+
+		$this->Post->create();
+		$res = $this->Post->save($data);
+		$this->assertFalse($res);
+
+		// Too dependent fields
+		$this->Post->validate['title'] = [
+			'validateUnique' => [
+				'rule' => ['validateUnique', ['published', 'author_id']],
+				'message' => 'valErrRecordTitleExists',
+			],
+		];
+
+		$this->User->create();
+		$user = $this->User->save(['user' => 'Foo']);
+
+		$data = [
+			'title' => 'abc',
+			'published' => 'Y',
+			'author_id' => $user['User']['id']
+		];
+		$this->Post->create();
+		$res = $this->Post->save($data);
 		$this->assertTrue((bool)$res);
 
 		$this->Post->create();
