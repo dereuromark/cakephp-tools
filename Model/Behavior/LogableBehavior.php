@@ -210,8 +210,7 @@ class LogableBehavior extends ModelBehavior {
 			UserModel->alias][$this->UserModel->primaryKey] && isset($this->user[$this->UserModel->alias][$this->UserModel->displayField])) {
 			$username = $this->user[$this->UserModel->alias][$this->UserModel->displayField];
 		} else {
-			$this->UserModel->recursive = -1;
-			$user = $this->UserModel->find('first', ['conditions' => [$this->UserModel->primaryKey => $userId]]);
+			$user = $this->UserModel->find('first', ['recursive' => -1, 'conditions' => [$this->UserModel->primaryKey => $userId]]);
 			$username = $user[$this->UserModel->alias][$this->UserModel->displayField];
 		}
 		$fields = [];

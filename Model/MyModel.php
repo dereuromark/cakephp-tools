@@ -464,8 +464,7 @@ class MyModel extends ShimModel {
 						break;
 					}
 
-					$this->recursive = -1;
-					//setup formating
+					//setup formatting
 					$format = '';
 					if (!isset($options['format'])) {
 						for ($i = 0; $i < (count($options['fields']) - 1); $i++) {
