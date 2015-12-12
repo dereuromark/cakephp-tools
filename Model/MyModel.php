@@ -194,7 +194,7 @@ class MyModel extends ShimModel {
 		if (!empty($customOptions['timestampField'])) {
 			$data[$customOptions['timestampField']] = date(FORMAT_DB_DATETIME);
 		}
-		$this->id = $id;
+		$data[$this->primaryKey] = $id;
 		return $this->save($data, false);
 	}
 
@@ -1310,12 +1310,12 @@ class MyModel extends ShimModel {
 	 * @return ARRAY record: [Model][values],...
 	 */
 	public function toggleField($fieldName, $id) {
-		$record = $this->get($id, ['conditions' => [$this->primaryKey, $fieldName]]);
+		$record = $this->get($id, ['fields' => [$this->primaryKey, $fieldName]]);
 
 		if (!empty($record) && !empty($fieldName) && $this->hasField($fieldName)) {
 			$record[$this->alias][$fieldName] = ($record[$this->alias][$fieldName] == 1 ? 0 : 1);
-			$this->id = $id;
-			$this->saveField($fieldName, $record[$this->alias][$fieldName]);
+			$data = [$fieldName => $record[$this->alias][$fieldName]];
+			$this->updateAllJoinless($data, [$this->primaryKey => $id]);
 		}
 		return $record;
 	}

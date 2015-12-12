@@ -202,14 +202,42 @@ class MyModelTest extends MyCakeTestCase {
 	 */
 	public function testUpdate() {
 		$record = ['title' => 'x', 'body' => 'bx'];
-		$result = $this->User->save($record);
+		$result = $this->Post->save($record);
 		$this->assertTrue((bool)$result);
 
 		$record['body'] = 'bxx';
-		$result = $this->User->update($result['User']['id'], ['body' => $record['body']]);
+		$result = $this->Post->update($result['Post']['id'], ['body' => $record['body']]);
 		$this->assertTrue((bool)$result);
 
-		$this->assertSame($record['body'], $result['User']['body']);
+		$this->assertSame($record['body'], $result['Post']['body']);
+
+		$result = $this->Post->get($result['Post']['id']);
+		$this->assertSame($record['body'], $result['Post']['body']);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testToggleField() {
+		$record = ['title' => 'x', 'body' => 0];
+		$result = $this->Post->save($record);
+		$this->assertTrue((bool)$result);
+
+		$result = $this->Post->toggleField('body', $result['Post']['id']);
+		$this->assertTrue((bool)$result);
+
+		$this->assertSame(1, $result['Post']['body']);
+
+		$result = $this->Post->get($result['Post']['id']);
+		$this->assertSame('1', $result['Post']['body']);
+
+		$result = $this->Post->toggleField('body', $result['Post']['id']);
+		$this->assertTrue((bool)$result);
+
+		$this->assertSame(0, $result['Post']['body']);
+
+		$result = $this->Post->get($result['Post']['id']);
+		$this->assertSame('0', $result['Post']['body']);
 	}
 
 	/**
