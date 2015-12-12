@@ -1290,14 +1290,15 @@ class MyModel extends ShimModel {
 	 *
 	 * @param int $id
 	 * @param array $data
+	 * @param bool $validate
 	 * @return bool|array Success
 	 */
 	public function update($id, $data, $validate = false) {
-		$this->id = $id;
 		$options = [
 			'validate' => $validate,
 			'fieldList' => array_keys($data)
 		];
+		$data[$this->primaryKey] = $id;
 		return $this->save($data, $options);
 	}
 

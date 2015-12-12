@@ -198,6 +198,21 @@ class MyModelTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * @return void
+	 */
+	public function testUpdate() {
+		$record = ['title' => 'x', 'body' => 'bx'];
+		$result = $this->User->save($record);
+		$this->assertTrue((bool)$result);
+
+		$record['body'] = 'bxx';
+		$result = $this->User->update($result['User']['id'], ['body' => $record['body']]);
+		$this->assertTrue((bool)$result);
+
+		$this->assertSame($record['body'], $result['User']['body']);
+	}
+
+	/**
 	 * MyModelTest::testSaveAll()
 	 *
 	 * @return void
