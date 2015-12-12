@@ -15,7 +15,7 @@
 	"require": {
 		"php": ">=5.4",
 		"composer/installers": "*",
-		"dereuromark/cakephp-shim": "0.4.*"
+		"dereuromark/cakephp-shim": "0.5.*"
 	},
 	"support": {
 		"source": "https://github.com/dereuromark/cakephp-tools"
