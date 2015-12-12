@@ -115,7 +115,6 @@ public $helpers = array(
 ### Useful fixes and additions
 
 * Auto-trim on POST (to make - not only notEmpty - validation working properly).
-* RSS and Ajax Views for better responses (Ajax also comes with an optional component).
 * Using the Common component's flashMessage() you can have colorful (success, warning, error, ...) flash messages.
   They also can stack up (multiple messages per type). This way no message is lost when redirecting twice etc.
   You will also need `echo $this->Flash->message();` then instead of the default flash code in your layout.ctp template.
