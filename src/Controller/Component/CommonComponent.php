@@ -140,7 +140,7 @@ class CommonComponent extends Component {
 	 * Smart Referer Redirect - will try to use an existing referer first
 	 * otherwise it will use the default url
 	 *
-	 * @param mixed $url URL
+	 * @param mixed $whereTo URL
 	 * @param bool $allowSelf if redirect to the same controller/action (url) is allowed
 	 * @param int $status
 	 * @return \Cake\Network\Response
@@ -160,7 +160,7 @@ class CommonComponent extends Component {
 	 *
 	 * @see http://en.wikipedia.org/wiki/Post/Redirect/Get
 	 *
-	 * @param mixed $url URL
+	 * @param mixed $whereTo URL
 	 * @param int $status
 	 * @return \Cake\Network\Response
 	 */
@@ -240,7 +240,6 @@ class CommonComponent extends Component {
 	/**
 	 * Set headers to cache this request.
 	 * Opposite of Controller::disableCache()
-	 * TODO: set response class header instead
 	 *
 	 * @param int $seconds
 	 * @return void
@@ -255,6 +254,7 @@ class CommonComponent extends Component {
 	 * Referrer checking (where does the user come from)
 	 * Only returns true for a valid external referrer.
 	 *
+	 * @param string|null $ref Referer
 	 * @return bool Success
 	 */
 	public function isForeignReferer($ref = null) {

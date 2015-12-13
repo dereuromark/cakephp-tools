@@ -22,7 +22,7 @@ class ShuntRequestController extends AppController {
 	 * Switch language as post link.
 	 *
 	 * @param string|null $language
-	 * @return void
+	 * @return \Cake\Network\Response
 	 */
 	public function language($language = null) {
 		$this->request->allowMethod(['post']);
