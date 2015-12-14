@@ -31,7 +31,7 @@ before_script:
   - echo "<?php App::uses('BaseEmailConfig', 'Tools.Config'); class EmailConfig extends BaseEmailConfig {}" > Config/email.php
   - echo "Configure::write('Config.adminEmail', 'example@example.org');" >> Config/bootstrap.php
   - cd ..
-  
+
 script:
   - ../travis/script.sh
 

@@ -367,7 +367,6 @@ class LogableBehavior extends ModelBehavior {
 		if (isset($this->settings[$Model->alias]['skip']['delete']) && $this->settings[$Model->alias]['skip']['delete']) {
 			return true;
 		}
-		$Model->recursive = -1;
 		$Model->read();
 		return true;
 	}
