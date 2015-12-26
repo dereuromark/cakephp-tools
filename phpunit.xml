@@ -2,13 +2,13 @@
 <phpunit>
 	<filter>
 		<whitelist>
-			<directory suffix=".php">Plugin/Tools</directory>
+			<directory suffix=".php">./Plugin/Tools</directory>
 			<exclude>
-				<directory suffix=".php">Plugin/Tools/Vendor</directory>
-				<directory suffix=".php">Plugin/Tools/Config/Schema</directory>
-				<directory suffix=".php">Plugin/Tools/Test</directory>
-				<directory suffix=".php">Plugin/Tools/TestSuite</directory>
-				<directory suffix=".php">Plugin/Tools/Lib/Error</directory>
+				<directory suffix=".php">./Plugin/Tools/Vendor</directory>
+				<directory suffix=".php">./Plugin/Tools/Config/Schema</directory>
+				<directory suffix=".php">./Plugin/Tools/Test</directory>
+				<directory suffix=".php">./Plugin/Tools/TestSuite</directory>
+				<directory suffix=".php">./Plugin/Tools/Lib/Error</directory>
 			</exclude>
 		</whitelist>
 	</filter>

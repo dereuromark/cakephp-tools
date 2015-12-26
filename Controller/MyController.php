@@ -8,6 +8,9 @@ class MyController extends ShimController {
 
 	/**
 	 * Fix for asset compress to not run into fatal error loops
+	 *
+	 * @param CakeRequest|null $request
+	 * @param CakeResponse|null $response
 	 */
 	public function __construct($request = null, $response = null) {
 		parent::__construct($request, $response);
