@@ -13,9 +13,6 @@ A CakePHP 3.x Plugin containing several useful tools that can be used in many pr
 This cake3 branch only works for **CakePHP3.x** - please use the master branch for CakePHP 2.x!
 **It is still dev** (no stable release yet), please be careful with using it.
 
-### Planned Release Cycle:
-Dev (currently), Alpha, Beta, RC, 1.0 stable (incl. tagged release then).
-
 ## What is this plugin for?
 
 ### Enhancing the core
@@ -38,9 +35,8 @@ Dev (currently), Alpha, Beta, RC, 1.0 stable (incl. tagged release then).
 
 ### Providing 2.x shims
 This plugin for the Cake 3 version also contains some 2.x shims to ease migration of existing applications from 2.x to 3.x:
-- find('first') and find('count')
-- Model::$validate, Model::$primaryKey, Model::$displayField and Model relations as properties
-- Set/Multibyte class, Session component and a cut down version of JsHelper
+- See Shim plugin for details on most of the provided shims.
+- Cut down version of JsHelper and a few more things.
 
 ## Installation & Docs
 
