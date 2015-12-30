@@ -456,24 +456,6 @@ class Utility {
 	}
 
 	/**
-	 * Removes all except A-Z,a-z,0-9 and allowedChars (allowedChars array) recursivly
-	 *
-	 */
-	public static function paranoidDeep($value) {
-		$value = is_array($value) ? array_map('self::paranoidDeep', $value) : Sanatize::paranoid($value, $this->allowedChars);
-		return $value;
-	}
-
-	/**
-	 * Transfers/removes all < > from text (remove TRUE/FALSE)
-	 *
-	 */
-	public static function htmlDeep($value) {
-		$value = is_array($value) ? array_map('self::htmlDeep', $value) : Sanatize::html($value, $this->removeChars);
-		return $value;
-	}
-
-	/**
 	 * Main deep method
 	 *
 	 */
