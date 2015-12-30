@@ -47,7 +47,7 @@ class Utility {
 	 * @param string $data The data to tokenize
 	 * @param string $separator The token to split the data on.
 	 * @param array $options
-	 * @return void
+	 * @return array
 	 */
 	public static function tokenize($data, $separator = ',', $options = []) {
 		$defaults = [
