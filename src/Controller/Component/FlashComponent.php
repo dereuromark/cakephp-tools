@@ -34,8 +34,8 @@ class FlashComponent extends Component {
 	 * Called after the Controller::beforeRender(), after the view class is loaded, and before the
 	 * Controller::render()
 	 *
-	 * @param object $Controller Controller with components to beforeRender
-	 * @return void
+	 * @param \Cake\Event\Event $event
+	 * @return \Cake\Network\Response|null|void
 	 */
 	public function beforeRender(Event $event) {
 		if (!$this->Controller->request->is('ajax')) {
