@@ -103,21 +103,21 @@ class Table extends ShimTable {
 		}
 
 		$conditions = [
-			$this->alias . '.' . $fieldName => $fieldValue,
-			$this->alias . '.id !=' => $id];
+			$fieldName => $fieldValue,
+			'id !=' => $id];
 
 		$fields = (array)$fields;
 		if (!array_key_exists('allowEmpty', $fields)) {
 			foreach ($fields as $dependingField) {
 				if (isset($this->data[$dependingField])) { // add ONLY if some content is transfered (check on that first!)
-					$conditions[$this->alias . '.' . $dependingField] = $this->data[$dependingField];
+					$conditions['' . $dependingField] = $this->data[$dependingField];
 				} elseif (isset($this->data['Validation'][$dependingField])) { // add ONLY if some content is transfered (check on that first!
-					$conditions[$this->alias . '.' . $dependingField] = $this->data['Validation'][$dependingField];
+					$conditions['' . $dependingField] = $this->data['Validation'][$dependingField];
 				} elseif (!empty($id)) {
 					// manual query! (only possible on edit)
-					$res = $this->find('first', ['fields' => [$this->alias . '.' . $dependingField], 'conditions' => [$this->alias . '.id' => $id]]);
+					$res = $this->find('first', ['fields' => ['' . $dependingField], 'conditions' => ['id' => $id]]);
 					if (!empty($res)) {
-						$conditions[$this->alias . '.' . $dependingField] = $res[$dependingField];
+						$conditions['' . $dependingField] = $res[$dependingField];
 					}
 				} else {
 					if (!empty($options['requireDependentFields'])) {
@@ -133,7 +133,7 @@ class Table extends ShimTable {
 		if (count($conditions) > 2) {
 			$this->recursive = 0;
 		}
-		$options = ['fields' => [$this->alias . '.' . $this->primaryKey], 'conditions' => $conditions];
+		$options = ['fields' => ['' . $this->primaryKey], 'conditions' => $conditions];
 		$res = $this->find('first', $options);
 		return empty($res);
 	}
@@ -202,10 +202,10 @@ class Table extends ShimTable {
 	public function getFieldInUse($groupField, $type = 'all', $options = []) {
 		$defaults = [
 			'group' => $groupField,
-			'order' => [$this->alias . '.' . $this->displayField => 'ASC'],
+			'order' => [$this->displayField() => 'ASC'],
 		];
 		if ($type === 'list') {
-			$defaults['fields'] = [$this->alias . '.' . $this->primaryKey, $this->alias . '.' . $this->displayField];
+			$defaults['fields'] = ['' . $this->primaryKey(), '' . $this->displayField()];
 		}
 		$options += $defaults;
 		return $this->find($type, $options);
