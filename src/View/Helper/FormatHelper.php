@@ -247,9 +247,9 @@ class FormatHelper extends Helper {
 	 *
 	 * @param string $icon (constant or filename)
 	 * @param array $options :
-	 * - translate, ...
+	 * - translate, title, ...
 	 * @param array $attributes :
-	 * - title, alt, ...
+	 * - class, ...
 	 * @return string
 	 */
 	public function icon($icon, array $options = [], array $attributes = []) {
@@ -257,8 +257,13 @@ class FormatHelper extends Helper {
 			'translate' => true,
 		];
 		$options += $defaults;
-		if (empty($attributes['title'])) {
-			$attributes['title'] = Inflector::humanize($icon);
+
+		if (!isset($attributes['title'])) {
+			if (isset($options['title'])) {
+				$attributes['title'] = $options['title'];
+			} else {
+				$attributes['title'] = Inflector::humanize($icon);
+			}
 		}
 
 		return $this->_fontIcon($icon, $options, $attributes);
