@@ -48,7 +48,7 @@ class ConfirmableBehavior extends Behavior {
 
 		$field = $this->_config['field'];
 		$message = $this->_config['message'];
-		$validator->add($field, 'notEmpty', [
+		$validator->add($field, 'notBlank', [
 				'rule' => function ($value, $context) {
 					return !empty($value);
 				},

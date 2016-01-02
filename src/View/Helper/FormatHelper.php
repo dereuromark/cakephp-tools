@@ -270,7 +270,54 @@ class FormatHelper extends Helper {
 	}
 
 	/**
-	 * FormatHelper::_fontIcon()
+	 * Img Icons
+	 *
+	 * @param string $icon (constant or filename)
+	 * @param array $options :
+	 * - translate, title, ...
+	 * @param array $attributes :
+	 * - class, ...
+	 * @return string
+	 */
+	public function cIcon($icon, array $options = [], array $attributes = []) {
+		return $this->_customIcon($icon, $options, $attributes);
+	}
+
+	/**
+	 * Deprecated img icons, font icons should be used instead, but sometimes
+	 * we still need a custom img icon.
+	 *
+	 * @param string $icon (constant or filename)
+	 * @param array $options :
+	 * - translate, title, ...
+	 * @param array $attributes :
+	 * - class, ...
+	 * @return string
+	 */
+	protected function _customIcon($icon, array $options = [], array $attributes = []) {
+		$translate = isset($options['translate']) ? $options['translate'] : true;
+
+		$type = pathinfo($icon, PATHINFO_FILENAME);
+		$title = isset($t) ? $t : ucfirst($type);
+		$alt = (isset($a) ? $a : Inflector::slug($title));
+		if ($translate !== false) {
+			$title = __($title);
+			$alt = __($alt);
+		}
+		$alt = '[' . $alt . ']';
+
+		$defaults = ['title' => $title, 'alt' => $alt, 'class' => 'icon'];
+
+		$options = $attributes + $options;
+		$options += $defaults;
+		if (substr($icon, 0, 1) !== '/') {
+			$icon = 'icons/' . $icon;
+		}
+		return $this->Html->image($icon, $options);
+	}
+
+	/**
+	 * Renders a font icon.
 	 *
 	 * @param string $type
 	 * @param array $options
@@ -311,7 +358,7 @@ class FormatHelper extends Helper {
 	}
 
 	/**
-	 * Display yes/no symbol.
+	 * Displays yes/no symbol.
 	 *
 	 * @param int|bool $value Value
 	 * @param array $options
@@ -344,9 +391,9 @@ class FormatHelper extends Helper {
 	}
 
 	/**
-	 * Get URL of a png img of a website (16x16 pixel).
+	 * Gets URL of a png img of a website (16x16 pixel).
 	 *
-	 * @param string domain
+	 * @param string $domain
 	 * @return string
 	 */
 	public function siteIconUrl($domain) {
@@ -362,7 +409,7 @@ class FormatHelper extends Helper {
 	 * Display a png img of a website (16x16 pixel)
 	 * if not available, will return a fallback image (a globe)
 	 *
-	 * @param domain (preferably without protocol, e.g. "www.site.com")
+	 * @param string $domain (preferably without protocol, e.g. "www.site.com")
 	 * @param array $options
 	 * @return string
 	 */
@@ -428,7 +475,7 @@ class FormatHelper extends Helper {
 
 	/**
 	 * Fixes utf8 problems of native php str_pad function
-	 * //TODO: move to textext helper?
+	 * //TODO: move to textext helper? Also note there is Text::wrap() now.
 	 *
 	 * @param string $input
 	 * @param int $padLength
@@ -472,9 +519,9 @@ class FormatHelper extends Helper {
 	 *   Maybe use templating
 	 *
 	 * @param mixed $content Output
-	 * @param mixed $ok Boolish value
+	 * @param bool $ok Boolish value
 	 * @param array $attributes
-	 * @return string newValue nicely formatted/colored
+	 * @return string Value nicely formatted/colored
 	 */
 	public function ok($content, $ok = false, array $attributes = []) {
 		if ($ok) {
@@ -559,6 +606,7 @@ class FormatHelper extends Helper {
 	 * @param array $options
 	 * @param array $attributes For the table
 	 * @param string $null String to output for blank cells
+	 * @return string
 	 */
 	public function array2table(array $array, array $options = [], array $attributes = []) {
 		$defaults = [

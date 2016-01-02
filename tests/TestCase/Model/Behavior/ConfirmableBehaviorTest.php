@@ -34,7 +34,7 @@ class ConfirmableBehaviorTest extends TestCase {
 		];
 		$animal = $this->Articles->patchEntity($animal, $data);
 		$this->assertNotEmpty($animal->errors());
-		$this->assertSame(['confirm' => ['notEmpty' => __d('tools', 'Please confirm the checkbox')]], $animal->errors());
+		$this->assertSame(['confirm' => ['notBlank' => __d('tools', 'Please confirm the checkbox')]], $animal->errors());
 
 		$data = [
 			'name' => 'FooBar',
@@ -52,7 +52,7 @@ class ConfirmableBehaviorTest extends TestCase {
 	public function testValidationThatHasBeenModifiedBefore() {
 		$this->Articles = TableRegistry::get('SluggedArticles');
 		/*
-		$this->Articles->validator()->add('confirm', 'notEmpty', [
+		$this->Articles->validator()->add('confirm', 'notBlank', [
 				'rule' => function ($value, $context) {
 					return !empty($value);
 				},
@@ -75,7 +75,7 @@ class ConfirmableBehaviorTest extends TestCase {
 		$animal = $this->Articles->patchEntity($animal, $data);
 		$this->assertNotEmpty($animal->errors());
 
-		$this->assertSame(['confirm' => ['notEmpty' => __d('tools', 'Please confirm the checkbox')]], $animal->errors());
+		$this->assertSame(['confirm' => ['notBlank' => __d('tools', 'Please confirm the checkbox')]], $animal->errors());
 
 		$data = [
 			'name' => 'FooBar',
