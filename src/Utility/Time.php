@@ -146,8 +146,16 @@ class Time extends CakeTime {
 			$end = date(FORMAT_DB_DATE, $end);
 		}
 
-		$endDate = new \DateTime($end);
-		$startDate = new \DateTime($start);
+		$startDate = $start;
+		if (!is_object($start)) {
+			$startDate = new \DateTime($start);
+		}
+
+		$endDate = $end;
+		if (!is_object($end)) {
+			$endDate = new \DateTime($end);
+		}
+
 		if ($startDate > $endDate) {
 			return -1;
 		}

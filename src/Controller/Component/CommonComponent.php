@@ -1,6 +1,7 @@
 <?php
 namespace Tools\Controller\Component;
 
+use Cake\Utility\Inflector;
 use Shim\Controller\Component\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
@@ -41,12 +42,11 @@ class CommonComponent extends Component {
 	 * @return array Actions
 	 */
 	public function listActions() {
-		$class = Inflector::camelize($this->Controller->name) . 'Controller';
-		$parentClassMethods = get_class_methods(get_parent_class($class));
-		$subClassMethods = get_class_methods($class);
+		$parentClassMethods = get_class_methods(get_parent_class($this->Controller));
+		$subClassMethods = get_class_methods($this->Controller);
 		$classMethods = array_diff($subClassMethods, $parentClassMethods);
-		foreach ($classMethods as $key => $value) {
-			if (substr($value, 0, 1) === '_') {
+		foreach ($classMethods as $key => $classMethod) {
+			if (substr($classMethod, 0, 1) === '_') {
 				unset($classMethods[$key]);
 			}
 		}
@@ -86,6 +86,18 @@ class CommonComponent extends Component {
 		if (method_exists($this->Controller->{$componentName}, 'startup')) {
 			$this->Controller->{$componentName}->startup(new \Cake\Event\Event('Controller.startup', $this->Controller->{$componentName}));
 		}
+	}
+
+	/**
+	 * Add helper just in time (inside actions - only when needed)
+	 * aware of plugins
+	 *
+	 * @deprecated In 3.x, but kept for easier migration for now. Will be removed in the future.
+	 * @param mixed $helpers (single string or multiple array)
+	 * @return void
+	 */
+	public function loadHelper($helpers = []) {
+		$this->Controller->helpers = array_merge($this->Controller->helpers, (array)$helpers);
 	}
 
 	/**
