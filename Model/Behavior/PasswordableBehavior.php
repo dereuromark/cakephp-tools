@@ -404,7 +404,7 @@ class PasswordableBehavior extends ModelBehavior {
 			$value = Security::hash($Model->data[$Model->alias][$formField], $type, $salt);
 		}
 
-		$dbValue = $Model->field($field, [$Model->primaryKey => $primaryKey]);
+		$dbValue = $Model->fieldByConditions($field, [$Model->primaryKey => $primaryKey]);
 		if (!$dbValue) {
 			return true;
 		}
