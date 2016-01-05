@@ -66,7 +66,7 @@ class ResetBehavior extends Behavior {
 		if ($configureDefaults = Configure::read('Reset')) {
 			$defaults = $configureDefaults + $defaults;
 		}
-		$config + $defaults;
+		$config += $defaults;
 		parent::__construct($table, $config);
 	}
 
