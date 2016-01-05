@@ -18,7 +18,7 @@ This cake3 branch only works for **CakePHP3.x** - please use the master branch f
 * [Behavior/Reset](Behavior/Reset.md)
 * [Component/Flash](Component/Flash.md)
 * [View/Rss](View/Rss.md)
-* ...
+* [Auth (Component/Helper)](Auth/Auth.md)
 * [Testing](TestSuite/Testing.md)
 
 ## Basic enhancements of the core
