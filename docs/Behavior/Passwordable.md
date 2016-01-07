@@ -68,17 +68,19 @@ use Tools\Controller\Controller;
 class UsersController extends Controller {
 
 	public function register() {
+		$user = $this->Users->newEntity();
 		$this->Users->addBehavior('Tools.Passwordable');
-		$user = $this->Users->newEntity($this->request->data);
+
 
 		if ($this->request->is(['put', 'post'])) {
+			$user = $this->Users->patchEntity($user, $this->request->data);
 			$user->role_id = Configure::read('Roles.user');
 
 			if ($this->Users->save($user)) {
 				// Log in right away
 				$this->Auth->setUser($user->toArray());
 				// Flash message OK
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(['action' => 'index']);
 			}
 			// Flash message ERROR
 
@@ -104,7 +106,7 @@ class UsersController extends Controller {
 	public function edit() {
 		$uid = $this->request->session()->read('Auth.User.id');
 		$user = $this->Users->get($uid);
-		$this->Users->addBehavior('Tools.Passwordable', array('require' => false));
+		$this->Users->addBehavior('Tools.Passwordable', ['require' => false]);
 
 		if ($this->request->is(['put', 'post'])) {
 			$options = [
@@ -115,7 +117,7 @@ class UsersController extends Controller {
 				// Update session data, as well
 				$this->Auth->setUser($user->toArray());
 				// Flash message OK
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(['action' => 'index']);
 			}
 			// Flash message ERROR
 		}
@@ -135,16 +137,16 @@ public function login() {
 	if ($this->request->is(['put', 'post'])) {
 		$user = $this->Auth->identify();
 		if ($user) {
-			$this->Users->addBehavior('Tools.Passwordable', array('confirm' => false));
+			$this->Users->addBehavior('Tools.Passwordable', ['confirm' => false]);
 			$password = $this->request->data['password'];
-			$dbPassword = $this->Users->field('password', array('id' => $user['id']));
+			$dbPassword = $this->Users->field('password', ['id' => $user['id']]);
 
 			if ($this->Users->needsPasswordRehash($dbPassword)) {
-				$data = array(
+				$data = [
 					'id' => $user['id'],
 					'pwd' => $password,
 					'modified' => false
-				);
+				];
 				$updatedUser = $this->Users->newEntity($data, ['markNew' => false]);
 				if (!$this->Users->save($updatedUser, ['validate' => false])) {
 					trigger_error(sprintf('Could not store new pwd for user %s.', $user['id']));
@@ -166,19 +168,18 @@ Note that the `passwordHasher` config has been set here globabally to assert the
 ### Adding custom validation rules on top
 If the default rules don't satisfy your needs, you can add some more on top:
 ```php
-$rules = array('validateCustom' => array(
-		'rule' => array('custom', '#^[a-z0-9]+$#'), // Just a test example, never use this regex!
+$rules = ['validateCustom' => [
+		'rule' => ['custom', '#^[a-z0-9]+$#'], // Just a test example, never use this regex!
 		'message' => __('Foo Bar'),
 		'last' => true,
-	),
-	'validateCustomExt' => array(
-		'rule' => array('custom', '#^[a-z]+$#'), // Just a test example, never use this regex!
+	],
+	'validateCustomExt' => [
+		'rule' => ['custom', '#^[a-z]+$#'], // Just a test example, never use this regex!
 		'message' => __('Foo Bar Ext'),
 		'last' => true,
-	)
+	]
 );
-$this->User->Behaviors->load('Tools.Passwordable', array(
-	'customValidation' => $rules));
+$this->User->Behaviors->load('Tools.Passwordable', ['customValidation' => $rules]);
 ```
 But please do NOT use the above regex examples. Also never try to limit the chars to only a subset of characters.
 Always allow [a-z], [0-9] and ALL special chars a user can possibly type in.
