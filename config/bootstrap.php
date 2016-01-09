@@ -175,8 +175,8 @@ function extractFileInfo($filename, $type = null) {
  * Improves it by not returning non-file-name characters from url files if specified.
  * So "filename.ext?foo=bar#hash" would simply be "filename.ext" then.
  *
- * @param string filename to check on
- * @param string type (extension/ext, filename/file, basename/base, dirname/dir)
+ * @param string $filename to check on
+ * @param string $type (extension/ext, filename/file, basename/base, dirname/dir)
  * @param bool $fromUrl
  * @return mixed
  */
@@ -199,7 +199,7 @@ function extractPathInfo($filename, $type = null, $fromUrl = false) {
 			$infoType = PATHINFO_DIRNAME;
 			break;
 		default:
-			$infoType = null;
+			$infoType = $type;
 	}
 	$result = pathinfo($filename, $infoType);
 	if ($fromUrl) {

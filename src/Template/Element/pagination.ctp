@@ -74,5 +74,7 @@ $escape = isset($escape) ? $escape : true;
 	});
 });";
 
-	$this->Js->buffer($script);
+	if (isset($this->Js)) {
+		$this->Js->buffer($script);
+	}
 } ?>
