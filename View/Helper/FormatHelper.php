@@ -101,7 +101,8 @@ class FormatHelper extends TextHelper {
 				$alias = $modelNames[0];
 			}
 		}
-		if (empty($field)) {
+		if (empty($alias)) {
+			throw new InternalErrorException('Invalid neighbors setup');
 		}
 
 		$name = 'Record'; // Translation further down!
@@ -305,6 +306,7 @@ class FormatHelper extends TextHelper {
 	 *
 	 * @param string|array $icon
 	 * @param array $options
+	 * @param array $attributes
 	 * @return string
 	 */
 	public function fontIcon($icon, array $options = [], array $attributes = []) {
@@ -344,11 +346,11 @@ class FormatHelper extends TextHelper {
 	 *
 	 * @todo refactor to $type, $options, $attributes
 	 *
-	 * @param type
-	 * @param title
-	 * @param alt (set to FALSE if no alt is supposed to be shown)
-	 * @param bool automagic i18n translate [default true = __d('tools', 'xyz')]
-	 * @param options array ('class'=>'','width/height'=>'','onclick=>'') etc
+	 * @param string $type
+	 * @param array $t Used to be title, now options array
+	 * @param array $a Used to be alt, now attributes array
+	 * @param bool $translate Automagic i18n translate [default true = __d('tools', 'xyz')]
+	 * @param array $options array('class'=>'','width/height'=>'','onclick=>'') etc
 	 * @return string
 	 */
 	public function icon($type, $t = [], $a = [], $translate = null, $options = []) {
@@ -403,9 +405,9 @@ class FormatHelper extends TextHelper {
 	 * I18n will be done using default domain.
 	 *
 	 * @param string $icon (constant or filename)
-	 * @param array $options:
+	 * @param array $t Used to be title, now options array
 	 * - translate, ...
-	 * @param array $attributes:
+	 * @param array $a Used to be alt, now attributes array
 	 * - title, alt, ...
 	 * THE REST IS DEPRECATED
 	 * @return string
@@ -581,7 +583,7 @@ class FormatHelper extends TextHelper {
 	 * each part of this mail now does not make sense anymore on its own
 	 * (striptags will not work either)
 	 *
-	 * @param string email: necessary (and valid - containing one @)
+	 * @param string $mail Email (must be valid - containing one @)
 	 * @return string
 	 */
 	public function encodeEmail($mail) {
@@ -594,11 +596,11 @@ class FormatHelper extends TextHelper {
 	 * //TODO: move to TextExt?
 	 * Obfuscates Email (works without JS!) to avoid spam bots to get it
 	 *
-	 * @param string mail: email to encode
-	 * @param string text: optional (if none is given, email will be text as well)
-	 * @param array attributes: html tag attributes
-	 * @param array params: ?subject=y&body=y to be attached to "mailto:xyz"
-	 * @return string Save string with JS generated link around email (and non JS fallback)
+	 * @param string $mail : email to encode
+	 * @param string|null $text : optional (if none is given, email will be text as well)
+	 * @param array $params : ?subject=y&body=y to be attached to "mailto:xyz"
+	 * @param array $attr HTML tag attributes
+	 * @return string Safe string with JS generated link around email (and non JS fallback)
 	 */
 	public function encodeEmailUrl($mail, $text = null, $params = [], $attr = []) {
 		if (empty($class)) {
@@ -655,7 +657,7 @@ class FormatHelper extends TextHelper {
 	 * //TODO: move to TextExt?
 	 * Encodes Piece of Text (without usage of JS!) to avoid spam bots to get it
 	 *
-	 * @param STRING text to encode
+	 * @param string $text Text to encode
 	 * @return string (randomly encoded)
 	 */
 	public function encodeText($text) {
@@ -731,7 +733,8 @@ class FormatHelper extends TextHelper {
 	 * Display a png img of a website (16x16 pixel)
 	 * if not available, will return a fallback image (a globe)
 	 *
-	 * @param domain (preferably without protocol, e.g. "www.site.com")
+	 * @param string $domain (preferably without protocol, e.g. "www.site.com")
+	 * @param array $options
 	 * @return string
 	 */
 	public function siteIcon($domain, $options = []) {
