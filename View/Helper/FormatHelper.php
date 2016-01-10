@@ -910,7 +910,7 @@ class FormatHelper extends TextHelper {
 	 * @deprecated Try to use font icons or move to own helper
 	 */
 	public function tip($type, $file, $title, $icon) {
-		return $this->cIcon($icon, $title, null, null, ['class' => 'tip-' . $type . ' tip' . ucfirst($type) . ' hand', 'rel' => $file]);
+		return $this->cIcon($icon, ['title' => $title], ['class' => 'tip-' . $type . ' tip' . ucfirst($type) . ' hand', 'rel' => $file]);
 	}
 
 	/**
@@ -921,7 +921,7 @@ class FormatHelper extends TextHelper {
 	 * @deprecated Try to use font icons or move to own helper
 	 */
 	public function tipHelp($file) {
-		return $this->tip('help', $file, 'Hilfe', ICON_HELP);
+		return $this->tip('help', $file, __d('tools', 'Help'), ICON_HELP);
 	}
 
 	/**
