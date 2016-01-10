@@ -50,7 +50,7 @@ foreach ($qurls as $qurl): ?>
 	</table>
 
 	<div class="pagination-container">
-<?php echo $this->element('pagination', [], ['plugin'=>'tools']); ?>
+<?php echo $this->element('Tools.pagination'); ?>
 	</div>
 
 </div>
