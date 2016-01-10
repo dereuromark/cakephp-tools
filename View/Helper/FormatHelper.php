@@ -185,11 +185,11 @@ class FormatHelper extends TextHelper {
 	public function genderIcon($value = null) {
 		$value = (int)$value;
 		if ($value == static::GENDER_FEMALE) {
-			$icon =	$this->icon('genderFemale', null, null, null, ['class' => 'gender']);
+			$icon =	$this->icon('genderFemale', [], ['class' => 'gender']);
 		} elseif ($value == static::GENDER_MALE) {
-			$icon =	$this->icon('genderMale', null, null, null, ['class' => 'gender']);
+			$icon =	$this->icon('genderMale', [], ['class' => 'gender']);
 		} else {
-			$icon =	$this->icon('genderUnknown', null, null, null, ['class' => 'gender']);
+			$icon =	$this->icon('genderUnknown', [], ['class' => 'gender']);
 		}
 		return $icon;
 	}
@@ -351,7 +351,16 @@ class FormatHelper extends TextHelper {
 	 * @param options array ('class'=>'','width/height'=>'','onclick=>'') etc
 	 * @return string
 	 */
-	public function icon($type, $t = null, $a = null, $translate = null, $options = []) {
+	public function icon($type, $t = [], $a = [], $translate = null, $options = []) {
+		if (is_array($t)) {
+			$translate = isset($t['translate']) ? $t['translate'] : true;
+			$options = (array)$a;
+			$a = isset($t['alt']) ? $t['alt'] : null; // deprecated
+			$t = isset($t['title']) ? $t['title'] : null; // deprecated
+		} else {
+			trigger_error('Deprecated, use array syntax', E_USER_DEPRECATED);
+		}
+
 		if (isset($t) && $t === false) {
 			$title = '';
 		} else {
@@ -401,12 +410,14 @@ class FormatHelper extends TextHelper {
 	 * THE REST IS DEPRECATED
 	 * @return string
 	 */
-	public function cIcon($icon, $t = null, $a = null, $translate = true, $options = []) {
+	public function cIcon($icon, $t = [], $a = [], $translate = true, $options = []) {
 		if (is_array($t)) {
 			$translate = isset($t['translate']) ? $t['translate'] : true;
 			$options = (array)$a;
 			$a = isset($t['alt']) ? $t['alt'] : null; // deprecated
 			$t = isset($t['title']) ? $t['title'] : null; // deprecated
+		} else {
+			trigger_error('Deprecated, use array syntax', E_USER_DEPRECATED);
 		}
 
 		$type = extractPathInfo('filename', $icon);
