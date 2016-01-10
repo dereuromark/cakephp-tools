@@ -1,6 +1,7 @@
 <?php
 namespace Tools\TestCase\View\Helper;
 
+use Cake\Core\Plugin;
 use Tools\View\Helper\HtmlHelper;
 use Tools\TestSuite\TestCase;
 use Cake\View\View;
@@ -15,6 +16,11 @@ use Cake\Routing\Router;
  */
 class HtmlHelperTest extends TestCase {
 
+	/**
+	 * @var \Tools\View\Helper\HtmlHelper
+	 */
+	protected $Html;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -22,6 +28,18 @@ class HtmlHelperTest extends TestCase {
 		$this->Html->request = new Request();
 		$this->Html->request->webroot = '';
 		$this->Html->Url->request = $this->Html->request;
+	}
+
+	/**
+	 * HtmlHelperTest::testImageFromBlob()
+	 *
+	 * @return void
+	 */
+	public function testImageFromBlob() {
+		$folder = Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS;
+		$content = file_get_contents($folder . 'hotel.png');
+		$is = $this->Html->imageFromBlob($content);
+		$this->assertTrue(!empty($is));
 	}
 
 	/**

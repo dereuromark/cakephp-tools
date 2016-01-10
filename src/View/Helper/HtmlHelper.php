@@ -29,7 +29,30 @@ use Cake\View\View;
  */
 class HtmlHelper extends CoreHtmlHelper {
 
-    /**
+	/**
+	 * Display image tag from blob content.
+	 * Enhancement for HtmlHelper. Defaults to png image
+	 *
+	 * Options:
+	 * - type: png, gif, jpg, ...
+	 *
+	 * @param string $content Data in binary form
+	 * @param array $options Attributes
+	 * @return string HTML image tag
+	 */
+	public function imageFromBlob($content, array $options = []) {
+		$options += ['type' => 'png'];
+		$mimeType = 'image/' . $options['type'];
+
+		$text = 'data:' . $mimeType . ';base64,' . base64_encode($content);
+
+		return $this->formatTemplate('image', [
+			'url' => $text,
+			'attrs' => $this->templater()->formatAttributes($options, ['block', 'link'])
+		]);
+	}
+
+	/**
      * Creates a reset HTML link.
 	 * The prefix and plugin params are resetting to default false.
      *
