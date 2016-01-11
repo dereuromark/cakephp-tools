@@ -5,19 +5,22 @@ A CakePHP behavior to automatically store nested data as JSON string and return 
 - Additional sanitize functionality with "clean", "sort" and "unique
 
 ## Configs
-- 'fields' => array(), // Fields to convert
-- 'input' => 'array', // json, array, param, list (param/list only works with specific fields)
-- 'output' => 'array', // json, array, param, list (param/list only works with specific fields)
-- 'separator' => '|', // only for param or list
-- 'keyValueSeparator' => ':', // only for param
-- 'leftBound' => '{', // only for list
-- 'rightBound' => '}', // only for list
-- 'clean' => true, // only for param or list (autoclean values on insert)
-- 'sort' => false, // only for list
-- 'unique' => true, // only for list (autoclean values on insert),
-- 'map' => array(), // map on a different DB field
-- 'encodeParams' // params for json_encode
-- 'decodeParams' // params for json_decode
+| Key  | Default | Description |
+| ------------- | ------------- | ------------- |
+| fields  | array() | Array of the fields to be converted  |
+| input  | 'array'  | can be \[json, array, param or list\] (param/list only works with specific fields) |
+| output  | 'array'  | can be \[json, array, param or list\] (param/list only works with specific fields) |
+| separator  | '\|'  | only for param or list |
+| keyValueSeparator  | ':'  | only for param |
+| leftBound  | '{'  | only for list |
+| rightBound  | '}'  | only for list |
+| clean  | true | only for list (auto clean values on insert) |
+| sort  | false | only for list |
+| unique  | true | only for list |
+| map  | array()  | map on a different DB field |
+| encodeParams  |   | params for json_encode |
+| decodeParams  |   | params for json_decode |
+
 
 ## Usage
 Attach it to your models in `initialize()` like so:
