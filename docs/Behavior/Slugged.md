@@ -6,36 +6,115 @@ A CakePHP behavior to automatically create and store slugs.
 - Multibyte aware, umlauts etc will be properly replaced
 
 ## Configs
-- label:
-	set to the name of a field to use for the slug, an array of fields to use as slugs or leave as null to rely
-	on the format returned by find('list') to determine the string to use for slugs
-- field: The slug field name
-- overwriteField: The boolean field to trigger overwriting if "overwrite" is false
-- mode: has the following values
-	ascii - retuns an ascii slug generated using the core Inflector::slug() function
-	display - a dummy mode which returns a slug legal for display - removes illegal (not unprintable) characters
-	url - returns a slug appropriate to put in a URL
-	class - a dummy mode which returns a slug appropriate to put in a html class (there are no restrictions)
-	id - retuns a slug appropriate to use in a html id
-- separator: The separator to use
-- length:
- Set to 0 for no length. Will be auto-detected if possible via schema.
-- overwrite: has 2 values
-	false - once the slug has been saved, do not change it (use if you are doing lookups based on slugs)
-	true - if the label field values change, regenerate the slug (use if you are the slug is just window-dressing)
-- unique: has 2 values
-	false - will not enforce a unique slug, whatever the label is is direclty slugged without checking for duplicates
-	true - use if you are doing lookups based on slugs (see overwrite)
-- case: has the following values
-	null - don't change the case of the slug
-	low - force lower case. E.g. "this-is-the-slug"
-	up - force upper case E.g. "THIS-IS-THE-SLUG"
-	title - force title case. E.g. "This-Is-The-Slug"
-	camel - force CamelCase. E.g. "ThisIsTheSlug"
-- replace: custom replacements as array
-- on: beforeSave or beforeValidate
-- scope: certain conditions to use as scope
-- tidy: If cleanup should be run on slugging
+<table>
+    <tbody>
+        <tr>
+            <th>Key</th>
+            <th>Default</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>label</td>
+            <td>null</td>
+            <td>
+                <ul>
+                    <li> set to the name of a field to use for the slug </li>
+                    <li> an array of fields to use as slugs </li>
+                    <li> or leave as null to rely on the format returned by find('list') to determine the string to use for slugs </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>    field   </td>
+            <td>    </td>
+            <td>    The slug field name     </td>
+        </tr>
+        <tr>
+            <td>    overwriteField  </td>
+            <td>        </td>
+            <td>    The boolean field to trigger overwriting if "overwrite" is false     </td>
+        </tr>
+        <tr>
+            <td>    mode    </td>
+            <td>    </td>
+            <td>
+                <ul>
+                    <li> <b>ascii: </b> retuns an ascii slug generated using the core Inflector::slug() function </li>
+                    <li> <b>display: </b> a dummy mode which returns a slug legal for display - removes illegal (not unprintable) characters </li>
+                    <li> <b>url: </b> returns a slug appropriate to put in a URL </li>
+                    <li> <b>class: </b> a dummy mode which returns a slug appropriate to put in a html class (there are no restrictions) </li>
+                    <li> <b>id: </b> returns a slug appropriate to use in a html id </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>    separator  </td>
+            <td>    </td>
+            <td>    The separator to use     </td>
+        </tr>
+        <tr>
+            <td>    length  </td>
+            <td>    </td>
+            <td>    Set to 0 for no length. Will be auto-detected if possible via schema.     </td>
+        </tr>
+        <tr>
+            <td>    overwrite    </td>
+            <td>    </td>
+            <td>
+                has the following values
+                <ul>
+                    <li> <b>false: </b> once the slug has been saved, do not change it (use if you are doing lookups based on slugs) </li>
+                    <li> <b>true: </b> if the label field values change, regenerate the slug (use if you are the slug is just window-dressing) </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>    unique    </td>
+            <td>    </td>
+            <td>
+                has the following values
+                <ul>
+                    <li> <b>false: </b> will not enforce a unique slug, whatever the label is is direclty slugged without checking for duplicates </li>
+                    <li> <b>true: </b> use if you are doing lookups based on slugs (see overwrite) </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>    case    </td>
+            <td>    </td>
+            <td>
+                has the following values
+                <ul>
+                    <li>    <b> null    </b>    don't change the case of the slug           </li>
+                    <li>    <b> low     </b>    force lower case. E.g. "this-is-the-slug"   </li>
+                    <li>    <b> up      </b>    force upper case E.g. "THIS-IS-THE-SLUG"    </li>
+                    <li>    <b> title   </b>    force title case. E.g. "This-Is-The-Slug"   </li>
+                    <li>    <b> camel   </b>    force CamelCase. E.g. "ThisIsTheSlug"       </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>    replace  </td>
+            <td>    </td>
+            <td>    custom replacements as array.     </td>
+        </tr>
+        <tr>
+            <td>    on  </td>
+            <td>    </td>
+            <td>    beforeSave or beforeValidate.     </td>
+        </tr>
+        <tr>
+            <td>    scope  </td>
+            <td>    </td>
+            <td>    certain conditions to use as scope.     </td>
+        </tr>
+        <tr>
+            <td>    tidy  </td>
+            <td>    </td>
+            <td>    If cleanup should be run on slugging.     </td>
+        </tr>
+    </tbody>
+</table>
 
 ## Usage
 Attach it to your models in `initialize()` like so:

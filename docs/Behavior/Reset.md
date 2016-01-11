@@ -6,14 +6,16 @@ A CakePHP behavior to automatically "reset" all records as batch process
 - Custom callbacks attachable
 
 ## Configs
-- 'limit' => 100 // batch of records per loop
-- 'timeout' => null // in seconds
-- 'fields' => array() // if not displayField
-- 'updateFields' => array() // if saved fields should be different from fields
-- 'validate' => true // trigger beforeValidate callback
-- 'updateTimestamp' => false // update modified/updated timestamp
-- 'scope' => array() // optional conditions
-- 'callback' => null
+| Key  | Default | Description |
+| ------------- | ------------- | ------------- |
+|   limit           |   100       |    batch of records per loop    |
+|   timeout         |   null      |    in seconds                   |
+|   fields          |   array()   |    if not displayField          |
+|   updateFields    |   array()   |    if saved fields should be different from fields  |
+|   validate        |   true      |    trigger beforeValidate callback            |
+|   updateTimestamp |   false     |    update modified/updated timestamp          |
+|   scope           |   array()   |    optional conditions         |
+|   callback        |   null      |    |
 
 ## Usage
 Attach it to your models in `initialize()` like so:
@@ -52,7 +54,7 @@ Note that in this case we also use a timeout to avoid getting a penalty by Googl
 
 ### Advanced example: Resetting composite cache field
 
-In this case we added a new cache field to our messages in order to make the search faster with >> 100000 records. The data was containing all the info we needed ñ in serialized format. We needed a callback here as there was some logic involved. So we simply made a shell containing both callback method and shell command:
+In this case we added a new cache field to our messages in order to make the search faster with >> 100000 records. The data was containing all the info we needed ‚Äì in serialized format. We needed a callback here as there was some logic involved. So we simply made a shell containing both callback method and shell command:
 ```php
 $this->Message->addBehavior('Tools.Reset', array(
     'fields' => array('data'), 'updateFields' => array('guest_name'),
@@ -72,7 +74,7 @@ public static function prepMessage(array $row) {
     return $row;
 }
 ```
-See the test cases for more ways to use callbacks ñ including adjusting the updateFields list.
+See the test cases for more ways to use callbacks ‚Äì including adjusting the updateFields list.
 
-So as you can see, everything that involves a complete ìre-saveî including triggering of important
+So as you can see, everything that involves a complete ‚Äúre-save‚Äù including triggering of important
 callbacks (in model and behaviors) of all or most records can leverage this behavior in a DRY, quick and reusable way.

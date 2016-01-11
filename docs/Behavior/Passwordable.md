@@ -11,22 +11,24 @@ Also capable of:
 - Don't allow the same password it was before (allowSame => false)
 
 ## Configs
-- 'field' => 'password',
-- 'confirm' => true, // Set to false if in admin view and no confirmation (pwd_repeat) is required
-- 'require' => true, // If a password change is required (set to false for edit forms, leave it true for pure password update forms)
-- 'current' => false, // Enquire the current password for security purposes
-- 'formField' => 'pwd',
-- 'formFieldRepeat' => 'pwd_repeat',
-- 'formFieldCurrent' => 'pwd_current',
-- 'userModel' => null, // Defaults to Users
-- 'auth' => null, // Which component (defaults to AuthComponent),
-- 'authType' => 'Form', // Which type of authenticate (Form, Blowfish, ...)
-- 'passwordHasher' => 'Default', // If a custom pwd hasher is been used
-- 'allowSame' => true, // Don't allow the old password on change
-- 'minLength' => PWD_MIN_LENGTH,
-- 'maxLength' => PWD_MAX_LENGTH,
-- 'validator' => 'default',
-- 'customValidation' => null, // Custom validation rule(s) for the formField on top
+| Key  | Default | Description |
+| ------------- | ------------- | ------------- |
+| field             |   'password'          |   |
+| confirm           |   true                |    Set to false if in admin view and no confirmation (pwd_repeat) is required     |
+| require           |   true                |    If a password change is required (set to false for edit forms, leave it true for pure password update forms)|
+| current           |   false               |    Enquire the current password for security purposes     |
+| formField         |   'pwd'               |   |
+| formFieldRepeat   |   'pwd_repeat'        |   |
+| formFieldCurrent  |   'pwd_current'       |   |
+| userModel         |   null                |   Defaults to Users      |
+| auth              |   null                |   Which component (defaults to AuthComponent)    |
+| authType          |   'Form'              |   Which type of authenticate (Form, Blowfish, ...)|
+| passwordHasher    |   'Default'           |   If a custom pwd hasher is been used         |
+| allowSame         |   true                |   Don't allow the old password on change      |
+| minLength         |   PWD_MIN_LENGTH      |   |   
+| maxLength         |   PWD_MAX_LENGTH      |   |   
+| validator         |   'default'           |   |
+| customValidation  |   null                |    Custom validation rule(s) for the formField on top     |
 
 You can either pass those to the behavior at runtime, or globally via Configure and `app.php`:
 ```php
