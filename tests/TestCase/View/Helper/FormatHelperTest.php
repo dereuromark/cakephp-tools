@@ -122,6 +122,14 @@ class FormatHelperTest extends TestCase {
 		$result = $this->Format->yesNo(false);
 		$expected = '<i class="icon icon-no fa fa-times" title="' . __d('tools', 'No') . '" data-placement="bottom" data-toggle="tooltip"></i>';
 		$this->assertEquals($expected, $result);
+
+		$result = $this->Format->yesNo('2', ['on' => 2, 'onTitle' => 'foo']);
+		$expected = '<i class="icon icon-yes fa fa-check" title="foo" data-placement="bottom" data-toggle="tooltip"></i>';
+		$this->assertTextContains($expected, $result);
+
+		$result = $this->Format->yesNo('3', ['on' => 4, 'offTitle' => 'nope']);
+		$expected = '<i class="icon icon-no fa fa-times" title="nope" data-placement="bottom" data-toggle="tooltip"></i>';
+		$this->assertEquals($expected, $result);
 	}
 
 	/**
