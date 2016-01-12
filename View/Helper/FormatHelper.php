@@ -141,9 +141,9 @@ class FormatHelper extends TextHelper {
 				$url += $options['url'];
 			}
 
-			$ret .= $this->Html->link($this->cIcon(ICON_PREV, false) . '&nbsp;' . __d('tools', 'prev' . $name), $url, ['escape' => false, 'title' => $neighbors['prev'][$titleAlias][$titleField]]);
+			$ret .= $this->Html->link($this->cIcon(ICON_PREV, ['title' => false]) . '&nbsp;' . __d('tools', 'prev' . $name), $url, ['escape' => false, 'title' => $neighbors['prev'][$titleAlias][$titleField]]);
 		} else {
-			$ret .= $this->cIcon(ICON_PREV_DISABLED, __d('tools', 'noPrev' . $name)) . '&nbsp;' . __d('tools', 'prev' . $name);
+			$ret .= $this->cIcon(ICON_PREV_DISABLED, ['title' => __d('tools', 'noPrev' . $name)]) . '&nbsp;' . __d('tools', 'prev' . $name);
 		}
 		$ret .= '&nbsp;&nbsp;';
 		if (!empty($neighbors['next'])) {
@@ -152,9 +152,9 @@ class FormatHelper extends TextHelper {
 				$url += $options['url'];
 			}
 
-			$ret .= $this->Html->link($this->cIcon(ICON_NEXT, false) . '&nbsp;' . __d('tools', 'next' . $name), $url, ['escape' => false, 'title' => $neighbors['next'][$titleAlias][$titleField]]);
+			$ret .= $this->Html->link($this->cIcon(ICON_NEXT, ['title' => false]) . '&nbsp;' . __d('tools', 'next' . $name), $url, ['escape' => false, 'title' => $neighbors['next'][$titleAlias][$titleField]]);
 		} else {
-			$ret .= $this->cIcon(ICON_NEXT_DISABLED, __d('tools', 'noNext' . $name)) . '&nbsp;' . __d('tools', 'next' . $name);
+			$ret .= $this->cIcon(ICON_NEXT_DISABLED, ['title' => __d('tools', 'noNext' . $name)]) . '&nbsp;' . __d('tools', 'next' . $name);
 		}
 		$ret .= '</div>';
 		return $ret;
@@ -682,19 +682,46 @@ class FormatHelper extends TextHelper {
 	/**
 	 * Display yes/no symbol.
 	 *
-	 * @todo $on=1, $text=false, $ontitle=false,... => in array(OPTIONS)
+	 * Params $on, $text are deprecated
 	 *
-	 * @param text: default FALSE; if TRUE, text instead of the image
-	 * @param ontitle: default FALSE; if it is embadded in a link, set to TRUE
-	 * @return image:Yes/No or text:Yes/No
+	 * @param int|bool $value Value
+	 * @param array $options
+	 * - on (defaults to 1/true)
+	 * - onTitle
+	 * - offTitle
+	 * @param array $attributes
+	 * - title, ...
+	 * @return string HTML icon Yes/No
 	 */
-	public function yesNo($v, $ontitle = null, $offtitle = null, $on = 1, $text = false, $notitle = false) {
-		$ontitle = (!empty($ontitle) ? $ontitle : __d('tools', 'Yes'));
-		$offtitle = (!empty($offtitle) ? $offtitle : __d('tools', 'No'));
-		$sbez = ['0' => @substr($offtitle, 0, 1), '1' => @substr($ontitle, 0, 1)];
-		$bez = ['0' => $offtitle, '1' => $ontitle];
+	public function yesNo($value, $options = [], $attributes = [], $on = 1, $text = false) {
+		$defaults = [
+			'on' => 1,
+			'onTitle' => __d('tools', 'Yes'),
+			'offTitle' => __d('tools', 'No'),
+			'text' => false
+		];
 
-		if ($v == $on) {
+		if (!is_array($options)) {
+			$onTitle = $options ?: null;
+			$options = [
+				'on' => $on,
+				'text' => $text,
+			];
+			if ($onTitle) {
+				$options['onTitle'] = $onTitle;
+			}
+			trigger_error('Deprecated, use array syntax', E_USER_DEPRECATED);
+		}
+		if (!is_array($attributes)) {
+			$options['offTitle'] = $attributes;
+		}
+
+		$options += $defaults;
+
+		$sbez = ['0' => @substr($options['offTitle'], 0, 1), '1' => @substr($options['onTitle'], 0, 1)];
+		$bez = ['0' => $options['offTitle'], '1' => $options['onTitle']];
+
+		if ($value == $options['on']) {
 			$icon = ICON_YES;
 			$value = 1;
 		} else {
@@ -702,14 +729,14 @@ class FormatHelper extends TextHelper {
 			$value = 0;
 		}
 
-		if ($text !== false) {
+		if ($options['text'] !== false) {
 			return $bez[$value];
 		}
 
-		$options = ['title' => ($ontitle === false ? '' : $bez[$value]), 'alt' => $sbez[$value], 'class' => 'icon'];
+		$options = ['title' => ($options['onTitle'] === false ? '' : $bez[$value]), 'alt' => $sbez[$value], 'class' => 'icon'];
 
 		if ($this->settings['fontIcons']) {
-			return $this->cIcon($icon, $options['title']);
+			return $this->cIcon($icon, ['title' => $options['title']]);
 		}
 		return $this->Html->image('icons/' . $icon, $options);
 	}
@@ -752,15 +779,15 @@ class FormatHelper extends TextHelper {
 
 	/**
 	 * Display text as image
-	 * //TODO: move to own helper
 	 *
 	 * @param string $text
 	 * @param array $options (for generation):
 	 * - inline, font, size, background (optional)
 	 * @param array $tagAttributes (for image)
 	 * @return string result - as image
+	 * @deprecated Must be a different helper in the future
 	 */
-	public function textAsImage($text, $options = [], $attr = []) {
+	public function textAsImage($text, $options = [], $tagAttributes = []) {
 		/*
 		$image = new Imagick();
 		//$image->newImage(218, 46, new ImagickPixel('white'));
@@ -777,12 +804,16 @@ class FormatHelper extends TextHelper {
 		$image->trim($mw,0);
 		*/
 		$defaults = ['alt' => $text];
-		$attr += $defaults;
-		return $this->_textAsImage($text, $options, $attr);
+		$tagAttributes += $defaults;
+		return $this->_textAsImage($text, $options, $tagAttributes);
 	}
 
 	/**
+	 * @param string $text
+	 * @param array $options
+	 * @param array $attr
 	 * @return string htmlImage tag (or empty string on failure)
+	 * @deprecated Must be a different helper in the future
 	 */
 	public function _textAsImage($text, $options = [], $attr = []) {
 		$defaults = ['inline' => true, 'font' => FILES . 'linotype.ttf', 'size' => 18, 'color' => '#7A7166'];
@@ -864,8 +895,8 @@ class FormatHelper extends TextHelper {
 	}
 
 	/**
-	 * @param float progress
-	 * @param array options:
+	 * @param float $progress
+	 * @param array $options:
 	 * - min, max
 	 * - steps
 	 * - decimals (how precise should the result be displayed)
@@ -1500,4 +1531,16 @@ if (!defined('ICON_WARNING')) {
 }
 if (!defined('ICON_MAP')) {
 	define('ICON_MAP', 'map.gif');
+}
+if (!defined('ICON_PREV')) {
+	define('ICON_PREV', 'prev.png');
+}
+if (!defined('ICON_NEXT')) {
+	define('ICON_NEXT', 'next.png');
+}
+if (!defined('ICON_NEXT_DISABLED')) {
+	define('ICON_NEXT_DISABLED', 'nav_forward_grey.png');
+}
+if (!defined('ICON_PREV_DISABLED')) {
+	define('ICON_PREV_DISABLED', 'nav_back_grey.png');
 }

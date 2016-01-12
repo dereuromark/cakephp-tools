@@ -17,6 +17,8 @@ class FormatHelperTest extends MyCakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
+		Configure::delete('Format');
+
 		$this->Format = new FormatHelper(new View(null));
 		$this->Format->Html = new HtmlExtHelper(new View(null));
 	}
@@ -159,7 +161,11 @@ class FormatHelperTest extends MyCakeTestCase {
 		$this->assertTextContains($expected, $result);
 
 		$result = $this->Format->yesNo(false);
-		$expected = '<img src="/img/icons/no.gif" title="' . __d('tools', 'No') . '" alt=';
+		$expected = '<img src="/img/icons/no.png" title="' . __d('tools', 'No') . '" alt=';
+		$this->assertTextContains($expected, $result);
+
+		$result = $this->Format->yesNo(true, ['on' => 1, 'onTitle' => 'foo']);
+		$expected = '<img src="/img/icons/yes.gif" title="foo" alt=';
 		$this->assertTextContains($expected, $result);
 
 		$this->Format->settings['fontIcons'] = [
@@ -378,27 +384,20 @@ class FormatHelperTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testNeighbors() {
-		if (!defined('ICON_PREV')) {
-			define('ICON_PREV', 'prev');
-		}
-		if (!defined('ICON_NEXT')) {
-			define('ICON_NEXT', 'next');
-		}
-
 		$neighbors = [
 			'prev' => ['ModelName' => ['id' => 1, 'foo' => 'bar']],
 			'next' => ['ModelName' => ['id' => 2, 'foo' => 'y']],
 		];
 		$result = $this->Format->neighbors($neighbors, 'foo');
-		$expected = '<div class="next-prev-navi nextPrevNavi"><a href="/index/1" title="bar"><img src="/img/icons/prev" alt="[]" class="icon"/>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/index/2" title="y"><img src="/img/icons/next" alt="[]" class="icon"/>&nbsp;nextRecord</a></div>';
+		$expected = '<div class="next-prev-navi nextPrevNavi"><a href="/index/1" title="bar"><img src="/img/icons/nav_back.png" alt="[]" class="icon"/>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/index/2" title="y"><img src="/img/icons/nav_forward.png" alt="[]" class="icon"/>&nbsp;nextRecord</a></div>';
 
 		$this->assertEquals($expected, $result);
 
 		$this->Format->settings['fontIcons'] = [
-			'prev' => 'fa fa-prev',
-			'next' => 'fa fa-next'];
+			'nav_back' => 'fa fa-prev',
+			'nav_forward' => 'fa fa-next'];
 		$result = $this->Format->neighbors($neighbors, 'foo');
-		$expected = '<div class="next-prev-navi nextPrevNavi"><a href="/index/1" title="bar"><i class="fa fa-prev prev" title="" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/index/2" title="y"><i class="fa fa-next next" title="" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;nextRecord</a></div>';
+		$expected = '<div class="next-prev-navi nextPrevNavi"><a href="/index/1" title="bar"><i class="fa fa-prev nav_back" title="" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/index/2" title="y"><i class="fa fa-next nav_forward" title="" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;nextRecord</a></div>';
 		$this->assertEquals($expected, $result);
 	}
 
