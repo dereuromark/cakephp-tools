@@ -31,7 +31,7 @@ foreach ($qurls as $qurl): ?>
 
 		<td>
 			<?php echo h($qurl['Qurl']['used']); ?>
-			<div><?php echo $this->Format->yesNo($qurl['Qurl']['active'], __('Active'), __('Inactive')); ?></div>
+			<div><?php echo $this->Format->yesNo($qurl['Qurl']['active'], ['onTitle' => __('Active'), 'offTitle' => __('Inactive')]); ?></div>
 		</td>
 		<td>
 			<?php echo $this->Datetime->niceDate($qurl['Qurl']['last_used']); ?>
