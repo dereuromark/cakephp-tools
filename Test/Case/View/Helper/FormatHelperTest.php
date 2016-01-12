@@ -161,7 +161,7 @@ class FormatHelperTest extends MyCakeTestCase {
 		$this->assertTextContains($expected, $result);
 
 		$result = $this->Format->yesNo(false);
-		$expected = '<img src="/img/icons/no.png" title="' . __d('tools', 'No') . '" alt=';
+		$expected = '<img src="/img/icons/no.gif" title="' . __d('tools', 'No') . '" alt=';
 		$this->assertTextContains($expected, $result);
 
 		$result = $this->Format->yesNo(true, ['on' => 1, 'onTitle' => 'foo']);

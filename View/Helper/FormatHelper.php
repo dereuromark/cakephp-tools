@@ -1533,14 +1533,14 @@ if (!defined('ICON_MAP')) {
 	define('ICON_MAP', 'map.gif');
 }
 if (!defined('ICON_PREV')) {
-	define('ICON_PREV', 'prev.png');
+	define('ICON_PREV', 'nav_back.png');
 }
 if (!defined('ICON_NEXT')) {
-	define('ICON_NEXT', 'next.png');
-}
-if (!defined('ICON_NEXT_DISABLED')) {
-	define('ICON_NEXT_DISABLED', 'nav_forward_grey.png');
+	define('ICON_NEXT', 'nav_forward.png');
 }
 if (!defined('ICON_PREV_DISABLED')) {
 	define('ICON_PREV_DISABLED', 'nav_back_grey.png');
+}
+if (!defined('ICON_NEXT_DISABLED')) {
+	define('ICON_NEXT_DISABLED', 'nav_forward_grey.png');
 }
