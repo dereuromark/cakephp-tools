@@ -190,6 +190,10 @@ class EmailLib extends CakeEmail {
 			$ext = pathinfo($filename, PATHINFO_EXTENSION);
 			$mimeType = $this->_getMimeByExtension($ext);
 		}
+		if ($contentId === null && ($cid = $this->_isEmbeddedBlobAttachment($content, $filename))) {
+			return $cid;
+		}
+
 		$options['content'] = $content;
 		$options['mimetype'] = $mimeType;
 		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', CakeText::uuid()) . '@' . $this->_domain;
@@ -214,6 +218,25 @@ class EmailLib extends CakeEmail {
 				continue;
 			}
 			if ($fileInfo['file'] === $file) {
+				return $fileInfo['contentId'];
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Returns if this particular file has already been attached as embedded file with this exact name
+	 * to prevent the same image to overwrite each other and also to only send this image once.
+	 * Allows multiple usage of the same embedded image (using the same cid)
+	 *
+	 * @return string cid of the found file or false if no such attachment can be found
+	 */
+	protected function _isEmbeddedBlobAttachment($content, $name) {
+		foreach ($this->_attachments as $filename => $fileInfo) {
+			if ($filename !== $name) {
+				continue;
+			}
+			if ($fileInfo['content'] === $content) {
 				return $fileInfo['contentId'];
 			}
 		}
