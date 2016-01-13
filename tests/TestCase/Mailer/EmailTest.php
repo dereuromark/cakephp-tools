@@ -240,16 +240,15 @@ class EmailTest extends TestCase {
 		$this->assertContains('@' . env('HTTP_HOST'), $cid);
 
 		$res = $this->Email->getProtected('attachments');
-		$this->assertTrue(!empty($res['hotel.png']['file']));
-		unset($res['hotel.png']['file']);
+		$this->assertSame(1, count($res));
+
+		$image = array_shift($res);
 		$expected = [
-			'hotel.png' => [
-				//'file' => $file,
-				'mimetype' => 'image/png',
-				'contentId' => $cid
-			]
+			'file' => $file,
+			'mimetype' => 'image/png',
+			'contentId' => $cid
 		];
-		$this->assertSame($expected, $res);
+		$this->assertSame($expected, $image);
 	}
 
 	/**
@@ -306,20 +305,21 @@ html-part
 		$this->Email = new TestEmail();
 		$this->Email->emailFormat('both');
 		$cid = $this->Email->addEmbeddedBlobAttachment(file_get_contents($file), 'my_hotel.png');
+		$cid2 = $this->Email->addEmbeddedBlobAttachment(file_get_contents($file), 'my_hotel.png');
 
 		$this->assertContains('@' . env('HTTP_HOST'), $cid);
 
 		$res = $this->Email->getProtected('attachments');
-		$this->assertTrue(!empty($res['my_hotel.png']['data']));
-		unset($res['my_hotel.png']['data']);
+		$this->assertSame(1, count($res));
+
+		$images = $res;
+		$image = array_shift($images);
+		unset($image['data']);
 		$expected = [
-			'my_hotel.png' => [
-				//'data' => file_get_contents($file),
-				'mimetype' => 'image/png',
-				'contentId' => $cid,
-			]
+			'mimetype' => 'image/png',
+			'contentId' => $cid,
 		];
-		$this->assertEquals($expected, $res);
+		$this->assertEquals($expected, $image);
 
 		$options = [
 			'contentDisposition' => true,
@@ -328,15 +328,18 @@ html-part
 		$this->Email->addEmbeddedBlobAttachment(file_get_contents($file), 'my_other_hotel.png', 'image/jpeg', $cid, $options);
 
 		$res = $this->Email->getProtected('attachments');
-		$this->assertTrue(!empty($res['my_other_hotel.png']['data']));
-		unset($res['my_other_hotel.png']['data']);
-		$expected = [
-			'contentDisposition' => true,
-			//'data' => file_get_contents($file),
-			'mimetype' => 'image/jpeg',
-			'contentId' => $cid,
-		];
-		$this->assertEquals($expected, $res['my_other_hotel.png']);
+		$this->assertSame(2, count($res));
+
+		$keys = array_keys($res);
+		$keyLastRecord = $keys[count($keys) - 1];
+		$this->assertSame('image/jpeg', $res[$keyLastRecord]['mimetype']);
+		$this->assertTrue($res[$keyLastRecord]['contentDisposition']);
+
+		$cid3 = $this->Email->addEmbeddedBlobAttachment(file_get_contents($file) . 'xxx', 'my_hotel.png');
+		$this->assertNotSame($cid3, $cid);
+
+		$res = $this->Email->getProtected('attachments');
+		$this->assertSame(3, count($res));
 	}
 
 	/**
