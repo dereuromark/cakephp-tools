@@ -155,6 +155,8 @@ class EmailLib extends CakeEmail {
 		if (empty($name)) {
 			$name = basename($file);
 		}
+
+		$name = pathinfo($name, PATHINFO_FILENAME) . '_' . md5($file) . '.' . pathinfo($name, PATHINFO_EXTENSION);
 		if ($contentId === null && ($cid = $this->_isEmbeddedAttachment($file, $name))) {
 			return $cid;
 		}
@@ -190,6 +192,8 @@ class EmailLib extends CakeEmail {
 			$ext = pathinfo($filename, PATHINFO_EXTENSION);
 			$mimeType = $this->_getMimeByExtension($ext);
 		}
+
+		$filename = pathinfo($filename, PATHINFO_FILENAME) . '_' . md5($content) . '.' . pathinfo($filename, PATHINFO_EXTENSION);
 		if ($contentId === null && ($cid = $this->_isEmbeddedBlobAttachment($content, $filename))) {
 			return $cid;
 		}
@@ -210,6 +214,8 @@ class EmailLib extends CakeEmail {
 	 * to prevent the same image to overwrite each other and also to only send this image once.
 	 * Allows multiple usage of the same embedded image (using the same cid)
 	 *
+	 * @param string $file
+	 * @param string $name
 	 * @return string cid of the found file or false if no such attachment can be found
 	 */
 	protected function _isEmbeddedAttachment($file, $name) {
@@ -217,9 +223,7 @@ class EmailLib extends CakeEmail {
 			if ($filename !== $name) {
 				continue;
 			}
-			if ($fileInfo['file'] === $file) {
-				return $fileInfo['contentId'];
-			}
+			return $fileInfo['contentId'];
 		}
 		return false;
 	}
@@ -236,9 +240,7 @@ class EmailLib extends CakeEmail {
 			if ($filename !== $name) {
 				continue;
 			}
-			if ($fileInfo['content'] === $content) {
-				return $fileInfo['contentId'];
-			}
+			return $fileInfo['contentId'];
 		}
 		return false;
 	}

@@ -281,14 +281,14 @@ class EmailLibTest extends MyCakeTestCase {
 		$this->assertContains('@' . env('HTTP_HOST'), $cid);
 
 		$res = $this->Email->getProtected('attachments');
+		$this->assertSame(1, count($res));
+		$image = array_shift($res);
 		$expected = [
-			'hotel.png' => [
-				'file' => $file,
-				'mimetype' => 'image/png',
-				'contentId' => $cid
-			]
+			'file' => $file,
+			'mimetype' => 'image/png',
+			'contentId' => $cid
 		];
-		$this->assertSame($expected, $res);
+		$this->assertSame($expected, $image);
 	}
 
 	/**
@@ -353,15 +353,17 @@ html-part
 
 		$this->assertContains('@' . env('HTTP_HOST'), $cid);
 
+		$cid2 = $this->Email->addEmbeddedBlobAttachment(file_get_contents($file), 'my_hotel.png');
+		$this->assertSame($cid2, $cid);
+
 		$res = $this->Email->getProtected('attachments');
-		$expected = [
-			'my_hotel.png' => [
-				'content' => file_get_contents($file),
-				'mimetype' => 'image/png',
-				'contentId' => $cid,
-			]
-		];
-		$this->assertEquals($expected, $res);
+		$this->assertSame(1, count($res));
+
+		$cid3 = $this->Email->addEmbeddedBlobAttachment(file_get_contents($file) . 'xxx', 'my_hotel.png');
+		$this->assertNotSame($cid3, $cid);
+
+		$res = $this->Email->getProtected('attachments');
+		$this->assertSame(2, count($res));
 
 		$options = [
 			'contentDisposition' => true,
@@ -370,13 +372,14 @@ html-part
 		$this->Email->addEmbeddedBlobAttachment(file_get_contents($file), 'my_other_hotel.png', 'image/jpeg', $cid, $options);
 
 		$res = $this->Email->getProtected('attachments');
+		$keys = array_keys($res);
 		$expected = [
 			'contentDisposition' => true,
 			'content' => file_get_contents($file),
 			'mimetype' => 'image/jpeg',
 			'contentId' => $cid,
 		];
-		$this->assertEquals($expected, $res['my_other_hotel.png']);
+		$this->assertTrue($res[$keys[count($keys) - 1]]['contentDisposition']);
 	}
 
 	/**
