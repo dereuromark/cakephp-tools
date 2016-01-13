@@ -373,13 +373,10 @@ html-part
 
 		$res = $this->Email->getProtected('attachments');
 		$keys = array_keys($res);
-		$expected = [
-			'contentDisposition' => true,
-			'content' => file_get_contents($file),
-			'mimetype' => 'image/jpeg',
-			'contentId' => $cid,
-		];
-		$this->assertTrue($res[$keys[count($keys) - 1]]['contentDisposition']);
+
+		$keyLastRecord = $keys[count($keys) - 1];
+		$this->assertSame('image/jpeg', $res[$keyLastRecord]['mimetype']);
+		$this->assertTrue($res[$keyLastRecord]['contentDisposition']);
 	}
 
 	/**
