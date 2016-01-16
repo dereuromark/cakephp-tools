@@ -7,6 +7,7 @@
  */
 
 App::uses('ModelBehavior', 'Model');
+App::uses('ShimModel', 'Shim.Model');
 
 /**
  * SluggedBehavior
@@ -215,7 +216,7 @@ class SluggedBehavior extends ModelBehavior {
 						}
 						$slug[] = $Model->data[$alias][$field];
 					} elseif ($Model->id) {
-						$slug[] = $Model->field($field);
+						$slug[] = $Model instanceof ShimModel ? $Model->fieldByConditions($field, ['id' => $Model->id]) : $Model->field($field);
 					}
 				}
 				$slug = implode($slug, $separator);

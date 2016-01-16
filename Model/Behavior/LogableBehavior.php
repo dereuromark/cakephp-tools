@@ -2,6 +2,7 @@
 App::uses('CakeSession', 'Model/Datasource');
 App::uses('ModelBehavior', 'Model');
 App::uses('Utility', 'Utility');
+App::uses('ShimModel', 'Shim.Model');
 
 if (!defined('CLASS_USER')) {
 	define('CLASS_USER', 'User');
@@ -572,7 +573,7 @@ class LogableBehavior extends ModelBehavior {
 			$logData['title'] = $Model->alias . ' (' . $Model->id . ')';
 		} elseif (!empty($Model->data[$Model->alias][$Model->displayField])) {
 			$logData['title'] = $Model->data[$Model->alias][$Model->displayField];
-		} elseif ($Model->id && $title = $Model->field($Model->displayField)) {
+		} elseif ($Model->id && $title = $this->_getField($Model)) {
 			$logData['title'] = $title;
 		} elseif (!empty($logData[$this->settings[$Model->alias]['foreignKey']])) {
 			$options = [
@@ -638,6 +639,17 @@ class LogableBehavior extends ModelBehavior {
 
 		$this->Log->create($logData);
 		return $this->Log->save(null, ['validate' => false, 'callbacks' => false]);
+	}
+
+	/**
+	 * @param \Model $Model
+	 * @return string|false
+	 */
+	protected function _getField($Model) {
+		if ($Model instanceof ShimModel) {
+			return $Model->fieldByConditions($Model->displayField, ['id' => $Model->id]);
+		}
+		return $Model->field($Model->displayField);
 	}
 
 }

@@ -178,7 +178,7 @@ class MyModel extends ShimModel {
 		if (isset($customOptions['reset'])) {
 			$currentValue = $step = 0;
 		} elseif (!isset($customOptions['current'])) {
-			$currentValue = $this->field($field, [$this->alias . '.id' => $id]);
+			$currentValue = $this->fieldByConditions($field, [$this->alias . '.id' => $id]);
 			if ($currentValue === false) {
 				return false;
 			}
