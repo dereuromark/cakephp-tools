@@ -1026,7 +1026,10 @@ class MyModel extends ShimModel {
 	 */
 	public function isUndisposableEmail($email, $onlineMode = false, $proceed = false) {
 		if (!isset($this->UndisposableEmail)) {
-			App::import('Vendor', 'undisposable/undisposable');
+			App::import('Vendor', 'ToolsExtra.undisposable/undisposable');
+			if (!class_exists('UndisposableEmail')) {
+				return true;
+			}
 			$this->UndisposableEmail = new UndisposableEmail();
 		}
 		if (!$onlineMode) {

@@ -97,9 +97,6 @@ public $components = [
 
 Now create a file in /Config/ called acl.ini like so:
 ```ini
-[Tools.Countries]
-* = superadmin ; this is a comment
-
 [Account]
 edit,change_pw = *
 
@@ -110,6 +107,9 @@ index = *
 [Users]
 index,search = user
 * = moderator,admin
+
+[Data.Countries]
+* = superadmin ; this is a comment
 ```
 
 The format is normal PHP INI style. I already included all kind of examples. * is a placeholder for "any".
