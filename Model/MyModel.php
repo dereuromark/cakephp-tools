@@ -195,7 +195,7 @@ class MyModel extends ShimModel {
 			$data[$customOptions['timestampField']] = date(FORMAT_DB_DATETIME);
 		}
 		$data[$this->primaryKey] = $id;
-		return $this->save($data, false);
+		return $this->save($data, ['validate' => false]);
 	}
 
 	/**
