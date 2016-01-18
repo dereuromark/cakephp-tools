@@ -35,6 +35,7 @@ $roles = $this->AuthUser->roles();
 
 // Check for a specific role
 $hasRole = $this->AuthUser->hasRole(ROLE_XYZ);
+```
 
 ## Notes
 The above example uses default settings and ROLE_{...} constants.
