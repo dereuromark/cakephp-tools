@@ -14,7 +14,7 @@ class Token extends ToolsAppModel {
 
 	public $displayField = 'key';
 
-	public $order = ['Token.created' => 'DESC'];
+	public $order = ['created' => 'DESC'];
 
 	public $defaultLength = 22;
 

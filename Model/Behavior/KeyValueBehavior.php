@@ -145,7 +145,7 @@ class KeyValueBehavior extends ModelBehavior {
 				$newDetail[$this->KeyValue->alias][$keyField] = $key;
 				$newDetail[$this->KeyValue->alias][$valueField] = $value;
 				$newDetail[$this->KeyValue->alias]['model'] = $Model->alias;
-				$this->KeyValue->save($newDetail, false);
+				$this->KeyValue->save($newDetail, ['validate' => false]);
 			}
 		}
 		return true;
