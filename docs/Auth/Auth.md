@@ -25,7 +25,7 @@ Both component and helper function the same:
 
 ```php
 // Read the id of the logged in user as shortcut method (Auth.User.id)
-$uid = $this-AuthUser->id();
+$uid = $this->AuthUser->id();
 
 // Get the username (Auth.User.username)
 $username = $this->AuthUser->user('username');
