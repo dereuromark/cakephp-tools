@@ -229,7 +229,6 @@ function pre($var, $collapsedAndExpandable = false, $options = []) {
 		'showHtml' => false, // Escape < and > (or manually escape with h() prior to calling this function)
 		'showFrom' => false, // Display file + line
 		'jquery' => null, // null => Auto - use jQuery (true/false to manually decide),
-		'returns' => false, // Use returns(),
 		'debug' => false // Show only with debug > 0
 	];
 	$options += $defaults;
@@ -237,7 +236,7 @@ function pre($var, $collapsedAndExpandable = false, $options = []) {
 		return '';
 	}
 	if (php_sapi_name() === 'cli') {
-		return sprintf("\n%s\n", $options['returns'] ? returns($var) : print_r($var, true));
+		return sprintf("\n%s\n", print_r($var, true));
 	}
 
 	$res = '<div class="' . $options['class'] . '">';
@@ -262,11 +261,11 @@ function pre($var, $collapsedAndExpandable = false, $options = []) {
 		$pre = ' style="display: none"';
 	}
 
-	if ($options['returns']) {
-		$var = returns($var);
-	} else {
-		$var = print_r($var, true);
+	$var = print_r($var, true);
+	if (!$options['showHtml']) {
+		$var = h($var);
 	}
+
 	$res .= '<pre' . $pre . '>' . $var . '</pre>';
 	$res .= '</div>';
 	return $res;
