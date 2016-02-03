@@ -18,7 +18,7 @@ matrix:
   include:
     - php: 5.4
       env:
-        - DB=mysql CAKE_VERSION=2.7 COVERALLS=1
+        - DB=mysql CAKE_VERSION=2.7 CODECOVERAGE=1
 
 before_script:
   - git clone -b master https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
@@ -34,6 +34,10 @@ before_script:
 
 script:
   - ../travis/script.sh
+  
+  - sh -c "if [ '$CODECOVERAGE' = '1' ]; then phpunit --coverage-clover=clover.xml || true; fi"
+  - sh -c "if [ '$CODECOVERAGE' = '1' ]; then wget -O codecov.sh https://codecov.io/bash; fi"
+  - sh -c "if [ '$CODECOVERAGE' = '1' ]; then bash codecov.sh; fi"
 
 after_success:
   - ../travis/after_success.sh
