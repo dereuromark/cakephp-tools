@@ -1,6 +1,7 @@
 <?php
 namespace Tools\Error;
 
+use Cake\Core\Configure;
 use Cake\Error\ErrorHandler as CoreErrorHandler;
 use Cake\Log\Log;
 use Exception;
@@ -42,11 +43,10 @@ class ErrorHandler extends CoreErrorHandler {
 		if (isset($this->_options['log404'])) {
 			$blacklist = $this->_options['log404'];
 		}
-
 		if ($blacklist && in_array(get_class($exception), (array)$blacklist)) {
 			$level = LOG_ERR;
 			Log::write($level, $this->_getMessage($exception), ['404']);
-			return;
+			return false;
 		}
 		return parent::_logException($exception);
 	}
