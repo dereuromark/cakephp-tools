@@ -1,6 +1,6 @@
 # CakePHP Tools Plugin
 [![Build Status](https://api.travis-ci.org/dereuromark/cakephp-tools.svg?branch=2.x)](https://travis-ci.org/dereuromark/cakephp-tools)
-[![Coverage Status](https://coveralls.io/repos/dereuromark/cakephp-tools/badge.svg?branch=2.x)](https://coveralls.io/r/dereuromark/cakephp-tools)
+[![Coverage Status](https://img.shields.io/codecov/c/github/dereuromark/cakephp-tools/2.x.svg)](https://codecov.io/github/dereuromark/cakephp-tools?branch=2.x)
 [![Latest Stable Version](https://poser.pugx.org/dereuromark/cakephp-tools/v/stable.svg)](https://packagist.org/packages/dereuromark/cakephp-tools)
 [![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)](https://php.net/)
 [![License](https://poser.pugx.org/dereuromark/cakephp-tools/license.svg)](https://packagist.org/packages/dereuromark/cakephp-tools)
