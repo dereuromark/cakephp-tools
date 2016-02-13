@@ -4,7 +4,7 @@ namespace Tools\View\Helper;
 use Cake\View\Helper;
 
 /**
- * Format helper with basic html snippets
+ * Protect email and alike on output, against bots mainly.
  *
  * TODO: make snippets more "css and background image" (instead of inline img links)
  *
@@ -28,7 +28,7 @@ class ObfuscateHelper extends Helper {
 	 * each part of this mail now does not make sense anymore on its own
 	 * (striptags will not work either)
 	 *
-	 * @param string email: necessary (and valid - containing one @)
+	 * @param string $mail Email, necessary (and valid - containing one @)
 	 * @return string
 	 */
 	public function encodeEmail($mail) {
@@ -44,13 +44,13 @@ class ObfuscateHelper extends Helper {
 	/**
 	 * Obfuscates Email (works without JS!) to avoid spam bots to get it
 	 *
-	 * @param string mail: email to encode
-	 * @param string text: optional (if none is given, email will be text as well)
-	 * @param array attributes: html tag attributes
-	 * @param array params: ?subject=y&body=y to be attached to "mailto:xyz"
+	 * @param string $mail Email to encode
+	 * @param string|null $text Text, ptional (if none is given, email will be text as well)
+	 * @param array $attr HTML tag attributes
+	 * @param array $params ?subject=y&body=y to be attached to "mailto:xyz"
 	 * @return string Save string with JS generated link around email (and non JS fallback)
 	 */
-	public function encodeEmailUrl($mail, $text = null, $params = [], $attr = []) {
+	public function encodeEmailUrl($mail, $text = null, array $params = [], array $attr = []) {
 		if (empty($class)) {
 			$class = 'email';
 		}
@@ -104,23 +104,24 @@ class ObfuscateHelper extends Helper {
 	/**
 	 * Encodes Piece of Text (without usage of JS!) to avoid spam bots to get it
 	 *
-	 * @param STRING text to encode
+	 * @param string $text Text to encode
 	 * @return string (randomly encoded)
 	 */
 	public function encodeText($text) {
 		$encmail = '';
-		for ($i = 0; $i < mb_strlen($text); $i++) {
+		$length = mb_strlen($text);
+		for ($i = 0; $i < $length; $i++) {
 			$encMod = mt_rand(0, 2);
 			switch ($encMod) {
-			case 0: // None
-				$encmail .= mb_substr($text, $i, 1);
-				break;
-			case 1: // Decimal
-				$encmail .= "&#" . ord(mb_substr($text, $i, 1)) . ';';
-				break;
-			case 2: // Hexadecimal
-				$encmail .= "&#x" . dechex(ord(mb_substr($text, $i, 1))) . ';';
-				break;
+				case 0: // None
+					$encmail .= mb_substr($text, $i, 1);
+					break;
+				case 1: // Decimal
+					$encmail .= "&#" . ord(mb_substr($text, $i, 1)) . ';';
+					break;
+				case 2: // Hexadecimal
+					$encmail .= "&#x" . dechex(ord(mb_substr($text, $i, 1))) . ';';
+					break;
 			}
 		}
 		return $encmail;
@@ -129,7 +130,7 @@ class ObfuscateHelper extends Helper {
 	/**
 	 * test@test.de becomes t..t@t..t.de
 	 *
-	 * @param string $email: valid(!) email address
+	 * @param string $mail Valid(!) email address
 	 * @return string
 	 */
 	public static function hideEmail($mail) {
@@ -148,12 +149,12 @@ class ObfuscateHelper extends Helper {
 	 * matched words will be converted to #### or to the replacement
 	 * word you've submitted.
 	 *
-	 * @param string	the text string
-	 * @param string	the array of censoered words
-	 * @param string	the optional replacement value
+	 * @param string $str the text string
+	 * @param array $censored the array of censored words
+	 * @param string|null $replacement the optional replacement value
 	 * @return string
 	 */
-	public function wordCensor($str, $censored, $replacement = null) {
+	public function wordCensor($str, array $censored, $replacement = null) {
 		if (empty($censored)) {
 			return $str;
 		}

@@ -48,8 +48,8 @@ class StringBehavior extends Behavior {
 	/**
 	 * Decode the fields on after find
 	 *
-	 * @param Event $event
-	 * @param Query $query
+	 * @param \Cake\Event\Event $event
+	 * @param \Cake\ORM\Query $query
 	 * @return void
 	 */
 	public function beforeFind(Event $event, Query $query) {
@@ -65,7 +65,7 @@ class StringBehavior extends Behavior {
 	/**
 	 * Decodes the fields of an array/entity (if the value itself was encoded)
 	 *
-	 * @param Entity $entity
+	 * @param \Cake\ORM\Entity $entity
 	 * @param string $type Type (input/output)
 	 * @return void
 	 */
@@ -99,7 +99,7 @@ class StringBehavior extends Behavior {
 	/**
 	 * Saves all fields that do not belong to the current Model into 'with' helper model.
 	 *
-	 * @param Event $event
+	 * @param \Cake\Event\Event $event
 	 * @return void
 	 */
 	public function beforeSave(Event $event, Entity $entity, \ArrayObject $options) {

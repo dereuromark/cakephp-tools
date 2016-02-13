@@ -18,7 +18,7 @@ class AuthUserComponent extends Component {
 	/**
 	 * AuthUserComponent::beforeRender()
 	 *
-	 * @param Event $event
+	 * @param \Cake\Event\Event $event
 	 * @return void
 	 */
 	public function beforeRender(Event $event) {

@@ -45,7 +45,7 @@ class FormatHelper extends Helper {
 
 	protected $_defaults = [
 		'fontIcons' => null,
-		'iconNamespace' => 'fa',  // Used to be icon,
+		'iconNamespace' => 'fa', // Used to be icon,
 		'autoPrefix' => true, // For custom icons "prev" becomes "fa-prev" when iconNamespace is "fa"
 		'templates' => [
 			'icon' => '<i class="{{class}}"{{attributes}}></i>',

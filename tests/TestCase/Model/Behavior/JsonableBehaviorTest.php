@@ -297,7 +297,7 @@ class JsonableBehaviorTest extends TestCase {
 	 */
 	public function testDecodeParams() {
 		$this->Comments->removeBehavior('Jsonable');
-		$this->Comments->addBehavior('Tools.Jsonable', ['output' => 'array', 'fields' => ['details'], 'decodeParams' => ['assoc'=> false]]);
+		$this->Comments->addBehavior('Tools.Jsonable', ['output' => 'array', 'fields' => ['details'], 'decodeParams' => ['assoc' => false]]);
 
 		$data = [
 			'comment' => 'blabla',

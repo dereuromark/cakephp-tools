@@ -140,7 +140,7 @@ class SluggedBehavior extends Behavior {
 	 *
 	 * @param mixed $query
 	 * @param mixed $options
-	 * @return Query
+	 * @return \Cake\ORM\Query
 	 * @throws \InvalidArgumentException If the 'slug' key is missing in options
 	 */
 	public function findSlugged(Query $query, array $options) {
@@ -210,7 +210,7 @@ class SluggedBehavior extends Behavior {
 	 * of maybe some not in sync slugs anymore (saving the same title again,
 	 * but the slug is completely different, for example).
 	 *
-	 * @param Entity $entity
+	 * @param \Cake\ORM\Entity $entity
 	 * @param bool $deep If true it will generate a new slug and compare it to the currently stored one.
 	 * @return bool
 	 */
@@ -239,7 +239,7 @@ class SluggedBehavior extends Behavior {
 	 * until a unique slug is found
 	 *
 	 * @param string $string
-	 * @param Entity $entity
+	 * @param \Cake\ORM\Entity $entity
 	 * @return string a slug
 	 */
 	public function generateSlug($value, Entity $entity = null) {
@@ -375,7 +375,7 @@ class SluggedBehavior extends Behavior {
 	 * in multiple locales at once
 	 *
 	 * //FIXME
-	 * @param Model $Model
+	 * @param \Cake\ORM\Entity $entity
 	 * @return void
 	 */
 	protected function _multiSlug(Entity $entity) {

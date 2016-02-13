@@ -21,7 +21,7 @@ class Language {
 				if (!isset($match[2])) {
 					$match[2] = '1.0';
 				} else {
-					$match[2] = (string)floatval($match[2]);
+					$match[2] = (string)(float)($match[2]);
 				}
 				if (!isset($languages[$match[2]])) {
 					if ($match[2] === '1') {

@@ -39,7 +39,7 @@ class UrlHelperTest extends TestCase {
 		$this->Url->request->params['admin'] = true;
 		$this->Url->request->params['prefix'] = 'admin';
 		Router::reload();
-        Router::connect('/:controller/:action/*');
+		Router::connect('/:controller/:action/*');
 		Router::prefix('admin', function ($routes) {
 			$routes->connect('/:controller/:action/*');
 		});

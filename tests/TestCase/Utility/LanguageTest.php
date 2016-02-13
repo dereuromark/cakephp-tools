@@ -97,4 +97,3 @@ class LanguageTest extends TestCase {
 	}
 
 }
-

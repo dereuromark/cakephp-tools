@@ -58,7 +58,7 @@ class HtmlHelperTest extends TestCase {
 		$this->Html->request->params['admin'] = true;
 		$this->Html->request->params['prefix'] = 'admin';
 		Router::reload();
-        Router::connect('/:controller/:action/*');
+		Router::connect('/:controller/:action/*');
 		Router::prefix('admin', function ($routes) {
 			$routes->connect('/:controller/:action/*');
 		});

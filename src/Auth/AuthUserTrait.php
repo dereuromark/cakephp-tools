@@ -29,7 +29,7 @@ if (!defined('USER_RIGHT_KEY')) {
  * 	- `Auth.User.Role` (multi - flat array of roles, or array role data)
  * and can be adjusted via constants and defined().
  * Same goes for Right data.
- * 
+ *
  * If roles are defined in configuration file (non-db roles setup) the constant
  * `USER_ROLE_KEY` has to be defined in `bootstrap.php`.
  * ```

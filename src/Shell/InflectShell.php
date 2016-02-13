@@ -18,7 +18,7 @@ class InflectShell extends Shell {
 	/**
 	 * Valid inflection rules
 	 *
-	 * @var string
+	 * @var array
 	 */
 	public $validMethods = [
 		'pluralize', 'singularize', 'camelize',
@@ -29,7 +29,7 @@ class InflectShell extends Shell {
 	/**
 	 * Valid inflection rules
 	 *
-	 * @var string
+	 * @var array
 	 */
 	public $validCommands = [
 		'pluralize', 'singularize', 'camelize',
@@ -66,8 +66,7 @@ class InflectShell extends Shell {
 	/**
 	 * Requests a valid inflection method
 	 *
-	 * @return void
-	 * @author Jose Diaz-Gonzalez
+	 * @return string|null
 	 */
 	protected function _getMethod() {
 		$validCharacters = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'q'];
@@ -97,48 +96,42 @@ class InflectShell extends Shell {
 		}
 
 		switch ($command) {
-			case '1' :
-			case 'pluralize' :
+			case '1':
+			case 'pluralize':
 				return 'pluralize';
-				break;
-			case '2' :
-			case 'singularize' :
+			case '2':
+			case 'singularize':
 				return 'singularize';
-				break;
-			case '3' :
-			case 'camelize' :
+			case '3':
+			case 'camelize':
 				return 'camelize';
-				break;
-			case '4' :
-			case 'underscore' :
+			case '4':
+			case 'underscore':
 				return 'underscore';
-				break;
-			case '5' :
-			case 'humanize' :
+			case '5':
+			case 'humanize':
 				return 'humanize';
-				break;
-			case '6' :
-			case 'tableize' :
+			case '6':
+			case 'tableize':
 				return 'tableize';
-				break;
-			case '7' :
-			case 'classify' :
+			case '7':
+			case 'classify':
 				return 'classify';
-				break;
-			case '8' :
-			case 'variable' :
+			case '8':
+			case 'variable':
 				return 'variable';
-			case '9' :
-			case 'dasherize' :
+			case '9':
+			case 'dasherize':
 				return 'dasherize';
-			case '10' :
-			case 'slug' :
+			case '10':
+			case 'slug':
 				return 'slug';
-			case 'q' :
-			case 'quit' :
-			default :
+			case 'q':
+			case 'quit':
+			default:
 				$this->out("Exit");
-				return $this->_stop();
+				$this->_stop();
+				return null;
 		}
 	}
 
@@ -211,7 +204,7 @@ class InflectShell extends Shell {
 	/**
 	 * Returns the appropriate message for a given function
 	 *
-	 * @return void
+	 * @return string
 	 */
 	protected function _getMessage($function) {
 		$messages = [

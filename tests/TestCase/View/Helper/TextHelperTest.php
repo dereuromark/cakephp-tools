@@ -9,6 +9,9 @@ use Tools\Utility\Text;
 
 class TextHelperTest extends TestCase {
 
+	/**
+	 * @var \Tools\View\Helper\TextHelper|\Tools\Utility\Text
+	 */
 	public $Text;
 
 	public function setUp() {

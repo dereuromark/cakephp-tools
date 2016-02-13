@@ -46,7 +46,7 @@ class Time extends CakeTime {
 	/**
 	 * Detect if a timezone has a DST
 	 *
-	 * @param string|DateTimeZone $timezone User's timezone string or DateTimeZone object
+	 * @param string|\DateTimeZone $timezone User's timezone string or DateTimeZone object
 	 * @return bool
 	 */
 	public function hasDaylightSavingTime($timezone = null) {
@@ -65,7 +65,7 @@ class Time extends CakeTime {
 	/**
 	 * Calculate the current GMT offset from a timezone string (respecting DST)
 	 *
-	 * @param string|DateTimeZone $timezone User's timezone string or DateTimeZone object
+	 * @param string|\DateTimeZone $timezone User's timezone string or DateTimeZone object
 	 * @return int Offset in hours
 	 */
 	public function getGmtOffset($timezone = null) {
@@ -87,7 +87,7 @@ class Time extends CakeTime {
 	 *
 	 * @param float $lag
 	 * @param float $lng
-	 * @return DateTimeZone Timezone object
+	 * @return \DateTimeZone Timezone object
 	 * @deprecated Would need Geo plugin to work
 	 */
 	public static function timezoneByCoordinates($lat, $lng) {
@@ -114,7 +114,7 @@ class Time extends CakeTime {
 	 *
 	 * @param mixed $start (db format or timestamp)
 	 * @param mixed $end (db format or timestamp)
-	 * @return int: the distance in seconds
+	 * @return int The distance in seconds
 	 */
 	public static function difference($startTime, $endTime = null, $options = []) {
 		if (!is_int($startTime)) {
@@ -198,7 +198,6 @@ class Time extends CakeTime {
 	 * @return int|array Age
 	 */
 	public static function ageByHoroscope($year, $sign) {
-		//App::uses('ZodiacLib', 'Tools.Misc');
 		$Zodiac = new ZodiacLib();
 		$range = $Zodiac->getRange($sign);
 
@@ -379,7 +378,7 @@ class Time extends CakeTime {
 	 * @param mixed $startDate Either a date string or a DateTime object
 	 * @param int $years Years to increment/decrement
 	 * @param int $months Months to increment/decrement
-	 * @param string|DateTimeZone $timezone Timezone string or DateTimeZone object
+	 * @param string|\DateTimeZone $timezone Timezone string or DateTimeZone object
 	 * @return object DateTime with incremented/decremented month/year values.
 	 */
 	public function incrementDate($startDate, $years = 0, $months = 0, $days = 0, $timezone = null) {
@@ -411,7 +410,7 @@ class Time extends CakeTime {
 	 *
 	 * @param int $firstAge
 	 * @param int $secondAge (defaults to first one if not specified)
-	 * @return array('min'=>$min, 'max'=>$max);
+	 * @return array array('min'=>$min, 'max'=>$max);
 	 */
 	public static function ageBounds($firstAge, $secondAge = null, $returnAsString = false, $relativeTime = null) {
 		if ($secondAge === null) {
@@ -433,7 +432,7 @@ class Time extends CakeTime {
 	/**
 	 * For birthdays etc
 	 *
-	 * @param string $date
+	 * @param string $dateString
 	 * @param string $seconds with +-
 	 * @return bool Success
 	 */
@@ -451,8 +450,8 @@ class Time extends CakeTime {
 	 * - oclock: Set to true to append oclock string
 	 *
 	 * @param string $dateString,
-	 * @param string $format Format (YYYY-MM-DD, DD.MM.YYYY)
-	 * @param array $options @return string
+	 * @param string|null $format Format (YYYY-MM-DD, DD.MM.YYYY)
+	 * @param array $options
 	 * @return string
 	 */
 	public static function localDate($dateString, $format = null, $options = []) {
@@ -489,7 +488,6 @@ class Time extends CakeTime {
 			switch ($format) {
 				case FORMAT_LOCAL_YMDHM:
 				case FORMAT_LOCAL_YMDHMS:
-				case FORMAT_LOCAL_YMDHM:
 				case FORMAT_LOCAL_HM:
 				case FORMAT_LOCAL_HMS:
 					$date .= ' ' . __d('tools', 'o\'clock');
@@ -600,7 +598,7 @@ class Time extends CakeTime {
 	 * @param int $day:
 	 * 0=sunday to 7=saturday (default numbers)
 	 * @param bool $abbr (if abbreviation should be returned)
-	 * @param offset: 0-6 (defaults to 0) [1 => 1=monday to 7=sunday]
+	 * @param int $offset Offset: 0-6 (defaults to 0) [1 => 1=monday to 7=sunday]
 	 * @return string translatedText
 	 */
 	public static function dayName($day, $abbr = false, $offset = 0) {
@@ -809,12 +807,11 @@ class Time extends CakeTime {
 	 * Time length to human readable format.
 	 *
 	 * @param int $seconds
-	 * @param string format: format
-	 * @param options
+	 * @param string $format Format
+	 * @param array $options
 	 * - boolean v: verbose
 	 * - boolean zero: if false: 0 days 5 hours => 5 hours etc.
 	 * - int: accuracy (how many sub-formats displayed?) //TODO
-	 * 2009-11-21 ms
 	 * @see timeAgoInWords()
 	 */
 	public static function lengthOfTime($seconds, $format = null, $options = []) {
@@ -864,33 +861,32 @@ class Time extends CakeTime {
 		$length = mb_strlen($format);
 		for ($i = 0; $i < $length; $i++) {
 			switch (mb_substr($format, $i, 1)) {
-			case 'D':
-				$str = floor($seconds / 86400);
-				break;
-			case 'd':
-				$str = floor($seconds / 86400 % 30);
-				break;
-			case 'H':
-				$str = floor($seconds / 3600);
-				break;
-			case 'h':
-				$str = floor($seconds / 3600 % 24);
-				break;
-			case 'I':
-				$str = floor($seconds / 60);
-				break;
-			case 'i':
-				$str = floor($seconds / 60 % 60);
-				break;
-			case 'S':
-				$str = $seconds;
-				break;
-			case 's':
-				$str = floor($seconds % 60);
-				break;
-			default:
-				return '';
-				break;
+				case 'D':
+					$str = floor($seconds / 86400);
+					break;
+				case 'd':
+					$str = floor($seconds / 86400 % 30);
+					break;
+				case 'H':
+					$str = floor($seconds / 3600);
+					break;
+				case 'h':
+					$str = floor($seconds / 3600 % 24);
+					break;
+				case 'I':
+					$str = floor($seconds / 60);
+					break;
+				case 'i':
+					$str = floor($seconds / 60 % 60);
+					break;
+				case 'S':
+					$str = $seconds;
+					break;
+				case 's':
+					$str = floor($seconds % 60);
+					break;
+				default:
+					return '';
 			}
 
 			if ($str > 0 || $j > 0 || $options['zero'] || $i === mb_strlen($format) - 1) {
@@ -1075,7 +1071,8 @@ class Time extends CakeTime {
 			$explode = [$date];
 		}
 		if ($explode) {
-			for ($i = 0; $i < count($explode); $i++) {
+			$count = count($explode);
+			for ($i = 0; $i < $count; $i++) {
 				$explode[$i] = static::pad($explode[$i]);
 			}
 			$explode[0] = static::pad($explode[0], 4, '20');
@@ -1095,7 +1092,7 @@ class Time extends CakeTime {
 	/**
 	 * Parse a period (from ... to)
 	 *
-	 * @param string $searchString to parse
+	 * @param string $string Search string to parse
 	 * @param array $options
 	 * - separator (defaults to space [ ])
 	 * - format (defaults to Y-m-d H:i:s)
@@ -1133,10 +1130,10 @@ class Time extends CakeTime {
 	/**
 	 * Returns a partial SQL string to search for all records between two dates.
 	 *
-	 * @param int|string|DateTime $begin UNIX timestamp, strtotime() valid string or DateTime object
-	 * @param int|string|DateTime $end UNIX timestamp, strtotime() valid string or DateTime object
+	 * @param int|string|\DateTime $begin UNIX timestamp, strtotime() valid string or DateTime object
+	 * @param int|string|\DateTime $end UNIX timestamp, strtotime() valid string or DateTime object
 	 * @param string $fieldName Name of database field to compare with
-	 * @param string|DateTimeZone $timezone Timezone string or DateTimeZone object
+	 * @param string|\DateTimeZone $timezone Timezone string or DateTimeZone object
 	 * @return string Partial SQL string.
 	 */
 	public static function daysAsSql($begin, $end, $fieldName, $timezone = null) {
@@ -1154,9 +1151,9 @@ class Time extends CakeTime {
  * Returns a partial SQL string to search for all records between two times
  * occurring on the same day.
  *
- * @param int|string|DateTime $dateString UNIX timestamp, strtotime() valid string or DateTime object
+ * @param int|string|\DateTime $dateString UNIX timestamp, strtotime() valid string or DateTime object
  * @param string $fieldName Name of database field to compare with
- * @param string|DateTimeZone $timezone Timezone string or DateTimeZone object
+ * @param string|\DateTimeZone $timezone Timezone string or DateTimeZone object
  * @return string Partial SQL string.
  */
 	public static function dayAsSql($dateString, $fieldName, $timezone = null) {
@@ -1285,7 +1282,7 @@ class Time extends CakeTime {
 	 *
 	 * E.g. for days and hours set format to: $d:$H
 	 *
-	 * @param int|DateInterval $duraton Duration in seconds or as DateInterval object
+	 * @param int|\DateInterval $duraton Duration in seconds or as DateInterval object
 	 * @param string $mode Defaults to hours, minutes and seconds
 	 * @return string Time
 	 */
@@ -1318,7 +1315,7 @@ class Time extends CakeTime {
 	 * Note that duration with DateInterval supports only values < month with accuracy,
 	 * as it approximates month as "30".
 	 *
-	 * @param int|DateInterval $duraton Duration in seconds or as DateInterval object
+	 * @param int|\DateInterval $duraton Duration in seconds or as DateInterval object
 	 * @param string $mode Defaults to hours and minutes
 	 * @return string Time
 	 * @deprecated Use duration() instead?
@@ -1346,14 +1343,14 @@ class Time extends CakeTime {
 
 		$res = [];
 		if (strpos($mode, 'H') !== false) {
-			$res[] = (int)$hours . ':' . static::pad(intval($minutes / MINUTE));
+			$res[] = (int)$hours . ':' . static::pad((int)($minutes / MINUTE));
 		} else {
-			$res[] = intval($minutes / MINUTE);
+			$res[] = (int)($minutes / MINUTE);
 		}
 
 		if (strpos($mode, 'SS') !== false) {
 			$seconds = $duration % MINUTE;
-			$res[] = static::pad(intval($seconds));
+			$res[] = static::pad((int)$seconds);
 		}
 
 		$res = implode(':', $res);
@@ -1388,7 +1385,7 @@ class Time extends CakeTime {
 	 * @return string
 	 */
 	public static function pad($value, $length = 2, $string = '0') {
-		return str_pad(intval($value), $length, $string, STR_PAD_LEFT);
+		return str_pad((int)$value, $length, $string, STR_PAD_LEFT);
 	}
 
 	/**

@@ -52,10 +52,10 @@ class TokensTable extends Table {
 	/**
 	 * Stores new key in DB
 	 *
-	 * @param string type: necessary
-	 * @param string key: optional key, otherwise a key will be generated
-	 * @param mixed user_id: optional (if used, only this user can use this key)
-	 * @param string content: up to 255 characters of content may be added (optional)
+	 * @param string $type: necessary
+	 * @param string|null $key: optional key, otherwise a key will be generated
+	 * @param mixed|null $uid: optional (if used, only this user can use this key)
+	 * @param string|null $content: up to 255 characters of content may be added (optional)
 	 * NOW: checks if this key is already used (should be unique in table)
 	 * @return string key on SUCCESS, boolean false otherwise
 	 */
@@ -94,9 +94,9 @@ class TokensTable extends Table {
 	/**
 	 * UsesKey (only once!) - by KEY
 	 *
-	 * @param string type: necessary
-	 * @param string key: necessary
-	 * @param mixed user_id: needs to be provided if this key has a user_id stored
+	 * @param string $type: necessary
+	 * @param string $key: necessary
+	 * @param mixed|null $uid: needs to be provided if this key has a user_id stored
 	 * @return array Content - if successfully used or if already used (used=1), FALSE else
 	 */
 	public function useKey($type, $key, $uid = null, $treatUsedAsInvalid = false) {
@@ -131,14 +131,14 @@ class TokensTable extends Table {
 		if (!empty($res['unlimited'])) {
 			return $res;
 		}
-		$this->log('VIOLATION in ' . $this->alias() . ' Model (method useKey)');
+		//$this->log('VIOLATION in ' . $this->alias() . ' Model (method useKey)');
 		return false;
 	}
 
 	/**
 	 * Sets Key to "used" (only once!) - directly by ID
 	 *
-	 * @param id of key to spend: necessary
+	 * @param int $id Id of key to spend: necessary
 	 * @return bool Success
 	 */
 	public function spendKey($id) {
@@ -147,10 +147,11 @@ class TokensTable extends Table {
 		}
 
 		//$expression = new \Cake\Database\Expression\QueryExpression(['used = used + 1', 'modified' => date(FORMAT_DB_DATETIME)]);
-		if ($x = $this->updateAll(
+		$result = $this->updateAll(
 			['used = used + 1', 'modified' => date(FORMAT_DB_DATETIME)],
-			['id' => $id])
-		) {
+			['id' => $id]
+		);
+		if ($result) {
 			return true;
 		}
 		return false;
@@ -166,7 +167,7 @@ class TokensTable extends Table {
 		$conditions = [
 			$this->alias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity),
 		];
-		return $this->deleteAll($conditions, false);
+		return $this->deleteAll($conditions);
 	}
 
 	/**
@@ -188,7 +189,7 @@ class TokensTable extends Table {
 	/**
 	 * Generator
 	 *
-	 * @param length (defaults to defaultLength)
+	 * @param int|null $length (defaults to defaultLength)
 	 * @return string Key
 	 */
 	public function generateKey($length = null) {

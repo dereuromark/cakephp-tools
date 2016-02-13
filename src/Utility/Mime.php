@@ -779,7 +779,8 @@ class Mime extends Response {
 				}
 			}
 			$extension = $this->_getExtension($file);
-			if ($mimeType = $this->getMimeTypeByAlias($extension)) {
+			$mimeType = $this->getMimeTypeByAlias($extension);
+			if ($mimeType) {
 				return $mimeType;
 			}
 			return "application/octet-stream";
@@ -801,7 +802,9 @@ class Mime extends Response {
 		// Treat non local files differently
 		$pattern = '~^https?://~i';
 		if (preg_match($pattern, $file)) {
+			// @codingStandardsIgnoreStart
 			$headers = @get_headers($file);
+			// @codingStandardsIgnoreEnd
 			if (!preg_match("|\b200\b|", $headers[0])) {
 				return '';
 			}
@@ -826,7 +829,8 @@ class Mime extends Response {
 			return $mimetype;
 		}
 		$extension = static::_getExtension($file);
-		if ($mimeType = static::getMimeTypeByAlias($extension)) {
+		$mimeType = static::getMimeTypeByAlias($extension);
+		if ($mimeType) {
 			return $mimeType;
 		}
 		return "application/octet-stream";
@@ -855,8 +859,8 @@ class Mime extends Response {
 	/**
 	 * Gets the file extention from a string
 	 *
-	 * @param String $file The full file name
-	 * @return String ext The file extension
+	 * @param string $file The full file name
+	 * @return string The file extension
 	 */
 	protected static function _getExtension($file) {
 		$pieces = explode('.', $file);

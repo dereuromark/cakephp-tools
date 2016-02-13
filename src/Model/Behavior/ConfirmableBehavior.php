@@ -33,7 +33,7 @@ class ConfirmableBehavior extends Behavior {
 		parent::__construct($table, $config);
 
 		if (!$this->_config['message']) {
-			$this->_config['message'] =  __d('tools', 'Please confirm the checkbox');
+			$this->_config['message'] = __d('tools', 'Please confirm the checkbox');
 		}
 	}
 

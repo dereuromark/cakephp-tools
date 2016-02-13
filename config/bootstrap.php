@@ -77,7 +77,7 @@ function isEmpty($var = null) {
  * //TODO: use Debugger::exportVar() instead?
  *
  * @param mixed $value
- * @return type (NULL, array, bool, float, int, string, object, unknown) + value
+ * @return mixed Type (NULL, array, bool, float, int, string, object, unknown) + value
  */
 function returns($value) {
 	if ($value === null) {
@@ -145,8 +145,8 @@ function entDec($text, $quoteStyle = ENT_QUOTES) {
 /**
  * Focus is on the filename (without path)
  *
- * @param string filename to check on
- * @param string type (extension/ext, filename/file, basename/base, dirname/dir)
+ * @param string $filename to check on
+ * @param string $type (extension/ext, filename/file, basename/base, dirname/dir)
  * @return mixed
  */
 function extractFileInfo($filename, $type = null) {
@@ -235,7 +235,7 @@ function pre($var, $collapsedAndExpandable = false, $options = []) {
 	if ($options['debug'] && !Configure::read('debug')) {
 		return '';
 	}
-	if (php_sapi_name() === 'cli') {
+	if (PHP_SAPI === 'cli') {
 		return sprintf("\n%s\n", print_r($var, true));
 	}
 

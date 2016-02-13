@@ -116,7 +116,7 @@ class Number extends CakeNumber {
 	 * - signed
 	 * - positive
 	 *
-	 * @param $number
+	 * @param float $number
 	 * @param array $options
 	 * @return string
 	 */

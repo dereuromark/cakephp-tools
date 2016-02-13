@@ -73,8 +73,8 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param Event $event
-	 * @param Query $query
+	 * @param \Cake\Event\Event $event
+	 * @param \Cake\ORM\Query $query
 	 * @return void
 	 */
 	public function beforeFind(Event $event, Query $query) {
@@ -93,8 +93,8 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param Event $event
-	 * @param Entity $entity
+	 * @param \Cake\Event\Event $event
+	 * @param \Cake\ORM\Entity $entity
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
@@ -106,8 +106,8 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param Event $event
-	 * @param Entity $entity
+	 * @param \Cake\Event\Event $event
+	 * @param \Cake\ORM\Entity $entity
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
@@ -154,7 +154,7 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param Query $query
+	 * @param \Cake\ORM\Query $query
 	 * @return void
 	 */
 	public function encodeBitmaskConditions(Query $query) {
@@ -187,7 +187,7 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param Entity $entity
+	 * @param \Cake\ORM\Entity $entity
 	 * @return void
 	 */
 	public function encodeBitmaskData(Entity $entity) {

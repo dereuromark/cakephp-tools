@@ -570,11 +570,11 @@ class PasswordableBehaviorTest extends TestCase {
 			'passwordHasher' => 'Default'
 		]);
 
-		$hash =  password_hash('foobar', PASSWORD_BCRYPT);
+		$hash = password_hash('foobar', PASSWORD_BCRYPT);
 		$result = $this->Users->needsPasswordRehash($hash);
 		$this->assertFalse($result);
 
-		$hash =  sha1('foobar');
+		$hash = sha1('foobar');
 		$result = $this->Users->needsPasswordRehash($hash);
 		$this->assertTrue($result);
 	}
@@ -591,7 +591,7 @@ class PasswordableBehaviorTest extends TestCase {
 			'authType' => 'Blowfish',
 		]);
 
-		$hash =  password_hash('foobar', PASSWORD_BCRYPT);
+		$hash = password_hash('foobar', PASSWORD_BCRYPT);
 		$result = $this->Users->needsPasswordRehash($hash);
 		$this->assertFalse($result);
 
@@ -603,7 +603,7 @@ class PasswordableBehaviorTest extends TestCase {
 			'passwordHasher' => 'Default'
 		]);
 
-		$hash =  password_hash('foobar', PASSWORD_BCRYPT);
+		$hash = password_hash('foobar', PASSWORD_BCRYPT);
 		$result = $this->Users->needsPasswordRehash($hash);
 		$this->assertFalse($result);
 	}

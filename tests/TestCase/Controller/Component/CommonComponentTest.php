@@ -48,7 +48,7 @@ class CommonComponentTest extends TestCase {
 		$this->assertTrue(!isset($this->Controller->Session));
 		$this->Controller->Common->loadComponent('Shim.Session', ['foo' => 'bar']);
 		$this->Controller->components()->unload('Session');
-		$this->Controller->Common->loadComponent('Shim.Session',['foo' => 'baz']);
+		$this->Controller->Common->loadComponent('Shim.Session', ['foo' => 'baz']);
 		$this->assertTrue(isset($this->Controller->Session));
 
 		// with options

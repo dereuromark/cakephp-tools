@@ -92,7 +92,7 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * Password hasher instance.
 	 *
-	 * @var AbstractPasswordHasher
+	 * @var \Cake\Auth\AbstractPasswordHasher
 	 */
 	protected $_passwordHasher;
 
@@ -104,7 +104,8 @@ class PasswordableBehavior extends Behavior {
 	 */
 	public function __construct(Table $table, array $config = []) {
 		$defaults = $this->_defaultConfig;
-		if ($configureDefaults = Configure::read('Passwordable')) {
+		$configureDefaults = Configure::read('Passwordable');
+		if ($configureDefaults) {
 			$defaults = $configureDefaults + $defaults;
 		}
 		$config += $defaults;
@@ -284,7 +285,7 @@ class PasswordableBehavior extends Behavior {
 					//unset($Model->validate[$formFieldCurrent]);
 					$entity->unsetProperty($formFieldCurrent);
 				}
-				return true;
+				return;
 			}
 		}
 
@@ -295,7 +296,9 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * Hashing the password and whitelisting
 	 *
-	 * @param Event $event
+	 * @param \Cake\Event\Event $event
+	 * @param \Cake\ORM\Entity $entity
+	 * @throws \Exception
 	 * @return void
 	 */
 	public function beforeSave(Event $event, Entity $entity) {
@@ -329,7 +332,6 @@ class PasswordableBehavior extends Behavior {
 
 		// Update whitelist
 		$this->_modifyWhitelist($entity, true);
-		return true;
 	}
 
 	/**
@@ -361,9 +363,8 @@ class PasswordableBehavior extends Behavior {
 	 *     'hashType' => 'sha256'
 	 * )
 	 *
-	 * @throws CakeException
-	 * @param Model $Model
-	 * @param array $data
+	 * @param string $pwd
+	 * @param array $context
 	 * @return bool Success
 	 */
 	public function validateCurrentPwd($pwd, $context) {
@@ -381,9 +382,9 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * If not implemented in Table class
 	 *
-	 * @param Model $Model
-	 * @param array $data
-	 * @param string $compareWith String to compare field value with
+	 * @param string $value
+	 * @param array $options
+	 * @param array $context
 	 * @return bool Success
 	 */
 	public function validateIdentical($value, $options, $context) {
@@ -398,6 +399,9 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * If not implemented in Table class
 	 *
+	 * @param string $data
+	 * @param array $options
+	 * @param array $context
 	 * @return bool Success
 	 */
 	public function validateNotSame($data, $options, $context) {
@@ -412,6 +416,8 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * If not implemented in Table class
 	 *
+	 * @param string $data
+	 * @param array $context
 	 * @return bool Success
 	 */
 	public function validateNotSameHash($data, $context) {
@@ -439,8 +445,8 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * PasswordableBehavior::_validateSameHash()
 	 *
-	 * @param Model $Model
 	 * @param string $pwd
+	 * @param array $context
 	 * @return bool Success
 	 */
 	protected function _validateSameHash($pwd, $context) {
@@ -464,7 +470,7 @@ class PasswordableBehavior extends Behavior {
 	 * PasswordableBehavior::_getPasswordHasher()
 	 *
 	 * @param mixed $hasher Name or options array.
-	 * @return PasswordHasher
+	 * @return \Cake\Auth\AbstractPasswordHasher
 	 */
 	protected function _getPasswordHasher($hasher) {
 		if ($this->_passwordHasher) {
@@ -479,7 +485,7 @@ class PasswordableBehavior extends Behavior {
 	 * Since 2.5 behaviors can also modify the whitelist for validate, thus this behavior can now
 	 * (>= CakePHP 2.5) add the form fields automatically, as well (not just the password field itself).
 	 *
-	 * @param Model $Model
+	 * @param \Cake\ORM\Entity $entity
 	 * @return void
 	 * @deprecated 3.0
 	 */
@@ -498,7 +504,7 @@ class PasswordableBehavior extends Behavior {
 		}
 
 		foreach ($fields as $field) {
-			if (!empty($Model->whitelist) && !in_array($field, $Model->whitelist)) {
+			if (!empty($this->_table->whitelist) && !in_array($field, $Model->whitelist)) {
 				$Model->whitelist = array_merge($Model->whitelist, [$field]);
 			}
 		}

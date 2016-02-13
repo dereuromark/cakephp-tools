@@ -21,8 +21,8 @@ class BananaComponent extends Component {
 /**
  * startup method
  *
- * @param Event $event
- * @param Controller $controller
+ * @param \Cake\Event\Event $event
+ * @param \Cake\Controller\Controller $controller
  * @return string
  */
 	public function startup(Event $event) {

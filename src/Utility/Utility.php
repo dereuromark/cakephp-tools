@@ -247,7 +247,9 @@ class Utility {
 	 * @return bool Success
 	 */
 	public static function urlExists($url) {
+		// @codingStandardsIgnoreStart
 		$headers = @get_headers($url);
+		// @codingStandardsIgnoreEnd
 		if ($headers && preg_match('|\b200\b|', $headers[0])) {
 			return true;
 		}
@@ -261,8 +263,9 @@ class Utility {
 	 * @return mixed array of headers or FALSE on failure
 	 */
 	public static function getHeaderFromUrl($url) {
+		// @codingStandardsIgnoreStart
 		$url = @parse_url($url);
-
+		// @codingStandardsIgnoreEnd
 		if (empty($url)) {
 			return false;
 		}
@@ -409,7 +412,7 @@ class Utility {
 	 *
 	 * @param mixed $value
 	 * @param string $type
-	 * @return safe value for DB query, or NULL if type was not a valid one
+	 * @return mixed Safe value for DB query, or NULL if type was not a valid one
 	 */
 	public static function typeCast($value, $type) {
 		switch ($type) {
@@ -438,7 +441,7 @@ class Utility {
 	}
 
 	/**
-	 * Trim recursivly
+	 * Trim recursively
 	 *
 	 */
 	public static function trimDeep($value) {
@@ -447,7 +450,7 @@ class Utility {
 	}
 
 	/**
-	 * H() recursivly
+	 * H() recursively
 	 *
 	 */
 	public static function specialcharsDeep($value) {

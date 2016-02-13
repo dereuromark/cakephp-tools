@@ -65,13 +65,13 @@ class UrlHelper extends CoreUrlHelper {
 		return parent::build($url, $full);
 	}
 
-    /**
-     * Event listeners.
-     *
-     * @return array
-     */
-    public function implementedEvents()
-    {
-        return [];
-    }
+	/**
+	 * Event listeners.
+	 *
+	 * @return array
+	 */
+	public function implementedEvents()
+	{
+		return [];
+	}
 }

@@ -18,7 +18,8 @@
 		"dereuromark/cakephp-shim": "~1.0"
 	},
 	"require-dev":{
-		"mobiledetect/mobiledetectlib": "2.*"
+		"mobiledetect/mobiledetectlib": "2.*",
+		"fig-r/psr2r-sniffer": "dev-master"
 	},
 	"autoload": {
 		"psr-4": {

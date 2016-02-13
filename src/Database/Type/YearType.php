@@ -7,12 +7,12 @@ use PDO;
 
 /**
  * Experimental year type (MySQL)
- * 
+ *
  * Needs:
  * - Type::map('year', 'Tools\Database\Type\YearType'); in bootstrap
  * - Manual FormHelper $this->Form->input('published', ['type' => 'year']);
- * 
- * 
+ *
+ *
  */
 class YearType extends Type {
 
@@ -30,7 +30,7 @@ class YearType extends Type {
 	 * As PDO will handle reading file handles.
 	 *
 	 * @param string|resource $value The value to convert.
-	 * @param Driver $driver The driver instance to convert with.
+	 * @param \Cake\Database\Driver $driver The driver instance to convert with.
 	 * @return string|resource
 	 */
 	public function toDatabase($value, Driver $driver) {
@@ -47,7 +47,7 @@ class YearType extends Type {
 	 * Convert binary into resource handles
 	 *
 	 * @param null|string|resource $value The value to convert.
-	 * @param Driver $driver The driver instance to convert with.
+	 * @param \Cake\Database\Driver $driver The driver instance to convert with.
 	 * @return resource|null
 	 * @throws \Cake\Core\Exception\Exception
 	 */
@@ -62,7 +62,7 @@ class YearType extends Type {
 	 * Get the correct PDO binding type for Year data.
 	 *
 	 * @param mixed $value The value being bound.
-	 * @param Driver $driver The driver.
+	 * @param \Cake\Database\Driver $driver The driver.
 	 * @return int
 	 */
 	public function toStatement($value, Driver $driver) {

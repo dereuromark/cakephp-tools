@@ -229,7 +229,7 @@ class Table extends ShimTable {
 	/**
 	 * Checks if a url is valid AND accessable (returns false otherwise)
 	 *
-	 * @param array/string $data: full url(!) starting with http://...
+	 * @param array|string $data: full url(!) starting with http://...
 	 * @options array
 	 * - allowEmpty TRUE/FALSE (TRUE: if empty => return TRUE)
 	 * - required TRUE/FALSE (TRUE: overrides allowEmpty)
@@ -311,7 +311,7 @@ class Table extends ShimTable {
 	/**
 	 * Validation of DateTime Fields (both Date and Time together)
 	 *
-	 * @param options
+	 * @param array $options
 	 * - dateFormat (defaults to 'ymd')
 	 * - allowEmpty
 	 * - after/before (fieldName to validate against)
@@ -369,7 +369,7 @@ class Table extends ShimTable {
 	/**
 	 * Validation of Date fields (as the core one is buggy!!!)
 	 *
-	 * @param options
+	 * @param array $options
 	 * - dateFormat (defaults to 'ymd')
 	 * - allowEmpty
 	 * - after/before (fieldName to validate against)
@@ -449,7 +449,7 @@ class Table extends ShimTable {
 	/**
 	 * Validation of Date Fields (>= minDate && <= maxDate)
 	 *
-	 * @param options
+	 * @param array $options
 	 * - min/max (TODO!!)
 	 */
 	public function validateDateRange($value, $options = [], array $context = []) {
@@ -458,7 +458,7 @@ class Table extends ShimTable {
 	/**
 	 * Validation of Time Fields (>= minTime && <= maxTime)
 	 *
-	 * @param options
+	 * @param array $options
 	 * - min/max (TODO!!)
 	 */
 	public function validateTimeRange($value, $options = [], array $context = []) {

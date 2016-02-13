@@ -133,8 +133,7 @@ class TimeHelper extends CakeTimeHelper {
 	 * Returns red/specialGreen/green date depending on the current day
 	 * // TODO refactor! $userOffset is deprecated!
 	 *
-	 * @param date in DB Format (xxxx-xx-xx)
-	 * ...
+	 * @param \DateTime $date Date
 	 * @param array $options
 	 * @param array $attr: html attributes
 	 * @return string Nicely formatted date

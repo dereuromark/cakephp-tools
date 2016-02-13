@@ -21,7 +21,7 @@ class AppleComponent extends Component {
 /**
  * startup method
  *
- * @param Event $event
+ * @param \Cake\Event\Event $event
  * @param mixed $controller
  * @return void
  */

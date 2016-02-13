@@ -164,4 +164,3 @@ class TestMime extends Mime {
 	}
 
 }
-

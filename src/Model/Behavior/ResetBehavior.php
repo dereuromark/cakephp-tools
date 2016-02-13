@@ -59,11 +59,13 @@ class ResetBehavior extends Behavior {
 	 * Adding validation rules
 	 * also adds and merges config settings (direct + configure)
 	 *
-	 * @return void
+	 * @param \Cake\ORM\Table $table
+	 * @param array $config
 	 */
 	public function __construct(Table $table, array $config = []) {
 		$defaults = $this->_defaultConfig;
-		if ($configureDefaults = Configure::read('Reset')) {
+		$configureDefaults = Configure::read('Reset');
+		if ($configureDefaults) {
 			$defaults = $configureDefaults + $defaults;
 		}
 		$config += $defaults;
@@ -73,9 +75,7 @@ class ResetBehavior extends Behavior {
 	/**
 	 * Regenerate all records (including possible beforeRules/beforeSave callbacks).
 	 *
-	 * @param Model $Model
-	 * @param array $conditions
-	 * @param int $recursive
+	 * @param array $params
 	 * @return int Modified records
 	 */
 	public function resetRecords($params = []) {

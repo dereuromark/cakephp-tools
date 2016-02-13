@@ -37,7 +37,7 @@ class Email extends CakeEmail {
 	 * Change the layout
 	 *
 	 * @param string|bool $layout Layout to use (or false to use none)
-	 * @return self
+	 * @return $this
 	 */
 	public function layout($layout = false) {
 		if ($layout !== false) {
@@ -50,7 +50,7 @@ class Email extends CakeEmail {
 	 * Set/Get wrapLength
 	 *
 	 * @param int|null $length Must not be more than CakeEmail::LINE_LENGTH_MUST
-	 * @return int|self
+	 * @return int|$this
 	 */
 	public function wrapLength($length = null) {
 		if ($length === null) {
@@ -64,7 +64,7 @@ class Email extends CakeEmail {
 	 * Set/Get priority
 	 *
 	 * @param int|null $priority 1 (highest) to 5 (lowest)
-	 * @return int|self
+	 * @return int|$this
 	 */
 	public function priority($priority = null) {
 		if ($priority === null) {
@@ -108,7 +108,7 @@ class Email extends CakeEmail {
 	 * Ovewrite to allow custom enhancements
 	 *
 	 * @param mixed $config
-	 * @return string|null|self
+	 * @return string|null|$this
 	 */
 	public function profile($config = null) {
 		if ($config === null) {
@@ -119,7 +119,8 @@ class Email extends CakeEmail {
 		}
 		$this->_applyConfig($config);
 
-		if ($fromEmail = Configure::read('Config.systemEmail')) {
+		$fromEmail = Configure::read('Config.systemEmail');
+		if ($fromEmail) {
 			$fromName = Configure::read('Config.systemName');
 		} else {
 			$fromEmail = Configure::read('Config.adminEmail');
@@ -129,7 +130,8 @@ class Email extends CakeEmail {
 			$this->from($fromEmail, $fromName);
 		}
 
-		if ($xMailer = Configure::read('Config.xMailer')) {
+		$xMailer = Configure::read('Config.xMailer');
+		if ($xMailer) {
 			$this->addHeaders(['X-Mailer' => $xMailer]);
 		}
 
@@ -139,8 +141,8 @@ class Email extends CakeEmail {
 	/**
 	 * Overwrite to allow mimetype detection
 	 *
-	 * @param mixed $attachments
-	 * @return self
+	 * @param mixed|null $attachments
+	 * @return $this
 	 */
 	public function attachments($attachments = null) {
 		if ($attachments === null) {
@@ -185,7 +187,7 @@ class Email extends CakeEmail {
 	 * @param string $file: absolute path
 	 * @param string|null $name
 	 * @param array $fileInfo
-	 * @return self
+	 * @return $this
 	 */
 	public function addAttachment($file, $name = null, $fileInfo = []) {
 		$fileInfo['file'] = $file;
@@ -200,11 +202,11 @@ class Email extends CakeEmail {
 	/**
 	 * Add an attachment as blob
 	 *
-	 * @param binary $content: blob data
+	 * @param string $content: blob data
 	 * @param string $filename to attach it
 	 * @param string|null $mimeType (leave it empty to get mimetype from $filename)
 	 * @param array $fileInfo
-	 * @return self
+	 * @return $this
 	 */
 	public function addBlobAttachment($content, $filename, $mimeType = null, $fileInfo = []) {
 		if ($mimeType === null) {
@@ -228,7 +230,7 @@ class Email extends CakeEmail {
 	 * @param string|null $name (optional)
 	 * @param string|null $contentId (optional)
 	 * @param array $options Options
-	 * @return string|self $contentId or $this
+	 * @return string|$this $contentId or $this
 	 */
 	public function addEmbeddedAttachment($file, $name = null, $contentId = null, array $options = []) {
 		if (empty($name)) {
@@ -259,12 +261,12 @@ class Email extends CakeEmail {
 	 * Options:
 	 * - contentDisposition
 	 *
-	 * @param binary $content: blob data
+	 * @param string $content: blob data
 	 * @param string $filename to attach it
 	 * @param string|null $mimeType (leave it empty to get mimetype from $filename)
 	 * @param string|null $contentId (optional)
 	 * @param array $options Options
-	 * @return string|self $contentId or $this
+	 * @return string|$this $contentId or $this
 	 */
 	public function addEmbeddedBlobAttachment($content, $filename, $mimeType = null, $contentId = null, array $options = []) {
 		if ($mimeType === null) {
@@ -327,7 +329,7 @@ class Email extends CakeEmail {
 	}
 
 	/**
-	 * @param $ext
+	 * @param string $ext
 	 * @param string $default
 	 * @return mixed
 	 */

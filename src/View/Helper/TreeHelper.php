@@ -110,7 +110,7 @@ class TreeHelper extends Helper {
 	 *	'splitCount' => the number of "parallel" types. defaults to null (disabled) set the splitCount,
 	 *		and optionally set the splitDepth to get parallel lists
 	 *
-	 * @param array|Query $data Data to loop over
+	 * @param array|\Cake\Orm\Query $data Data to loop over
 	 * @param array $config Config
 	 * @return string HTML representation of the passed data
 	 * @throws \Exception
