@@ -82,33 +82,33 @@ class TreeHelper extends Helper {
 	 * Tree generation method.
 	 *
 	 * Accepts the results of
-	 * 	find('all', array('fields' => array('lft', 'rght', 'whatever'), 'order' => 'lft ASC'));
-	 * 	children(); // if you have the tree behavior of course!
+	 *     find('all', array('fields' => array('lft', 'rght', 'whatever'), 'order' => 'lft ASC'));
+	 *     children(); // if you have the tree behavior of course!
 	 * or 	find('threaded'); and generates a tree structure of the data.
 	 *
 	 * Settings (2nd parameter):
-	 *	'model' => name of the model (key) to look for in the data array. defaults to the first model for the current
+	 *    'model' => name of the model (key) to look for in the data array. defaults to the first model for the current
 	 * controller. If set to false 2d arrays will be allowed/expected.
-	 *	'alias' => the array key to output for a simple ul (not used if element or callback is specified)
-	 *	'type' => type of output defaults to ul
-	 *	'itemType => type of item output default to li
-	 *	'id' => id for top level 'type'
-	 *	'class' => class for top level 'type'
-	 *	'element' => path to an element to render to get node contents.
-	 *	'callback' => callback to use to get node contents. e.g. array(&$anObject, 'methodName') or 'floatingMethod'
-	 *	'autoPath' => array($left, $right [$classToAdd = 'active']) if set any item in the path will have the class $classToAdd added. MPTT only.
+	 *    'alias' => the array key to output for a simple ul (not used if element or callback is specified)
+	 *    'type' => type of output defaults to ul
+	 *    'itemType => type of item output default to li
+	 *    'id' => id for top level 'type'
+	 *    'class' => class for top level 'type'
+	 *    'element' => path to an element to render to get node contents.
+	 *    'callback' => callback to use to get node contents. e.g. array(&$anObject, 'methodName') or 'floatingMethod'
+	 *    'autoPath' => array($left, $right [$classToAdd = 'active']) if set any item in the path will have the class $classToAdd added. MPTT only.
 	 *  'hideUnrelated' => if unrelated (not children, not siblings) should be hidden, needs 'treePath', true/false or array/string for callback
 	 *  'treePath' => treePath to insert into callback/element
-	 *	'left' => name of the 'lft' field if not lft. only applies to MPTT data
-	 *	'right' => name of the 'rght' field if not rght. only applies to MPTT data
-	 *	'depth' => used internally when running recursively, can be used to override the depth in either mode.
+	 *    'left' => name of the 'lft' field if not lft. only applies to MPTT data
+	 *    'right' => name of the 'rght' field if not rght. only applies to MPTT data
+	 *    'depth' => used internally when running recursively, can be used to override the depth in either mode.
 	 *  'maxDepth' => used to control the depth upto which to generate tree
-	 *	'firstChild' => used internally when running recursively.
-	 *	'splitDepth' => if multiple "parallel" types are required, instead of one big type, nominate the depth to do so here
-	 *		example: useful if you have 30 items to display, and you'd prefer they appeared in the source as 3 lists of 10 to be able to
-	 *		style/float them.
-	 *	'splitCount' => the number of "parallel" types. defaults to null (disabled) set the splitCount,
-	 *		and optionally set the splitDepth to get parallel lists
+	 *    'firstChild' => used internally when running recursively.
+	 *    'splitDepth' => if multiple "parallel" types are required, instead of one big type, nominate the depth to do so here
+	 *        example: useful if you have 30 items to display, and you'd prefer they appeared in the source as 3 lists of 10 to be able to
+	 *        style/float them.
+	 *    'splitCount' => the number of "parallel" types. defaults to null (disabled) set the splitCount,
+	 *        and optionally set the splitDepth to get parallel lists
 	 *
 	 * @param array|\Cake\Orm\Query $data Data to loop over
 	 * @param array $config Config

@@ -72,7 +72,7 @@ class QrCodeHelper extends Helper {
 	 * QrCodeHelper constructor.
 	 * @param \Cake\View\View $View
 	 * @param array $config
-     */
+	 */
 	public function __construct(View $View, array $config) {
 		parent::__construct($View, $config);
 

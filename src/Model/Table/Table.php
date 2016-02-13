@@ -38,7 +38,7 @@ class Table extends ShimTable {
  *
  * {{{
  * $validator->add('email', [
- *	'unique' => ['rule' => 'validateUnique', 'provider' => 'table']
+ *    'unique' => ['rule' => 'validateUnique', 'provider' => 'table']
  * ])
  * }}}
  *
@@ -46,10 +46,10 @@ class Table extends ShimTable {
  *
  * {{{
  * $validator->add('email', [
- *	'unique' => [
- *		'rule' => ['validateUnique', ['scope' => 'site_id']],
- *		'provider' => 'table'
- *	]
+ *    'unique' => [
+ *        'rule' => ['validateUnique', ['scope' => 'site_id']],
+ *        'provider' => 'table'
+ *    ]
  * ]);
  * }}}
  *

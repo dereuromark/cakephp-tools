@@ -25,7 +25,7 @@ class Email extends CakeEmail {
 
 	/**
 	 * @param string|null $config
-     */
+	 */
 	public function __construct($config = null) {
 		if ($config === null) {
 			$config = 'default';

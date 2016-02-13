@@ -25,8 +25,8 @@ if (!defined('USER_RIGHT_KEY')) {
  * to be implemented in the using class.
  *
  * Expects the Role session infos to be either
- * 	- `Auth.User.role_id` (single) or
- * 	- `Auth.User.Role` (multi - flat array of roles, or array role data)
+ *     - `Auth.User.role_id` (single) or
+ *     - `Auth.User.Role` (multi - flat array of roles, or array role data)
  * and can be adjusted via constants and defined().
  * Same goes for Right data.
  *

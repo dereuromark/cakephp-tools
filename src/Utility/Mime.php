@@ -8,7 +8,7 @@ use Cake\Network\Response;
  *
  * @version 1.0
  * @license MIT
- * @author	Mark Scherer
+ * @author Mark Scherer
  */
 class Mime extends Response {
 

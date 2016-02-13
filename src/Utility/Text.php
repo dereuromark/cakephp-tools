@@ -269,11 +269,11 @@ class Text extends CakeText {
 	 * Limit the number of words in a string.
 	 *
 	 * <code>
-	 *		// Returns "This is a..."
-	 *		echo TextExt::maxWords('This is a sentence.', 3);
+	 *    // Returns "This is a..."
+	 *    echo TextExt::maxWords('This is a sentence.', 3);
 	 *
-	 *		// Limit the number of words and append a custom ending
-	 *		echo Str::words('This is a sentence.', 3, '---');
+	 *    // Limit the number of words and append a custom ending
+	 *    echo Str::words('This is a sentence.', 3, '---');
 	 * </code>
 	 *
 	 * @param string  $value
