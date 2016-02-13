@@ -181,4 +181,5 @@ class GravatarHelper extends Helper {
 		}
 		return '';
 	}
+
 }

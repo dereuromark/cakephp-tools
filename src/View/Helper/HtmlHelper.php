@@ -114,4 +114,5 @@ class HtmlHelper extends CoreHtmlHelper {
 	{
 		return [];
 	}
+
 }

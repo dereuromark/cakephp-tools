@@ -74,4 +74,5 @@ class UrlHelper extends CoreUrlHelper {
 	{
 		return [];
 	}
+
 }
