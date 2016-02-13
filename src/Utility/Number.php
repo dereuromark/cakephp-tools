@@ -210,7 +210,7 @@ class Number extends CakeNumber {
 	 * @return float result
 	 */
 	public static function roundUpTo($number, $increments = 1) {
-		return (ceil($number / $increments) * $increments);
+		return ceil($number / $increments) * $increments;
 	}
 
 	/**
@@ -221,7 +221,7 @@ class Number extends CakeNumber {
 	 * @return float result
 	 */
 	public static function roundDownTo($number, $increments = 1) {
-		return (floor($number / $increments) * $increments);
+		return floor($number / $increments) * $increments;
 	}
 
 	/**

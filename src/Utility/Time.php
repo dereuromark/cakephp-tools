@@ -313,7 +313,7 @@ class Time extends CakeTime {
 	 */
 	public static function cWeekMod($num) {
 		$base = 6;
-		return ($num - $base * floor($num / $base));
+		return $num - $base * floor($num / $base);
 	}
 
 	/**

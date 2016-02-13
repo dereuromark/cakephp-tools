@@ -65,7 +65,7 @@ trait AuthUserTrait {
 	 * @return boolean
 	 */
 	public function isMe($userId, $field = 'id') {
-		return ($userId && (string)$userId === (string)$this->user($field));
+		return $userId && (string)$userId === (string)$this->user($field);
 	}
 
 	/**

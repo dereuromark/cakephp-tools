@@ -393,7 +393,7 @@ class PasswordableBehavior extends Behavior {
 		}
 
 		$compareValue = $context['data'][$options['compare']];
-		return ($compareValue === $value);
+		return $compareValue === $value;
 	}
 
 	/**
@@ -410,7 +410,7 @@ class PasswordableBehavior extends Behavior {
 		}
 
 		$compareValue = $context['data'][$options['compare']];
-		return ($compareValue !== $data);
+		return $compareValue !== $data;
 	}
 
 	/**

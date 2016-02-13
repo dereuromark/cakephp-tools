@@ -223,7 +223,7 @@ class Table extends ShimTable {
 			settype($compareValue, $matching[$options['cast']]);
 			settype($value, $matching[$options['cast']]);
 		}
-		return ($compareValue === $value);
+		return $compareValue === $value;
 	}
 
 	/**
