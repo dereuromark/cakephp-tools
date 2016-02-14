@@ -16,4 +16,5 @@ class JsonableCommentsFixture extends TestFixture {
 
 	public $records = [
 	];
+
 }

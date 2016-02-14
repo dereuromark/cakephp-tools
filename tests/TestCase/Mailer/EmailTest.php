@@ -10,7 +10,6 @@ use Cake\Log\Log;
 
 /**
  * Help to test Email
- *
  */
 class TestEmail extends Email {
 

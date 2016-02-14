@@ -137,4 +137,5 @@ class FlashComponentTestController extends Controller {
 	public function header($status) {
 		$this->testHeaders[] = $status;
 	}
+
 }

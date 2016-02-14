@@ -9,7 +9,6 @@ use Tools\Utility\Time;
 
 /**
  * Datetime Test Case
- *
  */
 class TimeHelperTest extends TestCase {
 

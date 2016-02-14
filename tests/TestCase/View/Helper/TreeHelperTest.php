@@ -31,7 +31,6 @@ class TreeHelperTest extends TestCase {
 	 * - Three
 	 * - Four
 	 * -- Four-SubA
-	 *
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -370,7 +369,6 @@ TEXT;
 	}
 
 	/**
-	 *
 	 * - One
 	 * -- One-SubA
 	 * - Two
@@ -431,7 +429,6 @@ TEXT;
 	}
 
 	/**
-	 *
 	 * - One
 	 * -- One-SubA
 	 * - Two

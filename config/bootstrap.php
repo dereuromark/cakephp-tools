@@ -82,24 +82,31 @@ function isEmpty($var = null) {
 function returns($value) {
 	if ($value === null) {
 		return 'NULL';
-	} elseif (is_array($value)) {
+	}
+	if (is_array($value)) {
 		return '(array)' . '<pre>' . print_r($value, true) . '</pre>';
-	} elseif ($value === true) {
+	}
+	if ($value === true) {
 		return '(bool)TRUE';
-	} elseif ($value === false) {
+	}
+	if ($value === false) {
 		return '(bool)FALSE';
-	} elseif (is_numeric($value) && is_float($value)) {
+	}
+	if (is_numeric($value) && is_float($value)) {
 		return '(float)' . $value;
-	} elseif (is_numeric($value) && is_int($value)) {
+	}
+	if (is_numeric($value) && is_int($value)) {
 		return '(int)' . $value;
-	} elseif (is_string($value)) {
+	}
+	if (is_string($value)) {
 		return '(string)' . $value;
-	} elseif (is_object($value)) {
+	}
+	if (is_object($value)) {
 		return '(object)' . get_class($value) . '<pre>' . print_r($value, true) .
 			'</pre>';
-	} else {
-		return '(unknown)' . $value;
 	}
+
+	return '(unknown)' . $value;
 }
 
 /**
@@ -113,7 +120,7 @@ function returns($value) {
  * @return string Converted text
  */
 function ent($text) {
-	return (!empty($text) ? htmlentities($text, ENT_QUOTES, 'UTF-8') : '');
+	return !empty($text) ? htmlentities($text, ENT_QUOTES, 'UTF-8') : '';
 }
 
 /**
@@ -139,7 +146,7 @@ function entDec($text, $quoteStyle = ENT_QUOTES) {
 	if (is_array($text)) {
 		return array_map('entDec', $text);
 	}
-	return (!empty($text) ? trim(html_entity_decode($text, $quoteStyle, 'UTF-8')) : '');
+	return !empty($text) ? trim(html_entity_decode($text, $quoteStyle, 'UTF-8')) : '';
 }
 
 /**
@@ -280,7 +287,7 @@ function pre($var, $collapsedAndExpandable = false, $options = []) {
  */
 function contains($haystack, $needle, $caseSensitive = false) {
 	$result = !$caseSensitive ? stripos($haystack, $needle) : strpos($haystack, $needle);
-	return ($result !== false);
+	return $result !== false;
 }
 
 /**
@@ -292,9 +299,9 @@ function contains($haystack, $needle, $caseSensitive = false) {
  */
 function startsWith($haystack, $needle, $caseSensitive = false) {
 	if ($caseSensitive) {
-		return (mb_strpos($haystack, $needle) === 0);
+		return mb_strpos($haystack, $needle) === 0;
 	}
-	return (mb_stripos($haystack, $needle) === 0);
+	return mb_stripos($haystack, $needle) === 0;
 }
 
 /**

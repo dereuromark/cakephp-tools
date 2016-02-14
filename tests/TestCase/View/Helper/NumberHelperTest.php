@@ -118,4 +118,5 @@ class NumberHelperTest extends TestCase {
 
 		unset($this->Number);
 	}
+
 }

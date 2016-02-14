@@ -6,7 +6,6 @@ use Tools\TestSuite\TestCase;
 
 /**
  * L10nTest class
- *
  */
 class L10nTest extends TestCase {
 

@@ -11,7 +11,6 @@ use Cake\Network\Request;
 
 /**
  * AuthUserComponent class
- *
  */
 class AuthUserComponentTest extends TestCase {
 

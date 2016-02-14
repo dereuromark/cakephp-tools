@@ -8,7 +8,6 @@ use Cake\Core\Configure;
 
 /**
  * Gravatar Test Case
- *
  */
 class GravatarHelperTest extends TestCase {
 
@@ -87,7 +86,9 @@ class GravatarHelperTest extends TestCase {
 		$this->assertTrue(!empty($is));
 	}
 
-/** BASE TEST CASES **/
+/**
+ * BASE TEST CASES
+**/
 
 	/**
 	 * TestBaseUrlGeneration

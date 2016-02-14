@@ -22,4 +22,5 @@ class BitmaskedComment extends Entity {
 	const STATUS_PUBLISHED = 2;
 	const STATUS_APPROVED = 4;
 	const STATUS_FLAGGED = 8;
+
 }

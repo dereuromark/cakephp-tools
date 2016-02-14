@@ -5,7 +5,6 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 /**
  * AfterTreeFixture class
- *
  */
 class AfterTreesFixture extends TestFixture {
 
@@ -37,4 +36,5 @@ class AfterTreesFixture extends TestFixture {
 		['parent_id' => null, 'lft' => 10, 'rght' => 11, 'name' => 'Six'],
 		['parent_id' => null, 'lft' => 13, 'rght' => 14, 'name' => 'Seven']
 	];
+
 }

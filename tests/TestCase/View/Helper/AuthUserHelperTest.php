@@ -8,7 +8,6 @@ use Cake\View\View;
 
 /**
  * AuthUserHelper class
- *
  */
 class AuthUserHelperTest extends TestCase {
 

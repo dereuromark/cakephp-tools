@@ -32,7 +32,7 @@ TXT;
 
 	/**
 	 * @return void
-     */
+	 */
 	public function testReadWithPattern() {
 		$data = <<<TXT
 some random data

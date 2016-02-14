@@ -10,7 +10,6 @@ use Tools\View\RssView;
 
 /**
  * RssViewTest
- *
  */
 class BootstrapTest extends TestCase {
 

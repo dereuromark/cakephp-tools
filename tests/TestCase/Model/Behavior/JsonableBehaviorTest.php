@@ -340,4 +340,5 @@ class JsonableBehaviorTest extends TestCase {
 		$expected = ['x' => ['y' => 'z']];
 		$this->assertEquals($expected, $res['details']);
 	}
+
 }

@@ -5,7 +5,6 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 /**
  * For BitmaskedBehaviorTest
- *
  */
 class BitmaskedCommentsFixture extends TestFixture {
 

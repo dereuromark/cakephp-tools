@@ -15,4 +15,5 @@ class StringCommentsFixture extends TestFixture {
 
 	public $records = [
 	];
+
 }
