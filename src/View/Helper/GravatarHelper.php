@@ -62,7 +62,6 @@ class GravatarHelper extends Helper {
 
 	/**
 	 * Constructor
-	 *
 	 */
 	public function __construct($View = null, $config = []) {
 		// Default the secure option to match the current URL.

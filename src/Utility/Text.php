@@ -7,7 +7,6 @@ use Cake\Utility\Text as CakeText;
 /**
  * Extends CakeText.
  * //TODO: cleanup
- *
  */
 class Text extends CakeText {
 

@@ -70,8 +70,7 @@ class UrlHelper extends CoreUrlHelper {
 	 *
 	 * @return array
 	 */
-	public function implementedEvents()
-	{
+	public function implementedEvents() {
 		return [];
 	}
 

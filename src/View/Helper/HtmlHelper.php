@@ -110,8 +110,7 @@ class HtmlHelper extends CoreHtmlHelper {
 	 *
 	 * @return array
 	 */
-	public function implementedEvents()
-	{
+	public function implementedEvents() {
 		return [];
 	}
 

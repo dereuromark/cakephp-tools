@@ -8,7 +8,6 @@ use Cake\Utility\Hash;
 
 /**
  * Overwrite
- *
  */
 class FormHelper extends CakeFormHelper {
 

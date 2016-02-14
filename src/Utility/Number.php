@@ -9,7 +9,6 @@ use Cake\I18n\Number as CakeNumber;
  * - config setting for format()
  * - spacer char for currency (initially from https://github.com/cakephp/cakephp/pull/1148)
  * - signed values possible
- *
  */
 class Number extends CakeNumber {
 

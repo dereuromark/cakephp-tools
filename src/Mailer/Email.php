@@ -488,8 +488,7 @@ class Email extends CakeEmail {
 	 * @param string $level
 	 * @return void
 	 */
-	protected function _logEmail($level = LogLevel::INFO)
-	{
+	protected function _logEmail($level = LogLevel::INFO) {
 		$content =
 			$this->_log['transport'] . (!Configure::read('Config.live') ? ' (simulated)' : '')
 			. ' - ' . 'TO:' . implode(',', array_keys($this->_log['to']))

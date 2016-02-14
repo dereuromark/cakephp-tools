@@ -11,8 +11,6 @@ use PDO;
  * Needs:
  * - Type::map('year', 'Tools\Database\Type\YearType'); in bootstrap
  * - Manual FormHelper $this->Form->input('published', ['type' => 'year']);
- *
- *
  */
 class YearType extends Type {
 

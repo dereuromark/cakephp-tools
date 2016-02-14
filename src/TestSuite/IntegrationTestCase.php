@@ -6,7 +6,6 @@ use Cake\TestSuite\IntegrationTestCase as CakeIntegrationTestCase;
 
 /**
  * Tools TestCase class
- *
  */
 abstract class IntegrationTestCase extends CakeIntegrationTestCase {
 

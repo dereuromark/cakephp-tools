@@ -372,7 +372,6 @@ class Utility {
 	 *
 	 * @param array $array
 	 * @return bool Result
-	 *
 	 */
 	public static function logicalOr($array) {
 		foreach ($array as $result) {
@@ -442,7 +441,6 @@ class Utility {
 
 	/**
 	 * Trim recursively
-	 *
 	 */
 	public static function trimDeep($value) {
 		$value = is_array($value) ? array_map('self::trimDeep', $value) : trim($value);
@@ -451,7 +449,6 @@ class Utility {
 
 	/**
 	 * H() recursively
-	 *
 	 */
 	public static function specialcharsDeep($value) {
 		$value = is_array($value) ? array_map('self::specialcharsDeep', $value) : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
@@ -460,7 +457,6 @@ class Utility {
 
 	/**
 	 * Main deep method
-	 *
 	 */
 	public static function deep($function, $value) {
 		$value = is_array($value) ? array_map('self::' . $function, $value) : $function($value);

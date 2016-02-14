@@ -29,41 +29,41 @@ class Table extends ShimTable {
 		return true;
 	}
 
-/**
- * Validator method used to check the uniqueness of a value for a column.
- * This is meant to be used with the validation API and not to be called
- * directly.
- *
- * ### Example:
- *
- * {{{
- * $validator->add('email', [
- *    'unique' => ['rule' => 'validateUnique', 'provider' => 'table']
- * ])
- * }}}
- *
- * Unique validation can be scoped to the value of another column:
- *
- * {{{
- * $validator->add('email', [
- *    'unique' => [
- *        'rule' => ['validateUnique', ['scope' => 'site_id']],
- *        'provider' => 'table'
- *    ]
- * ]);
- * }}}
- *
- * In the above example, the email uniqueness will be scoped to only rows having
- * the same site_id. Scoping will only be used if the scoping field is present in
- * the data to be validated.
- *
- * @override To allow multiple scoped values
- *
- * @param mixed $value The value of column to be checked for uniqueness
- * @param array $options The options array, optionally containing the 'scope' key
- * @param array $context The validation context as provided by the validation routine
- * @return bool true if the value is unique
- */
+	/**
+	 * Validator method used to check the uniqueness of a value for a column.
+	 * This is meant to be used with the validation API and not to be called
+	 * directly.
+	 *
+	 * ### Example:
+	 *
+	 * {{{
+	 * $validator->add('email', [
+	 *    'unique' => ['rule' => 'validateUnique', 'provider' => 'table']
+	 * ])
+	 * }}}
+	 *
+	 * Unique validation can be scoped to the value of another column:
+	 *
+	 * {{{
+	 * $validator->add('email', [
+	 *    'unique' => [
+	 *        'rule' => ['validateUnique', ['scope' => 'site_id']],
+	 *        'provider' => 'table'
+	 *    ]
+	 * ]);
+	 * }}}
+	 *
+	 * In the above example, the email uniqueness will be scoped to only rows having
+	 * the same site_id. Scoping will only be used if the scoping field is present in
+	 * the data to be validated.
+	 *
+	 * @override To allow multiple scoped values
+	 *
+	 * @param mixed $value The value of column to be checked for uniqueness
+	 * @param array $options The options array, optionally containing the 'scope' key
+	 * @param array $context The validation context as provided by the validation routine
+	 * @return bool true if the value is unique
+	 */
 	public function validateUniqueExt($value, array $options, array $context = []) {
 		$context += $options;
 		return parent::validateUnique($value, $context);
@@ -155,7 +155,7 @@ class Table extends ShimTable {
 	 * Get all related entries that have been used so far
 	 *
 	 * @param string $tableName The related model
-	 * @param string $groupField Field to group by
+	 * @param string|null $groupField Field to group by
 	 * @param string $type Find type
 	 * @param array $options
 	 * @return array
@@ -184,7 +184,7 @@ class Table extends ShimTable {
 	 * @param array $options
 	 * @return array
 	 */
-	public function getFieldInUse($groupField, $type = 'all', $options = []) {
+	public function getFieldInUse($groupField, $type = 'all', array $options = []) {
 		$defaults = [
 			'group' => $groupField,
 			'order' => [$this->displayField() => 'ASC'],
@@ -206,6 +206,7 @@ class Table extends ShimTable {
 	 *
 	 * @param mixed $value
 	 * @param array $options
+	 * @param array $context
 	 * @return bool Success
 	 */
 	public function validateIdentical($value, $options = [], array $context = []) {
@@ -227,17 +228,20 @@ class Table extends ShimTable {
 	}
 
 	/**
-	 * Checks if a url is valid AND accessable (returns false otherwise)
+	 * Checks if a URL is valid AND accessible (returns false otherwise)
 	 *
-	 * @param array|string $data: full url(!) starting with http://...
-	 * @options array
+	 * Options:
 	 * - allowEmpty TRUE/FALSE (TRUE: if empty => return TRUE)
 	 * - required TRUE/FALSE (TRUE: overrides allowEmpty)
 	 * - autoComplete (default: TRUE)
 	 * - deep (default: TRUE)
+	 *
+	 * @param array|string $url Full URL starting with http://...
+	 * @param array $options
+	 * @param array $context
 	 * @return bool Success
 	 */
-	public function validateUrl($url, $options = [], array $context = []) {
+	public function validateUrl($url, array $options = [], array $context = []) {
 		if (empty($url)) {
 			if (!empty($options['allowEmpty']) && empty($options['required'])) {
 				return true;
@@ -289,7 +293,7 @@ class Table extends ShimTable {
 	/**
 	 * Checks if a url is valid
 	 *
-	 * @param string url
+	 * @param string $url
 	 * @return bool Success
 	 */
 	protected function _validUrl($url) {
@@ -316,6 +320,7 @@ class Table extends ShimTable {
 	 * - allowEmpty
 	 * - after/before (fieldName to validate against)
 	 * - min/max (defaults to >= 1 - at least 1 minute apart)
+	 * @param array $context
 	 * @return bool Success
 	 */
 	public function validateDateTime($value, $options = [], array $context = []) {
@@ -369,11 +374,13 @@ class Table extends ShimTable {
 	/**
 	 * Validation of Date fields (as the core one is buggy!!!)
 	 *
+	 * @param mixed $value
 	 * @param array $options
 	 * - dateFormat (defaults to 'ymd')
 	 * - allowEmpty
 	 * - after/before (fieldName to validate against)
 	 * - min (defaults to 0 - equal is OK too)
+	 * @param array $context
 	 * @return bool Success
 	 */
 	public function validateDate($value, $options = [], array $context = []) {
@@ -415,11 +422,13 @@ class Table extends ShimTable {
 	/**
 	 * Validation of Time fields
 	 *
+	 * @param mixed $value
 	 * @param array $options
 	 * - timeFormat (defaults to 'hms')
 	 * - allowEmpty
 	 * - after/before (fieldName to validate against)
 	 * - min/max (defaults to >= 1 - at least 1 minute apart)
+	 * @param array $context
 	 * @return bool Success
 	 */
 	public function validateTime($value, $options = [], array $context = []) {
@@ -449,8 +458,11 @@ class Table extends ShimTable {
 	/**
 	 * Validation of Date Fields (>= minDate && <= maxDate)
 	 *
+	 * @param mixed $value
 	 * @param array $options
 	 * - min/max (TODO!!)
+	 * @param array $context
+	 * @return bool
 	 */
 	public function validateDateRange($value, $options = [], array $context = []) {
 	}
@@ -458,8 +470,11 @@ class Table extends ShimTable {
 	/**
 	 * Validation of Time Fields (>= minTime && <= maxTime)
 	 *
+	 * @param mixed $value
 	 * @param array $options
 	 * - min/max (TODO!!)
+	 * @param array $context
+	 * @return bool
 	 */
 	public function validateTimeRange($value, $options = [], array $context = []) {
 	}

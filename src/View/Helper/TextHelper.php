@@ -22,7 +22,6 @@ if (!defined('CHAR_HELLIP')) {
  * - stripProtocol (defaults To FALSE right now)
  * - maxLength (to shorten links in order to not mess up the layout in some cases - appends ...)
  * - escape (defaults to TRUE for security reasons regarding plain text)
- *
  */
 class TextHelper extends CakeTextHelper {
 

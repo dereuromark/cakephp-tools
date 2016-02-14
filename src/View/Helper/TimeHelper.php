@@ -13,20 +13,20 @@ class TimeHelper extends CakeTimeHelper {
 
 	public $helpers = ['Html'];
 
-/**
- * Default config for this class
- *
- * @var mixed
- */
+	/**
+	 * Default config for this class
+	 *
+	 * @var array
+	 */
 	protected $_defaultConfig = [
 		'engine' => 'Tools\Utility\Time'
 	];
 
-/**
- * Cake\I18n\LocalizedNumber instance
- *
- * @var \Cake\I18n\Number
- */
+	/**
+	 * Cake\I18n\LocalizedNumber instance
+	 *
+	 * @var \Cake\I18n\Number
+	 */
 	protected $_engine = null;
 
 	/**
@@ -104,8 +104,8 @@ class TimeHelper extends CakeTimeHelper {
 	/**
 	 * Like localDate(), only with additional markup <span> and class="today", if today, etc
 	 *
-	 * @param null $dateString
-	 * @param null $format
+	 * @param string|null $dateString
+	 * @param string|null $format
 	 * @param array $options
 	 * @return string
 	 */
@@ -118,8 +118,8 @@ class TimeHelper extends CakeTimeHelper {
 	/**
 	 * Like niceDate(), only with additional markup <span> and class="today", if today, etc
 	 *
-	 * @param null $dateString
-	 * @param null $format
+	 * @param string|null $dateString
+	 * @param string|null $format
 	 * @param array $options
 	 * @return string
 	 */
