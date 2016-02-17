@@ -160,7 +160,7 @@ class Token extends ToolsAppModel {
 	 * Remove old/invalid keys
 	 * does not remove recently used ones (for proper feedback)!
 	 *
-	 * @return bool success
+	 * @return bool Success
 	 */
 	public function garbageCollector() {
 		$conditions = [
@@ -171,6 +171,8 @@ class Token extends ToolsAppModel {
 
 	/**
 	 * Get admin stats
+	 *
+	 * @return array
 	 */
 	public function stats() {
 		$keys = [];
@@ -186,16 +188,32 @@ class Token extends ToolsAppModel {
 	}
 
 	/**
-	 * Generator
+	 * Generator of secure random tokens.
 	 *
-	 * @param length (defaults to defaultLength)
+	 * Note that it is best to use an even number for the length.
+	 *
+	 * @param int|null $length (defaults to defaultLength)
 	 * @return string Key
 	 */
 	public function generateKey($length = null) {
 		if (empty($length)) {
 			$length = $this->defaultLength;
 		}
-		return RandomLib::generatePassword($length);
+
+		if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+			$function = 'random_bytes';
+		} elseif (extension_loaded('openssl')) {
+			$function = 'openssl_random_pseudo_bytes';
+		} else {
+			trigger_error('Not secure', E_USER_DEPRECATED);
+			return RandomLib::generatePassword($length);
+		}
+
+		$value = bin2hex($function($length / 2));
+		if (strlen($value) !== $length) {
+			$value = str_pad($value, $length, '0');
+		}
+		return $value;
 	}
 
 }
