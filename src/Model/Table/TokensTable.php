@@ -196,7 +196,21 @@ class TokensTable extends Table {
 		if (empty($length)) {
 			$length = $this->defaultLength;
 		}
-		return Random::pwd($length);
+		$function = 'Random::pwd';
+		if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+			$function = 'random_bytes';
+		} elseif (extension_loaded('openssl')) {
+			$function = 'openssl_random_pseudo_bytes';
+		} else {
+			trigger_error('Not secure', E_USER_DEPRECATED);
+			return Random::pwd($length);
+		}
+
+		$value = bin2hex($function($length / 2));
+		if (strlen($value) !== $length) {
+			$value = str_pad($value, $length, '0');
+		}
+		return $value;
 	}
 
 }
