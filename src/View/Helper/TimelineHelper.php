@@ -87,7 +87,7 @@ class TimelineHelper extends Helper {
 	/**
 	 * Add timeline items as an array of items.
 	 *
-	 * @see TimelineHelper::addItem()
+	 * @see \Tools\View\Helper\TimelineHelper::addItem()
 	 * @return void
 	 */
 	public function addItems($items) {
@@ -174,7 +174,7 @@ JS;
 	/**
 	 * Format items to JS code
 	 *
-	 * @see TimelineHelper::addItem()
+	 * @see \Tools\View\Helper\TimelineHelper::addItem()
 	 * @param array $items
 	 * @return string
 	 */

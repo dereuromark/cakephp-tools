@@ -202,7 +202,6 @@ class TokensTable extends Table {
 			$length = $this->defaultLength;
 		}
 
-		$function = 'Random::pwd';
 		if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
 			$function = 'random_bytes';
 		} elseif (extension_loaded('openssl')) {
