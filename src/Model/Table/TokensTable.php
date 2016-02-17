@@ -187,7 +187,9 @@ class TokensTable extends Table {
 	}
 
 	/**
-	 * Generator
+	 * Generator of secure random tokens.
+	 * 
+	 * Note that it is best to use an even number for the length.
 	 *
 	 * @param int|null $length (defaults to defaultLength)
 	 * @return string Key
