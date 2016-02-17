@@ -23,7 +23,7 @@ matrix:
         - DB=mysql CAKE_VERSION=2.7 CODECOVERAGE=1
 
 before_script:
-  - git clone -b master-codecov https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
+  - git clone -b master https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
   - ../travis/before_script.sh
   - cd ../cakephp/app
   - echo "Configure::write('Security.salt', 'AxcG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi');" >> Config/bootstrap.php
