@@ -85,8 +85,8 @@ class TimeHelper extends CakeTimeHelper {
 	 * Output the age of a person within a sane range.
 	 * Defaults to the $default string if outside of that range.
 	 *
-	 * @param null $date
-	 * @param string|bool $default
+	 * @param string|int|null $date
+	 * @param string $default
 	 * @return int age on success, mixed $default otherwise
 	 * @internal param date $string
 	 */

@@ -62,7 +62,7 @@ trait AuthUserTrait {
 	 *
 	 * @param string|int $userId
 	 * @param string $field Field name. Defaults to `id`.
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isMe($userId, $field = 'id') {
 		return $userId && (string)$userId === (string)$this->user($field);
