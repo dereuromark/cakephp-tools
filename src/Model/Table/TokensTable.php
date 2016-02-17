@@ -94,9 +94,10 @@ class TokensTable extends Table {
 	/**
 	 * UsesKey (only once!) - by KEY
 	 *
-	 * @param string $type: necessary
-	 * @param string $key: necessary
-	 * @param mixed|null $uid: needs to be provided if this key has a user_id stored
+	 * @param string $type : necessary
+	 * @param string $key : necessary
+	 * @param mixed|null $uid : needs to be provided if this key has a user_id stored
+	 * @param bool $treatUsedAsInvalid
 	 * @return array Content - if successfully used or if already used (used=1), FALSE else
 	 */
 	public function useKey($type, $key, $uid = null, $treatUsedAsInvalid = false) {
@@ -172,6 +173,8 @@ class TokensTable extends Table {
 
 	/**
 	 * Get admin stats
+	 *
+	 * @return array
 	 */
 	public function stats() {
 		$keys = [];
@@ -188,7 +191,7 @@ class TokensTable extends Table {
 
 	/**
 	 * Generator of secure random tokens.
-	 * 
+	 *
 	 * Note that it is best to use an even number for the length.
 	 *
 	 * @param int|null $length (defaults to defaultLength)
@@ -198,6 +201,7 @@ class TokensTable extends Table {
 		if (empty($length)) {
 			$length = $this->defaultLength;
 		}
+
 		$function = 'Random::pwd';
 		if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
 			$function = 'random_bytes';
