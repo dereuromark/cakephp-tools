@@ -234,7 +234,6 @@ class CommonComponent extends Component {
 	 *
 	 * @param mixed $url
 	 * @param int $status
-	 * @param bool $exit
 	 * @return \Cake\Network\Response
 	 */
 	public function completeRedirect($url = null, $status = null) {

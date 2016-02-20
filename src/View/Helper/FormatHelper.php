@@ -605,7 +605,6 @@ class FormatHelper extends Helper {
 	 * @param array $array The result (numericaly keyed, associative inner) array.
 	 * @param array $options
 	 * @param array $attributes For the table
-	 * @param string $null String to output for blank cells
 	 * @return string
 	 */
 	public function array2table(array $array, array $options = [], array $attributes = []) {

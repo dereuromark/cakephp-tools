@@ -63,7 +63,7 @@ class MobileComponent extends Component {
 	/**
 	 * MobileComponent::initialize()
 	 *
-	 * @param \Cake\Controller\Controller $Controller
+	 * @param array $config
 	 * @return void
 	 */
 	public function initialize(array $config) {
@@ -78,7 +78,7 @@ class MobileComponent extends Component {
 	/**
 	 * MobileComponent::startup()
 	 *
-	 * @param \Cake\Controller\Controller $Controller
+	 * @param \Cake\Event\Event $event
 	 * @return void
 	 */
 	public function beforeFilter(Event $event) {
