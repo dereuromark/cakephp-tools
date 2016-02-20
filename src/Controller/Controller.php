@@ -1,8 +1,8 @@
 <?php
 namespace Tools\Controller;
 
-use Shim\Controller\Controller as ShimController;
 use Cake\Core\Configure;
+use Shim\Controller\Controller as ShimController;
 
 /**
  * DRY Controller stuff

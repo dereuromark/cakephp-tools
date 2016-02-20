@@ -2,12 +2,12 @@
 namespace Tools\Mailer;
 
 use Cake\Core\Configure;
-use Cake\Mailer\Email as CakeEmail;
-use Tools\Utility\Text;
-use InvalidArgumentException;
-use Tools\Utility\Mime;
 use Cake\Log\LogTrait;
+use Cake\Mailer\Email as CakeEmail;
+use InvalidArgumentException;
 use Psr\Log\LogLevel;
+use Tools\Utility\Mime;
+use Tools\Utility\Text;
 
 class Email extends CakeEmail {
 

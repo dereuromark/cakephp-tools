@@ -3,15 +3,15 @@
 namespace Tools\Model\Table;
 
 use Cake\Core\Configure;
-use Shim\Model\Table\Table as ShimTable;
+use Cake\Event\Event;
+use Cake\ORM\Query;
+use Cake\Routing\Router;
 use Cake\Utility\Inflector;
 use Cake\Validation\Validation;
 use Cake\Validation\Validator;
-use Tools\Utility\Utility;
-use Cake\ORM\Query;
-use Cake\Event\Event;
+use Shim\Model\Table\Table as ShimTable;
 use Tools\Utility\Time;
-use Cake\Routing\Router;
+use Tools\Utility\Utility;
 
 class Table extends ShimTable {
 

@@ -1,9 +1,9 @@
 <?php
 namespace Tools\Model\Table;
 
+use Cake\Utility\Hash;
 use Tools\Model\Table\Table;
 use Tools\Utility\Random;
-use Cake\Utility\Hash;
 
 /**
  * A generic model to hold tokens

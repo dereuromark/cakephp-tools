@@ -1,9 +1,9 @@
 <?php
 namespace Tools\View\Helper;
 
+use Cake\Validation\Validation;
 use Cake\View\Helper;
 use Cake\View\View;
-use Cake\Validation\Validation;
 
 /**
  * CakePHP Gravatar Helper

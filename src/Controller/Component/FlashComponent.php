@@ -1,11 +1,11 @@
 <?php
 namespace Tools\Controller\Component;
 
-use Cake\Network\Exception\InternalErrorException;
-use Shim\Controller\Component\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\Network\Exception\InternalErrorException;
 use Cake\Utility\Inflector;
+use Shim\Controller\Component\Component;
 
 /**
  * A flash component to enhance flash message support with stackable messages, both

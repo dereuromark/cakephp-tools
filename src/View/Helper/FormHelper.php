@@ -1,10 +1,10 @@
 <?php
 namespace Tools\View\Helper;
 
-use Cake\View\Helper\FormHelper as CakeFormHelper;
-use Cake\View\View;
 use Cake\Core\Configure;
 use Cake\Utility\Hash;
+use Cake\View\Helper\FormHelper as CakeFormHelper;
+use Cake\View\View;
 
 /**
  * Overwrite

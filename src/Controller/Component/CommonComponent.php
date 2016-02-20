@@ -1,11 +1,11 @@
 <?php
 namespace Tools\Controller\Component;
 
-use Cake\Utility\Inflector;
-use Shim\Controller\Component\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Routing\Router;
+use Cake\Utility\Inflector;
+use Shim\Controller\Component\Component;
 use Tools\Utility\Utility;
 
 /**

@@ -1,10 +1,10 @@
 <?php
 namespace Tools\View\Helper;
 
-use Cake\View\Helper\TextHelper as CakeTextHelper;
 use Cake\Utility\Hash;
-use Tools\Utility\Number;
+use Cake\View\Helper\TextHelper as CakeTextHelper;
 use Cake\View\View;
+use Tools\Utility\Number;
 
 if (!defined('CHAR_HELLIP')) {
 	define('CHAR_HELLIP', '&#8230;'); # … (horizontal ellipsis = three dot leader)

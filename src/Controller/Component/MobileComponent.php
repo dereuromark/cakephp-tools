@@ -2,10 +2,10 @@
 namespace Tools\Controller\Component;
 
 use Cake\Controller\Controller;
-use Shim\Controller\Component\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Routing\Router;
+use Shim\Controller\Component\Component;
 use Tools\Utility\Utility;
 
 /**

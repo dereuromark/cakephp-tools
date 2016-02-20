@@ -1,13 +1,13 @@
 <?php
 namespace Tools\Model\Behavior;
 
+use Cake\Database\Type;
+use Cake\Datasource\ResultSetInterface;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Tools\Utility\Text;
-use Cake\Datasource\ResultSetInterface;
-use Cake\Database\Type;
 
 /**
  * A behavior that will json_encode (and json_decode) fields if they contain an array or specific pattern.
