@@ -77,7 +77,7 @@ class Email extends CakeEmail {
 	/**
 	 * Fix line length
 	 *
-	 * @overwrite
+	 * @override To wrap by must length by default.
 	 *
 	 * @param string $message Message to wrap
 	 * @param int $wrapLength
@@ -403,7 +403,7 @@ class Email extends CakeEmail {
 	 *
 	 * Do NOT pass a message if you use $this->set() in combination with templates
 	 *
-	 * @overwrite
+	 * @override
 	 * @param string|array|null $message Message
 	 * @return bool Success
 	 */

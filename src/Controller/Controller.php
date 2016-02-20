@@ -12,7 +12,7 @@ class Controller extends ShimController {
 	/**
 	 * Handles automatic pagination of model records.
 	 *
-	 * @overwrite to support defaults like limit etc.
+	 * @override To support defaults like limit etc.
 	 *
 	 * @param \Cake\ORM\Table|string|\Cake\ORM\Query $object Table to paginate
 	 *   (e.g: Table instance, 'TableName' or a Query object)
