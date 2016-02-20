@@ -2,13 +2,13 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
+use Cake\Core\Configure;
 use Cake\Database\Query;
 use Cake\Event\Event;
-use TestApp\Model\Entity\BitmaskedComment;
 use Cake\ORM\TableRegistry;
-use Tools\TestSuite\TestCase;
-use Cake\Core\Configure;
+use TestApp\Model\Entity\BitmaskedComment;
 use Tools\Model\Behavior\BitmaskedBehavior;
+use Tools\TestSuite\TestCase;
 
 class BitmaskedBehaviorTest extends TestCase {
 

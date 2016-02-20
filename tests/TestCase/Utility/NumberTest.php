@@ -2,10 +2,10 @@
 
 namespace Tools\TestCase\Utility;
 
-use Tools\Utility\Number;
-use Tools\TestSuite\TestCase;
 use Cake\Core\Configure;
 use Cake\I18n\I18n;
+use Tools\TestSuite\TestCase;
+use Tools\Utility\Number;
 
 class NumberTest extends TestCase {
 

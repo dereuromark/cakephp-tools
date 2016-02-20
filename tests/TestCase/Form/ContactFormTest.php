@@ -2,21 +2,20 @@
 
 namespace Tools\Form;
 
-use Tools\TestSuite\TestCase;
-use Tools\Form\ContactForm;
-
+use Cake\Auth\DefaultPasswordHasher;
+use Cake\Auth\PasswordHasherFactory;
+use Cake\Core\Configure;
+use Cake\Datasource\ConnectionManager;
+use Cake\I18n\Time;
+use Cake\Network\Request;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
-use Cake\Core\Configure;
-use Cake\Auth\DefaultPasswordHasher;
 use Cake\ORM\TableRegistry;
-use Cake\Utility\Security;
 use Cake\Routing\Router;
-use Cake\Network\Request;
-use Cake\Auth\PasswordHasherFactory;
-use Cake\I18n\Time;
-use Cake\Datasource\ConnectionManager;
+use Cake\Utility\Security;
+use Tools\Form\ContactForm;
+use Tools\TestSuite\TestCase;
 
 class ContactFormTest extends TestCase {
 

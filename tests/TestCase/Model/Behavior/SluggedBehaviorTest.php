@@ -2,6 +2,7 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
+use Cake\Core\Configure;
 use Cake\Database\Query;
 use Cake\Datasource\ConnectionManager;
 use Cake\Event\Event;
@@ -9,7 +10,6 @@ use Cake\ORM\Entity;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Tools\TestSuite\TestCase;
-use Cake\Core\Configure;
 
 /**
  * SluggedBehaviorTest
@@ -623,11 +623,11 @@ class SluggedBehaviorTest extends TestCase {
 		$this->assertEquals('Some-Article-12345-dereuromark', $result['slug']);
 	}
 
-/**
- * Get a new Entity
- *
- * @return \Cake\ORM\Entity
- */
+	/**
+	 * Get a new Entity
+	 *
+	 * @return \Cake\ORM\Entity
+	 */
 	protected function _getEntity($title = null, $field = null, array $data = [], array $options = []) {
 		$options += ['validate' => false];
 		if ($title === null) {

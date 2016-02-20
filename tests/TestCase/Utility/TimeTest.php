@@ -2,10 +2,10 @@
 
 namespace Tools\TestCase\Utility;
 
-use Tools\Utility\Time;
-use Tools\TestSuite\TestCase;
-use Tools\Misc\ZodiacLib;
 use Cake\Core\Configure;
+use Tools\Misc\ZodiacLib;
+use Tools\TestSuite\TestCase;
+use Tools\Utility\Time;
 
 class TimeTest extends TestCase {
 

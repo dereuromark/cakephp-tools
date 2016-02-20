@@ -1,10 +1,10 @@
 <?php
 namespace Tools\TestCase\Utility;
 
-use Tools\Utility\Mime;
-use Tools\TestSuite\TestCase;
-use Cake\Network\Response;
 use Cake\Core\Plugin;
+use Cake\Network\Response;
+use Tools\TestSuite\TestCase;
+use Tools\Utility\Mime;
 
 class MimeTest extends TestCase {
 

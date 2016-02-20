@@ -2,10 +2,10 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use Cake\ORM\TableRegistry;
-use Tools\TestSuite\TestCase;
 use Cake\Core\Configure;
+use Cake\ORM\TableRegistry;
 use Tools\Model\Behavior\StringBehavior;
+use Tools\TestSuite\TestCase;
 
 class StringBehaviorTest extends TestCase {
 

@@ -1,28 +1,28 @@
 <?php
 namespace Tools\Test\Utility;
 
-use Tools\Utility\L10n;
 use Tools\TestSuite\TestCase;
+use Tools\Utility\L10n;
 
 /**
  * L10nTest class
  */
 class L10nTest extends TestCase {
 
-/**
- * setUp method
- *
- * @return void
- */
+	/**
+	 * setUp method
+	 *
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 	}
 
-/**
- * testMap method
- *
- * @return void
- */
+	/**
+	 * testMap method
+	 *
+	 * @return void
+	 */
 	public function testMap() {
 		$localize = new L10n();
 
@@ -355,11 +355,11 @@ class L10nTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-/**
- * testCatalog method
- *
- * @return void
- */
+	/**
+	 * testCatalog method
+	 *
+	 * @return void
+	 */
 	public function testCatalog() {
 		$localize = new L10n();
 

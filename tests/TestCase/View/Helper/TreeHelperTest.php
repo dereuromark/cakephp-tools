@@ -2,14 +2,14 @@
 
 namespace Tools\TestCase\View\Helper;
 
-use Tools\View\Helper\TreeHelper;
-use Tools\TestSuite\TestCase;
-use Cake\View\View;
+use Cake\Core\Configure;
+use Cake\Datasource\ConnectionManager;
 use Cake\ORM\Entity;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
-use Cake\Datasource\ConnectionManager;
-use Cake\Core\Configure;
+use Cake\View\View;
+use Tools\TestSuite\TestCase;
+use Tools\View\Helper\TreeHelper;
 
 class TreeHelperTest extends TestCase {
 

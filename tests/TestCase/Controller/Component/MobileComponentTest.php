@@ -3,14 +3,14 @@
 namespace Tools\Test\TestCase\Controller\Component;
 
 use Cake\Controller\ComponentRegistry;
-use Shim\Controller\Component\Component;
-use Tools\Controller\Controller;
 use Cake\Core\Configure;
+use Cake\Event\Event;
 use Cake\Network\Request;
 use Cake\Network\Session;
 use Cake\Routing\DispatcherFactory;
+use Shim\Controller\Component\Component;
+use Tools\Controller\Controller;
 use Tools\TestSuite\TestCase;
-use Cake\Event\Event;
 
 /**
  * Test MobileComponent

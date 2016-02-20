@@ -1,8 +1,8 @@
 <?php
 namespace Tools\TestCase\Utility;
 
-use Tools\Utility\Text;
 use Tools\TestSuite\TestCase;
+use Tools\Utility\Text;
 
 /**
  */

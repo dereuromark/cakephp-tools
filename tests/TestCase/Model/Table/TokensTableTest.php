@@ -1,9 +1,9 @@
 <?php
 namespace Tools\Test\Model\Table;
 
+use Cake\ORM\TableRegistry;
 use Tools\Model\Table\TokensTable;
 use Tools\TestSuite\TestCase;
-use Cake\ORM\TableRegistry;
 
 class TokensTableTest extends TestCase {
 

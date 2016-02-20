@@ -8,11 +8,11 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class AfterTreesFixture extends TestFixture {
 
-/**
- * fields property
- *
- * @var array
- */
+	/**
+	 * fields property
+	 *
+	 * @var array
+	 */
 	public $fields = [
 		'id' => ['type' => 'integer'],
 		'parent_id' => ['type' => 'integer'],
@@ -22,11 +22,11 @@ class AfterTreesFixture extends TestFixture {
 		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
 	];
 
-/**
- * records property
- *
- * @var array
- */
+	/**
+	 * records property
+	 *
+	 * @var array
+	 */
 	public $records = [
 		['parent_id' => null, 'lft' => 1, 'rght' => 2, 'name' => 'One'],
 		['parent_id' => null, 'lft' => 3, 'rght' => 4, 'name' => 'Two'],

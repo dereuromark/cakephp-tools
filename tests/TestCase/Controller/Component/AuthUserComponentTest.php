@@ -2,12 +2,12 @@
 namespace Tools\Test\TestCase\Controller\Component;
 
 use Cake\Controller\ComponentRegistry;
-use Tools\Controller\Component\AuthUserComponent;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
-use Cake\Network\Session;
-use Tools\TestSuite\TestCase;
 use Cake\Network\Request;
+use Cake\Network\Session;
+use Tools\Controller\Component\AuthUserComponent;
+use Tools\TestSuite\TestCase;
 
 /**
  * AuthUserComponent class

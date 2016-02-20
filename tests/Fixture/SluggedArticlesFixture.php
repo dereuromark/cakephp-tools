@@ -8,11 +8,11 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class SluggedArticlesFixture extends TestFixture {
 
-/**
- * fields property
- *
- * @var array
- */
+	/**
+	 * fields property
+	 *
+	 * @var array
+	 */
 	public $fields = [
 		'id' => ['type' => 'integer'],
 		'title' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => ''],
@@ -23,11 +23,11 @@ class SluggedArticlesFixture extends TestFixture {
 		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
 	];
 
-/**
- * records property
- *
- * @var array
- */
+	/**
+	 * records property
+	 *
+	 * @var array
+	 */
 	public $records = [
 		[
 			'title' => 'Foo',

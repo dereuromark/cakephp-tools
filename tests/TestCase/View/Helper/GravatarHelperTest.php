@@ -1,10 +1,10 @@
 <?php
 namespace Tools\TestCase\View\Helper;
 
-use Tools\View\Helper\GravatarHelper;
-use Tools\TestSuite\TestCase;
-use Cake\View\View;
 use Cake\Core\Configure;
+use Cake\View\View;
+use Tools\TestSuite\TestCase;
+use Tools\View\Helper\GravatarHelper;
 
 /**
  * Gravatar Test Case
@@ -86,8 +86,8 @@ class GravatarHelperTest extends TestCase {
 		$this->assertTrue(!empty($is));
 	}
 
-/**
- * BASE TEST CASES
+	/**
+	 * BASE TEST CASES
 **/
 
 	/**

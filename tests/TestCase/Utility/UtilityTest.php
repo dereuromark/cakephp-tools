@@ -1,16 +1,19 @@
 <?php
 namespace Tools\TestCase\Utility;
 
-use Tools\Utility\Utility;
-use Tools\TestSuite\TestCase;
-use Cake\Core\Plugin;
 use Cake\Core\Configure;
+use Cake\Core\Plugin;
+use Tools\TestSuite\TestCase;
+use Tools\Utility\Utility;
 
 /**
  * @coversDefaultClass \Tools\Utility\Utility
  */
 class UtilityTest extends TestCase {
 
+	/**
+	 * @return void
+	 */
 	public function testNotEmpty() {
 		$res = Utility::notEmpty('a');
 		$this->assertTrue($res);

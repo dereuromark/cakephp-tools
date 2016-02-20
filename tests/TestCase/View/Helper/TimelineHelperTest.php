@@ -1,10 +1,10 @@
 <?php
 namespace Tools\TestCase\View\Helper;
 
-use Tools\View\Helper\TimelineHelper;
-use Tools\TestSuite\TestCase;
-use Cake\View\View;
 use Cake\Core\Configure;
+use Cake\View\View;
+use Tools\TestSuite\TestCase;
+use Tools\View\Helper\TimelineHelper;
 
 /**
  * Timeline Helper Test Case

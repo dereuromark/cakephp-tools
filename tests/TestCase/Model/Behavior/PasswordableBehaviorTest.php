@@ -2,18 +2,18 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use Tools\TestSuite\TestCase;
+use Cake\Auth\DefaultPasswordHasher;
+use Cake\Auth\PasswordHasherFactory;
+use Cake\Core\Configure;
+use Cake\Network\Request;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
-use Cake\Core\Configure;
-use Cake\Auth\DefaultPasswordHasher;
 use Cake\ORM\TableRegistry;
-use Cake\Utility\Security;
 use Cake\Routing\Router;
-use Cake\Network\Request;
-use Cake\Auth\PasswordHasherFactory;
+use Cake\Utility\Security;
+use Tools\TestSuite\TestCase;
 
 class PasswordableBehaviorTest extends TestCase {
 

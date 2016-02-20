@@ -2,14 +2,14 @@
 
 namespace Tools\TestCase\View\Helper;
 
-use Tools\View\Helper\CookieHelper;
-use Tools\TestSuite\TestCase;
-use Cake\View\View;
+use Cake\Datasource\ConnectionManager;
+use Cake\Network\Request;
 use Cake\ORM\Entity;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
-use Cake\Datasource\ConnectionManager;
-use Cake\Network\Request;
+use Cake\View\View;
+use Tools\TestSuite\TestCase;
+use Tools\View\Helper\CookieHelper;
 
 class CookieHelperTest extends TestCase {
 

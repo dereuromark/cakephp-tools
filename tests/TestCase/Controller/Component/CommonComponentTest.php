@@ -2,13 +2,13 @@
 namespace Tools\Test\TestCase\Controller\Component;
 
 use Cake\Controller\ComponentRegistry;
-use Shim\Controller\Component\Component;
 use Cake\Controller\Component\CommonComponent;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Network\Request;
 use Cake\Network\Session;
 use Cake\Routing\DispatcherFactory;
+use Shim\Controller\Component\Component;
 use Tools\TestSuite\TestCase;
 
 /**

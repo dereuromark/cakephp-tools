@@ -2,8 +2,8 @@
 
 namespace TestApp\Model\Table;
 
-use Tools\Model\Table\Table;
 use Cake\ORM\Entity;
+use Tools\Model\Table\Table;
 
 class ResetCommentsTable extends Table {
 

@@ -2,12 +2,12 @@
 
 namespace Tools\TestCase\View\Helper;
 
-use Tools\View\Helper\JsHelper;
-use Tools\TestSuite\TestCase;
-use Cake\View\View;
-use Cake\ORM\TableRegistry;
-use Cake\Datasource\ConnectionManager;
 use Cake\Core\Configure;
+use Cake\Datasource\ConnectionManager;
+use Cake\ORM\TableRegistry;
+use Cake\View\View;
+use Tools\TestSuite\TestCase;
+use Tools\View\Helper\JsHelper;
 
 class JsHelperTest extends TestCase {
 

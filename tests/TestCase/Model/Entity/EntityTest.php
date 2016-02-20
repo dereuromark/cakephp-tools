@@ -2,12 +2,12 @@
 
 namespace Tools\Model\Entity;
 
-use Tools\TestSuite\TestCase;
-use Tools\Model\Entity\Entity;
+use Cake\Core\Configure;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
-use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
+use Tools\Model\Entity\Entity;
+use Tools\TestSuite\TestCase;
 
 class PasswordableBehaviorTest extends TestCase {
 

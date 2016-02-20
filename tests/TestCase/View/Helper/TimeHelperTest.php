@@ -1,11 +1,11 @@
 <?php
 namespace Tools\TestCase\View\Helper;
 
-use Tools\View\Helper\TimeHelper;
-use Tools\TestSuite\TestCase;
-use Cake\View\View;
 use Cake\Core\Configure;
+use Cake\View\View;
+use Tools\TestSuite\TestCase;
 use Tools\Utility\Time;
+use Tools\View\Helper\TimeHelper;
 
 /**
  * Datetime Test Case
