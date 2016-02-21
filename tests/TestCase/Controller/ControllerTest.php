@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Test\TestCase\Controller;
 
 use Cake\Controller\ComponentRegistry;

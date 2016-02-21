@@ -4,7 +4,6 @@ namespace Tools\Model\Behavior;
 
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
-//use App\Model\AppModel;
 use Tools\Model\Behavior\NeighborBehavior;
 use Tools\Model\Table\Table;
 use Tools\TestSuite\TestCase;

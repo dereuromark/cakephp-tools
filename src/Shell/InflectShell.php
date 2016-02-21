@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Shell;
 
 use Cake\Console\Shell;
@@ -74,24 +75,24 @@ class InflectShell extends Shell {
 
 		$command = null;
 		while (empty($command)) {
-			$this->out("Please type the number or name of the inflection method you would like to use");
+			$this->out('Please type the number or name of the inflection method you would like to use');
 			$this->hr();
-			$this->out("[1] Pluralize");
-			$this->out("[2] Singularize");
-			$this->out("[3] Camelize");
-			$this->out("[4] Underscore");
-			$this->out("[5] Humanize");
-			$this->out("[6] Tableize");
-			$this->out("[7] Classify");
-			$this->out("[8] Variable");
-			$this->out("[9] Dasherize");
-			$this->out("[10] Slug");
-			$this->out("[q] Quit");
-			$temp = $this->in("What command would you like to perform?", null, 'q');
+			$this->out('[1] Pluralize');
+			$this->out('[2] Singularize');
+			$this->out('[3] Camelize');
+			$this->out('[4] Underscore');
+			$this->out('[5] Humanize');
+			$this->out('[6] Tableize');
+			$this->out('[7] Classify');
+			$this->out('[8] Variable');
+			$this->out('[9] Dasherize');
+			$this->out('[10] Slug');
+			$this->out('[q] Quit');
+			$temp = $this->in('What command would you like to perform?', null, 'q');
 			if (in_array(strtolower($temp), $validCommands)) {
 				$command = strtolower($temp);
 			} else {
-				$this->out("Try again.");
+				$this->out('Try again.');
 			}
 		}
 
@@ -129,7 +130,7 @@ class InflectShell extends Shell {
 			case 'q':
 			case 'quit':
 			default:
-				$this->out("Exit");
+				$this->out('Exit');
 				$this->_stop();
 				return null;
 		}
@@ -144,11 +145,11 @@ class InflectShell extends Shell {
 	protected function _getWords() {
 		$words = null;
 		while (empty($words)) {
-			$temp = $this->in("What word(s) would you like to inflect?");
+			$temp = $this->in('What word(s) would you like to inflect?');
 			if (!empty($temp)) {
 				$words = $temp;
 			} else {
-				$this->out("Try again.");
+				$this->out('Try again.');
 			}
 		}
 		return $words;
@@ -175,7 +176,7 @@ class InflectShell extends Shell {
 			while (count($arguments) > 0) {
 				$words .= array_pop($arguments);
 				if (count($arguments) > 0) {
-					$words .= " ";
+					$words .= ' ';
 				}
 			}
 		}
@@ -232,10 +233,10 @@ class InflectShell extends Shell {
 		$this->out('');
 		$this->out('This shell uses the Inflector class to inflect any word(s) you wish');
 		$this->hr();
-		$this->out("Usage: cake inflect");
-		$this->out("       cake inflect methodName");
-		$this->out("       cake inflect methodName word");
-		$this->out("       cake inflect methodName words to inflect");
+		$this->out('Usage: cake inflect');
+		$this->out('       cake inflect methodName');
+		$this->out('       cake inflect methodName word');
+		$this->out('       cake inflect methodName words to inflect');
 		$this->out('');
 	}
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\TestSuite;
 
 use Cake\Routing\Router;

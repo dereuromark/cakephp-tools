@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Test\Model\Table;
 
 use Cake\ORM\TableRegistry;

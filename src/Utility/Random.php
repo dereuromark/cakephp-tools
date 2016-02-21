@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Utility;
 
 /**
@@ -132,7 +133,7 @@ class Random {
 
 		$dobDay = static::int(1, $maxDays);
 
-		$dob = sprintf("%4d-%02d-%02d", $dobYear, $dobMonth, $dobDay);
+		$dob = sprintf('%4d-%02d-%02d', $dobYear, $dobMonth, $dobDay);
 		return $dob;
 	}
 
@@ -146,9 +147,9 @@ class Random {
 	public static function pronounceablePwd($length = 10) {
 		srand((double)microtime() * 1000000);
 		$password = '';
-		$vowels = ["a", "e", "i", "o", "u"];
-		$cons = ["b", "c", "d", "g", "h", "j", "k", "l", "m", "n", "p", "r", "s", "t", "u", "v", "w", "tr",
-							"cr", "br", "fr", "th", "dr", "ch", "ph", "wr", "st", "sp", "sw", "pr", "sl", "cl"];
+		$vowels = ['a', 'e', 'i', 'o', 'u'];
+		$cons = ['b', 'c', 'd', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'u', 'v', 'w', 'tr',
+							'cr', 'br', 'fr', 'th', 'dr', 'ch', 'ph', 'wr', 'st', 'sp', 'sw', 'pr', 'sl', 'cl'];
 		for ($i = 0; $i < $length; $i++) {
 			$password .= $cons[mt_rand(0, 31)] . $vowels[mt_rand(0, 4)];
 		}

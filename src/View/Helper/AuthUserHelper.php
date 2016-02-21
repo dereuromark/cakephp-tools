@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\View\Helper;
 
 use Cake\View\Helper;

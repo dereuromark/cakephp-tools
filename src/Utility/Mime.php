@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Utility;
 
 use Cake\Network\Response;
@@ -771,8 +772,8 @@ class Mime extends Response {
 		// If FINFO functions are not available then try to retrieve MIME type from pre-defined MIMEs
 		// If MIME type doesn't exist, then try (as a last resort) to use the (deprecated) mime_content_type function
 		// If all else fails, just return application/octet-stream
-		if (!function_exists("finfo_open")) {
-			if (function_exists("mime_content_type")) {
+		if (!function_exists('finfo_open')) {
+			if (function_exists('mime_content_type')) {
 				$type = mime_content_type($file);
 				if (!empty($type)) {
 					return $type;
@@ -783,7 +784,7 @@ class Mime extends Response {
 			if ($mimeType) {
 				return $mimeType;
 			}
-			return "application/octet-stream";
+			return 'application/octet-stream';
 		}
 		return $this->_detectMimeType($file);
 	}
@@ -833,7 +834,7 @@ class Mime extends Response {
 		if ($mimeType) {
 			return $mimeType;
 		}
-		return "application/octet-stream";
+		return 'application/octet-stream';
 	}
 
 	/**
@@ -844,7 +845,7 @@ class Mime extends Response {
 	 * @return string
 	 */
 	public static function getEncoding($file = null, $default = 'utf-8') {
-		if (!function_exists("finfo_open")) {
+		if (!function_exists('finfo_open')) {
 			return $default;
 		}
 		$finfo = finfo_open(FILEINFO_MIME_ENCODING);

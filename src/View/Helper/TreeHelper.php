@@ -7,6 +7,7 @@
  * @copyright Copyright (c) 2008, Andy Dawson
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
+
 namespace Tools\View\Helper;
 
 use Cake\Core\Configure;

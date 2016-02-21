@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Utility;
 
 use Cake\Routing\Router;
@@ -397,7 +398,7 @@ class Utility {
 		$ret = true;
 		foreach ($array as $key => $val) {
 			if (is_array($val)) {
-				$ret = $ret & Utility::logicalAnd($val);
+				$ret = $ret & self::logicalAnd($val);
 			} else {
 				$ret = $ret & $val;
 			}
@@ -736,10 +737,10 @@ class Utility {
 				$newLine = "\n";
 			}
 
-			if ($token === "{" || $token === "[") {
+			if ($token === '{' || $token === '[') {
 				$indent++;
 				$result .= $token . $newLine;
-			} elseif ($token === "}" || $token === "]") {
+			} elseif ($token === '}' || $token === ']') {
 				$indent--;
 
 				if ($indent >= 0) {
@@ -751,7 +752,7 @@ class Utility {
 				} else {
 					$result .= $newLine . $token;
 				}
-			} elseif ($token === ",") {
+			} elseif ($token === ',') {
 				$result .= $token . $newLine;
 			} else {
 				$result .= $prefix . $token;

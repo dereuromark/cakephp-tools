@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Model\Behavior;
 
 use Cake\Database\Type;

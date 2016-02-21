@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\View\Helper;
 
 use Cake\Core\Configure;
@@ -553,7 +554,7 @@ class FormatHelper extends Helper {
 	 * @return string
 	 */
 	public function tab2space($text, $spaces = 4) {
-		$spaces = str_repeat(" ", $spaces);
+		$spaces = str_repeat(' ', $spaces);
 		$text = preg_split("/\r\n|\r|\n/", trim($text));
 		$wordLengths = [];
 		$wArray = [];
@@ -582,7 +583,7 @@ class FormatHelper extends Helper {
 					$wArray[$i][$ii] = str_pad($wArray[$i][$ii], $wordLengths[$ii]);
 				}
 			}
-			$text .= str_replace("\t", $spaces, implode("", $wArray[$i])) . "\n";
+			$text .= str_replace("\t", $spaces, implode('', $wArray[$i])) . "\n";
 		}
 
 		return $text;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\HtmlDom;
 
 use Yangqi\Htmldom\Htmldom as BaseHtmlDom;

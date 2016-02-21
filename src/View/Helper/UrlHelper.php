@@ -12,6 +12,7 @@
  * @since         0.9.1
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace Tools\View\Helper;
 
 use Cake\Core\Configure;

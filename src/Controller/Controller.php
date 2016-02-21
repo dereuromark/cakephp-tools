@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Controller;
 
 use Cake\Core\Configure;

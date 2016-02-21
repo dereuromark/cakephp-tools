@@ -1,4 +1,5 @@
 <?php
+
 namespace TestApp\Controller\Component;
 
 use Cake\Controller\Controller;

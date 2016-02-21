@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Mailer;
 
 use Cake\Core\Configure;

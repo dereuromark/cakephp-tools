@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\TestCase\View\Helper;
 
 use Cake\Core\Configure;

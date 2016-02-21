@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Model\Table;
 
 use Cake\Utility\Hash;

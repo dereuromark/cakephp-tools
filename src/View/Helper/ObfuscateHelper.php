@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\View\Helper;
 
 use Cake\View\Helper;
@@ -117,10 +118,10 @@ class ObfuscateHelper extends Helper {
 					$encmail .= mb_substr($text, $i, 1);
 					break;
 				case 1: // Decimal
-					$encmail .= "&#" . ord(mb_substr($text, $i, 1)) . ';';
+					$encmail .= '&#' . ord(mb_substr($text, $i, 1)) . ';';
 					break;
 				case 2: // Hexadecimal
-					$encmail .= "&#x" . dechex(ord(mb_substr($text, $i, 1))) . ';';
+					$encmail .= '&#x' . dechex(ord(mb_substr($text, $i, 1))) . ';';
 					break;
 			}
 		}

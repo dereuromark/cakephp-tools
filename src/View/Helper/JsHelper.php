@@ -5,6 +5,7 @@
  * This is deprecated and only here to easy migration from 2.x applications
  * that rely on the JsHelper buffer functionality.
  */
+
 namespace Tools\View\Helper;
 
 use Cake\View\Helper;
@@ -101,7 +102,7 @@ class JsHelper extends Helper {
 			case (is_int($val)):
 				break;
 			case (is_float($val)):
-				$val = sprintf("%.11f", $val);
+				$val = sprintf('%.11f', $val);
 				break;
 			default:
 				$val = $this->escape($val);

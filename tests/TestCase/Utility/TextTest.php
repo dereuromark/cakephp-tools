@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\TestCase\Utility;
 
 use Tools\TestSuite\TestCase;
@@ -39,7 +40,7 @@ some random data
 and another line
 and a   third
 TXT;
-		$result = $this->Text->readWithPattern($data, "%s %s %s");
+		$result = $this->Text->readWithPattern($data, '%s %s %s');
 
 		$this->assertSame(3, count($result));
 		$this->assertSame(['and', 'a', 'third'], $result[2]);

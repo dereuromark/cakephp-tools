@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Controller\Component;
 
 use Cake\Core\Configure;
@@ -257,8 +258,8 @@ class CommonComponent extends Component {
 	 */
 	public function forceCache($seconds = HOUR) {
 		$this->Controller->response->header('Cache-Control', 'public, max-age=' . $seconds);
-		$this->Controller->response->header('Last-modified', gmdate("D, j M Y H:i:s", time()) . " GMT");
-		$this->Controller->response->header('Expires', gmdate("D, j M Y H:i:s", time() + $seconds) . " GMT");
+		$this->Controller->response->header('Last-modified', gmdate('D, j M Y H:i:s', time()) . ' GMT');
+		$this->Controller->response->header('Expires', gmdate('D, j M Y H:i:s', time() + $seconds) . ' GMT');
 	}
 
 	/**

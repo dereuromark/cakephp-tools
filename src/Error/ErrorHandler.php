@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Error;
 
 use Cake\Core\Configure;

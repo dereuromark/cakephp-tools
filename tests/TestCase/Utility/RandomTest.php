@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\TestCase\Utility;
 
 use Tools\TestSuite\TestCase;

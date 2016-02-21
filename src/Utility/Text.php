@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Utility;
 
 use Cake\Core\Configure;
@@ -382,8 +383,8 @@ class Text extends CakeText {
 		}
 
 		if ($all) {
-			$str = str_replace(["&amp;", "&lt;", "&gt;", "&quot;", "&apos;", "&#45;"],
-				["&", "<", ">", "\"", "'", "-"], $str);
+			$str = str_replace(['&amp;', '&lt;', '&gt;', '&quot;', '&apos;', '&#45;'],
+				['&', '<', '>', '"', "'", '-'], $str);
 		}
 
 		return $str;
@@ -405,7 +406,7 @@ class Text extends CakeText {
 	 * @return string
 	 */
 	public function reduce_double_slashes($str) {
-		return preg_replace("#([^:])//+#", "\\1/", $str);
+		return preg_replace('#([^:])//+#', '\\1/', $str);
 	}
 
 }
