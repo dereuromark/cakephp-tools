@@ -43,12 +43,15 @@ class CodeShell extends AppShell {
 		}
 	}
 
+	/**
+	 * @return void
+	 */
 	protected function _correctFile($file) {
 		$fileContent = $content = file_get_contents($file);
 
 		preg_match_all('/class \w+ extends (.+)\s*{/', $fileContent, $matches);
 		if (empty($matches)) {
-			continue;
+			return;
 		}
 
 		$excludes = ['Fixture', 'Exception', 'TestSuite', 'CakeTestModel'];
