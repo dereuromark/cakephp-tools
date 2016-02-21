@@ -6,6 +6,7 @@ php:
   - 5.4
   - 5.5
   - 5.6
+  - 7.0
 
 env:
   global:
@@ -13,14 +14,14 @@ env:
     - PLUGIN_NAME=Tools
 
   matrix:
-    - DB=mysql CAKE_VERSION=2.8
-    - DB=mysql CAKE_VERSION=2.9
+    - DB=mysql CAKE_VERSION=2.x
+    - DB=mysql CAKE_VERSION=2.next
 
 matrix:
   include:
     - php: 5.6
       env:
-        - DB=mysql CAKE_VERSION=2.8 CODECOVERAGE=1
+        - DB=mysql CAKE_VERSION=2.x CODECOVERAGE=1
 
 before_script:
   - git clone -b master https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
