@@ -165,10 +165,3 @@ For details on how to contribute please read the [CONTRIBUTING page](CONTRIBUTIN
 
 * Better test coverage (once it's >= 75% I will declare the plugin stable)
 * Use [Transifex plugin](https://github.com/dereuromark/cakephp-transifex) and [transifex.com](https://www.transifex.com/projects/p/tools/resources/) (you need to have a login) for translations
-
-### Recent changes (possibly BC breaking)
-
-* 2014-11 All translations now use the `tools` domain; development messages are not translated anymore
-* 2014-12 Some model validations have also been transformed from generic `validation` into `tools` domain.
-* 2014-12 All `tools` domain translations need to exist in `APP/Locale` due to a core issue in `CakePHP <= 2.5` when trying to overwrite them in the application.
-* 2015-01 With CakePHP2.6 support now we can re-add the Locale files again. Use `App.preferApp` Configure key to overwrite the plugin's locale files.
