@@ -499,14 +499,16 @@ class FormatHelperTest extends MyCakeTestCase {
 			'122 jsdf ficken Sjdkf sdfj sdf' => '122 jsdf ###### Sjdkf sdfj sdf',
 			'122 jsdf FICKEN sjdkf sdfjs sdf' => '122 jsdf ###### sjdkf sdfjs sdf',
 			'dddddddddd ARSCH ddddddddddddd' => 'dddddddddd ##### ddddddddddddd',
-			//'\';alert(String.fromCharCode(88,83,83))//\';alert(String.fromCharCode(88,83,83))//";alert(String.fromCharCode(88,83,83))//\";alert(String.fromCharCode(88,83,83))//--></SCRIPT>">\'><SCRIPT>alert(String.fromCharCode(88,83,83))</SCRIPT>' => null
 		];
 		foreach ($data as $value => $expected) {
 			$res = $this->Format->wordCensor($value, ['Arsch', 'Ficken', 'Bitch']);
-
-			//debug('\''.h($value).'\' becomes \''.h($res).'\'', null, false);
 			$this->assertEquals($expected === null ? $value : $expected, $res);
 		}
+		
+		$input = 'dfssdfsdj sdkfj sdkfj ksdfj bitch ksdfj';
+		$result = $this->Format->wordCensor($input, ['Bitch'], '***');
+		$expected = 'dfssdfsdj sdkfj sdkfj ksdfj *** ksdfj';
+		$this->assertEquals($expected, $result);
 	}
 
 	/**

@@ -1243,9 +1243,9 @@ class FormatHelper extends TextHelper {
 	 *
 	 * @todo Move to Text Helper etc.
 	 *
-	 * @param string	the text string
-	 * @param string	the array of censoered words
-	 * @param string	the optional replacement value
+	 * @param string $str The text string
+	 * @param string $censored The array of censoered words
+	 * @param string|null $replacement The optional replacement value
 	 * @return string
 	 */
 	public function wordCensor($str, $censored, $replacement = null) {
@@ -1264,8 +1264,13 @@ class FormatHelper extends TextHelper {
 			if ($replacement !== null) {
 				$str = preg_replace("/({$delim})(" . str_replace('\*', '\w*?', preg_quote($badword, '/')) . ")({$delim})/i", "\\1{$replacement}\\3", $str);
 			} else {
-				$str = preg_replace("/({$delim})(" . str_replace('\*', '\w*?', preg_quote($badword, '/')) . ")({$delim})/ie", "'\\1'.str_repeat('#', strlen('\\2')).'\\3'",
-					$str);
+				$str = preg_replace_callback(
+					"/({$delim})(" . str_replace('\*', '\w*?', preg_quote($badword, '/')) . ")({$delim})/i",
+					function ($x) {
+						return $x[1] . str_repeat('#', strlen($x[2])) . $x[3];
+					},
+					$str
+				);
 			}
 		}
 
