@@ -12,6 +12,9 @@ use Tools\View\Helper\FormatHelper;
  */
 class FormatHelperTest extends TestCase {
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = ['core.sessions'];
 
 	/**

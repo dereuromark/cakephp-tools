@@ -17,6 +17,9 @@ use Tools\TestSuite\TestCase;
  */
 class MobileComponentTest extends TestCase {
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = ['core.sessions'];
 
 	/**

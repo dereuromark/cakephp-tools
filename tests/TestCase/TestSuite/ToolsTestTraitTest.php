@@ -6,8 +6,6 @@ use Tools\TestSuite\TestCase;
 
 class ToolsTestTraitTest extends TestCase {
 
-	public $TestCase;
-
 	public function setUp() {
 		parent::setUp();
 

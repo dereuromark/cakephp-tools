@@ -19,11 +19,17 @@ use Tools\TestSuite\TestCase;
 
 class TableTest extends TestCase {
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = [
 		'core.posts', 'core.authors',
 		'plugin.tools.tools_users', 'plugin.tools.roles',
 	];
 
+	/**
+	 * @var \Tools\Model\Table\Table;
+	 */
 	public $Users;
 
 	/**

@@ -8,10 +8,19 @@ use Tools\TestSuite\TestCase;
 
 class ConfirmableBehaviorTest extends TestCase {
 
+	/**
+	 * @var \Tools\Model\Behavior\ConfirmableBehavior
+	 */
 	public $ConfirmableBehavior;
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = ['plugin.Tools.SluggedArticles'];
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 	}

@@ -171,6 +171,9 @@ class CommonComponentTest extends TestCase {
  */
 class CommonComponentTestController extends Controller {
 
+	/**
+	 * @var array
+	 */
 	public $components = ['Tools.Common'];
 
 }

@@ -9,7 +9,10 @@ use Tools\Utility\Time;
 
 class TimeTest extends TestCase {
 
-	public $Time = null;
+	/**
+	 * @var \Tools\Utility\Time
+	 */
+	public $Time;
 
 	public function setUp() {
 		$this->Time = new Time();

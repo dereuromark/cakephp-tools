@@ -11,10 +11,16 @@ use Tools\TestSuite\TestCase;
 
 class PasswordableBehaviorTest extends TestCase {
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = [
 		'plugin.tools.tools_users', 'plugin.tools.roles',
 	];
 
+	/**
+	 * @var \Tools\Model\Table\Table;
+	 */
 	public $Users;
 
 	/**

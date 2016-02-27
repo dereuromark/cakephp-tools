@@ -12,10 +12,16 @@ use Tools\TestSuite\TestCase;
 
 class BitmaskedBehaviorTest extends TestCase {
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = [
 		'plugin.tools.bitmasked_comments'
 	];
 
+	/**
+	 * @var \Tools\Model\Table\Table
+	 */
 	public $Comments;
 
 	public function setUp() {

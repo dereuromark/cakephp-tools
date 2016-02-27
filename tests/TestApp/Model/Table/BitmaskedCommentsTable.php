@@ -6,6 +6,9 @@ use Tools\Model\Table\Table;
 
 class BitmaskedCommentsTable extends Table {
 
+	/**
+	 * @var array
+	 */
 	public $validate = [
 		'status' => [
 			'notBlank' => [

@@ -8,8 +8,14 @@ use Tools\TestSuite\TestCase;
 
 class TokensTableTest extends TestCase {
 
-	public $Tokens = null;
+	/**
+	 * @var \Tools\Model\Table\TokensTable;
+	 */
+	public $Tokens;
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = ['plugin.Tools.Tokens'];
 
 	public function setUp() {

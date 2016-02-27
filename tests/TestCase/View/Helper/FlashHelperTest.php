@@ -13,6 +13,9 @@ use Tools\View\Helper\FlashHelper;
  */
 class FlashHelperTest extends TestCase {
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = ['core.sessions'];
 
 	/**

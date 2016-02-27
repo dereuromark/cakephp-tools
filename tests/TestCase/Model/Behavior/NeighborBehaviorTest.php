@@ -10,8 +10,14 @@ use Tools\TestSuite\TestCase;
 
 class NeighborBehaviorTest extends TestCase {
 
+	/**
+	 * @var \Tools\Model\Table\Table
+	 */
 	public $Table;
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = ['plugin.tools.stories'];
 
 	public function setUp() {

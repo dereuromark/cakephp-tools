@@ -9,6 +9,9 @@ use Tools\Utility\Mime;
 
 class MimeTest extends TestCase {
 
+	/**
+	 * @var \Tools\Utility\Mime
+	 */
 	public $Mime;
 
 	public function setUp() {

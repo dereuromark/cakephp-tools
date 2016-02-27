@@ -16,10 +16,19 @@ use Tools\TestSuite\TestCase;
  */
 class ControllerTest extends TestCase {
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = ['plugin.Tools.ToolsUsers'];
 
+	/**
+	 * @var Cake\Controller\Controller
+	 */
 	public $Controller;
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -29,6 +38,9 @@ class ControllerTest extends TestCase {
 		$this->Controller->startupProcess();
 	}
 
+	/**
+	 * @return void
+	 */
 	public function tearDown() {
 		parent::tearDown();
 

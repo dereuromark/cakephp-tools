@@ -8,7 +8,10 @@ use Tools\TestSuite\TestCase;
 
 class HtmlDomTest extends TestCase {
 
-	public $HtmlDom = null;
+	/**
+	 * @var \Tools\HtmlDom\HtmlDom
+	 */
+	public $HtmlDom;
 
 	public function setUp() {
 		parent::setUp();
@@ -22,8 +25,8 @@ class HtmlDomTest extends TestCase {
 	 * @return void
 	 */
 	public function testBasics() {
-		$html = new HtmlDom('<div id="hello">Hello</div><div id="world">World</div>');
-		$result = $html->find('div', 1)->innertext;
+		$this->HtmlDom = new HtmlDom('<div id="hello">Hello</div><div id="world">World</div>');
+		$result = $this->HtmlDom->find('div', 1)->innertext;
 		$this->assertSame('World', $result);
 	}
 

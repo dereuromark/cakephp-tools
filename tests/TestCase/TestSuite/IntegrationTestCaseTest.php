@@ -6,8 +6,6 @@ use Tools\TestSuite\IntegrationTestCase;
 
 class IntegrationTestCaseTest extends IntegrationTestCase {
 
-	public $TestCase;
-
 	public function setUp() {
 		parent::setUp();
 	}

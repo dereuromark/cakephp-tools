@@ -19,11 +19,17 @@ use Tools\TestSuite\TestCase;
 
 class ContactFormTest extends TestCase {
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = [
 		'core.posts', 'core.authors',
 		'plugin.tools.tools_users', 'plugin.tools.roles',
 	];
 
+	/**
+	 * @var \Tools\Form\ContactForm
+	 */
 	public $Form;
 
 	/**

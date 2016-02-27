@@ -10,10 +10,19 @@ use Tools\TestSuite\TestCase;
 
 class ResetBehaviorTest extends TestCase {
 
+	/**
+	 * @var \Tools\Model\Behavior\ResetBehavior
+	 */
 	public $ResetBehavior;
 
+	/**
+	 * @var \Tools\Model\Table\Table
+	 */
 	public $Table;
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = ['plugin.tools.reset_comments'];
 
 	public function setUp() {

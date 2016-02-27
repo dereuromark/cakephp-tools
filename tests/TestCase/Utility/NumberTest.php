@@ -9,7 +9,10 @@ use Tools\Utility\Number;
 
 class NumberTest extends TestCase {
 
-	public $Number = null;
+	/**
+	 * @var \Tools\Utility\Number
+	 */
+	public $Number;
 
 	public function setUp() {
 		parent::setUp();

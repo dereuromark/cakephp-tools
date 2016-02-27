@@ -121,10 +121,19 @@ class FlashComponentTest extends TestCase {
  */
 class FlashComponentTestController extends Controller {
 
+	/**
+	 * @var array
+	 */
 	public $components = ['Tools.Flash'];
 
+	/**
+	 * @var bool
+	 */
 	public $failed = false;
 
+	/**
+	 * @var array
+	 */
 	public $testHeaders = [];
 
 	public function fail() {

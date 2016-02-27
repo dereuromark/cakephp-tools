@@ -9,10 +9,16 @@ use Tools\TestSuite\TestCase;
 
 class StringBehaviorTest extends TestCase {
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = [
 		'plugin.tools.string_comments'
 	];
 
+	/**
+	 * @var \Tools\Model\Table\Table
+	 */
 	public $Comments;
 
 	public function setUp() {
