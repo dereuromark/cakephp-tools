@@ -14,8 +14,6 @@ use Tools\Controller\Component\FlashComponent;
  */
 class FlashHelper extends Helper {
 
-	public $helpers = [];
-
 	/**
 	 * Display all flash messages.
 	 *

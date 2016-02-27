@@ -20,7 +20,7 @@ class GravatarHelper extends Helper {
 	/**
 	 * Gravatar avatar image base URL
 	 *
-	 * @var string
+	 * @var array
 	 */
 	protected $_url = [
 		'http' => 'http://www.gravatar.com/avatar/',

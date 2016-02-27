@@ -13,12 +13,15 @@ use Tools\View\Helper\AuthUserHelper;
 class AuthUserHelperTest extends TestCase {
 
 	/**
-	 * fixtures
+	 * Fixtures
 	 *
-	 * @var string
+	 * @var array
 	 */
 	public $fixtures = ['core.sessions'];
 
+	/**
+	 * @var \Tools\View\Helper\AuthUserHelper
+	 */
 	public $AuthUser;
 
 	/**

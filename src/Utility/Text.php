@@ -11,28 +11,64 @@ use Cake\Utility\Text as CakeText;
  */
 class Text extends CakeText {
 
+	/**
+	 * @var string
+	 */
 	public $text;
 
+	/**
+	 * @var int
+	 */
 	public $length;
 
+	/**
+	 * @var string
+	 */
 	public $char;
 
+	/**
+	 * @var string
+	 */
 	public $letter;
 
+	/**
+	 * @var string
+	 */
 	public $space;
 
+	/**
+	 * @var string
+	 */
 	public $word;
 
+	/**
+	 * @var string
+	 */
 	public $rWord;
 
+	/**
+	 * @var string
+	 */
 	public $sen;
 
+	/**
+	 * @var string
+	 */
 	public $rSen;
 
+	/**
+	 * @var string
+	 */
 	public $para;
 
+	/**
+	 * @var string
+	 */
 	public $rPara;
 
+	/**
+	 * @var string
+	 */
 	public $beautified;
 
 	/**

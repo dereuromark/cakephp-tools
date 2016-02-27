@@ -12,6 +12,9 @@ use Tools\View\Helper\TimelineHelper;
  */
 class TimelineHelperTest extends TestCase {
 
+	/**
+	 * @var \Tools\View\Helper\TimelineHelper
+	 */
 	public $Timeline;
 
 	/**

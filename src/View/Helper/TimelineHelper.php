@@ -19,8 +19,14 @@ use Cake\View\View;
  */
 class TimelineHelper extends Helper {
 
+	/**
+	 * @var array
+	 */
 	public $helpers = ['Tools.Js'];
 
+	/**
+	 * @var array
+	 */
 	protected $_defaultConfig = [
 		'id' => 'mytimeline',
 		'selectable' => false,
@@ -33,6 +39,9 @@ class TimelineHelper extends Helper {
 		'current' => null, // Current time.
 	];
 
+	/**
+	 * @var array
+	 */
 	protected $_items = [];
 
 	/**

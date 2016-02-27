@@ -14,14 +14,29 @@ use Tools\Utility\Random;
  */
 class TokensTable extends Table {
 
+	/**
+	 * @var string
+	 */
 	public $displayField = 'key';
 
+	/**
+	 * @var array
+	 */
 	public $order = ['created' => 'DESC'];
 
+	/**
+	 * @var int
+	 */
 	public $defaultLength = 22;
 
+	/**
+	 * @var int
+	 */
 	public $validity = MONTH;
 
+	/**
+	 * @var array
+	 */
 	public $validate = [
 		'type' => [
 			'notBlank' => [

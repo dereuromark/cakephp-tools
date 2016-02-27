@@ -13,8 +13,14 @@ use Tools\View\Helper\FormHelper;
  */
 class FormHelperTest extends TestCase {
 
+	/**
+	 * @var\Tools\View\Helper\FormHelper
+	 */
 	public $Form;
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 

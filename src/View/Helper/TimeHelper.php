@@ -11,6 +11,9 @@ use Cake\View\View;
  */
 class TimeHelper extends CakeTimeHelper {
 
+	/**
+	 * @var array
+	 */
 	public $helpers = ['Html'];
 
 	/**
@@ -27,7 +30,7 @@ class TimeHelper extends CakeTimeHelper {
 	 *
 	 * @var \Cake\I18n\Number
 	 */
-	protected $_engine = null;
+	protected $_engine;
 
 	/**
 	 * Default Constructor

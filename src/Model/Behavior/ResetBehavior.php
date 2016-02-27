@@ -45,6 +45,9 @@ use Cake\ORM\Table;
  */
 class ResetBehavior extends Behavior {
 
+	/**
+	 * @var array
+	 */
 	protected $_defaultConfig = [
 		'limit' => 100, // batch of records per loop
 		'timeout' => null, // in seconds

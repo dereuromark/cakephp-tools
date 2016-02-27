@@ -41,20 +41,30 @@ if (!defined('QS_CODE_DEFAULT_LEVEL')) {
  */
 class QrCodeHelper extends Helper {
 
-	public $helpers = ['Html'];
-
 	const MIN_SIZE = 58; # not readable anymore below this value
+
 	const MAX_SIZE = 540; # max of 300000 pixels
 	const DEFAULT_SIZE = 74; # 2x size
 	const DEFAULT_LEVEL = 'L'; # highest correction level
-
 	const SIZE_L = 58;
+
 	const SIZE_M = 66;
 	const SIZE_Q = 66;
 	const SIZE_H = 74;
 
+	/**
+	 * @var array
+	 */
+	public $helpers = ['Html'];
+
+	/**
+	 * @var string
+	 */
 	public $engine = 'google';
 
+	/**
+	 * @var string
+	 */
 	public $url = 'http://chart.apis.google.com/chart?';
 
 	/**
@@ -62,15 +72,24 @@ class QrCodeHelper extends Helper {
 	 * - chl: string $text
 	 * - choe: string $outputEncoding
 	 * - chs: size (...x...)
+	 *
+	 * @var array
 	 */
 	public $options = ['cht' => 'qr', 'chl' => '', 'choe' => '', 'chs' => ''];
 
+	/**
+	 * @var array
+	 */
 	public $ecLevels = ['H', 'Q', 'M', 'L']; # 30%..7%
 
+	/**
+	 * @var array
+	 */
 	public $formattingTypes = ['url' => 'http', 'tel' => 'tel', 'sms' => 'smsto', 'card' => 'mecard'];
 
 	/**
 	 * QrCodeHelper constructor.
+	 *
 	 * @param \Cake\View\View $View
 	 * @param array $config
 	 */

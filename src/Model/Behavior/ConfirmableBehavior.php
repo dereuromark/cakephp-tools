@@ -23,6 +23,9 @@ use Cake\Validation\Validator;
  */
 class ConfirmableBehavior extends Behavior {
 
+	/**
+	 * @var array
+	 */
 	protected $_defaultConfig = [
 		'message' => null,
 		'field' => 'confirm',
@@ -30,6 +33,10 @@ class ConfirmableBehavior extends Behavior {
 		'validator' => 'default',
 	];
 
+	/**
+	 * @param \Cake\ORM\Table $table
+	 * @param array $config
+	 */
 	public function __construct(Table $table, array $config = []) {
 		parent::__construct($table, $config);
 
@@ -38,10 +45,19 @@ class ConfirmableBehavior extends Behavior {
 		}
 	}
 
+	/**
+	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Validation\Validator $validator
+	 * @param string $name
+	 */
 	public function buildValidator(Event $event, Validator $validator, $name) {
 		$this->build($validator, $name);
 	}
 
+	/**
+	 * @param \Cake\Validation\Validator $validator
+	 * @param string $name
+	 */
 	public function build(Validator $validator, $name = 'default') {
 		if ($name !== $this->_config['validator']) {
 			return;

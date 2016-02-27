@@ -13,6 +13,9 @@ use Tools\View\Helper\CookieHelper;
 
 class CookieHelperTest extends TestCase {
 
+	/**
+	 * @var \Tools\View\Helper\CookieHelper
+	 */
 	public $Cookie;
 
 	/**
@@ -25,6 +28,9 @@ class CookieHelperTest extends TestCase {
 		$this->Cookie->request = $this->getMock('Cake\Network\Request', ['cookie']);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function tearDown() {
 		unset($this->Table);
 

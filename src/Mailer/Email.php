@@ -14,14 +14,29 @@ class Email extends CakeEmail {
 
 	use LogTrait;
 
+	/**
+	 * @var int|null
+	 */
 	protected $_wrapLength = null;
 
+	/**
+	 * @var int|null
+	 */
 	protected $_priority = null;
 
+	/**
+	 * @var string|null
+	 */
 	protected $_error = null;
 
+	/**
+	 * @var bool|null
+	 */
 	protected $_debug = null;
 
+	/**
+	 * @var array
+	 */
 	protected $_log = [];
 
 	/**

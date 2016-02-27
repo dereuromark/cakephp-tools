@@ -25,8 +25,14 @@ class FormatHelper extends Helper {
 	 */
 	public $helpers = ['Html'];
 
+	/**
+	 * @var \Cake\View\StringTemplate
+	 */
 	public $template;
 
+	/**
+	 * @var array
+	 */
 	protected $_defaultIcons = [
 		'yes' => 'fa fa-check',
 		'no' => 'fa fa-times',
@@ -44,6 +50,9 @@ class FormatHelper extends Helper {
 		//'genderless' => 'fa fa-genderless'
 	];
 
+	/**
+	 * @var array
+	 */
 	protected $_defaults = [
 		'fontIcons' => null,
 		'iconNamespace' => 'fa', // Used to be icon,
@@ -54,6 +63,12 @@ class FormatHelper extends Helper {
 		]
 	];
 
+	/**
+	 * FormatHelper constructor.
+	 *
+	 * @param \Cake\View\View $View
+	 * @param array $config
+	 */
 	public function __construct(View $View, array $config = []) {
 		$defaults = (array)Configure::read('Format') + $this->_defaults;
 		$config += $defaults;

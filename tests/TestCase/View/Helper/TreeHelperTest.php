@@ -13,10 +13,16 @@ use Tools\View\Helper\TreeHelper;
 
 class TreeHelperTest extends TestCase {
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = [
 		'plugin.tools.after_trees'
 	];
 
+	/**
+	 * @var \Cake\ORM\Table
+	 */
 	public $Table;
 
 	/**

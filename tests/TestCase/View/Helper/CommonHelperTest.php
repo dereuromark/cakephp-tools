@@ -13,8 +13,14 @@ use Tools\View\Helper\CommonHelper;
  */
 class CommonHelperTest extends TestCase {
 
+	/**
+	 * @var \Tools\View\Helper\CommonHelper
+	 */
 	public $Common;
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 

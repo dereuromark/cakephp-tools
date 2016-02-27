@@ -12,6 +12,9 @@ use Cake\View\View;
  */
 class FormHelper extends CakeFormHelper {
 
+	/**
+	 * @var array
+	 */
 	protected $_defaultConfigExt = [
 		'novalidate' => false
 	];

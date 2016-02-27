@@ -13,6 +13,9 @@ class AuthUserComponent extends Component {
 
 	use AuthUserTrait;
 
+	/**
+	 * @var array
+	 */
 	public $components = ['Auth'];
 
 	/**

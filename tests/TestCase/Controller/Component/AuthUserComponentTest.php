@@ -18,10 +18,13 @@ class AuthUserComponentTest extends TestCase {
 	/**
 	 * fixtures
 	 *
-	 * @var string
+	 * @var array
 	 */
 	public $fixtures = ['core.sessions'];
 
+	/**
+	 * @var \Tools\Controller\Component\AuthUserComponent
+	 */
 	public $AuthUser;
 
 	/**

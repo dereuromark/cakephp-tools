@@ -13,6 +13,9 @@ use Cake\View\Helper;
  */
 class CommonHelper extends Helper {
 
+	/**
+	 * @var array
+	 */
 	public $helpers = ['Html', 'Url'];
 
 	/**

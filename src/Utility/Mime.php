@@ -13,6 +13,9 @@ use Cake\Network\Response;
  */
 class Mime extends Response {
 
+	/**
+	 * @var array
+	 */
 	protected $_mimeTypesExt = [
 		'3dm' => 'x-world/x-3dmf',
 		'3dmf' => 'x-world/x-3dmf',

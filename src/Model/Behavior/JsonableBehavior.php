@@ -36,6 +36,9 @@ use Tools\Utility\Text;
  */
 class JsonableBehavior extends Behavior {
 
+	/**
+	 * @var string|false|null
+	 */
 	public $decoded = null;
 
 	/**

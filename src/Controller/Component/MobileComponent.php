@@ -33,26 +33,24 @@ use Tools\Utility\Utility;
  */
 class MobileComponent extends Component {
 
-	public $Controller = null;
-
 	/**
 	 * Stores the result of the auto-detection.
 	 *
-	 * @var bool
+	 * @var bool|null
 	 */
 	public $isMobile = null;
 
 	/**
 	 * Stores the final detection result including user preference.
 	 *
-	 * @var bool
+	 * @var bool|null
 	 */
 	public $setMobile = null;
 
 	/**
 	 * Default values. Can also be set using Configure.
 	 *
-	 * @param array
+	 * @var array
 	 */
 	protected $_defaultConfig = [
 		'on' => 'beforeFilter', // initialize (prior to controller's beforeRender) or startup

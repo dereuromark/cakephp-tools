@@ -14,8 +14,14 @@ class FormatHelperTest extends TestCase {
 
 	public $fixtures = ['core.sessions'];
 
+	/**
+	 * @var \Tools\View\Helper\FormatHelper
+	 */
 	public $Format;
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 

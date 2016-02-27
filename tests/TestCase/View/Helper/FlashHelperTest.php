@@ -15,8 +15,14 @@ class FlashHelperTest extends TestCase {
 
 	public $fixtures = ['core.sessions'];
 
+	/**
+	 * @var \Tools\View\Helper\FlashHelper
+	 */
 	public $Flash;
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 
