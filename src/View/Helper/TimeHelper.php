@@ -5,6 +5,7 @@ namespace Tools\View\Helper;
 use Cake\Core\App;
 use Cake\View\Helper\TimeHelper as CakeTimeHelper;
 use Cake\View\View;
+use DateTime;
 
 /**
  * Wrapper for TimeHelper and TimeLib
@@ -141,7 +142,7 @@ class TimeHelper extends CakeTimeHelper {
 	 * @param array $attr: html attributes
 	 * @return string Nicely formatted date
 	 */
-	public function published(\DateTime $date, array $options = [], array $attr = []) {
+	public function published(DateTime $date, array $options = [], array $attr = []) {
 		$niceDate = '';
 		$when = null;
 		$span = '';

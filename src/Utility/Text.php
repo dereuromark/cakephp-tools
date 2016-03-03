@@ -312,8 +312,8 @@ class Text extends CakeText {
 	 *    echo Str::words('This is a sentence.', 3, '---');
 	 * </code>
 	 *
-	 * @param string  $value
-	 * @param int     $words
+	 * @param string $value
+	 * @param int $words
 	 * @param array $options
 	 * - ellipsis
 	 * - html

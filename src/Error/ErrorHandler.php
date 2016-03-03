@@ -35,7 +35,7 @@ class ErrorHandler extends CoreErrorHandler {
 	 * @param \Exception $exception Exception instance.
 	 * @return bool
 	 */
-	protected function _logException(\Exception $exception) {
+	protected function _logException(Exception $exception) {
 		$blacklist = [
 			'Cake\Routing\Exception\MissingControllerException',
 			'Cake\Routing\Exception\MissingActionException',

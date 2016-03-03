@@ -85,7 +85,7 @@ class TreeHelper extends Helper {
 	 * Accepts the results of
 	 *     find('all', array('fields' => array('lft', 'rght', 'whatever'), 'order' => 'lft ASC'));
 	 *     children(); // if you have the tree behavior of course!
-	 * or 	find('threaded'); and generates a tree structure of the data.
+	 * or find('threaded'); and generates a tree structure of the data.
 	 *
 	 * Settings (2nd parameter):
 	 *    'model' => name of the model (key) to look for in the data array. defaults to the first model for the current

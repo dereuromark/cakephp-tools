@@ -2,6 +2,7 @@
 
 namespace Tools\Model\Behavior;
 
+use ArrayObject;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
@@ -99,7 +100,7 @@ class BitmaskedBehavior extends Behavior {
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeRules(Event $event, Entity $entity, \ArrayObject $options) {
+	public function beforeRules(Event $event, Entity $entity, ArrayObject $options) {
 		if ($this->_config['on'] !== 'beforeRules' || !$options['checkRules']) {
 			return;
 		}
@@ -112,7 +113,7 @@ class BitmaskedBehavior extends Behavior {
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeSave(Event $event, Entity $entity, \ArrayObject $options) {
+	public function beforeSave(Event $event, Entity $entity, ArrayObject $options) {
 		if ($this->_config['on'] !== 'beforeSave') {
 			return;
 		}

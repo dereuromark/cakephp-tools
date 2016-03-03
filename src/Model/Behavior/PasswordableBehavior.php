@@ -100,8 +100,6 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * Adding validation rules
 	 * also adds and merges config settings (direct + configure)
-	 *
-	 * @return void
 	 */
 	public function __construct(Table $table, array $config = []) {
 		$defaults = $this->_defaultConfig;

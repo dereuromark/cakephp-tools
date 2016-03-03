@@ -2,6 +2,7 @@
 
 namespace Tools\Model\Behavior;
 
+use ArrayObject;
 use Cake\Database\Type;
 use Cake\Datasource\ResultSetInterface;
 use Cake\Event\Event;
@@ -103,7 +104,7 @@ class StringBehavior extends Behavior {
 	 * @param \Cake\Event\Event $event
 	 * @return void
 	 */
-	public function beforeSave(Event $event, Entity $entity, \ArrayObject $options) {
+	public function beforeSave(Event $event, Entity $entity, ArrayObject $options) {
 		$this->processItems($entity, 'input');
 	}
 
