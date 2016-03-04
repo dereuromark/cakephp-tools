@@ -160,6 +160,7 @@ class Random {
 	 * Generates random passwords.
 	 *
 	 * @param int $length (necessary!)
+	 * @param string|null $chars
 	 * @return string Password
 	 */
 	public static function pwd($length, $chars = null) {

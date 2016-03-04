@@ -239,7 +239,7 @@ class SluggedBehavior extends Behavior {
 	 * If unique is set to true, check for a unique slug and if unavailable suffix the slug with -1, -2, -3 etc.
 	 * until a unique slug is found
 	 *
-	 * @param string $string
+	 * @param string $value
 	 * @param \Cake\ORM\Entity|null $entity
 	 * @return string A slug
 	 */

@@ -127,6 +127,7 @@ function ent($text) {
  * Convenience method for htmlspecialchars_decode
  *
  * @param string $text Text to wrap through htmlspecialchars_decode
+ * @param int $quoteStyle
  * @return string Converted text
  */
 function hDec($text, $quoteStyle = ENT_QUOTES) {
@@ -140,6 +141,7 @@ function hDec($text, $quoteStyle = ENT_QUOTES) {
  * Convenience method for html_entity_decode
  *
  * @param string $text Text to wrap through htmlspecialchars_decode
+ * @param int $quoteStyle
  * @return string Converted text
  */
 function entDec($text, $quoteStyle = ENT_QUOTES) {
@@ -153,7 +155,7 @@ function entDec($text, $quoteStyle = ENT_QUOTES) {
  * Focus is on the filename (without path)
  *
  * @param string $filename to check on
- * @param string $type (extension/ext, filename/file, basename/base, dirname/dir)
+ * @param string|null $type (extension/ext, filename/file, basename/base, dirname/dir)
  * @return mixed
  */
 function extractFileInfo($filename, $type = null) {
@@ -183,7 +185,7 @@ function extractFileInfo($filename, $type = null) {
  * So "filename.ext?foo=bar#hash" would simply be "filename.ext" then.
  *
  * @param string $filename to check on
- * @param string $type (extension/ext, filename/file, basename/base, dirname/dir)
+ * @param string|null $type (extension/ext, filename/file, basename/base, dirname/dir)
  * @param bool $fromUrl
  * @return mixed
  */
@@ -224,7 +226,7 @@ function extractPathInfo($filename, $type = null, $fromUrl = false) {
  * Shows pr() messages, even with debug = 0.
  * Also allows additional customization.
  *
- * @param mixed $content
+ * @param mixed $var
  * @param bool $collapsedAndExpandable
  * @param array $options
  * - class, showHtml, showFrom, jquery, returns, debug
@@ -283,6 +285,7 @@ function pre($var, $collapsedAndExpandable = false, $options = []) {
  *
  * @param string $haystack Input string.
  * @param string $needle Needed char or string.
+ * @param bool $caseSensitive
  * @return bool
  */
 function contains($haystack, $needle, $caseSensitive = false) {
@@ -295,6 +298,7 @@ function contains($haystack, $needle, $caseSensitive = false) {
  *
  * @param string $haystack Input string.
  * @param string $needle Needed char or string.
+ * @param bool $caseSensitive
  * @return bool
  */
 function startsWith($haystack, $needle, $caseSensitive = false) {
@@ -309,6 +313,7 @@ function startsWith($haystack, $needle, $caseSensitive = false) {
  *
  * @param string $haystack Input string.
  * @param string $needle Needed char or string
+ * @param bool $caseSensitive
  * @return bool
  */
 function endsWith($haystack, $needle, $caseSensitive = false) {

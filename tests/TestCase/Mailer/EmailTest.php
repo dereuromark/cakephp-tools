@@ -16,6 +16,7 @@ class TestEmail extends Email {
 	/**
 	 * Wrap to protected method
 	 *
+	 * @param array $address
 	 * @return array
 	 */
 	public function formatAddress($address) {
@@ -25,6 +26,8 @@ class TestEmail extends Email {
 	/**
 	 * Wrap to protected method
 	 *
+	 * @param string $text
+	 * @param int $length
 	 * @return array
 	 */
 	public function wrap($text, $length = Email::LINE_LENGTH_MUST) {
@@ -43,6 +46,7 @@ class TestEmail extends Email {
 	/**
 	 * Encode to protected method
 	 *
+	 * @param string $text
 	 * @return string
 	 */
 	public function encode($text) {
@@ -52,6 +56,7 @@ class TestEmail extends Email {
 	/**
 	 * Render to protected method
 	 *
+	 * @param string $content
 	 * @return array
 	 */
 	public function render($content) {

@@ -139,7 +139,7 @@ class TimeHelper extends CakeTimeHelper {
 	 *
 	 * @param \DateTime $date Date
 	 * @param array $options
-	 * @param array $attr: html attributes
+	 * @param array $attr HTML attributes
 	 * @return string Nicely formatted date
 	 */
 	public function published(DateTime $date, array $options = [], array $attr = []) {

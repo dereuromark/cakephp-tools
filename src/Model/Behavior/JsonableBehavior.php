@@ -135,6 +135,8 @@ class JsonableBehavior extends Behavior {
 	 * Saves all fields that do not belong to the current Model into 'with' helper model.
 	 *
 	 * @param \Cake\Event\Event $event
+	 * @param \Cake\ORM\Entity $entity
+	 * @param \ArrayObject $options
 	 * @return void
 	 */
 	public function beforeSave(Event $event, Entity $entity, ArrayObject $options) {
@@ -231,6 +233,9 @@ class JsonableBehavior extends Behavior {
 
 	/**
 	 * array() => param1:value1|param2:value2|...
+	 *
+	 * @param array $val
+	 * @return string
 	 */
 	public function _toParam($val) {
 		$res = [];
@@ -259,11 +264,19 @@ class JsonableBehavior extends Behavior {
 
 	/**
 	 * array() => value1|value2|value3|...
+	 *
+	 * @param array $val
+	 * @return string
 	 */
 	public function _toList($val) {
 		return implode($this->_config['separator'], $val);
 	}
 
+	/**
+	 * @param string $val
+	 *
+	 * @return array
+     */
 	public function _fromList($val) {
 		extract($this->_config);
 
@@ -273,7 +286,7 @@ class JsonableBehavior extends Behavior {
 	/**
 	 * Checks if string is encoded array/object
 	 *
-	 * @param string string to check
+	 * @param string $str String to check
 	 * @return bool
 	 */
 	public function isEncoded($str) {

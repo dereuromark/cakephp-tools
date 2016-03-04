@@ -8,7 +8,7 @@ use Cake\View\View;
 use Tools\Utility\Number;
 
 if (!defined('CHAR_HELLIP')) {
-	define('CHAR_HELLIP', '&#8230;'); # … (horizontal ellipsis = three dot leader)
+	define('CHAR_HELLIP', '&#8230;'); # ï¿½ (horizontal ellipsis = three dot leader)
 }
 
 /**
@@ -35,7 +35,7 @@ class TextHelper extends CakeTextHelper {
 	 *            The class needs to be placed in the `Utility` directory.
 	 *
 	 * @param \Cake\View\View $View the view object the helper is attached to.
-	 * @param array $settings Settings array Settings array
+	 * @param array $config Settings array Settings array
 	 * @throws \Cake\Core\Exception\Exception when the engine class could not be found.
 	 */
 	public function __construct(View $View, array $config = []) {

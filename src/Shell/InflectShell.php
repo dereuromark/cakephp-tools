@@ -56,7 +56,6 @@ class InflectShell extends Shell {
 	 * Prompts the user for words
 	 *
 	 * @return array
-	 * @author Jose Diaz-Gonzalez
 	 */
 	protected function _interactive() {
 		$method = $this->_getMethod();
@@ -140,7 +139,6 @@ class InflectShell extends Shell {
 	 * Requests words to inflect
 	 *
 	 * @return array
-	 * @author Jose Diaz-Gonzalez
 	 */
 	protected function _getWords() {
 		$words = null;
@@ -158,8 +156,8 @@ class InflectShell extends Shell {
 	/**
 	 * Parse the arguments into the function and the word(s) to be inflected
 	 *
+	 * @param array $arguments
 	 * @return array
-	 * @author Jose Diaz-Gonzalez
 	 */
 	protected function _parseArguments($arguments) {
 		$words = null;
@@ -187,6 +185,8 @@ class InflectShell extends Shell {
 	/**
 	 * Inflects a set of words based upon the inflection set in the arguments
 	 *
+	 * @param string $function
+	 * @param string $words
 	 * @return void
 	 */
 	protected function _inflect($function, $words) {
@@ -205,6 +205,7 @@ class InflectShell extends Shell {
 	/**
 	 * Returns the appropriate message for a given function
 	 *
+	 * @param string $function
 	 * @return string
 	 */
 	protected function _getMessage($function) {

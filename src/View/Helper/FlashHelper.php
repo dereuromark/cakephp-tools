@@ -87,12 +87,12 @@ class FlashHelper extends Helper {
 	 * @param bool $escape Set to false to disable escaping.
 	 * @return string HTML
 	 */
-	public function message($msg, $type = 'info', $escape = true) {
+	public function message($message, $type = 'info', $escape = true) {
 		$html = '<div class="flash-messages">';
 		if ($escape) {
-			$msg = h($msg);
+			$msg = h($message);
 		}
-		$html .= $this->_message($msg, $type);
+		$html .= $this->_message($message, $type);
 		$html .= '</div>';
 		return $html;
 	}

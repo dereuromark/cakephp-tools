@@ -70,60 +70,6 @@ class Table extends ShimTable {
 	}
 
 	/**
-	 * Checks a record, if it is unique - depending on other fields in this table (transfered as array)
-	 * example in model: 'rule' => array ('validateUnique', array('belongs_to_table_id','some_id','user_id')),
-	 * if all keys (of the array transferred) match a record, return false, otherwise true
-	 *
-	 * @param array $fields Other fields to depend on
-	 * TODO: add possibity of deep nested validation (User -> Comment -> CommentCategory: UNIQUE comment_id, Comment.user_id)
-	 * @param array $options
-	 * - requireDependentFields Require all dependent fields for the validation rule to return true
-	 * @return bool Success
-	 * @deprecated NOT WORKING anymore, use core validateUnique
-	 */
-	public function validateUniqueOld($fieldValue, $fields = [], $options = []) {
-		$id = (!empty($this->data[$this->primaryKey]) ? $this->data[$this->primaryKey] : 0);
-		if (!$id && $this->id) {
-			$id = $this->id;
-		}
-
-		$conditions = [
-			$fieldName => $fieldValue,
-			'id !=' => $id];
-
-		$fields = (array)$fields;
-		if (!array_key_exists('allowEmpty', $fields)) {
-			foreach ($fields as $dependingField) {
-				if (isset($this->data[$dependingField])) { // add ONLY if some content is transfered (check on that first!)
-					$conditions['' . $dependingField] = $this->data[$dependingField];
-				} elseif (isset($this->data['Validation'][$dependingField])) { // add ONLY if some content is transfered (check on that first!
-					$conditions['' . $dependingField] = $this->data['Validation'][$dependingField];
-				} elseif (!empty($id)) {
-					// manual query! (only possible on edit)
-					$res = $this->find('first', ['fields' => ['' . $dependingField], 'conditions' => ['id' => $id]]);
-					if (!empty($res)) {
-						$conditions['' . $dependingField] = $res[$dependingField];
-					}
-				} else {
-					if (!empty($options['requireDependentFields'])) {
-						trigger_error('Required field ' . $dependingField . ' for validateUnique validation not present');
-						return false;
-					}
-					return true;
-				}
-			}
-		}
-
-		$this->recursive = -1;
-		if (count($conditions) > 2) {
-			$this->recursive = 0;
-		}
-		$options = ['fields' => ['' . $this->primaryKey], 'conditions' => $conditions];
-		$res = $this->find('first', $options);
-		return empty($res);
-	}
-
-	/**
 	 * Return the next auto increment id from the current table
 	 * UUIDs will return false
 	 *
@@ -315,6 +261,7 @@ class Table extends ShimTable {
 	/**
 	 * Validation of DateTime Fields (both Date and Time together)
 	 *
+	 * @param mixed $value
 	 * @param array $options
 	 * - dateFormat (defaults to 'ymd')
 	 * - allowEmpty

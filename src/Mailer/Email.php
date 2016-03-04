@@ -200,7 +200,7 @@ class Email extends CakeEmail {
 	/**
 	 * Add an attachment from file
 	 *
-	 * @param string $file: absolute path
+	 * @param string $file Absolute path
 	 * @param string|null $name
 	 * @param array $fileInfo
 	 * @return $this
@@ -218,7 +218,7 @@ class Email extends CakeEmail {
 	/**
 	 * Add an attachment as blob
 	 *
-	 * @param string $content: blob data
+	 * @param string $content Blob data
 	 * @param string $filename to attach it
 	 * @param string|null $mimeType (leave it empty to get mimetype from $filename)
 	 * @param array $fileInfo
@@ -242,7 +242,7 @@ class Email extends CakeEmail {
 	 * - mimetype
 	 * - contentDisposition
 	 *
-	 * @param string $file: absolute path
+	 * @param string $file Absolute path
 	 * @param string|null $name (optional)
 	 * @param string|null $contentId (optional)
 	 * @param array $options Options
@@ -277,7 +277,7 @@ class Email extends CakeEmail {
 	 * Options:
 	 * - contentDisposition
 	 *
-	 * @param string $content: blob data
+	 * @param string $content Blob data
 	 * @param string $filename to attach it
 	 * @param string|null $mimeType (leave it empty to get mimetype from $filename)
 	 * @param string|null $contentId (optional)

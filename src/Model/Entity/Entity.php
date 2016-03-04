@@ -13,6 +13,7 @@ class Entity extends CakeEntity {
 	 * @link http://www.dereuromark.de/2010/06/24/static-enums-or-semihardcoded-attributes/
 	 * @param string $value or array $keys or NULL for complete array result
 	 * @param array $options (actual data)
+	 * @param string|null $default
 	 * @return mixed string/array
 	 */
 	public static function enum($value, array $options, $default = null) {

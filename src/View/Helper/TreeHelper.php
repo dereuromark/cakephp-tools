@@ -383,7 +383,8 @@ class TreeHelper extends Helper {
 	 *
 	 * @param string $id
 	 * @param string $key
-	 * @param mixed $value
+	 * @param mixed|null $value
+	 * @param string $previousOrNext
 	 * @return void
 	 */
 	public function addTypeAttribute($id = '', $key = '', $value = null, $previousOrNext = 'next') {
@@ -451,6 +452,7 @@ class TreeHelper extends Helper {
 	 *
 	 * @param string $rType
 	 * @param array $elementData
+	 * @param bool $clear
 	 * @return string
 	 */
 	protected function _attributes($rType, array $elementData = [], $clear = true) {

@@ -337,6 +337,7 @@ class FormatHelper extends Helper {
 	 *
 	 * @param string $type
 	 * @param array $options
+	 * @param array $attributes
 	 * @return string
 	 */
 	protected function _fontIcon($type, $options, $attributes) {

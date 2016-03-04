@@ -68,10 +68,10 @@ class TokensTable extends Table {
 	/**
 	 * Stores new key in DB
 	 *
-	 * @param string $type: necessary
-	 * @param string|null $key: optional key, otherwise a key will be generated
-	 * @param mixed|null $uid: optional (if used, only this user can use this key)
-	 * @param string|null $content: up to 255 characters of content may be added (optional)
+	 * @param string $type Type: necessary
+	 * @param string|null $key Key: optional key, otherwise a key will be generated
+	 * @param mixed|null $uid Uid: optional (if used, only this user can use this key)
+	 * @param string|null $content Content: up to 255 characters of content may be added (optional)
 	 * NOW: checks if this key is already used (should be unique in table)
 	 * @return string key on SUCCESS, boolean false otherwise
 	 */

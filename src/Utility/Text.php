@@ -345,7 +345,7 @@ class Text extends CakeText {
 	 *
 	 * Converts High ascii text and MS Word special characters to character entities
 	 *
-	 * @param string
+	 * @param string $str
 	 * @return string
 	 */
 	public function asciiToEntities($str) {
@@ -392,8 +392,8 @@ class Text extends CakeText {
 	 *
 	 * Converts character entities back to ASCII
 	 *
-	 * @param string
-	 * @param bool
+	 * @param string $str
+	 * @param bool $all
 	 * @return string
 	 */
 	public function entitiesToAscii($str, $all = true) {
@@ -438,7 +438,7 @@ class Text extends CakeText {
 	 *
 	 * http://www.some-site.com/index.php
 	 *
-	 * @param string
+	 * @param string $str
 	 * @return string
 	 */
 	public function reduce_double_slashes($str) {

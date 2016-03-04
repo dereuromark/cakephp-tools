@@ -142,6 +142,8 @@ class QrCodeHelper extends Helper {
 	 * Format a text in a specific format
 	 * - url, sms, tel, email, market, geo
 	 *
+	 * @param string $text
+	 * @param string|null $type
 	 * @return string formattedText
 	 */
 	public function formatText($text, $type = null) {
@@ -274,6 +276,8 @@ class QrCodeHelper extends Helper {
 	/**
 	 * Change size
 	 * result format: chs=<size>x<size>
+	 *
+	 * @param mixed $value
 	 * @return bool Success
 	 *
 	 * //TODO: automatic detection
@@ -295,6 +299,9 @@ class QrCodeHelper extends Helper {
 	/**
 	 * Change level and margin - optional
 	 * result format: chld=<EC level>|<margin>
+	 *
+	 * @param string $level
+	 * @param int|null $margin
 	 * @return bool Success
 	 */
 	public function setLevel($level, $margin = null) {
@@ -313,8 +320,6 @@ class QrCodeHelper extends Helper {
 	}
 
 	/**
-	 * QrCodeHelper::reset()
-	 *
 	 * @return void
 	 */
 	public function reset() {
@@ -335,7 +340,7 @@ class QrCodeHelper extends Helper {
 	 * 25 => 21x21 (L)
 	 * ...
 	 * 4000 => 547x547 (L)
-	 * @param int $length
+	 *
 	 * @return int size
 	 */
 	protected function _findSuitableSize() {

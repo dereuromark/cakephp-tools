@@ -102,6 +102,8 @@ class StringBehavior extends Behavior {
 	 * Saves all fields that do not belong to the current Model into 'with' helper model.
 	 *
 	 * @param \Cake\Event\Event $event
+	 * @param \Cake\ORM\Entity $entity
+	 * @param \ArrayObject $options
 	 * @return void
 	 */
 	public function beforeSave(Event $event, Entity $entity, ArrayObject $options) {

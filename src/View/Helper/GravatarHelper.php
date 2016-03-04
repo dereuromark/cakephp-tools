@@ -62,7 +62,8 @@ class GravatarHelper extends Helper {
 	public $helpers = ['Html'];
 
 	/**
-	 * Constructor
+	 * @param \Cake\View\View|null $View
+	 * @param array $config
 	 */
 	public function __construct($View = null, $config = []) {
 		// Default the secure option to match the current URL.

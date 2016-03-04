@@ -86,7 +86,7 @@ class TimelineHelper extends Helper {
 	 * - editable (boolean)
 	 *
 	 * @link http://almende.github.io/chap-links-library/js/timeline/doc/
-	 * @param array
+	 * @param array $item
 	 * @return void
 	 */
 	public function addItem($item) {
@@ -97,6 +97,7 @@ class TimelineHelper extends Helper {
 	 * Add timeline items as an array of items.
 	 *
 	 * @see \Tools\View\Helper\TimelineHelper::addItem()
+	 * @param array $items
 	 * @return void
 	 */
 	public function addItems($items) {

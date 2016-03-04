@@ -71,7 +71,7 @@ trait AuthUserTrait {
 	/**
 	 * Get the user data of the current session.
 	 *
-	 * @param string $key Key in dot syntax.
+	 * @param string|null $key Key in dot syntax.
 	 * @return mixed Data
 	 */
 	public function user($key = null) {
@@ -104,8 +104,8 @@ trait AuthUserTrait {
 	/**
 	 * Check if the current session has this role.
 	 *
-	 * @param mixed $role
-	 * @param mixed $providedRoles
+	 * @param mixed $expectedRole
+	 * @param mixed|null $providedRoles
 	 * @return bool Success
 	 */
 	public function hasRole($expectedRole, $providedRoles = null) {
@@ -132,7 +132,7 @@ trait AuthUserTrait {
 	 *
 	 * @param mixed $expectedRoles
 	 * @param bool $oneRoleIsEnough (if all $roles have to match instead of just one)
-	 * @param mixed $providedRoles
+	 * @param mixed|null $providedRoles
 	 * @return bool Success
 	 */
 	public function hasRoles($expectedRoles, $oneRoleIsEnough = true, $providedRoles = null) {
@@ -173,8 +173,8 @@ trait AuthUserTrait {
 	 * This can be set via Right model and stored in the Auth array upon login
 	 * the same way the roles are.
 	 *
-	 * @param mixed $role
-	 * @param mixed $providedRights
+	 * @param mixed $expectedRight
+	 * @param mixed|null $providedRights
 	 * @return bool Success
 	 */
 	public function hasRight($expectedRight, $providedRights = null) {

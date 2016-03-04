@@ -26,6 +26,7 @@ class Number extends CakeNumber {
 	/**
 	 * Correct the default values according to localization
 	 *
+	 * @param array $options
 	 * @return void
 	 * @deprecated Should not be used anymore with 3.x functionality?
 	 */
@@ -57,7 +58,7 @@ class Number extends CakeNumber {
 	 * //TODO: automize per localeconv() ?
 	 *
 	 * @param float $number
-	 * @param array $options : currency=true/false, ... (leave empty for no special treatment)
+	 * @param array $formatOptions Format options: currency=true/false, ... (leave empty for no special treatment)
 	 * @return string
 	 */
 	public static function _format($number, array $formatOptions = []) {
@@ -161,6 +162,7 @@ class Number extends CakeNumber {
 	 * Returns a formatted-for-humans file size.
 	 *
 	 * @param int $size Size in bytes
+	 * @param string $decimals
 	 * @return string Human readable size
 	 * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/number.html#NumberHelper::toReadableSize
 	 */
@@ -175,7 +177,7 @@ class Number extends CakeNumber {
 	/**
 	 * Get the rounded average.
 	 *
-	 * @param array $values: int or float values
+	 * @param array $values Values: int or float values
 	 * @param int $precision
 	 * @return float Average
 	 */
@@ -193,8 +195,8 @@ class Number extends CakeNumber {
 	 * @param float $increment
 	 * @return float result
 	 */
-	public static function roundTo($number, $increments = 1.0) {
-		$precision = static::getDecimalPlaces($increments);
+	public static function roundTo($number, $increment = 1.0) {
+		$precision = static::getDecimalPlaces($increment);
 		$res = round($number, $precision);
 		if ($precision <= 0) {
 			$res = (int)$res;
@@ -209,8 +211,8 @@ class Number extends CakeNumber {
 	 * @param int $increment
 	 * @return float result
 	 */
-	public static function roundUpTo($number, $increments = 1) {
-		return ceil($number / $increments) * $increments;
+	public static function roundUpTo($number, $increment = 1) {
+		return ceil($number / $increment) * $increment;
 	}
 
 	/**
@@ -220,8 +222,8 @@ class Number extends CakeNumber {
 	 * @param int $increment
 	 * @return float result
 	 */
-	public static function roundDownTo($number, $increments = 1) {
-		return floor($number / $increments) * $increments;
+	public static function roundDownTo($number, $increment = 1) {
+		return floor($number / $increment) * $increment;
 	}
 
 	/**

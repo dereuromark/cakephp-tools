@@ -39,6 +39,8 @@ class Language {
 	/**
 	 * Compares two parsed arrays of language tags and find the matches
 	 *
+	 * @param array $accepted
+	 * @param array $available
 	 * @return array
 	 */
 	public static function findMatches(array $accepted, array $available = []) {
@@ -77,6 +79,8 @@ class Language {
 	/**
 	 * Compare two language tags and distinguish the degree of matching
 	 *
+	 * @param string $a
+	 * @param string $b
 	 * @return float
 	 */
 	protected static function _matchLanguage($a, $b) {

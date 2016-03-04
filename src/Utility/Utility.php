@@ -122,7 +122,7 @@ class Utility {
 	 * Multibyte analogue of str_split() function.
 	 * By default this works properly with UTF8 strings.
 	 *
-	 * @param string $text
+	 * @param string $str
 	 * @param int $length
 	 * @return array Result
 	 */
@@ -191,6 +191,7 @@ class Utility {
 	 * TODO: protocol to lower!
 	 *
 	 * @param string $url
+	 * @param bool $headerRedirect
 	 * @return string Cleaned Url
 	 */
 	public static function cleanUrl($url, $headerRedirect = false) {
@@ -230,6 +231,7 @@ class Utility {
 	 * for a better result.
 	 *
 	 * @param string $file File
+	 * @param string $pattern
 	 * @return bool Success
 	 */
 	public static function fileExists($file, $pattern = '~^https?://~i') {
@@ -304,13 +306,16 @@ class Utility {
 	 * Add protocol prefix if necessary (and possible)
 	 *
 	 * @param string $url
+	 * @param string|null $prefix
+	 * @return string
 	 */
 	public static function autoPrefixUrl($url, $prefix = null) {
 		if ($prefix === null) {
 			$prefix = 'http://';
 		}
 
-		if (($pos = strpos($url, '.')) !== false) {
+		$pos = strpos($url, '.');
+		if ($pos !== false) {
 			if (strpos(substr($url, 0, $pos), '//') === false) {
 				$url = $prefix . $url;
 			}
@@ -387,7 +392,7 @@ class Utility {
 	 * On non-transaction db connections it will return a deep array of bools instead of bool.
 	 * So we need to call this method inside the modified saveAll() method to return the expected single bool there, too.
 	 *
-	 * @param array
+	 * @param array $array
 	 * @return bool
 	 * @deprecated Not sure this is useful for CakePHP 3.0
 	 */
@@ -442,6 +447,9 @@ class Utility {
 
 	/**
 	 * Trim recursively
+	 *
+	 * @param mixed $value
+	 * @return array|string
 	 */
 	public static function trimDeep($value) {
 		$value = is_array($value) ? array_map('self::trimDeep', $value) : trim($value);
@@ -449,7 +457,10 @@ class Utility {
 	}
 
 	/**
-	 * H() recursively
+	 * Applies h() recursively
+	 *
+	 * @param mixed $value
+	 * @return array|string
 	 */
 	public static function specialcharsDeep($value) {
 		$value = is_array($value) ? array_map('self::specialcharsDeep', $value) : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
@@ -458,6 +469,10 @@ class Utility {
 
 	/**
 	 * Main deep method
+	 *
+	 * @param callable $function
+	 * @param mixed $value
+	 * @return array|string
 	 */
 	public static function deep($function, $value) {
 		$value = is_array($value) ? array_map('self::' . $function, $value) : $function($value);
@@ -544,6 +559,7 @@ class Utility {
 	 * both boolean and integer values also supported.
 	 *
 	 * @param array $data
+	 * @param string $separator
 	 * @return array
 	 */
 	public static function flattenList(array $data, $separator = '.') {
@@ -587,8 +603,8 @@ class Utility {
 	 *
 	 * //TODO: check if it can be replace by Hash::flatten() or Utility::flatten().
 	 *
-	 * @param array $array to flatten
-	 * @param bool $perserveKeys
+	 * @param array $array Array to flatten
+	 * @param bool $preserveKeys
 	 * @return array
 	 */
 	public static function arrayFlatten($array, $preserveKeys = false) {
@@ -639,7 +655,7 @@ class Utility {
 	 * Similar to array_shift but on the keys of the array
 	 * like array_shift() only for keys and not values
 	 *
-	 * @param array $keyValuePairs
+	 * @param array $array keyValuePairs
 	 * @return string key
 	 */
 	public static function arrayShiftKeys(&$array) {
@@ -649,6 +665,9 @@ class Utility {
 		}
 	}
 
+	/**
+	 * @var int
+	 */
 	protected static $_counterStartTime;
 
 	/**
@@ -701,8 +720,9 @@ class Utility {
 	 *
 	 * @link https://github.com/ndejong/pretty_json/blob/master/pretty_json.php
 	 * @param string $json The original JSON string
-	 * @param string $ind The string to indent with
+	 * @param string $indString The string to indent with
 	 * @return string
+	 * @deprecated Now there is a JSON_PRETTY_PRINT option available on json_encode()
 	 */
 	public static function prettyJson($json, $indString = "\t") {
 		// Replace any escaped \" marks so we don't get tripped up on quotemarks_counter

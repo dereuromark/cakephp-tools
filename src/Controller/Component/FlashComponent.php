@@ -62,7 +62,7 @@ class FlashComponent extends Component {
 	 * Updates "messages" session content (to enable multiple messages of one type).
 	 *
 	 * @param string $message Message to output.
-	 * @param string $type Type ('error', 'warning', 'success', 'info' or custom class).
+	 * @param string $options Options
 	 * @return void
 	 */
 	public function message($message, $options = null) {

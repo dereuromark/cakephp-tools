@@ -24,6 +24,7 @@ class CommonHelper extends Helper {
 	 *
 	 * @param string $singular The string to be pl.
 	 * @param int $count
+	 * @param bool $autoTranslate
 	 * @return string "member" or "members" OR "Mitglied"/"Mitglieder" if autoTranslate TRUE
 	 */
 	public function asp($singular, $count, $autoTranslate = false) {
@@ -42,6 +43,7 @@ class CommonHelper extends Helper {
 	 * @param string $singular
 	 * @param string $plural
 	 * @param int $count
+	 * @param bool $autoTranslate
 	 * @return string result
 	 */
 	public function sp($singular, $plural, $count, $autoTranslate = false) {
@@ -83,8 +85,8 @@ class CommonHelper extends Helper {
 	/**
 	 * Convenience method for clean meta name tags
 	 *
-	 * @param string $name: author, date, generator, revisit-after, language
-	 * @param mixed $content: if array, it will be seperated by commas
+	 * @param string|null $name Author, date, generator, revisit-after, language
+	 * @param mixed|null $content If array, it will be separated by commas
 	 * @return string HTML Markup
 	 */
 	public function metaName($name = null, $content = null) {
@@ -101,8 +103,8 @@ class CommonHelper extends Helper {
 	 * Convenience method for meta description
 	 *
 	 * @param string $content
-	 * @param string $language (iso2: de, en-us, ...)
-	 * @param array $additionalOptions
+	 * @param string|null $language (iso2: de, en-us, ...)
+	 * @param array $options Additional options
 	 * @return string HTML Markup
 	 */
 	public function metaDescription($content, $language = null, $options = []) {
@@ -117,8 +119,8 @@ class CommonHelper extends Helper {
 	/**
 	 * Convenience method to output meta keywords
 	 *
-	 * @param string|array $keywords
-	 * @param string $language (iso2: de, en-us, ...)
+	 * @param string|array|null $keywords
+	 * @param string|null $language (iso2: de, en-us, ...)
 	 * @param bool $escape
 	 * @return string HTML Markup
 	 */
@@ -132,6 +134,7 @@ class CommonHelper extends Helper {
 		if ($escape) {
 			$keywords = h($keywords);
 		}
+		$options = [];
 		if (!empty($language)) {
 			$options['lang'] = mb_strtolower($language);
 		} elseif ($language !== false) {
@@ -162,6 +165,7 @@ class CommonHelper extends Helper {
 	 * - de
 	 * - de-ch
 	 * etc
+	 * @param bool $full
 	 * @return string HTML Markup
 	 */
 	public function metaAlternate($url, $lang, $full = false) {
@@ -190,7 +194,7 @@ class CommonHelper extends Helper {
 	 * Convenience method for META Tags
 	 *
 	 * @param mixed $url
-	 * @param string $title
+	 * @param string|null $title
 	 * @return string HTML Markup
 	 */
 	public function metaRss($url, $title = null) {
@@ -210,7 +214,8 @@ class CommonHelper extends Helper {
 	 * Convenience method for META Tags
 	 *
 	 * @param string $type
-	 * @param string $content
+	 * @param string $value Content
+	 * @param bool $escape
 	 * @return string HTML Markup
 	 */
 	public function metaEquiv($type, $value, $escape = true) {

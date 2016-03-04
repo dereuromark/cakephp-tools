@@ -47,8 +47,8 @@ class ObfuscateHelper extends Helper {
 	 *
 	 * @param string $mail Email to encode
 	 * @param string|null $text Text, ptional (if none is given, email will be text as well)
-	 * @param array $attr HTML tag attributes
 	 * @param array $params ?subject=y&body=y to be attached to "mailto:xyz"
+	 * @param array $attr HTML tag attributes
 	 * @return string Save string with JS generated link around email (and non JS fallback)
 	 */
 	public function encodeEmailUrl($mail, $text = null, array $params = [], array $attr = []) {

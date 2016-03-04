@@ -22,6 +22,7 @@ class CommonComponent extends Component {
 	 * For this helper the controller has to be passed as reference
 	 * for manual startup with $disableStartup = true (requires this to be called prior to any other method)
 	 *
+	 * @param Event $event
 	 * @return void
 	 */
 	public function startup(Event $event) {
@@ -130,7 +131,7 @@ class CommonComponent extends Component {
 	 * Returns current url (with all missing params automatically added).
 	 * Necessary for Router::url() and comparison of urls to work.
 	 *
-	 * @param bool $asString: defaults to false = array
+	 * @param bool $asString Defaults to false = array
 	 * @return mixed URL
 	 */
 	public function currentUrl($asString = false) {
