@@ -3,6 +3,7 @@
 namespace Tools\TestCase\Utility;
 
 use Cake\Core\Configure;
+use DateTime;
 use Tools\Misc\ZodiacLib;
 use Tools\TestSuite\TestCase;
 use Tools\Utility\Time;
@@ -1013,8 +1014,8 @@ class TimeTest extends TestCase {
 		}
 
 		// using DateTime interval
-		$datetime1 = new \DateTime('2009-10-11 13:13:13');
-		$datetime2 = new \DateTime('2009-10-12 13:13:15');
+		$datetime1 = new DateTime('2009-10-11 13:13:13');
+		$datetime2 = new DateTime('2009-10-12 13:13:15');
 		$interval = $datetime1->diff($datetime2);
 		$result = $this->Time->buildTime($interval, 'H:MM:SS');
 		$this->assertEquals('24:00:02', $result);
@@ -1126,7 +1127,7 @@ class TimeTest extends TestCase {
 		$this->assertTrue(isset($location['latitude']));
 		$this->assertTrue(isset($location['longitude']));
 
-		$offset = $timezone->getOffset(new \DateTime('@' . mktime(0, 0, 0, 1, 1, date('Y'))));
+		$offset = $timezone->getOffset(new DateTime('@' . mktime(0, 0, 0, 1, 1, date('Y'))));
 		//$this->debug($offset);
 
 		$phpTimezone = date_default_timezone_get();

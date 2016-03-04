@@ -12,6 +12,7 @@ namespace Tools\View\Helper;
 
 use Cake\Core\Configure;
 use Cake\View\Helper;
+use Exception;
 
 /**
  * Helper to generate tree representations of MPTT or recursively nested data.
@@ -214,7 +215,7 @@ class TreeHelper extends Helper {
 					$lastChild = true;
 				}
 			} else {
-				throw new \Exception('Invalid Tree Structure');
+				throw new Exception('Invalid Tree Structure');
 			}
 
 			$activePathElement = null;
@@ -516,7 +517,7 @@ class TreeHelper extends Helper {
 				$subTree = $subTree->toArray();
 			}
 			if (!isset($subTree['children'])) {
-				throw new \Exception('Only works with threaded (nested children) results');
+				throw new Exception('Only works with threaded (nested children) results');
 			}
 
 			if (!empty($path[$level]) && $subTree['id'] == $path[$level]['id']) {

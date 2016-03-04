@@ -4,6 +4,7 @@ namespace Tools\Utility;
 
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
+use RuntimeException;
 
 /**
  * Main class for all app-wide utility methods
@@ -532,7 +533,7 @@ class Utility {
 			$keys = array_reverse($keys);
 			if (!isset($keys[0])) {
 				if ($undefinedKey === null) {
-					throw new \RuntimeException('Key-less values are not supported without $undefinedKey.');
+					throw new RuntimeException('Key-less values are not supported without $undefinedKey.');
 				}
 				$keys[0] = $undefinedKey;
 			}

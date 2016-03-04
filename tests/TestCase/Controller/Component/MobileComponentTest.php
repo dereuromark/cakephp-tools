@@ -8,6 +8,7 @@ use Cake\Event\Event;
 use Cake\Network\Request;
 use Cake\Network\Session;
 use Cake\Routing\DispatcherFactory;
+use Detection\MobileDetect;
 use Shim\Controller\Component\Component;
 use Tools\Controller\Controller;
 use Tools\TestSuite\TestCase;
@@ -31,12 +32,12 @@ class MobileComponentTest extends TestCase {
 		parent::setUp();
 
 		Request::addDetector('mobile', function ($request) {
-		    $detector = new \Detection\MobileDetect();
-		    return $detector->isMobile();
+			$detector = new MobileDetect();
+			return $detector->isMobile();
 		});
 		Request::addDetector('tablet', function ($request) {
-		    $detector = new \Detection\MobileDetect();
-		    return $detector->isTablet();
+			$detector = new MobileDetect();
+			return $detector->isTablet();
 		});
 
 		$this->event = new Event('Controller.beforeFilter');

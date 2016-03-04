@@ -4,6 +4,7 @@ namespace Tools\View\Helper;
 
 use Cake\View\Helper;
 use Tools\Auth\AuthUserTrait;
+use RuntimeException;
 
 /**
  * Helper to access auth user data.
@@ -21,7 +22,7 @@ class AuthUserHelper extends Helper {
 	 */
 	protected function _getUser() {
 		if (!isset($this->_View->viewVars['authUser'])) {
-			throw new \RuntimeException('AuthUser helper needs AuthUser component to function');
+			throw new RuntimeException('AuthUser helper needs AuthUser component to function');
 		}
 		return $this->_View->viewVars['authUser'];
 	}

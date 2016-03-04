@@ -83,10 +83,10 @@ class CommonComponent extends Component {
 			return;
 		}
 		if (method_exists($this->Controller->{$componentName}, 'beforeFilter')) {
-			$this->Controller->{$componentName}->beforeFilter(new \Cake\Event\Event('Controller.initialize', $this->Controller->{$componentName}));
+			$this->Controller->{$componentName}->beforeFilter(new Event('Controller.initialize', $this->Controller->{$componentName}));
 		}
 		if (method_exists($this->Controller->{$componentName}, 'startup')) {
-			$this->Controller->{$componentName}->startup(new \Cake\Event\Event('Controller.startup', $this->Controller->{$componentName}));
+			$this->Controller->{$componentName}->startup(new Event('Controller.startup', $this->Controller->{$componentName}));
 		}
 	}
 

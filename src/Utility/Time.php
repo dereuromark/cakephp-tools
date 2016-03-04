@@ -4,6 +4,7 @@ namespace Tools\Utility;
 
 use Cake\Core\Configure;
 use Cake\I18n\Time as CakeTime;
+use DateInterval;
 
 /**
  * Extend CakeTime with a few important improvements:
@@ -1298,7 +1299,7 @@ class Time extends CakeTime {
 		if (!$duration instanceof \DateInterval) {
 			$d1 = new self();
 			$d2 = new self();
-			$d2->add(new \DateInterval('PT' . $duration . 'S'));
+			$d2->add(new DateInterval('PT' . $duration . 'S'));
 
 			$duration = $d2->diff($d1);
 		}

@@ -5,6 +5,7 @@ namespace Tools\Controller;
 use App\Controller\AppController;
 use Cake\Core\Configure;
 use Cake\I18n\I18n;
+use RuntimeException;
 
 /**
  * Language switching
@@ -38,7 +39,7 @@ class ShuntRequestController extends AppController {
 		}
 
 		if (!array_key_exists($language, $allowedLanguages)) {
-			throw new \RuntimeException('Invalid Language');
+			throw new RuntimeException('Invalid Language');
 		}
 		$language = $allowedLanguages[$language];
 

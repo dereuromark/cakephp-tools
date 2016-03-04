@@ -6,6 +6,7 @@ use Cake\Controller\Controller;
 use Cake\Network\Request;
 use Cake\Network\Response;
 use Cake\Routing\Router;
+use DateTime;
 use Tools\TestSuite\TestCase;
 use Tools\View\RssView;
 
@@ -18,7 +19,7 @@ class BootstrapTest extends TestCase {
 	 * @return void
 	 */
 	public function testIsEmpty() {
-		$result = isEmpty(new \DateTime(date(FORMAT_DB_DATE)));
+		$result = isEmpty(new DateTime(date(FORMAT_DB_DATE)));
 		$this->assertFalse($result);
 	}
 
