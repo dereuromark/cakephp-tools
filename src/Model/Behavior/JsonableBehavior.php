@@ -9,6 +9,7 @@ use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
+use Exception;
 use Tools\Utility\Text;
 
 /**
@@ -78,7 +79,7 @@ class JsonableBehavior extends Behavior {
 	public function initialize(array $config = []) {
 		Type::map('array', 'Tools\Database\Type\ArrayType');
 		if (empty($this->_config['fields'])) {
-			throw new \Exception('Fields are required');
+			throw new Exception('Fields are required');
 		}
 		if (!is_array($this->_config['fields'])) {
 			$this->_config['fields'] = (array)$this->_config['fields'];
@@ -87,7 +88,7 @@ class JsonableBehavior extends Behavior {
 			$this->_config['map'] = (array)$this->_config['map'];
 		}
 		if (!empty($this->_config['map']) && count($this->_config['fields']) !== count($this->_config['map'])) {
-			throw new \Exception('Fields and Map need to be of the same length if map is specified.');
+			throw new Exception('Fields and Map need to be of the same length if map is specified.');
 		}
 		foreach ($this->_config['fields'] as $field) {
 			$this->_table->schema()->columnType($field, 'array');

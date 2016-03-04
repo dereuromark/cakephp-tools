@@ -9,6 +9,7 @@ use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Table;
+use Exception;
 
 if (!defined('PWD_MIN_LENGTH')) {
 	define('PWD_MIN_LENGTH', 6);
@@ -129,7 +130,7 @@ class PasswordableBehavior extends Behavior {
 		$formFieldCurrent = $this->_config['formFieldCurrent'];
 
 		if ($formField === $this->_config['field']) {
-			throw new \Exception('Invalid setup - the form field must to be different from the model field (' . $this->_config['field'] . ').');
+			throw new Exception('Invalid setup - the form field must to be different from the model field (' . $this->_config['field'] . ').');
 		}
 
 		$rules = $this->_validationRules;
@@ -300,7 +301,7 @@ class PasswordableBehavior extends Behavior {
 			$entity->set($field, $PasswordHasher->hash($entity->get($formField)));
 
 			if (!$entity->get($field)) {
-				throw new \Exception('Empty field');
+				throw new Exception('Empty field');
 			}
 
 			$entity->unsetProperty($formField);

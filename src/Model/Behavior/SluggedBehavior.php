@@ -10,6 +10,8 @@ use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Utility\Inflector;
+use Exception as PhpException;
+use InvalidArgumentException;
 
 /**
  * SluggedBehavior
@@ -126,11 +128,11 @@ class SluggedBehavior extends Behavior {
 				if (strpos($field, '.')) {
 					list($alias, $field) = explode('.', $field);
 					if (!$this->_table->$alias->hasField($field)) {
-						throw new \Exception('(SluggedBehavior::setup) model ' . $this->_table->$alias->name . ' is missing the field ' . $field .
+						throw new PhpException('(SluggedBehavior::setup) model ' . $this->_table->$alias->name . ' is missing the field ' . $field .
 							' (specified in the setup for model ' . $this->_table->name . ') ');
 					}
 				} elseif (!$this->_table->hasField($field) && !method_exists($this->_table->entityClass(), '_get' . Inflector::classify($field))) {
-					throw new \Exception('(SluggedBehavior::setup) model ' . $this->_table->name . ' is missing the field ' . $field . ' specified in the setup.');
+					throw new PhpException('(SluggedBehavior::setup) model ' . $this->_table->name . ' is missing the field ' . $field . ' specified in the setup.');
 				}
 			}
 		}
@@ -146,7 +148,7 @@ class SluggedBehavior extends Behavior {
 	 */
 	public function findSlugged(Query $query, array $options) {
 		if (empty($options['slug'])) {
-			throw new \InvalidArgumentException("The 'slug' key is required for find('slugged')");
+			throw new InvalidArgumentException("The 'slug' key is required for find('slugged')");
 		}
 
 		return $query->where([$this->_config['field'] => $options['slug']]);
@@ -294,7 +296,7 @@ class SluggedBehavior extends Behavior {
 		}
 		if ($this->_config['unique']) {
 			if (!$entity) {
-				throw new \Exception('Needs an Entity to work on');
+				throw new PhpException('Needs an Entity to work on');
 			}
 			$field = $this->_table->alias() . '.' . $this->_config['field'];
 			$conditions = [$field => $slug];
@@ -335,7 +337,7 @@ class SluggedBehavior extends Behavior {
 	 */
 	public function resetSlugs($params = []) {
 		if (!$this->_table->hasField($this->_config['field'])) {
-			throw new \Exception('Table does not have field ' . $this->_config['field']);
+			throw new PhpException('Table does not have field ' . $this->_config['field']);
 		}
 		$defaults = [
 			'page' => 1,
@@ -361,7 +363,7 @@ class SluggedBehavior extends Behavior {
 					'fieldList' => array_merge([$this->_table->primaryKey(), $this->_config['field']], $this->_config['label'])
 				];
 				if (!$this->_table->save($record, $options)) {
-					throw new \Exception(print_r($this->_table->errors(), true));
+					throw new PhpException(print_r($this->_table->errors(), true));
 				}
 			}
 			$params['page']++;

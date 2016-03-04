@@ -8,6 +8,7 @@ use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\Utility\Inflector;
+use Exception;
 use Tools\Utility\Text;
 
 /**
@@ -67,7 +68,7 @@ class BitmaskedBehavior extends Behavior {
 			$config['bits'] = false;
 		}
 		if (empty($config['bits'])) {
-			throw new \Exception('Bits not found');
+			throw new Exception('Bits not found');
 		}
 		ksort($config['bits'], SORT_NUMERIC);
 

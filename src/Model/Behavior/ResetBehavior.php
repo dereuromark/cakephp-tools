@@ -6,6 +6,7 @@ use Cake\Core\Configure;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Table;
+use Exception;
 
 /**
  * Allows the model to reset all records as batch command.
@@ -93,7 +94,7 @@ class ResetBehavior extends Behavior {
 		if (!empty($this->_config['fields'])) {
 			foreach ((array)$this->_config['fields'] as $field) {
 				if (!$this->_table->hasField($field)) {
-					throw new \Exception('Table does not have field ' . $field);
+					throw new Exception('Table does not have field ' . $field);
 				}
 			}
 			$defaults['fields'] = array_merge([$this->_table->alias() . '.' . $this->_table->primaryKey()], $this->_config['fields']);
@@ -145,7 +146,7 @@ class ResetBehavior extends Behavior {
 
 				$res = $this->_table->save($record, compact('validate', 'fieldList'));
 				if (!$res) {
-					throw new \Exception(print_r($this->_table->errors(), true));
+					throw new Exception(print_r($this->_table->errors(), true));
 				}
 				$modified++;
 			}

@@ -234,8 +234,8 @@ class CommonComponent extends Component {
 	 * - querystring (especially for 3.x then)
 	 * - passed params
 	 *
-	 * @param mixed $url
-	 * @param int $status
+	 * @param mixed|null $url
+	 * @param int|null $status
 	 * @return \Cake\Network\Response
 	 */
 	public function completeRedirect($url = null, $status = null) {
