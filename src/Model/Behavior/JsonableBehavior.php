@@ -276,7 +276,7 @@ class JsonableBehavior extends Behavior {
 	 * @param string $val
 	 *
 	 * @return array
-     */
+	 */
 	public function _fromList($val) {
 		extract($this->_config);
 

@@ -22,7 +22,7 @@ class CommonComponent extends Component {
 	 * For this helper the controller has to be passed as reference
 	 * for manual startup with $disableStartup = true (requires this to be called prior to any other method)
 	 *
-	 * @param Event $event
+	 * @param \Cake\Event\Event $event
 	 * @return void
 	 */
 	public function startup(Event $event) {
