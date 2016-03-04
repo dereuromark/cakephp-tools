@@ -41,7 +41,7 @@ class FlashHelperTest extends TestCase {
 	 */
 	public function testMessage() {
 		$result = $this->Flash->message(h('Foo & bar'), 'success');
-		$expected = '<div class="flash-messages"><div class="message success">Foo &amp;amp; bar</div></div>';
+		$expected = '<div class="flash-messages"><div class="message success">Foo &amp; bar</div></div>';
 		$this->assertEquals($expected, $result);
 	}
 
