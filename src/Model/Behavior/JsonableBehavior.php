@@ -4,7 +4,6 @@ namespace Tools\Model\Behavior;
 
 use ArrayObject;
 use Cake\Database\Type;
-use Cake\Datasource\ResultSetInterface;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;

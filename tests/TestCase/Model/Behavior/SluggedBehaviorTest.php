@@ -3,11 +3,7 @@
 namespace Tools\Test\TestCase\Model\Behavior;
 
 use Cake\Core\Configure;
-use Cake\Database\Query;
-use Cake\Datasource\ConnectionManager;
-use Cake\Event\Event;
 use Cake\ORM\Entity;
-use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Tools\TestSuite\TestCase;
 

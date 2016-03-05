@@ -3,7 +3,6 @@
 namespace Tools\Test\Model\Table;
 
 use Cake\ORM\TableRegistry;
-use Tools\Model\Table\TokensTable;
 use Tools\TestSuite\TestCase;
 
 class TokensTableTest extends TestCase {

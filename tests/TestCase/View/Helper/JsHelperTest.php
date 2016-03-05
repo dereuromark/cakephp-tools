@@ -2,9 +2,6 @@
 
 namespace Tools\TestCase\View\Helper;
 
-use Cake\Core\Configure;
-use Cake\Datasource\ConnectionManager;
-use Cake\ORM\TableRegistry;
 use Cake\View\View;
 use Tools\TestSuite\TestCase;
 use Tools\View\Helper\JsHelper;

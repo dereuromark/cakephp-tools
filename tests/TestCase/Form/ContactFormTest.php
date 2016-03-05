@@ -2,18 +2,7 @@
 
 namespace Tools\Form;
 
-use Cake\Auth\DefaultPasswordHasher;
-use Cake\Auth\PasswordHasherFactory;
 use Cake\Core\Configure;
-use Cake\Datasource\ConnectionManager;
-use Cake\I18n\Time;
-use Cake\Network\Request;
-use Cake\ORM\Entity;
-use Cake\ORM\Query;
-use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
-use Cake\Routing\Router;
-use Cake\Utility\Security;
 use Tools\Form\ContactForm;
 use Tools\TestSuite\TestCase;
 

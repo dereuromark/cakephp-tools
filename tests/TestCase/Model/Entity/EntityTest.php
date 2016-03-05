@@ -3,8 +3,6 @@
 namespace Tools\Model\Entity;
 
 use Cake\Core\Configure;
-use Cake\ORM\Query;
-use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Tools\Model\Entity\Entity;
 use Tools\TestSuite\TestCase;

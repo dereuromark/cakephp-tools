@@ -5,7 +5,6 @@ namespace Tools\Test\TestCase\Model\Behavior;
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 use stdClass;
-use Tools\Model\Behavior\JsonableBehavior;
 use Tools\TestSuite\TestCase;
 
 class JsonableBehaviorTest extends TestCase {

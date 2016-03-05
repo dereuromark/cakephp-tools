@@ -2,7 +2,6 @@
 
 namespace Tools\TestCase\View\Helper;
 
-use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
 use Cake\ORM\Entity;
 use Cake\ORM\Table;

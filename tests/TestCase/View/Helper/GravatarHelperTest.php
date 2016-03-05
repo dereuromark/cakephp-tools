@@ -2,7 +2,6 @@
 
 namespace Tools\TestCase\View\Helper;
 
-use Cake\Core\Configure;
 use Cake\View\View;
 use Tools\TestSuite\TestCase;
 use Tools\View\Helper\GravatarHelper;

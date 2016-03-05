@@ -3,7 +3,6 @@
 namespace Tools\Test\TestCase\Shell;
 
 use Cake\Console\ConsoleIo;
-use Tools\Shell\InflectShell;
 use Tools\TestSuite\ConsoleOutput;
 use Tools\TestSuite\TestCase;
 

@@ -2,11 +2,7 @@
 
 namespace Tools\TestCase\View\Helper;
 
-use Cake\Datasource\ConnectionManager;
-use Cake\Network\Request;
-use Cake\ORM\Entity;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Cake\View\View;
 use Tools\TestSuite\TestCase;
 use Tools\View\Helper\CookieHelper;

@@ -2,7 +2,6 @@
 
 namespace TestApp\Controller\Component;
 
-use Cake\Controller\Controller;
 use Cake\Event\Event;
 use Shim\Controller\Component\Component;
 

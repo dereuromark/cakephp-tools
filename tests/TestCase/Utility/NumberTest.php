@@ -2,8 +2,6 @@
 
 namespace Tools\TestCase\Utility;
 
-use Cake\Core\Configure;
-use Cake\I18n\I18n;
 use Tools\TestSuite\TestCase;
 use Tools\Utility\Number;
 

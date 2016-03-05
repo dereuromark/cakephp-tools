@@ -2,12 +2,8 @@
 
 namespace Tools\Model\Behavior;
 
-use ArrayObject;
-use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
-use Cake\ORM\Entity;
-use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 

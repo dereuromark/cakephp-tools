@@ -15,11 +15,7 @@
 
 namespace Tools\View\Helper;
 
-use Cake\Core\Configure;
-use Cake\Network\Response;
 use Cake\View\Helper\HtmlHelper as CoreHtmlHelper;
-use Cake\View\StringTemplateTrait;
-use Cake\View\View;
 
 /**
  * Html Helper class for easy use of HTML widgets.

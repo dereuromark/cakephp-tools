@@ -2,13 +2,8 @@
 
 namespace Tools\Model\Table;
 
-use Cake\Core\Configure;
-use Cake\Event\Event;
-use Cake\ORM\Query;
 use Cake\Routing\Router;
-use Cake\Utility\Inflector;
 use Cake\Validation\Validation;
-use Cake\Validation\Validator;
 use Shim\Model\Table\Table as ShimTable;
 use Tools\Utility\Time;
 use Tools\Utility\Utility;

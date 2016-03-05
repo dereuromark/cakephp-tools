@@ -2,13 +2,8 @@
 
 namespace Tools\Test\TestCase\Controller;
 
-use Cake\Controller\ComponentRegistry;
-use Cake\Controller\Component\CommonComponent;
 use Cake\Core\Configure;
-use Cake\Network\Request;
-use Cake\Network\Session;
 use Cake\ORM\TableRegistry;
-use Shim\Controller\Component\Component;
 use Tools\Controller\Controller;
 use Tools\TestSuite\TestCase;
 

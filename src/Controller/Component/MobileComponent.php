@@ -7,7 +7,6 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Routing\Router;
 use Shim\Controller\Component\Component;
-use Tools\Utility\Utility;
 
 /**
  * A component to easily store mobile in session and serve mobile views to users.

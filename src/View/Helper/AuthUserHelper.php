@@ -3,8 +3,8 @@
 namespace Tools\View\Helper;
 
 use Cake\View\Helper;
-use Tools\Auth\AuthUserTrait;
 use RuntimeException;
+use Tools\Auth\AuthUserTrait;
 
 /**
  * Helper to access auth user data.

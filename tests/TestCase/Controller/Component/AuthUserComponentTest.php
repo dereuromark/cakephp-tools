@@ -4,9 +4,7 @@ namespace Tools\Test\TestCase\Controller\Component;
 
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
-use Cake\Core\Configure;
 use Cake\Network\Request;
-use Cake\Network\Session;
 use Tools\Controller\Component\AuthUserComponent;
 use Tools\TestSuite\TestCase;
 

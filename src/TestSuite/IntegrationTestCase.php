@@ -2,7 +2,6 @@
 
 namespace Tools\TestSuite;
 
-use Cake\Routing\Router;
 use Cake\TestSuite\IntegrationTestCase as CakeIntegrationTestCase;
 
 /**

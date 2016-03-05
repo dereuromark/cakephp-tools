@@ -2,12 +2,10 @@
 
 namespace Tools\TestCase\View\Helper;
 
-use Cake\Core\Configure;
 use Cake\Network\Request;
 use Cake\Routing\Router;
 use Cake\View\View;
 use Tools\TestSuite\TestCase;
-use Tools\Utility\Time;
 use Tools\View\Helper\UrlHelper;
 
 /**

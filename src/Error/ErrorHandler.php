@@ -2,7 +2,6 @@
 
 namespace Tools\Error;
 
-use Cake\Core\Configure;
 use Cake\Error\ErrorHandler as CoreErrorHandler;
 use Cake\Log\Log;
 use Exception;

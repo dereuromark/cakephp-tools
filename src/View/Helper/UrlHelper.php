@@ -15,11 +15,7 @@
 
 namespace Tools\View\Helper;
 
-use Cake\Core\Configure;
-use Cake\Network\Response;
 use Cake\View\Helper\UrlHelper as CoreUrlHelper;
-use Cake\View\StringTemplateTrait;
-use Cake\View\View;
 
 /**
  * Url Helper class.

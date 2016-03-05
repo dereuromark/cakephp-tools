@@ -3,11 +3,8 @@
 namespace Tools\Test\TestCase\Model\Behavior;
 
 use Cake\Core\Configure;
-use Cake\Database\Query;
-use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use TestApp\Model\Entity\BitmaskedComment;
-use Tools\Model\Behavior\BitmaskedBehavior;
 use Tools\TestSuite\TestCase;
 
 class BitmaskedBehaviorTest extends TestCase {

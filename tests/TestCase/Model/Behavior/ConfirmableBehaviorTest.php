@@ -3,7 +3,6 @@
 namespace Tools\Test\TestCase\Model\Behavior;
 
 use Cake\ORM\TableRegistry;
-use Tools\Model\Behavior\ConfirmableBehavior;
 use Tools\TestSuite\TestCase;
 
 class ConfirmableBehaviorTest extends TestCase {
