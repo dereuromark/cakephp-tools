@@ -161,9 +161,9 @@ class TreeHelper extends Helper {
 				$result = $result->toArray();
 			}
 			if ($model && isset($result->$model)) {
-				$row = & $result->$model;
+				$row = &$result->$model;
 			} else {
-				$row = & $result;
+				$row = &$result;
 			}
 
 			/* Close open items as appropriate */
