@@ -527,7 +527,7 @@ class UtilityTest extends TestCase {
 				'Deep' => [true],
 				'Even' => ['Deeper' => ['Nested' => [false, true]]]
 			],
-			'Integer' => ['Value' => [ - 3]],
+			'Integer' => ['Value' => [-3]],
 		];
 		$result = Utility::flattenList($is);
 
