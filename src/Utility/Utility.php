@@ -87,7 +87,7 @@ class Utility {
 	 * @param string $pattern The pattern to use.
 	 * @param string $subject The string to match.
 	 * @param int $flags
-	 * @param int $offset
+	 * @param int|null $offset
 	 * @return array Result
 	 */
 	public static function pregMatchAll($pattern, $subject, $flags = PREG_SET_ORDER, $offset = null) {
@@ -109,8 +109,8 @@ class Utility {
 	 *
 	 * @param string $pattern The pattern to use.
 	 * @param string $subject The string to match.
-	 * @param int $flags
-	 * @param int $offset
+	 * @param int|null $flags
+	 * @param int|null $offset
 	 * @return array Result
 	 */
 	public static function pregMatch($pattern, $subject, $flags = null, $offset = null) {
@@ -521,7 +521,7 @@ class Utility {
 	 *
 	 * @param array $data
 	 * @param string $separator
-	 * @param string $undefinedKey
+	 * @param string|null $undefinedKey
 	 * @return array
 	 */
 	public static function expandList(array $data, $separator = '.', $undefinedKey = null) {

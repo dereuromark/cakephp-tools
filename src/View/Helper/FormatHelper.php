@@ -463,7 +463,7 @@ class FormatHelper extends Helper {
 	 *
 	 * @param array $paginator
 	 * @param int $count (current post count on this page)
-	 * @param string $dir (ASC/DESC)
+	 * @param string|null $dir (ASC/DESC)
 	 * @return int
 	 * @deprecated
 	 */

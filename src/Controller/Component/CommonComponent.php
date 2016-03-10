@@ -155,7 +155,7 @@ class CommonComponent extends Component {
 	 *
 	 * @param mixed $whereTo URL
 	 * @param bool $allowSelf if redirect to the same controller/action (url) is allowed
-	 * @param int $status
+	 * @param int|null $status
 	 * @return \Cake\Network\Response
 	 */
 	public function autoRedirect($whereTo, $allowSelf = false, $status = null) {

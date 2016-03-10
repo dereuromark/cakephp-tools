@@ -89,7 +89,7 @@ class GravatarHelper extends Helper {
 	 * TODO: rename to avoid E_STRICT errors here
 	 *
 	 * @param string $email Email address
-	 * @param string $options Array of options, keyed from default settings
+	 * @param string|array $options Array of options, keyed from default settings
 	 * @return string Gravatar Image URL
 	 */
 	public function url($email, $options = []) {

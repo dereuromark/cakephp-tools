@@ -767,7 +767,7 @@ class Mime extends Response {
 	/**
 	 * Retrieve the corresponding MIME type, if one exists
 	 *
-	 * @param string $file File Name (relative location such as "image_test.jpg" or full "http://site.com/path/to/image_test.jpg")
+	 * @param string|null $file File Name (relative location such as "image_test.jpg" or full "http://site.com/path/to/image_test.jpg")
 	 * @return string MIMEType - The type of the file passed in the argument
 	 */
 	public function detectMimeType($file = null) {
@@ -843,7 +843,7 @@ class Mime extends Response {
 	/**
 	 * Get encoding.
 	 *
-	 * @param string $file
+	 * @param string|null $file
 	 * @param string $default
 	 * @return string
 	 */

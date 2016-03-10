@@ -62,7 +62,7 @@ class FlashComponent extends Component {
 	 * Updates "messages" session content (to enable multiple messages of one type).
 	 *
 	 * @param string $message Message to output.
-	 * @param string $options Options
+	 * @param string|null $options Options
 	 * @return void
 	 */
 	public function message($message, $options = null) {
@@ -106,7 +106,7 @@ class FlashComponent extends Component {
 	 * will be merged into the session flash ones prior to output.
 	 *
 	 * @param string $message Message to output.
-	 * @param string $type Type ('error', 'warning', 'success', 'info' or custom class).
+	 * @param string|null $type Type ('error', 'warning', 'success', 'info' or custom class).
 	 * @return void
 	 */
 	public static function transientMessage($message, $type = null) {

@@ -62,7 +62,7 @@ class CommonHelper extends Helper {
 	/**
 	 * Convenience method for clean ROBOTS allowance
 	 *
-	 * @param string $type - private/public
+	 * @param string|null $type - private/public
 	 * @return string HTML
 	 */
 	public function metaRobots($type = null) {

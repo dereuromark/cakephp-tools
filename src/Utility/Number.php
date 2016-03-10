@@ -142,7 +142,7 @@ class Number extends CakeNumber {
 	 * - signed: true/false
 	 *
 	 * @param float $number
-	 * @param string $currency
+	 * @param string|null $currency
 	 * @param array $options
 	 * @return string
 	 */

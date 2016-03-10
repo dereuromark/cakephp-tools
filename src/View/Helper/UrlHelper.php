@@ -50,7 +50,7 @@ class UrlHelper extends CoreUrlHelper {
 	/**
 	 * Returns a URL based on provided parameters.
 	 *
-	 * @param string|array $url URL.
+	 * @param string|array|null $url URL.
 	 * @param bool $full If true, the full base URL will be prepended to the result
 	 * @return string Full translated URL with base path.
 	 */

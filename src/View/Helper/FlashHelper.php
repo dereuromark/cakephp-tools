@@ -115,7 +115,7 @@ class FlashHelper extends Helper {
 	 * Add a message on the fly
 	 *
 	 * @param string $msg
-	 * @param string $class
+	 * @param string|null $class
 	 * @return void
 	 */
 	public function addTransientMessage($msg, $class = null) {

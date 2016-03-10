@@ -213,7 +213,7 @@ JS;
 	/**
 	 * Format date to JS code.
 	 *
-	 * @param \DateTime $date
+	 * @param \DateTime|null $date
 	 * @return string
 	 */
 	protected function _date($date = null) {

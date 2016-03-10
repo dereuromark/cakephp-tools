@@ -15,7 +15,7 @@ class Controller extends ShimController {
 	 *
 	 * @override To support defaults like limit etc.
 	 *
-	 * @param \Cake\ORM\Table|string|\Cake\ORM\Query $object Table to paginate
+	 * @param \Cake\ORM\Table|string|\Cake\ORM\Query|null $object Table to paginate
 	 *   (e.g: Table instance, 'TableName' or a Query object)
 	 * @return \Cake\ORM\ResultSet Query results
 	 */

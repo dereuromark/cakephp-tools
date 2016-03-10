@@ -323,7 +323,7 @@ class JsHelper extends Helper {
 	 * The Javascript variable used to output set variables can be controlled with `JsHelper::$setVariable`
 	 *
 	 * @param string|array $one Either an array of variables to set, or the name of the variable to set.
-	 * @param string|array $two If $one is a string, $two is the value for that key.
+	 * @param string|array|null $two If $one is a string, $two is the value for that key.
 	 * @return void
 	 * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/js.html#JsHelper::set
 	 */

@@ -47,7 +47,7 @@ class Time extends CakeTime {
 	/**
 	 * Detect if a timezone has a DST
 	 *
-	 * @param string|\DateTimeZone $timezone User's timezone string or DateTimeZone object
+	 * @param string|\DateTimeZone|null $timezone User's timezone string or DateTimeZone object
 	 * @return bool
 	 */
 	public function hasDaylightSavingTime($timezone = null) {
@@ -66,7 +66,7 @@ class Time extends CakeTime {
 	/**
 	 * Calculate the current GMT offset from a timezone string (respecting DST)
 	 *
-	 * @param string|\DateTimeZone $timezone User's timezone string or DateTimeZone object
+	 * @param string|\DateTimeZone|null $timezone User's timezone string or DateTimeZone object
 	 * @return int Offset in hours
 	 */
 	public function getGmtOffset($timezone = null) {
@@ -135,7 +135,7 @@ class Time extends CakeTime {
 	 * to be before end for a valid result.
 	 *
 	 * @param int|string $start Start date (if empty, use today)
-	 * @param int|string $end End date (if empty, use today)
+	 * @param int|string|null $end End date (if empty, use today)
 	 * @return int Age (0 if both timestamps are equal or empty, -1 on invalid dates)
 	 */
 	public static function age($start, $end = null) {
@@ -172,7 +172,7 @@ class Time extends CakeTime {
 	 * can be e.g. 22/23
 	 *
 	 * @param int $year
-	 * @param int $month (optional)
+	 * @param int|null $month (optional)
 	 * @return int|string Age
 	 */
 	public static function ageByYear($year, $month = null) {
@@ -224,8 +224,8 @@ class Time extends CakeTime {
 	 * //TODO: move to helper?
 	 *
 	 * @param int $year
-	 * @param int $month
-	 * @param int $day
+	 * @param int|null $month
+	 * @param int|null $day
 	 * @param int $steps
 	 * @return mixed
 	 */
@@ -365,7 +365,7 @@ class Time extends CakeTime {
 	/**
 	 * Calculate the amount of calender weeks in a year
 	 *
-	 * @param int $year (format xxxx, defaults to current year)
+	 * @param int|null $year (format xxxx, defaults to current year)
 	 * @return int Amount of weeks - 52 or 53
 	 */
 	public static function cWeeks($year = null) {
@@ -382,7 +382,7 @@ class Time extends CakeTime {
 	 * @param int $years Years to increment/decrement
 	 * @param int $months Months to increment/decrement
 	 * @param int $days Days
-	 * @param string|\DateTimeZone $timezone Timezone string or DateTimeZone object
+	 * @param string|\DateTimeZone|null $timezone Timezone string or DateTimeZone object
 	 * @return object DateTime with incremented/decremented month/year values.
 	 */
 	public function incrementDate($startDate, $years = 0, $months = 0, $days = 0, $timezone = null) {
@@ -413,7 +413,7 @@ class Time extends CakeTime {
 	 * note: expects valid age (> 0 and < 120)
 	 *
 	 * @param int $firstAge
-	 * @param int $secondAge (defaults to first one if not specified)
+	 * @param int|null $secondAge (defaults to first one if not specified)
 	 * @param bool $returnAsString
 	 * @param mixed|null $relativeTime
 	 * @return array array('min'=>$min, 'max'=>$max);
@@ -1002,7 +1002,7 @@ class Time extends CakeTime {
 	 * Returns true if given datetime string is the day after tomorrow.
 	 *
 	 * @param string $dateString Datetime string or Unix timestamp
-	 * @param int $timezone User's timezone
+	 * @param int|null $timezone User's timezone
 	 * @return bool True if datetime string is day after tomorrow
 	 */
 	public static function isDayAfterTomorrow($dateString, $timezone = null) {
@@ -1015,7 +1015,7 @@ class Time extends CakeTime {
 	 * Returns true if given datetime string is not today AND is in the future.
 	 *
 	 * @param string $dateString Datetime string or Unix timestamp
-	 * @param int $timezone User's timezone
+	 * @param int|null $timezone User's timezone
 	 * @return bool True if datetime is not today AND is in the future
 	 */
 	public static function isNotTodayAndInTheFuture($dateString, $timezone = null) {
@@ -1028,7 +1028,7 @@ class Time extends CakeTime {
 	 * Returns true if given datetime string is not now AND is in the future.
 	 *
 	 * @param string $dateString Datetime string or Unix timestamp
-	 * @param int $timezone User's timezone
+	 * @param int|null $timezone User's timezone
 	 * @return bool True if datetime is not today AND is in the future
 	 */
 	public static function isInTheFuture($dateString, $timezone = null) {
@@ -1142,7 +1142,7 @@ class Time extends CakeTime {
 	 * @param int|string|\DateTime $begin UNIX timestamp, strtotime() valid string or DateTime object
 	 * @param int|string|\DateTime $end UNIX timestamp, strtotime() valid string or DateTime object
 	 * @param string $fieldName Name of database field to compare with
-	 * @param string|\DateTimeZone $timezone Timezone string or DateTimeZone object
+	 * @param string|\DateTimeZone|null $timezone Timezone string or DateTimeZone object
 	 * @return string Partial SQL string.
 	 */
 	public static function daysAsSql($begin, $end, $fieldName, $timezone = null) {
@@ -1162,7 +1162,7 @@ class Time extends CakeTime {
 	 *
 	 * @param int|string|\DateTime $dateString UNIX timestamp, strtotime() valid string or DateTime object
 	 * @param string $fieldName Name of database field to compare with
-	 * @param string|\DateTimeZone $timezone Timezone string or DateTimeZone object
+	 * @param string|\DateTimeZone|null $timezone Timezone string or DateTimeZone object
 	 * @return string Partial SQL string.
 	 */
 	public static function dayAsSql($dateString, $fieldName, $timezone = null) {
