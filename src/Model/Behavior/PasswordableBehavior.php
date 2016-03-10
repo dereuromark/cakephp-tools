@@ -252,6 +252,7 @@ class PasswordableBehavior extends Behavior {
 	 * @param \Cake\ORM\Entity $entity
 	 * @param \ArrayObject $options
 	 * @param string $operation
+	 * @return void
 	 */
 	public function beforeRules(Event $event, Entity $entity, ArrayObject $options, $operation) {
 		$formField = $this->_config['formField'];

@@ -7,33 +7,16 @@ use Cake\View\Helper;
 use Cake\View\View;
 
 /**
- * Example Url:
- * http://chart.apis.google.com/chart?cht=qr&chs=400x400&chl=SomeText
- */
-
-/*
-if (!defined('QS_CODE_MIN_SIZE')) {
-	define('QS_CODE_MIN_SIZE', 58);
-}
-if (!defined('QS_CODE_MAX_SIZE')) {
-	define('QS_CODE_MAX_SIZE', 540);
-}
-if (!defined('QS_CODE_DEFAULT_SIZE')) {
-	define('QS_CODE_DEFAULT_SIZE', 74);
-}
-
-if (!defined('QS_CODE_DEFAULT_LEVEL')) {
-	define('QS_CODE_DEFAULT_LEVEL', 'L');
-}
-*/
-
-/**
  * QR Code Helper
+ *
  * based on google chart api
  * @see http://code.google.com/intl/de-DE/apis/chart/types.html#qrcodes
  *
  * alternative service api / engine: http://goqr.me/api-description/ (not available right now)
  * or: http://qrcode.kaywa.com/img.php
+ *
+ * Example Url:
+ * http://chart.apis.google.com/chart?cht=qr&chs=400x400&chl=SomeText
  *
  * NOTE: urls have a 2k limit - for the total amount of 4296 chars (7089 for numeric values only) you will need to send it via post
  *
@@ -42,12 +25,10 @@ if (!defined('QS_CODE_DEFAULT_LEVEL')) {
 class QrCodeHelper extends Helper {
 
 	const MIN_SIZE = 58; # not readable anymore below this value
-
 	const MAX_SIZE = 540; # max of 300000 pixels
 	const DEFAULT_SIZE = 74; # 2x size
 	const DEFAULT_LEVEL = 'L'; # highest correction level
 	const SIZE_L = 58;
-
 	const SIZE_M = 66;
 	const SIZE_Q = 66;
 	const SIZE_H = 74;
@@ -258,6 +239,7 @@ class QrCodeHelper extends Helper {
 	 * calendar event
 	 * e.g.: BEGIN:VEVENT SUMMARY:dfdfd DTSTART:20100226T092900Z DTEND:20100226T102900Z END:VEVENT
 	 * @see http://zxing.appspot.com/generator/
+	 * @return void
 	 */
 	public function formatEvent() {
 	}
@@ -331,6 +313,8 @@ class QrCodeHelper extends Helper {
 
 	/**
 	 * Show current options - for debugging only
+	 *
+	 * @return array
 	 */
 	public function debug() {
 		return $this->options;

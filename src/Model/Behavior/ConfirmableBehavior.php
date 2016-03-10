@@ -45,6 +45,7 @@ class ConfirmableBehavior extends Behavior {
 	 * @param \Cake\Event\Event $event
 	 * @param \Cake\Validation\Validator $validator
 	 * @param string $name
+	 * @return void
 	 */
 	public function buildValidator(Event $event, Validator $validator, $name) {
 		$this->build($validator, $name);
@@ -53,6 +54,7 @@ class ConfirmableBehavior extends Behavior {
 	/**
 	 * @param \Cake\Validation\Validator $validator
 	 * @param string $name
+	 * @return void
 	 */
 	public function build(Validator $validator, $name = 'default') {
 		if ($name !== $this->_config['validator']) {
