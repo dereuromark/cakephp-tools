@@ -136,19 +136,23 @@ class FormatHelperTest extends MyCakeTestCase {
 	 */
 	public function testFontIcon() {
 		$result = $this->Format->fontIcon('signin');
-		$expected = '<i class="fa-signin"></i>';
+		$expected = '<i class="fa fa-signin"></i>';
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Format->fontIcon('signin', ['rotate' => 90]);
-		$expected = '<i class="fa-signin fa-rotate-90"></i>';
+		$expected = '<i class="fa fa-signin fa-rotate-90"></i>';
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Format->fontIcon('signin', ['size' => 5, 'extra' => ['muted']]);
-		$expected = '<i class="fa-signin fa-muted fa-5x"></i>';
+		$expected = '<i class="fa fa-signin fa-muted fa-5x"></i>';
+		$this->assertEquals($expected, $result);
+
+		$result = $this->Format->fontIcon('asterisk', ['namespace' => 'glyphicon']);
+		$expected = '<i class="glyphicon glyphicon-asterisk"></i>';
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Format->fontIcon('signin', ['size' => 5, 'extra' => ['muted'], 'namespace' => 'icon']);
-		$expected = '<i class="icon-signin icon-muted icon-5x"></i>';
+		$expected = '<i class="icon icon-signin icon-muted icon-5x"></i>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -504,7 +508,7 @@ class FormatHelperTest extends MyCakeTestCase {
 			$res = $this->Format->wordCensor($value, ['Arsch', 'Ficken', 'Bitch']);
 			$this->assertEquals($expected === null ? $value : $expected, $res);
 		}
-		
+
 		$input = 'dfssdfsdj sdkfj sdkfj ksdfj bitch ksdfj';
 		$result = $this->Format->wordCensor($input, ['Bitch'], '***');
 		$expected = 'dfssdfsdj sdkfj sdkfj ksdfj *** ksdfj';
