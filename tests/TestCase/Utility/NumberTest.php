@@ -248,6 +248,7 @@ class NumberTest extends TestCase {
 	}
 
 	/**
+	 * @return void
 	 */
 	public function testGetDecimalPlaces() {
 		$values = [

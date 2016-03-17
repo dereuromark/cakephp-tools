@@ -36,6 +36,8 @@ class TreeHelperTest extends TestCase {
 	 * - Three
 	 * - Four
 	 * -- Four-SubA
+	 *
+	 * @return void
 	 */
 	public function setUp() {
 		parent::setUp();

@@ -63,6 +63,7 @@ class MimeTest extends TestCase {
 
 	/**
 	 * Test fake files
+	 * @return void
 	 */
 	public function testCorrectFileExtension() {
 		file_put_contents(TMP . 'sometest.txt', 'xyz');
@@ -73,6 +74,7 @@ class MimeTest extends TestCase {
 
 	/**
 	 * Test fake files
+	 * @return void
 	 */
 	public function testWrongFileExtension() {
 		file_put_contents(TMP . 'sometest.zip', 'xyz');
@@ -101,6 +103,7 @@ class MimeTest extends TestCase {
 
 	/**
 	 * Test fake files
+	 * @return void
 	 */
 	public function testEncoding() {
 		file_put_contents(TMP . 'sometest.txt', 'xyz');

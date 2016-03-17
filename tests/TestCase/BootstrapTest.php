@@ -21,7 +21,7 @@ class BootstrapTest extends TestCase {
 	/**
 	 * BootstrapTest::testStartsWith()
 	 *
-	 * return void
+	 * @return void
 	 */
 	public function testStartsWith() {
 		$strings = [

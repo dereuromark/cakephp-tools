@@ -168,6 +168,7 @@ class TextHelperTest extends TestCase {
 
 	/**
 	 * Combined (emails + urls)
+	 * @return void
 	 */
 	public function testAutoLink() {
 		$text = 'Text <i>with a url</i> www.cot.ag?id=2&sub=3 and some email@domain.com more';

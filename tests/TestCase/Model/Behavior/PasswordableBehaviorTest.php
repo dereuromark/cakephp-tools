@@ -196,6 +196,7 @@ class PasswordableBehaviorTest extends TestCase {
 
 	/**
 	 * Test aliases for field names
+	 * @return void
 	 */
 	public function testDifferentFieldNames() {
 		$this->Users->addBehavior('Tools.Passwordable', [
@@ -216,6 +217,7 @@ class PasswordableBehaviorTest extends TestCase {
 
 	/**
 	 * Assert that allowSame false does not allow storing the same password as previously entered
+	 * @return void
 	 */
 	public function testNotSame() {
 		$this->Users->addBehavior('Tools.Passwordable', [
@@ -251,6 +253,7 @@ class PasswordableBehaviorTest extends TestCase {
 
 	/**
 	 * Assert that allowSame false does not allow storing the same password as previously entered
+	 * @return void
 	 */
 	public function testNotSameWithoutCurrentField() {
 		$this->Users->addBehavior('Tools.Passwordable', [
@@ -292,6 +295,7 @@ class PasswordableBehaviorTest extends TestCase {
 
 	/**
 	 * Assert that on edit it does not wrongly pass validation (require => false)
+	 * @return void
 	 */
 	public function testRequireFalse() {
 		$this->Users->addBehavior('Tools.Passwordable', [
@@ -344,6 +348,7 @@ class PasswordableBehaviorTest extends TestCase {
 
 	/**
 	 * Needs faking of pwd check...
+	 * @return void
 	 */
 	public function testValidateCurrent() {
 		$this->assertFalse($this->Users->behaviors()->has('Passwordable'));

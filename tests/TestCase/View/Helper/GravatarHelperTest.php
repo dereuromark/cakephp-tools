@@ -13,6 +13,7 @@ class GravatarHelperTest extends TestCase {
 
 	/**
 	 * SetUp method
+	 * @return void
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -25,6 +26,7 @@ class GravatarHelperTest extends TestCase {
 
 	/**
 	 * TearDown method
+	 * @return void
 	 */
 	public function tearDown() {
 		parent::tearDown();
