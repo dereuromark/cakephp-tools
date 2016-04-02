@@ -4,7 +4,19 @@ A CakePHP behavior to automatically store nested data as JSON string and return 
 - Data can be of type array, params or list - or kept in JSON format
 - Additional sanitize functionality with "clean", "sort" and "unique
 
-## Configs
+## Usage
+Attach it to your model's `Table` class in its `initialize()` like so:
+```php
+	$this->addBehavior('Tools.Jsonable', $options);
+```
+
+Tip: If you have other behaviors that might modify the array data prior to saving, better use a higher priority:
+```php
+$this->addBehavior('Tools.Jsonable', array('priority' => 11, ...));
+```
+So that it is run last.
+
+## Options
 | Key  | Default | Description |
 | ------------- | ------------- | ------------- |
 | fields  | array() | Array of the fields to be converted  |
@@ -21,18 +33,6 @@ A CakePHP behavior to automatically store nested data as JSON string and return 
 | encodeParams  |   | params for json_encode |
 | decodeParams  |   | params for json_decode |
 
-
-## Usage
-Attach it to your models in `initialize()` like so:
-```php
-$this->addBehavior('Tools.Jsonable', $config);
-```
-
-Tip: If you have other behaviors that might modify the array data prior to saving, better use a higher priority:
-```php
-$this->addBehavior('Tools.Jsonable', array('priority' => 11, ...));
-```
-So that it is run last.
 
 ## Examples
 
