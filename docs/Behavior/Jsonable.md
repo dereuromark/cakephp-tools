@@ -7,7 +7,7 @@ A CakePHP behavior to automatically store nested data as JSON string and return 
 ## Usage
 Attach it to your model's `Table` class in its `initialize()` like so:
 ```php
-	$this->addBehavior('Tools.Jsonable', $options);
+$this->addBehavior('Tools.Jsonable', $options);
 ```
 
 Tip: If you have other behaviors that might modify the array data prior to saving, better use a higher priority:
