@@ -10,6 +10,7 @@ use Cake\View\View;
  * QR Code Helper
  *
  * based on google chart api
+ *
  * @see http://code.google.com/intl/de-DE/apis/chart/types.html#qrcodes
  *
  * alternative service api / engine: http://goqr.me/api-description/ (not available right now)
@@ -238,6 +239,7 @@ class QrCodeHelper extends Helper {
 	 * //TODO
 	 * calendar event
 	 * e.g.: BEGIN:VEVENT SUMMARY:dfdfd DTSTART:20100226T092900Z DTEND:20100226T102900Z END:VEVENT
+	 *
 	 * @see http://zxing.appspot.com/generator/
 	 * @return void
 	 */

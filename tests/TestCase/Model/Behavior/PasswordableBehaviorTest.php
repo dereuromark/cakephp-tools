@@ -196,6 +196,7 @@ class PasswordableBehaviorTest extends TestCase {
 
 	/**
 	 * Test aliases for field names
+	 *
 	 * @return void
 	 */
 	public function testDifferentFieldNames() {
@@ -217,6 +218,7 @@ class PasswordableBehaviorTest extends TestCase {
 
 	/**
 	 * Assert that allowSame false does not allow storing the same password as previously entered
+	 *
 	 * @return void
 	 */
 	public function testNotSame() {
@@ -253,6 +255,7 @@ class PasswordableBehaviorTest extends TestCase {
 
 	/**
 	 * Assert that allowSame false does not allow storing the same password as previously entered
+	 *
 	 * @return void
 	 */
 	public function testNotSameWithoutCurrentField() {
@@ -295,6 +298,7 @@ class PasswordableBehaviorTest extends TestCase {
 
 	/**
 	 * Assert that on edit it does not wrongly pass validation (require => false)
+	 *
 	 * @return void
 	 */
 	public function testRequireFalse() {
@@ -348,6 +352,7 @@ class PasswordableBehaviorTest extends TestCase {
 
 	/**
 	 * Needs faking of pwd check...
+	 *
 	 * @return void
 	 */
 	public function testValidateCurrent() {

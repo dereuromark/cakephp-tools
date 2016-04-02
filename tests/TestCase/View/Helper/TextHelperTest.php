@@ -168,6 +168,7 @@ class TextHelperTest extends TestCase {
 
 	/**
 	 * Combined (emails + urls)
+	 *
 	 * @return void
 	 */
 	public function testAutoLink() {

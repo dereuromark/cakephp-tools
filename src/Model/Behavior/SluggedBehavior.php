@@ -376,6 +376,7 @@ class SluggedBehavior extends Behavior {
 	 * in multiple locales at once
 	 *
 	 * //FIXME
+	 *
 	 * @param \Cake\ORM\Entity $entity
 	 * @return void
 	 */

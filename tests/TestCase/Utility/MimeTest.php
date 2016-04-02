@@ -63,6 +63,7 @@ class MimeTest extends TestCase {
 
 	/**
 	 * Test fake files
+	 *
 	 * @return void
 	 */
 	public function testCorrectFileExtension() {
@@ -74,6 +75,7 @@ class MimeTest extends TestCase {
 
 	/**
 	 * Test fake files
+	 *
 	 * @return void
 	 */
 	public function testWrongFileExtension() {
@@ -103,6 +105,7 @@ class MimeTest extends TestCase {
 
 	/**
 	 * Test fake files
+	 *
 	 * @return void
 	 */
 	public function testEncoding() {

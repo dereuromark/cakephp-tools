@@ -28,6 +28,7 @@ class StringBehavior extends Behavior {
 
 	/**
 	 * //TODO: json input/ouput directly, clean
+	 *
 	 * @var array
 	 */
 	protected $_defaultConfig = [

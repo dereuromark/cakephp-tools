@@ -44,6 +44,7 @@ class JsonableBehavior extends Behavior {
 
 	/**
 	 * //TODO: json input/ouput directly, clean
+	 *
 	 * @var array
 	 */
 	protected $_defaultConfig = [
