@@ -9,6 +9,7 @@ use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Utility\Inflector;
+use Exception;
 use InvalidArgumentException;
 
 /**
