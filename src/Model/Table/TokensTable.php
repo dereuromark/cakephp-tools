@@ -1,9 +1,10 @@
 <?php
+
 namespace Tools\Model\Table;
 
+use Cake\Utility\Hash;
 use Tools\Model\Table\Table;
 use Tools\Utility\Random;
-use Cake\Utility\Hash;
 
 /**
  * A generic model to hold tokens
@@ -13,14 +14,29 @@ use Cake\Utility\Hash;
  */
 class TokensTable extends Table {
 
+	/**
+	 * @var string
+	 */
 	public $displayField = 'key';
 
+	/**
+	 * @var array
+	 */
 	public $order = ['created' => 'DESC'];
 
+	/**
+	 * @var int
+	 */
 	public $defaultLength = 22;
 
+	/**
+	 * @var int
+	 */
 	public $validity = MONTH;
 
+	/**
+	 * @var array
+	 */
 	public $validate = [
 		'type' => [
 			'notBlank' => [
@@ -52,10 +68,10 @@ class TokensTable extends Table {
 	/**
 	 * Stores new key in DB
 	 *
-	 * @param string type: necessary
-	 * @param string key: optional key, otherwise a key will be generated
-	 * @param mixed user_id: optional (if used, only this user can use this key)
-	 * @param string content: up to 255 characters of content may be added (optional)
+	 * @param string $type Type: necessary
+	 * @param string|null $key Key: optional key, otherwise a key will be generated
+	 * @param mixed|null $uid Uid: optional (if used, only this user can use this key)
+	 * @param string|null $content Content: up to 255 characters of content may be added (optional)
 	 * NOW: checks if this key is already used (should be unique in table)
 	 * @return string key on SUCCESS, boolean false otherwise
 	 */
@@ -94,9 +110,10 @@ class TokensTable extends Table {
 	/**
 	 * UsesKey (only once!) - by KEY
 	 *
-	 * @param string type: necessary
-	 * @param string key: necessary
-	 * @param mixed user_id: needs to be provided if this key has a user_id stored
+	 * @param string $type : necessary
+	 * @param string $key : necessary
+	 * @param mixed|null $uid : needs to be provided if this key has a user_id stored
+	 * @param bool $treatUsedAsInvalid
 	 * @return array Content - if successfully used or if already used (used=1), FALSE else
 	 */
 	public function useKey($type, $key, $uid = null, $treatUsedAsInvalid = false) {
@@ -131,14 +148,14 @@ class TokensTable extends Table {
 		if (!empty($res['unlimited'])) {
 			return $res;
 		}
-		$this->log('VIOLATION in ' . $this->alias() . ' Model (method useKey)');
+		//$this->log('VIOLATION in ' . $this->alias() . ' Model (method useKey)');
 		return false;
 	}
 
 	/**
 	 * Sets Key to "used" (only once!) - directly by ID
 	 *
-	 * @param id of key to spend: necessary
+	 * @param int $id Id of key to spend: necessary
 	 * @return bool Success
 	 */
 	public function spendKey($id) {
@@ -147,10 +164,11 @@ class TokensTable extends Table {
 		}
 
 		//$expression = new \Cake\Database\Expression\QueryExpression(['used = used + 1', 'modified' => date(FORMAT_DB_DATETIME)]);
-		if ($x = $this->updateAll(
+		$result = $this->updateAll(
 			['used = used + 1', 'modified' => date(FORMAT_DB_DATETIME)],
-			['id' => $id])
-		) {
+			['id' => $id]
+		);
+		if ($result) {
 			return true;
 		}
 		return false;
@@ -166,11 +184,13 @@ class TokensTable extends Table {
 		$conditions = [
 			$this->alias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity),
 		];
-		return $this->deleteAll($conditions, false);
+		return $this->deleteAll($conditions);
 	}
 
 	/**
 	 * Get admin stats
+	 *
+	 * @return array
 	 */
 	public function stats() {
 		$keys = [];
@@ -186,16 +206,32 @@ class TokensTable extends Table {
 	}
 
 	/**
-	 * Generator
+	 * Generator of secure random tokens.
 	 *
-	 * @param length (defaults to defaultLength)
+	 * Note that it is best to use an even number for the length.
+	 *
+	 * @param int|null $length (defaults to defaultLength)
 	 * @return string Key
 	 */
 	public function generateKey($length = null) {
 		if (empty($length)) {
 			$length = $this->defaultLength;
 		}
-		return Random::pwd($length);
+
+		if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+			$function = 'random_bytes';
+		} elseif (extension_loaded('openssl')) {
+			$function = 'openssl_random_pseudo_bytes';
+		} else {
+			trigger_error('Not secure', E_USER_DEPRECATED);
+			return Random::pwd($length);
+		}
+
+		$value = bin2hex($function($length / 2));
+		if (strlen($value) !== $length) {
+			$value = str_pad($value, $length, '0');
+		}
+		return $value;
 	}
 
 }

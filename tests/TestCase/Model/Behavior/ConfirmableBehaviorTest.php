@@ -4,15 +4,22 @@ namespace Tools\Test\TestCase\Model\Behavior;
 
 use Cake\ORM\TableRegistry;
 use Tools\TestSuite\TestCase;
-//use Cake\Core\Configure;
-use Tools\Model\Behavior\ConfirmableBehavior;
 
 class ConfirmableBehaviorTest extends TestCase {
 
+	/**
+	 * @var \Tools\Model\Behavior\ConfirmableBehavior
+	 */
 	public $ConfirmableBehavior;
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = ['plugin.Tools.SluggedArticles'];
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 	}

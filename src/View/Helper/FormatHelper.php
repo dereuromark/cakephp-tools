@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\View\Helper;
 
 use Cake\Core\Configure;
@@ -24,8 +25,14 @@ class FormatHelper extends Helper {
 	 */
 	public $helpers = ['Html'];
 
+	/**
+	 * @var \Cake\View\StringTemplate
+	 */
 	public $template;
 
+	/**
+	 * @var array
+	 */
 	protected $_defaultIcons = [
 		'yes' => 'fa fa-check',
 		'no' => 'fa fa-times',
@@ -43,9 +50,12 @@ class FormatHelper extends Helper {
 		//'genderless' => 'fa fa-genderless'
 	];
 
+	/**
+	 * @var array
+	 */
 	protected $_defaults = [
 		'fontIcons' => null,
-		'iconNamespace' => 'fa',  // Used to be icon,
+		'iconNamespace' => 'fa', // Used to be icon,
 		'autoPrefix' => true, // For custom icons "prev" becomes "fa-prev" when iconNamespace is "fa"
 		'templates' => [
 			'icon' => '<i class="{{class}}"{{attributes}}></i>',
@@ -53,6 +63,12 @@ class FormatHelper extends Helper {
 		]
 	];
 
+	/**
+	 * FormatHelper constructor.
+	 *
+	 * @param \Cake\View\View $View
+	 * @param array $config
+	 */
 	public function __construct(View $View, array $config = []) {
 		$defaults = (array)Configure::read('Format') + $this->_defaults;
 		$config += $defaults;
@@ -321,6 +337,7 @@ class FormatHelper extends Helper {
 	 *
 	 * @param string $type
 	 * @param array $options
+	 * @param array $attributes
 	 * @return string
 	 */
 	protected function _fontIcon($type, $options, $attributes) {
@@ -446,7 +463,7 @@ class FormatHelper extends Helper {
 	 *
 	 * @param array $paginator
 	 * @param int $count (current post count on this page)
-	 * @param string $dir (ASC/DESC)
+	 * @param string|null $dir (ASC/DESC)
 	 * @return int
 	 * @deprecated
 	 */
@@ -553,7 +570,7 @@ class FormatHelper extends Helper {
 	 * @return string
 	 */
 	public function tab2space($text, $spaces = 4) {
-		$spaces = str_repeat(" ", $spaces);
+		$spaces = str_repeat(' ', $spaces);
 		$text = preg_split("/\r\n|\r|\n/", trim($text));
 		$wordLengths = [];
 		$wArray = [];
@@ -582,7 +599,7 @@ class FormatHelper extends Helper {
 					$wArray[$i][$ii] = str_pad($wArray[$i][$ii], $wordLengths[$ii]);
 				}
 			}
-			$text .= str_replace("\t", $spaces, implode("", $wArray[$i])) . "\n";
+			$text .= str_replace("\t", $spaces, implode('', $wArray[$i])) . "\n";
 		}
 
 		return $text;
@@ -605,7 +622,6 @@ class FormatHelper extends Helper {
 	 * @param array $array The result (numericaly keyed, associative inner) array.
 	 * @param array $options
 	 * @param array $attributes For the table
-	 * @param string $null String to output for blank cells
 	 * @return string
 	 */
 	public function array2table(array $array, array $options = [], array $attributes = []) {

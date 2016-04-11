@@ -1,11 +1,11 @@
 <?php
+
 namespace Tools\Controller\Component;
 
-use Cake\Utility\Inflector;
-use Shim\Controller\Component\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Routing\Router;
+use Shim\Controller\Component\Component;
 use Tools\Utility\Utility;
 
 /**
@@ -21,6 +21,7 @@ class CommonComponent extends Component {
 	 * For this helper the controller has to be passed as reference
 	 * for manual startup with $disableStartup = true (requires this to be called prior to any other method)
 	 *
+	 * @param \Cake\Event\Event $event
 	 * @return void
 	 */
 	public function startup(Event $event) {
@@ -81,10 +82,10 @@ class CommonComponent extends Component {
 			return;
 		}
 		if (method_exists($this->Controller->{$componentName}, 'beforeFilter')) {
-			$this->Controller->{$componentName}->beforeFilter(new \Cake\Event\Event('Controller.initialize', $this->Controller->{$componentName}));
+			$this->Controller->{$componentName}->beforeFilter(new Event('Controller.initialize', $this->Controller->{$componentName}));
 		}
 		if (method_exists($this->Controller->{$componentName}, 'startup')) {
-			$this->Controller->{$componentName}->startup(new \Cake\Event\Event('Controller.startup', $this->Controller->{$componentName}));
+			$this->Controller->{$componentName}->startup(new Event('Controller.startup', $this->Controller->{$componentName}));
 		}
 	}
 
@@ -129,7 +130,7 @@ class CommonComponent extends Component {
 	 * Returns current url (with all missing params automatically added).
 	 * Necessary for Router::url() and comparison of urls to work.
 	 *
-	 * @param bool $asString: defaults to false = array
+	 * @param bool $asString Defaults to false = array
 	 * @return mixed URL
 	 */
 	public function currentUrl($asString = false) {
@@ -154,7 +155,7 @@ class CommonComponent extends Component {
 	 *
 	 * @param mixed $whereTo URL
 	 * @param bool $allowSelf if redirect to the same controller/action (url) is allowed
-	 * @param int $status
+	 * @param int|null $status
 	 * @return \Cake\Network\Response
 	 */
 	public function autoRedirect($whereTo, $allowSelf = false, $status = null) {
@@ -232,9 +233,8 @@ class CommonComponent extends Component {
 	 * - querystring (especially for 3.x then)
 	 * - passed params
 	 *
-	 * @param mixed $url
-	 * @param int $status
-	 * @param bool $exit
+	 * @param mixed|null $url
+	 * @param int|null $status
 	 * @return \Cake\Network\Response
 	 */
 	public function completeRedirect($url = null, $status = null) {
@@ -258,8 +258,8 @@ class CommonComponent extends Component {
 	 */
 	public function forceCache($seconds = HOUR) {
 		$this->Controller->response->header('Cache-Control', 'public, max-age=' . $seconds);
-		$this->Controller->response->header('Last-modified', gmdate("D, j M Y H:i:s", time()) . " GMT");
-		$this->Controller->response->header('Expires', gmdate("D, j M Y H:i:s", time() + $seconds) . " GMT");
+		$this->Controller->response->header('Last-modified', gmdate('D, j M Y H:i:s', time()) . ' GMT');
+		$this->Controller->response->header('Expires', gmdate('D, j M Y H:i:s', time() + $seconds) . ' GMT');
 	}
 
 	/**

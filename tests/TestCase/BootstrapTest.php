@@ -1,16 +1,12 @@
 <?php
+
 namespace Tools\Test\TestCase;
 
-use Cake\Routing\Router;
-use Cake\Controller\Controller;
-use Cake\Network\Request;
-use Cake\Network\Response;
+use DateTime;
 use Tools\TestSuite\TestCase;
-use Tools\View\RssView;
 
 /**
  * RssViewTest
- *
  */
 class BootstrapTest extends TestCase {
 
@@ -18,14 +14,14 @@ class BootstrapTest extends TestCase {
 	 * @return void
 	 */
 	public function testIsEmpty() {
-		$result = isEmpty(new \DateTime(date(FORMAT_DB_DATE)));
+		$result = isEmpty(new DateTime(date(FORMAT_DB_DATE)));
 		$this->assertFalse($result);
 	}
 
 	/**
 	 * BootstrapTest::testStartsWith()
 	 *
-	 * return void
+	 * @return void
 	 */
 	public function testStartsWith() {
 		$strings = [

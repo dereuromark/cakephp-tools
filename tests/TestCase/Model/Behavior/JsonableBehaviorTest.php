@@ -2,17 +2,23 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use Cake\ORM\TableRegistry;
-use Tools\TestSuite\TestCase;
 use Cake\Core\Configure;
-use Tools\Model\Behavior\JsonableBehavior;
+use Cake\ORM\TableRegistry;
+use stdClass;
+use Tools\TestSuite\TestCase;
 
 class JsonableBehaviorTest extends TestCase {
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = [
 		'plugin.tools.jsonable_comments'
 	];
 
+	/**
+	 * @var \Tools\Model\Table\Table
+	 */
 	public $Comments;
 
 	public function setUp() {
@@ -241,8 +247,8 @@ class JsonableBehaviorTest extends TestCase {
 		$this->Comments->save($entity);
 
 		$res = $this->Comments->find('all', ['conditions' => ['title' => 'param']])->first();
-		$obj = new \stdClass();
-		$obj->x = new \stdClass();
+		$obj = new stdClass();
+		$obj->x = new stdClass();
 		$obj->x->y = 'z';
 		$expected = $obj;
 		$this->assertEquals($expected, $res['details']);
@@ -266,7 +272,7 @@ class JsonableBehaviorTest extends TestCase {
 		$this->Comments->save($entity);
 
 		$res = $this->Comments->find('all', ['conditions' => ['title' => 'param']])->first();
-		$obj = new \stdClass();
+		$obj = new stdClass();
 		$obj->y = 'yy';
 		$expected = $obj;
 		$this->assertEquals($expected, $res['details']);
@@ -297,7 +303,7 @@ class JsonableBehaviorTest extends TestCase {
 	 */
 	public function testDecodeParams() {
 		$this->Comments->removeBehavior('Jsonable');
-		$this->Comments->addBehavior('Tools.Jsonable', ['output' => 'array', 'fields' => ['details'], 'decodeParams' => ['assoc'=> false]]);
+		$this->Comments->addBehavior('Tools.Jsonable', ['output' => 'array', 'fields' => ['details'], 'decodeParams' => ['assoc' => false]]);
 
 		$data = [
 			'comment' => 'blabla',
@@ -310,8 +316,8 @@ class JsonableBehaviorTest extends TestCase {
 
 		// Test decode with default params
 		$res = $this->Comments->find('all', ['conditions' => ['title' => 'param']])->first();
-		$obj = new \stdClass();
-		$obj->x = new \stdClass();
+		$obj = new stdClass();
+		$obj->x = new stdClass();
 		$obj->x->y = 'z';
 		$expected = $obj;
 		$this->assertEquals($expected, $res['details']);
@@ -340,4 +346,5 @@ class JsonableBehaviorTest extends TestCase {
 		$expected = ['x' => ['y' => 'z']];
 		$this->assertEquals($expected, $res['details']);
 	}
+
 }

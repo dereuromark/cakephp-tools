@@ -1,12 +1,12 @@
 <?php
+
 namespace Tools\Controller\Component;
 
 use Cake\Controller\Controller;
-use Shim\Controller\Component\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Routing\Router;
-use Tools\Utility\Utility;
+use Shim\Controller\Component\Component;
 
 /**
  * A component to easily store mobile in session and serve mobile views to users.
@@ -32,26 +32,24 @@ use Tools\Utility\Utility;
  */
 class MobileComponent extends Component {
 
-	public $Controller = null;
-
 	/**
 	 * Stores the result of the auto-detection.
 	 *
-	 * @var bool
+	 * @var bool|null
 	 */
 	public $isMobile = null;
 
 	/**
 	 * Stores the final detection result including user preference.
 	 *
-	 * @var bool
+	 * @var bool|null
 	 */
 	public $setMobile = null;
 
 	/**
 	 * Default values. Can also be set using Configure.
 	 *
-	 * @param array
+	 * @var array
 	 */
 	protected $_defaultConfig = [
 		'on' => 'beforeFilter', // initialize (prior to controller's beforeRender) or startup
@@ -63,7 +61,7 @@ class MobileComponent extends Component {
 	/**
 	 * MobileComponent::initialize()
 	 *
-	 * @param Controller $Controller
+	 * @param array $config
 	 * @return void
 	 */
 	public function initialize(array $config) {
@@ -78,7 +76,7 @@ class MobileComponent extends Component {
 	/**
 	 * MobileComponent::startup()
 	 *
-	 * @param Controller $Controller
+	 * @param \Cake\Event\Event $event
 	 * @return void
 	 */
 	public function beforeFilter(Event $event) {

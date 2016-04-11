@@ -1,13 +1,15 @@
 <?php
+
 namespace Tools\Model\Behavior;
 
+use ArrayObject;
 use Cake\Auth\PasswordHasherFactory;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Table;
-use ArrayObject;
+use Exception;
 
 if (!defined('PWD_MIN_LENGTH')) {
 	define('PWD_MIN_LENGTH', 6);
@@ -92,7 +94,7 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * Password hasher instance.
 	 *
-	 * @var AbstractPasswordHasher
+	 * @var \Cake\Auth\AbstractPasswordHasher
 	 */
 	protected $_passwordHasher;
 
@@ -100,11 +102,13 @@ class PasswordableBehavior extends Behavior {
 	 * Adding validation rules
 	 * also adds and merges config settings (direct + configure)
 	 *
-	 * @return void
+	 * @param \Cake\ORM\Table $table
+	 * @param array $config
 	 */
 	public function __construct(Table $table, array $config = []) {
 		$defaults = $this->_defaultConfig;
-		if ($configureDefaults = Configure::read('Passwordable')) {
+		$configureDefaults = Configure::read('Passwordable');
+		if ($configureDefaults) {
 			$defaults = $configureDefaults + $defaults;
 		}
 		$config += $defaults;
@@ -126,7 +130,7 @@ class PasswordableBehavior extends Behavior {
 		$formFieldCurrent = $this->_config['formFieldCurrent'];
 
 		if ($formField === $this->_config['field']) {
-			throw new \Exception('Invalid setup - the form field must to be different from the model field (' . $this->_config['field'] . ').');
+			throw new Exception('Invalid setup - the form field must to be different from the model field (' . $this->_config['field'] . ').');
 		}
 
 		$rules = $this->_validationRules;
@@ -207,6 +211,9 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * Preparing the data
 	 *
+	 * @param \Cake\Event\Event $event
+	 * @param \ArrayObject $data
+	 * @param \ArrayObject $options
 	 * @return void
 	 */
 	public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options) {
@@ -228,29 +235,11 @@ class PasswordableBehavior extends Behavior {
 		// Check if we need to trigger any validation rules
 		if (!$this->_config['require']) {
 			$new = !empty($data[$formField]) || !empty($data[$formFieldRepeat]);
-			/*
-			if (!$new && !$current) {
-				//$validator->remove($formField); // tmp only!
-				//unset($Model->validate[$formField]);
-				$entity->unsetProperty($formField);
-				if ($this->_config['confirm']) {
-					//$validator->remove($formFieldRepeat); // tmp only!
-					//unset($Model->validate[$formFieldRepeat]);
-					$entity->unsetProperty($formFieldRepeat);
-				}
-				if ($this->_config['current']) {
-					//$validator->remove($formFieldCurrent); // tmp only!
-					//unset($Model->validate[$formFieldCurrent]);
-					$entity->unsetProperty($formFieldCurrent);
-				}
-				return true;
-			}
-			*/
+
 			// Make sure we trigger validation if allowEmpty is set but we have the password field set
 			if ($new) {
 				if ($this->_config['confirm'] && empty($data[$formFieldRepeat])) {
 					//$entity->errors($formFieldRepeat, __d('tools', 'valErrPwdNotMatch'));
-					//die('E');
 				}
 			}
 		}
@@ -259,6 +248,10 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * Preparing the data
 	 *
+	 * @param \Cake\Event\Event $event
+	 * @param \Cake\ORM\Entity $entity
+	 * @param \ArrayObject $options
+	 * @param string $operation
 	 * @return void
 	 */
 	public function beforeRules(Event $event, Entity $entity, ArrayObject $options, $operation) {
@@ -284,18 +277,17 @@ class PasswordableBehavior extends Behavior {
 					//unset($Model->validate[$formFieldCurrent]);
 					$entity->unsetProperty($formFieldCurrent);
 				}
-				return true;
+				return;
 			}
 		}
-
-		// Update whitelist
-		$this->_modifyWhitelist($entity);
 	}
 
 	/**
 	 * Hashing the password and whitelisting
 	 *
-	 * @param Event $event
+	 * @param \Cake\Event\Event $event
+	 * @param \Cake\ORM\Entity $entity
+	 * @throws \Exception
 	 * @return void
 	 */
 	public function beforeSave(Event $event, Entity $entity) {
@@ -305,11 +297,12 @@ class PasswordableBehavior extends Behavior {
 		if ($entity->get($formField) !== null) {
 			$cost = !empty($this->_config['hashCost']) ? $this->_config['hashCost'] : 10;
 			$options = ['cost' => $cost];
-			$PasswordHasher = $this->_getPasswordHasher($this->_config['passwordHasher']);
-			$entity->set($field, $PasswordHasher->hash($entity->get($formField), $options));
+			/** @var \Cake\Auth\AbstractPasswordHasher $PasswordHasher */
+			$PasswordHasher = $this->_getPasswordHasher($this->_config['passwordHasher'], $options);
+			$entity->set($field, $PasswordHasher->hash($entity->get($formField)));
 
 			if (!$entity->get($field)) {
-				throw new \Exception('Empty field');
+				throw new Exception('Empty field');
 			}
 
 			$entity->unsetProperty($formField);
@@ -326,10 +319,6 @@ class PasswordableBehavior extends Behavior {
 				//unset($Model->data[$table->alias()][$formFieldCurrent]);
 			}
 		}
-
-		// Update whitelist
-		$this->_modifyWhitelist($entity, true);
-		return true;
 	}
 
 	/**
@@ -361,9 +350,8 @@ class PasswordableBehavior extends Behavior {
 	 *     'hashType' => 'sha256'
 	 * )
 	 *
-	 * @throws CakeException
-	 * @param Model $Model
-	 * @param array $data
+	 * @param string $pwd
+	 * @param array $context
 	 * @return bool Success
 	 */
 	public function validateCurrentPwd($pwd, $context) {
@@ -381,9 +369,9 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * If not implemented in Table class
 	 *
-	 * @param Model $Model
-	 * @param array $data
-	 * @param string $compareWith String to compare field value with
+	 * @param string $value
+	 * @param array $options
+	 * @param array $context
 	 * @return bool Success
 	 */
 	public function validateIdentical($value, $options, $context) {
@@ -392,12 +380,15 @@ class PasswordableBehavior extends Behavior {
 		}
 
 		$compareValue = $context['data'][$options['compare']];
-		return ($compareValue === $value);
+		return $compareValue === $value;
 	}
 
 	/**
 	 * If not implemented in Table class
 	 *
+	 * @param string $data
+	 * @param array $options
+	 * @param array $context
 	 * @return bool Success
 	 */
 	public function validateNotSame($data, $options, $context) {
@@ -406,12 +397,14 @@ class PasswordableBehavior extends Behavior {
 		}
 
 		$compareValue = $context['data'][$options['compare']];
-		return ($compareValue !== $data);
+		return $compareValue !== $data;
 	}
 
 	/**
 	 * If not implemented in Table class
 	 *
+	 * @param string $data
+	 * @param array $context
 	 * @return bool Success
 	 */
 	public function validateNotSameHash($data, $context) {
@@ -439,8 +432,8 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * PasswordableBehavior::_validateSameHash()
 	 *
-	 * @param Model $Model
 	 * @param string $pwd
+	 * @param array $context
 	 * @return bool Success
 	 */
 	protected function _validateSameHash($pwd, $context) {
@@ -463,45 +456,27 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * PasswordableBehavior::_getPasswordHasher()
 	 *
-	 * @param mixed $hasher Name or options array.
-	 * @return PasswordHasher
+	 * @param string|array $hasher Name or options array.
+	 * @param array $options
+	 * @return \Cake\Auth\AbstractPasswordHasher
 	 */
-	protected function _getPasswordHasher($hasher) {
+	protected function _getPasswordHasher($hasher, array $options = []) {
 		if ($this->_passwordHasher) {
 			return $this->_passwordHasher;
 		}
-		return $this->_passwordHasher = PasswordHasherFactory::build($hasher);
-	}
 
-	/**
-	 * Modify the model's whitelist.
-	 *
-	 * Since 2.5 behaviors can also modify the whitelist for validate, thus this behavior can now
-	 * (>= CakePHP 2.5) add the form fields automatically, as well (not just the password field itself).
-	 *
-	 * @param Model $Model
-	 * @return void
-	 * @deprecated 3.0
-	 */
-	protected function _modifyWhitelist(Entity $entity, $onSave = false) {
-		$fields = [];
-		if ($onSave) {
-			$fields[] = $this->_config['field'];
+		$config = [];
+		if (is_string($hasher)) {
+			$class = $hasher;
 		} else {
-			$fields[] = $this->_config['formField'];
-			if ($this->_config['confirm']) {
-				$fields[] = $this->_config['formFieldRepeat'];
-			}
-			if ($this->_config['current']) {
-				$fields[] = $this->_config['formFieldCurrent'];
-			}
+			$class = $hasher['className'];
+			$config = $hasher;
+			unset($config['className']);
 		}
+		$config['className'] = $class;
+		$config += $options;
 
-		foreach ($fields as $field) {
-			if (!empty($Model->whitelist) && !in_array($field, $Model->whitelist)) {
-				$Model->whitelist = array_merge($Model->whitelist, [$field]);
-			}
-		}
+		return $this->_passwordHasher = PasswordHasherFactory::build($config);
 	}
 
 }

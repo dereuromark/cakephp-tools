@@ -1,11 +1,10 @@
 <?php
+
 namespace Tools\TestCase\TestSuite;
 
 use Tools\TestSuite\TestCase;
 
 class TestCaseTest extends TestCase {
-
-	public $TestCase;
 
 	public function setUp() {
 		parent::setUp();

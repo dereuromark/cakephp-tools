@@ -1,11 +1,11 @@
 <?php
+
 namespace Tools\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
  * RoleFixture
- *
  */
 class RolesFixture extends TestFixture {
 

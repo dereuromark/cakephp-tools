@@ -1,24 +1,29 @@
 <?php
+
 namespace Tools\Test\TestCase\Controller;
 
-use Cake\Controller\ComponentRegistry;
-use Shim\Controller\Component\Component;
-use Cake\Controller\Component\CommonComponent;
 use Cake\Core\Configure;
-use Cake\Network\Request;
-use Cake\Network\Session;
-use Tools\TestSuite\TestCase;
-use Tools\Controller\Controller;
 use Cake\ORM\TableRegistry;
+use Tools\Controller\Controller;
+use Tools\TestSuite\TestCase;
 
 /**
  */
 class ControllerTest extends TestCase {
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = ['plugin.Tools.ToolsUsers'];
 
+	/**
+	 * @var Cake\Controller\Controller
+	 */
 	public $Controller;
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -28,6 +33,9 @@ class ControllerTest extends TestCase {
 		$this->Controller->startupProcess();
 	}
 
+	/**
+	 * @return void
+	 */
 	public function tearDown() {
 		parent::tearDown();
 

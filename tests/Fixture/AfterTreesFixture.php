@@ -1,19 +1,19 @@
 <?php
+
 namespace Tools\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
  * AfterTreeFixture class
- *
  */
 class AfterTreesFixture extends TestFixture {
 
-/**
- * fields property
- *
- * @var array
- */
+	/**
+	 * fields property
+	 *
+	 * @var array
+	 */
 	public $fields = [
 		'id' => ['type' => 'integer'],
 		'parent_id' => ['type' => 'integer'],
@@ -23,11 +23,11 @@ class AfterTreesFixture extends TestFixture {
 		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
 	];
 
-/**
- * records property
- *
- * @var array
- */
+	/**
+	 * records property
+	 *
+	 * @var array
+	 */
 	public $records = [
 		['parent_id' => null, 'lft' => 1, 'rght' => 2, 'name' => 'One'],
 		['parent_id' => null, 'lft' => 3, 'rght' => 4, 'name' => 'Two'],
@@ -37,4 +37,5 @@ class AfterTreesFixture extends TestFixture {
 		['parent_id' => null, 'lft' => 10, 'rght' => 11, 'name' => 'Six'],
 		['parent_id' => null, 'lft' => 13, 'rght' => 14, 'name' => 'Seven']
 	];
+
 }

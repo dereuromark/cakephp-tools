@@ -1,20 +1,30 @@
 <?php
+
 namespace Tools\TestCase\View\Helper;
 
-use Tools\View\Helper\FormatHelper;
-use Tools\TestSuite\TestCase;
-use Cake\View\View;
 use Cake\Core\Configure;
+use Cake\View\View;
+use Tools\TestSuite\TestCase;
+use Tools\View\Helper\FormatHelper;
 
 /**
  * Datetime Test Case
  */
 class FormatHelperTest extends TestCase {
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = ['core.sessions'];
 
+	/**
+	 * @var \Tools\View\Helper\FormatHelper
+	 */
 	public $Format;
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 

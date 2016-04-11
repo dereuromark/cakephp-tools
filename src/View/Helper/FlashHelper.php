@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\View\Helper;
 
 use Cake\Core\Configure;
@@ -12,8 +13,6 @@ use Tools\Controller\Component\FlashComponent;
  * @author Mark Scherer
  */
 class FlashHelper extends Helper {
-
-	public $helpers = [];
 
 	/**
 	 * Display all flash messages.
@@ -88,12 +87,12 @@ class FlashHelper extends Helper {
 	 * @param bool $escape Set to false to disable escaping.
 	 * @return string HTML
 	 */
-	public function message($msg, $type = 'info', $escape = true) {
+	public function message($message, $type = 'info', $escape = true) {
 		$html = '<div class="flash-messages">';
 		if ($escape) {
-			$msg = h($msg);
+			$msg = h($message);
 		}
-		$html .= $this->_message($msg, $type);
+		$html .= $this->_message($message, $type);
 		$html .= '</div>';
 		return $html;
 	}
@@ -116,7 +115,7 @@ class FlashHelper extends Helper {
 	 * Add a message on the fly
 	 *
 	 * @param string $msg
-	 * @param string $class
+	 * @param string|null $class
 	 * @return void
 	 */
 	public function addTransientMessage($msg, $class = null) {

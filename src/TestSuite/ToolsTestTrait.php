@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\TestSuite;
 
 /**
@@ -58,7 +59,6 @@ trait ToolsTestTrait {
 	 * Forces flushing the output if -v or -vv is set.
 	 *
 	 * @param mixed $data
-	 * @param bool $force Should the output be flushed (forced)
 	 * @return void
 	 */
 	protected static function debug($data) {

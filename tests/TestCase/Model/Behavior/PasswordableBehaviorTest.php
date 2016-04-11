@@ -2,21 +2,18 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use Tools\TestSuite\TestCase;
-use Cake\ORM\Behavior;
-use Cake\ORM\Entity;
-use Cake\ORM\Query;
-use Cake\ORM\Table;
-use Cake\Core\Configure;
-use Cake\Auth\DefaultPasswordHasher;
-use Cake\ORM\TableRegistry;
-use Cake\Utility\Security;
-use Cake\Routing\Router;
-use Cake\Network\Request;
 use Cake\Auth\PasswordHasherFactory;
+use Cake\Core\Configure;
+use Cake\Network\Request;
+use Cake\ORM\TableRegistry;
+use Cake\Routing\Router;
+use Tools\TestSuite\TestCase;
 
 class PasswordableBehaviorTest extends TestCase {
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = [
 		'plugin.tools.tools_users', 'plugin.tools.roles',
 	];
@@ -199,6 +196,8 @@ class PasswordableBehaviorTest extends TestCase {
 
 	/**
 	 * Test aliases for field names
+	 *
+	 * @return void
 	 */
 	public function testDifferentFieldNames() {
 		$this->Users->addBehavior('Tools.Passwordable', [
@@ -219,6 +218,8 @@ class PasswordableBehaviorTest extends TestCase {
 
 	/**
 	 * Assert that allowSame false does not allow storing the same password as previously entered
+	 *
+	 * @return void
 	 */
 	public function testNotSame() {
 		$this->Users->addBehavior('Tools.Passwordable', [
@@ -254,6 +255,8 @@ class PasswordableBehaviorTest extends TestCase {
 
 	/**
 	 * Assert that allowSame false does not allow storing the same password as previously entered
+	 *
+	 * @return void
 	 */
 	public function testNotSameWithoutCurrentField() {
 		$this->Users->addBehavior('Tools.Passwordable', [
@@ -295,6 +298,8 @@ class PasswordableBehaviorTest extends TestCase {
 
 	/**
 	 * Assert that on edit it does not wrongly pass validation (require => false)
+	 *
+	 * @return void
 	 */
 	public function testRequireFalse() {
 		$this->Users->addBehavior('Tools.Passwordable', [
@@ -347,6 +352,8 @@ class PasswordableBehaviorTest extends TestCase {
 
 	/**
 	 * Needs faking of pwd check...
+	 *
+	 * @return void
 	 */
 	public function testValidateCurrent() {
 		$this->assertFalse($this->Users->behaviors()->has('Passwordable'));
@@ -570,11 +577,11 @@ class PasswordableBehaviorTest extends TestCase {
 			'passwordHasher' => 'Default'
 		]);
 
-		$hash =  password_hash('foobar', PASSWORD_BCRYPT);
+		$hash = password_hash('foobar', PASSWORD_BCRYPT);
 		$result = $this->Users->needsPasswordRehash($hash);
 		$this->assertFalse($result);
 
-		$hash =  sha1('foobar');
+		$hash = sha1('foobar');
 		$result = $this->Users->needsPasswordRehash($hash);
 		$this->assertTrue($result);
 	}
@@ -591,7 +598,7 @@ class PasswordableBehaviorTest extends TestCase {
 			'authType' => 'Blowfish',
 		]);
 
-		$hash =  password_hash('foobar', PASSWORD_BCRYPT);
+		$hash = password_hash('foobar', PASSWORD_BCRYPT);
 		$result = $this->Users->needsPasswordRehash($hash);
 		$this->assertFalse($result);
 
@@ -603,7 +610,7 @@ class PasswordableBehaviorTest extends TestCase {
 			'passwordHasher' => 'Default'
 		]);
 
-		$hash =  password_hash('foobar', PASSWORD_BCRYPT);
+		$hash = password_hash('foobar', PASSWORD_BCRYPT);
 		$result = $this->Users->needsPasswordRehash($hash);
 		$this->assertFalse($result);
 	}

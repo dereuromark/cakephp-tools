@@ -2,8 +2,8 @@
 
 namespace Tools\Controller\Component;
 
-use Shim\Controller\Component\Component;
 use Cake\Event\Event;
+use Shim\Controller\Component\Component;
 use Tools\Auth\AuthUserTrait;
 
 /**
@@ -13,12 +13,15 @@ class AuthUserComponent extends Component {
 
 	use AuthUserTrait;
 
+	/**
+	 * @var array
+	 */
 	public $components = ['Auth'];
 
 	/**
 	 * AuthUserComponent::beforeRender()
 	 *
-	 * @param Event $event
+	 * @param \Cake\Event\Event $event
 	 * @return void
 	 */
 	public function beforeRender(Event $event) {

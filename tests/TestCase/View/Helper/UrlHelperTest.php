@@ -1,17 +1,15 @@
 <?php
+
 namespace Tools\TestCase\View\Helper;
 
-use Tools\View\Helper\UrlHelper;
-use Tools\TestSuite\TestCase;
-use Cake\View\View;
-use Cake\Core\Configure;
-use Tools\Utility\Time;
 use Cake\Network\Request;
 use Cake\Routing\Router;
+use Cake\View\View;
+use Tools\TestSuite\TestCase;
+use Tools\View\Helper\UrlHelper;
 
 /**
  * Datetime Test Case
- *
  */
 class UrlHelperTest extends TestCase {
 
@@ -39,7 +37,7 @@ class UrlHelperTest extends TestCase {
 		$this->Url->request->params['admin'] = true;
 		$this->Url->request->params['prefix'] = 'admin';
 		Router::reload();
-        Router::connect('/:controller/:action/*');
+		Router::connect('/:controller/:action/*');
 		Router::prefix('admin', function ($routes) {
 			$routes->connect('/:controller/:action/*');
 		});

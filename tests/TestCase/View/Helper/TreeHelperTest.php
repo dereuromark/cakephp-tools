@@ -2,21 +2,26 @@
 
 namespace Tools\TestCase\View\Helper;
 
-use Tools\View\Helper\TreeHelper;
-use Tools\TestSuite\TestCase;
-use Cake\View\View;
+use Cake\Datasource\ConnectionManager;
 use Cake\ORM\Entity;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
-use Cake\Datasource\ConnectionManager;
-use Cake\Core\Configure;
+use Cake\View\View;
+use Tools\TestSuite\TestCase;
+use Tools\View\Helper\TreeHelper;
 
 class TreeHelperTest extends TestCase {
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = [
 		'plugin.tools.after_trees'
 	];
 
+	/**
+	 * @var \Cake\ORM\Table
+	 */
 	public $Table;
 
 	/**
@@ -32,6 +37,7 @@ class TreeHelperTest extends TestCase {
 	 * - Four
 	 * -- Four-SubA
 	 *
+	 * @return void
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -370,7 +376,6 @@ TEXT;
 	}
 
 	/**
-	 *
 	 * - One
 	 * -- One-SubA
 	 * - Two
@@ -431,7 +436,6 @@ TEXT;
 	}
 
 	/**
-	 *
 	 * - One
 	 * -- One-SubA
 	 * - Two

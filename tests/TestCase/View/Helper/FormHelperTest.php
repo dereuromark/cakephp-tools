@@ -1,19 +1,25 @@
 <?php
+
 namespace Tools\TestCase\View\Helper;
 
-use Tools\View\Helper\FormHelper;
-use Tools\TestSuite\TestCase;
-use Cake\View\View;
 use Cake\Core\Configure;
-use Cake\Routing\Router;
+use Cake\View\View;
+use Tools\TestSuite\TestCase;
+use Tools\View\Helper\FormHelper;
 
 /**
  * FormHelper tests
  */
 class FormHelperTest extends TestCase {
 
+	/**
+	 * @var \Tools\View\Helper\FormHelper
+	 */
 	public $Form;
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 

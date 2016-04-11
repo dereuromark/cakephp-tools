@@ -1,8 +1,10 @@
 <?php
+
 namespace Tools\Utility;
 
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
+use RuntimeException;
 
 /**
  * Main class for all app-wide utility methods
@@ -85,7 +87,7 @@ class Utility {
 	 * @param string $pattern The pattern to use.
 	 * @param string $subject The string to match.
 	 * @param int $flags
-	 * @param int $offset
+	 * @param int|null $offset
 	 * @return array Result
 	 */
 	public static function pregMatchAll($pattern, $subject, $flags = PREG_SET_ORDER, $offset = null) {
@@ -107,8 +109,8 @@ class Utility {
 	 *
 	 * @param string $pattern The pattern to use.
 	 * @param string $subject The string to match.
-	 * @param int $flags
-	 * @param int $offset
+	 * @param int|null $flags
+	 * @param int|null $offset
 	 * @return array Result
 	 */
 	public static function pregMatch($pattern, $subject, $flags = null, $offset = null) {
@@ -121,7 +123,7 @@ class Utility {
 	 * Multibyte analogue of str_split() function.
 	 * By default this works properly with UTF8 strings.
 	 *
-	 * @param string $text
+	 * @param string $str
 	 * @param int $length
 	 * @return array Result
 	 */
@@ -146,20 +148,10 @@ class Utility {
 	public static function getClientIp($safe = true) {
 		if (!$safe && env('HTTP_X_FORWARDED_FOR')) {
 			$ipaddr = preg_replace('/(?:,.*)/', '', env('HTTP_X_FORWARDED_FOR'));
+		} elseif (!$safe && env('HTTP_CLIENT_IP')) {
+			$ipaddr = env('HTTP_CLIENT_IP');
 		} else {
-			if (env('HTTP_CLIENT_IP')) {
-				$ipaddr = env('HTTP_CLIENT_IP');
-			} else {
-				$ipaddr = env('REMOTE_ADDR');
-			}
-		}
-
-		if (env('HTTP_CLIENTADDRESS')) {
-			$tmpipaddr = env('HTTP_CLIENTADDRESS');
-
-			if (!empty($tmpipaddr)) {
-				$ipaddr = preg_replace('/(?:,.*)/', '', $tmpipaddr);
-			}
+			$ipaddr = env('REMOTE_ADDR');
 		}
 		return trim($ipaddr);
 	}
@@ -190,6 +182,7 @@ class Utility {
 	 * TODO: protocol to lower!
 	 *
 	 * @param string $url
+	 * @param bool $headerRedirect
 	 * @return string Cleaned Url
 	 */
 	public static function cleanUrl($url, $headerRedirect = false) {
@@ -229,6 +222,7 @@ class Utility {
 	 * for a better result.
 	 *
 	 * @param string $file File
+	 * @param string $pattern
 	 * @return bool Success
 	 */
 	public static function fileExists($file, $pattern = '~^https?://~i') {
@@ -247,7 +241,9 @@ class Utility {
 	 * @return bool Success
 	 */
 	public static function urlExists($url) {
+		// @codingStandardsIgnoreStart
 		$headers = @get_headers($url);
+		// @codingStandardsIgnoreEnd
 		if ($headers && preg_match('|\b200\b|', $headers[0])) {
 			return true;
 		}
@@ -261,8 +257,9 @@ class Utility {
 	 * @return mixed array of headers or FALSE on failure
 	 */
 	public static function getHeaderFromUrl($url) {
+		// @codingStandardsIgnoreStart
 		$url = @parse_url($url);
-
+		// @codingStandardsIgnoreEnd
 		if (empty($url)) {
 			return false;
 		}
@@ -300,13 +297,16 @@ class Utility {
 	 * Add protocol prefix if necessary (and possible)
 	 *
 	 * @param string $url
+	 * @param string|null $prefix
+	 * @return string
 	 */
 	public static function autoPrefixUrl($url, $prefix = null) {
 		if ($prefix === null) {
 			$prefix = 'http://';
 		}
 
-		if (($pos = strpos($url, '.')) !== false) {
+		$pos = strpos($url, '.');
+		if ($pos !== false) {
 			if (strpos(substr($url, 0, $pos), '//') === false) {
 				$url = $prefix . $url;
 			}
@@ -369,7 +369,6 @@ class Utility {
 	 *
 	 * @param array $array
 	 * @return bool Result
-	 *
 	 */
 	public static function logicalOr($array) {
 		foreach ($array as $result) {
@@ -384,7 +383,7 @@ class Utility {
 	 * On non-transaction db connections it will return a deep array of bools instead of bool.
 	 * So we need to call this method inside the modified saveAll() method to return the expected single bool there, too.
 	 *
-	 * @param array
+	 * @param array $array
 	 * @return bool
 	 * @deprecated Not sure this is useful for CakePHP 3.0
 	 */
@@ -395,7 +394,7 @@ class Utility {
 		$ret = true;
 		foreach ($array as $key => $val) {
 			if (is_array($val)) {
-				$ret = $ret & Utility::logicalAnd($val);
+				$ret = $ret & self::logicalAnd($val);
 			} else {
 				$ret = $ret & $val;
 			}
@@ -409,7 +408,7 @@ class Utility {
 	 *
 	 * @param mixed $value
 	 * @param string $type
-	 * @return safe value for DB query, or NULL if type was not a valid one
+	 * @return mixed Safe value for DB query, or NULL if type was not a valid one
 	 */
 	public static function typeCast($value, $type) {
 		switch ($type) {
@@ -438,8 +437,10 @@ class Utility {
 	}
 
 	/**
-	 * Trim recursivly
+	 * Trim recursively
 	 *
+	 * @param mixed $value
+	 * @return array|string
 	 */
 	public static function trimDeep($value) {
 		$value = is_array($value) ? array_map('self::trimDeep', $value) : trim($value);
@@ -447,8 +448,10 @@ class Utility {
 	}
 
 	/**
-	 * H() recursivly
+	 * Applies h() recursively
 	 *
+	 * @param mixed $value
+	 * @return array|string
 	 */
 	public static function specialcharsDeep($value) {
 		$value = is_array($value) ? array_map('self::specialcharsDeep', $value) : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
@@ -458,6 +461,9 @@ class Utility {
 	/**
 	 * Main deep method
 	 *
+	 * @param callable $function
+	 * @param mixed $value
+	 * @return array|string
 	 */
 	public static function deep($function, $value) {
 		$value = is_array($value) ? array_map('self::' . $function, $value) : $function($value);
@@ -505,7 +511,7 @@ class Utility {
 	 *
 	 * @param array $data
 	 * @param string $separator
-	 * @param string $undefinedKey
+	 * @param string|null $undefinedKey
 	 * @return array
 	 */
 	public static function expandList(array $data, $separator = '.', $undefinedKey = null) {
@@ -517,7 +523,7 @@ class Utility {
 			$keys = array_reverse($keys);
 			if (!isset($keys[0])) {
 				if ($undefinedKey === null) {
-					throw new \RuntimeException('Key-less values are not supported without $undefinedKey.');
+					throw new RuntimeException('Key-less values are not supported without $undefinedKey.');
 				}
 				$keys[0] = $undefinedKey;
 			}
@@ -544,6 +550,7 @@ class Utility {
 	 * both boolean and integer values also supported.
 	 *
 	 * @param array $data
+	 * @param string $separator
 	 * @return array
 	 */
 	public static function flattenList(array $data, $separator = '.') {
@@ -587,8 +594,8 @@ class Utility {
 	 *
 	 * //TODO: check if it can be replace by Hash::flatten() or Utility::flatten().
 	 *
-	 * @param array $array to flatten
-	 * @param bool $perserveKeys
+	 * @param array $array Array to flatten
+	 * @param bool $preserveKeys
 	 * @return array
 	 */
 	public static function arrayFlatten($array, $preserveKeys = false) {
@@ -639,7 +646,7 @@ class Utility {
 	 * Similar to array_shift but on the keys of the array
 	 * like array_shift() only for keys and not values
 	 *
-	 * @param array $keyValuePairs
+	 * @param array $array keyValuePairs
 	 * @return string key
 	 */
 	public static function arrayShiftKeys(&$array) {
@@ -649,6 +656,9 @@ class Utility {
 		}
 	}
 
+	/**
+	 * @var int
+	 */
 	protected static $_counterStartTime;
 
 	/**
@@ -701,8 +711,9 @@ class Utility {
 	 *
 	 * @link https://github.com/ndejong/pretty_json/blob/master/pretty_json.php
 	 * @param string $json The original JSON string
-	 * @param string $ind The string to indent with
+	 * @param string $indString The string to indent with
 	 * @return string
+	 * @deprecated Now there is a JSON_PRETTY_PRINT option available on json_encode()
 	 */
 	public static function prettyJson($json, $indString = "\t") {
 		// Replace any escaped \" marks so we don't get tripped up on quotemarks_counter
@@ -737,10 +748,10 @@ class Utility {
 				$newLine = "\n";
 			}
 
-			if ($token === "{" || $token === "[") {
+			if ($token === '{' || $token === '[') {
 				$indent++;
 				$result .= $token . $newLine;
-			} elseif ($token === "}" || $token === "]") {
+			} elseif ($token === '}' || $token === ']') {
 				$indent--;
 
 				if ($indent >= 0) {
@@ -752,7 +763,7 @@ class Utility {
 				} else {
 					$result .= $newLine . $token;
 				}
-			} elseif ($token === ",") {
+			} elseif ($token === ',') {
 				$result .= $token . $newLine;
 			} else {
 				$result .= $prefix . $token;

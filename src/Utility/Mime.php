@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Utility;
 
 use Cake\Network\Response;
@@ -8,10 +9,13 @@ use Cake\Network\Response;
  *
  * @version 1.0
  * @license MIT
- * @author	Mark Scherer
+ * @author Mark Scherer
  */
 class Mime extends Response {
 
+	/**
+	 * @var array
+	 */
 	protected $_mimeTypesExt = [
 		'3dm' => 'x-world/x-3dmf',
 		'3dmf' => 'x-world/x-3dmf',
@@ -763,7 +767,7 @@ class Mime extends Response {
 	/**
 	 * Retrieve the corresponding MIME type, if one exists
 	 *
-	 * @param string $file File Name (relative location such as "image_test.jpg" or full "http://site.com/path/to/image_test.jpg")
+	 * @param string|null $file File Name (relative location such as "image_test.jpg" or full "http://site.com/path/to/image_test.jpg")
 	 * @return string MIMEType - The type of the file passed in the argument
 	 */
 	public function detectMimeType($file = null) {
@@ -771,18 +775,19 @@ class Mime extends Response {
 		// If FINFO functions are not available then try to retrieve MIME type from pre-defined MIMEs
 		// If MIME type doesn't exist, then try (as a last resort) to use the (deprecated) mime_content_type function
 		// If all else fails, just return application/octet-stream
-		if (!function_exists("finfo_open")) {
-			if (function_exists("mime_content_type")) {
+		if (!function_exists('finfo_open')) {
+			if (function_exists('mime_content_type')) {
 				$type = mime_content_type($file);
 				if (!empty($type)) {
 					return $type;
 				}
 			}
 			$extension = $this->_getExtension($file);
-			if ($mimeType = $this->getMimeTypeByAlias($extension)) {
+			$mimeType = $this->getMimeTypeByAlias($extension);
+			if ($mimeType) {
 				return $mimeType;
 			}
-			return "application/octet-stream";
+			return 'application/octet-stream';
 		}
 		return $this->_detectMimeType($file);
 	}
@@ -801,7 +806,9 @@ class Mime extends Response {
 		// Treat non local files differently
 		$pattern = '~^https?://~i';
 		if (preg_match($pattern, $file)) {
+			// @codingStandardsIgnoreStart
 			$headers = @get_headers($file);
+			// @codingStandardsIgnoreEnd
 			if (!preg_match("|\b200\b|", $headers[0])) {
 				return '';
 			}
@@ -826,21 +833,22 @@ class Mime extends Response {
 			return $mimetype;
 		}
 		$extension = static::_getExtension($file);
-		if ($mimeType = static::getMimeTypeByAlias($extension)) {
+		$mimeType = static::getMimeTypeByAlias($extension);
+		if ($mimeType) {
 			return $mimeType;
 		}
-		return "application/octet-stream";
+		return 'application/octet-stream';
 	}
 
 	/**
 	 * Get encoding.
 	 *
-	 * @param string $file
+	 * @param string|null $file
 	 * @param string $default
 	 * @return string
 	 */
 	public static function getEncoding($file = null, $default = 'utf-8') {
-		if (!function_exists("finfo_open")) {
+		if (!function_exists('finfo_open')) {
 			return $default;
 		}
 		$finfo = finfo_open(FILEINFO_MIME_ENCODING);
@@ -855,8 +863,8 @@ class Mime extends Response {
 	/**
 	 * Gets the file extention from a string
 	 *
-	 * @param String $file The full file name
-	 * @return String ext The file extension
+	 * @param string $file The full file name
+	 * @return string The file extension
 	 */
 	protected static function _getExtension($file) {
 		$pieces = explode('.', $file);

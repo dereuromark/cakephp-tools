@@ -1,11 +1,14 @@
 <?php
+
 namespace Tools\Model\Behavior;
 
+use ArrayObject;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\Utility\Inflector;
+use Exception;
 use Tools\Utility\Text;
 
 /**
@@ -65,7 +68,7 @@ class BitmaskedBehavior extends Behavior {
 			$config['bits'] = false;
 		}
 		if (empty($config['bits'])) {
-			throw new \Exception('Bits not found');
+			throw new Exception('Bits not found');
 		}
 		ksort($config['bits'], SORT_NUMERIC);
 
@@ -73,8 +76,8 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param Event $event
-	 * @param Query $query
+	 * @param \Cake\Event\Event $event
+	 * @param \Cake\ORM\Query $query
 	 * @return void
 	 */
 	public function beforeFind(Event $event, Query $query) {
@@ -93,12 +96,12 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param Event $event
-	 * @param Entity $entity
+	 * @param \Cake\Event\Event $event
+	 * @param \Cake\ORM\Entity $entity
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeRules(Event $event, Entity $entity, \ArrayObject $options) {
+	public function beforeRules(Event $event, Entity $entity, ArrayObject $options) {
 		if ($this->_config['on'] !== 'beforeRules' || !$options['checkRules']) {
 			return;
 		}
@@ -106,12 +109,12 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param Event $event
-	 * @param Entity $entity
+	 * @param \Cake\Event\Event $event
+	 * @param \Cake\ORM\Entity $entity
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeSave(Event $event, Entity $entity, \ArrayObject $options) {
+	public function beforeSave(Event $event, Entity $entity, ArrayObject $options) {
 		if ($this->_config['on'] !== 'beforeSave') {
 			return;
 		}
@@ -154,7 +157,7 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param Query $query
+	 * @param \Cake\ORM\Query $query
 	 * @return void
 	 */
 	public function encodeBitmaskConditions(Query $query) {
@@ -187,7 +190,7 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param Entity $entity
+	 * @param \Cake\ORM\Entity $entity
 	 * @return void
 	 */
 	public function encodeBitmaskData(Entity $entity) {

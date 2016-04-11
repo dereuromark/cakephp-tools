@@ -21,7 +21,7 @@ class Language {
 				if (!isset($match[2])) {
 					$match[2] = '1.0';
 				} else {
-					$match[2] = (string)floatval($match[2]);
+					$match[2] = (string)(float)($match[2]);
 				}
 				if (!isset($languages[$match[2]])) {
 					if ($match[2] === '1') {
@@ -39,6 +39,8 @@ class Language {
 	/**
 	 * Compares two parsed arrays of language tags and find the matches
 	 *
+	 * @param array $accepted
+	 * @param array $available
 	 * @return array
 	 */
 	public static function findMatches(array $accepted, array $available = []) {
@@ -77,6 +79,8 @@ class Language {
 	/**
 	 * Compare two language tags and distinguish the degree of matching
 	 *
+	 * @param string $a
+	 * @param string $b
 	 * @return float
 	 */
 	protected static function _matchLanguage($a, $b) {

@@ -1,16 +1,20 @@
 <?php
+
 namespace Tools\TestCase\View\Helper;
 
-use Tools\View\Helper\TimelineHelper;
-use Tools\TestSuite\TestCase;
 use Cake\View\View;
-use Cake\Core\Configure;
+use DateTime;
+use Tools\TestSuite\TestCase;
+use Tools\View\Helper\TimelineHelper;
 
 /**
  * Timeline Helper Test Case
  */
 class TimelineHelperTest extends TestCase {
 
+	/**
+	 * @var \Tools\View\Helper\TimelineHelper
+	 */
 	public $Timeline;
 
 	/**
@@ -57,12 +61,12 @@ class TimelineHelperTest extends TestCase {
 	public function testFinalize() {
 		$this->testAddItem();
 		$data = [
-			'start' => new \DateTime(),
+			'start' => new DateTime(),
 			'content' => '',
 		];
 		$this->Timeline->addItem($data);
 		$data = [
-			'start' => new \DateTime(date(FORMAT_DB_DATE)),
+			'start' => new DateTime(date(FORMAT_DB_DATE)),
 			'content' => '',
 		];
 		$this->Timeline->addItem($data);

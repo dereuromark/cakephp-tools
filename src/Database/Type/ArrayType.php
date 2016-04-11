@@ -1,9 +1,8 @@
 <?php
+
 namespace Tools\Database\Type;
 
-use Cake\Database\Driver;
 use Cake\Database\Type;
-use PDO;
 
 /**
  * Do not convert input on marshal().

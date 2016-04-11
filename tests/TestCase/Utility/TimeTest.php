@@ -1,14 +1,19 @@
 <?php
 
 namespace Tools\TestCase\Utility;
-use Tools\Utility\Time;
-use Tools\TestSuite\TestCase;
-use Tools\Misc\ZodiacLib;
+
 use Cake\Core\Configure;
+use DateTime;
+use Tools\Misc\ZodiacLib;
+use Tools\TestSuite\TestCase;
+use Tools\Utility\Time;
 
 class TimeTest extends TestCase {
 
-	public $Time = null;
+	/**
+	 * @var \Tools\Utility\Time
+	 */
+	public $Time;
 
 	public function setUp() {
 		$this->Time = new Time();
@@ -203,7 +208,7 @@ class TimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testLocalDate() {
-		$this->skipIf(php_sapi_name() === 'cli', 'for now');
+		$this->skipIf(PHP_SAPI === 'cli', 'for now');
 		$res = setlocale(LC_TIME, ['de_DE.UTF-8', 'deu_deu']);
 		$this->assertTrue(!empty($res));
 
@@ -823,7 +828,7 @@ class TimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testAgeByHoroscop() {
-		$this->skipIf(php_sapi_name() === 'cli', 'Fix these tests');
+		$this->skipIf(PHP_SAPI === 'cli', 'Fix these tests');
 
 		$is = $this->Time->ageByHoroscope(2000, ZodiacLib::SIGN_VIRGO);
 		// between xxxx-08-24 and xxxx-09-23 the latter, otherwise the first:
@@ -1009,8 +1014,8 @@ class TimeTest extends TestCase {
 		}
 
 		// using DateTime interval
-		$datetime1 = new \DateTime('2009-10-11 13:13:13');
-		$datetime2 = new \DateTime('2009-10-12 13:13:15');
+		$datetime1 = new DateTime('2009-10-11 13:13:13');
+		$datetime2 = new DateTime('2009-10-12 13:13:15');
 		$interval = $datetime1->diff($datetime2);
 		$result = $this->Time->buildTime($interval, 'H:MM:SS');
 		$this->assertEquals('24:00:02', $result);
@@ -1122,7 +1127,7 @@ class TimeTest extends TestCase {
 		$this->assertTrue(isset($location['latitude']));
 		$this->assertTrue(isset($location['longitude']));
 
-		$offset = $timezone->getOffset(new \DateTime('@' . mktime(0, 0, 0, 1, 1, date('Y'))));
+		$offset = $timezone->getOffset(new DateTime('@' . mktime(0, 0, 0, 1, 1, date('Y'))));
 		//$this->debug($offset);
 
 		$phpTimezone = date_default_timezone_get();

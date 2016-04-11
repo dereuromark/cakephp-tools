@@ -1,11 +1,12 @@
 <?php
+
 namespace Tools\TestCase\View\Helper;
 
-use Tools\View\Helper\NumberHelper;
-use Tools\TestSuite\TestCase;
-use Cake\View\View;
 use Cake\Core\Configure;
+use Cake\View\View;
+use Tools\TestSuite\TestCase;
 use Tools\Utility\Number;
+use Tools\View\Helper\NumberHelper;
 
 /**
  * Number Test Case
@@ -118,4 +119,5 @@ class NumberHelperTest extends TestCase {
 
 		unset($this->Number);
 	}
+
 }

@@ -1,14 +1,17 @@
 <?php
+
 namespace Tools\TestCase\View\Helper;
 
-use Tools\View\Helper\TextHelper;
-use Tools\TestSuite\TestCase;
 use Cake\View\View;
-use Cake\Core\Configure;
+use Tools\TestSuite\TestCase;
 use Tools\Utility\Text;
+use Tools\View\Helper\TextHelper;
 
 class TextHelperTest extends TestCase {
 
+	/**
+	 * @var \Tools\View\Helper\TextHelper|\Tools\Utility\Text
+	 */
 	public $Text;
 
 	public function setUp() {
@@ -165,6 +168,8 @@ class TextHelperTest extends TestCase {
 
 	/**
 	 * Combined (emails + urls)
+	 *
+	 * @return void
 	 */
 	public function testAutoLink() {
 		$text = 'Text <i>with a url</i> www.cot.ag?id=2&sub=3 and some email@domain.com more';

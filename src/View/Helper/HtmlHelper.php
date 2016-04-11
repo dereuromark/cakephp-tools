@@ -12,13 +12,10 @@
  * @since         0.9.1
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace Tools\View\Helper;
 
-use Cake\Core\Configure;
-use Cake\Network\Response;
 use Cake\View\Helper\HtmlHelper as CoreHtmlHelper;
-use Cake\View\StringTemplateTrait;
-use Cake\View\View;
 
 /**
  * Html Helper class for easy use of HTML widgets.
@@ -53,28 +50,28 @@ class HtmlHelper extends CoreHtmlHelper {
 	}
 
 	/**
-     * Creates a reset HTML link.
+	 * Creates a reset HTML link.
 	 * The prefix and plugin params are resetting to default false.
-     *
-     * ### Options
-     *
-     * - `escape` Set to false to disable escaping of title and attributes.
-     * - `escapeTitle` Set to false to disable escaping of title. Takes precedence
-     *   over value of `escape`)
-     * - `confirm` JavaScript confirmation message.
 	 *
-     * @param string $title The content to be wrapped by <a> tags.
-     * @param string|array|null $url URL or array of URL parameters, or
-     *   external URL (starts with http://)
-     * @param array $options Array of options and HTML attributes.
-     * @return string An `<a />` element.
-     */
-    public function resetLink($title, $url = null, array $options = []) {
+	 * ### Options
+	 *
+	 * - `escape` Set to false to disable escaping of title and attributes.
+	 * - `escapeTitle` Set to false to disable escaping of title. Takes precedence
+	 *   over value of `escape`)
+	 * - `confirm` JavaScript confirmation message.
+	 *
+	 * @param string $title The content to be wrapped by <a> tags.
+	 * @param string|array|null $url URL or array of URL parameters, or
+	 *   external URL (starts with http://)
+	 * @param array $options Array of options and HTML attributes.
+	 * @return string An `<a />` element.
+	 */
+	public function resetLink($title, $url = null, array $options = []) {
 		if (is_array($url)) {
 			$url += ['prefix' => false, 'plugin' => false];
 		}
 		return parent::link($title, $url, $options);
-    }
+	}
 
 	/**
 	 * Keep query string params for pagination/filter for this link,
@@ -105,13 +102,13 @@ class HtmlHelper extends CoreHtmlHelper {
 		return parent::link($title, $url, $options);
 	}
 
-    /**
-     * Event listeners.
-     *
-     * @return array
-     */
-    public function implementedEvents()
-    {
-        return [];
-    }
+	/**
+	 * Event listeners.
+	 *
+	 * @return array
+	 */
+	public function implementedEvents() {
+		return [];
+	}
+
 }

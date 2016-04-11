@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Utility;
 
 use Cake\Core\Configure;
@@ -7,23 +8,77 @@ use Cake\Utility\Text as CakeText;
 /**
  * Extends CakeText.
  * //TODO: cleanup
- *
  */
 class Text extends CakeText {
 
-	public $text, $length, $char, $letter, $space, $word, $rWord, $sen, $rSen, $para, $rPara, $beautified;
+	/**
+	 * @var string
+	 */
+	public $text;
 
-	public function __construct($text = null) {
-		$this->text = $text;
-	}
+	/**
+	 * @var int
+	 */
+	public $length;
+
+	/**
+	 * @var string
+	 */
+	public $char;
+
+	/**
+	 * @var string
+	 */
+	public $letter;
+
+	/**
+	 * @var string
+	 */
+	public $space;
+
+	/**
+	 * @var string
+	 */
+	public $word;
+
+	/**
+	 * @var string
+	 */
+	public $rWord;
+
+	/**
+	 * @var string
+	 */
+	public $sen;
+
+	/**
+	 * @var string
+	 */
+	public $rSen;
+
+	/**
+	 * @var string
+	 */
+	public $para;
+
+	/**
+	 * @var string
+	 */
+	public $rPara;
+
+	/**
+	 * @var string
+	 */
+	public $beautified;
 
 	/**
 	 * Read tab data (tab-separated data).
 	 *
+	 * @param string $text
 	 * @return array
 	 */
-	public function readTab() {
-		$pieces = explode("\n", $this->text);
+	public function readTab($text) {
+		$pieces = explode("\n", $text);
 		$result = [];
 		foreach ($pieces as $piece) {
 			$tmp = explode("\t", trim($piece, "\r\n"));
@@ -37,11 +92,12 @@ class Text extends CakeText {
 	 *
 	 * E.g.: '%s,%s,%s'
 	 *
+	 * @param string $text
 	 * @param string $pattern
 	 * @return array
 	 */
-	public function readWithPattern($pattern) {
-		$pieces = explode("\n", $this->text);
+	public function readWithPattern($text, $pattern) {
+		$pieces = explode("\n", $text);
 		$result = [];
 		foreach ($pieces as $piece) {
 			$result[] = sscanf(trim($piece, "\r\n"), $pattern);
@@ -76,9 +132,10 @@ class Text extends CakeText {
 	 * - 'whitespace': If whitespace should be counted, as well, defaults to false
 	 *
 	 * @param string $text
+	 * @param array $options
 	 * @return int
 	 */
-	public static function numberOfChars($text, $options = []) {
+	public static function numberOfChars($text, array $options = []) {
 		$text = str_replace(["\r", "\n", "\t", ' '], '', $text);
 		$count = mb_strlen($text);
 		return $count;
@@ -90,6 +147,7 @@ class Text extends CakeText {
 	 *
 	 * @param string $text The original string.
 	 * @param int $length The length at which to abbreviate.
+	 * @param string $ending Defaults to ...
 	 * @return string The abbreviated string, if longer than $length.
 	 */
 	public static function abbreviate($text, $length = 20, $ending = '...') {
@@ -106,15 +164,7 @@ class Text extends CakeText {
 	 * @param string $separator
 	 * @return string
 	 */
-	public function convertToOrd($str = null, $separator = '-') {
-		/*
-		if (!class_exists('UnicodeLib')) {
-			App::uses('UnicodeLib', 'Tools.Lib');
-		}
-		*/
-		if ($str === null) {
-			$str = $this->text;
-		}
+	public function convertToOrd($str, $separator = '-') {
 		$chars = preg_split('//', $str, -1);
 		$res = [];
 		foreach ($chars as $char) {
@@ -150,6 +200,9 @@ class Text extends CakeText {
 
 	/**
 	 * Explode a string of given tags into an array.
+	 *
+	 * @param string $tags
+	 * @return array
 	 */
 	public function explodeTags($tags) {
 		// This regexp allows the following types of user input:
@@ -174,8 +227,11 @@ class Text extends CakeText {
 
 	/**
 	 * Implode an array of tags into a string.
+	 *
+	 * @param array $tags
+	 * @return string
 	 */
-	public function implodeTags($tags) {
+	public function implodeTags(array $tags) {
 		$encodedTags = [];
 		foreach ($tags as $tag) {
 			// Commas and quotes in tag names are special cases, so encode them.
@@ -194,13 +250,10 @@ class Text extends CakeText {
 	 *
 	 * echo Text::widont($text);
 	 *
-	 * @param string text to remove widows from
+	 * @param string $str Text to remove widows from
 	 * @return string
 	 */
-	public function widont($str = null) {
-		if ($str === null) {
-			$str = $this->text;
-		}
+	public function widont($str) {
 		$str = rtrim($str);
 		$space = strrpos($str, ' ');
 
@@ -216,36 +269,35 @@ class Text extends CakeText {
 	/**
 	 * Extract words
 	 *
-	 * @param options
+	 * @param string $text
+	 * @param array $options
 	 * - min_char, max_char, case_sensititive, ...
 	 * @return array
 	 */
-	public function words($options = []) {
-		if (true || !$this->xrWord) {
-			$text = str_replace([PHP_EOL, "\t"], ' ', $this->text);
+	public function words($text, array $options = []) {
+		$text = str_replace([PHP_EOL, "\t"], ' ', $text);
 
-			$pieces = explode(' ', $text);
-			$pieces = array_unique($pieces);
+		$pieces = explode(' ', $text);
+		$pieces = array_unique($pieces);
 
-			// strip chars like . or ,
-			foreach ($pieces as $key => $piece) {
-				if (empty($options['case_sensitive'])) {
-					$piece = mb_strtolower($piece);
-				}
-				$search = [',', '.', ';', ':', '#', '', '(', ')', '{', '}', '[', ']', '$', '%', '"', '!', '?', '<', '>', '=', '/'];
-				$search = array_merge($search, [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
-				$piece = str_replace($search, '', $piece);
-				$piece = trim($piece);
-
-				if (empty($piece) || !empty($options['min_char']) && mb_strlen($piece) < $options['min_char'] || !empty($options['max_char']) && mb_strlen($piece) > $options['max_char']) {
-					unset($pieces[$key]);
-				} else {
-					$pieces[$key] = $piece;
-				}
+		// strip chars like . or ,
+		foreach ($pieces as $key => $piece) {
+			if (empty($options['case_sensitive'])) {
+				$piece = mb_strtolower($piece);
 			}
-			$pieces = array_unique($pieces);
-			//$this->xrWord = $pieces;
+			$search = [',', '.', ';', ':', '#', '', '(', ')', '{', '}', '[', ']', '$', '%', '"', '!', '?', '<', '>', '=', '/'];
+			$search = array_merge($search, [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
+			$piece = str_replace($search, '', $piece);
+			$piece = trim($piece);
+
+			if (empty($piece) || !empty($options['min_char']) && mb_strlen($piece) < $options['min_char'] || !empty($options['max_char']) && mb_strlen($piece) > $options['max_char']) {
+				unset($pieces[$key]);
+			} else {
+				$pieces[$key] = $piece;
+			}
 		}
+		$pieces = array_unique($pieces);
+
 		return $pieces;
 	}
 
@@ -253,21 +305,21 @@ class Text extends CakeText {
 	 * Limit the number of words in a string.
 	 *
 	 * <code>
-	 *		// Returns "This is a..."
-	 *		echo TextExt::maxWords('This is a sentence.', 3);
+	 *    // Returns "This is a..."
+	 *    echo TextExt::maxWords('This is a sentence.', 3);
 	 *
-	 *		// Limit the number of words and append a custom ending
-	 *		echo Str::words('This is a sentence.', 3, '---');
+	 *    // Limit the number of words and append a custom ending
+	 *    echo Str::words('This is a sentence.', 3, '---');
 	 * </code>
 	 *
-	 * @param string  $value
-	 * @param int     $words
+	 * @param string $value
+	 * @param int $words
 	 * @param array $options
 	 * - ellipsis
 	 * - html
 	 * @return string
 	 */
-	public static function maxWords($value, $words = 100, $options = []) {
+	public static function maxWords($value, $words = 100, array $options = []) {
 		$defaults = [
 			'ellipsis' => '...'
 		];
@@ -293,7 +345,7 @@ class Text extends CakeText {
 	 *
 	 * Converts High ascii text and MS Word special characters to character entities
 	 *
-	 * @param string
+	 * @param string $str
 	 * @return string
 	 */
 	public function asciiToEntities($str) {
@@ -340,11 +392,11 @@ class Text extends CakeText {
 	 *
 	 * Converts character entities back to ASCII
 	 *
-	 * @param string
-	 * @param bool
+	 * @param string $str
+	 * @param bool $all
 	 * @return string
 	 */
-	public function EntitiesToAscii($str, $all = true) {
+	public function entitiesToAscii($str, $all = true) {
 		if (preg_match_all('/\&#(\d+)\;/', $str, $matches)) {
 			for ($i = 0, $s = count($matches['0']); $i < $s; $i++) {
 				$digits = $matches['1'][$i];
@@ -367,8 +419,8 @@ class Text extends CakeText {
 		}
 
 		if ($all) {
-			$str = str_replace(["&amp;", "&lt;", "&gt;", "&quot;", "&apos;", "&#45;"],
-				["&", "<", ">", "\"", "'", "-"], $str);
+			$str = str_replace(['&amp;', '&lt;', '&gt;', '&quot;', '&apos;', '&#45;'],
+				['&', '<', '>', '"', "'", '-'], $str);
 		}
 
 		return $str;
@@ -386,11 +438,11 @@ class Text extends CakeText {
 	 *
 	 * http://www.some-site.com/index.php
 	 *
-	 * @param string
+	 * @param string $str
 	 * @return string
 	 */
 	public function reduce_double_slashes($str) {
-		return preg_replace("#([^:])//+#", "\\1/", $str);
+		return preg_replace('#([^:])//+#', '\\1/', $str);
 	}
 
 }

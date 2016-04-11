@@ -1,13 +1,14 @@
 <?php
+
 namespace Tools\View\Helper;
 
-use Cake\View\Helper\TextHelper as CakeTextHelper;
 use Cake\Utility\Hash;
-use Tools\Utility\Number;
+use Cake\View\Helper\TextHelper as CakeTextHelper;
 use Cake\View\View;
+use Tools\Utility\Number;
 
 if (!defined('CHAR_HELLIP')) {
-	define('CHAR_HELLIP', '&#8230;'); # … (horizontal ellipsis = three dot leader)
+	define('CHAR_HELLIP', '&#8230;'); # ï¿½ (horizontal ellipsis = three dot leader)
 }
 
 /**
@@ -22,7 +23,6 @@ if (!defined('CHAR_HELLIP')) {
  * - stripProtocol (defaults To FALSE right now)
  * - maxLength (to shorten links in order to not mess up the layout in some cases - appends ...)
  * - escape (defaults to TRUE for security reasons regarding plain text)
- *
  */
 class TextHelper extends CakeTextHelper {
 
@@ -34,8 +34,8 @@ class TextHelper extends CakeTextHelper {
 	 * - `engine` Class name to use to replace Text functionality.
 	 *            The class needs to be placed in the `Utility` directory.
 	 *
-	 * @param View $View the view object the helper is attached to.
-	 * @param array $settings Settings array Settings array
+	 * @param \Cake\View\View $View the view object the helper is attached to.
+	 * @param array $config Settings array Settings array
 	 * @throws \Cake\Core\Exception\Exception when the engine class could not be found.
 	 */
 	public function __construct(View $View, array $config = []) {

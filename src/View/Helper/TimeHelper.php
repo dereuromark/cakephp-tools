@@ -5,29 +5,33 @@ namespace Tools\View\Helper;
 use Cake\Core\App;
 use Cake\View\Helper\TimeHelper as CakeTimeHelper;
 use Cake\View\View;
+use DateTime;
 
 /**
  * Wrapper for TimeHelper and TimeLib
  */
 class TimeHelper extends CakeTimeHelper {
 
+	/**
+	 * @var array
+	 */
 	public $helpers = ['Html'];
 
-/**
- * Default config for this class
- *
- * @var mixed
- */
+	/**
+	 * Default config for this class
+	 *
+	 * @var array
+	 */
 	protected $_defaultConfig = [
 		'engine' => 'Tools\Utility\Time'
 	];
 
-/**
- * Cake\I18n\LocalizedNumber instance
- *
- * @var \Cake\I18n\Number
- */
-	protected $_engine = null;
+	/**
+	 * Cake\I18n\LocalizedNumber instance
+	 *
+	 * @var \Cake\I18n\Number
+	 */
+	protected $_engine;
 
 	/**
 	 * Default Constructor
@@ -85,8 +89,8 @@ class TimeHelper extends CakeTimeHelper {
 	 * Output the age of a person within a sane range.
 	 * Defaults to the $default string if outside of that range.
 	 *
-	 * @param null $date
-	 * @param string|bool $default
+	 * @param string|int|null $date
+	 * @param string $default
 	 * @return int age on success, mixed $default otherwise
 	 * @internal param date $string
 	 */
@@ -104,8 +108,8 @@ class TimeHelper extends CakeTimeHelper {
 	/**
 	 * Like localDate(), only with additional markup <span> and class="today", if today, etc
 	 *
-	 * @param null $dateString
-	 * @param null $format
+	 * @param string|null $dateString
+	 * @param string|null $format
 	 * @param array $options
 	 * @return string
 	 */
@@ -118,8 +122,8 @@ class TimeHelper extends CakeTimeHelper {
 	/**
 	 * Like niceDate(), only with additional markup <span> and class="today", if today, etc
 	 *
-	 * @param null $dateString
-	 * @param null $format
+	 * @param string|null $dateString
+	 * @param string|null $format
 	 * @param array $options
 	 * @return string
 	 */
@@ -133,13 +137,12 @@ class TimeHelper extends CakeTimeHelper {
 	 * Returns red/specialGreen/green date depending on the current day
 	 * // TODO refactor! $userOffset is deprecated!
 	 *
-	 * @param date in DB Format (xxxx-xx-xx)
-	 * ...
+	 * @param \DateTime $date Date
 	 * @param array $options
-	 * @param array $attr: html attributes
+	 * @param array $attr HTML attributes
 	 * @return string Nicely formatted date
 	 */
-	public function published(\DateTime $date, array $options = [], array $attr = []) {
+	public function published(DateTime $date, array $options = [], array $attr = []) {
 		$niceDate = '';
 		$when = null;
 		$span = '';

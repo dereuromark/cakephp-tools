@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Utility;
 
 /**
@@ -13,14 +14,14 @@ namespace Tools\Utility;
  */
 class L10n {
 
-/**
- * Maps ISO 639-3 to I10n::_l10nCatalog
- * The terminological codes (first one per language) should be used if possible.
- * They are the ones building the path in `/APP/Locale/[code]/`
- * The bibliographic codes are aliases.
- *
- * @var array
- */
+	/**
+	 * Maps ISO 639-3 to I10n::_l10nCatalog
+	 * The terminological codes (first one per language) should be used if possible.
+	 * They are the ones building the path in `/APP/Locale/[code]/`
+	 * The bibliographic codes are aliases.
+	 *
+	 * @var array
+	 */
 	protected $_l10nMap = [
 		/* Afrikaans */ 'afr' => 'af',
 		/* Albanian */ 'sqi' => 'sq',
@@ -109,13 +110,13 @@ class L10n {
 		/* Zulu */ 'zul' => 'zu'
 	];
 
-/**
- * HTTP_ACCEPT_LANGUAGE catalog
- *
- * holds all information related to a language
- *
- * @var array
- */
+	/**
+	 * HTTP_ACCEPT_LANGUAGE catalog
+	 *
+	 * holds all information related to a language
+	 *
+	 * @var array
+	 */
 	protected $_l10nCatalog = [
 		'af' => ['language' => 'Afrikaans', 'locale' => 'afr', 'localeFallback' => 'afr', 'charset' => 'utf-8', 'direction' => 'ltr'],
 		'ar' => ['language' => 'Arabic', 'locale' => 'ara', 'localeFallback' => 'ara', 'charset' => 'utf-8', 'direction' => 'rtl'],
@@ -260,19 +261,19 @@ class L10n {
 		'zu' => ['language' => 'Zulu', 'locale' => 'zul', 'localeFallback' => 'zul', 'charset' => 'utf-8', 'direction' => 'ltr']
 	];
 
-/**
- * Class constructor
- */
+	/**
+	 * Class constructor
+	 */
 	public function __construct() {
 	}
 
-/**
- * Attempts to find locale for language, or language for locale
- *
- * @param string|array $mixed 2/3 char string (language/locale), array of those strings, or null
- * @return string|array|bool string language/locale, array of those values, whole map as an array,
- *    or false when language/locale doesn't exist
- */
+	/**
+	 * Attempts to find locale for language, or language for locale
+	 *
+	 * @param string|array|null $mixed 2/3 char string (language/locale), array of those strings, or null
+	 * @return string|array|bool string language/locale, array of those values, whole map as an array,
+	 *    or false when language/locale doesn't exist
+	 */
 	public function map($mixed = null) {
 		if (is_array($mixed)) {
 			$result = [];
@@ -295,13 +296,13 @@ class L10n {
 		return $this->_l10nMap;
 	}
 
-/**
- * Attempts to find catalog record for requested language
- *
- * @param string|array $language string requested language, array of requested languages, or null for whole catalog
- * @return array|bool array catalog record for requested language, array of catalog records, whole catalog,
- *    or false when language doesn't exist
- */
+	/**
+	 * Attempts to find catalog record for requested language
+	 *
+	 * @param string|array|null $language String requested language, array of requested languages, or null for whole catalog
+	 * @return array|bool array catalog record for requested language, array of catalog records, whole catalog,
+	 *    or false when language doesn't exist
+	 */
 	public function catalog($language = null) {
 		if (is_array($language)) {
 			$result = [];

@@ -4,15 +4,19 @@ namespace Tools\Test\TestCase\Model\Behavior;
 
 use Cake\ORM\TableRegistry;
 use Tools\TestSuite\TestCase;
-use Cake\Core\Configure;
-use Tools\Model\Behavior\StringBehavior;
 
 class StringBehaviorTest extends TestCase {
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = [
 		'plugin.tools.string_comments'
 	];
 
+	/**
+	 * @var \Tools\Model\Table\Table
+	 */
 	public $Comments;
 
 	public function setUp() {

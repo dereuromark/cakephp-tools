@@ -1,19 +1,20 @@
 <?php
+
 namespace Tools\TestCase\View\Helper;
 
-use Tools\View\Helper\GravatarHelper;
-use Tools\TestSuite\TestCase;
 use Cake\View\View;
-use Cake\Core\Configure;
+use Tools\TestSuite\TestCase;
+use Tools\View\Helper\GravatarHelper;
 
 /**
  * Gravatar Test Case
- *
  */
 class GravatarHelperTest extends TestCase {
 
 	/**
 	 * SetUp method
+	 *
+	 * @return void
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -26,6 +27,8 @@ class GravatarHelperTest extends TestCase {
 
 	/**
 	 * TearDown method
+	 *
+	 * @return void
 	 */
 	public function tearDown() {
 		parent::tearDown();
@@ -87,7 +90,9 @@ class GravatarHelperTest extends TestCase {
 		$this->assertTrue(!empty($is));
 	}
 
-/** BASE TEST CASES **/
+	/**
+	 * BASE TEST CASES
+**/
 
 	/**
 	 * TestBaseUrlGeneration

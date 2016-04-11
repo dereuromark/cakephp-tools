@@ -2,17 +2,20 @@
 
 namespace Tools\Model\Behavior;
 
-use Tools\Model\Behavior\NeighborBehavior;
-use Tools\TestSuite\TestCase;
-//use App\Model\AppModel;
 use Cake\ORM\TableRegistry;
 use Tools\Model\Table\Table;
-use Cake\Core\Configure;
+use Tools\TestSuite\TestCase;
 
 class NeighborBehaviorTest extends TestCase {
 
+	/**
+	 * @var \Tools\Model\Table\Table
+	 */
 	public $Table;
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = ['plugin.tools.stories'];
 
 	public function setUp() {

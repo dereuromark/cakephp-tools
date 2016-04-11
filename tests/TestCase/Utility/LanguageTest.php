@@ -1,8 +1,9 @@
 <?php
+
 namespace Tools\TestCase\Utility;
 
-use Tools\Utility\Language;
 use Tools\TestSuite\TestCase;
+use Tools\Utility\Language;
 
 class LanguageTest extends TestCase {
 
@@ -97,4 +98,3 @@ class LanguageTest extends TestCase {
 	}
 
 }
-

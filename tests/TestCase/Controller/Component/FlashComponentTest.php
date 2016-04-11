@@ -1,15 +1,11 @@
 <?php
+
 namespace Tools\Test\TestCase\Controller\Component;
 
-use Cake\Controller\ComponentRegistry;
-use Shim\Controller\Component\Component;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
-use Cake\Network\Request;
-use Cake\Network\Session;
-use Cake\Routing\DispatcherFactory;
-use Tools\TestSuite\TestCase;
 use Cake\Event\Event;
+use Tools\TestSuite\TestCase;
 
 /**
  */
@@ -120,10 +116,19 @@ class FlashComponentTest extends TestCase {
  */
 class FlashComponentTestController extends Controller {
 
+	/**
+	 * @var array
+	 */
 	public $components = ['Tools.Flash'];
 
+	/**
+	 * @var bool
+	 */
 	public $failed = false;
 
+	/**
+	 * @var array
+	 */
 	public $testHeaders = [];
 
 	public function fail() {
@@ -137,4 +142,5 @@ class FlashComponentTestController extends Controller {
 	public function header($status) {
 		$this->testHeaders[] = $status;
 	}
+
 }

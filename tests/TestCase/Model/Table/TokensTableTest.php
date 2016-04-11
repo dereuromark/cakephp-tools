@@ -1,14 +1,20 @@
 <?php
+
 namespace Tools\Test\Model\Table;
 
-use Tools\Model\Table\TokensTable;
-use Tools\TestSuite\TestCase;
 use Cake\ORM\TableRegistry;
+use Tools\TestSuite\TestCase;
 
 class TokensTableTest extends TestCase {
 
-	public $Tokens = null;
+	/**
+	 * @var \Tools\Model\Table\TokensTable;
+	 */
+	public $Tokens;
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = ['plugin.Tools.Tokens'];
 
 	public function setUp() {

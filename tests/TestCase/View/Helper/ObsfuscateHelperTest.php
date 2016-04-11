@@ -2,10 +2,9 @@
 
 namespace Tools\TestCase\View\Helper;
 
-use Tools\View\Helper\ObfuscateHelper;
-use Tools\TestSuite\TestCase;
 use Cake\View\View;
-use Cake\Core\Configure;
+use Tools\TestSuite\TestCase;
+use Tools\View\Helper\ObfuscateHelper;
 
 class ObfuscateHelperTest extends TestCase {
 

@@ -1,9 +1,10 @@
 <?php
+
 namespace Tools\Model\Behavior;
 
 use Cake\ORM\Behavior;
-use Cake\ORM\Query;
 use Cake\Utility\Hash;
+use InvalidArgumentException;
 
 /**
  * Neighbor Behavior
@@ -24,7 +25,7 @@ class NeighborBehavior extends Behavior {
 
 	public function neighbors($id, array $options = []) {
 		if (empty($id)) {
-			throw new \InvalidArgumentException("The 'id' key is required for find('neighbors')");
+			throw new InvalidArgumentException("The 'id' key is required for find('neighbors')");
 		}
 		$sortField = $this->_table->hasField('created') ? 'created' : $this->_table->primaryKey();
 		$defaults = [

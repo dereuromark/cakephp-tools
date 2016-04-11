@@ -1,13 +1,17 @@
 <?php
+
 namespace Tools\TestCase\Utility;
 
-use Tools\Utility\Text;
 use Tools\TestSuite\TestCase;
+use Tools\Utility\Text;
 
 /**
  */
 class TextTest extends TestCase {
 
+	/**
+	 * @var \Tools\Utility\Text;
+	 */
 	public $Text;
 
 	public function setUp() {
@@ -21,29 +25,29 @@ class TextTest extends TestCase {
 some	tabbed	data
 and	another	line
 TXT;
-		$this->Text = new Text($data);
-		$result = $this->Text->readTab();
+		$result = $this->Text->readTab($data);
 
 		$this->assertSame(2, count($result));
 		$this->assertSame(['and', 'another', 'line'], $result[1]);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testReadWithPattern() {
 		$data = <<<TXT
 some random data
 and another line
 and a   third
 TXT;
-		$this->Text = new Text($data);
-		$result = $this->Text->readWithPattern("%s %s %s");
+		$result = $this->Text->readWithPattern($data, '%s %s %s');
 
 		$this->assertSame(3, count($result));
 		$this->assertSame(['and', 'a', 'third'], $result[2]);
 	}
 
 	public function testConvertToOrd() {
-		$this->Text = new Text('h H');
-		$is = $this->Text->convertToOrd();
+		$is = $this->Text->convertToOrd('h H');
 		//pr($is);
 		$this->assertEquals($is, '0-104-32-72-0');
 
@@ -63,9 +67,7 @@ TXT;
 	}
 
 	public function testWords() {
-		$this->Text = new Text('Hochhaus, Unter dem Bau von ae Äußeren Einflüssen - und von Autos.');
-		$is = $this->Text->words(['min_char' => 3]);
-		//pr($is);
+		$is = $this->Text->words('Hochhaus, Unter dem Bau von ae Äußeren Einflüssen - und von Autos.', ['min_char' => 3]);
 		$this->assertTrue(!empty($is) && is_array($is) && count($is) === 9);
 	}
 

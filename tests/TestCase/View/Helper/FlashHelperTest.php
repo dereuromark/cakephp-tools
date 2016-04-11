@@ -1,21 +1,30 @@
 <?php
+
 namespace Tools\TestCase\View\Helper;
 
-use Tools\View\Helper\FlashHelper;
-use Tools\TestSuite\TestCase;
-use Cake\View\View;
-use Cake\Core\Configure;
 use Cake\Routing\Router;
+use Cake\View\View;
+use Tools\TestSuite\TestCase;
+use Tools\View\Helper\FlashHelper;
 
 /**
  * FlashHelper tests
  */
 class FlashHelperTest extends TestCase {
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = ['core.sessions'];
 
+	/**
+	 * @var \Tools\View\Helper\FlashHelper
+	 */
 	public $Flash;
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -31,7 +40,7 @@ class FlashHelperTest extends TestCase {
 	 */
 	public function testMessage() {
 		$result = $this->Flash->message(h('Foo & bar'), 'success');
-		$expected = '<div class="flash-messages"><div class="message success">Foo &amp;amp; bar</div></div>';
+		$expected = '<div class="flash-messages"><div class="message success">Foo &amp; bar</div></div>';
 		$this->assertEquals($expected, $result);
 	}
 

@@ -1,9 +1,9 @@
 <?php
+
 namespace Tools\Test\TestCase\Shell;
 
-use Tools\Shell\InflectShell;
-use Tools\TestSuite\ConsoleOutput;
 use Cake\Console\ConsoleIo;
+use Tools\TestSuite\ConsoleOutput;
 use Tools\TestSuite\TestCase;
 
 /**

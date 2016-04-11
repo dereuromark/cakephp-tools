@@ -1,19 +1,25 @@
 <?php
+
 namespace Tools\TestCase\View\Helper;
 
-use Tools\View\Helper\CommonHelper;
-use Tools\TestSuite\TestCase;
-use Cake\View\View;
-use Cake\Core\Configure;
 use Cake\Routing\Router;
+use Cake\View\View;
+use Tools\TestSuite\TestCase;
+use Tools\View\Helper\CommonHelper;
 
 /**
  * CommonHelper tests
  */
 class CommonHelperTest extends TestCase {
 
+	/**
+	 * @var \Tools\View\Helper\CommonHelper
+	 */
 	public $Common;
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 

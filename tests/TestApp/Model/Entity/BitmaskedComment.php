@@ -6,6 +6,10 @@ use Tools\Model\Entity\Entity;
 
 class BitmaskedComment extends Entity {
 
+	/**
+	 * @param mixed|null $value
+	 * @return mixed
+	 */
 	public static function statuses($value = null) {
 		$options = [
 			static::STATUS_ACTIVE => __d('tools', 'Active'),
@@ -22,4 +26,5 @@ class BitmaskedComment extends Entity {
 	const STATUS_PUBLISHED = 2;
 	const STATUS_APPROVED = 4;
 	const STATUS_FLAGGED = 8;
+
 }

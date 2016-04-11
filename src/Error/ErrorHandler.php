@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Error;
 
 use Cake\Error\ErrorHandler as CoreErrorHandler;
@@ -33,20 +34,29 @@ class ErrorHandler extends CoreErrorHandler {
 	 * @param \Exception $exception Exception instance.
 	 * @return bool
 	 */
-	protected function _logException(\Exception $exception) {
+	protected function _logException(Exception $exception) {
 		$blacklist = [
 			'Cake\Routing\Exception\MissingControllerException',
 			'Cake\Routing\Exception\MissingActionException',
 			'Cake\Routing\Exception\PrivateActionException',
-			'Cake\Routing\Exception\NotFoundException'];
+			'Cake\Routing\Exception\NotFoundException',
+			'Cake\Datasource\Exception\RecordNotFoundException',
+			'Cake\Network\Exception\MethodNotAllowedException',
+			'Cake\Network\Exception\BadRequestException',
+			'Cake\Network\Exception\ForbiddenException',
+			'Cake\Network\Exception\GoneException',
+			'Cake\Network\Exception\ConflictException',
+			'Cake\Network\Exception\InvalidCsrfToken',
+			'Cake\Network\Exception\UnauthorizedException',
+			'Cake\Network\Exception\NotAcceptableException',
+		];
 		if (isset($this->_options['log404'])) {
 			$blacklist = $this->_options['log404'];
 		}
-
 		if ($blacklist && in_array(get_class($exception), (array)$blacklist)) {
 			$level = LOG_ERR;
 			Log::write($level, $this->_getMessage($exception), ['404']);
-			return;
+			return false;
 		}
 		return parent::_logException($exception);
 	}

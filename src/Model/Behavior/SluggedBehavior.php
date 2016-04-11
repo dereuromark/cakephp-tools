@@ -1,14 +1,16 @@
 <?php
+
 namespace Tools\Model\Behavior;
 
 use Cake\Core\Configure;
-use Cake\Error\Exception;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Utility\Inflector;
+use Exception;
+use InvalidArgumentException;
 
 /**
  * SluggedBehavior
@@ -26,31 +28,31 @@ class SluggedBehavior extends Behavior {
 	 * Default config
 	 *
 	 * - label:
-	 * 	set to the name of a field to use for the slug, an array of fields to use as slugs or leave as null to rely
-	 * 	on the format returned by find('list') to determine the string to use for slugs
+	 *     set to the name of a field to use for the slug, an array of fields to use as slugs or leave as null to rely
+	 *     on the format returned by find('list') to determine the string to use for slugs
 	 * - field: The slug field name
 	 * - overwriteField: The boolean field to trigger overwriting if "overwrite" is false
 	 * - mode: has the following values
-	 * 	ascii - retuns an ascii slug generated using the core Inflector::slug() function
-	 * 	display - a dummy mode which returns a slug legal for display - removes illegal (not unprintable) characters
-	 * 	url - returns a slug appropriate to put in a URL
-	 * 	class - a dummy mode which returns a slug appropriate to put in a html class (there are no restrictions)
-	 * 	id - retuns a slug appropriate to use in a html id
+	 *     ascii - retuns an ascii slug generated using the core Inflector::slug() function
+	 *     display - a dummy mode which returns a slug legal for display - removes illegal (not unprintable) characters
+	 *     url - returns a slug appropriate to put in a URL
+	 *     class - a dummy mode which returns a slug appropriate to put in a html class (there are no restrictions)
+	 *     id - retuns a slug appropriate to use in a html id
 	 * - separator: The separator to use
 	 * - length:
 	 *  Set to 0 for no length. Will be auto-detected if possible via schema.
 	 * - overwrite: has 2 values
-	 * 	false - once the slug has been saved, do not change it (use if you are doing lookups based on slugs)
-	 * 	true - if the label field values change, regenerate the slug (use if you are the slug is just window-dressing)
+	 *     false - once the slug has been saved, do not change it (use if you are doing lookups based on slugs)
+	 *     true - if the label field values change, regenerate the slug (use if you are the slug is just window-dressing)
 	 * - unique: has 2 values
-	 * 	false - will not enforce a unique slug, whatever the label is is direclty slugged without checking for duplicates
-	 * 	true - use if you are doing lookups based on slugs (see overwrite)
+	 *     false - will not enforce a unique slug, whatever the label is is direclty slugged without checking for duplicates
+	 *     true - use if you are doing lookups based on slugs (see overwrite)
 	 * - case: has the following values
-	 * 	null - don't change the case of the slug
-	 * 	low - force lower case. E.g. "this-is-the-slug"
-	 * 	up - force upper case E.g. "THIS-IS-THE-SLUG"
-	 * 	title - force title case. E.g. "This-Is-The-Slug"
-	 * 	camel - force CamelCase. E.g. "ThisIsTheSlug"
+	 *     null - don't change the case of the slug
+	 *     low - force lower case. E.g. "this-is-the-slug"
+	 *     up - force upper case E.g. "THIS-IS-THE-SLUG"
+	 *     title - force title case. E.g. "This-Is-The-Slug"
+	 *     camel - force CamelCase. E.g. "ThisIsTheSlug"
 	 * - replace: custom replacements as array
 	 * - on: beforeSave or beforeRules
 	 * - scope: certain conditions to use as scope
@@ -81,11 +83,11 @@ class SluggedBehavior extends Behavior {
 		//'implementedMethods' => ['slug' => 'slug']
 	];
 
-/**
- * Table instance
- *
- * @var \Cake\ORM\Table
- */
+	/**
+	 * Table instance
+	 *
+	 * @var \Cake\ORM\Table
+	 */
 	protected $_table;
 
 	public function __construct(Table $table, array $config = []) {
@@ -125,11 +127,11 @@ class SluggedBehavior extends Behavior {
 				if (strpos($field, '.')) {
 					list($alias, $field) = explode('.', $field);
 					if (!$this->_table->$alias->hasField($field)) {
-						throw new \Exception('(SluggedBehavior::setup) model ' . $this->_table->$alias->name . ' is missing the field ' . $field .
+						throw new Exception('(SluggedBehavior::setup) model ' . $this->_table->$alias->name . ' is missing the field ' . $field .
 							' (specified in the setup for model ' . $this->_table->name . ') ');
 					}
 				} elseif (!$this->_table->hasField($field) && !method_exists($this->_table->entityClass(), '_get' . Inflector::classify($field))) {
-					throw new \Exception('(SluggedBehavior::setup) model ' . $this->_table->name . ' is missing the field ' . $field . ' specified in the setup.');
+					throw new Exception('(SluggedBehavior::setup) model ' . $this->_table->name . ' is missing the field ' . $field . ' specified in the setup.');
 				}
 			}
 		}
@@ -138,14 +140,14 @@ class SluggedBehavior extends Behavior {
 	/**
 	 * SluggedBehavior::findSlugged()
 	 *
-	 * @param mixed $query
-	 * @param mixed $options
-	 * @return Query
+	 * @param \Cake\ORM\Query $query
+	 * @param array $options
+	 * @return \Cake\ORM\Query
 	 * @throws \InvalidArgumentException If the 'slug' key is missing in options
 	 */
 	public function findSlugged(Query $query, array $options) {
 		if (empty($options['slug'])) {
-			throw new \InvalidArgumentException("The 'slug' key is required for find('slugged')");
+			throw new InvalidArgumentException("The 'slug' key is required for find('slugged')");
 		}
 
 		return $query->where([$this->_config['field'] => $options['slug']]);
@@ -154,8 +156,8 @@ class SluggedBehavior extends Behavior {
 	/**
 	 * SluggedBehavior::beforeRules()
 	 *
-	 * @param mixed $event
-	 * @param mixed $entity
+	 * @param \Cake\Event\Event $event
+	 * @param \Cake\ORM\Entity $entity
 	 * @return void
 	 */
 	public function beforeRules(Event $event, Entity $entity) {
@@ -167,8 +169,8 @@ class SluggedBehavior extends Behavior {
 	/**
 	 * SluggedBehavior::beforeSave()
 	 *
-	 * @param mixed $event
-	 * @param mixed $entity
+	 * @param \Cake\Event\Event $event
+	 * @param \Cake\ORM\Entity $entity
 	 * @return void
 	 */
 	public function beforeSave(Event $event, Entity $entity) {
@@ -210,7 +212,7 @@ class SluggedBehavior extends Behavior {
 	 * of maybe some not in sync slugs anymore (saving the same title again,
 	 * but the slug is completely different, for example).
 	 *
-	 * @param Entity $entity
+	 * @param \Cake\ORM\Entity $entity
 	 * @param bool $deep If true it will generate a new slug and compare it to the currently stored one.
 	 * @return bool
 	 */
@@ -238,9 +240,9 @@ class SluggedBehavior extends Behavior {
 	 * If unique is set to true, check for a unique slug and if unavailable suffix the slug with -1, -2, -3 etc.
 	 * until a unique slug is found
 	 *
-	 * @param string $string
-	 * @param Entity $entity
-	 * @return string a slug
+	 * @param string $value
+	 * @param \Cake\ORM\Entity|null $entity
+	 * @return string A slug
 	 */
 	public function generateSlug($value, Entity $entity = null) {
 		$separator = $this->_config['separator'];
@@ -293,7 +295,7 @@ class SluggedBehavior extends Behavior {
 		}
 		if ($this->_config['unique']) {
 			if (!$entity) {
-				throw new \Exception('Needs an Entity to work on');
+				throw new Exception('Needs an Entity to work on');
 			}
 			$field = $this->_table->alias() . '.' . $this->_config['field'];
 			$conditions = [$field => $slug];
@@ -329,12 +331,12 @@ class SluggedBehavior extends Behavior {
 	 * Note that you should use the Reset behavior if you need additional functionality such
 	 * as callbacks or timeouts.
 	 *
-	 * @param array $conditions
+	 * @param array $params
 	 * @return bool Success
 	 */
 	public function resetSlugs($params = []) {
 		if (!$this->_table->hasField($this->_config['field'])) {
-			throw new \Exception('Table does not have field ' . $this->_config['field']);
+			throw new Exception('Table does not have field ' . $this->_config['field']);
 		}
 		$defaults = [
 			'page' => 1,
@@ -360,7 +362,7 @@ class SluggedBehavior extends Behavior {
 					'fieldList' => array_merge([$this->_table->primaryKey(), $this->_config['field']], $this->_config['label'])
 				];
 				if (!$this->_table->save($record, $options)) {
-					throw new \Exception(print_r($this->_table->errors(), true));
+					throw new Exception(print_r($this->_table->errors(), true));
 				}
 			}
 			$params['page']++;
@@ -375,7 +377,8 @@ class SluggedBehavior extends Behavior {
 	 * in multiple locales at once
 	 *
 	 * //FIXME
-	 * @param Model $Model
+	 *
+	 * @param \Cake\ORM\Entity $entity
 	 * @return void
 	 */
 	protected function _multiSlug(Entity $entity) {
@@ -400,10 +403,10 @@ class SluggedBehavior extends Behavior {
 	/**
 	 * Wrapper for preg replace taking care of encoding
 	 *
-	 * @param mixed $pattern
-	 * @param mixed $replace
-	 * @param mixed $string
-	 * @return void
+	 * @param string|array $pattern
+	 * @param string|array $replace
+	 * @param string $string
+	 * @return string
 	 */
 	protected function _pregReplace($pattern, $replace, $string) {
 		return preg_replace($pattern, $replace, $string);
@@ -417,7 +420,7 @@ class SluggedBehavior extends Behavior {
 	 * understands. See the test case for info on how these regex patterns were generated.
 	 *
 	 * @param string $mode
-	 * @return string a partial regex or false on failure
+	 * @return string|null A partial regex or false on failure
 	 */
 	protected function _regex($mode) {
 		$return = '\x00-\x1f\x26\x3c\x7f-\x9f\x{fffe}-\x{ffff}';
@@ -471,7 +474,7 @@ class SluggedBehavior extends Behavior {
 			'\x{3095}-\x{3098}\x{309b}-\x{309c}\x{309f}-\x{30a0}\x{30fb}\x{30ff}-\x{3104}\x{312d}-\x{4dff}' .
 			'\x{9fa6}-\x{abff}\x{d7a4}-\x{d7ff}\x{e000}-\x{ffff}';
 		}
-		return false;
+		return null;
 	}
 
 }

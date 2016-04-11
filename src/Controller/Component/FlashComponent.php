@@ -1,11 +1,12 @@
 <?php
+
 namespace Tools\Controller\Component;
 
-use Cake\Network\Exception\InternalErrorException;
-use Shim\Controller\Component\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\Network\Exception\InternalErrorException;
 use Cake\Utility\Inflector;
+use Shim\Controller\Component\Component;
 
 /**
  * A flash component to enhance flash message support with stackable messages, both
@@ -61,7 +62,7 @@ class FlashComponent extends Component {
 	 * Updates "messages" session content (to enable multiple messages of one type).
 	 *
 	 * @param string $message Message to output.
-	 * @param string $type Type ('error', 'warning', 'success', 'info' or custom class).
+	 * @param string|null $options Options
 	 * @return void
 	 */
 	public function message($message, $options = null) {
@@ -105,7 +106,7 @@ class FlashComponent extends Component {
 	 * will be merged into the session flash ones prior to output.
 	 *
 	 * @param string $message Message to output.
-	 * @param string $type Type ('error', 'warning', 'success', 'info' or custom class).
+	 * @param string|null $type Type ('error', 'warning', 'success', 'info' or custom class).
 	 * @return void
 	 */
 	public static function transientMessage($message, $type = null) {

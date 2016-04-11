@@ -2,16 +2,11 @@
 
 namespace Tools\Model\Table;
 
-use Cake\Core\Configure;
-use Shim\Model\Table\Table as ShimTable;
-use Cake\Utility\Inflector;
-use Cake\Validation\Validation;
-use Cake\Validation\Validator;
-use Tools\Utility\Utility;
-use Cake\ORM\Query;
-use Cake\Event\Event;
-use Tools\Utility\Time;
 use Cake\Routing\Router;
+use Cake\Validation\Validation;
+use Shim\Model\Table\Table as ShimTable;
+use Tools\Utility\Time;
+use Tools\Utility\Utility;
 
 class Table extends ShimTable {
 
@@ -29,98 +24,44 @@ class Table extends ShimTable {
 		return true;
 	}
 
-/**
- * Validator method used to check the uniqueness of a value for a column.
- * This is meant to be used with the validation API and not to be called
- * directly.
- *
- * ### Example:
- *
- * {{{
- * $validator->add('email', [
- *	'unique' => ['rule' => 'validateUnique', 'provider' => 'table']
- * ])
- * }}}
- *
- * Unique validation can be scoped to the value of another column:
- *
- * {{{
- * $validator->add('email', [
- *	'unique' => [
- *		'rule' => ['validateUnique', ['scope' => 'site_id']],
- *		'provider' => 'table'
- *	]
- * ]);
- * }}}
- *
- * In the above example, the email uniqueness will be scoped to only rows having
- * the same site_id. Scoping will only be used if the scoping field is present in
- * the data to be validated.
- *
- * @override To allow multiple scoped values
- *
- * @param mixed $value The value of column to be checked for uniqueness
- * @param array $options The options array, optionally containing the 'scope' key
- * @param array $context The validation context as provided by the validation routine
- * @return bool true if the value is unique
- */
+	/**
+	 * Validator method used to check the uniqueness of a value for a column.
+	 * This is meant to be used with the validation API and not to be called
+	 * directly.
+	 *
+	 * ### Example:
+	 *
+	 * {{{
+	 * $validator->add('email', [
+	 *    'unique' => ['rule' => 'validateUnique', 'provider' => 'table']
+	 * ])
+	 * }}}
+	 *
+	 * Unique validation can be scoped to the value of another column:
+	 *
+	 * {{{
+	 * $validator->add('email', [
+	 *    'unique' => [
+	 *        'rule' => ['validateUnique', ['scope' => 'site_id']],
+	 *        'provider' => 'table'
+	 *    ]
+	 * ]);
+	 * }}}
+	 *
+	 * In the above example, the email uniqueness will be scoped to only rows having
+	 * the same site_id. Scoping will only be used if the scoping field is present in
+	 * the data to be validated.
+	 *
+	 * @override To allow multiple scoped values
+	 *
+	 * @param mixed $value The value of column to be checked for uniqueness
+	 * @param array $options The options array, optionally containing the 'scope' key
+	 * @param array $context The validation context as provided by the validation routine
+	 * @return bool true if the value is unique
+	 */
 	public function validateUniqueExt($value, array $options, array $context = []) {
 		$context += $options;
 		return parent::validateUnique($value, $context);
-	}
-
-	/**
-	 * Checks a record, if it is unique - depending on other fields in this table (transfered as array)
-	 * example in model: 'rule' => array ('validateUnique', array('belongs_to_table_id','some_id','user_id')),
-	 * if all keys (of the array transferred) match a record, return false, otherwise true
-	 *
-	 * @param array $fields Other fields to depend on
-	 * TODO: add possibity of deep nested validation (User -> Comment -> CommentCategory: UNIQUE comment_id, Comment.user_id)
-	 * @param array $options
-	 * - requireDependentFields Require all dependent fields for the validation rule to return true
-	 * @return bool Success
-	 * @deprecated NOT WORKING anymore, use core validateUnique
-	 */
-	public function validateUniqueOld($fieldValue, $fields = [], $options = []) {
-		$id = (!empty($this->data[$this->primaryKey]) ? $this->data[$this->primaryKey] : 0);
-		if (!$id && $this->id) {
-			$id = $this->id;
-		}
-
-		$conditions = [
-			$fieldName => $fieldValue,
-			'id !=' => $id];
-
-		$fields = (array)$fields;
-		if (!array_key_exists('allowEmpty', $fields)) {
-			foreach ($fields as $dependingField) {
-				if (isset($this->data[$dependingField])) { // add ONLY if some content is transfered (check on that first!)
-					$conditions['' . $dependingField] = $this->data[$dependingField];
-				} elseif (isset($this->data['Validation'][$dependingField])) { // add ONLY if some content is transfered (check on that first!
-					$conditions['' . $dependingField] = $this->data['Validation'][$dependingField];
-				} elseif (!empty($id)) {
-					// manual query! (only possible on edit)
-					$res = $this->find('first', ['fields' => ['' . $dependingField], 'conditions' => ['id' => $id]]);
-					if (!empty($res)) {
-						$conditions['' . $dependingField] = $res[$dependingField];
-					}
-				} else {
-					if (!empty($options['requireDependentFields'])) {
-						trigger_error('Required field ' . $dependingField . ' for validateUnique validation not present');
-						return false;
-					}
-					return true;
-				}
-			}
-		}
-
-		$this->recursive = -1;
-		if (count($conditions) > 2) {
-			$this->recursive = 0;
-		}
-		$options = ['fields' => ['' . $this->primaryKey], 'conditions' => $conditions];
-		$res = $this->find('first', $options);
-		return empty($res);
 	}
 
 	/**
@@ -155,7 +96,7 @@ class Table extends ShimTable {
 	 * Get all related entries that have been used so far
 	 *
 	 * @param string $tableName The related model
-	 * @param string $groupField Field to group by
+	 * @param string|null $groupField Field to group by
 	 * @param string $type Find type
 	 * @param array $options
 	 * @return array
@@ -184,7 +125,7 @@ class Table extends ShimTable {
 	 * @param array $options
 	 * @return array
 	 */
-	public function getFieldInUse($groupField, $type = 'all', $options = []) {
+	public function getFieldInUse($groupField, $type = 'all', array $options = []) {
 		$defaults = [
 			'group' => $groupField,
 			'order' => [$this->displayField() => 'ASC'],
@@ -206,6 +147,7 @@ class Table extends ShimTable {
 	 *
 	 * @param mixed $value
 	 * @param array $options
+	 * @param array $context
 	 * @return bool Success
 	 */
 	public function validateIdentical($value, $options = [], array $context = []) {
@@ -223,21 +165,24 @@ class Table extends ShimTable {
 			settype($compareValue, $matching[$options['cast']]);
 			settype($value, $matching[$options['cast']]);
 		}
-		return ($compareValue === $value);
+		return $compareValue === $value;
 	}
 
 	/**
-	 * Checks if a url is valid AND accessable (returns false otherwise)
+	 * Checks if a URL is valid AND accessible (returns false otherwise)
 	 *
-	 * @param array/string $data: full url(!) starting with http://...
-	 * @options array
+	 * Options:
 	 * - allowEmpty TRUE/FALSE (TRUE: if empty => return TRUE)
 	 * - required TRUE/FALSE (TRUE: overrides allowEmpty)
 	 * - autoComplete (default: TRUE)
 	 * - deep (default: TRUE)
+	 *
+	 * @param array|string $url Full URL starting with http://...
+	 * @param array $options
+	 * @param array $context
 	 * @return bool Success
 	 */
-	public function validateUrl($url, $options = [], array $context = []) {
+	public function validateUrl($url, array $options = [], array $context = []) {
 		if (empty($url)) {
 			if (!empty($options['allowEmpty']) && empty($options['required'])) {
 				return true;
@@ -289,7 +234,7 @@ class Table extends ShimTable {
 	/**
 	 * Checks if a url is valid
 	 *
-	 * @param string url
+	 * @param string $url
 	 * @return bool Success
 	 */
 	protected function _validUrl($url) {
@@ -311,11 +256,13 @@ class Table extends ShimTable {
 	/**
 	 * Validation of DateTime Fields (both Date and Time together)
 	 *
-	 * @param options
+	 * @param mixed $value
+	 * @param array $options
 	 * - dateFormat (defaults to 'ymd')
 	 * - allowEmpty
 	 * - after/before (fieldName to validate against)
 	 * - min/max (defaults to >= 1 - at least 1 minute apart)
+	 * @param array $context
 	 * @return bool Success
 	 */
 	public function validateDateTime($value, $options = [], array $context = []) {
@@ -369,11 +316,13 @@ class Table extends ShimTable {
 	/**
 	 * Validation of Date fields (as the core one is buggy!!!)
 	 *
-	 * @param options
+	 * @param mixed $value
+	 * @param array $options
 	 * - dateFormat (defaults to 'ymd')
 	 * - allowEmpty
 	 * - after/before (fieldName to validate against)
 	 * - min (defaults to 0 - equal is OK too)
+	 * @param array $context
 	 * @return bool Success
 	 */
 	public function validateDate($value, $options = [], array $context = []) {
@@ -415,11 +364,13 @@ class Table extends ShimTable {
 	/**
 	 * Validation of Time fields
 	 *
+	 * @param mixed $value
 	 * @param array $options
 	 * - timeFormat (defaults to 'hms')
 	 * - allowEmpty
 	 * - after/before (fieldName to validate against)
 	 * - min/max (defaults to >= 1 - at least 1 minute apart)
+	 * @param array $context
 	 * @return bool Success
 	 */
 	public function validateTime($value, $options = [], array $context = []) {
@@ -449,8 +400,11 @@ class Table extends ShimTable {
 	/**
 	 * Validation of Date Fields (>= minDate && <= maxDate)
 	 *
-	 * @param options
+	 * @param mixed $value
+	 * @param array $options
 	 * - min/max (TODO!!)
+	 * @param array $context
+	 * @return bool
 	 */
 	public function validateDateRange($value, $options = [], array $context = []) {
 	}
@@ -458,8 +412,11 @@ class Table extends ShimTable {
 	/**
 	 * Validation of Time Fields (>= minTime && <= maxTime)
 	 *
-	 * @param options
+	 * @param mixed $value
+	 * @param array $options
 	 * - min/max (TODO!!)
+	 * @param array $context
+	 * @return bool
 	 */
 	public function validateTimeRange($value, $options = [], array $context = []) {
 	}

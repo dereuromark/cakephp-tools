@@ -1,27 +1,28 @@
 <?php
+
 namespace Tools\Test\TestCase\Controller\Component;
 
 use Cake\Controller\ComponentRegistry;
-use Tools\Controller\Component\AuthUserComponent;
 use Cake\Controller\Controller;
-use Cake\Core\Configure;
-use Cake\Network\Session;
-use Tools\TestSuite\TestCase;
 use Cake\Network\Request;
+use Tools\Controller\Component\AuthUserComponent;
+use Tools\TestSuite\TestCase;
 
 /**
  * AuthUserComponent class
- *
  */
 class AuthUserComponentTest extends TestCase {
 
 	/**
 	 * fixtures
 	 *
-	 * @var string
+	 * @var array
 	 */
 	public $fixtures = ['core.sessions'];
 
+	/**
+	 * @var \Tools\Controller\Component\AuthUserComponent
+	 */
 	public $AuthUser;
 
 	/**

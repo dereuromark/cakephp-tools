@@ -1,8 +1,9 @@
 <?php
+
 namespace Tools\TestCase\Utility;
 
-use Tools\Utility\Random;
 use Tools\TestSuite\TestCase;
+use Tools\Utility\Random;
 
 class RandomTest extends TestCase {
 

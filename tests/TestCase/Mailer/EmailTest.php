@@ -2,69 +2,73 @@
 
 namespace Tools\Test\TestCase\Mailer;
 
-use Tools\Mailer\Email;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
-use Tools\TestSuite\TestCase;
 use Cake\Log\Log;
+use Tools\Mailer\Email;
+use Tools\TestSuite\TestCase;
 
 /**
  * Help to test Email
- *
  */
 class TestEmail extends Email {
 
-/**
- * Wrap to protected method
- *
- * @return array
- */
+	/**
+	 * Wrap to protected method
+	 *
+	 * @param array $address
+	 * @return array
+	 */
 	public function formatAddress($address) {
 		return parent::_formatAddress($address);
 	}
 
-/**
- * Wrap to protected method
- *
- * @return array
- */
+	/**
+	 * Wrap to protected method
+	 *
+	 * @param string $text
+	 * @param int $length
+	 * @return array
+	 */
 	public function wrap($text, $length = Email::LINE_LENGTH_MUST) {
 		return parent::_wrap($text, $length);
 	}
 
-/**
- * Get the boundary attribute
- *
- * @return string
- */
+	/**
+	 * Get the boundary attribute
+	 *
+	 * @return string
+	 */
 	public function getBoundary() {
 		return $this->_boundary;
 	}
 
-/**
- * Encode to protected method
- *
- * @return string
- */
+	/**
+	 * Encode to protected method
+	 *
+	 * @param string $text
+	 * @return string
+	 */
 	public function encode($text) {
 		return $this->_encode($text);
 	}
 
-/**
- * Render to protected method
- *
- * @return array
- */
+	/**
+	 * Render to protected method
+	 *
+	 * @param string $content
+	 * @return array
+	 */
 	public function render($content) {
 		return $this->_render($content);
 	}
 
-/**
- * TestEmail::getProtected()
- *
- * @param string $attribute
- * @return mixed
- */
+	/**
+	 * TestEmail::getProtected()
+	 *
+	 * @param string $attribute
+	 * @return mixed
+	 */
 	public function getProtected($attribute) {
 		$attribute = '_' . $attribute;
 		return $this->$attribute;
@@ -77,11 +81,11 @@ class TestEmail extends Email {
  */
 class EmailTest extends TestCase {
 
-/**
- * setUp
- *
- * @return void
- */
+	/**
+	 * setUp
+	 *
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 		$this->Email = new TestEmail();
@@ -91,11 +95,11 @@ class EmailTest extends TestCase {
 		]);
 	}
 
-/**
- * tearDown method
- *
- * @return void
- */
+	/**
+	 * tearDown method
+	 *
+	 * @return void
+	 */
 	public function tearDown() {
 		parent::tearDown();
 		Log::drop('email');
@@ -104,11 +108,11 @@ class EmailTest extends TestCase {
 		Email::dropTransport('test_smtp');
 	}
 
-/**
- * testFrom method
- *
- * @return void
- */
+	/**
+	 * testFrom method
+	 *
+	 * @return void
+	 */
 	public function testFrom() {
 		$this->assertSame(['test@example.com' => 'Mark'], $this->Email->from());
 

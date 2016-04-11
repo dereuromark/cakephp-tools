@@ -1,24 +1,26 @@
 <?php
+
 namespace Tools\Test\TestCase\View\Helper;
 
-use Tools\View\Helper\AuthUserHelper;
-use Cake\Core\Configure;
-use Tools\TestSuite\TestCase;
 use Cake\View\View;
+use Tools\TestSuite\TestCase;
+use Tools\View\Helper\AuthUserHelper;
 
 /**
  * AuthUserHelper class
- *
  */
 class AuthUserHelperTest extends TestCase {
 
 	/**
-	 * fixtures
+	 * Fixtures
 	 *
-	 * @var string
+	 * @var array
 	 */
 	public $fixtures = ['core.sessions'];
 
+	/**
+	 * @var \Tools\View\Helper\AuthUserHelper
+	 */
 	public $AuthUser;
 
 	/**

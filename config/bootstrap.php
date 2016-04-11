@@ -77,29 +77,36 @@ function isEmpty($var = null) {
  * //TODO: use Debugger::exportVar() instead?
  *
  * @param mixed $value
- * @return type (NULL, array, bool, float, int, string, object, unknown) + value
+ * @return mixed Type (NULL, array, bool, float, int, string, object, unknown) + value
  */
 function returns($value) {
 	if ($value === null) {
 		return 'NULL';
-	} elseif (is_array($value)) {
+	}
+	if (is_array($value)) {
 		return '(array)' . '<pre>' . print_r($value, true) . '</pre>';
-	} elseif ($value === true) {
+	}
+	if ($value === true) {
 		return '(bool)TRUE';
-	} elseif ($value === false) {
+	}
+	if ($value === false) {
 		return '(bool)FALSE';
-	} elseif (is_numeric($value) && is_float($value)) {
+	}
+	if (is_numeric($value) && is_float($value)) {
 		return '(float)' . $value;
-	} elseif (is_numeric($value) && is_int($value)) {
+	}
+	if (is_numeric($value) && is_int($value)) {
 		return '(int)' . $value;
-	} elseif (is_string($value)) {
+	}
+	if (is_string($value)) {
 		return '(string)' . $value;
-	} elseif (is_object($value)) {
+	}
+	if (is_object($value)) {
 		return '(object)' . get_class($value) . '<pre>' . print_r($value, true) .
 			'</pre>';
-	} else {
-		return '(unknown)' . $value;
 	}
+
+	return '(unknown)' . $value;
 }
 
 /**
@@ -113,13 +120,14 @@ function returns($value) {
  * @return string Converted text
  */
 function ent($text) {
-	return (!empty($text) ? htmlentities($text, ENT_QUOTES, 'UTF-8') : '');
+	return !empty($text) ? htmlentities($text, ENT_QUOTES, 'UTF-8') : '';
 }
 
 /**
  * Convenience method for htmlspecialchars_decode
  *
  * @param string $text Text to wrap through htmlspecialchars_decode
+ * @param int $quoteStyle
  * @return string Converted text
  */
 function hDec($text, $quoteStyle = ENT_QUOTES) {
@@ -133,20 +141,21 @@ function hDec($text, $quoteStyle = ENT_QUOTES) {
  * Convenience method for html_entity_decode
  *
  * @param string $text Text to wrap through htmlspecialchars_decode
+ * @param int $quoteStyle
  * @return string Converted text
  */
 function entDec($text, $quoteStyle = ENT_QUOTES) {
 	if (is_array($text)) {
 		return array_map('entDec', $text);
 	}
-	return (!empty($text) ? trim(html_entity_decode($text, $quoteStyle, 'UTF-8')) : '');
+	return !empty($text) ? trim(html_entity_decode($text, $quoteStyle, 'UTF-8')) : '';
 }
 
 /**
  * Focus is on the filename (without path)
  *
- * @param string filename to check on
- * @param string type (extension/ext, filename/file, basename/base, dirname/dir)
+ * @param string $filename to check on
+ * @param string|null $type (extension/ext, filename/file, basename/base, dirname/dir)
  * @return mixed
  */
 function extractFileInfo($filename, $type = null) {
@@ -176,7 +185,7 @@ function extractFileInfo($filename, $type = null) {
  * So "filename.ext?foo=bar#hash" would simply be "filename.ext" then.
  *
  * @param string $filename to check on
- * @param string $type (extension/ext, filename/file, basename/base, dirname/dir)
+ * @param string|null $type (extension/ext, filename/file, basename/base, dirname/dir)
  * @param bool $fromUrl
  * @return mixed
  */
@@ -217,7 +226,7 @@ function extractPathInfo($filename, $type = null, $fromUrl = false) {
  * Shows pr() messages, even with debug = 0.
  * Also allows additional customization.
  *
- * @param mixed $content
+ * @param mixed $var
  * @param bool $collapsedAndExpandable
  * @param array $options
  * - class, showHtml, showFrom, jquery, returns, debug
@@ -229,15 +238,14 @@ function pre($var, $collapsedAndExpandable = false, $options = []) {
 		'showHtml' => false, // Escape < and > (or manually escape with h() prior to calling this function)
 		'showFrom' => false, // Display file + line
 		'jquery' => null, // null => Auto - use jQuery (true/false to manually decide),
-		'returns' => false, // Use returns(),
 		'debug' => false // Show only with debug > 0
 	];
 	$options += $defaults;
 	if ($options['debug'] && !Configure::read('debug')) {
 		return '';
 	}
-	if (php_sapi_name() === 'cli') {
-		return sprintf("\n%s\n", $options['returns'] ? returns($var) : print_r($var, true));
+	if (PHP_SAPI === 'cli') {
+		return sprintf("\n%s\n", print_r($var, true));
 	}
 
 	$res = '<div class="' . $options['class'] . '">';
@@ -262,11 +270,11 @@ function pre($var, $collapsedAndExpandable = false, $options = []) {
 		$pre = ' style="display: none"';
 	}
 
-	if ($options['returns']) {
-		$var = returns($var);
-	} else {
-		$var = print_r($var, true);
+	$var = print_r($var, true);
+	if (!$options['showHtml']) {
+		$var = h($var);
 	}
+
 	$res .= '<pre' . $pre . '>' . $var . '</pre>';
 	$res .= '</div>';
 	return $res;
@@ -277,11 +285,12 @@ function pre($var, $collapsedAndExpandable = false, $options = []) {
  *
  * @param string $haystack Input string.
  * @param string $needle Needed char or string.
+ * @param bool $caseSensitive
  * @return bool
  */
 function contains($haystack, $needle, $caseSensitive = false) {
 	$result = !$caseSensitive ? stripos($haystack, $needle) : strpos($haystack, $needle);
-	return ($result !== false);
+	return $result !== false;
 }
 
 /**
@@ -289,13 +298,14 @@ function contains($haystack, $needle, $caseSensitive = false) {
  *
  * @param string $haystack Input string.
  * @param string $needle Needed char or string.
+ * @param bool $caseSensitive
  * @return bool
  */
 function startsWith($haystack, $needle, $caseSensitive = false) {
 	if ($caseSensitive) {
-		return (mb_strpos($haystack, $needle) === 0);
+		return mb_strpos($haystack, $needle) === 0;
 	}
-	return (mb_stripos($haystack, $needle) === 0);
+	return mb_stripos($haystack, $needle) === 0;
 }
 
 /**
@@ -303,6 +313,7 @@ function startsWith($haystack, $needle, $caseSensitive = false) {
  *
  * @param string $haystack Input string.
  * @param string $needle Needed char or string
+ * @param bool $caseSensitive
  * @return bool
  */
 function endsWith($haystack, $needle, $caseSensitive = false) {

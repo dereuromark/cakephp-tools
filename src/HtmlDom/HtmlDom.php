@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\HtmlDom;
 
 use Yangqi\Htmldom\Htmldom as BaseHtmlDom;
@@ -21,7 +22,8 @@ class HtmlDom extends BaseHtmlDom {
 	}
 
 	/**
-	 * @param string $content
+	 * @param string $str
+	 * @param bool $lowercase
 	 * @return object Dom
 	 */
 	public function domFromString($str, $lowercase = true) {

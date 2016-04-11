@@ -1,10 +1,11 @@
 <?php
+
 namespace Tools\Model\Behavior;
 
 use Cake\Core\Configure;
 use Cake\ORM\Behavior;
-use Cake\ORM\Entity;
 use Cake\ORM\Table;
+use Exception;
 
 /**
  * Allows the model to reset all records as batch command.
@@ -44,6 +45,9 @@ use Cake\ORM\Table;
  */
 class ResetBehavior extends Behavior {
 
+	/**
+	 * @var array
+	 */
 	protected $_defaultConfig = [
 		'limit' => 100, // batch of records per loop
 		'timeout' => null, // in seconds
@@ -59,11 +63,13 @@ class ResetBehavior extends Behavior {
 	 * Adding validation rules
 	 * also adds and merges config settings (direct + configure)
 	 *
-	 * @return void
+	 * @param \Cake\ORM\Table $table
+	 * @param array $config
 	 */
 	public function __construct(Table $table, array $config = []) {
 		$defaults = $this->_defaultConfig;
-		if ($configureDefaults = Configure::read('Reset')) {
+		$configureDefaults = Configure::read('Reset');
+		if ($configureDefaults) {
 			$defaults = $configureDefaults + $defaults;
 		}
 		$config += $defaults;
@@ -73,9 +79,7 @@ class ResetBehavior extends Behavior {
 	/**
 	 * Regenerate all records (including possible beforeRules/beforeSave callbacks).
 	 *
-	 * @param Model $Model
-	 * @param array $conditions
-	 * @param int $recursive
+	 * @param array $params
 	 * @return int Modified records
 	 */
 	public function resetRecords($params = []) {
@@ -89,7 +93,7 @@ class ResetBehavior extends Behavior {
 		if (!empty($this->_config['fields'])) {
 			foreach ((array)$this->_config['fields'] as $field) {
 				if (!$this->_table->hasField($field)) {
-					throw new \Exception('Table does not have field ' . $field);
+					throw new Exception('Table does not have field ' . $field);
 				}
 			}
 			$defaults['fields'] = array_merge([$this->_table->alias() . '.' . $this->_table->primaryKey()], $this->_config['fields']);
@@ -141,7 +145,7 @@ class ResetBehavior extends Behavior {
 
 				$res = $this->_table->save($record, compact('validate', 'fieldList'));
 				if (!$res) {
-					throw new \Exception(print_r($this->_table->errors(), true));
+					throw new Exception(print_r($this->_table->errors(), true));
 				}
 				$modified++;
 			}

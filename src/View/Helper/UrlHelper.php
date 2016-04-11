@@ -12,13 +12,10 @@
  * @since         0.9.1
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace Tools\View\Helper;
 
-use Cake\Core\Configure;
-use Cake\Network\Response;
 use Cake\View\Helper\UrlHelper as CoreUrlHelper;
-use Cake\View\StringTemplateTrait;
-use Cake\View\View;
 
 /**
  * Url Helper class.
@@ -27,6 +24,9 @@ class UrlHelper extends CoreUrlHelper {
 
 	/**
 	 * @deprecated
+	 * @param string|array|null $url URL.
+	 * @param bool $full
+	 * @return string
 	 */
 	public function defaultBuild($url = null, $full = false) {
 		return $this->reset($url, $full);
@@ -36,7 +36,7 @@ class UrlHelper extends CoreUrlHelper {
 	 * Creates a reset URL.
 	 * The prefix and plugin params are resetting to default false.
 	 *
-	 * @param string|array $url URL.
+	 * @param string|array|null $url URL.
 	 * @param bool $full If true, the full base URL will be prepended to the result
 	 * @return string Full translated URL with base path.
 	 */
@@ -50,7 +50,7 @@ class UrlHelper extends CoreUrlHelper {
 	/**
 	 * Returns a URL based on provided parameters.
 	 *
-	 * @param string|array $url URL.
+	 * @param string|array|null $url URL.
 	 * @param bool $full If true, the full base URL will be prepended to the result
 	 * @return string Full translated URL with base path.
 	 */
@@ -65,13 +65,13 @@ class UrlHelper extends CoreUrlHelper {
 		return parent::build($url, $full);
 	}
 
-    /**
-     * Event listeners.
-     *
-     * @return array
-     */
-    public function implementedEvents()
-    {
-        return [];
-    }
+	/**
+	 * Event listeners.
+	 *
+	 * @return array
+	 */
+	public function implementedEvents() {
+		return [];
+	}
+
 }

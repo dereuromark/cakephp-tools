@@ -1,11 +1,11 @@
 <?php
+
 namespace Tools\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
  * TokenFixture
- *
  */
 class TokensFixture extends TestFixture {
 
@@ -133,4 +133,5 @@ class TokensFixture extends TestFixture {
 			'modified' => '2011-08-02 18:01:54'
 		],
 	];
+
 }

@@ -1,13 +1,17 @@
 <?php
+
 namespace Tools\TestCase\Utility;
 
-use Tools\Utility\Mime;
-use Tools\TestSuite\TestCase;
-use Cake\Network\Response;
 use Cake\Core\Plugin;
+use Cake\Network\Response;
+use Tools\TestSuite\TestCase;
+use Tools\Utility\Mime;
 
 class MimeTest extends TestCase {
 
+	/**
+	 * @var \Tools\Utility\Mime
+	 */
 	public $Mime;
 
 	public function setUp() {
@@ -59,6 +63,8 @@ class MimeTest extends TestCase {
 
 	/**
 	 * Test fake files
+	 *
+	 * @return void
 	 */
 	public function testCorrectFileExtension() {
 		file_put_contents(TMP . 'sometest.txt', 'xyz');
@@ -69,6 +75,8 @@ class MimeTest extends TestCase {
 
 	/**
 	 * Test fake files
+	 *
+	 * @return void
 	 */
 	public function testWrongFileExtension() {
 		file_put_contents(TMP . 'sometest.zip', 'xyz');
@@ -97,6 +105,8 @@ class MimeTest extends TestCase {
 
 	/**
 	 * Test fake files
+	 *
+	 * @return void
 	 */
 	public function testEncoding() {
 		file_put_contents(TMP . 'sometest.txt', 'xyz');
@@ -164,4 +174,3 @@ class TestMime extends Mime {
 	}
 
 }
-

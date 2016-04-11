@@ -3,7 +3,6 @@
 namespace Tools\View\Helper;
 
 use Cake\View\Helper;
-use Cake\View\View;
 
 /**
  * TimelineHelper for easy output of a timeline with multiple items.
@@ -19,8 +18,14 @@ use Cake\View\View;
  */
 class TimelineHelper extends Helper {
 
+	/**
+	 * @var array
+	 */
 	public $helpers = ['Tools.Js'];
 
+	/**
+	 * @var array
+	 */
 	protected $_defaultConfig = [
 		'id' => 'mytimeline',
 		'selectable' => false,
@@ -33,6 +38,9 @@ class TimelineHelper extends Helper {
 		'current' => null, // Current time.
 	];
 
+	/**
+	 * @var array
+	 */
 	protected $_items = [];
 
 	/**
@@ -77,7 +85,7 @@ class TimelineHelper extends Helper {
 	 * - editable (boolean)
 	 *
 	 * @link http://almende.github.io/chap-links-library/js/timeline/doc/
-	 * @param array
+	 * @param array $item
 	 * @return void
 	 */
 	public function addItem($item) {
@@ -87,7 +95,8 @@ class TimelineHelper extends Helper {
 	/**
 	 * Add timeline items as an array of items.
 	 *
-	 * @see TimelineHelper::addItem()
+	 * @see \Tools\View\Helper\TimelineHelper::addItem()
+	 * @param array $items
 	 * @return void
 	 */
 	public function addItems($items) {
@@ -174,7 +183,7 @@ JS;
 	/**
 	 * Format items to JS code
 	 *
-	 * @see TimelineHelper::addItem()
+	 * @see \Tools\View\Helper\TimelineHelper::addItem()
 	 * @param array $items
 	 * @return string
 	 */
@@ -204,7 +213,7 @@ JS;
 	/**
 	 * Format date to JS code.
 	 *
-	 * @param \DateTime $date
+	 * @param \DateTime|null $date
 	 * @return string
 	 */
 	protected function _date($date = null) {

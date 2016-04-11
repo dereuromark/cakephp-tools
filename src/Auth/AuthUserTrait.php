@@ -25,11 +25,11 @@ if (!defined('USER_RIGHT_KEY')) {
  * to be implemented in the using class.
  *
  * Expects the Role session infos to be either
- * 	- `Auth.User.role_id` (single) or
- * 	- `Auth.User.Role` (multi - flat array of roles, or array role data)
+ *     - `Auth.User.role_id` (single) or
+ *     - `Auth.User.Role` (multi - flat array of roles, or array role data)
  * and can be adjusted via constants and defined().
  * Same goes for Right data.
- * 
+ *
  * If roles are defined in configuration file (non-db roles setup) the constant
  * `USER_ROLE_KEY` has to be defined in `bootstrap.php`.
  * ```
@@ -62,16 +62,16 @@ trait AuthUserTrait {
 	 *
 	 * @param string|int $userId
 	 * @param string $field Field name. Defaults to `id`.
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isMe($userId, $field = 'id') {
-		return ($userId && (string)$userId === (string)$this->user($field));
+		return $userId && (string)$userId === (string)$this->user($field);
 	}
 
 	/**
 	 * Get the user data of the current session.
 	 *
-	 * @param string $key Key in dot syntax.
+	 * @param string|null $key Key in dot syntax.
 	 * @return mixed Data
 	 */
 	public function user($key = null) {
@@ -104,8 +104,8 @@ trait AuthUserTrait {
 	/**
 	 * Check if the current session has this role.
 	 *
-	 * @param mixed $role
-	 * @param mixed $providedRoles
+	 * @param mixed $expectedRole
+	 * @param mixed|null $providedRoles
 	 * @return bool Success
 	 */
 	public function hasRole($expectedRole, $providedRoles = null) {
@@ -132,7 +132,7 @@ trait AuthUserTrait {
 	 *
 	 * @param mixed $expectedRoles
 	 * @param bool $oneRoleIsEnough (if all $roles have to match instead of just one)
-	 * @param mixed $providedRoles
+	 * @param mixed|null $providedRoles
 	 * @return bool Success
 	 */
 	public function hasRoles($expectedRoles, $oneRoleIsEnough = true, $providedRoles = null) {
@@ -173,8 +173,8 @@ trait AuthUserTrait {
 	 * This can be set via Right model and stored in the Auth array upon login
 	 * the same way the roles are.
 	 *
-	 * @param mixed $role
-	 * @param mixed $providedRights
+	 * @param mixed $expectedRight
+	 * @param mixed|null $providedRights
 	 * @return bool Success
 	 */
 	public function hasRight($expectedRight, $providedRights = null) {

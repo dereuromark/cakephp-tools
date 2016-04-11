@@ -2,14 +2,15 @@
 
 namespace Tools\TestCase\Utility;
 
-use Tools\Utility\Number;
 use Tools\TestSuite\TestCase;
-use Cake\Core\Configure;
-use Cake\I18n\I18n;
+use Tools\Utility\Number;
 
 class NumberTest extends TestCase {
 
-	public $Number = null;
+	/**
+	 * @var \Tools\Utility\Number
+	 */
+	public $Number;
 
 	public function setUp() {
 		parent::setUp();
@@ -247,6 +248,7 @@ class NumberTest extends TestCase {
 	}
 
 	/**
+	 * @return void
 	 */
 	public function testGetDecimalPlaces() {
 		$values = [

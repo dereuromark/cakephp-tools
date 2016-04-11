@@ -20,7 +20,7 @@ if (empty($next)) {
 	$next = __d('tools', 'next');
 }
 if (!isset($format)) {
-	$format = __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total');
+	$format = __d('tools', 'Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total');
 }
 if (!empty($reverse)) {
 	$tmp = $first;

@@ -25,7 +25,7 @@ Both component and helper function the same:
 
 ```php
 // Read the id of the logged in user as shortcut method (Auth.User.id)
-$uid = $this-AuthUser->id();
+$uid = $this->AuthUser->id();
 
 // Get the username (Auth.User.username)
 $username = $this->AuthUser->user('username');
@@ -35,6 +35,7 @@ $roles = $this->AuthUser->roles();
 
 // Check for a specific role
 $hasRole = $this->AuthUser->hasRole(ROLE_XYZ);
+```
 
 ## Notes
 The above example uses default settings and ROLE_{...} constants.

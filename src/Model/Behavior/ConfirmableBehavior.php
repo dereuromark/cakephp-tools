@@ -1,13 +1,10 @@
 <?php
+
 namespace Tools\Model\Behavior;
 
-use Cake\Core\Configure;
-use Cake\ORM\Behavior;
-use Cake\ORM\Entity;
-use Cake\ORM\Query;
-use Cake\ORM\Table;
 use Cake\Event\Event;
-use ArrayObject;
+use Cake\ORM\Behavior;
+use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
@@ -22,6 +19,9 @@ use Cake\Validation\Validator;
  */
 class ConfirmableBehavior extends Behavior {
 
+	/**
+	 * @var array
+	 */
 	protected $_defaultConfig = [
 		'message' => null,
 		'field' => 'confirm',
@@ -29,18 +29,33 @@ class ConfirmableBehavior extends Behavior {
 		'validator' => 'default',
 	];
 
+	/**
+	 * @param \Cake\ORM\Table $table
+	 * @param array $config
+	 */
 	public function __construct(Table $table, array $config = []) {
 		parent::__construct($table, $config);
 
 		if (!$this->_config['message']) {
-			$this->_config['message'] =  __d('tools', 'Please confirm the checkbox');
+			$this->_config['message'] = __d('tools', 'Please confirm the checkbox');
 		}
 	}
 
+	/**
+	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Validation\Validator $validator
+	 * @param string $name
+	 * @return void
+	 */
 	public function buildValidator(Event $event, Validator $validator, $name) {
 		$this->build($validator, $name);
 	}
 
+	/**
+	 * @param \Cake\Validation\Validator $validator
+	 * @param string $name
+	 * @return void
+	 */
 	public function build(Validator $validator, $name = 'default') {
 		if ($name !== $this->_config['validator']) {
 			return;

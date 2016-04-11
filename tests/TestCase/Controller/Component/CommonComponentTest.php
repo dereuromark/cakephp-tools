@@ -1,14 +1,11 @@
 <?php
+
 namespace Tools\Test\TestCase\Controller\Component;
 
-use Cake\Controller\ComponentRegistry;
-use Shim\Controller\Component\Component;
-use Cake\Controller\Component\CommonComponent;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Network\Request;
 use Cake\Network\Session;
-use Cake\Routing\DispatcherFactory;
 use Tools\TestSuite\TestCase;
 
 /**
@@ -48,7 +45,7 @@ class CommonComponentTest extends TestCase {
 		$this->assertTrue(!isset($this->Controller->Session));
 		$this->Controller->Common->loadComponent('Shim.Session', ['foo' => 'bar']);
 		$this->Controller->components()->unload('Session');
-		$this->Controller->Common->loadComponent('Shim.Session',['foo' => 'baz']);
+		$this->Controller->Common->loadComponent('Shim.Session', ['foo' => 'baz']);
 		$this->assertTrue(isset($this->Controller->Session));
 
 		// with options
@@ -170,6 +167,9 @@ class CommonComponentTest extends TestCase {
  */
 class CommonComponentTestController extends Controller {
 
+	/**
+	 * @var array
+	 */
 	public $components = ['Tools.Common'];
 
 }

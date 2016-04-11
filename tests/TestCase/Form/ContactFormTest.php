@@ -2,29 +2,23 @@
 
 namespace Tools\Form;
 
-use Tools\TestSuite\TestCase;
-use Tools\Form\ContactForm;
-
-use Cake\ORM\Entity;
-use Cake\ORM\Query;
-use Cake\ORM\Table;
 use Cake\Core\Configure;
-use Cake\Auth\DefaultPasswordHasher;
-use Cake\ORM\TableRegistry;
-use Cake\Utility\Security;
-use Cake\Routing\Router;
-use Cake\Network\Request;
-use Cake\Auth\PasswordHasherFactory;
-use Cake\I18n\Time;
-use Cake\Datasource\ConnectionManager;
+use Tools\Form\ContactForm;
+use Tools\TestSuite\TestCase;
 
 class ContactFormTest extends TestCase {
 
+	/**
+	 * @var array
+	 */
 	public $fixtures = [
 		'core.posts', 'core.authors',
 		'plugin.tools.tools_users', 'plugin.tools.roles',
 	];
 
+	/**
+	 * @var \Tools\Form\ContactForm
+	 */
 	public $Form;
 
 	/**

@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Shell;
 
 use Cake\Console\Shell;
@@ -18,7 +19,7 @@ class InflectShell extends Shell {
 	/**
 	 * Valid inflection rules
 	 *
-	 * @var string
+	 * @var array
 	 */
 	public $validMethods = [
 		'pluralize', 'singularize', 'camelize',
@@ -29,7 +30,7 @@ class InflectShell extends Shell {
 	/**
 	 * Valid inflection rules
 	 *
-	 * @var string
+	 * @var array
 	 */
 	public $validCommands = [
 		'pluralize', 'singularize', 'camelize',
@@ -55,7 +56,6 @@ class InflectShell extends Shell {
 	 * Prompts the user for words
 	 *
 	 * @return array
-	 * @author Jose Diaz-Gonzalez
 	 */
 	protected function _interactive() {
 		$method = $this->_getMethod();
@@ -66,8 +66,7 @@ class InflectShell extends Shell {
 	/**
 	 * Requests a valid inflection method
 	 *
-	 * @return void
-	 * @author Jose Diaz-Gonzalez
+	 * @return string|null
 	 */
 	protected function _getMethod() {
 		$validCharacters = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'q'];
@@ -75,70 +74,64 @@ class InflectShell extends Shell {
 
 		$command = null;
 		while (empty($command)) {
-			$this->out("Please type the number or name of the inflection method you would like to use");
+			$this->out('Please type the number or name of the inflection method you would like to use');
 			$this->hr();
-			$this->out("[1] Pluralize");
-			$this->out("[2] Singularize");
-			$this->out("[3] Camelize");
-			$this->out("[4] Underscore");
-			$this->out("[5] Humanize");
-			$this->out("[6] Tableize");
-			$this->out("[7] Classify");
-			$this->out("[8] Variable");
-			$this->out("[9] Dasherize");
-			$this->out("[10] Slug");
-			$this->out("[q] Quit");
-			$temp = $this->in("What command would you like to perform?", null, 'q');
+			$this->out('[1] Pluralize');
+			$this->out('[2] Singularize');
+			$this->out('[3] Camelize');
+			$this->out('[4] Underscore');
+			$this->out('[5] Humanize');
+			$this->out('[6] Tableize');
+			$this->out('[7] Classify');
+			$this->out('[8] Variable');
+			$this->out('[9] Dasherize');
+			$this->out('[10] Slug');
+			$this->out('[q] Quit');
+			$temp = $this->in('What command would you like to perform?', null, 'q');
 			if (in_array(strtolower($temp), $validCommands)) {
 				$command = strtolower($temp);
 			} else {
-				$this->out("Try again.");
+				$this->out('Try again.');
 			}
 		}
 
 		switch ($command) {
-			case '1' :
-			case 'pluralize' :
+			case '1':
+			case 'pluralize':
 				return 'pluralize';
-				break;
-			case '2' :
-			case 'singularize' :
+			case '2':
+			case 'singularize':
 				return 'singularize';
-				break;
-			case '3' :
-			case 'camelize' :
+			case '3':
+			case 'camelize':
 				return 'camelize';
-				break;
-			case '4' :
-			case 'underscore' :
+			case '4':
+			case 'underscore':
 				return 'underscore';
-				break;
-			case '5' :
-			case 'humanize' :
+			case '5':
+			case 'humanize':
 				return 'humanize';
-				break;
-			case '6' :
-			case 'tableize' :
+			case '6':
+			case 'tableize':
 				return 'tableize';
-				break;
-			case '7' :
-			case 'classify' :
+			case '7':
+			case 'classify':
 				return 'classify';
-				break;
-			case '8' :
-			case 'variable' :
+			case '8':
+			case 'variable':
 				return 'variable';
-			case '9' :
-			case 'dasherize' :
+			case '9':
+			case 'dasherize':
 				return 'dasherize';
-			case '10' :
-			case 'slug' :
+			case '10':
+			case 'slug':
 				return 'slug';
-			case 'q' :
-			case 'quit' :
-			default :
-				$this->out("Exit");
-				return $this->_stop();
+			case 'q':
+			case 'quit':
+			default:
+				$this->out('Exit');
+				$this->_stop();
+				return null;
 		}
 	}
 
@@ -146,16 +139,15 @@ class InflectShell extends Shell {
 	 * Requests words to inflect
 	 *
 	 * @return array
-	 * @author Jose Diaz-Gonzalez
 	 */
 	protected function _getWords() {
 		$words = null;
 		while (empty($words)) {
-			$temp = $this->in("What word(s) would you like to inflect?");
+			$temp = $this->in('What word(s) would you like to inflect?');
 			if (!empty($temp)) {
 				$words = $temp;
 			} else {
-				$this->out("Try again.");
+				$this->out('Try again.');
 			}
 		}
 		return $words;
@@ -164,8 +156,8 @@ class InflectShell extends Shell {
 	/**
 	 * Parse the arguments into the function and the word(s) to be inflected
 	 *
+	 * @param array $arguments
 	 * @return array
-	 * @author Jose Diaz-Gonzalez
 	 */
 	protected function _parseArguments($arguments) {
 		$words = null;
@@ -182,7 +174,7 @@ class InflectShell extends Shell {
 			while (count($arguments) > 0) {
 				$words .= array_pop($arguments);
 				if (count($arguments) > 0) {
-					$words .= " ";
+					$words .= ' ';
 				}
 			}
 		}
@@ -193,6 +185,8 @@ class InflectShell extends Shell {
 	/**
 	 * Inflects a set of words based upon the inflection set in the arguments
 	 *
+	 * @param string $function
+	 * @param string $words
 	 * @return void
 	 */
 	protected function _inflect($function, $words) {
@@ -211,7 +205,8 @@ class InflectShell extends Shell {
 	/**
 	 * Returns the appropriate message for a given function
 	 *
-	 * @return void
+	 * @param string $function
+	 * @return string
 	 */
 	protected function _getMessage($function) {
 		$messages = [
@@ -239,10 +234,10 @@ class InflectShell extends Shell {
 		$this->out('');
 		$this->out('This shell uses the Inflector class to inflect any word(s) you wish');
 		$this->hr();
-		$this->out("Usage: cake inflect");
-		$this->out("       cake inflect methodName");
-		$this->out("       cake inflect methodName word");
-		$this->out("       cake inflect methodName words to inflect");
+		$this->out('Usage: cake inflect');
+		$this->out('       cake inflect methodName');
+		$this->out('       cake inflect methodName word');
+		$this->out('       cake inflect methodName words to inflect');
 		$this->out('');
 	}
 

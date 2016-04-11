@@ -2,34 +2,30 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use Cake\Database\Query;
-use Cake\Datasource\ConnectionManager;
-use Cake\Event\Event;
+use Cake\Core\Configure;
 use Cake\ORM\Entity;
-use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Tools\TestSuite\TestCase;
-use Cake\Core\Configure;
 
 /**
  * SluggedBehaviorTest
  */
 class SluggedBehaviorTest extends TestCase {
 
-/**
- * Fixture
- *
- * @var array
- */
+	/**
+	 * Fixture
+	 *
+	 * @var array
+	 */
 	public $fixtures = [
 		'plugin.tools.slugged_articles'
 	];
 
-/**
- * setup
- *
- * @return void
- */
+	/**
+	 * setup
+	 *
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 		//$this->connection = ConnectionManager::get('test');
@@ -41,11 +37,11 @@ class SluggedBehaviorTest extends TestCase {
 		$this->articles->addBehavior('Tools.Slugged');
 	}
 
-/**
- * teardown
- *
- * @return void
- */
+	/**
+	 * teardown
+	 *
+	 * @return void
+	 */
 	public function tearDown() {
 		unset($this->articles);
 
@@ -53,11 +49,11 @@ class SluggedBehaviorTest extends TestCase {
  		parent::tearDown();
 	}
 
-/**
- * Testing simple slugging when adding a record
- *
- * @return void
- */
+	/**
+	 * Testing simple slugging when adding a record
+	 *
+	 * @return void
+	 */
 	public function testAdd() {
 		$entity = $this->_getEntity();
 		$result = $this->articles->save($entity);
@@ -65,11 +61,11 @@ class SluggedBehaviorTest extends TestCase {
 		$this->assertEquals('test-123', $result->get('slug'));
 	}
 
-/**
- * Testing simple slugging when adding a record
- *
- * @return void
- */
+	/**
+	 * Testing simple slugging when adding a record
+	 *
+	 * @return void
+	 */
 	public function testAddUnique() {
 		$this->articles->behaviors()->Slugged->config(['unique' => true]);
 
@@ -99,11 +95,11 @@ class SluggedBehaviorTest extends TestCase {
 		$this->assertEquals('test-123-blae-1', $result->get('slug'));
 	}
 
-/**
- * SluggedBehaviorTest::testCustomFinder()
- *
- * @return void
- */
+	/**
+	 * SluggedBehaviorTest::testCustomFinder()
+	 *
+	 * @return void
+	 */
 	public function testCustomFinder() {
 		$article = $this->articles->find()->find('slugged', ['slug' => 'foo'])->first();
 		$this->assertEquals('Foo', $article->get('title'));
@@ -136,11 +132,11 @@ class SluggedBehaviorTest extends TestCase {
 		$this->assertEquals('Some-Cool-Other-String', $result['slug']);
 	}
 
-/**
- * Length based on manual config.
- *
- * @return void
- */
+	/**
+	 * Length based on manual config.
+	 *
+	 * @return void
+	 */
 	public function testLengthRestrictionManual() {
 		$this->articles->behaviors()->Slugged->config(['length' => 155]);
 		$entity = $this->_getEntity(str_repeat('foo bar ', 31));
@@ -154,11 +150,11 @@ class SluggedBehaviorTest extends TestCase {
 		$this->assertEquals('ae-oe-ue-a', $result->get('slug'));
 	}
 
-/**
- * Test that fieldList doesnt mess with slug storing.
- *
- * @return void
- */
+	/**
+	 * Test that fieldList doesnt mess with slug storing.
+	 *
+	 * @return void
+	 */
 	public function testFieldList() {
 		// field list is only relevant for newEntity(), not for what the behavior does
 		$entity = $this->articles->newEntity(['title' => 'Some title'], ['fieldList' => ['title']]);
@@ -167,11 +163,11 @@ class SluggedBehaviorTest extends TestCase {
 		$this->assertEquals('Some-title', $result->get('slug'));
 	}
 
-/**
- * Tests needSlugUpdate()
- *
- * @return void
- */
+	/**
+	 * Tests needSlugUpdate()
+	 *
+	 * @return void
+	 */
 	public function testNeedsSlugUpdate() {
 		// No title change
 		$entity = $this->articles->newEntity(['title' => 'Some title'], ['fieldList' => []]);
@@ -209,11 +205,11 @@ class SluggedBehaviorTest extends TestCase {
 		$this->assertEquals('Some-really-other-title', $result->get('slug'));
 	}
 
-/**
- * Tests needSlugUpdate() with deep
- *
- * @return void
- */
+	/**
+	 * Tests needSlugUpdate() with deep
+	 *
+	 * @return void
+	 */
 	public function testNeedsSlugUpdateDeep() {
 		// No title change
 		$entity = $this->articles->newEntity(['title' => 'Some title']);
@@ -243,11 +239,11 @@ class SluggedBehaviorTest extends TestCase {
 		$this->assertTrue($result);
 	}
 
-/**
- * Length based on auto-detect of schema.
- *
- * @return void
- */
+	/**
+	 * Length based on auto-detect of schema.
+	 *
+	 * @return void
+	 */
 	public function testLengthRestrictionAutoDetect() {
 		$entity = $this->_getEntity(str_repeat('foo bar ', 31));
 
@@ -255,11 +251,11 @@ class SluggedBehaviorTest extends TestCase {
 		$this->assertEquals(245, strlen($result->get('slug')));
 	}
 
-/**
- * Ensure that you can overwrite length.
- *
- * @return void
- */
+	/**
+	 * Ensure that you can overwrite length.
+	 *
+	 * @return void
+	 */
 	public function testLengthRestrictionNoLimit() {
 		$this->articles->behaviors()->Slugged->config(['length' => 0, 'label' => 'long_title', 'field' => 'long_slug']);
 		$entity = $this->_getEntity(str_repeat('foo bar ', 100), 'long_title');
@@ -316,7 +312,7 @@ class SluggedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testDuplicateWithLengthRestriction() {
-		return;
+		$this->skipIf(true);
 
 		$this->articles->behaviors()->Slugged->config(['length' => 10, 'unique' => true]);
 
@@ -373,8 +369,8 @@ class SluggedBehaviorTest extends TestCase {
 	 * TestTruncateMultibyte method
 	 *
 	 * Ensure that the first test doesn't cut a multibyte character The test string is:
-	 * 	17 chars
-	 * 	51 bytes UTF-8 encoded
+	 *     17 chars
+	 *     51 bytes UTF-8 encoded
 	 *
 	 * @return void
 	 */
@@ -623,11 +619,15 @@ class SluggedBehaviorTest extends TestCase {
 		$this->assertEquals('Some-Article-12345-dereuromark', $result['slug']);
 	}
 
-/**
- * Get a new Entity
- *
- * @return Entity
- */
+	/**
+	 * Get a new Entity
+	 *
+	 * @param string|null $title
+	 * @param string|null $field
+	 * @param array $data
+	 * @param array $options
+	 * @return \Cake\ORM\Entity
+	 */
 	protected function _getEntity($title = null, $field = null, array $data = [], array $options = []) {
 		$options += ['validate' => false];
 		if ($title === null) {

@@ -1,13 +1,15 @@
 <?php
+
 namespace Tools\Model\Behavior;
 
+use ArrayObject;
+use Cake\Database\Type;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
+use Exception;
 use Tools\Utility\Text;
-use Cake\Datasource\ResultSetInterface;
-use Cake\Database\Type;
 
 /**
  * A behavior that will json_encode (and json_decode) fields if they contain an array or specific pattern.
@@ -35,10 +37,14 @@ use Cake\Database\Type;
  */
 class JsonableBehavior extends Behavior {
 
+	/**
+	 * @var string|false|null
+	 */
 	public $decoded = null;
 
 	/**
 	 * //TODO: json input/ouput directly, clean
+	 *
 	 * @var array
 	 */
 	protected $_defaultConfig = [
@@ -73,7 +79,7 @@ class JsonableBehavior extends Behavior {
 	public function initialize(array $config = []) {
 		Type::map('array', 'Tools\Database\Type\ArrayType');
 		if (empty($this->_config['fields'])) {
-			throw new \Exception('Fields are required');
+			throw new Exception('Fields are required');
 		}
 		if (!is_array($this->_config['fields'])) {
 			$this->_config['fields'] = (array)$this->_config['fields'];
@@ -82,7 +88,7 @@ class JsonableBehavior extends Behavior {
 			$this->_config['map'] = (array)$this->_config['map'];
 		}
 		if (!empty($this->_config['map']) && count($this->_config['fields']) !== count($this->_config['map'])) {
-			throw new \Exception('Fields and Map need to be of the same length if map is specified.');
+			throw new Exception('Fields and Map need to be of the same length if map is specified.');
 		}
 		foreach ($this->_config['fields'] as $field) {
 			$this->_table->schema()->columnType($field, 'array');
@@ -92,8 +98,8 @@ class JsonableBehavior extends Behavior {
 	/**
 	 * Decode the fields on after find
 	 *
-	 * @param Event $event
-	 * @param Query $query
+	 * @param \Cake\Event\Event $event
+	 * @param \Cake\ORM\Query $query
 	 * @return void
 	 */
 	public function beforeFind(Event $event, Query $query) {
@@ -112,7 +118,7 @@ class JsonableBehavior extends Behavior {
 	/**
 	 * Decodes the fields of an array/entity (if the value itself was encoded)
 	 *
-	 * @param Entity $entity
+	 * @param \Cake\ORM\Entity $entity
 	 * @return void
 	 */
 	public function decodeItems(Entity $entity) {
@@ -129,10 +135,12 @@ class JsonableBehavior extends Behavior {
 	/**
 	 * Saves all fields that do not belong to the current Model into 'with' helper model.
 	 *
-	 * @param Event $event
+	 * @param \Cake\Event\Event $event
+	 * @param \Cake\ORM\Entity $entity
+	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeSave(Event $event, Entity $entity, \ArrayObject $options) {
+	public function beforeSave(Event $event, Entity $entity, ArrayObject $options) {
 		$fields = $this->_getMappedFields();
 
 		foreach ($fields as $map => $field) {
@@ -171,7 +179,6 @@ class JsonableBehavior extends Behavior {
 	/**
 	 * JsonableBehavior::_encode()
 	 *
-	 * @param Model $Model
 	 * @param mixed $val
 	 * @return string
 	 */
@@ -205,7 +212,6 @@ class JsonableBehavior extends Behavior {
 	/**
 	 * Fields are absolutely necessary to function properly!
 	 *
-	 * @param Model $Model
 	 * @param mixed $val
 	 * @return mixed
 	 */
@@ -228,6 +234,9 @@ class JsonableBehavior extends Behavior {
 
 	/**
 	 * array() => param1:value1|param2:value2|...
+	 *
+	 * @param array $val
+	 * @return string
 	 */
 	public function _toParam($val) {
 		$res = [];
@@ -256,11 +265,19 @@ class JsonableBehavior extends Behavior {
 
 	/**
 	 * array() => value1|value2|value3|...
+	 *
+	 * @param array $val
+	 * @return string
 	 */
 	public function _toList($val) {
 		return implode($this->_config['separator'], $val);
 	}
 
+	/**
+	 * @param string $val
+	 *
+	 * @return array
+	 */
 	public function _fromList($val) {
 		extract($this->_config);
 
@@ -270,7 +287,7 @@ class JsonableBehavior extends Behavior {
 	/**
 	 * Checks if string is encoded array/object
 	 *
-	 * @param string string to check
+	 * @param string $str String to check
 	 * @return bool
 	 */
 	public function isEncoded($str) {

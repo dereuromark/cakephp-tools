@@ -1,9 +1,9 @@
 <?php
+
 namespace Tools\View\Helper;
 
-use Cake\View\Helper;
-use Cake\View\View;
 use Cake\Validation\Validation;
+use Cake\View\Helper;
 
 /**
  * CakePHP Gravatar Helper
@@ -19,7 +19,7 @@ class GravatarHelper extends Helper {
 	/**
 	 * Gravatar avatar image base URL
 	 *
-	 * @var string
+	 * @var array
 	 */
 	protected $_url = [
 		'http' => 'http://www.gravatar.com/avatar/',
@@ -61,8 +61,8 @@ class GravatarHelper extends Helper {
 	public $helpers = ['Html'];
 
 	/**
-	 * Constructor
-	 *
+	 * @param \Cake\View\View|null $View
+	 * @param array $config
 	 */
 	public function __construct($View = null, $config = []) {
 		// Default the secure option to match the current URL.
@@ -89,7 +89,7 @@ class GravatarHelper extends Helper {
 	 * TODO: rename to avoid E_STRICT errors here
 	 *
 	 * @param string $email Email address
-	 * @param string $options Array of options, keyed from default settings
+	 * @param string|array $options Array of options, keyed from default settings
 	 * @return string Gravatar Image URL
 	 */
 	public function url($email, $options = []) {
@@ -181,4 +181,5 @@ class GravatarHelper extends Helper {
 		}
 		return '';
 	}
+
 }
