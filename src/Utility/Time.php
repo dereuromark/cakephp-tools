@@ -928,9 +928,11 @@ class Time extends CakeTime {
 	 * - verbose/past/future: string with %s or boolean true/false
 	 * @return string
 	 */
-	public static function relLengthOfTime($dateString, $format = null, $options = []) {
-		if ($dateString !== null) {
-			$date = new \DateTime($dateString);
+	public static function relLengthOfTime($date, $format = null, $options = []) {
+		if ($date !== null && !is_object($date)) {
+			$date = new \DateTime($date);
+		}
+		if ($date !== null) {
 			$date = $date->format('U');
 			$sec = time() - $date;
 			$type = ($sec > 0) ? -1 : (($sec < 0) ? 1 : 0);
