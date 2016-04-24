@@ -934,7 +934,7 @@ class TimeTest extends TestCase {
 		unset($tests['2011-11-12 10:10:10']);
 		// negative
 		foreach ($tests as $was => $expected) {
-			$is = $this->Time->parseLocalFixTime('-' . $was);
+			$is = $this->Time->parseLocalTime('-' . $was);
 			//pr($is);
 			$this->assertEquals(-$expected, $is);
 		}
