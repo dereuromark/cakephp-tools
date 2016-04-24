@@ -26,26 +26,26 @@ use Cake\Mailer\Exception\MissingMailerException;
  */
 trait MailerAwareTrait {
 
-    /**
-     * Returns a mailer instance.
-     *
-     * @param string $name Mailer's name.
-     * @param \Cake\Mailer\Email|null $email Email instance.
-     * @return \Cake\Mailer\Mailer
-     * @throws \Cake\Mailer\Exception\MissingMailerException if undefined mailer class.
-     */
-    public function getMailer($name, Email $email = null)
-    {
-        if ($email === null) {
-            $email = new Email();
-        }
+	/**
+	 * Returns a mailer instance.
+	 *
+	 * @param string $name Mailer's name.
+	 * @param \Cake\Mailer\Email|null $email Email instance.
+	 * @return \Cake\Mailer\Mailer
+	 * @throws \Cake\Mailer\Exception\MissingMailerException if undefined mailer class.
+	 */
+	public function getMailer($name, Email $email = null) {
+		if ($email === null) {
+			$email = new Email();
+		}
 
-        $className = App::className($name, 'Mailer', 'Mailer');
+		$className = App::className($name, 'Mailer', 'Mailer');
 
-        if (empty($className)) {
-            throw new MissingMailerException(compact('name'));
-        }
+		if (empty($className)) {
+			throw new MissingMailerException(compact('name'));
+		}
 
-        return (new $className($email));
-    }
+		return new $className($email);
+	}
+
 }

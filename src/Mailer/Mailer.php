@@ -11,10 +11,13 @@ use Cake\Mailer\Mailer as CakeMailer;
  */
 class Mailer extends CakeMailer {
 
+	/**
+	 * @var string
+	 */
 	protected $locale;
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function send($action, $args = [], $headers = []) {
 		$this->fixateLocale();
