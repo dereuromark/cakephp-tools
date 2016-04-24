@@ -1223,7 +1223,7 @@ class Time extends CakeTime {
 	 * @param array $allowed
 	 * @return int Seconds
 	 */
-	public static function parseTime($duration, array $allowed = [':', '.', ',']) {
+	public static function parseLocalTime($duration, array $allowed = [':', '.', ',']) {
 		if (empty($duration)) {
 			return 0;
 		}
@@ -1264,7 +1264,7 @@ class Time extends CakeTime {
 	 * @param array $allowed
 	 * @return int Seconds
 	 */
-	public static function parseDate($date, array $allowed = ['.', '-']) {
+	public static function parseLocalDate($date, array $allowed = ['.', '-']) {
 		$datePieces = explode(' ', $date, 2);
 		$date = array_shift($datePieces);
 

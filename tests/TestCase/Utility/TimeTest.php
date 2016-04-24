@@ -878,7 +878,7 @@ class TimeTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testParseDate() {
+	public function testParseLocalDate() {
 		//echo $this->_header(__FUNCTION__);
 		$tests = [
 			'2010-12-11' => 1292022000,
@@ -892,7 +892,7 @@ class TimeTest extends TestCase {
 			'2010-01-02 22:11' => 1262386800,
 		];
 		foreach ($tests as $was => $expected) {
-			$is = $this->Time->parseDate($was);
+			$is = $this->Time->parseLocalDate($was);
 			$this->assertTrue($is <= $expected + HOUR && $is >= $expected);
 		}
 	}
@@ -902,7 +902,7 @@ class TimeTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testParseTime() {
+	public function testParseLocalTime() {
 		//echo $this->_header(__FUNCTION__);
 		$tests = [
 			'2:4' => 7440,
@@ -926,7 +926,7 @@ class TimeTest extends TestCase {
 
 		// positive
 		foreach ($tests as $was => $expected) {
-			$is = $this->Time->parseTime($was);
+			$is = $this->Time->parseLocalTime($was);
 			//pr($is);
 			$this->assertEquals($expected, $is);
 		}
@@ -934,7 +934,7 @@ class TimeTest extends TestCase {
 		unset($tests['2011-11-12 10:10:10']);
 		// negative
 		foreach ($tests as $was => $expected) {
-			$is = $this->Time->parseTime('-' . $was);
+			$is = $this->Time->parseLocalFixTime('-' . $was);
 			//pr($is);
 			$this->assertEquals(-$expected, $is);
 		}
