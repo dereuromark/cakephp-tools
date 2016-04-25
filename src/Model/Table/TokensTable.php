@@ -71,7 +71,7 @@ class TokensTable extends Table {
 	 * @param string $type Type: necessary
 	 * @param string|null $key Key: optional key, otherwise a key will be generated
 	 * @param mixed|null $uid Uid: optional (if used, only this user can use this key)
-	 * @param string|null $content Content: up to 255 characters of content may be added (optional)
+	 * @param string|array|null $content Content: up to 255 characters of content may be added (optional)
 	 * NOW: checks if this key is already used (should be unique in table)
 	 * @return string key on SUCCESS, boolean false otherwise
 	 */
@@ -87,9 +87,13 @@ class TokensTable extends Table {
 			$keyLength = mb_strlen($key);
 		}
 
+		if (is_array($content)) {
+			$content = json_encode($content);
+		}
+
 		$data = [
 			'type' => $type,
-			'user_id' => (string)$uid,
+			'user_id' => $uid,
 			'content' => (string)$content,
 			'key' => $key,
 		];
