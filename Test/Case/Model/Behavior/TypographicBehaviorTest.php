@@ -1,6 +1,6 @@
 <?php
 
-App::import('Behavior', 'Tools.Typographic');
+App::uses('TypographicBehavior', 'Tools.Model/Behavior');
 App::uses('AppModel', 'Model');
 App::uses('MyCakeTestCase', 'Tools.TestSuite');
 

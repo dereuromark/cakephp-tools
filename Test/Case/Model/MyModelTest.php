@@ -198,6 +198,49 @@ class MyModelTest extends MyCakeTestCase {
 	}
 
 	/**
+	 * @return void
+	 */
+	public function testUpdate() {
+		$record = ['title' => 'x', 'body' => 'bx'];
+		$result = $this->Post->save($record);
+		$this->assertTrue((bool)$result);
+
+		$record['body'] = 'bxx';
+		$result = $this->Post->update($result['Post']['id'], ['body' => $record['body']]);
+		$this->assertTrue((bool)$result);
+
+		$this->assertSame($record['body'], $result['Post']['body']);
+
+		$result = $this->Post->get($result['Post']['id']);
+		$this->assertSame($record['body'], $result['Post']['body']);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testToggleField() {
+		$record = ['title' => 'x', 'body' => 0];
+		$result = $this->Post->save($record);
+		$this->assertTrue((bool)$result);
+
+		$result = $this->Post->toggleField('body', $result['Post']['id']);
+		$this->assertTrue((bool)$result);
+
+		$this->assertSame(1, $result['Post']['body']);
+
+		$result = $this->Post->get($result['Post']['id']);
+		$this->assertSame('1', $result['Post']['body']);
+
+		$result = $this->Post->toggleField('body', $result['Post']['id']);
+		$this->assertTrue((bool)$result);
+
+		$this->assertSame(0, $result['Post']['body']);
+
+		$result = $this->Post->get($result['Post']['id']);
+		$this->assertSame('0', $result['Post']['body']);
+	}
+
+	/**
 	 * MyModelTest::testSaveAll()
 	 *
 	 * @return void
@@ -950,6 +993,7 @@ class MyModelTest extends MyCakeTestCase {
 		$res = $this->Post->save($data);
 		$this->assertFalse($res);
 
+		// One dependent field
 		$this->Post->validate['title'] = [
 			'validateUnique' => [
 				'rule' => ['validateUnique', ['published']],
@@ -964,6 +1008,30 @@ class MyModelTest extends MyCakeTestCase {
 		$res = $this->Post->validates();
 		$this->assertTrue($res);
 		$res = $this->Post->save($res, ['validate' => false]);
+		$this->assertTrue((bool)$res);
+
+		$this->Post->create();
+		$res = $this->Post->save($data);
+		$this->assertFalse($res);
+
+		// Too dependent fields
+		$this->Post->validate['title'] = [
+			'validateUnique' => [
+				'rule' => ['validateUnique', ['published', 'author_id']],
+				'message' => 'valErrRecordTitleExists',
+			],
+		];
+
+		$this->User->create();
+		$user = $this->User->save(['user' => 'Foo']);
+
+		$data = [
+			'title' => 'abc',
+			'published' => 'Y',
+			'author_id' => $user['User']['id']
+		];
+		$this->Post->create();
+		$res = $this->Post->save($data);
 		$this->assertTrue((bool)$res);
 
 		$this->Post->create();

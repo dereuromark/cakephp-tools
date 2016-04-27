@@ -10,7 +10,7 @@ if (!defined('CLASS_USER')) {
  */
 class Log extends ToolsAppModel {
 
-	public $order = ['Log.created' => 'DESC'];
+	public $order = ['created' => 'DESC'];
 
 	public $belongsTo = [
 		'User' => [

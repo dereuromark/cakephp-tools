@@ -1,5 +1,6 @@
 <?php
 App::uses('HtmlShimHelper', 'Shim.View/Helper');
+App::uses('CommonComponent', 'Tools.Controller/Component');
 
 /**
  * HtmlExt Helper
@@ -142,12 +143,22 @@ class HtmlExtHelper extends HtmlShimHelper {
 	 *
 	 * @params same as Html::link($title, $url, $options, $confirmMessage)
 	 * @return string HTML Link
+	 * @deprecated Use HtmlExtHelper::resetLink() instead
 	 */
 	public function defaultLink($title, $url = null, $options = [], $confirmMessage = false) {
+		return $this->resetLink($title, $url, $options, $confirmMessage);
+	}
+
+	/**
+	 * Convenience function for normal links.
+	 * Useful for layout links and links inside elements etc if you don't want to
+	 * verbosely reset all parts of it (prefix, plugin, ...).
+	 *
+	 * @params same as Html::link($title, $url, $options, $confirmMessage)
+	 * @return string HTML Link
+	 */
+	public function resetLink($title, $url = null, $options = [], $confirmMessage = false) {
 		if ($this->_linkDefaults === null) {
-			if (!class_exists('CommonComponent')) {
-				App::uses('CommonComponent', 'Tools.Controller/Component');
-			}
 			$this->_linkDefaults = CommonComponent::defaultUrlParams();
 		}
 		if (!defined('PREFIX_ADMIN')) {
@@ -174,12 +185,22 @@ class HtmlExtHelper extends HtmlShimHelper {
 	 *
 	 * @params same as Html::url($url, $full)
 	 * @return string URL
+	 * @deprecated Use HtmlExtHelper::resetUrl() instead
 	 */
 	public function defaultUrl($url = null, $full = false) {
+		return $this->resetUrl($url, $full);
+	}
+
+	/**
+	 * Convenience function for normal urls.
+	 * Useful for layout links and links inside elements etc if you don't want to
+	 * verbosely reset all parts of it (prefix, plugin, ...).
+	 *
+	 * @params same as Html::url($url, $full)
+	 * @return string URL
+	 */
+	public function resetUrl($url = null, $full = false) {
 		if ($this->_linkDefaults === null) {
-			if (!class_exists('CommonComponent')) {
-				App::uses('CommonComponent', 'Tools.Controller/Component');
-			}
 			$this->_linkDefaults = CommonComponent::defaultUrlParams();
 		}
 		if ($url !== null && is_array($url)) {

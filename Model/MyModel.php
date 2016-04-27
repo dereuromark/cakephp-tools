@@ -178,7 +178,7 @@ class MyModel extends ShimModel {
 		if (isset($customOptions['reset'])) {
 			$currentValue = $step = 0;
 		} elseif (!isset($customOptions['current'])) {
-			$currentValue = $this->field($field, [$this->alias . '.id' => $id]);
+			$currentValue = $this->fieldByConditions($field, [$this->alias . '.id' => $id]);
 			if ($currentValue === false) {
 				return false;
 			}
@@ -194,8 +194,8 @@ class MyModel extends ShimModel {
 		if (!empty($customOptions['timestampField'])) {
 			$data[$customOptions['timestampField']] = date(FORMAT_DB_DATETIME);
 		}
-		$this->id = $id;
-		return $this->save($data, false);
+		$data[$this->primaryKey] = $id;
+		return $this->save($data, ['validate' => false]);
 	}
 
 	/**
@@ -464,8 +464,7 @@ class MyModel extends ShimModel {
 						break;
 					}
 
-					$this->recursive = -1;
-					//setup formating
+					//setup formatting
 					$format = '';
 					if (!isset($options['format'])) {
 						for ($i = 0; $i < (count($options['fields']) - 1); $i++) {
@@ -757,12 +756,12 @@ class MyModel extends ShimModel {
 			}
 		}
 
-		$this->recursive = -1;
-		if (count($conditions) > 2) {
-			$this->recursive = 0;
+		if (count($conditions) > 2 && !isset($options['contain']) && !isset($options['recursive'])) {
+			$options['recursive'] = 0;
 		}
-		$options = ['fields' => [$this->alias . '.' . $this->primaryKey], 'conditions' => $conditions];
-		$res = $this->find('first', $options);
+
+		$options = ['fields' => [$this->alias . '.' . $this->primaryKey], 'conditions' => $conditions] + $options;
+		$res = $this->find('count', $options);
 		return empty($res);
 	}
 
@@ -1027,7 +1026,10 @@ class MyModel extends ShimModel {
 	 */
 	public function isUndisposableEmail($email, $onlineMode = false, $proceed = false) {
 		if (!isset($this->UndisposableEmail)) {
-			App::import('Vendor', 'undisposable/undisposable');
+			App::import('Vendor', 'ToolsExtra.undisposable/undisposable');
+			if (!class_exists('UndisposableEmail')) {
+				return true;
+			}
 			$this->UndisposableEmail = new UndisposableEmail();
 		}
 		if (!$onlineMode) {
@@ -1291,14 +1293,15 @@ class MyModel extends ShimModel {
 	 *
 	 * @param int $id
 	 * @param array $data
+	 * @param bool $validate
 	 * @return bool|array Success
 	 */
 	public function update($id, $data, $validate = false) {
-		$this->id = $id;
 		$options = [
 			'validate' => $validate,
 			'fieldList' => array_keys($data)
 		];
+		$data[$this->primaryKey] = $id;
 		return $this->save($data, $options);
 	}
 
@@ -1310,12 +1313,12 @@ class MyModel extends ShimModel {
 	 * @return ARRAY record: [Model][values],...
 	 */
 	public function toggleField($fieldName, $id) {
-		$record = $this->get($id, ['conditions' => [$this->primaryKey, $fieldName]]);
+		$record = $this->get($id, ['fields' => [$this->primaryKey, $fieldName]]);
 
 		if (!empty($record) && !empty($fieldName) && $this->hasField($fieldName)) {
 			$record[$this->alias][$fieldName] = ($record[$this->alias][$fieldName] == 1 ? 0 : 1);
-			$this->id = $id;
-			$this->saveField($fieldName, $record[$this->alias][$fieldName]);
+			$data = [$fieldName => $record[$this->alias][$fieldName]];
+			$this->updateAllJoinless($data, [$this->primaryKey => $id]);
 		}
 		return $record;
 	}

@@ -375,7 +375,7 @@ class CommonComponent extends Component {
 	 * @param mixed $url
 	 * @param bool $allowSelf if redirect to the same controller/action (url) is allowed
 	 * @param int $status
-	 * @return void
+	 * @return \Cake\Network\Response|null
 	 */
 	public function autoRedirect($whereTo, $allowSelf = true, $status = null) {
 		if ($allowSelf || $this->Controller->referer(null, true) !== '/' . $this->Controller->request->url) {
@@ -393,7 +393,7 @@ class CommonComponent extends Component {
 	 * @see http://en.wikipedia.org/wiki/Post/Redirect/Get
 	 * @param mixed $url
 	 * @param int $status
-	 * @return void
+	 * @return \Cake\Network\Response|null
 	 */
 	public function postRedirect($whereTo, $status = 302) {
 		return $this->Controller->redirect($whereTo, $status);
@@ -405,7 +405,7 @@ class CommonComponent extends Component {
 	 * @param mixed $url
 	 * @param bool $conditionalAutoRedirect false to skip whitelisting
 	 * @param int $status
-	 * @return void
+	 * @return \Cake\Network\Response|null
 	 */
 	public function autoPostRedirect($whereTo, $conditionalAutoRedirect = true, $status = 302) {
 		$referer = $this->Controller->referer($whereTo, true);
@@ -454,7 +454,7 @@ class CommonComponent extends Component {
 	 * @param mixed $url
 	 * @param int $status
 	 * @param bool $exit
-	 * @return void
+	 * @return \Cake\Network\Response|null
 	 */
 	public function completeRedirect($url = null, $status = null, $exit = true) {
 		if ($url === null) {
@@ -478,7 +478,7 @@ class CommonComponent extends Component {
 	 * @see http://en.wikipedia.org/wiki/Post/Redirect/Get
 	 * TODO: change to 303 with backwardscompatability for older browsers...
 	 * @param int $status
-	 * @return void
+	 * @return \Cake\Network\Response|null
 	 */
 	public function prgRedirect($status = 302) {
 		if (!empty($_COOKIE[Configure::read('Session.cookie')])) {
@@ -670,7 +670,7 @@ class CommonComponent extends Component {
 				$this->Controller->redirect($url, 301);
 			}
 		}
-		return true;
+		return;
 		// problem with extensions (rss etc)
 
 		if (empty($this->Controller->request->params['prefix']) && ($currentUrl = $this->currentUrl(true)) != $this->Controller->here) {
@@ -694,6 +694,7 @@ class CommonComponent extends Component {
 	 * @param string $key
 	 * @param array $matching
 	 * @return string result
+	 * @deprecated
 	 */
 	public static function getGroup($multiDimArray, $key, $matching = []) {
 		if (!is_array($multiDimArray) || empty($key)) {
@@ -898,8 +899,6 @@ class CommonComponent extends Component {
 			return $subdomain;
 		}
 
-		//$hostParts = explode();
-		//$check = trim(mb_substr($email, $checkpos));
 		return '';
 	}
 

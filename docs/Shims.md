@@ -32,10 +32,6 @@ any of your code still uses the deprecated named params.
 In 3.x there will be a FlashComponent instead. Mine also provides stackable (multi) messages.
 See https://github.com/dereuromark/cakephp-tools/wiki/Flash-messages for details.
 
-### RSS
-Use RssView instead of the akward and limited helper approach.
-
-
 ### More
 
 #### Templates
@@ -43,9 +39,6 @@ Backported StringTemplate class (from CakePHP3.0) can be used to use template ba
 
 #### Helpers
 FormExt and HtmlExt helpers also provide extended functionality and 3.x shims.
-
-#### Ajax
-Use the AjaxView which will easily be upgradable as a clean component approach.
 
 
 Also see the [Shim plugin](https://github.com/dereuromark/cakephp-shim) for details and documentation on more possible shims you can leverage.

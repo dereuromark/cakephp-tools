@@ -42,7 +42,6 @@ class QurlsController extends ToolsAppController {
 	 * @return void
 	 */
 	public function admin_index() {
-		$this->Qurl->recursive = 0;
 		$qurls = $this->paginate();
 		$this->set(compact('qurls'));
 	}
@@ -51,7 +50,6 @@ class QurlsController extends ToolsAppController {
 	 * @return void
 	 */
 	public function admin_view($id = null) {
-		$this->Qurl->recursive = 0;
 		if (empty($id) || !($qurl = $this->Qurl->find('first', ['conditions' => ['Qurl.id' => $id]]))) {
 			$this->Flash->error(__('invalidRecord'));
 			return $this->Common->autoRedirect(['action' => 'index']);

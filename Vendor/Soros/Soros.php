@@ -60,7 +60,8 @@ class Soros {
 			$source = str_replace("__numbertext__", "0+(0|[1-9]\\d*) $1\n", $source);
 		}
 
-		foreach (split(";", $source) as $s) {
+		$pieces = explode(";", $source);
+		foreach ($pieces as $s) {
 			if ($s != "" && preg_match("/^\\s*(\"[^\"]*\"|[^\\s]*)\\s*(.*[^\\s])?\\s*$/", $s, $sp) > 0) {
 				$s = self::translate(preg_replace("/\"$/", "", preg_replace("/^\"/", "", $sp[1], 1), 1), $this->c, $this->m, "");
 				$s = str_replace($this->slash[0], "\\\\", $s);

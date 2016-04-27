@@ -2,6 +2,7 @@
 App::uses('CakeSession', 'Model/Datasource');
 App::uses('ModelBehavior', 'Model');
 App::uses('Utility', 'Utility');
+App::uses('ShimModel', 'Shim.Model');
 
 if (!defined('CLASS_USER')) {
 	define('CLASS_USER', 'User');
@@ -210,8 +211,7 @@ class LogableBehavior extends ModelBehavior {
 			UserModel->alias][$this->UserModel->primaryKey] && isset($this->user[$this->UserModel->alias][$this->UserModel->displayField])) {
 			$username = $this->user[$this->UserModel->alias][$this->UserModel->displayField];
 		} else {
-			$this->UserModel->recursive = -1;
-			$user = $this->UserModel->find('first', ['conditions' => [$this->UserModel->primaryKey => $userId]]);
+			$user = $this->UserModel->find('first', ['recursive' => -1, 'conditions' => [$this->UserModel->primaryKey => $userId]]);
 			$username = $user[$this->UserModel->alias][$this->UserModel->displayField];
 		}
 		$fields = [];
@@ -368,7 +368,6 @@ class LogableBehavior extends ModelBehavior {
 		if (isset($this->settings[$Model->alias]['skip']['delete']) && $this->settings[$Model->alias]['skip']['delete']) {
 			return true;
 		}
-		$Model->recursive = -1;
 		$Model->read();
 		return true;
 	}
@@ -574,7 +573,7 @@ class LogableBehavior extends ModelBehavior {
 			$logData['title'] = $Model->alias . ' (' . $Model->id . ')';
 		} elseif (!empty($Model->data[$Model->alias][$Model->displayField])) {
 			$logData['title'] = $Model->data[$Model->alias][$Model->displayField];
-		} elseif ($Model->id && $title = $Model->field($Model->displayField)) {
+		} elseif ($Model->id && $title = $this->_getField($Model)) {
 			$logData['title'] = $title;
 		} elseif (!empty($logData[$this->settings[$Model->alias]['foreignKey']])) {
 			$options = [
@@ -640,6 +639,17 @@ class LogableBehavior extends ModelBehavior {
 
 		$this->Log->create($logData);
 		return $this->Log->save(null, ['validate' => false, 'callbacks' => false]);
+	}
+
+	/**
+	 * @param \Model $Model
+	 * @return string|false
+	 */
+	protected function _getField($Model) {
+		if ($Model instanceof ShimModel) {
+			return $Model->fieldByConditions($Model->displayField, ['id' => $Model->id]);
+		}
+		return $Model->field($Model->displayField);
 	}
 
 }

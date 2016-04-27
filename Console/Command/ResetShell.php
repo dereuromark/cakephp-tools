@@ -44,8 +44,6 @@ class ResetShell extends AppShell {
 
 		$this->hr();
 		$this->out('resetting...');
-		Configure::write('debug', 2);
-		$this->User->recursive = -1;
 		$this->User->updateAll(['User.email' => '\'' . $email . '\''], ['User.email !=' => $email]);
 		$count = $this->User->getAffectedRows();
 		$this->out($count . ' emails resetted - DONE');
@@ -104,7 +102,6 @@ class ResetShell extends AppShell {
 		}
 
 		$newPwd = '\'' . $pw . '\'';
-		$this->User->recursive = -1;
 		$this->User->updateAll(['password' => $newPwd], ['password !=' => $pw]);
 		$count = $this->User->getAffectedRows();
 		$this->out($count . ' pwds resetted - DONE');

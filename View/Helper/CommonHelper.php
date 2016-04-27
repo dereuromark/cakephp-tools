@@ -176,7 +176,7 @@ class CommonHelper extends AppHelper {
 	 * unexpected results.
 	 * TODO: move to booststrap/lib!!!
 	 *
-	 * @param string strings to alternate between
+	 * @param string $string Strings to alternate between
 	 * @return string
 	 */
 	public static function alternate() {
@@ -580,6 +580,7 @@ jQuery(document).ready(function() {
 	 * uses Piwik open source statistics framework
 	 *
 	 * @return string
+	 * @deprecated Use element instead
 	 */
 
 	public function visitStats($viewPath = null) {
@@ -619,6 +620,7 @@ piwikTracker.enableLinkTracking();
 	 * Non js browsers
 	 *
 	 * @return string
+	 * @deprecated Use element instead
 	 */
 	public function visitStatsImg($trackingUrl = null) {
 		if (empty($trackingUrl)) {
@@ -630,12 +632,10 @@ piwikTracker.enableLinkTracking();
 		return '<img src="' . Router::url('/', true) . $trackingUrl . '/piwik.php?idsite=1" style="border:0" alt=""/>';
 	}
 
-/*** deprecated ***/
-
 	/**
 	 * Checks if a role is in the current users session
 	 *
-	 * @param necessary right(s) as array - or a single one as string possible
+	 * @param array|null $roles Necessary right(s) as array - or a single one as string possible
 	 * @return array
 	 * @deprecated - use Auth class instead
 	 */

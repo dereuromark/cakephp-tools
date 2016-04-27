@@ -70,7 +70,7 @@ class GravatarHelper extends AppHelper {
 	}
 
 	/**
-	 * Show gravatar for the supplied email address
+	 * Shows gravatar for the supplied email address
 	 *
 	 * @param string $email Email address
 	 * @param array $options Array of options, keyed from default settings
@@ -83,8 +83,7 @@ class GravatarHelper extends AppHelper {
 	}
 
 	/**
-	 * Generate image URL
-	 * TODO: rename to avoid E_STRICT errors here
+	 * Generates image URL
 	 *
 	 * @param string $email Email address
 	 * @param string $options Array of options, keyed from default settings

@@ -17,6 +17,8 @@ class FormatHelperTest extends MyCakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
+		Configure::delete('Format');
+
 		$this->Format = new FormatHelper(new View(null));
 		$this->Format->Html = new HtmlExtHelper(new View(null));
 	}
@@ -134,19 +136,23 @@ class FormatHelperTest extends MyCakeTestCase {
 	 */
 	public function testFontIcon() {
 		$result = $this->Format->fontIcon('signin');
-		$expected = '<i class="fa-signin"></i>';
+		$expected = '<i class="fa fa-signin"></i>';
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Format->fontIcon('signin', ['rotate' => 90]);
-		$expected = '<i class="fa-signin fa-rotate-90"></i>';
+		$expected = '<i class="fa fa-signin fa-rotate-90"></i>';
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Format->fontIcon('signin', ['size' => 5, 'extra' => ['muted']]);
-		$expected = '<i class="fa-signin fa-muted fa-5x"></i>';
+		$expected = '<i class="fa fa-signin fa-muted fa-5x"></i>';
+		$this->assertEquals($expected, $result);
+
+		$result = $this->Format->fontIcon('asterisk', ['namespace' => 'glyphicon']);
+		$expected = '<i class="glyphicon glyphicon-asterisk"></i>';
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Format->fontIcon('signin', ['size' => 5, 'extra' => ['muted'], 'namespace' => 'icon']);
-		$expected = '<i class="icon-signin icon-muted icon-5x"></i>';
+		$expected = '<i class="icon icon-signin icon-muted icon-5x"></i>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -160,6 +166,10 @@ class FormatHelperTest extends MyCakeTestCase {
 
 		$result = $this->Format->yesNo(false);
 		$expected = '<img src="/img/icons/no.gif" title="' . __d('tools', 'No') . '" alt=';
+		$this->assertTextContains($expected, $result);
+
+		$result = $this->Format->yesNo(true, ['on' => 1, 'onTitle' => 'foo']);
+		$expected = '<img src="/img/icons/yes.gif" title="foo" alt=';
 		$this->assertTextContains($expected, $result);
 
 		$this->Format->settings['fontIcons'] = [
@@ -378,27 +388,20 @@ class FormatHelperTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testNeighbors() {
-		if (!defined('ICON_PREV')) {
-			define('ICON_PREV', 'prev');
-		}
-		if (!defined('ICON_NEXT')) {
-			define('ICON_NEXT', 'next');
-		}
-
 		$neighbors = [
 			'prev' => ['ModelName' => ['id' => 1, 'foo' => 'bar']],
 			'next' => ['ModelName' => ['id' => 2, 'foo' => 'y']],
 		];
 		$result = $this->Format->neighbors($neighbors, 'foo');
-		$expected = '<div class="next-prev-navi nextPrevNavi"><a href="/index/1" title="bar"><img src="/img/icons/prev" alt="[]" class="icon"/>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/index/2" title="y"><img src="/img/icons/next" alt="[]" class="icon"/>&nbsp;nextRecord</a></div>';
+		$expected = '<div class="next-prev-navi nextPrevNavi"><a href="/index/1" title="bar"><img src="/img/icons/nav_back.png" alt="[]" class="icon"/>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/index/2" title="y"><img src="/img/icons/nav_forward.png" alt="[]" class="icon"/>&nbsp;nextRecord</a></div>';
 
 		$this->assertEquals($expected, $result);
 
 		$this->Format->settings['fontIcons'] = [
-			'prev' => 'fa fa-prev',
-			'next' => 'fa fa-next'];
+			'nav_back' => 'fa fa-prev',
+			'nav_forward' => 'fa fa-next'];
 		$result = $this->Format->neighbors($neighbors, 'foo');
-		$expected = '<div class="next-prev-navi nextPrevNavi"><a href="/index/1" title="bar"><i class="fa fa-prev prev" title="" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/index/2" title="y"><i class="fa fa-next next" title="" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;nextRecord</a></div>';
+		$expected = '<div class="next-prev-navi nextPrevNavi"><a href="/index/1" title="bar"><i class="fa fa-prev nav_back" title="" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/index/2" title="y"><i class="fa fa-next nav_forward" title="" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;nextRecord</a></div>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -500,14 +503,16 @@ class FormatHelperTest extends MyCakeTestCase {
 			'122 jsdf ficken Sjdkf sdfj sdf' => '122 jsdf ###### Sjdkf sdfj sdf',
 			'122 jsdf FICKEN sjdkf sdfjs sdf' => '122 jsdf ###### sjdkf sdfjs sdf',
 			'dddddddddd ARSCH ddddddddddddd' => 'dddddddddd ##### ddddddddddddd',
-			//'\';alert(String.fromCharCode(88,83,83))//\';alert(String.fromCharCode(88,83,83))//";alert(String.fromCharCode(88,83,83))//\";alert(String.fromCharCode(88,83,83))//--></SCRIPT>">\'><SCRIPT>alert(String.fromCharCode(88,83,83))</SCRIPT>' => null
 		];
 		foreach ($data as $value => $expected) {
 			$res = $this->Format->wordCensor($value, ['Arsch', 'Ficken', 'Bitch']);
-
-			//debug('\''.h($value).'\' becomes \''.h($res).'\'', null, false);
 			$this->assertEquals($expected === null ? $value : $expected, $res);
 		}
+
+		$input = 'dfssdfsdj sdkfj sdkfj ksdfj bitch ksdfj';
+		$result = $this->Format->wordCensor($input, ['Bitch'], '***');
+		$expected = 'dfssdfsdj sdkfj sdkfj ksdfj *** ksdfj';
+		$this->assertEquals($expected, $result);
 	}
 
 	/**

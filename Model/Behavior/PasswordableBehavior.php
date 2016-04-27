@@ -404,7 +404,7 @@ class PasswordableBehavior extends ModelBehavior {
 			$value = Security::hash($Model->data[$Model->alias][$formField], $type, $salt);
 		}
 
-		$dbValue = $Model->field($field, [$Model->primaryKey => $primaryKey]);
+		$dbValue = $Model->fieldByConditions($field, [$Model->primaryKey => $primaryKey]);
 		if (!$dbValue) {
 			return true;
 		}
@@ -433,10 +433,11 @@ class PasswordableBehavior extends ModelBehavior {
 		}
 
 		$primaryKey = $Model->data[$Model->alias][$Model->primaryKey];
-		$dbValue = $Model->field($field, [$Model->primaryKey => $primaryKey]);
-		if (!$dbValue && $pwd) {
+		$record = $Model->find('first', ['conditions' => [$Model->primaryKey => $primaryKey]]);
+		if (empty($record[$Model->alias][$field]) && $pwd) {
 			return false;
 		}
+		$dbValue = $record[$Model->alias][$field];
 
 		if ($type === 'blowfish' && function_exists('password_hash') && !empty($this->settings[$Model->alias]['passwordHasher'])) {
 			$value = $pwd;

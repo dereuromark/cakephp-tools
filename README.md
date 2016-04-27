@@ -1,10 +1,9 @@
 # CakePHP Tools Plugin
 [![Build Status](https://api.travis-ci.org/dereuromark/cakephp-tools.svg?branch=2.x)](https://travis-ci.org/dereuromark/cakephp-tools)
-[![Coverage Status](https://coveralls.io/repos/dereuromark/cakephp-tools/badge.png?branch=2.x)](https://coveralls.io/r/dereuromark/cakephp-tools)
-[![Latest Stable Version](https://poser.pugx.org/dereuromark/cakephp-tools/v/stable.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
+[![Coverage Status](https://img.shields.io/codecov/c/github/dereuromark/cakephp-tools/2.x.svg)](https://codecov.io/github/dereuromark/cakephp-tools?branch=2.x)
 [![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg)](https://php.net/)
-[![License](https://poser.pugx.org/dereuromark/cakephp-tools/license.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
-[![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-tools/d/total.png)](https://packagist.org/packages/dereuromark/cakephp-tools)
+[![License](https://poser.pugx.org/dereuromark/cakephp-tools/license.svg)](https://packagist.org/packages/dereuromark/cakephp-tools)
+[![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-tools/d/total.svg)](https://packagist.org/packages/dereuromark/cakephp-tools)
 
 A CakePHP 2.x Plugin containing several useful tools that can be used in many projects.
 This plugin requires PHP5.4+ (use the old 2.5 branch if you need PHP5.3 until you can upgrade).
@@ -36,15 +35,15 @@ That's it. It should be up and running.
 In case you want the Tools bootstrap file included (recommended), you can do that in your `APP/Config/bootstrap.php` with
 
 ```php
-CakePlugin::load('Tools', array('bootstrap' => true));
+CakePlugin::load('Tools', ['bootstrap' => true]);
 ```
 
 For `CakePlugin::loadAll()` it's
 
 ```php
-CakePlugin::loadAll(array(
-		'Tools' => array('bootstrap' => true)
-));
+CakePlugin::loadAll([
+		'Tools' => ['bootstrap' => true]
+]);
 ```
 
 MyModel can be extended to use more powerful validation and other improvements:
@@ -102,12 +101,14 @@ For a quick reference or some larger modules see the [Tools Plugin Wiki](https:/
 For including components, helper and behaviors you don't need App::uses() calls.
 So for a pretty standard CakePHP app with some Tools plugin enhancements, the AppController could look like this:
 ```php
-public $components = array(
-	'Session', 'RequestHandler', 'Tools.Common', 'Auth');
+public $components = [
+	'Session', 'RequestHandler', 'Tools.Common', 'Auth'
+];
 
-public $helpers = array(
-	'Session', 'Html', 'Form' => array('className' => 'Tools.FormExt'),
-	'Tools.Common', 'Tools.Format', 'Tools.Datetime', 'Tools.Numeric');
+public $helpers = [
+	'Session', 'Html', 'Form' => ['className' => 'Tools.FormExt'],
+	'Tools.Common', 'Tools.Format', 'Tools.Datetime', 'Tools.Numeric'
+];
 ```
 
 ## The cool stuff
@@ -115,7 +116,6 @@ public $helpers = array(
 ### Useful fixes and additions
 
 * Auto-trim on POST (to make - not only notEmpty - validation working properly).
-* RSS and Ajax Views for better responses (Ajax also comes with an optional component).
 * Using the Common component's flashMessage() you can have colorful (success, warning, error, ...) flash messages.
   They also can stack up (multiple messages per type). This way no message is lost when redirecting twice etc.
   You will also need `echo $this->Flash->message();` then instead of the default flash code in your layout.ctp template.
@@ -165,10 +165,3 @@ For details on how to contribute please read the [CONTRIBUTING page](CONTRIBUTIN
 
 * Better test coverage (once it's >= 75% I will declare the plugin stable)
 * Use [Transifex plugin](https://github.com/dereuromark/cakephp-transifex) and [transifex.com](https://www.transifex.com/projects/p/tools/resources/) (you need to have a login) for translations
-
-### Recent changes (possibly BC breaking)
-
-* 2014-11 All translations now use the `tools` domain; development messages are not translated anymore
-* 2014-12 Some model validations have also been transformed from generic `validation` into `tools` domain.
-* 2014-12 All `tools` domain translations need to exist in `APP/Locale` due to a core issue in `CakePHP <= 2.5` when trying to overwrite them in the application.
-* 2015-01 With CakePHP2.6 support now we can re-add the Locale files again. Use `App.preferApp` Configure key to overwrite the plugin's locale files.

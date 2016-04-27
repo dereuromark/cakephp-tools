@@ -28,10 +28,12 @@ class HcardHelper extends AppHelper {
 	];
 
 	/**
+	 * @param array $data
+	 *
 	 * @return string HTML
 	 */
-	public function addressFormatHtml($data = null, $format = 'General') {
-		if ($data === null) {
+	public function addressFormatHtml(array $data = [], $format = 'General') {
+		if (!$data) {
 			$data = $this->_defaults;
 		}
 		$text = '';
@@ -43,10 +45,12 @@ class HcardHelper extends AppHelper {
 	}
 
 	/**
+	 * @param array $data
+	 *
 	 * @return string
 	 */
-	public function addressFormatRaw($data = null, $format = 'General') {
-		if ($data === null) {
+	public function addressFormatRaw(array $data = [], $format = 'General') {
+		if (!$data) {
 			$data = $this->_defaults;
 		}
 		$text = $data['given_name'] . ' ' . $data['family_name'] . "\n";
@@ -61,10 +65,12 @@ class HcardHelper extends AppHelper {
 	}
 
 	/**
+	 * @param array $data
+	 *
 	 * @return string
 	 */
-	public function address($data) {
-		if ($data === null) {
+	public function address(array $data = []) {
+		if (!$data) {
 			$data = $this->_defaults;
 		}
 		$text = '<div class="adr">';

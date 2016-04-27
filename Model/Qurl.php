@@ -15,7 +15,7 @@ class Qurl extends ToolsAppModel {
 
 	public $scaffoldSkipFields = ['note', 'key', 'content'];
 
-	public $order = ['Qurl.created' => 'DESC'];
+	public $order = ['created' => 'DESC'];
 
 	protected $defaultLength = 22;
 
