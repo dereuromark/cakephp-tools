@@ -282,29 +282,43 @@ class Table extends ShimTable {
 		$date = $dateTime[0];
 		$time = (!empty($dateTime[1]) ? $dateTime[1] : '');
 
-		if (!empty($options['allowEmpty']) && (empty($date) && empty($time) || $date === DEFAULT_DATE && $time === DEFAULT_TIME || $date === DEFAULT_DATE && empty($time))) {
+		if (!empty($options['allowEmpty']) && (empty($date) && empty($time))) {
 			return true;
 		}
 
-		//TODO: cleanup
 		if (Validation::date($date, $format) && Validation::time($time)) {
 			// after/before?
 			$seconds = isset($options['min']) ? $options['min'] : 1;
-			if (!empty($options['after']) && isset($context['data'][$options['after']])) {
-				$compare = $value->subSeconds($seconds);
-				if (!is_object($context['data'][$options['after']])) {
-					$context['data'][$options['after']] = new Time($context['data'][$options['after']]);
-				}
-				if ($context['data'][$options['after']]->gt($compare)) {
+			if (!empty($options['after'])) {
+				if (!is_object($options['after']) && isset($context['data'][$options['after']])) {
+					$options['after'] = $context['data'][$options['after']];
+					if (!is_object($options['after'])) {
+						$options['after'] = new Time($options['after']);
+					}
+				} elseif (!is_object($options['after'])) {
 					return false;
 				}
 			}
-			if (!empty($options['before']) && isset($context['data'][$options['before']])) {
-				$compare = $value->addSeconds($seconds);
-				if (!is_object($context['data'][$options['before']])) {
-					$context['data'][$options['before']] = new Time($context['data'][$options['before']]);
+			if (!empty($options['before'])) {
+				if (!is_object($options['before']) && isset($context['data'][$options['before']])) {
+					$options['before'] = $context['data'][$options['before']];
+					if (!is_object($options['before'])) {
+						$options['before'] = new Time($options['before']);
+					}
+				} elseif (!is_object($options['before'])) {
+					return false;
 				}
-				if ($context['data'][$options['before']]->lt($compare)) {
+			}
+
+			if (!empty($options['after'])) {
+				$compare = $value->subSeconds($seconds);
+				if ($options['after']->gt($compare)) {
+					return false;
+				}
+			}
+			if (!empty($options['before'])) {
+				$compare = $value->addSeconds($seconds);
+				if ($options['before']->lt($compare)) {
 					return false;
 				}
 			}
