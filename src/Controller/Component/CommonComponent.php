@@ -155,10 +155,10 @@ class CommonComponent extends Component {
 	 *
 	 * @param mixed $whereTo URL
 	 * @param bool $allowSelf if redirect to the same controller/action (url) is allowed
-	 * @param int|null $status
+	 * @param int $status
 	 * @return \Cake\Network\Response
 	 */
-	public function autoRedirect($whereTo, $allowSelf = false, $status = null) {
+	public function autoRedirect($whereTo, $allowSelf = false, $status = 302) {
 		if ($allowSelf || $this->Controller->referer(null, true) !== '/' . $this->Controller->request->url) {
 			return $this->Controller->redirect($this->Controller->referer($whereTo, true), $status);
 		}
@@ -200,7 +200,7 @@ class CommonComponent extends Component {
 			$referer = Router::parse($referer);
 		}
 
-		if (!$conditionalAutoRedirect || empty($this->Controller->autoRedirectActions) || is_array($referer) && !empty($referer['action'])) {
+		if ($conditionalAutoRedirect && !empty($this->Controller->autoRedirectActions) && is_array($referer) && !empty($referer['action'])) {
 			// Be sure that controller offset exists, otherwise you
 			// will run into problems, if you use url rewriting.
 			$refererController = null;
@@ -211,12 +211,13 @@ class CommonComponent extends Component {
 			if (!isset($this->Controller->autoRedirectActions)) {
 				$this->Controller->autoRedirectActions = [];
 			}
+
 			foreach ($this->Controller->autoRedirectActions as $action) {
 				list($controller, $action) = pluginSplit($action);
-				if (!empty($controller) && $refererController !== '*' && $refererController != $controller) {
+				if (!empty($controller) && $refererController !== '*' && $refererController !== $controller) {
 					continue;
 				}
-				if (empty($controller) && $refererController != $this->Controller->request->params['controller']) {
+				if (empty($controller) && $refererController !== $this->Controller->request->params['controller']) {
 					continue;
 				}
 				if (!in_array($referer['action'], $this->Controller->autoRedirectActions, true)) {
@@ -229,7 +230,7 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * Automatically add missing url parts of the current url including
+	 * Automatically add missing URL parts of the current URL including
 	 * - querystring (especially for 3.x then)
 	 * - passed params
 	 *
@@ -237,7 +238,7 @@ class CommonComponent extends Component {
 	 * @param int|null $status
 	 * @return \Cake\Network\Response
 	 */
-	public function completeRedirect($url = null, $status = null) {
+	public function completeRedirect($url = null, $status = 302) {
 		if ($url === null) {
 			$url = $this->Controller->request->params;
 			unset($url['pass']);
