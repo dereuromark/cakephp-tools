@@ -197,6 +197,9 @@ class CommonComponentTest extends TestCase {
  */
 class CommonComponentTestController extends Controller {
 
+	/**
+	 * @var string
+	 */
 	public $name = 'MyController';
 
 	/**
