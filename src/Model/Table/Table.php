@@ -310,16 +310,31 @@ class Table extends ShimTable {
 				}
 			}
 
+			// We need this for those not using immutable objects just yet
+			$compareValue = clone $value;
+
 			if (!empty($options['after'])) {
-				$compare = $value->subSeconds($seconds);
+				$compare = $compareValue->subSeconds($seconds);
 				if ($options['after']->gt($compare)) {
 					return false;
 				}
+				if (!empty($options['max'])) {
+					$after = $options['after']->addSeconds($options['max']);
+					if ($value->gt($after)) {
+						return false;
+					}
+				}
 			}
 			if (!empty($options['before'])) {
-				$compare = $value->addSeconds($seconds);
+				$compare = $compareValue->addSeconds($seconds);
 				if ($options['before']->lt($compare)) {
 					return false;
+				}
+				if (!empty($options['max'])) {
+					$after = $options['before']->subSeconds($options['max']);
+					if ($value->lt($after)) {
+						return false;
+					}
 				}
 			}
 			return true;

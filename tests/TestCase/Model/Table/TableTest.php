@@ -323,43 +323,56 @@ class TableTest extends TestCase {
 		$date = new Time('2010-02-23 11:11:11');
 		$context = ['data' => ['after' => new Time('2010-02-22 11:11:11')]];
 		$res = $this->Users->validateDatetime($date, ['after' => 'after'], $context);
-		//debug($res);
 		$this->assertTrue($res);
 
 		$date = new Time('2010-02-23 11:11:11');
 		$context = ['data' => ['after' => new Time('2010-02-24 11:11:11')]];
 		$res = $this->Users->validateDatetime($date, ['after' => 'after'], $context);
-		//debug($res);
 		$this->assertFalse($res);
 
 		$date = new Time('2010-02-23 11:11:11');
 		$context = ['data' => ['after' => new Time('2010-02-23 11:11:11')]];
 		$res = $this->Users->validateDatetime($date, ['after' => 'after'], $context);
-		//debug($res);
 		$this->assertFalse($res);
 
 		$date = new Time('2010-02-23 11:11:11');
 		$context = ['data' => ['after' => new Time('2010-02-23 11:11:11')]];
 		$res = $this->Users->validateDatetime($date, ['after' => 'after', 'min' => 1], $context);
-		//debug($res);
 		$this->assertFalse($res);
 
 		$date = new Time('2010-02-23 11:11:11');
 		$context = ['data' => ['after' => new Time('2010-02-23 11:11:11')]];
 		$res = $this->Users->validateDatetime($date, ['after' => 'after', 'min' => 0], $context);
-		//debug($res);
 		$this->assertTrue($res);
 
 		$date = new Time('2010-02-23 11:11:11');
 		$context = ['data' => ['after' => new Time('2010-02-23 11:11:10')]];
 		$res = $this->Users->validateDatetime($date, ['after' => 'after'], $context);
-		//debug($res);
 		$this->assertTrue($res);
 
 		$date = new Time('2010-02-23 11:11:11');
 		$context = ['data' => ['after' => new Time('2010-02-23 11:11:12')]];
 		$res = $this->Users->validateDatetime($date, ['after' => 'after'], $context);
-		//debug($res);
+		$this->assertFalse($res);
+
+		$date = new Time('2010-02-24 11:11:11');
+		$context = ['data' => ['after' => new Time('2010-02-23 09:11:12')]];
+		$res = $this->Users->validateDatetime($date, ['after' => 'after', 'max' => 2 * DAY], $context);
+		$this->assertTrue($res);
+
+		$date = new Time('2010-02-24 11:11:11');
+		$context = ['data' => ['after' => new Time('2010-02-23 09:11:12')]];
+		$res = $this->Users->validateDatetime($date, ['after' => 'after', 'max' => DAY], $context);
+		$this->assertFalse($res);
+
+		$date = new Time('2010-02-24 11:11:11');
+		$context = ['data' => ['before' => new Time('2010-02-25 13:11:12')]];
+		$res = $this->Users->validateDatetime($date, ['before' => 'before', 'max' => 2 * DAY], $context);
+		$this->assertTrue($res);
+
+		$date = new Time('2010-02-24 11:11:11');
+		$context = ['data' => ['before' => new Time('2010-02-25 13:11:12')]];
+		$res = $this->Users->validateDatetime($date, ['before' => 'before', 'max' => DAY], $context);
 		$this->assertFalse($res);
 	}
 
