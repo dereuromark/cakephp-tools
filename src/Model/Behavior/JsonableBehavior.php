@@ -216,7 +216,11 @@ class JsonableBehavior extends Behavior {
 	 * @return mixed
 	 */
 	public function _decode($val) {
-		$decoded = json_decode($val, $this->_config['decodeParams']['assoc'], $this->_config['decodeParams']['depth'], $this->_config['decodeParams']['options']);
+        $decoded = false;
+        if (is_string($val))
+            $decoded = json_decode($val, $this->_config['decodeParams']['assoc'], $this->_config['decodeParams']['depth'], $this->_config['decodeParams']['options']);
+        else if (is_array($val))
+            $decoded = $val;
 
 		if ($decoded === false) {
 			return false;
