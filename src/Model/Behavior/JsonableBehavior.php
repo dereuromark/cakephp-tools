@@ -18,7 +18,7 @@ use Tools\Utility\Text;
  *
  * This is a port of the Serializeable behavior by Matsimitsu (http://www.matsimitsu.nl)
  * Modified by Mark Scherer (http://www.dereuromark.de)
- *
+ *s
  * Supports different input/output formats:
  * - "list" is useful as some kind of pseudo enums or simple lists
  * - "params" is useful for multiple key/value pairs
@@ -216,6 +216,10 @@ class JsonableBehavior extends Behavior {
 	 * @return mixed
 	 */
 	public function _decode($val) {
+		if (!is_string($val)) {
+			return $val;
+		}
+
 		$decoded = json_decode($val, $this->_config['decodeParams']['assoc'], $this->_config['decodeParams']['depth'], $this->_config['decodeParams']['options']);
 
 		if ($decoded === false) {
