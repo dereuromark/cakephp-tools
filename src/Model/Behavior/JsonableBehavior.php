@@ -18,7 +18,7 @@ use Tools\Utility\Text;
  *
  * This is a port of the Serializeable behavior by Matsimitsu (http://www.matsimitsu.nl)
  * Modified by Mark Scherer (http://www.dereuromark.de)
- *s
+ *
  * Supports different input/output formats:
  * - "list" is useful as some kind of pseudo enums or simple lists
  * - "params" is useful for multiple key/value pairs
