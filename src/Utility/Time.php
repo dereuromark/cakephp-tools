@@ -550,6 +550,10 @@ class Time extends CakeTime {
 			$options['timezone'] = static::safeCreateDateTimeZone($options['timezone']);
 		}
 
+		if ($dateString === null) {
+			return $options['default'];
+		}
+
 		if (!is_object($dateString)) {
 			$date = new DateTime($dateString, $options['timezone']);
 		} else {
