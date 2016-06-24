@@ -159,7 +159,8 @@ function entDec($text, $quoteStyle = ENT_QUOTES) {
  * @return mixed
  */
 function extractFileInfo($filename, $type = null) {
-	if ($info = extractPathInfo($filename, $type)) {
+	$info = extractPathInfo($filename, $type);
+	if ($info) {
 		return $info;
 	}
 	$pos = strrpos($filename, '.');

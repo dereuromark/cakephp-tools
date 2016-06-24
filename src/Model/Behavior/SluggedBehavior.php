@@ -248,7 +248,8 @@ class SluggedBehavior extends Behavior {
 		$separator = $this->_config['separator'];
 
 		$string = str_replace(["\r\n", "\r", "\n"], ' ', $value);
-		if ($replace = $this->_config['replace']) {
+		$replace = $this->_config['replace'];
+		if ($replace) {
 			$string = str_replace(array_keys($replace), array_values($replace), $string);
 		}
 		if ($this->_config['mode'] === 'ascii') {
@@ -300,7 +301,8 @@ class SluggedBehavior extends Behavior {
 			$field = $this->_table->alias() . '.' . $this->_config['field'];
 			$conditions = [$field => $slug];
 			$conditions = array_merge($conditions, $this->_config['scope']);
-			if ($id = $entity->get($this->_table->primaryKey())) {
+			$id = $entity->get($this->_table->primaryKey());
+			if ($id) {
 				$conditions['NOT'][$this->_table->alias() . '.' . $this->_table->primaryKey()] = $id;
 			}
 			$i = 0;

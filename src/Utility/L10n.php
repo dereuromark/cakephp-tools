@@ -278,7 +278,8 @@ class L10n {
 		if (is_array($mixed)) {
 			$result = [];
 			foreach ($mixed as $_mixed) {
-				if ($_result = $this->map($_mixed)) {
+				$_result = $this->map($_mixed);
+				if ($_result) {
 					$result[$_mixed] = $_result;
 				}
 			}
@@ -307,7 +308,8 @@ class L10n {
 		if (is_array($language)) {
 			$result = [];
 			foreach ($language as $_language) {
-				if ($_result = $this->catalog($_language)) {
+				$_result = $this->catalog($_language);
+				if ($_result) {
 					$result[$_language] = $_result;
 				}
 			}

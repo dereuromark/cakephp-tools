@@ -177,7 +177,8 @@ class EmailTest extends TestCase {
 		$this->Email->to(Configure::read('Config.adminEmail'));
 		$this->Email->addAttachment($file);
 		$res = $this->Email->send('test_default', 'default');
-		if ($error = $this->Email->getError()) {
+		$error = $this->Email->getError();
+		if ($error) {
 			$this->out($error);
 		}
 		$this->assertEquals('', $this->Email->getError());
@@ -290,7 +291,8 @@ html-part
 
 		$res = $this->Email->send();
 		Configure::write('debug', 2);
-		if ($error = $this->Email->getError()) {
+		$error = $this->Email->getError();
+		if ($error) {
 			$this->out($error);
 		}
 		$this->assertEquals('', $this->Email->getError());
@@ -403,7 +405,8 @@ html-part
 
 		$res = $this->Email->send();
 
-		if ($error = $this->Email->getError()) {
+		$error = $this->Email->getError();
+		if ($error) {
 			$this->out($error);
 		}
 		$this->assertEquals('', $this->Email->getError());
