@@ -10,7 +10,7 @@ This plugin requires PHP5.4+ (use the old 2.5 branch if you need PHP5.3 until yo
 
 Please note: New functionality has been tested against 2.x (current master branch) only.
 Please upgrade your app to latest CakePHP 2.x if possible.
-User a different 2.x branch if you need temporary support for older versions.
+Use a different 2.x branch if you need temporary support for older versions.
 
 ## How to include
 Installing the Plugin is pretty much as with every other CakePHP Plugin.
@@ -22,11 +22,9 @@ You should use composer/packagist now @ https://packagist.org/packages/dereuroma
 
 ```
 "require": {
-	"dereuromark/cakephp-tools": "[version].*"
+	"dereuromark/cakephp-tools": "2.x-dev"
 }
 ```
-With `0.9` as `[version]`, for example, it would be: `0.9.*`.
-The `*` asserts that you get all bugfix versions if existing.
 
 That's it. It should be up and running.
 
@@ -60,7 +58,7 @@ MyController can be extended for DRY improvements and to fix some common bugs:
 ```php
 App::uses('MyController', 'Tools.Controller');
 
-class MyController extends MyController {
+class AppController extends MyController {
 }
 ```
 
