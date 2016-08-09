@@ -9,74 +9,6 @@ use Tools\Mailer\Email;
 use Tools\TestSuite\TestCase;
 
 /**
- * Help to test Email
- */
-class TestEmail extends Email {
-
-	/**
-	 * Wrap to protected method
-	 *
-	 * @param array $address
-	 * @return array
-	 */
-	public function formatAddress($address) {
-		return parent::_formatAddress($address);
-	}
-
-	/**
-	 * Wrap to protected method
-	 *
-	 * @param string $text
-	 * @param int $length
-	 * @return array
-	 */
-	public function wrap($text, $length = Email::LINE_LENGTH_MUST) {
-		return parent::_wrap($text, $length);
-	}
-
-	/**
-	 * Get the boundary attribute
-	 *
-	 * @return string
-	 */
-	public function getBoundary() {
-		return $this->_boundary;
-	}
-
-	/**
-	 * Encode to protected method
-	 *
-	 * @param string $text
-	 * @return string
-	 */
-	public function encode($text) {
-		return $this->_encode($text);
-	}
-
-	/**
-	 * Render to protected method
-	 *
-	 * @param string $content
-	 * @return array
-	 */
-	public function render($content) {
-		return $this->_render($content);
-	}
-
-	/**
-	 * TestEmail::getProtected()
-	 *
-	 * @param string $attribute
-	 * @return mixed
-	 */
-	public function getProtected($attribute) {
-		$attribute = '_' . $attribute;
-		return $this->$attribute;
-	}
-
-}
-
-/**
  * EmailTest class
  */
 class EmailTest extends TestCase {
@@ -467,6 +399,74 @@ HTML;
 		}
 		$this->debug($is);
 		$this->assertTrue(count($is) >= 16);
+	}
+
+}
+
+/**
+ * Help to test Email
+ */
+class TestEmail extends Email {
+
+	/**
+	 * Wrap to protected method
+	 *
+	 * @param array $address
+	 * @return array
+	 */
+	public function formatAddress($address) {
+		return parent::_formatAddress($address);
+	}
+
+	/**
+	 * Wrap to protected method
+	 *
+	 * @param string $text
+	 * @param int $length
+	 * @return array
+	 */
+	public function wrap($text, $length = Email::LINE_LENGTH_MUST) {
+		return parent::_wrap($text, $length);
+	}
+
+	/**
+	 * Get the boundary attribute
+	 *
+	 * @return string
+	 */
+	public function getBoundary() {
+		return $this->_boundary;
+	}
+
+	/**
+	 * Encode to protected method
+	 *
+	 * @param string $text
+	 * @return string
+	 */
+	public function encode($text) {
+		return $this->_encode($text);
+	}
+
+	/**
+	 * Render to protected method
+	 *
+	 * @param string $content
+	 * @return array
+	 */
+	public function render($content) {
+		return $this->_render($content);
+	}
+
+	/**
+	 * TestEmail::getProtected()
+	 *
+	 * @param string $attribute
+	 * @return mixed
+	 */
+	public function getProtected($attribute) {
+		$attribute = '_' . $attribute;
+		return $this->$attribute;
 	}
 
 }

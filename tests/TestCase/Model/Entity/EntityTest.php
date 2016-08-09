@@ -4,10 +4,9 @@ namespace Tools\Model\Entity;
 
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
-use Tools\Model\Entity\Entity;
 use Tools\TestSuite\TestCase;
 
-class PasswordableBehaviorTest extends TestCase {
+class EntityTest extends TestCase {
 
 	/**
 	 * @var array
@@ -17,13 +16,11 @@ class PasswordableBehaviorTest extends TestCase {
 	];
 
 	/**
-	 * @var \Tools\Model\Table\Table;
+	 * @var \Tools\Model\Table\Table
 	 */
 	public $Users;
 
 	/**
-	 * SetUp method
-	 *
 	 * @return void
 	 */
 	public function setUp() {
@@ -34,6 +31,9 @@ class PasswordableBehaviorTest extends TestCase {
 		$this->Users = TableRegistry::get('ToolsUsers');
 	}
 
+	/**
+	 * @return void
+	 */
 	public function tearDown() {
 		TableRegistry::clear();
 
@@ -41,8 +41,6 @@ class PasswordableBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * MyModelTest::testEnum()
-	 *
 	 * @return void
 	 */
 	public function testEnum() {

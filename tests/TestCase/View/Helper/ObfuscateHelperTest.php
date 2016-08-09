@@ -8,26 +8,32 @@ use Tools\View\Helper\ObfuscateHelper;
 
 class ObfuscateHelperTest extends TestCase {
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 
 		$this->Obfuscate = new ObfuscateHelper(new View());
 	}
 
+	/**
+	 * @return void
+	 */
 	public function tearDown() {
 		unset($this->Table);
 
  		parent::tearDown();
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testObject() {
 		$this->assertInstanceOf('Tools\View\Helper\ObfuscateHelper', $this->Obfuscate);
 	}
 
-
 	/**
-	 * ObfuscateHelperTest::testEncodeEmails()
-	 *
 	 * @return void
 	 */
 	public function testEncodeEmail() {
@@ -37,8 +43,6 @@ class ObfuscateHelperTest extends TestCase {
 	}
 
 	/**
-	 * ObfuscateHelperTest::testEncodeEmailUrl()
-	 *
 	 * @return void
 	 */
 	public function testEncodeEmailUrl() {
@@ -48,8 +52,6 @@ class ObfuscateHelperTest extends TestCase {
 	}
 
 	/**
-	 * ObfuscateHelperTest::testEncodeText()
-	 *
 	 * @return void
 	 */
 	public function testEncodeText() {
