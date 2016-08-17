@@ -17,14 +17,16 @@ class Controller extends ShimController {
 	 *
 	 * @param \Cake\ORM\Table|string|\Cake\ORM\Query|null $object Table to paginate
 	 *   (e.g: Table instance, 'TableName' or a Query object)
+	 * @param array $settings Settings
+	 *
 	 * @return \Cake\ORM\ResultSet Query results
 	 */
-	public function paginate($object = null) {
+	public function paginate($object = null, array $settings = []) {
 		$defaultSettings = (array)Configure::read('Paginator');
 		if ($defaultSettings) {
 			$this->paginate += $defaultSettings;
 		}
-		return parent::paginate($object);
+		return parent::paginate($object, $settings);
 	}
 
 }

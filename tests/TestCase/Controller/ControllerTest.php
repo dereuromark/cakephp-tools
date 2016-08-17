@@ -17,7 +17,7 @@ class ControllerTest extends TestCase {
 	public $fixtures = ['plugin.Tools.ToolsUsers'];
 
 	/**
-	 * @var Cake\Controller\Controller
+	 * @var \Cake\Controller\Controller
 	 */
 	public $Controller;
 
