@@ -13,8 +13,8 @@
 		}
 	],
 	"require":{
-		"php": ">=5.4",
-		"cakephp/cakephp": "^3.2",
+		"php": ">=5.5",
+		"cakephp/cakephp": "^3.3",
 		"dereuromark/cakephp-shim": "^1.0"
 	},
 	"require-dev":{
