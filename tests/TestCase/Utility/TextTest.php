@@ -1,6 +1,6 @@
 <?php
 
-namespace Tools\TestCase\Utility;
+namespace Tools\Test\TestCase\Utility;
 
 use Tools\TestSuite\TestCase;
 use Tools\Utility\Text;

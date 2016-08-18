@@ -1,6 +1,6 @@
 <?php
 
-namespace Tools\TestCase\View\Helper;
+namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\View\View;
 use Tools\TestSuite\TestCase;

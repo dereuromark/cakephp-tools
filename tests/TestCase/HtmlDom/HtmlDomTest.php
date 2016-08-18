@@ -1,6 +1,6 @@
 <?php
 
-namespace Tools\TestCase\HtmlDom;
+namespace Tools\Test\TestCase\HtmlDom;
 
 use Tools\HtmlDom\HtmlDom;
 use Tools\TestSuite\TestCase;
