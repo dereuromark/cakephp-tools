@@ -11,7 +11,7 @@ class MyErrorHandler extends ErrorHandler {
 	 * - 404s log to a different domain
 	 * - IP, Referer and Browser-Infos are added for better error debugging/tracing
 	 */
-	public static function handleException(Exception $exception) {
+	public static function handleException($exception) {
 		$config = Configure::read('Exception');
 		if (!empty($config['log'])) {
 			$message = sprintf("[%s] %s\n%s\n%s",

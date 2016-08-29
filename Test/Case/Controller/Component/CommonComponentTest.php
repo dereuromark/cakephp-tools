@@ -5,6 +5,7 @@ App::uses('Component', 'Controller');
 App::uses('CakeSession', 'Model/Datasource');
 App::uses('Controller', 'Controller');
 App::uses('AppModel', 'Model');
+App::uses('Object', 'Core');
 
 /**
  */

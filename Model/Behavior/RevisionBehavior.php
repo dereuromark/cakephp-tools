@@ -82,31 +82,11 @@ App::uses('Hash', 'Utility');
  * NB! In version 1.2 and up to current, Using HABTM revision requires that both models uses this
  * behavior (even if secondary model does not have a shadow table).
  *
- * 1.1.1 => 1.1.2 changelog
- * - revisions() got new paramter: $includeCurrent
- * This now defaults to false, resulting in a change from 1.1.1. See tests
- *
- * 1.1.6 => 1.2
- * - includes HABTM revision control (one way)
- *
- * 1.2 => 1.2.1
- * - api change in revertToDate, added paramter for force delete if reverting to before earliest
- *
- * 1.2.6 => 1.2.7
- * 	 - api change: removed shadow(), changed revertToDate() to only recurse into related models that
- * are dependent when cascade is true
- *
- * 2.0.5 => CakePHP 2.x
- *
- * 2.0.6 => use alias to map shadow tables to a different alias as each alias is only allowed once
- * per ClassRegistry.
- *
+ * @deprecated Will be removed soon. Please move yourself to a new location/plugin
+ * 
  * @author Ronny Vindenes
  * @author Alexander 'alkemann' Morland
  * @license http://opensource.org/licenses/mit-license.php MIT
- * @modifed 27. march 2009
- * @version 2.0.6
- * @modified 2012-07-28 Mark Scherer (2.x ready)
  */
 class RevisionBehavior extends ModelBehavior {
 

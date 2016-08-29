@@ -52,7 +52,7 @@ class EmailLib extends CakeEmail {
 
 	public function __construct($config = null) {
 		if ($config === null) {
-			$config = 'default';
+			$config = Configure::read('Email.config') ?: 'default';
 		}
 		parent::__construct($config);
 
@@ -656,7 +656,7 @@ class EmailLib extends CakeEmail {
 	 */
 	public function reset($config = null) {
 		if ($config === null) {
-			$config = 'default';
+			$config = Configure::read('Email.config') ?: 'default';
 		}
 		parent::reset();
 
@@ -667,6 +667,7 @@ class EmailLib extends CakeEmail {
 		$this->_error = null;
 		$this->_debug = null;
 
+		$this->_config = (array)Configure::read('Email');
 		$this->_applyConfig($config);
 
 		if ($fromEmail = Configure::read('Config.systemEmail')) {
