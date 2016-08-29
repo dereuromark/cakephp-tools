@@ -37,14 +37,41 @@ class BitmaskedBehavior extends ModelBehavior {
 
 	/**
 	 * Behavior configuration
+	 * Setup example:
+	 * <code>
+	 * public $actsAs = array(
+	 * 	'Tools.Bitmasked' => [
+	 * 		[
+	 * 			'mappedField' => 'weekdays',
+	 * 			'field' => 'weekday'
+	 * 		],
+	 * 		[
+	 * 			'mappedField' => 'monthdays',
+	 * 			'field' => 'monthday'
+	 * 		]
+	 * 	]
+	 * ];
+	 * </code>
 	 *
 	 * @param Model $Model
 	 * @param array $config
 	 * @return void
 	 */
 	public function setup(Model $Model, $config = []) {
-		$config += $this->_defaultConfig;
+		if (is_array(reset($config))) {
+			// Setup example:
+			foreach ($config as $fieldConfig) {
+				$fieldName = $fieldConfig['field'];
+				$this->settings[$Model->alias][$fieldName] = $this->_getFieldConfig($Model, $fieldConfig);
+			}
+		} else {
+			$fieldName = $config['field'];
+			$this->settings[$Model->alias][$fieldName] = $this->_getFieldConfig($Model, $config);
+		}
+	}
 
+	private function _getFieldConfig(Model $Model, $config) {
+		$config += $this->_defaultConfig;
 		if (empty($config['bits'])) {
 			$config['bits'] = Inflector::pluralize($config['field']);
 		}
@@ -59,8 +86,7 @@ class BitmaskedBehavior extends ModelBehavior {
 			throw new InternalErrorException('Bits not found');
 		}
 		ksort($config['bits'], SORT_NUMERIC);
-
-		$this->settings[$Model->alias] = $config;
+		return $config;
 	}
 
 	/**
@@ -69,12 +95,9 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @return array
 	 */
 	public function beforeFind(Model $Model, $query) {
-		$field = $this->settings[$Model->alias]['field'];
-
 		if (isset($query['conditions']) && is_array($query['conditions'])) {
 			$query['conditions'] = $this->encodeBitmaskConditions($Model, $query['conditions']);
 		}
-
 		return $query;
 	}
 
@@ -85,17 +108,17 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @return array
 	 */
 	public function afterFind(Model $Model, $results, $primary = false) {
-		$field = $this->settings[$Model->alias]['field'];
-		if (!($mappedField = $this->settings[$Model->alias]['mappedField'])) {
-			$mappedField = $field;
-		}
-
-		foreach ($results as $key => $result) {
-			if (isset($result[$Model->alias][$field])) {
-				$results[$key][$Model->alias][$mappedField] = $this->decodeBitmask($Model, $result[$Model->alias][$field]);
+		foreach ($this->settings[$Model->alias] as $fieldConfig) {
+			$field = $fieldConfig['field'];
+			if (!($mappedField = $fieldConfig['mappedField'])) {
+				$mappedField = $field;
+			}
+			foreach ($results as $key => $result) {
+				if (isset($result[$Model->alias][$field])) {
+					$results[$key][$Model->alias][$mappedField] = $this->decodeBitmask($Model, $result[$Model->alias][$field], $field);
+				}
 			}
 		}
-
 		return $results;
 	}
 
@@ -105,10 +128,11 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @return bool Success
 	 */
 	public function beforeValidate(Model $Model, $options = []) {
-		if ($this->settings[$Model->alias]['before'] !== 'validate') {
-			return true;
+		foreach ($this->settings[$Model->alias] as $fieldConfig) {
+			if ($fieldConfig['before'] === 'validate') {
+				$this->encodeBitmaskData($Model);
+			}
 		}
-		$this->encodeBitmaskData($Model);
 		return true;
 	}
 
@@ -118,22 +142,24 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @return bool Success
 	 */
 	public function beforeSave(Model $Model, $options = []) {
-		if ($this->settings[$Model->alias]['before'] !== 'save') {
-			return true;
+		foreach ($this->settings[$Model->alias] as $fieldConfig) {
+			if ($fieldConfig['before'] === 'save') {
+				$this->encodeBitmaskData($Model);
+			}
 		}
-		$this->encodeBitmaskData($Model);
 		return true;
 	}
 
 	/**
 	 * @param Model $Model
 	 * @param int $value Bitmask.
+	 * @param string $fieldName field name.
 	 * @return array Bitmask array (from DB to APP).
 	 */
-	public function decodeBitmask(Model $Model, $value) {
+	public function decodeBitmask(Model $Model, $value, $fieldName) {
 		$res = [];
 		$value = (int)$value;
-		foreach ($this->settings[$Model->alias]['bits'] as $key => $val) {
+		foreach ($this->settings[$Model->alias][$fieldName]['bits'] as $key => $val) {
 			$val = (($value & $key) !== 0) ? true : false;
 			if ($val) {
 				$res[] = $key;
@@ -168,29 +194,30 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @return array Conditions.
 	 */
 	public function encodeBitmaskConditions(Model $Model, $conditions) {
-		$field = $this->settings[$Model->alias]['field'];
-		if (!($mappedField = $this->settings[$Model->alias]['mappedField'])) {
-			$mappedField = $field;
-		}
-
-		foreach ($conditions as $key => $val) {
-			if ($key === $mappedField) {
-				$conditions[$field] = $this->encodeBitmask($Model, $val);
-				if ($field !== $mappedField) {
-					unset($conditions[$mappedField]);
-				}
-				continue;
-			} elseif ($key === $Model->alias . '.' . $mappedField) {
-				$conditions[$Model->alias . '.' . $field] = $this->encodeBitmask($Model, $val);
-				if ($field !== $mappedField) {
-					unset($conditions[$Model->alias . '.' . $mappedField]);
-				}
-				continue;
+		foreach ($this->settings[$Model->alias] as $fieldConfig) {
+			$field = $fieldConfig['field'];
+			if (!($mappedField = $fieldConfig['mappedField'])) {
+				$mappedField = $field;
 			}
-			if (!is_array($val)) {
-				continue;
+			foreach ($conditions as $key => $val) {
+				if ($key === $mappedField) {
+					$conditions[$field] = $this->encodeBitmask($Model, $val);
+					if ($field !== $mappedField) {
+						unset($conditions[$mappedField]);
+					}
+					continue;
+				} elseif ($key === $Model->alias . '.' . $mappedField) {
+					$conditions[$Model->alias . '.' . $field] = $this->encodeBitmask($Model, $val);
+					if ($field !== $mappedField) {
+						unset($conditions[$Model->alias . '.' . $mappedField]);
+					}
+					continue;
+				}
+				if (!is_array($val)) {
+					continue;
+				}
+				$conditions[$key] = $this->encodeBitmaskConditions($Model, $val);
 			}
-			$conditions[$key] = $this->encodeBitmaskConditions($Model, $val);
 		}
 		return $conditions;
 	}
@@ -200,80 +227,82 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @return void
 	 */
 	public function encodeBitmaskData(Model $Model) {
-		$field = $this->settings[$Model->alias]['field'];
-		if (!($mappedField = $this->settings[$Model->alias]['mappedField'])) {
-			$mappedField = $field;
-		}
-		$default = null;
-		$schema = $Model->schema($field);
-		if ($schema && isset($schema['default'])) {
-			$default = $schema['default'];
-		}
-		if ($this->settings[$Model->alias]['defaultValue'] !== null) {
-			$default = $this->settings[$Model->alias]['defaultValue'];
-		}
-
-		if (isset($Model->data[$Model->alias][$mappedField])) {
-			$Model->data[$Model->alias][$field] = $this->encodeBitmask($Model, $Model->data[$Model->alias][$mappedField], $default);
-		}
-		if ($field !== $mappedField) {
-			unset($Model->data[$Model->alias][$mappedField]);
+		foreach ($this->settings[$Model->alias] as $fieldConfig) {
+			$field = $fieldConfig['field'];
+			if (!($mappedField = $fieldConfig['mappedField'])) {
+				$mappedField = $field;
+			}
+			$default = null;
+			$schema = $Model->schema($field);
+			if ($schema && isset($schema['default'])) {
+				$default = $schema['default'];
+			}
+			if ($fieldConfig['defaultValue'] !== null) {
+				$default = $fieldConfig['defaultValue'];
+			}
+			if (isset($Model->data[$Model->alias][$mappedField])) {
+				$Model->data[$Model->alias][$field] = $this->encodeBitmask($Model, $Model->data[$Model->alias][$mappedField], $default);
+			}
+			if ($field !== $mappedField) {
+				unset($Model->data[$Model->alias][$mappedField]);
+			}
 		}
 	}
 
 	/**
 	 * @param Model $Model
 	 * @param mixed $bits (int, array)
+	 * @param string $fieldName field name.
 	 * @return array SQL snippet.
 	 */
-	public function isBit(Model $Model, $bits) {
+	public function isBit(Model $Model, $bits, $fieldName) {
 		$bits = (array)$bits;
 		$bitmask = $this->encodeBitmask($Model, $bits);
-
-		$field = $this->settings[$Model->alias]['field'];
-		return [$Model->alias . '.' . $field => $bitmask];
+		return array($Model->alias . '.' . $fieldName => $bitmask);
 	}
 
 	/**
 	 * @param Model $Model
 	 * @param mixed $bits (int, array)
+	 * @param string $fieldName field name.
 	 * @return array SQL snippet.
 	 */
-	public function isNotBit(Model $Model, $bits) {
-		return ['NOT' => $this->isBit($Model, $bits)];
+	public function isNotBit(Model $Model, $bits, $fieldName) {
+		return ['NOT' => $this->isBit($Model, $bits, $fieldName)];
 	}
 
 	/**
 	 * @param Model $Model
 	 * @param mixed $bits (int, array)
+	 * @param string $fieldName field name.
 	 * @return array SQL snippet.
 	 */
-	public function containsBit(Model $Model, $bits) {
-		return $this->_containsBit($Model, $bits);
+	public function containsBit(Model $Model, $bits, $fieldName) {
+		return $this->_containsBit($Model, $bits, $fieldName);
 	}
 
 	/**
 	 * @param Model $Model
 	 * @param mixed $bits (int, array)
+	 * @param string $fieldName field name.
 	 * @return array SQL snippet.
 	 */
-	public function containsNotBit(Model $Model, $bits) {
-		return $this->_containsBit($Model, $bits, false);
+	public function containsNotBit(Model $Model, $bits, $fieldName) {
+		return $this->_containsBit($Model, $bits, $fieldName, false);
 	}
 
 	/**
 	 * @param Model $Model
 	 * @param mixed $bits (int, array)
+	 * @param string $fieldName field name.
 	 * @param bool $contain
 	 * @return array SQL snippet.
 	 */
-	protected function _containsBit(Model $Model, $bits, $contain = true) {
+	protected function _containsBit(Model $Model, $bits, $fieldName, $contain = true) {
 		$bits = (array)$bits;
 		$bitmask = $this->encodeBitmask($Model, $bits);
-
-		$field = $this->settings[$Model->alias]['field'];
 		$contain = $contain ? ' & ? = ?' : ' & ? != ?';
-		return ['(' . $Model->alias . '.' . $field . $contain . ')' => [$bitmask, $bitmask]];
+		return array['(' . $Model->alias . '.' . $fieldName . $contain . ')' => [$bitmask, $bitmask]];
 	}
 
 }
