@@ -163,9 +163,10 @@ class BitmaskedBehavior extends ModelBehavior {
 	/**
 	 * Gets the name of the first field name.
 	 *
+	 * @param Model $Model
 	 * @return string
 	 */
-	protected function _getFieldName() {
+	protected function _getFieldName(Model $Model) {
 		$firstField = reset($this->settings[$Model->alias]);
 		return key($firstField);
 	}
@@ -178,7 +179,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 */
 	public function decodeBitmask(Model $Model, $value, $fieldName = null) {
 		if (empty($fieldName)) {
-			$fieldName = $this->_getFieldName();
+			$fieldName = $this->_getFieldName($Model);
 		}
 		$res = [];
 		$value = (int)$value;
@@ -283,7 +284,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 */
 	public function isBit(Model $Model, $bits, $fieldName = null) {
 		if (empty($fieldName)) {
-			$fieldName = $this->_getFieldName();
+			$fieldName = $this->_getFieldName($Model);
 		}
 		$bits = (array)$bits;
 		$bitmask = $this->encodeBitmask($Model, $bits);
@@ -329,7 +330,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 */
 	protected function _containsBit(Model $Model, $bits, $fieldName = null, $contain = true) {
 		if (empty($fieldName)) {
-			$fieldName = $this->_getFieldName();
+			$fieldName = $this->_getFieldName($Model);
 		}
 		$bits = (array)$bits;
 		$bitmask = $this->encodeBitmask($Model, $bits);
