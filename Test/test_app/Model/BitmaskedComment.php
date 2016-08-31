@@ -12,6 +12,16 @@ class BitmaskedComment extends MyModel {
 		]
 	];
 
+	public static function types($value = null) {
+		$options = [
+			static::TYPE_BUG => 'Bug',
+			static::TYPE_COMPLAINT => 'Complaint',
+			static::TYPE_DISCUSSION => 'Discussion',
+			static::TYPE_RFC => 'Request for change',
+		];
+		return static::enum($value, $options);
+	}
+
 	public static function statuses($value = null) {
 		$options = [
 			static::STATUS_ACTIVE => __d('tools', 'Active'),
@@ -22,6 +32,11 @@ class BitmaskedComment extends MyModel {
 
 		return static::enum($value, $options);
 	}
+
+	const TYPE_BUG = 0;
+	const TYPE_COMPLAINT = 1;
+	const TYPE_DISCUSSION = 2;
+	const TYPE_RFC = 4;
 
 	const STATUS_NONE = 0;
 	const STATUS_ACTIVE = 1;

@@ -110,6 +110,7 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 	 * Assert that you can manually trigger "notEmpty" rule with null instead of 0 for "not null" db fields
 	 */
 	public function testSaveWithDefaultValue() {
+		$this->Comment->Behaviors->unload('Bitmasked');
 		$this->Comment->Behaviors->load('Tools.Bitmasked', ['mappedField' => 'statuses', 'defaultValue' => '']);
 		$data = [
 			'comment' => 'test save',
@@ -177,4 +178,28 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 		$this->assertTrue(!empty($res) && count($res) === 5);
 	}
 
+	public function testSaveMultiFields() {
+		$this->Comment->Behaviors->unload('Bitmasked');
+		$this->Comment->Behaviors->load('Tools.Bitmasked', [
+			['mappedField' => 'types', 'field' => 'type'],
+			['mappedField' => 'statuses', 'field' => 'status'],
+		]);
+		$data = [
+			'comment' => 'test save',
+			'types' => [
+				BitmaskedComment::TYPE_COMPLAINT,
+				BitmaskedComment::TYPE_RFC,
+			],
+			'statuses' => [
+				BitmaskedComment::STATUS_ACTIVE,
+				BitmaskedComment::STATUS_APPROVED,
+			],
+		];
+		$this->Comment->create();
+		$result = $this->Comment->save($data);
+		$expectedStatus = BitmaskedComment::STATUS_ACTIVE | BitmaskedComment::STATUS_APPROVED;
+		$this->assertEquals($expectedStatus, $result['BitmaskedComment']['status']);
+		$expectedType = BitmaskedComment::TYPE_COMPLAINT | BitmaskedComment::TYPE_RFC;
+		$this->assertEquals($expectedType, $result['BitmaskedComment']['type']);
+	}
 }
