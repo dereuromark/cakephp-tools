@@ -174,7 +174,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	/**
 	 * @param Model $Model
 	 * @param int $value Bitmask.
-	 * @param string $fieldName field name.
+	 * @param string|null $fieldName field name.
 	 * @return array Bitmask array (from DB to APP).
 	 */
 	public function decodeBitmask(Model $Model, $value, $fieldName = null) {
@@ -195,7 +195,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	/**
 	 * @param Model $Model
 	 * @param array $value Bitmask array.
-	 * @param array $defaultValue Default bitmask array.
+	 * @param array|null $defaultValue Default bitmask array.
 	 * @return int Bitmask (from APP to DB).
 	 */
 	public function encodeBitmask(Model $Model, $value, $defaultValue = null) {
@@ -279,7 +279,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	/**
 	 * @param Model $Model
 	 * @param mixed $bits (int, array)
-	 * @param string $fieldName field name.
+	 * @param string|null $fieldName field name.
 	 * @return array SQL snippet.
 	 */
 	public function isBit(Model $Model, $bits, $fieldName = null) {
@@ -288,13 +288,13 @@ class BitmaskedBehavior extends ModelBehavior {
 		}
 		$bits = (array)$bits;
 		$bitmask = $this->encodeBitmask($Model, $bits);
-		return array($Model->alias . '.' . $fieldName => $bitmask);
+		return [$Model->alias . '.' . $fieldName => $bitmask];
 	}
 
 	/**
 	 * @param Model $Model
 	 * @param mixed $bits (int, array)
-	 * @param string $fieldName field name.
+	 * @param string|null $fieldName field name.
 	 * @return array SQL snippet.
 	 */
 	public function isNotBit(Model $Model, $bits, $fieldName = null) {
@@ -304,7 +304,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	/**
 	 * @param Model $Model
 	 * @param mixed $bits (int, array)
-	 * @param string $fieldName field name.
+	 * @param string|null $fieldName field name.
 	 * @return array SQL snippet.
 	 */
 	public function containsBit(Model $Model, $bits, $fieldName = null) {
@@ -314,7 +314,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	/**
 	 * @param Model $Model
 	 * @param mixed $bits (int, array)
-	 * @param string $fieldName field name.
+	 * @param string|null $fieldName field name.
 	 * @return array SQL snippet.
 	 */
 	public function containsNotBit(Model $Model, $bits, $fieldName = null) {
@@ -328,7 +328,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @param bool $contain
 	 * @return array SQL snippet.
 	 */
-	protected function _containsBit(Model $Model, $bits, $fieldName = null, $contain = true) {
+	protected function _containsBit(Model $Model, $bits, $fieldName, $contain = true) {
 		if (empty($fieldName)) {
 			$fieldName = $this->_getFieldName($Model);
 		}
