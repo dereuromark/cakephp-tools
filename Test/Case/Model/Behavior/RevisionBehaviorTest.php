@@ -27,6 +27,9 @@ class RevisionBehaviorTest extends CakeTestCase {
 
 	public function setUp() {
 		parent::setUp();
+
+		$this->skipIf(true, 'Deprecated');
+
 		$this->RevisionBehavior = new RevisionBehavior();
 	}
 
@@ -878,7 +881,7 @@ class RevisionBehaviorTest extends CakeTestCase {
 		$Article->initializeRevisions();
 
 		$Article->create([
-			'title' => 'første barn',
+			'title' => 'fï¿½rste barn',
 			'content' => 'stuff',
 			'parent_id' => 3,
 			'user_id' => 1]);
