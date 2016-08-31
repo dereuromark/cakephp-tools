@@ -168,7 +168,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 */
 	protected function _getFieldName(Model $Model) {
 		$firstField = reset($this->settings[$Model->alias]);
-		return key($firstField);
+		return $firstField['field'];
 	}
 
 	/**
