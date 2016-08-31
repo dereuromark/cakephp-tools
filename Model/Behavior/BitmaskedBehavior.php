@@ -60,7 +60,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	public function setup(Model $Model, $config = []) {
 		if (is_array(reset($config))) {
 			foreach ($config as $fieldConfig) {
-				$config += $this->_defaultConfig;
+				$fieldConfig += $this->_defaultConfig;
 				$fieldName = $fieldConfig['field'];
 				$this->settings[$Model->alias][$fieldName] = $this->_getFieldConfig($Model, $fieldConfig);
 			}
@@ -161,12 +161,25 @@ class BitmaskedBehavior extends ModelBehavior {
 	}
 
 	/**
+	 * Gets the name of the first field name.
+	 *
+	 * @return string
+	 */
+	protected function _getFieldName() {
+		$firstField = reset($this->settings[$Model->alias]);
+		return key($firstField);
+	}
+
+	/**
 	 * @param Model $Model
 	 * @param int $value Bitmask.
 	 * @param string $fieldName field name.
 	 * @return array Bitmask array (from DB to APP).
 	 */
-	public function decodeBitmask(Model $Model, $value, $fieldName) {
+	public function decodeBitmask(Model $Model, $value, $fieldName = null) {
+		if (empty($fieldName)) {
+			$fieldName = $this->_getFieldName();
+		}
 		$res = [];
 		$value = (int)$value;
 		foreach ($this->settings[$Model->alias][$fieldName]['bits'] as $key => $val) {
@@ -268,7 +281,10 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @param string $fieldName field name.
 	 * @return array SQL snippet.
 	 */
-	public function isBit(Model $Model, $bits, $fieldName) {
+	public function isBit(Model $Model, $bits, $fieldName = null) {
+		if (empty($fieldName)) {
+			$fieldName = $this->_getFieldName();
+		}
 		$bits = (array)$bits;
 		$bitmask = $this->encodeBitmask($Model, $bits);
 		return array($Model->alias . '.' . $fieldName => $bitmask);
@@ -280,7 +296,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @param string $fieldName field name.
 	 * @return array SQL snippet.
 	 */
-	public function isNotBit(Model $Model, $bits, $fieldName) {
+	public function isNotBit(Model $Model, $bits, $fieldName = null) {
 		return ['NOT' => $this->isBit($Model, $bits, $fieldName)];
 	}
 
@@ -290,7 +306,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @param string $fieldName field name.
 	 * @return array SQL snippet.
 	 */
-	public function containsBit(Model $Model, $bits, $fieldName) {
+	public function containsBit(Model $Model, $bits, $fieldName = null) {
 		return $this->_containsBit($Model, $bits, $fieldName);
 	}
 
@@ -300,7 +316,7 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @param string $fieldName field name.
 	 * @return array SQL snippet.
 	 */
-	public function containsNotBit(Model $Model, $bits, $fieldName) {
+	public function containsNotBit(Model $Model, $bits, $fieldName = null) {
 		return $this->_containsBit($Model, $bits, $fieldName, false);
 	}
 
@@ -311,7 +327,10 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @param bool $contain
 	 * @return array SQL snippet.
 	 */
-	protected function _containsBit(Model $Model, $bits, $fieldName, $contain = true) {
+	protected function _containsBit(Model $Model, $bits, $fieldName = null, $contain = true) {
+		if (empty($fieldName)) {
+			$fieldName = $this->_getFieldName();
+		}
 		$bits = (array)$bits;
 		$bitmask = $this->encodeBitmask($Model, $bits);
 		$contain = $contain ? ' & ? = ?' : ' & ? != ?';
