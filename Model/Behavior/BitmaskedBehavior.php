@@ -59,7 +59,6 @@ class BitmaskedBehavior extends ModelBehavior {
 	 */
 	public function setup(Model $Model, $config = []) {
 		if (is_array(reset($config))) {
-			// Setup example:
 			foreach ($config as $fieldConfig) {
 				$fieldName = $fieldConfig['field'];
 				$this->settings[$Model->alias][$fieldName] = $this->_getFieldConfig($Model, $fieldConfig);
@@ -70,7 +69,15 @@ class BitmaskedBehavior extends ModelBehavior {
 		}
 	}
 
-	private function _getFieldConfig(Model $Model, $config) {
+	/**
+	 * Generates settings array for a single bitmasked field.
+	 *
+	 * @param Model $Model
+	 * @param array $config configuration of a single bitmasked field.
+	 * @throws InternalErrorException
+	 * @return array
+	 */
+	protected function _getFieldConfig(Model $Model, $config) {
 		$config += $this->_defaultConfig;
 		if (empty($config['bits'])) {
 			$config['bits'] = Inflector::pluralize($config['field']);
@@ -110,8 +117,10 @@ class BitmaskedBehavior extends ModelBehavior {
 	public function afterFind(Model $Model, $results, $primary = false) {
 		foreach ($this->settings[$Model->alias] as $fieldConfig) {
 			$field = $fieldConfig['field'];
-			if (!($mappedField = $fieldConfig['mappedField'])) {
+			if (empty($fieldConfig['mappedField'])) {
 				$mappedField = $field;
+			} else {
+				$mappedField = $fieldConfig['mappedField'];
 			}
 			foreach ($results as $key => $result) {
 				if (isset($result[$Model->alias][$field])) {
@@ -196,8 +205,10 @@ class BitmaskedBehavior extends ModelBehavior {
 	public function encodeBitmaskConditions(Model $Model, $conditions) {
 		foreach ($this->settings[$Model->alias] as $fieldConfig) {
 			$field = $fieldConfig['field'];
-			if (!($mappedField = $fieldConfig['mappedField'])) {
+			if (empty($fieldConfig['mappedField'])) {
 				$mappedField = $field;
+			} else {
+				$mappedField = $fieldConfig['mappedField'];
 			}
 			foreach ($conditions as $key => $val) {
 				if ($key === $mappedField) {
@@ -302,7 +313,7 @@ class BitmaskedBehavior extends ModelBehavior {
 		$bits = (array)$bits;
 		$bitmask = $this->encodeBitmask($Model, $bits);
 		$contain = $contain ? ' & ? = ?' : ' & ? != ?';
-		return array['(' . $Model->alias . '.' . $fieldName . $contain . ')' => [$bitmask, $bitmask]];
+		return ['(' . $Model->alias . '.' . $fieldName . $contain . ')' => [$bitmask, $bitmask]];
 	}
 
 }
