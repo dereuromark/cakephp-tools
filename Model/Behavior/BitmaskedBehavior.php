@@ -60,10 +60,12 @@ class BitmaskedBehavior extends ModelBehavior {
 	public function setup(Model $Model, $config = []) {
 		if (is_array(reset($config))) {
 			foreach ($config as $fieldConfig) {
+				$config += $this->_defaultConfig;
 				$fieldName = $fieldConfig['field'];
 				$this->settings[$Model->alias][$fieldName] = $this->_getFieldConfig($Model, $fieldConfig);
 			}
 		} else {
+			$config += $this->_defaultConfig;
 			$fieldName = $config['field'];
 			$this->settings[$Model->alias][$fieldName] = $this->_getFieldConfig($Model, $config);
 		}
@@ -78,7 +80,6 @@ class BitmaskedBehavior extends ModelBehavior {
 	 * @return array
 	 */
 	protected function _getFieldConfig(Model $Model, $config) {
-		$config += $this->_defaultConfig;
 		if (empty($config['bits'])) {
 			$config['bits'] = Inflector::pluralize($config['field']);
 		}
