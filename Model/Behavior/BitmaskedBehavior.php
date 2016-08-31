@@ -217,7 +217,8 @@ class BitmaskedBehavior extends ModelBehavior {
 						unset($conditions[$mappedField]);
 					}
 					continue;
-				} elseif ($key === $Model->alias . '.' . $mappedField) {
+				}
+				if ($key === $Model->alias . '.' . $mappedField) {
 					$conditions[$Model->alias . '.' . $field] = $this->encodeBitmask($Model, $val);
 					if ($field !== $mappedField) {
 						unset($conditions[$Model->alias . '.' . $mappedField]);
