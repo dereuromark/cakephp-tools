@@ -195,8 +195,8 @@ class BitmaskedBehavior extends ModelBehavior {
 	/**
 	 * @param Model $Model
 	 * @param array $value Bitmask array.
-	 * @param array|null $defaultValue Default bitmask array.
-	 * @return int Bitmask (from APP to DB).
+	 * @param int|null $defaultValue Default bitmask value.
+	 * @return int|null Bitmask (from APP to DB).
 	 */
 	public function encodeBitmask(Model $Model, $value, $defaultValue = null) {
 		$res = 0;
@@ -256,7 +256,8 @@ class BitmaskedBehavior extends ModelBehavior {
 	public function encodeBitmaskData(Model $Model) {
 		foreach ($this->settings[$Model->alias] as $fieldConfig) {
 			$field = $fieldConfig['field'];
-			if (!($mappedField = $fieldConfig['mappedField'])) {
+			$mappedField = $fieldConfig['mappedField'];
+			if (!$mappedField) {
 				$mappedField = $field;
 			}
 			$default = null;
