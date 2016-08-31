@@ -110,6 +110,7 @@ class BitmaskedBehaviorTest extends MyCakeTestCase {
 	 * Assert that you can manually trigger "notEmpty" rule with null instead of 0 for "not null" db fields
 	 */
 	public function testSaveWithDefaultValue() {
+		$this->Comment->Behaviors->unload('Tools.Bitmasked');
 		$this->Comment->Behaviors->load('Tools.Bitmasked', ['mappedField' => 'statuses', 'defaultValue' => '']);
 		$data = [
 			'comment' => 'test save',
