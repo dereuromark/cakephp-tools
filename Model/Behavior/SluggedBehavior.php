@@ -212,7 +212,8 @@ class SluggedBehavior extends ModelBehavior {
 					}
 					if (isset($Model->data[$alias][$field])) {
 						if (is_array($Model->data[$alias][$field])) {
-							return $this->_multiSlug($Model);
+							$this->_multiSlug($Model);
+							return;
 						}
 						$slug[] = $Model->data[$alias][$field];
 					} elseif ($Model->id) {
@@ -306,7 +307,7 @@ class SluggedBehavior extends ModelBehavior {
 			$i = 0;
 			$suffix = '';
 
-			while ($Model->hasAny($conditions)) {
+			while ((bool)$Model->find('count', ['conditions' => $conditions, 'recursive' => -1])) {
 				$i++;
 				$suffix	= $separator . $i;
 				if ($length && strlen($slug . $suffix) > $length) {
@@ -381,8 +382,7 @@ class SluggedBehavior extends ModelBehavior {
 	 * limit is set to allow a minimum 100 updates per second as a preventative measure.
 	 *
 	 * @param AppModel $Model
-	 * @param array $conditions
-	 * @param int $recursive
+	 * @param array $params
 	 * @return bool Success
 	 */
 	public function resetSlugs(Model $Model, $params = []) {
@@ -458,7 +458,7 @@ class SluggedBehavior extends ModelBehavior {
 	 * @param mixed $replace
 	 * @param mixed $string
 	 * @param string $encoding
-	 * @return void
+	 * @return string
 	 */
 	protected function _pregReplace($pattern, $replace, $string, $encoding = 'UTF-8') {
 		if ($encoding && $encoding !== 'UTF-8') {
