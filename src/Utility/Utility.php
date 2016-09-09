@@ -394,7 +394,7 @@ class Utility {
 		$ret = true;
 		foreach ($array as $key => $val) {
 			if (is_array($val)) {
-				$ret = $ret & self::logicalAnd($val);
+				$ret = $ret & static::logicalAnd($val);
 			} else {
 				$ret = $ret & $val;
 			}
