@@ -1,7 +1,5 @@
 <?php
 
-use Cake\Core\Configure;
-
 define('FORMAT_DB_DATETIME', 'Y-m-d H:i:s');
 define('FORMAT_DB_DATE', 'Y-m-d');
 define('FORMAT_DB_TIME', 'H:i:s');
@@ -56,57 +54,6 @@ if (!defined('WINDOWS')) {
 		define('WINDOWS', true);
 	} else {
 		define('WINDOWS', false);
-	}
-}
-
-if (!function_exists('dd')) {
-	function dd($data, $showHtml = null)
-	{
-		if (Configure::read('debug')) {
-			debug($data, $showHtml, false);
-			$backtrace = debug_backtrace(false, 1);
-			pr('dd-location: ' . $backtrace[0]['file'] . ':' . $backtrace[0]['line']);
-			die();
-		}
-	}
-}
-
-if (!function_exists('prd')) {
-	function prd($data)
-	{
-		if (Configure::read('debug')) {
-			pr($data);
-			$backtrace = debug_backtrace(false, 1);
-			pr('prd-location: ' . $backtrace[0]['file'] . ':' . $backtrace[0]['line']);
-			die();
-		}
-	}
-}
-
-if (!function_exists('vd')) {
-	function vd($var)
-	{
-		if (Configure::read('debug')) {
-			echo '<pre>';
-			var_dump($var);
-			echo '</pre>';
-			$backtrace = debug_backtrace(false, 1);
-			pr('vd-location: ' . $backtrace[0]['file'] . ':' . $backtrace[0]['line']);
-		}
-	}
-}
-
-if (!function_exists('vdd')) {
-	function vdd($var)
-	{
-		if (Configure::read('debug')) {
-			echo '<pre>';
-			var_dump($var);
-			echo '</pre>';
-			$backtrace = debug_backtrace(false, 1);
-			pr('vdd-location: ' . $backtrace[0]['file'] . ':' . $backtrace[0]['line']);
-			die();
-		}
 	}
 }
 
