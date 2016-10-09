@@ -99,7 +99,7 @@ class Table extends ShimTable {
 	 * @param string|null $groupField Field to group by
 	 * @param string $type Find type
 	 * @param array $options
-	 * @return array
+	 * @return \Cake\ORM\Query
 	 */
 	public function getRelatedInUse($tableName, $groupField = null, $type = 'all', $options = []) {
 		if ($groupField === null) {
@@ -123,7 +123,7 @@ class Table extends ShimTable {
 	 * @param string $groupField Field to group by
 	 * @param string $type Find type
 	 * @param array $options
-	 * @return array
+	 * @return \Cake\ORM\Query
 	 */
 	public function getFieldInUse($groupField, $type = 'all', array $options = []) {
 		$defaults = [
@@ -146,7 +146,7 @@ class Table extends ShimTable {
 	 * - cast: if casting should be applied to both values
 	 *
 	 * @param mixed $value
-	 * @param array $options
+	 * @param array|string $options
 	 * @param array $context
 	 * @return bool Success
 	 */
@@ -183,7 +183,7 @@ class Table extends ShimTable {
 	 * @return bool Success
 	 */
 	public function validateUrl($url, array $options = [], array $context = []) {
-		if (empty($url)) {
+		if (!$url) {
 			if (!empty($options['allowEmpty']) && empty($options['required'])) {
 				return true;
 			}
@@ -220,7 +220,7 @@ class Table extends ShimTable {
 	 * Prepend protocol if missing
 	 *
 	 * @param string $url
-	 * @return string Url
+	 * @return string URL
 	 */
 	protected function _autoCompleteUrl($url) {
 		if (mb_strpos($url, '/') === 0) {
@@ -375,13 +375,17 @@ class Table extends ShimTable {
 			$days = !empty($options['min']) ? $options['min'] : 0;
 			if (!empty($options['after']) && isset($context['data'][$options['after']])) {
 				$compare = $value->subDays($days);
-				if ($context['data'][$options['after']]->gt($compare)) {
+				/** @var \Cake\I18n\Time $after */
+				$after = $context['data'][$options['after']];
+				if ($after->gt($compare)) {
 					return false;
 				}
 			}
 			if (!empty($options['before']) && isset($context['data'][$options['before']])) {
 				$compare = $value->addDays($days);
-				if ($context['data'][$options['before']]->lt($compare)) {
+				/** @var \Cake\I18n\Time $before */
+				$before = $context['data'][$options['before']];
+				if ($before->lt($compare)) {
 					return false;
 				}
 			}

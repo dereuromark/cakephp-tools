@@ -158,7 +158,7 @@ class Email extends CakeEmail {
 	 * Overwrite to allow mimetype detection
 	 *
 	 * @param mixed|null $attachments
-	 * @return $this
+	 * @return array|$this
 	 */
 	public function attachments($attachments = null) {
 		if ($attachments === null) {
@@ -246,7 +246,7 @@ class Email extends CakeEmail {
 	 * @param string|null $name (optional)
 	 * @param string|null $contentId (optional)
 	 * @param array $options Options
-	 * @return string|$this $contentId or $this
+	 * @return string|$this CID or $this
 	 */
 	public function addEmbeddedAttachment($file, $name = null, $contentId = null, array $options = []) {
 		if (empty($name)) {

@@ -76,11 +76,11 @@ class TokensTable extends Table {
 	 * @return string key on SUCCESS, boolean false otherwise
 	 */
 	public function newKey($type, $key = null, $uid = null, $content = null) {
-		if (empty($type)) {
+		if (!$type) {
 			return false;
 		}
 
-		if (empty($key)) {
+		if (!$key) {
 			$key = $this->generateKey($this->defaultLength);
 			$keyLength = $this->defaultLength;
 		} else {
@@ -118,21 +118,21 @@ class TokensTable extends Table {
 	 * @param string $key : necessary
 	 * @param mixed|null $uid : needs to be provided if this key has a user_id stored
 	 * @param bool $treatUsedAsInvalid
-	 * @return array Content - if successfully used or if already used (used=1), FALSE else
+	 * @return array|false Content - if successfully used or if already used (used=1), FALSE else
 	 */
 	public function useKey($type, $key, $uid = null, $treatUsedAsInvalid = false) {
-		if (empty($type) || empty($key)) {
+		if (!$type || !$key) {
 			return false;
 		}
 		$options = ['conditions' => [$this->alias() . '.key' => $key, $this->alias() . '.type' => $type]];
-		if (!empty($uid)) {
+		if ($uid) {
 			$options['conditions'][$this->alias() . '.user_id'] = $uid;
 		}
 		$res = $this->find('first', $options);
-		if (empty($res)) {
+		if (!$res) {
 			return false;
 		}
-		if (!empty($uid) && !empty($res['user_id']) && $res['user_id'] != $uid) {
+		if ($uid && !empty($res['user_id']) && $res['user_id'] != $uid) {
 			// return $res; # more secure to fail here if user_id is not provided, but was submitted prev.
 			return false;
 		}
@@ -152,7 +152,6 @@ class TokensTable extends Table {
 		if (!empty($res['unlimited'])) {
 			return $res;
 		}
-		//$this->log('VIOLATION in ' . $this->alias() . ' Model (method useKey)');
 		return false;
 	}
 
@@ -163,7 +162,7 @@ class TokensTable extends Table {
 	 * @return bool Success
 	 */
 	public function spendKey($id) {
-		if (empty($id)) {
+		if (!$id) {
 			return false;
 		}
 
@@ -218,7 +217,7 @@ class TokensTable extends Table {
 	 * @return string Key
 	 */
 	public function generateKey($length = null) {
-		if (empty($length)) {
+		if (!$length) {
 			$length = $this->defaultLength;
 		}
 
