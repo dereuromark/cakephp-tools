@@ -7,7 +7,9 @@
  *
  * @author Cameron Brooks
  * @author Jaime Prado
- * @author Roman Ožana <ozana@omdesign.cz>
+ * @author Roman OÅ¾ana <ozana@omdesign.cz>
+ *
+ * @deprecated Use composer to include Emogrifier instead.
  */
 class Emogrifier {
 
