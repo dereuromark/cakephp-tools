@@ -8,6 +8,8 @@
  * @version		1.2.1
  * @copyright	Copyright (c), Tijs Verkoyen. All rights reserved.
  * @license		BSD License
+ *
+ * @deprecated Use composer and Emogrifier instead.
  */
 class CssToInlineStyles
 {
