@@ -2,6 +2,7 @@
 
 namespace Tools\Test\TestCase\View\Helper;
 
+use Cake\Network\Request;
 use Cake\View\View;
 use Tools\TestSuite\TestCase;
 use Tools\View\Helper\AuthUserHelper;
@@ -31,7 +32,7 @@ class AuthUserHelperTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->request = $this->getMock('Cake\Network\Request', ['cookie']);
+		$this->request = $this->getMockBuilder(Request::class)->setMethods(['cookie'])->getMock();
 		$this->view = new View($this->request);
 		$this->AuthUser = new AuthUserHelper($this->view);
 	}
@@ -49,7 +50,7 @@ class AuthUserHelperTest extends TestCase {
 	 * testSessionReadWrite method
 	 *
 	 * @return void
-	 * @expectedException RuntimeException
+	 * @expectedException \RuntimeException
 	 */
 	public function testEmptyAuthSessionDueToMissing() {
 		$this->AuthUser->id();

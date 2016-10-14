@@ -6,11 +6,17 @@ use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Network\Request;
 use Cake\Network\Session;
+use TestApp\Controller\CommonComponentTestController;
 use Tools\TestSuite\TestCase;
 
 /**
  */
 class CommonComponentTest extends TestCase {
+
+	/**
+	 * @var \TestApp\Controller\CommonComponentTestController
+	 */
+	public $Controller;
 
 	/**
 	 * @return void
@@ -189,27 +195,5 @@ class CommonComponentTest extends TestCase {
 		$this->assertSame('http://localhost/my_controller/foo', $is['Location']);
 		$this->assertSame(302, $this->Controller->response->statusCode());
 	}
-
-}
-
-/**
- * Use Controller instead of AppController to avoid conflicts
- */
-class CommonComponentTestController extends Controller {
-
-	/**
-	 * @var string
-	 */
-	public $name = 'MyController';
-
-	/**
-	 * @var array
-	 */
-	public $components = ['Tools.Common'];
-
-	/**
-	 * @var array
-	 */
-	public $autoRedirectActions = ['allowed'];
 
 }

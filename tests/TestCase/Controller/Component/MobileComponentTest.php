@@ -6,7 +6,7 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Network\Request;
 use Detection\MobileDetect;
-use Tools\Controller\Controller;
+use TestApp\Controller\MobileComponentTestController;
 use Tools\TestSuite\TestCase;
 
 /**
@@ -18,6 +18,16 @@ class MobileComponentTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = ['core.sessions'];
+
+	/**
+	 * @var \Cake\Event\Event
+	 */
+	public $event;
+
+	/**
+	 * @var \TestApp\Controller\MobileComponentTestController
+	 */
+	public $Controller;
 
 	/**
 	 * SetUp method
@@ -179,16 +189,5 @@ class MobileComponentTest extends TestCase {
 		$this->Controller->Mobile->beforeFilter($this->event);
 		$this->assertTrue($this->Controller->Mobile->isMobile);
 	}
-
-}
-
-class MobileComponentTestController extends Controller {
-
-	/**
-	 * Components property
-	 *
-	 * @var array
-	 */
-	public $components = ['RequestHandler', 'Tools.Mobile'];
 
 }

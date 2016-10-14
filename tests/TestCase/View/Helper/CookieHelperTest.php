@@ -2,6 +2,7 @@
 
 namespace Tools\Test\TestCase\View\Helper;
 
+use Cake\Network\Request;
 use Cake\ORM\Table;
 use Cake\View\View;
 use Tools\TestSuite\TestCase;
@@ -21,7 +22,7 @@ class CookieHelperTest extends TestCase {
 		parent::setUp();
 
 		$this->Cookie = new CookieHelper(new View(null));
-		$this->Cookie->request = $this->getMock('Cake\Network\Request', ['cookie']);
+		$this->Cookie->request = $this->getMockBuilder(Request::class)->setMethods(['cookie'])->getMock();
 	}
 
 	/**

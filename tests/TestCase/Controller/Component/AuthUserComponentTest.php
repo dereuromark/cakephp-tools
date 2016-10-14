@@ -2,6 +2,7 @@
 
 namespace Tools\Test\TestCase\Controller\Component;
 
+use Cake\Controller\Component\AuthComponent;
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
 use Cake\Network\Request;
@@ -14,8 +15,6 @@ use Tools\TestSuite\TestCase;
 class AuthUserComponentTest extends TestCase {
 
 	/**
-	 * fixtures
-	 *
 	 * @var array
 	 */
 	public $fixtures = ['core.sessions'];
@@ -26,8 +25,11 @@ class AuthUserComponentTest extends TestCase {
 	public $AuthUser;
 
 	/**
-	 * setUp method
-	 *
+	 * @var \Cake\Controller\ComponentRegistry
+	 */
+	public $ComponentRegistry;
+
+	/**
 	 * @return void
 	 */
 	public function setUp() {
@@ -36,12 +38,13 @@ class AuthUserComponentTest extends TestCase {
 		$controller = new Controller(new Request());
 		$this->ComponentRegistry = new ComponentRegistry($controller);
 		$this->AuthUser = new AuthUserComponent($this->ComponentRegistry);
-		$this->AuthUser->Auth = $this->getMock('Cake\Controller\Component\AuthComponent', ['user'], [$this->ComponentRegistry]);
+		$this->AuthUser->Auth = $this->getMockBuilder(AuthComponent::class)
+			->setMethods(['user'])
+			->setConstructorArgs([$this->ComponentRegistry])
+			->getMock();
 	}
 
 	/**
-	 * tearDown method
-	 *
 	 * @return void
 	 */
 	public function tearDown() {
@@ -63,8 +66,6 @@ class AuthUserComponentTest extends TestCase {
 	}
 
 	/**
-	 * AuthUserComponentTest::testId()
-	 *
 	 * @return void
 	 */
 	public function testId() {
@@ -77,8 +78,6 @@ class AuthUserComponentTest extends TestCase {
 	}
 
 	/**
-	 * AuthUserComponentTest::testId()
-	 *
 	 * @return void
 	 */
 	public function testIsMe() {
@@ -96,8 +95,6 @@ class AuthUserComponentTest extends TestCase {
 	}
 
 	/**
-	 * AuthUserComponentTest::testUser()
-	 *
 	 * @return void
 	 */
 	public function testUser() {
@@ -112,8 +109,6 @@ class AuthUserComponentTest extends TestCase {
 	}
 
 	/**
-	 * AuthUserComponentTest::testRoles()
-	 *
 	 * @return void
 	 */
 	public function testRoles() {
@@ -126,8 +121,6 @@ class AuthUserComponentTest extends TestCase {
 	}
 
 	/**
-	 * AuthUserComponentTest::testRolesDeep()
-	 *
 	 * @return void
 	 */
 	public function testRolesDeep() {
@@ -140,8 +133,6 @@ class AuthUserComponentTest extends TestCase {
 	}
 
 	/**
-	 * AuthUserComponentTest::testHasRole()
-	 *
 	 * @return void
 	 */
 	public function testHasRole() {
@@ -159,8 +150,6 @@ class AuthUserComponentTest extends TestCase {
 	}
 
 	/**
-	 * AuthUserComponentTest::testHasRoles()
-	 *
 	 * @return void
 	 */
 	public function testHasRoles() {

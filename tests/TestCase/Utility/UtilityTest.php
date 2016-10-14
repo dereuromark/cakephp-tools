@@ -462,7 +462,7 @@ class UtilityTest extends TestCase {
 	/**
 	 * UtilityTest::testExpandListWithKeyLessListInvalid()
 	 *
-	 * @expectedException RuntimeException
+	 * @expectedException \RuntimeException
 	 * @return void
 	 */
 	public function testExpandListWithKeyLessListInvalid() {
