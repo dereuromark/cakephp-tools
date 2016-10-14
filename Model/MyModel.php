@@ -1346,7 +1346,7 @@ class MyModel extends ShimModel {
 	 */
 	public function notBlank($data) {
 		$value = array_shift($data);
-		if ((float)Configure::version() < 2.7) {
+		if (version_compare(Configure::version(), '2.7') < 0) {
 			return Validation::notEmpty($value);
 		}
 		return Validation::notBlank($value);
