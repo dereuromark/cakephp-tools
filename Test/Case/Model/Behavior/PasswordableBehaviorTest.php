@@ -475,7 +475,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 		$options = ['validate' => true, 'fieldList' => ['id', 'name']];
 		$is = $this->User->save(null, $options);
 
-		if ((float)Configure::version() >= 2.5) {
+		if (version_compare(Configure::version(), '2.5') >= 0) {
 			// Validation errors triggered - as expected
 			$this->assertFalse($is);
 			$this->assertSame(['pwd', 'pwd_repeat', 'pwd_current'], array_keys($this->User->validationErrors));
@@ -499,7 +499,7 @@ class PasswordableBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testPasswordHasher() {
-		$this->skipIf((float)Configure::version() < 2.4, 'Needs 2.4 and above');
+		$this->skipIf(version_compare(Configure::version(), '2.4') < 0, 'Needs 2.4 and above');
 
 		$this->User->Behaviors->load('Tools.Passwordable', [
 			'formField' => 'pwd',

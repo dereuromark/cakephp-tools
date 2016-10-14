@@ -259,7 +259,7 @@ class NumberLibTest extends MyCakeTestCase {
 	 * @return void
 	 */
 	public function testCurrencySpacer() {
-		if ((float)Configure::version() < 2.4) {
+		if (version_compare(Configure::version(), '2.4') < 0) {
 			$format = NumberLib::getFormat('GBP');
 			$format['wholeSymbol'] = '£';
 			NumberLib::addFormat('GBP', $format);

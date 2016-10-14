@@ -709,7 +709,7 @@ class SluggedBehaviorTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testCustomChars() {
-		$this->skipIf((float)Configure::version() < 2.5, 'See https://github.com/cakephp/cakephp/pull/3379');
+		$this->skipIf(version_compare(Configure::version(), '2.5') < 0, 'See https://github.com/cakephp/cakephp/pull/3379');
 
 		$this->Model->Behaviors->unload('Slugged');
 		$this->Model->Behaviors->load('Tools.Slugged', ['mode' => 'ascii']);
