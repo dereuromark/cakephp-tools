@@ -8,31 +8,31 @@ use Tools\Controller\Controller;
  */
 class FlashComponentTestController extends Controller {
 
-    /**
-     * @var array
-     */
-    public $components = ['Tools.Flash'];
+	/**
+	 * @var array
+	 */
+	public $components = ['Tools.Flash'];
 
-    /**
-     * @var bool
-     */
-    public $failed = false;
+	/**
+	 * @var bool
+	 */
+	public $failed = false;
 
-    /**
-     * @var array
-     */
-    public $testHeaders = [];
+	/**
+	 * @var array
+	 */
+	public $testHeaders = [];
 
-    public function fail() {
-        $this->failed = true;
-    }
+	public function fail() {
+		$this->failed = true;
+	}
 
-    public function redirect($url, $status = null, $exit = true) {
-        return $status;
-    }
+	public function redirect($url, $status = null, $exit = true) {
+		return $status;
+	}
 
-    public function header($status) {
-        $this->testHeaders[] = $status;
-    }
+	public function header($status) {
+		$this->testHeaders[] = $status;
+	}
 
 }

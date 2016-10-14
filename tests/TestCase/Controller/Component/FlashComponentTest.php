@@ -12,8 +12,6 @@ use Tools\TestSuite\TestCase;
  */
 class FlashComponentTest extends TestCase {
 
-	//public $fixtures = array('core.sessions', 'plugin.tools.tools_users', 'plugin.tools.roles');
-
 	/**
 	 * @var \TestApp\Controller\FlashComponentTestController
 	 */

@@ -8,19 +8,19 @@ use Tools\Controller\Controller;
  */
 class CommonComponentTestController extends Controller {
 
-    /**
-     * @var string
-     */
-    public $name = 'MyController';
+	/**
+	 * @var string
+	 */
+	public $name = 'MyController';
 
-    /**
-     * @var array
-     */
-    public $components = ['Tools.Common'];
+	/**
+	 * @var array
+	 */
+	public $components = ['Tools.Common'];
 
-    /**
-     * @var array
-     */
-    public $autoRedirectActions = ['allowed'];
+	/**
+	 * @var array
+	 */
+	public $autoRedirectActions = ['allowed'];
 
 }

@@ -2,8 +2,8 @@
 
 namespace Tools\Test\TestCase\Controller\Component;
 
-use Cake\Controller\Component\AuthComponent;
 use Cake\Controller\ComponentRegistry;
+use Cake\Controller\Component\AuthComponent;
 use Cake\Controller\Controller;
 use Cake\Network\Request;
 use Tools\Controller\Component\AuthUserComponent;

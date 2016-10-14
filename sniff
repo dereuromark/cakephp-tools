@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Make sure this file is executable
+# chmod +x sniff
+
+if [ `echo "$@" | grep '\-\-fix'` ] || [ `echo "$@" | grep '\-f'` ]; then
+    FIX=1
+else
+    FIX=0
+fi
+
+if [ "$FIX" = 1 ]; then
+	# Sniff and fix
+	vendor/bin/phpcbf --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=vendor/,tmp/,logs/,tests/test_files/ --extensions=php -v -f ./
+else
+	# Sniff only
+	vendor/bin/phpcs --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=vendor/,tmp/,logs/,tests/test_files/ --extensions=php -v ./
+fi
