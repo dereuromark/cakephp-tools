@@ -11,6 +11,8 @@ use Tools\Controller\Component\FlashComponent;
  * Flash helper
  *
  * @author Mark Scherer
+ * @license MIT
+ * @deprecated Use dereuromark/cakephp-flash plugin instead.
  */
 class FlashHelper extends Helper {
 

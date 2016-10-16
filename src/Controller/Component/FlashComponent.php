@@ -15,6 +15,7 @@ use Shim\Controller\Component\Component;
  * @author Mark Scherer
  * @copyright 2014 Mark Scherer
  * @license MIT
+ * @deprecated Use dereuromark/cakephp-flash plugin instead.
  *
  * @method void success(string $message, array $options = []) Set a message using "success" element
  * @method void error(string $message, array $options = []) Set a message using "error" element
