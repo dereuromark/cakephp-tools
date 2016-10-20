@@ -52,8 +52,6 @@ class AuthUserComponentTest extends TestCase {
 	}
 
 	/**
-	 * testSessionReadWrite method
-	 *
 	 * @return void
 	 */
 	public function testEmptyAuthSession() {

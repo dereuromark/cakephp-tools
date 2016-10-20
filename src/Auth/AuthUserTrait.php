@@ -41,6 +41,7 @@ if (!defined('USER_RIGHT_KEY')) {
  *
  * @author Mark Scherer
  * @license MIT
+ * @deprecated Use TinyAuth AuthUser instead.
  */
 trait AuthUserTrait {
 

@@ -9,7 +9,7 @@ use Tools\Auth\AuthUserTrait;
 /**
  * Helper to access auth user data.
  *
- * @author Mark Scherer
+ * @deprecated Use TinyAuth AuthUser instead.
  */
 class AuthUserHelper extends Helper {
 

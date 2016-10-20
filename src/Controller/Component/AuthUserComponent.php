@@ -8,6 +8,8 @@ use Tools\Auth\AuthUserTrait;
 
 /**
  * Authentication User component class
+ *
+ * @deprecated Use TinyAuth AuthUser instead.
  */
 class AuthUserComponent extends Component {
 
