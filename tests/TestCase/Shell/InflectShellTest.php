@@ -3,6 +3,7 @@
 namespace Tools\Test\TestCase\Shell;
 
 use Cake\Console\ConsoleIo;
+use Tools\Shell\InflectShell;
 use Tools\TestSuite\ConsoleOutput;
 use Tools\TestSuite\TestCase;
 
@@ -11,8 +12,11 @@ use Tools\TestSuite\TestCase;
 class InflectShellTest extends TestCase {
 
 	/**
-	 * setUp method
-	 *
+	 * @var \Tools\Shell\InflectShell
+	 */
+	public $Shell;
+
+	/**
 	 * @return void
 	 */
 	public function setUp() {
@@ -22,16 +26,13 @@ class InflectShellTest extends TestCase {
 		$this->err = new ConsoleOutput();
 		$io = new ConsoleIo($this->out, $this->err);
 
-		$this->Shell = $this->getMock(
-			'Tools\Shell\InflectShell',
-			['in', '_stop'],
-			[$io]
-		);
+		$this->Shell = $this->getMockBuilder(InflectShell::class)
+			->setMethods(['in', '_stop'])
+			->setConstructorArgs([$io])
+			->getMock();
 	}
 
 	/**
-	 * tearDown
-	 *
 	 * @return void
 	 */
 	public function tearDown() {

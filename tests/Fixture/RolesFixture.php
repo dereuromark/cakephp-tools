@@ -16,8 +16,8 @@ class RolesFixture extends TestFixture {
 	 */
 	public $fields = [
 		'id' => ['type' => 'integer'],
-		'name' => ['type' => 'string', 'null' => false, 'length' => 64, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
-		'alias' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 20, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'name' => ['type' => 'string', 'null' => false, 'length' => 64, 'comment' => ''],
+		'alias' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 20, 'comment' => ''],
 		'default_role' => ['type' => 'boolean', 'null' => false, 'default' => false, 'collate' => null, 'comment' => 'set at register'],
 		'created' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
 		'modified' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
@@ -33,7 +33,15 @@ class RolesFixture extends TestFixture {
 	 */
 	public $records = [
 		[
-			'id' => '2',
+			'name' => 'Super-Admin',
+			'alias' => 'superadmin',
+			'default_role' => 0,
+			'created' => '2010-01-07 03:36:33',
+			'modified' => '2010-01-07 03:36:33',
+			'sort' => '7',
+			'active' => 1
+		],
+		[
 			'name' => 'Admin',
 			'alias' => 'admin',
 			'default_role' => 0,
@@ -43,7 +51,6 @@ class RolesFixture extends TestFixture {
 			'active' => 1
 		],
 		[
-			'id' => '4',
 			'name' => 'User',
 			'alias' => 'user',
 			'default_role' => 1,
@@ -53,23 +60,12 @@ class RolesFixture extends TestFixture {
 			'active' => 1
 		],
 		[
-			'id' => '6',
 			'name' => 'Partner',
 			'alias' => 'partner',
 			'default_role' => 0,
 			'created' => '2010-01-07 03:36:33',
 			'modified' => '2010-01-07 03:36:33',
 			'sort' => '0',
-			'active' => 1
-		],
-		[
-			'id' => '1',
-			'name' => 'Super-Admin',
-			'alias' => 'superadmin',
-			'default_role' => 0,
-			'created' => '2010-01-07 03:36:33',
-			'modified' => '2010-01-07 03:36:33',
-			'sort' => '7',
 			'active' => 1
 		],
 	];

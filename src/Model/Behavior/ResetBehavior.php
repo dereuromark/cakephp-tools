@@ -87,7 +87,7 @@ class ResetBehavior extends Behavior {
 			'page' => 1,
 			'limit' => $this->_config['limit'],
 			'fields' => [],
-			'order' => $this->_table->alias() . '.' . $this->_table->primaryKey() . ' ASC',
+			'order' => [$this->_table->alias() . '.' . $this->_table->primaryKey() => 'ASC'],
 			'conditions' => $this->_config['scope'],
 		];
 		if (!empty($this->_config['fields'])) {

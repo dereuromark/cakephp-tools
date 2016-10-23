@@ -17,10 +17,13 @@ class BitmaskedBehaviorTest extends TestCase {
 	];
 
 	/**
-	 * @var \Tools\Model\Table\Table
+	 * @var \Tools\Model\Table\Table|\Tools\Model\Behavior\BitmaskedBehavior
 	 */
 	public $Comments;
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -31,8 +34,6 @@ class BitmaskedBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * BitmaskedBehaviorTest::testEncodeBitmask()
-	 *
 	 * @return void
 	 */
 	public function testEncodeBitmask() {
@@ -42,8 +43,6 @@ class BitmaskedBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * BitmaskedBehaviorTest::testDecodeBitmask()
-	 *
 	 * @return void
 	 */
 	public function testDecodeBitmask() {
@@ -53,8 +52,6 @@ class BitmaskedBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * BitmaskedBehaviorTest::testFind()
-	 *
 	 * @return void
 	 */
 	public function testFind() {
@@ -65,8 +62,6 @@ class BitmaskedBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * BitmaskedBehaviorTest::testSave()
-	 *
 	 * @return void
 	 */
 	public function testSaveBasic() {
@@ -180,8 +175,6 @@ class BitmaskedBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * BitmaskedBehaviorTest::testIs()
-	 *
 	 * @return void
 	 */
 	public function testIs() {
@@ -191,8 +184,6 @@ class BitmaskedBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * BitmaskedBehaviorTest::testIsNot()
-	 *
 	 * @return void
 	 */
 	public function testIsNot() {
@@ -202,13 +193,17 @@ class BitmaskedBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * BitmaskedBehaviorTest::testContains()
-	 *
 	 * @return void
 	 */
 	public function testContains() {
+		$config = $this->Comments->connection()->config();
+		$isPostgres = strpos($config['driver'], 'Postgres') !== false;
+
 		$res = $this->Comments->containsBit(BitmaskedComment::STATUS_PUBLISHED);
 		$expected = ['(BitmaskedComments.status & 2 = 2)'];
+		if ($isPostgres) {
+			$expected = ['("BitmaskedComments"."status" & 2 = 2)'];
+		}
 		$this->assertEquals($expected, $res);
 
 		$conditions = $res;
@@ -217,8 +212,10 @@ class BitmaskedBehaviorTest extends TestCase {
 
 		// multiple (AND)
 		$res = $this->Comments->containsBit([BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_ACTIVE]);
-
 		$expected = ['(BitmaskedComments.status & 3 = 3)'];
+		if ($isPostgres) {
+			$expected = ['("BitmaskedComments"."status" & 3 = 3)'];
+		}
 		$this->assertEquals($expected, $res);
 
 		$conditions = $res;
@@ -227,13 +224,17 @@ class BitmaskedBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * BitmaskedBehaviorTest::testNotContains()
-	 *
 	 * @return void
 	 */
 	public function testNotContains() {
+		$config = $this->Comments->connection()->config();
+		$isPostgres = strpos($config['driver'], 'Postgres') !== false;
+
 		$res = $this->Comments->containsNotBit(BitmaskedComment::STATUS_PUBLISHED);
 		$expected = ['(BitmaskedComments.status & 2 != 2)'];
+		if ($isPostgres) {
+			$expected = ['("BitmaskedComments"."status" & 2 != 2)'];
+		}
 		$this->assertEquals($expected, $res);
 
 		$conditions = $res;
@@ -242,8 +243,10 @@ class BitmaskedBehaviorTest extends TestCase {
 
 		// multiple (AND)
 		$res = $this->Comments->containsNotBit([BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_ACTIVE]);
-
 		$expected = ['(BitmaskedComments.status & 3 != 3)'];
+		if ($isPostgres) {
+			$expected = ['("BitmaskedComments"."status" & 3 != 3)'];
+		}
 		$this->assertEquals($expected, $res);
 
 		$conditions = $res;

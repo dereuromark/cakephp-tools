@@ -25,9 +25,6 @@ matrix:
     - php: 7.0
       env: CODECOVERAGE=1 DEFAULT=0
 
-  allow_failures:
-    - env: DB=pgsql db_class='Cake\Database\Driver\Postgres' db_dsn='pgsql:host=127.0.0.1;dbname=cakephp_test' db_database="cakephp_test" db_username='postgres' db_password=''
-
 before_script:
   - composer self-update
   - composer install --prefer-dist --no-interaction

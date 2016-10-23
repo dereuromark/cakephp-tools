@@ -16,8 +16,8 @@ class StoriesFixture extends TestFixture {
 	 */
 	public $fields = [
 		'id' => ['type' => 'integer'],
-		'title' => ['type' => 'string', 'null' => false, 'length' => 64, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
-		'slug' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 20, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'charset' => 'utf8'],
+		'title' => ['type' => 'string', 'null' => false, 'length' => 64, 'comment' => ''],
+		'slug' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 20, 'comment' => ''],
 		'created' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
 		'modified' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
 		'sort' => ['type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10, 'collate' => null, 'comment' => ''],

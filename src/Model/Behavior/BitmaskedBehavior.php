@@ -264,6 +264,14 @@ class BitmaskedBehavior extends Behavior {
 		$field = $this->_config['field'];
 		$contain = $contain ? ' & ? = ?' : ' & ? != ?';
 		$contain = Text::insert($contain, [$bitmask, $bitmask]);
+
+		// Hack for Postgres for now
+		$connection = $this->_table->connection();
+		$config = $connection->config();
+		if ((strpos($config['driver'], 'Postgres') !== false)) {
+			return ['("' . $this->_table->alias() . '"."' . $field . '"' . $contain . ')'];
+		}
+
 		return ['(' . $this->_table->alias() . '.' . $field . $contain . ')'];
 	}
 
