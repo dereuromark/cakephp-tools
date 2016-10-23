@@ -27,9 +27,10 @@ This master branch only works for **CakePHP3.x** - please use the 2.x branch for
 ### Additional features
 - Passwordable behavior allows easy to use password functionality for frontend and backend.
 - Slugged, Reset and other behaviors
-- Tree helper for working with (complex) trees and their output.
 - Text, Time, Number libs and helpers etc provide extended functionality if desired.
-- AuthUser, Timeline, Typography, etc provide additional helper functionality.
+- Tree helper for working with (complex) trees and their output.
+- QrCode, Gravatar and other useful small helpers
+- Timeline, Typography, etc provide additional helper functionality.
 - Email as a wrapper for core's Email adding some more usefulness and making debugging/testing easier.
 
 ### Providing 2.x shims

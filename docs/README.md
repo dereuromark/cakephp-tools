@@ -17,9 +17,7 @@ This cake3 branch only works for **CakePHP3.x** - please use the master branch f
 * [Behavior/Passwordable](Behavior/Passwordable.md)
 * [Behavior/Slugged](Behavior/Slugged.md)
 * [Behavior/Reset](Behavior/Reset.md)
-* [Component/Flash](Component/Flash.md)
 * [View/Rss](View/Rss.md)
-* [Auth (Component/Helper)](Auth/Auth.md)
 * [Testing](TestSuite/Testing.md)
 
 ## Basic enhancements of the core
@@ -55,9 +53,9 @@ use Tools\Controller\Controller;
 
 class AppController extends Controller {
 
-	public $components = array('Tools.Common', 'Tools.Flash');
+	public $components = array('Tools.Common');
 
-	public $helpers = array('Tools.Common', 'Tools.Flash', 'Tools.Time', 'Tools.Number', 'Tools.Format');
+	public $helpers = array('Tools.Common', 'Tools.Time', 'Tools.Number', 'Tools.Format');
 
 }
 ```
@@ -66,12 +64,8 @@ Here we can also see some of the most useful components and helpers included rig
 The Common component for example will automatically provide:
 - Auto-trim on POST (to make - not only notEmpty - validation working properly).
 
-With the Flash component and it's message() method you can have colorful (success, warning, error, ...) flash messages.
-They also can stack up (multiple messages per type) which the core currently still doesn't support.
-
 The Tools plugin controller will allow you to:
 - Disable cache also works for older IE versions.
-
 
 
 ### BC shims for easier migration from 2.x

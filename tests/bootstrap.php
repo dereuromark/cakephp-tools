@@ -75,6 +75,9 @@ Cake\Core\Plugin::load('Tools', ['path' => ROOT . DS, 'bootstrap' => true]);
 if (!getenv('db_class')) {
 	putenv('db_class=Cake\Database\Driver\Sqlite');
 	putenv('db_dsn=sqlite::memory:');
+
+	//putenv('db_class=Cake\Database\Driver\Postgres');
+	//putenv('db_dsn=postgres://postgres@127.0.0.1/test');
 }
 
 Cake\Datasource\ConnectionManager::config('test', [
