@@ -491,7 +491,6 @@ class SluggedBehaviorTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-
 	/**
 	 * Test slug with ascii
 	 *

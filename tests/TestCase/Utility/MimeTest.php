@@ -86,7 +86,6 @@ class MimeTest extends TestCase {
 		//Test failes? finfo_open not availaible??
 	}
 
-
 	/**
 	 * testgetMimeTypeByAlias()
 	 *

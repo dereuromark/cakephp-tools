@@ -82,7 +82,6 @@ class AuthUserHelperTest extends TestCase {
 		$this->assertSame('1', $this->AuthUser->id());
 	}
 
-
 	/**
 	 * AuthUserHelperTest::testId()
 	 *

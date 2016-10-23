@@ -163,7 +163,6 @@ class TimeTest extends TestCase {
 		$this->assertEquals('01.12.2009', $ret);
 	}
 
-
 	/**
 	 * TimeTest::testParseLocalizedDate()
 	 *
