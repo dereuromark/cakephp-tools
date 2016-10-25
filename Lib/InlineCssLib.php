@@ -69,9 +69,12 @@ class InlineCssLib {
 			App::import('Vendor', 'Tools.Emogrifier', ['file' => 'Emogrifier/Emogrifier.php']);
 			$Emogrifier = new Emogrifier($html, $css);
 		}
-		//$Emogrifier->preserveEncoding = true;
 
-		$result = $Emogrifier->emogrify();
+		if (method_exists($Emogrifier, 'enableCssToHtmlMapping')) {
+			$Emogrifier->enableCssToHtmlMapping();
+		}
+
+		$result = @$Emogrifier->emogrify();
 
 		if ($this->config['cleanup']) {
 			// Remove comments and whitespace
