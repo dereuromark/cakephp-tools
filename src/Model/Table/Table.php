@@ -8,6 +8,16 @@ use Shim\Model\Table\Table as ShimTable;
 use Tools\Utility\Time;
 use Tools\Utility\Utility;
 
+/**
+ * @mixin \Tools\Model\Behavior\PasswordableBehavior
+ * @mixin \Tools\Model\Behavior\JsonableBehavior
+ * @mixin \Tools\Model\Behavior\BitmaskedBehavior
+ * @mixin \Tools\Model\Behavior\SluggedBehavior
+ * @mixin \Tools\Model\Behavior\NeighborBehavior
+ * @mixin \Tools\Model\Behavior\StringBehavior
+ * @mixin \Tools\Model\Behavior\ConfirmableBehavior
+ * @mixin \Tools\Model\Behavior\ResetBehavior
+ */
 class Table extends ShimTable {
 
 	/**

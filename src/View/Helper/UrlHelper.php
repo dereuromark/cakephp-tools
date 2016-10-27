@@ -23,18 +23,10 @@ use Cake\View\Helper\UrlHelper as CoreUrlHelper;
 class UrlHelper extends CoreUrlHelper {
 
 	/**
-	 * @deprecated
-	 * @param string|array|null $url URL.
-	 * @param bool $full
-	 * @return string
-	 */
-	public function defaultBuild($url = null, $full = false) {
-		return $this->reset($url, $full);
-	}
-
-	/**
 	 * Creates a reset URL.
 	 * The prefix and plugin params are resetting to default false.
+	 *
+	 * Can only add defaults for array URLs.
 	 *
 	 * @param string|array|null $url URL.
 	 * @param bool $full If true, the full base URL will be prepended to the result
@@ -42,13 +34,26 @@ class UrlHelper extends CoreUrlHelper {
 	 */
 	public function reset($url = null, $full = false) {
 		if (is_array($url)) {
-			$url += ['prefix' => false, 'plugin' => false];
+			$url += $this->defaults();
 		}
+
 		return parent::build($url, $full);
 	}
 
 	/**
+	 * @return array
+     */
+	public function defaults() {
+		return [
+			'prefix' => false,
+			'plugin' => false
+		];
+	}
+
+	/**
 	 * Returns a URL based on provided parameters.
+	 *
+	 * Can only add query strings for array URLs.
 	 *
 	 * @param string|array|null $url URL.
 	 * @param bool $full If true, the full base URL will be prepended to the result
@@ -56,13 +61,24 @@ class UrlHelper extends CoreUrlHelper {
 	 */
 	public function complete($url = null, $full = false) {
 		if (is_array($url)) {
-			// Add query strings
-			if (!isset($url['?'])) {
-				$url['?'] = [];
-			}
-			$url['?'] += $this->request->query;
+			$url = $this->addQueryStrings($url);
 		}
+
 		return parent::build($url, $full);
+	}
+
+	/**
+	 * @param array $url
+	 *
+	 * @return array
+     */
+	protected function addQueryStrings(array $url) {
+		if (!isset($url['?'])) {
+			$url['?'] = [];
+		}
+		$url['?'] += $this->request->query;
+
+		return $url;
 	}
 
 	/**

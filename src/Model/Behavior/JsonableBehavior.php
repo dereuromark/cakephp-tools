@@ -37,6 +37,8 @@ use Tools\Utility\Text;
  */
 class JsonableBehavior extends Behavior {
 
+	const OPTIONS_DEFAULT = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_ERROR_INF_OR_NAN | JSON_PARTIAL_OUTPUT_ON_ERROR;
+
 	/**
 	 * @var string|false|null
 	 */
@@ -60,7 +62,7 @@ class JsonableBehavior extends Behavior {
 		'unique' => true, // only for list (autoclean values on insert),
 		'map' => [], // map on a different DB field
 		'encodeParams' => [ // params for json_encode
-			'options' => 0,
+			'options' => null,
 			'depth' => 512,
 		],
 		'decodeParams' => [ // params for json_decode
@@ -71,8 +73,6 @@ class JsonableBehavior extends Behavior {
 	];
 
 	/**
-	 * JsonableBehavior::initialize()
-	 *
 	 * @param array $config
 	 * @return void
 	 */
@@ -92,6 +92,9 @@ class JsonableBehavior extends Behavior {
 		}
 		foreach ($this->_config['fields'] as $field) {
 			$this->_table->schema()->columnType($field, 'array');
+		}
+		if ($this->_config['encodeParams']['options'] === null) {
+			$this->_config['encodeParams']['options'] = static::OPTIONS_DEFAULT;
 		}
 	}
 
@@ -153,8 +156,6 @@ class JsonableBehavior extends Behavior {
 	}
 
 	/**
-	 * JsonableBehavior::_getMappedFields()
-	 *
 	 * @return array
 	 */
 	protected function _getMappedFields() {
@@ -177,10 +178,8 @@ class JsonableBehavior extends Behavior {
 	}
 
 	/**
-	 * JsonableBehavior::_encode()
-	 *
-	 * @param mixed $val
-	 * @return string
+	 * @param array|string $val
+	 * @return string|null
 	 */
 	public function _encode($val) {
 		if (!empty($this->_config['fields'])) {
@@ -197,23 +196,18 @@ class JsonableBehavior extends Behavior {
 			}
 		}
 
-		if (is_array($val)) {
-			// Depth param added in PHP 5.5
-			if (version_compare(PHP_VERSION, '5.5.0', '>=')) {
-				$val = json_encode($val, $this->_config['encodeParams']['options'], $this->_config['encodeParams']['depth']);
-			} else {
-				$val = json_encode($val, $this->_config['encodeParams']['options']);
-			}
+		if (!is_array($val)) {
+			return null;
 		}
 
-		return $val;
+		return json_encode($val, $this->_config['encodeParams']['options'], $this->_config['encodeParams']['depth']);
 	}
 
 	/**
 	 * Fields are absolutely necessary to function properly!
 	 *
-	 * @param mixed $val
-	 * @return mixed
+	 * @param array|null $val
+	 * @return array|null|false
 	 */
 	public function _decode($val) {
 		if (!is_string($val)) {
@@ -250,6 +244,11 @@ class JsonableBehavior extends Behavior {
 		return implode($this->_config['separator'], $res);
 	}
 
+	/**
+	 * @param string $val
+	 *
+	 * @return array
+	 */
 	public function _fromParam($val) {
 		$leftBound = $this->_config['leftBound'];
 		$rightBound = $this->_config['rightBound'];
@@ -283,7 +282,9 @@ class JsonableBehavior extends Behavior {
 	 * @return array
 	 */
 	public function _fromList($val) {
-		extract($this->_config);
+		$separator = $this->_config['separator'];
+		$leftBound = $this->_config['leftBound'];
+		$rightBound = $this->_config['rightBound'];
 
 		return Text::tokenize($val, $separator, $leftBound, $rightBound);
 	}

@@ -72,8 +72,6 @@ class JsonableBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * JsonableBehaviorTest::testFieldsWithList()
-	 *
 	 * @return void
 	 */
 	public function testFieldsWithList() {
@@ -111,8 +109,6 @@ class JsonableBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * JsonableBehaviorTest::testFieldsWithParam()
-	 *
 	 * @return void
 	 */
 	public function testFieldsWithParam() {
@@ -133,13 +129,9 @@ class JsonableBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * JsonableBehaviorTest::testFieldsOnFind()
-	 *
 	 * @return void
 	 */
 	public function testFieldsOnFind() {
-		//echo $this->_header(__FUNCTION__);
-
 		// array
 		$this->Comments->removeBehavior('Jsonable');
 		$this->Comments->addBehavior('Tools.Jsonable', ['fields' => ['details']]);
@@ -206,14 +198,9 @@ class JsonableBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * JsonableBehaviorTest::testEncodeParams()
-	 *
 	 * @return void
 	 */
 	public function testEncodeParams() {
-		// $depth param added in 5.5.0
-		$this->skipIf(!version_compare(PHP_VERSION, '5.5.0', '>='));
-
 		// Test encode depth = 1
 		$this->Comments->removeBehavior('Jsonable');
 		$this->Comments->addBehavior('Tools.Jsonable', ['fields' => ['details'], 'encodeParams' => ['depth' => 1]]);
@@ -228,7 +215,7 @@ class JsonableBehaviorTest extends TestCase {
 		$this->Comments->save($entity);
 
 		$res = $this->Comments->find('all', ['conditions' => ['title' => 'param']])->first();
-		$expected = [];
+		$expected = ['x' => ['y' => 'z']];
 		$this->assertEquals($expected, $res['details']);
 
 		$this->Comments->truncate();
@@ -254,10 +241,10 @@ class JsonableBehaviorTest extends TestCase {
 		$this->assertEquals($expected, $res['details']);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testEncodeParamsAssocFalse() {
-		// $depth param added in 5.5.0
-		$this->skipIf(!version_compare(PHP_VERSION, '5.5.0', '>='));
-
 		// Test encode depth = 1
 		$this->Comments->removeBehavior('Jsonable');
 		$this->Comments->addBehavior('Tools.Jsonable', ['fields' => ['details'], 'encodeParams' => ['depth' => 1], 'decodeParams' => ['assoc' => false]]);
@@ -292,13 +279,13 @@ class JsonableBehaviorTest extends TestCase {
 		$this->Comments->save($entity);
 
 		$res = $this->Comments->find('all', ['conditions' => ['title' => 'param']])->first();
-		$expected = null;
+		$expected = new stdClass();
+		$expected->y = new stdClass();
+		$expected->y->yy = 'yyy';
 		$this->assertEquals($expected, $res['details']);
 	}
 
 	/**
-	 * JsonableBehaviorTest::testDecodeParams()
-	 *
 	 * @return void
 	 */
 	public function testDecodeParams() {
@@ -345,6 +332,74 @@ class JsonableBehaviorTest extends TestCase {
 		$res = $this->Comments->find('all', ['conditions' => ['title' => 'param']])->first();
 		$expected = ['x' => ['y' => 'z']];
 		$this->assertEquals($expected, $res['details']);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testEncodeWithComplexContent()
+	{
+		$this->Comments->removeBehavior('Jsonable');
+		$this->Comments->addBehavior('Tools.Jsonable', [
+			'output' => 'array',
+			'fields' => ['details'],
+		]);
+
+		$data = [
+			'comment' => 'blabla',
+			'url' => 'www.dereuromark.de',
+			'title' => 'param',
+			'details' => [
+				'foo' => 'bar',
+				'nan' => NAN,
+				'inf' => INF,
+			],
+		];
+		$entity = $this->Comments->newEntity($data);
+		$result = $this->Comments->save($entity);
+		$this->assertTrue((bool)$result);
+
+		$res = $this->Comments->get($entity->id);
+		$expected = [
+			'foo' => 'bar',
+			'nan' => 0,
+			'inf' => 0,
+		];
+		$this->assertSame($expected, $res->details);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testEncodeWithNoParamsComplexContent()
+	{
+		$this->Comments->removeBehavior('Jsonable');
+		$this->Comments->addBehavior('Tools.Jsonable', [
+			'output' => 'array',
+			'fields' => ['details'],
+			'encodeParams' => [
+				'options' => 0
+			]
+		]);
+
+		$data = [
+			'comment' => 'blabla',
+			'url' => 'www.dereuromark.de',
+			'title' => 'param',
+			'details' => [
+				'foo' => 'bar',
+				'nan' => NAN,
+				'inf' => INF,
+			],
+		];
+		$entity = $this->Comments->newEntity($data);
+		$result = $this->Comments->save($entity);
+		$this->assertTrue((bool)$result);
+
+		$res = $this->Comments->get($entity->id);
+		$expected = [
+		];
+		$this->assertSame($expected, $res->details);
 	}
 
 }

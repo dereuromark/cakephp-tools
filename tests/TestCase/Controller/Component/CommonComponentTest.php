@@ -19,6 +19,11 @@ class CommonComponentTest extends TestCase {
 	public $Controller;
 
 	/**
+	 * @var \Cake\Network\Request
+	 */
+	public $request;
+
+	/**
 	 * @return void
 	 */
 	public function setUp() {

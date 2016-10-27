@@ -38,8 +38,6 @@ class StringBehavior extends Behavior {
 	];
 
 	/**
-	 * JsonableBehavior::initialize()
-	 *
 	 * @param array $config
 	 * @return void
 	 */
@@ -56,8 +54,7 @@ class StringBehavior extends Behavior {
 	public function beforeFind(Event $event, Query $query) {
 		$query->formatResults(function (ResultSetInterface $results) {
 			return $results->map(function ($row) {
-				//TODO?
-				//$this->processItems($row, 'output');
+				$this->processItems($row, 'output');
 				return $row;
 			});
 		});

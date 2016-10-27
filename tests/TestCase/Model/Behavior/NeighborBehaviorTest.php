@@ -18,15 +18,19 @@ class NeighborBehaviorTest extends TestCase {
 	 */
 	public $fixtures = ['plugin.tools.stories'];
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
-
-		//Configure::write('App.namespace', 'TestApp');
 
 		$this->Table = TableRegistry::get('Stories');
 		$this->Table->addBehavior('Tools.Neighbor');
 	}
 
+	/**
+	 * @return void
+	 */
 	public function tearDown() {
 		TableRegistry::clear();
 
@@ -34,8 +38,6 @@ class NeighborBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * NeighborBehaviorTest::testNeighborRecords()
-	 *
 	 * @return void
 	 */
 	public function testNeighbors() {
@@ -48,8 +50,6 @@ class NeighborBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * NeighborBehaviorTest::testNeighborRecords()
-	 *
 	 * @return void
 	 */
 	public function testNeighborsReverse() {
@@ -62,8 +62,6 @@ class NeighborBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * NeighborBehaviorTest::testNeighborRecords()
-	 *
 	 * @return void
 	 */
 	public function testNeighborsCustomSortField() {
@@ -76,22 +74,17 @@ class NeighborBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * NeighborBehaviorTest::testNeighborRecords()
-	 *
 	 * @return void
 	 */
 	public function testNeighborsCustomFields() {
 		$id = 2;
 
 		$result = $this->Table->neighbors($id, ['sortField' => 'sort', 'fields' => ['title']]);
-		//debug($result);
 		$this->assertEquals(['title' => 'Second'], $result['prev']->toArray());
 		$this->assertEquals(['title' => 'First'], $result['next']->toArray());
 	}
 
 	/**
-	 * NeighborBehaviorTest::testNeighborRecords()
-	 *
 	 * @return void
 	 */
 	public function testNeighborsStart() {
@@ -104,15 +97,12 @@ class NeighborBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * NeighborBehaviorTest::testNeighborRecords()
-	 *
 	 * @return void
 	 */
 	public function testNeighborsEnd() {
 		$id = 4;
 
 		$result = $this->Table->neighbors($id);
-		//debug($result);
 		$this->assertEquals('Third', $result['prev']['title']);
 		$this->assertNull($result['next']);
 	}

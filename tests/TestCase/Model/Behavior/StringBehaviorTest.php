@@ -27,15 +27,13 @@ class StringBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * StringBehaviorTest::testBasic()
-	 *
 	 * @return void
 	 */
 	public function testBasic() {
 		$data = [
+			'title' => 'some Name',
 			'comment' => 'blabla',
 			'url' => 'www.dereuromark.de',
-			'title' => 'some Name',
 		];
 		$entity = $this->Comments->newEntity($data);
 		$res = $this->Comments->save($entity);
@@ -45,17 +43,15 @@ class StringBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * StringBehaviorTest::testMultipleFieldsAndMultipleFilters()
-	 *
 	 * @return void
 	 */
 	public function testMultipleFieldsAndMultipleFilters() {
 		$this->Comments->behaviors()->String->config(['fields' => ['title', 'comment'], 'input' => ['strtolower', 'ucwords']]);
 
 		$data = [
+			'title' => 'some nAme',
 			'comment' => 'blaBla',
 			'url' => 'www.dereuromark.de',
-			'title' => 'some nAme',
 		];
 		$entity = $this->Comments->newEntity($data);
 		$res = $this->Comments->save($entity);
@@ -63,6 +59,27 @@ class StringBehaviorTest extends TestCase {
 
 		$this->assertSame('Some Name', $res['title']);
 		$this->assertSame('Blabla', $res['comment']);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testBasicOutput() {
+		$this->Comments->removeBehavior('String');
+
+		$data = [
+			'title' => 'some Name',
+			'comment' => 'blabla',
+			'url' => ''
+		];
+		$entity = $this->Comments->newEntity($data);
+		$res = $this->Comments->save($entity);
+		$this->assertTrue((bool)$res);
+
+		$this->Comments->addBehavior('Tools.String', ['fields' => ['title'], 'output' => ['ucfirst']]);
+
+		$res = $this->Comments->get($entity->id);
+		$this->assertSame('Some Name', $res['title']);
 	}
 
 }

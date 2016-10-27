@@ -7,6 +7,11 @@ namespace Tools\Utility;
  */
 class Language {
 
+	/**
+	 * @param string|null $languageList
+	 *
+	 * @return array
+	 */
 	public static function parseLanguageList($languageList = null) {
 		if ($languageList === null) {
 			if (empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
