@@ -35,8 +35,6 @@ use Tools\Utility\Text;
  */
 class JsonableBehavior extends Behavior {
 
-	const OPTIONS_DEFAULT = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_ERROR_INF_OR_NAN | JSON_PARTIAL_OUTPUT_ON_ERROR;
-
 	/**
 	 * @var string|false|null
 	 */
@@ -92,7 +90,8 @@ class JsonableBehavior extends Behavior {
 			$this->_table->schema()->columnType($field, 'array');
 		}
 		if ($this->_config['encodeParams']['options'] === null) {
-			$this->_config['encodeParams']['options'] = static::OPTIONS_DEFAULT;
+			$options = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_ERROR_INF_OR_NAN | JSON_PARTIAL_OUTPUT_ON_ERROR;
+			$this->_config['encodeParams']['options'] = $options;
 		}
 	}
 
