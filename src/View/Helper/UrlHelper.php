@@ -42,7 +42,7 @@ class UrlHelper extends CoreUrlHelper {
 
 	/**
 	 * @return array
-     */
+	 */
 	public function defaults() {
 		return [
 			'prefix' => false,
@@ -71,7 +71,7 @@ class UrlHelper extends CoreUrlHelper {
 	 * @param array $url
 	 *
 	 * @return array
-     */
+	 */
 	protected function addQueryStrings(array $url) {
 		if (!isset($url['?'])) {
 			$url['?'] = [];

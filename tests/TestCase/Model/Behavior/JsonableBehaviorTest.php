@@ -337,8 +337,7 @@ class JsonableBehaviorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testEncodeWithComplexContent()
-	{
+	public function testEncodeWithComplexContent() {
 		$this->Comments->removeBehavior('Jsonable');
 		$this->Comments->addBehavior('Tools.Jsonable', [
 			'output' => 'array',
@@ -371,8 +370,7 @@ class JsonableBehaviorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testEncodeWithNoParamsComplexContent()
-	{
+	public function testEncodeWithNoParamsComplexContent() {
 		$this->Comments->removeBehavior('Jsonable');
 		$this->Comments->addBehavior('Tools.Jsonable', [
 			'output' => 'array',

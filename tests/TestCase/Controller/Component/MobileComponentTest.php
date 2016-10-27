@@ -48,7 +48,6 @@ class MobileComponentTest extends TestCase {
 
 		$this->event = new Event('Controller.beforeFilter');
 		$this->Controller = new MobileComponentTestController(new Request());
-		//$this->Controller->constructClasses();
 
 		$this->Controller->request->session()->delete('User');
 		Configure::delete('User');
@@ -62,7 +61,6 @@ class MobileComponentTest extends TestCase {
 	public function tearDown() {
 		parent::tearDown();
 
-		unset($this->Controller->Mobile);
 		unset($this->Controller);
 	}
 

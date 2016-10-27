@@ -14,8 +14,6 @@ use Tools\Utility\Text;
 /**
  * A behavior that will json_encode (and json_decode) fields if they contain an array or specific pattern.
  *
- * Requires: PHP 5 >= 5.4.0 or PECL json >= 1.2.0
- *
  * This is a port of the Serializeable behavior by Matsimitsu (http://www.matsimitsu.nl)
  * Modified by Mark Scherer (http://www.dereuromark.de)
  *
@@ -26,7 +24,7 @@ use Tools\Utility\Text;
  * Also automatically cleans lists and works with custom separators etc
  *
  * Tip: If you have other behaviors that might modify the array data prior to saving, better use a higher priority:
- *   $this->addBehavior('Tools.Jsonable', array('priority' => 11, ...));
+ *   $this->addBehavior('Tools.Jsonable', ['priority' => 11, ...]);
  * So that it is run last.
  *
  * Usage: See docs

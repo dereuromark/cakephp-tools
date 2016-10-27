@@ -407,8 +407,6 @@ class TableTest extends TestCase {
 	}
 
 	/**
-	 * TableTest::testValidateUrl()
-	 *
 	 * @return void
 	 */
 	public function testValidateUrl() {
