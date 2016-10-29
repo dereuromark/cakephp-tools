@@ -12,15 +12,27 @@ This cake3 branch only works for **CakePHP3.x** - please use the master branch f
 * [Upgrade guide from 2.x to 3.x](Upgrade.md)
 
 ## Detailed Documentation - Quicklinks
+
+Routing:
+* [Url](Url/Url.md)
+
+ErrorHandler
 * [ErrorHandler](Error/ErrorHandler.md)
-* [Behavior/Jsonable](Behavior/Jsonable.md)
-* [Behavior/Passwordable](Behavior/Passwordable.md)
-* [Behavior/Slugged](Behavior/Slugged.md)
-* [Behavior/Bitmasked](Behavior/Bitmasked.md)
-* [Behavior/Reset](Behavior/Reset.md)
-* [Behavior/String](Behavior/String.md)
-* [View/Rss](View/Rss.md)
+
+Testing
 * [Testing](TestSuite/Testing.md)
+
+Helpers:
+* [Html](Helper/Html.md)
+* [Form](Helper/Form.md)
+
+Behaviors:
+* [Jsonable](Behavior/Jsonable.md)
+* [Passwordable](Behavior/Passwordable.md)
+* [Slugged](Behavior/Slugged.md)
+* [Bitmasked](Behavior/Bitmasked.md)
+* [Reset](Behavior/Reset.md)
+* [String](Behavior/String.md)
 
 ## Basic enhancements of the core
 
