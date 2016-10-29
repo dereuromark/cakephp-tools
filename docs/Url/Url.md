@@ -29,4 +29,4 @@ Now if there was a query string `?q=x` on the current action, it would also be p
 
 
 ### Generating links
-For generating links for those cases please see [Html helper](/docs/Helper/Html).
+For generating links for those cases please see [Html helper](/docs/Helper/Html.md).
