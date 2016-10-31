@@ -9,6 +9,7 @@ use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Exception;
+use Tools\Database\Type\ArrayType;
 use Tools\Utility\Text;
 
 /**
@@ -70,10 +71,10 @@ class JsonableBehavior extends Behavior {
 
 	/**
 	 * @param array $config
+	 * @throws \Exception
 	 * @return void
 	 */
 	public function initialize(array $config = []) {
-		Type::map('array', 'Tools\Database\Type\ArrayType');
 		if (empty($this->_config['fields'])) {
 			throw new Exception('Fields are required');
 		}
@@ -93,6 +94,8 @@ class JsonableBehavior extends Behavior {
 			$options = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_ERROR_INF_OR_NAN | JSON_PARTIAL_OUTPUT_ON_ERROR;
 			$this->_config['encodeParams']['options'] = $options;
 		}
+
+		Type::map('array', ArrayType::class);
 	}
 
 	/**
