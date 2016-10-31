@@ -19,6 +19,11 @@ class PasswordableBehaviorTest extends TestCase {
 	];
 
 	/**
+	 * @var \TestApp\Model\Table\ToolsUsersTable
+	 */
+	public $Users;
+
+	/**
 	 * SetUp method
 	 *
 	 * @return void
@@ -391,11 +396,13 @@ class PasswordableBehaviorTest extends TestCase {
 			'pwd_repeat' => '123456'
 		];
 		$user->accessible('*', false); // Mark all properties as protected
-		$user->accessible(['id', 'pwd', 'pwd_repeat', 'pwd_current'], true);
-		$this->Users->patchEntity($user, $data);
-		// Test whitelist setting - only "password" needs to gets auto-added
-		$options = ['validate' => true, 'fieldList' => ['id', 'pwd', 'pwd_repeat', 'pwd_current']];
+		$user->accessible(['id'], true); // Allow id to be accessible by default
+		$user = $this->Users->patchEntity($user, $data, ['fieldList' => ['id']]);
 
+		$this->assertNotSame($is['password'], $user['password']);
+		$this->assertTrue($user->dirty('pwd'));
+
+		$options = ['validate' => true];
 		$is = $this->Users->save($user, $options);
 		$this->assertTrue(!empty($is));
 
@@ -416,11 +423,11 @@ class PasswordableBehaviorTest extends TestCase {
 		];
 		$user->accessible('*', false); // Mark all properties as protected
 		$user->accessible(['id', 'name'], true);
-		$this->Users->patchEntity($user, $data);
+		$this->Users->patchEntity($user, $data, ['fieldList' => ['id', 'name']]);
 		// Test whitelist setting - only "password" gets auto-added, pwd, pwd_repeat etc need to be added manually
 		// NOTE that I had to remove the code for adding those fields from the behavior (as it was not functional)
 		// So of course, this won't work now as expected. But feel free to try to add them in the behavior. Results will be the same.
-		$options = ['validate' => true, 'fieldList' => ['id', 'name']];
+		$options = ['validate' => true];
 		$is = $this->Users->save($user, $options);
 
 		// Validation errors triggered - as expected
@@ -429,17 +436,12 @@ class PasswordableBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * Test cake2.4 passwordHasher feature
-	 *
 	 * @return void
 	 */
-	public function testPasswordHasher() {
-		$this->skipIf((float)Configure::version() < 2.4, 'Needs 2.4 and above');
-
+	public function testPatchWithFieldList() {
 		$this->Users->addBehavior('Tools.Passwordable', [
 			'formField' => 'pwd',
 			'formFieldRepeat' => 'pwd_repeat',
-			'allowSame' => false,
 			'current' => false,
 			'passwordHasher' => 'Complex',
 		]);
@@ -448,42 +450,40 @@ class PasswordableBehaviorTest extends TestCase {
 			'pwd' => 'somepwd',
 			'pwd_repeat' => 'somepwd'
 		];
-		$this->Users->patchEntity($user, $data);
+		$user->accessible('*', false); // Mark all properties as protected
+		$user->accessible(['id'], true);
+		$this->Users->patchEntity($user, $data, ['fieldList' => ['id']]);
 		$result = $this->Users->save($user);
 		$this->assertTrue((bool)$result);
-		$userCopy = clone($user);
+	}
 
-		$this->Users->removeBehavior('Passwordable');
-		$this->Users->addBehavior('Tools.Passwordable', ['current' => true]);
-		$user = clone($userCopy);
+	/**
+	 * @return void
+	 */
+	public function testPatchWithoutFieldList() {
+		$this->Users->addBehavior('Tools.Passwordable', [
+			'formField' => 'pwd',
+			'formFieldRepeat' => 'pwd_repeat',
+			'current' => false,
+			'passwordHasher' => 'Complex',
+			'forceFieldList' => true
+		]);
+		$user = $this->Users->newEntity();
 		$data = [
-			'pwd' => '123456',
-			'pwd_repeat' => '12345678',
+			'name' => 'x',
+			'pwd' => 'somepwd',
+			'pwd_repeat' => 'somepwd'
 		];
-		$this->Users->patchEntity($user, $data);
-		$this->assertTrue($this->Users->behaviors()->has('Passwordable'));
-		$is = $this->Users->save($user);
-		$this->assertFalse($is);
+		$user->accessible('*', false); // Mark all properties as protected
+		$user->accessible(['id'], true);
+		$user = $this->Users->patchEntity($user, $data);
+		$result = $this->Users->save($user);
+		$this->assertTrue((bool)$result);
 
-		$user = clone($userCopy);
-		$data = [
-			'pwd_current' => 'somepwdx',
-			'pwd' => '123456',
-			'pwd_repeat' => '123456'
-		];
-		$this->Users->patchEntity($user, $data);
-		$is = $this->Users->save($user);
-		$this->assertFalse($is);
+		$savedUser = $this->Users->get($user->id);
 
-		$user = clone($userCopy);
-		$data = [
-			'pwd_current' => 'somepwd',
-			'pwd' => '123456',
-			'pwd_repeat' => '123456'
-		];
-		$this->Users->patchEntity($user, $data);
-		$is = $this->Users->save($user);
-		$this->assertTrue(!empty($is));
+		$this->assertSame($data['name'], $savedUser->name);
+		$this->assertSame($user->password, $savedUser->password);
 	}
 
 	/**

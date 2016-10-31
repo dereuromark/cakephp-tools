@@ -29,6 +29,7 @@ Also capable of:
 | maxLength         |   PWD_MAX_LENGTH      |   |   
 | validator         |   'default'           |   |
 | customValidation  |   null                |    Custom validation rule(s) for the formField on top     |
+| forceFieldList    |   false               |    Force field list to overwrite entity accessibility     |
 
 You can either pass those to the behavior at runtime, or globally via Configure and `app.php`:
 ```php
@@ -112,7 +113,7 @@ class UsersController extends Controller {
 
 		if ($this->request->is(['put', 'post'])) {
 			$options = [
-				'fieldList' => [ 'pwd', 'pwd_repeat', ... ]
+				'fieldList' => [...]
 			];
 			$user = $this->Users->patchEntity($user, $this->request->data, $options);
 			if ($this->Users->save($user)) {
@@ -188,3 +189,28 @@ Always allow [a-z], [0-9] and ALL special chars a user can possibly type in.
 Regex rules can be useful to assert that the password is strong enough, though. That means, that it contains not just letters/numbers, but
 also some special chars. This would be way more secure and useful. But also try to be reasonable here, some developers tend to overreach here,
 making it very annoying to set up passwords.
+
+### Field list and Accessibility
+The behavior will automatically add the internally needed fields to the `'fieldList'` options array, if you provided one on patching.
+So you only need to pass in the other non-password-related fields:
+```php
+$options = [
+	'fieldList' => ['id', 'name']
+];
+$user = $this->Users->patchEntity($user, $this->request->data, $options);
+```
+
+If the config `forceFieldList` is set to true, it will even create the fieldList for you on the fly.
+Otherwise it will use the entity accessible config to determine if the password can be assigned.
+So if you do not want to force it, make sure your entity has those fields not protected:
+```php
+// Inside the entity
+protected $_accessible = [
+	'*' => false,
+	'pwd' => true,
+	...
+];
+
+// Or from the outside before patching
+$user->accessible('*', false); // Mark all properties as protected
+$user->accessible(['pwd', ...], true); // Allow certain fields

@@ -53,7 +53,8 @@ class PasswordableBehavior extends Behavior {
 		'minLength' => PWD_MIN_LENGTH,
 		'maxLength' => PWD_MAX_LENGTH,
 		'validator' => 'default',
-		'customValidation' => null // Custom validation rule(s) for the formField
+		'customValidation' => null, // Custom validation rule(s) for the formField
+		'forceFieldList' => false,
 	];
 
 	/**
@@ -220,6 +221,21 @@ class PasswordableBehavior extends Behavior {
 		$formField = $this->_config['formField'];
 		$formFieldRepeat = $this->_config['formFieldRepeat'];
 		$formFieldCurrent = $this->_config['formFieldCurrent'];
+
+		if (!isset($options['fieldList']) && $this->_config['forceFieldList']) {
+			$options['fieldList'] = array_keys((array)$data);
+		}
+		if (isset($options['fieldList'])) {
+			if (!in_array($formField, $options['fieldList'])) {
+				$options['fieldList'][] = $formField;
+			}
+			if (!in_array($formFieldRepeat, $options['fieldList'])) {
+				$options['fieldList'][] = $formFieldRepeat;
+			}
+			if (!in_array($formFieldCurrent, $options['fieldList'])) {
+				$options['fieldList'][] = $formFieldCurrent;
+			}
+		}
 
 		// Make sure fields are set and validation rules are triggered - prevents tempering of form data
 		if (!isset($data[$formField])) {
