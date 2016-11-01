@@ -315,38 +315,7 @@ class Utility {
 	}
 
 	/**
-	 * Encode strings with base64_encode and also
-	 * replace chars base64 uses that would mess up the url.
-	 *
-	 * Do not use this for querystrings. Those will escape automatically.
-	 * This is only useful for named or passed params.
-	 *
-	 * @deprecated Use query strings instead
-	 * @param string $string Unsafe string
-	 * @return string Encoded string
-	 */
-	public static function urlEncode($string) {
-		return str_replace(['/', '='], ['-', '_'], base64_encode($string));
-	}
-
-	/**
-	 * Decode strings with base64_encode and also
-	 * replace back chars base64 uses that would mess up the url.
-	 *
-	 * Do not use this for querystrings. Those will escape automatically.
-	 * This is only useful for named or passed params.
-	 *
-	 * @deprecated Use query strings instead
-	 * @param string $string Safe string
-	 * @return string Decoded string
-	 */
-	public static function urlDecode($string) {
-		return base64_decode(str_replace(['-', '_'], ['/', '='], $string));
-	}
-
-	/**
 	 * Returns true only if all values are true.
-	 * //TODO: maybe move to bootstrap?
 	 *
 	 * @param array $array
 	 * @return bool Result
@@ -365,7 +334,6 @@ class Utility {
 
 	/**
 	 * Returns true if at least one value is true.
-	 * //TODO: maybe move to bootstrap?
 	 *
 	 * @param array $array
 	 * @return bool Result
@@ -388,7 +356,7 @@ class Utility {
 	 * @deprecated Not sure this is useful for CakePHP 3.0
 	 */
 	public static function isValidSaveAll($array) {
-		if (empty($array)) {
+		if (!$array) {
 			return false;
 		}
 		$ret = true;
@@ -404,7 +372,6 @@ class Utility {
 
 	/**
 	 * Convenience function for automatic casting in form methods etc.
-	 * //TODO: maybe move to bootstrap?
 	 *
 	 * @param mixed $value
 	 * @param string $type

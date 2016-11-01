@@ -42,8 +42,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * UtilityTest::testInArray()
-	 *
 	 * @covers ::inArray
 	 * @return void
 	 */
@@ -70,6 +68,9 @@ class UtilityTest extends TestCase {
 		$this->assertFalse($res);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testTokenize() {
 		$res = Utility::tokenize('');
 		$this->assertSame([], $res);
@@ -85,8 +86,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * UtilityTest::testPregMatch()
-	 *
 	 * @covers ::pregMatch
 	 * @return void
 	 */
@@ -121,8 +120,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * UtilityTest::testPregMatchWithPatternEscape()
-	 *
 	 * @covers ::pregMatch
 	 * @return void
 	 */
@@ -143,8 +140,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * UtilityTest::testPregMatchAll()
-	 *
 	 * @covers ::pregMatchAll
 	 * @return void
 	 */
@@ -167,8 +162,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * UtilityTest::testStrSplit()
-	 *
 	 * @covers ::strSplit
 	 * @return void
 	 */
@@ -182,30 +175,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * UtilityTest::testUrlEncode()
-	 *
-	 * @covers ::urlEncode
-	 * @return void
-	 */
-	public function testUrlEncode() {
-		$res = Utility::urlEncode('Some/cool=value+more-infos');
-		$this->assertSame('U29tZS9jb29sPXZhbHVlK21vcmUtaW5mb3M_', $res);
-	}
-
-	/**
-	 * UtilityTest::testUrlDecode()
-	 *
-	 * @covers ::urlDecode
-	 * @return void
-	 */
-	public function testUrlDecode() {
-		$res = Utility::urlDecode('U29tZS9jb29sPXZhbHVlK21vcmUtaW5mb3M_');
-		$this->assertSame('Some/cool=value+more-infos', $res);
-	}
-
-	/**
-	 * UtilityTest::testTypeCast()
-	 *
 	 * @covers ::typeCast
 	 * @return void
 	 */
@@ -216,19 +185,15 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * UtilityTest::testGetClientIp()
-	 *
 	 * @covers ::getClientIp
 	 * @return void
 	 */
 	public function testGetClientIp() {
 		$res = Utility::getClientIp();
-		$this->assertEquals(env('REMOTE_ADDR'), $res);
+		$this->assertSame((string)env('REMOTE_ADDR'), $res);
 	}
 
 	/**
-	 * UtilityTest::testFileExists()
-	 *
 	 * @covers ::fileExists
 	 * @return void
 	 */
@@ -247,8 +212,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * UtilityTest::testUrlExists()
-	 *
 	 * @covers ::urlExists
 	 * @return void
 	 */
@@ -261,17 +224,15 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * UtilityTest::testGetReferer()
-	 *
 	 * @covers ::getReferer
 	 * @return void
 	 */
 	public function testGetReferer() {
 		$res = Utility::getReferer();
-		$this->assertEquals(env('HTTP_REFERER'), $res);
+		$this->assertSame(env('HTTP_REFERER'), $res);
 
 		$res = Utility::getReferer(true);
-		$this->assertEquals(env('HTTP_REFERER'), $res);
+		$this->assertSame(env('HTTP_REFERER'), $res);
 
 		$_SERVER['HTTP_REFERER'] = '/foo/bar';
 		$res = Utility::getReferer(true);
@@ -279,59 +240,50 @@ class UtilityTest extends TestCase {
 		if (!$base) {
 			$base = ''; //'http://localhost';
 		}
-		$this->assertEquals($base . env('HTTP_REFERER'), $res);
+		$this->assertSame($base . env('HTTP_REFERER'), $res);
 	}
 
 	/**
-	 * UtilityTest::testGetHeaderFromUrl()
-	 *
 	 * @covers ::getHeaderFromUrl
 	 * @return void
 	 */
 	public function testGetHeaderFromUrl() {
 		$res = Utility::getHeaderFromUrl('http://www.spiegel.de');
 		$this->assertTrue(is_array($res) && count($res) > 1);
-		//$this->assertEquals('HTTP/1.0 200 OK', $res[0]);
+		//$this->assertSame('HTTP/1.0 200 OK', $res[0]);
 	}
 
 	/**
-	 * UtilityTest::testAutoPrefixUrl()
-	 *
 	 * @covers ::autoPrefixUrl
 	 * @return void
 	 */
 	public function testAutoPrefixUrl() {
 		$res = Utility::autoPrefixUrl('www.spiegel.de');
-		$this->assertEquals('http://www.spiegel.de', $res);
+		$this->assertSame('http://www.spiegel.de', $res);
 	}
 
 	/**
-	 * UtilityTest::testCleanUrl()
-	 *
 	 * @covers ::cleanUrl
 	 * @return void
 	 */
 	public function testCleanUrl() {
 		$res = Utility::cleanUrl('www.spiegel.de');
-		$this->assertEquals('http://www.spiegel.de', $res);
+		$this->assertSame('http://www.spiegel.de', $res);
 
 		$res = Utility::cleanUrl('http://');
-		$this->assertEquals('', $res);
+		$this->assertSame('', $res);
 
 		$res = Utility::cleanUrl('http://www');
-		$this->assertEquals('', $res);
+		$this->assertSame('', $res);
 
 		$res = Utility::cleanUrl('spiegel.de');
-		$this->assertEquals('http://spiegel.de', $res);
+		$this->assertSame('http://spiegel.de', $res);
 
 		$res = Utility::cleanUrl('spiegel.de', true);
-		//echo returns($res);
-		$this->assertEquals('http://www.spiegel.de', $res);
+		$this->assertSame('http://www.spiegel.de', $res);
 	}
 
 	/**
-	 * UtilityTest::testDeep()
-	 *
 	 * @covers ::trimDeep
 	 * @return void
 	 */
@@ -346,17 +298,16 @@ class UtilityTest extends TestCase {
 			'e 49r ' => 'rf r',
 			'er' => [['ee' => ['rr ' => 'tt']]]
 		];
-		//$this->assertSame($expected, $is);
 
 		$res = Utility::trimDeep($is);
 		$this->assertSame($expected, $res);
-
-		//$res = CommonComponent::trimDeep($is);
-		//$this->assertSame($expected, $res);
 	}
 
-	//TODO: move to boostrap
-
+	/**
+	 * //TODO
+	 *
+	 * @return void
+	 */
 	public function _testDeepFunction() {
 		$is = [
 			'f some',
@@ -381,59 +332,57 @@ class UtilityTest extends TestCase {
 	public function testCountDim() {
 		$data = ['one', '2', 'three'];
 		$result = Utility::countDim($data);
-		$this->assertEquals(1, $result);
+		$this->assertSame(1, $result);
 
 		$data = ['1' => '1.1', '2', '3'];
 		$result = Utility::countDim($data);
-		$this->assertEquals(1, $result);
+		$this->assertSame(1, $result);
 
 		$data = ['1' => ['1.1' => '1.1.1'], '2', '3' => ['3.1' => '3.1.1']];
 		$result = Utility::countDim($data);
-		$this->assertEquals(2, $result);
+		$this->assertSame(2, $result);
 
 		$data = ['1' => '1.1', '2', '3' => ['3.1' => '3.1.1']];
 		$result = Utility::countDim($data);
-		$this->assertEquals(1, $result);
+		$this->assertSame(1, $result);
 
 		$data = ['1' => '1.1', '2', '3' => ['3.1' => '3.1.1']];
 		$result = Utility::countDim($data, true);
-		$this->assertEquals(2, $result);
+		$this->assertSame(2, $result);
 
 		$data = ['1' => ['1.1' => '1.1.1'], '2', '3' => ['3.1' => ['3.1.1' => '3.1.1.1']]];
 		$result = Utility::countDim($data);
-		$this->assertEquals(2, $result);
+		$this->assertSame(2, $result);
 
 		$data = ['1' => ['1.1' => '1.1.1'], '2', '3' => ['3.1' => ['3.1.1' => '3.1.1.1']]];
 		$result = Utility::countDim($data, true);
-		$this->assertEquals(3, $result);
+		$this->assertSame(3, $result);
 
 		$data = ['1' => ['1.1' => '1.1.1'], ['2' => ['2.1' => ['2.1.1' => '2.1.1.1']]], '3' => ['3.1' => ['3.1.1' => '3.1.1.1']]];
 		$result = Utility::countDim($data, true);
-		$this->assertEquals(4, $result);
+		$this->assertSame(4, $result);
 
 		$data = ['1' => ['1.1' => '1.1.1'], ['2' => ['2.1' => ['2.1.1' => ['2.1.1.1']]]], '3' => ['3.1' => ['3.1.1' => '3.1.1.1']]];
 		$result = Utility::countDim($data, true);
-		$this->assertEquals(5, $result);
+		$this->assertSame(5, $result);
 
 		$data = ['1' => ['1.1' => '1.1.1'], ['2' => ['2.1' => ['2.1.1' => ['2.1.1.1' => '2.1.1.1.1']]]], '3' => ['3.1' => ['3.1.1' => '3.1.1.1']]];
 		$result = Utility::countDim($data, true);
-		$this->assertEquals(5, $result);
+		$this->assertSame(5, $result);
 
 		$set = ['1' => ['1.1' => '1.1.1'], ['2' => ['2.1' => ['2.1.1' => ['2.1.1.1' => '2.1.1.1.1']]]], '3' => ['3.1' => ['3.1.1' => '3.1.1.1']]];
 		$result = Utility::countDim($set, false, 0);
-		$this->assertEquals(2, $result);
+		$this->assertSame(2, $result);
 
 		$result = Utility::countDim($set, true);
-		$this->assertEquals(5, $result);
+		$this->assertSame(5, $result);
 
 		$data = ['one' => [null], ['null' => null], 'three' => [true, false, null]];
 		$result = Utility::countDim($data, true);
-		$this->assertEquals(2, $result);
+		$this->assertSame(2, $result);
 	}
 
 	/**
-	 * UtilityTest::testExpand()
-	 *
 	 * @return void
 	 */
 	public function testExpandList() {
@@ -460,8 +409,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * UtilityTest::testExpandListWithKeyLessListInvalid()
-	 *
 	 * @expectedException \RuntimeException
 	 * @return void
 	 */
@@ -474,8 +421,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * UtilityTest::testExpandListWithKeyLessList()
-	 *
 	 * @return void
 	 */
 	public function testExpandListWithKeyLessList() {
@@ -493,8 +438,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * UtilityTest::testFlatten()
-	 *
 	 * @return void
 	 */
 	public function testFlatten() {
@@ -541,8 +484,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * UtilityTest::testArrayFlattenBasic()
-	 *
 	 * @covers ::arrayFlatten
 	 * @return void
 	 */
@@ -589,8 +530,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * UtilityTest::testArrayFlattenAndPreserveKeys()
-	 *
 	 * @covers ::arrayFlatten
 	 * @return void
 	 */
@@ -611,8 +550,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * UtilityTest::testArrayShiftKeys()
-	 *
 	 * @covers ::arrayShiftKeys
 	 * @return void
 	 */
@@ -634,8 +571,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * UtilityTest::testTime()
-	 *
 	 * @covers ::returnElapsedTime
 	 * @return void
 	 */
@@ -655,8 +590,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * UtilityTest::testLogicalAnd()
-	 *
 	 * @covers ::logicalAnd
 	 * @return void
 	 */
@@ -681,8 +614,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * UtilityTest::testLogicalOr()
-	 *
 	 * @covers ::logicalOr
 	 * @return void
 	 */
@@ -716,8 +647,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * UtilityTest::testIsValidSaveAll()
-	 *
 	 * @covers ::isValidSaveAll
 	 * @return void
 	 */

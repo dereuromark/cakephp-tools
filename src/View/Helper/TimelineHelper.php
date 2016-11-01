@@ -24,28 +24,6 @@ class TimelineHelper extends Helper {
 	public $helpers = ['Tools.Js'];
 
 	/**
-	 * @var array
-	 */
-	protected $_defaultConfig = [
-		'id' => 'mytimeline',
-		'selectable' => false,
-		'editable' => false,
-		'min' => null, // Min date.
-		'max' => null, // Max date.
-		'width' => '100%',
-		'height' => null, // Auto.
-		'style' => 'box',
-		'current' => null, // Current time.
-	];
-
-	/**
-	 * @var array
-	 */
-	protected $_items = [];
-
-	/**
-	 * Apply settings and merge them with the defaults.
-	 *
 	 * Possible values are (with their default values):
 	 *  - 'min',
 	 *  - 'max',
@@ -64,13 +42,25 @@ class TimelineHelper extends Helper {
 	 *  - ...
 	 *
 	 * @link http://almende.github.io/chap-links-library/js/timeline/doc/
-	 * @param array $settings Key value pairs to merge with current settings.
-	 * @return void
-	 * @deprecated
+	 *
+	 * @var array
 	 */
-	public function settings($settings) {
-		$this->config($settings);
-	}
+	protected $_defaultConfig = [
+		'id' => 'mytimeline',
+		'selectable' => false,
+		'editable' => false,
+		'min' => null, // Min date.
+		'max' => null, // Max date.
+		'width' => '100%',
+		'height' => null, // Auto.
+		'style' => 'box',
+		'current' => null, // Current time.
+	];
+
+	/**
+	 * @var array
+	 */
+	protected $_items = [];
 
 	/**
 	 * Add timeline item.
