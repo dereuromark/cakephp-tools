@@ -73,6 +73,35 @@ class UrlComponentTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testResetArray() {
+		$result = $this->Controller->Url->resetArray(['controller' => 'foobar', 'action' => 'test']);
+		$expected = [
+			'controller' => 'foobar',
+			'action' => 'test',
+			'prefix' => false,
+			'plugin' => false,
+		];
+		$this->assertSame($expected, $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testCompleteArray() {
+		$this->Controller->Url->request->query['x'] = 'y';
+
+		$result = $this->Controller->Url->completeArray(['controller' => 'foobar', 'action' => 'test']);
+		$expected = [
+			'controller' => 'foobar',
+			'action' => 'test',
+			'?' => ['x' => 'y']
+		];
+		$this->assertSame($expected, $result);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testReset() {
 		Router::connect('/:controller/:action/*');
 
