@@ -19,8 +19,31 @@ use Cake\View\Helper\UrlHelper as CoreUrlHelper;
 
 /**
  * Url Helper class.
+ *
+ * @author Mark Scherer
+ * @license MIT
  */
 class UrlHelper extends CoreUrlHelper {
+
+	/**
+	 * @param array $url
+	 * @return array
+	 */
+	public function resetArray(array $url) {
+		$url += $this->defaults();
+
+		return $url;
+	}
+
+	/**
+	 * @param array $url
+	 * @return array
+	 */
+	public function completeArray(array $url) {
+		$url = $this->addQueryStrings($url);
+
+		return $url;
+	}
 
 	/**
 	 * Creates a reset URL.
@@ -79,15 +102,6 @@ class UrlHelper extends CoreUrlHelper {
 		$url['?'] += $this->request->query;
 
 		return $url;
-	}
-
-	/**
-	 * Event listeners.
-	 *
-	 * @return array
-	 */
-	public function implementedEvents() {
-		return [];
 	}
 
 }
