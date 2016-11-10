@@ -102,10 +102,10 @@ class UrlComponentTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testReset() {
+	public function testBuildReset() {
 		Router::connect('/:controller/:action/*');
 
-		$result = $this->Controller->Url->reset(['controller' => 'foobar', 'action' => 'test']);
+		$result = $this->Controller->Url->buildReset(['controller' => 'foobar', 'action' => 'test']);
 		$expected = '/foobar/test';
 		$this->assertSame($expected, $result);
 
@@ -129,7 +129,7 @@ class UrlComponentTest extends TestCase {
 		$expected = '/admin/foo/bar/baz/x';
 		$this->assertSame($expected, $result);
 
-		$result = $this->Controller->Url->reset(['controller' => 'bar', 'action' => 'baz', 'x']);
+		$result = $this->Controller->Url->buildReset(['controller' => 'bar', 'action' => 'baz', 'x']);
 		$expected = '/bar/baz/x';
 		$this->assertSame($expected, $result);
 	}
@@ -137,14 +137,14 @@ class UrlComponentTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testComplete() {
+	public function testBuildComplete() {
 		$this->Controller->Url->request->query['x'] = 'y';
 
-		$result = $this->Controller->Url->complete(['action' => 'test']);
+		$result = $this->Controller->Url->buildComplete(['action' => 'test']);
 		$expected = '/test?x=y';
 		$this->assertSame($expected, $result);
 
-		$result = $this->Controller->Url->complete(['action' => 'test', '?' => ['a' => 'b']]);
+		$result = $this->Controller->Url->buildComplete(['action' => 'test', '?' => ['a' => 'b']]);
 		$expected = '/test?a=b&x=y';
 		$this->assertSame($expected, $result);
 

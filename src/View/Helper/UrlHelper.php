@@ -55,9 +55,26 @@ class UrlHelper extends CoreUrlHelper {
 	 * @param bool $full If true, the full base URL will be prepended to the result
 	 * @return string Full translated URL with base path.
 	 */
-	public function reset($url = null, $full = false) {
+	public function buildReset($url = null, $full = false) {
 		if (is_array($url)) {
 			$url += $this->defaults();
+		}
+
+		return parent::build($url, $full);
+	}
+
+	/**
+	 * Returns a URL based on provided parameters.
+	 *
+	 * Can only add query strings for array URLs.
+	 *
+	 * @param string|array|null $url URL.
+	 * @param bool $full If true, the full base URL will be prepended to the result
+	 * @return string Full translated URL with base path.
+	 */
+	public function buildComplete($url = null, $full = false) {
+		if (is_array($url)) {
+			$url = $this->addQueryStrings($url);
 		}
 
 		return parent::build($url, $full);
@@ -71,23 +88,6 @@ class UrlHelper extends CoreUrlHelper {
 			'prefix' => false,
 			'plugin' => false
 		];
-	}
-
-	/**
-	 * Returns a URL based on provided parameters.
-	 *
-	 * Can only add query strings for array URLs.
-	 *
-	 * @param string|array|null $url URL.
-	 * @param bool $full If true, the full base URL will be prepended to the result
-	 * @return string Full translated URL with base path.
-	 */
-	public function complete($url = null, $full = false) {
-		if (is_array($url)) {
-			$url = $this->addQueryStrings($url);
-		}
-
-		return parent::build($url, $full);
 	}
 
 	/**

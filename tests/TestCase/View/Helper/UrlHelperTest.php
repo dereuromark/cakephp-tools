@@ -15,6 +15,11 @@ use Tools\View\Helper\UrlHelper;
 class UrlHelperTest extends TestCase {
 
 	/**
+	 * @var \Tools\View\Helper\UrlHelper
+	 */
+	protected $Url;
+
+	/**
 	 * @return void
 	 */
 	public function setUp() {
@@ -26,14 +31,12 @@ class UrlHelperTest extends TestCase {
 	}
 
 	/**
-	 * Tests
-	 *
 	 * @return void
 	 */
-	public function testReset() {
+	public function testBuildReset() {
 		Router::connect('/:controller/:action/*');
 
-		$result = $this->Url->reset(['controller' => 'foobar', 'action' => 'test']);
+		$result = $this->Url->buildReset(['controller' => 'foobar', 'action' => 'test']);
 		$expected = '/foobar/test';
 		$this->assertSame($expected, $result);
 
@@ -54,20 +57,18 @@ class UrlHelperTest extends TestCase {
 		$expected = '/admin/foobar/test';
 		$this->assertSame($expected, $result);
 
-		$result = $this->Url->reset(['controller' => 'foobar', 'action' => 'test']);
+		$result = $this->Url->buildReset(['controller' => 'foobar', 'action' => 'test']);
 		$expected = '/foobar/test';
 		$this->assertSame($expected, $result);
 	}
 
 	/**
-	 * Tests
-	 *
 	 * @return void
 	 */
-	public function testResetWithPlugin() {
+	public function testBuildResetWithPlugin() {
 		Router::connect('/:controller/:action/*');
 
-		$result = $this->Url->reset(['controller' => 'foobar', 'action' => 'test']);
+		$result = $this->Url->buildReset(['controller' => 'foobar', 'action' => 'test']);
 		$expected = '/foobar/test';
 		$this->assertSame($expected, $result);
 
@@ -91,24 +92,22 @@ class UrlHelperTest extends TestCase {
 		$expected = '/admin/foo/bar/baz/x';
 		$this->assertSame($expected, $result);
 
-		$result = $this->Url->reset(['controller' => 'bar', 'action' => 'baz', 'x']);
+		$result = $this->Url->buildReset(['controller' => 'bar', 'action' => 'baz', 'x']);
 		$expected = '/bar/baz/x';
 		$this->assertSame($expected, $result);
 	}
 
 	/**
-	 * Tests
-	 *
 	 * @return void
 	 */
-	public function testComplete() {
+	public function testBuildComplete() {
 		$this->Url->request->query['x'] = 'y';
 
-		$result = $this->Url->complete(['action' => 'test']);
+		$result = $this->Url->buildComplete(['action' => 'test']);
 		$expected = '/test?x=y';
 		$this->assertSame($expected, $result);
 
-		$result = $this->Url->complete(['action' => 'test', '?' => ['a' => 'b']]);
+		$result = $this->Url->buildComplete(['action' => 'test', '?' => ['a' => 'b']]);
 		$expected = '/test?a=b&amp;x=y';
 		$this->assertSame($expected, $result);
 	}

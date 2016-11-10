@@ -43,7 +43,7 @@ class UrlComponent extends Component {
 	 * @param bool $full If true, the full base URL will be prepended to the result
 	 * @return string Full translated URL with base path.
 	 */
-	public function reset($url = null, $full = false) {
+	public function buildReset($url = null, $full = false) {
 		if (is_array($url)) {
 			$url += $this->defaults();
 		}
@@ -60,22 +60,12 @@ class UrlComponent extends Component {
 	 * @param bool $full If true, the full base URL will be prepended to the result
 	 * @return string Full translated URL with base path.
 	 */
-	public function complete($url = null, $full = false) {
+	public function buildComplete($url = null, $full = false) {
 		if (is_array($url)) {
 			$url = $this->addQueryStrings($url);
 		}
 
 		return Router::url($url, $full);
-	}
-
-	/**
-	 * @return array
-	 */
-	public function defaults() {
-		return [
-			'prefix' => false,
-			'plugin' => false
-		];
 	}
 
 	/**
@@ -100,6 +90,16 @@ class UrlComponent extends Component {
 		$url = Router::url($url, $options['fullBase']);
 
 		return $url;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function defaults() {
+		return [
+			'prefix' => false,
+			'plugin' => false
+		];
 	}
 
 	/**
