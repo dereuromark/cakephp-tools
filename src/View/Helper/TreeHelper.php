@@ -17,6 +17,7 @@ use Exception;
 /**
  * Helper to generate tree representations of MPTT or recursively nested data.
  *
+ * @deprecated Use https://github.com/ADmad/cakephp-tree instead.
  * @author Andy Dawson
  * @author Mark Scherer
  * @link http://www.dereuromark.de/2013/02/17/cakephp-and-tree-structures/
