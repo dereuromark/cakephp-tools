@@ -45,10 +45,10 @@ class HtmlHelperTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testResetLink() {
+	public function testLinkReset() {
 		Router::connect('/:controller/:action/*');
 
-		$result = $this->Html->resetLink('Foo', ['controller' => 'foobar', 'action' => 'test']);
+		$result = $this->Html->linkReset('Foo', ['controller' => 'foobar', 'action' => 'test']);
 		$expected = '<a href="/foobar/test">Foo</a>';
 		$this->assertEquals($expected, $result);
 
@@ -70,7 +70,7 @@ class HtmlHelperTest extends TestCase {
 		//debug($result);
 		//$this->assertEquals($expected, $result);
 
-		$result = $this->Html->resetLink('Foo', ['controller' => 'foobar', 'action' => 'test']);
+		$result = $this->Html->linkReset('Foo', ['controller' => 'foobar', 'action' => 'test']);
 		$expected = '<a href="/foobar/test">Foo</a>';
 		$this->assertEquals($expected, $result);
 	}
@@ -80,14 +80,14 @@ class HtmlHelperTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testCompleteLink() {
+	public function testLinkComplete() {
 		$this->Html->request->query['x'] = 'y';
 
-		$result = $this->Html->completeLink('Foo', ['action' => 'test']);
+		$result = $this->Html->linkComplete('Foo', ['action' => 'test']);
 		$expected = '<a href="/test?x=y">Foo</a>';
 		$this->assertEquals($expected, $result);
 
-		$result = $this->Html->completeLink('Foo', ['action' => 'test', '?' => ['a' => 'b']]);
+		$result = $this->Html->linkComplete('Foo', ['action' => 'test', '?' => ['a' => 'b']]);
 		$expected = '<a href="/test?a=b&amp;x=y">Foo</a>';
 		$this->assertEquals($expected, $result);
 	}

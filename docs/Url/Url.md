@@ -14,7 +14,7 @@ It will basically add in `'prefix' => false, 'plugin' => false`.
 ### Reset
 You can in that case also just use the convenience method:
 ```php
-$url = $this->Url->reset(['controller' => 'Main', 'action' => 'overview']);
+$url = $this->Url->buildReset(['controller' => 'Main', 'action' => 'overview']);
 ```
 
 In case you just want the array (to pass it on), use:
@@ -32,7 +32,7 @@ For the controller
 ### Complete
 In both cases, however, the query strings are not passed on. If you want that, you can use the other convenience method:
 ```php
-$url = $this->Url->complete(['controller' => 'Main', 'action' => 'overview']);
+$url = $this->Url->buildComplete(['controller' => 'Main', 'action' => 'overview']);
 ```
 
 In case you just want the array (to pass it on), use:

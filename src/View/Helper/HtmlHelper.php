@@ -66,7 +66,7 @@ class HtmlHelper extends CoreHtmlHelper {
 	 * @param array $options Array of options and HTML attributes.
 	 * @return string An `<a />` element.
 	 */
-	public function resetLink($title, $url = null, array $options = []) {
+	public function linkReset($title, $url = null, array $options = []) {
 		if (is_array($url)) {
 			$url += ['prefix' => false, 'plugin' => false];
 		}
@@ -91,7 +91,7 @@ class HtmlHelper extends CoreHtmlHelper {
 	 * @return string An `<a />` element.
 	 * @return string Link
 	 */
-	public function completeLink($title, $url = null, array $options = []) {
+	public function linkComplete($title, $url = null, array $options = []) {
 		if (is_array($url)) {
 			// Add query strings
 			if (!isset($url['?'])) {

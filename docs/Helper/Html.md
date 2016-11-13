@@ -2,7 +2,7 @@
 
 An enhanced HtmlHelper
 - imageFromBlob()
-- resetLink() and completeLink()
+- linkReset() and linkComplete()
 
 ## Usage
 Attach it to your controllers like so:
@@ -31,15 +31,15 @@ This is especially important with navigation menu or layout elements, as those w
 
 You can then either manually and verbosely always set both to `false`, or just use the convenience method:
 ```php
-echo $this->Html->resetLink(['controller' => 'Foo', 'action' => 'bar']);
+echo $this->Html->linkReset(['controller' => 'Foo', 'action' => 'bar']);
 ```
 
 Inside `/admin/plugin-name/example/action` the linked URL would normally become `/admin/plugin-name/foo/bar`.
-With the resetLink() method it will become the desired: `/foo/bar`.
+With the linkReset() method it will become the desired: `/foo/bar`.
 
 In both cases, however, the query strings are not passed on. If you want that, you can use the other convenience method:
 ```php
-echo $this->Html->completeLink(['controller' => 'Foo', 'action' => 'bar']);
+echo $this->Html->linkComplete(['controller' => 'Foo', 'action' => 'bar']);
 ```
 Now if there was a query string `?q=x` on the current action, it would also be passed along as `/foo/bar?q=x`.
 
