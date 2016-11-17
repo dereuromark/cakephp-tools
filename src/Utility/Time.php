@@ -944,7 +944,7 @@ class Time extends CakeTime {
 	 */
 	public static function relLengthOfTime($date, $format = null, array $options = []) {
 		if ($date !== null && !is_object($date)) {
-			$date = Time::parse($date);
+			$date = self::parse($date);
 		}
 		if ($date !== null) {
 			$date = $date->format('U');
