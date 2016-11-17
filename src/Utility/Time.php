@@ -6,6 +6,7 @@ use Cake\I18n\Time as CakeTime;
 use DateInterval;
 use DateTime;
 use DateTimeZone;
+use Geo\Geocoder\Calculator;
 
 /**
  * Extend CakeTime with a few important improvements:
@@ -97,7 +98,7 @@ class Time extends CakeTime {
 			$timezone = new DateTimeZone($identifier);
 			$location = $timezone->getLocation();
 			$point = ['lat' => $location['latitude'], 'lng' => $location['longitude']];
-			$distance = (int)GeocodeLib::calculateDistance(compact('lat', 'lng'), $point);
+			$distance = (int)Calculator::calculateDistance(compact('lat', 'lng'), $point);
 			if (!$current['distance'] || $distance < $current['distance']) {
 				$current = ['timezone' => $identifier, 'distance' => $distance];
 			}
@@ -943,7 +944,7 @@ class Time extends CakeTime {
 	 */
 	public static function relLengthOfTime($date, $format = null, array $options = []) {
 		if ($date !== null && !is_object($date)) {
-			$date = new DateTime($date);
+			$date = Time::parse($date);
 		}
 		if ($date !== null) {
 			$date = $date->format('U');
