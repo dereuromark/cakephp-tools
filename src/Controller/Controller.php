@@ -6,9 +6,8 @@ use Cake\Core\Configure;
 use Shim\Controller\Controller as ShimController;
 
 /**
- * @property \Tools\Controller\Component\FlashComponent $Flash
  * @property \Tools\Controller\Component\CommonComponent $Common
- * @property \Tools\Controller\Component\AuthUserComponent $AuthUser
+ * @property \Tools\Controller\Component\UrlComponent $Url
  */
 class Controller extends ShimController {
 
