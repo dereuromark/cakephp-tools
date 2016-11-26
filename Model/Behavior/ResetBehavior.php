@@ -137,7 +137,6 @@ class ResetBehavior extends ModelBehavior {
 					}
 				}
 
-dd($fieldList);
 				$res = $Model->save($row, compact('validate', 'fieldList'));
 				if (!$res) {
 					throw new CakeException(print_r($Model->validationErrors, true));
