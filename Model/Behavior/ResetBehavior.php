@@ -115,6 +115,11 @@ class ResetBehavior extends ModelBehavior {
 				$fieldList = $params['fields'];
 				if (!empty($updateFields)) {
 					$fieldList = $updateFields;
+					foreach ($defaults['fields'] as $field) {
+						if (!in_array($field, $fieldList)) {
+							$fieldList[] = $field;
+						}
+					}
 				}
 				if ($fieldList && !in_array($Model->primaryKey, $fieldList)) {
 					$fieldList[] = $Model->primaryKey;
@@ -132,6 +137,7 @@ class ResetBehavior extends ModelBehavior {
 					}
 				}
 
+dd($fieldList);
 				$res = $Model->save($row, compact('validate', 'fieldList'));
 				if (!$res) {
 					throw new CakeException(print_r($Model->validationErrors, true));
