@@ -3,7 +3,7 @@
 namespace Tools\Utility;
 
 /**
- * @deprecated ? Should be in the core now
+ * Parses Browser detected preferred language.
  */
 class Language {
 
@@ -39,6 +39,27 @@ class Language {
 		}
 		krsort($languages);
 		return $languages;
+	}
+
+	/**
+	 * Compares two parsed arrays of language tags and find the matches
+	 *
+	 * @param array $accepted
+	 * @param array $available
+	 * @return string|null
+	 */
+	public static function findFirstMatch(array $accepted, array $available = []) {
+		$matches = static::findMatches($accepted, $available);
+		if (!$matches) {
+			return null;
+		}
+
+		$match = array_shift($matches);
+		if (!$match) {
+			return null;
+		}
+
+		return array_shift($match);
 	}
 
 	/**
