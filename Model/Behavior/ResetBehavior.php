@@ -103,9 +103,9 @@ class ResetBehavior extends ModelBehavior {
 
 		$params += $defaults;
 		$count = $Model->find('count', compact('conditions'));
-		$max = ini_get('max_execution_time');
+		$max = (int)ini_get('max_execution_time');
 		if ($max) {
-			set_time_limit(max($max, $count / $limit));
+			set_time_limit(max($max, $count));
 		}
 
 		$modified = 0;
