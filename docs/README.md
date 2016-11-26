@@ -16,6 +16,9 @@ This cake3 branch only works for **CakePHP3.x** - please use the master branch f
 Routing:
 * [Url](Url/Url.md)
 
+I18n:
+* [I18n](I18n/I18n.md) for language detection and switching
+
 ErrorHandler
 * [ErrorHandler](Error/ErrorHandler.md)
 

@@ -32,6 +32,7 @@ This master branch only works for **CakePHP3.x** - please use the 2.x branch for
 - QrCode, Gravatar and other useful small helpers
 - Timeline, Typography, etc provide additional helper functionality.
 - Email as a wrapper for core's Email adding some more usefulness and making debugging/testing easier.
+- I18n language detection and switching
 
 ### Providing 2.x shims
 This plugin for CakePHP 3 also contains some 2.x shims to ease migration of existing applications from 2.x to 3.x:
