@@ -82,7 +82,7 @@ class ResetBehavior extends Behavior {
 	 * @param array $params
 	 * @return int Modified records
 	 */
-	public function resetRecords($params = []) {
+	public function resetRecords(array $params = []) {
 		$defaults = [
 			'page' => 1,
 			'limit' => $this->_config['limit'],
@@ -105,9 +105,11 @@ class ResetBehavior extends Behavior {
 		}
 		if (!$this->_config['updateTimestamp']) {
 			$fields = ['modified', 'updated'];
+			$updateFields = [];
 			foreach ($fields as $field) {
 				if ($this->_table->schema()->column($field)) {
 					$defaults['fields'][] = $field;
+					$updateFields[] = $field;
 					break;
 				}
 			}
@@ -115,17 +117,20 @@ class ResetBehavior extends Behavior {
 
 		$params += $defaults;
 		$count = $this->_table->find('count', compact('conditions'));
-		$max = ini_get('max_execution_time');
+		$max = (int)ini_get('max_execution_time');
 		if ($max) {
-			set_time_limit(max($max, $count / $this->_config['limit']));
+			set_time_limit(max($max, $count));
 		}
 
 		$modified = 0;
 		while (($records = $this->_table->find('all', $params)->toArray())) {
 			foreach ($records as $record) {
 				$fieldList = $params['fields'];
-				if (!empty($updateFields)) {
-					$fieldList = $updateFields;
+				if ($this->config('updateFields')) {
+					$fieldList = $this->config('updateFields');
+					if (!$this->_config['updateTimestamp']) {
+						$fieldList = array_merge($updateFields, $fieldList);
+					}
 				}
 				if ($fieldList && !in_array($this->_table->primaryKey(), $fieldList)) {
 					$fieldList[] = $this->_table->primaryKey();

@@ -29,8 +29,6 @@ class ResetBehaviorTest extends TestCase {
 
 		Configure::write('App.namespace', 'TestApp');
 
-		//set_time_limit(10);
-
 		$this->Table = TableRegistry::get('ResetComments');
 		$this->Table->addBehavior('Tools.Reset');
 	}
@@ -42,11 +40,27 @@ class ResetBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * ResetBehaviorTest::testResetRecords()
-	 *
 	 * @return void
 	 */
 	public function testResetRecords() {
+		$x = $this->Table->find('all', ['fields' => ['comment', 'updated'], 'order' => ['updated' => 'DESC']])->first();
+		$x['updated'] = (string)$x['updated'];
+
+		$result = $this->Table->resetRecords();
+		$this->assertTrue((bool)$result);
+
+		$y = $this->Table->find('all', ['fields' => ['comment', 'updated'], 'order' => ['updated' => 'DESC']])->first();
+		$y['updated'] = (string)$y['updated'];
+		$this->assertSame($x->toArray(), $y->toArray());
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testResetRecordsUpdateField() {
+		$this->Table->removeBehavior('Reset');
+		$this->Table->addBehavior('Tools.Reset', ['fields' => ['comment'], 'updateFields' => ['comment']]);
+
 		$x = $this->Table->find('all', ['fields' => ['comment'], 'order' => ['updated' => 'DESC']])->first();
 
 		$result = $this->Table->resetRecords();
