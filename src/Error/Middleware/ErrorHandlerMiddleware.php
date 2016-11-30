@@ -40,6 +40,7 @@ class ErrorHandlerMiddleware extends CoreErrorHandlerMiddleware
 	 */
 	public function __construct($renderer = null, array $config = [])
 	{
+		// Only needed until CakePHP 3.4+ for BC reasons.
 		if ($renderer === null) {
 			$renderer = Configure::read('Error.exceptionRenderer');
 		}
