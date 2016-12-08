@@ -37,6 +37,8 @@ class InlineCssLib {
 
 	/**
 	 * Inits with auto merged config.
+	 *
+	 * @param array $config
 	 */
 	public function __construct($config = []) {
 		$defaults = (array)Configure::read('InlineCss') + $this->_defaults;
@@ -49,10 +51,13 @@ class InlineCssLib {
 	/**
 	 * Processes HTML and CSS.
 	 *
+	 * @param string $html
+	 * @param string|null $css
 	 * @return string Result
 	 */
 	public function process($html, $css = null) {
-		if (($html = trim($html)) === '') {
+		$html = trim($html);
+		if ($html === '') {
 			return $html;
 		}
 		$method = '_process' . ucfirst($this->config['engine']);
@@ -60,6 +65,8 @@ class InlineCssLib {
 	}
 
 	/**
+	 * @param string $html
+	 * @param string $css
 	 * @return string Result
 	 */
 	protected function _processEmogrifier($html, $css) {
@@ -72,6 +79,9 @@ class InlineCssLib {
 
 		if (method_exists($Emogrifier, 'enableCssToHtmlMapping')) {
 			$Emogrifier->enableCssToHtmlMapping();
+		}
+		if (method_exists($Emogrifier, 'disableInvisibleNodeRemoval')) {
+			$Emogrifier->disableInvisibleNodeRemoval();
 		}
 
 		$result = @$Emogrifier->emogrify();
@@ -94,6 +104,8 @@ class InlineCssLib {
 	 * Process css blocks to inline css
 	 * Also works for html snippets (without <html>)
 	 *
+	 * @param string $html
+	 * @param string $css
 	 * @return string HTML output
 	 */
 	protected function _processCssToInline($html, $css) {
@@ -124,9 +136,7 @@ class InlineCssLib {
 		}
 		$html = $CssToInlineStyles->convert($this->config['xhtmlOutput']);
 		if ($this->config['removeCss']) {
-			//$html = preg_replace('/\<style(.*)\>(.*)\<\/style\>/i', '', $html);
 			$html = $this->stripOnly($html, ['style', 'script'], true);
-			//CakeLog::write('css', $html);
 		}
 
 		if (!empty($incomplete)) {
@@ -141,7 +151,10 @@ class InlineCssLib {
 	 * Some reverse function of strip_tags with blacklisting instead of whitelisting
 	 * //maybe move to Tools.Utility/String/Text?
 	 *
-	 * @return string cleanedStr
+	 * @param string $str
+	 * @param array|string $tags
+	 * @param bool $stripContent
+	 * @return string Cleaned string
 	 */
 	public function stripOnly($str, $tags, $stripContent = false) {
 		$content = '';
@@ -164,6 +177,7 @@ class InlineCssLib {
 	 * _extractAndRemoveCss - extracts any CSS from the rendered view and
 	 * removes it from the $html
 	 *
+	 * @param string $html
 	 * @return string
 	 */
 	protected function _extractAndRemoveCss($html) {
@@ -179,7 +193,7 @@ class InlineCssLib {
 		$links = $DOM->getElementsByTagName('link');
 
 		foreach ($links as $link) {
-			if ($link->hasAttribute('href') && preg_match("/\.css$/i", $link->getAttribute('href'))) {
+			if ($link->hasAttribute('href') && preg_match("/\\.css$/i", $link->getAttribute('href'))) {
 				// find the css file and load contents
 				if ($link->hasAttribute('media')) {
 					// FOR NOW
@@ -197,7 +211,7 @@ class InlineCssLib {
 			}
 		}
 
-		// Catch embeded <style> and @import CSS content
+		// Catch embedded <style> and @import CSS content
 		$styles = $DOM->getElementsByTagName('style');
 
 		// Style
@@ -296,7 +310,7 @@ class InlineCssLib {
 	/**
 	 * _parseInlineCssAndLoadImports
 	 *
-	 * @param string Input
+	 * @param string $css Input
 	 * @return string Result
 	 */
 	protected function _parseInlineCssAndLoadImports($css) {
@@ -311,9 +325,7 @@ class InlineCssLib {
 				['http' => ['header' => 'Connection: close']]);
 			foreach ($matches[1] as $url) {
 				if (preg_match("/^http/i", $url)) {
-					if ($this->importExternalCss) {
-						$css .= file_get_contents($url, 0, $context);
-					}
+					$css .= file_get_contents($url, 0, $context);
 				} else {
 					$css .= $this->_findAndLoadCssFile($url);
 				}
