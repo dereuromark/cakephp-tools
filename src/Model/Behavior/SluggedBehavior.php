@@ -384,7 +384,7 @@ class SluggedBehavior extends Behavior {
 	 * @return void
 	 */
 	protected function _multiSlug(Entity $entity) {
-		extract($this->_config);
+		$label = $this->config('label');
 		$field = current($label);
 		$fields = (array)$entity->get($field);
 
@@ -396,10 +396,10 @@ class SluggedBehavior extends Behavior {
 					$res = $this->generateSlug($field[$locale], $entity);
 				}
 			}
-			//$this->beforeRules($entity);
+
 			$locale[$locale] = $res;
 		}
-		$entity->set($slugField, $locale);
+		$entity->set($this->config('slugField'), $locale);
 	}
 
 	/**

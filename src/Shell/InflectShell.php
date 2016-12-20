@@ -138,7 +138,7 @@ class InflectShell extends Shell {
 	/**
 	 * Requests words to inflect
 	 *
-	 * @return array
+	 * @return string|null
 	 */
 	protected function _getWords() {
 		$words = null;

@@ -68,12 +68,14 @@ class TokensTable extends Table {
 	/**
 	 * Stores new key in DB
 	 *
+	 * Checks if this key is already used (should be unique in table)
+	 *
 	 * @param string $type Type: necessary
 	 * @param string|null $key Key: optional key, otherwise a key will be generated
 	 * @param mixed|null $uid Uid: optional (if used, only this user can use this key)
 	 * @param string|array|null $content Content: up to 255 characters of content may be added (optional)
-	 * NOW: checks if this key is already used (should be unique in table)
-	 * @return string key on SUCCESS, boolean false otherwise
+	 *
+	 * @return string|bool Key on success, boolean false otherwise
 	 */
 	public function newKey($type, $key = null, $uid = null, $content = null) {
 		if (!$type) {
@@ -118,7 +120,7 @@ class TokensTable extends Table {
 	 * @param string $key : necessary
 	 * @param mixed|null $uid : needs to be provided if this key has a user_id stored
 	 * @param bool $treatUsedAsInvalid
-	 * @return array|false Content - if successfully used or if already used (used=1), FALSE else
+	 * @return \Cake\ORM\Entity|false Content - if successfully used or if already used (used=1), FALSE else
 	 */
 	public function useKey($type, $key, $uid = null, $treatUsedAsInvalid = false) {
 		if (!$type || !$key) {
@@ -128,7 +130,7 @@ class TokensTable extends Table {
 		if ($uid) {
 			$options['conditions'][$this->alias() . '.user_id'] = $uid;
 		}
-		$res = $this->find('first', $options);
+		$res = $this->find('all', $options)->first();
 		if (!$res) {
 			return false;
 		}
