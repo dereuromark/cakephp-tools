@@ -3,9 +3,8 @@
 namespace Tools\Error\Middleware;
 
 use Cake\Core\Configure;
-use Cake\Log\Log;
-use Exception;
 use Cake\Error\Middleware\ErrorHandlerMiddleware as CoreErrorHandlerMiddleware;
+use Cake\Log\Log;
 
 /**
  * Error handling middleware.
@@ -29,8 +28,7 @@ use Cake\Error\Middleware\ErrorHandlerMiddleware as CoreErrorHandlerMiddleware;
  * In case you need custom 404 mappings for some additional custom exceptions, make use of `log404` option.
  * It will overwrite the current defaults completely.
  */
-class ErrorHandlerMiddleware extends CoreErrorHandlerMiddleware
-{
+class ErrorHandlerMiddleware extends CoreErrorHandlerMiddleware {
 
 	/**
 	 * @param string|callable|null $renderer The renderer or class name
@@ -38,8 +36,7 @@ class ErrorHandlerMiddleware extends CoreErrorHandlerMiddleware
 	 * @param array $config Configuration options to use. If empty, `Configure::read('Error')`
 	 *   will be used.
 	 */
-	public function __construct($renderer = null, array $config = [])
-	{
+	public function __construct($renderer = null, array $config = []) {
 		// Only needed until CakePHP 3.4+ for BC reasons.
 		if ($renderer === null) {
 			$renderer = Configure::read('Error.exceptionRenderer');
@@ -48,14 +45,14 @@ class ErrorHandlerMiddleware extends CoreErrorHandlerMiddleware
 		parent::__construct($renderer, $config);
 	}
 
-    /**
-     * Log an error for the exception if applicable.
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request The current request.
-     * @param \Exception $exception The exception to log a message for.
-     * @return void
-     */
-    protected function logException($request, $exception) {
+	/**
+	 * Log an error for the exception if applicable.
+	 *
+	 * @param \Psr\Http\Message\ServerRequestInterface $request The current request.
+	 * @param \Exception $exception The exception to log a message for.
+	 * @return void
+	 */
+	protected function logException($request, $exception) {
 		$blacklist = [
 			'Cake\Routing\Exception\MissingControllerException',
 			'Cake\Routing\Exception\MissingActionException',
@@ -80,7 +77,7 @@ class ErrorHandlerMiddleware extends CoreErrorHandlerMiddleware
 			return;
 		}
 
-        parent::logException($request, $exception);
-    }
+		parent::logException($request, $exception);
+	}
 
 }
