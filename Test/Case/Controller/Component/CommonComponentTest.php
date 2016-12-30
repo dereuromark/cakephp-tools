@@ -56,8 +56,8 @@ class CommonComponentTest extends CakeTestCase {
 		// with plugin
 		$this->Controller->Calendar = null;
 		$this->assertTrue(!isset($this->Controller->Calendar));
-		$this->Controller->Common->loadComponent('Tools.Calendar');
-		$this->assertTrue(isset($this->Controller->Calendar));
+		$this->Controller->Common->loadComponent('Tools.Mobile');
+		$this->assertTrue(isset($this->Controller->Mobile));
 
 		// with options
 		$this->Controller->Test = null;
