@@ -3,8 +3,13 @@
 namespace Tools\Error\Middleware;
 
 use Cake\Core\Configure;
+use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Error\Middleware\ErrorHandlerMiddleware as CoreErrorHandlerMiddleware;
 use Cake\Log\Log;
+use Cake\Network\Exception\BadRequestException;
+use Cake\Network\Exception\MethodNotAllowedException;
+use Cake\Network\Exception\NotAcceptableException;
+use Cake\Network\Exception\NotFoundException;
 
 /**
  * Error handling middleware.
@@ -31,6 +36,25 @@ use Cake\Log\Log;
 class ErrorHandlerMiddleware extends CoreErrorHandlerMiddleware {
 
 	/**
+	 * @var array
+	 */
+	public static $blacklist = [
+		NotFoundException::class,
+		MethodNotAllowedException::class,
+		NotAcceptableException::class,
+		RecordNotFoundException::class,
+		BadRequestException::class,
+		'Cake\Network\Exception\GoneException',
+		'Cake\Network\Exception\ConflictException',
+		'Cake\Network\Exception\InvalidCsrfToken',
+		'Cake\Network\Exception\UnauthorizedException',
+		'Cake\Routing\Exception\MissingControllerException',
+		'Cake\Routing\Exception\MissingActionException',
+		'Cake\Routing\Exception\PrivateActionException',
+		'Cake\Routing\Exception\NotFoundException',
+	];
+
+	/**
 	 * @param string|callable|null $renderer The renderer or class name
 	 *   to use or a callable factory.
 	 * @param array $config Configuration options to use. If empty, `Configure::read('Error')`
@@ -53,21 +77,7 @@ class ErrorHandlerMiddleware extends CoreErrorHandlerMiddleware {
 	 * @return void
 	 */
 	protected function logException($request, $exception) {
-		$blacklist = [
-			'Cake\Routing\Exception\MissingControllerException',
-			'Cake\Routing\Exception\MissingActionException',
-			'Cake\Routing\Exception\PrivateActionException',
-			'Cake\Routing\Exception\NotFoundException',
-			'Cake\Datasource\Exception\RecordNotFoundException',
-			'Cake\Network\Exception\MethodNotAllowedException',
-			'Cake\Network\Exception\BadRequestException',
-			'Cake\Network\Exception\ForbiddenException',
-			'Cake\Network\Exception\GoneException',
-			'Cake\Network\Exception\ConflictException',
-			'Cake\Network\Exception\InvalidCsrfToken',
-			'Cake\Network\Exception\UnauthorizedException',
-			'Cake\Network\Exception\NotAcceptableException',
-		];
+		$blacklist = static::$blacklist;
 		if (isset($this->_config['log404'])) {
 			$blacklist = $this->_config['log404'];
 		}

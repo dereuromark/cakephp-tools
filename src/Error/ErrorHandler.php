@@ -5,6 +5,7 @@ namespace Tools\Error;
 use Cake\Error\ErrorHandler as CoreErrorHandler;
 use Cake\Log\Log;
 use Exception;
+use Tools\Error\Middleware\ErrorHandlerMiddleware;
 
 /**
  * Custom ErrorHandler to not mix the 404 exceptions with the rest of "real" errors in the error.log file.
@@ -37,21 +38,7 @@ class ErrorHandler extends CoreErrorHandler {
 	 * @return bool
 	 */
 	protected function _logException(Exception $exception) {
-		$blacklist = [
-			'Cake\Routing\Exception\MissingControllerException',
-			'Cake\Routing\Exception\MissingActionException',
-			'Cake\Routing\Exception\PrivateActionException',
-			'Cake\Routing\Exception\NotFoundException',
-			'Cake\Datasource\Exception\RecordNotFoundException',
-			'Cake\Network\Exception\MethodNotAllowedException',
-			'Cake\Network\Exception\BadRequestException',
-			'Cake\Network\Exception\ForbiddenException',
-			'Cake\Network\Exception\GoneException',
-			'Cake\Network\Exception\ConflictException',
-			'Cake\Network\Exception\InvalidCsrfToken',
-			'Cake\Network\Exception\UnauthorizedException',
-			'Cake\Network\Exception\NotAcceptableException',
-		];
+		$blacklist = ErrorHandlerMiddleware::$blacklist;
 		if (isset($this->_options['log404'])) {
 			$blacklist = $this->_options['log404'];
 		}
