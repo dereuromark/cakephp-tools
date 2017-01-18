@@ -39,5 +39,9 @@
 	"support":{
 		"source": "https://github.com/dereuromark/cakephp-tools",
 		"issues": "https://github.com/dereuromark/cakephp-tools/issues"
+	},
+	"scripts": {
+		"cs-check": "phpcs -p --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/vendor/,/tmp/,/logs/,/tests/test_files/ --extensions=php ./",
+		"cs-fix": "phpcbf -f --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/vendor/,/tmp/,/logs/,/tests/test_files --extensions=php ./"
 	}
 }

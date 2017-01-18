@@ -288,7 +288,6 @@ class TableTest extends TestCase {
 	 * @return void
 	 */
 	public function testValidateDatetime() {
-
 		$date = new Time('2010-01-22 11:11:11');
 		$res = $this->Users->validateDatetime($date);
 		//debug($res);
@@ -382,7 +381,6 @@ class TableTest extends TestCase {
 	 * @return void
 	 */
 	public function testValidateTime() {
-
 		$date = '11:21:11';
 		$res = $this->Users->validateTime($date);
 		//debug($res);

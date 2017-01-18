@@ -13,7 +13,7 @@ I am looking forward to your contributions. There are several ways to help out:
 * Write patches for bugs/features, preferably with testcases included
 
 There are a few guidelines that I need contributors to follow:
-* Coding standards (`./sniff` to check and `./sniff -f` to fix)
+* Coding standards (`composer cs-check` to check and `composer cs-fix` to fix)
 * Passing tests (you can enable travis to assert your changes pass) for Windows and Unix (`php phpunit.phar`)
 
 # Additional Resources

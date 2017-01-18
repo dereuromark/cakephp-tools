@@ -253,7 +253,6 @@ class TextHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testMinimizeUrl() {
-
 		$url = 'http://www.test.de';
 		$this->assertEquals($url, $this->Text->minimizeUrl($url, 20));
 
