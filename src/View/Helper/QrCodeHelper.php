@@ -37,7 +37,7 @@ class QrCodeHelper extends Helper {
 	/**
 	 * @var array
 	 */
-	public $helpers = ['Html'];
+	public $helpers = ['Html', 'Url'];
 
 	/**
 	 * @var string
@@ -75,7 +75,7 @@ class QrCodeHelper extends Helper {
 	 * @param \Cake\View\View $View
 	 * @param array $config
 	 */
-	public function __construct(View $View, array $config) {
+	public function __construct(View $View, array $config = []) {
 		parent::__construct($View, $config);
 
 		$this->reset();
@@ -133,7 +133,7 @@ class QrCodeHelper extends Helper {
 			case 'text':
 				break;
 			case 'url':
-				$text = $this->Html->url($text, true);
+				$text = $this->Url->build($text, true);
 				break;
 			case 'sms':
 				$text = 'smsto:' . implode(':', (array)$text);
@@ -226,7 +226,7 @@ class QrCodeHelper extends Helper {
 				case 'url':
 					$val = (array)$val;
 					foreach ($val as $v) {
-						$res[] = 'URL:' . $this->Html->url($v, true);
+						$res[] = 'URL:' . $this->Url->build($v, true);
 					}
 					break;
 			}

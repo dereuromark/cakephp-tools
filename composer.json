@@ -41,6 +41,8 @@
 		"issues": "https://github.com/dereuromark/cakephp-tools/issues"
 	},
 	"scripts": {
+		"setup": "[ ! -f phpunit.phar ] && wget https://phar.phpunit.de/phpunit.phar",
+		"test": "php phpunit.phar",
 		"cs-check": "phpcs -p --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/vendor/,/tmp/,/logs/,/tests/test_files/ --extensions=php ./",
 		"cs-fix": "phpcbf -v --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/vendor/,/tmp/,/logs/,/tests/test_files --extensions=php ./"
 	}
