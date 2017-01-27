@@ -4,7 +4,6 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\View\View;
 use Tools\TestSuite\TestCase;
-use Tools\View\Helper\HelperHelper;
 use Tools\View\Helper\QrCodeHelper;
 
 /**
@@ -12,7 +11,7 @@ use Tools\View\Helper\QrCodeHelper;
  */
 class QrCodeHelperTest extends TestCase {
 
-	CONST QR_TEST_STRING = 'Some Text to Translate';
+	const QR_TEST_STRING = 'Some Text to Translate';
 	const QR_TEST_STRING_UTF = 'Some äöü Test String with $ and @ etc';
 
 	/**
@@ -56,7 +55,7 @@ class QrCodeHelperTest extends TestCase {
 
 	/**
 	 * @return void
-     */
+	 */
 	public function testFormatText() {
 		$is = $this->QrCode->formatText(['controller' => 'Foo', 'action' => 'bar'], 'url');
 		$this->assertSame('/foo/bar', $is);
@@ -64,7 +63,7 @@ class QrCodeHelperTest extends TestCase {
 
 	/**
 	 * @return void
-     */
+	 */
 	public function testFormatCard() {
 		$data = [
 			'name' => 'My name',
