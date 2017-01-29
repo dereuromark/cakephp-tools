@@ -12,7 +12,7 @@ $this->addBehavior('Tools.Jsonable', $options);
 
 Tip: If you have other behaviors that might modify the array data prior to saving, better use a higher priority:
 ```php
-$this->addBehavior('Tools.Jsonable', array('priority' => 11, ...));
+$this->addBehavior('Tools.Jsonable', ['priority' => 11, ...]);
 ```
 So that it is run last.
 
@@ -52,7 +52,7 @@ The rest is CakePHP automagic :)
 
 ```php
 $this->addBehavior('Tools.Jsonable',
-	array('fields' => array('debug'), 'map' => array('geocoder_result'));
+	array('fields' => ['debug'], 'map' => ['geocoder_result']);
 ```
 I could access the array in the view as any other array since the behavior re-translates it back into an array on find().
 
@@ -72,13 +72,13 @@ We can switch to param style here globally for the entity:
 
 ```php
 $this->addBehavior('Tools.Jsonable',
-	array('fields' => 'details', 'input' => 'param', 'output' => 'array'));
+	['fields' => 'details', 'input' => 'param', 'output' => 'array']);
 ```
 
 Only for the add/edit action we need to also make "output" "param" at runtime:
 ```php
 $this->Table->behaviors()->Jsonable->options(
-	array('fields' => 'details', 'input' => 'param', 'output' => 'param'));
+	['fields' => 'details', 'input' => 'param', 'output' => 'param']);
 ```
 
 The form contains a "details" textarea field. We can insert:
@@ -90,7 +90,7 @@ In our views we get our data now as array:
 ```php
 debug($entity->get('details'));
 // Prints:
-// array('param1' => 'value1', 'param2' => 'value2')));
+// ['param1' => 'value1', 'param2' => 'value2']
 ```
 
 
@@ -98,7 +98,7 @@ debug($entity->get('details'));
 we can also simulate an ENUM by using
 ```php
 $this->addBehavior('Tools.Jsonable',
-	array('fields' => 'tags', 'sort' => true, 'unique' => true, 'input' => 'list', 'output' => 'array'));
+	['fields' => 'tags', 'sort' => true, 'unique' => true, 'input' => 'list', 'output' => 'array']);
 ```
 Dont' forget to use `'output' => 'list'` for add/edit actions.
 
@@ -111,7 +111,7 @@ In our views we would result in:
 ```php
 debug($entity->get('tags'));
 // Prints:
-// array('cat', 'dog', 'fish');
+// ['cat', 'dog', 'fish']
 ```
 
 Note: The cleanup automation you can additionally turn on/off. There are more things to explore. Dig into the source code for that.
