@@ -15,6 +15,10 @@ use Cake\Validation\Validator;
  */
 class ContactForm extends Form {
 
+	/**
+	 * @param \Cake\Form\Schema $schema
+	 * @return \Cake\Form\Schema
+	 */
 	protected function _buildSchema(Schema $schema) {
 		return $schema->addField('name', ['type' => 'string', 'length' => 40])
 			->addField('email', ['type' => 'string', 'length' => 50])
@@ -22,6 +26,10 @@ class ContactForm extends Form {
 			->addField('body', ['type' => 'text']);
 	}
 
+	/**
+	 * @param \Cake\Validation\Validator $validator
+	 * @return \Cake\Validation\Validator
+	 */
 	protected function _buildValidator(Validator $validator) {
 		return $validator
 			->requirePresence('name')
@@ -37,6 +45,10 @@ class ContactForm extends Form {
 			->notEmpty('message', __('This field cannot be left empty'));
 	}
 
+	/**
+	 * @param array $data
+	 * @return bool
+	 */
 	protected function _execute(array $data) {
 		// Overwrite in your extending class
 		return true;

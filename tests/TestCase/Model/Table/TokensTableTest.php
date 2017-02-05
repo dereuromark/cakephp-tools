@@ -17,22 +17,34 @@ class TokensTableTest extends TestCase {
 	 */
 	public $fixtures = ['plugin.Tools.Tokens'];
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 
 		$this->Tokens = TableRegistry::get('Tools.Tokens');
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testTokenInstance() {
 		$this->assertInstanceOf('Tools\Model\Table\TokensTable', $this->Tokens);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testGenerateKey() {
 		$key = $this->Tokens->generateKey(4);
 		//pr($key);
 		$this->assertTrue(!empty($key) && strlen($key) === 4);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testNewKeySpendKey() {
 		$key = $this->Tokens->newKey('test', null, null, 'xyz');
 		$this->assertTrue(!empty($key));
@@ -52,6 +64,9 @@ class TokensTableTest extends TestCase {
 		$this->assertFalse($res);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testGarbageCollector() {
 		$data = [
 			'created' => date(FORMAT_DB_DATETIME, time() - 3 * MONTH),

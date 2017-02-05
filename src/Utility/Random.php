@@ -53,10 +53,6 @@ class Random {
 		return $values[static::int(0, $max)];
 	}
 
-	public static function arrayValues($array, $minAmount = null, $maxAmount = null) {
-		//NOT IMPORTANT
-	}
-
 	/**
 	 * 1950-01-01 - 2050-12-31
 	 *
@@ -87,9 +83,10 @@ class Random {
 		return date($formatReturnAs);
 	}
 
-	//TODO
 	/**
 	 * 00:00:00 - 23:59:59
+	 *
+	 * TODO
 	 *
 	 * @param int|null $min
 	 * @param int|null $max
@@ -104,6 +101,8 @@ class Random {
 				return $res;
 			}
 		}
+
+		return $res;
 	}
 
 	/**

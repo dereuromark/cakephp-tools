@@ -74,6 +74,9 @@ class TreeHelperTest extends TestCase {
 		}
 	}
 
+	/**
+	 * @return void
+	 */
 	public function tearDown() {
 		unset($this->Table);
 
@@ -81,6 +84,9 @@ class TreeHelperTest extends TestCase {
 		parent::tearDown();
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testObject() {
 		$this->assertInstanceOf('Tools\View\Helper\TreeHelper', $this->Tree);
 	}
@@ -494,21 +500,27 @@ TEXT;
 TEXT;
 		$output = str_replace(["\t", "\r", "\n"], '', $output);
 		$expected = str_replace(["\t", "\r", "\n"], '', $expected);
-		//debug($output);
-		//debug($expected);
 		$this->assertTextEquals($expected, $output);
 	}
 
+	/**
+	 * @param array $data
+	 * @return string|null
+	 */
 	public function _myCallback($data) {
 		if (!empty($data['data']['hide'])) {
-			return;
+			return null;
 		}
 		return $data['data']['name'] . ($data['activePathElement'] ? ' (active)' : '');
 	}
 
+	/**
+	 * @param array $data
+	 * @return string|null
+	 */
 	public function _myCallbackSiblings($data) {
 		if (!empty($data['data']['hide'])) {
-			return;
+			return null;
 		}
 		if ($data['depth'] == 0 && $data['isSibling']) {
 			return $data['data']['name'] . ' (sibling)';

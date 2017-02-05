@@ -90,6 +90,10 @@ class SluggedBehavior extends Behavior {
 	 */
 	protected $_table;
 
+	/**
+	 * @param \Cake\ORM\Table $table
+	 * @param array $config
+	 */
 	public function __construct(Table $table, array $config = []) {
 		$this->_defaultConfig['notices'] = Configure::read('debug');
 		$this->_defaultConfig['label'] = $table->displayField();

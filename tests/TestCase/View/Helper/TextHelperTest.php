@@ -14,6 +14,9 @@ class TextHelperTest extends TestCase {
 	 */
 	public $Text;
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 

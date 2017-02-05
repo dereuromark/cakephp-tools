@@ -15,6 +15,9 @@ class TimeTest extends TestCase {
 	 */
 	public $Time;
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		$this->Time = new Time();
 
@@ -734,6 +737,9 @@ class TimeTest extends TestCase {
 		$this->assertEquals('Europe/Vaduz', $result);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testCweeks() {
 		//$this->out($this->_header(__FUNCTION__), true);
 		$ret = $this->Time->cweeks('2004');
@@ -754,6 +760,9 @@ class TimeTest extends TestCase {
 		*/
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testCweekBeginning() {
 		//$this->out($this->_header(__FUNCTION__), true);
 		$values = [
@@ -787,6 +796,9 @@ class TimeTest extends TestCase {
 		}
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testCweekEnding() {
 		//$this->out($this->_header(__FUNCTION__), true);
 

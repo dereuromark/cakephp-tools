@@ -19,6 +19,9 @@ class HtmlHelperTest extends TestCase {
 	 */
 	protected $Html;
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 

@@ -12,6 +12,9 @@ class HtmlDomTest extends TestCase {
 	 */
 	public $HtmlDom;
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 

@@ -14,12 +14,18 @@ class TextTest extends TestCase {
 	 */
 	public $Text;
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 
 		$this->Text = new Text();
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testReadTab() {
 		$data = <<<TXT
 some	tabbed	data
@@ -46,6 +52,9 @@ TXT;
 		$this->assertSame(['and', 'a', 'third'], $result[2]);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testConvertToOrd() {
 		$is = $this->Text->convertToOrd('h H');
 		//pr($is);
@@ -55,17 +64,26 @@ TXT;
 		//pr($is);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testConvertToOrdTable() {
 		$is = $this->Text->convertToOrdTable('x' . PHP_EOL . 'x' . PHP_EOL . 'x' . PHP_EOL . 'x' . PHP_EOL . 'x' . "\t" . 'x');
 		//pr($is);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testMaxWords() {
 		$this->assertEquals('Taylor...', Text::maxWords('Taylor Otwell', 1));
 		$this->assertEquals('Taylor___', Text::maxWords('Taylor Otwell', 1, ['ellipsis' => '___']));
 		$this->assertEquals('Taylor Otwell', Text::maxWords('Taylor Otwell', 3));
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testWords() {
 		$is = $this->Text->words('Hochhaus, Unter dem Bau von ae Äußeren Einflüssen - und von Autos.', ['min_char' => 3]);
 		$this->assertTrue(!empty($is) && is_array($is) && count($is) === 9);

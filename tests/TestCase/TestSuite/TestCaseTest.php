@@ -6,10 +6,16 @@ use Tools\TestSuite\TestCase;
 
 class TestCaseTest extends TestCase {
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 	}
 
+	/**
+	 * @return void
+	 */
 	public function tearDown() {
 		parent::tearDown();
 	}

@@ -24,6 +24,9 @@ class ResetBehaviorTest extends TestCase {
 	 */
 	public $fixtures = ['plugin.tools.reset_comments'];
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -33,6 +36,9 @@ class ResetBehaviorTest extends TestCase {
 		$this->Table->addBehavior('Tools.Reset');
 	}
 
+	/**
+	 * @return void
+	 */
 	public function tearDown() {
 		TableRegistry::clear();
 

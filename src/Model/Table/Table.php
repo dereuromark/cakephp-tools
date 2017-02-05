@@ -385,7 +385,7 @@ class Table extends ShimTable {
 			$days = !empty($options['min']) ? $options['min'] : 0;
 			if (!empty($options['after']) && isset($context['data'][$options['after']])) {
 				$compare = $value->subDays($days);
-				/* @var \Cake\I18n\Time $after */
+				/** @var \Cake\I18n\Time $after */
 				$after = $context['data'][$options['after']];
 				if ($after->gt($compare)) {
 					return false;
@@ -393,7 +393,7 @@ class Table extends ShimTable {
 			}
 			if (!empty($options['before']) && isset($context['data'][$options['before']])) {
 				$compare = $value->addDays($days);
-				/* @var \Cake\I18n\Time $before */
+				/** @var \Cake\I18n\Time $before */
 				$before = $context['data'][$options['before']];
 				if ($before->lt($compare)) {
 					return false;

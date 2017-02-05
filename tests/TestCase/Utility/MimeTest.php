@@ -14,22 +14,34 @@ class MimeTest extends TestCase {
 	 */
 	public $Mime;
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 
 		$this->Mime = new Mime();
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testObject() {
 		$this->assertTrue(is_object($this->Mime));
 		$this->assertInstanceOf('Tools\Utility\Mime', $this->Mime);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testAll() {
 		$res = $this->Mime->mimeTypes();
 		$this->assertTrue(is_array($res) && count($res) > 100);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testSingle() {
 		$res = $this->Mime->getMimeTypeByAlias('odxs');
 		$this->assertFalse($res);
@@ -38,11 +50,17 @@ class MimeTest extends TestCase {
 		$this->assertEquals('application/vnd.oasis.opendocument.spreadsheet', $res);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testOverwrite() {
 		$res = $this->Mime->getMimeTypeByAlias('ics');
 		$this->assertEquals('application/ics', $res);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testReverseToSingle() {
 		$res = $this->Mime->getMimeTypeByAlias('html');
 		$this->assertEquals('text/html', $res);
@@ -51,6 +69,9 @@ class MimeTest extends TestCase {
 		$this->assertEquals('text/csv', $res);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testReverseToMultiple() {
 		$res = $this->Mime->getMimeTypeByAlias('html', false);
 		$this->assertTrue(is_array($res));
@@ -62,8 +83,6 @@ class MimeTest extends TestCase {
 	}
 
 	/**
-	 * Test fake files
-	 *
 	 * @return void
 	 */
 	public function testCorrectFileExtension() {
@@ -74,8 +93,6 @@ class MimeTest extends TestCase {
 	}
 
 	/**
-	 * Test fake files
-	 *
 	 * @return void
 	 */
 	public function testWrongFileExtension() {
@@ -87,8 +104,6 @@ class MimeTest extends TestCase {
 	}
 
 	/**
-	 * testgetMimeTypeByAlias()
-	 *
 	 * @return void
 	 */
 	public function testgetMimeTypeByAlias() {
@@ -103,8 +118,6 @@ class MimeTest extends TestCase {
 	}
 
 	/**
-	 * Test fake files
-	 *
 	 * @return void
 	 */
 	public function testEncoding() {
@@ -126,8 +139,6 @@ class MimeTest extends TestCase {
 	}
 
 	/**
-	 * MimeLibTest::testDifferenceBetweenPluginAndCore()
-	 *
 	 * @return void
 	 */
 	public function testDifferenceBetweenPluginAndCore() {
@@ -153,13 +164,15 @@ class MimeTest extends TestCase {
 		foreach ($plugin as $key => $value) {
 			$diff['pluginonly'][$key] = $value;
 		}
-		//$this->debug($diff);
 	}
 
 }
 
 class TestCakeResponse extends Response {
 
+	/**
+	 * @return array
+	 */
 	public function getMimeTypes() {
 		return $this->_mimeTypes;
 	}
@@ -168,6 +181,10 @@ class TestCakeResponse extends Response {
 
 class TestMime extends Mime {
 
+	/**
+	 * @param bool $coreHasPrecedence
+	 * @return array
+	 */
 	public function getMimeTypes($coreHasPrecedence = false) {
 		return $this->_mimeTypesExt;
 	}

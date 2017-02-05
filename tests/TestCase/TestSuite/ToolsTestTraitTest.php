@@ -6,6 +6,9 @@ use Tools\TestSuite\TestCase;
 
 class ToolsTestTraitTest extends TestCase {
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -13,6 +16,9 @@ class ToolsTestTraitTest extends TestCase {
 		$_SERVER['argv'] = [];
 	}
 
+	/**
+	 * @return void
+	 */
 	public function tearDown() {
 		parent::tearDown();
 

@@ -174,6 +174,11 @@ class Text extends CakeText {
 		return implode($separator, $res);
 	}
 
+	/**
+	 * @param string $str
+	 * @param int $maxCols
+	 * @return string
+	 */
 	public static function convertToOrdTable($str, $maxCols = 20) {
 		$res = '<table>';
 		$r = ['chr' => [], 'ord' => []];

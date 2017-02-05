@@ -75,6 +75,9 @@ class TimelineHelperTest extends TestCase {
 		$this->assertContains('\'start\': new Date(', $result);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function tearDown() {
 		parent::tearDown();
 

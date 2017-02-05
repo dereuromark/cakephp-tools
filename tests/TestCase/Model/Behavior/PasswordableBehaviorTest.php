@@ -43,6 +43,9 @@ class PasswordableBehaviorTest extends TestCase {
 		Router::setRequestInfo(new Request());
 	}
 
+	/**
+	 * @return void
+	 */
 	public function tearDown() {
 		TableRegistry::clear();
 

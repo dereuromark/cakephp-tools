@@ -64,6 +64,9 @@ class MobileComponentTest extends TestCase {
 		unset($this->Controller);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testDetect() {
 		$is = $this->Controller->Mobile->detect();
 		$this->assertFalse($is);
@@ -73,12 +76,18 @@ class MobileComponentTest extends TestCase {
 		$this->assertTrue($is);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testMobileNotMobile() {
 		$this->Controller->Mobile->config('on', 'initialize');
 		$this->Controller->Mobile->initialize([]);
 		$this->assertFalse($this->Controller->Mobile->isMobile);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testMobileForceActivated() {
 		$this->Controller->request->query['mobile'] = 1;
 
@@ -94,6 +103,9 @@ class MobileComponentTest extends TestCase {
 		$this->assertEquals(['desktopUrl' => '/?mobile=0'], $this->Controller->viewVars);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testMobileForceDeactivated() {
 		$this->Controller->request->query['mobile'] = 0;
 
@@ -107,6 +119,9 @@ class MobileComponentTest extends TestCase {
 		$this->assertEquals(['mobileUrl' => '/?mobile=1'], $this->Controller->viewVars);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testMobileFakeMobile() {
 		$_SERVER['HTTP_USER_AGENT'] = 'Some Android device';
 
@@ -118,6 +133,9 @@ class MobileComponentTest extends TestCase {
 		$this->assertSame(['isMobile' => 1, 'setMobile' => 1], $configure);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testMobileFakeMobileForceDeactivated() {
 		$this->Controller->request->query['mobile'] = 0;
 		$_SERVER['HTTP_USER_AGENT'] = 'Some Android device';
@@ -135,6 +153,9 @@ class MobileComponentTest extends TestCase {
 		$this->assertSame(['isMobile' => 1, 'setMobile' => 0], $configure);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testMobileFakeMobileAuto() {
 		$this->Controller->Mobile->config('auto', true);
 		$_SERVER['HTTP_USER_AGENT'] = 'Some Android device';
@@ -147,6 +168,9 @@ class MobileComponentTest extends TestCase {
 		$this->assertTrue($this->Controller->Mobile->setMobile);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testMobileVendorEngineCake() {
 		$this->Controller->Mobile->config('engine', '');
 		$_SERVER['HTTP_USER_AGENT'] = 'Some Android device';
@@ -156,6 +180,9 @@ class MobileComponentTest extends TestCase {
 		$this->assertTrue($this->Controller->Mobile->isMobile);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testMobileCustomMobileInvalid() {
 		$_SERVER['HTTP_USER_AGENT'] = 'Some Foo device';
 
@@ -163,6 +190,9 @@ class MobileComponentTest extends TestCase {
 		$this->assertFalse($this->Controller->Mobile->isMobile);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testMobileCustomMobile() {
 		$_SERVER['HTTP_USER_AGENT'] = 'Some Android device';
 
@@ -170,6 +200,9 @@ class MobileComponentTest extends TestCase {
 		$this->assertTrue($this->Controller->Mobile->isMobile);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testMobileCustomMobileTablet() {
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A403 Safari/8536.25';
 
@@ -177,6 +210,9 @@ class MobileComponentTest extends TestCase {
 		$this->assertTrue($this->Controller->Mobile->isMobile);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testMobileEngineClosure() {
 		$closure = function() {
 			return $_SERVER['HTTP_USER_AGENT'] === 'Foo';

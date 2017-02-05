@@ -135,14 +135,23 @@ class BootstrapTest extends TestCase {
 		$this->assertEquals(false, $is);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testEnt() {
 		//$this->assertEquals($expected, $is);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testEntDec() {
 		//$this->assertEquals($expected, $is);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testReturns() {
 		//$this->assertEquals($expected, $is);
 	}

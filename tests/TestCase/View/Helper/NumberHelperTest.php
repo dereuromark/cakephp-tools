@@ -13,6 +13,9 @@ use Tools\View\Helper\NumberHelper;
  */
 class NumberHelperTest extends TestCase {
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -114,6 +117,9 @@ class NumberHelperTest extends TestCase {
 		$this->assertEquals('2,5 TB', $is);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function tearDown() {
 		parent::tearDown();
 

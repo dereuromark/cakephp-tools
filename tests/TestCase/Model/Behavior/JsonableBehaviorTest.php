@@ -21,6 +21,9 @@ class JsonableBehaviorTest extends TestCase {
 	 */
 	public $Comments;
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 

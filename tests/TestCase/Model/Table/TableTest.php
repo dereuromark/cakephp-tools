@@ -39,6 +39,9 @@ class TableTest extends TestCase {
 		$this->Posts->belongsTo('Authors');
 	}
 
+	/**
+	 * @return void
+	 */
 	public function tearDown() {
 		TableRegistry::clear();
 

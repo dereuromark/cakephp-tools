@@ -299,6 +299,9 @@ class QrCodeHelper extends Helper {
 		return false;
 	}
 
+	/**
+	 * @return void
+	 */
 	public function setEncoding() {
 		//TODO
 	}

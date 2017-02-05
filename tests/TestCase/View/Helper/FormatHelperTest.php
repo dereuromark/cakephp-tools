@@ -369,6 +369,9 @@ TEXT;
 		$this->assertTextNotContains('<th>', $is);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function tearDown() {
 		parent::tearDown();
 

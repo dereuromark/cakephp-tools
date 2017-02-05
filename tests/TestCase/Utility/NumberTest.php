@@ -12,6 +12,9 @@ class NumberTest extends TestCase {
 	 */
 	public $Number;
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 

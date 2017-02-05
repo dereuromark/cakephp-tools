@@ -7,12 +7,18 @@ use Tools\Utility\Random;
 
 class RandomTest extends TestCase {
 
+	/**
+	 * @return void
+	 */
 	public function testInt() {
 		$is = Random::int(2, 200);
 		//pr($is);
 		$this->assertTrue($is >= 2 && $is <= 200);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testArrayValue() {
 		$array = [
 			'x',
@@ -32,11 +38,17 @@ class RandomTest extends TestCase {
 		$this->assertTrue(in_array($is, $array));
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testPwd() {
 		$result = Random::pwd(10);
 		$this->assertTrue(mb_strlen($result) === 10);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testPronounceablePwd() {
 		$is = Random::pronounceablePwd(6);
 		//pr($is);

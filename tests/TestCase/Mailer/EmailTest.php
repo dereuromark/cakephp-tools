@@ -376,6 +376,9 @@ html-part
 		$this->assertTrue((bool)$res);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function _testComplexeHtmlWithEmbeddedImages() {
 		$file = Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 		$this->assertTrue(file_exists($file));
