@@ -19,7 +19,8 @@
 	},
 	"require-dev":{
 		"mobiledetect/mobiledetectlib": "2.*",
-		"fig-r/psr2r-sniffer": "dev-master"
+		"fig-r/psr2r-sniffer": "dev-develop",
+		"squizlabs/php_codesniffer": "^3.0.0@dev"
 	},
 	"autoload": {
 		"psr-4": {
@@ -43,7 +44,7 @@
 	"scripts": {
 		"setup": "[ ! -f phpunit.phar ] && wget https://phar.phpunit.de/phpunit.phar",
 		"test": "php phpunit.phar",
-		"cs-check": "phpcs -p --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/cakephp-tools/vendor/,/tmp/,/logs/,/tests/test_files/ --extensions=php ./",
+		"cs-check": "vendor/bin/phpcs -p --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/cakephp-tools/vendor/,/tmp/,/logs/,/tests/test_files/ --extensions=php ./",
 		"cs-fix": "phpcbf -v --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/cakephp-tools/vendor/,/tmp/,/logs/,/tests/test_files --extensions=php ./"
 	}
 }
