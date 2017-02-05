@@ -5,6 +5,7 @@ namespace Tools\Test\TestCase\Mailer;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Log\Log;
+use TestApp\Mailer\TestEmail;
 use Tools\Mailer\Email;
 use Tools\TestSuite\TestCase;
 
@@ -14,7 +15,7 @@ use Tools\TestSuite\TestCase;
 class EmailTest extends TestCase {
 
 	/**
-	 * @var TestEmail
+	 * @var \TestApp\Mailer\TestEmail
 	 */
 	protected $Email;
 
@@ -82,7 +83,7 @@ class EmailTest extends TestCase {
 		$this->assertSame($expected, $this->Email->from());
 		$this->assertSame($this->Email, $result);
 
-		$this->expectException('InvalidArgumentException');
+		$this->setExpectedException('InvalidArgumentException');
 		$this->Email->from(['cake@cakephp.org' => 'CakePHP', 'fail@cakephp.org' => 'From can only be one address']);
 	}
 
@@ -429,33 +430,6 @@ HTML;
 		}
 		$this->debug($is);
 		$this->assertTrue(count($is) >= 16);
-	}
-
-}
-
-/**
- * Help to test Email
- */
-class TestEmail extends Email {
-
-	/**
-	 * Wrap to protected method
-	 *
-	 * @param string $text
-	 * @param int $length
-	 * @return array
-	 */
-	public function wrap($text, $length = Email::LINE_LENGTH_MUST) {
-		return parent::_wrap($text, $length);
-	}
-
-	/**
-	 * @param string $attribute
-	 * @return mixed
-	 */
-	public function getProtected($attribute) {
-		$attribute = '_' . $attribute;
-		return $this->$attribute;
 	}
 
 }

@@ -195,7 +195,7 @@ class Email extends CakeEmail {
 
 	/**
 	 * Overwrite to allow mimetype detection
-	 +
+	 *
 	 * @param string|array $attachments String with the filename or array with filenames
 	 * @return $this
 	 * @throws \InvalidArgumentException
@@ -564,7 +564,7 @@ class Email extends CakeEmail {
 			'transport' => get_class($this->_transport),
 		];
 
-		/** @deprecated Since CakePHP 3.4.0-RC4 in core **/
+		/* @deprecated Since CakePHP 3.4.0-RC4 in core */
 		if ($this->_priority) {
 			$this->_headers['X-Priority'] = $this->_priority;
 		}
