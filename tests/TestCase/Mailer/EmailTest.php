@@ -14,6 +14,11 @@ use Tools\TestSuite\TestCase;
 class EmailTest extends TestCase {
 
 	/**
+	 * @var TestEmail
+	 */
+	protected $Email;
+
+	/**
 	 * setUp
 	 *
 	 * @return void
@@ -25,6 +30,8 @@ class EmailTest extends TestCase {
 		Email::configTransport('debug', [
 			'className' => 'Debug'
 		]);
+
+		Configure::delete('Config.xMailer');
 	}
 
 	/**
@@ -38,11 +45,23 @@ class EmailTest extends TestCase {
 		Email::drop('test');
 		Email::dropTransport('debug');
 		Email::dropTransport('test_smtp');
+
+		Configure::delete('Config.xMailer');
 	}
 
 	/**
-	 * testFrom method
-	 *
+	 * @return void
+	 */
+	public function testSetProfile() {
+		Configure::write('Config.xMailer', 'foobar');
+
+		$this->Email->setProfile('default');
+
+		$result = $this->Email->getProtected('headers');
+		$this->assertSame(['X-Mailer' => 'foobar'], $result);
+	}
+
+	/**
 	 * @return void
 	 */
 	public function testFrom() {
@@ -63,13 +82,11 @@ class EmailTest extends TestCase {
 		$this->assertSame($expected, $this->Email->from());
 		$this->assertSame($this->Email, $result);
 
-		$this->setExpectedException('InvalidArgumentException');
-		$result = $this->Email->from(['cake@cakephp.org' => 'CakePHP', 'fail@cakephp.org' => 'From can only be one address']);
+		$this->expectException('InvalidArgumentException');
+		$this->Email->from(['cake@cakephp.org' => 'CakePHP', 'fail@cakephp.org' => 'From can only be one address']);
 	}
 
 	/**
-	 * EmailTest::testAddAttachment()
-	 *
 	 * @return void
 	 */
 	public function testAddAttachment() {
@@ -97,14 +114,11 @@ class EmailTest extends TestCase {
 	}
 
 	/**
-	 * EmailTest::testAddAttachment()
-	 *
 	 * @return void
 	 */
 	public function testAddAttachmentSend() {
 		$file = Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 		$this->assertTrue(file_exists($file));
-		//Configure::write('debug', 0);
 
 		$this->Email->to(Configure::read('Config.adminEmail'));
 		$this->Email->addAttachment($file);
@@ -121,14 +135,46 @@ class EmailTest extends TestCase {
 		$this->Email->addAttachment($file, 'x.jpg');
 		$res = $this->Email->send('test_custom_filename');
 
-		//Configure::write('debug', 2);
-		//$this->assertEquals('', $this->Email->getError());
-		//$this->assertTrue($res);
+		$this->assertTrue((bool)$res);
 	}
 
 	/**
-	 * EmailTest::testAddBlobAttachment()
-	 *
+	 * @return void
+	 */
+	public function testAddEmbeddedAttachmentByContentId() {
+		$file = Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
+
+		$this->Email->addEmbeddedAttachmentByContentId('123', $file);
+
+		$attachments = $this->Email->getProtected('attachments');
+		$attachment = array_shift($attachments);
+		$this->assertSame('image/png', $attachment['mimetype']);
+		$this->assertSame('123', $attachment['contentId']);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAddEmbeddedBlobAttachmentByContentId() {
+		$file = Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
+		$content = file_get_contents($file);
+
+		$this->Email->addEmbeddedBlobAttachmentByContentId('123', $content, $file);
+
+		$attachments = $this->Email->getProtected('attachments');
+		$attachment = array_shift($attachments);
+		$this->assertNotEmpty($attachment['data']);
+		$this->assertSame('image/png', $attachment['mimetype']);
+		$this->assertSame('123', $attachment['contentId']);
+
+		$this->Email->addEmbeddedBlobAttachmentByContentId('123', $content, $file, 'png');
+
+		$attachments = $this->Email->getProtected('attachments');
+		$attachment = array_shift($attachments);
+		$this->assertSame('png', $attachment['mimetype']);
+	}
+
+	/**
 	 * @return void
 	 */
 	public function testAddBlobAttachment() {
@@ -160,8 +206,6 @@ class EmailTest extends TestCase {
 	}
 
 	/**
-	 * EmailTest::testAddEmbeddedAttachment()
-	 *
 	 * @return void
 	 */
 	public function testAddEmbeddedAttachment() {
@@ -224,16 +268,12 @@ html-part
 		$res = $this->Email->send();
 		Configure::write('debug', 2);
 		$error = $this->Email->getError();
-		if ($error) {
-			$this->out($error);
-		}
+
 		$this->assertEquals('', $this->Email->getError());
 		$this->assertTrue((bool)$res);
 	}
 
 	/**
-	 * EmailTest::testAddEmbeddedBlobAttachment()
-	 *
 	 * @return void
 	 */
 	public function testAddEmbeddedBlobAttachment() {
@@ -281,8 +321,6 @@ html-part
 	}
 
 	/**
-	 * EmailTest::testValidates()
-	 *
 	 * @return void
 	 */
 	public function testValidates() {
@@ -290,20 +328,14 @@ html-part
 		$this->Email->transport('debug');
 		$res = $this->Email->validates();
 		$this->assertFalse($res);
-		//$res = $this->Email->send();
-		//$this->assertFalse($res);
 
 		$this->Email->subject('foo');
 		$res = $this->Email->validates();
 		$this->assertFalse($res);
-		//$res = $this->Email->send();
-		//$this->assertFalse($res);
 
 		$this->Email->to('some@web.de');
 		$res = $this->Email->validates();
 		$this->assertTrue($res);
-		//$res = $this->Email->send();
-		//$this->assertTrue($res);
 	}
 
 	/**
@@ -338,9 +370,7 @@ html-part
 		$res = $this->Email->send();
 
 		$error = $this->Email->getError();
-		if ($error) {
-			$this->out($error);
-		}
+
 		$this->assertEquals('', $this->Email->getError());
 		$this->assertTrue((bool)$res);
 	}
@@ -411,16 +441,6 @@ class TestEmail extends Email {
 	/**
 	 * Wrap to protected method
 	 *
-	 * @param array $address
-	 * @return array
-	 */
-	public function formatAddress($address) {
-		return parent::_formatAddress($address);
-	}
-
-	/**
-	 * Wrap to protected method
-	 *
 	 * @param string $text
 	 * @param int $length
 	 * @return array
@@ -430,37 +450,6 @@ class TestEmail extends Email {
 	}
 
 	/**
-	 * Get the boundary attribute
-	 *
-	 * @return string
-	 */
-	public function getBoundary() {
-		return $this->_boundary;
-	}
-
-	/**
-	 * Encode to protected method
-	 *
-	 * @param string $text
-	 * @return string
-	 */
-	public function encode($text) {
-		return $this->_encode($text);
-	}
-
-	/**
-	 * Render to protected method
-	 *
-	 * @param string $content
-	 * @return array
-	 */
-	public function render($content) {
-		return $this->_render($content);
-	}
-
-	/**
-	 * TestEmail::getProtected()
-	 *
 	 * @param string $attribute
 	 * @return mixed
 	 */

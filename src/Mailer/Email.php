@@ -20,6 +20,8 @@ class Email extends CakeEmail {
 	protected $_wrapLength = null;
 
 	/**
+	 * @deprecated Since CakePHP 3.4.0-RC4 in core
+	 *
 	 * @var int|null
 	 */
 	protected $_priority = null;
@@ -52,6 +54,8 @@ class Email extends CakeEmail {
 	/**
 	 * Change the layout
 	 *
+	 * @deprecated Since CakePHP 3.4.0-RC4 in core as getLayout()/setLayout()
+	 *
 	 * @param string|bool $layout Layout to use (or false to use none)
 	 * @return $this
 	 */
@@ -63,21 +67,45 @@ class Email extends CakeEmail {
 	}
 
 	/**
+	 * Sets wrap length.
+	 *
+	 * @param int $length Must not be more than CakeEmail::LINE_LENGTH_MUST
+	 * @return $this
+	 */
+	public function setWrapLength($length) {
+		$this->_wrapLength = $length;
+		return $this;
+	}
+
+	/**
+	 * Gets wrap length.
+	 *
+	 * @return int
+	 */
+	public function getWrapLength() {
+		return $this->_wrapLength;
+	}
+
+	/**
 	 * Set/Get wrapLength
+	 *
+	 * @deprecated Use setWrapLenght()/getWrapLength() instead.
 	 *
 	 * @param int|null $length Must not be more than CakeEmail::LINE_LENGTH_MUST
 	 * @return int|$this
 	 */
 	public function wrapLength($length = null) {
 		if ($length === null) {
-			return $this->_wrapLength;
+			return $this->getWrapLength();
 		}
-		$this->_wrapLength = $length;
-		return $this;
+
+		return $this->setWrapLength($length);
 	}
 
 	/**
 	 * Set/Get priority
+	 *
+	 * @deprecated Since CakePHP 3.4.0-RC4 in core as setPriority()/getPriority()
 	 *
 	 * @param int|null $priority 1 (highest) to 5 (lowest)
 	 * @return int|$this
@@ -123,13 +151,10 @@ class Email extends CakeEmail {
 	/**
 	 * Ovewrite to allow custom enhancements
 	 *
-	 * @param mixed $config
-	 * @return string|null|$this
+	 * @param array|string $config
+	 * @return $this
 	 */
-	public function profile($config = null) {
-		if ($config === null) {
-			return $this->_profile;
-		}
+	public function setProfile($config) {
 		if (!is_array($config)) {
 			$config = (string)$config;
 		}
@@ -155,15 +180,27 @@ class Email extends CakeEmail {
 	}
 
 	/**
-	 * Overwrite to allow mimetype detection
+	 * @deprecated Since CakePHP 3.4.0 - use setProfile()/getProfile() instead.
 	 *
-	 * @param mixed|null $attachments
-	 * @return array|$this
+	 * @param mixed $config
+	 * @return string|null|$this
 	 */
-	public function attachments($attachments = null) {
-		if ($attachments === null) {
-			return $this->_attachments;
+	public function profile($config = null) {
+		if ($config === null) {
+			return $this->_profile;
 		}
+
+		return $this->setProfile($config);
+	}
+
+	/**
+	 * Overwrite to allow mimetype detection
+	 +
+	 * @param string|array $attachments String with the filename or array with filenames
+	 * @return $this
+	 * @throws \InvalidArgumentException
+	 */
+	public function setAttachments($attachments) {
 		$attach = [];
 		foreach ((array)$attachments as $name => $fileInfo) {
 			if (!is_array($fileInfo)) {
@@ -194,7 +231,22 @@ class Email extends CakeEmail {
 			$attach[$name] = $fileInfo;
 		}
 		$this->_attachments = $attach;
+
 		return $this;
+	}
+
+	/**
+	 * @deprecated Since CakePHP 3.4.0 - use setAttachments()/getAttachments() instead.
+	 *
+	 * @param mixed|null $attachments
+	 * @return array|$this
+	 */
+	public function attachments($attachments = null) {
+		if ($attachments === null) {
+			return $this->_attachments;
+		}
+
+		return $this->setAttachments($attachments);
 	}
 
 	/**
@@ -236,7 +288,35 @@ class Email extends CakeEmail {
 	}
 
 	/**
-	 * Add an inline attachment from file
+	 * Adds an inline attachment from file.
+	 *
+	 * Options:
+	 * - mimetype
+	 * - contentDisposition
+	 *
+	 * @param string $contentId
+	 * @param string $file
+	 * @param string|null $name
+	 * @param array $options
+	 * @return $this
+	 */
+	public function addEmbeddedAttachmentByContentId($contentId, $file, $name = null, array $options = []) {
+		if (empty($name)) {
+			$name = basename($file);
+		}
+		$name = pathinfo($name, PATHINFO_FILENAME) . '_' . md5($file) . '.' . pathinfo($name, PATHINFO_EXTENSION);
+
+		$options['file'] = $file;
+		if (empty($options['mimetype'])) {
+			$options['mimetype'] = $this->_getMime($file);
+		}
+		$options['contentId'] = $contentId;
+		$file = [$name => $options];
+		return $this->addAttachments($file);
+	}
+
+	/**
+	 * Adds an inline attachment from file.
 	 *
 	 * Options:
 	 * - mimetype
@@ -244,13 +324,20 @@ class Email extends CakeEmail {
 	 *
 	 * @param string $file Absolute path
 	 * @param string|null $name (optional)
-	 * @param string|null $contentId (optional)
-	 * @param array $options Options
-	 * @return string|$this CID or $this
+	 * @param array|string|null $options Options - string CID is deprecated
+	 * @param array $notUsed Former Options @deprecated 4th param is now 3rd since CakePHP 3.4.0 - Use addEmbeddedAttachmentByContentId() otherwise.
+	 * @return string CID ($this is deprecated!)
 	 */
-	public function addEmbeddedAttachment($file, $name = null, $contentId = null, array $options = []) {
+	public function addEmbeddedAttachment($file, $name = null, $options = null, array $notUsed = []) {
 		if (empty($name)) {
 			$name = basename($file);
+		}
+
+		$contentId = null;
+		// Deprecated $contentId here
+		if (!is_array($options)) {
+			$contentId = $options;
+			$options = $notUsed;
 		}
 
 		$name = pathinfo($name, PATHINFO_FILENAME) . '_' . md5($file) . '.' . pathinfo($name, PATHINFO_EXTENSION);
@@ -262,12 +349,45 @@ class Email extends CakeEmail {
 		if (empty($options['mimetype'])) {
 			$options['mimetype'] = $this->_getMime($file);
 		}
-		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', Text::uuid()) . '@' . $this->_domain;
+		$options['contentId'] = $contentId ?: str_replace('-', '', Text::uuid()) . '@' . $this->_domain;
 		$file = [$name => $options];
 		$res = $this->addAttachments($file);
 		if ($contentId === null) {
 			return $options['contentId'];
 		}
+
+		// Deprecated
+		return $res;
+	}
+
+	/**
+	 * Adds an inline attachment from file.
+	 *
+	 * Options:
+	 * - mimetype
+	 * - contentDisposition
+	 *
+	 * @param string $contentId
+	 * @param string $content Blob data
+	 * @param string $file File File path to file
+	 * @param string|null $mimeType (leave it empty to get mimetype from $filename)
+	 * @param array $options
+	 * @return $this
+	 */
+	public function addEmbeddedBlobAttachmentByContentId($contentId, $content, $file, $mimeType = null, array $options = []) {
+		if ($mimeType === null) {
+			$ext = pathinfo($file, PATHINFO_EXTENSION);
+			$mimeType = $this->_getMimeByExtension($ext);
+		}
+
+		$filename = pathinfo($file, PATHINFO_FILENAME) . '_' . md5($content) . '.' . pathinfo($file, PATHINFO_EXTENSION);
+
+		$options['data'] = $content;
+		$options['mimetype'] = $mimeType;
+		$options['contentId'] = $contentId;
+		$file = [$filename => $options];
+		$res = $this->addAttachments($file);
+
 		return $res;
 	}
 
@@ -280,14 +400,21 @@ class Email extends CakeEmail {
 	 * @param string $content Blob data
 	 * @param string $filename to attach it
 	 * @param string|null $mimeType (leave it empty to get mimetype from $filename)
-	 * @param string|null $contentId (optional)
-	 * @param array $options Options
-	 * @return string|$this $contentId or $this
+	 * @param array|string|null $options Options - string CID is deprecated
+	 * @param array $notUsed
+	 * @return string CID CcontentId ($this is deprecated)
 	 */
-	public function addEmbeddedBlobAttachment($content, $filename, $mimeType = null, $contentId = null, array $options = []) {
+	public function addEmbeddedBlobAttachment($content, $filename, $mimeType = null, $options = null, array $notUsed = []) {
 		if ($mimeType === null) {
 			$ext = pathinfo($filename, PATHINFO_EXTENSION);
 			$mimeType = $this->_getMimeByExtension($ext);
+		}
+
+		$contentId = null;
+		// Deprecated $contentId here
+		if (!is_array($options)) {
+			$contentId = $options;
+			$options = $notUsed;
 		}
 
 		$filename = pathinfo($filename, PATHINFO_FILENAME) . '_' . md5($content) . '.' . pathinfo($filename, PATHINFO_EXTENSION);
@@ -303,6 +430,8 @@ class Email extends CakeEmail {
 		if ($contentId === null) {
 			return $options['contentId'];
 		}
+
+		// Deprecated
 		return $res;
 	}
 
@@ -434,10 +563,10 @@ class Email extends CakeEmail {
 			'bcc' => $this->_bcc,
 			'transport' => get_class($this->_transport),
 		];
+
+		/** @deprecated Since CakePHP 3.4.0-RC4 in core **/
 		if ($this->_priority) {
 			$this->_headers['X-Priority'] = $this->_priority;
-			//$this->_headers['X-MSMail-Priority'] = 'High';
-			//$this->_headers['Importance'] = 'High';
 		}
 
 		// if not live, just log but do not send any mails //TODO: remove and use Debug Transport!
