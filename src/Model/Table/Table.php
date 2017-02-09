@@ -122,8 +122,11 @@ class Table extends ShimTable {
 		];
 		if ($type === 'list') {
 			$defaults['fields'] = [$tableName . '.' . $this->$tableName->primaryKey(), $tableName . '.' . $this->$tableName->displayField()];
+			$defaults['keyField'] = $tableName . '.' . $this->$tableName->primaryKey();
+			$defaults['valueField'] = $tableName . '.' . $this->$tableName->displayField();
 		}
 		$options += $defaults;
+
 		return $this->find($type, $options);
 	}
 
