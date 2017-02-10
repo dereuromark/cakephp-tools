@@ -28,12 +28,13 @@ class IcalHelper extends AppHelper {
 	 * @return void
 	 */
 	public function reset() {
-		$this->$_data = [];
+		$this->_data = [];
 	}
 
 	/**
 	 * Add a new ical record.
 	 *
+	 * @param array $data
 	 * @return bool Success
 	 */
 	public function add($data = []) {
@@ -46,6 +47,8 @@ class IcalHelper extends AppHelper {
 	/**
 	 * Returns complete ical calender file content to output.
 	 *
+	 * @param array $globalData
+	 * @param bool $addStartAndEnd
 	 * @return string
 	 */
 	public function generate($globalData = [], $addStartAndEnd = true) {
