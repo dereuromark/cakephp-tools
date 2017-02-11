@@ -390,6 +390,9 @@ class Table extends ShimTable {
 				$compare = $value->subDays($days);
 				/** @var \Cake\I18n\Time $after */
 				$after = $context['data'][$options['after']];
+				if (!is_object($after)) {
+					$after = new Time($after);
+				}
 				if ($after->gt($compare)) {
 					return false;
 				}
@@ -398,6 +401,9 @@ class Table extends ShimTable {
 				$compare = $value->addDays($days);
 				/** @var \Cake\I18n\Time $before */
 				$before = $context['data'][$options['before']];
+				if (!is_object($before)) {
+					$before = new Time($before);
+				}
 				if ($before->lt($compare)) {
 					return false;
 				}
