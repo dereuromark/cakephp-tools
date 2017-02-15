@@ -400,7 +400,7 @@ class PasswordableBehaviorTest extends TestCase {
 		];
 		$user->accessible('*', false); // Mark all properties as protected
 		$user->accessible(['id'], true); // Allow id to be accessible by default
-		$user = $this->Users->patchEntity($user, $data, ['fieldList' => ['id']]);
+		$user = $this->Users->patchEntity($user, $data, ['fields' => ['id']]);
 
 		$this->assertNotSame($is['password'], $user['password']);
 		$this->assertTrue($user->dirty('pwd'));
@@ -426,7 +426,7 @@ class PasswordableBehaviorTest extends TestCase {
 		];
 		$user->accessible('*', false); // Mark all properties as protected
 		$user->accessible(['id', 'name'], true);
-		$this->Users->patchEntity($user, $data, ['fieldList' => ['id', 'name']]);
+		$this->Users->patchEntity($user, $data, ['fields' => ['id', 'name']]);
 		// Test whitelist setting - only "password" gets auto-added, pwd, pwd_repeat etc need to be added manually
 		// NOTE that I had to remove the code for adding those fields from the behavior (as it was not functional)
 		// So of course, this won't work now as expected. But feel free to try to add them in the behavior. Results will be the same.
@@ -455,7 +455,7 @@ class PasswordableBehaviorTest extends TestCase {
 		];
 		$user->accessible('*', false); // Mark all properties as protected
 		$user->accessible(['id'], true);
-		$this->Users->patchEntity($user, $data, ['fieldList' => ['id']]);
+		$this->Users->patchEntity($user, $data, ['fields' => ['id']]);
 		$result = $this->Users->save($user);
 		$this->assertTrue((bool)$result);
 	}

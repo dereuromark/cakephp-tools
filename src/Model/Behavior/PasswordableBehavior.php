@@ -222,18 +222,23 @@ class PasswordableBehavior extends Behavior {
 		$formFieldRepeat = $this->_config['formFieldRepeat'];
 		$formFieldCurrent = $this->_config['formFieldCurrent'];
 
-		if (!isset($options['fieldList']) && $this->_config['forceFieldList']) {
-			$options['fieldList'] = array_keys((array)$data);
+		// For CakePHP < 3.4
+		if (!isset($options['fields']) && isset($options['fieldList'])) {
+			$options['fields'] = $options['fieldList'];
 		}
-		if (isset($options['fieldList'])) {
-			if (!in_array($formField, $options['fieldList'])) {
-				$options['fieldList'][] = $formField;
+
+		if (!isset($options['fields']) && $this->_config['forceFieldList']) {
+			$options['fields'] = array_keys((array)$data);
+		}
+		if (isset($options['fields'])) {
+			if (!in_array($formField, $options['fields'])) {
+				$options['fields'][] = $formField;
 			}
-			if (!in_array($formFieldRepeat, $options['fieldList'])) {
-				$options['fieldList'][] = $formFieldRepeat;
+			if (!in_array($formFieldRepeat, $options['fields'])) {
+				$options['fields'][] = $formFieldRepeat;
 			}
-			if (!in_array($formFieldCurrent, $options['fieldList'])) {
-				$options['fieldList'][] = $formFieldCurrent;
+			if (!in_array($formFieldCurrent, $options['fields'])) {
+				$options['fields'][] = $formFieldCurrent;
 			}
 		}
 
