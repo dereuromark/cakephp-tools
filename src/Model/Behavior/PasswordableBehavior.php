@@ -179,7 +179,13 @@ class PasswordableBehavior extends Behavior {
 
 		if ($this->_config['current'] && !count($validator->field($formFieldCurrent))) {
 			$validator->add($formFieldCurrent, $rules['formFieldCurrent']);
-			$validator->allowEmpty($formFieldCurrent, !$this->_config['require']);
+			$require = $this->_config['require'];
+			$validator->allowEmpty($formFieldCurrent, function ($context) use ($require, $formField) {
+				if (!$require && !empty($context['data'][$formField])) {
+					return false;
+				}
+				return !$require;
+			});
 
 			if (!$this->_config['allowSame']) {
 				$validator->add($formField, 'validateNotSame', [
