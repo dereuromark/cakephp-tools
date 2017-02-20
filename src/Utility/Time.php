@@ -55,11 +55,11 @@ class Time extends CakeTime {
 	public function hasDaylightSavingTime($timezone = null) {
 		$timezone = $this->safeCreateDateTimeZone($timezone);
 		// a date outside of DST
-		$offset = $timezone->getOffset(new DateTime('@' . mktime(0, 0, 0, 2, 1, date('Y'))));
+		$offset = $timezone->getOffset(new CakeTime('@' . mktime(0, 0, 0, 2, 1, date('Y'))));
 		$offset = $offset / HOUR;
 
 		// a date inside of DST
-		$offset2 = $timezone->getOffset(new DateTime('@' . mktime(0, 0, 0, 8, 1, date('Y'))));
+		$offset2 = $timezone->getOffset(new CakeTime('@' . mktime(0, 0, 0, 8, 1, date('Y'))));
 		$offset2 = $offset2 / HOUR;
 
 		return abs($offset2 - $offset) > 0;
@@ -78,7 +78,7 @@ class Time extends CakeTime {
 			$timezone = $this->getTimezone();
 		}
 
-		$offset = $timezone->getOffset(new DateTime('@' . time()));
+		$offset = $timezone->getOffset(new CakeTime('@' . time()));
 		$offset = $offset / HOUR;
 		return $offset;
 	}
@@ -152,12 +152,12 @@ class Time extends CakeTime {
 
 		$startDate = $start;
 		if (!is_object($start)) {
-			$startDate = new DateTime($start);
+			$startDate = new CakeTime($start);
 		}
 
 		$endDate = $end;
 		if (!is_object($end)) {
-			$endDate = new DateTime($end);
+			$endDate = new CakeTime($end);
 		}
 
 		if ($startDate > $endDate) {
@@ -388,7 +388,7 @@ class Time extends CakeTime {
 	 */
 	public function incrementDate($startDate, $years = 0, $months = 0, $days = 0, $timezone = null) {
 		if (!is_object($startDate)) {
-			$startDate = new DateTime($startDate);
+			$startDate = new CakeTime($startDate);
 			if ($timezone) {
 				$startDate->setTimezone($this->safeCreateDateTimeZone($timezone));
 			}
@@ -424,7 +424,7 @@ class Time extends CakeTime {
 			$secondAge = $firstAge;
 		}
 		//TODO: other relative time then today should work as well
-		$Date = new DateTime($relativeTime !== null ? $relativeTime : 'now');
+		$Date = new CakeTime($relativeTime !== null ? $relativeTime : 'now');
 
 		$max = mktime(23, 23, 59, $Date->format('m'), $Date->format('d'), $Date->format('Y') - $firstAge);
 		$min = mktime(0, 0, 1, $Date->format('m'), (int)$Date->format('d') + 1, $Date->format('Y') - $secondAge - 1);
@@ -474,7 +474,7 @@ class Time extends CakeTime {
 		if ($options['timezone']) {
 			$options['timezone'] = static::safeCreateDateTimeZone($options['timezone']);
 		}
-		$date = new DateTime($dateString, $options['timezone']);
+		$date = new CakeTime($dateString, $options['timezone']);
 		$date = $date->format('U');
 
 		if ($date === null || $date === false || $date <= 0) {
@@ -556,7 +556,7 @@ class Time extends CakeTime {
 		}
 
 		if (!is_object($dateString)) {
-			$date = new DateTime($dateString, $options['timezone']);
+			$date = new CakeTime($dateString, $options['timezone']);
 		} else {
 			$date = $dateString;
 		}
@@ -990,7 +990,7 @@ class Time extends CakeTime {
 	 * @return string Formatted date
 	 */
 	public static function convertDate($oldDateString, $newDateFormatString, $timezone = null) {
-		$Date = new DateTime($oldDateString, $timezone);
+		$Date = new CakeTime($oldDateString, $timezone);
 		return $Date->format($newDateFormatString);
 	}
 
@@ -1002,7 +1002,7 @@ class Time extends CakeTime {
 	 * @return bool True if datetime string was day before yesterday
 	 */
 	public static function wasDayBeforeYesterday($dateString, $timezone = null) {
-		$date = new DateTime($dateString, $timezone);
+		$date = new CakeTime($dateString, $timezone);
 		$date = $date->format('U');
 		return date(FORMAT_DB_DATE, $date) === date(FORMAT_DB_DATE, time() - 2 * DAY);
 	}
@@ -1015,7 +1015,7 @@ class Time extends CakeTime {
 	 * @return bool True if datetime string is day after tomorrow
 	 */
 	public static function isDayAfterTomorrow($dateString, $timezone = null) {
-		$date = new DateTime($dateString, $timezone);
+		$date = new CakeTime($dateString, $timezone);
 		$date = $date->format('U');
 		return date(FORMAT_DB_DATE, $date) === date(FORMAT_DB_DATE, time() + 2 * DAY);
 	}
@@ -1028,7 +1028,7 @@ class Time extends CakeTime {
 	 * @return bool True if datetime is not today AND is in the future
 	 */
 	public static function isNotTodayAndInTheFuture($dateString, $timezone = null) {
-		$date = new DateTime($dateString, $timezone);
+		$date = new CakeTime($dateString, $timezone);
 		$date = $date->format('U');
 		return date(FORMAT_DB_DATE, $date) > date(FORMAT_DB_DATE, time());
 	}
@@ -1041,7 +1041,7 @@ class Time extends CakeTime {
 	 * @return bool True if datetime is not today AND is in the future
 	 */
 	public static function isInTheFuture($dateString, $timezone = null) {
-		$date = new DateTime($dateString, $timezone);
+		$date = new CakeTime($dateString, $timezone);
 		$date = $date->format('U');
 		return date(FORMAT_DB_DATETIME, $date) > date(FORMAT_DB_DATETIME, time());
 	}
@@ -1155,9 +1155,9 @@ class Time extends CakeTime {
 	 * @return string Partial SQL string.
 	 */
 	public static function daysAsSql($begin, $end, $fieldName, $timezone = null) {
-		$begin = new DateTime($begin, $timezone);
+		$begin = new CakeTime($begin, $timezone);
 		$begin = $begin->format('U');
-		$end = new DateTime($end, $timezone);
+		$end = new CakeTime($end, $timezone);
 		$end = $end->format('U');
 		$begin = date('Y-m-d', $begin) . ' 00:00:00';
 		$end = date('Y-m-d', $end) . ' 23:59:59';
@@ -1306,8 +1306,8 @@ class Time extends CakeTime {
 	 */
 	public static function duration($duration, $format = '%h:%I:%S') {
 		if (!$duration instanceof \DateInterval) {
-			$d1 = new DateTime();
-			$d2 = new DateTime();
+			$d1 = new CakeTime();
+			$d2 = new CakeTime();
 			$d2->add(new DateInterval('PT' . $duration . 'S'));
 
 			$duration = $d2->diff($d1);

@@ -100,8 +100,6 @@ class TimeTest extends TestCase {
 	}
 
 	/**
-	 * TimeTest::testNiceDate()
-	 *
 	 * @return void
 	 */
 	public function testNiceDate() {
@@ -128,6 +126,11 @@ class TimeTest extends TestCase {
 		$result = $this->Time->niceDate($date, $format, ['oclock' => true]);
 		$expected = '01.12.2009, 00:00 ' . __d('tools', 'o\'clock');
 		$this->assertEquals($expected, $result);
+
+		$date = time();
+		$format = FORMAT_NICE_YMDHM;
+		$result = $this->Time->niceDate($date, $format, ['oclock' => true]);
+		$this->assertNotEmpty($result);
 	}
 
 	/**
