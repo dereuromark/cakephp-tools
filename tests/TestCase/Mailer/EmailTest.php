@@ -82,8 +82,13 @@ class EmailTest extends TestCase {
 		$result = $this->Email->from(['cake@cakephp.org' => 'CakePHP']);
 		$this->assertSame($expected, $this->Email->from());
 		$this->assertSame($this->Email, $result);
+	}
 
-		$this->setExpectedException('InvalidArgumentException');
+	/**
+	 * @expectedException \InvalidArgumentException
+	 * @return void
+	 */
+	public function testFromExecption() {
 		$this->Email->from(['cake@cakephp.org' => 'CakePHP', 'fail@cakephp.org' => 'From can only be one address']);
 	}
 
