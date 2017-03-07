@@ -7,6 +7,8 @@ use Cake\View\Helper\NumberHelper as CakeNumberHelper;
 
 /**
  * Ovewrite to allow usage of own Number class.
+ *
+ * @mixin \Tools\Utility\Number
  */
 class NumberHelper extends CakeNumberHelper {
 

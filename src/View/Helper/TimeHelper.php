@@ -9,6 +9,8 @@ use DateTime;
 
 /**
  * Wrapper for TimeHelper and TimeLib
+ *
+ * @mixin \Tools\Utility\Time
  */
 class TimeHelper extends CakeTimeHelper {
 
