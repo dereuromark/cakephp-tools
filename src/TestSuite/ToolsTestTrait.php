@@ -95,4 +95,26 @@ trait ToolsTestTrait {
 		return $method->invokeArgs($object, $parameters);
 	}
 
+	/**
+	 * Gets protected/private property of a class.
+	 *
+	 * So
+	 *   $this->invokeProperty($object, '_foo');
+	 * is equal to
+	 *   $object->_foo
+	 * (assuming the property was directly publicly accessible)
+	 *
+	 * @param object &$object Instantiated object that we want the property off.
+	 * @param string $name Property name to fetch.
+	 *
+	 * @return mixed Property value.
+	 */
+	protected function invokeProperty(&$object, $name) {
+		$reflection = new ReflectionClass(get_class($object));
+		$property = $reflection->getProperty($name);
+		$property->setAccessible(true);
+
+		return $property->getValue($object);
+	}
+
 }
