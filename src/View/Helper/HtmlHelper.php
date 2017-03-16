@@ -18,11 +18,9 @@ namespace Tools\View\Helper;
 use Cake\View\Helper\HtmlHelper as CoreHtmlHelper;
 
 /**
- * Html Helper class for easy use of HTML widgets.
+ * Overwrite
  *
- * HtmlHelper encloses all methods needed while working with HTML pages.
- *
- * @link http://book.cakephp.org/3.0/en/views/helpers/html.html
+ * @property \Cake\View\Helper\UrlHelper $Url
  */
 class HtmlHelper extends CoreHtmlHelper {
 

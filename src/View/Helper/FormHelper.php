@@ -9,6 +9,9 @@ use Cake\View\View;
 
 /**
  * Overwrite
+ *
+ * @property \Cake\View\Helper\UrlHelper $Url
+ * @property \Cake\View\Helper\HtmlHelper $Html
  */
 class FormHelper extends CakeFormHelper {
 

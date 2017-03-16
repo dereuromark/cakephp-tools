@@ -1,4 +1,7 @@
 <?php
+/**
+ * @var \App\View\AppView $this
+ */
 if (!isset($separator)) {
 	if (defined('PAGINATOR_SEPARATOR')) {
 		$separator = PAGINATOR_SEPARATOR;
