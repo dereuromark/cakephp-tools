@@ -11,6 +11,13 @@ use Tools\Utility\Random;
  *
  * @author Mark Scherer
  * @license http://opensource.org/licenses/mit-license.php MIT
+ * @method \Tools\Model\Entity\Token get($primaryKey, $options = [])
+ * @method \Tools\Model\Entity\Token newEntity($data = null, array $options = [])
+ * @method \Tools\Model\Entity\Token[] newEntities(array $data, array $options = [])
+ * @method \Tools\Model\Entity\Token|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \Tools\Model\Entity\Token patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \Tools\Model\Entity\Token[] patchEntities($entities, array $data, array $options = [])
+ * @method \Tools\Model\Entity\Token findOrCreate($search, callable $callback = null, $options = [])
  */
 class TokensTable extends Table {
 
