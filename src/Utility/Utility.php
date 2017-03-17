@@ -129,7 +129,7 @@ class Utility {
 	 */
 	public static function strSplit($str, $length = 1) {
 		if ($length < 1) {
-			return false;
+			return [];
 		}
 		$result = [];
 		$c = mb_strlen($str);
@@ -406,18 +406,22 @@ class Utility {
 	/**
 	 * Trim recursively
 	 *
-	 * @param mixed $value
+	 * @param string|array|null $value
+	 * @param bool $transformNullToString
 	 * @return array|string
 	 */
-	public static function trimDeep($value) {
-		$value = is_array($value) ? array_map('self::trimDeep', $value) : trim($value);
-		return $value;
+	public static function trimDeep($value, $transformNullToString = false) {
+		if (is_array($value)) {
+			return array_map('self::trimDeep', $value);
+		}
+
+		return ($value === null && !$transformNullToString) ? $value : trim($value);
 	}
 
 	/**
 	 * Applies h() recursively
 	 *
-	 * @param mixed $value
+	 * @param string|array $value
 	 * @return array|string
 	 */
 	public static function specialcharsDeep($value) {
