@@ -291,15 +291,35 @@ class UtilityTest extends TestCase {
 		$is = [
 			'f some',
 			'e 49r ' => 'rf r ',
-			'er' => [['ee' => ['rr ' => ' tt ']]]
+			'er' => [['ee' => ['rr ' => ' tt ', 'empty' => null]]]
 		];
 		$expected = [
 			'f some',
 			'e 49r ' => 'rf r',
-			'er' => [['ee' => ['rr ' => 'tt']]]
+			'er' => [['ee' => ['rr ' => 'tt', 'empty' => null]]]
 		];
 
 		$res = Utility::trimDeep($is);
+		$this->assertSame($expected, $res);
+	}
+
+	/**
+	 * @covers ::trimDeep
+	 * @return void
+	 */
+	public function testDeepTransformNullToString() {
+		$is = [
+			'f some',
+			'e 49r ' => 'rf r ',
+			'er' => [['ee' => ['rr ' => ' tt ', 'empty' => null]]]
+		];
+		$expected = [
+			'f some',
+			'e 49r ' => 'rf r',
+			'er' => [['ee' => ['rr ' => 'tt', 'empty' => '']]]
+		];
+
+		$res = Utility::trimDeep($is, true);
 		$this->assertSame($expected, $res);
 	}
 
