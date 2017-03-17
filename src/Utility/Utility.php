@@ -412,7 +412,10 @@ class Utility {
 	 */
 	public static function trimDeep($value, $transformNullToString = false) {
 		if (is_array($value)) {
-			return array_map('self::trimDeep', $value);
+			foreach ($value as $k => $v) {
+				$value[$k] = static::trimDeep($v, $transformNullToString);
+			}
+			return $value;
 		}
 
 		return ($value === null && !$transformNullToString) ? $value : trim($value);
