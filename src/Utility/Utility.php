@@ -216,6 +216,26 @@ class Utility {
 	}
 
 	/**
+	 * Remove http:// or other protocols from the link
+	 *
+	 * @param string $url
+	 * @param array $protocols Defaults to http and https. Pass empty array for all.
+	 * @return string strippedUrl
+	 */
+	public static function stripProtocol($url, $protocols = ['http', 'https']) {
+		$pieces = parse_url($url);
+		// Already stripped?
+		if (empty($pieces['scheme'])) {
+			return $url;
+		}
+		if ($protocols && !in_array($pieces['scheme'], $protocols)) {
+			return $url;
+		}
+
+		return mb_substr($url, mb_strlen($pieces['scheme']) + 3);
+	}
+
+	/**
 	 * A more robust wrapper around for file_exists() which easily
 	 * fails to return true for existent remote files.
 	 * Per default it allows http/https images to be looked up via urlExists()

@@ -6,6 +6,7 @@ use Cake\Utility\Hash;
 use Cake\View\Helper\TextHelper as CakeTextHelper;
 use Cake\View\View;
 use Tools\Utility\Number;
+use Tools\Utility\Utility;
 
 if (!defined('CHAR_HELLIP')) {
 	define('CHAR_HELLIP', '&#8230;'); # � (horizontal ellipsis = three dot leader)
@@ -60,7 +61,7 @@ class TextHelper extends CakeTextHelper {
 			return $url;
 		}
 		// http:// etc has not to be displayed, so
-		$url = $this->stripProtocol($url);
+		$url = Utility::stripProtocol($url);
 		// cut the parameters
 		if (mb_strpos($url, '/') !== false) {
 			$url = strtok($url, '/');
@@ -79,21 +80,6 @@ class TextHelper extends CakeTextHelper {
 		$end = mb_substr($url, -5, 5);
 		$front = mb_substr($url, 0, (int)$max - 8);
 		return $front . $placeholder . $end;
-	}
-
-	/**
-	 * Remove http:// or other protocols from the link
-	 *
-	 * @param string $url
-	 * @return string strippedUrl
-	 */
-	public function stripProtocol($url) {
-		$pieces = parse_url($url);
-		// Already stripped?
-		if (empty($pieces['scheme'])) {
-			return $url;
-		}
-		return mb_substr($url, mb_strlen($pieces['scheme']) + 3); # +3 <=> :// # can only be 4 with "file" (file:///)...
 	}
 
 	/**

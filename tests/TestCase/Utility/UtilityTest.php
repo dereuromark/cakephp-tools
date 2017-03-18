@@ -284,6 +284,23 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
+	 * @return void
+	 */
+	public function testStripUrl() {
+		$urls = [
+			'http://www.cakephp.org/bla/bla' => 'www.cakephp.org/bla/bla',
+			'www.cakephp.org' => 'www.cakephp.org',
+			'https://spiegel.de' => 'spiegel.de',
+			'ftp://xyz' => 'ftp://xyz',
+		];
+
+		foreach ($urls as $url => $expected) {
+			$is = Utility::stripProtocol($url);
+			$this->assertEquals($expected, $is, $url);
+		}
+	}
+
+	/**
 	 * @covers ::trimDeep
 	 * @return void
 	 */

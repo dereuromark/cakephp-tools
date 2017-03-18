@@ -74,23 +74,6 @@ class TextHelperTest extends TestCase {
 	}
 
 	/**
-	 * TextExtHelperTest::testStripProtocol()
-	 *
-	 * @return void
-	 */
-	public function testStripProtocol() {
-		$urls = [
-			'http://www.cakephp.org/bla/bla' => 'www.cakephp.org/bla/bla',
-			'www.cakephp.org' => 'www.cakephp.org'
-		];
-
-		foreach ($urls as $url => $expected) {
-			$is = $this->Text->stripProtocol($url);
-			$this->assertEquals($expected, $is);
-		}
-	}
-
-	/**
 	 * TextExtHelperTest::testAutoLinkUrls()
 	 *
 	 * @return void
