@@ -3,14 +3,14 @@
 namespace Tools\Model\Behavior;
 
 use Cake\Core\Configure;
+use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
-use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Utility\Inflector;
-use Exception;
 use InvalidArgumentException;
+use RuntimeException;
 
 /**
  * SluggedBehavior
@@ -131,11 +131,11 @@ class SluggedBehavior extends Behavior {
 				if (strpos($field, '.')) {
 					list($alias, $field) = explode('.', $field);
 					if (!$this->_table->$alias->hasField($field)) {
-						throw new Exception('(SluggedBehavior::setup) model ' . $this->_table->$alias->name . ' is missing the field ' . $field .
+						throw new RuntimeException('(SluggedBehavior::setup) model ' . $this->_table->$alias->name . ' is missing the field ' . $field .
 							' (specified in the setup for model ' . $this->_table->name . ') ');
 					}
 				} elseif (!$this->_table->hasField($field) && !method_exists($this->_table->entityClass(), '_get' . Inflector::classify($field))) {
-					throw new Exception('(SluggedBehavior::setup) model ' . $this->_table->name . ' is missing the field ' . $field . ' specified in the setup.');
+					throw new RuntimeException('(SluggedBehavior::setup) model ' . $this->_table->name . ' is missing the field ' . $field . ' specified in the setup.');
 				}
 			}
 		}
@@ -161,10 +161,10 @@ class SluggedBehavior extends Behavior {
 	 * SluggedBehavior::beforeRules()
 	 *
 	 * @param \Cake\Event\Event $event
-	 * @param \Cake\ORM\Entity $entity
+	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @return void
 	 */
-	public function beforeRules(Event $event, Entity $entity) {
+	public function beforeRules(Event $event, EntityInterface $entity) {
 		if ($this->_config['on'] === 'beforeRules') {
 			$this->slug($entity);
 		}
@@ -174,10 +174,10 @@ class SluggedBehavior extends Behavior {
 	 * SluggedBehavior::beforeSave()
 	 *
 	 * @param \Cake\Event\Event $event
-	 * @param \Cake\ORM\Entity $entity
+	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @return void
 	 */
-	public function beforeSave(Event $event, Entity $entity) {
+	public function beforeSave(Event $event, EntityInterface $entity) {
 		if ($this->_config['on'] === 'beforeSave') {
 			$this->slug($entity);
 		}
@@ -186,11 +186,11 @@ class SluggedBehavior extends Behavior {
 	/**
 	 * SluggedBehavior::slug()
 	 *
-	 * @param \Cake\ORM\Entity $entity Entity
+	 * @param \Cake\Datasource\EntityInterface $entity Entity
 	 * @param array $options Options
 	 * @return void
 	 */
-	public function slug(Entity $entity, array $options = []) {
+	public function slug(EntityInterface $entity, array $options = []) {
 		$overwrite = isset($options['overwrite']) ? $options['overwrite'] : $this->_config['overwrite'];
 		if (!$overwrite && $entity->get($this->_config['overwriteField'])) {
 			$overwrite = true;
@@ -216,11 +216,11 @@ class SluggedBehavior extends Behavior {
 	 * of maybe some not in sync slugs anymore (saving the same title again,
 	 * but the slug is completely different, for example).
 	 *
-	 * @param \Cake\ORM\Entity $entity
+	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param bool $deep If true it will generate a new slug and compare it to the currently stored one.
 	 * @return bool
 	 */
-	public function needsSlugUpdate($entity, $deep = false) {
+	public function needsSlugUpdate(EntityInterface $entity, $deep = false) {
 		foreach ((array)$this->_config['label'] as $label) {
 			if ($entity->dirty($label)) {
 				return true;
@@ -245,10 +245,11 @@ class SluggedBehavior extends Behavior {
 	 * until a unique slug is found
 	 *
 	 * @param string $value
-	 * @param \Cake\ORM\Entity|null $entity
+	 * @param \Cake\Datasource\EntityInterface|null $entity
 	 * @return string A slug
+	 * @throws \RuntimeException
 	 */
-	public function generateSlug($value, Entity $entity = null) {
+	public function generateSlug($value, EntityInterface $entity = null) {
 		$separator = $this->_config['separator'];
 
 		$string = str_replace(["\r\n", "\r", "\n"], ' ', $value);
@@ -300,7 +301,7 @@ class SluggedBehavior extends Behavior {
 		}
 		if ($this->_config['unique']) {
 			if (!$entity) {
-				throw new Exception('Needs an Entity to work on');
+				throw new RuntimeException('Needs an Entity to work on');
 			}
 			$field = $this->_table->alias() . '.' . $this->_config['field'];
 			$conditions = [$field => $slug];
@@ -339,10 +340,11 @@ class SluggedBehavior extends Behavior {
 	 *
 	 * @param array $params
 	 * @return bool Success
+	 * @throws \RuntimeException
 	 */
 	public function resetSlugs($params = []) {
 		if (!$this->_table->hasField($this->_config['field'])) {
-			throw new Exception('Table does not have field ' . $this->_config['field']);
+			throw new RuntimeException('Table does not have field ' . $this->_config['field']);
 		}
 		$defaults = [
 			'page' => 1,
@@ -361,6 +363,7 @@ class SluggedBehavior extends Behavior {
 
 		$this->_table->behaviors()->Slugged->config($params, null, false);
 		while (($records = $this->_table->find('all', $params)->toArray())) {
+			/** @var \Cake\ORM\Entity $record */
 			foreach ($records as $record) {
 				$record->isNew(true);
 				$options = [
@@ -368,7 +371,7 @@ class SluggedBehavior extends Behavior {
 					'fieldList' => array_merge([$this->_table->primaryKey(), $this->_config['field']], $this->_config['label'])
 				];
 				if (!$this->_table->save($record, $options)) {
-					throw new Exception(print_r($this->_table->errors(), true));
+					throw new RuntimeException(print_r($record->errors(), true));
 				}
 			}
 			$params['page']++;
@@ -384,10 +387,10 @@ class SluggedBehavior extends Behavior {
 	 *
 	 * //FIXME
 	 *
-	 * @param \Cake\ORM\Entity $entity
+	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @return void
 	 */
-	protected function _multiSlug(Entity $entity) {
+	protected function _multiSlug(EntityInterface $entity) {
 		$label = $this->config('label');
 		$field = current($label);
 		$fields = (array)$entity->get($field);

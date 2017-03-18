@@ -5,11 +5,11 @@ namespace Tools\Model\Behavior;
 use ArrayObject;
 use Cake\Auth\PasswordHasherFactory;
 use Cake\Core\Configure;
+use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
-use Cake\ORM\Entity;
 use Cake\ORM\Table;
-use Exception;
+use RuntimeException;
 
 if (!defined('PWD_MIN_LENGTH')) {
 	define('PWD_MIN_LENGTH', 6);
@@ -131,7 +131,7 @@ class PasswordableBehavior extends Behavior {
 		$formFieldCurrent = $this->_config['formFieldCurrent'];
 
 		if ($formField === $this->_config['field']) {
-			throw new Exception('Invalid setup - the form field must to be different from the model field (' . $this->_config['field'] . ').');
+			throw new RuntimeException('Invalid setup - the form field must to be different from the model field (' . $this->_config['field'] . ').');
 		}
 
 		$rules = $this->_validationRules;
@@ -276,12 +276,12 @@ class PasswordableBehavior extends Behavior {
 	 * Preparing the data
 	 *
 	 * @param \Cake\Event\Event $event
-	 * @param \Cake\ORM\Entity $entity
+	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 * @param string $operation
 	 * @return void
 	 */
-	public function beforeRules(Event $event, Entity $entity, ArrayObject $options, $operation) {
+	public function beforeRules(Event $event, EntityInterface $entity, ArrayObject $options, $operation) {
 		$formField = $this->_config['formField'];
 		$formFieldRepeat = $this->_config['formFieldRepeat'];
 		$formFieldCurrent = $this->_config['formFieldCurrent'];
@@ -313,11 +313,12 @@ class PasswordableBehavior extends Behavior {
 	 * Hashing the password and whitelisting
 	 *
 	 * @param \Cake\Event\Event $event
-	 * @param \Cake\ORM\Entity $entity
-	 * @throws \Exception
+	 * @param \Cake\Datasource\EntityInterface $entity
+	 * @param \ArrayObject $options
+	 * @throws \RuntimeException
 	 * @return void
 	 */
-	public function beforeSave(Event $event, Entity $entity) {
+	public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options) {
 		$formField = $this->_config['formField'];
 		$field = $this->_config['field'];
 
@@ -329,7 +330,7 @@ class PasswordableBehavior extends Behavior {
 			$entity->set($field, $PasswordHasher->hash($entity->get($formField)));
 
 			if (!$entity->get($field)) {
-				throw new Exception('Empty field');
+				throw new RuntimeException('Empty field');
 			}
 
 			$entity->unsetProperty($formField);

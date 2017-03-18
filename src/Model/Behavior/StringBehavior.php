@@ -3,10 +3,10 @@
 namespace Tools\Model\Behavior;
 
 use ArrayObject;
+use Cake\Datasource\EntityInterface;
 use Cake\Datasource\ResultSetInterface;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
-use Cake\ORM\Entity;
 use Cake\ORM\Query;
 
 /**
@@ -63,11 +63,11 @@ class StringBehavior extends Behavior {
 	/**
 	 * Decodes the fields of an array/entity (if the value itself was encoded)
 	 *
-	 * @param \Cake\ORM\Entity $entity
+	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param string $type Type (input/output)
 	 * @return void
 	 */
-	public function processItems(Entity $entity, $type = 'input') {
+	public function processItems(EntityInterface $entity, $type = 'input') {
 		$fields = $this->_config['fields'];
 
 		foreach ($fields as $field => $map) {
@@ -98,11 +98,11 @@ class StringBehavior extends Behavior {
 	 * Saves all fields that do not belong to the current Model into 'with' helper model.
 	 *
 	 * @param \Cake\Event\Event $event
-	 * @param \Cake\ORM\Entity $entity
+	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeSave(Event $event, Entity $entity, ArrayObject $options) {
+	public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options) {
 		$this->processItems($entity, 'input');
 	}
 

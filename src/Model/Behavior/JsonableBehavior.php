@@ -4,11 +4,12 @@ namespace Tools\Model\Behavior;
 
 use ArrayObject;
 use Cake\Database\Type;
+use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
-use Exception;
+use RuntimeException;
 use Tools\Database\Type\ArrayType;
 use Tools\Utility\Text;
 
@@ -71,12 +72,12 @@ class JsonableBehavior extends Behavior {
 
 	/**
 	 * @param array $config
-	 * @throws \Exception
+	 * @throws \RuntimeException
 	 * @return void
 	 */
 	public function initialize(array $config = []) {
 		if (empty($this->_config['fields'])) {
-			throw new Exception('Fields are required');
+			throw new RuntimeException('Fields are required');
 		}
 		if (!is_array($this->_config['fields'])) {
 			$this->_config['fields'] = (array)$this->_config['fields'];
@@ -85,7 +86,7 @@ class JsonableBehavior extends Behavior {
 			$this->_config['map'] = (array)$this->_config['map'];
 		}
 		if (!empty($this->_config['map']) && count($this->_config['fields']) !== count($this->_config['map'])) {
-			throw new Exception('Fields and Map need to be of the same length if map is specified.');
+			throw new RuntimeException('Fields and Map need to be of the same length if map is specified.');
 		}
 		foreach ($this->_config['fields'] as $field) {
 			$this->_table->schema()->columnType($field, 'array');
@@ -121,10 +122,10 @@ class JsonableBehavior extends Behavior {
 	/**
 	 * Decodes the fields of an array/entity (if the value itself was encoded)
 	 *
-	 * @param \Cake\ORM\Entity $entity
+	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @return void
 	 */
-	public function decodeItems(Entity $entity) {
+	public function decodeItems(EntityInterface $entity) {
 		$fields = $this->_getMappedFields();
 
 		foreach ($fields as $map => $field) {
@@ -139,11 +140,11 @@ class JsonableBehavior extends Behavior {
 	 * Saves all fields that do not belong to the current Model into 'with' helper model.
 	 *
 	 * @param \Cake\Event\Event $event
-	 * @param \Cake\ORM\Entity $entity
+	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeSave(Event $event, Entity $entity, ArrayObject $options) {
+	public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options) {
 		$fields = $this->_getMappedFields();
 
 		foreach ($fields as $map => $field) {
