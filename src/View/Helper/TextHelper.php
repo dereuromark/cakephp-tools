@@ -83,6 +83,17 @@ class TextHelper extends CakeTextHelper {
 	}
 
 	/**
+	 * Removes http:// or other protocols from the link.
+	 *
+	 * @param string $url
+	 * @param array $protocols Defaults to http and https. Pass empty array for all.
+	 * @return string strippedUrl
+	 */
+	public function stripProtocol($url, $protocols = ['http', 'https']) {
+		return Utility::stripProtocol($url, $protocols);
+	}
+
+	/**
 	 * Transforming int values into ordinal numbers (1st, 3rd, ...).
 	 * When using HTML, you can use <sup>, as well.
 	 *

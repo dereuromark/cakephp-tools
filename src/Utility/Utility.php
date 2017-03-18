@@ -216,7 +216,7 @@ class Utility {
 	}
 
 	/**
-	 * Remove http:// or other protocols from the link
+	 * Removes http:// or other protocols from the link.
 	 *
 	 * @param string $url
 	 * @param array $protocols Defaults to http and https. Pass empty array for all.
