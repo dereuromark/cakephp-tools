@@ -5,7 +5,6 @@ namespace Tools\Model\Behavior;
 use Cake\Core\Configure;
 use Cake\ORM\Behavior;
 use Cake\ORM\Table;
-use Exception;
 use RuntimeException;
 
 /**

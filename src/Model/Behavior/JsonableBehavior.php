@@ -9,7 +9,6 @@ use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
-use Exception;
 use RuntimeException;
 use Tools\Database\Type\ArrayType;
 use Tools\Utility\Text;
@@ -73,7 +72,7 @@ class JsonableBehavior extends Behavior {
 
 	/**
 	 * @param array $config
-	 * @throws \Exception
+	 * @throws \RuntimeException
 	 * @return void
 	 */
 	public function initialize(array $config = []) {

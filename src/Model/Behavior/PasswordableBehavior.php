@@ -8,9 +8,7 @@ use Cake\Core\Configure;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
-use Cake\ORM\Entity;
 use Cake\ORM\Table;
-use Exception;
 use RuntimeException;
 
 if (!defined('PWD_MIN_LENGTH')) {
@@ -316,8 +314,9 @@ class PasswordableBehavior extends Behavior {
 	 *
 	 * @param \Cake\Event\Event $event
 	 * @param \Cake\Datasource\EntityInterface $entity
-	 * @param ArrayObject $options
-	 * @throws Exception
+	 * @param \ArrayObject $options
+	 * @throws \RuntimeException
+	 * @return void
 	 */
 	public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options) {
 		$formField = $this->_config['formField'];

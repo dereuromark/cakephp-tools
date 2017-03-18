@@ -6,10 +6,8 @@ use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
-use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\Utility\Inflector;
-use Exception;
 use RuntimeException;
 use Tools\Utility\Text;
 

@@ -6,11 +6,9 @@ use Cake\Core\Configure;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
-use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Utility\Inflector;
-use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -249,7 +247,7 @@ class SluggedBehavior extends Behavior {
 	 * @param string $value
 	 * @param \Cake\Datasource\EntityInterface|null $entity
 	 * @return string A slug
-	 * @throws Exception
+	 * @throws \RuntimeException
 	 */
 	public function generateSlug($value, EntityInterface $entity = null) {
 		$separator = $this->_config['separator'];
@@ -342,7 +340,7 @@ class SluggedBehavior extends Behavior {
 	 *
 	 * @param array $params
 	 * @return bool Success
-	 * @throws Exception
+	 * @throws \RuntimeException
 	 */
 	public function resetSlugs($params = []) {
 		if (!$this->_table->hasField($this->_config['field'])) {
