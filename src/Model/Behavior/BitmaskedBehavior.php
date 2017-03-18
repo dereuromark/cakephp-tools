@@ -3,12 +3,14 @@
 namespace Tools\Model\Behavior;
 
 use ArrayObject;
+use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\Utility\Inflector;
 use Exception;
+use RuntimeException;
 use Tools\Utility\Text;
 
 /**
@@ -68,7 +70,7 @@ class BitmaskedBehavior extends Behavior {
 			$config['bits'] = false;
 		}
 		if (empty($config['bits'])) {
-			throw new Exception('Bits not found');
+			throw new RuntimeException('Bits not found');
 		}
 		ksort($config['bits'], SORT_NUMERIC);
 
@@ -97,11 +99,11 @@ class BitmaskedBehavior extends Behavior {
 
 	/**
 	 * @param \Cake\Event\Event $event
-	 * @param \Cake\ORM\Entity $entity
+	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeRules(Event $event, Entity $entity, ArrayObject $options) {
+	public function beforeRules(Event $event, EntityInterface $entity, ArrayObject $options) {
 		if ($this->_config['on'] !== 'beforeRules' || !$options['checkRules']) {
 			return;
 		}
@@ -110,11 +112,11 @@ class BitmaskedBehavior extends Behavior {
 
 	/**
 	 * @param \Cake\Event\Event $event
-	 * @param \Cake\ORM\Entity $entity
+	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeSave(Event $event, Entity $entity, ArrayObject $options) {
+	public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options) {
 		if ($this->_config['on'] !== 'beforeSave') {
 			return;
 		}
@@ -190,10 +192,10 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param \Cake\ORM\Entity $entity
+	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @return void
 	 */
-	public function encodeBitmaskData(Entity $entity) {
+	public function encodeBitmaskData(EntityInterface $entity) {
 		$field = $this->_config['field'];
 		if (!($mappedField = $this->_config['mappedField'])) {
 			$mappedField = $field;
