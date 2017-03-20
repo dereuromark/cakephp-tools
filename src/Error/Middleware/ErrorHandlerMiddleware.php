@@ -2,7 +2,6 @@
 
 namespace Tools\Error\Middleware;
 
-use Cake\Core\Configure;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Error\Middleware\ErrorHandlerMiddleware as CoreErrorHandlerMiddleware;
 use Cake\Log\Log;
@@ -61,11 +60,6 @@ class ErrorHandlerMiddleware extends CoreErrorHandlerMiddleware {
 	 *   will be used.
 	 */
 	public function __construct($renderer = null, array $config = []) {
-		// Only needed until CakePHP 3.4+ for BC reasons.
-		if ($renderer === null) {
-			$renderer = Configure::read('Error.exceptionRenderer');
-		}
-
 		parent::__construct($renderer, $config);
 	}
 
