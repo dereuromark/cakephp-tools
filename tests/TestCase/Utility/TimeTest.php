@@ -1186,7 +1186,7 @@ class TimeTest extends TestCase {
 		Configure::write('Config.timezone', 'UTC');
 		date_default_timezone_set('UTC');
 
-		$this->Time = new Time();
+		$this->Time = new Time('2016-08-04');
 
 		$result = $this->Time->tzOffset(0, false);
 		$this->assertEquals(0, $result);
@@ -1194,9 +1194,14 @@ class TimeTest extends TestCase {
 		Configure::write('Config.timezone', 'Europe/Berlin');
 		date_default_timezone_set('Europe/Berlin');
 
-		$factor = date('I') ? 2 : 1;
+		$factor = date('I', $this->Time->getTimestamp());
 		$result = $this->Time->tzOffset($factor * HOUR, false);
 		$this->assertEquals(0, $result);
+
+		$this->Time = new Time('2016-02-04');
+		$factor = date('I', $this->Time->getTimestamp());
+		$result = $this->Time->tzOffset($factor * HOUR, false);
+		$this->assertEquals(-3600, $result);
 
 		Configure::write('Config.timezone', $timezone);
 		date_default_timezone_set($phpTimezone);
