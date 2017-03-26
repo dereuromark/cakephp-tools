@@ -2,13 +2,21 @@
 
 namespace Tools\Error\Middleware;
 
+use Cake\Controller\Exception\MissingActionException;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Error\Middleware\ErrorHandlerMiddleware as CoreErrorHandlerMiddleware;
 use Cake\Log\Log;
 use Cake\Network\Exception\BadRequestException;
+use Cake\Network\Exception\ConflictException;
+use Cake\Network\Exception\GoneException;
+use Cake\Network\Exception\InvalidCsrfTokenException;
 use Cake\Network\Exception\MethodNotAllowedException;
 use Cake\Network\Exception\NotAcceptableException;
 use Cake\Network\Exception\NotFoundException;
+use Cake\Network\Exception\UnauthorizedException;
+use Cake\Network\Exception\UnavailableForLegalReasonsException;
+use Cake\Routing\Exception\MissingControllerException;
+use Cake\Routing\Exception\MissingRouteException;
 
 /**
  * Error handling middleware.
@@ -43,14 +51,14 @@ class ErrorHandlerMiddleware extends CoreErrorHandlerMiddleware {
 		NotAcceptableException::class,
 		RecordNotFoundException::class,
 		BadRequestException::class,
-		'Cake\Network\Exception\GoneException',
-		'Cake\Network\Exception\ConflictException',
-		'Cake\Network\Exception\InvalidCsrfToken',
-		'Cake\Network\Exception\UnauthorizedException',
-		'Cake\Routing\Exception\MissingControllerException',
-		'Cake\Routing\Exception\MissingActionException',
-		'Cake\Routing\Exception\PrivateActionException',
-		'Cake\Routing\Exception\NotFoundException',
+		GoneException::class,
+		ConflictException::class,
+		InvalidCsrfTokenException::class,
+		UnauthorizedException::class,
+		MissingControllerException::class,
+		MissingActionException::class,
+		MissingRouteException::class,
+		UnavailableForLegalReasonsException::class,
 	];
 
 	/**
