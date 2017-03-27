@@ -66,24 +66,6 @@ class Time extends CakeTime {
 	}
 
 	/**
-	 * Calculate the current GMT offset from a timezone string (respecting DST)
-	 *
-	 * @param string|\DateTimeZone|null $timezone User's timezone string or DateTimeZone object
-	 * @return int Offset in hours
-	 */
-	public function getGmtOffset($timezone = null) {
-		if ($timezone) {
-			$timezone = $this->safeCreateDateTimeZone($timezone);
-		} else {
-			$timezone = $this->getTimezone();
-		}
-
-		$offset = $timezone->getOffset(new CakeTime('@' . time()));
-		$offset = $offset / HOUR;
-		return $offset;
-	}
-
-	/**
 	 * Gets the timezone that is closest to the given coordinates
 	 *
 	 * @param float $lat
@@ -1395,8 +1377,6 @@ class Time extends CakeTime {
 	}
 
 	/**
-	 * TimeLib::pad()
-	 *
 	 * @param string $value
 	 * @param int $length
 	 * @param string $string
@@ -1404,21 +1384,6 @@ class Time extends CakeTime {
 	 */
 	public static function pad($value, $length = 2, $string = '0') {
 		return str_pad((int)$value, $length, $string, STR_PAD_LEFT);
-	}
-
-	/**
-	 * EXPERIMENTAL!!!
-	 *
-	 * @param int $gmtoffset Offset in seconds
-	 * @param bool $isDst If DST
-	 * @return int offset Calculated offset
-	 */
-	public static function tzOffset($gmtoffset, $isDst) {
-		extract(getdate());
-		$serveroffset = gmmktime(0, 0, 0, $mon, $mday, $year) - mktime(0, 0, 0, $mon, $mday, $year);
-		$offset = $gmtoffset - $serveroffset;
-
-		return $offset + ($isDst ? 3600 : 0);
 	}
 
 }
