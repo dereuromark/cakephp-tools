@@ -123,7 +123,7 @@ class ToggleBehavior extends Behavior {
 	/**
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 *
-	 * @return mixed
+	 * @return \Cake\Datasource\EntityInterface|null
 	 */
 	protected function getCurrent(EntityInterface $entity) {
 		$conditions = $this->buildConditions($entity);
@@ -148,7 +148,7 @@ class ToggleBehavior extends Behavior {
 	/**
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	protected function buildConditions(EntityInterface $entity) {
 		$conditions = $this->config('scope');
@@ -162,15 +162,17 @@ class ToggleBehavior extends Behavior {
 	/**
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public function toggleField(EntityInterface $entity) {
 		$field = $this->getConfig('field');
 		$id = $entity->get('id');
 		$conditions = $this->buildConditions($entity);
 
-		$this->_table->updateAll([$field => true], ['id' => $id] + $conditions);
-		$this->_table->updateAll([$field => false], ['id !=' => $id] + $conditions);
+		$primary = $this->_table->updateAll([$field => true], ['id' => $id] + $conditions);
+		$others = $this->_table->updateAll([$field => false], ['id !=' => $id] + $conditions);
+
+		return $primary + $others > 0;
 	}
 
 }
