@@ -29,7 +29,6 @@ class ToggleAddressesFixture extends TestFixture {
 	 */
 	public $records = [
 		[
-			'id' => 1,
 			'category_id' => 1,
 			'name' => 'Foo',
 			'primary' => 1,
