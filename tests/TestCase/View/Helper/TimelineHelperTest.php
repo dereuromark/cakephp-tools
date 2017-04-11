@@ -4,8 +4,8 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\View\View;
 use DateTime;
-use Tools\TestSuite\TestCase;
 use TestApp\View\Helper\TimelineHelper;
+use Tools\TestSuite\TestCase;
 
 /**
  * Timeline Helper Test Case
