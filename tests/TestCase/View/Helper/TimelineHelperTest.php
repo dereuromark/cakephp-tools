@@ -5,7 +5,7 @@ namespace Tools\Test\TestCase\View\Helper;
 use Cake\View\View;
 use DateTime;
 use Tools\TestSuite\TestCase;
-use Tools\View\Helper\TimelineHelper;
+use TestApp\View\Helper\TimelineHelper;
 
 /**
  * Timeline Helper Test Case
@@ -13,19 +13,17 @@ use Tools\View\Helper\TimelineHelper;
 class TimelineHelperTest extends TestCase {
 
 	/**
-	 * @var \Tools\View\Helper\TimelineHelper
+	 * @var \Tools\View\Helper\TimelineHelper|\TestApp\View\Helper\TimelineHelper
 	 */
 	public $Timeline;
 
 	/**
-	 * TimelineHelperTest::setUp()
-	 *
 	 * @return void
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->Timeline = new TimelineTestHelper(new View(null));
+		$this->Timeline = new TimelineHelper(new View(null));
 	}
 
 	/**
@@ -71,6 +69,27 @@ class TimelineHelperTest extends TestCase {
 		];
 		$this->Timeline->addItem($data);
 
+		$this->Timeline->finalize();
+		$result = $this->Timeline->getView()->fetch('script');
+		$this->assertContains('\'start\': new Date(', $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testFinalizeReturnScript() {
+		$this->testAddItem();
+		$data = [
+			'start' => new DateTime(),
+			'content' => '',
+		];
+		$this->Timeline->addItem($data);
+		$data = [
+			'start' => new DateTime(date(FORMAT_DB_DATE)),
+			'content' => '',
+		];
+		$this->Timeline->addItem($data);
+
 		$result = $this->Timeline->finalize(true);
 		$this->assertContains('\'start\': new Date(', $result);
 	}
@@ -82,17 +101,6 @@ class TimelineHelperTest extends TestCase {
 		parent::tearDown();
 
 		unset($this->Timeline);
-	}
-
-}
-
-class TimelineTestHelper extends TimelineHelper {
-
-	/**
-	 * @return array
-	 */
-	public function items() {
-		return $this->_items;
 	}
 
 }

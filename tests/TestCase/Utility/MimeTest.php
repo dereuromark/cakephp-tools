@@ -3,7 +3,7 @@
 namespace Tools\Test\TestCase\Utility;
 
 use Cake\Core\Plugin;
-use Cake\Network\Response;
+use Cake\Http\Response;
 use Tools\TestSuite\TestCase;
 use Tools\Utility\Mime;
 

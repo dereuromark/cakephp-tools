@@ -2,7 +2,7 @@
 
 namespace Tools\Utility;
 
-use Cake\Network\Response;
+use Cake\Http\Response;
 
 /**
  * Wrapper to be able to read cake core's mime types as well as fix for missing ones
@@ -28,11 +28,8 @@ class Mime extends Response {
 		'afl' => 'video/animaflex',
 		'ai' => 'application/postscript',
 		'aif' => 'audio/aiff',
-		'aif' => 'audio/x-aiff',
 		'aifc' => 'audio/aiff',
-		'aifc' => 'audio/x-aiff',
 		'aiff' => 'audio/aiff',
-		'aiff' => 'audio/x-aiff',
 		'aim' => 'application/x-aim',
 		'aip' => 'text/x-audiosoft-intra',
 		'ani' => 'application/x-navi-animation',
@@ -40,7 +37,6 @@ class Mime extends Response {
 		'aps' => 'application/mime',
 		'arc' => 'application/octet-stream',
 		'arj' => 'application/arj',
-		'arj' => 'application/octet-stream',
 		'art' => 'image/x-jg',
 		'asf' => 'video/x-ms-asf',
 		'asm' => 'text/x-asm',
@@ -103,7 +99,6 @@ class Mime extends Response {
 		'crt' => 'application/x-x509-user-cert',
 		'csh' => 'application/x-csh',
 		'csh' => 'text/x-script.csh',
-		'css' => 'application/x-pointplus',
 		'css' => 'text/css',
 		'cxx' => 'text/plain',
 		'dcr' => 'application/x-director',
@@ -113,7 +108,6 @@ class Mime extends Response {
 		'dif' => 'video/x-dv',
 		'dir' => 'application/x-director',
 		'dl' => 'video/dl',
-		'dl' => 'video/x-dl',
 		'doc' => 'application/msword',
 		'dot' => 'application/msword',
 		'dp' => 'application/commonground',
@@ -124,10 +118,8 @@ class Mime extends Response {
 		'dwf' => 'model/vnd.dwf',
 		'dwg' => 'application/acad',
 		'dwg' => 'image/vnd.dwg',
-		'dwg' => 'image/x-dwg',
 		'dxf' => 'application/dxf',
 		'dxf' => 'image/vnd.dwg',
-		'dxf' => 'image/x-dwg',
 		'dxr' => 'application/x-director',
 		'el' => 'text/x-script.elisp',
 		'elc' => 'application/x-bytecode.elisp',
@@ -664,7 +656,6 @@ class Mime extends Response {
 		'js' => 'application/javascript',
 		'json' => 'application/json',
 		'xml' => 'application/xml',
-		'swf' => 'application/x-shockwave-flash',
 		'flv' => 'video/x-flv',
 		'asc' => 'text/plain',
 		'atom' => 'application/atom+xml',

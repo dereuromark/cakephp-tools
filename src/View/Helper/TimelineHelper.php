@@ -15,13 +15,14 @@ use Cake\View\Helper;
  * @link http://almende.github.io/chap-links-library/timeline.html
  * @author Mark Scherer
  * @license MIT
+ * @property \Cake\View\Helper\HtmlHelper $Html
  */
 class TimelineHelper extends Helper {
 
 	/**
 	 * @var array
 	 */
-	public $helpers = ['Tools.Js'];
+	public $helpers = ['Html'];
 
 	/**
 	 * Possible values are (with their default values):
@@ -100,10 +101,12 @@ class TimelineHelper extends Helper {
 	 * Make sure that your view does also output the buffer at some place!
 	 *
 	 * @param bool $return If the output should be returned instead
-	 * @return void|string Javascript if $return is true
+	 * @param array $scriptOptions
+	 *
+	 * @return null|string Javascript if $return is true
 	 */
-	public function finalize($return = false) {
-		$settings = $this->config();
+	public function finalize($return = false, array $scriptOptions = []) {
+		$settings = $this->getConfig();
 		$timelineId = $settings['id'];
 		$data = $this->_format($this->_items);
 
@@ -140,7 +143,7 @@ JS;
 		if ($return) {
 			return $script;
 		}
-		$this->Js->buffer($script);
+		$this->_buffer($script, $scriptOptions);
 	}
 
 	/**
@@ -203,11 +206,11 @@ JS;
 	/**
 	 * Format date to JS code.
 	 *
-	 * @param \DateTime|null $date
+	 * @param \DateTimeInterface|null $date
 	 * @return string
 	 */
 	protected function _date($date = null) {
-		if ($date === null || !$date instanceof \DateTime) {
+		if ($date === null || !$date instanceof \DateTimeInterface) {
 			return '';
 		}
 		$datePieces = [];
@@ -220,6 +223,26 @@ JS;
 		$datePieces[] = (int)$date->format('s');
 
 		return 'new Date(' . implode(', ', $datePieces) . ')';
+	}
+
+	/**
+	 * Options:
+	 * - `safe` (boolean) Whether or not the $script should be wrapped in `<![CDATA[ ]]>`.
+	 *   Defaults to `false`.
+	 * - `block` You can chose a different view block to write to (defaults to "script" one).
+	 *
+	 * @param string $script
+	 * @param array $options
+	 *
+	 * @return void
+	 */
+	protected function _buffer($script, array $options = []) {
+		$defaults = [
+			'block' => true
+		];
+		$options += $defaults;
+
+		$this->Html->scriptBlock($script, $options);
 	}
 
 }
