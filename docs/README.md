@@ -33,7 +33,7 @@ Behaviors:
 * [Bitmasked](Behavior/Bitmasked.md)
 * [Reset](Behavior/Reset.md)
 * [String](Behavior/String.md)
-* [Toogle](Behavior/Toggle.md)
+* [Toggle](Behavior/Toggle.md)
 
 ## Basic enhancements of the core
 
