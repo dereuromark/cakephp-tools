@@ -3,15 +3,9 @@
 ## How to include
 Installing the Plugin is pretty much as with every other CakePHP Plugin.
 
-Include the plugin using Packagist/Composer:
 ```
-"require": {
-	"dereuromark/cakephp-tools": "dev-master"
-}
+composer require dereuromark/cakephp-tools
 ```
-and
-
-	composer update
 
 Details @ https://packagist.org/packages/dereuromark/cakephp-tools
 
@@ -27,15 +21,15 @@ Plugin::loadAll(...);
 In case you want the Tools bootstrap file included (recommended), you can do that in your `ROOT/config/bootstrap.php` with
 
 ```php
-Plugin::load('Tools', array('bootstrap' => true));
+Plugin::load('Tools', ['bootstrap' => true]);
 ```
 
 or
 
 ```php
-Plugin::loadAll(array(
-		'Tools' => array('bootstrap' => true)
-));
+Plugin::loadAll([
+		'Tools' => ['bootstrap' => true]
+]);
 ```
 
 ## Namespacing
@@ -84,3 +78,4 @@ For Configure usage especially in view files, you can add this to the bootstrap:
 class_alias('Cake\Core\Configure', 'Configure');
 ```
 This avoids having to add tons of `use` statements at the top of your view ctps.
+But using the helper is preferred and a bit cleaner (`$this->loadHelper('Shim.Configure')`);
