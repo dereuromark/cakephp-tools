@@ -68,9 +68,9 @@ use Tools\Controller\Controller;
 
 class AppController extends Controller {
 
-	public $components = array('Tools.Common');
+	public $components = ['Tools.Common'];
 
-	public $helpers = array('Tools.Common', 'Tools.Time', 'Tools.Number', 'Tools.Format');
+	public $helpers = ['Tools.Common', 'Tools.Time', 'Tools.Number', 'Tools.Format'];
 
 }
 ```
