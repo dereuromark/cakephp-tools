@@ -26,7 +26,7 @@ class EntityTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		Configure::write('App.namespace', 'TestApp');
+
 
 		$this->Users = TableRegistry::get('ToolsUsers');
 	}

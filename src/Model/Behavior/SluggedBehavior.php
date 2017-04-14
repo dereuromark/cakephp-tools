@@ -361,7 +361,7 @@ class SluggedBehavior extends Behavior {
 			set_time_limit(max($max, $count / 100));
 		}
 
-		$this->_table->behaviors()->Slugged->config($params, null, false);
+		$this->config($params, null, false);
 		while (($records = $this->_table->find('all', $params)->toArray())) {
 			/** @var \Cake\ORM\Entity $record */
 			foreach ($records as $record) {

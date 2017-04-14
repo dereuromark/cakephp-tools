@@ -29,7 +29,7 @@ class CommonComponentTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		Configure::write('App.namespace', 'TestApp');
+		
 		Configure::write('App.fullBaseUrl', 'http://localhost');
 
 		$this->request = new Request('/my_controller/foo');

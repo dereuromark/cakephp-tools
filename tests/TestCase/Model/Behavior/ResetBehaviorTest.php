@@ -30,7 +30,7 @@ class ResetBehaviorTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		Configure::write('App.namespace', 'TestApp');
+
 
 		$this->Table = TableRegistry::get('ResetComments');
 		$this->Table->addBehavior('Tools.Reset');
