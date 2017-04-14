@@ -20,7 +20,7 @@ ErrorHandler
 * [ErrorHandler](Error/ErrorHandler.md)
 
 Auth
-* [MultiColumnAuthenticate](Auth/MultiColumn) for log-in with e.g. "email or username"
+* [MultiColumnAuthenticate](Auth/MultiColumn.md) for log-in with e.g. "email or username"
 
 Testing
 * [Testing](TestSuite/Testing.md)
