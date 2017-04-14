@@ -2,7 +2,6 @@
 
 namespace Tools\Model\Table;
 
-use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
 use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
@@ -30,8 +29,6 @@ class TableTest extends TestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-
-
 
 		$this->Users = TableRegistry::get('ToolsUsers');
 

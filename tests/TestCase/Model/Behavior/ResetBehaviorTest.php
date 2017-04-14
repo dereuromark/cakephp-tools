@@ -2,7 +2,6 @@
 
 namespace Tools\Model\Behavior;
 
-use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 use Tools\Model\Table\Table;
 use Tools\TestSuite\TestCase;
@@ -29,8 +28,6 @@ class ResetBehaviorTest extends TestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-
-
 
 		$this->Table = TableRegistry::get('ResetComments');
 		$this->Table->addBehavior('Tools.Reset');

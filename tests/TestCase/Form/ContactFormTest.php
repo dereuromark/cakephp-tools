@@ -2,7 +2,6 @@
 
 namespace Tools\Form;
 
-use Cake\Core\Configure;
 use Tools\Form\ContactForm;
 use Tools\TestSuite\TestCase;
 
@@ -28,8 +27,6 @@ class ContactFormTest extends TestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-
-
 
 		$this->Form = new ContactForm();
 	}

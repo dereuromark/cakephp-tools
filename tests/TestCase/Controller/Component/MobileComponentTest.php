@@ -2,11 +2,11 @@
 
 namespace Tools\Test\TestCase\Controller\Component;
 
+use App\Controller\MobileComponentTestController;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Network\Request;
 use Detection\MobileDetect;
-use App\Controller\MobileComponentTestController;
 use Tools\TestSuite\TestCase;
 
 /**

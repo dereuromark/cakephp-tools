@@ -27,8 +27,6 @@ class ControllerTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-
-
 		$this->Controller = new Controller();
 		$this->Controller->startupProcess();
 	}

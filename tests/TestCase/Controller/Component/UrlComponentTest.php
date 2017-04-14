@@ -2,12 +2,12 @@
 
 namespace Tools\Test\TestCase\Controller\Component;
 
+use App\Controller\UrlComponentTestController;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Event\Event;
 use Cake\Network\Request;
 use Cake\Routing\Router;
-use App\Controller\UrlComponentTestController;
 use Tools\TestSuite\TestCase;
 
 /**

@@ -2,9 +2,8 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use Cake\Core\Configure;
-use Cake\ORM\TableRegistry;
 use App\Model\Entity\BitmaskedComment;
+use Cake\ORM\TableRegistry;
 use Tools\TestSuite\TestCase;
 
 class BitmaskedBehaviorTest extends TestCase {
@@ -26,8 +25,6 @@ class BitmaskedBehaviorTest extends TestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-
-
 
 		$this->Comments = TableRegistry::get('BitmaskedComments');
 		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);

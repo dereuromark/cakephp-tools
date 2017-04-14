@@ -2,9 +2,9 @@
 
 namespace Tools\Test\TestCase\View\Helper;
 
+use App\View\Helper\TimelineHelper;
 use Cake\View\View;
 use DateTime;
-use App\View\Helper\TimelineHelper;
 use Tools\TestSuite\TestCase;
 
 /**

@@ -2,10 +2,10 @@
 
 namespace Tools\Test\TestCase\Mailer;
 
+use App\Mailer\TestEmail;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Log\Log;
-use App\Mailer\TestEmail;
 use Tools\Mailer\Email;
 use Tools\TestSuite\TestCase;
 

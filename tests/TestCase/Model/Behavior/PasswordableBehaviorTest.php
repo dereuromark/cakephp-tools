@@ -31,8 +31,6 @@ class PasswordableBehaviorTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-
-
 		Configure::delete('Passwordable');
 		Configure::write('Passwordable.auth', 'AuthTest');
 

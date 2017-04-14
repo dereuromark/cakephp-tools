@@ -2,7 +2,6 @@
 
 namespace Tools\Model\Entity;
 
-use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 use Tools\TestSuite\TestCase;
 
@@ -25,8 +24,6 @@ class EntityTest extends TestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-
-
 
 		$this->Users = TableRegistry::get('ToolsUsers');
 	}

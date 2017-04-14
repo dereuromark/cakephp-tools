@@ -2,7 +2,6 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 use stdClass;
 use Tools\TestSuite\TestCase;
@@ -26,8 +25,6 @@ class JsonableBehaviorTest extends TestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-
-
 
 		$this->Comments = TableRegistry::get('JsonableComments');
 		$this->Comments->addBehavior('Tools.Jsonable', ['fields' => ['details']]);
