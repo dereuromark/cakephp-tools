@@ -15,12 +15,10 @@ use Cake\ORM\TableRegistry;
  *    $this->Auth->config('authenticate', [
  *        'Tools.MultiColumn' => [
  *            'fields' => [
- *                'username' => 'username',
+ *                'username' => 'login',
  *                'password' => 'password'
  *             ],
  *            'columns' => ['username', 'email'],
- *            'userModel' => 'Users',
- *            'scope' => ['User.active' => 1]
  *        ]
  *    ]);
  * ```
