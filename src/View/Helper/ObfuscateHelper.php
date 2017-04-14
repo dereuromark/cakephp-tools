@@ -11,6 +11,7 @@ use Cake\View\Helper;
  *
  * @author Mark Scherer
  * @license MIT
+ * @property \Cake\View\Helper\HtmlHelper $Html
  */
 class ObfuscateHelper extends Helper {
 
@@ -86,6 +87,7 @@ class ObfuscateHelper extends Helper {
 
 		$len = mb_strlen($xmail1);
 		$i = 0;
+		$par = [];
 		while ($i < $len) {
 			$c = mt_rand(2, 6);
 			$par[] = (mb_substr($xmail1, $i, $c));

@@ -11,6 +11,7 @@ use DateTime;
  * Wrapper for TimeHelper and TimeLib
  *
  * @mixin \Tools\Utility\Time
+ * @property \Cake\View\Helper\HtmlHelper $Html
  */
 class TimeHelper extends CakeTimeHelper {
 

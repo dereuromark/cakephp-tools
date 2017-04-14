@@ -17,6 +17,8 @@ use RuntimeException;
  * Mapping
  *
  * de => ['locale' => 'de_DE', 'name' => 'Deutsch'], ...
+ *
+ * @property \Cake\Controller\Component\FlashComponent $Flash
  */
 class ShuntRequestController extends AppController {
 

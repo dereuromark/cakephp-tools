@@ -190,7 +190,7 @@ class TokensTable extends Table {
 	 * Remove old/invalid keys
 	 * does not remove recently used ones (for proper feedback)!
 	 *
-	 * @return bool success
+	 * @return int Rows
 	 */
 	public function garbageCollector() {
 		$conditions = [

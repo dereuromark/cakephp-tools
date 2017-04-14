@@ -651,9 +651,9 @@ class Utility {
 	}
 
 	/**
-	 * @var int
+	 * @var float
 	 */
-	protected static $_counterStartTime;
+	protected static $_counterStartTime = 0.0;
 
 	/**
 	 * Returns microtime as float value

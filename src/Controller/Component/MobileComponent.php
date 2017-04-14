@@ -6,6 +6,7 @@ use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Routing\Router;
+use RuntimeException;
 use Shim\Controller\Component\Component;
 
 /**
@@ -59,8 +60,6 @@ class MobileComponent extends Component {
 	];
 
 	/**
-	 * MobileComponent::initialize()
-	 *
 	 * @param array $config
 	 * @return void
 	 */
@@ -74,8 +73,6 @@ class MobileComponent extends Component {
 	}
 
 	/**
-	 * MobileComponent::startup()
-	 *
 	 * @param \Cake\Event\Event $event
 	 * @return void
 	 */
@@ -102,11 +99,11 @@ class MobileComponent extends Component {
 
 		if ($mobileOverwrite !== null) {
 			if ($mobileOverwrite === '-1') {
-				$noMobile = null;
+				$this->request->session()->delete('User.mobile');
 			} else {
 				$wantsMobile = (bool)$mobileOverwrite;
+				$this->request->session()->write('User.mobile', (int)$wantsMobile);
 			}
-			$this->request->session()->write('User.mobile', (int)$wantsMobile);
 		}
 		$this->isMobile();
 
@@ -209,7 +206,7 @@ class MobileComponent extends Component {
 		if (is_callable($this->_config['engine'])) {
 			return call_user_func($this->_config['engine']);
 		}
-		throw new CakeException(sprintf('Engine %s not available', $this->_config['engine']));
+		throw new RuntimeException(sprintf('Engine %s not available', $this->_config['engine']));
 	}
 
 }

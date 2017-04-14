@@ -262,11 +262,11 @@ class Number extends CakeNumber {
 	 * Get the settings for a specific formatName
 	 *
 	 * @param string $formatName (EUR, ...)
-	 * @return array currencySettings or null on failure
+	 * @return array currencySettings
 	 */
 	public static function getFormat($formatName) {
 		if (!isset(static::$_currencies[$formatName])) {
-			return null;
+			return [];
 		}
 		return static::$_currencies[$formatName];
 	}

@@ -13,6 +13,7 @@ use Cake\View\Helper;
  * @copyright Copyright 2009-2010, Graham Weldon (http://grahamweldon.com)
  * @license http://opensource.org/licenses/mit-license.php MIT
  * @author Mark Scherer
+ * @property \Cake\View\Helper\HtmlHelper $Html
  */
 class GravatarHelper extends Helper {
 

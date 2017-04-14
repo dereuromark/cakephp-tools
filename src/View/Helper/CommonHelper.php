@@ -10,6 +10,8 @@ use Cake\View\Helper;
  * Common helper
  *
  * @author Mark Scherer
+ * @property \Cake\View\Helper\HtmlHelper $Html
+ * @property \Cake\View\Helper\UrlHelper $Url
  */
 class CommonHelper extends Helper {
 
@@ -71,10 +73,10 @@ class CommonHelper extends Helper {
 		}
 		$content = [];
 		if ($type === 'public') {
-			$this->privatePage = false;
+			//$this->privatePage = false;
 			$content['robots'] = ['index', 'follow', 'noarchive'];
 		} else {
-			$this->privatePage = true;
+			//$this->privatePage = true;
 			$content['robots'] = ['noindex', 'nofollow', 'noarchive'];
 		}
 

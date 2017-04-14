@@ -103,9 +103,10 @@ class ResetBehavior extends Behavior {
 				$defaults['fields'][] = $this->_table->alias() . '.' . $this->_table->displayField();
 			}
 		}
+
+		$updateFields = [];
 		if (!$this->_config['updateTimestamp']) {
 			$fields = ['modified', 'updated'];
-			$updateFields = [];
 			foreach ($fields as $field) {
 				if ($this->_table->schema()->column($field)) {
 					$defaults['fields'][] = $field;
@@ -150,7 +151,7 @@ class ResetBehavior extends Behavior {
 
 				$res = $this->_table->save($record, compact('validate', 'fieldList'));
 				if (!$res) {
-					throw new RuntimeException(print_r($this->_table->errors(), true));
+					throw new RuntimeException(print_r($record->errors(), true));
 				}
 				$modified++;
 			}

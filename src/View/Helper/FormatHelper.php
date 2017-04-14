@@ -15,6 +15,7 @@ use Cake\View\View;
  *
  * @author Mark Scherer
  * @license MIT
+ * @property \Cake\View\Helper\HtmlHelper $Html
  */
 class FormatHelper extends Helper {
 
@@ -634,8 +635,8 @@ class FormatHelper extends Helper {
 		$options += $defaults;
 
 		// Sanity check
-		if (empty($array) || !is_array($array)) {
-			return false;
+		if (empty($array)) {
+			return '';
 		}
 
 		if (!isset($array[0]) || !is_array($array[0])) {

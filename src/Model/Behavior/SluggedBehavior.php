@@ -131,11 +131,11 @@ class SluggedBehavior extends Behavior {
 				if (strpos($field, '.')) {
 					list($alias, $field) = explode('.', $field);
 					if (!$this->_table->$alias->hasField($field)) {
-						throw new RuntimeException('(SluggedBehavior::setup) model ' . $this->_table->$alias->name . ' is missing the field ' . $field .
-							' (specified in the setup for model ' . $this->_table->name . ') ');
+						throw new RuntimeException('(SluggedBehavior::setup) model ' . $this->_table->$alias->alias() . ' is missing the field ' . $field .
+							' (specified in the setup for model ' . $this->_table->alias() . ') ');
 					}
 				} elseif (!$this->_table->hasField($field) && !method_exists($this->_table->entityClass(), '_get' . Inflector::classify($field))) {
-					throw new RuntimeException('(SluggedBehavior::setup) model ' . $this->_table->name . ' is missing the field ' . $field . ' specified in the setup.');
+					throw new RuntimeException('(SluggedBehavior::setup) model ' . $this->_table->alias() . ' is missing the field ' . $field . ' specified in the setup.');
 				}
 			}
 		}
@@ -397,6 +397,7 @@ class SluggedBehavior extends Behavior {
 
 		$locale = [];
 		foreach ($fields as $locale => $_) {
+			$res = null;
 			foreach ($label as $field) {
 				$res = $entity->get($field);
 				if (is_array($entity->get($field))) {

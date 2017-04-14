@@ -287,7 +287,7 @@ class JsonableBehavior extends Behavior {
 		$leftBound = $this->_config['leftBound'];
 		$rightBound = $this->_config['rightBound'];
 
-		return Text::tokenize($val, $separator, $leftBound, $rightBound);
+		return (array)Text::tokenize($val, $separator, $leftBound, $rightBound);
 	}
 
 	/**
