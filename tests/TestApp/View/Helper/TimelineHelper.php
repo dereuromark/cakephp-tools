@@ -1,5 +1,5 @@
 <?php
-namespace TestApp\View\Helper;
+namespace App\View\Helper;
 
 use Tools\View\Helper\TimelineHelper as ToolsTimelineHelper;
 

@@ -5,7 +5,7 @@ namespace Tools\Test\TestCase\Mailer;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Log\Log;
-use TestApp\Mailer\TestEmail;
+use App\Mailer\TestEmail;
 use Tools\Mailer\Email;
 use Tools\TestSuite\TestCase;
 
@@ -15,7 +15,7 @@ use Tools\TestSuite\TestCase;
 class EmailTest extends TestCase {
 
 	/**
-	 * @var \TestApp\Mailer\TestEmail
+	 * @var \App\Mailer\TestEmail
 	 */
 	protected $Email;
 

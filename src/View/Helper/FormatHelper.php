@@ -107,6 +107,7 @@ class FormatHelper extends Helper {
 	 * @return string
 	 */
 	public function neighbors(array $neighbors, $field, array $options = []) {
+		$alias = null;
 		if (mb_strpos($field, '.') !== false) {
 			$fieldArray = explode('.', $field, 2);
 			$alias = $fieldArray[0];

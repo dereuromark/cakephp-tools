@@ -6,6 +6,7 @@ use Cake\Core\App;
 use Cake\View\Helper\TimeHelper as CakeTimeHelper;
 use Cake\View\View;
 use DateTime;
+use RuntimeException;
 
 /**
  * Wrapper for TimeHelper and TimeLib
@@ -54,11 +55,11 @@ class TimeHelper extends CakeTimeHelper {
 		$config = $this->_config;
 
 		$engineClass = App::className($config['engine'], 'Utility');
-		if ($engineClass) {
-			$this->_engine = new $engineClass($config);
-		} else {
-			throw new Exception(sprintf('Class for %s could not be found', $config['engine']));
+		if (!$engineClass) {
+			throw new RuntimeException(sprintf('Class for %s could not be found', $config['engine']));
 		}
+
+		$this->_engine = new $engineClass($config);
 	}
 
 	/**
@@ -94,8 +95,7 @@ class TimeHelper extends CakeTimeHelper {
 	 *
 	 * @param string|int|null $date
 	 * @param string $default
-	 * @return int age on success, mixed $default otherwise
-	 * @internal param date $string
+	 * @return string Age on success, $default otherwise
 	 */
 	public function userAge($date = null, $default = '') {
 		if ($date === null) {
@@ -103,7 +103,7 @@ class TimeHelper extends CakeTimeHelper {
 		}
 		$age = $this->age($date, null);
 		if ($age >= 1 && $age <= 99) {
-			return $age;
+			return (string)$age;
 		}
 		return $default;
 	}

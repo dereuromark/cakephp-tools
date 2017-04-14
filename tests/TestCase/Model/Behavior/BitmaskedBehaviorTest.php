@@ -4,7 +4,7 @@ namespace Tools\Test\TestCase\Model\Behavior;
 
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
-use TestApp\Model\Entity\BitmaskedComment;
+use App\Model\Entity\BitmaskedComment;
 use Tools\TestSuite\TestCase;
 
 class BitmaskedBehaviorTest extends TestCase {

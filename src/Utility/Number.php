@@ -13,6 +13,11 @@ use Cake\I18n\Number as CakeNumber;
  */
 class Number extends CakeNumber {
 
+	/**
+	 * @var array
+	 */
+	protected static $_currencies = [];
+
 	protected static $_currency = 'EUR';
 
 	protected static $_symbolRight = '€';

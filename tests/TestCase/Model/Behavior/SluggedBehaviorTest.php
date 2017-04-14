@@ -602,7 +602,7 @@ class SluggedBehaviorTest extends TestCase {
 	 */
 	public function testSlugGenerationWithVirualField() {
 		$this->articles->removeBehavior('Slugged');
-		$this->articles->entityClass('\TestApp\Model\Entity\SluggedArticle');
+		$this->articles->entityClass('\App\Model\Entity\SluggedArticle');
 		$this->articles->addBehavior('Tools.Slugged', [
 			'label' => [
 				'title',

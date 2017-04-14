@@ -6,7 +6,7 @@ use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Network\Request;
 use Cake\Network\Session;
-use TestApp\Controller\CommonComponentTestController;
+use App\Controller\CommonComponentTestController;
 use Tools\TestSuite\TestCase;
 
 /**
@@ -14,7 +14,7 @@ use Tools\TestSuite\TestCase;
 class CommonComponentTest extends TestCase {
 
 	/**
-	 * @var \TestApp\Controller\CommonComponentTestController
+	 * @var \App\Controller\CommonComponentTestController
 	 */
 	public $Controller;
 
