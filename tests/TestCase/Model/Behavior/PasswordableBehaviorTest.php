@@ -19,7 +19,7 @@ class PasswordableBehaviorTest extends TestCase {
 	];
 
 	/**
-	 * @var \TestApp\Model\Table\ToolsUsersTable
+	 * @var \App\Model\Table\ToolsUsersTable
 	 */
 	public $Users;
 
@@ -30,8 +30,6 @@ class PasswordableBehaviorTest extends TestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-
-		Configure::write('App.namespace', 'TestApp');
 
 		Configure::delete('Passwordable');
 		Configure::write('Passwordable.auth', 'AuthTest');

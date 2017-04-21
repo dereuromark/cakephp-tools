@@ -1,0 +1,10 @@
+parameters:
+	autoload_files:
+		- %rootDir%/../../../tests/bootstrap.php
+	excludes_analyse:
+		- %rootDir%/../../../src/TestSuite/*
+		- %rootDir%/../../../src/View/Helper/TreeHelper
+	ignoreErrors:
+		- '#Call to an undefined method Cake\\Controller\\Component\\FlashComponent::success\(\)#'
+		- '#Tools\\Utility\\Mime::\_\_construct\(\) does not call parent constructor from Cake\\Http\\Response#'
+		- '#Undefined variable: \$i#'

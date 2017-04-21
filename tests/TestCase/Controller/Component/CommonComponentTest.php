@@ -2,11 +2,11 @@
 
 namespace Tools\Test\TestCase\Controller\Component;
 
+use App\Controller\CommonComponentTestController;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Network\Request;
 use Cake\Network\Session;
-use TestApp\Controller\CommonComponentTestController;
 use Tools\TestSuite\TestCase;
 
 /**
@@ -14,7 +14,7 @@ use Tools\TestSuite\TestCase;
 class CommonComponentTest extends TestCase {
 
 	/**
-	 * @var \TestApp\Controller\CommonComponentTestController
+	 * @var \App\Controller\CommonComponentTestController
 	 */
 	public $Controller;
 
@@ -29,7 +29,6 @@ class CommonComponentTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		Configure::write('App.namespace', 'TestApp');
 		Configure::write('App.fullBaseUrl', 'http://localhost');
 
 		$this->request = new Request('/my_controller/foo');

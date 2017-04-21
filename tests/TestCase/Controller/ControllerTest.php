@@ -27,8 +27,6 @@ class ControllerTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		Configure::write('App.namespace', 'TestApp');
-
 		$this->Controller = new Controller();
 		$this->Controller->startupProcess();
 	}

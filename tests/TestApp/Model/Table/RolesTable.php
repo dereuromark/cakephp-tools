@@ -1,6 +1,6 @@
 <?php
 
-namespace TestApp\Model\Table;
+namespace App\Model\Table;
 
 use Tools\Model\Table\Table;
 
