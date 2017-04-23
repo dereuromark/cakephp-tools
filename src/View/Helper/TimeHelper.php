@@ -3,6 +3,7 @@
 namespace Tools\View\Helper;
 
 use Cake\Core\App;
+use Cake\Core\Configure;
 use Cake\View\Helper\TimeHelper as CakeTimeHelper;
 use Cake\View\View;
 use DateTime;
@@ -52,7 +53,10 @@ class TimeHelper extends CakeTimeHelper {
 	public function __construct(View $View, array $config = []) {
 		parent::__construct($View, $config);
 
-		$config = $this->_config;
+		$defaults = [
+			'outputTimezone' => Configure::read('App.defaultOutputTimezone')
+		];
+		$config = $this->_config + $defaults;
 
 		$engineClass = App::className($config['engine'], 'Utility');
 		if (!$engineClass) {

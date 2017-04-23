@@ -161,11 +161,9 @@ class TimeTest extends TestCase {
 		Configure::write('Config.timezone', 'America/Anchorage');
 
 		$ret = $this->Time->niceDate('2009-12-01');
-		//debug($ret);
 		$this->assertEquals('01.12.2009', $ret);
 
 		$ret = $this->Time->localDate('2009-12-01');
-		//debug($ret);
 		$this->assertEquals('01.12.2009', $ret);
 	}
 
@@ -649,11 +647,11 @@ class TimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testIsDayAfterTomorrow() {
-		$testDate = date(FORMAT_DB_DATE, time() + 2 * DAY);
+		$testDate = new Time(time() + 2 * DAY);
 		$is = $this->Time->isDayAfterTomorrow($testDate);
 		$this->assertTrue($is);
 
-		$testDate = date(FORMAT_DB_DATETIME, time() - 1 * MINUTE);
+		$testDate = new Time(time() - 1 * MINUTE);
 		$is = $this->Time->isDayAfterTomorrow($testDate);
 		$this->assertFalse($is);
 	}

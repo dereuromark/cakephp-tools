@@ -1,7 +1,10 @@
 <?php
 namespace Tools\Utility;
 
+use Cake\Chronos\ChronosInterface;
+use Cake\Chronos\MutableDate;
 use Cake\Core\Configure;
+use Cake\I18n\Date;
 use Cake\I18n\Time as CakeTime;
 use DateInterval;
 use DateTime;
@@ -443,12 +446,12 @@ class Time extends CakeTime {
 	 * @param array $options
 	 * @return string
 	 */
-	public static function localDate($dateString = null, $format = null, array $options = []) {
+	public static function localDate($dateString, $format = null, array $options = []) {
 		$defaults = ['default' => '-----', 'timezone' => null];
 		$options += $defaults;
 
 		if ($options['timezone'] === null && strlen($dateString) === 10) {
-			$options['timezone'] = date_default_timezone_get();
+			$options['timezone'] = static::_getDefaultOutputTimezone();
 		}
 		if ($dateString === null) {
 			$dateString = time();
@@ -521,12 +524,12 @@ class Time extends CakeTime {
 	 * @param array $options Options
 	 * @return string
 	 */
-	public static function niceDate($dateString = null, $format = null, array $options = []) {
+	public static function niceDate($dateString, $format = null, array $options = []) {
 		$defaults = ['default' => '-----', 'timezone' => null];
 		$options += $defaults;
 
-		if ($options['timezone'] === null && strlen($dateString) === 10) {
-			$options['timezone'] = date_default_timezone_get();
+		if ($options['timezone'] === null) {
+			$options['timezone'] = static::_getDefaultOutputTimezone();
 		}
 
 		if ($options['timezone']) {
@@ -538,25 +541,29 @@ class Time extends CakeTime {
 		}
 
 		if (!is_object($dateString)) {
-			$date = new CakeTime($dateString, $options['timezone']);
+			if (strlen($dateString) === 10) {
+				$date = new Date($dateString);
+			} else {
+				$date = new CakeTime($dateString);
+			}
 		} else {
 			$date = $dateString;
 		}
-		$date = $date->format('U');
 
-		if ($date === null || $date === false || $date <= 0) {
+		if ($date === null) {
 			return $options['default'];
 		}
 
 		if ($format === null) {
-			if (is_int($dateString) || strpos($dateString, ' ') !== false) {
-				$format = FORMAT_NICE_YMDHM;
-			} else {
+			if ($date instanceof MutableDate) {
 				$format = FORMAT_NICE_YMD;
+			} else {
+				$format = FORMAT_NICE_YMDHM;
 			}
 		}
 
-		$ret = date($format, $date);
+		$date = $date->timezone($options['timezone']);
+		$ret = $date->format($format);
 
 		if (!empty($options['oclock'])) {
 			switch ($format) {
@@ -583,6 +590,13 @@ class Time extends CakeTime {
 			$time = substr($time, $pos + 1);
 		}
 		return substr($time, 0, 5);
+	}
+
+	/**
+	 * @return string
+	 */
+	protected static function _getDefaultOutputTimezone() {
+		return Configure::read('App.defaultOutputTimezone') ?: date_default_timezone_get();
 	}
 
 	/**
@@ -966,6 +980,8 @@ class Time extends CakeTime {
 	/**
 	 * Convenience method to convert a given date
 	 *
+	 * @deprecated
+	 *
 	 * @param string $oldDateString
 	 * @param string $newDateFormatString
 	 * @param int|null $timezone User's timezone
@@ -979,27 +995,21 @@ class Time extends CakeTime {
 	/**
 	 * Returns true if given datetime string was day before yesterday.
 	 *
-	 * @param string $dateString Datetime string or Unix timestamp
-	 * @param int|null $timezone User's timezone
+	 * @param ChronosInterface $date Datetime
 	 * @return bool True if datetime string was day before yesterday
 	 */
-	public static function wasDayBeforeYesterday($dateString, $timezone = null) {
-		$date = new CakeTime($dateString, $timezone);
-		$date = $date->format('U');
-		return date(FORMAT_DB_DATE, $date) === date(FORMAT_DB_DATE, time() - 2 * DAY);
+	public static function wasDayBeforeYesterday($date) {
+		return $date->toDateString() === static::now()->subDays(2)->toDateString();
 	}
 
 	/**
 	 * Returns true if given datetime string is the day after tomorrow.
 	 *
-	 * @param string $dateString Datetime string or Unix timestamp
-	 * @param int|null $timezone User's timezone
+	 * @param ChronosInterface $date Datetime
 	 * @return bool True if datetime string is day after tomorrow
 	 */
-	public static function isDayAfterTomorrow($dateString, $timezone = null) {
-		$date = new CakeTime($dateString, $timezone);
-		$date = $date->format('U');
-		return date(FORMAT_DB_DATE, $date) === date(FORMAT_DB_DATE, time() + 2 * DAY);
+	public static function isDayAfterTomorrow($date) {
+		return $date->toDateString() === static::now()->addDays(2)->toDateString();
 	}
 
 	/**
