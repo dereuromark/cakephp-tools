@@ -1,7 +1,6 @@
 <?php
 namespace Tools\Utility;
 
-use Cake\Chronos\ChronosInterface;
 use Cake\Chronos\MutableDate;
 use Cake\Core\Configure;
 use Cake\I18n\Date;
@@ -995,7 +994,7 @@ class Time extends CakeTime {
 	/**
 	 * Returns true if given datetime string was day before yesterday.
 	 *
-	 * @param ChronosInterface $date Datetime
+	 * @param \Cake\Chronos\ChronosInterface $date Datetime
 	 * @return bool True if datetime string was day before yesterday
 	 */
 	public static function wasDayBeforeYesterday($date) {
@@ -1005,7 +1004,7 @@ class Time extends CakeTime {
 	/**
 	 * Returns true if given datetime string is the day after tomorrow.
 	 *
-	 * @param ChronosInterface $date Datetime
+	 * @param \Cake\Chronos\ChronosInterface $date Datetime
 	 * @return bool True if datetime string is day after tomorrow
 	 */
 	public static function isDayAfterTomorrow($date) {
