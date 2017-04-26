@@ -5,14 +5,16 @@ namespace Tools\Utility;
 /**
  * Parses Browser detected preferred language.
  */
-class Language {
+class Language
+{
 
 	/**
 	 * @param string|null $languageList
 	 *
 	 * @return array
 	 */
-	public static function parseLanguageList($languageList = null) {
+	public static function parseLanguageList($languageList = null)
+	{
 		if ($languageList === null) {
 			if (empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 				return [];
@@ -22,7 +24,8 @@ class Language {
 		$languages = [];
 		$languageRanges = explode(',', trim($languageList));
 		foreach ($languageRanges as $languageRange) {
-			if (preg_match('/(\*|[a-zA-Z0-9]{1,8}(?:-[a-zA-Z0-9]{1,8})*)(?:\s*;\s*q\s*=\s*(0(?:\.\d{0,3})|1(?:\.0{0,3})))?/', trim($languageRange), $match)) {
+			$pattern = '/(\*|[a-zA-Z0-9]{1,8}(?:-[a-zA-Z0-9]{1,8})*)(?:\s*;\s*q\s*=\s*(0(?:\.\d{0,3})|1(?:\.0{0,3})))?/';
+			if (preg_match($pattern, trim($languageRange), $match)) {
 				if (!isset($match[2])) {
 					$match[2] = '1.0';
 				} else {
@@ -38,6 +41,7 @@ class Language {
 			}
 		}
 		krsort($languages);
+
 		return $languages;
 	}
 
@@ -48,7 +52,8 @@ class Language {
 	 * @param array $available
 	 * @return string|null
 	 */
-	public static function findFirstMatch(array $accepted, array $available = []) {
+	public static function findFirstMatch(array $accepted, array $available = [])
+	{
 		$matches = static::findMatches($accepted, $available);
 		if (!$matches) {
 			return null;
@@ -69,7 +74,8 @@ class Language {
 	 * @param array $available
 	 * @return array
 	 */
-	public static function findMatches(array $accepted, array $available = []) {
+	public static function findMatches(array $accepted, array $available = []) 
+	{
 		$matches = [];
 		if (!$available) {
 			$available = static::parseLanguageList();
@@ -99,6 +105,7 @@ class Language {
 			}
 		}
 		krsort($matches);
+
 		return $matches;
 	}
 
@@ -109,7 +116,8 @@ class Language {
 	 * @param string $b
 	 * @return float
 	 */
-	protected static function _matchLanguage($a, $b) {
+	protected static function _matchLanguage($a, $b)
+	{
 		$a = explode('-', $a);
 		$b = explode('-', $b);
 
@@ -118,6 +126,7 @@ class Language {
 				break;
 			}
 		}
+
 		return $i === 0 ? 0 : (float)$i / count($a);
 	}
 
