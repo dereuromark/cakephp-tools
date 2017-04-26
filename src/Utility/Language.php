@@ -8,11 +8,12 @@ namespace Tools\Utility;
 class Language {
 
 	/**
-	 * @param string|null $languageList
+	 * @param string|null $languageList List of language codes or locales codes.
+	 * @param bool $forceLowerCase Flag to auto lower case country part of locale codes.
 	 *
 	 * @return array
 	 */
-	public static function parseLanguageList($languageList = null) {
+	public static function parseLanguageList($languageList = null, $forceLowerCase = true) {
 		if ($languageList === null) {
 			if (empty(env('HTTP_ACCEPT_LANGUAGE'))) {
 				return [];
@@ -35,7 +36,11 @@ class Language {
 					}
 					$languages[$match[2]] = [];
 				}
-				$languages[$match[2]][] = strtolower($match[1]);
+				if ($forceLowerCase) {
+					$languages[$match[2]][] = strtolower($match[1]);
+				} else {
+					$languages[$match[2]][] = $match[1];
+				}
 			}
 		}
 		krsort($languages);
