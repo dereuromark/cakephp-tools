@@ -9,7 +9,7 @@ class Language {
 
 	/**
 	 * @param string|null $languageList List of language codes or locales codes.
-	 * @param boolean $forceLowerCase Flag to auto lower case country part of locale codes.
+	 * @param bool $forceLowerCase Flag to auto lower case country part of locale codes.
 	 *
 	 * @return array
 	 */
