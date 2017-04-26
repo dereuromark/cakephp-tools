@@ -14,15 +14,16 @@ class Language {
 	 */
 	public static function parseLanguageList($languageList = null) {
 		if ($languageList === null) {
-			if (empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+			if (empty(env('HTTP_ACCEPT_LANGUAGE'))) {
 				return [];
 			}
-			$languageList = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+			$languageList = env('HTTP_ACCEPT_LANGUAGE');
 		}
 		$languages = [];
 		$languageRanges = explode(',', trim($languageList));
 		foreach ($languageRanges as $languageRange) {
-			if (preg_match('/(\*|[a-zA-Z0-9]{1,8}(?:-[a-zA-Z0-9]{1,8})*)(?:\s*;\s*q\s*=\s*(0(?:\.\d{0,3})|1(?:\.0{0,3})))?/', trim($languageRange), $match)) {
+			$pattern = '/(\*|[a-zA-Z0-9]{1,8}(?:-[a-zA-Z0-9]{1,8})*)(?:\s*;\s*q\s*=\s*(0(?:\.\d{0,3})|1(?:\.0{0,3})))?/';
+			if (preg_match($pattern, trim($languageRange), $match)) {
 				if (!isset($match[2])) {
 					$match[2] = '1.0';
 				} else {
