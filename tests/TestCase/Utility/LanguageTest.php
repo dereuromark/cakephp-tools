@@ -28,7 +28,7 @@ class LanguageTest extends TestCase {
 	}
 
 	/**
-	 * LanguageTest::testAll()
+	 * LanguageTest::testParseLanguageList()
 	 *
 	 * @return void
 	 */
@@ -43,6 +43,23 @@ class LanguageTest extends TestCase {
 			],
 			'0.6' => [
 				'en-us'
+			],
+			'0.4' => [
+				'en'
+			]
+		];
+		$this->assertSame($expected, $res);
+		
+		$res = Language::parseLanguageList($_SERVER['HTTP_ACCEPT_LANGUAGE'], false);
+		$expected = [
+			'1.0' => [
+				'de-DE'
+			],
+			'0.8' => [
+				'de'
+			],
+			'0.6' => [
+				'en-US'
 			],
 			'0.4' => [
 				'en'
