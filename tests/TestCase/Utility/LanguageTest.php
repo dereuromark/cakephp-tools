@@ -49,7 +49,7 @@ class LanguageTest extends TestCase {
 			]
 		];
 		$this->assertSame($expected, $res);
-		
+
 		$res = Language::parseLanguageList($_SERVER['HTTP_ACCEPT_LANGUAGE'], false);
 		$expected = [
 			'1.0' => [
@@ -94,7 +94,7 @@ class LanguageTest extends TestCase {
 		];
 		$this->assertSame($expected, $res);
 
-		$res = Language::findMatches(['de']);
+		$res = Language::findMatches(['DE']);
 		$expected = [
 			'1.0' => [
 				'de-de'

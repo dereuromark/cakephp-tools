@@ -116,8 +116,8 @@ class Language {
 	 * @return float
 	 */
 	protected static function _matchLanguage($a, $b) {
-		$a = explode('-', $a);
-		$b = explode('-', $b);
+		$a = explode('-', strtolower($a));
+		$b = explode('-', strtolower($b));
 
 		for ($i = 0, $n = min(count($a), count($b)); $i < $n; $i++) {
 			if ($a[$i] !== $b[$i]) {
