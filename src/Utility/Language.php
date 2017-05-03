@@ -58,7 +58,7 @@ class Language {
 					}
 				}
 
-				if ($options['removeDuplicates']) {
+				if (!$options['removeDuplicates']) {
 					$languages[$rank][] = $language;
 				} else {
 					if (array_key_exists($language, $languagesRanks) === false) {
