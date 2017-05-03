@@ -20,7 +20,7 @@ class Language {
 			'removeDuplicates' => false,
 		];
 		if (!is_array($options)) {
-			$options = ['lowercase' => $options];
+			$options = ['forceLowercase' => $options];
 		}
 		$options += $defaultOptions;
 
