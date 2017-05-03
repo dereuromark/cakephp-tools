@@ -43,6 +43,9 @@ class Language {
 					$language = strtolower($language);
 				} else {
 					$language = substr_replace($language, strtolower(substr($language, 0, 2)), 0, 2);
+					if (strlen($language) === 5) {
+						$language = substr_replace($language, strtoupper(substr($language, 3, 2)), 3, 2);
+					}
 				}
 
 				if ($keepDuplicates) {
