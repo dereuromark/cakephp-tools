@@ -14,7 +14,7 @@ class Language {
 	 *
 	 * @return array
 	 */
-	public static function parseLanguageList($languageList = null, array $options = []) {
+	public static function parseLanguageList($languageList = null, $options = []) {
 		$defaultOptions = [
 			'forceLowercase' => true,
 			'removeDuplicates' => false,
