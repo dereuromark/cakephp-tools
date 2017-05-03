@@ -13,7 +13,7 @@ class Language {
 	 *
 	 * @return array
 	 */
-	public static function parseLanguageList($languageList = null, $forceLowerCase = true) {
+	public static function parseLanguageList($languageList = null, $forceAllLowerCase = true, $keepDuplicates = true) {
 		if ($languageList === null) {
 			if (empty(env('HTTP_ACCEPT_LANGUAGE'))) {
 				return [];
@@ -21,25 +21,48 @@ class Language {
 			$languageList = env('HTTP_ACCEPT_LANGUAGE');
 		}
 		$languages = [];
+		$languagesRanks = [];
 		$languageRanges = explode(',', trim($languageList));
 		foreach ($languageRanges as $languageRange) {
 			$pattern = '/(\*|[a-zA-Z0-9]{1,8}(?:-[a-zA-Z0-9]{1,8})*)(?:\s*;\s*q\s*=\s*(0(?:\.\d{0,3})|1(?:\.0{0,3})))?/';
 			if (preg_match($pattern, trim($languageRange), $match)) {
 				if (!isset($match[2])) {
-					$match[2] = '1.0';
+					$rank = '1.0';
 				} else {
-					$match[2] = (string)(float)($match[2]);
+					$rank = (string)(float)($match[2]);
 				}
-				if (!isset($languages[$match[2]])) {
-					if ($match[2] === '1') {
-						$match[2] = '1.0';
+				if (!isset($languages[$rank])) {
+					if ($rank === '1') {
+						$rank = '1.0';
 					}
-					$languages[$match[2]] = [];
+					$languages[$rank] = [];
 				}
-				if ($forceLowerCase) {
-					$languages[$match[2]][] = strtolower($match[1]);
+
+				$language = $match[1];
+				if ($forceAllLowerCase) {
+					$language = strtolower($language);
 				} else {
-					$languages[$match[2]][] = $match[1];
+					$language = substr_replace($language, strtolower(substr($language, 0, 2)), 0, 2);
+				}
+
+				if ($keepDuplicates) {
+					$languages[$rank][] = $language;
+				} else {
+					if (array_key_exists($language, $languagesRanks) === false) {
+						$languages[$rank][] = $language;
+						$languagesRanks[$language] = $rank;
+					} elseif ($rank > $languagesRanks[$language]) {
+						foreach ($languages as $existRank => $existLangs) {
+							if (($key = array_search($existLangs, $languages)) !== false) {
+								unset($languages[$existRank][$key]);
+								if (empty($languages[$existRank])) {
+									unset($languages[$existRank]);
+								}
+							}
+						}
+						$languages[$rank][] = $language;
+						$languagesRanks[$language] = $rank;
+					}
 				}
 			}
 		}
