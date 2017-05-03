@@ -58,9 +58,7 @@ class Language {
 					}
 				}
 
-				if (!$options['removeDuplicates']) {
-					$languages[$rank][] = $language;
-				} else {
+				if ($options['removeDuplicates']) {
 					if (array_key_exists($language, $languagesRanks) === false) {
 						$languages[$rank][] = $language;
 						$languagesRanks[$language] = $rank;
@@ -76,6 +74,8 @@ class Language {
 						$languages[$rank][] = $language;
 						$languagesRanks[$language] = $rank;
 					}
+				} else {
+					$languages[$rank][] = $language;
 				}
 			}
 		}
