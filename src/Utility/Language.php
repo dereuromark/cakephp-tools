@@ -15,18 +15,15 @@ class Language {
 	 *
 	 * @return array
 	 */
-	public static function parseLanguageList($languageList = null, $options = array()) {
+	public static function parseLanguageList($languageList = null, Array $options = []) {
 		$defaultOptions = [
 			'forceAllLowerCase' => true,
 			'keepDuplicates' => true,
 		];
-		if (is_bool($options)) {
-			$options = $defaultOptions;
-			$options['forceAllLowerCase'] = $options;
-		} elseif (is_array($options)) {
-			$options = array_merge($defaultOptions, $options);
+		if (!is_array($options)) {
+			$options = $defaultOptions + ['forceAllLowerCase' => $options];
 		} else {
-			$options = $defaultOptions;
+			$options = $defaultOptions + $options;
 		}
 
 		if ($languageList === null) {
@@ -54,7 +51,7 @@ class Language {
 				}
 
 				$language = $match[1];
-				if ($options['forceAllLowerCase'] === true) {
+				if ($options['forceAllLowerCase']) {
 					$language = strtolower($language);
 				} else {
 					$language = substr_replace($language, strtolower(substr($language, 0, 2)), 0, 2);
@@ -63,7 +60,7 @@ class Language {
 					}
 				}
 
-				if ($options['keepDuplicates'] === true) {
+				if ($options['keepDuplicates']) {
 					$languages[$rank][] = $language;
 				} else {
 					if (array_key_exists($language, $languagesRanks) === false) {
