@@ -9,12 +9,26 @@ class Language {
 
 	/**
 	 * @param string|null $languageList List of language codes or locales codes.
-	 * @param bool $forceAllLowerCase Flag to auto lower case country part of locale codes, defaults to force lower.
+	 * @param array|bool|null $options Flags to forceAllLowerCase or keepDuplicates.
+	 *        @deprecated: Set to true/false to toggle forceAllLowerCase
 	 * @param bool $keepDuplicates Flag to keep or discard duplicates, defaults to keep.
 	 *
 	 * @return array
 	 */
-	public static function parseLanguageList($languageList = null, $forceAllLowerCase = true, $keepDuplicates = true) {
+	public static function parseLanguageList($languageList = null, $options = array()) {
+		$defaultOptions = [
+			'forceAllLowerCase' => true,
+			'keepDuplicates' => true,
+		];
+		if (is_bool($options)) {
+			$options = $defaultOptions;
+			$options['forceAllLowerCase'] = $options;
+		} elseif (is_array($options)) {
+			$options = array_merge($defaultOptions, $options);
+		} else {
+			$options = $defaultOptions;
+		}
+
 		if ($languageList === null) {
 			if (empty(env('HTTP_ACCEPT_LANGUAGE'))) {
 				return [];
@@ -40,7 +54,7 @@ class Language {
 				}
 
 				$language = $match[1];
-				if ($forceAllLowerCase) {
+				if ($options['forceAllLowerCase'] === true) {
 					$language = strtolower($language);
 				} else {
 					$language = substr_replace($language, strtolower(substr($language, 0, 2)), 0, 2);
@@ -49,7 +63,7 @@ class Language {
 					}
 				}
 
-				if ($keepDuplicates) {
+				if ($options['keepDuplicates'] === true) {
 					$languages[$rank][] = $language;
 				} else {
 					if (array_key_exists($language, $languagesRanks) === false) {
