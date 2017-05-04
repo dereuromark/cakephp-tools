@@ -9,18 +9,18 @@ class Language {
 
 	/**
 	 * @param string|null $languageList List of locales/language codes.
-	 * @param array|bool|null $options Flags to forceLowercase or removeDuplicates locales/language codes
-	 *        @deprecated: Set to true/false to toggle lowercase
+	 * @param array|bool|null $options Flags to forceLowerCase or removeDuplicates locales/language codes
+	 *        deprecated: Set to true/false to toggle lowercase
 	 *
 	 * @return array
 	 */
 	public static function parseLanguageList($languageList = null, $options = []) {
 		$defaultOptions = [
-			'forceLowercase' => true,
+			'forceLowerCase' => true,
 			'removeDuplicates' => false,
 		];
 		if (!is_array($options)) {
-			$options = ['forceLowercase' => $options];
+			$options = ['forceLowerCase' => $options];
 		}
 		$options += $defaultOptions;
 
@@ -49,7 +49,7 @@ class Language {
 				}
 
 				$language = $match[1];
-				if ($options['forceLowercase']) {
+				if ($options['forceLowerCase']) {
 					$language = strtolower($language);
 				} else {
 					$language = substr_replace($language, strtolower(substr($language, 0, 2)), 0, 2);
