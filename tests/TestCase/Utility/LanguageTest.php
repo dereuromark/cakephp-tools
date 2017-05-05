@@ -79,41 +79,12 @@ class LanguageTest extends TestCase {
 	}
 
 	/**
-	 * LanguageTest::testParseLanguageListWithDupes()
-	 *
 	 * @return void
 	 */
 	public function testParseLanguageListWithDupes() {
 		$httpAcceptLanguages = 'en-US,en;q=0.1,de-AT;q=0.7,fr;q=0.5,de;q=0.3,DE-DE;q=0.3,en-US,en;q=0.8,de-AT;q=1.0,fr;q=0.5,de;q=0.3,de-DE;q=0.1,SE';
-		$res = Language::parseLanguageList($httpAcceptLanguages);
-		$expected = [
-			'1.0' => [
-				'de-at',
-				'se',
-			],
-			'0.8' => [
-				'en',
-			],
-			'0.7' => [
-				'de-at',
-			],
-			'0.5' => [
-				'fr',
-				'fr',
-			],
-			'0.3' => [
-				'de',
-				'de-de',
-				'de',
-			],
-			'0.1' => [
-				'en',
-				'de-de',
-			],
-		];
-		$this->assertSame($expected, $res);
 
-		$res = Language::parseLanguageList($httpAcceptLanguages, ['removeDuplicates' => true]);
+		$res = Language::parseLanguageList($httpAcceptLanguages);
 		$expected = [
 			'1.0' => [
 				'de-at',
@@ -140,8 +111,6 @@ class LanguageTest extends TestCase {
 	}
 
 	/**
-	 * LanguageTest::testFindMatches()
-	 *
 	 * @return void
 	 */
 	public function testFindMatches() {

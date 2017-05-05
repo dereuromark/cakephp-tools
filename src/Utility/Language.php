@@ -8,6 +8,11 @@ namespace Tools\Utility;
 class Language {
 
 	/**
+	 * Parse languages from a browser language list.
+	 *
+	 * Options
+	 * - forceLowerCase: defaults to true
+	 *
 	 * @param string|null $languageList List of locales/language codes.
 	 * @param array|bool|null $options Flags to forceLowerCase or removeDuplicates locales/language codes
 	 *        deprecated: Set to true/false to toggle lowercase
@@ -17,7 +22,6 @@ class Language {
 	public static function parseLanguageList($languageList = null, $options = []) {
 		$defaultOptions = [
 			'forceLowerCase' => true,
-			'removeDuplicates' => false,
 		];
 		if (!is_array($options)) {
 			$options = ['forceLowerCase' => $options];
@@ -25,14 +29,16 @@ class Language {
 		$options += $defaultOptions;
 
 		if ($languageList === null) {
-			if (empty(env('HTTP_ACCEPT_LANGUAGE'))) {
+			if (!env('HTTP_ACCEPT_LANGUAGE')) {
 				return [];
 			}
 			$languageList = env('HTTP_ACCEPT_LANGUAGE');
 		}
+
 		$languages = [];
 		$languagesRanks = [];
 		$languageRanges = explode(',', trim($languageList));
+
 		foreach ($languageRanges as $languageRange) {
 			$pattern = '/(\*|[a-zA-Z0-9]{1,8}(?:-[a-zA-Z0-9]{1,8})*)(?:\s*;\s*q\s*=\s*(0(?:\.\d{0,3})|1(?:\.0{0,3})))?/';
 			if (preg_match($pattern, trim($languageRange), $match)) {
@@ -58,25 +64,22 @@ class Language {
 					}
 				}
 
-				if ($options['removeDuplicates']) {
-					if (array_key_exists($language, $languagesRanks) === false) {
-						$languages[$rank][] = $language;
-						$languagesRanks[$language] = $rank;
-					} elseif ($rank > $languagesRanks[$language]) {
-						foreach ($languages as $existRank => $existLangs) {
-							$key = array_search($existLangs, $languages);
-							if ($key !== false) {
-								unset($languages[$existRank][$key]);
-								if (empty($languages[$existRank])) {
-									unset($languages[$existRank]);
-								}
+
+				if (array_key_exists($language, $languagesRanks) === false) {
+					$languages[$rank][] = $language;
+					$languagesRanks[$language] = $rank;
+				} elseif ($rank > $languagesRanks[$language]) {
+					foreach ($languages as $existRank => $existLangs) {
+						$key = array_search($existLangs, $languages);
+						if ($key !== false) {
+							unset($languages[$existRank][$key]);
+							if (empty($languages[$existRank])) {
+								unset($languages[$existRank]);
 							}
 						}
-						$languages[$rank][] = $language;
-						$languagesRanks[$language] = $rank;
 					}
-				} else {
 					$languages[$rank][] = $language;
+					$languagesRanks[$language] = $rank;
 				}
 			}
 		}
