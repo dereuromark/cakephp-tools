@@ -50,20 +50,91 @@ class LanguageTest extends TestCase {
 		];
 		$this->assertSame($expected, $res);
 
-		$res = Language::parseLanguageList($_SERVER['HTTP_ACCEPT_LANGUAGE'], false);
+		$res = Language::parseLanguageList('FI-FI,de-DE', ['forceLowerCase' => true]);
 		$expected = [
 			'1.0' => [
+				'fi-fi',
+				'de-de',
+			],
+		];
+		$this->assertSame($expected, $res);
+
+		$res = Language::parseLanguageList('fi-fi,DE-DE', ['forceLowerCase' => false]);
+		$expected = [
+			'1.0' => [
+				'fi-FI',
 				'de-DE'
 			],
+		];
+		$this->assertSame($expected, $res);
+
+		$res = Language::parseLanguageList('fi-fi,DE-DE', false);
+		$expected = [
+			'1.0' => [
+				'fi-FI',
+				'de-DE'
+			],
+		];
+		$this->assertSame($expected, $res);
+	}
+
+	/**
+	 * LanguageTest::testParseLanguageListWithDupes()
+	 *
+	 * @return void
+	 */
+	public function testParseLanguageListWithDupes() {
+		$httpAcceptLanguages = 'en-US,en;q=0.1,de-AT;q=0.7,fr;q=0.5,de;q=0.3,DE-DE;q=0.3,en-US,en;q=0.8,de-AT;q=1.0,fr;q=0.5,de;q=0.3,de-DE;q=0.1,SE';
+		$res = Language::parseLanguageList($httpAcceptLanguages);
+		$expected = [
+			'1.0' => [
+				'de-at',
+				'se',
+			],
 			'0.8' => [
-				'de'
+				'en',
 			],
-			'0.6' => [
-				'en-US'
+			'0.7' => [
+				'de-at',
 			],
-			'0.4' => [
-				'en'
-			]
+			'0.5' => [
+				'fr',
+				'fr',
+			],
+			'0.3' => [
+				'de',
+				'de-de',
+				'de',
+			],
+			'0.1' => [
+				'en',
+				'de-de',
+			],
+		];
+		$this->assertSame($expected, $res);
+
+		$res = Language::parseLanguageList($httpAcceptLanguages, ['removeDuplicates' => true]);
+		$expected = [
+			'1.0' => [
+				'de-at',
+				'se',
+			],
+			'0.8' => [
+				'en',
+			],
+			'0.7' => [
+				'de-at',
+			],
+			'0.5' => [
+				'fr',
+			],
+			'0.3' => [
+				'de',
+				'de-de',
+			],
+			'0.1' => [
+				'en',
+			],
 		];
 		$this->assertSame($expected, $res);
 	}
