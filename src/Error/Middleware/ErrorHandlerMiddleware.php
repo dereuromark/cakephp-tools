@@ -3,6 +3,7 @@
 namespace Tools\Error\Middleware;
 
 use Cake\Controller\Exception\MissingActionException;
+use Cake\Datasource\Exception\InvalidPrimaryKeyException;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Error\Middleware\ErrorHandlerMiddleware as CoreErrorHandlerMiddleware;
 use Cake\Log\Log;
@@ -46,6 +47,7 @@ class ErrorHandlerMiddleware extends CoreErrorHandlerMiddleware {
 	 * @var array
 	 */
 	public static $blacklist = [
+		InvalidPrimaryKeyException::class,
 		NotFoundException::class,
 		MethodNotAllowedException::class,
 		NotAcceptableException::class,
