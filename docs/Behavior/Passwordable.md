@@ -1,10 +1,12 @@
 # Passwordable Behavior
 
 A CakePHP behavior to work with passwords the easy way
-- Complete validation
-- Hashing of password
-- Requires fields (no tempering even without security component)
-- Usable for edit forms (require => false for optional password update)
+- Complete validation.
+- Hashing of password.
+- Requires fields (no tempering even without security component).
+- Usable for edit forms (require => false for optional password update).
+- Only change minimal code (adding the behavior at runtime), no entites/tables need modification.
+- No accidental password setting on any other action.
 
 Also capable of:
 - Require current password prior to altering it (current => true)
@@ -25,8 +27,8 @@ Also capable of:
 | authType          |   'Form'              |   Which type of authenticate (Form, Blowfish, ...)|
 | passwordHasher    |   'Default'           |   If a custom pwd hasher is been used         |
 | allowSame         |   true                |   Don't allow the old password on change      |
-| minLength         |   PWD_MIN_LENGTH      |   |   
-| maxLength         |   PWD_MAX_LENGTH      |   |   
+| minLength         |   PWD_MIN_LENGTH      |   Defaults to 6 |   
+| maxLength         |   PWD_MAX_LENGTH      |   Defaults to 50 |   
 | validator         |   'default'           |   |
 | customValidation  |   null                |    Custom validation rule(s) for the formField on top     |
 | forceFieldList    |   false               |    Force field list to overwrite entity accessibility     |
