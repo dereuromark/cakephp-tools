@@ -64,7 +64,6 @@ class Language {
 					}
 				}
 
-
 				if (array_key_exists($language, $languagesRanks) === false) {
 					$languages[$rank][] = $language;
 					$languagesRanks[$language] = $rank;
