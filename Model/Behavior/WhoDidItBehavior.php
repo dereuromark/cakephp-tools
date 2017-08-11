@@ -131,10 +131,6 @@ class WhoDidItBehavior extends ModelBehavior {
 
 		if (!isset($Model->data[$Model->alias][$modifiedByField]) || $config['force_modified']) {
 			$data[$config['modified_by_field']] = $userId;
-		} else {
-			$pos = strpos($config['modified_by_field'], '_');
-			$field = substr($config['modified_by_field'], 0, $pos);
-			$data[$field] = false;
 		}
 
 		if (!$Model->exists()) {
