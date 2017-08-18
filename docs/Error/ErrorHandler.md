@@ -29,7 +29,7 @@ Make sure your other log configs are scope-deactivated then to prevent them bein
 ```
 
 In your bootstrap, the following snippet just needs to include the ErrorHandler of this plugin:
-````php
+```php
 // Switch Cake\Error\ErrorHandler to
 use Tools\Error\ErrorHandler;
 
