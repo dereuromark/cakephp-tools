@@ -2,6 +2,7 @@
 
 namespace Tools\Model\Behavior;
 
+use ArrayObject;
 use Cake\Core\Configure;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
@@ -175,9 +176,10 @@ class SluggedBehavior extends Behavior {
 	 *
 	 * @param \Cake\Event\Event $event
 	 * @param \Cake\Datasource\EntityInterface $entity
+	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeSave(Event $event, EntityInterface $entity) {
+	public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options) {
 		if ($this->_config['on'] === 'beforeSave') {
 			$this->slug($entity);
 		}
