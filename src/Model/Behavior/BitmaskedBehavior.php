@@ -78,9 +78,12 @@ class BitmaskedBehavior extends Behavior {
 	/**
 	 * @param \Cake\Event\Event $event
 	 * @param \Cake\ORM\Query $query
+	 * @param \ArrayObject $options
+	 * @param bool $primary
+	 *
 	 * @return void
 	 */
-	public function beforeFind(Event $event, Query $query) {
+	public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary) {
 		$this->encodeBitmaskConditions($query);
 
 		$field = $this->_config['field'];
@@ -99,9 +102,11 @@ class BitmaskedBehavior extends Behavior {
 	 * @param \Cake\Event\Event $event
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
+	 * @param string $operation
+	 *
 	 * @return void
 	 */
-	public function beforeRules(Event $event, EntityInterface $entity, ArrayObject $options) {
+	public function beforeRules(Event $event, EntityInterface $entity, ArrayObject $options, $operation) {
 		if ($this->_config['on'] !== 'beforeRules' || !$options['checkRules']) {
 			return;
 		}

@@ -4,7 +4,7 @@ namespace Tools\Test\TestCase\Model\Behavior;
 
 use Cake\Auth\PasswordHasherFactory;
 use Cake\Core\Configure;
-use Cake\Network\Request;
+use Cake\Http\ServerRequest;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Tools\TestSuite\TestCase;
@@ -38,7 +38,7 @@ class PasswordableBehaviorTest extends TestCase {
 
 		$this->hasher = PasswordHasherFactory::build('Default');
 
-		Router::setRequestInfo(new Request());
+		Router::setRequestInfo(new ServerRequest());
 	}
 
 	/**
@@ -175,7 +175,6 @@ class PasswordableBehaviorTest extends TestCase {
 		$this->tearDown();
 		$this->setUp();
 
-		$this->Users->removeBehavior('Passwordable');
 		$this->Users->addBehavior('Tools.Passwordable', ['require' => false, 'current' => true]);
 		$user = $this->Users->newEntity();
 		$data = [
@@ -366,7 +365,6 @@ class PasswordableBehaviorTest extends TestCase {
 		$userCopy = clone($user);
 		$uid = $user->id;
 
-		$this->Users->removeBehavior('Passwordable');
 		$this->Users->addBehavior('Tools.Passwordable', ['current' => true]);
 		$user = clone($userCopy);
 		$data = [
@@ -452,7 +450,6 @@ class PasswordableBehaviorTest extends TestCase {
 		$userCopy = clone($user);
 		$uid = $user->id;
 
-		$this->Users->removeBehavior('Passwordable');
 		$this->Users->addBehavior('Tools.Passwordable', ['current' => true, 'require' => false]);
 		$user = clone($userCopy);
 		$data = [

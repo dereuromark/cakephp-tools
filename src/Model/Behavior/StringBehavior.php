@@ -49,9 +49,12 @@ class StringBehavior extends Behavior {
 	 *
 	 * @param \Cake\Event\Event $event
 	 * @param \Cake\ORM\Query $query
+	 * @param \ArrayObject $options
+	 * @param bool $primary
+	 *
 	 * @return void
 	 */
-	public function beforeFind(Event $event, Query $query) {
+	public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary) {
 		$query->formatResults(function (ResultSetInterface $results) {
 			return $results->map(function ($row) {
 				$this->processItems($row, 'output');

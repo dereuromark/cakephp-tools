@@ -325,7 +325,7 @@ class PasswordableBehavior extends Behavior {
 		if ($entity->get($formField) !== null) {
 			$cost = !empty($this->_config['hashCost']) ? $this->_config['hashCost'] : 10;
 			$options = ['cost' => $cost];
-			/** @var \Cake\Auth\AbstractPasswordHasher $PasswordHasher */
+			/* @var \Cake\Auth\AbstractPasswordHasher $PasswordHasher */
 			$PasswordHasher = $this->_getPasswordHasher($this->_config['passwordHasher'], $options);
 			$entity->set($field, $PasswordHasher->hash($entity->get($formField)));
 

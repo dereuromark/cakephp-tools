@@ -163,9 +163,12 @@ class SluggedBehavior extends Behavior {
 	 *
 	 * @param \Cake\Event\Event $event
 	 * @param \Cake\Datasource\EntityInterface $entity
+	 * @param \ArrayObject $options
+	 * @param string $operation
+	 *
 	 * @return void
 	 */
-	public function beforeRules(Event $event, EntityInterface $entity) {
+	public function beforeRules(Event $event, EntityInterface $entity, ArrayObject $options, $operation) {
 		if ($this->_config['on'] === 'beforeRules') {
 			$this->slug($entity);
 		}
@@ -365,7 +368,7 @@ class SluggedBehavior extends Behavior {
 
 		$this->config($params, null, false);
 		while (($records = $this->_table->find('all', $params)->toArray())) {
-			/** @var \Cake\ORM\Entity $record */
+			/* @var \Cake\ORM\Entity $record */
 			foreach ($records as $record) {
 				$record->isNew(true);
 				$options = [
