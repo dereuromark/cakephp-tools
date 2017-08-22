@@ -368,7 +368,7 @@ class SluggedBehavior extends Behavior {
 
 		$this->config($params, null, false);
 		while (($records = $this->_table->find('all', $params)->toArray())) {
-			/* @var \Cake\ORM\Entity $record */
+			/** @var \Cake\ORM\Entity $record */
 			foreach ($records as $record) {
 				$record->isNew(true);
 				$options = [

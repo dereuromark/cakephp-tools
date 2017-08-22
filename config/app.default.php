@@ -6,7 +6,7 @@ $config = [
 
 	// Controller pagination
 	'DataPreparation' => [
-		'noTrim' => false
+		'noTrim' => false,
 	],
 
 	// Behaviors
@@ -30,13 +30,13 @@ $config = [
 	// Helpers
 	'Format' => [
 		'fontIcons' => [],
-		'templates' => []
+		'templates' => [],
 	],
 	'Google' => [
 	],
 
 	// Experimental - careful
 	'Entity' => [
-		'autoMarkNew' => false
-	]
+		'autoMarkNew' => false,
+	],
 ];

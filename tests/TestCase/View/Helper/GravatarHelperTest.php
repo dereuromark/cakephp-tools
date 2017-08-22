@@ -90,9 +90,6 @@ class GravatarHelperTest extends TestCase {
 		$this->assertTrue(!empty($is));
 	}
 
-	/**
-	 * BASE TEST CASES
-**/
 
 	/**
 	 * TestBaseUrlGeneration

@@ -242,7 +242,7 @@ function pre($var, $collapsedAndExpandable = false, $options = []) {
 		'showHtml' => false, // Escape < and > (or manually escape with h() prior to calling this function)
 		'showFrom' => false, // Display file + line
 		'jquery' => null, // null => Auto - use jQuery (true/false to manually decide),
-		'debug' => false // Show only with debug > 0
+		'debug' => false, // Show only with debug > 0
 	];
 	$options += $defaults;
 	if ($options['debug'] && !Configure::read('debug')) {
