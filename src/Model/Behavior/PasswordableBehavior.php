@@ -137,8 +137,6 @@ class PasswordableBehavior extends Behavior {
 		$rules = $this->_validationRules;
 		foreach ($rules as $field => $fieldRules) {
 			foreach ($fieldRules as $key => $rule) {
-				//$rule['allowEmpty'] = !$this->_config['require'];
-
 				if ($key === 'between') {
 					$rule['rule'][1] = $this->_config['minLength'];
 					$rule['message'][1] = $this->_config['minLength'];
@@ -317,11 +315,9 @@ class PasswordableBehavior extends Behavior {
 		$formField = $this->_config['formField'];
 		$field = $this->_config['field'];
 
-		$PasswordHasher = $this->_getPasswordHasher($this->_config['passwordHasher'], $options);
-		if ($entity->get($formField) !== null) {
-			$cost = !empty($this->_config['hashCost']) ? $this->_config['hashCost'] : 10;
-			$options = ['cost' => $cost];
+		$PasswordHasher = $this->_getPasswordHasher($this->_config['passwordHasher']);
 
+		if ($entity->get($formField) !== null) {
 			$entity->set($field, $PasswordHasher->hash($entity->get($formField)));
 
 			if (!$entity->get($field)) {
@@ -454,8 +450,6 @@ class PasswordableBehavior extends Behavior {
 	}
 
 	/**
-	 * PasswordableBehavior::_validateSameHash()
-	 *
 	 * @param string $pwd
 	 * @param array $context
 	 * @return bool Success
@@ -478,8 +472,6 @@ class PasswordableBehavior extends Behavior {
 	}
 
 	/**
-	 * PasswordableBehavior::_getPasswordHasher()
-	 *
 	 * @param string|array $hasher Name or options array.
 	 * @param array $options
 	 * @return \Cake\Auth\AbstractPasswordHasher
@@ -498,6 +490,10 @@ class PasswordableBehavior extends Behavior {
 			unset($config['className']);
 		}
 		$config['className'] = $class;
+
+		$cost = !empty($this->_config['hashCost']) ? $this->_config['hashCost'] : 10;
+		$config['cost'] = $cost;
+
 		$config += $options;
 
 		return $this->_passwordHasher = PasswordHasherFactory::build($config);
