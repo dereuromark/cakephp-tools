@@ -322,11 +322,11 @@ class PasswordableBehavior extends Behavior {
 		$formField = $this->_config['formField'];
 		$field = $this->_config['field'];
 
+		$PasswordHasher = $this->_getPasswordHasher($this->_config['passwordHasher'], $options);
 		if ($entity->get($formField) !== null) {
 			$cost = !empty($this->_config['hashCost']) ? $this->_config['hashCost'] : 10;
 			$options = ['cost' => $cost];
-			/** @var \Cake\Auth\AbstractPasswordHasher $PasswordHasher */
-			$PasswordHasher = $this->_getPasswordHasher($this->_config['passwordHasher'], $options);
+
 			$entity->set($field, $PasswordHasher->hash($entity->get($formField)));
 
 			if (!$entity->get($field)) {
@@ -346,6 +346,9 @@ class PasswordableBehavior extends Behavior {
 				$entity->unsetProperty($formFieldCurrent);
 				//unset($Model->data[$table->alias()][$formFieldCurrent]);
 			}
+		} else {
+			// To help mitigate timing-based user enumeration attacks.
+			$PasswordHasher->hash('');
 		}
 	}
 
