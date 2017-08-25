@@ -228,11 +228,6 @@ class PasswordableBehavior extends Behavior {
 		$formFieldRepeat = $this->_config['formFieldRepeat'];
 		$formFieldCurrent = $this->_config['formFieldCurrent'];
 
-		// For CakePHP < 3.4
-		if (!isset($options['fields']) && isset($options['fieldList'])) {
-			$options['fields'] = $options['fieldList'];
-		}
-
 		if (!isset($options['fields']) && $this->_config['forceFieldList']) {
 			$options['fields'] = array_keys((array)$data);
 		}
@@ -339,12 +334,10 @@ class PasswordableBehavior extends Behavior {
 			if ($this->_config['confirm']) {
 				$formFieldRepeat = $this->_config['formFieldRepeat'];
 				$entity->unsetProperty($formFieldRepeat);
-				//unset($Model->data[$table->alias()][$formFieldRepeat]);
 			}
 			if ($this->_config['current']) {
 				$formFieldCurrent = $this->_config['formFieldCurrent'];
 				$entity->unsetProperty($formFieldCurrent);
-				//unset($Model->data[$table->alias()][$formFieldCurrent]);
 			}
 		} else {
 			// To help mitigate timing-based user enumeration attacks.
