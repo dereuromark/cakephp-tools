@@ -127,7 +127,7 @@ class QrCodeHelper extends Helper {
 	 * Format a text in a specific format
 	 * - url, sms, tel, email, market, geo
 	 *
-	 * @param string $text
+	 * @param string|array $text
 	 * @param string|null $type
 	 * @return string formattedText
 	 */
