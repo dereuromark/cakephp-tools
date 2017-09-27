@@ -346,7 +346,7 @@ class SoftDeleteBehavior extends ModelBehavior {
 
 					$conditions = $model->{$parentModel}->{$assocType}[$assoc]['conditions'];
 					if (!is_array($conditions)) {
-						$model->{$parentModel}->{$assocType}[$assoc]['conditions'] = [];
+						$conditions = [];
 					}
 
 					$multiFields = 1 < count($fields);
