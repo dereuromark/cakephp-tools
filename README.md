@@ -12,6 +12,8 @@ Please note: New functionality has been tested against 2.x (current master branc
 Please upgrade your app to latest CakePHP 2.x if possible.
 Use a different 2.x branch if you need temporary support for older versions.
 
+**EOL:** This 2.x branch is EOL and only gets bugfixes now. Please upgrade to 3.x to get the latest features.
+
 ## How to include
 Installing the Plugin is pretty much as with every other CakePHP Plugin.
 
