@@ -14,8 +14,14 @@ App::uses('Inflector', 'Utility');
  */
 class FlashComponent extends Component {
 
+	/**
+	 * @var array
+	 */
 	public $components = ['Session'];
 
+	/**
+	 * @var array
+	 */
 	protected $_defaultConfig = [
 		'headerOnAjax' => true,
 		'transformCore' => true,
@@ -70,8 +76,17 @@ class FlashComponent extends Component {
 	 */
 	public function beforeRender(Controller $Controller) {
 		if ($this->settings['transformCore'] && $messages = $this->Session->read('Message')) {
-			foreach ($messages as $message) {
-				$this->message($message['message'], 'error');
+			foreach ($messages as $type => $messageArray) {
+				if (isset($messageArray['message'])) {
+					$messageArray = [$messageArray];
+				}
+				if (!is_string($type)) {
+					$type = 'error';
+				}
+				foreach ($messageArray as $message) {
+					$message['type'] = $type;
+					$this->message($message['message'], $message);
+				}
 			}
 			$this->Session->delete('Message');
 		}
