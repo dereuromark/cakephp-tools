@@ -18,6 +18,7 @@ use Cake\Network\Exception\UnauthorizedException;
 use Cake\Network\Exception\UnavailableForLegalReasonsException;
 use Cake\Routing\Exception\MissingControllerException;
 use Cake\Routing\Exception\MissingRouteException;
+use Cake\View\Exception\MissingViewException;
 
 /**
  * Error handling middleware.
@@ -60,6 +61,7 @@ class ErrorHandlerMiddleware extends CoreErrorHandlerMiddleware {
 		MissingControllerException::class,
 		MissingActionException::class,
 		MissingRouteException::class,
+		MissingViewException::class,
 		UnavailableForLegalReasonsException::class,
 	];
 
