@@ -21,7 +21,7 @@ class MyErrorHandler extends ErrorHandler {
 				static::traceDetails()
 			);
 			$log = LOG_ERR;
-			if (in_array(get_class($exception), ['MissingControllerException', 'MissingActionException', 'PrivateActionException', 'NotFoundException'])) {
+			if (in_array(get_class($exception), ['MissingControllerException', 'MissingActionException', 'MissingViewException', 'PrivateActionException', 'NotFoundException'])) {
 				$log = '404';
 			}
 			CakeLog::write($log, $message);
