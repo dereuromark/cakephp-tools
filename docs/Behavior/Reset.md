@@ -34,21 +34,21 @@ If you are not using CLI, make sure you set the time limit in your controller ac
 ```php
 // First we need to re-load the Slugged behavior to enable "overwrite" mode
 $this->Post->removeBehavior('Slugged');
-$this->Post->addBehavior('Tools.Slugged', array('label' => 'title', 'overwite' => true));
+$this->Post->addBehavior('Tools.Slugged', ['label' => 'title', 'overwite' => true]);
 // Load the Reset behavior with only the title and slug field to read and modify.
-$this->Post->addBehavior('Tools.Reset', array('fields' => array('title', 'slug')));
+$this->Post->addBehavior('Tools.Reset', ['fields' => ['title', 'slug']]);
 $res = $this->Post->resetRecords();
 // Debug output with number of records modified in $res
 ```
 
 ### Retrigger/Init Geocoding
 ```php
-$this->Post->addBehavior('Tools.Reset', array('fields' => array('address', 'lat', 'lng'), 'timeout' => 3));
+$this->Post->addBehavior('Tools.Reset', ['fields' => ['address', 'lat', 'lng'], 'timeout' => 3]);
 $res = $this->Post->resetRecords();
 ```
 Since all lat/lng fields are still null it will geocode the records and populate those fields.
 It will skip already geocoded ones. If you want to skip those completely (not even read them),
-just set the scope to `'NOT' => array('lat' => null)` etc.
+just set the scope to `'NOT' => ['lat' => null]` etc.
 
 Note that in this case we also use a timeout to avoid getting a penalty by Google for geocoding too many records per minute.
 
@@ -56,9 +56,10 @@ Note that in this case we also use a timeout to avoid getting a penalty by Googl
 
 In this case we added a new cache field to our messages in order to make the search faster with >> 100000 records. The data was containing all the info we needed – in serialized format. We needed a callback here as there was some logic involved. So we simply made a shell containing both callback method and shell command:
 ```php
-$this->Message->addBehavior('Tools.Reset', array(
-    'fields' => array('data'), 'updateFields' => array('guest_name'),
-    'scope' => array('data LIKE' => '{%'), 'callback' => 'UpdateShell::prepMessage'));
+$this->Message->addBehavior('Tools.Reset', [
+    'fields' => ['data'], 'updateFields' => ['guest_name'],
+    'scope' => ['data LIKE' => '{%'], 'callback' => 'UpdateShell::prepMessage'
+    ]);
 $res = $this->Message->resetRecords();
 $this->out('Done: ' . $res);
 ```
@@ -67,7 +68,7 @@ The callback method (in this case just statically, as we didnt want to mess with
 ```php
 public static function prepMessage(array $row) {
     if (empty($row['Message']['data_array']['GUEST_FIRST_NAME'])) {
-        return array();
+        return [];
     }
 
     $row['Message']['guest_name'] = $row['Message']['data_array']['GUEST_FIRST_NAME'] . ' ' . $row['Message']['data_array']['GUEST_LAST_NAME'];
