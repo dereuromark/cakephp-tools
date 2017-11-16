@@ -41,15 +41,15 @@ if (!empty($addArrows)) {
 $escape = isset($escape) ? $escape : true;
 ?>
 
-<div class="paging">
+<div class="paginator paging">
 	<ul class="pagination">
 	<?php echo $this->Paginator->first($first, ['escape' => $escape]);?>
  <?php echo $separator; ?>
-	<?php echo $this->Paginator->prev($prev, ['escape' => $escape], null, ['class' => 'prev disabled']);?>
+	<?php echo $this->Paginator->prev($prev, ['escape' => $escape]);?>
  <?php echo $separator; ?>
 	<?php echo $this->Paginator->numbers(['escape' => $escape, 'separator' => $separator]);?>
  <?php echo $separator; ?>
-	<?php echo $this->Paginator->next($next, ['escape' => $escape], null, ['class' => 'next disabled']);?>
+	<?php echo $this->Paginator->next($next, ['escape' => $escape]);?>
  <?php echo $separator; ?>
 	<?php echo $this->Paginator->last($last, ['escape' => $escape]);?>
 	</ul>
