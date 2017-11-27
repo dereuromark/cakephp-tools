@@ -21,7 +21,7 @@ This master branch only works for **CakePHP3.x** - please use the 2.x branch for
 - Provide enum support as "static enums"
 - Default settings for Paginator, ... can be set using Configure.
 - Provided a less error-prone inArray() method via Utility class and other usefulness.
-- TetSuite enhancements
+- TestSuite enhancements
 - A few more Database Type classes
  
 ### Additional features
