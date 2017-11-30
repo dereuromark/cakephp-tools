@@ -24,14 +24,14 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Tools\\": "src"
+			"Tools\\": "src/"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Tools\\Test\\": "tests",
-			"Cake\\Test\\": "vendor/cakephp/cakephp/tests",
-			"App\\": "tests/TestApp"
+			"Tools\\Test\\": "tests/",
+			"Cake\\Test\\": "vendor/cakephp/cakephp/tests/",
+			"App\\": "tests/TestApp/"
 		}
 	},
 	"suggest": {
