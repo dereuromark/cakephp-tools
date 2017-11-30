@@ -40,6 +40,29 @@ if ($isCli) {
 }
 ```
 
+Also, if you use the new Application middleware, make sure to include it there:
+```php
+use Cake\Http\BaseApplication;
+// Switch Cake\Error\Middleware\ErrorHandlerMiddleware to
+use Tools\Error\Middleware\ErrorHandlerMiddleware;
+
+class Application extends BaseApplication {
+
+    /**
+     * @param \Cake\Http\MiddlewareQueue $middlewareQueue Middleware queue.
+     *
+     * @return \Cake\Http\MiddlewareQueue The updated middleware queue.
+     */
+    public function middleware($middleware) {
+        $middleware
+            // Replace the core one
+            ->add(new ErrorHandlerMiddleware())
+            ...
+
+        return $middleware;
+    }
+```
+
 ### Tips
 You should also set up a monitor to check for internally caused 404s (referrer is a page on the own site) and alert (via email or alike).
 In that case you are having invalid links in your pages somewhere, which should be fixed.
