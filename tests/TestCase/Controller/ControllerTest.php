@@ -7,8 +7,6 @@ use Cake\ORM\TableRegistry;
 use Tools\Controller\Controller;
 use Tools\TestSuite\TestCase;
 
-/**
- */
 class ControllerTest extends TestCase {
 
 	/**

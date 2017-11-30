@@ -2,23 +2,9 @@
 
 namespace Tools\Error\Middleware;
 
-use Cake\Controller\Exception\MissingActionException;
-use Cake\Datasource\Exception\InvalidPrimaryKeyException;
-use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Error\Middleware\ErrorHandlerMiddleware as CoreErrorHandlerMiddleware;
 use Cake\Log\Log;
-use Cake\Network\Exception\BadRequestException;
-use Cake\Network\Exception\ConflictException;
-use Cake\Network\Exception\GoneException;
-use Cake\Network\Exception\InvalidCsrfTokenException;
-use Cake\Network\Exception\MethodNotAllowedException;
-use Cake\Network\Exception\NotAcceptableException;
-use Cake\Network\Exception\NotFoundException;
-use Cake\Network\Exception\UnauthorizedException;
-use Cake\Network\Exception\UnavailableForLegalReasonsException;
-use Cake\Routing\Exception\MissingControllerException;
-use Cake\Routing\Exception\MissingRouteException;
-use Cake\View\Exception\MissingViewException;
+use Tools\Error\ErrorHandlerTrait;
 
 /**
  * Error handling middleware.
@@ -44,26 +30,7 @@ use Cake\View\Exception\MissingViewException;
  */
 class ErrorHandlerMiddleware extends CoreErrorHandlerMiddleware {
 
-	/**
-	 * @var array
-	 */
-	public static $blacklist = [
-		InvalidPrimaryKeyException::class,
-		NotFoundException::class,
-		MethodNotAllowedException::class,
-		NotAcceptableException::class,
-		RecordNotFoundException::class,
-		BadRequestException::class,
-		GoneException::class,
-		ConflictException::class,
-		InvalidCsrfTokenException::class,
-		UnauthorizedException::class,
-		MissingControllerException::class,
-		MissingActionException::class,
-		MissingRouteException::class,
-		MissingViewException::class,
-		UnavailableForLegalReasonsException::class,
-	];
+	use ErrorHandlerTrait;
 
 	/**
 	 * @param string|callable|null $renderer The renderer or class name
@@ -83,11 +50,7 @@ class ErrorHandlerMiddleware extends CoreErrorHandlerMiddleware {
 	 * @return void
 	 */
 	protected function logException($request, $exception) {
-		$blacklist = static::$blacklist;
-		if (isset($this->_config['log404'])) {
-			$blacklist = $this->_config['log404'];
-		}
-		if ($blacklist && in_array(get_class($exception), (array)$blacklist)) {
+		if ($this->is404($exception, $request)) {
 			$level = LOG_ERR;
 			Log::write($level, $this->getMessage($request, $exception), ['404']);
 			return;

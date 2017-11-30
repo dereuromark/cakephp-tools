@@ -63,7 +63,12 @@ class Application extends BaseApplication {
     }
 ```
 
-### Tips
-You should also set up a monitor to check for internally caused 404s (referrer is a page on the own site) and alert (via email or alike).
+Note that internally caused 404s (referrer is a page on the own site) are not transferred into the 404 log.
 In that case you are having invalid links in your pages somewhere, which should be fixed.
+So those are considered actual errors here.
+
+### Tips
+
+You can also set up a monitor to check for the internal 404s and alert (via email or alike).
+Those should also be fixed rather soon because more and more people click on those and end up on the error page.
 All other 404s are caused from the outside (often times crawlers and bots) and are usually not too relevant.
