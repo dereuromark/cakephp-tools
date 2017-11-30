@@ -26,7 +26,8 @@ use Exception;
  * In case you need custom 404 mappings for some additional custom exceptions, make use of `log404` option.
  * It will overwrite the current defaults completely.
  *
- * @deprecated As of CakePHP 3.3+. Use Tools\Error\Middleware\ErrorHandlerMiddleware now.
+ * Somewhat deprecated of CakePHP 3.3+. Use Tools\Error\Middleware\ErrorHandlerMiddleware now.
+ * Still needed for low level errors, though.
  */
 class ErrorHandler extends CoreErrorHandler {
 
