@@ -56,11 +56,11 @@ Note that in this case we also use a timeout to avoid getting a penalty by Googl
 
 In this case we added a new cache field to our messages in order to make the search faster with >> 100000 records. The data was containing all the info we needed – in serialized format. We needed a callback here as there was some logic involved. So we simply made a shell containing both callback method and shell command:
 ```php
-$this->Message->addBehavior('Tools.Reset', [
+$this->Messages->addBehavior('Tools.Reset', [
     'fields' => ['data'], 'updateFields' => ['guest_name'],
     'scope' => ['data LIKE' => '{%'], 'callback' => 'UpdateShell::prepMessage'
     ]);
-$res = $this->Message->resetRecords();
+$res = $this->Messages->resetRecords();
 $this->out('Done: ' . $res);
 ```
 

@@ -3,7 +3,6 @@
 namespace Tools\Model\Table;
 
 use Cake\Utility\Hash;
-use Tools\Model\Table\Table;
 use Tools\Utility\Random;
 
 /**
@@ -212,8 +211,8 @@ class TokensTable extends Table {
 		$keys['unused_invalid'] = $this->find('count', ['conditions' => [$this->alias() . '.used' => 0, $this->alias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity)]]);
 		$keys['used_invalid'] = $this->find('count', ['conditions' => [$this->alias() . '.used' => 1, $this->alias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity)]]);
 
-		$types = $this->find('all', ['conditions' => [], 'fields' => ['DISTINCT type']]);
-		$keys['types'] = !empty($types) ? Hash::extract('{n}.type', $types) : [];
+		$types = $this->find('all', ['conditions' => [], 'fields' => ['DISTINCT type']])->toArray();
+		$keys['types'] = !empty($types) ? Hash::extract($types, '{n}.type') : [];
 		return $keys;
 	}
 

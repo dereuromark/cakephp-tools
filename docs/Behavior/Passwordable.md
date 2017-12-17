@@ -184,7 +184,7 @@ $rules = ['validateCustom' => [
 		'last' => true,
 	]
 );
-$this->User->Behaviors->load('Tools.Passwordable', ['customValidation' => $rules]);
+$this->Users->Behaviors->load('Tools.Passwordable', ['customValidation' => $rules]);
 ```
 But please do NOT use the above regex examples. Also never try to limit the chars to only a subset of characters.
 Always allow [a-z], [0-9] and ALL special chars a user can possibly type in.
