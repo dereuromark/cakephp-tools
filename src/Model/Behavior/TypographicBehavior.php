@@ -7,9 +7,9 @@
 namespace Tools\Model\Behavior;
 
 use ArrayAccess;
-use Cake\Event\Event;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
+use Cake\Event\Event;
 use Cake\ORM\Behavior;
 
 /**
