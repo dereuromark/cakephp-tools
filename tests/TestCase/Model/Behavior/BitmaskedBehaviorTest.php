@@ -29,7 +29,28 @@ class BitmaskedBehaviorTest extends TestCase {
 		$this->Comments = TableRegistry::get('BitmaskedComments');
 		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
 	}
-
+	
+	/**
+	 * @return void
+	 */
+	public function testConfig() {
+		$this->Comments->removeBehavior('Bitmasked');
+		$this->Comments->addBehavior('Tools.Bitmasked', []);
+		$bits = $this->Comments->behaviors()->Bitmasked->getConfig('bits');
+		$expected = BitmaskedComment::statuses();
+		$this->assertSame($expected, $bits);
+	}
+	
+	/**
+	 * @return void
+	 * @expectedException \RuntimeException
+	 * @expectedExceptionMessage Bits not found for field my_field, expected pluralized static method myFields() on the entity.
+	 */
+	public function testFieldMethodMissing() {
+		$this->Comments->removeBehavior('Bitmasked');
+		$this->Comments->addBehavior('Tools.Bitmasked', ['field' => 'my_field']);
+	}
+	
 	/**
 	 * @return void
 	 */

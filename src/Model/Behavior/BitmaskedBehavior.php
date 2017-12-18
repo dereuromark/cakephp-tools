@@ -53,7 +53,7 @@ class BitmaskedBehavior extends Behavior {
 		$config = $this->_config;
 
 		if (empty($config['bits'])) {
-			$config['bits'] = Inflector::pluralize($config['field']);
+			$config['bits'] = Inflector::variable(Inflector::pluralize($config['field']));
 		}
 
 		$entity = $this->_table->newEntity();
@@ -61,14 +61,14 @@ class BitmaskedBehavior extends Behavior {
 		if (is_callable($config['bits'])) {
 			$config['bits'] = call_user_func($config['bits']);
 		} elseif (is_string($config['bits']) && method_exists($entity, $config['bits'])) {
-			$config['bits'] = $entity->{$config['bits']}();
+			$config['bits'] = $entity::{$config['bits']}();
 		} elseif (is_string($config['bits']) && method_exists($this->_table, $config['bits'])) {
-			$config['bits'] = $this->_table->{$config['bits']}();
+			$config['bits'] = $this->_table::{$config['bits']}();
 		} elseif (!is_array($config['bits'])) {
 			$config['bits'] = false;
 		}
 		if (empty($config['bits'])) {
-			throw new RuntimeException('Bits not found');
+			throw new RuntimeException('Bits not found for field ' . $config['field'] . ', expected pluralized static method ' . Inflector::variable(Inflector::pluralize($config['field'])) . '() on the entity.');
 		}
 		ksort($config['bits'], SORT_NUMERIC);
 
