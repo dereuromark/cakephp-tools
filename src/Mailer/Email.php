@@ -214,7 +214,6 @@ class Email extends CakeEmail {
 				if (is_int($name)) {
 					throw new InvalidArgumentException('No filename specified.');
 				}
-				$fileInfo['data'] = chunk_split(base64_encode($fileInfo['data']), 76, "\r\n");
 			} else {
 				$fileName = $fileInfo['file'];
 				if (!preg_match('~^https?://~i', $fileInfo['file'])) {
