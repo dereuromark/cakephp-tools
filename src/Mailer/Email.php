@@ -9,6 +9,7 @@ use InvalidArgumentException;
 use Psr\Log\LogLevel;
 use Tools\Utility\Mime;
 use Tools\Utility\Text;
+use Tools\Utility\Utility;
 
 class Email extends CakeEmail {
 
@@ -216,8 +217,10 @@ class Email extends CakeEmail {
 				$fileInfo['data'] = chunk_split(base64_encode($fileInfo['data']), 76, "\r\n");
 			} else {
 				$fileName = $fileInfo['file'];
-				$fileInfo['file'] = realpath($fileInfo['file']);
-				if ($fileInfo['file'] === false || !file_exists($fileInfo['file'])) {
+				if (!preg_match('~^https?://~i', $fileInfo['file'])) {
+					$fileInfo['file'] = realpath($fileInfo['file']);
+				}
+				if ($fileInfo['file'] === false || !Utility::fileExists($fileInfo['file'])) {
 					throw new InvalidArgumentException(sprintf('File not found: "%s"', $fileName));
 				}
 				if (is_int($name)) {
