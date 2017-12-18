@@ -69,7 +69,8 @@ class BitmaskedBehavior extends Behavior {
 			$config['bits'] = false;
 		}
 		if (empty($config['bits'])) {
-			throw new RuntimeException('Bits not found for field ' . $config['field'] . ', expected pluralized static method ' . Inflector::variable(Inflector::pluralize($config['field'])) . '() on the entity.');
+			$method = Inflector::variable(Inflector::pluralize($config['field'])) . '()';
+			throw new RuntimeException('Bits not found for field ' . $config['field'] . ', expected pluralized static method ' . $method . ' on the entity.');
 		}
 		ksort($config['bits'], SORT_NUMERIC);
 
