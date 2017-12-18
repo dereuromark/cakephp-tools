@@ -8,7 +8,7 @@ use Tools\TestSuite\TestCase;
 class TypographicBehaviorTest extends TestCase {
 
 	/**
-	 * @var \Cake\ORM\Table
+	 * @var \Cake\ORM\Table|\Tools\Model\Behavior\TypographicBehavior
 	 */
 	public $Model;
 
@@ -17,6 +17,9 @@ class TypographicBehaviorTest extends TestCase {
 	 */
 	public $fixtures = ['core.articles'];
 
+	/**
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -90,6 +93,8 @@ class TypographicBehaviorTest extends TestCase {
 
 	/**
 	 * Test that not defining fields results in all textarea and text fields being processed
+	 *
+	 * @return void
 	 */
 	public function testAutoFields() {
 		$this->Model->removeBehavior('Typographic');
@@ -129,7 +134,7 @@ class TypographicBehaviorTest extends TestCase {
 		}
 		$this->Model->addBehavior('Tools.Typographic');
 		$count = $this->Model->updateTypography();
-		$this->assertTrue($count >= 200, 'Count is only ' . $count);
+		$this->assertTrue($count >= 190, 'Count is only ' . $count);
 
 		$record = $this->Model->find()->orderDesc('id')->firstOrFail();
 		$this->assertSame('unclean `content` to "correct"', $record['body']);

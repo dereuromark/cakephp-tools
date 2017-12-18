@@ -76,7 +76,7 @@ class TypographicBehavior extends Behavior {
 	];
 
 	/**
-	 * @return int|null
+	 * @var int|null
 	 */
 	protected $_id;
 
