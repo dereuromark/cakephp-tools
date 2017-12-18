@@ -3,6 +3,7 @@
 namespace Tools\Model\Behavior;
 
 use ArrayObject;
+use Cake\Database\Expression\Comparison;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
@@ -180,7 +181,8 @@ class BitmaskedBehavior extends Behavior {
 	 */
 	public function encodeBitmaskConditions(Query $query) {
 		$field = $this->_config['field'];
-		if (!($mappedField = $this->_config['mappedField'])) {
+		$mappedField = $this->_config['mappedField'];
+		if (!$mappedField) {
 			$mappedField = $field;
 		}
 
@@ -189,27 +191,29 @@ class BitmaskedBehavior extends Behavior {
 			return;
 		}
 
-		$callable = function ($foo) use ($field, $mappedField) {
-			if (!$foo instanceof \Cake\Database\Expression\Comparison) {
-				return $foo;
+		$callable = function ($comparison) use ($field, $mappedField) {
+			if (!$comparison instanceof Comparison) {
+				return $comparison;
 			}
-			$key = $foo->getField();
-			if ($key === $mappedField || $key === $this->_table->alias() . '.' . $mappedField) {
-				$foo->setValue($this->encodeBitmask($foo->getValue()));
-			}
-			if ($field !== $mappedField) {
-				$foo->setField($field);
+			$key = $comparison->getField();
+
+			if ($key !== $mappedField && $key !== $this->_table->alias() . '.' . $mappedField) {
+				return $comparison;
 			}
 
-			return $foo;
+			$comparison->setValue($this->encodeBitmask($comparison->getValue()));
+			if ($field !== $mappedField) {
+				$comparison->setField($field);
+			}
+
+			return $comparison;
 		};
 
 		$where->iterateParts($callable);
 	}
 
-
 	/**
-	 * @param \Cake\Datasource\EntityInterface $entity
+	 * @param \ArrayObject $data
 	 * @return void
 	 */
 	public function encodeBitmaskDataRaw(ArrayObject $data) {
@@ -252,7 +256,7 @@ class BitmaskedBehavior extends Behavior {
 
 	/**
 	 * @param string $field
-	 * 
+	 *
 	 * @return int|null
 	 */
 	protected function _getDefault($field) {

@@ -29,7 +29,7 @@ class BitmaskedBehaviorTest extends TestCase {
 		$this->Comments = TableRegistry::get('BitmaskedComments');
 		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
 	}
-	
+
 	/**
 	 * @return void
 	 */
@@ -40,7 +40,7 @@ class BitmaskedBehaviorTest extends TestCase {
 		$expected = BitmaskedComment::statuses();
 		$this->assertSame($expected, $bits);
 	}
-	
+
 	/**
 	 * @return void
 	 * @expectedException \RuntimeException
@@ -50,7 +50,7 @@ class BitmaskedBehaviorTest extends TestCase {
 		$this->Comments->removeBehavior('Bitmasked');
 		$this->Comments->addBehavior('Tools.Bitmasked', ['field' => 'my_field']);
 	}
-	
+
 	/**
 	 * @return void
 	 */
