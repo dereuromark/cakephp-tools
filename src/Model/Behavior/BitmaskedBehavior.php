@@ -39,7 +39,7 @@ class BitmaskedBehavior extends Behavior {
 		'field' => 'status',
 		'mappedField' => null, // NULL = same as above
 		'bits' => null, // Method or callback to get the bits data
-		'on' => 'beforeRules', // beforeRules or beforeSave
+		'on' => 'beforeMarshal', // or beforeRules or beforeSave
 		'defaultValue' => null, // NULL = auto (use empty string to trigger "notEmpty" rule for "default NOT NULL" db fields)
 	];
 
@@ -96,6 +96,19 @@ class BitmaskedBehavior extends Behavior {
 			$mr->emit($row);
 		};
 		$query->mapReduce($mapper);
+	}
+
+	/**
+	 * @param \Cake\Event\Event $event
+	 * @param \ArrayObject $data
+	 * @param \ArrayObject $options
+	 * @return void
+	 */
+	public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options) {
+		if ($this->_config['on'] !== 'beforeMarshal') {
+			return;
+		}
+		$this->encodeBitmaskDataRaw($data);
 	}
 
 	/**
@@ -194,6 +207,28 @@ class BitmaskedBehavior extends Behavior {
 		$where->iterateParts($callable);
 	}
 
+
+	/**
+	 * @param \Cake\Datasource\EntityInterface $entity
+	 * @return void
+	 */
+	public function encodeBitmaskDataRaw(ArrayObject $data) {
+		$field = $this->_config['field'];
+		if (!($mappedField = $this->_config['mappedField'])) {
+			$mappedField = $field;
+		}
+		$default = $this->_getDefault($field);
+
+		if (!isset($data[$mappedField])) {
+			return;
+		}
+
+		$data[$field] = $this->encodeBitmask($data[$mappedField], $default);
+		if ($field !== $mappedField) {
+			unset($data[$mappedField]);
+		}
+	}
+
 	/**
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @return void
@@ -203,6 +238,24 @@ class BitmaskedBehavior extends Behavior {
 		if (!($mappedField = $this->_config['mappedField'])) {
 			$mappedField = $field;
 		}
+		$default = $this->_getDefault($field);
+
+		if ($entity->get($mappedField) === null) {
+			return;
+		}
+
+		$entity->set($field, $this->encodeBitmask($entity->get($mappedField), $default));
+		if ($field !== $mappedField) {
+			$entity->unsetProperty($mappedField);
+		}
+	}
+
+	/**
+	 * @param string $field
+	 * 
+	 * @return int|null
+	 */
+	protected function _getDefault($field) {
 		$default = null;
 		$schema = $this->_table->schema()->column($field);
 
@@ -213,12 +266,7 @@ class BitmaskedBehavior extends Behavior {
 			$default = $this->_config['defaultValue'];
 		}
 
-		if ($entity->get($mappedField) !== null) {
-			$entity->set($field, $this->encodeBitmask($entity->get($mappedField), $default));
-		}
-		if ($field !== $mappedField) {
-			$entity->unsetProperty($mappedField);
-		}
+		return $default;
 	}
 
 	/**

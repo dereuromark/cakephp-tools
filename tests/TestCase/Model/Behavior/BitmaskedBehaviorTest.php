@@ -91,7 +91,7 @@ class BitmaskedBehaviorTest extends TestCase {
 		$entity = $this->Comments->newEntity($data);
 		$res = $this->Comments->save($entity);
 		$this->assertTrue((bool)$res);
-		$this->assertSame('0', $entity->get('status'));
+		$this->assertSame(0, $entity->get('status'));
 
 		$data = [
 			'comment' => 'test save',
@@ -154,7 +154,7 @@ class BitmaskedBehaviorTest extends TestCase {
 		$entity = $this->Comments->newEntity($data);
 		$res = $this->Comments->save($entity);
 		$this->assertTrue((bool)$res);
-		$this->assertSame('0', $entity->get('status'));
+		$this->assertSame(0, $entity->get('status'));
 
 		$this->skipIf(true, '//FIXME');
 
