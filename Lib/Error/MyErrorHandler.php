@@ -7,6 +7,17 @@ App::uses('Utility', 'Tools.Utility');
 class MyErrorHandler extends ErrorHandler {
 
 	/**
+	 * @var array
+	 */
+	protected static $whitelist = [
+		'MissingControllerException',
+		'MissingActionException',
+		'MissingViewException',
+		'PrivateActionException',
+		'NotFoundException',
+	];
+
+	/**
 	 * Override core one with the following enhancements/fixes:
 	 * - 404s log to a different domain
 	 * - IP, Referer and Browser-Infos are added for better error debugging/tracing
@@ -21,7 +32,13 @@ class MyErrorHandler extends ErrorHandler {
 				static::traceDetails()
 			);
 			$log = LOG_ERR;
-			if (in_array(get_class($exception), ['MissingControllerException', 'MissingActionException', 'MissingViewException', 'PrivateActionException', 'NotFoundException'])) {
+
+			$exceptions = static::$whitelist;
+			if (CakePlugin::loaded('Shim')) {
+				$exceptions[] = 'RecordNotFoundException';
+			}
+
+			if (in_array(get_class($exception), $exceptions)) {
 				$log = '404';
 			}
 			CakeLog::write($log, $message);
