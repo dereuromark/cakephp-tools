@@ -45,11 +45,11 @@ $escape = isset($escape) ? $escape : true;
 	<ul class="pagination">
 	<?php echo $this->Paginator->first($first, ['escape' => $escape]);?>
  <?php echo $separator; ?>
-	<?php echo $this->Paginator->prev($prev, ['escape' => $escape]);?>
+	<?php echo $this->Paginator->prev($prev, ['escape' => $escape, 'disabledTitle' => false]);?>
  <?php echo $separator; ?>
 	<?php echo $this->Paginator->numbers(['escape' => $escape, 'separator' => $separator]);?>
  <?php echo $separator; ?>
-	<?php echo $this->Paginator->next($next, ['escape' => $escape]);?>
+	<?php echo $this->Paginator->next($next, ['escape' => $escape, 'disabledTitle' => false]);?>
  <?php echo $separator; ?>
 	<?php echo $this->Paginator->last($last, ['escape' => $escape]);?>
 	</ul>
