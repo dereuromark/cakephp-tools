@@ -24,7 +24,8 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Tools\\": "src/"
+			"Tools\\": "src/",
+			"Tools\\Test\\Fixture\\": "tests/Fixture/"
 		}
 	},
 	"autoload-dev": {
