@@ -1128,7 +1128,7 @@ class Time extends CakeTime {
 	 *
 	 * @param string $searchString to parse
 	 * @param string $fieldName (Model.field)
-	 * @param array $options (see TimeLib::period)
+	 * @param array $options (see Time::period)
 	 * @return string query SQL Query
 	 */
 	public static function periodAsSql($searchString, $fieldName, array $options = []) {

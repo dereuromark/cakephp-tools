@@ -380,7 +380,7 @@ class Table extends ShimTable {
 		}
 		$date = $value->format(FORMAT_DB_DATE);
 
-		if (!empty($options['allowEmpty']) && (empty($date) || $date == DEFAULT_DATE)) {
+		if (!empty($options['allowEmpty']) && empty($date)) {
 			return true;
 		}
 		if (Validation::date($date, $format)) {

@@ -16,7 +16,7 @@ class TokensFixture extends TestFixture {
 	 */
 	public $fields = [
 		'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 10],
-		'user_id' => ['type' => 'string', 'null' => true, 'length' => 36, 'comment' => ''],
+		'user_id' => ['type' => 'uuid', 'null' => true, 'length' => 36, 'comment' => ''],
 		'type' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 10, 'comment' => 'e.g.:activate,reactivate'],
 		'key' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 60, 'comment' => ''],
 		'content' => ['type' => 'string', 'null' => true, 'default' => null, 'comment' => 'can transport some information'],

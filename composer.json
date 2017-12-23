@@ -31,7 +31,7 @@
 		"psr-4": {
 			"Tools\\Test\\": "tests/",
 			"Cake\\Test\\": "vendor/cakephp/cakephp/tests/",
-			"App\\": "tests/TestApp/"
+			"App\\": "tests/test_app/"
 		}
 	},
 	"suggest": {
