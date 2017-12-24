@@ -41,7 +41,7 @@ class ContactFormTest extends TestCase {
 			'name' => 'Foo',
 			'email' => 'foo',
 			'subject' => '',
-			'message' => 'Some message'
+			'body' => 'Some message'
 		];
 		$result = $this->Form->validate($requestData);
 		$this->assertFalse($result);
@@ -53,7 +53,7 @@ class ContactFormTest extends TestCase {
 			'name' => 'Foo',
 			'email' => 'foo@example.org',
 			'subject' => 'Yeah',
-			'message' => 'Some message'
+			'body' => 'Some message'
 		];
 		$result = $this->Form->validate($requestData);
 		$this->assertTrue($result);
@@ -69,7 +69,7 @@ class ContactFormTest extends TestCase {
 			'name' => 'Foo',
 			'email' => 'foo@example.org',
 			'subject' => 'Yeah',
-			'message' => 'Some message'
+			'body' => 'Some message'
 		];
 		$result = $this->Form->execute($requestData);
 		$this->assertTrue($result);
