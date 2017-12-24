@@ -41,8 +41,8 @@ class ContactForm extends Form {
 			])
 			->requirePresence('subject')
 			->notEmpty('subject', __('This field cannot be left empty'))
-			->requirePresence('message')
-			->notEmpty('message', __('This field cannot be left empty'));
+			->requirePresence('body')
+			->notEmpty('body', __('This field cannot be left empty'));
 	}
 
 	/**
