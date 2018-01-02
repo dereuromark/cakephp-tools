@@ -41,7 +41,9 @@ if (!empty($addArrows)) {
 $escape = isset($escape) ? $escape : true;
 ?>
 
-<div class="paginator paging">
+<div class="paginator paging row">
+	<div class="col-lg-6">
+
 	<ul class="pagination">
 	<?php echo $this->Paginator->first($first, ['escape' => $escape]);?>
  <?php echo $separator; ?>
@@ -54,9 +56,12 @@ $escape = isset($escape) ? $escape : true;
 	<?php echo $this->Paginator->last($last, ['escape' => $escape]);?>
 	</ul>
 
+	</div>
+	<div class="col-lg-6">
 	<p class="paging-description">
 		<?php echo $this->Paginator->counter(['format' => $format]); ?>
 	</p>
+	</div>
 </div>
 <?php if (!empty($options['ajaxPagination'])) {
 	$ajaxContainer = !empty($options['paginationContainer']) ? $options['paginationContainer'] : '.page';

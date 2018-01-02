@@ -56,6 +56,7 @@ class FormatHelper extends Helper {
 	 */
 	protected $_defaults = [
 		'fontIcons' => null,
+		'iconNamespaces' => [], // Used to disable auto prefixing if detected
 		'iconNamespace' => 'fa', // Used to be icon,
 		'autoPrefix' => true, // For custom icons "prev" becomes "fa-prev" when iconNamespace is "fa"
 		'templates' => [
@@ -216,7 +217,7 @@ class FormatHelper extends Helper {
 
 	/**
 	 * Display a font icon (fast and resource-efficient).
-	 * Uses http://fontawesome.io/icons/
+	 * Uses http://fontawesome.io/icons/ by default
 	 *
 	 * Options:
 	 * - size (int|string: 1...5 or large)
@@ -261,7 +262,7 @@ class FormatHelper extends Helper {
 	}
 
 	/**
-	 * Icons using the default namespace
+	 * Icons using the default namespace or an already prefixed one.
 	 *
 	 * @param string $icon (constant or filename)
 	 * @param array $options :
@@ -271,10 +272,24 @@ class FormatHelper extends Helper {
 	 * @return string
 	 */
 	public function icon($icon, array $options = [], array $attributes = []) {
+		if (!$icon) {
+			return '';
+		}
+
 		$defaults = [
 			'translate' => true,
 		];
 		$options += $defaults;
+
+		$type = $icon;
+		if ($this->config('autoPrefix') && empty($options['iconNamespace'])) {
+			$namespace = $this->detectNamespace($icon);
+			if ($namespace) {
+				$options['iconNamespace'] = $namespace;
+				$options['autoPrefix'] = false;
+				$icon = substr($icon, strlen($namespace) + 1);
+			}
+		}
 
 		if (!isset($attributes['title'])) {
 			if (isset($options['title'])) {
@@ -284,7 +299,24 @@ class FormatHelper extends Helper {
 			}
 		}
 
-		return $this->_fontIcon($icon, $options, $attributes);
+		return $this->_fontIcon($type, $options, $attributes);
+	}
+
+	/**
+	 * @param string $icon
+	 *
+	 * @return string|null
+	 */
+	protected function detectNamespace($icon) {
+		foreach ((array)$this->config('iconNamespaces') as $namespace) {
+			if (strpos($icon, $namespace . '-') !== 0) {
+				continue;
+			}
+
+			return $namespace;
+		}
+
+		return null;
 	}
 
 	/**
@@ -344,11 +376,13 @@ class FormatHelper extends Helper {
 	 */
 	protected function _fontIcon($type, $options, $attributes) {
 		$iconClass = $type;
-		if ($this->_config['autoPrefix'] && $this->_config['iconNamespace']) {
-			$iconClass = $this->_config['iconNamespace'] . '-' . $iconClass;
+
+		$options += $this->_config;
+		if ($options['autoPrefix'] && $options['iconNamespace']) {
+			$iconClass = $options['iconNamespace'] . '-' . $iconClass;
 		}
-		if ($this->_config['iconNamespace']) {
-			$iconClass = $this->_config['iconNamespace'] . ' ' . $iconClass;
+		if ($options['iconNamespace']) {
+			$iconClass = $options['iconNamespace'] . ' ' . $iconClass;
 		}
 
 		if (isset($this->_config['fontIcons'][$type])) {
