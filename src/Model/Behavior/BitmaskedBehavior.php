@@ -97,7 +97,17 @@ class BitmaskedBehavior extends Behavior {
 		}
 
 		$mapper = function ($row, $key, $mr) use ($field, $mappedField) {
+			if (!is_object($row)) {
+				if (isset($row[$field])) {
+					$row[$mappedField] = $this->decodeBitmask($row[$field]);
+				}
+				$mr->emit($row);
+				return;
+			}
+
+			/** @var EntityInterface $row */
 			$row->set($mappedField, $this->decodeBitmask($row->get($field)));
+			$row->setDirty($mappedField, false);
 			$mr->emit($row);
 		};
 		$query->mapReduce($mapper);
