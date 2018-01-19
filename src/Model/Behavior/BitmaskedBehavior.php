@@ -105,7 +105,7 @@ class BitmaskedBehavior extends Behavior {
 				return;
 			}
 
-			/** @var EntityInterface $row */
+			/** @var \Cake\Datasource\EntityInterface $row */
 			$row->set($mappedField, $this->decodeBitmask($row->get($field)));
 			$row->setDirty($mappedField, false);
 			$mr->emit($row);
