@@ -63,20 +63,40 @@ Obviously you could also just use four or more boolean fields to achieve the sam
 
 So now, in the add/edit form we can:
 ```php
-echo $this->Form->input('statuses', ['options' => Comment::statuses(), 'multiple' => 'checkbox']);
+echo $this->Form->control('statuses', ['options' => Comment::statuses(), 'multiple' => 'checkbox']);
 ```
 
 Tip: Usually, you have passed down the current entity for the form building anyway, then you don't need static access:
 ```php
 echo $this->Form->create($comment);
-echo $this->Form->input('statuses', ['options' => $comment->statuses(), 'multiple' => 'checkbox']);
+echo $this->Form->control('statuses', ['options' => $comment->statuses(), 'multiple' => 'checkbox']);
 ...
 ```
 
 It will save the final bitmask to the database field `status` as integer. For example "active and approved" would become `9`.
 
+### Custom finder
+You can use the built in custom finder `findBitmasked`:
+```php
+$statuses = [Comment::STATUS_ACTIVE, STATUS_ACTIVE::STATUS_FEATURED];
+$comments = $this->Comments->find('bits', ['bits' => $statuses])->toArray();
+```
 
+#### Using Search plugin
+If you use [Search](https://github.com/FriendsOfCake/search/) plugin, you can easily make a filter as multi-checkbox:
+```php
+echo $this->Form->control('status', ['options' => Comment::statuses(), 'multiple' => 'checkbox', 'empty' => ' - no filter - ']);
+```
 
+And in your Table searchManager() setup:
+```php
+$searchManager
+	->finder('status', ['finder' => 'bits', 'map' => ['status' => 'bits']])
+```
+
+This way the array of checkboxes selected will be turned into the integer bitmask needed for the query to work.
+
+Note: This requires Search ^4.3.0!
 
 ### Outview
 
