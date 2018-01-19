@@ -12,7 +12,7 @@
 		<ini name="apc.enable_cli" value="1"/>
 	</php>
 	<testsuites>
-		<testsuite name="Tools">
+		<testsuite name="tools">
 			<directory>./tests/</directory>
 		</testsuite>
 	</testsuites>
