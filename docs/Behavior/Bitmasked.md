@@ -91,7 +91,8 @@ echo $this->Form->control('status', ['options' => Comment::statuses(), 'multiple
 And in your Table searchManager() setup:
 ```php
 $searchManager
-	->finder('status', ['finder' => 'bits', 'map' => ['status' => 'bits']])
+	// We need to map the posted "status" key to the finder required "bits" key
+	->finder('status', ['finder' => 'bits', 'map' => ['bits' => 'status']])
 ```
 
 This way the array of checkboxes selected will be turned into the integer bitmask needed for the query to work.
