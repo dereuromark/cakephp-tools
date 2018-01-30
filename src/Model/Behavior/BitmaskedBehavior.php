@@ -9,6 +9,7 @@ use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
 use Cake\Utility\Inflector;
+use InvalidArgumentException;
 use RuntimeException;
 use Tools\Utility\Text;
 
@@ -42,7 +43,26 @@ class BitmaskedBehavior extends Behavior {
 		'bits' => null, // Method or callback to get the bits data
 		'on' => 'beforeMarshal', // or beforeRules or beforeSave
 		'defaultValue' => null, // NULL = auto (use empty string to trigger "notEmpty" rule for "default NOT NULL" db fields)
+		'implementedFinders' => [
+			'bits' => 'findBitmasked'
+		],
 	];
+
+	/**
+	 * @param \Cake\ORM\Query $query
+	 * @param array $options
+	 * @return \Cake\ORM\Query
+	 * @throws \InvalidArgumentException If the 'slug' key is missing in options
+	 */
+	public function findBitmasked(Query $query, array $options) {
+		if (!isset($options['bits'])) {
+			throw new InvalidArgumentException("The 'bits' key is required for find('bits')");
+		}
+
+		$bits = $this->encodeBitmask($options['bits']);
+
+		return $query->where([$this->_config['field'] => $bits]);
+	}
 
 	/**
 	 * Behavior configuration
