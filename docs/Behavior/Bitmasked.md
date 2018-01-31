@@ -97,7 +97,7 @@ $searchManager
 
 This way the array of checkboxes selected will be turned into the integer bitmask needed for the query to work.
 
-Note: This requires Search ^4.3.0!
+Note: This requires Search `^4.2.1`!
 
 ### Outview
 
