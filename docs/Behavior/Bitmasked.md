@@ -83,7 +83,7 @@ $comments = $this->Comments->find('bits', ['bits' => $statuses])->toArray();
 ```
 
 #### Using Search plugin
-If you use [Search](https://github.com/FriendsOfCake/search/) plugin, you can easily make a filter as multi-checkbox:
+If you use [Search](https://github.com/FriendsOfCake/search/) plugin, you can easily make a filter as multi-checkbox (or any multi-select type):
 ```php
 echo $this->Form->control('status', ['options' => Comment::statuses(), 'multiple' => 'checkbox', 'empty' => ' - no filter - ']);
 ```
