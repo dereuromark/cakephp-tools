@@ -78,7 +78,7 @@ It will save the final bitmask to the database field `status` as integer. For ex
 ### Custom finder
 You can use the built in custom finder `findBitmasked`:
 ```php
-$statuses = [Comment::STATUS_ACTIVE, STATUS_ACTIVE::STATUS_FEATURED];
+$statuses = [Comment::STATUS_ACTIVE, Comment::STATUS_FEATURED];
 $comments = $this->Comments->find('bits', ['bits' => $statuses])->toArray();
 ```
 
