@@ -36,7 +36,7 @@ This master branch only works for **CakePHP3.x** - please use the 2.x branch for
 
 ### Providing 2.x shims
 This plugin for CakePHP 3 also contains some 2.x shims to ease migration of existing applications from 2.x to 3.x:
-- See Shim plugin for details on most of the provided shims.
+- See [Shim](https://github.com/dereuromark/cakephp-shim) plugin for details on most of the provided shims.
 
 ## Installation & Docs
 
