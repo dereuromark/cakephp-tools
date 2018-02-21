@@ -64,6 +64,9 @@ trait ErrorHandlerTrait {
 			return false;
 		}
 
+		if (!$request) {
+			return true;
+		}
 		$referer = $request->getHeaderLine('Referer');
 		$baseUrl = Configure::read('App.fullBaseUrl');
 		if (strpos($referer, $baseUrl) === 0) {
