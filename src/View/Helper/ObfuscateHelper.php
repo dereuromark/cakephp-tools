@@ -82,7 +82,7 @@ class ObfuscateHelper extends Helper {
 		$attr = array_merge($defaults, $attr);
 
 		$xmail = $this->Html->link('', $encMail . $querystring, $attr);
-		$xmail1 = mb_substr($xmail, 0, count($xmail) - 5);
+		$xmail1 = mb_substr($xmail, 0, -5);
 		$xmail2 = mb_substr($xmail, -4, 4);
 
 		$len = mb_strlen($xmail1);

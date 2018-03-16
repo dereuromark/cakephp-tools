@@ -21,13 +21,6 @@ class Email extends CakeEmail {
 	protected $_wrapLength = null;
 
 	/**
-	 * @deprecated Since CakePHP 3.4.0-RC4 in core
-	 *
-	 * @var int|null
-	 */
-	protected $_priority = null;
-
-	/**
 	 * @var string|null
 	 */
 	protected $_error = null;
@@ -563,13 +556,8 @@ class Email extends CakeEmail {
 			'cc' => $this->_cc,
 			'subject' => $this->_subject,
 			'bcc' => $this->_bcc,
-			'transport' => get_class($this->_transport),
+			'transport' => $this->_transport ? get_class($this->_transport) : null,
 		];
-
-		/** @deprecated Since CakePHP 3.4.0-RC4 in core */
-		if ($this->_priority) {
-			$this->_headers['X-Priority'] = $this->_priority;
-		}
 
 		// if not live, just log but do not send any mails //TODO: remove and use Debug Transport!
 		if (!Configure::read('Config.live')) {
