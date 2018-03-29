@@ -14,11 +14,12 @@
 	],
 	"require":{
 		"php": ">=5.6",
-		"cakephp/cakephp": "^3.4",
-		"dereuromark/cakephp-shim": "^1.0"
+		"cakephp/cakephp": "^3.5.10",
+		"dereuromark/cakephp-shim": "^1.6"
 	},
 	"require-dev":{
-		"mobiledetect/mobiledetectlib": "2.*",
+		"cakephp/chronos": "^1.0.1",
+		"mobiledetect/mobiledetectlib": "^2.8",
 		"fig-r/psr2r-sniffer": "dev-master",
 		"yangqi/htmldom": "^1.0"
 	},
