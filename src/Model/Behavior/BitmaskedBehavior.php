@@ -61,7 +61,7 @@ class BitmaskedBehavior extends Behavior {
 
 		$bits = $this->encodeBitmask($options['bits']);
 
-		return $query->where([$this->_config['field'] => $bits]);
+		return $query->where([$this->getTable()->getAlias() . '.' . $this->_config['field'] => $bits]);
 	}
 
 	/**
@@ -316,7 +316,7 @@ class BitmaskedBehavior extends Behavior {
 		$bitmask = $this->encodeBitmask($bits);
 
 		$field = $this->_config['field'];
-		return [$this->_table->alias() . '.' . $field => $bitmask];
+		return [$this->getTable()->getAlias() . '.' . $field => $bitmask];
 	}
 
 	/**
@@ -360,10 +360,10 @@ class BitmaskedBehavior extends Behavior {
 		$connection = $this->_table->connection();
 		$config = $connection->config();
 		if ((strpos($config['driver'], 'Postgres') !== false)) {
-			return ['("' . $this->_table->alias() . '"."' . $field . '"' . $contain . ')'];
+			return ['("' . $this->getTable->getAlias() . '"."' . $field . '"' . $contain . ')'];
 		}
 
-		return ['(' . $this->_table->alias() . '.' . $field . $contain . ')'];
+		return ['(' . $this->getTable->getAlias() . '.' . $field . $contain . ')'];
 	}
 
 }
