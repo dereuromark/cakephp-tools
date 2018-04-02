@@ -4,6 +4,30 @@ A CakePHP behavior to automatically store nested data as JSON string and return 
 - Data can be of type array, params or list - or kept in JSON format
 - Additional sanitize functionality with "clean", "sort" and "unique
 
+## Important note
+Using 3.5+ you might not even need this anymore, as you can use type classes directly:
+```php
+    /**
+     * @param \Cake\Database\Schema\TableSchema $schema
+     *
+     * @return \Cake\Database\Schema\TableSchema
+     */
+    protected function _initializeSchema(TableSchema $schema)
+    {
+        $schema->columnType('my_field', 'json');
+
+        return $schema;
+    }
+```	
+This is best combined with the Shim.Json type, as it properly handles `null` values:
+```php
+// in bootstrap
+Type::map('json', 'Shim\Database\Type\JsonType');
+```
+
+But if you still need/want more flexible approaches, continue reading.
+
+
 ## Usage
 Attach it to your model's `Table` class in its `initialize()` like so:
 ```php
