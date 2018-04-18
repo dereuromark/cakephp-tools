@@ -138,7 +138,12 @@ class PasswordableBehaviorTest extends TestCase {
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertTrue((bool)$is);
-		$this->assertEquals(['name', 'id'], $is->visibleProperties());
+		if (version_compare(Configure::version(), '3.6.0', '<')) {
+			$fields = ['name', 'created', 'modified', 'id'];
+		} else {
+			$fields = ['name', 'id'];
+		}
+		$this->assertEquals($fields, $is->visibleProperties());
 
 		$id = $user->id;
 		$user = $this->Users->newEntity();
@@ -150,7 +155,12 @@ class PasswordableBehaviorTest extends TestCase {
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertTrue((bool)$is);
-		$this->assertEquals(['id'], $is->visibleProperties());
+		if (version_compare(Configure::version(), '3.6.0', '<')) {
+			$fields = ['id', 'modified'];
+		} else {
+			$fields = ['id'];
+		}
+		$this->assertEquals($fields, $is->visibleProperties());
 	}
 
 	/**
