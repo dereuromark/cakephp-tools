@@ -7,11 +7,11 @@
 [![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-tools/d/total.svg)](https://packagist.org/packages/dereuromark/cakephp-tools)
 [![Coding Standards](https://img.shields.io/badge/cs-PSR--2--R-yellow.svg)](https://github.com/php-fig-rectified/fig-rectified-standards)
 
-A CakePHP 3.x plugin containing several useful tools that can be used in many projects.
+A CakePHP plugin containing several useful tools that can be used in many projects.
 
 ## Version notice
 
-This master branch only works for **CakePHP3.x** - please use the 2.x branch for CakePHP 2.x!
+This master branch only works for **CakePHP 3.5+** - please use the 2.x branch for CakePHP 2.x!
 
 ## What is this plugin for?
 

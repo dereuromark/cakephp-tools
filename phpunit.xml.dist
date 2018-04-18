@@ -10,10 +10,13 @@
 	<php>
 		<ini name="memory_limit" value="-1"/>
 		<ini name="apc.enable_cli" value="1"/>
+		<!-- E_ALL => 32767 -->
+		<!-- E_ALL & ~E_USER_DEPRECATED => 16383 -->
+		<ini name="error_reporting" value="16383"/>
 	</php>
 	<testsuites>
 		<testsuite name="tools">
-			<directory>./tests/</directory>
+			<directory>tests/</directory>
 		</testsuite>
 	</testsuites>
 		<listeners>
@@ -25,14 +28,14 @@
 	</listeners>
 	<filter>
 		<whitelist>
-			<directory suffix=".php">./src</directory>
+			<directory suffix=".php">src/</directory>
 			<exclude>
-				<file>./src/Utility/Set.php</file>
-				<file>./src/Utility/Multibyte.php</file>
+				<file>src/Utility/Set.php</file>
+				<file>src/Utility/Multibyte.php</file>
 			</exclude>
 		</whitelist>
 		<blacklist>
-			<directory suffix=".ctp">./src/Template</directory>
+			<directory suffix=".ctp">src/Template/</directory>
 		</blacklist>
 	</filter>
 </phpunit>
