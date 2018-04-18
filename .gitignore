@@ -2,6 +2,5 @@
 /phpunit.phar
 /vendor/
 /tmp/
-/plugins/Setup
 /composer.phar
 /.idea

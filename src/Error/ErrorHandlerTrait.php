@@ -6,15 +6,15 @@ use Cake\Controller\Exception\MissingActionException;
 use Cake\Core\Configure;
 use Cake\Datasource\Exception\InvalidPrimaryKeyException;
 use Cake\Datasource\Exception\RecordNotFoundException;
-use Cake\Network\Exception\BadRequestException;
-use Cake\Network\Exception\ConflictException;
-use Cake\Network\Exception\GoneException;
-use Cake\Network\Exception\InvalidCsrfTokenException;
-use Cake\Network\Exception\MethodNotAllowedException;
-use Cake\Network\Exception\NotAcceptableException;
-use Cake\Network\Exception\NotFoundException;
-use Cake\Network\Exception\UnauthorizedException;
-use Cake\Network\Exception\UnavailableForLegalReasonsException;
+use Cake\Http\Exception\BadRequestException;
+use Cake\Http\Exception\ConflictException;
+use Cake\Http\Exception\GoneException;
+use Cake\Http\Exception\InvalidCsrfTokenException;
+use Cake\Http\Exception\MethodNotAllowedException;
+use Cake\Http\Exception\NotAcceptableException;
+use Cake\Http\Exception\NotFoundException;
+use Cake\Http\Exception\UnauthorizedException;
+use Cake\Http\Exception\UnavailableForLegalReasonsException;
 use Cake\Routing\Exception\MissingControllerException;
 use Cake\Routing\Exception\MissingRouteException;
 use Cake\View\Exception\MissingViewException;
@@ -43,6 +43,15 @@ trait ErrorHandlerTrait {
 		MissingRouteException::class,
 		MissingViewException::class,
 		UnavailableForLegalReasonsException::class,
+		'Cake\Network\Exception\BadRequestException',
+		'Cake\Network\Exception\ConflictException',
+		'Cake\Network\Exception\GoneException',
+		'Cake\Network\Exception\InvalidCsrfTokenException',
+		'Cake\Network\Exception\MethodNotAllowedException',
+		'Cake\Network\Exception\NotAcceptableException',
+		'Cake\Network\Exception\NotFoundException',
+		'Cake\Network\Exception\UnauthorizedException',
+		'Cake\Network\Exception\UnavailableForLegalReasonsException',
 	];
 
 	/**

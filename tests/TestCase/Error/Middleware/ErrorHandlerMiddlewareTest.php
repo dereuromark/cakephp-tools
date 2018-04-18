@@ -3,8 +3,8 @@
 namespace Tools\Test\TestCase\Error\Middleware;
 
 use Cake\Core\Configure;
+use Cake\Http\ServerRequest;
 use Cake\Network\Exception\NotFoundException;
-use Cake\Network\Http\Request;
 use Tools\Error\Middleware\ErrorHandlerMiddleware;
 use Tools\TestSuite\TestCase;
 use Tools\TestSuite\ToolsTestTrait;
@@ -46,12 +46,12 @@ class ErrorHandlerMiddlewareTest extends TestCase {
 	public function test404() {
 		$parameters = [
 			new NotFoundException(),
-			new Request(),
+			new ServerRequest(),
 		];
 		$result = $this->invokeMethod($this->errorHandlerMiddleware, 'is404', $parameters);
 		$this->assertTrue($result);
 
-		$request = new Request('http://foo.bar', Request::METHOD_GET, ['Referer' => 'http://foo.bar/baz']);
+		$request = new ServerRequest(['url' => 'http://foo.bar', 'environment' => ['HTTP_REFERER' => 'http://foo.bar/baz']]);
 		$parameters = [
 			new NotFoundException(),
 			$request,
