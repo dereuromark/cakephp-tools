@@ -6,6 +6,8 @@ The basic idea is to normalize all input into a standard typography (utf8 defaul
 So different quotes like `»` or `“` end up as `"` in the database.
 Upon output one can the decide to re-apply localization here.
 
+See the [TypographyHelper](/docs/Helper/Typography.md) docs for output modification.
+
 ### Usage
 
 #### Basic usage
