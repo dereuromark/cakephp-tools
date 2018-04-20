@@ -26,6 +26,6 @@ echo $this->Typography->autoTypography($myText);
 ### Configuration
 
 It uses Configure key `'App.language'` by default to detect the output format.
-So if you contain `Configure::write('App.language', 'deu');` in your bootstrap, it will use German ``
-
-
+So if you have `Configure::write('App.language', 'deu');` in your bootstrap, it will use German typography.
+A string `"Interesting Quote"` will then become the German `„Interesting Quote‟`.
+English (US) would be `“Interesting Quote”` and French, for example, `«Interesting Quote»`.
