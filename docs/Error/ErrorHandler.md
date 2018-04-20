@@ -53,13 +53,13 @@ class Application extends BaseApplication {
      *
      * @return \Cake\Http\MiddlewareQueue The updated middleware queue.
      */
-    public function middleware($middleware) {
-        $middleware
+    public function middleware($middlewareQueue) {
+        $middlewareQueue
             // Replace the core one
             ->add(new ErrorHandlerMiddleware())
             ...
 
-        return $middleware;
+        return $middlewareQueue;
     }
 ```
 
@@ -72,3 +72,5 @@ So those are considered actual errors here.
 You can also set up a monitor to check for the internal 404s and alert (via email or alike).
 Those should also be fixed rather soon because more and more people click on those and end up on the error page.
 All other 404s are caused from the outside (often times crawlers and bots) and are usually not too relevant.
+
+One possibility is [this](https://github.com/dereuromark/CakePHP-DatabaseLog/tree/master/docs#monitor) if you use database logging.
