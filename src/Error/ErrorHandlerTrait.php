@@ -17,6 +17,7 @@ use Cake\Http\Exception\UnauthorizedException;
 use Cake\Http\Exception\UnavailableForLegalReasonsException;
 use Cake\Routing\Exception\MissingControllerException;
 use Cake\Routing\Exception\MissingRouteException;
+use Cake\View\Exception\MissingTemplateException;
 use Cake\View\Exception\MissingViewException;
 
 /**
@@ -42,6 +43,7 @@ trait ErrorHandlerTrait {
 		MissingActionException::class,
 		MissingRouteException::class,
 		MissingViewException::class,
+		MissingTemplateException::class,
 		UnavailableForLegalReasonsException::class,
 		'Cake\Network\Exception\BadRequestException',
 		'Cake\Network\Exception\ConflictException',
