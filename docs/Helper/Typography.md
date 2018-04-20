@@ -18,10 +18,14 @@ $this->addHelper('Tools.Typography', [
 ]);
 ```
 
-It uses Configure key `'App.language'` by default to detect the output format.
-So if you contain `Configure::write('App.language', 'deu');` in your bootstrap, it will use German ``
+Then you can use it in your templates as
+```php
+echo $this->Typography->autoTypography($myText);
+```
 
 ### Configuration
 
-With `mergeQuotes` option you can define if both `"` and `'` should be merged into one of them.
-Defaults to `false` as they might be used nested for default input.
+It uses Configure key `'App.language'` by default to detect the output format.
+So if you contain `Configure::write('App.language', 'deu');` in your bootstrap, it will use German ``
+
+
