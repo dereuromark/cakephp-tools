@@ -442,7 +442,7 @@ class SluggedBehavior extends Behavior {
 		if ($mode === 'display') {
 			return $return;
 		}
-		$return .= preg_quote(' \'"/?<>.$/:;?@=+&%\#', '@');
+		$return .= preg_quote(' \'"/?<>.$/:;?@=+&%\#,', '@');
 		if ($mode === 'url') {
 			return $return;
 		}
