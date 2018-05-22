@@ -489,6 +489,11 @@ class SluggedBehaviorTest extends TestCase {
 		$expected = 'something-with-a-in-it';
 		$result = $this->articles->generateSlug($string);
 		$this->assertEquals($expected, $result);
+
+		$string = 'something with a # in it';
+		$expected = 'something-with-a-in-isaaddat';
+		$result = $this->articles->generateSlug($string);
+		$this->assertEquals($expected, $result);
 	}
 
 	/**
