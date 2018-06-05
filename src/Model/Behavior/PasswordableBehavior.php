@@ -155,7 +155,7 @@ class PasswordableBehavior extends Behavior {
 			$rules[$field] = $fieldRules;
 		}
 
-		$validator = $this->_table->validator($this->_config['validator']);
+		$validator = $this->_table->getValidator($this->_config['validator']);
 
 		// Add the validation rules if not already attached
 		if (!count($validator->field($formField))) {
