@@ -141,7 +141,7 @@ class CommonComponentTest extends TestCase {
 		$is = $this->Controller->Common->postRedirect(['action' => 'foo']);
 		$is = $this->Controller->response->header();
 		$this->assertSame('http://localhost/foo', $is['Location']);
-		$this->assertSame(302, $this->Controller->response->statusCode());
+		$this->assertSame(302, $this->Controller->response->getStatusCode());
 	}
 
 	/**
@@ -151,7 +151,7 @@ class CommonComponentTest extends TestCase {
 		$is = $this->Controller->Common->autoRedirect(['action' => 'foo']);
 		$is = $this->Controller->response->header();
 		$this->assertSame('http://localhost/foo', $is['Location']);
-		$this->assertSame(302, $this->Controller->response->statusCode());
+		$this->assertSame(302, $this->Controller->response->getStatusCode());
 	}
 
 	/**
@@ -163,7 +163,7 @@ class CommonComponentTest extends TestCase {
 		$is = $this->Controller->Common->autoRedirect(['action' => 'foo'], true);
 		$is = $this->Controller->response->header();
 		$this->assertSame('http://localhost/my_controller/some-referer-action', $is['Location']);
-		$this->assertSame(302, $this->Controller->response->statusCode());
+		$this->assertSame(302, $this->Controller->response->getStatusCode());
 	}
 
 	/**
@@ -173,7 +173,7 @@ class CommonComponentTest extends TestCase {
 		$is = $this->Controller->Common->autoPostRedirect(['action' => 'foo'], true);
 		$is = $this->Controller->response->header();
 		$this->assertSame('http://localhost/foo', $is['Location']);
-		$this->assertSame(302, $this->Controller->response->statusCode());
+		$this->assertSame(302, $this->Controller->response->getStatusCode());
 	}
 
 	/**
@@ -185,14 +185,13 @@ class CommonComponentTest extends TestCase {
 		$is = $this->Controller->Common->autoPostRedirect(['controller' => 'MyController', 'action' => 'foo'], true);
 		$is = $this->Controller->response->header();
 		$this->assertSame('http://localhost/my_controller/allowed', $is['Location']);
-		$this->assertSame(302, $this->Controller->response->statusCode());
+		$this->assertSame(302, $this->Controller->response->getStatusCode());
 	}
 
 	/**
 	 * @return void
 	 */
-	public function testListActions()
-	{
+	public function testListActions() {
 		$actions = $this->Controller->Common->listActions();
 		$this->assertSame([], $actions);
 	}
@@ -206,7 +205,7 @@ class CommonComponentTest extends TestCase {
 		$is = $this->Controller->Common->autoPostRedirect(['controller' => 'MyController', 'action' => 'foo'], true);
 		$is = $this->Controller->response->header();
 		$this->assertSame('http://localhost/my_controller/foo', $is['Location']);
-		$this->assertSame(302, $this->Controller->response->statusCode());
+		$this->assertSame(302, $this->Controller->response->getStatusCode());
 	}
 
 	/**

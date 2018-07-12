@@ -1,7 +1,5 @@
 # CakePHP Tools Plugin Documentation
 
-## Version notice
-
 ## Installation
 * [Installation](Install.md)
 
@@ -11,23 +9,25 @@
 ## Detailed Documentation - Quicklinks
 
 Routing:
-* [Url](Url/Url.md)
+* [Url](Url/Url.md) for useful tooling around URL generation.
 
 I18n:
 * [I18n](I18n/I18n.md) for language detection and switching
 
 ErrorHandler
-* [ErrorHandler](Error/ErrorHandler.md)
+* [ErrorHandler](Error/ErrorHandler.md) for improved error handling.
 
 Auth
 * [MultiColumnAuthenticate](Auth/MultiColumn.md) for log-in with e.g. "email or username"
 
-Testing
-* [Testing](TestSuite/Testing.md)
+Email
+* [Email](Mailer/Email.md) for sending Emails
 
-Helpers:
-* [Html](Helper/Html.md)
-* [Form](Helper/Form.md)
+Testing
+* [Testing](TestSuite/Testing.md) for testing tooling.
+
+Controller:
+* [Controller](Controller/Controller.md)
 
 Behaviors:
 * [Jsonable](Behavior/Jsonable.md)
@@ -37,6 +37,20 @@ Behaviors:
 * [Reset](Behavior/Reset.md)
 * [String](Behavior/String.md)
 * [Toggle](Behavior/Toggle.md)
+
+Components:
+* [Common](Component/Common.md)
+* [Mobile](Component/Mobile.md)
+
+Helpers:
+* [Html](Helper/Html.md)
+* [Form](Helper/Form.md)
+* [Common](Helper/Common.md)
+* [Format](Helper/Format.md)
+* [Typography](Helper/Typography.md)
+
+Widgets:
+* [Datalist](Widget/Datalist.md)
 
 ## Basic enhancements of the core
 
@@ -92,18 +106,6 @@ This eases migration as complete parts of the code, such as validation and other
 can be reused immediatelly without refactoring them right away.
 
 * See [Shims](Shims.md) for details.
-
-## Testing the Plugin
-You can test using a local installation of phpunit or the phar version of it:
-
-	cd plugins/Tools
-	composer update // or: php composer.phar update
-	phpunit // or: php phpunit.phar
-
-To test a specific file:
-
-	phpunit /path/to/class.php
-
 
 ## Contributing
 Your help is greatly appreciated.
