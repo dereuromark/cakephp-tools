@@ -14,65 +14,65 @@ use Cake\View\Widget\SelectBoxWidget;
  * - keys: Use as true to use the keys of the select options instead of the values.
  * - input: Attributes for input element
  */
-class DatalistWidget extends SelectBoxWidget
-{
-    /**
-     * @param array $data
-     * @param \Cake\View\Form\ContextInterface $context
-     * @return string|null
-     */
-    public function render(array $data, ContextInterface $context)
-    {
-        $data += [
-            'id' => null,
-            'name' => '',
-            'empty' => false,
-            'escape' => true,
-            'options' => [],
-            'disabled' => null,
-            'val' => null,
-            'input' => [],
-            'keys' => false,
-            'templateVars' => [],
-        ];
+class DatalistWidget extends SelectBoxWidget {
 
-        $options = $this->_renderContent($data);
-        if (!$data['keys']) {
-            $options = str_replace(
-                'value',
-                'data-value',
-                $options
-            );
-        }
+	/**
+	 * @param array $data
+	 * @param \Cake\View\Form\ContextInterface $context
+	 * @return string|null
+	 */
+	public function render(array $data, ContextInterface $context) {
+		$data += [
+			'id' => null,
+			'name' => '',
+			'empty' => false,
+			'escape' => true,
+			'options' => [],
+			'disabled' => null,
+			'val' => null,
+			'input' => [],
+			'keys' => false,
+			'templateVars' => [],
+		];
 
-        $name = $data['name'];
-        $id = $data['id'] ?: Text::slug($name);
-        $default = isset($data['val']) ? $data['val'] : null;
+		$options = $this->_renderContent($data);
+		if (!$data['keys']) {
+			$options = str_replace(
+				'value',
+				'data-value',
+				$options
+			);
+		}
 
-        $inputData = $data['input'] + [
-            'id' => $id,
-            'name' => $name,
-            'autocomplete' => 'off',
-        ];
+		$name = $data['name'];
+		$id = $data['id'] ?: Text::slug($name);
+		$default = isset($data['val']) ? $data['val'] : null;
 
-        unset($data['name'], $data['options'], $data['empty'], $data['val'], $data['escape'], $data['keys'], $data['input'], $data['id']);
-        if (isset($data['disabled']) && is_array($data['disabled'])) {
-            unset($data['disabled']);
-        }
+		$inputData = $data['input'] + [
+			'id' => $id,
+			'name' => $name,
+			'autocomplete' => 'off',
+		];
 
-        $inputData['value'] = $default;
-        $inputAttrs = $this->_templates->formatAttributes($inputData);
+		unset($data['name'], $data['options'], $data['empty'], $data['val'], $data['escape'], $data['keys'], $data['input'], $data['id']);
+		if (isset($data['disabled']) && is_array($data['disabled'])) {
+			unset($data['disabled']);
+		}
 
-        $datalistAttrs = $this->_templates->formatAttributes($data);
-        return $this->_templates->format(
-            'datalist',
-            [
-                'name' => $name,
-                'inputAttrs' => $inputAttrs,
-                'datalistAttrs' => $datalistAttrs,
-                'content' => implode('', $options),
-                'id' => $id,
-            ]
-        );
-    }
+		$inputData['value'] = $default;
+		$inputAttrs = $this->_templates->formatAttributes($inputData);
+
+		$datalistAttrs = $this->_templates->formatAttributes($data);
+		return $this->_templates->format(
+			'datalist',
+			[
+				'name' => $name,
+				'inputAttrs' => $inputAttrs,
+				'datalistAttrs' => $datalistAttrs,
+				'content' => implode('', $options),
+				'id' => $id,
+			]
+		);
+	}
+
 }
