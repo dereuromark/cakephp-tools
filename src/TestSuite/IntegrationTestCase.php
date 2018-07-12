@@ -18,7 +18,7 @@ abstract class IntegrationTestCase extends CakeIntegrationTestCase {
 	 *
 	 * @var bool
 	 */
-	protected $disableErrorHandlerMiddleware = true;
+	protected $disableErrorHandlerMiddleware = false;
 
 	/**
 	 * @return void
