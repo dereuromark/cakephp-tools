@@ -200,4 +200,24 @@ class CommonComponentTest extends TestCase {
 		$this->assertSame(302, $this->Controller->response->statusCode());
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testGetSafeRedirectUrl() {
+		$result = $this->Controller->Common->getSafeRedirectUrl(['action' => 'default']);
+		$this->assertSame(['action' => 'default'], $result);
+
+		$this->request = $this->request->withQueryParams(['redirect' => '/foo/bar']);
+		$this->Controller->setRequest($this->request);
+
+		$result = $this->Controller->Common->getSafeRedirectUrl(['action' => 'default']);
+		$this->assertSame('/foo/bar', $result);
+
+		$this->request = $this->request->withQueryParams(['redirect' => 'https://dangerous.url/foo/bar']);
+		$this->Controller->setRequest($this->request);
+
+		$result = $this->Controller->Common->getSafeRedirectUrl(['action' => 'default']);
+		$this->assertSame(['action' => 'default'], $result);
+	}
+
 }

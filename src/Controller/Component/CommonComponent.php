@@ -38,6 +38,29 @@ class CommonComponent extends Component {
 	}
 
 	/**
+	 * Returns internal redirect only, otherwise falls back to default.
+	 *
+	 * Lookup order:
+	 * - POST data
+	 * - query string
+	 * - provided default
+	 *
+	 * @param string|array $default
+	 * @param string|array|null $data
+	 * @param string $key
+	 *
+	 * @return string|array
+	 */
+	public function getSafeRedirectUrl($default, $data = null, $key = 'redirect') {
+		$redirectUrl = $data ?: ($this->Controller->getRequest()->getData($key) ?: $this->Controller->getRequest()->getQuery($key));
+		if ($redirectUrl && (substr($redirectUrl, 0, 1) !== '/' || substr($redirectUrl, 0, 2) === '//')) {
+			$redirectUrl = null;
+		}
+
+		return $redirectUrl ?: $default;
+	}
+
+	/**
 	 * List all direct actions of a controller
 	 *
 	 * @return array Actions
