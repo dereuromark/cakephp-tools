@@ -14,7 +14,7 @@ abstract class IntegrationTestCase extends CakeIntegrationTestCase {
 	/**
 	 * Globally disabling error handler middleware to see the actual errors instead of cloaking.
 	 *
-	 * Disable this when you explicitly test exception handling for controllers.
+	 * You can enable this when you don't explicitly test exception handling for controllers.
 	 *
 	 * @var bool
 	 */
