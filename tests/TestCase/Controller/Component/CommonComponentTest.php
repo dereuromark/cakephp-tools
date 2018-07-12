@@ -191,6 +191,15 @@ class CommonComponentTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testListActions()
+	{
+		$actions = $this->Controller->Common->listActions();
+		$this->assertSame([], $actions);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testAutoPostRedirectRefererNotWhitelisted() {
 		$this->request->env('HTTP_REFERER', 'http://localhost/my_controller/wrong');
 

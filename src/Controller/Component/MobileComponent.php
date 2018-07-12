@@ -194,6 +194,7 @@ class MobileComponent extends Component {
 	 * https://github.com/cakephp/cakephp/issues/2546
 	 *
 	 * @return bool Success
+	 * @throws \RuntimeException
 	 */
 	public function detect() {
 		// Deprecated - the vendor libs are far more accurate and up to date

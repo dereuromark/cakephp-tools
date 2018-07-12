@@ -28,6 +28,7 @@ class CommonHelper extends Helper {
 	 * @param int $count
 	 * @param bool $autoTranslate
 	 * @return string "member" or "members" OR "Mitglied"/"Mitglieder" if autoTranslate TRUE
+	 * @deprecated Use explicit form directly via sp()
 	 */
 	public function asp($singular, $count, $autoTranslate = false) {
 		if ((int)$count !== 1) {
@@ -88,7 +89,7 @@ class CommonHelper extends Helper {
 	 * Convenience method for clean meta name tags
 	 *
 	 * @param string|null $name Author, date, generator, revisit-after, language
-	 * @param mixed|null $content If array, it will be separated by commas
+	 * @param string|array|null $content If array, it will be separated by commas
 	 * @return string HTML Markup
 	 */
 	public function metaName($name = null, $content = null) {
@@ -148,7 +149,7 @@ class CommonHelper extends Helper {
 	/**
 	 * Convenience function for "canonical" SEO links
 	 *
-	 * @param mixed $url
+	 * @param string|array|null $url
 	 * @param bool $full
 	 * @return string HTML Markup
 	 */
@@ -161,8 +162,8 @@ class CommonHelper extends Helper {
 	/**
 	 * Convenience method for "alternate" SEO links
 	 *
-	 * @param mixed $url
-	 * @param mixed $lang (lang(iso2) or array of langs)
+	 * @param string|array $url
+	 * @param string|array $lang (lang(iso2) or array of langs)
 	 * lang: language (in ISO 6391-1 format) + optionally the region (in ISO 3166-1 Alpha 2 format)
 	 * - de
 	 * - de-ch
@@ -195,7 +196,7 @@ class CommonHelper extends Helper {
 	/**
 	 * Convenience method for META Tags
 	 *
-	 * @param mixed $url
+	 * @param string|array $url
 	 * @param string|null $title
 	 * @return string HTML Markup
 	 */

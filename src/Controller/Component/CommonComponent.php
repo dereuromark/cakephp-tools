@@ -12,7 +12,6 @@ use Tools\Utility\Utility;
  * A component included in every app to take care of common stuff.
  *
  * @author Mark Scherer
- * @copyright 2012 Mark Scherer
  * @license MIT
  */
 class CommonComponent extends Component {
@@ -52,7 +51,7 @@ class CommonComponent extends Component {
 	 * @return string|array
 	 */
 	public function getSafeRedirectUrl($default, $data = null, $key = 'redirect') {
-		$redirectUrl = $data ?: ($this->Controller->getRequest()->getData($key) ?: $this->Controller->getRequest()->getQuery($key));
+		$redirectUrl = $data ?: ($this->Controller->request->getData($key) ?: $this->Controller->request->getQuery($key));
 		if ($redirectUrl && (substr($redirectUrl, 0, 1) !== '/' || substr($redirectUrl, 0, 2) === '//')) {
 			$redirectUrl = null;
 		}
@@ -243,7 +242,7 @@ class CommonComponent extends Component {
 				if (empty($controller) && $refererController !== $this->Controller->request->params['controller']) {
 					continue;
 				}
-				if (!in_array($referer['action'], $this->Controller->autoRedirectActions, true)) {
+				if (!in_array($referer['action'], (array)$this->Controller->autoRedirectActions, true)) {
 					continue;
 				}
 				return $this->autoRedirect($whereTo, true, $status);
