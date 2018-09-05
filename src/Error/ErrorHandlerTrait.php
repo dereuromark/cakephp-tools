@@ -3,6 +3,7 @@
 namespace Tools\Error;
 
 use Cake\Controller\Exception\MissingActionException;
+use Cake\Controller\Exception\SecurityException;
 use Cake\Core\Configure;
 use Cake\Datasource\Exception\InvalidPrimaryKeyException;
 use Cake\Datasource\Exception\RecordNotFoundException;
@@ -45,6 +46,7 @@ trait ErrorHandlerTrait {
 		MissingViewException::class,
 		MissingTemplateException::class,
 		UnavailableForLegalReasonsException::class,
+		SecurityException::class,
 		'Cake\Network\Exception\BadRequestException',
 		'Cake\Network\Exception\ConflictException',
 		'Cake\Network\Exception\GoneException',
