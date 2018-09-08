@@ -110,12 +110,12 @@ class GoogleMapV3Helper extends AppHelper {
 	/**
 	 * Default settings
 	 *
-	 * Set the key via Configure Google.key in your private (not commited) config file.
+	 * Set the key via Configure Google.apiKey in your private (not commited) config file.
 	 *
 	 * @var array
 	 */
 	protected $_defaultOptions = [
-		'key' => '', // API Key, required since 2018
+		'apiKey' => '', // API Key, required since 2018
 		'zoom' => null, // global, both map and staticMap
 		'lat' => null, // global, both map and staticMap
 		'lng' => null, // global, both map and staticMap
@@ -221,8 +221,8 @@ class GoogleMapV3Helper extends AppHelper {
 		$google = (array)Configure::read('Google');
 		$defaults = $this->_defaultOptions;
 
-		if (!empty($google['key'])) {
-			$defaults['key'] = $google['key'];
+		if (!empty($google['apiKey'])) {
+			$defaults['key'] = $google['apiKey'];
 		}
 
 		if (!empty($google['api'])) {
