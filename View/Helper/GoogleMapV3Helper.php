@@ -110,9 +110,12 @@ class GoogleMapV3Helper extends AppHelper {
 	/**
 	 * Default settings
 	 *
+	 * Set the key via Configure Google.key in your private (not commited) config file.
+	 *
 	 * @var array
 	 */
 	protected $_defaultOptions = [
+		'key' => '', // API Key, required since 2018
 		'zoom' => null, // global, both map and staticMap
 		'lat' => null, // global, both map and staticMap
 		'lng' => null, // global, both map and staticMap
@@ -210,9 +213,18 @@ class GoogleMapV3Helper extends AppHelper {
 
 	protected $_located = false;
 
+	/**
+	 * @param View|null $View
+	 * @param array $config
+	 */
 	public function __construct($View = null, $config = []) {
 		$google = (array)Configure::read('Google');
 		$defaults = $this->_defaultOptions;
+
+		if (!empty($google['key'])) {
+			$defaults['key'] = $google['key'];
+		}
+
 		if (!empty($google['api'])) {
 			$defaults['map']['api'] = $google['api'];
 		}
@@ -266,6 +278,7 @@ class GoogleMapV3Helper extends AppHelper {
 	 * - region
 	 *
 	 * @param bool $sensor
+	 * @param string|null $api
 	 * @param string $language (iso2: en, de, ja, ...)
 	 * @param string $append (more key-value-pairs to append)
 	 * @return string Full URL
@@ -277,6 +290,11 @@ class GoogleMapV3Helper extends AppHelper {
 		if (!empty($language)) {
 			$url .= '&language=' . $language;
 		}
+
+		if (!empty($this->settings['key'])) {
+			$url .= '&key='.$this->settings['key'];
+		}
+
 		if (!empty($api)) {
 			$this->settings['map']['api'] = $api;
 		}

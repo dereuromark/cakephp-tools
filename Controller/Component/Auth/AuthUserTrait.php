@@ -170,16 +170,12 @@ trait AuthUserTrait {
 	 * This can be set via Right model and stored in the Auth array upon login
 	 * the same way the roles are.
 	 *
-	 * @param mixed $role
-	 * @param mixed $providedRights
+	 * @param int $expectedRight
 	 * @return bool Success
 	 */
-	public function hasRight($expectedRight, $providedRights = null) {
-		if ($providedRights !== null) {
-			$rights = $providedRights;
-		} else {
-			$rights = $this->user(USER_RIGHT_KEY);
-		}
+	public function hasRight($expectedRight) {
+		$rights = $this->user(USER_RIGHT_KEY);
+
 		$rights = (array)$rights;
 		if (array_key_exists($expectedRight, $rights) && !empty($rights[$expectedRight])) {
 			return true;
