@@ -2,6 +2,7 @@
 
 namespace Tools\Error;
 
+use Cake\Controller\Exception\AuthSecurityException;
 use Cake\Controller\Exception\MissingActionException;
 use Cake\Controller\Exception\SecurityException;
 use Cake\Core\Configure;
@@ -47,6 +48,7 @@ trait ErrorHandlerTrait {
 		MissingTemplateException::class,
 		UnavailableForLegalReasonsException::class,
 		SecurityException::class,
+		AuthSecurityException::class,
 		'Cake\Network\Exception\BadRequestException',
 		'Cake\Network\Exception\ConflictException',
 		'Cake\Network\Exception\GoneException',
