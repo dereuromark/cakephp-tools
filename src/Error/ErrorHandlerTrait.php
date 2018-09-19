@@ -28,6 +28,9 @@ use Cake\View\Exception\MissingViewException;
 trait ErrorHandlerTrait {
 
 	/**
+	 * List of exceptions that are actually be treated as external 404s.
+	 * They should not go into the normal error log, but a separate 404 one.
+	 *
 	 * @var array
 	 */
 	protected static $blacklist = [
