@@ -151,7 +151,7 @@ class ToggleBehavior extends Behavior {
 	 * @return array
 	 */
 	protected function buildConditions(EntityInterface $entity) {
-		$conditions = $this->config('scope');
+		$conditions = $this->getConfig('scope');
 		$scopeFields = (array)$this->getConfig('scopeFields');
 		foreach ($scopeFields as $scopeField) {
 			$conditions[$scopeField] = $entity->get($scopeField);

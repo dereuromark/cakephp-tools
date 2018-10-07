@@ -92,7 +92,7 @@ class FormatHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testIconWithCustomFontIcon() {
-		$this->Format->config('fontIcons', ['edit' => 'fax fax-pen']);
+		$this->Format->setConfig('fontIcons', ['edit' => 'fax fax-pen']);
 		$result = $this->Format->icon('edit');
 		$expected = '<i class="icon icon-edit fax fax-pen" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
 		$this->assertEquals($expected, $result);
@@ -102,7 +102,7 @@ class FormatHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testIconWithPrefixedIcon() {
-		$this->Format->config('iconNamespaces', ['fa', 'glyphicon']);
+		$this->Format->setConfig('iconNamespaces', ['fa', 'glyphicon']);
 		$result = $this->Format->icon('glyphicon-foo');
 		$expected = '<i class="icon icon-glyphicon-foo glyphicon glyphicon-foo" title="' . __d('tools', 'Foo') . '" data-placement="bottom" data-toggle="tooltip"></i>';
 		$this->assertEquals($expected, $result);

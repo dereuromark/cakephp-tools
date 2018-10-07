@@ -108,7 +108,7 @@ class ResetBehavior extends Behavior {
 		if (!$this->_config['updateTimestamp']) {
 			$fields = ['modified', 'updated'];
 			foreach ($fields as $field) {
-				if ($this->_table->schema()->column($field)) {
+				if ($this->_table->getSchema()->getColumn($field)) {
 					$defaults['fields'][] = $field;
 					$updateFields[] = $field;
 					break;
@@ -127,14 +127,14 @@ class ResetBehavior extends Behavior {
 		while (($records = $this->_table->find('all', $params)->toArray())) {
 			foreach ($records as $record) {
 				$fieldList = $params['fields'];
-				if ($this->config('updateFields')) {
-					$fieldList = $this->config('updateFields');
+				if ($this->getConfig('updateFields')) {
+					$fieldList = $this->getConfig('updateFields');
 					if (!$this->_config['updateTimestamp']) {
 						$fieldList = array_merge($updateFields, $fieldList);
 					}
 				}
-				if ($fieldList && !in_array($this->_table->primaryKey(), $fieldList)) {
-					$fieldList[] = $this->_table->primaryKey();
+				if ($fieldList && !in_array($this->_table->getPrimaryKey(), $fieldList)) {
+					$fieldList[] = $this->_table->getPrimaryKey();
 				}
 
 				if ($this->_config['callback']) {

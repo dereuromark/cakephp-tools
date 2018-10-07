@@ -3,8 +3,8 @@
 namespace Tools\Test\TestCase\Error\Middleware;
 
 use Cake\Core\Configure;
+use Cake\Http\Exception\NotFoundException;
 use Cake\Http\ServerRequest;
-use Cake\Network\Exception\NotFoundException;
 use Tools\Error\Middleware\ErrorHandlerMiddleware;
 use Tools\TestSuite\TestCase;
 use Tools\TestSuite\ToolsTestTrait;

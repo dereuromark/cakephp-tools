@@ -80,7 +80,7 @@ class MobileComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testMobileNotMobile() {
-		$this->Controller->Mobile->config('on', 'initialize');
+		$this->Controller->Mobile->setConfig('on', 'initialize');
 		$this->Controller->Mobile->initialize([]);
 		$this->assertFalse($this->Controller->Mobile->isMobile);
 	}
@@ -92,7 +92,7 @@ class MobileComponentTest extends TestCase {
 		$this->Controller->request->query['mobile'] = 1;
 
 		$this->Controller->Mobile->beforeFilter($this->event);
-		$session = $this->Controller->request->session()->read('User');
+		$session = $this->Controller->request->getSession()->read('User');
 		$this->assertSame(['mobile' => 1], $session);
 
 		$this->Controller->Mobile->setMobile();
@@ -110,7 +110,7 @@ class MobileComponentTest extends TestCase {
 		$this->Controller->request->query['mobile'] = 0;
 
 		$this->Controller->Mobile->beforeFilter($this->event);
-		$session = $this->Controller->request->session()->read('User');
+		$session = $this->Controller->request->getSession()->read('User');
 		$this->assertSame(['mobile' => 0], $session);
 
 		$this->Controller->Mobile->setMobile();
@@ -157,7 +157,7 @@ class MobileComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testMobileFakeMobileAuto() {
-		$this->Controller->Mobile->config('auto', true);
+		$this->Controller->Mobile->setConfig('auto', true);
 		$_SERVER['HTTP_USER_AGENT'] = 'Some Android device';
 
 		$this->Controller->Mobile->beforeFilter($this->event);
@@ -172,7 +172,7 @@ class MobileComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testMobileVendorEngineCake() {
-		$this->Controller->Mobile->config('engine', '');
+		$this->Controller->Mobile->setConfig('engine', '');
 		$_SERVER['HTTP_USER_AGENT'] = 'Some Android device';
 
 		$this->Controller->Mobile->beforeFilter($this->event);
@@ -217,7 +217,7 @@ class MobileComponentTest extends TestCase {
 		$closure = function() {
 			return $_SERVER['HTTP_USER_AGENT'] === 'Foo';
 		};
-		$this->Controller->Mobile->config('engine', $closure);
+		$this->Controller->Mobile->setConfig('engine', $closure);
 		$_SERVER['HTTP_USER_AGENT'] = 'Foo';
 
 		$this->Controller->Mobile->beforeFilter($this->event);

@@ -11,7 +11,7 @@ A CakePHP plugin containing several useful tools that can be used in many projec
 
 ## Version notice
 
-This master branch only works for **CakePHP 3.5+** - please use the 2.x branch for CakePHP 2.x!
+This master branch only works for **CakePHP 3.6+** - please use the 2.x branch for CakePHP 2.x!
 
 ## What is this plugin for?
 

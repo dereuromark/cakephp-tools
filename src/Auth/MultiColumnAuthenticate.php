@@ -12,7 +12,7 @@ use Cake\ORM\TableRegistry;
  * can be checked against multiple table columns, for instance username and email
  *
  * ```
- *    $this->Auth->config('authenticate', [
+ *    $this->Auth->setConfig('authenticate', [
  *        'Tools.MultiColumn' => [
  *            'fields' => [
  *                'username' => 'login',

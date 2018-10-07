@@ -111,7 +111,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 	 * @return void
 	 */
 	public function testAuthenticateScopeFail() {
-		$this->auth->config('scope', ['user_name' => 'nate']);
+		$this->auth->setConfig('scope', ['user_name' => 'nate']);
 		$request = new Request('posts/index');
 		$request->data = [
 			'user_name' => 'mariano',

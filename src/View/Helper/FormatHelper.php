@@ -282,7 +282,7 @@ class FormatHelper extends Helper {
 		$options += $defaults;
 
 		$type = $icon;
-		if ($this->config('autoPrefix') && empty($options['iconNamespace'])) {
+		if ($this->getConfig('autoPrefix') && empty($options['iconNamespace'])) {
 			$namespace = $this->detectNamespace($icon);
 			if ($namespace) {
 				$options['iconNamespace'] = $namespace;
@@ -308,7 +308,7 @@ class FormatHelper extends Helper {
 	 * @return string|null
 	 */
 	protected function detectNamespace($icon) {
-		foreach ((array)$this->config('iconNamespaces') as $namespace) {
+		foreach ((array)$this->getConfig('iconNamespaces') as $namespace) {
 			if (strpos($icon, $namespace . '-') !== 0) {
 				continue;
 			}

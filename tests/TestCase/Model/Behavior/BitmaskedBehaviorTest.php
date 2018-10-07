@@ -225,7 +225,7 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testContains() {
-		$config = $this->Comments->connection()->config();
+		$config = $this->Comments->getConnection()->config();
 		$isPostgres = strpos($config['driver'], 'Postgres') !== false;
 
 		$res = $this->Comments->containsBit(BitmaskedComment::STATUS_PUBLISHED);
@@ -256,7 +256,7 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testNotContains() {
-		$config = $this->Comments->connection()->config();
+		$config = $this->Comments->getConnection()->config();
 		$isPostgres = strpos($config['driver'], 'Postgres') !== false;
 
 		$res = $this->Comments->containsNotBit(BitmaskedComment::STATUS_PUBLISHED);

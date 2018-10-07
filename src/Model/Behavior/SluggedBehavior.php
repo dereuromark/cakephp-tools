@@ -354,8 +354,8 @@ class SluggedBehavior extends Behavior {
 		$defaults = [
 			'page' => 1,
 			'limit' => 100,
-			'fields' => array_merge([$this->_table->primaryKey()], $this->_config['label']),
-			'order' => $this->_table->displayField() . ' ASC',
+			'fields' => array_merge([$this->_table->getPrimaryKey()], $this->_config['label']),
+			'order' => $this->_table->getDisplayField() . ' ASC',
 			'conditions' => $this->_config['scope'],
 			'overwrite' => true,
 		];
@@ -366,17 +366,17 @@ class SluggedBehavior extends Behavior {
 			set_time_limit(max($max, $count / 100));
 		}
 
-		$this->config($params, null, false);
+		$this->setConfig($params, null, false);
 		while (($records = $this->_table->find('all', $params)->toArray())) {
 			/** @var \Cake\ORM\Entity $record */
 			foreach ($records as $record) {
 				$record->isNew(true);
 				$options = [
 					'validate' => true,
-					'fieldList' => array_merge([$this->_table->primaryKey(), $this->_config['field']], $this->_config['label'])
+					'fieldList' => array_merge([$this->_table->getPrimaryKey(), $this->_config['field']], $this->_config['label'])
 				];
 				if (!$this->_table->save($record, $options)) {
-					throw new RuntimeException(print_r($record->errors(), true));
+					throw new RuntimeException(print_r($record->getErrors(), true));
 				}
 			}
 			$params['page']++;
@@ -396,7 +396,7 @@ class SluggedBehavior extends Behavior {
 	 * @return void
 	 */
 	protected function _multiSlug(EntityInterface $entity) {
-		$label = $this->config('label');
+		$label = $this->getConfig('label');
 		$field = current($label);
 		$fields = (array)$entity->get($field);
 
@@ -412,7 +412,7 @@ class SluggedBehavior extends Behavior {
 
 			$locale[$locale] = $res;
 		}
-		$entity->set($this->config('slugField'), $locale);
+		$entity->set($this->getConfig('slugField'), $locale);
 	}
 
 	/**

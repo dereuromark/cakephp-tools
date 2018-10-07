@@ -22,6 +22,11 @@ class SluggedBehaviorTest extends TestCase {
 	];
 
 	/**
+	 * @var \Cake\ORM\Table|\Tools\Model\Behavior\SluggedBehavior
+	 */
+	protected $articles;
+
+	/**
 	 * setup
 	 *
 	 * @return void
@@ -83,8 +88,10 @@ class SluggedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testAddUniqueMultipleLabels() {
+		/** @var \Tools\Model\Behavior\SluggedBehavior $sluggedBehavior */
+		$sluggedBehavior = $this->articles->behaviors()->Slugged;
 		//$this->articles->behaviors()->Slugged->config('label', ''); // Hack necessary right now to avoid title showing up twice
-		$this->articles->behaviors()->Slugged->configShallow(['mode' => 'ascii', 'unique' => true, 'label' => ['title', 'long_title']]);
+		$sluggedBehavior->configShallow(['mode' => 'ascii', 'unique' => true, 'label' => ['title', 'long_title']]);
 
 		$entity = $this->_getEntity(null, null, ['long_title' => 'blae']);
 		$result = $this->articles->save($entity);
