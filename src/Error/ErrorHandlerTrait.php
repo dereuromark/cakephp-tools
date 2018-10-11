@@ -64,6 +64,15 @@ trait ErrorHandlerTrait {
 	];
 
 	/**
+	 * By design, these exceptions are also 404 with a valid internal referer.
+	 *
+	 * @var array
+	 */
+	protected static $evenWithReferer = [
+		AuthSecurityException::class,
+	];
+
+	/**
 	 * @param \Exception $exception
 	 * @param \Psr\Http\Message\ServerRequestInterface|null $request
 	 * @return bool
@@ -82,7 +91,7 @@ trait ErrorHandlerTrait {
 			return false;
 		}
 
-		if (!$request) {
+		if (!$request || $this->isBlacklistedEvenWithReferer($class)) {
 			return true;
 		}
 		$referer = $request->getHeaderLine('Referer');
@@ -113,6 +122,16 @@ trait ErrorHandlerTrait {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Is a 404 even with referer present.
+	 *
+	 * @param string $class
+	 * @return bool
+	 */
+	protected function isBlacklistedEvenWithReferer($class) {
+		return $this->isBlacklisted($class, static::$evenWithReferer);
 	}
 
 }
