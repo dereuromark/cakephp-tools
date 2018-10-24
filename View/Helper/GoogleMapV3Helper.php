@@ -1341,11 +1341,6 @@ var iconShape = {
 			'mobile' => null,
 			'format' => null,
 			'size' => null,
-			//'zoom' => null,
-			//'lat' => null,
-			//'lng' => null,
-			//'visible' => null,
-			//'type' => null,
 		]);
 		// do we want zoom to auto-correct itself?
 		if (!isset($options['zoom']) && !empty($mapOptions['markers']) || !empty($mapOptions['paths']) || !empty($mapOptions['visible'])) {
@@ -1364,12 +1359,7 @@ var iconShape = {
 			$params['center'] = urlencode((string)$mapOptions['lat'] . ',' . (string)$mapOptions['lng']);
 		} elseif (!empty($options['center'])) {
 			$params['center'] = urlencode($options['center']);
-		} /*else {
-			// try to read from markers array???
-			if (isset($options['markers']) && count($options['markers']) == 1) {
-				//pr ($options['markers']);
-			}
-		}*/
+		}
 
 		if (!isset($options['zoom']) || $options['zoom'] === false) {
 			// dont use it
@@ -1407,8 +1397,8 @@ var iconShape = {
 			$params['size'] = $options['size'];
 		}
 
-		if (!empty($options['key'])) {
-			$params['key'] = $options['key'];
+		if (!empty($this->settings['key'])) {
+			$params['key'] = $this->settings['key'];
 		}
 
 		$pieces = [];
