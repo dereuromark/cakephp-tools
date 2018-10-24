@@ -1407,6 +1407,10 @@ var iconShape = {
 			$params['size'] = $options['size'];
 		}
 
+		if (!empty($options['key'])) {
+			$params['key'] = $options['key'];
+		}
+
 		$pieces = [];
 		foreach ($params as $key => $value) {
 			if (is_array($value)) {
