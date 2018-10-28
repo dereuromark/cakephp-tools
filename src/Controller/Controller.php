@@ -20,7 +20,7 @@ class Controller extends ShimController {
 	 *   (e.g: Table instance, 'TableName' or a Query object)
 	 * @param array $settings Settings
 	 *
-	 * @return \Cake\ORM\ResultSet Query results
+	 * @return \Cake\ORM\ResultSet|\Cake\Datasource\ResultSetInterface Query results
 	 */
 	public function paginate($object = null, array $settings = []) {
 		$defaultSettings = (array)Configure::read('Paginator');

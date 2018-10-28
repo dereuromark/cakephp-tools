@@ -4,7 +4,12 @@ parameters:
 	excludes_analyse:
 		- %rootDir%/../../../src/TestSuite/*
 		- %rootDir%/../../../src/View/Helper/TreeHelper
+		- %rootDir%/../../../src/Utility/Mime
 	ignoreErrors:
-		- '#Call to an undefined method Cake\\Controller\\Component\\FlashComponent::success\(\)#'
-		- '#Tools\\Utility\\Mime::\_\_construct\(\) does not call parent constructor from Cake\\Http\\Response#'
-		- '#Undefined variable: \$i#'
+		- '#Access to an undefined property .+Table::\$belongsTo#'
+		- '#Call to an undefined method .+TimeHelper::.+\(\)#'
+		- '#Access to protected property .+ServerRequest::\$.+#'
+
+services:
+    -
+        class: Cake\PHPStan\AssociationTableMixinClassReflectionExtension

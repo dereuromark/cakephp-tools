@@ -455,7 +455,7 @@ class Utility {
 	/**
 	 * Main deep method
 	 *
-	 * @param callable $function
+	 * @param string|callable $function Callable or function name.
 	 * @param mixed $value
 	 * @return array|string
 	 */

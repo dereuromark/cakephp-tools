@@ -348,8 +348,8 @@ class FormatHelper extends Helper {
 		$translate = isset($options['translate']) ? $options['translate'] : true;
 
 		$type = pathinfo($icon, PATHINFO_FILENAME);
-		$title = isset($t) ? $t : ucfirst($type);
-		$alt = (isset($a) ? $a : Inflector::slug($title));
+		$title = ucfirst($type);
+		$alt = Inflector::slug($title);
 		if ($translate !== false) {
 			$title = __($title);
 			$alt = __($alt);

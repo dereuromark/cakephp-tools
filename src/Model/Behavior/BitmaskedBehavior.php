@@ -117,6 +117,10 @@ class BitmaskedBehavior extends Behavior {
 		}
 
 		$mapper = function ($row, $key, $mr) use ($field, $mappedField) {
+			/**
+			 * @var \Cake\Collection\Iterator\MapReduce $mr
+			 * @var \Cake\Datasource\EntityInterface|array $row
+			 */
 			if (!is_object($row)) {
 				if (isset($row[$field])) {
 					$row[$mappedField] = $this->decodeBitmask($row[$field]);
@@ -125,10 +129,11 @@ class BitmaskedBehavior extends Behavior {
 				return;
 			}
 
-			/** @var \Cake\Datasource\EntityInterface $row */
-			$row->set($mappedField, $this->decodeBitmask($row->get($field)));
-			$row->setDirty($mappedField, false);
-			$mr->emit($row);
+			/** @var \Cake\Datasource\EntityInterface $entity */
+			$entity = $row;
+			$entity->set($mappedField, $this->decodeBitmask($entity->get($field)));
+			$entity->setDirty($mappedField, false);
+			$mr->emit($entity);
 		};
 		$query->mapReduce($mapper);
 	}

@@ -98,10 +98,11 @@ class TypographicBehavior extends Behavior {
 	 */
 	public function initialize(array $config = []) {
 		if (empty($this->_config['fields'])) {
-			$schema = $this->getTable()->schema();
+			$schema = $this->getTable()->getSchema();
 
+			$fields = [];
 			foreach ($schema->columns() as $field) {
-				$v = $schema->column($field);
+				$v = $schema->getColumn($field);
 				if (!in_array($v['type'], ['string', 'text'])) {
 					continue;
 				}

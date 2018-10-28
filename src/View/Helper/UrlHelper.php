@@ -99,7 +99,7 @@ class UrlHelper extends CoreUrlHelper {
 		if (!isset($url['?'])) {
 			$url['?'] = [];
 		}
-		$url['?'] += $this->request->query;
+		$url['?'] += $this->request->getQuery();
 
 		return $url;
 	}

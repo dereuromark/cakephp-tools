@@ -26,7 +26,7 @@ class Email extends CakeEmail {
 	protected $_error = null;
 
 	/**
-	 * @var bool|null
+	 * @var array|null
 	 */
 	protected $_debug = null;
 
@@ -36,6 +36,11 @@ class Email extends CakeEmail {
 	protected $_log = [];
 
 	/**
+	 * @var \Tools\Utility\Mime|null
+	 */
+	protected $_Mime;
+
+	/**
 	 * @param string|null $config
 	 */
 	public function __construct($config = null) {
@@ -43,21 +48,6 @@ class Email extends CakeEmail {
 			$config = 'default';
 		}
 		parent::__construct($config);
-	}
-
-	/**
-	 * Change the layout
-	 *
-	 * @deprecated Since CakePHP 3.4.0-RC4 in core as getLayout()/setLayout()
-	 *
-	 * @param string|bool $layout Layout to use (or false to use none)
-	 * @return $this
-	 */
-	public function layout($layout = false) {
-		if ($layout !== false) {
-			$this->_layout = $layout;
-		}
-		return $this;
 	}
 
 	/**
@@ -181,7 +171,7 @@ class Email extends CakeEmail {
 	 */
 	public function profile($config = null) {
 		if ($config === null) {
-			return $this->_profile;
+			return $this->getProfile();
 		}
 
 		return $this->setProfile($config);
@@ -321,7 +311,7 @@ class Email extends CakeEmail {
 	 * @param string|null $name (optional)
 	 * @param array|string|null $options Options - string CID is deprecated
 	 * @param array $notUsed Former Options @deprecated 4th param is now 3rd since CakePHP 3.4.0 - Use addEmbeddedAttachmentByContentId() otherwise.
-	 * @return string CID ($this is deprecated!)
+	 * @return string|null CID (null is deprecated)
 	 */
 	public function addEmbeddedAttachment($file, $name = null, $options = null, array $notUsed = []) {
 		if (empty($name)) {
@@ -346,13 +336,13 @@ class Email extends CakeEmail {
 		}
 		$options['contentId'] = $contentId ?: str_replace('-', '', Text::uuid()) . '@' . $this->_domain;
 		$file = [$name => $options];
-		$res = $this->addAttachments($file);
+		$this->addAttachments($file);
 		if ($contentId === null) {
 			return $options['contentId'];
 		}
 
 		// Deprecated
-		return $res;
+		return $contentId;
 	}
 
 	/**
@@ -397,7 +387,7 @@ class Email extends CakeEmail {
 	 * @param string|null $mimeType (leave it empty to get mimetype from $filename)
 	 * @param array|string|null $options Options - string CID is deprecated
 	 * @param array $notUsed
-	 * @return string CID CcontentId ($this is deprecated)
+	 * @return string|null CID CcontentId (null is deprecated)
 	 */
 	public function addEmbeddedBlobAttachment($content, $filename, $mimeType = null, $options = null, array $notUsed = []) {
 		if ($mimeType === null) {
@@ -421,13 +411,13 @@ class Email extends CakeEmail {
 		$options['mimetype'] = $mimeType;
 		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', Text::uuid()) . '@' . $this->_domain;
 		$file = [$filename => $options];
-		$res = $this->addAttachments($file);
+		$this->addAttachments($file);
 		if ($contentId === null) {
 			return $options['contentId'];
 		}
 
 		// Deprecated
-		return $res;
+		return $contentId;
 	}
 
 	/**
