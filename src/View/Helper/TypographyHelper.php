@@ -81,6 +81,13 @@ class TypographyHelper extends Helper {
 	];
 
 	/**
+	 * Cache definitions.
+	 *
+	 * @var array|null
+	 */
+	protected $table;
+
+	/**
 	 * Automatically uses the typography specified.
 	 * By default, uses Configure::read('App.language') to determine locale preference.
 	 * It will then try to match the language to the type of characters used.
@@ -268,7 +275,6 @@ class TypographyHelper extends Helper {
 	 * @return string
 	 */
 	public function formatCharacters($str, $locale = null) {
-		//static $table;
 		if ($locale === null) {
 			$locale = Configure::read('Typography.locale');
 		}
@@ -301,8 +307,8 @@ class TypographyHelper extends Helper {
 			],
 		];
 
-		if (!isset($table)) {
-			$table = [
+		if (!isset($this->table)) {
+			$this->table = [
 				// nested smart quotes, opening and closing
 				// note that rules for grammar (English) allow only for two levels deep
 				// and that single quotes are _supposed_ to always be on the outside
@@ -345,13 +351,13 @@ class TypographyHelper extends Helper {
 				'/&(?!#?[a-zA-Z0-9]{2,};)/'		=> '&amp;'
 			];
 			if ($locale && !empty($locales[$locale])) {
-				foreach ($table as $key => $val) {
-					$table[$key] = str_replace($locales['default'], $locales[$locale], $val);
+				foreach ($this->table as $key => $val) {
+					$this->table[$key] = str_replace($locales['default'], $locales[$locale], $val);
 				}
 			}
 		}
 
-		return preg_replace(array_keys($table), $table, $str);
+		return preg_replace(array_keys($this->table), $this->table, $str);
 	}
 
 	/**

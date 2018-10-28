@@ -113,7 +113,7 @@ class Random {
 	 * @return string Dob a db (ISO) format datetime string
 	 */
 	public static function dob($min = 18, $max = 100) {
-		$dobYear = date('Y') - (static::int($min, $max));
+		$dobYear = (int)date('Y') - (static::int($min, $max));
 
 		$dobMonth = static::int(1, 12);
 

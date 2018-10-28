@@ -68,29 +68,6 @@ class Time extends CakeTime {
 	}
 
 	/**
-	 * Gets the timezone that is closest to the given coordinates
-	 *
-	 * @param float $lat
-	 * @param float $lng
-	 * @return \DateTimeZone Timezone object
-	 * @deprecated Would need Geo plugin to work
-	 */
-	public static function timezoneByCoordinates($lat, $lng) {
-		$current = ['timezone' => null, 'distance' => 0];
-		$identifiers = DateTimeZone::listIdentifiers();
-		foreach ($identifiers as $identifier) {
-			$timezone = new DateTimeZone($identifier);
-			$location = $timezone->getLocation();
-			$point = ['lat' => $location['latitude'], 'lng' => $location['longitude']];
-			$distance = (int)Calculator::calculateDistance(compact('lat', 'lng'), $point);
-			if (!$current['distance'] || $distance < $current['distance']) {
-				$current = ['timezone' => $identifier, 'distance' => $distance];
-			}
-		}
-		return $current['timezone'];
-	}
-
-	/**
 	 * Calculate the difference between two dates
 	 *
 	 * TODO: deprecate in favor of DateTime::diff() etc which will be more precise
@@ -177,33 +154,6 @@ class Time extends CakeTime {
 	}
 
 	/**
-	 * Returns age by horoscope info.
-	 *
-	 * @param int $year Year
-	 * @param int $sign Sign
-	 * @return int|array Age
-	 */
-	public static function ageByHoroscope($year, $sign) {
-		App::uses('ZodiacLib', 'Tools.Misc');
-		$Zodiac = new ZodiacLib();
-		$range = $Zodiac->getRange($sign);
-
-		if ($sign == ZodiacLib::SIGN_CAPRICORN) {
-			// undefined
-			return [date('Y') - $year - 1, date('Y') - $year];
-		}
-		if ($range[0][0] > date('m') || ($range[0][0] == date('m') && $range[0][1] > date('d'))) {
-			// not over
-			return date('Y') - $year - 1;
-		}
-		if ($range[1][0] < date('m') || ($range[1][0] == date('m') && $range[1][1] <= date('d'))) {
-			// over
-			return date('Y') - $year;
-		}
-		return [date('Y') - $year - 1, date('Y') - $year];
-	}
-
-	/**
 	 * Rounded age depended on steps (e.g. age 16 with steps = 10 => "11-20")
 	 * //FIXME
 	 * //TODO: move to helper?
@@ -216,18 +166,18 @@ class Time extends CakeTime {
 	 */
 	public static function ageRange($year, $month = null, $day = null, $steps = 1) {
 		if ($month == null && $day == null) {
-			$age = date('Y') - $year - 1;
+			$age = (int)date('Y') - $year - 1;
 		} elseif ($day == null) {
-			if ($month >= date('m')) {
-				$age = date('Y') - $year - 1;
+			if ($month >= (int)date('m')) {
+				$age = (int)date('Y') - $year - 1;
 			} else {
-				$age = date('Y') - $year;
+				$age = (int)date('Y') - $year;
 			}
 		} else {
-			if ($month > date('m') || ($month == date('m') && $day > date('d'))) {
-				$age = date('Y') - $year - 1;
+			if ($month > (int)date('m') || ($month == (int)date('m') && $day > (int)date('d'))) {
+				$age = (int)date('Y') - $year - 1;
 			} else {
-				$age = date('Y') - $year;
+				$age = (int)date('Y') - $year;
 			}
 		}
 		if ($age % $steps == 0) {
@@ -273,8 +223,6 @@ class Time extends CakeTime {
 			list($y, $m, $d) = explode('-', $date[0]);
 			$t = mktime(0, 0, 0, $m, $d, $y);
 		} else {
-			$d = date('d');
-			$m = date('m');
 			$y = date('Y');
 			$t = time();
 		}
@@ -284,12 +232,13 @@ class Time extends CakeTime {
 			$t += WEEK * $relative;	// 1day * 7 * relativeWeeks
 		}
 
-		if (($kw = date('W', $t)) === 0) {
-			$kw = 1 + date($t - DAY * date('w', $t), 'W');
+		$kw = (int)date('W', $t);
+		if ($kw === 0) {
+			$kw = 1 + (int)date($t - DAY * (int)date('w', $t), 'W');
 			$y--;
 		}
 
-		return $kw . '/' . $y;
+		return str_pad($kw, 2, '0', STR_PAD_LEFT) . '/' . $y;
 	}
 
 	/**
@@ -301,7 +250,7 @@ class Time extends CakeTime {
 	 */
 	public static function cWeekMod($num) {
 		$base = 6;
-		return $num - $base * floor($num / $base);
+		return (int)($num - $base * floor($num / $base));
 	}
 
 	/**
@@ -315,7 +264,7 @@ class Time extends CakeTime {
 	public static function cWeekBeginning($year, $cWeek = 0) {
 		if ($cWeek <= 1 || $cWeek > static::cWeeks($year)) {
 			$first = mktime(0, 0, 0, 1, 1, $year);
-			$wtag = date('w', $first);
+			$wtag = (int)date('w', $first);
 
 			if ($wtag <= 4) {
 				/* Thursday or less: back to Monday */
@@ -357,7 +306,7 @@ class Time extends CakeTime {
 		if ($year === null) {
 			$year = date('Y');
 		}
-		return date('W', mktime(23, 59, 59, 12, 28, $year));
+		return (int)date('W', mktime(23, 59, 59, 12, 28, $year));
 	}
 
 	/**
@@ -371,13 +320,14 @@ class Time extends CakeTime {
 	 * @return object DateTime with incremented/decremented month/year values.
 	 */
 	public function incrementDate($startDate, $years = 0, $months = 0, $days = 0, $timezone = null) {
+		$dateTime = $startDate;
 		if (!is_object($startDate)) {
-			$startDate = new CakeTime($startDate);
+			$dateTime = new CakeTime($startDate);
 			if ($timezone) {
-				$startDate->setTimezone($this->safeCreateDateTimeZone($timezone));
+				$dateTime->setTimezone($this->safeCreateDateTimeZone($timezone));
 			}
 		}
-		$startingTimeStamp = $startDate->getTimestamp();
+		$startingTimeStamp = $dateTime->getTimestamp();
 		// Get the month value of the given date:
 		$monthString = date('Y-m', $startingTimeStamp);
 		// Create a date string corresponding to the 1st of the give month,
@@ -410,8 +360,8 @@ class Time extends CakeTime {
 		//TODO: other relative time then today should work as well
 		$Date = new CakeTime($relativeTime !== null ? $relativeTime : 'now');
 
-		$max = mktime(23, 23, 59, $Date->format('m'), $Date->format('d'), $Date->format('Y') - $firstAge);
-		$min = mktime(0, 0, 1, $Date->format('m'), (int)$Date->format('d') + 1, $Date->format('Y') - $secondAge - 1);
+		$max = mktime(23, 23, 59, $Date->format('m'), $Date->format('d'), (int)$Date->format('Y') - $firstAge);
+		$min = mktime(0, 0, 1, $Date->format('m'), (int)$Date->format('d') + 1, (int)$Date->format('Y') - $secondAge - 1);
 
 		if ($returnAsString) {
 			$max = date(FORMAT_DB_DATE, $max);
@@ -935,14 +885,16 @@ class Time extends CakeTime {
 	 * - default, separator
 	 * - boolean zero: if false: 0 days 5 hours => 5 hours etc.
 	 * - verbose/past/future: string with %s or boolean true/false
-	 * @return string
+	 * @return string|array
 	 */
 	public static function relLengthOfTime($date, $format = null, array $options = []) {
+		$dateTime = $date;
 		if ($date !== null && !is_object($date)) {
-			$date = static::parse($date);
+			$dateTime = static::parse($date);
 		}
-		if ($date !== null) {
-			$date = $date->format('U');
+
+		if ($dateTime !== null) {
+			$date = $dateTime->format('U');
 			$sec = time() - $date;
 			$type = ($sec > 0) ? -1 : (($sec < 0) ? 1 : 0);
 			$sec = abs($sec);
@@ -1206,7 +1158,7 @@ class Time extends CakeTime {
 
 		$value = $base + $tmp;
 		if ($pad === null) {
-			return $value;
+			return (string)$value;
 		}
 		return number_format($value, $pad, $decPoint, '');
 	}

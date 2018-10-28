@@ -105,6 +105,8 @@ class Table extends ShimTable {
 	/**
 	 * Get all related entries that have been used so far
 	 *
+	 * @deprecated Must be refactored.
+	 *
 	 * @param string $tableName The related model
 	 * @param string|null $groupField Field to group by
 	 * @param string $type Find type
@@ -287,19 +289,21 @@ class Table extends ShimTable {
 		}
 		$format = !empty($options['dateFormat']) ? $options['dateFormat'] : 'ymd';
 
+		/** @var \Cake\I18n\Time $time */
+		$time = $value;
 		if (!is_object($value)) {
-			$value = new Time($value);
+			$time = new Time($value);
 		}
-		$pieces = $value->format(FORMAT_DB_DATETIME);
+		$pieces = $time->format(FORMAT_DB_DATETIME);
 		$dateTime = explode(' ', $pieces, 2);
-		$date = $dateTime[0];
-		$time = (!empty($dateTime[1]) ? $dateTime[1] : '');
+		$datePart = $dateTime[0];
+		$timePart = (!empty($dateTime[1]) ? $dateTime[1] : '');
 
 		if (!empty($options['allowEmpty']) && (empty($date) && empty($time))) {
 			return true;
 		}
 
-		if (Validation::date($date, $format) && Validation::time($time)) {
+		if (Validation::date($datePart, $format) && Validation::time($timePart)) {
 			// after/before?
 			$seconds = isset($options['min']) ? $options['min'] : 1;
 			if (!empty($options['after'])) {
@@ -324,7 +328,7 @@ class Table extends ShimTable {
 			}
 
 			// We need this for those not using immutable objects just yet
-			$compareValue = clone $value;
+			$compareValue = clone $time;
 
 			if (!empty($options['after'])) {
 				$compare = $compareValue->subSeconds($seconds);
@@ -333,7 +337,7 @@ class Table extends ShimTable {
 				}
 				if (!empty($options['max'])) {
 					$after = $options['after']->addSeconds($options['max']);
-					if ($value->gt($after)) {
+					if ($time->gt($after)) {
 						return false;
 					}
 				}
@@ -345,7 +349,7 @@ class Table extends ShimTable {
 				}
 				if (!empty($options['max'])) {
 					$after = $options['before']->subSeconds($options['max']);
-					if ($value->lt($after)) {
+					if ($time->lt($after)) {
 						return false;
 					}
 				}
@@ -375,10 +379,12 @@ class Table extends ShimTable {
 			return false;
 		}
 		$format = !empty($options['format']) ? $options['format'] : 'ymd';
+
+		$dateTime = $value;
 		if (!is_object($value)) {
-			$value = new Time($value);
+			$dateTime = new Time($value);
 		}
-		$date = $value->format(FORMAT_DB_DATE);
+		$date = $dateTime->format(FORMAT_DB_DATE);
 
 		if (!empty($options['allowEmpty']) && empty($date)) {
 			return true;
@@ -387,7 +393,7 @@ class Table extends ShimTable {
 			// after/before?
 			$days = !empty($options['min']) ? $options['min'] : 0;
 			if (!empty($options['after']) && isset($context['data'][$options['after']])) {
-				$compare = $value->subDays($days);
+				$compare = $dateTime->subDays($days);
 				/** @var \Cake\I18n\Time $after */
 				$after = $context['data'][$options['after']];
 				if (!is_object($after)) {
@@ -398,7 +404,7 @@ class Table extends ShimTable {
 				}
 			}
 			if (!empty($options['before']) && isset($context['data'][$options['before']])) {
-				$compare = $value->addDays($days);
+				$compare = $dateTime->addDays($days);
 				/** @var \Cake\I18n\Time $before */
 				$before = $context['data'][$options['before']];
 				if (!is_object($before)) {

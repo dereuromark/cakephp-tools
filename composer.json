@@ -33,6 +33,7 @@
 		"psr-4": {
 			"Tools\\Test\\": "tests/",
 			"Cake\\Test\\": "vendor/cakephp/cakephp/tests/",
+			"Cake\\PHPStan\\": "vendor/cakephp/cakephp/tests/PHPStan/",
 			"App\\": "tests/test_app/"
 		}
 	},
@@ -44,6 +45,8 @@
 		"issues": "https://github.com/dereuromark/cakephp-tools/issues"
 	},
 	"scripts": {
+		"phpstan": "phpstan analyse -c tests/phpstan.neon -l 3 src/",
+		"phpstan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan:^0.10.1 && mv composer.backup composer.json",
 		"test": "php phpunit.phar",
 		"test-setup": "[ ! -f phpunit.phar ] && wget https://phar.phpunit.de/phpunit-5.7.20.phar && mv phpunit-5.7.20.phar phpunit.phar || true",
 		"test-coverage": "php phpunit.phar --log-junit webroot/coverage/unitreport.xml --coverage-html webroot/coverage --coverage-clover webroot/coverage/coverage.xml",

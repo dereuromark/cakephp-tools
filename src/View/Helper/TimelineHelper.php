@@ -216,7 +216,7 @@ JS;
 		$datePieces = [];
 		$datePieces[] = $date->format('Y');
 		// JavaScript uses 0-indexed months, so we need to subtract 1 month from PHP's output
-		$datePieces[] = (int)($date->format('m') - 1);
+		$datePieces[] = (int)($date->format('m')) - 1;
 		$datePieces[] = (int)$date->format('d');
 		$datePieces[] = (int)$date->format('H');
 		$datePieces[] = (int)$date->format('i');

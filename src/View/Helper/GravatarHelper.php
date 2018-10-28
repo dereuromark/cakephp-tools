@@ -4,6 +4,7 @@ namespace Tools\View\Helper;
 
 use Cake\Validation\Validation;
 use Cake\View\Helper;
+use Cake\View\View;
 
 /**
  * CakePHP Gravatar Helper
@@ -62,10 +63,10 @@ class GravatarHelper extends Helper {
 	public $helpers = ['Html'];
 
 	/**
-	 * @param \Cake\View\View|null $View
+	 * @param \Cake\View\View $View
 	 * @param array $config
 	 */
-	public function __construct($View = null, $config = []) {
+	public function __construct(View $View, array $config = []) {
 		// Default the secure option to match the current URL.
 		$this->_defaultConfig['secure'] = (bool)env('HTTPS');
 
@@ -79,7 +80,7 @@ class GravatarHelper extends Helper {
 	 * @param array $options Array of options, keyed from default settings
 	 * @return string Gravatar image string
 	 */
-	public function image($email, $options = []) {
+	public function image($email, array $options = []) {
 		$imageUrl = $this->url($email, $options);
 		unset($options['default'], $options['size'], $options['rating'], $options['ext']);
 		return $this->Html->image($imageUrl, $options);
@@ -90,10 +91,10 @@ class GravatarHelper extends Helper {
 	 * TODO: rename to avoid E_STRICT errors here
 	 *
 	 * @param string $email Email address
-	 * @param string|array $options Array of options, keyed from default settings
+	 * @param array $options Array of options, keyed from default settings
 	 * @return string Gravatar Image URL
 	 */
-	public function url($email, $options = []) {
+	public function url($email, array $options = []) {
 		$options = $this->_cleanOptions($options + $this->_config);
 		$ext = $options['ext'];
 		$secure = $options['secure'];

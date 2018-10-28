@@ -4,10 +4,10 @@ namespace Tools\View\Helper;
 
 use Cake\Core\App;
 use Cake\Core\Configure;
+use Cake\Core\Exception\Exception;
 use Cake\View\Helper\TimeHelper as CakeTimeHelper;
 use Cake\View\View;
 use DateTime;
-use RuntimeException;
 
 /**
  * Wrapper for TimeHelper and TimeLib
@@ -60,7 +60,7 @@ class TimeHelper extends CakeTimeHelper {
 
 		$engineClass = App::className($config['engine'], 'Utility');
 		if (!$engineClass) {
-			throw new RuntimeException(sprintf('Class for %s could not be found', $config['engine']));
+			throw new Exception(sprintf('Class for %s could not be found', $config['engine']));
 		}
 
 		$this->_engine = new $engineClass($config);
