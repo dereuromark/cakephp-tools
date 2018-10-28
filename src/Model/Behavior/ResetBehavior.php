@@ -81,13 +81,14 @@ class ResetBehavior extends Behavior {
 	 *
 	 * @param array $params
 	 * @return int Modified records
+	 * @throws \RuntimeException
 	 */
 	public function resetRecords(array $params = []) {
 		$defaults = [
 			'page' => 1,
 			'limit' => $this->_config['limit'],
 			'fields' => [],
-			'order' => [$this->_table->alias() . '.' . $this->_table->primaryKey() => 'ASC'],
+			'order' => [$this->_table->getAlias() . '.' . $this->_table->getPrimaryKey() => 'ASC'],
 			'conditions' => $this->_config['scope'],
 		];
 		if (!empty($this->_config['fields'])) {
@@ -96,11 +97,11 @@ class ResetBehavior extends Behavior {
 					throw new RuntimeException('Table does not have field ' . $field);
 				}
 			}
-			$defaults['fields'] = array_merge([$this->_table->alias() . '.' . $this->_table->primaryKey()], $this->_config['fields']);
+			$defaults['fields'] = array_merge([$this->_table->getAlias() . '.' . $this->_table->getPrimaryKey()], $this->_config['fields']);
 		} else {
-			$defaults['fields'] = [$this->_table->alias() . '.' . $this->_table->primaryKey()];
-			if ($this->_table->displayField() !== $this->_table->primaryKey()) {
-				$defaults['fields'][] = $this->_table->alias() . '.' . $this->_table->displayField();
+			$defaults['fields'] = [$this->_table->getAlias() . '.' . $this->_table->getPrimaryKey()];
+			if ($this->_table->getDisplayField() !== $this->_table->getPrimaryKey()) {
+				$defaults['fields'][] = $this->_table->getAlias() . '.' . $this->_table->getDisplayField();
 			}
 		}
 
@@ -151,7 +152,7 @@ class ResetBehavior extends Behavior {
 
 				$res = $this->_table->save($record, compact('validate', 'fieldList'));
 				if (!$res) {
-					throw new RuntimeException(print_r($record->errors(), true));
+					throw new RuntimeException(print_r($record->getErrors(), true));
 				}
 				$modified++;
 			}

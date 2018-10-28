@@ -3,6 +3,7 @@
 namespace Tools\Model\Behavior;
 
 use ArrayObject;
+use Cake\Collection\CollectionInterface;
 use Cake\Database\Type;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
@@ -89,7 +90,7 @@ class JsonableBehavior extends Behavior {
 			throw new RuntimeException('Fields and Map need to be of the same length if map is specified.');
 		}
 		foreach ($this->_config['fields'] as $field) {
-			$this->_table->schema()->columnType($field, 'array');
+			$this->_table->getSchema()->setColumnType($field, 'array');
 		}
 		if ($this->_config['encodeParams']['options'] === null) {
 			$options = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_ERROR_INF_OR_NAN | JSON_PARTIAL_OUTPUT_ON_ERROR;
@@ -110,7 +111,7 @@ class JsonableBehavior extends Behavior {
 	 * @return void
 	 */
 	public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary) {
-		$query->formatResults(function ($results) {
+		$query->formatResults(function (CollectionInterface $results) {
 			return $results->map(function ($row) {
 				if (!$row instanceOf Entity) {
 					return $row;

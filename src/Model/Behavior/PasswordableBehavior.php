@@ -376,8 +376,8 @@ class PasswordableBehavior extends Behavior {
 	 */
 	public function validateCurrentPwd($pwd, $context) {
 		$uid = null;
-		if (!empty($context['data'][$this->_table->primaryKey()])) {
-			$uid = $context['data'][$this->_table->primaryKey()];
+		if (!empty($context['data'][$this->_table->getPrimaryKey()])) {
+			$uid = $context['data'][$this->_table->getPrimaryKey()];
 		} else {
 			trigger_error('No user id given');
 			return false;
@@ -429,14 +429,14 @@ class PasswordableBehavior extends Behavior {
 	 */
 	public function validateNotSameHash($data, $context) {
 		$field = $this->_config['field'];
-		if (empty($context['data'][$this->_table->primaryKey()])) {
+		if (empty($context['data'][$this->_table->getPrimaryKey()])) {
 			return true;
 		}
 
-		$primaryKey = $context['data'][$this->_table->primaryKey()];
+		$primaryKey = $context['data'][$this->_table->getPrimaryKey()];
 		$value = $context['data'][$context['field']];
 
-		$dbValue = $this->_table->find()->where([$this->_table->alias() . '.' . $this->_table->primaryKey() => $primaryKey])->first();
+		$dbValue = $this->_table->find()->where([$this->_table->getAlias() . '.' . $this->_table->getPrimaryKey() => $primaryKey])->first();
 		if (!$dbValue) {
 			return true;
 		}
@@ -457,8 +457,8 @@ class PasswordableBehavior extends Behavior {
 	protected function _validateSameHash($pwd, $context) {
 		$field = $this->_config['field'];
 
-		$primaryKey = $context['data'][$this->_table->primaryKey()];
-		$dbValue = $this->_table->find()->where([$this->_table->alias() . '.' . $this->_table->primaryKey() => $primaryKey])->first();
+		$primaryKey = $context['data'][$this->_table->getPrimaryKey()];
+		$dbValue = $this->_table->find()->where([$this->_table->getAlias() . '.' . $this->_table->getPrimaryKey() => $primaryKey])->first();
 		if (!$dbValue) {
 			return false;
 		}

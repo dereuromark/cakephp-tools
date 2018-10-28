@@ -1,8 +1,8 @@
 <?php
 namespace Tools\Test\TestCase\Auth;
 
+use Cake\Http\ServerRequest;
 use Cake\I18n\Time;
-use Cake\Network\Request;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use Tools\Auth\MultiColumnAuthenticate;
@@ -25,13 +25,18 @@ class MultiColumnAuthenticateTest extends TestCase {
 	protected $response;
 
 	/**
+	 * @var \Cake\Controller\ComponentRegistry
+	 */
+	protected $registry;
+
+	/**
 	 * @return void
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->Registry = $this->getMockBuilder('Cake\Controller\ComponentRegistry')->getMock();
-		$this->auth = new MultiColumnAuthenticate($this->Registry, [
+		$this->registry = $this->getMockBuilder('Cake\Controller\ComponentRegistry')->getMock();
+		$this->auth = new MultiColumnAuthenticate($this->registry, [
 			'fields' => ['username' => 'user_name', 'password' => 'password'],
 			'userModel' => 'MultiColumnUsers',
 			'columns' => ['user_name', 'email']
@@ -48,7 +53,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 	 * @return void
 	 */
 	public function testAuthenticateEmailOrUsername() {
-		$request = new Request('posts/index');
+		$request = new ServerRequest('posts/index');
 		$expected = [
 			'id' => 1,
 			'user_name' => 'mariano',
@@ -76,7 +81,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 	 * @return void
 	 */
 	public function testAuthenticateNoUsername() {
-		$request = new Request('posts/index');
+		$request = new ServerRequest('posts/index');
 		$request->data = ['password' => 'foobar'];
 		$this->assertFalse($this->auth->authenticate($request, $this->response));
 	}
@@ -85,7 +90,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 	 * @return void
 	 */
 	public function testAuthenticateNoPassword() {
-		$request = new Request('posts/index');
+		$request = new ServerRequest('posts/index');
 		$request->data = ['user_name' => 'mariano'];
 		$this->assertFalse($this->auth->authenticate($request, $this->response));
 
@@ -97,7 +102,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 	 * @return void
 	 */
 	public function testAuthenticateInjection() {
-		$request = new Request('posts/index');
+		$request = new ServerRequest('posts/index');
 		$request->data = [
 			'user_name' => '> 1',
 			'password' => "' OR 1 = 1"
@@ -112,7 +117,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 	 */
 	public function testAuthenticateScopeFail() {
 		$this->auth->setConfig('scope', ['user_name' => 'nate']);
-		$request = new Request('posts/index');
+		$request = new ServerRequest('posts/index');
 		$request->data = [
 			'user_name' => 'mariano',
 			'password' => 'password'

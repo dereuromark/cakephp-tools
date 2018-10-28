@@ -471,7 +471,7 @@ class TableTest extends TestCase {
 	 * @return void
 	 */
 	public function testValidateUnique() {
-		$this->Posts->validator()->add('title', [
+		$this->Posts->getValidator()->add('title', [
 			'validateUnique' => [
 				'rule' => 'validateUniqueExt',
 				'message' => 'valErrRecordTitleExists',
@@ -484,15 +484,15 @@ class TableTest extends TestCase {
 			'published' => 'N'
 		];
 		$post = $this->Posts->newEntity($data);
-		$this->assertEmpty($post->errors());
+		$this->assertEmpty($post->getErrors());
 
 		$res = $this->Posts->save($post);
 		$this->assertTrue((bool)$res);
 
 		$post = $this->Posts->newEntity($data);
-		$this->assertNotEmpty($post->errors());
+		$this->assertNotEmpty($post->getErrors());
 
-		$this->Posts->validator()->add('title', [
+		$this->Posts->getValidator()->add('title', [
 			'validateUnique' => [
 				'rule' => ['validateUniqueExt', ['scope' => ['published']]],
 				'message' => 'valErrRecordTitleExists',
@@ -505,13 +505,13 @@ class TableTest extends TestCase {
 			'published' => 'Y'
 		];
 		$post = $this->Posts->newEntity($data);
-		$this->assertEmpty($post->errors());
+		$this->assertEmpty($post->getErrors());
 
 		$res = $this->Posts->save($post);
 		$this->assertTrue((bool)$res);
 
 		$post = $this->Posts->newEntity($data);
-		$this->assertNotEmpty($post->errors());
+		$this->assertNotEmpty($post->getErrors());
 	}
 
 }

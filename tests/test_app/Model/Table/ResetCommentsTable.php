@@ -12,7 +12,7 @@ class ResetCommentsTable extends Table {
 	 * @return void
 	 */
 	public function initialize(array $config) {
-		$this->displayField('comment');
+		$this->setDisplayField('comment');
 		parent::initialize($config);
 	}
 

@@ -65,7 +65,7 @@ class PasswordableBehaviorTest extends TestCase {
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertFalse($is);
-		$this->assertEquals(['pwd_repeat'], array_keys((array)$user->errors()));
+		$this->assertEquals(['pwd_repeat'], array_keys((array)$user->getErrors()));
 
 		$user = $this->Users->newEntity();
 		$data = [
@@ -75,7 +75,7 @@ class PasswordableBehaviorTest extends TestCase {
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertFalse($is);
-		$this->assertEquals(['validateIdentical' => __d('tools', 'valErrPwdNotMatch')], $user->errors()['pwd_repeat']);
+		$this->assertEquals(['validateIdentical' => __d('tools', 'valErrPwdNotMatch')], $user->getErrors()['pwd_repeat']);
 
 		$user = $this->Users->newEntity();
 		$data = [
@@ -119,7 +119,7 @@ class PasswordableBehaviorTest extends TestCase {
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertFalse($is);
-		$this->assertEquals(['pwd', 'pwd_repeat'], array_keys((array)$user->errors()));
+		$this->assertEquals(['pwd', 'pwd_repeat'], array_keys((array)$user->getErrors()));
 	}
 
 	/**
@@ -180,7 +180,7 @@ class PasswordableBehaviorTest extends TestCase {
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertFalse($is);
-		$this->assertEquals(['pwd', 'pwd_repeat', 'pwd_current'], array_keys((array)$user->errors()));
+		$this->assertEquals(['pwd', 'pwd_repeat', 'pwd_current'], array_keys((array)$user->getErrors()));
 
 		$this->tearDown();
 		$this->setUp();
@@ -337,7 +337,7 @@ class PasswordableBehaviorTest extends TestCase {
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertTrue((bool)$is);
-		//debug($user->errors());
+		//debug($user->getErrors());
 
 		$user = clone($userCopy);
 		$data = [
@@ -403,12 +403,12 @@ class PasswordableBehaviorTest extends TestCase {
 			'pwd' => '123456',
 			'pwd_repeat' => '123456'
 		];
-		$user->accessible('*', false); // Mark all properties as protected
-		$user->accessible(['id'], true); // Allow id to be accessible by default
+		$user->setAccess('*', false); // Mark all properties as protected
+		$user->setAccess(['id'], true); // Allow id to be accessible by default
 		$user = $this->Users->patchEntity($user, $data, ['fields' => ['id']]);
 
 		$this->assertNotSame($is['password'], $user['password']);
-		$this->assertTrue($user->dirty('pwd'));
+		$this->assertTrue($user->isDirty('pwd'));
 
 		$options = ['validate' => true];
 		$is = $this->Users->save($user, $options);
@@ -429,8 +429,8 @@ class PasswordableBehaviorTest extends TestCase {
 			'pwd' => 'some', // Too short
 			'pwd_repeat' => 'somex' // Don't match
 		];
-		$user->accessible('*', false); // Mark all properties as protected
-		$user->accessible(['id', 'name'], true);
+		$user->setAccess('*', false); // Mark all properties as protected
+		$user->setAccess(['id', 'name'], true);
 		$this->Users->patchEntity($user, $data, ['fields' => ['id', 'name']]);
 		// Test whitelist setting - only "password" gets auto-added, pwd, pwd_repeat etc need to be added manually
 		// NOTE that I had to remove the code for adding those fields from the behavior (as it was not functional)
@@ -440,7 +440,7 @@ class PasswordableBehaviorTest extends TestCase {
 
 		// Validation errors triggered - as expected
 		$this->assertFalse($is);
-		$this->assertSame(['pwd', 'pwd_repeat', 'pwd_current'], array_keys((array)$user->errors()));
+		$this->assertSame(['pwd', 'pwd_repeat', 'pwd_current'], array_keys((array)$user->getErrors()));
 	}
 
 	/**
@@ -491,12 +491,12 @@ class PasswordableBehaviorTest extends TestCase {
 			'pwd' => '123456',
 			'pwd_repeat' => '123456'
 		];
-		$user->accessible('*', false); // Mark all properties as protected
-		$user->accessible(['id'], true); // Allow id to be accessible by default
+		$user->setAccess('*', false); // Mark all properties as protected
+		$user->setAccess(['id'], true); // Allow id to be accessible by default
 		$user = $this->Users->patchEntity($user, $data, ['fields' => ['id']]);
 
 		$this->assertNotSame($is['password'], $user['password']);
-		$this->assertTrue($user->dirty('pwd'));
+		$this->assertTrue($user->isDirty('pwd'));
 
 		$is = $this->Users->save($user);
 		$this->assertTrue((bool)$is);
@@ -517,8 +517,8 @@ class PasswordableBehaviorTest extends TestCase {
 			'pwd' => 'somepwd',
 			'pwd_repeat' => 'somepwd'
 		];
-		$user->accessible('*', false); // Mark all properties as protected
-		$user->accessible(['id'], true);
+		$user->setAccess('*', false); // Mark all properties as protected
+		$user->setAccess(['id'], true);
 		$this->Users->patchEntity($user, $data, ['fields' => ['id']]);
 		$result = $this->Users->save($user);
 		$this->assertTrue((bool)$result);
@@ -541,8 +541,8 @@ class PasswordableBehaviorTest extends TestCase {
 			'pwd' => 'somepwd',
 			'pwd_repeat' => 'somepwd'
 		];
-		$user->accessible('*', false); // Mark all properties as protected
-		$user->accessible(['id'], true);
+		$user->setAccess('*', false); // Mark all properties as protected
+		$user->setAccess(['id'], true);
 		$user = $this->Users->patchEntity($user, $data);
 		$result = $this->Users->save($user);
 		$this->assertTrue((bool)$result);
@@ -696,7 +696,7 @@ class PasswordableBehaviorTest extends TestCase {
 		$expected = [
 			'pwd' => ['between' => __d('tools', 'valErrBetweenCharacters {0} {1}', 3, 6)],
 		];
-		$this->assertEquals($expected, $user->errors());
+		$this->assertEquals($expected, $user->getErrors());
 	}
 
 	/**
@@ -758,7 +758,7 @@ class PasswordableBehaviorTest extends TestCase {
 		$is = $this->Users->save($user);
 		$this->assertFalse($is);
 
-		$result = $user->errors();
+		$result = $user->getErrors();
 		$expected = ['pwd' => ['validateCustom' => 'Foo Bar']];
 		$this->assertSame($expected, $result);
 
@@ -771,7 +771,7 @@ class PasswordableBehaviorTest extends TestCase {
 		$is = $this->Users->save($user);
 		$this->assertFalse($is);
 
-		$result = $user->errors();
+		$result = $user->getErrors();
 		$expected = ['pwd' => ['validateCustomExt' => 'Foo Bar Ext']];
 		$this->assertSame($expected, $result);
 

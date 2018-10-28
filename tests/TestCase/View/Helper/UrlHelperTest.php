@@ -3,7 +3,8 @@
 namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\Core\Plugin;
-use Cake\Network\Request;
+use Cake\Http\ServerRequest;
+use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
 use Cake\View\View;
 use Tools\TestSuite\TestCase;
@@ -26,7 +27,7 @@ class UrlHelperTest extends TestCase {
 		parent::setUp();
 
 		$this->Url = new UrlHelper(new View(null));
-		$this->Url->request = new Request();
+		$this->Url->request = new ServerRequest();
 		$this->Url->request->webroot = '';
 	}
 
@@ -44,7 +45,7 @@ class UrlHelperTest extends TestCase {
 		$this->Url->request->params['prefix'] = 'admin';
 		Router::reload();
 		Router::connect('/:controller/:action/*');
-		Router::prefix('admin', function ($routes) {
+		Router::prefix('admin', function (RouteBuilder $routes) {
 			$routes->fallbacks();
 		});
 		Router::pushRequest($this->Url->request);
@@ -77,11 +78,11 @@ class UrlHelperTest extends TestCase {
 		$this->Url->request->params['plugin'] = 'Foo';
 		Router::reload();
 		Router::connect('/:controller/:action/*');
-		Router::plugin('Foo', function ($routes) {
+		Router::plugin('Foo', function (RouteBuilder $routes) {
 			$routes->fallbacks();
 		});
-		Router::prefix('admin', function ($routes) {
-			$routes->plugin('Foo', function ($routes) {
+		Router::prefix('admin', function (RouteBuilder $routes) {
+			$routes->plugin('Foo', function (RouteBuilder $routes) {
 				$routes->fallbacks();
 			});
 		});

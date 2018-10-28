@@ -236,7 +236,7 @@ class BitmaskedBehavior extends Behavior {
 			}
 			$key = $comparison->getField();
 
-			if ($key !== $mappedField && $key !== $this->_table->alias() . '.' . $mappedField) {
+			if ($key !== $mappedField && $key !== $this->_table->getAlias() . '.' . $mappedField) {
 				return $comparison;
 			}
 
@@ -300,7 +300,7 @@ class BitmaskedBehavior extends Behavior {
 	 */
 	protected function _getDefault($field) {
 		$default = null;
-		$schema = $this->_table->schema()->column($field);
+		$schema = $this->_table->getSchema()->getColumn($field);
 
 		if ($schema && isset($schema['default'])) {
 			$default = $schema['default'];

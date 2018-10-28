@@ -72,7 +72,7 @@ class SluggedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testAddUnique() {
-		$this->articles->behaviors()->Slugged->config(['unique' => true]);
+		$this->articles->behaviors()->Slugged->setConfig(['unique' => true]);
 
 		$entity = $this->_getEntity();
 		$result = $this->articles->save($entity);
@@ -90,7 +90,7 @@ class SluggedBehaviorTest extends TestCase {
 	public function testAddUniqueMultipleLabels() {
 		/** @var \Tools\Model\Behavior\SluggedBehavior $sluggedBehavior */
 		$sluggedBehavior = $this->articles->behaviors()->Slugged;
-		//$this->articles->behaviors()->Slugged->config('label', ''); // Hack necessary right now to avoid title showing up twice
+		//$this->articles->behaviors()->Slugged->setConfig('label', ''); // Hack necessary right now to avoid title showing up twice
 		$sluggedBehavior->configShallow(['mode' => 'ascii', 'unique' => true, 'label' => ['title', 'long_title']]);
 
 		$entity = $this->_getEntity(null, null, ['long_title' => 'blae']);
@@ -145,13 +145,13 @@ class SluggedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testLengthRestrictionManual() {
-		$this->articles->behaviors()->Slugged->config(['length' => 155]);
+		$this->articles->behaviors()->Slugged->setConfig(['length' => 155]);
 		$entity = $this->_getEntity(str_repeat('foo bar ', 31));
 
 		$result = $this->articles->save($entity);
 		$this->assertEquals(155, strlen($result->get('slug')));
 
-		$this->articles->behaviors()->Slugged->config(['length' => 10, 'mode' => 'ascii']);
+		$this->articles->behaviors()->Slugged->setConfig(['length' => 10, 'mode' => 'ascii']);
 		$entity = $this->_getEntity('ä ö ü ä ö ü');
 		$result = $this->articles->save($entity);
 		$this->assertEquals('ae-oe-ue-a', $result->get('slug'));
@@ -202,7 +202,7 @@ class SluggedBehaviorTest extends TestCase {
 		$result = $this->articles->save($entity);
 		$this->assertEquals('Some-title', $result->get('slug'));
 
-		$this->articles->behaviors()->Slugged->config(['overwrite' => true]);
+		$this->articles->behaviors()->Slugged->setConfig(['overwrite' => true]);
 		// Now it can modify the slug
 		$entity = $this->articles->patchEntity($entity, ['title' => 'Some really other title']);
 		$result = $this->articles->needsSlugUpdate($entity);
@@ -264,7 +264,7 @@ class SluggedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testLengthRestrictionNoLimit() {
-		$this->articles->behaviors()->Slugged->config(['length' => 0, 'label' => 'long_title', 'field' => 'long_slug']);
+		$this->articles->behaviors()->Slugged->setConfig(['length' => 0, 'label' => 'long_title', 'field' => 'long_slug']);
 		$entity = $this->_getEntity(str_repeat('foo bar ', 100), 'long_title');
 
 		$result = $this->articles->save($entity);
@@ -321,7 +321,7 @@ class SluggedBehaviorTest extends TestCase {
 	public function testDuplicateWithLengthRestriction() {
 		$this->skipIf(true);
 
-		$this->articles->behaviors()->Slugged->config(['length' => 10, 'unique' => true]);
+		$this->articles->behaviors()->Slugged->setConfig(['length' => 10, 'unique' => true]);
 
 		$article = $this->articles->newEntity(['title' => 'Andy Dawson']);
 		$this->articles->save($article);
@@ -382,7 +382,7 @@ class SluggedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testTruncateMultibyte() {
-		$this->articles->behaviors()->Slugged->config(['length' => 16]);
+		$this->articles->behaviors()->Slugged->setConfig(['length' => 16]);
 
 		$result = $this->articles->generateSlug('モデルのデータベースとデータソース');
 		$expected = 'モデルのデータベースとデータソー';
@@ -395,7 +395,7 @@ class SluggedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testUrlMode() {
-		$this->articles->behaviors()->Slugged->config(['mode' => 'url', 'replace' => false]);
+		$this->articles->behaviors()->Slugged->setConfig(['mode' => 'url', 'replace' => false]);
 
 		$string = 'standard string';
 		$expected = 'standard-string';

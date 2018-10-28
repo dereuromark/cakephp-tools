@@ -117,7 +117,7 @@ class BitmaskedBehaviorTest extends TestCase {
 
 		// save + find
 		$entity = $this->Comments->newEntity($data);
-		$this->assertEmpty($entity->errors());
+		$this->assertEmpty($entity->getErrors());
 
 		$res = $this->Comments->save($entity);
 		$this->assertTrue((bool)$res);
@@ -196,7 +196,7 @@ class BitmaskedBehaviorTest extends TestCase {
 			'statuses' => [BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_APPROVED],
 		];
 		$entity = $this->Comments->newEntity($data);
-		$this->assertEmpty($entity->errors());
+		$this->assertEmpty($entity->getErrors());
 
 		$res = $this->Comments->save($entity);
 		$this->assertTrue((bool)$res);
