@@ -36,7 +36,7 @@ class Email extends CakeEmail {
 	protected $_log = [];
 
 	/**
-	 * @var Mime|null
+	 * @var \Tools\Utility\Mime|null
 	 */
 	protected $_Mime;
 

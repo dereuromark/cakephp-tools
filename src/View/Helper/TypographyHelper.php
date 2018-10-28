@@ -81,13 +81,6 @@ class TypographyHelper extends Helper {
 	];
 
 	/**
-	 * Cache definitions.
-	 *
-	 * @var array|null
-	 */
-	protected $table;
-
-	/**
 	 * Automatically uses the typography specified.
 	 * By default, uses Configure::read('App.language') to determine locale preference.
 	 * It will then try to match the language to the type of characters used.
@@ -307,57 +300,55 @@ class TypographyHelper extends Helper {
 			],
 		];
 
-		if (!isset($this->table)) {
-			$this->table = [
-				// nested smart quotes, opening and closing
-				// note that rules for grammar (English) allow only for two levels deep
-				// and that single quotes are _supposed_ to always be on the outside
-				// but we'll accommodate both
-				// Note that in all cases, whitespace is the primary determining factor
-				// on which direction to curl, with non-word characters like punctuation
-				// being a secondary factor only after whitespace is addressed.
-				'/\'"(\s|$)/'					=> '&#8217;&#8221;$1',
-				'/(^|\s|<p>)\'"/'				=> '$1&#8216;&#8220;',
-				'/\'"(\W)/'						=> '&#8217;&#8221;$1',
-				'/(\W)\'"/'						=> '$1&#8216;&#8220;',
-				'/"\'(\s|$)/'					=> '&#8221;&#8217;$1',
-				'/(^|\s|<p>)"\'/'				=> '$1&#8220;&#8216;',
-				'/"\'(\W)/'						=> '&#8221;&#8217;$1',
-				'/(\W)"\'/'						=> '$1&#8220;&#8216;',
+		$table = [
+			// nested smart quotes, opening and closing
+			// note that rules for grammar (English) allow only for two levels deep
+			// and that single quotes are _supposed_ to always be on the outside
+			// but we'll accommodate both
+			// Note that in all cases, whitespace is the primary determining factor
+			// on which direction to curl, with non-word characters like punctuation
+			// being a secondary factor only after whitespace is addressed.
+			'/\'"(\s|$)/'					=> '&#8217;&#8221;$1',
+			'/(^|\s|<p>)\'"/'				=> '$1&#8216;&#8220;',
+			'/\'"(\W)/'						=> '&#8217;&#8221;$1',
+			'/(\W)\'"/'						=> '$1&#8216;&#8220;',
+			'/"\'(\s|$)/'					=> '&#8221;&#8217;$1',
+			'/(^|\s|<p>)"\'/'				=> '$1&#8220;&#8216;',
+			'/"\'(\W)/'						=> '&#8221;&#8217;$1',
+			'/(\W)"\'/'						=> '$1&#8220;&#8216;',
 
-				// single quote smart quotes
-				'/\'(\s|$)/'					=> '&#8217;$1',
-				'/(^|\s|<p>)\'/'				=> '$1&#8216;',
-				'/\'(\W)/'						=> '&#8217;$1',
-				'/(\W)\'/'						=> '$1&#8216;',
+			// single quote smart quotes
+			'/\'(\s|$)/'					=> '&#8217;$1',
+			'/(^|\s|<p>)\'/'				=> '$1&#8216;',
+			'/\'(\W)/'						=> '&#8217;$1',
+			'/(\W)\'/'						=> '$1&#8216;',
 
-				// double quote smart quotes
-				'/"(\s|$)/'						=> '&#8221;$1',
-				'/(^|\s|<p>)"/'					=> '$1&#8220;',
-				'/"(\W)/'						=> '&#8221;$1',
-				'/(\W)"/'						=> '$1&#8220;',
+			// double quote smart quotes
+			'/"(\s|$)/'						=> '&#8221;$1',
+			'/(^|\s|<p>)"/'					=> '$1&#8220;',
+			'/"(\W)/'						=> '&#8221;$1',
+			'/(\W)"/'						=> '$1&#8220;',
 
-				// apostrophes
-				"/(\w)'(\w)/"					=> '$1&rsquo;$2', // we dont use #8217; to avoid collision on replace
+			// apostrophes
+			"/(\w)'(\w)/"					=> '$1&rsquo;$2', // we dont use #8217; to avoid collision on replace
 
-				// Em dash and ellipses dots
-				'/\s?\-\-\s?/'					=> '&#8212;',
-				'/(\w)\.{3}/'					=> '$1&#8230;',
+			// Em dash and ellipses dots
+			'/\s?\-\-\s?/'					=> '&#8212;',
+			'/(\w)\.{3}/'					=> '$1&#8230;',
 
-				// double space after sentences
-				'/(\W)  /'						=> '$1&nbsp; ',
+			// double space after sentences
+			'/(\W)  /'						=> '$1&nbsp; ',
 
-				// ampersands, if not a character entity
-				'/&(?!#?[a-zA-Z0-9]{2,};)/'		=> '&amp;'
-			];
-			if ($locale && !empty($locales[$locale])) {
-				foreach ($this->table as $key => $val) {
-					$this->table[$key] = str_replace($locales['default'], $locales[$locale], $val);
-				}
+			// ampersands, if not a character entity
+			'/&(?!#?[a-zA-Z0-9]{2,};)/'		=> '&amp;'
+		];
+		if ($locale && !empty($locales[$locale])) {
+			foreach ($table as $key => $val) {
+				$table[$key] = str_replace($locales['default'], $locales[$locale], $val);
 			}
 		}
 
-		return preg_replace(array_keys($this->table), $this->table, $str);
+		return preg_replace(array_keys($table), $table, $str);
 	}
 
 	/**

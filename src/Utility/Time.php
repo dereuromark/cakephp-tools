@@ -7,8 +7,6 @@ use Cake\I18n\Date;
 use Cake\I18n\Time as CakeTime;
 use DateInterval;
 use DateTime;
-use DateTimeZone;
-use Geo\Geocoder\Calculator;
 
 /**
  * Extend CakeTime with a few important improvements:
