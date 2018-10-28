@@ -18,26 +18,26 @@ matrix:
   fast_finish: true
 
   include:
-    - php: 7.1
-      env: PHPCS=1 DEFAULT=0
-
-    - php: 7.1
-      env: CODECOVERAGE=1 DEFAULT=0
-
-    - php: 7.1
+    - php: 7.2
       env: DB=pgsql db_dsn='postgres://postgres@127.0.0.1/cakephp_test'
-      
-    - php: 7.1
+
+    - php: 7.2
       env: DB=sqlite db_dsn='sqlite:///:memory:'
 
     - php: 5.6
       env: PREFER_LOWEST=1
 
+    - php: 7.2
+      env: CHECKS=1 DEFAULT=0
+
+    - php: 7.2
+      env: CODECOVERAGE=1 DEFAULT=0
+
 before_script:
   - if [[ $PREFER_LOWEST != 1 ]]; then composer install --prefer-source --no-interaction ; fi
   - if [[ $PREFER_LOWEST == 1 ]]; then composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable ; fi
 
-  - if [[ $PHPCS != 1 ]]; then composer require phpunit/phpunit:"^5.7.14|^6.0"; fi
+  - if [[ $CHECKS != 1 ]]; then composer require phpunit/phpunit:"^5.7.14|^6.0"; fi
 
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE cakephp_test;' -U postgres; fi"
@@ -48,7 +48,8 @@ before_script:
 
 script:
   - if [[ $DEFAULT == 1 ]]; then vendor/bin/phpunit; fi
-  - if [[ $PHPCS == 1 ]]; then vendor/bin/phpcs -p --extensions=php --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/tests/test_files/ src tests config ; fi
+  - if [[ $CHECKS == 1 ]]; then vendor/bin/phpcs -p --extensions=php --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --ignore=/tests/test_files/ src tests config ; fi
+  - if [[ $CHECKS == 1 ]]; then composer phpstan-setup && composer phpstan ; fi
 
   - if [[ $CODECOVERAGE == 1 ]]; then vendor/bin/phpunit --coverage-clover=clover.xml || true; fi
   - if [[ $CODECOVERAGE == 1 ]]; then wget -O codecov.sh https://codecov.io/bash; fi

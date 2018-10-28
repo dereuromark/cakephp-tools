@@ -8,7 +8,7 @@ parameters:
 	ignoreErrors:
 		- '#Access to an undefined property .+Table::\$belongsTo#'
 		- '#Call to an undefined method .+TimeHelper::.+\(\)#'
-		- '#Tools\\Utility\\Mime::\_\_construct\(\) does not call parent constructor from Cake\\Http\\Response#'
+		- '#Access to protected property .+ServerRequest::\$.+#'
 
 services:
     -
