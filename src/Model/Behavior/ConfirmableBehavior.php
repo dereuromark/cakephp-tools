@@ -74,7 +74,6 @@ class ConfirmableBehavior extends Behavior {
 				'last' => true]
 		);
 		$validator->requirePresence($field);
-		//$validator->allowEmpty($field, false);
 	}
 
 }

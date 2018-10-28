@@ -31,8 +31,8 @@ class CommonComponent extends Component {
 		if ($this->Controller->request->getQuery() && !Configure::read('DataPreparation.notrim')) {
 			$this->Controller->request->query = Utility::trimDeep($this->Controller->request->getQuery());
 		}
-		if (!empty($this->Controller->request->params['pass']) && !Configure::read('DataPreparation.notrim')) {
-			$this->Controller->request->params['pass'] = Utility::trimDeep($this->Controller->request->params['pass']);
+		if ($this->Controller->request->getParam('pass') && !Configure::read('DataPreparation.notrim')) {
+			$this->Controller->request->params['pass'] = Utility::trimDeep($this->Controller->request->getParam('pass'));
 		}
 	}
 
@@ -131,7 +131,8 @@ class CommonComponent extends Component {
 	 * @return mixed
 	 */
 	public function getPassedParam($var, $default = null) {
-		return (isset($this->Controller->request->params['pass'][$var])) ? $this->Controller->request->params['pass'][$var] : $default;
+		$passed = $this->Controller->request->getParam('pass');
+		return (isset($passed[$var])) ? $passed[$var] : $default;
 	}
 
 	/**
@@ -156,14 +157,16 @@ class CommonComponent extends Component {
 	 * @return mixed URL
 	 */
 	public function currentUrl($asString = false) {
-		if (isset($this->Controller->request->params['prefix']) && mb_strpos($this->Controller->request->params['action'], $this->Controller->request->params['prefix']) === 0) {
-			$action = mb_substr($this->Controller->request->params['action'], mb_strlen($this->Controller->request->params['prefix']) + 1);
-		} else {
-			$action = $this->Controller->request->params['action'];
-		}
+		$action = $this->Controller->request->getParam('action');
 
-		$url = array_merge($this->Controller->request->params['pass'], ['prefix' => isset($this->Controller->request->params['prefix']) ? $this->Controller->request->params['prefix'] : null,
-			'plugin' => $this->Controller->request->params['plugin'], 'action' => $action, 'controller' => $this->Controller->request->params['controller']]);
+		$passed = (array)$this->Controller->request->getParam('pass');
+		$url = [
+			'prefix' => $this->Controller->request->getParam('prefix'),
+			'plugin' => $this->Controller->request->getParam('plugin'),
+			'action' => $action,
+			'controller' => $this->Controller->request->getParam('controller'),
+		];
+		$url = array_merge($passed, $url);
 
 		if ($asString === true) {
 			return Router::url($url);
@@ -239,7 +242,7 @@ class CommonComponent extends Component {
 				if (!empty($controller) && $refererController !== '*' && $refererController !== $controller) {
 					continue;
 				}
-				if (empty($controller) && $refererController !== $this->Controller->request->params['controller']) {
+				if (empty($controller) && $refererController !== $this->Controller->request->getParam('controller')) {
 					continue;
 				}
 				if (!in_array($referer['action'], (array)$this->Controller->autoRedirectActions, true)) {

@@ -3,7 +3,8 @@
 namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\Core\Plugin;
-use Cake\Network\Request;
+use Cake\Http\ServerRequest;
+use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
 use Cake\View\View;
 use Tools\TestSuite\TestCase;
@@ -26,7 +27,7 @@ class HtmlHelperTest extends TestCase {
 		parent::setUp();
 
 		$this->Html = new HtmlHelper(new View(null));
-		$this->Html->request = new Request();
+		$this->Html->request = new ServerRequest();
 		$this->Html->request->webroot = '';
 		$this->Html->Url->request = $this->Html->request;
 	}
@@ -60,7 +61,7 @@ class HtmlHelperTest extends TestCase {
 		$this->Html->request->params['prefix'] = 'admin';
 		Router::reload();
 		Router::connect('/:controller/:action/*');
-		Router::prefix('admin', function ($routes) {
+		Router::prefix('admin', function (RouteBuilder $routes) {
 			$routes->connect('/:controller/:action/*');
 		});
 

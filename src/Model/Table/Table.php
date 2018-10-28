@@ -26,7 +26,7 @@ class Table extends ShimTable {
 	 */
 	public function validateAll(array $entities) {
 		foreach ($entities as $entity) {
-			if ($entity->errors()) {
+			if ($entity->getErrors()) {
 				return false;
 			}
 		}
@@ -81,7 +81,7 @@ class Table extends ShimTable {
 	 * @return int|bool next auto increment value or False on failure
 	 */
 	public function getNextAutoIncrement() {
-		$query = "SHOW TABLE STATUS WHERE name = '" . $this->table() . "'";
+		$query = "SHOW TABLE STATUS WHERE name = '" . $this->getTable() . "'";
 		$statement = $this->_connection->execute($query);
 		$result = $statement->fetch();
 		if (!isset($result[10])) {
@@ -96,7 +96,7 @@ class Table extends ShimTable {
 	 * @return void
 	 */
 	public function truncate() {
-		$sql = $this->schema()->truncateSql($this->_connection);
+		$sql = $this->getSchema()->truncateSql($this->_connection);
 		foreach ($sql as $snippet) {
 			$this->_connection->execute($snippet);
 		}
@@ -120,12 +120,12 @@ class Table extends ShimTable {
 		$defaults = [
 			'contain' => [$tableName],
 			'group' => $groupField,
-			'order' => isset($this->$tableName->order) ? $this->$tableName->order : [$tableName . '.' . $this->$tableName->displayField() => 'ASC'],
+			'order' => isset($this->$tableName->order) ? $this->$tableName->order : [$tableName . '.' . $this->$tableName->getDisplayField() => 'ASC'],
 		];
 		if ($type === 'list') {
-			$defaults['fields'] = [$tableName . '.' . $this->$tableName->primaryKey(), $tableName . '.' . $this->$tableName->displayField()];
-			$defaults['keyField'] = $tableName . '.' . $this->$tableName->primaryKey();
-			$defaults['valueField'] = $tableName . '.' . $this->$tableName->displayField();
+			$defaults['fields'] = [$tableName . '.' . $this->$tableName->getPrimaryKey(), $tableName . '.' . $this->$tableName->getDisplayField()];
+			$defaults['keyField'] = $tableName . '.' . $this->$tableName->getPrimaryKey();
+			$defaults['valueField'] = $tableName . '.' . $this->$tableName->getDisplayField();
 		}
 		$options += $defaults;
 
@@ -143,10 +143,10 @@ class Table extends ShimTable {
 	public function getFieldInUse($groupField, $type = 'all', array $options = []) {
 		$defaults = [
 			'group' => $groupField,
-			'order' => [$this->displayField() => 'ASC'],
+			'order' => [$this->getDisplayField() => 'ASC'],
 		];
 		if ($type === 'list') {
-			$defaults['fields'] = ['' . $this->primaryKey(), '' . $this->displayField()];
+			$defaults['fields'] = ['' . $this->getPrimaryKey(), '' . $this->getDisplayField()];
 		}
 		$options += $defaults;
 		return $this->find($type, $options);

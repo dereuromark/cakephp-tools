@@ -132,9 +132,9 @@ class TokensTable extends Table {
 		if (!$type || !$key) {
 			return false;
 		}
-		$options = ['conditions' => [$this->alias() . '.key' => $key, $this->alias() . '.type' => $type]];
+		$options = ['conditions' => [$this->getAlias() . '.key' => $key, $this->getAlias() . '.type' => $type]];
 		if ($uid) {
-			$options['conditions'][$this->alias() . '.user_id'] = $uid;
+			$options['conditions'][$this->getAlias() . '.user_id'] = $uid;
 		}
 		$res = $this->find('all', $options)->first();
 		if (!$res) {
@@ -193,7 +193,7 @@ class TokensTable extends Table {
 	 */
 	public function garbageCollector() {
 		$conditions = [
-			$this->alias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity),
+			$this->getAlias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity),
 		];
 		return $this->deleteAll($conditions);
 	}
@@ -205,11 +205,11 @@ class TokensTable extends Table {
 	 */
 	public function stats() {
 		$keys = [];
-		$keys['unused_valid'] = $this->find('count', ['conditions' => [$this->alias() . '.used' => 0, $this->alias() . '.created >=' => date(FORMAT_DB_DATETIME, time() - $this->validity)]]);
-		$keys['used_valid'] = $this->find('count', ['conditions' => [$this->alias() . '.used' => 1, $this->alias() . '.created >=' => date(FORMAT_DB_DATETIME, time() - $this->validity)]]);
+		$keys['unused_valid'] = $this->find('count', ['conditions' => [$this->getAlias() . '.used' => 0, $this->getAlias() . '.created >=' => date(FORMAT_DB_DATETIME, time() - $this->validity)]]);
+		$keys['used_valid'] = $this->find('count', ['conditions' => [$this->getAlias() . '.used' => 1, $this->getAlias() . '.created >=' => date(FORMAT_DB_DATETIME, time() - $this->validity)]]);
 
-		$keys['unused_invalid'] = $this->find('count', ['conditions' => [$this->alias() . '.used' => 0, $this->alias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity)]]);
-		$keys['used_invalid'] = $this->find('count', ['conditions' => [$this->alias() . '.used' => 1, $this->alias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity)]]);
+		$keys['unused_invalid'] = $this->find('count', ['conditions' => [$this->getAlias() . '.used' => 0, $this->getAlias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity)]]);
+		$keys['used_invalid'] = $this->find('count', ['conditions' => [$this->getAlias() . '.used' => 1, $this->getAlias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity)]]);
 
 		$types = $this->find('all', ['conditions' => [], 'fields' => ['DISTINCT type']])->toArray();
 		$keys['types'] = !empty($types) ? Hash::extract($types, '{n}.type') : [];

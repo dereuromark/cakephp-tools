@@ -6,7 +6,8 @@ use App\Controller\UrlComponentTestController;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Event\Event;
-use Cake\Network\Request;
+use Cake\Http\ServerRequest;
+use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
 use Tools\TestSuite\TestCase;
 
@@ -31,7 +32,7 @@ class UrlComponentTest extends TestCase {
 		parent::setUp();
 
 		$this->event = new Event('Controller.beforeFilter');
-		$this->Controller = new UrlComponentTestController(new Request());
+		$this->Controller = new UrlComponentTestController(new ServerRequest());
 
 		Configure::write('App.fullBaseUrl', 'http://localhost');
 	}
@@ -114,11 +115,11 @@ class UrlComponentTest extends TestCase {
 		$this->Controller->Url->request->params['plugin'] = 'Foo';
 		Router::reload();
 		Router::connect('/:controller/:action/*');
-		Router::plugin('Foo', function ($routes) {
+		Router::plugin('Foo', function (RouteBuilder $routes) {
 			$routes->fallbacks();
 		});
-		Router::prefix('admin', function ($routes) {
-			$routes->plugin('Foo', function ($routes) {
+		Router::prefix('admin', function (RouteBuilder $routes) {
+			$routes->plugin('Foo', function (RouteBuilder $routes) {
 				$routes->fallbacks();
 			});
 		});

@@ -49,7 +49,7 @@ class StringBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testMultipleFieldsAndMultipleFilters() {
-		$this->Comments->behaviors()->String->config(['fields' => ['title', 'comment'], 'input' => ['strtolower', 'ucwords']]);
+		$this->Comments->behaviors()->String->setConfig(['fields' => ['title', 'comment'], 'input' => ['strtolower', 'ucwords']]);
 
 		$data = [
 			'title' => 'some nAme',

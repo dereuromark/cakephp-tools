@@ -40,20 +40,18 @@ class ConfirmableBehaviorTest extends TestCase {
 			'confirm' => '0'
 		];
 		$animal = $this->Articles->patchEntity($animal, $data);
-		$this->assertNotEmpty($animal->errors());
-		$this->assertSame(['confirm' => ['notBlank' => __d('tools', 'Please confirm the checkbox')]], $animal->errors());
+		$this->assertNotEmpty($animal->getErrors());
+		$this->assertSame(['confirm' => ['notBlank' => __d('tools', 'Please confirm the checkbox')]], $animal->getErrors());
 
 		$data = [
 			'name' => 'FooBar',
 			'confirm' => '1'
 		];
 		$animal = $this->Articles->patchEntity($animal, $data);
-		$this->assertEmpty($animal->errors());
+		$this->assertEmpty($animal->getErrors());
 	}
 
 	/**
-	 * ConfirmableBehaviorTest::testBasicValidation()
-	 *
 	 * @return void
 	 */
 	public function testValidationThatHasBeenModifiedBefore() {
@@ -80,21 +78,19 @@ class ConfirmableBehaviorTest extends TestCase {
 			'confirm' => '0'
 		];
 		$animal = $this->Articles->patchEntity($animal, $data);
-		$this->assertNotEmpty($animal->errors());
+		$this->assertNotEmpty($animal->getErrors());
 
-		$this->assertSame(['confirm' => ['notBlank' => __d('tools', 'Please confirm the checkbox')]], $animal->errors());
+		$this->assertSame(['confirm' => ['notBlank' => __d('tools', 'Please confirm the checkbox')]], $animal->getErrors());
 
 		$data = [
 			'name' => 'FooBar',
 			'confirm' => '1'
 		];
 		$animal = $this->Articles->patchEntity($animal, $data);
-		$this->assertEmpty($animal->errors());
+		$this->assertEmpty($animal->getErrors());
 	}
 
 	/**
-	 * ConfirmableBehaviorTest::testValidationFieldMissing()
-	 *
 	 * @return void
 	 */
 	public function testValidationFieldMissing() {
@@ -106,7 +102,7 @@ class ConfirmableBehaviorTest extends TestCase {
 			'name' => 'FooBar'
 		];
 		$animal = $this->Articles->patchEntity($animal, $data);
-		$this->assertSame(['confirm' => ['_required' => 'This field is required']], $animal->errors());
+		$this->assertSame(['confirm' => ['_required' => 'This field is required']], $animal->getErrors());
 	}
 
 }

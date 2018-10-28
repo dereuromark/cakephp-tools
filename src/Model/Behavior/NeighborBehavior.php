@@ -22,15 +22,17 @@ class NeighborBehavior extends Behavior {
 	 * @param array $options
 	 *
 	 * @return array
+	 *
+	 * @throws \InvalidArgumentException
 	 */
 	public function neighbors($id, array $options = []) {
 		if (!$id) {
 			throw new InvalidArgumentException("The 'id' key is required for find('neighbors')");
 		}
 
-		$sortField = $this->_table->hasField('created') ? 'created' : $this->_table->primaryKey();
+		$sortField = $this->_table->hasField('created') ? 'created' : $this->_table->getPrimaryKey();
 		$defaults = [
-			'sortField' => $this->_table->alias() . '.' . $sortField,
+			'sortField' => $this->_table->getAlias() . '.' . $sortField,
 		];
 		$options += $defaults;
 
@@ -39,7 +41,7 @@ class NeighborBehavior extends Behavior {
 		$sortDirSymb = $normalDirection ? ['>=', '<='] : ['<=', '>='];
 
 		if (empty($options['value'])) {
-			$data = $this->_table->find('all', ['conditions' => [$this->_table->primaryKey() => $id]])->first();
+			$data = $this->_table->find('all', ['conditions' => [$this->_table->getPrimaryKey() => $id]])->first();
 			list($model, $sortField) = pluginSplit($options['sortField']);
 			$options['value'] = $data[$sortField];
 		}
@@ -54,7 +56,7 @@ class NeighborBehavior extends Behavior {
 		if (!empty($options['fields'])) {
 			$findOptions['fields'] = $options['fields'];
 		}
-		$findOptions['conditions'][$this->_table->alias() . '.' . $this->_table->primaryKey() . ' !='] = $id;
+		$findOptions['conditions'][$this->_table->getAlias() . '.' . $this->_table->getPrimaryKey() . ' !='] = $id;
 
 		$prevOptions = $findOptions;
 		$prevOptions['conditions'] = Hash::merge($prevOptions['conditions'], [$options['sortField'] . ' ' . $sortDirSymb[1] => $options['value']]);

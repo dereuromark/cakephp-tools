@@ -5,7 +5,7 @@ namespace Tools\Test\TestCase\Controller\Component;
 use App\Controller\MobileComponentTestController;
 use Cake\Core\Configure;
 use Cake\Event\Event;
-use Cake\Network\Request;
+use Cake\Http\ServerRequest;
 use Detection\MobileDetect;
 use Tools\TestSuite\TestCase;
 
@@ -37,19 +37,19 @@ class MobileComponentTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		Request::addDetector('mobile', function ($request) {
+		ServerRequest::addDetector('mobile', function ($request) {
 			$detector = new MobileDetect();
 			return $detector->isMobile();
 		});
-		Request::addDetector('tablet', function ($request) {
+		ServerRequest::addDetector('tablet', function ($request) {
 			$detector = new MobileDetect();
 			return $detector->isTablet();
 		});
 
 		$this->event = new Event('Controller.beforeFilter');
-		$this->Controller = new MobileComponentTestController(new Request());
+		$this->Controller = new MobileComponentTestController(new ServerRequest());
 
-		$this->Controller->request->session()->delete('User');
+		$this->Controller->request->getSession()->delete('User');
 		Configure::delete('User');
 	}
 
@@ -141,7 +141,7 @@ class MobileComponentTest extends TestCase {
 		$_SERVER['HTTP_USER_AGENT'] = 'Some Android device';
 
 		$this->Controller->Mobile->beforeFilter($this->event);
-		$session = $this->Controller->request->session()->read('User');
+		$session = $this->Controller->request->getSession()->read('User');
 		$this->assertSame(['mobile' => 0], $session);
 
 		$this->assertTrue($this->Controller->Mobile->isMobile);
@@ -176,7 +176,7 @@ class MobileComponentTest extends TestCase {
 		$_SERVER['HTTP_USER_AGENT'] = 'Some Android device';
 
 		$this->Controller->Mobile->beforeFilter($this->event);
-		$session = $this->Controller->request->session()->read('User');
+		$session = $this->Controller->request->getSession()->read('User');
 		$this->assertTrue($this->Controller->Mobile->isMobile);
 	}
 

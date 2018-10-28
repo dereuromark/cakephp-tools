@@ -6,7 +6,7 @@ use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
-use Symfony\Component\Console\Exception\LogicException;
+use LogicException;
 
 /**
  * ToggleBehavior
@@ -53,7 +53,7 @@ class ToggleBehavior extends Behavior {
 		$order = $this->getConfig('findOrder');
 		if ($order === null) {
 			$order = [];
-			if ($this->_table->schema()->column('modified')) {
+			if ($this->_table->getSchema()->getColumn('modified')) {
 				$order['modified'] = 'DESC';
 			}
 		}
@@ -72,6 +72,7 @@ class ToggleBehavior extends Behavior {
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 * @return void
+	 * @throws \LogicException
 	 */
 	public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options) {
 		$field = $this->getConfig('field');
@@ -101,13 +102,15 @@ class ToggleBehavior extends Behavior {
 	 * @param \ArrayObject $options
 	 *
 	 * @return void
+	 *
+	 * @throws \LogicException
 	 */
 	public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options) {
 		if ($this->_config['on'] !== 'afterSave') {
 			return;
 		}
 
-		if (!$entity->dirty($this->getConfig('field'))) {
+		if (!$entity->isDirty($this->getConfig('field'))) {
 			return;
 		}
 

@@ -97,7 +97,7 @@ class SluggedBehavior extends Behavior {
 	 */
 	public function __construct(Table $table, array $config = []) {
 		$this->_defaultConfig['notices'] = Configure::read('debug');
-		$this->_defaultConfig['label'] = $table->displayField();
+		$this->_defaultConfig['label'] = $table->getDisplayField();
 		foreach ($this->_defaultConfig['replace'] as $key => $value) {
 			$this->_defaultConfig['replace'][$key] = __d('tools', $value);
 		}
@@ -117,7 +117,7 @@ class SluggedBehavior extends Behavior {
 	 */
 	public function initialize(array $config) {
 		if ($this->_config['length'] === null) {
-			$length = $this->_table->schema()->column($this->_config['field'])['length'];
+			$length = $this->_table->getSchema()->getColumn($this->_config['field'])['length'];
 			$this->_config['length'] = $length ?: 0;
 		}
 
@@ -128,15 +128,15 @@ class SluggedBehavior extends Behavior {
 		}
 		if ($this->_config['length']) {
 			foreach ($label as $field) {
-				$alias = $this->_table->alias();
+				$alias = $this->_table->getAlias();
 				if (strpos($field, '.')) {
 					list($alias, $field) = explode('.', $field);
 					if (!$this->_table->$alias->hasField($field)) {
-						throw new RuntimeException('(SluggedBehavior::setup) model ' . $this->_table->$alias->alias() . ' is missing the field ' . $field .
-							' (specified in the setup for model ' . $this->_table->alias() . ') ');
+						throw new RuntimeException('(SluggedBehavior::setup) model ' . $this->_table->$alias->getAlias() . ' is missing the field ' . $field .
+							' (specified in the setup for model ' . $this->_table->getAlias() . ') ');
 					}
 				} elseif (!$this->_table->hasField($field) && !method_exists($this->_table->entityClass(), '_get' . Inflector::classify($field))) {
-					throw new RuntimeException('(SluggedBehavior::setup) model ' . $this->_table->alias() . ' is missing the field ' . $field . ' specified in the setup.');
+					throw new RuntimeException('(SluggedBehavior::setup) model ' . $this->_table->getAlias() . ' is missing the field ' . $field . ' specified in the setup.');
 				}
 			}
 		}
@@ -227,7 +227,7 @@ class SluggedBehavior extends Behavior {
 	 */
 	public function needsSlugUpdate(EntityInterface $entity, $deep = false) {
 		foreach ((array)$this->_config['label'] as $label) {
-			if ($entity->dirty($label)) {
+			if ($entity->isDirty($label)) {
 				return true;
 			}
 		}
@@ -308,12 +308,12 @@ class SluggedBehavior extends Behavior {
 			if (!$entity) {
 				throw new RuntimeException('Needs an Entity to work on');
 			}
-			$field = $this->_table->alias() . '.' . $this->_config['field'];
+			$field = $this->_table->getAlias() . '.' . $this->_config['field'];
 			$conditions = [$field => $slug];
 			$conditions = array_merge($conditions, $this->_config['scope']);
-			$id = $entity->get($this->_table->primaryKey());
+			$id = $entity->get($this->_table->getPrimaryKey());
 			if ($id) {
-				$conditions['NOT'][$this->_table->alias() . '.' . $this->_table->primaryKey()] = $id;
+				$conditions['NOT'][$this->_table->getAlias() . '.' . $this->_table->getPrimaryKey()] = $id;
 			}
 			$i = 0;
 			$suffix = '';

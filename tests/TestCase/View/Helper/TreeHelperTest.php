@@ -48,7 +48,7 @@ class TreeHelperTest extends TestCase {
 
 		//$this->Table->truncate();
 		$connection = ConnectionManager::get('test');
-		$sql = $this->Table->schema()->truncateSql($connection);
+		$sql = $this->Table->getSchema()->truncateSql($connection);
 		foreach ($sql as $snippet) {
 			$connection->execute($snippet);
 		}
