@@ -51,13 +51,14 @@ class TimeHelper extends CakeTimeHelper {
 	 * @throws \Cake\Core\Exception\Exception When the engine class could not be found.
 	 */
 	public function __construct(View $View, array $config = []) {
-		parent::__construct($View, $config);
-
 		$defaults = [
 			'outputTimezone' => Configure::read('App.defaultOutputTimezone')
 		];
-		$config = $this->_config + $defaults;
+		$config += $defaults;
 
+		parent::__construct($View, $config);
+
+		$config = $this->_config + $defaults;
 		$engineClass = App::className($config['engine'], 'Utility');
 		if (!$engineClass) {
 			throw new Exception(sprintf('Class for %s could not be found', $config['engine']));
