@@ -58,6 +58,11 @@ class BitmaskedBehavior extends Behavior {
 		if (!isset($options['bits'])) {
 			throw new InvalidArgumentException("The 'bits' key is required for find('bits')");
 		}
+		$options += ['type' => 'exact'];
+
+		if ($options['type'] === 'contain') {
+			return $query->where($this->containsBit($options['bits']));
+		}
 
 		$bits = $this->encodeBitmask($options['bits']);
 

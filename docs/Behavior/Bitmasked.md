@@ -97,6 +97,11 @@ $searchManager
 
 This way the array of checkboxes selected will be turned into the integer bitmask needed for the query to work.
 
+When using select dropdows, you usually want to use type `contain` instead of `exact` matching:
+```php
+$this->Comments->find('bits', ['bits' => $statuses, 'type' => 'contain])->toArray();
+```
+
 Note: This requires Search `^4.2.1`!
 
 ### Outview

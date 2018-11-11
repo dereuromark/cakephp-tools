@@ -93,6 +93,18 @@ class BitmaskedBehaviorTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testFindBitmaskedContain() {
+		$options = [
+			'bits' => [BitmaskedComment::STATUS_APPROVED],
+			'type' => 'contain'
+		];
+		$res = $this->Comments->find('bits', $options)->toArray();
+		$this->assertCount(3, $res);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testSaveBasic() {
 		$data = [
 			'comment' => 'test save',
