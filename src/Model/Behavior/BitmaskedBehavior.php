@@ -65,8 +65,12 @@ class BitmaskedBehavior extends Behavior {
 		}
 
 		$bits = $this->encodeBitmask($options['bits']);
+		if ($bits === null) {
+			$field = $this->getConfig('field');
+			$bits = $this->_getDefaultValue($field);
+		}
 
-		return $query->where([$this->_table->getAlias() . '.' . $this->_config['field'] => $bits]);
+		return $query->where([$this->_table->getAlias() . '.' . $this->_config['field'] . ' IS' => $bits]);
 	}
 
 	/**
@@ -363,6 +367,12 @@ class BitmaskedBehavior extends Behavior {
 		$bitmask = $this->encodeBitmask($bits);
 
 		$field = $this->_config['field'];
+		if ($bitmask === null) {
+			$emptyValue = $this->_getDefaultValue($field);
+
+			return [$this->_table->getAlias() . '.' . $field . ' IS' => $emptyValue];
+		}
+
 		$contain = $contain ? ' & ? = ?' : ' & ? != ?';
 		$contain = Text::insert($contain, [$bitmask, $bitmask]);
 
@@ -374,6 +384,17 @@ class BitmaskedBehavior extends Behavior {
 		}
 
 		return ['(' . $this->_table->getAlias() . '.' . $field . $contain . ')'];
+	}
+
+	/**
+	 * @param string $field
+	 *
+	 * @return int|null
+	 */
+	protected function _getDefaultValue($field) {
+		$schema = $this->_table->getSchema()->getColumn($field);
+
+		return $schema['default'] ?: 0;
 	}
 
 }
