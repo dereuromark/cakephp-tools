@@ -5,8 +5,8 @@ But often times you want to provide a login input field as combined one, so the 
 
 For this make sure your login form contains:
 ```php
-echo $this->Form->input('login');
-echo $this->Form->input('password', ['autocomplete' => 'off']);
+echo $this->Form->control('login');
+echo $this->Form->control('password', ['autocomplete' => 'off']);
 ```
 
 Then set up the Auth component:

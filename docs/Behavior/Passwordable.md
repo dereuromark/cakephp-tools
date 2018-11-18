@@ -78,7 +78,7 @@ class UsersController extends Controller {
 
 
 		if ($this->request->is(['put', 'post'])) {
-			$user = $this->Users->patchEntity($user, $this->request->data);
+			$user = $this->Users->patchEntity($user, $this->request->getData());
 			$user->role_id = Configure::read('Roles.user');
 
 			if ($this->Users->save($user)) {
