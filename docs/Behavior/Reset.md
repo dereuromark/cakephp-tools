@@ -67,11 +67,11 @@ $this->out('Done: ' . $res);
 The callback method (in this case just statically, as we didnt want to mess with the model itself):
 ```php
 public static function prepMessage(array $row) {
-    if (empty($row['Message']['data_array']['GUEST_FIRST_NAME'])) {
+    if (empty($row['data_array']['GUEST_FIRST_NAME'])) {
         return [];
     }
 
-    $row['Message']['guest_name'] = $row['Message']['data_array']['GUEST_FIRST_NAME'] . ' ' . $row['Message']['data_array']['GUEST_LAST_NAME'];
+    $row['guest_name'] = $row['data_array']['GUEST_FIRST_NAME'] . ' ' . $row['data_array']['GUEST_LAST_NAME'];
     return $row;
 }
 ```

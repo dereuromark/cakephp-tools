@@ -99,10 +99,10 @@ class MobileComponent extends Component {
 
 		if ($mobileOverwrite !== null) {
 			if ($mobileOverwrite === '-1') {
-				$this->request->session()->delete('User.mobile');
+				$this->request->getSession()->delete('User.mobile');
 			} else {
 				$wantsMobile = (bool)$mobileOverwrite;
-				$this->request->session()->write('User.mobile', (int)$wantsMobile);
+				$this->request->getSession()->write('User.mobile', (int)$wantsMobile);
 			}
 		}
 		$this->isMobile();
@@ -125,7 +125,7 @@ class MobileComponent extends Component {
 		if ($this->isMobile === null) {
 			$this->isMobile();
 		}
-		$forceMobile = $this->request->session()->read('User.mobile');
+		$forceMobile = $this->request->getSession()->read('User.mobile');
 
 		if ($forceMobile !== null && !$forceMobile) {
 			$this->setMobile = false;

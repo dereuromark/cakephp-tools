@@ -158,13 +158,13 @@ class SluggedBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * Test that fieldList doesnt mess with slug storing.
+	 * Test that fields doesnt mess with slug storing.
 	 *
 	 * @return void
 	 */
-	public function testFieldList() {
+	public function testFields() {
 		// field list is only relevant for newEntity(), not for what the behavior does
-		$entity = $this->articles->newEntity(['title' => 'Some title'], ['fieldList' => ['title']]);
+		$entity = $this->articles->newEntity(['title' => 'Some title'], ['fields' => ['title']]);
 
 		$result = $this->articles->save($entity);
 		$this->assertEquals('Some-title', $result->get('slug'));
@@ -177,7 +177,7 @@ class SluggedBehaviorTest extends TestCase {
 	 */
 	public function testNeedsSlugUpdate() {
 		// No title change
-		$entity = $this->articles->newEntity(['title' => 'Some title'], ['fieldList' => []]);
+		$entity = $this->articles->newEntity(['title' => 'Some title'], ['fields' => []]);
 		$result = $this->articles->needsSlugUpdate($entity);
 		$this->assertFalse($result);
 
@@ -614,7 +614,7 @@ class SluggedBehaviorTest extends TestCase {
 	 */
 	public function testSlugGenerationWithVirualField() {
 		$this->articles->removeBehavior('Slugged');
-		$this->articles->entityClass('\App\Model\Entity\SluggedArticle');
+		$this->articles->setEntityClass('\App\Model\Entity\SluggedArticle');
 		$this->articles->addBehavior('Tools.Slugged', [
 			'label' => [
 				'title',

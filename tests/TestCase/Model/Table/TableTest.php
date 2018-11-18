@@ -54,7 +54,7 @@ class TableTest extends TestCase {
 		$is = $this->Users->find('count');
 		$this->assertEquals(4, $is);
 
-		$config = ConnectionManager::config('test');
+		$config = ConnectionManager::getConfig('test');
 		if ((strpos($config['driver'], 'Mysql') !== false)) {
 			$is = $this->Users->getNextAutoIncrement();
 			$this->assertEquals(5, $is);

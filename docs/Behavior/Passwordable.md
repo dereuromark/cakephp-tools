@@ -109,7 +109,7 @@ use Tools\Controller\Controller;
 class UsersController extends Controller {
 
 	public function edit() {
-		$uid = $this->request->session()->read('Auth.User.id');
+		$uid = $this->request->getSession()->read('Auth.User.id');
 		$user = $this->Users->get($uid);
 		$this->Users->addBehavior('Tools.Passwordable', ['require' => false]);
 

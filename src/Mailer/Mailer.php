@@ -35,11 +35,11 @@ class Mailer extends CakeMailer {
 	 * @return void
 	 */
 	protected function fixateLocale() {
-		$this->locale = I18n::locale();
+		$this->locale = I18n::getLocale();
 
 		$primaryLocale = $this->getPrimaryLocale();
 		if ($primaryLocale && $primaryLocale !== $this->locale) {
-			I18n::locale($primaryLocale);
+			I18n::setLocale($primaryLocale);
 		}
 	}
 
@@ -51,7 +51,7 @@ class Mailer extends CakeMailer {
 	protected function restoreLocale() {
 		$primaryLocale = $this->getPrimaryLocale();
 		if ($primaryLocale && $primaryLocale !== $this->locale) {
-			I18n::locale($this->locale);
+			I18n::setLocale($this->locale);
 		}
 	}
 
