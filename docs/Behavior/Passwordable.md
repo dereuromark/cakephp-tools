@@ -117,7 +117,7 @@ class UsersController extends Controller {
 			$options = [
 				'fieldList' => [...]
 			];
-			$user = $this->Users->patchEntity($user, $this->request->data, $options);
+			$user = $this->Users->patchEntity($user, $this->request->getData(), $options);
 			if ($this->Users->save($user)) {
 				// Update session data, as well
 				$this->Auth->setUser($user->toArray());
@@ -199,7 +199,7 @@ So you only need to pass in the other non-password-related fields:
 $options = [
 	'fieldList' => ['id', 'name']
 ];
-$user = $this->Users->patchEntity($user, $this->request->data, $options);
+$user = $this->Users->patchEntity($user, $this->request->getData(), $options);
 ```
 
 If the config `forceFieldList` is set to true, it will even create the fieldList for you on the fly.
