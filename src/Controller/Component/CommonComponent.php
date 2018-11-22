@@ -26,13 +26,13 @@ class CommonComponent extends Component {
 	public function startup(Event $event) {
 		// Data preparation
 		if ($this->Controller->request->getData() && !Configure::read('DataPreparation.notrim')) {
-			$this->Controller->request->data = Utility::trimDeep($this->Controller->request->getData());
+			$this->Controller->request = $this->Controller->request->withData(Utility::trimDeep($this->Controller->request->getData()));
 		}
 		if ($this->Controller->request->getQuery() && !Configure::read('DataPreparation.notrim')) {
-			$this->Controller->request->query = Utility::trimDeep($this->Controller->request->getQuery());
+			$this->Controller->request = $this->Controller->request->withQueryParams(Utility::trimDeep($this->Controller->request->getQuery()));
 		}
 		if ($this->Controller->request->getParam('pass') && !Configure::read('DataPreparation.notrim')) {
-			$this->Controller->request->params['pass'] = Utility::trimDeep($this->Controller->request->getParam('pass'));
+			$this->Controller->request = $this->Controller->request->withParam('pass', Utility::trimDeep($this->Controller->request->getParam('pass')));
 		}
 	}
 
