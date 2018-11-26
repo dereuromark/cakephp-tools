@@ -5,6 +5,7 @@ namespace Tools\Test\TestCase\View\Helper;
 use Cake\Core\Configure;
 use Cake\View\View;
 use Tools\TestSuite\TestCase;
+use Tools\Utility\Text;
 use Tools\View\Helper\FormatHelper;
 
 /**
@@ -250,8 +251,36 @@ class FormatHelperTest extends TestCase {
 	}
 
 	/**
-	 * FormatHelperTest::testConfigure()
+	 * @return void
+	 */
+	public function testSlug() {
+		$result = $this->Format->slug('A Baz D & Foo');
+		$this->assertSame('A-Baz-D-Foo', $result);
+
+		$this->Format->setConfig('slugger', [Text::class, 'slug']);
+		$result = $this->Format->slug('A Baz D & Foo');
+		$this->assertSame('A-Baz-D-Foo', $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testSlugCustomObject() {
+		$this->Format->setConfig('slugger', [$this, '_testSlugger']);
+		$result = $this->Format->slug('A Baz D & Foo');
+		$this->assertSame('a baz d & foo', $result);
+	}
+
+	/**
+	 * @param string $name
 	 *
+	 * @return string
+	 */
+	public function _testSlugger($name) {
+		return mb_strtolower($name);
+	}
+
+	/**
 	 * @return void
 	 */
 	public function testNeighbors() {
@@ -264,6 +293,23 @@ class FormatHelperTest extends TestCase {
 
 		$result = $this->Format->neighbors($neighbors, 'foo');
 		$expected = '<div class="next-prev-navi"><a href="/index/1" title="bar"><i class="icon icon-prev fa fa-prev prev" title="" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/index/2" title="y"><i class="icon icon-next fa fa-next next" title="" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;nextRecord</a></div>';
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * Test slug generation works with new slugger.
+	 *
+	 * @return void
+	 */
+	public function testSlugGenerationWithNewSlugger() {
+		$neighbors = [
+			'prev' => ['id' => 1, 'foo' => 'My Foo'],
+			'next' => ['id' => 2, 'foo' => 'My FooBaz'],
+		];
+
+		$result = $this->Format->neighbors($neighbors, 'foo', ['slug' => true]);
+
+		$expected = '<div class="next-prev-navi nextPrevNavi"><a href="/index/1/My-Foo" title="My Foo"><i class="icon icon-prev fa fa-prev" title="Prev" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/index/2/My-FooBaz" title="My FooBaz"><i class="icon icon-next fa fa-next" title="Next" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;nextRecord</a></div>';
 		$this->assertEquals($expected, $result);
 	}
 
