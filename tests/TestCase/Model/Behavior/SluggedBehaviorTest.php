@@ -6,6 +6,7 @@ use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Tools\TestSuite\TestCase;
+use Tools\Utility\Text;
 
 /**
  * SluggedBehaviorTest
@@ -612,7 +613,7 @@ class SluggedBehaviorTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testSlugGenerationWithVirualField() {
+	public function testSlugGenerationWithVirtualField() {
 		$this->articles->removeBehavior('Slugged');
 		$this->articles->setEntityClass('\App\Model\Entity\SluggedArticle');
 		$this->articles->addBehavior('Tools.Slugged', [
@@ -628,6 +629,53 @@ class SluggedBehaviorTest extends TestCase {
 		$result = $this->articles->save($article);
 		$this->assertTrue((bool)$result);
 		$this->assertEquals('Some-Article-12345-dereuromark', $result['slug']);
+	}
+
+	/**
+	 * Test slug generation works with new slugger.
+	 *
+	 * @return void
+	 */
+	public function testSlugGenerationWithNewSlugger() {
+		$this->articles->removeBehavior('Slugged');
+		$this->articles->addBehavior('Tools.Slugged', [
+			'mode' => [Text::class, 'slug'],
+		]);
+
+		$data = ['title' => 'Some Article 12345'];
+
+		$article = $this->articles->newEntity($data);
+		$result = $this->articles->save($article);
+		$this->assertTrue((bool)$result);
+		$this->assertEquals('Some-Article-12345', $result['slug']);
+	}
+
+	/**
+	 * Test slug generation works with custom slugger.
+	 *
+	 * @return void
+	 */
+	public function testSlugGenerationWithCustomSlugger() {
+		$this->articles->removeBehavior('Slugged');
+		$this->articles->addBehavior('Tools.Slugged', [
+			'mode' => [$this, '_customSluggerMethod'],
+		]);
+
+		$data = ['title' => 'Some Article 12345'];
+
+		$article = $this->articles->newEntity($data);
+		$result = $this->articles->save($article);
+		$this->assertTrue((bool)$result);
+		$this->assertEquals('some article 12345', $result['slug']);
+	}
+
+	/**
+	 * @param string $name
+	 *
+	 * @return string
+	 */
+	public function _customSluggerMethod($name) {
+		return mb_strtolower($name);
 	}
 
 	/**

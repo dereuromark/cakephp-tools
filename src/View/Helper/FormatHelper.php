@@ -7,6 +7,7 @@ use Cake\Utility\Inflector;
 use Cake\View\Helper;
 use Cake\View\StringTemplate;
 use Cake\View\View;
+use RuntimeException;
 
 /**
  * Format helper with basic html snippets
@@ -62,7 +63,8 @@ class FormatHelper extends Helper {
 		'templates' => [
 			'icon' => '<i class="{{class}}"{{attributes}}></i>',
 			'ok' => '<span class="ok-{{type}}" style="color:{{color}}"{{attributes}}>{{content}}</span>'
-		]
+		],
+		'slugger' => null,
 	];
 
 	/**
@@ -108,25 +110,6 @@ class FormatHelper extends Helper {
 	 * @return string
 	 */
 	public function neighbors(array $neighbors, $field, array $options = []) {
-		$alias = null;
-		if (mb_strpos($field, '.') !== false) {
-			$fieldArray = explode('.', $field, 2);
-			$alias = $fieldArray[0];
-			$field = $fieldArray[1];
-		}
-
-		if (empty($alias)) {
-			if (!empty($neighbors['prev'])) {
-				$modelNames = array_keys($neighbors['prev']);
-				$alias = $modelNames[0];
-			} elseif (!empty($neighbors['next'])) {
-				$modelNames = array_keys($neighbors['next']);
-				$alias = $modelNames[0];
-			}
-		}
-		if (empty($field)) {
-		}
-
 		$name = 'Record'; // Translation further down!
 		if (!empty($options['name'])) {
 			$name = ucfirst($options['name']);
@@ -135,22 +118,15 @@ class FormatHelper extends Helper {
 		$prevSlug = $nextSlug = null;
 		if (!empty($options['slug'])) {
 			if (!empty($neighbors['prev'])) {
-				$prevSlug = Inflector::slug($neighbors['prev'][$alias][$field], '-');
+				$prevSlug = $this->slug($neighbors['prev'][$field]);
 			}
 			if (!empty($neighbors['next'])) {
-				$nextSlug = Inflector::slug($neighbors['next'][$alias][$field], '-');
+				$nextSlug = $this->slug($neighbors['next'][$field]);
 			}
 		}
-		$titleAlias = $alias;
 		$titleField = $field;
 		if (!empty($options['titleField'])) {
-			if (mb_strpos($options['titleField'], '.') !== false) {
-				$fieldArray = explode('.', $options['titleField'], 2);
-				$titleAlias = $fieldArray[0];
-				$titleField = $fieldArray[1];
-			} else {
-				$titleField = $options['titleField'];
-			}
+			$titleField = $options['titleField'];
 		}
 		if (!isset($options['escape']) || $options['escape'] === false) {
 			$titleField = h($titleField);
@@ -158,39 +134,38 @@ class FormatHelper extends Helper {
 
 		$ret = '<div class="next-prev-navi nextPrevNavi">';
 		if (!empty($neighbors['prev'])) {
-			$url = [$neighbors['prev'][$alias]['id'], $prevSlug];
+			$url = [$neighbors['prev']['id'], $prevSlug];
 			if (!empty($options['url'])) {
 				$url += $options['url'];
 			}
 
-			// ICON_PREV, false
 			$ret .= $this->Html->link(
 				$this->icon('prev') . '&nbsp;' . __d('tools', 'prev' . $name),
 				$url,
-				['escape' => false, 'title' => $neighbors['prev'][$titleAlias][$titleField]]
+				['escape' => false, 'title' => $neighbors['prev'][$titleField]]
 			);
 		} else {
-			//ICON_PREV_DISABLED, __d('tools', 'noPrev' . $name)) . '&nbsp;' . __d('tools', 'prev' . $name
 			$ret .= $this->icon('prev');
 		}
+
 		$ret .= '&nbsp;&nbsp;';
 		if (!empty($neighbors['next'])) {
-			$url = [$neighbors['next'][$alias]['id'], $prevSlug];
+			$url = [$neighbors['next']['id'], $nextSlug];
 			if (!empty($options['url'])) {
 				$url += $options['url'];
 			}
 
-			// ICON_NEXT, false
 			$ret .= $this->Html->link(
 				$this->icon('next') . '&nbsp;' . __d('tools', 'next' . $name),
 				$url,
-				['escape' => false, 'title' => $neighbors['next'][$titleAlias][$titleField]]
+				['escape' => false, 'title' => $neighbors['next'][$titleField]]
 			);
 		} else {
-			// ICON_NEXT_DISABLED, __d('tools', 'noNext' . $name)
 			$ret .= $this->icon('next') . '&nbsp;' . __d('tools', 'next' . $name);
 		}
+
 		$ret .= '</div>';
+
 		return $ret;
 	}
 
@@ -349,7 +324,7 @@ class FormatHelper extends Helper {
 
 		$type = pathinfo($icon, PATHINFO_FILENAME);
 		$title = ucfirst($type);
-		$alt = Inflector::slug($title);
+		$alt = $this->slug($title);
 		if ($translate !== false) {
 			$title = __($title);
 			$alt = __($alt);
@@ -725,6 +700,25 @@ class FormatHelper extends Helper {
 
 		$table .= '</table>';
 		return $table;
+	}
+
+	/**
+	 * @param string $string
+	 *
+	 * @return string
+	 * @throws \RuntimeException
+	 */
+	public function slug($string) {
+		if ($this->_config['slugger']) {
+			$callable = $this->_config['slugger'];
+			if (!is_callable($callable)) {
+				throw new RuntimeException('Invalid callable passed as slugger.');
+			}
+
+			return $callable($string);
+		}
+
+		return Inflector::slug($string);
 	}
 
 }

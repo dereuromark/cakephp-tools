@@ -34,11 +34,12 @@ class SluggedBehavior extends Behavior {
 	 * - field: The slug field name
 	 * - overwriteField: The boolean field to trigger overwriting if "overwrite" is false
 	 * - mode: has the following values
-	 *     ascii - retuns an ascii slug generated using the core Inflector::slug() function
+	 *     ascii - returns an ascii slug generated using the core Inflector::slug() function
 	 *     display - a dummy mode which returns a slug legal for display - removes illegal (not unprintable) characters
 	 *     url - returns a slug appropriate to put in a URL
 	 *     class - a dummy mode which returns a slug appropriate to put in a html class (there are no restrictions)
 	 *     id - retuns a slug appropriate to use in a html id
+	 *     OR pass it a callable as custom method to be invoked
 	 * - separator: The separator to use
 	 * - length:
 	 *  Set to 0 for no length. Will be auto-detected if possible via schema.
@@ -46,7 +47,7 @@ class SluggedBehavior extends Behavior {
 	 *     false - once the slug has been saved, do not change it (use if you are doing lookups based on slugs)
 	 *     true - if the label field values change, regenerate the slug (use if you are the slug is just window-dressing)
 	 * - unique: has 2 values
-	 *     false - will not enforce a unique slug, whatever the label is is direclty slugged without checking for duplicates
+	 *     false - will not enforce a unique slug, whatever the label is is directly slugged without checking for duplicates
 	 *     true - use if you are doing lookups based on slugs (see overwrite)
 	 * - case: has the following values
 	 *     null - don't change the case of the slug
@@ -262,7 +263,15 @@ class SluggedBehavior extends Behavior {
 		if ($replace) {
 			$string = str_replace(array_keys($replace), array_values($replace), $string);
 		}
-		if ($this->_config['mode'] === 'ascii') {
+
+		if (!is_string($this->_config['mode'])) {
+			$callable = $this->_config['mode'];
+			if (!is_callable($callable)) {
+				throw new RuntimeException('Invalid callable passed as mode.');
+			}
+			$slug = $callable($string);
+
+		} elseif ($this->_config['mode'] === 'ascii') {
 			$slug = Inflector::slug($string, $separator);
 		} else {
 			$regex = $this->_regex($this->_config['mode']);

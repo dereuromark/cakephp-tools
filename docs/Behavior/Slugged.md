@@ -44,6 +44,7 @@ A CakePHP behavior to automatically create and store slugs.
                     <li> <b>url: </b> returns a slug appropriate to put in a URL </li>
                     <li> <b>class: </b> a dummy mode which returns a slug appropriate to put in a html class (there are no restrictions) </li>
                     <li> <b>id: </b> returns a slug appropriate to use in a html id </li>
+                    <li> <b>{callable}: </b> Use your custom callable to pass in your slugger method </li>
                 </ul>
             </td>
         </tr>
@@ -96,17 +97,17 @@ A CakePHP behavior to automatically create and store slugs.
         <tr>
             <td>    replace  </td>
             <td>    </td>
-            <td>    custom replacements as array.     </td>
+            <td>    Custom replacements as array. `Set to null` to disable.    </td>
         </tr>
         <tr>
             <td>    on  </td>
             <td>    </td>
-            <td>    beforeSave or beforeValidate.     </td>
+            <td>    `beforeSave` or `beforeMarshal` or `beforeRules`.     </td>
         </tr>
         <tr>
             <td>    scope  </td>
             <td>    </td>
-            <td>    certain conditions to use as scope.     </td>
+            <td>    Certain conditions to use as scope.     </td>
         </tr>
         <tr>
             <td>    tidy  </td>
@@ -153,3 +154,13 @@ $this->addBehavior('Tools.Slugged',
 Note that we don't need "unique" either then.
 
 Each save now re-triggers the slug generation.
+
+### Using a custom slugger
+You can pass your own callable for slugging into the `mode` config.
+And you can even use a static method on any class this way (given it has a static `slug()` method):
+```
+$this->addBehavior('Tools.Slugged', ['mode' => [MySlugger::class, 'slug']]);
+```
+
+Tip: Use `'mode' => [Text::class, 'slug']` if you want to avoid using the deprecated `Inflector::slug()` method.
+Don't forget the use statement at the top of the file, though (`use Tools\Utility\Text;`).
