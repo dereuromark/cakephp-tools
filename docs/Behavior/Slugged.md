@@ -15,7 +15,7 @@ A CakePHP behavior to automatically create and store slugs.
         </tr>
         <tr>
             <td>label</td>
-            <td>null</td>
+            <td>`null`</td>
             <td>
                 <ul>
                     <li> set to the name of a field to use for the slug </li>
@@ -26,17 +26,17 @@ A CakePHP behavior to automatically create and store slugs.
         </tr>
         <tr>
             <td>    field   </td>
-            <td>    </td>
+            <td>  `'slug'`  </td>
             <td>    The slug field name     </td>
         </tr>
         <tr>
             <td>    overwriteField  </td>
-            <td>        </td>
-            <td>    The boolean field to trigger overwriting if "overwrite" is false     </td>
+            <td>  'overwrite_slug'      </td>
+            <td>    The boolean field/property to trigger overwriting if "overwrite" is false     </td>
         </tr>
         <tr>
             <td>    mode    </td>
-            <td>    </td>
+            <td> `'url'`   </td>
             <td>
                 <ul>
                     <li> <b>ascii: </b> retuns an ascii slug generated using the core Inflector::slug() function </li>
@@ -50,17 +50,17 @@ A CakePHP behavior to automatically create and store slugs.
         </tr>
         <tr>
             <td>    separator  </td>
-            <td>    </td>
+            <td> `-`   </td>
             <td>    The separator to use     </td>
         </tr>
         <tr>
             <td>    length  </td>
-            <td>    </td>
+            <td> `null`   </td>
             <td>    Set to 0 for no length. Will be auto-detected if possible via schema.     </td>
         </tr>
         <tr>
             <td>    overwrite    </td>
-            <td>    </td>
+            <td> `false`   </td>
             <td>
                 has the following values
                 <ul>
@@ -71,7 +71,7 @@ A CakePHP behavior to automatically create and store slugs.
         </tr>
         <tr>
             <td>    unique    </td>
-            <td>    </td>
+            <td> `false`   </td>
             <td>
                 has the following values
                 <ul>
@@ -82,7 +82,7 @@ A CakePHP behavior to automatically create and store slugs.
         </tr>
         <tr>
             <td>    case    </td>
-            <td>    </td>
+            <td> `null`   </td>
             <td>
                 has the following values
                 <ul>
@@ -96,22 +96,22 @@ A CakePHP behavior to automatically create and store slugs.
         </tr>
         <tr>
             <td>    replace  </td>
-            <td>    </td>
+            <td> <i>see code</i>   </td>
             <td>    Custom replacements as array. `Set to null` to disable.    </td>
         </tr>
         <tr>
             <td>    on  </td>
-            <td>    </td>
+            <td> `'beforeRules'`   </td>
             <td>    `beforeSave` or `beforeMarshal` or `beforeRules`.     </td>
         </tr>
         <tr>
             <td>    scope  </td>
-            <td>    </td>
+            <td> `[]`   </td>
             <td>    Certain conditions to use as scope.     </td>
         </tr>
         <tr>
             <td>    tidy  </td>
-            <td>    </td>
+            <td> `true`   </td>
             <td>    If cleanup should be run on slugging.     </td>
         </tr>
     </tbody>
@@ -120,7 +120,7 @@ A CakePHP behavior to automatically create and store slugs.
 ## Usage
 Attach it to your models in `initialize()` like so:
 ```php
-$this->addBehavior('Tools.Slugged', $config);
+$this->addBehavior('Tools.Slugged');
 ```
 
 ## Examples
@@ -130,7 +130,8 @@ We want to store categories and we need a slug for nice SEO URLs like `/category
 
 ```php
 $this->addBehavior('Tools.Slugged',
-	array('label' => 'name', 'unique' => true, 'mode' => 'ascii'));
+	['label' => 'name', 'unique' => true, 'mode' => 'ascii', 'unique' => true]
+);
 ```
 
 Upon creating and storing a new record it will look for content in "name" and create a slug in "slug" field.
@@ -149,7 +150,8 @@ Once that boolean checkbox is clicked it will then perform the slug update on sa
 If we just append the slug to the URL, such as `/category/123-[slugname]`, then we don't need to persist the slug.
 ```php
 $this->addBehavior('Tools.Slugged',
-	array('label' => 'name', 'overwrite' => true, 'mode' => 'ascii'));
+	['label' => 'name', 'overwrite' => true, 'mode' => 'ascii', 'unique' => true]
+);
 ```
 Note that we don't need "unique" either then.
 
