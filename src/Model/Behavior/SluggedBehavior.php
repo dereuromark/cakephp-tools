@@ -25,6 +25,9 @@ use RuntimeException;
  */
 class SluggedBehavior extends Behavior {
 
+	const MODE_URL = 'url';
+	const MODE_ASCII = 'ascii';
+
 	/**
 	 * Default config
 	 *
@@ -271,16 +274,19 @@ class SluggedBehavior extends Behavior {
 			}
 			$slug = $callable($string);
 
-		} elseif ($this->_config['mode'] === 'ascii') {
+		} elseif ($this->_config['mode'] === static::MODE_ASCII) {
 			$slug = Inflector::slug($string, $separator);
-		} else {
+		} elseif ($this->_config['mode'] === static::MODE_URL) {
 			$regex = $this->_regex($this->_config['mode']);
 			if ($regex) {
 				$slug = $this->_pregReplace('@[' . $regex . ']@Su', $separator, $string);
 			} else {
 				$slug = $string;
 			}
+		} else {
+			throw new RuntimeException('Invalid mode passed.');
 		}
+
 		if ($this->_config['tidy']) {
 			$slug = $this->_pregReplace('/' . $separator . '+/', $separator, $slug);
 			$slug = trim($slug, $separator);
