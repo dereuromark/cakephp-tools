@@ -391,6 +391,17 @@ class SluggedBehaviorTest extends TestCase {
 	}
 
 	/**
+	 * @return void
+	 */
+	public function testSlugManually() {
+		$article = new Entity();
+		$article->title = 'Foo Bar';
+		$this->articles->slug($article);
+
+		$this->assertSame('Foo-Bar', $article->slug);
+	}
+
+	/**
 	 * Test Url method
 	 *
 	 * @return void

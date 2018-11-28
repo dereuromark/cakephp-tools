@@ -84,8 +84,15 @@ class SluggedBehavior extends Behavior {
 		'on' => 'beforeRules',
 		'scope' => [],
 		'tidy' => true,
-		'implementedFinders' => ['slugged' => 'findSlugged'],
-		//'implementedMethods' => ['slug' => 'slug']
+		'implementedFinders' => [
+			'slugged' => 'findSlugged',
+		],
+		'implementedMethods' => [
+			'slug' => 'slug',
+			'generateSlug' => 'generateSlug',
+			'resetSlugs' => 'resetSlugs',
+			'needsSlugUpdate' => 'needsSlugUpdate',
+		],
 	];
 
 	/**
@@ -118,6 +125,7 @@ class SluggedBehavior extends Behavior {
 	 *
 	 * @param array $config The configuration array this behavior is using.
 	 * @return void
+	 * @throws \RuntimeException
 	 */
 	public function initialize(array $config) {
 		if ($this->_config['length'] === null) {
@@ -139,7 +147,7 @@ class SluggedBehavior extends Behavior {
 						throw new RuntimeException('(SluggedBehavior::setup) model ' . $this->_table->$alias->getAlias() . ' is missing the field ' . $field .
 							' (specified in the setup for model ' . $this->_table->getAlias() . ') ');
 					}
-				} elseif (!$this->_table->hasField($field) && !method_exists($this->_table->entityClass(), '_get' . Inflector::classify($field))) {
+				} elseif (!$this->_table->hasField($field) && !method_exists($this->_table->getEntityClass(), '_get' . Inflector::classify($field))) {
 					throw new RuntimeException('(SluggedBehavior::setup) model ' . $this->_table->getAlias() . ' is missing the field ' . $field . ' specified in the setup.');
 				}
 			}
