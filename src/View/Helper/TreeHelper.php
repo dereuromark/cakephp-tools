@@ -17,7 +17,6 @@ use Exception;
 /**
  * Helper to generate tree representations of MPTT or recursively nested data.
  *
- * @deprecated Use https://github.com/ADmad/cakephp-tree instead.
  * @author Andy Dawson
  * @author Mark Scherer
  * @link http://www.dereuromark.de/2013/02/17/cakephp-and-tree-structures/
@@ -47,6 +46,7 @@ class TreeHelper extends Helper {
 		'maxDepth' => 999,
 		'firstChild' => true,
 		'indent' => null,
+		'indentWith' => "\t",
 		'splitDepth' => false,
 		'splitCount' => null,
 		'totalNodes' => null,
@@ -113,16 +113,29 @@ class TreeHelper extends Helper {
 	 *    'splitCount' => the number of "parallel" types. defaults to null (disabled) set the splitCount,
 	 *        and optionally set the splitDepth to get parallel lists
 	 *
-	 * @param array|\Cake\Orm\Query $data Data to loop over
+	 * @param array|\Cake\Datasource\QueryInterface|\Cake\ORM\ResultSet $data Data to loop over
 	 * @param array $config Config
 	 * @return string HTML representation of the passed data
 	 * @throws \Exception
 	 */
 	public function generate($data, array $config = []) {
-		if (is_object($data)) {
-			$data = $data->toArray();
+		return $this->_generate($data, $config);
+	}
+
+	/**
+	 * @param array|\Cake\Datasource\QueryInterface|\Cake\ORM\ResultSet $data
+	 * @param array $config
+	 * @param array|\Cake\Datasource\QueryInterface|\Cake\ORM\ResultSet|null $parent
+	 *
+	 * @throws \Exception
+	 * @return string
+	 */
+	protected function _generate($data, array $config, $parent = null) {
+		$dataArray = $data;
+		if (is_object($dataArray)) {
+			$dataArray = $data->toArray();
 		}
-		if (!$data) {
+		if (!$dataArray) {
 			return '';
 		}
 
@@ -147,8 +160,8 @@ class TreeHelper extends Helper {
 		}
 		$return = '';
 		$addType = true;
-		$this->_config['totalNodes'] = count($data);
-		$keys = array_keys($data);
+		$this->_config['totalNodes'] = count($dataArray);
+		$keys = array_keys($dataArray);
 
 		if ($hideUnrelated === true || is_numeric($hideUnrelated)) {
 			$this->_markUnrelatedAsHidden($data, $treePath);
@@ -156,25 +169,17 @@ class TreeHelper extends Helper {
 			call_user_func($hideUnrelated, $data, $treePath);
 		}
 
-		foreach ($data as $i => &$result) {
-			/* Allow 2d data arrays */
-			if (is_object($result)) {
-				$result = $result->toArray();
-			}
-			if ($model && isset($result->$model)) {
-				$row = &$result->$model;
-			} else {
-				$row = &$result;
-			}
+		foreach ($data as $i => $result) {
+			$row = $result;
 
 			/* Close open items as appropriate */
 			// @codingStandardsIgnoreStart
-			while ($stack && ($stack[count($stack)-1] < $row[$right])) {
+			while ($stack && ($stack[count($stack) - 1] < $row[$right])) {
 				// @codingStandardsIgnoreEnd
 				array_pop($stack);
 				if ($indent) {
-					$whiteSpace = str_repeat("\t", count($stack));
-					$return .= "\r\n" . $whiteSpace . "\t";
+					$whiteSpace = str_repeat($indentWith, count($stack));
+					$return .= "\r\n" . $whiteSpace . $indentWith;
 				}
 				if ($type) {
 					$return .= '</' . $type . '>';
@@ -234,6 +239,7 @@ class TreeHelper extends Helper {
 
 			$elementData = [
 				'data' => $result,
+				'parent' => $parent,
 				'depth' => $depth,
 				'hasChildren' => $hasChildren,
 				'numberOfDirectChildren' => $numberOfDirectChildren,
@@ -266,9 +272,9 @@ class TreeHelper extends Helper {
 			if (!$content) {
 				continue;
 			}
-			$whiteSpace = str_repeat("\t", $depth);
+			$whiteSpace = str_repeat($indentWith, $depth);
 			if ($indent && strpos($content, "\r\n", 1)) {
-				$content = str_replace("\r\n", "\n" . $whiteSpace . "\t", $content);
+				$content = str_replace("\r\n", "\n" . $whiteSpace . $indentWith, $content);
 			}
 			/* Prefix */
 			if ($addType) {
@@ -281,7 +287,7 @@ class TreeHelper extends Helper {
 				}
 			}
 			if ($indent) {
-				$return .= "\r\n" . $whiteSpace . "\t";
+				$return .= "\r\n" . $whiteSpace . $indentWith;
 			}
 			if ($itemType) {
 				$itemAttributes = $this->_attributes($itemType, $elementData);
@@ -293,11 +299,14 @@ class TreeHelper extends Helper {
 			if ($hasVisibleChildren) {
 				if ($numberOfDirectChildren) {
 					$config['depth'] = $depth + 1;
+					$children = $result['children'];
+					//unset($result['children']);
+
 					$return .= $this->_suffix();
-					$return .= $this->generate($result['children'], $config);
+					$return .= $this->_generate($children, $config, $result);
 					if ($itemType) {
 						if ($indent) {
-							$return .= $whiteSpace . "\t";
+							$return .= $whiteSpace . $indentWith;
 						}
 						$return .= '</' . $itemType . '>';
 					}
@@ -316,8 +325,8 @@ class TreeHelper extends Helper {
 		while ($stack) {
 			array_pop($stack);
 			if ($indent) {
-				$whiteSpace = str_repeat("\t", count($stack));
-				$return .= "\r\n" . $whiteSpace . "\t";
+				$whiteSpace = str_repeat($indentWith, count($stack));
+				$return .= "\r\n" . $whiteSpace . $indentWith;
 			}
 			if ($type) {
 				$return .= '</' . $type . '>';
@@ -339,6 +348,7 @@ class TreeHelper extends Helper {
 				$return .= "\r\n";
 			}
 		}
+
 		return $return;
 	}
 
@@ -348,9 +358,9 @@ class TreeHelper extends Helper {
 	 * Called to modify the attributes of the next <item> to be processed
 	 * Note that the content of a 'node' is processed before generating its wrapping <item> tag
 	 *
-	 * @param string $id
-	 * @param string $key
-	 * @param mixed $value
+	 * @param string $id Id
+	 * @param string $key Key
+	 * @param mixed $value Value
 	 * @return void
 	 */
 	public function addItemAttribute($id = '', $key = '', $value = null) {
@@ -383,10 +393,10 @@ class TreeHelper extends Helper {
 	 * // give top level type (1) a class
 	 * $tree->addTypeAttribute('class', 'hasHiddenGrandChildren', null, 'previous');
 	 *
-	 * @param string $id
-	 * @param string $key
-	 * @param mixed|null $value
-	 * @param string $previousOrNext
+	 * @param string $id ID
+	 * @param string $key Key
+	 * @param mixed|null $value Value
+	 * @param string $previousOrNext Previous or next
 	 * @return void
 	 */
 	public function addTypeAttribute($id = '', $key = '', $value = null, $previousOrNext = 'next') {
@@ -407,7 +417,7 @@ class TreeHelper extends Helper {
 	 *
 	 * Used to close and reopen a ul/ol to allow easier listings
 	 *
-	 * @param bool $reset
+	 * @param bool $reset Reset
 	 * @return string
 	 */
 	protected function _suffix($reset = false) {
@@ -441,6 +451,7 @@ class TreeHelper extends Helper {
 				$_splitCounter++;
 				if ($type && ($_splitCounter % $_splitCount) === 0 && !$lastChild) {
 					unset($this->_config['callback']);
+
 					return '</' . $type . '><' . $type . '>';
 				}
 			}
@@ -452,9 +463,9 @@ class TreeHelper extends Helper {
 	 *
 	 * Logic to apply styles to tags.
 	 *
-	 * @param string $rType
-	 * @param array $elementData
-	 * @param bool $clear
+	 * @param string $rType rType
+	 * @param array $elementData Element data
+	 * @param bool $clear Clear
 	 * @return string
 	 */
 	protected function _attributes($rType, array $elementData = [], $clear = true) {
@@ -497,6 +508,7 @@ class TreeHelper extends Helper {
 			}
 			$attributes[$type] = $type . '="' . implode(' ', $attributes[$type]) . '"';
 		}
+
 		return ' ' . implode(' ', $attributes);
 	}
 
@@ -506,7 +518,7 @@ class TreeHelper extends Helper {
 	 *
 	 * @param array $tree Tree
 	 * @param array $path Tree path
-	 * @param int $level
+	 * @param int $level Level
 	 * @return void
 	 * @throws \Exception
 	 */
@@ -521,7 +533,7 @@ class TreeHelper extends Helper {
 				throw new Exception('Only works with threaded (nested children) results');
 			}
 
-			if (!empty($path[$level]) && $subTree['id'] == $path[$level]['id']) {
+			if (!empty($path[$level]) && $subTree['id'] == $path[$level]) {
 				$subTree['show'] = 1;
 				$siblingIsActive = true;
 			}

@@ -47,6 +47,7 @@ Helpers:
 * [Form](Helper/Form.md)
 * [Common](Helper/Common.md)
 * [Format](Helper/Format.md)
+* [Tree](Helper/Tree.md)
 * [Typography](Helper/Typography.md)
 
 Widgets:

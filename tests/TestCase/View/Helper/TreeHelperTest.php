@@ -4,7 +4,6 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\Datasource\ConnectionManager;
 use Cake\ORM\Entity;
-use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\View\View;
 use Tools\TestSuite\TestCase;
@@ -22,7 +21,12 @@ class TreeHelperTest extends TestCase {
 	/**
 	 * @var \Cake\ORM\Table
 	 */
-	public $Table;
+	protected $Table;
+
+	/**
+	 * @var \Tools\View\Helper\TreeHelper
+	 */
+	protected $Tree;
 
 	/**
 	 * Initial Tree
@@ -46,13 +50,11 @@ class TreeHelperTest extends TestCase {
 		$this->Table = TableRegistry::get('AfterTrees');
 		$this->Table->addBehavior('Tree');
 
-		//$this->Table->truncate();
 		$connection = ConnectionManager::get('test');
 		$sql = $this->Table->getSchema()->truncateSql($connection);
 		foreach ($sql as $snippet) {
 			$connection->execute($snippet);
 		}
-		//$this->Table->deleteAll(array());
 
 		$data = [
 			['name' => 'One'],
@@ -85,15 +87,6 @@ class TreeHelperTest extends TestCase {
 	}
 
 	/**
-	 * @return void
-	 */
-	public function testObject() {
-		$this->assertInstanceOf('Tools\View\Helper\TreeHelper', $this->Tree);
-	}
-
-	/**
-	 * TreeHelperTest::testGenerate()
-	 *
 	 * @return void
 	 */
 	public function testGenerate() {
@@ -137,8 +130,6 @@ TEXT;
 	}
 
 	/**
-	 * TreeHelperTest::testGenerateWithFindAll()
-	 *
 	 * @return void
 	 */
 	public function testGenerateWithFindAll() {
@@ -182,8 +173,6 @@ TEXT;
 	}
 
 	/**
-	 * TreeHelperTest::testGenerateWithDepth()
-	 *
 	 * @return void
 	 */
 	public function testGenerateWithDepth() {
@@ -224,8 +213,6 @@ TEXT;
 	}
 
 	/**
-	 * TreeHelperTest::testGenerateWithSettings()
-	 *
 	 * @return void
 	 */
 	public function testGenerateWithSettings() {
@@ -266,8 +253,6 @@ TEXT;
 	}
 
 	/**
-	 * TreeHelperTest::testGenerateWithMaxDepth()
-	 *
 	 * @return void
 	 */
 	public function testGenerateWithMaxDepth() {
@@ -304,16 +289,12 @@ TEXT;
 	}
 
 	/**
-	 * TreeHelperTest::testGenerateWithAutoPath()
-	 *
 	 * @return void
 	 */
 	public function testGenerateWithAutoPath() {
 		$tree = $this->Table->find('threaded')->toArray();
-		//debug($tree);
 
 		$output = $this->Tree->generate($tree, ['autoPath' => [7, 10]]); // Two-SubA-1
-		//debug($output);
 		$expected = <<<TEXT
 
 <ul>
@@ -397,8 +378,6 @@ TEXT;
 	 * @return void
 	 */
 	public function testGenerateWithAutoPathAndHideUnrelated() {
-		$this->skipIf(true, 'FIXME');
-
 		$data = [
 			['name' => 'Two-SubB', 'parent_id' => 2],
 			['name' => 'Two-SubC', 'parent_id' => 2],
@@ -414,7 +393,6 @@ TEXT;
 		$path = $nodes->extract('id')->toArray();
 
 		$output = $this->Tree->generate($tree, ['autoPath' => [6, 11], 'hideUnrelated' => true, 'treePath' => $path, 'callback' => [$this, '_myCallback']]); // Two-SubA
-		//debug($output);
 
 		$expected = <<<TEXT
 
@@ -457,8 +435,6 @@ TEXT;
 	 * @return void
 	 */
 	public function testGenerateWithAutoPathAndHideUnrelatedAndSiblings() {
-		$this->skipIf(true, 'FIXME');
-
 		$data = [
 			['name' => 'Two-SubB', 'parent_id' => 2],
 			['name' => 'Two-SubC', 'parent_id' => 2],
@@ -469,14 +445,14 @@ TEXT;
 		}
 
 		$tree = $this->Table->find('threaded')->toArray();
-		$id = 6;
+
+		$id = 6; // Two-SubA
 		$nodes = $this->Table->find('path', ['for' => $id]);
 		$path = $nodes->extract('id')->toArray();
 
 		$output = $this->Tree->generate($tree, [
 			'autoPath' => [6, 11], 'hideUnrelated' => true, 'treePath' => $path,
-			'callback' => [$this, '_myCallbackSiblings']]); // Two-SubA
-		//debug($output);
+			'callback' => [$this, '_myCallbackSiblings']]);
 
 		$expected = <<<TEXT
 
@@ -486,7 +462,7 @@ TEXT;
 	<ul>
 		<li class="active">Two-SubA (active)
 		<ul>
-			<li>Two-SubA-1</li>
+			<li>Two-SubA-1</li>	
 		</ul>
 		</li>
 		<li>Two-SubB</li>
@@ -508,7 +484,9 @@ TEXT;
 	 * @return string|null
 	 */
 	public function _myCallback($data) {
-		if (!empty($data['data']['hide'])) {
+		/** @var \Cake\ORM\Entity $entity */
+		$entity = $data['data'];
+		if (!empty($entity['hide'])) {
 			return null;
 		}
 		return $data['data']['name'] . ($data['activePathElement'] ? ' (active)' : '');
@@ -519,18 +497,19 @@ TEXT;
 	 * @return string|null
 	 */
 	public function _myCallbackSiblings($data) {
-		if (!empty($data['data']['hide'])) {
+		/** @var \Cake\ORM\Entity $entity */
+		$entity = $data['data'];
+
+		if (!empty($entity['hide'])) {
 			return null;
 		}
 		if ($data['depth'] == 0 && $data['isSibling']) {
-			return $data['data']['name'] . ' (sibling)';
+			return $entity['name'] . ' (sibling)';
 		}
-		return $data['data']['name'] . ($data['activePathElement'] ? ' (active)' : '');
+		return $entity['name'] . ($data['activePathElement'] ? ' (active)' : '');
 	}
 
 	/**
-	 * TreeHelperTest::testGenerateProductive()
-	 *
 	 * @return void
 	 */
 	public function testGenerateProductive() {
@@ -540,6 +519,78 @@ TEXT;
 		$expected = '<ul><li>One<ul><li>One-SubA</li></ul></li><li>Two<ul><li>Two-SubA<ul><li>Two-SubA-1<ul><li>Two-SubA-1-1</li></ul></li></ul></li></ul></li><li>Three</li><li>Four<ul><li>Four-SubA</li></ul></li></ul>';
 
 		$this->assertTextEquals($expected, $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testGenerateWithEntityUsage() {
+		$data = [
+			['name' => 'Two-SubB', 'parent_id' => 2],
+			['name' => 'Two-SubC', 'parent_id' => 2],
+		];
+		foreach ($data as $row) {
+			$row = new Entity($row);
+			$this->Table->save($row);
+		}
+
+		$tree = $this->Table->find('threaded')->toArray();
+
+		$id = 6;
+		$nodes = $this->Table->find('path', ['for' => $id]);
+		$path = $nodes->extract('id')->toArray();
+
+		$output = $this->Tree->generate($tree, [
+			'autoPath' => [6, 11], 'treePath' => $path,
+			'callback' => [$this, '_myCallbackEntity']]); // Two-SubA
+
+		$expected = <<<TEXT
+
+<ul>
+	<li>One
+	<ul>
+		<li>One-SubA</li>
+	</ul>
+	</li>
+	<li class="active">Two (active)
+	<ul>
+		<li class="active">Two-SubA (active)
+		<ul>
+			<li>Two-SubA-1
+			<ul>
+				<li>Two-SubA-1-1</li>
+			</ul>
+			</li>
+		</ul>
+		</li>
+		<li>Two-SubB</li>
+		<li>Two-SubC</li>
+	</ul>
+	</li>
+	<li>Three</li>
+	<li>Four
+	<ul>
+		<li>Four-SubA</li>
+	</ul>	
+	</li>
+</ul>
+
+TEXT;
+		debug($output);
+		$output = str_replace(["\t", "\r", "\n"], '', $output);
+		$expected = str_replace(["\t", "\r", "\n"], '', $expected);
+		$this->assertTextEquals($expected, $output);
+	}
+
+	/**
+	 * @param array $data
+	 * @return string|null
+	 */
+	public function _myCallbackEntity($data) {
+		/** @var \Cake\ORM\Entity $entity */
+		$entity = $data['data'];
+
+		return h($entity->name) . ($data['activePathElement'] ? ' (active)' : '');
 	}
 
 }
