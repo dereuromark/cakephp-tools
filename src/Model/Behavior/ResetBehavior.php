@@ -90,6 +90,7 @@ class ResetBehavior extends Behavior {
 			'fields' => [],
 			'order' => [$this->_table->getAlias() . '.' . $this->_table->getPrimaryKey() => 'ASC'],
 			'conditions' => $this->_config['scope'],
+			'validate' => $this->_config['validate'],
 		];
 		if (!empty($this->_config['fields'])) {
 			foreach ((array)$this->_config['fields'] as $field) {
@@ -129,30 +130,31 @@ class ResetBehavior extends Behavior {
 		$modified = 0;
 		while (($records = $this->_table->find('all', $params)->toArray())) {
 			foreach ($records as $record) {
-				$fieldList = $params['fields'];
+				$fields = (array)$params['fields'];
 				if ($this->getConfig('updateFields')) {
-					$fieldList = $this->getConfig('updateFields');
+					$fields = (array)$this->getConfig('updateFields');
 					if (!$this->_config['updateTimestamp']) {
-						$fieldList = array_merge($updateFields, $fieldList);
+						$fields = array_merge($updateFields, $fields);
 					}
 				}
-				if ($fieldList && !in_array($this->_table->getPrimaryKey(), $fieldList)) {
-					$fieldList[] = $this->_table->getPrimaryKey();
+				if ($fields && !in_array($this->_table->getPrimaryKey(), $fields)) {
+					$fields[] = $this->_table->getPrimaryKey();
 				}
 
 				if ($this->_config['callback']) {
 					if (is_callable($this->_config['callback'])) {
-						$parameters = [$record, &$fieldList];
+						$parameters = [$record, &$fields];
 						$record = call_user_func_array($this->_config['callback'], $parameters);
 					} else {
-						$record = $this->_table->{$this->_config['callback']}($record, $fieldList);
+						$record = $this->_table->{$this->_config['callback']}($record, $fields);
 					}
 					if (!$record) {
 						continue;
 					}
 				}
 
-				$res = $this->_table->save($record, compact('validate', 'fieldList'));
+				$validate = $params['validate'];
+				$res = $this->_table->save($record, compact('validate', 'fields'));
 				if (!$res) {
 					throw new RuntimeException(print_r($record->getErrors(), true));
 				}

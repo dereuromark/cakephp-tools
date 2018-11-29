@@ -383,6 +383,8 @@ class SluggedBehavior extends Behavior {
 			'overwrite' => true,
 		];
 		$params = array_merge($defaults, $params);
+
+		$conditions = $params['conditions'];
 		$count = $this->_table->find('all', compact('conditions'))->count();
 		$max = ini_get('max_execution_time');
 		if ($max) {
@@ -394,9 +396,11 @@ class SluggedBehavior extends Behavior {
 			/** @var \Cake\ORM\Entity $record */
 			foreach ($records as $record) {
 				$record->isNew(true);
+
+				$fields = array_merge([$this->_table->getPrimaryKey(), $this->_config['field']], $this->_config['label']);
 				$options = [
 					'validate' => true,
-					'fieldList' => array_merge([$this->_table->getPrimaryKey(), $this->_config['field']], $this->_config['label'])
+					'fields' => $fields,
 				];
 				if (!$this->_table->save($record, $options)) {
 					throw new RuntimeException(print_r($record->getErrors(), true));
