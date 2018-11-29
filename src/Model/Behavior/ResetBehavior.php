@@ -118,6 +118,8 @@ class ResetBehavior extends Behavior {
 		}
 
 		$params += $defaults;
+
+		$conditions = $params['conditions'];
 		$count = $this->_table->find('count', compact('conditions'));
 		$max = (int)ini_get('max_execution_time');
 		if ($max) {
