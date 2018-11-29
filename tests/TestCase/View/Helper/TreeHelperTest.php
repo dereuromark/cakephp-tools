@@ -136,7 +136,6 @@ TEXT;
 		$tree = $this->Table->find('all', ['order' => ['lft' => 'ASC']])->toArray();
 
 		$output = $this->Tree->generate($tree);
-		//debug($output); return;
 		$expected = <<<TEXT
 
 <ul>
@@ -328,7 +327,6 @@ TEXT;
 		$this->assertTextEquals($expected, $output);
 
 		$output = $this->Tree->generate($tree, ['autoPath' => [8, 9]]); // Two-SubA-1-1
-		//debug($output);
 		$expected = <<<TEXT
 
 <ul>
@@ -344,6 +342,49 @@ TEXT;
 			<li class="active">Two-SubA-1
 			<ul>
 				<li class="active">Two-SubA-1-1</li>
+			</ul>
+			</li>
+		</ul>
+		</li>
+	</ul>
+	</li>
+	<li>Three</li>
+	<li>Four
+	<ul>
+		<li>Four-SubA</li>
+	</ul>
+	</li>
+</ul>
+
+TEXT;
+		$this->assertTextEquals($expected, $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testGenerateWithAutoPathAsEntity() {
+		$tree = $this->Table->find('threaded')->toArray();
+		$entity = new Entity();
+		$entity->lft = 7;
+		$entity->rght = 10;
+
+		$output = $this->Tree->generate($tree, ['autoPath' => $entity]);
+		$expected = <<<TEXT
+
+<ul>
+	<li>One
+	<ul>
+		<li>One-SubA</li>
+	</ul>
+	</li>
+	<li class="active">Two
+	<ul>
+		<li class="active">Two-SubA
+		<ul>
+			<li class="active">Two-SubA-1
+			<ul>
+				<li>Two-SubA-1-1</li>
 			</ul>
 			</li>
 		</ul>
@@ -483,7 +524,7 @@ TEXT;
 	 * @param array $data
 	 * @return string|null
 	 */
-	public function _myCallback($data) {
+	public function _myCallback(array $data) {
 		/** @var \Cake\ORM\Entity $entity */
 		$entity = $data['data'];
 		if (!empty($entity['hide'])) {
@@ -496,7 +537,7 @@ TEXT;
 	 * @param array $data
 	 * @return string|null
 	 */
-	public function _myCallbackSiblings($data) {
+	public function _myCallbackSiblings(array $data) {
 		/** @var \Cake\ORM\Entity $entity */
 		$entity = $data['data'];
 
@@ -576,7 +617,6 @@ TEXT;
 </ul>
 
 TEXT;
-		debug($output);
 		$output = str_replace(["\t", "\r", "\n"], '', $output);
 		$expected = str_replace(["\t", "\r", "\n"], '', $expected);
 		$this->assertTextEquals($expected, $output);
@@ -586,7 +626,7 @@ TEXT;
 	 * @param array $data
 	 * @return string|null
 	 */
-	public function _myCallbackEntity($data) {
+	public function _myCallbackEntity(array $data) {
 		/** @var \Cake\ORM\Entity $entity */
 		$entity = $data['data'];
 

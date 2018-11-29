@@ -38,6 +38,7 @@ class TreeHelper extends Helper {
 		'element' => false,
 		'callback' => false,
 		'autoPath' => false,
+		'autoPathClass' => 'active',
 		'hideUnrelated' => false,
 		'treePath' => [],
 		'left' => 'lft',
@@ -100,12 +101,13 @@ class TreeHelper extends Helper {
 	 *    'element' => path to an element to render to get node contents.
 	 *    'callback' => callback to use to get node contents. e.g. array(&$anObject, 'methodName') or 'floatingMethod'
 	 *    'autoPath' => array($left, $right [$classToAdd = 'active']) if set any item in the path will have the class $classToAdd added. MPTT only.
-	 *  'hideUnrelated' => if unrelated (not children, not siblings) should be hidden, needs 'treePath', true/false or array/string for callback
-	 *  'treePath' => treePath to insert into callback/element
+	 *      You can also just pass the current entity and it will extract lft and rght properties based on the config.
+	 *    'hideUnrelated' => if unrelated (not children, not siblings) should be hidden, needs 'treePath', true/false or array/string for callback
+	 *    'treePath' => treePath to insert into callback/element
 	 *    'left' => name of the 'lft' field if not lft. only applies to MPTT data
 	 *    'right' => name of the 'rght' field if not rght. only applies to MPTT data
 	 *    'depth' => used internally when running recursively, can be used to override the depth in either mode.
-	 *  'maxDepth' => used to control the depth upto which to generate tree
+	 *    'maxDepth' => used to control the depth upto which to generate tree
 	 *    'firstChild' => used internally when running recursively.
 	 *    'splitDepth' => if multiple "parallel" types are required, instead of one big type, nominate the depth to do so here
 	 *        example: useful if you have 30 items to display, and you'd prefer they appeared in the source as 3 lists of 10 to be able to
@@ -140,8 +142,15 @@ class TreeHelper extends Helper {
 		}
 
 		$this->_config = $config + $this->_defaultConfig;
+		if ($this->_config['autoPath'] && is_object($this->_config['autoPath'])) {
+			$autoPathEntity = $this->_config['autoPath'];
+			$propertyLeft = $this->_config['left'];
+			$propertyRight = $this->_config['right'];
+			$this->_config['autoPath'] = [$autoPathEntity->$propertyLeft, $autoPathEntity->$propertyRight];
+		}
+
 		if ($this->_config['autoPath'] && !isset($this->_config['autoPath'][2])) {
-			$this->_config['autoPath'][2] = 'active';
+			$this->_config['autoPath'][2] = $this->_config['autoPathClass'];
 		}
 		extract($this->_config);
 		if ($indent === null && Configure::read('debug')) {
