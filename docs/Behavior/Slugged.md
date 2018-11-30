@@ -130,7 +130,7 @@ We want to store categories and we need a slug for nice SEO URLs like `/category
 
 ```php
 $this->addBehavior('Tools.Slugged',
-	['label' => 'name', 'unique' => true, 'mode' => 'ascii', 'unique' => true]
+	['label' => 'name', 'unique' => true, 'mode' => 'ascii']
 );
 ```
 
