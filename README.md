@@ -28,6 +28,7 @@ This master branch only works for **CakePHP 3.6+** - please use the 2.x branch f
 - Passwordable behavior allows easy to use password functionality for frontend and backend.
 - MultiColumnAuthenticate for log-in with e.g. "email or username".
 - Slugged, Reset and other behaviors
+- Tree helper for working with (complex) trees and their output.
 - Text, Time, Number libs and helpers etc provide extended functionality if desired.
 - QrCode, Gravatar and other useful small helpers
 - Timeline, Typography, etc provide additional helper functionality.
