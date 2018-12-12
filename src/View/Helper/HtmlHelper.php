@@ -95,7 +95,7 @@ class HtmlHelper extends CoreHtmlHelper {
 			if (!isset($url['?'])) {
 				$url['?'] = [];
 			}
-			$url['?'] += $this->request->getQuery();
+			$url['?'] += $this->_View->getRequest()->getQuery();
 		}
 		return parent::link($title, $url, $options);
 	}
