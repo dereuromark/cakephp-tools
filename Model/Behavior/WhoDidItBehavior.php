@@ -137,7 +137,7 @@ class WhoDidItBehavior extends ModelBehavior {
 			$data[$field] = false;
 		}
 
-		if (!$Model->exists()) {
+		if (!$Model->exists($Model->getID())) {
 			$data[$config['created_by_field']] = $userId;
 		}
 		if ($data) {
