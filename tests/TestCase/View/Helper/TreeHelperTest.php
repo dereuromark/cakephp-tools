@@ -47,7 +47,7 @@ class TreeHelperTest extends TestCase {
 		parent::setUp();
 
 		$this->Tree = new TreeHelper(new View(null));
-		$this->Table = TableRegistry::get('AfterTrees');
+		$this->Table = TableRegistry::getTableLocator()->get('AfterTrees');
 		$this->Table->addBehavior('Tree');
 
 		$connection = ConnectionManager::get('test');

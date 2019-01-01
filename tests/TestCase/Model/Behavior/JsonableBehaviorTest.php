@@ -26,7 +26,7 @@ class JsonableBehaviorTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->Comments = TableRegistry::get('JsonableComments');
+		$this->Comments = TableRegistry::getTableLocator()->get('JsonableComments');
 		$this->Comments->addBehavior('Tools.Jsonable', ['fields' => ['details']]);
 	}
 

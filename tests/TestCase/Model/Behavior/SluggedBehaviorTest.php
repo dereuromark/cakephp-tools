@@ -37,7 +37,7 @@ class SluggedBehaviorTest extends TestCase {
 		//$this->connection = ConnectionManager::get('test');
 
 		$options = ['alias' => 'Articles'];
-		$this->articles = TableRegistry::get('SluggedArticles', $options);
+		$this->articles = TableRegistry::getTableLocator()->get('SluggedArticles', $options);
 		Configure::delete('Slugged');
 
 		$this->articles->addBehavior('Tools.Slugged');

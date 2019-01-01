@@ -4,7 +4,6 @@ namespace Tools\Test\TestCase\Controller\Component;
 
 use App\Controller\UrlComponentTestController;
 use Cake\Core\Configure;
-use Cake\Core\Plugin;
 use Cake\Event\Event;
 use Cake\Http\ServerRequest;
 use Cake\Routing\RouteBuilder;
@@ -89,7 +88,7 @@ class UrlComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testCompleteArray() {
-		$this->Controller->Url->request->query['x'] = 'y';
+		$this->Controller->setRequest($this->Controller->getRequest()->withQueryParams(['x' => 'y']));
 
 		$result = $this->Controller->Url->completeArray(['controller' => 'foobar', 'action' => 'test']);
 		$expected = [
@@ -110,9 +109,11 @@ class UrlComponentTest extends TestCase {
 		$expected = '/foobar/test';
 		$this->assertSame($expected, $result);
 
-		$this->Controller->Url->request->here = '/admin/foo/bar/baz/test';
-		$this->Controller->Url->request->params['prefix'] = 'admin';
-		$this->Controller->Url->request->params['plugin'] = 'Foo';
+		$request = $this->Controller->getRequest();
+		$request = $request->withAttribute('here', '/admin/foo/bar/baz/test')
+			->withParam('prefix', 'admin')
+			->withParam('plugin', 'Foo');
+		$this->Controller->setRequest($request);
 		Router::reload();
 		Router::connect('/:controller/:action/*');
 		Router::plugin('Foo', function (RouteBuilder $routes) {
@@ -123,8 +124,7 @@ class UrlComponentTest extends TestCase {
 				$routes->fallbacks();
 			});
 		});
-		Plugin::routes();
-		Router::pushRequest($this->Controller->Url->request);
+		Router::pushRequest($this->Controller->getRequest());
 
 		$result = $this->Controller->Url->build(['controller' => 'bar', 'action' => 'baz', 'x']);
 		$expected = '/admin/foo/bar/baz/x';
@@ -139,7 +139,7 @@ class UrlComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testBuildComplete() {
-		$this->Controller->Url->request->query['x'] = 'y';
+		$this->Controller->setRequest($this->Controller->getRequest()->withQueryParams(['x' => 'y']));
 
 		$result = $this->Controller->Url->buildComplete(['action' => 'test']);
 		$expected = '/test?x=y';

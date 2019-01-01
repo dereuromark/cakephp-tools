@@ -26,7 +26,7 @@ class BitmaskedBehaviorTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->Comments = TableRegistry::get('BitmaskedComments');
+		$this->Comments = TableRegistry::getTableLocator()->get('BitmaskedComments');
 		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
 	}
 

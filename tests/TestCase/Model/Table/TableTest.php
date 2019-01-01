@@ -30,9 +30,9 @@ class TableTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->Users = TableRegistry::get('ToolsUsers');
+		$this->Users = TableRegistry::getTableLocator()->get('ToolsUsers');
 
-		$this->Posts = TableRegistry::get('Posts');
+		$this->Posts = TableRegistry::getTableLocator()->get('Posts');
 		$this->Posts->belongsTo('Authors');
 	}
 
@@ -76,7 +76,7 @@ class TableTest extends TestCase {
 	 * @return void
 	 */
 	public function testTimestamp() {
-		$this->Roles = TableRegistry::get('Roles');
+		$this->Roles = TableRegistry::getTableLocator()->get('Roles');
 		$entity = $this->Roles->newEntity(['name' => 'Foo', 'alias' => 'foo']);
 		$result = $this->Roles->save($entity);
 		$this->assertTrue(!empty($result['created']));

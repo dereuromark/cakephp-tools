@@ -23,7 +23,7 @@ class TypographicBehaviorTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->Model = TableRegistry::get('Articles');
+		$this->Model = TableRegistry::getTableLocator()->get('Articles');
 		$this->Model->addBehavior('Tools.Typographic', ['fields' => ['body'], 'before' => 'marshal']);
 	}
 

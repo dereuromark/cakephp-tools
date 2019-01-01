@@ -27,9 +27,7 @@ class HtmlHelperTest extends TestCase {
 		parent::setUp();
 
 		$this->Html = new HtmlHelper(new View(null));
-		$this->Html->request = new ServerRequest();
-		$this->Html->request->webroot = '';
-		$this->Html->Url->request = $this->Html->request;
+		$this->Html->getView()->setRequest(new ServerRequest(['webroot' => '']));
 	}
 
 	/**
@@ -56,9 +54,11 @@ class HtmlHelperTest extends TestCase {
 		$expected = '<a href="/foobar/test">Foo</a>';
 		$this->assertEquals($expected, $result);
 
-		$this->Html->request->here = '/admin/foobar/test';
-		$this->Html->request->params['admin'] = true;
-		$this->Html->request->params['prefix'] = 'admin';
+		$request = $this->Html->getView()->getRequest();
+		$request = $request->withAttribute('here', '/admin/foobar/test')
+			->withParam('admin', true)
+			->withParam('prefix', 'admin');
+		$this->Html->getView()->setRequest($request);
 		Router::reload();
 		Router::connect('/:controller/:action/*');
 		Router::prefix('admin', function (RouteBuilder $routes) {
@@ -85,7 +85,7 @@ class HtmlHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testLinkComplete() {
-		$this->Html->request->query['x'] = 'y';
+		$this->Html->getView()->setRequest($this->Html->getView()->getRequest()->withQueryParams(['x' => 'y']));
 
 		$result = $this->Html->linkComplete('Foo', ['action' => 'test']);
 		$expected = '<a href="/test?x=y">Foo</a>';

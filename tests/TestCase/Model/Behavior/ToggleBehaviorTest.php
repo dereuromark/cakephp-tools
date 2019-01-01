@@ -25,7 +25,7 @@ class ToggleBehaviorTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->Addresses = TableRegistry::get('ToggleAddresses');
+		$this->Addresses = TableRegistry::getTableLocator()->get('ToggleAddresses');
 		$this->Addresses->addBehavior('Tools.Toggle', ['scopeFields' => 'category_id']);
 	}
 

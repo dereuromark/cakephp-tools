@@ -6,6 +6,7 @@ use App\Mailer\TestEmail;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Log\Log;
+use Cake\Mailer\TransportFactory;
 use Tools\Mailer\Email;
 use Tools\TestSuite\TestCase;
 
@@ -28,7 +29,7 @@ class EmailTest extends TestCase {
 		parent::setUp();
 		$this->Email = new TestEmail();
 
-		Email::configTransport('debug', [
+		TransportFactory::setConfig('debug', [
 			'className' => 'Debug'
 		]);
 
@@ -44,8 +45,8 @@ class EmailTest extends TestCase {
 		parent::tearDown();
 		Log::drop('email');
 		Email::drop('test');
-		Email::dropTransport('debug');
-		Email::dropTransport('test_smtp');
+		TransportFactory::drop('debug');
+		TransportFactory::drop('test_smtp');
 
 		Configure::delete('Config.xMailer');
 	}
@@ -66,21 +67,21 @@ class EmailTest extends TestCase {
 	 * @return void
 	 */
 	public function testFrom() {
-		$this->assertSame(['test@example.com' => 'Mark'], $this->Email->from());
+		$this->assertSame(['test@example.com' => 'Mark'], $this->Email->getFrom());
 
-		$this->Email->from('cake@cakephp.org');
+		$this->Email->setFrom('cake@cakephp.org');
 		$expected = ['cake@cakephp.org' => 'cake@cakephp.org'];
-		$this->assertSame($expected, $this->Email->from());
+		$this->assertSame($expected, $this->Email->getFrom());
 
-		$this->Email->from(['cake@cakephp.org']);
-		$this->assertSame($expected, $this->Email->from());
+		$this->Email->setFrom(['cake@cakephp.org']);
+		$this->assertSame($expected, $this->Email->getFrom());
 
-		$this->Email->from('cake@cakephp.org', 'CakePHP');
+		$this->Email->setFrom('cake@cakephp.org', 'CakePHP');
 		$expected = ['cake@cakephp.org' => 'CakePHP'];
-		$this->assertSame($expected, $this->Email->from());
+		$this->assertSame($expected, $this->Email->getFrom());
 
-		$result = $this->Email->from(['cake@cakephp.org' => 'CakePHP']);
-		$this->assertSame($expected, $this->Email->from());
+		$result = $this->Email->setFrom(['cake@cakephp.org' => 'CakePHP']);
+		$this->assertSame($expected, $this->Email->getFrom());
 		$this->assertSame($this->Email, $result);
 	}
 
@@ -89,7 +90,7 @@ class EmailTest extends TestCase {
 	 * @return void
 	 */
 	public function testFromExecption() {
-		$this->Email->from(['cake@cakephp.org' => 'CakePHP', 'fail@cakephp.org' => 'From can only be one address']);
+		$this->Email->setFrom(['cake@cakephp.org' => 'CakePHP', 'fail@cakephp.org' => 'From can only be one address']);
 	}
 
 	/**
@@ -126,18 +127,14 @@ class EmailTest extends TestCase {
 		$file = Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 		$this->assertTrue(file_exists($file));
 
-		$this->Email->to(Configure::read('Config.adminEmail'));
+		$this->Email->setTo(Configure::read('Config.adminEmail'));
 		$this->Email->addAttachment($file);
-		$res = $this->Email->send('test_default', 'default');
-		$error = $this->Email->getError();
-		if ($error) {
-			$this->out($error);
-		}
+		$res = $this->Email->send('test_default');
 		$this->assertEquals('', $this->Email->getError());
 		$this->assertTrue((bool)$res);
 
 		$this->Email->reset();
-		$this->Email->to(Configure::read('Config.adminEmail'));
+		$this->Email->setTo(Configure::read('Config.adminEmail'));
 		$this->Email->addAttachment($file, 'x.jpg');
 		$res = $this->Email->send('test_custom_filename');
 
@@ -219,7 +216,7 @@ class EmailTest extends TestCase {
 		$this->assertTrue(file_exists($file));
 
 		$this->Email = new TestEmail();
-		$this->Email->emailFormat('both');
+		$this->Email->setEmailFormat('both');
 
 		$cid = $this->Email->addEmbeddedAttachment($file);
 		$cid2 = $this->Email->addEmbeddedAttachment($file);
@@ -248,8 +245,8 @@ class EmailTest extends TestCase {
 
 		Configure::write('debug', 0);
 		$this->Email = new TestEmail();
-		$this->Email->emailFormat('both');
-		$this->Email->to(Configure::read('Config.adminEmail'));
+		$this->Email->setEmailFormat('both');
+		$this->Email->setTo(Configure::read('Config.adminEmail'));
 		$cid = $this->Email->addEmbeddedAttachment($file);
 
 		$cid2 = $this->Email->addEmbeddedAttachment($file);
@@ -269,11 +266,10 @@ html-part
 </body>
 </html>';
 		$text = trim(strip_tags($html));
-		$this->Email->viewVars(compact('text', 'html'));
+		$this->Email->setViewVars(compact('text', 'html'));
 
 		$res = $this->Email->send();
 		Configure::write('debug', 2);
-		$error = $this->Email->getError();
 
 		$this->assertEquals('', $this->Email->getError());
 		$this->assertTrue((bool)$res);
@@ -287,9 +283,8 @@ html-part
 		$this->assertTrue(file_exists($file));
 
 		$this->Email = new TestEmail();
-		$this->Email->emailFormat('both');
+		$this->Email->setEmailFormat('both');
 		$cid = $this->Email->addEmbeddedBlobAttachment(file_get_contents($file), 'my_hotel.png');
-		$cid2 = $this->Email->addEmbeddedBlobAttachment(file_get_contents($file), 'my_hotel.png');
 
 		$this->assertContains('@' . env('HTTP_HOST'), $cid);
 
@@ -331,15 +326,15 @@ html-part
 	 */
 	public function testValidates() {
 		$this->Email = new TestEmail();
-		$this->Email->transport('debug');
+		$this->Email->setTransport('debug');
 		$res = $this->Email->validates();
 		$this->assertFalse($res);
 
-		$this->Email->subject('foo');
+		$this->Email->setSubject('foo');
 		$res = $this->Email->validates();
 		$this->assertFalse($res);
 
-		$this->Email->to('some@web.de');
+		$this->Email->setTo('some@web.de');
 		$res = $this->Email->validates();
 		$this->assertTrue($res);
 	}
@@ -353,8 +348,8 @@ html-part
 		$file = Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 
 		$this->Email = new TestEmail();
-		$this->Email->emailFormat('both');
-		$this->Email->to(Configure::read('Config.adminEmail'));
+		$this->Email->setEmailFormat('both');
+		$this->Email->setTo(Configure::read('Config.adminEmail'));
 		$cid = $this->Email->addEmbeddedBlobAttachment(file_get_contents($file), 'my_hotel.png', 'image/png');
 
 		$this->assertContains('@' . env('HTTP_HOST'), $cid);
@@ -371,11 +366,9 @@ html-part
 </body>
 </html>';
 		$text = trim(strip_tags($html));
-		$this->Email->viewVars(compact('text', 'html'));
+		$this->Email->setViewVars(compact('text', 'html'));
 
 		$res = $this->Email->send();
-
-		$error = $this->Email->getError();
 
 		$this->assertEquals('', $this->Email->getError());
 		$this->assertTrue((bool)$res);

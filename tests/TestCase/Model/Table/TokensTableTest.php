@@ -23,7 +23,7 @@ class TokensTableTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->Tokens = TableRegistry::get('Tools.Tokens');
+		$this->Tokens = TableRegistry::getTableLocator()->get('Tools.Tokens');
 	}
 
 	/**

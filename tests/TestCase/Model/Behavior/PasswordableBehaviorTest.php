@@ -34,7 +34,7 @@ class PasswordableBehaviorTest extends TestCase {
 		Configure::delete('Passwordable');
 		Configure::write('Passwordable.auth', 'AuthTest');
 
-		$this->Users = TableRegistry::get('ToolsUsers');
+		$this->Users = TableRegistry::getTableLocator()->get('ToolsUsers');
 
 		$this->hasher = PasswordHasherFactory::build('Default');
 
