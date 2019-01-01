@@ -2,7 +2,6 @@
 
 namespace Tools\Form;
 
-use Tools\Form\ContactForm;
 use Tools\TestSuite\TestCase;
 
 class ContactFormTest extends TestCase {
@@ -48,7 +47,7 @@ class ContactFormTest extends TestCase {
 		$result = $this->Form->validate($requestData);
 		$this->assertFalse($result);
 
-		$errors = $this->Form->errors();
+		$errors = $this->Form->getErrors();
 		$this->assertSame(['email', 'subject'], array_keys($errors));
 
 		$requestData = [

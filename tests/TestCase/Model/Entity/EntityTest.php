@@ -26,7 +26,7 @@ class EntityTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->Users = TableRegistry::get('ToolsUsers');
+		$this->Users = TableRegistry::getTableLocator()->get('ToolsUsers');
 	}
 
 	/**

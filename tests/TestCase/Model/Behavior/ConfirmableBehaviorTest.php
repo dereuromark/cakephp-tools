@@ -32,7 +32,7 @@ class ConfirmableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testBasicValidation() {
-		$this->Articles = TableRegistry::get('SluggedArticles');
+		$this->Articles = TableRegistry::getTableLocator()->get('SluggedArticles');
 		$this->Articles->addBehavior('Tools.Confirmable');
 
 		$animal = $this->Articles->newEntity();
@@ -57,7 +57,7 @@ class ConfirmableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testValidationThatHasBeenModifiedBefore() {
-		$this->Articles = TableRegistry::get('SluggedArticles');
+		$this->Articles = TableRegistry::getTableLocator()->get('SluggedArticles');
 		/*
 		$this->Articles->validator()->add('confirm', 'notBlank', [
 				'rule' => function ($value, $context) {
@@ -96,7 +96,7 @@ class ConfirmableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testValidationFieldMissing() {
-		$this->Articles = TableRegistry::get('SluggedArticles');
+		$this->Articles = TableRegistry::getTableLocator()->get('SluggedArticles');
 		$this->Articles->addBehavior('Tools.Confirmable');
 
 		$animal = $this->Articles->newEntity();

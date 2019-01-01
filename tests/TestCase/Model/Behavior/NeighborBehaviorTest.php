@@ -26,7 +26,7 @@ class NeighborBehaviorTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->Table = TableRegistry::get('Stories');
+		$this->Table = TableRegistry::getTableLocator()->get('Stories');
 		$this->Table->addBehavior('Tools.Neighbor');
 	}
 

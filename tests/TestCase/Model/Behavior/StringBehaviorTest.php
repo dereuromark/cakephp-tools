@@ -25,7 +25,7 @@ class StringBehaviorTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->Comments = TableRegistry::get('StringComments');
+		$this->Comments = TableRegistry::getTableLocator()->get('StringComments');
 		$this->Comments->addBehavior('Tools.String', ['fields' => ['title'], 'input' => ['ucfirst']]);
 	}
 

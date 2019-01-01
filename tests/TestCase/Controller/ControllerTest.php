@@ -46,7 +46,7 @@ class ControllerTest extends TestCase {
 	public function testPaginate() {
 		Configure::write('Paginator.limit', 2);
 
-		$ToolsUser = TableRegistry::get('ToolsUsers');
+		$ToolsUser = TableRegistry::getTableLocator()->get('ToolsUsers');
 
 		$count = $ToolsUser->find('count');
 		$this->assertTrue($count > 3);

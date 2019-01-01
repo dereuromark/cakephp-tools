@@ -51,7 +51,7 @@ class MobileComponentTest extends TestCase {
 		$this->event = new Event('Controller.beforeFilter');
 		$this->Controller = new MobileComponentTestController(new ServerRequest());
 
-		$this->Controller->request->getSession()->delete('User');
+		$this->Controller->getRequest()->getSession()->delete('User');
 		Configure::delete('User');
 	}
 
@@ -73,7 +73,7 @@ class MobileComponentTest extends TestCase {
 		$is = $this->Controller->Mobile->detect();
 		$this->assertFalse($is);
 
-		$this->Controller->request->env('HTTP_ACCEPT', 'text/vnd.wap.wml,text/html,text/plain,image/png,*/*');
+		$this->Controller->setRequest($this->Controller->getRequest()->withEnv('HTTP_ACCEPT', 'text/vnd.wap.wml,text/html,text/plain,image/png,*/*'));
 		$is = $this->Controller->Mobile->detect();
 		$this->assertTrue($is);
 	}
@@ -91,10 +91,10 @@ class MobileComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testMobileForceActivated() {
-		$this->Controller->request->query['mobile'] = 1;
+		$this->Controller->setRequest($this->Controller->getRequest()->withQueryParams(['mobile' => 1]));
 
 		$this->Controller->Mobile->beforeFilter($this->event);
-		$session = $this->Controller->request->getSession()->read('User');
+		$session = $this->Controller->getRequest()->getSession()->read('User');
 		$this->assertSame(['mobile' => 1], $session);
 
 		$this->Controller->Mobile->setMobile();
@@ -109,10 +109,10 @@ class MobileComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testMobileForceDeactivated() {
-		$this->Controller->request->query['mobile'] = 0;
+		$this->Controller->setRequest($this->Controller->getRequest()->withQueryParams(['mobile' => 0]));
 
 		$this->Controller->Mobile->beforeFilter($this->event);
-		$session = $this->Controller->request->getSession()->read('User');
+		$session = $this->Controller->getRequest()->getSession()->read('User');
 		$this->assertSame(['mobile' => 0], $session);
 
 		$this->Controller->Mobile->setMobile();
@@ -139,11 +139,11 @@ class MobileComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testMobileFakeMobileForceDeactivated() {
-		$this->Controller->request->query['mobile'] = 0;
+		$this->Controller->setRequest($this->Controller->getRequest()->withQueryParams(['mobile' => 0]));
 		$_SERVER['HTTP_USER_AGENT'] = 'Some Android device';
 
 		$this->Controller->Mobile->beforeFilter($this->event);
-		$session = $this->Controller->request->getSession()->read('User');
+		$session = $this->Controller->getRequest()->getSession()->read('User');
 		$this->assertSame(['mobile' => 0], $session);
 
 		$this->assertTrue($this->Controller->Mobile->isMobile);
@@ -178,7 +178,7 @@ class MobileComponentTest extends TestCase {
 		$_SERVER['HTTP_USER_AGENT'] = 'Some Android device';
 
 		$this->Controller->Mobile->beforeFilter($this->event);
-		$session = $this->Controller->request->getSession()->read('User');
+		$session = $this->Controller->getRequest()->getSession()->read('User');
 		$this->assertTrue($this->Controller->Mobile->isMobile);
 	}
 

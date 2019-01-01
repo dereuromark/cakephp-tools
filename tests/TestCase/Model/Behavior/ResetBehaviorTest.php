@@ -31,7 +31,7 @@ class ResetBehaviorTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->Table = TableRegistry::get('ResetComments');
+		$this->Table = TableRegistry::getTableLocator()->get('ResetComments');
 		$this->Table->addBehavior('Tools.Reset');
 	}
 
