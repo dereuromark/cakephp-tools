@@ -15,7 +15,7 @@ class PasswordableBehaviorTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.tools.tools_users', 'plugin.tools.roles',
+		'plugin.Tools.ToolsUsers', 'plugin.Tools.Roles',
 	];
 
 	/**

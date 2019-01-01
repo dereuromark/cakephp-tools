@@ -11,7 +11,7 @@ class StringBehaviorTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.tools.string_comments'
+		'plugin.Tools.StringComments'
 	];
 
 	/**

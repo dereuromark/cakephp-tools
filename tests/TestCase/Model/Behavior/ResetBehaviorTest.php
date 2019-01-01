@@ -21,7 +21,7 @@ class ResetBehaviorTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	public $fixtures = ['plugin.tools.reset_comments'];
+	public $fixtures = ['plugin.Tools.ResetComments'];
 
 	/**
 	 * @return void
