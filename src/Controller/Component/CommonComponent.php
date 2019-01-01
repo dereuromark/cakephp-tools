@@ -28,11 +28,11 @@ class CommonComponent extends Component {
 		if ($this->Controller->request->getData() && !Configure::read('DataPreparation.notrim')) {
 			$this->Controller->request->data = Utility::trimDeep($this->Controller->request->getData());
 		}
-		if ($this->Controller->request->getQuery() && !Configure::read('DataPreparation.notrim')) {
-			$this->Controller->request->query = Utility::trimDeep($this->Controller->request->getQuery());
+		if ($this->Controller->getRequest()->getQuery() && !Configure::read('DataPreparation.notrim')) {
+			$this->Controller->setRequest($this->Controller->getRequest()->withQueryParams(Utility::trimDeep($this->Controller->getRequest()->getQuery())));
 		}
-		if ($this->Controller->request->getParam('pass') && !Configure::read('DataPreparation.notrim')) {
-			$this->Controller->request->params['pass'] = Utility::trimDeep($this->Controller->request->getParam('pass'));
+		if ($this->Controller->getRequest()->getParam('pass') && !Configure::read('DataPreparation.notrim')) {
+			$this->Controller->setRequest($this->Controller->getRequest()->withParam('pass', Utility::trimDeep($this->Controller->getRequest()->getParam('pass'))));
 		}
 	}
 
@@ -51,7 +51,7 @@ class CommonComponent extends Component {
 	 * @return string|array
 	 */
 	public function getSafeRedirectUrl($default, $data = null, $key = 'redirect') {
-		$redirectUrl = $data ?: ($this->Controller->request->getData($key) ?: $this->Controller->request->getQuery($key));
+		$redirectUrl = $data ?: ($this->Controller->getRequest()->getData($key) ?: $this->Controller->getRequest()->getQuery($key));
 		if ($redirectUrl && (substr($redirectUrl, 0, 1) !== '/' || substr($redirectUrl, 0, 2) === '//')) {
 			$redirectUrl = null;
 		}
@@ -85,7 +85,7 @@ class CommonComponent extends Component {
 	 * @return bool If it is of type POST/PUT/PATCH
 	 */
 	public function isPosted() {
-		return $this->Controller->request->is(['post', 'put', 'patch']);
+		return $this->Controller->getRequest()->is(['post', 'put', 'patch']);
 	}
 
 	/**
@@ -120,7 +120,7 @@ class CommonComponent extends Component {
 	 * @return void
 	 */
 	public function loadHelper($helpers = []) {
-		$this->Controller->helpers = array_merge($this->Controller->helpers, (array)$helpers);
+		$this->Controller->viewBuilder()->setHelpers((array)$helpers, true);
 	}
 
 	/**
@@ -131,7 +131,8 @@ class CommonComponent extends Component {
 	 * @return mixed
 	 */
 	public function getPassedParam($var, $default = null) {
-		$passed = $this->Controller->request->getParam('pass');
+		$passed = $this->Controller->getRequest()->getParam('pass');
+
 		return (isset($passed[$var])) ? $passed[$var] : $default;
 	}
 
@@ -157,14 +158,14 @@ class CommonComponent extends Component {
 	 * @return mixed URL
 	 */
 	public function currentUrl($asString = false) {
-		$action = $this->Controller->request->getParam('action');
+		$action = $this->Controller->getRequest()->getParam('action');
 
-		$passed = (array)$this->Controller->request->getParam('pass');
+		$passed = (array)$this->Controller->getRequest()->getParam('pass');
 		$url = [
-			'prefix' => $this->Controller->request->getParam('prefix'),
-			'plugin' => $this->Controller->request->getParam('plugin'),
+			'prefix' => $this->Controller->getRequest()->getParam('prefix'),
+			'plugin' => $this->Controller->getRequest()->getParam('plugin'),
 			'action' => $action,
-			'controller' => $this->Controller->request->getParam('controller'),
+			'controller' => $this->Controller->getRequest()->getParam('controller'),
 		];
 		$url = array_merge($passed, $url);
 
@@ -184,7 +185,7 @@ class CommonComponent extends Component {
 	 * @return \Cake\Http\Response
 	 */
 	public function autoRedirect($whereTo, $allowSelf = false, $status = 302) {
-		if ($allowSelf || $this->Controller->referer(null, true) !== '/' . $this->Controller->request->url) {
+		if ($allowSelf || $this->Controller->referer(null, true) !== $this->Controller->getRequest()->getRequestTarget()) {
 			return $this->Controller->redirect($this->Controller->referer($whereTo, true), $status);
 		}
 		return $this->Controller->redirect($whereTo, $status);
@@ -222,7 +223,7 @@ class CommonComponent extends Component {
 		}
 
 		if (!empty($referer)) {
-			$referer = Router::parse($referer);
+			$referer = Router::getRouteCollection()->parse($referer);
 		}
 
 		if ($conditionalAutoRedirect && !empty($this->Controller->autoRedirectActions) && is_array($referer) && !empty($referer['action'])) {
@@ -242,7 +243,7 @@ class CommonComponent extends Component {
 				if (!empty($controller) && $refererController !== '*' && $refererController !== $controller) {
 					continue;
 				}
-				if (empty($controller) && $refererController !== $this->Controller->request->getParam('controller')) {
+				if (empty($controller) && $refererController !== $this->Controller->getRequest()->getParam('controller')) {
 					continue;
 				}
 				if (!in_array($referer['action'], (array)$this->Controller->autoRedirectActions, true)) {
@@ -265,12 +266,12 @@ class CommonComponent extends Component {
 	 */
 	public function completeRedirect($url = null, $status = 302) {
 		if ($url === null) {
-			$url = $this->Controller->request->params;
+			$url = $this->Controller->getRequest()->params;
 			unset($url['pass']);
 			unset($url['isAjax']);
 		}
 		if (is_array($url)) {
-			$url += $this->Controller->request->params['pass'];
+			$url += $this->Controller->getRequest()->params['pass'];
 		}
 		return $this->Controller->redirect($url, $status);
 	}
@@ -283,9 +284,13 @@ class CommonComponent extends Component {
 	 * @return void
 	 */
 	public function forceCache($seconds = HOUR) {
-		$this->Controller->response->header('Cache-Control', 'public, max-age=' . $seconds);
-		$this->Controller->response->header('Last-modified', gmdate('D, j M Y H:i:s', time()) . ' GMT');
-		$this->Controller->response->header('Expires', gmdate('D, j M Y H:i:s', time() + $seconds) . ' GMT');
+		$response = $this->Controller->getResponse();
+
+		$response = $response->withHeader('Cache-Control', 'public, max-age=' . $seconds)
+			->withHeader('Last-modified', gmdate('D, j M Y H:i:s', time()) . ' GMT')
+			->withHeader('Expires', gmdate('D, j M Y H:i:s', time() + $seconds) . ' GMT');
+
+		$this->Controller->setResponse($response);
 	}
 
 	/**
