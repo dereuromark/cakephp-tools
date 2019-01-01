@@ -30,7 +30,7 @@ class ShuntRequestController extends AppController {
 	 * @throws \RuntimeException
 	 */
 	public function language($language = null) {
-		$this->request->allowMethod(['post']);
+		$this->getRequest()->allowMethod(['post']);
 
 		$allowedLanguages = (array)Configure::read('Config.allowedLanguages');
 		if (!$language) {
@@ -46,7 +46,7 @@ class ShuntRequestController extends AppController {
 		}
 		$language = $allowedLanguages[$language];
 
-		$this->request->getSession()->write('Config.language', $language['locale']);
+		$this->getRequest()->getSession()->write('Config.language', $language['locale']);
 		I18n::setLocale($language['locale']);
 		$this->Flash->success(__d('tools', 'Language switched to {0}', $language['name']));
 		return $this->redirect($this->referer('/', true));

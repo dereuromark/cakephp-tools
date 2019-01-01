@@ -95,14 +95,14 @@ class MobileComponent extends Component {
 	 * @return void
 	 */
 	protected function _init() {
-		$mobileOverwrite = $this->Controller->request->query('mobile');
+		$mobileOverwrite = $this->Controller->getRequest()->getQuery('mobile');
 
 		if ($mobileOverwrite !== null) {
 			if ($mobileOverwrite === '-1') {
-				$this->request->getSession()->delete('User.mobile');
+				$this->Controller->getRequest()->getSession()->delete('User.mobile');
 			} else {
 				$wantsMobile = (bool)$mobileOverwrite;
-				$this->request->getSession()->write('User.mobile', (int)$wantsMobile);
+				$this->Controller->getRequest()->getSession()->write('User.mobile', (int)$wantsMobile);
 			}
 		}
 		$this->isMobile();
@@ -125,7 +125,7 @@ class MobileComponent extends Component {
 		if ($this->isMobile === null) {
 			$this->isMobile();
 		}
-		$forceMobile = $this->request->getSession()->read('User.mobile');
+		$forceMobile = $this->Controller->getRequest()->getSession()->read('User.mobile');
 
 		if ($forceMobile !== null && !$forceMobile) {
 			$this->setMobile = false;
@@ -162,8 +162,8 @@ class MobileComponent extends Component {
 			return;
 		}
 
-		$this->Controller->viewBuilder()->className('Theme');
-		$this->Controller->viewBuilder()->theme('Mobile');
+		$this->Controller->viewBuilder()->setClassName('Theme');
+		$this->Controller->viewBuilder()->setTheme('Mobile');
 	}
 
 	/**
@@ -200,9 +200,9 @@ class MobileComponent extends Component {
 		// Deprecated - the vendor libs are far more accurate and up to date
 		if (!$this->_config['engine']) {
 			if (isset($this->Controller->RequestHandler)) {
-				return $this->Controller->RequestHandler->isMobile();
+				return $this->Controller->getRequest()->is('mobile') || $this->Controller->RequestHandler->accepts('wap');
 			}
-			return $this->Controller->request->is('mobile');
+			return $this->Controller->getRequest()->is('mobile');
 		}
 		if (is_callable($this->_config['engine'])) {
 			return call_user_func($this->_config['engine']);

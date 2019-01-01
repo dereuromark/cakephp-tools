@@ -152,7 +152,7 @@ class Email extends CakeEmail {
 			$fromName = Configure::read('Config.adminName');
 		}
 		if ($fromEmail) {
-			$this->from($fromEmail, $fromName);
+			$this->setFrom($fromEmail, $fromName);
 		}
 
 		$xMailer = Configure::read('Config.xMailer');
