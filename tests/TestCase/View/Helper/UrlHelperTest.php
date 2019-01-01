@@ -27,8 +27,7 @@ class UrlHelperTest extends TestCase {
 		parent::setUp();
 
 		$this->Url = new UrlHelper(new View(null));
-		$this->Url->request = new ServerRequest();
-		$this->Url->request->webroot = '';
+		$this->Url->getView()->setRequest(new ServerRequest(['webroot' => '']));
 	}
 
 	/**
@@ -41,14 +40,16 @@ class UrlHelperTest extends TestCase {
 		$expected = '/foobar/test';
 		$this->assertSame($expected, $result);
 
-		$this->Url->request->here = '/admin/foobar/test';
-		$this->Url->request->params['prefix'] = 'admin';
+		$request = $this->Url->getView()->getRequest();
+		$request = $request->withRequestTarget('/admin/foobar/test')
+			->withParam('prefix', 'admin');
+		$this->Url->getView()->setRequest($request);
 		Router::reload();
 		Router::connect('/:controller/:action/*');
 		Router::prefix('admin', function (RouteBuilder $routes) {
 			$routes->fallbacks();
 		});
-		Router::pushRequest($this->Url->request);
+		Router::pushRequest($this->Url->getView()->getRequest());
 
 		$result = $this->Url->build(['prefix' => 'admin', 'controller' => 'foobar', 'action' => 'test']);
 		$expected = '/admin/foobar/test';
@@ -73,9 +74,11 @@ class UrlHelperTest extends TestCase {
 		$expected = '/foobar/test';
 		$this->assertSame($expected, $result);
 
-		$this->Url->request->here = '/admin/foo/bar/baz/test';
-		$this->Url->request->params['prefix'] = 'admin';
-		$this->Url->request->params['plugin'] = 'Foo';
+		$request = $this->Url->getView()->getRequest();
+		$request = $request->withRequestTarget('/admin/foo/bar/baz/test')
+			->withParam('prefix', 'admin')
+			->withParam('plugin', 'Foo');
+		$this->Url->getView()->setRequest($request);
 		Router::reload();
 		Router::connect('/:controller/:action/*');
 		Router::plugin('Foo', function (RouteBuilder $routes) {
@@ -87,7 +90,7 @@ class UrlHelperTest extends TestCase {
 			});
 		});
 		Plugin::routes();
-		Router::pushRequest($this->Url->request);
+		Router::pushRequest($this->Url->getView()->getRequest());
 
 		$result = $this->Url->build(['controller' => 'bar', 'action' => 'baz', 'x']);
 		$expected = '/admin/foo/bar/baz/x';
@@ -102,7 +105,7 @@ class UrlHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testBuildComplete() {
-		$this->Url->request->query['x'] = 'y';
+		$this->Url->getView()->setRequest($this->Url->getView()->getRequest()->withQueryParams(['x' => 'y']));
 
 		$result = $this->Url->buildComplete(['action' => 'test']);
 		$expected = '/test?x=y';

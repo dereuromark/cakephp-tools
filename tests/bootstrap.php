@@ -38,7 +38,7 @@ Cake\Core\Configure::write('Config', [
 		'adminEmail' => 'test@example.com',
 		'adminName' => 'Mark']);
 Cake\Mailer\Email::setConfig('default', ['transport' => 'Debug']);
-Cake\Mailer\Email::setConfigTransport('Debug', [
+Cake\Mailer\TransportFactory::setConfig('Debug', [
 		'className' => 'Debug'
 ]);
 

@@ -4,7 +4,10 @@ namespace Tools\Test\TestCase\Controller\Component;
 
 use App\Controller\CommonComponentTestController;
 use Cake\Core\Configure;
+use Cake\Event\Event;
 use Cake\Http\ServerRequest;
+use phpDocumentor\Reflection\Types\Void_;
+use Tools\Controller\Component\CommonComponent;
 use Tools\TestSuite\TestCase;
 
 /**
@@ -30,8 +33,8 @@ class CommonComponentTest extends TestCase {
 		Configure::write('App.fullBaseUrl', 'http://localhost');
 
 		$this->request = new ServerRequest('/my_controller/foo');
-		$this->request->params['controller'] = 'MyController';
-		$this->request->params['action'] = 'foo';
+		$this->request = $this->request->withParam('controller', 'MyController')
+			->withParam('action', 'foo');
 		$this->Controller = new CommonComponentTestController($this->request);
 		$this->Controller->startupProcess();
 	}
@@ -42,7 +45,7 @@ class CommonComponentTest extends TestCase {
 	public function tearDown() {
 		parent::tearDown();
 
-		unset($this->Controller->Common);
+		unset($this->request);
 		unset($this->Controller);
 	}
 
@@ -130,6 +133,9 @@ class CommonComponentTest extends TestCase {
 		$ref = '';
 		$is = $this->Controller->Common->isForeignReferer($ref);
 		$this->assertFalse($is);
+
+		$is = $this->Controller->Common->isForeignReferer();
+		$this->assertFalse($is);
 	}
 
 	/**
@@ -137,19 +143,19 @@ class CommonComponentTest extends TestCase {
 	 */
 	public function testPostRedirect() {
 		$is = $this->Controller->Common->postRedirect(['action' => 'foo']);
-		$is = $this->Controller->response->header();
-		$this->assertSame('http://localhost/foo', $is['Location']);
-		$this->assertSame(302, $this->Controller->response->getStatusCode());
+		$is = $this->Controller->getResponse()->getHeaderLine('Location');
+		$this->assertSame('http://localhost/foo', $is);
+		$this->assertSame(302, $this->Controller->getResponse()->getStatusCode());
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testAutoRedirect() {
-		$is = $this->Controller->Common->autoRedirect(['action' => 'foo']);
-		$is = $this->Controller->response->header();
-		$this->assertSame('http://localhost/foo', $is['Location']);
-		$this->assertSame(302, $this->Controller->response->getStatusCode());
+		$this->Controller->Common->autoRedirect(['action' => 'foo']);
+		$is = $this->Controller->getResponse()->getHeaderLine('Location');
+		$this->assertSame('http://localhost/foo', $is);
+		$this->assertSame(302, $this->Controller->getResponse()->getStatusCode());
 	}
 
 	/**
@@ -160,9 +166,9 @@ class CommonComponentTest extends TestCase {
 		$this->Controller->setRequest($this->request->withEnv('HTTP_REFERER', $url));
 
 		$this->Controller->Common->autoRedirect(['action' => 'foo'], true);
-		$headers = $this->Controller->response->getHeaders();
+		$headers = $this->Controller->getResponse()->getHeaders();
 		$this->assertSame([$url], $headers['Location']);
-		$this->assertSame(302, $this->Controller->response->getStatusCode());
+		$this->assertSame(302, $this->Controller->getResponse()->getStatusCode());
 	}
 
 	/**
@@ -170,9 +176,9 @@ class CommonComponentTest extends TestCase {
 	 */
 	public function testAutoPostRedirect() {
 		$this->Controller->Common->autoPostRedirect(['action' => 'foo'], true);
-		$is = $this->Controller->response->header();
-		$this->assertSame('http://localhost/foo', $is['Location']);
-		$this->assertSame(302, $this->Controller->response->getStatusCode());
+		$is = $this->Controller->getResponse()->getHeaderLine('Location');
+		$this->assertSame('http://localhost/foo', $is);
+		$this->assertSame(302, $this->Controller->getResponse()->getStatusCode());
 	}
 
 	/**
@@ -180,12 +186,12 @@ class CommonComponentTest extends TestCase {
 	 */
 	public function testAutoPostRedirectReferer() {
 		$url = 'http://localhost/my_controller/allowed';
-		$this->Controller->setRequest($this->request->withEnv('HTTP_REFERER', $url));
+		$this->Controller->setRequest($this->Controller->getRequest()->withEnv('HTTP_REFERER', $url));
 
 		$this->Controller->Common->autoPostRedirect(['controller' => 'MyController', 'action' => 'foo'], true);
-		$headers = $this->Controller->response->getHeaders();
+		$headers = $this->Controller->getResponse()->getHeaders();
 		$this->assertSame([$url], $headers['Location']);
-		$this->assertSame(302, $this->Controller->response->getStatusCode());
+		$this->assertSame(302, $this->Controller->getResponse()->getStatusCode());
 	}
 
 	/**
@@ -200,12 +206,12 @@ class CommonComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testAutoPostRedirectRefererNotWhitelisted() {
-		$this->request->env('HTTP_REFERER', 'http://localhost/my_controller/wrong');
+		$this->request = $this->request->withEnv('HTTP_REFERER', 'http://localhost/my_controller/wrong');
 
-		$is = $this->Controller->Common->autoPostRedirect(['controller' => 'MyController', 'action' => 'foo'], true);
-		$is = $this->Controller->response->header();
-		$this->assertSame('http://localhost/my_controller/foo', $is['Location']);
-		$this->assertSame(302, $this->Controller->response->getStatusCode());
+		$this->Controller->Common->autoPostRedirect(['controller' => 'MyController', 'action' => 'foo'], true);
+		$is = $this->Controller->getResponse()->getHeaderLine('Location');
+		$this->assertSame('http://localhost/my_controller/foo', $is);
+		$this->assertSame(302, $this->Controller->getResponse()->getStatusCode());
 	}
 
 	/**
@@ -226,6 +232,134 @@ class CommonComponentTest extends TestCase {
 
 		$result = $this->Controller->Common->getSafeRedirectUrl(['action' => 'default']);
 		$this->assertSame(['action' => 'default'], $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testIsPosted() {
+		$this->Controller->setRequest($this->Controller->getRequest()->withMethod('POST'));
+		$this->assertTrue($this->Controller->Common->isPosted());
+
+		$this->Controller->setRequest($this->Controller->getRequest()->withMethod('PUT'));
+		$this->assertTrue($this->Controller->Common->isPosted());
+
+		$this->Controller->setRequest($this->Controller->getRequest()->withMethod('PATCH'));
+		$this->assertTrue($this->Controller->Common->isPosted());
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testLoadHelper() {
+		$this->Controller->Common->loadHelper('Tester');
+		$helpers = $this->Controller->viewBuilder()->getHelpers();
+		$this->assertEquals(['Tester'], $helpers);
+
+		$this->Controller->Common->loadHelper(['Tester123']);
+		$helpers = $this->Controller->viewBuilder()->getHelpers();
+		$this->assertEquals(['Tester', 'Tester123'], $helpers);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testDefaultUrlParams() {
+		Configure::write('Routing.prefixes', ['admin', 'tests']);
+		$result = CommonComponent::defaultUrlParams();
+
+		$expected = [
+			'plugin' => false,
+			'admin' => false,
+			'tests' => false,
+		];
+		$this->assertEquals($expected, $result);
+
+		Configure::write('Routing.prefixes', 'admin');
+		$result = CommonComponent::defaultUrlParams();
+
+		$expected = [
+			'plugin' => false,
+			'admin' => false,
+		];
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testForceCache() {
+		$this->Controller->Common->forceCache();
+		$cache_control = $this->Controller->getResponse()->getHeaderLine('Cache-Control');
+		$this->assertEquals('public, max-age=' . HOUR, $cache_control);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testTrimQuery() {
+		Configure::write('DataPreparation.notrim', false);
+		$request = $this->Controller->getRequest();
+		$request = $request->withQueryParams([
+			'a' => [
+				'b' => [
+					' c '
+				]
+			],
+			' d ',
+			' e',
+			'f '
+		]);
+		$this->Controller->setRequest($request);
+
+		$this->Controller->Common->startup(new Event('Test'));
+
+		$query = $this->Controller->getRequest()->getQuery();
+		$expected = [
+			'a' => [
+				'b' => [
+					'c'
+				]
+			],
+			'd',
+			'e',
+			'f'
+		];
+		$this->assertSame($expected, $query);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testTrimPass() {
+		Configure::write('DataPreparation.notrim', false);
+		$request = $this->Controller->getRequest();
+		$request = $request->withParam('pass', [
+			'a' => [
+				'b' => [
+					' c '
+				]
+			],
+			' d ',
+			' e',
+			'f '
+		]);
+		$this->Controller->setRequest($request);
+
+		$this->Controller->Common->startup(new Event('Test'));
+
+		$pass = $this->Controller->getRequest()->getParam('pass');
+		$expected = [
+			'a' => [
+				'b' => [
+					'c'
+				]
+			],
+			'd',
+			'e',
+			'f'
+		];
+		$this->assertSame($expected, $pass);
 	}
 
 }
