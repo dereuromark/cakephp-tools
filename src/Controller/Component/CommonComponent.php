@@ -223,7 +223,7 @@ class CommonComponent extends Component {
 		}
 
 		if (!empty($referer)) {
-			$referer = Router::getRouteCollection()->parse($referer);
+			$referer = Router::parse($referer);
 		}
 
 		if ($conditionalAutoRedirect && !empty($this->Controller->autoRedirectActions) && is_array($referer) && !empty($referer['action'])) {
