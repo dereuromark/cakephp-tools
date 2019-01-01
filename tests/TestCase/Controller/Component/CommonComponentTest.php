@@ -6,7 +6,6 @@ use App\Controller\CommonComponentTestController;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\ServerRequest;
-use phpDocumentor\Reflection\Types\Void_;
 use Tools\Controller\Component\CommonComponent;
 use Tools\TestSuite\TestCase;
 
