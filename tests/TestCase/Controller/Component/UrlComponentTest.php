@@ -112,11 +112,9 @@ class UrlComponentTest extends TestCase {
 		$expected = '/foobar/test';
 		$this->assertSame($expected, $result);
 
-		$request = $this->Controller->getRequest()
-			->withRequestTarget('/admin/foo/bar/baz/test')
-			->withQueryParams(['prefix' => 'admin', 'plugin' => 'Foo']);
-
-		$this->Controller->setRequest($request);
+		$this->Controller->Url->request->here = '/admin/foo/bar/baz/test';
+		$this->Controller->Url->request->params['prefix'] = 'admin';
+		$this->Controller->Url->request->params['plugin'] = 'Foo';
 
 		Router::reload();
 		Router::connect('/:controller/:action/*');
@@ -129,7 +127,7 @@ class UrlComponentTest extends TestCase {
 			});
 		});
 		Plugin::routes();
-		Router::pushRequest($this->Controller->Url->request);
+		Router::pushRequest($this->Controller->getRequest());
 
 		$result = $this->Controller->Url->build(['controller' => 'bar', 'action' => 'baz', 'x']);
 		$expected = '/admin/foo/bar/baz/x';
