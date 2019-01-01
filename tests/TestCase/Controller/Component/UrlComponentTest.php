@@ -89,7 +89,9 @@ class UrlComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testCompleteArray() {
-		$this->Controller->Url->request->query['x'] = 'y';
+		$request = $this->Controller->getRequest()
+			->withQueryParams(['x' => 'y']);
+		$this->Controller->setRequest($request);
 
 		$result = $this->Controller->Url->completeArray(['controller' => 'foobar', 'action' => 'test']);
 		$expected = [
@@ -110,9 +112,12 @@ class UrlComponentTest extends TestCase {
 		$expected = '/foobar/test';
 		$this->assertSame($expected, $result);
 
-		$this->Controller->Url->request->here = '/admin/foo/bar/baz/test';
-		$this->Controller->Url->request->params['prefix'] = 'admin';
-		$this->Controller->Url->request->params['plugin'] = 'Foo';
+		$request = $this->Controller->getRequest()
+			->withRequestTarget('/admin/foo/bar/baz/test')
+			->withQueryParams(['prefix' => 'admin', 'plugin' => 'Foo']);
+
+		$this->Controller->setRequest($request);
+
 		Router::reload();
 		Router::connect('/:controller/:action/*');
 		Router::plugin('Foo', function (RouteBuilder $routes) {
@@ -139,7 +144,8 @@ class UrlComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testBuildComplete() {
-		$this->Controller->Url->request->query['x'] = 'y';
+		$request = $this->Controller->getRequest()->withQueryParams(['x' => 'y']);
+		$this->Controller->setRequest($request);
 
 		$result = $this->Controller->Url->buildComplete(['action' => 'test']);
 		$expected = '/test?x=y';
