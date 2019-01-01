@@ -12,7 +12,7 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.tools.bitmasked_comments'
+		'plugin.Tools.BitmaskedComments'
 	];
 
 	/**

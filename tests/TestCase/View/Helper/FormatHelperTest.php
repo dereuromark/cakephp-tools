@@ -16,7 +16,9 @@ class FormatHelperTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	public $fixtures = ['core.sessions'];
+	public $fixtures = [
+		'core.Sessions'
+	];
 
 	/**
 	 * @var \Tools\View\Helper\FormatHelper

@@ -16,7 +16,9 @@ class NeighborBehaviorTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	public $fixtures = ['plugin.tools.stories'];
+	public $fixtures = [
+		'plugin.Tools.Stories'
+	];
 
 	/**
 	 * @return void

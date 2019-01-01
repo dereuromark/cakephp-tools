@@ -12,7 +12,9 @@ class MultiColumnAuthenticateTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	public $fixtures = ['plugin.Tools.multi_column_users'];
+	public $fixtures = [
+		'plugin.Tools.MultiColumnUsers'
+	];
 
 	/**
 	 * @var \Tools\Auth\MultiColumnAuthenticate

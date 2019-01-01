@@ -12,7 +12,9 @@ class ControllerTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	public $fixtures = ['plugin.Tools.ToolsUsers'];
+	public $fixtures = [
+		'plugin.Tools.ToolsUsers'
+	];
 
 	/**
 	 * @var \Cake\Controller\Controller

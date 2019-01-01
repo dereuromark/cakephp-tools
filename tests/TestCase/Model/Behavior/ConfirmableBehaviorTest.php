@@ -15,7 +15,9 @@ class ConfirmableBehaviorTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	public $fixtures = ['plugin.Tools.SluggedArticles'];
+	public $fixtures = [
+		'plugin.Tools.SluggedArticles'
+	];
 
 	/**
 	 * @return void

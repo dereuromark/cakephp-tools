@@ -15,7 +15,9 @@ class TypographicBehaviorTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	public $fixtures = ['core.articles'];
+	public $fixtures = [
+		'core.Articles'
+	];
 
 	/**
 	 * @return void

@@ -15,7 +15,9 @@ class TokensTableTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	public $fixtures = ['plugin.Tools.Tokens'];
+	public $fixtures = [
+		'plugin.Tools.Tokens'
+	];
 
 	/**
 	 * @return void

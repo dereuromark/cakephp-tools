@@ -19,7 +19,7 @@ class SluggedBehaviorTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.tools.slugged_articles'
+		'plugin.Tools.SluggedArticles'
 	];
 
 	/**

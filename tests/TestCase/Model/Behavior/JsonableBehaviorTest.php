@@ -12,7 +12,7 @@ class JsonableBehaviorTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.tools.jsonable_comments'
+		'plugin.Tools.JsonableComments'
 	];
 
 	/**

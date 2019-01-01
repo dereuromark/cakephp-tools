@@ -20,7 +20,9 @@ class TypeMapBehaviorTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	public $fixtures = ['plugin.Tools.Data'];
+	public $fixtures = [
+		'plugin.Tools.Data'
+	];
 
 	/**
 	 * @return void
