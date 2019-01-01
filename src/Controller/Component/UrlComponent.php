@@ -111,7 +111,7 @@ class UrlComponent extends Component {
 		if (!isset($url['?'])) {
 			$url['?'] = [];
 		}
-		$url['?'] += $this->request->getQuery();
+		$url['?'] += $this->Controller->getRequest()->getQuery();
 
 		return $url;
 	}
