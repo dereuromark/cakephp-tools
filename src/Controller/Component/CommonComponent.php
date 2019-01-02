@@ -30,7 +30,9 @@ class CommonComponent extends Component {
 			$request = $this->Controller->getRequest();
 			$new_data = Hash::flatten(Utility::trimDeep($this->Controller->getRequest()->getData()));
 			foreach ($new_data as $k => $v) {
-				$request = $request->withData($k, $v);
+				if ($this->Controller->getRequest()->getData($k) != $v) {
+					$request = $request->withData($k, $v);
+				}
 			}
 			$this->Controller->setRequest($request);
 		}
