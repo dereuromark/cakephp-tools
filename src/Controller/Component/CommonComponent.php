@@ -5,6 +5,7 @@ namespace Tools\Controller\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Routing\Router;
+use Cake\Utility\Hash;
 use Shim\Controller\Component\Component;
 use Tools\Utility\Utility;
 
@@ -25,8 +26,13 @@ class CommonComponent extends Component {
 	 */
 	public function startup(Event $event) {
 		// Data preparation
-		if ($this->Controller->request->getData() && !Configure::read('DataPreparation.notrim')) {
-			$this->Controller->request->data = Utility::trimDeep($this->Controller->request->getData());
+		if ($this->Controller->getRequest()->getData() && !Configure::read('DataPreparation.notrim')) {
+			$request = $this->Controller->getRequest();
+			$new_data = Hash::flatten(Utility::trimDeep($this->Controller->getRequest()->getData()));
+			foreach ($new_data as $k => $v) {
+				$request = $request->withData($k, $v);
+			}
+			$this->Controller->setRequest($request);
 		}
 		if ($this->Controller->getRequest()->getQuery() && !Configure::read('DataPreparation.notrim')) {
 			$this->Controller->setRequest($this->Controller->getRequest()->withQueryParams(Utility::trimDeep($this->Controller->getRequest()->getQuery())));
