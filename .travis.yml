@@ -41,10 +41,6 @@ before_script:
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE cakephp_test;' -U postgres; fi"
 
-  - phpenv rehash
-  - set +H
-  - cp phpunit.xml.dist phpunit.xml
-
 script:
   - if [[ $DEFAULT == 1 ]]; then vendor/bin/phpunit; fi
 
