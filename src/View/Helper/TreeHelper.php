@@ -19,7 +19,7 @@ use Exception;
  *
  * @author Andy Dawson
  * @author Mark Scherer
- * @link http://www.dereuromark.de/2013/02/17/cakephp-and-tree-structures/
+ * @link https://www.dereuromark.de/2013/02/17/cakephp-and-tree-structures/
  */
 class TreeHelper extends Helper {
 

@@ -35,7 +35,7 @@ We first define values and make sure they follow the bitmask scheme:
 1, 2, 4, 8, 16, 32, 64, 128, ...
 ```
 
-I recommend using a DRY [enum approach](http://www.dereuromark.de/2010/06/24/static-enums-or-semihardcoded-attributes/), using your entity: 
+I recommend using a DRY [enum approach](https://www.dereuromark.de/2010/06/24/static-enums-or-semihardcoded-attributes/), using your entity: 
 ```php
 // A bunch of bool values
 const STATUS_ACTIVE = 1;
@@ -106,6 +106,6 @@ Note: This requires Search `^4.2.1`!
 
 ### Outview
 
-You can read more about how it began in [my blog post](http://www.dereuromark.de/2012/02/26/bitmasked-using-bitmasks-in-cakephp/).
+You can read more about how it began in [my blog post](https://www.dereuromark.de/2012/02/26/bitmasked-using-bitmasks-in-cakephp/).
 
 If you want to use a more DB or Config driven approach towards enums, you can also look into other plugins and CakePHP resources available, e.g. [this](https://github.com/CakeDC/Enum) implementation.

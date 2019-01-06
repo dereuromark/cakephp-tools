@@ -24,7 +24,7 @@ use Cake\View\Helper;
  * For Swiss, for example: "Some quote" might become «Some quote»
  * For German: "Some quote" might become „Some quote“
  *
- * @link http://www.dereuromark.de/2012/08/12/typographic-behavior-and-typography-helper/
+ * @link https://www.dereuromark.de/2012/08/12/typographic-behavior-and-typography-helper/
  */
 class TypographyHelper extends Helper {
 

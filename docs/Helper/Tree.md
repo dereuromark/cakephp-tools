@@ -116,4 +116,4 @@ The `treePath` is optional and needed for additional things like hiding unrelate
 
 ## Outview
 
-You can read some more tutorial like details in [my blog post](http://www.dereuromark.de/2013/02/17/cakephp-and-tree-structures/).
+You can read some more tutorial like details in [my blog post](https://www.dereuromark.de/2013/02/17/cakephp-and-tree-structures/).
