@@ -66,27 +66,48 @@ class WhoDidItBehavior extends ModelBehavior {
 		// Handles model binding to the User model according to the auto_bind settings (default true).
 		if ($config['auto_bind']) {
 			if ($config['has_created_by']) {
-				$commonBelongsTo = [
-					'CreatedBy' => [
-						'className' => $config['user_model'],
-						'foreignKey' => $config['created_by_field']]];
-				$Model->bindModel(['belongsTo' => $commonBelongsTo], false);
+				$createdByOptions = [
+					'className' => $config['user_model'],
+					'foreignKey' => $config['created_by_field'],
+				];
+				if (method_exists($Model, 'belongsTo')) {
+					$Model->belongsTo('CreatedBy', $createdByOptions);
+				} else {
+					$commonBelongsTo = [
+						'CreatedBy' => $createdByOptions,
+					];
+					$Model->bindModel(['belongsTo' => $commonBelongsTo], false);
+				}
 			}
 
 			if ($config['has_modified_by']) {
-				$commonBelongsTo = [
-					'ModifiedBy' => [
-						'className' => $config['user_model'],
-						'foreignKey' => $config['modified_by_field']]];
-				$Model->bindModel(['belongsTo' => $commonBelongsTo], false);
+				$modifiedByOptions = [
+					'className' => $config['user_model'],
+					'foreignKey' => $config['modified_by_field'],
+				];
+				if (method_exists($Model, 'belongsTo')) {
+					$Model->belongsTo('ModifiedBy', $modifiedByOptions);
+				} else {
+					$commonBelongsTo = [
+						'ModifiedBy' => $modifiedByOptions,
+					];
+					$Model->bindModel(['belongsTo' => $commonBelongsTo], false);
+				}
 			}
 
 			if ($config['has_confirmed_by']) {
-				$commonBelongsTo = [
-					'ConfirmedBy' => [
-						'className' => $config['user_model'],
-						'foreignKey' => $config['confirmed_by_field']]];
-				$Model->bindModel(['belongsTo' => $commonBelongsTo], false);
+				$confirmedByOptions = [
+					'className' => $config['user_model'],
+					'foreignKey' => $config['confirmed_by_field'],
+				];
+				if (method_exists($Model, 'belongsTo')) {
+					$Model->belongsTo('ConfirmedBy', $confirmedByOptions);
+				} else {
+					$commonBelongsTo = [
+						'ConfirmedBy' => $confirmedByOptions,
+					];
+					$Model->bindModel(['belongsTo' => $commonBelongsTo], false);
+				}
 			}
 		}
 
