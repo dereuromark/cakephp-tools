@@ -1,8 +1,16 @@
 <?php
 
-define('FORMAT_DB_DATETIME', 'Y-m-d H:i:s');
-define('FORMAT_DB_DATE', 'Y-m-d');
-define('FORMAT_DB_TIME', 'H:i:s');
+if (!defined('FORMAT_DB_DATETIME')) {
+	define('FORMAT_DB_DATETIME', 'Y-m-d H:i:s');
+}
+
+if (!defined('FORMAT_DB_DATE')) {
+	define('FORMAT_DB_DATE', 'Y-m-d');
+}
+
+if (!defined('FORMAT_DB_TIME')) {
+	define('FORMAT_DB_TIME', 'H:i:s');
+}
 
 if (!defined('FORMAT_NICE_YMDHMS')) {
 	define('FORMAT_NICE_YMDHMS', 'd.m.Y, H:i:s');
