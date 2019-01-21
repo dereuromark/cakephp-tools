@@ -24,22 +24,31 @@ class CommonComponent extends Component {
 	 * @return void
 	 */
 	public function startup(Event $event) {
-		// Data preparation
-		if ($this->Controller->getRequest()->getData() && !Configure::read('DataPreparation.notrim')) {
+		if (Configure::read('DataPreparation.notrim')) {
+			return;
+		}
+
+		if ($this->Controller->getRequest()->getData()) {
 			$request = $this->Controller->getRequest();
-			$newData = Utility::trimDeep($this->Controller->getRequest()->getData());
+			$newData = Utility::trimDeep($request->getData());
 			foreach ($newData as $k => $v) {
-				if ($this->Controller->getRequest()->getData($k) !== $v) {
+				if ($request->getData($k) !== $v) {
 					$request = $request->withData($k, $v);
 				}
 			}
 			$this->Controller->setRequest($request);
 		}
-		if ($this->Controller->getRequest()->getQuery() && !Configure::read('DataPreparation.notrim')) {
-			$this->Controller->setRequest($this->Controller->getRequest()->withQueryParams(Utility::trimDeep($this->Controller->getRequest()->getQuery())));
+		if ($this->Controller->getRequest()->getQuery()) {
+			$queryData = Utility::trimDeep($this->Controller->getRequest()->getQuery());
+			if ($queryData !== $this->Controller->getRequest()->getQuery()) {
+				$this->Controller->setRequest($this->Controller->getRequest()->withQueryParams($queryData));
+			}
 		}
-		if ($this->Controller->getRequest()->getParam('pass') && !Configure::read('DataPreparation.notrim')) {
-			$this->Controller->setRequest($this->Controller->getRequest()->withParam('pass', Utility::trimDeep($this->Controller->getRequest()->getParam('pass'))));
+		if ($this->Controller->getRequest()->getParam('pass')) {
+			$passData = Utility::trimDeep($this->Controller->getRequest()->getParam('pass'));
+			if ($passData !== $this->Controller->getRequest()->getParam('pass')) {
+				$this->Controller->setRequest($this->Controller->getRequest()->withParam('pass', $passData));
+			}
 		}
 	}
 
