@@ -17,9 +17,6 @@ use Tools\Utility\Utility;
 class CommonComponent extends Component {
 
 	/**
-	 * For this helper the controller has to be passed as reference
-	 * for manual startup with $disableStartup = true (requires this to be called prior to any other method)
-	 *
 	 * @param \Cake\Event\Event $event
 	 * @return void
 	 */
@@ -75,7 +72,7 @@ class CommonComponent extends Component {
 	 */
 	public function getSafeRedirectUrl($default, $data = null, $key = 'redirect') {
 		$redirectUrl = $data ?: ($this->Controller->getRequest()->getData($key) ?: $this->Controller->getRequest()->getQuery($key));
-		if ($redirectUrl && (substr($redirectUrl, 0, 1) !== '/' || substr($redirectUrl, 0, 2) === '//')) {
+		if ($redirectUrl && (mb_substr($redirectUrl, 0, 1) !== '/' || mb_substr($redirectUrl, 0, 2) === '//')) {
 			$redirectUrl = null;
 		}
 
@@ -92,7 +89,7 @@ class CommonComponent extends Component {
 		$subClassMethods = get_class_methods($this->Controller);
 		$classMethods = array_diff($subClassMethods, $parentClassMethods);
 		foreach ($classMethods as $key => $classMethod) {
-			if (substr($classMethod, 0, 1) === '_') {
+			if (mb_substr($classMethod, 0, 1) === '_') {
 				unset($classMethods[$key]);
 			}
 		}
@@ -115,6 +112,7 @@ class CommonComponent extends Component {
 	 * Add component just in time (inside actions - only when needed)
 	 * aware of plugins and config array (if passed)
 	 *
+	 * @deprecated Use normal controller component loading now. Will be removed in the future.
 	 * @param string $component Component
 	 * @param array $config
 	 * @param bool $callbacks (defaults to true)
@@ -156,7 +154,7 @@ class CommonComponent extends Component {
 	public function getPassedParam($var, $default = null) {
 		$passed = $this->Controller->getRequest()->getParam('pass');
 
-		return (isset($passed[$var])) ? $passed[$var] : $default;
+		return isset($passed[$var]) ? $passed[$var] : $default;
 	}
 
 	/**
@@ -218,7 +216,7 @@ class CommonComponent extends Component {
 	 * Should be a 303, but:
 	 * Note: Many pre-HTTP/1.1 user agents do not understand the 303 status. When interoperability with such clients is a concern, the 302 status code may be used instead, since most user agents react to a 302 response as described here for 303.
 	 *
-	 * TODO: change to 303 with backwardscompatability for older browsers...
+	 * TODO: change to 303 with backwards-compatibility for older browsers...
 	 *
 	 * @see http://en.wikipedia.org/wiki/Post/Redirect/Get
 	 *
@@ -294,7 +292,7 @@ class CommonComponent extends Component {
 			unset($url['isAjax']);
 		}
 		if (is_array($url)) {
-			$url += $this->Controller->getRequest()->params['pass'];
+			$url += $this->Controller->getRequest()->getParam('pass');
 		}
 		return $this->Controller->redirect($url, $status);
 	}
@@ -331,7 +329,7 @@ class CommonComponent extends Component {
 			return false;
 		}
 		$base = Configure::read('App.fullBaseUrl') . '/';
-		if (strpos($ref, $base) === 0) {
+		if (mb_strpos($ref, $base) === 0) {
 			return false;
 		}
 		return true;
