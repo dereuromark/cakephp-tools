@@ -28,28 +28,35 @@ class CommonComponent extends Component {
 			return;
 		}
 
+		$request = $this->Controller->getRequest();
+		
 		if ($this->Controller->getRequest()->getData()) {
-			$request = $this->Controller->getRequest();
+			
 			$newData = Utility::trimDeep($request->getData());
 			foreach ($newData as $k => $v) {
 				if ($request->getData($k) !== $v) {
 					$request = $request->withData($k, $v);
 				}
 			}
-			$this->Controller->setRequest($request);
 		}
-		if ($this->Controller->getRequest()->getQuery()) {
-			$queryData = Utility::trimDeep($this->Controller->getRequest()->getQuery());
-			if ($queryData !== $this->Controller->getRequest()->getQuery()) {
-				$this->Controller->setRequest($this->Controller->getRequest()->withQueryParams($queryData));
+		if ($request->getQuery()) {
+			$queryData = Utility::trimDeep($request->getQuery());
+			if ($queryData !== $request->getQuery()) {
+				$request = $request->withQueryParams($queryData);
 			}
 		}
-		if ($this->Controller->getRequest()->getParam('pass')) {
-			$passData = Utility::trimDeep($this->Controller->getRequest()->getParam('pass'));
-			if ($passData !== $this->Controller->getRequest()->getParam('pass')) {
-				$this->Controller->setRequest($this->Controller->getRequest()->withParam('pass', $passData));
+		if ($request->getParam('pass')) {
+			$passData = Utility::trimDeep($request->getParam('pass'));
+			if ($passData !== $request->getParam('pass')) {
+				$request = $request->withParam('pass', $passData);
 			}
 		}
+		
+		if ($request === $this->Controller->getRequest()) {
+			return;
+		}
+
+		$this->Controller->setRequest($request);
 	}
 
 	/**
