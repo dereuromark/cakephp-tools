@@ -25,8 +25,15 @@ class CommonComponent extends Component {
 	 */
 	public function startup(Event $event) {
 		// Data preparation
-		if ($this->Controller->request->getData() && !Configure::read('DataPreparation.notrim')) {
-			$this->Controller->request->data = Utility::trimDeep($this->Controller->request->getData());
+		if ($this->Controller->getRequest()->getData() && !Configure::read('DataPreparation.notrim')) {
+			$request = $this->Controller->getRequest();
+			$newData = Utility::trimDeep($this->Controller->getRequest()->getData());
+			foreach ($newData as $k => $v) {
+				if ($this->Controller->getRequest()->getData($k) !== $v) {
+					$request = $request->withData($k, $v);
+				}
+			}
+			$this->Controller->setRequest($request);
 		}
 		if ($this->Controller->getRequest()->getQuery() && !Configure::read('DataPreparation.notrim')) {
 			$this->Controller->setRequest($this->Controller->getRequest()->withQueryParams(Utility::trimDeep($this->Controller->getRequest()->getQuery())));

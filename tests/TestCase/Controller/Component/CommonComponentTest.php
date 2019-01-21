@@ -243,6 +243,7 @@ class CommonComponentTest extends TestCase {
 		$this->Controller->setRequest($this->Controller->getRequest()->withMethod('PATCH'));
 		$this->assertTrue($this->Controller->Common->isPosted());
 	}
+
 	/**
 	 * @return void
 	 */
@@ -254,6 +255,7 @@ class CommonComponentTest extends TestCase {
 		$helpers = $this->Controller->viewBuilder()->getHelpers();
 		$this->assertEquals(['Tester', 'Tester123'], $helpers);
 	}
+
 	/**
 	 * @return void
 	 */
@@ -274,6 +276,7 @@ class CommonComponentTest extends TestCase {
 		];
 		$this->assertEquals($expected, $result);
 	}
+
 	/**
 	 * @return void
 	 */
@@ -282,6 +285,7 @@ class CommonComponentTest extends TestCase {
 		$cache_control = $this->Controller->getResponse()->getHeaderLine('Cache-Control');
 		$this->assertEquals('public, max-age=' . HOUR, $cache_control);
 	}
+
 	/**
 	 * @return void
 	 */
@@ -313,6 +317,7 @@ class CommonComponentTest extends TestCase {
 		];
 		$this->assertSame($expected, $query);
 	}
+
 	/**
 	 * @return void
 	 */
@@ -332,6 +337,38 @@ class CommonComponentTest extends TestCase {
 		$this->Controller->setRequest($request);
 		$this->Controller->Common->startup(new Event('Test'));
 		$pass = $this->Controller->getRequest()->getParam('pass');
+		$expected = [
+			'a' => [
+				'b' => [
+					'c'
+				]
+			],
+			'd',
+			'e',
+			'f'
+		];
+		$this->assertSame($expected, $pass);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testTrimData() {
+		Configure::write('DataPreparation.notrim', false);
+		$request = $this->Controller->getRequest();
+		$request = $request->withData('data', [
+			'a' => [
+				'b' => [
+					' c '
+				]
+			],
+			' d ',
+			' e',
+			'f '
+		]);
+		$this->Controller->setRequest($request);
+		$this->Controller->Common->startup(new Event('Test'));
+		$pass = $this->Controller->getRequest()->getData('data');
 		$expected = [
 			'a' => [
 				'b' => [
