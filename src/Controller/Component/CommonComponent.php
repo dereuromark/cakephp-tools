@@ -28,9 +28,9 @@ class CommonComponent extends Component {
 		// Data preparation
 		if ($this->Controller->getRequest()->getData() && !Configure::read('DataPreparation.notrim')) {
 			$request = $this->Controller->getRequest();
-			$new_data = Hash::flatten(Utility::trimDeep($this->Controller->getRequest()->getData()));
-			foreach ($new_data as $k => $v) {
-				if ($this->Controller->getRequest()->getData($k) != $v) {
+			$newData = Utility::trimDeep($this->Controller->getRequest()->getData());
+			foreach ($newData as $k => $v) {
+				if ($this->Controller->getRequest()->getData($k) !== $v) {
 					$request = $request->withData($k, $v);
 				}
 			}
