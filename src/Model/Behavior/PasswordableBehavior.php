@@ -32,7 +32,7 @@ if (!defined('PWD_MAX_LENGTH')) {
  * Usage: See docs
  *
  * @author Mark Scherer
- * @link http://www.dereuromark.de/2011/08/25/working-with-passwords-in-cakephp
+ * @link https://www.dereuromark.de/2011/08/25/working-with-passwords-in-cakephp
  * @license MIT
  */
 class PasswordableBehavior extends Behavior {

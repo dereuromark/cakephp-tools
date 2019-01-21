@@ -15,7 +15,7 @@ use Cake\Validation\Validator;
  *
  * @link http://github.com/dereuromark/
  * @license http://opensource.org/licenses/mit-license.php MIT
- * @link http://www.dereuromark.de/2011/07/05/introducing-two-cakephp-behaviors/
+ * @link https://www.dereuromark.de/2011/07/05/introducing-two-cakephp-behaviors/
  */
 class ConfirmableBehavior extends Behavior {
 

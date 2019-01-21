@@ -28,7 +28,7 @@ use Tools\Utility\Text;
  *
  * @author Mark Scherer
  * @license MIT
- * @link http://www.dereuromark.de/2012/02/26/bitmasked-using-bitmasks-in-cakephp/
+ * @link https://www.dereuromark.de/2012/02/26/bitmasked-using-bitmasks-in-cakephp/
  */
 class BitmaskedBehavior extends Behavior {
 

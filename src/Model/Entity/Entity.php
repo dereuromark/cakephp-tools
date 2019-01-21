@@ -10,7 +10,7 @@ class Entity extends CakeEntity {
 	 * The main method for any enumeration, should be called statically
 	 * Now also supports reordering/filtering
 	 *
-	 * @link http://www.dereuromark.de/2010/06/24/static-enums-or-semihardcoded-attributes/
+	 * @link https://www.dereuromark.de/2010/06/24/static-enums-or-semihardcoded-attributes/
 	 * @param string|array|null $value Integer or array of keys or NULL for complete array result
 	 * @param array $options Options
 	 * @param string|null $default Default value

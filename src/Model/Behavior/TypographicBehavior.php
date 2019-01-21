@@ -32,7 +32,7 @@ use Cake\ORM\Behavior;
  * TODOS:
  * - respect primary and secondary quotations marks as well as alternatives
  *
- * @link http://www.dereuromark.de/2012/08/12/typographic-behavior-and-typography-helper/
+ * @link https://www.dereuromark.de/2012/08/12/typographic-behavior-and-typography-helper/
  * @link http://en.wikipedia.org/wiki/Non-English_usage_of_quotation_marks
  */
 class TypographicBehavior extends Behavior {
