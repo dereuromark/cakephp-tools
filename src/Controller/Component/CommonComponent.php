@@ -29,9 +29,9 @@ class CommonComponent extends Component {
 		}
 
 		$request = $this->Controller->getRequest();
-		
+
 		if ($this->Controller->getRequest()->getData()) {
-			
+
 			$newData = Utility::trimDeep($request->getData());
 			foreach ($newData as $k => $v) {
 				if ($request->getData($k) !== $v) {
@@ -51,7 +51,7 @@ class CommonComponent extends Component {
 				$request = $request->withParam('pass', $passData);
 			}
 		}
-		
+
 		if ($request === $this->Controller->getRequest()) {
 			return;
 		}
