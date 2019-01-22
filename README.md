@@ -16,7 +16,7 @@ This master branch only works for **CakePHP 3.7+** - please use the 2.x branch f
 ## What is this plugin for?
 
 ### Enhancing the core
-- Auto-trim on POST (to make - not only notEmpty - validation working properly).
+- Auto-trim on POST (to make - especially notEmpty/notBlank - validation working properly).
 - Disable cache also works for older IE versions.
 - Provide enum support as "static enums"
 - Default settings for Paginator, ... can be set using Configure.
