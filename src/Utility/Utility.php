@@ -15,7 +15,20 @@ use RuntimeException;
 class Utility {
 
 	/**
+	 * More sane !empty() check for actual (form) data input.
+	 * It allows only empty string `''`, bool `false` or `null` to be failing the check.
+	 *
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public static function notBlank($value) {
+		return $value === 0 || $value === 0.0 || $value === '0' || !empty($value);
+	}
+
+	/**
 	 * More sane !empty() method to not false positive `'0'` (0 as string) as empty.
+	 *
+	 * @deprecated Use notBlank() instead as it correctly handles also numeric input (int/float).
 	 *
 	 * @param mixed $value
 	 * @return bool

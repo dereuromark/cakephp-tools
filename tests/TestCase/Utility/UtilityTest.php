@@ -15,6 +15,35 @@ class UtilityTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testNotBlank() {
+		$res = Utility::notBlank('a');
+		$this->assertTrue($res);
+
+		$res = Utility::notBlank(2);
+		$this->assertTrue($res);
+
+		$res = Utility::notBlank(0);
+		$this->assertTrue($res);
+
+		$res = Utility::notBlank('0');
+		$this->assertTrue($res);
+
+		$res = Utility::notBlank(null);
+		$this->assertFalse($res);
+
+		$res = Utility::notBlank(false);
+		$this->assertFalse($res);
+
+		$res = Utility::notBlank('');
+		$this->assertFalse($res);
+
+		$res = Utility::notBlank([]);
+		$this->assertFalse($res);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testNotEmpty() {
 		$res = Utility::notEmpty('a');
 		$this->assertTrue($res);
