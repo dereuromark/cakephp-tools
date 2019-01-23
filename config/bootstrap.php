@@ -81,7 +81,6 @@ if (!function_exists('isEmpty')) {
 	}
 }
 
-
 /**
  * Returns of what type the specific value is
  *
@@ -92,30 +91,29 @@ if (!function_exists('isEmpty')) {
  */
 
 if (!function_exists('returns')) {
-	function returns($value)
-	{
-		if ( $value === null ) {
+	function returns($value) {
+		if ($value === null) {
 			return 'NULL';
 		}
-		if ( is_array($value) ) {
+		if (is_array($value)) {
 			return '(array)' . '<pre>' . print_r($value, true) . '</pre>';
 		}
-		if ( $value === true ) {
+		if ($value === true) {
 			return '(bool)TRUE';
 		}
-		if ( $value === false ) {
+		if ($value === false) {
 			return '(bool)FALSE';
 		}
-		if ( is_numeric($value) && is_float($value) ) {
+		if (is_numeric($value) && is_float($value)) {
 			return '(float)' . $value;
 		}
-		if ( is_numeric($value) && is_int($value) ) {
+		if (is_numeric($value) && is_int($value)) {
 			return '(int)' . $value;
 		}
-		if ( is_string($value) ) {
+		if (is_string($value)) {
 			return '(string)' . $value;
 		}
-		if ( is_object($value) ) {
+		if (is_object($value)) {
 			return '(object)' . get_class($value) . '<pre>' . print_r($value, true) .
 				'</pre>';
 		}
@@ -136,9 +134,8 @@ if (!function_exists('returns')) {
  */
 
 if (!function_exists('ent')) {
-	function ent($text)
-	{
-		return ! empty($text) ? htmlentities($text, ENT_QUOTES, 'UTF-8') : '';
+	function ent($text) {
+		return !empty($text) ? htmlentities($text, ENT_QUOTES, 'UTF-8') : '';
 	}
 }
 
@@ -151,9 +148,8 @@ if (!function_exists('ent')) {
  */
 
 if (!function_exists('hDec')) {
-	function hDec($text, $quoteStyle = ENT_QUOTES)
-	{
-		if ( is_array($text) ) {
+	function hDec($text, $quoteStyle = ENT_QUOTES) {
+		if (is_array($text)) {
 			return array_map('hDec', $text);
 		}
 
@@ -170,13 +166,12 @@ if (!function_exists('hDec')) {
  */
 
 if (!function_exists('entDec')) {
-	function entDec($text, $quoteStyle = ENT_QUOTES)
-	{
-		if ( is_array($text) ) {
+	function entDec($text, $quoteStyle = ENT_QUOTES) {
+		if (is_array($text)) {
 			return array_map('entDec', $text);
 		}
 
-		return ! empty($text) ? trim(html_entity_decode($text, $quoteStyle, 'UTF-8')) : '';
+		return !empty($text) ? trim(html_entity_decode($text, $quoteStyle, 'UTF-8')) : '';
 	}
 }
 
@@ -191,10 +186,9 @@ if (!function_exists('entDec')) {
  */
 
 if (!function_exists('extractFileInfo')) {
-	function extractFileInfo($filename, $type = null)
-	{
+	function extractFileInfo($filename, $type = null) {
 		$info = extractPathInfo($filename, $type);
-		if ( $info ) {
+		if ($info) {
 			return $info;
 		}
 		$pos = strrpos($filename, '.');
@@ -230,8 +224,7 @@ if (!function_exists('extractFileInfo')) {
  */
 
 if (!function_exists('extractPathInfo')) {
-	function extractPathInfo($filename, $type = null, $fromUrl = false)
-	{
+	function extractPathInfo($filename, $type = null, $fromUrl = false) {
 		switch ($type) {
 			case 'extension':
 			case 'ext':
@@ -253,11 +246,11 @@ if (!function_exists('extractPathInfo')) {
 				$infoType = $type;
 		}
 		$result = pathinfo($filename, $infoType);
-		if ( $fromUrl ) {
-			if ( ($pos = strpos($result, '#')) !== false ) {
+		if ($fromUrl) {
+			if (($pos = strpos($result, '#')) !== false) {
 				$result = substr($result, 0, $pos);
 			}
-			if ( ($pos = strpos($result, '?')) !== false ) {
+			if (($pos = strpos($result, '?')) !== false) {
 				$result = substr($result, 0, $pos);
 			}
 		}
@@ -278,8 +271,7 @@ if (!function_exists('extractPathInfo')) {
  */
 
 if (!function_exists('pre')) {
-	function pre($var, $collapsedAndExpandable = false, $options = [])
-	{
+	function pre($var, $collapsedAndExpandable = false, $options = []) {
 		$defaults = [
 			'class' => 'cake-debug',
 			'showHtml' => false, // Escape < and > (or manually escape with h() prior to calling this function)
@@ -287,38 +279,38 @@ if (!function_exists('pre')) {
 			'jquery' => null, // null => Auto - use jQuery (true/false to manually decide),
 			'debug' => false, // Show only with debug > 0
 		];
-		$options  += $defaults;
-		if ( $options['debug'] && ! Configure::read('debug') ) {
+		$options += $defaults;
+		if ($options['debug'] && !Configure::read('debug')) {
 			return '';
 		}
-		if ( PHP_SAPI === 'cli' ) {
+		if (PHP_SAPI === 'cli') {
 			return sprintf("\n%s\n", print_r($var, true));
 		}
 
 		$res = '<div class="' . $options['class'] . '">';
 
 		$pre = '';
-		if ( $collapsedAndExpandable ) {
-			$js       = 'if (this.parentNode.getElementsByTagName(\'pre\')[0].style.display==\'block\') {this.parentNode.getElementsByTagName(\'pre\')[0].style.display=\'none\'} else {this.parentNode.getElementsByTagName(\'pre\')[0].style.display=\'block\'}';
+		if ($collapsedAndExpandable) {
+			$js = 'if (this.parentNode.getElementsByTagName(\'pre\')[0].style.display==\'block\') {this.parentNode.getElementsByTagName(\'pre\')[0].style.display=\'none\'} else {this.parentNode.getElementsByTagName(\'pre\')[0].style.display=\'block\'}';
 			$jsJquery = 'jQuery(this).parent().children(\'pre\').slideToggle(\'fast\')';
-			if ( $options['jquery'] === true ) {
+			if ($options['jquery'] === true) {
 				$js = $jsJquery;
-			} elseif ( $options['jquery'] !== false ) {
+			} elseif ($options['jquery'] !== false) {
 				// auto
 				$js = 'if (typeof jQuery == \'undefined\') {' . $js . '} else {' . $jsJquery . '}';
 			}
 			$res .= '<span onclick="' . $js . '" style="cursor: pointer; font-weight: bold">Debug</span>';
-			if ( $options['showFrom'] ) {
+			if ($options['showFrom']) {
 				$calledFrom = debug_backtrace();
-				$from       = '<em>' . substr(str_replace(ROOT, '', $calledFrom[0]['file']), 1) . '</em>';
-				$from       .= ' (line <em>' . $calledFrom[0]['line'] . '</em>)';
-				$res        .= '<div>' . $from . '</div>';
+				$from = '<em>' . substr(str_replace(ROOT, '', $calledFrom[0]['file']), 1) . '</em>';
+				$from .= ' (line <em>' . $calledFrom[0]['line'] . '</em>)';
+				$res .= '<div>' . $from . '</div>';
 			}
 			$pre = ' style="display: none"';
 		}
 
 		$var = print_r($var, true);
-		if ( ! $options['showHtml'] ) {
+		if (!$options['showHtml']) {
 			$var = h($var);
 		}
 
@@ -339,9 +331,8 @@ if (!function_exists('pre')) {
  */
 
 if (!function_exists('contains')) {
-	function contains($haystack, $needle, $caseSensitive = false)
-	{
-		$result = ! $caseSensitive ? stripos($haystack, $needle) : strpos($haystack, $needle);
+	function contains($haystack, $needle, $caseSensitive = false) {
+		$result = !$caseSensitive ? stripos($haystack, $needle) : strpos($haystack, $needle);
 
 		return $result !== false;
 	}
@@ -357,9 +348,8 @@ if (!function_exists('contains')) {
  */
 
 if (!function_exists('startsWith')) {
-	function startsWith($haystack, $needle, $caseSensitive = false)
-	{
-		if ( $caseSensitive ) {
+	function startsWith($haystack, $needle, $caseSensitive = false) {
+		if ($caseSensitive) {
 			return mb_strpos($haystack, $needle) === 0;
 		}
 
@@ -377,9 +367,8 @@ if (!function_exists('startsWith')) {
  */
 
 if (!function_exists('endsWith')) {
-	function endsWith($haystack, $needle, $caseSensitive = false)
-	{
-		if ( $caseSensitive ) {
+	function endsWith($haystack, $needle, $caseSensitive = false) {
+		if ($caseSensitive) {
 			return mb_strrpos($haystack, $needle) === mb_strlen($haystack) - mb_strlen($needle);
 		}
 
