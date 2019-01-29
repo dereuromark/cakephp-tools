@@ -365,7 +365,8 @@ class FormatHelper extends Helper {
 		}
 
 		$defaults = [
-			'class' => 'icon icon-' . $type . ' ' . $iconClass
+			'class' => 'icon icon-' . $type . ' ' . $iconClass,
+			'escape' => true,
 		];
 		$options += $defaults;
 
@@ -380,8 +381,11 @@ class FormatHelper extends Helper {
 			'data-placement' => 'bottom',
 			'data-toggle' => 'tooltip'
 		];
+		$formatOptions = $attributes + [
+			'escape' => $options['escape'],
+		];
 
-		$options['attributes'] = $this->template->formatAttributes($attributes);
+		$options['attributes'] = $this->template->formatAttributes($formatOptions);
 		return $this->template->format('icon', $options);
 	}
 
