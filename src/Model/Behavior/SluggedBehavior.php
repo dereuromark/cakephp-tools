@@ -10,6 +10,7 @@ use Cake\ORM\Behavior;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Utility\Inflector;
+use Cake\Utility\Text;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -283,7 +284,7 @@ class SluggedBehavior extends Behavior {
 			$slug = $callable($string);
 
 		} elseif ($this->_config['mode'] === static::MODE_ASCII) {
-			$slug = Inflector::slug($string, $separator);
+			$slug = Text::slug($string, $separator);
 		} elseif ($this->_config['mode'] === static::MODE_URL) {
 			$regex = $this->_regex($this->_config['mode']);
 			if ($regex) {
