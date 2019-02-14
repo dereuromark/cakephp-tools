@@ -7,7 +7,7 @@ Most 404 logs should not be part of your error log, for example.
 You can either completely ignore them, or better yet put them into their own space:
 ```php
 Log::config('404', [
-	'className' => 'DatabaseLog.Database',
+	'className' => '...', // e.g. 'File' or 'DatabaseLog.Database'
 	'type' => '404',
 	'levels' => ['error'],
 	'scopes' => ['404'],
