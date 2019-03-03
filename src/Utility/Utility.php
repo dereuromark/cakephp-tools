@@ -441,7 +441,7 @@ class Utility {
 	 *
 	 * @param string|array|null $value
 	 * @param bool $transformNullToString
-	 * @return array|string
+	 * @return mixed
 	 */
 	public static function trimDeep($value, $transformNullToString = false) {
 		if (is_array($value)) {
@@ -449,11 +449,13 @@ class Utility {
 				$value[$k] = static::trimDeep($v, $transformNullToString);
 			}
 			return $value;
-		} elseif (is_int($value)) {
-			return $value;
 		}
 
-		return ($value === null && !$transformNullToString) ? $value : trim($value);
+		if (is_string($value) || is_null($value)) {
+			return ($value === null && !$transformNullToString) ? $value : trim($value);
+		}
+
+		return $value;
 	}
 
 	/**
