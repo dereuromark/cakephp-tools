@@ -337,12 +337,24 @@ class UtilityTest extends TestCase {
 		$is = [
 			'f some',
 			'e 49r ' => 'rf r ',
-			'er' => [['ee' => ['rr ' => ' tt ', 'empty' => null]]]
+			'er' => [['ee' => ['rr ' => ' tt ', 'empty' => null]]],
+			'bsh' => 1,
+			'bkd' => '1',
+			'bol' => true,
+			'bl' => 'true',
+			'flt' => 3.14,
+			'fl' => '3.14'
 		];
 		$expected = [
 			'f some',
 			'e 49r ' => 'rf r',
-			'er' => [['ee' => ['rr ' => 'tt', 'empty' => null]]]
+			'er' => [['ee' => ['rr ' => 'tt', 'empty' => null]]],
+			'bsh' => 1,
+			'bkd' => '1',
+			'bol' => true,
+			'bl' => 'true',
+			'flt' => 3.14,
+			'fl' => '3.14'
 		];
 
 		$res = Utility::trimDeep($is);

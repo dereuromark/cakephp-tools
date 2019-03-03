@@ -439,9 +439,9 @@ class Utility {
 	/**
 	 * Trim recursively
 	 *
-	 * @param string|array|null $value
+	 * @param mixed $value
 	 * @param bool $transformNullToString
-	 * @return array|string
+	 * @return mixed
 	 */
 	public static function trimDeep($value, $transformNullToString = false) {
 		if (is_array($value)) {
@@ -451,7 +451,11 @@ class Utility {
 			return $value;
 		}
 
-		return ($value === null && !$transformNullToString) ? $value : trim($value);
+		if (is_string($value) || $value === null) {
+			return ($value === null && !$transformNullToString) ? $value : trim($value);
+		}
+
+		return $value;
 	}
 
 	/**
