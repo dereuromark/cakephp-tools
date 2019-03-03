@@ -439,7 +439,7 @@ class Utility {
 	/**
 	 * Trim recursively
 	 *
-	 * @param string|array|null $value
+	 * @param mixed $value
 	 * @param bool $transformNullToString
 	 * @return mixed
 	 */
