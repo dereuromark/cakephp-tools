@@ -449,6 +449,8 @@ class Utility {
 				$value[$k] = static::trimDeep($v, $transformNullToString);
 			}
 			return $value;
+		} elseif (is_int($value)) {
+			return $value;
 		}
 
 		return ($value === null && !$transformNullToString) ? $value : trim($value);
