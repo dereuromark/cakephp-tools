@@ -451,7 +451,7 @@ class Utility {
 			return $value;
 		}
 
-		if (is_string($value) || is_null($value)) {
+		if (is_string($value) || $value === null) {
 			return ($value === null && !$transformNullToString) ? $value : trim($value);
 		}
 
