@@ -206,12 +206,10 @@ class TimeTest extends TestCase {
 	}
 
 	/**
-	 * TimeTest::testLocalDate()
-	 *
 	 * @return void
 	 */
 	public function testLocalDate() {
-		$this->skipIf(PHP_SAPI === 'cli', 'for now');
+		//$this->skipIf(PHP_SAPI === 'cli', 'for now');
 		$res = setlocale(LC_TIME, ['de_DE.UTF-8', 'deu_deu']);
 		$this->assertTrue(!empty($res));
 
@@ -832,32 +830,6 @@ class TimeTest extends TestCase {
 			//$this->assertSame($v[2], $ret, null, $v[1].'/'.$v[0]);
 			$this->assertTrue($ret <= $v[2] + HOUR && $ret >= $v[2]);
 		}
-	}
-
-	/**
-	 * TimeTest::testAgeByHoroscop()
-	 *
-	 * @return void
-	 */
-	public function testAgeByHoroscop() {
-		$this->skipIf(PHP_SAPI === 'cli', 'Fix these tests');
-
-		$is = $this->Time->ageByHoroscope(2000, ZodiacLib::SIGN_VIRGO);
-		// between xxxx-08-24 and xxxx-09-23 the latter, otherwise the first:
-		$this->assertEquals(date('Y') - 2000 - 1, $is);
-		$this->assertEquals([date('Y') - 2000 - 1, date('Y') - 2000], $is);
-
-		$is = $this->Time->ageByHoroscope(1991, ZodiacLib::SIGN_LIBRA);
-		//pr($is);
-		$this->assertEquals(date('Y') - 1991 - 1, $is);
-
-		$is = $this->Time->ageByHoroscope(1986, ZodiacLib::SIGN_CAPRICORN);
-		//pr($is);
-		$this->assertEquals([date('Y') - 1986 - 1, date('Y') - 1986], $is);
-
-		$is = $this->Time->ageByHoroscope(2000, ZodiacLib::SIGN_SCORPIO);
-		//debug($is);
-		$this->assertEquals(date('Y') - 2000 - 1, $is); //array(10, 11)
 	}
 
 	/**
