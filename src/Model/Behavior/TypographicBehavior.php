@@ -139,14 +139,12 @@ class TypographicBehavior extends Behavior {
 	 * @param \Cake\Event\Event $event
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
-	 * @return bool
+	 * @return void
 	 */
 	public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options) {
 		if ($this->_config['before'] === 'save') {
 			$this->process($entity);
 		}
-
-		return true;
 	}
 
 	/**
