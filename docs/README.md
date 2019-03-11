@@ -30,6 +30,7 @@ Controller:
 * [Controller](Controller/Controller.md)
 
 Behaviors:
+* [AfterSave](Behavior/AfterSave.md)
 * [Jsonable](Behavior/Jsonable.md)
 * [Passwordable](Behavior/Passwordable.md)
 * [Slugged](Behavior/Slugged.md)
