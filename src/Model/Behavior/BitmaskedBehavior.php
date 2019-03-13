@@ -276,9 +276,6 @@ class BitmaskedBehavior extends Behavior {
 		}
 
 		$data[$field] = $this->encodeBitmask($data[$mappedField], $default);
-		if ($field !== $mappedField) {
-			unset($data[$mappedField]);
-		}
 	}
 
 	/**
