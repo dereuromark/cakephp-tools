@@ -245,10 +245,10 @@ class UtilityTest extends TestCase {
 	 * @return void
 	 */
 	public function testUrlExists() {
-		$res = Utility::urlExists('http://www.spiegel.de');
+		$res = Utility::urlExists('https://www.spiegel.de');
 		$this->assertTrue($res);
 
-		$res = Utility::urlExists('http://www.spiegel.de/some/inexistent.img');
+		$res = Utility::urlExists('https://www.spiegel.de/some/inexistent.img');
 		$this->assertFalse($res);
 	}
 
@@ -309,7 +309,7 @@ class UtilityTest extends TestCase {
 		$this->assertSame('http://spiegel.de', $res);
 
 		$res = Utility::cleanUrl('spiegel.de', true);
-		$this->assertSame('http://www.spiegel.de', $res);
+		$this->assertSame('https://www.spiegel.de', $res);
 	}
 
 	/**
