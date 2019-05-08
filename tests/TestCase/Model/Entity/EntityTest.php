@@ -47,14 +47,52 @@ class EntityTest extends TestCase {
 			2 => 'bar',
 		];
 
+		$res = Entity::enum(null, $array);
+		$this->assertSame($array, $res);
+
+		$res = Entity::enum(2, $array);
+		$this->assertSame('bar', $res);
+
+		$res = Entity::enum('2', $array);
+		$this->assertSame('bar', $res);
+
+		$res = Entity::enum(3, $array);
+		$this->assertNull($res);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testEnumPartialOptions() {
+		$array = [
+			1 => 'foo',
+			2 => 'bar',
+			3 => 'yeah',
+		];
+
+		$res = Entity::enum([2, 3], $array);
+		$expected = $array;
+		unset($expected[1]);
+		$this->assertSame($expected, $res);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testEnumDefaultValue() {
+		$array = [
+			1 => 'foo',
+			2 => 'bar',
+		];
+
 		$res = Entity::enum(null, $array, false);
-		$this->assertEquals($array, $res);
+		$this->assertSame($array, $res);
 
 		$res = Entity::enum(2, $array, false);
-		$this->assertEquals('bar', $res);
+		$this->assertSame('bar', $res);
 
 		$res = Entity::enum('2', $array, false);
-		$this->assertEquals('bar', $res);
+		$this->assertSame('bar', $res);
 
 		$res = Entity::enum(3, $array, false);
 		$this->assertFalse($res);
