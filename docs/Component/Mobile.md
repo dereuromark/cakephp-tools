@@ -11,8 +11,8 @@ Just store the user's choice in the `'User.mobile'` session key.
 
 ## Configuration
 
-	'on' => 'beforeFilter', // initialize (prior to controller's beforeRender) or startup
-	'engine' => null, // CakePHP internal if null
-	'themed' => false, // If false uses subfolders instead of themes: /View/.../mobile/
-	'auto' => false, // auto set mobile views
-	
+    'on' => 'beforeFilter', // initialize (prior to controller's beforeRender) or startup
+    'engine' => null, // CakePHP internal if null
+    'themed' => false, // If false uses subfolders instead of themes: /View/.../mobile/
+    'auto' => false, // auto set mobile views
+    

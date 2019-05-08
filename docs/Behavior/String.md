@@ -11,8 +11,8 @@ Prevent using output modification if possible as it is done on every fetch.
 Include behavior in your Table class as
 ```php
 $this->addBehavior('Tools.String', [
-	'fields' => ['title'], 
-	'input' => ['ucfirst'],
+    'fields' => ['title'], 
+    'input' => ['ucfirst'],
 ]);
 ```
 This will `ucfirst()` the title prior to saving.
@@ -20,8 +20,8 @@ This will `ucfirst()` the title prior to saving.
 Tip: If you have other behaviors that might modify the array data prior to saving, better use a lower (higher value) priority:
 ```php
 $this->addBehavior('Tools.String', [
-	...
-	'priority' => 11,
+    ...
+    'priority' => 11,
 ]);
 ```
 
@@ -32,8 +32,8 @@ If string that function is expected to exist. You can also use callables and ano
 Instead of the preferred input formatting you can also modify the output (for each find):
 ```php
 $this->addBehavior('Tools.String', [
-	...
-	'output' => ['ucfirst'],
+    ...
+    'output' => ['ucfirst'],
 ]);
 ```
 
@@ -42,16 +42,16 @@ $this->addBehavior('Tools.String', [
 
 Imagine the following config:
 ```php
-	'fields' => ['title', 'comment'], 
-	'input' => ['strtolower', 'ucwords'],
+    'fields' => ['title', 'comment'], 
+    'input' => ['strtolower', 'ucwords'],
 ```
 
 And the input:
 ```php
 $data = [
-	'title' => 'some nAme',
-	'comment' => 'myBlog',
-	'url' => 'www.dereuromark.de',
+    'title' => 'some nAme',
+    'comment' => 'myBlog',
+    'url' => 'www.dereuromark.de',
 ];
 $comment = $this->Comments->newEntity($data);
 $result = $this->Comments->save($comment);

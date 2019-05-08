@@ -130,7 +130,7 @@ We want to store categories and we need a slug for nice SEO URLs like `/category
 
 ```php
 $this->addBehavior('Tools.Slugged',
-	['label' => 'name', 'unique' => true, 'mode' => 'ascii']
+    ['label' => 'name', 'unique' => true, 'mode' => 'ascii']
 );
 ```
 
@@ -150,7 +150,7 @@ Once that boolean checkbox is clicked it will then perform the slug update on sa
 If we just append the slug to the URL, such as `/category/123-[slugname]`, then we don't need to persist the slug.
 ```php
 $this->addBehavior('Tools.Slugged',
-	['label' => 'name', 'overwrite' => true, 'mode' => 'ascii', 'unique' => true]
+    ['label' => 'name', 'overwrite' => true, 'mode' => 'ascii', 'unique' => true]
 );
 ```
 Note that we don't need "unique" either then.

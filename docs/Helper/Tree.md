@@ -14,7 +14,7 @@ then use all properties and getters on that object.
 Include helper in your AppView class as
 ```php
 $this->addHelper('Tools.Tree', [
-	...
+    ...
 ]);
 ```
 
@@ -42,11 +42,11 @@ That template can then contain all normal template additions, including full hel
  */
 
 if (!$data->visible) { // You can do anything here depending on the record content
-	return;
+    return;
 }
 $label = $data->title;
 if ($activePathElement) {
-	$label .= ' (active)';
+    $label .= ' (active)';
 }
 ?>
 <li>
@@ -78,12 +78,12 @@ Here the same keys are available on the first argument (`$data` array). So the a
 `$data['data']` and usually be the entity. 
 If you are passing entities, it helps to inline annotate in this case:
 ```php
-	$closure = function(array $data) {
-		/** @var \Cake\ORM\Entity $entity */
-		$entity = $data['data'];
+    $closure = function(array $data) {
+        /** @var \Cake\ORM\Entity $entity */
+        $entity = $data['data'];
 
-		return h($entity->name) . ($data['activePathElement'] ? ' (active)' : '');
-	};
+        return h($entity->name) . ($data['activePathElement'] ? ' (active)' : '');
+    };
 ```
 
 ### Active path
@@ -96,16 +96,16 @@ $tree = $this->Table->find('threaded')->toArray();
 
 // The current active element in the tree (/view/6)
 $id = 6;
-		
+        
 // We need to get the current path for this element
 $nodes = $this->Table->find('path', ['for' => $id]);
 $path = $nodes->extract('id')->toArray();
 
 // In your view
 $options = [
-	'autoPath' => [$current->lft, $current->rght], 
-	'treePath' => $path, 
-	'element' => 'tree', // src/Template/Element/tree.ctp
+    'autoPath' => [$current->lft, $current->rght], 
+    'treePath' => $path, 
+    'element' => 'tree', // src/Template/Element/tree.ctp
 ];
 echo $this->Tree->generate($tree, $options);
 ```

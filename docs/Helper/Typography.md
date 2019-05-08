@@ -14,7 +14,7 @@ Upon output one can the decide to re-apply localization here.
 Include helper in your AppView class as
 ```php
 $this->addHelper('Tools.Typography', [
-	...
+    ...
 ]);
 ```
 

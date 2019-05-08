@@ -54,6 +54,9 @@ Helpers:
 Widgets:
 * [Datalist](Widget/Datalist.md)
 
+Entity:
+* [Enum](Entity/Enum.md)
+
 ## Basic enhancements of the core
 
 ### Model
@@ -87,9 +90,9 @@ use Tools\Controller\Controller;
 
 class AppController extends Controller {
 
-	public $components = ['Tools.Common'];
+    public $components = ['Tools.Common'];
 
-	public $helpers = ['Tools.Common', 'Tools.Time', 'Tools.Number', 'Tools.Format'];
+    public $helpers = ['Tools.Common', 'Tools.Time', 'Tools.Number', 'Tools.Format'];
 
 }
 ```

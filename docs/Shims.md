@@ -33,7 +33,7 @@ use Tools\Controller\Controller;
 
 class AppController extends Controller {
 
-	public $components = ['Shim.Session'];
+    public $components = ['Shim.Session'];
 
 }
 ```
@@ -52,7 +52,7 @@ use Tools\Controller\Controller;
 
 class AppController extends Controller {
 
-	public $helpers = ['Shim.Session'];
+    public $helpers = ['Shim.Session'];
 
 }
 ```

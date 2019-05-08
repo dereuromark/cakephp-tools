@@ -41,7 +41,7 @@ class InflectShell extends Shell {
 	/**
 	 * Inflects words
 	 *
-	 * @return void
+	 * @return bool|int|null
 	 */
 	public function main() {
 		if (!empty($this->args)) {

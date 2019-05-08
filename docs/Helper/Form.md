@@ -20,13 +20,13 @@ Alternatively, you can enable it in your AppView class.
 ```php
 // Inside your app.php config:
 $config = [
-	'debug' => true,
-	...
-	'FormConfig' => array(
-		'novalidate' => true,
-		'templates' => array(
-			'dateWidget' => '{{day}}{{month}}{{year}}{{hour}}{{minute}}{{second}}{{meridian}}',
-		)
-	)
+    'debug' => true,
+    ...
+    'FormConfig' => array(
+        'novalidate' => true,
+        'templates' => array(
+            'dateWidget' => '{{day}}{{month}}{{year}}{{hour}}{{minute}}{{second}}{{meridian}}',
+        )
+    )
 ];
 ```

@@ -6,7 +6,7 @@ A CakePHP helper to handle some common format topics.
 Include helper in your AppView class as
 ```php
 $this->addHelper('Tools.Format', [
-	...
+    ...
 ]);
 ```
 
@@ -17,23 +17,23 @@ You can store default configs also in Configure key `'Format'`.
 Display font icons using the default namespace or an already prefixed one.
 ```php
 echo $this->Html->link(
-	$this->Format->icon('view'), 
-	$url, 
-	$attributes
+    $this->Format->icon('view'), 
+    $url, 
+    $attributes
 );
 ```
 
 You can alias them via Configure for more usability:
 ```php
 // In app.php
-	'Format' => [
-		'fontIcons' => [
-			'login' => 'fa fa-sign-in',
-			'logout' => 'fa fa-sign-out',
-			'translate' => 'fa fa-language',
-		],
-	],
-	
+    'Format' => [
+        'fontIcons' => [
+            'login' => 'fa fa-sign-in',
+            'logout' => 'fa fa-sign-out',
+            'translate' => 'fa fa-language',
+        ],
+    ],
+    
 // in the template
 echo $this->Format->icon('translate', ['title' => 'Translate this']);
 ```

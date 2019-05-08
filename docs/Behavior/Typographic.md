@@ -14,8 +14,8 @@ See the [TypographyHelper](/docs/Helper/Typography.md) docs for output modificat
 Include behavior in your Table class as
 ```php
 $this->addBehavior('Tools.Typographic', [
-	'fields' => ['content'], 
-	'mergeQuotes' => false,
+    'fields' => ['content'], 
+    'mergeQuotes' => false,
 ]);
 ```
 

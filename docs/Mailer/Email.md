@@ -30,19 +30,19 @@ Email::config(Configure::consume('Email'));
 They will read from Configure what you defined there, e.g for sending SMTP mails.
 ```
 'Email' => array(
-	'default' => array(
-		'from' => 'your@email.com'
-	)
+    'default' => array(
+        'from' => 'your@email.com'
+    )
 ),
 'EmailTransport' => array(
-	'default' => array(
-		'className' => 'Smtp',
-		'host' => 'smtp.hostname.com',
-		'username' => 'your@email.com',
-		'password' => 'yourpwd',
-		'tls' => true,
-		'port' => 587
-	)
+    'default' => array(
+        'className' => 'Smtp',
+        'host' => 'smtp.hostname.com',
+        'username' => 'your@email.com',
+        'password' => 'yourpwd',
+        'tls' => true,
+        'port' => 587
+    )
 )
 ```
 
@@ -67,10 +67,10 @@ $email->viewVars(compact('message', 'other'));
 
 // Send it
 if ($email->send()) {
-	// Success
+    // Success
 } else {
-	// Error
-	// You can use $email->getError() and display it in debug mode or log it away
+    // Error
+    // You can use $email->getError() and display it in debug mode or log it away
 }
 ```
 `from` is already set with your admin email by default, if you configured `Config.adminEmail`.

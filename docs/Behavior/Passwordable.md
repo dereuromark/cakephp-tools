@@ -36,9 +36,9 @@ Also capable of:
 You can either pass those to the behavior at runtime, or globally via Configure and `app.php`:
 ```php
 $config = [
-	'Passwordable' => [
-		'passwordHasher' => ['className' => 'Fallback', 'hashers' => ['Default', 'Weak']]
-	]
+    'Passwordable' => [
+        'passwordHasher' => ['className' => 'Fallback', 'hashers' => ['Default', 'Weak']]
+    ]
 ]
 ```
 In this case we use the Fallback hasher class and both Default (Blowfish, CakePHP3 default) and Weak (E.g. sha1) hashing algorithms.
@@ -72,30 +72,30 @@ use Tools\Controller\Controller;
 
 class UsersController extends Controller {
 
-	public function register() {
-		$user = $this->Users->newEntity();
-		$this->Users->addBehavior('Tools.Passwordable');
+    public function register() {
+        $user = $this->Users->newEntity();
+        $this->Users->addBehavior('Tools.Passwordable');
 
 
-		if ($this->request->is(['put', 'post'])) {
-			$user = $this->Users->patchEntity($user, $this->request->getData());
-			$user->role_id = Configure::read('Roles.user');
+        if ($this->request->is(['put', 'post'])) {
+            $user = $this->Users->patchEntity($user, $this->request->getData());
+            $user->role_id = Configure::read('Roles.user');
 
-			if ($this->Users->save($user)) {
-				// Log in right away
-				$this->Auth->setUser($user->toArray());
-				// Flash message OK
-				return $this->redirect(['action' => 'index']);
-			}
-			// Flash message ERROR
+            if ($this->Users->save($user)) {
+                // Log in right away
+                $this->Auth->setUser($user->toArray());
+                // Flash message OK
+                return $this->redirect(['action' => 'index']);
+            }
+            // Flash message ERROR
 
-			// Pwd should not be passed to the view again for security reasons
-			$user->unsetProperty('pwd');
-			$user->unsetProperty('pwd_repeat');
-		}
+            // Pwd should not be passed to the view again for security reasons
+            $user->unsetProperty('pwd');
+            $user->unsetProperty('pwd_repeat');
+        }
 
-		$this->set(compact('user'));
-	}
+        $this->set(compact('user'));
+    }
 
 }
 ```
@@ -108,27 +108,27 @@ use Tools\Controller\Controller;
 
 class UsersController extends Controller {
 
-	public function edit() {
-		$uid = $this->request->getSession()->read('Auth.User.id');
-		$user = $this->Users->get($uid);
-		$this->Users->addBehavior('Tools.Passwordable', ['require' => false]);
+    public function edit() {
+        $uid = $this->request->getSession()->read('Auth.User.id');
+        $user = $this->Users->get($uid);
+        $this->Users->addBehavior('Tools.Passwordable', ['require' => false]);
 
-		if ($this->request->is(['put', 'post'])) {
-			$options = [
-				'fieldList' => [...]
-			];
-			$user = $this->Users->patchEntity($user, $this->request->getData(), $options);
-			if ($this->Users->save($user)) {
-				// Update session data, as well
-				$this->Auth->setUser($user->toArray());
-				// Flash message OK
-				return $this->redirect(['action' => 'index']);
-			}
-			// Flash message ERROR
-		}
+        if ($this->request->is(['put', 'post'])) {
+            $options = [
+                'fieldList' => [...]
+            ];
+            $user = $this->Users->patchEntity($user, $this->request->getData(), $options);
+            if ($this->Users->save($user)) {
+                // Update session data, as well
+                $this->Auth->setUser($user->toArray());
+                // Flash message OK
+                return $this->redirect(['action' => 'index']);
+            }
+            // Flash message ERROR
+        }
 
-		$this->set(compact('user'));
-	}
+        $this->set(compact('user'));
+    }
 
 }
 ```
@@ -139,32 +139,32 @@ We want to upgrade all accounts piece by piece upon login automatically. This wa
 without the user noticing:
 ```php
 public function login() {
-	if ($this->request->is(['put', 'post'])) {
-		$user = $this->Auth->identify();
-		if ($user) {
-			$this->Users->addBehavior('Tools.Passwordable', ['confirm' => false]);
-			$password = $this->request->data['password'];
-			$dbPassword = $this->Users->field('password', ['id' => $user['id']]);
+    if ($this->request->is(['put', 'post'])) {
+        $user = $this->Auth->identify();
+        if ($user) {
+            $this->Users->addBehavior('Tools.Passwordable', ['confirm' => false]);
+            $password = $this->request->data['password'];
+            $dbPassword = $this->Users->field('password', ['id' => $user['id']]);
 
-			if ($this->Users->needsPasswordRehash($dbPassword)) {
-				$data = [
-					'id' => $user['id'],
-					'pwd' => $password,
-					'modified' => false
-				];
-				$updatedUser = $this->Users->newEntity($data, ['markNew' => false]);
-				if (!$this->Users->save($updatedUser, ['validate' => false])) {
-					trigger_error(sprintf('Could not store new pwd for user %s.', $user['id']));
-				}
-			}
-			unset($user['password']);
-			$this->Auth->setUser($user);
-			// Flash message OK
-			return $this->redirect($this->Auth->redirectUrl());
-		}
-		// Flash message ERROR
+            if ($this->Users->needsPasswordRehash($dbPassword)) {
+                $data = [
+                    'id' => $user['id'],
+                    'pwd' => $password,
+                    'modified' => false
+                ];
+                $updatedUser = $this->Users->newEntity($data, ['markNew' => false]);
+                if (!$this->Users->save($updatedUser, ['validate' => false])) {
+                    trigger_error(sprintf('Could not store new pwd for user %s.', $user['id']));
+                }
+            }
+            unset($user['password']);
+            $this->Auth->setUser($user);
+            // Flash message OK
+            return $this->redirect($this->Auth->redirectUrl());
+        }
+        // Flash message ERROR
 
-	}
+    }
 }
 ```
 Note that the `passwordHasher` config has been set here globabally to assert the Fallback hasher class to kick in.
@@ -174,15 +174,15 @@ Note that the `passwordHasher` config has been set here globabally to assert the
 If the default rules don't satisfy your needs, you can add some more on top:
 ```php
 $rules = ['validateCustom' => [
-		'rule' => ['custom', '#^[a-z0-9]+$#'], // Just a test example, never use this regex!
-		'message' => __('Foo Bar'),
-		'last' => true,
-	],
-	'validateCustomExt' => [
-		'rule' => ['custom', '#^[a-z]+$#'], // Just a test example, never use this regex!
-		'message' => __('Foo Bar Ext'),
-		'last' => true,
-	]
+        'rule' => ['custom', '#^[a-z0-9]+$#'], // Just a test example, never use this regex!
+        'message' => __('Foo Bar'),
+        'last' => true,
+    ],
+    'validateCustomExt' => [
+        'rule' => ['custom', '#^[a-z]+$#'], // Just a test example, never use this regex!
+        'message' => __('Foo Bar Ext'),
+        'last' => true,
+    ]
 );
 $this->Users->Behaviors->load('Tools.Passwordable', ['customValidation' => $rules]);
 ```
@@ -197,7 +197,7 @@ The behavior will automatically add the internally needed fields to the `'fieldL
 So you only need to pass in the other non-password-related fields:
 ```php
 $options = [
-	'fieldList' => ['id', 'name']
+    'fieldList' => ['id', 'name']
 ];
 $user = $this->Users->patchEntity($user, $this->request->getData(), $options);
 ```
@@ -208,9 +208,9 @@ So if you do not want to force it, make sure your entity has those fields not pr
 ```php
 // Inside the entity
 protected $_accessible = [
-	'*' => false,
-	'pwd' => true,
-	...
+    '*' => false,
+    'pwd' => true,
+    ...
 ];
 
 // Or from the outside before patching

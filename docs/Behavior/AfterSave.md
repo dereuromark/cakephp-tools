@@ -19,8 +19,8 @@ $this->addBehavior('Tools.AfterSave', $options);
 Then inside your table you can do:
 ```php
 public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options) {
-	$entityBefore = $this->getEntityBeforeSave();
-	// Now you can check isDirty() etc
+    $entityBefore = $this->getEntityBeforeSave();
+    // Now you can check isDirty() etc
 }
 ```
 

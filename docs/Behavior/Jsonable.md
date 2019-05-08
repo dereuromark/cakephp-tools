@@ -18,7 +18,7 @@ Using 3.5+ you might not even need this anymore, as you can use type classes dir
 
         return $schema;
     }
-```	
+```    
 This is best combined with the Shim.Json type, as it properly handles `null` values:
 ```php
 // in bootstrap
@@ -76,7 +76,7 @@ The rest is CakePHP automagic :)
 
 ```php
 $this->addBehavior('Tools.Jsonable',
-	array('fields' => ['debug'], 'map' => ['geocoder_result']);
+    array('fields' => ['debug'], 'map' => ['geocoder_result']);
 ```
 I could access the array in the view as any other array since the behavior re-translates it back into an array on find().
 
@@ -96,13 +96,13 @@ We can switch to param style here globally for the entity:
 
 ```php
 $this->addBehavior('Tools.Jsonable',
-	['fields' => 'details', 'input' => 'param', 'output' => 'array']);
+    ['fields' => 'details', 'input' => 'param', 'output' => 'array']);
 ```
 
 Only for the add/edit action we need to also make "output" "param" at runtime:
 ```php
 $this->Table->behaviors()->Jsonable->options(
-	['fields' => 'details', 'input' => 'param', 'output' => 'param']);
+    ['fields' => 'details', 'input' => 'param', 'output' => 'param']);
 ```
 
 The form contains a "details" textarea field. We can insert:
@@ -122,7 +122,7 @@ debug($entity->get('details'));
 we can also simulate an ENUM by using
 ```php
 $this->addBehavior('Tools.Jsonable',
-	['fields' => 'tags', 'sort' => true, 'unique' => true, 'input' => 'list', 'output' => 'array']);
+    ['fields' => 'tags', 'sort' => true, 'unique' => true, 'input' => 'list', 'output' => 'array']);
 ```
 Dont' forget to use `'output' => 'list'` for add/edit actions.
 

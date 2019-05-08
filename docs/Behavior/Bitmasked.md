@@ -46,13 +46,13 @@ const STATUS_FLAGGED = 8;
 ...
 
 public static function statuses($value = null) {
-	$options = [
-		self::STATUS_ACTIVE => __('Active'),
-		self::STATUS_FEATURED => __('Featured'),
-		self::STATUS_APPROVED => __('Approved'),
-		self::STATUS_FLAGGED => __('Flagged'),
-	];	
-	return parent::enum($value, $options);
+    $options = [
+        self::STATUS_ACTIVE => __('Active'),
+        self::STATUS_FEATURED => __('Featured'),
+        self::STATUS_APPROVED => __('Approved'),
+        self::STATUS_FLAGGED => __('Flagged'),
+    ];    
+    return parent::enum($value, $options);
 }
 ```
 
@@ -91,8 +91,8 @@ echo $this->Form->control('status', ['options' => Comment::statuses(), 'multiple
 And in your Table searchManager() setup:
 ```php
 $searchManager
-	// We need to map the posted "status" key to the finder required "bits" key
-	->finder('status', ['finder' => 'bits', 'map' => ['bits' => 'status']])
+    // We need to map the posted "status" key to the finder required "bits" key
+    ->finder('status', ['finder' => 'bits', 'map' => ['bits' => 'status']])
 ```
 
 This way the array of checkboxes selected will be turned into the integer bitmask needed for the query to work.

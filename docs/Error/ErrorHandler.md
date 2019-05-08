@@ -7,25 +7,25 @@ Most 404 logs should not be part of your error log, for example.
 You can either completely ignore them, or better yet put them into their own space:
 ```php
 Log::config('404', [
-	'className' => '...', // e.g. 'File' or 'DatabaseLog.Database'
-	'type' => '404',
-	'levels' => ['error'],
-	'scopes' => ['404'],
+    'className' => '...', // e.g. 'File' or 'DatabaseLog.Database'
+    'type' => '404',
+    'levels' => ['error'],
+    'scopes' => ['404'],
 ]);
 ```
 
 Make sure your other log configs are scope-deactivated then to prevent them being logged twice:
 ```php
-	'Log' => [
-		'debug' => [
-			'scopes' => false,
-			...
-		],
-		'error' => [
-			'scopes' => false,
-			...
-		],
-	],
+    'Log' => [
+        'debug' => [
+            'scopes' => false,
+            ...
+        ],
+        'error' => [
+            'scopes' => false,
+            ...
+        ],
+    ],
 ```
 
 In your bootstrap, the following snippet just needs to include the ErrorHandler of this plugin:
@@ -34,9 +34,9 @@ In your bootstrap, the following snippet just needs to include the ErrorHandler 
 use Tools\Error\ErrorHandler;
 
 if ($isCli) {
-	(new ConsoleErrorHandler(Configure::read('Error')))->register();
+    (new ConsoleErrorHandler(Configure::read('Error')))->register();
 } else {
-	(new ErrorHandler(Configure::read('Error')))->register();
+    (new ErrorHandler(Configure::read('Error')))->register();
 }
 ```
 

@@ -6,7 +6,7 @@ A CakePHP helper to handle some common topics.
 Include helper in your AppView class as
 ```php
 $this->addHelper('Tools.Common', [
-	...
+    ...
 ]);
 ```
 

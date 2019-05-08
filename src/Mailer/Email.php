@@ -119,17 +119,16 @@ class Email extends CakeEmail {
 	}
 
 	/**
-	 * EmailLib::resetAndSet()
-	 *
-	 * @return void
+	 * @return $this
 	 */
 	public function reset() {
-		parent::reset();
 		$this->_priority = null;
 		$this->_wrapLength = null;
 
 		$this->_error = null;
 		$this->_debug = null;
+
+		return parent::reset();
 	}
 
 	/**

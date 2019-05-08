@@ -12,9 +12,9 @@ On delete it will give the toggle status to another record if applicable.
 Include behavior in your Table class as
 ```php
 $this->addBehavior('Tools.Toggle', [
-	'field' => 'primary', 
-	'scopeFields' => ['user_id'],
-	'scope' => [],
+    'field' => 'primary', 
+    'scopeFields' => ['user_id'],
+    'scope' => [],
 ]);
 ```
 

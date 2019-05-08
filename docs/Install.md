@@ -28,7 +28,7 @@ or
 
 ```php
 Plugin::loadAll([
-		'Tools' => ['bootstrap' => true]
+        'Tools' => ['bootstrap' => true]
 ]);
 ```
 

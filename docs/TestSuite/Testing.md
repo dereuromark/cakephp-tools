@@ -44,8 +44,8 @@ that it's still the real deal.
 $this->Api = new ApiClass();
 
 if (!$this->isDebug()) {
-	$this->Api = $this->getMock('ApiClass');
-	$this->Api->expects(...)->...;
+    $this->Api = $this->getMock('ApiClass');
+    $this->Api->expects(...)->...;
 }
 ```
 
@@ -74,22 +74,22 @@ use Tools\TestSuite\TestCase;
 
 class FooBarShellTest extends TestCase {
 
-	/**
-	 * @return void
-	 */
-	public function setUp() {
-		parent::setUp();
+    /**
+     * @return void
+     */
+    public function setUp() {
+        parent::setUp();
 
-		$this->out = new ConsoleOutput();
-		$this->err = new ConsoleOutput();
-		$io = new ConsoleIo($this->out, $this->err);
+        $this->out = new ConsoleOutput();
+        $this->err = new ConsoleOutput();
+        $io = new ConsoleIo($this->out, $this->err);
 
-		$this->Shell = $this->getMock(
-			'App\Shell\FooBarShell',
-			['in', '_stop'],
-			[$io]
-		);
-	}
+        $this->Shell = $this->getMock(
+            'App\Shell\FooBarShell',
+            ['in', '_stop'],
+            [$io]
+        );
+    }
 ```
 Note that we mock the `in` and `_stop` methods, though, to allow handling those by mocking them out in the test cases.
 
