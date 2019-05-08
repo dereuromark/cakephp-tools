@@ -105,7 +105,7 @@ trait ErrorHandlerTrait {
 
 	/**
 	 * @param string $class
-	 * @param array $blacklist
+	 * @param string[] $blacklist
 	 * @return bool
 	 */
 	protected function isBlacklisted($class, array $blacklist) {

@@ -190,7 +190,7 @@ class BitmaskedBehavior extends Behavior {
 
 	/**
 	 * @param int $value Bitmask.
-	 * @return array Bitmask array (from DB to APP).
+	 * @return int[] Bitmask array (from DB to APP).
 	 */
 	public function decodeBitmask($value) {
 		$res = [];
@@ -205,9 +205,9 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param array $value Bitmask array.
-	 * @param mixed $defaultValue Default bitmask value.
-	 * @return int Bitmask (from APP to DB).
+	 * @param int[] $value Bitmask array.
+	 * @param mixed|null $defaultValue Default bitmask value.
+	 * @return int|null Bitmask (from APP to DB).
 	 */
 	public function encodeBitmask($value, $defaultValue = null) {
 		$res = 0;
@@ -319,7 +319,7 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param int|array $bits
+	 * @param int|int[] $bits
 	 * @return array SQL snippet.
 	 */
 	public function isBit($bits) {
@@ -331,7 +331,7 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param int|array $bits
+	 * @param int|int[] $bits
 	 * @return array SQL snippet.
 	 */
 	public function isNotBit($bits) {
@@ -339,7 +339,7 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param int|array $bits
+	 * @param int|int[] $bits
 	 * @return array SQL snippet.
 	 */
 	public function containsBit($bits) {
@@ -347,7 +347,7 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param int|array $bits
+	 * @param int|int[] $bits
 	 * @return array SQL snippet.
 	 */
 	public function containsNotBit($bits) {
@@ -355,7 +355,7 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param int|array $bits
+	 * @param int|int[] $bits
 	 * @param bool $contain
 	 * @return array SQL snippet.
 	 */
