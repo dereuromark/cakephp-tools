@@ -2,7 +2,7 @@
 [![Build Status](https://api.travis-ci.org/dereuromark/cakephp-tools.svg?branch=master)](https://travis-ci.org/dereuromark/cakephp-tools)
 [![Coverage Status](https://img.shields.io/codecov/c/github/dereuromark/cakephp-tools/master.svg)](https://codecov.io/gh/dereuromark/cakephp-tools)
 [![Latest Stable Version](https://poser.pugx.org/dereuromark/cakephp-tools/v/stable.svg)](https://packagist.org/packages/dereuromark/cakephp-tools)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.6-8892BF.svg)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.2-8892BF.svg)](https://php.net/)
 [![License](https://poser.pugx.org/dereuromark/cakephp-tools/license.svg)](https://packagist.org/packages/dereuromark/cakephp-tools)
 [![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-tools/d/total.svg)](https://packagist.org/packages/dereuromark/cakephp-tools)
 [![Coding Standards](https://img.shields.io/badge/cs-PSR--2--R-yellow.svg)](https://github.com/php-fig-rectified/fig-rectified-standards)
@@ -11,7 +11,7 @@ A CakePHP plugin containing several useful tools that can be used in many projec
 
 ## Version notice
 
-This master branch only works for **CakePHP 3.7+** - please use the 2.x branch for CakePHP 2.x!
+This master branch only works for **CakePHP 4.0+**. See [wiki](https://github.com/dereuromark/cakephp-tools/wiki#cakephp-version-map) for version matrix.
 
 ## What is this plugin for?
 
@@ -35,8 +35,8 @@ This master branch only works for **CakePHP 3.7+** - please use the 2.x branch f
 - Email as a wrapper for core's Email adding some more usefulness and making debugging/testing easier.
 - I18n language detection and switching
 
-### Providing 2.x shims
-This plugin for CakePHP 3 also contains some 2.x shims to ease migration of existing applications from 2.x to 3.x:
+### Providing 3.x shims
+This plugin for CakePHP 4 also contains some 3.x shims to ease migration of existing applications from 3.x to 4.x:
 - See [Shim](https://github.com/dereuromark/cakephp-shim) plugin for details on most of the provided shims.
 
 ## Installation & Docs
@@ -45,4 +45,4 @@ This plugin for CakePHP 3 also contains some 2.x shims to ease migration of exis
 
 ### TODOs
 
-* Move more 2.x stuff to 3.x
+* Move more 3.x stuff to 4.x
