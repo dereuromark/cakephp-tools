@@ -23,7 +23,7 @@ class NeighborBehaviorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->Table = TableRegistry::getTableLocator()->get('Stories');
@@ -33,7 +33,7 @@ class NeighborBehaviorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		TableRegistry::clear();
 
 		parent::tearDown();

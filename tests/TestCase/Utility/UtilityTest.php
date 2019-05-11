@@ -42,35 +42,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @return void
-	 */
-	public function testNotEmpty() {
-		$res = Utility::notEmpty('a');
-		$this->assertTrue($res);
-
-		$res = Utility::notEmpty(2);
-		$this->assertTrue($res);
-
-		$res = Utility::notEmpty(0);
-		$this->assertFalse($res);
-
-		$res = Utility::notEmpty('0');
-		$this->assertTrue($res);
-
-		$res = Utility::notEmpty(null);
-		$this->assertFalse($res);
-
-		$res = Utility::notEmpty(false);
-		$this->assertFalse($res);
-
-		$res = Utility::notEmpty('');
-		$this->assertFalse($res);
-
-		$res = Utility::notEmpty([]);
-		$this->assertFalse($res);
-	}
-
-	/**
 	 * @covers ::inArray
 	 * @return void
 	 */
@@ -722,21 +693,6 @@ class UtilityTest extends TestCase {
 		];
 		$is = Utility::logicalOr($array);
 		$this->assertFalse($is);
-	}
-
-	/**
-	 * @covers ::isValidSaveAll
-	 * @return void
-	 */
-	public function testIsValidSaveAll() {
-		$result = Utility::isValidSaveAll([]);
-		$this->assertFalse($result);
-
-		$result = Utility::isValidSaveAll([true, true]);
-		$this->assertTrue($result);
-
-		$result = Utility::isValidSaveAll([true, false]);
-		$this->assertFalse($result);
 	}
 
 }

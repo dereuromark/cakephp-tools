@@ -109,42 +109,6 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * Add component just in time (inside actions - only when needed)
-	 * aware of plugins and config array (if passed)
-	 *
-	 * @deprecated Use normal controller component loading now. Will be removed in the future.
-	 * @param string $component Component
-	 * @param array $config
-	 * @param bool $callbacks (defaults to true)
-	 * @return void
-	 */
-	public function loadComponent($component, array $config = [], $callbacks = true) {
-		list($plugin, $componentName) = pluginSplit($component);
-		$this->Controller->loadComponent($component, $config);
-		if (!$callbacks) {
-			return;
-		}
-		if (method_exists($this->Controller->{$componentName}, 'beforeFilter')) {
-			$this->Controller->{$componentName}->beforeFilter(new Event('Controller.initialize', $this->Controller->{$componentName}));
-		}
-		if (method_exists($this->Controller->{$componentName}, 'startup')) {
-			$this->Controller->{$componentName}->startup(new Event('Controller.startup', $this->Controller->{$componentName}));
-		}
-	}
-
-	/**
-	 * Add helper just in time (inside actions - only when needed)
-	 * aware of plugins
-	 *
-	 * @deprecated In 3.x, but kept for easier migration for now. Will be removed in the future.
-	 * @param mixed $helpers (single string or multiple array)
-	 * @return void
-	 */
-	public function loadHelper($helpers = []) {
-		$this->Controller->viewBuilder()->setHelpers((array)$helpers, true);
-	}
-
-	/**
 	 * Used to get the value of a passed param.
 	 *
 	 * @param mixed $var
@@ -244,6 +208,7 @@ class CommonComponent extends Component {
 		}
 
 		if (!empty($referer)) {
+			//FIXME
 			$referer = Router::parse($referer);
 		}
 
@@ -287,9 +252,12 @@ class CommonComponent extends Component {
 	 */
 	public function completeRedirect($url = null, $status = 302) {
 		if ($url === null) {
-			$url = $this->Controller->getRequest()->params;
-			unset($url['pass']);
-			unset($url['isAjax']);
+			$url = [
+				'plugin' => $this->Controller->getRequest()->getParam('plugin'),
+				'controller' => $this->Controller->getRequest()->getParam('controller'),
+				'action' => $this->Controller->getRequest()->getParam('action'),
+				'_ext' => $this->Controller->getRequest()->getParam('_ext'),
+			];
 		}
 		if (is_array($url)) {
 			$url += $this->Controller->getRequest()->getParam('pass');

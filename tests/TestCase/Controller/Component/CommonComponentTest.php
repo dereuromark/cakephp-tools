@@ -26,7 +26,7 @@ class CommonComponentTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		Configure::write('App.fullBaseUrl', 'http://localhost');
@@ -41,47 +41,10 @@ class CommonComponentTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		unset($this->Controller);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testLoadComponent() {
-		$this->assertTrue(!isset($this->Controller->Apple));
-		$this->Controller->Common->loadComponent('Apple');
-		$this->assertTrue(isset($this->Controller->Apple));
-
-		// with plugin
-		$this->Controller->Session = null;
-		$this->assertTrue(!isset($this->Controller->Session));
-		$this->Controller->Common->loadComponent('Shim.Session', ['foo' => 'bar']);
-		$this->Controller->components()->unload('Session');
-		$this->Controller->Common->loadComponent('Shim.Session', ['foo' => 'baz']);
-		$this->assertTrue(isset($this->Controller->Session));
-
-		// with options
-		$this->Controller->Test = null;
-		$this->assertTrue(!isset($this->Controller->Test));
-		$this->Controller->Common->loadComponent('Test', ['x' => 'z'], false);
-		$this->assertTrue(isset($this->Controller->Test));
-		$this->assertFalse($this->Controller->Test->isInit);
-		$this->assertFalse($this->Controller->Test->isStartup);
-
-		// with options
-		$this->Controller->components()->unload('Test');
-		$this->Controller->Test = null;
-		$this->assertTrue(!isset($this->Controller->Test));
-		$this->Controller->Common->loadComponent('Test', ['x' => 'y']);
-		$this->assertTrue(isset($this->Controller->Test));
-		$this->assertTrue($this->Controller->Test->isInit);
-		$this->assertTrue($this->Controller->Test->isStartup);
-
-		$config = $this->Controller->Test->getConfig();
-		$this->assertEquals(['x' => 'y'], $config);
 	}
 
 	/**
@@ -242,18 +205,6 @@ class CommonComponentTest extends TestCase {
 		$this->assertTrue($this->Controller->Common->isPosted());
 		$this->Controller->setRequest($this->Controller->getRequest()->withMethod('PATCH'));
 		$this->assertTrue($this->Controller->Common->isPosted());
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testLoadHelper() {
-		$this->Controller->Common->loadHelper('Tester');
-		$helpers = $this->Controller->viewBuilder()->getHelpers();
-		$this->assertEquals(['Tester'], $helpers);
-		$this->Controller->Common->loadHelper(['Tester123']);
-		$helpers = $this->Controller->viewBuilder()->getHelpers();
-		$this->assertEquals(['Tester', 'Tester123'], $helpers);
 	}
 
 	/**

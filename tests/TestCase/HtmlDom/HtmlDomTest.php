@@ -15,7 +15,7 @@ class HtmlDomTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->skipIf(!class_exists('Yangqi\Htmldom\Htmldom') || version_compare(PHP_VERSION, '7.3') >= 0);

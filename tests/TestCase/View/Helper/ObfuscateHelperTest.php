@@ -11,7 +11,7 @@ class ObfuscateHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->Obfuscate = new ObfuscateHelper(new View());
@@ -20,7 +20,7 @@ class ObfuscateHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		unset($this->Table);
 
  		parent::tearDown();

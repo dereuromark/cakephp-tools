@@ -19,7 +19,7 @@ class ContactForm extends Form {
 	 * @param \Cake\Form\Schema $schema
 	 * @return \Cake\Form\Schema
 	 */
-	protected function _buildSchema(Schema $schema) {
+	protected function _buildSchema(Schema $schema): Schema {
 		return $schema->addField('name', ['type' => 'string', 'length' => 40])
 			->addField('email', ['type' => 'string', 'length' => 50])
 			->addField('subject', ['type' => 'string', 'length' => 60])
@@ -30,7 +30,7 @@ class ContactForm extends Form {
 	 * @param \Cake\Validation\Validator $validator
 	 * @return \Cake\Validation\Validator
 	 */
-	protected function _buildValidator(Validator $validator) {
+	protected function _buildValidator(Validator $validator): Validator {
 		return $validator
 			->requirePresence('name')
 			->notEmpty('name', __('This field cannot be left empty'))
@@ -49,7 +49,7 @@ class ContactForm extends Form {
 	 * @param array $data
 	 * @return bool
 	 */
-	protected function _execute(array $data) {
+	protected function _execute(array $data): bool {
 		// Overwrite in your extending class
 		return true;
 	}

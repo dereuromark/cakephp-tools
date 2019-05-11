@@ -22,7 +22,7 @@ class UrlHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->Url = new UrlHelper(new View(null));
@@ -117,7 +117,7 @@ class UrlHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		unset($this->Url);

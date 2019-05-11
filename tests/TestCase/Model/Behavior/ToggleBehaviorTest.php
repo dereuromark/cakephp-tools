@@ -22,7 +22,7 @@ class ToggleBehaviorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->Addresses = TableRegistry::getTableLocator()->get('ToggleAddresses');

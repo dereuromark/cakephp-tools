@@ -21,7 +21,7 @@ class TypographyHelperTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		Configure::delete('Typography.locale');
 		Configure::write('App.language', 'eng');
@@ -34,7 +34,7 @@ class TypographyHelperTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		unset($this->Typography);
 
 		parent::tearDown();

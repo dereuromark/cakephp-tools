@@ -8,6 +8,7 @@ use Cake\View\Helper;
 use Cake\View\StringTemplate;
 use Cake\View\View;
 use RuntimeException;
+use Shim\Utility\Inflector as ShimInflector;
 
 /**
  * Format helper with basic html snippets
@@ -722,7 +723,7 @@ class FormatHelper extends Helper {
 			return $callable($string);
 		}
 
-		return Inflector::slug($string);
+		return ShimInflector::slug($string);
 	}
 
 }

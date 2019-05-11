@@ -27,7 +27,7 @@ class TypeMapBehavior extends Behavior {
 	 * @throws \RuntimeException
 	 * @return void
 	 */
-	public function initialize(array $config = []) {
+	public function initialize(array $config): void {
 		if (empty($this->_config['fields'])) {
 			throw new RuntimeException('Fields are required');
 		}

@@ -22,7 +22,7 @@ class StringBehaviorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->Comments = TableRegistry::getTableLocator()->get('StringComments');

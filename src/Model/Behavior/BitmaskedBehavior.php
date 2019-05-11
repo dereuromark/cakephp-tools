@@ -78,15 +78,16 @@ class BitmaskedBehavior extends Behavior {
 	 *
 	 * @param array $config
 	 * @return void
+	 * @throws \RuntimeException
 	 */
-	public function initialize(array $config = []) {
-		$config = $this->_config;
+	public function initialize(array $config): void {
+		$config += $this->_config;
 
 		if (empty($config['bits'])) {
 			$config['bits'] = Inflector::variable(Inflector::pluralize($config['field']));
 		}
 
-		$entity = $this->_table->newEntity();
+		$entity = $this->_table->newEmptyEntity();
 
 		if (is_callable($config['bits'])) {
 			$config['bits'] = call_user_func($config['bits']);
@@ -295,7 +296,7 @@ class BitmaskedBehavior extends Behavior {
 
 		$entity->set($field, $this->encodeBitmask($entity->get($mappedField), $default));
 		if ($field !== $mappedField) {
-			$entity->unsetProperty($mappedField);
+			$entity->unset($mappedField);
 		}
 	}
 

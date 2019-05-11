@@ -100,13 +100,4 @@ class HtmlHelper extends CoreHtmlHelper {
 		return parent::link($title, $url, $options);
 	}
 
-	/**
-	 * Event listeners.
-	 *
-	 * @return array
-	 */
-	public function implementedEvents() {
-		return [];
-	}
-
 }

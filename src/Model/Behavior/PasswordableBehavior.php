@@ -125,7 +125,7 @@ class PasswordableBehavior extends Behavior {
 	 * @param array $config The configuration array this behavior is using.
 	 * @return void
 	 */
-	public function initialize(array $config) {
+	public function initialize(array $config): void {
 		$formField = $this->_config['formField'];
 		$formFieldRepeat = $this->_config['formFieldRepeat'];
 		$formFieldCurrent = $this->_config['formFieldCurrent'];
@@ -284,18 +284,12 @@ class PasswordableBehavior extends Behavior {
 			$current = $entity->get($formFieldCurrent);
 			$new = $entity->get($formField) || $entity->get($formFieldRepeat);
 			if (!$new && !$current) {
-				//$validator->remove($formField); // tmp only!
-				//unset($Model->validate[$formField]);
-				$entity->unsetProperty($formField);
+				$entity->unset($formField);
 				if ($this->_config['confirm']) {
-					//$validator->remove($formFieldRepeat); // tmp only!
-					//unset($Model->validate[$formFieldRepeat]);
-					$entity->unsetProperty($formFieldRepeat);
+					$entity->unset($formFieldRepeat);
 				}
 				if ($this->_config['current']) {
-					//$validator->remove($formFieldCurrent); // tmp only!
-					//unset($Model->validate[$formFieldCurrent]);
-					$entity->unsetProperty($formFieldCurrent);
+					$entity->unset($formFieldCurrent);
 				}
 				return;
 			}
@@ -324,16 +318,15 @@ class PasswordableBehavior extends Behavior {
 				throw new RuntimeException('Empty field');
 			}
 
-			$entity->unsetProperty($formField);
-			//$entity->set($formField, null);
+			$entity->unset($formField);
 
 			if ($this->_config['confirm']) {
 				$formFieldRepeat = $this->_config['formFieldRepeat'];
-				$entity->unsetProperty($formFieldRepeat);
+				$entity->unset($formFieldRepeat);
 			}
 			if ($this->_config['current']) {
 				$formFieldCurrent = $this->_config['formFieldCurrent'];
-				$entity->unsetProperty($formFieldCurrent);
+				$entity->unset($formFieldCurrent);
 			}
 		} else {
 			// To help mitigate timing-based user enumeration attacks.

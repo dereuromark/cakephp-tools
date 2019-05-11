@@ -26,18 +26,6 @@ class Utility {
 	}
 
 	/**
-	 * More sane !empty() method to not false positive `'0'` (0 as string) as empty.
-	 *
-	 * @deprecated Use notBlank() instead as it correctly handles also numeric input (int/float).
-	 *
-	 * @param mixed $value
-	 * @return bool
-	 */
-	public static function notEmpty($value) {
-		return !empty($value) || $value === '0';
-	}
-
-	/**
 	 * Clean implementation of inArray to avoid false positives.
 	 *
 	 * in_array itself has some PHP flaws regarding cross-type comparison:
@@ -381,29 +369,6 @@ class Utility {
 	}
 
 	/**
-	 * On non-transaction db connections it will return a deep array of bools instead of bool.
-	 * So we need to call this method inside the modified saveAll() method to return the expected single bool there, too.
-	 *
-	 * @param array $array
-	 * @return bool
-	 * @deprecated Not sure this is useful for CakePHP 3.0
-	 */
-	public static function isValidSaveAll($array) {
-		if (!$array) {
-			return false;
-		}
-		$ret = true;
-		foreach ($array as $key => $val) {
-			if (is_array($val)) {
-				$ret = $ret & static::logicalAnd($val);
-			} else {
-				$ret = $ret & $val;
-			}
-		}
-		return (bool)$ret;
-	}
-
-	/**
 	 * Convenience function for automatic casting in form methods etc.
 	 *
 	 * @param mixed $value
@@ -715,72 +680,6 @@ class Utility {
 	public static function calcElapsedTime($start, $end, $precision = 8) {
 		$elapsed = $end - $start;
 		return round($elapsed, $precision);
-	}
-
-	/**
-	 * Returns pretty JSON
-	 *
-	 * @link https://github.com/ndejong/pretty_json/blob/master/pretty_json.php
-	 * @param string $json The original JSON string
-	 * @param string $indString The string to indent with
-	 * @return string
-	 * @deprecated Now there is a JSON_PRETTY_PRINT option available on json_encode()
-	 */
-	public static function prettyJson($json, $indString = "\t") {
-		// Replace any escaped \" marks so we don't get tripped up on quotemarks_counter
-		$tokens = preg_split('|([\{\}\]\[,])|', str_replace('\"', '~~PRETTY_JSON_QUOTEMARK~~', $json), -1, PREG_SPLIT_DELIM_CAPTURE);
-
-		$indent = 0;
-		$result = '';
-		$quotemarksCounter = 0;
-		$nextTokenUsePrefix = true;
-
-		foreach ($tokens as $token) {
-			$quotemarksCounter = $quotemarksCounter + (count(explode('"', $token)) - 1);
-
-			if ($token === '') {
-				continue;
-			}
-
-			if ($nextTokenUsePrefix) {
-				$prefix = str_repeat($indString, $indent);
-			} else {
-				$prefix = null;
-			}
-
-			// Determine if the quote marks are open or closed
-			if ($quotemarksCounter & 1) {
-				// odd - thus quotemarks open
-				$nextTokenUsePrefix = false;
-				$newLine = null;
-			} else {
-				// even - thus quotemarks closed
-				$nextTokenUsePrefix = true;
-				$newLine = "\n";
-			}
-
-			if ($token === '{' || $token === '[') {
-				$indent++;
-				$result .= $token . $newLine;
-			} elseif ($token === '}' || $token === ']') {
-				$indent--;
-
-				if ($indent >= 0) {
-					$prefix = str_repeat($indString, $indent);
-				}
-
-				if ($nextTokenUsePrefix) {
-					$result .= $newLine . $prefix . $token;
-				} else {
-					$result .= $newLine . $token;
-				}
-			} elseif ($token === ',') {
-				$result .= $token . $newLine;
-			} else {
-				$result .= $prefix . $token;
-			}
-		}
-		return str_replace('~~PRETTY_JSON_QUOTEMARK~~', '\"', $result);
 	}
 
 }

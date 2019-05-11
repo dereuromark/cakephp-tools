@@ -72,7 +72,8 @@ $cache = [
 
 Cake\Cache\Cache::setConfig($cache);
 
-Cake\Core\Plugin::load('Tools', ['path' => ROOT . DS, 'bootstrap' => true]);
+//Cake\Core\Plugin::load('Tools', ['path' => ROOT . DS, 'bootstrap' => true]);
+(new Cake\Core\PluginCollection)->add(new Tools\Plugin(['bootstrap' => true]));
 
 // Ensure default test connection is defined
 if (!getenv('db_class')) {
@@ -85,11 +86,11 @@ if (!getenv('db_class')) {
 
 Cake\Datasource\ConnectionManager::setConfig('test', [
 	'className' => 'Cake\Database\Connection',
-	'driver' => getenv('db_class'),
-	'dsn' => getenv('db_dsn'),
-	'database' => getenv('db_database'),
-	'username' => getenv('db_username'),
-	'password' => getenv('db_password'),
+	'driver' => getenv('db_class') ?: null,
+	'dsn' => getenv('db_dsn') ?: null,
+	'database' => getenv('db_database') ?: null,
+	'username' => getenv('db_username') ?: null,
+	'password' => getenv('db_password') ?: null,
 	'timezone' => 'UTC',
 	'quoteIdentifiers' => true,
 	'cacheMetadata' => true,

@@ -96,7 +96,7 @@ class TypographicBehavior extends Behavior {
 	 * @param array $config Settings to override for model.
 	 * @return void
 	 */
-	public function initialize(array $config = []) {
+	public function initialize(array $config): void {
 		if (empty($this->_config['fields'])) {
 			$schema = $this->getTable()->getSchema();
 

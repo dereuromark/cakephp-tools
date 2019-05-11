@@ -12,6 +12,7 @@ use Cake\ORM\Table;
 use Cake\Utility\Inflector;
 use InvalidArgumentException;
 use RuntimeException;
+use Shim\Utility\Inflector as ShimInflector;
 
 /**
  * SluggedBehavior
@@ -127,7 +128,7 @@ class SluggedBehavior extends Behavior {
 	 * @return void
 	 * @throws \RuntimeException
 	 */
-	public function initialize(array $config) {
+	public function initialize(array $config): void {
 		if ($this->_config['length'] === null) {
 			$length = $this->_table->getSchema()->getColumn($this->_config['field'])['length'];
 			$this->_config['length'] = $length ?: 0;
@@ -283,7 +284,7 @@ class SluggedBehavior extends Behavior {
 			$slug = $callable($string);
 
 		} elseif ($this->_config['mode'] === static::MODE_ASCII) {
-			$slug = Inflector::slug($string, $separator);
+			$slug = ShimInflector::slug($string, $separator);
 		} elseif ($this->_config['mode'] === static::MODE_URL) {
 			$regex = $this->_regex($this->_config['mode']);
 			if ($regex) {

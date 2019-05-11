@@ -29,7 +29,7 @@ class PasswordableBehaviorTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		Configure::delete('Passwordable');
@@ -45,7 +45,7 @@ class PasswordableBehaviorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		TableRegistry::clear();
 
 		parent::tearDown();

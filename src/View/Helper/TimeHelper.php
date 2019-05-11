@@ -84,11 +84,11 @@ class TimeHelper extends CakeTimeHelper {
 	 * @param int|string|\DateTime|null $dateString UNIX timestamp, strtotime() valid string or DateTime object
 	 * @param string|\DateTimeZone|null $timezone User's timezone string or DateTimeZone object
 	 * @param string|null $locale Locale string.
-	 * @param string|bool $default Default string to use when no dateString is given. Use false to allow null as current date.
+	 * @param string|null $default Default string to use when no dateString is given. Use null to allow null as current date.
 	 * @return string Formatted date string
 	 */
-	public function nice($dateString = null, $timezone = null, $locale = null, $default = '') {
-		if ($dateString === null && $default !== false) {
+	public function nice($dateString = null, $timezone = null, ?string $locale = null, ?string $default = ''): string {
+		if ($dateString === null && $default !== null) {
 			return $default;
 		}
 		return parent::nice($dateString, $timezone, $locale);

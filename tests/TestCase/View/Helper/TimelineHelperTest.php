@@ -20,7 +20,7 @@ class TimelineHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->Timeline = new TimelineHelper(new View(null));
@@ -97,7 +97,7 @@ class TimelineHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		unset($this->Timeline);

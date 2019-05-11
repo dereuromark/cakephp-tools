@@ -24,7 +24,7 @@ class QrCodeHelperTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->testEmail = 'foo@bar.local'; // For testing normal behavior
@@ -37,7 +37,7 @@ class QrCodeHelperTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		unset($this->QrCode);

@@ -22,7 +22,7 @@ class AfterSaveBehaviorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->table = TableRegistry::getTableLocator()->get('Articles');

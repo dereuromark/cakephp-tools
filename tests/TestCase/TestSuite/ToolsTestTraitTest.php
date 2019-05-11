@@ -9,7 +9,7 @@ class ToolsTestTraitTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->serverArgBackup = !empty($_SERVER['argv']) ? $_SERVER['argv'] : null;
@@ -19,7 +19,7 @@ class ToolsTestTraitTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		$_SERVER['argv'] = $this->serverArgBackup;

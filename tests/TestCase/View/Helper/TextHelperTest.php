@@ -17,7 +17,7 @@ class TextHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->Text = new TextHelper(new View(null));

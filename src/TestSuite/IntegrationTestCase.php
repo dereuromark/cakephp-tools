@@ -23,7 +23,7 @@ abstract class IntegrationTestCase extends CakeIntegrationTestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		if (!$this->disableErrorHandlerMiddleware) {

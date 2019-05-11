@@ -71,38 +71,6 @@ class Email extends CakeEmail {
 	}
 
 	/**
-	 * Set/Get wrapLength
-	 *
-	 * @deprecated Use setWrapLenght()/getWrapLength() instead.
-	 *
-	 * @param int|null $length Must not be more than CakeEmail::LINE_LENGTH_MUST
-	 * @return int|$this
-	 */
-	public function wrapLength($length = null) {
-		if ($length === null) {
-			return $this->getWrapLength();
-		}
-
-		return $this->setWrapLength($length);
-	}
-
-	/**
-	 * Set/Get priority
-	 *
-	 * @deprecated Since CakePHP 3.4.0-RC4 in core as setPriority()/getPriority()
-	 *
-	 * @param int|null $priority 1 (highest) to 5 (lowest)
-	 * @return int|$this
-	 */
-	public function priority($priority = null) {
-		if ($priority === null) {
-			return $this->_priority;
-		}
-		$this->_priority = $priority;
-		return $this;
-	}
-
-	/**
 	 * Fix line length
 	 *
 	 * @override To wrap by must length by default.
@@ -163,20 +131,6 @@ class Email extends CakeEmail {
 	}
 
 	/**
-	 * @deprecated Since CakePHP 3.4.0 - use setProfile()/getProfile() instead.
-	 *
-	 * @param mixed $config
-	 * @return string|null|$this
-	 */
-	public function profile($config = null) {
-		if ($config === null) {
-			return $this->getProfile();
-		}
-
-		return $this->setProfile($config);
-	}
-
-	/**
 	 * Overwrite to allow mimetype detection
 	 *
 	 * @param string|array $attachments String with the filename or array with filenames
@@ -220,20 +174,6 @@ class Email extends CakeEmail {
 	}
 
 	/**
-	 * @deprecated Since CakePHP 3.4.0 - use setAttachments()/getAttachments() instead.
-	 *
-	 * @param mixed|null $attachments
-	 * @return array|$this
-	 */
-	public function attachments($attachments = null) {
-		if ($attachments === null) {
-			return $this->_attachments;
-		}
-
-		return $this->setAttachments($attachments);
-	}
-
-	/**
 	 * Add an attachment from file
 	 *
 	 * @param string $file Absolute path
@@ -248,7 +188,10 @@ class Email extends CakeEmail {
 		} else {
 			$fileInfo = [$fileInfo];
 		}
-		return $this->addAttachments($fileInfo);
+
+		$this->message->addAttachments($fileInfo);
+
+		return $this;
 	}
 
 	/**
@@ -268,7 +211,10 @@ class Email extends CakeEmail {
 		$fileInfo['data'] = $content;
 		$fileInfo['mimetype'] = $mimeType;
 		$file = [$filename => $fileInfo];
-		return $this->addAttachments($file);
+
+		$this->message->addAttachments($file);
+
+		return $this;
 	}
 
 	/**
@@ -296,7 +242,9 @@ class Email extends CakeEmail {
 		}
 		$options['contentId'] = $contentId;
 		$file = [$name => $options];
-		return $this->addAttachments($file);
+		$this->message->addAttachments($file);
+
+		return $this;
 	}
 
 	/**
@@ -308,24 +256,17 @@ class Email extends CakeEmail {
 	 *
 	 * @param string $file Absolute path
 	 * @param string|null $name (optional)
-	 * @param array|string|null $options Options - string CID is deprecated
-	 * @param array $notUsed Former Options @deprecated 4th param is now 3rd since CakePHP 3.4.0 - Use addEmbeddedAttachmentByContentId() otherwise.
-	 * @return string|null CID (null is deprecated)
+	 * @param array $options Options
+	 * @return string
 	 */
-	public function addEmbeddedAttachment($file, $name = null, $options = null, array $notUsed = []) {
+	public function addEmbeddedAttachment($file, $name = null, array $options = []) {
 		if (empty($name)) {
 			$name = basename($file);
 		}
 
-		$contentId = null;
-		// Deprecated $contentId here
-		if (!is_array($options)) {
-			$contentId = $options;
-			$options = $notUsed;
-		}
-
 		$name = pathinfo($name, PATHINFO_FILENAME) . '_' . md5($file) . '.' . pathinfo($name, PATHINFO_EXTENSION);
-		if ($contentId === null && ($cid = $this->_isEmbeddedAttachment($file, $name))) {
+		$cid = $this->_isEmbeddedAttachment($file, $name);
+		if ($cid) {
 			return $cid;
 		}
 
@@ -333,15 +274,11 @@ class Email extends CakeEmail {
 		if (empty($options['mimetype'])) {
 			$options['mimetype'] = $this->_getMime($file);
 		}
-		$options['contentId'] = $contentId ?: str_replace('-', '', Text::uuid()) . '@' . $this->_domain;
+		$options['contentId'] = str_replace('-', '', Text::uuid()) . '@' . $this->_domain;
 		$file = [$name => $options];
-		$this->addAttachments($file);
-		if ($contentId === null) {
-			return $options['contentId'];
-		}
+		$this->message->addAttachments($file);
 
-		// Deprecated
-		return $contentId;
+		return $options['contentId'];
 	}
 
 	/**
@@ -370,9 +307,10 @@ class Email extends CakeEmail {
 		$options['mimetype'] = $mimeType;
 		$options['contentId'] = $contentId;
 		$file = [$filename => $options];
-		$res = $this->addAttachments($file);
 
-		return $res;
+		$this->message->addAttachments($file);
+
+		return $this;
 	}
 
 	/**
@@ -410,7 +348,7 @@ class Email extends CakeEmail {
 		$options['mimetype'] = $mimeType;
 		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', Text::uuid()) . '@' . $this->_domain;
 		$file = [$filename => $options];
-		$this->addAttachments($file);
+		$this->message->addAttachments($file);
 		if ($contentId === null) {
 			return $options['contentId'];
 		}
@@ -532,11 +470,10 @@ class Email extends CakeEmail {
 	 *
 	 * Do NOT pass a message if you use $this->set() in combination with templates
 	 *
-	 * @override
 	 * @param string|array|null $message Message
 	 * @return bool Success
 	 */
-	public function send($message = null) {
+	public function sendEmail($message = null): bool {
 		$this->_log = [
 			'to' => $this->_to,
 			'from' => $this->_from,

@@ -28,7 +28,7 @@ class ResetBehaviorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->Table = TableRegistry::getTableLocator()->get('ResetComments');
@@ -38,7 +38,7 @@ class ResetBehaviorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		TableRegistry::clear();
 
 		parent::tearDown();

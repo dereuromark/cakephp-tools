@@ -28,7 +28,7 @@ class FormatHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		Configure::write('App.imageBaseUrl', 'img/');
@@ -432,7 +432,7 @@ TEXT;
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		unset($this->Format);

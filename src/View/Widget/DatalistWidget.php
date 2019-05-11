@@ -19,9 +19,9 @@ class DatalistWidget extends SelectBoxWidget {
 	/**
 	 * @param array $data
 	 * @param \Cake\View\Form\ContextInterface $context
-	 * @return string|null
+	 * @return string
 	 */
-	public function render(array $data, ContextInterface $context) {
+	public function render(array $data, ContextInterface $context): string {
 		$data += [
 			'id' => null,
 			'name' => '',

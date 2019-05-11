@@ -23,7 +23,7 @@ class DatalistWidgetTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$templates = [
 			'datalist' => '<input type="text" list="datalist-{{id}}"{{inputAttrs}}><datalist id="datalist-{{id}}"{{datalistAttrs}}>{{content}}</datalist>',

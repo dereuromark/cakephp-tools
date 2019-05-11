@@ -29,7 +29,7 @@ class TableTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->Users = TableRegistry::getTableLocator()->get('ToolsUsers');
@@ -41,7 +41,7 @@ class TableTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		TableRegistry::clear();
 
 		parent::tearDown();

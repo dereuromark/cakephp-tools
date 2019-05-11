@@ -17,7 +17,7 @@ class TimeTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		$this->Time = new Time();
 
 		parent::setUp();

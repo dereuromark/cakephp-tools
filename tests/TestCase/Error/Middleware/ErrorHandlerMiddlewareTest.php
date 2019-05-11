@@ -21,7 +21,7 @@ class ErrorHandlerMiddlewareTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		Configure::write('App.fullBaseUrl', 'http://foo.bar');
@@ -32,7 +32,7 @@ class ErrorHandlerMiddlewareTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		unset($this->errorHandlerMiddleware);

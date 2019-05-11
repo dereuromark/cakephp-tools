@@ -81,11 +81,11 @@ class TokensTable extends Table {
 	 * @param mixed|null $uid Uid: optional (if used, only this user can use this key)
 	 * @param string|array|null $content Content: up to 255 characters of content may be added (optional)
 	 *
-	 * @return string|bool Key on success, boolean false otherwise
+	 * @return string|null Key on success, null otherwise
 	 */
-	public function newKey($type, $key = null, $uid = null, $content = null) {
+	public function newKey($type, $key = null, $uid = null, $content = null): ?string {
 		if (!$type) {
-			return false;
+			return null;
 		}
 
 		if (!$key) {
@@ -112,7 +112,7 @@ class TokensTable extends Table {
 			$entity['key'] = $this->generateKey($keyLength);
 			$max--;
 			if ($max === 0) {
-				return false;
+				return null;
 			}
 		}
 

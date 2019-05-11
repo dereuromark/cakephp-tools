@@ -17,7 +17,7 @@ class MimeTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->Mime = new Mime();

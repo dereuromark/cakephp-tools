@@ -2,7 +2,6 @@
 
 namespace Tools\Utility;
 
-use Cake\Core\Configure;
 use Cake\I18n\Number as CakeNumber;
 
 /**
@@ -27,24 +26,6 @@ class Number extends CakeNumber {
 	protected static $_decimals = ',';
 
 	protected static $_thousands = '.';
-
-	/**
-	 * Correct the default values according to localization
-	 *
-	 * @param array $options
-	 * @return void
-	 * @deprecated Should not be used anymore with 3.x functionality?
-	 */
-	public static function setConfig($options = []) {
-		$config = $options + (array)Configure::read('Localization');
-		foreach ($config as $key => $value) {
-			$key = '_' . $key;
-			if (!isset(static::${$key})) {
-				continue;
-			}
-			static::${$key} = $value;
-		}
-	}
 
 	/**
 	 * Convenience method to display the default currency
@@ -126,7 +107,7 @@ class Number extends CakeNumber {
 	 * @param array $options
 	 * @return string
 	 */
-	public static function format($number, array $options = []) {
+	public static function format($number, array $options = []): string {
 		$defaults = [
 			'positive' => '+', 'signed' => false
 		];
@@ -151,7 +132,7 @@ class Number extends CakeNumber {
 	 * @param array $options
 	 * @return string
 	 */
-	public static function currency($number, $currency = null, array $options = []) {
+	public static function currency($number, ?string $currency = null, array $options = []): string {
 		$defaults = [
 			'positive' => '+', 'signed' => false
 		];
@@ -171,7 +152,7 @@ class Number extends CakeNumber {
 	 * @return string Human readable size
 	 * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/number.html#NumberHelper::toReadableSize
 	 */
-	public static function _toReadableSize($size, $decimals = '.') {
+	public static function _toReadableSize($size, $decimals = '.'): string {
 		$size = parent::toReadableSize($size);
 		if ($decimals !== '.') {
 			$size = str_replace('.', $decimals, $size);

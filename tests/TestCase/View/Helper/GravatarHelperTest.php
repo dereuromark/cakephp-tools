@@ -16,7 +16,7 @@ class GravatarHelperTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->testEmail = 'graham@grahamweldon.com'; // For testing normal behavior
@@ -30,7 +30,7 @@ class GravatarHelperTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		unset($this->Gravatar);

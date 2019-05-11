@@ -4,7 +4,6 @@ namespace Tools\Error;
 
 use Cake\Error\ErrorHandler as CoreErrorHandler;
 use Cake\Log\Log;
-use Exception;
 
 /**
  * Custom ErrorHandler to not mix the 404 exceptions with the rest of "real" errors in the error.log file.
@@ -36,10 +35,10 @@ class ErrorHandler extends CoreErrorHandler {
 	/**
 	 * Handles exception logging
 	 *
-	 * @param \Exception $exception Exception instance.
+	 * @param \Throwable $exception Exception instance.
 	 * @return bool
 	 */
-	protected function _logException(Exception $exception) {
+	protected function _logException(Throwable $exception): bool {
 		if ($this->is404($exception)) {
 			$level = LOG_ERR;
 			Log::write($level, $this->_getMessage($exception), ['404']);

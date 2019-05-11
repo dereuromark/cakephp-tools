@@ -43,7 +43,7 @@ class TreeHelperTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->Tree = new TreeHelper(new View(null));
@@ -79,7 +79,7 @@ class TreeHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		unset($this->Table);
 
  		TableRegistry::clear();

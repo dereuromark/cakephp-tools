@@ -4,6 +4,8 @@ namespace Tools\Error\Middleware;
 
 use Cake\Error\Middleware\ErrorHandlerMiddleware as CoreErrorHandlerMiddleware;
 use Cake\Log\Log;
+use Psr\Http\Message\ServerRequestInterface;
+use Throwable;
 use Tools\Error\ErrorHandlerTrait;
 
 /**
@@ -49,7 +51,7 @@ class ErrorHandlerMiddleware extends CoreErrorHandlerMiddleware {
 	 * @param \Exception $exception The exception to log a message for.
 	 * @return void
 	 */
-	protected function logException($request, $exception) {
+	protected function logException(ServerRequestInterface $request, Throwable $exception): void {
 		if ($this->is404($exception, $request)) {
 			$level = LOG_ERR;
 			Log::write($level, $this->getMessage($request, $exception), ['404']);
