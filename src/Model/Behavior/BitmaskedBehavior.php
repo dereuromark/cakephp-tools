@@ -250,7 +250,7 @@ class BitmaskedBehavior extends Behavior {
 				return $comparison;
 			}
 
-			$comparison->setValue($this->encodeBitmask($comparison->getValue()));
+			$comparison->setValue((array)$this->encodeBitmask($comparison->getValue()));
 			if ($field !== $mappedField) {
 				$comparison->setField($field);
 			}
@@ -372,7 +372,7 @@ class BitmaskedBehavior extends Behavior {
 		}
 
 		$contain = $contain ? ' & ? = ?' : ' & ? != ?';
-		$contain = Text::insert($contain, [$bitmask, $bitmask]);
+		$contain = Text::insert($contain, [(string)$bitmask, (string)$bitmask]);
 
 		// Hack for Postgres for now
 		$connection = $this->_table->getConnection();

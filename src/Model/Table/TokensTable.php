@@ -205,11 +205,11 @@ class TokensTable extends Table {
 	 */
 	public function stats() {
 		$keys = [];
-		$keys['unused_valid'] = $this->find('count', ['conditions' => [$this->getAlias() . '.used' => 0, $this->getAlias() . '.created >=' => date(FORMAT_DB_DATETIME, time() - $this->validity)]]);
-		$keys['used_valid'] = $this->find('count', ['conditions' => [$this->getAlias() . '.used' => 1, $this->getAlias() . '.created >=' => date(FORMAT_DB_DATETIME, time() - $this->validity)]]);
+		$keys['unused_valid'] = $this->find()->where([$this->getAlias() . '.used' => 0, $this->getAlias() . '.created >=' => date(FORMAT_DB_DATETIME, time() - $this->validity)])->count();
+		$keys['used_valid'] = $this->find()->where([$this->getAlias() . '.used' => 1, $this->getAlias() . '.created >=' => date(FORMAT_DB_DATETIME, time() - $this->validity)])->count();
 
-		$keys['unused_invalid'] = $this->find('count', ['conditions' => [$this->getAlias() . '.used' => 0, $this->getAlias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity)]]);
-		$keys['used_invalid'] = $this->find('count', ['conditions' => [$this->getAlias() . '.used' => 1, $this->getAlias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity)]]);
+		$keys['unused_invalid'] = $this->find()->where([$this->getAlias() . '.used' => 0, $this->getAlias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity)])->count();
+		$keys['used_invalid'] = $this->find()->where([$this->getAlias() . '.used' => 1, $this->getAlias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity)])->count();
 
 		$types = $this->find('all', ['conditions' => [], 'fields' => ['DISTINCT type']])->toArray();
 		$keys['types'] = !empty($types) ? Hash::extract($types, '{n}.type') : [];

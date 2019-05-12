@@ -77,9 +77,9 @@ class TokensTableTest extends TestCase {
 		];
 		$entity = $this->Tokens->newEntity($data, ['validate' => false]);
 		$this->Tokens->save($entity);
-		$count = $this->Tokens->find('count');
+		$count = $this->Tokens->find()->count();
 		$this->Tokens->garbageCollector();
-		$count2 = $this->Tokens->find('count');
+		$count2 = $this->Tokens->find()->count();
 		$this->assertTrue($count > $count2);
 	}
 

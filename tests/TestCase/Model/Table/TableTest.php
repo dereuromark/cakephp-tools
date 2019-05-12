@@ -48,12 +48,10 @@ class TableTest extends TestCase {
 	}
 
 	/**
-	 * Test truncate
-	 *
 	 * @return void
 	 */
 	public function testTruncate() {
-		$is = $this->Users->find('count');
+		$is = $this->Users->find()->count();
 		$this->assertEquals(4, $is);
 
 		$config = ConnectionManager::getConfig('test');
@@ -62,8 +60,8 @@ class TableTest extends TestCase {
 			$this->assertEquals(5, $is);
 		}
 
-		$is = $this->Users->truncate();
-		$is = $this->Users->find('count');
+		$this->Users->truncate();
+		$is = $this->Users->find()->count();
 		$this->assertEquals(0, $is);
 
 		if ((strpos($config['driver'], 'Mysql') !== false)) {
@@ -73,8 +71,6 @@ class TableTest extends TestCase {
 	}
 
 	/**
-	 * TableTest::testTimestamp()
-	 *
 	 * @return void
 	 */
 	public function testTimestamp() {
@@ -86,34 +82,6 @@ class TableTest extends TestCase {
 	}
 
 	/**
-	 * Check shims
-	 *
-	 * @return void
-	 */
-	public function testFindFirst() {
-		$result = $this->Users->find('first', ['conditions' => ['name LIKE' => 'User %']]);
-		$this->assertEquals('User 1', $result['name']);
-
-		$result = $this->Users->find('first', ['conditions' => ['name NOT LIKE' => 'User %']]);
-		$this->assertNotEquals('User 1', $result['name']);
-	}
-
-	/**
-	 * Check shims
-	 *
-	 * @return void
-	 */
-	public function testFindCount() {
-		$result = $this->Users->find('count');
-		$this->assertEquals(4, $result);
-
-		$result = $this->Users->find('count', ['conditions' => ['name' => 'User 1']]);
-		$this->assertEquals(1, $result);
-	}
-
-	/**
-	 * TableTest::testField()
-	 *
 	 * @return void
 	 */
 	public function testField() {
@@ -125,8 +93,6 @@ class TableTest extends TestCase {
 	}
 
 	/**
-	 * TableTest::testField()
-	 *
 	 * @return void
 	 */
 	public function testFieldByConditions() {

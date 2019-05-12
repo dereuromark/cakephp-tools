@@ -74,8 +74,11 @@ $cache = [
 
 Cake\Cache\Cache::setConfig($cache);
 
+// Why is this required?
+require ROOT . DS . 'config' . DS . 'bootstrap.php';
+
 //Cake\Core\Plugin::load('Tools', ['path' => ROOT . DS, 'bootstrap' => true]);
-(new Cake\Core\PluginCollection)->add(new Tools\Plugin(['bootstrap' => true]));
+(new Cake\Core\PluginCollection)->add(new Tools\Plugin());
 
 if (getenv('db_dsn')) {
 	ConnectionManager::setConfig('test', [

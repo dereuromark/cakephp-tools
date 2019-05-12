@@ -1,7 +1,6 @@
 parameters:
     autoload_files:
     - %rootDir%/../../../tests/bootstrap.php
-    - %rootDir%/../../../config/bootstrap.php
     excludes_analyse:
         - %rootDir%/../../../src/TestSuite/*
         - %rootDir%/../../../src/View/Helper/TreeHelper

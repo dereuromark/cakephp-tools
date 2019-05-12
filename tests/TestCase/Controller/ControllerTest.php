@@ -48,7 +48,7 @@ class ControllerTest extends TestCase {
 
 		$ToolsUser = TableRegistry::getTableLocator()->get('ToolsUsers');
 
-		$count = $ToolsUser->find('count');
+		$count = $ToolsUser->find()->count();
 		$this->assertTrue($count > 3);
 
 		$this->Controller->loadModel('ToolsUsers');

@@ -4,6 +4,7 @@ namespace Tools\Error;
 
 use Cake\Error\ErrorHandler as CoreErrorHandler;
 use Cake\Log\Log;
+use Throwable;
 
 /**
  * Custom ErrorHandler to not mix the 404 exceptions with the rest of "real" errors in the error.log file.

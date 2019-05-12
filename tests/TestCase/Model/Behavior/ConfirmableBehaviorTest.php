@@ -35,7 +35,7 @@ class ConfirmableBehaviorTest extends TestCase {
 		$this->Articles = TableRegistry::getTableLocator()->get('SluggedArticles');
 		$this->Articles->addBehavior('Tools.Confirmable');
 
-		$animal = $this->Articles->newEntity();
+		$animal = $this->Articles->newEmptyEntity();
 
 		$data = [
 			'name' => 'FooBar',
@@ -73,7 +73,7 @@ class ConfirmableBehaviorTest extends TestCase {
 
 		$this->Articles->addBehavior('Tools.Confirmable');
 
-		$animal = $this->Articles->newEntity();
+		$animal = $this->Articles->newEmptyEntity();
 
 		$data = [
 			'name' => 'FooBar',
@@ -99,7 +99,7 @@ class ConfirmableBehaviorTest extends TestCase {
 		$this->Articles = TableRegistry::getTableLocator()->get('SluggedArticles');
 		$this->Articles->addBehavior('Tools.Confirmable');
 
-		$animal = $this->Articles->newEntity();
+		$animal = $this->Articles->newEmptyEntity();
 		$data = [
 			'name' => 'FooBar'
 		];

@@ -41,7 +41,6 @@ use RuntimeException;
  *
  * @author Mark Scherer
  * @license MIT
- * @version 1.0
  */
 class ResetBehavior extends Behavior {
 
@@ -121,7 +120,7 @@ class ResetBehavior extends Behavior {
 		$params += $defaults;
 
 		$conditions = $params['conditions'];
-		$count = $this->_table->find('count', compact('conditions'));
+		$count = $this->_table->find()->where($conditions)->count();
 		$max = (int)ini_get('max_execution_time');
 		if ($max) {
 			set_time_limit(max($max, $count));

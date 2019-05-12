@@ -40,7 +40,7 @@ class TypeMapBehaviorTest extends TestCase {
 		$this->Table = TableRegistry::getTableLocator()->get('Data');
 		$this->Table->addBehavior('Tools.Jsonable', ['fields' => ['data_array']]);
 
-		$entity = $this->Table->newEntity();
+		$entity = $this->Table->newEmptyEntity();
 
 		$data = [
 			'name' => 'FooBar',
