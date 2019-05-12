@@ -13,6 +13,11 @@ use Tools\View\Helper\TimeHelper;
 class TimeHelperTest extends TestCase {
 
 	/**
+	 * @var \Tools\View\Helper\TimeHelper|\Tools\Utility\Time
+	 */
+	protected $Time;
+
+	/**
 	 * @return void
 	 */
 	public function setUp(): void {
@@ -57,7 +62,7 @@ class TimeHelperTest extends TestCase {
 	 */
 	public function testTimeAgoInWords() {
 		$res = $this->Time->timeAgoInWords(date(FORMAT_DB_DATETIME, time() - 4 * DAY - 5 * HOUR));
-		$this->debug($res);
+		$this->assertSame('4 day, 5 hour ago', $res);
 	}
 
 	/**
@@ -68,15 +73,15 @@ class TimeHelperTest extends TestCase {
 	public function testPublished() {
 		$result = $this->Time->published((new Time(date(FORMAT_DB_DATETIME)))->addSeconds(1));
 		$expected = 'class="published today';
-		$this->assertContains($expected, $result);
+		$this->assertStringContainsString($expected, $result);
 
 		$result = $this->Time->published((new Time(date(FORMAT_DB_DATETIME)))->addDays(1));
 		$expected = 'class="published notyet';
-		$this->assertContains($expected, $result);
+		$this->assertStringContainsString($expected, $result);
 
 		$result = $this->Time->published((new Time(date(FORMAT_DB_DATETIME)))->subDays(2));
 		$expected = 'class="published already';
-		$this->assertContains($expected, $result);
+		$this->assertStringContainsString($expected, $result);
 	}
 
 	/**

@@ -29,7 +29,7 @@ class UrlHelper extends CoreUrlHelper {
 	 * @param array $url
 	 * @return array
 	 */
-	public function resetArray(array $url) {
+	public function resetArray(array $url): array {
 		$url += $this->defaults();
 
 		return $url;
@@ -39,7 +39,7 @@ class UrlHelper extends CoreUrlHelper {
 	 * @param array $url
 	 * @return array
 	 */
-	public function completeArray(array $url) {
+	public function completeArray(array $url): array {
 		$url = $this->addQueryStrings($url);
 
 		return $url;
@@ -52,15 +52,15 @@ class UrlHelper extends CoreUrlHelper {
 	 * Can only add defaults for array URLs.
 	 *
 	 * @param string|array|null $url URL.
-	 * @param bool $full If true, the full base URL will be prepended to the result
+	 * @param array $options
 	 * @return string Full translated URL with base path.
 	 */
-	public function buildReset($url = null, $full = false) {
+	public function buildReset($url = null, array $options = []): string {
 		if (is_array($url)) {
 			$url += $this->defaults();
 		}
 
-		return parent::build($url, $full);
+		return parent::build($url, $options);
 	}
 
 	/**
@@ -69,21 +69,21 @@ class UrlHelper extends CoreUrlHelper {
 	 * Can only add query strings for array URLs.
 	 *
 	 * @param string|array|null $url URL.
-	 * @param bool $full If true, the full base URL will be prepended to the result
+	 * @param array $options
 	 * @return string Full translated URL with base path.
 	 */
-	public function buildComplete($url = null, $full = false) {
+	public function buildComplete($url = null, array $options = []): string {
 		if (is_array($url)) {
 			$url = $this->addQueryStrings($url);
 		}
 
-		return parent::build($url, $full);
+		return parent::build($url, $options);
 	}
 
 	/**
 	 * @return array
 	 */
-	public function defaults() {
+	public function defaults(): array {
 		return [
 			'prefix' => false,
 			'plugin' => false

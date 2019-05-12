@@ -249,7 +249,7 @@ class FormatHelperTest extends TestCase {
 		$result = $this->Format->siteIcon('http://www.example.org');
 		$this->debug($result);
 		$expected = '<img src="http://www.google.com/s2/favicons?domain=www.example.org';
-		$this->assertContains($expected, $result);
+		$this->assertStringContainsString($expected, $result);
 	}
 
 	/**
@@ -325,9 +325,8 @@ class FormatHelperTest extends TestCase {
 		$text .= "fooo\t\tbar\t\tbla\n";
 		$text .= "foooo\t\tbar\t\tbla\n";
 		$result = $this->Format->tab2space($text);
-		//echo "<pre>" . $text . "</pre>";
-		//echo'becomes';
-		//echo "<pre>" . $result . "</pre>";
+
+		$this->assertTrue(strpos($result, "\t") === false);
 	}
 
 	/**

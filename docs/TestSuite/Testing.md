@@ -102,7 +102,7 @@ $this->assertEmpty($output);
 
 $output = $this->out->output();
 $expected = 'FooBars';
-$this->assertContains($expected, $output);
+$this->assertStringContainsString($expected, $output);
 ```
 
 Also see the above trait features. By using `-v` or `-vv` you can directly see any stderr or stdout output on the screen.

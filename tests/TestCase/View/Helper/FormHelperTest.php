@@ -38,16 +38,16 @@ class FormHelperTest extends TestCase {
 		$expected = 'novalidate="novalidate"';
 
 		$result = $this->Form->create();
-		$this->assertNotContains($expected, $result);
+		$this->assertStringNotContainsString($expected, $result);
 
 		Configure::write('FormConfig.novalidate', true);
 		$this->Form = new FormHelper($this->View);
 
 		$result = $this->Form->create();
-		$this->assertContains($expected, $result);
+		$this->assertStringContainsString($expected, $result);
 
 		$result = $this->Form->create(null, ['novalidate' => false]);
-		$this->assertNotContains($expected, $result);
+		$this->assertStringNotContainsString($expected, $result);
 	}
 
 }

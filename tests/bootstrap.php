@@ -33,12 +33,15 @@ require CORE_PATH . 'config/bootstrap.php';
 
 Cake\Core\Configure::write('App', [
 		'namespace' => 'App',
-		'encoding' => 'UTF-8']);
+		'encoding' => 'UTF-8',
+		'fullBaseUrl' => '/',
+]);
 Cake\Core\Configure::write('debug', true);
 
 Cake\Core\Configure::write('Config', [
 		'adminEmail' => 'test@example.com',
-		'adminName' => 'Mark']);
+		'adminName' => 'Mark'
+]);
 Cake\Mailer\Email::setConfig('default', ['transport' => 'Debug']);
 Cake\Mailer\TransportFactory::setConfig('Debug', [
 		'className' => 'Debug'
@@ -73,6 +76,8 @@ $cache = [
 ];
 
 Cake\Cache\Cache::setConfig($cache);
+
+Cake\Utility\Security::setSalt('foo');
 
 // Why is this required?
 require ROOT . DS . 'config' . DS . 'bootstrap.php';

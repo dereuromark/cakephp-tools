@@ -221,7 +221,7 @@ class EmailTest extends TestCase {
 		$cid = $this->Email->addEmbeddedAttachment($file);
 		$cid2 = $this->Email->addEmbeddedAttachment($file);
 		$this->assertSame($cid, $cid2);
-		$this->assertContains('@' . env('HTTP_HOST'), $cid);
+		$this->assertStringContainsString('@' . env('HTTP_HOST'), $cid);
 
 		$res = $this->Email->getProtected('attachments');
 		$this->assertSame(1, count($res));
@@ -251,7 +251,7 @@ class EmailTest extends TestCase {
 
 		$cid2 = $this->Email->addEmbeddedAttachment($file);
 
-		$this->assertContains('@' . env('HTTP_HOST'), $cid);
+		$this->assertStringContainsString('@' . env('HTTP_HOST'), $cid);
 
 		$html = '<head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -286,7 +286,7 @@ html-part
 		$this->Email->setEmailFormat('both');
 		$cid = $this->Email->addEmbeddedBlobAttachment(file_get_contents($file), 'my_hotel.png');
 
-		$this->assertContains('@' . env('HTTP_HOST'), $cid);
+		$this->assertStringContainsString('@' . env('HTTP_HOST'), $cid);
 
 		$res = $this->Email->getProtected('attachments');
 		$this->assertSame(1, count($res));
@@ -352,7 +352,7 @@ html-part
 		$this->Email->setTo(Configure::read('Config.adminEmail'));
 		$cid = $this->Email->addEmbeddedBlobAttachment(file_get_contents($file), 'my_hotel.png', 'image/png');
 
-		$this->assertContains('@' . env('HTTP_HOST'), $cid);
+		$this->assertStringContainsString('@' . env('HTTP_HOST'), $cid);
 
 		$html = '<head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />

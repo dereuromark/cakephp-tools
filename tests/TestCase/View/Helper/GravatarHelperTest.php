@@ -12,6 +12,11 @@ use Tools\View\Helper\GravatarHelper;
 class GravatarHelperTest extends TestCase {
 
 	/**
+	 * @var \Tools\View\Helper\GravatarHelper
+	 */
+	protected $Gravatar;
+
+	/**
 	 * SetUp method
 	 *
 	 * @return void

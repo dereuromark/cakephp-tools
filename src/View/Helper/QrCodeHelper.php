@@ -136,7 +136,7 @@ class QrCodeHelper extends Helper {
 			case 'text':
 				break;
 			case 'url':
-				$text = $this->Url->build($text, true);
+				$text = $this->Url->build($text, ['full' => true]);
 				break;
 			case 'sms':
 				$text = 'smsto:' . implode(':', (array)$text);

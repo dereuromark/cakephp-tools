@@ -9,6 +9,11 @@ use Tools\View\Helper\ObfuscateHelper;
 class ObfuscateHelperTest extends TestCase {
 
 	/**
+	 * @var \Tools\View\Helper\ObfuscateHelper
+	 */
+	protected $Obfuscate;
+
+	/**
 	 * @return void
 	 */
 	public function setUp(): void {
@@ -39,7 +44,7 @@ class ObfuscateHelperTest extends TestCase {
 	public function testEncodeEmail() {
 		$result = $this->Obfuscate->encodeEmail('foobar@somedomain.com');
 		$expected = '<span>@</span>';
-		$this->assertContains($expected, $result);
+		$this->assertStringContainsString($expected, $result);
 	}
 
 	/**
@@ -48,7 +53,7 @@ class ObfuscateHelperTest extends TestCase {
 	public function testEncodeEmailUrl() {
 		$result = $this->Obfuscate->encodeEmailUrl('foobar@somedomain.com');
 		$expected = '<script language=javascript>';
-		$this->assertContains($expected, $result);
+		$this->assertStringContainsString($expected, $result);
 	}
 
 	/**
@@ -57,7 +62,7 @@ class ObfuscateHelperTest extends TestCase {
 	public function testEncodeText() {
 		$result = $this->Obfuscate->encodeText('foobar@somedomain.com');
 		$expected = ';&#';
-		$this->assertContains($expected, $result);
+		$this->assertStringContainsString($expected, $result);
 	}
 
 	/**

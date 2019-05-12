@@ -71,7 +71,7 @@ class TimelineHelperTest extends TestCase {
 
 		$this->Timeline->finalize();
 		$result = $this->Timeline->getView()->fetch('script');
-		$this->assertContains('\'start\': new Date(', $result);
+		$this->assertStringContainsString('\'start\': new Date(', $result);
 	}
 
 	/**
@@ -91,7 +91,7 @@ class TimelineHelperTest extends TestCase {
 		$this->Timeline->addItem($data);
 
 		$result = $this->Timeline->finalize(true);
-		$this->assertContains('\'start\': new Date(', $result);
+		$this->assertStringContainsString('\'start\': new Date(', $result);
 	}
 
 	/**
