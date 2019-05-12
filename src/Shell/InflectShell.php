@@ -3,7 +3,7 @@
 namespace Tools\Shell;
 
 use Cake\Console\Shell;
-use Cake\Utility\Inflector;
+use Shim\Utility\Inflector;
 
 /**
  * Inflect Shell

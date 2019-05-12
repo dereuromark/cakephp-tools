@@ -1,5 +1,7 @@
 <?php
 
+use Cake\Datasource\ConnectionManager;
+
 if (!defined('DS')) {
 	define('DS', DIRECTORY_SEPARATOR);
 }
@@ -74,6 +76,18 @@ Cake\Cache\Cache::setConfig($cache);
 
 //Cake\Core\Plugin::load('Tools', ['path' => ROOT . DS, 'bootstrap' => true]);
 (new Cake\Core\PluginCollection)->add(new Tools\Plugin(['bootstrap' => true]));
+
+if (getenv('db_dsn')) {
+	ConnectionManager::setConfig('test', [
+		'className' => 'Cake\Database\Connection',
+		'url' => getenv('db_dsn'),
+		'timezone' => 'UTC',
+		'quoteIdentifiers' => true,
+		'cacheMetadata' => true,
+	]);
+
+	return;
+}
 
 // Ensure default test connection is defined
 if (!getenv('db_class')) {

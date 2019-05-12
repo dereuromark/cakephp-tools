@@ -14,7 +14,17 @@ class InflectShellTest extends TestCase {
 	/**
 	 * @var \Tools\Shell\InflectShell
 	 */
-	public $Shell;
+	protected $Shell;
+
+	/**
+	 * @var \Tools\TestSuite\ConsoleOutput
+	 */
+	protected $out;
+
+	/**
+	 * @var \Tools\TestSuite\ConsoleOutput
+	 */
+	protected $err;
 
 	/**
 	 * @return void
@@ -41,8 +51,6 @@ class InflectShellTest extends TestCase {
 	}
 
 	/**
-	 * test that the startup method supresses the shell header
-	 *
 	 * @return void
 	 */
 	public function testMain() {
@@ -52,27 +60,38 @@ class InflectShellTest extends TestCase {
 		$this->Shell->runCommand(['pluralize']);
 		$output = $this->out->output();
 		$expected = 'FooBars';
-		$this->assertContains($expected, $output);
+		$this->assertStringContainsString($expected, $output);
 
 		$this->Shell->runCommand(['underscore']);
 		$output = $this->out->output();
 		$expected = 'foo_bar';
-		$this->assertContains($expected, $output);
+		$this->assertStringContainsString($expected, $output);
 
 		$this->Shell->runCommand(['dasherize']);
 		$output = $this->out->output();
 		$expected = 'foo-bar';
-		$this->assertContains($expected, $output);
+		$this->assertStringContainsString($expected, $output);
 
 		$this->Shell->runCommand(['slug']);
 		$output = $this->out->output();
 		$expected = 'foo-bar';
-		$this->assertContains($expected, $output);
+		$this->assertStringContainsString($expected, $output);
 
 		$this->Shell->runCommand(['tableize']);
 		$output = $this->out->output();
 		$expected = 'foo_bar';
-		$this->assertContains($expected, $output);
+		$this->assertStringContainsString($expected, $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testMainAll() {
+		$this->Shell->runCommand(['all', 'Foo Bar']);
+		$output = $this->out->output();
+
+		$this->assertStringContainsString('Pluralized form', $output);
+		$this->assertStringContainsString('Slugged-form', $output);
 	}
 
 }
