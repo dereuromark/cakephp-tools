@@ -8,11 +8,11 @@ use Tools\Controller\Controller;
  */
 class MobileComponentTestController extends Controller {
 
-	/**
-	 * Components property
-	 *
-	 * @var array
-	 */
-	public $components = ['RequestHandler', 'Tools.Mobile'];
+	public function initialize(): void {
+		parent::initialize();
+
+		$this->loadComponent('RequestHandler');
+		$this->loadComponent('Tools.Mobile');
+	}
 
 }

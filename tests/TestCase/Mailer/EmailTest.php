@@ -86,10 +86,11 @@ class EmailTest extends TestCase {
 	}
 
 	/**
-	 * @expectedException \InvalidArgumentException
 	 * @return void
 	 */
 	public function testFromExecption() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$this->Email->setFrom(['cake@cakephp.org' => 'CakePHP', 'fail@cakephp.org' => 'From can only be one address']);
 	}
 

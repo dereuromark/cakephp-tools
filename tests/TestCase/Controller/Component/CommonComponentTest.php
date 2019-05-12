@@ -31,7 +31,7 @@ class CommonComponentTest extends TestCase {
 
 		Configure::write('App.fullBaseUrl', 'http://localhost');
 
-		$this->request = new ServerRequest('/my_controller/foo');
+		$this->request = new ServerRequest(['url' => '/my_controller/foo']);
 		$this->request = $this->request->withParam('controller', 'MyController')
 			->withParam('action', 'foo');
 		$this->Controller = new CommonComponentTestController($this->request);

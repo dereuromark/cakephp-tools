@@ -458,7 +458,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @expectedException \RuntimeException
 	 * @return void
 	 */
 	public function testExpandListWithKeyLessListInvalid() {
@@ -466,6 +465,9 @@ class UtilityTest extends TestCase {
 			'Some',
 			'ValueOnly',
 		];
+
+		$this->expectException(\RuntimeException::class);
+
 		Utility::expandList($is);
 	}
 

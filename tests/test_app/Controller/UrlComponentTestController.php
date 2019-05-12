@@ -10,9 +10,10 @@ use Tools\Controller\Controller;
  */
 class UrlComponentTestController extends Controller {
 
-	/**
-	 * @var array
-	 */
-	public $components = ['Tools.Url'];
+	public function initialize(): void {
+		parent::initialize();
+
+		$this->loadComponent('Tools.Url');
+	}
 
 }
