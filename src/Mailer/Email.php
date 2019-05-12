@@ -90,7 +90,6 @@ class Email extends CakeEmail {
 	 * @return $this
 	 */
 	public function reset() {
-		$this->_priority = null;
 		$this->_wrapLength = null;
 
 		$this->_error = null;
@@ -109,7 +108,7 @@ class Email extends CakeEmail {
 		if (!is_array($config)) {
 			$config = (string)$config;
 		}
-		$this->_applyConfig($config);
+		//$this->_applyConfig($config);
 
 		$fromEmail = Configure::read('Config.systemEmail');
 		if ($fromEmail) {

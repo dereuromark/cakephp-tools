@@ -55,7 +55,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 	 * @return void
 	 */
 	public function testAuthenticateEmailOrUsername() {
-		$request = new ServerRequest('posts/index');
+		$request = new ServerRequest(['url' => 'posts/index']);
 		$expected = [
 			'id' => 1,
 			'user_name' => 'mariano',
@@ -77,7 +77,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 	 * @return void
 	 */
 	public function testAuthenticateNoUsername() {
-		$request = new ServerRequest('posts/index');
+		$request = new ServerRequest(['url' => 'posts/index']);
 		$request = $request->withData('password', 'foobar');
 		$this->assertFalse($this->auth->authenticate($request, $this->response));
 	}
@@ -86,7 +86,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 	 * @return void
 	 */
 	public function testAuthenticateNoPassword() {
-		$request = new ServerRequest('posts/index');
+		$request = new ServerRequest(['url' => 'posts/index']);
 		$request = $request->withData('user_name', 'mariano');
 		$this->assertFalse($this->auth->authenticate($request, $this->response));
 
@@ -98,7 +98,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 	 * @return void
 	 */
 	public function testAuthenticateInjection() {
-		$request = new ServerRequest('posts/index');
+		$request = new ServerRequest(['url' => 'posts/index']);
 		$request = $request->withData('user_name', '> 1')->withData('password', "' OR 1 = 1");
 		$this->assertFalse($this->auth->authenticate($request, $this->response));
 	}
@@ -110,7 +110,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 	 */
 	public function testAuthenticateScopeFail() {
 		$this->auth->setConfig('scope', ['user_name' => 'nate']);
-		$request = new ServerRequest('posts/index');
+		$request = new ServerRequest(['url' => 'posts/index']);
 		$request = $request->withData('user_name', 'mariano')->withData('password', 'password');
 
 		$this->assertFalse($this->auth->authenticate($request, $this->response));
