@@ -229,7 +229,7 @@ class QrCodeHelper extends Helper {
 				case 'url':
 					$val = (array)$val;
 					foreach ($val as $v) {
-						$res[] = 'URL:' . $this->Url->build($v, true);
+						$res[] = 'URL:' . $this->Url->build($v, ['full' => true]);
 					}
 					break;
 			}

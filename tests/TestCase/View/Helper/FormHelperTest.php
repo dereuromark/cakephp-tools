@@ -23,6 +23,8 @@ class FormHelperTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
+		Configure::write('App.fullBaseUrl', 'http://foo.bar');
+
 		Configure::delete('FormConfig');
 
 		$this->View = new View(null);

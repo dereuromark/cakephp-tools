@@ -4,6 +4,7 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\Routing\Router;
 use Cake\View\View;
+use TestApp\Routing\Route\DashedRoute;
 use Tools\TestSuite\TestCase;
 use Tools\View\Helper\CommonHelper;
 
@@ -24,6 +25,9 @@ class CommonHelperTest extends TestCase {
 		parent::setUp();
 
 		Router::reload();
+		Router::connect('/:controller', ['action' => 'index']);
+		Router::connect('/:controller/:action/*');
+
 		$View = new View(null);
 		$this->Common = new CommonHelper($View);
 	}
@@ -115,7 +119,7 @@ class CommonHelperTest extends TestCase {
 		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url', ['full' => true]) . '" rel="alternate" hreflang="de"/>', trim($is));
 
 		$is = $this->Common->metaAlternate(['controller' => 'some', 'action' => 'url'], ['de', 'de-ch'], true);
-		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url', ['full' => true]) . '" rel="alternate" hreflang="de"/>' . PHP_EOL . '<link href="' . $this->Common->Url->build('/some/url', true) . '" rel="alternate" hreflang="de-ch"/>', trim($is));
+		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url', ['full' => true]) . '" rel="alternate" hreflang="de"/>' . PHP_EOL . '<link href="' . $this->Common->Url->build('/some/url', ['full' => true]) . '" rel="alternate" hreflang="de-ch"/>', trim($is));
 
 		$is = $this->Common->metaAlternate(['controller' => 'some', 'action' => 'url'], ['de' => ['ch', 'at'], 'en' => ['gb', 'us']], true);
 		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url', ['full' => true]) . '" rel="alternate" hreflang="de-ch"/>' . PHP_EOL .

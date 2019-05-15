@@ -1,6 +1,8 @@
 <?php
 
 use Cake\Datasource\ConnectionManager;
+use Cake\Routing\Route\DashedRoute;
+use Cake\Routing\Router;
 
 if (!defined('DS')) {
 	define('DS', DIRECTORY_SEPARATOR);
@@ -22,14 +24,15 @@ define('APP_DIR', 'src');
 define('CAKE_CORE_INCLUDE_PATH', ROOT . '/vendor/cakephp/cakephp');
 define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
 define('CAKE', CORE_PATH . APP_DIR . DS);
+define('TESTS', ROOT . DS . 'tests' . DS);
 
 define('WWW_ROOT', ROOT . DS . 'webroot' . DS);
 define('CONFIG', dirname(__FILE__) . DS . 'config' . DS);
 
 ini_set('intl.default_locale', 'de-DE');
 
-require ROOT . '/vendor/autoload.php';
-require CORE_PATH . 'config/bootstrap.php';
+require_once 'vendor/cakephp/cakephp/src/basics.php';
+require_once 'vendor/autoload.php';
 
 Cake\Core\Configure::write('App', [
 		'namespace' => 'App',
@@ -82,12 +85,17 @@ Cake\Utility\Security::setSalt('foo');
 // Why is this required?
 require ROOT . DS . 'config' . DS . 'bootstrap.php';
 
+Router::defaultRouteClass(DashedRoute::class);
+
+// Why has this no effect?
+Router::reload();
+require TESTS . 'config' . DS . 'routes.php';
+
 //Cake\Core\Plugin::load('Tools', ['path' => ROOT . DS, 'bootstrap' => true]);
-(new Cake\Core\PluginCollection)->add(new Tools\Plugin());
+Cake\Core\Plugin::getCollection()->add(new Tools\Plugin());
 
 if (getenv('db_dsn')) {
 	ConnectionManager::setConfig('test', [
-		'className' => 'Cake\Database\Connection',
 		'url' => getenv('db_dsn'),
 		'timezone' => 'UTC',
 		'quoteIdentifiers' => true,
@@ -99,17 +107,14 @@ if (getenv('db_dsn')) {
 
 // Ensure default test connection is defined
 if (!getenv('db_class')) {
-	putenv('db_class=Cake\Database\Driver\Sqlite');
-	putenv('db_dsn=sqlite::memory:');
+	putenv('db_dsn=sqlite:///:memory:');
 
-	//putenv('db_class=Cake\Database\Driver\Postgres');
 	//putenv('db_dsn=postgres://postgres@127.0.0.1/test');
 }
 
 Cake\Datasource\ConnectionManager::setConfig('test', [
-	'className' => 'Cake\Database\Connection',
+	'url' => getenv('db_dsn') ?: null,
 	'driver' => getenv('db_class') ?: null,
-	'dsn' => getenv('db_dsn') ?: null,
 	'database' => getenv('db_database') ?: null,
 	'username' => getenv('db_username') ?: null,
 	'password' => getenv('db_password') ?: null,

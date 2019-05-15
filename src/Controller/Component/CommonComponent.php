@@ -4,6 +4,7 @@ namespace Tools\Controller\Component;
 
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\Http\ServerRequest;
 use Cake\Routing\Router;
 use Shim\Controller\Component\Component;
 use Tools\Utility\Utility;
@@ -209,7 +210,7 @@ class CommonComponent extends Component {
 
 		if (!empty($referer)) {
 			//FIXME
-			$referer = Router::parse($referer);
+			$referer = Router::parseRequest(new ServerRequest(['url' => $referer, 'environment' => ['REQUEST_METHOD' => 'GET']]));
 		}
 
 		if ($conditionalAutoRedirect && !empty($this->Controller->autoRedirectActions) && is_array($referer) && !empty($referer['action'])) {

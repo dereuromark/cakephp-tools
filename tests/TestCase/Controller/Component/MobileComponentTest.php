@@ -6,6 +6,7 @@ use App\Controller\MobileComponentTestController;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\ServerRequest;
+use Cake\Routing\Router;
 use Detection\MobileDetect;
 use Tools\TestSuite\TestCase;
 
@@ -47,6 +48,10 @@ class MobileComponentTest extends TestCase {
 			$detector = new MobileDetect();
 			return $detector->isTablet();
 		});
+
+		Router::reload();
+		Router::connect('/:controller', ['action' => 'index']);
+		Router::connect('/:controller/:action/*');
 
 		$this->event = new Event('Controller.beforeFilter');
 		$this->Controller = new MobileComponentTestController(new ServerRequest());
@@ -102,7 +107,7 @@ class MobileComponentTest extends TestCase {
 
 		$configure = Configure::read('User');
 		$this->assertSame(['isMobile' => 0, 'setMobile' => 1], $configure);
-		$this->assertEquals(['desktopUrl' => '/?mobile=0'], $this->Controller->viewVars);
+		$this->assertEquals(['desktopUrl' => '/?mobile=0'], $this->Controller->viewBuilder()->getVars());
 	}
 
 	/**
@@ -118,7 +123,7 @@ class MobileComponentTest extends TestCase {
 		$this->Controller->Mobile->setMobile();
 		$configure = Configure::read('User');
 		$this->assertSame(['isMobile' => 0, 'setMobile' => 0], $configure);
-		$this->assertEquals(['mobileUrl' => '/?mobile=1'], $this->Controller->viewVars);
+		$this->assertEquals(['mobileUrl' => '/?mobile=1'], $this->Controller->viewBuilder()->getVars());
 	}
 
 	/**

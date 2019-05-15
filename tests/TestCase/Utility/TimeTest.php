@@ -3,6 +3,7 @@
 namespace Tools\Test\TestCase\Utility;
 
 use Cake\Core\Configure;
+use Cake\Error\Debugger;
 use DateTime;
 use Tools\TestSuite\TestCase;
 use Tools\Utility\Time;
@@ -210,7 +211,7 @@ class TimeTest extends TestCase {
 	public function testLocalDate() {
 		//$this->skipIf(PHP_SAPI === 'cli', 'for now');
 		$res = setlocale(LC_TIME, ['de_DE.UTF-8', 'deu_deu']);
-		$this->assertTrue(!empty($res));
+		$this->assertTrue(!empty($res), 'Result: ' . Debugger::exportVar($res, true));
 
 		$values = [
 			['2009-12-01 00:00:00', FORMAT_LOCAL_YMD, '01.12.2009'],

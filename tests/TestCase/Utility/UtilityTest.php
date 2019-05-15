@@ -228,6 +228,8 @@ class UtilityTest extends TestCase {
 	 * @return void
 	 */
 	public function testGetReferer() {
+		Configure::write('App.fullBaseUrl', 'http://foo.bar');
+
 		$res = Utility::getReferer();
 		$this->assertSame(env('HTTP_REFERER'), $res);
 
@@ -237,9 +239,7 @@ class UtilityTest extends TestCase {
 		$_SERVER['HTTP_REFERER'] = '/foo/bar';
 		$res = Utility::getReferer(true);
 		$base = Configure::read('App.fullBaseUrl');
-		if (!$base) {
-			$base = ''; //'http://localhost';
-		}
+
 		$this->assertSame($base . env('HTTP_REFERER'), $res);
 	}
 
