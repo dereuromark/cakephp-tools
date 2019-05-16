@@ -30,7 +30,7 @@ class ContactForm extends Form {
 	 * @param \Cake\Validation\Validator $validator
 	 * @return \Cake\Validation\Validator
 	 */
-	protected function _buildValidator(Validator $validator): Validator {
+	public function validationDefault(Validator $validator): Validator {
 		return $validator
 			->requirePresence('name')
 			->notEmpty('name', __('This field cannot be left empty'))
