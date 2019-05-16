@@ -15,7 +15,7 @@ trait ToolsTestTrait {
 	 * @param string $string
 	 * @return string
 	 */
-	protected static function osFix($string) {
+	protected static function osFix(string $string): string {
 		return str_replace(["\r\n", "\r"], "\n", $string);
 	}
 
@@ -27,7 +27,7 @@ trait ToolsTestTrait {
 	 *
 	 * @return bool Success
 	 */
-	protected static function isDebug() {
+	protected static function isDebug(): bool {
 		return !empty($_SERVER['argv']) && in_array('--debug', $_SERVER['argv'], true);
 	}
 
@@ -40,7 +40,7 @@ trait ToolsTestTrait {
 	 * @param bool $onlyVeryVerbose If only -vv should be counted.
 	 * @return bool Success
 	 */
-	protected static function isVerbose($onlyVeryVerbose = false) {
+	protected static function isVerbose($onlyVeryVerbose = false): bool {
 		if (empty($_SERVER['argv'])) {
 			return false;
 		}
@@ -63,7 +63,7 @@ trait ToolsTestTrait {
 	 * @param mixed $data
 	 * @return void
 	 */
-	protected static function debug($data) {
+	protected static function debug($data): void {
 		if (!static::isVerbose()) {
 			return;
 		}
@@ -87,7 +87,7 @@ trait ToolsTestTrait {
 	 *
 	 * @return mixed Method return.
 	 */
-	protected function invokeMethod(&$object, $methodName, array $parameters = []) {
+	protected function invokeMethod(&$object, string $methodName, array $parameters = []) {
 		$reflection = new ReflectionClass(get_class($object));
 		$method = $reflection->getMethod($methodName);
 		$method->setAccessible(true);
@@ -109,7 +109,7 @@ trait ToolsTestTrait {
 	 *
 	 * @return mixed Property value.
 	 */
-	protected function invokeProperty(&$object, $name) {
+	protected function invokeProperty(&$object, string $name) {
 		$reflection = new ReflectionClass(get_class($object));
 		$property = $reflection->getProperty($name);
 		$property->setAccessible(true);

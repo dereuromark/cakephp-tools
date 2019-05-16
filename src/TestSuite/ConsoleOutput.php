@@ -3,7 +3,6 @@
 namespace Tools\TestSuite;
 
 use Cake\Console\ConsoleOutput as CakeConsoleOutput;
-use Tools\TestSuite\ToolsTestTrait;
 
 /**
  * Use for testing as
@@ -29,7 +28,7 @@ class ConsoleOutput extends CakeConsoleOutput {
 	/**
 	 * Holds all output messages.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	public $output = [];
 
@@ -39,9 +38,11 @@ class ConsoleOutput extends CakeConsoleOutput {
 	 * @param string $message
 	 * @return void
 	 */
-	protected function _write($message) {
+	protected function _write(string $message): int {
 		$this->debug($message);
 		$this->output[] = $message;
+
+		return 0;
 	}
 
 	/**
@@ -49,7 +50,7 @@ class ConsoleOutput extends CakeConsoleOutput {
 	 *
 	 * @return string
 	 */
-	public function output() {
+	public function output(): string {
 		return implode('', $this->output);
 	}
 
