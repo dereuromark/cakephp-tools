@@ -52,18 +52,16 @@ class TokensTableTest extends TestCase {
 		$this->assertTrue(!empty($key));
 
 		$res = $this->Tokens->useKey('test', $key);
-		//pr($res);
 		$this->assertTrue(!empty($res));
 
 		$res = $this->Tokens->useKey('test', $key);
-		//pr($res);
 		$this->assertTrue(!empty($res) && !empty($res['used']));
 
 		$res = $this->Tokens->useKey('test', $key . 'x');
-		$this->assertFalse($res);
+		$this->assertNull($res);
 
 		$res = $this->Tokens->useKey('testx', $key);
-		$this->assertFalse($res);
+		$this->assertNull($res);
 	}
 
 	/**
