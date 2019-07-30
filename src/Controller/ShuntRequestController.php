@@ -28,6 +28,17 @@ class ShuntRequestController extends AppController {
 	public $modelClass = false;
 
 	/**
+	 * @return void
+	 */
+	public function initialize() {
+		parent::initialize();
+
+		if (!isset($this->Flash)) {
+			$this->loadComponent('Flash');
+		}
+	}
+
+	/**
 	 * Switch language as post link.
 	 *
 	 * @param string|null $language
@@ -41,7 +52,7 @@ class ShuntRequestController extends AppController {
 		if (!$language) {
 			$language = Configure::read('Config.defaultLanguage');
 		}
-		if (!$language) {
+		if (!$language && $allowedLanguages) {
 			$keys = array_keys($allowedLanguages);
 			$language = $allowedLanguages[array_shift($keys)];
 		}

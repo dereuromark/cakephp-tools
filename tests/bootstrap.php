@@ -26,8 +26,9 @@ define('CONFIG', dirname(__FILE__) . DS . 'config' . DS);
 
 ini_set('intl.default_locale', 'de-DE');
 
-require ROOT . '/vendor/autoload.php';
+require ROOT . DS . 'vendor/autoload.php';
 require CORE_PATH . 'config/bootstrap.php';
+require ROOT . DS . 'config/bootstrap.php';
 
 Cake\Core\Configure::write('App', [
 		'namespace' => 'App',
@@ -72,7 +73,10 @@ $cache = [
 
 Cake\Cache\Cache::setConfig($cache);
 
-Cake\Core\Plugin::load('Tools', ['path' => ROOT . DS, 'bootstrap' => true]);
+Cake\Core\Plugin::getCollection()->add(new Tools\Plugin());
+
+Cake\Routing\DispatcherFactory::add('Routing');
+Cake\Routing\DispatcherFactory::add('ControllerFactory');
 
 // Ensure default test connection is defined
 if (!getenv('db_class')) {
