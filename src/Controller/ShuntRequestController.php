@@ -23,6 +23,11 @@ use RuntimeException;
 class ShuntRequestController extends AppController {
 
 	/**
+	 * @var string|false
+	 */
+	public $modelClass = false;
+
+	/**
 	 * Switch language as post link.
 	 *
 	 * @param string|null $language
