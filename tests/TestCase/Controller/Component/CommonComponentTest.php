@@ -31,7 +31,7 @@ class CommonComponentTest extends TestCase {
 
 		Configure::write('App.fullBaseUrl', 'http://localhost');
 
-		$this->request = new ServerRequest('/my_controller/foo');
+		$this->request = new ServerRequest('/my-controller/foo');
 		$this->request = $this->request->withParam('controller', 'MyController')
 			->withParam('action', 'foo');
 		$this->Controller = new CommonComponentTestController($this->request);
@@ -160,7 +160,7 @@ class CommonComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testAutoRedirectReferer() {
-		$url = 'http://localhost/my_controller/some-referer-action';
+		$url = 'http://localhost/my-controller/some-referer-action';
 		$this->Controller->setRequest($this->Controller->getRequest()->withEnv('HTTP_REFERER', $url));
 
 		$this->Controller->Common->autoRedirect(['action' => 'foo'], true);
@@ -183,7 +183,7 @@ class CommonComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testAutoPostRedirectReferer() {
-		$url = 'http://localhost/my_controller/allowed';
+		$url = 'http://localhost/my-controller/allowed';
 		$this->Controller->setRequest($this->Controller->getRequest()->withEnv('HTTP_REFERER', $url));
 
 		$this->Controller->Common->autoPostRedirect(['controller' => 'MyController', 'action' => 'foo'], true);
@@ -204,11 +204,11 @@ class CommonComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testAutoPostRedirectRefererNotWhitelisted() {
-		$this->Controller->setRequest($this->Controller->getRequest()->withEnv('HTTP_REFERER', 'http://localhost/my_controller/wrong'));
+		$this->Controller->setRequest($this->Controller->getRequest()->withEnv('HTTP_REFERER', 'http://localhost/my-controller/wrong'));
 
 		$is = $this->Controller->Common->autoPostRedirect(['controller' => 'MyController', 'action' => 'foo'], true);
 		$is = $this->Controller->getResponse()->getHeaderLine('Location');
-		$this->assertSame('http://localhost/my_controller/foo', $is);
+		$this->assertSame('http://localhost/my-controller/foo', $is);
 		$this->assertSame(302, $this->Controller->getResponse()->getStatusCode());
 	}
 
