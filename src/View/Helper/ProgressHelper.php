@@ -51,7 +51,7 @@ class ProgressHelper extends Helper {
 		$bar = $this->draw($value, $length);
 
 		$attributes += [
-			'title' => Number::toPercentage($this->calculatePercentage($value), 0, ['multiply' => true]),
+			'title' => Number::toPercentage($this->roundPercentage($value), 0, ['multiply' => true]),
 		];
 
 		return $this->Html->tag('span', $bar, $attributes);
@@ -89,10 +89,21 @@ class ProgressHelper extends Helper {
 	}
 
 	/**
+	 * @param float|int $total
+	 * @param float|int $is
+	 * @return float
+	 */
+	public function calculatePercentage($total, $is) {
+		$percentage = $total ? $is / $total : 0.0;
+
+		return $this->roundPercentage($percentage);
+	}
+
+	/**
 	 * @param float $percentage
 	 * @return float
 	 */
-	public function calculatePercentage($percentage) {
+	public function roundPercentage($percentage) {
 		$percentageRounded = round($percentage, 2);
 		if ($percentageRounded === 0.00 && $percentage > 0.0) {
 			$percentage = 0.01;
@@ -101,7 +112,7 @@ class ProgressHelper extends Helper {
 			$percentage = 0.99;
 		}
 
-		return $percentage;
+		return (float)$percentage;
 	}
 
 	/**

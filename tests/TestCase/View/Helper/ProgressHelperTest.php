@@ -72,10 +72,30 @@ class ProgressHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testCalculatePercentage() {
-		$result = $this->progressHelper->calculatePercentage(0.001);
+		$result = $this->progressHelper->calculatePercentage(0, 0);
+		$this->assertSame(0.00, $result);
+
+		$result = $this->progressHelper->calculatePercentage(0.0, 0.0);
+		$this->assertSame(0.00, $result);
+
+		$result = $this->progressHelper->calculatePercentage(997, 1);
 		$this->assertSame(0.01, $result);
 
-		$result = $this->progressHelper->calculatePercentage(0.999);
+		$result = $this->progressHelper->calculatePercentage(997, 996);
+		$this->assertSame(0.99, $result);
+
+		$result = $this->progressHelper->calculatePercentage(997, 997);
+		$this->assertSame(1.00, $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testRoundPercentage() {
+		$result = $this->progressHelper->roundPercentage(0.001);
+		$this->assertSame(0.01, $result);
+
+		$result = $this->progressHelper->roundPercentage(0.999);
 		$this->assertSame(0.99, $result);
 	}
 

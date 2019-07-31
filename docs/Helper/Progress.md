@@ -44,10 +44,19 @@ This can be used if you want to customize the usage.
 
 ### calculatePercentage()
 
+This method is responsible for the main percentage calculation.
+It can be also used standalone.
+```php 
+$percentage = $this->Progress->calculatePercentage($total, $is);
+echo $this->Number->toPercentage($percentage, 0, ['multiply' => true]);
+```
+
+### roundPercentage()
+
 This method is responsible for the above min/max handling.
 It can be also used standalone.
 ```php 
-$percentage = $this->Progress->calculatePercentage($value);
+$percentage = $this->Progress->roundPercentage($value);
 echo $this->Number->toPercentage($percentage, 0, ['multiply' => true]);
 ```
 For value `0.49` it outputs: `49%`, for value `0.0001` it outputs `1%`.
