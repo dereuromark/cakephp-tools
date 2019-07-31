@@ -9,7 +9,7 @@ So for `0.9999` as well as `0.0001` etc it will not yet display the completely f
 If you want that, you need to pre-round before passing it in.
 
 
-### Setup
+## Setup
 Include helper in your AppView class as
 ```php
 $this->addHelper('Tools.Progress', [
@@ -19,6 +19,8 @@ $this->addHelper('Tools.Progress', [
 
 You can store default configs also in Configure key `'Progress'`.
 Mainly empty/full chars can be configured this way.
+
+## Usage
 
 ### progressBar()
 Display a text-based progress bar with the progress in percentage as title.
@@ -48,3 +50,8 @@ It can be also used standalone.
 // For $value 0.49 it outputs: 49% 
 echo $this->Number->toPercentage($this->calculatePercentage($value), 0, ['multiply' => true]);
 ```
+
+## Tips
+
+Consider using CSS `white-space: nowrap` for the span tag if wrapping could occur based on smaller display sizes.
+Wrapping would render such a text-based progress bar a bit hard to read.

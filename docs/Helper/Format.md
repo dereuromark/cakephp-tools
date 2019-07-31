@@ -2,7 +2,7 @@
 
 A CakePHP helper to handle some common format topics.
 
-### Setup
+## Setup
 Include helper in your AppView class as
 ```php
 $this->addHelper('Tools.Format', [
@@ -12,6 +12,7 @@ $this->addHelper('Tools.Format', [
 
 You can store default configs also in Configure key `'Format'`.
 
+## Usage
 
 ### icon()
 Display font icons using the default namespace or an already prefixed one.
