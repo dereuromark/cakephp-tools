@@ -30,8 +30,6 @@ if (!defined('CHAR_HELLIP')) {
 class TextHelper extends CakeTextHelper {
 
 	/**
-	 * Constructor
-	 *
 	 * ### Settings:
 	 *
 	 * - `engine` Class name to use to replace Text functionality.

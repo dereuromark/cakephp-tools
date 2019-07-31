@@ -68,8 +68,6 @@ class FormatHelper extends Helper {
 	];
 
 	/**
-	 * FormatHelper constructor.
-	 *
 	 * @param \Cake\View\View $View
 	 * @param array $config
 	 */

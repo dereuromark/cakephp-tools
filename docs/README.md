@@ -48,6 +48,7 @@ Helpers:
 * [Form](Helper/Form.md)
 * [Common](Helper/Common.md)
 * [Format](Helper/Format.md)
+* [Progress](Helper/Progress.md)
 * [Tree](Helper/Tree.md)
 * [Typography](Helper/Typography.md)
 
