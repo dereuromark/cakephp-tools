@@ -46,10 +46,12 @@ This can be used if you want to customize the usage.
 
 This method is responsible for the above min/max handling.
 It can be also used standalone.
-```php
-// For $value 0.49 it outputs: 49% 
-echo $this->Number->toPercentage($this->calculatePercentage($value), 0, ['multiply' => true]);
+```php 
+$percentage = $this->Progress->calculatePercentage($value);
+echo $this->Number->toPercentage($percentage, 0, ['multiply' => true]);
 ```
+For value `0.49` it outputs: `49%`, for value `0.0001` it outputs `1%`.
+And of course `0.99999` should still be "only" `99%`.
 
 ## Tips
 
