@@ -33,22 +33,22 @@ class ProgressHelperTest extends TestCase {
 	 */
 	public function testDraw() {
 		$result = $this->progressHelper->draw(0.00, 3);
-		$this->assertSame('⬜⬜⬜', $result);
+		$this->assertSame('░░░', $result);
 
 		$result = $this->progressHelper->draw(1.00, 3);
-		$this->assertSame('⬛⬛⬛', $result);
+		$this->assertSame('███', $result);
 
 		$result = $this->progressHelper->draw(0.50, 3);
-		$this->assertSame('⬛⬛⬜', $result);
+		$this->assertSame('██░', $result);
 
 		$result = $this->progressHelper->draw(0.30, 5);
-		$this->assertSame('⬛⬛⬜⬜⬜', $result);
+		$this->assertSame('██░░░', $result);
 
 		$result = $this->progressHelper->draw(0.01, 3);
-		$this->assertSame('⬛⬜⬜', $result);
+		$this->assertSame('█░░', $result);
 
 		$result = $this->progressHelper->draw(0.99, 3);
-		$this->assertSame('⬛⬛⬜', $result);
+		$this->assertSame('██░', $result);
 	}
 
 	/**
@@ -56,16 +56,16 @@ class ProgressHelperTest extends TestCase {
 	 */
 	public function testProgressBar() {
 		$result = $this->progressHelper->progressBar(0.001, 3);
-		$this->assertSame('<span title="1%">⬛⬜⬜</span>', $result);
+		$this->assertSame('<span title="1%">█░░</span>', $result);
 
 		$result = $this->progressHelper->progressBar(0.999, 3);
-		$this->assertSame('<span title="99%">⬛⬛⬜</span>', $result);
+		$this->assertSame('<span title="99%">██░</span>', $result);
 
 		$result = $this->progressHelper->progressBar(0.000, 3);
-		$this->assertSame('<span title="0%">⬜⬜⬜</span>', $result);
+		$this->assertSame('<span title="0%">░░░</span>', $result);
 
 		$result = $this->progressHelper->progressBar(1.000, 3);
-		$this->assertSame('<span title="100%">⬛⬛⬛</span>', $result);
+		$this->assertSame('<span title="100%">███</span>', $result);
 	}
 
 	/**

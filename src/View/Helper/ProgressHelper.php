@@ -16,6 +16,8 @@ use Tools\Utility\Number;
 class ProgressHelper extends Helper {
 
 	const LENGTH_MIN = 3;
+	const CHAR_EMPTY = '░';
+	const CHAR_FULL = '█';
 
 	/**
 	 * @var array
@@ -26,8 +28,8 @@ class ProgressHelper extends Helper {
 	 * @var array
 	 */
 	protected $_defaults = [
-		'empty' => '⬜',
-		'full' => '⬛',
+		'empty' => self::CHAR_EMPTY,
+		'full' => self::CHAR_FULL,
 	];
 
 	/**
