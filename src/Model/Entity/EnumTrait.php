@@ -9,7 +9,7 @@ trait EnumTrait {
 	 * Now also supports reordering/filtering
 	 *
 	 * @link https://www.dereuromark.de/2010/06/24/static-enums-or-semihardcoded-attributes/
-	 * @param string|array|null $value Integer or array of keys or NULL for complete array result
+	 * @param int|string|array|null $value Integer or array of keys or NULL for complete array result
 	 * @param array $options Options
 	 * @param string|null $default Default value
 	 * @return string|array
