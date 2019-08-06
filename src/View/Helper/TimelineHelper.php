@@ -2,6 +2,7 @@
 
 namespace Tools\View\Helper;
 
+use Cake\I18n\FrozenTime;
 use Cake\View\Helper;
 
 /**
@@ -112,8 +113,8 @@ class TimelineHelper extends Helper {
 
 		$current = '';
 		if ($settings['current']) {
-			$dateString = date('Y-m-d H:i:s', time());
-			$current = 'timeline.setCurrentTime(' . $this->_date($dateString) . ');';
+			$now = new FrozenTime();
+			$current = 'timeline.setCurrentTime(' . $this->_date($now) . ');';
 		}
 		unset($settings['id']);
 		unset($settings['current']);

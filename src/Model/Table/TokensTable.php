@@ -126,41 +126,42 @@ class TokensTable extends Table {
 	 * @param string $key : necessary
 	 * @param mixed|null $uid : needs to be provided if this key has a user_id stored
 	 * @param bool $treatUsedAsInvalid
-	 * @return \Cake\ORM\Entity|false Content - if successfully used or if already used (used=1), FALSE else
+	 * @return \Tools\Model\Entity\Token|null Content - if successfully used or if already used (used=1), NULL otherwise.
 	 */
 	public function useKey($type, $key, $uid = null, $treatUsedAsInvalid = false) {
 		if (!$type || !$key) {
-			return false;
+			return null;
 		}
 		$options = ['conditions' => [$this->getAlias() . '.key' => $key, $this->getAlias() . '.type' => $type]];
 		if ($uid) {
 			$options['conditions'][$this->getAlias() . '.user_id'] = $uid;
 		}
-		$res = $this->find('all', $options)->first();
-		if (!$res) {
-			return false;
+		/** @var \Tools\Model\Entity\Token $tokenEntity */
+		$tokenEntity = $this->find('all', $options)->first();
+		if (!$tokenEntity) {
+			return null;
 		}
-		if ($uid && !empty($res['user_id']) && $res['user_id'] != $uid) {
+		if ($uid && !empty($tokenEntity['user_id']) && $tokenEntity['user_id'] != $uid) {
 			// return $res; # more secure to fail here if user_id is not provided, but was submitted prev.
-			return false;
+			return null;
 		}
 		// already used?
-		if (!empty($res['used'])) {
+		if (!empty($tokenEntity['used'])) {
 			if ($treatUsedAsInvalid) {
-				return false;
+				return null;
 			}
 			// return true and let the application check what to do then
-			return $res;
+			return $tokenEntity;
 		}
 		// actually spend key (set to used)
-		if ($this->spendKey($res['id'])) {
-			return $res;
+		if ($this->spendKey($tokenEntity['id'])) {
+			return $tokenEntity;
 		}
 		// no limit? we dont spend key then
-		if (!empty($res['unlimited'])) {
-			return $res;
+		if (!empty($tokenEntity['unlimited'])) {
+			return $tokenEntity;
 		}
-		return false;
+		return null;
 	}
 
 	/**

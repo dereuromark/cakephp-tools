@@ -154,7 +154,7 @@ class Text extends CakeText {
 		if (mb_strlen($text) <= $length) {
 			return $text;
 		}
-		return rtrim(mb_substr($text, 0, round(($length - 3) / 2))) . $ending . ltrim(mb_substr($text, (($length - 3) / 2) * -1));
+		return rtrim(mb_substr($text, 0, (int)round(($length - 3) / 2))) . $ending . ltrim(mb_substr($text, (($length - 3) / 2) * -1));
 	}
 
 	/**

@@ -96,7 +96,9 @@ class Table extends ShimTable {
 	 * @return void
 	 */
 	public function truncate() {
-		$sql = $this->getSchema()->truncateSql($this->_connection);
+		/** @var \Cake\Database\Schema\SqlGeneratorInterface $schema */
+		$schema = $this->getSchema();
+		$sql = $schema->truncateSql($this->_connection);
 		foreach ($sql as $snippet) {
 			$this->_connection->execute($snippet);
 		}

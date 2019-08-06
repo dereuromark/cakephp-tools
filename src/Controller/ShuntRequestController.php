@@ -23,6 +23,22 @@ use RuntimeException;
 class ShuntRequestController extends AppController {
 
 	/**
+	 * @var string|false
+	 */
+	public $modelClass = false;
+
+	/**
+	 * @return void
+	 */
+	public function initialize(): void {
+		parent::initialize();
+
+		if (!isset($this->Flash)) {
+			$this->loadComponent('Flash');
+		}
+	}
+
+	/**
 	 * Switch language as post link.
 	 *
 	 * @param string|null $language
@@ -36,7 +52,7 @@ class ShuntRequestController extends AppController {
 		if (!$language) {
 			$language = Configure::read('Config.defaultLanguage');
 		}
-		if (!$language) {
+		if (!$language && $allowedLanguages) {
 			$keys = array_keys($allowedLanguages);
 			$language = $allowedLanguages[array_shift($keys)];
 		}

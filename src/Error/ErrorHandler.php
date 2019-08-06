@@ -4,6 +4,8 @@ namespace Tools\Error;
 
 use Cake\Error\ErrorHandler as CoreErrorHandler;
 use Cake\Log\Log;
+use Cake\Routing\Router;
+use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
 
 /**
@@ -37,15 +39,17 @@ class ErrorHandler extends CoreErrorHandler {
 	 * Handles exception logging
 	 *
 	 * @param \Throwable $exception Exception instance.
+	 * @param \Psr\Http\Message\ServerRequestInterface|null $request
 	 * @return bool
 	 */
-	protected function _logException(Throwable $exception): bool {
+	protected function _logException(Throwable $exception, ?ServerRequestInterface $request = null): bool {
 		if ($this->is404($exception)) {
 			$level = LOG_ERR;
 			Log::write($level, $this->_getMessage($exception), ['404']);
 			return false;
 		}
-		return parent::_logException($exception);
+
+		return parent::_logException($exception, $request ?? Router::getRequest());
 	}
 
 }

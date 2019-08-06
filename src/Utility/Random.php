@@ -144,7 +144,7 @@ class Random {
 	 * @link https://github.com/CakeDC/users/blob/master/models/user.php#L498
 	 */
 	public static function pronounceablePwd($length = 10) {
-		srand((double)microtime() * 1000000);
+		srand((int)(double)microtime() * 1000000);
 		$password = '';
 		$vowels = ['a', 'e', 'i', 'o', 'u'];
 		$cons = ['b', 'c', 'd', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'u', 'v', 'w', 'tr',

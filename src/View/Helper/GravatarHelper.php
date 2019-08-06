@@ -101,7 +101,7 @@ class GravatarHelper extends Helper {
 		unset($options['ext'], $options['secure']);
 		$protocol = $secure === true ? 'https' : 'http';
 
-		$imageUrl = $this->_url[$protocol] . md5($email);
+		$imageUrl = $this->_url[$protocol] . $this->_emailHash($email);
 		if ($ext === true) {
 			// If 'ext' option is supplied and true, append an extension to the generated image URL.
 			// This helps systems that don't display images unless they have a specific image extension on the URL.
@@ -122,7 +122,7 @@ class GravatarHelper extends Helper {
 		$images = [];
 		foreach ($this->_defaultIcons as $defaultIcon) {
 			$options['default'] = $defaultIcon;
-			$images[$defaultIcon] = $this->image(null, $options);
+			$images[$defaultIcon] = $this->image('', $options);
 		}
 		return $images;
 	}
@@ -158,11 +158,10 @@ class GravatarHelper extends Helper {
 	 * Generate email address hash
 	 *
 	 * @param string $email Email address
-	 * @param string $type Hash type to employ
 	 * @return string Email address hash
 	 */
-	protected function _emailHash($email, $type) {
-		return md5(mb_strtolower($email), $type);
+	protected function _emailHash($email) {
+		return md5(mb_strtolower($email));
 	}
 
 	/**

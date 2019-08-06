@@ -51,14 +51,14 @@ class ErrorHandlerMiddleware extends CoreErrorHandlerMiddleware {
 	 * @param \Exception $exception The exception to log a message for.
 	 * @return void
 	 */
-	protected function logException(ServerRequestInterface $request, Throwable $exception): void {
+	protected function _logException(ServerRequestInterface $request, Throwable $exception): void {
 		if ($this->is404($exception, $request)) {
 			$level = LOG_ERR;
 			Log::write($level, $this->getMessage($request, $exception), ['404']);
 			return;
 		}
 
-		parent::logException($request, $exception);
+		parent::_logException($request, $exception);
 	}
 
 }

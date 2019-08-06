@@ -39,8 +39,6 @@ class TimeHelper extends CakeTimeHelper {
 	protected $_engine;
 
 	/**
-	 * Default Constructor
-	 *
 	 * ### Settings:
 	 *
 	 * - `engine` Class name to use to replace Cake\I18n\Time functionality

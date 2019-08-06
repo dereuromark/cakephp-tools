@@ -5,6 +5,7 @@ namespace Tools\Mailer;
 use Cake\Core\Configure;
 use Cake\Log\LogTrait;
 use Cake\Mailer\Email as CakeEmail;
+use Cake\Mailer\Message;
 use InvalidArgumentException;
 use Psr\Log\LogLevel;
 use Tools\Utility\Mime;
@@ -53,7 +54,7 @@ class Email extends CakeEmail {
 	/**
 	 * Sets wrap length.
 	 *
-	 * @param int $length Must not be more than CakeEmail::LINE_LENGTH_MUST
+	 * @param int $length Must not be more than Message::LINE_LENGTH_MUST
 	 * @return $this
 	 */
 	public function setWrapLength($length) {
@@ -79,7 +80,7 @@ class Email extends CakeEmail {
 	 * @param int $wrapLength
 	 * @return array Wrapped message
 	 */
-	protected function _wrap($message, $wrapLength = CakeEmail::LINE_LENGTH_MUST) {
+	protected function _wrap($message, $wrapLength = Message::LINE_LENGTH_MUST) {
 		if ($this->_wrapLength !== null) {
 			$wrapLength = $this->_wrapLength;
 		}

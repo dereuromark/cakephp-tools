@@ -655,42 +655,32 @@ class TimeTest extends TestCase {
 	}
 
 	/**
-	 * TimeTest::testLengthOfTime()
-	 *
 	 * @return void
 	 */
 	public function testLengthOfTime() {
-		//$this->out($this->_header(__FUNCTION__), true);
+		$ret = $this->Time->lengthOfTime(60, 'Hi');
+		$this->assertEquals('1 Minutes', $ret);
 
-		$ret = $this->Time->lengthOfTime(60);
-		//pr($ret);
+		$ret = $this->Time->lengthOfTime(DAY);
+		$this->assertEquals('1 Days, 0 Hours', $ret);
 
 		// FIX ME! Doesn't work!
 		$ret = $this->Time->lengthOfTime(-60);
-		//pr($ret);
-
-		$ret = $this->Time->lengthOfTime(-121);
-		//pr($ret);
+		//$this->assertEquals('-60 Seconds', $ret);
 
 		$this->assertEquals('6 ' . __d('tools', 'Minutes') . ', 40 ' . __d('tools', 'Seconds'), $this->Time->lengthOfTime(400));
 
 		$res = $this->Time->lengthOfTime(400, 'i');
-		//pr($res);
 		$this->assertEquals('6 ' . __d('tools', 'Minutes'), $res);
 
 		$res = $this->Time->lengthOfTime(6 * DAY);
-		//pr($res);
 		$this->assertEquals('6 ' . __d('tools', 'Days') . ', 0 ' . __d('tools', 'Hours'), $res);
 	}
 
 	/**
-	 * TimeTest::testFuzzyFromOffset()
-	 *
 	 * @return void
 	 */
 	public function testFuzzyFromOffset() {
-		//$this->out($this->_header(__FUNCTION__), true);
-
 		$ret = $this->Time->fuzzyFromOffset(MONTH);
 		//pr($ret);
 

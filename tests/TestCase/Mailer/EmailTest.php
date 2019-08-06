@@ -6,6 +6,7 @@ use App\Mailer\TestEmail;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Log\Log;
+use Cake\Mailer\Message;
 use Cake\Mailer\TransportFactory;
 use Tools\Mailer\Email;
 use Tools\TestSuite\TestCase;
@@ -403,7 +404,7 @@ HTML;
 		$is = $this->Email->wrap($html);
 
 		foreach ($is as $line => $content) {
-			$this->assertTrue(strlen($content) <= Email::LINE_LENGTH_MUST);
+			$this->assertTrue(strlen($content) <= Message::LINE_LENGTH_MUST);
 		}
 		$this->debug($is);
 		$this->assertTrue(count($is) >= 5);
@@ -424,11 +425,11 @@ sjdf ojdshfdsf odsfh dsfhodsf hodshfhdsjdshfjdshfjdshfj dsjfh jdsfh ojds hfposjd
 </body></html>
 HTML;
 		//$html = str_replace(array("\r\n", "\n", "\r"), "", $html);
-		$this->Email->wrapLength(100);
+		$this->Email->setWrapLength(100);
 		$is = $this->Email->wrap($html);
 
 		foreach ($is as $line => $content) {
-			$this->assertTrue(strlen($content) <= Email::LINE_LENGTH_MUST);
+			$this->assertTrue(strlen($content) <= Message::LINE_LENGTH_MUST);
 		}
 		$this->debug($is);
 		$this->assertTrue(count($is) >= 16);

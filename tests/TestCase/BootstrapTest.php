@@ -19,8 +19,6 @@ class BootstrapTest extends TestCase {
 	}
 
 	/**
-	 * BootstrapTest::testStartsWith()
-	 *
 	 * @return void
 	 */
 	public function testStartsWith() {
@@ -49,7 +47,6 @@ class BootstrapTest extends TestCase {
 
 		foreach ($strings as $string) {
 			$is = startsWith($string[0], $string[1]);
-			//pr(returns($is). ' - expected '.returns($string[2]));
 			$this->assertEquals($string[2], $is);
 		}
 
@@ -58,8 +55,6 @@ class BootstrapTest extends TestCase {
 	}
 
 	/**
-	 * BootstrapTest::testEndsWith()
-	 *
 	 * @return void
 	 */
 	public function testEndsWith() {
@@ -97,8 +92,6 @@ class BootstrapTest extends TestCase {
 	}
 
 	/**
-	 * BootstrapTest::testContains()
-	 *
 	 * @return void
 	 */
 	public function testContains() {
@@ -139,26 +132,30 @@ class BootstrapTest extends TestCase {
 	 * @return void
 	 */
 	public function testEnt() {
-		//$this->assertEquals($expected, $is);
+		$result = ent('<>');
+		$expected = '&lt;&gt;';
+		$this->assertSame($expected, $result);
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testEntDec() {
-		//$this->assertEquals($expected, $is);
+		$result = entDec('&lt;&gt;');
+		$expected = '<>';
+		$this->assertSame($expected, $result);
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testReturns() {
-		//$this->assertEquals($expected, $is);
+		$result = returns([]);
+		$expected = '(array)';
+		$this->assertTextContains($expected, $result);
 	}
 
 	/**
-	 * BootstrapTest::testExtractPathInfo()
-	 *
 	 * @return void
 	 */
 	public function testExtractPathInfo() {
@@ -176,8 +173,6 @@ class BootstrapTest extends TestCase {
 	}
 
 	/**
-	 * BootstrapTest::testExtractFileInfo()
-	 *
 	 * @return void
 	 */
 	public function testExtractFileInfo() {

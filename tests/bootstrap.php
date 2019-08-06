@@ -27,7 +27,7 @@ define('CAKE', CORE_PATH . APP_DIR . DS);
 define('TESTS', ROOT . DS . 'tests' . DS);
 
 define('WWW_ROOT', ROOT . DS . 'webroot' . DS);
-define('CONFIG', dirname(__FILE__) . DS . 'config' . DS);
+//define('CONFIG', dirname(__FILE__) . DS . 'config' . DS);
 
 ini_set('intl.default_locale', 'de-DE');
 
@@ -91,7 +91,6 @@ Router::defaultRouteClass(DashedRoute::class);
 Router::reload();
 require TESTS . 'config' . DS . 'routes.php';
 
-//Cake\Core\Plugin::load('Tools', ['path' => ROOT . DS, 'bootstrap' => true]);
 Cake\Core\Plugin::getCollection()->add(new Tools\Plugin());
 
 if (getenv('db_dsn')) {

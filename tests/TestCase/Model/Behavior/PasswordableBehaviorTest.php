@@ -144,7 +144,7 @@ class PasswordableBehaviorTest extends TestCase {
 		} else {
 			$fields = ['name', 'id'];
 		}
-		$this->assertEquals($fields, $is->visibleProperties());
+		$this->assertEquals($fields, $is->getVisible());
 
 		$id = $user->id;
 		$user = $this->Users->newEmptyEntity();
@@ -161,7 +161,7 @@ class PasswordableBehaviorTest extends TestCase {
 		} else {
 			$fields = ['id'];
 		}
-		$this->assertEquals($fields, $is->visibleProperties());
+		$this->assertEquals($fields, $is->getVisible());
 	}
 
 	/**

@@ -672,8 +672,8 @@ class Utility {
 	 * Returns microtime as float value
 	 * (to be subtracted right away)
 	 *
-	 * @param int $start
-	 * @param int $end
+	 * @param float $start
+	 * @param float $end
 	 * @param int $precision
 	 * @return float
 	 */

@@ -857,7 +857,7 @@ class Time extends CakeTime {
 
 				$x = mb_strtolower(mb_substr($format, $i, 1));
 
-				if ($str == 1) {
+				if ($str === 1) {
 					$ret .= $str . $s[$x];
 				} else {
 					$title = $p[$x];

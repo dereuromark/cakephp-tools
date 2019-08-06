@@ -2,17 +2,17 @@
 
 namespace App\Model\Table;
 
-use Cake\Database\Schema\TableSchema;
+use Cake\Database\Schema\TableSchemaInterface;
 use Tools\Model\Table\Table;
 
 class DataTable extends Table {
 
 	/**
-	 * @param \Cake\Database\Schema\TableSchema $schema
+	 * @param \Cake\Database\Schema\TableSchemaInterface $schema
 	 *
-	 * @return \Cake\Database\Schema\TableSchema
+	 * @return \Cake\Database\Schema\TableSchemaInterface
 	 */
-	protected function _initializeSchema(TableSchema $schema): TableSchema {
+	protected function _initializeSchema(TableSchemaInterface $schema): TableSchemaInterface {
 		$schema->setColumnType('data_json', 'json');
 		$schema->setColumnType('data_array', 'array');
 

@@ -73,8 +73,6 @@ class QrCodeHelper extends Helper {
 	public $formattingTypes = ['url' => 'http', 'tel' => 'tel', 'sms' => 'smsto', 'card' => 'mecard'];
 
 	/**
-	 * QrCodeHelper constructor.
-	 *
 	 * @param \Cake\View\View $View
 	 * @param array $config
 	 */
