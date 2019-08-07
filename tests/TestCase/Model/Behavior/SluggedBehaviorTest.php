@@ -266,10 +266,10 @@ class SluggedBehaviorTest extends TestCase {
 	 */
 	public function testLengthRestrictionNoLimit() {
 		$this->articles->behaviors()->Slugged->setConfig(['length' => 0, 'label' => 'long_title', 'field' => 'long_slug']);
-		$entity = $this->_getEntity(str_repeat('foo bar ', 100), 'long_title');
+		$entity = $this->_getEntity(str_repeat('foo bar ', 18), 'long_title');
 
 		$result = $this->articles->save($entity);
-		$this->assertEquals(799, strlen($result->get('long_slug')));
+		$this->assertEquals(143, strlen($result->get('long_slug')));
 	}
 
 	/**
