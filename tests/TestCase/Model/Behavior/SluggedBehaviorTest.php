@@ -266,15 +266,13 @@ class SluggedBehaviorTest extends TestCase {
 	 */
 	public function testLengthRestrictionNoLimit() {
 		$this->articles->behaviors()->Slugged->setConfig(['length' => 0, 'label' => 'long_title', 'field' => 'long_slug']);
-		$entity = $this->_getEntity(str_repeat('foo bar ', 18), 'long_title');
+		$entity = $this->_getEntity(str_repeat('foo bar ', 31), 'long_title');
 
 		$result = $this->articles->save($entity);
-		$this->assertEquals(143, strlen($result->get('long_slug')));
+		$this->assertEquals(247, strlen($result->get('long_slug')));
 	}
 
 	/**
-	 * SluggedBehaviorTest::testResetSlugs()
-	 *
 	 * @return void
 	 */
 	public function testResetSlugs() {
@@ -313,8 +311,6 @@ class SluggedBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * TestDuplicateWithLengthRestriction method
-	 *
 	 * If there's a length restriction - ensure it's respected by the unique slug routine
 	 *
 	 * @return void
