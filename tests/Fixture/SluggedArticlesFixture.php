@@ -16,7 +16,7 @@ class SluggedArticlesFixture extends TestFixture {
 	public $fields = [
 		'id' => ['type' => 'integer'],
 		'title' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => ''],
-		'slug' => ['type' => 'string', 'length' => 245, 'null' => false, 'default' => ''],
+		'slug' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => ''],
 		'long_title' => ['type' => 'string', 'null' => false, 'default' => ''],
 		'long_slug' => ['type' => 'string', 'null' => false, 'default' => ''],
 		'section' => ['type' => 'integer', 'null' => true],
