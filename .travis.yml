@@ -38,7 +38,7 @@ matrix:
     - php: 7.4snapshot
 
 before_install:
-  - phpenv config-rm xdebug.ini
+  - if [[ ${TRAVIS_PHP_VERSION} != "7.4snapshot" ]]; then phpenv config-rm xdebug.ini ; fi
 
 before_script:
   - if [[ $PREFER_LOWEST != 1 ]]; then composer install --prefer-source --no-interaction ; fi
