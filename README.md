@@ -29,6 +29,7 @@ This master branch only works for **CakePHP 3.7+** - please use the 2.x branch f
 - MultiColumnAuthenticate for log-in with e.g. "email or username".
 - Slugged, Reset and other behaviors
 - Tree helper for working with (complex) trees and their output.
+- Progress and Meter helper for progress bar and meter bar elements (HTML5 and textual).
 - Text, Time, Number libs and helpers etc provide extended functionality if desired.
 - QrCode, Gravatar and other useful small helpers
 - Timeline, Typography, etc provide additional helper functionality.
