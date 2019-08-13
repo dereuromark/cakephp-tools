@@ -257,8 +257,7 @@ class MeterHelper extends Helper {
 	 *
 	 * @return float
 	 */
-	protected function roundValue($value)
-	{
+	protected function roundValue($value) {
 		$precision = (int)$this->getConfig('precision');
 
 		$string = (string)$value;
@@ -266,7 +265,7 @@ class MeterHelper extends Helper {
 			return $value;
 		}
 
-		$separatorIndex = strpos($string,'.');
+		$separatorIndex = strpos($string, '.');
 		$positive = $separatorIndex ?: 0;
 
 		$left = $precision - $positive;
