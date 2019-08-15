@@ -393,7 +393,7 @@ class PasswordableBehaviorTest extends TestCase {
 			'pwd' => '123456',
 			'pwd_repeat' => '123456'
 		];
-		$this->Users->patchEntity($user, $data);
+		$user = $this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertFalse($is);
 
@@ -408,16 +408,16 @@ class PasswordableBehaviorTest extends TestCase {
 		$user->setAccess(['id'], true); // Allow id to be accessible by default
 		$user = $this->Users->patchEntity($user, $data, ['fields' => ['id']]);
 
-		$this->assertNotSame($is['password'], $user['password']);
+		$this->assertSame($userCopy['password'], $user['password']);
 		$this->assertTrue($user->isDirty('pwd'));
 
 		$options = ['validate' => true];
-		$is = $this->Users->save($user, $options);
-		$this->assertTrue(!empty($is));
+		$this->Users->saveOrFail($user, $options);
 
 		$user = $this->Users->get($uid);
+
 		// The password is updated, the name not
-		$this->assertSame($is['password'], $user['password']);
+		$this->assertNotSame($userCopy['password'], $user['password']);
 		$this->assertSame('xyz', $user['name']);
 
 		// Proof that we manually need to add pwd, pwd_repeat etc due to a bug in CakePHP<=2.4 allowing behaviors to only modify saving,
@@ -459,7 +459,6 @@ class PasswordableBehaviorTest extends TestCase {
 		$result = $this->Users->save($user);
 		$this->assertTrue(!empty($result));
 		$userCopy = clone($user);
-		$uid = $user->id;
 
 		$this->Users->addBehavior('Tools.Passwordable', ['current' => true, 'require' => false]);
 		$user = clone($userCopy);
@@ -496,11 +495,12 @@ class PasswordableBehaviorTest extends TestCase {
 		$user->setAccess(['id'], true); // Allow id to be accessible by default
 		$user = $this->Users->patchEntity($user, $data, ['fields' => ['id']]);
 
-		$this->assertNotSame($is['password'], $user['password']);
 		$this->assertTrue($user->isDirty('pwd'));
+		$this->assertSame($userCopy['password'], $user['password']);
 
-		$is = $this->Users->save($user);
-		$this->assertTrue((bool)$is);
+		$user = $this->Users->saveOrFail($user);
+		$this->assertNotSame($userCopy['password'], $user['password']);
+		$this->assertFalse($user->isDirty('pwd'));
 	}
 
 	/**

@@ -5,6 +5,7 @@ namespace Tools\Model\Table;
 use Cake\Datasource\ConnectionManager;
 use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
+use Cake\ORM\Entity;
 use Tools\TestSuite\TestCase;
 
 class TableTest extends TestCase {
@@ -92,10 +93,11 @@ class TableTest extends TestCase {
 	 */
 	public function testFindFirst() {
 		$result = $this->Users->find('first', ['conditions' => ['name LIKE' => 'User %']]);
-		$this->assertEquals('User 1', $result['name']);
+		$this->assertInstanceOf(Entity::class, $result);
+		$this->assertSame('User 1', $result['name']);
 
 		$result = $this->Users->find('first', ['conditions' => ['name NOT LIKE' => 'User %']]);
-		$this->assertNotEquals('User 1', $result['name']);
+		$this->assertNull($result);
 	}
 
 	/**

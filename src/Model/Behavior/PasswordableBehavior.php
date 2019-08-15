@@ -124,6 +124,7 @@ class PasswordableBehavior extends Behavior {
 	 *
 	 * @param array $config The configuration array this behavior is using.
 	 * @return void
+	 * @throws \RuntimeException
 	 */
 	public function initialize(array $config) {
 		$formField = $this->_config['formField'];
@@ -284,17 +285,11 @@ class PasswordableBehavior extends Behavior {
 			$current = $entity->get($formFieldCurrent);
 			$new = $entity->get($formField) || $entity->get($formFieldRepeat);
 			if (!$new && !$current) {
-				//$validator->remove($formField); // tmp only!
-				//unset($Model->validate[$formField]);
 				$entity->unsetProperty($formField);
 				if ($this->_config['confirm']) {
-					//$validator->remove($formFieldRepeat); // tmp only!
-					//unset($Model->validate[$formFieldRepeat]);
 					$entity->unsetProperty($formFieldRepeat);
 				}
 				if ($this->_config['current']) {
-					//$validator->remove($formFieldCurrent); // tmp only!
-					//unset($Model->validate[$formFieldCurrent]);
 					$entity->unsetProperty($formFieldCurrent);
 				}
 				return;
