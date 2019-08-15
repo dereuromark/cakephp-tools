@@ -4,8 +4,8 @@ namespace Tools\Model\Table;
 
 use Cake\Datasource\ConnectionManager;
 use Cake\I18n\Time;
-use Cake\ORM\TableRegistry;
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
 use Tools\TestSuite\TestCase;
 
 class TableTest extends TestCase {
