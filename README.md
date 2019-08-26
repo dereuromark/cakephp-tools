@@ -9,8 +9,6 @@
 
 A CakePHP plugin containing several useful tools that can be used in many projects.
 
-## Version notice
-
 This branch is for **CakePHP 3.7+**. See [version map](https://github.com/dereuromark/cakephp-tools/wiki#cakephp-version-map) for details.
 
 ## What is this plugin for?
