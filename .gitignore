@@ -4,3 +4,4 @@
 /tmp/
 /composer.phar
 /.idea
+/.phpunit.result.cache
