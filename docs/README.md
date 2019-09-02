@@ -42,6 +42,7 @@ Behaviors:
 Components:
 * [Common](Component/Common.md)
 * [Mobile](Component/Mobile.md)
+* [RefererRedirect](Component/RefererRedirect.md)
 
 Helpers:
 * [Html](Helper/Html.md)

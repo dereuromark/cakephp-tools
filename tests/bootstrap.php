@@ -4,7 +4,7 @@ if (!defined('DS')) {
 	define('DS', DIRECTORY_SEPARATOR);
 }
 if (!defined('WINDOWS')) {
-	if (DS == '\\' || substr(PHP_OS, 0, 3) === 'WIN') {
+	if (DS === '\\' || substr(PHP_OS, 0, 3) === 'WIN') {
 		define('WINDOWS', true);
 	} else {
 		define('WINDOWS', false);
@@ -22,7 +22,7 @@ define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
 define('CAKE', CORE_PATH . APP_DIR . DS);
 
 define('WWW_ROOT', ROOT . DS . 'webroot' . DS);
-define('CONFIG', dirname(__FILE__) . DS . 'config' . DS);
+define('CONFIG', __DIR__ . DS . 'config' . DS);
 
 ini_set('intl.default_locale', 'de-DE');
 
