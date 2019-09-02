@@ -33,7 +33,7 @@ class RefererRedirectComponent extends Component {
 		$actions = $this->getConfig('actions');
 		$currentAction = $this->getController()->getRequest()->getParam('action');
 
-		if ($actions && !in_array($currentAction, $actions, true)) {
+		if ($currentAction && $actions && !in_array($currentAction, $actions, true)) {
 			return null;
 		}
 

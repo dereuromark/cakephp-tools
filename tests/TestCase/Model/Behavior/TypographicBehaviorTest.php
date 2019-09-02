@@ -29,6 +29,9 @@ class TypographicBehaviorTest extends TestCase {
 		$this->Model->addBehavior('Tools.Typographic', ['fields' => ['body'], 'before' => 'marshal']);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testObject() {
 		$this->assertInstanceOf(TypographicBehavior::class, $this->Model->behaviors()->Typographic);
 	}
