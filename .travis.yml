@@ -47,8 +47,8 @@ before_script:
 
   - if [[ $CHECKS != 1 ]]; then composer require --dev phpunit/phpunit:"^5.7.14|^6.0"; fi
 
-  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
-  - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE cakephp_test;' -U postgres; fi"
+  - if [[ $DB == 'mysql' ]]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi
+  - if [[ $DB == 'pgsql' ]]; then psql -c 'CREATE DATABASE cakephp_test;' -U postgres; fi
 
 script:
   - if [[ $DEFAULT == 1 ]]; then vendor/bin/phpunit; fi
