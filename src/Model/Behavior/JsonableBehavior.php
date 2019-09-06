@@ -212,7 +212,7 @@ class JsonableBehavior extends Behavior {
 	 * Fields are absolutely necessary to function properly!
 	 *
 	 * @param string|array|null $val
-	 * @return array|null|false
+	 * @return array|false|null
 	 */
 	public function _decode($val) {
 		if (!is_string($val)) {

@@ -59,7 +59,7 @@ class Random {
 	 * @param int|null $min
 	 * @param int|null $max
 	 * @param bool|null $formatReturn
-	 * @return int|null|string
+	 * @return int|string|null
 	 */
 	public static function date($min = null, $max = null, $formatReturn = null) {
 		if ($min === null && $max === null) {

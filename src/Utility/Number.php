@@ -18,14 +18,29 @@ class Number extends CakeNumber {
 	 */
 	protected static $_currencies = [];
 
+	/**
+	 * @var string
+	 */
 	protected static $_currency = 'EUR';
 
+	/**
+	 * @var string
+	 */
 	protected static $_symbolRight = '€';
 
+	/**
+	 * @var string
+	 */
 	protected static $_symbolLeft = '';
 
+	/**
+	 * @var string
+	 */
 	protected static $_decimals = ',';
 
+	/**
+	 * @var string
+	 */
 	protected static $_thousands = '.';
 
 	/**
