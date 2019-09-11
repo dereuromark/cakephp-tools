@@ -446,7 +446,7 @@ class Text extends CakeText {
 	 * @param string $str
 	 * @return string
 	 */
-	public function reduce_double_slashes($str) {
+	public function reduceDoubleSlashes($str) {
 		return preg_replace('#([^:])//+#', '\\1/', $str);
 	}
 

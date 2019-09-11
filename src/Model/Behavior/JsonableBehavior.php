@@ -113,7 +113,7 @@ class JsonableBehavior extends Behavior {
 	public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary) {
 		$query->formatResults(function (CollectionInterface $results) {
 			return $results->map(function ($row) {
-				if (!$row instanceOf Entity) {
+				if (!$row instanceof Entity) {
 					return $row;
 				}
 
