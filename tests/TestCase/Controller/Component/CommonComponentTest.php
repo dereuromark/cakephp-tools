@@ -9,8 +9,6 @@ use Cake\Http\ServerRequest;
 use Tools\Controller\Component\CommonComponent;
 use Tools\TestSuite\TestCase;
 
-/**
- */
 class CommonComponentTest extends TestCase {
 
 	/**

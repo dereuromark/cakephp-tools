@@ -10,8 +10,6 @@ use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
 use Tools\TestSuite\TestCase;
 
-/**
- */
 class UrlComponentTest extends TestCase {
 
 	/**
