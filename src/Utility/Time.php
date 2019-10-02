@@ -577,11 +577,9 @@ class Time extends CakeTime {
 			]
 		];
 		$day = (int)$day;
-		//pr($day);
 		if ($offset) {
 			$day = ($day + $offset) % 7;
 		}
-		//pr($day);
 		if ($abbr) {
 			return __d('tools', $days['short'][$day]);
 		}

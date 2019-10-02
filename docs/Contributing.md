@@ -15,6 +15,15 @@ There are a few guidelines that I need contributors to follow:
 * Coding standards (`composer cs-check` to check and `composer cs-fix` to fix)
 * Passing tests (you can enable travis to assert your changes pass) for Windows and Unix (`php phpunit.phar`)
 
+## i18n 
+Check if translations via pot file need to be changed.
+Run
+```
+bin/cake i18n extract -p Tools --extract-core=no --merge=no --overwrite
+```
+from your app.
+
+
 # Additional Resources
 
 * [Coding standards guide (extending/overwriting the CakePHP ones)](https://github.com/php-fig-rectified/fig-rectified-standards/)

@@ -49,7 +49,6 @@ class BootstrapTest extends TestCase {
 
 		foreach ($strings as $string) {
 			$is = startsWith($string[0], $string[1]);
-			//pr(returns($is). ' - expected '.returns($string[2]));
 			$this->assertEquals($string[2], $is);
 		}
 
@@ -88,7 +87,6 @@ class BootstrapTest extends TestCase {
 
 		foreach ($strings as $string) {
 			$is = endsWith($string[0], $string[1]);
-			//pr(returns($is). ' - expected '.returns($string[2]));
 			$this->assertEquals($string[2], $is);
 		}
 
@@ -127,7 +125,6 @@ class BootstrapTest extends TestCase {
 
 		foreach ($strings as $string) {
 			$is = contains($string[0], $string[1]);
-			//pr(returns($is). ' - expected '.returns($string[2]));
 			$this->assertEquals($string[2], $is);
 		}
 
