@@ -6,6 +6,7 @@ use Cake\View\View;
 use InvalidArgumentException;
 use Tools\TestSuite\TestCase;
 use Tools\TestSuite\ToolsTestTrait;
+use Tools\Utility\Number;
 use Tools\View\Helper\MeterHelper;
 
 class MeterHelperTest extends TestCase {
@@ -23,13 +24,31 @@ class MeterHelperTest extends TestCase {
 	protected $meterHelper;
 
 	/**
+	 * @var string
+	 */
+	protected $locale;
+
+	/**
 	 * @return void
 	 */
 	public function setUp() {
 		parent::setUp();
 
+		$this->locale = ini_get('intl.default_locale');
+		ini_set('intl.default_locale', 'en-US');
+		Number::config('en_EN');
+
 		$this->View = new View(null);
 		$this->meterHelper = new MeterHelper($this->View);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function tearDown() {
+		parent::tearDown();
+
+		ini_set('intl.default_locale', $this->locale);
 	}
 
 	/**

@@ -10,7 +10,7 @@ use Tools\View\Helper\TextHelper;
 class TextHelperTest extends TestCase {
 
 	/**
-	 * @var \Tools\View\Helper\TextHelper|\Tools\Utility\Text
+	 * @var \Tools\View\Helper\TextHelper
 	 */
 	public $Text;
 

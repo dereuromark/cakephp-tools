@@ -13,6 +13,11 @@ use Tools\View\Helper\TimeHelper;
 class TimeHelperTest extends TestCase {
 
 	/**
+	 * @var \Tools\View\Helper\TimeHelper
+	 */
+	protected $Time;
+
+	/**
 	 * @return void
 	 */
 	public function setUp() {

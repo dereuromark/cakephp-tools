@@ -8,10 +8,17 @@ use Tools\TestSuite\TestCase;
 use Tools\Utility\Number;
 use Tools\View\Helper\NumberHelper;
 
-/**
- * Number Test Case
- */
 class NumberHelperTest extends TestCase {
+
+	/**
+	 * @var \Tools\View\Helper\NumberHelper
+	 */
+	protected $Number;
+
+	/**
+	 * @var string
+	 */
+	protected $locale;
 
 	/**
 	 * @return void
@@ -19,12 +26,26 @@ class NumberHelperTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
+		$this->locale = ini_get('intl.default_locale');
+		ini_set('intl.default_locale', 'de-DE');
+
 		Configure::write('Localization', [
 			'decimals' => ',',
 			'thousands' => '.'
 		]);
-		Number::config('en_EN');
+		Number::config('de_DE');
 		$this->Number = new NumberHelper(new View(null));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function tearDown() {
+		parent::tearDown();
+
+		ini_set('intl.default_locale', $this->locale);
+
+		unset($this->Number);
 	}
 
 	/**
@@ -60,7 +81,7 @@ class NumberHelperTest extends TestCase {
 		$this->assertEquals($expected, $is);
 
 		$is = $this->Number->format('22.30', ['precision' => -1]);
-		$expected = '22';
+		$expected = '22,3'; // Why?
 		$this->assertEquals($expected, $is);
 
 		$is = $this->Number->format('22.30', ['places' => 3]);
@@ -115,15 +136,6 @@ class NumberHelperTest extends TestCase {
 
 		$is = $this->Number->toReadableSize(1024 * 1024 * 1024 * 1024 * 2.5);
 		$this->assertEquals('2,5 TB', $is);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function tearDown() {
-		parent::tearDown();
-
-		unset($this->Number);
 	}
 
 }
