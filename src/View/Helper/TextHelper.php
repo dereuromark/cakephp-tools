@@ -25,6 +25,7 @@ if (!defined('CHAR_HELLIP')) {
  * - maxLength (to shorten links in order to not mess up the layout in some cases - appends ...)
  * - escape (defaults to TRUE for security reasons regarding plain text)
  *
+ * @mixin \Tools\Utility\Text
  * @property \Cake\View\Helper\HtmlHelper $Html
  */
 class TextHelper extends CakeTextHelper {

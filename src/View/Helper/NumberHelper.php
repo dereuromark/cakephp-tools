@@ -7,15 +7,13 @@ use Cake\View\Helper\NumberHelper as CakeNumberHelper;
 use Cake\View\View;
 
 /**
- * Ovewrite to allow usage of own Number class.
+ * Overwrite to allow usage of own Number class.
  *
  * @mixin \Tools\Utility\Number
  */
 class NumberHelper extends CakeNumberHelper {
 
 	/**
-	 * NumberHelper::__construct()
-	 *
 	 * ### Settings:
 	 *
 	 * - `engine` Class name to use to replace Number functionality.

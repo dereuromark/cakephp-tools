@@ -10,7 +10,7 @@ class NumberTest extends TestCase {
 	/**
 	 * @var \Tools\Utility\Number
 	 */
-	public $Number;
+	protected $Number;
 
 	/**
 	 * @return void
@@ -22,8 +22,6 @@ class NumberTest extends TestCase {
 	}
 
 	/**
-	 * NumberTest::testAverage()
-	 *
 	 * @return void
 	 */
 	public function testAverage() {
@@ -130,27 +128,6 @@ class NumberTest extends TestCase {
 
 		$is = Number::format(-0.895, ['places' => 3]);
 		$expected = '-0,895';
-		$this->assertSame($expected, $is);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testToPercentage() {
-		$is = Number::toPercentage(22.11, 2, ['decimals' => '.']);
-		$expected = '22,11%';
-		$this->assertSame($expected, $is);
-
-		$is = Number::toPercentage(22.11, 2, ['locale' => 'en']);
-		$expected = '22.11%';
-		$this->assertSame($expected, $is);
-
-		$is = Number::toPercentage(22.11, 0, ['decimals' => '.']);
-		$expected = '22%';
-		$this->assertSame($expected, $is);
-
-		$is = Number::toPercentage(0.2311, 0, ['multiply' => true, 'decimals' => '.']);
-		$expected = '23%';
 		$this->assertSame($expected, $is);
 	}
 
