@@ -45,7 +45,7 @@ class SluggedBehavior extends Behavior {
 	 *     OR pass it a callable as custom method to be invoked
 	 * - separator: The separator to use
 	 * - length:
-	 *  Set to 0 for no length. Will be auto-detected if possible via schema.
+	 *     Set to 0 for no length. Will be auto-detected if possible via schema.
 	 * - overwrite: has 2 values
 	 *     false - once the slug has been saved, do not change it (use if you are doing lookups based on slugs)
 	 *     true - if the label field values change, regenerate the slug (use if you are the slug is just window-dressing)
@@ -144,18 +144,21 @@ class SluggedBehavior extends Behavior {
 				if (strpos($field, '.')) {
 					list($alias, $field) = explode('.', $field);
 					if (!$this->_table->$alias->hasField($field)) {
-						throw new RuntimeException('(SluggedBehavior::setup) model ' . $this->_table->$alias->getAlias() . ' is missing the field ' . $field .
-							' (specified in the setup for model ' . $this->_table->getAlias() . ') ');
+						throw new RuntimeException('(SluggedBehavior::setup) model `' . $this->_table->$alias->getAlias() . '` is missing the field `' . $field .
+							'` (specified in the setup for table `' . $this->_table->getAlias() . '`) ');
 					}
 				} elseif (!$this->_table->hasField($field) && !method_exists($this->_table->getEntityClass(), '_get' . Inflector::classify($field))) {
-					throw new RuntimeException('(SluggedBehavior::setup) model ' . $this->_table->getAlias() . ' is missing the field ' . $field . ' specified in the setup.');
+					throw new RuntimeException('(SluggedBehavior::setup) model `' . $this->_table->getAlias() . '` is missing the field `' . $field .
+						'` (specified in the setup for entity `' . $this->_table->getEntityClass() . '`.');
 				}
 			}
 		}
 	}
 
 	/**
-	 * SluggedBehavior::findSlugged()
+	 * Customn finder exposed as
+	 *
+	 * ->find('slugged')
 	 *
 	 * @param \Cake\ORM\Query $query
 	 * @param array $options

@@ -2,6 +2,7 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
+use App\Model\Entity\SluggedArticle;
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
@@ -626,7 +627,7 @@ class SluggedBehaviorTest extends TestCase {
 	 */
 	public function testSlugGenerationWithVirtualField() {
 		$this->articles->removeBehavior('Slugged');
-		$this->articles->setEntityClass('\App\Model\Entity\SluggedArticle');
+		$this->articles->setEntityClass(SluggedArticle::class);
 		$this->articles->addBehavior('Tools.Slugged', [
 			'label' => [
 				'title',
@@ -640,6 +641,30 @@ class SluggedBehaviorTest extends TestCase {
 		$result = $this->articles->save($article);
 		$this->assertTrue((bool)$result);
 		$this->assertEquals('Some-Article-12345-dereuromark', $result['slug']);
+	}
+
+	/**
+	 * Tests slug generation fails with invalid entity config.
+	 *
+	 * @expectedException \RuntimeException
+	 * @expectedExceptionMessage (SluggedBehavior::setup) model `SluggedArticles` is missing the field `specialNonExistent` (specified in the setup for entity `App\Model\Entity\SluggedArticle`.
+	 *
+	 * @return void
+	 */
+	public function testSlugGenerationWithVirtualFieldInvalidField() {
+		$this->articles->removeBehavior('Slugged');
+		$this->articles->setEntityClass(SluggedArticle::class);
+		$this->articles->addBehavior('Tools.Slugged', [
+			'label' => [
+				'specialNonExistent',
+			],
+		]);
+
+		$data = [
+			'title' => 'Some Article 12345',
+		];
+		$article = $this->articles->newEntity($data);
+		$this->articles->save($article);
 	}
 
 	/**
