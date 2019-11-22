@@ -65,10 +65,10 @@ class TokensTable extends Table {
 			'maxLength' => [
 				'rule' => ['maxLength', 255],
 				'message' => ['valErrMaxCharacters {0}', 255],
-				'allowEmpty' => true
+				'allowEmpty' => true,
 			],
 		],
-		'used' => ['numeric']
+		'used' => ['numeric'],
 	];
 
 	/**

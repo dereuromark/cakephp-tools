@@ -16,7 +16,7 @@ class TypographicBehaviorTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'core.Articles'
+		'core.Articles',
 	];
 
 	/**
@@ -59,7 +59,7 @@ class TypographicBehaviorTest extends TestCase {
 		foreach ($strings as $was => $expected) {
 			$data = [
 				'title' => 'some «cool» title',
-				'body' => $was
+				'body' => $was,
 			];
 			$entity = $this->Model->newEntity($data);
 			$this->assertEmpty($entity->getErrors());
@@ -85,7 +85,7 @@ class TypographicBehaviorTest extends TestCase {
 		foreach ($strings as $was => $expected) {
 			$data = [
 				'title' => 'some «cool» title',
-				'body' => $was
+				'body' => $was,
 			];
 			$entity = $this->Model->newEntity($data);
 			$this->assertEmpty($entity->getErrors());

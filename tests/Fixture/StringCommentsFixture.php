@@ -14,7 +14,7 @@ class StringCommentsFixture extends TestFixture {
 		'comment' => ['type' => 'string', 'length' => 255, 'null' => false],
 		'url' => ['type' => 'string', 'length' => 255, 'null' => false],
 		'title' => ['type' => 'string', 'length' => 255, 'null' => false],
-		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
+		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
 	];
 
 	/**

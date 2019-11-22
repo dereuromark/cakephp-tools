@@ -44,7 +44,7 @@ class BitmaskedBehavior extends Behavior {
 		'on' => 'beforeMarshal', // or beforeRules or beforeSave
 		'defaultValue' => null, // NULL = auto (use empty string to trigger "notEmpty" rule for "default NOT NULL" db fields)
 		'implementedFinders' => [
-			'bits' => 'findBitmasked'
+			'bits' => 'findBitmasked',
 		],
 	];
 

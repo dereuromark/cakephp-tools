@@ -67,14 +67,14 @@ class PasswordableBehavior extends Behavior {
 				'message' => ['valErrBetweenCharacters {0} {1}', PWD_MIN_LENGTH, PWD_MAX_LENGTH],
 				'last' => true,
 				//'provider' => 'table'
-			]
+			],
 		],
 		'formFieldRepeat' => [
 			'validateIdentical' => [
 				'rule' => ['validateIdentical', ['compare' => 'formField']],
 				'message' => 'valErrPwdNotMatch',
 				'last' => true,
-				'provider' => 'table'
+				'provider' => 'table',
 			],
 		],
 		'formFieldCurrent' => [
@@ -87,8 +87,8 @@ class PasswordableBehavior extends Behavior {
 				'rule' => 'validateCurrentPwd',
 				'message' => 'valErrCurrentPwdIncorrect',
 				'last' => true,
-				'provider' => 'table'
-			]
+				'provider' => 'table',
+			],
 		],
 	];
 
@@ -191,7 +191,7 @@ class PasswordableBehavior extends Behavior {
 					'rule' => ['validateNotSame', ['compare' => $formFieldCurrent]],
 					'message' => __d('tools', 'valErrPwdSameAsBefore'),
 					'last' => true,
-					'provider' => 'table'
+					'provider' => 'table',
 				]);
 			}
 		} elseif (!count($validator->field($formFieldCurrent))) {
@@ -202,7 +202,7 @@ class PasswordableBehavior extends Behavior {
 					'message' => __d('tools', 'valErrPwdSameAsBefore'),
 					//'allowEmpty' => !$this->_config['require'],
 					'last' => true,
-					'provider' => 'table'
+					'provider' => 'table',
 				]);
 				$validator->allowEmpty($formField, !$this->_config['require']);
 			}

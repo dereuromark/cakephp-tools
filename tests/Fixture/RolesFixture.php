@@ -23,7 +23,7 @@ class RolesFixture extends TestFixture {
 		'modified' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
 		'sort' => ['type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10, 'collate' => null, 'comment' => ''],
 		'active' => ['type' => 'boolean', 'null' => false, 'default' => false, 'collate' => null, 'comment' => ''],
-		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
+		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
 	];
 
 	/**
@@ -39,7 +39,7 @@ class RolesFixture extends TestFixture {
 			'created' => '2010-01-07 03:36:33',
 			'modified' => '2010-01-07 03:36:33',
 			'sort' => '7',
-			'active' => 1
+			'active' => 1,
 		],
 		[
 			'name' => 'Admin',
@@ -48,7 +48,7 @@ class RolesFixture extends TestFixture {
 			'created' => '2010-01-07 03:36:33',
 			'modified' => '2010-01-07 03:36:33',
 			'sort' => '6',
-			'active' => 1
+			'active' => 1,
 		],
 		[
 			'name' => 'User',
@@ -57,7 +57,7 @@ class RolesFixture extends TestFixture {
 			'created' => '2010-01-07 03:36:33',
 			'modified' => '2010-01-07 03:36:33',
 			'sort' => '1',
-			'active' => 1
+			'active' => 1,
 		],
 		[
 			'name' => 'Partner',
@@ -66,7 +66,7 @@ class RolesFixture extends TestFixture {
 			'created' => '2010-01-07 03:36:33',
 			'modified' => '2010-01-07 03:36:33',
 			'sort' => '0',
-			'active' => 1
+			'active' => 1,
 		],
 	];
 

@@ -139,7 +139,7 @@ class UtilityTest extends TestCase {
 			$string,
 			'D',
 			'81245',
-			'München'
+			'München',
 		];
 		$this->assertSame($expected, $matches);
 
@@ -180,8 +180,8 @@ class UtilityTest extends TestCase {
 				$string,
 				'D',
 				'81245',
-				'München'
-			]
+				'München',
+			],
 		];
 		$this->assertSame($expected, $matches);
 
@@ -343,7 +343,7 @@ class UtilityTest extends TestCase {
 			'bol' => true,
 			'bl' => 'true',
 			'flt' => 3.14,
-			'fl' => '3.14'
+			'fl' => '3.14',
 		];
 		$expected = [
 			'f some',
@@ -354,7 +354,7 @@ class UtilityTest extends TestCase {
 			'bol' => true,
 			'bl' => 'true',
 			'flt' => 3.14,
-			'fl' => '3.14'
+			'fl' => '3.14',
 		];
 
 		$res = Utility::trimDeep($is);
@@ -369,12 +369,12 @@ class UtilityTest extends TestCase {
 		$is = [
 			'f some',
 			'e 49r ' => 'rf r ',
-			'er' => [['ee' => ['rr ' => ' tt ', 'empty' => null]]]
+			'er' => [['ee' => ['rr ' => ' tt ', 'empty' => null]]],
 		];
 		$expected = [
 			'f some',
 			'e 49r ' => 'rf r',
-			'er' => [['ee' => ['rr ' => 'tt', 'empty' => '']]]
+			'er' => [['ee' => ['rr ' => 'tt', 'empty' => '']]],
 		];
 
 		$res = Utility::trimDeep($is, true);
@@ -390,12 +390,12 @@ class UtilityTest extends TestCase {
 		$is = [
 			'f some',
 			'e 49r ' => 'rf r ',
-			'er' => [['ee' => ['rr ' => ' tt ']]]
+			'er' => [['ee' => ['rr ' => ' tt ']]],
 		];
 		$expected = [
 			'f some',
 			'e 49r ' => 'rf r',
-			'er' => [['ee' => ['rr ' => 'tt']]]
+			'er' => [['ee' => ['rr ' => 'tt']]],
 		];
 
 		$result = Utility::deep('trim', $is);
@@ -470,18 +470,18 @@ class UtilityTest extends TestCase {
 			'Some.Even.Deeper.Nested.Value',
 			'Empty.',
 			'0.1.2',
-			'.EmptyString'
+			'.EmptyString',
 		];
 		$result = Utility::expandList($is);
 
 		$expected = [
 			'Some' => [
 				'Deep' => ['Value1', 'Value2'],
-				'Even' => ['Deeper' => ['Nested' => ['Value']]]
+				'Even' => ['Deeper' => ['Nested' => ['Value']]],
 			],
 			'Empty' => [''],
 			'0' => ['1' => ['2']],
-			'' => ['EmptyString']
+			'' => ['EmptyString'],
 		];
 		$this->assertSame($expected, $result);
 	}
@@ -505,7 +505,7 @@ class UtilityTest extends TestCase {
 		$is = [
 			'Some',
 			'Thing',
-			'.EmptyString'
+			'.EmptyString',
 		];
 		$result = Utility::expandList($is, '.', '');
 
@@ -522,12 +522,12 @@ class UtilityTest extends TestCase {
 		$is = [
 			'Some' => [
 				'Deep' => ['Value1', 'Value2'],
-				'Even' => ['Deeper' => ['Nested' => ['Value']]]
+				'Even' => ['Deeper' => ['Nested' => ['Value']]],
 			],
 			'Empty' => [''],
 			'0' => ['1' => ['2']],
 			//'ValueOnly',
-			'' => ['EmptyString']
+			'' => ['EmptyString'],
 		];
 		$result = Utility::flattenList($is);
 
@@ -538,7 +538,7 @@ class UtilityTest extends TestCase {
 			'Empty.',
 			'0.1.2',
 			//'1.ValueOnly'
-			'.EmptyString'
+			'.EmptyString',
 		];
 		$this->assertSame($expected, $result);
 
@@ -546,7 +546,7 @@ class UtilityTest extends TestCase {
 		$is = [
 			'Some' => [
 				'Deep' => [true],
-				'Even' => ['Deeper' => ['Nested' => [false, true]]]
+				'Even' => ['Deeper' => ['Nested' => [false, true]]],
 			],
 			'Integer' => ['Value' => [-3]],
 		];
@@ -570,7 +570,7 @@ class UtilityTest extends TestCase {
 			'a' => ['a' => 'A'],
 			'b' => ['b' => 'B', 'c' => 'C'],
 			'c' => [],
-			'd' => [[['z' => 'Z'], 'y' => 'Y']]
+			'd' => [[['z' => 'Z'], 'y' => 'Y']],
 		];
 
 		$result = Utility::arrayFlatten($strings);
@@ -579,7 +579,7 @@ class UtilityTest extends TestCase {
 			'b' => 'B',
 			'c' => 'C',
 			'z' => 'Z',
-			'y' => 'Y'
+			'y' => 'Y',
 		];
 		$this->assertSame($expected, $result);
 	}

@@ -151,7 +151,7 @@ class MimeTest extends TestCase {
 		$diff = [
 			'coreonly' => [],
 			'pluginonly' => [],
-			'modified' => []
+			'modified' => [],
 		];
 		foreach ($core as $key => $value) {
 			if (!isset($plugin[$key])) {

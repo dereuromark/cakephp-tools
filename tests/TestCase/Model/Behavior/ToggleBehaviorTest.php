@@ -11,7 +11,7 @@ class ToggleBehaviorTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.Tools.ToggleAddresses'
+		'plugin.Tools.ToggleAddresses',
 	];
 
 	/**

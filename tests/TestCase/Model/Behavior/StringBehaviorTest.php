@@ -11,7 +11,7 @@ class StringBehaviorTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.Tools.StringComments'
+		'plugin.Tools.StringComments',
 	];
 
 	/**
@@ -73,7 +73,7 @@ class StringBehaviorTest extends TestCase {
 		$data = [
 			'title' => 'some Name',
 			'comment' => 'blabla',
-			'url' => ''
+			'url' => '',
 		];
 		$entity = $this->Comments->newEntity($data);
 		$res = $this->Comments->save($entity);

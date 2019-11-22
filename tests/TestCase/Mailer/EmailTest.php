@@ -30,7 +30,7 @@ class EmailTest extends TestCase {
 		$this->Email = new TestEmail();
 
 		TransportFactory::setConfig('debug', [
-			'className' => 'Debug'
+			'className' => 'Debug',
 		]);
 
 		Configure::delete('Config.xMailer');
@@ -106,7 +106,7 @@ class EmailTest extends TestCase {
 			'hotel.png' => [
 				'file' => $file,
 				'mimetype' => 'image/png',
-			]
+			],
 		];
 		$this->assertEquals($expected, $res);
 
@@ -192,7 +192,7 @@ class EmailTest extends TestCase {
 			'hotel.png' => [
 				//'data' => $content,
 				'mimetype' => 'image/png',
-			]
+			],
 		];
 		$this->assertEquals($expected, $res);
 
@@ -230,7 +230,7 @@ class EmailTest extends TestCase {
 		$expected = [
 			'file' => $file,
 			'mimetype' => 'image/png',
-			'contentId' => $cid
+			'contentId' => $cid,
 		];
 		$this->assertSame($expected, $image);
 	}

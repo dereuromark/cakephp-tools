@@ -83,7 +83,7 @@ class TextHelperTest extends TestCase {
 
 		$texts = [
 			'text http://www.cakephp.org/bla/bla some more text' => '',
-			'This is a test text with URL http://www.cakephp.org\tand some more text' => 'This is a test text with URL http://www.cakephp.org\tand some more text'
+			'This is a test text with URL http://www.cakephp.org\tand some more text' => 'This is a test text with URL http://www.cakephp.org\tand some more text',
 		];
 
 		foreach ($texts as $text => $expected) {

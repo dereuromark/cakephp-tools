@@ -28,22 +28,22 @@ class BootstrapTest extends TestCase {
 			[
 				'auto',
 				'au',
-				true
+				true,
 			],
 			[
 				'auto',
 				'ut',
-				false
+				false,
 			],
 			[
 				'Auto',
 				'au',
-				true
+				true,
 			],
 			[
 				'auto',
 				'Ut',
-				false
+				false,
 			],
 		];
 
@@ -66,22 +66,22 @@ class BootstrapTest extends TestCase {
 			[
 				'auto',
 				'to',
-				true
+				true,
 			],
 			[
 				'auto',
 				'ut',
-				false
+				false,
 			],
 			[
 				'auto',
 				'To',
-				true
+				true,
 			],
 			[
 				'auto',
 				'Ut',
-				false
+				false,
 			],
 		];
 
@@ -104,22 +104,22 @@ class BootstrapTest extends TestCase {
 			[
 				'auto',
 				'to',
-				true
+				true,
 			],
 			[
 				'auto',
 				'ut',
-				true
+				true,
 			],
 			[
 				'auto',
 				'To',
-				true
+				true,
 			],
 			[
 				'auto',
 				'ot',
-				false
+				false,
 			],
 		];
 

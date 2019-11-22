@@ -19,7 +19,7 @@ class ToolsUsersFixture extends TestFixture {
 		'name' => ['type' => 'string', 'null' => true],
 		'password' => ['type' => 'string', 'null' => true],
 		'role_id' => ['type' => 'integer', 'null' => true],
-		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
+		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
 	];
 
 	/**
@@ -31,7 +31,7 @@ class ToolsUsersFixture extends TestFixture {
 		['role_id' => 1, 'password' => '123456', 'name' => 'User 1'],
 		['role_id' => 2, 'password' => '123456', 'name' => 'User 2'],
 		['role_id' => 1, 'password' => '123456', 'name' => 'User 3'],
-		['role_id' => 3, 'password' => '123456', 'name' => 'User 4']
+		['role_id' => 3, 'password' => '123456', 'name' => 'User 4'],
 	];
 
 }

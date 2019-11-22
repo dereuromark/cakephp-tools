@@ -24,7 +24,7 @@ class InflectShell extends Shell {
 	public $validMethods = [
 		'pluralize', 'singularize', 'camelize',
 		'underscore', 'humanize', 'tableize',
-		'classify', 'variable', 'dasherize', 'slug'
+		'classify', 'variable', 'dasherize', 'slug',
 	];
 
 	/**
@@ -35,7 +35,7 @@ class InflectShell extends Shell {
 	public $validCommands = [
 		'pluralize', 'singularize', 'camelize',
 		'underscore', 'humanize', 'tableize',
-		'classify', 'variable', 'dasherize', 'slug', 'all', 'quit'
+		'classify', 'variable', 'dasherize', 'slug', 'all', 'quit',
 	];
 
 	/**
@@ -219,7 +219,7 @@ class InflectShell extends Shell {
 			'pluralize' => 'Pluralized form            ',
 			'tableize' => 'table_names form           ',
 			'underscore' => 'under_scored_form          ',
-			'variable' => 'variableForm               '
+			'variable' => 'variableForm               ',
 		];
 		return $messages[$function];
 	}

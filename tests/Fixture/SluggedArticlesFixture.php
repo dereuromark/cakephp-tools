@@ -18,7 +18,7 @@ class SluggedArticlesFixture extends TestFixture {
 		'long_title' => ['type' => 'string', 'null' => false, 'default' => ''],
 		'long_slug' => ['type' => 'string', 'null' => false, 'default' => ''],
 		'section' => ['type' => 'integer', 'null' => true],
-		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
+		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
 	];
 
 	/**

@@ -31,7 +31,7 @@ class NumberHelperTest extends TestCase {
 
 		Configure::write('Localization', [
 			'decimals' => ',',
-			'thousands' => '.'
+			'thousands' => '.',
 		]);
 		Number::config('de_DE');
 		$this->Number = new NumberHelper(new View(null));

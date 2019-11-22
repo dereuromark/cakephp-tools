@@ -20,7 +20,7 @@ class AfterTreesFixture extends TestFixture {
 		'lft' => ['type' => 'integer'],
 		'rght' => ['type' => 'integer'],
 		'name' => ['type' => 'string', 'length' => 255, 'null' => false],
-		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
+		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
 	];
 
 	/**
@@ -35,7 +35,7 @@ class AfterTreesFixture extends TestFixture {
 		['parent_id' => null, 'lft' => 7, 'rght' => 12, 'name' => 'Four'],
 		['parent_id' => null, 'lft' => 8, 'rght' => 9, 'name' => 'Five'],
 		['parent_id' => null, 'lft' => 10, 'rght' => 11, 'name' => 'Six'],
-		['parent_id' => null, 'lft' => 13, 'rght' => 14, 'name' => 'Seven']
+		['parent_id' => null, 'lft' => 13, 'rght' => 14, 'name' => 'Seven'],
 	];
 
 }

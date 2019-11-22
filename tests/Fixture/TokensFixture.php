@@ -23,7 +23,7 @@ class TokensFixture extends TestFixture {
 		'used' => ['type' => 'integer', 'null' => false, 'default' => '0', 'collate' => null, 'comment' => ''],
 		'created' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
 		'modified' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
-		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
+		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
 	];
 
 	/**
@@ -39,7 +39,7 @@ class TokensFixture extends TestFixture {
 			'content' => 'i:1;',
 			'used' => 0,
 			'created' => '2011-08-02 18:00:41',
-			'modified' => '2011-08-02 18:00:41'
+			'modified' => '2011-08-02 18:00:41',
 		],
 		[
 			'user_id' => '2',
@@ -48,7 +48,7 @@ class TokensFixture extends TestFixture {
 			'content' => 'i:2;',
 			'used' => 0,
 			'created' => '2011-08-02 18:00:41',
-			'modified' => '2011-08-02 18:00:41'
+			'modified' => '2011-08-02 18:00:41',
 		],
 		[
 			'user_id' => '1',
@@ -57,7 +57,7 @@ class TokensFixture extends TestFixture {
 			'content' => 'a:3:{s:10:"controller";s:4:"test";s:6:"action";s:3:"foo";i:0;s:3:"bar";}',
 			'used' => 1,
 			'created' => '2011-08-02 18:00:41',
-			'modified' => '2011-08-02 18:00:41'
+			'modified' => '2011-08-02 18:00:41',
 		],
 		[
 			'user_id' => '2',
@@ -66,7 +66,7 @@ class TokensFixture extends TestFixture {
 			'content' => 's:13:"/test/foo/bar";',
 			'used' => 1,
 			'created' => '2011-08-02 18:00:41',
-			'modified' => '2011-08-02 18:00:41'
+			'modified' => '2011-08-02 18:00:41',
 		],
 		[
 			'user_id' => '1',
@@ -75,7 +75,7 @@ class TokensFixture extends TestFixture {
 			'content' => 'i:1;',
 			'used' => 0,
 			'created' => '2011-08-02 18:01:16',
-			'modified' => '2011-08-02 18:01:16'
+			'modified' => '2011-08-02 18:01:16',
 		],
 		[
 			'user_id' => '2',
@@ -84,7 +84,7 @@ class TokensFixture extends TestFixture {
 			'content' => 'i:2;',
 			'used' => 0,
 			'created' => '2011-08-02 18:01:16',
-			'modified' => '2011-08-02 18:01:16'
+			'modified' => '2011-08-02 18:01:16',
 		],
 		[
 			'user_id' => '1',
@@ -93,7 +93,7 @@ class TokensFixture extends TestFixture {
 			'content' => 'a:3:{s:10:"controller";s:4:"test";s:6:"action";s:3:"foo";i:0;s:3:"bar";}',
 			'used' => 1,
 			'created' => '2011-08-02 18:01:16',
-			'modified' => '2011-08-02 18:01:16'
+			'modified' => '2011-08-02 18:01:16',
 		],
 		[
 			'user_id' => '2',
@@ -102,7 +102,7 @@ class TokensFixture extends TestFixture {
 			'content' => 's:13:"/test/foo/bar";',
 			'used' => 1,
 			'created' => '2011-08-02 18:01:16',
-			'modified' => '2011-08-02 18:01:16'
+			'modified' => '2011-08-02 18:01:16',
 		],
 		[
 			'user_id' => '1',
@@ -111,7 +111,7 @@ class TokensFixture extends TestFixture {
 			'content' => 'i:1;',
 			'used' => 0,
 			'created' => '2011-08-02 18:01:54',
-			'modified' => '2011-08-02 18:01:54'
+			'modified' => '2011-08-02 18:01:54',
 		],
 		[
 			'user_id' => '2',
@@ -120,7 +120,7 @@ class TokensFixture extends TestFixture {
 			'content' => 'i:2;',
 			'used' => 0,
 			'created' => '2011-08-02 18:01:54',
-			'modified' => '2011-08-02 18:01:54'
+			'modified' => '2011-08-02 18:01:54',
 		],
 	];
 

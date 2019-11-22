@@ -46,7 +46,7 @@ class TimelineHelperTest extends TestCase {
 			[
 				'start' => null,
 				'content' => '',
-			]
+			],
 		];
 		$this->Timeline->addItems($data);
 		$items = $this->Timeline->items();

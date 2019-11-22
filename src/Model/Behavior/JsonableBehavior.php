@@ -67,8 +67,8 @@ class JsonableBehavior extends Behavior {
 		'decodeParams' => [ // params for json_decode
 			'assoc' => true, // useful when working with multidimensional arrays
 			'depth' => 512,
-			'options' => 0
-		]
+			'options' => 0,
+		],
 	];
 
 	/**

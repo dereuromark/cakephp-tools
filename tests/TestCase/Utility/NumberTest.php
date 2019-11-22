@@ -142,7 +142,7 @@ class NumberTest extends TestCase {
 			'3.4' => 0,
 			'6' => 10,
 			'-3.12' => 0,
-			'-10' => -10
+			'-10' => -10,
 		];
 		foreach ($values as $was => $expected) {
 			$is = Number::roundTo($was, 10);
@@ -155,7 +155,7 @@ class NumberTest extends TestCase {
 			'3.4' => 3.4,
 			'6.131' => 6.1,
 			'-3.17' => -3.2,
-			'-10.99' => -11.0
+			'-10.99' => -11.0,
 		];
 		foreach ($values2 as $was => $expected) {
 			$is = Number::roundTo($was, 0.1);
@@ -174,7 +174,7 @@ class NumberTest extends TestCase {
 			'3.4' => 10.0,
 			'6' => 10.0,
 			'-3.12' => -0.0,
-			'-10' => -10.0
+			'-10' => -10.0,
 		];
 		foreach ($values as $was => $expected) {
 			$is = Number::roundUpTo($was, 10);
@@ -187,7 +187,7 @@ class NumberTest extends TestCase {
 			'3.4' => 5.0,
 			'6.131' => 10.0,
 			'-3.17' => -0.0,
-			'-10.99' => -10.0
+			'-10.99' => -10.0,
 		];
 		foreach ($values as $was => $expected) {
 			$is = Number::roundUpTo($was, 5);
@@ -206,7 +206,7 @@ class NumberTest extends TestCase {
 			'3.4' => 0.0,
 			'6' => 0.0,
 			'-3.12' => -10.0,
-			'-10' => -10.0
+			'-10' => -10.0,
 		];
 		foreach ($values as $was => $expected) {
 			$is = Number::roundDownTo($was, 10);
@@ -219,7 +219,7 @@ class NumberTest extends TestCase {
 			'3.4' => 3.0,
 			'6.131' => 6.0,
 			'-3.17' => -6.0,
-			'-10.99' => -12.0
+			'-10.99' => -12.0,
 		];
 		foreach ($values as $was => $expected) {
 			$is = Number::roundDownTo($was, 3);
@@ -237,7 +237,7 @@ class NumberTest extends TestCase {
 			'10' => -1,
 			'0.1' => 1,
 			'1' => 0,
-			'0.001' => 3
+			'0.001' => 3,
 		];
 		foreach ($values as $was => $expected) {
 			$is = Number::getDecimalPlaces($was, 10);

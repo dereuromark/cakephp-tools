@@ -241,7 +241,7 @@ class TypographyHelper extends Helper {
 
 			// Similarly, there might be cases where a closing </block> will follow
 			// a closing </p> tag, so we'll correct it by adding a newline in between
-			'#</p></#'			=> "</p>\n</"
+			'#</p></#'			=> "</p>\n</",
 			];
 
 		// Do we need to reduce empty lines?
@@ -340,7 +340,7 @@ class TypographyHelper extends Helper {
 			'/(\W)  /'						=> '$1&nbsp; ',
 
 			// ampersands, if not a character entity
-			'/&(?!#?[a-zA-Z0-9]{2,};)/'		=> '&amp;'
+			'/&(?!#?[a-zA-Z0-9]{2,};)/'		=> '&amp;',
 		];
 		if ($locale && !empty($locales[$locale])) {
 			foreach ($table as $key => $val) {

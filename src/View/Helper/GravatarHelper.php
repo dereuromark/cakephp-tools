@@ -25,7 +25,7 @@ class GravatarHelper extends Helper {
 	 */
 	protected $_url = [
 		'http' => 'http://www.gravatar.com/avatar/',
-		'https' => 'https://secure.gravatar.com/avatar/'
+		'https' => 'https://secure.gravatar.com/avatar/',
 	];
 
 	/**

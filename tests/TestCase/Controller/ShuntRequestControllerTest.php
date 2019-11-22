@@ -41,7 +41,7 @@ class ShuntRequestControllerTest extends TestCase {
 		Configure::write('Config.allowedLanguages', [
 			'de' => [
 				'locale' => 'de_DE',
-				'name' => 'Deutsch'
+				'name' => 'Deutsch',
 			],
 		]);
 

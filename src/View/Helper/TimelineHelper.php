@@ -238,7 +238,7 @@ JS;
 	 */
 	protected function _buffer($script, array $options = []) {
 		$defaults = [
-			'block' => true
+			'block' => true,
 		];
 		$options += $defaults;
 

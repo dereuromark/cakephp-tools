@@ -69,7 +69,7 @@ class QrCodeHelperTest extends TestCase {
 			'name' => 'My name',
 			'nickname' => 'Nick',
 			'note' => 'Note',
-			'birthday' => '2015-01-03'
+			'birthday' => '2015-01-03',
 		];
 		$is = $this->QrCode->formatCard($data);
 
@@ -131,7 +131,7 @@ class QrCodeHelperTest extends TestCase {
 			'address' => 'Bluetenweg 11, 85375, Neufahrn, Deutschland',
 			'email' => 'test@test.de',
 			'note' => 'someNote;someOtherNote :)',
-			'url' => 'http://www.some_url.de'
+			'url' => 'http://www.some_url.de',
 		]);
 		$is = $this->QrCode->image($string);
 		$this->assertTrue(!empty($is));

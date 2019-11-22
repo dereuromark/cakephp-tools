@@ -60,7 +60,7 @@ class ObfuscateHelper extends Helper {
 		$defaults = [
 			'title' => __d('tools', 'for use in an external mail client'),
 			'class' => 'email',
-			'escape' => false
+			'escape' => false,
 		];
 
 		if (empty($text)) {

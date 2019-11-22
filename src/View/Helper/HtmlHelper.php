@@ -43,7 +43,7 @@ class HtmlHelper extends CoreHtmlHelper {
 
 		return $this->formatTemplate('image', [
 			'url' => $text,
-			'attrs' => $this->templater()->formatAttributes($options, ['block', 'link'])
+			'attrs' => $this->templater()->formatAttributes($options, ['block', 'link']),
 		]);
 	}
 

@@ -18,7 +18,7 @@ class MobileComponentTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'core.Sessions'
+		'core.Sessions',
 	];
 
 	/**

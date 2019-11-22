@@ -326,7 +326,7 @@ class Text extends CakeText {
 	 */
 	public static function maxWords($value, $words = 100, array $options = []) {
 		$defaults = [
-			'ellipsis' => '...'
+			'ellipsis' => '...',
 		];
 		if (!empty($options['html']) && Configure::read('App.encoding') === 'UTF-8') {
 			$defaults['ellipsis'] = "\xe2\x80\xa6";

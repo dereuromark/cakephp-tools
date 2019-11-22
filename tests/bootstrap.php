@@ -40,7 +40,7 @@ Cake\Core\Configure::write('Config', [
 		'adminName' => 'Mark']);
 Cake\Mailer\Email::setConfig('default', ['transport' => 'Debug']);
 Cake\Mailer\TransportFactory::setConfig('Debug', [
-		'className' => 'Debug'
+		'className' => 'Debug',
 ]);
 
 mb_internal_encoding('UTF-8');
@@ -53,22 +53,22 @@ $Tmp->create(TMP . 'cache/views', 0770);
 $cache = [
 	'default' => [
 		'engine' => 'File',
-		'path' => CACHE
+		'path' => CACHE,
 	],
 	'_cake_core_' => [
 		'className' => 'File',
 		'prefix' => 'crud_myapp_cake_core_',
 		'path' => CACHE . 'persistent/',
 		'serialize' => true,
-		'duration' => '+10 seconds'
+		'duration' => '+10 seconds',
 	],
 	'_cake_model_' => [
 		'className' => 'File',
 		'prefix' => 'crud_my_app_cake_model_',
 		'path' => CACHE . 'models/',
 		'serialize' => 'File',
-		'duration' => '+10 seconds'
-	]
+		'duration' => '+10 seconds',
+	],
 ];
 
 Cake\Cache\Cache::setConfig($cache);

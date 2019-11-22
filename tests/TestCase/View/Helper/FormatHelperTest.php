@@ -17,7 +17,7 @@ class FormatHelperTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'core.Sessions'
+		'core.Sessions',
 	];
 
 	/**
@@ -44,7 +44,7 @@ class FormatHelperTest extends TestCase {
 		$data = [
 			[],
 			['class' => 'disabledLink', 'title' => false],
-			['class' => 'helloClass', 'title' => 'helloTitle']
+			['class' => 'helloClass', 'title' => 'helloTitle'],
 		];
 		foreach ($data as $key => $value) {
 			$res = $this->Format->disabledLink($content, $value);
@@ -60,7 +60,7 @@ class FormatHelperTest extends TestCase {
 		$content = 'xyz';
 		$data = [
 			true,
-			false
+			false,
 		];
 		foreach ($data as $key => $value) {
 			$res = $this->Format->warning($content . ' ' . (int)$value, $value);
@@ -164,7 +164,7 @@ class FormatHelperTest extends TestCase {
 		$content = 'xyz';
 		$data = [
 			true => '<span class="ok-yes" style="color:green">xyz 1</span>',
-			false => '<span class="ok-no" style="color:red">xyz 0</span>'
+			false => '<span class="ok-no" style="color:red">xyz 0</span>',
 		];
 		foreach ($data as $value => $expected) {
 			$result = $this->Format->ok($content . ' ' . (int)$value, $value);
@@ -234,7 +234,7 @@ class FormatHelperTest extends TestCase {
 			'page' => 1,
 			'pageCount' => 3,
 			'count' => 25,
-			'limit' => 10
+			'limit' => 10,
 		];
 		$result = $this->Format->absolutePaginateCount($paginator, 2);
 		$this->assertEquals(2, $result);
@@ -416,11 +416,11 @@ TEXT;
 		];
 
 		$options = [
-			'heading' => false
+			'heading' => false,
 		];
 		$attributes = [
 			'class' => 'foo',
-			'data-x' => 'y'
+			'data-x' => 'y',
 		];
 
 		$is = $this->Format->array2table($array, $options, $attributes);

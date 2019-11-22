@@ -695,7 +695,7 @@ class Mime extends Response {
 		'ppt' => 'application/vnd.ms-powerpoint',
 		'odt' => 'application/vnd.oasis.opendocument.text',
 		'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
-		'swf' => ['application/x-shockwave-flash', 'application/x-shockwave-flash2-preview', 'application/futuresplash', 'image/vnd.rn-realflash']
+		'swf' => ['application/x-shockwave-flash', 'application/x-shockwave-flash2-preview', 'application/futuresplash', 'image/vnd.rn-realflash'],
 	];
 
 	/**

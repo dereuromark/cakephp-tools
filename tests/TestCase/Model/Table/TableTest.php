@@ -17,7 +17,7 @@ class TableTest extends TestCase {
 		'core.Posts',
 		'core.Authors',
 		'plugin.Tools.ToolsUsers',
-		'plugin.Tools.Roles'
+		'plugin.Tools.Roles',
 	];
 
 	/**
@@ -167,7 +167,7 @@ class TableTest extends TestCase {
 			'Asterix',
 			'Gandalf',
 			'Harry Potter',
-			'Obelix'
+			'Obelix',
 		];
 		$this->assertSame($expected, array_values($result));
 	}
@@ -479,13 +479,13 @@ class TableTest extends TestCase {
 			'validateUnique' => [
 				'rule' => 'validateUniqueExt',
 				'message' => 'valErrRecordTitleExists',
-				'provider' => 'table'
+				'provider' => 'table',
 			],
 		]);
 		$data = [
 			'title' => 'abc',
 			'author_id' => 1,
-			'published' => 'N'
+			'published' => 'N',
 		];
 		$post = $this->Posts->newEntity($data);
 		$this->assertEmpty($post->getErrors());
@@ -500,13 +500,13 @@ class TableTest extends TestCase {
 			'validateUnique' => [
 				'rule' => ['validateUniqueExt', ['scope' => ['published']]],
 				'message' => 'valErrRecordTitleExists',
-				'provider' => 'table'
+				'provider' => 'table',
 			],
 		]);
 		$data = [
 			'title' => 'abc',
 			'author_id' => 1,
-			'published' => 'Y'
+			'published' => 'Y',
 		];
 		$post = $this->Posts->newEntity($data);
 		$this->assertEmpty($post->getErrors());

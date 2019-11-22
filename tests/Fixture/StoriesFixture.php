@@ -22,7 +22,7 @@ class StoriesFixture extends TestFixture {
 		'modified' => ['type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => ''],
 		'sort' => ['type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10, 'collate' => null, 'comment' => ''],
 		'active' => ['type' => 'boolean', 'null' => false, 'default' => false, 'collate' => null, 'comment' => ''],
-		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
+		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
 	];
 
 	/**
@@ -38,7 +38,7 @@ class StoriesFixture extends TestFixture {
 			'created' => '2010-01-07 03:36:32',
 			'modified' => '2010-01-07 03:36:33',
 			'sort' => '2',
-			'active' => 1
+			'active' => 1,
 		],
 		[
 			'id' => '2',
@@ -47,7 +47,7 @@ class StoriesFixture extends TestFixture {
 			'created' => '2010-01-07 03:36:33',
 			'modified' => '2010-01-07 03:36:33',
 			'sort' => '3',
-			'active' => 1
+			'active' => 1,
 		],
 		[
 			'id' => '3',
@@ -56,7 +56,7 @@ class StoriesFixture extends TestFixture {
 			'created' => '2010-01-07 03:36:31',
 			'modified' => '2010-01-07 03:36:33',
 			'sort' => '4',
-			'active' => 1
+			'active' => 1,
 		],
 		[
 			'id' => '4',
@@ -65,7 +65,7 @@ class StoriesFixture extends TestFixture {
 			'created' => '2010-01-07 03:36:34',
 			'modified' => '2010-01-07 03:36:33',
 			'sort' => '1',
-			'active' => 1
+			'active' => 1,
 		],
 	];
 
