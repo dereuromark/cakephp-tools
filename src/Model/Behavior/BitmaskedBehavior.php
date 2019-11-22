@@ -140,8 +140,10 @@ class BitmaskedBehavior extends Behavior {
 
 			/** @var \Cake\Datasource\EntityInterface $entity */
 			$entity = $row;
-			$entity->set($mappedField, $this->decodeBitmask($entity->get($field)));
-			$entity->setDirty($mappedField, false);
+			if ($entity->has($field)) {
+				$entity->set($mappedField, $this->decodeBitmask($entity->get($field)));
+				$entity->setDirty($mappedField, false);
+			}
 			$mr->emit($entity);
 		};
 		$query->mapReduce($mapper);
