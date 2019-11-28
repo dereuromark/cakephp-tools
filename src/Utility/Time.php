@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Utility;
 
 use Cake\Chronos\MutableDate;

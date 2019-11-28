@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Mailer;
 
 use Tools\Mailer\Email;

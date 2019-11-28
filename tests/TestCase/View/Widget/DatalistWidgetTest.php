@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Test\TestCase\View\Widget;
 
 use ArrayObject;

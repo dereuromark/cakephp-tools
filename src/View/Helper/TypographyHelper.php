@@ -10,6 +10,7 @@
  * @link        http://codeigniter.com
  * @since        Version 1.0
  */
+
 namespace Tools\View\Helper;
 
 use Cake\Core\Configure;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Test\TestCase\Auth;
 
 use Cake\Http\ServerRequest;
