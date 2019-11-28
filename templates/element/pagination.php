@@ -59,7 +59,7 @@ $escape = isset($escape) ? $escape : true;
 	</div>
 	<div class="col-lg-6">
 	<p class="paging-description">
-		<?php echo $this->Paginator->counter(['format' => $format]); ?>
+		<?php echo $this->Paginator->counter($format); ?>
 	</p>
 	</div>
 </div>
