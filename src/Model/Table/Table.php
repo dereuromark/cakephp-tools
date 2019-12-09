@@ -299,7 +299,7 @@ class Table extends ShimTable {
 		$datePart = $dateTime[0];
 		$timePart = (!empty($dateTime[1]) ? $dateTime[1] : '');
 
-		if (!empty($options['allowEmpty']) && (empty($date) && empty($time))) {
+		if (!empty($options['allowEmpty']) && (empty($datePart) && empty($timePart))) {
 			return true;
 		}
 
@@ -384,12 +384,11 @@ class Table extends ShimTable {
 		if (!is_object($value)) {
 			$dateTime = new Time($value);
 		}
-		$date = $dateTime->format(FORMAT_DB_DATE);
-
-		if (!empty($options['allowEmpty']) && empty($date)) {
+		if (!empty($options['allowEmpty']) && empty($dateTime)) {
 			return true;
 		}
-		if (Validation::date($date, $format)) {
+
+		if (Validation::date($value, $format)) {
 			// after/before?
 			$days = !empty($options['min']) ? $options['min'] : 0;
 			if (!empty($options['after']) && isset($context['data'][$options['after']])) {

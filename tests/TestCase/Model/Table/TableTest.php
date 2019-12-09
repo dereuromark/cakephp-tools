@@ -180,7 +180,6 @@ class TableTest extends TestCase {
 	public function testGetRelatedInUse() {
 		$this->skipIf(true, 'TODO');
 		$results = $this->Posts->getRelatedInUse('Authors', 'author_id', 'list');
-		//die(debug($results->toArray()));
 		$expected = [1 => 'mariano', 3 => 'larry'];
 		$this->assertEquals($expected, $results->toArray());
 	}
@@ -208,81 +207,67 @@ class TableTest extends TestCase {
 	public function testValidateDate() {
 		$date = new Time('2010-01-22');
 		$res = $this->Users->validateDate($date);
-		//debug($res);
 		$this->assertTrue($res);
 
 		// Careful: now becomes 2010-03-01 in Cake3
 		// FIXME
 		$date = new Time('2010-02-29');
-		//debug($date->format(FORMAT_DB_DATETIME));
 		$res = $this->Users->validateDate($date);
-		//$this->assertFalse($res);
 		$this->assertTrue($res);
 
 		$date = new Time('2010-02-23 11:11:11');
 		$context = ['data' => ['after' => new Time('2010-02-22')]];
 		$res = $this->Users->validateDate($date, ['after' => 'after'], $context);
-		//debug($res);
 		$this->assertTrue($res);
 
 		$date = new Time('2010-02-23');
 		$context = ['data' => ['after' => new Time('2010-02-24 11:11:11')]];
 		$res = $this->Users->validateDate($date, ['after' => 'after'], $context);
-		//debug($res);
 		$this->assertFalse($res);
 
 		$date = new Time('2010-02-25');
 		$context = ['data' => ['after' => new Time('2010-02-25')]];
 		$res = $this->Users->validateDate($date, ['after' => 'after'], $context);
-		//debug($res);
 		$this->assertTrue($res);
 
 		$date = new Time('2010-02-25');
 		$context = ['data' => ['after' => new Time('2010-02-25')]];
 		$res = $this->Users->validateDate($date, ['after' => 'after', 'min' => 1], $context);
-		//debug($res);
 		$this->assertFalse($res);
 
 		$date = new Time('2010-02-25');
 		$context = ['data' => ['after' => new Time('2010-02-24')]];
 		$res = $this->Users->validateDate($date, ['after' => 'after', 'min' => 2], $context);
-		//debug($res);
 		$this->assertFalse($res);
 
 		$date = new Time('2010-02-25');
 		$context = ['data' => ['after' => new Time('2010-02-24')]];
 		$res = $this->Users->validateDate($date, ['after' => 'after', 'min' => 1], $context);
-		//debug($res);
 		$this->assertTrue($res);
 
 		$date = new Time('2010-02-25');
 		$context = ['data' => ['after' => new Time('2010-02-24')]];
 		$res = $this->Users->validateDate($date, ['after' => 'after', 'min' => 2], $context);
-		//debug($res);
 		$this->assertFalse($res);
 
 		$date = new Time('2010-02-24');
 		$context = ['data' => ['before' => new Time('2010-02-24')]];
 		$res = $this->Users->validateDate($date, ['before' => 'before', 'min' => 1], $context);
-		//debug($res);
 		$this->assertFalse($res);
 
 		$date = new Time('2010-02-24');
 		$context = ['data' => ['before' => new Time('2010-02-25')]];
 		$res = $this->Users->validateDate($date, ['before' => 'before', 'min' => 1], $context);
-		//debug($res);
 		$this->assertTrue($res);
 
 		$date = new Time('2010-02-24');
 		$context = ['data' => ['before' => new Time('2010-02-25')]];
 		$res = $this->Users->validateDate($date, ['before' => 'before', 'min' => 2], $context);
-		//debug($res);
 		$this->assertFalse($res);
 
 		$date = new Time('2010-02-24');
 		$context = ['data' => ['before' => new Time('2010-02-26')]];
 		$res = $this->Users->validateDate($date, ['before' => 'before', 'min' => 2], $context);
-		//debug($res);
 		$this->assertTrue($res);
 	}
 
@@ -294,32 +279,29 @@ class TableTest extends TestCase {
 	public function testValidateDatetime() {
 		$date = new Time('2010-01-22 11:11:11');
 		$res = $this->Users->validateDatetime($date);
-		//debug($res);
 		$this->assertTrue($res);
 
 		/*
 		$date = new Time('2010-01-22 11:61:11');
 		$res = $this->Users->validateDatetime($date);
-		//debug($res);
+
 		$this->assertFalse($res);
 		*/
 
 		//FIXME
 		$date = new Time('2010-02-29 11:11:11');
 		$res = $this->Users->validateDatetime($date);
-		//debug($res);
 		//$this->assertFalse($res);
 		$this->assertTrue($res);
 
 		$date = null;
 		$res = $this->Users->validateDatetime($date, ['allowEmpty' => true]);
-		//debug($res);
 		$this->assertTrue($res);
 
 		/*
 		$date = new Time => '0000-00-00 00:00:00');
 		$res = $this->Users->validateDatetime($date, array('allowEmpty' => true));
-		//debug($res);
+
 		$this->assertTrue($res);
 		*/
 
@@ -380,31 +362,29 @@ class TableTest extends TestCase {
 	}
 
 	/**
-	 * TableTest::testValidateTime()
-	 *
 	 * @return void
 	 */
 	public function testValidateTime() {
 		$date = '11:21:11';
 		$res = $this->Users->validateTime($date);
-		//debug($res);
+
 		$this->assertTrue($res);
 
 		$date = '11:71:11';
 		$res = $this->Users->validateTime($date);
-		//debug($res);
+
 		$this->assertFalse($res);
 
 		$date = '2010-02-23 11:11:11';
 		$context = ['data' => ['before' => new Time('2010-02-23 11:11:12')]];
 		$res = $this->Users->validateTime($date, ['before' => 'before'], $context);
-		//debug($res);
+
 		$this->assertTrue($res);
 
 		$date = '2010-02-23 11:11:11';
 		$context = ['data' => ['after' => new Time('2010-02-23 11:11:12')]];
 		$res = $this->Users->validateTime($date, ['after' => 'after'], $context);
-		//debug($res);
+
 		$this->assertFalse($res);
 	}
 
