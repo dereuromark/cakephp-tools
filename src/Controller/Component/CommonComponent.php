@@ -134,14 +134,23 @@ class CommonComponent extends Component {
 
 	/**
 	 * Add helper just in time (inside actions - only when needed)
-	 * aware of plugins
 	 *
-	 * @deprecated In 3.x, but kept for easier migration for now. Will be removed in the future.
-	 * @param mixed $helpers (single string or multiple array)
+	 * @deprecated In 3.x. Use addHelpers() instead.
+	 * @param string|array $helpers (single string or multiple array)
 	 * @return void
 	 */
-	public function loadHelper($helpers = []) {
-		$this->Controller->viewBuilder()->setHelpers((array)$helpers, true);
+	public function loadHelper($helpers) {
+		$this->addHelpers((array)$helpers);
+	}
+
+	/**
+	 * Adds helpers just in time (inside actions - only when needed).
+	 *
+	 * @param array $helpers
+	 * @return void
+	 */
+	public function addHelpers(array $helpers) {
+		$this->Controller->viewBuilder()->setHelpers($helpers, true);
 	}
 
 	/**
