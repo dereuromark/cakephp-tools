@@ -113,7 +113,7 @@ class UrlComponentTest extends TestCase {
 
 		$request = $this->Controller->getRequest();
 		$request = $request->withAttribute('here', '/admin/foo/bar/baz/test')
-			->withParam('prefix', 'admin')
+			->withParam('prefix', 'Admin')
 			->withParam('plugin', 'Foo');
 		$this->Controller->setRequest($request);
 		Router::reload();
@@ -121,12 +121,12 @@ class UrlComponentTest extends TestCase {
 		Router::plugin('Foo', function (RouteBuilder $routes) {
 			$routes->fallbacks();
 		});
-		Router::prefix('admin', function (RouteBuilder $routes) {
+		Router::prefix('Admin', function (RouteBuilder $routes) {
 			$routes->plugin('Foo', function (RouteBuilder $routes) {
 				$routes->fallbacks();
 			});
 		});
-		Router::pushRequest($this->Controller->getRequest());
+		Router::setRequest($this->Controller->getRequest());
 
 		$result = $this->Controller->Url->build(['controller' => 'bar', 'action' => 'baz', 'x']);
 		$expected = '/admin/foo/bar/baz/x';
