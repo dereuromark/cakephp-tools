@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use Tools\Controller\Controller;
@@ -15,6 +16,9 @@ class CommonComponentTestController extends Controller {
 	 */
 	public $autoRedirectActions = ['allowed'];
 
+	/**
+	 * @return void
+	 */
 	public function initialize(): void {
 		parent::initialize();
 

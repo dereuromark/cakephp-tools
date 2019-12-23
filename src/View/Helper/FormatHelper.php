@@ -49,7 +49,7 @@ class FormatHelper extends Helper {
 		'contra' => 'fa fa-thumbs-down',
 		'male' => 'fa fa-mars',
 		'female' => 'fa fa-venus',
-		'config' => 'fa fa-cogs'
+		'config' => 'fa fa-cogs',
 		//'genderless' => 'fa fa-genderless'
 	];
 
@@ -63,7 +63,7 @@ class FormatHelper extends Helper {
 		'autoPrefix' => true, // For custom icons "prev" becomes "fa-prev" when iconNamespace is "fa"
 		'templates' => [
 			'icon' => '<i class="{{class}}"{{attributes}}></i>',
-			'ok' => '<span class="ok-{{type}}" style="color:{{color}}"{{attributes}}>{{content}}</span>'
+			'ok' => '<span class="ok-{{type}}" style="color:{{color}}"{{attributes}}>{{content}}</span>',
 		],
 		'slugger' => null,
 	];
@@ -207,7 +207,7 @@ class FormatHelper extends Helper {
 	 */
 	public function fontIcon($icon, array $options = [], array $attributes = []) {
 		$defaults = [
-			'namespace' => $this->_config['iconNamespace']
+			'namespace' => $this->_config['iconNamespace'],
 		];
 		$options += $defaults;
 		$icon = (array)$icon;
@@ -378,7 +378,7 @@ class FormatHelper extends Helper {
 
 		$attributes += [
 			'data-placement' => 'bottom',
-			'data-toggle' => 'tooltip'
+			'data-toggle' => 'tooltip',
 		];
 		$formatOptions = $attributes + [
 			'escape' => $options['escape'],
@@ -565,7 +565,7 @@ class FormatHelper extends Helper {
 
 		$options = [
 			'type' => $type,
-			'color' => $color
+			'color' => $color,
 		];
 		$options['content'] = $content;
 		$options['attributes'] = $this->template->formatAttributes($attributes);
@@ -643,7 +643,7 @@ class FormatHelper extends Helper {
 			'null' => '&nbsp;',
 			'recursive' => false,
 			'heading' => true,
-			'escape' => true
+			'escape' => true,
 		];
 		$options += $defaults;
 
@@ -657,7 +657,7 @@ class FormatHelper extends Helper {
 		}
 
 		$attributes += [
-			'class' => 'table'
+			'class' => 'table',
 		];
 
 		$attributes = $this->template->formatAttributes($attributes);

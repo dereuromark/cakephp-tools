@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Test\TestCase\Model\Behavior;
 
 use Cake\ORM\TableRegistry;
@@ -16,7 +17,7 @@ class TypographicBehaviorTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'core.Articles'
+		'core.Articles',
 	];
 
 	/**
@@ -29,6 +30,9 @@ class TypographicBehaviorTest extends TestCase {
 		$this->Model->addBehavior('Tools.Typographic', ['fields' => ['body'], 'before' => 'marshal']);
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testObject() {
 		$this->assertInstanceOf(TypographicBehavior::class, $this->Model->behaviors()->Typographic);
 	}
@@ -56,7 +60,7 @@ class TypographicBehaviorTest extends TestCase {
 		foreach ($strings as $was => $expected) {
 			$data = [
 				'title' => 'some «cool» title',
-				'body' => $was
+				'body' => $was,
 			];
 			$entity = $this->Model->newEntity($data);
 			$this->assertEmpty($entity->getErrors());
@@ -82,7 +86,7 @@ class TypographicBehaviorTest extends TestCase {
 		foreach ($strings as $was => $expected) {
 			$data = [
 				'title' => 'some «cool» title',
-				'body' => $was
+				'body' => $was,
 			];
 			$entity = $this->Model->newEntity($data);
 			$this->assertEmpty($entity->getErrors());

@@ -12,7 +12,7 @@ class EntityTest extends TestCase {
 	 */
 	public $fixtures = [
 		'plugin.Tools.ToolsUsers',
-		'plugin.Tools.Roles'
+		'plugin.Tools.Roles',
 	];
 
 	/**

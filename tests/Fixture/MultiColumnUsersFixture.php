@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
@@ -18,7 +19,7 @@ class MultiColumnUsersFixture extends TestFixture {
 		'token' => ['type' => 'string', 'null' => false],
 		'created' => 'datetime',
 		'updated' => 'datetime',
-		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
+		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
 	];
 
 	/**
@@ -32,7 +33,7 @@ class MultiColumnUsersFixture extends TestFixture {
 			'email' => 'mariano@example.com',
 			'password' => '5f4dcc3b5aa765d61d8327deb882cf99',
 			'token' => '12345', 'created' => '2007-03-17 01:16:23',
-			'updated' => '2007-03-17 01:18:31'
+			'updated' => '2007-03-17 01:18:31',
 		],
 		[
 			'user_name' => 'nate',
@@ -40,7 +41,7 @@ class MultiColumnUsersFixture extends TestFixture {
 			'password' => '5f4dcc3b5aa765d61d8327deb882cf99',
 			'token' => '23456',
 			'created' => '2007-03-17 01:18:23',
-			'updated' => '2007-03-17 01:20:31'
+			'updated' => '2007-03-17 01:20:31',
 		],
 		[
 			'user_name' => 'larry',
@@ -48,7 +49,7 @@ class MultiColumnUsersFixture extends TestFixture {
 			'password' => '5f4dcc3b5aa765d61d8327deb882cf99',
 			'token' => '34567',
 			'created' => '2007-03-17 01:20:23',
-			'updated' => '2007-03-17 01:22:31'
+			'updated' => '2007-03-17 01:22:31',
 		],
 		[
 			'user_name' => 'garrett',
@@ -56,7 +57,7 @@ class MultiColumnUsersFixture extends TestFixture {
 			'password' => '5f4dcc3b5aa765d61d8327deb882cf99',
 			'token' => '45678',
 			'created' => '2007-03-17 01:22:23',
-			'updated' => '2007-03-17 01:24:31'
+			'updated' => '2007-03-17 01:24:31',
 		],
 		[
 			'user_name' => 'chartjes',
@@ -64,8 +65,8 @@ class MultiColumnUsersFixture extends TestFixture {
 			'password' => '5f4dcc3b5aa765d61d8327deb882cf99',
 			'token' => '56789',
 			'created' => '2007-03-17 01:22:23',
-			'updated' => '2007-03-17 01:24:31'
-		]
+			'updated' => '2007-03-17 01:24:31',
+		],
 	];
 
 }

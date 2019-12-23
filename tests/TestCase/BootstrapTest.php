@@ -26,22 +26,22 @@ class BootstrapTest extends TestCase {
 			[
 				'auto',
 				'au',
-				true
+				true,
 			],
 			[
 				'auto',
 				'ut',
-				false
+				false,
 			],
 			[
 				'Auto',
 				'au',
-				true
+				true,
 			],
 			[
 				'auto',
 				'Ut',
-				false
+				false,
 			],
 		];
 
@@ -62,28 +62,27 @@ class BootstrapTest extends TestCase {
 			[
 				'auto',
 				'to',
-				true
+				true,
 			],
 			[
 				'auto',
 				'ut',
-				false
+				false,
 			],
 			[
 				'auto',
 				'To',
-				true
+				true,
 			],
 			[
 				'auto',
 				'Ut',
-				false
+				false,
 			],
 		];
 
 		foreach ($strings as $string) {
 			$is = endsWith($string[0], $string[1]);
-			//pr(returns($is). ' - expected '.returns($string[2]));
 			$this->assertEquals($string[2], $is);
 		}
 
@@ -99,28 +98,27 @@ class BootstrapTest extends TestCase {
 			[
 				'auto',
 				'to',
-				true
+				true,
 			],
 			[
 				'auto',
 				'ut',
-				true
+				true,
 			],
 			[
 				'auto',
 				'To',
-				true
+				true,
 			],
 			[
 				'auto',
 				'ot',
-				false
+				false,
 			],
 		];
 
 		foreach ($strings as $string) {
 			$is = contains($string[0], $string[1]);
-			//pr(returns($is). ' - expected '.returns($string[2]));
 			$this->assertEquals($string[2], $is);
 		}
 

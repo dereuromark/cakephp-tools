@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use Tools\Controller\Controller;
@@ -8,6 +9,9 @@ use Tools\Controller\Controller;
  */
 class MobileComponentTestController extends Controller {
 
+	/**
+	 * @return void
+	 */
 	public function initialize(): void {
 		parent::initialize();
 

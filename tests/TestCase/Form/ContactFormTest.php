@@ -13,7 +13,7 @@ class ContactFormTest extends TestCase {
 		'core.Posts',
 		'core.Authors',
 		'plugin.Tools.ToolsUsers',
-		'plugin.Tools.Roles'
+		'plugin.Tools.Roles',
 	];
 
 	/**
@@ -42,7 +42,7 @@ class ContactFormTest extends TestCase {
 			'name' => 'Foo',
 			'email' => 'foo',
 			'subject' => '',
-			'body' => 'Some message'
+			'body' => 'Some message',
 		];
 		$result = $this->Form->validate($requestData);
 		$this->assertFalse($result);
@@ -54,7 +54,7 @@ class ContactFormTest extends TestCase {
 			'name' => 'Foo',
 			'email' => 'foo@example.org',
 			'subject' => 'Yeah',
-			'body' => 'Some message'
+			'body' => 'Some message',
 		];
 		$result = $this->Form->validate($requestData);
 		$this->assertTrue($result);
@@ -70,7 +70,7 @@ class ContactFormTest extends TestCase {
 			'name' => 'Foo',
 			'email' => 'foo@example.org',
 			'subject' => 'Yeah',
-			'body' => 'Some message'
+			'body' => 'Some message',
 		];
 		$result = $this->Form->execute($requestData);
 		$this->assertTrue($result);

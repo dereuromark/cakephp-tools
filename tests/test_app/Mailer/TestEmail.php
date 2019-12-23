@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Mailer;
 
 use Cake\Mailer\Message;

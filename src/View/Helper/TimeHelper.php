@@ -28,7 +28,7 @@ class TimeHelper extends CakeTimeHelper {
 	 * @var array
 	 */
 	protected $_defaultConfig = [
-		'engine' => 'Tools\Utility\Time'
+		'engine' => 'Tools\Utility\Time',
 	];
 
 	/**
@@ -50,7 +50,7 @@ class TimeHelper extends CakeTimeHelper {
 	 */
 	public function __construct(View $View, array $config = []) {
 		$defaults = [
-			'outputTimezone' => Configure::read('App.defaultOutputTimezone')
+			'outputTimezone' => Configure::read('App.defaultOutputTimezone'),
 		];
 		$config += $defaults;
 

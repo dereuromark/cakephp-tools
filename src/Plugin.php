@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools;
 
 use Cake\Core\BasePlugin;

@@ -19,17 +19,17 @@ class Email extends CakeEmail {
 	/**
 	 * @var int|null
 	 */
-	protected $_wrapLength = null;
+	protected $_wrapLength;
 
 	/**
 	 * @var string|null
 	 */
-	protected $_error = null;
+	protected $_error;
 
 	/**
 	 * @var array|null
 	 */
-	protected $_debug = null;
+	protected $_debug;
 
 	/**
 	 * @var array

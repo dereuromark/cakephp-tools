@@ -8,6 +8,7 @@ use Cake\Core\Plugin;
 use Cake\Log\Log;
 use Cake\Mailer\Message;
 use Cake\Mailer\TransportFactory;
+use InvalidArgumentException;
 use Tools\Mailer\Email;
 use Tools\TestSuite\TestCase;
 
@@ -31,7 +32,7 @@ class EmailTest extends TestCase {
 		$this->Email = new TestEmail();
 
 		TransportFactory::setConfig('debug', [
-			'className' => 'Debug'
+			'className' => 'Debug',
 		]);
 
 		Configure::delete('Config.xMailer');
@@ -90,7 +91,7 @@ class EmailTest extends TestCase {
 	 * @return void
 	 */
 	public function testFromExecption() {
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 
 		$this->Email->setFrom(['cake@cakephp.org' => 'CakePHP', 'fail@cakephp.org' => 'From can only be one address']);
 	}
@@ -108,7 +109,7 @@ class EmailTest extends TestCase {
 			'hotel.png' => [
 				'file' => $file,
 				'mimetype' => 'image/png',
-			]
+			],
 		];
 		$this->assertEquals($expected, $res);
 
@@ -194,7 +195,7 @@ class EmailTest extends TestCase {
 			'hotel.png' => [
 				//'data' => $content,
 				'mimetype' => 'image/png',
-			]
+			],
 		];
 		$this->assertEquals($expected, $res);
 
@@ -232,7 +233,7 @@ class EmailTest extends TestCase {
 		$expected = [
 			'file' => $file,
 			'mimetype' => 'image/png',
-			'contentId' => $cid
+			'contentId' => $cid,
 		];
 		$this->assertSame($expected, $image);
 	}

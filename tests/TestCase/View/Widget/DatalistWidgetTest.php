@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Test\TestCase\View\Widget;
 
 use ArrayObject;
@@ -45,13 +46,13 @@ class DatalistWidgetTest extends TestCase {
 		$data = [
 			'id' => 'BirdName',
 			'name' => 'Birds[name]',
-			'options' => []
+			'options' => [],
 		];
 		$result = $select->render($data, $this->context);
 		$expected = [
 			'input' => ['type' => 'text', 'list' => 'datalist-BirdName', 'id' => 'BirdName', 'name' => 'Birds[name]', 'autocomplete' => 'off'],
 			'datalist' => ['id' => 'datalist-BirdName'],
-			'/datalist'
+			'/datalist',
 		];
 		$this->assertHtml($expected, $result);
 	}
@@ -66,7 +67,7 @@ class DatalistWidgetTest extends TestCase {
 		$data = [
 			'id' => 'BirdName',
 			'name' => 'Birds[name]',
-			'options' => ['a' => 'Albatross', 'b' => 'Budgie']
+			'options' => ['a' => 'Albatross', 'b' => 'Budgie'],
 		];
 		$result = $select->render($data, $this->context);
 		$expected = [
@@ -74,7 +75,7 @@ class DatalistWidgetTest extends TestCase {
 			'datalist' => ['id' => 'datalist-BirdName'],
 			['option' => ['data-value' => 'a']], 'Albatross', '/option',
 			['option' => ['data-value' => 'b']], 'Budgie', '/option',
-			'/datalist'
+			'/datalist',
 		];
 		$this->assertHtml($expected, $result);
 	}
@@ -97,7 +98,7 @@ class DatalistWidgetTest extends TestCase {
 			'datalist' => ['id' => 'datalist-Birds-name'],
 			['option' => ['data-value' => 'a']], 'Albatross', '/option',
 			['option' => ['data-value' => 'b']], 'Budgie', '/option',
-			'/datalist'
+			'/datalist',
 		];
 		$this->assertHtml($expected, $result);
 	}
@@ -117,7 +118,7 @@ class DatalistWidgetTest extends TestCase {
 				'1x' => 'one x',
 				'2' => 'two',
 				'2x' => 'two x',
-			]
+			],
 		];
 		$result = $select->render($data, $this->context);
 		$expected = [
@@ -127,7 +128,7 @@ class DatalistWidgetTest extends TestCase {
 			['option' => ['data-value' => '1x']], 'one x', '/option',
 			['option' => ['data-value' => '2']], 'two', '/option',
 			['option' => ['data-value' => '2x']], 'two x', '/option',
-			'/datalist'
+			'/datalist',
 		];
 		$this->assertHtml($expected, $result);
 
@@ -140,7 +141,7 @@ class DatalistWidgetTest extends TestCase {
 			['option' => ['data-value' => '1x']], 'one x', '/option',
 			['option' => ['data-value' => '2', 'selected' => 'selected']], 'two', '/option',
 			['option' => ['data-value' => '2x']], 'two x', '/option',
-			'/datalist'
+			'/datalist',
 		];
 		$this->assertHtml($expected, $result);
 	}
@@ -162,8 +163,8 @@ class DatalistWidgetTest extends TestCase {
 				'Bird' => [
 					'budgie' => 'Budgie',
 					'eagle' => 'Eagle',
-				]
-			]
+				],
+			],
 		];
 		$result = $select->render($data, $this->context);
 		$expected = [
@@ -185,7 +186,7 @@ class DatalistWidgetTest extends TestCase {
 			'Eagle',
 			'/option',
 			'/optgroup',
-			'/datalist'
+			'/datalist',
 		];
 		$this->assertHtml($expected, $result);
 	}
@@ -203,7 +204,7 @@ class DatalistWidgetTest extends TestCase {
 				'>XSS<' => [
 					'1' => 'One>',
 				],
-			]
+			],
 		];
 		$result = $select->render($data, $this->context);
 		$expected = [
@@ -214,7 +215,7 @@ class DatalistWidgetTest extends TestCase {
 			'One&gt;',
 			'/option',
 			'/optgroup',
-			'/datalist'
+			'/datalist',
 		];
 		$this->assertHtml($expected, $result);
 
@@ -228,7 +229,7 @@ class DatalistWidgetTest extends TestCase {
 			'One>',
 			'/option',
 			'/optgroup',
-			'/datalist'
+			'/datalist',
 		];
 		$this->assertHtml($expected, $result);
 	}

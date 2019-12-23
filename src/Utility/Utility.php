@@ -54,7 +54,7 @@ class Utility {
 	 */
 	public static function tokenize($data, $separator = ',', $options = []) {
 		$defaults = [
-			'clean' => true
+			'clean' => true,
 		];
 		$options += $defaults;
 		if (empty($data)) {
@@ -300,7 +300,7 @@ class Utility {
 				'header' => "Accept: text/html\r\n" .
 					"Connection: Close\r\n" .
 					"User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64)\r\n",
-			]
+			],
 		];
 		stream_context_get_default($defaults);
 
@@ -507,7 +507,7 @@ class Utility {
 			array_shift($keys);
 			foreach ($keys as $k) {
 				$child = [
-					$k => $child
+					$k => $child,
 				];
 			}
 			$result = Hash::merge($result, $child);

@@ -4,7 +4,6 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\Routing\Router;
 use Cake\View\View;
-use TestApp\Routing\Route\DashedRoute;
 use Tools\TestSuite\TestCase;
 use Tools\View\Helper\CommonHelper;
 

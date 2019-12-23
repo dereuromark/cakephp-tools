@@ -13,7 +13,7 @@ use Tools\TestSuite\TestCase;
 class TimelineHelperTest extends TestCase {
 
 	/**
-	 * @var \Tools\View\Helper\TimelineHelper|\App\View\Helper\TimelineHelper
+	 * @var \App\View\Helper\TimelineHelper
 	 */
 	public $Timeline;
 
@@ -46,7 +46,7 @@ class TimelineHelperTest extends TestCase {
 			[
 				'start' => null,
 				'content' => '',
-			]
+			],
 		];
 		$this->Timeline->addItems($data);
 		$items = $this->Timeline->items();

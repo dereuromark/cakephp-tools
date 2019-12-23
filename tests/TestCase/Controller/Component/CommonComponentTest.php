@@ -10,8 +10,6 @@ use Cake\Routing\Router;
 use Tools\Controller\Component\CommonComponent;
 use Tools\TestSuite\TestCase;
 
-/**
- */
 class CommonComponentTest extends TestCase {
 
 	/**
@@ -213,6 +211,18 @@ class CommonComponentTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testAddHelpers() {
+		$this->Controller->Common->addHelpers(['Tester']);
+		$helpers = $this->Controller->viewBuilder()->getHelpers();
+		$this->assertEquals(['Tester'], $helpers);
+		$this->Controller->Common->addHelpers(['Tester123']);
+		$helpers = $this->Controller->viewBuilder()->getHelpers();
+		$this->assertEquals(['Tester', 'Tester123'], $helpers);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testDefaultUrlParams() {
 		Configure::write('Routing.prefixes', ['admin', 'tests']);
 		$result = CommonComponent::defaultUrlParams();
@@ -249,12 +259,12 @@ class CommonComponentTest extends TestCase {
 		$request = $request->withQueryParams([
 			'a' => [
 				'b' => [
-					' c '
-				]
+					' c ',
+				],
 			],
 			' d ',
 			' e',
-			'f '
+			'f ',
 		]);
 		$this->Controller->setRequest($request);
 		$this->Controller->Common->startup(new Event('Test'));
@@ -262,12 +272,12 @@ class CommonComponentTest extends TestCase {
 		$expected = [
 			'a' => [
 				'b' => [
-					'c'
-				]
+					'c',
+				],
 			],
 			'd',
 			'e',
-			'f'
+			'f',
 		];
 		$this->assertSame($expected, $query);
 	}
@@ -281,12 +291,12 @@ class CommonComponentTest extends TestCase {
 		$request = $request->withParam('pass', [
 			'a' => [
 				'b' => [
-					' c '
-				]
+					' c ',
+				],
 			],
 			' d ',
 			' e',
-			'f '
+			'f ',
 		]);
 		$this->Controller->setRequest($request);
 		$this->Controller->Common->startup(new Event('Test'));
@@ -294,12 +304,12 @@ class CommonComponentTest extends TestCase {
 		$expected = [
 			'a' => [
 				'b' => [
-					'c'
-				]
+					'c',
+				],
 			],
 			'd',
 			'e',
-			'f'
+			'f',
 		];
 		$this->assertSame($expected, $pass);
 	}
@@ -313,12 +323,12 @@ class CommonComponentTest extends TestCase {
 		$request = $request->withData('data', [
 			'a' => [
 				'b' => [
-					' c '
-				]
+					' c ',
+				],
 			],
 			' d ',
 			' e',
-			'f '
+			'f ',
 		]);
 		$this->Controller->setRequest($request);
 		$this->Controller->Common->startup(new Event('Test'));
@@ -326,12 +336,12 @@ class CommonComponentTest extends TestCase {
 		$expected = [
 			'a' => [
 				'b' => [
-					'c'
-				]
+					'c',
+				],
 			],
 			'd',
 			'e',
-			'f'
+			'f',
 		];
 		$this->assertSame($expected, $pass);
 	}

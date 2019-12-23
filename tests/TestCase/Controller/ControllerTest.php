@@ -13,7 +13,7 @@ class ControllerTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.Tools.ToolsUsers'
+		'plugin.Tools.ToolsUsers',
 	];
 
 	/**

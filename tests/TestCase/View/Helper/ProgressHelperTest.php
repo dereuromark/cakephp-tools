@@ -4,6 +4,7 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\View\View;
 use Tools\TestSuite\TestCase;
+use Tools\Utility\Number;
 use Tools\View\Helper\ProgressHelper;
 
 class ProgressHelperTest extends TestCase {
@@ -19,13 +20,31 @@ class ProgressHelperTest extends TestCase {
 	protected $progressHelper;
 
 	/**
+	 * @var string
+	 */
+	protected $locale;
+
+	/**
 	 * @return void
 	 */
 	public function setUp(): void {
 		parent::setUp();
 
+		$this->locale = ini_get('intl.default_locale');
+		ini_set('intl.default_locale', 'en-US');
+		Number::config('en_EN');
+
 		$this->View = new View(null);
 		$this->progressHelper = new ProgressHelper($this->View);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function tearDown(): void {
+		parent::tearDown();
+
+		//ini_set('intl.default_locale', $this->locale);
 	}
 
 	/**

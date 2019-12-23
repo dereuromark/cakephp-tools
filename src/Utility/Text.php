@@ -326,7 +326,7 @@ class Text extends CakeText {
 	 */
 	public static function maxWords($value, $words = 100, array $options = []) {
 		$defaults = [
-			'ellipsis' => '...'
+			'ellipsis' => '...',
 		];
 		if (!empty($options['html']) && Configure::read('App.encoding') === 'UTF-8') {
 			$defaults['ellipsis'] = "\xe2\x80\xa6";
@@ -446,7 +446,7 @@ class Text extends CakeText {
 	 * @param string $str
 	 * @return string
 	 */
-	public function reduce_double_slashes($str) {
+	public function reduceDoubleSlashes($str) {
 		return preg_replace('#([^:])//+#', '\\1/', $str);
 	}
 

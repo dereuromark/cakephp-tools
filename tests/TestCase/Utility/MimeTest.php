@@ -2,10 +2,10 @@
 
 namespace Tools\Test\TestCase\Utility;
 
+use App\Http\TestResponse;
+use App\Utility\TestMime;
 use Cake\Core\Plugin;
-use Cake\Http\Response;
 use Tools\TestSuite\TestCase;
-use Tools\Utility\Mime;
 
 class MimeTest extends TestCase {
 
@@ -20,7 +20,7 @@ class MimeTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->Mime = new Mime();
+		$this->Mime = new TestMime();
 	}
 
 	/**
@@ -142,7 +142,7 @@ class MimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testDifferenceBetweenPluginAndCore() {
-		$this->TestCakeResponse = new TestCakeResponse();
+		$this->TestCakeResponse = new TestResponse();
 		$this->TestMime = new TestMime();
 
 		$core = $this->TestCakeResponse->getMimeTypes();
@@ -151,7 +151,7 @@ class MimeTest extends TestCase {
 		$diff = [
 			'coreonly' => [],
 			'pluginonly' => [],
-			'modified' => []
+			'modified' => [],
 		];
 		foreach ($core as $key => $value) {
 			if (!isset($plugin[$key])) {
@@ -164,29 +164,6 @@ class MimeTest extends TestCase {
 		foreach ($plugin as $key => $value) {
 			$diff['pluginonly'][$key] = $value;
 		}
-	}
-
-}
-
-class TestCakeResponse extends Response {
-
-	/**
-	 * @return array
-	 */
-	public function getMimeTypes() {
-		return $this->_mimeTypes;
-	}
-
-}
-
-class TestMime extends Mime {
-
-	/**
-	 * @param bool $coreHasPrecedence
-	 * @return array
-	 */
-	public function getMimeTypes($coreHasPrecedence = false) {
-		return $this->_mimeTypesExt;
 	}
 
 }

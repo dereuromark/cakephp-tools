@@ -107,7 +107,7 @@ class L10n {
 		/* Welsh - bibliographic */ 'wel' => 'cy',
 		/* Xhosa */ 'xho' => 'xh',
 		/* Yiddish */ 'yid' => 'yi',
-		/* Zulu */ 'zul' => 'zu'
+		/* Zulu */ 'zul' => 'zu',
 	];
 
 	/**
@@ -258,7 +258,7 @@ class L10n {
 		'zh-hk' => ['language' => 'Chinese (Hong Kong)', 'locale' => 'zh_hk', 'localeFallback' => 'zho', 'charset' => 'utf-8', 'direction' => 'ltr'],
 		'zh-sg' => ['language' => 'Chinese (Singapore)', 'locale' => 'zh_sg', 'localeFallback' => 'zho', 'charset' => 'utf-8', 'direction' => 'ltr'],
 		'zh-tw' => ['language' => 'Chinese (Taiwan)', 'locale' => 'zh_tw', 'localeFallback' => 'zho', 'charset' => 'utf-8', 'direction' => 'ltr'],
-		'zu' => ['language' => 'Zulu', 'locale' => 'zul', 'localeFallback' => 'zul', 'charset' => 'utf-8', 'direction' => 'ltr']
+		'zu' => ['language' => 'Zulu', 'locale' => 'zul', 'localeFallback' => 'zul', 'charset' => 'utf-8', 'direction' => 'ltr'],
 	];
 
 	/**

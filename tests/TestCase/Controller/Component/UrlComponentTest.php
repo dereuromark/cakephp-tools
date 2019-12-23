@@ -10,8 +10,6 @@ use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
 use Tools\TestSuite\TestCase;
 
-/**
- */
 class UrlComponentTest extends TestCase {
 
 	/**
@@ -56,7 +54,7 @@ class UrlComponentTest extends TestCase {
 		$is = $this->Controller->Url->defaults();
 		$expected = [
 			'prefix' => false,
-			'plugin' => false
+			'plugin' => false,
 		];
 		$this->assertSame($expected, $is);
 	}
@@ -98,7 +96,7 @@ class UrlComponentTest extends TestCase {
 		$expected = [
 			'controller' => 'foobar',
 			'action' => 'test',
-			'?' => ['x' => 'y']
+			'?' => ['x' => 'y'],
 		];
 		$this->assertSame($expected, $result);
 	}

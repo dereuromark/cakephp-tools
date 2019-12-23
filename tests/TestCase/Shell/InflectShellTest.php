@@ -7,8 +7,6 @@ use Tools\Shell\InflectShell;
 use Tools\TestSuite\ConsoleOutput;
 use Tools\TestSuite\TestCase;
 
-/**
- */
 class InflectShellTest extends TestCase {
 
 	/**

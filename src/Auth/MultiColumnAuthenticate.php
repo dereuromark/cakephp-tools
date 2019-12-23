@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Auth;
 
 use Cake\Auth\FormAuthenticate;

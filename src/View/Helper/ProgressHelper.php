@@ -9,6 +9,13 @@ use InvalidArgumentException;
 use Tools\Utility\Number;
 
 /**
+ * The progress element represents the progress of a task.
+ *
+ * Tip: Use the <progress> tag in conjunction with JavaScript to display the progress of a task.
+ *
+ * Note: The <progress> tag is not suitable for representing a gauge (e.g. disk space usage or relevance of a query result).
+ * To represent a gauge, use the Meter helper instead.
+ *
  * @author Mark Scherer
  * @license MIT
  * @property \Cake\View\Helper\HtmlHelper $Html
@@ -44,6 +51,40 @@ class ProgressHelper extends Helper {
 	}
 
 	/**
+	 * Creates HTML5 progress element.
+	 *
+	 * Note: This requires a textual fallback for IE9 and below.
+	 *
+	 * Options:
+	 *
+	 * @param float $value Value 0...1
+	 * @param array $options
+	 * @param array $attributes
+	 * @return string
+	 */
+	public function htmlProgressBar($value, array $options = [], array $attributes = []) {
+		$defaults = [
+			'fallbackHtml' => null,
+		];
+		$options += $defaults;
+
+		$progress = $this->roundPercentage($value);
+
+		$attributes += [
+			'value' => number_format($progress * 100, 0),
+			'max' => '100',
+			'title' => Number::toPercentage($progress, 0, ['multiply' => true]),
+		];
+
+		$fallback = '';
+		if ($options['fallbackHtml']) {
+			$fallback = $options['fallbackHtml'];
+		}
+
+		return $this->Html->tag('progress', $fallback, $attributes);
+	}
+
+	/**
 	 * @param float $value Value 0...1
 	 * @param int $length As char count
 	 * @param array $attributes
@@ -62,8 +103,8 @@ class ProgressHelper extends Helper {
 	/**
 	 * Render the progress bar based on the current state.
 	 *
-	 * @param float $complete
-	 * @param int $length
+	 * @param float $complete Value between 0 and 1.
+	 * @param int $length Bar length.
 	 * @return string
 	 * @throws \InvalidArgumentException
 	 */

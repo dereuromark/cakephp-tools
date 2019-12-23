@@ -5,8 +5,6 @@ namespace Tools\Test\TestCase\Utility;
 use Tools\TestSuite\TestCase;
 use Tools\Utility\Text;
 
-/**
- */
 class TextTest extends TestCase {
 
 	/**

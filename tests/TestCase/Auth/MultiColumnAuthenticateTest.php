@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Test\TestCase\Auth;
 
 use Cake\Http\ServerRequest;
@@ -13,7 +14,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.Tools.MultiColumnUsers'
+		'plugin.Tools.MultiColumnUsers',
 	];
 
 	/**
@@ -41,7 +42,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 		$this->auth = new MultiColumnAuthenticate($this->registry, [
 			'fields' => ['username' => 'user_name', 'password' => 'password'],
 			'userModel' => 'MultiColumnUsers',
-			'columns' => ['user_name', 'email']
+			'columns' => ['user_name', 'email'],
 		]);
 
 		$password = password_hash('password', PASSWORD_DEFAULT);
@@ -62,7 +63,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 			'email' => 'mariano@example.com',
 			'token' => '12345',
 			'created' => new Time('2007-03-17 01:16:23'),
-			'updated' => new Time('2007-03-17 01:18:31')
+			'updated' => new Time('2007-03-17 01:18:31'),
 		];
 
 		$request = $request->withData('user_name', 'mariano')->withData('password', 'password');

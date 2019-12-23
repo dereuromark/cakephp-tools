@@ -16,7 +16,7 @@ class TokensTableTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.Tools.Tokens'
+		'plugin.Tools.Tokens',
 	];
 
 	/**
@@ -71,7 +71,7 @@ class TokensTableTest extends TestCase {
 		$data = [
 			'created' => date(FORMAT_DB_DATETIME, time() - 3 * MONTH),
 			'type' => 'y',
-			'key' => 'x'
+			'key' => 'x',
 		];
 		$entity = $this->Tokens->newEntity($data, ['validate' => false]);
 		$this->Tokens->save($entity);

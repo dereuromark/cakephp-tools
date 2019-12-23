@@ -30,7 +30,7 @@ class ToggleBehavior extends Behavior {
 		'on' => 'afterSave', // afterSave (without transactions) or beforeSave (with transactions)
 		'scopeFields' => [],
 		'scope' => [],
-		'findOrder' => null // null = autodetect modified/created
+		'findOrder' => null, // null = autodetect modified/created
 	];
 
 	/**

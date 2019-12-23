@@ -2,9 +2,11 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
+use App\Model\Entity\SluggedArticle;
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
+use RuntimeException;
 use Tools\TestSuite\TestCase;
 use Tools\Utility\Text;
 
@@ -19,7 +21,7 @@ class SluggedBehaviorTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.Tools.SluggedArticles'
+		'plugin.Tools.SluggedArticles',
 	];
 
 	/**
@@ -286,11 +288,11 @@ class SluggedBehaviorTest extends TestCase {
 		$result = $this->articles->find('all', [
 			'conditions' => ['title LIKE' => 'Andy Daw%'],
 			'fields' => ['title', 'slug'],
-			'order' => 'title'
+			'order' => 'title',
 		])->combine('title', 'slug')->toArray();
 		$expected = [
 			'Andy Dawsom' => 'bar',
-			'Andy Dawson' => 'foo'
+			'Andy Dawson' => 'foo',
 		];
 		$this->assertEquals($expected, $result);
 
@@ -301,11 +303,11 @@ class SluggedBehaviorTest extends TestCase {
 		$result = $this->articles->find('all', [
 			'conditions' => ['title LIKE' => 'Andy Daw%'],
 			'fields' => ['title', 'slug'],
-			'order' => 'title'
+			'order' => 'title',
 		])->combine('title', 'slug')->toArray();
 		$expected = [
 			'Andy Dawsom' => 'Andy-Dawsom',
-			'Andy Dawson' => 'Andy-Dawson'
+			'Andy Dawson' => 'Andy-Dawson',
 		];
 		$this->assertEquals($expected, $result);
 	}
@@ -346,7 +348,7 @@ class SluggedBehaviorTest extends TestCase {
 		$result = $this->articles->find('all', [
 			'conditions' => ['title LIKE' => 'Andy Daw%'],
 			'fields' => ['title', 'slug'],
-			'order' => 'title'
+			'order' => 'title',
 		])->combine('title', 'slug')->toArray();
 		$expected = [
 			'Andy Dawson' => 'Andy-Dawso',
@@ -359,7 +361,7 @@ class SluggedBehaviorTest extends TestCase {
 			'Andy Dawso7' => 'Andy-Daw-7',
 			'Andy Dawso8' => 'Andy-Daw-8',
 			'Andy Dawso9' => 'Andy-Daw-9',
-			'Andy Dawso0' => 'Andy-Da-10'
+			'Andy Dawso0' => 'Andy-Da-10',
 		];
 		$this->assertEquals($expected, $result);
 	}
@@ -622,11 +624,11 @@ class SluggedBehaviorTest extends TestCase {
 	 */
 	public function testSlugGenerationWithVirtualField() {
 		$this->articles->removeBehavior('Slugged');
-		$this->articles->setEntityClass('\App\Model\Entity\SluggedArticle');
+		$this->articles->setEntityClass(SluggedArticle::class);
 		$this->articles->addBehavior('Tools.Slugged', [
 			'label' => [
 				'title',
-				'special'
+				'special',
 			],
 		]);
 
@@ -636,6 +638,25 @@ class SluggedBehaviorTest extends TestCase {
 		$result = $this->articles->save($article);
 		$this->assertTrue((bool)$result);
 		$this->assertEquals('Some-Article-12345-dereuromark', $result['slug']);
+	}
+
+	/**
+	 * Tests slug generation fails with invalid entity config.
+	 *
+	 * @return void
+	 */
+	public function testSlugGenerationWithVirtualFieldInvalidField() {
+		$this->articles->removeBehavior('Slugged');
+		$this->articles->setEntityClass(SluggedArticle::class);
+
+		$this->expectException(RuntimeException::class);
+		$this->expectExceptionMessage('(SluggedBehavior::setup) model `SluggedArticles` is missing the field `specialNonExistent` (specified in the setup for entity `App\Model\Entity\SluggedArticle`.');
+
+		$this->articles->addBehavior('Tools.Slugged', [
+			'label' => [
+				'specialNonExistent',
+			],
+		]);
 	}
 
 	/**
@@ -704,7 +725,7 @@ class SluggedBehaviorTest extends TestCase {
 		}
 
 		$data = [
-			$field => $title
+			$field => $title,
 		] + $data;
 		return new Entity($data, $options);
 	}

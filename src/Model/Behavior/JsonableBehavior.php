@@ -67,8 +67,8 @@ class JsonableBehavior extends Behavior {
 		'decodeParams' => [ // params for json_decode
 			'assoc' => true, // useful when working with multidimensional arrays
 			'depth' => 512,
-			'options' => 0
-		]
+			'options' => 0,
+		],
 	];
 
 	/**
@@ -113,7 +113,7 @@ class JsonableBehavior extends Behavior {
 	public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary) {
 		$query->formatResults(function (CollectionInterface $results) {
 			return $results->map(function ($row) {
-				if (!$row instanceOf Entity) {
+				if (!$row instanceof Entity) {
 					return $row;
 				}
 
@@ -212,7 +212,7 @@ class JsonableBehavior extends Behavior {
 	 * Fields are absolutely necessary to function properly!
 	 *
 	 * @param string|array|null $val
-	 * @return array|null|false
+	 * @return array|false|null
 	 */
 	public function _decode($val) {
 		if (!is_string($val)) {

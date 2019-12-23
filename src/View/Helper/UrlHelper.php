@@ -86,7 +86,7 @@ class UrlHelper extends CoreUrlHelper {
 	public function defaults(): array {
 		return [
 			'prefix' => false,
-			'plugin' => false
+			'plugin' => false,
 		];
 	}
 

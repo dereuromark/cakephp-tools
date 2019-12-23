@@ -12,7 +12,7 @@ class JsonableBehaviorTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.Tools.JsonableComments'
+		'plugin.Tools.JsonableComments',
 	];
 
 	/**
@@ -376,8 +376,8 @@ class JsonableBehaviorTest extends TestCase {
 			'output' => 'array',
 			'fields' => ['details'],
 			'encodeParams' => [
-				'options' => 0
-			]
+				'options' => 0,
+			],
 		]);
 
 		$data = [

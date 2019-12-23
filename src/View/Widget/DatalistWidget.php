@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\View\Widget;
 
 use Cake\Utility\Text;

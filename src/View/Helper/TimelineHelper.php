@@ -104,7 +104,7 @@ class TimelineHelper extends Helper {
 	 * @param bool $return If the output should be returned instead
 	 * @param array $scriptOptions
 	 *
-	 * @return null|string Javascript if $return is true
+	 * @return string|null Javascript if $return is true
 	 */
 	public function finalize($return = false, array $scriptOptions = []) {
 		$settings = $this->getConfig();
@@ -239,7 +239,7 @@ JS;
 	 */
 	protected function _buffer($script, array $options = []) {
 		$defaults = [
-			'block' => true
+			'block' => true,
 		];
 		$options += $defaults;
 

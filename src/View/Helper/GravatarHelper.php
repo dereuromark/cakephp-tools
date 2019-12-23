@@ -25,7 +25,7 @@ class GravatarHelper extends Helper {
 	 */
 	protected $_url = [
 		'http' => 'http://www.gravatar.com/avatar/',
-		'https' => 'https://secure.gravatar.com/avatar/'
+		'https' => 'https://secure.gravatar.com/avatar/',
 	];
 
 	/**
@@ -81,8 +81,13 @@ class GravatarHelper extends Helper {
 	 * @return string Gravatar image string
 	 */
 	public function image($email, array $options = []) {
-		$imageUrl = $this->url($email, $options);
+		$imageOptions = $options += [
+			'escape' => false,
+		];
+		$imageUrl = $this->url($email, $imageOptions);
+
 		unset($options['default'], $options['size'], $options['rating'], $options['ext']);
+
 		return $this->Html->image($imageUrl, $options);
 	}
 
@@ -96,6 +101,10 @@ class GravatarHelper extends Helper {
 	 */
 	public function url($email, array $options = []) {
 		$options = $this->_cleanOptions($options + $this->_config);
+		$options += [
+			'escape' => true,
+		];
+
 		$ext = $options['ext'];
 		$secure = $options['secure'];
 		unset($options['ext'], $options['secure']);
@@ -178,7 +187,7 @@ class GravatarHelper extends Helper {
 				$value = $options[$key];
 				$optionArray[] = $key . '=' . mb_strtolower($value);
 			}
-			return '?' . implode('&amp;', $optionArray);
+			return '?' . implode(!empty($options['escape']) ? '&amp;' : '&', $optionArray);
 		}
 		return '';
 	}

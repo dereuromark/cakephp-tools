@@ -15,7 +15,7 @@ class TreeHelperTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.Tools.AfterTrees'
+		'plugin.Tools.AfterTrees',
 	];
 
 	/**

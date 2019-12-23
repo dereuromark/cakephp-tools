@@ -36,17 +36,17 @@ class LanguageTest extends TestCase {
 		$res = Language::parseLanguageList();
 		$expected = [
 			'1.0' => [
-				'de-de'
+				'de-de',
 			],
 			'0.8' => [
-				'de'
+				'de',
 			],
 			'0.6' => [
-				'en-us'
+				'en-us',
 			],
 			'0.4' => [
-				'en'
-			]
+				'en',
+			],
 		];
 		$this->assertSame($expected, $res);
 
@@ -63,7 +63,7 @@ class LanguageTest extends TestCase {
 		$expected = [
 			'1.0' => [
 				'fi-FI',
-				'de-DE'
+				'de-DE',
 			],
 		];
 		$this->assertSame($expected, $res);
@@ -72,7 +72,7 @@ class LanguageTest extends TestCase {
 		$expected = [
 			'1.0' => [
 				'fi-FI',
-				'de-DE'
+				'de-DE',
 			],
 		];
 		$this->assertSame($expected, $res);
@@ -120,39 +120,39 @@ class LanguageTest extends TestCase {
 		$res = Language::findMatches(['de', 'en']);
 		$expected = [
 			'1.0' => [
-				'de-de'
+				'de-de',
 			],
 			'0.8' => [
-				'de'
+				'de',
 			],
 			'0.6' => [
-				'en-us'
+				'en-us',
 			],
 			'0.4' => [
-				'en'
-			]
+				'en',
+			],
 		];
 		$this->assertSame($expected, $res);
 
 		$res = Language::findMatches(['DE']);
 		$expected = [
 			'1.0' => [
-				'de-de'
+				'de-de',
 			],
 			'0.8' => [
-				'de'
-			]
+				'de',
+			],
 		];
 		$this->assertSame($expected, $res);
 
 		$res = Language::findMatches(['cs', 'en']);
 		$expected = [
 			'0.6' => [
-				'en-us'
+				'en-us',
 			],
 			'0.4' => [
-				'en'
-			]
+				'en',
+			],
 		];
 		$this->assertSame($expected, $res);
 	}

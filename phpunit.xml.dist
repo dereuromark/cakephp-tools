@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-	backupGlobals="false"
-	colors="true"
-	backupStaticAttributes="false"
-	processIsolation="false"
-	stopOnFailure="false"
-	bootstrap="tests/bootstrap.php">
+<phpunit bootstrap="tests/bootstrap.php">
 	<php>
 		<ini name="memory_limit" value="-1"/>
 		<ini name="apc.enable_cli" value="1"/>
@@ -21,7 +15,7 @@
 		<listeners>
 		<listener class="Cake\TestSuite\Fixture\FixtureInjector">
 			<arguments>
-				<object class="Cake\TestSuite\Fixture\FixtureManager" />
+				<object class="Cake\TestSuite\Fixture\FixtureManager"/>
 			</arguments>
 		</listener>
 	</listeners>

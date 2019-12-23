@@ -17,14 +17,29 @@ class Number extends CakeNumber {
 	 */
 	protected static $_currencies = [];
 
+	/**
+	 * @var string
+	 */
 	protected static $_currency = 'EUR';
 
+	/**
+	 * @var string
+	 */
 	protected static $_symbolRight = '€';
 
+	/**
+	 * @var string
+	 */
 	protected static $_symbolLeft = '';
 
+	/**
+	 * @var string
+	 */
 	protected static $_decimals = ',';
 
+	/**
+	 * @var string
+	 */
 	protected static $_thousands = '.';
 
 	/**
@@ -109,7 +124,7 @@ class Number extends CakeNumber {
 	 */
 	public static function format($number, array $options = []): string {
 		$defaults = [
-			'positive' => '+', 'signed' => false
+			'positive' => '+', 'signed' => false,
 		];
 		$options += $defaults;
 		$sign = '';
@@ -134,7 +149,7 @@ class Number extends CakeNumber {
 	 */
 	public static function currency($number, ?string $currency = null, array $options = []): string {
 		$defaults = [
-			'positive' => '+', 'signed' => false
+			'positive' => '+', 'signed' => false,
 		];
 		$options += $defaults;
 		$sign = '';

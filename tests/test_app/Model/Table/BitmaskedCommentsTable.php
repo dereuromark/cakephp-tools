@@ -13,9 +13,9 @@ class BitmaskedCommentsTable extends Table {
 		'status' => [
 			'notBlank' => [
 				'rule' => 'notBlank',
-				'last' => true
-			]
-		]
+				'last' => true,
+			],
+		],
 	];
 
 }

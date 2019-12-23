@@ -11,7 +11,7 @@ A CakePHP plugin containing several useful tools that can be used in many projec
 
 ## Version notice
 
-This master branch only works for **CakePHP 4.0+**. See [wiki](https://github.com/dereuromark/cakephp-tools/wiki#cakephp-version-map) for version matrix.
+This master branch only works for **CakePHP 4.0+**. See [version map](https://github.com/dereuromark/cakephp-tools/wiki#cakephp-version-map) for details.
 
 ## What is this plugin for?
 
@@ -23,12 +23,13 @@ This master branch only works for **CakePHP 4.0+**. See [wiki](https://github.co
 - Provided a less error-prone inArray() method via Utility class and other usefulness.
 - TestSuite enhancements
 - A few more Database Type classes
- 
+
 ### Additional features
 - Passwordable behavior allows easy to use password functionality for frontend and backend.
 - MultiColumnAuthenticate for log-in with e.g. "email or username".
 - Slugged, Reset and other behaviors
 - Tree helper for working with (complex) trees and their output.
+- Progress and Meter helper for progress bar and meter bar elements (HTML5 and textual).
 - Text, Time, Number libs and helpers etc provide extended functionality if desired.
 - QrCode, Gravatar and other useful small helpers
 - Timeline, Typography, etc provide additional helper functionality.

@@ -1,8 +1,8 @@
 <?php
 
 use Cake\Datasource\ConnectionManager;
-use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\Router;
+use Cake\Routing\Route\DashedRoute;
 
 if (!defined('DS')) {
 	define('DS', DIRECTORY_SEPARATOR);
@@ -27,7 +27,7 @@ define('CAKE', CORE_PATH . APP_DIR . DS);
 define('TESTS', ROOT . DS . 'tests' . DS);
 
 define('WWW_ROOT', ROOT . DS . 'webroot' . DS);
-define('CONFIG', ROOT . DS . 'config' . DS);
+define('CONFIG', __DIR__ . DS . 'config' . DS);
 
 ini_set('intl.default_locale', 'de-DE');
 
@@ -43,11 +43,11 @@ Cake\Core\Configure::write('debug', true);
 
 Cake\Core\Configure::write('Config', [
 		'adminEmail' => 'test@example.com',
-		'adminName' => 'Mark'
+		'adminName' => 'Mark',
 ]);
 Cake\Mailer\Email::setConfig('default', ['transport' => 'Debug']);
 Cake\Mailer\TransportFactory::setConfig('Debug', [
-		'className' => 'Debug'
+		'className' => 'Debug',
 ]);
 
 mb_internal_encoding('UTF-8');
@@ -60,22 +60,22 @@ $Tmp->create(TMP . 'cache/views', 0770);
 $cache = [
 	'default' => [
 		'engine' => 'File',
-		'path' => CACHE
+		'path' => CACHE,
 	],
 	'_cake_core_' => [
 		'className' => 'File',
 		'prefix' => 'crud_myapp_cake_core_',
 		'path' => CACHE . 'persistent/',
 		'serialize' => true,
-		'duration' => '+10 seconds'
+		'duration' => '+10 seconds',
 	],
 	'_cake_model_' => [
 		'className' => 'File',
 		'prefix' => 'crud_my_app_cake_model_',
 		'path' => CACHE . 'models/',
 		'serialize' => 'File',
-		'duration' => '+10 seconds'
-	]
+		'duration' => '+10 seconds',
+	],
 ];
 
 Cake\Cache\Cache::setConfig($cache);

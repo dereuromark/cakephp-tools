@@ -33,16 +33,16 @@ class ContactForm extends Form {
 	public function validationDefault(Validator $validator): Validator {
 		return $validator
 			->requirePresence('name')
-			->notEmpty('name', __('This field cannot be left empty'))
+			->notEmpty('name', __d('tools', 'This field cannot be left empty'))
 			->requirePresence('email')
 			->add('email', 'format', [
 					'rule' => 'email',
-					'message' => __('A valid email address is required'),
+					'message' => __d('tools', 'A valid email address is required'),
 			])
 			->requirePresence('subject')
-			->notEmpty('subject', __('This field cannot be left empty'))
+			->notEmpty('subject', __d('tools', 'This field cannot be left empty'))
 			->requirePresence('body')
-			->notEmpty('body', __('This field cannot be left empty'));
+			->notEmpty('body', __d('tools', 'This field cannot be left empty'));
 	}
 
 	/**

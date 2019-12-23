@@ -10,7 +10,7 @@ use Tools\View\Helper\TextHelper;
 class TextHelperTest extends TestCase {
 
 	/**
-	 * @var \Tools\View\Helper\TextHelper|\Tools\Utility\Text
+	 * @var \Tools\View\Helper\TextHelper
 	 */
 	public $Text;
 
@@ -83,7 +83,7 @@ class TextHelperTest extends TestCase {
 
 		$texts = [
 			'text http://www.cakephp.org/bla/bla some more text' => '',
-			'This is a test text with URL http://www.cakephp.org\tand some more text' => 'This is a test text with URL http://www.cakephp.org\tand some more text'
+			'This is a test text with URL http://www.cakephp.org\tand some more text' => 'This is a test text with URL http://www.cakephp.org\tand some more text',
 		];
 
 		foreach ($texts as $text => $expected) {

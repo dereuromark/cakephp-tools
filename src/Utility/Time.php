@@ -1,4 +1,5 @@
 <?php
+
 namespace Tools\Utility;
 
 use Cake\Chronos\MutableDate;
@@ -564,7 +565,7 @@ class Time extends CakeTime {
 				'Wednesday',
 				'Thursday',
 				'Friday',
-				'Saturday'
+				'Saturday',
 			],
 			'short' => [
 				'Sun',
@@ -573,15 +574,13 @@ class Time extends CakeTime {
 				'Wed',
 				'Thu',
 				'Fri',
-				'Sat'
-			]
+				'Sat',
+			],
 		];
 		$day = (int)$day;
-		//pr($day);
 		if ($offset) {
 			$day = ($day + $offset) % 7;
 		}
-		//pr($day);
 		if ($abbr) {
 			return __d('tools', $days['short'][$day]);
 		}
@@ -612,7 +611,7 @@ class Time extends CakeTime {
 				'September',
 				'October',
 				'November',
-				'December'
+				'December',
 			],
 			'short' => [
 				'Jan',
@@ -626,7 +625,7 @@ class Time extends CakeTime {
 				'Sep',
 				'Oct',
 				'Nov',
-				'Dec'
+				'Dec',
 			],
 		];
 		$month = (int)($month - 1);
@@ -783,7 +782,7 @@ class Time extends CakeTime {
 				'd' => 'd',
 				'h' => 'h',
 				'i' => 'm',
-				's' => 's'
+				's' => 's',
 			];
 			$p = $s;
 		} else {

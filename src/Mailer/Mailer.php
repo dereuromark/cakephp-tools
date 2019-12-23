@@ -19,7 +19,7 @@ class Mailer extends CakeMailer {
 	/**
 	 * @inheritDoc
 	 */
-	public function send(string $action, array $args = [], array $headers = []): array {
+	public function send(?string $action = null, array $args = [], array $headers = []): array {
 		$this->fixateLocale();
 
 		$result = parent::send($action, $args, $headers);

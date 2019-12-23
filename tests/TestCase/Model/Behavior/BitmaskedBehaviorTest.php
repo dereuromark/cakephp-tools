@@ -13,7 +13,7 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.Tools.BitmaskedComments'
+		'plugin.Tools.BitmaskedComments',
 	];
 
 	/**
@@ -101,7 +101,7 @@ class BitmaskedBehaviorTest extends TestCase {
 	public function testFindBitmaskedContain() {
 		$options = [
 			'bits' => [],
-			'type' => 'contain'
+			'type' => 'contain',
 		];
 		$res = $this->Comments->find('bits', $options)->toArray();
 		$this->assertCount(1, $res);
@@ -109,7 +109,7 @@ class BitmaskedBehaviorTest extends TestCase {
 
 		$options = [
 			'bits' => [BitmaskedComment::STATUS_APPROVED],
-			'type' => 'contain'
+			'type' => 'contain',
 		];
 		$res = $this->Comments->find('bits', $options)->toArray();
 		$this->assertCount(3, $res);

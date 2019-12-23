@@ -16,7 +16,7 @@ class ConfirmableBehaviorTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'plugin.Tools.SluggedArticles'
+		'plugin.Tools.SluggedArticles',
 	];
 
 	/**
@@ -39,7 +39,7 @@ class ConfirmableBehaviorTest extends TestCase {
 
 		$data = [
 			'name' => 'FooBar',
-			'confirm' => '0'
+			'confirm' => '0',
 		];
 		$animal = $this->Articles->patchEntity($animal, $data);
 		$this->assertNotEmpty($animal->getErrors());
@@ -47,7 +47,7 @@ class ConfirmableBehaviorTest extends TestCase {
 
 		$data = [
 			'name' => 'FooBar',
-			'confirm' => '1'
+			'confirm' => '1',
 		];
 		$animal = $this->Articles->patchEntity($animal, $data);
 		$this->assertEmpty($animal->getErrors());
@@ -77,7 +77,7 @@ class ConfirmableBehaviorTest extends TestCase {
 
 		$data = [
 			'name' => 'FooBar',
-			'confirm' => '0'
+			'confirm' => '0',
 		];
 		$animal = $this->Articles->patchEntity($animal, $data);
 		$this->assertNotEmpty($animal->getErrors());
@@ -86,7 +86,7 @@ class ConfirmableBehaviorTest extends TestCase {
 
 		$data = [
 			'name' => 'FooBar',
-			'confirm' => '1'
+			'confirm' => '1',
 		];
 		$animal = $this->Articles->patchEntity($animal, $data);
 		$this->assertEmpty($animal->getErrors());
@@ -101,7 +101,7 @@ class ConfirmableBehaviorTest extends TestCase {
 
 		$animal = $this->Articles->newEmptyEntity();
 		$data = [
-			'name' => 'FooBar'
+			'name' => 'FooBar',
 		];
 		$animal = $this->Articles->patchEntity($animal, $data);
 		$this->assertSame(['confirm' => ['_required' => 'This field is required']], $animal->getErrors());

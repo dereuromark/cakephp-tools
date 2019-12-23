@@ -98,7 +98,7 @@ class UrlComponent extends Component {
 	public function defaults() {
 		return [
 			'prefix' => false,
-			'plugin' => false
+			'plugin' => false,
 		];
 	}
 

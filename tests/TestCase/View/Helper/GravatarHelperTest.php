@@ -57,42 +57,40 @@ class GravatarHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testImages() {
+	public function testImage() {
 		$is = $this->Gravatar->image($this->garageEmail);
-		//$this->debug($is);
+
 		$this->assertTrue(!empty($is));
 
 		$is = $this->Gravatar->image($this->testEmail);
-		//$this->debug($is);
-		$this->assertTrue(!empty($is));
+		$this->assertTextContains('.gravatar.com/avatar/', $is);
 
 		$is = $this->Gravatar->image($this->testEmail, ['size' => '200']);
-		//$this->debug($is);
-		$this->assertTrue(!empty($is));
+		$this->assertTextContains('?size=200"', $is);
 
 		$is = $this->Gravatar->image($this->testEmail, ['size' => '20']);
-		//$this->debug($is);
-		$this->assertTrue(!empty($is));
+		$this->assertTextContains('?size=20"', $is);
 
 		$is = $this->Gravatar->image($this->testEmail, ['rating' => 'X']); # note the capit. x
-		//$this->debug($is);
-		$this->assertTrue(!empty($is));
+		$this->assertTextContains('?rating=x"', $is);
 
 		$is = $this->Gravatar->image($this->testEmail, ['ext' => true]);
-		//$this->debug($is);
-		$this->assertTrue(!empty($is));
+		$this->assertTextContains('.jpg"', $is);
 
 		$is = $this->Gravatar->image($this->testEmail, ['default' => 'none']);
-		//$this->debug($is);
 		$this->assertTrue(!empty($is));
 
 		$is = $this->Gravatar->image($this->garageEmail, ['default' => 'none']);
-		//$this->debug($is);
 		$this->assertTrue(!empty($is));
 
 		$is = $this->Gravatar->image($this->garageEmail, ['default' => 'http://2.gravatar.com/avatar/8379aabc84ecee06f48d8ca48e09eef4?d=identicon']);
-		//$this->debug($is);
 		$this->assertTrue(!empty($is));
+
+		$is = $this->Gravatar->image($this->testEmail, ['size' => '20']);
+		$this->assertTextContains('?size=20"', $is);
+
+		$is = $this->Gravatar->image($this->testEmail, ['rating' => 'X', 'size' => 20, 'default' => 'none']);
+		$this->assertTextContains('?rating=x&amp;size=20&amp;default=none"', $is);
 	}
 
 	/**

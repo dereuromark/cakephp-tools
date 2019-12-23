@@ -11,7 +11,7 @@ class AfterSaveBehaviorTest extends TestCase {
 	 * @var array
 	 */
 	public $fixtures = [
-		'core.Articles'
+		'core.Articles',
 	];
 
 	/**

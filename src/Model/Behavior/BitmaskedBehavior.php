@@ -44,7 +44,7 @@ class BitmaskedBehavior extends Behavior {
 		'on' => 'beforeMarshal', // or beforeRules or beforeSave
 		'defaultValue' => null, // NULL = auto (use empty string to trigger "notEmpty" rule for "default NOT NULL" db fields)
 		'implementedFinders' => [
-			'bits' => 'findBitmasked'
+			'bits' => 'findBitmasked',
 		],
 	];
 
@@ -141,8 +141,10 @@ class BitmaskedBehavior extends Behavior {
 
 			/** @var \Cake\Datasource\EntityInterface $entity */
 			$entity = $row;
-			$entity->set($mappedField, $this->decodeBitmask($entity->get($field)));
-			$entity->setDirty($mappedField, false);
+			if ($entity->has($field)) {
+				$entity->set($mappedField, $this->decodeBitmask($entity->get($field)));
+				$entity->setDirty($mappedField, false);
+			}
 			$mr->emit($entity);
 		};
 		$query->mapReduce($mapper);
