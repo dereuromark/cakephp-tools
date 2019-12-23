@@ -53,10 +53,6 @@ class ObfuscateHelper extends Helper {
 	 * @return string Save string with JS generated link around email (and non JS fallback)
 	 */
 	public function encodeEmailUrl($mail, $text = null, array $params = [], array $attr = []) {
-		if (empty($class)) {
-			$class = 'email';
-		}
-
 		$defaults = [
 			'title' => __d('tools', 'for use in an external mail client'),
 			'class' => 'email',
