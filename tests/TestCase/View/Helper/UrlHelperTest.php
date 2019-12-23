@@ -45,16 +45,16 @@ class UrlHelperTest extends TestCase {
 
 		$request = $this->Url->getView()->getRequest();
 		$request = $request->withAttribute('here', '/admin/foobar/test')
-			->withParam('prefix', 'admin');
+			->withParam('prefix', 'Admin');
 		$this->Url->getView()->setRequest($request);
 		Router::reload();
 		Router::connect('/:controller/:action/*');
-		Router::prefix('admin', function (RouteBuilder $routes) {
+		Router::prefix('Admin', function (RouteBuilder $routes) {
 			$routes->fallbacks();
 		});
-		Router::pushRequest($this->Url->getView()->getRequest());
+		Router::setRequest($this->Url->getView()->getRequest());
 
-		$result = $this->Url->build(['prefix' => 'admin', 'controller' => 'foobar', 'action' => 'test']);
+		$result = $this->Url->build(['prefix' => 'Admin', 'controller' => 'foobar', 'action' => 'test']);
 		$expected = '/admin/foobar/test';
 		$this->assertSame($expected, $result);
 
@@ -79,7 +79,7 @@ class UrlHelperTest extends TestCase {
 
 		$request = $this->Url->getView()->getRequest();
 		$request = $request->withAttribute('here', '/admin/foo/bar/baz/test')
-			->withParam('prefix', 'admin')
+			->withParam('prefix', 'Admin')
 			->withParam('plugin', 'Foo');
 		$this->Url->getView()->setRequest($request);
 		Router::reload();
@@ -87,12 +87,12 @@ class UrlHelperTest extends TestCase {
 		Router::plugin('Foo', function (RouteBuilder $routes) {
 			$routes->fallbacks();
 		});
-		Router::prefix('admin', function (RouteBuilder $routes) {
+		Router::prefix('Admin', function (RouteBuilder $routes) {
 			$routes->plugin('Foo', function (RouteBuilder $routes) {
 				$routes->fallbacks();
 			});
 		});
-		Router::pushRequest($this->Url->getView()->getRequest());
+		Router::setRequest($this->Url->getView()->getRequest());
 
 		$result = $this->Url->build(['controller' => 'bar', 'action' => 'baz', 'x']);
 		$expected = '/admin/foo/bar/baz/x';

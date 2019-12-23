@@ -60,16 +60,15 @@ class HtmlHelperTest extends TestCase {
 
 		$request = $this->Html->getView()->getRequest();
 		$request = $request->withAttribute('here', '/admin/foobar/test')
-			->withParam('admin', true)
-			->withParam('prefix', 'admin');
+			->withParam('prefix', 'Admin');
 		$this->Html->getView()->setRequest($request);
 		Router::reload();
 		Router::connect('/:controller/:action/*');
-		Router::prefix('admin', function (RouteBuilder $routes) {
+		Router::prefix('Admin', function (RouteBuilder $routes) {
 			$routes->connect('/:controller/:action/*');
 		});
 
-		$result = $this->Html->link('Foo', ['prefix' => 'admin', 'controller' => 'foobar', 'action' => 'test']);
+		$result = $this->Html->link('Foo', ['prefix' => 'Admin', 'controller' => 'foobar', 'action' => 'test']);
 		$expected = '<a href="/admin/foobar/test">Foo</a>';
 		$this->assertEquals($expected, $result);
 
