@@ -2,8 +2,7 @@ language: php
 
 php:
   - 7.2
-  - 7.3
-  - 7.4snapshot
+  - 7.4
 
 env:
   matrix:
@@ -19,26 +18,26 @@ matrix:
   fast_finish: true
 
   include:
-    - php: 7.2
+    - php: 7.3
       env: DB=pgsql db_dsn='postgres://postgres@127.0.0.1/cakephp_test'
 
-    - php: 7.2
+    - php: 7.3
       env: DB=sqlite db_dsn='sqlite:///:memory:'
 
     - php: 7.2
       env: PREFER_LOWEST=1
 
-    - php: 7.2
+    - php: 7.3
       env: CHECKS=1 DEFAULT=0
 
-    - php: 7.2
+    - php: 7.3
       env: CODECOVERAGE=1 DEFAULT=0
 
   allow_failures:
     - php: 7.4snapshot
 
 before_install:
-  - if [[ ${TRAVIS_PHP_VERSION} != "7.4snapshot" ]]; then phpenv config-rm xdebug.ini ; fi
+  - phpenv config-rm xdebug.ini
 
 before_script:
   - if [[ $PREFER_LOWEST != 1 ]]; then composer install --prefer-source --no-interaction ; fi
