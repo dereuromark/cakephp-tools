@@ -2,8 +2,10 @@
 
 namespace Tools\Utility;
 
+use Cake\Log\Log;
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
+use Exception;
 use RuntimeException;
 
 /**
@@ -286,26 +288,27 @@ class Utility {
 	/**
 	 * Parse headers from a specific URL content.
 	 *
-	 * @param string $url
+	 * @param string $urlArray
+	 *
 	 * @return mixed array of headers or FALSE on failure
 	 */
 	public static function getHeaderFromUrl($url) {
 		// @codingStandardsIgnoreStart
-		$url = @parse_url($url);
+		$urlArray = @parse_url($url);
 		// @codingStandardsIgnoreEnd
-		if (empty($url)) {
+		if (!$urlArray) {
 			return false;
 		}
 
-		$url = array_map('trim', $url);
-		$url['port'] = (!isset($url['port'])) ? '' : (':' . (int)$url['port']);
-		$path = (isset($url['path'])) ? $url['path'] : '';
+		$urlArray = array_map('trim', $urlArray);
+		$urlArray['port'] = (!isset($urlArray['port'])) ? '' : (':' . (int)$urlArray['port']);
+		$path = (isset($urlArray['path'])) ? $urlArray['path'] : '';
 
-		if (empty($path)) {
+		if (!$path) {
 			$path = '/';
 		}
 
-		$path .= (isset($url['query'])) ? "?$url[query]" : '';
+		$path .= (isset($urlArray['query'])) ? "?$urlArray[query]" : '';
 
 		$defaults = [
 			'http' => [
@@ -316,9 +319,15 @@ class Utility {
 		];
 		stream_context_get_default($defaults);
 
-		if (isset($url['host']) && $url['host'] !== gethostbyname($url['host'])) {
-			$url = "$url[scheme]://$url[host]$url[port]$path";
-			$headers = get_headers($url);
+		if (isset($urlArray['host']) && $urlArray['host'] !== gethostbyname($urlArray['host'])) {
+			$urlArray = "$urlArray[scheme]://$urlArray[host]$urlArray[port]$path";
+			try {
+				$headers = get_headers($urlArray);
+			} catch (Exception $exception) {
+				Log::write('debug', '`' . $url . '` URL parse error - ' . $exception->getMessage());
+
+				return false;
+			}
 			if (is_array($headers)) {
 				return $headers;
 			}
