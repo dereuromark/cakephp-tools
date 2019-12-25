@@ -1,16 +1,16 @@
 parameters:
-    autoload_files:
-    - %rootDir%/../../../tests/bootstrap.php
-    excludes_analyse:
-        - %rootDir%/../../../src/TestSuite/*
-        - %rootDir%/../../../src/View/Helper/TreeHelper
-        - %rootDir%/../../../src/Utility/Mime
-    ignoreErrors:
-        - '#Access to an undefined property .+Table::\$belongsTo#'
-        - '#Call to an undefined method .+TimeHelper::.+\(\)#'
-        - '#Access to protected property .+ServerRequest::\$.+#'
-        - '#Return type \(bool\) of method .+Email::send\(\) should be compatible with return type \(array\) of method .+Email::send\(\)#'
+	autoload_files:
+	- %rootDir%/../../../tests/bootstrap.php
+	excludes_analyse:
+		- %rootDir%/../../../src/TestSuite/*
+		- %rootDir%/../../../src/View/Helper/TreeHelper
+		- %rootDir%/../../../src/Utility/Mime
+	ignoreErrors:
+		- '#Access to an undefined property .+Table::\$belongsTo#'
+		- '#Call to an undefined method .+TimeHelper::.+\(\)#'
+		- '#Access to protected property .+ServerRequest::\$.+#'
+		- '#Return type \(bool\) of method .+Email::send\(\) should be compatible with return type \(array\) of method .+Email::send\(\)#'
 
 services:
-    -
-        class: Cake\PHPStan\AssociationTableMixinClassReflectionExtension
+	-
+		class: Cake\PHPStan\AssociationTableMixinClassReflectionExtension
