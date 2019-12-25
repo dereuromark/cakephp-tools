@@ -105,8 +105,6 @@ class Table extends ShimTable {
 	/**
 	 * Get all related entries that have been used so far
 	 *
-	 * @deprecated Must be refactored.
-	 *
 	 * @param string $tableName The related model
 	 * @param string|null $groupField Field to group by
 	 * @param string $type Find type
@@ -115,7 +113,8 @@ class Table extends ShimTable {
 	 */
 	public function getRelatedInUse($tableName, $groupField = null, $type = 'all', $options = []) {
 		if ($groupField === null) {
-			$groupField = $this->belongsTo[$tableName]['foreignKey'];
+			/** @var string $groupField */
+			$groupField = $this->getAssociation($tableName)->getForeignKey();
 		}
 		$defaults = [
 			'contain' => [$tableName],
@@ -123,9 +122,10 @@ class Table extends ShimTable {
 			'order' => isset($this->$tableName->order) ? $this->$tableName->order : [$tableName . '.' . $this->$tableName->getDisplayField() => 'ASC'],
 		];
 		if ($type === 'list') {
+			$propertyName = $this->getAssociation($tableName)->getProperty();
 			$defaults['fields'] = [$tableName . '.' . $this->$tableName->getPrimaryKey(), $tableName . '.' . $this->$tableName->getDisplayField()];
-			$defaults['keyField'] = $tableName . '.' . $this->$tableName->getPrimaryKey();
-			$defaults['valueField'] = $tableName . '.' . $this->$tableName->getDisplayField();
+			$defaults['keyField'] = $propertyName . '.' . $this->$tableName->getPrimaryKey();
+			$defaults['valueField'] = $propertyName . '.' . $this->$tableName->getDisplayField();
 		}
 		$options += $defaults;
 
@@ -147,8 +147,11 @@ class Table extends ShimTable {
 		];
 		if ($type === 'list') {
 			$defaults['fields'] = ['' . $this->getPrimaryKey(), '' . $this->getDisplayField()];
+			$defaults['keyField'] = $this->getPrimaryKey();
+			$defaults['valueField'] = $this->getDisplayField();
 		}
 		$options += $defaults;
+
 		return $this->find($type, $options);
 	}
 

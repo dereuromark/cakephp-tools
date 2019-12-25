@@ -714,18 +714,6 @@ class TimeTest extends TestCase {
 	}
 
 	/**
-	 * TimeTest::testTimezoneByCoordinates()
-	 *
-	 * @return void
-	 */
-	public function testTimezoneByCoordinates() {
-		$this->skipIf(true);
-
-		$result = $this->Time->timezoneByCoordinates(48, 11);
-		$this->assertEquals('Europe/Vaduz', $result);
-	}
-
-	/**
 	 * @return void
 	 */
 	public function testCweeks() {

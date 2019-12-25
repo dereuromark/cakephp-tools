@@ -6,6 +6,7 @@ use Cake\Datasource\ConnectionManager;
 use Cake\I18n\Time;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
+use Cake\Utility\Hash;
 use Tools\TestSuite\TestCase;
 
 class TableTest extends TestCase {
@@ -23,7 +24,12 @@ class TableTest extends TestCase {
 	/**
 	 * @var \Tools\Model\Table\Table;
 	 */
-	public $Users;
+	protected $Users;
+
+	/**
+	 * @var \Tools\Model\Table\Table;
+	 */
+	protected $Posts;
 
 	/**
 	 * SetUp method
@@ -173,30 +179,32 @@ class TableTest extends TestCase {
 	}
 
 	/**
-	 * TableTest::testGetRelatedInUse()
-	 *
 	 * @return void
 	 */
 	public function testGetRelatedInUse() {
-		$this->skipIf(true, 'TODO');
 		$results = $this->Posts->getRelatedInUse('Authors', 'author_id', 'list');
+		$expected = [1 => 'mariano', 3 => 'larry'];
+		$this->assertEquals($expected, $results->toArray());
+
+		$results = $this->Posts->getRelatedInUse('Authors', null, 'list');
 		$expected = [1 => 'mariano', 3 => 'larry'];
 		$this->assertEquals($expected, $results->toArray());
 	}
 
 	/**
-	 * TableTest::testGetFieldInUse()
-	 *
 	 * @return void
 	 */
 	public function testGetFieldInUse() {
-		$this->skipIf(true, 'TODO');
-		$this->db = ConnectionManager::get('test');
-		$this->skipIf(!($this->db instanceof Mysql), 'The test is only compatible with Mysql.');
-
-		$results = $this->Posts->getFieldInUse('author_id', 'list');
-		$expected = [1 => 'First Post', 2 => 'Second Post'];
+		$results = $this->Posts->getFieldInUse('author_id', 'list')->toArray();
+		$expected = [2 => 'Second Post', 3 => 'Third Post'];
 		$this->assertEquals($expected, $results);
+
+		$results = $this->Posts->getFieldInUse('author_id')->toArray();
+		$expected = ['Second Post', 'Third Post'];
+		$this->assertEquals($expected, Hash::extract($results, '{n}.title'));
+
+		$expected = [3, 1];
+		$this->assertEquals($expected, Hash::extract($results, '{n}.author_id'));
 	}
 
 	/**
