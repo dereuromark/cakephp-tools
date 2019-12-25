@@ -2,7 +2,6 @@
 
 namespace Tools\Test\TestCase\View\Helper;
 
-use Cake\Routing\Router;
 use Cake\View\View;
 use Tools\TestSuite\TestCase;
 use Tools\View\Helper\CommonHelper;
@@ -23,7 +22,6 @@ class CommonHelperTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		Router::reload();
 		$View = new View(null);
 		$this->Common = new CommonHelper($View);
 	}

@@ -14,12 +14,12 @@ class CommonComponentTest extends TestCase {
 	/**
 	 * @var \App\Controller\CommonComponentTestController
 	 */
-	public $Controller;
+	protected $Controller;
 
 	/**
 	 * @var \Cake\Http\ServerRequest
 	 */
-	public $request;
+	protected $request;
 
 	/**
 	 * @return void
@@ -138,9 +138,9 @@ class CommonComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testPostRedirect() {
-		$this->Controller->Common->postRedirect(['action' => 'foo']);
+		$this->Controller->Common->postRedirect(['controller' => 'MyController', 'action' => 'foo']);
 		$is = $this->Controller->getResponse()->getHeaderLine('Location');
-		$this->assertSame('http://localhost/foo', $is);
+		$this->assertSame('http://localhost/my-controller/foo', $is);
 		$this->assertSame(302, $this->Controller->getResponse()->getStatusCode());
 	}
 
@@ -148,9 +148,9 @@ class CommonComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testAutoRedirect() {
-		$this->Controller->Common->autoRedirect(['action' => 'foo']);
+		$this->Controller->Common->autoRedirect(['controller' => 'MyController', 'action' => 'foo']);
 		$is = $this->Controller->getResponse()->getHeaderLine('Location');
-		$this->assertSame('http://localhost/foo', $is);
+		$this->assertSame('http://localhost/my-controller/foo', $is);
 		$this->assertSame(302, $this->Controller->getResponse()->getStatusCode());
 	}
 
@@ -161,7 +161,7 @@ class CommonComponentTest extends TestCase {
 		$url = 'http://localhost/my-controller/some-referer-action';
 		$this->Controller->setRequest($this->Controller->getRequest()->withEnv('HTTP_REFERER', $url));
 
-		$this->Controller->Common->autoRedirect(['action' => 'foo'], true);
+		$this->Controller->Common->autoRedirect(['controller' => 'MyController', 'action' => 'foo'], true);
 		$is = $this->Controller->getResponse()->getHeaderLine('Location');
 		$this->assertSame($url, $is);
 		$this->assertSame(302, $this->Controller->getResponse()->getStatusCode());
@@ -171,9 +171,9 @@ class CommonComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testAutoPostRedirect() {
-		$this->Controller->Common->autoPostRedirect(['action' => 'foo'], true);
+		$this->Controller->Common->autoPostRedirect(['controller' => 'MyController', 'action' => 'foo'], true);
 		$is = $this->Controller->getResponse()->getHeaderLine('Location');
-		$this->assertSame('http://localhost/foo', $is);
+		$this->assertSame('http://localhost/my-controller/foo', $is);
 		$this->assertSame(302, $this->Controller->getResponse()->getStatusCode());
 	}
 
@@ -204,7 +204,8 @@ class CommonComponentTest extends TestCase {
 	public function testAutoPostRedirectRefererNotWhitelisted() {
 		$this->Controller->setRequest($this->Controller->getRequest()->withEnv('HTTP_REFERER', 'http://localhost/my-controller/wrong'));
 
-		$is = $this->Controller->Common->autoPostRedirect(['controller' => 'MyController', 'action' => 'foo'], true);
+		$this->Controller->Common->autoPostRedirect(['controller' => 'MyController', 'action' => 'foo'], true);
+
 		$is = $this->Controller->getResponse()->getHeaderLine('Location');
 		$this->assertSame('http://localhost/my-controller/foo', $is);
 		$this->assertSame(302, $this->Controller->getResponse()->getStatusCode());
