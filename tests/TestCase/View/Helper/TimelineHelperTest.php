@@ -15,7 +15,7 @@ class TimelineHelperTest extends TestCase {
 	/**
 	 * @var \App\View\Helper\TimelineHelper
 	 */
-	public $Timeline;
+	protected $Timeline;
 
 	/**
 	 * @return void

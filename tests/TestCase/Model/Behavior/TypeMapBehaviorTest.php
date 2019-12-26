@@ -8,21 +8,21 @@ use Tools\TestSuite\TestCase;
 class TypeMapBehaviorTest extends TestCase {
 
 	/**
-	 * @var \Tools\Model\Behavior\TypeMapBehavior
-	 */
-	public $TypeMapBehavior;
-
-	/**
-	 * @var \Tools\Model\Table\Table
-	 */
-	protected $Table;
-
-	/**
 	 * @var array
 	 */
 	public $fixtures = [
 		'plugin.Tools.Data',
 	];
+
+	/**
+	 * @var \Tools\Model\Behavior\TypeMapBehavior
+	 */
+	protected $TypeMapBehavior;
+
+	/**
+	 * @var \Tools\Model\Table\Table
+	 */
+	protected $Table;
 
 	/**
 	 * @return void

@@ -10,7 +10,7 @@ class TextTest extends TestCase {
 	/**
 	 * @var \Tools\Utility\Text;
 	 */
-	public $Text;
+	protected $Text;
 
 	/**
 	 * @return void

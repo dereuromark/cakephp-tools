@@ -9,21 +9,21 @@ use Tools\TestSuite\TestCase;
 class ResetBehaviorTest extends TestCase {
 
 	/**
-	 * @var \Tools\Model\Behavior\ResetBehavior
-	 */
-	public $ResetBehavior;
-
-	/**
-	 * @var \Tools\Model\Table\Table
-	 */
-	public $Table;
-
-	/**
 	 * @var array
 	 */
 	public $fixtures = [
 		'plugin.Tools.ResetComments',
 	];
+
+	/**
+	 * @var \Tools\Model\Behavior\ResetBehavior
+	 */
+	protected $ResetBehavior;
+
+	/**
+	 * @var \Tools\Model\Table\Table
+	 */
+	protected $Table;
 
 	/**
 	 * @return void

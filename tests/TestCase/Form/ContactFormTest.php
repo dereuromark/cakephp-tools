@@ -19,7 +19,7 @@ class ContactFormTest extends TestCase {
 	/**
 	 * @var \Tools\Form\ContactForm
 	 */
-	public $Form;
+	protected $Form;
 
 	/**
 	 * SetUp method

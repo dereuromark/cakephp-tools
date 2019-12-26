@@ -9,7 +9,7 @@ use Cake\Routing\Route\DashedRoute;
 Router::defaultRouteClass(DashedRoute::class);
 
 Router::scope('/', function(RouteBuilder $routes) {
-	$routes->fallbacks();
+	$routes->fallbacks(DashedRoute::class);
 });
 
 require ROOT . DS . 'config' . DS . 'routes.php';

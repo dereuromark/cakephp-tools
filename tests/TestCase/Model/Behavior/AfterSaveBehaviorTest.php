@@ -17,7 +17,7 @@ class AfterSaveBehaviorTest extends TestCase {
 	/**
 	 * @var \Tools\Model\Table\Table|\Tools\Model\Behavior\AfterSaveBehavior
 	 */
-	public $table;
+	protected $table;
 
 	/**
 	 * @return void

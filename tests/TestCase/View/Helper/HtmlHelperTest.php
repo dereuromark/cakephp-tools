@@ -6,6 +6,7 @@ use Cake\Core\Plugin;
 use Cake\Http\ServerRequest;
 use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
+use Cake\Routing\Route\DashedRoute;
 use Cake\View\View;
 use Tools\TestSuite\TestCase;
 use Tools\View\Helper\HtmlHelper;
@@ -52,33 +53,30 @@ class HtmlHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testLinkReset() {
-		Router::connect('/:controller/:action/*');
-
-		$result = $this->Html->linkReset('Foo', ['controller' => 'foobar', 'action' => 'test']);
-		$expected = '<a href="/foobar/test">Foo</a>';
+		$result = $this->Html->linkReset('Foo', ['controller' => 'FooBar', 'action' => 'test']);
+		$expected = '<a href="/foo-bar/test">Foo</a>';
 		$this->assertEquals($expected, $result);
 
 		$request = $this->Html->getView()->getRequest();
-		$request = $request->withAttribute('here', '/admin/foobar/test')
+		$request = $request->withAttribute('here', '/admin/foo-bar/test')
 			->withParam('prefix', 'Admin');
 		$this->Html->getView()->setRequest($request);
-		Router::reload();
-		Router::connect('/:controller/:action/*');
-		Router::prefix('Admin', function (RouteBuilder $routes) {
-			$routes->connect('/:controller/:action/*');
-		});
 
-		$result = $this->Html->link('Foo', ['prefix' => 'Admin', 'controller' => 'foobar', 'action' => 'test']);
-		$expected = '<a href="/admin/foobar/test">Foo</a>';
+		Router::prefix('Admin', function (RouteBuilder $routes) {
+			$routes->fallbacks(DashedRoute::class);
+		});
+		Router::setRequest($request);
+
+		$result = $this->Html->link('Foo', ['prefix' => 'Admin', 'controller' => 'FooBar', 'action' => 'test']);
+		$expected = '<a href="/admin/foo-bar/test">Foo</a>';
 		$this->assertEquals($expected, $result);
 
-		$result = $this->Html->link('Foo', ['controller' => 'foobar', 'action' => 'test']);
-		$expected = '<a href="/admin/foobar/test">Foo</a>';
-		//debug($result);
-		//$this->assertEquals($expected, $result);
+		$result = $this->Html->link('Foo', ['controller' => 'FooBar', 'action' => 'test']);
+		$expected = '<a href="/admin/foo-bar/test">Foo</a>';
+		$this->assertEquals($expected, $result);
 
-		$result = $this->Html->linkReset('Foo', ['controller' => 'foobar', 'action' => 'test']);
-		$expected = '<a href="/foobar/test">Foo</a>';
+		$result = $this->Html->linkReset('Foo', ['controller' => 'FooBar', 'action' => 'test']);
+		$expected = '<a href="/foo-bar/test">Foo</a>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -90,12 +88,12 @@ class HtmlHelperTest extends TestCase {
 	public function testLinkComplete() {
 		$this->Html->getView()->setRequest($this->Html->getView()->getRequest()->withQueryParams(['x' => 'y']));
 
-		$result = $this->Html->linkComplete('Foo', ['action' => 'test']);
-		$expected = '<a href="/test?x=y">Foo</a>';
+		$result = $this->Html->linkComplete('Foo', ['controller' => 'FooBar', 'action' => 'test']);
+		$expected = '<a href="/foo-bar/test?x=y">Foo</a>';
 		$this->assertEquals($expected, $result);
 
-		$result = $this->Html->linkComplete('Foo', ['action' => 'test', '?' => ['a' => 'b']]);
-		$expected = '<a href="/test?a=b&amp;x=y">Foo</a>';
+		$result = $this->Html->linkComplete('Foo', ['controller' => 'FooBar', 'action' => 'test', '?' => ['a' => 'b']]);
+		$expected = '<a href="/foo-bar/test?a=b&amp;x=y">Foo</a>';
 		$this->assertEquals($expected, $result);
 	}
 

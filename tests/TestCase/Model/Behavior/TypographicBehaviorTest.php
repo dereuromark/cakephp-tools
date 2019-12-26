@@ -9,16 +9,16 @@ use Tools\TestSuite\TestCase;
 class TypographicBehaviorTest extends TestCase {
 
 	/**
-	 * @var \Cake\ORM\Table|\Tools\Model\Behavior\TypographicBehavior
-	 */
-	public $Model;
-
-	/**
 	 * @var array
 	 */
 	public $fixtures = [
 		'core.Articles',
 	];
+
+	/**
+	 * @var \Cake\ORM\Table|\Tools\Model\Behavior\TypographicBehavior
+	 */
+	protected $Model;
 
 	/**
 	 * @return void

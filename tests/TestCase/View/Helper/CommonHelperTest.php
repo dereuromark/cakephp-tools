@@ -2,6 +2,8 @@
 
 namespace Tools\Test\TestCase\View\Helper;
 
+use Cake\Routing\Route\DashedRoute;
+use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
 use Cake\View\View;
 use Tools\TestSuite\TestCase;
@@ -15,7 +17,7 @@ class CommonHelperTest extends TestCase {
 	/**
 	 * @var \Tools\View\Helper\CommonHelper
 	 */
-	public $Common;
+	protected $Common;
 
 	/**
 	 * @return void
@@ -23,12 +25,12 @@ class CommonHelperTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		Router::reload();
-		Router::connect('/:controller', ['action' => 'index']);
-		Router::connect('/:controller/:action/*');
-
 		$View = new View(null);
 		$this->Common = new CommonHelper($View);
+
+		Router::scope('/', function(RouteBuilder $routes) {
+			$routes->fallbacks(DashedRoute::class);
+		});
 	}
 
 	/**
@@ -114,13 +116,13 @@ class CommonHelperTest extends TestCase {
 		$is = $this->Common->metaAlternate('/some/url/param1', 'de-de', true);
 		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url/param1', ['full' => true]) . '" rel="alternate" hreflang="de-de"/>', trim($is));
 
-		$is = $this->Common->metaAlternate(['controller' => 'some', 'action' => 'url'], 'de', true);
+		$is = $this->Common->metaAlternate(['controller' => 'Some', 'action' => 'url'], 'de', true);
 		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url', ['full' => true]) . '" rel="alternate" hreflang="de"/>', trim($is));
 
-		$is = $this->Common->metaAlternate(['controller' => 'some', 'action' => 'url'], ['de', 'de-ch'], true);
+		$is = $this->Common->metaAlternate(['controller' => 'Some', 'action' => 'url'], ['de', 'de-ch'], true);
 		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url', ['full' => true]) . '" rel="alternate" hreflang="de"/>' . PHP_EOL . '<link href="' . $this->Common->Url->build('/some/url', ['full' => true]) . '" rel="alternate" hreflang="de-ch"/>', trim($is));
 
-		$is = $this->Common->metaAlternate(['controller' => 'some', 'action' => 'url'], ['de' => ['ch', 'at'], 'en' => ['gb', 'us']], true);
+		$is = $this->Common->metaAlternate(['controller' => 'Some', 'action' => 'url'], ['de' => ['ch', 'at'], 'en' => ['gb', 'us']], true);
 		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url', ['full' => true]) . '" rel="alternate" hreflang="de-ch"/>' . PHP_EOL .
 			'<link href="' . $this->Common->Url->build('/some/url', ['full' => true]) . '" rel="alternate" hreflang="de-at"/>' . PHP_EOL .
 			'<link href="' . $this->Common->Url->build('/some/url', ['full' => true]) . '" rel="alternate" hreflang="en-gb"/>' . PHP_EOL .

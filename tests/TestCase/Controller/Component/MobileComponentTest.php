@@ -25,12 +25,12 @@ class MobileComponentTest extends TestCase {
 	/**
 	 * @var \Cake\Event\Event
 	 */
-	public $event;
+	protected $event;
 
 	/**
 	 * @var \App\Controller\MobileComponentTestController
 	 */
-	public $Controller;
+	protected $Controller;
 
 	/**
 	 * SetUp method
@@ -96,7 +96,10 @@ class MobileComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testMobileForceActivated() {
-		$this->Controller->setRequest($this->Controller->getRequest()->withQueryParams(['mobile' => 1]));
+		$request = $this->Controller->getRequest()
+			->withAttribute('params', ['controller' => 'MyController'])
+			->withQueryParams(['mobile' => 1]);
+		$this->Controller->setRequest($request);
 
 		$this->Controller->Mobile->beforeFilter($this->event);
 		$session = $this->Controller->getRequest()->getSession()->read('User');
@@ -107,14 +110,17 @@ class MobileComponentTest extends TestCase {
 
 		$configure = Configure::read('User');
 		$this->assertSame(['isMobile' => 0, 'setMobile' => 1], $configure);
-		$this->assertEquals(['desktopUrl' => '/?mobile=0'], $this->Controller->viewBuilder()->getVars());
+		$this->assertEquals(['desktopUrl' => '/my-controller?mobile=0'], $this->Controller->viewBuilder()->getVars());
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testMobileForceDeactivated() {
-		$this->Controller->setRequest($this->Controller->getRequest()->withQueryParams(['mobile' => 0]));
+		$request = $this->Controller->getRequest()
+			->withAttribute('params', ['controller' => 'MyController'])
+			->withQueryParams(['mobile' => 0]);
+		$this->Controller->setRequest($request);
 
 		$this->Controller->Mobile->beforeFilter($this->event);
 		$session = $this->Controller->getRequest()->getSession()->read('User');
@@ -123,7 +129,7 @@ class MobileComponentTest extends TestCase {
 		$this->Controller->Mobile->setMobile();
 		$configure = Configure::read('User');
 		$this->assertSame(['isMobile' => 0, 'setMobile' => 0], $configure);
-		$this->assertEquals(['mobileUrl' => '/?mobile=1'], $this->Controller->viewBuilder()->getVars());
+		$this->assertEquals(['mobileUrl' => '/my-controller?mobile=1'], $this->Controller->viewBuilder()->getVars());
 	}
 
 	/**

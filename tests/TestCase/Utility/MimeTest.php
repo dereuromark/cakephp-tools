@@ -12,7 +12,7 @@ class MimeTest extends TestCase {
 	/**
 	 * @var \Tools\Utility\Mime
 	 */
-	public $Mime;
+	protected $Mime;
 
 	/**
 	 * @return void

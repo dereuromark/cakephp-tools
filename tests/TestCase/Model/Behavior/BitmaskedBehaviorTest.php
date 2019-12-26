@@ -19,7 +19,7 @@ class BitmaskedBehaviorTest extends TestCase {
 	/**
 	 * @var \Tools\Model\Table\Table|\Tools\Model\Behavior\BitmaskedBehavior
 	 */
-	public $Comments;
+	protected $Comments;
 
 	/**
 	 * @return void

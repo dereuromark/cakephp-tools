@@ -18,7 +18,7 @@ class JsonableBehaviorTest extends TestCase {
 	/**
 	 * @var \Tools\Model\Table\Table
 	 */
-	public $Comments;
+	protected $Comments;
 
 	/**
 	 * @return void

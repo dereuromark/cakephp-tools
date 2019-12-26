@@ -15,7 +15,12 @@ class FormHelperTest extends TestCase {
 	/**
 	 * @var \Tools\View\Helper\FormHelper
 	 */
-	public $Form;
+	protected $Form;
+
+	/**
+	 * @var \Cake\View\View
+	 */
+	protected $View;
 
 	/**
 	 * @return void

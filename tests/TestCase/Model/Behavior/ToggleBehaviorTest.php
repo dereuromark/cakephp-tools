@@ -17,7 +17,7 @@ class ToggleBehaviorTest extends TestCase {
 	/**
 	 * @var \Tools\Model\Table\Table|\Tools\Model\Behavior\ToggleBehavior
 	 */
-	public $Addresses;
+	protected $Addresses;
 
 	/**
 	 * @return void

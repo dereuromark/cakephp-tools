@@ -60,7 +60,7 @@ class UrlHelper extends CoreUrlHelper {
 			$url += $this->defaults();
 		}
 
-		return parent::build($url, $options);
+		return $this->build($url, $options);
 	}
 
 	/**
@@ -77,7 +77,7 @@ class UrlHelper extends CoreUrlHelper {
 			$url = $this->addQueryStrings($url);
 		}
 
-		return parent::build($url, $options);
+		return $this->build($url, $options);
 	}
 
 	/**

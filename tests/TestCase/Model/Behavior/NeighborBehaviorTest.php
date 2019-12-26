@@ -9,16 +9,16 @@ use Tools\TestSuite\TestCase;
 class NeighborBehaviorTest extends TestCase {
 
 	/**
-	 * @var \Tools\Model\Table\Table
-	 */
-	public $Table;
-
-	/**
 	 * @var array
 	 */
 	public $fixtures = [
 		'plugin.Tools.Stories',
 	];
+
+	/**
+	 * @var \Tools\Model\Table\Table
+	 */
+	protected $Table;
 
 	/**
 	 * @return void

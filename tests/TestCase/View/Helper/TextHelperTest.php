@@ -12,7 +12,7 @@ class TextHelperTest extends TestCase {
 	/**
 	 * @var \Tools\View\Helper\TextHelper
 	 */
-	public $Text;
+	protected $Text;
 
 	/**
 	 * @return void

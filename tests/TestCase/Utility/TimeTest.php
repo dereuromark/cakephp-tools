@@ -13,7 +13,7 @@ class TimeTest extends TestCase {
 	/**
 	 * @var \Tools\Utility\Time
 	 */
-	public $Time;
+	protected $Time;
 
 	/**
 	 * @return void
@@ -712,18 +712,6 @@ class TimeTest extends TestCase {
 
 		$result = $this->Time->cWeekMod(6);
 		$this->assertEquals(0, $result);
-	}
-
-	/**
-	 * TimeTest::testTimezoneByCoordinates()
-	 *
-	 * @return void
-	 */
-	public function testTimezoneByCoordinates() {
-		$this->skipIf(true);
-
-		$result = $this->Time->timezoneByCoordinates(48, 11);
-		$this->assertEquals('Europe/Vaduz', $result);
 	}
 
 	/**

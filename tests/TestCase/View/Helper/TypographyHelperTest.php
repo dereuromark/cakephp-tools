@@ -15,7 +15,7 @@ class TypographyHelperTest extends TestCase {
 	/**
 	 * @var \Tools\View\Helper\TypographyHelper
 	 */
-	public $Typography;
+	protected $Typography;
 
 	/**
 	 * SetUp method

@@ -19,7 +19,7 @@ class ControllerTest extends TestCase {
 	/**
 	 * @var \Cake\Controller\Controller
 	 */
-	public $Controller;
+	protected $Controller;
 
 	/**
 	 * @return void

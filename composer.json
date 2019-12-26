@@ -12,12 +12,12 @@
 			"homepage": "https://www.dereuromark.de"
 		}
 	],
-	"require":{
+	"require": {
 		"php": ">=7.2",
 		"cakephp/cakephp": "^4.0",
 		"dereuromark/cakephp-shim": "dev-cake4 as 4.0.0"
 	},
-	"require-dev":{
+	"require-dev": {
 		"cakephp/chronos": "^2.0",
 		"mobiledetect/mobiledetectlib": "^2.8",
 		"fig-r/psr2r-sniffer": "dev-master",
@@ -40,7 +40,7 @@
 	"suggest": {
 		"yangqi/htmldom": "For HtmlDom usage"
 	},
-	"support":{
+	"support": {
 		"source": "https://github.com/dereuromark/cakephp-tools",
 		"issues": "https://github.com/dereuromark/cakephp-tools/issues"
 	},

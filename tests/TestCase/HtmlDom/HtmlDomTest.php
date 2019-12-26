@@ -10,7 +10,7 @@ class HtmlDomTest extends TestCase {
 	/**
 	 * @var \Tools\HtmlDom\HtmlDom
 	 */
-	public $HtmlDom;
+	protected $HtmlDom;
 
 	/**
 	 * @return void

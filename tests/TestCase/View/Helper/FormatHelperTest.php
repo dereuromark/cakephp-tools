@@ -24,7 +24,7 @@ class FormatHelperTest extends TestCase {
 	/**
 	 * @var \Tools\View\Helper\FormatHelper
 	 */
-	public $Format;
+	protected $Format;
 
 	/**
 	 * @return void
@@ -314,15 +314,15 @@ class FormatHelperTest extends TestCase {
 			'next' => ['id' => 2, 'foo' => 'My FooBaz'],
 		];
 
-		$result = $this->Format->neighbors($neighbors, 'foo', ['slug' => true]);
+		// Only needed for fake requests (tests)
+		$url = ['controller' => 'MyController', 'action' => 'myAction'];
+		$result = $this->Format->neighbors($neighbors, 'foo', ['slug' => true, 'url' => $url]);
 
-		$expected = '<div class="next-prev-navi nextPrevNavi"><a href="/index/1/My-Foo" title="My Foo"><i class="icon icon-prev fa fa-prev" title="Prev" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/index/2/My-FooBaz" title="My FooBaz"><i class="icon icon-next fa fa-next" title="Next" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;nextRecord</a></div>';
+		$expected = '<div class="next-prev-navi nextPrevNavi"><a href="/my-controller/my-action/1/My-Foo" title="My Foo"><i class="icon icon-prev fa fa-prev" title="Prev" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/my-controller/my-action/2/My-FooBaz" title="My FooBaz"><i class="icon icon-next fa fa-next" title="Next" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;nextRecord</a></div>';
 		$this->assertEquals($expected, $result);
 	}
 
 	/**
-	 * FormatHelperTest::testTab2space()
-	 *
 	 * @return void
 	 */
 	public function testTab2space() {
@@ -331,12 +331,17 @@ class FormatHelperTest extends TestCase {
 		$text .= "foooo\t\tbar\t\tbla\n";
 		$result = $this->Format->tab2space($text);
 
+		$expected = <<<TXT
+foo          foobar        bla
+fooo         bar           bla
+foooo        bar           bla
+
+TXT;
+		$this->assertTextEquals($expected, $result);
 		$this->assertTrue(strpos($result, "\t") === false);
 	}
 
 	/**
-	 * FormatHelperTest::testArray2table()
-	 *
 	 * @return void
 	 */
 	public function testArray2table() {

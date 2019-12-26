@@ -18,7 +18,7 @@ class EntityTest extends TestCase {
 	/**
 	 * @var \Tools\Model\Table\Table
 	 */
-	public $Users;
+	protected $Users;
 
 	/**
 	 * @return void
