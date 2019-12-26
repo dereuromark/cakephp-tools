@@ -681,25 +681,23 @@ class TimeTest extends TestCase {
 	 */
 	public function testFuzzyFromOffset() {
 		$ret = $this->Time->fuzzyFromOffset(MONTH);
-		//pr($ret);
+		$this->assertSame('about a month', $ret);
 
 		$ret = $this->Time->fuzzyFromOffset(120);
-		//pr($ret);
+		$this->assertSame('a few minutes', $ret);
 
 		$ret = $this->Time->fuzzyFromOffset(DAY);
-		//pr($ret);
+		$this->assertSame('about a day', $ret);
 
 		$ret = $this->Time->fuzzyFromOffset(DAY + 2 * MINUTE);
-		//pr($ret);
+		$this->assertSame('about a day', $ret);
 
 		// FIX ME! Doesn't work!
 		$ret = $this->Time->fuzzyFromOffset(-DAY);
-		//pr($ret);
+		//dd($ret);
 	}
 
 	/**
-	 * TimeTest::testCweekMod()
-	 *
 	 * @return void
 	 */
 	public function testCweekMod() {
