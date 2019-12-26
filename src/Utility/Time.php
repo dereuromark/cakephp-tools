@@ -642,9 +642,9 @@ class Time extends CakeTime {
 	/**
 	 * Months
 	 *
-	 * @param array $monthKeys
+	 * @param int[] $monthKeys
 	 * @param array $options
-	 * @return array
+	 * @return string[]
 	 */
 	public static function monthNames(array $monthKeys = [], array $options = []) {
 		if (!$monthKeys) {
@@ -661,9 +661,9 @@ class Time extends CakeTime {
 	/**
 	 * Weekdays
 	 *
-	 * @param array $dayKeys
+	 * @param int[] $dayKeys
 	 * @param array $options
-	 * @return array
+	 * @return string[]
 	 */
 	public static function dayNames(array $dayKeys = [], array $options = []) {
 		if (!$dayKeys) {
@@ -1165,7 +1165,7 @@ class Time extends CakeTime {
 	 * now supports negative values like -2,5 -2,5 -2:30 -:30 or -4
 	 *
 	 * @param string $duration
-	 * @param array $allowed
+	 * @param string[] $allowed
 	 * @return int Seconds
 	 */
 	public static function parseLocalTime($duration, array $allowed = [':', '.', ',']) {
@@ -1206,7 +1206,7 @@ class Time extends CakeTime {
 	 * Parse 2022-11-12 or 12.11.2022 or even 12.11.22
 	 *
 	 * @param string $date
-	 * @param array $allowed
+	 * @param string[] $allowed
 	 * @return int Seconds
 	 */
 	public static function parseLocalDate($date, array $allowed = ['.', '-']) {

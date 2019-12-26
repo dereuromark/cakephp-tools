@@ -128,7 +128,7 @@ class Utility {
 	 *
 	 * @param string $str
 	 * @param int $length
-	 * @return array Result
+	 * @return string[] Result
 	 */
 	public static function strSplit($str, $length = 1) {
 		if ($length < 1) {
@@ -222,7 +222,7 @@ class Utility {
 	 * Removes http:// or other protocols from the link.
 	 *
 	 * @param string $url
-	 * @param array $protocols Defaults to http and https. Pass empty array for all.
+	 * @param string[] $protocols Defaults to http and https. Pass empty array for all.
 	 * @return string strippedUrl
 	 */
 	public static function stripProtocol($url, $protocols = ['http', 'https']) {
