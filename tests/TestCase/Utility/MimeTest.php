@@ -164,6 +164,10 @@ class MimeTest extends TestCase {
 		foreach ($plugin as $key => $value) {
 			$diff['pluginonly'][$key] = $value;
 		}
+
+		$this->assertNotEmpty($diff['coreonly']);
+		$this->assertNotEmpty($diff['pluginonly']);
+		$this->assertNotEmpty($diff['modified']);
 	}
 
 }
