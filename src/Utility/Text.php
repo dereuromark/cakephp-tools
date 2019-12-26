@@ -175,35 +175,6 @@ class Text extends CakeText {
 	}
 
 	/**
-	 * @param string $str
-	 * @param int $maxCols
-	 * @return string
-	 */
-	public static function convertToOrdTable($str, $maxCols = 20) {
-		$res = '<table>';
-		$r = ['chr' => [], 'ord' => []];
-		$chars = preg_split('//', $str, -1);
-		$count = 0;
-		foreach ($chars as $key => $char) {
-			if ($maxCols && $maxCols < $count || $key === count($chars) - 1) {
-				$res .= '<tr><th>' . implode('</th><th>', $r['chr']) . '</th>';
-				$res .= '</tr>';
-				$res .= '<tr>';
-				$res .= '<td>' . implode('</th><th>', $r['ord']) . '</td></tr>';
-				$count = 0;
-				$r = ['chr' => [], 'ord' => []];
-			}
-			$count++;
-			//$res[] = UnicodeLib::ord($char);
-			$r['ord'][] = ord($char);
-			$r['chr'][] = $char;
-		}
-
-		$res .= '</table>';
-		return $res;
-	}
-
-	/**
 	 * Explode a string of given tags into an array.
 	 *
 	 * @param string $tags

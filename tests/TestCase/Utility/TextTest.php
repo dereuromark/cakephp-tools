@@ -55,19 +55,10 @@ TXT;
 	 */
 	public function testConvertToOrd() {
 		$is = $this->Text->convertToOrd('h H');
-		//pr($is);
-		$this->assertEquals($is, '0-104-32-72-0');
+		$this->assertSame($is, '0-104-32-72-0');
 
 		$is = $this->Text->convertToOrd('x' . PHP_EOL . 'x' . PHP_EOL . 'x' . PHP_EOL . 'x' . PHP_EOL . 'x' . "\t" . 'x');
-		//pr($is);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testConvertToOrdTable() {
-		$is = $this->Text->convertToOrdTable('x' . PHP_EOL . 'x' . PHP_EOL . 'x' . PHP_EOL . 'x' . PHP_EOL . 'x' . "\t" . 'x');
-		//pr($is);
+		$this->assertSame('0-120-10-120-10-120-10-120-10-120-9-120-0', $is);
 	}
 
 	/**
