@@ -208,8 +208,10 @@ class TableTest extends TestCase {
 		$this->assertEquals($expected, Hash::extract($results, '{n}.title'));
 		*/
 
-		$expected = [3, 1];
-		$this->assertEquals($expected, Hash::extract($results, '{n}.author_id'));
+		$ids = Hash::extract($results, '{n}.author_id');
+		sort($ids);
+		$expected = [1, 3];
+		$this->assertEquals($expected, $ids);
 	}
 
 	/**

@@ -288,7 +288,7 @@ class Utility {
 	/**
 	 * Parse headers from a specific URL content.
 	 *
-	 * @param string $urlArray
+	 * @param string $url
 	 *
 	 * @return mixed array of headers or FALSE on failure
 	 */
