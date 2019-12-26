@@ -6,7 +6,6 @@ parameters:
 		- %rootDir%/../../../src/View/Helper/TreeHelper
 		- %rootDir%/../../../src/Utility/Mime
 	ignoreErrors:
-		- '#Access to an undefined property .+Table::\$belongsTo#'
 		- '#Call to an undefined method .+TimeHelper::.+\(\)#'
 		- '#Access to protected property .+ServerRequest::\$.+#'
 		- '#Return type \(bool\) of method .+Email::send\(\) should be compatible with return type \(array\) of method .+Email::send\(\)#'

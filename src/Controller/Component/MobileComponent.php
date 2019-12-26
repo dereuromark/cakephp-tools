@@ -135,8 +135,7 @@ class MobileComponent extends Component {
 			$this->setMobile = false;
 		}
 
-		//$urlParams = Router::getParams(true);
-		$urlParams = [];
+		$urlParams = $this->getController()->getRequest()->getAttribute('params');
 		if (!isset($urlParams['pass'])) {
 			$urlParams['pass'] = [];
 		}

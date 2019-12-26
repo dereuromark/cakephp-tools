@@ -16,12 +16,12 @@ class RefererRedirectComponentTest extends TestCase {
 	/**
 	 * @var \Cake\Event\Event
 	 */
-	public $event;
+	protected $event;
 
 	/**
 	 * @var \App\Controller\RefererRedirectComponentTestController
 	 */
-	public $Controller;
+	protected $Controller;
 
 	/**
 	 * @return void

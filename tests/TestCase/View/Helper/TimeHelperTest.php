@@ -62,12 +62,11 @@ class TimeHelperTest extends TestCase {
 	 */
 	public function testTimeAgoInWords() {
 		$res = $this->Time->timeAgoInWords(date(FORMAT_DB_DATETIME, time() - 4 * DAY - 5 * HOUR));
-		$this->debug($res);
+
+		$this->assertNotEmpty($res);
 	}
 
 	/**
-	 * DatetimeHelperTest::testPublished()
-	 *
 	 * @return void
 	 */
 	public function testPublished() {
