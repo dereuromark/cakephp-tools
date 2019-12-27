@@ -7,7 +7,6 @@ use Cake\Core\Configure;
 use Cake\Core\Exception\Exception;
 use Cake\View\Helper\TimeHelper as CakeTimeHelper;
 use Cake\View\View;
-use DateTime;
 
 /**
  * Wrapper for TimeHelper and TimeLib
