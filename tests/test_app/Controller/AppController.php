@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace TestApp\Controller;
 
 use Cake\Controller\Controller;
 

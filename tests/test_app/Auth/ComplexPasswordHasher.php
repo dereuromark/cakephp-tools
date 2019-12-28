@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Auth;
+namespace TestApp\Auth;
 
 use Cake\Auth\DefaultPasswordHasher;
 

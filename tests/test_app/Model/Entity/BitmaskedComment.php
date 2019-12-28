@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Entity;
+namespace TestApp\Model\Entity;
 
 use Tools\Model\Entity\Entity;
 

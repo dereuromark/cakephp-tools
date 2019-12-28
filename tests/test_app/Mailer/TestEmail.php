@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Mailer;
+namespace TestApp\Mailer;
 
 use Tools\Mailer\Email;
 

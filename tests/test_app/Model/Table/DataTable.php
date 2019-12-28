@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Table;
+namespace TestApp\Model\Table;
 
 use Cake\Database\Schema\TableSchema;
 use Tools\Model\Table\Table;
