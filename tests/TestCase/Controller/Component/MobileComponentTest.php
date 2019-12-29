@@ -92,7 +92,7 @@ class MobileComponentTest extends TestCase {
 	 */
 	public function testMobileForceActivated() {
 		$request = $this->Controller->getRequest()
-			->withAttribute('params', ['controller' => 'MyController'])
+			->withAttribute('params', ['controller' => 'MyController', 'action' => 'myAction'])
 			->withQueryParams(['mobile' => 1]);
 		$this->Controller->setRequest($request);
 
@@ -105,7 +105,7 @@ class MobileComponentTest extends TestCase {
 
 		$configure = Configure::read('User');
 		$this->assertSame(['isMobile' => 0, 'setMobile' => 1], $configure);
-		$this->assertEquals(['desktopUrl' => '/my-controller?mobile=0'], $this->Controller->viewVars);
+		$this->assertEquals(['desktopUrl' => '/my-controller/my-action?mobile=0'], $this->Controller->viewVars);
 	}
 
 	/**
@@ -113,7 +113,7 @@ class MobileComponentTest extends TestCase {
 	 */
 	public function testMobileForceDeactivated() {
 		$request = $this->Controller->getRequest()
-			->withAttribute('params', ['controller' => 'MyController'])
+			->withAttribute('params', ['controller' => 'MyController', 'action' => 'myAction'])
 			->withQueryParams(['mobile' => 0]);
 		$this->Controller->setRequest($request);
 
@@ -124,7 +124,7 @@ class MobileComponentTest extends TestCase {
 		$this->Controller->Mobile->setMobile();
 		$configure = Configure::read('User');
 		$this->assertSame(['isMobile' => 0, 'setMobile' => 0], $configure);
-		$this->assertEquals(['mobileUrl' => '/my-controller?mobile=1'], $this->Controller->viewVars);
+		$this->assertEquals(['mobileUrl' => '/my-controller/my-action?mobile=1'], $this->Controller->viewVars);
 	}
 
 	/**
@@ -132,6 +132,10 @@ class MobileComponentTest extends TestCase {
 	 */
 	public function testMobileFakeMobile() {
 		$_SERVER['HTTP_USER_AGENT'] = 'Some Android device';
+
+		$request = $this->Controller->getRequest()
+			->withAttribute('params', ['controller' => 'MyController', 'action' => 'myAction']);
+		$this->Controller->setRequest($request);
 
 		$this->Controller->Mobile->beforeFilter($this->event);
 		$this->assertTrue($this->Controller->Mobile->isMobile);
@@ -145,7 +149,11 @@ class MobileComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testMobileFakeMobileForceDeactivated() {
-		$this->Controller->setRequest($this->Controller->getRequest()->withQueryParams(['mobile' => 0]));
+		$request = $this->Controller->getRequest()
+			->withAttribute('params', ['controller' => 'MyController', 'action' => 'myAction'])
+			->withQueryParams(['mobile' => 0]);
+		$this->Controller->setRequest($request);
+
 		$_SERVER['HTTP_USER_AGENT'] = 'Some Android device';
 
 		$this->Controller->Mobile->beforeFilter($this->event);
@@ -167,6 +175,10 @@ class MobileComponentTest extends TestCase {
 	public function testMobileFakeMobileAuto() {
 		$this->Controller->Mobile->setConfig('auto', true);
 		$_SERVER['HTTP_USER_AGENT'] = 'Some Android device';
+
+		$request = $this->Controller->getRequest()
+			->withAttribute('params', ['controller' => 'MyController', 'action' => 'myAction']);
+		$this->Controller->setRequest($request);
 
 		$this->Controller->Mobile->beforeFilter($this->event);
 		$this->assertTrue($this->Controller->Mobile->isMobile);

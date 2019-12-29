@@ -55,11 +55,10 @@ TXT;
 	 */
 	public function testConvertToOrd() {
 		$is = $this->Text->convertToOrd('h H');
-		//pr($is);
 		$this->assertEquals($is, '0-104-32-72-0');
 
 		$is = $this->Text->convertToOrd('x' . PHP_EOL . 'x' . PHP_EOL . 'x' . PHP_EOL . 'x' . PHP_EOL . 'x' . "\t" . 'x');
-		//pr($is);
+		$this->assertNotEmpty($is);
 	}
 
 	/**
@@ -67,7 +66,7 @@ TXT;
 	 */
 	public function testConvertToOrdTable() {
 		$is = $this->Text->convertToOrdTable('x' . PHP_EOL . 'x' . PHP_EOL . 'x' . PHP_EOL . 'x' . PHP_EOL . 'x' . "\t" . 'x');
-		//pr($is);
+		$this->assertNotEmpty($is);
 	}
 
 	/**

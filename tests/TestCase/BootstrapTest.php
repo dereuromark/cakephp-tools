@@ -5,9 +5,6 @@ namespace Tools\Test\TestCase;
 use DateTime;
 use Tools\TestSuite\TestCase;
 
-/**
- * RssViewTest
- */
 class BootstrapTest extends TestCase {
 
 	/**
@@ -19,8 +16,6 @@ class BootstrapTest extends TestCase {
 	}
 
 	/**
-	 * BootstrapTest::testStartsWith()
-	 *
 	 * @return void
 	 */
 	public function testStartsWith() {
@@ -57,8 +52,6 @@ class BootstrapTest extends TestCase {
 	}
 
 	/**
-	 * BootstrapTest::testEndsWith()
-	 *
 	 * @return void
 	 */
 	public function testEndsWith() {
@@ -95,8 +88,6 @@ class BootstrapTest extends TestCase {
 	}
 
 	/**
-	 * BootstrapTest::testContains()
-	 *
 	 * @return void
 	 */
 	public function testContains() {
@@ -136,26 +127,28 @@ class BootstrapTest extends TestCase {
 	 * @return void
 	 */
 	public function testEnt() {
-		//$this->assertEquals($expected, $is);
+		$is = ent('<b>');
+		$this->assertSame('&lt;b&gt;', $is);
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testEntDec() {
-		//$this->assertEquals($expected, $is);
+		$is = entDec('&lt;b&gt;');
+		$this->assertSame('<b>', $is);
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testReturns() {
-		//$this->assertEquals($expected, $is);
+		$foo = 1;
+		$is = returns($foo);
+		$this->assertSame('(int)1', $is);
 	}
 
 	/**
-	 * BootstrapTest::testExtractPathInfo()
-	 *
 	 * @return void
 	 */
 	public function testExtractPathInfo() {
@@ -173,8 +166,6 @@ class BootstrapTest extends TestCase {
 	}
 
 	/**
-	 * BootstrapTest::testExtractFileInfo()
-	 *
 	 * @return void
 	 */
 	public function testExtractFileInfo() {
