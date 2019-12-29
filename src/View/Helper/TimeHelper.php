@@ -7,7 +7,6 @@ use Cake\Core\Configure;
 use Cake\Core\Exception\Exception;
 use Cake\View\Helper\TimeHelper as CakeTimeHelper;
 use Cake\View\View;
-use DateTime;
 
 /**
  * Wrapper for TimeHelper and TimeLib
@@ -143,20 +142,17 @@ class TimeHelper extends CakeTimeHelper {
 	 * Returns red/specialGreen/green date depending on the current day
 	 * // TODO refactor! $userOffset is deprecated!
 	 *
-	 * @param \DateTime $date Date
+	 * @param \DateTimeInterface $date Date
 	 * @param array $options
 	 * @param array $attr HTML attributes
 	 * @return string Nicely formatted date
 	 */
-	public function published(DateTime $date, array $options = [], array $attr = []) {
-		$niceDate = '';
+	public function published($date, array $options = [], array $attr = []) {
 		$when = null;
-		$span = '';
-		$spanEnd = '';
 		$whenArray = ['-1' => 'already', '0' => 'today', '1' => 'notyet'];
 		$titles = ['-1' => __d('tools', 'publishedAlready'), '0' => __d('tools', 'publishedToday'), '1' => __d('tools', 'publishedNotYet')];
 
-		$y = $this->isThisYear($date) ? '' : ' Y';
+		//$y = $this->isThisYear($date) ? '' : ' Y';
 
 		$format = (!empty($options['format']) ? $options['format'] : FORMAT_NICE_YMD);
 

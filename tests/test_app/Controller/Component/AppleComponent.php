@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Component;
+namespace TestApp\Controller\Component;
 
 use Cake\Event\Event;
 use Shim\Controller\Component\Component;

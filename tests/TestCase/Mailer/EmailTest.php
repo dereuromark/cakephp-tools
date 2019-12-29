@@ -2,13 +2,13 @@
 
 namespace Tools\Test\TestCase\Mailer;
 
-use App\Mailer\TestEmail;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Log\Log;
 use Cake\Mailer\Message;
 use Cake\Mailer\TransportFactory;
 use InvalidArgumentException;
+use TestApp\Mailer\TestEmail;
 use Tools\Mailer\Email;
 use Tools\TestSuite\TestCase;
 
@@ -18,7 +18,7 @@ use Tools\TestSuite\TestCase;
 class EmailTest extends TestCase {
 
 	/**
-	 * @var \App\Mailer\TestEmail
+	 * @var \TestApp\Mailer\TestEmail
 	 */
 	protected $Email;
 

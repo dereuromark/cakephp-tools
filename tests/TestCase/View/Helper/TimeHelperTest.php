@@ -2,6 +2,7 @@
 
 namespace Tools\Test\TestCase\View\Helper;
 
+use Cake\I18n\FrozenTime;
 use Cake\View\View;
 use Tools\TestSuite\TestCase;
 use Tools\Utility\Time;
@@ -78,7 +79,7 @@ class TimeHelperTest extends TestCase {
 		$expected = 'class="published notyet';
 		$this->assertStringContainsString($expected, $result);
 
-		$result = $this->Time->published((new Time(date(FORMAT_DB_DATETIME)))->subDays(2));
+		$result = $this->Time->published((new FrozenTime(date(FORMAT_DB_DATETIME)))->subDays(2));
 		$expected = 'class="published already';
 		$this->assertStringContainsString($expected, $result);
 	}

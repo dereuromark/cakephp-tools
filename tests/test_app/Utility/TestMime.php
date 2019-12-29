@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utility;
+namespace TestApp\Utility;
 
 use Tools\Utility\Mime;
 

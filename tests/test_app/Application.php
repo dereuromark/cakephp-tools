@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace TestApp;
 
 use Cake\Http\BaseApplication;
 use Cake\Http\MiddlewareQueue;

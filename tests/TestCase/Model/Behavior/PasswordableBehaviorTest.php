@@ -18,7 +18,7 @@ class PasswordableBehaviorTest extends TestCase {
 	];
 
 	/**
-	 * @var \App\Model\Table\ToolsUsersTable
+	 * @var \TestApp\Model\Table\ToolsUsersTable
 	 */
 	protected $Users;
 

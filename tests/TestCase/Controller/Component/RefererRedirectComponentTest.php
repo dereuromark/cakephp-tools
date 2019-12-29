@@ -2,12 +2,12 @@
 
 namespace Tools\Test\TestCase\Controller\Component;
 
-use App\Controller\RefererRedirectComponentTestController;
 use Cake\Controller\ComponentRegistry;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
+use TestApp\Controller\RefererRedirectComponentTestController;
 use Tools\Controller\Component\RefererRedirectComponent;
 use Tools\TestSuite\TestCase;
 
@@ -19,7 +19,7 @@ class RefererRedirectComponentTest extends TestCase {
 	protected $event;
 
 	/**
-	 * @var \App\Controller\RefererRedirectComponentTestController
+	 * @var \TestApp\Controller\RefererRedirectComponentTestController
 	 */
 	protected $Controller;
 

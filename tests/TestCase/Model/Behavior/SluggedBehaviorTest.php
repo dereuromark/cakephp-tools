@@ -2,11 +2,11 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use App\Model\Entity\SluggedArticle;
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use RuntimeException;
+use TestApp\Model\Entity\SluggedArticle;
 use Tools\TestSuite\TestCase;
 use Tools\Utility\Text;
 
@@ -650,7 +650,7 @@ class SluggedBehaviorTest extends TestCase {
 		$this->articles->setEntityClass(SluggedArticle::class);
 
 		$this->expectException(RuntimeException::class);
-		$this->expectExceptionMessage('(SluggedBehavior::setup) model `SluggedArticles` is missing the field `specialNonExistent` (specified in the setup for entity `App\Model\Entity\SluggedArticle`.');
+		$this->expectExceptionMessage('(SluggedBehavior::setup) model `SluggedArticles` is missing the field `specialNonExistent` (specified in the setup for entity `TestApp\Model\Entity\SluggedArticle`.');
 
 		$this->articles->addBehavior('Tools.Slugged', [
 			'label' => [

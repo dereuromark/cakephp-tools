@@ -2,9 +2,9 @@
 
 namespace Tools\Test\TestCase\Utility;
 
-use App\Http\TestResponse;
-use App\Utility\TestMime;
 use Cake\Core\Plugin;
+use TestApp\Http\TestResponse;
+use TestApp\Utility\TestMime;
 use Tools\TestSuite\TestCase;
 
 class MimeTest extends TestCase {
@@ -164,6 +164,10 @@ class MimeTest extends TestCase {
 		foreach ($plugin as $key => $value) {
 			$diff['pluginonly'][$key] = $value;
 		}
+
+		$this->assertNotEmpty($diff['coreonly']);
+		$this->assertNotEmpty($diff['pluginonly']);
+		$this->assertNotEmpty($diff['modified']);
 	}
 
 }

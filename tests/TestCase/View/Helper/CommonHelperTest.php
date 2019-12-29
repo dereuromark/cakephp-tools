@@ -2,9 +2,9 @@
 
 namespace Tools\Test\TestCase\View\Helper;
 
-use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
+use Cake\Routing\Route\DashedRoute;
 use Cake\View\View;
 use Tools\TestSuite\TestCase;
 use Tools\View\Helper\CommonHelper;

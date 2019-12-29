@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http;
+namespace TestApp\Http;
 
 use Cake\Http\Response;
 

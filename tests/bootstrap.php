@@ -35,7 +35,7 @@ require_once 'vendor/cakephp/cakephp/src/basics.php';
 require_once 'vendor/autoload.php';
 
 Cake\Core\Configure::write('App', [
-		'namespace' => 'App',
+		'namespace' => 'TestApp',
 		'encoding' => 'UTF-8',
 		'fullBaseUrl' => '/',
 ]);
@@ -45,7 +45,7 @@ Cake\Core\Configure::write('Config', [
 		'adminEmail' => 'test@example.com',
 		'adminName' => 'Mark',
 ]);
-Cake\Mailer\Email::setConfig('default', ['transport' => 'Debug']);
+Cake\Mailer\Mailer::setConfig('default', ['transport' => 'Debug']);
 Cake\Mailer\TransportFactory::setConfig('Debug', [
 		'className' => 'Debug',
 ]);
@@ -121,3 +121,5 @@ Cake\Datasource\ConnectionManager::setConfig('test', [
 	'quoteIdentifiers' => true,
 	'cacheMetadata' => true,
 ]);
+
+class_alias(TestApp\Controller\AppController::class, 'App\Controller\AppController');

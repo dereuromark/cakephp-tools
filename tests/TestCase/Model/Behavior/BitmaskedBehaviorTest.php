@@ -2,9 +2,9 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use App\Model\Entity\BitmaskedComment;
 use Cake\ORM\TableRegistry;
 use RuntimeException;
+use TestApp\Model\Entity\BitmaskedComment;
 use Tools\TestSuite\TestCase;
 
 class BitmaskedBehaviorTest extends TestCase {

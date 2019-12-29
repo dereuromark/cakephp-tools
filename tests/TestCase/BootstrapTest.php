@@ -5,9 +5,6 @@ namespace Tools\Test\TestCase;
 use DateTime;
 use Tools\TestSuite\TestCase;
 
-/**
- * RssViewTest
- */
 class BootstrapTest extends TestCase {
 
 	/**
@@ -151,6 +148,10 @@ class BootstrapTest extends TestCase {
 		$result = returns([]);
 		$expected = '(array)';
 		$this->assertTextContains($expected, $result);
+
+		$foo = 1;
+		$is = returns($foo);
+		$this->assertSame('(int)1', $is);
 	}
 
 	/**
