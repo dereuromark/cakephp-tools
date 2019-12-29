@@ -2,10 +2,10 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use App\Model\Entity\SluggedArticle;
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
+use TestApp\Model\Entity\SluggedArticle;
 use Tools\TestSuite\TestCase;
 use Tools\Utility\Text;
 
@@ -647,7 +647,7 @@ class SluggedBehaviorTest extends TestCase {
 	 * Tests slug generation fails with invalid entity config.
 	 *
 	 * @expectedException \RuntimeException
-	 * @expectedExceptionMessage (SluggedBehavior::setup) model `SluggedArticles` is missing the field `specialNonExistent` (specified in the setup for entity `App\Model\Entity\SluggedArticle`.
+	 * @expectedExceptionMessage (SluggedBehavior::setup) model `SluggedArticles` is missing the field `specialNonExistent` (specified in the setup for entity `TestApp\Model\Entity\SluggedArticle`.
 	 *
 	 * @return void
 	 */

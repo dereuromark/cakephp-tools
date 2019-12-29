@@ -3,20 +3,11 @@
 namespace Tools\Model\Behavior;
 
 use Cake\ORM\TableRegistry;
+use TestApp\Model\Table\ResetCommentsTable;
 use Tools\Model\Table\Table;
 use Tools\TestSuite\TestCase;
 
 class ResetBehaviorTest extends TestCase {
-
-	/**
-	 * @var \Tools\Model\Behavior\ResetBehavior
-	 */
-	public $ResetBehavior;
-
-	/**
-	 * @var \Tools\Model\Table\Table
-	 */
-	public $Table;
 
 	/**
 	 * @var array
@@ -24,6 +15,16 @@ class ResetBehaviorTest extends TestCase {
 	public $fixtures = [
 		'plugin.Tools.ResetComments',
 	];
+
+	/**
+	 * @var \Tools\Model\Behavior\ResetBehavior
+	 */
+	protected $ResetBehavior;
+
+	/**
+	 * @var \Tools\Model\Table\Table
+	 */
+	protected $Table;
 
 	/**
 	 * @return void
@@ -141,7 +142,7 @@ class ResetBehaviorTest extends TestCase {
 	 */
 	public function testResetWithStaticCallback() {
 		$this->Table->removeBehavior('Reset');
-		$this->Table->addBehavior('Tools.Reset', ['callback' => 'App\Model\Table\ResetCommentsTable::customStaticCallback']);
+		$this->Table->addBehavior('Tools.Reset', ['callback' => ResetCommentsTable::class . '::customStaticCallback']);
 
 		$x = $this->Table->find('first', ['conditions' => ['id' => 6]]);
 		$this->assertEquals('Second Comment for Second Article', $x['comment']);
@@ -164,7 +165,7 @@ class ResetBehaviorTest extends TestCase {
 		$this->Table->addBehavior('Tools.Reset', [
 			'fields' => ['id'],
 			'updateFields' => ['comment'],
-			'callback' => 'App\Model\Table\ResetCommentsTable::fieldsCallback']);
+			'callback' => ResetCommentsTable::class . '::fieldsCallback']);
 
 		$x = $this->Table->find('first', ['conditions' => ['id' => 6]]);
 		$this->assertEquals('Second Comment for Second Article', $x['comment']);
@@ -187,7 +188,7 @@ class ResetBehaviorTest extends TestCase {
 		$this->Table->addBehavior('Tools.Reset', [
 			'fields' => ['id'],
 			'updateFields' => ['id'],
-			'callback' => 'App\Model\Table\ResetCommentsTable::fieldsCallbackAuto']);
+			'callback' => ResetCommentsTable::class . '::fieldsCallbackAuto']);
 
 		$x = $this->Table->find('first', ['conditions' => ['id' => 6]]);
 		$this->assertEquals('Second Comment for Second Article', $x['comment']);

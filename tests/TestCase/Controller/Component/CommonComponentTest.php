@@ -2,17 +2,17 @@
 
 namespace Tools\Test\TestCase\Controller\Component;
 
-use App\Controller\CommonComponentTestController;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\ServerRequest;
+use TestApp\Controller\CommonComponentTestController;
 use Tools\Controller\Component\CommonComponent;
 use Tools\TestSuite\TestCase;
 
 class CommonComponentTest extends TestCase {
 
 	/**
-	 * @var \App\Controller\CommonComponentTestController
+	 * @var \TestApp\Controller\CommonComponentTestController
 	 */
 	protected $Controller;
 

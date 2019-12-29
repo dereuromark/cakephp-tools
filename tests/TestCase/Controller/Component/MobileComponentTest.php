@@ -2,11 +2,11 @@
 
 namespace Tools\Test\TestCase\Controller\Component;
 
-use App\Controller\MobileComponentTestController;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\ServerRequest;
 use Detection\MobileDetect;
+use TestApp\Controller\MobileComponentTestController;
 use Tools\TestSuite\TestCase;
 
 /**
@@ -27,7 +27,7 @@ class MobileComponentTest extends TestCase {
 	protected $event;
 
 	/**
-	 * @var \App\Controller\MobileComponentTestController
+	 * @var \TestApp\Controller\MobileComponentTestController
 	 */
 	protected $Controller;
 

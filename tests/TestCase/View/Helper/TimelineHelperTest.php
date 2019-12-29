@@ -2,9 +2,9 @@
 
 namespace Tools\Test\TestCase\View\Helper;
 
-use App\View\Helper\TimelineHelper;
 use Cake\View\View;
 use DateTime;
+use TestApp\View\Helper\TimelineHelper;
 use Tools\TestSuite\TestCase;
 
 /**
@@ -13,7 +13,7 @@ use Tools\TestSuite\TestCase;
 class TimelineHelperTest extends TestCase {
 
 	/**
-	 * @var \App\View\Helper\TimelineHelper
+	 * @var \TestApp\View\Helper\TimelineHelper
 	 */
 	public $Timeline;
 

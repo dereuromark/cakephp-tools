@@ -31,7 +31,7 @@ require CORE_PATH . 'config/bootstrap.php';
 require ROOT . DS . 'config/bootstrap.php';
 
 Cake\Core\Configure::write('App', [
-		'namespace' => 'App',
+		'namespace' => 'TestApp',
 		'encoding' => 'UTF-8']);
 Cake\Core\Configure::write('debug', true);
 
@@ -98,3 +98,5 @@ Cake\Datasource\ConnectionManager::setConfig('test', [
 	'quoteIdentifiers' => true,
 	'cacheMetadata' => true,
 ]);
+
+class_alias(TestApp\Controller\AppController::class, 'App\Controller\AppController');
