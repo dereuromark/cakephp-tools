@@ -94,6 +94,15 @@ class FormatHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testIconWithCustomClassAttributes() {
+		$result = $this->Format->icon('edit', [], ['class' => 'my-extra']);
+		$expected = '<i class="icon icon-edit fa fa-pencil my-extra" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testIconWithCustomFontIcon() {
 		$this->Format->setConfig('fontIcons', ['edit' => 'fax fax-pen']);
 		$result = $this->Format->icon('edit');
