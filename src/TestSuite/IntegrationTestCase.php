@@ -2,12 +2,12 @@
 
 namespace Tools\TestSuite;
 
-use Cake\TestSuite\IntegrationTestCase as CakeIntegrationTestCase;
+use Shim\TestSuite\IntegrationTestCase as ShimIntegrationTestCase;
 
 /**
  * Tools TestCase class
  */
-abstract class IntegrationTestCase extends CakeIntegrationTestCase {
+abstract class IntegrationTestCase extends ShimIntegrationTestCase {
 
 	use ToolsTestTrait;
 
