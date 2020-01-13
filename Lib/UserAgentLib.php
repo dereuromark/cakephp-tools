@@ -71,7 +71,7 @@ class UserAgentLib extends CakeRequest {
 			return '';
 		}
 		foreach ($this->searchBots as $name => $pattern) {
-			if (eregi($pattern, $agent)) {
+			if (preg_match($pattern, $agent)) {
 				return $name;
 			}
 		}
