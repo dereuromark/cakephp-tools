@@ -375,6 +375,10 @@ class FormatHelper extends Helper {
 				$attributes['title'] = __($attributes['title']);
 			}
 		}
+		if (isset($attributes['class'])) {
+			$options['class'] .= ' ' . $attributes['class'];
+			unset($attributes['class']);
+		}
 
 		$attributes += [
 			'data-placement' => 'bottom',
