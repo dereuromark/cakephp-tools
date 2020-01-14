@@ -2,13 +2,10 @@
 
 namespace Tools\TestSuite;
 
-use Cake\TestSuite\TestCase as CakeTestCase;
+use Shim\TestSuite\TestCase as ShimTestCase;
 
 /**
  * Tools TestCase class
  */
-abstract class TestCase extends CakeTestCase {
-
-	use ToolsTestTrait;
-
+abstract class TestCase extends ShimTestCase {
 }

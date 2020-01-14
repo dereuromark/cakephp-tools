@@ -3,8 +3,8 @@
 namespace Tools\Test\TestCase\Shell;
 
 use Cake\Console\ConsoleIo;
+use Shim\TestSuite\ConsoleOutput;
 use Tools\Shell\InflectShell;
-use Tools\TestSuite\ConsoleOutput;
 use Tools\TestSuite\TestCase;
 
 class InflectShellTest extends TestCase {
@@ -15,12 +15,12 @@ class InflectShellTest extends TestCase {
 	protected $Shell;
 
 	/**
-	 * @var \Tools\TestSuite\ConsoleOutput
+	 * @var \Shim\TestSuite\ConsoleOutput
 	 */
 	protected $out;
 
 	/**
-	 * @var \Tools\TestSuite\ConsoleOutput
+	 * @var \Shim\TestSuite\ConsoleOutput
 	 */
 	protected $err;
 

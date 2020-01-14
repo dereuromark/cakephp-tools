@@ -53,7 +53,6 @@
 		"cs-check": "phpcs -p --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --extensions=php --ignore=/tests/test_files/ src/ tests/ config/",
 		"cs-fix": "phpcbf -v --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --extensions=php --ignore=/tests/test_files/ src/ tests/ config/"
 	},
-	"prefer-stable": true,
 	"minimum-stability": "dev",
 	"config": {
 		"process-timeout": 600

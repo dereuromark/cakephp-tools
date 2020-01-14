@@ -5,13 +5,10 @@ namespace Tools\Test\TestCase\View\Helper;
 use Cake\View\View;
 use InvalidArgumentException;
 use Tools\TestSuite\TestCase;
-use Tools\TestSuite\ToolsTestTrait;
 use Tools\Utility\Number;
 use Tools\View\Helper\MeterHelper;
 
 class MeterHelperTest extends TestCase {
-
-	use ToolsTestTrait;
 
 	/**
 	 * @var \Cake\View\View

@@ -9,8 +9,6 @@ use Shim\TestSuite\IntegrationTestCase as ShimIntegrationTestCase;
  */
 abstract class IntegrationTestCase extends ShimIntegrationTestCase {
 
-	use ToolsTestTrait;
-
 	/**
 	 * Globally disabling error handler middleware to see the actual errors instead of cloaking.
 	 *

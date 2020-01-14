@@ -7,11 +7,8 @@ use Cake\Http\Exception\NotFoundException;
 use Cake\Http\ServerRequest;
 use Tools\Error\Middleware\ErrorHandlerMiddleware;
 use Tools\TestSuite\TestCase;
-use Tools\TestSuite\ToolsTestTrait;
 
 class ErrorHandlerMiddlewareTest extends TestCase {
-
-	use ToolsTestTrait;
 
 	/**
 	 * @var \Tools\Error\Middleware\ErrorHandlerMiddleware
