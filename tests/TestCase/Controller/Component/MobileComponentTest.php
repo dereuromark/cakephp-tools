@@ -7,8 +7,8 @@ use Cake\Event\Event;
 use Cake\Http\ServerRequest;
 use Cake\Routing\Router;
 use Detection\MobileDetect;
+use Shim\TestSuite\TestCase;
 use TestApp\Controller\MobileComponentTestController;
-use Tools\TestSuite\TestCase;
 
 /**
  * Test MobileComponent

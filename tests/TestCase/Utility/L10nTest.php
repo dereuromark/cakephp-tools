@@ -2,7 +2,7 @@
 
 namespace Tools\Test\Utility;
 
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 use Tools\Utility\L10n;
 
 /**

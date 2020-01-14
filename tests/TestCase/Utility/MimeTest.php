@@ -3,9 +3,9 @@
 namespace Tools\Test\TestCase\Utility;
 
 use Cake\Core\Plugin;
+use Shim\TestSuite\TestCase;
 use TestApp\Http\TestResponse;
 use TestApp\Utility\TestMime;
-use Tools\TestSuite\TestCase;
 
 class MimeTest extends TestCase {
 

@@ -6,7 +6,7 @@ use Cake\Datasource\ConnectionManager;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\View\View;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 use Tools\View\Helper\TreeHelper;
 
 class TreeHelperTest extends TestCase {
@@ -503,7 +503,7 @@ TEXT;
 	<ul>
 		<li class="active">Two-SubA (active)
 		<ul>
-			<li>Two-SubA-1</li>	
+			<li>Two-SubA-1</li>
 		</ul>
 		</li>
 		<li>Two-SubB</li>
@@ -612,7 +612,7 @@ TEXT;
 	<li>Four
 	<ul>
 		<li>Four-SubA</li>
-	</ul>	
+	</ul>
 	</li>
 </ul>
 

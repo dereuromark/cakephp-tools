@@ -5,7 +5,7 @@ namespace Tools\Test\TestCase\Controller;
 use Cake\Core\Configure;
 use Cake\TestSuite\IntegrationTestTrait;
 use RuntimeException;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 
 /**
  * @uses \Tools\Controller\ShuntRequestController

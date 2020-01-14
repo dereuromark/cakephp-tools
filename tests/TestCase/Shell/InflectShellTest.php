@@ -4,8 +4,8 @@ namespace Tools\Test\TestCase\Shell;
 
 use Cake\Console\ConsoleIo;
 use Shim\TestSuite\ConsoleOutput;
+use Shim\TestSuite\TestCase;
 use Tools\Shell\InflectShell;
-use Tools\TestSuite\TestCase;
 
 class InflectShellTest extends TestCase {
 

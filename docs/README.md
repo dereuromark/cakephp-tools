@@ -4,7 +4,7 @@
 * [Installation](Install.md)
 
 ## Upgrade Guide
-* [Upgrade guide from 2.x to 3.x](Upgrade.md)
+* [Upgrade guide from 3.x to 4.x](Upgrade.md)
 
 ## Detailed Documentation - Quicklinks
 
@@ -22,9 +22,6 @@ Auth
 
 Email
 * [Email](Mailer/Email.md) for sending Emails
-
-Testing
-* [Testing](TestSuite/Testing.md) for testing tooling.
 
 Controller:
 * [Controller](Controller/Controller.md)

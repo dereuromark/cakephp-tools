@@ -5,8 +5,8 @@ namespace Tools\Test\TestCase\Error\Middleware;
 use Cake\Core\Configure;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\ServerRequest;
+use Shim\TestSuite\TestCase;
 use Tools\Error\Middleware\ErrorHandlerMiddleware;
-use Tools\TestSuite\TestCase;
 
 class ErrorHandlerMiddlewareTest extends TestCase {
 

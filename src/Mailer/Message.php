@@ -3,109 +3,36 @@
 namespace Tools\Mailer;
 
 use Cake\Core\Configure;
-use Cake\Log\LogTrait;
-use Cake\Mailer\Email as CakeEmail;
-use Cake\Mailer\Message;
+use Cake\Mailer\Message as CakeMessage;
 use InvalidArgumentException;
-use Psr\Log\LogLevel;
 use Tools\Utility\Mime;
 use Tools\Utility\Text;
 use Tools\Utility\Utility;
 
-class Email extends CakeEmail {
-
-	use LogTrait;
-
-	/**
-	 * @var int|null
-	 */
-	protected $_wrapLength;
+/**
+ * Allows locale overwrite to send emails in a specific language
+ */
+class Message extends CakeMessage {
 
 	/**
-	 * @var string|null
+	 * @param array|null $config Array of configs, or string to load configs from app.php
 	 */
-	protected $_error;
+	public function __construct(?array $config = null) {
+		parent::__construct();
 
-	/**
-	 * @var array|null
-	 */
-	protected $_debug;
-
-	/**
-	 * @var array
-	 */
-	protected $_log = [];
-
-	/**
-	 * @var \Tools\Utility\Mime|null
-	 */
-	protected $_Mime;
-
-	/**
-	 * @param string|null $config
-	 */
-	public function __construct($config = null) {
-		if ($config === null) {
-			$config = 'default';
+		$xMailer = Configure::read('Config.xMailer');
+		if ($xMailer) {
+			$this->addHeaders(['X-Mailer' => $xMailer]);
 		}
-		parent::__construct($config);
 	}
 
 	/**
-	 * Sets wrap length.
-	 *
-	 * @param int $length Must not be more than Message::LINE_LENGTH_MUST
-	 * @return $this
-	 */
-	public function setWrapLength($length) {
-		$this->_wrapLength = $length;
-		return $this;
-	}
-
-	/**
-	 * Gets wrap length.
-	 *
-	 * @return int
-	 */
-	public function getWrapLength() {
-		return $this->_wrapLength;
-	}
-
-	/**
-	 * Fix line length
-	 *
-	 * @override To wrap by must length by default.
-	 *
-	 * @param string $message Message to wrap
-	 * @param int $wrapLength
-	 * @return array Wrapped message
-	 */
-	protected function _wrap($message, $wrapLength = Message::LINE_LENGTH_MUST) {
-		if ($this->_wrapLength !== null) {
-			$wrapLength = $this->_wrapLength;
-		}
-		return parent::_wrap($message, $wrapLength);
-	}
-
-	/**
-	 * @return $this
-	 */
-	public function reset() {
-		$this->_wrapLength = null;
-
-		$this->_error = null;
-		$this->_debug = null;
-
-		return parent::reset();
-	}
-
-	/**
-	 * Ovewrite to allow custom enhancements
+	 * Overwrite to allow custom enhancements
 	 *
 	 * @param array|string $config
 	 * @return $this
 	 */
-	public function setProfile($config) {
+	public function _setProfile($config) {
 		if (!is_array($config)) {
 			$config = (string)$config;
 		}
@@ -119,12 +46,7 @@ class Email extends CakeEmail {
 			$fromName = Configure::read('Config.adminName');
 		}
 		if ($fromEmail) {
-			$this->setFrom($fromEmail, $fromName);
-		}
-
-		$xMailer = Configure::read('Config.xMailer');
-		if ($xMailer) {
-			$this->addHeaders(['X-Mailer' => $xMailer]);
+			//$this->setFrom($fromEmail, $fromName);
 		}
 
 		return $this;
@@ -168,7 +90,7 @@ class Email extends CakeEmail {
 			}
 			$attach[$name] = $fileInfo;
 		}
-		$this->_attachments = $attach;
+		parent::setAttachments($attach);
 
 		return $this;
 	}
@@ -189,7 +111,7 @@ class Email extends CakeEmail {
 			$fileInfo = [$fileInfo];
 		}
 
-		$this->message->addAttachments($fileInfo);
+		$this->addAttachments($fileInfo);
 
 		return $this;
 	}
@@ -212,7 +134,7 @@ class Email extends CakeEmail {
 		$fileInfo['mimetype'] = $mimeType;
 		$file = [$filename => $fileInfo];
 
-		$this->message->addAttachments($file);
+		$this->addAttachments($file);
 
 		return $this;
 	}
@@ -242,7 +164,7 @@ class Email extends CakeEmail {
 		}
 		$options['contentId'] = $contentId;
 		$file = [$name => $options];
-		$this->message->addAttachments($file);
+		$this->addAttachments($file);
 
 		return $this;
 	}
@@ -259,7 +181,7 @@ class Email extends CakeEmail {
 	 * @param array $options Options
 	 * @return string
 	 */
-	public function addEmbeddedAttachment($file, $name = null, array $options = []) {
+	public function addEmbeddedAttachment(string $file, ?string $name = null, array $options = []): string {
 		if (empty($name)) {
 			$name = basename($file);
 		}
@@ -274,9 +196,9 @@ class Email extends CakeEmail {
 		if (empty($options['mimetype'])) {
 			$options['mimetype'] = $this->_getMime($file);
 		}
-		$options['contentId'] = str_replace('-', '', Text::uuid()) . '@' . $this->_domain;
+		$options['contentId'] = str_replace('-', '', Text::uuid()) . '@' . $this->getDomain();
 		$file = [$name => $options];
-		$this->message->addAttachments($file);
+		$this->addAttachments($file);
 
 		return $options['contentId'];
 	}
@@ -308,7 +230,7 @@ class Email extends CakeEmail {
 		$options['contentId'] = $contentId;
 		$file = [$filename => $options];
 
-		$this->message->addAttachments($file);
+		$this->addAttachments($file);
 
 		return $this;
 	}
@@ -346,9 +268,9 @@ class Email extends CakeEmail {
 
 		$options['data'] = $content;
 		$options['mimetype'] = $mimeType;
-		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', Text::uuid()) . '@' . $this->_domain;
+		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', Text::uuid()) . '@' . $this->getDomain();
 		$file = [$filename => $options];
-		$this->message->addAttachments($file);
+		$this->addAttachments($file);
 		if ($contentId === null) {
 			return $options['contentId'];
 		}
@@ -367,7 +289,7 @@ class Email extends CakeEmail {
 	 * @return bool|string CID of the found file or false if no such attachment can be found
 	 */
 	protected function _isEmbeddedAttachment($file, $name) {
-		foreach ($this->_attachments as $filename => $fileInfo) {
+		foreach ($this->getAttachments() as $filename => $fileInfo) {
 			if ($filename !== $name) {
 				continue;
 			}
@@ -386,7 +308,7 @@ class Email extends CakeEmail {
 	 * @return bool|string CID of the found file or false if no such attachment can be found
 	 */
 	protected function _isEmbeddedBlobAttachment($content, $name) {
-		foreach ($this->_attachments as $filename => $fileInfo) {
+		foreach ($this->getAttachments() as $filename => $fileInfo) {
 			if ($filename !== $name) {
 				continue;
 			}
@@ -452,115 +374,6 @@ class Email extends CakeEmail {
 	}
 
 	/**
-	 * Validate if the email has the required fields necessary to make send() work.
-	 * Assumes layouting (does not check on content to be present or if view/layout files are missing).
-	 *
-	 * @return bool Success
-	 */
-	public function validates() {
-		if (!empty($this->_subject) && !empty($this->_to)) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Set the body of the mail as we send it.
-	 * Note: the text can be an array, each element will appear as a seperate line in the message body.
-	 *
-	 * Do NOT pass a message if you use $this->set() in combination with templates
-	 *
-	 * @param string|array|null $message Message
-	 * @return bool Success
-	 */
-	public function sendEmail($message = null): bool {
-		$this->_log = [
-			'to' => $this->_to,
-			'from' => $this->_from,
-			'sender' => $this->_sender,
-			'replyTo' => $this->_replyTo,
-			'cc' => $this->_cc,
-			'subject' => $this->_subject,
-			'bcc' => $this->_bcc,
-			'transport' => $this->_transport ? get_class($this->_transport) : null,
-		];
-
-		// if not live, just log but do not send any mails //TODO: remove and use Debug Transport!
-		if (!Configure::read('Config.live')) {
-			$this->_logEmail();
-			return true;
-		}
-
-		// Security measure to not sent to the actual addressee in debug mode while email sending is live
-		if (Configure::read('debug') && Configure::read('Config.live')) {
-			$adminEmail = Configure::read('Config.adminEmail');
-
-			if (!$adminEmail) {
-				$adminEmail = Configure::read('Config.systemEmail');
-			}
-
-			foreach ($this->_to as $k => $v) {
-				if ($k === $adminEmail) {
-					continue;
-				}
-				unset($this->_to[$k]);
-				$this->_to[$adminEmail] = $v;
-			}
-			foreach ($this->_cc as $k => $v) {
-				if ($k === $adminEmail) {
-					continue;
-				}
-				unset($this->_cc[$k]);
-				$this->_cc[$adminEmail] = $v;
-			}
-			foreach ($this->_bcc as $k => $v) {
-				if ($k === $adminEmail) {
-					continue;
-				}
-				unset($this->_bcc[$k]);
-				$this->_bcc[] = $v;
-			}
-		}
-
-		try {
-			$this->_debug = parent::send($message);
-		} catch (\Exception $e) {
-			$this->_error = $e->getMessage();
-			$this->_error .= ' (line ' . $e->getLine() . ' in ' . $e->getFile() . ')' . PHP_EOL .
-				$e->getTraceAsString();
-
-			// always log report
-			$this->_logEmail(LogLevel::ERROR);
-
-			// log error
-			$this->log($this->_error, LogLevel::ERROR);
-
-			return false;
-		}
-
-		if (!empty($this->_profile['logReport'])) {
-			$this->_logEmail();
-		}
-
-		return true;
-	}
-
-	/**
-	 * @param string $level
-	 * @return void
-	 */
-	protected function _logEmail($level = LogLevel::INFO) {
-		$content =
-			$this->_log['transport'] . (!Configure::read('Config.live') ? ' (simulated)' : '')
-			. ' - ' . 'TO:' . implode(',', array_keys($this->_log['to']))
-			. '||FROM:' . implode(',', array_keys($this->_log['from']))
-			. '||REPLY:' . implode(',', array_keys($this->_log['replyTo']))
-			. '||S:' . $this->_log['subject'];
-
-		$this->log($content, $level);
-	}
-
-	/**
 	 * Attach inline/embedded files to the message.
 	 *
 	 * CUSTOM FIX: blob data support
@@ -569,13 +382,14 @@ class Email extends CakeEmail {
 	 * @param string|null $boundary Boundary to use. If null, will default to $this->_boundary
 	 * @return array An array of lines to add to the message
 	 */
-	protected function _attachInlineFiles($boundary = null) {
+	protected function attachInlineFiles(?string $boundary = null): array {
 		if ($boundary === null) {
-			$boundary = $this->_boundary;
+			/** @var string $boundary */
+			$boundary = $this->boundary;
 		}
 
 		$msg = [];
-		foreach ($this->_attachments as $filename => $fileInfo) {
+		foreach ($this->getAttachments() as $filename => $fileInfo) {
 			if (empty($fileInfo['contentId'])) {
 				continue;
 			}
@@ -598,59 +412,6 @@ class Email extends CakeEmail {
 			$msg[] = '';
 		}
 		return $msg;
-	}
-
-	/**
-	 * Attach non-embedded files by adding file contents inside boundaries.
-	 *
-	 * CUSTOM FIX: blob data support
-	 *
-	 * @override
-	 * @param string|null $boundary Boundary to use. If null, will default to $this->_boundary
-	 * @return array An array of lines to add to the message
-	 */
-	protected function _attachFiles($boundary = null) {
-		if ($boundary === null) {
-			$boundary = $this->_boundary;
-		}
-
-		$msg = [];
-		foreach ($this->_attachments as $filename => $fileInfo) {
-			if (!empty($fileInfo['contentId'])) {
-				continue;
-			}
-			if (!empty($fileInfo['data'])) {
-				$data = $fileInfo['data'];
-				$data = chunk_split(base64_encode($data));
-			} elseif (!empty($fileInfo['file'])) {
-				$data = $this->_readFile($fileInfo['file']);
-			} else {
-				continue;
-			}
-
-			$msg[] = '--' . $boundary;
-			$msg[] = 'Content-Type: ' . $fileInfo['mimetype'];
-			$msg[] = 'Content-Transfer-Encoding: base64';
-			if (
-				!isset($fileInfo['contentDisposition']) ||
-				$fileInfo['contentDisposition']
-			) {
-				$msg[] = 'Content-Disposition: attachment; filename="' . $filename . '"';
-			}
-			$msg[] = '';
-			$msg[] = $data;
-			$msg[] = '';
-		}
-		return $msg;
-	}
-
-	/**
-	 * Returns the error if existent
-	 *
-	 * @return string
-	 */
-	public function getError() {
-		return $this->_error;
 	}
 
 }

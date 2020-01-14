@@ -3,9 +3,9 @@
 namespace Tools\Model\Behavior;
 
 use Cake\ORM\TableRegistry;
+use Shim\TestSuite\TestCase;
 use TestApp\Model\Table\ResetCommentsTable;
 use Tools\Model\Table\Table;
-use Tools\TestSuite\TestCase;
 
 class ResetBehaviorTest extends TestCase {
 

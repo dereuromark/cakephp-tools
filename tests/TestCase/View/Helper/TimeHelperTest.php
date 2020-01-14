@@ -4,7 +4,7 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\I18n\FrozenTime;
 use Cake\View\View;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 use Tools\Utility\Time;
 use Tools\View\Helper\TimeHelper;
 

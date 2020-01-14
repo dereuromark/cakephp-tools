@@ -8,8 +8,8 @@ use Cake\Http\ServerRequest;
 use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
 use Cake\Routing\Route\DashedRoute;
+use Shim\TestSuite\TestCase;
 use TestApp\Controller\UrlComponentTestController;
-use Tools\TestSuite\TestCase;
 
 class UrlComponentTest extends TestCase {
 

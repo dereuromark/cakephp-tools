@@ -2,7 +2,7 @@
 
 namespace Tools\Form;
 
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 
 class ContactFormTest extends TestCase {
 

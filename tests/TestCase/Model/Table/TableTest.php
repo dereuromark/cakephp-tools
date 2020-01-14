@@ -6,7 +6,7 @@ use Cake\Datasource\ConnectionManager;
 use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 
 class TableTest extends TestCase {
 

@@ -3,12 +3,12 @@
 namespace TestApp\Mailer;
 
 use Shim\TestSuite\TestTrait;
-use Tools\Mailer\Email;
+use Tools\Mailer\Mailer;
 
 /**
  * Help to test Email
  */
-class TestEmail extends Email {
+class TestMailer extends Mailer {
 
 	use TestTrait;
 

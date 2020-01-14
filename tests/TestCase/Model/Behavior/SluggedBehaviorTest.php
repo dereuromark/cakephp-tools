@@ -6,8 +6,8 @@ use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use RuntimeException;
+use Shim\TestSuite\TestCase;
 use TestApp\Model\Entity\SluggedArticle;
-use Tools\TestSuite\TestCase;
 use Tools\Utility\Text;
 
 /**

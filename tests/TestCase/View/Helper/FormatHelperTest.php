@@ -5,7 +5,7 @@ namespace Tools\Test\TestCase\View\Helper;
 use Cake\Core\Configure;
 use Cake\Routing\Router;
 use Cake\View\View;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 use Tools\Utility\Text;
 use Tools\View\Helper\FormatHelper;
 

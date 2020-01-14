@@ -2,7 +2,7 @@
 
 namespace Tools\Test\TestCase\Utility;
 
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 use Tools\Utility\Random;
 
 class RandomTest extends TestCase {

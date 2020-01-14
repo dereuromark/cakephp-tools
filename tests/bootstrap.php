@@ -35,9 +35,14 @@ require_once 'vendor/cakephp/cakephp/src/basics.php';
 require_once 'vendor/autoload.php';
 
 Cake\Core\Configure::write('App', [
-		'namespace' => 'TestApp',
-		'encoding' => 'UTF-8',
-		'fullBaseUrl' => '/',
+	'namespace' => 'TestApp',
+	'encoding' => 'UTF-8',
+	'fullBaseUrl' => '/',
+	'paths' => [
+		'templates' => [
+			TESTS . 'templates' . DS,
+		],
+	],
 ]);
 Cake\Core\Configure::write('debug', true);
 

@@ -5,7 +5,7 @@ namespace Tools\Test\TestCase\Utility;
 use Cake\Core\Configure;
 use Cake\Error\Debugger;
 use DateTime;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 use Tools\Utility\Time;
 
 class TimeTest extends TestCase {

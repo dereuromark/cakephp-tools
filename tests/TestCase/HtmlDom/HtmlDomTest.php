@@ -2,8 +2,8 @@
 
 namespace Tools\Test\TestCase\HtmlDom;
 
+use Shim\TestSuite\TestCase;
 use Tools\HtmlDom\HtmlDom;
-use Tools\TestSuite\TestCase;
 
 class HtmlDomTest extends TestCase {
 

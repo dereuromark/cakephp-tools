@@ -3,7 +3,7 @@
 namespace Tools\Test\TestCase;
 
 use DateTime;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 
 class BootstrapTest extends TestCase {
 

@@ -3,7 +3,7 @@
 namespace Tools\Test\TestCase\Model\Behavior;
 
 use Cake\ORM\TableRegistry;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 
 class StringBehaviorTest extends TestCase {
 

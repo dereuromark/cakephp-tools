@@ -4,7 +4,7 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\View\View;
 use InvalidArgumentException;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 use Tools\Utility\Number;
 use Tools\View\Helper\MeterHelper;
 

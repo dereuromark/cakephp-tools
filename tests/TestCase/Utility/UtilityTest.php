@@ -5,7 +5,7 @@ namespace Tools\Test\TestCase\Utility;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use RuntimeException;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 use Tools\Utility\Utility;
 
 /**

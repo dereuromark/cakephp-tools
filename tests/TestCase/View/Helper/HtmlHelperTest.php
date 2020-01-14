@@ -8,7 +8,7 @@ use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
 use Cake\Routing\Route\DashedRoute;
 use Cake\View\View;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 use Tools\View\Helper\HtmlHelper;
 
 /**

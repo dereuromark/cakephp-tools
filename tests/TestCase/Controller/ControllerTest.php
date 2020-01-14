@@ -4,8 +4,8 @@ namespace Tools\Test\TestCase\Controller;
 
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
+use Shim\TestSuite\TestCase;
 use Tools\Controller\Controller;
-use Tools\TestSuite\TestCase;
 
 class ControllerTest extends TestCase {
 

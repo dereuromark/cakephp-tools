@@ -3,8 +3,8 @@
 namespace Tools\Test\TestCase\Model\Behavior;
 
 use Cake\ORM\TableRegistry;
+use Shim\TestSuite\TestCase;
 use Tools\Model\Behavior\TypographicBehavior;
-use Tools\TestSuite\TestCase;
 
 class TypographicBehaviorTest extends TestCase {
 

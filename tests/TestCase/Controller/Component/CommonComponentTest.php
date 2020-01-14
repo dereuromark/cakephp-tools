@@ -6,9 +6,9 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\ServerRequest;
 use Cake\Routing\Router;
+use Shim\TestSuite\TestCase;
 use TestApp\Controller\CommonComponentTestController;
 use Tools\Controller\Component\CommonComponent;
-use Tools\TestSuite\TestCase;
 
 class CommonComponentTest extends TestCase {
 

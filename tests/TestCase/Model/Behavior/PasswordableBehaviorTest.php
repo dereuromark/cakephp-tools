@@ -5,7 +5,7 @@ namespace Tools\Test\TestCase\Model\Behavior;
 use Cake\Auth\PasswordHasherFactory;
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 
 class PasswordableBehaviorTest extends TestCase {
 

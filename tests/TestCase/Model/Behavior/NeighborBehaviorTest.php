@@ -3,8 +3,8 @@
 namespace Tools\Model\Behavior;
 
 use Cake\ORM\TableRegistry;
+use Shim\TestSuite\TestCase;
 use Tools\Model\Table\Table;
-use Tools\TestSuite\TestCase;
 
 class NeighborBehaviorTest extends TestCase {
 
