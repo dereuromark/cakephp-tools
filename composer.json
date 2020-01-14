@@ -18,6 +18,7 @@
 		"dereuromark/cakephp-shim": "^2.0.0"
 	},
 	"require-dev": {
+		"dereuromark/cakephp-shim": "dev-cake4",
 		"cakephp/chronos": "^2.0",
 		"mobiledetect/mobiledetectlib": "^2.8",
 		"fig-r/psr2r-sniffer": "dev-master",
@@ -53,6 +54,7 @@
 		"cs-check": "phpcs -p --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --extensions=php --ignore=/tests/test_files/ src/ tests/ config/",
 		"cs-fix": "phpcbf -v --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --extensions=php --ignore=/tests/test_files/ src/ tests/ config/"
 	},
+	"prefer-stable": true,
 	"minimum-stability": "dev",
 	"config": {
 		"process-timeout": 600
