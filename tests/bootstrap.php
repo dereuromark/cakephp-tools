@@ -96,6 +96,8 @@ Router::defaultRouteClass(DashedRoute::class);
 Router::reload();
 require TESTS . 'config' . DS . 'routes.php';
 
+class_alias(TestApp\Controller\AppController::class, 'App\Controller\AppController');
+
 Cake\Core\Plugin::getCollection()->add(new Tools\Plugin());
 
 if (getenv('db_dsn')) {
@@ -126,5 +128,3 @@ Cake\Datasource\ConnectionManager::setConfig('test', [
 	'quoteIdentifiers' => true,
 	'cacheMetadata' => true,
 ]);
-
-class_alias(TestApp\Controller\AppController::class, 'App\Controller\AppController');
