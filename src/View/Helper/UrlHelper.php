@@ -55,7 +55,7 @@ class UrlHelper extends CoreUrlHelper {
 	 * @param array $options
 	 * @return string Full translated URL with base path.
 	 */
-	public function buildReset($url = null, array $options = []): string {
+	public function buildReset($url, array $options = []): string {
 		if (is_array($url)) {
 			$url += $this->defaults();
 		}
@@ -72,7 +72,7 @@ class UrlHelper extends CoreUrlHelper {
 	 * @param array $options
 	 * @return string Full translated URL with base path.
 	 */
-	public function buildComplete($url = null, array $options = []): string {
+	public function buildComplete($url, array $options = []): string {
 		if (is_array($url)) {
 			$url = $this->addQueryStrings($url);
 		}
@@ -95,7 +95,7 @@ class UrlHelper extends CoreUrlHelper {
 	 *
 	 * @return array
 	 */
-	protected function addQueryStrings(array $url) {
+	protected function addQueryStrings(array $url): array {
 		if (!isset($url['?'])) {
 			$url['?'] = [];
 		}

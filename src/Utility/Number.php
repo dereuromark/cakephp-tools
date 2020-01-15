@@ -70,13 +70,9 @@ class Number extends CakeNumber {
 			}
 			return $default;
 		}
-		if ($formatOptions === false) {
-			$formatOptions = [];
-		} elseif (!is_array($formatOptions)) {
-			$formatOptions = ['places' => $formatOptions];
-		}
-		$options = ['before' => '', 'after' => '', 'places' => 2, 'thousands' => static::$_thousands, 'decimals' => static::$_decimals, 'escape' => false];
-		$options = $formatOptions + $options;
+
+		$defaults = ['before' => '', 'after' => '', 'places' => 2, 'thousands' => static::$_thousands, 'decimals' => static::$_decimals, 'escape' => false];
+		$options = $formatOptions + $defaults;
 
 		if (!empty($options['currency'])) {
 			if (!empty(static::$_symbolRight)) {

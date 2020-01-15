@@ -5,7 +5,7 @@ namespace Tools\Model\Behavior;
 use ArrayObject;
 use Cake\Database\Expression\Comparison;
 use Cake\Datasource\EntityInterface;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
 use Cake\Utility\Inflector;
@@ -111,14 +111,14 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\ORM\Query $query
 	 * @param \ArrayObject $options
 	 * @param bool $primary
 	 *
 	 * @return void
 	 */
-	public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary) {
+	public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, $primary) {
 		$this->encodeBitmaskConditions($query);
 
 		$field = $this->_config['field'];
@@ -151,12 +151,12 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \ArrayObject $data
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options) {
+	public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options) {
 		if ($this->_config['on'] !== 'beforeMarshal') {
 			return;
 		}
@@ -164,14 +164,14 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 * @param string $operation
 	 *
 	 * @return void
 	 */
-	public function beforeRules(Event $event, EntityInterface $entity, ArrayObject $options, $operation) {
+	public function beforeRules(EventInterface $event, EntityInterface $entity, ArrayObject $options, $operation) {
 		if ($this->_config['on'] !== 'beforeRules' || !$options['checkRules']) {
 			return;
 		}
@@ -179,12 +179,12 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options) {
+	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
 		if ($this->_config['on'] !== 'beforeSave') {
 			return;
 		}

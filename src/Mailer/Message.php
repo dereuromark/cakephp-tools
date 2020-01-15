@@ -15,10 +15,15 @@ use Tools\Utility\Utility;
 class Message extends CakeMessage {
 
 	/**
+	 * @var \Tools\Utility\Mime|null
+	 */
+	protected $_Mime;
+
+	/**
 	 * @param array|null $config Array of configs, or string to load configs from app.php
 	 */
 	public function __construct(?array $config = null) {
-		parent::__construct();
+		parent::__construct($config);
 
 		$xMailer = Configure::read('Config.xMailer');
 		if ($xMailer) {
@@ -366,7 +371,7 @@ class Message extends CakeMessage {
 	protected function _readFile($path) {
 		$context = stream_context_create(
 			['http' => ['header' => 'Connection: close']]);
-		$content = file_get_contents($path, 0, $context);
+		$content = file_get_contents($path, false, $context);
 		if (!$content) {
 			trigger_error('No content found for ' . $path);
 		}

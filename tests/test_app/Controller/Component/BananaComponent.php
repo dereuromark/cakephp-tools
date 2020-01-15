@@ -2,8 +2,8 @@
 
 namespace TestApp\Controller\Component;
 
-use Cake\Event\Event;
-use Shim\Controller\Component\Component;
+use Cake\Controller\Component;
+use Cake\Event\EventInterface;
 
 /**
  * BananaComponent class
@@ -20,10 +20,10 @@ class BananaComponent extends Component {
 	/**
 	 * startup method
 	 *
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @return void
 	 */
-	public function startup(Event $event) {
+	public function startup(EventInterface $event) {
 		$this->_registry->getController()->bar = 'fail';
 	}
 

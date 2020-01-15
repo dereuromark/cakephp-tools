@@ -110,12 +110,10 @@ class NumberHelperTest extends TestCase {
 	}
 
 	/**
-	 * NumberHelperTest::testCurrency()
-	 *
 	 * @return void
 	 */
 	public function testCurrency() {
-		$is = Number::defaultCurrency();
+		$is = Number::getDefaultCurrency();
 		$this->assertSame('EUR', $is);
 
 		$is = $this->Number->currency(22.2);
@@ -123,8 +121,6 @@ class NumberHelperTest extends TestCase {
 	}
 
 	/**
-	 * NumberHelperTest::testToReadableSize()
-	 *
 	 * @return void
 	 */
 	public function testToReadableSize() {

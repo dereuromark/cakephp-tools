@@ -2,7 +2,7 @@
 
 namespace Tools\Model\Behavior;
 
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -42,12 +42,12 @@ class ConfirmableBehavior extends Behavior {
 	}
 
 	/**
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\Validation\Validator $validator
 	 * @param string $name
 	 * @return void
 	 */
-	public function buildValidator(Event $event, Validator $validator, $name) {
+	public function buildValidator(EventInterface $event, Validator $validator, $name) {
 		$this->build($validator, $name);
 	}
 

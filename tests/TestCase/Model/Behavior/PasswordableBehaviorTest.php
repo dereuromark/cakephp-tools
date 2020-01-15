@@ -12,7 +12,7 @@ class PasswordableBehaviorTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	public $fixtures = [
+	protected $fixtures = [
 		'plugin.Tools.ToolsUsers',
 		'plugin.Tools.Roles',
 	];
@@ -21,6 +21,11 @@ class PasswordableBehaviorTest extends TestCase {
 	 * @var \TestApp\Model\Table\ToolsUsersTable
 	 */
 	protected $Users;
+
+	/**
+	 * @var \Cake\Auth\AbstractPasswordHasher
+	 */
+	protected $hasher;
 
 	/**
 	 * SetUp method

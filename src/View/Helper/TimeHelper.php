@@ -78,7 +78,7 @@ class TimeHelper extends CakeTimeHelper {
 	/**
 	 * Returns a nicely formatted date string for given Datetime string.
 	 *
-	 * @param int|string|\DateTime|null $dateString UNIX timestamp, strtotime() valid string or DateTime object
+	 * @param int|string|\DateTimeInterface|null $dateString UNIX timestamp, strtotime() valid string or DateTime object
 	 * @param string|\DateTimeZone|null $timezone User's timezone string or DateTimeZone object
 	 * @param string|null $locale Locale string.
 	 * @param string|null $default Default string to use when no dateString is given. Use null to allow null as current date.

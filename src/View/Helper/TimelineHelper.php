@@ -141,10 +141,13 @@ function drawVisualization() {
 
 drawVisualization();
 JS;
-		if ($return) {
-			return $script;
+		if (!$return) {
+			$this->_buffer($script, $scriptOptions);
+
+			return null;
 		}
-		$this->_buffer($script, $scriptOptions);
+
+		return $script;
 	}
 
 	/**

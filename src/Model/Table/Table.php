@@ -24,7 +24,7 @@ class Table extends ShimTable {
 	 * @param array $entities
 	 * @return bool
 	 */
-	public function validateAll(array $entities) {
+	public function validateAll(array $entities): bool {
 		foreach ($entities as $entity) {
 			if ($entity->getErrors()) {
 				return false;
@@ -113,7 +113,7 @@ class Table extends ShimTable {
 	 * @param array $options
 	 * @return \Cake\ORM\Query
 	 */
-	public function getRelatedInUse($tableName, $groupField = null, $type = 'all', $options = []) {
+	public function getRelatedInUse($tableName, $groupField = null, $type = 'all', array $options = []) {
 		if ($groupField === null) {
 			/** @var string $groupField */
 			$groupField = $this->getAssociation($tableName)->getForeignKey();
@@ -285,7 +285,7 @@ class Table extends ShimTable {
 	 * @param array $context
 	 * @return bool Success
 	 */
-	public function validateDateTime($value, $options = [], array $context = []) {
+	public function validateDateTime($value, array $options = [], array $context = []) {
 		if (!$value) {
 			if (!empty($options['allowEmpty'])) {
 				return true;
@@ -376,7 +376,7 @@ class Table extends ShimTable {
 	 * @param array $context
 	 * @return bool Success
 	 */
-	public function validateDate($value, $options = [], array $context = []) {
+	public function validateDate($value, array $options = [], array $context = []) {
 		if (!$value) {
 			if (!empty($options['allowEmpty'])) {
 				return true;
@@ -435,7 +435,7 @@ class Table extends ShimTable {
 	 * @param array $context
 	 * @return bool Success
 	 */
-	public function validateTime($value, $options = [], array $context = []) {
+	public function validateTime($value, array $options = [], array $context = []) {
 		if (!$value) {
 			return false;
 		}
@@ -457,30 +457,6 @@ class Table extends ShimTable {
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * Validation of Date Fields (>= minDate && <= maxDate)
-	 *
-	 * @param mixed $value
-	 * @param array $options
-	 * - min/max (TODO!!)
-	 * @param array $context
-	 * @return bool
-	 */
-	public function validateDateRange($value, $options = [], array $context = []) {
-	}
-
-	/**
-	 * Validation of Time Fields (>= minTime && <= maxTime)
-	 *
-	 * @param mixed $value
-	 * @param array $options
-	 * - min/max (TODO!!)
-	 * @param array $context
-	 * @return bool
-	 */
-	public function validateTimeRange($value, $options = [], array $context = []) {
 	}
 
 }

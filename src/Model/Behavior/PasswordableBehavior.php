@@ -6,7 +6,7 @@ use ArrayObject;
 use Cake\Auth\PasswordHasherFactory;
 use Cake\Core\Configure;
 use Cake\Datasource\EntityInterface;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Table;
 use RuntimeException;
@@ -217,12 +217,12 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * Preparing the data
 	 *
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \ArrayObject $data
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options) {
+	public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options) {
 		$formField = $this->_config['formField'];
 		$formFieldRepeat = $this->_config['formFieldRepeat'];
 		$formFieldCurrent = $this->_config['formFieldCurrent'];
@@ -269,13 +269,13 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * Preparing the data
 	 *
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 * @param string $operation
 	 * @return void
 	 */
-	public function beforeRules(Event $event, EntityInterface $entity, ArrayObject $options, $operation) {
+	public function beforeRules(EventInterface $event, EntityInterface $entity, ArrayObject $options, $operation) {
 		$formField = $this->_config['formField'];
 		$formFieldRepeat = $this->_config['formFieldRepeat'];
 		$formFieldCurrent = $this->_config['formFieldCurrent'];
@@ -300,13 +300,13 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * Hashing the password and whitelisting
 	 *
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 * @throws \RuntimeException
 	 * @return void
 	 */
-	public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options) {
+	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
 		$formField = $this->_config['formField'];
 		$field = $this->_config['field'];
 

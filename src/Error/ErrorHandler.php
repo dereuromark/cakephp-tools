@@ -2,6 +2,7 @@
 
 namespace Tools\Error;
 
+use Cake\Error\Debugger;
 use Cake\Error\ErrorHandler as CoreErrorHandler;
 use Cake\Log\Log;
 use Cake\Routing\Router;
@@ -42,14 +43,48 @@ class ErrorHandler extends CoreErrorHandler {
 	 * @param \Psr\Http\Message\ServerRequestInterface|null $request
 	 * @return bool
 	 */
-	protected function _logException(Throwable $exception, ?ServerRequestInterface $request = null): bool {
+	public function logException(Throwable $exception, ?ServerRequestInterface $request = null): bool {
 		if ($this->is404($exception)) {
 			$level = LOG_ERR;
-			Log::write($level, $this->_getMessage($exception), ['404']);
+			Log::write($level, $this->buildMessage($exception), ['404']);
 			return false;
 		}
 
-		return parent::_logException($exception, $request ?? Router::getRequest());
+		return parent::logException($exception, $request ?? Router::getRequest());
+	}
+
+	/**
+	 * @param \Throwable $exception
+	 *
+	 * @return string
+	 */
+	protected function buildMessage(Throwable $exception): string {
+		$error = error_get_last();
+
+		$message = sprintf(
+			'%s (%s): %s in [%s, line %s]',
+			$exception->getMessage(),
+			$exception->getCode(),
+			$error['description'] ?? '',
+			$error['file'] ?? '',
+			$error['line'] ?? ''
+		);
+		if (!empty($this->_config['trace'])) {
+			/** @var string $trace */
+			$trace = Debugger::trace([
+				'start' => 1,
+				'format' => 'log',
+			]);
+
+			$request = Router::getRequest();
+			if ($request) {
+				$message .= $this->getLogger()->getRequestContext($request);
+			}
+			$message .= "\nTrace:\n" . $trace . "\n";
+		}
+		$message .= "\n\n";
+
+		return $message;
 	}
 
 }

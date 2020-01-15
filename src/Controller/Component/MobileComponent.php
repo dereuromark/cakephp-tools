@@ -2,12 +2,11 @@
 
 namespace Tools\Controller\Component;
 
-use Cake\Controller\Controller;
+use Cake\Controller\Component;
 use Cake\Core\Configure;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\Routing\Router;
 use RuntimeException;
-use Shim\Controller\Component\Component;
 
 /**
  * A component to easily store mobile in session and serve mobile views to users.
@@ -38,14 +37,14 @@ class MobileComponent extends Component {
 	 *
 	 * @var bool|null
 	 */
-	public $isMobile = null;
+	public $isMobile;
 
 	/**
 	 * Stores the final detection result including user preference.
 	 *
 	 * @var bool|null
 	 */
-	public $setMobile = null;
+	public $setMobile;
 
 	/**
 	 * Default values. Can also be set using Configure.
@@ -73,10 +72,10 @@ class MobileComponent extends Component {
 	}
 
 	/**
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @return void
 	 */
-	public function beforeFilter(Event $event) {
+	public function beforeFilter(EventInterface $event) {
 		if ($this->_config['on'] !== 'beforeFilter') {
 			return;
 		}
@@ -95,14 +94,15 @@ class MobileComponent extends Component {
 	 * @return void
 	 */
 	protected function _init() {
-		$mobileOverwrite = $this->Controller->getRequest()->getQuery('mobile');
+		$controller = $this->getController();
+		$mobileOverwrite = $controller->getRequest()->getQuery('mobile');
 
 		if ($mobileOverwrite !== null) {
 			if ($mobileOverwrite === '-1') {
-				$this->Controller->getRequest()->getSession()->delete('User.mobile');
+				$controller->getRequest()->getSession()->delete('User.mobile');
 			} else {
 				$wantsMobile = (bool)$mobileOverwrite;
-				$this->Controller->getRequest()->getSession()->write('User.mobile', (int)$wantsMobile);
+				$controller->getRequest()->getSession()->write('User.mobile', (int)$wantsMobile);
 			}
 		}
 		$this->isMobile();
@@ -125,7 +125,7 @@ class MobileComponent extends Component {
 		if ($this->isMobile === null) {
 			$this->isMobile();
 		}
-		$forceMobile = $this->Controller->getRequest()->getSession()->read('User.mobile');
+		$forceMobile = $this->getController()->getRequest()->getSession()->read('User.mobile');
 
 		if ($forceMobile !== null && !$forceMobile) {
 			$this->setMobile = false;
@@ -148,11 +148,11 @@ class MobileComponent extends Component {
 		if ($this->setMobile) {
 			$urlParams['?']['mobile'] = 0;
 			$url = Router::url($urlParams);
-			$this->Controller->set('desktopUrl', $url);
+			$this->getController()->set('desktopUrl', $url);
 		} else {
 			$urlParams['?']['mobile'] = 1;
 			$url = Router::url($urlParams);
-			$this->Controller->set('mobileUrl', $url);
+			$this->getController()->set('mobileUrl', $url);
 		}
 
 		Configure::write('User.setMobile', (int)$this->setMobile);
@@ -161,8 +161,8 @@ class MobileComponent extends Component {
 			return;
 		}
 
-		$this->Controller->viewBuilder()->setClassName('Theme');
-		$this->Controller->viewBuilder()->setTheme('Mobile');
+		$this->getController()->viewBuilder()->setClassName('Theme');
+		$this->getController()->viewBuilder()->setTheme('Mobile');
 	}
 
 	/**
@@ -198,10 +198,10 @@ class MobileComponent extends Component {
 	public function detect() {
 		// Deprecated - the vendor libs are far more accurate and up to date
 		if (!$this->_config['engine']) {
-			if (isset($this->Controller->RequestHandler)) {
-				return $this->Controller->getRequest()->is('mobile') || $this->Controller->RequestHandler->accepts('wap');
+			if (isset($this->getController()->RequestHandler)) {
+				return $this->getController()->getRequest()->is('mobile') || $this->getController()->RequestHandler->accepts('wap');
 			}
-			return $this->Controller->getRequest()->is('mobile');
+			return $this->getController()->getRequest()->is('mobile');
 		}
 		if (is_callable($this->_config['engine'])) {
 			return call_user_func($this->_config['engine']);

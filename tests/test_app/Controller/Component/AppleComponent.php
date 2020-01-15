@@ -2,8 +2,8 @@
 
 namespace TestApp\Controller\Component;
 
-use Cake\Event\Event;
-use Shim\Controller\Component\Component;
+use Cake\Controller\Component;
+use Cake\Event\EventInterface;
 
 /**
  * AppleComponent class
@@ -15,15 +15,15 @@ class AppleComponent extends Component {
 	 *
 	 * @var array
 	 */
-	public $components = ['Banana'];
+	protected $components = ['Banana'];
 
 	/**
 	 * startup method
 	 *
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @return void
 	 */
-	public function startup(Event $event) {
+	public function startup(EventInterface $event) {
 	}
 
 }

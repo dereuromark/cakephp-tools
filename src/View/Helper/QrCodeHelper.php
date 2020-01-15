@@ -326,14 +326,4 @@ class QrCodeHelper extends Helper {
 		return $this->options;
 	}
 
-	/**
-	 * 25 => 21x21 (L)
-	 * ...
-	 * 4000 => 547x547 (L)
-	 *
-	 * @return int size
-	 */
-	protected function _findSuitableSize() {
-	}
-
 }

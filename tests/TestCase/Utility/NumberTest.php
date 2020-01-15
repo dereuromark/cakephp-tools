@@ -18,7 +18,7 @@ class NumberTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		Number::defaultCurrency(false);
+		Number::setDefaultCurrency();
 	}
 
 	/**
@@ -57,7 +57,7 @@ class NumberTest extends TestCase {
 	 * @return void
 	 */
 	public function testMoney() {
-		Number::defaultCurrency('EUR');
+		Number::setDefaultCurrency('EUR');
 
 		$is = Number::money(22.11, ['locale' => 'DE']);
 		$expected = '22,11 €';
@@ -81,7 +81,7 @@ class NumberTest extends TestCase {
 	 * @return void
 	 */
 	public function testCurrency() {
-		Number::defaultCurrency('EUR');
+		Number::setDefaultCurrency('EUR');
 
 		$is = Number::currency(22.11);
 		$expected = '22,11 €';

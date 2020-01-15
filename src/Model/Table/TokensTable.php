@@ -136,7 +136,7 @@ class TokensTable extends Table {
 		if ($uid) {
 			$options['conditions'][$this->getAlias() . '.user_id'] = $uid;
 		}
-		/** @var \Tools\Model\Entity\Token $tokenEntity */
+		/** @var \Tools\Model\Entity\Token|null $tokenEntity */
 		$tokenEntity = $this->find('all', $options)->first();
 		if (!$tokenEntity) {
 			return null;

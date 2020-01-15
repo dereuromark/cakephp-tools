@@ -41,7 +41,7 @@ class InflectShell extends Shell {
 	/**
 	 * Inflects words
 	 *
-	 * @return bool|int|null
+	 * @return bool|int|null|void
 	 */
 	public function main() {
 		if (!empty($this->args)) {
@@ -168,7 +168,7 @@ class InflectShell extends Shell {
 		}
 
 		$arguments = array_reverse($arguments);
-		if (count($arguments) == 0) {
+		if (count($arguments) === 0) {
 			$words = $this->_getWords();
 		} else {
 			while (count($arguments) > 0) {

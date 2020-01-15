@@ -6,12 +6,12 @@ use ArrayObject;
 use Cake\Collection\CollectionInterface;
 use Cake\Database\Type;
 use Cake\Datasource\EntityInterface;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use RuntimeException;
-use Tools\Database\Type\ArrayType;
+use Shim\Database\Type\ArrayType;
 use Tools\Utility\Text;
 
 /**
@@ -41,7 +41,7 @@ class JsonableBehavior extends Behavior {
 	/**
 	 * @var string|false|null
 	 */
-	public $decoded = null;
+	protected $decoded;
 
 	/**
 	 * //TODO: json input/ouput directly, clean
@@ -103,14 +103,14 @@ class JsonableBehavior extends Behavior {
 	/**
 	 * Decode the fields on after find
 	 *
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\ORM\Query $query
 	 * @param \ArrayObject $options
 	 * @param bool $primary
 	 *
 	 * @return void
 	 */
-	public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary) {
+	public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, $primary) {
 		$query->formatResults(function (CollectionInterface $results) {
 			return $results->map(function ($row) {
 				if (!$row instanceof Entity) {
@@ -143,16 +143,16 @@ class JsonableBehavior extends Behavior {
 	/**
 	 * Saves all fields that do not belong to the current Model into 'with' helper model.
 	 *
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options) {
+	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
 		$fields = $this->_getMappedFields();
 
 		foreach ($fields as $map => $field) {
-			if (!$entity->get($map)) {
+			if ($entity->get($map) === null) {
 				continue;
 			}
 			$val = $entity->get($map);

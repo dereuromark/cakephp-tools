@@ -4,7 +4,7 @@ namespace Tools\Model\Behavior;
 
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use LogicException;
 
@@ -34,13 +34,13 @@ class ToggleBehavior extends Behavior {
 	];
 
 	/**
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 *
 	 * @return void
 	 */
-	public function afterDelete(Event $event, EntityInterface $entity, ArrayObject $options) {
+	public function afterDelete(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
 		$field = $this->getConfig('field');
 
 		$value = $entity->get($field);
@@ -68,13 +68,13 @@ class ToggleBehavior extends Behavior {
 	}
 
 	/**
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 * @return void
 	 * @throws \LogicException
 	 */
-	public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options) {
+	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
 		$field = $this->getConfig('field');
 
 		if ($entity->isNew() && !$entity->get($field)) {
@@ -97,7 +97,7 @@ class ToggleBehavior extends Behavior {
 	}
 
 	/**
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 *
@@ -105,7 +105,7 @@ class ToggleBehavior extends Behavior {
 	 *
 	 * @throws \LogicException
 	 */
-	public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options) {
+	public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
 		if ($this->_config['on'] !== 'afterSave') {
 			return;
 		}

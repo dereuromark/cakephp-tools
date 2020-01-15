@@ -5,7 +5,7 @@ namespace Tools\Model\Behavior;
 use ArrayObject;
 use Cake\Core\Configure;
 use Cake\Datasource\EntityInterface;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
@@ -143,7 +143,7 @@ class SluggedBehavior extends Behavior {
 			foreach ($label as $field) {
 				$alias = $this->_table->getAlias();
 				if (strpos($field, '.')) {
-					list($alias, $field) = explode('.', $field);
+					[$alias, $field] = explode('.', $field);
 					if (!$this->_table->$alias->hasField($field)) {
 						throw new RuntimeException('(SluggedBehavior::setup) model `' . $this->_table->$alias->getAlias() . '` is missing the field `' . $field .
 							'` (specified in the setup for table `' . $this->_table->getAlias() . '`) ');
@@ -177,14 +177,14 @@ class SluggedBehavior extends Behavior {
 	/**
 	 * SluggedBehavior::beforeRules()
 	 *
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 * @param string $operation
 	 *
 	 * @return void
 	 */
-	public function beforeRules(Event $event, EntityInterface $entity, ArrayObject $options, $operation) {
+	public function beforeRules(EventInterface $event, EntityInterface $entity, ArrayObject $options, $operation) {
 		if ($this->_config['on'] === 'beforeRules') {
 			$this->slug($entity);
 		}
@@ -193,12 +193,12 @@ class SluggedBehavior extends Behavior {
 	/**
 	 * SluggedBehavior::beforeSave()
 	 *
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options) {
+	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
 		if ($this->_config['on'] === 'beforeSave') {
 			$this->slug($entity);
 		}
@@ -399,7 +399,7 @@ class SluggedBehavior extends Behavior {
 		while (($records = $this->_table->find('all', $params)->toArray())) {
 			/** @var \Cake\ORM\Entity $record */
 			foreach ($records as $record) {
-				$record->isNew(true);
+				$record->setNew(true);
 
 				$fields = array_merge([$this->_table->getPrimaryKey(), $this->_config['field']], $this->_config['label']);
 				$options = [

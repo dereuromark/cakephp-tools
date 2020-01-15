@@ -3,6 +3,7 @@
 namespace Tools\Test\TestCase\Model\Behavior;
 
 use Cake\ORM\TableRegistry;
+use PDOException;
 use Shim\TestSuite\TestCase;
 use stdClass;
 
@@ -11,7 +12,7 @@ class JsonableBehaviorTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	public $fixtures = [
+	protected $fixtures = [
 		'plugin.Tools.JsonableComments',
 	];
 
@@ -75,7 +76,6 @@ class JsonableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testFieldsWithList() {
-		//echo $this->_header(__FUNCTION__);
 		$this->Comments->removeBehavior('Jsonable');
 		$this->Comments->addBehavior('Tools.Jsonable', ['fields' => ['details'], 'input' => 'list']);
 
@@ -391,13 +391,44 @@ class JsonableBehaviorTest extends TestCase {
 			],
 		];
 		$entity = $this->Comments->newEntity($data);
+
+		$this->expectException(PDOException::class);
+
+		$this->Comments->save($entity);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testEncodeWithNoParamsComplexContentNullable() {
+		$this->Comments->removeBehavior('Jsonable');
+		$this->Comments->addBehavior('Tools.Jsonable', [
+			'output' => 'array',
+			'fields' => ['details_nullable', 'details'],
+			'encodeParams' => [
+				'options' => 0,
+			],
+		]);
+
+		$data = [
+			'comment' => 'blabla',
+			'url' => 'www.dereuromark.de',
+			'title' => 'param',
+			'details' => [
+			],
+			'details_nullable' => [
+				'foo' => 'bar',
+				'nan' => NAN,
+				'inf' => INF,
+			],
+		];
+		$entity = $this->Comments->newEntity($data);
 		$result = $this->Comments->save($entity);
 		$this->assertTrue((bool)$result);
 
 		$res = $this->Comments->get($entity->id);
-		$expected = [
-		];
-		$this->assertSame($expected, $res->details);
+		$this->assertSame([], $res->details);
+		$this->assertNull($res->details_nullable);
 	}
 
 }

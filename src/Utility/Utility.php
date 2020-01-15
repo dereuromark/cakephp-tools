@@ -6,6 +6,7 @@ use Cake\Log\Log;
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
 use Exception;
+use InvalidArgumentException;
 use RuntimeException;
 
 /**
@@ -564,7 +565,7 @@ class Utility {
 			}
 
 			if (empty($data) && !empty($stack)) {
-				list($data, $path) = array_pop($stack);
+				[$data, $path] = array_pop($stack);
 				reset($data);
 			}
 		}
@@ -632,6 +633,9 @@ class Utility {
 	 * like array_shift() only for keys and not values
 	 *
 	 * @param array $array keyValuePairs
+	 *
+	 * @throws \InvalidArgumentException
+	 *
 	 * @return string key
 	 */
 	public static function arrayShiftKeys(&$array) {
@@ -639,6 +643,8 @@ class Utility {
 			unset($array[$key]);
 			return $key;
 		}
+
+		throw new InvalidArgumentException('Empty array');
 	}
 
 	/**
