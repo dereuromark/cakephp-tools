@@ -107,7 +107,7 @@ class Mailer extends CakeMailer {
 			return;
 		}
 
-		$primaryLocale = $this->getPrimaryLocale();
+		$primaryLocale = $this->detectPrimaryLocale();
 		if ($primaryLocale) {
 			I18n::setLocale($primaryLocale);
 		}
@@ -128,18 +128,15 @@ class Mailer extends CakeMailer {
 	 * Can be based on the primary language and the allowed languages (whitelist).
 	 *
 	 * @throws \RuntimeException
-	 * @return string
+	 * @return string|null
 	 */
-	protected function getPrimaryLocale(): string {
+	protected function detectPrimaryLocale(): ?string {
 		if (Configure::read('Config.defaultLocale')) {
 			return Configure::read('Config.defaultLocale');
 		}
 
 		$primaryLanguage = Configure::read('Config.defaultLanguage');
 		$primaryLocale = Configure::read('Config.allowedLanguages.' . $primaryLanguage . '.locale');
-		if (!$primaryLocale) {
-			throw new RuntimeException('No primary locale found, make sure you configured Configure keys `Config.defaultLocale` or `Config.defaultLanguage`+`Config.allowedLanguages`.');
-		}
 
 		return $primaryLocale;
 	}
