@@ -5,7 +5,6 @@ namespace Tools\Mailer;
 use Cake\Core\Configure;
 use Cake\I18n\I18n;
 use Cake\Mailer\Mailer as CakeMailer;
-use RuntimeException;
 
 /**
  * Allows locale overwrite to send emails in a specific language
