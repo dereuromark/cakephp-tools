@@ -183,7 +183,7 @@ class TimeHelper extends CakeTimeHelper {
 			$niceDate = $this->format($date, $format) . $timeAttachment; //date("M jS{$y}", $date);
 		}
 
-		if (!empty($whenOverride) && $when == 0) {
+		if (!empty($whenOverride) && $when === 0) {
 			if ($this->isInTheFuture($date)) {
 				$when = 1;
 			} else {
@@ -191,7 +191,7 @@ class TimeHelper extends CakeTimeHelper {
 			}
 		}
 
-		if (empty($niceDate) || $when === null) {
+		if (empty($niceDate)) {
 			$niceDate = '<i>n/a</i>';
 		} else {
 			if (!isset($attr['title'])) {
