@@ -128,6 +128,12 @@ class Table extends ShimTable {
 			$defaults['fields'] = [$tableName . '.' . $this->$tableName->getPrimaryKey(), $tableName . '.' . $this->$tableName->getDisplayField()];
 			$defaults['keyField'] = $propertyName . '.' . $this->$tableName->getPrimaryKey();
 			$defaults['valueField'] = $propertyName . '.' . $this->$tableName->getDisplayField();
+
+			if ($this->$tableName->getPrimaryKey() === $this->$tableName->getDisplayField()) {
+				$defaults['group'] = [$tableName . '.' . $this->$tableName->getDisplayField()];
+			} else {
+				$defaults['group'] = [$tableName . '.' . $this->$tableName->getPrimaryKey(), $tableName . '.' . $this->$tableName->getDisplayField()];
+			}
 		}
 		$options += $defaults;
 
@@ -135,7 +141,9 @@ class Table extends ShimTable {
 	}
 
 	/**
-	 * Get all fields that have been used so far
+	 * Get all fields that have been used so far.
+	 *
+	 * Warning: This only works on ONLY_FULL_GROUP_BY disabled (and not in Postgres right now).
 	 *
 	 * @param string $groupField Field to group by
 	 * @param string $type Find type
@@ -148,7 +156,7 @@ class Table extends ShimTable {
 			'order' => [$this->getDisplayField() => 'ASC'],
 		];
 		if ($type === 'list') {
-			$defaults['fields'] = ['' . $this->getPrimaryKey(), '' . $this->getDisplayField()];
+			$defaults['fields'] = [$this->getPrimaryKey(), $this->getDisplayField(), $groupField];
 			$defaults['keyField'] = $this->getPrimaryKey();
 			$defaults['valueField'] = $this->getDisplayField();
 		}

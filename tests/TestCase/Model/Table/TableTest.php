@@ -159,11 +159,16 @@ class TableTest extends TestCase {
 	 * @return void
 	 */
 	public function testGetFieldInUse() {
+		$config = $this->Posts->getConnection()->config();
+		$isPostgres = strpos($config['driver'], 'Postgres') !== false;
+		$this->skipIf($isPostgres, 'Only for MySQL right now');
+
 		$results = $this->Posts->getFieldInUse('author_id', 'list')->toArray();
 		/*
 		$expected = [2 => 'Second Post', 3 => 'Third Post'];
 		$this->assertEquals($expected, $results);
 		*/
+		dd($results);
 		$this->assertCount(2, $results);
 
 		$results = $this->Posts->getFieldInUse('author_id')->toArray();
