@@ -34,21 +34,21 @@ class TypographyHelper extends Helper {
 	 *
 	 * @var string
 	 */
-	public $blockElements = 'address|blockquote|div|dl|fieldset|form|h\d|hr|noscript|object|ol|p|pre|script|table|ul';
+	protected $blockElements = 'address|blockquote|div|dl|fieldset|form|h\d|hr|noscript|object|ol|p|pre|script|table|ul';
 
 	/**
 	 * Elements that should not have <p> and <br /> tags within them.
 	 *
 	 * @var string
 	 */
-	public $skipElements = 'p|pre|ol|ul|dl|object|table|h\d';
+	protected $skipElements = 'p|pre|ol|ul|dl|object|table|h\d';
 
 	/**
 	 * Tags we want the parser to completely ignore when splitting the string.
 	 *
 	 * @var string
 	 */
-	public $inlineElements =
+	protected $inlineElements =
 		'a|abbr|acronym|b|bdo|big|br|button|cite|code|del|dfn|em|i|img|ins|input|label|map|kbd|q|samp|select|small|span|strong|sub|sup|textarea|tt|var';
 
 	/**
@@ -56,26 +56,26 @@ class TypographyHelper extends Helper {
 	 *
 	 * @var array
 	 */
-	public $innerBlockRequired = ['blockquote'];
+	protected $innerBlockRequired = ['blockquote'];
 
 	/**
 	 * The last block element parsed
 	 *
 	 * @var string
 	 */
-	public $lastBlockElement = '';
+	protected $lastBlockElement = '';
 
 	/**
 	 * Whether or not to protect quotes within { curly braces }
 	 *
 	 * @var bool
 	 */
-	public $protectBracedQuotes = false;
+	protected $protectBracedQuotes = false;
 
 	/**
 	 * @var array
 	 */
-	public $matching = [
+	protected $matching = [
 		'deu' => 'low', // except for Switzerland
 		'eng' => 'default',
 		'fra' => 'angle',

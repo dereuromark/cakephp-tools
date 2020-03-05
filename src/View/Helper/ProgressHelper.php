@@ -29,7 +29,7 @@ class ProgressHelper extends Helper {
 	/**
 	 * @var array
 	 */
-	public $helpers = ['Html'];
+	protected $helpers = ['Html'];
 
 	/**
 	 * @var array

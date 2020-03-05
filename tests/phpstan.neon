@@ -7,6 +7,7 @@ parameters:
 		- %rootDir%/../../../src/Utility/Mime
 	ignoreErrors:
 		- '#Call to an undefined method .+TimeHelper::.+\(\)#'
+		- '#Comparison operation ">" between int<1, max> and 0 is always true.#'
 
 services:
 	-

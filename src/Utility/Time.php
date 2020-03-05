@@ -94,8 +94,8 @@ class Time extends CakeTime {
 	 * Both dates default to current date. Note that start needs
 	 * to be before end for a valid result.
 	 *
-	 * @param int|string $start Start date (if empty, use today)
-	 * @param int|string|null $end End date (if empty, use today)
+	 * @param int|string|\DateTimeInterface $start Start date (if empty, use today)
+	 * @param int|string|\DateTimeInterface|null $end End date (if empty, use today)
 	 * @return int Age (0 if both timestamps are equal or empty, -1 on invalid dates)
 	 */
 	public static function age($start, $end = null) {
@@ -123,7 +123,9 @@ class Time extends CakeTime {
 		if ($startDate > $endDate) {
 			return -1;
 		}
+
 		$oDateInterval = $endDate->diff($startDate);
+
 		return $oDateInterval->y;
 	}
 
@@ -467,7 +469,7 @@ class Time extends CakeTime {
 	 * - default: Default string (defaults to "-----")
 	 * - oclock: Set to true to append oclock string
 	 *
-	 * @param string|null $dateString
+	 * @param string|\DateTimeInterface|null $dateString
 	 * @param string|null $format Format (YYYY-MM-DD, DD.MM.YYYY)
 	 * @param array $options Options
 	 * @return string
@@ -699,7 +701,7 @@ class Time extends CakeTime {
 
 	/**
 	 * @param int $offset in seconds
-	 * @param bool|null $past (defaults to null: return plain text)
+	 * @param bool|string|null $past (defaults to null: return plain text)
 	 * - new: if not boolean but a string use this as translating text
 	 * @return string text (i18n!)
 	 */

@@ -26,12 +26,12 @@ class FormatHelper extends Helper {
 	 *
 	 * @var array
 	 */
-	public $helpers = ['Html'];
+	protected $helpers = ['Html'];
 
 	/**
 	 * @var \Cake\View\StringTemplate
 	 */
-	public $template;
+	protected $template;
 
 	/**
 	 * @var array

@@ -25,7 +25,7 @@ class ShuntRequestController extends AppController {
 	/**
 	 * @var string|false
 	 */
-	public $modelClass = false;
+	protected $modelClass = false;
 
 	/**
 	 * @return void

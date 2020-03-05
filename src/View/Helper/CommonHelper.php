@@ -18,7 +18,7 @@ class CommonHelper extends Helper {
 	/**
 	 * @var array
 	 */
-	public $helpers = ['Html', 'Url'];
+	protected $helpers = ['Html', 'Url'];
 
 	/**
 	 * Auto-pluralizing a word using the Inflection class
@@ -30,13 +30,14 @@ class CommonHelper extends Helper {
 	 * @return string "member" or "members" OR "Mitglied"/"Mitglieder" if autoTranslate TRUE
 	 * @deprecated Use explicit form directly via sp()
 	 */
-	public function asp($singular, $count, $autoTranslate = false) {
-		if ((int)$count !== 1) {
-			$pural = Inflector::pluralize($singular);
+	public function asp(string $singular, int $count, bool $autoTranslate = false): string {
+		if ($count !== 1) {
+			$plural = Inflector::pluralize($singular);
 		} else {
-			$pural = null; // No pluralization necessary
+			$plural = ''; // No pluralization necessary
 		}
-		return $this->sp($singular, $pural, $count, $autoTranslate);
+
+		return $this->sp($singular, $plural, $count, $autoTranslate);
 	}
 
 	/**
@@ -49,8 +50,8 @@ class CommonHelper extends Helper {
 	 * @param bool $autoTranslate
 	 * @return string result
 	 */
-	public function sp($singular, $plural, $count, $autoTranslate = false) {
-		if ((int)$count !== 1) {
+	public function sp(string $singular, string $plural, int $count, bool $autoTranslate = false): string {
+		if ($count !== 1) {
 			$result = $plural;
 		} else {
 			$result = $singular;
@@ -59,6 +60,7 @@ class CommonHelper extends Helper {
 		if ($autoTranslate) {
 			$result = __($result);
 		}
+
 		return $result;
 	}
 
@@ -68,7 +70,7 @@ class CommonHelper extends Helper {
 	 * @param string|null $type - private/public
 	 * @return string HTML
 	 */
-	public function metaRobots($type = null) {
+	public function metaRobots(?string $type = null): string {
 		if ($type === null && ($meta = Configure::read('Config.robots')) !== null) {
 			$type = $meta;
 		}
@@ -92,13 +94,14 @@ class CommonHelper extends Helper {
 	 * @param string|array|null $content If array, it will be separated by commas
 	 * @return string HTML Markup
 	 */
-	public function metaName($name = null, $content = null) {
+	public function metaName(?string $name = null, $content = null): string {
 		if (empty($name) || empty($content)) {
 			return '';
 		}
 
 		$content = (array)$content;
 		$return = '<meta name="' . $name . '" content="' . implode(', ', $content) . '" />';
+
 		return $return;
 	}
 
@@ -110,12 +113,13 @@ class CommonHelper extends Helper {
 	 * @param array $options Additional options
 	 * @return string HTML Markup
 	 */
-	public function metaDescription($content, $language = null, $options = []) {
+	public function metaDescription(string $content, ?string $language = null, array $options = []): string {
 		if (!empty($language)) {
 			$options['lang'] = mb_strtolower($language);
 		} elseif ($language !== false) {
 			$options['lang'] = Configure::read('Config.locale');
 		}
+
 		return $this->Html->meta('description', $content, $options);
 	}
 
@@ -127,7 +131,7 @@ class CommonHelper extends Helper {
 	 * @param bool $escape
 	 * @return string HTML Markup
 	 */
-	public function metaKeywords($keywords = null, $language = null, $escape = true) {
+	public function metaKeywords($keywords = null, ?string $language = null, bool $escape = true): string {
 		if ($keywords === null) {
 			$keywords = Configure::read('Config.keywords');
 		}
@@ -143,6 +147,7 @@ class CommonHelper extends Helper {
 		} elseif ($language !== false) {
 			$options['lang'] = Configure::read('Config.locale');
 		}
+
 		return $this->Html->meta('keywords', $keywords, $options);
 	}
 
@@ -153,9 +158,10 @@ class CommonHelper extends Helper {
 	 * @param bool $full
 	 * @return string HTML Markup
 	 */
-	public function metaCanonical($url = null, $full = false) {
+	public function metaCanonical($url = null, bool $full = false): string {
 		$canonical = $this->Url->build($url, ['full' => $full]);
 		$options = ['rel' => 'canonical', 'link' => $canonical];
+
 		return $this->Html->meta($options);
 	}
 
@@ -171,7 +177,7 @@ class CommonHelper extends Helper {
 	 * @param bool $full
 	 * @return string HTML Markup
 	 */
-	public function metaAlternate($url, $lang, $full = false) {
+	public function metaAlternate($url, $lang, bool $full = false): string {
 		$url = $this->Url->build($url, ['full' => $full]);
 		$lang = (array)$lang;
 		$res = [];
@@ -188,6 +194,7 @@ class CommonHelper extends Helper {
 				$res[] = $this->Html->meta($options) . PHP_EOL;
 			}
 		}
+
 		return implode('', $res);
 	}
 
@@ -198,9 +205,9 @@ class CommonHelper extends Helper {
 	 * @param string|null $title
 	 * @return string HTML Markup
 	 */
-	public function metaRss($url, $title = null) {
+	public function metaRss($url, ?string $title = null): string {
 		$tags = [
-			'meta' => '<link rel="alternate" type="application/rss+xml" title="%s" href="%s" />',
+			'meta' => '<link rel="alternate" type="application/rss+xml" title="%s" href="%s"/>',
 		];
 		if (empty($title)) {
 			$title = __d('tools', 'Subscribe to this feed');
@@ -212,20 +219,17 @@ class CommonHelper extends Helper {
 	}
 
 	/**
-	 * Convenience method for META Tags
+	 * Convenience method for meta tags.
 	 *
 	 * @param string $type
 	 * @param string $value Content
 	 * @param bool $escape
 	 * @return string HTML Markup
 	 */
-	public function metaEquiv($type, $value, $escape = true) {
+	public function metaEquiv(string $type, string $value, bool $escape = true): string {
 		$tags = [
-			'meta' => '<meta http-equiv="%s"%s />',
+			'meta' => '<meta http-equiv="%s"%s/>',
 		];
-		if ($value === null) {
-			return '';
-		}
 		if ($escape) {
 			$value = h($value);
 		}

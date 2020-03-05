@@ -83,7 +83,7 @@ class CommonHelperTest extends TestCase {
 	 */
 	public function testMetaRss() {
 		$result = $this->Common->metaRss('/some/url', 'some title');
-		$expected = '<link rel="alternate" type="application/rss+xml" title="some title" href="/some/url" />';
+		$expected = '<link rel="alternate" type="application/rss+xml" title="some title" href="/some/url"/>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -94,7 +94,7 @@ class CommonHelperTest extends TestCase {
 	 */
 	public function testMetaEquiv() {
 		$result = $this->Common->metaEquiv('type', 'value');
-		$expected = '<meta http-equiv="type" content="value" />';
+		$expected = '<meta http-equiv="type" content="value"/>';
 		$this->assertEquals($expected, $result);
 	}
 

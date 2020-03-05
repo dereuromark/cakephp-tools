@@ -19,7 +19,7 @@ class TimeHelper extends CakeTimeHelper {
 	/**
 	 * @var array
 	 */
-	public $helpers = ['Html'];
+	protected $helpers = ['Html'];
 
 	/**
 	 * Default config for this class

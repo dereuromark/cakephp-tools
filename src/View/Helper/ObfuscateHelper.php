@@ -20,7 +20,7 @@ class ObfuscateHelper extends Helper {
 	 *
 	 * @var array
 	 */
-	public $helpers = ['Html'];
+	protected $helpers = ['Html'];
 
 	/**
 	 * It is still believed that encoding will stop spam-bots being able to find your email address.

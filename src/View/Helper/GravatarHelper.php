@@ -60,7 +60,7 @@ class GravatarHelper extends Helper {
 	 *
 	 * @var array
 	 */
-	public $helpers = ['Html'];
+	protected $helpers = ['Html'];
 
 	/**
 	 * @param \Cake\View\View $View

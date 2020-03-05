@@ -23,7 +23,7 @@ class TimelineHelper extends Helper {
 	/**
 	 * @var array
 	 */
-	public $helpers = ['Html'];
+	protected $helpers = ['Html'];
 
 	/**
 	 * Possible values are (with their default values):

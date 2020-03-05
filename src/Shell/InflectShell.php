@@ -21,7 +21,7 @@ class InflectShell extends Shell {
 	 *
 	 * @var array
 	 */
-	public $validMethods = [
+	protected $validMethods = [
 		'pluralize', 'singularize', 'camelize',
 		'underscore', 'humanize', 'tableize',
 		'classify', 'variable', 'dasherize', 'slug',
@@ -32,7 +32,7 @@ class InflectShell extends Shell {
 	 *
 	 * @var array
 	 */
-	public $validCommands = [
+	protected $validCommands = [
 		'pluralize', 'singularize', 'camelize',
 		'underscore', 'humanize', 'tableize',
 		'classify', 'variable', 'dasherize', 'slug', 'all', 'quit',

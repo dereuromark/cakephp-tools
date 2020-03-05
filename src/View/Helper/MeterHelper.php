@@ -28,7 +28,7 @@ class MeterHelper extends Helper {
 	/**
 	 * @var array
 	 */
-	public $helpers = ['Html'];
+	protected $helpers = ['Html'];
 
 	/**
 	 * @var array
@@ -81,7 +81,7 @@ class MeterHelper extends Helper {
 
 		$attributes += [
 			'value' => $value,
-			'min' => $min === null ? 0 : $min,
+			'min' => $min < 0 ? 0 : $min,
 			'max' => $max,
 			'title' => Number::toPercentage($progress, 0, ['multiply' => true]),
 		];

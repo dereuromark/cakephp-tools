@@ -40,17 +40,17 @@ class QrCodeHelper extends Helper {
 	/**
 	 * @var array
 	 */
-	public $helpers = ['Html', 'Url'];
+	protected $helpers = ['Html', 'Url'];
 
 	/**
 	 * @var string
 	 */
-	public $engine = 'google';
+	protected $engine = 'google';
 
 	/**
 	 * @var string
 	 */
-	public $url = 'http://chart.apis.google.com/chart?';
+	protected $url = 'http://chart.apis.google.com/chart?';
 
 	/**
 	 * necessary
@@ -60,17 +60,17 @@ class QrCodeHelper extends Helper {
 	 *
 	 * @var array
 	 */
-	public $options = ['cht' => 'qr', 'chl' => '', 'choe' => '', 'chs' => ''];
+	protected $options = ['cht' => 'qr', 'chl' => '', 'choe' => '', 'chs' => ''];
 
 	/**
 	 * @var array
 	 */
-	public $ecLevels = ['H', 'Q', 'M', 'L']; # 30%..7%
+	protected $ecLevels = ['H', 'Q', 'M', 'L']; # 30%..7%
 
 	/**
 	 * @var array
 	 */
-	public $formattingTypes = ['url' => 'http', 'tel' => 'tel', 'sms' => 'smsto', 'card' => 'mecard'];
+	protected $formattingTypes = ['url' => 'http', 'tel' => 'tel', 'sms' => 'smsto', 'card' => 'mecard'];
 
 	/**
 	 * @param \Cake\View\View $View
