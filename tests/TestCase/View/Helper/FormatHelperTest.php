@@ -15,7 +15,7 @@ use Tools\View\Helper\FormatHelper;
 class FormatHelperTest extends TestCase {
 
 	/**
-	 * @var array
+	 * @var string[]
 	 */
 	protected $fixtures = [
 		'core.Sessions',
