@@ -12,7 +12,7 @@
 			<directory>tests/</directory>
 		</testsuite>
 	</testsuites>
-		<listeners>
+	<listeners>
 		<listener class="Cake\TestSuite\Fixture\FixtureInjector">
 			<arguments>
 				<object class="Cake\TestSuite\Fixture\FixtureManager"/>
