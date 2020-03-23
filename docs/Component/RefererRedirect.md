@@ -43,8 +43,9 @@ After successful save it will then redirect to exactly the current URL including
 
 
 ## When not to use
-Make sure you are not using such approaches when linking to an action that removes an entity from the view of that entity.
-So do not use it for deleting actions while you are on the view action of this entity, for example.
+Make sure you are not using such approaches when linking to an action that removes an entity from the `view`/`edit` action of that entity.
+So do not use it for deleting actions while you are on the `view` action of this entity, for example.
+Or in that case make sure you pass the referer of the "target" action, e.g. `index` etc. This way the redirect will then not run into an error or redirect loop.
 
 ## Security
 It is advised to whitelist the actions for valid referer redirect.
