@@ -129,8 +129,9 @@ class SluggedBehavior extends Behavior {
 	 */
 	public function initialize(array $config) {
 		if ($this->_config['length'] === null) {
-			$length = $this->_table->getSchema()->getColumn($this->_config['field'])['length'];
-			$this->_config['length'] = $length ?: 0;
+			$field = $this->_table->getSchema()->getColumn($this->_config['field']);
+			$length = $field ? $field['length'] : 0;
+			$this->_config['length'] = $length;
 		}
 
 		$label = $this->_config['label'] = (array)$this->_config['label'];
