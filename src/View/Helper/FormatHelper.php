@@ -173,17 +173,19 @@ class FormatHelper extends Helper {
 	/**
 	 * Displays gender icon
 	 *
-	 * @param mixed $value
+	 * @param int|string $value
+	 * @param array $options
+	 * @param array $attributes
 	 * @return string
 	 */
-	public function genderIcon($value) {
+	public function genderIcon($value, array $options = [], array $attributes = []) {
 		$value = (int)$value;
 		if ($value == static::GENDER_FEMALE) {
-			$icon = $this->icon('female');
+			$icon = $this->icon('female', $options, $attributes);
 		} elseif ($value == static::GENDER_MALE) {
-			$icon = $this->icon('male');
+			$icon = $this->icon('male', $options, $attributes);
 		} else {
-			$icon = $this->icon('genderless', [], ['title' => __d('tools', 'Unknown')]);
+			$icon = $this->icon('genderless', $options, $attributes + ['title' => __d('tools', 'Unknown')]);
 		}
 		return $icon;
 	}
@@ -370,10 +372,11 @@ class FormatHelper extends Helper {
 
 		if (!isset($attributes['title'])) {
 			$attributes['title'] = ucfirst($type);
-			if (!isset($options['translate']) || $options['translate'] !== false) {
-				$attributes['title'] = __($attributes['title']);
-			}
 		}
+		if (!isset($options['translate']) || $options['translate'] !== false) {
+			$attributes['title'] = __($attributes['title']);
+		}
+
 		if (isset($attributes['class'])) {
 			$options['class'] .= ' ' . $attributes['class'];
 			unset($attributes['class']);
