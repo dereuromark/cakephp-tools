@@ -736,8 +736,8 @@ msgstr ""
 msgid "List {0}"
 msgstr ""
 
-#~ msgid "valErrProvideCurrentPwd"
-#~ msgstr "Bitte das bisherige Passwort eingeben"
+msgid "valErrProvideCurrentPwd"
+msgstr "Bitte das bisherige Passwort eingeben"
 
-#~ msgid "valErrCurrentPwdIncorrect"
-#~ msgstr "Das bisherige Passwort ist nicht korrekt"
+msgid "valErrCurrentPwdIncorrect"
+msgstr "Das bisherige Passwort ist nicht korrekt"

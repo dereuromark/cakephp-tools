@@ -378,7 +378,7 @@ msgstr ""
 #: Model/Behavior/PasswordableBehavior.php:231
 #: Test/Case/Model/Behavior/PasswordableBehaviorTest.php:95
 msgid "valErrPwdNotMatch"
-msgstr "Las contraseñas no coinciden"
+msgstr "Hesla se neshodují"
 
 #: Test/Case/Lib/Utility/TimeLibTest.php:263;264;265
 msgid "until"
@@ -458,7 +458,7 @@ msgstr ""
 
 #: Test/Case/Model/Behavior/PasswordableBehaviorTest.php:769;770
 msgid "valErrBetweenCharacters {0} {1}"
-msgstr "La contraseña debe tener entre {0} y {1} caracteres"
+msgstr "Počet znaků musí být mezi {0} a {1}"
 
 #: Test/Case/Model/Behavior/SluggedBehaviorTest.php:288
 msgid "and"
@@ -736,8 +736,8 @@ msgstr ""
 msgid "List {0}"
 msgstr ""
 
-#~ msgid "valErrProvideCurrentPwd"
-#~ msgstr "Provea la contraseña actual correcta"
+msgid "valErrProvideCurrentPwd"
+msgstr "Je třeba zadat stávající heslo"
 
-#~ msgid "valErrCurrentPwdIncorrect"
-#~ msgstr "La contraseña actual es incorrecta"
+msgid "valErrCurrentPwdIncorrect"
+msgstr "Stávající heslo není správné"
