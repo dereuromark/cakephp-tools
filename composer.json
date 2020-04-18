@@ -20,7 +20,7 @@
 	"require-dev": {
 		"cakephp/chronos": "^1.0.1",
 		"mobiledetect/mobiledetectlib": "^2.8",
-		"fig-r/psr2r-sniffer": "dev-master",
+		"fig-r/psr2r-sniffer": "^0.6",
 		"yangqi/htmldom": "^1.0"
 	},
 	"autoload": {
