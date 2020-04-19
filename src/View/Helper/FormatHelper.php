@@ -352,7 +352,9 @@ class FormatHelper extends Helper {
 		$iconClass = $type;
 
 		$options += $this->_config;
-		if ($options['autoPrefix'] && $options['iconNamespace']) {
+		if ($options['autoPrefix'] && is_string($options['autoPrefix'])) {
+			$iconClass = $options['autoPrefix'] . '-' . $iconClass;
+		} elseif ($options['autoPrefix'] && $options['iconNamespace']) {
 			$iconClass = $options['iconNamespace'] . '-' . $iconClass;
 		}
 		if ($options['iconNamespace']) {
