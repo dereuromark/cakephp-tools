@@ -2,10 +2,10 @@ parameters:
 	autoload_files:
 	- %rootDir%/../../../tests/bootstrap.php
 	excludes_analyse:
-		- %rootDir%/../../../src/TestSuite/
-		- %rootDir%/../../../src/View/Helper/TreeHelper/
-		- %rootDir%/../../../src/Utility/Mime/
-		- %rootDir%/../../../src/IdeHelper/
+		- %rootDir%/../../../src/TestSuite/*
+		- %rootDir%/../../../src/View/Helper/TreeHelper
+		- %rootDir%/../../../src/Utility/Mime
+		- %rootDir%/../../../src/IdeHelper/*
 	ignoreErrors:
 		- '#Call to an undefined method .+TimeHelper::.+\(\)#'
 		- '#Access to protected property .+ServerRequest::\$.+#'
