@@ -34,7 +34,7 @@ class FormatIconTask implements TaskInterface {
 	}
 
 	/**
-	 * Fontawesome v4
+	 * Fontawesome v4 using .../scss/_variables.scss
 	 *
 	 * @return string[]
 	 */
@@ -46,13 +46,8 @@ class FormatIconTask implements TaskInterface {
 		$icons = [];
 		if ($fontFile && file_exists($fontFile)) {
 			$content = file_get_contents($fontFile);
-			preg_match_all('/glyph-name="([a-z][^"]+)"/', $content, $matches);
-			$icons = $matches[1];
-			foreach ($icons as $key => $icon) {
-				if (strpos($icon, 'uni') === 0 || preg_match('#[a-z]\d[a-z]\d#i', $icon)) {
-					unset($icons[$key]);
-				}
-			}
+			preg_match_all('/\$fa-var-([0-9a-z-]+):/', $content, $matches);
+			$icons = !empty($matches[1]) ? $matches[1] : [];
 		}
 
 		$icons = array_merge($configured, $icons);
