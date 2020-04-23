@@ -41,6 +41,7 @@ class FormatIconTask implements TaskInterface {
 	protected function collectIcons() {
 		$helper = new FormatHelper(new View());
 		$configured = $helper->getConfig('fontIcons');
+		$configured = array_keys($configured);
 
 		$fontFile = Configure::readOrFail('Format.fontPath');
 		$icons = [];
