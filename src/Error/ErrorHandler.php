@@ -32,6 +32,7 @@ class ErrorHandler extends CoreErrorHandler {
 	 * @param array $config The options for error handling.
 	 */
 	public function __construct(array $config = []) {
+		$config += (array)Configure::read('Error');
 		$config += [
 			'errorLogger' => ErrorLogger::class,
 		];

@@ -14,7 +14,8 @@ Log::config('404', [
 ]);
 ```
 
-Make sure your other log configs are scope-deactivated then to prevent them being logged twice:
+Make sure your other log configs are scope-deactivated then to prevent them being 
+logged twice (`config/app.php`):
 ```php
     'Log' => [
         'debug' => [
@@ -28,7 +29,8 @@ Make sure your other log configs are scope-deactivated then to prevent them bein
     ],
 ```
 
-In your bootstrap, the following snippet just needs to include the ErrorHandler of this plugin:
+In your `config/bootstrap.php`, the following snippet just needs to include the 
+ErrorHandler of this plugin:
 ```php
 // Switch Cake\Error\ErrorHandler to
 use Tools\Error\ErrorHandler;
@@ -40,7 +42,7 @@ if ($isCli) {
 }
 ```
 
-Also, if you use the new Application middleware, make sure to include it there:
+Also, make sure to switch out the middleware:
 ```php
 use Cake\Http\BaseApplication;
 // Switch Cake\Error\Middleware\ErrorHandlerMiddleware to
@@ -66,6 +68,19 @@ class Application extends BaseApplication {
 Note that internally caused 404s (referrer is a page on the own site) are not transferred into the 404 log.
 In that case you are having invalid links in your pages somewhere, which should be fixed.
 So those are considered actual errors here.
+
+### Adding more exceptions
+
+In case you need custom 404 mappings for some additional custom exceptions, 
+make use of `log404` option in your `app.php`.
+It will overwrite the current defaults completely.
+```php
+    'Error' => [
+        'log404' => [
+            ... // List of FQCN class names
+        ],
+    ],
+```
 
 ### Tips
 
