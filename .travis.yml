@@ -52,7 +52,7 @@ script:
 
   - if [[ $CODECOVERAGE == 1 ]]; then phpdbg -qrr vendor/bin/phpunit --coverage-clover=clover.xml; fi
 
-  - if [[ $CHECKS == 1 ]]; then composer phpstan-setup && composer phpstan ; fi
+  - if [[ $CHECKS == 1 ]]; then composer stan-setup && composer stan ; fi
   - if [[ $CHECKS == 1 ]]; then composer cs-check ; fi
 
 after_success:

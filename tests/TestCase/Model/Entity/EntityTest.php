@@ -1,6 +1,6 @@
 <?php
 
-namespace Tools\Model\Entity;
+namespace Tools\Test\TestCase\Model\Entity;
 
 use Cake\ORM\TableRegistry;
 use Shim\TestSuite\TestCase;

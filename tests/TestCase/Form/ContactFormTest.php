@@ -1,6 +1,6 @@
 <?php
 
-namespace Tools\Form;
+namespace Tools\Test\TestCase\Form;
 
 use Shim\TestSuite\TestCase;
 

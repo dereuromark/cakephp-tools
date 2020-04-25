@@ -45,8 +45,8 @@
 		"issues": "https://github.com/dereuromark/cakephp-tools/issues"
 	},
 	"scripts": {
-		"phpstan": "phpstan analyse -c tests/phpstan.neon -l 5 src/",
-		"phpstan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan:^0.12.1 && mv composer.backup composer.json",
+		"stan": "phpstan analyse -c tests/phpstan.neon -l 5 src/",
+		"stan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan:^0.12.1 && mv composer.backup composer.json",
 		"test": "php phpunit.phar",
 		"test-setup": "[ ! -f phpunit.phar ] && wget https://phar.phpunit.de/phpunit-8.5.1.phar && mv phpunit-8.5.1.phar phpunit.phar || true",
 		"test-coverage": "php phpunit.phar --log-junit webroot/coverage/unitreport.xml --coverage-html webroot/coverage --coverage-clover webroot/coverage/coverage.xml",

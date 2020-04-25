@@ -1,6 +1,6 @@
 <?php
 
-namespace Tools\Test\Utility;
+namespace Tools\Test\TestCase\Utility;
 
 use Shim\TestSuite\TestCase;
 use Tools\Utility\L10n;

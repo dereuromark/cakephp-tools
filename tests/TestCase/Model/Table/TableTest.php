@@ -1,6 +1,6 @@
 <?php
 
-namespace Tools\Model\Table;
+namespace Tools\Test\TestCase\Model\Table;
 
 use Cake\Datasource\ConnectionManager;
 use Cake\I18n\Time;

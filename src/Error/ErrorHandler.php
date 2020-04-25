@@ -2,12 +2,7 @@
 
 namespace Tools\Error;
 
-use Cake\Error\Debugger;
 use Cake\Error\ErrorHandler as CoreErrorHandler;
-use Cake\Log\Log;
-use Cake\Routing\Router;
-use Psr\Http\Message\ServerRequestInterface;
-use Throwable;
 
 /**
  * Custom ErrorHandler to not mix the 404 exceptions with the rest of "real" errors in the error.log file.
@@ -28,63 +23,20 @@ use Throwable;
  *
  * In case you need custom 404 mappings for some additional custom exceptions, make use of `log404` option.
  * It will overwrite the current defaults completely.
- *
- * Somewhat deprecated of CakePHP 3.3+. Use Tools\Error\Middleware\ErrorHandlerMiddleware now.
- * Still needed for low level errors, though.
  */
 class ErrorHandler extends CoreErrorHandler {
 
-	use ErrorHandlerTrait;
-
 	/**
-	 * Handles exception logging
+	 * Constructor
 	 *
-	 * @param \Throwable $exception Exception instance.
-	 * @param \Psr\Http\Message\ServerRequestInterface|null $request
-	 * @return bool
+	 * @param array $config The options for error handling.
 	 */
-	public function logException(Throwable $exception, ?ServerRequestInterface $request = null): bool {
-		if ($this->is404($exception)) {
-			$level = LOG_ERR;
-			Log::write($level, $this->buildMessage($exception), ['404']);
-			return false;
-		}
+	public function __construct(array $config = []) {
+		$config += [
+			'errorLogger' => ErrorLogger::class,
+		];
 
-		return parent::logException($exception, $request ?? Router::getRequest());
-	}
-
-	/**
-	 * @param \Throwable $exception
-	 *
-	 * @return string
-	 */
-	protected function buildMessage(Throwable $exception): string {
-		$error = error_get_last();
-
-		$message = sprintf(
-			'%s (%s): %s in [%s, line %s]',
-			$exception->getMessage(),
-			$exception->getCode(),
-			$error['description'] ?? '',
-			$error['file'] ?? '',
-			$error['line'] ?? ''
-		);
-		if (!empty($this->_config['trace'])) {
-			/** @var string $trace */
-			$trace = Debugger::trace([
-				'start' => 1,
-				'format' => 'log',
-			]);
-
-			$request = Router::getRequest();
-			if ($request) {
-				$message .= $this->getLogger()->getRequestContext($request);
-			}
-			$message .= "\nTrace:\n" . $trace . "\n";
-		}
-		$message .= "\n\n";
-
-		return $message;
+		parent::__construct($config);
 	}
 
 }

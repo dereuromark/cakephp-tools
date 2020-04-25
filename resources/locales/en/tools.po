@@ -56,7 +56,7 @@ msgid "Delay necessary for address '{0}'"
 msgstr ""
 
 #: Lib/GeocodeLib.php:299;380
-msgid "Could not geocode '{0}'"
+msgid "Could not geocode ''{0}''"
 msgstr ""
 
 #: Lib/GeocodeLib.php:306;386

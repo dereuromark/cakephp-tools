@@ -3,12 +3,12 @@
 The main goal of the error.log is to notify about internal errors of the system.
 By default there would also be a lot of noise in there.
 
-Most 404 logs should not be part of your error log, for example. 
+Most 404 logs should not be part of your error log, for example.
 You can either completely ignore them, or better yet put them into their own space:
 ```php
 Log::config('404', [
     'className' => '...', // e.g. 'File' or 'DatabaseLog.Database'
-    'type' => '404',
+    'file' => '404',
     'levels' => ['error'],
     'scopes' => ['404'],
 ]);
@@ -53,7 +53,7 @@ class Application extends BaseApplication {
      *
      * @return \Cake\Http\MiddlewareQueue The updated middleware queue.
      */
-    public function middleware($middlewareQueue) {
+    public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue {
         $middlewareQueue
             // Replace the core one
             ->add(new ErrorHandlerMiddleware())
