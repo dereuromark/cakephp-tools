@@ -17,7 +17,7 @@ class ErrorHandlerMiddleware extends CoreErrorHandlerMiddleware {
 	 */
 	public function __construct($errorHandler = []) {
 		if (is_array($errorHandler)) {
-			$errorHandler += Configure::read('Error');
+			$errorHandler += (array)Configure::read('Error');
 		}
 		parent::__construct($errorHandler);
 
