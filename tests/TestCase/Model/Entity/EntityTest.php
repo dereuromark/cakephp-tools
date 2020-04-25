@@ -4,6 +4,7 @@ namespace Tools\Test\TestCase\Model\Entity;
 
 use Cake\ORM\TableRegistry;
 use Shim\TestSuite\TestCase;
+use Tools\Model\Entity\Entity;
 
 class EntityTest extends TestCase {
 

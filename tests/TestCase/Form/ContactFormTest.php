@@ -3,6 +3,7 @@
 namespace Tools\Test\TestCase\Form;
 
 use Shim\TestSuite\TestCase;
+use Tools\Form\ContactForm;
 
 class ContactFormTest extends TestCase {
 
