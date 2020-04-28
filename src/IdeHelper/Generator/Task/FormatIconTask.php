@@ -6,11 +6,31 @@ use Cake\Core\Configure;
 use Cake\View\View;
 use IdeHelper\Generator\Directive\ExpectedArguments;
 use IdeHelper\Generator\Task\TaskInterface;
+use RuntimeException;
 use Tools\View\Helper\FormatHelper;
 
 class FormatIconTask implements TaskInterface {
 
 	const CLASS_FORMAT_HELPER = FormatHelper::class;
+
+	/**
+	 * @var string
+	 */
+	protected $fontPath;
+
+	/**
+	 * @param string|null $fontPath
+	 */
+	public function __construct($fontPath = null) {
+		if ($fontPath === null) {
+			$fontPath = (string)Configure::readOrFail('Format.fontPath');
+		}
+		if ($fontPath && !file_exists($fontPath)) {
+			throw new RuntimeException('File not found: ' . $fontPath);
+		}
+
+		$this->fontPath = $fontPath;
+	}
 
 	/**
 	 * @return \IdeHelper\Generator\Directive\BaseDirective[]
@@ -34,7 +54,10 @@ class FormatIconTask implements TaskInterface {
 	}
 
 	/**
-	 * Fontawesome v4 using .../scss/_variables.scss
+	 * Fontawesome v4 using variables.scss or variables.less file.
+	 *
+	 * Set your custom file path in your app.php:
+	 *     'fontPath' => ROOT . '/node_modules/.../scss/variables.scss'
 	 *
 	 * @return string[]
 	 */
@@ -43,11 +66,22 @@ class FormatIconTask implements TaskInterface {
 		$configured = $helper->getConfig('fontIcons');
 		$configured = array_keys($configured);
 
-		$fontFile = Configure::readOrFail('Format.fontPath');
+		$fontFile = $this->fontPath;
 		$icons = [];
 		if ($fontFile && file_exists($fontFile)) {
 			$content = file_get_contents($fontFile);
-			preg_match_all('/\$fa-var-([0-9a-z-]+):/', $content, $matches);
+			$ext = pathinfo($fontFile, PATHINFO_EXTENSION);
+			switch ($ext) {
+				case 'less':
+					preg_match_all('/@fa-var-([0-9a-z-]+):/', $content, $matches);
+					break;
+				case 'scss':
+					preg_match_all('/\$fa-var-([0-9a-z-]+):/', $content, $matches);
+					break;
+				default:
+					throw new RuntimeException('Format not supported: ' . $ext);
+			}
+
 			$icons = !empty($matches[1]) ? $matches[1] : [];
 		}
 
