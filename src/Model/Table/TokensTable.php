@@ -7,7 +7,7 @@ use Tools\Utility\Random;
 
 /**
  * A generic model to hold tokens
- * 
+ *
  * Note: This feature requires "quoteIdentifiers" set to true due to the "key" field.
  *
  * @author Mark Scherer
@@ -15,7 +15,7 @@ use Tools\Utility\Random;
  * @method \Tools\Model\Entity\Token get($primaryKey, $options = [])
  * @method \Tools\Model\Entity\Token newEntity($data = null, array $options = [])
  * @method \Tools\Model\Entity\Token[] newEntities(array $data, array $options = [])
- * @method \Tools\Model\Entity\Token|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \Tools\Model\Entity\Token|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \Tools\Model\Entity\Token patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \Tools\Model\Entity\Token[] patchEntities($entities, array $data, array $options = [])
  * @method \Tools\Model\Entity\Token findOrCreate($search, callable $callback = null, $options = [])

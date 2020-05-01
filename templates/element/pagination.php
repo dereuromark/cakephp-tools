@@ -1,6 +1,9 @@
 <?php
 /**
  * @var \App\View\AppView $this
+ * @var bool $addArrows
+ * @var array $options
+ * @var bool $reverse
  */
 if (!isset($separator)) {
 	if (defined('PAGINATOR_SEPARATOR')) {
