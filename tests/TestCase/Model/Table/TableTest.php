@@ -21,12 +21,12 @@ class TableTest extends TestCase {
 	];
 
 	/**
-	 * @var \Tools\Model\Table\Table;
+	 * @var \Tools\Model\Table\Table
 	 */
 	protected $Users;
 
 	/**
-	 * @var \Tools\Model\Table\Table;
+	 * @var \Tools\Model\Table\Table
 	 */
 	protected $Posts;
 

@@ -59,6 +59,4 @@ class RandomTest extends TestCase {
 		$this->assertTrue(strlen($is) === 11);
 	}
 
-	//TOOD: other tests
-
 }

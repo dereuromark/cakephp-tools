@@ -23,6 +23,9 @@ Auth
 Email
 * [Email](Mailer/Email.md) for sending Emails
 
+Tokens
+* [Tokens](Model/Tokens.md) for Token usage
+
 Controller:
 * [Controller](Controller/Controller.md)
 
