@@ -7,7 +7,7 @@ namespace Tools\Model\Entity;
  * @property int $user_id
  * @property string $type
  * @property string $token_key
- * @property-read string $key
+ * @property string $key Deprecated, use token_key instead.
  * @property string $content
  * @property int $used
  * @property \Cake\I18n\Time $created
@@ -27,6 +27,21 @@ class Token extends Entity {
 		trigger_error('Deprecated. Use ->token_key instead.', E_USER_DEPRECATED);
 
 		return $this->token_key;
+	}
+
+	/**
+	 * Shim to allow ->key access for ->token_key.
+	 *
+	 * @deprecated Use token_key instead.
+	 *
+	 * @param string|null $key
+	 *
+	 * @return void
+	 */
+	public function _setKey(?string $key): void {
+		trigger_error('Deprecated. Use ->token_key instead.', E_USER_DEPRECATED);
+
+		$this->token_key = $key;
 	}
 
 }
