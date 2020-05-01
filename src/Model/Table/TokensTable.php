@@ -7,6 +7,8 @@ use Tools\Utility\Random;
 
 /**
  * A generic model to hold tokens
+ * 
+ * Note: This feature requires "quoteIdentifiers" set to true due to the "key" field.
  *
  * @author Mark Scherer
  * @license http://opensource.org/licenses/mit-license.php MIT
