@@ -3,6 +3,7 @@
 namespace Tools\Model\Table;
 
 use Cake\Utility\Hash;
+use RuntimeException;
 
 /**
  * A generic model to hold tokens
@@ -110,7 +111,7 @@ class TokensTable extends Table {
 			$entity->token_key = $this->generateKey($keyLength);
 			$max--;
 			if ($max === 0) {
-				throw new \RuntimeException('Token storage failed after 99 trials.');
+				throw new RuntimeException('Token storage failed after 99 trials.');
 			}
 		}
 
