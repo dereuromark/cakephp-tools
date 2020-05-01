@@ -23,7 +23,7 @@ class MigrationToolsTokens extends AbstractMigration {
 				'limit' => 20,
 				'null' => false,
 			])
-			->addColumn('token', 'string', [
+			->addColumn('token_key', 'string', [
 				'default' => null,
 				'limit' => 60,
 				'null' => false,
@@ -49,12 +49,8 @@ class MigrationToolsTokens extends AbstractMigration {
 				'limit' => null,
 				'null' => true,
 			])
-			->addIndex(
-				[
-					'user_id',
-				]
-			)
-			->addIndex(['token'], ['unique' => true])
+			->addIndex(['user_id'])
+			->addIndex(['token_key'], ['unique' => true])
 			->create();
 	}
 

@@ -6,7 +6,7 @@ namespace Tools\Model\Entity;
  * @property int $id
  * @property int $user_id
  * @property string $type
- * @property string $token
+ * @property string $token_key
  * @property-read string $key
  * @property string $content
  * @property int $used
@@ -17,16 +17,16 @@ namespace Tools\Model\Entity;
 class Token extends Entity {
 
 	/**
-	 * Shim to allow ->key access for ->token.
+	 * Shim to allow ->key access for ->token_key.
 	 *
-	 * @deprecated Use token instead.
+	 * @deprecated Use token_key instead.
 	 *
 	 * @return string|null
 	 */
 	public function _getKey(): ?string {
-		trigger_error('Deprecated. Use ->token instead.', E_USER_DEPRECATED);
+		trigger_error('Deprecated. Use ->token_key instead.', E_USER_DEPRECATED);
 
-		return $this->token;
+		return $this->token_key;
 	}
 
 }

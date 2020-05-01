@@ -24,7 +24,7 @@ class TokensTable extends Table {
 	/**
 	 * @var string
 	 */
-	public $displayField = 'key';
+	public $displayField = 'token_key';
 
 	/**
 	 * @var array
@@ -51,7 +51,7 @@ class TokensTable extends Table {
 				'message' => 'valErrMandatoryField',
 			],
 		],
-		'token' => [
+		'token_key' => [
 			'notBlank' => [
 				'rule' => ['notBlank'],
 				'message' => 'valErrMandatoryField',
@@ -79,18 +79,18 @@ class TokensTable extends Table {
 	 * Checks if this key is already used (should be unique in table)
 	 *
 	 * @param string $type Type: necessary
-	 * @param string|null $token Key: optional key, otherwise a key will be generated
+	 * @param string|null $key Key: optional key, otherwise a key will be generated
 	 * @param mixed|null $uid Uid: optional (if used, only this user can use this key)
 	 * @param string|array|null $content Content: up to 255 characters of content may be added (optional)
 	 *
 	 * @return string|null Key on success, null otherwise
 	 */
-	public function newKey(string $type, ?string $token = null, $uid = null, $content = null): ?string {
-		if (!$token) {
-			$token = $this->generateKey($this->defaultLength);
+	public function newKey(string $type, ?string $key = null, $uid = null, $content = null): ?string {
+		if (!$key) {
+			$key = $this->generateKey($this->defaultLength);
 			$keyLength = $this->defaultLength;
 		} else {
-			$keyLength = mb_strlen($token);
+			$keyLength = mb_strlen($key);
 		}
 
 		if (is_array($content)) {
@@ -101,7 +101,7 @@ class TokensTable extends Table {
 			'type' => $type,
 			'user_id' => $uid,
 			'content' => (string)$content,
-			'token' => $token,
+			'token_key' => $key,
 		];
 
 		$entity = $this->newEntity($data);
@@ -114,7 +114,7 @@ class TokensTable extends Table {
 			}
 		}
 
-		return $entity->token;
+		return $entity->token_key;
 	}
 
 	/**
@@ -127,7 +127,7 @@ class TokensTable extends Table {
 	 * @return \Tools\Model\Entity\Token|null Content - if successfully used or if already used (used=1), NULL otherwise.
 	 */
 	public function useKey(string $type, string $key, $uid = null, $treatUsedAsInvalid = false) {
-		$options = ['conditions' => [$this->getAlias() . '.token' => $key, $this->getAlias() . '.type' => $type]];
+		$options = ['conditions' => [$this->getAlias() . '.token_key' => $key, $this->getAlias() . '.type' => $type]];
 		if ($uid) {
 			$options['conditions'][$this->getAlias() . '.user_id'] = $uid;
 		}
