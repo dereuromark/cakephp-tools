@@ -161,14 +161,14 @@ class PasswordableBehavior extends Behavior {
 		// Add the validation rules if not already attached
 		if (!count($validator->field($formField))) {
 			$validator->add($formField, $rules['formField']);
-			$validator->allowEmpty($formField, !$this->_config['require']);
+			$validator->allowEmptyString($formField, null, !$this->_config['require']);
 		}
 		if (!count($validator->field($formFieldRepeat))) {
 			$ruleSet = $rules['formFieldRepeat'];
 			$ruleSet['validateIdentical']['rule'][1] = $formField;
 			$validator->add($formFieldRepeat, $ruleSet);
 			$require = $this->_config['require'];
-			$validator->allowEmpty($formFieldRepeat, function ($context) use ($require, $formField) {
+			$validator->allowEmptyString($formFieldRepeat, null, function ($context) use ($require, $formField) {
 				if (!$require && !empty($context['data'][$formField])) {
 					return false;
 				}
@@ -179,7 +179,7 @@ class PasswordableBehavior extends Behavior {
 		if ($this->_config['current'] && !count($validator->field($formFieldCurrent))) {
 			$validator->add($formFieldCurrent, $rules['formFieldCurrent']);
 			$require = $this->_config['require'];
-			$validator->allowEmpty($formFieldCurrent, function ($context) use ($require, $formField) {
+			$validator->allowEmptyString($formFieldCurrent, null, function ($context) use ($require, $formField) {
 				if (!$require && !empty($context['data'][$formField])) {
 					return false;
 				}
@@ -200,11 +200,10 @@ class PasswordableBehavior extends Behavior {
 				$validator->add($formField, 'validateNotSame', [
 					'rule' => ['validateNotSameHash'],
 					'message' => __d('tools', 'valErrPwdSameAsBefore'),
-					//'allowEmpty' => !$this->_config['require'],
 					'last' => true,
 					'provider' => 'table',
 				]);
-				$validator->allowEmpty($formField, !$this->_config['require']);
+				$validator->allowEmptyString($formField, null, !$this->_config['require']);
 			}
 		}
 
