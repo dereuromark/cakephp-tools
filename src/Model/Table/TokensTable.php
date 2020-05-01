@@ -3,7 +3,7 @@
 namespace Tools\Model\Table;
 
 use Cake\Utility\Hash;
-use Tools\Utility\Random;
+use RuntimeException;
 
 /**
  * A generic model to hold tokens
@@ -25,7 +25,7 @@ class TokensTable extends Table {
 	/**
 	 * @var string
 	 */
-	public $displayField = 'key';
+	public $displayField = 'token_key';
 
 	/**
 	 * @var array
@@ -35,12 +35,12 @@ class TokensTable extends Table {
 	/**
 	 * @var int
 	 */
-	public $defaultLength = 22;
+	public $defaultLength = 30;
 
 	/**
 	 * @var int
 	 */
-	public $validity = MONTH;
+	public $validity = WEEK;
 
 	/**
 	 * @var array
@@ -52,15 +52,16 @@ class TokensTable extends Table {
 				'message' => 'valErrMandatoryField',
 			],
 		],
-		'key' => [
+		'token_key' => [
 			'notBlank' => [
 				'rule' => ['notBlank'],
 				'message' => 'valErrMandatoryField',
 				'last' => true,
 			],
 			'isUnique' => [
-				'rule' => ['isUnique'],
+				'rule' => ['validateUnique'],
 				'message' => 'valErrTokenExists',
+				'provider' => 'table',
 			],
 		],
 		'content' => [
@@ -85,11 +86,7 @@ class TokensTable extends Table {
 	 *
 	 * @return string|null Key on success, null otherwise
 	 */
-	public function newKey($type, $key = null, $uid = null, $content = null): ?string {
-		if (!$type) {
-			return null;
-		}
-
+	public function newKey(string $type, ?string $key = null, $uid = null, $content = null): ?string {
 		if (!$key) {
 			$key = $this->generateKey($this->defaultLength);
 			$keyLength = $this->defaultLength;
@@ -105,20 +102,20 @@ class TokensTable extends Table {
 			'type' => $type,
 			'user_id' => $uid,
 			'content' => (string)$content,
-			'key' => $key,
+			'token_key' => $key,
 		];
 
 		$entity = $this->newEntity($data);
 		$max = 99;
 		while (!$this->save($entity)) {
-			$entity['key'] = $this->generateKey($keyLength);
+			$entity->token_key = $this->generateKey($keyLength);
 			$max--;
 			if ($max === 0) {
-				return null;
+				throw new RuntimeException('Token storage failed after 99 trials.');
 			}
 		}
 
-		return $entity['key'];
+		return $entity->token_key;
 	}
 
 	/**
@@ -126,15 +123,12 @@ class TokensTable extends Table {
 	 *
 	 * @param string $type : necessary
 	 * @param string $key : necessary
-	 * @param mixed|null $uid : needs to be provided if this key has a user_id stored
+	 * @param int|string|null $uid : needs to be provided if this key has a user_id stored
 	 * @param bool $treatUsedAsInvalid
 	 * @return \Tools\Model\Entity\Token|null Content - if successfully used or if already used (used=1), NULL otherwise.
 	 */
-	public function useKey($type, $key, $uid = null, $treatUsedAsInvalid = false) {
-		if (!$type || !$key) {
-			return null;
-		}
-		$options = ['conditions' => [$this->getAlias() . '.key' => $key, $this->getAlias() . '.type' => $type]];
+	public function useKey(string $type, string $key, $uid = null, $treatUsedAsInvalid = false) {
+		$options = ['conditions' => [$this->getAlias() . '.token_key' => $key, $this->getAlias() . '.type' => $type]];
 		if ($uid) {
 			$options['conditions'][$this->getAlias() . '.user_id'] = $uid;
 		}
@@ -143,12 +137,12 @@ class TokensTable extends Table {
 		if (!$tokenEntity) {
 			return null;
 		}
-		if ($uid && !empty($tokenEntity['user_id']) && $tokenEntity['user_id'] != $uid) {
+		if ($uid && !empty($tokenEntity->user_id) && $tokenEntity->user_id != $uid) {
 			// return $res; # more secure to fail here if user_id is not provided, but was submitted prev.
 			return null;
 		}
 		// already used?
-		if (!empty($tokenEntity['used'])) {
+		if (!empty($tokenEntity->used)) {
 			if ($treatUsedAsInvalid) {
 				return null;
 			}
@@ -156,11 +150,11 @@ class TokensTable extends Table {
 			return $tokenEntity;
 		}
 		// actually spend key (set to used)
-		if ($this->spendKey($tokenEntity['id'])) {
+		if ($this->spendKey($tokenEntity->id)) {
 			return $tokenEntity;
 		}
 		// no limit? we dont spend key then
-		if (!empty($tokenEntity['unlimited'])) {
+		if (!empty($tokenEntity->unlimited)) {
 			return $tokenEntity;
 		}
 		return null;
@@ -172,11 +166,7 @@ class TokensTable extends Table {
 	 * @param int $id Id of key to spend: necessary
 	 * @return bool Success
 	 */
-	public function spendKey($id) {
-		if (!$id) {
-			return false;
-		}
-
+	public function spendKey(int $id): bool {
 		//$expression = new \Cake\Database\Expression\QueryExpression(['used = used + 1', 'modified' => date(FORMAT_DB_DATETIME)]);
 		$result = $this->updateAll(
 			['used = used + 1', 'modified' => date(FORMAT_DB_DATETIME)],
@@ -194,7 +184,7 @@ class TokensTable extends Table {
 	 *
 	 * @return int Rows
 	 */
-	public function garbageCollector() {
+	public function garbageCollector(): int {
 		$conditions = [
 			$this->getAlias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity),
 		];
@@ -227,24 +217,17 @@ class TokensTable extends Table {
 	 * @param int|null $length (defaults to defaultLength)
 	 * @return string Key
 	 */
-	public function generateKey($length = null) {
+	public function generateKey(int $length = null): string {
 		if (!$length) {
 			$length = $this->defaultLength;
 		}
 
-		if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
-			$function = 'random_bytes';
-		} elseif (extension_loaded('openssl')) {
-			$function = 'openssl_random_pseudo_bytes';
-		} else {
-			trigger_error('Not secure', E_USER_DEPRECATED);
-			return Random::pwd($length);
-		}
-
+		$function = 'random_bytes';
 		$value = bin2hex($function($length / 2));
 		if (strlen($value) !== $length) {
-			$value = str_pad($value, $length, '0');
+			$value = str_pad($value, $length, (string)random_int(0, 9));
 		}
+
 		return $value;
 	}
 
