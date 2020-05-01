@@ -107,10 +107,10 @@ class TokensTable extends Table {
 		$entity = $this->newEntity($data);
 		$max = 99;
 		while (!$this->save($entity)) {
-			$entity->token = $this->generateKey($keyLength);
+			$entity->token_key = $this->generateKey($keyLength);
 			$max--;
 			if ($max === 0) {
-				return null;
+				throw new \RuntimeException('Token storage failed after 99 trials.');
 			}
 		}
 
