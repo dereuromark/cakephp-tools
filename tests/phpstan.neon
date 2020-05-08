@@ -3,10 +3,14 @@ parameters:
 	- %rootDir%/../../../tests/bootstrap.php
 	excludes_analyse:
 		- %rootDir%/../../../src/TestSuite/*
-		- %rootDir%/../../../src/View/Helper/TreeHelper
 		- %rootDir%/../../../src/Utility/Mime
 	ignoreErrors:
-		- '#Call to an undefined method .+TimeHelper::.+\(\)#'
+		-
+			message: '#Undefined variable: .+#'
+			path: '%rootDir%/../../../src/View/Helper/TreeHelper.php'
+		-
+			message: '#Variable \$.+ might not be defined.#'
+			path: '%rootDir%/../../../src/View/Helper/TreeHelper.php'
 
 services:
 	-

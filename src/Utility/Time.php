@@ -8,6 +8,7 @@ use Cake\I18n\Date;
 use Cake\I18n\Time as CakeTime;
 use DateInterval;
 use DateTime;
+use DateTimeInterface;
 
 /**
  * Extend CakeTime with a few important improvements:
@@ -222,7 +223,7 @@ class Time extends CakeTime {
 	public static function cWeek($dateString = null, $relative = 0) {
 		if ($dateString) {
 			$date = explode(' ', $dateString);
-			list($y, $m, $d) = explode('-', $date[0]);
+			[$y, $m, $d] = explode('-', $date[0]);
 			$t = mktime(0, 0, 0, (int)$m, (int)$d, (int)$y);
 		} else {
 			$y = date('Y');
@@ -964,13 +965,16 @@ class Time extends CakeTime {
 	/**
 	 * Returns true if given datetime string is not now AND is in the future.
 	 *
-	 * @param string $dateString Datetime string or Unix timestamp
+	 * @param string|\DateTimeInterface $date Datetime string or Unix timestamp
 	 * @param string|\DateTimeZone|null $timezone User's timezone
 	 * @return bool True if datetime is not today AND is in the future
 	 */
-	public static function isInTheFuture($dateString, $timezone = null) {
-		$date = new CakeTime($dateString, $timezone);
+	public static function isInTheFuture($date, $timezone = null) {
+		if (!($date instanceof DateTimeInterface)) {
+			$date = new CakeTime($date, $timezone);
+		}
 		$date = $date->format('U');
+
 		return date(FORMAT_DB_DATETIME, (int)$date) > date(FORMAT_DB_DATETIME, time());
 	}
 
@@ -1076,8 +1080,8 @@ class Time extends CakeTime {
 	/**
 	 * Returns a partial SQL string to search for all records between two dates.
 	 *
-	 * @param int|string|\DateTime $begin UNIX timestamp, strtotime() valid string or DateTime object
-	 * @param int|string|\DateTime $end UNIX timestamp, strtotime() valid string or DateTime object
+	 * @param int|string|\DateTimeInterface $begin UNIX timestamp, strtotime() valid string or DateTime object
+	 * @param int|string|\DateTimeInterface $end UNIX timestamp, strtotime() valid string or DateTime object
 	 * @param string $fieldName Name of database field to compare with
 	 * @param string|\DateTimeZone|null $timezone Timezone string or DateTimeZone object
 	 * @return string Partial SQL string.
@@ -1097,7 +1101,7 @@ class Time extends CakeTime {
 	 * Returns a partial SQL string to search for all records between two times
 	 * occurring on the same day.
 	 *
-	 * @param int|string|\DateTime $dateString UNIX timestamp, strtotime() valid string or DateTime object
+	 * @param int|string|\DateTimeInterface $dateString UNIX timestamp, strtotime() valid string or DateTime object
 	 * @param string $fieldName Name of database field to compare with
 	 * @param string|\DateTimeZone|null $timezone Timezone string or DateTimeZone object
 	 * @return string Partial SQL string.

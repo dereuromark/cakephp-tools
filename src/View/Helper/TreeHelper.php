@@ -465,6 +465,8 @@ class TreeHelper extends Helper {
 				}
 			}
 		}
+
+		return '';
 	}
 
 	/**
