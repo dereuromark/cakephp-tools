@@ -495,12 +495,16 @@ class FormatHelper extends Helper {
 		$currentPage = $paginator['page'];
 		$pageCount = $paginator['pageCount'];
 		$totalCount = $paginator['count'];
-		$limit = $paginator['limit'];
+		$limit = $paginator['perPage'];
 		$step = isset($paginator['step']) ? $paginator['step'] : 1;
 
 		if ($dir === 'DESC') {
+			$count = $limit - $count + 1;
+		}
+
+		if ($dir === 'DESC') {
 			$currentCount = $count + ($pageCount - $currentPage) * $limit * $step;
-			if ($currentPage != $pageCount && $pageCount > 1) {
+			if ($pageCount > 1) {
 				$currentCount -= $pageCount * $limit * $step - $totalCount;
 			}
 		} else {
