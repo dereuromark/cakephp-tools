@@ -504,9 +504,7 @@ class FormatHelper extends Helper {
 
 		if ($dir === 'DESC') {
 			$currentCount = $count + ($pageCount - $currentPage) * $limit * $step;
-			if ($pageCount > 1) {
-				$currentCount -= $pageCount * $limit * $step - $totalCount;
-			}
+			$currentCount -= $pageCount * $limit * $step - $totalCount;
 		} else {
 			$currentCount = $count + ($currentPage - 1) * $limit * $step;
 		}
