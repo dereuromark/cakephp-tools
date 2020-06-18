@@ -60,6 +60,9 @@ Widgets:
 Entity:
 * [Enum](Entity/Enum.md)
 
+Utility:
+* [Log](Utility/Log.md)
+
 ## Basic enhancements of the core
 
 ### Model
