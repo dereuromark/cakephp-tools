@@ -73,6 +73,21 @@ $cache = [
 
 Cake\Cache\Cache::setConfig($cache);
 
+Cake\Log\Log::setConfig('debug', [
+    'className' => 'Cake\Log\Engine\FileLog',
+    'path' => LOGS,
+    'file' => 'debug',
+    'levels' => ['notice', 'info', 'debug'],
+    'url' => env('LOG_DEBUG_URL', null)
+]);
+Cake\Log\Log::setConfig('error', [
+    'className' => 'Cake\Log\Engine\FileLog',
+    'path' => LOGS,
+    'file' => 'error',
+    'levels' => ['warning', 'error', 'critical', 'alert', 'emergency'],
+    'url' => env('LOG_ERROR_URL', null)
+]);
+
 Cake\Core\Plugin::getCollection()->add(new Tools\Plugin());
 
 Cake\Routing\DispatcherFactory::add('Routing');
