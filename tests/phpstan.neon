@@ -11,7 +11,9 @@ parameters:
 		-
 			message: '#Variable \$.+ might not be defined.#'
 			path: '%rootDir%/../../../src/View/Helper/TreeHelper.php'
-
+		-
+			message: '#Cannot unset offset string on array.+\.#'
+			path: '%rootDir%/../../../src/Utility/Language.php'
 services:
 	-
 		class: Cake\PHPStan\AssociationTableMixinClassReflectionExtension
