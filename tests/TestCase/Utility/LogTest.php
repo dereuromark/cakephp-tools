@@ -10,11 +10,22 @@ use Tools\Utility\Log;
  */
 class LogTest extends TestCase {
 	/**
-	 * File path to store log file.
+	 * Filename with path to use in string test case.
 	 *
 	 * @var string
 	 */
-	private const CUSTOM_FILE_PATH = LOGS . 'my_file.log';
+	private const TEST_FILENAME_STRING = 'my_file';
+	private const TEST_FILEPATH_STRING = LOGS . self::TEST_FILENAME_STRING . '.log';
+
+	/**
+	 * Filename with path to use in array test case.
+	 *
+	 * @var string
+	 */
+	private const TEST_FILENAME_ARRAY1 = 'array_file1';
+	private const TEST_FILEPATH_ARRAY1 = LOGS . self::TEST_FILENAME_ARRAY1 . '.log';
+	private const TEST_FILENAME_ARRAY2 = 'array_file2';
+	private const TEST_FILEPATH_ARRAY2 = LOGS . self::TEST_FILENAME_ARRAY2 . '.log';
 
 	/**
 	 * setUp method
@@ -31,19 +42,76 @@ class LogTest extends TestCase {
 	 * @return void
 	 */
 	public function testLogsStringData() {
-		if (file_exists(self::CUSTOM_FILE_PATH)) {
-            unlink(self::CUSTOM_FILE_PATH);
+		if (file_exists(self::TEST_FILEPATH_STRING)) {
+            unlink(self::TEST_FILEPATH_STRING);
         }
 
-		$result = Log::write('It works!', 'my_file');
+		$result = Log::write('It works!', self::TEST_FILENAME_STRING);
 
 		$this->assertTrue($result);
-		$this->assertFileExists(self::CUSTOM_FILE_PATH);
+		$this->assertFileExists(self::TEST_FILEPATH_STRING);
 		$this->assertRegExp(
 			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: It works!/',
-			file_get_contents(self::CUSTOM_FILE_PATH)
+			file_get_contents(self::TEST_FILEPATH_STRING)
 		);
 
-		unlink(self::CUSTOM_FILE_PATH);
+		unlink(self::TEST_FILENAME_STRING);
+	}
+
+	/**
+	 * testLogsArray method
+	 *
+	 * @return void
+	 */
+	public function testLogsArray() {
+		if (file_exists(self::TEST_FILEPATH_ARRAY1)) {
+            unlink(self::TEST_FILEPATH_ARRAY1);
+        }
+        if (file_exists(self::TEST_FILEPATH_ARRAY2)) {
+            unlink(self::TEST_FILEPATH_ARRAY2);
+        }
+
+		$result1 = Log::write(
+			[
+				'user' => [
+					'id' => 1,
+					'firstname' => 'John Doe',
+					'email' => 'john.doe@example.com',
+				]
+			],
+			self::TEST_FILENAME_ARRAY1
+		);
+
+		$result2 = Log::write(
+			[
+				'user' => [
+					'id' => 2,
+					'firstname' => 'Jane Doe',
+					'email' => 'jane.doe@example.com',
+				]
+			],
+			self::TEST_FILENAME_ARRAY2
+		);
+
+		// Assert for `TEST_FILENAME_ARRAY1`
+		$this->assertTrue($result1);
+		$this->assertFileExists(self::TEST_FILEPATH_ARRAY1);
+		$fileContents = file_get_contents(self::TEST_FILEPATH_ARRAY1);
+		$this->assertRegExp(
+			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: Array([\s\S]*)\(([\s\S]*)[user]([\s\S]*)\[id\] => 1/',
+			$fileContents
+		);
+
+		// Assert for `TEST_FILENAME_ARRAY2`
+		$this->assertTrue($result2);
+		$this->assertFileExists(self::TEST_FILEPATH_ARRAY2);
+		$fileContents = file_get_contents(self::TEST_FILEPATH_ARRAY2);
+		$this->assertRegExp(
+			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: Array([\s\S]*)\(([\s\S]*)[user]([\s\S]*)\[id\] => 2/',
+			$fileContents
+		);
+
+		unlink(self::TEST_FILEPATH_ARRAY1);
+		unlink(self::TEST_FILEPATH_ARRAY2);
 	}
 }
