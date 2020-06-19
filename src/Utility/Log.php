@@ -3,82 +3,84 @@
 namespace Tools\Utility;
 
 use Cake\Log\Log as CoreLog;
+use Exception;
 
 /**
  * Wrapper class to log data into custom file(s).
  */
-class Log
-{
-    /**
-     * Debug configuration.
-     *
-     * @var mixed|null
-     */
-    protected static $_debugConfig;
+class Log {
 
-    /**
-     * Initialize configurations.
-     *
-     * @param string $filename Filename to log.
-     * @return void
-     */
-    protected static function _init($filename) {
-        if ($filename === null) {
-            $filename = 'custom_log';
-        }
+	/**
+	 * Debug configuration.
+	 *
+	 * @var mixed|null
+	 */
+	protected static $_debugConfig;
 
-        CoreLog::setConfig('custom', [
-            'className' => 'File',
-            'path' => LOGS,
-            'levels' => [],
-            'scopes' => ['custom'],
-            'file' => $filename,
-        ]);
+	/**
+	 * Initialize configurations.
+	 *
+	 * @param string $filename Filename to log.
+	 * @return void
+	 */
+	protected static function _init($filename) {
+		if ($filename === null) {
+			$filename = 'custom_log';
+		}
 
-        static::$_debugConfig = CoreLog::getConfig('debug');
+		CoreLog::setConfig('custom', [
+			'className' => 'File',
+			'path' => LOGS,
+			'levels' => [],
+			'scopes' => ['custom'],
+			'file' => $filename,
+		]);
 
-        CoreLog::drop('debug');
-    }
+		static::$_debugConfig = CoreLog::getConfig('debug');
 
-    /**
-     * Log data into custom file
-     *
-     * @param array|string $data Data to store
-     * @param string $filename Filename of log file
-     * @param bool $traceKey Add trace string key into log data
-     * @return bool Success
-     */
-    public static function write($data, $filename = null, $traceKey = false) {
-        static::_init($filename);
+		CoreLog::drop('debug');
+	}
 
-        // Pretty print array
-        if (is_array($data)) {
-            if ($traceKey) {
-                try {
-                    throw new \Exception('Trace string', 1);
-                } catch (\Throwable $t) {
-                    $data['trace_string'] = $t->getTraceAsString();
-                }
-            }
+	/**
+	 * Log data into custom file
+	 *
+	 * @param array|string $data Data to store
+	 * @param string|null $filename Filename of log file
+	 * @param bool $traceKey Add trace string key into log data
+	 * @return bool Success
+	 */
+	public static function write($data, $filename = null, $traceKey = false) {
+		static::_init($filename);
 
-            $data = print_r($data, true);
-        }
+		// Pretty print array
+		if (is_array($data)) {
+			if ($traceKey) {
+				try {
+					throw new Exception('Trace string', 1);
+				} catch (\Throwable $t) {
+					$data['trace_string'] = $t->getTraceAsString();
+				}
+			}
 
-        $logged = CoreLog::write('debug', $data, ['scope' => 'custom']);
+			$data = print_r($data, true);
+		}
 
-        static::_cleanUp();
+		$logged = CoreLog::write('debug', $data, ['scope' => 'custom']);
 
-        return $logged;
-    }
+		static::_cleanUp();
 
-    /**
-     * Drop custom log config, set default `debug` config in log registry.
-     *
-     * @return void
-     */
-    protected static function _cleanUp() {
-        CoreLog::drop('custom');
+		return $logged;
+	}
 
-        CoreLog::setConfig('debug', static::$_debugConfig);
-    }
+	/**
+	 * Drop custom log config, set default `debug` config in log registry.
+	 *
+	 * @return void
+	 */
+	protected static function _cleanUp() {
+		CoreLog::drop('custom');
+
+		CoreLog::setConfig('debug', static::$_debugConfig);
+	}
+
 }
