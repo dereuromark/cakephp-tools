@@ -2,6 +2,7 @@
 
 namespace Tools\Test\Utility;
 
+use Exception;
 use Tools\TestSuite\TestCase;
 use Tools\Utility\Log;
 
@@ -37,6 +38,14 @@ class LogTest extends TestCase {
 	private const TEST_FILEPATH_ARRAY2 = LOGS . self::TEST_FILENAME_ARRAY2 . '.log';
 
 	/**
+	 * Filename with path to use in object test case.
+	 *
+	 * @var string
+	 */
+	private const TEST_FILENAME_OBJECT = 'object';
+	private const TEST_FILEPATH_OBJECT = LOGS . self::TEST_FILENAME_OBJECT . '.log';
+
+	/**
 	 * setUp method
 	 *
 	 * @return void
@@ -64,7 +73,7 @@ class LogTest extends TestCase {
 			file_get_contents(static::TEST_FILEPATH_STRING)
 		);
 
-		unlink(static::TEST_FILENAME_STRING);
+		unlink(static::TEST_FILEPATH_STRING);
 	}
 
 	/**
@@ -122,6 +131,34 @@ class LogTest extends TestCase {
 
 		unlink(static::TEST_FILEPATH_ARRAY1);
 		unlink(static::TEST_FILEPATH_ARRAY2);
+	}
+
+	/**
+	 * testLogsObject method
+	 *
+	 * @return void
+	 */
+	public function testLogsObject() {
+		if (file_exists(static::TEST_FILEPATH_OBJECT)) {
+			unlink(static::TEST_FILEPATH_OBJECT);
+		}
+
+		try {
+			throw new Exception('Test', 1);
+		} catch (Exception $exception) {
+			// Do nothing
+		}
+
+		$result = Log::write($exception, static::TEST_FILENAME_OBJECT);
+
+		$this->assertTrue($result);
+		$this->assertFileExists(static::TEST_FILEPATH_OBJECT);
+		$this->assertRegExp(
+			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: Exception Object/',
+			file_get_contents(static::TEST_FILEPATH_OBJECT)
+		);
+
+		unlink(static::TEST_FILEPATH_OBJECT);
 	}
 
 	/**
