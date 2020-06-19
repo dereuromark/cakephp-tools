@@ -11,6 +11,14 @@ use Tools\Utility\Log;
 class LogTest extends TestCase {
 
 	/**
+	 * Default filename with path to use in test case.
+	 *
+	 * @var string
+	 */
+	private const TEST_DEFAULT_FILENAME_STRING = 'custom_log';
+	private const TEST_DEFAULT_FILEPATH_STRING = LOGS . self::TEST_DEFAULT_FILENAME_STRING . '.log';
+
+	/**
 	 * Filename with path to use in string test case.
 	 *
 	 * @var string
@@ -114,6 +122,28 @@ class LogTest extends TestCase {
 
 		unlink(static::TEST_FILEPATH_ARRAY1);
 		unlink(static::TEST_FILEPATH_ARRAY2);
+	}
+
+	/**
+	 * testLogsIntoDefaultFile method
+	 *
+	 * @return void
+	 */
+	public function testLogsIntoDefaultFile() {
+		if (file_exists(static::TEST_DEFAULT_FILEPATH_STRING)) {
+			unlink(static::TEST_DEFAULT_FILEPATH_STRING);
+		}
+
+		$result = Log::write('It works with default too!');
+
+		$this->assertTrue($result);
+		$this->assertFileExists(static::TEST_DEFAULT_FILEPATH_STRING);
+		$this->assertRegExp(
+			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: It works with default too!/',
+			file_get_contents(static::TEST_DEFAULT_FILEPATH_STRING)
+		);
+
+		unlink(static::TEST_DEFAULT_FILEPATH_STRING);
 	}
 
 }
