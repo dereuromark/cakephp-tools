@@ -39,6 +39,10 @@ class LogTest extends TestCase {
 
 		$this->assertTrue($result);
 		$this->assertFileExists(self::CUSTOM_FILE_PATH);
+		$this->assertRegExp(
+			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: It works!/',
+			file_get_contents(self::CUSTOM_FILE_PATH)
+		);
 
 		unlink(self::CUSTOM_FILE_PATH);
 	}
