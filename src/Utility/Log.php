@@ -52,8 +52,8 @@ class Log {
 	public static function write($data, $filename = null, $traceKey = false) {
 		static::_init($filename);
 
-		// Pretty print array
-		if (is_array($data)) {
+		// Pretty print array or object
+		if (is_array($data) || is_object($data)) {
 			if ($traceKey) {
 				try {
 					throw new Exception('Trace string', 1);
