@@ -50,6 +50,6 @@ Log::write([
 ], 'user_data');
 ```
 
-That's it! Above will create two separate files in `log/` directory named `my_file.log` and `user_data.log` store data into which we passed in first argument.
+That's it! Above will create two separate files in `log/` directory named `my_file.log` and `user_data.log` store data into which we passed in first argument. By default if you don't pass the `$filename` in second param in `Log::write` method, it will create `custom_log.log` file.
 
 You can write string, array, objects, etc into log files. It will pretty print your array/object so it's more readable. Also, it will not duplicate records into `$level.log` file.
