@@ -4,12 +4,12 @@ namespace Tools\Test\Utility;
 
 use Exception;
 use Tools\TestSuite\TestCase;
-use Tools\Utility\Log;
+use Tools\Utility\FileLog;
 
 /**
- * LogTest class
+ * FileLogTest class
  */
-class LogTest extends TestCase {
+class FileLogTest extends TestCase {
 
 	/**
 	 * Default filename with path to use in test case.
@@ -64,7 +64,7 @@ class LogTest extends TestCase {
 			unlink(static::TEST_FILEPATH_STRING);
 		}
 
-		$result = Log::write('It works!', static::TEST_FILENAME_STRING);
+		$result = FileLog::write('It works!', static::TEST_FILENAME_STRING);
 
 		$this->assertTrue($result);
 		$this->assertFileExists(static::TEST_FILEPATH_STRING);
@@ -89,7 +89,7 @@ class LogTest extends TestCase {
 			unlink(static::TEST_FILEPATH_ARRAY2);
 		}
 
-		$result1 = Log::write(
+		$result1 = FileLog::write(
 			[
 				'user' => [
 					'id' => 1,
@@ -100,7 +100,7 @@ class LogTest extends TestCase {
 			static::TEST_FILENAME_ARRAY1
 		);
 
-		$result2 = Log::write(
+		$result2 = FileLog::write(
 			[
 				'user' => [
 					'id' => 2,
@@ -149,7 +149,7 @@ class LogTest extends TestCase {
 			// Do nothing
 		}
 
-		$result = Log::write($exception, static::TEST_FILENAME_OBJECT);
+		$result = FileLog::write($exception, static::TEST_FILENAME_OBJECT);
 
 		$this->assertTrue($result);
 		$this->assertFileExists(static::TEST_FILEPATH_OBJECT);
@@ -171,7 +171,7 @@ class LogTest extends TestCase {
 			unlink(static::TEST_DEFAULT_FILEPATH_STRING);
 		}
 
-		$result = Log::write('It works with default too!');
+		$result = FileLog::write('It works with default too!');
 
 		$this->assertTrue($result);
 		$this->assertFileExists(static::TEST_DEFAULT_FILEPATH_STRING);

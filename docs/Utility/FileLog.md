@@ -1,4 +1,4 @@
-# Log
+# FileLog
 
 Log class let's you write logs into custom log files.
 
@@ -29,19 +29,19 @@ With above approach, we have multiple issues:
 
 Or you hack it with doing something like setting configurations in `bootstrap.php` and use scope to log data. But each time you start new project you have to remember to copy paste that config and use in your project in order to write data into custom log files.
 
-#### With `Tools\Utility\Log` class:
+#### With `Tools\Utility\FileLog` class:
 
 You can directly pass data to log and filename to write the data into.
 
 ##### Usage:
 
 ```php
-use Tools\Utility\Log;
+use Tools\Utility\FileLog;
 
-Log::write("Something didn't work!", 'my_file');
+FileLog::write("Something didn't work!", 'my_file');
 
 // Somewhere else in any file
-Log::write([
+FileLog::write([
     'user' => [
         'id' => '1',
         'name' => 'John',
@@ -50,6 +50,6 @@ Log::write([
 ], 'user_data');
 ```
 
-That's it! Above will create two separate files in `log/` directory named `my_file.log` and `user_data.log` store data into which we passed in first argument. By default if you don't pass the `$filename` in second param in `Log::write` method, it will create `custom_log.log` file.
+That's it! Above will create two separate files in `log/` directory named `my_file.log` and `user_data.log` store data into which we passed in first argument. By default if you don't pass the `$filename` in second param in `FileLog::write` method, it will create `custom_log.log` file.
 
 You can write string, array, objects, etc into log files. It will pretty print your array/object so it's more readable. Also, it will not duplicate records into `$level.log` file.

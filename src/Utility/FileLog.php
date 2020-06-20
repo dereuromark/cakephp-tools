@@ -8,7 +8,7 @@ use Exception;
 /**
  * Wrapper class to log data into custom file(s).
  */
-class Log {
+class FileLog {
 
 	/**
 	 * Debug configuration.
