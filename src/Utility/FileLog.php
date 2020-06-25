@@ -23,7 +23,7 @@ class FileLog {
 	 * @param string $filename Filename to log.
 	 * @return void
 	 */
-	protected static function _init($filename) {
+	protected static function _init($filename): void {
 		if ($filename === null) {
 			$filename = 'custom_log';
 		}
@@ -49,7 +49,7 @@ class FileLog {
 	 * @param bool $traceKey Add trace string key into log data
 	 * @return bool Success
 	 */
-	public static function write($data, $filename = null, $traceKey = false) {
+	public static function write($data, $filename = null, $traceKey = false): bool {
 		static::_init($filename);
 
 		// Pretty print array or object
@@ -77,7 +77,7 @@ class FileLog {
 	 *
 	 * @return void
 	 */
-	protected static function _cleanUp() {
+	protected static function _cleanUp(): void {
 		CoreLog::drop('custom');
 
 		CoreLog::setConfig('debug', static::$_debugConfig);
