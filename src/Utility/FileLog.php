@@ -57,8 +57,8 @@ class FileLog {
 			if ($traceKey) {
 				try {
 					throw new Exception('Trace string', 1);
-				} catch (\Throwable $t) {
-					$data['trace_string'] = $t->getTraceAsString();
+				} catch (\Exception $e) {
+					$data['trace_string'] = $e->getTraceAsString();
 				}
 			}
 
