@@ -89,6 +89,7 @@ Cake\Log\Log::setConfig('debug', [
 	'className' => 'Cake\Log\Engine\FileLog',
 	'path' => LOGS,
 	'file' => 'debug',
+	'scopes' => false,
 	'levels' => ['notice', 'info', 'debug'],
 	'url' => env('LOG_DEBUG_URL', null),
 ]);
@@ -96,6 +97,7 @@ Cake\Log\Log::setConfig('error', [
 	'className' => 'Cake\Log\Engine\FileLog',
 	'path' => LOGS,
 	'file' => 'error',
+	'scopes' => false,
 	'levels' => ['warning', 'error', 'critical', 'alert', 'emergency'],
 	'url' => env('LOG_ERROR_URL', null),
 ]);
