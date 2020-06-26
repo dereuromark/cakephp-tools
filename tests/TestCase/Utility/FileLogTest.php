@@ -3,7 +3,6 @@
 namespace Tools\Test\Utility;
 
 use Cake\ORM\TableRegistry;
-use Exception;
 use Shim\TestSuite\TestCase;
 use Tools\Utility\FileLog;
 
