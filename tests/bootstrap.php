@@ -88,6 +88,8 @@ Cake\Log\Log::setConfig('error', [
 	'url' => env('LOG_ERROR_URL', null),
 ]);
 
+Cake\Utility\Security::setSalt('foo');
+
 Cake\Core\Plugin::getCollection()->add(new Tools\Plugin());
 
 Cake\Routing\DispatcherFactory::add('Routing');
