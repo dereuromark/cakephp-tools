@@ -102,7 +102,6 @@ Cake\Log\Log::setConfig('error', [
 	'url' => env('LOG_ERROR_URL', null),
 ]);
 
-
 Cake\Utility\Security::setSalt('foo');
 
 // Why is this required?

@@ -20,7 +20,7 @@ class FileLog {
 	/**
 	 * Initialize configurations.
 	 *
-	 * @param string $filename Filename to log.
+	 * @param string|null $filename Filename to log.
 	 * @return void
 	 */
 	protected static function _init($filename): void {
@@ -44,7 +44,7 @@ class FileLog {
 	/**
 	 * Log data into custom file
 	 *
-	 * @param array|string $data Data to store
+	 * @param array|string|object $data Data to store
 	 * @param string|null $filename Filename of log file
 	 * @param bool $traceKey Add trace string key into log data
 	 * @return bool Success
