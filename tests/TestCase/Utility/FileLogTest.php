@@ -16,34 +16,34 @@ class FileLogTest extends TestCase {
 	 *
 	 * @var string
 	 */
-	private const TEST_DEFAULT_FILENAME_STRING = 'custom_log';
-	private const TEST_DEFAULT_FILEPATH_STRING = LOGS . self::TEST_DEFAULT_FILENAME_STRING . '.log';
+	const TEST_DEFAULT_FILENAME_STRING = 'custom_log';
+	const TEST_DEFAULT_FILEPATH_STRING = LOGS . self::TEST_DEFAULT_FILENAME_STRING . '.log';
 
 	/**
 	 * Filename with path to use in string test case.
 	 *
 	 * @var string
 	 */
-	private const TEST_FILENAME_STRING = 'my_file';
-	private const TEST_FILEPATH_STRING = LOGS . self::TEST_FILENAME_STRING . '.log';
+	const TEST_FILENAME_STRING = 'my_file';
+	const TEST_FILEPATH_STRING = LOGS . self::TEST_FILENAME_STRING . '.log';
 
 	/**
 	 * Filename with path to use in array test case.
 	 *
 	 * @var string
 	 */
-	private const TEST_FILENAME_ARRAY1 = 'array_file1';
-	private const TEST_FILEPATH_ARRAY1 = LOGS . self::TEST_FILENAME_ARRAY1 . '.log';
-	private const TEST_FILENAME_ARRAY2 = 'array_file2';
-	private const TEST_FILEPATH_ARRAY2 = LOGS . self::TEST_FILENAME_ARRAY2 . '.log';
+	const TEST_FILENAME_ARRAY1 = 'array_file1';
+	const TEST_FILEPATH_ARRAY1 = LOGS . self::TEST_FILENAME_ARRAY1 . '.log';
+	const TEST_FILENAME_ARRAY2 = 'array_file2';
+	const TEST_FILEPATH_ARRAY2 = LOGS . self::TEST_FILENAME_ARRAY2 . '.log';
 
 	/**
 	 * Filename with path to use in object test case.
 	 *
 	 * @var string
 	 */
-	private const TEST_FILENAME_OBJECT = 'object';
-	private const TEST_FILEPATH_OBJECT = LOGS . self::TEST_FILENAME_OBJECT . '.log';
+	const TEST_FILENAME_OBJECT = 'object';
+	const TEST_FILEPATH_OBJECT = LOGS . self::TEST_FILENAME_OBJECT . '.log';
 
 	/**
 	 * setUp method
