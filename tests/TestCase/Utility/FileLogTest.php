@@ -2,6 +2,7 @@
 
 namespace Tools\Test\Utility;
 
+use Cake\ORM\TableRegistry;
 use Exception;
 use Tools\TestSuite\TestCase;
 use Tools\Utility\FileLog;
@@ -143,18 +144,15 @@ class FileLogTest extends TestCase {
 			unlink(static::TEST_FILEPATH_OBJECT);
 		}
 
-		try {
-			throw new Exception('Test', 1);
-		} catch (Exception $exception) {
-			// Do nothing
-		}
-
-		$result = FileLog::write($exception, static::TEST_FILENAME_OBJECT);
+		$result = FileLog::write(
+			TableRegistry::getTableLocator()->get('Posts'),
+			static::TEST_FILENAME_OBJECT
+		);
 
 		$this->assertTrue($result);
 		$this->assertFileExists(static::TEST_FILEPATH_OBJECT);
 		$this->assertRegExp(
-			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: Exception Object/',
+			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: TestApp.Model.Table.PostsTable Object/',
 			file_get_contents(static::TEST_FILEPATH_OBJECT)
 		);
 
