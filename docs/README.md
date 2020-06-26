@@ -60,6 +60,9 @@ Widgets:
 Entity:
 * [Enum](Entity/Enum.md)
 
+Utility:
+* [FileLog](Utility/FileLog.md) to log data into custom file(s) with one line
+
 ## Basic enhancements of the core
 
 ### Model
