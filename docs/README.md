@@ -60,6 +60,9 @@ Widgets:
 Entity:
 * [Enum](Entity/Enum.md)
 
+Utility:
+* [FileLog](Utility/FileLog.md)
+
 ## Basic enhancements of the core
 
 ### Model
