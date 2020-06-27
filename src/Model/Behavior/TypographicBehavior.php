@@ -37,8 +37,8 @@ use Cake\ORM\Behavior;
  */
 class TypographicBehavior extends Behavior {
 
-	const BEFORE_MARSHAL = 'marshal';
-	const BEFORE_SAVE = 'save';
+	public const BEFORE_MARSHAL = 'marshal';
+	public const BEFORE_SAVE = 'save';
 
 	/**
 	 * @var array
@@ -180,6 +180,7 @@ class TypographicBehavior extends Behavior {
 			}
 			$options['offset'] += 100;
 		}
+
 		return $count;
 	}
 
@@ -208,6 +209,7 @@ class TypographicBehavior extends Behavior {
 				$map[$key] = $this->_config['mergeQuotes'];
 			}
 		}
+
 		return str_replace(array_keys($map), array_values($map), $string);
 	}
 

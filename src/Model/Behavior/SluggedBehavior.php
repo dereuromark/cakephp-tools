@@ -26,8 +26,8 @@ use Shim\Utility\Inflector as ShimInflector;
  */
 class SluggedBehavior extends Behavior {
 
-	const MODE_URL = 'url';
-	const MODE_ASCII = 'ascii';
+	public const MODE_URL = 'url';
+	public const MODE_ASCII = 'ascii';
 
 	/**
 	 * Default config
@@ -125,8 +125,8 @@ class SluggedBehavior extends Behavior {
 	 * the constructor and call parent.
 	 *
 	 * @param array $config The configuration array this behavior is using.
-	 * @return void
 	 * @throws \RuntimeException
+	 * @return void
 	 */
 	public function initialize(array $config): void {
 		if ($this->_config['length'] === null) {
@@ -164,8 +164,8 @@ class SluggedBehavior extends Behavior {
 	 *
 	 * @param \Cake\ORM\Query $query
 	 * @param array $options
-	 * @return \Cake\ORM\Query
 	 * @throws \InvalidArgumentException If the 'slug' key is missing in options
+	 * @return \Cake\ORM\Query
 	 */
 	public function findSlugged(Query $query, array $options) {
 		if (empty($options['slug'])) {
@@ -251,8 +251,10 @@ class SluggedBehavior extends Behavior {
 		if ($deep) {
 			$copy = clone $entity;
 			$this->slug($copy, ['overwrite' => true]);
+
 			return $copy->get($this->_config['field']) !== $entity->get($this->_config['field']);
 		}
+
 		return false;
 	}
 
@@ -268,10 +270,10 @@ class SluggedBehavior extends Behavior {
 	 *
 	 * @param string $value
 	 * @param \Cake\Datasource\EntityInterface|null $entity
-	 * @return string A slug
 	 * @throws \RuntimeException
+	 * @return string A slug
 	 */
-	public function generateSlug($value, EntityInterface $entity = null) {
+	public function generateSlug($value, ?EntityInterface $entity = null) {
 		$separator = $this->_config['separator'];
 
 		$string = str_replace(["\r\n", "\r", "\n"], ' ', $value);
@@ -348,7 +350,7 @@ class SluggedBehavior extends Behavior {
 
 			while ($this->_table->exists($conditions)) {
 				$i++;
-				$suffix	= $separator . $i;
+				$suffix = $separator . $i;
 				if ($this->_config['length'] && (mb_strlen($slug . $suffix) > $this->_config['length'])) {
 					$slug = mb_substr($slug, 0, $this->_config['length'] - mb_strlen($suffix));
 				}
@@ -372,8 +374,8 @@ class SluggedBehavior extends Behavior {
 	 * as callbacks or timeouts.
 	 *
 	 * @param array $params
-	 * @return bool Success
 	 * @throws \RuntimeException
+	 * @return bool Success
 	 */
 	public function resetSlugs($params = []) {
 		if (!$this->_table->hasField($this->_config['field'])) {
@@ -413,6 +415,7 @@ class SluggedBehavior extends Behavior {
 			}
 			$params['page']++;
 		}
+
 		return true;
 	}
 
@@ -521,6 +524,7 @@ class SluggedBehavior extends Behavior {
 			'\x{3095}-\x{3098}\x{309b}-\x{309c}\x{309f}-\x{30a0}\x{30fb}\x{30ff}-\x{3104}\x{312d}-\x{4dff}' .
 			'\x{9fa6}-\x{abff}\x{d7a4}-\x{d7ff}\x{e000}-\x{ffff}';
 		}
+
 		return null;
 	}
 

@@ -41,6 +41,7 @@ class Utility {
 	 */
 	public static function inArray($needle, $haystack) {
 		$strict = !is_numeric($needle);
+
 		return in_array((string)$needle, $haystack, $strict);
 	}
 
@@ -74,6 +75,7 @@ class Utility {
 				unset($tokens[$key]);
 			}
 		}
+
 		return $tokens;
 	}
 
@@ -97,6 +99,7 @@ class Utility {
 	public static function pregMatchAll($pattern, $subject, $flags = PREG_SET_ORDER, $offset = null) {
 		$pattern = substr($pattern, 0, 1) . '(*UTF8)' . substr($pattern, 1);
 		preg_match_all($pattern, $subject, $matches, $flags, $offset);
+
 		return $matches;
 	}
 
@@ -120,6 +123,7 @@ class Utility {
 	public static function pregMatch($pattern, $subject, $flags = null, $offset = null) {
 		$pattern = substr($pattern, 0, 1) . '(*UTF8)' . substr($pattern, 1);
 		preg_match($pattern, $subject, $matches, $flags, $offset);
+
 		return $matches;
 	}
 
@@ -140,6 +144,7 @@ class Utility {
 		for ($i = 0; $i < $c; $i += $length) {
 			$result[] = mb_substr($str, $i, $length);
 		}
+
 		return $result;
 	}
 
@@ -157,6 +162,7 @@ class Utility {
 		} else {
 			$ipaddr = env('REMOTE_ADDR');
 		}
+
 		return trim($ipaddr);
 	}
 
@@ -178,6 +184,7 @@ class Utility {
 		if ($full) {
 			$ref = Router::url($ref, $full);
 		}
+
 		return $ref;
 	}
 
@@ -216,6 +223,7 @@ class Utility {
 			$url = mb_substr($url, 0, $length - 1);
 			$length--;
 		}
+
 		return $url;
 	}
 
@@ -253,6 +261,7 @@ class Utility {
 		if (!preg_match($pattern, $file)) {
 			return file_exists($file);
 		}
+
 		return static::urlExists($file);
 	}
 
@@ -271,6 +280,7 @@ class Utility {
 		if ($headers && preg_match('|\b200\b|', $headers[0])) {
 			return true;
 		}
+
 		return false;
 	}
 
@@ -321,6 +331,7 @@ class Utility {
 				return $headers;
 			}
 		}
+
 		return false;
 	}
 
@@ -342,6 +353,7 @@ class Utility {
 				$url = $prefix . $url;
 			}
 		}
+
 		return $url;
 	}
 
@@ -360,6 +372,7 @@ class Utility {
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -375,6 +388,7 @@ class Utility {
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -389,25 +403,32 @@ class Utility {
 		switch ($type) {
 			case 'int':
 				$value = (int)$value;
+
 				break;
 			case 'float':
 				$value = (float)$value;
+
 				break;
 			case 'double':
-				$value = (double)$value;
+				$value = (float)$value;
+
 				break;
 			case 'array':
 				$value = (array)$value;
+
 				break;
 			case 'bool':
 				$value = (bool)$value;
+
 				break;
 			case 'string':
 				$value = (string)$value;
+
 				break;
 			default:
 				return null;
 		}
+
 		return $value;
 	}
 
@@ -423,6 +444,7 @@ class Utility {
 			foreach ($value as $k => $v) {
 				$value[$k] = static::trimDeep($v, $transformNullToString);
 			}
+
 			return $value;
 		}
 
@@ -441,6 +463,7 @@ class Utility {
 	 */
 	public static function specialcharsDeep($value) {
 		$value = is_array($value) ? array_map('self::specialcharsDeep', $value) : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+
 		return $value;
 	}
 
@@ -453,6 +476,7 @@ class Utility {
 	 */
 	public static function deep($function, $value) {
 		$value = is_array($value) ? array_map('self::' . $function, $value) : $function($value);
+
 		return $value;
 	}
 
@@ -481,6 +505,7 @@ class Utility {
 				$return = 1;
 			}
 		}
+
 		return $return;
 	}
 
@@ -522,6 +547,7 @@ class Utility {
 			}
 			$result = Hash::merge($result, $child);
 		}
+
 		return $result;
 	}
 
@@ -569,6 +595,7 @@ class Utility {
 				reset($data);
 			}
 		}
+
 		return $result;
 	}
 
@@ -599,6 +626,7 @@ class Utility {
 				$result[$key] = $value;
 			}
 		}
+
 		return $result;
 	}
 
@@ -625,6 +653,7 @@ class Utility {
 				$f[$k] = $v;
 			}
 		}
+
 		return $f;
 	}
 
@@ -641,6 +670,7 @@ class Utility {
 	public static function arrayShiftKeys(&$array) {
 		foreach ($array as $key => $value) {
 			unset($array[$key]);
+
 			return $key;
 		}
 
@@ -680,6 +710,7 @@ class Utility {
 		if ($restartClock) {
 			static::startClock();
 		}
+
 		return static::calcElapsedTime($startTime, static::microtime(), $precision);
 	}
 
@@ -694,6 +725,7 @@ class Utility {
 	 */
 	public static function calcElapsedTime($start, $end, $precision = 8) {
 		$elapsed = $end - $start;
+
 		return round($elapsed, $precision);
 	}
 

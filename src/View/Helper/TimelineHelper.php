@@ -174,6 +174,7 @@ JS;
 			$e[] = '\'' . $option . '\': ' . $value;
 		}
 		$string = '{' . PHP_EOL . "\t" . implode(',' . PHP_EOL . "\t", $e) . PHP_EOL . '}';
+
 		return $string;
 	}
 
@@ -192,10 +193,12 @@ JS;
 				switch ($key) {
 					case 'editable':
 						$tmp[] = $row ? 'true' : 'false';
+
 						break;
 					case 'start':
 					case 'end':
 						$tmp[] = '\'' . $key . '\': ' . $this->_date($row);
+
 						break;
 					default:
 						$tmp[] = '\'' . $key . '\': \'' . str_replace('\'', '\\\'', $row) . '\'';
@@ -204,6 +207,7 @@ JS;
 			$e[] = '{' . implode(',' . PHP_EOL, $tmp) . '}';
 		}
 		$string = '[' . implode(',' . PHP_EOL, $e) . '];';
+
 		return $string;
 	}
 

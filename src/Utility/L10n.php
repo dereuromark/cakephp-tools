@@ -283,6 +283,7 @@ class L10n {
 					$result[$_mixed] = $_result;
 				}
 			}
+
 			return $result;
 		}
 		if (is_string($mixed)) {
@@ -292,8 +293,10 @@ class L10n {
 			if (isset($this->_l10nMap[$mixed])) {
 				return $this->_l10nMap[$mixed];
 			}
+
 			return false;
 		}
+
 		return $this->_l10nMap;
 	}
 
@@ -313,6 +316,7 @@ class L10n {
 					$result[$_language] = $_result;
 				}
 			}
+
 			return $result;
 		}
 		if (is_string($language)) {
@@ -322,8 +326,10 @@ class L10n {
 			if (isset($this->_l10nMap[$language]) && isset($this->_l10nCatalog[$this->_l10nMap[$language]])) {
 				return $this->_l10nCatalog[$this->_l10nMap[$language]];
 			}
+
 			return false;
 		}
+
 		return $this->_l10nCatalog;
 	}
 

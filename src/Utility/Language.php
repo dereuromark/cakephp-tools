@@ -83,6 +83,7 @@ class Language {
 			}
 		}
 		krsort($languages);
+
 		return $languages;
 	}
 
@@ -144,6 +145,7 @@ class Language {
 			}
 		}
 		krsort($matches);
+
 		return $matches;
 	}
 
@@ -163,6 +165,7 @@ class Language {
 				break;
 			}
 		}
+
 		return $i === 0 ? 0 : (float)$i / count($a);
 	}
 

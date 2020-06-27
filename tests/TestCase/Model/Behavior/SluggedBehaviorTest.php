@@ -727,6 +727,7 @@ class SluggedBehaviorTest extends TestCase {
 		$data = [
 			$field => $title,
 		] + $data;
+
 		return new Entity($data, $options);
 	}
 

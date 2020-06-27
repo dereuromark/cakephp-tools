@@ -357,16 +357,16 @@ class TimeTest extends TestCase {
 	public function testAge() {
 		$this->assertEquals('0', $this->Time->age(null));
 
-		list($year, $month, $day) = explode('-', date('Y-m-d'));
+		[$year, $month, $day] = explode('-', date('Y-m-d'));
 		$this->assertEquals('0', $this->Time->age($year . '-' . $month . '-' . $day, null));
 
-		list($year, $month, $day) = explode('-', date('Y-m-d', strtotime('-10 years')));
+		[$year, $month, $day] = explode('-', date('Y-m-d', strtotime('-10 years')));
 		$this->assertEquals('10', $this->Time->age($year . '-' . $month . '-' . $day, null));
 
-		list($year, $month, $day) = explode('-', date('Y-m-d', strtotime('-10 years +1 day')));
+		[$year, $month, $day] = explode('-', date('Y-m-d', strtotime('-10 years +1 day')));
 		$this->assertEquals('9', $this->Time->age($year . '-' . $month . '-' . $day, null));
 
-		list($year, $month, $day) = explode('-', date('Y-m-d', strtotime('-10 years -1 day')));
+		[$year, $month, $day] = explode('-', date('Y-m-d', strtotime('-10 years -1 day')));
 		$this->assertEquals('10', $this->Time->age($year . '-' . $month . '-' . $day, null));
 
 		// Crossing years
@@ -381,10 +381,10 @@ class TimeTest extends TestCase {
 		$this->assertEquals('3', $this->Time->age('2005-02-29', '2008-03-01'));
 
 		// Future
-		list($yearE, $monthE, $dayE) = explode('-', date('Y-m-d', strtotime('+10 years -1 day')));
+		[$yearE, $monthE, $dayE] = explode('-', date('Y-m-d', strtotime('+10 years -1 day')));
 		$this->assertEquals('9', $this->Time->age(null, $yearE . '-' . $monthE . '-' . $dayE));
 
-		list($yearE, $monthE, $dayE) = explode('-', date('Y-m-d', strtotime('+10 years +1 day')));
+		[$yearE, $monthE, $dayE] = explode('-', date('Y-m-d', strtotime('+10 years +1 day')));
 		$this->assertEquals('10', $this->Time->age(null, $yearE . '-' . $monthE . '-' . $dayE));
 
 		$birthday = '2033-04-09';

@@ -19,6 +19,7 @@ trait EnumTrait {
 			if (array_key_exists($value, $options)) {
 				return $options[$value];
 			}
+
 			return $default;
 		}
 		if ($value !== null) {
@@ -26,8 +27,10 @@ trait EnumTrait {
 			foreach ($value as $v) {
 				$newOptions[$v] = $options[$v];
 			}
+
 			return $newOptions;
 		}
+
 		return $options;
 	}
 

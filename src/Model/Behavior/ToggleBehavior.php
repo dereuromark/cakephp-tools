@@ -71,8 +71,8 @@ class ToggleBehavior extends Behavior {
 	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
-	 * @return void
 	 * @throws \LogicException
+	 * @return void
 	 */
 	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
 		$field = $this->getConfig('field');
@@ -101,9 +101,8 @@ class ToggleBehavior extends Behavior {
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 *
-	 * @return void
-	 *
 	 * @throws \LogicException
+	 * @return void
 	 */
 	public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
 		if ($this->_config['on'] !== 'afterSave') {
@@ -159,6 +158,7 @@ class ToggleBehavior extends Behavior {
 		foreach ($scopeFields as $scopeField) {
 			$conditions[$scopeField] = $entity->get($scopeField);
 		}
+
 		return $conditions;
 	}
 

@@ -23,7 +23,8 @@ class ResetCommentsTable extends Table {
 	 */
 	public function customCallback(Entity $record, array &$updateFields) {
 		$record->comment .= ' xyz';
-		$fields[] = 'some_other_field';
+		$updateFields[] = 'some_other_field';
+
 		return $record;
 	}
 
@@ -35,6 +36,7 @@ class ResetCommentsTable extends Table {
 	public function customObjectCallback(Entity $record, array &$updateFields) {
 		$record['comment'] .= ' xxx';
 		$updateFields[] = 'some_other_field';
+
 		return $record;
 	}
 
@@ -46,6 +48,7 @@ class ResetCommentsTable extends Table {
 	public static function customStaticCallback(Entity $record, array &$updateFields) {
 		$record['comment'] .= ' yyy';
 		$updateFields[] = 'some_other_field';
+
 		return $record;
 	}
 
@@ -56,6 +59,7 @@ class ResetCommentsTable extends Table {
 	 */
 	public static function fieldsCallback(Entity $record, array &$updateFields) {
 		$record['comment'] = 'foo';
+
 		return $record;
 	}
 
@@ -67,6 +71,7 @@ class ResetCommentsTable extends Table {
 	public static function fieldsCallbackAuto(Entity $record, array &$updateFields) {
 		$record['comment'] = 'bar';
 		$updateFields[] = 'comment';
+
 		return $record;
 	}
 

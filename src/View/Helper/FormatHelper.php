@@ -168,8 +168,8 @@ class FormatHelper extends Helper {
 		return $ret;
 	}
 
-	const GENDER_FEMALE = 2;
-	const GENDER_MALE = 1;
+	public const GENDER_FEMALE = 2;
+	public const GENDER_MALE = 1;
 
 	/**
 	 * Displays gender icon
@@ -186,6 +186,7 @@ class FormatHelper extends Helper {
 		} else {
 			$icon = $this->icon('genderless', [], ['title' => __d('tools', 'Unknown')]);
 		}
+
 		return $icon;
 	}
 
@@ -232,6 +233,7 @@ class FormatHelper extends Helper {
 		if (!empty($options['spin'])) {
 			$class[] = $options['namespace'] . '-spin';
 		}
+
 		return '<i class="' . implode(' ', $class) . '"></i>';
 	}
 
@@ -337,6 +339,7 @@ class FormatHelper extends Helper {
 		if (substr($icon, 0, 1) !== '/') {
 			$icon = 'icons/' . $icon;
 		}
+
 		return $this->Html->image($icon, $options);
 	}
 
@@ -391,6 +394,7 @@ class FormatHelper extends Helper {
 		];
 
 		$options['attributes'] = $this->template->formatAttributes($formatOptions);
+
 		return $this->template->format('icon', $options);
 	}
 
@@ -439,6 +443,7 @@ class FormatHelper extends Helper {
 			$pieces = parse_url($domain);
 			$domain = $pieces['host'];
 		}
+
 		return 'http://www.google.com/s2/favicons?domain=' . $domain;
 	}
 
@@ -460,6 +465,7 @@ class FormatHelper extends Helper {
 		if (!isset($options['title'])) {
 			$options['title'] = $domain;
 		}
+
 		return $this->Html->image($url, $options);
 	}
 
@@ -481,11 +487,11 @@ class FormatHelper extends Helper {
 	 * Generates a pagination count: #1 etc for each pagination record
 	 * respects order (ASC/DESC)
 	 *
+	 * @deprecated
 	 * @param array $paginator
 	 * @param int $count (current post count on this page)
 	 * @param string|null $dir (ASC/DESC)
 	 * @return int
-	 * @deprecated
 	 */
 	public function absolutePaginateCount(array $paginator, $count, $dir = null) {
 		if ($dir === null) {
@@ -526,12 +532,15 @@ class FormatHelper extends Helper {
 			switch ($padType) {
 				case STR_PAD_LEFT:
 					$input = str_repeat($padString, $padLength - $length) . $input;
+
 					break;
 				case STR_PAD_RIGHT:
 					$input .= str_repeat($padString, $padLength - $length);
+
 					break;
 			}
 		}
+
 		return $input;
 	}
 
@@ -546,6 +555,7 @@ class FormatHelper extends Helper {
 		if (!$ok) {
 			return $this->ok($value, false);
 		}
+
 		return $value;
 	}
 
@@ -575,6 +585,7 @@ class FormatHelper extends Helper {
 		];
 		$options['content'] = $content;
 		$options['attributes'] = $this->template->formatAttributes($attributes);
+
 		return $this->template->format('ok', $options);
 	}
 
@@ -708,14 +719,15 @@ class FormatHelper extends Helper {
 		}
 
 		$table .= '</table>';
+
 		return $table;
 	}
 
 	/**
 	 * @param string $string
 	 *
-	 * @return string
 	 * @throws \RuntimeException
+	 * @return string
 	 */
 	public function slug($string) {
 		if ($this->_config['slugger']) {

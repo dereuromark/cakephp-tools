@@ -77,6 +77,7 @@ if (!function_exists('isEmpty')) {
 		if (empty($var)) {
 			return true;
 		}
+
 		return false;
 	}
 }
@@ -197,10 +198,12 @@ if (!function_exists('extractFileInfo')) {
 			case 'extension':
 			case 'ext':
 				$res = ($pos !== false) ? substr($filename, $pos + 1) : '';
+
 				break;
 			case 'filename':
 			case 'file':
 				$res = ($pos !== false) ? substr($filename, 0, $pos) : '';
+
 				break;
 			default:
 				break;
@@ -229,18 +232,22 @@ if (!function_exists('extractPathInfo')) {
 			case 'extension':
 			case 'ext':
 				$infoType = PATHINFO_EXTENSION;
+
 				break;
 			case 'filename':
 			case 'file':
 				$infoType = PATHINFO_FILENAME;
+
 				break;
 			case 'basename':
 			case 'base':
 				$infoType = PATHINFO_BASENAME;
+
 				break;
 			case 'dirname':
 			case 'dir':
 				$infoType = PATHINFO_DIRNAME;
+
 				break;
 			default:
 				$infoType = $type;

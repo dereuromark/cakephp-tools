@@ -60,6 +60,7 @@ class InflectShell extends Shell {
 	protected function _interactive() {
 		$method = $this->_getMethod();
 		$words = $this->_getWords();
+
 		return ['method' => $method, 'words' => $words];
 	}
 
@@ -131,6 +132,7 @@ class InflectShell extends Shell {
 			default:
 				$this->out('Exit');
 				$this->_stop();
+
 				return null;
 		}
 	}
@@ -150,6 +152,7 @@ class InflectShell extends Shell {
 				$this->out('Try again.');
 			}
 		}
+
 		return $words;
 	}
 
@@ -213,7 +216,7 @@ class InflectShell extends Shell {
 			'camelize' => 'CamelCase form             ',
 			'classify' => 'Cake Model Class form      ',
 			'humanize' => 'Human Readable Group form  ',
-			'singularize' =>	'Singular form              ',
+			'singularize' => 'Singular form              ',
 			'dasherize' => 'Dasherized-form               ',
 			'slug' => 'Slugged-form               ',
 			'pluralize' => 'Pluralized form            ',
@@ -221,6 +224,7 @@ class InflectShell extends Shell {
 			'underscore' => 'under_scored_form          ',
 			'variable' => 'variableForm               ',
 		];
+
 		return $messages[$function];
 	}
 

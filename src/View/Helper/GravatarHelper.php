@@ -117,6 +117,7 @@ class GravatarHelper extends Helper {
 			$imageUrl .= '.jpg';
 		}
 		$imageUrl .= $this->_buildOptions($options);
+
 		return $imageUrl;
 	}
 
@@ -133,6 +134,7 @@ class GravatarHelper extends Helper {
 			$options['default'] = $defaultIcon;
 			$images[$defaultIcon] = $this->image('', $options);
 		}
+
 		return $images;
 	}
 
@@ -160,6 +162,7 @@ class GravatarHelper extends Helper {
 				unset($options['default']);
 			}
 		}
+
 		return $options;
 	}
 
@@ -187,8 +190,10 @@ class GravatarHelper extends Helper {
 				$value = $options[$key];
 				$optionArray[] = $key . '=' . mb_strtolower($value);
 			}
+
 			return '?' . implode(!empty($options['escape']) ? '&amp;' : '&', $optionArray);
 		}
+
 		return '';
 	}
 

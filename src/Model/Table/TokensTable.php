@@ -146,6 +146,7 @@ class TokensTable extends Table {
 			if ($treatUsedAsInvalid) {
 				return null;
 			}
+
 			// return true and let the application check what to do then
 			return $tokenEntity;
 		}
@@ -157,6 +158,7 @@ class TokensTable extends Table {
 		if (!empty($tokenEntity->unlimited)) {
 			return $tokenEntity;
 		}
+
 		return null;
 	}
 
@@ -175,6 +177,7 @@ class TokensTable extends Table {
 		if ($result) {
 			return true;
 		}
+
 		return false;
 	}
 
@@ -188,6 +191,7 @@ class TokensTable extends Table {
 		$conditions = [
 			$this->getAlias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity),
 		];
+
 		return $this->deleteAll($conditions);
 	}
 
@@ -206,6 +210,7 @@ class TokensTable extends Table {
 
 		$types = $this->find('all', ['conditions' => [], 'fields' => ['DISTINCT type']])->toArray();
 		$keys['types'] = !empty($types) ? Hash::extract($types, '{n}.type') : [];
+
 		return $keys;
 	}
 
@@ -217,7 +222,7 @@ class TokensTable extends Table {
 	 * @param int|null $length (defaults to defaultLength)
 	 * @return string Key
 	 */
-	public function generateKey(int $length = null): string {
+	public function generateKey(?int $length = null): string {
 		if (!$length) {
 			$length = $this->defaultLength;
 		}

@@ -64,6 +64,7 @@ class DatalistWidget extends SelectBoxWidget {
 		$inputAttrs = $this->_templates->formatAttributes($inputData);
 
 		$datalistAttrs = $this->_templates->formatAttributes($data);
+
 		return $this->_templates->format(
 			'datalist',
 			[

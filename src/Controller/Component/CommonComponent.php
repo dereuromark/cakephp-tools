@@ -108,6 +108,7 @@ class CommonComponent extends Component {
 				unset($classMethods[$key]);
 			}
 		}
+
 		return $classMethods;
 	}
 
@@ -157,6 +158,7 @@ class CommonComponent extends Component {
 		foreach ($prefixes as $prefix) {
 			$defaults[$prefix] = false;
 		}
+
 		return $defaults;
 	}
 
@@ -182,6 +184,7 @@ class CommonComponent extends Component {
 		if ($asString === true) {
 			return Router::url($url);
 		}
+
 		return $url;
 	}
 
@@ -198,6 +201,7 @@ class CommonComponent extends Component {
 		if ($allowSelf || $this->controller->referer(null, true) !== $this->controller->getRequest()->getRequestTarget()) {
 			return $this->controller->redirect($this->controller->referer($whereTo, true), $status);
 		}
+
 		return $this->controller->redirect($whereTo, $status);
 	}
 
@@ -260,9 +264,11 @@ class CommonComponent extends Component {
 				if (!in_array($referer['action'], (array)$this->controller->autoRedirectActions, true)) {
 					continue;
 				}
+
 				return $this->autoRedirect($whereTo, true, $status);
 			}
 		}
+
 		return $this->postRedirect($whereTo, $status);
 	}
 
@@ -287,6 +293,7 @@ class CommonComponent extends Component {
 		if (is_array($url)) {
 			$url += $this->controller->getRequest()->getParam('pass');
 		}
+
 		return $this->controller->redirect($url, $status);
 	}
 
@@ -325,6 +332,7 @@ class CommonComponent extends Component {
 		if (mb_strpos($ref, $base) === 0) {
 			return false;
 		}
+
 		return true;
 	}
 

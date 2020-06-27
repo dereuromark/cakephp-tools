@@ -71,6 +71,7 @@ class Table extends ShimTable {
 	 */
 	public function validateUniqueExt($value, array $options, array $context = []) {
 		$context += $options;
+
 		return parent::validateUnique($value, $context);
 	}
 
@@ -87,6 +88,7 @@ class Table extends ShimTable {
 		if (!isset($result[10])) {
 			return false;
 		}
+
 		return (int)$result[10];
 	}
 
@@ -193,6 +195,7 @@ class Table extends ShimTable {
 			settype($compareValue, $matching[$options['cast']]);
 			settype($value, $matching[$options['cast']]);
 		}
+
 		return $compareValue === $value;
 	}
 
@@ -215,6 +218,7 @@ class Table extends ShimTable {
 			if (!empty($options['allowEmpty']) && empty($options['required'])) {
 				return true;
 			}
+
 			return false;
 		}
 		if (!isset($options['autoComplete']) || $options['autoComplete'] !== false) {
@@ -241,6 +245,7 @@ class Table extends ShimTable {
 		if (isset($options['deep']) && $options['deep'] === false) {
 			return true;
 		}
+
 		return $this->_validUrl($url);
 	}
 
@@ -256,6 +261,7 @@ class Table extends ShimTable {
 		} elseif (mb_strpos($url, '://') === false && mb_strpos($url, 'www.') === 0) {
 			$url = 'http://' . $url;
 		}
+
 		return $url;
 	}
 
@@ -278,6 +284,7 @@ class Table extends ShimTable {
 		if (preg_match('#^' . $protocol . '/.*?\s+[(404|999)]+\s#i', $headers)) {
 			return false;
 		}
+
 		return true;
 	}
 
@@ -298,6 +305,7 @@ class Table extends ShimTable {
 			if (!empty($options['allowEmpty'])) {
 				return true;
 			}
+
 			return false;
 		}
 		$format = !empty($options['dateFormat']) ? $options['dateFormat'] : 'ymd';
@@ -367,8 +375,10 @@ class Table extends ShimTable {
 					}
 				}
 			}
+
 			return true;
 		}
+
 		return false;
 	}
 
@@ -389,6 +399,7 @@ class Table extends ShimTable {
 			if (!empty($options['allowEmpty'])) {
 				return true;
 			}
+
 			return false;
 		}
 		$format = !empty($options['format']) ? $options['format'] : 'ymd';
@@ -426,8 +437,10 @@ class Table extends ShimTable {
 					return false;
 				}
 			}
+
 			return true;
 		}
+
 		return false;
 	}
 
@@ -462,8 +475,10 @@ class Table extends ShimTable {
 					return false;
 				}
 			}
+
 			return true;
 		}
+
 		return false;
 	}
 

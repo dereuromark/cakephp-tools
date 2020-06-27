@@ -183,6 +183,7 @@ class MobileComponent extends Component {
 		$this->isMobile = (bool)$this->detect();
 
 		Configure::write('User.isMobile', (int)$this->isMobile);
+
 		return $this->isMobile;
 	}
 
@@ -192,8 +193,8 @@ class MobileComponent extends Component {
 	 * Note that the cake internal way might soon be deprecated:
 	 * https://github.com/cakephp/cakephp/issues/2546
 	 *
-	 * @return bool Success
 	 * @throws \RuntimeException
+	 * @return bool Success
 	 */
 	public function detect() {
 		// Deprecated - the vendor libs are far more accurate and up to date
@@ -201,11 +202,13 @@ class MobileComponent extends Component {
 			if (isset($this->getController()->RequestHandler)) {
 				return $this->getController()->getRequest()->is('mobile') || $this->getController()->RequestHandler->accepts('wap');
 			}
+
 			return $this->getController()->getRequest()->is('mobile');
 		}
 		if (is_callable($this->_config['engine'])) {
 			return call_user_func($this->_config['engine']);
 		}
+
 		throw new RuntimeException(sprintf('Engine %s not available', $this->_config['engine']));
 	}
 

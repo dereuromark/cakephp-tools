@@ -42,8 +42,8 @@ class ShuntRequestController extends AppController {
 	 * Switch language as post link.
 	 *
 	 * @param string|null $language
-	 * @return \Cake\Http\Response
 	 * @throws \RuntimeException
+	 * @return \Cake\Http\Response
 	 */
 	public function language($language = null) {
 		$this->getRequest()->allowMethod(['post']);
@@ -65,6 +65,7 @@ class ShuntRequestController extends AppController {
 		$this->getRequest()->getSession()->write('Config.language', $language['locale']);
 		I18n::setLocale($language['locale']);
 		$this->Flash->success(__d('tools', 'Language switched to {0}', $language['name']));
+
 		return $this->redirect($this->referer('/', true));
 	}
 

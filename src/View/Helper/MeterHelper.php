@@ -21,9 +21,9 @@ use Tools\Utility\Number;
  */
 class MeterHelper extends Helper {
 
-	const LENGTH_MIN = 3;
-	const CHAR_EMPTY = '░';
-	const CHAR_FULL = '█';
+	public const LENGTH_MIN = 3;
+	public const CHAR_EMPTY = '░';
+	public const CHAR_FULL = '█';
 
 	/**
 	 * @var array
@@ -141,8 +141,8 @@ class MeterHelper extends Helper {
 	 *
 	 * @param float $complete
 	 * @param int $length
-	 * @return string
 	 * @throws \InvalidArgumentException
+	 * @return string
 	 */
 	public function draw($complete, $length) {
 		if ($length < static::LENGTH_MIN) {
@@ -186,8 +186,8 @@ class MeterHelper extends Helper {
 	 * @param float $max
 	 * @param float $min
 	 * @param bool $overflow
-	 * @return float
 	 * @throws \InvalidArgumentException
+	 * @return float
 	 */
 	protected function prepareValue($value, $max, $min, $overflow) {
 		if ($max < $min) {

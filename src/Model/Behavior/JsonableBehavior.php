@@ -118,6 +118,7 @@ class JsonableBehavior extends Behavior {
 				}
 
 				$this->decodeItems($row);
+
 				return $row;
 			});
 		});
@@ -175,10 +176,12 @@ class JsonableBehavior extends Behavior {
 		foreach ($mappedFields as $index => $map) {
 			if (empty($map) || $map == $usedFields[$index]) {
 				$fields[$usedFields[$index]] = $usedFields[$index];
+
 				continue;
 			}
 			$fields[$map] = $usedFields[$index];
 		}
+
 		return $fields;
 	}
 
@@ -232,6 +235,7 @@ class JsonableBehavior extends Behavior {
 		} elseif ($this->_config['output'] === 'list') {
 			$decoded = $this->_toList($decoded);
 		}
+
 		return $decoded;
 	}
 
@@ -246,6 +250,7 @@ class JsonableBehavior extends Behavior {
 		foreach ($val as $key => $v) {
 			$res[] = $key . $this->_config['keyValueSeparator'] . $v;
 		}
+
 		return implode($this->_config['separator'], $res);
 	}
 
@@ -268,6 +273,7 @@ class JsonableBehavior extends Behavior {
 			}
 			$res[$subpieces[0]] = $subpieces[1];
 		}
+
 		return $res;
 	}
 
@@ -306,6 +312,7 @@ class JsonableBehavior extends Behavior {
 		if ($this->decoded !== false) {
 			return true;
 		}
+
 		return false;
 	}
 

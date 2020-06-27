@@ -123,8 +123,8 @@ class PasswordableBehavior extends Behavior {
 	 * the constructor and call parent.
 	 *
 	 * @param array $config The configuration array this behavior is using.
-	 * @return void
 	 * @throws \RuntimeException
+	 * @return void
 	 */
 	public function initialize(array $config): void {
 		$formField = $this->_config['formField'];
@@ -172,6 +172,7 @@ class PasswordableBehavior extends Behavior {
 				if (!$require && !empty($context['data'][$formField])) {
 					return false;
 				}
+
 				return !$require;
 			});
 		}
@@ -183,6 +184,7 @@ class PasswordableBehavior extends Behavior {
 				if (!$require && !empty($context['data'][$formField])) {
 					return false;
 				}
+
 				return !$require;
 			});
 
@@ -291,6 +293,7 @@ class PasswordableBehavior extends Behavior {
 				if ($this->_config['current']) {
 					$entity->unset($formFieldCurrent);
 				}
+
 				return;
 			}
 		}
@@ -347,6 +350,7 @@ class PasswordableBehavior extends Behavior {
 		if (!method_exists($PasswordHasher, 'needsRehash')) {
 			return false;
 		}
+
 		return $PasswordHasher->needsRehash($hash);
 	}
 
@@ -373,6 +377,7 @@ class PasswordableBehavior extends Behavior {
 			$uid = $context['data'][$this->_table->getPrimaryKey()];
 		} else {
 			trigger_error('No user id given');
+
 			return false;
 		}
 
@@ -393,6 +398,7 @@ class PasswordableBehavior extends Behavior {
 		}
 
 		$compareValue = $context['data'][$options['compare']];
+
 		return $compareValue === $value;
 	}
 
@@ -410,6 +416,7 @@ class PasswordableBehavior extends Behavior {
 		}
 
 		$compareValue = $context['data'][$options['compare']];
+
 		return $compareValue !== $data;
 	}
 
@@ -439,6 +446,7 @@ class PasswordableBehavior extends Behavior {
 		}
 
 		$PasswordHasher = $this->_getPasswordHasher($this->_config['passwordHasher']);
+
 		return !$PasswordHasher->check($value, $dbValue);
 	}
 
@@ -461,6 +469,7 @@ class PasswordableBehavior extends Behavior {
 		}
 
 		$PasswordHasher = $this->_getPasswordHasher($this->_config['passwordHasher']);
+
 		return $PasswordHasher->check($pwd, $dbValue);
 	}
 

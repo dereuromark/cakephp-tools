@@ -79,8 +79,8 @@ class ResetBehavior extends Behavior {
 	 * Regenerate all records (including possible beforeRules/beforeSave callbacks).
 	 *
 	 * @param array $params
-	 * @return int Modified records
 	 * @throws \RuntimeException
+	 * @return int Modified records
 	 */
 	public function resetRecords(array $params = []) {
 		$defaults = [
@@ -112,6 +112,7 @@ class ResetBehavior extends Behavior {
 				if ($this->_table->getSchema()->getColumn($field)) {
 					$defaults['fields'][] = $field;
 					$updateFields[] = $field;
+
 					break;
 				}
 			}
@@ -164,6 +165,7 @@ class ResetBehavior extends Behavior {
 				sleep((int)$this->_config['timeout']);
 			}
 		}
+
 		return $modified;
 	}
 

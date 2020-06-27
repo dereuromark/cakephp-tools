@@ -6,7 +6,6 @@ use Cake\Core\Configure;
 use Cake\Log\Log;
 use Cake\Mailer\TransportFactory;
 use Shim\TestSuite\TestCase;
-use Tools\Mailer\Email;
 
 /**
  * EmailTest class

@@ -38,8 +38,9 @@ class ObfuscateHelper extends Helper {
 		if (count($pieces) < 2) {
 			return $mail;
 		}
-		list($mail1, $mail2) = $pieces;
+		[$mail1, $mail2] = $pieces;
 		$encMail = $this->encodeText($mail1) . '<span>@</span>' . $this->encodeText($mail2);
+
 		return $encMail;
 	}
 
@@ -114,15 +115,19 @@ class ObfuscateHelper extends Helper {
 			switch ($encMod) {
 				case 0: // None
 					$encmail .= mb_substr($text, $i, 1);
+
 					break;
 				case 1: // Decimal
 					$encmail .= '&#' . ord(mb_substr($text, $i, 1)) . ';';
+
 					break;
 				case 2: // Hexadecimal
 					$encmail .= '&#x' . dechex(ord(mb_substr($text, $i, 1))) . ';';
+
 					break;
 			}
 		}
+
 		return $encmail;
 	}
 
@@ -138,6 +143,7 @@ class ObfuscateHelper extends Helper {
 
 		$user = mb_substr($mailParts[0], 0, 1) . '..' . mb_substr($mailParts[0], -1, 1);
 		$domain = mb_substr($domainParts[0], 0, 1) . '..' . mb_substr($domainParts[0], -1, 1) . '.' . $domainParts[1];
+
 		return $user . '@' . $domain;
 	}
 

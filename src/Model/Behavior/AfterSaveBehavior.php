@@ -41,8 +41,8 @@ class AfterSaveBehavior extends Behavior {
 	}
 
 	/**
-	 * @return \Cake\Datasource\EntityInterface
 	 * @throws \LogicException
+	 * @return \Cake\Datasource\EntityInterface
 	 */
 	public function getEntityBeforeSave() {
 		if (!$this->_entity) {

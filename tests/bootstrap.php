@@ -1,8 +1,8 @@
 <?php
 
 use Cake\Datasource\ConnectionManager;
-use Cake\Routing\Router;
 use Cake\Routing\Route\DashedRoute;
+use Cake\Routing\Router;
 
 if (!defined('DS')) {
 	define('DS', DIRECTORY_SEPARATOR);

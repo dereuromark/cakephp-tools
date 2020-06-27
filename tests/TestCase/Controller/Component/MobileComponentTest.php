@@ -42,10 +42,12 @@ class MobileComponentTest extends TestCase {
 
 		ServerRequest::addDetector('mobile', function ($request) {
 			$detector = new MobileDetect();
+
 			return $detector->isMobile();
 		});
 		ServerRequest::addDetector('tablet', function ($request) {
 			$detector = new MobileDetect();
+
 			return $detector->isTablet();
 		});
 

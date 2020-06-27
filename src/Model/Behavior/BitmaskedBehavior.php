@@ -51,8 +51,8 @@ class BitmaskedBehavior extends Behavior {
 	/**
 	 * @param \Cake\ORM\Query $query
 	 * @param array $options
-	 * @return \Cake\ORM\Query
 	 * @throws \InvalidArgumentException If the 'slug' key is missing in options
+	 * @return \Cake\ORM\Query
 	 */
 	public function findBitmasked(Query $query, array $options) {
 		if (!isset($options['bits'])) {
@@ -77,8 +77,8 @@ class BitmaskedBehavior extends Behavior {
 	 * Behavior configuration
 	 *
 	 * @param array $config
-	 * @return void
 	 * @throws \RuntimeException
+	 * @return void
 	 */
 	public function initialize(array $config): void {
 		$config += $this->_config;
@@ -103,6 +103,7 @@ class BitmaskedBehavior extends Behavior {
 		}
 		if (empty($config['bits'])) {
 			$method = Inflector::variable(Inflector::pluralize($config['field'])) . '()';
+
 			throw new RuntimeException('Bits not found for field ' . $config['field'] . ', expected pluralized static method ' . $method . ' on the entity.');
 		}
 		ksort($config['bits'], SORT_NUMERIC);
@@ -136,6 +137,7 @@ class BitmaskedBehavior extends Behavior {
 					$row[$mappedField] = $this->decodeBitmask($row[$field]);
 				}
 				$mr->emit($row);
+
 				return;
 			}
 
@@ -204,6 +206,7 @@ class BitmaskedBehavior extends Behavior {
 				$res[] = $key;
 			}
 		}
+
 		return $res;
 	}
 
@@ -223,6 +226,7 @@ class BitmaskedBehavior extends Behavior {
 		if ($res === 0) {
 			return $defaultValue; // Make sure notEmpty validation rule triggers
 }
+
 		return $res;
 	}
 
@@ -330,6 +334,7 @@ class BitmaskedBehavior extends Behavior {
 		$bitmask = $this->encodeBitmask($bits);
 
 		$field = $this->_config['field'];
+
 		return [$this->_table->getAlias() . '.' . $field => $bitmask];
 	}
 

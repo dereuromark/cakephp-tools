@@ -134,6 +134,7 @@ class StringBehavior extends Behavior {
 				$val = $ret;
 			}
 		}
+
 		return $val;
 	}
 

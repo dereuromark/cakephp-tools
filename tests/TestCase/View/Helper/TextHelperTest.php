@@ -4,7 +4,6 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\View\View;
 use Shim\TestSuite\TestCase;
-use Tools\Utility\Text;
 use Tools\View\Helper\TextHelper;
 
 class TextHelperTest extends TestCase {

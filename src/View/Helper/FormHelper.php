@@ -49,6 +49,7 @@ class FormHelper extends CakeFormHelper {
 	public function create($model = null, array $options = []): string {
 		$defaults = ['novalidate' => $this->_defaultConfig['novalidate']];
 		$options += $defaults;
+
 		return parent::create($model, $options);
 	}
 

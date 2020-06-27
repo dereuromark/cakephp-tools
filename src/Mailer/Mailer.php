@@ -77,6 +77,7 @@ class Mailer extends CakeMailer {
 		if ($this->getMessage()->getSubject() && $this->getMessage()->getTo()) {
 			return true;
 		}
+
 		return false;
 	}
 
@@ -103,6 +104,7 @@ class Mailer extends CakeMailer {
 
 		if ($this->locale) {
 			I18n::setLocale($this->locale);
+
 			return;
 		}
 

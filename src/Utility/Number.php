@@ -68,6 +68,7 @@ class Number extends CakeNumber {
 			if (!empty($options['default'])) {
 				$default = $options['default'];
 			}
+
 			return $default;
 		}
 
@@ -104,6 +105,7 @@ class Number extends CakeNumber {
 		if (isset($options['signed'])) {
 			unset($options['signed']);
 		}
+
 		return $sign . parent::format($number, $options);
 	}
 
@@ -130,6 +132,7 @@ class Number extends CakeNumber {
 		if (isset($options['signed'])) {
 			unset($options['signed']);
 		}
+
 		return $sign . parent::format($number, $options);
 	}
 
@@ -152,22 +155,24 @@ class Number extends CakeNumber {
 		if ($number > 0 && !empty($options['signed'])) {
 			$sign = $options['positive'];
 		}
+
 		return $sign . parent::currency($number, $currency, $options);
 	}
 
 	/**
 	 * Returns a formatted-for-humans file size.
 	 *
+	 * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/number.html#NumberHelper::toReadableSize
 	 * @param int $size Size in bytes
 	 * @param string $decimals
 	 * @return string Human readable size
-	 * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/number.html#NumberHelper::toReadableSize
 	 */
 	public static function _toReadableSize($size, $decimals = '.'): string {
 		$size = parent::toReadableSize($size);
 		if ($decimals !== '.') {
 			$size = str_replace('.', $decimals, $size);
 		}
+
 		return $size;
 	}
 
@@ -182,6 +187,7 @@ class Number extends CakeNumber {
 		if (empty($values)) {
 			return 0.0;
 		}
+
 		return round(array_sum($values) / count($values), $precision);
 	}
 
@@ -198,6 +204,7 @@ class Number extends CakeNumber {
 		if ($precision <= 0) {
 			$res = (int)$res;
 		}
+
 		return $res;
 	}
 
@@ -239,6 +246,7 @@ class Number extends CakeNumber {
 			$number *= 10;
 			$decimalPlaces += 1;
 		}
+
 		return $decimalPlaces;
 	}
 
@@ -265,6 +273,7 @@ class Number extends CakeNumber {
 		if (!isset(static::$_currencies[$formatName])) {
 			return [];
 		}
+
 		return static::$_currencies[$formatName];
 	}
 

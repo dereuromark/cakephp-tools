@@ -14,7 +14,7 @@ use Cake\Http\Response;
  */
 class RefererRedirectComponent extends Component {
 
-	const QUERY_REFERER = 'ref';
+	public const QUERY_REFERER = 'ref';
 
 	/**
 	 * @var array

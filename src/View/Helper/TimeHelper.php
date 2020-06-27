@@ -88,6 +88,7 @@ class TimeHelper extends CakeTimeHelper {
 		if ($dateString === null && $default !== null) {
 			return $default;
 		}
+
 		return parent::nice($dateString, $timezone, $locale);
 	}
 
@@ -107,6 +108,7 @@ class TimeHelper extends CakeTimeHelper {
 		if ($age >= 1 && $age <= 99) {
 			return (string)$age;
 		}
+
 		return $default;
 	}
 
@@ -121,6 +123,7 @@ class TimeHelper extends CakeTimeHelper {
 	public function localDateMarkup($dateString = null, $format = null, $options = []) {
 		$date = $this->localDate($dateString, $format, $options);
 		$date = '<span' . ($this->isToday($dateString, (isset($options['userOffset']) ? $options['userOffset'] : null)) ? ' class="today"' : '') . '>' . $date . '</span>';
+
 		return $date;
 	}
 
@@ -135,6 +138,7 @@ class TimeHelper extends CakeTimeHelper {
 	public function niceDateMarkup($dateString = null, $format = null, $options = []) {
 		$date = $this->niceDate($dateString, $format, $options);
 		$date = '<span' . ($this->isToday($dateString, (isset($options['userOffset']) ? $options['userOffset'] : null)) ? ' class="today"' : '') . '>' . $date . '</span>';
+
 		return $date;
 	}
 
@@ -199,6 +203,7 @@ class TimeHelper extends CakeTimeHelper {
 			}
 			$attr['class'] = 'published ' . $whenArray[$when];
 		}
+
 		return $this->Html->tag('span', $niceDate, $attr);
 	}
 
@@ -610,6 +615,7 @@ class TimeHelper extends CakeTimeHelper {
 			'Asia/Anadyr' => '(GMT+12:00) Asia/Anadyr (Anadyr Time)',
 			'Asia/Kamchatka' => '(GMT+12:00) Asia/Kamchatka (Petropavlovsk-Kamchatski Time)',
 		];
+
 		return $timezones;
 	}
 

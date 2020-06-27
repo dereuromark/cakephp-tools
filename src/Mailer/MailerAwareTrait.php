@@ -7,10 +7,10 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @since         3.1.0
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @copyright Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link http://cakephp.org CakePHP(tm) Project
+ * @since 3.1.0
+ * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 namespace Tools\Mailer;
@@ -32,10 +32,10 @@ trait MailerAwareTrait {
 	 *
 	 * @param string $name Mailer's name.
 	 * @param \Cake\Mailer\Email|null $email Email instance.
-	 * @return \Cake\Mailer\Mailer
 	 * @throws \Cake\Mailer\Exception\MissingMailerException if undefined mailer class.
+	 * @return \Cake\Mailer\Mailer
 	 */
-	public function getMailer($name, Email $email = null) {
+	public function getMailer($name, ?Email $email = null) {
 		if ($email === null) {
 			$email = new Email();
 		}

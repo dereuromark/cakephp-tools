@@ -530,6 +530,7 @@ TEXT;
 		if (!empty($entity['hide'])) {
 			return null;
 		}
+
 		return $data['data']['name'] . ($data['activePathElement'] ? ' (active)' : '');
 	}
 
@@ -547,6 +548,7 @@ TEXT;
 		if ($data['depth'] == 0 && $data['isSibling']) {
 			return $entity['name'] . ' (sibling)';
 		}
+
 		return $entity['name'] . ($data['activePathElement'] ? ' (active)' : '');
 	}
 

@@ -34,30 +34,35 @@ class Random {
 	public static function arrayValue(array $array, $minPosition = null, $maxPosition = null, $integerKeys = false) {
 		if ($integerKeys) {
 			$max = count($array) - 1;
+
 			return $array[static::int(0, $max)];
 		}
 		$keys = array_keys($array);
 		$values = array_values($array);
 		$max = count($keys) - 1;
+
 		return $values[static::int(0, $max)];
 	}
 
 	/**
 	 * Generates a password
 	 *
+	 * @link https://github.com/CakeDC/users/blob/master/models/user.php#L498
 	 * @param int $length Password length
 	 * @return string
-	 * @link https://github.com/CakeDC/users/blob/master/models/user.php#L498
 	 */
 	public static function pronounceablePwd($length = 10) {
-		mt_srand((int)(double)microtime() * 1000000);
+		mt_srand((int)(float)microtime() * 1000000);
 		$password = '';
 		$vowels = ['a', 'e', 'i', 'o', 'u'];
-		$cons = ['b', 'c', 'd', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'u', 'v', 'w', 'tr',
-							'cr', 'br', 'fr', 'th', 'dr', 'ch', 'ph', 'wr', 'st', 'sp', 'sw', 'pr', 'sl', 'cl'];
+		$cons = [
+			'b', 'c', 'd', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'u', 'v', 'w', 'tr',
+			'cr', 'br', 'fr', 'th', 'dr', 'ch', 'ph', 'wr', 'st', 'sp', 'sw', 'pr', 'sl', 'cl',
+		];
 		for ($i = 0; $i < $length; $i++) {
 			$password .= $cons[random_int(0, 31)] . $vowels[random_int(0, 4)];
 		}
+
 		return substr($password, 0, $length);
 	}
 
@@ -80,6 +85,7 @@ class Random {
 			$password .= $chars[random_int(0, $max)];
 			$i++;
 		}
+
 		return $password;
 	}
 
@@ -112,24 +118,31 @@ class Random {
 		switch ($type) {
 			case 'alnum':
 				$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
 				break;
 			case 'alpha':
 				$pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
 				break;
 			case 'hexdec':
 				$pool = '0123456789abcdef';
+
 				break;
 			case 'numeric':
 				$pool = '0123456789';
+
 				break;
 			case 'nozero':
 				$pool = '123456789';
+
 				break;
 			case 'distinct':
 				$pool = '2345679ACDEFHJKLMNPRSTUVWXYZ';
+
 				break;
 			default:
 				$pool = (string)$type;
+
 				break;
 		}
 

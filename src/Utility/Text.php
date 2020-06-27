@@ -84,6 +84,7 @@ class Text extends CakeText {
 			$tmp = explode("\t", trim($piece, "\r\n"));
 			$result[] = $tmp;
 		}
+
 		return $result;
 	}
 
@@ -102,6 +103,7 @@ class Text extends CakeText {
 		foreach ($pieces as $piece) {
 			$result[] = sscanf(trim($piece, "\r\n"), $pattern);
 		}
+
 		return $result;
 	}
 
@@ -122,6 +124,7 @@ class Text extends CakeText {
 				$count++;
 			}
 		}
+
 		return $count;
 	}
 
@@ -138,6 +141,7 @@ class Text extends CakeText {
 	public static function numberOfChars($text, array $options = []) {
 		$text = str_replace(["\r", "\n", "\t", ' '], '', $text);
 		$count = mb_strlen($text);
+
 		return $count;
 	}
 
@@ -154,6 +158,7 @@ class Text extends CakeText {
 		if (mb_strlen($text) <= $length) {
 			return $text;
 		}
+
 		return rtrim(mb_substr($text, 0, (int)round(($length - 3) / 2))) . $ending . ltrim(mb_substr($text, (($length - 3) / 2) * -1));
 	}
 
@@ -171,6 +176,7 @@ class Text extends CakeText {
 			//$res[] = UnicodeLib::ord($char);
 			$res[] = ord($char);
 		}
+
 		return implode($separator, $res);
 	}
 
@@ -217,6 +223,7 @@ class Text extends CakeText {
 
 			$encodedTags[] = $tag;
 		}
+
 		return implode(', ', $encodedTags);
 	}
 
@@ -311,6 +318,7 @@ class Text extends CakeText {
 		if (mb_strlen($value) === mb_strlen($matches[0])) {
 			$end = '';
 		}
+
 		return rtrim($matches[0]) . $end;
 	}
 
@@ -358,6 +366,7 @@ class Text extends CakeText {
 				}
 			}
 		}
+
 		return $out;
 	}
 

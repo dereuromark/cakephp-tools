@@ -61,8 +61,8 @@ class Message extends CakeMessage {
 	 * Overwrite to allow mimetype detection
 	 *
 	 * @param string|array $attachments String with the filename or array with filenames
-	 * @return $this
 	 * @throws \InvalidArgumentException
+	 * @return $this
 	 */
 	public function setAttachments($attachments) {
 		$attach = [];
@@ -298,8 +298,10 @@ class Message extends CakeMessage {
 			if ($filename !== $name) {
 				continue;
 			}
+
 			return $fileInfo['contentId'];
 		}
+
 		return false;
 	}
 
@@ -317,8 +319,10 @@ class Message extends CakeMessage {
 			if ($filename !== $name) {
 				continue;
 			}
+
 			return $fileInfo['contentId'];
 		}
+
 		return false;
 	}
 
@@ -335,6 +339,7 @@ class Message extends CakeMessage {
 		if (!$mime) {
 			$mime = $default;
 		}
+
 		return $mime;
 	}
 
@@ -355,6 +360,7 @@ class Message extends CakeMessage {
 			$ext = pathinfo($filename, PATHINFO_EXTENSION);
 			$mime = $this->_Mime->getMimeTypeByAlias($ext);
 		}
+
 		return $mime;
 	}
 
@@ -375,6 +381,7 @@ class Message extends CakeMessage {
 		if (!$content) {
 			trigger_error('No content found for ' . $path);
 		}
+
 		return chunk_split(base64_encode($content));
 	}
 
@@ -416,6 +423,7 @@ class Message extends CakeMessage {
 			$msg[] = $data;
 			$msg[] = '';
 		}
+
 		return $msg;
 	}
 

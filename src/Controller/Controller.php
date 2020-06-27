@@ -27,6 +27,7 @@ class Controller extends ShimController {
 		if ($defaultSettings) {
 			$this->paginate += $defaultSettings;
 		}
+
 		return parent::paginate($object, $settings);
 	}
 

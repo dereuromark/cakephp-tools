@@ -24,11 +24,11 @@ class CommonHelper extends Helper {
 	 * Auto-pluralizing a word using the Inflection class
 	 * //TODO: move to lib or bootstrap
 	 *
+	 * @deprecated Use explicit form directly via sp()
 	 * @param string $singular The string to be pl.
 	 * @param int $count
 	 * @param bool $autoTranslate
 	 * @return string "member" or "members" OR "Mitglied"/"Mitglieder" if autoTranslate TRUE
-	 * @deprecated Use explicit form directly via sp()
 	 */
 	public function asp(string $singular, int $count, bool $autoTranslate = false): string {
 		if ($count !== 1) {
@@ -84,6 +84,7 @@ class CommonHelper extends Helper {
 		}
 
 		$return = '<meta name="robots" content="' . implode(',', $content['robots']) . '" />';
+
 		return $return;
 	}
 
@@ -233,6 +234,7 @@ class CommonHelper extends Helper {
 		if ($escape) {
 			$value = h($value);
 		}
+
 		return sprintf($tags['meta'], $type, ' content="' . $value . '"');
 	}
 

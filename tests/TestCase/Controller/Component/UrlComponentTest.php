@@ -5,9 +5,9 @@ namespace Tools\Test\TestCase\Controller\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\ServerRequest;
+use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
-use Cake\Routing\Route\DashedRoute;
 use Shim\TestSuite\TestCase;
 use TestApp\Controller\UrlComponentTestController;
 

@@ -117,8 +117,8 @@ class TreeHelper extends Helper {
 	 *
 	 * @param array|\Cake\Datasource\QueryInterface|\Cake\ORM\ResultSet $data Data to loop over
 	 * @param array $config Config
-	 * @return string HTML representation of the passed data
 	 * @throws \Exception
+	 * @return string HTML representation of the passed data
 	 */
 	public function generate($data, array $config = []) {
 		return $this->_generate($data, $config);
@@ -273,7 +273,7 @@ class TreeHelper extends Helper {
 			if ($element) {
 				$content = $this->_View->element($element, $elementData);
 			} elseif ($callback) {
-				list($content) = array_map($callback, [$elementData]);
+				[$content] = array_map($callback, [$elementData]);
 			} else {
 				$content = $row[$alias];
 			}
@@ -530,8 +530,8 @@ class TreeHelper extends Helper {
 	 * @param array $tree Tree
 	 * @param array $path Tree path
 	 * @param int $level Level
-	 * @return void
 	 * @throws \Exception
+	 * @return void
 	 */
 	protected function _markUnrelatedAsHidden(&$tree, array $path, $level = 0) {
 		extract($this->_config);
