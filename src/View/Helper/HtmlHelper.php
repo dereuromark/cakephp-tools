@@ -68,6 +68,7 @@ class HtmlHelper extends CoreHtmlHelper {
 		if (is_array($url)) {
 			$url += ['prefix' => false, 'plugin' => false];
 		}
+
 		return parent::link($title, $url, $options);
 	}
 
@@ -96,7 +97,11 @@ class HtmlHelper extends CoreHtmlHelper {
 				$url['?'] = [];
 			}
 			$url['?'] += $this->_View->getRequest()->getQuery();
+
+			$pass = $this->_View->getRequest()->getParam('pass');
+			$url = array_merge($url, $pass);
 		}
+
 		return parent::link($title, $url, $options);
 	}
 
