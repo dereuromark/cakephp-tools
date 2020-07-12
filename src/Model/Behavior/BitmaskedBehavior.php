@@ -123,7 +123,8 @@ class BitmaskedBehavior extends Behavior {
 		$this->encodeBitmaskConditions($query);
 
 		$field = $this->_config['field'];
-		if (!($mappedField = $this->_config['mappedField'])) {
+		$mappedField = $this->_config['mappedField'];
+		if (!$mappedField) {
 			$mappedField = $field;
 		}
 
@@ -273,7 +274,8 @@ class BitmaskedBehavior extends Behavior {
 	 */
 	public function encodeBitmaskDataRaw(ArrayObject $data) {
 		$field = $this->_config['field'];
-		if (!($mappedField = $this->_config['mappedField'])) {
+		$mappedField = $this->_config['mappedField'];
+		if (!$mappedField) {
 			$mappedField = $field;
 		}
 		$default = $this->_getDefault($field);
@@ -291,7 +293,8 @@ class BitmaskedBehavior extends Behavior {
 	 */
 	public function encodeBitmaskData(EntityInterface $entity) {
 		$field = $this->_config['field'];
-		if (!($mappedField = $this->_config['mappedField'])) {
+		$mappedField = $this->_config['mappedField'];
+		if (!$mappedField) {
 			$mappedField = $field;
 		}
 		$default = $this->_getDefault($field);
