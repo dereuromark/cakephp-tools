@@ -224,8 +224,6 @@ class FormatHelperTest extends TestCase {
 	}
 
 	/**
-	 * FormatHelperTest::testPad()
-	 *
 	 * @return void
 	 */
 	public function testPad() {
@@ -239,8 +237,6 @@ class FormatHelperTest extends TestCase {
 	}
 
 	/**
-	 * FormatHelperTest::testAbsolutePaginateCount()
-	 *
 	 * @return void
 	 */
 	public function testAbsolutePaginateCount() {
@@ -248,10 +244,45 @@ class FormatHelperTest extends TestCase {
 			'page' => 1,
 			'pageCount' => 3,
 			'count' => 25,
-			'limit' => 10,
+			'perPage' => 10,
 		];
 		$result = $this->Format->absolutePaginateCount($paginator, 2);
-		$this->assertEquals(2, $result);
+		$this->assertSame(2, $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAbsolutePaginateCountDesc() {
+		// 2nd element on page 1/3
+		$paginator = [
+			'page' => 1,
+			'pageCount' => 3,
+			'count' => 25,
+			'perPage' => 10,
+		];
+		$result = $this->Format->absolutePaginateCount($paginator, 2, 'DESC');
+		$this->assertSame(24, $result);
+
+		// 3rd element on page 3/3
+		$paginator = [
+			'page' => 3,
+			'pageCount' => 3,
+			'count' => 25,
+			'perPage' => 10,
+		];
+		$result = $this->Format->absolutePaginateCount($paginator, 3, 'DESC');
+		$this->assertSame(3, $result);
+
+		// 2nd element on page 1/1
+		$paginator = [
+			'page' => 1,
+			'pageCount' => 1,
+			'count' => 9,
+			'perPage' => 10,
+		];
+		$result = $this->Format->absolutePaginateCount($paginator, 2, 'DESC');
+		$this->assertSame(8, $result);
 	}
 
 	/**

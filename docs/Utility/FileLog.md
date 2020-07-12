@@ -9,6 +9,7 @@ To write log data into custom file with default CakePHP `Cake\Log\Log` class fee
 1. Configure FileLog Adapter:
 ```php
 use Cake\Log\Log;
+
 Log::config('custom_file', [
     'className' => 'File',
     'path' => LOGS,
@@ -36,7 +37,9 @@ You can directly pass data to log and filename to write the data into.
 
 ```php
 use Tools\Utility\FileLog;
+
 FileLog::write("Something didn't work!", 'my_file');
+
 // Somewhere else in any file
 FileLog::write([
     'user' => [

@@ -41,6 +41,7 @@ class UrlHelper extends CoreUrlHelper {
 	 */
 	public function completeArray(array $url): array {
 		$url = $this->addQueryStrings($url);
+		$url = $this->addPassed($url);
 
 		return $url;
 	}
@@ -100,6 +101,18 @@ class UrlHelper extends CoreUrlHelper {
 			$url['?'] = [];
 		}
 		$url['?'] += $this->_View->getRequest()->getQuery();
+
+		return $url;
+	}
+
+	/**
+	 * @param array $url
+	 *
+	 * @return array
+	 */
+	protected function addPassed(array $url) {
+		$pass = $this->_View->getRequest()->getParam('pass');
+		$url = array_merge($url, $pass);
 
 		return $url;
 	}
