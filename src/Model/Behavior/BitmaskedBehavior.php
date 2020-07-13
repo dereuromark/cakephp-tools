@@ -4,6 +4,7 @@ namespace Tools\Model\Behavior;
 
 use ArrayObject;
 use Cake\Database\Expression\Comparison;
+use Cake\Database\Expression\ComparisonExpression;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
@@ -248,7 +249,7 @@ class BitmaskedBehavior extends Behavior {
 		}
 
 		$callable = function ($comparison) use ($field, $mappedField) {
-			if (!$comparison instanceof Comparison) {
+			if (!$comparison instanceof Comparison && !$comparison instanceof ComparisonExpression) {
 				return $comparison;
 			}
 			$key = $comparison->getField();
