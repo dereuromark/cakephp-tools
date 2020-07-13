@@ -16,6 +16,9 @@ parameters:
 		-
 			message: '#Cannot unset offset string on array.+\.#'
 			path: '%rootDir%/../../../src/Utility/Language.php'
+		-
+			message: '#Instanceof between mixed and .+ComparisonExpression will always evaluate to false\.#'
+			path: '%rootDir%/../../../src/Model/Behavior/BitmaskedBehavior.php'
 services:
 	-
 		class: Cake\PHPStan\AssociationTableMixinClassReflectionExtension
