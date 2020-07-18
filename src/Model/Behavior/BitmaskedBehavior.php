@@ -94,11 +94,11 @@ class BitmaskedBehavior extends Behavior {
 			$config['bits'] = call_user_func($config['bits']);
 		} elseif (is_string($config['bits']) && method_exists($entity, $config['bits'])) {
 			$method = $config['bits'];
-			$config['bits'] = version_compare(PHP_VERSION, '7.0', '<') ? $entity->$method() : $entity::$method();
+			$config['bits'] = $entity::$method();
 		} elseif (is_string($config['bits']) && method_exists($this->_table, $config['bits'])) {
 			$table = $this->_table;
 			$method = $config['bits'];
-			$config['bits'] = version_compare(PHP_VERSION, '7.0', '<') ? $table->$method() : $table::$method();
+			$config['bits'] = $table::$method();
 		} elseif (!is_array($config['bits'])) {
 			$config['bits'] = false;
 		}
