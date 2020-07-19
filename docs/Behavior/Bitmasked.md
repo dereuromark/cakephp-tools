@@ -8,10 +8,10 @@ I created it as an extension of my pretty well working Enum stuff. It can use th
 It uses constants as this is the cleanest approach to define model based field values that need to be hardcoded in your application.
 
 ### Technical limitation
-The theoretical limit for a 64-bit integer [SQL: BIGINT unsigned] would be 64 bits (2^64). 
-Don’t use bitmasks if you seem to need more than a hand full, though. 
+The theoretical limit for a 64-bit integer [SQL: BIGINT unsigned] would be 64 bits (2^64).
+Don’t use bitmasks if you seem to need more than a hand full, though.
 Then you obviously do something wrong and should better use a join table.
-I highly recommend using `tinyint(3) unsigned` which can hold up to 8 bits – more than enough. It still only needs 1 byte. 
+I highly recommend using `tinyint(3) unsigned` which can hold up to 8 bits – more than enough. It still only needs 1 byte.
 
 
 ## Usage
@@ -25,8 +25,8 @@ If you want to alias the field for output:
 $this->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses', 'field' => 'status']);
 ```
 
-The `mappedField` param is quite handy if you want more control over your bitmask. 
-It stores the array under this alias and does not override the bitmask key. 
+The `mappedField` param is quite handy if you want more control over your bitmask.
+It stores the array under this alias and does not override the bitmask key.
 So in our case status will always contain the integer bitmask and statuses the verbose array of it.
 
 ### Defining the selectable values
@@ -35,13 +35,13 @@ We first define values and make sure they follow the bitmask scheme:
 1, 2, 4, 8, 16, 32, 64, 128, ...
 ```
 
-I recommend using a DRY [enum approach](https://www.dereuromark.de/2010/06/24/static-enums-or-semihardcoded-attributes/), using your entity: 
+I recommend using a DRY [enum approach](https://www.dereuromark.de/2010/06/24/static-enums-or-semihardcoded-attributes/), using your entity:
 ```php
 // A bunch of bool values
-const STATUS_ACTIVE = 1;
-const STATUS_FEATURED = 2;
-const STATUS_APPROVED = 4;
-const STATUS_FLAGGED = 8;
+public const STATUS_ACTIVE = 1;
+public const STATUS_FEATURED = 2;
+public const STATUS_APPROVED = 4;
+public const STATUS_FLAGGED = 8;
 
 ...
 
@@ -51,7 +51,7 @@ public static function statuses($value = null) {
         self::STATUS_FEATURED => __('Featured'),
         self::STATUS_APPROVED => __('Approved'),
         self::STATUS_FLAGGED => __('Flagged'),
-    ];    
+    ];
     return parent::enum($value, $options);
 }
 ```
@@ -74,6 +74,13 @@ echo $this->Form->control('statuses', ['options' => $comment->statuses(), 'multi
 ```
 
 It will save the final bitmask to the database field `status` as integer. For example "active and approved" would become `9`.
+
+Note: When using `mappedField`, one needs to manually include error handling for the actual field:
+```php
+echo $this->Form->control('statuses', ['type' => 'select', 'multiple' => 'checkbox']);
+echo $this->Form->error('status');
+```
+Alternatively, you can map the error over before the entity gets passed to the view layer.
 
 ### Custom finder
 You can use the built in custom finder `findBitmasked`:
