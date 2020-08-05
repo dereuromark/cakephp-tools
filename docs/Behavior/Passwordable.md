@@ -68,6 +68,7 @@ And do NOT add any password hashing to your Table or Entity classes. That would 
 ```php
 namespace App\Controller;
 
+use Cake\Core\Configure;
 use Tools\Controller\Controller;
 
 class UsersController extends Controller {
@@ -76,8 +77,7 @@ class UsersController extends Controller {
         $user = $this->Users->newEmptyEntity();
         $this->Users->addBehavior('Tools.Passwordable');
 
-
-        if ($this->request->is(['put', 'post'])) {
+        if ($this->request->is(['put', 'post', 'patch'])) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             $user->role_id = Configure::read('Roles.user');
 
@@ -113,7 +113,7 @@ class UsersController extends Controller {
         $user = $this->Users->get($uid);
         $this->Users->addBehavior('Tools.Passwordable', ['require' => false]);
 
-        if ($this->request->is(['put', 'post'])) {
+        if ($this->request->is(['put', 'post', 'patch'])) {
             $options = [
                 'fieldList' => [...]
             ];
@@ -139,7 +139,7 @@ We want to upgrade all accounts piece by piece upon login automatically. This wa
 without the user noticing:
 ```php
 public function login() {
-    if ($this->request->is(['put', 'post'])) {
+    if ($this->request->is(['put', 'post', 'patch'])) {
         $user = $this->Auth->identify();
         if ($user) {
             $this->Users->addBehavior('Tools.Passwordable', ['confirm' => false]);
