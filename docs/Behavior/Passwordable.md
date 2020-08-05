@@ -27,8 +27,8 @@ Also capable of:
 | authType          |   'Form'              |   Which type of authenticate (Form, Blowfish, ...)|
 | passwordHasher    |   'Default'           |   If a custom pwd hasher is been used         |
 | allowSame         |   true                |   Don't allow the old password on change      |
-| minLength         |   PWD_MIN_LENGTH      |   Defaults to 6 |   
-| maxLength         |   PWD_MAX_LENGTH      |   Defaults to 50 |   
+| minLength         |   PWD_MIN_LENGTH      |   Defaults to 6 |
+| maxLength         |   PWD_MAX_LENGTH      |   Defaults to 50 |
 | validator         |   'default'           |   |
 | customValidation  |   null                |    Custom validation rule(s) for the formField on top     |
 | forceFieldList    |   false               |    Force field list to overwrite entity accessibility     |
@@ -73,7 +73,7 @@ use Tools\Controller\Controller;
 class UsersController extends Controller {
 
     public function register() {
-        $user = $this->Users->newEntity();
+        $user = $this->Users->newEmptyEntity();
         $this->Users->addBehavior('Tools.Passwordable');
 
 
