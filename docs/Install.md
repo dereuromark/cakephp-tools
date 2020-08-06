@@ -48,5 +48,5 @@ $this->addBehavior('Tools.Slugged'); // Adding SluggedBehavior
 $this->loadHelper('Tools.Foo'); // Adding FooHelper
 
 // In a Controller (deprecated)
-public $helpers = ['Tools.Foo']; // Adding FooHelper
+protected $helpers = ['Tools.Foo']; // Adding FooHelper
 ```

@@ -12,7 +12,7 @@ echo $this->Form->control('password', ['autocomplete' => 'off']);
 Then set up the Auth component:
 ```php
     //in $components
-    public $components = [
+    protected $components = [
         'Auth' => [
             'authenticate' => [
                 'Tools.MultiColumn' => [

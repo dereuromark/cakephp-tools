@@ -96,9 +96,9 @@ use Tools\Controller\Controller;
 
 class AppController extends Controller {
 
-    public $components = ['Tools.Common'];
+    protected $components = ['Tools.Common'];
 
-    public $helpers = ['Tools.Common', 'Tools.Time', 'Tools.Number', 'Tools.Format'];
+    protected $helpers = ['Tools.Common', 'Tools.Time', 'Tools.Number', 'Tools.Format'];
 
 }
 ```
