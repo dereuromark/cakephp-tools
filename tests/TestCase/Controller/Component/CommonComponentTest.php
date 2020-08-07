@@ -229,7 +229,7 @@ class CommonComponentTest extends TestCase {
 		$result = CommonComponent::defaultUrlParams();
 		$expected = [
 			'plugin' => false,
-			'admin' => false,
+			'prefix' => false,
 			'tests' => false,
 		];
 		$this->assertEquals($expected, $result);
@@ -237,7 +237,7 @@ class CommonComponentTest extends TestCase {
 		$result = CommonComponent::defaultUrlParams();
 		$expected = [
 			'plugin' => false,
-			'admin' => false,
+			'prefix' => false,
 		];
 		$this->assertEquals($expected, $result);
 	}
