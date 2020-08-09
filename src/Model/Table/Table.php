@@ -82,7 +82,7 @@ class Table extends ShimTable {
 	 * @return int|bool next auto increment value or False on failure
 	 */
 	public function getNextAutoIncrement() {
-		$query = "SHOW TABLE STATUS WHERE name = '" . $this->getTable() . "'";
+		$query = "SHOW TABLE STATUS WHERE name = '" . $this->getAlias() . "'";
 		$statement = $this->_connection->execute($query);
 		$result = $statement->fetch();
 		if (!isset($result[10])) {
