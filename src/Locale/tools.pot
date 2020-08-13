@@ -184,5 +184,5 @@ msgstr ""
 msgid "publishedNotYet"
 msgstr ""
 
-msgid "genderInter"
-msgstr ""
+msgid "Inter"
+msgstr "Inter"

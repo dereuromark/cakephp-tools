@@ -24,7 +24,7 @@ define('CAKE', CORE_PATH . APP_DIR . DS);
 define('WWW_ROOT', ROOT . DS . 'webroot' . DS);
 define('CONFIG', __DIR__ . DS . 'config' . DS);
 
-ini_set('intl.default_locale', 'de-DE');
+ini_set('intl.default_locale', 'de_DE');
 
 require ROOT . DS . 'vendor/autoload.php';
 require CORE_PATH . 'config/bootstrap.php';
