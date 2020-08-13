@@ -29,7 +29,7 @@ define('TESTS', ROOT . DS . 'tests' . DS);
 define('WWW_ROOT', ROOT . DS . 'webroot' . DS);
 define('CONFIG', __DIR__ . DS . 'config' . DS);
 
-ini_set('intl.default_locale', 'de-DE');
+ini_set('intl.default_locale', 'de_DE');
 
 require_once 'vendor/cakephp/cakephp/src/basics.php';
 require_once 'vendor/autoload.php';

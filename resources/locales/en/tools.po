@@ -689,3 +689,6 @@ msgstr "Please provide the current password."
 
 msgid "valErrCurrentPwdIncorrect"
 msgstr "The current password is not correct"
+
+msgid "Inter"
+msgstr "Inter"

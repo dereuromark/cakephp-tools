@@ -184,3 +184,5 @@ msgstr ""
 msgid "publishedNotYet"
 msgstr ""
 
+msgid "Inter"
+msgstr "Inter"

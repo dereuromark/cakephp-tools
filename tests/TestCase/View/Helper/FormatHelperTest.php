@@ -209,7 +209,7 @@ class FormatHelperTest extends TestCase {
 	public function testGenderIcon() {
 		$result = $this->Format->genderIcon(0);
 
-		$expected = '<i class="icon icon-genderless fa fa-genderless" title="Unknown" data-placement="bottom" data-toggle="tooltip"></i>';
+		$expected = '<i class="icon icon-genderless fa fa-genderless" title="Inter" data-placement="bottom" data-toggle="tooltip"></i>';
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Format->genderIcon(1);

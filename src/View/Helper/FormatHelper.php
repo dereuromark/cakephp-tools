@@ -186,7 +186,7 @@ class FormatHelper extends Helper {
 		} elseif ($value == static::GENDER_MALE) {
 			$icon = $this->icon('male', $options, $attributes);
 		} else {
-			$icon = $this->icon('genderless', $options, $attributes + ['title' => __d('tools', 'Unknown')]);
+			$icon = $this->icon('genderless', $options, $attributes + ['title' => __d('tools', 'Inter')]);
 		}
 
 		return $icon;
