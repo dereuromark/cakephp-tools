@@ -81,12 +81,12 @@ class Table extends ShimTable {
 	 *
 	 * Only for MySQL.
 	 *
-	 * @deprecated Seems broken since 4.1.2+.
+	 * @deprecated Too (My)SQL specific.
 	 *
 	 * @return int|false next auto increment value or False on failure
 	 */
 	public function getNextAutoIncrement() {
-		$query = "SHOW TABLE STATUS WHERE name = '" . $this->getAlias() . "'";
+		$query = "SHOW TABLE STATUS WHERE name = '" . $this->getTable() . "'";
 		$statement = $this->_connection->execute($query);
 		$result = $statement->fetch();
 		if (!isset($result[10])) {
