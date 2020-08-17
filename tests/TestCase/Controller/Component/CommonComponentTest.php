@@ -64,14 +64,6 @@ class CommonComponentTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testGetDefaultUrlParams() {
-		$is = $this->Controller->Common->defaultUrlParams();
-		$this->assertNotEmpty($is);
-	}
-
-	/**
-	 * @return void
-	 */
 	public function testCurrentUrl() {
 		$is = $this->Controller->Common->currentUrl();
 		$this->assertTrue(is_array($is) && !empty($is));
@@ -225,15 +217,14 @@ class CommonComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testDefaultUrlParams() {
-		Configure::write('Routing.prefixes', ['admin', 'tests']);
+		Configure::write('Routing.prefixes', ['Admin', 'Tests']);
 		$result = CommonComponent::defaultUrlParams();
 		$expected = [
 			'plugin' => false,
 			'prefix' => false,
-			'tests' => false,
 		];
 		$this->assertEquals($expected, $result);
-		Configure::write('Routing.prefixes', 'admin');
+		Configure::write('Routing.prefixes', 'Admin');
 		$result = CommonComponent::defaultUrlParams();
 		$expected = [
 			'plugin' => false,

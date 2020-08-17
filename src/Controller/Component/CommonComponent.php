@@ -150,13 +150,16 @@ class CommonComponent extends Component {
 	/**
 	 * Returns defaultUrlParams including configured prefixes.
 	 *
+	 * Deprecated: Routing.prefixes config is not needed anymore as it is always
+	 * just "prefix" now.
+	 *
 	 * @return array URL params
 	 */
 	public static function defaultUrlParams() {
 		$defaults = ['plugin' => false];
 		$prefixes = (array)Configure::read('Routing.prefixes');
-		foreach ($prefixes as $prefix) {
-			$defaults[$prefix] = false;
+		if ($prefixes) {
+			$defaults['prefix'] = false;
 		}
 
 		return $defaults;
