@@ -4,7 +4,6 @@ namespace Tools\Test\TestCase\Model\Behavior;
 
 use Cake\Auth\PasswordHasherFactory;
 use Cake\Core\Configure;
-use Cake\ORM\TableRegistry;
 use Shim\TestSuite\TestCase;
 
 class PasswordableBehaviorTest extends TestCase {
@@ -38,7 +37,7 @@ class PasswordableBehaviorTest extends TestCase {
 		Configure::delete('Passwordable');
 		Configure::write('Passwordable.auth', 'AuthTest');
 
-		$this->Users = TableRegistry::getTableLocator()->get('ToolsUsers');
+		$this->Users = $this->getTableLocator()->get('ToolsUsers');
 
 		$this->hasher = PasswordHasherFactory::build('Default');
 	}
@@ -47,7 +46,7 @@ class PasswordableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function tearDown(): void {
-		TableRegistry::clear();
+		$this->getTableLocator()->clear();
 
 		parent::tearDown();
 	}

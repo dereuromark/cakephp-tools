@@ -2,7 +2,6 @@
 
 namespace Tools\Test\TestCase\Model\Entity;
 
-use Cake\ORM\TableRegistry;
 use Shim\TestSuite\TestCase;
 use Tools\Model\Entity\Entity;
 
@@ -27,14 +26,14 @@ class EntityTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->Users = TableRegistry::getTableLocator()->get('ToolsUsers');
+		$this->Users = $this->getTableLocator()->get('ToolsUsers');
 	}
 
 	/**
 	 * @return void
 	 */
 	public function tearDown(): void {
-		TableRegistry::clear();
+		$this->getTableLocator()->clear();
 
 		parent::tearDown();
 	}

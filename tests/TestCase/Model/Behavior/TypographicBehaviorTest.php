@@ -2,7 +2,6 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use Cake\ORM\TableRegistry;
 use Shim\TestSuite\TestCase;
 use Tools\Model\Behavior\TypographicBehavior;
 
@@ -26,7 +25,7 @@ class TypographicBehaviorTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->Model = TableRegistry::getTableLocator()->get('Articles');
+		$this->Model = $this->getTableLocator()->get('Articles');
 		$this->Model->addBehavior('Tools.Typographic', ['fields' => ['body'], 'before' => 'marshal']);
 	}
 

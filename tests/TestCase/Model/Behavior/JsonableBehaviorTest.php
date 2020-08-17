@@ -2,7 +2,6 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use Cake\ORM\TableRegistry;
 use PDOException;
 use Shim\TestSuite\TestCase;
 use stdClass;
@@ -27,7 +26,7 @@ class JsonableBehaviorTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->Comments = TableRegistry::getTableLocator()->get('JsonableComments');
+		$this->Comments = $this->getTableLocator()->get('JsonableComments');
 		$this->Comments->addBehavior('Tools.Jsonable', ['fields' => ['details']]);
 	}
 

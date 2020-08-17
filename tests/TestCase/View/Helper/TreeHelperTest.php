@@ -4,7 +4,6 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\Datasource\ConnectionManager;
 use Cake\ORM\Entity;
-use Cake\ORM\TableRegistry;
 use Cake\View\View;
 use Shim\TestSuite\TestCase;
 use Tools\View\Helper\TreeHelper;
@@ -47,7 +46,7 @@ class TreeHelperTest extends TestCase {
 		parent::setUp();
 
 		$this->Tree = new TreeHelper(new View(null));
-		$this->Table = TableRegistry::getTableLocator()->get('AfterTrees');
+		$this->Table = $this->getTableLocator()->get('AfterTrees');
 		$this->Table->addBehavior('Tree');
 
 		$connection = ConnectionManager::get('test');
@@ -82,7 +81,7 @@ class TreeHelperTest extends TestCase {
 	public function tearDown(): void {
 		unset($this->Table);
 
- 		TableRegistry::clear();
+ 		$this->getTableLocator()->clear();
 		parent::tearDown();
 	}
 

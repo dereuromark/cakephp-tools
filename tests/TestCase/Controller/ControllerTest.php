@@ -3,7 +3,6 @@
 namespace Tools\Test\TestCase\Controller;
 
 use Cake\Core\Configure;
-use Cake\ORM\TableRegistry;
 use Shim\TestSuite\TestCase;
 use Tools\Controller\Controller;
 
@@ -46,7 +45,7 @@ class ControllerTest extends TestCase {
 	public function testPaginate() {
 		Configure::write('Paginator.limit', 2);
 
-		$ToolsUser = TableRegistry::getTableLocator()->get('ToolsUsers');
+		$ToolsUser = $this->getTableLocator()->get('ToolsUsers');
 
 		$count = $ToolsUser->find()->count();
 		$this->assertTrue($count > 3);

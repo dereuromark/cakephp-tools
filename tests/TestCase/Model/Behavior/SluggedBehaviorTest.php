@@ -4,7 +4,6 @@ namespace Tools\Test\TestCase\Model\Behavior;
 
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
-use Cake\ORM\TableRegistry;
 use RuntimeException;
 use Shim\TestSuite\TestCase;
 use TestApp\Model\Entity\SluggedArticle;
@@ -39,7 +38,7 @@ class SluggedBehaviorTest extends TestCase {
 		//$this->connection = ConnectionManager::get('test');
 
 		$options = ['alias' => 'Articles'];
-		$this->articles = TableRegistry::getTableLocator()->get('SluggedArticles', $options);
+		$this->articles = $this->getTableLocator()->get('SluggedArticles', $options);
 		Configure::delete('Slugged');
 
 		$this->articles->addBehavior('Tools.Slugged');
@@ -53,7 +52,7 @@ class SluggedBehaviorTest extends TestCase {
 	public function tearDown(): void {
 		unset($this->articles);
 
- 		TableRegistry::clear();
+ 		$this->getTableLocator()->clear();
  		parent::tearDown();
 	}
 

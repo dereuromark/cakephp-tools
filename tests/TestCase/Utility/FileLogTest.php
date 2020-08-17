@@ -2,7 +2,6 @@
 
 namespace Tools\Test\Utility;
 
-use Cake\ORM\TableRegistry;
 use Shim\TestSuite\TestCase;
 use Tools\Utility\FileLog;
 
@@ -144,7 +143,7 @@ class FileLogTest extends TestCase {
 		}
 
 		$result = FileLog::write(
-			TableRegistry::getTableLocator()->get('Posts'),
+			$this->getTableLocator()->get('Posts'),
 			static::TEST_FILENAME_OBJECT
 		);
 

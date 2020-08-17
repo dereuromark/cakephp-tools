@@ -2,7 +2,6 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use Cake\ORM\TableRegistry;
 use Shim\TestSuite\TestCase;
 
 class AfterSaveBehaviorTest extends TestCase {
@@ -25,7 +24,7 @@ class AfterSaveBehaviorTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->table = TableRegistry::getTableLocator()->get('Articles');
+		$this->table = $this->getTableLocator()->get('Articles');
 		$this->table->addBehavior('Tools.AfterSave');
 	}
 

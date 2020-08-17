@@ -2,9 +2,7 @@
 
 namespace Tools\Test\TestCase\Model\Table;
 
-use Cake\Datasource\ConnectionManager;
 use Cake\I18n\Time;
-use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Shim\TestSuite\TestCase;
 
@@ -38,9 +36,9 @@ class TableTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->Users = TableRegistry::getTableLocator()->get('ToolsUsers');
+		$this->Users = $this->getTableLocator()->get('ToolsUsers');
 
-		$this->Posts = TableRegistry::getTableLocator()->get('Posts');
+		$this->Posts = $this->getTableLocator()->get('Posts');
 		$this->Posts->belongsTo('Authors');
 	}
 
@@ -48,7 +46,7 @@ class TableTest extends TestCase {
 	 * @return void
 	 */
 	public function tearDown(): void {
-		TableRegistry::clear();
+		$this->getTableLocator()->clear();
 
 		parent::tearDown();
 	}
@@ -69,7 +67,7 @@ class TableTest extends TestCase {
 	 * @return void
 	 */
 	public function testTimestamp() {
-		$this->Roles = TableRegistry::getTableLocator()->get('Roles');
+		$this->Roles = $this->getTableLocator()->get('Roles');
 		$entity = $this->Roles->newEntity(['name' => 'Foo', 'alias' => 'foo']);
 		$result = $this->Roles->save($entity);
 		$this->assertTrue(!empty($result['created']));

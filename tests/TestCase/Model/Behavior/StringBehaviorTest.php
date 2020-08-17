@@ -2,7 +2,6 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use Cake\ORM\TableRegistry;
 use Shim\TestSuite\TestCase;
 
 class StringBehaviorTest extends TestCase {
@@ -25,7 +24,7 @@ class StringBehaviorTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->Comments = TableRegistry::getTableLocator()->get('StringComments');
+		$this->Comments = $this->getTableLocator()->get('StringComments');
 		$this->Comments->addBehavior('Tools.String', ['fields' => ['title'], 'input' => ['ucfirst']]);
 	}
 

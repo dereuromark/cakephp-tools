@@ -2,7 +2,6 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use Cake\ORM\TableRegistry;
 use RuntimeException;
 use Shim\TestSuite\TestCase;
 use TestApp\Model\Entity\BitmaskedComment;
@@ -27,7 +26,7 @@ class BitmaskedBehaviorTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->Comments = TableRegistry::getTableLocator()->get('BitmaskedComments');
+		$this->Comments = $this->getTableLocator()->get('BitmaskedComments');
 		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
 	}
 

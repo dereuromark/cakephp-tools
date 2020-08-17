@@ -2,7 +2,6 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use Cake\ORM\TableRegistry;
 use Shim\TestSuite\TestCase;
 
 class TypeMapBehaviorTest extends TestCase {
@@ -37,7 +36,7 @@ class TypeMapBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testFields() {
-		$this->Table = TableRegistry::getTableLocator()->get('Data');
+		$this->Table = $this->getTableLocator()->get('Data');
 		$this->Table->addBehavior('Tools.Jsonable', ['fields' => ['data_array']]);
 
 		$entity = $this->Table->newEmptyEntity();

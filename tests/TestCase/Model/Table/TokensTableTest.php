@@ -2,7 +2,6 @@
 
 namespace Tools\Test\TestCase\Model\Table;
 
-use Cake\ORM\TableRegistry;
 use Shim\TestSuite\TestCase;
 use Tools\Model\Table\TokensTable;
 
@@ -26,7 +25,16 @@ class TokensTableTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->Tokens = TableRegistry::getTableLocator()->get('Tools.Tokens');
+		$this->Tokens = $this->getTableLocator()->get('Tools.Tokens');
+	}
+
+	/**
+	 * @return void
+	 */
+	public function tearDown(): void {
+		$this->getTableLocator()->clear();
+
+		parent::tearDown();
 	}
 
 	/**

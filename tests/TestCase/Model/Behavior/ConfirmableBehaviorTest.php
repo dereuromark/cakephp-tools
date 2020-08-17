@@ -2,7 +2,6 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use Cake\ORM\TableRegistry;
 use Shim\TestSuite\TestCase;
 
 class ConfirmableBehaviorTest extends TestCase {
@@ -32,7 +31,7 @@ class ConfirmableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testBasicValidation() {
-		$this->Articles = TableRegistry::getTableLocator()->get('SluggedArticles');
+		$this->Articles = $this->getTableLocator()->get('SluggedArticles');
 		$this->Articles->addBehavior('Tools.Confirmable');
 
 		$animal = $this->Articles->newEmptyEntity();
@@ -57,7 +56,7 @@ class ConfirmableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testValidationThatHasBeenModifiedBefore() {
-		$this->Articles = TableRegistry::getTableLocator()->get('SluggedArticles');
+		$this->Articles = $this->getTableLocator()->get('SluggedArticles');
 		/*
 		$this->Articles->validator()->add('confirm', 'notBlank', [
 				'rule' => function ($value, $context) {
@@ -96,7 +95,7 @@ class ConfirmableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testValidationFieldMissing() {
-		$this->Articles = TableRegistry::getTableLocator()->get('SluggedArticles');
+		$this->Articles = $this->getTableLocator()->get('SluggedArticles');
 		$this->Articles->addBehavior('Tools.Confirmable');
 
 		$animal = $this->Articles->newEmptyEntity();

@@ -4,7 +4,6 @@ namespace Tools\Test\TestCase\Auth;
 
 use Cake\Http\ServerRequest;
 use Cake\I18n\Time;
-use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use Tools\Auth\MultiColumnAuthenticate;
 
@@ -46,7 +45,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 		]);
 
 		$password = password_hash('password', PASSWORD_DEFAULT);
-		$MultiColumnUsers = TableRegistry::getTableLocator()->get('MultiColumnUsers');
+		$MultiColumnUsers = $this->getTableLocator()->get('MultiColumnUsers');
 		$MultiColumnUsers->updateAll(['password' => $password], []);
 
 		$this->response = $this->getMockBuilder('Cake\Http\Response')->getMock();

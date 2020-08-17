@@ -2,7 +2,6 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use Cake\ORM\TableRegistry;
 use Shim\TestSuite\TestCase;
 use TestApp\Model\Table\ResetCommentsTable;
 
@@ -31,7 +30,7 @@ class ResetBehaviorTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->Table = TableRegistry::getTableLocator()->get('ResetComments');
+		$this->Table = $this->getTableLocator()->get('ResetComments');
 		$this->Table->addBehavior('Tools.Reset');
 	}
 
@@ -39,7 +38,7 @@ class ResetBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function tearDown(): void {
-		TableRegistry::clear();
+		$this->getTableLocator()->clear();
 
 		parent::tearDown();
 	}
