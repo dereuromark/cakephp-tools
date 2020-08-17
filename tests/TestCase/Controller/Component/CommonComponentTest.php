@@ -217,14 +217,6 @@ class CommonComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testDefaultUrlParams() {
-		Configure::write('Routing.prefixes', ['Admin', 'Tests']);
-		$result = CommonComponent::defaultUrlParams();
-		$expected = [
-			'plugin' => false,
-			'prefix' => false,
-		];
-		$this->assertEquals($expected, $result);
-		Configure::write('Routing.prefixes', 'Admin');
 		$result = CommonComponent::defaultUrlParams();
 		$expected = [
 			'plugin' => false,

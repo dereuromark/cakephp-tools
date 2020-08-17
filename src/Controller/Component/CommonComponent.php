@@ -156,11 +156,10 @@ class CommonComponent extends Component {
 	 * @return array URL params
 	 */
 	public static function defaultUrlParams() {
-		$defaults = ['plugin' => false];
-		$prefixes = (array)Configure::read('Routing.prefixes');
-		if ($prefixes) {
-			$defaults['prefix'] = false;
-		}
+		$defaults = [
+			'plugin' => false,
+			'prefix' => false,
+		];
 
 		return $defaults;
 	}
