@@ -58,22 +58,11 @@ class TableTest extends TestCase {
 	 */
 	public function testTruncate() {
 		$is = $this->Users->find()->count();
-		$this->assertEquals(4, $is);
-
-		$config = ConnectionManager::getConfig('test');
-		if ((strpos($config['driver'], 'Mysql') !== false)) {
-			$is = $this->Users->getNextAutoIncrement();
-			$this->assertEquals(5, $is);
-		}
+		$this->assertSame(4, $is);
 
 		$this->Users->truncate();
 		$is = $this->Users->find()->count();
-		$this->assertEquals(0, $is);
-
-		if ((strpos($config['driver'], 'Mysql') !== false)) {
-			$is = $this->Users->getNextAutoIncrement();
-			$this->assertEquals(1, $is);
-		}
+		$this->assertSame(0, $is);
 	}
 
 	/**

@@ -271,7 +271,7 @@ class L10n {
 	 * Attempts to find locale for language, or language for locale
 	 *
 	 * @param string|array|null $mixed 2/3 char string (language/locale), array of those strings, or null
-	 * @return string|array|bool string language/locale, array of those values, whole map as an array,
+	 * @return string|array|false string language/locale, array of those values, whole map as an array,
 	 *    or false when language/locale doesn't exist
 	 */
 	public function map($mixed = null) {
@@ -304,7 +304,7 @@ class L10n {
 	 * Attempts to find catalog record for requested language
 	 *
 	 * @param string|array|null $language String requested language, array of requested languages, or null for whole catalog
-	 * @return array|bool array catalog record for requested language, array of catalog records, whole catalog,
+	 * @return array|false array catalog record for requested language, array of catalog records, whole catalog,
 	 *    or false when language doesn't exist
 	 */
 	public function catalog($language = null) {

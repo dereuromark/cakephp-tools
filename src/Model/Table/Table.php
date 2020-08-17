@@ -79,7 +79,11 @@ class Table extends ShimTable {
 	 * Return the next auto increment id from the current table
 	 * UUIDs will return false
 	 *
-	 * @return int|bool next auto increment value or False on failure
+	 * Only for MySQL.
+	 *
+	 * @deprecated Seems broken since 4.1.2+.
+	 *
+	 * @return int|false next auto increment value or False on failure
 	 */
 	public function getNextAutoIncrement() {
 		$query = "SHOW TABLE STATUS WHERE name = '" . $this->getAlias() . "'";
