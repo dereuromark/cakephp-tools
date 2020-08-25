@@ -63,6 +63,9 @@ Entity:
 Utility:
 * [FileLog](Utility/FileLog.md) to log data into custom file(s) with one line
 
+Command:
+* [Inflect](Command/Inflect.md) to test inflection of words.
+
 ## Basic enhancements of the core
 
 ### Model
