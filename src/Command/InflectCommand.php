@@ -7,6 +7,7 @@ use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
+use Cake\Console\Exception\StopException;
 use Shim\Utility\Inflector;
 
 /**
@@ -119,9 +120,9 @@ class InflectCommand extends Command {
 			$io->out('[9] Dasherize');
 			$io->out('[a] All');
 			$io->out('[q] Quit');
-			$temp = $io->ask('What action would you like to perform?', 'q');
-			if (in_array(strtolower($temp), $validCommands)) {
-				$command = strtolower($temp);
+			$answer = $io->ask('What action would you like to perform?', 'q');
+			if (in_array(strtolower($answer), $validCommands, true)) {
+				$command = strtolower($answer);
 			} else {
 				$io->out('Try again.');
 			}
@@ -163,6 +164,8 @@ class InflectCommand extends Command {
 			default:
 				$this->abort(static::CODE_SUCCESS);
 		}
+
+		throw new StopException('Command aborted', static::CODE_SUCCESS);
 	}
 
 	/**
