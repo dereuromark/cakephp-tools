@@ -136,7 +136,7 @@ class QrCodeHelper extends Helper {
 			case 'text':
 				break;
 			case 'url':
-				$text = $this->Url->build($text, ['full' => true]);
+				$text = $this->Url->build($text, ['fullBase' => true]);
 
 				break;
 			case 'sms':
@@ -246,7 +246,7 @@ class QrCodeHelper extends Helper {
 				case 'url':
 					$val = (array)$val;
 					foreach ($val as $v) {
-						$res[] = 'URL:' . $this->Url->build($v, ['full' => true]);
+						$res[] = 'URL:' . $this->Url->build($v, ['fullBase' => true]);
 					}
 
 					break;

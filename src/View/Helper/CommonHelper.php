@@ -160,7 +160,7 @@ class CommonHelper extends Helper {
 	 * @return string HTML Markup
 	 */
 	public function metaCanonical($url = null, bool $full = false): string {
-		$canonical = $this->Url->build($url, ['full' => $full]);
+		$canonical = $this->Url->build($url, ['fullBase' => $full]);
 		$options = ['rel' => 'canonical', 'link' => $canonical];
 
 		return $this->Html->meta($options);
@@ -179,7 +179,7 @@ class CommonHelper extends Helper {
 	 * @return string HTML Markup
 	 */
 	public function metaAlternate($url, $lang, bool $full = false): string {
-		$url = $this->Url->build($url, ['full' => $full]);
+		$url = $this->Url->build($url, ['fullBase' => $full]);
 		$lang = (array)$lang;
 		$res = [];
 		foreach ($lang as $language => $countries) {

@@ -63,7 +63,7 @@ class QrCodeHelperTest extends TestCase {
 	 */
 	public function testFormatText() {
 		$is = $this->QrCode->formatText(['controller' => 'Foo', 'action' => 'bar'], 'url');
-		$this->assertSame('/foo/bar', $is);
+		$this->assertSame('//localhost/foo/bar', $is);
 	}
 
 	/**

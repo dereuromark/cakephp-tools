@@ -37,7 +37,7 @@ require_once 'vendor/autoload.php';
 Cake\Core\Configure::write('App', [
 	'namespace' => 'TestApp',
 	'encoding' => 'UTF-8',
-	'fullBaseUrl' => '/',
+	'fullBaseUrl' => '//localhost',
 	'paths' => [
 		'templates' => [
 			TESTS . 'templates' . DS,
