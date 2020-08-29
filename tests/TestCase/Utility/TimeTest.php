@@ -554,15 +554,17 @@ class TimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testRelLengthOfTime() {
-		$ret = $this->Time->relLengthOfTime('1990-11-20');
-		//pr($ret);
+		$result = $this->Time->relLengthOfTime('1990-11-20');
+		$this->assertTrue(!empty($result));
+		$this->assertTrue(is_string($result));
 
-		$ret = $this->Time->relLengthOfTime('2012-11-20');
-		//pr($ret);
+		$result = $this->Time->relLengthOfTime('2012-11-20');
+		$this->assertTrue(!empty($result));
+		$this->assertTrue(is_string($result));
 
-		$res = $this->Time->relLengthOfTime(date(FORMAT_DB_DATETIME, time() - 3600));
-		//pr($res);
-		$this->assertTrue(!empty($res));
+		$result = $this->Time->relLengthOfTime(date(FORMAT_DB_DATETIME, time() - 3600));
+		$this->assertTrue(!empty($result));
+		$this->assertTrue(is_string($result));
 
 		$res = $this->Time->relLengthOfTime(date(FORMAT_DB_DATETIME, time() - 4 * DAY - 5 * HOUR), null, ['plural' => 'n']);
 		//pr($res);
