@@ -12,6 +12,14 @@ class MigrationToolsTokens extends AbstractMigration {
 	 * @return void
 	 */
 	public function change() {
+		if ($this->table('tokens')->exists()) {
+			$this->table('tokens')
+				->renameColumn('key', 'token_key')
+				->update();
+
+			return;
+		}
+
 		$this->table('tokens')
 			->addColumn('user_id', 'integer', [
 				'limit' => null,

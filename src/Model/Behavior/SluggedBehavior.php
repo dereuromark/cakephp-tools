@@ -42,7 +42,7 @@ class SluggedBehavior extends Behavior {
 	 *     display - a dummy mode which returns a slug legal for display - removes illegal (not unprintable) characters
 	 *     url - returns a slug appropriate to put in a URL
 	 *     class - a dummy mode which returns a slug appropriate to put in a html class (there are no restrictions)
-	 *     id - retuns a slug appropriate to use in a html id
+	 *     id - returns a slug appropriate to use in a HTML id
 	 *     OR pass it a callable as custom method to be invoked
 	 * - separator: The separator to use
 	 * - length:
@@ -109,7 +109,6 @@ class SluggedBehavior extends Behavior {
 	 */
 	public function __construct(Table $table, array $config = []) {
 		$this->_defaultConfig['notices'] = Configure::read('debug');
-		$this->_defaultConfig['label'] = $table->getDisplayField();
 		foreach ($this->_defaultConfig['replace'] as $key => $value) {
 			$this->_defaultConfig['replace'][$key] = __d('tools', $value);
 		}
@@ -135,6 +134,10 @@ class SluggedBehavior extends Behavior {
 			$this->_config['length'] = $length;
 		}
 
+		if (!$this->_config['label']) {
+			$this->_config['label'] = $this->_table->getDisplayField();
+		}
+
 		$label = $this->_config['label'] = (array)$this->_config['label'];
 
 		if ($this->_table->behaviors()->has('Translate')) {
@@ -142,7 +145,6 @@ class SluggedBehavior extends Behavior {
 		}
 		if ($this->_config['length']) {
 			foreach ($label as $field) {
-				$alias = $this->_table->getAlias();
 				if (strpos($field, '.')) {
 					[$alias, $field] = explode('.', $field);
 					if (!$this->_table->$alias->hasField($field)) {
