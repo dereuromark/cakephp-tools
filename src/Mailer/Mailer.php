@@ -35,6 +35,11 @@ class Mailer extends CakeMailer {
 	protected $localeBefore;
 
 	/**
+	 * @var array
+	 */
+	protected $debug = [];
+
+	/**
 	 * Magic method to forward method class to Message instance.
 	 *
 	 * @param string $method Method name.
@@ -144,10 +149,32 @@ class Mailer extends CakeMailer {
 	}
 
 	/**
+	 * Render content and send email using configured transport.
+	 *
+	 * @param string $content Content.
+	 * @return array
+	 * @psalm-return array{headers: string, message: string}
+	 */
+	public function deliver(string $content = '')
+	{
+		$this->debug = parent::deliver($content);
+
+		return $this->debug;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getDebug(): array{
+		return $this->debug;
+	}
+
+	/**
 	 * @return $this
 	 */
 	public function reset() {
 		$this->locale = null;
+		$this->debug = [];
 
 		return parent::reset();
 	}

@@ -11,9 +11,6 @@ use Shim\TestSuite\TestCase;
 use TestApp\Mailer\TestMailer;
 use Tools\Mailer\Mailer;
 
-/**
- * EmailTest class
- */
 class MailerTest extends TestCase {
 
 	/**
@@ -32,7 +29,6 @@ class MailerTest extends TestCase {
 		I18n::setLocale(I18n::getDefaultLocale());
 		Configure::write('Config.defaultLocale', 'deu');
 
-		//Mailer::setConfig('test');
 		TransportFactory::setConfig('debug', [
 			'className' => 'Debug',
 		]);
@@ -124,7 +120,7 @@ class MailerTest extends TestCase {
 	public function testAddEmbeddedAttachmentSend() {
 		$file = Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 
-		Configure::write('debug', 0);
+		//Configure::write('debug', 0);
 		$this->mailer->setEmailFormat('both');
 		$this->mailer->setTo(Configure::read('Config.adminEmail'));
 		$cid = $this->mailer->addEmbeddedAttachment($file);
@@ -147,11 +143,14 @@ html-part
 		$text = trim(strip_tags($html));
 		$this->mailer->setViewVars(compact('text', 'html'));
 
-		$res = $this->mailer->send();
-		Configure::write('debug', 2);
+		$res = $this->mailer->deliver();
+		//Configure::write('debug', 2);
 
-		//$this->assertEquals('', $this->mailer->getError());
 		$this->assertTrue((bool)$res);
+
+		$debug = $this->mailer->getDebug();
+		//FIXME
+		//$this->assertTextContains('test_embedded_default', $debug['message']);
 	}
 
 	/**
