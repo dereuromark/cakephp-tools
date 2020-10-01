@@ -20,6 +20,7 @@ class Mailer extends CakeMailer {
 	 * Message class name.
 	 *
 	 * @var string
+	 * @psalm-var class-string<\Cake\Mailer\Message>
 	 */
 	protected $messageClass = Message::class;
 

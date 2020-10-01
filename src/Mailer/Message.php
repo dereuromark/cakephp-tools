@@ -29,20 +29,16 @@ class Message extends CakeMessage {
 		if ($xMailer) {
 			$this->addHeaders(['X-Mailer' => $xMailer]);
 		}
+
+		$this->setDefaults();
 	}
 
 	/**
 	 * Overwrite to allow custom enhancements
 	 *
-	 * @param array|string $config
-	 * @return $this
+	 * @return void
 	 */
-	public function _setProfile($config) {
-		if (!is_array($config)) {
-			$config = (string)$config;
-		}
-		//$this->_applyConfig($config);
-
+	protected function setDefaults(): void {
 		$fromEmail = Configure::read('Config.systemEmail');
 		if ($fromEmail) {
 			$fromName = Configure::read('Config.systemName');
@@ -51,10 +47,8 @@ class Message extends CakeMessage {
 			$fromName = Configure::read('Config.adminName');
 		}
 		if ($fromEmail) {
-			//$this->setFrom($fromEmail, $fromName);
+			$this->setFrom($fromEmail, $fromName);
 		}
-
-		return $this;
 	}
 
 	/**
