@@ -151,12 +151,11 @@ class Mailer extends CakeMailer {
 	/**
 	 * Render content and send email using configured transport.
 	 *
+	 * @psalm-return array{headers: string, message: string}
 	 * @param string $content Content.
 	 * @return array
-	 * @psalm-return array{headers: string, message: string}
 	 */
-	public function deliver(string $content = '')
-	{
+	public function deliver(string $content = '') {
 		$this->debug = parent::deliver($content);
 
 		return $this->debug;
