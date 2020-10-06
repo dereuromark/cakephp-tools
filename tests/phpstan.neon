@@ -1,7 +1,7 @@
 parameters:
 	checkMissingIterableValueType: false
 	checkGenericClassInNonGenericObjectType: false
-	autoload_files:
+	bootstrapFiles:
 	- %rootDir%/../../../tests/bootstrap.php
 	excludes_analyse:
 		- %rootDir%/../../../src/TestSuite/*
