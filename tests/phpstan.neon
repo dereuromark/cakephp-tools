@@ -14,6 +14,12 @@ parameters:
 			message: '#Variable \$.+ might not be defined.#'
 			path: '%rootDir%/../../../src/View/Helper/TreeHelper.php'
 		-
+			message: '#Negated boolean expression is always true.#'
+			path: '%rootDir%/../../../src/View/Helper/TreeHelper.php'
+		-
+			message: '#Result of \|\| is always true.#'
+			path: '%rootDir%/../../../src/View/Helper/TreeHelper.php'
+		-
 			message: '#Cannot unset offset string on array.+\.#'
 			path: '%rootDir%/../../../src/Utility/Language.php'
 		-
