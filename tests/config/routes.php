@@ -12,4 +12,10 @@ Router::scope('/', function(RouteBuilder $routes) {
 	$routes->fallbacks(DashedRoute::class);
 });
 
-require ROOT . DS . 'config' . DS . 'routes.php';
+Router::prefix('Admin', function (RouteBuilder $routes) {
+	$routes->plugin('Tools', function (RouteBuilder $routes) {
+		$routes->connect('/', ['controller' => 'Tools', 'action' => 'index']);
+
+		$routes->fallbacks();
+	});
+});

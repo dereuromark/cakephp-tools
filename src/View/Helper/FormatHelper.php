@@ -43,14 +43,15 @@ class FormatHelper extends Helper {
 		'edit' => 'fa fa-pencil',
 		'add' => 'fa fa-plus',
 		'delete' => 'fa fa-trash',
-		'prev' => 'fa fa-prev',
-		'next' => 'fa fa-next',
+		'prev' => 'fa fa-arrow-left',
+		'next' => 'fa fa-arrow-right',
 		'pro' => 'fa fa-thumbs-up',
 		'contra' => 'fa fa-thumbs-down',
 		'male' => 'fa fa-mars',
 		'female' => 'fa fa-venus',
 		'config' => 'fa fa-cogs',
-		//'genderless' => 'fa fa-genderless'
+		'login' => 'fas fa-sign-in-alt',
+		'logout' => 'fas fa-sign-out-alt',
 	];
 
 	/**

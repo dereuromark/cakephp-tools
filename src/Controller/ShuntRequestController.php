@@ -23,9 +23,9 @@ use RuntimeException;
 class ShuntRequestController extends AppController {
 
 	/**
-	 * @var string|false
+	 * @var string|null
 	 */
-	protected $modelClass = false;
+	protected $modelClass = '';
 
 	/**
 	 * @return void
