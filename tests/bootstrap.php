@@ -105,13 +105,9 @@ Cake\Log\Log::setConfig('error', [
 Cake\Utility\Security::setSalt('foo');
 
 // Why is this required?
-//require ROOT . DS . 'config' . DS . 'bootstrap.php';
+require ROOT . DS . 'config' . DS . 'bootstrap.php';
 
 Router::defaultRouteClass(DashedRoute::class);
-
-// Why has this no effect?
-//Router::reload();
-//require TESTS . 'config' . DS . 'routes.php';
 
 class_alias(TestApp\Controller\AppController::class, 'App\Controller\AppController');
 
