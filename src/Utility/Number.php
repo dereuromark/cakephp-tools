@@ -65,8 +65,8 @@ class Number extends CakeNumber {
 	public static function _format($number, array $formatOptions = []) {
 		if (!is_numeric($number)) {
 			$default = '---';
-			if (!empty($options['default'])) {
-				$default = $options['default'];
+			if (isset($formatOptions['default'])) {
+				$default = $formatOptions['default'];
 			}
 
 			return $default;
