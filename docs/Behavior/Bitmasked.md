@@ -112,8 +112,6 @@ When using select dropdows, you usually want to use type `contain` instead of `e
 $this->Comments->find('bits', ['bits' => $statuses, 'type' => 'contain])->toArray();
 ```
 
-Note: This requires Search `^4.2.1`!
-
 ### Configuration
 
 The default `onMarshal` expects you to require validation (not empty, ...) on this field.
