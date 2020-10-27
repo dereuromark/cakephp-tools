@@ -2,10 +2,11 @@ parameters:
 	checkMissingIterableValueType: false
 	checkGenericClassInNonGenericObjectType: false
 	bootstrapFiles:
-	- %rootDir%/../../../tests/bootstrap.php
+		- %rootDir%/../../../tests/bootstrap.php
 	excludes_analyse:
 		- %rootDir%/../../../src/TestSuite/*
 		- %rootDir%/../../../src/Utility/Mime
+	reportUnmatchedIgnoredErrors: false
 	ignoreErrors:
 		-
 			message: '#Undefined variable: .+#'
