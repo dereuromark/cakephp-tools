@@ -29,6 +29,9 @@ The `mappedField` param is quite handy if you want more control over your bitmas
 It stores the array under this alias and does not override the bitmask key.
 So in our case status will always contain the integer bitmask and statuses the verbose array of it.
 
+Note: If you use an alias, make sure that either also that alias is whitelisted for patching,
+or you don't use `beforeMarshal` event here.
+
 ### Defining the selectable values
 We first define values and make sure they follow the bitmask scheme:
 ```
@@ -58,7 +61,7 @@ public static function statuses($value = null) {
 
 Please note that you need to define Entity::enum() by extending my Tools Entity base class or by putting it into your own base class manually. You don’t have to use the enum approach, though.
 
-Of course it only makes sense to use bitmasks, if those values can co-exist, if you can select multiple at once. Otherwise you would want to store them separately anyway.
+Of course, it only makes sense to use bitmasks, if those values can co-exist, if you can select multiple at once. Otherwise you would want to store them separately anyway.
 Obviously you could also just use four or more boolean fields to achieve the same thing.
 
 So now, in the add/edit form we can:
@@ -110,6 +113,14 @@ $this->Comments->find('bits', ['bits' => $statuses, 'type' => 'contain])->toArra
 ```
 
 Note: This requires Search `^4.2.1`!
+
+### Configuration
+
+The default `onMarshal` expects you to require validation (not empty, ...) on this field.
+If you don't need that, and it is nullable, you can also set the event to e.g. `afterMarshal`.
+
+If you use `fields` config to whitelist the fields for patching, you should also whitelist
+the alias field if you defined one and if you are using `onMarshal`.
 
 ### Outview
 

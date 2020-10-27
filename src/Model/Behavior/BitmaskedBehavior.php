@@ -171,6 +171,19 @@ class BitmaskedBehavior extends Behavior {
 	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
+	 * @return void
+	 */
+	public function afterMarshal(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
+		if ($this->_config['on'] !== 'afterMarshal') {
+			return;
+		}
+		$this->encodeBitmaskData($entity);
+	}
+
+	/**
+	 * @param \Cake\Event\EventInterface $event
+	 * @param \Cake\Datasource\EntityInterface $entity
+	 * @param \ArrayObject $options
 	 * @param string $operation
 	 *
 	 * @return void
