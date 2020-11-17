@@ -40,6 +40,17 @@ class Mailer extends CakeMailer {
 	protected $debug = [];
 
 	/**
+	 * @param array|string|null $config Array of configs, or string to load configs from app.php
+	 */
+	public function __construct($config = null) {
+		if ($config === null && Configure::read('Config.live') === false) {
+			$config = 'test';
+		}
+
+		parent::__construct($config);
+	}
+
+	/**
 	 * Magic method to forward method class to Message instance.
 	 *
 	 * @param string $method Method name.
