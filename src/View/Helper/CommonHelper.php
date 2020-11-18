@@ -67,23 +67,27 @@ class CommonHelper extends Helper {
 	/**
 	 * Convenience method for clean ROBOTS allowance
 	 *
-	 * @param string|null $type - private/public
+	 * @param string|string[]|null $type - private/public or array of index/follow/archtive,...
 	 * @return string HTML
 	 */
-	public function metaRobots(?string $type = null): string {
+	public function metaRobots($type = null): string {
 		if ($type === null && ($meta = Configure::read('Config.robots')) !== null) {
 			$type = $meta;
 		}
-		$content = [];
-		if ($type === 'public') {
-			//$this->privatePage = false;
-			$content['robots'] = ['index', 'follow', 'noarchive'];
-		} else {
-			//$this->privatePage = true;
-			$content['robots'] = ['noindex', 'nofollow', 'noarchive'];
+		if ($type === null) {
+			$type = ['noindex', 'nofollow', 'noarchive'];
 		}
 
-		$return = '<meta name="robots" content="' . implode(',', $content['robots']) . '" />';
+		$robots = [];
+		if (is_array($type)) {
+			$robots = $type;
+		} elseif ($type === 'public') {
+			$robots = ['index', 'follow', 'noarchive'];
+		} else {
+			$robots = ['noindex', 'nofollow', 'noarchive'];
+		}
+
+		$return = '<meta name="robots" content="' . implode(',', $robots) . '" />';
 
 		return $return;
 	}
