@@ -22,9 +22,9 @@ Let's set it up. Inside your controller:
     /**
      * @return void
      */
-    public function initialize() {
+    public function initialize(): void {
         parent::initialize();
-        $this->loadComponent('RefererRedirect', [
+        $this->loadComponent('Tools.RefererRedirect', [
             'actions' => ['edit'],
         ]);
     }
@@ -45,6 +45,7 @@ From your paginated and filtered index page you can now point to the edit page l
 
 After successful save it will then redirect to exactly the current URL including all filter query strings, page, sort order etc.
 
+You could also make this a RefererRedirect helper and handle that URL building internally.
 
 ## When not to use
 Make sure you are not using such approaches when linking to an action that removes an entity from the `view`/`edit` action of that entity.
