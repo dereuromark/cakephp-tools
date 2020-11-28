@@ -10,7 +10,11 @@ The neat thing here is that it doesn't require changes to existing actions. This
 added on top, for one or all controllers.
 
 ## Alternatives
+AN alternative is using hidden input fields, but that also requires a bit more logic in your controllers or component scope already.
+Hidden inputs, however, can lose their value on refresh, or if your browser restarts. So the safest bet is still to use query strings.
+
 You can also pass along all query strings always, but then you need to make sure all URLs in controllers and templates are adjusted here.
+And whitelisting is important. You do not want to redirect back from "removable" actions to the "view" here.
 
 ## Setting it up for a controller
 Let's set it up. Inside your controller:
