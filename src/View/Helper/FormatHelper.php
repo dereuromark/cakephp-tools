@@ -50,8 +50,8 @@ class FormatHelper extends Helper {
 		'male' => 'fa fa-mars',
 		'female' => 'fa fa-venus',
 		'config' => 'fa fa-cogs',
-		'login' => 'fas fa-sign-in-alt',
-		'logout' => 'fas fa-sign-out-alt',
+		'login' => 'fa fa-sign-in-alt',
+		'logout' => 'fa fa-sign-out-alt',
 	];
 
 	/**
