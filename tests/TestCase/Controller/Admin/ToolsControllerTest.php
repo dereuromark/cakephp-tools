@@ -6,7 +6,7 @@ use Cake\TestSuite\IntegrationTestTrait;
 use Shim\TestSuite\TestCase;
 
 /**
- * @uses \Tools\Controller\ToolsController
+ * @uses \Tools\Controller\Admin\ToolsController
  */
 class ToolsControllerTest extends TestCase {
 

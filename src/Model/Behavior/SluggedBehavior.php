@@ -322,7 +322,7 @@ class SluggedBehavior extends Behavior {
 				$slug = mb_strtolower($slug);
 			}
 			if (in_array($case, ['title', 'camel'])) {
-				$words = explode($separator, $slug);
+				$words = explode($separator, $slug) ?: [];
 				foreach ($words as $i => &$word) {
 					$firstChar = mb_substr($word, 0, 1);
 					$rest = mb_substr($word, 1, mb_strlen($word) - 1);
@@ -330,9 +330,9 @@ class SluggedBehavior extends Behavior {
 					$word = $firstCharUp . $rest;
 				}
 				if ($case === 'title') {
-					$slug = implode($words, $separator);
+					$slug = implode($separator, $words);
 				} elseif ($case === 'camel') {
-					$slug = implode($words);
+					$slug = implode('', $words);
 				}
 			}
 		}

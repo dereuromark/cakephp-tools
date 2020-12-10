@@ -81,16 +81,12 @@ class NumberHelperTest extends TestCase {
 		$this->assertSame($expected, $is);
 
 		$is = $this->Number->format('22.30', ['precision' => -1]);
-		$expected = '22'; // Why 22,3 locally?
+		$expected = '22,3'; // Why not 22 ?
 		$this->assertSame($expected, $is);
 
 		$is = $this->Number->format(22.30, ['places' => 3]);
 		$expected = '22,300';
 		$this->assertSame($expected, $is);
-
-		//$is = $this->Number->format('abc', ['places' => 2]);
-		//$expected = '0,00';
-		//$this->assertSame($expected, $is);
 
 		$is = $this->Number->format(22.3, ['places' => 2, 'before' => 'EUR ']);
 		$expected = 'EUR 22,30';

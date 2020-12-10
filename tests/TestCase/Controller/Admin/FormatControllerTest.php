@@ -6,7 +6,7 @@ use Cake\TestSuite\IntegrationTestTrait;
 use Shim\TestSuite\TestCase;
 
 /**
- * @uses \Tools\Controller\FormatController
+ * @uses \Tools\Controller\Admin\FormatController
  */
 class FormatControllerTest extends TestCase {
 
