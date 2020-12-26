@@ -81,7 +81,7 @@ class FormatHelperTest extends TestCase {
 	 */
 	public function testIcon() {
 		$result = $this->Format->icon('edit');
-		$expected = '<i class="icon icon-edit fa fa-pencil" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
+		$expected = '<i class="icon icon-edit fa fa-pen" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
 		$this->assertSame($expected, $result);
 	}
 
@@ -92,7 +92,7 @@ class FormatHelperTest extends TestCase {
 	 */
 	public function testIconWithCustomAttributes() {
 		$result = $this->Format->icon('edit', [], ['data-x' => 'y']);
-		$expected = '<i class="icon icon-edit fa fa-pencil" data-x="y" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
+		$expected = '<i class="icon icon-edit fa fa-pen" data-x="y" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
 		$this->assertSame($expected, $result);
 	}
 
@@ -101,7 +101,7 @@ class FormatHelperTest extends TestCase {
 	 */
 	public function testIconWithCustomClassAttributes() {
 		$result = $this->Format->icon('edit', [], ['class' => 'my-extra']);
-		$expected = '<i class="icon icon-edit fa fa-pencil my-extra" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
+		$expected = '<i class="icon icon-edit fa fa-pen my-extra" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
 		$this->assertSame($expected, $result);
 	}
 

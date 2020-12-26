@@ -40,7 +40,7 @@ class FormatHelper extends Helper {
 		'yes' => 'fa fa-check',
 		'no' => 'fa fa-times',
 		'view' => 'fa fa-eye',
-		'edit' => 'fa fa-pencil',
+		'edit' => 'fa fa-pen',
 		'add' => 'fa fa-plus',
 		'delete' => 'fa fa-trash',
 		'prev' => 'fa fa-arrow-left',
