@@ -395,8 +395,8 @@ class BitmaskedBehavior extends Behavior {
 			return [$this->_table->getAlias() . '.' . $field . ' IS' => $emptyValue];
 		}
 
-		$contain = $contain ? ' & ? = ?' : ' & ? != ?';
-		$contain = Text::insert($contain, [(string)$bitmask, (string)$bitmask]);
+		$contain = $contain ? ' & %s = %s' : ' & %s != %s';
+		$contain = sprintf($contain, (string)$bitmask, (string)$bitmask);
 
 		// Hack for Postgres for now
 		$connection = $this->_table->getConnection();
