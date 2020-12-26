@@ -12,7 +12,6 @@ use Cake\ORM\Query;
 use Cake\Utility\Inflector;
 use InvalidArgumentException;
 use RuntimeException;
-use Tools\Utility\Text;
 
 /**
  * BitmaskedBehavior
