@@ -21,6 +21,7 @@ use Cake\Http\Exception\UnavailableForLegalReasonsException;
 use Cake\Routing\Exception\MissingRouteException;
 use Cake\View\Exception\MissingTemplateException;
 use Cake\View\Exception\MissingViewException;
+use InvalidArgumentException;
 
 /**
  * @property array $_options
@@ -35,6 +36,7 @@ trait ErrorHandlerTrait {
 	 */
 	protected static $blacklist = [
 		InvalidPrimaryKeyException::class,
+		InvalidArgumentException::class,
 		NotFoundException::class,
 		MethodNotAllowedException::class,
 		NotAcceptableException::class,
