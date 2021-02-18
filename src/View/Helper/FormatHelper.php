@@ -198,6 +198,7 @@ class FormatHelper extends Helper {
 	 * Uses http://fontawesome.io/icons/ by default
 	 *
 	 * Options:
+	 * - namespace
 	 * - size (int|string: 1...5 or large)
 	 * - rotate (integer: 90, 270, ...)
 	 * - spin (booelan: true/false)
