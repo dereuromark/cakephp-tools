@@ -37,7 +37,7 @@ class TypeMapBehavior extends Behavior {
 
 		foreach ($this->_config['fields'] as $field => $type) {
 			if (is_array($type)) {
-				$type = $field['type'];
+				$type = $type['type'];
 			}
 			if (!is_string($type)) {
 				throw new RuntimeException('Invalid field type setup.');
