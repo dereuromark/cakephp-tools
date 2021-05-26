@@ -158,13 +158,13 @@ class TimeHelper extends CakeTimeHelper {
 
 		//$y = $this->isThisYear($date) ? '' : ' Y';
 
-		$format = (!empty($options['format']) ? $options['format'] : FORMAT_NICE_YMD);
+		$format = (!empty($options['format']) ? $options['format'] : 'dd.MM.YYYY');
 
 		// Hack
 		// //TODO: get this to work with datetime - somehow cleaner
 		$timeAttachment = '';
 		if (isset($options['niceDateTime'])) {
-			$timeAttachment = ', ' . $this->nice($date, $options['niceDateTime']);
+			$timeAttachment = ', ' . $this->format($date, $options['niceDateTime']);
 			$whenOverride = true;
 		}
 

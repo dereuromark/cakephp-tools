@@ -82,11 +82,12 @@ class TimeHelperTest extends TestCase {
 		$result = $this->Time->published((new FrozenTime(date(FORMAT_DB_DATETIME)))->subDays(2));
 		$expected = 'class="published already';
 		$this->assertStringContainsString($expected, $result);
+
+		$result = $this->Time->published(new FrozenTime('2012-02-03 14:12:10'));
+		$this->assertStringContainsString('03.02.2012', $result);
 	}
 
 	/**
-	 * DatetimeHelperTest::testTimezones()
-	 *
 	 * @return void
 	 */
 	public function testTimezones() {
