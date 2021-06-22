@@ -42,6 +42,7 @@ if (!empty($addArrows)) {
 	$next .= ' »';
 }
 $escape = isset($escape) ? $escape : true;
+$modulus = isset($modulus) ? $modulus : 8;
 ?>
 
 <div class="paginator paging row">
@@ -52,7 +53,7 @@ $escape = isset($escape) ? $escape : true;
  <?php echo $separator; ?>
 	<?php echo $this->Paginator->prev($prev, ['escape' => $escape, 'disabledTitle' => false]);?>
  <?php echo $separator; ?>
-	<?php echo $this->Paginator->numbers(['escape' => $escape, 'separator' => $separator]);?>
+	<?php echo $this->Paginator->numbers(['escape' => $escape, 'separator' => $separator, 'modulus' => $modulus]);?>
  <?php echo $separator; ?>
 	<?php echo $this->Paginator->next($next, ['escape' => $escape, 'disabledTitle' => false]);?>
  <?php echo $separator; ?>
