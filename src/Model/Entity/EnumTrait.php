@@ -12,7 +12,7 @@ trait EnumTrait {
 	 * @param int|string|array|null $value Integer or array of keys or NULL for complete array result
 	 * @param array $options Options
 	 * @param string|null $default Default value
-	 * @return string|array
+	 * @return string|array|null
 	 */
 	public static function enum($value, array $options, $default = null) {
 		if ($value !== null && !is_array($value)) {
