@@ -480,7 +480,7 @@ class TreeHelper extends Helper {
 	 * @param bool $isItem is this an item or type call
 	 * @return string
 	 */
-	protected function _attributes($rType, array $elementData = [], bool $clear = true, bool $isItem = false) {
+	protected function _attributes($rType, array $elementData = [], $clear = true, bool $isItem = false) {
 		extract($this->_config);
 		if ($rType === $type && !$isItem) {
 			$attributes = $this->_typeAttributes;
