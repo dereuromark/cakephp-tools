@@ -68,7 +68,7 @@ class FileLogTest extends TestCase {
 		$this->assertTrue($result);
 		$this->assertFileExists(static::TEST_FILEPATH_STRING);
 		$this->assertRegExp(
-			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: It works!/',
+			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: It works!/i',
 			file_get_contents(static::TEST_FILEPATH_STRING)
 		);
 
@@ -115,7 +115,7 @@ class FileLogTest extends TestCase {
 		$this->assertFileExists(static::TEST_FILEPATH_ARRAY1);
 		$fileContents = file_get_contents(static::TEST_FILEPATH_ARRAY1);
 		$this->assertRegExp(
-			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: Array([\s\S]*)\(([\s\S]*)[user]([\s\S]*)\[id\] => 1/',
+			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: Array([\s\S]*)\(([\s\S]*)[user]([\s\S]*)\[id\] => 1/i',
 			$fileContents
 		);
 
@@ -124,7 +124,7 @@ class FileLogTest extends TestCase {
 		$this->assertFileExists(static::TEST_FILEPATH_ARRAY2);
 		$fileContents = file_get_contents(static::TEST_FILEPATH_ARRAY2);
 		$this->assertRegExp(
-			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: Array([\s\S]*)\(([\s\S]*)[user]([\s\S]*)\[id\] => 2/',
+			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: Array([\s\S]*)\(([\s\S]*)[user]([\s\S]*)\[id\] => 2/i',
 			$fileContents
 		);
 
@@ -150,7 +150,7 @@ class FileLogTest extends TestCase {
 		$this->assertTrue($result);
 		$this->assertFileExists(static::TEST_FILEPATH_OBJECT);
 		$this->assertRegExp(
-			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: TestApp.Model.Table.PostsTable Object/',
+			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: TestApp.Model.Table.PostsTable Object/i',
 			file_get_contents(static::TEST_FILEPATH_OBJECT)
 		);
 
@@ -172,7 +172,7 @@ class FileLogTest extends TestCase {
 		$this->assertTrue($result);
 		$this->assertFileExists(static::TEST_DEFAULT_FILEPATH_STRING);
 		$this->assertRegExp(
-			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: It works with default too!/',
+			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: It works with default too!/i',
 			file_get_contents(static::TEST_DEFAULT_FILEPATH_STRING)
 		);
 
