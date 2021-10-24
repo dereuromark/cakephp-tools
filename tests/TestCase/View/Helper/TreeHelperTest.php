@@ -253,6 +253,46 @@ TEXT;
 	/**
 	 * @return void
 	 */
+	public function testGenerateWithSameTypeAndItemType() {
+		$tree = $this->Table->find('threaded')->toArray();
+
+		$output = $this->Tree->generate($tree, ['type' => 'div', 'itemType' => 'div']);
+		$expected = <<<TEXT
+
+<div>
+	<div>One
+	<div>
+		<div>One-SubA</div>
+	</div>
+	</div>
+	<div>Two
+	<div>
+		<div>Two-SubA
+		<div>
+			<div>Two-SubA-1
+			<div>
+				<div>Two-SubA-1-1</div>
+			</div>
+			</div>
+		</div>
+		</div>
+	</div>
+	</div>
+	<div>Three</div>
+	<div>Four
+	<div>
+		<div>Four-SubA</div>
+	</div>
+	</div>
+</div>
+
+TEXT;
+		$this->assertTextEquals($expected, $output);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testGenerateWithMaxDepth() {
 		$tree = $this->Table->find('threaded')->toArray();
 
