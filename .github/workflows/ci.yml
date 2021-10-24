@@ -7,15 +7,15 @@ on:
 
 jobs:
   testsuite:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['7.2', '8.0']
+        php-version: ['7.3', '8.0']
         db-type: [sqlite, mysql, pgsql]
         prefer-lowest: ['']
         include:
-          - php-version: '7.2'
+          - php-version: '7.3'
             db-type: 'sqlite'
             prefer-lowest: 'prefer-lowest'
 
@@ -57,21 +57,20 @@ jobs:
     - name: Composer install --no-progress --prefer-dist --optimize-autoloader
       run: |
         composer --version
-        composer require --dev phpunit/phpunit:"^8.5||^9.5"
         if ${{ matrix.prefer-lowest == 'prefer-lowest' }}
         then
           composer update --prefer-lowest --prefer-stable
         else
           composer install --no-progress --prefer-dist --optimize-autoloader
         fi
-        if ${{ matrix.prefer-lowest == 'prefer-lowest' }}; then composer require --dev dereuromark/composer-prefer-lowest:dev-master; fi
+        if ${{ matrix.prefer-lowest == 'prefer-lowest' }}; then composer lowest-setup; fi
 
     - name: Run PHPUnit
       run: |
         if [[ ${{ matrix.db-type }} == 'sqlite' ]]; then export DB_URL='sqlite:///:memory:'; fi
         if [[ ${{ matrix.db-type }} == 'mysql' ]]; then export DB_URL='mysql://root:root@127.0.0.1/cakephp'; fi
         if [[ ${{ matrix.db-type }} == 'pgsql' ]]; then export DB_URL='postgres://postgres:postgres@127.0.0.1/postgres'; fi
-        if [[ ${{ matrix.php-version }} == '7.2' && ${{ matrix.db-type }} == 'sqlite' ]]; then
+        if [[ ${{ matrix.php-version }} == '7.3' && ${{ matrix.db-type }} == 'sqlite' ]]; then
           vendor/bin/phpunit --coverage-clover=coverage.xml
         else
           vendor/bin/phpunit
@@ -81,12 +80,12 @@ jobs:
       run: if ${{ matrix.prefer-lowest == 'prefer-lowest' }}; then vendor/bin/validate-prefer-lowest -m; fi
 
     - name: Code Coverage Report
-      if: success() && matrix.php-version == '7.2' && matrix.db-type == 'sqlite'
+      if: success() && matrix.php-version == '7.3' && matrix.db-type == 'sqlite'
       uses: codecov/codecov-action@v1
 
   validation:
     name: Coding Standard & Static Analysis
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     steps:
     - uses: actions/checkout@v2

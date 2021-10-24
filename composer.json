@@ -13,15 +13,16 @@
 		}
 	],
 	"require": {
-		"php": ">=7.2",
-		"cakephp/cakephp": "^4.1",
+		"php": ">=7.3",
+		"cakephp/cakephp": "^4.2.0",
 		"dereuromark/cakephp-shim": "^2.0.0"
 	},
 	"require-dev": {
 		"cakephp/chronos": "^2.0",
 		"mobiledetect/mobiledetectlib": "^2.8",
 		"fig-r/psr2r-sniffer": "dev-master",
-		"yangqi/htmldom": "^1.0"
+		"yangqi/htmldom": "^1.0",
+		"phpunit/phpunit": "^9.5"
 	},
 	"autoload": {
 		"psr-4": {
@@ -47,9 +48,10 @@
 	"scripts": {
 		"stan": "phpstan analyse",
 		"stan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan:^0.12.1 && mv composer.backup composer.json",
-		"test": "php phpunit.phar",
-		"test-setup": "[ ! -f phpunit.phar ] && wget https://phar.phpunit.de/phpunit-8.5.1.phar && mv phpunit-8.5.1.phar phpunit.phar || true",
-		"test-coverage": "php phpunit.phar --log-junit webroot/coverage/unitreport.xml --coverage-html webroot/coverage --coverage-clover webroot/coverage/coverage.xml",
+		"test": "phpunit",
+		"test-coverage": "phpunit --log-junit webroot/coverage/unitreport.xml --coverage-html webroot/coverage --coverage-clover webroot/coverage/coverage.xml",
+		"lowest": "validate-prefer-lowest",
+		"lowest-setup": "composer update --prefer-lowest --prefer-stable --prefer-dist --no-interaction && cp composer.json composer.backup && composer require --dev dereuromark/composer-prefer-lowest && mv composer.backup composer.json",
 		"cs-check": "phpcs -p -s --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --extensions=php --ignore=/config/Migrations/,/tests/test_files/ src/ tests/ config/",
 		"cs-fix": "phpcbf -p --standard=vendor/fig-r/psr2r-sniffer/PSR2R/ruleset.xml --extensions=php --ignore=/config/Migrations/,/tests/test_files/ src/ tests/ config/"
 	},
