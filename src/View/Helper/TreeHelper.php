@@ -291,7 +291,7 @@ class TreeHelper extends Helper {
 					$return .= "\r\n" . $whiteSpace;
 				}
 				if ($type) {
-					$typeAttributes = $this->_attributes($type, ['data' => $elementData]);
+					$typeAttributes = $this->_attributes( $type, ['data' => $elementData] );
 					$return .= '<' . $type . $typeAttributes . '>';
 				}
 			}
@@ -299,7 +299,7 @@ class TreeHelper extends Helper {
 				$return .= "\r\n" . $whiteSpace . $indentWith;
 			}
 			if ($itemType) {
-				$itemAttributes = $this->_attributes($itemType, $elementData);
+				$itemAttributes = $this->_attributes( $itemType, $elementData, true, true );
 				$return .= '<' . $itemType . $itemAttributes . '>';
 			}
 			$return .= $content;
@@ -477,11 +477,12 @@ class TreeHelper extends Helper {
 	 * @param string $rType rType
 	 * @param array $elementData Element data
 	 * @param bool $clear Clear
+	 * @param bool $isItem is this an item or type call
 	 * @return string
 	 */
-	protected function _attributes($rType, array $elementData = [], $clear = true) {
+	protected function _attributes($rType, array $elementData = [], bool $clear = true, bool $isItem = false) {
 		extract($this->_config);
-		if ($rType === $type) {
+		if ($rType === $type && !$isItem) {
 			$attributes = $this->_typeAttributes;
 			if ($clear) {
 				$this->_typeAttributes = $this->_typeAttributesNext;
@@ -494,7 +495,7 @@ class TreeHelper extends Helper {
 				$this->_itemAttributes = [];
 			}
 		}
-		if ($rType === $itemType && $elementData['activePathElement']) {
+		if ($rType === $itemType && !empty($elementData['activePathElement'])) {
 			if ($elementData['activePathElement'] === true) {
 				$attributes['class'][] = $autoPath[2];
 			} else {
