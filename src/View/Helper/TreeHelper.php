@@ -291,7 +291,7 @@ class TreeHelper extends Helper {
 					$return .= "\r\n" . $whiteSpace;
 				}
 				if ($type) {
-					$typeAttributes = $this->_attributes( $type, ['data' => $elementData] );
+					$typeAttributes = $this->_attributes($type, ['data' => $elementData]);
 					$return .= '<' . $type . $typeAttributes . '>';
 				}
 			}
@@ -299,7 +299,7 @@ class TreeHelper extends Helper {
 				$return .= "\r\n" . $whiteSpace . $indentWith;
 			}
 			if ($itemType) {
-				$itemAttributes = $this->_attributes( $itemType, $elementData, true, true );
+				$itemAttributes = $this->_attributes($itemType, $elementData, true, true);
 				$return .= '<' . $itemType . $itemAttributes . '>';
 			}
 			$return .= $content;
