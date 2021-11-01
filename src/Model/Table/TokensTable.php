@@ -14,10 +14,10 @@ use RuntimeException;
  * @license http://opensource.org/licenses/mit-license.php MIT
  * @method \Tools\Model\Entity\Token get($primaryKey, $options = [])
  * @method \Tools\Model\Entity\Token newEntity($data = null, array $options = [])
- * @method \Tools\Model\Entity\Token[] newEntities(array $data, array $options = [])
+ * @method array<\Tools\Model\Entity\Token> newEntities(array $data, array $options = [])
  * @method \Tools\Model\Entity\Token|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \Tools\Model\Entity\Token patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \Tools\Model\Entity\Token[] patchEntities($entities, array $data, array $options = [])
+ * @method array<\Tools\Model\Entity\Token> patchEntities($entities, array $data, array $options = [])
  * @method \Tools\Model\Entity\Token findOrCreate($search, callable $callback = null, $options = [])
  */
 class TokensTable extends Table {
@@ -28,7 +28,7 @@ class TokensTable extends Table {
 	public $displayField = 'token_key';
 
 	/**
-	 * @var array
+	 * @var array<mixed, mixed>|string|null
 	 */
 	public $order = ['created' => 'DESC'];
 
@@ -82,7 +82,7 @@ class TokensTable extends Table {
 	 * @param string $type Type: necessary
 	 * @param string|null $key Key: optional key, otherwise a key will be generated
 	 * @param mixed|null $uid Uid: optional (if used, only this user can use this key)
-	 * @param string|array|null $content Content: up to 255 characters of content may be added (optional)
+	 * @param array|string|null $content Content: up to 255 characters of content may be added (optional)
 	 *
 	 * @return string|null Key on success, null otherwise
 	 */
@@ -123,7 +123,7 @@ class TokensTable extends Table {
 	 *
 	 * @param string $type : necessary
 	 * @param string $key : necessary
-	 * @param int|string|null $uid : needs to be provided if this key has a user_id stored
+	 * @param string|int|null $uid : needs to be provided if this key has a user_id stored
 	 * @param bool $treatUsedAsInvalid
 	 * @return \Tools\Model\Entity\Token|null Content - if successfully used or if already used (used=1), NULL otherwise.
 	 */
@@ -172,7 +172,7 @@ class TokensTable extends Table {
 		//$expression = new \Cake\Database\Expression\QueryExpression(['used = used + 1', 'modified' => date(FORMAT_DB_DATETIME)]);
 		$result = $this->updateAll(
 			['used = used + 1', 'modified' => date(FORMAT_DB_DATETIME)],
-			['id' => $id]
+			['id' => $id],
 		);
 		if ($result) {
 			return true;

@@ -26,7 +26,14 @@ use Shim\Utility\Inflector as ShimInflector;
  */
 class SluggedBehavior extends Behavior {
 
+	/**
+	 * @var string
+	 */
 	public const MODE_URL = 'url';
+
+	/**
+	 * @var string
+	 */
 	public const MODE_ASCII = 'ascii';
 
 	/**
@@ -64,7 +71,7 @@ class SluggedBehavior extends Behavior {
 	 * - scope: certain conditions to use as scope
 	 * - tidy: If cleanup should be run on slugging
 	 *
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'label' => null,
@@ -215,7 +222,7 @@ class SluggedBehavior extends Behavior {
 	 * @return void
 	 */
 	public function slug(EntityInterface $entity, array $options = []) {
-		$overwrite = isset($options['overwrite']) ? $options['overwrite'] : $this->_config['overwrite'];
+		$overwrite = $options['overwrite'] ?? $this->_config['overwrite'];
 		if (!$overwrite && $entity->get($this->_config['overwriteField'])) {
 			$overwrite = true;
 		}
@@ -455,8 +462,8 @@ class SluggedBehavior extends Behavior {
 	/**
 	 * Wrapper for preg replace taking care of encoding
 	 *
-	 * @param string|array $pattern
-	 * @param string|array $replace
+	 * @param array|string $pattern
+	 * @param array|string $replace
 	 * @param string $string
 	 * @return string
 	 */

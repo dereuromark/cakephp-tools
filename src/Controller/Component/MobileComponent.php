@@ -49,7 +49,7 @@ class MobileComponent extends Component {
 	/**
 	 * Default values. Can also be set using Configure.
 	 *
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'on' => 'beforeFilter', // initialize (prior to controller's beforeRender) or startup

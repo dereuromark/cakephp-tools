@@ -142,7 +142,7 @@ class FormatHelper extends Helper {
 			$ret .= $this->Html->link(
 				$this->icon('prev') . '&nbsp;' . __d('tools', 'prev' . $name),
 				$url,
-				['escape' => false, 'title' => $neighbors['prev'][$titleField]]
+				['escape' => false, 'title' => $neighbors['prev'][$titleField]],
 			);
 		} else {
 			$ret .= $this->icon('prev');
@@ -158,7 +158,7 @@ class FormatHelper extends Helper {
 			$ret .= $this->Html->link(
 				$this->icon('next') . '&nbsp;' . __d('tools', 'next' . $name),
 				$url,
-				['escape' => false, 'title' => $neighbors['next'][$titleField]]
+				['escape' => false, 'title' => $neighbors['next'][$titleField]],
 			);
 		} else {
 			$ret .= $this->icon('next') . '&nbsp;' . __d('tools', 'next' . $name);
@@ -169,13 +169,20 @@ class FormatHelper extends Helper {
 		return $ret;
 	}
 
+	/**
+	 * @var int
+	 */
 	public const GENDER_FEMALE = 2;
+
+	/**
+	 * @var int
+	 */
 	public const GENDER_MALE = 1;
 
 	/**
 	 * Displays gender icon
 	 *
-	 * @param int|string $value
+	 * @param string|int $value
 	 * @param array $options
 	 * @param array $attributes
 	 * @return string
@@ -205,7 +212,7 @@ class FormatHelper extends Helper {
 	 * - extra (array: muted, light, dark, border)
 	 * - pull (string: left, right)
 	 *
-	 * @param string|array $icon
+	 * @param array|string $icon
 	 * @param array $options
 	 * @param array $attributes
 	 * @return string
@@ -325,7 +332,7 @@ class FormatHelper extends Helper {
 	 * @return string
 	 */
 	protected function _customIcon($icon, array $options = [], array $attributes = []) {
-		$translate = isset($options['translate']) ? $options['translate'] : true;
+		$translate = $options['translate'] ?? true;
 
 		$type = pathinfo($icon, PATHINFO_FILENAME);
 		$title = ucfirst($type);
@@ -492,7 +499,7 @@ class FormatHelper extends Helper {
 	 * Generates a pagination count: #1 etc for each pagination record
 	 * respects order (ASC/DESC)
 	 *
-	 * @deprecated
+	 * @deprecated Not in use anymore.
 	 * @param array $paginator
 	 * @param int $count (current post count on this page)
 	 * @param string|null $dir (ASC/DESC)
@@ -507,7 +514,7 @@ class FormatHelper extends Helper {
 		$pageCount = $paginator['pageCount'];
 		$totalCount = $paginator['count'];
 		$limit = $paginator['perPage'];
-		$step = isset($paginator['step']) ? $paginator['step'] : 1;
+		$step = $paginator['step'] ?? 1;
 
 		if ($dir === 'DESC') {
 			$count = $limit - $count + 1;
@@ -715,7 +722,7 @@ class FormatHelper extends Helper {
 					$table .= "\n" . static::array2table($cell, $options) . "\n";
 				} else {
 					$table .= (!is_array($cell) && strlen($cell) > 0) ? ($options['escape'] ? h(
-						$cell
+						$cell,
 					) : $cell) : $options['null'];
 				}
 

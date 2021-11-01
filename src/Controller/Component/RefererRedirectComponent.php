@@ -14,10 +14,13 @@ use Cake\Http\Response;
  */
 class RefererRedirectComponent extends Component {
 
+	/**
+	 * @var string
+	 */
 	public const QUERY_REFERER = 'ref';
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'actions' => [],
@@ -25,7 +28,7 @@ class RefererRedirectComponent extends Component {
 
 	/**
 	 * @param \Cake\Event\EventInterface $event
-	 * @param string|array $url A string or array containing the redirect location
+	 * @param array|string $url A string or array containing the redirect location
 	 * @param \Cake\Http\Response $response The response object.
 	 *
 	 * @return \Cake\Http\Response|null

@@ -12,7 +12,7 @@ use InvalidArgumentException;
 class NeighborBehavior extends Behavior {
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 	];

@@ -45,7 +45,7 @@ class TimelineHelper extends Helper {
 	 *
 	 * @link http://almende.github.io/chap-links-library/js/timeline/doc/
 	 *
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'id' => 'mytimeline',

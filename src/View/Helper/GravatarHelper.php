@@ -47,7 +47,7 @@ class GravatarHelper extends Helper {
 	/**
 	 * Default settings
 	 *
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'default' => null,

@@ -37,7 +37,14 @@ use Cake\ORM\Behavior;
  */
 class TypographicBehavior extends Behavior {
 
+	/**
+	 * @var string
+	 */
 	public const BEFORE_MARSHAL = 'marshal';
+
+	/**
+	 * @var string
+	 */
 	public const BEFORE_SAVE = 'save';
 
 	/**
@@ -81,7 +88,7 @@ class TypographicBehavior extends Behavior {
 	protected $_id;
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'before' => self::BEFORE_SAVE, // save or marshal

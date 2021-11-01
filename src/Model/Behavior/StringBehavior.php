@@ -29,7 +29,7 @@ class StringBehavior extends Behavior {
 	/**
 	 * //TODO: json input/ouput directly, clean
 	 *
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'fields' => [], // Fields to convert

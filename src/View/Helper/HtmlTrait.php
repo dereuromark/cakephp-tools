@@ -12,7 +12,7 @@ trait HtmlTrait {
 	 * - type: png, gif, jpg, ...
 	 *
 	 * @param string $content Data in binary form
-	 * @param array $options Attributes
+	 * @param array<string, mixed> $options Attributes
 	 * @return string HTML image tag
 	 */
 	public function imageFromBlob($content, array $options = []) {
@@ -39,10 +39,10 @@ trait HtmlTrait {
 	 * - `confirm` JavaScript confirmation message.
 	 *
 	 * @param string $title The content to be wrapped by <a> tags.
-	 * @param string|array|null $url URL or array of URL parameters, or
+	 * @param array|string|null $url URL or array of URL parameters, or
 	 *   external URL (starts with http://)
-	 * @param array $options Array of options and HTML attributes.
-	 * @return string An `<a />` element.
+	 * @param array<string, mixed> $options Array of options and HTML attributes.
+	 * @return string An `a` HTML element.
 	 */
 	public function linkReset($title, $url = null, array $options = []) {
 		if (is_array($url)) {
@@ -64,11 +64,10 @@ trait HtmlTrait {
 	 * - `confirm` JavaScript confirmation message.
 	 *
 	 * @param string $title The content to be wrapped by <a> tags.
-	 * @param string|array|null $url URL or array of URL parameters, or
+	 * @param array|string|null $url URL or array of URL parameters, or
 	 *   external URL (starts with http://)
-	 * @param array $options Array of options and HTML attributes.
-	 * @return string An `<a />` element.
-	 * @return string Link
+	 * @param array<string, mixed> $options Array of options and HTML attributes.
+	 * @return string An `a` HTML element.
 	 */
 	public function linkComplete($title, $url = null, array $options = []) {
 		if (is_array($url)) {

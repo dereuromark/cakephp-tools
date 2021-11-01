@@ -45,7 +45,7 @@ use RuntimeException;
 class ResetBehavior extends Behavior {
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'limit' => 100, // batch of records per loop

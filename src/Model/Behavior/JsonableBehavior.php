@@ -46,7 +46,7 @@ class JsonableBehavior extends Behavior {
 	/**
 	 * //TODO: json input/ouput directly, clean
 	 *
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'fields' => [], // Fields to convert
@@ -214,7 +214,7 @@ class JsonableBehavior extends Behavior {
 	/**
 	 * Fields are absolutely necessary to function properly!
 	 *
-	 * @param string|array|null $val
+	 * @param array|string|null $val
 	 * @return array|false|null
 	 */
 	public function _decode($val) {
@@ -280,7 +280,7 @@ class JsonableBehavior extends Behavior {
 	/**
 	 * array() => value1|value2|value3|...
 	 *
-	 * @param string[] $val
+	 * @param array<string> $val
 	 * @return string
 	 */
 	public function _toList($val) {
@@ -290,7 +290,7 @@ class JsonableBehavior extends Behavior {
 	/**
 	 * @param string $val
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	public function _fromList($val) {
 		$separator = $this->_config['separator'];

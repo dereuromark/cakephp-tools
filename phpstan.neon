@@ -6,7 +6,7 @@ parameters:
 	checkGenericClassInNonGenericObjectType: false
 	bootstrapFiles:
 		- %rootDir%/../../../tests/bootstrap.php
-	excludes_analyse:
+	excludePaths:
 		- %rootDir%/../../../src/TestSuite/*
 		- %rootDir%/../../../src/Utility/Mime
 	reportUnmatchedIgnoredErrors: false

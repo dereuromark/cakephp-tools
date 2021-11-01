@@ -24,7 +24,7 @@ class TimeHelper extends CakeTimeHelper {
 	/**
 	 * Default config for this class
 	 *
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'engine' => 'Tools\Utility\Time',
@@ -78,8 +78,8 @@ class TimeHelper extends CakeTimeHelper {
 	/**
 	 * Returns a nicely formatted date string for given Datetime string.
 	 *
-	 * @param int|string|\DateTimeInterface|null $dateString UNIX timestamp, strtotime() valid string or DateTime object
-	 * @param string|\DateTimeZone|null $timezone User's timezone string or DateTimeZone object
+	 * @param \DateTimeInterface|string|int|null $dateString UNIX timestamp, strtotime() valid string or DateTime object
+	 * @param \DateTimeZone|string|null $timezone User's timezone string or DateTimeZone object
 	 * @param string|null $locale Locale string.
 	 * @param string|null $default Default string to use when no dateString is given. Use null to allow null as current date.
 	 * @return string Formatted date string
@@ -122,7 +122,7 @@ class TimeHelper extends CakeTimeHelper {
 	 */
 	public function localDateMarkup($dateString = null, $format = null, $options = []) {
 		$date = $this->localDate($dateString, $format, $options);
-		$date = '<span' . ($this->isToday($dateString, (isset($options['userOffset']) ? $options['userOffset'] : null)) ? ' class="today"' : '') . '>' . $date . '</span>';
+		$date = '<span' . ($this->isToday($dateString, ($options['userOffset'] ?? null)) ? ' class="today"' : '') . '>' . $date . '</span>';
 
 		return $date;
 	}
@@ -137,7 +137,7 @@ class TimeHelper extends CakeTimeHelper {
 	 */
 	public function niceDateMarkup($dateString = null, $format = null, $options = []) {
 		$date = $this->niceDate($dateString, $format, $options);
-		$date = '<span' . ($this->isToday($dateString, (isset($options['userOffset']) ? $options['userOffset'] : null)) ? ' class="today"' : '') . '>' . $date . '</span>';
+		$date = '<span' . ($this->isToday($dateString, ($options['userOffset'] ?? null)) ? ' class="today"' : '') . '>' . $date . '</span>';
 
 		return $date;
 	}

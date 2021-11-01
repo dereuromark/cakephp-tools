@@ -20,7 +20,7 @@ use Cake\Validation\Validator;
 class ConfirmableBehavior extends Behavior {
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'message' => null,
@@ -71,7 +71,7 @@ class ConfirmableBehavior extends Behavior {
 				//'provider' => 'table',
 				'requirePresence' => true,
 				'allowEmpty' => false,
-				'last' => true]
+				'last' => true],
 		);
 		$validator->requirePresence($field);
 	}

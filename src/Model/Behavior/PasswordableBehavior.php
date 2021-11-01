@@ -38,7 +38,7 @@ if (!defined('PWD_MAX_LENGTH')) {
 class PasswordableBehavior extends Behavior {
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'field' => 'password',
@@ -474,7 +474,7 @@ class PasswordableBehavior extends Behavior {
 	}
 
 	/**
-	 * @param string|array $hasher Name or options array.
+	 * @param array|string $hasher Name or options array.
 	 * @param array $options
 	 * @return \Cake\Auth\AbstractPasswordHasher
 	 */

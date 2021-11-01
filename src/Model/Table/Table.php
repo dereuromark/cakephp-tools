@@ -127,7 +127,7 @@ class Table extends ShimTable {
 		$defaults = [
 			'contain' => [$tableName],
 			'group' => $groupField,
-			'order' => isset($this->$tableName->order) ? $this->$tableName->order : [$tableName . '.' . $this->$tableName->getDisplayField() => 'ASC'],
+			'order' => $this->$tableName->order ?? [$tableName . '.' . $this->$tableName->getDisplayField() => 'ASC'],
 		];
 		if ($type === 'list') {
 			$propertyName = $this->getAssociation($tableName)->getProperty();
@@ -330,7 +330,7 @@ class Table extends ShimTable {
 
 		if (Validation::date($datePart, $format) && Validation::time($timePart)) {
 			// after/before?
-			$seconds = isset($options['min']) ? $options['min'] : 1;
+			$seconds = $options['min'] ?? 1;
 			if (!empty($options['after'])) {
 				if (!is_object($options['after']) && isset($context['data'][$options['after']])) {
 					$options['after'] = $context['data'][$options['after']];

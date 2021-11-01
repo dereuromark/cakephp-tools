@@ -23,7 +23,7 @@ class ToggleBehavior extends Behavior {
 	/**
 	 * Default config
 	 *
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'field' => 'primary',

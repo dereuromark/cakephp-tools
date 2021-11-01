@@ -25,7 +25,7 @@ class AfterSaveBehavior extends Behavior {
 	protected $_entity;
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 	];

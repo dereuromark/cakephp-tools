@@ -17,7 +17,7 @@ use DateTimeInterface;
 class Time extends CakeTime {
 
 	/**
-	 * @param string|int|\DateTimeInterface|array|null $time Fixed or relative time
+	 * @param \DateTimeInterface|array|string|int|null $time Fixed or relative time
 	 * @param \DateTimeZone|string|null $tz The timezone for the instance
 	 */
 	public function __construct($time = null, $tz = null) {
@@ -40,7 +40,7 @@ class Time extends CakeTime {
 				empty($format) ? '' : ' ',
 				$value['hour'],
 				$value['minute'],
-				$value['second']
+				$value['second'],
 			);
 
 			$time = $format;
@@ -52,7 +52,7 @@ class Time extends CakeTime {
 	/**
 	 * Detect if a timezone has a DST
 	 *
-	 * @param string|\DateTimeZone|null $timezone User's timezone string or DateTimeZone object
+	 * @param \DateTimeZone|string|null $timezone User's timezone string or DateTimeZone object
 	 * @return bool
 	 */
 	public function hasDaylightSavingTime($timezone = null) {
@@ -97,8 +97,8 @@ class Time extends CakeTime {
 	 * Both dates default to current date. Note that start needs
 	 * to be before end for a valid result.
 	 *
-	 * @param int|string|\DateTimeInterface $start Start date (if empty, use today)
-	 * @param int|string|\DateTimeInterface|null $end End date (if empty, use today)
+	 * @param \DateTimeInterface|string|int $start Start date (if empty, use today)
+	 * @param \DateTimeInterface|string|int|null $end End date (if empty, use today)
 	 * @return int Age (0 if both timestamps are equal or empty, -1 on invalid dates)
 	 */
 	public static function age($start, $end = null) {
@@ -138,7 +138,7 @@ class Time extends CakeTime {
 	 *
 	 * @param int $year
 	 * @param int|null $month (optional)
-	 * @return int|string Age
+	 * @return string|int Age
 	 */
 	public static function ageByYear($year, $month = null) {
 		if ($month === null) {
@@ -328,7 +328,7 @@ class Time extends CakeTime {
 	 * @param int $years Years to increment/decrement
 	 * @param int $months Months to increment/decrement
 	 * @param int $days Days
-	 * @param string|\DateTimeZone|int|null $timezone Timezone string or DateTimeZone object
+	 * @param \DateTimeZone|string|int|null $timezone Timezone string or DateTimeZone object
 	 * @return object DateTime with incremented/decremented month/year values.
 	 */
 	public function incrementDate($startDate, $years = 0, $months = 0, $days = 0, $timezone = null) {
@@ -371,7 +371,7 @@ class Time extends CakeTime {
 			$secondAge = $firstAge;
 		}
 		//TODO: other relative time then today should work as well
-		$date = new CakeTime($relativeTime !== null ? $relativeTime : 'now');
+		$date = new CakeTime($relativeTime ?? 'now');
 
 		$max = mktime(23, 23, 59, (int)$date->format('m'), (int)$date->format('d'), (int)$date->format('Y') - $firstAge);
 		$min = mktime(0, 0, 1, (int)$date->format('m'), (int)$date->format('d') + 1, (int)$date->format('Y') - $secondAge - 1);
@@ -486,7 +486,7 @@ class Time extends CakeTime {
 	 * - default: Default string (defaults to "-----")
 	 * - oclock: Set to true to append oclock string
 	 *
-	 * @param string|\Cake\I18n\I18nDateTimeInterface|null $dateString
+	 * @param \Cake\I18n\I18nDateTimeInterface|string|null $dateString
 	 * @param string|null $format Format (YYYY-MM-DD, DD.MM.YYYY)
 	 * @param array $options Options
 	 * @return string
@@ -664,16 +664,16 @@ class Time extends CakeTime {
 	 * Options:
 	 * - abbr
 	 *
-	 * @param int[] $monthKeys
+	 * @param array<int> $monthKeys
 	 * @param array $options
-	 * @return string[]
+	 * @return array<string>
 	 */
 	public static function monthNames(array $monthKeys = [], array $options = []) {
 		if (!$monthKeys) {
 			$monthKeys = range(1, 12);
 		}
 		$res = [];
-		$abbr = isset($options['abbr']) ? $options['abbr'] : false;
+		$abbr = $options['abbr'] ?? false;
 		foreach ($monthKeys as $key) {
 			$res[static::pad((string)$key)] = static::monthName($key, $abbr, $options);
 		}
@@ -684,17 +684,17 @@ class Time extends CakeTime {
 	/**
 	 * Weekdays
 	 *
-	 * @param int[] $dayKeys
+	 * @param array<int> $dayKeys
 	 * @param array $options
-	 * @return string[]
+	 * @return array<string>
 	 */
 	public static function dayNames(array $dayKeys = [], array $options = []) {
 		if (!$dayKeys) {
 			$dayKeys = range(0, 6);
 		}
 		$res = [];
-		$abbr = isset($options['abbr']) ? $options['abbr'] : false;
-		$offset = isset($options['offset']) ? $options['offset'] : 0;
+		$abbr = $options['abbr'] ?? false;
+		$offset = $options['offset'] ?? 0;
 		foreach ($dayKeys as $key) {
 			$res[$key] = static::dayName($key, $abbr, $offset);
 		}
@@ -723,7 +723,7 @@ class Time extends CakeTime {
 
 	/**
 	 * @param int $offset in seconds
-	 * @param bool|string|null $past (defaults to null: return plain text)
+	 * @param string|bool|null $past (defaults to null: return plain text)
 	 * - new: if not boolean but a string use this as translating text
 	 * @return string text (i18n!)
 	 */
@@ -916,7 +916,7 @@ class Time extends CakeTime {
 	 * - default, separator
 	 * - boolean zero: if false: 0 days 5 hours => 5 hours etc.
 	 * - verbose/past/future: string with %s or boolean true/false
-	 * @return string|array
+	 * @return array|string
 	 */
 	public static function relLengthOfTime($date, $format = null, array $options = []) {
 		$dateTime = $date;
@@ -986,7 +986,7 @@ class Time extends CakeTime {
 	 * Returns true if given datetime string is not today AND is in the future.
 	 *
 	 * @param string $dateString Datetime string or Unix timestamp
-	 * @param string|\DateTimeZone|null $timezone User's timezone
+	 * @param \DateTimeZone|string|null $timezone User's timezone
 	 * @return bool True if datetime is not today AND is in the future
 	 */
 	public static function isNotTodayAndInTheFuture($dateString, $timezone = null) {
@@ -999,8 +999,8 @@ class Time extends CakeTime {
 	/**
 	 * Returns true if given datetime string is not now AND is in the future.
 	 *
-	 * @param string|\DateTimeInterface $date Datetime string or Unix timestamp
-	 * @param string|\DateTimeZone|null $timezone User's timezone
+	 * @param \DateTimeInterface|string $date Datetime string or Unix timestamp
+	 * @param \DateTimeZone|string|null $timezone User's timezone
 	 * @return bool True if datetime is not today AND is in the future
 	 */
 	public static function isInTheFuture($date, $timezone = null) {
@@ -1117,10 +1117,10 @@ class Time extends CakeTime {
 	/**
 	 * Returns a partial SQL string to search for all records between two dates.
 	 *
-	 * @param int|string|\DateTimeInterface $begin UNIX timestamp, strtotime() valid string or DateTime object
-	 * @param int|string|\DateTimeInterface $end UNIX timestamp, strtotime() valid string or DateTime object
+	 * @param \DateTimeInterface|string|int $begin UNIX timestamp, strtotime() valid string or DateTime object
+	 * @param \DateTimeInterface|string|int $end UNIX timestamp, strtotime() valid string or DateTime object
 	 * @param string $fieldName Name of database field to compare with
-	 * @param string|\DateTimeZone|null $timezone Timezone string or DateTimeZone object
+	 * @param \DateTimeZone|string|null $timezone Timezone string or DateTimeZone object
 	 * @return string Partial SQL string.
 	 */
 	public static function daysAsSql($begin, $end, $fieldName, $timezone = null) {
@@ -1138,9 +1138,9 @@ class Time extends CakeTime {
 	 * Returns a partial SQL string to search for all records between two times
 	 * occurring on the same day.
 	 *
-	 * @param int|string|\DateTimeInterface $dateString UNIX timestamp, strtotime() valid string or DateTime object
+	 * @param \DateTimeInterface|string|int $dateString UNIX timestamp, strtotime() valid string or DateTime object
 	 * @param string $fieldName Name of database field to compare with
-	 * @param string|\DateTimeZone|null $timezone Timezone string or DateTimeZone object
+	 * @param \DateTimeZone|string|null $timezone Timezone string or DateTimeZone object
 	 * @return string Partial SQL string.
 	 */
 	public static function dayAsSql($dateString, $fieldName, $timezone = null) {
@@ -1171,7 +1171,7 @@ class Time extends CakeTime {
 	 * e.g. 9.5 => 9.3
 	 * with pad=2: 9.30
 	 *
-	 * @param int|float $value
+	 * @param float|int $value
 	 * @param int|null $pad
 	 * @param string $decPoint
 	 * @return string
@@ -1196,7 +1196,7 @@ class Time extends CakeTime {
 	 * now supports negative values like -2,5 -2,5 -2:30 -:30 or -4
 	 *
 	 * @param string $duration
-	 * @param string[] $allowed
+	 * @param array<string> $allowed
 	 * @return int Seconds
 	 */
 	public static function parseLocalTime($duration, array $allowed = [':', '.', ',']) {
@@ -1238,7 +1238,7 @@ class Time extends CakeTime {
 	 * Parse 2022-11-12 or 12.11.2022 or even 12.11.22
 	 *
 	 * @param string $date
-	 * @param string[] $allowed
+	 * @param array<string> $allowed
 	 * @return int Seconds
 	 */
 	public static function parseLocalDate($date, array $allowed = ['.', '-']) {
@@ -1273,7 +1273,7 @@ class Time extends CakeTime {
 	 *
 	 * E.g. for days and hours set format to: $d:$H
 	 *
-	 * @param int|\DateInterval $duration Duration in seconds or as DateInterval object
+	 * @param \DateInterval|int $duration Duration in seconds or as DateInterval object
 	 * @param string $format Defaults to hours, minutes and seconds
 	 * @return string Time
 	 */
@@ -1307,7 +1307,7 @@ class Time extends CakeTime {
 	 * as it approximates month as "30".
 	 *
 	 * @deprecated Use duration() instead?
-	 * @param int|\DateInterval $duration Duration in seconds or as DateInterval object
+	 * @param \DateInterval|int $duration Duration in seconds or as DateInterval object
 	 * @param string $format Defaults to hours and minutes
 	 * @return string Time
 	 */
