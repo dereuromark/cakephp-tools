@@ -2,10 +2,10 @@
 
 namespace Tools\Model\Table;
 
+use Cake\I18n\FrozenTime;
 use Cake\Routing\Router;
 use Cake\Validation\Validation;
 use Shim\Model\Table\Table as ShimTable;
-use Tools\Utility\Time;
 use Tools\Utility\Utility;
 
 /**
@@ -314,10 +314,10 @@ class Table extends ShimTable {
 		}
 		$format = !empty($options['dateFormat']) ? $options['dateFormat'] : 'ymd';
 
-		/** @var \Cake\I18n\Time $time */
+		/** @var \Cake\Chronos\ChronosInterface $time */
 		$time = $value;
 		if (!is_object($value)) {
-			$time = new Time($value);
+			$time = new FrozenTime($value);
 		}
 		$pieces = $time->format(FORMAT_DB_DATETIME);
 		$dateTime = explode(' ', $pieces, 2);
@@ -335,7 +335,7 @@ class Table extends ShimTable {
 				if (!is_object($options['after']) && isset($context['data'][$options['after']])) {
 					$options['after'] = $context['data'][$options['after']];
 					if (!is_object($options['after'])) {
-						$options['after'] = new Time($options['after']);
+						$options['after'] = new FrozenTime($options['after']);
 					}
 				} elseif (!is_object($options['after'])) {
 					return false;
@@ -345,7 +345,7 @@ class Table extends ShimTable {
 				if (!is_object($options['before']) && isset($context['data'][$options['before']])) {
 					$options['before'] = $context['data'][$options['before']];
 					if (!is_object($options['before'])) {
-						$options['before'] = new Time($options['before']);
+						$options['before'] = new FrozenTime($options['before']);
 					}
 				} elseif (!is_object($options['before'])) {
 					return false;
@@ -410,7 +410,7 @@ class Table extends ShimTable {
 
 		$dateTime = $value;
 		if (!is_object($value)) {
-			$dateTime = new Time($value);
+			$dateTime = new FrozenTime($value);
 		}
 		if (!empty($options['allowEmpty']) && empty($dateTime)) {
 			return true;
@@ -424,7 +424,7 @@ class Table extends ShimTable {
 				/** @var \Cake\I18n\Time $after */
 				$after = $context['data'][$options['after']];
 				if (!is_object($after)) {
-					$after = new Time($after);
+					$after = new FrozenTime($after);
 				}
 				if ($after->gt($compare)) {
 					return false;
@@ -435,7 +435,7 @@ class Table extends ShimTable {
 				/** @var \Cake\I18n\Time $before */
 				$before = $context['data'][$options['before']];
 				if (!is_object($before)) {
-					$before = new Time($before);
+					$before = new FrozenTime($before);
 				}
 				if ($before->lt($compare)) {
 					return false;

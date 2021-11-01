@@ -6,12 +6,12 @@ use Cake\Core\Configure;
 use Cake\Error\Debugger;
 use DateTime;
 use Shim\TestSuite\TestCase;
-use Tools\Utility\Time;
+use Tools\Utility\FrozenTime;
 
-class TimeTest extends TestCase {
+class FrozenTimeTest extends TestCase {
 
 	/**
-	 * @var \Tools\Utility\Time
+	 * @var \Tools\Utility\FrozenTime
 	 */
 	protected $Time;
 
@@ -19,7 +19,7 @@ class TimeTest extends TestCase {
 	 * @return void
 	 */
 	public function setUp(): void {
-		$this->Time = new Time();
+		$this->Time = new FrozenTime();
 
 		parent::setUp();
 	}
@@ -31,7 +31,7 @@ class TimeTest extends TestCase {
 	 */
 	public function testObject() {
 		$this->assertTrue(is_object($this->Time));
-		$this->assertInstanceOf(Time::class, $this->Time);
+		$this->assertInstanceOf(FrozenTime::class, $this->Time);
 	}
 
 	/**
@@ -313,15 +313,15 @@ class TimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testIsLeapYear() {
-		$this->Time = new Time('2001-01-01');
+		$this->Time = new FrozenTime('2001-01-01');
 		$is = $this->Time->isLeapYear();
 		$this->assertFalse($is);
 
-		$this->Time = new Time('2008-01-01');
+		$this->Time = new FrozenTime('2008-01-01');
 		$is = $this->Time->isLeapYear();
 		$this->assertTrue($is);
 
-		$this->Time = new Time('2000-01-01');
+		$this->Time = new FrozenTime('2000-01-01');
 		$is = $this->Time->isLeapYear();
 		$this->assertTrue($is);
 	}
@@ -648,11 +648,11 @@ class TimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testIsDayAfterTomorrow() {
-		$testDate = new Time(time() + 2 * DAY);
+		$testDate = new FrozenTime(time() + 2 * DAY);
 		$is = $this->Time->isDayAfterTomorrow($testDate);
 		$this->assertTrue($is);
 
-		$testDate = new Time(time() - 1 * MINUTE);
+		$testDate = new FrozenTime(time() - 1 * MINUTE);
 		$is = $this->Time->isDayAfterTomorrow($testDate);
 		$this->assertFalse($is);
 	}
@@ -984,8 +984,8 @@ class TimeTest extends TestCase {
 		$this->assertEquals('24:00:02', $result);
 
 		// using Time/Carbon
-		$start = new Time();
-		$end = (new Time())->addMinutes(3);
+		$start = new FrozenTime();
+		$end = (new FrozenTime())->addMinutes(3);
 		$diff = $end->diffInSeconds($start);
 		$result = $this->Time->buildTime($diff, 'H:MM:SS');
 		$this->assertEquals('0:03:00', $result);
