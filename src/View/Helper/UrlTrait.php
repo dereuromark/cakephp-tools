@@ -31,7 +31,7 @@ trait UrlTrait {
 	 *
 	 * Can only add defaults for array URLs.
 	 *
-	 * @param string|array|null $url URL.
+	 * @param array|string|null $url URL.
 	 * @param array $options
 	 * @return string Full translated URL with base path.
 	 */
@@ -48,7 +48,7 @@ trait UrlTrait {
 	 *
 	 * Can only add query strings for array URLs.
 	 *
-	 * @param string|array|null $url URL.
+	 * @param array|string|null $url URL.
 	 * @param array $options
 	 * @return string Full translated URL with base path.
 	 */

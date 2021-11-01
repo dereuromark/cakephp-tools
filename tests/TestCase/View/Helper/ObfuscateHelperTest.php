@@ -97,7 +97,7 @@ class ObfuscateHelperTest extends TestCase {
 			$res = $this->Obfuscate->wordCensor($value, ['Arsch', 'Ficken', 'Bitch']);
 
 			//debug('\''.h($value).'\' becomes \''.h($res).'\'', null, false);
-			$this->assertEquals($expected === null ? $value : $expected, $res);
+			$this->assertEquals($expected ?? $value, $res);
 		}
 	}
 

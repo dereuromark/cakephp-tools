@@ -90,7 +90,7 @@ class Language {
 	/**
 	 * Compares two parsed arrays of language tags and find the matches
 	 *
-	 * @param string[] $accepted
+	 * @param array<string> $accepted
 	 * @param array $available
 	 * @return string|null
 	 */
@@ -111,7 +111,7 @@ class Language {
 	/**
 	 * Compares two parsed arrays of language tags and find the matches
 	 *
-	 * @param string[] $accepted
+	 * @param array<string> $accepted
 	 * @param array $available
 	 * @return array
 	 */

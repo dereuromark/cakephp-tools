@@ -33,6 +33,10 @@ class FileLogTest extends TestCase {
 	 */
 	private const TEST_FILENAME_ARRAY1 = 'array_file1';
 	private const TEST_FILEPATH_ARRAY1 = LOGS . self::TEST_FILENAME_ARRAY1 . '.log';
+
+	/**
+	 * @var string
+	 */
 	private const TEST_FILENAME_ARRAY2 = 'array_file2';
 	private const TEST_FILEPATH_ARRAY2 = LOGS . self::TEST_FILENAME_ARRAY2 . '.log';
 
@@ -69,7 +73,7 @@ class FileLogTest extends TestCase {
 		$this->assertFileExists(static::TEST_FILEPATH_STRING);
 		$this->assertRegExp(
 			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: It works!/i',
-			file_get_contents(static::TEST_FILEPATH_STRING)
+			file_get_contents(static::TEST_FILEPATH_STRING),
 		);
 
 		unlink(static::TEST_FILEPATH_STRING);
@@ -96,7 +100,7 @@ class FileLogTest extends TestCase {
 					'email' => 'john.doe@example.com',
 				],
 			],
-			static::TEST_FILENAME_ARRAY1
+			static::TEST_FILENAME_ARRAY1,
 		);
 
 		$result2 = FileLog::write(
@@ -107,7 +111,7 @@ class FileLogTest extends TestCase {
 					'email' => 'jane.doe@example.com',
 				],
 			],
-			static::TEST_FILENAME_ARRAY2
+			static::TEST_FILENAME_ARRAY2,
 		);
 
 		// Assert for `TEST_FILENAME_ARRAY1`
@@ -116,7 +120,7 @@ class FileLogTest extends TestCase {
 		$fileContents = file_get_contents(static::TEST_FILEPATH_ARRAY1);
 		$this->assertRegExp(
 			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: Array([\s\S]*)\(([\s\S]*)[user]([\s\S]*)\[id\] => 1/i',
-			$fileContents
+			$fileContents,
 		);
 
 		// Assert for `TEST_FILENAME_ARRAY2`
@@ -125,7 +129,7 @@ class FileLogTest extends TestCase {
 		$fileContents = file_get_contents(static::TEST_FILEPATH_ARRAY2);
 		$this->assertRegExp(
 			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: Array([\s\S]*)\(([\s\S]*)[user]([\s\S]*)\[id\] => 2/i',
-			$fileContents
+			$fileContents,
 		);
 
 		unlink(static::TEST_FILEPATH_ARRAY1);
@@ -144,14 +148,14 @@ class FileLogTest extends TestCase {
 
 		$result = FileLog::write(
 			$this->getTableLocator()->get('Posts'),
-			static::TEST_FILENAME_OBJECT
+			static::TEST_FILENAME_OBJECT,
 		);
 
 		$this->assertTrue($result);
 		$this->assertFileExists(static::TEST_FILEPATH_OBJECT);
 		$this->assertRegExp(
 			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: TestApp.Model.Table.PostsTable Object/i',
-			file_get_contents(static::TEST_FILEPATH_OBJECT)
+			file_get_contents(static::TEST_FILEPATH_OBJECT),
 		);
 
 		unlink(static::TEST_FILEPATH_OBJECT);
@@ -173,7 +177,7 @@ class FileLogTest extends TestCase {
 		$this->assertFileExists(static::TEST_DEFAULT_FILEPATH_STRING);
 		$this->assertRegExp(
 			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: It works with default too!/i',
-			file_get_contents(static::TEST_DEFAULT_FILEPATH_STRING)
+			file_get_contents(static::TEST_DEFAULT_FILEPATH_STRING),
 		);
 
 		unlink(static::TEST_DEFAULT_FILEPATH_STRING);

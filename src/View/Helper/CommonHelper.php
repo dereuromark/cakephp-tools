@@ -67,7 +67,7 @@ class CommonHelper extends Helper {
 	/**
 	 * Convenience method for clean ROBOTS allowance
 	 *
-	 * @param string|string[]|null $type - private/public or array of index/follow/archtive,...
+	 * @param array<string>|string|null $type - private/public or array of index/follow/archtive,...
 	 * @return string HTML
 	 */
 	public function metaRobots($type = null): string {
@@ -96,7 +96,7 @@ class CommonHelper extends Helper {
 	 * Convenience method for clean meta name tags
 	 *
 	 * @param string|null $name Author, date, generator, revisit-after, language
-	 * @param string|array|null $content If array, it will be separated by commas
+	 * @param array|string|null $content If array, it will be separated by commas
 	 * @return string HTML Markup
 	 */
 	public function metaName(?string $name = null, $content = null): string {
@@ -131,7 +131,7 @@ class CommonHelper extends Helper {
 	/**
 	 * Convenience method to output meta keywords
 	 *
-	 * @param string|array|null $keywords
+	 * @param array|string|null $keywords
 	 * @param string|null $language (iso2: de, en-us, ...)
 	 * @param bool $escape
 	 * @return string HTML Markup
@@ -159,7 +159,7 @@ class CommonHelper extends Helper {
 	/**
 	 * Convenience function for "canonical" SEO links
 	 *
-	 * @param string|array|null $url
+	 * @param array|string|null $url
 	 * @param bool $full
 	 * @return string HTML Markup
 	 */
@@ -173,8 +173,8 @@ class CommonHelper extends Helper {
 	/**
 	 * Convenience method for "alternate" SEO links
 	 *
-	 * @param string|array $url
-	 * @param string|array $lang (lang(iso2) or array of langs)
+	 * @param array|string $url
+	 * @param array|string $lang (lang(iso2) or array of langs)
 	 * lang: language (in ISO 6391-1 format) + optionally the region (in ISO 3166-1 Alpha 2 format)
 	 * - de
 	 * - de-ch
@@ -206,7 +206,7 @@ class CommonHelper extends Helper {
 	/**
 	 * Convenience method for META Tags
 	 *
-	 * @param string|array $url
+	 * @param array|string $url
 	 * @param string|null $title
 	 * @return string HTML Markup
 	 */

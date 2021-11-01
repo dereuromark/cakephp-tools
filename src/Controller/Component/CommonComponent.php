@@ -79,11 +79,11 @@ class CommonComponent extends Component {
 	 * - query string
 	 * - provided default
 	 *
-	 * @param string|array $default
-	 * @param string|array|null $data
+	 * @param array|string $default
+	 * @param array|string|null $data
 	 * @param string $key
 	 *
-	 * @return string|array
+	 * @return array|string
 	 */
 	public function getSafeRedirectUrl($default, $data = null, $key = 'redirect') {
 		$redirectUrl = $data ?: ($this->controller->getRequest()->getData($key) ?: $this->controller->getRequest()->getQuery($key));
@@ -144,7 +144,7 @@ class CommonComponent extends Component {
 	public function getPassedParam($var, $default = null) {
 		$passed = $this->controller->getRequest()->getParam('pass');
 
-		return isset($passed[$var]) ? $passed[$var] : $default;
+		return $passed[$var] ?? $default;
 	}
 
 	/**

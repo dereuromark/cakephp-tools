@@ -32,7 +32,7 @@ trait ErrorHandlerTrait {
 	 * List of exceptions that are actually be treated as external 404s.
 	 * They should not go into the normal error log, but a separate 404 one.
 	 *
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected static $blacklist = [
 		InvalidPrimaryKeyException::class,
@@ -59,7 +59,7 @@ trait ErrorHandlerTrait {
 	/**
 	 * By design, these exceptions are also 404 with a valid internal referer.
 	 *
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected static $evenWithReferer = [
 		AuthSecurityException::class,
@@ -98,7 +98,7 @@ trait ErrorHandlerTrait {
 
 	/**
 	 * @param string $class
-	 * @param string[] $blacklist
+	 * @param array<string> $blacklist
 	 * @return bool
 	 */
 	protected function isBlacklisted(string $class, array $blacklist): bool {

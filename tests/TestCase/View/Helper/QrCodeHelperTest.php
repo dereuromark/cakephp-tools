@@ -12,7 +12,14 @@ use Tools\View\Helper\QrCodeHelper;
  */
 class QrCodeHelperTest extends TestCase {
 
+	/**
+	 * @var string
+	 */
 	public const QR_TEST_STRING = 'Some Text to Translate';
+
+	/**
+	 * @var string
+	 */
 	public const QR_TEST_STRING_UTF = 'Some äöü Test String with $ and @ etc';
 
 	/**

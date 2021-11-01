@@ -184,7 +184,7 @@ class Text extends CakeText {
 	 * Explode a string of given tags into an array.
 	 *
 	 * @param string $tags
-	 * @return string[]
+	 * @return array<string>
 	 */
 	public function explodeTags($tags) {
 		// This regexp allows the following types of user input:
@@ -210,7 +210,7 @@ class Text extends CakeText {
 	/**
 	 * Implode an array of tags into a string.
 	 *
-	 * @param string[] $tags
+	 * @param array<string> $tags
 	 * @return string
 	 */
 	public function implodeTags(array $tags) {
@@ -253,7 +253,7 @@ class Text extends CakeText {
 	 * @param string $text
 	 * @param array $options
 	 * - min_char, max_char, case_sensititive, ...
-	 * @return string[]
+	 * @return array<string>
 	 */
 	public function words($text, array $options = []) {
 		$text = str_replace([PHP_EOL, "\t"], ' ', $text);

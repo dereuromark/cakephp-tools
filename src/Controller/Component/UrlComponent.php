@@ -39,7 +39,7 @@ class UrlComponent extends Component {
 	 *
 	 * Can only add defaults for array URLs.
 	 *
-	 * @param string|array|null $url URL.
+	 * @param array|string|null $url URL.
 	 * @param bool $full If true, the full base URL will be prepended to the result
 	 * @return string Full translated URL with base path.
 	 */
@@ -56,7 +56,7 @@ class UrlComponent extends Component {
 	 *
 	 * Can only add query strings for array URLs.
 	 *
-	 * @param string|array|null $url URL.
+	 * @param array|string|null $url URL.
 	 * @param bool $full If true, the full base URL will be prepended to the result
 	 * @return string Full translated URL with base path.
 	 */
@@ -75,7 +75,7 @@ class UrlComponent extends Component {
 	 *
 	 * - `fullBase`: If true, the full base URL will be prepended to the result
 	 *
-	 * @param string|array|null $url Either a relative string url like `/products/view/23` or
+	 * @param array|string|null $url Either a relative string url like `/products/view/23` or
 	 *    an array of URL parameters. Using an array for URLs will allow you to leverage
 	 *    the reverse routing features of CakePHP.
 	 * @param array $options Array of options

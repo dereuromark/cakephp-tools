@@ -54,7 +54,7 @@ class Message extends CakeMessage {
 	/**
 	 * Overwrite to allow mimetype detection
 	 *
-	 * @param string|array $attachments String with the filename or array with filenames
+	 * @param array|string $attachments String with the filename or array with filenames
 	 * @throws \InvalidArgumentException
 	 * @return $this
 	 */
@@ -267,7 +267,7 @@ class Message extends CakeMessage {
 
 		$options['data'] = $content;
 		$options['mimetype'] = $mimeType;
-		$options['contentId'] = $contentId ? $contentId : str_replace('-', '', Text::uuid()) . '@' . $this->getDomain();
+		$options['contentId'] = $contentId ?: str_replace('-', '', Text::uuid()) . '@' . $this->getDomain();
 		$file = [$filename => $options];
 		$this->addAttachments($file);
 		if ($contentId === null) {
@@ -285,7 +285,7 @@ class Message extends CakeMessage {
 	 *
 	 * @param string $file
 	 * @param string $name
-	 * @return bool|string CID of the found file or false if no such attachment can be found
+	 * @return string|bool CID of the found file or false if no such attachment can be found
 	 */
 	protected function _isEmbeddedAttachment($file, $name) {
 		foreach ($this->getAttachments() as $filename => $fileInfo) {
@@ -306,7 +306,7 @@ class Message extends CakeMessage {
 	 *
 	 * @param string $content
 	 * @param string $name
-	 * @return bool|string CID of the found file or false if no such attachment can be found
+	 * @return string|bool CID of the found file or false if no such attachment can be found
 	 */
 	protected function _isEmbeddedBlobAttachment($content, $name) {
 		foreach ($this->getAttachments() as $filename => $fileInfo) {

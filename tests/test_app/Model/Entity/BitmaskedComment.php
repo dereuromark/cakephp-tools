@@ -21,10 +21,29 @@ class BitmaskedComment extends Entity {
 		return parent::enum($value, $options);
 	}
 
+	/**
+	 * @var int
+	 */
 	public const STATUS_NONE = 0;
+
+	/**
+	 * @var int
+	 */
 	public const STATUS_ACTIVE = 1;
+
+	/**
+	 * @var int
+	 */
 	public const STATUS_PUBLISHED = 2;
+
+	/**
+	 * @var int
+	 */
 	public const STATUS_APPROVED = 4;
+
+	/**
+	 * @var int
+	 */
 	public const STATUS_FLAGGED = 8;
 
 }

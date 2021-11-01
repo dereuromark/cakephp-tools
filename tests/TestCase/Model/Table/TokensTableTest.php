@@ -8,7 +8,7 @@ use Tools\Model\Table\TokensTable;
 class TokensTableTest extends TestCase {
 
 	/**
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $fixtures = [
 		'plugin.Tools.Tokens',

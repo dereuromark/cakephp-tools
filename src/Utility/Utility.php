@@ -133,7 +133,7 @@ class Utility {
 	 *
 	 * @param string $str
 	 * @param int $length
-	 * @return string[] Result
+	 * @return array<string> Result
 	 */
 	public static function strSplit($str, $length = 1) {
 		if ($length < 1) {
@@ -231,7 +231,7 @@ class Utility {
 	 * Removes http:// or other protocols from the link.
 	 *
 	 * @param string $url
-	 * @param string[] $protocols Defaults to http and https. Pass empty array for all.
+	 * @param array<string> $protocols Defaults to http and https. Pass empty array for all.
 	 * @return string strippedUrl
 	 */
 	public static function stripProtocol($url, $protocols = ['http', 'https']) {
@@ -458,7 +458,7 @@ class Utility {
 	/**
 	 * Applies h() recursively
 	 *
-	 * @param string|array $value
+	 * @param array|string $value
 	 * @return array|string
 	 */
 	public static function specialcharsDeep($value) {
@@ -470,7 +470,7 @@ class Utility {
 	/**
 	 * Main deep method
 	 *
-	 * @param string|callable $function Callable or function name.
+	 * @param callable|string $function Callable or function name.
 	 * @param mixed $value
 	 * @return array|string
 	 */

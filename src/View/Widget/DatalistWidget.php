@@ -41,13 +41,13 @@ class DatalistWidget extends SelectBoxWidget {
 			$options = str_replace(
 				'value',
 				'data-value',
-				$options
+				$options,
 			);
 		}
 
 		$name = $data['name'];
 		$id = $data['id'] ?: Text::slug($name);
-		$default = isset($data['val']) ? $data['val'] : null;
+		$default = $data['val'] ?? null;
 
 		$inputData = $data['input'] + [
 			'id' => $id,
@@ -73,7 +73,7 @@ class DatalistWidget extends SelectBoxWidget {
 				'datalistAttrs' => $datalistAttrs,
 				'content' => implode('', $options),
 				'id' => $id,
-			]
+			],
 		);
 	}
 

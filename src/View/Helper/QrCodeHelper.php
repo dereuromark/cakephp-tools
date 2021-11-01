@@ -28,13 +28,44 @@ use Cake\View\View;
  */
 class QrCodeHelper extends Helper {
 
+	/**
+	 * @var int
+	 */
 	public const MIN_SIZE = 58; # not readable anymore below this value
+
+	/**
+	 * @var int
+	 */
 	public const MAX_SIZE = 540; # max of 300000 pixels
+
+	/**
+	 * @var int
+	 */
 	public const DEFAULT_SIZE = 74; # 2x size
+
+	/**
+	 * @var string
+	 */
 	public const DEFAULT_LEVEL = 'L'; # highest correction level
+
+	/**
+	 * @var int
+	 */
 	public const SIZE_L = 58;
+
+	/**
+	 * @var int
+	 */
 	public const SIZE_M = 66;
+
+	/**
+	 * @var int
+	 */
 	public const SIZE_Q = 66;
+
+	/**
+	 * @var int
+	 */
 	public const SIZE_H = 74;
 
 	/**
@@ -127,7 +158,7 @@ class QrCodeHelper extends Helper {
 	 * Format a text in a specific format
 	 * - url, sms, tel, email, market, geo
 	 *
-	 * @param string|array $text
+	 * @param array|string $text
 	 * @param string|null $type
 	 * @return string formattedText
 	 */

@@ -9,10 +9,10 @@ trait EnumTrait {
 	 * Now also supports reordering/filtering
 	 *
 	 * @link https://www.dereuromark.de/2010/06/24/static-enums-or-semihardcoded-attributes/
-	 * @param int|string|array|null $value Integer or array of keys or NULL for complete array result
+	 * @param array|string|int|null $value Integer or array of keys or NULL for complete array result
 	 * @param array $options Options
 	 * @param string|null $default Default value
-	 * @return string|array|null
+	 * @return array|string|null
 	 */
 	public static function enum($value, array $options, $default = null) {
 		if ($value !== null && !is_array($value)) {

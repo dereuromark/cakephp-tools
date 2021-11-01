@@ -22,7 +22,7 @@ class InflectCommand extends Command {
 	/**
 	 * Valid inflection rules
 	 *
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $validActions = [
 		'pluralize', 'singularize', 'camelize',
@@ -33,7 +33,7 @@ class InflectCommand extends Command {
 	/**
 	 * Valid inflection rules
 	 *
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $validCommands = [
 		'pluralize', 'singularize', 'camelize',

@@ -21,8 +21,19 @@ use Tools\Utility\Number;
  */
 class MeterHelper extends Helper {
 
+	/**
+	 * @var int
+	 */
 	public const LENGTH_MIN = 3;
+
+	/**
+	 * @var string
+	 */
 	public const CHAR_EMPTY = '░';
+
+	/**
+	 * @var string
+	 */
 	public const CHAR_FULL = '█';
 
 	/**

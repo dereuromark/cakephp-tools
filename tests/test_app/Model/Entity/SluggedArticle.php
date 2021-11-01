@@ -7,7 +7,7 @@ use Cake\ORM\Entity;
 class SluggedArticle extends Entity {
 
 	/**
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $_virtual = [
 		'special',
