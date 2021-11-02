@@ -11,15 +11,6 @@ use Tools\Utility\L10n;
 class L10nTest extends TestCase {
 
 	/**
-	 * setUp method
-	 *
-	 * @return void
-	 */
-	public function setUp(): void {
-		parent::setUp();
-	}
-
-	/**
 	 * testMap method
 	 *
 	 * @return void

@@ -49,15 +49,6 @@ class FileLogTest extends TestCase {
 	private const TEST_FILEPATH_OBJECT = LOGS . self::TEST_FILENAME_OBJECT . '.log';
 
 	/**
-	 * setUp method
-	 *
-	 * @return void
-	 */
-	public function setUp(): void {
-		parent::setUp();
-	}
-
-	/**
 	 * testLogsStringData method
 	 *
 	 * @return void
