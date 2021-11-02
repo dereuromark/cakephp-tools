@@ -4,7 +4,7 @@ namespace Tools\View\Helper;
 
 use Cake\Core\App;
 use Cake\Core\Configure;
-use Cake\Core\Exception\Exception;
+use Cake\Core\Exception\CakeException;
 use Cake\View\Helper\TimeHelper as CakeTimeHelper;
 use Cake\View\View;
 
@@ -45,7 +45,7 @@ class TimeHelper extends CakeTimeHelper {
 	 *
 	 * @param \Cake\View\View $View The View this helper is being attached to.
 	 * @param array $config Configuration settings for the helper
-	 * @throws \Cake\Core\Exception\Exception When the engine class could not be found.
+	 * @throws \Cake\Core\Exception\CakeException When the engine class could not be found.
 	 */
 	public function __construct(View $View, array $config = []) {
 		$defaults = [
@@ -58,7 +58,7 @@ class TimeHelper extends CakeTimeHelper {
 		$config = $this->_config + $defaults;
 		$engineClass = App::className($config['engine'], 'Utility');
 		if (!$engineClass) {
-			throw new Exception(sprintf('Class for %s could not be found', $config['engine']));
+			throw new CakeException(sprintf('Class for %s could not be found', $config['engine']));
 		}
 
 		$this->_engine = new $engineClass($config);
