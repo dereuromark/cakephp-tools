@@ -445,17 +445,15 @@ class TimeTest extends TestCase {
 		$this->assertEquals((date('Y') - 1986) . '/' . (date('Y') - 1985), $is);
 
 		// with month
-		if (($month = date('n') + 1) <= 12) {
+		$month = date('n') + 1;
+		if ($month <= 12) {
 			$is = $this->Time->ageByYear(2000, $month);
-			//$this->out($is);
-			//$this->assertEquals($is, (date('Y')-2001).'/'.(date('Y')-2000), null, '2000/'.$month);
 			$this->assertSame(date('Y') - 2001, $is); //null, '2000/'.$month
 		}
 
-		if (($month = date('n') - 1) >= 1) {
+		$month = date('n') - 1;
+		if ($month >= 1) {
 			$is = $this->Time->ageByYear(2000, $month);
-			//$this->out($is);
-			//$this->assertEquals($is, (date('Y')-2001).'/'.(date('Y')-2000), null, '2000/'.$month);
 			$this->assertSame(date('Y') - 2000, $is); //null, '2000/'.$month)
 		}
 	}

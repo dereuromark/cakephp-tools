@@ -71,14 +71,14 @@ class CommonHelper extends Helper {
 	 * @return string HTML
 	 */
 	public function metaRobots($type = null): string {
-		if ($type === null && ($meta = Configure::read('Config.robots')) !== null) {
+		$meta = Configure::read('Config.robots');
+		if ($type === null && $meta !== null) {
 			$type = $meta;
 		}
 		if ($type === null) {
 			$type = ['noindex', 'nofollow', 'noarchive'];
 		}
 
-		$robots = [];
 		if (is_array($type)) {
 			$robots = $type;
 		} elseif ($type === 'public') {

@@ -171,8 +171,6 @@ class TextHelperTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-/* from cake */
-
 	/**
 	 * Test invalid email addresses.
 	 *

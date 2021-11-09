@@ -125,8 +125,8 @@ if (!function_exists('ent')) {
 	/**
 	 * Returns htmlentities - string
 	 *
-	 * ENT_COMPAT	= Will convert double-quotes and leave single-quotes alone.
-	 * ENT_QUOTES	= Will convert both double and single quotes. !!!
+	 * ENT_COMPAT = Will convert double-quotes and leave single-quotes alone.
+	 * ENT_QUOTES = Will convert both double and single quotes. !!!
 	 * ENT_NOQUOTES = Will leave both double and single quotes unconverted.
 	 *
 	 * @param string $text
@@ -247,10 +247,12 @@ if (!function_exists('extractPathInfo')) {
 		}
 		$result = pathinfo($filename, $infoType);
 		if ($fromUrl) {
-			if (($pos = strpos($result, '#')) !== false) {
+			$pos = strpos($result, '#');
+			if ($pos !== false) {
 				$result = substr($result, 0, $pos);
 			}
-			if (($pos = strpos($result, '?')) !== false) {
+			$pos = strpos($result, '?');
+			if ($pos !== false) {
 				$result = substr($result, 0, $pos);
 			}
 		}

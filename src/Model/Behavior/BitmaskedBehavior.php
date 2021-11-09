@@ -239,7 +239,7 @@ class BitmaskedBehavior extends Behavior {
 		}
 		if ($res === 0) {
 			return $defaultValue; // Make sure notEmpty validation rule triggers
-}
+		}
 
 		return $res;
 	}

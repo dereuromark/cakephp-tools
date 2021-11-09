@@ -551,7 +551,8 @@ class FrozenTime extends CakeFrozenTime {
 	 * @return string Time in format hh:mm
 	 */
 	public static function niceTime($time) {
-		if (($pos = strpos($time, ' ')) !== false) {
+		$pos = strpos($time, ' ');
+		if ($pos !== false) {
 			$time = substr($time, $pos + 1);
 		}
 
@@ -813,14 +814,14 @@ class FrozenTime extends CakeFrozenTime {
 			$p = $s;
 		} else {
 			$s = [
-		'm' => ' ' . __d('tools', 'Month'), # translated
+			'm' => ' ' . __d('tools', 'Month'), # translated
 				'd' => ' ' . __d('tools', 'Day'),
 				'h' => ' ' . __d('tools', 'Hour'),
 				'i' => ' ' . __d('tools', 'Minute'),
 				's' => ' ' . __d('tools', 'Second'),
 			];
 			$p = [
-		'm' => ' ' . __d('tools', 'Months'), # translated
+			'm' => ' ' . __d('tools', 'Months'), # translated
 				'd' => ' ' . __d('tools', 'Days'),
 				'h' => ' ' . __d('tools', 'Hours'),
 				'i' => ' ' . __d('tools', 'Minutes'),

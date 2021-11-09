@@ -820,10 +820,10 @@ class L10nTest extends TestCase {
 		$result = $localize->catalog(['cy']);
 		$expected = [
 			'cy' => [
-'language' => 'Welsh',
-'locale' => 'cym',
-'localeFallback' => 'cym',
-'charset' => 'utf-8',
+			'language' => 'Welsh',
+			'locale' => 'cym',
+			'localeFallback' => 'cym',
+			'charset' => 'utf-8',
 			'direction' => 'ltr'],
 		];
 		$this->assertEquals($expected, $result);

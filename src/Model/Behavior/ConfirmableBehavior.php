@@ -25,7 +25,6 @@ class ConfirmableBehavior extends Behavior {
 	protected $_defaultConfig = [
 		'message' => null,
 		'field' => 'confirm',
-		//'table' => null,
 		'validator' => 'default',
 	];
 
@@ -64,15 +63,14 @@ class ConfirmableBehavior extends Behavior {
 		$field = $this->_config['field'];
 		$message = $this->_config['message'];
 		$validator->add($field, 'notBlank', [
-				'rule' => function ($value, $context) {
-					return !empty($value);
-				},
-				'message' => $message,
-				//'provider' => 'table',
-				'requirePresence' => true,
-				'allowEmpty' => false,
-				'last' => true],
-		);
+			'rule' => function ($value, $context) {
+				return !empty($value);
+			},
+			'message' => $message,
+			'requirePresence' => true,
+			'allowEmpty' => false,
+			'last' => true,
+		]);
 		$validator->requirePresence($field);
 	}
 

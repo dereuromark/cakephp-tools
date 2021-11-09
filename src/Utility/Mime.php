@@ -822,7 +822,8 @@ class Mime extends Response {
 
 		$finfo = finfo_open(FILEINFO_MIME);
 		$mimetype = finfo_file($finfo, $file);
-		if (($pos = strpos($mimetype, ';')) !== false) {
+		$pos = strpos($mimetype, ';');
+		if ($pos !== false) {
 			$mimetype = substr($mimetype, 0, $pos);
 		}
 		if ($mimetype) {
