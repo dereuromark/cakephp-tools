@@ -368,11 +368,6 @@ class SluggedBehaviorTest extends TestCase {
 	/**
 	 * TestTruncateMultibyte method
 	 *
-	 * @return void
-	 */
-	/**
-	 * TestTruncateMultibyte method
-	 *
 	 * Ensure that the first test doesn't cut a multibyte character The test string is:
 	 *     17 chars
 	 *     51 bytes UTF-8 encoded
