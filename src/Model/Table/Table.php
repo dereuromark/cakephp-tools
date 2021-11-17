@@ -2,10 +2,10 @@
 
 namespace Tools\Model\Table;
 
-use Cake\I18n\FrozenTime;
 use Cake\Routing\Router;
 use Cake\Validation\Validation;
 use Shim\Model\Table\Table as ShimTable;
+use Tools\Utility\FrozenTime;
 use Tools\Utility\Utility;
 
 /**
