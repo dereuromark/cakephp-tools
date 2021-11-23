@@ -365,6 +365,8 @@ class FormatHelper extends Helper {
 	protected function _fontIcon($type, $options, $attributes) {
 		$iconClass = $type;
 
+		unset($this->_config['class']);
+
 		$options += $this->_config;
 		if ($options['autoPrefix'] && is_string($options['autoPrefix'])) {
 			$iconClass = $options['autoPrefix'] . '-' . $iconClass;
