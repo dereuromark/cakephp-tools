@@ -373,8 +373,8 @@ class Message extends CakeMessage {
 	 */
 	protected function _readFile($path) {
 		$context = stream_context_create(
-            ['http' => ['header' => 'Connection: close']],
-        );
+			['http' => ['header' => 'Connection: close']],
+		);
 		$content = file_get_contents($path, false, $context);
 		if (!$content) {
 			trigger_error('No content found for ' . $path);

@@ -403,10 +403,10 @@ class Text extends CakeText {
 
 		if ($all) {
 			$str = str_replace(
-                ['&amp;', '&lt;', '&gt;', '&quot;', '&apos;', '&#45;'],
-                ['&', '<', '>', '"', "'", '-'],
-                $str,
-            );
+				['&amp;', '&lt;', '&gt;', '&quot;', '&apos;', '&#45;'],
+				['&', '<', '>', '"', "'", '-'],
+				$str,
+			);
 		}
 
 		return $str;
