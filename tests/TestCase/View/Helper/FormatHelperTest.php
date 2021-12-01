@@ -3,7 +3,6 @@
 namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\Core\Configure;
-use Cake\Routing\Router;
 use Cake\View\View;
 use Shim\TestSuite\TestCase;
 use Tools\Utility\Text;
@@ -32,9 +31,7 @@ class FormatHelperTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		Router::reload();
-		Router::connect('/:controller', ['action' => 'index']);
-		Router::connect('/:controller/:action/*');
+		$this->loadRoutes();
 
 		Configure::write('App.imageBaseUrl', 'img/');
 

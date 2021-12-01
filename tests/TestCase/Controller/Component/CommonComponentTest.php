@@ -5,7 +5,6 @@ namespace Tools\Test\TestCase\Controller\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\ServerRequest;
-use Cake\Routing\Router;
 use Shim\TestSuite\TestCase;
 use TestApp\Controller\CommonComponentTestController;
 use Tools\Controller\Component\CommonComponent;
@@ -30,9 +29,7 @@ class CommonComponentTest extends TestCase {
 
 		Configure::write('App.fullBaseUrl', 'http://localhost');
 
-		Router::reload();
-		Router::connect('/:controller', ['action' => 'index']);
-		Router::connect('/:controller/:action/*');
+		$this->loadRoutes();
 
 		$this->request = new ServerRequest(['url' => '/my-controller/foo']);
 		$this->request = $this->request->withParam('controller', 'MyController')

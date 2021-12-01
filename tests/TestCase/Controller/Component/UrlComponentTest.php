@@ -32,9 +32,7 @@ class UrlComponentTest extends TestCase {
 		$this->event = new Event('Controller.beforeFilter');
 		$this->Controller = new UrlComponentTestController(new ServerRequest());
 
-		Router::reload();
-		Router::connect('/:controller', ['action' => 'index']);
-		Router::connect('/:controller/:action/*');
+		$this->loadRoutes();
 
 		Configure::write('App.fullBaseUrl', 'http://localhost');
 	}

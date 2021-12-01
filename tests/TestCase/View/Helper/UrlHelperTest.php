@@ -26,9 +26,7 @@ class UrlHelperTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		Router::reload();
-		Router::connect('/:controller', ['action' => 'index']);
-		Router::connect('/:controller/:action/*');
+		$this->loadRoutes();
 
 		$this->Url = new UrlHelper(new View(null));
 		$this->Url->getView()->setRequest(new ServerRequest(['webroot' => '']));

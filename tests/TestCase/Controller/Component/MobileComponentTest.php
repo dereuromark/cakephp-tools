@@ -5,7 +5,6 @@ namespace Tools\Test\TestCase\Controller\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\ServerRequest;
-use Cake\Routing\Router;
 use Detection\MobileDetect;
 use Shim\TestSuite\TestCase;
 use TestApp\Controller\MobileComponentTestController;
@@ -51,9 +50,7 @@ class MobileComponentTest extends TestCase {
 			return $detector->isTablet();
 		});
 
-		Router::reload();
-		Router::connect('/:controller', ['action' => 'index']);
-		Router::connect('/:controller/:action/*');
+		$this->loadRoutes();
 
 		$this->event = new Event('Controller.beforeFilter');
 		$this->Controller = new MobileComponentTestController(new ServerRequest());

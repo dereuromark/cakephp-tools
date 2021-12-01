@@ -27,9 +27,7 @@ class HtmlHelperTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		Router::reload();
-		Router::connect('/:controller', ['action' => 'index']);
-		Router::connect('/:controller/:action/*');
+		$this->loadRoutes();
 
 		$this->Html = new HtmlHelper(new View(null));
 		$this->Html->getView()->setRequest(new ServerRequest(['webroot' => '']));

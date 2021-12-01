@@ -2,7 +2,6 @@
 
 namespace Tools\Test\TestCase\View\Helper;
 
-use Cake\Routing\Router;
 use Cake\View\View;
 use Shim\TestSuite\TestCase;
 use Tools\View\Helper\QrCodeHelper;
@@ -35,9 +34,7 @@ class QrCodeHelperTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		Router::reload();
-		Router::connect('/:controller', ['action' => 'index']);
-		Router::connect('/:controller/:action/*');
+		$this->loadRoutes();
 
 		$this->testEmail = 'foo@bar.local'; // For testing normal behavior
 
