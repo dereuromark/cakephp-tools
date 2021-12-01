@@ -851,7 +851,7 @@ class FrozenTime extends CakeFrozenTime {
 
 					break;
 				case 'd':
-					$str = floor($seconds / 86400 % 30);
+					$str = floor((int)($seconds / 86400) % 30);
 
 					break;
 				case 'H':
@@ -859,7 +859,7 @@ class FrozenTime extends CakeFrozenTime {
 
 					break;
 				case 'h':
-					$str = floor($seconds / 3600 % 24);
+					$str = floor((int)($seconds / 3600) % 24);
 
 					break;
 				case 'I':
@@ -867,7 +867,7 @@ class FrozenTime extends CakeFrozenTime {
 
 					break;
 				case 'i':
-					$str = floor($seconds / 60 % 60);
+					$str = floor((int)($seconds / 60) % 60);
 
 					break;
 				case 'S':

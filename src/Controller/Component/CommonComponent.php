@@ -97,10 +97,16 @@ class CommonComponent extends Component {
 	/**
 	 * List all direct actions of a controller
 	 *
-	 * @return array Actions
+	 * @return array<string> Actions
 	 */
 	public function listActions() {
-		$parentClassMethods = get_class_methods(get_parent_class($this->controller));
+		/** @var string|null $parentClass */
+		$parentClass = get_parent_class($this->controller);
+		if (!$parentClass) {
+			return [];
+		}
+
+		$parentClassMethods = get_class_methods($parentClass);
 		$subClassMethods = get_class_methods($this->controller);
 		$classMethods = array_diff($subClassMethods, $parentClassMethods);
 		foreach ($classMethods as $key => $classMethod) {

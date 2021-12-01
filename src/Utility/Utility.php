@@ -51,6 +51,8 @@ class Utility {
 	 * Options
 	 * - clean: true/false (defaults to true and removes empty tokens and whitespace)
 	 *
+	 * @phpstan-param non-empty-string $separator
+	 *
 	 * @param string $data The data to tokenize
 	 * @param string $separator The token to split the data on.
 	 * @param array $options
@@ -65,7 +67,7 @@ class Utility {
 			return [];
 		}
 		$tokens = explode($separator, $data);
-		if (empty($tokens) || !$options['clean']) {
+		if (!$options['clean']) {
 			return $tokens;
 		}
 
@@ -98,7 +100,7 @@ class Utility {
 	 */
 	public static function pregMatchAll($pattern, $subject, $flags = PREG_SET_ORDER, $offset = null) {
 		$pattern = substr($pattern, 0, 1) . '(*UTF8)' . substr($pattern, 1);
-		preg_match_all($pattern, $subject, $matches, $flags, $offset);
+		preg_match_all($pattern, $subject, $matches, $flags, (int)$offset);
 
 		return $matches;
 	}
@@ -122,7 +124,7 @@ class Utility {
 	 */
 	public static function pregMatch($pattern, $subject, $flags = null, $offset = null) {
 		$pattern = substr($pattern, 0, 1) . '(*UTF8)' . substr($pattern, 1);
-		preg_match($pattern, $subject, $matches, $flags, $offset);
+		preg_match($pattern, $subject, $matches, (int)$flags, (int)$offset);
 
 		return $matches;
 	}
@@ -163,7 +165,7 @@ class Utility {
 			$ipaddr = env('REMOTE_ADDR');
 		}
 
-		return trim($ipaddr);
+		return trim((string)$ipaddr);
 	}
 
 	/**
@@ -449,7 +451,7 @@ class Utility {
 		}
 
 		if (is_string($value) || $value === null) {
-			return ($value === null && !$transformNullToString) ? $value : trim($value);
+			return ($value === null && !$transformNullToString) ? $value : trim((string)$value);
 		}
 
 		return $value;
@@ -520,12 +522,14 @@ class Utility {
 	 *
 	 * So `Some.Deep.Value` becomes `array('Some' => array('Deep' => array('Value')))`.
 	 *
+	 * @phpstan-param non-empty-string $separator
+	 *
 	 * @param array $data
 	 * @param string $separator
 	 * @param string|null $undefinedKey
 	 * @return array
 	 */
-	public static function expandList(array $data, $separator = '.', $undefinedKey = null) {
+	public static function expandList(array $data, string $separator = '.', ?string $undefinedKey = null): array {
 		$result = [];
 		foreach ($data as $value) {
 			$keys = explode($separator, $value);
@@ -565,7 +569,7 @@ class Utility {
 	 * @param string $separator
 	 * @return array
 	 */
-	public static function flattenList(array $data, $separator = '.') {
+	public static function flattenList(array $data, string $separator = '.'): array {
 		$result = [];
 		$stack = [];
 		$path = null;

@@ -862,7 +862,7 @@ class Time extends CakeTime {
 
 					break;
 				case 'h':
-					$str = floor($seconds / 3600 % 24);
+					$str = floor((int)($seconds / 3600) % 24);
 
 					break;
 				case 'I':
@@ -870,7 +870,7 @@ class Time extends CakeTime {
 
 					break;
 				case 'i':
-					$str = floor($seconds / 60 % 60);
+					$str = floor((int)($seconds / 60) % 60);
 
 					break;
 				case 'S':

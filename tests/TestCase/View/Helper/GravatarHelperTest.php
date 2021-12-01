@@ -112,7 +112,7 @@ class GravatarHelperTest extends TestCase {
 	 */
 	public function testExtensions() {
 		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => true, 'default' => 'wavatar']);
-		$this->assertRegExp('/\.jpg(?:$|\?)/', $result);
+		$this->assertMatchesRegularExpression('/\.jpg(?:$|\?)/', $result);
 	}
 
 	/**
@@ -122,7 +122,7 @@ class GravatarHelperTest extends TestCase {
 	 */
 	public function testRating() {
 		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => true, 'default' => 'wavatar']);
-		$this->assertRegExp('/\.jpg(?:$|\?)/', $result);
+		$this->assertMatchesRegularExpression('/\.jpg(?:$|\?)/', $result);
 	}
 
 	/**
@@ -133,7 +133,7 @@ class GravatarHelperTest extends TestCase {
 	public function testAlternateDefaultIcon() {
 		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => false, 'default' => 'wavatar']);
 		[$url, $params] = explode('?', $result);
-		$this->assertRegExp('/default=wavatar/', $params);
+		$this->assertMatchesRegularExpression('/default=wavatar/', $params);
 	}
 
 	/**
@@ -143,7 +143,7 @@ class GravatarHelperTest extends TestCase {
 	 */
 	public function testAlternateDefaultIconCorrection() {
 		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => false, 'default' => '12345']);
-		$this->assertRegExp('/[^\?]+/', $result);
+		$this->assertMatchesRegularExpression('/[^\?]+/', $result);
 	}
 
 	/**
@@ -154,7 +154,7 @@ class GravatarHelperTest extends TestCase {
 	public function testSize() {
 		$result = $this->Gravatar->url('example@gravatar.com', ['size' => '120']);
 		[$url, $params] = explode('?', $result);
-		$this->assertRegExp('/size=120/', $params);
+		$this->assertMatchesRegularExpression('/size=120/', $params);
 	}
 
 	/**
