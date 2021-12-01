@@ -61,7 +61,19 @@ class BitmaskedBehavior extends Behavior {
 		$options += ['type' => 'exact'];
 
 		if ($options['type'] === 'contain') {
-			return $query->where($this->containsBit($options['bits']));
+			$bits = (array)$options['bits'];
+			if (!$bits) {
+				$field = $this->_config['field'];
+
+				return $query->where([$this->_table->getAlias() . '.' . $field  => $this->_getDefaultValue($field)]);
+			}
+
+			$conditions = [];
+			foreach ($bits as $bit) {
+				$conditions[] = $this->containsBit($bit);
+			}
+
+			return $query->where(['OR' => $conditions]);
 		}
 
 		$bits = $this->encodeBitmask($options['bits']);

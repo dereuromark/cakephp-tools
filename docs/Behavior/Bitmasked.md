@@ -117,11 +117,11 @@ $this->Comments->find('bits', ['bits' => $statuses, 'type' => 'contain])->toArra
 If you build more complex finders or queries for your data, you might find the following info useful:
 
 "contains" (looking for any that contains this type) is translated to `field & {type} = {type}` in the ORM, e.g. `status & 1 = 1`.
-Once you are looking for a combination of types, it will be the bitmask of those integers, e.g. `1 + 2 = 3`, so `status & 3 = 3`.
+Once you are looking for a combination of types, it will be an `OR` of those elements, e.g. `status & 1 = 1 OR status & 2 = 2`.
 
 Using the finder you do not have to care about the SQL details here, as it will translate to this automatically.
 
-"exact" (default) only looks at the values exclusivly. If you are looking for multiple ones at once that are exclusive, this will need to be translated to `IN (...)` using only the type integers directly (not the bitmasked combinations), e.g. `IN (1, 2, 4`).
+"exact" (default) only looks at the values exclusively. If you are looking for multiple ones at once that are exclusive, this will need to be translated to `IN (...)` using only the type integers directly (not the bitmasked combinations), e.g. `IN (1, 2, 4`).
 
 
 ### Configuration
