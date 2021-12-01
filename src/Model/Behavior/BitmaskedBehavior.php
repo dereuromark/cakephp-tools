@@ -65,7 +65,7 @@ class BitmaskedBehavior extends Behavior {
 			if (!$bits) {
 				$field = $this->_config['field'];
 
-				return $query->where([$this->_table->getAlias() . '.' . $field  => $this->_getDefaultValue($field)]);
+				return $query->where([$this->_table->getAlias() . '.' . $field => $this->_getDefaultValue($field)]);
 			}
 
 			$conditions = [];
