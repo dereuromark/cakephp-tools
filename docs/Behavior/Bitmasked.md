@@ -112,6 +112,17 @@ When using select dropdows, you usually want to use type `contain` instead of `e
 $this->Comments->find('bits', ['bits' => $statuses, 'type' => 'contain])->toArray();
 ```
 
+#### Custom usage
+
+If you build more complex finders or queries for your data, you might find the following info useful:
+
+Looking for each of the types on it's own is translated to `= {type}` in the ORM.
+Once you are looking for a combination of types, it will be the bitmask of those integers, e.g. `1 + 2 = 3`.
+
+If you are looking for multiple ones at once that are exclusive, this will translate to `IN (...)` using only the type integers directly (not the bitmasked combinations), e.g. `IN (1, 2, 4`).
+You can also search for multiple types including inlusive matching this way: `IN (1, 2, 3)` would find all of type 1, 2 and which share both types together.
+
+
 ### Configuration
 
 The default `onMarshal` expects you to require validation (not empty, ...) on this field.
