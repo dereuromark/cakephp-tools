@@ -148,6 +148,12 @@ If you don't need that, and it is nullable, you can also set the event to e.g. `
 If you use `fields` config to whitelist the fields for patching, you should also whitelist
 the alias field if you defined one and if you are using `onMarshal`.
 
+
+### Demo
+
+- Basics: https://sandbox.dereuromark.de/sandbox/tools-examples/bitmasks
+- Filtering: https://sandbox.dereuromark.de/sandbox/tools-examples/bitmask-search
+
 ### Outview
 
 You can read more about how it began in [my blog post](https://www.dereuromark.de/2012/02/26/bitmasked-using-bitmasks-in-cakephp/).
