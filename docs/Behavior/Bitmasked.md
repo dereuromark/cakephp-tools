@@ -4,8 +4,9 @@ A CakePHP behavior to allow quick row-level filtering of models via bitmasks.
 
 ## Introduction
 Basically it encodes the array of bit flags into a single bitmask on save and vice versa on find.
-I created it as an extension of my pretty well working Enum stuff. It can use this type of enum declaration for our bitmask, as well.
-It uses constants as this is the cleanest approach to define model based field values that need to be hardcoded in your application.
+I created it as an extension of my pretty well working Enum functionality. It can use this type of enum declaration for these bitmasks, as well.
+It uses (class) constants as this is the cleanest approach to define model based field values that need to be hardcoded in your application.
+They are usually defined in your entities.
 
 ### Technical limitation
 The theoretical limit for a 64-bit integer [SQL: BIGINT unsigned] would be 64 bits (2^64).
@@ -13,6 +14,11 @@ Don’t use bitmasks if you seem to need more than a hand full, though.
 Then you obviously do something wrong and should better use a join table.
 I highly recommend using `tinyint(3) unsigned` which can hold up to 8 bits – more than enough. It still only needs 1 byte.
 
+### Advantage
+The main advantage is the storage of e.g. up to 8 bits in 1 byte compared to `8+ bytes (= 8x more space) as seperate flags on the table row.
+With thousands and millions of records this can sum up.
+It only uses a single field, which keeps DB/app migration at a minimum, if you only introduce new ones on top.
+Also easy to transfer this data around, since we don't have to check and process multiple fields on the record.
 
 ## Usage
 Attach it to your model's `Table` class in its `initialize()` method like so:
