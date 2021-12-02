@@ -46,6 +46,8 @@ class BitmaskedBehavior extends Behavior {
 		'implementedFinders' => [
 			'bits' => 'findBitmasked',
 		],
+		'type' => null, // Auto-defaults to current default "exact", set to "contain" for contain mode
+		'containMode' => 'or', // Use "and" when a record must match all bits
 	];
 
 	/**
@@ -58,7 +60,10 @@ class BitmaskedBehavior extends Behavior {
 		if (!isset($options['bits'])) {
 			throw new InvalidArgumentException("The 'bits' key is required for find('bits')");
 		}
-		$options += ['type' => 'exact'];
+		$options += [
+			'type' => $this->_config['type'] ?? 'exact',
+			'containMode' => $this->_config['containMode'],
+		];
 
 		if ($options['type'] === 'contain') {
 			$bits = (array)$options['bits'];
@@ -66,6 +71,12 @@ class BitmaskedBehavior extends Behavior {
 				$field = $this->_config['field'];
 
 				return $query->where([$this->_table->getAlias() . '.' . $field => $this->_getDefaultValue($field)]);
+			}
+
+			if ($options['containMode'] === 'and') {
+				$bits = $this->encodeBitmask($options['bits']);
+
+				return $query->where($this->containsBit($bits));
 			}
 
 			$conditions = [];
