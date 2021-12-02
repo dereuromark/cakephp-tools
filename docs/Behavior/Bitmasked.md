@@ -86,7 +86,7 @@ echo $this->Form->error('status');
 Alternatively, you can map the error over before the entity gets passed to the view layer.
 
 ### Custom finder
-You can use the built in custom finder `findBitmasked`:
+You can use the built-in custom finder `findBitmasked`:
 ```php
 $statuses = [Comment::STATUS_ACTIVE, Comment::STATUS_FEATURED];
 $comments = $this->Comments->find('bits', ['bits' => $statuses])->toArray();
@@ -107,9 +107,19 @@ $searchManager
 
 This way the array of checkboxes selected will be turned into the integer bitmask needed for the query to work.
 
-When using select dropdows, you usually want to use type `contain` instead of `exact` matching:
+When using select dropdows or checkboxes, you usually want to use type `contain` instead of `exact` matching:
 ```php
-$this->Comments->find('bits', ['bits' => $statuses, 'type' => 'contain])->toArray();
+$this->Comments->find('bits', ['bits' => $statuses, 'type' => 'contain'])->toArray();
+```
+It can also be useful to add a state for "no bits set" (all without any bits):
+```php
+$statuses[0] = ' - n/a (no flags) - ';
+```
+This is usually only the case for dropdowns. For checkboxes in filter forms no selection means usually "ignore this filter".
+
+If you want to use AND instead of default OR mode, use this config:
+```php
+'type' => 'contain', 'containMode' => 'and'
 ```
 
 #### Custom usage
