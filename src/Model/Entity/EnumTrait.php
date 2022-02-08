@@ -10,7 +10,7 @@ trait EnumTrait {
 	 *
 	 * @link https://www.dereuromark.de/2010/06/24/static-enums-or-semihardcoded-attributes/
 	 * @param array|string|int|null $value Integer or array of keys or NULL for complete array result
-	 * @param array \Traversable|$options Options
+	 * @param \Traversable|array $options Options
 	 * @param string|null $default Default value
 	 * @return array|string|null
 	 */
