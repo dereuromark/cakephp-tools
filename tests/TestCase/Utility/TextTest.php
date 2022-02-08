@@ -2,7 +2,7 @@
 
 namespace Tools\Test\TestCase\Utility;
 
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 use Tools\Utility\Text;
 
 class TextTest extends TestCase {
@@ -10,12 +10,12 @@ class TextTest extends TestCase {
 	/**
 	 * @var \Tools\Utility\Text;
 	 */
-	public $Text;
+	protected $Text;
 
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->Text = new Text();
@@ -55,18 +55,10 @@ TXT;
 	 */
 	public function testConvertToOrd() {
 		$is = $this->Text->convertToOrd('h H');
-		$this->assertEquals($is, '0-104-32-72-0');
+		$this->assertSame($is, '0-104-32-72-0');
 
 		$is = $this->Text->convertToOrd('x' . PHP_EOL . 'x' . PHP_EOL . 'x' . PHP_EOL . 'x' . PHP_EOL . 'x' . "\t" . 'x');
-		$this->assertNotEmpty($is);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testConvertToOrdTable() {
-		$is = $this->Text->convertToOrdTable('x' . PHP_EOL . 'x' . PHP_EOL . 'x' . PHP_EOL . 'x' . PHP_EOL . 'x' . "\t" . 'x');
-		$this->assertNotEmpty($is);
+		$this->assertSame('0-120-10-120-10-120-10-120-10-120-9-120-0', $is);
 	}
 
 	/**

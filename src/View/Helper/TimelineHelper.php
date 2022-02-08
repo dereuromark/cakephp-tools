@@ -2,6 +2,7 @@
 
 namespace Tools\View\Helper;
 
+use Cake\I18n\FrozenTime;
 use Cake\View\Helper;
 
 /**
@@ -22,7 +23,7 @@ class TimelineHelper extends Helper {
 	/**
 	 * @var array
 	 */
-	public $helpers = ['Html'];
+	protected $helpers = ['Html'];
 
 	/**
 	 * Possible values are (with their default values):
@@ -44,7 +45,7 @@ class TimelineHelper extends Helper {
 	 *
 	 * @link http://almende.github.io/chap-links-library/js/timeline/doc/
 	 *
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'id' => 'mytimeline',
@@ -112,8 +113,8 @@ class TimelineHelper extends Helper {
 
 		$current = '';
 		if ($settings['current']) {
-			$dateString = date('Y-m-d H:i:s', time());
-			$current = 'timeline.setCurrentTime(' . $this->_date($dateString) . ');';
+			$now = new FrozenTime();
+			$current = 'timeline.setCurrentTime(' . $this->_date($now) . ');';
 		}
 		unset($settings['id']);
 		unset($settings['current']);
@@ -140,10 +141,13 @@ function drawVisualization() {
 
 drawVisualization();
 JS;
-		if ($return) {
-			return $script;
+		if (!$return) {
+			$this->_buffer($script, $scriptOptions);
+
+			return null;
 		}
-		$this->_buffer($script, $scriptOptions);
+
+		return $script;
 	}
 
 	/**
@@ -170,6 +174,7 @@ JS;
 			$e[] = '\'' . $option . '\': ' . $value;
 		}
 		$string = '{' . PHP_EOL . "\t" . implode(',' . PHP_EOL . "\t", $e) . PHP_EOL . '}';
+
 		return $string;
 	}
 
@@ -188,10 +193,12 @@ JS;
 				switch ($key) {
 					case 'editable':
 						$tmp[] = $row ? 'true' : 'false';
+
 						break;
 					case 'start':
 					case 'end':
 						$tmp[] = '\'' . $key . '\': ' . $this->_date($row);
+
 						break;
 					default:
 						$tmp[] = '\'' . $key . '\': \'' . str_replace('\'', '\\\'', $row) . '\'';
@@ -200,6 +207,7 @@ JS;
 			$e[] = '{' . implode(',' . PHP_EOL, $tmp) . '}';
 		}
 		$string = '[' . implode(',' . PHP_EOL, $e) . '];';
+
 		return $string;
 	}
 

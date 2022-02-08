@@ -1,38 +1,47 @@
 <?php
 
-namespace Tools\Test\Model\Table;
+namespace Tools\Test\TestCase\Model\Table;
 
-use Cake\ORM\TableRegistry;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
+use Tools\Model\Table\TokensTable;
 
 class TokensTableTest extends TestCase {
 
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
-	public $fixtures = [
+	protected $fixtures = [
 		'plugin.Tools.Tokens',
 	];
 
 	/**
-	 * @var \Tools\Model\Table\TokensTable;
+	 * @var \Tools\Model\Table\TokensTable
 	 */
 	protected $Tokens;
 
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
-		$this->Tokens = TableRegistry::getTableLocator()->get('Tools.Tokens');
+		$this->Tokens = $this->getTableLocator()->get('Tools.Tokens');
+	}
+
+	/**
+	 * @return void
+	 */
+	public function tearDown(): void {
+		$this->getTableLocator()->clear();
+
+		parent::tearDown();
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testTokenInstance() {
-		$this->assertInstanceOf('Tools\Model\Table\TokensTable', $this->Tokens);
+		$this->assertInstanceOf(TokensTable::class, $this->Tokens);
 	}
 
 	/**
@@ -40,7 +49,6 @@ class TokensTableTest extends TestCase {
 	 */
 	public function testGenerateKey() {
 		$key = $this->Tokens->generateKey(4);
-		//pr($key);
 		$this->assertTrue(!empty($key) && strlen($key) === 4);
 	}
 
@@ -55,7 +63,7 @@ class TokensTableTest extends TestCase {
 		$this->assertTrue(!empty($res));
 
 		$res = $this->Tokens->useKey('test', $key);
-		$this->assertTrue(!empty($res) && !empty($res['used']));
+		$this->assertTrue(!empty($res) && !empty($res->used));
 
 		$res = $this->Tokens->useKey('test', $key . 'x');
 		$this->assertNull($res);
@@ -71,13 +79,13 @@ class TokensTableTest extends TestCase {
 		$data = [
 			'created' => date(FORMAT_DB_DATETIME, time() - 3 * MONTH),
 			'type' => 'y',
-			'key' => 'x',
+			'token' => 'x',
 		];
 		$entity = $this->Tokens->newEntity($data, ['validate' => false]);
 		$this->Tokens->save($entity);
-		$count = $this->Tokens->find('count');
+		$count = $this->Tokens->find()->count();
 		$this->Tokens->garbageCollector();
-		$count2 = $this->Tokens->find('count');
+		$count2 = $this->Tokens->find()->count();
 		$this->assertTrue($count > $count2);
 	}
 

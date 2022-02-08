@@ -4,14 +4,14 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\Core\Configure;
 use Cake\View\View;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 use Tools\Utility\Number;
 use Tools\View\Helper\NumberHelper;
 
 class NumberHelperTest extends TestCase {
 
 	/**
-	 * @var \Tools\View\Helper\NumberHelper
+	 * @var \Tools\View\Helper\NumberHelper|\Tools\Utility\Number
 	 */
 	protected $Number;
 
@@ -23,7 +23,7 @@ class NumberHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->locale = ini_get('intl.default_locale');
@@ -40,7 +40,7 @@ class NumberHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		ini_set('intl.default_locale', $this->locale);
@@ -64,58 +64,52 @@ class NumberHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testFormat() {
-		$is = $this->Number->format('22');
+		$is = $this->Number->format(22);
 		$expected = '22';
 		$this->assertSame($expected, $is);
 
-		$is = $this->Number->format('22.01');
+		$is = $this->Number->format(22.01);
 		$expected = '22,01';
 		$this->assertSame($expected, $is);
 
-		$is = $this->Number->format('22', ['places' => 2]);
+		$is = $this->Number->format(22, ['places' => 2]);
 		$expected = '22,00';
 		$this->assertSame($expected, $is);
 
-		$is = $this->Number->format('22.30', ['places' => 1]);
+		$is = $this->Number->format(22.30, ['places' => 1]);
 		$expected = '22,3';
 		$this->assertSame($expected, $is);
 
 		$is = $this->Number->format('22.30', ['precision' => -1]);
-		$expected = '22'; // Why 22,3 locally?
+		$expected = '22,3'; // Why not 22 ?
 		$this->assertSame($expected, $is);
 
-		$is = $this->Number->format('22.30', ['places' => 3]);
+		$is = $this->Number->format(22.30, ['places' => 3]);
 		$expected = '22,300';
 		$this->assertSame($expected, $is);
 
-		$is = $this->Number->format('abc', ['places' => 2]);
-		$expected = '0,00';
-		$this->assertSame($expected, $is);
-
-		$is = $this->Number->format('22.3', ['places' => 2, 'before' => 'EUR ']);
+		$is = $this->Number->format(22.3, ['places' => 2, 'before' => 'EUR ']);
 		$expected = 'EUR 22,30';
 		$this->assertSame($expected, $is);
 
-		$is = $this->Number->format('22.3', ['places' => 2, 'after' => ' EUR']);
+		$is = $this->Number->format(22.3, ['places' => 2, 'after' => ' EUR']);
 		$expected = '22,30 EUR';
 		$this->assertSame($expected, $is);
 
-		$is = $this->Number->format('22.3', ['places' => 2, 'after' => 'x', 'before' => 'v']);
+		$is = $this->Number->format(22.3, ['places' => 2, 'after' => 'x', 'before' => 'v']);
 		$expected = 'v22,30x';
 		$this->assertSame($expected, $is);
 
-		$is = $this->Number->format('22.3', ['places' => 2, 'locale' => 'en-US']);
+		$is = $this->Number->format(22.3, ['places' => 2, 'locale' => 'en-US']);
 		$expected = '22.30';
 		$this->assertSame($expected, $is);
 	}
 
 	/**
-	 * NumberHelperTest::testCurrency()
-	 *
 	 * @return void
 	 */
 	public function testCurrency() {
-		$is = Number::defaultCurrency();
+		$is = Number::getDefaultCurrency();
 		$this->assertSame('EUR', $is);
 
 		$is = $this->Number->currency(22.2);
@@ -123,8 +117,6 @@ class NumberHelperTest extends TestCase {
 	}
 
 	/**
-	 * NumberHelperTest::testToReadableSize()
-	 *
 	 * @return void
 	 */
 	public function testToReadableSize() {

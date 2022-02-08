@@ -6,3 +6,4 @@ composer.phar
 .idea/
 .phpunit.result.cache
 phpunit.xml
+/config/Migrations/schema-dump-default.lock

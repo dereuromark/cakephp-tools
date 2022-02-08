@@ -8,6 +8,7 @@ use Cake\View\Helper;
 use Cake\View\StringTemplate;
 use Cake\View\View;
 use RuntimeException;
+use Shim\Utility\Inflector as ShimInflector;
 
 /**
  * Format helper with basic html snippets
@@ -25,12 +26,12 @@ class FormatHelper extends Helper {
 	 *
 	 * @var array
 	 */
-	public $helpers = ['Html'];
+	protected $helpers = ['Html'];
 
 	/**
 	 * @var \Cake\View\StringTemplate
 	 */
-	public $template;
+	protected $template;
 
 	/**
 	 * @var array
@@ -39,17 +40,18 @@ class FormatHelper extends Helper {
 		'yes' => 'fa fa-check',
 		'no' => 'fa fa-times',
 		'view' => 'fa fa-eye',
-		'edit' => 'fa fa-pencil',
+		'edit' => 'fa fa-pen',
 		'add' => 'fa fa-plus',
 		'delete' => 'fa fa-trash',
-		'prev' => 'fa fa-prev',
-		'next' => 'fa fa-next',
+		'prev' => 'fa fa-arrow-left',
+		'next' => 'fa fa-arrow-right',
 		'pro' => 'fa fa-thumbs-up',
 		'contra' => 'fa fa-thumbs-down',
 		'male' => 'fa fa-mars',
 		'female' => 'fa fa-venus',
 		'config' => 'fa fa-cogs',
-		//'genderless' => 'fa fa-genderless'
+		'login' => 'fa fa-sign-in-alt',
+		'logout' => 'fa fa-sign-out-alt',
 	];
 
 	/**
@@ -140,7 +142,7 @@ class FormatHelper extends Helper {
 			$ret .= $this->Html->link(
 				$this->icon('prev') . '&nbsp;' . __d('tools', 'prev' . $name),
 				$url,
-				['escape' => false, 'title' => $neighbors['prev'][$titleField]]
+				['escape' => false, 'title' => $neighbors['prev'][$titleField]],
 			);
 		} else {
 			$ret .= $this->icon('prev');
@@ -156,7 +158,7 @@ class FormatHelper extends Helper {
 			$ret .= $this->Html->link(
 				$this->icon('next') . '&nbsp;' . __d('tools', 'next' . $name),
 				$url,
-				['escape' => false, 'title' => $neighbors['next'][$titleField]]
+				['escape' => false, 'title' => $neighbors['next'][$titleField]],
 			);
 		} else {
 			$ret .= $this->icon('next') . '&nbsp;' . __d('tools', 'next' . $name);
@@ -167,13 +169,20 @@ class FormatHelper extends Helper {
 		return $ret;
 	}
 
-	const GENDER_FEMALE = 2;
-	const GENDER_MALE = 1;
+	/**
+	 * @var int
+	 */
+	public const GENDER_FEMALE = 2;
+
+	/**
+	 * @var int
+	 */
+	public const GENDER_MALE = 1;
 
 	/**
 	 * Displays gender icon
 	 *
-	 * @param int|string $value
+	 * @param string|int $value
 	 * @param array $options
 	 * @param array $attributes
 	 * @return string
@@ -187,6 +196,7 @@ class FormatHelper extends Helper {
 		} else {
 			$icon = $this->icon('genderless', $options, $attributes + ['title' => __d('tools', 'Inter')]);
 		}
+
 		return $icon;
 	}
 
@@ -195,13 +205,14 @@ class FormatHelper extends Helper {
 	 * Uses http://fontawesome.io/icons/ by default
 	 *
 	 * Options:
+	 * - namespace
 	 * - size (int|string: 1...5 or large)
 	 * - rotate (integer: 90, 270, ...)
 	 * - spin (booelan: true/false)
 	 * - extra (array: muted, light, dark, border)
 	 * - pull (string: left, right)
 	 *
-	 * @param string|array $icon
+	 * @param array|string $icon
 	 * @param array $options
 	 * @param array $attributes
 	 * @return string
@@ -233,6 +244,7 @@ class FormatHelper extends Helper {
 		if (!empty($options['spin'])) {
 			$class[] = $options['namespace'] . '-spin';
 		}
+
 		return '<i class="' . implode(' ', $class) . '"></i>';
 	}
 
@@ -320,7 +332,7 @@ class FormatHelper extends Helper {
 	 * @return string
 	 */
 	protected function _customIcon($icon, array $options = [], array $attributes = []) {
-		$translate = isset($options['translate']) ? $options['translate'] : true;
+		$translate = $options['translate'] ?? true;
 
 		$type = pathinfo($icon, PATHINFO_FILENAME);
 		$title = ucfirst($type);
@@ -338,6 +350,7 @@ class FormatHelper extends Helper {
 		if (substr($icon, 0, 1) !== '/') {
 			$icon = 'icons/' . $icon;
 		}
+
 		return $this->Html->image($icon, $options);
 	}
 
@@ -352,8 +365,12 @@ class FormatHelper extends Helper {
 	protected function _fontIcon($type, $options, $attributes) {
 		$iconClass = $type;
 
+		unset($this->_config['class']);
+
 		$options += $this->_config;
-		if ($options['autoPrefix'] && $options['iconNamespace']) {
+		if ($options['autoPrefix'] && is_string($options['autoPrefix'])) {
+			$iconClass = $options['autoPrefix'] . '-' . $iconClass;
+		} elseif ($options['autoPrefix'] && $options['iconNamespace']) {
 			$iconClass = $options['iconNamespace'] . '-' . $iconClass;
 		}
 		if ($options['iconNamespace']) {
@@ -391,6 +408,7 @@ class FormatHelper extends Helper {
 		];
 
 		$options['attributes'] = $this->template->formatAttributes($formatOptions);
+
 		return $this->template->format('icon', $options);
 	}
 
@@ -439,6 +457,7 @@ class FormatHelper extends Helper {
 			$pieces = parse_url($domain);
 			$domain = $pieces['host'];
 		}
+
 		return 'http://www.google.com/s2/favicons?domain=' . $domain;
 	}
 
@@ -460,6 +479,7 @@ class FormatHelper extends Helper {
 		if (!isset($options['title'])) {
 			$options['title'] = $domain;
 		}
+
 		return $this->Html->image($url, $options);
 	}
 
@@ -481,11 +501,11 @@ class FormatHelper extends Helper {
 	 * Generates a pagination count: #1 etc for each pagination record
 	 * respects order (ASC/DESC)
 	 *
+	 * @deprecated Not in use anymore.
 	 * @param array $paginator
 	 * @param int $count (current post count on this page)
 	 * @param string|null $dir (ASC/DESC)
 	 * @return int
-	 * @deprecated
 	 */
 	public function absolutePaginateCount(array $paginator, $count, $dir = null) {
 		if ($dir === null) {
@@ -496,7 +516,7 @@ class FormatHelper extends Helper {
 		$pageCount = $paginator['pageCount'];
 		$totalCount = $paginator['count'];
 		$limit = $paginator['perPage'];
-		$step = isset($paginator['step']) ? $paginator['step'] : 1;
+		$step = $paginator['step'] ?? 1;
 
 		if ($dir === 'DESC') {
 			$count = $limit - $count + 1;
@@ -528,12 +548,15 @@ class FormatHelper extends Helper {
 			switch ($padType) {
 				case STR_PAD_LEFT:
 					$input = str_repeat($padString, $padLength - $length) . $input;
+
 					break;
 				case STR_PAD_RIGHT:
 					$input .= str_repeat($padString, $padLength - $length);
+
 					break;
 			}
 		}
+
 		return $input;
 	}
 
@@ -548,6 +571,7 @@ class FormatHelper extends Helper {
 		if (!$ok) {
 			return $this->ok($value, false);
 		}
+
 		return $value;
 	}
 
@@ -577,6 +601,7 @@ class FormatHelper extends Helper {
 		];
 		$options['content'] = $content;
 		$options['attributes'] = $this->template->formatAttributes($attributes);
+
 		return $this->template->format('ok', $options);
 	}
 
@@ -699,7 +724,7 @@ class FormatHelper extends Helper {
 					$table .= "\n" . static::array2table($cell, $options) . "\n";
 				} else {
 					$table .= (!is_array($cell) && strlen($cell) > 0) ? ($options['escape'] ? h(
-						$cell
+						$cell,
 					) : $cell) : $options['null'];
 				}
 
@@ -710,14 +735,15 @@ class FormatHelper extends Helper {
 		}
 
 		$table .= '</table>';
+
 		return $table;
 	}
 
 	/**
 	 * @param string $string
 	 *
-	 * @return string
 	 * @throws \RuntimeException
+	 * @return string
 	 */
 	public function slug($string) {
 		if ($this->_config['slugger']) {
@@ -729,7 +755,7 @@ class FormatHelper extends Helper {
 			return $callable($string);
 		}
 
-		return Inflector::slug($string);
+		return ShimInflector::slug($string);
 	}
 
 }

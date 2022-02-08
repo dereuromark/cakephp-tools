@@ -6,7 +6,7 @@ use ArrayObject;
 use Cake\Auth\PasswordHasherFactory;
 use Cake\Core\Configure;
 use Cake\Datasource\EntityInterface;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Table;
 use RuntimeException;
@@ -38,7 +38,7 @@ if (!defined('PWD_MAX_LENGTH')) {
 class PasswordableBehavior extends Behavior {
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'field' => 'password',
@@ -123,10 +123,10 @@ class PasswordableBehavior extends Behavior {
 	 * the constructor and call parent.
 	 *
 	 * @param array $config The configuration array this behavior is using.
-	 * @return void
 	 * @throws \RuntimeException
+	 * @return void
 	 */
-	public function initialize(array $config) {
+	public function initialize(array $config): void {
 		$formField = $this->_config['formField'];
 		$formFieldRepeat = $this->_config['formFieldRepeat'];
 		$formFieldCurrent = $this->_config['formFieldCurrent'];
@@ -161,17 +161,18 @@ class PasswordableBehavior extends Behavior {
 		// Add the validation rules if not already attached
 		if (!count($validator->field($formField))) {
 			$validator->add($formField, $rules['formField']);
-			$validator->allowEmpty($formField, !$this->_config['require']);
+			$validator->allowEmptyString($formField, null, !$this->_config['require']);
 		}
 		if (!count($validator->field($formFieldRepeat))) {
 			$ruleSet = $rules['formFieldRepeat'];
 			$ruleSet['validateIdentical']['rule'][1] = $formField;
 			$validator->add($formFieldRepeat, $ruleSet);
 			$require = $this->_config['require'];
-			$validator->allowEmpty($formFieldRepeat, function ($context) use ($require, $formField) {
+			$validator->allowEmptyString($formFieldRepeat, null, function ($context) use ($require, $formField) {
 				if (!$require && !empty($context['data'][$formField])) {
 					return false;
 				}
+
 				return !$require;
 			});
 		}
@@ -179,10 +180,11 @@ class PasswordableBehavior extends Behavior {
 		if ($this->_config['current'] && !count($validator->field($formFieldCurrent))) {
 			$validator->add($formFieldCurrent, $rules['formFieldCurrent']);
 			$require = $this->_config['require'];
-			$validator->allowEmpty($formFieldCurrent, function ($context) use ($require, $formField) {
+			$validator->allowEmptyString($formFieldCurrent, null, function ($context) use ($require, $formField) {
 				if (!$require && !empty($context['data'][$formField])) {
 					return false;
 				}
+
 				return !$require;
 			});
 
@@ -200,11 +202,10 @@ class PasswordableBehavior extends Behavior {
 				$validator->add($formField, 'validateNotSame', [
 					'rule' => ['validateNotSameHash'],
 					'message' => __d('tools', 'valErrPwdSameAsBefore'),
-					//'allowEmpty' => !$this->_config['require'],
 					'last' => true,
 					'provider' => 'table',
 				]);
-				$validator->allowEmpty($formField, !$this->_config['require']);
+				$validator->allowEmptyString($formField, null, !$this->_config['require']);
 			}
 		}
 
@@ -217,12 +218,12 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * Preparing the data
 	 *
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \ArrayObject $data
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options) {
+	public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options) {
 		$formField = $this->_config['formField'];
 		$formFieldRepeat = $this->_config['formFieldRepeat'];
 		$formFieldCurrent = $this->_config['formFieldCurrent'];
@@ -269,13 +270,13 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * Preparing the data
 	 *
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 * @param string $operation
 	 * @return void
 	 */
-	public function beforeRules(Event $event, EntityInterface $entity, ArrayObject $options, $operation) {
+	public function beforeRules(EventInterface $event, EntityInterface $entity, ArrayObject $options, $operation) {
 		$formField = $this->_config['formField'];
 		$formFieldRepeat = $this->_config['formFieldRepeat'];
 		$formFieldCurrent = $this->_config['formFieldCurrent'];
@@ -285,13 +286,14 @@ class PasswordableBehavior extends Behavior {
 			$current = $entity->get($formFieldCurrent);
 			$new = $entity->get($formField) || $entity->get($formFieldRepeat);
 			if (!$new && !$current) {
-				$entity->unsetProperty($formField);
+				$entity->unset($formField);
 				if ($this->_config['confirm']) {
-					$entity->unsetProperty($formFieldRepeat);
+					$entity->unset($formFieldRepeat);
 				}
 				if ($this->_config['current']) {
-					$entity->unsetProperty($formFieldCurrent);
+					$entity->unset($formFieldCurrent);
 				}
+
 				return;
 			}
 		}
@@ -300,13 +302,13 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * Hashing the password and whitelisting
 	 *
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 * @throws \RuntimeException
 	 * @return void
 	 */
-	public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options) {
+	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
 		$formField = $this->_config['formField'];
 		$field = $this->_config['field'];
 
@@ -319,16 +321,15 @@ class PasswordableBehavior extends Behavior {
 				throw new RuntimeException('Empty field');
 			}
 
-			$entity->unsetProperty($formField);
-			//$entity->set($formField, null);
+			$entity->unset($formField);
 
 			if ($this->_config['confirm']) {
 				$formFieldRepeat = $this->_config['formFieldRepeat'];
-				$entity->unsetProperty($formFieldRepeat);
+				$entity->unset($formFieldRepeat);
 			}
 			if ($this->_config['current']) {
 				$formFieldCurrent = $this->_config['formFieldCurrent'];
-				$entity->unsetProperty($formFieldCurrent);
+				$entity->unset($formFieldCurrent);
 			}
 		} else {
 			// To help mitigate timing-based user enumeration attacks.
@@ -349,6 +350,7 @@ class PasswordableBehavior extends Behavior {
 		if (!method_exists($PasswordHasher, 'needsRehash')) {
 			return false;
 		}
+
 		return $PasswordHasher->needsRehash($hash);
 	}
 
@@ -375,6 +377,7 @@ class PasswordableBehavior extends Behavior {
 			$uid = $context['data'][$this->_table->getPrimaryKey()];
 		} else {
 			trigger_error('No user id given');
+
 			return false;
 		}
 
@@ -395,6 +398,7 @@ class PasswordableBehavior extends Behavior {
 		}
 
 		$compareValue = $context['data'][$options['compare']];
+
 		return $compareValue === $value;
 	}
 
@@ -412,6 +416,7 @@ class PasswordableBehavior extends Behavior {
 		}
 
 		$compareValue = $context['data'][$options['compare']];
+
 		return $compareValue !== $data;
 	}
 
@@ -441,6 +446,7 @@ class PasswordableBehavior extends Behavior {
 		}
 
 		$PasswordHasher = $this->_getPasswordHasher($this->_config['passwordHasher']);
+
 		return !$PasswordHasher->check($value, $dbValue);
 	}
 
@@ -463,11 +469,12 @@ class PasswordableBehavior extends Behavior {
 		}
 
 		$PasswordHasher = $this->_getPasswordHasher($this->_config['passwordHasher']);
+
 		return $PasswordHasher->check($pwd, $dbValue);
 	}
 
 	/**
-	 * @param string|array $hasher Name or options array.
+	 * @param array|string $hasher Name or options array.
 	 * @param array $options
 	 * @return \Cake\Auth\AbstractPasswordHasher
 	 */

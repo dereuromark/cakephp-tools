@@ -83,13 +83,14 @@ class Language {
 			}
 		}
 		krsort($languages);
+
 		return $languages;
 	}
 
 	/**
 	 * Compares two parsed arrays of language tags and find the matches
 	 *
-	 * @param array $accepted
+	 * @param array<string> $accepted
 	 * @param array $available
 	 * @return string|null
 	 */
@@ -110,7 +111,7 @@ class Language {
 	/**
 	 * Compares two parsed arrays of language tags and find the matches
 	 *
-	 * @param array $accepted
+	 * @param array<string> $accepted
 	 * @param array $available
 	 * @return array
 	 */
@@ -144,6 +145,7 @@ class Language {
 			}
 		}
 		krsort($matches);
+
 		return $matches;
 	}
 
@@ -163,6 +165,7 @@ class Language {
 				break;
 			}
 		}
+
 		return $i === 0 ? 0 : (float)$i / count($a);
 	}
 

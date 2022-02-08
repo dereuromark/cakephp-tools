@@ -4,11 +4,11 @@
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
- * @author        ExpressionEngine Dev Team
- * @copyright    Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license        http://codeigniter.com/user_guide/license.html CodeIgniter License
- * @link        http://codeigniter.com
- * @since        Version 1.0
+ * @author ExpressionEngine Dev Team
+ * @copyright Copyright (c) 2008 - 2011, EllisLab, Inc.
+ * @license http://codeigniter.com/user_guide/license.html CodeIgniter License
+ * @link http://codeigniter.com
+ * @since Version 1.0
  */
 
 namespace Tools\View\Helper;
@@ -34,21 +34,21 @@ class TypographyHelper extends Helper {
 	 *
 	 * @var string
 	 */
-	public $blockElements = 'address|blockquote|div|dl|fieldset|form|h\d|hr|noscript|object|ol|p|pre|script|table|ul';
+	protected $blockElements = 'address|blockquote|div|dl|fieldset|form|h\d|hr|noscript|object|ol|p|pre|script|table|ul';
 
 	/**
 	 * Elements that should not have <p> and <br /> tags within them.
 	 *
 	 * @var string
 	 */
-	public $skipElements = 'p|pre|ol|ul|dl|object|table|h\d';
+	protected $skipElements = 'p|pre|ol|ul|dl|object|table|h\d';
 
 	/**
 	 * Tags we want the parser to completely ignore when splitting the string.
 	 *
 	 * @var string
 	 */
-	public $inlineElements =
+	protected $inlineElements =
 		'a|abbr|acronym|b|bdo|big|br|button|cite|code|del|dfn|em|i|img|ins|input|label|map|kbd|q|samp|select|small|span|strong|sub|sup|textarea|tt|var';
 
 	/**
@@ -56,26 +56,26 @@ class TypographyHelper extends Helper {
 	 *
 	 * @var array
 	 */
-	public $innerBlockRequired = ['blockquote'];
+	protected $innerBlockRequired = ['blockquote'];
 
 	/**
 	 * The last block element parsed
 	 *
 	 * @var string
 	 */
-	public $lastBlockElement = '';
+	protected $lastBlockElement = '';
 
 	/**
 	 * Whether or not to protect quotes within { curly braces }
 	 *
 	 * @var bool
 	 */
-	public $protectBracedQuotes = false;
+	protected $protectBracedQuotes = false;
 
 	/**
 	 * @var array
 	 */
-	public $matching = [
+	protected $matching = [
 		'deu' => 'low', // except for Switzerland
 		'eng' => 'default',
 		'fra' => 'angle',
@@ -178,11 +178,13 @@ class TypographyHelper extends Helper {
 				}
 
 				$str .= $chunk;
+
 				continue;
 			}
 
 			if ($process == false) {
 				$str .= $chunk;
+
 				continue;
 			}
 
@@ -215,34 +217,34 @@ class TypographyHelper extends Helper {
 		$table = [
 			// If the user submitted their own paragraph tags within the text
 			// we will retain them instead of using our tags.
-			'/(<p[^>*?]>)<p>/'	=> '$1', // <?php BBEdit syntax coloring bug fix
+			'/(<p[^>*?]>)<p>/' => '$1', // <?php BBEdit syntax coloring bug fix
 
 			// Reduce multiple instances of opening/closing paragraph tags to a single one
-			'#(</p>)+#'			=> '</p>',
-			'/(<p>\W*<p>)+/'	=> '<p>',
+			'#(</p>)+#' => '</p>',
+			'/(<p>\W*<p>)+/' => '<p>',
 
 			// Clean up stray paragraph tags that appear before block level elements
-			'#<p></p><(' . $this->blockElements . ')#'	=> '<$1',
+			'#<p></p><(' . $this->blockElements . ')#' => '<$1',
 
 			// Clean up stray non-breaking spaces preceeding block elements
-			'#(&nbsp;\s*)+<(' . $this->blockElements . ')#'	=> '  <$2',
+			'#(&nbsp;\s*)+<(' . $this->blockElements . ')#' => '  <$2',
 
 			// Replace the temporary markers we added earlier
-			'/\{@TAG\}/'		=> '<',
-			'/\{@DQ\}/'			=> '"',
-			'/\{@SQ\}/'			=> "'",
-			'/\{@DD\}/'			=> '--',
-			'/\{@NBS\}/'		=> '  ',
+			'/\{@TAG\}/' => '<',
+			'/\{@DQ\}/' => '"',
+			'/\{@SQ\}/' => "'",
+			'/\{@DD\}/' => '--',
+			'/\{@NBS\}/' => '  ',
 
 			// An unintended consequence of the _formatNewlines function is that
 			// some of the newlines get truncated, resulting in <p> tags
 			// starting immediately after <block> tags on the same line.
 			// This forces a newline after such occurrences, which looks much nicer.
-			"/><p>\n/"			=> ">\n<p>",
+			"/><p>\n/" => ">\n<p>",
 
 			// Similarly, there might be cases where a closing </block> will follow
 			// a closing </p> tag, so we'll correct it by adding a newline in between
-			'#</p></#'			=> "</p>\n</",
+			'#</p></#' => "</p>\n</",
 			];
 
 		// Do we need to reduce empty lines?
@@ -309,39 +311,39 @@ class TypographyHelper extends Helper {
 			// Note that in all cases, whitespace is the primary determining factor
 			// on which direction to curl, with non-word characters like punctuation
 			// being a secondary factor only after whitespace is addressed.
-			'/\'"(\s|$)/'					=> '&#8217;&#8221;$1',
-			'/(^|\s|<p>)\'"/'				=> '$1&#8216;&#8220;',
-			'/\'"(\W)/'						=> '&#8217;&#8221;$1',
-			'/(\W)\'"/'						=> '$1&#8216;&#8220;',
-			'/"\'(\s|$)/'					=> '&#8221;&#8217;$1',
-			'/(^|\s|<p>)"\'/'				=> '$1&#8220;&#8216;',
-			'/"\'(\W)/'						=> '&#8221;&#8217;$1',
-			'/(\W)"\'/'						=> '$1&#8220;&#8216;',
+			'/\'"(\s|$)/' => '&#8217;&#8221;$1',
+			'/(^|\s|<p>)\'"/' => '$1&#8216;&#8220;',
+			'/\'"(\W)/' => '&#8217;&#8221;$1',
+			'/(\W)\'"/' => '$1&#8216;&#8220;',
+			'/"\'(\s|$)/' => '&#8221;&#8217;$1',
+			'/(^|\s|<p>)"\'/' => '$1&#8220;&#8216;',
+			'/"\'(\W)/' => '&#8221;&#8217;$1',
+			'/(\W)"\'/' => '$1&#8220;&#8216;',
 
 			// single quote smart quotes
-			'/\'(\s|$)/'					=> '&#8217;$1',
-			'/(^|\s|<p>)\'/'				=> '$1&#8216;',
-			'/\'(\W)/'						=> '&#8217;$1',
-			'/(\W)\'/'						=> '$1&#8216;',
+			'/\'(\s|$)/' => '&#8217;$1',
+			'/(^|\s|<p>)\'/' => '$1&#8216;',
+			'/\'(\W)/' => '&#8217;$1',
+			'/(\W)\'/' => '$1&#8216;',
 
 			// double quote smart quotes
-			'/"(\s|$)/'						=> '&#8221;$1',
-			'/(^|\s|<p>)"/'					=> '$1&#8220;',
-			'/"(\W)/'						=> '&#8221;$1',
-			'/(\W)"/'						=> '$1&#8220;',
+			'/"(\s|$)/' => '&#8221;$1',
+			'/(^|\s|<p>)"/' => '$1&#8220;',
+			'/"(\W)/' => '&#8221;$1',
+			'/(\W)"/' => '$1&#8220;',
 
 			// apostrophes
-			"/(\w)'(\w)/"					=> '$1&rsquo;$2', // we dont use #8217; to avoid collision on replace
+			"/(\w)'(\w)/" => '$1&rsquo;$2', // we dont use #8217; to avoid collision on replace
 
 			// Em dash and ellipses dots
-			'/\s?\-\-\s?/'					=> '&#8212;',
-			'/(\w)\.{3}/'					=> '$1&#8230;',
+			'/\s?\-\-\s?/' => '&#8212;',
+			'/(\w)\.{3}/' => '$1&#8230;',
 
 			// double space after sentences
-			'/(\W)  /'						=> '$1&nbsp; ',
+			'/(\W)  /' => '$1&nbsp; ',
 
 			// ampersands, if not a character entity
-			'/&(?!#?[a-zA-Z0-9]{2,};)/'		=> '&amp;',
+			'/&(?!#?[a-zA-Z0-9]{2,};)/' => '&amp;',
 		];
 		if ($locale && !empty($locales[$locale])) {
 			foreach ($table as $key => $val) {

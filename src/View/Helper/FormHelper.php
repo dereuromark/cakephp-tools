@@ -16,7 +16,7 @@ use Cake\View\View;
 class FormHelper extends CakeFormHelper {
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfigExt = [
 		'novalidate' => false,
@@ -46,9 +46,10 @@ class FormHelper extends CakeFormHelper {
 	 * @param array $options An array of html attributes and options.
 	 * @return string An formatted opening FORM tag.
 	 */
-	public function create($model = null, array $options = []) {
+	public function create($model = null, array $options = []): string {
 		$defaults = ['novalidate' => $this->_defaultConfig['novalidate']];
 		$options += $defaults;
+
 		return parent::create($model, $options);
 	}
 

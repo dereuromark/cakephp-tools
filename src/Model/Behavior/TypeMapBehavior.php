@@ -16,7 +16,7 @@ use RuntimeException;
 class TypeMapBehavior extends Behavior {
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'fields' => [], // Fields to change column type for
@@ -27,7 +27,7 @@ class TypeMapBehavior extends Behavior {
 	 * @throws \RuntimeException
 	 * @return void
 	 */
-	public function initialize(array $config = []) {
+	public function initialize(array $config): void {
 		if (empty($this->_config['fields'])) {
 			throw new RuntimeException('Fields are required');
 		}
@@ -37,7 +37,7 @@ class TypeMapBehavior extends Behavior {
 
 		foreach ($this->_config['fields'] as $field => $type) {
 			if (is_array($type)) {
-				$type = $field['type'];
+				$type = $type['type'];
 			}
 			if (!is_string($type)) {
 				throw new RuntimeException('Invalid field type setup.');

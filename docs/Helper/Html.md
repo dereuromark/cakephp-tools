@@ -7,7 +7,7 @@ An enhanced HtmlHelper
 ## Usage
 Attach it to your controllers like so:
 ```php
-public $helpers = ['Tools.Html'];
+protected $helpers = ['Tools.Html'];
 ```
 It will replace the CakePHP core one everywhere.
 

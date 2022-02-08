@@ -5,11 +5,11 @@ namespace Tools\Test\TestCase\Controller\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\ServerRequest;
+use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
-use Cake\Routing\Route\DashedRoute;
+use Shim\TestSuite\TestCase;
 use TestApp\Controller\UrlComponentTestController;
-use Tools\TestSuite\TestCase;
 
 class UrlComponentTest extends TestCase {
 
@@ -26,11 +26,13 @@ class UrlComponentTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->event = new Event('Controller.beforeFilter');
 		$this->Controller = new UrlComponentTestController(new ServerRequest());
+
+		$this->loadRoutes();
 
 		Configure::write('App.fullBaseUrl', 'http://localhost');
 	}
@@ -38,7 +40,7 @@ class UrlComponentTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		unset($this->Controller);
@@ -108,8 +110,7 @@ class UrlComponentTest extends TestCase {
 
 		$request = $this->Controller->getRequest();
 		$request = $request->withAttribute('here', '/admin/foo/bar/baz/test')
-			->withParam('admin', true)
-			->withParam('prefix', 'admin')
+			->withParam('prefix', 'Admin')
 			->withParam('plugin', 'Foo');
 		$this->Controller->setRequest($request);
 
@@ -119,12 +120,12 @@ class UrlComponentTest extends TestCase {
 		Router::plugin('Foo', function (RouteBuilder $routes) {
 			$routes->fallbacks(DashedRoute::class);
 		});
-		Router::prefix('admin', function (RouteBuilder $routes) {
+		Router::prefix('Admin', function (RouteBuilder $routes) {
 			$routes->plugin('Foo', function (RouteBuilder $routes) {
 				$routes->fallbacks(DashedRoute::class);
 			});
 		});
-		Router::pushRequest($this->Controller->getRequest());
+		Router::setRequest($this->Controller->getRequest());
 
 		$result = $this->Controller->Url->build(['controller' => 'Bar', 'action' => 'baz', 'x']);
 		$expected = '/admin/foo/bar/baz/x';

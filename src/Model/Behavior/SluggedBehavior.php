@@ -5,13 +5,14 @@ namespace Tools\Model\Behavior;
 use ArrayObject;
 use Cake\Core\Configure;
 use Cake\Datasource\EntityInterface;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Utility\Inflector;
 use InvalidArgumentException;
 use RuntimeException;
+use Shim\Utility\Inflector as ShimInflector;
 
 /**
  * SluggedBehavior
@@ -25,8 +26,15 @@ use RuntimeException;
  */
 class SluggedBehavior extends Behavior {
 
-	const MODE_URL = 'url';
-	const MODE_ASCII = 'ascii';
+	/**
+	 * @var string
+	 */
+	public const MODE_URL = 'url';
+
+	/**
+	 * @var string
+	 */
+	public const MODE_ASCII = 'ascii';
 
 	/**
 	 * Default config
@@ -41,7 +49,7 @@ class SluggedBehavior extends Behavior {
 	 *     display - a dummy mode which returns a slug legal for display - removes illegal (not unprintable) characters
 	 *     url - returns a slug appropriate to put in a URL
 	 *     class - a dummy mode which returns a slug appropriate to put in a html class (there are no restrictions)
-	 *     id - retuns a slug appropriate to use in a html id
+	 *     id - returns a slug appropriate to use in a HTML id
 	 *     OR pass it a callable as custom method to be invoked
 	 * - separator: The separator to use
 	 * - length:
@@ -63,7 +71,7 @@ class SluggedBehavior extends Behavior {
 	 * - scope: certain conditions to use as scope
 	 * - tidy: If cleanup should be run on slugging
 	 *
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'label' => null,
@@ -108,7 +116,6 @@ class SluggedBehavior extends Behavior {
 	 */
 	public function __construct(Table $table, array $config = []) {
 		$this->_defaultConfig['notices'] = Configure::read('debug');
-		$this->_defaultConfig['label'] = $table->getDisplayField();
 		foreach ($this->_defaultConfig['replace'] as $key => $value) {
 			$this->_defaultConfig['replace'][$key] = __d('tools', $value);
 		}
@@ -124,14 +131,18 @@ class SluggedBehavior extends Behavior {
 	 * the constructor and call parent.
 	 *
 	 * @param array $config The configuration array this behavior is using.
-	 * @return void
 	 * @throws \RuntimeException
+	 * @return void
 	 */
-	public function initialize(array $config) {
+	public function initialize(array $config): void {
 		if ($this->_config['length'] === null) {
 			$field = $this->_table->getSchema()->getColumn($this->_config['field']);
 			$length = $field ? $field['length'] : 0;
 			$this->_config['length'] = $length;
+		}
+
+		if (!$this->_config['label']) {
+			$this->_config['label'] = $this->_table->getDisplayField();
 		}
 
 		$label = $this->_config['label'] = (array)$this->_config['label'];
@@ -141,9 +152,8 @@ class SluggedBehavior extends Behavior {
 		}
 		if ($this->_config['length']) {
 			foreach ($label as $field) {
-				$alias = $this->_table->getAlias();
 				if (strpos($field, '.')) {
-					list($alias, $field) = explode('.', $field);
+					[$alias, $field] = explode('.', $field);
 					if (!$this->_table->$alias->hasField($field)) {
 						throw new RuntimeException('(SluggedBehavior::setup) model `' . $this->_table->$alias->getAlias() . '` is missing the field `' . $field .
 							'` (specified in the setup for table `' . $this->_table->getAlias() . '`) ');
@@ -163,8 +173,8 @@ class SluggedBehavior extends Behavior {
 	 *
 	 * @param \Cake\ORM\Query $query
 	 * @param array $options
-	 * @return \Cake\ORM\Query
 	 * @throws \InvalidArgumentException If the 'slug' key is missing in options
+	 * @return \Cake\ORM\Query
 	 */
 	public function findSlugged(Query $query, array $options) {
 		if (empty($options['slug'])) {
@@ -177,14 +187,14 @@ class SluggedBehavior extends Behavior {
 	/**
 	 * SluggedBehavior::beforeRules()
 	 *
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 * @param string $operation
 	 *
 	 * @return void
 	 */
-	public function beforeRules(Event $event, EntityInterface $entity, ArrayObject $options, $operation) {
+	public function beforeRules(EventInterface $event, EntityInterface $entity, ArrayObject $options, $operation) {
 		if ($this->_config['on'] === 'beforeRules') {
 			$this->slug($entity);
 		}
@@ -193,12 +203,12 @@ class SluggedBehavior extends Behavior {
 	/**
 	 * SluggedBehavior::beforeSave()
 	 *
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options) {
+	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
 		if ($this->_config['on'] === 'beforeSave') {
 			$this->slug($entity);
 		}
@@ -212,7 +222,7 @@ class SluggedBehavior extends Behavior {
 	 * @return void
 	 */
 	public function slug(EntityInterface $entity, array $options = []) {
-		$overwrite = isset($options['overwrite']) ? $options['overwrite'] : $this->_config['overwrite'];
+		$overwrite = $options['overwrite'] ?? $this->_config['overwrite'];
 		if (!$overwrite && $entity->get($this->_config['overwriteField'])) {
 			$overwrite = true;
 		}
@@ -250,8 +260,10 @@ class SluggedBehavior extends Behavior {
 		if ($deep) {
 			$copy = clone $entity;
 			$this->slug($copy, ['overwrite' => true]);
+
 			return $copy->get($this->_config['field']) !== $entity->get($this->_config['field']);
 		}
+
 		return false;
 	}
 
@@ -267,10 +279,10 @@ class SluggedBehavior extends Behavior {
 	 *
 	 * @param string $value
 	 * @param \Cake\Datasource\EntityInterface|null $entity
-	 * @return string A slug
 	 * @throws \RuntimeException
+	 * @return string A slug
 	 */
-	public function generateSlug($value, EntityInterface $entity = null) {
+	public function generateSlug($value, ?EntityInterface $entity = null) {
 		$separator = $this->_config['separator'];
 
 		$string = str_replace(["\r\n", "\r", "\n"], ' ', $value);
@@ -287,7 +299,7 @@ class SluggedBehavior extends Behavior {
 			$slug = $callable($string);
 
 		} elseif ($this->_config['mode'] === static::MODE_ASCII) {
-			$slug = Inflector::slug($string, $separator);
+			$slug = ShimInflector::slug($string, $separator);
 		} elseif ($this->_config['mode'] === static::MODE_URL) {
 			$regex = $this->_regex($this->_config['mode']);
 			if ($regex) {
@@ -325,9 +337,9 @@ class SluggedBehavior extends Behavior {
 					$word = $firstCharUp . $rest;
 				}
 				if ($case === 'title') {
-					$slug = implode($words, $separator);
+					$slug = implode($separator, $words);
 				} elseif ($case === 'camel') {
-					$slug = implode($words);
+					$slug = implode('', $words);
 				}
 			}
 		}
@@ -347,7 +359,7 @@ class SluggedBehavior extends Behavior {
 
 			while ($this->_table->exists($conditions)) {
 				$i++;
-				$suffix	= $separator . $i;
+				$suffix = $separator . $i;
 				if ($this->_config['length'] && (mb_strlen($slug . $suffix) > $this->_config['length'])) {
 					$slug = mb_substr($slug, 0, $this->_config['length'] - mb_strlen($suffix));
 				}
@@ -371,8 +383,8 @@ class SluggedBehavior extends Behavior {
 	 * as callbacks or timeouts.
 	 *
 	 * @param array $params
-	 * @return bool Success
 	 * @throws \RuntimeException
+	 * @return bool Success
 	 */
 	public function resetSlugs($params = []) {
 		if (!$this->_table->hasField($this->_config['field'])) {
@@ -399,7 +411,7 @@ class SluggedBehavior extends Behavior {
 		while (($records = $this->_table->find('all', $params)->toArray())) {
 			/** @var \Cake\ORM\Entity $record */
 			foreach ($records as $record) {
-				$record->isNew(true);
+				$record->setNew(true);
 
 				$fields = array_merge([$this->_table->getPrimaryKey(), $this->_config['field']], $this->_config['label']);
 				$options = [
@@ -412,6 +424,7 @@ class SluggedBehavior extends Behavior {
 			}
 			$params['page']++;
 		}
+
 		return true;
 	}
 
@@ -449,8 +462,8 @@ class SluggedBehavior extends Behavior {
 	/**
 	 * Wrapper for preg replace taking care of encoding
 	 *
-	 * @param string|array $pattern
-	 * @param string|array $replace
+	 * @param array|string $pattern
+	 * @param array|string $replace
 	 * @param string $string
 	 * @return string
 	 */
@@ -520,6 +533,7 @@ class SluggedBehavior extends Behavior {
 			'\x{3095}-\x{3098}\x{309b}-\x{309c}\x{309f}-\x{30a0}\x{30fb}\x{30ff}-\x{3104}\x{312d}-\x{4dff}' .
 			'\x{9fa6}-\x{abff}\x{d7a4}-\x{d7ff}\x{e000}-\x{ffff}';
 		}
+
 		return null;
 	}
 

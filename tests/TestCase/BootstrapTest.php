@@ -3,7 +3,7 @@
 namespace Tools\Test\TestCase;
 
 use DateTime;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 
 class BootstrapTest extends TestCase {
 
@@ -127,22 +127,28 @@ class BootstrapTest extends TestCase {
 	 * @return void
 	 */
 	public function testEnt() {
-		$is = ent('<b>');
-		$this->assertSame('&lt;b&gt;', $is);
+		$result = ent('<>');
+		$expected = '&lt;&gt;';
+		$this->assertSame($expected, $result);
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testEntDec() {
-		$is = entDec('&lt;b&gt;');
-		$this->assertSame('<b>', $is);
+		$result = entDec('&lt;&gt;');
+		$expected = '<>';
+		$this->assertSame($expected, $result);
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testReturns() {
+		$result = returns([]);
+		$expected = '(array)';
+		$this->assertTextContains($expected, $result);
+
 		$foo = 1;
 		$is = returns($foo);
 		$this->assertSame('(int)1', $is);

@@ -14,11 +14,15 @@ class CommonComponentTestController extends Controller {
 	/**
 	 * @var array
 	 */
-	public $components = ['Tools.Common'];
+	public $autoRedirectActions = ['allowed'];
 
 	/**
-	 * @var array
+	 * @return void
 	 */
-	public $autoRedirectActions = ['allowed'];
+	public function initialize(): void {
+		parent::initialize();
+
+		$this->loadComponent('Tools.Common');
+	}
 
 }

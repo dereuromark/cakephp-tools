@@ -13,14 +13,15 @@ use Cake\Http\Exception\ConflictException;
 use Cake\Http\Exception\GoneException;
 use Cake\Http\Exception\InvalidCsrfTokenException;
 use Cake\Http\Exception\MethodNotAllowedException;
+use Cake\Http\Exception\MissingControllerException;
 use Cake\Http\Exception\NotAcceptableException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Exception\UnauthorizedException;
 use Cake\Http\Exception\UnavailableForLegalReasonsException;
-use Cake\Routing\Exception\MissingControllerException;
 use Cake\Routing\Exception\MissingRouteException;
 use Cake\View\Exception\MissingTemplateException;
 use Cake\View\Exception\MissingViewException;
+use InvalidArgumentException;
 
 /**
  * @property array $_options
@@ -31,10 +32,11 @@ trait ErrorHandlerTrait {
 	 * List of exceptions that are actually be treated as external 404s.
 	 * They should not go into the normal error log, but a separate 404 one.
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected static $blacklist = [
 		InvalidPrimaryKeyException::class,
+		InvalidArgumentException::class,
 		NotFoundException::class,
 		MethodNotAllowedException::class,
 		NotAcceptableException::class,
@@ -52,42 +54,33 @@ trait ErrorHandlerTrait {
 		UnavailableForLegalReasonsException::class,
 		SecurityException::class,
 		AuthSecurityException::class,
-		'Cake\Network\Exception\BadRequestException',
-		'Cake\Network\Exception\ConflictException',
-		'Cake\Network\Exception\GoneException',
-		'Cake\Network\Exception\InvalidCsrfTokenException',
-		'Cake\Network\Exception\MethodNotAllowedException',
-		'Cake\Network\Exception\NotAcceptableException',
-		'Cake\Network\Exception\NotFoundException',
-		'Cake\Network\Exception\UnauthorizedException',
-		'Cake\Network\Exception\UnavailableForLegalReasonsException',
 	];
 
 	/**
 	 * By design, these exceptions are also 404 with a valid internal referer.
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected static $evenWithReferer = [
 		AuthSecurityException::class,
 	];
 
 	/**
-	 * @param \Exception $exception
+	 * @param \Throwable $exception
 	 * @param \Psr\Http\Message\ServerRequestInterface|null $request
 	 * @return bool
 	 */
-	protected function is404($exception, $request = null) {
+	protected function is404($exception, $request = null): bool {
 		$blacklist = static::$blacklist;
 		if (isset($this->_options['log404'])) {
-			$blacklist = $this->_options['log404'];
+			$blacklist = (array)$this->_options['log404'];
 		}
 		if (!$blacklist) {
 			return false;
 		}
 
 		$class = get_class($exception);
-		if (!$this->isBlacklisted($class, (array)$blacklist)) {
+		if (!$this->isBlacklisted($class, $blacklist)) {
 			return false;
 		}
 
@@ -105,10 +98,10 @@ trait ErrorHandlerTrait {
 
 	/**
 	 * @param string $class
-	 * @param string[] $blacklist
+	 * @param array<string> $blacklist
 	 * @return bool
 	 */
-	protected function isBlacklisted($class, array $blacklist) {
+	protected function isBlacklisted(string $class, array $blacklist): bool {
 		// Quick string comparison first
 		if (in_array($class, $blacklist, true)) {
 			return true;
@@ -130,7 +123,7 @@ trait ErrorHandlerTrait {
 	 * @param string $class
 	 * @return bool
 	 */
-	protected function isBlacklistedEvenWithReferer($class) {
+	protected function isBlacklistedEvenWithReferer(string $class): bool {
 		return $this->isBlacklisted($class, static::$evenWithReferer);
 	}
 

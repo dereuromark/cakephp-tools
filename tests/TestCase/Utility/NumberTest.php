@@ -2,7 +2,7 @@
 
 namespace Tools\Test\TestCase\Utility;
 
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 use Tools\Utility\Number;
 
 class NumberTest extends TestCase {
@@ -15,10 +15,10 @@ class NumberTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
-		Number::defaultCurrency(false);
+		Number::setDefaultCurrency();
 	}
 
 	/**
@@ -57,7 +57,7 @@ class NumberTest extends TestCase {
 	 * @return void
 	 */
 	public function testMoney() {
-		Number::defaultCurrency('EUR');
+		Number::setDefaultCurrency('EUR');
 
 		$is = Number::money(22.11, ['locale' => 'DE']);
 		$expected = '22,11 €';
@@ -81,7 +81,7 @@ class NumberTest extends TestCase {
 	 * @return void
 	 */
 	public function testCurrency() {
-		Number::defaultCurrency('EUR');
+		Number::setDefaultCurrency('EUR');
 
 		$is = Number::currency(22.11);
 		$expected = '22,11 €';
@@ -146,7 +146,7 @@ class NumberTest extends TestCase {
 		];
 		foreach ($values as $was => $expected) {
 			$is = Number::roundTo($was, 10);
-			$this->assertSame($expected, $is, null, $was);
+			$this->assertSame($expected, $is, $was);
 		}
 		//increment = 0.1
 		$values2 = [
@@ -159,7 +159,7 @@ class NumberTest extends TestCase {
 		];
 		foreach ($values2 as $was => $expected) {
 			$is = Number::roundTo($was, 0.1);
-			$this->assertSame($expected, $is, null, $was);
+			$this->assertSame($expected, $is, $was);
 		}
 	}
 
@@ -178,7 +178,7 @@ class NumberTest extends TestCase {
 		];
 		foreach ($values as $was => $expected) {
 			$is = Number::roundUpTo($was, 10);
-			$this->assertSame($expected, $is, null, $was);
+			$this->assertSame($expected, $is, $was);
 		}
 		//increment = 5
 		$values = [
@@ -191,7 +191,7 @@ class NumberTest extends TestCase {
 		];
 		foreach ($values as $was => $expected) {
 			$is = Number::roundUpTo($was, 5);
-			$this->assertSame($expected, $is, null, $was);
+			$this->assertSame($expected, $is, $was);
 		}
 	}
 
@@ -210,7 +210,7 @@ class NumberTest extends TestCase {
 		];
 		foreach ($values as $was => $expected) {
 			$is = Number::roundDownTo($was, 10);
-			$this->assertSame($expected, $is, null, $was);
+			$this->assertSame($expected, $is, $was);
 		}
 		//increment = 3
 		$values = [
@@ -223,7 +223,7 @@ class NumberTest extends TestCase {
 		];
 		foreach ($values as $was => $expected) {
 			$is = Number::roundDownTo($was, 3);
-			$this->assertSame($expected, $is, null, $was);
+			$this->assertSame($expected, $is, $was);
 		}
 	}
 
@@ -240,8 +240,8 @@ class NumberTest extends TestCase {
 			'0.001' => 3,
 		];
 		foreach ($values as $was => $expected) {
-			$is = Number::getDecimalPlaces($was, 10);
-			$this->assertSame($expected, $is); //, null, $was
+			$is = Number::getDecimalPlaces($was);
+			$this->assertSame($expected, $is);
 		}
 	}
 

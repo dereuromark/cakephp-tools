@@ -3,8 +3,7 @@
 namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\View\View;
-use Tools\TestSuite\TestCase;
-use Tools\Utility\Text;
+use Shim\TestSuite\TestCase;
 use Tools\View\Helper\TextHelper;
 
 class TextHelperTest extends TestCase {
@@ -12,12 +11,12 @@ class TextHelperTest extends TestCase {
 	/**
 	 * @var \Tools\View\Helper\TextHelper
 	 */
-	public $Text;
+	protected $Text;
 
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->Text = new TextHelper(new View(null));
@@ -172,8 +171,6 @@ class TextHelperTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-/* from cake */
-
 	/**
 	 * Test invalid email addresses.
 	 *
@@ -210,22 +207,22 @@ class TextHelperTest extends TestCase {
 		$text = 'Text with a partial www.cakephp.org URL';
 		$expected = 'Text with a partial <a href="http://www.cakephp.org"\s*>www.cakephp.org</a> URL';
 		$result = $this->Text->autoLinkUrls($text);
-		$this->assertRegExp('#^' . $expected . '$#', $result);
+		$this->assertMatchesRegularExpression('#^' . $expected . '$#', $result);
 
 		$text = 'Text with a partial www.cakephp.org URL';
 		$expected = 'Text with a partial <a href="http://www.cakephp.org" \s*class="link">www.cakephp.org</a> URL';
 		$result = $this->Text->autoLinkUrls($text, [], ['class' => 'link']);
-		$this->assertRegExp('#^' . $expected . '$#', $result);
+		$this->assertMatchesRegularExpression('#^' . $expected . '$#', $result);
 
 		$text = 'Text with a partial WWW.cakephp.org URL';
 		$expected = 'Text with a partial <a href="http://WWW.cakephp.org"\s*>WWW.cakephp.org</a> URL';
 		$result = $this->Text->autoLinkUrls($text);
-		$this->assertRegExp('#^' . $expected . '$#', $result);
+		$this->assertMatchesRegularExpression('#^' . $expected . '$#', $result);
 
 		$text = 'Text with a partial WWW.cakephp.org &copy; URL';
 		$expected = 'Text with a partial <a href="http://WWW.cakephp.org"\s*>WWW.cakephp.org</a> &copy; URL';
 		$result = $this->Text->autoLinkUrls($text, ['escape' => false], ['escape' => false]);
-		$this->assertRegExp('#^' . $expected . '$#', $result);
+		$this->assertMatchesRegularExpression('#^' . $expected . '$#', $result);
 
 		$text = 'Text with a url www.cot.ag/cuIb2Q and more';
 		$expected = 'Text with a url <a href="http://www.cot.ag/cuIb2Q">www.cot.ag/cuIb2Q</a> and more';

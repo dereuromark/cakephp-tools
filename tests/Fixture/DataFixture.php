@@ -28,7 +28,6 @@ class DataFixture extends TestFixture {
 	 */
 	public $records = [
 			[
-				'id' => 1,
 				'name' => 'Lorem ipsum dolor sit amet',
 				'data_json' => null,
 				'data_array' => null,

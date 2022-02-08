@@ -4,7 +4,7 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\I18n\FrozenTime;
 use Cake\View\View;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 use Tools\Utility\Time;
 use Tools\View\Helper\TimeHelper;
 
@@ -14,14 +14,14 @@ use Tools\View\Helper\TimeHelper;
 class TimeHelperTest extends TestCase {
 
 	/**
-	 * @var \Tools\View\Helper\TimeHelper
+	 * @var \Tools\View\Helper\TimeHelper|\Tools\Utility\Time
 	 */
 	protected $Time;
 
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->Time = new TimeHelper(new View(null));
@@ -73,20 +73,21 @@ class TimeHelperTest extends TestCase {
 	public function testPublished() {
 		$result = $this->Time->published((new Time(date(FORMAT_DB_DATETIME)))->addSeconds(1));
 		$expected = 'class="published today';
-		$this->assertContains($expected, $result);
+		$this->assertStringContainsString($expected, $result);
 
 		$result = $this->Time->published((new Time(date(FORMAT_DB_DATETIME)))->addDays(1));
 		$expected = 'class="published notyet';
-		$this->assertContains($expected, $result);
+		$this->assertStringContainsString($expected, $result);
 
 		$result = $this->Time->published((new FrozenTime(date(FORMAT_DB_DATETIME)))->subDays(2));
 		$expected = 'class="published already';
-		$this->assertContains($expected, $result);
+		$this->assertStringContainsString($expected, $result);
+
+		$result = $this->Time->published(new FrozenTime('2012-02-03 14:12:10'));
+		$this->assertStringContainsString('03.02.2012', $result);
 	}
 
 	/**
-	 * DatetimeHelperTest::testTimezones()
-	 *
 	 * @return void
 	 */
 	public function testTimezones() {
@@ -99,7 +100,7 @@ class TimeHelperTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		unset($this->Time);

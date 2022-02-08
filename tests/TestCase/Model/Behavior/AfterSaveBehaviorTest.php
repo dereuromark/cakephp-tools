@@ -2,30 +2,29 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use Cake\ORM\TableRegistry;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 
 class AfterSaveBehaviorTest extends TestCase {
 
 	/**
 	 * @var array
 	 */
-	public $fixtures = [
+	protected $fixtures = [
 		'core.Articles',
 	];
 
 	/**
 	 * @var \Tools\Model\Table\Table|\Tools\Model\Behavior\AfterSaveBehavior
 	 */
-	public $table;
+	protected $table;
 
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
-		$this->table = TableRegistry::getTableLocator()->get('Articles');
+		$this->table = $this->getTableLocator()->get('Articles');
 		$this->table->addBehavior('Tools.AfterSave');
 	}
 

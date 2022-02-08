@@ -2,8 +2,8 @@
 
 namespace TestApp\Controller\Component;
 
-use Cake\Event\Event;
-use Shim\Controller\Component\Component;
+use Cake\Controller\Component;
+use Cake\Event\EventInterface;
 
 class TestComponent extends Component {
 
@@ -18,18 +18,18 @@ class TestComponent extends Component {
 	public $isStartup = false;
 
 	/**
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @return void
 	 */
-	public function beforeFilter(Event $event) {
+	public function beforeFilter(EventInterface $event) {
 		$this->isInit = true;
 	}
 
 	/**
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @return void
 	 */
-	public function startup(Event $event) {
+	public function startup(EventInterface $event) {
 		$this->isStartup = true;
 	}
 

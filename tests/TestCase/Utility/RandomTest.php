@@ -2,7 +2,7 @@
 
 namespace Tools\Test\TestCase\Utility;
 
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 use Tools\Utility\Random;
 
 class RandomTest extends TestCase {
@@ -58,7 +58,5 @@ class RandomTest extends TestCase {
 		//pr($is);
 		$this->assertTrue(strlen($is) === 11);
 	}
-
-	//TOOD: other tests
 
 }

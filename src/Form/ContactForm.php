@@ -19,7 +19,7 @@ class ContactForm extends Form {
 	 * @param \Cake\Form\Schema $schema
 	 * @return \Cake\Form\Schema
 	 */
-	protected function _buildSchema(Schema $schema) {
+	protected function _buildSchema(Schema $schema): Schema {
 		return $schema->addField('name', ['type' => 'string', 'length' => 40])
 			->addField('email', ['type' => 'string', 'length' => 50])
 			->addField('subject', ['type' => 'string', 'length' => 60])
@@ -30,26 +30,26 @@ class ContactForm extends Form {
 	 * @param \Cake\Validation\Validator $validator
 	 * @return \Cake\Validation\Validator
 	 */
-	protected function _buildValidator(Validator $validator) {
+	public function validationDefault(Validator $validator): Validator {
 		return $validator
 			->requirePresence('name')
-			->notEmpty('name', __d('tools', 'This field cannot be left empty'))
+			->notEmptyString('name', __d('tools', 'This field cannot be left empty'))
 			->requirePresence('email')
 			->add('email', 'format', [
 					'rule' => 'email',
 					'message' => __d('tools', 'A valid email address is required'),
 			])
 			->requirePresence('subject')
-			->notEmpty('subject', __d('tools', 'This field cannot be left empty'))
+			->notEmptyString('subject', __d('tools', 'This field cannot be left empty'))
 			->requirePresence('body')
-			->notEmpty('body', __d('tools', 'This field cannot be left empty'));
+			->notEmptyString('body', __d('tools', 'This field cannot be left empty'));
 	}
 
 	/**
 	 * @param array $data
 	 * @return bool
 	 */
-	protected function _execute(array $data) {
+	protected function _execute(array $data): bool {
 		// Overwrite in your extending class
 		return true;
 	}

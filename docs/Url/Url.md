@@ -7,7 +7,7 @@ If you need to merge in defaults to your URLs, you can get the information from 
 
 ```php
 // From inside a plugin controller action
-$$this->redirect(['controller' => 'Main', 'action' => 'index'] + $this->Url->defaults());
+$this->redirect(['controller' => 'Main', 'action' => 'index'] + $this->Url->defaults());
 ```
 It will basically add in `'prefix' => false, 'plugin' => false`.
 

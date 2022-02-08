@@ -7,29 +7,9 @@ Installing the Plugin is pretty much as with every other CakePHP Plugin.
 composer require dereuromark/cakephp-tools
 ```
 
-Details @ https://packagist.org/packages/dereuromark/cakephp-tools
-
-This will load the plugin (within your boostrap file):
-```php
-Plugin::load('Tools');
+The following command can enable the plugin:
 ```
-or
-```php
-Plugin::loadAll(...);
-```
-
-In case you want the Tools bootstrap file included (recommended), you can do that in your `ROOT/config/bootstrap.php` with
-
-```php
-Plugin::load('Tools', ['bootstrap' => true]);
-```
-
-or
-
-```php
-Plugin::loadAll([
-        'Tools' => ['bootstrap' => true]
-]);
+bin/cake plugin load Tools
 ```
 
 ## Namespacing
@@ -68,14 +48,5 @@ $this->addBehavior('Tools.Slugged'); // Adding SluggedBehavior
 $this->loadHelper('Tools.Foo'); // Adding FooHelper
 
 // In a Controller (deprecated)
-public $helpers = ['Tools.Foo']; // Adding FooHelper
+protected $helpers = ['Tools.Foo']; // Adding FooHelper
 ```
-
-### Class Alias Shortcuts
-
-For Configure usage especially in view files, you can add this to the bootstrap:
-```php
-class_alias('Cake\Core\Configure', 'Configure');
-```
-This avoids having to add tons of `use` statements at the top of your view ctps.
-But using the helper is preferred and a bit cleaner (`$this->loadHelper('Shim.Configure')`);

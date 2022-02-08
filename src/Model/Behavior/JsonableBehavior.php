@@ -6,12 +6,12 @@ use ArrayObject;
 use Cake\Collection\CollectionInterface;
 use Cake\Database\Type;
 use Cake\Datasource\EntityInterface;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use RuntimeException;
-use Tools\Database\Type\ArrayType;
+use Shim\Database\Type\ArrayType;
 use Tools\Utility\Text;
 
 /**
@@ -41,12 +41,12 @@ class JsonableBehavior extends Behavior {
 	/**
 	 * @var string|false|null
 	 */
-	public $decoded = null;
+	protected $decoded;
 
 	/**
 	 * //TODO: json input/ouput directly, clean
 	 *
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'fields' => [], // Fields to convert
@@ -76,7 +76,7 @@ class JsonableBehavior extends Behavior {
 	 * @throws \RuntimeException
 	 * @return void
 	 */
-	public function initialize(array $config = []) {
+	public function initialize(array $config): void {
 		if (empty($this->_config['fields'])) {
 			throw new RuntimeException('Fields are required');
 		}
@@ -103,14 +103,14 @@ class JsonableBehavior extends Behavior {
 	/**
 	 * Decode the fields on after find
 	 *
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\ORM\Query $query
 	 * @param \ArrayObject $options
 	 * @param bool $primary
 	 *
 	 * @return void
 	 */
-	public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary) {
+	public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, $primary) {
 		$query->formatResults(function (CollectionInterface $results) {
 			return $results->map(function ($row) {
 				if (!$row instanceof Entity) {
@@ -118,6 +118,7 @@ class JsonableBehavior extends Behavior {
 				}
 
 				$this->decodeItems($row);
+
 				return $row;
 			});
 		});
@@ -143,16 +144,16 @@ class JsonableBehavior extends Behavior {
 	/**
 	 * Saves all fields that do not belong to the current Model into 'with' helper model.
 	 *
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options) {
+	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
 		$fields = $this->_getMappedFields();
 
 		foreach ($fields as $map => $field) {
-			if (!$entity->get($map)) {
+			if ($entity->get($map) === null) {
 				continue;
 			}
 			$val = $entity->get($map);
@@ -175,10 +176,12 @@ class JsonableBehavior extends Behavior {
 		foreach ($mappedFields as $index => $map) {
 			if (empty($map) || $map == $usedFields[$index]) {
 				$fields[$usedFields[$index]] = $usedFields[$index];
+
 				continue;
 			}
 			$fields[$map] = $usedFields[$index];
 		}
+
 		return $fields;
 	}
 
@@ -211,7 +214,7 @@ class JsonableBehavior extends Behavior {
 	/**
 	 * Fields are absolutely necessary to function properly!
 	 *
-	 * @param string|array|null $val
+	 * @param array|string|null $val
 	 * @return array|false|null
 	 */
 	public function _decode($val) {
@@ -232,6 +235,7 @@ class JsonableBehavior extends Behavior {
 		} elseif ($this->_config['output'] === 'list') {
 			$decoded = $this->_toList($decoded);
 		}
+
 		return $decoded;
 	}
 
@@ -246,6 +250,7 @@ class JsonableBehavior extends Behavior {
 		foreach ($val as $key => $v) {
 			$res[] = $key . $this->_config['keyValueSeparator'] . $v;
 		}
+
 		return implode($this->_config['separator'], $res);
 	}
 
@@ -268,13 +273,14 @@ class JsonableBehavior extends Behavior {
 			}
 			$res[$subpieces[0]] = $subpieces[1];
 		}
+
 		return $res;
 	}
 
 	/**
 	 * array() => value1|value2|value3|...
 	 *
-	 * @param string[] $val
+	 * @param array<string> $val
 	 * @return string
 	 */
 	public function _toList($val) {
@@ -284,7 +290,7 @@ class JsonableBehavior extends Behavior {
 	/**
 	 * @param string $val
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	public function _fromList($val) {
 		$separator = $this->_config['separator'];
@@ -306,6 +312,7 @@ class JsonableBehavior extends Behavior {
 		if ($this->decoded !== false) {
 			return true;
 		}
+
 		return false;
 	}
 

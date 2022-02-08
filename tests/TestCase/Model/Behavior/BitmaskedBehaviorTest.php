@@ -2,31 +2,31 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use Cake\ORM\TableRegistry;
+use RuntimeException;
+use Shim\TestSuite\TestCase;
 use TestApp\Model\Entity\BitmaskedComment;
-use Tools\TestSuite\TestCase;
 
 class BitmaskedBehaviorTest extends TestCase {
 
 	/**
 	 * @var array
 	 */
-	public $fixtures = [
+	protected $fixtures = [
 		'plugin.Tools.BitmaskedComments',
 	];
 
 	/**
 	 * @var \Tools\Model\Table\Table|\Tools\Model\Behavior\BitmaskedBehavior
 	 */
-	public $Comments;
+	protected $Comments;
 
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
-		$this->Comments = TableRegistry::getTableLocator()->get('BitmaskedComments');
+		$this->Comments = $this->getTableLocator()->get('BitmaskedComments');
 		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
 	}
 
@@ -43,11 +43,13 @@ class BitmaskedBehaviorTest extends TestCase {
 
 	/**
 	 * @return void
-	 * @expectedException \RuntimeException
-	 * @expectedExceptionMessage Bits not found for field my_field, expected pluralized static method myFields() on the entity.
 	 */
 	public function testFieldMethodMissing() {
 		$this->Comments->removeBehavior('Bitmasked');
+
+		$this->expectException(RuntimeException::class);
+		$this->expectExceptionMessage('Bits not found for field my_field, expected pluralized static method myFields() on the entity.');
+
 		$this->Comments->addBehavior('Tools.Bitmasked', ['field' => 'my_field']);
 	}
 
@@ -110,6 +112,43 @@ class BitmaskedBehaviorTest extends TestCase {
 		];
 		$res = $this->Comments->find('bits', $options)->toArray();
 		$this->assertCount(3, $res);
+
+		$options = [
+			'bits' => [BitmaskedComment::STATUS_APPROVED, BitmaskedComment::STATUS_PUBLISHED],
+			'type' => 'contain',
+		];
+		$res = $this->Comments->find('bits', $options)->toArray();
+		$this->assertCount(5, $res);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testFindBitmaskedContainAnd() {
+		$options = [
+			'bits' => [],
+			'type' => 'contain',
+			'containMode' => 'and',
+		];
+		$res = $this->Comments->find('bits', $options)->toArray();
+		$this->assertCount(1, $res);
+		$this->assertSame([], $res[0]->statuses);
+
+		$options = [
+			'bits' => [BitmaskedComment::STATUS_APPROVED],
+			'type' => 'contain',
+			'containMode' => 'and',
+		];
+		$res = $this->Comments->find('bits', $options)->toArray();
+		$this->assertCount(3, $res);
+
+		$options = [
+			'bits' => [BitmaskedComment::STATUS_APPROVED, BitmaskedComment::STATUS_PUBLISHED],
+			'type' => 'contain',
+			'containMode' => 'and',
+		];
+		$res = $this->Comments->find('bits', $options)->toArray();
+		$this->assertCount(1, $res);
 	}
 
 	/**
@@ -144,7 +183,7 @@ class BitmaskedBehaviorTest extends TestCase {
 		$res = $this->Comments->save($entity);
 		$this->assertTrue((bool)$res);
 
-		$res = $this->Comments->find('first', ['conditions' => ['statuses' => $data['statuses']]]);
+		$res = $this->Comments->find()->where(['statuses IN' => $data['statuses']])->first();
 		$this->assertTrue(!empty($res));
 		$expected = BitmaskedComment::STATUS_APPROVED | BitmaskedComment::STATUS_PUBLISHED; // 6
 		$this->assertEquals($expected, $res['status']);
@@ -153,8 +192,8 @@ class BitmaskedBehaviorTest extends TestCase {
 		$this->assertEquals($expected, $res['statuses']);
 
 		// model.field syntax
-		$res = $this->Comments->find('first', ['conditions' => ['BitmaskedComments.statuses' => $data['statuses']]]);
-		$this->assertTrue((bool)$res->toArray());
+		$res = $this->Comments->find()->where(['BitmaskedComments.statuses IN' => $data['statuses']])->first();
+		$this->assertTrue((bool)$res);
 
 		// explicit
 		$activeApprovedAndPublished = BitmaskedComment::STATUS_ACTIVE | BitmaskedComment::STATUS_APPROVED | BitmaskedComment::STATUS_PUBLISHED;
@@ -166,7 +205,7 @@ class BitmaskedBehaviorTest extends TestCase {
 		$res = $this->Comments->save($entity);
 		$this->assertTrue((bool)$res);
 
-		$res = $this->Comments->find('first', ['conditions' => ['status' => $activeApprovedAndPublished]]);
+		$res = $this->Comments->find()->where(['status' => $activeApprovedAndPublished])->first();
 		$this->assertTrue((bool)$res);
 		$this->assertEquals($activeApprovedAndPublished, $res['status']);
 		$expected = [BitmaskedComment::STATUS_ACTIVE, BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_APPROVED];

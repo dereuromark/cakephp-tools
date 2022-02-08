@@ -4,7 +4,7 @@
 * [Installation](Install.md)
 
 ## Upgrade Guide
-* [Upgrade guide from 2.x to 3.x](Upgrade.md)
+* [Upgrade guide from 3.x to 4.x](Upgrade.md)
 
 ## Detailed Documentation - Quicklinks
 
@@ -23,8 +23,8 @@ Auth
 Email
 * [Email](Mailer/Email.md) for sending Emails
 
-Testing
-* [Testing](TestSuite/Testing.md) for testing tooling.
+Tokens
+* [Tokens](Model/Tokens.md) for Token usage
 
 Controller:
 * [Controller](Controller/Controller.md)
@@ -61,7 +61,10 @@ Entity:
 * [Enum](Entity/Enum.md)
 
 Utility:
-* [FileLog](Utility/FileLog.md)
+* [FileLog](Utility/FileLog.md) to log data into custom file(s) with one line
+
+Command:
+* [Inflect](Command/Inflect.md) to test inflection of words.
 
 ## Basic enhancements of the core
 
@@ -96,9 +99,9 @@ use Tools\Controller\Controller;
 
 class AppController extends Controller {
 
-    public $components = ['Tools.Common'];
+    protected $components = ['Tools.Common'];
 
-    public $helpers = ['Tools.Common', 'Tools.Time', 'Tools.Number', 'Tools.Format'];
+    protected $helpers = ['Tools.Common', 'Tools.Time', 'Tools.Number', 'Tools.Format'];
 
 }
 ```

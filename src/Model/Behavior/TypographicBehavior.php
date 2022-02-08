@@ -9,7 +9,7 @@ namespace Tools\Model\Behavior;
 use ArrayAccess;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 
 /**
@@ -37,8 +37,15 @@ use Cake\ORM\Behavior;
  */
 class TypographicBehavior extends Behavior {
 
-	const BEFORE_MARSHAL = 'marshal';
-	const BEFORE_SAVE = 'save';
+	/**
+	 * @var string
+	 */
+	public const BEFORE_MARSHAL = 'marshal';
+
+	/**
+	 * @var string
+	 */
+	public const BEFORE_SAVE = 'save';
 
 	/**
 	 * @var array
@@ -81,7 +88,7 @@ class TypographicBehavior extends Behavior {
 	protected $_id;
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'before' => self::BEFORE_SAVE, // save or marshal
@@ -96,7 +103,7 @@ class TypographicBehavior extends Behavior {
 	 * @param array $config Settings to override for model.
 	 * @return void
 	 */
-	public function initialize(array $config = []) {
+	public function initialize(array $config): void {
 		if (empty($this->_config['fields'])) {
 			$schema = $this->getTable()->getSchema();
 
@@ -122,12 +129,12 @@ class TypographicBehavior extends Behavior {
 	}
 
 	/**
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \ArrayObject $data
 	 * @param \ArrayObject $options
 	 * @return bool
 	 */
-	public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options) {
+	public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options) {
 		if ($this->_config['before'] === 'marshal') {
 			$this->process($data);
 		}
@@ -136,12 +143,12 @@ class TypographicBehavior extends Behavior {
 	}
 
 	/**
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options) {
+	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
 		if ($this->_config['before'] === 'save') {
 			$this->process($entity);
 		}
@@ -180,6 +187,7 @@ class TypographicBehavior extends Behavior {
 			}
 			$options['offset'] += 100;
 		}
+
 		return $count;
 	}
 
@@ -208,6 +216,7 @@ class TypographicBehavior extends Behavior {
 				$map[$key] = $this->_config['mergeQuotes'];
 			}
 		}
+
 		return str_replace(array_keys($map), array_values($map), $string);
 	}
 

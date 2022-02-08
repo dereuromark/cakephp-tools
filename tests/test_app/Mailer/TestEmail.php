@@ -2,6 +2,7 @@
 
 namespace TestApp\Mailer;
 
+use Shim\TestSuite\TestTrait;
 use Tools\Mailer\Email;
 
 /**
@@ -9,24 +10,6 @@ use Tools\Mailer\Email;
  */
 class TestEmail extends Email {
 
-	/**
-	 * Wrap to protected method
-	 *
-	 * @param string $text
-	 * @param int $length
-	 * @return array
-	 */
-	public function wrap($text, $length = Email::LINE_LENGTH_MUST) {
-		return parent::_wrap($text, $length);
-	}
-
-	/**
-	 * @param string $attribute
-	 * @return mixed
-	 */
-	public function getProtected($attribute) {
-		$attribute = '_' . $attribute;
-		return $this->$attribute;
-	}
+	use TestTrait;
 
 }

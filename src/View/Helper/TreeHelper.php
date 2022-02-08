@@ -26,7 +26,7 @@ class TreeHelper extends Helper {
 	/**
 	 * Default settings
 	 *
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'model' => null,
@@ -57,7 +57,7 @@ class TreeHelper extends Helper {
 	/**
 	 * Config settings property
 	 *
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_config = [];
 
@@ -115,19 +115,19 @@ class TreeHelper extends Helper {
 	 *    'splitCount' => the number of "parallel" types. defaults to null (disabled) set the splitCount,
 	 *        and optionally set the splitDepth to get parallel lists
 	 *
-	 * @param array|\Cake\Datasource\QueryInterface|\Cake\ORM\ResultSet $data Data to loop over
+	 * @param \Cake\Datasource\QueryInterface|\Cake\ORM\ResultSet|array $data Data to loop over
 	 * @param array $config Config
-	 * @return string HTML representation of the passed data
 	 * @throws \Exception
+	 * @return string HTML representation of the passed data
 	 */
 	public function generate($data, array $config = []) {
 		return $this->_generate($data, $config);
 	}
 
 	/**
-	 * @param array|\Cake\Datasource\QueryInterface|\Cake\ORM\ResultSet $data
+	 * @param \Cake\Datasource\QueryInterface|\Cake\ORM\ResultSet|array $data
 	 * @param array $config
-	 * @param array|\Cake\Datasource\QueryInterface|\Cake\ORM\ResultSet|null $parent
+	 * @param \Cake\Datasource\QueryInterface|\Cake\ORM\ResultSet|array|null $parent
 	 *
 	 * @throws \Exception
 	 * @return string
@@ -244,7 +244,7 @@ class TreeHelper extends Helper {
 				}
 			}
 
-			$depth = $depth ? $depth : count($stack);
+			$depth = $depth ?: count($stack);
 
 			$elementData = [
 				'data' => $result,
@@ -273,7 +273,7 @@ class TreeHelper extends Helper {
 			if ($element) {
 				$content = $this->_View->element($element, $elementData);
 			} elseif ($callback) {
-				list($content) = array_map($callback, [$elementData]);
+				[$content] = array_map($callback, [$elementData]);
 			} else {
 				$content = $row[$alias];
 			}
@@ -299,7 +299,7 @@ class TreeHelper extends Helper {
 				$return .= "\r\n" . $whiteSpace . $indentWith;
 			}
 			if ($itemType) {
-				$itemAttributes = $this->_attributes($itemType, $elementData);
+				$itemAttributes = $this->_attributes($itemType, $elementData, true, true);
 				$return .= '<' . $itemType . $itemAttributes . '>';
 			}
 			$return .= $content;
@@ -410,7 +410,7 @@ class TreeHelper extends Helper {
 	 */
 	public function addTypeAttribute($id = '', $key = '', $value = null, $previousOrNext = 'next') {
 		$var = '_typeAttributes';
-		$firstChild = isset($this->_config['firstChild']) ? $this->_config['firstChild'] : true;
+		$firstChild = $this->_config['firstChild'] ?? true;
 		if ($previousOrNext === 'next' && $firstChild) {
 			$var = '_typeAttributesNext';
 		}
@@ -446,7 +446,7 @@ class TreeHelper extends Helper {
 					$_splitCount = $rounded + 1;
 				}
 			} elseif ($depth == $splitDepth - 1) {
-				$total = $numberOfDirectChildren ? $numberOfDirectChildren : $numberOfTotalChildren;
+				$total = $numberOfDirectChildren ?: $numberOfTotalChildren;
 				if ($total) {
 					$_splitCounter = 0;
 					$_splitCount = $total / $splitCount;
@@ -465,6 +465,8 @@ class TreeHelper extends Helper {
 				}
 			}
 		}
+
+		return '';
 	}
 
 	/**
@@ -475,11 +477,12 @@ class TreeHelper extends Helper {
 	 * @param string $rType rType
 	 * @param array $elementData Element data
 	 * @param bool $clear Clear
+	 * @param bool $isItem is this an item or type call
 	 * @return string
 	 */
-	protected function _attributes($rType, array $elementData = [], $clear = true) {
+	protected function _attributes($rType, array $elementData = [], $clear = true, bool $isItem = false) {
 		extract($this->_config);
-		if ($rType === $type) {
+		if ($rType === $type && !$isItem) {
 			$attributes = $this->_typeAttributes;
 			if ($clear) {
 				$this->_typeAttributes = $this->_typeAttributesNext;
@@ -492,7 +495,7 @@ class TreeHelper extends Helper {
 				$this->_itemAttributes = [];
 			}
 		}
-		if ($rType === $itemType && $elementData['activePathElement']) {
+		if ($rType === $itemType && !empty($elementData['activePathElement'])) {
 			if ($elementData['activePathElement'] === true) {
 				$attributes['class'][] = $autoPath[2];
 			} else {
@@ -528,8 +531,8 @@ class TreeHelper extends Helper {
 	 * @param array $tree Tree
 	 * @param array $path Tree path
 	 * @param int $level Level
-	 * @return void
 	 * @throws \Exception
+	 * @return void
 	 */
 	protected function _markUnrelatedAsHidden(&$tree, array $path, $level = 0) {
 		extract($this->_config);

@@ -716,6 +716,7 @@ class Mime extends Response {
 		if ($coreHasPrecedence) {
 			return $this->_mimeTypes += $this->_mimeTypesExt;
 		}
+
 		return $this->_mimeTypesExt += $this->_mimeTypes;
 	}
 
@@ -740,6 +741,7 @@ class Mime extends Response {
 		if ($primaryOnly && is_array($mimeType)) {
 			$mimeType = array_shift($mimeType);
 		}
+
 		return $mimeType;
 	}
 
@@ -748,7 +750,7 @@ class Mime extends Response {
 	 *
 	 * e.g `mapType('application/pdf'); // returns 'pdf'`
 	 *
-	 * @param string|array $ctype Either a string content type to map, or an array of types.
+	 * @param array|string $ctype Either a string content type to map, or an array of types.
 	 * @return mixed Aliases for the types provided.
 	 */
 	public function mapType($ctype) {
@@ -778,8 +780,10 @@ class Mime extends Response {
 			if ($mimeType) {
 				return $mimeType;
 			}
+
 			return 'application/octet-stream';
 		}
+
 		return $this->_detectMimeType($file);
 	}
 
@@ -808,6 +812,7 @@ class Mime extends Response {
 					return trim(substr($header, 13));
 				}
 			}
+
 			return '';
 		}
 
@@ -817,7 +822,8 @@ class Mime extends Response {
 
 		$finfo = finfo_open(FILEINFO_MIME);
 		$mimetype = finfo_file($finfo, $file);
-		if (($pos = strpos($mimetype, ';')) !== false) {
+		$pos = strpos($mimetype, ';');
+		if ($pos !== false) {
 			$mimetype = substr($mimetype, 0, $pos);
 		}
 		if ($mimetype) {
@@ -828,6 +834,7 @@ class Mime extends Response {
 		if ($mimeType) {
 			return $mimeType;
 		}
+
 		return 'application/octet-stream';
 	}
 
@@ -848,6 +855,7 @@ class Mime extends Response {
 		if ($encoding !== false) {
 			return $encoding;
 		}
+
 		return $default;
 	}
 
@@ -860,6 +868,7 @@ class Mime extends Response {
 	protected static function _getExtension($file) {
 		$pieces = explode('.', $file);
 		$ext = strtolower(array_pop($pieces));
+
 		return $ext;
 	}
 

@@ -5,7 +5,7 @@ namespace Tools\Test\TestCase\Controller;
 use Cake\Core\Configure;
 use Cake\TestSuite\IntegrationTestTrait;
 use RuntimeException;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 
 /**
  * @uses \Tools\Controller\ShuntRequestController
@@ -17,14 +17,14 @@ class ShuntRequestControllerTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	public $fixtures = [
+	protected $fixtures = [
 		'core.Sessions',
 	];
 
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		Configure::write('Config.allowedLanguages', []);

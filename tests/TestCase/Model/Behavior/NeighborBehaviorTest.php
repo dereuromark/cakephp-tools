@@ -1,40 +1,38 @@
 <?php
 
-namespace Tools\Model\Behavior;
+namespace Tools\Test\TestCase\Model\Behavior;
 
-use Cake\ORM\TableRegistry;
-use Tools\Model\Table\Table;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 
 class NeighborBehaviorTest extends TestCase {
 
 	/**
-	 * @var \Tools\Model\Table\Table
-	 */
-	public $Table;
-
-	/**
 	 * @var array
 	 */
-	public $fixtures = [
+	protected $fixtures = [
 		'plugin.Tools.Stories',
 	];
 
 	/**
+	 * @var \Tools\Model\Table\Table
+	 */
+	protected $Table;
+
+	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
-		$this->Table = TableRegistry::getTableLocator()->get('Stories');
+		$this->Table = $this->getTableLocator()->get('Stories');
 		$this->Table->addBehavior('Tools.Neighbor');
 	}
 
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
-		TableRegistry::clear();
+	public function tearDown(): void {
+		$this->getTableLocator()->clear();
 
 		parent::tearDown();
 	}

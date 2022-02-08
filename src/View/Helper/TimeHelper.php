@@ -4,7 +4,7 @@ namespace Tools\View\Helper;
 
 use Cake\Core\App;
 use Cake\Core\Configure;
-use Cake\Core\Exception\Exception;
+use Cake\Core\Exception\CakeException;
 use Cake\View\Helper\TimeHelper as CakeTimeHelper;
 use Cake\View\View;
 
@@ -19,15 +19,15 @@ class TimeHelper extends CakeTimeHelper {
 	/**
 	 * @var array
 	 */
-	public $helpers = ['Html'];
+	protected $helpers = ['Html'];
 
 	/**
 	 * Default config for this class
 	 *
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
-		'engine' => 'Tools\Utility\Time',
+		'engine' => 'Tools\Utility\Time', // Deprecated, use Tools\Utility\FrozenTime instead
 	];
 
 	/**
@@ -45,7 +45,7 @@ class TimeHelper extends CakeTimeHelper {
 	 *
 	 * @param \Cake\View\View $View The View this helper is being attached to.
 	 * @param array $config Configuration settings for the helper
-	 * @throws \Cake\Core\Exception\Exception When the engine class could not be found.
+	 * @throws \Cake\Core\Exception\CakeException When the engine class could not be found.
 	 */
 	public function __construct(View $View, array $config = []) {
 		$defaults = [
@@ -58,7 +58,7 @@ class TimeHelper extends CakeTimeHelper {
 		$config = $this->_config + $defaults;
 		$engineClass = App::className($config['engine'], 'Utility');
 		if (!$engineClass) {
-			throw new Exception(sprintf('Class for %s could not be found', $config['engine']));
+			throw new CakeException(sprintf('Class for %s could not be found', $config['engine']));
 		}
 
 		$this->_engine = new $engineClass($config);
@@ -78,16 +78,17 @@ class TimeHelper extends CakeTimeHelper {
 	/**
 	 * Returns a nicely formatted date string for given Datetime string.
 	 *
-	 * @param int|string|\DateTime|null $dateString UNIX timestamp, strtotime() valid string or DateTime object
-	 * @param string|\DateTimeZone|null $timezone User's timezone string or DateTimeZone object
+	 * @param \DateTimeInterface|string|int|null $dateString UNIX timestamp, strtotime() valid string or DateTime object
+	 * @param \DateTimeZone|string|null $timezone User's timezone string or DateTimeZone object
 	 * @param string|null $locale Locale string.
-	 * @param string|bool $default Default string to use when no dateString is given. Use false to allow null as current date.
+	 * @param string|null $default Default string to use when no dateString is given. Use null to allow null as current date.
 	 * @return string Formatted date string
 	 */
-	public function nice($dateString = null, $timezone = null, $locale = null, $default = '') {
-		if ($dateString === null && $default !== false) {
+	public function nice($dateString = null, $timezone = null, ?string $locale = null, ?string $default = ''): string {
+		if ($dateString === null && $default !== null) {
 			return $default;
 		}
+
 		return parent::nice($dateString, $timezone, $locale);
 	}
 
@@ -107,6 +108,7 @@ class TimeHelper extends CakeTimeHelper {
 		if ($age >= 1 && $age <= 99) {
 			return (string)$age;
 		}
+
 		return $default;
 	}
 
@@ -120,7 +122,8 @@ class TimeHelper extends CakeTimeHelper {
 	 */
 	public function localDateMarkup($dateString = null, $format = null, $options = []) {
 		$date = $this->localDate($dateString, $format, $options);
-		$date = '<span' . ($this->isToday($dateString, (isset($options['userOffset']) ? $options['userOffset'] : null)) ? ' class="today"' : '') . '>' . $date . '</span>';
+		$date = '<span' . ($this->isToday($dateString, ($options['userOffset'] ?? null)) ? ' class="today"' : '') . '>' . $date . '</span>';
+
 		return $date;
 	}
 
@@ -134,7 +137,8 @@ class TimeHelper extends CakeTimeHelper {
 	 */
 	public function niceDateMarkup($dateString = null, $format = null, $options = []) {
 		$date = $this->niceDate($dateString, $format, $options);
-		$date = '<span' . ($this->isToday($dateString, (isset($options['userOffset']) ? $options['userOffset'] : null)) ? ' class="today"' : '') . '>' . $date . '</span>';
+		$date = '<span' . ($this->isToday($dateString, ($options['userOffset'] ?? null)) ? ' class="today"' : '') . '>' . $date . '</span>';
+
 		return $date;
 	}
 
@@ -154,13 +158,13 @@ class TimeHelper extends CakeTimeHelper {
 
 		//$y = $this->isThisYear($date) ? '' : ' Y';
 
-		$format = (!empty($options['format']) ? $options['format'] : FORMAT_NICE_YMD);
+		$format = (!empty($options['format']) ? $options['format'] : 'dd.MM.YYYY');
 
 		// Hack
 		// //TODO: get this to work with datetime - somehow cleaner
 		$timeAttachment = '';
 		if (isset($options['niceDateTime'])) {
-			$timeAttachment = ', ' . $this->nice($date, $options['niceDateTime']);
+			$timeAttachment = ', ' . $this->format($date, $options['niceDateTime']);
 			$whenOverride = true;
 		}
 
@@ -183,7 +187,7 @@ class TimeHelper extends CakeTimeHelper {
 			$niceDate = $this->format($date, $format) . $timeAttachment; //date("M jS{$y}", $date);
 		}
 
-		if (!empty($whenOverride) && $when == 0) {
+		if (!empty($whenOverride) && $when === 0) {
 			if ($this->isInTheFuture($date)) {
 				$when = 1;
 			} else {
@@ -191,7 +195,7 @@ class TimeHelper extends CakeTimeHelper {
 			}
 		}
 
-		if (empty($niceDate) || $when === null) {
+		if (empty($niceDate)) {
 			$niceDate = '<i>n/a</i>';
 		} else {
 			if (!isset($attr['title'])) {
@@ -199,6 +203,7 @@ class TimeHelper extends CakeTimeHelper {
 			}
 			$attr['class'] = 'published ' . $whenArray[$when];
 		}
+
 		return $this->Html->tag('span', $niceDate, $attr);
 	}
 
@@ -610,6 +615,7 @@ class TimeHelper extends CakeTimeHelper {
 			'Asia/Anadyr' => '(GMT+12:00) Asia/Anadyr (Anadyr Time)',
 			'Asia/Kamchatka' => '(GMT+12:00) Asia/Kamchatka (Petropavlovsk-Kamchatski Time)',
 		];
+
 		return $timezones;
 	}
 

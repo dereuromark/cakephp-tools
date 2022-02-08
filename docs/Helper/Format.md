@@ -24,6 +24,15 @@ echo $this->Html->link(
 );
 ```
 
+Font Awesome v4 works out of the box.
+For v5 you want to use a custom namespace and prefix (either in app.php or in AppView.php):
+```php
+$this->loadHelper('Tools.Format', [
+    'iconNamespace' => 'fas',
+    'autoPrefix' => 'fa',
+]);
+```
+
 You can alias them via Configure for more usability:
 ```php
 // In app.php

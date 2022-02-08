@@ -5,9 +5,9 @@ namespace Tools\Test\TestCase\Controller\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\ServerRequest;
+use Shim\TestSuite\TestCase;
 use TestApp\Controller\CommonComponentTestController;
 use Tools\Controller\Component\CommonComponent;
-use Tools\TestSuite\TestCase;
 
 class CommonComponentTest extends TestCase {
 
@@ -24,12 +24,14 @@ class CommonComponentTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		Configure::write('App.fullBaseUrl', 'http://localhost');
 
-		$this->request = new ServerRequest('/my-controller/foo');
+		$this->loadRoutes();
+
+		$this->request = new ServerRequest(['url' => '/my-controller/foo']);
 		$this->request = $this->request->withParam('controller', 'MyController')
 			->withParam('action', 'foo');
 		$this->Controller = new CommonComponentTestController($this->request);
@@ -39,47 +41,10 @@ class CommonComponentTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		unset($this->Controller);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testLoadComponent() {
-		$this->assertTrue(!isset($this->Controller->Apple));
-		$this->Controller->Common->loadComponent('Apple');
-		$this->assertTrue(isset($this->Controller->Apple));
-
-		// with plugin
-		$this->Controller->Session = null;
-		$this->assertTrue(!isset($this->Controller->Session));
-		$this->Controller->Common->loadComponent('Shim.Session', ['foo' => 'bar']);
-		$this->Controller->components()->unload('Session');
-		$this->Controller->Common->loadComponent('Shim.Session', ['foo' => 'baz']);
-		$this->assertTrue(isset($this->Controller->Session));
-
-		// with options
-		$this->Controller->Test = null;
-		$this->assertTrue(!isset($this->Controller->Test));
-		$this->Controller->Common->loadComponent('Test', ['x' => 'z'], false);
-		$this->assertTrue(isset($this->Controller->Test));
-		$this->assertFalse($this->Controller->Test->isInit);
-		$this->assertFalse($this->Controller->Test->isStartup);
-
-		// with options
-		$this->Controller->components()->unload('Test');
-		$this->Controller->Test = null;
-		$this->assertTrue(!isset($this->Controller->Test));
-		$this->Controller->Common->loadComponent('Test', ['x' => 'y']);
-		$this->assertTrue(isset($this->Controller->Test));
-		$this->assertTrue($this->Controller->Test->isInit);
-		$this->assertTrue($this->Controller->Test->isStartup);
-
-		$config = $this->Controller->Test->getConfig();
-		$this->assertEquals(['x' => 'y'], $config);
 	}
 
 	/**
@@ -94,16 +59,6 @@ class CommonComponentTest extends TestCase {
 	}
 
 	/**
-	 * @return void
-	 */
-	public function testGetDefaultUrlParams() {
-		$is = $this->Controller->Common->defaultUrlParams();
-		$this->assertNotEmpty($is);
-	}
-
-	/**
-	 * CommonComponentTest::testcurrentUrl()
-	 *
 	 * @return void
 	 */
 	public function testCurrentUrl() {
@@ -246,18 +201,6 @@ class CommonComponentTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testLoadHelper() {
-		$this->Controller->Common->loadHelper('Tester');
-		$helpers = $this->Controller->viewBuilder()->getHelpers();
-		$this->assertEquals(['Tester'], $helpers);
-		$this->Controller->Common->loadHelper(['Tester123']);
-		$helpers = $this->Controller->viewBuilder()->getHelpers();
-		$this->assertEquals(['Tester', 'Tester123'], $helpers);
-	}
-
-	/**
-	 * @return void
-	 */
 	public function testAddHelpers() {
 		$this->Controller->Common->addHelpers(['Tester']);
 		$helpers = $this->Controller->viewBuilder()->getHelpers();
@@ -271,19 +214,10 @@ class CommonComponentTest extends TestCase {
 	 * @return void
 	 */
 	public function testDefaultUrlParams() {
-		Configure::write('Routing.prefixes', ['admin', 'tests']);
 		$result = CommonComponent::defaultUrlParams();
 		$expected = [
 			'plugin' => false,
-			'admin' => false,
-			'tests' => false,
-		];
-		$this->assertEquals($expected, $result);
-		Configure::write('Routing.prefixes', 'admin');
-		$result = CommonComponent::defaultUrlParams();
-		$expected = [
-			'plugin' => false,
-			'admin' => false,
+			'prefix' => false,
 		];
 		$this->assertEquals($expected, $result);
 	}

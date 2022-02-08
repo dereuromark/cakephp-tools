@@ -2,7 +2,6 @@
 
 namespace Tools\Utility;
 
-use Cake\Core\Configure;
 use Cake\I18n\Number as CakeNumber;
 
 /**
@@ -44,24 +43,6 @@ class Number extends CakeNumber {
 	protected static $_thousands = '.';
 
 	/**
-	 * Correct the default values according to localization
-	 *
-	 * @param array $options
-	 * @return void
-	 * @deprecated Should not be used anymore with 3.x functionality?
-	 */
-	public static function setConfig($options = []) {
-		$config = $options + (array)Configure::read('Localization');
-		foreach ($config as $key => $value) {
-			$key = '_' . $key;
-			if (!isset(static::${$key})) {
-				continue;
-			}
-			static::${$key} = $value;
-		}
-	}
-
-	/**
 	 * Convenience method to display the default currency
 	 *
 	 * @param float $amount
@@ -84,18 +65,15 @@ class Number extends CakeNumber {
 	public static function _format($number, array $formatOptions = []) {
 		if (!is_numeric($number)) {
 			$default = '---';
-			if (!empty($options['default'])) {
-				$default = $options['default'];
+			if (isset($formatOptions['default'])) {
+				$default = $formatOptions['default'];
 			}
+
 			return $default;
 		}
-		if ($formatOptions === false) {
-			$formatOptions = [];
-		} elseif (!is_array($formatOptions)) {
-			$formatOptions = ['places' => $formatOptions];
-		}
-		$options = ['before' => '', 'after' => '', 'places' => 2, 'thousands' => static::$_thousands, 'decimals' => static::$_decimals, 'escape' => false];
-		$options = $formatOptions + $options;
+
+		$defaults = ['before' => '', 'after' => '', 'places' => 2, 'thousands' => static::$_thousands, 'decimals' => static::$_decimals, 'escape' => false];
+		$options = $formatOptions + $defaults;
 
 		if (!empty($options['currency'])) {
 			if (!empty(static::$_symbolRight)) {
@@ -127,6 +105,7 @@ class Number extends CakeNumber {
 		if (isset($options['signed'])) {
 			unset($options['signed']);
 		}
+
 		return $sign . parent::format($number, $options);
 	}
 
@@ -141,7 +120,7 @@ class Number extends CakeNumber {
 	 * @param array $options
 	 * @return string
 	 */
-	public static function format($number, array $options = []) {
+	public static function format($number, array $options = []): string {
 		$defaults = [
 			'positive' => '+', 'signed' => false,
 		];
@@ -153,6 +132,7 @@ class Number extends CakeNumber {
 		if (isset($options['signed'])) {
 			unset($options['signed']);
 		}
+
 		return $sign . parent::format($number, $options);
 	}
 
@@ -166,7 +146,7 @@ class Number extends CakeNumber {
 	 * @param array $options
 	 * @return string
 	 */
-	public static function currency($number, $currency = null, array $options = []) {
+	public static function currency($number, ?string $currency = null, array $options = []): string {
 		$defaults = [
 			'positive' => '+', 'signed' => false,
 		];
@@ -175,22 +155,24 @@ class Number extends CakeNumber {
 		if ($number > 0 && !empty($options['signed'])) {
 			$sign = $options['positive'];
 		}
+
 		return $sign . parent::currency($number, $currency, $options);
 	}
 
 	/**
 	 * Returns a formatted-for-humans file size.
 	 *
+	 * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/number.html#NumberHelper::toReadableSize
 	 * @param int $size Size in bytes
 	 * @param string $decimals
 	 * @return string Human readable size
-	 * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/number.html#NumberHelper::toReadableSize
 	 */
-	public static function _toReadableSize($size, $decimals = '.') {
+	public static function _toReadableSize($size, $decimals = '.'): string {
 		$size = parent::toReadableSize($size);
 		if ($decimals !== '.') {
 			$size = str_replace('.', $decimals, $size);
 		}
+
 		return $size;
 	}
 
@@ -205,6 +187,7 @@ class Number extends CakeNumber {
 		if (empty($values)) {
 			return 0.0;
 		}
+
 		return round(array_sum($values) / count($values), $precision);
 	}
 
@@ -221,6 +204,7 @@ class Number extends CakeNumber {
 		if ($precision <= 0) {
 			$res = (int)$res;
 		}
+
 		return $res;
 	}
 
@@ -262,6 +246,7 @@ class Number extends CakeNumber {
 			$number *= 10;
 			$decimalPlaces += 1;
 		}
+
 		return $decimalPlaces;
 	}
 
@@ -288,6 +273,7 @@ class Number extends CakeNumber {
 		if (!isset(static::$_currencies[$formatName])) {
 			return [];
 		}
+
 		return static::$_currencies[$formatName];
 	}
 

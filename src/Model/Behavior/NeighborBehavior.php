@@ -12,7 +12,7 @@ use InvalidArgumentException;
 class NeighborBehavior extends Behavior {
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 	];
@@ -21,9 +21,8 @@ class NeighborBehavior extends Behavior {
 	 * @param int $id
 	 * @param array $options
 	 *
-	 * @return array
-	 *
 	 * @throws \InvalidArgumentException
+	 * @return array
 	 */
 	public function neighbors($id, array $options = []) {
 		if (!$id) {
@@ -42,7 +41,7 @@ class NeighborBehavior extends Behavior {
 
 		if (empty($options['value'])) {
 			$data = $this->_table->find('all', ['conditions' => [$this->_table->getPrimaryKey() => $id]])->first();
-			list($model, $sortField) = pluginSplit($options['sortField']);
+			[$model, $sortField] = pluginSplit($options['sortField']);
 			$options['value'] = $data[$sortField];
 		}
 

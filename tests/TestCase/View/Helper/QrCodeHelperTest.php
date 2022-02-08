@@ -3,7 +3,7 @@
 namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\View\View;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 use Tools\View\Helper\QrCodeHelper;
 
 /**
@@ -11,8 +11,15 @@ use Tools\View\Helper\QrCodeHelper;
  */
 class QrCodeHelperTest extends TestCase {
 
-	const QR_TEST_STRING = 'Some Text to Translate';
-	const QR_TEST_STRING_UTF = 'Some äöü Test String with $ and @ etc';
+	/**
+	 * @var string
+	 */
+	public const QR_TEST_STRING = 'Some Text to Translate';
+
+	/**
+	 * @var string
+	 */
+	public const QR_TEST_STRING_UTF = 'Some äöü Test String with $ and @ etc';
 
 	/**
 	 * @var \Tools\View\Helper\QrCodeHelper
@@ -24,8 +31,10 @@ class QrCodeHelperTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
+
+		$this->loadRoutes();
 
 		$this->testEmail = 'foo@bar.local'; // For testing normal behavior
 
@@ -37,7 +46,7 @@ class QrCodeHelperTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		unset($this->QrCode);
@@ -58,7 +67,7 @@ class QrCodeHelperTest extends TestCase {
 	 */
 	public function testFormatText() {
 		$is = $this->QrCode->formatText(['controller' => 'Foo', 'action' => 'bar'], 'url');
-		$this->assertSame('/foo/bar', $is);
+		$this->assertSame('//localhost/foo/bar', $is);
 	}
 
 	/**

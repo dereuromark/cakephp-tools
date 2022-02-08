@@ -84,6 +84,7 @@ class Text extends CakeText {
 			$tmp = explode("\t", trim($piece, "\r\n"));
 			$result[] = $tmp;
 		}
+
 		return $result;
 	}
 
@@ -102,6 +103,7 @@ class Text extends CakeText {
 		foreach ($pieces as $piece) {
 			$result[] = sscanf(trim($piece, "\r\n"), $pattern);
 		}
+
 		return $result;
 	}
 
@@ -122,6 +124,7 @@ class Text extends CakeText {
 				$count++;
 			}
 		}
+
 		return $count;
 	}
 
@@ -138,6 +141,7 @@ class Text extends CakeText {
 	public static function numberOfChars($text, array $options = []) {
 		$text = str_replace(["\r", "\n", "\t", ' '], '', $text);
 		$count = mb_strlen($text);
+
 		return $count;
 	}
 
@@ -154,7 +158,8 @@ class Text extends CakeText {
 		if (mb_strlen($text) <= $length) {
 			return $text;
 		}
-		return rtrim(mb_substr($text, 0, round(($length - 3) / 2))) . $ending . ltrim(mb_substr($text, (($length - 3) / 2) * -1));
+
+		return rtrim(mb_substr($text, 0, (int)round(($length - 3) / 2))) . $ending . ltrim(mb_substr($text, (($length - 3) / 2) * -1));
 	}
 
 	/**
@@ -171,43 +176,15 @@ class Text extends CakeText {
 			//$res[] = UnicodeLib::ord($char);
 			$res[] = ord($char);
 		}
+
 		return implode($separator, $res);
-	}
-
-	/**
-	 * @param string $str
-	 * @param int $maxCols
-	 * @return string
-	 */
-	public static function convertToOrdTable($str, $maxCols = 20) {
-		$res = '<table>';
-		$r = ['chr' => [], 'ord' => []];
-		$chars = preg_split('//', $str, -1);
-		$count = 0;
-		foreach ($chars as $key => $char) {
-			if ($maxCols && $maxCols < $count || $key === count($chars) - 1) {
-				$res .= '<tr><th>' . implode('</th><th>', $r['chr']) . '</th>';
-				$res .= '</tr>';
-				$res .= '<tr>';
-				$res .= '<td>' . implode('</th><th>', $r['ord']) . '</td></tr>';
-				$count = 0;
-				$r = ['chr' => [], 'ord' => []];
-			}
-			$count++;
-			//$res[] = UnicodeLib::ord($char);
-			$r['ord'][] = ord($char);
-			$r['chr'][] = $char;
-		}
-
-		$res .= '</table>';
-		return $res;
 	}
 
 	/**
 	 * Explode a string of given tags into an array.
 	 *
 	 * @param string $tags
-	 * @return array
+	 * @return array<string>
 	 */
 	public function explodeTags($tags) {
 		// This regexp allows the following types of user input:
@@ -233,7 +210,7 @@ class Text extends CakeText {
 	/**
 	 * Implode an array of tags into a string.
 	 *
-	 * @param array $tags
+	 * @param array<string> $tags
 	 * @return string
 	 */
 	public function implodeTags(array $tags) {
@@ -246,6 +223,7 @@ class Text extends CakeText {
 
 			$encodedTags[] = $tag;
 		}
+
 		return implode(', ', $encodedTags);
 	}
 
@@ -269,15 +247,13 @@ class Text extends CakeText {
 		return $str;
 	}
 
-/* text object specific */
-
 	/**
 	 * Extract words
 	 *
 	 * @param string $text
 	 * @param array $options
 	 * - min_char, max_char, case_sensititive, ...
-	 * @return array
+	 * @return array<string>
 	 */
 	public function words($text, array $options = []) {
 		$text = str_replace([PHP_EOL, "\t"], ' ', $text);
@@ -342,6 +318,7 @@ class Text extends CakeText {
 		if (mb_strlen($value) === mb_strlen($matches[0])) {
 			$end = '';
 		}
+
 		return rtrim($matches[0]) . $end;
 	}
 
@@ -389,6 +366,7 @@ class Text extends CakeText {
 				}
 			}
 		}
+
 		return $out;
 	}
 
@@ -424,8 +402,11 @@ class Text extends CakeText {
 		}
 
 		if ($all) {
-			$str = str_replace(['&amp;', '&lt;', '&gt;', '&quot;', '&apos;', '&#45;'],
-				['&', '<', '>', '"', "'", '-'], $str);
+			$str = str_replace(
+				['&amp;', '&lt;', '&gt;', '&quot;', '&apos;', '&#45;'],
+				['&', '<', '>', '"', "'", '-'],
+				$str,
+			);
 		}
 
 		return $str;

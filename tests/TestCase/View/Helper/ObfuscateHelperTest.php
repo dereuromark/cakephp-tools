@@ -3,15 +3,20 @@
 namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\View\View;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 use Tools\View\Helper\ObfuscateHelper;
 
 class ObfuscateHelperTest extends TestCase {
 
 	/**
+	 * @var \Tools\View\Helper\ObfuscateHelper
+	 */
+	protected $Obfuscate;
+
+	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->Obfuscate = new ObfuscateHelper(new View());
@@ -20,7 +25,7 @@ class ObfuscateHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		unset($this->Table);
 
  		parent::tearDown();
@@ -39,7 +44,7 @@ class ObfuscateHelperTest extends TestCase {
 	public function testEncodeEmail() {
 		$result = $this->Obfuscate->encodeEmail('foobar@somedomain.com');
 		$expected = '<span>@</span>';
-		$this->assertContains($expected, $result);
+		$this->assertStringContainsString($expected, $result);
 	}
 
 	/**
@@ -48,7 +53,7 @@ class ObfuscateHelperTest extends TestCase {
 	public function testEncodeEmailUrl() {
 		$result = $this->Obfuscate->encodeEmailUrl('foobar@somedomain.com');
 		$expected = '<script language=javascript>';
-		$this->assertContains($expected, $result);
+		$this->assertStringContainsString($expected, $result);
 	}
 
 	/**
@@ -57,7 +62,7 @@ class ObfuscateHelperTest extends TestCase {
 	public function testEncodeText() {
 		$result = $this->Obfuscate->encodeText('foobar@somedomain.com');
 		$expected = ';&#';
-		$this->assertContains($expected, $result);
+		$this->assertStringContainsString($expected, $result);
 	}
 
 	/**
@@ -92,7 +97,7 @@ class ObfuscateHelperTest extends TestCase {
 			$res = $this->Obfuscate->wordCensor($value, ['Arsch', 'Ficken', 'Bitch']);
 
 			//debug('\''.h($value).'\' becomes \''.h($res).'\'', null, false);
-			$this->assertEquals($expected === null ? $value : $expected, $res);
+			$this->assertEquals($expected ?? $value, $res);
 		}
 	}
 

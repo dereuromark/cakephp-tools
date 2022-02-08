@@ -1,15 +1,16 @@
 <?php
 
-namespace Tools\Form;
+namespace Tools\Test\TestCase\Form;
 
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
+use Tools\Form\ContactForm;
 
 class ContactFormTest extends TestCase {
 
 	/**
 	 * @var array
 	 */
-	public $fixtures = [
+	protected $fixtures = [
 		'core.Posts',
 		'core.Authors',
 		'plugin.Tools.ToolsUsers',
@@ -19,14 +20,14 @@ class ContactFormTest extends TestCase {
 	/**
 	 * @var \Tools\Form\ContactForm
 	 */
-	public $Form;
+	protected $Form;
 
 	/**
 	 * SetUp method
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->Form = new ContactForm();

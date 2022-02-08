@@ -4,8 +4,8 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\View\View;
 use DateTime;
+use Shim\TestSuite\TestCase;
 use TestApp\View\Helper\TimelineHelper;
-use Tools\TestSuite\TestCase;
 
 /**
  * Timeline Helper Test Case
@@ -15,12 +15,12 @@ class TimelineHelperTest extends TestCase {
 	/**
 	 * @var \TestApp\View\Helper\TimelineHelper
 	 */
-	public $Timeline;
+	protected $Timeline;
 
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->Timeline = new TimelineHelper(new View(null));
@@ -71,7 +71,7 @@ class TimelineHelperTest extends TestCase {
 
 		$this->Timeline->finalize();
 		$result = $this->Timeline->getView()->fetch('script');
-		$this->assertContains('\'start\': new Date(', $result);
+		$this->assertStringContainsString('\'start\': new Date(', $result);
 	}
 
 	/**
@@ -91,13 +91,13 @@ class TimelineHelperTest extends TestCase {
 		$this->Timeline->addItem($data);
 
 		$result = $this->Timeline->finalize(true);
-		$this->assertContains('\'start\': new Date(', $result);
+		$this->assertStringContainsString('\'start\': new Date(', $result);
 	}
 
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		unset($this->Timeline);

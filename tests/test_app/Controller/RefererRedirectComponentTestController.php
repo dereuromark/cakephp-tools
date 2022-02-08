@@ -12,8 +12,12 @@ use Tools\Controller\Controller;
 class RefererRedirectComponentTestController extends Controller {
 
 	/**
-	 * @var array
+	 * @return void
 	 */
-	public $components = ['Tools.RefererRedirect'];
+	public function initialize(): void {
+		parent::initialize();
+
+		$this->loadComponent('Tools.RefererRedirect');
+	}
 
 }

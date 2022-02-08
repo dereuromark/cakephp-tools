@@ -11,7 +11,7 @@ An enhanced FormHelper
 ## Usage
 Attach it to your controllers like so:
 ```php
-public $helpers = ['Tools.Form'];
+protected $helpers = ['Tools.Form'];
 ```
 
 Alternatively, you can enable it in your AppView class.

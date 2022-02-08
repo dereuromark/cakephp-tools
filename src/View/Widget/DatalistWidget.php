@@ -20,9 +20,9 @@ class DatalistWidget extends SelectBoxWidget {
 	/**
 	 * @param array $data
 	 * @param \Cake\View\Form\ContextInterface $context
-	 * @return string|null
+	 * @return string
 	 */
-	public function render(array $data, ContextInterface $context) {
+	public function render(array $data, ContextInterface $context): string {
 		$data += [
 			'id' => null,
 			'name' => '',
@@ -41,13 +41,13 @@ class DatalistWidget extends SelectBoxWidget {
 			$options = str_replace(
 				'value',
 				'data-value',
-				$options
+				$options,
 			);
 		}
 
 		$name = $data['name'];
 		$id = $data['id'] ?: Text::slug($name);
-		$default = isset($data['val']) ? $data['val'] : null;
+		$default = $data['val'] ?? null;
 
 		$inputData = $data['input'] + [
 			'id' => $id,
@@ -64,6 +64,7 @@ class DatalistWidget extends SelectBoxWidget {
 		$inputAttrs = $this->_templates->formatAttributes($inputData);
 
 		$datalistAttrs = $this->_templates->formatAttributes($data);
+
 		return $this->_templates->format(
 			'datalist',
 			[
@@ -72,7 +73,7 @@ class DatalistWidget extends SelectBoxWidget {
 				'datalistAttrs' => $datalistAttrs,
 				'content' => implode('', $options),
 				'id' => $id,
-			]
+			],
 		);
 	}
 

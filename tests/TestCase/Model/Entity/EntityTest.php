@@ -1,16 +1,16 @@
 <?php
 
-namespace Tools\Model\Entity;
+namespace Tools\Test\TestCase\Model\Entity;
 
-use Cake\ORM\TableRegistry;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
+use Tools\Model\Entity\Entity;
 
 class EntityTest extends TestCase {
 
 	/**
 	 * @var array
 	 */
-	public $fixtures = [
+	protected $fixtures = [
 		'plugin.Tools.ToolsUsers',
 		'plugin.Tools.Roles',
 	];
@@ -18,22 +18,22 @@ class EntityTest extends TestCase {
 	/**
 	 * @var \Tools\Model\Table\Table
 	 */
-	public $Users;
+	protected $Users;
 
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
-		$this->Users = TableRegistry::getTableLocator()->get('ToolsUsers');
+		$this->Users = $this->getTableLocator()->get('ToolsUsers');
 	}
 
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
-		TableRegistry::clear();
+	public function tearDown(): void {
+		$this->getTableLocator()->clear();
 
 		parent::tearDown();
 	}

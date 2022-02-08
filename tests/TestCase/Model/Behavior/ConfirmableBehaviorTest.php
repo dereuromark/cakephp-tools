@@ -2,27 +2,26 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use Cake\ORM\TableRegistry;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 
 class ConfirmableBehaviorTest extends TestCase {
 
 	/**
-	 * @var \Tools\Model\Behavior\ConfirmableBehavior
-	 */
-	public $ConfirmableBehavior;
-
-	/**
 	 * @var array
 	 */
-	public $fixtures = [
+	protected $fixtures = [
 		'plugin.Tools.SluggedArticles',
 	];
 
 	/**
+	 * @var \Tools\Model\Behavior\ConfirmableBehavior
+	 */
+	protected $ConfirmableBehavior;
+
+	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 	}
 
@@ -32,10 +31,10 @@ class ConfirmableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testBasicValidation() {
-		$this->Articles = TableRegistry::getTableLocator()->get('SluggedArticles');
+		$this->Articles = $this->getTableLocator()->get('SluggedArticles');
 		$this->Articles->addBehavior('Tools.Confirmable');
 
-		$animal = $this->Articles->newEntity();
+		$animal = $this->Articles->newEmptyEntity();
 
 		$data = [
 			'name' => 'FooBar',
@@ -57,7 +56,7 @@ class ConfirmableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testValidationThatHasBeenModifiedBefore() {
-		$this->Articles = TableRegistry::getTableLocator()->get('SluggedArticles');
+		$this->Articles = $this->getTableLocator()->get('SluggedArticles');
 		/*
 		$this->Articles->validator()->add('confirm', 'notBlank', [
 				'rule' => function ($value, $context) {
@@ -73,7 +72,7 @@ class ConfirmableBehaviorTest extends TestCase {
 
 		$this->Articles->addBehavior('Tools.Confirmable');
 
-		$animal = $this->Articles->newEntity();
+		$animal = $this->Articles->newEmptyEntity();
 
 		$data = [
 			'name' => 'FooBar',
@@ -96,10 +95,10 @@ class ConfirmableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testValidationFieldMissing() {
-		$this->Articles = TableRegistry::getTableLocator()->get('SluggedArticles');
+		$this->Articles = $this->getTableLocator()->get('SluggedArticles');
 		$this->Articles->addBehavior('Tools.Confirmable');
 
-		$animal = $this->Articles->newEntity();
+		$animal = $this->Articles->newEmptyEntity();
 		$data = [
 			'name' => 'FooBar',
 		];

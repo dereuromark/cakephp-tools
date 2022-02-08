@@ -78,6 +78,7 @@ class TextHelper extends CakeTextHelper {
 
 		$end = mb_substr($url, -5, 5);
 		$front = mb_substr($url, 0, (int)$max - 8);
+
 		return $front . $placeholder . $end;
 	}
 
@@ -102,6 +103,7 @@ class TextHelper extends CakeTextHelper {
 	 */
 	public function ordinalNumber($num = 0, $sup = false) {
 		$ordinal = Number::ordinal($num);
+
 		return ($sup) ? $num . '<sup>' . $ordinal . '</sup>' : $num . $ordinal;
 	}
 

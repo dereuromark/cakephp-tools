@@ -6,6 +6,7 @@ use Cake\Log\Log;
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
 use Exception;
+use InvalidArgumentException;
 use RuntimeException;
 
 /**
@@ -28,18 +29,6 @@ class Utility {
 	}
 
 	/**
-	 * More sane !empty() method to not false positive `'0'` (0 as string) as empty.
-	 *
-	 * @deprecated Use notBlank() instead as it correctly handles also numeric input (int/float).
-	 *
-	 * @param mixed $value
-	 * @return bool
-	 */
-	public static function notEmpty($value) {
-		return !empty($value) || $value === '0';
-	}
-
-	/**
 	 * Clean implementation of inArray to avoid false positives.
 	 *
 	 * in_array itself has some PHP flaws regarding cross-type comparison:
@@ -52,6 +41,7 @@ class Utility {
 	 */
 	public static function inArray($needle, $haystack) {
 		$strict = !is_numeric($needle);
+
 		return in_array((string)$needle, $haystack, $strict);
 	}
 
@@ -60,6 +50,8 @@ class Utility {
 	 *
 	 * Options
 	 * - clean: true/false (defaults to true and removes empty tokens and whitespace)
+	 *
+	 * @phpstan-param non-empty-string $separator
 	 *
 	 * @param string $data The data to tokenize
 	 * @param string $separator The token to split the data on.
@@ -75,7 +67,7 @@ class Utility {
 			return [];
 		}
 		$tokens = explode($separator, $data);
-		if (empty($tokens) || !$options['clean']) {
+		if (!$options['clean']) {
 			return $tokens;
 		}
 
@@ -85,6 +77,7 @@ class Utility {
 				unset($tokens[$key]);
 			}
 		}
+
 		return $tokens;
 	}
 
@@ -107,7 +100,8 @@ class Utility {
 	 */
 	public static function pregMatchAll($pattern, $subject, $flags = PREG_SET_ORDER, $offset = null) {
 		$pattern = substr($pattern, 0, 1) . '(*UTF8)' . substr($pattern, 1);
-		preg_match_all($pattern, $subject, $matches, $flags, $offset);
+		preg_match_all($pattern, $subject, $matches, $flags, (int)$offset);
+
 		return $matches;
 	}
 
@@ -130,7 +124,8 @@ class Utility {
 	 */
 	public static function pregMatch($pattern, $subject, $flags = null, $offset = null) {
 		$pattern = substr($pattern, 0, 1) . '(*UTF8)' . substr($pattern, 1);
-		preg_match($pattern, $subject, $matches, $flags, $offset);
+		preg_match($pattern, $subject, $matches, (int)$flags, (int)$offset);
+
 		return $matches;
 	}
 
@@ -140,7 +135,7 @@ class Utility {
 	 *
 	 * @param string $str
 	 * @param int $length
-	 * @return array Result
+	 * @return array<string> Result
 	 */
 	public static function strSplit($str, $length = 1) {
 		if ($length < 1) {
@@ -151,6 +146,7 @@ class Utility {
 		for ($i = 0; $i < $c; $i += $length) {
 			$result[] = mb_substr($str, $i, $length);
 		}
+
 		return $result;
 	}
 
@@ -168,7 +164,8 @@ class Utility {
 		} else {
 			$ipaddr = env('REMOTE_ADDR');
 		}
-		return trim($ipaddr);
+
+		return trim((string)$ipaddr);
 	}
 
 	/**
@@ -189,6 +186,7 @@ class Utility {
 		if ($full) {
 			$ref = Router::url($ref, $full);
 		}
+
 		return $ref;
 	}
 
@@ -227,6 +225,7 @@ class Utility {
 			$url = mb_substr($url, 0, $length - 1);
 			$length--;
 		}
+
 		return $url;
 	}
 
@@ -234,7 +233,7 @@ class Utility {
 	 * Removes http:// or other protocols from the link.
 	 *
 	 * @param string $url
-	 * @param array $protocols Defaults to http and https. Pass empty array for all.
+	 * @param array<string> $protocols Defaults to http and https. Pass empty array for all.
 	 * @return string strippedUrl
 	 */
 	public static function stripProtocol($url, $protocols = ['http', 'https']) {
@@ -264,6 +263,7 @@ class Utility {
 		if (!preg_match($pattern, $file)) {
 			return file_exists($file);
 		}
+
 		return static::urlExists($file);
 	}
 
@@ -282,6 +282,7 @@ class Utility {
 		if ($headers && preg_match('|\b200\b|', $headers[0])) {
 			return true;
 		}
+
 		return false;
 	}
 
@@ -332,6 +333,7 @@ class Utility {
 				return $headers;
 			}
 		}
+
 		return false;
 	}
 
@@ -353,6 +355,7 @@ class Utility {
 				$url = $prefix . $url;
 			}
 		}
+
 		return $url;
 	}
 
@@ -371,6 +374,7 @@ class Utility {
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -386,30 +390,8 @@ class Utility {
 				return true;
 			}
 		}
-		return false;
-	}
 
-	/**
-	 * On non-transaction db connections it will return a deep array of bools instead of bool.
-	 * So we need to call this method inside the modified saveAll() method to return the expected single bool there, too.
-	 *
-	 * @param array $array
-	 * @return bool
-	 * @deprecated Not sure this is useful for CakePHP 3.0
-	 */
-	public static function isValidSaveAll($array) {
-		if (!$array) {
-			return false;
-		}
-		$ret = true;
-		foreach ($array as $key => $val) {
-			if (is_array($val)) {
-				$ret = $ret & static::logicalAnd($val);
-			} else {
-				$ret = $ret & $val;
-			}
-		}
-		return (bool)$ret;
+		return false;
 	}
 
 	/**
@@ -423,25 +405,32 @@ class Utility {
 		switch ($type) {
 			case 'int':
 				$value = (int)$value;
+
 				break;
 			case 'float':
 				$value = (float)$value;
+
 				break;
 			case 'double':
-				$value = (double)$value;
+				$value = (float)$value;
+
 				break;
 			case 'array':
 				$value = (array)$value;
+
 				break;
 			case 'bool':
 				$value = (bool)$value;
+
 				break;
 			case 'string':
 				$value = (string)$value;
+
 				break;
 			default:
 				return null;
 		}
+
 		return $value;
 	}
 
@@ -457,11 +446,12 @@ class Utility {
 			foreach ($value as $k => $v) {
 				$value[$k] = static::trimDeep($v, $transformNullToString);
 			}
+
 			return $value;
 		}
 
 		if (is_string($value) || $value === null) {
-			return ($value === null && !$transformNullToString) ? $value : trim($value);
+			return ($value === null && !$transformNullToString) ? $value : trim((string)$value);
 		}
 
 		return $value;
@@ -470,23 +460,25 @@ class Utility {
 	/**
 	 * Applies h() recursively
 	 *
-	 * @param string|array $value
+	 * @param array|string $value
 	 * @return array|string
 	 */
 	public static function specialcharsDeep($value) {
 		$value = is_array($value) ? array_map('self::specialcharsDeep', $value) : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+
 		return $value;
 	}
 
 	/**
 	 * Main deep method
 	 *
-	 * @param string|callable $function Callable or function name.
+	 * @param callable|string $function Callable or function name.
 	 * @param mixed $value
 	 * @return array|string
 	 */
 	public static function deep($function, $value) {
 		$value = is_array($value) ? array_map('self::' . $function, $value) : $function($value);
+
 		return $value;
 	}
 
@@ -515,6 +507,7 @@ class Utility {
 				$return = 1;
 			}
 		}
+
 		return $return;
 	}
 
@@ -529,12 +522,14 @@ class Utility {
 	 *
 	 * So `Some.Deep.Value` becomes `array('Some' => array('Deep' => array('Value')))`.
 	 *
+	 * @phpstan-param non-empty-string $separator
+	 *
 	 * @param array $data
 	 * @param string $separator
 	 * @param string|null $undefinedKey
 	 * @return array
 	 */
-	public static function expandList(array $data, $separator = '.', $undefinedKey = null) {
+	public static function expandList(array $data, string $separator = '.', ?string $undefinedKey = null): array {
 		$result = [];
 		foreach ($data as $value) {
 			$keys = explode($separator, $value);
@@ -556,6 +551,7 @@ class Utility {
 			}
 			$result = Hash::merge($result, $child);
 		}
+
 		return $result;
 	}
 
@@ -573,7 +569,7 @@ class Utility {
 	 * @param string $separator
 	 * @return array
 	 */
-	public static function flattenList(array $data, $separator = '.') {
+	public static function flattenList(array $data, string $separator = '.'): array {
 		$result = [];
 		$stack = [];
 		$path = null;
@@ -599,10 +595,11 @@ class Utility {
 			}
 
 			if (empty($data) && !empty($stack)) {
-				list($data, $path) = array_pop($stack);
+				[$data, $path] = array_pop($stack);
 				reset($data);
 			}
 		}
+
 		return $result;
 	}
 
@@ -633,6 +630,7 @@ class Utility {
 				$result[$key] = $value;
 			}
 		}
+
 		return $result;
 	}
 
@@ -659,6 +657,7 @@ class Utility {
 				$f[$k] = $v;
 			}
 		}
+
 		return $f;
 	}
 
@@ -667,13 +666,19 @@ class Utility {
 	 * like array_shift() only for keys and not values
 	 *
 	 * @param array $array keyValuePairs
+	 *
+	 * @throws \InvalidArgumentException
+	 *
 	 * @return string key
 	 */
 	public static function arrayShiftKeys(&$array) {
 		foreach ($array as $key => $value) {
 			unset($array[$key]);
+
 			return $key;
 		}
+
+		throw new InvalidArgumentException('Empty array');
 	}
 
 	/**
@@ -709,6 +714,7 @@ class Utility {
 		if ($restartClock) {
 			static::startClock();
 		}
+
 		return static::calcElapsedTime($startTime, static::microtime(), $precision);
 	}
 
@@ -716,80 +722,15 @@ class Utility {
 	 * Returns microtime as float value
 	 * (to be subtracted right away)
 	 *
-	 * @param int $start
-	 * @param int $end
+	 * @param float $start
+	 * @param float $end
 	 * @param int $precision
 	 * @return float
 	 */
 	public static function calcElapsedTime($start, $end, $precision = 8) {
 		$elapsed = $end - $start;
+
 		return round($elapsed, $precision);
-	}
-
-	/**
-	 * Returns pretty JSON
-	 *
-	 * @link https://github.com/ndejong/pretty_json/blob/master/pretty_json.php
-	 * @param string $json The original JSON string
-	 * @param string $indString The string to indent with
-	 * @return string
-	 * @deprecated Now there is a JSON_PRETTY_PRINT option available on json_encode()
-	 */
-	public static function prettyJson($json, $indString = "\t") {
-		// Replace any escaped \" marks so we don't get tripped up on quotemarks_counter
-		$tokens = preg_split('|([\{\}\]\[,])|', str_replace('\"', '~~PRETTY_JSON_QUOTEMARK~~', $json), -1, PREG_SPLIT_DELIM_CAPTURE);
-
-		$indent = 0;
-		$result = '';
-		$quotemarksCounter = 0;
-		$nextTokenUsePrefix = true;
-
-		foreach ($tokens as $token) {
-			$quotemarksCounter = $quotemarksCounter + (count(explode('"', $token)) - 1);
-
-			if ($token === '') {
-				continue;
-			}
-
-			if ($nextTokenUsePrefix) {
-				$prefix = str_repeat($indString, $indent);
-			} else {
-				$prefix = null;
-			}
-
-			// Determine if the quote marks are open or closed
-			if ($quotemarksCounter & 1) {
-				// odd - thus quotemarks open
-				$nextTokenUsePrefix = false;
-				$newLine = null;
-			} else {
-				// even - thus quotemarks closed
-				$nextTokenUsePrefix = true;
-				$newLine = "\n";
-			}
-
-			if ($token === '{' || $token === '[') {
-				$indent++;
-				$result .= $token . $newLine;
-			} elseif ($token === '}' || $token === ']') {
-				$indent--;
-
-				if ($indent >= 0) {
-					$prefix = str_repeat($indString, $indent);
-				}
-
-				if ($nextTokenUsePrefix) {
-					$result .= $newLine . $prefix . $token;
-				} else {
-					$result .= $newLine . $token;
-				}
-			} elseif ($token === ',') {
-				$result .= $token . $newLine;
-			} else {
-				$result .= $prefix . $token;
-			}
-		}
-		return str_replace('~~PRETTY_JSON_QUOTEMARK~~', '\"', $result);
 	}
 
 }

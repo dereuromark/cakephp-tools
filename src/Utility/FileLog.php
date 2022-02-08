@@ -20,10 +20,10 @@ class FileLog {
 	/**
 	 * Initialize configurations.
 	 *
-	 * @param string $filename Filename to log.
+	 * @param string|null $filename Filename to log.
 	 * @return void
 	 */
-	protected static function _init($filename) {
+	protected static function _init($filename): void {
 		if ($filename === null) {
 			$filename = 'custom_log';
 		}
@@ -44,12 +44,12 @@ class FileLog {
 	/**
 	 * Log data into custom file
 	 *
-	 * @param array|string $data Data to store
+	 * @param object|array|string $data Data to store
 	 * @param string|null $filename Filename of log file
 	 * @param bool $traceKey Add trace string key into log data
 	 * @return bool Success
 	 */
-	public static function write($data, $filename = null, $traceKey = false) {
+	public static function write($data, $filename = null, $traceKey = false): bool {
 		static::_init($filename);
 
 		// Pretty print array or object
@@ -57,8 +57,8 @@ class FileLog {
 			if ($traceKey) {
 				try {
 					throw new Exception('Trace string', 1);
-				} catch (\Exception $e) {
-					$data['trace_string'] = $e->getTraceAsString();
+				} catch (\Throwable $t) {
+					$data['trace_string'] = $t->getTraceAsString();
 				}
 			}
 
@@ -77,7 +77,7 @@ class FileLog {
 	 *
 	 * @return void
 	 */
-	protected static function _cleanUp() {
+	protected static function _cleanUp(): void {
 		CoreLog::drop('custom');
 
 		CoreLog::setConfig('debug', static::$_debugConfig);

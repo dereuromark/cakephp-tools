@@ -65,32 +65,31 @@ if (!defined('WINDOWS')) {
 	}
 }
 
-/**
- * Convenience function to check on "empty()"
- *
- * @param mixed $var
- * @return bool Result
- */
-
 if (!function_exists('isEmpty')) {
-	function isEmpty($var = null) {
+	/**
+	 * Convenience function to check on "empty()"
+	 *
+	 * @param mixed $var
+	 * @return bool Result
+	 */
+	function isEmpty($var = null): bool {
 		if (empty($var)) {
 			return true;
 		}
+
 		return false;
 	}
 }
 
-/**
- * Returns of what type the specific value is
- *
- * //TODO: use Debugger::exportVar() instead?
- *
- * @param mixed $value
- * @return mixed Type (NULL, array, bool, float, int, string, object, unknown) + value
- */
-
 if (!function_exists('returns')) {
+	/**
+	 * Returns of what type the specific value is
+	 *
+	 * //TODO: use Debugger::exportVar() instead?
+	 *
+	 * @param mixed $value
+	 * @return mixed Type (NULL, array, bool, float, int, string, object, unknown) + value
+	 */
 	function returns($value) {
 		if ($value === null) {
 			return 'NULL';
@@ -122,33 +121,31 @@ if (!function_exists('returns')) {
 	}
 }
 
-/**
- * Returns htmlentities - string
- *
- * ENT_COMPAT	= Will convert double-quotes and leave single-quotes alone.
- * ENT_QUOTES	= Will convert both double and single quotes. !!!
- * ENT_NOQUOTES = Will leave both double and single quotes unconverted.
- *
- * @param string $text
- * @return string Converted text
- */
-
 if (!function_exists('ent')) {
-	function ent($text) {
-		return !empty($text) ? htmlentities($text, ENT_QUOTES, 'UTF-8') : '';
+	/**
+	 * Returns htmlentities - string
+	 *
+	 * ENT_COMPAT = Will convert double-quotes and leave single-quotes alone.
+	 * ENT_QUOTES = Will convert both double and single quotes. !!!
+	 * ENT_NOQUOTES = Will leave both double and single quotes unconverted.
+	 *
+	 * @param string $text
+	 * @return string Converted text
+	 */
+	function ent(string $text): string {
+		return htmlentities($text, ENT_QUOTES, 'UTF-8');
 	}
 }
 
-/**
- * Convenience method for htmlspecialchars_decode
- *
- * @param string $text Text to wrap through htmlspecialchars_decode
- * @param int $quoteStyle
- * @return string Converted text
- */
-
 if (!function_exists('hDec')) {
-	function hDec($text, $quoteStyle = ENT_QUOTES) {
+	/**
+	 * Convenience method for htmlspecialchars_decode
+	 *
+	 * @param string $text Text to wrap through htmlspecialchars_decode
+	 * @param int $quoteStyle
+	 * @return string Converted text
+	 */
+	function hDec(string $text, int $quoteStyle = ENT_QUOTES): string {
 		if (is_array($text)) {
 			return array_map('hDec', $text);
 		}
@@ -157,16 +154,15 @@ if (!function_exists('hDec')) {
 	}
 }
 
-/**
- * Convenience method for html_entity_decode
- *
- * @param string $text Text to wrap through htmlspecialchars_decode
- * @param int $quoteStyle
- * @return string Converted text
- */
-
 if (!function_exists('entDec')) {
-	function entDec($text, $quoteStyle = ENT_QUOTES) {
+	/**
+	 * Convenience method for html_entity_decode
+	 *
+	 * @param string $text Text to wrap through htmlspecialchars_decode
+	 * @param int $quoteStyle
+	 * @return string Converted text
+	 */
+	function entDec(string $text, int $quoteStyle = ENT_QUOTES): string {
 		if (is_array($text)) {
 			return array_map('entDec', $text);
 		}
@@ -175,18 +171,17 @@ if (!function_exists('entDec')) {
 	}
 }
 
-/**
- * Focus is on the filename (without path)
- *
- * @deprecated Use native method instead
- *
- * @param string $filename to check on
- * @param string|null $type (extension/ext, filename/file, basename/base, dirname/dir)
- * @return mixed
- */
-
 if (!function_exists('extractFileInfo')) {
-	function extractFileInfo($filename, $type = null) {
+	/**
+	 * Focus is on the filename (without path)
+	 *
+	 * @deprecated Use native method instead
+	 *
+	 * @param string $filename to check on
+	 * @param string|null $type (extension/ext, filename/file, basename/base, dirname/dir)
+	 * @return mixed
+	 */
+	function extractFileInfo(string $filename, ?string $type = null) {
 		$info = extractPathInfo($filename, $type);
 		if ($info) {
 			return $info;
@@ -197,10 +192,12 @@ if (!function_exists('extractFileInfo')) {
 			case 'extension':
 			case 'ext':
 				$res = ($pos !== false) ? substr($filename, $pos + 1) : '';
+
 				break;
 			case 'filename':
 			case 'file':
 				$res = ($pos !== false) ? substr($filename, 0, $pos) : '';
+
 				break;
 			default:
 				break;
@@ -210,47 +207,52 @@ if (!function_exists('extractFileInfo')) {
 	}
 }
 
-/**
- * Uses native PHP function to retrieve infos about a filename etc.
- * Improves it by not returning non-file-name characters from url files if specified.
- * So "filename.ext?foo=bar#hash" would simply be "filename.ext" then.
- *
- * @deprecated Use native method instead
- *
- * @param string $filename to check on
- * @param string|null $type (extension/ext, filename/file, basename/base, dirname/dir)
- * @param bool $fromUrl
- * @return mixed
- */
-
 if (!function_exists('extractPathInfo')) {
-	function extractPathInfo($filename, $type = null, $fromUrl = false) {
+	/**
+	 * Uses native PHP function to retrieve infos about a filename etc.
+	 * Improves it by not returning non-file-name characters from url files if specified.
+	 * So "filename.ext?foo=bar#hash" would simply be "filename.ext" then.
+	 *
+	 * @deprecated Use native method instead
+	 *
+	 * @param string $filename to check on
+	 * @param string|null $type (extension/ext, filename/file, basename/base, dirname/dir)
+	 * @param bool $fromUrl
+	 * @return mixed
+	 */
+	function extractPathInfo(string $filename, ?string $type = null, bool $fromUrl = false) {
 		switch ($type) {
 			case 'extension':
 			case 'ext':
 				$infoType = PATHINFO_EXTENSION;
+
 				break;
 			case 'filename':
 			case 'file':
 				$infoType = PATHINFO_FILENAME;
+
 				break;
 			case 'basename':
 			case 'base':
 				$infoType = PATHINFO_BASENAME;
+
 				break;
 			case 'dirname':
 			case 'dir':
 				$infoType = PATHINFO_DIRNAME;
+
 				break;
 			default:
 				$infoType = $type;
 		}
 		$result = pathinfo($filename, $infoType);
 		if ($fromUrl) {
-			if (($pos = strpos($result, '#')) !== false) {
+			$pos = strpos($result, '#');
+			if ($pos !== false) {
 				$result = substr($result, 0, $pos);
 			}
-			if (($pos = strpos($result, '?')) !== false) {
+			$pos = strpos($result, '?');
+			if ($pos !== false) {
 				$result = substr($result, 0, $pos);
 			}
 		}
@@ -259,19 +261,18 @@ if (!function_exists('extractPathInfo')) {
 	}
 }
 
-/**
- * Shows pr() messages, even with debug = 0.
- * Also allows additional customization.
- *
- * @param mixed $var
- * @param bool $collapsedAndExpandable
- * @param array $options
- * - class, showHtml, showFrom, jquery, returns, debug
- * @return string HTML
- */
-
 if (!function_exists('pre')) {
-	function pre($var, $collapsedAndExpandable = false, $options = []) {
+	/**
+	 * Shows pr() messages, even with debug = 0.
+	 * Also allows additional customization.
+	 *
+	 * @param mixed $var
+	 * @param bool $collapsedAndExpandable
+	 * @param array $options
+	 * - class, showHtml, showFrom, jquery, returns, debug
+	 * @return string HTML
+	 */
+	function pre($var, bool $collapsedAndExpandable = false, array $options = []): string {
 		$defaults = [
 			'class' => 'cake-debug',
 			'showHtml' => false, // Escape < and > (or manually escape with h() prior to calling this function)
@@ -321,34 +322,32 @@ if (!function_exists('pre')) {
 	}
 }
 
-/**
- * Checks if the string [$haystack] contains [$needle]
- *
- * @param string $haystack Input string.
- * @param string $needle Needed char or string.
- * @param bool $caseSensitive
- * @return bool
- */
-
 if (!function_exists('contains')) {
-	function contains($haystack, $needle, $caseSensitive = false) {
+	/**
+	 * Checks if the string [$haystack] contains [$needle]
+	 *
+	 * @param string $haystack Input string.
+	 * @param string $needle Needed char or string.
+	 * @param bool $caseSensitive
+	 * @return bool
+	 */
+	function contains(string $haystack, string $needle, bool $caseSensitive = false): bool {
 		$result = !$caseSensitive ? stripos($haystack, $needle) : strpos($haystack, $needle);
 
 		return $result !== false;
 	}
 }
 
-/**
- * Checks if the string [$haystack] starts with [$needle]
- *
- * @param string $haystack Input string.
- * @param string $needle Needed char or string.
- * @param bool $caseSensitive
- * @return bool
- */
-
 if (!function_exists('startsWith')) {
-	function startsWith($haystack, $needle, $caseSensitive = false) {
+	/**
+	 * Checks if the string [$haystack] starts with [$needle]
+	 *
+	 * @param string $haystack Input string.
+	 * @param string $needle Needed char or string.
+	 * @param bool $caseSensitive
+	 * @return bool
+	 */
+	function startsWith(string $haystack, string $needle, bool $caseSensitive = false): bool {
 		if ($caseSensitive) {
 			return mb_strpos($haystack, $needle) === 0;
 		}
@@ -357,17 +356,16 @@ if (!function_exists('startsWith')) {
 	}
 }
 
-/**
- * Checks if the String [$haystack] ends with [$needle]
- *
- * @param string $haystack Input string.
- * @param string $needle Needed char or string
- * @param bool $caseSensitive
- * @return bool
- */
-
 if (!function_exists('endsWith')) {
-	function endsWith($haystack, $needle, $caseSensitive = false) {
+	/**
+	 * Checks if the String [$haystack] ends with [$needle]
+	 *
+	 * @param string $haystack Input string.
+	 * @param string $needle Needed char or string
+	 * @param bool $caseSensitive
+	 * @return bool
+	 */
+	function endsWith(string $haystack, string $needle, bool $caseSensitive = false): bool {
 		if ($caseSensitive) {
 			return mb_strrpos($haystack, $needle) === mb_strlen($haystack) - mb_strlen($needle);
 		}

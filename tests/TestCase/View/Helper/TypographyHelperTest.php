@@ -4,7 +4,7 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\Core\Configure;
 use Cake\View\View;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 use Tools\View\Helper\TypographyHelper;
 
 /**
@@ -15,14 +15,14 @@ class TypographyHelperTest extends TestCase {
 	/**
 	 * @var \Tools\View\Helper\TypographyHelper
 	 */
-	public $Typography;
+	protected $Typography;
 
 	/**
 	 * SetUp method
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		Configure::delete('Typography.locale');
 		Configure::write('App.language', 'eng');
@@ -35,7 +35,7 @@ class TypographyHelperTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		unset($this->Typography);
 
 		parent::tearDown();

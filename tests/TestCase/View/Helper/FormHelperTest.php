@@ -4,7 +4,7 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\Core\Configure;
 use Cake\View\View;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 use Tools\View\Helper\FormHelper;
 
 /**
@@ -15,13 +15,20 @@ class FormHelperTest extends TestCase {
 	/**
 	 * @var \Tools\View\Helper\FormHelper
 	 */
-	public $Form;
+	protected $Form;
+
+	/**
+	 * @var \Cake\View\View
+	 */
+	protected $View;
 
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
+
+		Configure::write('App.fullBaseUrl', 'http://foo.bar');
 
 		Configure::delete('FormConfig');
 
@@ -38,16 +45,16 @@ class FormHelperTest extends TestCase {
 		$expected = 'novalidate="novalidate"';
 
 		$result = $this->Form->create();
-		$this->assertNotContains($expected, $result);
+		$this->assertStringNotContainsString($expected, $result);
 
 		Configure::write('FormConfig.novalidate', true);
 		$this->Form = new FormHelper($this->View);
 
 		$result = $this->Form->create();
-		$this->assertContains($expected, $result);
+		$this->assertStringContainsString($expected, $result);
 
 		$result = $this->Form->create(null, ['novalidate' => false]);
-		$this->assertNotContains($expected, $result);
+		$this->assertStringNotContainsString($expected, $result);
 	}
 
 }

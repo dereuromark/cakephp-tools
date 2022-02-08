@@ -12,10 +12,10 @@
 			<directory>tests/</directory>
 		</testsuite>
 	</testsuites>
-		<listeners>
+	<listeners>
 		<listener class="Cake\TestSuite\Fixture\FixtureInjector">
 			<arguments>
-				<object class="Cake\TestSuite\Fixture\FixtureManager" />
+				<object class="Cake\TestSuite\Fixture\FixtureManager"/>
 			</arguments>
 		</listener>
 	</listeners>
@@ -23,8 +23,5 @@
 		<whitelist>
 			<directory suffix=".php">src/</directory>
 		</whitelist>
-		<blacklist>
-			<directory suffix=".ctp">src/Template/</directory>
-		</blacklist>
 	</filter>
 </phpunit>

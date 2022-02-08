@@ -1,0 +1,34 @@
+parameters:
+	level: 6
+	paths:
+		- src/
+	checkMissingIterableValueType: false
+	checkGenericClassInNonGenericObjectType: false
+	bootstrapFiles:
+		- %rootDir%/../../../tests/bootstrap.php
+	excludePaths:
+		- %rootDir%/../../../src/TestSuite/*
+		- %rootDir%/../../../src/Utility/Mime
+	reportUnmatchedIgnoredErrors: false
+	ignoreErrors:
+		-
+			message: '#Undefined variable: .+#'
+			path: '%rootDir%/../../../src/View/Helper/TreeHelper.php'
+		-
+			message: '#Variable \$.+ might not be defined.#'
+			path: '%rootDir%/../../../src/View/Helper/TreeHelper.php'
+		-
+			message: '#Negated boolean expression is always true.#'
+			path: '%rootDir%/../../../src/View/Helper/TreeHelper.php'
+		-
+			message: '#Result of \|\| is always true.#'
+			path: '%rootDir%/../../../src/View/Helper/TreeHelper.php'
+		-
+			message: '#Cannot unset offset string on array.+\.#'
+			path: '%rootDir%/../../../src/Utility/Language.php'
+		-
+			message: '#Instanceof between mixed and .+ComparisonExpression will always evaluate to false\.#'
+			path: '%rootDir%/../../../src/Model/Behavior/BitmaskedBehavior.php'
+services:
+	-
+		class: Cake\PHPStan\AssociationTableMixinClassReflectionExtension

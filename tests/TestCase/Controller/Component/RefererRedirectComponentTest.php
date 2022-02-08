@@ -7,9 +7,9 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
+use Shim\TestSuite\TestCase;
 use TestApp\Controller\RefererRedirectComponentTestController;
 use Tools\Controller\Component\RefererRedirectComponent;
-use Tools\TestSuite\TestCase;
 
 class RefererRedirectComponentTest extends TestCase {
 
@@ -26,7 +26,7 @@ class RefererRedirectComponentTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$serverRequest = new ServerRequest();
@@ -41,7 +41,7 @@ class RefererRedirectComponentTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		unset($this->Controller);

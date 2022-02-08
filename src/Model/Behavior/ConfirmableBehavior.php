@@ -2,7 +2,7 @@
 
 namespace Tools\Model\Behavior;
 
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -20,12 +20,11 @@ use Cake\Validation\Validator;
 class ConfirmableBehavior extends Behavior {
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'message' => null,
 		'field' => 'confirm',
-		//'table' => null,
 		'validator' => 'default',
 	];
 
@@ -42,12 +41,12 @@ class ConfirmableBehavior extends Behavior {
 	}
 
 	/**
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\Validation\Validator $validator
 	 * @param string $name
 	 * @return void
 	 */
-	public function buildValidator(Event $event, Validator $validator, $name) {
+	public function buildValidator(EventInterface $event, Validator $validator, $name) {
 		$this->build($validator, $name);
 	}
 
@@ -64,15 +63,14 @@ class ConfirmableBehavior extends Behavior {
 		$field = $this->_config['field'];
 		$message = $this->_config['message'];
 		$validator->add($field, 'notBlank', [
-				'rule' => function ($value, $context) {
-					return !empty($value);
-				},
-				'message' => $message,
-				//'provider' => 'table',
-				'requirePresence' => true,
-				'allowEmpty' => false,
-				'last' => true]
-		);
+			'rule' => function ($value, $context) {
+				return !empty($value);
+			},
+			'message' => $message,
+			'requirePresence' => true,
+			'allowEmpty' => false,
+			'last' => true,
+		]);
 		$validator->requirePresence($field);
 	}
 

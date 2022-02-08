@@ -4,7 +4,7 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\Core\Configure;
 use Cake\View\View;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 use Tools\Utility\Text;
 use Tools\View\Helper\FormatHelper;
 
@@ -14,22 +14,24 @@ use Tools\View\Helper\FormatHelper;
 class FormatHelperTest extends TestCase {
 
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
-	public $fixtures = [
+	protected $fixtures = [
 		'core.Sessions',
 	];
 
 	/**
 	 * @var \Tools\View\Helper\FormatHelper
 	 */
-	public $Format;
+	protected $Format;
 
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
+
+		$this->loadRoutes();
 
 		Configure::write('App.imageBaseUrl', 'img/');
 
@@ -76,8 +78,8 @@ class FormatHelperTest extends TestCase {
 	 */
 	public function testIcon() {
 		$result = $this->Format->icon('edit');
-		$expected = '<i class="icon icon-edit fa fa-pencil" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
-		$this->assertEquals($expected, $result);
+		$expected = '<i class="icon icon-edit fa fa-pen" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
+		$this->assertSame($expected, $result);
 	}
 
 	/**
@@ -87,8 +89,8 @@ class FormatHelperTest extends TestCase {
 	 */
 	public function testIconWithCustomAttributes() {
 		$result = $this->Format->icon('edit', [], ['data-x' => 'y']);
-		$expected = '<i class="icon icon-edit fa fa-pencil" data-x="y" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
-		$this->assertEquals($expected, $result);
+		$expected = '<i class="icon icon-edit fa fa-pen" data-x="y" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
+		$this->assertSame($expected, $result);
 	}
 
 	/**
@@ -96,8 +98,8 @@ class FormatHelperTest extends TestCase {
 	 */
 	public function testIconWithCustomClassAttributes() {
 		$result = $this->Format->icon('edit', [], ['class' => 'my-extra']);
-		$expected = '<i class="icon icon-edit fa fa-pencil my-extra" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
-		$this->assertEquals($expected, $result);
+		$expected = '<i class="icon icon-edit fa fa-pen my-extra" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
+		$this->assertSame($expected, $result);
 	}
 
 	/**
@@ -107,7 +109,7 @@ class FormatHelperTest extends TestCase {
 		$this->Format->setConfig('fontIcons', ['edit' => 'fax fax-pen']);
 		$result = $this->Format->icon('edit');
 		$expected = '<i class="icon icon-edit fax fax-pen" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
-		$this->assertEquals($expected, $result);
+		$this->assertSame($expected, $result);
 	}
 
 	/**
@@ -117,11 +119,11 @@ class FormatHelperTest extends TestCase {
 		$this->Format->setConfig('iconNamespaces', ['fa', 'glyphicon']);
 		$result = $this->Format->icon('glyphicon-foo');
 		$expected = '<i class="icon icon-glyphicon-foo glyphicon glyphicon-foo" title="' . __d('tools', 'Foo') . '" data-placement="bottom" data-toggle="tooltip"></i>';
-		$this->assertEquals($expected, $result);
+		$this->assertSame($expected, $result);
 
 		$result = $this->Format->icon('glyphicon-edit');
 		$expected = '<i class="icon icon-glyphicon-edit glyphicon glyphicon-edit" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
-		$this->assertEquals($expected, $result);
+		$this->assertSame($expected, $result);
 	}
 
 	/**
@@ -289,7 +291,7 @@ class FormatHelperTest extends TestCase {
 		$result = $this->Format->siteIcon('http://www.example.org');
 		$this->debug($result);
 		$expected = '<img src="http://www.google.com/s2/favicons?domain=www.example.org';
-		$this->assertContains($expected, $result);
+		$this->assertStringContainsString($expected, $result);
 	}
 
 	/**
@@ -334,7 +336,7 @@ class FormatHelperTest extends TestCase {
 		];
 
 		$result = $this->Format->neighbors($neighbors, 'foo');
-		$expected = '<div class="next-prev-navi"><a href="/index/1" title="bar"><i class="icon icon-prev fa fa-prev prev" title="" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/index/2" title="y"><i class="icon icon-next fa fa-next next" title="" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;nextRecord</a></div>';
+		$expected = '<div class="next-prev-navi"><a href="/index/1" title="bar"><i class="icon icon-prev fa fa-arrow-left" title="" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/index/2" title="y"><i class="icon icon-next fa fa-arrow-right" title="" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;nextRecord</a></div>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -353,7 +355,7 @@ class FormatHelperTest extends TestCase {
 		$url = ['controller' => 'MyController', 'action' => 'myAction'];
 		$result = $this->Format->neighbors($neighbors, 'foo', ['slug' => true, 'url' => $url]);
 
-		$expected = '<div class="next-prev-navi nextPrevNavi"><a href="/my-controller/my-action/1/My-Foo" title="My Foo"><i class="icon icon-prev fa fa-prev" title="Prev" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/my-controller/my-action/2/My-FooBaz" title="My FooBaz"><i class="icon icon-next fa fa-next" title="Next" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;nextRecord</a></div>';
+		$expected = '<div class="next-prev-navi nextPrevNavi"><a href="/my-controller/my-action/1/My-Foo" title="My Foo"><i class="icon icon-prev fa fa-arrow-left" title="Prev" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/my-controller/my-action/2/My-FooBaz" title="My FooBaz"><i class="icon icon-next fa fa-arrow-right" title="Next" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;nextRecord</a></div>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -373,6 +375,7 @@ foooo        bar           bla
 
 TXT;
 		$this->assertTextEquals($expected, $result);
+		$this->assertTrue(strpos($result, "\t") === false);
 	}
 
 	/**
@@ -475,7 +478,7 @@ TEXT;
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		unset($this->Format);

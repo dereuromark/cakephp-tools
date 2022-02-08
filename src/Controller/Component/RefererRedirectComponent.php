@@ -3,7 +3,7 @@
 namespace Tools\Controller\Component;
 
 use Cake\Controller\Component;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\Http\Response;
 
 /**
@@ -14,23 +14,26 @@ use Cake\Http\Response;
  */
 class RefererRedirectComponent extends Component {
 
-	const QUERY_REFERER = 'ref';
+	/**
+	 * @var string
+	 */
+	public const QUERY_REFERER = 'ref';
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'actions' => [],
 	];
 
 	/**
-	 * @param \Cake\Event\Event $event
-	 * @param string|array $url A string or array containing the redirect location
+	 * @param \Cake\Event\EventInterface $event
+	 * @param array|string $url A string or array containing the redirect location
 	 * @param \Cake\Http\Response $response The response object.
 	 *
 	 * @return \Cake\Http\Response|null
 	 */
-	public function beforeRedirect(Event $event, $url, Response $response) {
+	public function beforeRedirect(EventInterface $event, $url, Response $response) {
 		$actions = $this->getConfig('actions');
 		$currentAction = $this->getController()->getRequest()->getParam('action');
 

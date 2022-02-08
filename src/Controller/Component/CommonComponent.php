@@ -2,10 +2,11 @@
 
 namespace Tools\Controller\Component;
 
+use Cake\Controller\Component;
 use Cake\Core\Configure;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
+use Cake\Http\ServerRequest;
 use Cake\Routing\Router;
-use Shim\Controller\Component\Component;
 use Tools\Utility\Utility;
 
 /**
@@ -17,18 +18,32 @@ use Tools\Utility\Utility;
 class CommonComponent extends Component {
 
 	/**
-	 * @param \Cake\Event\Event $event
+	 * @var \Cake\Controller\Controller
+	 */
+	protected $controller;
+
+	/**
+	 * @param array $config
 	 * @return void
 	 */
-	public function startup(Event $event) {
+	public function initialize(array $config): void {
+		parent::initialize($config);
+
+		$this->controller = $this->getController();
+	}
+
+	/**
+	 * @param \Cake\Event\EventInterface $event
+	 * @return void
+	 */
+	public function startup(EventInterface $event) {
 		if (Configure::read('DataPreparation.notrim')) {
 			return;
 		}
 
-		$request = $this->Controller->getRequest();
+		$request = $this->controller->getRequest();
 
-		if ($this->Controller->getRequest()->getData()) {
-
+		if ($this->controller->getRequest()->getData()) {
 			$newData = Utility::trimDeep($request->getData());
 			foreach ($newData as $k => $v) {
 				if ($request->getData($k) !== $v) {
@@ -49,11 +64,11 @@ class CommonComponent extends Component {
 			}
 		}
 
-		if ($request === $this->Controller->getRequest()) {
+		if ($request === $this->controller->getRequest()) {
 			return;
 		}
 
-		$this->Controller->setRequest($request);
+		$this->controller->setRequest($request);
 	}
 
 	/**
@@ -64,14 +79,14 @@ class CommonComponent extends Component {
 	 * - query string
 	 * - provided default
 	 *
-	 * @param string|array $default
-	 * @param string|array|null $data
+	 * @param array|string $default
+	 * @param array|string|null $data
 	 * @param string $key
 	 *
-	 * @return string|array
+	 * @return array|string
 	 */
 	public function getSafeRedirectUrl($default, $data = null, $key = 'redirect') {
-		$redirectUrl = $data ?: ($this->Controller->getRequest()->getData($key) ?: $this->Controller->getRequest()->getQuery($key));
+		$redirectUrl = $data ?: ($this->controller->getRequest()->getData($key) ?: $this->controller->getRequest()->getQuery($key));
 		if ($redirectUrl && (mb_substr($redirectUrl, 0, 1) !== '/' || mb_substr($redirectUrl, 0, 2) === '//')) {
 			$redirectUrl = null;
 		}
@@ -82,17 +97,24 @@ class CommonComponent extends Component {
 	/**
 	 * List all direct actions of a controller
 	 *
-	 * @return array Actions
+	 * @return array<string> Actions
 	 */
 	public function listActions() {
-		$parentClassMethods = get_class_methods(get_parent_class($this->Controller));
-		$subClassMethods = get_class_methods($this->Controller);
+		/** @var string|null $parentClass */
+		$parentClass = get_parent_class($this->controller);
+		if (!$parentClass) {
+			return [];
+		}
+
+		$parentClassMethods = get_class_methods($parentClass);
+		$subClassMethods = get_class_methods($this->controller);
 		$classMethods = array_diff($subClassMethods, $parentClassMethods);
 		foreach ($classMethods as $key => $classMethod) {
 			if (mb_substr($classMethod, 0, 1) === '_') {
 				unset($classMethods[$key]);
 			}
 		}
+
 		return $classMethods;
 	}
 
@@ -105,42 +127,7 @@ class CommonComponent extends Component {
 	 * @return bool If it is of type POST/PUT/PATCH
 	 */
 	public function isPosted() {
-		return $this->Controller->getRequest()->is(['post', 'put', 'patch']);
-	}
-
-	/**
-	 * Add component just in time (inside actions - only when needed)
-	 * aware of plugins and config array (if passed)
-	 *
-	 * @deprecated Use normal controller component loading now. Will be removed in the future.
-	 * @param string $component Component
-	 * @param array $config
-	 * @param bool $callbacks (defaults to true)
-	 * @return void
-	 */
-	public function loadComponent($component, array $config = [], $callbacks = true) {
-		list($plugin, $componentName) = pluginSplit($component);
-		$this->Controller->loadComponent($component, $config);
-		if (!$callbacks) {
-			return;
-		}
-		if (method_exists($this->Controller->{$componentName}, 'beforeFilter')) {
-			$this->Controller->{$componentName}->beforeFilter(new Event('Controller.initialize', $this->Controller->{$componentName}));
-		}
-		if (method_exists($this->Controller->{$componentName}, 'startup')) {
-			$this->Controller->{$componentName}->startup(new Event('Controller.startup', $this->Controller->{$componentName}));
-		}
-	}
-
-	/**
-	 * Add helper just in time (inside actions - only when needed)
-	 *
-	 * @deprecated In 3.x. Use addHelpers() instead.
-	 * @param string|array $helpers (single string or multiple array)
-	 * @return void
-	 */
-	public function loadHelper($helpers) {
-		$this->addHelpers((array)$helpers);
+		return $this->controller->getRequest()->is(['post', 'put', 'patch']);
 	}
 
 	/**
@@ -150,7 +137,7 @@ class CommonComponent extends Component {
 	 * @return void
 	 */
 	public function addHelpers(array $helpers) {
-		$this->Controller->viewBuilder()->setHelpers($helpers, true);
+		$this->controller->viewBuilder()->setHelpers($helpers, true);
 	}
 
 	/**
@@ -161,22 +148,25 @@ class CommonComponent extends Component {
 	 * @return mixed
 	 */
 	public function getPassedParam($var, $default = null) {
-		$passed = $this->Controller->getRequest()->getParam('pass');
+		$passed = $this->controller->getRequest()->getParam('pass');
 
-		return isset($passed[$var]) ? $passed[$var] : $default;
+		return $passed[$var] ?? $default;
 	}
 
 	/**
 	 * Returns defaultUrlParams including configured prefixes.
 	 *
+	 * Deprecated: Routing.prefixes config is not needed anymore as it is always
+	 * just "prefix" now.
+	 *
 	 * @return array URL params
 	 */
 	public static function defaultUrlParams() {
-		$defaults = ['plugin' => false];
-		$prefixes = (array)Configure::read('Routing.prefixes');
-		foreach ($prefixes as $prefix) {
-			$defaults[$prefix] = false;
-		}
+		$defaults = [
+			'plugin' => false,
+			'prefix' => false,
+		];
+
 		return $defaults;
 	}
 
@@ -188,20 +178,21 @@ class CommonComponent extends Component {
 	 * @return mixed URL
 	 */
 	public function currentUrl($asString = false) {
-		$action = $this->Controller->getRequest()->getParam('action');
+		$action = $this->controller->getRequest()->getParam('action');
 
-		$passed = (array)$this->Controller->getRequest()->getParam('pass');
+		$passed = (array)$this->controller->getRequest()->getParam('pass');
 		$url = [
-			'prefix' => $this->Controller->getRequest()->getParam('prefix'),
-			'plugin' => $this->Controller->getRequest()->getParam('plugin'),
+			'prefix' => $this->controller->getRequest()->getParam('prefix'),
+			'plugin' => $this->controller->getRequest()->getParam('plugin'),
 			'action' => $action,
-			'controller' => $this->Controller->getRequest()->getParam('controller'),
+			'controller' => $this->controller->getRequest()->getParam('controller'),
 		];
 		$url = array_merge($passed, $url);
 
 		if ($asString === true) {
 			return Router::url($url);
 		}
+
 		return $url;
 	}
 
@@ -215,10 +206,11 @@ class CommonComponent extends Component {
 	 * @return \Cake\Http\Response
 	 */
 	public function autoRedirect($whereTo, $allowSelf = false, $status = 302) {
-		if ($allowSelf || $this->Controller->referer(null, true) !== $this->Controller->getRequest()->getRequestTarget()) {
-			return $this->Controller->redirect($this->Controller->referer($whereTo, true), $status);
+		if ($allowSelf || $this->controller->referer(null, true) !== $this->controller->getRequest()->getRequestTarget()) {
+			return $this->controller->redirect($this->controller->referer($whereTo, true), $status);
 		}
-		return $this->Controller->redirect($whereTo, $status);
+
+		return $this->controller->redirect($whereTo, $status);
 	}
 
 	/**
@@ -234,7 +226,7 @@ class CommonComponent extends Component {
 	 * @return \Cake\Http\Response
 	 */
 	public function postRedirect($whereTo, $status = 302) {
-		return $this->Controller->redirect($whereTo, $status);
+		return $this->controller->redirect($whereTo, $status);
 	}
 
 	/**
@@ -247,16 +239,17 @@ class CommonComponent extends Component {
 	 * @return \Cake\Http\Response
 	 */
 	public function autoPostRedirect($whereTo, $conditionalAutoRedirect = true, $status = 302) {
-		$referer = $this->Controller->referer($whereTo, true);
+		$referer = $this->controller->referer($whereTo, true);
 		if (!$conditionalAutoRedirect && !empty($referer)) {
 			return $this->postRedirect($referer, $status);
 		}
 
 		if (!empty($referer)) {
-			$referer = Router::parse($referer);
+			//FIXME
+			$referer = Router::parseRequest(new ServerRequest(['url' => $referer, 'environment' => ['REQUEST_METHOD' => 'GET']]));
 		}
 
-		if ($conditionalAutoRedirect && !empty($this->Controller->autoRedirectActions) && is_array($referer) && !empty($referer['action'])) {
+		if ($conditionalAutoRedirect && !empty($this->controller->autoRedirectActions) && is_array($referer) && !empty($referer['action'])) {
 			// Be sure that controller offset exists, otherwise you
 			// will run into problems, if you use url rewriting.
 			$refererController = null;
@@ -264,24 +257,26 @@ class CommonComponent extends Component {
 				$refererController = $referer['controller'];
 			}
 			// fixme
-			if (!isset($this->Controller->autoRedirectActions)) {
-				$this->Controller->autoRedirectActions = [];
+			if (!isset($this->controller->autoRedirectActions)) {
+				$this->controller->autoRedirectActions = [];
 			}
 
-			foreach ($this->Controller->autoRedirectActions as $action) {
-				list($controller, $action) = pluginSplit($action);
+			foreach ($this->controller->autoRedirectActions as $action) {
+				[$controller, $action] = pluginSplit($action);
 				if (!empty($controller) && $refererController !== '*' && $refererController !== $controller) {
 					continue;
 				}
-				if (empty($controller) && $refererController !== $this->Controller->getRequest()->getParam('controller')) {
+				if (empty($controller) && $refererController !== $this->controller->getRequest()->getParam('controller')) {
 					continue;
 				}
-				if (!in_array($referer['action'], (array)$this->Controller->autoRedirectActions, true)) {
+				if (!in_array($referer['action'], (array)$this->controller->autoRedirectActions, true)) {
 					continue;
 				}
+
 				return $this->autoRedirect($whereTo, true, $status);
 			}
 		}
+
 		return $this->postRedirect($whereTo, $status);
 	}
 
@@ -296,14 +291,18 @@ class CommonComponent extends Component {
 	 */
 	public function completeRedirect($url = null, $status = 302) {
 		if ($url === null) {
-			$url = $this->Controller->getRequest()->params;
-			unset($url['pass']);
-			unset($url['isAjax']);
+			$url = [
+				'plugin' => $this->controller->getRequest()->getParam('plugin'),
+				'controller' => $this->controller->getRequest()->getParam('controller'),
+				'action' => $this->controller->getRequest()->getParam('action'),
+				'_ext' => $this->controller->getRequest()->getParam('_ext'),
+			];
 		}
 		if (is_array($url)) {
-			$url += $this->Controller->getRequest()->getParam('pass');
+			$url += $this->controller->getRequest()->getParam('pass');
 		}
-		return $this->Controller->redirect($url, $status);
+
+		return $this->controller->redirect($url, $status);
 	}
 
 	/**
@@ -314,13 +313,13 @@ class CommonComponent extends Component {
 	 * @return void
 	 */
 	public function forceCache($seconds = HOUR) {
-		$response = $this->Controller->getResponse();
+		$response = $this->controller->getResponse();
 
 		$response = $response->withHeader('Cache-Control', 'public, max-age=' . $seconds)
 			->withHeader('Last-modified', gmdate('D, j M Y H:i:s', time()) . ' GMT')
 			->withHeader('Expires', gmdate('D, j M Y H:i:s', time() + $seconds) . ' GMT');
 
-		$this->Controller->setResponse($response);
+		$this->controller->setResponse($response);
 	}
 
 	/**
@@ -341,6 +340,7 @@ class CommonComponent extends Component {
 		if (mb_strpos($ref, $base) === 0) {
 			return false;
 		}
+
 		return true;
 	}
 

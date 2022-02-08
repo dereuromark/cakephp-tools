@@ -4,9 +4,9 @@ namespace Tools\Test\TestCase\Model\Behavior;
 
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
-use Cake\ORM\TableRegistry;
+use RuntimeException;
+use Shim\TestSuite\TestCase;
 use TestApp\Model\Entity\SluggedArticle;
-use Tools\TestSuite\TestCase;
 use Tools\Utility\Text;
 
 /**
@@ -19,7 +19,7 @@ class SluggedBehaviorTest extends TestCase {
 	 *
 	 * @var array
 	 */
-	public $fixtures = [
+	protected $fixtures = [
 		'plugin.Tools.SluggedArticles',
 	];
 
@@ -33,12 +33,12 @@ class SluggedBehaviorTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		//$this->connection = ConnectionManager::get('test');
 
 		$options = ['alias' => 'Articles'];
-		$this->articles = TableRegistry::getTableLocator()->get('SluggedArticles', $options);
+		$this->articles = $this->getTableLocator()->get('SluggedArticles', $options);
 		Configure::delete('Slugged');
 
 		$this->articles->addBehavior('Tools.Slugged');
@@ -49,10 +49,10 @@ class SluggedBehaviorTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		unset($this->articles);
 
- 		TableRegistry::clear();
+ 		$this->getTableLocator()->clear();
  		parent::tearDown();
 	}
 
@@ -148,7 +148,7 @@ class SluggedBehaviorTest extends TestCase {
 	 */
 	public function testLengthRestrictionManual() {
 		$this->articles->behaviors()->Slugged->setConfig(['length' => 155]);
-		$entity = $this->_getEntity(str_repeat('foo bar ', 31));
+		$entity = $this->_getEntity(str_repeat('foo bar', 31));
 
 		$result = $this->articles->save($entity);
 		$this->assertEquals(155, strlen($result->get('slug')));
@@ -254,10 +254,10 @@ class SluggedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testLengthRestrictionAutoDetect() {
-		$entity = $this->_getEntity(str_repeat('foo bar ', 31));
+		$entity = $this->_getEntity(str_repeat('foo bar', 36));
 
 		$result = $this->articles->save($entity);
-		$this->assertEquals(245, strlen($result->get('slug')));
+		$this->assertEquals(252, strlen($result->get('slug')));
 	}
 
 	/**
@@ -267,15 +267,13 @@ class SluggedBehaviorTest extends TestCase {
 	 */
 	public function testLengthRestrictionNoLimit() {
 		$this->articles->behaviors()->Slugged->setConfig(['length' => 0, 'label' => 'long_title', 'field' => 'long_slug']);
-		$entity = $this->_getEntity(str_repeat('foo bar ', 100), 'long_title');
+		$entity = $this->_getEntity(str_repeat('foo bar', 35), 'long_title');
 
 		$result = $this->articles->save($entity);
-		$this->assertEquals(799, strlen($result->get('long_slug')));
+		$this->assertEquals(245, strlen($result->get('long_slug')));
 	}
 
 	/**
-	 * SluggedBehaviorTest::testResetSlugs()
-	 *
 	 * @return void
 	 */
 	public function testResetSlugs() {
@@ -314,8 +312,6 @@ class SluggedBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * TestDuplicateWithLengthRestriction method
-	 *
 	 * If there's a length restriction - ensure it's respected by the unique slug routine
 	 *
 	 * @return void
@@ -369,11 +365,6 @@ class SluggedBehaviorTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * TestTruncateMultibyte method
-	 *
-	 * @return void
-	 */
 	/**
 	 * TestTruncateMultibyte method
 	 *
@@ -646,25 +637,20 @@ class SluggedBehaviorTest extends TestCase {
 	/**
 	 * Tests slug generation fails with invalid entity config.
 	 *
-	 * @expectedException \RuntimeException
-	 * @expectedExceptionMessage (SluggedBehavior::setup) model `SluggedArticles` is missing the field `specialNonExistent` (specified in the setup for entity `TestApp\Model\Entity\SluggedArticle`.
-	 *
 	 * @return void
 	 */
 	public function testSlugGenerationWithVirtualFieldInvalidField() {
 		$this->articles->removeBehavior('Slugged');
 		$this->articles->setEntityClass(SluggedArticle::class);
+
+		$this->expectException(RuntimeException::class);
+		$this->expectExceptionMessage('(SluggedBehavior::setup) model `SluggedArticles` is missing the field `specialNonExistent` (specified in the setup for entity `TestApp\Model\Entity\SluggedArticle`.');
+
 		$this->articles->addBehavior('Tools.Slugged', [
 			'label' => [
 				'specialNonExistent',
 			],
 		]);
-
-		$data = [
-			'title' => 'Some Article 12345',
-		];
-		$article = $this->articles->newEntity($data);
-		$this->articles->save($article);
 	}
 
 	/**
@@ -735,6 +721,7 @@ class SluggedBehaviorTest extends TestCase {
 		$data = [
 			$field => $title,
 		] + $data;
+
 		return new Entity($data, $options);
 	}
 

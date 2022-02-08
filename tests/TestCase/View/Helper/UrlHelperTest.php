@@ -3,11 +3,11 @@
 namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\Http\ServerRequest;
+use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
-use Cake\Routing\Route\DashedRoute;
 use Cake\View\View;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 use Tools\View\Helper\UrlHelper;
 
 /**
@@ -23,8 +23,10 @@ class UrlHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
+
+		$this->loadRoutes();
 
 		$this->Url = new UrlHelper(new View(null));
 		$this->Url->getView()->setRequest(new ServerRequest(['webroot' => '']));
@@ -65,14 +67,15 @@ class UrlHelperTest extends TestCase {
 
 		$request = $this->Url->getView()->getRequest();
 		$request = $request->withAttribute('here', '/admin/foo-bar/test')
-			->withParam('prefix', 'admin');
+			->withParam('prefix', 'Admin');
 		$this->Url->getView()->setRequest($request);
-		Router::prefix('admin', function (RouteBuilder $routes) {
+
+		Router::prefix('Admin', function (RouteBuilder $routes) {
 			$routes->fallbacks();
 		});
-		Router::pushRequest($this->Url->getView()->getRequest());
+		Router::setRequest($this->Url->getView()->getRequest());
 
-		$result = $this->Url->build(['prefix' => 'admin', 'controller' => 'FooBar', 'action' => 'test']);
+		$result = $this->Url->build(['prefix' => 'Admin', 'controller' => 'FooBar', 'action' => 'test']);
 		$expected = '/admin/foo-bar/test';
 		$this->assertSame($expected, $result);
 
@@ -95,7 +98,7 @@ class UrlHelperTest extends TestCase {
 
 		$request = $this->Url->getView()->getRequest();
 		$request = $request->withAttribute('here', '/admin/foo/bar/baz/test')
-			->withParam('prefix', 'admin')
+			->withParam('prefix', 'Admin')
 			->withParam('plugin', 'Foo');
 		$this->Url->getView()->setRequest($request);
 		Router::reload();
@@ -104,12 +107,12 @@ class UrlHelperTest extends TestCase {
 		Router::plugin('Foo', function (RouteBuilder $routes) {
 			$routes->fallbacks(DashedRoute::class);
 		});
-		Router::prefix('admin', function (RouteBuilder $routes) {
+		Router::prefix('Admin', function (RouteBuilder $routes) {
 			$routes->plugin('Foo', function (RouteBuilder $routes) {
 				$routes->fallbacks(DashedRoute::class);
 			});
 		});
-		Router::pushRequest($this->Url->getView()->getRequest());
+		Router::setRequest($this->Url->getView()->getRequest());
 
 		$result = $this->Url->build(['controller' => 'Bar', 'action' => 'baz', 'x']);
 		$expected = '/admin/foo/bar/baz/x';
@@ -138,7 +141,7 @@ class UrlHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		unset($this->Url);

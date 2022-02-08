@@ -4,6 +4,7 @@ namespace Tools\Auth;
 
 use Cake\Auth\FormAuthenticate;
 use Cake\Controller\ComponentRegistry;
+use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 
 /**
@@ -53,7 +54,7 @@ class MultiColumnAuthenticate extends FormAuthenticate {
 	 * @param string $username The username/identifier.
 	 * @return \Cake\ORM\Query
 	 */
-	protected function _query($username) {
+	protected function _query(string $username): Query {
 		$table = TableRegistry::get($this->_config['userModel']);
 
 		$columns = [];
@@ -83,9 +84,7 @@ class MultiColumnAuthenticate extends FormAuthenticate {
 			$options['username'] = $username;
 		}
 
-		$query = $table->find($finder, $options);
-
-		return $query;
+		return $table->find($finder, $options);
 	}
 
 }

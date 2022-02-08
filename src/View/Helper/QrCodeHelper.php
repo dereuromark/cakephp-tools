@@ -28,29 +28,60 @@ use Cake\View\View;
  */
 class QrCodeHelper extends Helper {
 
-	const MIN_SIZE = 58; # not readable anymore below this value
-	const MAX_SIZE = 540; # max of 300000 pixels
-	const DEFAULT_SIZE = 74; # 2x size
-	const DEFAULT_LEVEL = 'L'; # highest correction level
-	const SIZE_L = 58;
-	const SIZE_M = 66;
-	const SIZE_Q = 66;
-	const SIZE_H = 74;
+	/**
+	 * @var int
+	 */
+	public const MIN_SIZE = 58; # not readable anymore below this value
+
+	/**
+	 * @var int
+	 */
+	public const MAX_SIZE = 540; # max of 300000 pixels
+
+	/**
+	 * @var int
+	 */
+	public const DEFAULT_SIZE = 74; # 2x size
+
+	/**
+	 * @var string
+	 */
+	public const DEFAULT_LEVEL = 'L'; # highest correction level
+
+	/**
+	 * @var int
+	 */
+	public const SIZE_L = 58;
+
+	/**
+	 * @var int
+	 */
+	public const SIZE_M = 66;
+
+	/**
+	 * @var int
+	 */
+	public const SIZE_Q = 66;
+
+	/**
+	 * @var int
+	 */
+	public const SIZE_H = 74;
 
 	/**
 	 * @var array
 	 */
-	public $helpers = ['Html', 'Url'];
+	protected $helpers = ['Html', 'Url'];
 
 	/**
 	 * @var string
 	 */
-	public $engine = 'google';
+	protected $engine = 'google';
 
 	/**
 	 * @var string
 	 */
-	public $url = 'http://chart.apis.google.com/chart?';
+	protected $url = 'http://chart.apis.google.com/chart?';
 
 	/**
 	 * necessary
@@ -60,17 +91,17 @@ class QrCodeHelper extends Helper {
 	 *
 	 * @var array
 	 */
-	public $options = ['cht' => 'qr', 'chl' => '', 'choe' => '', 'chs' => ''];
+	protected $options = ['cht' => 'qr', 'chl' => '', 'choe' => '', 'chs' => ''];
 
 	/**
 	 * @var array
 	 */
-	public $ecLevels = ['H', 'Q', 'M', 'L']; # 30%..7%
+	protected $ecLevels = ['H', 'Q', 'M', 'L']; # 30%..7%
 
 	/**
 	 * @var array
 	 */
-	public $formattingTypes = ['url' => 'http', 'tel' => 'tel', 'sms' => 'smsto', 'card' => 'mecard'];
+	protected $formattingTypes = ['url' => 'http', 'tel' => 'tel', 'sms' => 'smsto', 'card' => 'mecard'];
 
 	/**
 	 * @param \Cake\View\View $View
@@ -105,6 +136,7 @@ class QrCodeHelper extends Helper {
 	public function uri($text) {
 		$params = [];
 		$params['chl'] = rawurlencode($text);
+
 		return $this->_uri($params);
 	}
 
@@ -118,6 +150,7 @@ class QrCodeHelper extends Helper {
 		foreach ($params as $key => $value) {
 			$pieces[] = $key . '=' . $value;
 		}
+
 		return $this->url . implode('&', $pieces);
 	}
 
@@ -125,7 +158,7 @@ class QrCodeHelper extends Helper {
 	 * Format a text in a specific format
 	 * - url, sms, tel, email, market, geo
 	 *
-	 * @param string|array $text
+	 * @param array|string $text
 	 * @param string|null $type
 	 * @return string formattedText
 	 */
@@ -134,23 +167,29 @@ class QrCodeHelper extends Helper {
 			case 'text':
 				break;
 			case 'url':
-				$text = $this->Url->build($text, true);
+				$text = $this->Url->build($text, ['fullBase' => true]);
+
 				break;
 			case 'sms':
 				$text = 'smsto:' . implode(':', (array)$text);
+
 				break;
 			case 'tel':
 				$text = 'tel:' . $text;
+
 				break;
 			case 'email':
 				$text = 'mailto:' . $text;
+
 				break;
 			case 'geo':
 				$text = 'geo:' . implode(',', (array)$text); #like 77.1,11.8
+
 				break;
 			case 'market':
 				$text = 'market://search?q=pname:' . $text;
 		}
+
 		return $text;
 	}
 
@@ -171,64 +210,76 @@ class QrCodeHelper extends Helper {
 			switch ($key) {
 				case 'name':
 					$res[] = 'N:' . $val; # //TODO: support array
+
 					break;
 				case 'nickname':
 					$res[] = 'NICKNAME:' . $val;
+
 					break;
 				case 'sound':
 					$res[] = 'SOUND:' . $val;
+
 					break;
 				case 'note':
 					$val = str_replace(';', ',', $val);
 					$res[] = 'NOTE:' . $val; //TODO: remove other invalid characters
+
 					break;
 				case 'birthday':
 					if (strlen($val) !== 8) {
 						$val = substr($val, 0, 4) . substr($val, 6, 2) . substr($val, 10, 2);
 					}
 					$res[] = 'BDAY:' . $val;
+
 					break;
 				case 'tel':
 					$val = (array)$val;
 					foreach ($val as $v) {
 						$res[] = 'TEL:' . $v;
 					}
+
 					break;
 				case 'video':
 					$val = (array)$val;
 					foreach ($val as $v) {
 						$res[] = 'TEL-AV:' . $v;
 					}
+
 					break;
 				case 'address':
 					$val = (array)$val;
 					foreach ($val as $v) {
 						$res[] = 'ADR:' . $v; //TODO: reformat (array etc)
 					}
+
 					break;
 				case 'org':
 					$val = (array)$val;
 					foreach ($val as $v) {
 						$res[] = 'ORG:' . $v;
 					}
+
 					break;
 				case 'role':
 					$val = (array)$val;
 					foreach ($val as $v) {
 						$res[] = 'ROLE:' . $v;
 					}
+
 					break;
 				case 'email':
 					$val = (array)$val;
 					foreach ($val as $v) {
 						$res[] = 'EMAIL:' . $v;
 					}
+
 					break;
 				case 'url':
 					$val = (array)$val;
 					foreach ($val as $v) {
-						$res[] = 'URL:' . $this->Url->build($v, true);
+						$res[] = 'URL:' . $this->Url->build($v, ['fullBase' => true]);
 					}
+
 					break;
 			}
 		}
@@ -276,8 +327,10 @@ class QrCodeHelper extends Helper {
 		$value = (int)$value;
 		if ($value >= static::MIN_SIZE && $value <= static::MAX_SIZE) {
 			$this->options['chs'] = $value . 'x' . $value;
+
 			return true;
 		}
+
 		return false;
 	}
 
@@ -295,8 +348,10 @@ class QrCodeHelper extends Helper {
 				$margin = 4; # minimum
 			}
 			$this->options['chld'] = strtoupper($level) . '|' . $margin;
+
 			return true;
 		}
+
 		return false;
 	}
 
@@ -324,16 +379,6 @@ class QrCodeHelper extends Helper {
 	 */
 	public function debug() {
 		return $this->options;
-	}
-
-	/**
-	 * 25 => 21x21 (L)
-	 * ...
-	 * 4000 => 547x547 (L)
-	 *
-	 * @return int size
-	 */
-	protected function _findSuitableSize() {
 	}
 
 }

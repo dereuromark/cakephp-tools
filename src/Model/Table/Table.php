@@ -5,7 +5,7 @@ namespace Tools\Model\Table;
 use Cake\Routing\Router;
 use Cake\Validation\Validation;
 use Shim\Model\Table\Table as ShimTable;
-use Tools\Utility\Time;
+use Tools\Utility\FrozenTime;
 use Tools\Utility\Utility;
 
 /**
@@ -24,7 +24,7 @@ class Table extends ShimTable {
 	 * @param array $entities
 	 * @return bool
 	 */
-	public function validateAll(array $entities) {
+	public function validateAll(array $entities): bool {
 		foreach ($entities as $entity) {
 			if ($entity->getErrors()) {
 				return false;
@@ -71,6 +71,7 @@ class Table extends ShimTable {
 	 */
 	public function validateUniqueExt($value, array $options, array $context = []) {
 		$context += $options;
+
 		return parent::validateUnique($value, $context);
 	}
 
@@ -78,7 +79,11 @@ class Table extends ShimTable {
 	 * Return the next auto increment id from the current table
 	 * UUIDs will return false
 	 *
-	 * @return int|bool next auto increment value or False on failure
+	 * Only for MySQL.
+	 *
+	 * @deprecated Too (My)SQL specific.
+	 *
+	 * @return int|false next auto increment value or False on failure
 	 */
 	public function getNextAutoIncrement() {
 		$query = "SHOW TABLE STATUS WHERE name = '" . $this->getTable() . "'";
@@ -87,6 +92,7 @@ class Table extends ShimTable {
 		if (!isset($result[10])) {
 			return false;
 		}
+
 		return (int)$result[10];
 	}
 
@@ -96,7 +102,9 @@ class Table extends ShimTable {
 	 * @return void
 	 */
 	public function truncate() {
-		$sql = $this->getSchema()->truncateSql($this->_connection);
+		/** @var \Cake\Database\Schema\SqlGeneratorInterface $schema */
+		$schema = $this->getSchema();
+		$sql = $schema->truncateSql($this->_connection);
 		foreach ($sql as $snippet) {
 			$this->_connection->execute($snippet);
 		}
@@ -111,7 +119,7 @@ class Table extends ShimTable {
 	 * @param array $options
 	 * @return \Cake\ORM\Query
 	 */
-	public function getRelatedInUse($tableName, $groupField = null, $type = 'all', $options = []) {
+	public function getRelatedInUse($tableName, $groupField = null, $type = 'all', array $options = []) {
 		if ($groupField === null) {
 			/** @var string $groupField */
 			$groupField = $this->getAssociation($tableName)->getForeignKey();
@@ -119,13 +127,19 @@ class Table extends ShimTable {
 		$defaults = [
 			'contain' => [$tableName],
 			'group' => $groupField,
-			'order' => isset($this->$tableName->order) ? $this->$tableName->order : [$tableName . '.' . $this->$tableName->getDisplayField() => 'ASC'],
+			'order' => $this->$tableName->order ?? [$tableName . '.' . $this->$tableName->getDisplayField() => 'ASC'],
 		];
 		if ($type === 'list') {
 			$propertyName = $this->getAssociation($tableName)->getProperty();
 			$defaults['fields'] = [$tableName . '.' . $this->$tableName->getPrimaryKey(), $tableName . '.' . $this->$tableName->getDisplayField()];
 			$defaults['keyField'] = $propertyName . '.' . $this->$tableName->getPrimaryKey();
 			$defaults['valueField'] = $propertyName . '.' . $this->$tableName->getDisplayField();
+
+			if ($this->$tableName->getPrimaryKey() === $this->$tableName->getDisplayField()) {
+				$defaults['group'] = [$tableName . '.' . $this->$tableName->getDisplayField()];
+			} else {
+				$defaults['group'] = [$tableName . '.' . $this->$tableName->getPrimaryKey(), $tableName . '.' . $this->$tableName->getDisplayField()];
+			}
 		}
 		$options += $defaults;
 
@@ -133,7 +147,9 @@ class Table extends ShimTable {
 	}
 
 	/**
-	 * Get all fields that have been used so far
+	 * Get all fields that have been used so far.
+	 *
+	 * Warning: This only works on ONLY_FULL_GROUP_BY disabled (and not in Postgres right now).
 	 *
 	 * @param string $groupField Field to group by
 	 * @param string $type Find type
@@ -146,7 +162,7 @@ class Table extends ShimTable {
 			'order' => [$this->getDisplayField() => 'ASC'],
 		];
 		if ($type === 'list') {
-			$defaults['fields'] = ['' . $this->getPrimaryKey(), '' . $this->getDisplayField()];
+			$defaults['fields'] = [$this->getPrimaryKey(), $this->getDisplayField(), $groupField];
 			$defaults['keyField'] = $this->getPrimaryKey();
 			$defaults['valueField'] = $this->getDisplayField();
 		}
@@ -183,6 +199,7 @@ class Table extends ShimTable {
 			settype($compareValue, $matching[$options['cast']]);
 			settype($value, $matching[$options['cast']]);
 		}
+
 		return $compareValue === $value;
 	}
 
@@ -205,6 +222,7 @@ class Table extends ShimTable {
 			if (!empty($options['allowEmpty']) && empty($options['required'])) {
 				return true;
 			}
+
 			return false;
 		}
 		if (!isset($options['autoComplete']) || $options['autoComplete'] !== false) {
@@ -231,6 +249,7 @@ class Table extends ShimTable {
 		if (isset($options['deep']) && $options['deep'] === false) {
 			return true;
 		}
+
 		return $this->_validUrl($url);
 	}
 
@@ -246,6 +265,7 @@ class Table extends ShimTable {
 		} elseif (mb_strpos($url, '://') === false && mb_strpos($url, 'www.') === 0) {
 			$url = 'http://' . $url;
 		}
+
 		return $url;
 	}
 
@@ -268,6 +288,7 @@ class Table extends ShimTable {
 		if (preg_match('#^' . $protocol . '/.*?\s+[(404|999)]+\s#i', $headers)) {
 			return false;
 		}
+
 		return true;
 	}
 
@@ -283,19 +304,20 @@ class Table extends ShimTable {
 	 * @param array $context
 	 * @return bool Success
 	 */
-	public function validateDateTime($value, $options = [], array $context = []) {
+	public function validateDateTime($value, array $options = [], array $context = []) {
 		if (!$value) {
 			if (!empty($options['allowEmpty'])) {
 				return true;
 			}
+
 			return false;
 		}
 		$format = !empty($options['dateFormat']) ? $options['dateFormat'] : 'ymd';
 
-		/** @var \Cake\I18n\Time $time */
+		/** @var \Cake\Chronos\ChronosInterface $time */
 		$time = $value;
 		if (!is_object($value)) {
-			$time = new Time($value);
+			$time = new FrozenTime($value);
 		}
 		$pieces = $time->format(FORMAT_DB_DATETIME);
 		$dateTime = explode(' ', $pieces, 2);
@@ -308,12 +330,12 @@ class Table extends ShimTable {
 
 		if (Validation::date($datePart, $format) && Validation::time($timePart)) {
 			// after/before?
-			$seconds = isset($options['min']) ? $options['min'] : 1;
+			$seconds = $options['min'] ?? 1;
 			if (!empty($options['after'])) {
 				if (!is_object($options['after']) && isset($context['data'][$options['after']])) {
 					$options['after'] = $context['data'][$options['after']];
 					if (!is_object($options['after'])) {
-						$options['after'] = new Time($options['after']);
+						$options['after'] = new FrozenTime($options['after']);
 					}
 				} elseif (!is_object($options['after'])) {
 					return false;
@@ -323,7 +345,7 @@ class Table extends ShimTable {
 				if (!is_object($options['before']) && isset($context['data'][$options['before']])) {
 					$options['before'] = $context['data'][$options['before']];
 					if (!is_object($options['before'])) {
-						$options['before'] = new Time($options['before']);
+						$options['before'] = new FrozenTime($options['before']);
 					}
 				} elseif (!is_object($options['before'])) {
 					return false;
@@ -357,8 +379,10 @@ class Table extends ShimTable {
 					}
 				}
 			}
+
 			return true;
 		}
+
 		return false;
 	}
 
@@ -374,18 +398,19 @@ class Table extends ShimTable {
 	 * @param array $context
 	 * @return bool Success
 	 */
-	public function validateDate($value, $options = [], array $context = []) {
+	public function validateDate($value, array $options = [], array $context = []) {
 		if (!$value) {
 			if (!empty($options['allowEmpty'])) {
 				return true;
 			}
+
 			return false;
 		}
 		$format = !empty($options['format']) ? $options['format'] : 'ymd';
 
 		$dateTime = $value;
 		if (!is_object($value)) {
-			$dateTime = new Time($value);
+			$dateTime = new FrozenTime($value);
 		}
 		if (!empty($options['allowEmpty']) && empty($dateTime)) {
 			return true;
@@ -399,7 +424,7 @@ class Table extends ShimTable {
 				/** @var \Cake\I18n\Time $after */
 				$after = $context['data'][$options['after']];
 				if (!is_object($after)) {
-					$after = new Time($after);
+					$after = new FrozenTime($after);
 				}
 				if ($after->gt($compare)) {
 					return false;
@@ -410,14 +435,16 @@ class Table extends ShimTable {
 				/** @var \Cake\I18n\Time $before */
 				$before = $context['data'][$options['before']];
 				if (!is_object($before)) {
-					$before = new Time($before);
+					$before = new FrozenTime($before);
 				}
 				if ($before->lt($compare)) {
 					return false;
 				}
 			}
+
 			return true;
 		}
+
 		return false;
 	}
 
@@ -433,7 +460,7 @@ class Table extends ShimTable {
 	 * @param array $context
 	 * @return bool Success
 	 */
-	public function validateTime($value, $options = [], array $context = []) {
+	public function validateTime($value, array $options = [], array $context = []) {
 		if (!$value) {
 			return false;
 		}
@@ -452,33 +479,11 @@ class Table extends ShimTable {
 					return false;
 				}
 			}
+
 			return true;
 		}
+
 		return false;
-	}
-
-	/**
-	 * Validation of Date Fields (>= minDate && <= maxDate)
-	 *
-	 * @param mixed $value
-	 * @param array $options
-	 * - min/max (TODO!!)
-	 * @param array $context
-	 * @return bool
-	 */
-	public function validateDateRange($value, $options = [], array $context = []) {
-	}
-
-	/**
-	 * Validation of Time Fields (>= minTime && <= maxTime)
-	 *
-	 * @param mixed $value
-	 * @param array $options
-	 * - min/max (TODO!!)
-	 * @param array $context
-	 * @return bool
-	 */
-	public function validateTimeRange($value, $options = [], array $context = []) {
 	}
 
 }

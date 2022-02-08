@@ -34,7 +34,7 @@ echo $this->Meter->htmlMeterBar(
     $value,
     $max,
     $min,
-    $options, 
+    $options,
     $attributes
 );
 ```
@@ -47,7 +47,7 @@ echo $this->Meter->meterBar(
     $max,
     $min,
     $length, // Char length >= 3
-    $options, 
+    $options,
     $attributes
 );
 ```
@@ -56,8 +56,8 @@ echo $this->Meter->meterBar(
 Display a text-based progress bar as raw bar.
 ```php
 echo $this->Meter->draw(
-    $percentage // Value 0...1
-    $length // Char length >= 3 
+    $percentage, // Value 0...1
+    $length // Char length >= 3
 );
 ```
 This can be used if you want to customize the usage.

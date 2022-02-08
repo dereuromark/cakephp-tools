@@ -4,7 +4,8 @@ namespace Tools\Test\TestCase\Utility;
 
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
-use Tools\TestSuite\TestCase;
+use RuntimeException;
+use Shim\TestSuite\TestCase;
 use Tools\Utility\Utility;
 
 /**
@@ -38,35 +39,6 @@ class UtilityTest extends TestCase {
 		$this->assertFalse($res);
 
 		$res = Utility::notBlank([]);
-		$this->assertFalse($res);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testNotEmpty() {
-		$res = Utility::notEmpty('a');
-		$this->assertTrue($res);
-
-		$res = Utility::notEmpty(2);
-		$this->assertTrue($res);
-
-		$res = Utility::notEmpty(0);
-		$this->assertFalse($res);
-
-		$res = Utility::notEmpty('0');
-		$this->assertTrue($res);
-
-		$res = Utility::notEmpty(null);
-		$this->assertFalse($res);
-
-		$res = Utility::notEmpty(false);
-		$this->assertFalse($res);
-
-		$res = Utility::notEmpty('');
-		$this->assertFalse($res);
-
-		$res = Utility::notEmpty([]);
 		$this->assertFalse($res);
 	}
 
@@ -257,6 +229,8 @@ class UtilityTest extends TestCase {
 	 * @return void
 	 */
 	public function testGetReferer() {
+		Configure::write('App.fullBaseUrl', 'http://foo.bar');
+
 		$res = Utility::getReferer();
 		$this->assertSame(env('HTTP_REFERER'), $res);
 
@@ -266,9 +240,7 @@ class UtilityTest extends TestCase {
 		$_SERVER['HTTP_REFERER'] = '/foo/bar';
 		$res = Utility::getReferer(true);
 		$base = Configure::read('App.fullBaseUrl');
-		if (!$base) {
-			$base = ''; //'http://localhost';
-		}
+
 		$this->assertSame($base . env('HTTP_REFERER'), $res);
 	}
 
@@ -487,7 +459,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @expectedException \RuntimeException
 	 * @return void
 	 */
 	public function testExpandListWithKeyLessListInvalid() {
@@ -495,6 +466,9 @@ class UtilityTest extends TestCase {
 			'Some',
 			'ValueOnly',
 		];
+
+		$this->expectException(RuntimeException::class);
+
 		Utility::expandList($is);
 	}
 
@@ -722,21 +696,6 @@ class UtilityTest extends TestCase {
 		];
 		$is = Utility::logicalOr($array);
 		$this->assertFalse($is);
-	}
-
-	/**
-	 * @covers ::isValidSaveAll
-	 * @return void
-	 */
-	public function testIsValidSaveAll() {
-		$result = Utility::isValidSaveAll([]);
-		$this->assertFalse($result);
-
-		$result = Utility::isValidSaveAll([true, true]);
-		$this->assertTrue($result);
-
-		$result = Utility::isValidSaveAll([true, false]);
-		$this->assertFalse($result);
 	}
 
 }

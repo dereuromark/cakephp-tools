@@ -4,14 +4,11 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\View\View;
 use InvalidArgumentException;
-use Tools\TestSuite\TestCase;
-use Tools\TestSuite\ToolsTestTrait;
+use Shim\TestSuite\TestCase;
 use Tools\Utility\Number;
 use Tools\View\Helper\MeterHelper;
 
 class MeterHelperTest extends TestCase {
-
-	use ToolsTestTrait;
 
 	/**
 	 * @var \Cake\View\View
@@ -31,7 +28,7 @@ class MeterHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->locale = ini_get('intl.default_locale');
@@ -45,7 +42,7 @@ class MeterHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		ini_set('intl.default_locale', $this->locale);

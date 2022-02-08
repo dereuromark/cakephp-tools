@@ -4,6 +4,21 @@ $config = [
 	'Paginator' => [
 	],
 
+	// Error handling around 404s
+	'Log' => [
+		'debug' => [
+			'scopes' => false,
+		],
+		'error' => [
+			'scopes' => false,
+		],
+		'404' => [
+			'file' => '404',
+			'levels' => ['error'],
+			'scopes' => ['404'],
+		],
+	],
+
 	// Controller pagination
 	'DataPreparation' => [
 		'noTrim' => false,

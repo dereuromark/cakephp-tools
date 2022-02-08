@@ -4,7 +4,6 @@ namespace Tools\Test\TestCase\Auth;
 
 use Cake\Http\ServerRequest;
 use Cake\I18n\Time;
-use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use Tools\Auth\MultiColumnAuthenticate;
 
@@ -13,7 +12,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	public $fixtures = [
+	protected $fixtures = [
 		'plugin.Tools.MultiColumnUsers',
 	];
 
@@ -35,7 +34,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->registry = $this->getMockBuilder('Cake\Controller\ComponentRegistry')->getMock();
@@ -46,7 +45,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 		]);
 
 		$password = password_hash('password', PASSWORD_DEFAULT);
-		$MultiColumnUsers = TableRegistry::getTableLocator()->get('MultiColumnUsers');
+		$MultiColumnUsers = $this->getTableLocator()->get('MultiColumnUsers');
 		$MultiColumnUsers->updateAll(['password' => $password], []);
 
 		$this->response = $this->getMockBuilder('Cake\Http\Response')->getMock();
@@ -56,7 +55,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 	 * @return void
 	 */
 	public function testAuthenticateEmailOrUsername() {
-		$request = new ServerRequest('posts/index');
+		$request = new ServerRequest(['url' => 'posts/index']);
 		$expected = [
 			'id' => 1,
 			'user_name' => 'mariano',
@@ -78,7 +77,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 	 * @return void
 	 */
 	public function testAuthenticateNoUsername() {
-		$request = new ServerRequest('posts/index');
+		$request = new ServerRequest(['url' => 'posts/index']);
 		$request = $request->withData('password', 'foobar');
 		$this->assertFalse($this->auth->authenticate($request, $this->response));
 	}
@@ -87,7 +86,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 	 * @return void
 	 */
 	public function testAuthenticateNoPassword() {
-		$request = new ServerRequest('posts/index');
+		$request = new ServerRequest(['url' => 'posts/index']);
 		$request = $request->withData('user_name', 'mariano');
 		$this->assertFalse($this->auth->authenticate($request, $this->response));
 
@@ -99,7 +98,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 	 * @return void
 	 */
 	public function testAuthenticateInjection() {
-		$request = new ServerRequest('posts/index');
+		$request = new ServerRequest(['url' => 'posts/index']);
 		$request = $request->withData('user_name', '> 1')->withData('password', "' OR 1 = 1");
 		$this->assertFalse($this->auth->authenticate($request, $this->response));
 	}
@@ -111,7 +110,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 	 */
 	public function testAuthenticateScopeFail() {
 		$this->auth->setConfig('scope', ['user_name' => 'nate']);
-		$request = new ServerRequest('posts/index');
+		$request = new ServerRequest(['url' => 'posts/index']);
 		$request = $request->withData('user_name', 'mariano')->withData('password', 'password');
 
 		$this->assertFalse($this->auth->authenticate($request, $this->response));

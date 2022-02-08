@@ -5,7 +5,7 @@ namespace Tools\Model\Behavior;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Datasource\ResultSetInterface;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
 
@@ -29,7 +29,7 @@ class StringBehavior extends Behavior {
 	/**
 	 * //TODO: json input/ouput directly, clean
 	 *
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'fields' => [], // Fields to convert
@@ -41,23 +41,24 @@ class StringBehavior extends Behavior {
 	 * @param array $config
 	 * @return void
 	 */
-	public function initialize(array $config = []) {
+	public function initialize(array $config): void {
 	}
 
 	/**
 	 * Decode the fields on after find
 	 *
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\ORM\Query $query
 	 * @param \ArrayObject $options
 	 * @param bool $primary
 	 *
 	 * @return void
 	 */
-	public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary) {
+	public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, $primary) {
 		$query->formatResults(function (ResultSetInterface $results) {
 			return $results->map(function ($row) {
 				$this->processItems($row, 'output');
+
 				return $row;
 			});
 		});
@@ -100,12 +101,12 @@ class StringBehavior extends Behavior {
 	/**
 	 * Saves all fields that do not belong to the current Model into 'with' helper model.
 	 *
-	 * @param \Cake\Event\Event $event
+	 * @param \Cake\Event\EventInterface $event
 	 * @param \Cake\Datasource\EntityInterface $entity
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options) {
+	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
 		$this->processItems($entity, 'input');
 	}
 
@@ -133,6 +134,7 @@ class StringBehavior extends Behavior {
 				$val = $ret;
 			}
 		}
+
 		return $val;
 	}
 

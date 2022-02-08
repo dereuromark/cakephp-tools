@@ -1,20 +1,17 @@
 <?php
 
-namespace Tools\Model\Table;
+namespace Tools\Test\TestCase\Model\Table;
 
-use Cake\Datasource\ConnectionManager;
 use Cake\I18n\Time;
-use Cake\ORM\Entity;
-use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 
 class TableTest extends TestCase {
 
 	/**
 	 * @var array
 	 */
-	public $fixtures = [
+	protected $fixtures = [
 		'core.Posts',
 		'core.Authors',
 		'plugin.Tools.ToolsUsers',
@@ -22,12 +19,12 @@ class TableTest extends TestCase {
 	];
 
 	/**
-	 * @var \Tools\Model\Table\Table;
+	 * @var \Tools\Model\Table\Table
 	 */
 	protected $Users;
 
 	/**
-	 * @var \Tools\Model\Table\Table;
+	 * @var \Tools\Model\Table\Table
 	 */
 	protected $Posts;
 
@@ -36,56 +33,41 @@ class TableTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
-		$this->Users = TableRegistry::getTableLocator()->get('ToolsUsers');
+		$this->Users = $this->getTableLocator()->get('ToolsUsers');
 
-		$this->Posts = TableRegistry::getTableLocator()->get('Posts');
+		$this->Posts = $this->getTableLocator()->get('Posts');
 		$this->Posts->belongsTo('Authors');
 	}
 
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
-		TableRegistry::clear();
+	public function tearDown(): void {
+		$this->getTableLocator()->clear();
 
 		parent::tearDown();
 	}
 
 	/**
-	 * Test truncate
-	 *
 	 * @return void
 	 */
 	public function testTruncate() {
-		$is = $this->Users->find('count');
-		$this->assertEquals(4, $is);
+		$is = $this->Users->find()->count();
+		$this->assertSame(4, $is);
 
-		$config = ConnectionManager::getConfig('test');
-		if ((strpos($config['driver'], 'Mysql') !== false)) {
-			$is = $this->Users->getNextAutoIncrement();
-			$this->assertEquals(5, $is);
-		}
-
-		$is = $this->Users->truncate();
-		$is = $this->Users->find('count');
-		$this->assertEquals(0, $is);
-
-		if ((strpos($config['driver'], 'Mysql') !== false)) {
-			$is = $this->Users->getNextAutoIncrement();
-			$this->assertEquals(1, $is);
-		}
+		$this->Users->truncate();
+		$is = $this->Users->find()->count();
+		$this->assertSame(0, $is);
 	}
 
 	/**
-	 * TableTest::testTimestamp()
-	 *
 	 * @return void
 	 */
 	public function testTimestamp() {
-		$this->Roles = TableRegistry::getTableLocator()->get('Roles');
+		$this->Roles = $this->getTableLocator()->get('Roles');
 		$entity = $this->Roles->newEntity(['name' => 'Foo', 'alias' => 'foo']);
 		$result = $this->Roles->save($entity);
 		$this->assertTrue(!empty($result['created']));
@@ -93,35 +75,6 @@ class TableTest extends TestCase {
 	}
 
 	/**
-	 * Check shims
-	 *
-	 * @return void
-	 */
-	public function testFindFirst() {
-		$result = $this->Users->find('first', ['conditions' => ['name LIKE' => 'User %']]);
-		$this->assertInstanceOf(Entity::class, $result);
-		$this->assertSame('User 1', $result['name']);
-
-		$result = $this->Users->find('first', ['conditions' => ['name NOT LIKE' => 'User %']]);
-		$this->assertNull($result);
-	}
-
-	/**
-	 * Check shims
-	 *
-	 * @return void
-	 */
-	public function testFindCount() {
-		$result = $this->Users->find('count');
-		$this->assertEquals(4, $result);
-
-		$result = $this->Users->find('count', ['conditions' => ['name' => 'User 1']]);
-		$this->assertEquals(1, $result);
-	}
-
-	/**
-	 * TableTest::testField()
-	 *
 	 * @return void
 	 */
 	public function testField() {
@@ -133,8 +86,6 @@ class TableTest extends TestCase {
 	}
 
 	/**
-	 * TableTest::testField()
-	 *
 	 * @return void
 	 */
 	public function testFieldByConditions() {
@@ -195,6 +146,11 @@ class TableTest extends TestCase {
 	 * @return void
 	 */
 	public function testGetFieldInUse() {
+		$config = $this->Posts->getConnection()->config();
+		$isPostgres = strpos($config['driver'], 'Postgres') !== false;
+		$isMysql = strpos($config['driver'], 'Mysql') !== false;
+		$this->skipIf($isPostgres || $isMysql, 'Only for MySQL with ONLY_FULL_GROUP_BY disabled right now');
+
 		$results = $this->Posts->getFieldInUse('author_id', 'list')->toArray();
 		/*
 		$expected = [2 => 'Second Post', 3 => 'Third Post'];

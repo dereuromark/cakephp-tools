@@ -11,6 +11,6 @@ class ToolsUsersTable extends Table {
 	 *
 	 * @var array
 	 */
-	public $order = ['name' => 'ASC'];
+	protected $order = ['name' => 'ASC'];
 
 }

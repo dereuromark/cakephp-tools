@@ -4,9 +4,8 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\Datasource\ConnectionManager;
 use Cake\ORM\Entity;
-use Cake\ORM\TableRegistry;
 use Cake\View\View;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 use Tools\View\Helper\TreeHelper;
 
 class TreeHelperTest extends TestCase {
@@ -14,7 +13,7 @@ class TreeHelperTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	public $fixtures = [
+	protected $fixtures = [
 		'plugin.Tools.AfterTrees',
 	];
 
@@ -43,11 +42,11 @@ class TreeHelperTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->Tree = new TreeHelper(new View(null));
-		$this->Table = TableRegistry::getTableLocator()->get('AfterTrees');
+		$this->Table = $this->getTableLocator()->get('AfterTrees');
 		$this->Table->addBehavior('Tree');
 
 		$connection = ConnectionManager::get('test');
@@ -79,10 +78,10 @@ class TreeHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		unset($this->Table);
 
- 		TableRegistry::clear();
+ 		$this->getTableLocator()->clear();
 		parent::tearDown();
 	}
 
@@ -246,6 +245,46 @@ TEXT;
 	</ol>
 	</li>
 </ol>
+
+TEXT;
+		$this->assertTextEquals($expected, $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testGenerateWithSameTypeAndItemType() {
+		$tree = $this->Table->find('threaded')->toArray();
+
+		$output = $this->Tree->generate($tree, ['type' => 'div', 'itemType' => 'div']);
+		$expected = <<<TEXT
+
+<div>
+	<div>One
+	<div>
+		<div>One-SubA</div>
+	</div>
+	</div>
+	<div>Two
+	<div>
+		<div>Two-SubA
+		<div>
+			<div>Two-SubA-1
+			<div>
+				<div>Two-SubA-1-1</div>
+			</div>
+			</div>
+		</div>
+		</div>
+	</div>
+	</div>
+	<div>Three</div>
+	<div>Four
+	<div>
+		<div>Four-SubA</div>
+	</div>
+	</div>
+</div>
 
 TEXT;
 		$this->assertTextEquals($expected, $output);
@@ -503,7 +542,7 @@ TEXT;
 	<ul>
 		<li class="active">Two-SubA (active)
 		<ul>
-			<li>Two-SubA-1</li>	
+			<li>Two-SubA-1</li>
 		</ul>
 		</li>
 		<li>Two-SubB</li>
@@ -530,6 +569,7 @@ TEXT;
 		if (!empty($entity['hide'])) {
 			return null;
 		}
+
 		return $data['data']['name'] . ($data['activePathElement'] ? ' (active)' : '');
 	}
 
@@ -547,6 +587,7 @@ TEXT;
 		if ($data['depth'] == 0 && $data['isSibling']) {
 			return $entity['name'] . ' (sibling)';
 		}
+
 		return $entity['name'] . ($data['activePathElement'] ? ' (active)' : '');
 	}
 
@@ -612,7 +653,7 @@ TEXT;
 	<li>Four
 	<ul>
 		<li>Four-SubA</li>
-	</ul>	
+	</ul>
 	</li>
 </ul>
 

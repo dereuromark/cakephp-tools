@@ -1,18 +1,16 @@
 <?php
 
-namespace Tools\Model\Behavior;
+namespace Tools\Test\TestCase\Model\Behavior;
 
-use Cake\ORM\TableRegistry;
+use Shim\TestSuite\TestCase;
 use TestApp\Model\Table\ResetCommentsTable;
-use Tools\Model\Table\Table;
-use Tools\TestSuite\TestCase;
 
 class ResetBehaviorTest extends TestCase {
 
 	/**
 	 * @var array
 	 */
-	public $fixtures = [
+	protected $fixtures = [
 		'plugin.Tools.ResetComments',
 	];
 
@@ -29,18 +27,18 @@ class ResetBehaviorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
-		$this->Table = TableRegistry::getTableLocator()->get('ResetComments');
+		$this->Table = $this->getTableLocator()->get('ResetComments');
 		$this->Table->addBehavior('Tools.Reset');
 	}
 
 	/**
 	 * @return void
 	 */
-	public function tearDown() {
-		TableRegistry::clear();
+	public function tearDown(): void {
+		$this->getTableLocator()->clear();
 
 		parent::tearDown();
 	}
@@ -124,13 +122,13 @@ class ResetBehaviorTest extends TestCase {
 		$this->Table->removeBehavior('Reset');
 		$this->Table->addBehavior('Tools.Reset', ['callback' => [$this->Table, 'customObjectCallback']]);
 
-		$x = $this->Table->find('first', ['conditions' => ['id' => 6]]);
+		$x = $this->Table->find()->where(['id' => 6])->first();
 		$this->assertEquals('Second Comment for Second Article', $x['comment']);
 
 		$result = $this->Table->resetRecords();
 		$this->assertTrue((bool)$result);
 
-		$x = $this->Table->find('first', ['conditions' => ['id' => 6]]);
+		$x = $this->Table->find()->where(['id' => 6])->first();
 		$expected = 'Second Comment for Second Article xxx';
 		$this->assertEquals($expected, $x['comment']);
 	}
@@ -144,13 +142,13 @@ class ResetBehaviorTest extends TestCase {
 		$this->Table->removeBehavior('Reset');
 		$this->Table->addBehavior('Tools.Reset', ['callback' => ResetCommentsTable::class . '::customStaticCallback']);
 
-		$x = $this->Table->find('first', ['conditions' => ['id' => 6]]);
+		$x = $this->Table->find()->where(['id' => 6])->first();
 		$this->assertEquals('Second Comment for Second Article', $x['comment']);
 
 		$result = $this->Table->resetRecords();
 		$this->assertTrue((bool)$result);
 
-		$x = $this->Table->find('first', ['conditions' => ['id' => 6]]);
+		$x = $this->Table->find()->where(['id' => 6])->first();
 		$expected = 'Second Comment for Second Article yyy';
 		$this->assertEquals($expected, $x['comment']);
 	}
@@ -167,13 +165,13 @@ class ResetBehaviorTest extends TestCase {
 			'updateFields' => ['comment'],
 			'callback' => ResetCommentsTable::class . '::fieldsCallback']);
 
-		$x = $this->Table->find('first', ['conditions' => ['id' => 6]]);
+		$x = $this->Table->find()->where(['id' => 6])->first();
 		$this->assertEquals('Second Comment for Second Article', $x['comment']);
 
 		$result = $this->Table->resetRecords();
 		$this->assertTrue((bool)$result);
 
-		$x = $this->Table->find('first', ['conditions' => ['id' => 6]]);
+		$x = $this->Table->find()->where(['id' => 6])->first();
 		$expected = 'foo';
 		$this->assertEquals($expected, $x['comment']);
 	}
@@ -190,13 +188,13 @@ class ResetBehaviorTest extends TestCase {
 			'updateFields' => ['id'],
 			'callback' => ResetCommentsTable::class . '::fieldsCallbackAuto']);
 
-		$x = $this->Table->find('first', ['conditions' => ['id' => 6]]);
+		$x = $this->Table->find()->where(['id' => 6])->first();
 		$this->assertEquals('Second Comment for Second Article', $x['comment']);
 
 		$result = $this->Table->resetRecords();
 		$this->assertTrue((bool)$result);
 
-		$x = $this->Table->find('first', ['conditions' => ['id' => 6]]);
+		$x = $this->Table->find()->where(['id' => 6])->first();
 		$expected = 'bar';
 		$this->assertEquals($expected, $x['comment']);
 	}

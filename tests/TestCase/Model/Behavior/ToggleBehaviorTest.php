@@ -2,30 +2,29 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use Cake\ORM\TableRegistry;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 
 class ToggleBehaviorTest extends TestCase {
 
 	/**
 	 * @var array
 	 */
-	public $fixtures = [
+	protected $fixtures = [
 		'plugin.Tools.ToggleAddresses',
 	];
 
 	/**
 	 * @var \Tools\Model\Table\Table|\Tools\Model\Behavior\ToggleBehavior
 	 */
-	public $Addresses;
+	protected $Addresses;
 
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
-		$this->Addresses = TableRegistry::getTableLocator()->get('ToggleAddresses');
+		$this->Addresses = $this->getTableLocator()->get('ToggleAddresses');
 		$this->Addresses->addBehavior('Tools.Toggle', ['scopeFields' => 'category_id']);
 	}
 

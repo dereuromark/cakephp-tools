@@ -6,8 +6,8 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\ServerRequest;
 use Detection\MobileDetect;
+use Shim\TestSuite\TestCase;
 use TestApp\Controller\MobileComponentTestController;
-use Tools\TestSuite\TestCase;
 
 /**
  * Test MobileComponent
@@ -17,7 +17,7 @@ class MobileComponentTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	public $fixtures = [
+	protected $fixtures = [
 		'core.Sessions',
 	];
 
@@ -36,17 +36,21 @@ class MobileComponentTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		ServerRequest::addDetector('mobile', function ($request) {
 			$detector = new MobileDetect();
+
 			return $detector->isMobile();
 		});
 		ServerRequest::addDetector('tablet', function ($request) {
 			$detector = new MobileDetect();
+
 			return $detector->isTablet();
 		});
+
+		$this->loadRoutes();
 
 		$this->event = new Event('Controller.beforeFilter');
 		$this->Controller = new MobileComponentTestController(new ServerRequest());
@@ -60,7 +64,7 @@ class MobileComponentTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 		parent::tearDown();
 
 		unset($this->Controller);
@@ -105,7 +109,7 @@ class MobileComponentTest extends TestCase {
 
 		$configure = Configure::read('User');
 		$this->assertSame(['isMobile' => 0, 'setMobile' => 1], $configure);
-		$this->assertEquals(['desktopUrl' => '/my-controller/my-action?mobile=0'], $this->Controller->viewVars);
+		$this->assertEquals(['desktopUrl' => '/my-controller/my-action?mobile=0'], $this->Controller->viewBuilder()->getVars());
 	}
 
 	/**
@@ -124,7 +128,7 @@ class MobileComponentTest extends TestCase {
 		$this->Controller->Mobile->setMobile();
 		$configure = Configure::read('User');
 		$this->assertSame(['isMobile' => 0, 'setMobile' => 0], $configure);
-		$this->assertEquals(['mobileUrl' => '/my-controller/my-action?mobile=1'], $this->Controller->viewVars);
+		$this->assertEquals(['mobileUrl' => '/my-controller/my-action?mobile=1'], $this->Controller->viewBuilder()->getVars());
 	}
 
 	/**

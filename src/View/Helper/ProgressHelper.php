@@ -22,14 +22,25 @@ use Tools\Utility\Number;
  */
 class ProgressHelper extends Helper {
 
-	const LENGTH_MIN = 3;
-	const CHAR_EMPTY = '░';
-	const CHAR_FULL = '█';
+	/**
+	 * @var int
+	 */
+	public const LENGTH_MIN = 3;
+
+	/**
+	 * @var string
+	 */
+	public const CHAR_EMPTY = '░';
+
+	/**
+	 * @var string
+	 */
+	public const CHAR_FULL = '█';
 
 	/**
 	 * @var array
 	 */
-	public $helpers = ['Html'];
+	protected $helpers = ['Html'];
 
 	/**
 	 * @var array
@@ -105,8 +116,8 @@ class ProgressHelper extends Helper {
 	 *
 	 * @param float $complete Value between 0 and 1.
 	 * @param int $length Bar length.
-	 * @return string
 	 * @throws \InvalidArgumentException
+	 * @return string
 	 */
 	public function draw($complete, $length) {
 		if ($complete < 0.0 || $complete > 1.0) {

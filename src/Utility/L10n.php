@@ -270,8 +270,8 @@ class L10n {
 	/**
 	 * Attempts to find locale for language, or language for locale
 	 *
-	 * @param string|array|null $mixed 2/3 char string (language/locale), array of those strings, or null
-	 * @return string|array|bool string language/locale, array of those values, whole map as an array,
+	 * @param array|string|null $mixed 2/3 char string (language/locale), array of those strings, or null
+	 * @return array|string|false string language/locale, array of those values, whole map as an array,
 	 *    or false when language/locale doesn't exist
 	 */
 	public function map($mixed = null) {
@@ -283,6 +283,7 @@ class L10n {
 					$result[$_mixed] = $_result;
 				}
 			}
+
 			return $result;
 		}
 		if (is_string($mixed)) {
@@ -292,16 +293,18 @@ class L10n {
 			if (isset($this->_l10nMap[$mixed])) {
 				return $this->_l10nMap[$mixed];
 			}
+
 			return false;
 		}
+
 		return $this->_l10nMap;
 	}
 
 	/**
 	 * Attempts to find catalog record for requested language
 	 *
-	 * @param string|array|null $language String requested language, array of requested languages, or null for whole catalog
-	 * @return array|bool array catalog record for requested language, array of catalog records, whole catalog,
+	 * @param array|string|null $language String requested language, array of requested languages, or null for whole catalog
+	 * @return array|false array catalog record for requested language, array of catalog records, whole catalog,
 	 *    or false when language doesn't exist
 	 */
 	public function catalog($language = null) {
@@ -313,6 +316,7 @@ class L10n {
 					$result[$_language] = $_result;
 				}
 			}
+
 			return $result;
 		}
 		if (is_string($language)) {
@@ -322,8 +326,10 @@ class L10n {
 			if (isset($this->_l10nMap[$language]) && isset($this->_l10nCatalog[$this->_l10nMap[$language]])) {
 				return $this->_l10nCatalog[$this->_l10nMap[$language]];
 			}
+
 			return false;
 		}
+
 		return $this->_l10nCatalog;
 	}
 

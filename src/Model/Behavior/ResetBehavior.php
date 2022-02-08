@@ -41,12 +41,11 @@ use RuntimeException;
  *
  * @author Mark Scherer
  * @license MIT
- * @version 1.0
  */
 class ResetBehavior extends Behavior {
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'limit' => 100, // batch of records per loop
@@ -80,8 +79,8 @@ class ResetBehavior extends Behavior {
 	 * Regenerate all records (including possible beforeRules/beforeSave callbacks).
 	 *
 	 * @param array $params
-	 * @return int Modified records
 	 * @throws \RuntimeException
+	 * @return int Modified records
 	 */
 	public function resetRecords(array $params = []) {
 		$defaults = [
@@ -113,6 +112,7 @@ class ResetBehavior extends Behavior {
 				if ($this->_table->getSchema()->getColumn($field)) {
 					$defaults['fields'][] = $field;
 					$updateFields[] = $field;
+
 					break;
 				}
 			}
@@ -121,7 +121,7 @@ class ResetBehavior extends Behavior {
 		$params += $defaults;
 
 		$conditions = $params['conditions'];
-		$count = $this->_table->find('count', compact('conditions'));
+		$count = $this->_table->find()->where($conditions)->count();
 		$max = (int)ini_get('max_execution_time');
 		if ($max) {
 			set_time_limit(max($max, $count));
@@ -165,6 +165,7 @@ class ResetBehavior extends Behavior {
 				sleep((int)$this->_config['timeout']);
 			}
 		}
+
 		return $modified;
 	}
 

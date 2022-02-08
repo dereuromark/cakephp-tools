@@ -47,7 +47,7 @@ class GravatarHelper extends Helper {
 	/**
 	 * Default settings
 	 *
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
 		'default' => null,
@@ -60,7 +60,7 @@ class GravatarHelper extends Helper {
 	 *
 	 * @var array
 	 */
-	public $helpers = ['Html'];
+	protected $helpers = ['Html'];
 
 	/**
 	 * @param \Cake\View\View $View
@@ -110,13 +110,14 @@ class GravatarHelper extends Helper {
 		unset($options['ext'], $options['secure']);
 		$protocol = $secure === true ? 'https' : 'http';
 
-		$imageUrl = $this->_url[$protocol] . md5($email);
+		$imageUrl = $this->_url[$protocol] . $this->_emailHash($email);
 		if ($ext === true) {
 			// If 'ext' option is supplied and true, append an extension to the generated image URL.
 			// This helps systems that don't display images unless they have a specific image extension on the URL.
 			$imageUrl .= '.jpg';
 		}
 		$imageUrl .= $this->_buildOptions($options);
+
 		return $imageUrl;
 	}
 
@@ -131,8 +132,9 @@ class GravatarHelper extends Helper {
 		$images = [];
 		foreach ($this->_defaultIcons as $defaultIcon) {
 			$options['default'] = $defaultIcon;
-			$images[$defaultIcon] = $this->image(null, $options);
+			$images[$defaultIcon] = $this->image('', $options);
 		}
+
 		return $images;
 	}
 
@@ -160,6 +162,7 @@ class GravatarHelper extends Helper {
 				unset($options['default']);
 			}
 		}
+
 		return $options;
 	}
 
@@ -167,11 +170,10 @@ class GravatarHelper extends Helper {
 	 * Generate email address hash
 	 *
 	 * @param string $email Email address
-	 * @param string $type Hash type to employ
 	 * @return string Email address hash
 	 */
-	protected function _emailHash($email, $type) {
-		return md5(mb_strtolower($email), $type);
+	protected function _emailHash($email) {
+		return md5(mb_strtolower($email));
 	}
 
 	/**
@@ -188,8 +190,10 @@ class GravatarHelper extends Helper {
 				$value = $options[$key];
 				$optionArray[] = $key . '=' . mb_strtolower($value);
 			}
+
 			return '?' . implode(!empty($options['escape']) ? '&amp;' : '&', $optionArray);
 		}
+
 		return '';
 	}
 

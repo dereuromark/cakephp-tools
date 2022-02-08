@@ -2,15 +2,21 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use Cake\ORM\TableRegistry;
-use Tools\TestSuite\TestCase;
+use Shim\TestSuite\TestCase;
 
 class TypeMapBehaviorTest extends TestCase {
 
 	/**
+	 * @var array
+	 */
+	protected $fixtures = [
+		'plugin.Tools.Data',
+	];
+
+	/**
 	 * @var \Tools\Model\Behavior\TypeMapBehavior
 	 */
-	public $TypeMapBehavior;
+	protected $TypeMapBehavior;
 
 	/**
 	 * @var \Tools\Model\Table\Table
@@ -18,16 +24,9 @@ class TypeMapBehaviorTest extends TestCase {
 	protected $Table;
 
 	/**
-	 * @var array
-	 */
-	public $fixtures = [
-		'plugin.Tools.Data',
-	];
-
-	/**
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 	}
 
@@ -37,10 +36,10 @@ class TypeMapBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testFields() {
-		$this->Table = TableRegistry::getTableLocator()->get('Data');
+		$this->Table = $this->getTableLocator()->get('Data');
 		$this->Table->addBehavior('Tools.Jsonable', ['fields' => ['data_array']]);
 
-		$entity = $this->Table->newEntity();
+		$entity = $this->Table->newEmptyEntity();
 
 		$data = [
 			'name' => 'FooBar',
