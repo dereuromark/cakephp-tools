@@ -240,7 +240,7 @@ class JsonableBehavior extends Behavior {
 			return $val;
 		}
 
-		$flags = JSON_THROW_ON_ERROR | $this->_config['decodeParams']['options'];
+		$flags = $this->_config['decodeParams']['options'];
 		$decoded = json_decode($val, $this->_config['decodeParams']['assoc'], $this->_config['decodeParams']['depth'], $flags);
 
 		if ($decoded === false) {

@@ -435,10 +435,10 @@ class PasswordableBehavior extends Behavior {
 			return true;
 		}
 
-		$primaryKey = $context['data'][$primaryKey];
+		$primaryKeyValue = $context['data'][$primaryKey];
 		$value = $context['data'][$context['field']];
 
-		$dbValue = $this->_table->find()->where([$this->_table->getAlias() . '.' . $primaryKey => $primaryKey])->first();
+		$dbValue = $this->_table->find()->where([$this->_table->getAlias() . '.' . $primaryKey => $primaryKeyValue])->first();
 		if (!$dbValue) {
 			return true;
 		}
