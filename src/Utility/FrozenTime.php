@@ -461,6 +461,8 @@ class FrozenTime extends CakeFrozenTime {
 	 *
 	 * Handles utf8_encoding the result of strftime when necessary.
 	 *
+	 * @deprecated strftime() should be replaced in PHP 8.1+
+	 *
 	 * @param string $format Format string.
 	 * @param int $date Timestamp to format.
 	 * @return string formatted string with correct encoding.
