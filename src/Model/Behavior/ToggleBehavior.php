@@ -57,6 +57,7 @@ class ToggleBehavior extends Behavior {
 				$order['modified'] = 'DESC';
 			}
 		}
+		/** @var \Cake\Datasource\EntityInterface|null $entity */
 		$entity = $this->_table->find()->where($conditions)->order($order)->first();
 		if (!$entity) {
 			// This should be caught with a validation rule if at least one "primary" must exist
@@ -130,6 +131,7 @@ class ToggleBehavior extends Behavior {
 	protected function getCurrent(EntityInterface $entity) {
 		$conditions = $this->buildConditions($entity);
 
+		/** @var \Cake\Datasource\EntityInterface|null */
 		return $this->_table->find()
 			->where($conditions)
 			->first();

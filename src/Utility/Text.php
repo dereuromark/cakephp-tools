@@ -135,7 +135,7 @@ class Text extends CakeText {
 	 * - 'whitespace': If whitespace should be counted, as well, defaults to false
 	 *
 	 * @param string $text
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @return int
 	 */
 	public static function numberOfChars($text, array $options = []) {
@@ -170,6 +170,7 @@ class Text extends CakeText {
 	 * @return string
 	 */
 	public function convertToOrd($str, $separator = '-') {
+		/** @var array<string> $chars */
 		$chars = preg_split('//', $str, -1);
 		$res = [];
 		foreach ($chars as $char) {
@@ -198,7 +199,9 @@ class Text extends CakeText {
 			// If a user has escaped a term (to demonstrate that it is a group,
 			// or includes a comma or quote character), we remove the escape
 			// formatting so to save the term into the database as the user intends.
-			$tag = trim(str_replace('""', '"', preg_replace('/^"(.*)"$/', '\1', $tag)));
+			/** @var string $replacedString */
+			$replacedString = str_replace('""', '"', preg_replace('/^"(.*)"$/', '\1', $tag));
+			$tag = trim($replacedString);
 			if ($tag) {
 				$tags[] = $tag;
 			}
@@ -251,7 +254,7 @@ class Text extends CakeText {
 	 * Extract words
 	 *
 	 * @param string $text
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * - min_char, max_char, case_sensititive, ...
 	 * @return array<string>
 	 */
@@ -295,7 +298,7 @@ class Text extends CakeText {
 	 *
 	 * @param string $value
 	 * @param int $words
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * - ellipsis
 	 * - html
 	 * @return string
@@ -389,11 +392,11 @@ class Text extends CakeText {
 				if ($digits < 128) {
 					$out .= chr($digits);
 				} elseif ($digits < 2048) {
-					$out .= chr(192 + (($digits - ($digits % 64)) / 64));
+					$out .= chr(192 + (int)(($digits - ($digits % 64)) / 64));
 					$out .= chr(128 + ($digits % 64));
 				} else {
-					$out .= chr(224 + (($digits - ($digits % 4096)) / 4096));
-					$out .= chr(128 + ((($digits % 4096) - ($digits % 64)) / 64));
+					$out .= chr(224 + (int)(($digits - ($digits % 4096)) / 4096));
+					$out .= chr(128 + (int)((($digits % 4096) - ($digits % 64)) / 64));
 					$out .= chr(128 + ($digits % 64));
 				}
 

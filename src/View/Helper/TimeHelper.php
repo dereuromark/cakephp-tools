@@ -56,6 +56,7 @@ class TimeHelper extends CakeTimeHelper {
 		parent::__construct($View, $config);
 
 		$config = $this->_config + $defaults;
+		/** @var class-string<\Tools\Utility\Number>|null $engineClass */
 		$engineClass = App::className($config['engine'], 'Utility');
 		if (!$engineClass) {
 			throw new CakeException(sprintf('Class for %s could not be found', $config['engine']));
@@ -72,7 +73,10 @@ class TimeHelper extends CakeTimeHelper {
 	 * @return mixed Whatever is returned by called method, or false on failure
 	 */
 	public function __call($method, $params) {
-		return call_user_func_array([$this->_engine, $method], $params);
+		/** @var callable $callable */
+		$callable = [$this->_engine, $method];
+
+		return call_user_func_array($callable, $params);
 	}
 
 	/**
@@ -117,7 +121,7 @@ class TimeHelper extends CakeTimeHelper {
 	 *
 	 * @param string|null $dateString
 	 * @param string|null $format
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @return string
 	 */
 	public function localDateMarkup($dateString = null, $format = null, $options = []) {
@@ -132,7 +136,7 @@ class TimeHelper extends CakeTimeHelper {
 	 *
 	 * @param string|null $dateString
 	 * @param string|null $format
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @return string
 	 */
 	public function niceDateMarkup($dateString = null, $format = null, $options = []) {
@@ -147,12 +151,11 @@ class TimeHelper extends CakeTimeHelper {
 	 * // TODO refactor! $userOffset is deprecated!
 	 *
 	 * @param \DateTimeInterface $date Date
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @param array $attr HTML attributes
 	 * @return string Nicely formatted date
 	 */
 	public function published($date, array $options = [], array $attr = []) {
-		$when = null;
 		$whenArray = ['-1' => 'already', '0' => 'today', '1' => 'notyet'];
 		$titles = ['-1' => __d('tools', 'publishedAlready'), '0' => __d('tools', 'publishedToday'), '1' => __d('tools', 'publishedNotYet')];
 
@@ -163,6 +166,7 @@ class TimeHelper extends CakeTimeHelper {
 		// Hack
 		// //TODO: get this to work with datetime - somehow cleaner
 		$timeAttachment = '';
+		$whenOverride = false;
 		if (isset($options['niceDateTime'])) {
 			$timeAttachment = ', ' . $this->format($date, $options['niceDateTime']);
 			$whenOverride = true;
@@ -187,7 +191,7 @@ class TimeHelper extends CakeTimeHelper {
 			$niceDate = $this->format($date, $format) . $timeAttachment; //date("M jS{$y}", $date);
 		}
 
-		if (!empty($whenOverride) && $when === 0) {
+		if ($whenOverride && $when === 0) {
 			if ($this->isInTheFuture($date)) {
 				$when = 1;
 			} else {
@@ -195,7 +199,7 @@ class TimeHelper extends CakeTimeHelper {
 			}
 		}
 
-		if (empty($niceDate)) {
+		if (!$niceDate) {
 			$niceDate = '<i>n/a</i>';
 		} else {
 			if (!isset($attr['title'])) {

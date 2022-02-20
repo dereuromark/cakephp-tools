@@ -88,8 +88,8 @@ class FormatHelper extends Helper {
 	 * jqueryAccess: {id}Pro, {id}Contra
 	 *
 	 * @param mixed $value Boolish value
-	 * @param array $options
-	 * @param array $attributes
+	 * @param array<string, mixed> $options
+	 * @param array<string, mixed> $attributes
 	 * @return string
 	 */
 	public function thumbs($value, array $options = [], array $attributes = []) {
@@ -103,7 +103,7 @@ class FormatHelper extends Helper {
 	 *
 	 * @param array $neighbors (containing prev and next)
 	 * @param string $field : just field or Model.field syntax
-	 * @param array $options :
+	 * @param array<string, mixed> $options :
 	 * - name: title name: next{Record} (if none is provided, "record" is used - not translated!)
 	 * - slug: true/false (defaults to false)
 	 * - titleField: field or Model.field
@@ -183,8 +183,8 @@ class FormatHelper extends Helper {
 	 * Displays gender icon
 	 *
 	 * @param string|int $value
-	 * @param array $options
-	 * @param array $attributes
+	 * @param array<string, mixed> $options
+	 * @param array<string, mixed> $attributes
 	 * @return string
 	 */
 	public function genderIcon($value, array $options = [], array $attributes = []) {
@@ -213,8 +213,8 @@ class FormatHelper extends Helper {
 	 * - pull (string: left, right)
 	 *
 	 * @param array|string $icon
-	 * @param array $options
-	 * @param array $attributes
+	 * @param array<string, mixed> $options
+	 * @param array<string, mixed> $attributes
 	 * @return string
 	 */
 	public function fontIcon($icon, array $options = [], array $attributes = []) {
@@ -252,9 +252,9 @@ class FormatHelper extends Helper {
 	 * Icons using the default namespace or an already prefixed one.
 	 *
 	 * @param string $icon (constant or filename)
-	 * @param array $options :
+	 * @param array<string, mixed> $options :
 	 * - translate, title, ...
-	 * @param array $attributes :
+	 * @param array<string, mixed> $attributes :
 	 * - class, ...
 	 * @return string
 	 */
@@ -310,9 +310,9 @@ class FormatHelper extends Helper {
 	 * Img Icons
 	 *
 	 * @param string $icon (constant or filename)
-	 * @param array $options :
+	 * @param array<string, mixed> $options :
 	 * - translate, title, ...
-	 * @param array $attributes :
+	 * @param array<string, mixed> $attributes :
 	 * - class, ...
 	 * @return string
 	 */
@@ -325,9 +325,9 @@ class FormatHelper extends Helper {
 	 * we still need a custom img icon.
 	 *
 	 * @param string $icon (constant or filename)
-	 * @param array $options :
+	 * @param array<string, mixed> $options :
 	 * - translate, title, ...
-	 * @param array $attributes :
+	 * @param array<string, mixed> $attributes :
 	 * - class, ...
 	 * @return string
 	 */
@@ -358,8 +358,8 @@ class FormatHelper extends Helper {
 	 * Renders a font icon.
 	 *
 	 * @param string $type
-	 * @param array $options
-	 * @param array $attributes
+	 * @param array<string, mixed> $options
+	 * @param array<string, mixed> $attributes
 	 * @return string
 	 */
 	protected function _fontIcon($type, $options, $attributes) {
@@ -416,11 +416,11 @@ class FormatHelper extends Helper {
 	 * Displays yes/no symbol.
 	 *
 	 * @param int|bool $value Value
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * - on (defaults to 1/true)
 	 * - onTitle
 	 * - offTitle
-	 * @param array $attributes
+	 * @param array<string, mixed> $attributes
 	 * - title, ...
 	 * @return string HTML icon Yes/No
 	 */
@@ -455,7 +455,9 @@ class FormatHelper extends Helper {
 		if (strpos($domain, 'http') === 0) {
 			// Strip protocol
 			$pieces = parse_url($domain);
-			$domain = $pieces['host'];
+			if ($pieces !== false) {
+				$domain = $pieces['host'];
+			}
 		}
 
 		return 'http://www.google.com/s2/favicons?domain=' . $domain;
@@ -466,7 +468,7 @@ class FormatHelper extends Helper {
 	 * if not available, will return a fallback image (a globe)
 	 *
 	 * @param string $domain (preferably without protocol, e.g. "www.site.com")
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @return string
 	 */
 	public function siteIcon($domain, array $options = []) {
@@ -487,7 +489,7 @@ class FormatHelper extends Helper {
 	 * Display a disabled link tag
 	 *
 	 * @param string $text
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @return string
 	 */
 	public function disabledLink($text, array $options = []) {
@@ -583,7 +585,7 @@ class FormatHelper extends Helper {
 	 *
 	 * @param mixed $content Output
 	 * @param bool $ok Boolish value
-	 * @param array $attributes
+	 * @param array<string, mixed> $attributes
 	 * @return string Value nicely formatted/colored
 	 */
 	public function ok($content, $ok = false, array $attributes = []) {
@@ -617,13 +619,18 @@ class FormatHelper extends Helper {
 	 * @return string
 	 */
 	public function tab2space($text, $spaces = 4) {
-		$spaces = str_repeat(' ', $spaces);
-		$text = preg_split("/\r\n|\r|\n/", trim($text));
+		$spacesString = str_repeat(' ', $spaces);
+		$splitText = preg_split("/\r\n|\r|\n/", trim($text));
+		if ($splitText === false) {
+			return $text;
+		}
+
 		$wordLengths = [];
 		$wArray = [];
 
 		// Store word lengths
-		foreach ($text as $line) {
+		foreach ($splitText as $line) {
+			/** @var array<int, string> $words */
 			$words = preg_split("/(\t+)/", $line, -1, PREG_SPLIT_DELIM_CAPTURE);
 			foreach (array_keys($words) as $i) {
 				$strlen = strlen($words[$i]);
@@ -646,7 +653,7 @@ class FormatHelper extends Helper {
 					$wArray[$i][$ii] = str_pad($wArray[$i][$ii], $wordLengths[$ii]);
 				}
 			}
-			$text .= str_replace("\t", $spaces, implode('', $wArray[$i])) . "\n";
+			$text .= str_replace("\t", $spacesString, implode('', $wArray[$i])) . "\n";
 		}
 
 		return $text;
@@ -667,8 +674,8 @@ class FormatHelper extends Helper {
 	 * @version 1.3.2
 	 * @link http://aidanlister.com/2004/04/converting-arrays-to-human-readable-tables/
 	 * @param array $array The result (numericaly keyed, associative inner) array.
-	 * @param array $options
-	 * @param array $attributes For the table
+	 * @param array<string, mixed> $options
+	 * @param array<string, mixed> $attributes For the table
 	 * @return string
 	 */
 	public function array2table(array $array, array $options = [], array $attributes = []) {

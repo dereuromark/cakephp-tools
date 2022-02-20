@@ -32,6 +32,7 @@ class Language {
 			if (!env('HTTP_ACCEPT_LANGUAGE')) {
 				return [];
 			}
+			/** @var string $languageList */
 			$languageList = env('HTTP_ACCEPT_LANGUAGE');
 		}
 
@@ -58,8 +59,10 @@ class Language {
 				if ($options['forceLowerCase']) {
 					$language = strtolower($language);
 				} else {
+					/** @var string $language */
 					$language = substr_replace($language, strtolower(substr($language, 0, 2)), 0, 2);
 					if (strlen($language) === 5) {
+						/** @var string $language */
 						$language = substr_replace($language, strtoupper(substr($language, 3, 2)), 3, 2);
 					}
 				}
@@ -69,7 +72,7 @@ class Language {
 					$languagesRanks[$language] = $rank;
 				} elseif ($rank > $languagesRanks[$language]) {
 					foreach ($languages as $existRank => $existLangs) {
-						$key = array_search($existLangs, $languages);
+						$key = array_search($existLangs, $languages, true);
 						if ($key !== false) {
 							unset($languages[$existRank][$key]);
 							if (empty($languages[$existRank])) {

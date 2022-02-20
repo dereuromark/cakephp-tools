@@ -388,7 +388,7 @@ class PasswordableBehavior extends Behavior {
 	 * If not implemented in Table class
 	 *
 	 * @param string $value
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @param array $context
 	 * @return bool Success
 	 */
@@ -406,7 +406,7 @@ class PasswordableBehavior extends Behavior {
 	 * If not implemented in Table class
 	 *
 	 * @param string $data
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @param array $context
 	 * @return bool Success
 	 */
@@ -429,14 +429,16 @@ class PasswordableBehavior extends Behavior {
 	 */
 	public function validateNotSameHash($data, $context) {
 		$field = $this->_config['field'];
-		if (empty($context['data'][$this->_table->getPrimaryKey()])) {
+		/** @var string $primaryKey */
+		$primaryKey = $this->_table->getPrimaryKey();
+		if (empty($context['data'][$primaryKey])) {
 			return true;
 		}
 
-		$primaryKey = $context['data'][$this->_table->getPrimaryKey()];
+		$primaryKey = $context['data'][$primaryKey];
 		$value = $context['data'][$context['field']];
 
-		$dbValue = $this->_table->find()->where([$this->_table->getAlias() . '.' . $this->_table->getPrimaryKey() => $primaryKey])->first();
+		$dbValue = $this->_table->find()->where([$this->_table->getAlias() . '.' . $primaryKey => $primaryKey])->first();
 		if (!$dbValue) {
 			return true;
 		}
@@ -458,8 +460,10 @@ class PasswordableBehavior extends Behavior {
 	protected function _validateSameHash($pwd, $context) {
 		$field = $this->_config['field'];
 
-		$primaryKey = $context['data'][$this->_table->getPrimaryKey()];
-		$dbValue = $this->_table->find()->where([$this->_table->getAlias() . '.' . $this->_table->getPrimaryKey() => $primaryKey])->first();
+		/** @var string $primaryKey */
+		$primaryKey = $this->_table->getPrimaryKey();
+		$primaryKeyValue = $context['data'][$primaryKey];
+		$dbValue = $this->_table->find()->where([$this->_table->getAlias() . '.' . $primaryKey => $primaryKeyValue])->first();
 		if (!$dbValue) {
 			return false;
 		}
@@ -474,8 +478,8 @@ class PasswordableBehavior extends Behavior {
 	}
 
 	/**
-	 * @param array|string $hasher Name or options array.
-	 * @param array $options
+	 * @param array<string, mixed>|string $hasher Name or options array.
+	 * @param array<string, mixed> $options
 	 * @return \Cake\Auth\AbstractPasswordHasher
 	 */
 	protected function _getPasswordHasher($hasher, array $options = []) {

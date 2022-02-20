@@ -228,7 +228,7 @@ class TokensTable extends Table {
 		}
 
 		$function = 'random_bytes';
-		$value = bin2hex($function($length / 2));
+		$value = bin2hex($function((int)($length / 2)));
 		if (strlen($value) !== $length) {
 			$value = str_pad($value, $length, (string)random_int(0, 9));
 		}

@@ -58,7 +58,7 @@ class RefererRedirectComponent extends Component {
 	 */
 	protected function referer() {
 		$referer = $this->getController()->getRequest()->getQuery(static::QUERY_REFERER);
-		if (!$referer) {
+		if (!$referer || !is_string($referer)) {
 			return null;
 		}
 

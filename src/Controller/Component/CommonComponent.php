@@ -331,6 +331,7 @@ class CommonComponent extends Component {
 	 */
 	public function isForeignReferer($ref = null) {
 		if ($ref === null) {
+			/** @var string|null $ref */
 			$ref = env('HTTP_REFERER');
 		}
 		if (!$ref) {

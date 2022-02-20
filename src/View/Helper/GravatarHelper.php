@@ -77,7 +77,7 @@ class GravatarHelper extends Helper {
 	 * Show gravatar for the supplied email address
 	 *
 	 * @param string $email Email address
-	 * @param array $options Array of options, keyed from default settings
+	 * @param array<string, mixed> $options Array of options, keyed from default settings
 	 * @return string Gravatar image string
 	 */
 	public function image($email, array $options = []) {
@@ -96,7 +96,7 @@ class GravatarHelper extends Helper {
 	 * TODO: rename to avoid E_STRICT errors here
 	 *
 	 * @param string $email Email address
-	 * @param array $options Array of options, keyed from default settings
+	 * @param array<string, mixed> $options Array of options, keyed from default settings
 	 * @return string Gravatar Image URL
 	 */
 	public function url($email, array $options = []) {
@@ -124,7 +124,7 @@ class GravatarHelper extends Helper {
 	/**
 	 * Generate an array of default images for preview purposes
 	 *
-	 * @param array $options Array of options, keyed from default settings
+	 * @param array<string, mixed> $options Array of options, keyed from default settings
 	 * @return array Default images array
 	 */
 	public function defaultImages($options = []) {
@@ -141,7 +141,7 @@ class GravatarHelper extends Helper {
 	/**
 	 * Sanitize the options array
 	 *
-	 * @param array $options Array of options, keyed from default settings
+	 * @param array<string, mixed> $options Array of options, keyed from default settings
 	 * @return array Clean options array
 	 */
 	protected function _cleanOptions($options) {
@@ -179,7 +179,7 @@ class GravatarHelper extends Helper {
 	/**
 	 * Build Options URL string
 	 *
-	 * @param array $options Array of options, keyed from default settings
+	 * @param array<string, mixed> $options Array of options, keyed from default settings
 	 * @return string URL string of options
 	 */
 	protected function _buildOptions($options = []) {

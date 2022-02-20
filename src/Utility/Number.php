@@ -117,7 +117,7 @@ class Number extends CakeNumber {
 	 * - positive
 	 *
 	 * @param float $number
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @return string
 	 */
 	public static function format($number, array $options = []): string {
@@ -143,7 +143,7 @@ class Number extends CakeNumber {
 	 *
 	 * @param float $number
 	 * @param string|null $currency
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @return string
 	 */
 	public static function currency($number, ?string $currency = null, array $options = []): string {

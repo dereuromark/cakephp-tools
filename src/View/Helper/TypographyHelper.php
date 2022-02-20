@@ -156,6 +156,9 @@ class TypographyHelper extends Helper {
 		//		Etc...
 		//	}
 		$chunks = preg_split('/(<(?:[^<>]+(?:"[^"]*"|\'[^\']*\')?)+>)/', $str, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+		if ($chunks === false) {
+			return $str;
+		}
 
 		// Build our finalized string. We cycle through the array, skipping tags, and processing the contained text
 		$str = '';

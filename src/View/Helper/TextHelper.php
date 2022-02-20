@@ -50,7 +50,7 @@ class TextHelper extends CakeTextHelper {
 	 *
 	 * @param string $url the url
 	 * @param int|null $max the maximum length
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * - placeholder
 	 * @return string the manipulated url (+ eventuell ...)
 	 */
@@ -63,6 +63,7 @@ class TextHelper extends CakeTextHelper {
 		$url = Utility::stripProtocol($url);
 		// cut the parameters
 		if (mb_strpos($url, '/') !== false) {
+			/** @var string $url */
 			$url = strtok($url, '/');
 		}
 		// return if the url is short enough

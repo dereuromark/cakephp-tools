@@ -52,7 +52,7 @@ class BitmaskedBehavior extends Behavior {
 
 	/**
 	 * @param \Cake\ORM\Query $query
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @throws \InvalidArgumentException If the 'slug' key is missing in options
 	 * @return \Cake\ORM\Query
 	 */

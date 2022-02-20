@@ -43,7 +43,7 @@ class FormHelper extends CakeFormHelper {
 	 * @param mixed $model The context for which the form is being defined. Can
 	 *   be an ORM entity, ORM resultset, or an array of meta data. You can use false or null
 	 *   to make a model-less form.
-	 * @param array $options An array of html attributes and options.
+	 * @param array<string, mixed> $options An array of html attributes and options.
 	 * @return string An formatted opening FORM tag.
 	 */
 	public function create($model = null, array $options = []): string {

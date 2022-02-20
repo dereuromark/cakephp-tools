@@ -69,8 +69,8 @@ class ProgressHelper extends Helper {
 	 * Options:
 	 *
 	 * @param float $value Value 0...1
-	 * @param array $options
-	 * @param array $attributes
+	 * @param array<string, mixed> $options
+	 * @param array<string, mixed> $attributes
 	 * @return string
 	 */
 	public function htmlProgressBar($value, array $options = [], array $attributes = []) {
@@ -98,7 +98,7 @@ class ProgressHelper extends Helper {
 	/**
 	 * @param float $value Value 0...1
 	 * @param int $length As char count
-	 * @param array $attributes
+	 * @param array<string, mixed> $attributes
 	 * @return string
 	 */
 	public function progressBar($value, $length, array $attributes = []) {

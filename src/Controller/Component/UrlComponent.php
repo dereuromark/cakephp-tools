@@ -78,7 +78,7 @@ class UrlComponent extends Component {
 	 * @param array|string|null $url Either a relative string url like `/products/view/23` or
 	 *    an array of URL parameters. Using an array for URLs will allow you to leverage
 	 *    the reverse routing features of CakePHP.
-	 * @param array $options Array of options
+	 * @param array<string, mixed> $options Array of options
 	 * @return string Full translated URL with base path.
 	 */
 	public function build($url = null, array $options = []): string {

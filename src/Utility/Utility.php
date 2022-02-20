@@ -55,7 +55,7 @@ class Utility {
 	 *
 	 * @param string $data The data to tokenize
 	 * @param string $separator The token to split the data on.
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @return array
 	 */
 	public static function tokenize($data, $separator = ',', $options = []) {
@@ -158,7 +158,7 @@ class Utility {
 	 */
 	public static function getClientIp($safe = true) {
 		if (!$safe && env('HTTP_X_FORWARDED_FOR')) {
-			$ipaddr = preg_replace('/(?:,.*)/', '', env('HTTP_X_FORWARDED_FOR'));
+			$ipaddr = preg_replace('/(?:,.*)/', '', (string)env('HTTP_X_FORWARDED_FOR'));
 		} elseif (!$safe && env('HTTP_CLIENT_IP')) {
 			$ipaddr = env('HTTP_CLIENT_IP');
 		} else {
@@ -175,12 +175,14 @@ class Utility {
 	 * @return string referer (local or foreign)
 	 */
 	public static function getReferer($full = false) {
+		/** @var string|null $ref */
 		$ref = env('HTTP_REFERER');
+		/** @var string|null $forwarded */
 		$forwarded = env('HTTP_X_FORWARDED_HOST');
 		if ($forwarded) {
 			$ref = $forwarded;
 		}
-		if (empty($ref)) {
+		if (!$ref) {
 			return $ref;
 		}
 		if ($full) {

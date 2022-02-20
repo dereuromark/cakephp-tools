@@ -172,7 +172,7 @@ class SluggedBehavior extends Behavior {
 	 * ->find('slugged')
 	 *
 	 * @param \Cake\ORM\Query $query
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @throws \InvalidArgumentException If the 'slug' key is missing in options
 	 * @return \Cake\ORM\Query
 	 */
@@ -218,7 +218,7 @@ class SluggedBehavior extends Behavior {
 	 * SluggedBehavior::slug()
 	 *
 	 * @param \Cake\Datasource\EntityInterface $entity Entity
-	 * @param array $options Options
+	 * @param array<string, mixed> $options Options
 	 * @return void
 	 */
 	public function slug(EntityInterface $entity, array $options = []) {
@@ -350,9 +350,11 @@ class SluggedBehavior extends Behavior {
 			$field = $this->_table->getAlias() . '.' . $this->_config['field'];
 			$conditions = [$field => $slug];
 			$conditions = array_merge($conditions, $this->_config['scope']);
-			$id = $entity->get($this->_table->getPrimaryKey());
+			/** @var string $primaryKey */
+			$primaryKey = $this->_table->getPrimaryKey();
+			$id = $entity->get($primaryKey);
 			if ($id) {
-				$conditions['NOT'][$this->_table->getAlias() . '.' . $this->_table->getPrimaryKey()] = $id;
+				$conditions['NOT'][$this->_table->getAlias() . '.' . $primaryKey] = $id;
 			}
 			$i = 0;
 			$suffix = '';
@@ -382,7 +384,7 @@ class SluggedBehavior extends Behavior {
 	 * Note that you should use the Reset behavior if you need additional functionality such
 	 * as callbacks or timeouts.
 	 *
-	 * @param array $params
+	 * @param array<string, mixed> $params
 	 * @throws \RuntimeException
 	 * @return bool Success
 	 */
@@ -390,19 +392,21 @@ class SluggedBehavior extends Behavior {
 		if (!$this->_table->hasField($this->_config['field'])) {
 			throw new RuntimeException('Table does not have field ' . $this->_config['field']);
 		}
+		/** @var string $displayField */
+		$displayField = $this->_table->getDisplayField();
 		$defaults = [
 			'page' => 1,
 			'limit' => 100,
 			'fields' => array_merge([$this->_table->getPrimaryKey()], $this->_config['label']),
-			'order' => $this->_table->getDisplayField() . ' ASC',
+			'order' =>  $displayField . ' ASC',
 			'conditions' => $this->_config['scope'],
 			'overwrite' => true,
 		];
-		$params = array_merge($defaults, $params);
+		$params += $defaults;
 
 		$conditions = $params['conditions'];
 		$count = $this->_table->find('all', compact('conditions'))->count();
-		$max = ini_get('max_execution_time');
+		$max = (int)ini_get('max_execution_time');
 		if ($max) {
 			set_time_limit(max($max, $count / 100));
 		}
@@ -444,7 +448,7 @@ class SluggedBehavior extends Behavior {
 		$field = current($label);
 		$fields = (array)$entity->get($field);
 
-		$locale = [];
+		$locales = [];
 		foreach ($fields as $locale => $_) {
 			$res = null;
 			foreach ($label as $field) {
@@ -454,9 +458,9 @@ class SluggedBehavior extends Behavior {
 				}
 			}
 
-			$locale[$locale] = $res;
+			$locales[$locale] = $res;
 		}
-		$entity->set($this->getConfig('slugField'), $locale);
+		$entity->set($this->getConfig('slugField'), $locales);
 	}
 
 	/**

@@ -115,7 +115,7 @@ class CommonHelper extends Helper {
 	 *
 	 * @param string $content
 	 * @param string|null $language (iso2: de, en-us, ...)
-	 * @param array $options Additional options
+	 * @param array<string, mixed> $options Additional options
 	 * @return string HTML Markup
 	 */
 	public function metaDescription(string $content, ?string $language = null, array $options = []): string {

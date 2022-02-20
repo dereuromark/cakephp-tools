@@ -153,7 +153,7 @@ JS;
 	/**
 	 * Format options to JS code
 	 *
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @return string
 	 */
 	protected function _options($options) {
@@ -240,7 +240,7 @@ JS;
 	 * - `block` You can chose a different view block to write to (defaults to "script" one).
 	 *
 	 * @param string $script
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 *
 	 * @return void
 	 */

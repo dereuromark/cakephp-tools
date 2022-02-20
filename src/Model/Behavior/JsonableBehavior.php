@@ -39,7 +39,7 @@ use Tools\Utility\Text;
 class JsonableBehavior extends Behavior {
 
 	/**
-	 * @var string|false|null
+	 * @var array|string|false|null
 	 */
 	protected $decoded;
 
@@ -167,7 +167,7 @@ class JsonableBehavior extends Behavior {
 	protected function _getMappedFields() {
 		$usedFields = $this->_config['fields'];
 		$mappedFields = $this->_config['map'];
-		if (empty($mappedFields)) {
+		if (!$mappedFields) {
 			$mappedFields = $usedFields;
 		}
 
@@ -192,13 +192,25 @@ class JsonableBehavior extends Behavior {
 	public function _encode($val) {
 		if (!empty($this->_config['fields'])) {
 			if ($this->_config['input'] === 'param') {
+				if (!is_string($val)) {
+					throw new \InvalidArgumentException('Only accepts string for input type `param`');
+				}
 				$val = $this->_fromParam($val);
 			} elseif ($this->_config['input'] === 'list') {
+				if (!is_string($val)) {
+					throw new \InvalidArgumentException('Only accepts string for input type `list`');
+				}
 				$val = $this->_fromList($val);
 				if ($this->_config['unique']) {
+					if (!is_array($val)) {
+						throw new \InvalidArgumentException('Only accepts array for input type `unique`');
+					}
 					$val = array_unique($val);
 				}
 				if ($this->_config['sort']) {
+					if (!is_array($val)) {
+						throw new \InvalidArgumentException('Only accepts array for input type `sort`');
+					}
 					sort($val);
 				}
 			}
@@ -208,7 +220,12 @@ class JsonableBehavior extends Behavior {
 			return null;
 		}
 
-		return json_encode($val, $this->_config['encodeParams']['options'], $this->_config['encodeParams']['depth']);
+		$result = json_encode($val, $this->_config['encodeParams']['options'], $this->_config['encodeParams']['depth']);
+		if ($result === false) {
+			return null;
+		}
+
+		return $result;
 	}
 
 	/**
@@ -222,7 +239,8 @@ class JsonableBehavior extends Behavior {
 			return $val;
 		}
 
-		$decoded = json_decode($val, $this->_config['decodeParams']['assoc'], $this->_config['decodeParams']['depth'], $this->_config['decodeParams']['options']);
+		$flags = JSON_THROW_ON_ERROR | $this->_config['decodeParams']['options'];
+		$decoded = json_decode($val, $this->_config['decodeParams']['assoc'], $this->_config['decodeParams']['depth'], $flags);
 
 		if ($decoded === false) {
 			return false;

@@ -44,7 +44,7 @@ class FileLog {
 	/**
 	 * Log data into custom file
 	 *
-	 * @param object|array|string $data Data to store
+	 * @param \ArrayObject|array|string $data Data to store
 	 * @param string|null $filename Filename of log file
 	 * @param bool $traceKey Add trace string key into log data
 	 * @return bool Success

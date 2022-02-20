@@ -65,7 +65,7 @@ class Table extends ShimTable {
 	 * @override To allow multiple scoped values
 	 *
 	 * @param mixed $value The value of column to be checked for uniqueness
-	 * @param array $options The options array, optionally containing the 'scope' key
+	 * @param array<string, mixed> $options The options array, optionally containing the 'scope' key
 	 * @param array $context The validation context as provided by the validation routine
 	 * @return bool true if the value is unique
 	 */
@@ -116,7 +116,7 @@ class Table extends ShimTable {
 	 * @param string $tableName The related model
 	 * @param string|null $groupField Field to group by
 	 * @param string $type Find type
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @return \Cake\ORM\Query
 	 */
 	public function getRelatedInUse($tableName, $groupField = null, $type = 'all', array $options = []) {
@@ -153,13 +153,15 @@ class Table extends ShimTable {
 	 *
 	 * @param string $groupField Field to group by
 	 * @param string $type Find type
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @return \Cake\ORM\Query
 	 */
 	public function getFieldInUse($groupField, $type = 'all', array $options = []) {
+		/** @var string $displayField */
+		$displayField = $this->getDisplayField();
 		$defaults = [
 			'group' => $groupField,
-			'order' => [$this->getDisplayField() => 'ASC'],
+			'order' => [$displayField => 'ASC'],
 		];
 		if ($type === 'list') {
 			$defaults['fields'] = [$this->getPrimaryKey(), $this->getDisplayField(), $groupField];
@@ -213,7 +215,7 @@ class Table extends ShimTable {
 	 * - deep (default: TRUE)
 	 *
 	 * @param array|string $url Full URL starting with http://...
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @param array $context
 	 * @return bool Success
 	 */
@@ -226,6 +228,9 @@ class Table extends ShimTable {
 			return false;
 		}
 		if (!isset($options['autoComplete']) || $options['autoComplete'] !== false) {
+			if (!is_string($url)) {
+				throw new \InvalidArgumentException('Can only accept string for autoComplete case');
+			}
 			$url = $this->_autoCompleteUrl($url);
 		}
 
@@ -239,7 +244,12 @@ class Table extends ShimTable {
 		}
 		// same domain?
 		if (!empty($options['sameDomain']) && env('HTTP_HOST')) {
+			if (!is_string($url)) {
+				throw new \InvalidArgumentException('Can only accept string for sameDomain case');
+			}
+			/** @var string $is */
 			$is = parse_url($url, PHP_URL_HOST);
+			/** @var string $expected */
 			$expected = env('HTTP_HOST');
 			if (mb_strtolower($is) !== mb_strtolower($expected)) {
 				return false;
@@ -248,6 +258,10 @@ class Table extends ShimTable {
 
 		if (isset($options['deep']) && $options['deep'] === false) {
 			return true;
+		}
+
+		if (!is_string($url)) {
+			throw new \InvalidArgumentException('Can only accept string for deep case');
 		}
 
 		return $this->_validUrl($url);
@@ -296,7 +310,7 @@ class Table extends ShimTable {
 	 * Validation of DateTime Fields (both Date and Time together)
 	 *
 	 * @param mixed $value
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * - dateFormat (defaults to 'ymd')
 	 * - allowEmpty
 	 * - after/before (fieldName to validate against)
@@ -390,7 +404,7 @@ class Table extends ShimTable {
 	 * Validation of Date fields (as the core one is buggy!!!)
 	 *
 	 * @param mixed $value
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * - dateFormat (defaults to 'ymd')
 	 * - allowEmpty
 	 * - after/before (fieldName to validate against)
@@ -452,7 +466,7 @@ class Table extends ShimTable {
 	 * Validation of Time fields
 	 *
 	 * @param mixed $value
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * - timeFormat (defaults to 'hms')
 	 * - allowEmpty
 	 * - after/before (fieldName to validate against)

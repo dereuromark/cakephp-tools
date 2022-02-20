@@ -83,11 +83,13 @@ class ResetBehavior extends Behavior {
 	 * @return int Modified records
 	 */
 	public function resetRecords(array $params = []) {
+		/** @var string $primaryKey */
+		$primaryKey = $this->_table->getPrimaryKey();
 		$defaults = [
 			'page' => 1,
 			'limit' => $this->_config['limit'],
 			'fields' => [],
-			'order' => [$this->_table->getAlias() . '.' . $this->_table->getPrimaryKey() => 'ASC'],
+			'order' => [$this->_table->getAlias() . '.' . $primaryKey => 'ASC'],
 			'conditions' => $this->_config['scope'],
 			'validate' => $this->_config['validate'],
 		];
@@ -97,11 +99,13 @@ class ResetBehavior extends Behavior {
 					throw new RuntimeException('Table does not have field ' . $field);
 				}
 			}
-			$defaults['fields'] = array_merge([$this->_table->getAlias() . '.' . $this->_table->getPrimaryKey()], $this->_config['fields']);
+			$defaults['fields'] = array_merge([$this->_table->getAlias() . '.' . $primaryKey], $this->_config['fields']);
 		} else {
-			$defaults['fields'] = [$this->_table->getAlias() . '.' . $this->_table->getPrimaryKey()];
-			if ($this->_table->getDisplayField() !== $this->_table->getPrimaryKey()) {
-				$defaults['fields'][] = $this->_table->getAlias() . '.' . $this->_table->getDisplayField();
+			$defaults['fields'] = [$this->_table->getAlias() . '.' . $primaryKey];
+			/** @var string $displayField */
+			$displayField = $this->_table->getDisplayField();
+			if ($displayField !== $primaryKey) {
+				$defaults['fields'][] = $this->_table->getAlias() . '.' . $displayField;
 			}
 		}
 

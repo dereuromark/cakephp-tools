@@ -81,7 +81,7 @@ class Time extends CakeTime {
 	 *
 	 * @param mixed $startTime (db format or timestamp)
 	 * @param mixed|null $endTime (db format or timestamp)
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @return int The distance in seconds
 	 */
 	public static function difference($startTime, $endTime = null, array $options = []) {
@@ -411,7 +411,7 @@ class Time extends CakeTime {
 	 *
 	 * @param string|null $dateString
 	 * @param string|null $format Format (YYYY-MM-DD, DD.MM.YYYY)
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @return string
 	 */
 	public static function localDate($dateString, $format = null, array $options = []) {
@@ -492,7 +492,7 @@ class Time extends CakeTime {
 	 *
 	 * @param \Cake\I18n\I18nDateTimeInterface|string|null $dateString
 	 * @param string|null $format Format (YYYY-MM-DD, DD.MM.YYYY)
-	 * @param array $options Options
+	 * @param array<string, mixed> $options Options
 	 * @return string
 	 */
 	public static function niceDate($dateString, $format = null, array $options = []) {
@@ -616,7 +616,7 @@ class Time extends CakeTime {
 	 * @param int $month
 	 * 1..12
 	 * @param bool $abbr (if abbreviation should be returned)
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * - appendDot (only for 3 letter abbr; defaults to false)
 	 * @return string translatedText
 	 */
@@ -670,7 +670,7 @@ class Time extends CakeTime {
 	 * - abbr
 	 *
 	 * @param array<int> $monthKeys
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @return array<string>
 	 */
 	public static function monthNames(array $monthKeys = [], array $options = []) {
@@ -690,7 +690,7 @@ class Time extends CakeTime {
 	 * Weekdays
 	 *
 	 * @param array<int> $dayKeys
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @return array<string>
 	 */
 	public static function dayNames(array $dayKeys = [], array $options = []) {
@@ -796,7 +796,7 @@ class Time extends CakeTime {
 	 * @see timeAgoInWords()
 	 * @param int $seconds
 	 * @param string|null $format
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * - boolean v: verbose
 	 * - boolean zero: if false: 0 days 5 hours => 5 hours etc.
 	 * - int: accuracy (how many sub-formats displayed?) //TODO
@@ -917,7 +917,7 @@ class Time extends CakeTime {
 	 *
 	 * @param mixed $date
 	 * @param string|null $format Format
-	 * @param array $options Options
+	 * @param array<string, mixed> $options Options
 	 * - default, separator
 	 * - boolean zero: if false: 0 days 5 hours => 5 hours etc.
 	 * - verbose/past/future: string with %s or boolean true/false
@@ -1084,7 +1084,7 @@ class Time extends CakeTime {
 	 * Parse a period (from ... to)
 	 *
 	 * @param string $searchString Search string to parse
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * - separator (defaults to space [ ])
 	 * - format (defaults to Y-m-d H:i:s)
 	 * @return array period [0=>min, 1=>max]
@@ -1110,7 +1110,7 @@ class Time extends CakeTime {
 	 *
 	 * @param string $searchString to parse
 	 * @param string $fieldName (Model.field)
-	 * @param array $options (see Time::period)
+	 * @param array<string, mixed> $options (see Time::period)
 	 * @return string query SQL Query
 	 */
 	public static function periodAsSql($searchString, $fieldName, array $options = []) {

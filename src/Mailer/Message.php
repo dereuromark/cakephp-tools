@@ -148,7 +148,7 @@ class Message extends CakeMessage {
 	 * @param string $contentId
 	 * @param string $file
 	 * @param string|null $name
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @return $this
 	 */
 	public function addEmbeddedAttachmentByContentId($contentId, $file, $name = null, array $options = []) {
@@ -177,7 +177,7 @@ class Message extends CakeMessage {
 	 *
 	 * @param string $file Absolute path
 	 * @param string|null $name (optional)
-	 * @param array $options Options
+	 * @param array<string, mixed> $options Options
 	 * @return string
 	 */
 	public function addEmbeddedAttachment(string $file, ?string $name = null, array $options = []): string {
@@ -213,7 +213,7 @@ class Message extends CakeMessage {
 	 * @param string $content Blob data
 	 * @param string $file File File path to file
 	 * @param string|null $mimeType (leave it empty to get mimetype from $filename)
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @return $this
 	 */
 	public function addEmbeddedBlobAttachmentByContentId($contentId, $content, $file, $mimeType = null, array $options = []) {
@@ -288,7 +288,7 @@ class Message extends CakeMessage {
 	 *
 	 * @param string $file
 	 * @param string $name
-	 * @return string|bool CID of the found file or false if no such attachment can be found
+	 * @return string|false CID of the found file or false if no such attachment can be found
 	 */
 	protected function _isEmbeddedAttachment($file, $name) {
 		foreach ($this->getAttachments() as $filename => $fileInfo) {
@@ -309,7 +309,7 @@ class Message extends CakeMessage {
 	 *
 	 * @param string $content
 	 * @param string $name
-	 * @return string|bool CID of the found file or false if no such attachment can be found
+	 * @return string|false CID of the found file or false if no such attachment can be found
 	 */
 	protected function _isEmbeddedBlobAttachment($content, $name) {
 		foreach ($this->getAttachments() as $filename => $fileInfo) {
@@ -377,7 +377,7 @@ class Message extends CakeMessage {
 		);
 		$content = file_get_contents($path, false, $context);
 		if (!$content) {
-			trigger_error('No content found for ' . $path);
+			throw new \RuntimeException('No content found for ' . $path);
 		}
 
 		return chunk_split(base64_encode($content));

@@ -287,8 +287,8 @@ class L10n {
 			return $result;
 		}
 		if (is_string($mixed)) {
-			if (strlen($mixed) === 2 && in_array($mixed, $this->_l10nMap)) {
-				return array_search($mixed, $this->_l10nMap);
+			if (strlen($mixed) === 2 && in_array($mixed, $this->_l10nMap, true)) {
+				return (string)array_search($mixed, $this->_l10nMap, true);
 			}
 			if (isset($this->_l10nMap[$mixed])) {
 				return $this->_l10nMap[$mixed];

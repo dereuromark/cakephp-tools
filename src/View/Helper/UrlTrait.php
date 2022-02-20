@@ -32,7 +32,7 @@ trait UrlTrait {
 	 * Can only add defaults for array URLs.
 	 *
 	 * @param array|string|null $url URL.
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @return string Full translated URL with base path.
 	 */
 	public function buildReset($url, array $options = []): string {
@@ -49,7 +49,7 @@ trait UrlTrait {
 	 * Can only add query strings for array URLs.
 	 *
 	 * @param array|string|null $url URL.
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @return string Full translated URL with base path.
 	 */
 	public function buildComplete($url, array $options = []): string {

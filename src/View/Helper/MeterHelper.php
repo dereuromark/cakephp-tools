@@ -73,8 +73,8 @@ class MeterHelper extends Helper {
 	 * @param float $value
 	 * @param float $max
 	 * @param float|null $min
-	 * @param array $options
-	 * @param array $attributes
+	 * @param array<string, mixed> $options
+	 * @param array<string, mixed> $attributes
 	 * @return string
 	 */
 	public function htmlMeterBar($value, $max, $min = null, array $options = [], array $attributes = []) {
@@ -123,8 +123,8 @@ class MeterHelper extends Helper {
 	 * @param float $max
 	 * @param float $min
 	 * @param int $length As char count
-	 * @param array $options
-	 * @param array $attributes
+	 * @param array<string, mixed> $options
+	 * @param array<string, mixed> $attributes
 	 * @return string
 	 */
 	public function meterBar($value, $max, $min, $length, array $options = [], array $attributes = []) {

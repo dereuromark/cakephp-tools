@@ -119,7 +119,7 @@ class QrCodeHelper extends Helper {
 	 * Note: set size or level manually prior to calling this method
 	 *
 	 * @param string $text Text (utf8 encoded)
-	 * @param array $options Options
+	 * @param array<string, mixed> $options Options
 	 * @return string HTML
 	 */
 	public function image($text, array $options = []) {
