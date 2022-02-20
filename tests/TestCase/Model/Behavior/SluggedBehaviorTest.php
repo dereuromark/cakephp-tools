@@ -706,7 +706,7 @@ class SluggedBehaviorTest extends TestCase {
 	 * @param string|null $title
 	 * @param string|null $field
 	 * @param array $data
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * @return \Cake\ORM\Entity
 	 */
 	protected function _getEntity($title = null, $field = null, array $data = [], array $options = []) {

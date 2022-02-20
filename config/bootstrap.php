@@ -268,7 +268,7 @@ if (!function_exists('pre')) {
 	 *
 	 * @param mixed $var
 	 * @param bool $collapsedAndExpandable
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 * - class, showHtml, showFrom, jquery, returns, debug
 	 * @return string HTML
 	 */
