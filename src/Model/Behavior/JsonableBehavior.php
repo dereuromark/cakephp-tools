@@ -10,6 +10,7 @@ use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
+use InvalidArgumentException;
 use RuntimeException;
 use Shim\Database\Type\ArrayType;
 use Tools\Utility\Text;
@@ -193,23 +194,23 @@ class JsonableBehavior extends Behavior {
 		if (!empty($this->_config['fields'])) {
 			if ($this->_config['input'] === 'param') {
 				if (!is_string($val)) {
-					throw new \InvalidArgumentException('Only accepts string for input type `param`');
+					throw new InvalidArgumentException('Only accepts string for input type `param`');
 				}
 				$val = $this->_fromParam($val);
 			} elseif ($this->_config['input'] === 'list') {
 				if (!is_string($val)) {
-					throw new \InvalidArgumentException('Only accepts string for input type `list`');
+					throw new InvalidArgumentException('Only accepts string for input type `list`');
 				}
 				$val = $this->_fromList($val);
 				if ($this->_config['unique']) {
 					if (!is_array($val)) {
-						throw new \InvalidArgumentException('Only accepts array for input type `unique`');
+						throw new InvalidArgumentException('Only accepts array for input type `unique`');
 					}
 					$val = array_unique($val);
 				}
 				if ($this->_config['sort']) {
 					if (!is_array($val)) {
-						throw new \InvalidArgumentException('Only accepts array for input type `sort`');
+						throw new InvalidArgumentException('Only accepts array for input type `sort`');
 					}
 					sort($val);
 				}

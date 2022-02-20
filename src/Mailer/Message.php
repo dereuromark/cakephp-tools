@@ -5,6 +5,7 @@ namespace Tools\Mailer;
 use Cake\Core\Configure;
 use Cake\Mailer\Message as CakeMessage;
 use InvalidArgumentException;
+use RuntimeException;
 use Tools\Utility\Mime;
 use Tools\Utility\Text;
 use Tools\Utility\Utility;
@@ -377,7 +378,7 @@ class Message extends CakeMessage {
 		);
 		$content = file_get_contents($path, false, $context);
 		if (!$content) {
-			throw new \RuntimeException('No content found for ' . $path);
+			throw new RuntimeException('No content found for ' . $path);
 		}
 
 		return chunk_split(base64_encode($content));

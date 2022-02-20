@@ -4,6 +4,7 @@ namespace Tools\Model\Table;
 
 use Cake\Routing\Router;
 use Cake\Validation\Validation;
+use InvalidArgumentException;
 use Shim\Model\Table\Table as ShimTable;
 use Tools\Utility\FrozenTime;
 use Tools\Utility\Utility;
@@ -229,7 +230,7 @@ class Table extends ShimTable {
 		}
 		if (!isset($options['autoComplete']) || $options['autoComplete'] !== false) {
 			if (!is_string($url)) {
-				throw new \InvalidArgumentException('Can only accept string for autoComplete case');
+				throw new InvalidArgumentException('Can only accept string for autoComplete case');
 			}
 			$url = $this->_autoCompleteUrl($url);
 		}
@@ -245,7 +246,7 @@ class Table extends ShimTable {
 		// same domain?
 		if (!empty($options['sameDomain']) && env('HTTP_HOST')) {
 			if (!is_string($url)) {
-				throw new \InvalidArgumentException('Can only accept string for sameDomain case');
+				throw new InvalidArgumentException('Can only accept string for sameDomain case');
 			}
 			/** @var string $is */
 			$is = parse_url($url, PHP_URL_HOST);
@@ -261,7 +262,7 @@ class Table extends ShimTable {
 		}
 
 		if (!is_string($url)) {
-			throw new \InvalidArgumentException('Can only accept string for deep case');
+			throw new InvalidArgumentException('Can only accept string for deep case');
 		}
 
 		return $this->_validUrl($url);

@@ -398,7 +398,7 @@ class SluggedBehavior extends Behavior {
 			'page' => 1,
 			'limit' => 100,
 			'fields' => array_merge([$this->_table->getPrimaryKey()], $this->_config['label']),
-			'order' =>  $displayField . ' ASC',
+			'order' => $displayField . ' ASC',
 			'conditions' => $this->_config['scope'],
 			'overwrite' => true,
 		];
