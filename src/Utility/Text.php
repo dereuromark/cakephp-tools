@@ -274,7 +274,7 @@ class Text extends CakeText {
 			$piece = str_replace($search, '', $piece);
 			$piece = trim($piece);
 
-			if (empty($piece) || !empty($options['min_char']) && mb_strlen($piece) < $options['min_char'] || !empty($options['max_char']) && mb_strlen($piece) > $options['max_char']) {
+			if (!$piece || !empty($options['min_char']) && mb_strlen($piece) < $options['min_char'] || !empty($options['max_char']) && mb_strlen($piece) > $options['max_char']) {
 				unset($pieces[$key]);
 			} else {
 				$pieces[$key] = $piece;

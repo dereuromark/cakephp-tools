@@ -688,7 +688,7 @@ class FormatHelper extends Helper {
 		$options += $defaults;
 
 		// Sanity check
-		if (empty($array)) {
+		if (!$array) {
 			return '';
 		}
 

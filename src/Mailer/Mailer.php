@@ -175,7 +175,7 @@ class Mailer extends CakeMailer {
 	/**
 	 * @return array
 	 */
-	public function getDebug(): array{
+	public function getDebug(): array {
 		return $this->debug;
 	}
 

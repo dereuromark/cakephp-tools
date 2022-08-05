@@ -263,10 +263,10 @@ class CommonComponent extends Component {
 
 			foreach ($this->controller->autoRedirectActions as $action) {
 				[$controller, $action] = pluginSplit($action);
-				if (!empty($controller) && $refererController !== '*' && $refererController !== $controller) {
+				if ($controller && $refererController !== '*' && $refererController !== $controller) {
 					continue;
 				}
-				if (empty($controller) && $refererController !== $this->controller->getRequest()->getParam('controller')) {
+				if (!$controller && $refererController !== $this->controller->getRequest()->getParam('controller')) {
 					continue;
 				}
 				if (!in_array($referer['action'], (array)$this->controller->autoRedirectActions, true)) {

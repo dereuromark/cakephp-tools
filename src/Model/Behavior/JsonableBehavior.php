@@ -4,7 +4,7 @@ namespace Tools\Model\Behavior;
 
 use ArrayObject;
 use Cake\Collection\CollectionInterface;
-use Cake\Database\Type;
+use Cake\Database\TypeFactory;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
@@ -98,7 +98,7 @@ class JsonableBehavior extends Behavior {
 			$this->_config['encodeParams']['options'] = $options;
 		}
 
-		Type::map('array', ArrayType::class);
+		TypeFactory::map('array', ArrayType::class);
 	}
 
 	/**
@@ -175,7 +175,7 @@ class JsonableBehavior extends Behavior {
 		$fields = [];
 
 		foreach ($mappedFields as $index => $map) {
-			if (empty($map) || $map == $usedFields[$index]) {
+			if (!$map || $map == $usedFields[$index]) {
 				$fields[$usedFields[$index]] = $usedFields[$index];
 
 				continue;

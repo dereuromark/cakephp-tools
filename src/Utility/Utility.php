@@ -63,7 +63,7 @@ class Utility {
 			'clean' => true,
 		];
 		$options += $defaults;
-		if (empty($data)) {
+		if (!$data) {
 			return [];
 		}
 		$tokens = explode($separator, $data);
@@ -368,7 +368,7 @@ class Utility {
 	 * @return bool Result
 	 */
 	public static function logicalAnd($array) {
-		if (empty($array)) {
+		if (!$array) {
 			return false;
 		}
 		foreach ($array as $result) {
@@ -577,7 +577,7 @@ class Utility {
 		$path = null;
 
 		reset($data);
-		while (!empty($data)) {
+		while ($data) {
 			$key = key($data);
 			$element = $data[$key];
 			unset($data[$key]);
@@ -596,7 +596,7 @@ class Utility {
 				$result[] = $path . $element;
 			}
 
-			if (empty($data) && !empty($stack)) {
+			if (!$data && $stack) {
 				[$data, $path] = array_pop($stack);
 				reset($data);
 			}

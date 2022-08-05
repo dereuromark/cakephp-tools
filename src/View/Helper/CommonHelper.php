@@ -96,11 +96,11 @@ class CommonHelper extends Helper {
 	 * Convenience method for clean meta name tags
 	 *
 	 * @param string|null $name Author, date, generator, revisit-after, language
-	 * @param array|string|null $content If array, it will be separated by commas
+	 * @param array<string>|string|null $content If array, it will be separated by commas
 	 * @return string HTML Markup
 	 */
 	public function metaName(?string $name = null, $content = null): string {
-		if (empty($name) || empty($content)) {
+		if (!$name || !$content) {
 			return '';
 		}
 
@@ -119,7 +119,7 @@ class CommonHelper extends Helper {
 	 * @return string HTML Markup
 	 */
 	public function metaDescription(string $content, ?string $language = null, array $options = []): string {
-		if (!empty($language)) {
+		if ($language) {
 			$options['lang'] = mb_strtolower($language);
 		} elseif ($language !== false) {
 			$options['lang'] = Configure::read('Config.locale');
@@ -214,7 +214,7 @@ class CommonHelper extends Helper {
 		$tags = [
 			'meta' => '<link rel="alternate" type="application/rss+xml" title="%s" href="%s"/>',
 		];
-		if (empty($title)) {
+		if (!$title) {
 			$title = __d('tools', 'Subscribe to this feed');
 		} else {
 			$title = h($title);

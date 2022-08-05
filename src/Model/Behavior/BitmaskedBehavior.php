@@ -3,7 +3,6 @@
 namespace Tools\Model\Behavior;
 
 use ArrayObject;
-use Cake\Database\Expression\Comparison;
 use Cake\Database\Expression\ComparisonExpression;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
@@ -254,7 +253,7 @@ class BitmaskedBehavior extends Behavior {
 	 */
 	public function encodeBitmask($value, $defaultValue = null) {
 		$res = 0;
-		if (empty($value)) {
+		if (!$value) {
 			return $defaultValue;
 		}
 		foreach ((array)$value as $key => $val) {
@@ -284,7 +283,7 @@ class BitmaskedBehavior extends Behavior {
 		}
 
 		$callable = function ($comparison) use ($field, $mappedField) {
-			if (!$comparison instanceof Comparison && !$comparison instanceof ComparisonExpression) {
+			if (!$comparison instanceof ComparisonExpression) {
 				return $comparison;
 			}
 			$key = $comparison->getField();

@@ -129,7 +129,7 @@ class MobileComponent extends Component {
 
 		if ($forceMobile !== null && !$forceMobile) {
 			$this->setMobile = false;
-		} elseif ($forceMobile !== null && $forceMobile || $this->isMobile()) {
+		} elseif ($forceMobile !== null || $this->isMobile()) {
 			$this->setMobile = true;
 		} else {
 			$this->setMobile = false;

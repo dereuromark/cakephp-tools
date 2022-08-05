@@ -184,7 +184,7 @@ class Number extends CakeNumber {
 	 * @return float Average
 	 */
 	public static function average($values, $precision = 0) {
-		if (empty($values)) {
+		if (!$values) {
 			return 0.0;
 		}
 

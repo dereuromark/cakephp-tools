@@ -153,7 +153,7 @@ class Message extends CakeMessage {
 	 * @return $this
 	 */
 	public function addEmbeddedAttachmentByContentId($contentId, $file, $name = null, array $options = []) {
-		if (empty($name)) {
+		if (!$name) {
 			$name = basename($file);
 		}
 		$name = pathinfo($name, PATHINFO_FILENAME) . '_' . md5($file) . '.' . pathinfo($name, PATHINFO_EXTENSION);
@@ -182,7 +182,7 @@ class Message extends CakeMessage {
 	 * @return string
 	 */
 	public function addEmbeddedAttachment(string $file, ?string $name = null, array $options = []): string {
-		if (empty($name)) {
+		if (!$name) {
 			$name = basename($file);
 		}
 

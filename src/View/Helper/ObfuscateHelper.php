@@ -60,7 +60,7 @@ class ObfuscateHelper extends Helper {
 			'escape' => false,
 		];
 
-		if (empty($text)) {
+		if (!$text) {
 			$text = $this->encodeEmail($mail);
 		}
 
@@ -160,7 +160,7 @@ class ObfuscateHelper extends Helper {
 	 * @return string
 	 */
 	public function wordCensor($str, array $censored, $replacement = null) {
-		if (empty($censored)) {
+		if (!$censored) {
 			return $str;
 		}
 		$str = ' ' . $str . ' ';

@@ -38,7 +38,7 @@ trait MailerAwareTrait {
 	public function getMailer($name, $config = null) {
 		$className = App::className($name, 'Mailer', 'Mailer');
 
-		if (empty($className)) {
+		if (!$className) {
 			throw new MissingMailerException(compact('name'));
 		}
 

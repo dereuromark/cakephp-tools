@@ -106,7 +106,7 @@ class Time extends CakeTime {
 	 * @return int Age (0 if both timestamps are equal or empty, -1 on invalid dates)
 	 */
 	public static function age($start, $end = null) {
-		if (empty($start) && empty($end) || $start == $end) {
+		if (!$start && !$end || $start == $end) {
 			return 0;
 		}
 
@@ -276,14 +276,14 @@ class Time extends CakeTime {
 	public static function cWeekBeginning($year, $cWeek = 0) {
 		if ($cWeek <= 1 || $cWeek > static::cWeeks($year)) {
 			$first = mktime(0, 0, 0, 1, 1, $year);
-			$wtag = (int)date('w', $first);
+			$weekDay = (int)date('w', $first);
 
-			if ($wtag <= 4) {
+			if ($weekDay <= 4) {
 				/* Thursday or less: back to Monday */
-				$firstmonday = mktime(0, 0, 0, 1, 1 - ($wtag - 1), $year);
-			} elseif ($wtag != 1) {
+				$firstmonday = mktime(0, 0, 0, 1, 1 - ($weekDay - 1), $year);
+			} elseif ($weekDay !== 1) {
 				/* Back to Monday */
-				$firstmonday = mktime(0, 0, 0, 1, 1 + (7 - $wtag + 1), $year);
+				$firstmonday = mktime(0, 0, 0, 1, 1 + (7 - $weekDay + 1), $year);
 			} else {
 				$firstmonday = $first;
 			}
@@ -1060,24 +1060,21 @@ class Time extends CakeTime {
 		} else {
 			$explode = [$date];
 		}
-		if ($explode) {
-			$count = count($explode);
-			for ($i = 0; $i < $count; $i++) {
-				$explode[$i] = static::pad($explode[$i]);
-			}
-			$explode[0] = static::pad($explode[0], 4, '20');
 
-			if (count($explode) === 3) {
-				return implode('-', $explode) . ' ' . ($type === 'end' ? '23:59:59' : '00:00:00');
-			}
-			if (count($explode) === 2) {
-				return implode('-', $explode) . '-' . ($type === 'end' ? static::daysInMonth((int)$explode[0], (int)$explode[1]) : '01') . ' ' . ($type === 'end' ? '23:59:59' : '00:00:00');
-			}
+		$count = count($explode);
+		for ($i = 0; $i < $count; $i++) {
+			$explode[$i] = static::pad($explode[$i]);
+		}
+		$explode[0] = static::pad($explode[0], 4, '20');
 
-			return $explode[0] . '-' . ($type === 'end' ? '12' : '01') . '-' . ($type === 'end' ? '31' : '01') . ' ' . ($type === 'end' ? '23:59:59' : '00:00:00');
+		if (count($explode) === 3) {
+			return implode('-', $explode) . ' ' . ($type === 'end' ? '23:59:59' : '00:00:00');
+		}
+		if (count($explode) === 2) {
+			return implode('-', $explode) . '-' . ($type === 'end' ? static::daysInMonth((int)$explode[0], (int)$explode[1]) : '01') . ' ' . ($type === 'end' ? '23:59:59' : '00:00:00');
 		}
 
-		return '';
+		return $explode[0] . '-' . ($type === 'end' ? '12' : '01') . '-' . ($type === 'end' ? '31' : '01') . ' ' . ($type === 'end' ? '23:59:59' : '00:00:00');
 	}
 
 	/**
@@ -1205,7 +1202,7 @@ class Time extends CakeTime {
 	 * @return int Seconds
 	 */
 	public static function parseLocalTime($duration, array $allowed = [':', '.', ',']) {
-		if (empty($duration)) {
+		if (!$duration) {
 			return 0;
 		}
 		$parts = explode(' ', $duration);
