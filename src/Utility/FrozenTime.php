@@ -103,7 +103,7 @@ class FrozenTime extends CakeFrozenTime {
 	 * @return int Age (0 if both timestamps are equal or empty, -1 on invalid dates)
 	 */
 	public static function age($start, $end = null) {
-		if (!$start && $end || $start == $end) {
+		if (!$start && !$end || $start == $end) {
 			return 0;
 		}
 
