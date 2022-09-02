@@ -66,6 +66,9 @@ Utility:
 Command:
 * [Inflect](Command/Inflect.md) to test inflection of words.
 
+## IDE compatibility improvements
+For `FormatHelper::icon()` you an find a IdeHelper task in https://github.com/dereuromark/cakephp-ide-helper-extra/
+
 ## Basic enhancements of the core
 
 ### Model
