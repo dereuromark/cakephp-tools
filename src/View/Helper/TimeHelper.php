@@ -27,7 +27,7 @@ class TimeHelper extends CakeTimeHelper {
 	 * @var array<string, mixed>
 	 */
 	protected $_defaultConfig = [
-		'engine' => 'Tools\Utility\Time', // Deprecated, use Tools\Utility\FrozenTime instead
+		'engine' => 'Tools\Utility\FrozenTime',
 	];
 
 	/**
