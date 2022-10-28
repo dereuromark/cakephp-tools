@@ -164,8 +164,6 @@ class InflectCommand extends Command {
 			default:
 				$this->abort(static::CODE_SUCCESS);
 		}
-
-		throw new StopException('Command aborted', static::CODE_SUCCESS);
 	}
 
 	/**
