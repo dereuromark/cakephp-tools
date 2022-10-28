@@ -7,7 +7,6 @@ use Cake\Command\Command;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
-use Cake\Console\Exception\StopException;
 use Shim\Utility\Inflector;
 
 /**
@@ -164,8 +163,6 @@ class InflectCommand extends Command {
 			default:
 				$this->abort(static::CODE_SUCCESS);
 		}
-
-		throw new StopException('Command aborted', static::CODE_SUCCESS);
 	}
 
 	/**
