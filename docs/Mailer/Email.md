@@ -29,21 +29,21 @@ Email::config(Configure::consume('Email'));
 ```
 They will read from Configure what you defined there, e.g for sending SMTP mails.
 ```
-'Email' => array(
-    'default' => array(
-        'from' => 'your@email.com'
-    )
-),
-'EmailTransport' => array(
-    'default' => array(
+'Email' => [
+    'default' => [
+        'from' => 'your@email.com',
+    ],
+],
+'EmailTransport' => [
+    'default' => [
         'className' => 'Smtp',
         'host' => 'smtp.hostname.com',
         'username' => 'your@email.com',
         'password' => 'yourpwd',
         'tls' => true,
-        'port' => 587
-    )
-)
+        'port' => 587,
+    ],
+]
 ```
 
 That's it.
