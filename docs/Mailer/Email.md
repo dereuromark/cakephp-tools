@@ -12,8 +12,8 @@ An enhanced class to
 - Basic validation supported.
 - Quick way to send system emails/reports.
 - Extensive logging and error tracing as well as debugging using.
-- Don't send emails without Configure::write('Config.live'), but log them away verbosely. For testing.
-- Security measure: Don't send emails to actual addresses in debug mode, they will be sent to Configure::read('Config.adminEmail') instead. Same for cc/bcc.
+- Don't send emails without `Configure::write('Config.live')`, but log them away verbosely. For testing.
+- Security measure: Don't send emails to actual addresses in debug mode, they will be sent to `Configure::read('Config.adminEmail')` instead. Same for cc/bcc.
 
 
 ## Configs
@@ -95,7 +95,7 @@ $email->addEmbeddedBlobAttachment($somePngFileBlobContent, 'my_filename.png');
 
 
 ## Advanced config and usage
-You can use `'Config.xMailer'` config to set a custom xMailer header.
+You can use `Config.xMailer` config to set a custom xMailer header.
 Priority and line length can also be adjusted if needed.
 
 By default it switches to "Debug" transport in debug mode. If you don't want that set Configure value `Config.live` to true.
