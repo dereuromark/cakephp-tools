@@ -775,11 +775,11 @@ class FrozenTime extends CakeFrozenTime {
 		}
 		if ($past === true) {
 			// This is in the past
-			return __d('tools', '%s ago', __d('tools', $span));
+			return __d('tools', '{0} ago', __d('tools', $span));
 		}
 		if ($past === false) {
 			// This in the future
-			return __d('tools', 'in %s', __d('tools', $span));
+			return __d('tools', 'in {0}', __d('tools', $span));
 		}
 		if ($past !== null) {
 			// Custom translation
@@ -816,14 +816,14 @@ class FrozenTime extends CakeFrozenTime {
 			$p = $s;
 		} else {
 			$s = [
-			'm' => ' ' . __d('tools', 'Month'), # translated
+				'm' => ' ' . __d('tools', 'Month'), # translated
 				'd' => ' ' . __d('tools', 'Day'),
 				'h' => ' ' . __d('tools', 'Hour'),
 				'i' => ' ' . __d('tools', 'Minute'),
 				's' => ' ' . __d('tools', 'Second'),
 			];
 			$p = [
-			'm' => ' ' . __d('tools', 'Months'), # translated
+				'm' => ' ' . __d('tools', 'Months'), # translated
 				'd' => ' ' . __d('tools', 'Days'),
 				'h' => ' ' . __d('tools', 'Hours'),
 				'i' => ' ' . __d('tools', 'Minutes'),
@@ -1317,11 +1317,11 @@ class FrozenTime extends CakeFrozenTime {
 			$m = $duration->invert ? -1 : 1;
 
 			$duration = ($duration->y * YEAR) +
-			($duration->m * MONTH) +
-			($duration->d * DAY) +
-			($duration->h * HOUR) +
-			($duration->i * MINUTE) +
-			$duration->s;
+				($duration->m * MONTH) +
+				($duration->d * DAY) +
+				($duration->h * HOUR) +
+				($duration->i * MINUTE) +
+				$duration->s;
 			$duration *= $m;
 		}
 
