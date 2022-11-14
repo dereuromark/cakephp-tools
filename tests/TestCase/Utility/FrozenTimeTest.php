@@ -213,10 +213,6 @@ class FrozenTimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testLocalDate() {
-		//$this->skipIf(true, '//Doesnt work on GithubActions CI');
-		//$res = setlocale(LC_TIME, ['de_DE.UTF-8', 'deu_deu']);
-		//$this->assertTrue(!empty($res), 'Result: ' . Debugger::exportVar($res, true));
-
 		$values = [
 			['2009-12-01 00:00:00', 'd.m.Y', '01.12.2009'],
 			['2009-12-01 00:00:00', 'M', 'Dez.'],
