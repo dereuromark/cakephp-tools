@@ -30,7 +30,7 @@ if (!defined('FORMAT_NICE_YMDHMS')) {
 	define('FORMAT_NICE_HM', 'H:i');
 	define('FORMAT_NICE_HMS', 'H:i:s');
 
-	// localDate strings
+	// localDate strings DEPRECATED PHP 8.1+
 	define('FORMAT_LOCAL_WA_YMDHMS', '%a, %d.%m.%Y, %H:%M:%S');
 	define('FORMAT_LOCAL_WF_YMDHMS', '%A, %d.%m.%Y, %H:%M:%S');
 	define('FORMAT_LOCAL_WA_YMDHM', '%a, %d.%m.%Y, %H:%M');

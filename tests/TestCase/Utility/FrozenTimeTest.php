@@ -3,7 +3,6 @@
 namespace Tools\Test\TestCase\Utility;
 
 use Cake\Core\Configure;
-use Cake\Error\Debugger;
 use DateTime;
 use Shim\TestSuite\TestCase;
 use Tools\Utility\FrozenTime;
@@ -162,8 +161,13 @@ class FrozenTimeTest extends TestCase {
 
 		$ret = $this->Time->niceDate('2009-12-01');
 		$this->assertEquals('01.12.2009', $ret);
+	}
 
-		$ret = $this->Time->localDate('2009-12-01');
+	/**
+	 * @return void
+	 */
+	public function testFormatLocalized() {
+		$ret = $this->Time->formatLocalized(new FrozenTime('2009-12-01'), 'd.m.Y');
 		$this->assertEquals('01.12.2009', $ret);
 	}
 
@@ -209,30 +213,28 @@ class FrozenTimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testLocalDate() {
-		$this->skipIf(true, '//Doesnt work on GithubActions CI');
-
-		$res = setlocale(LC_TIME, ['de_DE.UTF-8', 'deu_deu']);
-		$this->assertTrue(!empty($res), 'Result: ' . Debugger::exportVar($res, true));
+		//$this->skipIf(true, '//Doesnt work on GithubActions CI');
+		//$res = setlocale(LC_TIME, ['de_DE.UTF-8', 'deu_deu']);
+		//$this->assertTrue(!empty($res), 'Result: ' . Debugger::exportVar($res, true));
 
 		$values = [
-			['2009-12-01 00:00:00', FORMAT_LOCAL_YMD, '01.12.2009'],
-			['2009-12-01 00:00:00', FORMAT_LOCAL_M_FULL, 'Dezember'],
+			['2009-12-01 00:00:00', 'd.m.Y', '01.12.2009'],
+			['2009-12-01 00:00:00', 'M', 'Dez.'],
 		];
 		foreach ($values as $v) {
-			$ret = $this->Time->localDate($v[0], $v[1]);
-			//$this->debug($ret);
+			$ret = $this->Time->localDate($v[0], $v[1], ['language' => 'de']);
 			$this->assertEquals($v[2], $ret);
 		}
 
 		$date = '2009-12-01 00:00:00';
-		$format = FORMAT_LOCAL_YMD;
-		$result = $this->Time->localDate($date, $format, ['oclock' => true]);
+		$format = 'd.m.Y';
+		$result = $this->Time->localDate($date, $format, ['language' => 'de', 'oclock' => true]);
 		$expected = '01.12.2009';
 		$this->assertEquals($expected, $result);
 
 		$date = '2009-12-01 00:00:00';
-		$format = FORMAT_LOCAL_YMDHM;
-		$result = $this->Time->localDate($date, $format, ['oclock' => true]);
+		$format = 'd.m.Y, H:i';
+		$result = $this->Time->localDate($date, $format, ['language' => 'de', 'oclock' => true]);
 		$expected = '01.12.2009, 00:00 ' . __d('tools', 'o\'clock');
 		$this->assertEquals($expected, $result);
 	}

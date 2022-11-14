@@ -10,6 +10,8 @@ use Cake\I18n\FrozenTime as CakeFrozenTime;
 use DateInterval;
 use DateTime;
 use DateTimeInterface;
+use DateTimeZone;
+use IntlDateFormatter;
 
 /**
  * Extend CakeTime with a few important improvements:
@@ -411,8 +413,13 @@ class FrozenTime extends CakeFrozenTime {
 	 * @param array<string, mixed> $options
 	 * @return string
 	 */
-	public static function localDate($dateString, $format = null, array $options = []) {
-		$defaults = ['default' => '-----', 'timezone' => null];
+	public static function localDate(?string $dateString, ?string $format = null, array $options = []) {
+		$defaults = [
+			'default' => '-----',
+			'timezone' => null,
+			'language' => 'en',
+			'oclock' => null,
+		];
 		$options += $defaults;
 
 		if ($options['timezone'] === null && strlen($dateString) === 10) {
@@ -425,35 +432,67 @@ class FrozenTime extends CakeFrozenTime {
 			$options['timezone'] = static::safeCreateDateTimeZone($options['timezone']);
 		}
 		$date = new CakeFrozenTime($dateString, $options['timezone']);
-		$date = $date->format('U');
-
-		if ($date <= 0) {
-			return $options['default'];
-		}
-
 		if ($format === null) {
 			if (is_int($dateString) || strpos($dateString, ' ') !== false) {
-				$format = FORMAT_LOCAL_YMDHM;
+				$format = 'd.m.Y, H:i';
 			} else {
-				$format = FORMAT_LOCAL_YMD;
+				$format = 'd.m.Y';
 			}
 		}
 
-		$date = static::_strftime($format, (int)$date);
+		$date = static::formatLocalized($date, $format, $options['language']);
 
-		if (!empty($options['oclock'])) {
-			switch ($format) {
-				case FORMAT_LOCAL_YMDHM:
-				case FORMAT_LOCAL_YMDHMS:
-				case FORMAT_LOCAL_HM:
-				case FORMAT_LOCAL_HMS:
-					$date .= ' ' . __d('tools', 'o\'clock');
-
-					break;
+		if ($options['oclock']) {
+			if (strpos($format, 'H:i') !== false) {
+				$date .= ' ' . __d('tools', 'o\'clock');
 			}
 		}
 
 		return $date;
+	}
+
+	/**
+	 * @param \DateTimeInterface $dt
+	 * @param string $format
+	 * @param string $language
+	 *
+	 * @return string
+	 */
+	public static function formatLocalized(DateTimeInterface $dt, string $format, string $language = 'en'): string {
+		$curTz = $dt->getTimezone();
+		if ($curTz->getName() === 'Z') {
+			// INTL don't know Z
+			$curTz = new DateTimeZone('UTC');
+		}
+
+		$formatPattern = strtr($format, [
+			'D' => '{#1}',
+			'l' => '{#2}',
+			'M' => '{#3}',
+			'F' => '{#4}',
+		]);
+		$strDate = $dt->format($formatPattern);
+		$regEx = '~\{#\d\}~';
+		while (preg_match($regEx, $strDate, $match)) {
+			$IntlFormat = strtr($match[0], [
+				'{#1}' => 'E',
+				'{#2}' => 'EEEE',
+				'{#3}' => 'MMM',
+				'{#4}' => 'MMMM',
+			]);
+			$fmt = datefmt_create(
+				$language,
+				IntlDateFormatter::FULL,
+				IntlDateFormatter::FULL,
+				$curTz,
+				IntlDateFormatter::GREGORIAN,
+				$IntlFormat,
+			);
+			$replace = $fmt ? datefmt_format($fmt, $dt) : '???';
+			$strDate = str_replace($match[0], $replace, $strDate);
+		}
+
+		return $strDate;
 	}
 
 	/**
