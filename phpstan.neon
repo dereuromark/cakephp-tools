@@ -30,6 +30,7 @@ parameters:
 			message: '#Instanceof between mixed and .+ComparisonExpression will always evaluate to false\.#'
 			path: '%rootDir%/../../../src/Model/Behavior/BitmaskedBehavior.php'
 		- '#Parameter \#4 \$flags of function preg_match expects TFlags of 0\|256\|512\|768, int given.#'
+		- '#Parameter \#2 \$\w+ of function datefmt_format expects .+, DateTimeInterface given.#'
 services:
 	-
 		class: Cake\PHPStan\AssociationTableMixinClassReflectionExtension

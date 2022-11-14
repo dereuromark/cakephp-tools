@@ -3,7 +3,6 @@
 namespace Tools\Test\TestCase\Utility;
 
 use Cake\Core\Configure;
-use Cake\Error\Debugger;
 use DateTime;
 use Shim\TestSuite\TestCase;
 use Tools\Utility\Time;
@@ -41,7 +40,7 @@ class TimeTest extends TestCase {
 	 */
 	public function testIncrementDate() {
 		$timezone = Configure::read('Config.timezone');
-		//$timezone = Date$this->Time->timezone();
+
 		Configure::write('Config.timezone', 'Europe/Berlin');
 		$phpTimezone = date_default_timezone_get();
 		date_default_timezone_set('Europe/Berlin');
@@ -209,30 +208,24 @@ class TimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testLocalDate() {
-		$this->skipIf(true, '//Doesnt work on GithubActions CI');
-
-		$res = setlocale(LC_TIME, ['de_DE.UTF-8', 'deu_deu']);
-		$this->assertTrue(!empty($res), 'Result: ' . Debugger::exportVar($res, true));
-
 		$values = [
-			['2009-12-01 00:00:00', FORMAT_LOCAL_YMD, '01.12.2009'],
-			['2009-12-01 00:00:00', FORMAT_LOCAL_M_FULL, 'Dezember'],
+			['2009-12-01 00:00:00', 'd.m.Y', '01.12.2009'],
+			['2009-12-01 00:00:00', 'M', 'Dez.'],
 		];
 		foreach ($values as $v) {
-			$ret = $this->Time->localDate($v[0], $v[1]);
-			//$this->debug($ret);
+			$ret = $this->Time->localDate($v[0], $v[1], ['language' => 'de']);
 			$this->assertEquals($v[2], $ret);
 		}
 
 		$date = '2009-12-01 00:00:00';
-		$format = FORMAT_LOCAL_YMD;
-		$result = $this->Time->localDate($date, $format, ['oclock' => true]);
+		$format = 'd.m.Y';
+		$result = $this->Time->localDate($date, $format, ['language' => 'de', 'oclock' => true]);
 		$expected = '01.12.2009';
 		$this->assertEquals($expected, $result);
 
 		$date = '2009-12-01 00:00:00';
-		$format = FORMAT_LOCAL_YMDHM;
-		$result = $this->Time->localDate($date, $format, ['oclock' => true]);
+		$format = 'd.m.Y, H:i';
+		$result = $this->Time->localDate($date, $format, ['language' => 'de', 'oclock' => true]);
 		$expected = '01.12.2009, 00:00 ' . __d('tools', 'o\'clock');
 		$this->assertEquals($expected, $result);
 	}
