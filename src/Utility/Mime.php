@@ -804,7 +804,7 @@ class Mime extends Response {
 			// @codingStandardsIgnoreStart
 			$headers = @get_headers($file);
 			// @codingStandardsIgnoreEnd
-			if (!preg_match("|\b200\b|", $headers[0])) {
+			if (!$headers || !preg_match("|\b200\b|", $headers[0])) {
 				return '';
 			}
 			foreach ($headers as $header) {
