@@ -21,9 +21,9 @@ class IconCollectionTest extends TestCase {
 			// For being able to parse the available icons
 			'config' => [
 				'feather' => [
-					'path' =>  TEST_FILES . 'font_icon/feather/icons.json',
+					'path' => TEST_FILES . 'font_icon/feather/icons.json',
 				],
-				'material' =>  [
+				'material' => [
 					'path' => TEST_FILES . 'font_icon/material/index.d.ts',
 				],
 			],
