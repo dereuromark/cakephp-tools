@@ -5,7 +5,7 @@ A CakePHP helper to handle most common font icons. Contains convenience wrappers
 ## Setup
 Include helper in your AppView class as
 ```php
-$this->addHelper('Tools.Icon', [
+$this->loadHelper('Tools.Icon', [
     ...
 ]);
 ```

@@ -13,7 +13,7 @@ then use all properties and getters on that object.
 ### Basic usage
 Include helper in your AppView class as
 ```php
-$this->addHelper('Tools.Tree', [
+$this->loadHelper('Tools.Tree', [
     ...
 ]);
 ```
@@ -70,12 +70,12 @@ So the current entity object is available as `$data` variable inside this snippe
 - $activePathElement : string
 - $isSibling : bool
 
-plus all config values. 
+plus all config values.
 
 ### Callback usage
 
 Here the same keys are available on the first argument (`$data` array). So the above `$data` would actually be
-`$data['data']` and usually be the entity. 
+`$data['data']` and usually be the entity.
 If you are passing entities, it helps to inline annotate in this case:
 ```php
     $closure = function(array $data) {
@@ -87,7 +87,7 @@ If you are passing entities, it helps to inline annotate in this case:
 ```
 
 ### Active path
-When using the TreeHelper for navigation structures, you would usually want to set the active path as class elements ("active") 
+When using the TreeHelper for navigation structures, you would usually want to set the active path as class elements ("active")
 on the `<li>` elements.
 You can do that by passing in the current path.
 ```php
@@ -96,15 +96,15 @@ $tree = $this->Table->find('threaded')->toArray();
 
 // The current active element in the tree (/view/6)
 $id = 6;
-        
+
 // We need to get the current path for this element
 $nodes = $this->Table->find('path', ['for' => $id]);
 $path = $nodes->extract('id')->toArray();
 
 // In your view
 $options = [
-    'autoPath' => [$current->lft, $current->rght], 
-    'treePath' => $path, 
+    'autoPath' => [$current->lft, $current->rght],
+    'treePath' => $path,
     'element' => 'tree', // src/Template/Element/tree.ctp
 ];
 echo $this->Tree->generate($tree, $options);
