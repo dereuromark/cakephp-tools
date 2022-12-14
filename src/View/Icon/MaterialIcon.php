@@ -44,7 +44,7 @@ class MaterialIcon implements IconInterface {
 		];
 
 		$options['name'] = $icon;
-		$options['class'] = 'material-icons-outlined';
+		$options['class'] = 'material-symbols-outlined';
 		if (!empty($attributes['class'])) {
 			$options['class'] .= ' ' . $attributes['class'];
 		}

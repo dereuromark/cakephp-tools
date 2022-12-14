@@ -54,7 +54,7 @@ class IconHelperTest extends TestCase {
 	 */
 	public function testIconWithCustomAttributes() {
 		$result = $this->Icon->render('m:save', [], ['data-x' => 'y']);
-		$expected = '<span class="material-icons-outlined" data-x="y" title="Save">save</span>';
+		$expected = '<span class="material-symbols-outlined" data-x="y" title="Save">save</span>';
 		$this->assertSame($expected, $result);
 	}
 
@@ -63,7 +63,7 @@ class IconHelperTest extends TestCase {
 	 */
 	public function testIconWithCustomClassAttributes() {
 		$result = $this->Icon->render('m:save', [], ['class' => 'my-extra']);
-		$expected = '<span class="material-icons-outlined my-extra" title="Save">save</span>';
+		$expected = '<span class="material-symbols-outlined my-extra" title="Save">save</span>';
 		$this->assertSame($expected, $result);
 	}
 
@@ -84,7 +84,7 @@ class IconHelperTest extends TestCase {
 		$this->Icon = new IconHelper(new View(null), $config);
 
 		$result = $this->Icon->render('edit');
-		$expected = '<span class="material-icons-outlined" title="Save">save</span>';
+		$expected = '<span class="material-symbols-outlined" title="Save">save</span>';
 		$this->assertSame($expected, $result);
 	}
 
