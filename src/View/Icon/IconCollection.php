@@ -34,7 +34,9 @@ class IconCollection {
 		unset($config['sets']);
 
 		foreach ($sets as $set => $className) {
-			$this->iconSets[$set] = new $className($config);
+			$iconConfig = $config['config'][$set] ?? [];
+			$iconConfig += $config;
+			$this->iconSets[$set] = new $className($iconConfig);
 		}
 
 		$key = array_key_first($sets);

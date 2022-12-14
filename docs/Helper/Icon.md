@@ -30,6 +30,23 @@ E.g.
 ],
 ```
 
+For some Icon classes, there is additional configuration available:
+- `namespace`: Some fonts offer different traits (light, bold, round, ...)
+
+E.g.
+```php
+'Icon' => [
+    'config' => [
+        'material' => [
+            'namespace' => 'material-symbols-round',
+        ],
+        ...
+    ],
+],
+```
+Make sure to use the same keys here as for the `sets` definition, otherwise the collector won't find your
+file configuration here.
+
 ## Usage
 
 ### render()
@@ -68,20 +85,30 @@ This way you can also rename icons (and map them in any custom way).
 ### names()
 You can get a nested list of all configured and available icons.
 
-For this make sure to set up the paths to the icon files as per each collector.
-E.g.
+For this make sure to set up the path config to the icon meta files as per each collector.
+E.g.:
 ```php
     'Icon' => [
         // For being able to parse the available icons
-        'paths' => [
-            'fa' => '/path/to/font-awesome/less/variables.less',
-            'bs' => '/path/to/bootstrap-icons/font/bootstrap-icons.json',
-            'feather' => '/path/to/feather-icons/dist/icons.json',
-            'material' => '/path/to/material-symbols/index.d.ts',
+        'config' => [
+            'fa' => [
+                'path' => '/path/to/font-awesome/less/variables.less',
+            ],
+            'bs' => [
+                'path' => '/path/to/bootstrap-icons/font/bootstrap-icons.json',
+            ],
+            'feather' => [
+                'path' => '/path/to/feather-icons/dist/icons.json',
+            ],
+            'material' => [
+                'path' => '/path/to/material-symbols/index.d.ts',
+            ],
             ...
         ],
     ],
 ```
+Make sure to use the same keys here as for the `sets` definition, otherwise the collector won't find your
+file configuration here.
 
 You can then use this to iterate over all of them for display:
 ```php
@@ -92,6 +119,7 @@ foreach ($icons as $iconSet => $list) {
     }
 }
 ```
+
 
 ## Tips
 
