@@ -96,6 +96,10 @@ foreach ($icons as $iconSet => $list) {
 
 ## Tips
 
+Check out [animations](https://fontawesome.com/docs/web/style/animate) and
+other cool things you can add for FontAwesome icons, which are by far the
+most powerful and most used ones.
+
 Use [IdeHelperExtra plugin](https://github.com/dereuromark/cakephp-ide-helper-extra/) to get full autocomplete for the icon names as input for `render($name)`.
 This requires an IDE that can understand the meta data (e.g. PHPStorm).
 
