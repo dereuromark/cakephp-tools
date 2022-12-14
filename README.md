@@ -31,6 +31,7 @@ This master branch only works for **CakePHP 4.2+**. See [version map](https://gi
 - Tree helper for working with (complex) trees and their output.
 - Progress and Meter helper for progress bar and meter bar elements (HTML5 and textual).
 - Text, Time, Number libs and helpers etc provide extended functionality if desired.
+- Icon helper for displaying all kind of font icons. **NEW**
 - QrCode, Gravatar and other useful small helpers
 - Timeline, Typography, etc provide additional helper functionality.
 - Email as a wrapper for core's Email adding some more usefulness and making debugging/testing easier.
