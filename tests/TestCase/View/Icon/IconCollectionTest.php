@@ -15,15 +15,12 @@ class IconCollectionTest extends TestCase {
 	public function testCollect(): void {
 		$config = [
 			'sets' => [
-				'feather' => FeatherIcon::class,
-				'material' => MaterialIcon::class,
-			],
-			// For being able to parse the available icons
-			'config' => [
 				'feather' => [
+					'class' => FeatherIcon::class,
 					'path' => TEST_FILES . 'font_icon/feather/icons.json',
 				],
 				'material' => [
+					'class' => MaterialIcon::class,
 					'path' => TEST_FILES . 'font_icon/material/index.d.ts',
 				],
 			],

@@ -2,15 +2,9 @@
 
 namespace Tools\View\Icon;
 
-use Cake\View\StringTemplate;
 use Tools\View\Icon\Collector\FeatherIconCollector;
 
-class FeatherIcon implements IconInterface {
-
-	/**
-	 * @var \Cake\View\StringTemplate
-	 */
-	protected $template;
+class FeatherIcon extends AbstractIcon {
 
 	/**
 	 * @param array<string, mixed> $config
@@ -20,15 +14,15 @@ class FeatherIcon implements IconInterface {
 			'template' => '<span data-feather="{{name}}"{{attributes}}></span>',
 		];
 
-		$this->template = new StringTemplate(['icon' => $config['template']]);
+		parent::__construct($config);
 	}
 
 	/**
-	 * @param string $path
-	 *
 	 * @return array<string>
 	 */
-	public function names(string $path): array {
+	public function names(): array {
+		$path = $this->path();
+
 		return FeatherIconCollector::collect($path);
 	}
 

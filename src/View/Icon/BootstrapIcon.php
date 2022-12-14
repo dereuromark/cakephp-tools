@@ -2,15 +2,9 @@
 
 namespace Tools\View\Icon;
 
-use Cake\View\StringTemplate;
 use Tools\View\Icon\Collector\BootstrapIconCollector;
 
-class BootstrapIcon implements IconInterface {
-
-	/**
-	 * @var \Cake\View\StringTemplate
-	 */
-	protected $template;
+class BootstrapIcon extends AbstractIcon {
 
 	/**
 	 * @param array<string, mixed> $config
@@ -20,15 +14,15 @@ class BootstrapIcon implements IconInterface {
 			'template' => '<span class="{{class}}"{{attributes}}></span>',
 		];
 
-		$this->template = new StringTemplate(['icon' => $config['template']]);
+		parent::__construct($config);
 	}
 
 	/**
-	 * @param string $path
-	 *
 	 * @return array<string>
 	 */
-	public function names(string $path): array {
+	public function names(): array {
+		$path = $this->path();
+
 		return BootstrapIconCollector::collect($path);
 	}
 

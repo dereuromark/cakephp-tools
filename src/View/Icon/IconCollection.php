@@ -66,15 +66,7 @@ class IconCollection {
 	public function names(): array {
 		$names = [];
 		foreach ($this->iconSets as $name => $set) {
-			$path = $this->_config['config'][$name]['path'] ?? null;
-			if ($path === null) {
-				continue;
-			}
-			if (!file_exists($path)) {
-				throw new RuntimeException('Cannot find file path `' . $path . '` for icon set `' . $name . '`');
-			}
-
-			$iconNames = $set->names($path);
+			$iconNames = $set->names();
 			$names[$name] = $iconNames;
 		}
 

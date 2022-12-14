@@ -2,15 +2,9 @@
 
 namespace Tools\View\Icon;
 
-use Cake\View\StringTemplate;
 use Tools\View\Icon\Collector\FontAwesome4IconCollector;
 
-class FontAwesome4Icon implements IconInterface {
-
-	/**
-	 * @var \Cake\View\StringTemplate
-	 */
-	protected $template;
+class FontAwesome4Icon extends AbstractIcon {
 
 	/**
 	 * @param array<string, mixed> $config
@@ -20,15 +14,15 @@ class FontAwesome4Icon implements IconInterface {
 			'template' => '<span class="{{class}}"{{attributes}}></span>',
 		];
 
-		$this->template = new StringTemplate(['icon' => $config['template']]);
+		parent::__construct($config);
 	}
 
 	/**
-	 * @param string $path
-	 *
 	 * @return array<string>
 	 */
-	public function names(string $path): array {
+	public function names(): array {
+		$path = $this->path();
+
 		return FontAwesome4IconCollector::collect($path);
 	}
 

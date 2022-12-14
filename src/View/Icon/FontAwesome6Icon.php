@@ -2,20 +2,9 @@
 
 namespace Tools\View\Icon;
 
-use Cake\View\StringTemplate;
 use Tools\View\Icon\Collector\FontAwesome6IconCollector;
 
-class FontAwesome6Icon implements IconInterface {
-
-	/**
-	 * @var \Cake\View\StringTemplate
-	 */
-	protected $template;
-
-	/**
-	 * @var string
-	 */
-	protected $namespace;
+class FontAwesome6Icon extends AbstractIcon {
 
 	/**
 	 * @param array<string, mixed> $config
@@ -23,18 +12,18 @@ class FontAwesome6Icon implements IconInterface {
 	public function __construct(array $config = []) {
 		$config += [
 			'template' => '<span class="{{class}}"{{attributes}}></span>',
+			'namespace' => 'solid',
 		];
 
-		$this->template = new StringTemplate(['icon' => $config['template']]);
-		$this->namespace = $config['namespace'] ?? 'solid';
+		parent::__construct($config);
 	}
 
 	/**
-	 * @param string $path
-	 *
 	 * @return array<string>
 	 */
-	public function names(string $path): array {
+	public function names(): array {
+		$path = $this->path();
+
 		return FontAwesome6IconCollector::collect($path);
 	}
 
@@ -49,7 +38,7 @@ class FontAwesome6Icon implements IconInterface {
 		$formatOptions = $attributes + [
 		];
 
-		$namespace = 'fa-' . $this->namespace;
+		$namespace = 'fa-' . $this->config['namespace'];
 
 		$class = [
 			$namespace,
