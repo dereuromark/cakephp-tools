@@ -116,7 +116,7 @@ class TreeHelper extends Helper {
 	 *        and optionally set the splitDepth to get parallel lists
 	 *
 	 * @param \Cake\Datasource\QueryInterface|\Cake\ORM\ResultSet|array $data Data to loop over
-	 * @param array $config Config
+	 * @param array<string, mixed> $config Config
 	 * @throws \Exception
 	 * @return string HTML representation of the passed data
 	 */
@@ -126,7 +126,7 @@ class TreeHelper extends Helper {
 
 	/**
 	 * @param \Cake\Datasource\QueryInterface|\Cake\ORM\ResultSet|array $data
-	 * @param array $config
+	 * @param array<string, mixed> $config
 	 * @param \Cake\Datasource\QueryInterface|\Cake\ORM\ResultSet|array|null $parent
 	 *
 	 * @throws \Exception

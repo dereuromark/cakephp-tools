@@ -1,0 +1,10 @@
+{
+	"dependencies": {
+		"font-awesome": "^4.7.0",
+		"font-awesome-v5-icons": "^1.2.0",
+		"fontawesome-free": "^1.0.4",
+		"bootstrap-icons": "^1.10.0",
+		"material-symbols": "^0.4.2",
+		"feather-icons": "^4.29.0"
+	}
+}

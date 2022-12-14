@@ -7,3 +7,5 @@ composer.phar
 .phpunit.result.cache
 phpunit.xml
 /config/Migrations/schema-dump-default.lock
+/tests/test_files/node_modules/
+/tests/test_files/package-lock.json

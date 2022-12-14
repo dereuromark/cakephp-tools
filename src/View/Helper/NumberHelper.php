@@ -20,7 +20,7 @@ class NumberHelper extends CakeNumberHelper {
 	 *            The class needs to be placed in the `Utility` directory.
 	 *
 	 * @param \Cake\View\View $View The View this helper is being attached to.
-	 * @param array $config Configuration settings for the helper
+	 * @param array<string, mixed> $config Configuration settings for the helper
 	 */
 	public function __construct(View $View, array $config = []) {
 		$config = Hash::merge(['engine' => 'Tools.Number'], $config);

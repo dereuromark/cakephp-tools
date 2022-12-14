@@ -15,17 +15,19 @@ You can store default configs also in Configure key `'Format'`.
 ## Usage
 
 ### icon()
+**Deprecated**: Use IconHelper::render() instead.
+
 Display font icons using the default namespace or an already prefixed one.
 ```php
 echo $this->Html->link(
-    $this->Format->icon('view'), 
-    $url, 
+    $this->Format->icon('view'),
+    $url,
     $attributes
 );
 ```
 
 Font Awesome v4 works out of the box.
-For v5 you want to use a custom namespace and prefix (either in app.php or in AppView.php):
+For v5/v6 you want to use a custom namespace and prefix (either in app.php or in AppView.php):
 ```php
 $this->loadHelper('Tools.Format', [
     'iconNamespace' => 'fas',
@@ -43,7 +45,7 @@ You can alias them via Configure for more usability:
             'translate' => 'fa fa-language',
         ],
     ],
-    
+
 // in the template
 echo $this->Format->icon('translate', ['title' => 'Translate this']);
 ```
