@@ -55,7 +55,7 @@ class IconCollection {
 	public function names(): array {
 		$names = [];
 		foreach ($this->iconSets as $name => $set) {
-			$path = $this->_config['paths'][$name] ?? null;
+			$path = $this->_config['config'][$name]['path'] ?? null;
 			if ($path === null) {
 				continue;
 			}
