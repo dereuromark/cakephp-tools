@@ -13,6 +13,11 @@ class MaterialIcon implements IconInterface {
 	protected $template;
 
 	/**
+	 * @var string
+	 */
+	protected $namespace;
+
+	/**
 	 * @param array<string, mixed> $config
 	 */
 	public function __construct(array $config = []) {
@@ -21,6 +26,7 @@ class MaterialIcon implements IconInterface {
 		];
 
 		$this->template = new StringTemplate(['icon' => $config['template']]);
+		$this->namespace = $config['namespace'] ?? 'material-symbols-outlined';
 	}
 
 	/**
@@ -44,7 +50,7 @@ class MaterialIcon implements IconInterface {
 		];
 
 		$options['name'] = $icon;
-		$options['class'] = 'material-symbols-outlined';
+		$options['class'] = $this->namespace;
 		if (!empty($attributes['class'])) {
 			$options['class'] .= ' ' . $attributes['class'];
 		}
