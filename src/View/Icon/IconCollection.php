@@ -29,14 +29,25 @@ class IconCollection {
 	 * @param array<string, mixed> $config
 	 */
 	public function __construct(array $config = []) {
-		/** @var array<class-string<\Tools\View\Icon\IconInterface>> $sets */
+		/** @var array<class-string<\Tools\View\Icon\IconInterface>|array<string, mixed>> $sets */
 		$sets = $config['sets'] ?? [];
 		unset($config['sets']);
 
-		foreach ($sets as $set => $className) {
-			$iconConfig = $config['config'][$set] ?? [];
-			$iconConfig += $config;
-			$this->iconSets[$set] = new $className($iconConfig);
+		foreach ($sets as $set => $setConfig) {
+			if (is_string($setConfig)) {
+				$setConfig = [
+					'class' => $setConfig,
+				];
+			} else {
+				if (empty($setConfig['class'])) {
+					throw new RuntimeException('You must define a `class` for each icon set.');
+				}
+			}
+
+			/** @var class-string<\Tools\View\Icon\IconInterface> $className */
+			$className = $setConfig['class'];
+			$setConfig += $config;
+			$this->iconSets[$set] = new $className($setConfig);
 		}
 
 		$key = array_key_first($sets);

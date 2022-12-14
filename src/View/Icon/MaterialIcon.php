@@ -26,7 +26,7 @@ class MaterialIcon implements IconInterface {
 		];
 
 		$this->template = new StringTemplate(['icon' => $config['template']]);
-		$this->namespace = $config['namespace'] ?? 'material-symbols-outlined';
+		$this->namespace = $config['namespace'] ?? 'material-icons';
 	}
 
 	/**
