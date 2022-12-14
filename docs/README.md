@@ -67,7 +67,11 @@ Command:
 * [Inflect](Command/Inflect.md) to test inflection of words.
 
 ## IDE compatibility improvements
-For `FormatHelper::icon()` you an find a IdeHelper task in [IdeHelperExtra plugin](https://github.com/dereuromark/cakephp-ide-helper-extra/).
+For some methods you can find a IdeHelper task in [IdeHelperExtra plugin](https://github.com/dereuromark/cakephp-ide-helper-extra/):
+- `FormatHelper::icon()` (deprecated)
+- `IconHelper::render()`
+
+Those will give you automcomplete for the input.
 
 ## Basic enhancements of the core
 

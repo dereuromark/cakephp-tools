@@ -52,7 +52,7 @@ class ProgressHelper extends Helper {
 
 	/**
 	 * @param \Cake\View\View $View
-	 * @param array $config
+	 * @param array<string, mixed> $config
 	 */
 	public function __construct(View $View, array $config = []) {
 		$defaults = (array)Configure::read('Progress') + $this->_defaults;
