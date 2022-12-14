@@ -19,9 +19,13 @@ class IconCollectionTest extends TestCase {
 				'material' => MaterialIcon::class,
 			],
 			// For being able to parse the available icons
-			'paths' => [
-				'feather' => TEST_FILES . 'font_icon/feather/icons.json',
-				'material' => TEST_FILES . 'font_icon/material/index.d.ts',
+			'config' => [
+				'feather' => [
+					'path' =>  TEST_FILES . 'font_icon/feather/icons.json',
+				],
+				'material' =>  [
+					'path' => TEST_FILES . 'font_icon/material/index.d.ts',
+				],
 			],
 		];
 		$result = (new IconCollection($config))->names();
