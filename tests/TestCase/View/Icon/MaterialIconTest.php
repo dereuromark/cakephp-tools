@@ -26,7 +26,7 @@ class MaterialIconTest extends TestCase {
 	 */
 	public function testRender(): void {
 		$result = $this->icon->render('view');
-		$this->assertSame('<span class="material-symbols-outlined">view</span>', $result);
+		$this->assertSame('<span class="material-icons">view</span>', $result);
 	}
 
 }
