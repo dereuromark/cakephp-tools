@@ -34,11 +34,8 @@ class IconHelper extends Helper {
 	protected $_defaults = [
 		'sets' => [],
 		'paths' => [],
-		/*
-		'iconNamespaces' => [], // Used to disable auto prefixing if detected
-		'iconNamespace' => 'fa', // Used to be icon,
-		*/
-		'autoPrefix' => true, // For custom icons "prev" becomes "fa-prev" when iconNamespace is "fa"
+		'autoPrefix' => true, // For primary set no prefix is required
+		'separator' => ':',
 	];
 
 	/**

@@ -85,9 +85,10 @@ class IconCollection {
 			$icon = $this->_config['map'][$icon];
 		}
 
-		$separatorPos = strpos($icon, ':');
+		$separator = $this->_config['separator'];
+		$separatorPos = strpos($icon, $separator);
 		if ($separatorPos !== false) {
-			[$set, $icon] = explode(':', $icon, 2);
+			[$set, $icon] = explode($separator, $icon, 2);
 		} else {
 			$set = $this->defaultSet;
 		}
