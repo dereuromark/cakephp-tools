@@ -28,6 +28,7 @@ define('TESTS', ROOT . DS . 'tests' . DS);
 
 define('WWW_ROOT', ROOT . DS . 'webroot' . DS);
 define('CONFIG', __DIR__ . DS . 'config' . DS);
+define('TEST_FILES', ROOT . DS . 'tests' . DS . 'test_files' . DS);
 
 ini_set('intl.default_locale', 'de_DE');
 

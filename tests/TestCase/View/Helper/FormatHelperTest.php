@@ -8,9 +8,6 @@ use Shim\TestSuite\TestCase;
 use Tools\Utility\Text;
 use Tools\View\Helper\FormatHelper;
 
-/**
- * Datetime Test Case
- */
 class FormatHelperTest extends TestCase {
 
 	/**

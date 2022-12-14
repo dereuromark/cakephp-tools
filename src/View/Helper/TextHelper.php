@@ -37,7 +37,7 @@ class TextHelper extends CakeTextHelper {
 	 *            The class needs to be placed in the `Utility` directory.
 	 *
 	 * @param \Cake\View\View $View the view object the helper is attached to.
-	 * @param array $config Settings array Settings array
+	 * @param array<string, mixed> $config Settings array Settings array
 	 */
 	public function __construct(View $View, array $config = []) {
 		$config = Hash::merge(['engine' => 'Tools.Text'], $config);

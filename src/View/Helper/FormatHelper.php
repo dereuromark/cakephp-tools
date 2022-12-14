@@ -71,7 +71,7 @@ class FormatHelper extends Helper {
 
 	/**
 	 * @param \Cake\View\View $View
-	 * @param array $config
+	 * @param array<string, mixed> $config
 	 */
 	public function __construct(View $View, array $config = []) {
 		$defaults = (array)Configure::read('Format') + $this->_defaults;
@@ -102,11 +102,11 @@ class FormatHelper extends Helper {
 	 * Display neighbor quicklinks
 	 *
 	 * @param array $neighbors (containing prev and next)
-	 * @param string $field : just field or Model.field syntax
+	 * @param string $field Field as `Field` or `Model.field` syntax
 	 * @param array<string, mixed> $options :
 	 * - name: title name: next{Record} (if none is provided, "record" is used - not translated!)
 	 * - slug: true/false (defaults to false)
-	 * - titleField: field or Model.field
+	 * - titleField: field or `Model.field`
 	 * @return string
 	 */
 	public function neighbors(array $neighbors, $field, array $options = []) {
@@ -202,15 +202,17 @@ class FormatHelper extends Helper {
 
 	/**
 	 * Display a font icon (fast and resource-efficient).
-	 * Uses http://fontawesome.io/icons/ by default
+	 * Uses https://fontawesome.io/icons/ by default
 	 *
 	 * Options:
 	 * - namespace
 	 * - size (int|string: 1...5 or large)
 	 * - rotate (integer: 90, 270, ...)
-	 * - spin (booelan: true/false)
+	 * - spin (boolean: true/false)
 	 * - extra (array: muted, light, dark, border)
 	 * - pull (string: left, right)
+	 *
+	 * @deprecated Use IconHelper::render() instead.
 	 *
 	 * @param array|string $icon
 	 * @param array<string, mixed> $options
@@ -250,6 +252,8 @@ class FormatHelper extends Helper {
 
 	/**
 	 * Icons using the default namespace or an already prefixed one.
+	 *
+	 * @deprecated Use IconHelper::render() instead.
 	 *
 	 * @param string $icon (constant or filename)
 	 * @param array<string, mixed> $options :
@@ -608,6 +612,29 @@ class FormatHelper extends Helper {
 	}
 
 	/**
+	 * Prepared string for output inside `<pre>...</pre>`.
+	 *
+	 * @param string $text
+	 * @param array $options
+	 *
+	 * @return string
+	 */
+	public function pre(string $text, array $options = []): string {
+		$options += [
+			'escape' => true,
+			'space' => 4,
+		];
+
+		if ($options['escape']) {
+			$text = h($text);
+		}
+
+		$text = str_replace("\t", str_repeat(' ', $options['space']), $text);
+
+		return $text;
+	}
+
+	/**
 	 * Useful for displaying tabbed (code) content when the default of 8 spaces
 	 * inside <pre> is too much. This converts it to spaces for better output.
 	 *
@@ -630,7 +657,6 @@ class FormatHelper extends Helper {
 
 		// Store word lengths
 		foreach ($splitText as $line) {
-			/** @var array<int, string> $words */
 			$words = preg_split("/(\t+)/", $line, -1, PREG_SPLIT_DELIM_CAPTURE);
 			foreach (array_keys($words) as $i) {
 				$strlen = strlen($words[$i]);
