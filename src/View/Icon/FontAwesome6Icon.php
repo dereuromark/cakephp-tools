@@ -3,7 +3,7 @@
 namespace Tools\View\Icon;
 
 use Cake\View\StringTemplate;
-use Tools\View\Icon\Collector\FontAwesome4IconCollector;
+use Tools\View\Icon\Collector\FontAwesome6IconCollector;
 
 class FontAwesome6Icon implements IconInterface {
 
@@ -35,7 +35,7 @@ class FontAwesome6Icon implements IconInterface {
 	 * @return array<string>
 	 */
 	public function names(string $path): array {
-		return FontAwesome4IconCollector::collect($path);
+		return FontAwesome6IconCollector::collect($path);
 	}
 
 	/**
