@@ -54,8 +54,7 @@ You can alias them via Configure for more usability:
 // In app.php
     'Icon' => [
         'map' => [
-            'login' => 'bs:login',
-            'logout' => 'bs:logout',
+            'view' => 'bs:eye',
             'translate' => 'bs:translate',
             ...
         ],
