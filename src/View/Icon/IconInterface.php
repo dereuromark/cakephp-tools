@@ -5,11 +5,9 @@ namespace Tools\View\Icon;
 interface IconInterface {
 
 	/**
-	 * @param string $path
-	 *
 	 * @return array<string>
 	 */
-	public function names(string $path): array;
+	public function names(): array;
 
 	/**
 	 * Icon formatting using the specific engine.

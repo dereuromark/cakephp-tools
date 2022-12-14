@@ -33,19 +33,18 @@ E.g.
 For some Icon classes, there is additional configuration available:
 - `namespace`: Some fonts offer different traits (light, bold, round, ...)
 
-E.g.
+In this case make sure to use an array instead of just the class string:
 ```php
 'Icon' => [
-    'config' => [
+    'sets' => [
         'material' => [
+            'class' => \Tools\View\Icon\MaterialIcon::class,
             'namespace' => 'material-symbols-round',
         ],
         ...
     ],
 ],
 ```
-Make sure to use the same keys here as for the `sets` definition, otherwise the collector won't find your
-file configuration here.
 
 ## Usage
 
@@ -69,13 +68,13 @@ echo $this->Html->link(
 You can alias them via Configure for more usability:
 ```php
 // In app.php
-    'Icon' => [
-        'map' => [
-            'view' => 'bs:eye',
-            'translate' => 'bs:translate',
-            ...
-        ],
+'Icon' => [
+    'map' => [
+        'view' => 'bs:eye',
+        'translate' => 'bs:translate',
+        ...
     ],
+],
 
 // in the template
 echo $this->Icon->render('translate', [], ['title' => 'Translate this']);
@@ -88,27 +87,29 @@ You can get a nested list of all configured and available icons.
 For this make sure to set up the path config to the icon meta files as per each collector.
 E.g.:
 ```php
-    'Icon' => [
-        // For being able to parse the available icons
-        'config' => [
-            'fa' => [
-                'path' => '/path/to/font-awesome/less/variables.less',
-            ],
-            'bs' => [
-                'path' => '/path/to/bootstrap-icons/font/bootstrap-icons.json',
-            ],
-            'feather' => [
-                'path' => '/path/to/feather-icons/dist/icons.json',
-            ],
-            'material' => [
-                'path' => '/path/to/material-symbols/index.d.ts',
-            ],
+'Icon' => [
+    // For being able to parse the available icons
+    'sets' => [
+        'fa' => [
             ...
+            'path' => '/path/to/font-awesome/less/variables.less',
         ],
+        'bs' => [
+            ...
+            'path' => '/path/to/bootstrap-icons/font/bootstrap-icons.json',
+        ],
+        'feather' => [
+            ...
+            'path' => '/path/to/feather-icons/dist/icons.json',
+        ],
+        'material' => [
+            ...
+            'path' => '/path/to/material-symbols/index.d.ts',
+        ],
+        ...
     ],
+],
 ```
-Make sure to use the same keys here as for the `sets` definition, otherwise the collector won't find your
-file configuration here.
 
 You can then use this to iterate over all of them for display:
 ```php

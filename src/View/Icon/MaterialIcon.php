@@ -2,20 +2,9 @@
 
 namespace Tools\View\Icon;
 
-use Cake\View\StringTemplate;
 use Tools\View\Icon\Collector\MaterialIconCollector;
 
-class MaterialIcon implements IconInterface {
-
-	/**
-	 * @var \Cake\View\StringTemplate
-	 */
-	protected $template;
-
-	/**
-	 * @var string
-	 */
-	protected $namespace;
+class MaterialIcon extends AbstractIcon {
 
 	/**
 	 * @param array<string, mixed> $config
@@ -23,18 +12,18 @@ class MaterialIcon implements IconInterface {
 	public function __construct(array $config = []) {
 		$config += [
 			'template' => '<span class="{{class}}"{{attributes}}>{{name}}</span>',
+			'namespace' => 'material-icons',
 		];
 
-		$this->template = new StringTemplate(['icon' => $config['template']]);
-		$this->namespace = $config['namespace'] ?? 'material-icons';
+		parent::__construct($config);
 	}
 
 	/**
-	 * @param string $path
-	 *
 	 * @return array<string>
 	 */
-	public function names(string $path): array {
+	public function names(): array {
+		$path = $this->path();
+
 		return MaterialIconCollector::collect($path);
 	}
 
@@ -50,7 +39,7 @@ class MaterialIcon implements IconInterface {
 		];
 
 		$options['name'] = $icon;
-		$options['class'] = $this->namespace;
+		$options['class'] = $this->config['namespace'];
 		if (!empty($attributes['class'])) {
 			$options['class'] .= ' ' . $attributes['class'];
 		}
