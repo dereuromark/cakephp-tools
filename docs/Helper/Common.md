@@ -5,7 +5,7 @@ A CakePHP helper to handle some common topics.
 ### Setup
 Include helper in your AppView class as
 ```php
-$this->addHelper('Tools.Common', [
+$this->loadHelper('Tools.Common', [
     ...
 ]);
 ```

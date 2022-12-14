@@ -16,7 +16,7 @@ Note: The `<progress>` tag is not suitable for representing a gauge (e.g. disk s
 ## Setup
 Include helper in your AppView class as
 ```php
-$this->addHelper('Tools.Progress', [
+$this->loadHelper('Tools.Progress', [
     ...
 ]);
 ```
@@ -36,7 +36,7 @@ Display a text-based progress bar with the progress in percentage as title.
 ```php
 echo $this->Progress->progressBar(
     $percentage // Value 0...1
-    $length, // Char length >= 3 
+    $length, // Char length >= 3
     $attributes
 );
 ```
@@ -46,7 +46,7 @@ Display a text-based progress bar as raw bar.
 ```php
 echo $this->Progress->draw(
     $percentage // Value 0...1
-    $length // Char length >= 3 
+    $length // Char length >= 3
 );
 ```
 This can be used if you want to customize the usage.
@@ -55,7 +55,7 @@ This can be used if you want to customize the usage.
 
 This method is responsible for the main percentage calculation.
 It can be also used standalone.
-```php 
+```php
 $percentage = $this->Progress->calculatePercentage($total, $is);
 echo $this->Number->toPercentage($percentage, 0, ['multiply' => true]);
 ```
@@ -64,7 +64,7 @@ echo $this->Number->toPercentage($percentage, 0, ['multiply' => true]);
 
 This method is responsible for the above min/max handling.
 It can be also used standalone.
-```php 
+```php
 $percentage = $this->Progress->roundPercentage($value);
 echo $this->Number->toPercentage($percentage, 0, ['multiply' => true]);
 ```

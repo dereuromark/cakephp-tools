@@ -14,7 +14,7 @@ Note: The `<meter>` tag should not be used to indicate progress (as in a progres
 ## Setup
 Include helper in your AppView class as
 ```php
-$this->addHelper('Tools.Meter', [
+$this->loadHelper('Tools.Meter', [
     ...
 ]);
 ```
