@@ -13,10 +13,10 @@ $this->addHelper('Tools.Icon', [
 You can store default configs also in Configure key `'Icon'`.
 
 Make sure to set up at least one icon set:
-- Bootstrap
-- FontAwesome v4/v5/v6
-- Material
-- Feather
+- **Bootstrap**: npm package `bootstrap-icons`
+- **FontAwesome** v4/v5/v6: npm package `fontawesome-free` for v6
+- **Material**: npm package `material-symbols`
+- **Feather**: npm package `feather-icons`
 
 or your custom Icon class.
 
