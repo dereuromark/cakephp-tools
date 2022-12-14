@@ -133,3 +133,30 @@ This requires an IDE that can understand the meta data (e.g. PHPStorm).
 
 ## Demo
 https://sandbox.dereuromark.de/sandbox/tools-examples/icons
+
+## Writing your own class
+You mainly need to set up your own template string and how it should render:
+```php
+class YourIcon extends AbstractIcon {
+
+	public function __construct(array $config = []) {
+		$config += [
+			'template' => '<span class="{{class}}...></span>',
+		];
+
+		parent::__construct($config);
+	}
+
+	public function render(string $icon, array $options = [], array $attributes = []): string {
+	    ...
+	}
+
+	public function names(): array {
+		$path = $this->path();
+
+		return YourCollector::collect($path);
+	}
+
+}
+```
+Now you can hook it into your config and enjoy!
