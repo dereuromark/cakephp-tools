@@ -86,7 +86,9 @@ class IconCollection {
 	 * @return string
 	 */
 	public function render(string $icon, array $options = [], array $attributes = []): string {
+		$iconName = null;
 		if (isset($this->_config['map'][$icon])) {
+			$iconName = $icon;
 			$icon = $this->_config['map'][$icon];
 		}
 
@@ -106,11 +108,11 @@ class IconCollection {
 		if (!isset($options['title']) || $options['title'] !== false) {
 			$titleField = !isset($options['title']) || $options['title'] === true ? 'title' : $options['title'];
 			if (!isset($attributes[$titleField])) {
-				$attributes[$titleField] = ucwords(Inflector::humanize(Inflector::underscore($icon)));
+				$attributes[$titleField] = ucwords(Inflector::humanize(Inflector::underscore($iconName ?? $icon)));
 			}
-		}
-		if (!isset($options['translate']) || $options['translate'] !== false) {
-			$attributes['title'] = __($attributes['title']);
+			if (!isset($options['translate']) || $options['translate'] !== false && isset($attributes[$titleField])) {
+				$attributes[$titleField] = __($attributes[$titleField]);
+			}
 		}
 
 		return $this->iconSets[$set]->render($icon, $options, $attributes);
