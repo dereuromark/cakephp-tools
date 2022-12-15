@@ -46,6 +46,8 @@ In this case make sure to use an array instead of just the class string:
 ],
 ```
 
+Don't forget to also set up the necessary stylesheets (CSS files) and alike.
+
 ## Usage
 
 ### render()
