@@ -12,7 +12,48 @@ class IconCollectionTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testCollect(): void {
+	public function testRender(): void {
+		$config = [
+			'sets' => [
+				'feather' => [
+					'class' => FeatherIcon::class,
+				],
+			],
+			'separator' => ':',
+		];
+		$result = (new IconCollection($config))->render('foo');
+
+		$this->assertSame('<span data-feather="foo" title="Foo"></span>', $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testRenderNamespaced(): void {
+		$config = [
+			'sets' => [
+				'feather' => [
+					'class' => FeatherIcon::class,
+				],
+				'material' => [
+					'class' => MaterialIcon::class,
+					'namespace' => 'material-symbols',
+				],
+			],
+			'separator' => ':',
+			'attributes' => [
+				'data-default' => 'some-default',
+			],
+		];
+		$result = (new IconCollection($config))->render('material:foo');
+
+		$this->assertSame('<span class="material-symbols" title="Foo" data-default="some-default">foo</span>', $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testNames(): void {
 		$config = [
 			'sets' => [
 				'feather' => [
