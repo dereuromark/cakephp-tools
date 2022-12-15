@@ -30,13 +30,12 @@ class FontAwesome5IconCollector {
 				$icons = $matches[1];
 
 				break;
-
 			case 'yml':
 				$array = yaml_parse($content);
 				/** @var array<string> $icons */
 				$icons = array_keys($array);
-				break;
 
+				break;
 			case 'json':
 				$array = json_decode($content, true);
 				if (!$array) {
@@ -49,7 +48,6 @@ class FontAwesome5IconCollector {
 				}
 
 				break;
-
 			default:
 				throw new RuntimeException('Unknown file extension: ' . $ext);
 		}
