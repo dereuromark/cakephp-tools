@@ -4,6 +4,9 @@ namespace Tools\View\Icon\Collector;
 
 use RuntimeException;
 
+/**
+ * Using e.g. "feather-icons" npm package.
+ */
 class FeatherIconCollector {
 
 	/**

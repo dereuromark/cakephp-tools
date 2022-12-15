@@ -70,6 +70,15 @@ class IconHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testIconWithCustomTitleField() {
+		$result = $this->Icon->render('m:save', ['title' => 'data-title'], ['class' => 'my-extra']);
+		$expected = '<span class="material-icons my-extra" data-title="Save">save</span>';
+		$this->assertSame($expected, $result);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testIconWithCustomFontIcon() {
 		$config = [
 			'sets' => [
@@ -84,7 +93,7 @@ class IconHelperTest extends TestCase {
 		$this->Icon = new IconHelper(new View(null), $config);
 
 		$result = $this->Icon->render('edit');
-		$expected = '<span class="material-icons" title="Save">save</span>';
+		$expected = '<span class="material-icons" title="Edit">save</span>';
 		$this->assertSame($expected, $result);
 	}
 

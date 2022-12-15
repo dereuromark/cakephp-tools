@@ -4,6 +4,9 @@ namespace Tools\View\Icon\Collector;
 
 use RuntimeException;
 
+/**
+ * Using e.g. "font-awesome" npm package.
+ */
 class FontAwesome4IconCollector {
 
 	/**
