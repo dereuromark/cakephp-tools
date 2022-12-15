@@ -50,10 +50,15 @@ You can also set a global attributes config that would be merged in with every i
 ```php
 'Icon' => [
     'sets' => [
+        'material' => [
+            'attributes' => [
+                'data-custom' => 'some-custom-default',
+            ],
+        ],
         ...
     ],
     'attributes' => [
-        'data-custom' => 'some-default',
+        'data-default' => 'some-default',
         ...
     ],
 ],
