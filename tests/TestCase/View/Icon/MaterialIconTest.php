@@ -29,4 +29,14 @@ class MaterialIconTest extends TestCase {
 		$this->assertSame('<span class="material-icons">view</span>', $result);
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testRenderNamespace(): void {
+		$this->icon = new MaterialIcon(['namespace' => 'material-symbols-outlined']);
+
+		$result = $this->icon->render('view');
+		$this->assertSame('<span class="material-symbols-outlined">view</span>', $result);
+	}
+
 }
