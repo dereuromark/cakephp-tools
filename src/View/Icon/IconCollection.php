@@ -46,6 +46,9 @@ class IconCollection {
 
 			/** @var class-string<\Tools\View\Icon\IconInterface> $className */
 			$className = $setConfig['class'];
+			if (isset($config['attributes']) && isset($setConfig['attributes'])) {
+				$setConfig['attributes'] += $config['attributes'];
+			}
 			$setConfig += $config;
 			$this->iconSets[$set] = new $className($setConfig);
 		}
@@ -114,6 +117,9 @@ class IconCollection {
 				$attributes[$titleField] = __($attributes[$titleField]);
 			}
 		}
+
+		$attributes += $options['attributes'] ?? [];
+		unset($options['attributes']);
 
 		return $this->iconSets[$set]->render($icon, $options, $attributes);
 	}

@@ -46,6 +46,19 @@ In this case make sure to use an array instead of just the class string:
 ],
 ```
 
+You can also set a global attributes config that would be merged in with every icon:
+```php
+'Icon' => [
+    'sets' => [
+        ...
+    ],
+    'attributes' => [
+        'data-custom' => 'some-default',
+        ...
+    ],
+],
+```
+
 Don't forget to also set up the necessary stylesheets (CSS files) and alike.
 
 ## Usage
