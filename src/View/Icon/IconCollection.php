@@ -118,7 +118,6 @@ class IconCollection {
 			}
 		}
 
-		$attributes += $options['attributes'] ?? [];
 		unset($options['attributes']);
 
 		return $this->iconSets[$set]->render($icon, $options, $attributes);

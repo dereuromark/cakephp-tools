@@ -35,8 +35,9 @@ class FontAwesome6Icon extends AbstractIcon {
 	 * @return string
 	 */
 	public function render(string $icon, array $options = [], array $attributes = []): string {
-		$formatOptions = $attributes + [
-		];
+		if (!empty($this->config['attributes'])) {
+			$attributes += $this->config['attributes'];
+		}
 
 		$namespace = 'fa-' . $this->config['namespace'];
 
@@ -65,7 +66,7 @@ class FontAwesome6Icon extends AbstractIcon {
 		if (!empty($attributes['class'])) {
 			$options['class'] .= ' ' . $attributes['class'];
 		}
-		$options['attributes'] = $this->template->formatAttributes($formatOptions, ['class']);
+		$options['attributes'] = $this->template->formatAttributes($attributes, ['class']);
 
 		return $this->template->format('icon', $options);
 	}
