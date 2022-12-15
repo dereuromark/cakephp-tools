@@ -38,6 +38,9 @@ class IconCollectionTest extends TestCase {
 				'material' => [
 					'class' => MaterialIcon::class,
 					'namespace' => 'material-symbols',
+					'attributes' => [
+						'data-custom' => 'some-custom',
+					],
 				],
 			],
 			'separator' => ':',
@@ -47,7 +50,7 @@ class IconCollectionTest extends TestCase {
 		];
 		$result = (new IconCollection($config))->render('material:foo');
 
-		$this->assertSame('<span class="material-symbols" title="Foo" data-default="some-default">foo</span>', $result);
+		$this->assertSame('<span class="material-symbols" title="Foo" data-custom="some-custom" data-default="some-default">foo</span>', $result);
 	}
 
 	/**

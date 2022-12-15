@@ -34,11 +34,12 @@ class FeatherIcon extends AbstractIcon {
 	 * @return string
 	 */
 	public function render(string $icon, array $options = [], array $attributes = []): string {
-		$formatOptions = $attributes + [
-		];
+		if (!empty($this->config['attributes'])) {
+			$attributes += $this->config['attributes'];
+		}
 
 		$options['name'] = $icon;
-		$options['attributes'] = $this->template->formatAttributes($formatOptions);
+		$options['attributes'] = $this->template->formatAttributes($attributes);
 
 		return $this->template->format('icon', $options);
 	}
