@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="tests/bootstrap.php">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="tests/bootstrap.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+
 	<php>
 		<ini name="memory_limit" value="-1"/>
 		<ini name="apc.enable_cli" value="1"/>
@@ -7,11 +8,13 @@
 		<!-- E_ALL & ~E_USER_DEPRECATED => 16383 -->
 		<ini name="error_reporting" value="16383"/>
 	</php>
+
 	<testsuites>
 		<testsuite name="tools">
 			<directory>tests/</directory>
 		</testsuite>
 	</testsuites>
+
 	<listeners>
 		<listener class="Cake\TestSuite\Fixture\FixtureInjector">
 			<arguments>
@@ -19,9 +22,10 @@
 			</arguments>
 		</listener>
 	</listeners>
-	<filter>
-		<whitelist>
+
+	<coverage>
+		<include>
 			<directory suffix=".php">src/</directory>
-		</whitelist>
-	</filter>
+		</include>
+	</coverage>
 </phpunit>
