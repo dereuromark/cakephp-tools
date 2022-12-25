@@ -13,11 +13,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['7.3', '8.2']
+        php-version: ['7.4', '8.2']
         db-type: [sqlite, mysql, pgsql]
         prefer-lowest: ['']
         include:
-          - php-version: '7.3'
+          - php-version: '7.4'
             db-type: 'sqlite'
             prefer-lowest: 'prefer-lowest'
 
@@ -72,7 +72,7 @@ jobs:
         if [[ ${{ matrix.db-type }} == 'sqlite' ]]; then export DB_URL='sqlite:///:memory:'; fi
         if [[ ${{ matrix.db-type }} == 'mysql' ]]; then export DB_URL='mysql://root:root@127.0.0.1/cakephp'; fi
         if [[ ${{ matrix.db-type }} == 'pgsql' ]]; then export DB_URL='postgres://postgres:postgres@127.0.0.1/postgres'; fi
-        if [[ ${{ matrix.php-version }} == '7.3' && ${{ matrix.db-type }} == 'sqlite' ]]; then
+        if [[ ${{ matrix.php-version }} == '7.4' && ${{ matrix.db-type }} == 'sqlite' ]]; then
           vendor/bin/phpunit --coverage-clover=coverage.xml
         else
           vendor/bin/phpunit
@@ -82,7 +82,7 @@ jobs:
       run: if ${{ matrix.prefer-lowest == 'prefer-lowest' }}; then vendor/bin/validate-prefer-lowest -m; fi
 
     - name: Code Coverage Report
-      if: success() && matrix.php-version == '7.3' && matrix.db-type == 'sqlite'
+      if: success() && matrix.php-version == '7.4' && matrix.db-type == 'sqlite'
       uses: codecov/codecov-action@v3
 
   validation:
