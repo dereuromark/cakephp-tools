@@ -10,6 +10,7 @@ use Yangqi\Htmldom\Htmldom as BaseHtmlDom;
  * An alternative would PhpQueryLib be for example.
  *
  * @link http://simplehtmldom.sourceforge.net/
+ * @deprecated Do not use anymore.
  */
 class HtmlDom extends BaseHtmlDom {
 
