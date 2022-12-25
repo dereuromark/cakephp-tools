@@ -8,8 +8,6 @@
 	<file>config/</file>
 	<file>tests/</file>
 
-	<exclude-pattern>\.git/</exclude-pattern>
-	<exclude-pattern>/*/tmp/</exclude-pattern>
 	<exclude-pattern>/tests/test_files/</exclude-pattern>
 	<exclude-pattern>/tests/test_app/</exclude-pattern>
 
