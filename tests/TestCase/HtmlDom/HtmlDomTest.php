@@ -13,15 +13,6 @@ class HtmlDomTest extends TestCase {
 	protected $HtmlDom;
 
 	/**
-	 * @return void
-	 */
-	public function setUp(): void {
-		parent::setUp();
-
-		$this->skipIf(!class_exists('Yangqi\Htmldom\Htmldom') || version_compare(PHP_VERSION, '7.3') >= 0);
-	}
-
-	/**
 	 * HtmlDom test
 	 *
 	 * @return void
