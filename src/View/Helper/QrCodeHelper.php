@@ -71,7 +71,7 @@ class QrCodeHelper extends Helper {
 	/**
 	 * @var array
 	 */
-	protected $helpers = ['Html', 'Url'];
+	protected array $helpers = ['Html', 'Url'];
 
 	/**
 	 * @var string
@@ -91,17 +91,17 @@ class QrCodeHelper extends Helper {
 	 *
 	 * @var array
 	 */
-	protected $options = ['cht' => 'qr', 'chl' => '', 'choe' => '', 'chs' => ''];
+	protected array $options = ['cht' => 'qr', 'chl' => '', 'choe' => '', 'chs' => ''];
 
 	/**
 	 * @var array
 	 */
-	protected $ecLevels = ['H', 'Q', 'M', 'L']; # 30%..7%
+	protected array $ecLevels = ['H', 'Q', 'M', 'L']; # 30%..7%
 
 	/**
 	 * @var array
 	 */
-	protected $formattingTypes = ['url' => 'http', 'tel' => 'tel', 'sms' => 'smsto', 'card' => 'mecard'];
+	protected array $formattingTypes = ['url' => 'http', 'tel' => 'tel', 'sms' => 'smsto', 'card' => 'mecard'];
 
 	/**
 	 * @param \Cake\View\View $View

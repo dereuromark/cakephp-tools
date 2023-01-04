@@ -2,7 +2,7 @@
 [![CI](https://github.com/dereuromark/cakephp-tools/workflows/CI/badge.svg?branch=master)](https://github.com/dereuromark/cakephp-tools/actions?query=workflow%3ACI+branch%3Amaster)
 [![Coverage Status](https://img.shields.io/codecov/c/github/dereuromark/cakephp-tools/master.svg)](https://codecov.io/gh/dereuromark/cakephp-tools)
 [![Latest Stable Version](https://poser.pugx.org/dereuromark/cakephp-tools/v/stable.svg)](https://packagist.org/packages/dereuromark/cakephp-tools)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.4-8892BF.svg)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.1-8892BF.svg)](https://php.net/)
 [![License](https://poser.pugx.org/dereuromark/cakephp-tools/license.svg)](https://packagist.org/packages/dereuromark/cakephp-tools)
 [![Total Downloads](https://poser.pugx.org/dereuromark/cakephp-tools/d/total.svg)](https://packagist.org/packages/dereuromark/cakephp-tools)
 [![Coding Standards](https://img.shields.io/badge/cs-PSR--2--R-yellow.svg)](https://github.com/php-fig-rectified/fig-rectified-standards)
@@ -11,7 +11,7 @@ A CakePHP plugin containing several useful tools that can be used in many projec
 
 ## Version notice
 
-This master branch only works for **CakePHP 4.2+**. See [version map](https://github.com/dereuromark/cakephp-tools/wiki#cakephp-version-map) for details.
+This master branch only works for **CakePHP 5.0+**. See [version map](https://github.com/dereuromark/cakephp-tools/wiki#cakephp-version-map) for details.
 
 ## What is this plugin for?
 
@@ -31,20 +31,16 @@ This master branch only works for **CakePHP 4.2+**. See [version map](https://gi
 - Tree helper for working with (complex) trees and their output.
 - Progress and Meter helper for progress bar and meter bar elements (HTML5 and textual).
 - Text, Time, Number libs and helpers etc provide extended functionality if desired.
-- Icon helper for displaying all kind of font icons. **NEW**
+- Icon helper for displaying all kind of font icons.
 - QrCode, Gravatar and other useful small helpers
 - Timeline, Typography, etc provide additional helper functionality.
 - Email as a wrapper for core's Email adding some more usefulness and making debugging/testing easier.
 - I18n language detection and switching
 
-### Providing 3.x shims
-This plugin for CakePHP 4 also contains some 3.x shims to ease migration of existing applications from 3.x to 4.x:
+### Providing 4.x shims
+This plugin for CakePHP 5 also contains some 4.x shims to ease migration of existing applications from 4.x to 5.x:
 - See [Shim](https://github.com/dereuromark/cakephp-shim) plugin for details on most of the provided shims.
 
 ## Installation & Docs
 
 - [Documentation](docs/README.md)
-
-### TODOs
-
-* Move more 3.x stuff to 4.x

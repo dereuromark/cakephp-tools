@@ -11,7 +11,7 @@ class SluggedArticlesFixture extends TestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = [
+	public array $fields = [
 		'id' => ['type' => 'integer'],
 		'title' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => ''],
 		'slug' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => ''],
@@ -26,7 +26,7 @@ class SluggedArticlesFixture extends TestFixture {
 	 *
 	 * @var array
 	 */
-	public $records = [
+	public array $records = [
 		[
 			'title' => 'Foo',
 			'slug' => 'foo',

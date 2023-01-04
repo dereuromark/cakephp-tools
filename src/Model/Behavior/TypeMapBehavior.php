@@ -18,7 +18,7 @@ class TypeMapBehavior extends Behavior {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected $_defaultConfig = [
+	protected array $_defaultConfig = [
 		'fields' => [], // Fields to change column type for
 	];
 

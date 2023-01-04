@@ -13,7 +13,7 @@ class IconCollection {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected $_defaultConfig = [];
+	protected array $_defaultConfig = [];
 
 	/**
 	 * @var string
@@ -23,7 +23,7 @@ class IconCollection {
 	/**
 	 * @var array<string, \Tools\View\Icon\IconInterface>
 	 */
-	protected $iconSets = [];
+	protected array $iconSets = [];
 
 	/**
 	 * @param array<string, mixed> $config

@@ -131,16 +131,6 @@ class CommonComponent extends Component {
 	}
 
 	/**
-	 * Adds helpers just in time (inside actions - only when needed).
-	 *
-	 * @param array $helpers
-	 * @return void
-	 */
-	public function addHelpers(array $helpers) {
-		$this->controller->viewBuilder()->setHelpers($helpers, true);
-	}
-
-	/**
 	 * Used to get the value of a passed param.
 	 *
 	 * @param mixed $var

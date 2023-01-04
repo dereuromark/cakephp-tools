@@ -22,27 +22,27 @@ class Mailer extends CakeMailer {
 	 * @var string
 	 * @psalm-var class-string<\Cake\Mailer\Message>
 	 */
-	protected $messageClass = Message::class;
+	protected string $messageClass = Message::class;
 
 	/**
 	 * @var string|null
 	 */
-	protected $locale;
+	protected ?string $locale = null;
 
 	/**
-	 * @var string
+	 * @var string|null
 	 */
-	protected $localeBefore;
+	protected ?string $localeBefore = null;
 
 	/**
 	 * @var array
 	 */
-	protected $debug = [];
+	protected array $debug = [];
 
 	/**
 	 * @param array|string|null $config Array of configs, or string to load configs from app.php
 	 */
-	public function __construct($config = null) {
+	public function __construct(array|string|null $config = null) {
 		if ($config === null && Configure::read('Config.live') === false) {
 			$config = 'test';
 		}
@@ -166,7 +166,7 @@ class Mailer extends CakeMailer {
 	 * @param string $content Content.
 	 * @return array
 	 */
-	public function deliver(string $content = '') {
+	public function deliver(string $content = ''): array {
 		$this->debug = parent::deliver($content);
 
 		return $this->debug;

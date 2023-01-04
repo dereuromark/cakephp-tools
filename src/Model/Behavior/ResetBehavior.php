@@ -47,7 +47,7 @@ class ResetBehavior extends Behavior {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected $_defaultConfig = [
+	protected array $_defaultConfig = [
 		'limit' => 100, // batch of records per loop
 		'timeout' => null, // in seconds
 		'fields' => [], // if not displayField

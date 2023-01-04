@@ -9,8 +9,8 @@ class AfterSaveBehaviorTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	protected $fixtures = [
-		'core.Articles',
+	protected array $fixtures = [
+		'plugin.Tools.Articles',
 	];
 
 	/**

@@ -4,23 +4,32 @@ namespace Tools\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
 
-class StringCommentsFixture extends TestFixture {
+/**
+ * Short description for class.
+ */
+class AuthorsFixture extends TestFixture {
 
 	/**
+	 * fields property
+	 *
 	 * @var array
 	 */
 	public array $fields = [
 		'id' => ['type' => 'integer'],
-		'comment' => ['type' => 'string', 'length' => 255, 'null' => false],
-		'url' => ['type' => 'string', 'length' => 255, 'null' => false],
-		'title' => ['type' => 'string', 'length' => 255, 'null' => false],
+		'name' => ['type' => 'string', 'default' => null],
 		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
 	];
 
 	/**
+	 * records property
+	 *
 	 * @var array
 	 */
 	public array $records = [
+		['name' => 'mariano'],
+		['name' => 'nate'],
+		['name' => 'larry'],
+		['name' => 'garrett'],
 	];
 
 }

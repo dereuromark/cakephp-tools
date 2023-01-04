@@ -13,8 +13,8 @@ class FormatHelperTest extends TestCase {
 	/**
 	 * @var array<string>
 	 */
-	protected $fixtures = [
-		'core.Sessions',
+	protected array $fixtures = [
+		'plugin.Tools.Sessions',
 	];
 
 	/**
@@ -66,82 +66,6 @@ class FormatHelperTest extends TestCase {
 			//echo ''.$res.'';
 			$this->assertTrue(!empty($res));
 		}
-	}
-
-	/**
-	 * FormatHelperTest::testIcon()
-	 *
-	 * @return void
-	 */
-	public function testIcon() {
-		$result = $this->Format->icon('edit');
-		$expected = '<i class="icon icon-edit fa fa-pen" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
-		$this->assertSame($expected, $result);
-	}
-
-	/**
-	 * FormatHelperTest::testIconWithFontIcon()
-	 *
-	 * @return void
-	 */
-	public function testIconWithCustomAttributes() {
-		$result = $this->Format->icon('edit', [], ['data-x' => 'y']);
-		$expected = '<i class="icon icon-edit fa fa-pen" data-x="y" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
-		$this->assertSame($expected, $result);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testIconWithCustomClassAttributes() {
-		$result = $this->Format->icon('edit', [], ['class' => 'my-extra']);
-		$expected = '<i class="icon icon-edit fa fa-pen my-extra" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
-		$this->assertSame($expected, $result);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testIconWithCustomFontIcon() {
-		$this->Format->setConfig('fontIcons', ['edit' => 'fax fax-pen']);
-		$result = $this->Format->icon('edit');
-		$expected = '<i class="icon icon-edit fax fax-pen" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
-		$this->assertSame($expected, $result);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testIconWithPrefixedIcon() {
-		$this->Format->setConfig('iconNamespaces', ['fa', 'glyphicon']);
-		$result = $this->Format->icon('glyphicon-foo');
-		$expected = '<i class="icon icon-glyphicon-foo glyphicon glyphicon-foo" title="' . __d('tools', 'Foo') . '" data-placement="bottom" data-toggle="tooltip"></i>';
-		$this->assertSame($expected, $result);
-
-		$result = $this->Format->icon('glyphicon-edit');
-		$expected = '<i class="icon icon-glyphicon-edit glyphicon glyphicon-edit" title="' . __d('tools', 'Edit') . '" data-placement="bottom" data-toggle="tooltip"></i>';
-		$this->assertSame($expected, $result);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testFontIcon() {
-		$result = $this->Format->fontIcon('signin');
-		$expected = '<i class="fa fa-signin"></i>';
-		$this->assertEquals($expected, $result);
-
-		$result = $this->Format->fontIcon('signin', ['rotate' => 90]);
-		$expected = '<i class="fa fa-signin fa-rotate-90"></i>';
-		$this->assertEquals($expected, $result);
-
-		$result = $this->Format->fontIcon('signin', ['size' => 5, 'extra' => ['muted']]);
-		$expected = '<i class="fa fa-signin fa-muted fa-5x"></i>';
-		$this->assertEquals($expected, $result);
-
-		$result = $this->Format->fontIcon('signin', ['size' => 5, 'extra' => ['muted'], 'namespace' => 'myicon']);
-		$expected = '<i class="myicon myicon-signin myicon-muted myicon-5x"></i>';
-		$this->assertEquals($expected, $result);
 	}
 
 	/**
@@ -228,55 +152,6 @@ class FormatHelperTest extends TestCase {
 		$result = $this->Format->pad('foo bär', 20, '-', STR_PAD_LEFT);
 		$expected = '-------------foo bär';
 		$this->assertEquals($expected, $result);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testAbsolutePaginateCount() {
-		$paginator = [
-			'page' => 1,
-			'pageCount' => 3,
-			'count' => 25,
-			'perPage' => 10,
-		];
-		$result = $this->Format->absolutePaginateCount($paginator, 2);
-		$this->assertSame(2, $result);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testAbsolutePaginateCountDesc() {
-		// 2nd element on page 1/3
-		$paginator = [
-			'page' => 1,
-			'pageCount' => 3,
-			'count' => 25,
-			'perPage' => 10,
-		];
-		$result = $this->Format->absolutePaginateCount($paginator, 2, 'DESC');
-		$this->assertSame(24, $result);
-
-		// 3rd element on page 3/3
-		$paginator = [
-			'page' => 3,
-			'pageCount' => 3,
-			'count' => 25,
-			'perPage' => 10,
-		];
-		$result = $this->Format->absolutePaginateCount($paginator, 3, 'DESC');
-		$this->assertSame(3, $result);
-
-		// 2nd element on page 1/1
-		$paginator = [
-			'page' => 1,
-			'pageCount' => 1,
-			'count' => 9,
-			'perPage' => 10,
-		];
-		$result = $this->Format->absolutePaginateCount($paginator, 2, 'DESC');
-		$this->assertSame(8, $result);
 	}
 
 	/**

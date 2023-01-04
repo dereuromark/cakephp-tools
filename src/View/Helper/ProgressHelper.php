@@ -40,12 +40,12 @@ class ProgressHelper extends Helper {
 	/**
 	 * @var array
 	 */
-	protected $helpers = ['Html'];
+	protected array $helpers = ['Html'];
 
 	/**
 	 * @var array
 	 */
-	protected $_defaults = [
+	protected array $_defaults = [
 		'empty' => self::CHAR_EMPTY,
 		'full' => self::CHAR_FULL,
 	];

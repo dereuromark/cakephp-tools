@@ -14,7 +14,7 @@ class ToolsUsersFixture extends TestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = [
+	public array $fields = [
 		'id' => ['type' => 'integer'],
 		'name' => ['type' => 'string', 'null' => true],
 		'password' => ['type' => 'string', 'null' => true],
@@ -27,7 +27,7 @@ class ToolsUsersFixture extends TestFixture {
 	 *
 	 * @var array
 	 */
-	public $records = [
+	public array $records = [
 		['role_id' => 1, 'password' => '123456', 'name' => 'User 1'],
 		['role_id' => 2, 'password' => '123456', 'name' => 'User 2'],
 		['role_id' => 1, 'password' => '123456', 'name' => 'User 3'],

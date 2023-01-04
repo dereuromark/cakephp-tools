@@ -4,7 +4,7 @@
 * [Installation](Install.md)
 
 ## Upgrade Guide
-* [Upgrade guide from 3.x to 4.x](Upgrade.md)
+* [Upgrade guide from 4.x to 5.x](Upgrade.md)
 
 ## Detailed Documentation - Quicklinks
 
@@ -49,7 +49,7 @@ Helpers:
 * [Form](Helper/Form.md)
 * [Common](Helper/Common.md)
 * [Format](Helper/Format.md)
-* [Icon](Helper/Icon.md) **NEW**
+* [Icon](Helper/Icon.md)
 * [Progress](Helper/Progress.md)
 * [Meter](Helper/Meter.md)
 * [Tree](Helper/Tree.md)
@@ -122,10 +122,10 @@ The Tools plugin controller will allow you to:
 - Disable cache also works for older IE versions.
 
 
-### BC shims for easier migration from 2.x
-It contains many shims to provide 2.x functionality when upgrading apps to 3.0.
-This eases migration as complete parts of the code, such as validation and other model property settings
-can be reused immediatelly without refactoring them right away.
+### BC shims for easier migration from 4.x
+It contains many shims to provide 4.x functionality when upgrading apps to 5.0.
+This eases migration as complete parts of the code, such as validation and other
+model property settings can be reused immediately without refactoring them right away.
 
 * See [Shims](Shims.md) for details.
 

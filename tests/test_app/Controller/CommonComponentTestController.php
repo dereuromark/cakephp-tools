@@ -12,9 +12,9 @@ use Tools\Controller\Controller;
 class CommonComponentTestController extends Controller {
 
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
-	public $autoRedirectActions = ['allowed'];
+	public array $autoRedirectActions = ['allowed'];
 
 	/**
 	 * @return void

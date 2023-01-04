@@ -4,6 +4,7 @@ namespace Tools\Utility;
 
 use Cake\Log\Log as CoreLog;
 use Exception;
+use Throwable;
 
 /**
  * Wrapper class to log data into custom file(s).
@@ -57,7 +58,7 @@ class FileLog {
 			if ($traceKey) {
 				try {
 					throw new Exception('Trace string', 1);
-				} catch (\Throwable $t) {
+				} catch (Throwable $t) {
 					$data['trace_string'] = $t->getTraceAsString();
 				}
 			}

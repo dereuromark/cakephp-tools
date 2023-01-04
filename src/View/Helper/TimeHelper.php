@@ -11,7 +11,7 @@ use Cake\View\View;
 /**
  * Wrapper for TimeHelper and TimeLib
  *
- * @mixin \Tools\Utility\Time
+ * @mixin \Tools\Utility\DateTime
  * @property \Cake\View\Helper\HtmlHelper $Html
  */
 class TimeHelper extends CakeTimeHelper {
@@ -19,15 +19,15 @@ class TimeHelper extends CakeTimeHelper {
 	/**
 	 * @var array
 	 */
-	protected $helpers = ['Html'];
+	protected array $helpers = ['Html'];
 
 	/**
 	 * Default config for this class
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected $_defaultConfig = [
-		'engine' => 'Tools\Utility\FrozenTime',
+	protected array $_defaultConfig = [
+		'engine' => 'Tools\Utility\DateTime',
 	];
 
 	/**

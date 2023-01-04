@@ -23,7 +23,7 @@ class InflectCommand extends Command {
 	 *
 	 * @var array<string>
 	 */
-	protected $validActions = [
+	protected array $validActions = [
 		'pluralize', 'singularize', 'camelize',
 		'underscore', 'humanize', 'tableize',
 		'classify', 'variable', 'dasherize',
@@ -34,7 +34,7 @@ class InflectCommand extends Command {
 	 *
 	 * @var array<string>
 	 */
-	protected $validCommands = [
+	protected array $validCommands = [
 		'pluralize', 'singularize', 'camelize',
 		'underscore', 'humanize', 'tableize',
 		'classify', 'variable', 'dasherize', 'all', 'quit',

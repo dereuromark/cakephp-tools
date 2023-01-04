@@ -25,7 +25,7 @@ class ToggleBehavior extends Behavior {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected $_defaultConfig = [
+	protected array $_defaultConfig = [
 		'field' => 'primary',
 		'on' => 'afterSave', // afterSave (without transactions) or beforeSave (with transactions)
 		'scopeFields' => [],

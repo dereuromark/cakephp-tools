@@ -3,7 +3,6 @@
 namespace Tools\View\Helper;
 
 use Cake\Core\Configure;
-use Cake\Utility\Inflector;
 use Cake\View\Helper;
 use Cake\View\StringTemplate;
 use Cake\View\View;
@@ -11,13 +10,12 @@ use RuntimeException;
 use Shim\Utility\Inflector as ShimInflector;
 
 /**
- * Format helper with basic html snippets
- *
- * TODO: make snippets more "css and background image" (instead of inline img links)
+ * Format helper with basic HTML snippets
  *
  * @author Mark Scherer
  * @license MIT
  * @property \Cake\View\Helper\HtmlHelper $Html
+ * @property \Tools\View\Helper\IconHelper $Icon
  */
 class FormatHelper extends Helper {
 
@@ -26,7 +24,7 @@ class FormatHelper extends Helper {
 	 *
 	 * @var array
 	 */
-	protected $helpers = ['Html'];
+	protected array $helpers = ['Html', 'Tools.Icon'];
 
 	/**
 	 * @var \Cake\View\StringTemplate
@@ -36,7 +34,7 @@ class FormatHelper extends Helper {
 	/**
 	 * @var array
 	 */
-	protected $_defaultIcons = [
+	protected array $_defaultIcons = [
 		'yes' => 'fa fa-check',
 		'no' => 'fa fa-times',
 		'view' => 'fa fa-eye',
@@ -57,7 +55,7 @@ class FormatHelper extends Helper {
 	/**
 	 * @var array
 	 */
-	protected $_defaults = [
+	protected array $_defaults = [
 		'fontIcons' => null,
 		'iconNamespaces' => [], // Used to disable auto prefixing if detected
 		'iconNamespace' => 'fa', // Used to be icon,
@@ -95,7 +93,7 @@ class FormatHelper extends Helper {
 	public function thumbs($value, array $options = [], array $attributes = []) {
 		$icon = !empty($value) ? 'pro' : 'contra';
 
-		return $this->icon($icon, $options, $attributes);
+		return $this->Icon->render($icon, $options, $attributes);
 	}
 
 	/**
@@ -140,12 +138,12 @@ class FormatHelper extends Helper {
 			}
 
 			$ret .= $this->Html->link(
-				$this->icon('prev') . '&nbsp;' . __d('tools', 'prev' . $name),
+				$this->Icon->render('prev') . '&nbsp;' . __d('tools', 'prev' . $name),
 				$url,
 				['escape' => false, 'title' => $neighbors['prev'][$titleField]],
 			);
 		} else {
-			$ret .= $this->icon('prev');
+			$ret .= $this->Icon->render('prev');
 		}
 
 		$ret .= '&nbsp;&nbsp;';
@@ -156,12 +154,12 @@ class FormatHelper extends Helper {
 			}
 
 			$ret .= $this->Html->link(
-				$this->icon('next') . '&nbsp;' . __d('tools', 'next' . $name),
+				$this->Icon->render('next') . '&nbsp;' . __d('tools', 'next' . $name),
 				$url,
 				['escape' => false, 'title' => $neighbors['next'][$titleField]],
 			);
 		} else {
-			$ret .= $this->icon('next') . '&nbsp;' . __d('tools', 'next' . $name);
+			$ret .= $this->Icon->render('next') . '&nbsp;' . __d('tools', 'next' . $name);
 		}
 
 		$ret .= '</div>';
@@ -190,124 +188,14 @@ class FormatHelper extends Helper {
 	public function genderIcon($value, array $options = [], array $attributes = []) {
 		$value = (int)$value;
 		if ($value == static::GENDER_FEMALE) {
-			$icon = $this->icon('female', $options, $attributes);
+			$icon = $this->Icon->render('female', $options, $attributes);
 		} elseif ($value == static::GENDER_MALE) {
-			$icon = $this->icon('male', $options, $attributes);
+			$icon = $this->Icon->render('male', $options, $attributes);
 		} else {
-			$icon = $this->icon('genderless', $options, $attributes + ['title' => __d('tools', 'Inter')]);
+			$icon = $this->Icon->render('genderless', $options, $attributes + ['title' => __d('tools', 'Inter')]);
 		}
 
 		return $icon;
-	}
-
-	/**
-	 * Display a font icon (fast and resource-efficient).
-	 * Uses https://fontawesome.io/icons/ by default
-	 *
-	 * Options:
-	 * - namespace
-	 * - size (int|string: 1...5 or large)
-	 * - rotate (integer: 90, 270, ...)
-	 * - spin (boolean: true/false)
-	 * - extra (array: muted, light, dark, border)
-	 * - pull (string: left, right)
-	 *
-	 * @deprecated Use IconHelper::render() instead.
-	 *
-	 * @param array|string $icon
-	 * @param array<string, mixed> $options
-	 * @param array<string, mixed> $attributes
-	 * @return string
-	 */
-	public function fontIcon($icon, array $options = [], array $attributes = []) {
-		$defaults = [
-			'namespace' => $this->_config['iconNamespace'],
-		];
-		$options += $defaults;
-		$icon = (array)$icon;
-		$class = [$options['namespace']];
-		foreach ($icon as $i) {
-			$class[] = $options['namespace'] . '-' . $i;
-		}
-		if (!empty($options['extra'])) {
-			foreach ($options['extra'] as $i) {
-				$class[] = $options['namespace'] . '-' . $i;
-			}
-		}
-		if (!empty($options['size'])) {
-			$class[] = $options['namespace'] . '-' . ($options['size'] === 'large' ? 'large' : $options['size'] . 'x');
-		}
-		if (!empty($options['pull'])) {
-			$class[] = 'pull-' . $options['pull'];
-		}
-		if (!empty($options['rotate'])) {
-			$class[] = $options['namespace'] . '-rotate-' . (int)$options['rotate'];
-		}
-		if (!empty($options['spin'])) {
-			$class[] = $options['namespace'] . '-spin';
-		}
-
-		return '<i class="' . implode(' ', $class) . '"></i>';
-	}
-
-	/**
-	 * Icons using the default namespace or an already prefixed one.
-	 *
-	 * @deprecated Use IconHelper::render() instead.
-	 *
-	 * @param string $icon (constant or filename)
-	 * @param array<string, mixed> $options :
-	 * - translate, title, ...
-	 * @param array<string, mixed> $attributes :
-	 * - class, ...
-	 * @return string
-	 */
-	public function icon($icon, array $options = [], array $attributes = []) {
-		if (!$icon) {
-			return '';
-		}
-
-		$defaults = [
-			'translate' => true,
-		];
-		$options += $defaults;
-
-		$type = $icon;
-		if ($this->getConfig('autoPrefix') && empty($options['iconNamespace'])) {
-			$namespace = $this->detectNamespace($icon);
-			if ($namespace) {
-				$options['iconNamespace'] = $namespace;
-				$options['autoPrefix'] = false;
-				$icon = substr($icon, strlen($namespace) + 1);
-			}
-		}
-
-		if (!isset($attributes['title'])) {
-			if (isset($options['title'])) {
-				$attributes['title'] = $options['title'];
-			} else {
-				$attributes['title'] = Inflector::humanize($icon);
-			}
-		}
-
-		return $this->_fontIcon($type, $options, $attributes);
-	}
-
-	/**
-	 * @param string $icon
-	 *
-	 * @return string|null
-	 */
-	protected function detectNamespace($icon) {
-		foreach ((array)$this->getConfig('iconNamespaces') as $namespace) {
-			if (strpos($icon, $namespace . '-') !== 0) {
-				continue;
-			}
-
-			return $namespace;
-		}
-
-		return null;
 	}
 
 	/**
@@ -446,7 +334,7 @@ class FormatHelper extends Helper {
 
 		$attributes += ['title' => $options[$value . 'Title']];
 
-		return $this->icon($icon, $options, $attributes);
+		return $this->Icon->render($icon, $options, $attributes);
 	}
 
 	/**
@@ -501,41 +389,6 @@ class FormatHelper extends Helper {
 		$options += $defaults;
 
 		return $this->Html->tag('span', $text, $options);
-	}
-
-	/**
-	 * Generates a pagination count: #1 etc for each pagination record
-	 * respects order (ASC/DESC)
-	 *
-	 * @deprecated Not in use anymore.
-	 * @param array $paginator
-	 * @param int $count (current post count on this page)
-	 * @param string|null $dir (ASC/DESC)
-	 * @return int
-	 */
-	public function absolutePaginateCount(array $paginator, $count, $dir = null) {
-		if ($dir === null) {
-			$dir = 'ASC';
-		}
-
-		$currentPage = $paginator['page'];
-		$pageCount = $paginator['pageCount'];
-		$totalCount = $paginator['count'];
-		$limit = $paginator['perPage'];
-		$step = $paginator['step'] ?? 1;
-
-		if ($dir === 'DESC') {
-			$count = $limit - $count + 1;
-		}
-
-		if ($dir === 'DESC') {
-			$currentCount = $count + ($pageCount - $currentPage) * $limit * $step;
-			$currentCount -= $pageCount * $limit * $step - $totalCount;
-		} else {
-			$currentCount = $count + ($currentPage - 1) * $limit * $step;
-		}
-
-		return $currentCount;
 	}
 
 	/**

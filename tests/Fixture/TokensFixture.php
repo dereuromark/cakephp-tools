@@ -14,7 +14,7 @@ class TokensFixture extends TestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = [
+	public array $fields = [
 		'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 10],
 		'user_id' => ['type' => 'integer', 'null' => true, 'length' => 10, 'comment' => ''],
 		'type' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 20, 'comment' => 'e.g.:activate,reactivate'],
@@ -32,7 +32,7 @@ class TokensFixture extends TestFixture {
 	 *
 	 * @var array
 	 */
-	public $records = [
+	public array $records = [
 		[
 			'user_id' => 1,
 			'type' => 'qlogin',

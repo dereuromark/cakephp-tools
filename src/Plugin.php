@@ -13,19 +13,19 @@ class Plugin extends BasePlugin {
 	/**
 	 * @var bool
 	 */
-	protected $middlewareEnabled = false;
+	protected bool $middlewareEnabled = false;
 
 	/**
 	 * @param \Cake\Routing\RouteBuilder $routes The route builder to update.
 	 * @return void
 	 */
 	public function routes(RouteBuilder $routes): void {
-		$routes->plugin('Tools', function (RouteBuilder $routes) {
+		$routes->plugin('Tools', function (RouteBuilder $routes): void {
 			$routes->fallbacks();
 		});
 
-		$routes->prefix('Admin', function (RouteBuilder $routes) {
-			$routes->plugin('Tools', function (RouteBuilder $routes) {
+		$routes->prefix('Admin', function (RouteBuilder $routes): void {
+			$routes->plugin('Tools', function (RouteBuilder $routes): void {
 				$routes->connect('/', ['controller' => 'Tools', 'action' => 'index']);
 
 				$routes->fallbacks();

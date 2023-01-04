@@ -10,7 +10,7 @@ class EntityTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	protected $fixtures = [
+	protected array $fixtures = [
 		'plugin.Tools.ToolsUsers',
 		'plugin.Tools.Roles',
 	];

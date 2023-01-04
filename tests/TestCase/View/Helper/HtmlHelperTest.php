@@ -60,7 +60,7 @@ class HtmlHelperTest extends TestCase {
 			->withParam('prefix', 'Admin');
 		$this->Html->getView()->setRequest($request);
 
-		Router::prefix('Admin', function (RouteBuilder $routes) {
+		Router::prefix('Admin', function (RouteBuilder $routes): void {
 			$routes->fallbacks(DashedRoute::class);
 		});
 		Router::setRequest($request);

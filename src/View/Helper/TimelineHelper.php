@@ -2,8 +2,8 @@
 
 namespace Tools\View\Helper;
 
-use Cake\I18n\FrozenTime;
 use Cake\View\Helper;
+use Tools\Utility\DateTime;
 
 /**
  * TimelineHelper for easy output of a timeline with multiple items.
@@ -23,7 +23,7 @@ class TimelineHelper extends Helper {
 	/**
 	 * @var array
 	 */
-	protected $helpers = ['Html'];
+	protected array $helpers = ['Html'];
 
 	/**
 	 * Possible values are (with their default values):
@@ -47,7 +47,7 @@ class TimelineHelper extends Helper {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected $_defaultConfig = [
+	protected array $_defaultConfig = [
 		'id' => 'mytimeline',
 		'selectable' => false,
 		'editable' => false,
@@ -62,7 +62,7 @@ class TimelineHelper extends Helper {
 	/**
 	 * @var array
 	 */
-	protected $_items = [];
+	protected array $_items = [];
 
 	/**
 	 * Add timeline item.
@@ -113,7 +113,7 @@ class TimelineHelper extends Helper {
 
 		$current = '';
 		if ($settings['current']) {
-			$now = new FrozenTime();
+			$now = new DateTime();
 			$current = 'timeline.setCurrentTime(' . $this->_date($now) . ');';
 		}
 		unset($settings['id']);
@@ -214,11 +214,11 @@ JS;
 	/**
 	 * Format date to JS code.
 	 *
-	 * @param \DateTimeInterface|null $date
+	 * @param \DateTimeInterface|\Cake\Chronos\Chronos|null $date
 	 * @return string
 	 */
 	protected function _date($date = null) {
-		if ($date === null || !$date instanceof \DateTimeInterface) {
+		if ($date === null) {
 			return '';
 		}
 		$datePieces = [];

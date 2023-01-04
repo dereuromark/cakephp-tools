@@ -4,6 +4,7 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\Datasource\ConnectionManager;
 use Cake\ORM\Entity;
+use Cake\Utility\Hash;
 use Cake\View\View;
 use Shim\TestSuite\TestCase;
 use Tools\View\Helper\TreeHelper;
@@ -13,7 +14,7 @@ class TreeHelperTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	protected $fixtures = [
+	protected array $fixtures = [
 		'plugin.Tools.AfterTrees',
 	];
 
@@ -469,8 +470,8 @@ TEXT;
 
 		$tree = $this->Table->find('threaded')->toArray();
 		$id = 6;
-		$nodes = $this->Table->find('path', ['for' => $id]);
-		$path = $nodes->extract('id')->toArray();
+		$nodes = $this->Table->find('path', ['for' => $id])->toArray();
+		$path = Hash::extract($nodes, '{n}.id');
 
 		$output = $this->Tree->generate($tree, ['autoPath' => [6, 11], 'hideUnrelated' => true, 'treePath' => $path, 'callback' => [$this, '_myCallback']]); // Two-SubA
 
@@ -527,8 +528,8 @@ TEXT;
 		$tree = $this->Table->find('threaded')->toArray();
 
 		$id = 6; // Two-SubA
-		$nodes = $this->Table->find('path', ['for' => $id]);
-		$path = $nodes->extract('id')->toArray();
+		$nodes = $this->Table->find('path', ['for' => $id])->toArray();
+		$path = Hash::extract($nodes, '{n}.id');
 
 		$output = $this->Tree->generate($tree, [
 			'autoPath' => [6, 11], 'hideUnrelated' => true, 'treePath' => $path,
@@ -619,8 +620,8 @@ TEXT;
 		$tree = $this->Table->find('threaded')->toArray();
 
 		$id = 6;
-		$nodes = $this->Table->find('path', ['for' => $id]);
-		$path = $nodes->extract('id')->toArray();
+		$nodes = $this->Table->find('path', ['for' => $id])->toArray();
+		$path = Hash::extract($nodes, '{n}.id');
 
 		$output = $this->Tree->generate($tree, [
 			'autoPath' => [6, 11], 'treePath' => $path,

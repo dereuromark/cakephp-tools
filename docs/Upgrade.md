@@ -1,7 +1,8 @@
-# Migration from 3.x to 4.x
+# Migration from 4.x to 5.x
 
-## ArrayType
-- ArrayType has been moved to Shim plugin
+## CommonComponent
+- `setHelpers()` has been removed in favor of core usage directly.
 
-## TestSuite
-The functionality has been moved to Shim plugin
+## Utility
+- `L10n`, `Mime` classes have been removed
+- Mutable `Time` class has been removed, use immutable `DateTime` instead.

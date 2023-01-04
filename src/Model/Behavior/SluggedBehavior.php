@@ -7,7 +7,7 @@ use Cake\Core\Configure;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\Table;
 use Cake\Utility\Inflector;
 use InvalidArgumentException;
@@ -73,7 +73,7 @@ class SluggedBehavior extends Behavior {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected $_defaultConfig = [
+	protected array $_defaultConfig = [
 		'label' => null,
 		'field' => 'slug',
 		'overwriteField' => 'overwrite_slug',
@@ -108,7 +108,7 @@ class SluggedBehavior extends Behavior {
 	 *
 	 * @var \Cake\ORM\Table
 	 */
-	protected $_table;
+	protected Table $_table;
 
 	/**
 	 * @param \Cake\ORM\Table $table
@@ -171,12 +171,12 @@ class SluggedBehavior extends Behavior {
 	 *
 	 * ->find('slugged')
 	 *
-	 * @param \Cake\ORM\Query $query
+	 * @param \Cake\ORM\Query\SelectQuery $query
 	 * @param array<string, mixed> $options
 	 * @throws \InvalidArgumentException If the 'slug' key is missing in options
-	 * @return \Cake\ORM\Query
+	 * @return \Cake\ORM\Query\SelectQuery
 	 */
-	public function findSlugged(Query $query, array $options) {
+	public function findSlugged(SelectQuery $query, array $options): SelectQuery {
 		if (empty($options['slug'])) {
 			throw new InvalidArgumentException("The 'slug' key is required for find('slugged')");
 		}

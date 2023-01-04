@@ -3,6 +3,7 @@
 namespace Tools\Test\TestCase\Controller;
 
 use Cake\Core\Configure;
+use Cake\Http\ServerRequest;
 use Shim\TestSuite\TestCase;
 use Tools\Controller\Controller;
 
@@ -11,7 +12,7 @@ class ControllerTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	protected $fixtures = [
+	protected array $fixtures = [
 		'plugin.Tools.ToolsUsers',
 	];
 
@@ -26,7 +27,7 @@ class ControllerTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->Controller = new Controller();
+		$this->Controller = new Controller(new ServerRequest());
 		$this->Controller->startupProcess();
 	}
 
