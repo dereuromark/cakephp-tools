@@ -50,7 +50,7 @@ class TypographicBehavior extends Behavior {
 	/**
 	 * @var array
 	 */
-	protected $_map = [
+	protected array $_map = [
 		'in' => [
 			'‘' => '\'',
 			// Translates to '&lsquo;'.
@@ -90,7 +90,7 @@ class TypographicBehavior extends Behavior {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected $_defaultConfig = [
+	protected array $_defaultConfig = [
 		'before' => self::BEFORE_SAVE, // save or marshal
 		'fields' => [],
 		'mergeQuotes' => false, // Set to true for " or explicitly set a char (" or ').
@@ -105,7 +105,7 @@ class TypographicBehavior extends Behavior {
 	 */
 	public function initialize(array $config): void {
 		if (empty($this->_config['fields'])) {
-			$schema = $this->getTable()->getSchema();
+			$schema = $this->table()->getSchema();
 
 			$fields = [];
 			foreach ($schema->columns() as $field) {
@@ -164,7 +164,7 @@ class TypographicBehavior extends Behavior {
 	public function updateTypography($dryRun = false) {
 		$options = ['limit' => 100, 'offset' => 0];
 		$count = 0;
-		while ($records = $this->getTable()->find('all', $options)->toArray()) {
+		while ($records = $this->table()->find('all', $options)->toArray()) {
 			foreach ($records as $record) {
 				$changed = false;
 				foreach ($this->_config['fields'] as $field) {
@@ -180,7 +180,7 @@ class TypographicBehavior extends Behavior {
 				}
 				if ($changed) {
 					if (!$dryRun) {
-						$this->getTable()->save($record, ['validate' => false]);
+						$this->table()->save($record, ['validate' => false]);
 					}
 					$count++;
 				}

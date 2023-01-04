@@ -10,8 +10,8 @@ class TypographicBehaviorTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	protected $fixtures = [
-		'core.Articles',
+	protected array $fixtures = [
+		'plugin.Tools.Articles',
 	];
 
 	/**

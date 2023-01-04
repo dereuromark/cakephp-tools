@@ -11,7 +11,7 @@ class MultiColumnUsersFixture extends TestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = [
+	public array $fields = [
 		'id' => ['type' => 'integer'],
 		'user_name' => ['type' => 'string', 'null' => false],
 		'email' => ['type' => 'string', 'null' => false],
@@ -27,7 +27,7 @@ class MultiColumnUsersFixture extends TestFixture {
 	 *
 	 * @var array
 	 */
-	public $records = [
+	public array $records = [
 		[
 			'user_name' => 'mariano',
 			'email' => 'mariano@example.com',

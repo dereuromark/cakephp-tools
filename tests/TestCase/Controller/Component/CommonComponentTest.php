@@ -201,18 +201,6 @@ class CommonComponentTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testAddHelpers() {
-		$this->Controller->Common->addHelpers(['Tester']);
-		$helpers = $this->Controller->viewBuilder()->getHelpers();
-		$this->assertEquals(['Tester'], $helpers);
-		$this->Controller->Common->addHelpers(['Tester123']);
-		$helpers = $this->Controller->viewBuilder()->getHelpers();
-		$this->assertEquals(['Tester', 'Tester123'], $helpers);
-	}
-
-	/**
-	 * @return void
-	 */
 	public function testDefaultUrlParams() {
 		$result = CommonComponent::defaultUrlParams();
 		$expected = [

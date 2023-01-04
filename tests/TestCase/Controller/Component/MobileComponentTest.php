@@ -17,8 +17,8 @@ class MobileComponentTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	protected $fixtures = [
-		'core.Sessions',
+	protected array $fixtures = [
+		'plugin.Tools.Sessions',
 	];
 
 	/**

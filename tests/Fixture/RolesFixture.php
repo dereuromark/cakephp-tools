@@ -14,7 +14,7 @@ class RolesFixture extends TestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = [
+	public array $fields = [
 		'id' => ['type' => 'integer'],
 		'name' => ['type' => 'string', 'null' => false, 'length' => 64, 'comment' => ''],
 		'alias' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 20, 'comment' => ''],
@@ -31,7 +31,7 @@ class RolesFixture extends TestFixture {
 	 *
 	 * @var array
 	 */
-	public $records = [
+	public array $records = [
 		[
 			'name' => 'Super-Admin',
 			'alias' => 'superadmin',

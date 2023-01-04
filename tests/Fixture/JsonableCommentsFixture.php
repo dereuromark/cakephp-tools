@@ -9,7 +9,7 @@ class JsonableCommentsFixture extends TestFixture {
 	/**
 	 * @var array
 	 */
-	public $fields = [
+	public array $fields = [
 		'id' => ['type' => 'integer'],
 		'comment' => ['type' => 'string', 'length' => 255, 'null' => false],
 		'url' => ['type' => 'string', 'length' => 255, 'null' => false],
@@ -22,7 +22,7 @@ class JsonableCommentsFixture extends TestFixture {
 	/**
 	 * @var array
 	 */
-	public $records = [
+	public array $records = [
 	];
 
 }

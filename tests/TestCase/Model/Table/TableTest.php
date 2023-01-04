@@ -5,15 +5,16 @@ namespace Tools\Test\TestCase\Model\Table;
 use Cake\I18n\Time;
 use Cake\Utility\Hash;
 use Shim\TestSuite\TestCase;
+use Tools\Utility\DateTime;
 
 class TableTest extends TestCase {
 
 	/**
 	 * @var array
 	 */
-	protected $fixtures = [
-		'core.Posts',
-		'core.Authors',
+	protected array $fixtures = [
+		'plugin.Tools.Posts',
+		'plugin.Tools.Authors',
 		'plugin.Tools.ToolsUsers',
 		'plugin.Tools.Roles',
 	];
@@ -347,13 +348,13 @@ class TableTest extends TestCase {
 		$this->assertFalse($res);
 
 		$date = '2010-02-23 11:11:11';
-		$context = ['data' => ['before' => new Time('2010-02-23 11:11:12')]];
+		$context = ['data' => ['before' => new DateTime('2010-02-23 11:11:12')]];
 		$res = $this->Users->validateTime($date, ['before' => 'before'], $context);
 
 		$this->assertTrue($res);
 
 		$date = '2010-02-23 11:11:11';
-		$context = ['data' => ['after' => new Time('2010-02-23 11:11:12')]];
+		$context = ['data' => ['after' => new DateTime('2010-02-23 11:11:12')]];
 		$res = $this->Users->validateTime($date, ['after' => 'after'], $context);
 
 		$this->assertFalse($res);

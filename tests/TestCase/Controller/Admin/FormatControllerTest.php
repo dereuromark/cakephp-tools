@@ -13,20 +13,6 @@ class FormatControllerTest extends TestCase {
 	use IntegrationTestTrait;
 
 	/**
-	 * @var array
-	 */
-	protected $fixtures = [
-		//'core.Sessions',
-	];
-
-	/**
-	 * @return void
-	 */
-	public function setUp(): void {
-		parent::setUp();
-	}
-
-	/**
 	 * @return void
 	 */
 	public function testIcons() {

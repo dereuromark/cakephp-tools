@@ -3,7 +3,6 @@
 namespace Tools\View\Helper;
 
 use Cake\Core\Configure;
-use Cake\Utility\Inflector;
 use Cake\View\Helper;
 
 /**
@@ -18,27 +17,7 @@ class CommonHelper extends Helper {
 	/**
 	 * @var array
 	 */
-	protected $helpers = ['Html', 'Url'];
-
-	/**
-	 * Auto-pluralizing a word using the Inflection class
-	 * //TODO: move to lib or bootstrap
-	 *
-	 * @deprecated Use explicit form directly via sp()
-	 * @param string $singular The string to be pl.
-	 * @param int $count
-	 * @param bool $autoTranslate
-	 * @return string "member" or "members" OR "Mitglied"/"Mitglieder" if autoTranslate TRUE
-	 */
-	public function asp(string $singular, int $count, bool $autoTranslate = false): string {
-		if ($count !== 1) {
-			$plural = Inflector::pluralize($singular);
-		} else {
-			$plural = ''; // No pluralization necessary
-		}
-
-		return $this->sp($singular, $plural, $count, $autoTranslate);
-	}
+	protected array $helpers = ['Html', 'Url'];
 
 	/**
 	 * Manual pluralizing a word using the Inflection class

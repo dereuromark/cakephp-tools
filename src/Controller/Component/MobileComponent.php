@@ -51,7 +51,7 @@ class MobileComponent extends Component {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected $_defaultConfig = [
+	protected array $_defaultConfig = [
 		'on' => 'beforeFilter', // initialize (prior to controller's beforeRender) or startup
 		'engine' => null, // CakePHP internal if null
 		'themed' => false, // If false uses subfolders instead of themes: /View/.../mobile/
@@ -196,15 +196,11 @@ class MobileComponent extends Component {
 	 * @throws \RuntimeException
 	 * @return bool Success
 	 */
-	public function detect() {
-		// Deprecated - the vendor libs are far more accurate and up to date
+	public function detect(): bool {
 		if (!$this->_config['engine']) {
-			if (isset($this->getController()->RequestHandler)) {
-				return $this->getController()->getRequest()->is('mobile') || $this->getController()->RequestHandler->accepts('wap');
-			}
-
 			return $this->getController()->getRequest()->is('mobile');
 		}
+
 		if (is_callable($this->_config['engine'])) {
 			return call_user_func($this->_config['engine']);
 		}

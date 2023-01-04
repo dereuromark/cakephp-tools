@@ -70,7 +70,7 @@ class UrlHelperTest extends TestCase {
 			->withParam('prefix', 'Admin');
 		$this->Url->getView()->setRequest($request);
 
-		Router::prefix('Admin', function (RouteBuilder $routes) {
+		Router::prefix('Admin', function (RouteBuilder $routes): void {
 			$routes->fallbacks();
 		});
 		Router::setRequest($this->Url->getView()->getRequest());
@@ -104,11 +104,11 @@ class UrlHelperTest extends TestCase {
 		Router::reload();
 		Router::defaultRouteClass(DashedRoute::class);
 		Router::connect('/:controller/:action/*');
-		Router::plugin('Foo', function (RouteBuilder $routes) {
+		Router::plugin('Foo', function (RouteBuilder $routes): void {
 			$routes->fallbacks(DashedRoute::class);
 		});
-		Router::prefix('Admin', function (RouteBuilder $routes) {
-			$routes->plugin('Foo', function (RouteBuilder $routes) {
+		Router::prefix('Admin', function (RouteBuilder $routes): void {
+			$routes->plugin('Foo', function (RouteBuilder $routes): void {
 				$routes->fallbacks(DashedRoute::class);
 			});
 		});

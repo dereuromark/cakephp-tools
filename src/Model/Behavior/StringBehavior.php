@@ -7,7 +7,7 @@ use Cake\Datasource\EntityInterface;
 use Cake\Datasource\ResultSetInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 
 /**
  * A behavior that will apply basic string operations for your input.
@@ -31,7 +31,7 @@ class StringBehavior extends Behavior {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected $_defaultConfig = [
+	protected array $_defaultConfig = [
 		'fields' => [], // Fields to convert
 		'input' => [], // Basic input filters
 		'output' => [], // Basic output filters
@@ -48,13 +48,13 @@ class StringBehavior extends Behavior {
 	 * Decode the fields on after find
 	 *
 	 * @param \Cake\Event\EventInterface $event
-	 * @param \Cake\ORM\Query $query
+	 * @param \Cake\ORM\Query\SelectQuery $query
 	 * @param \ArrayObject $options
 	 * @param bool $primary
 	 *
 	 * @return void
 	 */
-	public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, $primary) {
+	public function beforeFind(EventInterface $event, SelectQuery $query, ArrayObject $options, $primary) {
 		$query->formatResults(function (ResultSetInterface $results) {
 			return $results->map(function ($row) {
 				$this->processItems($row, 'output');

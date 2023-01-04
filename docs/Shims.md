@@ -1,4 +1,4 @@
-# Migration from 2.x to 3.x: Shims
+# Migration from 4.x to 5.x: Shims
 Shims ease migration as complete parts of the code, such as validation and other model property settings
 can be reused immediately without refactoring them right away.
 

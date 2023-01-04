@@ -5,6 +5,7 @@ namespace Tools\View\Helper;
 use Cake\Utility\Hash;
 use Cake\View\Helper\NumberHelper as CakeNumberHelper;
 use Cake\View\View;
+use Tools\Utility\Number;
 
 /**
  * Overwrite to allow usage of own Number class.
@@ -26,6 +27,16 @@ class NumberHelper extends CakeNumberHelper {
 		$config = Hash::merge(['engine' => 'Tools.Number'], $config);
 
 		parent::__construct($View, $config);
+	}
+	/**
+	 * Call methods from Cake\I18n\Number utility class
+	 *
+	 * @param string $method Method to invoke
+	 * @param array $params Array of params for the method.
+	 * @return mixed Whatever is returned by called method, or false on failure
+	 */
+	public function __call(string $method, array $params): mixed {
+		return Number::{$method}(...$params);
 	}
 
 }

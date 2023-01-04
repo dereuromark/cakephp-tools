@@ -28,7 +28,7 @@ class TreeHelper extends Helper {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected $_defaultConfig = [
+	protected array $_defaultConfig = [
 		'model' => null,
 		'alias' => 'name',
 		'type' => 'ul',
@@ -59,28 +59,28 @@ class TreeHelper extends Helper {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected $_config = [];
+	protected array $_config = [];
 
 	/**
 	 * TypeAttributes property
 	 *
 	 * @var array
 	 */
-	protected $_typeAttributes = [];
+	protected array $_typeAttributes = [];
 
 	/**
 	 * TypeAttributesNext property
 	 *
 	 * @var array
 	 */
-	protected $_typeAttributesNext = [];
+	protected array $_typeAttributesNext = [];
 
 	/**
 	 * ItemAttributes property
 	 *
 	 * @var array
 	 */
-	protected $_itemAttributes = [];
+	protected array $_itemAttributes = [];
 
 	/**
 	 * Tree generation method.

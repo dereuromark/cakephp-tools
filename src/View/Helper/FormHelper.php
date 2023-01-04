@@ -18,7 +18,7 @@ class FormHelper extends CakeFormHelper {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected $_defaultConfigExt = [
+	protected array $_defaultConfigExt = [
 		'novalidate' => false,
 	];
 

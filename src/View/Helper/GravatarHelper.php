@@ -23,7 +23,7 @@ class GravatarHelper extends Helper {
 	 *
 	 * @var array
 	 */
-	protected $_url = [
+	protected array $_url = [
 		'http' => 'http://www.gravatar.com/avatar/',
 		'https' => 'https://secure.gravatar.com/avatar/',
 	];
@@ -33,7 +33,7 @@ class GravatarHelper extends Helper {
 	 *
 	 * @var array
 	 */
-	protected $_allowedRatings = [
+	protected array $_allowedRatings = [
 		'g', 'pg', 'r', 'x'];
 
 	/**
@@ -41,7 +41,7 @@ class GravatarHelper extends Helper {
 	 *
 	 * @var array
 	 */
-	protected $_defaultIcons = [
+	protected array $_defaultIcons = [
 		'none', 'mm', 'identicon', 'monsterid', 'retro', 'wavatar', '404'];
 
 	/**
@@ -49,7 +49,7 @@ class GravatarHelper extends Helper {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected $_defaultConfig = [
+	protected array $_defaultConfig = [
 		'default' => null,
 		'size' => null,
 		'rating' => null,
@@ -60,7 +60,7 @@ class GravatarHelper extends Helper {
 	 *
 	 * @var array
 	 */
-	protected $helpers = ['Html'];
+	protected array $helpers = ['Html'];
 
 	/**
 	 * @param \Cake\View\View $View

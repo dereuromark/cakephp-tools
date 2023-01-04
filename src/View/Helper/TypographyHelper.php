@@ -56,7 +56,7 @@ class TypographyHelper extends Helper {
 	 *
 	 * @var array
 	 */
-	protected $innerBlockRequired = ['blockquote'];
+	protected array $innerBlockRequired = ['blockquote'];
 
 	/**
 	 * The last block element parsed
@@ -75,7 +75,7 @@ class TypographyHelper extends Helper {
 	/**
 	 * @var array
 	 */
-	protected $matching = [
+	protected array $matching = [
 		'deu' => 'low', // except for Switzerland
 		'eng' => 'default',
 		'fra' => 'angle',

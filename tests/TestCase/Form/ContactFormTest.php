@@ -10,9 +10,9 @@ class ContactFormTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	protected $fixtures = [
-		'core.Posts',
-		'core.Authors',
+	protected array $fixtures = [
+		'plugin.Tools.Posts',
+		'plugin.Tools.Authors',
 		'plugin.Tools.ToolsUsers',
 		'plugin.Tools.Roles',
 	];

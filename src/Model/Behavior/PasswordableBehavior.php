@@ -40,7 +40,7 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected $_defaultConfig = [
+	protected array $_defaultConfig = [
 		'field' => 'password',
 		'confirm' => true, // Set to false if in admin view and no confirmation (pwd_repeat) is required
 		'require' => true, // If a password change is required (set to false for edit forms, leave it true for pure password update forms)
@@ -60,7 +60,7 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * @var array
 	 */
-	protected $_validationRules = [
+	protected array $_validationRules = [
 		'formField' => [
 			'between' => [
 				'rule' => ['lengthBetween', PWD_MIN_LENGTH, PWD_MAX_LENGTH],

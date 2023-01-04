@@ -3,14 +3,14 @@
 namespace Tools\Test\TestCase\Utility;
 
 use Cake\Core\Configure;
-use DateTime;
+use DateTime as CoreDateTime;
 use Shim\TestSuite\TestCase;
-use Tools\Utility\Time;
+use Tools\Utility\DateTime;
 
-class TimeTest extends TestCase {
+class DateTimeTest extends TestCase {
 
 	/**
-	 * @var \Tools\Utility\Time
+	 * @var \Tools\Utility\DateTime
 	 */
 	protected $Time;
 
@@ -18,7 +18,7 @@ class TimeTest extends TestCase {
 	 * @return void
 	 */
 	public function setUp(): void {
-		$this->Time = new Time();
+		$this->Time = new DateTime();
 
 		parent::setUp();
 	}
@@ -30,7 +30,7 @@ class TimeTest extends TestCase {
 	 */
 	public function testObject() {
 		$this->assertTrue(is_object($this->Time));
-		$this->assertInstanceOf(Time::class, $this->Time);
+		$this->assertInstanceOf(DateTime::class, $this->Time);
 	}
 
 	/**
@@ -40,7 +40,7 @@ class TimeTest extends TestCase {
 	 */
 	public function testIncrementDate() {
 		$timezone = Configure::read('Config.timezone');
-
+		//$timezone = Date$this->Time->timezone();
 		Configure::write('Config.timezone', 'Europe/Berlin');
 		$phpTimezone = date_default_timezone_get();
 		date_default_timezone_set('Europe/Berlin');
@@ -161,8 +161,13 @@ class TimeTest extends TestCase {
 
 		$ret = $this->Time->niceDate('2009-12-01');
 		$this->assertEquals('01.12.2009', $ret);
+	}
 
-		$ret = $this->Time->localDate('2009-12-01');
+	/**
+	 * @return void
+	 */
+	public function testFormatLocalized() {
+		$ret = $this->Time->formatLocalized(new DateTime('2009-12-01'), 'd.m.Y');
 		$this->assertEquals('01.12.2009', $ret);
 	}
 
@@ -306,15 +311,15 @@ class TimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testIsLeapYear() {
-		$this->Time = new Time('2001-01-01');
+		$this->Time = new DateTime('2001-01-01');
 		$is = $this->Time->isLeapYear();
 		$this->assertFalse($is);
 
-		$this->Time = new Time('2008-01-01');
+		$this->Time = new DateTime('2008-01-01');
 		$is = $this->Time->isLeapYear();
 		$this->assertTrue($is);
 
-		$this->Time = new Time('2000-01-01');
+		$this->Time = new DateTime('2000-01-01');
 		$is = $this->Time->isLeapYear();
 		$this->assertTrue($is);
 	}
@@ -441,12 +446,16 @@ class TimeTest extends TestCase {
 		$month = date('n') + 1;
 		if ($month <= 12) {
 			$is = $this->Time->ageByYear(2000, $month);
+			//$this->out($is);
+			//$this->assertEquals($is, (date('Y')-2001).'/'.(date('Y')-2000), null, '2000/'.$month);
 			$this->assertSame(date('Y') - 2001, $is); //null, '2000/'.$month
 		}
 
 		$month = date('n') - 1;
 		if ($month >= 1) {
 			$is = $this->Time->ageByYear(2000, $month);
+			//$this->out($is);
+			//$this->assertEquals($is, (date('Y')-2001).'/'.(date('Y')-2000), null, '2000/'.$month);
 			$this->assertSame(date('Y') - 2000, $is); //null, '2000/'.$month)
 		}
 	}
@@ -639,11 +648,11 @@ class TimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testIsDayAfterTomorrow() {
-		$testDate = new Time(time() + 2 * DAY);
+		$testDate = new DateTime(time() + 2 * DAY);
 		$is = $this->Time->isDayAfterTomorrow($testDate);
 		$this->assertTrue($is);
 
-		$testDate = new Time(time() - 1 * MINUTE);
+		$testDate = new DateTime(time() - 1 * MINUTE);
 		$is = $this->Time->isDayAfterTomorrow($testDate);
 		$this->assertFalse($is);
 	}
@@ -975,8 +984,8 @@ class TimeTest extends TestCase {
 		$this->assertEquals('24:00:02', $result);
 
 		// using Time/Carbon
-		$start = new Time();
-		$end = (new Time())->addMinutes(3);
+		$start = new DateTime();
+		$end = (new DateTime())->addMinutes(3);
 		$diff = $end->diffInSeconds($start);
 		$result = $this->Time->buildTime($diff, 'H:MM:SS');
 		$this->assertEquals('0:03:00', $result);
@@ -1081,7 +1090,7 @@ class TimeTest extends TestCase {
 		$this->assertTrue(isset($location['latitude']));
 		$this->assertTrue(isset($location['longitude']));
 
-		$offset = $timezone->getOffset(new DateTime('@' . mktime(0, 0, 0, 1, 1, date('Y'))));
+		$offset = $timezone->getOffset(new CoreDateTime('@' . mktime(0, 0, 0, 1, 1, date('Y'))));
 		//$this->debug($offset);
 
 		$phpTimezone = date_default_timezone_get();

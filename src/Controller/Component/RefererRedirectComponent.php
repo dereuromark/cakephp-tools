@@ -22,7 +22,7 @@ class RefererRedirectComponent extends Component {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected $_defaultConfig = [
+	protected array $_defaultConfig = [
 		'actions' => [],
 	];
 

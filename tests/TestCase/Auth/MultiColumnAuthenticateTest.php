@@ -12,7 +12,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	protected $fixtures = [
+	protected array $fixtures = [
 		'plugin.Tools.MultiColumnUsers',
 	];
 
@@ -37,7 +37,7 @@ class MultiColumnAuthenticateTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->registry = $this->getMockBuilder('Cake\Controller\ComponentRegistry')->getMock();
+		$this->registry = $this->getMockBuilder('Cake\Controller\ComponentRegistry')->disableOriginalConstructor()->getMock();
 		$this->auth = new MultiColumnAuthenticate($this->registry, [
 			'fields' => ['username' => 'user_name', 'password' => 'password'],
 			'userModel' => 'MultiColumnUsers',

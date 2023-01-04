@@ -58,7 +58,7 @@ Cake\Mailer\TransportFactory::setConfig('Debug', [
 
 mb_internal_encoding('UTF-8');
 
-$Tmp = new Cake\Filesystem\Folder(TMP);
+$Tmp = new Shim\Filesystem\Folder(TMP);
 $Tmp->create(TMP . 'cache/models', 0770);
 $Tmp->create(TMP . 'cache/persistent', 0770);
 $Tmp->create(TMP . 'cache/views', 0770);
@@ -142,3 +142,8 @@ Cake\Datasource\ConnectionManager::setConfig('test', [
 	'quoteIdentifiers' => true,
 	'cacheMetadata' => true,
 ]);
+
+if (env('FIXTURE_SCHEMA_METADATA')) {
+	$loader = new Cake\TestSuite\Fixture\SchemaLoader();
+	$loader->loadInternalFile(env('FIXTURE_SCHEMA_METADATA'));
+}

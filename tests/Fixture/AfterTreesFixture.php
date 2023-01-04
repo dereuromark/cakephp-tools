@@ -14,7 +14,7 @@ class AfterTreesFixture extends TestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = [
+	public array $fields = [
 		'id' => ['type' => 'integer'],
 		'parent_id' => ['type' => 'integer'],
 		'lft' => ['type' => 'integer'],
@@ -28,7 +28,7 @@ class AfterTreesFixture extends TestFixture {
 	 *
 	 * @var array
 	 */
-	public $records = [
+	public array $records = [
 		['parent_id' => null, 'lft' => 1, 'rght' => 2, 'name' => 'One'],
 		['parent_id' => null, 'lft' => 3, 'rght' => 4, 'name' => 'Two'],
 		['parent_id' => null, 'lft' => 5, 'rght' => 6, 'name' => 'Three'],

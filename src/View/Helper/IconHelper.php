@@ -21,7 +21,7 @@ class IconHelper extends Helper {
 	 *
 	 * @var array
 	 */
-	protected $helpers = ['Html'];
+	protected array $helpers = ['Html'];
 
 	/**
 	 * @var \Tools\View\Icon\IconCollection
@@ -31,7 +31,7 @@ class IconHelper extends Helper {
 	/**
 	 * @var array
 	 */
-	protected $_defaults = [
+	protected array $_defaults = [
 		'sets' => [],
 		'paths' => [],
 		'autoPrefix' => true, // For primary set no prefix is required

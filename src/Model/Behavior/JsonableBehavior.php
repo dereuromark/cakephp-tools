@@ -9,7 +9,7 @@ use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
-use Cake\ORM\Query;
+use Cake\ORM\Query\SelectQuery;
 use InvalidArgumentException;
 use RuntimeException;
 use Shim\Database\Type\ArrayType;
@@ -49,7 +49,7 @@ class JsonableBehavior extends Behavior {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected $_defaultConfig = [
+	protected array $_defaultConfig = [
 		'fields' => [], // Fields to convert
 		'input' => 'array', // json, array, param, list (param/list only works with specific fields)
 		'output' => 'array', // json, array, param, list (param/list only works with specific fields)
@@ -105,13 +105,13 @@ class JsonableBehavior extends Behavior {
 	 * Decode the fields on after find
 	 *
 	 * @param \Cake\Event\EventInterface $event
-	 * @param \Cake\ORM\Query $query
+	 * @param \Cake\ORM\Query\SelectQuery $query
 	 * @param \ArrayObject $options
 	 * @param bool $primary
 	 *
 	 * @return void
 	 */
-	public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, $primary) {
+	public function beforeFind(EventInterface $event, SelectQuery $query, ArrayObject $options, $primary) {
 		$query->formatResults(function (CollectionInterface $results) {
 			return $results->map(function ($row) {
 				if (!$row instanceof Entity) {

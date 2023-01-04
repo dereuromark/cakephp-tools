@@ -22,7 +22,7 @@ class ConfirmableBehavior extends Behavior {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected $_defaultConfig = [
+	protected array $_defaultConfig = [
 		'message' => null,
 		'field' => 'confirm',
 		'validator' => 'default',

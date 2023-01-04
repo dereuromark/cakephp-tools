@@ -9,7 +9,7 @@ class TypeMapBehaviorTest extends TestCase {
 	/**
 	 * @var array
 	 */
-	protected $fixtures = [
+	protected array $fixtures = [
 		'plugin.Tools.Data',
 	];
 

@@ -6,6 +6,7 @@ use Cake\Utility\Hash;
 use Cake\View\Helper\TextHelper as CakeTextHelper;
 use Cake\View\View;
 use Tools\Utility\Number;
+use Tools\Utility\Text;
 use Tools\Utility\Utility;
 
 if (!defined('CHAR_HELLIP')) {
@@ -43,6 +44,17 @@ class TextHelper extends CakeTextHelper {
 		$config = Hash::merge(['engine' => 'Tools.Text'], $config);
 
 		parent::__construct($View, $config);
+	}
+
+	/**
+	 * Call methods from String utility class
+	 *
+	 * @param string $method Method to invoke
+	 * @param array $params Array of params for the method.
+	 * @return mixed Whatever is returned by called method, or false on failure
+	 */
+	public function __call(string $method, array $params): mixed {
+		return Text::{$method}(...$params);
 	}
 
 	/**

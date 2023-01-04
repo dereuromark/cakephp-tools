@@ -11,7 +11,7 @@ class ToggleAddressesFixture extends TestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = [
+	public array $fields = [
 		'id' => ['type' => 'integer', 'length' => 10, 'unsigned' => true, 'null' => false, 'default' => null, 'autoIncrement' => true, 'precision' => null],
 		'category_id' => ['type' => 'integer', 'length' => 10, 'unsigned' => true, 'null' => true, 'default' => null, 'precision' => null, 'autoIncrement' => null],
 		'name' => ['type' => 'string', 'length' => 60, 'null' => false, 'default' => null, 'precision' => null, 'fixed' => null],
@@ -28,7 +28,7 @@ class ToggleAddressesFixture extends TestFixture {
 	 *
 	 * @var array
 	 */
-	public $records = [
+	public array $records = [
 		[
 			'category_id' => 1,
 			'name' => 'Foo',

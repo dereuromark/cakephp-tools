@@ -14,7 +14,7 @@ class StoriesFixture extends TestFixture {
 	 *
 	 * @var array
 	 */
-	public $fields = [
+	public array $fields = [
 		'id' => ['type' => 'integer'],
 		'title' => ['type' => 'string', 'null' => false, 'length' => 64, 'comment' => ''],
 		'slug' => ['type' => 'string', 'null' => true, 'default' => null, 'length' => 20, 'comment' => ''],
@@ -30,7 +30,7 @@ class StoriesFixture extends TestFixture {
 	 *
 	 * @var array
 	 */
-	public $records = [
+	public array $records = [
 		[
 			'id' => '1',
 			'title' => 'Second',

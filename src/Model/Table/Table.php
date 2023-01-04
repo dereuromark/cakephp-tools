@@ -6,7 +6,7 @@ use Cake\Routing\Router;
 use Cake\Validation\Validation;
 use InvalidArgumentException;
 use Shim\Model\Table\Table as ShimTable;
-use Tools\Utility\FrozenTime;
+use Tools\Utility\DateTime;
 use Tools\Utility\Utility;
 
 /**
@@ -74,27 +74,6 @@ class Table extends ShimTable {
 		$context += $options;
 
 		return parent::validateUnique($value, $context);
-	}
-
-	/**
-	 * Return the next auto increment id from the current table
-	 * UUIDs will return false
-	 *
-	 * Only for MySQL.
-	 *
-	 * @deprecated Too (My)SQL specific.
-	 *
-	 * @return int|false next auto increment value or False on failure
-	 */
-	public function getNextAutoIncrement() {
-		$query = "SHOW TABLE STATUS WHERE name = '" . $this->getTable() . "'";
-		$statement = $this->_connection->execute($query);
-		$result = $statement->fetch();
-		if (!isset($result[10])) {
-			return false;
-		}
-
-		return (int)$result[10];
 	}
 
 	/**
@@ -332,7 +311,7 @@ class Table extends ShimTable {
 		/** @var \Cake\Chronos\ChronosInterface $time */
 		$time = $value;
 		if (!is_object($value)) {
-			$time = new FrozenTime($value);
+			$time = new DateTime($value);
 		}
 		$pieces = $time->format(FORMAT_DB_DATETIME);
 		$dateTime = explode(' ', $pieces, 2);
@@ -350,7 +329,7 @@ class Table extends ShimTable {
 				if (!is_object($options['after']) && isset($context['data'][$options['after']])) {
 					$options['after'] = $context['data'][$options['after']];
 					if (!is_object($options['after'])) {
-						$options['after'] = new FrozenTime($options['after']);
+						$options['after'] = new DateTime($options['after']);
 					}
 				} elseif (!is_object($options['after'])) {
 					return false;
@@ -360,7 +339,7 @@ class Table extends ShimTable {
 				if (!is_object($options['before']) && isset($context['data'][$options['before']])) {
 					$options['before'] = $context['data'][$options['before']];
 					if (!is_object($options['before'])) {
-						$options['before'] = new FrozenTime($options['before']);
+						$options['before'] = new DateTime($options['before']);
 					}
 				} elseif (!is_object($options['before'])) {
 					return false;
@@ -425,7 +404,7 @@ class Table extends ShimTable {
 
 		$dateTime = $value;
 		if (!is_object($value)) {
-			$dateTime = new FrozenTime($value);
+			$dateTime = new DateTime($value);
 		}
 		if (!empty($options['allowEmpty']) && empty($dateTime)) {
 			return true;
@@ -439,7 +418,7 @@ class Table extends ShimTable {
 				/** @var \Cake\I18n\Time $after */
 				$after = $context['data'][$options['after']];
 				if (!is_object($after)) {
-					$after = new FrozenTime($after);
+					$after = new DateTime($after);
 				}
 				if ($after->gt($compare)) {
 					return false;
@@ -450,7 +429,7 @@ class Table extends ShimTable {
 				/** @var \Cake\I18n\Time $before */
 				$before = $context['data'][$options['before']];
 				if (!is_object($before)) {
-					$before = new FrozenTime($before);
+					$before = new DateTime($before);
 				}
 				if ($before->lt($compare)) {
 					return false;

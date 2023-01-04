@@ -2,11 +2,9 @@
 
 namespace Tools\Utility;
 
-use Cake\Chronos\Date;
-use Cake\Chronos\MutableDate;
 use Cake\Core\Configure;
-use Cake\I18n\FrozenDate;
-use Cake\I18n\FrozenTime as CakeFrozenTime;
+use Cake\I18n\Date;
+use Cake\I18n\DateTime as CakeDateTime;
 use DateInterval;
 use DateTime;
 use DateTimeInterface;
@@ -17,7 +15,7 @@ use IntlDateFormatter;
  * Extend CakeTime with a few important improvements:
  * - correct timezones for date only input and therefore unchanged day here
  */
-class FrozenTime extends CakeFrozenTime {
+class DateTime extends CakeDateTime {
 
 	/**
 	 * @param \DateTimeInterface|array|string|int|null $time Fixed or relative time
@@ -61,11 +59,11 @@ class FrozenTime extends CakeFrozenTime {
 	public function hasDaylightSavingTime($timezone = null) {
 		$timezone = $this->safeCreateDateTimeZone($timezone);
 		// a date outside of DST
-		$offset = $timezone->getOffset(new CakeFrozenTime('@' . mktime(0, 0, 0, 2, 1, (int)date('Y'))));
+		$offset = $timezone->getOffset(new self('@' . mktime(0, 0, 0, 2, 1, (int)date('Y'))));
 		$offset = $offset / HOUR;
 
 		// a date inside of DST
-		$offset2 = $timezone->getOffset(new CakeFrozenTime('@' . mktime(0, 0, 0, 8, 1, (int)date('Y'))));
+		$offset2 = $timezone->getOffset(new self('@' . mktime(0, 0, 0, 8, 1, (int)date('Y'))));
 		$offset2 = $offset2 / HOUR;
 
 		return abs($offset2 - $offset) > 0;
@@ -118,12 +116,12 @@ class FrozenTime extends CakeFrozenTime {
 
 		$startDate = $start;
 		if (!is_object($start)) {
-			$startDate = new CakeFrozenTime($start);
+			$startDate = new CakeDateTime($start);
 		}
 
 		$endDate = $end;
 		if (!is_object($end)) {
-			$endDate = new CakeFrozenTime($end);
+			$endDate = new CakeDateTime($end);
 		}
 
 		if ($startDate > $endDate) {
@@ -337,7 +335,7 @@ class FrozenTime extends CakeFrozenTime {
 	public function incrementDate($startDate, $years = 0, $months = 0, $days = 0, $timezone = null) {
 		$dateTime = $startDate;
 		if (!is_object($startDate)) {
-			$dateTime = new CakeFrozenTime($startDate);
+			$dateTime = new CakeDateTime($startDate);
 			if ($timezone) {
 				$dateTime = $dateTime->setTimezone($this->safeCreateDateTimeZone($timezone));
 			}
@@ -354,7 +352,7 @@ class FrozenTime extends CakeFrozenTime {
 		// Increment date by given month/year increments:
 		$incrementedDateString = "$safeDateString $months month $years year";
 		$newTimeStamp = strtotime($incrementedDateString) + $days * DAY;
-		$newDate = DateTime::createFromFormat('U', (string)$newTimeStamp);
+		$newDate = static::createFromFormat('U', (string)$newTimeStamp);
 
 		return $newDate;
 	}
@@ -374,7 +372,7 @@ class FrozenTime extends CakeFrozenTime {
 			$secondAge = $firstAge;
 		}
 		//TODO: other relative time then today should work as well
-		$date = new CakeFrozenTime($relativeTime ?? 'now');
+		$date = new CakeDateTime($relativeTime ?? 'now');
 
 		$max = mktime(23, 23, 59, (int)$date->format('m'), (int)$date->format('d'), (int)$date->format('Y') - $firstAge);
 		$min = mktime(0, 0, 1, (int)$date->format('m'), (int)$date->format('d') + 1, (int)$date->format('Y') - $secondAge - 1);
@@ -431,7 +429,7 @@ class FrozenTime extends CakeFrozenTime {
 		if ($options['timezone']) {
 			$options['timezone'] = static::safeCreateDateTimeZone($options['timezone']);
 		}
-		$date = new CakeFrozenTime($dateString, $options['timezone']);
+		$date = new self($dateString, $options['timezone']);
 		if ($format === null) {
 			if (is_int($dateString) || strpos($dateString, ' ') !== false) {
 				$format = 'd.m.Y, H:i';
@@ -452,13 +450,13 @@ class FrozenTime extends CakeFrozenTime {
 	}
 
 	/**
-	 * @param \DateTimeInterface $dt
+	 * @param \DateTimeInterface|\Cake\Chronos\Chronos $dt
 	 * @param string $format
 	 * @param string $language
 	 *
 	 * @return string
 	 */
-	public static function formatLocalized(DateTimeInterface $dt, string $format, string $language = 'en'): string {
+	public static function formatLocalized($dt, string $format, string $language = 'en'): string {
 		$curTz = $dt->getTimezone();
 		if ($curTz->getName() === 'Z') {
 			// INTL don't know Z
@@ -496,31 +494,6 @@ class FrozenTime extends CakeFrozenTime {
 	}
 
 	/**
-	 * Multibyte wrapper for strftime.
-	 *
-	 * Handles utf8_encoding the result of strftime when necessary.
-	 *
-	 * @deprecated strftime() should be replaced in PHP 8.1+
-	 *
-	 * @param string $format Format string.
-	 * @param int $date Timestamp to format.
-	 * @return string formatted string with correct encoding.
-	 */
-	protected static function _strftime($format, $date) {
-		$format = strftime($format, $date);
-		$encoding = Configure::read('App.encoding');
-
-		if (!empty($encoding) && $encoding === 'UTF-8') {
-			$valid = mb_check_encoding($format, $encoding);
-			if (!$valid) {
-				$format = utf8_encode($format);
-			}
-		}
-
-		return $format;
-	}
-
-	/**
 	 * Outputs Date(time) Sting nicely formatted
 	 *
 	 * Options:
@@ -528,7 +501,7 @@ class FrozenTime extends CakeFrozenTime {
 	 * - default: Default string (defaults to "-----")
 	 * - oclock: Set to true to append oclock string
 	 *
-	 * @param \Cake\I18n\I18nDateTimeInterface|string|null $dateString
+	 * @param \Cake\I18n\DateTime|string|null $dateString
 	 * @param string|null $format Format (YYYY-MM-DD, DD.MM.YYYY)
 	 * @param array<string, mixed> $options Options
 	 * @return string
@@ -550,24 +523,26 @@ class FrozenTime extends CakeFrozenTime {
 		}
 
 		if (!is_object($dateString)) {
-			if (strlen($dateString) === 10) {
-				$date = new FrozenDate($dateString);
+			if (is_string($dateString) && strlen($dateString) === 10) {
+				$date = new Date($dateString);
 			} else {
-				$date = new CakeFrozenTime($dateString);
+				$date = new static($dateString);
 			}
 		} else {
 			$date = $dateString;
 		}
 
 		if ($format === null) {
-			if ($date instanceof MutableDate || $date instanceof Date) {
+			if ($date instanceof Date) {
 				$format = FORMAT_NICE_YMD;
 			} else {
 				$format = FORMAT_NICE_YMDHM;
 			}
 		}
 
-		$date = $date->timezone($options['timezone']);
+		if (!($date instanceof Date) && !($date instanceof DateTime)) {
+			$date = $date->timezone($options['timezone']);
+		}
 		$ret = $date->format($format);
 
 		if (!empty($options['oclock'])) {
@@ -1033,7 +1008,7 @@ class FrozenTime extends CakeFrozenTime {
 	 * @return bool True if datetime is not today AND is in the future
 	 */
 	public static function isNotTodayAndInTheFuture($dateString, $timezone = null) {
-		$date = new CakeFrozenTime($dateString, $timezone);
+		$date = new CakeDateTime($dateString, $timezone);
 		$date = $date->format('U');
 
 		return date(FORMAT_DB_DATE, (int)$date) > date(FORMAT_DB_DATE, time());
@@ -1048,7 +1023,7 @@ class FrozenTime extends CakeFrozenTime {
 	 */
 	public static function isInTheFuture($date, $timezone = null) {
 		if (!($date instanceof DateTimeInterface)) {
-			$date = new CakeFrozenTime($date, $timezone);
+			$date = new CakeDateTime($date, $timezone);
 		}
 		$date = $date->format('U');
 
@@ -1081,7 +1056,7 @@ class FrozenTime extends CakeFrozenTime {
 		}
 
 		if ($format) {
-			$res = DateTime::createFromFormat($format, $date);
+			$res = static::createFromFormat($format, $date);
 			$res = $res->format(FORMAT_DB_DATE) . ' ' . ($type === 'end' ? '23:59:59' : '00:00:00');
 
 			return $res;
@@ -1164,9 +1139,9 @@ class FrozenTime extends CakeFrozenTime {
 	 * @return string Partial SQL string.
 	 */
 	public static function daysAsSql($begin, $end, $fieldName, $timezone = null) {
-		$begin = new CakeFrozenTime($begin, $timezone);
+		$begin = new CakeDateTime($begin, $timezone);
 		$begin = $begin->format('U');
-		$end = new CakeFrozenTime($end, $timezone);
+		$end = new CakeDateTime($end, $timezone);
 		$end = $end->format('U');
 		$begin = date('Y-m-d', (int)$begin) . ' 00:00:00';
 		$end = date('Y-m-d', (int)$end) . ' 23:59:59';
@@ -1318,9 +1293,9 @@ class FrozenTime extends CakeFrozenTime {
 	 * @return string Time
 	 */
 	public static function duration($duration, $format = '%h:%I:%S') {
-		if (!$duration instanceof \DateInterval) {
-			$d1 = new CakeFrozenTime();
-			$d2 = new CakeFrozenTime();
+		if (!$duration instanceof DateInterval) {
+			$d1 = new self();
+			$d2 = new self();
 			$d2 = $d2->add(new DateInterval('PT' . $duration . 'S'));
 
 			$duration = $d2->diff($d1);
@@ -1352,7 +1327,7 @@ class FrozenTime extends CakeFrozenTime {
 	 * @return string Time
 	 */
 	public static function buildTime($duration, $format = 'H:MM:SS') {
-		if ($duration instanceof \DateInterval) {
+		if ($duration instanceof DateInterval) {
 			$m = $duration->invert ? -1 : 1;
 
 			$duration = ($duration->y * YEAR) +
