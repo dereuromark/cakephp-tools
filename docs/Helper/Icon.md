@@ -24,7 +24,7 @@ E.g.
 ```php
 'Icon' => [
     'sets' => [
-        'bs' => \Tools\View\Icon\BoostrapIcon::class,
+        'bs' => \Tools\View\Icon\BootstrapIcon::class,
         ...
     ],
 ],
