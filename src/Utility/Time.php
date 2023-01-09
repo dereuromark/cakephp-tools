@@ -1273,7 +1273,7 @@ class Time extends CakeTime {
 	 * @return string Time
 	 */
 	public static function duration($duration, $format = '%h:%I:%S') {
-		if (!$duration instanceof \DateInterval) {
+		if (!$duration instanceof DateInterval) {
 			$d1 = new CakeFrozenTime();
 			$d2 = new CakeFrozenTime();
 			$d2 = $d2->add(new DateInterval('PT' . $duration . 'S'));
@@ -1307,7 +1307,7 @@ class Time extends CakeTime {
 	 * @return string Time
 	 */
 	public static function buildTime($duration, $format = 'H:MM:SS') {
-		if ($duration instanceof \DateInterval) {
+		if ($duration instanceof DateInterval) {
 			$m = $duration->invert ? -1 : 1;
 
 			$duration = ($duration->y * YEAR) +

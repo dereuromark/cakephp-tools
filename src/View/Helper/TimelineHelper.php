@@ -4,6 +4,7 @@ namespace Tools\View\Helper;
 
 use Cake\I18n\FrozenTime;
 use Cake\View\Helper;
+use DateTimeInterface;
 
 /**
  * TimelineHelper for easy output of a timeline with multiple items.
@@ -218,7 +219,7 @@ JS;
 	 * @return string
 	 */
 	protected function _date($date = null) {
-		if ($date === null || !$date instanceof \DateTimeInterface) {
+		if ($date === null || !$date instanceof DateTimeInterface) {
 			return '';
 		}
 		$datePieces = [];
