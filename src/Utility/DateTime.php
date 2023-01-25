@@ -3,10 +3,9 @@
 namespace Tools\Utility;
 
 use Cake\Core\Configure;
-use Cake\I18n\Date;
+use Cake\I18n\Date as CakeDate;
 use Cake\I18n\DateTime as CakeDateTime;
 use DateInterval;
-use DateTime;
 use DateTimeInterface;
 use DateTimeZone;
 use IntlDateFormatter;
@@ -540,7 +539,7 @@ class DateTime extends CakeDateTime {
 			}
 		}
 
-		if (!($date instanceof Date) && !($date instanceof DateTime)) {
+		if (!($date instanceof CakeDate) && !($date instanceof CakeDateTime)) {
 			$date = $date->timezone($options['timezone']);
 		}
 		$ret = $date->format($format);
