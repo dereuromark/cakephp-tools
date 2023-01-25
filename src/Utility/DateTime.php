@@ -6,6 +6,7 @@ use Cake\Core\Configure;
 use Cake\I18n\Date as CakeDate;
 use Cake\I18n\DateTime as CakeDateTime;
 use DateInterval;
+use DateTime as NativeDateTime;
 use DateTimeInterface;
 use DateTimeZone;
 use IntlDateFormatter;
@@ -58,11 +59,11 @@ class DateTime extends CakeDateTime {
 	public function hasDaylightSavingTime($timezone = null) {
 		$timezone = $this->safeCreateDateTimeZone($timezone);
 		// a date outside of DST
-		$offset = $timezone->getOffset(new self('@' . mktime(0, 0, 0, 2, 1, (int)date('Y'))));
+		$offset = $timezone->getOffset(new NativeDateTime('@' . mktime(0, 0, 0, 2, 1, (int)date('Y'))));
 		$offset = $offset / HOUR;
 
 		// a date inside of DST
-		$offset2 = $timezone->getOffset(new self('@' . mktime(0, 0, 0, 8, 1, (int)date('Y'))));
+		$offset2 = $timezone->getOffset(new NativeDateTime('@' . mktime(0, 0, 0, 8, 1, (int)date('Y'))));
 		$offset2 = $offset2 / HOUR;
 
 		return abs($offset2 - $offset) > 0;
