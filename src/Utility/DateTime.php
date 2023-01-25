@@ -524,7 +524,7 @@ class DateTime extends CakeDateTime {
 
 		if (!is_object($dateString)) {
 			if (is_string($dateString) && strlen($dateString) === 10) {
-				$date = new Date($dateString);
+				$date = new CakeDateTime($dateString);
 			} else {
 				$date = new static($dateString);
 			}
@@ -533,7 +533,7 @@ class DateTime extends CakeDateTime {
 		}
 
 		if ($format === null) {
-			if ($date instanceof Date) {
+			if ($date instanceof CakeDateTime) {
 				$format = FORMAT_NICE_YMD;
 			} else {
 				$format = FORMAT_NICE_YMDHM;
@@ -1294,8 +1294,8 @@ class DateTime extends CakeDateTime {
 	 */
 	public static function duration($duration, $format = '%h:%I:%S') {
 		if (!$duration instanceof DateInterval) {
-			$d1 = new self();
-			$d2 = new self();
+			$d1 = new NativeDateTime();
+			$d2 = new NativeDateTime();
 			$d2 = $d2->add(new DateInterval('PT' . $duration . 'S'));
 
 			$duration = $d2->diff($d1);

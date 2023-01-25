@@ -2,9 +2,12 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
-use Cake\Auth\PasswordHasherFactory;
 use Cake\Core\Configure;
+use Cake\ORM\Table;
 use Shim\TestSuite\TestCase;
+use TestApp\Model\Table\ToolsUsersTable;
+use Tools\Auth\AbstractPasswordHasher;
+use Tools\Auth\PasswordHasherFactory;
 
 class PasswordableBehaviorTest extends TestCase {
 
@@ -19,12 +22,12 @@ class PasswordableBehaviorTest extends TestCase {
 	/**
 	 * @var \TestApp\Model\Table\ToolsUsersTable
 	 */
-	protected $Users;
+	protected Table|ToolsUsersTable $Users;
 
 	/**
-	 * @var \Cake\Auth\AbstractPasswordHasher
+	 * @var \Tools\Auth\AbstractPasswordHasher
 	 */
-	protected $hasher;
+	protected AbstractPasswordHasher $hasher;
 
 	/**
 	 * SetUp method

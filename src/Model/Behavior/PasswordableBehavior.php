@@ -3,13 +3,13 @@
 namespace Tools\Model\Behavior;
 
 use ArrayObject;
-use Cake\Auth\PasswordHasherFactory;
 use Cake\Core\Configure;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Table;
 use RuntimeException;
+use Tools\Auth\PasswordHasherFactory;
 
 if (!defined('PWD_MIN_LENGTH')) {
 	define('PWD_MIN_LENGTH', 6);
@@ -95,7 +95,7 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * Password hasher instance.
 	 *
-	 * @var \Cake\Auth\AbstractPasswordHasher|null
+	 * @var \Tools\Auth\AbstractPasswordHasher|null
 	 */
 	protected $_passwordHasher;
 
@@ -480,7 +480,7 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * @param array<string, mixed>|string $hasher Name or options array.
 	 * @param array<string, mixed> $options
-	 * @return \Cake\Auth\AbstractPasswordHasher
+	 * @return \Tools\Auth\AbstractPasswordHasher
 	 */
 	protected function _getPasswordHasher($hasher, array $options = []) {
 		if ($this->_passwordHasher) {

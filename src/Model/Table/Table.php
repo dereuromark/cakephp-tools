@@ -308,7 +308,7 @@ class Table extends ShimTable {
 		}
 		$format = !empty($options['dateFormat']) ? $options['dateFormat'] : 'ymd';
 
-		/** @var \Cake\Chronos\ChronosInterface $time */
+		/** @var \Cake\Chronos\ChronosDate $time */
 		$time = $value;
 		if (!is_object($value)) {
 			$time = new DateTime($value);
@@ -351,24 +351,24 @@ class Table extends ShimTable {
 
 			if (!empty($options['after'])) {
 				$compare = $compareValue->subSeconds($seconds);
-				if ($options['after']->gt($compare)) {
+				if ($options['after']->greaterThan($compare)) {
 					return false;
 				}
 				if (!empty($options['max'])) {
 					$after = $options['after']->addSeconds($options['max']);
-					if ($time->gt($after)) {
+					if ($time->greaterThan($after)) {
 						return false;
 					}
 				}
 			}
 			if (!empty($options['before'])) {
 				$compare = $compareValue->addSeconds($seconds);
-				if ($options['before']->lt($compare)) {
+				if ($options['before']->lessThan($compare)) {
 					return false;
 				}
 				if (!empty($options['max'])) {
 					$after = $options['before']->subSeconds($options['max']);
-					if ($time->lt($after)) {
+					if ($time->lessThan($after)) {
 						return false;
 					}
 				}
@@ -415,23 +415,23 @@ class Table extends ShimTable {
 			$days = !empty($options['min']) ? $options['min'] : 0;
 			if (!empty($options['after']) && isset($context['data'][$options['after']])) {
 				$compare = $dateTime->subDays($days);
-				/** @var \Cake\I18n\Time $after */
+				/** @var \Cake\I18n\DateTime $after */
 				$after = $context['data'][$options['after']];
 				if (!is_object($after)) {
 					$after = new DateTime($after);
 				}
-				if ($after->gt($compare)) {
+				if ($after->greaterThan($compare)) {
 					return false;
 				}
 			}
 			if (!empty($options['before']) && isset($context['data'][$options['before']])) {
 				$compare = $dateTime->addDays($days);
-				/** @var \Cake\I18n\Time $before */
+				/** @var \Cake\I18n\DateTime $before */
 				$before = $context['data'][$options['before']];
 				if (!is_object($before)) {
 					$before = new DateTime($before);
 				}
-				if ($before->lt($compare)) {
+				if ($before->lessThan($compare)) {
 					return false;
 				}
 			}
