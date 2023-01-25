@@ -20,7 +20,7 @@ class FormatHelperTest extends TestCase {
 	/**
 	 * @var \Tools\View\Helper\FormatHelper
 	 */
-	protected $Format;
+	protected FormatHelper $Format;
 
 	/**
 	 * @return void

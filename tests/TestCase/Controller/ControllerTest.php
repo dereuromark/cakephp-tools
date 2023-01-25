@@ -51,8 +51,8 @@ class ControllerTest extends TestCase {
 		$count = $ToolsUser->find()->count();
 		$this->assertTrue($count > 3);
 
-		$this->Controller->loadModel('ToolsUsers');
-		$result = $this->Controller->paginate('ToolsUsers');
+		$toolsUsers = $this->Controller->fetchTable('ToolsUsers');
+		$result = $this->Controller->paginate($toolsUsers);
 		$this->assertSame(2, count($result->toArray()));
 	}
 
