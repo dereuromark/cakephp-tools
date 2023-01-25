@@ -16,12 +16,12 @@ class UrlComponentTest extends TestCase {
 	/**
 	 * @var \Cake\Event\Event
 	 */
-	protected $event;
+	protected Event $event;
 
 	/**
 	 * @var \TestApp\Controller\UrlComponentTestController
 	 */
-	protected $Controller;
+	protected UrlComponentTestController $Controller;
 
 	/**
 	 * @return void
@@ -114,13 +114,13 @@ class UrlComponentTest extends TestCase {
 			->withParam('plugin', 'Foo');
 		$this->Controller->setRequest($request);
 
-		Router::reload();
-		Router::defaultRouteClass(DashedRoute::class);
-		Router::connect('/:controller/:action/*');
-		Router::plugin('Foo', function (RouteBuilder $routes): void {
+		$builder = Router::createRouteBuilder('/');
+		$builder->setRouteClass(DashedRoute::class);
+		$builder->connect('/:controller/:action/*');
+		$builder->plugin('Foo', function (RouteBuilder $routes): void {
 			$routes->fallbacks(DashedRoute::class);
 		});
-		Router::prefix('Admin', function (RouteBuilder $routes): void {
+		$builder->prefix('Admin', function (RouteBuilder $routes): void {
 			$routes->plugin('Foo', function (RouteBuilder $routes): void {
 				$routes->fallbacks(DashedRoute::class);
 			});

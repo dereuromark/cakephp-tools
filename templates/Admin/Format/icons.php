@@ -14,7 +14,7 @@
 		?>
 		<ul>
 		<?php foreach ($icons as $icon => $class) { ?>
-			<li><?php echo $this->Format->icon($icon); ?> - <?php echo h($icon)?> (<?php echo h($class)?>)</li>
+			<li><?php echo $this->Icon->render($icon); ?> - <?php echo h($icon)?> (<?php echo h($class)?>)</li>
 		<?php } ?>
 		</ul>
 

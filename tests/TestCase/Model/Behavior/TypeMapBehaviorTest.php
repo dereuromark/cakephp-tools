@@ -3,6 +3,8 @@
 namespace Tools\Test\TestCase\Model\Behavior;
 
 use Shim\TestSuite\TestCase;
+use Tools\Model\Behavior\TypeMapBehavior;
+use Tools\Model\Table\Table;
 
 class TypeMapBehaviorTest extends TestCase {
 
@@ -16,12 +18,12 @@ class TypeMapBehaviorTest extends TestCase {
 	/**
 	 * @var \Tools\Model\Behavior\TypeMapBehavior
 	 */
-	protected $TypeMapBehavior;
+	protected TypeMapBehavior $TypeMapBehavior;
 
 	/**
 	 * @var \Tools\Model\Table\Table
 	 */
-	protected $Table;
+	protected Table $Table;
 
 	/**
 	 * @return void
