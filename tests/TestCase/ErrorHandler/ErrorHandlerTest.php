@@ -11,7 +11,7 @@ class ErrorHandlerTest extends TestCase {
 	/**
 	 * @var \Tools\Error\ErrorHandler
 	 */
-	protected $errorHandler;
+	protected ErrorHandler $errorHandler;
 
 	/**
 	 * @return void

@@ -30,7 +30,7 @@ class TokensTable extends Table {
 	/**
 	 * @var array<mixed, mixed>|string|null
 	 */
-	public $order = ['created' => 'DESC'];
+	public array $order = ['created' => 'DESC'];
 
 	/**
 	 * @var int

@@ -29,6 +29,7 @@ class FileLog {
 			$filename = 'custom_log';
 		}
 
+		CoreLog::drop('custom');
 		CoreLog::setConfig('custom', [
 			'className' => 'File',
 			'path' => LOGS,

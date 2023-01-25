@@ -24,12 +24,12 @@ class MobileComponentTest extends TestCase {
 	/**
 	 * @var \Cake\Event\Event
 	 */
-	protected $event;
+	protected Event $event;
 
 	/**
 	 * @var \TestApp\Controller\MobileComponentTestController
 	 */
-	protected $Controller;
+	protected MobileComponentTestController $Controller;
 
 	/**
 	 * SetUp method

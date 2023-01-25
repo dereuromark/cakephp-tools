@@ -28,7 +28,8 @@ class CommonHelperTest extends TestCase {
 		$View = new View(null);
 		$this->Common = new CommonHelper($View);
 
-		Router::scope('/', function(RouteBuilder $routes) {
+		$builder = Router::createRouteBuilder('/');
+		$builder->scope('/', function(RouteBuilder $routes) {
 			$routes->fallbacks(DashedRoute::class);
 		});
 	}
@@ -50,7 +51,7 @@ class CommonHelperTest extends TestCase {
 	 */
 	public function testMetaName() {
 		$result = $this->Common->metaName('foo', [1, 2, 3]);
-		$expected = '<meta name="foo" content="1, 2, 3" />';
+		$expected = '<meta name="foo" content="1, 2, 3">';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -61,7 +62,7 @@ class CommonHelperTest extends TestCase {
 	 */
 	public function testMetaDescription() {
 		$result = $this->Common->metaDescription('foo', 'deu');
-		$expected = '<meta lang="deu" name="description" content="foo"/>';
+		$expected = '<meta lang="deu" name="description" content="foo">';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -72,7 +73,7 @@ class CommonHelperTest extends TestCase {
 	 */
 	public function testMetaKeywords() {
 		$result = $this->Common->metaKeywords('foo bar', 'deu');
-		$expected = '<meta lang="deu" name="keywords" content="foo bar"/>';
+		$expected = '<meta lang="deu" name="keywords" content="foo bar">';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -83,7 +84,7 @@ class CommonHelperTest extends TestCase {
 	 */
 	public function testMetaRss() {
 		$result = $this->Common->metaRss('/some/url', 'some title');
-		$expected = '<link rel="alternate" type="application/rss+xml" title="some title" href="/some/url"/>';
+		$expected = '<link rel="alternate" type="application/rss+xml" title="some title" href="/some/url">';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -94,7 +95,7 @@ class CommonHelperTest extends TestCase {
 	 */
 	public function testMetaEquiv() {
 		$result = $this->Common->metaEquiv('type', 'value');
-		$expected = '<meta http-equiv="type" content="value"/>';
+		$expected = '<meta http-equiv="type" content="value">';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -103,10 +104,10 @@ class CommonHelperTest extends TestCase {
 	 */
 	public function testMetaCanonical() {
 		$is = $this->Common->metaCanonical('/some/url/param1');
-		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url/param1') . '" rel="canonical"/>', trim($is));
+		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url/param1') . '" rel="canonical">', trim($is));
 
 		$is = $this->Common->metaCanonical('/some/url/param1', true);
-		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url/param1', ['fullBase' => true]) . '" rel="canonical"/>', trim($is));
+		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url/param1', ['fullBase' => true]) . '" rel="canonical">', trim($is));
 	}
 
 	/**
@@ -114,32 +115,19 @@ class CommonHelperTest extends TestCase {
 	 */
 	public function testMetaAlternate() {
 		$is = $this->Common->metaAlternate('/some/url/param1', 'de-de', true);
-		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url/param1', ['fullBase' => true]) . '" rel="alternate" hreflang="de-de"/>', trim($is));
+		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url/param1', ['fullBase' => true]) . '" rel="alternate" hreflang="de-de">', trim($is));
 
 		$is = $this->Common->metaAlternate(['controller' => 'Some', 'action' => 'url'], 'de', true);
-		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="de"/>', trim($is));
+		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="de">', trim($is));
 
 		$is = $this->Common->metaAlternate(['controller' => 'Some', 'action' => 'url'], ['de', 'de-ch'], true);
-		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="de"/>' . PHP_EOL . '<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="de-ch"/>', trim($is));
+		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="de">' . PHP_EOL . '<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="de-ch">', trim($is));
 
 		$is = $this->Common->metaAlternate(['controller' => 'Some', 'action' => 'url'], ['de' => ['ch', 'at'], 'en' => ['gb', 'us']], true);
-		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="de-ch"/>' . PHP_EOL .
-			'<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="de-at"/>' . PHP_EOL .
-			'<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="en-gb"/>' . PHP_EOL .
-			'<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="en-us"/>', trim($is));
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testAsp() {
-		$res = $this->Common->asp('House', 2, true);
-		$expected = __d('tools', 'Houses');
-		$this->assertEquals($expected, $res);
-
-		$res = $this->Common->asp('House', 1, true);
-		$expected = __d('tools', 'House');
-		$this->assertEquals($expected, $res);
+		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="de-ch">' . PHP_EOL .
+			'<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="de-at">' . PHP_EOL .
+			'<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="en-gb">' . PHP_EOL .
+			'<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="en-us">', trim($is));
 	}
 
 	/**

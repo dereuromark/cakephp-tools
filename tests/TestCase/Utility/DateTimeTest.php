@@ -12,7 +12,7 @@ class DateTimeTest extends TestCase {
 	/**
 	 * @var \Tools\Utility\DateTime
 	 */
-	protected $Time;
+	protected DateTime $Time;
 
 	/**
 	 * @return void

@@ -26,7 +26,7 @@ class IconHelper extends Helper {
 	/**
 	 * @var \Tools\View\Icon\IconCollection
 	 */
-	protected $collection;
+	protected IconCollection $collection;
 
 	/**
 	 * @var array

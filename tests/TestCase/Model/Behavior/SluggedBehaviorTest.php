@@ -288,7 +288,7 @@ class SluggedBehaviorTest extends TestCase {
 			'conditions' => ['title LIKE' => 'Andy Daw%'],
 			'fields' => ['title', 'slug'],
 			'order' => 'title',
-		])->combine('title', 'slug')->toArray();
+		])->all()->combine('title', 'slug')->toArray();
 		$expected = [
 			'Andy Dawsom' => 'bar',
 			'Andy Dawson' => 'foo',
@@ -303,7 +303,7 @@ class SluggedBehaviorTest extends TestCase {
 			'conditions' => ['title LIKE' => 'Andy Daw%'],
 			'fields' => ['title', 'slug'],
 			'order' => 'title',
-		])->combine('title', 'slug')->toArray();
+		])->all()->combine('title', 'slug')->toArray();
 		$expected = [
 			'Andy Dawsom' => 'Andy-Dawsom',
 			'Andy Dawson' => 'Andy-Dawson',
@@ -348,7 +348,7 @@ class SluggedBehaviorTest extends TestCase {
 			'conditions' => ['title LIKE' => 'Andy Daw%'],
 			'fields' => ['title', 'slug'],
 			'order' => 'title',
-		])->combine('title', 'slug')->toArray();
+		])->all()->combine('title', 'slug')->toArray();
 		$expected = [
 			'Andy Dawson' => 'Andy-Dawso',
 			'Andy Dawsom' => 'Andy-Daw-1',
