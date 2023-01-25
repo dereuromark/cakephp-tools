@@ -27,7 +27,7 @@
 		"dereuromark/cakephp-shim": "dev-cake5"
 	},
 	"require-dev": {
-		"mobiledetect/mobiledetectlib": "^2.8",
+		"mobiledetect/mobiledetectlib": "^3.74",
 		"fig-r/psr2r-sniffer": "dev-next",
 		"yangqi/htmldom": "^1.0",
 		"phpunit/phpunit": "^9.5"
