@@ -2,7 +2,6 @@
 
 namespace Tools\Test\TestCase\Model\Table;
 
-use Cake\I18n\Time;
 use Cake\Utility\Hash;
 use Shim\TestSuite\TestCase;
 use Tools\Utility\DateTime;
