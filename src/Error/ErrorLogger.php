@@ -39,7 +39,9 @@ class ErrorLogger extends CoreErrorLogger {
 			return Log::write($level, $message, ['404']);
 		}
 
-		return parent::log($exception, $request);
+		parent::logException($exception, $request);
+
+		return true;
 	}
 
 }
