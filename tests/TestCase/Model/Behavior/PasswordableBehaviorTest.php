@@ -506,7 +506,6 @@ class PasswordableBehaviorTest extends TestCase {
 			'formField' => 'pwd',
 			'formFieldRepeat' => 'pwd_repeat',
 			'current' => false,
-			'passwordHasher' => 'Complex',
 		]);
 		$user = $this->Users->newEmptyEntity();
 		$data = [
@@ -528,7 +527,6 @@ class PasswordableBehaviorTest extends TestCase {
 			'formField' => 'pwd',
 			'formFieldRepeat' => 'pwd_repeat',
 			'current' => false,
-			'passwordHasher' => 'Complex',
 			'forceFieldList' => true,
 		]);
 		$user = $this->Users->newEmptyEntity();

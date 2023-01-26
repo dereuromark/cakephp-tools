@@ -26,13 +26,6 @@ class TypeMapBehaviorTest extends TestCase {
 	protected Table $Table;
 
 	/**
-	 * @return void
-	 */
-	public function setUp(): void {
-		parent::setUp();
-	}
-
-	/**
 	 * Tests that we can disable array conversion for edit forms if we need to modify the JSON directly.
 	 *
 	 * @return void
