@@ -7,7 +7,6 @@ use Cake\Database\Expression\ComparisonExpression;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
-use Cake\ORM\Query;
 use Cake\ORM\Query\SelectQuery;
 use Cake\Utility\Inflector;
 use InvalidArgumentException;
@@ -51,12 +50,12 @@ class BitmaskedBehavior extends Behavior {
 	];
 
 	/**
-	 * @param \Cake\ORM\Query $query
+	 * @param \Cake\ORM\Query\SelectQuery $query
 	 * @param array<string, mixed> $options
 	 * @throws \InvalidArgumentException If the 'slug' key is missing in options
-	 * @return \Cake\ORM\Query
+	 * @return \Cake\ORM\Query\SelectQuery
 	 */
-	public function findBitmasked(Query $query, array $options) {
+	public function findBitmasked(SelectQuery $query, array $options) {
 		if (!isset($options['bits'])) {
 			throw new InvalidArgumentException("The 'bits' key is required for find('bits')");
 		}
@@ -269,10 +268,10 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param \Cake\ORM\Query $query
+	 * @param \Cake\ORM\Query\SelectQuery $query
 	 * @return void
 	 */
-	public function encodeBitmaskConditions(Query $query) {
+	public function encodeBitmaskConditions(SelectQuery $query) {
 		$field = $this->_config['field'];
 		$mappedField = $this->_config['mappedField'];
 		if (!$mappedField) {

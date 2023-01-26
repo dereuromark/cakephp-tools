@@ -34,6 +34,7 @@ class DefaultPasswordHasher extends AbstractPasswordHasher {
 	 * @return string|false Password hash or false on failure
 	 */
 	public function hash(string $password) {
+    /** @phpstan-ignore-next-line */
 		return password_hash(
 			$password,
 			$this->_config['hashType'],

@@ -3,15 +3,15 @@
 namespace Tools\Test\TestCase\ErrorHandler;
 
 use Shim\TestSuite\TestCase;
-use Tools\Error\ErrorHandler;
 use Tools\Error\ErrorLogger;
+use Tools\Error\ExceptionTrap;
 
-class ErrorHandlerTest extends TestCase {
+class ExceptionTrapTest extends TestCase {
 
 	/**
-	 * @var \Tools\Error\ErrorHandler
+	 * @var \Tools\Error\ExceptionTrap
 	 */
-	protected ErrorHandler $errorHandler;
+	protected ExceptionTrap $exceptionTrap;
 
 	/**
 	 * @return void
@@ -19,14 +19,14 @@ class ErrorHandlerTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->errorHandler = new ErrorHandler();
+		$this->exceptionTrap = new ExceptionTrap();
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testLogger(): void {
-		$result = $this->errorHandler->getConfig('errorLogger');
+		$result = $this->exceptionTrap->getConfig('logger');
 		$this->assertSame(ErrorLogger::class, $result);
 	}
 

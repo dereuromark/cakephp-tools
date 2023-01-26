@@ -97,7 +97,7 @@ class Table extends ShimTable {
 	 * @param string|null $groupField Field to group by
 	 * @param string $type Find type
 	 * @param array<string, mixed> $options
-	 * @return \Cake\ORM\Query
+	 * @return \Cake\ORM\Query\SelectQuery
 	 */
 	public function getRelatedInUse($tableName, $groupField = null, $type = 'all', array $options = []) {
 		if ($groupField === null) {
@@ -134,7 +134,7 @@ class Table extends ShimTable {
 	 * @param string $groupField Field to group by
 	 * @param string $type Find type
 	 * @param array<string, mixed> $options
-	 * @return \Cake\ORM\Query
+	 * @return \Cake\ORM\Query\SelectQuery
 	 */
 	public function getFieldInUse($groupField, $type = 'all', array $options = []) {
 		/** @var string $displayField */

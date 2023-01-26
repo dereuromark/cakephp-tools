@@ -3,13 +3,13 @@
 namespace Tools\Error;
 
 use Cake\Core\Configure;
-use Cake\Error\ErrorHandler as CoreErrorHandler;
+use Cake\Error\ExceptionTrap as CoreExceptionTrap;
 
 /**
  * Custom ErrorHandler to not mix the 404 exceptions with the rest of "real" errors in the error.log file.
  *
  * All you need to do is:
- * - switch `use Cake\Error\ErrorHandler;` with `use Tools\Error\ErrorHandler;` in your bootstrap
+ * - switch `use Cake\Error\ExceptionTrap;` with `use Tools\Error\ExceptionTrap;` in your bootstrap
  * - Make sure you got the 404 log defined either in your app.php or as Log::config() call.
  *
  * Example config as scoped one:
@@ -25,7 +25,7 @@ use Cake\Error\ErrorHandler as CoreErrorHandler;
  * In case you need custom 404 mappings for some additional custom exceptions, make use of `log404` option.
  * It will overwrite the current defaults completely.
  */
-class ErrorHandler extends CoreErrorHandler {
+class ExceptionTrap extends CoreExceptionTrap {
 
 	/**
 	 * Constructor
@@ -35,7 +35,7 @@ class ErrorHandler extends CoreErrorHandler {
 	public function __construct(array $config = []) {
 		$config += (array)Configure::read('Error');
 		$config += [
-			'errorLogger' => ErrorLogger::class,
+			'logger' => ErrorLogger::class,
 		];
 
 		parent::__construct($config);
