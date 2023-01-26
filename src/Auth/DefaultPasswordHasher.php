@@ -31,15 +31,14 @@ class DefaultPasswordHasher extends AbstractPasswordHasher {
 	 * @psalm-suppress InvalidNullableReturnType
 	 * @link https://book.cakephp.org/4/en/controllers/components/authentication.html#hashing-passwords
 	 * @param string $password Plain text password to hash.
-	 * @return string|false Password hash or false on failure
+	 * @return string Password hash or false on failure
 	 */
-	public function hash(string $password) {
-    /** @phpstan-ignore-next-line */
+	public function hash(string $password): string {
 		return password_hash(
 			$password,
 			$this->_config['hashType'],
 			$this->_config['hashOptions'],
-		) ?? false;
+		);
 	}
 
 	/**

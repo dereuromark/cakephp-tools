@@ -33,9 +33,9 @@ abstract class AbstractPasswordHasher {
 	 * Generates password hash.
 	 *
 	 * @param string $password Plain text password to hash.
-	 * @return string|false Either the password hash string or false
+	 * @return string The password hash
 	 */
-	abstract public function hash(string $password);
+	abstract public function hash(string $password): string;
 
 	/**
 	 * Check hash. Generate hash from user provided password string or data array

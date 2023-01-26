@@ -68,9 +68,9 @@ class TableTest extends TestCase {
 	 * @return void
 	 */
 	public function testTimestamp() {
-		$this->Roles = $this->getTableLocator()->get('Roles');
-		$entity = $this->Roles->newEntity(['name' => 'Foo', 'alias' => 'foo']);
-		$result = $this->Roles->save($entity);
+		$Roles = $this->getTableLocator()->get('Roles');
+		$entity = $Roles->newEntity(['name' => 'Foo', 'alias' => 'foo']);
+		$result = $Roles->save($entity);
 		$this->assertTrue(!empty($result['created']));
 		$this->assertTrue(!empty($result['modified']));
 	}

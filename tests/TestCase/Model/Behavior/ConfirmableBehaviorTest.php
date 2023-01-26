@@ -31,16 +31,16 @@ class ConfirmableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testBasicValidation() {
-		$this->Articles = $this->getTableLocator()->get('SluggedArticles');
-		$this->Articles->addBehavior('Tools.Confirmable');
+		$Articles = $this->getTableLocator()->get('SluggedArticles');
+		$Articles->addBehavior('Tools.Confirmable');
 
-		$animal = $this->Articles->newEmptyEntity();
+		$animal = $Articles->newEmptyEntity();
 
 		$data = [
 			'name' => 'FooBar',
 			'confirm' => '0',
 		];
-		$animal = $this->Articles->patchEntity($animal, $data);
+		$animal = $Articles->patchEntity($animal, $data);
 		$this->assertNotEmpty($animal->getErrors());
 		$this->assertSame(['confirm' => ['notBlank' => __d('tools', 'Please confirm the checkbox')]], $animal->getErrors());
 
@@ -48,7 +48,7 @@ class ConfirmableBehaviorTest extends TestCase {
 			'name' => 'FooBar',
 			'confirm' => '1',
 		];
-		$animal = $this->Articles->patchEntity($animal, $data);
+		$animal = $Articles->patchEntity($animal, $data);
 		$this->assertEmpty($animal->getErrors());
 	}
 
@@ -56,9 +56,9 @@ class ConfirmableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testValidationThatHasBeenModifiedBefore() {
-		$this->Articles = $this->getTableLocator()->get('SluggedArticles');
+		$Articles = $this->getTableLocator()->get('SluggedArticles');
 		/*
-		$this->Articles->validator()->add('confirm', 'notBlank', [
+		$Articles->validator()->add('confirm', 'notBlank', [
 				'rule' => function ($value, $context) {
 					return !empty($value);
 				},
@@ -67,18 +67,18 @@ class ConfirmableBehaviorTest extends TestCase {
 				'allowEmpty' => false,
 				'last' => true,
 			]);
-		$this->Articles->validator()->remove('confirm');
+		$Articles->validator()->remove('confirm');
 		*/
 
-		$this->Articles->addBehavior('Tools.Confirmable');
+		$Articles->addBehavior('Tools.Confirmable');
 
-		$animal = $this->Articles->newEmptyEntity();
+		$animal = $Articles->newEmptyEntity();
 
 		$data = [
 			'name' => 'FooBar',
 			'confirm' => '0',
 		];
-		$animal = $this->Articles->patchEntity($animal, $data);
+		$animal = $Articles->patchEntity($animal, $data);
 		$this->assertNotEmpty($animal->getErrors());
 
 		$this->assertSame(['confirm' => ['notBlank' => __d('tools', 'Please confirm the checkbox')]], $animal->getErrors());
@@ -87,7 +87,7 @@ class ConfirmableBehaviorTest extends TestCase {
 			'name' => 'FooBar',
 			'confirm' => '1',
 		];
-		$animal = $this->Articles->patchEntity($animal, $data);
+		$animal = $Articles->patchEntity($animal, $data);
 		$this->assertEmpty($animal->getErrors());
 	}
 
@@ -95,14 +95,14 @@ class ConfirmableBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testValidationFieldMissing() {
-		$this->Articles = $this->getTableLocator()->get('SluggedArticles');
-		$this->Articles->addBehavior('Tools.Confirmable');
+		$Articles = $this->getTableLocator()->get('SluggedArticles');
+		$Articles->addBehavior('Tools.Confirmable');
 
-		$animal = $this->Articles->newEmptyEntity();
+		$animal = $Articles->newEmptyEntity();
 		$data = [
 			'name' => 'FooBar',
 		];
-		$animal = $this->Articles->patchEntity($animal, $data);
+		$animal = $Articles->patchEntity($animal, $data);
 		$this->assertSame(['confirm' => ['_required' => 'This field is required']], $animal->getErrors());
 	}
 
