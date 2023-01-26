@@ -4,6 +4,9 @@ namespace Tools\Utility;
 
 use Cake\Core\Configure;
 use Cake\I18n\Date as CakeDate;
+
+use Cake\Core\Configure;
+use Cake\I18n\Date as CakeDate;
 use Cake\I18n\DateTime as CakeDateTime;
 use DateInterval;
 use DateTime as NativeDateTime;
@@ -1294,8 +1297,8 @@ class DateTime extends CakeDateTime {
 	 */
 	public static function duration($duration, $format = '%h:%I:%S') {
 		if (!$duration instanceof DateInterval) {
-			$d1 = new self();
-			$d2 = new self();
+			$d1 = new CakeDateTime();
+			$d2 = new CakeDateTime();
 			$d2 = $d2->add(new DateInterval('PT' . $duration . 'S'));
 
 			$duration = $d2->diff($d1);
