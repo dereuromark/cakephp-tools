@@ -22,6 +22,8 @@ use Cake\Routing\Exception\MissingRouteException;
 use Cake\View\Exception\MissingTemplateException;
 use Cake\View\Exception\MissingViewException;
 use InvalidArgumentException;
+use Psr\Http\Message\ServerRequestInterface;
+use Throwable;
 
 /**
  * @property array $_options
@@ -34,7 +36,7 @@ trait ErrorHandlerTrait {
 	 *
 	 * @var array<string>
 	 */
-	protected static $blacklist = [
+	protected static array $blacklist = [
 		InvalidPrimaryKeyException::class,
 		InvalidArgumentException::class,
 		NotFoundException::class,
@@ -61,7 +63,7 @@ trait ErrorHandlerTrait {
 	 *
 	 * @var array<string>
 	 */
-	protected static $evenWithReferer = [
+	protected static array $evenWithReferer = [
 		AuthSecurityException::class,
 	];
 
@@ -70,7 +72,7 @@ trait ErrorHandlerTrait {
 	 * @param \Psr\Http\Message\ServerRequestInterface|null $request
 	 * @return bool
 	 */
-	protected function is404($exception, $request = null): bool {
+	protected function is404(Throwable $exception, ?ServerRequestInterface $request = null): bool {
 		$blacklist = static::$blacklist;
 		if (isset($this->_options['log404'])) {
 			$blacklist = (array)$this->_options['log404'];
