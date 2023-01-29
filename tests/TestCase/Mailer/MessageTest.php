@@ -12,7 +12,7 @@ class MessageTest extends TestCase {
 	/**
 	 * @var \Tools\Mailer\Message
 	 */
-	protected $message;
+	protected MailerMessage $message;
 
 	/**
 	 * setUp

@@ -4,6 +4,7 @@ parameters:
 		- src/
 	checkMissingIterableValueType: false
 	checkGenericClassInNonGenericObjectType: false
+	treatPhpDocTypesAsCertain: false
 	bootstrapFiles:
 		- %rootDir%/../../../tests/bootstrap.php
 	excludePaths:

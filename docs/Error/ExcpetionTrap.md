@@ -1,4 +1,4 @@
-# Improved version of ErrorHandler
+# Improved version of ExceptionTrap
 
 The main goal of the error.log is to notify about internal errors of the system.
 By default there would also be a lot of noise in there.
@@ -14,7 +14,7 @@ Log::config('404', [
 ]);
 ```
 
-Make sure your other log configs are scope-deactivated then to prevent them being 
+Make sure your other log configs are scope-deactivated then to prevent them being
 logged twice (`config/app.php`):
 ```php
     'Log' => [
@@ -29,17 +29,15 @@ logged twice (`config/app.php`):
     ],
 ```
 
-In your `config/bootstrap.php`, the following snippet just needs to include the 
+In your `config/bootstrap.php`, the following snippet just needs to include the
 ErrorHandler of this plugin:
-```php
-// Switch Cake\Error\ErrorHandler to
-use Tools\Error\ErrorHandler;
 
-if ($isCli) {
-    (new ConsoleErrorHandler(Configure::read('Error')))->register();
-} else {
-    (new ErrorHandler(Configure::read('Error')))->register();
-}
+```php
+// Switch Cake\Error\ExceptionTrap to
+use Tools\Error\ExceptionTrap;
+
+(new ErrorTrap(Configure::read('Error')))->register();
+(new ExceptionTrap(Configure::read('Error')))->register();
 ```
 
 Also, make sure to switch out the middleware:
@@ -71,7 +69,7 @@ So those are considered actual errors here.
 
 ### Adding more exceptions
 
-In case you need custom 404 mappings for some additional custom exceptions, 
+In case you need custom 404 mappings for some additional custom exceptions,
 make use of `log404` option in your `app.php`.
 It will overwrite the current defaults completely.
 ```php

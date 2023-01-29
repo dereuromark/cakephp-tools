@@ -13,7 +13,7 @@ class ErrorLoggerTest extends TestCase {
 	use TestTrait;
 
 	/**
-	 * @var \Tools\Error\ErrorHandler
+	 * @var \Tools\Error\ExceptionTrap
 	 */
 	protected $errorLogger;
 

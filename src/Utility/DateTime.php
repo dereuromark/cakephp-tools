@@ -4,9 +4,6 @@ namespace Tools\Utility;
 
 use Cake\Core\Configure;
 use Cake\I18n\Date as CakeDate;
-
-use Cake\Core\Configure;
-use Cake\I18n\Date as CakeDate;
 use Cake\I18n\DateTime as CakeDateTime;
 use DateInterval;
 use DateTime as NativeDateTime;
@@ -527,7 +524,7 @@ class DateTime extends CakeDateTime {
 
 		if (!is_object($dateString)) {
 			if (is_string($dateString) && strlen($dateString) === 10) {
-				$date = new Date($dateString);
+				$date = new CakeDateTime($dateString);
 			} else {
 				$date = new static($dateString);
 			}
@@ -536,7 +533,7 @@ class DateTime extends CakeDateTime {
 		}
 
 		if ($format === null) {
-			if ($date instanceof Date) {
+			if ($date instanceof CakeDateTime) {
 				$format = FORMAT_NICE_YMD;
 			} else {
 				$format = FORMAT_NICE_YMDHM;
@@ -986,7 +983,7 @@ class DateTime extends CakeDateTime {
 	/**
 	 * Returns true if given datetime string was day before yesterday.
 	 *
-	 * @param \Cake\Chronos\ChronosInterface $date Datetime
+	 * @param \Cake\Chronos\Chronos $date Datetime
 	 * @return bool True if datetime string was day before yesterday
 	 */
 	public static function wasDayBeforeYesterday($date) {
@@ -996,7 +993,7 @@ class DateTime extends CakeDateTime {
 	/**
 	 * Returns true if given datetime string is the day after tomorrow.
 	 *
-	 * @param \Cake\Chronos\ChronosInterface $date Datetime
+	 * @param \Cake\Chronos\Chronos $date Datetime
 	 * @return bool True if datetime string is day after tomorrow
 	 */
 	public static function isDayAfterTomorrow($date) {
@@ -1297,8 +1294,8 @@ class DateTime extends CakeDateTime {
 	 */
 	public static function duration($duration, $format = '%h:%I:%S') {
 		if (!$duration instanceof DateInterval) {
-			$d1 = new CakeDateTime();
-			$d2 = new CakeDateTime();
+			$d1 = new NativeDateTime();
+			$d2 = new NativeDateTime();
 			$d2 = $d2->add(new DateInterval('PT' . $duration . 'S'));
 
 			$duration = $d2->diff($d1);

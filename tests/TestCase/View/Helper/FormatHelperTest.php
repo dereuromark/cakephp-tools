@@ -7,6 +7,7 @@ use Cake\View\View;
 use Shim\TestSuite\TestCase;
 use Tools\Utility\Text;
 use Tools\View\Helper\FormatHelper;
+use Tools\View\Icon\BootstrapIcon;
 
 class FormatHelperTest extends TestCase {
 
@@ -20,7 +21,7 @@ class FormatHelperTest extends TestCase {
 	/**
 	 * @var \Tools\View\Helper\FormatHelper
 	 */
-	protected $Format;
+	protected FormatHelper $Format;
 
 	/**
 	 * @return void
@@ -31,6 +32,11 @@ class FormatHelperTest extends TestCase {
 		$this->loadRoutes();
 
 		Configure::write('App.imageBaseUrl', 'img/');
+		Configure::write('Icon', [
+			'sets' => [
+				'bs' => BootstrapIcon::class,
+			],
+		]);
 
 		$this->Format = new FormatHelper(new View(null));
 	}
@@ -73,19 +79,19 @@ class FormatHelperTest extends TestCase {
 	 */
 	public function testYesNo() {
 		$result = $this->Format->yesNo(true);
-		$expected = '<i class="icon icon-yes fa fa-check" title="' . __d('tools', 'Yes') . '" data-placement="bottom" data-toggle="tooltip"></i>';
+		$expected = '<span class="bi bi-yes" title="Yes"></span>';
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Format->yesNo(false);
-		$expected = '<i class="icon icon-no fa fa-times" title="' . __d('tools', 'No') . '" data-placement="bottom" data-toggle="tooltip"></i>';
+		$expected = '<span class="bi bi-no" title="No"></span>';
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Format->yesNo('2', ['on' => 2, 'onTitle' => 'foo']);
-		$expected = '<i class="icon icon-yes fa fa-check" title="foo" data-placement="bottom" data-toggle="tooltip"></i>';
-		$this->assertTextContains($expected, $result);
+		$expected = '<span class="bi bi-yes" title="foo"></span>';
+		$this->assertEquals($expected, $result);
 
 		$result = $this->Format->yesNo('3', ['on' => 4, 'offTitle' => 'nope']);
-		$expected = '<i class="icon icon-no fa fa-times" title="nope" data-placement="bottom" data-toggle="tooltip"></i>';
+		$expected = '<span class="bi bi-no" title="nope"></span>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -111,11 +117,11 @@ class FormatHelperTest extends TestCase {
 	 */
 	public function testThumbs() {
 		$result = $this->Format->thumbs(1);
-		$expected = '<i class="icon icon-pro fa fa-thumbs-up" title="Pro" data-placement="bottom" data-toggle="tooltip"></i>';
+		$expected = '<span class="bi bi-pro" title="Pro"></span>';
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Format->thumbs(0);
-		$expected = '<i class="icon icon-contra fa fa-thumbs-down" title="Contra" data-placement="bottom" data-toggle="tooltip"></i>';
+		$expected = '<span class="bi bi-contra" title="Contra"></span>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -127,17 +133,17 @@ class FormatHelperTest extends TestCase {
 	public function testGenderIcon() {
 		$result = $this->Format->genderIcon(0);
 
-		$expected = '<i class="icon icon-genderless fa fa-genderless" title="Inter" data-placement="bottom" data-toggle="tooltip"></i>';
+		$expected = '<span class="bi bi-genderless" title="Inter"></span>';
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Format->genderIcon(1);
 
-		$expected = '<i class="icon icon-male fa fa-mars" title="Male" data-placement="bottom" data-toggle="tooltip"></i>';
+		$expected = '<span class="bi bi-male" title="Male"></span>';
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Format->genderIcon(2);
 
-		$expected = '<i class="icon icon-female fa fa-venus" title="Female" data-placement="bottom" data-toggle="tooltip"></i>';
+		$expected = '<span class="bi bi-female" title="Female"></span>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -227,7 +233,7 @@ class FormatHelperTest extends TestCase {
 		$url = ['controller' => 'MyController', 'action' => 'myAction'];
 		$result = $this->Format->neighbors($neighbors, 'foo', ['slug' => true, 'url' => $url]);
 
-		$expected = '<div class="next-prev-navi nextPrevNavi"><a href="/my-controller/my-action/1/My-Foo" title="My Foo"><i class="icon icon-prev fa fa-arrow-left" title="Prev" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/my-controller/my-action/2/My-FooBaz" title="My FooBaz"><i class="icon icon-next fa fa-arrow-right" title="Next" data-placement="bottom" data-toggle="tooltip"></i>&nbsp;nextRecord</a></div>';
+		$expected = '<div class="next-prev-navi nextPrevNavi"><a href="/my-controller/my-action/1/My-Foo" title="My Foo"><span class="bi bi-prev" title="Prev"></span>&nbsp;prevRecord</a>&nbsp;&nbsp;<a href="/my-controller/my-action/2/My-FooBaz" title="My FooBaz"><span class="bi bi-next" title="Next"></span>&nbsp;nextRecord</a></div>';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -354,6 +360,9 @@ TEXT;
 		parent::tearDown();
 
 		unset($this->Format);
+
+		Configure::delete('App.imageBaseUrl');
+		Configure::delete('Icon');
 	}
 
 }

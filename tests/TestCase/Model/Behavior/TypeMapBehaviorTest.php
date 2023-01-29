@@ -3,6 +3,8 @@
 namespace Tools\Test\TestCase\Model\Behavior;
 
 use Shim\TestSuite\TestCase;
+use Tools\Model\Behavior\TypeMapBehavior;
+use Tools\Model\Table\Table;
 
 class TypeMapBehaviorTest extends TestCase {
 
@@ -16,19 +18,12 @@ class TypeMapBehaviorTest extends TestCase {
 	/**
 	 * @var \Tools\Model\Behavior\TypeMapBehavior
 	 */
-	protected $TypeMapBehavior;
+	protected TypeMapBehavior $TypeMapBehavior;
 
 	/**
 	 * @var \Tools\Model\Table\Table
 	 */
-	protected $Table;
-
-	/**
-	 * @return void
-	 */
-	public function setUp(): void {
-		parent::setUp();
-	}
+	protected Table $Table;
 
 	/**
 	 * Tests that we can disable array conversion for edit forms if we need to modify the JSON directly.

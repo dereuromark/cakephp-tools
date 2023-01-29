@@ -25,27 +25,27 @@ class TokensTable extends Table {
 	/**
 	 * @var string
 	 */
-	public $displayField = 'token_key';
+	public string $displayField = 'token_key';
 
 	/**
-	 * @var array<mixed, mixed>|string|null
+	 * @var array<int|string, mixed>
 	 */
-	public $order = ['created' => 'DESC'];
-
-	/**
-	 * @var int
-	 */
-	public $defaultLength = 30;
+	public array $order = ['created' => 'DESC'];
 
 	/**
 	 * @var int
 	 */
-	public $validity = WEEK;
+	public int $defaultLength = 30;
+
+	/**
+	 * @var int
+	 */
+	public int $validity = WEEK;
 
 	/**
 	 * @var array
 	 */
-	public $validate = [
+	public array $validate = [
 		'type' => [
 			'notBlank' => [
 				'rule' => 'notBlank',
