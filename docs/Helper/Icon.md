@@ -141,6 +141,15 @@ foreach ($icons as $iconSet => $list) {
 }
 ```
 
+## Configuration
+
+You can enable `checkExistence` to ensure each icon exists or otherwise throws a warning in logs:
+```php
+'Icon' => [
+    'checkExistence' => true,
+    ...
+],
+```
 
 ## Tips
 
