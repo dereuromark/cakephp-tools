@@ -2,6 +2,7 @@
 
 namespace Tools\Utility;
 
+use Cake\Core\Configure;
 use Cake\Log\Log;
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
@@ -193,18 +194,18 @@ class Utility {
 	}
 
 	/**
-	 * Remove unnessary stuff + add http:// for external urls
-	 * TODO: protocol to lower!
+	 * Remove unnecessary stuff + add http:// for external urls
 	 *
 	 * @param string $url
 	 * @param bool $headerRedirect
+	 * @param bool|null $detectHttps
 	 * @return string Cleaned Url
 	 */
-	public static function cleanUrl($url, $headerRedirect = false) {
+	public static function cleanUrl($url, $headerRedirect = false, $detectHttps = null) {
 		if ($url === '' || $url === 'http://' || $url === 'http://www' || $url === 'http://www.') {
 			$url = '';
 		} else {
-			$url = static::autoPrefixUrl($url, 'http://');
+			$url = static::autoPrefixUrl($url, 'http://', $detectHttps);
 		}
 
 		if ($headerRedirect && !empty($url)) {
@@ -274,10 +275,27 @@ class Utility {
 	 * So if you check on strpos(http) === 0 you can use this
 	 * to check for URLs instead.
 	 *
-	 * @param string $url Absolute URL
+	 * @param string $url Absolute URL.
+	 * @param array $statusCodes List of accepted status codes. Defaults to 200 OK.
 	 * @return bool Success
 	 */
-	public static function urlExists($url) {
+	public static function urlExists($url, array $statusCodes = []) {
+		if (function_exists('curl_init')) {
+			$curl = curl_init($url);
+			curl_setopt($curl, CURLOPT_NOBODY, true);
+			$result = curl_exec($curl);
+			if ($result === false) {
+				return false;
+			}
+
+			$statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+			if ($statusCodes === []) {
+				$statusCodes = [200];
+			}
+
+			return in_array($statusCode, $statusCodes, true);
+		}
+
 		// @codingStandardsIgnoreStart
 		$headers = @get_headers($url);
 		// @codingStandardsIgnoreEnd
@@ -344,21 +362,30 @@ class Utility {
 	 *
 	 * @param string $url
 	 * @param string|null $prefix
+	 * @param bool|null $detectHttps
 	 * @return string
 	 */
-	public static function autoPrefixUrl($url, $prefix = null) {
+	public static function autoPrefixUrl($url, $prefix = null, $detectHttps = null) {
 		if ($prefix === null) {
 			$prefix = 'http://';
 		}
 
+		$modifiedUrl = $url;
 		$pos = strpos($url, '.');
 		if ($pos !== false) {
 			if (strpos(substr($url, 0, $pos), '//') === false) {
-				$url = $prefix . $url;
+				$modifiedUrl = $prefix . $url;
+			}
+
+			if ($detectHttps === null) {
+				$detectHttps = !Configure::read('debug');
+			}
+			if ($prefix === 'http://' && $detectHttps && static::urlExists('https://' . $url)) {
+				$modifiedUrl = 'https://' . $url;
 			}
 		}
 
-		return $url;
+		return $modifiedUrl;
 	}
 
 	/**
