@@ -378,7 +378,7 @@ class Utility {
 			}
 
 			if ($detectHttps === null) {
-				$detectHttps = !Configure::read('debug');
+				$detectHttps = !Configure::read('debug') || PHP_SAPI !== 'cli';
 			}
 			if ($prefix === 'http://' && $detectHttps && static::urlExists('https://' . $url)) {
 				$modifiedUrl = 'https://' . $url;
