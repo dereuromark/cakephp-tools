@@ -12,8 +12,7 @@ Using 3.5+ you might not even need this anymore, as you can use type classes dir
      *
      * @return \Cake\Database\Schema\TableSchema
      */
-    protected function _initializeSchema(TableSchema $schema)
-    {
+    protected function _initializeSchema(TableSchema $schema) {
         $schema->columnType('my_field', 'json');
 
         return $schema;
@@ -22,7 +21,7 @@ Using 3.5+ you might not even need this anymore, as you can use type classes dir
 This is best combined with the Shim.Json type, as it properly handles `null` values:
 ```php
 // in bootstrap
-Type::map('json', 'Shim\Database\Type\JsonType');
+TypeFactory::map('json', 'Shim\Database\Type\JsonType');
 ```
 
 But if you still need/want more flexible approaches, continue reading.
