@@ -78,11 +78,11 @@ class Table extends ShimTable {
 					continue;
 				}
 
-				if ($value === '') {
-					$value = null;
+				if ($value !== '') {
+					continue;
 				}
 
-				$data[$field] = $value;
+				$data[$field] = null;
 			}
 			$context['data'] = $data;
 		}
