@@ -21,8 +21,9 @@ class Token extends Entity {
 	 *
 	 * @deprecated Use token_key instead.
 	 *
-	 * @return string|null
 	 * @see \Tools\Model\Entity\Token::$key
+	 *
+	 * @return string|null
 	 */
 	public function _getKey(): ?string {
 		trigger_error('Deprecated. Use ->token_key instead.', E_USER_DEPRECATED);
@@ -35,10 +36,11 @@ class Token extends Entity {
 	 *
 	 * @deprecated Use token_key instead.
 	 *
+	 * @see \Tools\Model\Entity\Token::$key
+	 *
 	 * @param string|null $key
 	 *
 	 * @return void
-	 * @see \Tools\Model\Entity\Token::$key
 	 */
 	public function _setKey(?string $key): void {
 		trigger_error('Deprecated. Use ->token_key instead.', E_USER_DEPRECATED);
