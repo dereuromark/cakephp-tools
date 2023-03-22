@@ -129,7 +129,6 @@ class IconCollection {
 		}
 
 		unset($options['attributes']);
-
 		if ($this->getConfig('checkExistence') && !$this->exists($icon, $set)) {
 			trigger_error(sprintf('Icon `%s` does not exist', $set . ':' . $icon), E_USER_WARNING);
 		}

@@ -50,6 +50,9 @@ You can alias them via Configure for more usability:
 echo $this->Format->icon('translate', ['title' => 'Translate this']);
 ```
 
+Note: For forward compatibility you can also use 'iconHelper' => true` config to directly forward any old helper call to the new one.
+This can be useful for the ones inside plugins you do not control.
+
 ### yesNo()
 
 Displays yes/no symbol for e.g. boolean values as more user friendly representation.

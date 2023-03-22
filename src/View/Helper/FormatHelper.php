@@ -18,6 +18,7 @@ use Shim\Utility\Inflector as ShimInflector;
  * @author Mark Scherer
  * @license MIT
  * @property \Cake\View\Helper\HtmlHelper $Html
+ * @property \Tools\View\Helper\IconHelper $Icon
  */
 class FormatHelper extends Helper {
 
@@ -26,7 +27,7 @@ class FormatHelper extends Helper {
 	 *
 	 * @var array
 	 */
-	protected $helpers = ['Html'];
+	protected $helpers = ['Html', 'Tools.Icon'];
 
 	/**
 	 * @var \Cake\View\StringTemplate
@@ -67,6 +68,7 @@ class FormatHelper extends Helper {
 			'ok' => '<span class="ok-{{type}}" style="color:{{color}}"{{attributes}}>{{content}}</span>',
 		],
 		'slugger' => null,
+		'iconHelper' => false, // FC with new Icon helper
 	];
 
 	/**
@@ -265,6 +267,9 @@ class FormatHelper extends Helper {
 	public function icon($icon, array $options = [], array $attributes = []) {
 		if (!$icon) {
 			return '';
+		}
+		if ($this->getConfig('iconHelper')) {
+			return $this->Icon->render($icon, $options, $attributes);
 		}
 
 		$defaults = [
