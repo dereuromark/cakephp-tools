@@ -1,10 +1,13 @@
 # AfterSave Behavior
 
-A CakePHP behavior to allow the entity to be available inside afterSave() callback.
+A CakePHP behavior to allow the entity to be available inside afterSave() callback in the state
+it was before the save.
 
 ## Introduction
 It takes a clone of the entity from beforeSave(). This allows all the
 info on it to be available in the afterSave() callback or from the outside without resetting (dirty, ...).
+
+This can be useful if one wants to compare what fields got changed, or e.g. for logging the diff.
 
 ### Technical limitation
 Make sure you do not further modify the entity in the table's beforeSave() then. As this would
