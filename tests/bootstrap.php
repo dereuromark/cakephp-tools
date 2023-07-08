@@ -3,6 +3,7 @@
 use Cake\Datasource\ConnectionManager;
 use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\Router;
+use function Cake\Core\env;
 
 if (!defined('DS')) {
 	define('DS', DIRECTORY_SEPARATOR);
@@ -32,8 +33,8 @@ define('TEST_FILES', ROOT . DS . 'tests' . DS . 'test_files' . DS);
 
 ini_set('intl.default_locale', 'de_DE');
 
-require_once 'vendor/cakephp/cakephp/src/basics.php';
 require_once 'vendor/autoload.php';
+require_once CAKE_CORE_INCLUDE_PATH . DS . 'src' . DS . 'functions.php';
 
 Cake\Core\Configure::write('App', [
 	'namespace' => 'TestApp',
