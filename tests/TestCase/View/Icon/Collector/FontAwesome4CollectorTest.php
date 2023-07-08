@@ -28,7 +28,7 @@ class FontAwesome4CollectorTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function extensions(): array {
+	public static function extensions(): array {
 		return [
 			'scss' => ['scss'],
 			'less' => ['less'],

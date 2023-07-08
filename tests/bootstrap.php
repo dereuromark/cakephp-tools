@@ -1,8 +1,20 @@
 <?php
 
+use Cake\Cache\Cache;
+use Cake\Core\Configure;
+use Cake\Core\Plugin;
 use Cake\Datasource\ConnectionManager;
+use Cake\Log\Log;
+use Cake\Mailer\Mailer;
+use Cake\Mailer\TransportFactory;
 use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\Router;
+use Cake\TestSuite\Fixture\SchemaLoader;
+use Cake\Utility\Security;
+use Shim\Filesystem\Folder;
+use TestApp\Controller\AppController;
+use Tools\Plugin as ToolsPlugin;
+use function Cake\Core\env;
 
 if (!defined('DS')) {
 	define('DS', DIRECTORY_SEPARATOR);
@@ -32,10 +44,10 @@ define('TEST_FILES', ROOT . DS . 'tests' . DS . 'test_files' . DS);
 
 ini_set('intl.default_locale', 'de_DE');
 
-require_once 'vendor/cakephp/cakephp/src/basics.php';
 require_once 'vendor/autoload.php';
+require_once CAKE_CORE_INCLUDE_PATH . DS . 'src' . DS . 'functions.php';
 
-Cake\Core\Configure::write('App', [
+Configure::write('App', [
 	'namespace' => 'TestApp',
 	'encoding' => 'UTF-8',
 	'fullBaseUrl' => '//localhost',
@@ -45,20 +57,20 @@ Cake\Core\Configure::write('App', [
 		],
 	],
 ]);
-Cake\Core\Configure::write('debug', true);
+Configure::write('debug', true);
 
-Cake\Core\Configure::write('Config', [
+Configure::write('Config', [
 		'adminEmail' => 'test@example.com',
 		'adminName' => 'Mark',
 ]);
-Cake\Mailer\Mailer::setConfig('default', ['transport' => 'Debug']);
-Cake\Mailer\TransportFactory::setConfig('Debug', [
+Mailer::setConfig('default', ['transport' => 'Debug']);
+TransportFactory::setConfig('Debug', [
 		'className' => 'Debug',
 ]);
 
 mb_internal_encoding('UTF-8');
 
-$Tmp = new Shim\Filesystem\Folder(TMP);
+$Tmp = new Folder(TMP);
 $Tmp->create(TMP . 'cache/models', 0770);
 $Tmp->create(TMP . 'cache/persistent', 0770);
 $Tmp->create(TMP . 'cache/views', 0770);
@@ -84,9 +96,9 @@ $cache = [
 	],
 ];
 
-Cake\Cache\Cache::setConfig($cache);
+Cache::setConfig($cache);
 
-Cake\Log\Log::setConfig('debug', [
+Log::setConfig('debug', [
 	'className' => 'Cake\Log\Engine\FileLog',
 	'path' => LOGS,
 	'file' => 'debug',
@@ -94,7 +106,7 @@ Cake\Log\Log::setConfig('debug', [
 	'levels' => ['notice', 'info', 'debug'],
 	'url' => env('LOG_DEBUG_URL', null),
 ]);
-Cake\Log\Log::setConfig('error', [
+Log::setConfig('error', [
 	'className' => 'Cake\Log\Engine\FileLog',
 	'path' => LOGS,
 	'file' => 'error',
@@ -103,16 +115,16 @@ Cake\Log\Log::setConfig('error', [
 	'url' => env('LOG_ERROR_URL', null),
 ]);
 
-Cake\Utility\Security::setSalt('foo');
+Security::setSalt('foo');
 
 // Why is this required?
 require ROOT . DS . 'config' . DS . 'bootstrap.php';
 
 Router::defaultRouteClass(DashedRoute::class);
 
-class_alias(TestApp\Controller\AppController::class, 'App\Controller\AppController');
+class_alias(AppController::class, 'App\Controller\AppController');
 
-Cake\Core\Plugin::getCollection()->add(new Tools\Plugin());
+Plugin::getCollection()->add(new ToolsPlugin());
 
 if (getenv('db_dsn')) {
 	ConnectionManager::setConfig('test', [
@@ -132,7 +144,7 @@ if (!getenv('db_class')) {
 	//putenv('db_dsn=postgres://postgres@127.0.0.1/test');
 }
 
-Cake\Datasource\ConnectionManager::setConfig('test', [
+ConnectionManager::setConfig('test', [
 	'url' => getenv('db_dsn') ?: null,
 	'driver' => getenv('db_class') ?: null,
 	'database' => getenv('db_database') ?: null,
@@ -144,6 +156,6 @@ Cake\Datasource\ConnectionManager::setConfig('test', [
 ]);
 
 if (env('FIXTURE_SCHEMA_METADATA')) {
-	$loader = new Cake\TestSuite\Fixture\SchemaLoader();
+	$loader = new SchemaLoader();
 	$loader->loadInternalFile(env('FIXTURE_SCHEMA_METADATA'));
 }

@@ -12,6 +12,16 @@ if (!defined('FORMAT_DB_TIME')) {
 	define('FORMAT_DB_TIME', 'H:i:s');
 }
 
+if (!defined('SECOND')) {
+	define('SECOND', 1);
+	define('MINUTE', 60);
+	define('HOUR', 3600);
+	define('DAY', 86400);
+	define('WEEK', 604800);
+	define('MONTH', 2592000);
+	define('YEAR', 31536000);
+}
+
 if (!defined('FORMAT_NICE_YMDHMS')) {
 	define('FORMAT_NICE_YMDHMS', 'd.m.Y, H:i:s');
 	define('FORMAT_NICE_YMDHM', 'd.m.Y, H:i');
