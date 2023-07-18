@@ -264,6 +264,15 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
+	 * @covers ::autoPrefixUrl
+	 * @return void
+	 */
+	public function testAutoPrefixUrlWithDetection() {
+		$res = Utility::autoPrefixUrl('www.spiegel.de', null, true);
+		$this->assertSame('https://www.spiegel.de', $res);
+	}
+
+	/**
 	 * @covers ::cleanUrl
 	 * @return void
 	 */

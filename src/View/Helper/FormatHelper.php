@@ -65,6 +65,7 @@ class FormatHelper extends Helper {
 			'ok' => '<span class="ok-{{type}}" style="color:{{color}}"{{attributes}}>{{content}}</span>',
 		],
 		'slugger' => null,
+		'iconHelper' => false, // FC with new Icon helper
 	];
 
 	/**

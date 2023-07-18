@@ -26,6 +26,11 @@ class IconCollection {
 	protected array $iconSets = [];
 
 	/**
+	 * @var array|null
+	 */
+	protected $names;
+
+	/**
 	 * @param array<string, mixed> $config
 	 */
 	public function __construct(array $config = []) {
@@ -67,6 +72,10 @@ class IconCollection {
 	 * @return array<string, array<string>>
 	 */
 	public function names(): array {
+		if ($this->names !== null) {
+			return $this->names;
+		}
+
 		$names = [];
 		foreach ($this->iconSets as $name => $set) {
 			$iconNames = $set->names();
@@ -74,6 +83,7 @@ class IconCollection {
 		}
 
 		ksort($names);
+		$this->names = $names;
 
 		return $names;
 	}
@@ -119,8 +129,23 @@ class IconCollection {
 		}
 
 		unset($options['attributes']);
+		if ($this->getConfig('checkExistence') && !$this->exists($icon, $set)) {
+			trigger_error(sprintf('Icon `%s` does not exist', $set . ':' . $icon), E_USER_WARNING);
+		}
 
 		return $this->iconSets[$set]->render($icon, $options, $attributes);
+	}
+
+	/**
+	 * @param string $icon
+	 * @param string $set
+	 *
+	 * @return bool
+	 */
+	protected function exists(string $icon, string $set): bool {
+		$names = $this->names();
+
+		return !empty($names[$set]) && in_array($icon, $names[$set], true);
 	}
 
 }

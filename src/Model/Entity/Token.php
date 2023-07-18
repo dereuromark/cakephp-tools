@@ -4,7 +4,7 @@ namespace Tools\Model\Entity;
 
 /**
  * @property int $id
- * @property int $user_id
+ * @property int|null $user_id
  * @property string $type
  * @property string $token_key
  * @property string $content

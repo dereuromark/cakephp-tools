@@ -63,17 +63,31 @@ class Table extends ShimTable {
 	 * the same site_id. Scoping will only be used if the scoping field is present in
 	 * the data to be validated.
 	 *
-	 * @override To allow multiple scoped values
+	 * @override To allow multiple scoped fields with NULL values.
 	 *
 	 * @param mixed $value The value of column to be checked for uniqueness
 	 * @param array<string, mixed> $options The options array, optionally containing the 'scope' key
-	 * @param array $context The validation context as provided by the validation routine
+	 * @param array|null $context The validation context as provided by the validation routine
 	 * @return bool true if the value is unique
 	 */
-	public function validateUniqueExt($value, array $options, array $context = []) {
-		$context += $options;
+	public function validateUniqueExt($value, array $options, ?array $context = null) {
+		$data = $context['data'] ?? null;
+		if ($data) {
+			foreach ($data as $field => $value) {
+				if (empty($options['scope']) || !in_array($field, $options['scope'], true)) {
+					continue;
+				}
 
-		return parent::validateUnique($value, $context);
+				if ($value !== '') {
+					continue;
+				}
+
+				$data[$field] = null;
+			}
+			$context['data'] = $data;
+		}
+
+		return parent::validateUnique($value, $options, $context);
 	}
 
 	/**
