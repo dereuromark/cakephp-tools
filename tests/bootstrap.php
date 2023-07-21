@@ -13,7 +13,7 @@ use Cake\TestSuite\Fixture\SchemaLoader;
 use Cake\Utility\Security;
 use Shim\Filesystem\Folder;
 use TestApp\Controller\AppController;
-use Tools\Plugin as ToolsPlugin;
+use Tools\ToolsPlugin;
 use function Cake\Core\env;
 
 if (!defined('DS')) {
