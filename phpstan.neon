@@ -11,6 +11,7 @@ parameters:
 		- %rootDir%/../../../src/Utility/Mime
 	reportUnmatchedIgnoredErrors: false
 	ignoreErrors:
+		- '#Class Cake\\Chronos\\Date not found.#'
 		-
 			message: '#Undefined variable: .+#'
 			path: '%rootDir%/../../../src/View/Helper/TreeHelper.php'
