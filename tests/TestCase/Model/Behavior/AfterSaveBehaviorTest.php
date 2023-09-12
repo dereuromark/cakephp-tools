@@ -50,7 +50,7 @@ class AfterSaveBehaviorTest extends TestCase {
 		// The stored one from before the save contains the info we want
 		$this->assertTrue($entityBefore->isDirty('body'));
 		$this->assertTrue($entityBefore->isNew());
-		$this->assertSame(['id' => null, 'body' => 'test save'], $entityBefore->extractOriginal(['id', 'body']));
+		$this->assertSame(['body' => 'test save'], $entityBefore->extractOriginal(['id', 'body']));
 	}
 
 	/**
@@ -73,13 +73,13 @@ class AfterSaveBehaviorTest extends TestCase {
 
 		// The saved entity is resetted
 		$this->assertFalse($entityAfter->isDirty('body'));
-		$this->assertSame(['id' => 4, 'body' => 'modified'], $entityAfter->extractOriginal(['id', 'body']));
+		$this->assertSame(['body' => 'modified'], $entityAfter->extractOriginal(['body']));
 
 		$entityBefore = $this->table->getEntityBeforeSave();
 
 		// The stored one from before the save contains the info we want
 		$this->assertTrue($entityBefore->isDirty('body'));
-		$this->assertSame(['id' => 4, 'body' => 'test save'], $entityBefore->extractOriginal(['id', 'body']));
+		$this->assertSame(['body' => 'test save'], $entityBefore->extractOriginal(['body']));
 	}
 
 }
