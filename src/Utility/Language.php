@@ -14,18 +14,15 @@ class Language {
 	 * - forceLowerCase: defaults to true
 	 *
 	 * @param string|null $languageList List of locales/language codes.
-	 * @param array|bool|null $options Flags to forceLowerCase or removeDuplicates locales/language codes
-	 *        deprecated: Set to true/false to toggle lowercase
+	 * @param array $options Flags to forceLowerCase or removeDuplicates locales/language codes
 	 *
 	 * @return array
 	 */
-	public static function parseLanguageList($languageList = null, $options = []) {
+	public static function parseLanguageList(string $languageList = null, array $options = []): array
+	{
 		$defaultOptions = [
 			'forceLowerCase' => true,
 		];
-		if (!is_array($options)) {
-			$options = ['forceLowerCase' => $options];
-		}
 		$options += $defaultOptions;
 
 		if ($languageList === null) {
@@ -118,7 +115,8 @@ class Language {
 	 * @param array $available
 	 * @return array
 	 */
-	public static function findMatches(array $accepted, array $available = []) {
+	public static function findMatches(array $accepted, array $available = []): array
+	{
 		$matches = [];
 		if (!$available) {
 			$available = static::parseLanguageList();
@@ -157,9 +155,10 @@ class Language {
 	 *
 	 * @param string $a
 	 * @param string $b
+	 *
 	 * @return float
 	 */
-	protected static function _matchLanguage($a, $b) {
+	protected static function _matchLanguage(string $a, string $b) {
 		$a = explode('-', strtolower($a));
 		$b = explode('-', strtolower($b));
 

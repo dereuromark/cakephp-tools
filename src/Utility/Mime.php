@@ -719,9 +719,10 @@ class Mime extends Response {
 	 * Retrieve the corresponding MIME type, if one exists
 	 *
 	 * @param string|null $file File Name (relative location such as "image_test.jpg" or full "http://site.com/path/to/image_test.jpg")
-	 * @return string MIMEType - The type of the file passed in the argument
+	 *
+	 * @return array|string MIMEType - The type of the file passed in the argument
 	 */
-	public function detectMimeType($file = null) {
+	public function detectMimeType(?string $file = null): array|string {
 		// Attempts to retrieve file info from FINFO
 		// If FINFO functions are not available then try to retrieve MIME type from pre-defined MIMEs
 		// If MIME type doesn't exist, then try (as a last resort) to use the (deprecated) mime_content_type function

@@ -156,10 +156,6 @@ if (!function_exists('hDec')) {
 	 * @return string Converted text
 	 */
 	function hDec(string $text, int $quoteStyle = ENT_QUOTES): string {
-		if (is_array($text)) {
-			return array_map('hDec', $text);
-		}
-
 		return trim(htmlspecialchars_decode($text, $quoteStyle));
 	}
 }
@@ -173,10 +169,6 @@ if (!function_exists('entDec')) {
 	 * @return string Converted text
 	 */
 	function entDec(string $text, int $quoteStyle = ENT_QUOTES): string {
-		if (is_array($text)) {
-			return array_map('entDec', $text);
-		}
-
 		return !empty($text) ? trim(html_entity_decode($text, $quoteStyle, 'UTF-8')) : '';
 	}
 }

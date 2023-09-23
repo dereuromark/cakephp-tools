@@ -17,7 +17,7 @@ class Random {
 	 * @param int $max
 	 * @return int Random int value
 	 */
-	public static function int($min = 0, $max = 999) {
+	public static function int($min = 0, $max = 999): int {
 		return random_int($min, $max);
 	}
 
@@ -29,9 +29,10 @@ class Random {
 	 * @param int|null $minPosition
 	 * @param int|null $maxPosition
 	 * @param bool $integerKeys
+	 *
 	 * @return mixed
 	 */
-	public static function arrayValue(array $array, $minPosition = null, $maxPosition = null, $integerKeys = false) {
+	public static function arrayValue(array $array, ?int $minPosition = null, ?int $maxPosition = null, bool $integerKeys = false): mixed {
 		if ($integerKeys) {
 			$max = count($array) - 1;
 
@@ -48,10 +49,12 @@ class Random {
 	 * Generates a password
 	 *
 	 * @link https://github.com/CakeDC/users/blob/master/models/user.php#L498
+	 *
 	 * @param int $length Password length
+	 *
 	 * @return string
 	 */
-	public static function pronounceablePwd($length = 10) {
+	public static function pronounceablePwd(int $length = 10): string {
 		mt_srand((int)(float)microtime() * 1000000);
 		$password = '';
 		$vowels = ['a', 'e', 'i', 'o', 'u'];
@@ -71,9 +74,10 @@ class Random {
 	 *
 	 * @param int $length (necessary!)
 	 * @param string|null $chars
+	 *
 	 * @return string Password
 	 */
-	public static function pwd($length, $chars = null) {
+	public static function pwd(int $length, ?string $chars = null): string {
 		if ($chars === null) {
 			$chars = '234567890abcdefghijkmnopqrstuvwxyz'; // ABCDEFGHIJKLMNOPQRSTUVWXYZ
 		}
@@ -112,9 +116,10 @@ class Random {
 	 *
 	 * @param string $type Type of pool, or a string of characters to use as the pool
 	 * @param int $length of string to return
+	 *
 	 * @return string
 	 */
-	public static function generate($type = 'alnum', $length = 8) {
+	public static function generate(string $type = 'alnum', int $length = 8): string {
 		switch ($type) {
 			case 'alnum':
 				$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

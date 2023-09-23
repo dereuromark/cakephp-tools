@@ -25,7 +25,7 @@ class Utility {
 	 * @param mixed $value
 	 * @return bool
 	 */
-	public static function notBlank($value) {
+	public static function notBlank($value): bool {
 		return $value === 0 || $value === 0.0 || $value === '0' || !empty($value);
 	}
 
@@ -40,7 +40,7 @@ class Utility {
 	 * @param array $haystack
 	 * @return bool Success
 	 */
-	public static function inArray($needle, $haystack) {
+	public static function inArray($needle, $haystack): bool {
 		$strict = !is_numeric($needle);
 
 		return in_array((string)$needle, $haystack, $strict);
@@ -59,7 +59,7 @@ class Utility {
 	 * @param array<string, mixed> $options
 	 * @return array
 	 */
-	public static function tokenize($data, $separator = ',', $options = []) {
+	public static function tokenize($data, $separator = ',', $options = []): array {
 		$defaults = [
 			'clean' => true,
 		];
@@ -99,7 +99,7 @@ class Utility {
 	 * @param int|null $offset
 	 * @return array Result
 	 */
-	public static function pregMatchAll($pattern, $subject, $flags = PREG_SET_ORDER, $offset = null) {
+	public static function pregMatchAll($pattern, $subject, $flags = PREG_SET_ORDER, $offset = null): array {
 		$pattern = substr($pattern, 0, 1) . '(*UTF8)' . substr($pattern, 1);
 		preg_match_all($pattern, $subject, $matches, $flags, (int)$offset);
 
@@ -123,7 +123,7 @@ class Utility {
 	 * @param int|null $offset
 	 * @return array Result
 	 */
-	public static function pregMatch($pattern, $subject, $flags = null, $offset = null) {
+	public static function pregMatch($pattern, $subject, $flags = null, $offset = null): array {
 		$pattern = substr($pattern, 0, 1) . '(*UTF8)' . substr($pattern, 1);
 		preg_match($pattern, $subject, $matches, (int)$flags, (int)$offset);
 
@@ -138,7 +138,7 @@ class Utility {
 	 * @param int $length
 	 * @return array<string> Result
 	 */
-	public static function strSplit($str, $length = 1) {
+	public static function strSplit($str, $length = 1): array {
 		if ($length < 1) {
 			return [];
 		}
@@ -157,7 +157,7 @@ class Utility {
 	 * @param bool $safe
 	 * @return string IP address
 	 */
-	public static function getClientIp($safe = true) {
+	public static function getClientIp($safe = true): string {
 		if (!$safe && env('HTTP_X_FORWARDED_FOR')) {
 			$ipaddr = preg_replace('/(?:,.*)/', '', (string)env('HTTP_X_FORWARDED_FOR'));
 		} elseif (!$safe && env('HTTP_CLIENT_IP')) {
@@ -173,9 +173,9 @@ class Utility {
 	 * Get the current referrer if available.
 	 *
 	 * @param bool $full (defaults to false and leaves the url untouched)
-	 * @return string referer (local or foreign)
+	 * @return string|null Referer (local or foreign)
 	 */
-	public static function getReferer($full = false) {
+	public static function getReferer($full = false): ?string {
 		/** @var string|null $ref */
 		$ref = env('HTTP_REFERER');
 		/** @var string|null $forwarded */
@@ -201,7 +201,7 @@ class Utility {
 	 * @param bool|null $detectHttps
 	 * @return string Cleaned Url
 	 */
-	public static function cleanUrl($url, $headerRedirect = false, $detectHttps = null) {
+	public static function cleanUrl($url, $headerRedirect = false, $detectHttps = null): string {
 		if ($url === '' || $url === 'http://' || $url === 'http://www' || $url === 'http://www.') {
 			$url = '';
 		} else {
@@ -239,7 +239,7 @@ class Utility {
 	 * @param array<string> $protocols Defaults to http and https. Pass empty array for all.
 	 * @return string strippedUrl
 	 */
-	public static function stripProtocol($url, $protocols = ['http', 'https']) {
+	public static function stripProtocol($url, $protocols = ['http', 'https']): string {
 		$pieces = parse_url($url);
 		// Already stripped?
 		if (empty($pieces['scheme'])) {
@@ -262,7 +262,7 @@ class Utility {
 	 * @param string $pattern
 	 * @return bool Success
 	 */
-	public static function fileExists($file, $pattern = '~^https?://~i') {
+	public static function fileExists($file, $pattern = '~^https?://~i'): bool {
 		if (!preg_match($pattern, $file)) {
 			return file_exists($file);
 		}
@@ -279,7 +279,7 @@ class Utility {
 	 * @param array $statusCodes List of accepted status codes. Defaults to 200 OK.
 	 * @return bool Success
 	 */
-	public static function urlExists($url, array $statusCodes = []) {
+	public static function urlExists($url, array $statusCodes = []): bool {
 		if (function_exists('curl_init')) {
 			$curl = curl_init($url);
 			curl_setopt($curl, CURLOPT_NOBODY, true);
@@ -313,7 +313,7 @@ class Utility {
 	 *
 	 * @return mixed array of headers or FALSE on failure
 	 */
-	public static function getHeaderFromUrl($url) {
+	public static function getHeaderFromUrl(string $url) {
 		// @codingStandardsIgnoreStart
 		$urlArray = @parse_url($url);
 		// @codingStandardsIgnoreEnd
@@ -363,9 +363,10 @@ class Utility {
 	 * @param string $url
 	 * @param string|null $prefix
 	 * @param bool|null $detectHttps
+	 *
 	 * @return string
 	 */
-	public static function autoPrefixUrl($url, $prefix = null, $detectHttps = null) {
+	public static function autoPrefixUrl(string $url, ?string $prefix = null, ?bool $detectHttps = null): string {
 		if ($prefix === null) {
 			$prefix = 'http://';
 		}
@@ -392,9 +393,10 @@ class Utility {
 	 * Returns true only if all values are true.
 	 *
 	 * @param array $array
+	 *
 	 * @return bool Result
 	 */
-	public static function logicalAnd($array) {
+	public static function logicalAnd(array $array): bool {
 		if (!$array) {
 			return false;
 		}
@@ -411,9 +413,10 @@ class Utility {
 	 * Returns true if at least one value is true.
 	 *
 	 * @param array $array
+	 *
 	 * @return bool Result
 	 */
-	public static function logicalOr($array) {
+	public static function logicalOr(array $array): bool {
 		foreach ($array as $result) {
 			if ($result) {
 				return true;
@@ -468,9 +471,10 @@ class Utility {
 	 *
 	 * @param mixed $value
 	 * @param bool $transformNullToString
+	 *
 	 * @return mixed
 	 */
-	public static function trimDeep($value, $transformNullToString = false) {
+	public static function trimDeep($value, bool $transformNullToString = false) {
 		if (is_array($value)) {
 			foreach ($value as $k => $v) {
 				$value[$k] = static::trimDeep($v, $transformNullToString);
@@ -515,12 +519,13 @@ class Utility {
 	 * Counts the dimensions of an array. If $all is set to false (which is the default) it will
 	 * only consider the dimension of the first element in the array.
 	 *
-	 * @param array $array Array to count dimensions on
+	 * @param mixed $array Array to count dimensions on
 	 * @param bool $all Set to true to count the dimension considering all elements in array
 	 * @param int $count Start the dimension count at this number
+	 *
 	 * @return int The number of dimensions in $array
 	 */
-	public static function countDim($array, $all = false, $count = 0) {
+	public static function countDim($array, bool $all = false, int $count = 0): int {
 		if ($all) {
 			$depth = [$count];
 			if (is_array($array) && reset($array) !== false) {
@@ -642,9 +647,10 @@ class Utility {
 	 *
 	 * @param array $array Array to flatten
 	 * @param bool $preserveKeys
+	 *
 	 * @return array
 	 */
-	public static function arrayFlatten($array, $preserveKeys = false) {
+	public static function arrayFlatten(array $array, bool $preserveKeys = false): array {
 		if ($preserveKeys) {
 			return static::_arrayFlatten($array);
 		}
@@ -700,7 +706,7 @@ class Utility {
 	 *
 	 * @return string key
 	 */
-	public static function arrayShiftKeys(&$array) {
+	public static function arrayShiftKeys(array &$array): string {
 		foreach ($array as $key => $value) {
 			unset($array[$key]);
 
@@ -708,58 +714,6 @@ class Utility {
 		}
 
 		throw new InvalidArgumentException('Empty array');
-	}
-
-	/**
-	 * @var float
-	 */
-	protected static $_counterStartTime = 0.0;
-
-	/**
-	 * Returns microtime as float value
-	 * (to be subtracted right away)
-	 *
-	 * @param int $precision
-	 * @return float
-	 */
-	public static function microtime($precision = 8) {
-		return round(microtime(true), $precision);
-	}
-
-	/**
-	 * @return void
-	 */
-	public static function startClock() {
-		static::$_counterStartTime = static::microtime();
-	}
-
-	/**
-	 * @param int $precision
-	 * @param bool $restartClock
-	 * @return float
-	 */
-	public static function returnElapsedTime($precision = 8, $restartClock = false) {
-		$startTime = static::$_counterStartTime;
-		if ($restartClock) {
-			static::startClock();
-		}
-
-		return static::calcElapsedTime($startTime, static::microtime(), $precision);
-	}
-
-	/**
-	 * Returns microtime as float value
-	 * (to be subtracted right away)
-	 *
-	 * @param float $start
-	 * @param float $end
-	 * @param int $precision
-	 * @return float
-	 */
-	public static function calcElapsedTime($start, $end, $precision = 8) {
-		$elapsed = $end - $start;
-
-		return round($elapsed, $precision);
 	}
 
 }

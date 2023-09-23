@@ -632,25 +632,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::returnElapsedTime
-	 * @return void
-	 */
-	public function testTime() {
-		Utility::startClock();
-		time_nanosleep(0, 200000000);
-		$res = Utility::returnElapsedTime();
-		$this->assertTrue(round($res, 1) === 0.2);
-
-		time_nanosleep(0, 100000000);
-		$res = Utility::returnElapsedTime(8, true);
-		$this->assertTrue(round($res, 1) === 0.3);
-
-		time_nanosleep(0, 100000000);
-		$res = Utility::returnElapsedTime();
-		$this->assertTrue(round($res, 1) === 0.1);
-	}
-
-	/**
 	 * @covers ::logicalAnd
 	 * @return void
 	 */

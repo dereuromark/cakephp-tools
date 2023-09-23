@@ -45,12 +45,14 @@ class Number extends CakeNumber {
 	/**
 	 * Convenience method to display the default currency
 	 *
-	 * @param float $amount
+	 * @param float $value
 	 * @param array $formatOptions
+	 *
 	 * @return string
 	 */
-	public static function money($amount, array $formatOptions = []) {
-		return static::currency($amount, null, $formatOptions);
+	public static function money($value, array $formatOptions = []): string
+	{
+		return static::currency($value, null, $formatOptions);
 	}
 
 	/**
@@ -141,39 +143,23 @@ class Number extends CakeNumber {
 	 *
 	 * - signed: true/false
 	 *
-	 * @param float $number
+	 * @param string|int|float $value
 	 * @param string|null $currency
 	 * @param array<string, mixed> $options
+	 *
 	 * @return string
 	 */
-	public static function currency($number, ?string $currency = null, array $options = []): string {
+	public static function currency(string|float|int $value, ?string $currency = null, array $options = []): string {
 		$defaults = [
 			'positive' => '+', 'signed' => false,
 		];
 		$options += $defaults;
 		$sign = '';
-		if ($number > 0 && !empty($options['signed'])) {
+		if ($value > 0 && !empty($options['signed'])) {
 			$sign = $options['positive'];
 		}
 
-		return $sign . parent::currency($number, $currency, $options);
-	}
-
-	/**
-	 * Returns a formatted-for-humans file size.
-	 *
-	 * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/number.html#NumberHelper::toReadableSize
-	 * @param int $size Size in bytes
-	 * @param string $decimals
-	 * @return string Human readable size
-	 */
-	public static function _toReadableSize($size, $decimals = '.'): string {
-		$size = parent::toReadableSize($size);
-		if ($decimals !== '.') {
-			$size = str_replace('.', $decimals, $size);
-		}
-
-		return $size;
+		return $sign . parent::currency($value, $currency, $options);
 	}
 
 	/**
@@ -181,9 +167,11 @@ class Number extends CakeNumber {
 	 *
 	 * @param array $values Values: int or float values
 	 * @param int $precision
+	 *
 	 * @return float Average
 	 */
-	public static function average($values, $precision = 0) {
+	public static function average(array $values, int $precision = 0): float
+	{
 		if (!$values) {
 			return 0.0;
 		}
@@ -213,9 +201,11 @@ class Number extends CakeNumber {
 	 *
 	 * @param float $number
 	 * @param int $increment
-	 * @return float result
+	 *
+	 * @return float|int Result
 	 */
-	public static function roundUpTo($number, $increment = 1) {
+	public static function roundUpTo($number, int $increment = 1)
+	{
 		return ceil($number / $increment) * $increment;
 	}
 
@@ -224,9 +214,10 @@ class Number extends CakeNumber {
 	 *
 	 * @param float $number
 	 * @param int $increment
+	 *
 	 * @return float result
 	 */
-	public static function roundDownTo($number, $increment = 1) {
+	public static function roundDownTo($number, int $increment = 1) {
 		return floor($number / $increment) * $increment;
 	}
 
@@ -236,7 +227,8 @@ class Number extends CakeNumber {
 	 * @param float $number
 	 * @return int decimalPlaces
 	 */
-	public static function getDecimalPlaces($number) {
+	public static function getDecimalPlaces($number): int
+	{
 		$decimalPlaces = 0;
 		while ($number > 1 && $number != 0) {
 			$number /= 10;
@@ -259,7 +251,8 @@ class Number extends CakeNumber {
 	 * @param float $precision
 	 * @return bool
 	 */
-	public static function isFloatEqual($x, $y, $precision = 0.0000001) {
+	public static function isFloatEqual($x, $y, $precision = 0.0000001): bool
+	{
 		return ($x + $precision >= $y) && ($x - $precision <= $y);
 	}
 
@@ -267,9 +260,11 @@ class Number extends CakeNumber {
 	 * Get the settings for a specific formatName
 	 *
 	 * @param string $formatName (EUR, ...)
+	 *
 	 * @return array currencySettings
 	 */
-	public static function getFormat($formatName) {
+	public static function getFormat(string $formatName): array
+	{
 		if (!isset(static::$_currencies[$formatName])) {
 			return [];
 		}

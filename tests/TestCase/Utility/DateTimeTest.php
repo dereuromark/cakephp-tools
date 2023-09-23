@@ -448,7 +448,8 @@ class DateTimeTest extends TestCase {
 			$is = $this->Time->ageByYear(2000, $month);
 			//$this->out($is);
 			//$this->assertEquals($is, (date('Y')-2001).'/'.(date('Y')-2000), null, '2000/'.$month);
-			$this->assertSame(date('Y') - 2001, $is); //null, '2000/'.$month
+			$expected = (string)(date('Y') - 2001);
+			$this->assertSame($expected, $is);
 		}
 
 		$month = date('n') - 1;
@@ -456,7 +457,8 @@ class DateTimeTest extends TestCase {
 			$is = $this->Time->ageByYear(2000, $month);
 			//$this->out($is);
 			//$this->assertEquals($is, (date('Y')-2001).'/'.(date('Y')-2000), null, '2000/'.$month);
-			$this->assertSame(date('Y') - 2000, $is); //null, '2000/'.$month)
+			$expected = (string)(date('Y') - 2000);
+			$this->assertSame($expected, $is); //null, '2000/'.$month)
 		}
 	}
 
