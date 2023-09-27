@@ -8,7 +8,7 @@ use Shim\TestSuite\TestCase;
 use Tools\View\Icon\BootstrapIcon;
 
 /**
- * @uses \Tools\Controller\Admin\FormatController
+ * @uses \Tools\Controller\Admin\IconsController
  */
 class FormatControllerTest extends TestCase {
 

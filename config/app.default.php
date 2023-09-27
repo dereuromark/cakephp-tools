@@ -7,10 +7,10 @@ $config = [
 	// Error handling around 404s
 	'Log' => [
 		'debug' => [
-			'scopes' => false,
+			'scopes' => null,
 		],
 		'error' => [
-			'scopes' => false,
+			'scopes' => null,
 		],
 		'404' => [
 			'file' => '404',
@@ -44,14 +44,12 @@ $config = [
 
 	// Helpers
 	'Format' => [
-		'fontIcons' => [],
 		'templates' => [],
 	],
 	'Google' => [
 	],
-
-	// Experimental - careful
-	'Entity' => [
-		'autoMarkNew' => false,
+	'Icon' => [
+		'sets' => [],
+		'map' => [],
 	],
 ];

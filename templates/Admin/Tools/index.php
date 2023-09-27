@@ -10,7 +10,7 @@
 
 		<h2>Helper debugging</h2>
 		<ul>
-			<li><?php echo $this->Html->link('Format and font icons', ['controller' => 'Format', 'action' => 'icons']); ?></li>
+			<li><?php echo $this->Html->link('Icon helper and font icons', ['controller' => 'Icons', 'action' => 'index']); ?></li>
 		</ul>
 	</div>
 </div>

@@ -34,32 +34,7 @@ class FormatHelper extends Helper {
 	/**
 	 * @var array
 	 */
-	protected array $_defaultIcons = [
-		'yes' => 'fa fa-check',
-		'no' => 'fa fa-times',
-		'view' => 'fa fa-eye',
-		'edit' => 'fa fa-pen',
-		'add' => 'fa fa-plus',
-		'delete' => 'fa fa-trash',
-		'prev' => 'fa fa-arrow-left',
-		'next' => 'fa fa-arrow-right',
-		'pro' => 'fa fa-thumbs-up',
-		'contra' => 'fa fa-thumbs-down',
-		'male' => 'fa fa-mars',
-		'female' => 'fa fa-venus',
-		'config' => 'fa fa-cogs',
-		'login' => 'fa fa-sign-in-alt',
-		'logout' => 'fa fa-sign-out-alt',
-	];
-
-	/**
-	 * @var array
-	 */
 	protected array $_defaults = [
-		'fontIcons' => null,
-		'iconNamespaces' => [], // Used to disable auto prefixing if detected
-		'iconNamespace' => 'fa', // Used to be icon,
-		'autoPrefix' => true, // For custom icons "prev" becomes "fa-prev" when iconNamespace is "fa"
 		'templates' => [
 			'icon' => '<i class="{{class}}"{{attributes}}></i>',
 			'ok' => '<span class="ok-{{type}}" style="color:{{color}}"{{attributes}}>{{content}}</span>',
@@ -75,8 +50,6 @@ class FormatHelper extends Helper {
 	public function __construct(View $View, array $config = []) {
 		$defaults = (array)Configure::read('Format') + $this->_defaults;
 		$config += $defaults;
-
-		$config['fontIcons'] = (array)$config['fontIcons'] + $this->_defaultIcons;
 
 		$this->template = new StringTemplate($config['templates']);
 
@@ -245,64 +218,6 @@ class FormatHelper extends Helper {
 		}
 
 		return $this->Html->image($icon, $options);
-	}
-
-	/**
-	 * Renders a font icon.
-	 *
-	 * @param string $type
-	 * @param array<string, mixed> $options
-	 * @param array<string, mixed> $attributes
-	 * @return string
-	 */
-	protected function _fontIcon($type, $options, $attributes) {
-		$iconClass = $type;
-
-		unset($this->_config['class']);
-
-		$options += $this->_config;
-		if ($options['autoPrefix'] && is_string($options['autoPrefix'])) {
-			$iconClass = $options['autoPrefix'] . '-' . $iconClass;
-		} elseif ($options['autoPrefix'] && $options['iconNamespace']) {
-			$iconClass = $options['iconNamespace'] . '-' . $iconClass;
-		}
-		if ($options['iconNamespace']) {
-			$iconClass = $options['iconNamespace'] . ' ' . $iconClass;
-		}
-
-		if (isset($this->_config['fontIcons'][$type])) {
-			$iconClass = $this->_config['fontIcons'][$type];
-		}
-
-		$defaults = [
-			'class' => 'icon icon-' . $type . ' ' . $iconClass,
-			'escape' => true,
-		];
-		$options += $defaults;
-
-		if (!isset($attributes['title'])) {
-			$attributes['title'] = ucfirst($type);
-		}
-		if (!isset($options['translate']) || $options['translate'] !== false) {
-			$attributes['title'] = __($attributes['title']);
-		}
-
-		if (isset($attributes['class'])) {
-			$options['class'] .= ' ' . $attributes['class'];
-			unset($attributes['class']);
-		}
-
-		$attributes += [
-			'data-placement' => 'bottom',
-			'data-toggle' => 'tooltip',
-		];
-		$formatOptions = $attributes + [
-			'escape' => $options['escape'],
-		];
-
-		$options['attributes'] = $this->template->formatAttributes($formatOptions);
-
-		return $this->template->format('icon', $options);
 	}
 
 	/**
