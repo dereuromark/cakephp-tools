@@ -40,17 +40,17 @@ class FormHelper extends CakeFormHelper {
 	/**
 	 * Overwrite to allow FormConfig Configure settings to be applied.
 	 *
-	 * @param mixed $model The context for which the form is being defined. Can
+	 * @param mixed $context The context for which the form is being defined. Can
 	 *   be an ORM entity, ORM resultset, or an array of meta data. You can use false or null
 	 *   to make a model-less form.
 	 * @param array<string, mixed> $options An array of html attributes and options.
 	 * @return string An formatted opening FORM tag.
 	 */
-	public function create($model = null, array $options = []): string {
+	public function create(mixed $context = null, array $options = []): string {
 		$defaults = ['novalidate' => $this->_defaultConfig['novalidate']];
 		$options += $defaults;
 
-		return parent::create($model, $options);
+		return parent::create($context, $options);
 	}
 
 }
