@@ -29,6 +29,7 @@ use RuntimeException;
  *
  * @author Mark Scherer
  * @license http://opensource.org/licenses/mit-license.php MIT
+ * @method \App\Controller\AppController getController()
  */
 class MobileComponent extends Component {
 

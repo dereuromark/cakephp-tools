@@ -13,11 +13,6 @@ use App\Controller\AppController;
 class FormatController extends AppController {
 
 	/**
-	 * @var string|null
-	 */
-	protected $modelClass = '';
-
-	/**
 	 * @return \Cake\Http\Response|null|void
 	 */
 	public function icons() {

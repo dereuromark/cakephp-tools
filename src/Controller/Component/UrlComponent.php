@@ -10,6 +10,7 @@ use Cake\Routing\Router;
  *
  * @author Mark Scherer
  * @license MIT
+ * @method \App\Controller\AppController getController()
  */
 class UrlComponent extends Component {
 

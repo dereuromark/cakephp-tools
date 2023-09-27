@@ -11,6 +11,8 @@ use Cake\Http\Response;
  * Useful for passing to edit forms if you want a different target as redirect than the default.
  * The neat thing here is that it doesn't require changes to existing actions. This can just be
  * added on top, for one or all controllers.
+ *
+ * @method \App\Controller\AppController getController()
  */
 class RefererRedirectComponent extends Component {
 

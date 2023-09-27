@@ -14,6 +14,7 @@ use Tools\Utility\Utility;
  *
  * @author Mark Scherer
  * @license MIT
+ * @method \App\Controller\AppController getController()
  */
 class CommonComponent extends Component {
 

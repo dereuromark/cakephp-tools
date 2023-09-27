@@ -23,11 +23,6 @@ use RuntimeException;
 class ShuntRequestController extends AppController {
 
 	/**
-	 * @var string|null
-	 */
-	protected $modelClass = '';
-
-	/**
 	 * @return void
 	 */
 	public function initialize(): void {

@@ -12,11 +12,6 @@ use App\Controller\AppController;
 class ToolsController extends AppController {
 
 	/**
-	 * @var string|null
-	 */
-	protected $modelClass = '';
-
-	/**
 	 * @return \Cake\Http\Response|null|void
 	 */
 	public function index() {
