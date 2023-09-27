@@ -18,8 +18,7 @@ class Language {
 	 *
 	 * @return array
 	 */
-	public static function parseLanguageList(string $languageList = null, array $options = []): array
-	{
+	public static function parseLanguageList(?string $languageList = null, array $options = []): array {
 		$defaultOptions = [
 			'forceLowerCase' => true,
 		];
@@ -115,8 +114,7 @@ class Language {
 	 * @param array $available
 	 * @return array
 	 */
-	public static function findMatches(array $accepted, array $available = []): array
-	{
+	public static function findMatches(array $accepted, array $available = []): array {
 		$matches = [];
 		if (!$available) {
 			$available = static::parseLanguageList();

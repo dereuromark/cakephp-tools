@@ -50,8 +50,7 @@ class Number extends CakeNumber {
 	 *
 	 * @return string
 	 */
-	public static function money($value, array $formatOptions = []): string
-	{
+	public static function money($value, array $formatOptions = []): string {
 		return static::currency($value, null, $formatOptions);
 	}
 
@@ -143,7 +142,7 @@ class Number extends CakeNumber {
 	 *
 	 * - signed: true/false
 	 *
-	 * @param string|int|float $value
+	 * @param string|float|int $value
 	 * @param string|null $currency
 	 * @param array<string, mixed> $options
 	 *
@@ -170,8 +169,7 @@ class Number extends CakeNumber {
 	 *
 	 * @return float Average
 	 */
-	public static function average(array $values, int $precision = 0): float
-	{
+	public static function average(array $values, int $precision = 0): float {
 		if (!$values) {
 			return 0.0;
 		}
@@ -204,8 +202,7 @@ class Number extends CakeNumber {
 	 *
 	 * @return float|int Result
 	 */
-	public static function roundUpTo($number, int $increment = 1)
-	{
+	public static function roundUpTo($number, int $increment = 1) {
 		return ceil($number / $increment) * $increment;
 	}
 
@@ -227,8 +224,7 @@ class Number extends CakeNumber {
 	 * @param float $number
 	 * @return int decimalPlaces
 	 */
-	public static function getDecimalPlaces($number): int
-	{
+	public static function getDecimalPlaces($number): int {
 		$decimalPlaces = 0;
 		while ($number > 1 && $number != 0) {
 			$number /= 10;
@@ -251,8 +247,7 @@ class Number extends CakeNumber {
 	 * @param float $precision
 	 * @return bool
 	 */
-	public static function isFloatEqual($x, $y, $precision = 0.0000001): bool
-	{
+	public static function isFloatEqual($x, $y, $precision = 0.0000001): bool {
 		return ($x + $precision >= $y) && ($x - $precision <= $y);
 	}
 
@@ -263,8 +258,7 @@ class Number extends CakeNumber {
 	 *
 	 * @return array currencySettings
 	 */
-	public static function getFormat(string $formatName): array
-	{
+	public static function getFormat(string $formatName): array {
 		if (!isset(static::$_currencies[$formatName])) {
 			return [];
 		}

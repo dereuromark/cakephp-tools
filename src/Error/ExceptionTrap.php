@@ -3,7 +3,13 @@
 namespace Tools\Error;
 
 use Cake\Core\Configure;
+use Cake\Core\Exception\CakeException;
+use Cake\Error\Debugger;
 use Cake\Error\ExceptionTrap as CoreExceptionTrap;
+use Cake\Http\ServerRequest;
+use Cake\Log\Log;
+use Psr\Http\Message\ServerRequestInterface;
+use Throwable;
 
 /**
  * Custom ErrorHandler to not mix the 404 exceptions with the rest of "real" errors in the error.log file.
@@ -27,6 +33,8 @@ use Cake\Error\ExceptionTrap as CoreExceptionTrap;
  */
 class ExceptionTrap extends CoreExceptionTrap {
 
+	use ErrorHandlerTrait;
+
 	/**
 	 * Constructor
 	 *
@@ -39,6 +47,101 @@ class ExceptionTrap extends CoreExceptionTrap {
 		];
 
 		parent::__construct($config);
+	}
+
+	/**
+	 * Log an error for the exception if applicable.
+	 *
+	 * @param \Exception $exception The exception to log a message for.
+	 * @param \Psr\Http\Message\ServerRequestInterface|null $request The current request.
+	 *
+	 * @return void
+	 */
+	public function logException(Throwable $exception, ?ServerRequestInterface $request = null): void {
+		if ($this->is404($exception, $request)) {
+			$level = LOG_ERR;
+			$message = $this->getMessage($exception);
+			if ($request !== null) {
+				$message .= $this->getRequestContext($request);
+			}
+
+			Log::write($level, $message, ['404']);
+
+			return;
+		}
+
+		parent::logException($exception, $request);
+	}
+
+	/**
+	 * Generate the message for the exception
+	 *
+	 * @param \Throwable $exception The exception to log a message for.
+	 * @param bool $isPrevious False for original exception, true for previous
+	 * @param bool $includeTrace Whether to include a stack trace.
+	 * @return string Error message
+	 */
+	protected function getMessage(Throwable $exception, bool $isPrevious = false, bool $includeTrace = false): string {
+		$message = sprintf(
+			'%s[%s] %s in %s on line %s',
+			$isPrevious ? "\nCaused by: " : '',
+			$exception::class,
+			$exception->getMessage(),
+			$exception->getFile(),
+			$exception->getLine(),
+		);
+
+		$debug = Configure::read('debug');
+		if ($debug && $exception instanceof CakeException) {
+			$attributes = $exception->getAttributes();
+			if ($attributes) {
+				$message .= "\nException Attributes: " . var_export($exception->getAttributes(), true);
+			}
+		}
+
+		if ($includeTrace) {
+			$trace = Debugger::formatTrace($exception, ['format' => 'points']);
+			assert(is_array($trace));
+			$message .= "\nStack Trace:\n";
+			foreach ($trace as $line) {
+				if (is_string($line)) {
+					$message .= '- ' . $line;
+				} else {
+					$message .= "- {$line['file']}:{$line['line']}\n";
+				}
+			}
+		}
+
+		$previous = $exception->getPrevious();
+		if ($previous) {
+			$message .= $this->getMessage($previous, true, $includeTrace);
+		}
+
+		return $message;
+	}
+
+	/**
+	 * Get the request context for an error/exception trace.
+	 *
+	 * @param \Psr\Http\Message\ServerRequestInterface $request The request to read from.
+	 * @return string
+	 */
+	protected function getRequestContext(ServerRequestInterface $request): string {
+		$message = "\nRequest URL: " . $request->getRequestTarget();
+
+		$referer = $request->getHeaderLine('Referer');
+		if ($referer) {
+			$message .= "\nReferer URL: " . $referer;
+		}
+
+		if ($request instanceof ServerRequest) {
+			$clientIp = $request->clientIp();
+			if ($clientIp && $clientIp !== '::1') {
+				$message .= "\nClient IP: " . $clientIp;
+			}
+		}
+
+		return $message;
 	}
 
 }
