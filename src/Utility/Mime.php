@@ -720,9 +720,9 @@ class Mime extends Response {
 	 *
 	 * @param string|null $file File Name (relative location such as "image_test.jpg" or full "http://site.com/path/to/image_test.jpg")
 	 *
-	 * @return array|string MIMEType - The type of the file passed in the argument
+	 * @return string MIMEType - The type of the file passed in the argument
 	 */
-	public function detectMimeType(?string $file = null): array|string {
+	public function detectMimeType(?string $file = null): string {
 		// Attempts to retrieve file info from FINFO
 		// If FINFO functions are not available then try to retrieve MIME type from pre-defined MIMEs
 		// If MIME type doesn't exist, then try (as a last resort) to use the (deprecated) mime_content_type function
@@ -735,6 +735,7 @@ class Mime extends Response {
 				}
 			}
 			$extension = $this->_getExtension($file);
+			/** @var string|null $mimeType */
 			$mimeType = $this->getMimeTypeByAlias($extension);
 			if ($mimeType) {
 				return $mimeType;
@@ -789,6 +790,7 @@ class Mime extends Response {
 			return $mimetype;
 		}
 		$extension = static::_getExtension($file);
+		/** @var string|null $mimeType */
 		$mimeType = static::getMimeTypeByAlias($extension);
 		if ($mimeType) {
 			return $mimeType;

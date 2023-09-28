@@ -135,7 +135,7 @@ class TreeHelper extends Helper {
 	protected function _generate($data, array $config, $parent = null) {
 		$dataArray = $data;
 		if (is_object($dataArray)) {
-			$dataArray = $data->toArray();
+			$dataArray = $dataArray->toArray();
 		}
 		if (!$dataArray) {
 			return '';
@@ -538,7 +538,7 @@ class TreeHelper extends Helper {
 		extract($this->_config);
 		$siblingIsActive = false;
 		foreach ($tree as $key => &$subTree) {
-			if (is_object($subTree)) {
+			if (is_object($subTree) && method_exists($subTree, 'toArray')) {
 				$subTree = $subTree->toArray();
 			}
 			if (!isset($subTree['children'])) {

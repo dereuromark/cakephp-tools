@@ -356,7 +356,11 @@ class Message extends CakeMessage {
 		// Some environments falsely return the default too fast, better fallback to extension here
 		if (!$mime || $mime === $default) {
 			$ext = pathinfo($filename, PATHINFO_EXTENSION);
+			/** @var string|null $mime */
 			$mime = $this->_Mime->getMimeTypeByAlias($ext);
+			if ($mime === null) {
+				$mime = (string)$mime;
+			}
 		}
 
 		return $mime;

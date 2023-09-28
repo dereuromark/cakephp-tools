@@ -24,7 +24,7 @@
 	"require": {
 		"php": ">=8.1",
 		"cakephp/cakephp": "^5.0.0",
-		"dereuromark/cakephp-shim": "dev-cake5"
+		"dereuromark/cakephp-shim": "^3.0.0"
 	},
 	"require-dev": {
 		"mobiledetect/mobiledetectlib": "^3.74",
@@ -64,7 +64,6 @@
 		"cs-fix": "phpcbf --extensions=php"
 	},
 	"prefer-stable": true,
-	"minimum-stability": "dev",
 	"config": {
 		"process-timeout": 600,
 		"allow-plugins": {

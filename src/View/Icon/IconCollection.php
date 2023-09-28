@@ -58,6 +58,7 @@ class IconCollection {
 			$this->iconSets[$set] = new $className($setConfig);
 		}
 
+		/** @var string|null $key */
 		$key = array_key_first($sets);
 		if (!$key) {
 			throw new RuntimeException('No set defined for icon collection, at least one is required.');
@@ -119,6 +120,7 @@ class IconCollection {
 
 		$options += $this->_config;
 		if (!isset($options['title']) || $options['title'] !== false) {
+			/** @var string $titleField */
 			$titleField = !isset($options['title']) || $options['title'] === true ? 'title' : $options['title'];
 			if (!isset($attributes[$titleField])) {
 				$attributes[$titleField] = ucwords(Inflector::humanize(Inflector::underscore($iconName ?? $icon)));
