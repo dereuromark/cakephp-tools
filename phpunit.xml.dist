@@ -15,7 +15,7 @@
 
 	<testsuites>
 		<testsuite name="tools">
-			<directory>tests/</directory>
+			<directory>tests/TestCase/</directory>
 		</testsuite>
 	</testsuites>
 
