@@ -17,6 +17,16 @@ class GravatarHelperTest extends TestCase {
 	protected $Gravatar;
 
 	/**
+	 * @var string
+	 */
+	protected $testEmail;
+
+	/**
+	 * @var string
+	 */
+	protected $garageEmail;
+
+	/**
 	 * SetUp method
 	 *
 	 * @return void

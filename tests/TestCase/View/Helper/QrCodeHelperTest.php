@@ -27,6 +27,11 @@ class QrCodeHelperTest extends TestCase {
 	protected $QrCode;
 
 	/**
+	 * @var string
+	 */
+	protected $testEmail;
+
+	/**
 	 * SetUp method
 	 *
 	 * @return void
