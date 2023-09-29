@@ -49,7 +49,7 @@ class TextHelper extends CakeTextHelper {
 	 * @param array<string, mixed> $config Settings array Settings array
 	 */
 	public function __construct(View $View, array $config = []) {
-		$config = Hash::merge(['engine' => 'Tools.Text'], $config);
+		$config += ['engine' => 'Tools.Text'];
 
 		parent::__construct($View, $config);
 
