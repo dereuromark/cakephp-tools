@@ -239,7 +239,7 @@ class Utility {
 	 * @param array<string> $protocols Defaults to http and https. Pass empty array for all.
 	 * @return string strippedUrl
 	 */
-	public static function stripProtocol($url, $protocols = ['http', 'https']): string {
+	public static function stripProtocol(string $url, array $protocols = ['http', 'https']): string {
 		$pieces = parse_url($url);
 		// Already stripped?
 		if (empty($pieces['scheme'])) {

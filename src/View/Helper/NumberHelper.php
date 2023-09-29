@@ -2,10 +2,10 @@
 
 namespace Tools\View\Helper;
 
-use Cake\Utility\Hash;
+use Cake\Core\App;
+use Cake\Core\Exception\CakeException;
 use Cake\View\Helper\NumberHelper as CakeNumberHelper;
 use Cake\View\View;
-use Tools\Utility\Number;
 
 /**
  * Overwrite to allow usage of own Number class.
@@ -13,6 +13,13 @@ use Tools\Utility\Number;
  * @mixin \Tools\Utility\Number
  */
 class NumberHelper extends CakeNumberHelper {
+
+	/**
+	 * Cake\I18n\Number instance
+	 *
+	 * @var \Cake\I18n\Number
+	 */
+	protected $_engine;
 
 	/**
 	 * ### Settings:
@@ -24,10 +31,19 @@ class NumberHelper extends CakeNumberHelper {
 	 * @param array<string, mixed> $config Configuration settings for the helper
 	 */
 	public function __construct(View $View, array $config = []) {
-		$config = Hash::merge(['engine' => 'Tools.Number'], $config);
+		$config += ['engine' => 'Tools.Number'];
 
 		parent::__construct($View, $config);
+
+		/** @psalm-var class-string<\Cake\I18n\Number>|null $engineClass */
+		$engineClass = App::className($config['engine'], 'Utility');
+		if ($engineClass === null) {
+			throw new CakeException(sprintf('Class for `%s` could not be found', $config['engine']));
+		}
+
+		$this->_engine = new $engineClass($config);
 	}
+
 	/**
 	 * Call methods from Cake\I18n\Number utility class
 	 *
@@ -36,7 +52,7 @@ class NumberHelper extends CakeNumberHelper {
 	 * @return mixed Whatever is returned by called method, or false on failure
 	 */
 	public function __call(string $method, array $params): mixed {
-		return Number::{$method}(...$params);
+		return $this->_engine->{$method}(...$params);
 	}
 
 }

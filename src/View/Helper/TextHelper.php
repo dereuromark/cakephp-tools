@@ -2,11 +2,12 @@
 
 namespace Tools\View\Helper;
 
+use Cake\Core\App;
+use Cake\Core\Exception\CakeException;
 use Cake\Utility\Hash;
 use Cake\View\Helper\TextHelper as CakeTextHelper;
 use Cake\View\View;
 use Tools\Utility\Number;
-use Tools\Utility\Text;
 use Tools\Utility\Utility;
 
 if (!defined('CHAR_HELLIP')) {
@@ -32,6 +33,13 @@ if (!defined('CHAR_HELLIP')) {
 class TextHelper extends CakeTextHelper {
 
 	/**
+	 * Cake Utility Text instance
+	 *
+	 * @var \Cake\Utility\Text
+	 */
+	protected $_engine;
+
+	/**
 	 * ### Settings:
 	 *
 	 * - `engine` Class name to use to replace Text functionality.
@@ -44,6 +52,14 @@ class TextHelper extends CakeTextHelper {
 		$config = Hash::merge(['engine' => 'Tools.Text'], $config);
 
 		parent::__construct($View, $config);
+
+		/** @psalm-var class-string<\Cake\Utility\Text>|null $engineClass */
+		$engineClass = App::className($config['engine'], 'Utility');
+		if ($engineClass === null) {
+			throw new CakeException(sprintf('Class for `%s` could not be found', $config['engine']));
+		}
+
+		$this->_engine = new $engineClass($config);
 	}
 
 	/**
@@ -54,7 +70,7 @@ class TextHelper extends CakeTextHelper {
 	 * @return mixed Whatever is returned by called method, or false on failure
 	 */
 	public function __call(string $method, array $params): mixed {
-		return Text::{$method}(...$params);
+		return $this->_engine->{$method}(...$params);
 	}
 
 	/**
@@ -66,7 +82,7 @@ class TextHelper extends CakeTextHelper {
 	 * - placeholder
 	 * @return string the manipulated url (+ eventuell ...)
 	 */
-	public function minimizeUrl($url, $max = null, array $options = []) {
+	public function minimizeUrl(string $url, ?int $max = null, array $options = []): string {
 		// check if there is nothing to do
 		if (!$url || mb_strlen($url) <= (int)$max) {
 			return $url;
@@ -99,10 +115,10 @@ class TextHelper extends CakeTextHelper {
 	 * Removes http:// or other protocols from the link.
 	 *
 	 * @param string $url
-	 * @param array $protocols Defaults to http and https. Pass empty array for all.
+	 * @param array<string> $protocols Defaults to http and https. Pass empty array for all.
 	 * @return string strippedUrl
 	 */
-	public function stripProtocol($url, $protocols = ['http', 'https']) {
+	public function stripProtocol(string $url, array $protocols = ['http', 'https']): string {
 		return Utility::stripProtocol($url, $protocols);
 	}
 
@@ -114,7 +130,7 @@ class TextHelper extends CakeTextHelper {
 	 * @param bool $sup Whether to wrap the suffix in a superscript (<sup>) tag on output.
 	 * @return string ordinal
 	 */
-	public function ordinalNumber($num = 0, $sup = false) {
+	public function ordinalNumber(int $num = 0, bool $sup = false): string {
 		$ordinal = Number::ordinal($num);
 
 		return ($sup) ? $num . '<sup>' . $ordinal . '</sup>' : $num . $ordinal;
@@ -126,7 +142,7 @@ class TextHelper extends CakeTextHelper {
 	 * @param string $file Filename
 	 * @return string
 	 */
-	public function highlightFile($file) {
+	public function highlightFile(string $file): string {
 		return highlight_file($file, true);
 	}
 
@@ -136,7 +152,7 @@ class TextHelper extends CakeTextHelper {
 	 * @param string $string Content
 	 * @return string
 	 */
-	public function highlightString($string) {
+	public function highlightString(string $string): string {
 		return highlight_string($string, true);
 	}
 
