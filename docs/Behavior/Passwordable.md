@@ -12,6 +12,8 @@ Also capable of:
 - Require current password prior to altering it (current => true)
 - Don't allow the same password it was before (allowSame => false)
 
+Note: This works best together with [TinyAuth plugin](https://github.com/dereuromark/cakephp-tinyauth).
+
 ## Configs
 | Key  | Default | Description |
 | ------------- | ------------- | ------------- |

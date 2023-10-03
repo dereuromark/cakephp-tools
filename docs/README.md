@@ -17,9 +17,6 @@ I18n:
 ErrorHandler
 * [ErrorHandler](Error/ErrorHandler.md) for improved error handling.
 
-Auth
-* [MultiColumnAuthenticate](Auth/MultiColumn.md) for log-in with e.g. "email or username"
-
 Email
 * [Email](Mailer/Email.md) for sending Emails
 

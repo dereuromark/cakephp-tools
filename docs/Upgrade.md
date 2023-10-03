@@ -3,6 +3,9 @@
 ## CommonComponent
 - `setHelpers()` has been removed in favor of core usage directly.
 
+## Auth
+- MultiColumn authentication has fully been moved to [TinyAuth](https://github.com/dereuromark/cakephp-tinyauth) plugin.
+
 ## Utility
 - `L10n`, `Mime` classes have been removed
 - Mutable `Time` class has been removed, use immutable `DateTime` instead.
