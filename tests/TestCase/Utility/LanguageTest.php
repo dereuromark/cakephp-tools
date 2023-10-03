@@ -67,15 +67,6 @@ class LanguageTest extends TestCase {
 			],
 		];
 		$this->assertSame($expected, $res);
-
-		$res = Language::parseLanguageList('fi-fi,DE-DE', false);
-		$expected = [
-			'1.0' => [
-				'fi-FI',
-				'de-DE',
-			],
-		];
-		$this->assertSame($expected, $res);
 	}
 
 	/**

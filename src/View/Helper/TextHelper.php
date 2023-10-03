@@ -4,7 +4,6 @@ namespace Tools\View\Helper;
 
 use Cake\Core\App;
 use Cake\Core\Exception\CakeException;
-use Cake\Utility\Hash;
 use Cake\View\Helper\TextHelper as CakeTextHelper;
 use Cake\View\View;
 use Tools\Utility\Number;

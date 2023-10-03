@@ -10,7 +10,7 @@ use Tools\View\Icon\BootstrapIcon;
 /**
  * @uses \Tools\Controller\Admin\IconsController
  */
-class FormatControllerTest extends TestCase {
+class IconsControllerTest extends TestCase {
 
 	use IntegrationTestTrait;
 
@@ -25,7 +25,7 @@ class FormatControllerTest extends TestCase {
 				'bs' => BootstrapIcon::class,
 			],
 		]);
-		$this->get(['prefix' => 'Admin', 'plugin' => 'Tools', 'controller' => 'Format', 'action' => 'icons']);
+		$this->get(['prefix' => 'Admin', 'plugin' => 'Tools', 'controller' => 'Icons', 'action' => 'index']);
 
 		$this->assertResponseCode(200);
 	}
