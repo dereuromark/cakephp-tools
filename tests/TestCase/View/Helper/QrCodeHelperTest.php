@@ -29,7 +29,7 @@ class QrCodeHelperTest extends TestCase {
 	/**
 	 * @var string
 	 */
-	protected $testEmail = '';
+	protected $testEmail;
 
 	/**
 	 * SetUp method

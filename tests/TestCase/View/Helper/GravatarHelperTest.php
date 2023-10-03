@@ -19,12 +19,12 @@ class GravatarHelperTest extends TestCase {
 	/**
 	 * @var string
 	 */
-	protected $garageEmail = '';
+	protected $testEmail;
 
 	/**
 	 * @var string
 	 */
-	protected $testEmail = '';
+	protected $garageEmail;
 
 	/**
 	 * SetUp method
