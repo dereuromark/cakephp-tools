@@ -5,6 +5,7 @@ phpunit.phar
 composer.phar
 .idea/
 .phpunit.cache
+.phpunit.result.cache
 phpunit.xml
 /config/Migrations/schema-dump-default.lock
 /tests/test_files/node_modules/
