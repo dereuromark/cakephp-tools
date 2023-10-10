@@ -16,7 +16,7 @@
 	<rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
 		<exclude-pattern>*/config/Migrations/*</exclude-pattern>
 	</rule>
-	<rule ref="Spryker.Classes.ClassFileName.NoMatch">
+	<rule ref="PhpCollective.Classes.ClassFileName.NoMatch">
 		<exclude-pattern>*/config/Migrations/*</exclude-pattern>
 	</rule>
 
