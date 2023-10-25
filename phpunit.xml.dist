@@ -8,7 +8,7 @@
 		<ini name="apc.enable_cli" value="1"/>
 		<!-- E_ALL => 32767 -->
 		<!-- E_ALL & ~E_USER_DEPRECATED => 16383 -->
-		<ini name="error_reporting" value="16383"/>
+		<ini name="error_reporting" value="32767"/>
 
 		<env name="FIXTURE_SCHEMA_METADATA" value="tests/schema.php"/>
 	</php>
