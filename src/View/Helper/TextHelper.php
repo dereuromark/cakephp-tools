@@ -4,13 +4,11 @@ namespace Tools\View\Helper;
 
 use Cake\Core\App;
 use Cake\Core\Exception\CakeException;
-use Cake\Utility\Hash;
 use Cake\Utility\Text;
 use Cake\View\Helper\TextHelper as CakeTextHelper;
 use Cake\View\View;
 use Tools\Utility\Number;
 use Tools\Utility\Utility;
-use function Cake\Core\deprecationWarning;
 
 if (!defined('CHAR_HELLIP')) {
 	define('CHAR_HELLIP', '&#8230;'); # � (horizontal ellipsis = three dot leader)
@@ -47,7 +45,7 @@ class TextHelper extends CakeTextHelper {
 		$config += ['engine' => 'Tools.Text'];
 
 		$engine = $config['engine'];
-		$config['engine'] = 'Text';
+		$config['engine'] = Text::class;
 		parent::__construct($view, $config);
 
 		$this->setConfig('engine', $engine);

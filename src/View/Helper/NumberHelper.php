@@ -4,6 +4,7 @@ namespace Tools\View\Helper;
 
 use Cake\Core\App;
 use Cake\Core\Exception\CakeException;
+use Cake\I18n\Number;
 use Cake\Utility\Hash;
 use Cake\View\Helper\NumberHelper as CakeNumberHelper;
 use Cake\View\View;
@@ -28,7 +29,7 @@ class NumberHelper extends CakeNumberHelper {
 		$config = Hash::merge(['engine' => 'Tools.Number'], $config);
 
 		$engine = $config['engine'];
-		$config['engine'] = 'Number';
+		$config['engine'] = Number::class;
 		parent::__construct($view, $config);
 
 		$this->setConfig('engine', $engine);
