@@ -63,7 +63,7 @@ class QrCodeHelperTest extends TestCase {
 	public function testImage() {
 		$is = $this->QrCode->image('Foo Bar');
 
-		$expected = '<img src="http://chart.apis.google.com/chart?chl=Foo%20Bar&amp;cht=qr&amp;choe=UTF-8&amp;chs=74x74&amp;chld=" alt=""/>';
+		$expected = '<img src="http://chart.apis.google.com/chart?chl=Foo%20Bar&amp;cht=qr&amp;choe=UTF-8&amp;chs=74x74&amp;chld=" alt="">';
 		$this->assertSame($expected, $is);
 	}
 

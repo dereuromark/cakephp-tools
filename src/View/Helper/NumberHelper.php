@@ -2,6 +2,9 @@
 
 namespace Tools\View\Helper;
 
+use Cake\Core\App;
+use Cake\Core\Exception\CakeException;
+use Cake\I18n\Number;
 use Cake\Utility\Hash;
 use Cake\View\Helper\NumberHelper as CakeNumberHelper;
 use Cake\View\View;
@@ -19,13 +22,23 @@ class NumberHelper extends CakeNumberHelper {
 	 * - `engine` Class name to use to replace Number functionality.
 	 *            The class needs to be placed in the `Utility` directory.
 	 *
-	 * @param \Cake\View\View $View The View this helper is being attached to.
+	 * @param \Cake\View\View $view The View this helper is being attached to.
 	 * @param array<string, mixed> $config Configuration settings for the helper
 	 */
-	public function __construct(View $View, array $config = []) {
+	public function __construct(View $view, array $config = []) {
 		$config = Hash::merge(['engine' => 'Tools.Number'], $config);
 
-		parent::__construct($View, $config);
+		$engine = $config['engine'];
+		$config['engine'] = Number::class;
+		parent::__construct($view, $config);
+
+		$this->setConfig('engine', $engine);
+		$engineClass = App::className($engine, 'Utility');
+		if ($engineClass === null) {
+			throw new CakeException(sprintf('Class for %s could not be found', $engine));
+		}
+
+		$this->_engine = new $engineClass($config);
 	}
 
 }

@@ -2,7 +2,9 @@
 
 namespace Tools\View\Helper;
 
-use Cake\Utility\Hash;
+use Cake\Core\App;
+use Cake\Core\Exception\CakeException;
+use Cake\Utility\Text;
 use Cake\View\Helper\TextHelper as CakeTextHelper;
 use Cake\View\View;
 use Tools\Utility\Number;
@@ -36,13 +38,23 @@ class TextHelper extends CakeTextHelper {
 	 * - `engine` Class name to use to replace Text functionality.
 	 *            The class needs to be placed in the `Utility` directory.
 	 *
-	 * @param \Cake\View\View $View the view object the helper is attached to.
+	 * @param \Cake\View\View $view the view object the helper is attached to.
 	 * @param array<string, mixed> $config Settings array Settings array
 	 */
-	public function __construct(View $View, array $config = []) {
-		$config = Hash::merge(['engine' => 'Tools.Text'], $config);
+	public function __construct(View $view, array $config = []) {
+		$config += ['engine' => 'Tools.Text'];
 
-		parent::__construct($View, $config);
+		$engine = $config['engine'];
+		$config['engine'] = Text::class;
+		parent::__construct($view, $config);
+
+		$this->setConfig('engine', $engine);
+		$engineClass = App::className($engine, 'Utility');
+		if ($engineClass === null) {
+			throw new CakeException(sprintf('Class for %s could not be found', $engine));
+		}
+
+		$this->_engine = new $engineClass($config);
 	}
 
 	/**

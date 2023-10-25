@@ -27,7 +27,7 @@
 		"dereuromark/cakephp-shim": "^2.0.0"
 	},
 	"require-dev": {
-		"cakephp/chronos": "^2.0",
+		"cakephp/chronos": "^2.4",
 		"mobiledetect/mobiledetectlib": "^2.8",
 		"fig-r/psr2r-sniffer": "dev-master",
 		"yangqi/htmldom": "^1.0",

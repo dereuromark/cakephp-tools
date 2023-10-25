@@ -522,7 +522,7 @@ class Time extends CakeTime {
 			}
 		}
 
-		$date = $date->timezone($options['timezone']);
+		$date = $date->setTimezone($options['timezone']);
 		$ret = $date->format($format);
 
 		if (!empty($options['oclock'])) {
