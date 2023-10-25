@@ -32,8 +32,6 @@ if (!defined('CHAR_HELLIP')) {
 class TextHelper extends CakeTextHelper {
 
 	/**
-	 * Cake Utility Text instance
-	 *
 	 * @var \Cake\Utility\Text
 	 */
 	protected $_engine;

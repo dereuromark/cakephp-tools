@@ -2,10 +2,10 @@
 
 namespace Tools\Utility;
 
-use Tools\I18n\DateTime as I18nDateTime;
+use Tools\I18n\Number as I18nNumber;
 
 /**
  * @deprecated Use I18n one directly
  */
-class DateTime extends I18nDateTime {
+class Number extends I18nNumber {
 }

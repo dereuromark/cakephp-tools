@@ -10,13 +10,11 @@ use Cake\View\View;
 /**
  * Overwrite to allow usage of own Number class.
  *
- * @mixin \Tools\Utility\Number
+ * @mixin \Tools\I18n\Number
  */
 class NumberHelper extends CakeNumberHelper {
 
 	/**
-	 * Cake\I18n\Number instance
-	 *
 	 * @var \Cake\I18n\Number
 	 */
 	protected $_engine;

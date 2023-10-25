@@ -27,13 +27,11 @@ class TimeHelper extends CakeTimeHelper {
 	 * @var array<string, mixed>
 	 */
 	protected array $_defaultConfig = [
-		'engine' => 'Tools\Utility\DateTime',
+		'engine' => 'Tools\I18n\DateTime',
 	];
 
 	/**
-	 * Cake\I18n\LocalizedNumber instance
-	 *
-	 * @var \Cake\I18n\Number
+	 * @var \Cake\I18n\DateTime
 	 */
 	protected $_engine;
 
@@ -56,8 +54,8 @@ class TimeHelper extends CakeTimeHelper {
 		parent::__construct($View, $config);
 
 		$config = $this->_config + $defaults;
-		/** @var class-string<\Tools\Utility\Number>|null $engineClass */
-		$engineClass = App::className($config['engine'], 'Utility');
+		/** @var class-string<\Tools\I18n\DateTime>|null $engineClass */
+		$engineClass = App::className($config['engine'], 'I18n');
 		if (!$engineClass) {
 			throw new CakeException(sprintf('Class for %s could not be found', $config['engine']));
 		}
