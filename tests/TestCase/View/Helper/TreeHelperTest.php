@@ -470,7 +470,7 @@ TEXT;
 		$tree = $this->Table->find('threaded')->toArray();
 		$id = 6;
 		$nodes = $this->Table->find('path', ['for' => $id]);
-		$path = $nodes->extract('id')->toArray();
+		$path = $nodes->all()->extract('id')->toArray();
 
 		$output = $this->Tree->generate($tree, ['autoPath' => [6, 11], 'hideUnrelated' => true, 'treePath' => $path, 'callback' => [$this, '_myCallback']]); // Two-SubA
 
@@ -528,7 +528,7 @@ TEXT;
 
 		$id = 6; // Two-SubA
 		$nodes = $this->Table->find('path', ['for' => $id]);
-		$path = $nodes->extract('id')->toArray();
+		$path = $nodes->all()->extract('id')->toArray();
 
 		$output = $this->Tree->generate($tree, [
 			'autoPath' => [6, 11], 'hideUnrelated' => true, 'treePath' => $path,
@@ -620,7 +620,7 @@ TEXT;
 
 		$id = 6;
 		$nodes = $this->Table->find('path', ['for' => $id]);
-		$path = $nodes->extract('id')->toArray();
+		$path = $nodes->all()->extract('id')->toArray();
 
 		$output = $this->Tree->generate($tree, [
 			'autoPath' => [6, 11], 'treePath' => $path,

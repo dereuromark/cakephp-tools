@@ -14,7 +14,7 @@ use Cake\Http\Response;
 class Mime extends Response {
 
 	/**
-	 * @var array
+	 * @var array<string, array>
 	 */
 	protected $_mimeTypesExt = [
 		'3dm' => 'x-world/x-3dmf',
@@ -699,6 +699,11 @@ class Mime extends Response {
 	];
 
 	/**
+	 * @var array<string, array>
+	 */
+	protected $_mimeTypesTmp = [];
+
+	/**
 	 * Override constructor
 	 *
 	 * @param array<string, mixed> $options
@@ -731,7 +736,7 @@ class Mime extends Response {
 	 * @return mixed string mapped mime type or false if $alias is not mapped
 	 */
 	public function getMimeTypeByAlias($alias, $primaryOnly = true, $coreHasPrecedence = false) {
-		if (empty($this->_mimeTypeTmp)) {
+		if (!$this->_mimeTypesTmp) {
 			$this->_mimeTypesTmp = $this->mimeTypes($coreHasPrecedence);
 		}
 		if (!isset($this->_mimeTypesTmp[$alias])) {

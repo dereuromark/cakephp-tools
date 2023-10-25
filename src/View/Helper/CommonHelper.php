@@ -105,7 +105,7 @@ class CommonHelper extends Helper {
 		}
 
 		$content = (array)$content;
-		$return = '<meta name="' . $name . '" content="' . implode(', ', $content) . '" />';
+		$return = '<meta name="' . $name . '" content="' . implode(', ', $content) . '">';
 
 		return $return;
 	}
@@ -212,7 +212,7 @@ class CommonHelper extends Helper {
 	 */
 	public function metaRss($url, ?string $title = null): string {
 		$tags = [
-			'meta' => '<link rel="alternate" type="application/rss+xml" title="%s" href="%s"/>',
+			'meta' => '<link rel="alternate" type="application/rss+xml" title="%s" href="%s">',
 		];
 		if (!$title) {
 			$title = __d('tools', 'Subscribe to this feed');
