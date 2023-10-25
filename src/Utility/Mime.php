@@ -14,7 +14,7 @@ use Cake\Http\Response;
 class Mime extends Response {
 
 	/**
-	 * @var array
+	 * @var array<string, array>
 	 */
 	protected array $_mimeTypesExt = [
 		'3dm' => 'x-world/x-3dmf',
@@ -650,6 +650,9 @@ class Mime extends Response {
 		'swf' => ['application/x-shockwave-flash', 'application/x-shockwave-flash2-preview', 'application/futuresplash', 'image/vnd.rn-realflash'],
 	];
 
+	/**
+	 * @var array<string, array>
+	 */
 	protected ?array $_mimeTypesTmp = null;
 
 	/**
@@ -689,7 +692,7 @@ class Mime extends Response {
 		bool $primaryOnly = true,
 		bool $coreHasPrecedence = false,
 	) {
-		if (empty($this->_mimeTypeTmp)) {
+		if (!$this->_mimeTypeTmp) {
 			$this->_mimeTypesTmp = $this->mimeTypes($coreHasPrecedence);
 		}
 		if (!isset($this->_mimeTypesTmp[$alias])) {

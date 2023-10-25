@@ -27,16 +27,16 @@ class NumberHelper extends CakeNumberHelper {
 	 * - `engine` Class name to use to replace Number functionality.
 	 *            The class needs to be placed in the `Utility` directory.
 	 *
-	 * @param \Cake\View\View $View The View this helper is being attached to.
+	 * @param \Cake\View\View $view The View this helper is being attached to.
 	 * @param array<string, mixed> $config Configuration settings for the helper
 	 */
-	public function __construct(View $View, array $config = []) {
+	public function __construct(View $view, array $config = []) {
 		$config += ['engine' => 'Tools.Number'];
 
-		parent::__construct($View, $config);
+		parent::__construct($view, $config);
 
 		/** @psalm-var class-string<\Cake\I18n\Number>|null $engineClass */
-		$engineClass = App::className($config['engine'], 'Utility');
+		$engineClass = App::className($config['engine'], 'I18n');
 		if ($engineClass === null) {
 			throw new CakeException(sprintf('Class for `%s` could not be found', $config['engine']));
 		}

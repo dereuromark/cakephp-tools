@@ -6,7 +6,7 @@ use Cake\Core\Configure;
 use Cake\View\Helper;
 use Cake\View\View;
 use InvalidArgumentException;
-use Tools\Utility\Number;
+use Tools\I18n\Number;
 
 /**
  * The progress element represents the progress of a task.

@@ -558,7 +558,7 @@ class DateTime extends CakeDateTime {
 		}
 
 		if (!($date instanceof CakeDate) && !($date instanceof CakeDateTime)) {
-			$date = $date->timezone($options['timezone']);
+			$date = $date->setTimezone($options['timezone']);
 		}
 		$ret = $date->format($format);
 

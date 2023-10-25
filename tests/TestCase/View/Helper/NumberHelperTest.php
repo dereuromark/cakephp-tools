@@ -5,7 +5,7 @@ namespace Tools\Test\TestCase\View\Helper;
 use Cake\Core\Configure;
 use Cake\View\View;
 use Shim\TestSuite\TestCase;
-use Tools\Utility\Number;
+use Tools\I18n\Number;
 use Tools\View\Helper\NumberHelper;
 
 class NumberHelperTest extends TestCase {

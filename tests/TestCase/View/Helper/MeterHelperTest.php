@@ -5,7 +5,7 @@ namespace Tools\Test\TestCase\View\Helper;
 use Cake\View\View;
 use InvalidArgumentException;
 use Shim\TestSuite\TestCase;
-use Tools\Utility\Number;
+use Tools\I18n\Number;
 use Tools\View\Helper\MeterHelper;
 
 class MeterHelperTest extends TestCase {

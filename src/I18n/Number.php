@@ -1,6 +1,6 @@
 <?php
 
-namespace Tools\Utility;
+namespace Tools\I18n;
 
 use Cake\I18n\Number as CakeNumber;
 

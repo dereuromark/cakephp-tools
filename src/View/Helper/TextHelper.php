@@ -6,7 +6,7 @@ use Cake\Core\App;
 use Cake\Core\Exception\CakeException;
 use Cake\View\Helper\TextHelper as CakeTextHelper;
 use Cake\View\View;
-use Tools\Utility\Number;
+use Tools\I18n\Number;
 use Tools\Utility\Utility;
 
 if (!defined('CHAR_HELLIP')) {
@@ -44,13 +44,13 @@ class TextHelper extends CakeTextHelper {
 	 * - `engine` Class name to use to replace Text functionality.
 	 *            The class needs to be placed in the `Utility` directory.
 	 *
-	 * @param \Cake\View\View $View the view object the helper is attached to.
+	 * @param \Cake\View\View $view the view object the helper is attached to.
 	 * @param array<string, mixed> $config Settings array Settings array
 	 */
-	public function __construct(View $View, array $config = []) {
+	public function __construct(View $view, array $config = []) {
 		$config += ['engine' => 'Tools.Text'];
 
-		parent::__construct($View, $config);
+		parent::__construct($view, $config);
 
 		/** @psalm-var class-string<\Cake\Utility\Text>|null $engineClass */
 		$engineClass = App::className($config['engine'], 'Utility');

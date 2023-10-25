@@ -4,7 +4,7 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\View\View;
 use Shim\TestSuite\TestCase;
-use Tools\Utility\Number;
+use Tools\I18n\Number;
 use Tools\View\Helper\ProgressHelper;
 
 class ProgressHelperTest extends TestCase {

@@ -6,7 +6,7 @@ use Cake\Core\Configure;
 use Cake\View\Helper;
 use Cake\View\View;
 use InvalidArgumentException;
-use Tools\Utility\Number;
+use Tools\I18n\Number;
 
 /**
  * Use the meter element to display data within a given range (a gauge).

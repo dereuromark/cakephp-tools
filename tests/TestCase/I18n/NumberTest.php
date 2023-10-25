@@ -1,14 +1,14 @@
 <?php
 
-namespace Tools\Test\TestCase\Utility;
+namespace Tools\Test\TestCase\I18n;
 
 use Shim\TestSuite\TestCase;
-use Tools\Utility\Number;
+use Tools\I18n\Number;
 
 class NumberTest extends TestCase {
 
 	/**
-	 * @var \Tools\Utility\Number
+	 * @var \Tools\I18n\Number
 	 */
 	protected $Number;
 
