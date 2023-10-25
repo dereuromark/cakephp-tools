@@ -51,9 +51,7 @@ class InflectCommand extends Command {
 		$parser = parent::buildOptionParser($parser);
 
 		$parser->addArgument('word');
-		$parser->addArgument('action', [
-			'default' => 'all',
-		]);
+		$parser->addArgument('action');
 
 		return $parser;
 	}
