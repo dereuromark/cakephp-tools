@@ -12,16 +12,8 @@ use Tools\View\Icon\IconCollection;
  *
  * @author Mark Scherer
  * @license MIT
- * @property \Cake\View\Helper\HtmlHelper $Html
  */
 class IconHelper extends Helper {
-
-	/**
-	 * Other helpers used by FormHelper
-	 *
-	 * @var array
-	 */
-	protected array $helpers = ['Html'];
 
 	/**
 	 * @var \Tools\View\Icon\IconCollection

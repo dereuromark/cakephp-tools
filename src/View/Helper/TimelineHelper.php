@@ -235,9 +235,9 @@ JS;
 
 	/**
 	 * Options:
-	 * - `safe` (boolean) Whether or not the $script should be wrapped in `<![CDATA[ ]]>`.
+	 * - `safe` (boolean) Whether the $script should be wrapped in `<![CDATA[ ]]>`.
 	 *   Defaults to `false`.
-	 * - `block` You can chose a different view block to write to (defaults to "script" one).
+	 * - `block` You can choose a different view block to write to (defaults to "script" one).
 	 *
 	 * @param string $script
 	 * @param array<string, mixed> $options
