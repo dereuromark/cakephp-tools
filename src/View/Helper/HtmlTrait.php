@@ -15,7 +15,7 @@ trait HtmlTrait {
 	 * @param array<string, mixed> $options Attributes
 	 * @return string HTML image tag
 	 */
-	public function imageFromBlob($content, array $options = []) {
+	public function imageFromBlob(string $content, array $options = []): string {
 		$options += ['type' => 'png'];
 		$mimeType = 'image/' . $options['type'];
 
@@ -38,13 +38,13 @@ trait HtmlTrait {
 	 *   over value of `escape`)
 	 * - `confirm` JavaScript confirmation message.
 	 *
-	 * @param string $title The content to be wrapped by <a> tags.
+	 * @param array|string $title The content to be wrapped by <a> tags.
 	 * @param array|string|null $url URL or array of URL parameters, or
 	 *   external URL (starts with http://)
 	 * @param array<string, mixed> $options Array of options and HTML attributes.
 	 * @return string An `a` HTML element.
 	 */
-	public function linkReset($title, $url = null, array $options = []) {
+	public function linkReset(array|string $title, array|string|null $url = null, array $options = []): string {
 		if (is_array($url)) {
 			$url += ['prefix' => false, 'plugin' => false];
 		}
@@ -63,13 +63,13 @@ trait HtmlTrait {
 	 *   over value of `escape`)
 	 * - `confirm` JavaScript confirmation message.
 	 *
-	 * @param string $title The content to be wrapped by <a> tags.
+	 * @param array|string $title The content to be wrapped by <a> tags.
 	 * @param array|string|null $url URL or array of URL parameters, or
 	 *   external URL (starts with http://)
 	 * @param array<string, mixed> $options Array of options and HTML attributes.
 	 * @return string An `a` HTML element.
 	 */
-	public function linkComplete($title, $url = null, array $options = []) {
+	public function linkComplete(array|string $title, array|string|null $url = null, array $options = []): string {
 		if (is_array($url)) {
 			// Add query strings
 			if (!isset($url['?'])) {

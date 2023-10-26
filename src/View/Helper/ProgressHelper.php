@@ -73,7 +73,7 @@ class ProgressHelper extends Helper {
 	 * @param array<string, mixed> $attributes
 	 * @return string
 	 */
-	public function htmlProgressBar($value, array $options = [], array $attributes = []) {
+	public function htmlProgressBar($value, array $options = [], array $attributes = []): string {
 		$defaults = [
 			'fallbackHtml' => null,
 		];
@@ -101,7 +101,7 @@ class ProgressHelper extends Helper {
 	 * @param array<string, mixed> $attributes
 	 * @return string
 	 */
-	public function progressBar($value, $length, array $attributes = []) {
+	public function progressBar($value, int $length, array $attributes = []): string {
 		$bar = $this->draw($value, $length);
 
 		$attributes += [
@@ -119,7 +119,7 @@ class ProgressHelper extends Helper {
 	 * @throws \InvalidArgumentException
 	 * @return string
 	 */
-	public function draw($complete, $length) {
+	public function draw($complete, int $length): string {
 		if ($complete < 0.0 || $complete > 1.0) {
 			throw new InvalidArgumentException('Min/Max overflow for value `' . $complete . '` (0...1)');
 		}
@@ -174,7 +174,7 @@ class ProgressHelper extends Helper {
 	 * @param int $length
 	 * @return int
 	 */
-	protected function calculateBarLength($complete, $length) {
+	protected function calculateBarLength($complete, int $length): int {
 		$barLength = (int)round($length * $complete, 0);
 		if ($barLength === 0 && $complete > 0.0) {
 			$barLength = 1;

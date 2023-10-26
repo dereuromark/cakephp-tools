@@ -127,7 +127,7 @@ class MeterHelper extends Helper {
 	 * @param array<string, mixed> $attributes
 	 * @return string
 	 */
-	public function meterBar($value, $max, $min, $length, array $options = [], array $attributes = []) {
+	public function meterBar($value, $max, $min, int $length, array $options = [], array $attributes = []): string {
 		$defaults = [
 			'overflow' => false,
 		];
@@ -155,7 +155,7 @@ class MeterHelper extends Helper {
 	 * @throws \InvalidArgumentException
 	 * @return string
 	 */
-	public function draw($complete, $length) {
+	public function draw($complete, int $length) {
 		if ($length < static::LENGTH_MIN) {
 			throw new InvalidArgumentException('Min length for such a progress bar is ' . static::LENGTH_MIN);
 		}
@@ -180,7 +180,7 @@ class MeterHelper extends Helper {
 	 * @param int $length
 	 * @return int
 	 */
-	protected function calculateBarLength($complete, $length) {
+	protected function calculateBarLength($complete, int $length): int {
 		$barLength = (int)round($length * $complete, 0);
 
 		return $barLength;
@@ -200,7 +200,7 @@ class MeterHelper extends Helper {
 	 * @throws \InvalidArgumentException
 	 * @return float
 	 */
-	protected function prepareValue($value, $max, $min, $overflow) {
+	protected function prepareValue($value, $max, $min, bool $overflow) {
 		if ($max < $min) {
 			throw new InvalidArgumentException('Max needs to be larger than Min.');
 		}
@@ -227,7 +227,7 @@ class MeterHelper extends Helper {
 	 * @param bool $overflow
 	 * @return float
 	 */
-	protected function prepareMax($value, $max, $overflow) {
+	protected function prepareMax($value, $max, bool $overflow) {
 		if ($value <= $max) {
 			return $max;
 		}
@@ -251,7 +251,7 @@ class MeterHelper extends Helper {
 	 * @param bool $overflow
 	 * @return float
 	 */
-	protected function prepareMin($value, $min, $overflow) {
+	protected function prepareMin($value, $min, bool $overflow) {
 		if ($value > $min) {
 			return $min;
 		}

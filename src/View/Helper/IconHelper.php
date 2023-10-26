@@ -60,7 +60,7 @@ class IconHelper extends Helper {
 	 * - class, ...
 	 * @return string
 	 */
-	public function render(string $icon, array $options = [], array $attributes = []) {
+	public function render(string $icon, array $options = [], array $attributes = []): string {
 		return $this->collection->render($icon, $options, $attributes);
 	}
 

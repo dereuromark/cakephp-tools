@@ -49,7 +49,7 @@ class CommonHelper extends Helper {
 	 * @param array<string>|string|null $type - private/public or array of index/follow/archtive,...
 	 * @return string HTML
 	 */
-	public function metaRobots($type = null): string {
+	public function metaRobots(array|string|null $type = null): string {
 		$meta = Configure::read('Config.robots');
 		if ($type === null && $meta !== null) {
 			$type = $meta;
@@ -78,7 +78,7 @@ class CommonHelper extends Helper {
 	 * @param array<string>|string|null $content If array, it will be separated by commas
 	 * @return string HTML Markup
 	 */
-	public function metaName(?string $name = null, $content = null): string {
+	public function metaName(?string $name = null, array|string|null $content = null): string {
 		if (!$name || !$content) {
 			return '';
 		}
@@ -115,7 +115,7 @@ class CommonHelper extends Helper {
 	 * @param bool $escape
 	 * @return string HTML Markup
 	 */
-	public function metaKeywords($keywords = null, ?string $language = null, bool $escape = true): string {
+	public function metaKeywords(array|string|null $keywords = null, ?string $language = null, bool $escape = true): string {
 		if ($keywords === null) {
 			$keywords = Configure::read('Config.keywords');
 		}
@@ -142,7 +142,7 @@ class CommonHelper extends Helper {
 	 * @param bool $full
 	 * @return string HTML Markup
 	 */
-	public function metaCanonical($url = null, bool $full = false): string {
+	public function metaCanonical(array|string|null $url = null, bool $full = false): string {
 		$canonical = $this->Url->build($url, ['fullBase' => $full]);
 		$options = ['rel' => 'canonical', 'link' => $canonical];
 
@@ -152,7 +152,7 @@ class CommonHelper extends Helper {
 	/**
 	 * Convenience method for "alternate" SEO links
 	 *
-	 * @param array|string $url
+	 * @param array|string|null $url
 	 * @param array|string $lang (lang(iso2) or array of langs)
 	 * lang: language (in ISO 6391-1 format) + optionally the region (in ISO 3166-1 Alpha 2 format)
 	 * - de
@@ -161,7 +161,7 @@ class CommonHelper extends Helper {
 	 * @param bool $full
 	 * @return string HTML Markup
 	 */
-	public function metaAlternate($url, $lang, bool $full = false): string {
+	public function metaAlternate(array|string|null $url, array|string $lang, bool $full = false): string {
 		$url = $this->Url->build($url, ['fullBase' => $full]);
 		$lang = (array)$lang;
 		$res = [];
@@ -185,11 +185,11 @@ class CommonHelper extends Helper {
 	/**
 	 * Convenience method for META Tags
 	 *
-	 * @param array|string $url
+	 * @param array|string|null $url
 	 * @param string|null $title
 	 * @return string HTML Markup
 	 */
-	public function metaRss($url, ?string $title = null): string {
+	public function metaRss(array|string|null $url, ?string $title = null): string {
 		$tags = [
 			'meta' => '<link rel="alternate" type="application/rss+xml" title="%s" href="%s">',
 		];

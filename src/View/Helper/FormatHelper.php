@@ -64,7 +64,7 @@ class FormatHelper extends Helper {
 	 * @param array<string, mixed> $attributes
 	 * @return string
 	 */
-	public function thumbs($value, array $options = [], array $attributes = []) {
+	public function thumbs($value, array $options = [], array $attributes = []): string {
 		$icon = !empty($value) ? 'pro' : 'contra';
 
 		return $this->Icon->render($icon, $options, $attributes);
@@ -81,7 +81,7 @@ class FormatHelper extends Helper {
 	 * - titleField: field or `Model.field`
 	 * @return string
 	 */
-	public function neighbors(array $neighbors, $field, array $options = []) {
+	public function neighbors(array $neighbors, string $field, array $options = []): string {
 		$name = 'Record'; // Translation further down!
 		if (!empty($options['name'])) {
 			$name = ucfirst($options['name']);
@@ -159,7 +159,7 @@ class FormatHelper extends Helper {
 	 * @param array<string, mixed> $attributes
 	 * @return string
 	 */
-	public function genderIcon($value, array $options = [], array $attributes = []) {
+	public function genderIcon($value, array $options = [], array $attributes = []): string {
 		$value = (int)$value;
 		if ($value == static::GENDER_FEMALE) {
 			$icon = $this->Icon->render('female', $options, $attributes);
@@ -182,22 +182,7 @@ class FormatHelper extends Helper {
 	 * - class, ...
 	 * @return string
 	 */
-	public function cIcon($icon, array $options = [], array $attributes = []) {
-		return $this->_customIcon($icon, $options, $attributes);
-	}
-
-	/**
-	 * Deprecated img icons, font icons should be used instead, but sometimes
-	 * we still need a custom img icon.
-	 *
-	 * @param string $icon (constant or filename)
-	 * @param array<string, mixed> $options :
-	 * - translate, title, ...
-	 * @param array<string, mixed> $attributes :
-	 * - class, ...
-	 * @return string
-	 */
-	protected function _customIcon($icon, array $options = [], array $attributes = []) {
+	public function cIcon($icon, array $options = [], array $attributes = []): string {
 		$translate = $options['translate'] ?? true;
 
 		$type = pathinfo($icon, PATHINFO_FILENAME);
@@ -232,7 +217,7 @@ class FormatHelper extends Helper {
 	 * - title, ...
 	 * @return string HTML icon Yes/No
 	 */
-	public function yesNo($value, array $options = [], array $attributes = []) {
+	public function yesNo($value, array $options = [], array $attributes = []): string {
 		$defaults = [
 			'on' => 1,
 			'onTitle' => __d('tools', 'Yes'),

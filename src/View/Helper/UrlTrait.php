@@ -61,7 +61,7 @@ trait UrlTrait {
 	}
 
 	/**
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function defaults(): array {
 		return [
@@ -89,7 +89,7 @@ trait UrlTrait {
 	 *
 	 * @return array
 	 */
-	protected function addPassed(array $url) {
+	protected function addPassed(array $url): array {
 		$pass = $this->_View->getRequest()->getParam('pass');
 		$url = array_merge($url, $pass);
 

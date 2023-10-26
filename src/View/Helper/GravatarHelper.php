@@ -80,7 +80,7 @@ class GravatarHelper extends Helper {
 	 * @param array<string, mixed> $options Array of options, keyed from default settings
 	 * @return string Gravatar image string
 	 */
-	public function image($email, array $options = []) {
+	public function image(string $email, array $options = []): string {
 		$imageOptions = $options += [
 			'escape' => false,
 		];
@@ -99,7 +99,7 @@ class GravatarHelper extends Helper {
 	 * @param array<string, mixed> $options Array of options, keyed from default settings
 	 * @return string Gravatar Image URL
 	 */
-	public function url($email, array $options = []) {
+	public function url(string $email, array $options = []): string {
 		$options = $this->_cleanOptions($options + $this->_config);
 		$options += [
 			'escape' => true,
@@ -182,7 +182,7 @@ class GravatarHelper extends Helper {
 	 * @param array<string, mixed> $options Array of options, keyed from default settings
 	 * @return string URL string of options
 	 */
-	protected function _buildOptions($options = []) {
+	protected function _buildOptions(array $options = []): string {
 		$gravatarOptions = array_intersect(array_keys($options), array_keys($this->_defaultConfig));
 		if (!empty($gravatarOptions)) {
 			$optionArray = [];

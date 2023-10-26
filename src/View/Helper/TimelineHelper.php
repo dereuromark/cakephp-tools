@@ -3,7 +3,7 @@
 namespace Tools\View\Helper;
 
 use Cake\View\Helper;
-use Tools\Utility\DateTime;
+use Tools\I18n\DateTime;
 
 /**
  * TimelineHelper for easy output of a timeline with multiple items.
@@ -106,7 +106,7 @@ class TimelineHelper extends Helper {
 	 *
 	 * @return string|null Javascript if $return is true
 	 */
-	public function finalize($return = false, array $scriptOptions = []) {
+	public function finalize(bool $return = false, array $scriptOptions = []): ?string {
 		$settings = $this->getConfig();
 		$timelineId = $settings['id'];
 		$data = $this->_format($this->_items);
