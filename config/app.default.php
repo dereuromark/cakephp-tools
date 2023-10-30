@@ -49,6 +49,7 @@ $config = [
 	'Google' => [
 	],
 	'Icon' => [
+		'checkExistence' => false,
 		'sets' => [],
 		'map' => [],
 	],
