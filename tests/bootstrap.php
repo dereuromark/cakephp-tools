@@ -126,9 +126,9 @@ class_alias(AppController::class, 'App\Controller\AppController');
 
 Plugin::getCollection()->add(new ToolsPlugin());
 
-if (getenv('db_dsn')) {
+if (getenv('DB_URL')) {
 	ConnectionManager::setConfig('test', [
-		'url' => getenv('db_dsn'),
+		'url' => getenv('DB_URL'),
 		'timezone' => 'UTC',
 		'quoteIdentifiers' => true,
 		'cacheMetadata' => true,
@@ -138,18 +138,12 @@ if (getenv('db_dsn')) {
 }
 
 // Ensure default test connection is defined
-if (!getenv('db_class')) {
+if (!getenv('DB_URL')) {
 	putenv('db_dsn=sqlite:///:memory:');
-
-	//putenv('db_dsn=postgres://postgres@127.0.0.1/test');
 }
 
 ConnectionManager::setConfig('test', [
-	'url' => getenv('db_dsn') ?: null,
-	'driver' => getenv('db_class') ?: null,
-	'database' => getenv('db_database') ?: null,
-	'username' => getenv('db_username') ?: null,
-	'password' => getenv('db_password') ?: null,
+	'url' => getenv('DB_URL') ?: null,
 	'timezone' => 'UTC',
 	'quoteIdentifiers' => true,
 	'cacheMetadata' => true,
