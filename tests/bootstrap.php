@@ -126,20 +126,9 @@ class_alias(AppController::class, 'App\Controller\AppController');
 
 Plugin::getCollection()->add(new ToolsPlugin());
 
-if (getenv('DB_URL')) {
-	ConnectionManager::setConfig('test', [
-		'url' => getenv('DB_URL'),
-		'timezone' => 'UTC',
-		'quoteIdentifiers' => true,
-		'cacheMetadata' => true,
-	]);
-
-	return;
-}
-
 // Ensure default test connection is defined
 if (!getenv('DB_URL')) {
-	putenv('db_dsn=sqlite:///:memory:');
+	putenv('DB_URL=sqlite:///:memory:');
 }
 
 ConnectionManager::setConfig('test', [
