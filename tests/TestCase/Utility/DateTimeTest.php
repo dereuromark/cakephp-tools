@@ -5,7 +5,7 @@ namespace Tools\Test\TestCase\Utility;
 use Cake\Core\Configure;
 use DateTime as CoreDateTime;
 use Shim\TestSuite\TestCase;
-use Tools\Utility\DateTime;
+use Tools\I18n\DateTime;
 
 class DateTimeTest extends TestCase {
 

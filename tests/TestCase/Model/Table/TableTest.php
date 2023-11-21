@@ -5,7 +5,7 @@ namespace Tools\Test\TestCase\Model\Table;
 use Cake\Utility\Hash;
 use DateTime as NativeDateTime;
 use Shim\TestSuite\TestCase;
-use Tools\Utility\DateTime;
+use Tools\I18n\DateTime;
 
 class TableTest extends TestCase {
 

@@ -5,7 +5,7 @@ namespace Tools\Test\TestCase\View\Helper;
 use Cake\I18n\Date;
 use Cake\View\View;
 use Shim\TestSuite\TestCase;
-use Tools\Utility\DateTime;
+use Tools\I18n\DateTime;
 use Tools\View\Helper\TimeHelper;
 
 /**
