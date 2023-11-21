@@ -417,7 +417,7 @@ class Table extends ShimTable {
 		}
 		$format = !empty($options['format']) ? $options['format'] : 'ymd';
 
-		/** @var \Cake\Chronos\ChronosDate|mixed $datetime */
+		/** @var \Cake\Chronos\ChronosDate|mixed $date */
 		$date = $value;
 		if (!is_object($value)) {
 			$date = new Date($value);
