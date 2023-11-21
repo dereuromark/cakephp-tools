@@ -78,12 +78,11 @@ class SluggedBehaviorTest extends TestCase {
 
 		$entity = $this->_getEntity();
 		$result = $this->articles->save($entity);
-		$this->assertEquals('test-123', $result->get('slug'));
+		$this->assertSame('test-123', $result->get('slug'));
 
-		//$entity = $this->_getEntity();
-		//$result = $this->articles->save($entity);
-		//$this->assertEquals('test-123', $result->get('slug'));
-		//debug($result);
+		$entity = $this->_getEntity();
+		$result = $this->articles->save($entity);
+		$this->assertSame('test-123-1', $result->get('slug'));
 	}
 
 	/**
@@ -105,11 +104,17 @@ class SluggedBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * SluggedBehaviorTest::testCustomFinder()
-	 *
 	 * @return void
 	 */
 	public function testCustomFinder() {
+		$article = $this->articles->find()->find('slugged', slug: 'foo')->first();
+		$this->assertEquals('Foo', $article->get('title'));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testCustomFinderLegacy() {
 		$article = $this->articles->find()->find('slugged', ['slug' => 'foo'])->first();
 		$this->assertEquals('Foo', $article->get('title'));
 	}

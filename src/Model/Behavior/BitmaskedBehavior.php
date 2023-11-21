@@ -9,7 +9,6 @@ use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query\SelectQuery;
 use Cake\Utility\Inflector;
-use InvalidArgumentException;
 use RuntimeException;
 
 /**
@@ -51,21 +50,18 @@ class BitmaskedBehavior extends Behavior {
 
 	/**
 	 * @param \Cake\ORM\Query\SelectQuery $query
+	 * @param array<int> $bits
 	 * @param array<string, mixed> $options
 	 * @throws \InvalidArgumentException If the 'slug' key is missing in options
 	 * @return \Cake\ORM\Query\SelectQuery
 	 */
-	public function findBitmasked(SelectQuery $query, array $options) {
-		if (!isset($options['bits'])) {
-			throw new InvalidArgumentException("The 'bits' key is required for find('bits')");
-		}
+	public function findBitmasked(SelectQuery $query, array $bits, array $options = []) {
 		$options += [
 			'type' => $this->_config['type'] ?? 'exact',
 			'containMode' => $this->_config['containMode'],
 		];
 
 		if ($options['type'] === 'contain') {
-			$bits = (array)$options['bits'];
 			if (!$bits) {
 				$field = $this->_config['field'];
 
@@ -73,9 +69,9 @@ class BitmaskedBehavior extends Behavior {
 			}
 
 			if ($options['containMode'] === 'and') {
-				$bits = $this->encodeBitmask($options['bits']);
+				$encodedBits = $this->encodeBitmask($bits);
 
-				return $query->where($this->containsBit($bits));
+				return $query->where($this->containsBit($encodedBits));
 			}
 
 			$conditions = [];
@@ -86,13 +82,13 @@ class BitmaskedBehavior extends Behavior {
 			return $query->where(['OR' => $conditions]);
 		}
 
-		$bits = $this->encodeBitmask($options['bits']);
-		if ($bits === null) {
+		$encodedBits = $this->encodeBitmask($bits);
+		if ($encodedBits === null) {
 			$field = $this->getConfig('field');
-			$bits = $this->_getDefaultValue($field);
+			$encodedBits = $this->_getDefaultValue($field);
 		}
 
-		return $query->where([$this->_table->getAlias() . '.' . $this->_config['field'] . ' IS' => $bits]);
+		return $query->where([$this->_table->getAlias() . '.' . $this->_config['field'] . ' IS' => $encodedBits]);
 	}
 
 	/**

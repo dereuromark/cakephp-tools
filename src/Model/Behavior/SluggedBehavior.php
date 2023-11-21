@@ -10,7 +10,6 @@ use Cake\ORM\Behavior;
 use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\Table;
 use Cake\Utility\Inflector;
-use InvalidArgumentException;
 use RuntimeException;
 use Shim\Utility\Inflector as ShimInflector;
 
@@ -172,16 +171,12 @@ class SluggedBehavior extends Behavior {
 	 * ->find('slugged')
 	 *
 	 * @param \Cake\ORM\Query\SelectQuery $query
-	 * @param array<string, mixed> $options
+	 * @param string $slug
 	 * @throws \InvalidArgumentException If the 'slug' key is missing in options
 	 * @return \Cake\ORM\Query\SelectQuery
 	 */
-	public function findSlugged(SelectQuery $query, array $options): SelectQuery {
-		if (empty($options['slug'])) {
-			throw new InvalidArgumentException("The 'slug' key is required for find('slugged')");
-		}
-
-		return $query->where([$this->_config['field'] => $options['slug']]);
+	public function findSlugged(SelectQuery $query, string $slug): SelectQuery {
+		return $query->where([$this->_config['field'] => $slug]);
 	}
 
 	/**

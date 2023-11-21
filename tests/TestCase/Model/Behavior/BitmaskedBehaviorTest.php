@@ -85,11 +85,11 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testFindBitmasked() {
-		$res = $this->Comments->find('bits', ['bits' => []])->toArray();
+		$res = $this->Comments->find('bits', bits: [])->toArray();
 		$this->assertCount(1, $res);
 		$this->assertSame([], $res[0]->statuses);
 
-		$res = $this->Comments->find('bits', ['bits' => [BitmaskedComment::STATUS_ACTIVE, BitmaskedComment::STATUS_APPROVED]])->toArray();
+		$res = $this->Comments->find('bits', bits: [BitmaskedComment::STATUS_ACTIVE, BitmaskedComment::STATUS_APPROVED])->toArray();
 		$this->assertCount(1, $res);
 		$this->assertSame([BitmaskedComment::STATUS_ACTIVE, BitmaskedComment::STATUS_APPROVED], $res[0]->statuses);
 	}
@@ -98,26 +98,26 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testFindBitmaskedContain() {
+		$bits = [];
 		$options = [
-			'bits' => [],
 			'type' => 'contain',
 		];
-		$res = $this->Comments->find('bits', $options)->toArray();
+		$res = $this->Comments->find('bits', bits: $bits, options: $options)->toArray();
 		$this->assertCount(1, $res);
 		$this->assertSame([], $res[0]->statuses);
 
+		$bits = [BitmaskedComment::STATUS_APPROVED];
 		$options = [
-			'bits' => [BitmaskedComment::STATUS_APPROVED],
 			'type' => 'contain',
 		];
-		$res = $this->Comments->find('bits', $options)->toArray();
+		$res = $this->Comments->find('bits', bits: $bits, options: $options)->toArray();
 		$this->assertCount(3, $res);
 
+		$bits = [BitmaskedComment::STATUS_APPROVED, BitmaskedComment::STATUS_PUBLISHED];
 		$options = [
-			'bits' => [BitmaskedComment::STATUS_APPROVED, BitmaskedComment::STATUS_PUBLISHED],
 			'type' => 'contain',
 		];
-		$res = $this->Comments->find('bits', $options)->toArray();
+		$res = $this->Comments->find('bits', bits: $bits, options: $options)->toArray();
 		$this->assertCount(5, $res);
 	}
 
@@ -125,29 +125,21 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testFindBitmaskedContainAnd() {
+		$bits = [];
 		$options = [
-			'bits' => [],
 			'type' => 'contain',
 			'containMode' => 'and',
 		];
-		$res = $this->Comments->find('bits', $options)->toArray();
+		$res = $this->Comments->find('bits', bits: $bits, options: $options)->toArray();
 		$this->assertCount(1, $res);
 		$this->assertSame([], $res[0]->statuses);
 
-		$options = [
-			'bits' => [BitmaskedComment::STATUS_APPROVED],
-			'type' => 'contain',
-			'containMode' => 'and',
-		];
-		$res = $this->Comments->find('bits', $options)->toArray();
+		$bits = [BitmaskedComment::STATUS_APPROVED];
+		$res = $this->Comments->find('bits', bits: $bits, options: $options)->toArray();
 		$this->assertCount(3, $res);
 
-		$options = [
-			'bits' => [BitmaskedComment::STATUS_APPROVED, BitmaskedComment::STATUS_PUBLISHED],
-			'type' => 'contain',
-			'containMode' => 'and',
-		];
-		$res = $this->Comments->find('bits', $options)->toArray();
+		$bits = [BitmaskedComment::STATUS_APPROVED, BitmaskedComment::STATUS_PUBLISHED];
+		$res = $this->Comments->find('bits', bits: $bits, options: $options)->toArray();
 		$this->assertCount(1, $res);
 	}
 
