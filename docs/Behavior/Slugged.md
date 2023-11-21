@@ -166,3 +166,10 @@ $this->addBehavior('Tools.Slugged', ['mode' => [MySlugger::class, 'slug']]);
 
 Tip: Use `'mode' => [Text::class, 'slug']` if you want to avoid using the deprecated `Inflector::slug()` method.
 Don't forget the use statement at the top of the file, though (`use Tools\Utility\Text;`).
+
+### Using custom finder
+If you quickly want to find a record by its slug, use:
+```php
+->find()->find('slugged', slug: $slug)->firstOrFail();
+```
+etc

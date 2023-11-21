@@ -95,7 +95,7 @@ Alternatively, you can map the error over before the entity gets passed to the v
 You can use the built-in custom finder `findBitmasked`:
 ```php
 $statuses = [Comment::STATUS_ACTIVE, Comment::STATUS_FEATURED];
-$comments = $this->Comments->find('bits', ['bits' => $statuses])->toArray();
+$comments = $this->Comments->find('bits', bits: $statuses)->toArray();
 ```
 
 #### Using Search plugin
@@ -115,7 +115,7 @@ This way the array of checkboxes selected will be turned into the integer bitmas
 
 When using select dropdows or checkboxes, you usually want to use type `contain` instead of `exact` matching:
 ```php
-$this->Comments->find('bits', ['bits' => $statuses, 'type' => 'contain'])->toArray();
+$this->Comments->find('bits', bits: $statuses, options: ['type' => 'contain'])->toArray();
 ```
 It can also be useful to add a state for "no bits set" (all without any bits):
 ```php
