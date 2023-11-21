@@ -2,6 +2,7 @@
 
 namespace Tools\Model\Table;
 
+use Cake\I18n\Date;
 use Cake\Routing\Router;
 use Cake\Validation\Validation;
 use InvalidArgumentException;
@@ -322,16 +323,15 @@ class Table extends ShimTable {
 		}
 		$format = !empty($options['dateFormat']) ? $options['dateFormat'] : 'ymd';
 
-		/** @var \Cake\Chronos\ChronosDate $time */
-		$time = $value;
-		dd($time);
+		/** @var \Cake\Chronos\Chronos|mixed $datetime */
+		$datetime = $value;
 		if (!is_object($value)) {
-			$time = new DateTime($value);
+			$datetime = new DateTime($value);
 		}
-		$pieces = $time->format(FORMAT_DB_DATETIME);
-		$dateTime = explode(' ', $pieces, 2);
-		$datePart = $dateTime[0];
-		$timePart = (!empty($dateTime[1]) ? $dateTime[1] : '');
+		$pieces = $datetime->format(FORMAT_DB_DATETIME);
+		$dateTimeParts = explode(' ', $pieces, 2);
+		$datePart = $dateTimeParts[0];
+		$timePart = (!empty($dateTimeParts[1]) ? $dateTimeParts[1] : '');
 
 		if (!empty($options['allowEmpty']) && (empty($datePart) && empty($timePart))) {
 			return true;
@@ -362,7 +362,7 @@ class Table extends ShimTable {
 			}
 
 			// We need this for those not using immutable objects just yet
-			$compareValue = clone $time;
+			$compareValue = clone $datetime;
 
 			if (!empty($options['after'])) {
 				$compare = $compareValue->subSeconds($seconds);
@@ -371,7 +371,7 @@ class Table extends ShimTable {
 				}
 				if (!empty($options['max'])) {
 					$after = $options['after']->addSeconds($options['max']);
-					if ($time->greaterThan($after)) {
+					if ($datetime->greaterThan($after)) {
 						return false;
 					}
 				}
@@ -383,7 +383,7 @@ class Table extends ShimTable {
 				}
 				if (!empty($options['max'])) {
 					$after = $options['before']->subSeconds($options['max']);
-					if ($time->lessThan($after)) {
+					if ($datetime->lessThan($after)) {
 						return false;
 					}
 				}
@@ -417,11 +417,12 @@ class Table extends ShimTable {
 		}
 		$format = !empty($options['format']) ? $options['format'] : 'ymd';
 
-		$dateTime = $value;
+		/** @var \Cake\Chronos\ChronosDate|mixed $datetime */
+		$date = $value;
 		if (!is_object($value)) {
-			$dateTime = new DateTime($value);
+			$date = new Date($value);
 		}
-		if (!empty($options['allowEmpty']) && empty($dateTime)) {
+		if (!empty($options['allowEmpty']) && empty($date)) {
 			return true;
 		}
 
@@ -429,22 +430,22 @@ class Table extends ShimTable {
 			// after/before?
 			$days = !empty($options['min']) ? $options['min'] : 0;
 			if (!empty($options['after']) && isset($context['data'][$options['after']])) {
-				$compare = $dateTime->subDays($days);
+				$compare = $date->subDays($days);
 				/** @var \Cake\I18n\DateTime $after */
 				$after = $context['data'][$options['after']];
 				if (!is_object($after)) {
-					$after = new DateTime($after);
+					$after = new Date($after);
 				}
 				if ($after->greaterThan($compare)) {
 					return false;
 				}
 			}
 			if (!empty($options['before']) && isset($context['data'][$options['before']])) {
-				$compare = $dateTime->addDays($days);
+				$compare = $date->addDays($days);
 				/** @var \Cake\I18n\DateTime $before */
 				$before = $context['data'][$options['before']];
 				if (!is_object($before)) {
-					$before = new DateTime($before);
+					$before = new Date($before);
 				}
 				if ($before->lessThan($compare)) {
 					return false;
