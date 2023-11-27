@@ -1,7 +1,8 @@
 {
 	"name": "dereuromark/cakephp-tools",
-	"type": "cakephp-plugin",
 	"description": "A CakePHP plugin containing lots of useful and reusable tools",
+	"license": "MIT",
+	"type": "cakephp-plugin",
 	"keywords": [
 		"cakephp",
 		"plugin",
@@ -12,26 +13,34 @@
 		"behaviors",
 		"datasources"
 	],
-	"homepage": "https://github.com/dereuromark/cakephp-tools",
-	"license": "MIT",
 	"authors": [
 		{
 			"name": "Mark Scherer",
-			"role": "Author",
-			"homepage": "https://www.dereuromark.de"
+			"homepage": "https://www.dereuromark.de",
+			"role": "Author"
 		}
 	],
+	"homepage": "https://github.com/dereuromark/cakephp-tools",
+	"support": {
+		"issues": "https://github.com/dereuromark/cakephp-tools/issues",
+		"source": "https://github.com/dereuromark/cakephp-tools"
+	},
 	"require": {
 		"php": ">=8.1",
 		"cakephp/cakephp": "^5.0.0",
 		"dereuromark/cakephp-shim": "^3.0.0"
 	},
 	"require-dev": {
-		"mobiledetect/mobiledetectlib": "^3.74",
 		"fig-r/psr2r-sniffer": "dev-next",
-		"yangqi/htmldom": "^1.0",
-		"phpunit/phpunit": "^10.1"
+		"mobiledetect/mobiledetectlib": "^3.74",
+		"phpunit/phpunit": "^10.1",
+		"yangqi/htmldom": "^1.0"
 	},
+	"suggest": {
+		"yangqi/htmldom": "For HtmlDom usage"
+	},
+	"minimum-stability": "stable",
+	"prefer-stable": true,
 	"autoload": {
 		"psr-4": {
 			"Tools\\": "src/",
@@ -40,35 +49,26 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Tools\\Test\\": "tests/",
-			"Cake\\Test\\": "vendor/cakephp/cakephp/tests/",
 			"Cake\\PHPStan\\": "vendor/cakephp/cakephp/tests/PHPStan/",
-			"TestApp\\": "tests/test_app/"
+			"Cake\\Test\\": "vendor/cakephp/cakephp/tests/",
+			"TestApp\\": "tests/test_app/",
+			"Tools\\Test\\": "tests/"
 		}
 	},
-	"suggest": {
-		"yangqi/htmldom": "For HtmlDom usage"
-	},
-	"support": {
-		"source": "https://github.com/dereuromark/cakephp-tools",
-		"issues": "https://github.com/dereuromark/cakephp-tools/issues"
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		},
+		"process-timeout": 600
 	},
 	"scripts": {
+		"cs-check": "phpcs --extensions=php",
+		"cs-fix": "phpcbf --extensions=php",
+		"lowest": "validate-prefer-lowest",
+		"lowest-setup": "composer update --prefer-lowest --prefer-stable --prefer-dist --no-interaction && cp composer.json composer.backup && composer require --dev dereuromark/composer-prefer-lowest && mv composer.backup composer.json",
 		"stan": "phpstan analyse",
 		"stan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan:^1.0.0 && mv composer.backup composer.json",
 		"test": "phpunit",
-		"test-coverage": "phpunit --log-junit webroot/coverage/unitreport.xml --coverage-html webroot/coverage --coverage-clover webroot/coverage/coverage.xml",
-		"lowest": "validate-prefer-lowest",
-		"lowest-setup": "composer update --prefer-lowest --prefer-stable --prefer-dist --no-interaction && cp composer.json composer.backup && composer require --dev dereuromark/composer-prefer-lowest && mv composer.backup composer.json",
-		"cs-check": "phpcs --extensions=php",
-		"cs-fix": "phpcbf --extensions=php"
-	},
-	"prefer-stable": true,
-	"config": {
-		"process-timeout": 600,
-		"allow-plugins": {
-			"dealerdirect/phpcodesniffer-composer-installer": true
-		}
-	},
-	"minimum-stability": "stable"
+		"test-coverage": "phpunit --log-junit webroot/coverage/unitreport.xml --coverage-html webroot/coverage --coverage-clover webroot/coverage/coverage.xml"
+	}
 }
