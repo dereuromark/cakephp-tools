@@ -12,19 +12,19 @@ use RuntimeException;
  *
  * @author Mark Scherer
  * @license http://opensource.org/licenses/mit-license.php MIT
- * @method \Tools\Model\Entity\Token get($primaryKey, $options = [])
+ * @method \Tools\Model\Entity\Token get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
  * @method \Tools\Model\Entity\Token newEntity(array $data, array $options = [])
  * @method array<\Tools\Model\Entity\Token> newEntities(array $data, array $options = [])
- * @method \Tools\Model\Entity\Token|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \Tools\Model\Entity\Token|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
  * @method \Tools\Model\Entity\Token patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method array<\Tools\Model\Entity\Token> patchEntities(iterable $entities, array $data, array $options = [])
- * @method \Tools\Model\Entity\Token findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \Tools\Model\Entity\Token findOrCreate($search, ?callable $callback = null, array $options = [])
  * @method \Tools\Model\Entity\Token newEmptyEntity()
- * @method \Tools\Model\Entity\Token saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\Tools\Model\Entity\Token>|false saveMany(iterable $entities, $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\Tools\Model\Entity\Token> saveManyOrFail(iterable $entities, $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\Tools\Model\Entity\Token>|false deleteMany(iterable $entities, $options = [])
- * @method \Cake\Datasource\ResultSetInterface<\Tools\Model\Entity\Token> deleteManyOrFail(iterable $entities, $options = [])
+ * @method \Tools\Model\Entity\Token saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\Tools\Model\Entity\Token>|false saveMany(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\Tools\Model\Entity\Token> saveManyOrFail(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\Tools\Model\Entity\Token>|false deleteMany(iterable $entities, array $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\Tools\Model\Entity\Token> deleteManyOrFail(iterable $entities, array $options = [])
  */
 class TokensTable extends Table {
 
