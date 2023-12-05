@@ -39,7 +39,7 @@ From your paginated and filtered index page you can now point to the edit page l
 
 ```php
 <?php echo $this->Html->link(
-    $this->Format->icon('edit'),
+    $this->Icon->render('edit'),
     ['controller' => 'Versions', 'action' => 'edit', $version->id, '?' => ['ref' => $this->getRequest()->getRequestTarget()]],
     ['escape' => false]
 ); ?>
