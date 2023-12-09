@@ -57,11 +57,14 @@ class FormatHelper extends Helper {
 	}
 
 	/**
-	 * jqueryAccess: {id}Pro, {id}Contra
+	 * Make sure to configure these (font) icons in your `Icon.map` app config, e.g.
+	 *   'pro' => 'fa4:thumbs-up',
+	 *   'contra' => 'fa4:thumbs-down',
 	 *
 	 * @param mixed $value Boolish value
 	 * @param array<string, mixed> $options
 	 * @param array<string, mixed> $attributes
+	 *
 	 * @return string
 	 */
 	public function thumbs($value, array $options = [], array $attributes = []): string {
@@ -73,12 +76,17 @@ class FormatHelper extends Helper {
 	/**
 	 * Display neighbor quicklinks
 	 *
+	 * Make sure to configure these (font) icons in your `Icon.map` app config, e.g.
+	 *   'prev' => 'fa4:arrow-left',
+	 *   'next' => 'fa4:arrow-right',
+	 *
 	 * @param array $neighbors (containing prev and next)
 	 * @param string $field Field as `Field` or `Model.field` syntax
 	 * @param array<string, mixed> $options :
 	 * - name: title name: next{Record} (if none is provided, "record" is used - not translated!)
 	 * - slug: true/false (defaults to false)
 	 * - titleField: field or `Model.field`
+	 *
 	 * @return string
 	 */
 	public function neighbors(array $neighbors, string $field, array $options = []): string {
@@ -154,9 +162,13 @@ class FormatHelper extends Helper {
 	/**
 	 * Displays gender icon
 	 *
+	 * Make sure to configure these (font) icons in your `Icon.map` app config, if
+	 * you want to have different ones than the default icons.
+	 *
 	 * @param string|int $value
 	 * @param array<string, mixed> $options
 	 * @param array<string, mixed> $attributes
+	 *
 	 * @return string
 	 */
 	public function genderIcon($value, array $options = [], array $attributes = []): string {
@@ -170,6 +182,44 @@ class FormatHelper extends Helper {
 		}
 
 		return $icon;
+	}
+
+	/**
+	 * Displays yes/no symbol.
+	 *
+	 * Make sure to configure these (font) icons in your `Icon.map` app config, e.g.
+	 *   'yes' => 'fa4:check',
+	 *   'no' => 'fa4:times',
+	 *
+	 * @param int|bool $value Value
+	 * @param array<string, mixed> $options
+	 * - on (defaults to 1/true)
+	 * - onTitle
+	 * - offTitle
+	 * @param array<string, mixed> $attributes
+	 * - title, ...
+	 *
+	 * @return string HTML icon Yes/No
+	 */
+	public function yesNo($value, array $options = [], array $attributes = []): string {
+		$defaults = [
+			'on' => 1,
+			'onTitle' => __d('tools', 'Yes'),
+			'offTitle' => __d('tools', 'No'),
+		];
+		$options += $defaults;
+
+		if ($value == $options['on']) {
+			$icon = 'yes';
+			$value = 'on';
+		} else {
+			$icon = 'no';
+			$value = 'off';
+		}
+
+		$attributes += ['title' => $options[$value . 'Title']];
+
+		return $this->Icon->render($icon, $options, $attributes);
 	}
 
 	/**
@@ -203,39 +253,6 @@ class FormatHelper extends Helper {
 		}
 
 		return $this->Html->image($icon, $options);
-	}
-
-	/**
-	 * Displays yes/no symbol.
-	 *
-	 * @param int|bool $value Value
-	 * @param array<string, mixed> $options
-	 * - on (defaults to 1/true)
-	 * - onTitle
-	 * - offTitle
-	 * @param array<string, mixed> $attributes
-	 * - title, ...
-	 * @return string HTML icon Yes/No
-	 */
-	public function yesNo($value, array $options = [], array $attributes = []): string {
-		$defaults = [
-			'on' => 1,
-			'onTitle' => __d('tools', 'Yes'),
-			'offTitle' => __d('tools', 'No'),
-		];
-		$options += $defaults;
-
-		if ($value == $options['on']) {
-			$icon = 'yes';
-			$value = 'on';
-		} else {
-			$icon = 'no';
-			$value = 'off';
-		}
-
-		$attributes += ['title' => $options[$value . 'Title']];
-
-		return $this->Icon->render($icon, $options, $attributes);
 	}
 
 	/**
