@@ -10,7 +10,7 @@ use Tools\View\Icon\IconCollection;
 /**
  * Font icon rendering.
  *
- * @deprecated Use Template.Icon helper instead.
+ * @deprecated Use Templating.Icon helper instead.
  *
  * @author Mark Scherer
  * @license MIT
