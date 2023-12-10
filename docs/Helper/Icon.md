@@ -189,10 +189,3 @@ class YourIcon extends AbstractIcon {
 }
 ```
 Now you can hook it into your config and enjoy!
-
-## TODO
-TBD:
-- `@icon/icofont` ( https://icofont.com/ )
-- https://fontello.com/
-
-Help welcome!
