@@ -8,6 +8,7 @@ use Cake\View\StringTemplate;
 use Cake\View\View;
 use RuntimeException;
 use Shim\Utility\Inflector as ShimInflector;
+use Template\View\Helper\IconHelper;
 
 /**
  * Format helper with basic HTML snippets
@@ -24,7 +25,7 @@ class FormatHelper extends Helper {
 	 *
 	 * @var array
 	 */
-	protected array $helpers = ['Html', 'Tools.Icon'];
+	protected array $helpers = ['Html'];
 
 	/**
 	 * @var \Cake\View\StringTemplate
@@ -47,6 +48,12 @@ class FormatHelper extends Helper {
 	 * @param array<string, mixed> $config
 	 */
 	public function __construct(View $View, array $config = []) {
+		if (class_exists(IconHelper::class)) {
+			$this->helpers[] = 'Template.Icon';
+		} else {
+			$this->helpers[] = 'Tools.Icon';
+		}
+
 		$defaults = (array)Configure::read('Format') + $this->_defaults;
 		$config += $defaults;
 
@@ -59,6 +66,8 @@ class FormatHelper extends Helper {
 	 * Make sure to configure these (font) icons in your `Icon.map` app config, e.g.
 	 *   'pro' => 'fa4:thumbs-up',
 	 *   'contra' => 'fa4:thumbs-down',
+	 *
+	 * @deprecated Use Template.IconSnippet helper instead.
 	 *
 	 * @param mixed $value Boolish value
 	 * @param array<string, mixed> $options
@@ -78,6 +87,8 @@ class FormatHelper extends Helper {
 	 * Make sure to configure these (font) icons in your `Icon.map` app config, e.g.
 	 *   'prev' => 'fa4:arrow-left',
 	 *   'next' => 'fa4:arrow-right',
+	 *
+	 * @deprecated Use Template.IconSnippet helper instead.
 	 *
 	 * @param array $neighbors (containing prev and next)
 	 * @param string $field Field as `Field` or `Model.field` syntax
@@ -189,6 +200,8 @@ class FormatHelper extends Helper {
 	 * Make sure to configure these (font) icons in your `Icon.map` app config, e.g.
 	 *   'yes' => 'fa4:check',
 	 *   'no' => 'fa4:times',
+	 *
+	 * @deprecated Use Template.IconSnippet helper instead.
 	 *
 	 * @param int|bool $value Value
 	 * @param array<string, mixed> $options
