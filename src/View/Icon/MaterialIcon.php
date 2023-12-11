@@ -4,6 +4,9 @@ namespace Tools\View\Icon;
 
 use Tools\View\Icon\Collector\MaterialIconCollector;
 
+/**
+ * @deprecated Use Templating plugin icon classes instead.
+ */
 class MaterialIcon extends AbstractIcon {
 
 	/**

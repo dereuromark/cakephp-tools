@@ -4,6 +4,9 @@ namespace Tools\View\Icon;
 
 use Tools\View\Icon\Collector\FontAwesome4IconCollector;
 
+/**
+ * @deprecated Use Templating plugin icon classes instead.
+ */
 class FontAwesome4Icon extends AbstractIcon {
 
 	/**
