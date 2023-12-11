@@ -2,6 +2,8 @@
 
 A CakePHP helper to handle most common font icons. Contains convenience wrappers.
 
+Note: **DEPRECATED**, use [Templating plugin](https://github.com/dereuromark/cakephp-templating) and its Icon helper instead.
+
 ## Setup
 Include helper in your AppView class as
 ```php
