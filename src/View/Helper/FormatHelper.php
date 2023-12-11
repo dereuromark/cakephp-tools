@@ -130,7 +130,7 @@ class FormatHelper extends Helper {
 			}
 
 			$ret .= $this->Html->link(
-				$this->Icon->render('prev') . '&nbsp;' . __d('tools', 'prev' . $name),
+				(string)$this->Icon->render('prev') . '&nbsp;' . __d('tools', 'prev' . $name),
 				$url,
 				['escape' => false, 'title' => $neighbors['prev'][$titleField]],
 			);
@@ -146,7 +146,7 @@ class FormatHelper extends Helper {
 			}
 
 			$ret .= $this->Html->link(
-				$this->Icon->render('next') . '&nbsp;' . __d('tools', 'next' . $name),
+				(string)$this->Icon->render('next') . '&nbsp;' . __d('tools', 'next' . $name),
 				$url,
 				['escape' => false, 'title' => $neighbors['next'][$titleField]],
 			);
