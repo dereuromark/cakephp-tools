@@ -8,25 +8,25 @@
 
 ## Detailed Documentation - Quicklinks
 
-Routing:
+### Routing
 * [Url](Url/Url.md) for useful tooling around URL generation.
 
-I18n:
+### I18n
 * [I18n](I18n/I18n.md) for language detection and switching
 
-ErrorHandler
+### ErrorHandler
 * [ErrorHandler](Error/ErrorHandler.md) for improved error handling.
 
-Email
+### Email
 * [Email](Mailer/Email.md) for sending Emails
 
-Tokens
+### Tokens
 * [Tokens](Model/Tokens.md) for Token usage
 
-Controller:
+### Controller
 * [Controller](Controller/Controller.md)
 
-Behaviors:
+### Behaviors
 * [AfterSave](Behavior/AfterSave.md)
 * [Jsonable](Behavior/Jsonable.md)
 * [Passwordable](Behavior/Passwordable.md)
@@ -36,38 +36,40 @@ Behaviors:
 * [String](Behavior/String.md)
 * [Toggle](Behavior/Toggle.md)
 
-Components:
+### Components
 * [Common](Component/Common.md)
 * [Mobile](Component/Mobile.md)
 * [RefererRedirect](Component/RefererRedirect.md)
 
-Helpers:
+### Helpers
 * [Html](Helper/Html.md)
 * [Form](Helper/Form.md)
 * [Common](Helper/Common.md)
 * [Format](Helper/Format.md)
-* [Icon](Helper/Icon.md)
+* [Icon](Helper/Icon.md) [Deprecated, use Icon plugin instead]
 * [Progress](Helper/Progress.md)
 * [Meter](Helper/Meter.md)
 * [Tree](Helper/Tree.md)
 * [Typography](Helper/Typography.md)
 
-Widgets:
+### Widgets
 * [Datalist](Widget/Datalist.md)
 
-Entity:
-* [Enum](Entity/Enum.md)
+### Model/Entity
+* [Enums](Entity/Enum.md) using native enums (NEW)
+* [StaticEnums](Entity/StaticEnum.md) using static entity methods
 
-Utility:
+Note: Using native enums is recommended since CakePHP 5.
+
+### Utility
 * [FileLog](Utility/FileLog.md) to log data into custom file(s) with one line
 
-Command:
+### Command
 * [Inflect](Command/Inflect.md) to test inflection of words.
 
 ## IDE compatibility improvements
 For some methods you can find a IdeHelper task in [IdeHelperExtra plugin](https://github.com/dereuromark/cakephp-ide-helper-extra/):
-- `FormatHelper::icon()` (deprecated)
-- `IconHelper::render()`
+- `IconHelper::render()` (deprecated)
 
 Those will give you automcomplete for the input.
 
