@@ -116,7 +116,7 @@ class BitmaskedBehavior extends Behavior {
 	 * @throws \InvalidArgumentException If the 'slug' key is missing in options
 	 * @return \Cake\ORM\Query\SelectQuery
 	 */
-	public function findBitmasked(SelectQuery $query, array $bits, array $options = []) {
+	public function findBitmasked(SelectQuery $query, array $bits, array $options = []): SelectQuery {
 		$options += [
 			'type' => $this->_config['type'] ?? 'exact',
 			'containMode' => $this->_config['containMode'],
@@ -160,7 +160,7 @@ class BitmaskedBehavior extends Behavior {
 	 *
 	 * @return void
 	 */
-	public function beforeFind(EventInterface $event, SelectQuery $query, ArrayObject $options, $primary) {
+	public function beforeFind(EventInterface $event, SelectQuery $query, ArrayObject $options, $primary): void {
 		$this->encodeBitmaskConditions($query);
 
 		$field = $this->_config['field'];
@@ -200,7 +200,7 @@ class BitmaskedBehavior extends Behavior {
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options) {
+	public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options): void {
 		if ($this->_config['on'] !== 'beforeMarshal') {
 			return;
 		}
@@ -214,7 +214,7 @@ class BitmaskedBehavior extends Behavior {
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function afterMarshal(EventInterface $event, EntityInterface $entity, ArrayObject $data, ArrayObject $options) {
+	public function afterMarshal(EventInterface $event, EntityInterface $entity, ArrayObject $data, ArrayObject $options): void {
 		if ($this->_config['on'] !== 'afterMarshal') {
 			return;
 		}
@@ -229,7 +229,7 @@ class BitmaskedBehavior extends Behavior {
 	 *
 	 * @return void
 	 */
-	public function beforeRules(EventInterface $event, EntityInterface $entity, ArrayObject $options, $operation) {
+	public function beforeRules(EventInterface $event, EntityInterface $entity, ArrayObject $options, $operation): void {
 		if ($this->_config['on'] !== 'beforeRules' || !$options['checkRules']) {
 			return;
 		}
@@ -242,7 +242,7 @@ class BitmaskedBehavior extends Behavior {
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
+	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {
 		if ($this->_config['on'] !== 'beforeSave') {
 			return;
 		}
