@@ -46,7 +46,7 @@ class TimeHelperTest extends TestCase {
 		$res = $this->Time->userAge((date('Y') - 4) . '-01-01');
 		$this->assertTrue($res >= 3 && $res <= 5);
 
-		$res = $this->Time->userAge('2023-01-01');
+		$res = $this->Time->userAge(date('Y') . '-01-01');
 		$this->assertSame('', $res);
 
 		$res = $this->Time->userAge('1903-01-01');
