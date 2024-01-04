@@ -250,7 +250,7 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param int|string $value Bitmask.
+	 * @param string|int $value Bitmask.
 	 * @return array<int|\BackedEnum> Bitmask array (from DB to APP).
 	 */
 	public function decodeBitmask($value): array {
