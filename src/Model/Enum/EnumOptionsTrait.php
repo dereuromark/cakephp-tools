@@ -2,6 +2,8 @@
 
 namespace Tools\Model\Enum;
 
+use BackedEnum;
+
 /**
  * @mixin \BackedEnum&\Cake\Database\Type\EnumLabelInterface
  */
@@ -17,7 +19,7 @@ trait EnumOptionsTrait {
 
 		if ($cases) {
 			foreach ($cases as $case) {
-				if (!($case instanceof \BackedEnum)) {
+				if (!($case instanceof BackedEnum)) {
 					$case = static::from($case);
 				}
 

@@ -148,11 +148,14 @@ If you don't need that, and it is nullable, you can also set the event to e.g. `
 If you use `fields` config to whitelist the fields for patching, you should also whitelist
 the alias field if you defined one and if you are using `onMarshal`.
 
+Set `bits` to your `MyEnum::class` if you want to use backed enums. Setting `enum` to this class is only needed if you use a different way of setting
+the bits, e.g. using `'bits' => MyEnum::tryFrom(0)->options()` etc.
 
 ### Demo
 
 - Basics: https://sandbox.dereuromark.de/sandbox/tools-examples/bitmasks
 - Filtering: https://sandbox.dereuromark.de/sandbox/tools-examples/bitmask-search
+- Enums: https://sandbox.dereuromark.de/sandbox/tools-examples/bitmask-enums
 
 ### Outview
 

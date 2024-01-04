@@ -3,12 +3,15 @@
 namespace Tools\Model\Behavior;
 
 use ArrayObject;
+use BackedEnum;
 use Cake\Database\Expression\ComparisonExpression;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query\SelectQuery;
 use Cake\Utility\Inflector;
+use ReflectionEnum;
+use ReflectionException;
 use RuntimeException;
 
 /**
@@ -38,7 +41,8 @@ class BitmaskedBehavior extends Behavior {
 	protected array $_defaultConfig = [
 		'field' => 'status',
 		'mappedField' => null, // NULL = same as above
-		'bits' => null, // Method or callback to get the bits data
+		'bits' => null, // Enum, method or callback to get the bits data
+		'enum' => null, // Set to Enum class to use backed enum collection instead of plain scalar array, false to disable auto-detect
 		'on' => 'beforeMarshal', // or beforeRules or beforeSave
 		'defaultValue' => null, // NULL = auto (use empty string to trigger "notEmpty" rule for "default NOT NULL" db fields)
 		'implementedFinders' => [
@@ -47,6 +51,63 @@ class BitmaskedBehavior extends Behavior {
 		'type' => null, // Auto-defaults to current default "exact", set to "contain" for contain mode
 		'containMode' => 'or', // Use "and" when a record must match all bits
 	];
+
+	/**
+	 * Behavior configuration
+	 *
+	 * @param array $config
+	 * @throws \RuntimeException
+	 * @return void
+	 */
+	public function initialize(array $config): void {
+		$config += $this->_config;
+		if (empty($config['bits'])) {
+			$config['bits'] = Inflector::variable(Inflector::pluralize($config['field']));
+		}
+
+		$entity = $this->_table->newEmptyEntity();
+		$enumClass = false;
+
+		if (is_string($config['bits'])) {
+			try {
+				$reflectionEnum = new ReflectionEnum($config['bits']);
+				$cases = [];
+				foreach ($reflectionEnum->getCases() as $case) {
+					/** @var \BackedEnum $intBackedEnum */
+					$intBackedEnum = $case->getValue();
+					$cases[$intBackedEnum->value] = $intBackedEnum->name;
+				}
+				$enumClass = $config['bits'];
+				$config['bits'] = $cases;
+			} catch (ReflectionException) {
+			}
+		}
+		if ($config['enum'] === null) {
+			$config['enum'] = $enumClass;
+		}
+
+		if (is_callable($config['bits'])) {
+			$config['bits'] = call_user_func($config['bits']);
+		} elseif (is_string($config['bits']) && method_exists($entity, $config['bits'])) {
+			$method = $config['bits'];
+			$config['bits'] = $entity::$method();
+		} elseif (is_string($config['bits']) && method_exists($this->_table, $config['bits'])) {
+			// Deprecated: Will be removed in the next major, use Entity instead.
+			$table = $this->_table;
+			$method = $config['bits'];
+			$config['bits'] = $table::$method();
+		} elseif (!is_array($config['bits'])) {
+			$config['bits'] = false;
+		}
+		if (empty($config['bits'])) {
+			$method = Inflector::variable(Inflector::pluralize($config['field'])) . '()';
+
+			throw new RuntimeException('Bits not found for field ' . $config['field'] . ', expected pluralized static method ' . $method . ' on the entity.');
+		}
+		ksort($config['bits'], SORT_NUMERIC);
+
+		$this->_config = $config;
+	}
 
 	/**
 	 * @param \Cake\ORM\Query\SelectQuery $query
@@ -89,44 +150,6 @@ class BitmaskedBehavior extends Behavior {
 		}
 
 		return $query->where([$this->_table->getAlias() . '.' . $this->_config['field'] . ' IS' => $encodedBits]);
-	}
-
-	/**
-	 * Behavior configuration
-	 *
-	 * @param array $config
-	 * @throws \RuntimeException
-	 * @return void
-	 */
-	public function initialize(array $config): void {
-		$config += $this->_config;
-
-		if (empty($config['bits'])) {
-			$config['bits'] = Inflector::variable(Inflector::pluralize($config['field']));
-		}
-
-		$entity = $this->_table->newEmptyEntity();
-
-		if (is_callable($config['bits'])) {
-			$config['bits'] = call_user_func($config['bits']);
-		} elseif (is_string($config['bits']) && method_exists($entity, $config['bits'])) {
-			$method = $config['bits'];
-			$config['bits'] = $entity::$method();
-		} elseif (is_string($config['bits']) && method_exists($this->_table, $config['bits'])) {
-			$table = $this->_table;
-			$method = $config['bits'];
-			$config['bits'] = $table::$method();
-		} elseif (!is_array($config['bits'])) {
-			$config['bits'] = false;
-		}
-		if (empty($config['bits'])) {
-			$method = Inflector::variable(Inflector::pluralize($config['field'])) . '()';
-
-			throw new RuntimeException('Bits not found for field ' . $config['field'] . ', expected pluralized static method ' . $method . ' on the entity.');
-		}
-		ksort($config['bits'], SORT_NUMERIC);
-
-		$this->_config = $config;
 	}
 
 	/**
@@ -227,16 +250,18 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param int $value Bitmask.
-	 * @return array<int> Bitmask array (from DB to APP).
+	 * @param int|string $value Bitmask.
+	 * @return array<int|\BackedEnum> Bitmask array (from DB to APP).
 	 */
-	public function decodeBitmask($value) {
+	public function decodeBitmask($value): array {
 		$res = [];
 		$value = (int)$value;
+
+		$enum = $this->_config['enum'];
 		foreach ($this->_config['bits'] as $key => $val) {
-			$val = (($value & $key) !== 0) ? true : false;
+			$val = ($value & $key) !== 0;
 			if ($val) {
-				$res[] = $key;
+				$res[] = $enum ? $enum::tryFrom($key) : $key;
 			}
 		}
 
@@ -244,16 +269,21 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param array<int> $value Bitmask array.
-	 * @param mixed|null $defaultValue Default bitmask value.
+	 * @param array<int|string>|string $value Bitmask array.
+	 * @param int|null $defaultValue Default bitmask value.
 	 * @return int|null Bitmask (from APP to DB).
 	 */
-	public function encodeBitmask($value, $defaultValue = null) {
+	public function encodeBitmask(array|string $value, $defaultValue = null): ?int {
 		$res = 0;
 		if (!$value) {
 			return $defaultValue;
 		}
-		foreach ((array)$value as $key => $val) {
+
+		foreach ((array)$value as $val) {
+			if ($val instanceof BackedEnum) {
+				$val = $val->value;
+			}
+
 			$res |= (int)$val;
 		}
 		if ($res === 0) {
@@ -289,7 +319,8 @@ class BitmaskedBehavior extends Behavior {
 				return $comparison;
 			}
 
-			$comparison->setValue((array)$this->encodeBitmask($comparison->getValue()));
+			$bitmask = $this->encodeBitmask($comparison->getValue());
+			$comparison->setValue((array)$bitmask);
 			if ($field !== $mappedField) {
 				$comparison->setField($field);
 			}
@@ -346,7 +377,7 @@ class BitmaskedBehavior extends Behavior {
 	 *
 	 * @return int|null
 	 */
-	protected function _getDefault($field) {
+	protected function _getDefault(string $field): ?int {
 		$default = null;
 		$schema = $this->_table->getSchema()->getColumn($field);
 
@@ -419,7 +450,7 @@ class BitmaskedBehavior extends Behavior {
 		// Hack for Postgres for now
 		$connection = $this->_table->getConnection();
 		$config = $connection->config();
-		if ((strpos($config['driver'], 'Postgres') !== false)) {
+		if ((str_contains($config['driver'], 'Postgres'))) {
 			return ['("' . $this->_table->getAlias() . '"."' . $field . '"' . $contain . ')'];
 		}
 
@@ -431,7 +462,7 @@ class BitmaskedBehavior extends Behavior {
 	 *
 	 * @return int|null
 	 */
-	protected function _getDefaultValue($field) {
+	protected function _getDefaultValue(string $field): ?int {
 		$schema = $this->_table->getSchema()->getColumn($field);
 
 		return $schema['default'] ?: 0;

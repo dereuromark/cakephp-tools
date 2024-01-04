@@ -5,6 +5,7 @@ namespace Tools\Test\TestCase\Model\Behavior;
 use RuntimeException;
 use Shim\TestSuite\TestCase;
 use TestApp\Model\Entity\BitmaskedComment;
+use TestApp\Model\Enum\BitmaskEnum;
 
 class BitmaskedBehaviorTest extends TestCase {
 
@@ -27,14 +28,12 @@ class BitmaskedBehaviorTest extends TestCase {
 		parent::setUp();
 
 		$this->Comments = $this->getTableLocator()->get('BitmaskedComments');
-		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testConfig() {
-		$this->Comments->removeBehavior('Bitmasked');
 		$this->Comments->addBehavior('Tools.Bitmasked', []);
 		$bits = $this->Comments->behaviors()->Bitmasked->getConfig('bits');
 		$expected = BitmaskedComment::statuses();
@@ -45,8 +44,6 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testFieldMethodMissing() {
-		$this->Comments->removeBehavior('Bitmasked');
-
 		$this->expectException(RuntimeException::class);
 		$this->expectExceptionMessage('Bits not found for field my_field, expected pluralized static method myFields() on the entity.');
 
@@ -57,6 +54,8 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testEncodeBitmask() {
+		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
+
 		$res = $this->Comments->encodeBitmask([BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_APPROVED]);
 		$expected = BitmaskedComment::STATUS_PUBLISHED | BitmaskedComment::STATUS_APPROVED;
 		$this->assertSame($expected, $res);
@@ -66,6 +65,8 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testDecodeBitmask() {
+		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
+
 		$res = $this->Comments->decodeBitmask(BitmaskedComment::STATUS_PUBLISHED | BitmaskedComment::STATUS_APPROVED);
 		$expected = [BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_APPROVED];
 		$this->assertSame($expected, $res);
@@ -75,6 +76,8 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testFind() {
+		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
+
 		$res = $this->Comments->find('all')->toArray();
 		$this->assertTrue(!empty($res) && is_array($res));
 
@@ -85,6 +88,8 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testFindBitmasked() {
+		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
+
 		$res = $this->Comments->find('bits', bits: [])->toArray();
 		$this->assertCount(1, $res);
 		$this->assertSame([], $res[0]->statuses);
@@ -97,7 +102,24 @@ class BitmaskedBehaviorTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testFindBitmaskedEnums() {
+		$this->Comments->addBehavior('Tools.Bitmasked', ['bits' => BitmaskEnum::class, 'mappedField' => 'statuses']);
+
+		$res = $this->Comments->find('bits', bits: [])->toArray();
+		$this->assertCount(1, $res);
+		$this->assertSame([], $res[0]->statuses);
+
+		$res = $this->Comments->find('bits', bits: [BitmaskEnum::One, BitmaskEnum::Four])->toArray();
+		$this->assertCount(1, $res);
+		$this->assertSame([BitmaskEnum::One, BitmaskEnum::Four], $res[0]->statuses);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testFindBitmaskedContain() {
+		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
+
 		$bits = [];
 		$options = [
 			'type' => 'contain',
@@ -125,6 +147,8 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testFindBitmaskedContainAnd() {
+		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
+
 		$bits = [];
 		$options = [
 			'type' => 'contain',
@@ -147,6 +171,8 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testSaveBasic() {
+		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
+
 		$data = [
 			'comment' => 'test save',
 			'statuses' => [],
@@ -211,6 +237,8 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testSaveWithDefaultValue() {
+		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
+
 		$data = [
 			'comment' => 'test save',
 			'statuses' => [],
@@ -242,7 +270,6 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testSaveOnBeforeSave() {
-		$this->Comments->removeBehavior('Bitmasked');
 		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses', 'on' => 'beforeSave']);
 		$data = [
 			'comment' => 'test save',
@@ -260,6 +287,8 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testIs() {
+		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
+
 		$res = $this->Comments->isBit(BitmaskedComment::STATUS_PUBLISHED);
 		$expected = ['BitmaskedComments.status' => 2];
 		$this->assertEquals($expected, $res);
@@ -269,6 +298,8 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testIsNot() {
+		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
+
 		$res = $this->Comments->isNotBit(BitmaskedComment::STATUS_PUBLISHED);
 		$expected = ['NOT' => ['BitmaskedComments.status' => 2]];
 		$this->assertEquals($expected, $res);
@@ -278,6 +309,8 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testContains() {
+		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
+
 		$config = $this->Comments->getConnection()->config();
 		$isPostgres = strpos($config['driver'], 'Postgres') !== false;
 
@@ -309,6 +342,8 @@ class BitmaskedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testNotContains() {
+		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
+
 		$config = $this->Comments->getConnection()->config();
 		$isPostgres = strpos($config['driver'], 'Postgres') !== false;
 
