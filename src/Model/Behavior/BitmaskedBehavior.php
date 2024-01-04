@@ -111,12 +111,12 @@ class BitmaskedBehavior extends Behavior {
 
 	/**
 	 * @param \Cake\ORM\Query\SelectQuery $query
-	 * @param array<int> $bits
+	 * @param array<string|int>|string|int $bits
 	 * @param array<string, mixed> $options
 	 * @throws \InvalidArgumentException If the 'slug' key is missing in options
 	 * @return \Cake\ORM\Query\SelectQuery
 	 */
-	public function findBitmasked(SelectQuery $query, array $bits, array $options = []): SelectQuery {
+	public function findBitmasked(SelectQuery $query, array|string|int $bits, array $options = []): SelectQuery {
 		$options += [
 			'type' => $this->_config['type'] ?? 'exact',
 			'containMode' => $this->_config['containMode'],
@@ -136,7 +136,7 @@ class BitmaskedBehavior extends Behavior {
 			}
 
 			$conditions = [];
-			foreach ($bits as $bit) {
+			foreach ((array)$bits as $bit) {
 				$conditions[] = $this->containsBit($bit);
 			}
 
