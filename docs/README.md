@@ -35,6 +35,7 @@
 * [Reset](Behavior/Reset.md)
 * [String](Behavior/String.md)
 * [Toggle](Behavior/Toggle.md)
+* [Encryption](Behavior/Encryption.md)
 
 ### Components
 * [Common](Component/Common.md)
