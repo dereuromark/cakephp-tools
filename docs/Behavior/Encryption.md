@@ -16,7 +16,7 @@ $this->addBehavior('Tools.Encryption', [
 ]);
 ```
 
-After attaching the behavior a call like
+After attaching the behavior, a call like
 
 ```php
 $user = $this->Users->newEmptyEntity();
@@ -25,7 +25,7 @@ $user = $this->Users->patchEntity($user, [
     'password' => 'a random generated string hopefully'
     'secret_field' => 'my super mysterious secret'
 ]);
-$this->Users->save($user);
+$this->Users->saveOrFail($user);
 ```
 
 will result in the `secret_field` to be automatically encrypted.
@@ -43,4 +43,4 @@ will automatically decrypt the binary data.
 ## Recommendations
 
 * Please do not use encryption if you don't need it! Password authentication for user login should always be implemented via hashing, not encryption.
-* It is recommended to use a separate encryption key compared to your `Secruity.salt` value.
+* It is recommended to use a separate encryption key compared to your `Security.salt` value.
