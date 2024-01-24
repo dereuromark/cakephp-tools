@@ -541,7 +541,7 @@ class DateTime extends CakeDateTime {
 
 		if (!is_object($dateString)) {
 			if (is_string($dateString) && strlen($dateString) === 10) {
-				$date = new CakeDateTime($dateString);
+				$date = new CakeDate($dateString);
 			} else {
 				$date = new static($dateString);
 			}
@@ -551,9 +551,9 @@ class DateTime extends CakeDateTime {
 
 		if ($format === null) {
 			if ($date instanceof CakeDateTime) {
-				$format = FORMAT_NICE_YMD;
-			} else {
 				$format = FORMAT_NICE_YMDHM;
+			} else {
+				$format = FORMAT_NICE_YMD;
 			}
 		}
 

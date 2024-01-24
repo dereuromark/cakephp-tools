@@ -164,6 +164,23 @@ class DateTimeTest extends TestCase {
 	}
 
 	/**
+	 * Test that input as date only (YYYY-MM-DD) does not suddenly return a
+	 * different date on output due to timezone differences.
+	 * Here the timezone should not apply since we only input date and only output
+	 * date (time itself is irrelevant).
+	 *
+	 * @return void
+	 */
+	public function testDateTimeWithTimezone() {
+		$res = setlocale(LC_TIME, 'de_DE.UTF-8', 'deu_deu');
+		//$this->assertTrue(!empty($res));
+		Configure::write('Config.timezone', 'America/Anchorage');
+
+		$ret = $this->Time->niceDate('2009-12-01 12:13:14');
+		$this->assertEquals('01.12.2009, 12:13', $ret);
+	}
+
+	/**
 	 * @return void
 	 */
 	public function testFormatLocalized() {
