@@ -420,6 +420,10 @@ class Table extends ShimTable {
 		/** @var \Cake\Chronos\ChronosDate|mixed $date */
 		$date = $value;
 		if (!is_object($value)) {
+			if (is_array($value)) {
+				$value = $value['year'] . '-' . $value['month'] . '-' . $value['day'];
+			}
+
 			$date = new Date($value);
 		}
 		if (!empty($options['allowEmpty']) && empty($date)) {
