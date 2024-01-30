@@ -15,7 +15,7 @@
 * [I18n](I18n/I18n.md) for language detection and switching
 
 ### ErrorHandler
-* [ErrorHandler](Error/ErrorHandler.md) for improved error handling.
+* [ExceptionTrap](Error/ExceptionTrap.md) for improved error handling.
 
 ### Email
 * [Email](Mailer/Email.md) for sending Emails

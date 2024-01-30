@@ -1,7 +1,7 @@
 # Improved version of ExceptionTrap
 
 The main goal of the error.log is to notify about internal errors of the system.
-By default there would also be a lot of noise in there.
+By default, there would also be a lot of noise in there.
 
 Most 404 logs should not be part of your error log, for example.
 You can either completely ignore them, or better yet put them into their own space:
@@ -19,11 +19,11 @@ logged twice (`config/app.php`):
 ```php
     'Log' => [
         'debug' => [
-            'scopes' => false,
+            'scopes' => null,
             ...
         ],
         'error' => [
-            'scopes' => false,
+            'scopes' => null,
             ...
         ],
     ],
