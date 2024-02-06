@@ -91,7 +91,7 @@ trait ErrorHandlerTrait {
 		}
 		$referer = $request->getHeaderLine('Referer');
 		$baseUrl = Configure::read('App.fullBaseUrl');
-		if (strpos($referer, $baseUrl) === 0) {
+		if (strpos($referer, $baseUrl) === 0 && $request->getRequestTarget() !== $referer) {
 			return false;
 		}
 
