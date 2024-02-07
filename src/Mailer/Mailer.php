@@ -59,7 +59,7 @@ class Mailer extends CakeMailer {
 	 */
 	public function __call(string $method, array $args) {
 		$result = $this->message->$method(...$args);
-		if (strpos($method, 'get') === 0 || strpos($method, 'add') === 0) {
+		if (str_starts_with($method, 'get') || str_starts_with($method, 'add')) {
 			return $result;
 		}
 

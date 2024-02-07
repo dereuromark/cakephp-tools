@@ -64,7 +64,7 @@ class RefererRedirectComponent extends Component {
 			return null;
 		}
 
-		if (strpos($referer, '/') !== 0) {
+		if (!str_starts_with($referer, '/')) {
 			return null;
 		}
 

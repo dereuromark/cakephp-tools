@@ -274,7 +274,7 @@ class FormatHelper extends Helper {
 	 * @return string
 	 */
 	public function siteIconUrl($domain) {
-		if (strpos($domain, 'http') === 0) {
+		if (str_starts_with($domain, 'http')) {
 			// Strip protocol
 			$pieces = parse_url($domain);
 			if ($pieces !== false) {

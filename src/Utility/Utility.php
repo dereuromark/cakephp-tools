@@ -374,7 +374,7 @@ class Utility {
 		$modifiedUrl = $url;
 		$pos = strpos($url, '.');
 		if ($pos !== false) {
-			if (strpos(substr($url, 0, $pos), '//') === false) {
+			if (!str_contains(substr($url, 0, $pos), '//')) {
 				$modifiedUrl = $prefix . $url;
 			}
 
