@@ -90,9 +90,9 @@ class TokensTable extends Table {
 	 * @param mixed|null $uid Uid: optional (if used, only this user can use this key)
 	 * @param array|string|null $content Content: up to 255 characters of content may be added (optional)
 	 *
-	 * @return string|null Key on success, null otherwise
+	 * @return string Key
 	 */
-	public function newKey(string $type, ?string $key = null, $uid = null, $content = null): ?string {
+	public function newKey(string $type, ?string $key = null, $uid = null, $content = null): string {
 		if (!$key) {
 			$key = $this->generateKey($this->defaultLength);
 			$keyLength = $this->defaultLength;
@@ -143,12 +143,12 @@ class TokensTable extends Table {
 		if (!$tokenEntity) {
 			return null;
 		}
-		if ($uid && !empty($tokenEntity->user_id) && $tokenEntity->user_id != $uid) {
+		if ($uid && $tokenEntity->user_id && $tokenEntity->user_id != $uid) {
 			// return $res; # more secure to fail here if user_id is not provided, but was submitted prev.
 			return null;
 		}
 		// already used?
-		if (!empty($tokenEntity->used)) {
+		if ($tokenEntity->used) {
 			if ($treatUsedAsInvalid) {
 				return null;
 			}
@@ -161,7 +161,7 @@ class TokensTable extends Table {
 			return $tokenEntity;
 		}
 		// no limit? we dont spend key then
-		if (!empty($tokenEntity->unlimited)) {
+		if ($tokenEntity->unlimited) {
 			return $tokenEntity;
 		}
 
