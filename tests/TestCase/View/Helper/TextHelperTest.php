@@ -33,8 +33,6 @@ class TextHelperTest extends TestCase {
 	}
 
 	/**
-	 * TextExtHelperTest::testAutoLinkEmails()
-	 *
 	 * @return void
 	 */
 	public function testAutoLinkEmails() {
@@ -60,8 +58,6 @@ class TextHelperTest extends TestCase {
 	}
 
 	/**
-	 * TextExtHelperTest::testAutoLinkEmailsWithHtmlOrDangerousStrings()
-	 *
 	 * @return void
 	 */
 	public function testAutoLinkEmailsWithHtmlOrDangerousStrings() {
@@ -88,8 +84,6 @@ class TextHelperTest extends TestCase {
 	}
 
 	/**
-	 * TextExtHelperTest::testAutoLinkUrls()
-	 *
 	 * @return void
 	 */
 	public function testAutoLinkUrls() {
@@ -115,8 +109,6 @@ class TextHelperTest extends TestCase {
 	}
 
 	/**
-	 * TextExtHelperTest::testAutoLinkUrlsWithEscapeFalse()
-	 *
 	 * @return void
 	 */
 	public function testAutoLinkUrlsWithEscapeFalse() {
@@ -140,15 +132,30 @@ class TextHelperTest extends TestCase {
 	}
 
 	/**
-	 * TextExtHelperTest::testAutoLinkUrlsWithHtmlOrDangerousStrings()
-	 *
 	 * @return void
 	 */
 	public function testAutoLinkUrlsWithHtmlOrDangerousStrings() {
 		$text = 'Text <i>with a url</i> www.cot.ag?id=2&sub=3 and more';
 		$expected = 'Text &lt;i&gt;with a url&lt;/i&gt; <a href="http://www.cot.ag?id=2&amp;sub=3">www.cot.ag?id=2&amp;sub=3</a> and more';
 		$result = $this->Text->autoLinkUrls($text);
-		//pr(h($text));
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAutoLinkUrlsWithCallback() {
+		$text = 'Text www.cot.ag?id=2&sub=3 and more';
+		$expected = 'Text <a href="http://www.cot.ag?id=2&amp;sub=3" target="_blank" rel="nofollow">www.cot.ag?id=2&amp;sub=3</a> and more';
+		$that = $this->Text;
+		$result = $this->Text->autoLinkUrls($text, ['callable' => function (string $link, string $url, array $options) use ($that) {
+			$linkOptions = $options;
+
+			$linkOptions['target'] = '_blank';
+			$linkOptions['rel'] = 'nofollow';
+
+			return $that->Html->link($that->prepareLinkName($link, $options), $url, $linkOptions);
+		}]);
 		$this->assertEquals($expected, $result);
 	}
 
@@ -188,8 +195,6 @@ class TextHelperTest extends TestCase {
 	}
 
 	/**
-	 * TextExtHelperTest::testAutoLinkUrlsWithCakeTests()
-	 *
 	 * @return void
 	 */
 	public function testAutoLinkUrlsWithCakeTests() {

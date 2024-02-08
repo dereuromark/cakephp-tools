@@ -406,8 +406,6 @@ class TableTest extends TestCase {
 		$res = $this->Users->validateUrl($data, ['deep' => false, 'autoComplete' => false]);
 		$this->assertTrue((env('REMOTE_ADDR') !== '127.0.0.1') ? !$res : $res);
 
-		//$this->skipIf(strpos($_SERVER['HTTP_HOST'], '.') === false, 'No online HTTP_HOST');
-
 		$data = '/some/link';
 		$res = $this->Users->validateUrl($data, ['deep' => false, 'sameDomain' => true]);
 		$this->assertTrue($_SERVER['HTTP_HOST'] === 'localhost' ? !$res : $res);

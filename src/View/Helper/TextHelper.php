@@ -206,7 +206,7 @@ class TextHelper extends CakeTextHelper {
 	 * - ellipsis (defaults to UTF8 version)
 	 * @return string html/$plain
 	 */
-	protected function prepareLinkName(string $link, array $options = []): string {
+	public function prepareLinkName(string $link, array $options = []): string {
 		// strip protocol if desired (default)
 		if (!isset($options['stripProtocol']) || $options['stripProtocol'] !== false) {
 			$link = $this->stripProtocol($link);
