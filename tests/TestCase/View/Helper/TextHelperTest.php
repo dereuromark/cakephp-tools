@@ -145,17 +145,24 @@ class TextHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testAutoLinkUrlsWithCallback() {
-		$text = 'Text www.cot.ag?id=2&sub=3 and more';
-		$expected = 'Text <a href="http://www.cot.ag?id=2&amp;sub=3" target="_blank" rel="nofollow">www.cot.ag?id=2&amp;sub=3</a> and more';
+		$this->loadRoutes();
+
+		$text = 'Text www.domain.test?id=2&sub=3 and more';
+
 		$that = $this->Text;
-		$result = $this->Text->autoLinkUrls($text, ['callable' => function (string $link, string $url, array $options) use ($that) {
+		$callable = function (string $link, string $url, array $options) use ($that) {
 			$linkOptions = $options;
 
 			$linkOptions['target'] = '_blank';
 			$linkOptions['rel'] = 'nofollow';
+			$url = ['controller' => 'Outbound', 'action' => 'redirect', '?' => ['url' => $url]];
 
 			return $that->Html->link($that->prepareLinkName($link, $options), $url, $linkOptions);
-		}]);
+		};
+
+		$result = $this->Text->autoLinkUrls($text, ['callable' => $callable]);
+
+		$expected = 'Text <a href="/outbound/redirect?url=http%3A%2F%2Fwww.domain.test%3Fid%3D2%26sub%3D3" target="_blank" rel="nofollow">www.domain.test?id=2&amp;sub=3</a> and more';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -253,7 +260,7 @@ class TextHelperTest extends TestCase {
 		$this->assertEquals('ww&#8230;ge.de', $this->Text->minimizeUrl($url, 10));
 
 		$url = 'http://www.testpage.de';
-		$this->assertEquals('ww…ge.de', $this->Text->minimizeUrl($url, 10, ['placeholder' => '…']));
+		$this->assertEquals('ww...ge.de', $this->Text->minimizeUrl($url, 10, ['placeholder' => '...']));
 
 		// without full http://
 		$url = 'www.testpage.de';
