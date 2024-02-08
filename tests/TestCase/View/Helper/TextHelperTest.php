@@ -73,25 +73,28 @@ class TextHelperTest extends TestCase {
 	}
 
 	/**
+	 * @return void
+	 */
+	public function testStripProtocol(): void {
+		$urls = [
+			'http://www.cakephp.org/bla/bla' => 'www.cakephp.org/bla/bla',
+			'https://www.cakephp.org/' => 'www.cakephp.org/',
+		];
+
+		foreach ($urls as $url => $expected) {
+			$is = $this->Text->stripProtocol($url);
+			$this->assertEquals($expected, $is);
+		}
+	}
+
+	/**
 	 * TextExtHelperTest::testAutoLinkUrls()
 	 *
 	 * @return void
 	 */
 	public function testAutoLinkUrls() {
-		$this->skipIf(true, '//TODO: Port from 2.x');
-
-		$texts = [
-			'text http://www.cakephp.org/bla/bla some more text' => '',
-			'This is a test text with URL http://www.cakephp.org\tand some more text' => 'This is a test text with URL http://www.cakephp.org\tand some more text',
-		];
-
-		foreach ($texts as $text => $expected) {
-			//$is = $this->Text->stripProtocol($url);
-			//$this->assertEquals($expected, $is);
-		}
-
 		$text = 'Text with a url www.cot.ag/cuIb2Q/eruierieriu-erjekr and more';
-		$expected = 'Text with a url <a href="http://www.cot.ag/cuIb2Q/eruierieriu-erjekr">www.cot.ag/c...</a> and more';
+		$expected = 'Text with a url <a href="http://www.cot.ag/cuIb2Q/eruierieriu-erjekr">www.cot.ag/c…</a> and more';
 		$result = $this->Text->autoLinkUrls($text, ['maxLength' => 12]);
 		$this->assertEquals($expected, $result);
 
@@ -106,7 +109,7 @@ class TextHelperTest extends TestCase {
 		$this->assertEquals($expected, $result);
 
 		$text = 'Text with a url www.cot.ag/cuIb2Q/eruierieriu-erjekrwerweuwrweir-werwer-werwerwe-werwerwer-werwerdfrffsd-werwer and more';
-		$expected = 'Text with a url <a href="http://www.cot.ag/cuIb2Q/eruierieriu-erjekrwerweuwrweir-werwer-werwerwe-werwerwer-werwerdfrffsd-werwer">www.cot.ag/cuIb2Q/eruierieriu-erjekrwerweuwrweir-w...</a> and more';
+		$expected = 'Text with a url <a href="http://www.cot.ag/cuIb2Q/eruierieriu-erjekrwerweuwrweir-werwer-werwerwe-werwerwer-werwerdfrffsd-werwer">www.cot.ag/cuIb2Q/eruierieriu-erjekrwerweuwrweir-w…</a> and more';
 		$result = $this->Text->autoLinkUrls($text);
 		$this->assertEquals($expected, $result);
 	}
@@ -117,10 +120,8 @@ class TextHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testAutoLinkUrlsWithEscapeFalse() {
-		$this->skipIf(true, '//TODO: Port from 2.x');
-
 		$text = 'Text with a url www.cot.ag/cuIb2Q/eruierieriu-erjekrwerweuwrweir-werwer and more';
-		$expected = 'Text with a url <a href="http://www.cot.ag/cuIb2Q/eruierieriu-erjekrwerweuwrweir-werwer">www.cot.ag/cuIb2Q/er...</a> and more';
+		$expected = 'Text with a url <a href="http://www.cot.ag/cuIb2Q/eruierieriu-erjekrwerweuwrweir-werwer">www.cot.ag/cuIb2Q/er…</a> and more';
 		$result = $this->Text->autoLinkUrls($text, ['maxLength' => 20], ['escape' => false]);
 		$this->assertEquals($expected, $result);
 
@@ -133,7 +134,7 @@ class TextHelperTest extends TestCase {
 		*/
 
 		$text = '<h3>google<h3> a http://maps.google.de/maps?f=d&source=s_d&saddr=m%C3%BCnchen&daddr=Berlin&hl=de&geocode=FXaL3gIdGrOwACnZX4yj-XWeRzF9mLF9SrgMAQ%3BFY1xIQMdSKTMACkBWQM_N06oRzFwO15bRiAhBA&mra=ls&sll=52.532932,13.41156&sspn=0.77021,2.348328&g=berlin&ie=UTF8&t=h&z=6 link';
-		$expected = '&lt;h3&gt;google&lt;h3&gt; a <a href="http://maps.google.de/maps?f=d&amp;source=s_d&amp;saddr=m%C3%BCnchen&amp;daddr=Berlin&amp;hl=de&amp;geocode=FXaL3gIdGrOwACnZX4yj-XWeRzF9mLF9SrgMAQ%3BFY1xIQMdSKTMACkBWQM_N06oRzFwO15bRiAhBA&amp;mra=ls&amp;sll=52.532932,13.41156&amp;sspn=0.77021,2.348328&amp;g=berlin&amp;ie=UTF8&amp;t=h&amp;z=6">maps.google.de/maps?f=d&amp;source...</a> link';
+		$expected = '&lt;h3&gt;google&lt;h3&gt; a <a href="http://maps.google.de/maps?f=d&amp;source=s_d&amp;saddr=m%C3%BCnchen&amp;daddr=Berlin&amp;hl=de&amp;geocode=FXaL3gIdGrOwACnZX4yj-XWeRzF9mLF9SrgMAQ%3BFY1xIQMdSKTMACkBWQM_N06oRzFwO15bRiAhBA&amp;mra=ls&amp;sll=52.532932,13.41156&amp;sspn=0.77021,2.348328&amp;g=berlin&amp;ie=UTF8&amp;t=h&amp;z=6">maps.google.de/maps?f=d&amp;source…</a> link';
 		$result = $this->Text->autoLinkUrls($text, ['maxLength' => 30]);
 		$this->assertEquals($expected, $result);
 	}
@@ -192,8 +193,6 @@ class TextHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testAutoLinkUrlsWithCakeTests() {
-		$this->skipIf(true, '//TODO: Port from 2.x');
-
 		$text = 'This is a test text';
 		$expected = 'This is a test text';
 		$result = $this->Text->autoLinkUrls($text);
@@ -211,7 +210,7 @@ class TextHelperTest extends TestCase {
 
 		$text = 'Text with a partial www.cakephp.org URL';
 		$expected = 'Text with a partial <a href="http://www.cakephp.org" \s*class="link">www.cakephp.org</a> URL';
-		$result = $this->Text->autoLinkUrls($text, [], ['class' => 'link']);
+		$result = $this->Text->autoLinkUrls($text, ['class' => 'link']);
 		$this->assertMatchesRegularExpression('#^' . $expected . '$#', $result);
 
 		$text = 'Text with a partial WWW.cakephp.org URL';
@@ -221,7 +220,7 @@ class TextHelperTest extends TestCase {
 
 		$text = 'Text with a partial WWW.cakephp.org &copy; URL';
 		$expected = 'Text with a partial <a href="http://WWW.cakephp.org"\s*>WWW.cakephp.org</a> &copy; URL';
-		$result = $this->Text->autoLinkUrls($text, ['escape' => false], ['escape' => false]);
+		$result = $this->Text->autoLinkUrls($text, ['escape' => false, 'escape' => false]);
 		$this->assertMatchesRegularExpression('#^' . $expected . '$#', $result);
 
 		$text = 'Text with a url www.cot.ag/cuIb2Q and more';
@@ -249,7 +248,7 @@ class TextHelperTest extends TestCase {
 		$this->assertEquals('ww&#8230;ge.de', $this->Text->minimizeUrl($url, 10));
 
 		$url = 'http://www.testpage.de';
-		$this->assertEquals('ww...ge.de', $this->Text->minimizeUrl($url, 10, ['placeholder' => '...']));
+		$this->assertEquals('ww…ge.de', $this->Text->minimizeUrl($url, 10, ['placeholder' => '…']));
 
 		// without full http://
 		$url = 'www.testpage.de';

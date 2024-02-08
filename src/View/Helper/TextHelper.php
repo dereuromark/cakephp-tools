@@ -71,13 +71,13 @@ class TextHelper extends CakeTextHelper {
 	}
 
 	/**
-	 * Minimizes the given URL to a maximum length
+	 * Minimizes the given URL to a minimum length.
 	 *
 	 * @param string $url the url
 	 * @param int|null $max the maximum length
 	 * @param array<string, mixed> $options
 	 * - placeholder
-	 * @return string the manipulated url (+ eventuell ...)
+	 * @return string The manipulated url (+ maybe ...)
 	 */
 	public function minimizeUrl(string $url, ?int $max = null, array $options = []): string {
 		// check if there is nothing to do
@@ -151,6 +151,76 @@ class TextHelper extends CakeTextHelper {
 	 */
 	public function highlightString(string $string): string {
 		return highlight_string($string, true);
+	}
+
+	/**
+	 * Replace placeholders with links.
+	 *
+	 * @param string $text The text to operate on.
+	 * @param array<string, mixed> $htmlOptions The options for the generated links.
+	 * @return string The text with links inserted.
+	 */
+	protected function _linkUrls(string $text, array $htmlOptions): string {
+		if (!isset($htmlOptions['callable'])) {
+			$replace = [];
+			foreach ($this->_placeholders as $hash => $content) {
+				$link = $url = $content['content'];
+				$envelope = $content['envelope'];
+				if (!preg_match('#^[a-z]+\://#i', $url)) {
+					$url = 'http://' . $url;
+				}
+
+				$linkOptions = $htmlOptions;
+				unset($htmlOptions['maxLength'], $htmlOptions['stripProtocol'], $htmlOptions['ellipsis']);
+
+				$replace[$hash] = $envelope[0] . $this->Html->link($this->prepareLinkName($link, $linkOptions), $url, $htmlOptions) . $envelope[1];
+			}
+
+			return strtr($text, $replace);
+		}
+
+		$callable = $htmlOptions['callable'];
+		unset($htmlOptions['callable']);
+		if (!is_callable($callable)) {
+			throw new CakeException(sprintf('The `outbound` option must be a callable, %s given', getType($callable)));
+		}
+
+		$replace = [];
+		foreach ($this->_placeholders as $hash => $content) {
+			$link = $url = $content['content'];
+			$envelope = $content['envelope'];
+			if (!preg_match('#^[a-z]+\://#i', $url)) {
+				$url = 'http://' . $url;
+			}
+			$replace[$hash] = $envelope[0] . $callable($link, $url, $htmlOptions) . $envelope[1];
+		}
+
+		return strtr($text, $replace);
+	}
+
+	/**
+	 * @param string $link
+	 * @param array $options Options:
+	 * - stripProtocol: bool (defaults to true)
+	 * - maxLength: int (defaults to 50)
+	 * - ellipsis (defaults to UTF8 version)
+	 * @return string html/$plain
+	 */
+	protected function prepareLinkName(string $link, array $options = []): string {
+		// strip protocol if desired (default)
+		if (!isset($options['stripProtocol']) || $options['stripProtocol'] !== false) {
+			$link = $this->stripProtocol($link);
+		}
+		if (!isset($options['maxLength'])) {
+			$options['maxLength'] = 50; # should be long enough for most cases
+		}
+		// shorten display name if desired (default)
+		if (!empty($options['maxLength']) && mb_strlen($link) > $options['maxLength']) {
+			$link = mb_substr($link, 0, $options['maxLength']);
+			$link .= $options['ellipsis'] ?? '…';
+		}
+
+		return $link;
 	}
 
 }
