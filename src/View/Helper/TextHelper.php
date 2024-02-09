@@ -199,28 +199,29 @@ class TextHelper extends CakeTextHelper {
 	}
 
 	/**
-	 * @param string $link
+	 * @param string $name
 	 * @param array $options Options:
 	 * - stripProtocol: bool (defaults to true)
 	 * - maxLength: int (defaults to 50)
 	 * - ellipsis (defaults to UTF8 version)
+	 *
 	 * @return string html/$plain
 	 */
-	public function prepareLinkName(string $link, array $options = []): string {
+	public function prepareLinkName(string $name, array $options = []): string {
 		// strip protocol if desired (default)
 		if (!isset($options['stripProtocol']) || $options['stripProtocol'] !== false) {
-			$link = $this->stripProtocol($link);
+			$name = (string)preg_replace('(^https?://)', '', $name);
 		}
 		if (!isset($options['maxLength'])) {
 			$options['maxLength'] = 50; # should be long enough for most cases
 		}
 		// shorten display name if desired (default)
-		if (!empty($options['maxLength']) && mb_strlen($link) > $options['maxLength']) {
-			$link = mb_substr($link, 0, $options['maxLength']);
-			$link .= $options['ellipsis'] ?? '…';
+		if (!empty($options['maxLength']) && mb_strlen($name) > $options['maxLength']) {
+			$name = mb_substr($name, 0, $options['maxLength']);
+			$name .= $options['ellipsis'] ?? '…';
 		}
 
-		return $link;
+		return $name;
 	}
 
 }
