@@ -176,7 +176,7 @@ class SluggedBehavior extends Behavior {
 	 * @return \Cake\ORM\Query\SelectQuery
 	 */
 	public function findSlugged(SelectQuery $query, string $slug): SelectQuery {
-		return $query->where([$this->_config['field'] => $slug]);
+		return $query->where([$this->_table->aliasField($this->_config['field']) => $slug]);
 	}
 
 	/**
