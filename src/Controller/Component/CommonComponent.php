@@ -38,13 +38,15 @@ class CommonComponent extends Component {
 	 * emptiness. This needs to happen in communication layer to ensure
 	 * this for all other layers.
 	 *
-	 * Can be skipped for edge cases using `DataPreparation.notrim` Configure setting.
+	 * Can be skipped for edge cases using
+	 * - locally: beforeFilter() inside the specific controller
+	 * - globally: `DataPreparation.notrim` Configure setting.
 	 *
 	 * @param \Cake\Event\EventInterface $event
 	 * @return void
 	 */
 	public function startup(EventInterface $event) {
-		if (Configure::read('DataPreparation.notrim')) {
+		if ($this->getConfig('notrim') || Configure::read('DataPreparation.notrim')) {
 			return;
 		}
 
