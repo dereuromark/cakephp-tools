@@ -34,6 +34,12 @@ class CommonComponent extends Component {
 	}
 
 	/**
+	 * Trim data from the request to ensure trustworthy input regarding
+	 * emptiness. This needs to happen in communication layer to ensure
+	 * this for all other layers.
+	 *
+	 * Can be skipped for edge cases using `DataPreparation.notrim` Configure setting.
+	 *
 	 * @param \Cake\Event\EventInterface $event
 	 * @return void
 	 */
