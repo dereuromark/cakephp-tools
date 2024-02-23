@@ -26,7 +26,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
 
 /**
- * @property array $_options
+ * @property array $_config
  */
 trait ErrorHandlerTrait {
 
@@ -74,8 +74,8 @@ trait ErrorHandlerTrait {
 	 */
 	protected function is404(Throwable $exception, ?ServerRequestInterface $request = null): bool {
 		$blacklist = static::$blacklist;
-		if (isset($this->_options['log404'])) {
-			$blacklist = (array)$this->_options['log404'];
+		if (isset($this->_config['log404'])) {
+			$blacklist = (array)$this->_config['log404'];
 		}
 		if (!$blacklist) {
 			return false;
