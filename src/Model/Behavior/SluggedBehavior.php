@@ -223,15 +223,19 @@ class SluggedBehavior extends Behavior {
 		}
 		if ($overwrite || $entity->isNew() || !$entity->get($this->_config['field'])) {
 			$pieces = [];
+			$exists_any_label_field = false;
 			foreach ((array)$this->_config['label'] as $v) {
+				if ($entity->has($v)) $exists_any_label_field = true;
 				$v = $entity->get($v);
 				if ($v !== null && $v !== '') {
 					$pieces[] = $v;
 				}
 			}
-			$slug = implode($this->_config['separator'], $pieces);
-			$slug = $this->generateSlug($slug, $entity);
-			$entity->set($this->_config['field'], $slug);
+			if ($exists_any_label_field) {
+				$slug = implode($this->_config['separator'], $pieces);
+				$slug = $this->generateSlug($slug, $entity);
+				$entity->set($this->_config['field'], $slug);
+			}
 		}
 	}
 
