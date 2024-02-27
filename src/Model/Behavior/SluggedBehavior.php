@@ -225,7 +225,9 @@ class SluggedBehavior extends Behavior {
 			$pieces = [];
 			$exists_any_label_field = false;
 			foreach ((array)$this->_config['label'] as $v) {
-				if ($entity->has($v)) $exists_any_label_field = true;
+				if ($entity->has($v)) {
+					$exists_any_label_field = true;
+				}
 				$v = $entity->get($v);
 				if ($v !== null && $v !== '') {
 					$pieces[] = $v;
