@@ -39,11 +39,11 @@ A CakePHP behavior to automatically create and store slugs.
             <td> `'url'`   </td>
             <td>
                 <ul>
-                    <li> <b>ascii: </b> retuns an ascii slug generated using the core Inflector::slug() function </li>
+                    <li> <b>ascii: </b> returns an ASCII slug generated using the core Inflector::slug() function </li>
                     <li> <b>display: </b> a dummy mode which returns a slug legal for display - removes illegal (not unprintable) characters </li>
                     <li> <b>url: </b> returns a slug appropriate to put in a URL </li>
-                    <li> <b>class: </b> a dummy mode which returns a slug appropriate to put in a html class (there are no restrictions) </li>
-                    <li> <b>id: </b> returns a slug appropriate to use in a html id </li>
+                    <li> <b>class: </b> a dummy mode which returns a slug appropriate to put in a HTML class (there are no restrictions) </li>
+                    <li> <b>id: </b> returns a slug appropriate to use in a HTML id </li>
                     <li> <b>{callable}: </b> Use your custom callable to pass in your slugger method </li>
                 </ul>
             </td>
@@ -64,8 +64,11 @@ A CakePHP behavior to automatically create and store slugs.
             <td>
                 has the following values
                 <ul>
-                    <li> <b>false: </b> once the slug has been saved, do not change it (use if you are doing lookups based on slugs) </li>
-                    <li> <b>true: </b> if the label field values change, regenerate the slug (use if you are the slug is just window-dressing) </li>
+                    <li> <b>false: </b> Once the slug has been saved, do not change it (use if you are doing lookups based on slugs) </li>
+                    <li> 
+                        <b>true: </b> If the label field values change, regenerate the slug (use if the slug is just window-dressing). 
+                        Note: For multi-field labels, all fields are required to be present once one label field has been touched (dirty set to true).
+                    </li>
                 </ul>
             </td>
         </tr>
@@ -75,7 +78,7 @@ A CakePHP behavior to automatically create and store slugs.
             <td>
                 has the following values
                 <ul>
-                    <li> <b>false: </b> will not enforce a unique slug, whatever the label is is direclty slugged without checking for duplicates </li>
+                    <li> <b>false: </b> will not enforce a unique slug, whatever the label is is directly slugged without checking for duplicates </li>
                     <li> <b>true: </b> use if you are doing lookups based on slugs (see overwrite) </li>
                 </ul>
             </td>
