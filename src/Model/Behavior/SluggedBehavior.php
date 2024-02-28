@@ -221,18 +221,32 @@ class SluggedBehavior extends Behavior {
 		if (!$overwrite && $entity->get($this->_config['overwriteField'])) {
 			$overwrite = true;
 		}
-		if ($overwrite || $entity->isNew() || !$entity->get($this->_config['field'])) {
-			$pieces = [];
-			foreach ((array)$this->_config['label'] as $v) {
-				$v = $entity->get($v);
-				if ($v !== null && $v !== '') {
-					$pieces[] = $v;
-				}
-			}
-			$slug = implode($this->_config['separator'], $pieces);
-			$slug = $this->generateSlug($slug, $entity);
-			$entity->set($this->_config['field'], $slug);
+		if (!$overwrite && !$entity->isNew() && $entity->get($this->_config['field'])) {
+			return;
 		}
+
+		$pieces = [];
+		$atLeastOneLabelFieldExists = false;
+		foreach ((array)$this->_config['label'] as $v) {
+			if ($entity->has($v)) {
+				$atLeastOneLabelFieldExists = true;
+			}
+			$v = $entity->get($v);
+			if ($v !== null && $v !== '') {
+				$pieces[] = $v;
+			}
+		}
+
+		if (!$atLeastOneLabelFieldExists) {
+			return;
+		}
+		if (!$pieces && !$this->needsSlugUpdate($entity)) {
+			return;
+		}
+
+		$slug = implode($this->_config['separator'], $pieces);
+		$slug = $this->generateSlug($slug, $entity);
+		$entity->set($this->_config['field'], $slug);
 	}
 
 	/**
@@ -260,6 +274,63 @@ class SluggedBehavior extends Behavior {
 		}
 
 		return false;
+	}
+
+	/**
+	 * ResetSlugs method.
+	 *
+	 * Regenerate all slugs. On large dbs this can take more than 30 seconds - a time
+	 * limit is set to allow a minimum 100 updates per second as a preventative measure.
+	 *
+	 * Note that you should use the Reset behavior if you need additional functionality such
+	 * as callbacks or timeouts.
+	 *
+	 * @param array<string, mixed> $params
+	 * @throws \RuntimeException
+	 * @return bool Success
+	 */
+	public function resetSlugs($params = []) {
+		if (!$this->_table->hasField($this->_config['field'])) {
+			throw new RuntimeException('Table does not have field ' . $this->_config['field']);
+		}
+		/** @var string $displayField */
+		$displayField = $this->_table->getDisplayField();
+		$defaults = [
+			'page' => 1,
+			'limit' => 100,
+			'fields' => array_merge([$this->_table->getPrimaryKey()], $this->_config['label']),
+			'order' => $displayField . ' ASC',
+			'conditions' => $this->_config['scope'],
+			'overwrite' => true,
+		];
+		$params += $defaults;
+
+		$conditions = $params['conditions'];
+		$count = $this->_table->find('all', compact('conditions'))->count();
+		$max = (int)ini_get('max_execution_time');
+		if ($max) {
+			set_time_limit(max($max, $count / 100));
+		}
+
+		$this->setConfig($params, null, false);
+		while (($records = $this->_table->find('all', $params)->toArray())) {
+			/** @var \Cake\ORM\Entity $record */
+			foreach ($records as $record) {
+				$record->setNew(true);
+
+				$fields = array_merge([$this->_table->getPrimaryKey(), $this->_config['field']], $this->_config['label']);
+				$options = [
+					'validate' => true,
+					'fields' => $fields,
+				];
+				if (!$this->_table->save($record, $options)) {
+					throw new RuntimeException(print_r($record->getErrors(), true));
+				}
+			}
+			$params['page']++;
+		}
+
+		return true;
 	}
 
 	/**
@@ -368,63 +439,6 @@ class SluggedBehavior extends Behavior {
 		}
 
 		return $slug;
-	}
-
-	/**
-	 * ResetSlugs method.
-	 *
-	 * Regenerate all slugs. On large dbs this can take more than 30 seconds - a time
-	 * limit is set to allow a minimum 100 updates per second as a preventative measure.
-	 *
-	 * Note that you should use the Reset behavior if you need additional functionality such
-	 * as callbacks or timeouts.
-	 *
-	 * @param array<string, mixed> $params
-	 * @throws \RuntimeException
-	 * @return bool Success
-	 */
-	public function resetSlugs($params = []) {
-		if (!$this->_table->hasField($this->_config['field'])) {
-			throw new RuntimeException('Table does not have field ' . $this->_config['field']);
-		}
-		/** @var string $displayField */
-		$displayField = $this->_table->getDisplayField();
-		$defaults = [
-			'page' => 1,
-			'limit' => 100,
-			'fields' => array_merge([$this->_table->getPrimaryKey()], $this->_config['label']),
-			'order' => $displayField . ' ASC',
-			'conditions' => $this->_config['scope'],
-			'overwrite' => true,
-		];
-		$params += $defaults;
-
-		$conditions = $params['conditions'];
-		$count = $this->_table->find('all', compact('conditions'))->count();
-		$max = (int)ini_get('max_execution_time');
-		if ($max) {
-			set_time_limit(max($max, $count / 100));
-		}
-
-		$this->setConfig($params, null, false);
-		while (($records = $this->_table->find('all', $params)->toArray())) {
-			/** @var \Cake\ORM\Entity $record */
-			foreach ($records as $record) {
-				$record->setNew(true);
-
-				$fields = array_merge([$this->_table->getPrimaryKey(), $this->_config['field']], $this->_config['label']);
-				$options = [
-					'validate' => true,
-					'fields' => $fields,
-				];
-				if (!$this->_table->save($record, $options)) {
-					throw new RuntimeException(print_r($record->getErrors(), true));
-				}
-			}
-			$params['page']++;
-		}
-
-		return true;
 	}
 
 	/**

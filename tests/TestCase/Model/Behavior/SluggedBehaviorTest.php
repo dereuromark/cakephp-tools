@@ -178,8 +178,6 @@ class SluggedBehaviorTest extends TestCase {
 	}
 
 	/**
-	 * Tests needSlugUpdate()
-	 *
 	 * @return void
 	 */
 	public function testNeedsSlugUpdate() {
@@ -226,6 +224,27 @@ class SluggedBehaviorTest extends TestCase {
 
 		$result = $this->articles->save($entity);
 		$this->assertEquals('Some-really-other-title', $result->get('slug'));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testNeedsNoSlugUpdate() {
+		$entity = $this->articles->newEntity(['title' => 'Some title']);
+		$result = $this->articles->save($entity);
+		$this->assertEquals('Some-title', $result->get('slug'));
+
+		$entity = $this->articles->get($entity->id, ['fields' => ['id', 'slug']]);
+
+		$this->articles->behaviors()->Slugged->setConfig(['overwrite' => true]);
+		// Without title present it should not modify the slug
+		$entity = $this->articles->patchEntity($entity, ['foo' => 'bar']);
+		$result = $this->articles->needsSlugUpdate($entity);
+		$this->assertFalse($result);
+
+		$this->articles->saveOrFail($entity);
+		$entity = $this->articles->get($entity->id);
+		$this->assertEquals('Some-title', $entity->get('slug'));
 	}
 
 	/**
