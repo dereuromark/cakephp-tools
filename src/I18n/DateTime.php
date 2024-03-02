@@ -80,14 +80,21 @@ class DateTime extends CakeDateTime {
 	 *
 	 * TODO: deprecate in favor of DateTime::diff() etc which will be more precise
 	 *
-	 * should only be used for < month (due to the different month lenghts it gets fuzzy)
+	 * should only be used for < month (due to the different month lengths it gets fuzzy)
 	 *
 	 * @param mixed $startTime (db format or timestamp)
-	 * @param mixed|null $endTime (db format or timestamp)
+	 * @param mixed $endTime (db format or timestamp)
 	 * @param array<string, mixed> $options
 	 * @return int The distance in seconds
 	 */
-	public static function difference($startTime, $endTime = null, array $options = []): int {
+	public static function difference($startTime, $endTime, array $options = []): int {
+		if ($startTime instanceof DateTimeInterface) {
+			$startTime = $startTime->getTimestamp();
+		}
+		if ($endTime instanceof DateTimeInterface) {
+			$endTime = $endTime->getTimestamp();
+		}
+
 		if (!is_int($startTime)) {
 			$startTime = strtotime($startTime);
 		}

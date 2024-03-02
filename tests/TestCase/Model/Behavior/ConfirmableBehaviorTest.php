@@ -18,12 +18,6 @@ class ConfirmableBehaviorTest extends TestCase {
 	 */
 	protected $ConfirmableBehavior;
 
-	/**
-	 * @return void
-	 */
-	public function setUp(): void {
-		parent::setUp();
-	}
 
 	/**
 	 * ConfirmableBehaviorTest::testBasicValidation()

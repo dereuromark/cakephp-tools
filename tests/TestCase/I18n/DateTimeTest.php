@@ -1,8 +1,9 @@
 <?php
 
-namespace Tools\Test\TestCase\Utility;
+namespace Tools\Test\TestCase\I18n;
 
 use Cake\Core\Configure;
+use Cake\I18n\Date;
 use DateTime as CoreDateTime;
 use Shim\TestSuite\TestCase;
 use Tools\I18n\DateTime;
@@ -235,19 +236,19 @@ class DateTimeTest extends TestCase {
 			//['2009-12-01 00:00:00', 'M', 'Dez.'],
 		];
 		foreach ($values as $v) {
-			$ret = $this->Time->localDate($v[0], $v[1], ['language' => 'de']);
+			$ret = $this->Time->niceDate($v[0], $v[1], ['language' => 'de']);
 			$this->assertEquals($v[2], $ret);
 		}
 
 		$date = '2009-12-01 00:00:00';
 		$format = 'd.m.Y';
-		$result = $this->Time->localDate($date, $format, ['language' => 'de', 'oclock' => true]);
+		$result = $this->Time->niceDate($date, $format, ['language' => 'de', 'oclock' => true]);
 		$expected = '01.12.2009';
 		$this->assertEquals($expected, $result);
 
 		$date = '2009-12-01 00:00:00';
 		$format = 'd.m.Y, H:i';
-		$result = $this->Time->localDate($date, $format, ['language' => 'de', 'oclock' => true]);
+		$result = $this->Time->niceDate($date, $format, ['language' => 'de', 'oclock' => true]);
 		$expected = '01.12.2009, 00:00 ' . __d('tools', 'o\'clock');
 		$this->assertEquals($expected, $result);
 	}
@@ -314,6 +315,8 @@ class DateTimeTest extends TestCase {
 		$values = [
 			['2010-02-23 11:11:11', '2010-02-23 11:12:01', 50],
 			['2010-02-23 11:11:11', '2010-02-24 11:12:01', DAY + 50],
+			[new DateTime('2010-02-23 11:11:11'), new DateTime('2010-02-23 11:12:01'), 50],
+			[new DateTime('2010-02-23 11:11:11'), new DateTime('2010-02-24 11:12:01'), DAY + 50],
 		];
 
 		foreach ($values as $v) {
