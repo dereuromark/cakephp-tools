@@ -3,6 +3,7 @@
 namespace Tools\Test\TestCase\Model\Behavior;
 
 use Shim\TestSuite\TestCase;
+use TestApp\Model\Table\PostsTable;
 
 class AfterSaveBehaviorTest extends TestCase {
 
@@ -80,6 +81,37 @@ class AfterSaveBehaviorTest extends TestCase {
 		// The stored one from before the save contains the info we want
 		$this->assertTrue($entityBefore->isDirty('body'));
 		$this->assertSame(['body' => 'test save'], $entityBefore->extractOriginal(['body']));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAfterSaveCallbackWihoutBehavior() {
+		$table = $this->getTableLocator()->get('Posts');
+		$this->assertInstanceOf(PostsTable::class, $table);
+
+		$entity = $table->newEmptyEntity();
+		$entity = $table->patchEntity($entity, ['author_id' => 1, 'title' => 'Some title']);
+
+		$this->assertNotEmpty($entity->getDirty());
+
+		$table->saveOrFail($entity);
+
+		$dirty = $entity->getDirty();
+		$this->assertSame([], $dirty);
+
+		$dirtyBefore = $table->dirtyFieldsBefore;
+		$dirtyAfter = $table->dirtyFieldsAfter;
+
+		$this->assertSame(['author_id', 'title'], $dirtyBefore);
+		$this->assertSame(['author_id', 'title', 'id'], $dirtyAfter);
+
+		// Now we edit existing entity with only one field
+		$entity->title = 'New title';
+		$table->saveOrFail($entity);
+
+		$dirtyAfter = $table->dirtyFieldsAfter;
+		$this->assertSame(['title'], $dirtyAfter);
 	}
 
 }

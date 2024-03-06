@@ -18,7 +18,6 @@ class ConfirmableBehaviorTest extends TestCase {
 	 */
 	protected $ConfirmableBehavior;
 
-
 	/**
 	 * ConfirmableBehaviorTest::testBasicValidation()
 	 *

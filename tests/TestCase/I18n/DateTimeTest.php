@@ -3,7 +3,6 @@
 namespace Tools\Test\TestCase\I18n;
 
 use Cake\Core\Configure;
-use Cake\I18n\Date;
 use DateTime as CoreDateTime;
 use Shim\TestSuite\TestCase;
 use Tools\I18n\DateTime;
