@@ -1,6 +1,6 @@
 # AfterSave Behavior
 
-A CakePHP behavior to allow the entity to be available inside afterSave() callback in the state
+A CakePHP behavior that allows the entity to be available after the save in the state
 it was before the save.
 It also allows it to be available outside of the afterSave() callback later on, where needed.
 
@@ -22,7 +22,7 @@ $this->addBehavior('Tools.AfterSave', $options);
 
 Then inside your table you can do:
 ```php
-public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options) {
+public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options): void {
     $entityBefore = $this->getEntityBeforeSave();
     // Now you can check diff dirty fields etc
 }
