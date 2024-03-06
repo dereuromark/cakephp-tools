@@ -2,6 +2,7 @@
 
 A CakePHP behavior to allow the entity to be available inside afterSave() callback in the state
 it was before the save.
+It also allows it to be available outside of the afterSave() callback later on, where needed.
 
 ## Introduction
 It takes a clone of the entity from beforeSave(). This allows all the
@@ -23,7 +24,7 @@ Then inside your table you can do:
 ```php
 public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options) {
     $entityBefore = $this->getEntityBeforeSave();
-    // Now you can check isDirty() etc
+    // Now you can check diff dirty fields etc
 }
 ```
 
@@ -36,3 +37,7 @@ $entityBefore = $table->getEntityBeforeSave();
 If you are using save(), make sure you check the result and that the save was successful.
 Only call this method after a successful save operation.
 Otherwise, there will not be an entity stored and you would get an exception here.
+
+Also note that by default the "dirty" fields should be present in the afterSave() callback still.
+Same for "original" values.
+So if your needs are bound to that callback only, this behavior might not be needed usually.
