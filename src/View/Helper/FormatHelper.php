@@ -350,7 +350,12 @@ class FormatHelper extends Helper {
 	}
 
 	/**
-	 * Returns red colored if not ok
+	 * Returns red colored if not ok.
+	 *
+	 * WARNING: This method requires manual escaping of input - h() must be used
+	 * for non HTML content.
+	 *
+	 * @deprecated Use Templating.Templating helper instead.
 	 *
 	 * @param string $value
 	 * @param mixed $ok Boolish value
@@ -365,10 +370,12 @@ class FormatHelper extends Helper {
 	}
 
 	/**
-	 * Returns green on ok, red otherwise
+	 * Returns green on ok, red otherwise.
 	 *
-	 * @todo Remove inline css and make classes better: green=>ok red=>not-ok
-	 *   Maybe use templating
+	 * WARNING: This method requires manual escaping of input - h() must be used
+	 *  for non HTML content.
+	 *
+	 * @deprecated Use Templating.Templating helper instead.
 	 *
 	 * @param mixed $content Output
 	 * @param bool $ok Boolish value
