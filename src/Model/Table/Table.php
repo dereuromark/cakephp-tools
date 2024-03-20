@@ -3,6 +3,7 @@
 namespace Tools\Model\Table;
 
 use Cake\I18n\Date;
+use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Cake\Validation\Validation;
 use InvalidArgumentException;
@@ -119,10 +120,14 @@ class Table extends ShimTable {
 			/** @var string $groupField */
 			$groupField = $this->getAssociation($tableName)->getForeignKey();
 		}
+		$tableClass = $this->$tableName->getClassName();
+		$table = TableRegistry::getTableLocator()->get($tableClass);
+		$order = $table->order ?? [$tableName . '.' . $this->$tableName->getDisplayField() => 'ASC'];
+
 		$defaults = [
 			'contain' => [$tableName],
 			'group' => $groupField,
-			'order' => $this->$tableName->order ?? [$tableName . '.' . $this->$tableName->getDisplayField() => 'ASC'],
+			'order' => $order,
 		];
 		if ($type === 'list') {
 			$propertyName = $this->getAssociation($tableName)->getProperty();
