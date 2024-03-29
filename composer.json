@@ -31,7 +31,7 @@
 		"dereuromark/cakephp-shim": "^3.0.0"
 	},
 	"require-dev": {
-		"fig-r/psr2r-sniffer": "dev-next",
+		"fig-r/psr2r-sniffer": "dev-master",
 		"mobiledetect/mobiledetectlib": "^3.74",
 		"phpunit/phpunit": "^10.1",
 		"yangqi/htmldom": "^1.0"
