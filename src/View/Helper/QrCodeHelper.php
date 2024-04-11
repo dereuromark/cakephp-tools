@@ -21,7 +21,7 @@ use Cake\View\View;
  *
  * NOTE: urls have a 2k limit - for the total amount of 4296 chars (7089 for numeric values only) you will need to send it via post
  *
- * TODO: set size according to text length automatically
+ * @deprecated Not working anymore, as Google deprecated it. Use https://github.com/dereuromark/cakephp-qrcode instead.
  *
  * @property \Cake\View\Helper\HtmlHelper $Html
  * @property \Cake\View\Helper\UrlHelper $Url
