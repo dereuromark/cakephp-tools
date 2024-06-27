@@ -122,7 +122,7 @@ class Table extends ShimTable {
 		}
 		$tableClass = $this->$tableName->getClassName();
 		$table = TableRegistry::getTableLocator()->get($tableClass);
-		$order = $table->order ?? [$tableName . '.' . $this->$tableName->getDisplayField() => 'ASC'];
+		$order = property_exists($table, 'order') ? $table->order : [$tableName . '.' . $table->getDisplayField() => 'ASC'];
 
 		$defaults = [
 			'contain' => [$tableName],
