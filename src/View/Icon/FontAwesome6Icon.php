@@ -39,6 +39,12 @@ class FontAwesome6Icon extends AbstractIcon {
 			$attributes += $this->config['attributes'];
 		}
 
+		// Shimming
+		if (isset($options['title'])) {
+			$attributes['title'] = $options['title'];
+			unset($options['title']);
+		}
+
 		$namespace = 'fa-' . $this->config['namespace'];
 
 		$class = [
