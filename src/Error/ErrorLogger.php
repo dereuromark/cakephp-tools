@@ -17,12 +17,16 @@ class ErrorLogger extends CoreErrorLogger {
 	 * @param \Throwable $exception The exception to log a message for.
 	 * @param \Psr\Http\Message\ServerRequestInterface|null $request The current request if available.
 	 *
-	 * @return bool
+	 * @return void
 	 */
-	public function log(Throwable $exception, ?ServerRequestInterface $request = null): bool {
+	public function logException(
+		Throwable $exception,
+		?ServerRequestInterface $request = null,
+		bool $includeTrace = false
+	): void {
 		foreach ($this->getConfig('skipLog') as $class) {
 			if ($exception instanceof $class) {
-				return false;
+				return;
 			}
 		}
 
@@ -36,12 +40,12 @@ class ErrorLogger extends CoreErrorLogger {
 
 			$message .= "\n\n";
 
-			return Log::write($level, $message, ['404']);
+			Log::write($level, $message, ['404']);
+
+			return;
 		}
 
 		parent::logException($exception, $request);
-
-		return true;
 	}
 
 }
