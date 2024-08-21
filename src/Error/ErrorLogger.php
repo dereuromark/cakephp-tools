@@ -16,13 +16,14 @@ class ErrorLogger extends CoreErrorLogger {
 	 *
 	 * @param \Throwable $exception The exception to log a message for.
 	 * @param \Psr\Http\Message\ServerRequestInterface|null $request The current request if available.
+	 * @param bool $includeTrace Should the log message include a stacktrace.
 	 *
 	 * @return void
 	 */
 	public function logException(
 		Throwable $exception,
 		?ServerRequestInterface $request = null,
-		bool $includeTrace = false
+		bool $includeTrace = false,
 	): void {
 		foreach ($this->getConfig('skipLog') as $class) {
 			if ($exception instanceof $class) {
