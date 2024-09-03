@@ -8,9 +8,7 @@ use RuntimeException;
 use Shim\TestSuite\TestCase;
 use Tools\Utility\Utility;
 
-/**
- * @coversDefaultClass \Tools\Utility\Utility
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(Utility::class)]
 class UtilityTest extends TestCase {
 
 	/**
@@ -43,7 +41,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::inArray
 	 * @return void
 	 */
 	public function testInArray() {
@@ -87,7 +84,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::pregMatch
 	 * @return void
 	 */
 	public function testPregMatch() {
@@ -121,7 +117,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::pregMatch
 	 * @return void
 	 */
 	public function testPregMatchWithPatternEscape() {
@@ -141,7 +136,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::pregMatchAll
 	 * @return void
 	 */
 	public function testPregMatchAll() {
@@ -163,7 +157,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::strSplit
 	 * @return void
 	 */
 	public function testStrSplit() {
@@ -176,7 +169,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::typeCast
 	 * @return void
 	 */
 	public function testTypeCast() {
@@ -186,7 +178,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::getClientIp
 	 * @return void
 	 */
 	public function testGetClientIp() {
@@ -195,7 +186,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::fileExists
 	 * @return void
 	 */
 	public function testFileExists() {
@@ -213,7 +203,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::urlExists
 	 * @return void
 	 */
 	public function testUrlExists() {
@@ -225,7 +214,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::getReferer
 	 * @return void
 	 */
 	public function testGetReferer() {
@@ -245,7 +233,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::getHeaderFromUrl
 	 * @return void
 	 */
 	public function testGetHeaderFromUrl() {
@@ -255,7 +242,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::autoPrefixUrl
 	 * @return void
 	 */
 	public function testAutoPrefixUrl() {
@@ -264,7 +250,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::autoPrefixUrl
 	 * @return void
 	 */
 	public function testAutoPrefixUrlWithDetection() {
@@ -273,7 +258,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::cleanUrl
 	 * @return void
 	 */
 	public function testCleanUrl() {
@@ -311,7 +295,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::trimDeep
 	 * @return void
 	 */
 	public function testDeep() {
@@ -343,7 +326,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::trimDeep
 	 * @return void
 	 */
 	public function testDeepTransformNullToString() {
@@ -545,7 +527,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::arrayFlatten
 	 * @return void
 	 */
 	public function testArrayFlattenBasic() {
@@ -570,7 +551,6 @@ class UtilityTest extends TestCase {
 	/**
 	 * Test that deeper nested values overwrite higher ones.
 	 *
-	 * @covers ::arrayFlatten
 	 * @return void
 	 */
 	public function testArrayFlatten() {
@@ -591,7 +571,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::arrayFlatten
 	 * @return void
 	 */
 	public function testArrayFlattenAndPreserveKeys() {
@@ -611,7 +590,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::arrayShiftKeys
 	 * @return void
 	 */
 	public function testArrayShiftKeys() {
@@ -632,7 +610,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::logicalAnd
 	 * @return void
 	 */
 	public function testLogicalAnd() {
@@ -656,7 +633,6 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
-	 * @covers ::logicalOr
 	 * @return void
 	 */
 	public function testLogicalOr() {

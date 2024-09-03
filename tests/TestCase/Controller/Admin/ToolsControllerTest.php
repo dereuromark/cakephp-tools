@@ -4,10 +4,9 @@ namespace Tools\Test\TestCase\Controller\Admin;
 
 use Cake\TestSuite\IntegrationTestTrait;
 use Shim\TestSuite\TestCase;
+use Tools\Controller\Admin\ToolsController;
 
-/**
- * @uses \Tools\Controller\Admin\ToolsController
- */
+#[\PHPUnit\Framework\Attributes\UsesClass(ToolsController::class)]
 class ToolsControllerTest extends TestCase {
 
 	use IntegrationTestTrait;

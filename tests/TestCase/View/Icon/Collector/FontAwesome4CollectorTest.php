@@ -10,12 +10,12 @@ class FontAwesome4CollectorTest extends TestCase {
 	/**
 	 * Show that we are still API compatible/valid.
 	 *
-	 * @dataProvider extensions
 	 *
 	 * @param string $extension
 	 *
 	 * @return void
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('extensions')]
 	public function testCollect(string $extension): void {
 		$path = TEST_FILES . 'font_icon' . DS . 'fa4' . DS . 'variables.' . $extension;
 

@@ -6,10 +6,9 @@ use Cake\Core\Configure;
 use Cake\TestSuite\IntegrationTestTrait;
 use RuntimeException;
 use Shim\TestSuite\TestCase;
+use Tools\Controller\ShuntRequestController;
 
-/**
- * @uses \Tools\Controller\ShuntRequestController
- */
+#[\PHPUnit\Framework\Attributes\UsesClass(ShuntRequestController::class)]
 class ShuntRequestControllerTest extends TestCase {
 
 	use IntegrationTestTrait;
@@ -27,6 +26,7 @@ class ShuntRequestControllerTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
+		$this->loadPlugins(['Tools']);
 		Configure::write('Config.allowedLanguages', []);
 		Configure::write('Config.defaultLanguage', null);
 	}

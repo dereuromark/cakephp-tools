@@ -5,11 +5,10 @@ namespace Tools\Test\TestCase\Controller\Admin;
 use Cake\Core\Configure;
 use Cake\TestSuite\IntegrationTestTrait;
 use Shim\TestSuite\TestCase;
+use Tools\Controller\Admin\IconsController;
 use Tools\View\Icon\BootstrapIcon;
 
-/**
- * @uses \Tools\Controller\Admin\IconsController
- */
+#[\PHPUnit\Framework\Attributes\UsesClass(IconsController::class)]
 class IconsControllerTest extends TestCase {
 
 	use IntegrationTestTrait;
