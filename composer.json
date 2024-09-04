@@ -27,7 +27,7 @@
 	},
 	"require": {
 		"php": ">=8.1",
-		"cakephp/cakephp": "dev-5.next as 5.1.0",
+		"cakephp/cakephp": "^5.0.3",
 		"dereuromark/cakephp-shim": "^3.0.0"
 	},
 	"require-dev": {
