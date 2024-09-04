@@ -5,12 +5,12 @@ namespace Tools\Test\TestCase\Command;
 
 use Cake\Console\TestSuite\ConsoleIntegrationTestTrait;
 use Cake\TestSuite\TestCase;
+use Tools\Command\InflectCommand;
 
 /**
  * Tools\Command\InflectCommand Test Case
- *
- * @uses \Tools\Command\InflectCommand
  */
+#[\PHPUnit\Framework\Attributes\UsesClass(InflectCommand::class)]
 class InflectCommandTest extends TestCase {
 
 	use ConsoleIntegrationTestTrait;
@@ -22,6 +22,7 @@ class InflectCommandTest extends TestCase {
 	 */
 	public function setUp(): void {
 		parent::setUp();
+		$this->loadPlugins(['Tools']);
 		//$this->useCommandRunner();
 	}
 

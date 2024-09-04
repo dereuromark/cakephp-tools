@@ -5,13 +5,10 @@ namespace Tools\Test\TestCase\Utility;
 use Shim\TestSuite\TestCase;
 use Tools\Utility\Clock;
 
-/**
- * @coversDefaultClass \Tools\Utility\Clock
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(Clock::class)]
 class ClockTest extends TestCase {
 
 	/**
-	 * @covers ::returnElapsedTime
 	 * @return void
 	 */
 	public function testTime() {

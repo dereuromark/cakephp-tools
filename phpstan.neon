@@ -2,8 +2,6 @@ parameters:
 	level: 6
 	paths:
 		- src/
-	checkMissingIterableValueType: false
-	checkGenericClassInNonGenericObjectType: false
 	treatPhpDocTypesAsCertain: false
 	bootstrapFiles:
 		- %rootDir%/../../../tests/bootstrap.php
@@ -12,6 +10,10 @@ parameters:
 		- %rootDir%/../../../src/Utility/Mime
 	reportUnmatchedIgnoredErrors: false
 	ignoreErrors:
+		-
+			identifier: missingType.generics
+		-
+			identifier: missingType.iterableValue
 		-
 			message: '#Undefined variable: .+#'
 			path: '%rootDir%/../../../src/View/Helper/TreeHelper.php'
