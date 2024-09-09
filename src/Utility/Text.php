@@ -385,7 +385,7 @@ class Text extends CakeText {
 	public function entitiesToAscii($str, $all = true) {
 		if (preg_match_all('/\&#(\d+)\;/', $str, $matches)) {
 			for ($i = 0, $s = count($matches['0']); $i < $s; $i++) {
-				$digits = $matches['1'][$i];
+				$digits = (int)$matches['1'][$i];
 
 				$out = '';
 
