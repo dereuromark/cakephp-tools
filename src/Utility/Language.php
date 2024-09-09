@@ -91,10 +91,11 @@ class Language {
 	 *
 	 * @param array<string> $accepted
 	 * @param array $available
+	 * @param bool $onlyTwoLetters
 	 * @return string|null
 	 */
-	public static function findFirstMatch(array $accepted, array $available = []) {
-		$matches = static::findMatches($accepted, $available);
+	public static function findFirstMatch(array $accepted, array $available = [], bool $onlyTwoLetters = false) {
+		$matches = static::findMatches($accepted, $available, $onlyTwoLetters);
 		if (!$matches) {
 			return null;
 		}
@@ -112,9 +113,10 @@ class Language {
 	 *
 	 * @param array<string> $accepted
 	 * @param array $available
+	 * @param bool $onlyTwoLetters
 	 * @return array
 	 */
-	public static function findMatches(array $accepted, array $available = []): array {
+	public static function findMatches(array $accepted, array $available = [], bool $onlyTwoLetters = false): array {
 		$matches = [];
 		if (!$available) {
 			$available = static::parseLanguageList();
@@ -127,7 +129,7 @@ class Language {
 				}
 
 				foreach ($availableValues as $availableValue) {
-					$matchingGrade = static::_matchLanguage($acceptedValue, $availableValue);
+					$matchingGrade = static::_matchLanguage($acceptedValue, $availableValue, $onlyTwoLetters);
 					if ($matchingGrade > 0) {
 						$q = (string)($availableQuality * $matchingGrade);
 						if ($q === '1') {
@@ -137,7 +139,7 @@ class Language {
 							$matches[$q] = [];
 						}
 						if (!in_array($availableValue, $matches[$q])) {
-							$matches[$q][] = $availableValue;
+							$matches[$q][] = $onlyTwoLetters ? $acceptedValue : $availableValue;
 						}
 					}
 				}
@@ -153,12 +155,15 @@ class Language {
 	 *
 	 * @param string $a
 	 * @param string $b
-	 *
+	 * @param bool $onlyTwoLetters
 	 * @return float
 	 */
-	protected static function _matchLanguage(string $a, string $b) {
+	protected static function _matchLanguage(string $a, string $b, bool $onlyTwoLetters = false) {
 		$a = explode('-', strtolower($a));
 		$b = explode('-', strtolower($b));
+		if ($onlyTwoLetters) {
+			return $a[0] === $b[0] ? 1 : 0;
+		}
 
 		for ($i = 0, $n = min(count($a), count($b)); $i < $n; $i++) {
 			if ($a[$i] !== $b[$i]) {
