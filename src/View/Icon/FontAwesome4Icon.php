@@ -41,7 +41,7 @@ class FontAwesome4Icon extends AbstractIcon {
 		// Shimming
 		if (isset($options['title'])) {
 			$attributes['title'] = $options['title'];
-            unset($options['title']);
+			unset($options['title']);
 		}
 
 		$namespace = 'fa';
