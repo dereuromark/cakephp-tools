@@ -417,7 +417,7 @@ class DateTimeTest extends TestCase {
 		$this->assertEquals('25', $this->Time->age($birthday, $relativeDate));
 
 		$relativeDate = '2010-04-09';
-		$this->assertEquals('25', $this->Time->age($birthday, $relativeDate));
+		$this->assertSame(25, $this->Time->age($birthday, $relativeDate));
 	}
 
 	/**

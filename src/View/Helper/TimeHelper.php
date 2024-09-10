@@ -5,6 +5,7 @@ namespace Tools\View\Helper;
 use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\Exception\CakeException;
+use Cake\I18n\Date;
 use Cake\View\Helper\TimeHelper as CakeTimeHelper;
 use Cake\View\View;
 
@@ -98,7 +99,7 @@ class TimeHelper extends CakeTimeHelper {
 	 * Output the age of a person within a sane range.
 	 * Defaults to the $default string if outside of that range.
 	 *
-	 * @param string|int|null $date
+	 * @param \Cake\I18n\Date|string|int|null $date
 	 * @param string $default
 	 * @return string Age on success, $default otherwise
 	 */
@@ -106,7 +107,10 @@ class TimeHelper extends CakeTimeHelper {
 		if ($date === null) {
 			return $default;
 		}
-		$age = $this->age($date, null);
+		if ($date instanceof Date) {
+			$date = $date->toNative();
+		}
+		$age = $this->age($date);
 		if ($age >= 1 && $age <= 99) {
 			return (string)$age;
 		}

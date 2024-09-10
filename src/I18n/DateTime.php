@@ -1301,7 +1301,6 @@ class DateTime extends CakeDateTime {
 			}
 			$date = mktime(0, 0, 0, (int)$pieces[1], (int)$pieces[0], (int)$year);
 		} elseif (strpos($date, '-') !== false) {
-			//$pieces = explode('-', $date);
 			$date = strtotime($date);
 		} else {
 			return 0;
