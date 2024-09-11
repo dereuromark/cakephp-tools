@@ -17,7 +17,7 @@ class Controller extends ShimController {
 	/**
 	 * @var array<string>
 	 */
-	protected array $autoRedirectActions = [];
+	public array $autoRedirectActions = [];
 
 	/**
 	 * Handles automatic pagination of model records.
