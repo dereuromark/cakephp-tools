@@ -5,6 +5,7 @@ namespace Tools\Controller\Component;
 use Cake\Controller\Component;
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
+use Cake\Routing\Router;
 
 /**
  * Uses a referer key in query string to redirect to given referer.
@@ -58,13 +59,17 @@ class RefererRedirectComponent extends Component {
 	 *
 	 * @return string|null
 	 */
-	protected function referer() {
+	protected function referer(): ?string {
 		$referer = $this->getController()->getRequest()->getQuery(static::QUERY_REFERER);
-		if (!$referer || !is_string($referer)) {
+		if (!$referer) {
 			return null;
 		}
 
-		if (!str_starts_with($referer, '/')) {
+		if (is_array($referer)) {
+			$referer = Router::url($referer);
+		}
+
+		if (!is_string($referer) || !str_starts_with($referer, '/')) {
 			return null;
 		}
 
