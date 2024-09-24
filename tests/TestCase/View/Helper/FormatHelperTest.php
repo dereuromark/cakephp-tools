@@ -133,17 +133,17 @@ class FormatHelperTest extends TestCase {
 	public function testGenderIcon() {
 		$result = $this->Format->genderIcon(0);
 
-		$expected = '<span class="bi bi-genderless" title="Inter"></span>';
+		$expected = '<span class="bi bi-genderless icon-inter" title="Inter"></span>';
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Format->genderIcon(1);
 
-		$expected = '<span class="bi bi-male" title="Male"></span>';
+		$expected = '<span class="bi bi-male icon-male" title="Male"></span>';
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Format->genderIcon(2);
 
-		$expected = '<span class="bi bi-female" title="Female"></span>';
+		$expected = '<span class="bi bi-female icon-female" title="Female"></span>';
 		$this->assertEquals($expected, $result);
 	}
 

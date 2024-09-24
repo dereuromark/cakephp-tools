@@ -184,10 +184,13 @@ class FormatHelper extends Helper {
 	public function genderIcon($value, array $options = [], array $attributes = []): string {
 		$value = (int)$value;
 		if ($value == static::GENDER_FEMALE) {
+			$attributes['class'] = 'icon-female';
 			$icon = $this->Icon->render('female', $options, $attributes);
 		} elseif ($value == static::GENDER_MALE) {
+			$attributes['class'] = 'icon-male';
 			$icon = $this->Icon->render('male', $options, $attributes);
 		} else {
+			$attributes['class'] = 'icon-inter';
 			$icon = $this->Icon->render('genderless', $options, $attributes + ['title' => __d('tools', 'Inter')]);
 		}
 
