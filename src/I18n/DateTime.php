@@ -141,6 +141,9 @@ class DateTime extends CakeDateTime {
 			return -1;
 		}
 
+		if ($startDate instanceof CakeDate) {
+			$startDate = $startDate->toNative();
+		}
 		$oDateInterval = $endDate->diff($startDate);
 
 		return $oDateInterval->y;
