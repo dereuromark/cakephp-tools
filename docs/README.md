@@ -68,6 +68,9 @@ Note: Using native enums is recommended since CakePHP 5.
 ### Command
 * [Inflect](Command/Inflect.md) to test inflection of words.
 
+### Backend
+* [Tools Backend](Backend.md) for useful backend tools.
+
 ## IDE compatibility improvements
 For some methods you can find a IdeHelper task in [IdeHelperExtra plugin](https://github.com/dereuromark/cakephp-ide-helper-extra/):
 - `IconHelper::render()` (deprecated)

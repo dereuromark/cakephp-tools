@@ -4,10 +4,10 @@ namespace Tools\Test\TestCase\Controller\Admin;
 
 use Cake\TestSuite\IntegrationTestTrait;
 use Shim\TestSuite\TestCase;
-use Tools\Controller\Admin\ToolsController;
+use Tools\Controller\Admin\PagesController;
 
-#[\PHPUnit\Framework\Attributes\UsesClass(ToolsController::class)]
-class ToolsControllerTest extends TestCase {
+#[\PHPUnit\Framework\Attributes\UsesClass(PagesController::class)]
+class PagesControllerTest extends TestCase {
 
 	use IntegrationTestTrait;
 
@@ -17,7 +17,7 @@ class ToolsControllerTest extends TestCase {
 	public function testIndex() {
 		$this->disableErrorHandlerMiddleware();
 
-		$this->get(['prefix' => 'Admin', 'plugin' => 'Tools', 'controller' => 'Tools', 'action' => 'index']);
+		$this->get(['prefix' => 'Admin', 'plugin' => 'Tools', 'controller' => 'Pages', 'action' => 'index']);
 
 		$this->assertResponseCode(200);
 		$this->assertNoRedirect();

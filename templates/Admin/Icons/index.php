@@ -8,6 +8,7 @@
 	<div class="col-lg-6">
 		<h1>Font Icons</h1>
 		<p>As configured in app.php (through `Icon.map`)</p>
+		<p><i>Note: Deprecated, moved to Templating plugin backend.</i></p>
 
 		<?php
 		$icons = $this->Icon->getConfig('map');
