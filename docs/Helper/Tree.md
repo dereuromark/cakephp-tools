@@ -114,6 +114,55 @@ You can also just pass the current entity (`'autoPath' => $current`) and it will
 
 The `treePath` is optional and needed for additional things like hiding unrelated siblings etc.
 
+## Custom data array
+
+You can also use any custom data array for building a tree, as long as it contains `children` elements per element:
+
+```php
+$treeData = [
+    [
+        'name' => 'Foo',
+        'children' => [
+            [
+                'name' => 'Bar',
+                'children' => [
+                ],
+            ],
+            [
+                'name' => 'Baz',
+                'children' => [
+                    [
+                        'name' => 'Baz Child',
+                        'children' => [
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
+];
+
+$this->expectException(RuntimeException::class);
+$this->expectExceptionMessage('Invalid Tree Structure: Array');
+
+echo $this->Tree->generate($treeData);
+```
+will output
+```html
+<ul>
+	<li>Foo
+	<ul>
+		<li>Bar</li>
+		<li>Baz
+		<ul>
+			<li>Baz Child</li>
+		</ul>
+		</li>
+	</ul>
+	</li>
+</ul>
+```
+
 ## Outview
 
 You can read some more tutorial like details in [my blog post](https://www.dereuromark.de/2013/02/17/cakephp-and-tree-structures/).
