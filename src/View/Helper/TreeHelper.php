@@ -12,7 +12,7 @@ namespace Tools\View\Helper;
 
 use Cake\Core\Configure;
 use Cake\View\Helper;
-use Exception;
+use RuntimeException;
 
 /**
  * Helper to generate tree representations of MPTT or recursively nested data.
@@ -230,7 +230,7 @@ class TreeHelper extends Helper {
 					$lastChild = true;
 				}
 			} else {
-				throw new Exception('Invalid Tree Structure');
+				throw new RuntimeException('Invalid Tree Structure: ' . print_r($result, true));
 			}
 
 			$activePathElement = null;
@@ -309,7 +309,6 @@ class TreeHelper extends Helper {
 				if ($numberOfDirectChildren) {
 					$config['depth'] = $depth + 1;
 					$children = $result['children'];
-					//unset($result['children']);
 
 					$return .= $this->_suffix();
 					$return .= $this->_generate($children, $config, $result);
@@ -534,7 +533,7 @@ class TreeHelper extends Helper {
 	 * @throws \Exception
 	 * @return void
 	 */
-	protected function _markUnrelatedAsHidden(&$tree, array $path, $level = 0) {
+	protected function _markUnrelatedAsHidden(&$tree, array $path, int $level = 0) {
 		extract($this->_config);
 		$siblingIsActive = false;
 		foreach ($tree as $key => &$subTree) {
@@ -542,7 +541,7 @@ class TreeHelper extends Helper {
 				$subTree = $subTree->toArray();
 			}
 			if (!isset($subTree['children'])) {
-				throw new Exception('Only works with threaded (nested children) results');
+				throw new RuntimeException('Only works with threaded (nested children) results: ' . print_r($subTree, true));
 			}
 
 			if (!empty($path[$level]) && $subTree['id'] == $path[$level]) {

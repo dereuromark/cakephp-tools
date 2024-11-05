@@ -6,6 +6,7 @@ use Cake\Datasource\ConnectionManager;
 use Cake\ORM\Entity;
 use Cake\Utility\Hash;
 use Cake\View\View;
+use RuntimeException;
 use Shim\TestSuite\TestCase;
 use Tools\View\Helper\TreeHelper;
 
@@ -662,6 +663,86 @@ TEXT;
 		$output = str_replace(["\t", "\r", "\n"], '', $output);
 		$expected = str_replace(["\t", "\r", "\n"], '', $expected);
 		$this->assertTextEquals($expected, $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testGenerateFromArrayWithChildren(): void {
+		$treeData = [
+			[
+				'name' => 'Foo',
+				'children' => [
+					[
+						'name' => 'Bar',
+						'children' => [
+						],
+					],
+					[
+						'name' => 'Baz',
+						'children' => [
+							[
+								'name' => 'Baz Child',
+								'children' => [],
+							],
+						],
+					],
+				],
+			],
+		];
+
+		$output = $this->Tree->generate($treeData);
+		$expected = <<<TEXT
+
+<ul>
+	<li>Foo
+	<ul>
+		<li>Bar</li>
+		<li>Baz
+		<ul>
+			<li>Baz Child</li>
+		</ul>
+		</li>
+	</ul>
+	</li>
+</ul>
+
+TEXT;
+		$output = str_replace(["\t", "\r", "\n"], '', $output);
+		$expected = str_replace(["\t", "\r", "\n"], '', $expected);
+		$this->assertTextEquals($expected, $output);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testGenerateFromArrayWithChildrenInvalid(): void {
+		$treeData = [
+			[
+				'name' => 'Foo',
+				'children' => [
+					[
+						'name' => 'Bar',
+						'children' => [
+						],
+					],
+					[
+						'name' => 'Baz',
+						'children' => [
+							[
+								'name' => 'Baz Child',
+								//'children' => [] // Missing element
+							],
+						],
+					],
+				],
+			],
+		];
+
+		$this->expectException(RuntimeException::class);
+		$this->expectExceptionMessage('Invalid Tree Structure: Array');
+
+		$this->Tree->generate($treeData);
 	}
 
 	/**
