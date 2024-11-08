@@ -137,6 +137,7 @@ class Mailer extends CakeMailer {
 	 * @return void
 	 */
 	protected function restoreLocale() {
+		assert($this->localeBefore !== null);
 		I18n::setLocale($this->localeBefore);
 	}
 

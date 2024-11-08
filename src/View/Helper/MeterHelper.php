@@ -84,9 +84,9 @@ class MeterHelper extends Helper {
 		];
 		$options += $defaults;
 
-		$value = $this->prepareValue($value, $max, $min, $options['overflow']);
+		$value = $this->prepareValue($value, $max, $min ?? 0.0, $options['overflow']);
 		$max = $this->prepareMax($value, $max, $options['overflow']);
-		$min = $this->prepareMin($value, $min, $options['overflow']);
+		$min = $this->prepareMin($value, $min ?? 0.0, $options['overflow']);
 
 		$progress = $this->calculatePercentage($max - $min, $value - $min);
 

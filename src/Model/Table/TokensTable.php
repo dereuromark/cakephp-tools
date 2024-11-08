@@ -233,6 +233,7 @@ class TokensTable extends Table {
 			$length = $this->defaultLength;
 		}
 
+		/** @var callable $function */
 		$function = 'random_bytes';
 		$value = bin2hex($function((int)($length / 2)));
 		if (strlen($value) !== $length) {

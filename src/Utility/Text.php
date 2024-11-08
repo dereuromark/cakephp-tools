@@ -200,7 +200,7 @@ class Text extends CakeText {
 			// or includes a comma or quote character), we remove the escape
 			// formatting so to save the term into the database as the user intends.
 			/** @var string $replacedString */
-			$replacedString = str_replace('""', '"', preg_replace('/^"(.*)"$/', '\1', $tag));
+			$replacedString = str_replace('""', '"', (string)preg_replace('/^"(.*)"$/', '\1', $tag));
 			$tag = trim($replacedString);
 			if ($tag) {
 				$tags[] = $tag;
@@ -430,8 +430,8 @@ class Text extends CakeText {
 	 * @param string $str
 	 * @return string
 	 */
-	public function reduceDoubleSlashes($str) {
-		return preg_replace('#([^:])//+#', '\\1/', $str);
+	public function reduceDoubleSlashes(string $str): string {
+		return (string)preg_replace('#([^:])//+#', '\\1/', $str);
 	}
 
 }

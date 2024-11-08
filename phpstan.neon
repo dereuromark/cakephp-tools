@@ -1,5 +1,5 @@
 parameters:
-	level: 6
+	level: 8
 	paths:
 		- src/
 	treatPhpDocTypesAsCertain: false
@@ -8,6 +8,7 @@ parameters:
 	excludePaths:
 		- %rootDir%/../../../src/TestSuite/*
 		- %rootDir%/../../../src/Utility/Mime
+		- %rootDir%/../../../src/View/Helper/QrCodeHelper.php
 	reportUnmatchedIgnoredErrors: false
 	ignoreErrors:
 		-

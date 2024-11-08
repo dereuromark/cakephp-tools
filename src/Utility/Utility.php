@@ -321,7 +321,9 @@ class Utility {
 			return false;
 		}
 
-		$urlArray = array_map('trim', $urlArray);
+		/** @var callable $callback */
+		$callback = 'trim';
+		$urlArray = array_map($callback, $urlArray);
 		$urlArray['port'] = (!isset($urlArray['port'])) ? '' : (':' . (int)$urlArray['port']);
 		$path = (isset($urlArray['path'])) ? $urlArray['path'] : '';
 
@@ -341,7 +343,8 @@ class Utility {
 		stream_context_get_default($defaults);
 
 		if (isset($urlArray['host']) && $urlArray['host'] !== gethostbyname($urlArray['host'])) {
-			$urlArray = "$urlArray[scheme]://$urlArray[host]$urlArray[port]$path";
+			$scheme = $urlArray['scheme'] ?? '';
+			$urlArray = "$scheme://$urlArray[host]$urlArray[port]$path";
 			try {
 				$headers = get_headers($urlArray);
 			} catch (Exception $exception) {
@@ -497,7 +500,9 @@ class Utility {
 	 * @return array|string
 	 */
 	public static function specialcharsDeep($value) {
-		$value = is_array($value) ? array_map('self::specialcharsDeep', $value) : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+		/** @var callable $callable */
+		$callable = 'self::specialcharsDeep';
+		$value = is_array($value) ? array_map($callable, $value) : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 
 		return $value;
 	}
@@ -505,12 +510,15 @@ class Utility {
 	/**
 	 * Main deep method
 	 *
-	 * @param callable|string $function Callable or function name.
+	 * @param string $function Callable or function name.
 	 * @param mixed $value
 	 * @return array|string
 	 */
 	public static function deep($function, $value) {
-		$value = is_array($value) ? array_map('self::' . $function, $value) : $function($value);
+		/** @var callable $callable */
+		$callable = 'self::' . $function;
+		/** @var callable $function */
+		$value = is_array($value) ? array_map($callable, $value) : $function($value);
 
 		return $value;
 	}

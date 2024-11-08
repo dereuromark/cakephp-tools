@@ -163,15 +163,16 @@ JS;
 				continue;
 			}
 			if (is_string($value)) {
-				$value = '\'' . $value . '\'';
+				$stringValue = '\'' . $value . '\'';
 			} elseif (is_object($value)) { // Datetime?
-				$value = $this->_date($value);
+				/** @var \DateTimeInterface|\Cake\Chronos\Chronos $value */
+				$stringValue = $this->_date($value);
 			} elseif (is_bool($value)) {
-				$value = $value ? 'true' : 'false';
+				$stringValue = $value ? 'true' : 'false';
 			} else {
-				$value = str_replace('\'', '\\\'', $value);
+				$stringValue = str_replace('\'', '\\\'', $value);
 			}
-			$e[] = '\'' . $option . '\': ' . $value;
+			$e[] = '\'' . $option . '\': ' . $stringValue;
 		}
 		$string = '{' . PHP_EOL . "\t" . implode(',' . PHP_EOL . "\t", $e) . PHP_EOL . '}';
 

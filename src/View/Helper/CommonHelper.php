@@ -104,7 +104,7 @@ class CommonHelper extends Helper {
 			$options['lang'] = Configure::read('Config.locale');
 		}
 
-		return $this->Html->meta('description', $content, $options);
+		return (string)$this->Html->meta('description', $content, $options);
 	}
 
 	/**
@@ -132,7 +132,7 @@ class CommonHelper extends Helper {
 			$options['lang'] = Configure::read('Config.locale');
 		}
 
-		return $this->Html->meta('keywords', $keywords, $options);
+		return (string)$this->Html->meta('keywords', $keywords, $options);
 	}
 
 	/**
@@ -146,7 +146,7 @@ class CommonHelper extends Helper {
 		$canonical = $this->Url->build($url, ['fullBase' => $full]);
 		$options = ['rel' => 'canonical', 'link' => $canonical];
 
-		return $this->Html->meta($options);
+		return (string)$this->Html->meta($options);
 	}
 
 	/**

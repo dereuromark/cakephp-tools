@@ -100,25 +100,25 @@ class TypographyHelper extends Helper {
 	 * @param bool $reduceLinebreaks Whether to reduce more then two consecutive newlines to two
 	 * @return string Text
 	 */
-	public function autoTypography($str, $reduceLinebreaks = false) {
+	public function autoTypography(string $str, bool $reduceLinebreaks = false): string {
 		if ($str === '') {
 			return '';
 		}
 
 		// Standardize Newlines to make matching easier
-		if (strpos($str, "\r") !== false) {
+		if (str_contains($str, "\r")) {
 			$str = str_replace(["\r\n", "\r"], "\n", $str);
 		}
 
 		// Reduce line breaks. If there are more than two consecutive linebreaks
 		// we'll compress them down to a maximum of two since there's no benefit to more.
 		if ($reduceLinebreaks === true) {
-			$str = preg_replace("/\n\n+/", "\n\n", $str);
+			$str = (string)preg_replace("/\n\n+/", "\n\n", $str);
 		}
 
 		// HTML comment tags don't conform to patterns of normal tags, so pull them out separately, only if needed
 		$htmlComments = [];
-		if (strpos($str, '<!--') !== false) {
+		if (str_contains($str, '<!--')) {
 			if (preg_match_all("#(<!\-\-.*?\-\->)#s", $str, $matches)) {
 				for ($i = 0, $total = count($matches[0]); $i < $total; $i++) {
 					$htmlComments[] = $matches[0][$i];
@@ -129,22 +129,22 @@ class TypographyHelper extends Helper {
 
 		// match and yank <pre> tags if they exist. It's cheaper to do this separately since most content will
 		// not contain <pre> tags, and it keeps the PCRE patterns below simpler and faster
-		if (strpos($str, '<pre') !== false) {
-			$str = preg_replace_callback('#<pre.*?>.*?</pre>#si', [$this, '_protectCharacters'], $str);
+		if (str_contains($str, '<pre')) {
+			$str = (string)preg_replace_callback('#<pre.*?>.*?</pre>#si', [$this, '_protectCharacters'], $str);
 		}
 
 		// Convert quotes within tags to temporary markers.
-		$str = preg_replace_callback('#<.+?>#si', [$this, '_protectCharacters'], $str);
+		$str = (string)preg_replace_callback('#<.+?>#si', [$this, '_protectCharacters'], $str);
 
 		// Do the same with braces if necessary
 		if ($this->protectBracedQuotes === true) {
-			$str = preg_replace_callback("#\{.+?\}#si", [$this, '_protectCharacters'], $str);
+			$str = (string)preg_replace_callback("#\{.+?\}#si", [$this, '_protectCharacters'], $str);
 		}
 
 		// Convert "ignore" tags to temporary marker. The parser splits out the string at every tag
 		// it encounters. Certain inline tags, like image tags, links, span tags, etc. will be
 		// adversely affected if they are split out so we'll convert the opening bracket < temporarily to: {@TAG}
-		$str = preg_replace('#<(/*)(' . $this->inlineElements . ')([ >])#i', '{@TAG}\\1\\2\\3', $str);
+		$str = (string)preg_replace('#<(/*)(' . $this->inlineElements . ')([ >])#i', '{@TAG}\\1\\2\\3', $str);
 
 		// Split the string at every tag. This expression creates an array with this prototype:
 		//
@@ -202,7 +202,7 @@ class TypographyHelper extends Helper {
 
 		// No opening block level tag? Add it if needed.
 		if (!preg_match("/^\s*<(?:" . $this->blockElements . ')/i', $str)) {
-			$str = preg_replace('/^(.*?)<(' . $this->blockElements . ')/i', '<p>$1</p><$2', $str);
+			$str = (string)preg_replace('/^(.*?)<(' . $this->blockElements . ')/i', '<p>$1</p><$2', $str);
 		}
 
 		// Convert quotes, elipsis, em-dashes, non-breaking spaces, and ampersands
@@ -213,7 +213,7 @@ class TypographyHelper extends Helper {
 			// remove surrounding paragraph tags, but only if there's an opening paragraph tag
 			// otherwise HTML comments at the ends of paragraphs will have the closing tag removed
 			// if '<p>{@HC1}' then replace <p>{@HC1}</p> with the comment, else replace only {@HC1} with the comment
-			$str = preg_replace('#(?(?=<p>\{@HC' . $i . '\})<p>\{@HC' . $i . '\}(\s*</p>)|\{@HC' . $i . '\})#s', $htmlComments[$i], $str);
+			$str = (string)preg_replace('#(?(?=<p>\{@HC' . $i . '\})<p>\{@HC' . $i . '\}(\s*</p>)|\{@HC' . $i . '\})#s', $htmlComments[$i], $str);
 		}
 
 		// Final clean up
@@ -259,7 +259,7 @@ class TypographyHelper extends Helper {
 			$table['#<p></p>#'] = '<p>&nbsp;</p>';
 		}
 
-		return preg_replace(array_keys($table), $table, $str);
+		return (string)preg_replace(array_keys($table), $table, $str);
 	}
 
 	/**
@@ -354,7 +354,7 @@ class TypographyHelper extends Helper {
 			}
 		}
 
-		return preg_replace(array_keys($table), $table, $str);
+		return (string)preg_replace(array_keys($table), $table, $str);
 	}
 
 	/**
@@ -404,7 +404,7 @@ class TypographyHelper extends Helper {
 		$str = str_replace("\n\n", "</p>\n\n<p>", $str);
 
 		// Convert single spaces to <br /> tags
-		$str = preg_replace("/([^\n])(\n)([^\n])/", '\\1<br />\\2\\3', $str);
+		$str = (string)preg_replace("/([^\n])(\n)([^\n])/", '\\1<br />\\2\\3', $str);
 
 		// Wrap the whole enchilada in enclosing paragraphs
 		if ($str !== "\n") {
@@ -416,7 +416,7 @@ class TypographyHelper extends Helper {
 
 		// Remove empty paragraphs if they are on the first line, as this
 		// is a potential unintended consequence of the previous code
-		$str = preg_replace("/<p><\/p>(.*)/", '\\1', $str, 1);
+		$str = (string)preg_replace("/<p><\/p>(.*)/", '\\1', $str, 1);
 
 		return $str;
 	}

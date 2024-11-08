@@ -159,7 +159,7 @@ class ObfuscateHelper extends Helper {
 	 * @param string|null $replacement the optional replacement value
 	 * @return string
 	 */
-	public function wordCensor($str, array $censored, $replacement = null) {
+	public function wordCensor(string $str, array $censored, ?string $replacement = null) {
 		if (!$censored) {
 			return $str;
 		}
@@ -173,9 +173,9 @@ class ObfuscateHelper extends Helper {
 
 		foreach ($censored as $badword) {
 			if ($replacement !== null) {
-				$str = preg_replace("/({$delim})(" . str_replace('\*', '\w*?', preg_quote($badword, '/')) . ")({$delim})/i", "\\1{$replacement}\\3", $str);
+				$str = (string)preg_replace("/({$delim})(" . str_replace('\*', '\w*?', preg_quote($badword, '/')) . ")({$delim})/i", "\\1{$replacement}\\3", $str);
 			} else {
-				$str = preg_replace_callback("/({$delim})(" . str_replace('\*', '\w*?', preg_quote($badword, '/')) . ")({$delim})/i", function ($matches) {
+				$str = (string)preg_replace_callback("/({$delim})(" . str_replace('\*', '\w*?', preg_quote($badword, '/')) . ")({$delim})/i", function ($matches) {
 					return $matches[1] . str_repeat('#', strlen($matches[2])) . $matches[3];
 				}, $str);
 			}

@@ -13,6 +13,7 @@ use DateTimeInterface;
 use DateTimeZone;
 use IntlDateFormatter;
 use InvalidArgumentException;
+use RuntimeException;
 
 /**
  * Extend CakeTime with a few important improvements:
@@ -144,6 +145,10 @@ class DateTime extends CakeDateTime {
 		if ($startDate instanceof CakeDate) {
 			$startDate = $startDate->toNative();
 		}
+		/**
+		 * @var \DateTimeInterface $startDate
+		 * @var \DateTimeInterface $endDate
+		 */
 		$oDateInterval = $endDate->diff($startDate);
 
 		return $oDateInterval->y;
@@ -159,22 +164,22 @@ class DateTime extends CakeDateTime {
 	 */
 	public static function ageByYear(int $year, ?int $month = null): string {
 		if ($month === null) {
-			$maxAge = static::age(mktime(0, 0, 0, 1, 1, $year));
-			$minAge = static::age(mktime(23, 59, 59, 12, 31, $year));
+			$maxAge = static::age((int)mktime(0, 0, 0, 1, 1, $year));
+			$minAge = static::age((int)mktime(23, 59, 59, 12, 31, $year));
 			$ages = array_unique([$minAge, $maxAge]);
 
 			return implode('/', $ages);
 		}
 		if ((int)date('n') === $month) {
-			$maxAge = static::age(mktime(0, 0, 0, $month, 1, $year));
-			$minAge = static::age(mktime(23, 59, 59, $month, static::daysInMonth($year, $month), $year));
+			$maxAge = static::age((int)mktime(0, 0, 0, $month, 1, $year));
+			$minAge = static::age((int)mktime(23, 59, 59, $month, static::daysInMonth($year, $month), $year));
 
 			$ages = array_unique([$minAge, $maxAge]);
 
 			return implode('/', $ages);
 		}
 
-		return (string)static::age(mktime(0, 0, 0, $month, 1, $year));
+		return (string)static::age((int)mktime(0, 0, 0, $month, 1, $year));
 	}
 
 	/**
@@ -187,7 +192,7 @@ class DateTime extends CakeDateTime {
 	 * @param int|null $day
 	 * @param int $steps
 	 *
-	 * @return mixed
+	 * @return array<int>|int
 	 */
 	public static function ageRange(int $year, ?int $month = null, ?int $day = null, int $steps = 1) {
 		if ($month == null && $day == null) {
@@ -228,7 +233,7 @@ class DateTime extends CakeDateTime {
 	 * @return int Days
 	 */
 	public static function daysInMonth(int $year, int $month): int {
-		return (int)date('t', mktime(0, 0, 0, $month, 1, $year));
+		return (int)date('t', (int)mktime(0, 0, 0, $month, 1, $year));
 	}
 
 	/**
@@ -247,7 +252,7 @@ class DateTime extends CakeDateTime {
 		if ($dateString) {
 			$date = explode(' ', $dateString);
 			[$y, $m, $d] = explode('-', $date[0]);
-			$t = mktime(0, 0, 0, (int)$m, (int)$d, (int)$y);
+			$t = (int)mktime(0, 0, 0, (int)$m, (int)$d, (int)$y);
 		} else {
 			$y = date('Y');
 			$t = time();
@@ -292,15 +297,15 @@ class DateTime extends CakeDateTime {
 	 */
 	public static function cWeekBeginning(int $year, int $cWeek = 0): int {
 		if ($cWeek <= 1 || $cWeek > static::cWeeks($year)) {
-			$first = mktime(0, 0, 0, 1, 1, $year);
+			$first = (int)mktime(0, 0, 0, 1, 1, $year);
 			$weekDay = (int)date('w', $first);
 
 			if ($weekDay <= 4) {
 				/* Thursday or less: back to Monday */
-				$firstmonday = mktime(0, 0, 0, 1, 1 - ($weekDay - 1), $year);
+				$firstmonday = (int)mktime(0, 0, 0, 1, 1 - ($weekDay - 1), $year);
 			} elseif ($weekDay !== 1) {
 				/* Back to Monday */
-				$firstmonday = mktime(0, 0, 0, 1, 1 + (7 - $weekDay + 1), $year);
+				$firstmonday = (int)mktime(0, 0, 0, 1, 1 + (7 - $weekDay + 1), $year);
 			} else {
 				$firstmonday = $first;
 			}
@@ -341,10 +346,10 @@ class DateTime extends CakeDateTime {
 	 */
 	public static function cWeeks(?int $year = null): int {
 		if ($year === null) {
-			$year = date('Y');
+			$year = (int)date('Y');
 		}
 
-		return (int)date('W', mktime(23, 59, 59, 12, 28, $year));
+		return (int)date('W', (int)mktime(23, 59, 59, 12, 28, $year));
 	}
 
 	/**
@@ -354,7 +359,7 @@ class DateTime extends CakeDateTime {
 	 * @param int $years Years to increment/decrement
 	 * @param int $months Months to increment/decrement
 	 * @param int $days Days
-	 * @param \DateTimeZone|string|int|null $timezone Timezone string or DateTimeZone object
+	 * @param \DateTimeZone|string|null $timezone Timezone string or DateTimeZone object
 	 * @return object DateTime with incremented/decremented month/year values.
 	 */
 	public function incrementDate($startDate, $years = 0, $months = 0, $days = 0, $timezone = null) {
@@ -400,8 +405,8 @@ class DateTime extends CakeDateTime {
 		//TODO: other relative time then today should work as well
 		$date = new CakeDateTime($relativeTime ?? 'now');
 
-		$max = mktime(23, 23, 59, (int)$date->format('m'), (int)$date->format('d'), (int)$date->format('Y') - $firstAge);
-		$min = mktime(0, 0, 1, (int)$date->format('m'), (int)$date->format('d') + 1, (int)$date->format('Y') - $secondAge - 1);
+		$max = (int)mktime(23, 23, 59, (int)$date->format('m'), (int)$date->format('d'), (int)$date->format('Y') - $firstAge);
+		$min = (int)mktime(0, 0, 1, (int)$date->format('m'), (int)$date->format('d') + 1, (int)$date->format('Y') - $secondAge - 1);
 
 		if ($returnAsString) {
 			$max = date(FORMAT_DB_DATE, $max);
@@ -447,18 +452,20 @@ class DateTime extends CakeDateTime {
 		];
 		$options += $defaults;
 
-		if ($options['timezone'] === null && strlen($dateString) === 10) {
-			$options['timezone'] = static::_getDefaultOutputTimezone();
+		/** @var \DateTimeZone|string|null $timezone */
+		$timezone = $options['timezone'];
+		if ($timezone === null && $dateString && strlen($dateString) === 10) {
+			$timezone = static::_getDefaultOutputTimezone();
 		}
 		if ($dateString === null) {
 			$dateString = time();
 		}
-		if ($options['timezone']) {
-			$options['timezone'] = static::safeCreateDateTimeZone($options['timezone']);
+		if ($timezone) {
+			$timezone = static::safeCreateDateTimeZone($timezone);
 		}
-		$date = new self($dateString, $options['timezone']);
+		$date = new self($dateString, $timezone);
 		if ($format === null) {
-			if (is_int($dateString) || strpos($dateString, ' ') !== false) {
+			if (is_int($dateString) || str_contains($dateString, ' ')) {
 				$format = 'd.m.Y, H:i';
 			} else {
 				$format = 'd.m.Y';
@@ -513,7 +520,7 @@ class DateTime extends CakeDateTime {
 				IntlDateFormatter::GREGORIAN,
 				$IntlFormat,
 			);
-			$replace = $fmt ? datefmt_format($fmt, $dt) : '???';
+			$replace = $fmt ? (string)datefmt_format($fmt, $dt) : '???';
 			$strDate = str_replace($match[0], $replace, $strDate);
 		}
 
@@ -974,7 +981,7 @@ class DateTime extends CakeDateTime {
 			$date = $dateTime->format('U');
 			$sec = time() - $date;
 			$type = ($sec > 0) ? -1 : (($sec < 0) ? 1 : 0);
-			$sec = abs($sec);
+			$sec = (int)abs($sec);
 		} else {
 			$sec = 0;
 			$type = 0;
@@ -1073,11 +1080,11 @@ class DateTime extends CakeDateTime {
 	public static function parseLocalizedDate($date, $format = null, $type = 'start'): string {
 		$date = trim($date);
 		$i18n = [
-			strtolower(__d('tools', 'Today')) => ['start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, (int)date('m'), (int)date('d'), (int)date('Y'))), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, (int)date('m'), (int)date('d'), (int)date('Y')))],
-			strtolower(__d('tools', 'Tomorrow')) => ['start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, (int)date('m'), (int)date('d'), (int)date('Y')) + DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, (int)date('m'), (int)date('d'), (int)date('Y')) + DAY)],
-			strtolower(__d('tools', 'Yesterday')) => ['start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, (int)date('m'), (int)date('d'), (int)date('Y')) - DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, (int)date('m'), (int)date('d'), (int)date('Y')) - DAY)],
-			strtolower(__d('tools', 'The day after tomorrow')) => ['start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, (int)date('m'), (int)date('d'), (int)date('Y')) + 2 * DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, (int)date('m'), (int)date('d'), (int)date('Y')) + 2 * DAY)],
-			strtolower(__d('tools', 'The day before yesterday')) => ['start' => date(FORMAT_DB_DATETIME, mktime(0, 0, 0, (int)date('m'), (int)date('d'), (int)date('Y')) - 2 * DAY), 'end' => date(FORMAT_DB_DATETIME, mktime(23, 59, 59, (int)date('m'), (int)date('d'), (int)date('Y')) - 2 * DAY)],
+			strtolower(__d('tools', 'Today')) => ['start' => date(FORMAT_DB_DATETIME, (int)mktime(0, 0, 0, (int)date('m'), (int)date('d'), (int)date('Y'))), 'end' => date(FORMAT_DB_DATETIME, (int)mktime(23, 59, 59, (int)date('m'), (int)date('d'), (int)date('Y')))],
+			strtolower(__d('tools', 'Tomorrow')) => ['start' => date(FORMAT_DB_DATETIME, (int)mktime(0, 0, 0, (int)date('m'), (int)date('d'), (int)date('Y')) + DAY), 'end' => date(FORMAT_DB_DATETIME, (int)mktime(23, 59, 59, (int)date('m'), (int)date('d'), (int)date('Y')) + DAY)],
+			strtolower(__d('tools', 'Yesterday')) => ['start' => date(FORMAT_DB_DATETIME, (int)mktime(0, 0, 0, (int)date('m'), (int)date('d'), (int)date('Y')) - DAY), 'end' => date(FORMAT_DB_DATETIME, (int)mktime(23, 59, 59, (int)date('m'), (int)date('d'), (int)date('Y')) - DAY)],
+			strtolower(__d('tools', 'The day after tomorrow')) => ['start' => date(FORMAT_DB_DATETIME, (int)mktime(0, 0, 0, (int)date('m'), (int)date('d'), (int)date('Y')) + 2 * DAY), 'end' => date(FORMAT_DB_DATETIME, (int)mktime(23, 59, 59, (int)date('m'), (int)date('d'), (int)date('Y')) + 2 * DAY)],
+			strtolower(__d('tools', 'The day before yesterday')) => ['start' => date(FORMAT_DB_DATETIME, (int)mktime(0, 0, 0, (int)date('m'), (int)date('d'), (int)date('Y')) - 2 * DAY), 'end' => date(FORMAT_DB_DATETIME, (int)mktime(23, 59, 59, (int)date('m'), (int)date('d'), (int)date('Y')) - 2 * DAY)],
 		];
 		if (isset($i18n[strtolower($date)])) {
 			return $i18n[strtolower($date)][$type];
@@ -1292,7 +1299,7 @@ class DateTime extends CakeDateTime {
 		$datePieces = explode(' ', $date, 2);
 		$date = array_shift($datePieces);
 
-		if (strpos($date, '.') !== false) {
+		if (str_contains($date, '.')) {
 			$pieces = explode('.', $date);
 			$year = $pieces[2];
 			if (strlen($year) === 2) {
@@ -1303,10 +1310,14 @@ class DateTime extends CakeDateTime {
 				}
 			}
 			$date = mktime(0, 0, 0, (int)$pieces[1], (int)$pieces[0], (int)$year);
-		} elseif (strpos($date, '-') !== false) {
+		} elseif (str_contains($date, '-')) {
 			$date = strtotime($date);
 		} else {
 			return 0;
+		}
+
+		if ($date === false) {
+			throw new RuntimeException('Cannot parse date');
 		}
 
 		return $date;

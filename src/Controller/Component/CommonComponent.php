@@ -202,11 +202,11 @@ class CommonComponent extends Component {
 	 * @param mixed $whereTo URL
 	 * @param bool $allowSelf if redirect to the same controller/action (url) is allowed
 	 * @param int $status
-	 * @return \Cake\Http\Response
+	 * @return \Cake\Http\Response|null
 	 */
 	public function autoRedirect($whereTo, $allowSelf = false, $status = 302) {
-		if ($allowSelf || $this->controller->referer(null, true) !== $this->controller->getRequest()->getRequestTarget()) {
-			return $this->controller->redirect($this->controller->referer($whereTo, true), $status);
+		if ($allowSelf || $this->controller->referer(null) !== $this->controller->getRequest()->getRequestTarget()) {
+			return $this->controller->redirect($this->controller->referer($whereTo), $status);
 		}
 
 		return $this->controller->redirect($whereTo, $status);
@@ -222,7 +222,7 @@ class CommonComponent extends Component {
 	 *
 	 * @param mixed $whereTo URL
 	 * @param int $status
-	 * @return \Cake\Http\Response
+	 * @return \Cake\Http\Response|null
 	 */
 	public function postRedirect($whereTo, $status = 302) {
 		return $this->controller->redirect($whereTo, $status);
@@ -235,7 +235,7 @@ class CommonComponent extends Component {
 	 * @param mixed $whereTo URL
 	 * @param bool $conditionalAutoRedirect false to skip whitelisting
 	 * @param int $status
-	 * @return \Cake\Http\Response
+	 * @return \Cake\Http\Response|null
 	 */
 	public function autoPostRedirect($whereTo, $conditionalAutoRedirect = true, $status = 302) {
 		$referer = $this->controller->referer($whereTo, true);
@@ -285,10 +285,10 @@ class CommonComponent extends Component {
 	 * - passed params
 	 *
 	 * @param mixed|null $url
-	 * @param int|null $status
-	 * @return \Cake\Http\Response
+	 * @param int $status
+	 * @return \Cake\Http\Response|null
 	 */
-	public function completeRedirect($url = null, $status = 302) {
+	public function completeRedirect($url = null, int $status = 302) {
 		if ($url === null) {
 			$url = [
 				'plugin' => $this->controller->getRequest()->getParam('plugin'),

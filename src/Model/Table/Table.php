@@ -100,6 +100,7 @@ class Table extends ShimTable {
 	public function truncate() {
 		/** @var \Cake\Database\Schema\SqlGeneratorInterface $schema */
 		$schema = $this->getSchema();
+		assert($this->_connection !== null);
 		$sql = $schema->truncateSql($this->_connection);
 		foreach ($sql as $snippet) {
 			$this->_connection->execute($snippet);
@@ -122,7 +123,9 @@ class Table extends ShimTable {
 		}
 		$tableClass = $this->$tableName->getClassName();
 		$table = TableRegistry::getTableLocator()->get($tableClass);
-		$order = property_exists($table, 'order') ? $table->order : [$tableName . '.' . $table->getDisplayField() => 'ASC'];
+		/** @var string $displayField */
+		$displayField = $table->getDisplayField();
+		$order = property_exists($table, 'order') ? $table->order : [$tableName . '.' . $displayField => 'ASC'];
 
 		$defaults = [
 			'contain' => [$tableName],
@@ -131,7 +134,7 @@ class Table extends ShimTable {
 		];
 		if ($type === 'list') {
 			$propertyName = $this->getAssociation($tableName)->getProperty();
-			$defaults['fields'] = [$tableName . '.' . $this->$tableName->getPrimaryKey(), $tableName . '.' . $this->$tableName->getDisplayField()];
+			$defaults['fields'] = [$tableName . '.' . $this->$tableName->getPrimaryKey(), $tableName . '.' . $displayField];
 			$defaults['keyField'] = $propertyName . '.' . $this->$tableName->getPrimaryKey();
 			$defaults['valueField'] = $propertyName . '.' . $this->$tableName->getDisplayField();
 

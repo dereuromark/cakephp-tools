@@ -109,6 +109,7 @@ class TypographicBehavior extends Behavior {
 
 			$fields = [];
 			foreach ($schema->columns() as $field) {
+				/** @var array<string, mixed> $v */
 				$v = $schema->getColumn($field);
 				if (!in_array($v['type'], ['string', 'text'])) {
 					continue;

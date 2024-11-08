@@ -128,6 +128,9 @@ class TimeHelper extends CakeTimeHelper {
 	 */
 	public function localDateMarkup($dateString = null, $format = null, $options = []) {
 		$date = $this->localDate($dateString, $format, $options);
+		if ($dateString === null) {
+			$dateString = time();
+		}
 		$date = '<span' . ($this->isToday($dateString, ($options['userOffset'] ?? null)) ? ' class="today"' : '') . '>' . $date . '</span>';
 
 		return $date;
@@ -143,6 +146,9 @@ class TimeHelper extends CakeTimeHelper {
 	 */
 	public function niceDateMarkup($dateString = null, $format = null, $options = []) {
 		$date = $this->niceDate($dateString, $format, $options);
+		if ($dateString === null) {
+			$dateString = time();
+		}
 		$date = '<span' . ($this->isToday($dateString, ($options['userOffset'] ?? null)) ? ' class="today"' : '') . '>' . $date . '</span>';
 
 		return $date;

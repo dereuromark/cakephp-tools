@@ -168,7 +168,7 @@ class FormatHelperTest extends TestCase {
 	public function testSiteIcon() {
 		$result = $this->Format->siteIcon('http://www.example.org');
 		$this->debug($result);
-		$expected = '<img src="http://www.google.com/s2/favicons?domain=www.example.org';
+		$expected = '<img src="https://www.google.com/s2/favicons?domain=www.example.org';
 		$this->assertStringContainsString($expected, $result);
 	}
 

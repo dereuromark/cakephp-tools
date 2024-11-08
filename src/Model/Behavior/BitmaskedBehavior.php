@@ -68,16 +68,18 @@ class BitmaskedBehavior extends Behavior {
 		$entity = $this->_table->newEmptyEntity();
 		$enumClass = false;
 
-		if (is_string($config['bits'])) {
+		$bits = $config['bits'];
+		if (is_string($bits)) {
 			try {
-				$reflectionEnum = new ReflectionEnum($config['bits']);
+				/** @var class-string<\UnitEnum> $bits */
+				$reflectionEnum = new ReflectionEnum($bits);
 				$cases = [];
 				foreach ($reflectionEnum->getCases() as $case) {
 					/** @var \BackedEnum $intBackedEnum */
 					$intBackedEnum = $case->getValue();
 					$cases[$intBackedEnum->value] = $intBackedEnum->name;
 				}
-				$enumClass = $config['bits'];
+				$enumClass = $bits;
 				$config['bits'] = $cases;
 			} catch (ReflectionException) {
 			}
@@ -131,13 +133,14 @@ class BitmaskedBehavior extends Behavior {
 
 			if ($options['containMode'] === 'and') {
 				$encodedBits = $this->encodeBitmask($bits);
+				assert($encodedBits !== null);
 
 				return $query->where($this->containsBit($encodedBits));
 			}
 
 			$conditions = [];
 			foreach ((array)$bits as $bit) {
-				$conditions[] = $this->containsBit($bit);
+				$conditions[] = $this->containsBit((int)$bit);
 			}
 
 			return $query->where(['OR' => $conditions]);
@@ -269,11 +272,11 @@ class BitmaskedBehavior extends Behavior {
 	}
 
 	/**
-	 * @param array<int|string>|string $value Bitmask array.
+	 * @param array<int|string>|string|int $value Bitmask array.
 	 * @param int|null $defaultValue Default bitmask value.
 	 * @return int|null Bitmask (from APP to DB).
 	 */
-	public function encodeBitmask(array|string $value, $defaultValue = null): ?int {
+	public function encodeBitmask(array|int|string $value, $defaultValue = null): ?int {
 		$res = 0;
 		if (!$value) {
 			return $defaultValue;
@@ -465,7 +468,7 @@ class BitmaskedBehavior extends Behavior {
 	protected function _getDefaultValue(string $field): ?int {
 		$schema = $this->_table->getSchema()->getColumn($field);
 
-		return $schema['default'] ?: 0;
+		return $schema['default'] ?? 0;
 	}
 
 }

@@ -281,11 +281,11 @@ class FormatHelper extends Helper {
 			// Strip protocol
 			$pieces = parse_url($domain);
 			if ($pieces !== false) {
-				$domain = $pieces['host'];
+				$domain = $pieces['host'] ?? null;
 			}
 		}
 
-		return 'http://www.google.com/s2/favicons?domain=' . $domain;
+		return 'https://www.google.com/s2/favicons?domain=' . $domain;
 	}
 
 	/**
@@ -450,8 +450,9 @@ class FormatHelper extends Helper {
 
 		// Store word lengths
 		foreach ($splitText as $line) {
-			$words = preg_split("/(\t+)/", $line, -1, PREG_SPLIT_DELIM_CAPTURE);
-			foreach (array_keys($words) as $i) {
+			$words = preg_split("/(\t+)/", $line, -1, PREG_SPLIT_DELIM_CAPTURE) ?: [];
+			$keys = array_keys($words);
+			foreach ($keys as $i) {
 				$strlen = strlen($words[$i]);
 				$add = isset($wordLengths[$i]) && ($wordLengths[$i] < $strlen);
 				if ($add || !isset($wordLengths[$i])) {
@@ -464,7 +465,8 @@ class FormatHelper extends Helper {
 		$text = '';
 
 		// Apply padding when appropriate and rebuild the string
-		foreach (array_keys($wArray) as $i) {
+		$keys = array_keys($wArray) ?: [];
+		foreach ($keys as $i) {
 			foreach (array_keys($wArray[$i]) as $ii) {
 				if (preg_match("/^\t+$/", $wArray[$i][$ii])) {
 					$wArray[$i][$ii] = str_pad($wArray[$i][$ii], $wordLengths[$ii], "\t");

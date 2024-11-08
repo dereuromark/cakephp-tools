@@ -61,7 +61,8 @@ class ShuntRequestController extends AppController {
 		I18n::setLocale($language['locale']);
 		$this->Flash->success(__d('tools', 'Language switched to {0}', $language['name']));
 
-		return $this->redirect($this->referer('/', true));
+		/** @var \Cake\Http\Response */
+		return $this->redirect($this->referer());
 	}
 
 }

@@ -83,6 +83,7 @@ class Random {
 		}
 		$i = 0;
 		$password = '';
+		/** @var int<1, max> $max */
 		$max = strlen($chars) - 1;
 
 		while ($i < $length) {
@@ -155,6 +156,7 @@ class Random {
 		$pool = str_split($pool, 1);
 
 		// Largest pool key
+		/** @var int<1, max> $max */
 		$max = count($pool) - 1;
 
 		$str = '';

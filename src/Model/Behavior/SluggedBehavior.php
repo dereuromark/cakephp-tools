@@ -481,7 +481,7 @@ class SluggedBehavior extends Behavior {
 	 * @return string
 	 */
 	protected function _pregReplace($pattern, $replace, $string) {
-		return preg_replace($pattern, $replace, $string);
+		return (string)preg_replace($pattern, $replace, $string);
 	}
 
 	/**
