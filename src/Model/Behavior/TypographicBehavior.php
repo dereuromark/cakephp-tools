@@ -48,7 +48,7 @@ class TypographicBehavior extends Behavior {
 	public const BEFORE_SAVE = 'save';
 
 	/**
-	 * @var array
+	 * @var array<string, array<string, string>>
 	 */
 	protected array $_map = [
 		'in' => [

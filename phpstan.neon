@@ -36,6 +36,3 @@ parameters:
 		- '#Parameter \#4 \$flags of function preg_match expects TFlags of 0\|256\|512\|768, int given.#'
 		- '#Parameter \#2 \$\w+ of function datefmt_format expects .+, DateTimeInterface given.#'
 		- '#Unsafe usage of new static\(\)#'
-services:
-	-
-		class: Cake\PHPStan\AssociationTableMixinClassReflectionExtension

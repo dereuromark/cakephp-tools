@@ -25,7 +25,7 @@ class MaterialIconCollector {
 			throw new RuntimeException('Cannot parse content: ' . $filePath);
 		}
 
-		/** @var array<string> */
+		/** @var array<non-empty-string> */
 		return $matches[1];
 	}
 
