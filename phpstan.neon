@@ -7,7 +7,7 @@ parameters:
 		- %rootDir%/../../../tests/bootstrap.php
 	excludePaths:
 		- %rootDir%/../../../src/TestSuite/*
-		- %rootDir%/../../../src/Utility/Mime
+		- %rootDir%/../../../src/Utility/Mime.php
 		- %rootDir%/../../../src/View/Helper/QrCodeHelper.php
 	reportUnmatchedIgnoredErrors: false
 	ignoreErrors:
