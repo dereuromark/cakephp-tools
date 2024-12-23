@@ -2,6 +2,7 @@
 
 namespace Tools\View\Helper;
 
+use Cake\Chronos\ChronosDate;
 use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\Exception\CakeException;
@@ -9,6 +10,8 @@ use Cake\I18n\Date;
 use Cake\I18n\DateTime;
 use Cake\View\Helper\TimeHelper as CakeTimeHelper;
 use Cake\View\View;
+use DateTimeInterface;
+use DateTimeZone;
 
 /**
  * Wrapper for TimeHelper and TimeLib
@@ -82,13 +85,13 @@ class TimeHelper extends CakeTimeHelper {
 	/**
 	 * Returns a nicely formatted date string for given Datetime string.
 	 *
-	 * @param \DateTimeInterface|\Cake\I18n\DateTime|\Cake\I18n\Date|string|int|null $dateString UNIX timestamp, strtotime() valid string or DateTime object
+	 * @param \Cake\Chronos\ChronosDate|\DateTimeInterface|\Cake\I18n\Date|\Cake\I18n\DateTime|string|int|null $dateString UNIX timestamp, strtotime() valid string or DateTime object
 	 * @param \DateTimeZone|string|null $timezone User's timezone string or DateTimeZone object
 	 * @param string|null $locale Locale string.
 	 * @param string|null $default Default string to use when no dateString is given. Use null to allow null as current date.
 	 * @return string Formatted date string
 	 */
-	public function nice($dateString = null, $timezone = null, ?string $locale = null, ?string $default = null): string {
+	public function nice(ChronosDate|DateTimeInterface|Date|DateTime|string|int|null $dateString = null, DateTimeZone|string|null $timezone = null, ?string $locale = null, ?string $default = null): string {
 		if ($dateString === null) {
 			return (string)$default;
 		}
