@@ -19,12 +19,33 @@ class TimeHelperTest extends TestCase {
 	protected $Time;
 
 	/**
+	 * @var string
+	 */
+	protected $locale;
+
+	/**
 	 * @return void
 	 */
 	public function setUp(): void {
 		parent::setUp();
 
 		$this->Time = new TimeHelper(new View(null));
+
+		$this->locale = ini_get('intl.default_locale');
+		ini_set('intl.default_locale', 'de-DE');
+	}
+
+	/**
+	 * TearDown method
+	 *
+	 * @return void
+	 */
+	public function tearDown(): void {
+		parent::tearDown();
+
+		unset($this->Time);
+
+		ini_set('intl.default_locale', $this->locale);
 	}
 
 	/**
@@ -94,8 +115,8 @@ class TimeHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testNice() {
-		$result = $this->Time->nice(new DateTime('2012-02-03 14:12'));
-		$this->assertSame('03.02.2012, 14:12', $result);
+		$result = $this->Time->nice(new DateTime('2012-02-03 14:13:12'));
+		$this->assertSame('03.02.2012, 14:13', $result);
 
 		$result = $this->Time->nice('2012-02-03 14:12:11');
 		$this->assertSame('03.02.2012, 14:12', $result);
@@ -113,17 +134,6 @@ class TimeHelperTest extends TestCase {
 	public function testTimezones() {
 		$result = $this->Time->timezones();
 		$this->assertTrue(!empty($result));
-	}
-
-	/**
-	 * TearDown method
-	 *
-	 * @return void
-	 */
-	public function tearDown(): void {
-		parent::tearDown();
-
-		unset($this->Time);
 	}
 
 }
