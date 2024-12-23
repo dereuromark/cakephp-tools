@@ -93,6 +93,23 @@ class TimeHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testNice() {
+		$result = $this->Time->nice(new DateTime('2012-02-03 14:12'));
+		$this->assertSame('03.02.2012, 14:12', $result);
+
+		$result = $this->Time->nice('2012-02-03 14:12:11');
+		$this->assertSame('03.02.2012, 14:12', $result);
+
+		$result = $this->Time->nice(new Date('2012-02-03'));
+		$this->assertSame('03.02.2012', $result);
+
+		$result = $this->Time->nice('2012-02-03');
+		$this->assertSame('03.02.2012', $result);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testTimezones() {
 		$result = $this->Time->timezones();
 		$this->assertTrue(!empty($result));

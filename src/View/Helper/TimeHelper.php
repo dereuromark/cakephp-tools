@@ -6,6 +6,7 @@ use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\Exception\CakeException;
 use Cake\I18n\Date;
+use Cake\I18n\DateTime;
 use Cake\View\Helper\TimeHelper as CakeTimeHelper;
 use Cake\View\View;
 
@@ -81,15 +82,26 @@ class TimeHelper extends CakeTimeHelper {
 	/**
 	 * Returns a nicely formatted date string for given Datetime string.
 	 *
-	 * @param \DateTimeInterface|string|int|null $dateString UNIX timestamp, strtotime() valid string or DateTime object
+	 * @param \DateTimeInterface|\Cake\I18n\DateTime|\Cake\I18n\Date|string|int|null $dateString UNIX timestamp, strtotime() valid string or DateTime object
 	 * @param \DateTimeZone|string|null $timezone User's timezone string or DateTimeZone object
 	 * @param string|null $locale Locale string.
 	 * @param string|null $default Default string to use when no dateString is given. Use null to allow null as current date.
 	 * @return string Formatted date string
 	 */
-	public function nice($dateString = null, $timezone = null, ?string $locale = null, ?string $default = ''): string {
-		if ($dateString === null && $default !== null) {
-			return $default;
+	public function nice($dateString = null, $timezone = null, ?string $locale = null, ?string $default = null): string {
+		if ($dateString === null) {
+			return (string)$default;
+		}
+
+		if ($dateString instanceof Date) {
+			return $dateString->nice($locale);
+		}
+		if ($dateString instanceof DateTime) {
+			return $dateString->nice($timezone, $locale);
+		}
+
+		if (is_string($dateString) && strlen($dateString) === 10) {
+			return $this->niceDate($dateString, null, compact('timezone', 'default'));
 		}
 
 		return parent::nice($dateString, $timezone, $locale);
