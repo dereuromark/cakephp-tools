@@ -96,10 +96,6 @@ class TimeHelper extends CakeTimeHelper {
 		if ($dateString instanceof Date) {
 			return $dateString->nice($locale);
 		}
-		if ($dateString instanceof DateTime) {
-			return $dateString->nice($timezone, $locale);
-		}
-
 		if (is_string($dateString) && strlen($dateString) === 10) {
 			return $this->niceDate($dateString, null, compact('timezone', 'default'));
 		}
