@@ -110,6 +110,9 @@ class Table extends ShimTable {
 	/**
 	 * Get all related entries that have been used so far
 	 *
+	 * For optional columns used for relations, make sure to set IS NOT NULL conditions here.
+	 *   ->getRelatedInUse('Related', null, 'list', ['conditions' => ['optional_relation_id IS NOT' => null]])->toArray();
+	 *
 	 * @param string $tableName The related model
 	 * @param string|null $groupField Field to group by
 	 * @param string $type Find type
@@ -132,6 +135,10 @@ class Table extends ShimTable {
 			'group' => $groupField,
 			'order' => $order,
 		];
+		if (!empty($options['conditions'])) {
+			$defaults['conditions'] = $options['conditions'];
+		}
+
 		if ($type === 'list') {
 			$propertyName = $this->getAssociation($tableName)->getProperty();
 			$defaults['fields'] = [$tableName . '.' . $this->$tableName->getPrimaryKey(), $tableName . '.' . $displayField];
