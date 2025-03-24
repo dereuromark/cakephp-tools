@@ -692,7 +692,7 @@ class Mime extends Response {
 		bool $primaryOnly = true,
 		bool $coreHasPrecedence = false,
 	) {
-		if (!$this->_mimeTypeTmp) {
+		if (!$this->_mimeTypesTmp) {
 			$this->_mimeTypesTmp = $this->mimeTypes($coreHasPrecedence);
 		}
 		if (!isset($this->_mimeTypesTmp[$alias])) {
