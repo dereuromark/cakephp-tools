@@ -150,7 +150,12 @@ class Table extends ShimTable {
 			} else {
 				$defaults['group'] = [$tableName . '.' . $this->$tableName->getPrimaryKey(), $tableName . '.' . $this->$tableName->getDisplayField()];
 			}
+
+			$options += $defaults;
+
+			return $this->find('list', ...$options);
 		}
+
 		$options += $defaults;
 
 		return $this->find($type, $options);
