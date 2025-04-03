@@ -4,7 +4,6 @@ namespace Tools\Test\TestCase\Utility;
 
 use Cake\Core\Plugin;
 use Shim\TestSuite\TestCase;
-use TestApp\Http\TestResponse;
 use TestApp\Utility\TestMime;
 
 class MimeTest extends TestCase {
@@ -136,38 +135,6 @@ class MimeTest extends TestCase {
 		//pr($is);
 		$this->assertEquals($is, 'us-ascii');
 		//Tests fail? finfo_open not availaible??
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testDifferenceBetweenPluginAndCore() {
-		$TestCakeResponse = new TestResponse();
-		$TestMime = new TestMime();
-
-		$core = $TestCakeResponse->getMimeTypes();
-		$plugin = $TestMime->getMimeTypes();
-
-		$diff = [
-			'coreonly' => [],
-			'pluginonly' => [],
-			'modified' => [],
-		];
-		foreach ($core as $key => $value) {
-			if (!isset($plugin[$key])) {
-				$diff['coreonly'][$key] = $value;
-			} elseif ($value !== $plugin[$key]) {
-				$diff['modified'][$key] = ['was' => $value, 'is' => $plugin[$key]];
-			}
-			unset($plugin[$key]);
-		}
-		foreach ($plugin as $key => $value) {
-			$diff['pluginonly'][$key] = $value;
-		}
-
-		$this->assertNotEmpty($diff['coreonly']);
-		$this->assertNotEmpty($diff['pluginonly']);
-		$this->assertNotEmpty($diff['modified']);
 	}
 
 }

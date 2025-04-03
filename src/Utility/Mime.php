@@ -2,7 +2,9 @@
 
 namespace Tools\Utility;
 
+use Cake\Http\MimeType;
 use Cake\Http\Response;
+use ReflectionClass;
 
 /**
  * Wrapper to be able to read cake core's mime types as well as fix for missing ones
@@ -10,6 +12,7 @@ use Cake\Http\Response;
  * @version 1.0
  * @license MIT
  * @author Mark Scherer
+ * @deprecated This only works for CakePHP 5.1. For 5.2+ use MimeType instead.
  */
 class Mime extends Response {
 
@@ -650,6 +653,8 @@ class Mime extends Response {
 		'swf' => ['application/x-shockwave-flash', 'application/x-shockwave-flash2-preview', 'application/futuresplash', 'image/vnd.rn-realflash'],
 	];
 
+	protected array $_mimeTypesCore;
+
 	/**
 	 * @var array<string, array>
 	 */
@@ -661,6 +666,29 @@ class Mime extends Response {
 	 * @param array<string, mixed> $options
 	 */
 	public function __construct(array $options = []) {
+		if (class_exists(MimeType::class)) {
+			$mimeType = new MimeType();
+			$coreMimeTypes = $this->invokeProperty($mimeType, 'mimeTypes');
+		} else {
+			$response = new Response();
+			$coreMimeTypes = $this->invokeProperty($response, '_mimeTypes');
+		}
+
+		$this->_mimeTypesCore = $coreMimeTypes;
+	}
+
+	/**
+	 * @param object $object
+	 * @param string $name
+	 * @throws \ReflectionException
+	 * @return mixed
+	 */
+	protected function invokeProperty(object &$object, string $name): mixed {
+		$reflection = new ReflectionClass(get_class($object));
+		$property = $reflection->getProperty($name);
+		$property->setAccessible(true);
+
+		return $property->getValue($object);
 	}
 
 	/**
@@ -671,10 +699,10 @@ class Mime extends Response {
 	 */
 	public function mimeTypes($coreHasPrecedence = false) {
 		if ($coreHasPrecedence) {
-			return $this->_mimeTypes += $this->_mimeTypesExt;
+			return $this->_mimeTypesCore += $this->_mimeTypesExt;
 		}
 
-		return $this->_mimeTypesExt += $this->_mimeTypes;
+		return $this->_mimeTypesExt += $this->_mimeTypesCore;
 	}
 
 	/**

@@ -7,6 +7,7 @@ use Cake\Mailer\Message as CakeMessage;
 use InvalidArgumentException;
 use RuntimeException;
 use Tools\Utility\Mime;
+use Tools\Utility\MimeTypes;
 use Tools\Utility\Text;
 use Tools\Utility\Utility;
 
@@ -14,6 +15,11 @@ use Tools\Utility\Utility;
  * Allows locale overwrite to send emails in a specific language
  */
 class Message extends CakeMessage {
+
+	/**
+	 * @var \Tools\Utility\MimeTypes|null
+	 */
+	protected $_MimeTypes;
 
 	/**
 	 * @var \Tools\Utility\Mime|null
@@ -327,13 +333,14 @@ class Message extends CakeMessage {
 	/**
 	 * @param string $ext
 	 * @param string $default
-	 * @return mixed
+	 * @return string|null
 	 */
-	protected function _getMimeByExtension($ext, $default = 'application/octet-stream') {
-		if (!isset($this->_Mime)) {
-			$this->_Mime = new Mime();
+	protected function _getMimeByExtension(string $ext, string $default = 'application/octet-stream'): ?string {
+		if ($this->_MimeTypes === null) {
+			$this->_MimeTypes = new MimeTypes();
 		}
-		$mime = $this->_Mime->getMimeTypeByAlias($ext);
+		/** @var string|null $mime */
+		$mime = $this->_MimeTypes->getMimeType($ext);
 		if (!$mime) {
 			$mime = $default;
 		}
@@ -349,7 +356,7 @@ class Message extends CakeMessage {
 	 * @return string Mimetype (falls back to `application/octet-stream`)
 	 */
 	protected function _getMime($filename, $default = 'application/octet-stream') {
-		if (!isset($this->_Mime)) {
+		if ($this->_Mime === null) {
 			$this->_Mime = new Mime();
 		}
 		$mime = $this->_Mime->detectMimeType($filename);
