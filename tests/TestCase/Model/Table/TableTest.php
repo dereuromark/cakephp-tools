@@ -446,6 +446,7 @@ class TableTest extends TestCase {
 		$post = $this->Posts->newEntity($data);
 		$this->assertNotEmpty($post->getErrors());
 
+		$this->Posts->getValidator()->remove('title');
 		$this->Posts->getValidator()->add('title', [
 			'validateUnique' => [
 				'rule' => ['validateUniqueExt', ['scope' => ['published']]],
