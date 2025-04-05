@@ -635,8 +635,6 @@ class PasswordableBehaviorTest extends TestCase {
 	 */
 	public function testNeedsPasswordRehashWithNotSupportedHasher() {
 		$this->Users->addBehavior('Tools.Passwordable', [
-			'allowSame' => false,
-			'current' => false,
 			'authType' => 'Blowfish',
 		]);
 
@@ -646,8 +644,6 @@ class PasswordableBehaviorTest extends TestCase {
 
 		$this->Users->removeBehavior('Passwordable');
 		$this->Users->addBehavior('Tools.Passwordable', [
-			'allowSame' => false,
-			'current' => false,
 			'authType' => 'Blowfish',
 			'passwordHasher' => 'Default',
 		]);

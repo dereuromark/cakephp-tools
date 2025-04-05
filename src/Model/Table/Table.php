@@ -72,7 +72,7 @@ class Table extends ShimTable {
 	 * @param array|null $context The validation context as provided by the validation routine
 	 * @return bool true if the value is unique
 	 */
-	public function validateUniqueExt($value, array $options, ?array $context = null) {
+	public function validateUniqueExt($value, array $options = [], ?array $context = null) {
 		$data = $context['data'] ?? null;
 		if ($data) {
 			foreach ($data as $field => $value) {
