@@ -12,7 +12,7 @@ use ReflectionClass;
  * @version 1.0
  * @license MIT
  * @author Mark Scherer
- * @deprecated This only works for CakePHP 5.1. For 5.2+ use MimeType instead.
+ * @deprecated This is for use with CakePHP <=5.1. For 5.2+ use MimeType instead.
  */
 class Mime extends Response {
 
