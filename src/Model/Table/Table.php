@@ -152,13 +152,11 @@ class Table extends ShimTable {
 			}
 
 			$options += $defaults;
-
-			return $this->find('list', ...$options);
 		}
 
 		$options += $defaults;
 
-		return $this->find($type, $options);
+		return $this->find($type, ...$options);
 	}
 
 	/**
@@ -185,7 +183,7 @@ class Table extends ShimTable {
 		}
 		$options += $defaults;
 
-		return $this->find($type, $options);
+		return $this->find($type, ...$options);
 	}
 
 	/**

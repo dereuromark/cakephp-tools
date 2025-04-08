@@ -139,7 +139,7 @@ class TokensTable extends Table {
 			$options['conditions'][$this->getAlias() . '.user_id'] = $uid;
 		}
 		/** @var \Tools\Model\Entity\Token|null $tokenEntity */
-		$tokenEntity = $this->find('all', $options)->first();
+		$tokenEntity = $this->find('all', ...$options)->first();
 		if (!$tokenEntity) {
 			return null;
 		}
@@ -214,7 +214,7 @@ class TokensTable extends Table {
 		$keys['unused_invalid'] = $this->find()->where([$this->getAlias() . '.used' => 0, $this->getAlias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity)])->count();
 		$keys['used_invalid'] = $this->find()->where([$this->getAlias() . '.used' => 1, $this->getAlias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity)])->count();
 
-		$types = $this->find('all', ['conditions' => [], 'fields' => ['DISTINCT type']])->toArray();
+		$types = $this->find('all', ...['conditions' => [], 'fields' => ['DISTINCT type']])->toArray();
 		$keys['types'] = !empty($types) ? Hash::extract($types, '{n}.type') : [];
 
 		return $keys;
