@@ -105,7 +105,7 @@ class MimeTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testgetMimeTypeByAlias() {
+	public function testGetMimeTypeByAlias() {
 		$res = $this->Mime->detectMimeType('https://raw.githubusercontent.com/dereuromark/cakephp-ide-helper/master/docs/img/code_completion.png');
 		$this->assertEquals('image/png', $res);
 
