@@ -22,6 +22,7 @@
 
 ### Tokens
 * [Tokens](Model/Tokens.md) for Token usage
+* [Login Links](Authentication/LoginLink.md) For one time login link functionality
 
 ### Controller
 * [Controller](Controller/Controller.md)
