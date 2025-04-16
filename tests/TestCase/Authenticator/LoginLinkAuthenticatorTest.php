@@ -3,24 +3,22 @@
 namespace Tools\Test\TestCase\Authenticator;
 
 use ArrayAccess;
-use ArrayObject;
-use Authentication\Authenticator\JwtAuthenticator;
 use Authentication\Authenticator\Result;
 use Authentication\Identifier\IdentifierCollection;
 use Cake\Http\ServerRequestFactory;
 use Cake\TestSuite\TestCase;
 use Tools\Authenticator\LoginLinkAuthenticator;
 
-class LoginLinkAuthenticatorTest extends TestCase
-{
+class LoginLinkAuthenticatorTest extends TestCase {
+
 	/**
 	 * Fixtures
 	 *
 	 * @var array
 	 */
 	protected array $fixtures = [
-		'plugin.tools.ToolsUsers',
-		'plugin.tools.Tokens',
+		'plugin.Tools.ToolsUsers',
+		'plugin.Tools.Tokens',
 	];
 
 	/**
@@ -38,12 +36,11 @@ class LoginLinkAuthenticatorTest extends TestCase
 	/**
 	 * @inheritDoc
 	 */
-	public function setUp(): void
-	{
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->identifiers = new IdentifierCollection([
-			'Authentication.JwtSubject' => [
+			'Tools.LoginLink' => [
 				'resolver' => [
 					'className' => 'Authentication.Orm',
 					'userModel' => 'ToolsUsers',
@@ -55,8 +52,7 @@ class LoginLinkAuthenticatorTest extends TestCase
 	/**
 	 * @return void
 	 */
-	public function testAuthenticate()
-	{
+	public function testAuthenticate() {
 		$user = $this->fetchTable('ToolsUsers')->find()->firstOrFail();
 
 		$tokensTable = $this->fetchTable('Tools.Tokens');
@@ -76,4 +72,5 @@ class LoginLinkAuthenticatorTest extends TestCase
 		$this->assertSame(Result::SUCCESS, $result->getStatus());
 		$this->assertInstanceOf(ArrayAccess::class, $result->getData());
 	}
+
 }

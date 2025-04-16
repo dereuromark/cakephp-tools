@@ -17,10 +17,9 @@ $token = $tokensTable->newKey('login_link', '123', $user->id);
 Then, implement your authenticator on the other side in your Application.php:
 
 ```php
-$service->loadIdentifier('Authentication.JwtSubject', [
+$service->loadIdentifier('Tools.LoginLink', [
     'resolver' => [
         'className' => 'Authentication.Orm',
-        'finder' => 'active',
     ],
 ]);
 
@@ -36,3 +35,22 @@ $service->loadAuthenticator('Tools.LoginLink', [
 ```
 
 Now you should be able to log your users in on top of classic form login.
+
+### Email confirmation
+
+When you not just send login link emails to already verified users, but if you
+replace the registration login process with such quick-logins, you will need to
+use a callback to set the email active when the authenticator gets called.
+This way your custom finder (e.g. `'active'`) will actually find the user then.
+
+```php
+$service->loadIdentifier('Tools.LoginLink', [
+    'resolver' => [
+        'className' => 'Authentication.Orm',
+        'finder' => 'active',
+    ],
+    'preCallback' => function (int $id) {
+        TableRegistry::getTableLocator()->get('Users')->confirmEmail($id);
+    },
+]);
+```

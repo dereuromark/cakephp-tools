@@ -63,14 +63,14 @@ class LoginLinkAuthenticator extends AbstractAuthenticator {
 	protected function getUserFromToken(string $token): ?EntityInterface {
 		/** @var \Tools\Model\Table\TokensTable $tokensTable */
 		$tokensTable = TableRegistry::getTableLocator()->get('Tools.Tokens');
-		$tokenEntity = $tokensTable->useKey('login_link', $token, null, (bool)$this->getConfig('oneTime'));
+		$tokenEntity = $tokensTable->useKey('login_link', $token, null, !(bool)$this->getConfig('oneTime'));
 		if (!$tokenEntity) {
 			return null;
 		}
 
-		$sub = $tokenEntity->user_id;
+		$id = $tokenEntity->user_id;
 		/** @var \Cake\ORM\Entity $identity */
-		$identity = $this->_identifier->identify(compact('sub'));
+		$identity = $this->_identifier->identify(compact('id'));
 
 		$email = $tokenEntity->content;
 		if ($email && $identity->get('email') && $email !== $identity->get('email')) {
