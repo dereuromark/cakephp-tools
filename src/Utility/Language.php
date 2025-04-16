@@ -14,7 +14,7 @@ class Language {
 	 * - forceLowerCase: defaults to true
 	 *
 	 * @param string|null $languageList List of locales/language codes.
-	 * @param array $options Flags to forceLowerCase or removeDuplicates locales/language codes
+	 * @param array<string, mixed> $options Flags to forceLowerCase or removeDuplicates locales/language codes
 	 *
 	 * @return array
 	 */

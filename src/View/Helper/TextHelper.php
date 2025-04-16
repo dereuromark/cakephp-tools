@@ -200,7 +200,7 @@ class TextHelper extends CakeTextHelper {
 
 	/**
 	 * @param string $name
-	 * @param array $options Options:
+	 * @param array<string, mixed> $options Options:
 	 * - stripProtocol: bool (defaults to true)
 	 * - maxLength: int (defaults to 50)
 	 * - ellipsis (defaults to UTF8 version)

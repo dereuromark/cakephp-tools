@@ -408,7 +408,7 @@ class FormatHelper extends Helper {
 	 * Prepared string for output inside `<pre>...</pre>`.
 	 *
 	 * @param string $text
-	 * @param array $options
+	 * @param array<string, mixed> $options
 	 *
 	 * @return string
 	 */
