@@ -33,7 +33,7 @@
 	"require-dev": {
 		"fig-r/psr2r-sniffer": "dev-master",
 		"mobiledetect/mobiledetectlib": "^3.74",
-		"phpunit/phpunit": "^10.5.5 || ^11.1.3",
+		"phpunit/phpunit": "^10.5 || ^11.5 || ^12.1",
 		"yangqi/htmldom": "^1.0"
 	},
 	"suggest": {
