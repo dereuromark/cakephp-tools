@@ -20,6 +20,8 @@ use Tools\Utility\Utility;
  * @mixin \Tools\Model\Behavior\StringBehavior
  * @mixin \Tools\Model\Behavior\ConfirmableBehavior
  * @mixin \Tools\Model\Behavior\ResetBehavior
+ *
+ * @template TBehaviors of array<string, \Cake\ORM\Behavior> = array{}
  */
 class Table extends ShimTable {
 
