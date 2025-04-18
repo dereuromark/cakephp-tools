@@ -58,7 +58,7 @@ class ToggleBehavior extends Behavior {
 			}
 		}
 		/** @var \Cake\Datasource\EntityInterface|null $entity */
-		$entity = $this->_table->find()->where($conditions)->order($order)->first();
+		$entity = $this->_table->find()->where($conditions)->orderBy($order)->first();
 		if (!$entity) {
 			// This should be caught with a validation rule if at least one "primary" must exist
 			return;
