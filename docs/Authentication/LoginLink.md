@@ -25,7 +25,7 @@ $service->loadIdentifier('Tools.LoginLink', [
 
 // Session, Form, Cookie first
 $service->loadAuthenticator('Tools.LoginLink', [
-    'loginUrl' => Router::url([
+    'url' => Router::url([
         'prefix' => false,
         'plugin' => false,
         'controller' => 'Account',
@@ -35,6 +35,9 @@ $service->loadAuthenticator('Tools.LoginLink', [
 ```
 
 Now you should be able to log your users in on top of classic form login.
+
+Note: It is advised to set a `url` here, and to the login url. This way it will not collide
+with other pages and possible `token` query strings.
 
 ### Email confirmation
 
