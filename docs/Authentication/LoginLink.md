@@ -25,12 +25,12 @@ $service->loadIdentifier('Tools.LoginLink', [
 
 // Session, Form, Cookie first
 $service->loadAuthenticator('Tools.LoginLink', [
-    'url' => Router::url([
+    'loginUrl' => [
         'prefix' => false,
         'plugin' => false,
         'controller' => 'Account',
         'action' => 'login',
-    ]),
+    ),
 ]);
 ```
 
@@ -56,4 +56,32 @@ $service->loadIdentifier('Tools.LoginLink', [
         TableRegistry::getTableLocator()->get('Users')->confirmEmail($id);
     },
 ]);
+```
+
+Here you want to additionally confirm that the email matches. So make sure to add that to the Token content:
+```php
+$token = TableRegistry::getTableLocator()->get('Tools.Tokens')
+    ->newKey('login_link', null, $user->id, $user->email);
+```
+
+### Sending mails via queue
+It is highly advised to do any (email) sending here via queue.
+Just add the `$token` into it and you are good to go:
+```
+$queuedJobsTable = TableRegistry::getTableLocator()->get('Queue.QueuedJobs');
+$token = ...;
+$email = $user->email;
+$data = [
+    'to' => $user->email,
+    'toName' => $user->full_name,
+    'subject' => __('Login link'),
+    'template' => 'login_link',
+    'vars' => compact('email', 'token'),
+];
+$queuedJobsTable->createJob('Email', $data); // Your Email queue task
+```
+
+Put this in the email template (linking to your login action):
+```php
+<?= $this->Url->build(['controller' => 'Account', 'action' => 'login', '?' => ['token' => $token]], ['fullBase' => true]) ?>
 ```

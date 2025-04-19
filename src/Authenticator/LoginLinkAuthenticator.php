@@ -15,7 +15,7 @@ class LoginLinkAuthenticator extends AbstractAuthenticator {
 	 * @var array<string, mixed>
 	 */
 	protected array $_defaultConfig = [
-		'url' => null,
+		'loginUrl' => null,
 		'oneTime' => true,
 		'queryString' => 'token',
 		'identifierKey' => 'id',
@@ -46,11 +46,17 @@ class LoginLinkAuthenticator extends AbstractAuthenticator {
 	 */
 	protected function getToken(ServerRequestInterface $request): ?string {
 		/** @var array<string, mixed> $url */
-		$url = $this->getConfig('url');
+		$url = $this->getConfig('loginUrl');
 		if ($url) {
-			$params = $request->getQuery('params');
-			if ($params['controller'] !== $url['controller'] || $params['action'] !== $url['action']) {
+			if (is_string($url) && $url !== $request->getUri()->getPath()) {
 				return null;
+			}
+
+			if (is_array($url)) {
+				$params = $request->getAttribute('params');
+				if (!$params || $params['controller'] !== $url['controller'] || $params['action'] !== $url['action']) {
+					return null;
+				}
 			}
 		}
 
