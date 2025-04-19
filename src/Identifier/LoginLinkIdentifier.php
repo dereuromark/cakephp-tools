@@ -41,7 +41,7 @@ class LoginLinkIdentifier extends AbstractIdentifier {
 		}
 
 		$conditions = [
-			$this->getConfig('dataField') => $credentials[$dataField],
+			$this->getConfig('idField') => $credentials[$dataField],
 		];
 
 		return $this->getResolver()->find($conditions);

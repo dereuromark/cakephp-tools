@@ -18,6 +18,7 @@ class LoginLinkAuthenticator extends AbstractAuthenticator {
 		'url' => null,
 		'oneTime' => true,
 		'queryString' => 'token',
+		'identifierKey' => 'id',
 	];
 
 	/**
@@ -68,10 +69,8 @@ class LoginLinkAuthenticator extends AbstractAuthenticator {
 			return null;
 		}
 
-		$id = $tokenEntity->user_id;
 		/** @var \Cake\ORM\Entity $identity */
-		$identity = $this->_identifier->identify(compact('id'));
-
+		$identity = $this->_identifier->identify([$this->getConfig('identifierKey') => $tokenEntity->user_id]);
 		$email = $tokenEntity->content;
 		if ($email && $identity && $identity->get('email') && $email !== $identity->get('email')) {
 			return null;
