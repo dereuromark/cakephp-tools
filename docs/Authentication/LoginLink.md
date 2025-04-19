@@ -30,7 +30,8 @@ $service->loadAuthenticator('Tools.LoginLink', [
         'plugin' => false,
         'controller' => 'Account',
         'action' => 'login',
-    ),
+    ],
+    'urlChecker' => 'Authentication.CakeRouter',
 ]);
 ```
 

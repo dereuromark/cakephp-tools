@@ -15,6 +15,7 @@ class LoginLinkAuthenticator extends AbstractAuthenticator {
 	 * @var array<string, mixed>
 	 */
 	protected array $_defaultConfig = [
+		'urlChecker' => null, // e.g. 'Authentication.CakeRouter',
 		'loginUrl' => null,
 		'oneTime' => true,
 		'queryString' => 'token',
