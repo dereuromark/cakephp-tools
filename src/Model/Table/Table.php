@@ -100,7 +100,7 @@ class Table extends ShimTable {
 	 * @return void
 	 */
 	public function truncate() {
-		/** @var \Cake\Database\Schema\SqlGeneratorInterface $schema */
+		/** @var \Cake\Database\Schema\TableSchema $schema */
 		$schema = $this->getSchema();
 		assert($this->_connection !== null);
 		$sql = $schema->truncateSql($this->_connection);
@@ -264,8 +264,7 @@ class Table extends ShimTable {
 			}
 			/** @var string $is */
 			$is = parse_url($url, PHP_URL_HOST);
-			/** @var string $expected */
-			$expected = env('HTTP_HOST');
+			$expected = (string)env('HTTP_HOST');
 			if (mb_strtolower($is) !== mb_strtolower($expected)) {
 				return false;
 			}

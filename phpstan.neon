@@ -11,10 +11,10 @@ parameters:
 		- %rootDir%/../../../src/View/Helper/QrCodeHelper.php
 	reportUnmatchedIgnoredErrors: false
 	ignoreErrors:
-		-
-			identifier: missingType.generics
-		-
-			identifier: missingType.iterableValue
+		- identifier: missingType.generics
+		- identifier: missingType.iterableValue
+		- identifier: trait.unused
+		- identifier: method.childParameterType
 		-
 			message: '#Undefined variable: .+#'
 			path: '%rootDir%/../../../src/View/Helper/TreeHelper.php'

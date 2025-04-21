@@ -173,12 +173,12 @@ class TreeHelper extends Helper {
 		$keys = array_keys($dataArray);
 
 		if ($hideUnrelated === true || is_numeric($hideUnrelated)) {
-			$this->_markUnrelatedAsHidden($data, $treePath);
+			$this->_markUnrelatedAsHidden($dataArray, $treePath);
 		} elseif ($hideUnrelated && is_callable($hideUnrelated)) {
 			call_user_func($hideUnrelated, $data, $treePath);
 		}
 
-		foreach ($data as $i => $result) {
+		foreach ($dataArray as $i => $result) {
 			$row = $result;
 
 			/* Close open items as appropriate */
@@ -219,14 +219,14 @@ class TreeHelper extends Helper {
 				if ($row[$left] != ($row[$right] - 1) && $depth < $maxDepth) {
 					$hasChildren = true;
 					$numberOfTotalChildren = ($row[$right] - $row[$left] - 1) / 2;
-					if (isset($data[$i + 1]) && $data[$i + 1][$right] < $row[$right]) {
+					if (isset($dataArray[$i + 1]) && $dataArray[$i + 1][$right] < $row[$right]) {
 						$hasVisibleChildren = true;
 					}
 				}
-				if (!isset($data[$i - 1]) || ($data[$i - 1][$left] == ($row[$left] - 1))) {
+				if (!isset($dataArray[$i - 1]) || ($dataArray[$i - 1][$left] == ($row[$left] - 1))) {
 					$firstChild = true;
 				}
-				if (!isset($data[$i + 1]) || ($stack && $stack[count($stack) - 1] == ($row[$right] + 1))) {
+				if (!isset($dataArray[$i + 1]) || ($stack && $stack[count($stack) - 1] == ($row[$right] + 1))) {
 					$lastChild = true;
 				}
 			} else {

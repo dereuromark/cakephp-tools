@@ -352,6 +352,7 @@ class SluggedBehavior extends Behavior {
 		$separator = $this->_config['separator'];
 
 		$string = str_replace(["\r\n", "\r", "\n"], ' ', $value);
+		/** @var array<string> $replace */
 		$replace = $this->_config['replace'];
 		if ($replace) {
 			$string = str_replace(array_keys($replace), array_values($replace), $string);

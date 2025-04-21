@@ -515,9 +515,11 @@ class Utility {
 	 * @return array|string
 	 */
 	public static function deep($function, $value) {
-		/** @var callable $callable */
 		$callable = 'self::' . $function;
-		/** @var callable $function */
+		/**
+		 * @var callable&non-falsy-string $callable
+		 * @var callable $function
+		 */
 		$value = is_array($value) ? array_map($callable, $value) : $function($value);
 
 		return $value;

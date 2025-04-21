@@ -56,6 +56,7 @@ class TextHelper extends CakeTextHelper {
 			throw new CakeException(sprintf('Class for `%s` could not be found', $config['engine']));
 		}
 
+		/** @phpstan-ignore-next-line */
 		$this->_engine = new $engineClass($config);
 	}
 

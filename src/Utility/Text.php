@@ -169,9 +169,8 @@ class Text extends CakeText {
 	 * @param string $separator
 	 * @return string
 	 */
-	public function convertToOrd($str, $separator = '-') {
-		/** @var array<string> $chars */
-		$chars = preg_split('//', $str, -1);
+	public function convertToOrd(string $str, string $separator = '-'): string {
+		$chars = preg_split('//', $str, -1) ?: [];
 		$res = [];
 		foreach ($chars as $char) {
 			//$res[] = UnicodeLib::ord($char);
@@ -270,6 +269,7 @@ class Text extends CakeText {
 				$piece = mb_strtolower($piece);
 			}
 			$search = [',', '.', ';', ':', '#', '', '(', ')', '{', '}', '[', ']', '$', '%', '"', '!', '?', '<', '>', '=', '/'];
+			/** @var array<string> $search */
 			$search = array_merge($search, [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
 			$piece = str_replace($search, '', $piece);
 			$piece = trim($piece);
@@ -323,115 +323,6 @@ class Text extends CakeText {
 		}
 
 		return rtrim($matches[0]) . $end;
-	}
-
-	/**
-	 * High ASCII to Entities
-	 *
-	 * Converts High ascii text and MS Word special characters to character entities
-	 *
-	 * @param string $str
-	 * @return string
-	 */
-	public function asciiToEntities($str) {
-		$count = 1;
-		$out = '';
-		$temp = [];
-
-		for ($i = 0, $s = strlen($str); $i < $s; $i++) {
-			$ordinal = ord($str[$i]);
-
-			if ($ordinal < 128) {
-				/*
-				If the $temp array has a value but we have moved on, then it seems only
-				fair that we output that entity and restart $temp before continuing. -Paul
-				*/
-				if (count($temp) == 1) {
-					$out .= '&#' . array_shift($temp) . ';';
-					$count = 1;
-				}
-
-				$out .= $str[$i];
-			} else {
-				if (count($temp) == 0) {
-					$count = ($ordinal < 224) ? 2 : 3;
-				}
-
-				$temp[] = $ordinal;
-
-				if (count($temp) == $count) {
-					$number = ($count == 3) ? (($temp['0'] % 16) * 4096) + (($temp['1'] % 64) * 64) + ($temp['2'] %
-						64) : (($temp['0'] % 32) * 64) + ($temp['1'] % 64);
-
-					$out .= '&#' . $number . ';';
-					$count = 1;
-					$temp = [];
-				}
-			}
-		}
-
-		return $out;
-	}
-
-	/**
-	 * Entities to ASCII
-	 *
-	 * Converts character entities back to ASCII
-	 *
-	 * @param string $str
-	 * @param bool $all
-	 * @return string
-	 */
-	public function entitiesToAscii($str, $all = true) {
-		if (preg_match_all('/\&#(\d+)\;/', $str, $matches)) {
-			for ($i = 0, $s = count($matches['0']); $i < $s; $i++) {
-				$digits = (int)$matches['1'][$i];
-
-				$out = '';
-
-				if ($digits < 128) {
-					$out .= chr($digits);
-				} elseif ($digits < 2048) {
-					$out .= chr(192 + (int)(($digits - ($digits % 64)) / 64));
-					$out .= chr(128 + ($digits % 64));
-				} else {
-					$out .= chr(224 + (int)(($digits - ($digits % 4096)) / 4096));
-					$out .= chr(128 + (int)((($digits % 4096) - ($digits % 64)) / 64));
-					$out .= chr(128 + ($digits % 64));
-				}
-
-				$str = str_replace($matches['0'][$i], $out, $str);
-			}
-		}
-
-		if ($all) {
-			$str = str_replace(
-				['&amp;', '&lt;', '&gt;', '&quot;', '&apos;', '&#45;'],
-				['&', '<', '>', '"', "'", '-'],
-				$str,
-			);
-		}
-
-		return $str;
-	}
-
-	/**
-	 * Reduce Double Slashes
-	 *
-	 * Converts double slashes in a string to a single slash,
-	 * except those found in http://
-	 *
-	 * http://www.some-site.com//index.php
-	 *
-	 * becomes:
-	 *
-	 * http://www.some-site.com/index.php
-	 *
-	 * @param string $str
-	 * @return string
-	 */
-	public function reduceDoubleSlashes(string $str): string {
-		return (string)preg_replace('#([^:])//+#', '\\1/', $str);
 	}
 
 }

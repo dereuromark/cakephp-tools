@@ -302,15 +302,13 @@ class DateTime extends CakeDateTime {
 
 			if ($weekDay <= 4) {
 				/* Thursday or less: back to Monday */
-				$firstmonday = (int)mktime(0, 0, 0, 1, 1 - ($weekDay - 1), $year);
-			} elseif ($weekDay !== 1) {
-				/* Back to Monday */
-				$firstmonday = (int)mktime(0, 0, 0, 1, 1 + (7 - $weekDay + 1), $year);
+				$firstMonday = (int)mktime(0, 0, 0, 1, 1 - ($weekDay - 1), $year);
 			} else {
-				$firstmonday = $first;
+				/* Back to Monday */
+				$firstMonday = (int)mktime(0, 0, 0, 1, 1 + (7 - $weekDay + 1), $year);
 			}
 
-			return $firstmonday;
+			return $firstMonday;
 		}
 		$monday = strtotime($year . 'W' . static::pad((string)$cWeek) . '1');
 		if ($monday === false) {

@@ -109,7 +109,6 @@ class CommonComponent extends Component {
 	 * @return array<string> Actions
 	 */
 	public function listActions() {
-		/** @var string|null $parentClass */
 		$parentClass = get_parent_class($this->controller);
 		if (!$parentClass) {
 			return [];

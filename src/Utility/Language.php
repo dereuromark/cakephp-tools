@@ -28,8 +28,7 @@ class Language {
 			if (!env('HTTP_ACCEPT_LANGUAGE')) {
 				return [];
 			}
-			/** @var string $languageList */
-			$languageList = env('HTTP_ACCEPT_LANGUAGE');
+			$languageList = (string)env('HTTP_ACCEPT_LANGUAGE');
 		}
 
 		$languages = [];
