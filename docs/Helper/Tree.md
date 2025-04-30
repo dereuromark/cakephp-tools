@@ -98,7 +98,7 @@ $tree = $this->Table->find('threaded')->toArray();
 $id = 6;
 
 // We need to get the current path for this element
-$nodes = $this->Table->find('path', ['for' => $id]);
+$nodes = $this->Table->find('path', ...['for' => $id]);
 $path = $nodes->extract('id')->toArray();
 
 // In your view

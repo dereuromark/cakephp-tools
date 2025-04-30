@@ -322,7 +322,7 @@ class BitmaskedBehaviorTest extends TestCase {
 		$this->assertEquals($expected, $res);
 
 		$conditions = $res;
-		$res = $this->Comments->find('all', ['conditions' => $conditions])->toArray();
+		$res = $this->Comments->find('all', ...['conditions' => $conditions])->toArray();
 		$this->assertTrue(!empty($res) && count($res) === 3);
 
 		// multiple (AND)
@@ -334,7 +334,7 @@ class BitmaskedBehaviorTest extends TestCase {
 		$this->assertEquals($expected, $res);
 
 		$conditions = $res;
-		$res = $this->Comments->find('all', ['conditions' => $conditions])->toArray();
+		$res = $this->Comments->find('all', ...['conditions' => $conditions])->toArray();
 		$this->assertTrue(!empty($res) && count($res) === 2);
 	}
 
@@ -355,7 +355,7 @@ class BitmaskedBehaviorTest extends TestCase {
 		$this->assertEquals($expected, $res);
 
 		$conditions = $res;
-		$res = $this->Comments->find('all', ['conditions' => $conditions])->toArray();
+		$res = $this->Comments->find('all', ...['conditions' => $conditions])->toArray();
 		$this->assertTrue(!empty($res) && count($res) === 4);
 
 		// multiple (AND)
@@ -367,7 +367,7 @@ class BitmaskedBehaviorTest extends TestCase {
 		$this->assertEquals($expected, $res);
 
 		$conditions = $res;
-		$res = $this->Comments->find('all', ['conditions' => $conditions])->toArray();
+		$res = $this->Comments->find('all', ...['conditions' => $conditions])->toArray();
 		$this->assertTrue(!empty($res) && count($res) === 5);
 	}
 

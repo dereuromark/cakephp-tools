@@ -134,7 +134,7 @@ TEXT;
 	 * @return void
 	 */
 	public function testGenerateWithFindAll() {
-		$tree = $this->Table->find('all', ['order' => ['lft' => 'ASC']])->toArray();
+		$tree = $this->Table->find('all', ...['order' => ['lft' => 'ASC']])->toArray();
 
 		$output = $this->Tree->generate($tree);
 		$expected = <<<TEXT
@@ -471,7 +471,7 @@ TEXT;
 
 		$tree = $this->Table->find('threaded')->toArray();
 		$id = 6;
-		$nodes = $this->Table->find('path', ['for' => $id])->toArray();
+		$nodes = $this->Table->find('path', ...['for' => $id])->toArray();
 		$path = Hash::extract($nodes, '{n}.id');
 
 		$output = $this->Tree->generate($tree, ['autoPath' => [6, 11], 'hideUnrelated' => true, 'treePath' => $path, 'callback' => [$this, '_myCallback']]); // Two-SubA
@@ -529,7 +529,7 @@ TEXT;
 		$tree = $this->Table->find('threaded')->toArray();
 
 		$id = 6; // Two-SubA
-		$nodes = $this->Table->find('path', ['for' => $id])->toArray();
+		$nodes = $this->Table->find('path', ...['for' => $id])->toArray();
 		$path = Hash::extract($nodes, '{n}.id');
 
 		$output = $this->Tree->generate($tree, [
@@ -621,7 +621,7 @@ TEXT;
 		$tree = $this->Table->find('threaded')->toArray();
 
 		$id = 6;
-		$nodes = $this->Table->find('path', ['for' => $id])->toArray();
+		$nodes = $this->Table->find('path', ...['for' => $id])->toArray();
 		$path = Hash::extract($nodes, '{n}.id');
 
 		$output = $this->Tree->generate($tree, [

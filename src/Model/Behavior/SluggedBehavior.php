@@ -313,7 +313,7 @@ class SluggedBehavior extends Behavior {
 		}
 
 		$this->setConfig($params, null, false);
-		while (($records = $this->_table->find('all', $params)->toArray())) {
+		while (($records = $this->_table->find('all', ...$params)->toArray())) {
 			/** @var \Cake\ORM\Entity $record */
 			foreach ($records as $record) {
 				$record->setNew(true);

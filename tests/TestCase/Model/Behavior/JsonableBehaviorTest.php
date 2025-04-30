@@ -145,18 +145,18 @@ class JsonableBehaviorTest extends TestCase {
 		$res = $this->Comments->save($entity);
 		$this->assertTrue((bool)$res);
 
-		$res = $this->Comments->find('all', ['conditions' => ['title' => 'param']])->first();
+		$res = $this->Comments->find('all', ...['conditions' => ['title' => 'param']])->first();
 		$this->assertEquals(['x' => 'y'], $res['details']);
 
 		// param
 		$this->Comments->removeBehavior('Jsonable');
 
-		$res = $this->Comments->find('all', ['conditions' => ['title' => 'param']])->first();
+		$res = $this->Comments->find('all', ...['conditions' => ['title' => 'param']])->first();
 		$this->assertEquals('{"x":"y"}', $res['details']);
 
 		$this->Comments->addBehavior('Tools.Jsonable', ['output' => 'param', 'fields' => ['details']]);
 
-		$res = $this->Comments->find('all', ['conditions' => ['title' => 'param']])->first();
+		$res = $this->Comments->find('all', ...['conditions' => ['title' => 'param']])->first();
 		$this->assertEquals('x:y', $res['details']);
 
 		// list
@@ -175,12 +175,12 @@ class JsonableBehaviorTest extends TestCase {
 
 		$this->Comments->removeBehavior('Jsonable');
 
-		$res = $this->Comments->find('all', ['conditions' => ['title' => 'list']])->first();
+		$res = $this->Comments->find('all', ...['conditions' => ['title' => 'list']])->first();
 		$this->assertEquals('["z","y","x"]', $res['details']);
 
 		$this->Comments->addBehavior('Tools.Jsonable', ['output' => 'list', 'fields' => ['details']]);
 
-		$res = $this->Comments->find('all', ['conditions' => ['title' => 'list']])->first();
+		$res = $this->Comments->find('all', ...['conditions' => ['title' => 'list']])->first();
 		$this->assertEquals('z|y|x', $res['details']);
 
 		// custom separator
@@ -188,11 +188,11 @@ class JsonableBehaviorTest extends TestCase {
 		$this->Comments->addBehavior('Tools.Jsonable', ['output' => 'list', 'separator' => ', ', 'fields' => ['details']]);
 
 		// find first
-		$res = $this->Comments->find('all', ['conditions' => ['title' => 'list']])->first();
+		$res = $this->Comments->find('all', ...['conditions' => ['title' => 'list']])->first();
 		$this->assertEquals('z, y, x', $res['details']);
 
 		// find all
-		$res = $this->Comments->find('all', ['order' => ['title' => 'ASC']])->toArray();
+		$res = $this->Comments->find('all', ...['order' => ['title' => 'ASC']])->toArray();
 		$this->assertEquals('z, y, x', $res[0]['details']);
 	}
 
@@ -213,7 +213,7 @@ class JsonableBehaviorTest extends TestCase {
 		$entity = $this->Comments->newEntity($data);
 		$this->Comments->save($entity);
 
-		$res = $this->Comments->find('all', ['conditions' => ['title' => 'param']])->first();
+		$res = $this->Comments->find('all', ...['conditions' => ['title' => 'param']])->first();
 		$expected = ['x' => ['y' => 'z']];
 		$this->assertEquals($expected, $res['details']);
 
@@ -232,7 +232,7 @@ class JsonableBehaviorTest extends TestCase {
 		$entity = $this->Comments->newEntity($data);
 		$this->Comments->save($entity);
 
-		$res = $this->Comments->find('all', ['conditions' => ['title' => 'param']])->first();
+		$res = $this->Comments->find('all', ...['conditions' => ['title' => 'param']])->first();
 		$obj = new stdClass();
 		$obj->x = new stdClass();
 		$obj->x->y = 'z';
@@ -257,7 +257,7 @@ class JsonableBehaviorTest extends TestCase {
 		$entity = $this->Comments->newEntity($data);
 		$this->Comments->save($entity);
 
-		$res = $this->Comments->find('all', ['conditions' => ['title' => 'param']])->first();
+		$res = $this->Comments->find('all', ...['conditions' => ['title' => 'param']])->first();
 		$obj = new stdClass();
 		$obj->y = 'yy';
 		$expected = $obj;
@@ -277,7 +277,7 @@ class JsonableBehaviorTest extends TestCase {
 		$entity = $this->Comments->newEntity($data);
 		$this->Comments->save($entity);
 
-		$res = $this->Comments->find('all', ['conditions' => ['title' => 'param']])->first();
+		$res = $this->Comments->find('all', ...['conditions' => ['title' => 'param']])->first();
 		$expected = new stdClass();
 		$expected->y = new stdClass();
 		$expected->y->yy = 'yyy';
@@ -301,7 +301,7 @@ class JsonableBehaviorTest extends TestCase {
 		$this->Comments->save($entity);
 
 		// Test decode with default params
-		$res = $this->Comments->find('all', ['conditions' => ['title' => 'param']])->first();
+		$res = $this->Comments->find('all', ...['conditions' => ['title' => 'param']])->first();
 		$obj = new stdClass();
 		$obj->x = new stdClass();
 		$obj->x->y = 'z';
@@ -312,7 +312,7 @@ class JsonableBehaviorTest extends TestCase {
 		$this->Comments->removeBehavior('Jsonable');
 		$this->Comments->addBehavior('Tools.Jsonable', ['fields' => ['details'], 'decodeParams' => ['assoc' => true]]);
 
-		$res = $this->Comments->find('all', ['conditions' => ['title' => 'param']])->first();
+		$res = $this->Comments->find('all', ...['conditions' => ['title' => 'param']])->first();
 		$expected = ['x' => ['y' => 'z']];
 		$this->assertEquals($expected, $res['details']);
 
@@ -320,7 +320,7 @@ class JsonableBehaviorTest extends TestCase {
 		$this->Comments->removeBehavior('Jsonable');
 		$this->Comments->addBehavior('Tools.Jsonable', ['fields' => ['details'], 'decodeParams' => ['assoc' => true, 'depth' => 2]]);
 
-		$res = $this->Comments->find('all', ['conditions' => ['title' => 'param']])->first();
+		$res = $this->Comments->find('all', ...['conditions' => ['title' => 'param']])->first();
 		$expected = [];
 		$this->assertEquals($expected, $res['details']);
 
@@ -328,7 +328,7 @@ class JsonableBehaviorTest extends TestCase {
 		$this->Comments->removeBehavior('Jsonable');
 		$this->Comments->addBehavior('Tools.Jsonable', ['fields' => ['details'], 'decodeParams' => ['assoc' => true, 'depth' => 3]]);
 
-		$res = $this->Comments->find('all', ['conditions' => ['title' => 'param']])->first();
+		$res = $this->Comments->find('all', ...['conditions' => ['title' => 'param']])->first();
 		$expected = ['x' => ['y' => 'z']];
 		$this->assertEquals($expected, $res['details']);
 	}

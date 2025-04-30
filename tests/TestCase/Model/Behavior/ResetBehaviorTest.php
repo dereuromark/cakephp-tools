@@ -47,13 +47,13 @@ class ResetBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testResetRecords() {
-		$x = $this->Table->find('all', ['fields' => ['comment', 'updated'], 'order' => ['updated' => 'DESC']])->first();
+		$x = $this->Table->find('all', ...['fields' => ['comment', 'updated'], 'order' => ['updated' => 'DESC']])->first();
 		$x['updated'] = (string)$x['updated'];
 
 		$result = $this->Table->resetRecords();
 		$this->assertTrue((bool)$result);
 
-		$y = $this->Table->find('all', ['fields' => ['comment', 'updated'], 'order' => ['updated' => 'DESC']])->first();
+		$y = $this->Table->find('all', ...['fields' => ['comment', 'updated'], 'order' => ['updated' => 'DESC']])->first();
 		$y['updated'] = (string)$y['updated'];
 		$this->assertSame($x->toArray(), $y->toArray());
 	}
@@ -65,12 +65,12 @@ class ResetBehaviorTest extends TestCase {
 		$this->Table->removeBehavior('Reset');
 		$this->Table->addBehavior('Tools.Reset', ['fields' => ['comment'], 'updateFields' => ['comment']]);
 
-		$x = $this->Table->find('all', ['fields' => ['comment'], 'order' => ['updated' => 'DESC']])->first();
+		$x = $this->Table->find('all', ...['fields' => ['comment'], 'order' => ['updated' => 'DESC']])->first();
 
 		$result = $this->Table->resetRecords();
 		$this->assertTrue((bool)$result);
 
-		$y = $this->Table->find('all', ['fields' => ['comment'], 'order' => ['updated' => 'DESC']])->first();
+		$y = $this->Table->find('all', ...['fields' => ['comment'], 'order' => ['updated' => 'DESC']])->first();
 		$this->assertSame($x->toArray(), $y->toArray());
 	}
 
@@ -83,13 +83,13 @@ class ResetBehaviorTest extends TestCase {
 		$this->Table->removeBehavior('Reset');
 		$this->Table->addBehavior('Tools.Reset', ['updateTimestamp' => true]);
 
-		$x = $this->Table->find('all', ['order' => ['updated' => 'DESC']])->first();
+		$x = $this->Table->find('all', ...['order' => ['updated' => 'DESC']])->first();
 		$this->assertTrue($x['updated'] < '2007-12-31');
 
 		$result = $this->Table->resetRecords();
 		$this->assertTrue((bool)$result);
 
-		$x = $this->Table->find('all', ['order' => ['updated' => 'ASC']])->first();
+		$x = $this->Table->find('all', ...['order' => ['updated' => 'ASC']])->first();
 		$this->assertTrue($x['updated'] > (date('Y') - 1) . '-12-31');
 	}
 
@@ -102,13 +102,13 @@ class ResetBehaviorTest extends TestCase {
 		$this->Table->removeBehavior('Reset');
 		$this->Table->addBehavior('Tools.Reset', ['callback' => 'customCallback']);
 
-		$x = $this->Table->find('all', ['conditions' => ['id' => 6]])->first();
+		$x = $this->Table->find('all', ...['conditions' => ['id' => 6]])->first();
 		$this->assertEquals('Second Comment for Second Article', $x['comment']);
 
 		$result = $this->Table->resetRecords();
 		$this->assertTrue((bool)$result);
 
-		$x = $this->Table->find('all', ['conditions' => ['id' => 6]])->first();
+		$x = $this->Table->find('all', ...['conditions' => ['id' => 6]])->first();
 		$expected = 'Second Comment for Second Article xyz';
 		$this->assertEquals($expected, $x['comment']);
 	}

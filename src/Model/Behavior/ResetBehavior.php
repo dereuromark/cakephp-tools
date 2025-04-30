@@ -132,7 +132,7 @@ class ResetBehavior extends Behavior {
 		}
 
 		$modified = 0;
-		while (($records = $this->_table->find('all', $params)->toArray())) {
+		while (($records = $this->_table->find('all', ...$params)->toArray())) {
 			foreach ($records as $record) {
 				$fields = (array)$params['fields'];
 				if ($this->getConfig('updateFields')) {

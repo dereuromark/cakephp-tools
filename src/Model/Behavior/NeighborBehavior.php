@@ -42,7 +42,7 @@ class NeighborBehavior extends Behavior {
 		$sortDirSymb = $normalDirection ? ['>=', '<='] : ['<=', '>='];
 
 		if (empty($options['value'])) {
-			$data = $this->_table->find('all', ['conditions' => [$primaryKey => $id]])->first();
+			$data = $this->_table->find('all', ...['conditions' => [$primaryKey => $id]])->first();
 			[$model, $sortField] = pluginSplit($options['sortField']);
 			$options['value'] = $data[$sortField];
 		}
@@ -62,12 +62,12 @@ class NeighborBehavior extends Behavior {
 		$prevOptions = $findOptions;
 		$prevOptions['conditions'] = Hash::merge($prevOptions['conditions'], [$options['sortField'] . ' ' . $sortDirSymb[1] => $options['value']]);
 		$prevOptions['order'] = [$options['sortField'] => $sortDirWord[1]];
-		$return['prev'] = $this->_table->find('all', $prevOptions)->first();
+		$return['prev'] = $this->_table->find('all', ...$prevOptions)->first();
 
 		$nextOptions = $findOptions;
 		$nextOptions['conditions'] = Hash::merge($nextOptions['conditions'], [$options['sortField'] . ' ' . $sortDirSymb[0] => $options['value']]);
 		$nextOptions['order'] = [$options['sortField'] => $sortDirWord[0]];
-		$return['next'] = $this->_table->find('all', $nextOptions)->first();
+		$return['next'] = $this->_table->find('all', ...$nextOptions)->first();
 
 		return $return;
 	}

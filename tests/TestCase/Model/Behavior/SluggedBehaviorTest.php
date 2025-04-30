@@ -115,7 +115,7 @@ class SluggedBehaviorTest extends TestCase {
 	 * @return void
 	 */
 	public function testCustomFinderLegacy() {
-		$article = $this->articles->find()->find('slugged', ['slug' => 'foo'])->first();
+		$article = $this->articles->find()->find('slugged', ...['slug' => 'foo'])->first();
 		$this->assertEquals('Foo', $article->get('title'));
 	}
 
@@ -317,7 +317,7 @@ class SluggedBehaviorTest extends TestCase {
 		$article = $this->articles->newEntity(['title' => 'Andy Dawsom', 'slug' => 'bar']);
 		$this->articles->save($article);
 
-		$result = $this->articles->find('all', [
+		$result = $this->articles->find('all', ...[
 			'conditions' => ['title LIKE' => 'Andy Daw%'],
 			'fields' => ['title', 'slug'],
 			'order' => 'title',
@@ -332,7 +332,7 @@ class SluggedBehaviorTest extends TestCase {
 		$result = $this->articles->resetSlugs(['limit' => 1]);
 		$this->assertTrue($result);
 
-		$result = $this->articles->find('all', [
+		$result = $this->articles->find('all', ...[
 			'conditions' => ['title LIKE' => 'Andy Daw%'],
 			'fields' => ['title', 'slug'],
 			'order' => 'title',
@@ -377,7 +377,7 @@ class SluggedBehaviorTest extends TestCase {
 		$article = $this->articles->newEntity(['title' => 'Andy Dawso0']);
 		$this->articles->save($article);
 
-		$result = $this->articles->find('all', [
+		$result = $this->articles->find('all', ...[
 			'conditions' => ['title LIKE' => 'Andy Daw%'],
 			'fields' => ['title', 'slug'],
 			'order' => 'title',
