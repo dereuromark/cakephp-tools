@@ -141,7 +141,7 @@ class TypographicBehaviorTest extends TestCase {
 		$count = $this->Model->updateTypography();
 		$this->assertTrue($count >= 190, 'Count is only ' . $count);
 
-		$record = $this->Model->find()->orderDesc('id')->firstOrFail();
+		$record = $this->Model->find()->orderByDesc('id')->firstOrFail();
 		$this->assertSame('unclean `content` to "correct"', $record['body']);
 	}
 
