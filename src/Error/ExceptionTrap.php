@@ -58,6 +58,19 @@ class ExceptionTrap extends CoreExceptionTrap {
 	 * @return void
 	 */
 	public function logException(Throwable $exception, ?ServerRequestInterface $request = null): void {
+		$shouldLog = $this->_config['log'];
+		if ($shouldLog) {
+			foreach ($this->getConfig('skipLog') as $class) {
+				if ($exception instanceof $class) {
+					$shouldLog = false;
+					break;
+				}
+			}
+		}
+		if (!$shouldLog) {
+			return;
+		}
+
 		if ($this->is404($exception, $request)) {
 			$level = LOG_ERR;
 			$message = $this->getMessage($exception);
@@ -70,7 +83,7 @@ class ExceptionTrap extends CoreExceptionTrap {
 			return;
 		}
 
-		parent::logException($exception, $request);
+		$this->logger()->logException($exception, $request, $this->_config['trace']);
 	}
 
 	/**
