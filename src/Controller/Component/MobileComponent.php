@@ -76,7 +76,7 @@ class MobileComponent extends Component {
 	 * @param \Cake\Event\EventInterface $event
 	 * @return void
 	 */
-	public function beforeFilter(EventInterface $event) {
+	public function beforeFilter(EventInterface $event): void {
 		if ($this->_config['on'] !== 'beforeFilter') {
 			return;
 		}

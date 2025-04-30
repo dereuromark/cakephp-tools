@@ -21,7 +21,7 @@ class TestComponent extends Component {
 	 * @param \Cake\Event\EventInterface $event
 	 * @return void
 	 */
-	public function beforeFilter(EventInterface $event) {
+	public function beforeFilter(EventInterface $event): void {
 		$this->isInit = true;
 	}
 
