@@ -40,7 +40,7 @@ class ToggleBehavior extends Behavior {
 	 *
 	 * @return void
 	 */
-	public function afterDelete(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
+	public function afterDelete(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {
 		$field = $this->getConfig('field');
 
 		$value = $entity->get($field);
@@ -105,7 +105,7 @@ class ToggleBehavior extends Behavior {
 	 * @throws \LogicException
 	 * @return void
 	 */
-	public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
+	public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {
 		if ($this->_config['on'] !== 'afterSave') {
 			return;
 		}
