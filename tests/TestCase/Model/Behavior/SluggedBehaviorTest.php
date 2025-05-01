@@ -234,7 +234,7 @@ class SluggedBehaviorTest extends TestCase {
 		$result = $this->articles->save($entity);
 		$this->assertEquals('Some-title', $result->get('slug'));
 
-		$entity = $this->articles->get($entity->id, ['fields' => ['id', 'slug']]);
+		$entity = $this->articles->get($entity->id, ...['fields' => ['id', 'slug']]);
 
 		$this->articles->behaviors()->Slugged->setConfig(['overwrite' => true]);
 		// Without title present it should not modify the slug

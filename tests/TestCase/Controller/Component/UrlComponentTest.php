@@ -109,8 +109,7 @@ class UrlComponentTest extends TestCase {
 		$this->assertSame($expected, $result);
 
 		$request = $this->Controller->getRequest();
-		$request = $request->withAttribute('here', '/admin/foo/bar/baz/test')
-			->withParam('prefix', 'Admin')
+		$request = $request->withParam('prefix', 'Admin')
 			->withParam('plugin', 'Foo');
 		$this->Controller->setRequest($request);
 

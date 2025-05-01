@@ -46,8 +46,7 @@ class EncryptionBehaviorTest extends TestCase {
 		$this->assertTrue((bool)$entityAfter);
 
 		$connection = ConnectionManager::get('default');
-		$lastInsertedId = $connection->getDriver()->lastInsertId();
-		$result = $connection->getDriver()->execute('SELECT data FROM sessions WHERE id = :id', ['id' => $lastInsertedId])->fetchAll();
+		$result = $connection->getDriver()->execute('SELECT data FROM sessions WHERE id = :id', ['id' => $entityAfter->id])->fetchAll();
 		$this->assertNotEquals($data['data'], $result[0][0]);
 	}
 

@@ -306,7 +306,7 @@ class SluggedBehavior extends Behavior {
 		$params += $defaults;
 
 		$conditions = $params['conditions'];
-		$count = $this->_table->find('all', compact('conditions'))->count();
+		$count = $this->_table->find('all', ...compact('conditions'))->count();
 		$max = (int)ini_get('max_execution_time');
 		if ($max) {
 			set_time_limit(max($max, $count / 100));
@@ -348,7 +348,7 @@ class SluggedBehavior extends Behavior {
 	 * @throws \RuntimeException
 	 * @return string A slug
 	 */
-	public function generateSlug($value, ?EntityInterface $entity = null) {
+	public function generateSlug(string $value, ?EntityInterface $entity = null) {
 		$separator = $this->_config['separator'];
 
 		$string = str_replace(["\r\n", "\r", "\n"], ' ', $value);

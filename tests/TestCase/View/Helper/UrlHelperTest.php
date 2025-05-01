@@ -66,8 +66,7 @@ class UrlHelperTest extends TestCase {
 		$this->assertSame($expected, $result);
 
 		$request = $this->Url->getView()->getRequest();
-		$request = $request->withAttribute('here', '/admin/foo-bar/test')
-			->withParam('prefix', 'Admin');
+		$request = $request->withParam('prefix', 'Admin');
 		$this->Url->getView()->setRequest($request);
 
 		$builder = Router::createRouteBuilder('/');
@@ -99,8 +98,7 @@ class UrlHelperTest extends TestCase {
 		$this->assertSame($expected, $result);
 
 		$request = $this->Url->getView()->getRequest();
-		$request = $request->withAttribute('here', '/admin/foo/bar/baz/test')
-			->withParam('prefix', 'Admin')
+		$request = $request->withParam('prefix', 'Admin')
 			->withParam('plugin', 'Foo');
 		$this->Url->getView()->setRequest($request);
 

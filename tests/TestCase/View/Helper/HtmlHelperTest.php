@@ -56,8 +56,7 @@ class HtmlHelperTest extends TestCase {
 		$this->assertEquals($expected, $result);
 
 		$request = $this->Html->getView()->getRequest();
-		$request = $request->withAttribute('here', '/admin/foo-bar/test')
-			->withParam('prefix', 'Admin');
+		$request = $request->withParam('prefix', 'Admin');
 		$this->Html->getView()->setRequest($request);
 
 		$builder = Router::createRouteBuilder('/');
