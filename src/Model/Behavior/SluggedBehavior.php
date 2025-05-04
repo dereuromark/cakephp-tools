@@ -189,7 +189,7 @@ class SluggedBehavior extends Behavior {
 	 *
 	 * @return void
 	 */
-	public function beforeRules(EventInterface $event, EntityInterface $entity, ArrayObject $options, $operation) {
+	public function beforeRules(EventInterface $event, EntityInterface $entity, ArrayObject $options, $operation): void {
 		if ($this->_config['on'] === 'beforeRules') {
 			$this->slug($entity);
 		}

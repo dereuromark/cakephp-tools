@@ -75,7 +75,7 @@ class ToggleBehavior extends Behavior {
 	 * @throws \LogicException
 	 * @return void
 	 */
-	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
+	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {
 		$field = $this->getConfig('field');
 
 		if ($entity->isNew() && !$entity->get($field)) {

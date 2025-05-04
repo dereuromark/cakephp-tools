@@ -34,22 +34,22 @@ class RefererRedirectComponent extends Component {
 	 * @param array|string $url A string or array containing the redirect location
 	 * @param \Cake\Http\Response $response The response object.
 	 *
-	 * @return \Cake\Http\Response|null
+	 * @return void
 	 */
-	public function beforeRedirect(EventInterface $event, $url, Response $response) {
+	public function beforeRedirect(EventInterface $event, $url, Response $response): void {
 		$actions = $this->getConfig('actions');
 		$currentAction = $this->getController()->getRequest()->getParam('action');
 
 		if ($currentAction && $actions && !in_array($currentAction, $actions, true)) {
-			return null;
+			return;
 		}
 
 		$referer = $this->referer();
 		if (!$referer) {
-			return null;
+			return;
 		}
 
-		return $response->withLocation($referer);
+		$event->setResult($response->withLocation($referer));
 	}
 
 	/**

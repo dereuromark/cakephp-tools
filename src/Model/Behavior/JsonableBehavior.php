@@ -111,7 +111,7 @@ class JsonableBehavior extends Behavior {
 	 *
 	 * @return void
 	 */
-	public function beforeFind(EventInterface $event, SelectQuery $query, ArrayObject $options, $primary) {
+	public function beforeFind(EventInterface $event, SelectQuery $query, ArrayObject $options, bool $primary): void {
 		$query->formatResults(function (CollectionInterface $results) {
 			return $results->map(function ($row) {
 				if (!$row instanceof Entity) {

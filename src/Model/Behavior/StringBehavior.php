@@ -54,7 +54,7 @@ class StringBehavior extends Behavior {
 	 *
 	 * @return void
 	 */
-	public function beforeFind(EventInterface $event, SelectQuery $query, ArrayObject $options, $primary) {
+	public function beforeFind(EventInterface $event, SelectQuery $query, ArrayObject $options, bool $primary): void {
 		$query->formatResults(function (ResultSetInterface $results) {
 			return $results->map(function ($row) {
 				$this->processItems($row, 'output');

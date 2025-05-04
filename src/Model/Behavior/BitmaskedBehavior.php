@@ -163,7 +163,7 @@ class BitmaskedBehavior extends Behavior {
 	 *
 	 * @return void
 	 */
-	public function beforeFind(EventInterface $event, SelectQuery $query, ArrayObject $options, $primary): void {
+	public function beforeFind(EventInterface $event, SelectQuery $query, ArrayObject $options, bool $primary): void {
 		$this->encodeBitmaskConditions($query);
 
 		$field = $this->_config['field'];
