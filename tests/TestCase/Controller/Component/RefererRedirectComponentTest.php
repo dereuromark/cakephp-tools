@@ -56,7 +56,9 @@ class RefererRedirectComponentTest extends TestCase {
 		$componentRegistry = new ComponentRegistry($this->Controller);
 		$refererRedirectComponent = new RefererRedirectComponent($componentRegistry);
 
-		$modifiedResponse = $refererRedirectComponent->beforeRedirect($this->event, ['action' => 'foo'], $response);
+		$refererRedirectComponent->beforeRedirect($this->event, ['action' => 'foo'], $response);
+		/** @var \Cake\Http\Response $modifiedResponse */
+		$modifiedResponse = $this->event->getResult();
 
 		$this->assertSame(['/somewhere-else'], $modifiedResponse->getHeader('Location'));
 	}
