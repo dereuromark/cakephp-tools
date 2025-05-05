@@ -3,6 +3,7 @@
 namespace Tools\Error;
 
 use Cake\Controller\Exception\AuthSecurityException;
+use Cake\Controller\Exception\FormProtectionException;
 use Cake\Controller\Exception\MissingActionException;
 use Cake\Controller\Exception\SecurityException;
 use Cake\Core\Configure;
@@ -56,6 +57,7 @@ trait ErrorHandlerTrait {
 		UnavailableForLegalReasonsException::class,
 		SecurityException::class,
 		AuthSecurityException::class,
+		FormProtectionException::class,
 	];
 
 	/**
