@@ -5,7 +5,6 @@ namespace Tools\I18n;
 use Cake\Chronos\Chronos;
 use Cake\Chronos\ChronosDate;
 use Cake\Core\Configure;
-use Cake\I18n\Date;
 use Cake\I18n\Date as CakeDate;
 use Cake\I18n\DateTime as CakeDateTime;
 use DateInterval;
