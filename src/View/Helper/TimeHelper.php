@@ -139,12 +139,12 @@ class TimeHelper extends CakeTimeHelper {
 	/**
 	 * Like localDate(), only with additional markup <span> and class="today", if today, etc
 	 *
-	 * @param string|null $dateString
+	 * @param \Cake\I18n\DateTime|string|null $dateString
 	 * @param string|null $format
 	 * @param array<string, mixed> $options
 	 * @return string
 	 */
-	public function localDateMarkup($dateString = null, $format = null, $options = []) {
+	public function localDateMarkup($dateString = null, ?string $format = null, array $options = []): string {
 		$date = $this->localDate($dateString, $format, $options);
 		if ($dateString === null) {
 			$dateString = time();
@@ -157,12 +157,12 @@ class TimeHelper extends CakeTimeHelper {
 	/**
 	 * Like niceDate(), only with additional markup <span> and class="today", if today, etc
 	 *
-	 * @param string|null $dateString
+	 * @param \Cake\I18n\DateTime|string|null $dateString
 	 * @param string|null $format
 	 * @param array<string, mixed> $options
 	 * @return string
 	 */
-	public function niceDateMarkup($dateString = null, $format = null, $options = []) {
+	public function niceDateMarkup($dateString = null, ?string $format = null, array $options = []): string {
 		$date = $this->niceDate($dateString, $format, $options);
 		if ($dateString === null) {
 			$dateString = time();

@@ -437,12 +437,12 @@ class DateTime extends CakeDateTime {
 	 * - default: Default string (defaults to "-----")
 	 * - oclock: Set to true to append oclock string
 	 *
-	 * @param \Cake\Chronos\ChronosDate|\DateTimeInterface|\Cake\I18n\Date|\Cake\I18n\DateTime $dateString
+	 * @param \Cake\I18n\DateTime|string|null $dateString
 	 * @param string|null $format Format (YYYY-MM-DD, DD.MM.YYYY)
 	 * @param array<string, mixed> $options
 	 * @return string
 	 */
-	public static function localDate(ChronosDate|DateTimeInterface|Date|\Cake\I18n\DateTime $dateString, ?string $format = null, array $options = []) {
+	public static function localDate($dateString, ?string $format = null, array $options = []) {
 		$defaults = [
 			'default' => '-----',
 			'timezone' => null,

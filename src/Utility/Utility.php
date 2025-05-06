@@ -59,7 +59,7 @@ class Utility {
 	 * @param array<string, mixed> $options
 	 * @return array
 	 */
-	public static function tokenize($data, $separator = ',', $options = []): array {
+	public static function tokenize(string $data, string $separator = ',', array $options = []): array {
 		$defaults = [
 			'clean' => true,
 		];
