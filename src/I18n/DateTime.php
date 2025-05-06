@@ -5,6 +5,7 @@ namespace Tools\I18n;
 use Cake\Chronos\Chronos;
 use Cake\Chronos\ChronosDate;
 use Cake\Core\Configure;
+use Cake\I18n\Date;
 use Cake\I18n\Date as CakeDate;
 use Cake\I18n\DateTime as CakeDateTime;
 use DateInterval;
@@ -436,12 +437,12 @@ class DateTime extends CakeDateTime {
 	 * - default: Default string (defaults to "-----")
 	 * - oclock: Set to true to append oclock string
 	 *
-	 * @param string|null $dateString
+	 * @param \Cake\Chronos\ChronosDate|\DateTimeInterface|\Cake\I18n\Date|\Cake\I18n\DateTime $dateString
 	 * @param string|null $format Format (YYYY-MM-DD, DD.MM.YYYY)
 	 * @param array<string, mixed> $options
 	 * @return string
 	 */
-	public static function localDate(?string $dateString, ?string $format = null, array $options = []) {
+	public static function localDate(ChronosDate|DateTimeInterface|Date|\Cake\I18n\DateTime $dateString, ?string $format = null, array $options = []) {
 		$defaults = [
 			'default' => '-----',
 			'timezone' => null,
@@ -452,7 +453,7 @@ class DateTime extends CakeDateTime {
 
 		/** @var \DateTimeZone|string|null $timezone */
 		$timezone = $options['timezone'];
-		if ($timezone === null && $dateString && strlen($dateString) === 10) {
+		if ($timezone === null) {
 			$timezone = static::_getDefaultOutputTimezone();
 		}
 		if ($dateString === null) {
