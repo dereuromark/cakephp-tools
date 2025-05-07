@@ -150,7 +150,7 @@ class JsonableBehavior extends Behavior {
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
+	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {
 		$fields = $this->_getMappedFields();
 
 		foreach ($fields as $map => $field) {

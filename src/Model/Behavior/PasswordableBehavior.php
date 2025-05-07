@@ -308,7 +308,7 @@ class PasswordableBehavior extends Behavior {
 	 * @throws \RuntimeException
 	 * @return void
 	 */
-	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
+	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {
 		$formField = $this->_config['formField'];
 		$field = $this->_config['field'];
 

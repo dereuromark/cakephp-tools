@@ -106,7 +106,7 @@ class StringBehavior extends Behavior {
 	 * @param \ArrayObject $options
 	 * @return void
 	 */
-	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options) {
+	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {
 		$this->processItems($entity, 'input');
 	}
 

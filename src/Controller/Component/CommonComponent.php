@@ -45,7 +45,7 @@ class CommonComponent extends Component {
 	 * @param \Cake\Event\EventInterface $event
 	 * @return void
 	 */
-	public function startup(EventInterface $event) {
+	public function startup(EventInterface $event): void {
 		if ($this->getConfig('notrim') || Configure::read('DataPreparation.notrim')) {
 			return;
 		}
