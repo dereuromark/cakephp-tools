@@ -384,7 +384,7 @@ class TableTest extends TestCase {
 		$res = $this->Users->validateUrl($data, ['strict' => true]);
 		$this->assertTrue($res); # aha
 
-		$data = 'http://www.dereuromark.de';
+		$data = 'https://www.dereuromark.de';
 		$res = $this->Users->validateUrl($data, ['strict' => false]);
 		$this->assertTrue($res);
 
