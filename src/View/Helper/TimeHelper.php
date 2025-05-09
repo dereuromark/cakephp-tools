@@ -141,12 +141,12 @@ class TimeHelper extends CakeTimeHelper {
 	/**
 	 * Like localDate(), only with additional markup <span> and class="today", if today, etc
 	 *
+	 * @deprecated Not timezone aware
 	 * @param \Cake\I18n\DateTime|string|null $dateString
 	 * @param string|null $format
 	 * @param array<string, mixed> $options
 	 * @return string
 	 *
-	 * @deprecated Not timezone aware
 	 */
 	public function localDateMarkup($dateString = null, ?string $format = null, array $options = []): string {
 		$date = $this->localDate($dateString, $format, $options);

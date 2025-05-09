@@ -436,12 +436,12 @@ class DateTime extends CakeDateTime {
 	 * - default: Default string (defaults to "-----")
 	 * - oclock: Set to true to append oclock string
 	 *
+	 * @deprecated Not timezone aware
 	 * @param \Cake\I18n\DateTime|string|null $dateString
 	 * @param string|null $format Format (YYYY-MM-DD, DD.MM.YYYY)
 	 * @param array<string, mixed> $options
 	 * @return string
 	 *
-	 * @deprecated Not timezone aware
 	 */
 	public static function localDate($dateString, ?string $format = null, array $options = []) {
 		$defaults = [
@@ -484,13 +484,13 @@ class DateTime extends CakeDateTime {
 	}
 
 	/**
+	 * @deprecated Not timezone aware
 	 * @param \DateTimeInterface|\Cake\Chronos\Chronos $dt
 	 * @param string $format
 	 * @param string $language
 	 *
 	 * @return string
 	 *
-	 * @deprecated Not timezone aware
 	 */
 	public static function formatLocalized($dt, string $format, string $language = 'en'): string {
 		$curTz = $dt->getTimezone();
