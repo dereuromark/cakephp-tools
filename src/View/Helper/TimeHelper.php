@@ -145,6 +145,8 @@ class TimeHelper extends CakeTimeHelper {
 	 * @param string|null $format
 	 * @param array<string, mixed> $options
 	 * @return string
+	 *
+	 * @deprecated Not timezone aware
 	 */
 	public function localDateMarkup($dateString = null, ?string $format = null, array $options = []): string {
 		$date = $this->localDate($dateString, $format, $options);
