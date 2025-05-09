@@ -107,6 +107,8 @@ class TimeHelper extends CakeTimeHelper {
 
 		// Deprecated
 		if (is_string($dateString) && strlen($dateString) === 10) {
+			$timezone = $this->_getTimezone($timezone);
+
 			return $this->niceDate($dateString, null, compact('timezone', 'default'));
 		}
 

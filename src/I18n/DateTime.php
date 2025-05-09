@@ -440,6 +440,8 @@ class DateTime extends CakeDateTime {
 	 * @param string|null $format Format (YYYY-MM-DD, DD.MM.YYYY)
 	 * @param array<string, mixed> $options
 	 * @return string
+	 *
+	 * @deprecated Not timezone aware
 	 */
 	public static function localDate($dateString, ?string $format = null, array $options = []) {
 		$defaults = [
@@ -487,6 +489,8 @@ class DateTime extends CakeDateTime {
 	 * @param string $language
 	 *
 	 * @return string
+	 *
+	 * @deprecated Not timezone aware
 	 */
 	public static function formatLocalized($dt, string $format, string $language = 'en'): string {
 		$curTz = $dt->getTimezone();
@@ -539,7 +543,10 @@ class DateTime extends CakeDateTime {
 	 * @return string
 	 */
 	public static function niceDate($dateString, $format = null, array $options = []) {
-		$defaults = ['default' => '-----', 'timezone' => null];
+		$defaults = [
+			'default' => '-----',
+			'timezone' => null,
+		];
 		$options += $defaults;
 
 		if ($options['timezone'] === null) {
@@ -572,7 +579,7 @@ class DateTime extends CakeDateTime {
 			}
 		}
 
-		if (!($date instanceof CakeDate) && !($date instanceof CakeDateTime)) {
+		if ($options['timezone'] && !($date instanceof CakeDate)) {
 			$date = $date->setTimezone($options['timezone']);
 		}
 		$ret = $date->format($format);
