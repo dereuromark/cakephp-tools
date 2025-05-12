@@ -30,7 +30,7 @@ class ToggleBehavior extends Behavior {
 		'on' => 'afterSave', // afterSave (without transactions) or beforeSave (with transactions)
 		'scopeFields' => [],
 		'scope' => [],
-		'findOrder' => null, // null = autodetect modified/created
+		'findOrder' => null, // null = autodetect modified/created, false to disable
 	];
 
 	/**
@@ -51,6 +51,10 @@ class ToggleBehavior extends Behavior {
 		$conditions = $this->buildConditions($entity);
 
 		$order = $this->getConfig('findOrder');
+		if ($order === false) {
+			return;
+		}
+
 		if ($order === null) {
 			$order = [];
 			if ($this->_table->getSchema()->getColumn('modified')) {
