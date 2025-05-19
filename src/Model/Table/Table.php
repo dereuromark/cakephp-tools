@@ -2,12 +2,12 @@
 
 namespace Tools\Model\Table;
 
-use Cake\I18n\Date;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Cake\Validation\Validation;
 use InvalidArgumentException;
 use Shim\Model\Table\Table as ShimTable;
+use Tools\I18n\Date;
 use Tools\I18n\DateTime;
 use Tools\Utility\Utility;
 

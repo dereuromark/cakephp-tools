@@ -10,7 +10,7 @@ use Tools\I18n\DateTime;
 class DateTimeTest extends TestCase {
 
 	/**
-	 * @var \Tools\Utility\DateTime
+	 * @var \Tools\I18n\DateTime
 	 */
 	protected DateTime $Time;
 
