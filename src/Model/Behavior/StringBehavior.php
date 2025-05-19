@@ -3,8 +3,8 @@
 namespace Tools\Model\Behavior;
 
 use ArrayObject;
+use Cake\Collection\CollectionInterface;
 use Cake\Datasource\EntityInterface;
-use Cake\Datasource\ResultSetInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query\SelectQuery;
@@ -54,7 +54,11 @@ class StringBehavior extends Behavior {
 	 * @return void
 	 */
 	public function beforeFind(EventInterface $event, SelectQuery $query, ArrayObject $options, bool $primary): void {
-		$query->formatResults(function (ResultSetInterface $results) {
+		if (!$this->_config['output']) {
+			//return;
+		}
+
+		$query->formatResults(function (CollectionInterface $results) {
 			return $results->map(function ($row) {
 				$this->processItems($row, 'output');
 
@@ -179,8 +183,7 @@ class StringBehavior extends Behavior {
 	 * @param string $type
 	 * @return array<string>
 	 */
-	protected function fieldsFromMap(string $type): array
-	{
+	protected function fieldsFromMap(string $type): array {
 		$fields = [];
 		foreach ($this->_config[$type] as $field => $map) {
 			if (is_string($field) && is_array($map)) {

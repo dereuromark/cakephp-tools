@@ -129,4 +129,23 @@ class StringBehaviorTest extends TestCase {
 		$this->assertSame('Some Name', $res['title']);
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testOutput() {
+		$data = [
+			'title' => 'some Name',
+			'comment' => 'blabla',
+			'url' => '',
+		];
+		$entity = $this->Comments->newEntity($data);
+		$res = $this->Comments->save($entity);
+		$this->assertTrue((bool)$res);
+
+		$this->Comments->addBehavior('Tools.String', ['fields' => ['title'], 'output' => ['ucfirst']]);
+
+		$res = $this->Comments->find()->all()->toArray();
+		$this->assertSame('Some Name', $res[0]['title']);
+	}
+
 }
