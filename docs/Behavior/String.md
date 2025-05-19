@@ -11,7 +11,7 @@ Prevent using output modification if possible as it is done on every fetch.
 Include behavior in your Table class as
 ```php
 $this->addBehavior('Tools.String', [
-    'fields' => ['title'], 
+    'fields' => ['title'],
     'input' => ['ucfirst'],
 ]);
 ```
@@ -25,8 +25,23 @@ $this->addBehavior('Tools.String', [
 ]);
 ```
 
-The input filters are an array and therefore can also be stacked. They will be executed in the order given. 
-If string that function is expected to exist. You can also use callables and anonymous functions, of course. 
+The input filters are an array and therefore can also be stacked. They will be executed in the order given.
+If string that function is expected to exist. You can also use callables and anonymous functions, of course.
+
+If you need to process different ones per field, use the following way to configure:
+```php
+$this->addBehavior('Tools.String', [
+    'fields' => [
+        'title' => [
+            function(string $e): string {
+                return ucwords($e);
+            }, function(string $e): string {
+                return str_replace(' ', '', $e);
+            },
+        ],
+    ],
+]);
+```
 
 #### Output formatting
 Instead of the preferred input formatting you can also modify the output (for each find):
@@ -38,11 +53,20 @@ $this->addBehavior('Tools.String', [
 ```
 
 
+### Configuration
+
+- `clean`: true/false to also clean the input strings on beforeMarshal() and prio to validation.
+- `fields`: array of fields to apply the input/output filters to.
+- `input`: array of input filters to apply to the fields.
+- `output`: array of output filters to apply to the fields.
+
+When using `input` and "per field" input filters, the `fields` config is ignored.
+
 ### Examples
 
 Imagine the following config:
 ```php
-    'fields' => ['title', 'comment'], 
+    'fields' => ['title', 'comment'],
     'input' => ['strtolower', 'ucwords'],
 ```
 

@@ -27,12 +27,11 @@ use Cake\ORM\Query\SelectQuery;
 class StringBehavior extends Behavior {
 
 	/**
-	 * //TODO: json input/ouput directly, clean
-	 *
 	 * @var array<string, mixed>
 	 */
 	protected array $_defaultConfig = [
 		'fields' => [], // Fields to convert
+		'clean' => false, // On beforeMarshal() to prepare for validation
 		'input' => [], // Basic input filters
 		'output' => [], // Basic output filters
 	];
@@ -71,8 +70,13 @@ class StringBehavior extends Behavior {
 	 * @param string $type Type (input/output)
 	 * @return void
 	 */
-	public function processItems(EntityInterface $entity, $type = 'input') {
-		$fields = $this->_config['fields'];
+	protected function processItems(EntityInterface $entity, string $type = 'input'): void {
+		$fields = $this->fieldsFromMap($type);
+		$customMap = true;
+		if (!$fields) {
+			$fields = $this->_config['fields'];
+			$customMap = false;
+		}
 
 		foreach ($fields as $field => $map) {
 			if (is_numeric($field)) {
@@ -88,7 +92,7 @@ class StringBehavior extends Behavior {
 			}
 
 			if (!$map) {
-				$map = $this->_config[$type];
+				$map = $customMap ? $this->_config[$type][$field] : $this->_config[$type];
 			}
 			if (!$map) {
 				continue;
@@ -111,13 +115,46 @@ class StringBehavior extends Behavior {
 	}
 
 	/**
+	 * @param \Cake\Event\EventInterface $event
+	 * @param \ArrayObject $data
+	 * @param \ArrayObject $options
+	 * @return void
+	 */
+	public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options): void {
+		if (!$this->getConfig('clean')) {
+			return;
+		}
+
+		$fields = $this->_config['fields'];
+		foreach ($fields as $field) {
+			if (!isset($data[$field]) || !is_string($data[$field])) {
+				continue;
+			}
+
+			$data[$field] = $this->clean($data[$field]);
+		}
+	}
+
+	/**
+	 * @param string $text
+	 * @return string
+	 */
+	protected function clean(string $text): string {
+		$text = (string)str_replace(["\r\n", "\r", "\n"], ' ', $text);
+		$text = trim($text);
+		$text = (string)preg_replace('/ {2,}/', ' ', $text);
+
+		return $text;
+	}
+
+	/**
 	 * Process val via map
 	 *
 	 * @param string $val
 	 * @param array $map
 	 * @return string
 	 */
-	public function _process($val, $map) {
+	protected function _process($val, array $map) {
 		foreach ($map as $m => $arg) {
 			if (is_numeric($m)) {
 				$m = $arg;
@@ -136,6 +173,22 @@ class StringBehavior extends Behavior {
 		}
 
 		return $val;
+	}
+
+	/**
+	 * @param string $type
+	 * @return array<string>
+	 */
+	protected function fieldsFromMap(string $type): array
+	{
+		$fields = [];
+		foreach ($this->_config[$type] as $field => $map) {
+			if (is_string($field) && is_array($map)) {
+				$fields[] = $field;
+			}
+		}
+
+		return $fields;
 	}
 
 }

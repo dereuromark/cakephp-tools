@@ -25,13 +25,13 @@ class StringBehaviorTest extends TestCase {
 		parent::setUp();
 
 		$this->Comments = $this->getTableLocator()->get('StringComments');
-		$this->Comments->addBehavior('Tools.String', ['fields' => ['title'], 'input' => ['ucfirst']]);
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testBasic() {
+		$this->Comments->addBehavior('Tools.String', ['fields' => ['title'], 'input' => ['ucfirst']]);
 		$data = [
 			'title' => 'some Name',
 			'comment' => 'blabla',
@@ -47,8 +47,27 @@ class StringBehaviorTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testClean() {
+		$this->Comments->addBehavior('Tools.String', ['fields' => ['title', 'comment', 'url'], 'clean' => true]);
+		$data = [
+			'title' => "some\r\nname",
+			'comment' => 'bla  bla',
+			'url' => 'www.dereuromark.de ',
+		];
+		$entity = $this->Comments->newEntity($data);
+		$res = $this->Comments->save($entity);
+		$this->assertTrue((bool)$res);
+
+		$this->assertSame('some name', $res['title']);
+		$this->assertSame('bla bla', $res['comment']);
+		$this->assertSame('www.dereuromark.de', $res['url']);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testMultipleFieldsAndMultipleFilters() {
-		$this->Comments->behaviors()->String->setConfig(['fields' => ['title', 'comment'], 'input' => ['strtolower', 'ucwords']]);
+		$this->Comments->addBehavior('Tools.String', ['fields' => ['title', 'comment'], 'input' => ['strtolower', 'ucwords']]);
 
 		$data = [
 			'title' => 'some nAme',
@@ -66,9 +85,35 @@ class StringBehaviorTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testBasicOutput() {
-		$this->Comments->removeBehavior('String');
+	public function testFieldsWithCustomFilters() {
+		$this->Comments->addBehavior('Tools.String', [
+			'input' => [
+				'title' => [
+					function(string $e): string {
+						return ucwords($e);
+					}, function(string $e): string {
+						return str_replace(' ', '', $e);
+					},
+				],
+			],
+		]);
 
+		$data = [
+			'title' => 'some name',
+			'comment' => 'blaBla',
+			'url' => 'www.dereuromark.de',
+		];
+		$entity = $this->Comments->newEntity($data);
+		$res = $this->Comments->save($entity);
+		$this->assertTrue((bool)$res);
+
+		$this->assertSame('SomeName', $res['title']);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testBasicOutput() {
 		$data = [
 			'title' => 'some Name',
 			'comment' => 'blabla',
