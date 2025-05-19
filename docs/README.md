@@ -13,7 +13,7 @@
 
 ### I18n
 * [I18n](I18n/I18n.md) for language detection and switching
-
+* [DateTime and Date](I18n/DateTime.md) Improved Date(Time) handling.
 ### ErrorHandler
 * [ExceptionTrap](Error/ExceptionTrap.md) for improved error handling.
 

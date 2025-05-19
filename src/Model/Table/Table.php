@@ -166,6 +166,7 @@ class Table extends ShimTable {
 	 *
 	 * Warning: This only works on ONLY_FULL_GROUP_BY disabled (and not in Postgres right now).
 	 *
+	 * @deprecated Use getRelatedInUse() instead?
 	 * @param string $groupField Field to group by
 	 * @param string $type Find type
 	 * @param array<string, mixed> $options
