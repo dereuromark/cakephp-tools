@@ -11,6 +11,7 @@
 		<h2>Useful quick-tools</h2>
 		<ul>
 			<li><?php echo $this->Html->link('Available "pages"', ['controller' => 'Pages', 'action' => 'index']); ?></li>
+			<li><?php echo $this->Html->link('String analyzer (explain input string)', ['controller' => 'Helper', 'action' => 'chars']);?></li>
 			<li><?php echo $this->Html->link('Bitmasks', ['controller' => 'Helper', 'action' => 'bitmasks']);?></li>
 		</ul>
 	</div>
