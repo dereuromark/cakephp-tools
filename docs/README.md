@@ -58,6 +58,7 @@
 * [Datalist](Widget/Datalist.md)
 
 ### Model/Entity
+* [Table enhancements](Model/Table.md) with validation and other improvements.
 * [Enums](Entity/Enum.md) using native enums (NEW)
 * [StaticEnums](Entity/StaticEnum.md) using static entity methods
 
