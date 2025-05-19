@@ -55,7 +55,7 @@ class StringBehavior extends Behavior {
 	 */
 	public function beforeFind(EventInterface $event, SelectQuery $query, ArrayObject $options, bool $primary): void {
 		if (!$this->_config['output']) {
-			//return;
+			return;
 		}
 
 		$query->formatResults(function (CollectionInterface $results) {
@@ -65,6 +65,39 @@ class StringBehavior extends Behavior {
 				return $row;
 			});
 		});
+	}
+
+	/**
+	 * Saves all fields that do not belong to the current Model into 'with' helper model.
+	 *
+	 * @param \Cake\Event\EventInterface $event
+	 * @param \Cake\Datasource\EntityInterface $entity
+	 * @param \ArrayObject $options
+	 * @return void
+	 */
+	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {
+		$this->processItems($entity, 'input');
+	}
+
+	/**
+	 * @param \Cake\Event\EventInterface $event
+	 * @param \ArrayObject $data
+	 * @param \ArrayObject $options
+	 * @return void
+	 */
+	public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options): void {
+		if (!$this->getConfig('clean')) {
+			return;
+		}
+
+		$fields = $this->_config['fields'];
+		foreach ($fields as $field) {
+			if (!isset($data[$field]) || !is_string($data[$field])) {
+				continue;
+			}
+
+			$data[$field] = $this->clean($data[$field]);
+		}
 	}
 
 	/**
@@ -103,39 +136,6 @@ class StringBehavior extends Behavior {
 			}
 
 			$entity->set($field, $this->_process($val, $map));
-		}
-	}
-
-	/**
-	 * Saves all fields that do not belong to the current Model into 'with' helper model.
-	 *
-	 * @param \Cake\Event\EventInterface $event
-	 * @param \Cake\Datasource\EntityInterface $entity
-	 * @param \ArrayObject $options
-	 * @return void
-	 */
-	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {
-		$this->processItems($entity, 'input');
-	}
-
-	/**
-	 * @param \Cake\Event\EventInterface $event
-	 * @param \ArrayObject $data
-	 * @param \ArrayObject $options
-	 * @return void
-	 */
-	public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options): void {
-		if (!$this->getConfig('clean')) {
-			return;
-		}
-
-		$fields = $this->_config['fields'];
-		foreach ($fields as $field) {
-			if (!isset($data[$field]) || !is_string($data[$field])) {
-				continue;
-			}
-
-			$data[$field] = $this->clean($data[$field]);
 		}
 	}
 
