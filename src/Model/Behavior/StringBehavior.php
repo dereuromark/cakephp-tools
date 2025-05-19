@@ -16,7 +16,7 @@ use Cake\ORM\Query\SelectQuery;
  * Prevent using output modification if possible as it is done on every fetch.
  *
  * Tip: If you have other behaviors that might modify the array data prior to saving, better use a higher priority:
- *   $this->addBehavior('Tools.String', array('priority' => 11, ...));
+ *   $this->addBehavior('Tools.String', ['priority' => 11, ...]);
  * So that it is run last.
  *
  * Usage: See docs
