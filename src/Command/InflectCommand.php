@@ -37,13 +37,13 @@ class InflectCommand extends Command {
 	protected array $validCommands = [
 		'pluralize', 'singularize', 'camelize',
 		'underscore', 'humanize', 'tableize',
-		'classify', 'variable', 'dasherize', 'all', 'quit',
+		'classify', 'variable', 'dasherize',
+		'all', 'quit',
 	];
 
 	/**
 	 * Hook action for defining this command's option parser.
 	 *
-	 * @see https://book.cakephp.org/4/en/console-commands/commands.html#defining-arguments-and-options
 	 * @param \Cake\Console\ConsoleOptionParser $parser The parser to be defined
 	 * @return \Cake\Console\ConsoleOptionParser The built parser.
 	 */
@@ -84,7 +84,7 @@ class InflectCommand extends Command {
 	 *
 	 * @return array
 	 */
-	protected function _interactive(ConsoleIo $io) {
+	protected function _interactive(ConsoleIo $io): array {
 		$word = $this->_getWord($io);
 		$action = $this->_getAction($io);
 
@@ -98,31 +98,48 @@ class InflectCommand extends Command {
 	 *
 	 * @return string
 	 */
-	protected function _getAction(ConsoleIo $io) {
-		$validCharacters = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'a', 'q'];
+	protected function _getAction(ConsoleIo $io): string {
+		$validCharacters = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'q'];
 		$validCommands = array_merge($validCharacters, $this->validCommands);
 
 		$command = null;
-		while (empty($command)) {
+		while (!$command) {
 			$io->out('Please type the number or name of the inflection you would like to use');
 			$io->hr();
-			$io->out('[1] Pluralize');
-			$io->out('[2] Singularize');
-			$io->out('[3] Camelize');
-			$io->out('[4] Underscore');
-			$io->out('[5] Humanize');
-			$io->out('[6] Tableize');
-			$io->out('[7] Classify');
-			$io->out('[8] Variable');
-			$io->out('[9] Dasherize');
-			$io->out('[a] All');
-			$io->out('[q] Quit');
+			$io->out('[1] pluralize');
+			$io->out('[2] singularize');
+			$io->out('[3] camelize');
+			$io->out('[4] underscore');
+			$io->out('[5] humanize');
+			$io->out('[6] tableize');
+			$io->out('[7] classify');
+			$io->out('[8] variable');
+			$io->out('[9] dasherize');
+			$io->out('[a] all');
+			$io->out('[q] quit');
 			$answer = $io->ask('What action would you like to perform?', 'q');
-			if (in_array(strtolower($answer), $validCommands, true)) {
+			if (in_array(strtolower($answer), $validCommands, true) || str_contains($answer, ',')) {
 				$command = strtolower($answer);
 			} else {
 				$io->out('Try again.');
 			}
+		}
+
+		if (str_contains($command, ',')) {
+			$elements = array_map('trim', explode(',', $command));
+			foreach ($elements as $element) {
+				$action = $element;
+				if (is_numeric($action)) {
+					$action = $this->validActions[$action - 1] ?? '';
+				}
+
+				if (!in_array($action, $this->validActions, true)) {
+					$io->error('Invalid action: ' . $element);
+					$this->abort(static::CODE_SUCCESS);
+				}
+			}
+
+			return implode(',', $elements);
 		}
 
 		switch ($command) {
@@ -170,11 +187,11 @@ class InflectCommand extends Command {
 	 *
 	 * @return string|null
 	 */
-	protected function _getWord(ConsoleIo $io) {
+	protected function _getWord(ConsoleIo $io): ?string {
 		$word = null;
 		while (empty($word)) {
 			$temp = $io->ask('What word would you like to inflect?');
-			if (!empty($temp)) {
+			if ($temp) {
 				$word = $temp;
 			} else {
 				$io->out('Try again.');
@@ -192,7 +209,7 @@ class InflectCommand extends Command {
 	 *
 	 * @return array
 	 */
-	protected function _parseArguments($arguments, ConsoleIo $io) {
+	protected function _parseArguments(array $arguments, ConsoleIo $io): array {
 		$word = array_shift($arguments);
 
 		if (!$arguments) {
@@ -213,8 +230,30 @@ class InflectCommand extends Command {
 	 *
 	 * @return void
 	 */
-	protected function _inflect($function, $word, ConsoleIo $io) {
+	protected function _inflect(string $function, string $word, ConsoleIo $io): void {
 		$io->out($word);
+
+		if (str_contains($function, ',')) {
+			$io->out('Chained:');
+			$elements = array_map('trim', explode(',', $function));
+			foreach ($elements as $element) {
+				$action = $element;
+				if (is_numeric($action)) {
+					$action = $this->validActions[$action - 1] ?? '';
+				}
+
+				if (!in_array($action, $this->validActions, true)) {
+					$io->error('Invalid action: ' . $element);
+					$this->abort(static::CODE_SUCCESS);
+				}
+				$functionName = $this->_getMessage($action);
+				$word = Inflector::$action($word);
+				$io->out(" - {$functionName}: " . $word);
+			}
+
+			return;
+		}
+
 		if ($function === 'all') {
 			foreach ($this->validActions as $action) {
 				$functionName = $this->_getMessage($action);
@@ -235,7 +274,7 @@ class InflectCommand extends Command {
 	 * @param string $function
 	 * @return string|null
 	 */
-	protected function _getMessage($function) {
+	protected function _getMessage(string $function): ?string {
 		$messages = [
 			'camelize' => 'CamelCase form             ',
 			'camelBacked' => 'camelBacked form           ',
