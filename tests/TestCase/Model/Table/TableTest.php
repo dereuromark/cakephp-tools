@@ -5,6 +5,7 @@ namespace Tools\Test\TestCase\Model\Table;
 use Cake\Utility\Hash;
 use DateTime as NativeDateTime;
 use Shim\TestSuite\TestCase;
+use Tools\I18n\Date;
 use Tools\I18n\DateTime;
 
 class TableTest extends TestCase {
@@ -177,7 +178,7 @@ class TableTest extends TestCase {
 	 * @return void
 	 */
 	public function testValidateDate() {
-		$date = new DateTime('2010-01-22');
+		$date = new Date('2010-01-22');
 		$res = $this->Users->validateDate($date);
 		$this->assertTrue($res);
 
@@ -238,6 +239,11 @@ class TableTest extends TestCase {
 		$this->assertFalse($res);
 
 		$date = new DateTime('2010-02-24');
+		$context = ['data' => ['before' => new DateTime('2010-02-26')]];
+		$res = $this->Users->validateDate($date, ['before' => 'before', 'min' => 2], $context);
+		$this->assertTrue($res);
+
+		$date = new Date('2010-02-24');
 		$context = ['data' => ['before' => new DateTime('2010-02-26')]];
 		$res = $this->Users->validateDate($date, ['before' => 'before', 'min' => 2], $context);
 		$this->assertTrue($res);

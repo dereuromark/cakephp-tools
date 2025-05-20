@@ -428,26 +428,22 @@ class Table extends ShimTable {
 	 * @return bool Success
 	 */
 	public function validateDate($value, array $options = [], array $context = []) {
-		if (!$value) {
+		if (!$value || (is_array($value) && empty($value['year']) && empty($value['month']) && empty($value['day']))) {
 			if (!empty($options['allowEmpty'])) {
 				return true;
 			}
 
 			return false;
 		}
+
 		$format = !empty($options['format']) ? $options['format'] : 'ymd';
 
 		/** @var \Cake\Chronos\ChronosDate|mixed $date */
 		$date = $value;
 		if (!is_object($value)) {
-			if (is_array($value)) {
-				$value = $value['year'] . '-' . $value['month'] . '-' . $value['day'];
-			}
-
 			$date = new Date($value);
-		}
-		if (!empty($options['allowEmpty']) && empty($date)) {
-			return true;
+		} elseif ($value instanceof \DateTimeInterface) {
+			$date = new Date($value);
 		}
 
 		if (Validation::date($value, $format)) {
@@ -459,6 +455,8 @@ class Table extends ShimTable {
 				$after = $context['data'][$options['after']];
 				if (!is_object($after)) {
 					$after = new Date($after);
+				} elseif ($after instanceof \DateTimeInterface) {
+					$after = new Date($after);
 				}
 				if ($after->greaterThan($compare)) {
 					return false;
@@ -469,6 +467,8 @@ class Table extends ShimTable {
 				/** @var \Cake\I18n\DateTime $before */
 				$before = $context['data'][$options['before']];
 				if (!is_object($before)) {
+					$before = new Date($before);
+				} elseif ($before instanceof \DateTimeInterface) {
 					$before = new Date($before);
 				}
 				if ($before->lessThan($compare)) {
