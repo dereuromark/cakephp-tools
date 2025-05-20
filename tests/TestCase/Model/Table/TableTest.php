@@ -244,7 +244,22 @@ class TableTest extends TestCase {
 		$this->assertTrue($res);
 
 		$date = new Date('2010-02-24');
-		$context = ['data' => ['before' => new DateTime('2010-02-26')]];
+		$context = ['data' => ['before' => new Date('2010-02-26')]];
+		$res = $this->Users->validateDate($date, ['before' => 'before', 'min' => 2], $context);
+		$this->assertTrue($res);
+
+		$date = ['year' => 2010, 'month' => 2, 'day' => 24];
+		$context = ['data' => ['before' => ['year' => 2010, 'month' => 2, 'day' => 26]]];
+		$res = $this->Users->validateDate($date, ['before' => 'before', 'min' => 2], $context);
+		$this->assertTrue($res);
+
+		$date = ['year' => 2010, 'month' => 2, 'day' => 24];
+		$context = ['data' => ['before' => ['year' => 2010, 'month' => 2, 'day' => 20]]];
+		$res = $this->Users->validateDate($date, ['before' => 'before', 'min' => 2], $context);
+		$this->assertFalse($res);
+
+		$date = ['year' => 2010, 'month' => 2, 'day' => 24];
+		$context = ['data' => ['before' => ['year' => '', 'month' => '', 'day' => '']]];
 		$res = $this->Users->validateDate($date, ['before' => 'before', 'min' => 2], $context);
 		$this->assertTrue($res);
 	}

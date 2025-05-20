@@ -361,7 +361,7 @@ class Table extends ShimTable {
 			// after/before?
 			$seconds = $options['min'] ?? 1;
 			if (!empty($options['after'])) {
-				if (!is_object($options['after']) && isset($context['data'][$options['after']])) {
+				if (!is_object($options['after']) && !empty($context['data'][$options['after']])) {
 					$options['after'] = $context['data'][$options['after']];
 					if (!is_object($options['after'])) {
 						$options['after'] = new DateTime($options['after']);
@@ -371,7 +371,7 @@ class Table extends ShimTable {
 				}
 			}
 			if (!empty($options['before'])) {
-				if (!is_object($options['before']) && isset($context['data'][$options['before']])) {
+				if (!is_object($options['before']) && !empty($context['data'][$options['before']])) {
 					$options['before'] = $context['data'][$options['before']];
 					if (!is_object($options['before'])) {
 						$options['before'] = new DateTime($options['before']);
@@ -449,7 +449,7 @@ class Table extends ShimTable {
 		if (Validation::date($value, $format)) {
 			// after/before?
 			$days = !empty($options['min']) ? $options['min'] : 0;
-			if (!empty($options['after']) && isset($context['data'][$options['after']])) {
+			if (!empty($options['after']) && !empty($context['data'][$options['after']])) {
 				$compare = $date->subDays($days);
 				/** @var \Cake\I18n\DateTime $after */
 				$after = $context['data'][$options['after']];
@@ -462,7 +462,7 @@ class Table extends ShimTable {
 					return false;
 				}
 			}
-			if (!empty($options['before']) && isset($context['data'][$options['before']])) {
+			if (!empty($options['before']) && !empty($context['data'][$options['before']])) {
 				$compare = $date->addDays($days);
 				/** @var \Cake\I18n\DateTime $before */
 				$before = $context['data'][$options['before']];
