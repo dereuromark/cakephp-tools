@@ -2,12 +2,15 @@
 
 namespace Tools\Test\TestCase\View\Helper;
 
+use Cake\Chronos\Chronos;
 use Cake\Datasource\ConnectionManager;
+use Cake\Http\Cookie\SameSiteEnum;
 use Cake\ORM\Entity;
 use Cake\Utility\Hash;
 use Cake\View\View;
 use RuntimeException;
 use Shim\TestSuite\TestCase;
+use TestApp\Model\Enum\BitmaskEnum;
 use Tools\View\Helper\TreeHelper;
 
 class TreeHelperTest extends TestCase {
@@ -746,10 +749,64 @@ TEXT;
 	}
 
 	/**
+	 * @return void
+	 */
+	public function testGenerateWithSpecialStringable() {
+		$treeData = [
+			[
+				'name' => 'Foo',
+				'children' => [
+					[
+						'name' => SameSiteEnum::STRICT,
+						'children' => [
+						],
+					],
+					[
+						'name' => BitmaskEnum::Four,
+						'children' => [
+						],
+					],
+					[
+						'name' => new Chronos('2023-10-01 11:12:13'),
+						'children' => [
+						],
+					],
+					[
+						'name' => function() {
+							return 'Foo Bar';
+						},
+						'children' => [
+						],
+					],
+				],
+			],
+		];
+
+		$output = $this->Tree->generate($treeData);
+		$expected = <<<TEXT
+
+<ul>
+	<li>Foo
+	<ul>
+		<li>Strict</li>
+		<li>Four</li>
+		<li>2023-10-01 11:12:13</li>
+		<li>Foo Bar</li>
+	</ul>
+	</li>
+</ul>
+
+TEXT;
+		$output = str_replace(["\t", "\r", "\n"], '', $output);
+		$expected = str_replace(["\t", "\r", "\n"], '', $expected);
+		$this->assertTextEquals($expected, $output);
+	}
+
+	/**
 	 * @param array $data
 	 * @return string|null
 	 */
-	public function _myCallbackEntity(array $data) {
+	public function _myCallbackEntity(array $data): ?string {
 		/** @var \Cake\ORM\Entity $entity */
 		$entity = $data['data'];
 

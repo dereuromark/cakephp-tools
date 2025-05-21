@@ -10,9 +10,13 @@
 
 namespace Tools\View\Helper;
 
+use BackedEnum;
 use Cake\Core\Configure;
+use Cake\Database\Type\EnumLabelInterface;
 use Cake\View\Helper;
+use Closure;
 use RuntimeException;
+use UnitEnum;
 
 /**
  * Helper to generate tree representations of MPTT or recursively nested data.
@@ -281,6 +285,21 @@ class TreeHelper extends Helper {
 			if (!$content) {
 				continue;
 			}
+
+			if (!is_string($content)) {
+				if ($content instanceof EnumLabelInterface) {
+					$content = $content->label();
+				} elseif ($content instanceof BackedEnum) {
+					$content = $content->value;
+				} elseif ($content instanceof UnitEnum) {
+					$content = $content->name;
+				} elseif ($content instanceof Closure) {
+					$content = $content();
+				}
+
+				$content = (string)$content;
+			}
+
 			$whiteSpace = str_repeat($indentWith, $depth);
 			if ($indent && strpos($content, "\r\n", 1)) {
 				$content = str_replace("\r\n", "\n" . $whiteSpace . $indentWith, $content);
