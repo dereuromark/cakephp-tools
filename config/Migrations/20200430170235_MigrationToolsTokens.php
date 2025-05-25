@@ -1,8 +1,8 @@
 <?php
 
-use Migrations\AbstractMigration;
+use Migrations\BaseMigration;
 
-class MigrationToolsTokens extends AbstractMigration {
+class MigrationToolsTokens extends BaseMigration {
 
 	/**
 	 * Change Method.
