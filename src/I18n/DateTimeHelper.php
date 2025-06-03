@@ -26,8 +26,13 @@ class DateTimeHelper {
 	 */
 	public static function constructTime(array $time): string {
 		$format = '';
+		$time += [
+			'minute' => 0,
+			'second' => 0,
+		];
+
 		if (
-			isset($time['hour'], $time['minute'], $time['second']) &&
+			isset($time['hour']) &&
 			(is_numeric($time['hour']) && is_numeric($time['minute']) && is_numeric($time['second']))
 		) {
 			$format = sprintf('%02d:%02d:%02d', $time['hour'], $time['minute'], $time['second']);
@@ -43,8 +48,11 @@ class DateTimeHelper {
 	public static function constructDatetime(array $time): string {
 		$date = static::constructDate($time);
 		$time = static::constructTime($time);
-		if (!$date || !$time) {
+		if (!$date) {
 			return '';
+		}
+		if (!$time) {
+			return $date . ' 00:00:00';
 		}
 
 		return $date . ' ' . $time;
