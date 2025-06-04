@@ -76,8 +76,3 @@ That's why you should send the expiring tokens.
 If you feel like you need more information on the implementation process,
 read [this article at troyhunt.com](http://www.troyhunt.com/2012/05/everything-you-ever-wanted-to-know.html).
 It describes in a very verbose way what to do and what better not to do.
-
-## Upgrade Notes from 3.x
-If you come from 3.x:
-- The field `key` is now `token_key` to avoid SQL reserved keyword issue.
-- Typehints are now in place.
