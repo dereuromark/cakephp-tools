@@ -221,7 +221,7 @@ class JsonableBehavior extends Behavior {
 		}
 
 		if ($this->_config['storage'] === 'array') {
-			return implode(',', $val);
+			return implode($this->_config['separator'], $val);
 		}
 
 		$result = json_encode($val, $this->_config['encodeParams']['options'], $this->_config['encodeParams']['depth']);
@@ -244,7 +244,7 @@ class JsonableBehavior extends Behavior {
 		}
 
 		if ($this->getConfig('storage') === 'array') {
-			return explode(',', $val);
+			return explode($this->_config['separator'], $val);
 		}
 
 		$flags = $this->_config['decodeParams']['options'];

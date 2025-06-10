@@ -1,8 +1,9 @@
 # Jsonable Behavior
 
 A CakePHP behavior to automatically store nested data as JSON string and return the array on read again.
-- Data can be of type array, params or list - or kept in JSON format
-- Additional sanitize functionality with "clean", "sort" and "unique
+- Data can be of type array, params or list - or kept in JSON format.
+- Additional sanitize functionality with "clean", "sort" and "unique.
+- Also allows storage as comma separated list (or any other separator) for simple lists.
 
 ## Important note
 Using 3.5+ you might not even need this anymore, as you can use type classes directly:
@@ -17,7 +18,7 @@ Using 3.5+ you might not even need this anymore, as you can use type classes dir
 
         return $schema;
     }
-```    
+```
 This is best combined with the Shim.Json type, as it properly handles `null` values:
 ```php
 // in bootstrap
@@ -40,21 +41,22 @@ $this->addBehavior('Tools.Jsonable', ['priority' => 11, ...]);
 So that it is run last.
 
 ## Options
-| Key  | Default | Description |
-| ------------- | ------------- | ------------- |
-| fields  | array() | Array of the fields to be converted  |
-| input  | 'array'  | can be \[json, array, param or list\] (param/list only works with specific fields) |
-| output  | 'array'  | can be \[json, array, param or list\] (param/list only works with specific fields) |
-| separator  | '\|'  | only for param or list |
-| keyValueSeparator  | ':'  | only for param |
-| leftBound  | '{'  | only for list |
-| rightBound  | '}'  | only for list |
-| clean  | true | only for list (auto clean values on insert) |
-| sort  | false | only for list |
-| unique  | true | only for list |
-| map  | array()  | map on a different DB field |
-| encodeParams  |   | params for json_encode |
-| decodeParams  |   | params for json_decode |
+| Key               | Default | Description                                                                        |
+|-------------------|--------|------------------------------------------------------------------------------------|
+| fields            | array() | Array of the fields to be converted                                                |
+| input             | 'array' | can be \[json, array, param or list\] (param/list only works with specific fields) |
+| output            | 'array' | can be \[json, array, param or list\] (param/list only works with specific fields) |
+| separator         | '\|'   | only for param or list                                                             |
+| keyValueSeparator | ':'    | only for param                                                                     |
+| leftBound         | '{'    | only for list                                                                      |
+| rightBound        | '}'    | only for list                                                                      |
+| clean             | true   | only for list (auto clean values on insert)                                        |
+| sort              | false  | only for list                                                                      |
+| unique            | true   | only for list                                                                      |
+| map               | array() | map on a different DB field                                                        |
+| encodeParams      |        | params for json_encode                                                             |
+| decodeParams      |        | params for json_decode                                                             |
+| storage           | 'json'  | 'array' for simple list (not using JSON then)                                      |
 
 
 ## Examples
@@ -137,7 +139,33 @@ debug($entity->get('tags'));
 // ['cat', 'dog', 'fish']
 ```
 
-Note: The cleanup automation you can additionally turn on/off. There are more things to explore. Dig into the source code for that.
+### Storage: Array
+If you don't want it to be stored as array, but a simple (comma) separated list, set `storage` to `array`.
+This is a simple solution for basic lists and makes them more easily accessible to non-devs.
+
+This is usually best with a mapping to an array field, keeping the simple list as string:
+```php
+    $this->addBehavior('Tools.Jsonable', [
+        'fields' => ['type'],
+        'storage' => 'array',
+        'map' => [
+            'types',
+        ],
+        'separator' => ',',
+    ]);
+```
+and
+```php
+echo $this->Form->control('types', ['multiple' => true, 'options' => ...::options()]);
+```
+results in
+```php
+$entity->type // `Foo,Bar`
+$entity->types // ['Foo', 'Bar']
+```
+
+### Notes
+The cleanup automation you can additionally turn on/off. There are more things to explore. Dig into the source code for that.
 
 Yes - you could make a new table/relation for this in the first place.
 But sometimes it's just quicker to create such an enumeration field.
