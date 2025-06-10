@@ -430,4 +430,37 @@ class JsonableBehaviorTest extends TestCase {
 		$this->assertNull($res->details_nullable);
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testStorageArray() {
+		$this->Comments->removeBehavior('Jsonable');
+		$this->Comments->addBehavior('Tools.Jsonable', [
+			'storage' => 'array',
+			'fields' => ['details'],
+		]);
+
+		$data = [
+			'comment' => 'blabla',
+			'url' => 'www.dereuromark.de',
+			'title' => 'param',
+			'details' => [
+				'bar',
+				0,
+				true,
+			],
+		];
+		$entity = $this->Comments->newEntity($data);
+		$result = $this->Comments->save($entity);
+		$this->assertTrue((bool)$result);
+
+		$res = $this->Comments->get($entity->id);
+		$expected = [
+			'bar',
+			'0',
+			'1',
+		];
+		$this->assertSame($expected, $res->details);
+	}
+
 }

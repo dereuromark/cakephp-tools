@@ -18,7 +18,7 @@ use Tools\Utility\Text;
 /**
  * A behavior that will json_encode (and json_decode) fields if they contain an array or specific pattern.
  *
- * This is a port of the Serializeable behavior by Matsimitsu (http://www.matsimitsu.nl)
+ * This is a port of the Serializeable behavior by Matsimitsu (https://github.com/imsamurai/cakephp-serializable-behaviour)
  * Modified by Mark Scherer (http://www.dereuromark.de)
  *
  * Supports different input/output formats:
@@ -45,8 +45,6 @@ class JsonableBehavior extends Behavior {
 	protected $decoded;
 
 	/**
-	 * //TODO: json input/ouput directly, clean
-	 *
 	 * @var array<string, mixed>
 	 */
 	protected array $_defaultConfig = [
@@ -70,6 +68,7 @@ class JsonableBehavior extends Behavior {
 			'depth' => 512,
 			'options' => 0,
 		],
+		'storage' => 'json', // array, json
 	];
 
 	/**
@@ -221,6 +220,10 @@ class JsonableBehavior extends Behavior {
 			return null;
 		}
 
+		if ($this->_config['storage'] === 'array') {
+			return implode(',', $val);
+		}
+
 		$result = json_encode($val, $this->_config['encodeParams']['options'], $this->_config['encodeParams']['depth']);
 		if ($result === false) {
 			return null;
@@ -238,6 +241,10 @@ class JsonableBehavior extends Behavior {
 	public function _decode($val) {
 		if (!is_string($val)) {
 			return $val;
+		}
+
+		if ($this->getConfig('storage') === 'array') {
+			return explode(',', $val);
 		}
 
 		$flags = $this->_config['decodeParams']['options'];
