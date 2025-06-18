@@ -162,6 +162,7 @@ public function login() {
             unset($user['password']);
             $this->Auth->setUser($user);
             // Flash message OK
+
             return $this->redirect($this->Auth->redirectUrl());
         }
         // Flash message ERROR
@@ -175,7 +176,8 @@ Note that the `passwordHasher` config has been set here globabally to assert the
 ### Adding custom validation rules on top
 If the default rules don't satisfy your needs, you can add some more on top:
 ```php
-$rules = ['validateCustom' => [
+$rules = [
+    'validateCustom' => [
         'rule' => ['custom', '#^[a-z0-9]+$#'], // Just a test example, never use this regex!
         'message' => __('Foo Bar'),
         'last' => true,
@@ -184,8 +186,8 @@ $rules = ['validateCustom' => [
         'rule' => ['custom', '#^[a-z]+$#'], // Just a test example, never use this regex!
         'message' => __('Foo Bar Ext'),
         'last' => true,
-    ]
-);
+    ],
+];
 $this->Users->Behaviors->load('Tools.Passwordable', ['customValidation' => $rules]);
 ```
 But please do NOT use the above regex examples. Also never try to limit the chars to only a subset of characters.
@@ -194,17 +196,17 @@ Regex rules can be useful to assert that the password is strong enough, though. 
 also some special chars. This would be way more secure and useful. But also try to be reasonable here, some developers tend to overreach here,
 making it very annoying to set up passwords.
 
-### Field list and Accessibility
-The behavior will automatically add the internally needed fields to the `'fieldList'` options array, if you provided one on patching.
+### Fields list and Accessibility
+The behavior will automatically add the internally needed fields to the `'fields'` options array, if you provided one on patching.
 So you only need to pass in the other non-password-related fields:
 ```php
 $options = [
-    'fieldList' => ['id', 'name']
+    'fields' => ['id', 'name'],
 ];
 $user = $this->Users->patchEntity($user, $this->request->getData(), $options);
 ```
 
-If the config `forceFieldList` is set to true, it will even create the fieldList for you on the fly.
+If the config `forceFieldList` is set to true, it will even create the `fields` list for you on the fly.
 Otherwise it will use the entity accessible config to determine if the password can be assigned.
 So if you do not want to force it, make sure your entity has those fields not protected:
 ```php
@@ -216,5 +218,4 @@ protected $_accessible = [
 ];
 
 // Or from the outside before patching
-$user->accessible('*', false); // Mark all properties as protected
-$user->accessible(['pwd', ...], true); // Allow certain fields
+$user->setAccess(['pwd', ...], true); // Allow certain fields
