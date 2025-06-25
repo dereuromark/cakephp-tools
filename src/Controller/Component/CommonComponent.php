@@ -355,7 +355,7 @@ class CommonComponent extends Component {
 		$ext = $this->controller->getRequest()->getParam('_ext');
 		if (!$ext && $extensions !== '' || !in_array((string)$ext, (array)$extensions, true)) {
 			throw new NotFoundException(sprintf(
-				'Extension `%s` not allowed. Expected `%s`',
+				'Extension `%s` not allowed, expected `%s`.',
 				$ext,
 				implode(', ', (array)$extensions),
 			));
