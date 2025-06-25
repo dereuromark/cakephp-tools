@@ -4,6 +4,7 @@ namespace Tools\Test\TestCase\Controller\Component;
 
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\Http\Exception\NotFoundException;
 use Cake\Http\ServerRequest;
 use Shim\TestSuite\TestCase;
 use TestApp\Controller\CommonComponentTestController;
@@ -313,6 +314,47 @@ class CommonComponentTest extends TestCase {
 			'f',
 		];
 		$this->assertSame($expected, $pass);
+	}
+
+	/**
+	 * @return void
+	 */
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
+	public function testAllowExtensionNone(): void {
+		$this->Controller->Common->allowExtension('');
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAllowExtensionFail(): void {
+		$this->expectException(NotFoundException::class);
+
+		$this->Controller->Common->allowExtension('csv');
+	}
+
+	/**
+	 * @return void
+	 */
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
+	public function testAllowExtension(): void {
+		$request = $this->Controller->getRequest();
+		$request = $request->withParam('_ext', 'csv');
+		$this->Controller->setRequest($request);
+		$this->Controller->Common->allowExtension('csv');
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAllowExtensionWrongOnes(): void {
+		$request = $this->Controller->getRequest();
+		$request = $request->withParam('_ext', 'csv');
+		$this->Controller->setRequest($request);
+
+		$this->expectException(NotFoundException::class);
+
+		$this->Controller->Common->allowExtension(['pdf', 'xml']);
 	}
 
 }
