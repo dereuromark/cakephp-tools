@@ -4,6 +4,7 @@ namespace Tools\Test\TestCase\Controller\Component;
 
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\Http\Exception\NotFoundException;
 use Cake\Http\ServerRequest;
 use Shim\TestSuite\TestCase;
 use TestApp\Controller\CommonComponentTestController;
@@ -313,6 +314,68 @@ class CommonComponentTest extends TestCase {
 			'f',
 		];
 		$this->assertSame($expected, $pass);
+	}
+
+	/**
+	 * Test allowing no extensions in URL.
+	 *
+	 * @return void
+	 */
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
+	public function testAllowExtensionsNone(): void {
+		$this->Controller->Common->allowExtensions('');
+	}
+
+	/**
+	 * Test allowing a single extension in URL that was not used.
+	 *
+	 * @return void
+	 */
+	public function testAllowExtensionsFail(): void {
+		$this->expectException(NotFoundException::class);
+
+		$this->Controller->Common->allowExtensions('csv');
+	}
+
+	/**
+	 * Test allowing the extension in URL that was used.
+	 *
+	 * @return void
+	 */
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
+	public function testAllowExtensions(): void {
+		$request = $this->Controller->getRequest();
+		$request = $request->withParam('_ext', 'csv');
+		$this->Controller->setRequest($request);
+		$this->Controller->Common->allowExtensions('csv');
+	}
+
+	/**
+	 * Test allowing multiple extensions in URL, of which none was used.
+	 *
+	 * @return void
+	 */
+	public function testAllowExtensionsWrongOnes(): void {
+		$request = $this->Controller->getRequest();
+		$request = $request->withParam('_ext', 'csv');
+		$this->Controller->setRequest($request);
+
+		$this->expectException(NotFoundException::class);
+
+		$this->Controller->Common->allowExtensions(['pdf', 'xml']);
+	}
+
+	/**
+	 * Test allowing more than one extension in URL, of which one was used.
+	 *
+	 * @return void
+	 */
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
+	public function testAllowExtensionsSingleMatch(): void {
+		$request = $this->Controller->getRequest();
+		$request = $request->withParam('_ext', 'csv');
+		$this->Controller->setRequest($request);
+		$this->Controller->Common->allowExtensions('csv', 'xml');
 	}
 
 }

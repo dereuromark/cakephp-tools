@@ -5,6 +5,7 @@ namespace Tools\Controller\Component;
 use Cake\Controller\Component;
 use Cake\Core\Configure;
 use Cake\Event\EventInterface;
+use Cake\Http\Exception\NotFoundException;
 use Cake\Http\ServerRequest;
 use Cake\Routing\Router;
 use Tools\Utility\Utility;
@@ -341,6 +342,25 @@ class CommonComponent extends Component {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Similar to allowMethod(), but allows only certain extensions.
+	 *
+	 * Use '' to allow only no extension.
+	 *
+	 * @param array<string>|string $extensions
+	 * @return void
+	 */
+	public function allowExtensions(array|string $extensions): void {
+		$extension = $this->controller->getRequest()->getParam('_ext');
+		if (!$extension && $extensions !== '' || !in_array((string)$extension, (array)$extensions, true)) {
+			throw new NotFoundException(sprintf(
+				'Extension `%s` not allowed, expected `%s`.',
+				$extension,
+				implode(', ', (array)$extensions),
+			));
+		}
 	}
 
 }
