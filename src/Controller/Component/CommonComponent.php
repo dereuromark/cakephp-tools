@@ -353,11 +353,11 @@ class CommonComponent extends Component {
 	 * @return void
 	 */
 	public function allowExtension(array|string $extensions): void {
-		$ext = $this->controller->getRequest()->getParam('_ext');
-		if (!$ext && $extensions !== '' || !in_array((string)$ext, (array)$extensions, true)) {
+		$extension = $this->controller->getRequest()->getParam('_ext');
+		if (!$ext && $extensions !== '' || !in_array((string)$extension, (array)$extensions, true)) {
 			throw new NotFoundException(sprintf(
 				'Extension `%s` not allowed, expected `%s`.',
-				$ext,
+				$extension,
 				implode(', ', (array)$extensions),
 			));
 		}
