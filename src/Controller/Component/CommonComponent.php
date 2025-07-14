@@ -346,7 +346,8 @@ class CommonComponent extends Component {
 
 	/**
 	 * Similar to allowMethod(), but allows only certain extensions.
-	 * Use '' to allow only non-ext.
+	 *
+	 * Use '' to allow only no extension.
 	 *
 	 * @param array<string>|string $extensions
 	 * @return void
