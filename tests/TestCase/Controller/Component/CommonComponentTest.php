@@ -317,44 +317,65 @@ class CommonComponentTest extends TestCase {
 	}
 
 	/**
+	 * Test allowing no extensions in URL.
+	 *
 	 * @return void
 	 */
 	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
-	public function testAllowExtensionNone(): void {
-		$this->Controller->Common->allowExtension('');
+	public function testAllowExtensionsNone(): void {
+		$this->Controller->Common->allowExtensions('');
 	}
 
 	/**
+	 * Test allowing a single extension in URL that was not used.
+	 *
 	 * @return void
 	 */
-	public function testAllowExtensionFail(): void {
+	public function testAllowExtensionsFail(): void {
 		$this->expectException(NotFoundException::class);
 
-		$this->Controller->Common->allowExtension('csv');
+		$this->Controller->Common->allowExtensions('csv');
 	}
 
 	/**
+	 * Test allowing the extension in URL that was used.
+	 *
 	 * @return void
 	 */
 	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
-	public function testAllowExtension(): void {
+	public function testAllowExtensions(): void {
 		$request = $this->Controller->getRequest();
 		$request = $request->withParam('_ext', 'csv');
 		$this->Controller->setRequest($request);
-		$this->Controller->Common->allowExtension('csv');
+		$this->Controller->Common->allowExtensions('csv');
 	}
 
 	/**
+	 * Test allowing multiple extensions in URL, of which none was used.
+	 *
 	 * @return void
 	 */
-	public function testAllowExtensionWrongOnes(): void {
+	public function testAllowExtensionsWrongOnes(): void {
 		$request = $this->Controller->getRequest();
 		$request = $request->withParam('_ext', 'csv');
 		$this->Controller->setRequest($request);
 
 		$this->expectException(NotFoundException::class);
 
-		$this->Controller->Common->allowExtension(['pdf', 'xml']);
+		$this->Controller->Common->allowExtensions(['pdf', 'xml']);
+	}
+
+	/**
+	 * Test allowing more than one extension in URL, of which one was used.
+	 *
+	 * @return void
+	 */
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
+	public function testAllowExtensionsSingleMatch(): void {
+		$request = $this->Controller->getRequest();
+		$request = $request->withParam('_ext', 'csv');
+		$this->Controller->setRequest($request);
+		$this->Controller->Common->allowExtensions('csv', 'xml');
 	}
 
 }
