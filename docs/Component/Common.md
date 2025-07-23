@@ -70,3 +70,11 @@ $result = $this->Common->isForeignReferer($urlString);
  ```php
  $this->Common->listActions()
  ```
+
+## Allow only specific extensions
+ ```php
+ $this->Common->allowExtensions([...])
+ ```
+You can also pass an empty string `''` to disallow any. So it must be a normal non-ext request.
+If not accepted, it will throw a 404, so from the outside it looks like "not found".
+
