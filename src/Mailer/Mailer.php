@@ -35,7 +35,7 @@ class Mailer extends CakeMailer {
 	protected ?string $localeBefore = null;
 
 	/**
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected array $debug = [];
 
@@ -163,9 +163,8 @@ class Mailer extends CakeMailer {
 	/**
 	 * Render content and send email using configured transport.
 	 *
-	 * @psalm-return array{headers: string, message: string}
 	 * @param string $content Content.
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function deliver(string $content = ''): array {
 		$this->debug = parent::deliver($content);
