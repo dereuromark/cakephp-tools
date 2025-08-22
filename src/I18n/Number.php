@@ -123,7 +123,8 @@ class Number extends CakeNumber {
 	 */
 	public static function format($number, array $options = []): string {
 		$defaults = [
-			'positive' => '+', 'signed' => false,
+			'positive' => '+',
+			'signed' => false,
 		];
 		$options += $defaults;
 		$sign = '';
@@ -150,7 +151,8 @@ class Number extends CakeNumber {
 	 */
 	public static function currency(string|float|int $value, ?string $currency = null, array $options = []): string {
 		$defaults = [
-			'positive' => '+', 'signed' => false,
+			'positive' => '+',
+			'signed' => false,
 		];
 		$options += $defaults;
 		$sign = '';

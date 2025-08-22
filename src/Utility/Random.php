@@ -59,8 +59,10 @@ class Random {
 		$password = '';
 		$vowels = ['a', 'e', 'i', 'o', 'u'];
 		$cons = [
-			'b', 'c', 'd', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'u', 'v', 'w', 'tr',
-			'cr', 'br', 'fr', 'th', 'dr', 'ch', 'ph', 'wr', 'st', 'sp', 'sw', 'pr', 'sl', 'cl',
+			'b', 'c', 'd', 'g', 'h', 'j', 'k', 'l', 'm', 'n',
+			'p', 'r', 's', 't', 'u', 'v', 'w', 'tr', 'cr', 'br',
+			'fr', 'th', 'dr', 'ch', 'ph', 'wr', 'st', 'sp', 'sw',
+			'pr', 'sl', 'cl',
 		];
 		for ($i = 0; $i < $length; $i++) {
 			$password .= $cons[random_int(0, 31)] . $vowels[random_int(0, 4)];

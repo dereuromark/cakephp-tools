@@ -993,8 +993,13 @@ class DateTime extends CakeDateTime {
 		}
 
 		$defaults = [
-			'verbose' => __d('tools', 'justNow'), 'zero' => false, 'separator' => ', ',
-			'future' => __d('tools', 'In %s'), 'past' => __d('tools', '%s ago'), 'default' => ''];
+			'verbose' => __d('tools', 'justNow'),
+			'zero' => false,
+			'separator' => ', ',
+			'future' => __d('tools', 'In %s'),
+			'past' => __d('tools', '%s ago'),
+			'default' => '',
+		];
 		$options += $defaults;
 
 		$ret = static::lengthOfTime($sec, $format, $options);

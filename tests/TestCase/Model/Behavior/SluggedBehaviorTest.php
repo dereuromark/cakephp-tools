@@ -565,7 +565,9 @@ class SluggedBehaviorTest extends TestCase {
 	public function testSlugGenerationBeforeSave() {
 		$this->articles->removeBehavior('Slugged');
 		$this->articles->addBehavior('Tools.Slugged', [
-			'on' => 'beforeSave', 'overwrite' => true]);
+			'on' => 'beforeSave',
+			'overwrite' => true,
+		]);
 
 		$article = $this->articles->newEntity(['title' => 'Some Article 25271']);
 		$result = $this->articles->save($article);
@@ -582,7 +584,8 @@ class SluggedBehaviorTest extends TestCase {
 	public function testSlugGenerationI18nReplacementPieces() {
 		$this->articles->removeBehavior('Slugged');
 		$this->articles->addBehavior('Tools.Slugged', [
-			'overwrite' => true]);
+			'overwrite' => true,
+		]);
 
 		$article = $this->articles->newEntity(['title' => 'Some & More']);
 		$result = $this->articles->save($article);
@@ -597,7 +600,9 @@ class SluggedBehaviorTest extends TestCase {
 	public function testSlugDynamicOverwrite() {
 		$this->articles->removeBehavior('Slugged');
 		$this->articles->addBehavior('Tools.Slugged', [
-			'overwrite' => false, 'overwriteField' => 'overwrite_my_slug']);
+			'overwrite' => false,
+			'overwriteField' => 'overwrite_my_slug',
+		]);
 
 		$article = $this->articles->newEntity(['title' => 'Some Cool String', 'overwrite_my_slug' => false]);
 		$result = $this->articles->save($article);
