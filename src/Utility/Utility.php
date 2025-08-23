@@ -335,9 +335,9 @@ class Utility {
 
 		$defaults = [
 			'http' => [
-				'header' => "Accept: text/html\r\n" .
-					"Connection: Close\r\n" .
-					"User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64)\r\n",
+				'header' => "Accept: text/html\r\n"
+					. "Connection: Close\r\n"
+					. "User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64)\r\n",
 			],
 		];
 		stream_context_get_default($defaults);

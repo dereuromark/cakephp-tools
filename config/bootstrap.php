@@ -123,8 +123,8 @@ if (!function_exists('returns')) {
 			return '(string)' . $value;
 		}
 		if (is_object($value)) {
-			return '(object)' . get_class($value) . '<pre>' . print_r($value, true) .
-				'</pre>';
+			return '(object)' . get_class($value) . '<pre>' . print_r($value, true)
+				. '</pre>';
 		}
 
 		return '(unknown)' . $value;

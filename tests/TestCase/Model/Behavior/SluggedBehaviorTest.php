@@ -548,7 +548,8 @@ class SluggedBehaviorTest extends TestCase {
 	public function testSlugGenerationModeAscii() {
 		$this->articles->removeBehavior('Slugged');
 		$this->articles->addBehavior('Tools.Slugged', [
-			'mode' => 'ascii']);
+			'mode' => 'ascii',
+		]);
 
 		$article = $this->articles->newEntity(['title' => 'Some Article 25271']);
 		$result = $this->articles->save($article);

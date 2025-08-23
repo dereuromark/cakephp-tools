@@ -364,7 +364,8 @@ class PasswordableBehaviorTest extends TestCase {
 		$user = $this->Users->newEmptyEntity();
 		$data = [
 			'name' => 'xyz',
-			'password' => $this->hasher->hash('somepwd')];
+			'password' => $this->hasher->hash('somepwd'),
+		];
 		$this->Users->patchEntity($user, $data);
 		$result = $this->Users->save($user);
 		$this->assertTrue(!empty($result));
@@ -449,7 +450,8 @@ class PasswordableBehaviorTest extends TestCase {
 		$user = $this->Users->newEmptyEntity();
 		$data = [
 			'name' => 'xyz',
-			'password' => $this->hasher->hash('somepwd')];
+			'password' => $this->hasher->hash('somepwd'),
+		];
 		$this->Users->patchEntity($user, $data);
 		$result = $this->Users->save($user);
 		$this->assertTrue(!empty($result));
@@ -736,7 +738,8 @@ class PasswordableBehaviorTest extends TestCase {
 			],
 		];
 		$this->Users->addBehavior('Tools.Passwordable', [
-			'customValidation' => $rules]);
+			'customValidation' => $rules,
+		]);
 
 		$user = $this->Users->newEmptyEntity();
 		$data = [

@@ -22,7 +22,6 @@ class JsonableCommentsFixture extends TestFixture {
 	/**
 	 * @var array
 	 */
-	public array $records = [
-	];
+	public array $records = [];
 
 }

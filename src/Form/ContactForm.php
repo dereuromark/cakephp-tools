@@ -36,8 +36,8 @@ class ContactForm extends Form {
 			->notEmptyString('name', __d('tools', 'This field cannot be left empty'))
 			->requirePresence('email')
 			->add('email', 'format', [
-					'rule' => 'email',
-					'message' => __d('tools', 'A valid email address is required'),
+				'rule' => 'email',
+				'message' => __d('tools', 'A valid email address is required'),
 			])
 			->requirePresence('subject')
 			->notEmptyString('subject', __d('tools', 'This field cannot be left empty'))

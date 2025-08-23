@@ -60,12 +60,12 @@ Configure::write('App', [
 Configure::write('debug', true);
 
 Configure::write('Config', [
-		'adminEmail' => 'test@example.com',
-		'adminName' => 'Mark',
+	'adminEmail' => 'test@example.com',
+	'adminName' => 'Mark',
 ]);
 Mailer::setConfig('default', ['transport' => 'Debug']);
 TransportFactory::setConfig('Debug', [
-		'className' => 'Debug',
+	'className' => 'Debug',
 ]);
 
 mb_internal_encoding('UTF-8');

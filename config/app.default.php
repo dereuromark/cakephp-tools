@@ -1,8 +1,7 @@
 <?php
 $config = [
 	// Controller pagination
-	'Paginator' => [
-	],
+	'Paginator' => [],
 
 	// Error handling around 404s
 	'Log' => [
@@ -25,12 +24,9 @@ $config = [
 	],
 
 	// Behaviors
-	'Passwordable' => [
-	],
-	'Reset' => [
-	],
-	'Slugged' => [
-	],
+	'Passwordable' => [],
+	'Reset' => [],
+	'Slugged' => [],
 
 	// Email
 	'Config' => [
@@ -46,8 +42,7 @@ $config = [
 	'Format' => [
 		'templates' => [],
 	],
-	'Google' => [
-	],
+	'Google' => [],
 	'Icon' => [
 		'checkExistence' => false,
 		'sets' => [],

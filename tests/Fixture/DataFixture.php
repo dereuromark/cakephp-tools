@@ -27,11 +27,11 @@ class DataFixture extends TestFixture {
 	 * @var array
 	 */
 	public array $records = [
-			[
-				'name' => 'Lorem ipsum dolor sit amet',
-				'data_json' => null,
-				'data_array' => null,
-			],
-		];
+		[
+			'name' => 'Lorem ipsum dolor sit amet',
+			'data_json' => null,
+			'data_array' => null,
+		],
+	];
 
 }

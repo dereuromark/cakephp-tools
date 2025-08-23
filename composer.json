@@ -32,7 +32,6 @@
 	},
 	"require-dev": {
 		"fig-r/psr2r-sniffer": "dev-master",
-		"php-collective/code-sniffer": "dev-master as 0.2.20",
 		"mobiledetect/mobiledetectlib": "^4.8.09",
 		"phpunit/phpunit": "^10.5 || ^11.5 || ^12.1",
 		"cakephp/authentication": "^3.1.0",

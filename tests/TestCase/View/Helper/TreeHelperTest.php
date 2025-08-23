@@ -683,8 +683,7 @@ TEXT;
 				'children' => [
 					[
 						'name' => 'Bar',
-						'children' => [
-						],
+						'children' => [],
 					],
 					[
 						'name' => 'Baz',
@@ -731,8 +730,7 @@ TEXT;
 				'children' => [
 					[
 						'name' => 'Bar',
-						'children' => [
-						],
+						'children' => [],
 					],
 					[
 						'name' => 'Baz',
@@ -763,25 +761,21 @@ TEXT;
 				'children' => [
 					[
 						'name' => SameSiteEnum::STRICT,
-						'children' => [
-						],
+						'children' => [],
 					],
 					[
 						'name' => BitmaskEnum::Four,
-						'children' => [
-						],
+						'children' => [],
 					],
 					[
 						'name' => new Chronos('2023-10-01 11:12:13'),
-						'children' => [
-						],
+						'children' => [],
 					],
 					[
 						'name' => function() {
 							return 'Foo Bar';
 						},
-						'children' => [
-						],
+						'children' => [],
 					],
 				],
 			],

@@ -163,7 +163,8 @@ class ResetBehaviorTest extends TestCase {
 		$this->Table->addBehavior('Tools.Reset', [
 			'fields' => ['id'],
 			'updateFields' => ['comment'],
-			'callback' => ResetCommentsTable::class . '::fieldsCallback']);
+			'callback' => ResetCommentsTable::class . '::fieldsCallback',
+		]);
 
 		$x = $this->Table->find()->where(['id' => 6])->first();
 		$this->assertEquals('Second Comment for Second Article', $x['comment']);
@@ -186,7 +187,8 @@ class ResetBehaviorTest extends TestCase {
 		$this->Table->addBehavior('Tools.Reset', [
 			'fields' => ['id'],
 			'updateFields' => ['id'],
-			'callback' => ResetCommentsTable::class . '::fieldsCallbackAuto']);
+			'callback' => ResetCommentsTable::class . '::fieldsCallbackAuto',
+		]);
 
 		$x = $this->Table->find()->where(['id' => 6])->first();
 		$this->assertEquals('Second Comment for Second Article', $x['comment']);

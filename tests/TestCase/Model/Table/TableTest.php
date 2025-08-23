@@ -115,7 +115,8 @@ class TableTest extends TestCase {
 			['role_id' => 1, 'name' => 'Gandalf'],
 			['role_id' => 2, 'name' => 'Asterix'],
 			['role_id' => 1, 'name' => 'Obelix'],
-			['role_id' => 3, 'name' => 'Harry Potter']];
+			['role_id' => 3, 'name' => 'Harry Potter'],
+		];
 		foreach ($rows as $row) {
 			$entity = $this->Users->newEntity($row);
 			$this->Users->save($entity);

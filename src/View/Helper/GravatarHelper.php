@@ -34,7 +34,8 @@ class GravatarHelper extends Helper {
 	 * @var array
 	 */
 	protected array $_allowedRatings = [
-		'g', 'pg', 'r', 'x'];
+		'g', 'pg', 'r', 'x',
+	];
 
 	/**
 	 * Default Icon sets
@@ -42,7 +43,8 @@ class GravatarHelper extends Helper {
 	 * @var array
 	 */
 	protected array $_defaultIcons = [
-		'none', 'mm', 'identicon', 'monsterid', 'retro', 'wavatar', '404'];
+		'none', 'mm', 'identicon', 'monsterid', 'retro', 'wavatar', '404',
+	];
 
 	/**
 	 * Default settings
@@ -53,7 +55,8 @@ class GravatarHelper extends Helper {
 		'default' => null,
 		'size' => null,
 		'rating' => null,
-		'ext' => false];
+		'ext' => false,
+	];
 
 	/**
 	 * Helpers used by this helper

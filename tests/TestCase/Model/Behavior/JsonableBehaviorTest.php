@@ -413,8 +413,7 @@ class JsonableBehaviorTest extends TestCase {
 			'comment' => 'blabla',
 			'url' => 'www.dereuromark.de',
 			'title' => 'param',
-			'details' => [
-			],
+			'details' => [],
 			'details_nullable' => [
 				'foo' => 'bar',
 				'nan' => NAN,

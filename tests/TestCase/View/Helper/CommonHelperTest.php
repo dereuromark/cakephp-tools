@@ -124,10 +124,10 @@ class CommonHelperTest extends TestCase {
 		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="de">' . PHP_EOL . '<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="de-ch">', trim($is));
 
 		$is = $this->Common->metaAlternate(['controller' => 'Some', 'action' => 'url'], ['de' => ['ch', 'at'], 'en' => ['gb', 'us']], true);
-		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="de-ch">' . PHP_EOL .
-			'<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="de-at">' . PHP_EOL .
-			'<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="en-gb">' . PHP_EOL .
-			'<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="en-us">', trim($is));
+		$this->assertEquals('<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="de-ch">' . PHP_EOL
+			. '<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="de-at">' . PHP_EOL
+			. '<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="en-gb">' . PHP_EOL
+			. '<link href="' . $this->Common->Url->build('/some/url', ['fullBase' => true]) . '" rel="alternate" hreflang="en-us">', trim($is));
 	}
 
 	/**
