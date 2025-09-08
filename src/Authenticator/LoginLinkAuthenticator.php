@@ -61,7 +61,7 @@ class LoginLinkAuthenticator extends AbstractAuthenticator {
 			}
 		}
 
-		return $request->getQuery('token');
+		return $request->getQuery($this->getConfig('queryString'));
 	}
 
 	/**
