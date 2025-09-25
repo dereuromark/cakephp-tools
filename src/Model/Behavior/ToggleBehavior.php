@@ -93,12 +93,15 @@ class ToggleBehavior extends Behavior {
 		}
 
 		$value = $entity->get($this->getConfig('field'));
-		if (!$value && !$this->getCurrent($entity)) {
+
+		// Only remove from others if this entity is being set to true
+		// Don't remove existing defaults when adding a new non-default entity
+		if ($value) {
+			$this->removeFromOthers($entity);
+		} elseif (!$this->getCurrent($entity)) {
 			// This should be caught with a validation rule as this is not normal behavior
 			throw new LogicException();
 		}
-
-		$this->removeFromOthers($entity);
 	}
 
 	/**
@@ -119,12 +122,15 @@ class ToggleBehavior extends Behavior {
 		}
 
 		$value = $entity->get($this->getConfig('field'));
-		if (!$value && !$this->getCurrent($entity)) {
+
+		// Only remove from others if this entity is being set to true
+		// Don't remove existing defaults when adding a new non-default entity
+		if ($value) {
+			$this->removeFromOthers($entity);
+		} elseif (!$this->getCurrent($entity)) {
 			// This should be caught with a validation rule as this is not normal behavior
 			throw new LogicException();
 		}
-
-		$this->removeFromOthers($entity);
 	}
 
 	/**
