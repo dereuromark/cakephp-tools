@@ -685,8 +685,10 @@ class Mime extends Response {
 	 */
 	protected function invokeProperty(object &$object, string $name): mixed {
 		$reflection = new ReflectionClass(get_class($object));
+		if (!$reflection->hasProperty($name)) {
+			return null;
+		}
 		$property = $reflection->getProperty($name);
-		$property->setAccessible(true);
 
 		return $property->getValue($object);
 	}
