@@ -794,9 +794,9 @@ class Mime extends Response {
 		// Treat non local files differently
 		$pattern = '~^https?://~i';
 		if (preg_match($pattern, $file)) {
-			// @codingStandardsIgnoreStart
+			// phpcs:disable
 			$headers = @get_headers($file);
-			// @codingStandardsIgnoreEnd
+			// phpcs:enable
 			if (!$headers || !preg_match("|\b200\b|", $headers[0])) {
 				return '';
 			}

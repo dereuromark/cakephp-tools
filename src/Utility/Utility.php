@@ -296,9 +296,9 @@ class Utility {
 			return in_array($statusCode, $statusCodes, true);
 		}
 
-		// @codingStandardsIgnoreStart
+		// phpcs:disable
 		$headers = @get_headers($url);
-		// @codingStandardsIgnoreEnd
+		// phpcs:enable
 		if ($headers && preg_match('|\b200\b|', $headers[0])) {
 			return true;
 		}
@@ -314,9 +314,9 @@ class Utility {
 	 * @return mixed array of headers or FALSE on failure
 	 */
 	public static function getHeaderFromUrl(string $url) {
-		// @codingStandardsIgnoreStart
+		// phpcs:disable
 		$urlArray = @parse_url($url);
-		// @codingStandardsIgnoreEnd
+		// phpcs:enable
 		if (!$urlArray) {
 			return false;
 		}

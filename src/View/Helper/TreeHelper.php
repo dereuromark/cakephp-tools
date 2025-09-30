@@ -186,9 +186,9 @@ class TreeHelper extends Helper {
 			$row = $result;
 
 			/* Close open items as appropriate */
-			// @codingStandardsIgnoreStart
+			// phpcs:disable
 			while ($stack && ($stack[count($stack) - 1] < $row[$right])) {
-				// @codingStandardsIgnoreEnd
+				// phpcs:enable
 				array_pop($stack);
 				if ($indent) {
 					$whiteSpace = str_repeat($indentWith, count($stack));
