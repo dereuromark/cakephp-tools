@@ -130,7 +130,7 @@ class InflectCommand extends Command {
 			foreach ($elements as $element) {
 				$action = $element;
 				if (is_numeric($action)) {
-					$action = $this->validActions[$action - 1] ?? '';
+					$action = $this->validActions[(int)$action - 1] ?? '';
 				}
 
 				if (!in_array($action, $this->validActions, true)) {
@@ -239,7 +239,7 @@ class InflectCommand extends Command {
 			foreach ($elements as $element) {
 				$action = $element;
 				if (is_numeric($action)) {
-					$action = $this->validActions[$action - 1] ?? '';
+					$action = $this->validActions[(int)$action - 1] ?? '';
 				}
 
 				if (!in_array($action, $this->validActions, true)) {
