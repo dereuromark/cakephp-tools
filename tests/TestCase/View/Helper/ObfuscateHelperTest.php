@@ -28,7 +28,7 @@ class ObfuscateHelperTest extends TestCase {
 	public function tearDown(): void {
 		unset($this->Table);
 
- 		parent::tearDown();
+		parent::tearDown();
 	}
 
 	/**

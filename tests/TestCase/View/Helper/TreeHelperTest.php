@@ -86,7 +86,7 @@ class TreeHelperTest extends TestCase {
 	public function tearDown(): void {
 		unset($this->Table);
 
- 		$this->getTableLocator()->clear();
+		$this->getTableLocator()->clear();
 		parent::tearDown();
 	}
 

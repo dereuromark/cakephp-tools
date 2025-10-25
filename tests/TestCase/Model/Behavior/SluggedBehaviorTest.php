@@ -52,8 +52,8 @@ class SluggedBehaviorTest extends TestCase {
 	public function tearDown(): void {
 		unset($this->articles);
 
- 		$this->getTableLocator()->clear();
- 		parent::tearDown();
+		$this->getTableLocator()->clear();
+		parent::tearDown();
 	}
 
 	/**
