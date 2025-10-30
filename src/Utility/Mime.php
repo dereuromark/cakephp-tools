@@ -845,7 +845,7 @@ class Mime extends Response {
 		}
 		$finfo = finfo_open(FILEINFO_MIME_ENCODING);
 		$encoding = finfo_file($finfo, $file);
-		finfo_close($finfo);
+		@finfo_close($finfo);
 		if ($encoding !== false) {
 			return $encoding;
 		}

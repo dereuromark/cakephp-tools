@@ -52,7 +52,7 @@ class ShuntRequestController extends AppController {
 			$language = $allowedLanguages[array_shift($keys)];
 		}
 
-		if (!array_key_exists($language, $allowedLanguages)) {
+		if (!array_key_exists((string)$language, $allowedLanguages)) {
 			throw new RuntimeException('Invalid Language');
 		}
 		$language = $allowedLanguages[$language];

@@ -174,7 +174,9 @@ class Text extends CakeText {
 		$res = [];
 		foreach ($chars as $char) {
 			//$res[] = UnicodeLib::ord($char);
-			$res[] = ord($char);
+			if ($char !== '') {
+				$res[] = ord($char);
+			}
 		}
 
 		return implode($separator, $res);
