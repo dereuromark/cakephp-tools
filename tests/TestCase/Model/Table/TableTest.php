@@ -2,6 +2,7 @@
 
 namespace Tools\Test\TestCase\Model\Table;
 
+use Cake\I18n\Time;
 use Cake\Utility\Hash;
 use DateTime as NativeDateTime;
 use Shim\TestSuite\TestCase;
@@ -263,6 +264,129 @@ class TableTest extends TestCase {
 		$context = ['data' => ['before' => ['year' => '', 'month' => '', 'day' => '']]];
 		$res = $this->Users->validateDate($date, ['before' => 'before', 'min' => 2], $context);
 		$this->assertTrue($res);
+
+		// Test 'after' with object directly (not field reference)
+		$date = new DateTime('2010-02-25');
+		$res = $this->Users->validateDate($date, ['after' => new DateTime('2010-02-24')]);
+		$this->assertTrue($res);
+
+		$date = new Date('2010-02-25');
+		$res = $this->Users->validateDate($date, ['after' => new Date('2010-02-24')]);
+		$this->assertTrue($res);
+
+		$date = new DateTime('2010-02-25');
+		$res = $this->Users->validateDate($date, ['after' => new DateTime('2010-02-26')]);
+		$this->assertFalse($res);
+
+		$date = new Date('2010-02-25');
+		$res = $this->Users->validateDate($date, ['after' => new Date('2010-02-25')]);
+		$this->assertTrue($res);
+
+		$date = new DateTime('2010-02-25');
+		$res = $this->Users->validateDate($date, ['after' => new DateTime('2010-02-25'), 'min' => 1]);
+		$this->assertFalse($res);
+
+		$date = new Date('2010-02-26');
+		$res = $this->Users->validateDate($date, ['after' => new Date('2010-02-24'), 'min' => 2]);
+		$this->assertTrue($res);
+
+		$date = new DateTime('2010-02-25');
+		$res = $this->Users->validateDate($date, ['after' => new DateTime('2010-02-24'), 'min' => 2]);
+		$this->assertFalse($res);
+
+		// Test 'before' with object directly (not field reference)
+		$date = new DateTime('2010-02-24');
+		$res = $this->Users->validateDate($date, ['before' => new DateTime('2010-02-25')]);
+		$this->assertTrue($res);
+
+		$date = new Date('2010-02-24');
+		$res = $this->Users->validateDate($date, ['before' => new Date('2010-02-25')]);
+		$this->assertTrue($res);
+
+		$date = new DateTime('2010-02-25');
+		$res = $this->Users->validateDate($date, ['before' => new DateTime('2010-02-24')]);
+		$this->assertFalse($res);
+
+		$date = new Date('2010-02-25');
+		$res = $this->Users->validateDate($date, ['before' => new Date('2010-02-25')]);
+		$this->assertTrue($res);
+
+		$date = new DateTime('2010-02-24');
+		$res = $this->Users->validateDate($date, ['before' => new DateTime('2010-02-24'), 'min' => 1]);
+		$this->assertFalse($res);
+
+		$date = new Date('2010-02-24');
+		$res = $this->Users->validateDate($date, ['before' => new Date('2010-02-26'), 'min' => 2]);
+		$this->assertTrue($res);
+
+		$date = new DateTime('2010-02-24');
+		$res = $this->Users->validateDate($date, ['before' => new DateTime('2010-02-25'), 'min' => 2]);
+		$this->assertFalse($res);
+
+		// Test DateTimeInterface objects (e.g., DateTimeImmutable)
+		$date = new DateTime('2010-02-25');
+		$after = new \DateTimeImmutable('2010-02-24');
+		$res = $this->Users->validateDate($date, ['after' => $after]);
+		$this->assertTrue($res);
+
+		$date = new Date('2010-02-24');
+		$before = new \DateTimeImmutable('2010-02-25');
+		$res = $this->Users->validateDate($date, ['before' => $before]);
+		$this->assertTrue($res);
+
+		// Test combinations of after and before objects
+		$date = new DateTime('2010-02-25');
+		$res = $this->Users->validateDate($date, [
+			'after' => new DateTime('2010-02-24'),
+			'before' => new DateTime('2010-02-26'),
+		]);
+		$this->assertTrue($res);
+
+		$date = new Date('2010-02-25');
+		$res = $this->Users->validateDate($date, [
+			'after' => new Date('2010-02-24'),
+			'before' => new Date('2010-02-26'),
+		]);
+		$this->assertTrue($res);
+
+		$date = new DateTime('2010-02-25');
+		$res = $this->Users->validateDate($date, [
+			'after' => new DateTime('2010-02-26'),
+			'before' => new DateTime('2010-02-27'),
+		]);
+		$this->assertFalse($res);
+
+		$date = new DateTime('2010-02-25');
+		$res = $this->Users->validateDate($date, [
+			'after' => new DateTime('2010-02-23'),
+			'before' => new DateTime('2010-02-24'),
+		]);
+		$this->assertFalse($res);
+
+		// Test min days with object combinations
+		$date = new DateTime('2010-02-25');
+		$res = $this->Users->validateDate($date, [
+			'after' => new DateTime('2010-02-24'),
+			'before' => new DateTime('2010-02-27'),
+			'min' => 1,
+		]);
+		$this->assertTrue($res);
+
+		$date = new Date('2010-02-25');
+		$res = $this->Users->validateDate($date, [
+			'after' => new Date('2010-02-24'),
+			'before' => new Date('2010-02-26'),
+			'min' => 1,
+		]);
+		$this->assertTrue($res);
+
+		$date = new Date('2010-02-25');
+		$res = $this->Users->validateDate($date, [
+			'after' => new Date('2010-02-25'),
+			'before' => new Date('2010-02-26'),
+			'min' => 1,
+		]);
+		$this->assertFalse($res);
 	}
 
 	/**
@@ -353,33 +477,371 @@ class TableTest extends TestCase {
 		$context = ['data' => ['before' => new DateTime('2010-02-25 13:11:12')]];
 		$res = $this->Users->validateDatetime($date, ['before' => 'before', 'max' => DAY], $context);
 		$this->assertFalse($res);
+
+		// Test 'after' with object directly (not field reference)
+		$date = new DateTime('2010-02-25 14:30:00');
+		$res = $this->Users->validateDatetime($date, ['after' => new DateTime('2010-02-25 14:29:59')]);
+		$this->assertTrue($res);
+
+		$date = new DateTime('2010-02-25 14:30:00');
+		$res = $this->Users->validateDatetime($date, ['after' => new DateTime('2010-02-25 14:30:01')]);
+		$this->assertFalse($res);
+
+		$date = new DateTime('2010-02-25 14:30:00');
+		$res = $this->Users->validateDatetime($date, ['after' => new DateTime('2010-02-25 14:30:00')]);
+		$this->assertFalse($res);
+
+		$date = new DateTime('2010-02-25 14:30:00');
+		$res = $this->Users->validateDatetime($date, ['after' => new DateTime('2010-02-25 14:30:00'), 'min' => 0]);
+		$this->assertTrue($res);
+
+		$date = new DateTime('2010-02-25 14:30:10');
+		$res = $this->Users->validateDatetime($date, ['after' => new DateTime('2010-02-25 14:30:00'), 'min' => 10]);
+		$this->assertTrue($res);
+
+		$date = new DateTime('2010-02-25 14:30:09');
+		$res = $this->Users->validateDatetime($date, ['after' => new DateTime('2010-02-25 14:30:00'), 'min' => 10]);
+		$this->assertFalse($res);
+
+		// Test 'after' with max option
+		$date = new DateTime('2010-02-26 14:30:00');
+		$res = $this->Users->validateDatetime($date, ['after' => new DateTime('2010-02-25 14:30:00'), 'max' => 2 * DAY]);
+		$this->assertTrue($res);
+
+		$date = new DateTime('2010-02-28 14:30:00');
+		$res = $this->Users->validateDatetime($date, ['after' => new DateTime('2010-02-25 14:30:00'), 'max' => 2 * DAY]);
+		$this->assertFalse($res);
+
+		// Test 'before' with object directly (not field reference)
+		$date = new DateTime('2010-02-25 14:29:59');
+		$res = $this->Users->validateDatetime($date, ['before' => new DateTime('2010-02-25 14:30:00')]);
+		$this->assertTrue($res);
+
+		$date = new DateTime('2010-02-25 14:30:01');
+		$res = $this->Users->validateDatetime($date, ['before' => new DateTime('2010-02-25 14:30:00')]);
+		$this->assertFalse($res);
+
+		$date = new DateTime('2010-02-25 14:30:00');
+		$res = $this->Users->validateDatetime($date, ['before' => new DateTime('2010-02-25 14:30:00')]);
+		$this->assertFalse($res);
+
+		$date = new DateTime('2010-02-25 14:30:00');
+		$res = $this->Users->validateDatetime($date, ['before' => new DateTime('2010-02-25 14:30:00'), 'min' => 0]);
+		$this->assertTrue($res);
+
+		$date = new DateTime('2010-02-25 14:29:50');
+		$res = $this->Users->validateDatetime($date, ['before' => new DateTime('2010-02-25 14:30:00'), 'min' => 10]);
+		$this->assertTrue($res);
+
+		$date = new DateTime('2010-02-25 14:29:51');
+		$res = $this->Users->validateDatetime($date, ['before' => new DateTime('2010-02-25 14:30:00'), 'min' => 10]);
+		$this->assertFalse($res);
+
+		// Test 'before' with max option
+		$date = new DateTime('2010-02-25 14:30:00');
+		$res = $this->Users->validateDatetime($date, ['before' => new DateTime('2010-02-26 14:30:00'), 'max' => 2 * DAY]);
+		$this->assertTrue($res);
+
+		$date = new DateTime('2010-02-24 14:30:00');
+		$res = $this->Users->validateDatetime($date, ['before' => new DateTime('2010-02-27 14:30:00'), 'max' => 2 * DAY]);
+		$this->assertFalse($res);
+
+		// Test DateTimeInterface objects (e.g., DateTimeImmutable)
+		$date = new DateTime('2010-02-25 14:30:00');
+		$after = new \DateTimeImmutable('2010-02-25 14:29:00');
+		$res = $this->Users->validateDatetime($date, ['after' => $after]);
+		$this->assertTrue($res);
+
+		$date = new DateTime('2010-02-25 14:30:00');
+		$before = new \DateTimeImmutable('2010-02-25 14:31:00');
+		$res = $this->Users->validateDatetime($date, ['before' => $before]);
+		$this->assertTrue($res);
+
+		// Test combinations of after and before objects
+		$date = new DateTime('2010-02-25 14:30:00');
+		$res = $this->Users->validateDatetime($date, [
+			'after' => new DateTime('2010-02-25 14:29:00'),
+			'before' => new DateTime('2010-02-25 14:31:00'),
+		]);
+		$this->assertTrue($res);
+
+		$date = new DateTime('2010-02-25 14:30:00');
+		$res = $this->Users->validateDatetime($date, [
+			'after' => new DateTime('2010-02-25 14:31:00'),
+			'before' => new DateTime('2010-02-25 14:32:00'),
+		]);
+		$this->assertFalse($res);
+
+		$date = new DateTime('2010-02-25 14:30:00');
+		$res = $this->Users->validateDatetime($date, [
+			'after' => new DateTime('2010-02-25 14:28:00'),
+			'before' => new DateTime('2010-02-25 14:29:00'),
+		]);
+		$this->assertFalse($res);
+
+		// Test min seconds with object combinations
+		$date = new DateTime('2010-02-25 14:30:00');
+		$res = $this->Users->validateDatetime($date, [
+			'after' => new DateTime('2010-02-25 14:29:00'),
+			'before' => new DateTime('2010-02-25 14:31:00'),
+			'min' => 60,
+		]);
+		$this->assertTrue($res);
+
+		$date = new DateTime('2010-02-25 14:30:00');
+		$res = $this->Users->validateDatetime($date, [
+			'after' => new DateTime('2010-02-25 14:29:30'),
+			'before' => new DateTime('2010-02-25 14:30:30'),
+			'min' => 30,
+		]);
+		$this->assertTrue($res);
+
+		$date = new DateTime('2010-02-25 14:30:00');
+		$res = $this->Users->validateDatetime($date, [
+			'after' => new DateTime('2010-02-25 14:29:31'),
+			'before' => new DateTime('2010-02-25 14:30:29'),
+			'min' => 30,
+		]);
+		$this->assertFalse($res);
+
+		// Test max with object combinations
+		$date = new DateTime('2010-02-26 14:30:00');
+		$res = $this->Users->validateDatetime($date, [
+			'after' => new DateTime('2010-02-25 14:30:00'),
+			'before' => new DateTime('2010-02-28 14:30:00'),
+			'max' => 2 * DAY,
+		]);
+		$this->assertTrue($res);
+
+		$date = new DateTime('2010-02-28 14:30:00');
+		$res = $this->Users->validateDatetime($date, [
+			'after' => new DateTime('2010-02-25 14:30:00'),
+			'before' => new DateTime('2010-03-02 14:30:00'),
+			'max' => 2 * DAY,
+		]);
+		$this->assertFalse($res);
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testValidateTime() {
-		$date = '11:21:11';
-		$res = $this->Users->validateTime($date);
-
+		$time = '11:21:11';
+		$res = $this->Users->validateTime($time);
 		$this->assertTrue($res);
 
-		$date = '11:71:11';
-		$res = $this->Users->validateTime($date);
-
+		$time = '11:71:11';
+		$res = $this->Users->validateTime($time);
 		$this->assertFalse($res);
 
-		$date = '2010-02-23 11:11:11';
+		// Test with allowEmpty
+		$time = null;
+		$res = $this->Users->validateTime($time, ['allowEmpty' => true]);
+		$this->assertTrue($res);
+
+		$time = null;
+		$res = $this->Users->validateTime($time);
+		$this->assertFalse($res);
+
+		// Test extracting time from datetime string
+		$time = '2010-02-23 11:11:11';
+		$res = $this->Users->validateTime($time);
+		$this->assertTrue($res);
+
+		// Test with field reference (existing behavior)
+		$time = '2010-02-23 11:11:11';
 		$context = ['data' => ['before' => new NativeDateTime('2010-02-23 11:11:12')]];
-		$res = $this->Users->validateTime($date, ['before' => 'before'], $context);
-
+		$res = $this->Users->validateTime($time, ['before' => 'before'], $context);
 		$this->assertTrue($res);
 
-		$date = '2010-02-23 11:11:11';
+		$time = '2010-02-23 11:11:11';
 		$context = ['data' => ['after' => new NativeDateTime('2010-02-23 11:11:12')]];
-		$res = $this->Users->validateTime($date, ['after' => 'after'], $context);
-
+		$res = $this->Users->validateTime($time, ['after' => 'after'], $context);
 		$this->assertFalse($res);
+
+		// Test 'after' with Time object directly
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, ['after' => new Time('14:29:59')]);
+		$this->assertTrue($res);
+
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, ['after' => new Time('14:30:01')]);
+		$this->assertFalse($res);
+
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, ['after' => new Time('14:30:00')]);
+		$this->assertFalse($res);
+
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, ['after' => new Time('14:30:00'), 'min' => 0]);
+		$this->assertTrue($res);
+
+		// Test 'after' with min seconds
+		$time = '14:30:10';
+		$res = $this->Users->validateTime($time, ['after' => new Time('14:30:00'), 'min' => 10]);
+		$this->assertTrue($res);
+
+		$time = '14:30:09';
+		$res = $this->Users->validateTime($time, ['after' => new Time('14:30:00'), 'min' => 10]);
+		$this->assertFalse($res);
+
+		// Test 'after' with max seconds
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, ['after' => new Time('14:29:00'), 'max' => 120]);
+		$this->assertTrue($res);
+
+		$time = '14:31:01';
+		$res = $this->Users->validateTime($time, ['after' => new Time('14:29:00'), 'max' => 120]);
+		$this->assertFalse($res);
+
+		// Test 'before' with Time object directly
+		$time = '14:29:59';
+		$res = $this->Users->validateTime($time, ['before' => new Time('14:30:00')]);
+		$this->assertTrue($res);
+
+		$time = '14:30:01';
+		$res = $this->Users->validateTime($time, ['before' => new Time('14:30:00')]);
+		$this->assertFalse($res);
+
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, ['before' => new Time('14:30:00')]);
+		$this->assertFalse($res);
+
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, ['before' => new Time('14:30:00'), 'min' => 0]);
+		$this->assertTrue($res);
+
+		// Test 'before' with min seconds
+		$time = '14:29:50';
+		$res = $this->Users->validateTime($time, ['before' => new Time('14:30:00'), 'min' => 10]);
+		$this->assertTrue($res);
+
+		$time = '14:29:51';
+		$res = $this->Users->validateTime($time, ['before' => new Time('14:30:00'), 'min' => 10]);
+		$this->assertFalse($res);
+
+		// Test 'before' with max seconds
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, ['before' => new Time('14:32:00'), 'max' => 120]);
+		$this->assertTrue($res);
+
+		$time = '14:29:59';
+		$res = $this->Users->validateTime($time, ['before' => new Time('14:32:01'), 'max' => 120]);
+		$this->assertFalse($res);
+
+		// Test with string time values for after/before
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, ['after' => '14:29:00']);
+		$this->assertTrue($res);
+
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, ['before' => '14:31:00']);
+		$this->assertTrue($res);
+
+		// Test with datetime strings for after/before
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, ['after' => '2010-02-23 14:29:00']);
+		$this->assertTrue($res);
+
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, ['before' => '2010-02-23 14:31:00']);
+		$this->assertTrue($res);
+
+		// Test with DateTime objects for after/before
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, ['after' => new DateTime('2010-02-23 14:29:00')]);
+		$this->assertTrue($res);
+
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, ['before' => new DateTime('2010-02-23 14:31:00')]);
+		$this->assertTrue($res);
+
+		// Test combinations of after and before
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, [
+			'after' => new Time('14:29:00'),
+			'before' => new Time('14:31:00'),
+		]);
+		$this->assertTrue($res);
+
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, [
+			'after' => new Time('14:31:00'),
+			'before' => new Time('14:32:00'),
+		]);
+		$this->assertFalse($res);
+
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, [
+			'after' => new Time('14:28:00'),
+			'before' => new Time('14:29:00'),
+		]);
+		$this->assertFalse($res);
+
+		// Test min with combinations
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, [
+			'after' => new Time('14:29:00'),
+			'before' => new Time('14:31:00'),
+			'min' => 60,
+		]);
+		$this->assertTrue($res);
+
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, [
+			'after' => new Time('14:29:30'),
+			'before' => new Time('14:30:30'),
+			'min' => 30,
+		]);
+		$this->assertTrue($res);
+
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, [
+			'after' => new Time('14:29:31'),
+			'before' => new Time('14:30:29'),
+			'min' => 30,
+		]);
+		$this->assertFalse($res);
+
+		// Test max with combinations
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, [
+			'after' => new Time('14:29:00'),
+			'before' => new Time('14:32:00'),
+			'max' => 120,
+		]);
+		$this->assertTrue($res);
+
+		$time = '14:30:00';
+		$res = $this->Users->validateTime($time, [
+			'after' => new Time('14:28:00'),
+			'before' => new Time('14:33:00'),
+			'max' => 120,
+		]);
+		$this->assertFalse($res);
+
+		// Test Time input value
+		$time = new Time('14:30:00');
+		$res = $this->Users->validateTime($time, ['after' => new Time('14:29:00')]);
+		$this->assertTrue($res);
+
+		// Test DateTime input value (extracts time portion)
+		$time = new DateTime('2010-02-23 14:30:00');
+		$res = $this->Users->validateTime($time, ['after' => new Time('14:29:00')]);
+		$this->assertTrue($res);
+
+		// Test midnight wrapping scenarios
+		$time = '23:59:59';
+		$res = $this->Users->validateTime($time, ['after' => new Time('23:59:58')]);
+		$this->assertTrue($res);
+
+		$time = '00:00:01';
+		$res = $this->Users->validateTime($time, ['after' => new Time('00:00:00')]);
+		$this->assertTrue($res);
+
+		$time = '00:00:00';
+		$res = $this->Users->validateTime($time, ['before' => new Time('00:00:01')]);
+		$this->assertTrue($res);
 	}
 
 	/**

@@ -2,6 +2,7 @@
 
 namespace Tools\Model\Table;
 
+use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Cake\Validation\Validation;
@@ -360,50 +361,56 @@ class Table extends ShimTable {
 		if (Validation::date($datePart, $format) && Validation::time($timePart)) {
 			// after/before?
 			$seconds = $options['min'] ?? 1;
-			if (!empty($options['after'])) {
-				if (!is_object($options['after']) && !empty($context['data'][$options['after']])) {
-					$options['after'] = $context['data'][$options['after']];
-					if (!is_object($options['after'])) {
-						$options['after'] = new DateTime($options['after']);
-					}
-				} elseif (!is_object($options['after'])) {
-					return false;
+
+			$after = $options['after'] ?? null;
+			if ($after && !is_object($after)) {
+				$after = $context['data'][$options['after']] ?? null;
+			}
+			if ($after) {
+				if (!is_object($after)) {
+					$after = new DateTime($after);
+				} elseif ($after instanceof \DateTimeInterface && !($after instanceof DateTime)) {
+					$after = new DateTime($after);
 				}
 			}
-			if (!empty($options['before'])) {
-				if (!is_object($options['before']) && !empty($context['data'][$options['before']])) {
-					$options['before'] = $context['data'][$options['before']];
-					if (!is_object($options['before'])) {
-						$options['before'] = new DateTime($options['before']);
-					}
-				} elseif (!is_object($options['before'])) {
-					return false;
+
+			$before = $options['before'] ?? null;
+			if ($before && !is_object($before)) {
+				$before = $context['data'][$options['before']] ?? null;
+			}
+			if ($before) {
+				if (!is_object($before)) {
+					$before = new DateTime($before);
+				} elseif ($before instanceof \DateTimeInterface && !($before instanceof DateTime)) {
+					$before = new DateTime($before);
 				}
 			}
 
 			// We need this for those not using immutable objects just yet
 			$compareValue = clone $datetime;
 
-			if (!empty($options['after'])) {
+			if ($after) {
+				/** @var \Tools\I18n\DateTime $after */
 				$compare = $compareValue->subSeconds($seconds);
-				if ($options['after']->greaterThan($compare)) {
+				if ($after->greaterThan($compare)) {
 					return false;
 				}
 				if (!empty($options['max'])) {
-					$after = $options['after']->addSeconds($options['max']);
-					if ($datetime->greaterThan($after)) {
+					$afterMax = $after->addSeconds($options['max']);
+					if ($datetime->greaterThan($afterMax)) {
 						return false;
 					}
 				}
 			}
-			if (!empty($options['before'])) {
+			if ($before) {
+				/** @var \Tools\I18n\DateTime $before */
 				$compare = $compareValue->addSeconds($seconds);
-				if ($options['before']->lessThan($compare)) {
+				if ($before->lessThan($compare)) {
 					return false;
 				}
 				if (!empty($options['max'])) {
-					$after = $options['before']->subSeconds($options['max']);
-					if ($datetime->lessThan($after)) {
+					$beforeMax = $before->subSeconds($options['max']);
+					if ($datetime->lessThan($beforeMax)) {
 						return false;
 					}
 				}
@@ -449,10 +456,14 @@ class Table extends ShimTable {
 		if (Validation::date($value, $format)) {
 			// after/before?
 			$days = !empty($options['min']) ? $options['min'] : 0;
-			if (!empty($options['after']) && !empty($context['data'][$options['after']])) {
+
+			$after = $options['after'] ?? null;
+			if ($after && !is_object($after)) {
+				$after = $context['data'][$options['after']] ?? null;
+			}
+			if ($after) {
 				$compare = $date->subDays($days);
 				/** @var \Cake\I18n\DateTime $after */
-				$after = $context['data'][$options['after']];
 				if (!is_object($after)) {
 					$after = new Date($after);
 				} elseif ($after instanceof \DateTimeInterface) {
@@ -462,10 +473,14 @@ class Table extends ShimTable {
 					return false;
 				}
 			}
-			if (!empty($options['before']) && !empty($context['data'][$options['before']])) {
+
+			$before = $options['before'] ?? null;
+			if ($before && !is_object($before)) {
+				$before = $context['data'][$options['before']] ?? null;
+			}
+			if ($before) {
 				$compare = $date->addDays($days);
 				/** @var \Cake\I18n\DateTime $before */
-				$before = $context['data'][$options['before']];
 				if (!is_object($before)) {
 					$before = new Date($before);
 				} elseif ($before instanceof \DateTimeInterface) {
@@ -489,35 +504,114 @@ class Table extends ShimTable {
 	 * @param array<string, mixed> $options
 	 * - timeFormat (defaults to 'hms')
 	 * - allowEmpty
-	 * - after/before (fieldName to validate against)
-	 * - min/max (defaults to >= 1 - at least 1 minute apart)
+	 * - after/before (fieldName to validate against or Time object)
+	 * - min (defaults to 1 - at least 1 second apart)
+	 * - max (maximum seconds apart)
 	 * @param array $context
 	 * @return bool Success
 	 */
 	public function validateTime($value, array $options = [], array $context = []) {
 		if (!$value) {
+			if (!empty($options['allowEmpty'])) {
+				return true;
+			}
+
 			return false;
 		}
-		$dateTime = explode(' ', $value, 2);
-		$value = array_pop($dateTime);
 
-		if (Validation::time($value)) {
-			// after/before?
-			if (!empty($options['after']) && isset($context['data'][$options['after']])) {
-				if ($context['data'][$options['after']] >= $value) {
-					return false;
-				}
+		// Extract time string for validation
+		$timeString = $value;
+		if (is_object($value)) {
+			if ($value instanceof \DateTimeInterface) {
+				$timeString = $value->format('H:i:s');
 			}
-			if (!empty($options['before']) && isset($context['data'][$options['before']])) {
-				if ($context['data'][$options['before']] <= $value) {
-					return false;
-				}
-			}
-
-			return true;
+		} else {
+			// Extract time part if datetime string is provided
+			$dateTimeParts = explode(' ', (string)$value, 2);
+			$timeString = array_pop($dateTimeParts);
 		}
 
-		return false;
+		// Validate time format first before creating Time object
+		if (!Validation::time($timeString)) {
+			return false;
+		}
+
+		// Convert to Time object for comparisons
+		if (is_object($value) && $value instanceof Time) {
+			$time = $value;
+		} else {
+			$time = new Time($timeString);
+		}
+
+		// after/before?
+		$minSeconds = $options['min'] ?? 1;
+
+		$after = $options['after'] ?? null;
+		if ($after && !is_object($after)) {
+			$after = $context['data'][$options['after']] ?? null;
+		}
+		if ($after) {
+			if (!is_object($after)) {
+				// Extract time part if string contains datetime
+				$dateTimeParts = explode(' ', (string)$after, 2);
+				$timeString = array_pop($dateTimeParts);
+				$after = new Time($timeString);
+			} elseif ($after instanceof \DateTimeInterface && !($after instanceof Time)) {
+				$after = new Time($after->format('H:i:s'));
+			}
+
+			/** @var \Cake\I18n\Time $after */
+			// Convert to total seconds for comparison
+			$timeInSeconds = $time->getHours() * 3600 + $time->getMinutes() * 60 + $time->getSeconds();
+			$afterInSeconds = $after->getHours() * 3600 + $after->getMinutes() * 60 + $after->getSeconds();
+
+			// Check if time is after the threshold (after + min seconds)
+			if ($afterInSeconds + $minSeconds > $timeInSeconds) {
+				return false;
+			}
+
+			// Check max range if specified
+			if (!empty($options['max'])) {
+				if ($timeInSeconds > $afterInSeconds + $options['max']) {
+					return false;
+				}
+			}
+		}
+
+		/** @var \Cake\I18n\Time|string|null $before */
+		$before = $options['before'] ?? null;
+		if ($before && !is_object($before)) {
+			/** @var \Cake\I18n\Time|string|null $before */
+			$before = $context['data'][$options['before']] ?? null;
+		}
+		if ($before) {
+			if (!is_object($before)) {
+				// Extract time part if string contains datetime
+				$dateTimeParts = explode(' ', (string)$before, 2);
+				$timeString = array_pop($dateTimeParts);
+				$before = new Time($timeString);
+			} elseif ($before instanceof \DateTimeInterface && !($before instanceof Time)) {
+				$before = new Time($before->format('H:i:s'));
+			}
+
+			// Convert to total seconds for comparison
+			$timeInSeconds = $time->getHours() * 3600 + $time->getMinutes() * 60 + $time->getSeconds();
+			$beforeInSeconds = $before->getHours() * 3600 + $before->getMinutes() * 60 + $before->getSeconds();
+
+			// Check if time is before the threshold (before - min seconds)
+			if ($beforeInSeconds - $minSeconds < $timeInSeconds) {
+				return false;
+			}
+
+			// Check max range if specified
+			if (!empty($options['max'])) {
+				if ($timeInSeconds < $beforeInSeconds - $options['max']) {
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 
 }
