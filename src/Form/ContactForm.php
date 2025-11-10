@@ -33,7 +33,7 @@ class ContactForm extends Form {
 			->requirePresence('body')
 			->notEmptyString('body', __d('tools', 'This field cannot be left empty'));
 	}
-	
+
 	/**
 	 * @param \Cake\Form\Schema $schema
 	 * @return \Cake\Form\Schema
