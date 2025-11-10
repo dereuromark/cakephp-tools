@@ -49,7 +49,7 @@ class ContactForm extends Form {
 	 * @param array $data
 	 * @return bool
 	 */
-	protected function _execute(array $data): bool {
+	protected function process(array $data): bool {
 		// Overwrite in your extending class
 		return true;
 	}
