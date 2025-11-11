@@ -253,8 +253,9 @@ class DateTime extends CakeDateTime {
 			$date = explode(' ', $dateString);
 			[$y, $m, $d] = explode('-', $date[0]);
 			$t = (int)mktime(0, 0, 0, (int)$m, (int)$d, (int)$y);
+			$y = (int)$y;
 		} else {
-			$y = date('Y');
+			$y = (int)date('Y');
 			$t = time();
 		}
 

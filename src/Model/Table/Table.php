@@ -387,6 +387,7 @@ class Table extends ShimTable {
 			}
 
 			// We need this for those not using immutable objects just yet
+			/** @var \Tools\I18n\DateTime $compareValue */
 			$compareValue = clone $datetime;
 
 			if ($after) {
