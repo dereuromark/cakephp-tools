@@ -162,7 +162,7 @@ class MobileComponent extends Component {
 			return;
 		}
 
-		$this->getController()->viewBuilder()->setClassName('Theme');
+		$this->getController()->viewBuilder()->setClass('Theme');
 		$this->getController()->viewBuilder()->setTheme('Mobile');
 	}
 
