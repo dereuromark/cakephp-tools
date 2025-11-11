@@ -5,6 +5,7 @@ namespace Tools\Mailer;
 use Cake\Core\Configure;
 use Cake\Mailer\Message as CakeMessage;
 use InvalidArgumentException;
+use Psr\Http\Message\UploadedFileInterface;
 use RuntimeException;
 use Tools\Utility\Mime;
 use Tools\Utility\MimeTypes;
@@ -104,14 +105,27 @@ class Message extends CakeMessage {
 	/**
 	 * Add an attachment from file
 	 *
-	 * @param string $file Absolute path
+	 * @param \Psr\Http\Message\UploadedFileInterface|string $path Absolute path or UploadedFileInterface
 	 * @param string|null $name
-	 * @param array $fileInfo
+	 * @param string|null $mimetype
+	 * @param string|null $contentId
+	 * @param bool|null $contentDisposition
 	 * @return $this
 	 */
-	public function addAttachment($file, $name = null, $fileInfo = []) {
-		$fileInfo['file'] = $file;
-		if (!empty($name)) {
+	public function addAttachment(UploadedFileInterface|string $path, ?string $name = null, ?string $mimetype = null, ?string $contentId = null, ?bool $contentDisposition = null) {
+		$fileInfo = ['file' => $path];
+
+		if ($mimetype !== null) {
+			$fileInfo['mimetype'] = $mimetype;
+		}
+		if ($contentId !== null) {
+			$fileInfo['contentId'] = $contentId;
+		}
+		if ($contentDisposition !== null) {
+			$fileInfo['contentDisposition'] = $contentDisposition;
+		}
+
+		if ($name) {
 			$fileInfo = [$name => $fileInfo];
 		} else {
 			$fileInfo = [$fileInfo];
