@@ -62,9 +62,36 @@ $modulus = isset($modulus) ? $modulus : 8;
 
 	</div>
 	<div class="col-lg-6">
-	<p class="paging-description">
-		<?php echo $this->Paginator->counter($format); ?>
-	</p>
+		<?php if (!\Cake\Core\Configure::read('Paginator.limitControl')) { ?>
+		<p class="paging-description">
+			<?php echo $this->Paginator->counter($format); ?>
+		</p>
+		<?php } else { ?>
+		<div class="d-flex justify-content-between align-items-center">
+			<p class="paging-description mb-0">
+				<?php echo $this->Paginator->counter($format); ?>
+			</p>
+			<div class="limit-selector">
+				<?php
+				$currentLimit = $this->Paginator->param('perPage');
+				$maxLimit = $this->Paginator->param('maxLimit') ?: 100;
+				$limits = [10, 25, 50, 100];
+				// Filter limits to only show those <= maxLimit
+				$limits = array_filter($limits, fn($limit) => $limit <= $maxLimit);
+				?>
+				<?php if (count($limits) > 1) { ?>
+				<label class="me-2">Show:</label>
+				<select class="form-select form-select-sm d-inline-block w-auto" onchange="window.location.href=this.value">
+					<?php foreach ($limits as $limitOption) { ?>
+						<option value="<?= $this->Url->build(['?' => ['limit' => $limitOption] + $this->request->getQuery()]) ?>" <?= $currentLimit == $limitOption ? 'selected' : '' ?>>
+							<?= $limitOption ?>
+						</option>
+					<?php } ?>
+				</select>
+				<?php } ?>
+			</div>
+		</div>
+		<?php } ?>
 	</div>
 </div>
 <?php if (!empty($options['ajaxPagination'])) {
