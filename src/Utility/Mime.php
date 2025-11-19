@@ -801,7 +801,7 @@ class Mime extends Response {
 				return '';
 			}
 			foreach ($headers as $header) {
-				if (strpos($header, 'Content-Type:') === 0) {
+				if (str_starts_with($header, 'Content-Type:')) {
 					return trim(substr($header, 13));
 				}
 			}

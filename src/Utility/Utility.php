@@ -208,14 +208,14 @@ class Utility {
 			$url = static::autoPrefixUrl($url, 'http://', $detectHttps);
 		}
 
-		if ($headerRedirect && !empty($url)) {
+		if ($headerRedirect && $url) {
 			$headers = static::getHeaderFromUrl($url);
 			if ($headers !== false) {
 				$headerString = implode("\n", $headers);
 
 				if ((bool)preg_match('#^HTTP/.*\s+[(301)]+\s#i', $headerString)) {
 					foreach ($headers as $header) {
-						if (mb_strpos($header, 'Location:') === 0) {
+						if (str_starts_with($header, 'Location:')) {
 							$url = trim(hDec(mb_substr($header, 9))); // rawurldecode/urldecode ?
 						}
 					}
@@ -224,7 +224,7 @@ class Utility {
 		}
 
 		$length = mb_strlen($url);
-		while (!empty($url) && mb_strrpos($url, '/') === $length - 1) {
+		while ($url && mb_strrpos($url, '/') === $length - 1) {
 			$url = mb_substr($url, 0, $length - 1);
 			$length--;
 		}

@@ -120,7 +120,7 @@ class Text extends CakeText {
 		$words = explode(' ', $text);
 		foreach ($words as $word) {
 			$word = trim($word);
-			if (!empty($word)) {
+			if ($word) {
 				$count++;
 			}
 		}
@@ -219,7 +219,7 @@ class Text extends CakeText {
 		$encodedTags = [];
 		foreach ($tags as $tag) {
 			// Commas and quotes in tag names are special cases, so encode them.
-			if (strpos($tag, ',') !== false || strpos($tag, '"') !== false) {
+			if (str_contains($tag, ',') || str_contains($tag, '"')) {
 				$tag = '"' . str_replace('"', '""', $tag) . '"';
 			}
 
