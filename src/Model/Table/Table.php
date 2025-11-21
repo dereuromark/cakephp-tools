@@ -145,8 +145,10 @@ class Table extends ShimTable {
 		if ($type === 'list') {
 			$propertyName = $this->getAssociation($tableName)->getProperty();
 			$defaults['fields'] = [$tableName . '.' . $this->$tableName->getPrimaryKey(), $tableName . '.' . $displayField];
-			$defaults['keyField'] = $propertyName . '.' . $this->$tableName->getPrimaryKey();
-			$defaults['valueField'] = $propertyName . '.' . $this->$tableName->getDisplayField();
+			/** @var string $keyField */
+			$keyField = $propertyName . '.' . $this->$tableName->getPrimaryKey();
+			/** @var string $valueField */
+			$valueField = $propertyName . '.' . $this->$tableName->getDisplayField();
 
 			if ($this->$tableName->getPrimaryKey() === $this->$tableName->getDisplayField()) {
 				$defaults['group'] = [$tableName . '.' . $this->$tableName->getDisplayField()];
@@ -155,11 +157,23 @@ class Table extends ShimTable {
 			}
 
 			$options += $defaults;
+			unset($options['keyField'], $options['valueField']);
+
+			return $this->find(
+				$type,
+				contain: $options['contain'] ?? [],
+				conditions: $options['conditions'] ?? [],
+				fields: $options['fields'] ?? [],
+				order: $options['order'] ?? [],
+				group: $options['group'] ?? [],
+				keyField: $keyField,
+				valueField: $valueField,
+			);
 		}
 
 		$options += $defaults;
 
-		return $this->find($type, $options);
+		return $this->find($type, ...$options);
 	}
 
 	/**
@@ -182,12 +196,25 @@ class Table extends ShimTable {
 		];
 		if ($type === 'list') {
 			$defaults['fields'] = [$this->getPrimaryKey(), $this->getDisplayField(), $groupField];
-			$defaults['keyField'] = $this->getPrimaryKey();
-			$defaults['valueField'] = $this->getDisplayField();
+			/** @var string $keyField */
+			$keyField = $this->getPrimaryKey();
+			/** @var string $valueField */
+			$valueField = $this->getDisplayField();
+			$options += $defaults;
+
+			return $this->find(
+				$type,
+				conditions: $options['conditions'] ?? [],
+				fields: $options['fields'] ?? [],
+				order: $options['order'] ?? [],
+				group: $options['group'] ?? [],
+				keyField: $keyField,
+				valueField: $valueField,
+			);
 		}
 		$options += $defaults;
 
-		return $this->find($type, $options);
+		return $this->find($type, ...$options);
 	}
 
 	/**
