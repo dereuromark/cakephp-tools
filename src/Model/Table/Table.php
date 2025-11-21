@@ -199,7 +199,6 @@ class Table extends ShimTable {
 			$defaults['fields'] = [$this->getPrimaryKey(), $this->getDisplayField(), $groupField];
 			/** @var string $keyField */
 			$keyField = $this->getPrimaryKey();
-			/** @var string $valueField */
 			$valueField = $this->getDisplayField();
 			$options += $defaults;
 
