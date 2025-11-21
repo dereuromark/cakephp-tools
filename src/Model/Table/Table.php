@@ -143,17 +143,18 @@ class Table extends ShimTable {
 		}
 
 		if ($type === 'list') {
+			/** @var string $primaryKey */
+			$primaryKey = $this->$tableName->getPrimaryKey();
+			$displayField = $this->$tableName->getDisplayField();
+			$defaults['fields'] = [$tableName . '.' . $primaryKey, $tableName . '.' . $displayField];
 			$propertyName = $this->getAssociation($tableName)->getProperty();
-			$defaults['fields'] = [$tableName . '.' . $this->$tableName->getPrimaryKey(), $tableName . '.' . $displayField];
-			/** @var string $keyField */
-			$keyField = $propertyName . '.' . $this->$tableName->getPrimaryKey();
-			/** @var string $valueField */
-			$valueField = $propertyName . '.' . $this->$tableName->getDisplayField();
+			$keyField = $propertyName . '.' . $primaryKey;
+			$valueField = $propertyName . '.' . $displayField;
 
-			if ($this->$tableName->getPrimaryKey() === $this->$tableName->getDisplayField()) {
-				$defaults['group'] = [$tableName . '.' . $this->$tableName->getDisplayField()];
+			if ($primaryKey === $displayField) {
+				$defaults['group'] = [$tableName . '.' . $displayField];
 			} else {
-				$defaults['group'] = [$tableName . '.' . $this->$tableName->getPrimaryKey(), $tableName . '.' . $this->$tableName->getDisplayField()];
+				$defaults['group'] = [$tableName . '.' . $primaryKey, $tableName . '.' . $displayField];
 			}
 
 			$options += $defaults;
