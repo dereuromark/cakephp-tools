@@ -6,6 +6,7 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\ServerRequest;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use Shim\TestSuite\TestCase;
 use TestApp\Controller\CommonComponentTestController;
 use Tools\Controller\Component\CommonComponent;
@@ -321,7 +322,7 @@ class CommonComponentTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
+	#[DoesNotPerformAssertions]
 	public function testAllowExtensionsNone(): void {
 		$this->Controller->Common->allowExtensions('');
 	}
@@ -342,7 +343,7 @@ class CommonComponentTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
+	#[DoesNotPerformAssertions]
 	public function testAllowExtensions(): void {
 		$request = $this->Controller->getRequest();
 		$request = $request->withParam('_ext', 'csv');
@@ -370,7 +371,7 @@ class CommonComponentTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
+	#[DoesNotPerformAssertions]
 	public function testAllowExtensionsSingleMatch(): void {
 		$request = $this->Controller->getRequest();
 		$request = $request->withParam('_ext', 'csv');

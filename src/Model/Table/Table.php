@@ -6,6 +6,7 @@ use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Cake\Validation\Validation;
+use DateTimeInterface;
 use InvalidArgumentException;
 use Shim\Model\Table\Table as ShimTable;
 use Tools\I18n\Date;
@@ -396,7 +397,7 @@ class Table extends ShimTable {
 			if ($after) {
 				if (!is_object($after)) {
 					$after = new DateTime($after);
-				} elseif ($after instanceof \DateTimeInterface && !($after instanceof DateTime)) {
+				} elseif ($after instanceof DateTimeInterface && !($after instanceof DateTime)) {
 					$after = new DateTime($after);
 				}
 			}
@@ -408,7 +409,7 @@ class Table extends ShimTable {
 			if ($before) {
 				if (!is_object($before)) {
 					$before = new DateTime($before);
-				} elseif ($before instanceof \DateTimeInterface && !($before instanceof DateTime)) {
+				} elseif ($before instanceof DateTimeInterface && !($before instanceof DateTime)) {
 					$before = new DateTime($before);
 				}
 			}
@@ -477,7 +478,7 @@ class Table extends ShimTable {
 		$date = $value;
 		if (!is_object($value)) {
 			$date = new Date($value);
-		} elseif ($value instanceof \DateTimeInterface) {
+		} elseif ($value instanceof DateTimeInterface) {
 			$date = new Date($value);
 		}
 
@@ -494,7 +495,7 @@ class Table extends ShimTable {
 				/** @var \Cake\I18n\DateTime $after */
 				if (!is_object($after)) {
 					$after = new Date($after);
-				} elseif ($after instanceof \DateTimeInterface) {
+				} elseif ($after instanceof DateTimeInterface) {
 					$after = new Date($after);
 				}
 				if ($after->greaterThan($compare)) {
@@ -511,7 +512,7 @@ class Table extends ShimTable {
 				/** @var \Cake\I18n\DateTime $before */
 				if (!is_object($before)) {
 					$before = new Date($before);
-				} elseif ($before instanceof \DateTimeInterface) {
+				} elseif ($before instanceof DateTimeInterface) {
 					$before = new Date($before);
 				}
 				if ($before->lessThan($compare)) {
@@ -550,7 +551,7 @@ class Table extends ShimTable {
 		// Extract time string for validation
 		$timeString = $value;
 		if (is_object($value)) {
-			if ($value instanceof \DateTimeInterface) {
+			if ($value instanceof DateTimeInterface) {
 				$timeString = $value->format('H:i:s');
 			}
 		} else {
@@ -584,7 +585,7 @@ class Table extends ShimTable {
 				$dateTimeParts = explode(' ', (string)$after, 2);
 				$timeString = array_pop($dateTimeParts);
 				$after = new Time($timeString);
-			} elseif ($after instanceof \DateTimeInterface && !($after instanceof Time)) {
+			} elseif ($after instanceof DateTimeInterface && !($after instanceof Time)) {
 				$after = new Time($after->format('H:i:s'));
 			}
 
@@ -618,7 +619,7 @@ class Table extends ShimTable {
 				$dateTimeParts = explode(' ', (string)$before, 2);
 				$timeString = array_pop($dateTimeParts);
 				$before = new Time($timeString);
-			} elseif ($before instanceof \DateTimeInterface && !($before instanceof Time)) {
+			} elseif ($before instanceof DateTimeInterface && !($before instanceof Time)) {
 				$before = new Time($before->format('H:i:s'));
 			}
 

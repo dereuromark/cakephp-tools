@@ -5,6 +5,7 @@ namespace Tools\Test\TestCase\Model\Table;
 use Cake\I18n\Time;
 use Cake\Utility\Hash;
 use DateTime as NativeDateTime;
+use DateTimeImmutable;
 use Shim\TestSuite\TestCase;
 use Tools\I18n\Date;
 use Tools\I18n\DateTime;
@@ -325,12 +326,12 @@ class TableTest extends TestCase {
 
 		// Test DateTimeInterface objects (e.g., DateTimeImmutable)
 		$date = new DateTime('2010-02-25');
-		$after = new \DateTimeImmutable('2010-02-24');
+		$after = new DateTimeImmutable('2010-02-24');
 		$res = $this->Users->validateDate($date, ['after' => $after]);
 		$this->assertTrue($res);
 
 		$date = new Date('2010-02-24');
-		$before = new \DateTimeImmutable('2010-02-25');
+		$before = new DateTimeImmutable('2010-02-25');
 		$res = $this->Users->validateDate($date, ['before' => $before]);
 		$this->assertTrue($res);
 
@@ -548,12 +549,12 @@ class TableTest extends TestCase {
 
 		// Test DateTimeInterface objects (e.g., DateTimeImmutable)
 		$date = new DateTime('2010-02-25 14:30:00');
-		$after = new \DateTimeImmutable('2010-02-25 14:29:00');
+		$after = new DateTimeImmutable('2010-02-25 14:29:00');
 		$res = $this->Users->validateDatetime($date, ['after' => $after]);
 		$this->assertTrue($res);
 
 		$date = new DateTime('2010-02-25 14:30:00');
-		$before = new \DateTimeImmutable('2010-02-25 14:31:00');
+		$before = new DateTimeImmutable('2010-02-25 14:31:00');
 		$res = $this->Users->validateDatetime($date, ['before' => $before]);
 		$this->assertTrue($res);
 

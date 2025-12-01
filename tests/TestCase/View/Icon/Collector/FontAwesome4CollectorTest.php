@@ -3,6 +3,7 @@
 namespace Tools\Test\TestCase\View\Icon\Collector;
 
 use Cake\TestSuite\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tools\View\Icon\Collector\FontAwesome4IconCollector;
 
 class FontAwesome4CollectorTest extends TestCase {
@@ -15,7 +16,7 @@ class FontAwesome4CollectorTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('extensions')]
+	#[DataProvider('extensions')]
 	public function testCollect(string $extension): void {
 		$path = TEST_FILES . 'font_icon' . DS . 'fa4' . DS . 'variables.' . $extension;
 

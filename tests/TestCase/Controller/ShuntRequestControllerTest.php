@@ -4,11 +4,12 @@ namespace Tools\Test\TestCase\Controller;
 
 use Cake\Core\Configure;
 use Cake\TestSuite\IntegrationTestTrait;
+use PHPUnit\Framework\Attributes\UsesClass;
 use RuntimeException;
 use Shim\TestSuite\TestCase;
 use Tools\Controller\ShuntRequestController;
 
-#[\PHPUnit\Framework\Attributes\UsesClass(ShuntRequestController::class)]
+#[UsesClass(ShuntRequestController::class)]
 class ShuntRequestControllerTest extends TestCase {
 
 	use IntegrationTestTrait;

@@ -5,12 +5,13 @@ namespace Tools\Test\TestCase\Command;
 
 use Cake\Console\TestSuite\ConsoleIntegrationTestTrait;
 use Cake\TestSuite\TestCase;
+use PHPUnit\Framework\Attributes\UsesClass;
 use Tools\Command\InflectCommand;
 
 /**
  * Tools\Command\InflectCommand Test Case
  */
-#[\PHPUnit\Framework\Attributes\UsesClass(InflectCommand::class)]
+#[UsesClass(InflectCommand::class)]
 class InflectCommandTest extends TestCase {
 
 	use ConsoleIntegrationTestTrait;

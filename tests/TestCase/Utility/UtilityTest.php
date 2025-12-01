@@ -4,11 +4,12 @@ namespace Tools\Test\TestCase\Utility;
 
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
+use PHPUnit\Framework\Attributes\CoversClass;
 use RuntimeException;
 use Shim\TestSuite\TestCase;
 use Tools\Utility\Utility;
 
-#[\PHPUnit\Framework\Attributes\CoversClass(Utility::class)]
+#[CoversClass(Utility::class)]
 class UtilityTest extends TestCase {
 
 	/**

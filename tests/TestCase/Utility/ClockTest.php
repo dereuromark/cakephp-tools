@@ -2,10 +2,11 @@
 
 namespace Tools\Test\TestCase\Utility;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use Shim\TestSuite\TestCase;
 use Tools\Utility\Clock;
 
-#[\PHPUnit\Framework\Attributes\CoversClass(Clock::class)]
+#[CoversClass(Clock::class)]
 class ClockTest extends TestCase {
 
 	/**

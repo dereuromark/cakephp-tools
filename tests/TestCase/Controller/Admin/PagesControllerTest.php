@@ -3,10 +3,11 @@
 namespace Tools\Test\TestCase\Controller\Admin;
 
 use Cake\TestSuite\IntegrationTestTrait;
+use PHPUnit\Framework\Attributes\UsesClass;
 use Shim\TestSuite\TestCase;
 use Tools\Controller\Admin\PagesController;
 
-#[\PHPUnit\Framework\Attributes\UsesClass(PagesController::class)]
+#[UsesClass(PagesController::class)]
 class PagesControllerTest extends TestCase {
 
 	use IntegrationTestTrait;
