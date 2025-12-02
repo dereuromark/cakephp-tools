@@ -8,7 +8,7 @@ use Cake\Validation\Validator;
 
 /**
  * A default ContactForm form fitting most apps.
- * Extend in your app to fill _execute() and to customize
+ * Extend in your app to fill process() and to customize
  *
  * @author Mark Scherer
  * @license MIT
@@ -43,16 +43,6 @@ class ContactForm extends Form {
 			->addField('email', ['type' => 'string', 'length' => 50])
 			->addField('subject', ['type' => 'string', 'length' => 60])
 			->addField('body', ['type' => 'text']);
-	}
-
-	/**
-	 * @deprecated Use process() instead.
-	 * @param array $data
-	 * @return bool
-	 */
-	protected function _execute(array $data): bool {
-		// Overwrite in your extending class
-		return true;
 	}
 
 	/**
