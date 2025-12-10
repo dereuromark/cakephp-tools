@@ -132,7 +132,8 @@ class ResetBehavior extends Behavior {
 		}
 
 		$modified = 0;
-		while (($records = $this->_table->find('all', ...$params)->toArray())) {
+		while (($records = $this->_table->find('all', ...$params)->all()->toArray())) {
+			/** @var \Cake\Datasource\EntityInterface $record */
 			foreach ($records as $record) {
 				$fields = (array)$params['fields'];
 				if ($this->getConfig('updateFields')) {
@@ -148,8 +149,10 @@ class ResetBehavior extends Behavior {
 				if ($this->_config['callback']) {
 					if (is_callable($this->_config['callback'])) {
 						$parameters = [$record, &$fields];
+						/** @var \Cake\Datasource\EntityInterface $record */
 						$record = call_user_func_array($this->_config['callback'], $parameters);
 					} else {
+						/** @var \Cake\Datasource\EntityInterface $record */
 						$record = $this->_table->{$this->_config['callback']}($record, $fields);
 					}
 					if (!$record) {

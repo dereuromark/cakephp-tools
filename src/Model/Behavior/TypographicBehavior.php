@@ -163,7 +163,8 @@ class TypographicBehavior extends Behavior {
 	public function updateTypography($dryRun = false) {
 		$options = ['limit' => 100, 'offset' => 0];
 		$count = 0;
-		while ($records = $this->table()->find('all', ...$options)->toArray()) {
+		while ($records = $this->table()->find('all', ...$options)->all()->toArray()) {
+			/** @var \Cake\Datasource\EntityInterface $record */
 			foreach ($records as $record) {
 				$changed = false;
 				foreach ($this->_config['fields'] as $field) {
