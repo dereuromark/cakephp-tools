@@ -19,6 +19,13 @@ use Shim\Utility\Inflector;
 class InflectCommand extends Command {
 
 	/**
+	 * @return string
+	 */
+	public static function getDescription(): string {
+		return 'Apply CakePHP inflection rules to a word.';
+	}
+
+	/**
 	 * Valid inflection rules
 	 *
 	 * @var array<string>
