@@ -112,10 +112,22 @@ use Tools\Controller\Controller;
 
 class AppController extends Controller {
 
-    protected $components = ['Tools.Common'];
+    public function initialize(): void {
+        parent::initialize();
 
-    protected $helpers = ['Tools.Common', 'Tools.Time', 'Tools.Number', 'Tools.Format'];
+        $this->loadComponent('Tools.Common');
+    }
 
+}
+```
+
+In your `AppView`:
+```php
+public function initialize(): void {
+    parent::initialize();
+
+    $this->loadHelper('Tools.Common');
+    $this->loadHelper('Tools.Format');
 }
 ```
 Here we can also see some of the most useful components and helpers included right away.
