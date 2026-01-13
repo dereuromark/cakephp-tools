@@ -4,6 +4,7 @@ namespace Tools\Error;
 
 use Cake\Controller\Exception\AuthSecurityException;
 use Cake\Controller\Exception\FormProtectionException;
+use Cake\Controller\Exception\InvalidParameterException;
 use Cake\Controller\Exception\MissingActionException;
 use Cake\Controller\Exception\SecurityException;
 use Cake\Core\Configure;
@@ -40,6 +41,7 @@ trait ErrorHandlerTrait {
 	protected static array $blacklist = [
 		InvalidPrimaryKeyException::class,
 		InvalidArgumentException::class,
+		InvalidParameterException::class,
 		NotFoundException::class,
 		MethodNotAllowedException::class,
 		NotAcceptableException::class,
