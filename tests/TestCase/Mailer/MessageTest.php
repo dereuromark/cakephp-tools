@@ -171,6 +171,30 @@ class MessageTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testAttachInlineBlobNotDoubleEncoded() {
+		$file = Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
+		$originalContent = file_get_contents($file);
+
+		$this->message->setEmailFormat('both');
+		$this->message->setTo('test@example.com');
+		$this->message->setFrom('from@example.com');
+		$this->message->addEmbeddedBlobAttachment($originalContent, 'hotel.png');
+
+		$body = $this->message->getBodyString();
+
+		// Extract base64 data block from the body after Content-Transfer-Encoding: base64
+		preg_match('/Content-Transfer-Encoding: base64\r?\n.*?\r?\n\r?\n(.+?)(?:\r?\n\r?\n|--)/s', $body, $matches);
+		$this->assertNotEmpty($matches[1], 'Could not find base64 data in body');
+
+		$encodedData = trim($matches[1]);
+		$decoded = base64_decode($encodedData, true);
+		$this->assertNotFalse($decoded, 'Data should be valid base64');
+		$this->assertSame($originalContent, $decoded, 'Decoded data should match original content (no double encoding)');
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testAddEmbeddedBlobAttachment() {
 		$file = Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.png';
 		$this->assertTrue(file_exists($file));
