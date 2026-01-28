@@ -430,8 +430,8 @@ class Message extends CakeMessage {
 				continue;
 			}
 			if (!empty($fileInfo['data'])) {
+				// CakePHP 5's setAttachments() already base64 encodes blob data
 				$data = $fileInfo['data'];
-				$data = chunk_split(base64_encode($data));
 			} elseif (!empty($fileInfo['file'])) {
 				$data = $this->_readFile($fileInfo['file']);
 			} else {
