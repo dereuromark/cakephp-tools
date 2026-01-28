@@ -26,14 +26,14 @@
 		"source": "https://github.com/dereuromark/cakephp-tools"
 	},
 	"require": {
-		"php": ">=8.1",
+		"php": ">=8.2",
 		"cakephp/cakephp": "^5.1.1",
 		"dereuromark/cakephp-shim": "^3.0.0"
 	},
 	"require-dev": {
 		"fig-r/psr2r-sniffer": "dev-master",
 		"mobiledetect/mobiledetectlib": "^4.8.09",
-		"phpunit/phpunit": "^10.5 || ^11.5 || ^12.1",
+		"phpunit/phpunit": "^11.5 || ^12.1",
 		"cakephp/authentication": "^3.1.0",
 		"yangqi/htmldom": "^1.0"
 	},

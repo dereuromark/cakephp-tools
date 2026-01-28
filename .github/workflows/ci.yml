@@ -11,11 +11,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['8.1', '8.5']
+        php-version: ['8.2', '8.5']
         db-type: [sqlite, mysql, pgsql]
         prefer-lowest: ['']
         include:
-          - php-version: '8.1'
+          - php-version: '8.2'
             db-type: 'sqlite'
             prefer-lowest: 'prefer-lowest'
 
@@ -70,7 +70,7 @@ jobs:
           if [[ ${{ matrix.db-type }} == 'sqlite' ]]; then export DB_URL='sqlite:///:memory:'; fi
           if [[ ${{ matrix.db-type }} == 'mysql' ]]; then export DB_URL='mysql://root:root@127.0.0.1/cakephp'; fi
           if [[ ${{ matrix.db-type }} == 'pgsql' ]]; then export DB_URL='postgres://postgres:postgres@127.0.0.1/postgres'; fi
-          if [[ ${{ matrix.php-version }} == '8.1' ]]; then
+          if [[ ${{ matrix.php-version }} == '8.2' ]]; then
             vendor/bin/phpunit --display-warnings --fail-on-warning --coverage-clover=coverage.xml
           else
             vendor/bin/phpunit --display-warnings --fail-on-warning
@@ -81,7 +81,7 @@ jobs:
         run: vendor/bin/validate-prefer-lowest -m
 
       - name: Upload coverage reports to Codecov
-        if: success() && matrix.php-version == '8.1'
+        if: success() && matrix.php-version == '8.2'
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -96,7 +96,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.2'
           extensions: mbstring, intl
           coverage: none
 
