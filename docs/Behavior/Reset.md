@@ -37,14 +37,14 @@ $this->Post->removeBehavior('Slugged');
 $this->Post->addBehavior('Tools.Slugged', ['label' => 'title', 'overwite' => true]);
 // Load the Reset behavior with only the title and slug field to read and modify.
 $this->Post->addBehavior('Tools.Reset', ['fields' => ['title', 'slug']]);
-$res = $this->Post->resetRecords();
+$res = $this->Post->getBehavior('Reset')->resetRecords();
 // Debug output with number of records modified in $res
 ```
 
 ### Retrigger/Init Geocoding
 ```php
 $this->Post->addBehavior('Tools.Reset', ['fields' => ['address', 'lat', 'lng'], 'timeout' => 3]);
-$res = $this->Post->resetRecords();
+$res = $this->Post->getBehavior('Reset')->resetRecords();
 ```
 Since all lat/lng fields are still null it will geocode the records and populate those fields.
 It will skip already geocoded ones. If you want to skip those completely (not even read them),
@@ -60,7 +60,7 @@ $this->Messages->addBehavior('Tools.Reset', [
     'fields' => ['data'], 'updateFields' => ['guest_name'],
     'scope' => ['data LIKE' => '{%'], 'callback' => 'UpdateShell::prepMessage'
     ]);
-$res = $this->Messages->resetRecords();
+$res = $this->Messages->getBehavior('Reset')->resetRecords();
 $this->out('Done: ' . $res);
 ```
 

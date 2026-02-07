@@ -43,7 +43,7 @@ class NeighborBehaviorTest extends TestCase {
 	public function testNeighbors() {
 		$id = 2;
 
-		$result = $this->Table->neighbors($id);
+		$result = $this->Table->getBehavior('Neighbor')->neighbors($id);
 
 		$this->assertEquals('Second', $result['prev']['title']);
 		$this->assertEquals('Forth', $result['next']['title']);
@@ -55,7 +55,7 @@ class NeighborBehaviorTest extends TestCase {
 	public function testNeighborsReverse() {
 		$id = 2;
 
-		$result = $this->Table->neighbors($id, ['reverse' => true]);
+		$result = $this->Table->getBehavior('Neighbor')->neighbors($id, ['reverse' => true]);
 
 		$this->assertEquals('Forth', $result['prev']['title']);
 		$this->assertEquals('Second', $result['next']['title']);
@@ -67,7 +67,7 @@ class NeighborBehaviorTest extends TestCase {
 	public function testNeighborsCustomSortField() {
 		$id = 2;
 
-		$result = $this->Table->neighbors($id, ['sortField' => 'sort']);
+		$result = $this->Table->getBehavior('Neighbor')->neighbors($id, ['sortField' => 'sort']);
 
 		$this->assertEquals('Second', $result['prev']['title']);
 		$this->assertEquals('First', $result['next']['title']);
@@ -79,7 +79,7 @@ class NeighborBehaviorTest extends TestCase {
 	public function testNeighborsCustomFields() {
 		$id = 2;
 
-		$result = $this->Table->neighbors($id, ['sortField' => 'sort', 'fields' => ['title']]);
+		$result = $this->Table->getBehavior('Neighbor')->neighbors($id, ['sortField' => 'sort', 'fields' => ['title']]);
 		$this->assertEquals(['title' => 'Second'], $result['prev']->toArray());
 		$this->assertEquals(['title' => 'First'], $result['next']->toArray());
 	}
@@ -90,7 +90,7 @@ class NeighborBehaviorTest extends TestCase {
 	public function testNeighborsStart() {
 		$id = 1;
 
-		$result = $this->Table->neighbors($id, ['sortField' => 'id']);
+		$result = $this->Table->getBehavior('Neighbor')->neighbors($id, ['sortField' => 'id']);
 
 		$this->assertNull($result['prev']);
 		$this->assertEquals('Third', $result['next']['title']);
@@ -102,7 +102,7 @@ class NeighborBehaviorTest extends TestCase {
 	public function testNeighborsEnd() {
 		$id = 4;
 
-		$result = $this->Table->neighbors($id);
+		$result = $this->Table->getBehavior('Neighbor')->neighbors($id);
 		$this->assertEquals('Third', $result['prev']['title']);
 		$this->assertNull($result['next']);
 	}

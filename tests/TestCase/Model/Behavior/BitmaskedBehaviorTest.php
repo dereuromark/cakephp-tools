@@ -17,7 +17,7 @@ class BitmaskedBehaviorTest extends TestCase {
 	];
 
 	/**
-	 * @var \Tools\Model\Table\Table|\Tools\Model\Behavior\BitmaskedBehavior
+	 * @var \Tools\Model\Table\Table
 	 */
 	protected $Comments;
 
@@ -56,7 +56,7 @@ class BitmaskedBehaviorTest extends TestCase {
 	public function testEncodeBitmask() {
 		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
 
-		$res = $this->Comments->encodeBitmask([BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_APPROVED]);
+		$res = $this->Comments->getBehavior('Bitmasked')->encodeBitmask([BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_APPROVED]);
 		$expected = BitmaskedComment::STATUS_PUBLISHED | BitmaskedComment::STATUS_APPROVED;
 		$this->assertSame($expected, $res);
 	}
@@ -67,7 +67,7 @@ class BitmaskedBehaviorTest extends TestCase {
 	public function testDecodeBitmask() {
 		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
 
-		$res = $this->Comments->decodeBitmask(BitmaskedComment::STATUS_PUBLISHED | BitmaskedComment::STATUS_APPROVED);
+		$res = $this->Comments->getBehavior('Bitmasked')->decodeBitmask(BitmaskedComment::STATUS_PUBLISHED | BitmaskedComment::STATUS_APPROVED);
 		$expected = [BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_APPROVED];
 		$this->assertSame($expected, $res);
 	}
@@ -289,7 +289,7 @@ class BitmaskedBehaviorTest extends TestCase {
 	public function testIs() {
 		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
 
-		$res = $this->Comments->isBit(BitmaskedComment::STATUS_PUBLISHED);
+		$res = $this->Comments->getBehavior('Bitmasked')->isBit(BitmaskedComment::STATUS_PUBLISHED);
 		$expected = ['BitmaskedComments.status' => 2];
 		$this->assertEquals($expected, $res);
 	}
@@ -300,7 +300,7 @@ class BitmaskedBehaviorTest extends TestCase {
 	public function testIsNot() {
 		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
 
-		$res = $this->Comments->isNotBit(BitmaskedComment::STATUS_PUBLISHED);
+		$res = $this->Comments->getBehavior('Bitmasked')->isNotBit(BitmaskedComment::STATUS_PUBLISHED);
 		$expected = ['NOT' => ['BitmaskedComments.status' => 2]];
 		$this->assertEquals($expected, $res);
 	}
@@ -314,7 +314,7 @@ class BitmaskedBehaviorTest extends TestCase {
 		$config = $this->Comments->getConnection()->config();
 		$isPostgres = strpos($config['driver'], 'Postgres') !== false;
 
-		$res = $this->Comments->containsBit(BitmaskedComment::STATUS_PUBLISHED);
+		$res = $this->Comments->getBehavior('Bitmasked')->containsBit(BitmaskedComment::STATUS_PUBLISHED);
 		$expected = ['(BitmaskedComments.status & 2 = 2)'];
 		if ($isPostgres) {
 			$expected = ['("BitmaskedComments"."status" & 2 = 2)'];
@@ -326,7 +326,7 @@ class BitmaskedBehaviorTest extends TestCase {
 		$this->assertTrue(!empty($res) && count($res) === 3);
 
 		// multiple (AND)
-		$res = $this->Comments->containsBit([BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_ACTIVE]);
+		$res = $this->Comments->getBehavior('Bitmasked')->containsBit([BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_ACTIVE]);
 		$expected = ['(BitmaskedComments.status & 3 = 3)'];
 		if ($isPostgres) {
 			$expected = ['("BitmaskedComments"."status" & 3 = 3)'];
@@ -347,7 +347,7 @@ class BitmaskedBehaviorTest extends TestCase {
 		$config = $this->Comments->getConnection()->config();
 		$isPostgres = strpos($config['driver'], 'Postgres') !== false;
 
-		$res = $this->Comments->containsNotBit(BitmaskedComment::STATUS_PUBLISHED);
+		$res = $this->Comments->getBehavior('Bitmasked')->containsNotBit(BitmaskedComment::STATUS_PUBLISHED);
 		$expected = ['(BitmaskedComments.status & 2 != 2)'];
 		if ($isPostgres) {
 			$expected = ['("BitmaskedComments"."status" & 2 != 2)'];
@@ -359,7 +359,7 @@ class BitmaskedBehaviorTest extends TestCase {
 		$this->assertTrue(!empty($res) && count($res) === 4);
 
 		// multiple (AND)
-		$res = $this->Comments->containsNotBit([BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_ACTIVE]);
+		$res = $this->Comments->getBehavior('Bitmasked')->containsNotBit([BitmaskedComment::STATUS_PUBLISHED, BitmaskedComment::STATUS_ACTIVE]);
 		$expected = ['(BitmaskedComments.status & 3 != 3)'];
 		if ($isPostgres) {
 			$expected = ['("BitmaskedComments"."status" & 3 != 3)'];

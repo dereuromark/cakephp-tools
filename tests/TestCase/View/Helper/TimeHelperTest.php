@@ -76,8 +76,10 @@ class TimeHelperTest extends TestCase {
 		$res = $this->Time->userAge('1901-01-01');
 		$this->assertSame('', $res);
 
-		$res = $this->Time->userAge(new Date('1981-02-03'));
-		$this->assertTrue($res >= 42 && $res <= 44);
+		$birthYear = 1981;
+		$res = $this->Time->userAge(new Date($birthYear . '-02-03'));
+		$expectedAge = (int)date('Y') - $birthYear;
+		$this->assertTrue($res >= $expectedAge - 1 && $res <= $expectedAge + 1);
 	}
 
 	/**

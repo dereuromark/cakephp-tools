@@ -622,11 +622,11 @@ class PasswordableBehaviorTest extends TestCase {
 		]);
 
 		$hash = password_hash('foobar', PASSWORD_BCRYPT);
-		$result = $this->Users->needsPasswordRehash($hash);
+		$result = $this->Users->getBehavior('Passwordable')->needsPasswordRehash($hash);
 		$this->assertFalse($result);
 
 		$hash = sha1('foobar');
-		$result = $this->Users->needsPasswordRehash($hash);
+		$result = $this->Users->getBehavior('Passwordable')->needsPasswordRehash($hash);
 		$this->assertTrue($result);
 	}
 
@@ -641,7 +641,7 @@ class PasswordableBehaviorTest extends TestCase {
 		]);
 
 		$hash = password_hash('foobar', PASSWORD_BCRYPT);
-		$result = $this->Users->needsPasswordRehash($hash);
+		$result = $this->Users->getBehavior('Passwordable')->needsPasswordRehash($hash);
 		$this->assertFalse($result);
 
 		$this->Users->removeBehavior('Passwordable');
@@ -651,7 +651,7 @@ class PasswordableBehaviorTest extends TestCase {
 		]);
 
 		$hash = password_hash('foobar', PASSWORD_BCRYPT);
-		$result = $this->Users->needsPasswordRehash($hash);
+		$result = $this->Users->getBehavior('Passwordable')->needsPasswordRehash($hash);
 		$this->assertFalse($result);
 	}
 

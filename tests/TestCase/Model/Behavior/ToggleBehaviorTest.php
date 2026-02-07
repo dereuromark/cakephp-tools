@@ -14,7 +14,7 @@ class ToggleBehaviorTest extends TestCase {
 	];
 
 	/**
-	 * @var \Tools\Model\Table\Table|\Tools\Model\Behavior\ToggleBehavior
+	 * @var \Tools\Model\Table\Table
 	 */
 	protected $Addresses;
 
@@ -126,7 +126,7 @@ class ToggleBehaviorTest extends TestCase {
 		$address2 = $this->Addresses->get($address2->id);
 		$this->assertTrue($address2->primary);
 
-		$this->Addresses->toggleField($address);
+		$this->Addresses->getBehavior('Toggle')->toggleField($address);
 
 		$address = $this->Addresses->get($address->id);
 		$this->assertTrue($address->primary);

@@ -148,7 +148,7 @@ public function login() {
             $password = $this->request->data['password'];
             $dbPassword = $this->Users->field('password', ['id' => $user['id']]);
 
-            if ($this->Users->needsPasswordRehash($dbPassword)) {
+            if ($this->Users->getBehavior('Passwordable')->needsPasswordRehash($dbPassword)) {
                 $data = [
                     'id' => $user['id'],
                     'pwd' => $password,

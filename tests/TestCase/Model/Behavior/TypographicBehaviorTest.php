@@ -15,7 +15,7 @@ class TypographicBehaviorTest extends TestCase {
 	];
 
 	/**
-	 * @var \Cake\ORM\Table|\Tools\Model\Behavior\TypographicBehavior
+	 * @var \Cake\ORM\Table
 	 */
 	protected $Model;
 
@@ -138,7 +138,7 @@ class TypographicBehaviorTest extends TestCase {
 			$this->assertTrue((bool)$result);
 		}
 		$this->Model->addBehavior('Tools.Typographic');
-		$count = $this->Model->updateTypography();
+		$count = $this->Model->getBehavior('Typographic')->updateTypography();
 		$this->assertTrue($count >= 190, 'Count is only ' . $count);
 
 		$record = $this->Model->find()->orderByDesc('id')->firstOrFail();

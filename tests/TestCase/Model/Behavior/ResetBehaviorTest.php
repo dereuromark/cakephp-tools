@@ -50,7 +50,7 @@ class ResetBehaviorTest extends TestCase {
 		$x = $this->Table->find('all', ...['fields' => ['comment', 'updated'], 'order' => ['updated' => 'DESC']])->first();
 		$x['updated'] = (string)$x['updated'];
 
-		$result = $this->Table->resetRecords();
+		$result = $this->Table->getBehavior('Reset')->resetRecords();
 		$this->assertTrue((bool)$result);
 
 		$y = $this->Table->find('all', ...['fields' => ['comment', 'updated'], 'order' => ['updated' => 'DESC']])->first();
@@ -67,7 +67,7 @@ class ResetBehaviorTest extends TestCase {
 
 		$x = $this->Table->find('all', ...['fields' => ['comment'], 'order' => ['updated' => 'DESC']])->first();
 
-		$result = $this->Table->resetRecords();
+		$result = $this->Table->getBehavior('Reset')->resetRecords();
 		$this->assertTrue((bool)$result);
 
 		$y = $this->Table->find('all', ...['fields' => ['comment'], 'order' => ['updated' => 'DESC']])->first();
@@ -86,7 +86,7 @@ class ResetBehaviorTest extends TestCase {
 		$x = $this->Table->find('all', ...['order' => ['updated' => 'DESC']])->first();
 		$this->assertTrue($x['updated'] < '2007-12-31');
 
-		$result = $this->Table->resetRecords();
+		$result = $this->Table->getBehavior('Reset')->resetRecords();
 		$this->assertTrue((bool)$result);
 
 		$x = $this->Table->find('all', ...['order' => ['updated' => 'ASC']])->first();
@@ -105,7 +105,7 @@ class ResetBehaviorTest extends TestCase {
 		$x = $this->Table->find('all', ...['conditions' => ['id' => 6]])->first();
 		$this->assertEquals('Second Comment for Second Article', $x['comment']);
 
-		$result = $this->Table->resetRecords();
+		$result = $this->Table->getBehavior('Reset')->resetRecords();
 		$this->assertTrue((bool)$result);
 
 		$x = $this->Table->find('all', ...['conditions' => ['id' => 6]])->first();
@@ -125,7 +125,7 @@ class ResetBehaviorTest extends TestCase {
 		$x = $this->Table->find()->where(['id' => 6])->first();
 		$this->assertEquals('Second Comment for Second Article', $x['comment']);
 
-		$result = $this->Table->resetRecords();
+		$result = $this->Table->getBehavior('Reset')->resetRecords();
 		$this->assertTrue((bool)$result);
 
 		$x = $this->Table->find()->where(['id' => 6])->first();
@@ -145,7 +145,7 @@ class ResetBehaviorTest extends TestCase {
 		$x = $this->Table->find()->where(['id' => 6])->first();
 		$this->assertEquals('Second Comment for Second Article', $x['comment']);
 
-		$result = $this->Table->resetRecords();
+		$result = $this->Table->getBehavior('Reset')->resetRecords();
 		$this->assertTrue((bool)$result);
 
 		$x = $this->Table->find()->where(['id' => 6])->first();
@@ -169,7 +169,7 @@ class ResetBehaviorTest extends TestCase {
 		$x = $this->Table->find()->where(['id' => 6])->first();
 		$this->assertEquals('Second Comment for Second Article', $x['comment']);
 
-		$result = $this->Table->resetRecords();
+		$result = $this->Table->getBehavior('Reset')->resetRecords();
 		$this->assertTrue((bool)$result);
 
 		$x = $this->Table->find()->where(['id' => 6])->first();
@@ -193,7 +193,7 @@ class ResetBehaviorTest extends TestCase {
 		$x = $this->Table->find()->where(['id' => 6])->first();
 		$this->assertEquals('Second Comment for Second Article', $x['comment']);
 
-		$result = $this->Table->resetRecords();
+		$result = $this->Table->getBehavior('Reset')->resetRecords();
 		$this->assertTrue((bool)$result);
 
 		$x = $this->Table->find()->where(['id' => 6])->first();
