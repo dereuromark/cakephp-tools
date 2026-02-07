@@ -23,7 +23,7 @@ $this->addBehavior('Tools.AfterSave', $options);
 Then inside your table you can do:
 ```php
 public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options): void {
-    $entityBefore = $this->getEntityBeforeSave();
+    $entityBefore = $this->getBehavior('AfterSave')->getEntityBeforeSave();
     // Now you can check diff dirty fields etc
 }
 ```
@@ -31,7 +31,7 @@ public function afterSave(Event $event, EntityInterface $entity, ArrayObject $op
 The same call could also be made from the calling layer/object on the table:
 ```php
 $table->saveOrFail();
-$entityBefore = $table->getEntityBeforeSave();
+$entityBefore = $table->getBehavior('AfterSave')->getEntityBeforeSave();
 ```
 
 If you are using save(), make sure you check the result and that the save was successful.

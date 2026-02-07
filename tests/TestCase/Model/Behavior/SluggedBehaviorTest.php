@@ -24,7 +24,7 @@ class SluggedBehaviorTest extends TestCase {
 	];
 
 	/**
-	 * @var \Cake\ORM\Table|\Tools\Model\Behavior\SluggedBehavior
+	 * @var \Cake\ORM\Table
 	 */
 	protected $articles;
 
@@ -183,12 +183,12 @@ class SluggedBehaviorTest extends TestCase {
 	public function testNeedsSlugUpdate() {
 		// No title change
 		$entity = $this->articles->newEntity(['title' => 'Some title'], ['fields' => []]);
-		$result = $this->articles->needsSlugUpdate($entity);
+		$result = $this->articles->getBehavior('Slugged')->needsSlugUpdate($entity);
 		$this->assertFalse($result);
 
 		// Title change
 		$entity = $this->articles->newEntity(['title' => 'Some title']);
-		$result = $this->articles->needsSlugUpdate($entity);
+		$result = $this->articles->getBehavior('Slugged')->needsSlugUpdate($entity);
 		$this->assertTrue($result);
 
 		$result = $this->articles->save($entity);
@@ -196,12 +196,12 @@ class SluggedBehaviorTest extends TestCase {
 
 		// No title change
 		$entity = $this->articles->patchEntity($entity, ['description' => 'Foo bar']);
-		$result = $this->articles->needsSlugUpdate($entity);
+		$result = $this->articles->getBehavior('Slugged')->needsSlugUpdate($entity);
 		$this->assertFalse($result);
 
 		// Needs an update, but overwrite is still false: will not modify the slug
 		$entity = $this->articles->patchEntity($entity, ['title' => 'Some other title']);
-		$result = $this->articles->needsSlugUpdate($entity);
+		$result = $this->articles->getBehavior('Slugged')->needsSlugUpdate($entity);
 		$this->assertTrue($result);
 
 		$result = $this->articles->save($entity);
@@ -210,7 +210,7 @@ class SluggedBehaviorTest extends TestCase {
 		$this->articles->behaviors()->Slugged->setConfig(['overwrite' => true]);
 		// Now it can modify the slug
 		$entity = $this->articles->patchEntity($entity, ['title' => 'Some really other title']);
-		$result = $this->articles->needsSlugUpdate($entity);
+		$result = $this->articles->getBehavior('Slugged')->needsSlugUpdate($entity);
 		$this->assertTrue($result);
 
 		$result = $this->articles->save($entity);
@@ -219,7 +219,7 @@ class SluggedBehaviorTest extends TestCase {
 		$this->articles->behaviors()->Slugged->setConfig(['overwrite' => true]);
 		// Without title present it should not modify the slug
 		$entity = $this->articles->patchEntity($entity, ['foo' => 'bar']);
-		$result = $this->articles->needsSlugUpdate($entity);
+		$result = $this->articles->getBehavior('Slugged')->needsSlugUpdate($entity);
 		$this->assertFalse($result);
 
 		$result = $this->articles->save($entity);
@@ -239,7 +239,7 @@ class SluggedBehaviorTest extends TestCase {
 		$this->articles->behaviors()->Slugged->setConfig(['overwrite' => true]);
 		// Without title present it should not modify the slug
 		$entity = $this->articles->patchEntity($entity, ['foo' => 'bar']);
-		$result = $this->articles->needsSlugUpdate($entity);
+		$result = $this->articles->getBehavior('Slugged')->needsSlugUpdate($entity);
 		$this->assertFalse($result);
 
 		$this->articles->saveOrFail($entity);
@@ -255,9 +255,9 @@ class SluggedBehaviorTest extends TestCase {
 	public function testNeedsSlugUpdateDeep() {
 		// No title change
 		$entity = $this->articles->newEntity(['title' => 'Some title']);
-		$result = $this->articles->needsSlugUpdate($entity);
+		$result = $this->articles->getBehavior('Slugged')->needsSlugUpdate($entity);
 		$this->assertTrue($result);
-		$result = $this->articles->needsSlugUpdate($entity, true);
+		$result = $this->articles->getBehavior('Slugged')->needsSlugUpdate($entity, true);
 		$this->assertTrue($result);
 
 		$result = $this->articles->save($entity);
@@ -265,9 +265,9 @@ class SluggedBehaviorTest extends TestCase {
 
 		// Needs an update, but overwrite is still false: will not modify the slug
 		$entity = $this->articles->patchEntity($entity, ['title' => 'Some other title']);
-		$result = $this->articles->needsSlugUpdate($entity);
+		$result = $this->articles->getBehavior('Slugged')->needsSlugUpdate($entity);
 		$this->assertTrue($result);
-		$result = $this->articles->needsSlugUpdate($entity, true);
+		$result = $this->articles->getBehavior('Slugged')->needsSlugUpdate($entity, true);
 		$this->assertTrue($result);
 
 		$result = $this->articles->save($entity);
@@ -275,9 +275,9 @@ class SluggedBehaviorTest extends TestCase {
 
 		// Here deep would tell the truth
 		$entity = $this->articles->patchEntity($entity, ['title' => 'Some other title']);
-		$result = $this->articles->needsSlugUpdate($entity);
+		$result = $this->articles->getBehavior('Slugged')->needsSlugUpdate($entity);
 		$this->assertFalse($result);
-		$result = $this->articles->needsSlugUpdate($entity, true);
+		$result = $this->articles->getBehavior('Slugged')->needsSlugUpdate($entity, true);
 		$this->assertTrue($result);
 	}
 
@@ -329,7 +329,7 @@ class SluggedBehaviorTest extends TestCase {
 		$this->assertEquals($expected, $result);
 
 		$this->articles->addBehavior('Tools.Slugged');
-		$result = $this->articles->resetSlugs(['limit' => 1]);
+		$result = $this->articles->getBehavior('Slugged')->resetSlugs(['limit' => 1]);
 		$this->assertTrue($result);
 
 		$result = $this->articles->find('all', ...[
@@ -410,7 +410,7 @@ class SluggedBehaviorTest extends TestCase {
 	public function testTruncateMultibyte() {
 		$this->articles->behaviors()->Slugged->setConfig(['length' => 16]);
 
-		$result = $this->articles->generateSlug('モデルのデータベースとデータソース');
+		$result = $this->articles->getBehavior('Slugged')->generateSlug('モデルのデータベースとデータソース');
 		$expected = 'モデルのデータベースとデータソー';
 		$this->assertEquals($expected, $result);
 	}
@@ -421,7 +421,7 @@ class SluggedBehaviorTest extends TestCase {
 	public function testSlugManually() {
 		$article = new Entity();
 		$article->title = 'Foo Bar';
-		$this->articles->slug($article);
+		$this->articles->getBehavior('Slugged')->slug($article);
 
 		$this->assertSame('Foo-Bar', $article->slug);
 	}
@@ -436,107 +436,107 @@ class SluggedBehaviorTest extends TestCase {
 
 		$string = 'standard string';
 		$expected = 'standard-string';
-		$result = $this->articles->generateSlug($string);
+		$result = $this->articles->getBehavior('Slugged')->generateSlug($string);
 		$this->assertEquals($expected, $result);
 
 		$string = 'something with a \' in it';
 		$expected = 'something-with-a-in-it';
-		$result = $this->articles->generateSlug($string);
+		$result = $this->articles->getBehavior('Slugged')->generateSlug($string);
 		$this->assertEquals($expected, $result);
 
 		$string = 'something with a " in it';
 		$expected = 'something-with-a-in-it';
-		$result = $this->articles->generateSlug($string);
+		$result = $this->articles->getBehavior('Slugged')->generateSlug($string);
 		$this->assertEquals($expected, $result);
 
 		$string = 'something with a / in it';
 		$expected = 'something-with-a-in-it';
-		$result = $this->articles->generateSlug($string);
+		$result = $this->articles->getBehavior('Slugged')->generateSlug($string);
 		$this->assertEquals($expected, $result);
 
 		$string = 'something with a ? in it';
 		$expected = 'something-with-a-in-it';
-		$result = $this->articles->generateSlug($string);
+		$result = $this->articles->getBehavior('Slugged')->generateSlug($string);
 		$this->assertEquals($expected, $result);
 
 		$string = 'something with a < in it';
 		$expected = 'something-with-a-in-it';
-		$result = $this->articles->generateSlug($string);
+		$result = $this->articles->getBehavior('Slugged')->generateSlug($string);
 		$this->assertEquals($expected, $result);
 
 		$string = 'something with a > in it';
 		$expected = 'something-with-a-in-it';
-		$result = $this->articles->generateSlug($string);
+		$result = $this->articles->getBehavior('Slugged')->generateSlug($string);
 		$this->assertEquals($expected, $result);
 
 		$string = 'something with a . in it';
 		$expected = 'something-with-a-in-it';
-		$result = $this->articles->generateSlug($string);
+		$result = $this->articles->getBehavior('Slugged')->generateSlug($string);
 		$this->assertEquals($expected, $result);
 
 		$string = 'something with a $ in it';
 		$expected = 'something-with-a-in-it';
-		$result = $this->articles->generateSlug($string);
+		$result = $this->articles->getBehavior('Slugged')->generateSlug($string);
 		$this->assertEquals($expected, $result);
 
 		$string = 'something with a / in it';
 		$expected = 'something-with-a-in-it';
-		$result = $this->articles->generateSlug($string);
+		$result = $this->articles->getBehavior('Slugged')->generateSlug($string);
 		$this->assertEquals($expected, $result);
 
 		$string = 'something with a : in it';
 		$expected = 'something-with-a-in-it';
-		$result = $this->articles->generateSlug($string);
+		$result = $this->articles->getBehavior('Slugged')->generateSlug($string);
 		$this->assertEquals($expected, $result);
 
 		$string = 'something with a ; in it';
 		$expected = 'something-with-a-in-it';
-		$result = $this->articles->generateSlug($string);
+		$result = $this->articles->getBehavior('Slugged')->generateSlug($string);
 		$this->assertEquals($expected, $result);
 
 		$string = 'something with a ? in it';
 		$expected = 'something-with-a-in-it';
-		$result = $this->articles->generateSlug($string);
+		$result = $this->articles->getBehavior('Slugged')->generateSlug($string);
 		$this->assertEquals($expected, $result);
 
 		$string = 'something with a @ in it';
 		$expected = 'something-with-a-in-it';
-		$result = $this->articles->generateSlug($string);
+		$result = $this->articles->getBehavior('Slugged')->generateSlug($string);
 		$this->assertEquals($expected, $result);
 
 		$string = 'something with a = in it';
 		$expected = 'something-with-a-in-it';
-		$result = $this->articles->generateSlug($string);
+		$result = $this->articles->getBehavior('Slugged')->generateSlug($string);
 		$this->assertEquals($expected, $result);
 
 		$string = 'something with a + in it';
 		$expected = 'something-with-a-in-it';
-		$result = $this->articles->generateSlug($string);
+		$result = $this->articles->getBehavior('Slugged')->generateSlug($string);
 		$this->assertEquals($expected, $result);
 
 		$string = 'something with a & in it';
 		$expected = 'something-with-a-in-it';
-		$result = $this->articles->generateSlug($string);
+		$result = $this->articles->getBehavior('Slugged')->generateSlug($string);
 		$this->assertEquals($expected, $result);
 
 		$string = 'something with a % in it';
 		$expected = 'something-with-a-in-it';
-		$result = $this->articles->generateSlug($string);
+		$result = $this->articles->getBehavior('Slugged')->generateSlug($string);
 		$this->assertEquals($expected, $result);
 
 		$string = 'something with a \ in it';
 		$expected = 'something-with-a-in-it';
-		$result = $this->articles->generateSlug($string);
+		$result = $this->articles->getBehavior('Slugged')->generateSlug($string);
 		$this->assertEquals($expected, $result);
 
 		$string = 'something with a # in it';
 		$expected = 'something-with-a-in-it';
-		$result = $this->articles->generateSlug($string);
+		$result = $this->articles->getBehavior('Slugged')->generateSlug($string);
 		$this->assertEquals($expected, $result);
 
 		$string = 'something with a , in it';
 		$expected = 'something-with-a-in-it';
-		$result = $this->articles->generateSlug($string);
+		$result = $this->articles->getBehavior('Slugged')->generateSlug($string);
 		$this->assertEquals($expected, $result);
 	}
 

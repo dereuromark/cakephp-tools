@@ -26,7 +26,7 @@ use RuntimeException;
  * It is recommended to attach this behavior dynamically where needed:
  *
  *    $table->addBehavior('Tools.Reset', array(...));
- *    $table->resetRecords();
+ *    $table->getBehavior('Reset')->resetRecords();
  *
  * If you want to provide a callback function/method, you can either use object methods or
  * static functions/methods:
