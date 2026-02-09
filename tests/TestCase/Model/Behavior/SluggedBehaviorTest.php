@@ -651,6 +651,63 @@ class SluggedBehaviorTest extends TestCase {
 	}
 
 	/**
+	 * Test unique slug generation with custom callback.
+	 *
+	 * @return void
+	 */
+	public function testUniqueWithCallback() {
+		$callbackInvocations = 0;
+
+		$this->articles->removeBehavior('Slugged');
+		$this->articles->addBehavior('Tools.Slugged', [
+			'unique' => true,
+			'uniqueCallback' => function ($table, $conditions) use (&$callbackInvocations) {
+				$callbackInvocations++;
+
+				return $table->exists($conditions);
+			},
+		]);
+
+		$article = $this->articles->newEntity(['title' => 'Callback Test']);
+		$result = $this->articles->save($article);
+		$this->assertTrue((bool)$result);
+		$this->assertEquals('Callback-Test', $result['slug']);
+		$this->assertSame(1, $callbackInvocations);
+
+		// Second article with same title should trigger multiple callback invocations
+		$article2 = $this->articles->newEntity(['title' => 'Callback Test']);
+		$result2 = $this->articles->save($article2);
+		$this->assertTrue((bool)$result2);
+		$this->assertEquals('Callback-Test-1', $result2['slug']);
+		$this->assertSame(3, $callbackInvocations); // 1 initial + 2 more (first check + suffix check)
+	}
+
+	/**
+	 * Test unique callback that always returns false (no duplicates).
+	 *
+	 * @return void
+	 */
+	public function testUniqueWithCallbackAlwaysFalse() {
+		$this->articles->removeBehavior('Slugged');
+		$this->articles->addBehavior('Tools.Slugged', [
+			'unique' => true,
+			'uniqueCallback' => function ($table, $conditions) {
+				// Always return false = no duplicates found
+				return false;
+			},
+		]);
+
+		$article = $this->articles->newEntity(['title' => 'Always Unique']);
+		$result = $this->articles->save($article);
+		$this->assertEquals('Always-Unique', $result['slug']);
+
+		// Even with same title, callback says no duplicate exists
+		$article2 = $this->articles->newEntity(['title' => 'Always Unique']);
+		$result2 = $this->articles->save($article2);
+		$this->assertEquals('Always-Unique', $result2['slug']); // No suffix added
+	}
+
+	/**
 	 * Test slug generation works with virtual fields.
 	 *
 	 * @return void

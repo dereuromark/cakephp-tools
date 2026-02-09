@@ -10,6 +10,7 @@ use Cake\ORM\Behavior;
 use Cake\ORM\Query\SelectQuery;
 use Cake\ORM\Table;
 use Cake\Utility\Inflector;
+use Closure;
 use RuntimeException;
 use Shim\Utility\Inflector as ShimInflector;
 
@@ -69,6 +70,7 @@ class SluggedBehavior extends Behavior {
 	 * - on: beforeSave or beforeRules
 	 * - scope: certain conditions to use as scope
 	 * - tidy: If cleanup should be run on slugging
+	 * - uniqueCallback: A closure to customize the uniqueness check. Receives (Table $table, array $conditions) and must return bool.
 	 *
 	 * @var array<string, mixed>
 	 */
@@ -81,6 +83,7 @@ class SluggedBehavior extends Behavior {
 		'length' => null,
 		'overwrite' => false,
 		'unique' => false,
+		'uniqueCallback' => null,
 		'notices' => true,
 		'case' => null,
 		'replace' => [
@@ -426,7 +429,7 @@ class SluggedBehavior extends Behavior {
 			$i = 0;
 			$suffix = '';
 
-			while ($this->_table->exists($conditions)) {
+			while ($this->_slugExists($conditions)) {
 				$i++;
 				$suffix = $separator . $i;
 				if ($this->_config['length'] && (mb_strlen($slug . $suffix) > $this->_config['length'])) {
@@ -440,6 +443,25 @@ class SluggedBehavior extends Behavior {
 		}
 
 		return $slug;
+	}
+
+	/**
+	 * Check if a slug already exists.
+	 *
+	 * Uses the `uniqueCallback` closure if configured, otherwise falls back to
+	 * the default `exists()` check. This allows customizing the uniqueness check,
+	 * e.g. to temporarily disable other behaviors that might scope the query.
+	 *
+	 * @param array<string, mixed> $conditions The conditions to check for existence.
+	 * @return bool
+	 */
+	protected function _slugExists(array $conditions): bool {
+		$callback = $this->_config['uniqueCallback'];
+		if ($callback instanceof Closure) {
+			return $callback($this->_table, $conditions);
+		}
+
+		return $this->_table->exists($conditions);
 	}
 
 	/**

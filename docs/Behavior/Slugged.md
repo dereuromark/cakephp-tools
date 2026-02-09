@@ -84,6 +84,14 @@ A CakePHP behavior to automatically create and store slugs.
             </td>
         </tr>
         <tr>
+            <td>    uniqueCallback    </td>
+            <td> `null`   </td>
+            <td>
+                A closure to customize the uniqueness check. Receives `(Table $table, array $conditions)` and must return `bool`.
+                Useful when other behaviors modify queries (e.g., multi-tenant scoping) and you need to temporarily disable them during the uniqueness check.
+            </td>
+        </tr>
+        <tr>
             <td>    case    </td>
             <td> `null`   </td>
             <td>
@@ -175,4 +183,21 @@ If you quickly want to find a record by its slug, use:
 ```php
 ->find()->find('slugged', slug: $slug)->firstOrFail();
 ```
-etc
+
+### Using a custom uniqueness callback
+If you have other behaviors that modify queries (e.g., multi-tenant scoping), you may need to
+temporarily disable them during the uniqueness check. Use the `uniqueCallback` option:
+
+```php
+$this->addBehavior('Tools.Slugged', [
+    'unique' => true,
+    'uniqueCallback' => function (Table $table, array $conditions): bool {
+        // Temporarily disable a scoping behavior
+        $table->behaviors()->unload('TenantScope');
+        $exists = $table->exists($conditions);
+        $table->behaviors()->load('TenantScope');
+
+        return $exists;
+    },
+]);
+```
