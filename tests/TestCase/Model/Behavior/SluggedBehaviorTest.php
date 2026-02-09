@@ -708,6 +708,91 @@ class SluggedBehaviorTest extends TestCase {
 	}
 
 	/**
+	 * Test dynamic scope with Closure.
+	 *
+	 * @return void
+	 */
+	public function testDynamicScope() {
+		$this->articles->removeBehavior('Slugged');
+		$this->articles->addBehavior('Tools.Slugged', [
+			'unique' => true,
+			'scope' => function ($entity) {
+				return ['section' => $entity->get('section')];
+			},
+		]);
+
+		// Create article in section 1
+		$article1 = $this->articles->newEntity(['title' => 'Dynamic Scope Test', 'section' => 1]);
+		$result1 = $this->articles->save($article1);
+		$this->assertEquals('Dynamic-Scope-Test', $result1['slug']);
+
+		// Same title in section 1 should get suffix
+		$article2 = $this->articles->newEntity(['title' => 'Dynamic Scope Test', 'section' => 1]);
+		$result2 = $this->articles->save($article2);
+		$this->assertEquals('Dynamic-Scope-Test-1', $result2['slug']);
+
+		// Same title in section 2 should NOT get suffix (different scope)
+		$article3 = $this->articles->newEntity(['title' => 'Dynamic Scope Test', 'section' => 2]);
+		$result3 = $this->articles->save($article3);
+		$this->assertEquals('Dynamic-Scope-Test', $result3['slug']);
+	}
+
+	/**
+	 * Test onDirty option - only regenerate slug when label is dirty.
+	 *
+	 * @return void
+	 */
+	public function testOnDirty() {
+		$this->articles->removeBehavior('Slugged');
+		$this->articles->addBehavior('Tools.Slugged', [
+			'onDirty' => true,
+		]);
+
+		// Create initial article
+		$article = $this->articles->newEntity(['title' => 'OnDirty Test']);
+		$result = $this->articles->save($article);
+		$this->assertEquals('OnDirty-Test', $result['slug']);
+
+		// Update non-label field - slug should NOT change
+		$article = $this->articles->patchEntity($article, ['description' => 'Some description']);
+		$result = $this->articles->save($article);
+		$this->assertEquals('OnDirty-Test', $result['slug']);
+
+		// Update label field - slug SHOULD change
+		$article = $this->articles->patchEntity($article, ['title' => 'OnDirty Changed']);
+		$result = $this->articles->save($article);
+		$this->assertEquals('OnDirty-Changed', $result['slug']);
+	}
+
+	/**
+	 * Test onDirty with overwrite false - should still respect onDirty.
+	 *
+	 * @return void
+	 */
+	public function testOnDirtyWithOverwriteFalse() {
+		$this->articles->removeBehavior('Slugged');
+		$this->articles->addBehavior('Tools.Slugged', [
+			'onDirty' => true,
+			'overwrite' => false,
+		]);
+
+		// Create initial article
+		$article = $this->articles->newEntity(['title' => 'Initial Title']);
+		$result = $this->articles->save($article);
+		$this->assertEquals('Initial-Title', $result['slug']);
+
+		// Update title - with onDirty, slug should update even though overwrite is false
+		$article = $this->articles->patchEntity($article, ['title' => 'Updated Title']);
+		$result = $this->articles->save($article);
+		$this->assertEquals('Updated-Title', $result['slug']);
+
+		// Update description only - slug should NOT change
+		$article = $this->articles->patchEntity($article, ['description' => 'New description']);
+		$result = $this->articles->save($article);
+		$this->assertEquals('Updated-Title', $result['slug']);
+	}
+
+	/**
 	 * Test slug generation works with virtual fields.
 	 *
 	 * @return void

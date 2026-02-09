@@ -118,12 +118,17 @@ A CakePHP behavior to automatically create and store slugs.
         <tr>
             <td>    scope  </td>
             <td> `[]`   </td>
-            <td>    Certain conditions to use as scope.     </td>
+            <td>    Conditions to use as scope for uniqueness check. Can be an array or a Closure receiving the entity for dynamic scoping.     </td>
         </tr>
         <tr>
             <td>    tidy  </td>
             <td> `true`   </td>
             <td>    If cleanup should be run on slugging.     </td>
+        </tr>
+        <tr>
+            <td>    onDirty  </td>
+            <td> `false`   </td>
+            <td>    If true, regenerate slug when label field(s) are dirty, even if `overwrite` is false. Useful for "update slug only when title changes" behavior.     </td>
         </tr>
     </tbody>
 </table>
@@ -184,6 +189,21 @@ If you quickly want to find a record by its slug, use:
 ->find()->find('slugged', slug: $slug)->firstOrFail();
 ```
 
+### Using dynamic scope
+For multi-tenant or multi-site applications, you can use a Closure to scope uniqueness checks
+based on entity data:
+
+```php
+$this->addBehavior('Tools.Slugged', [
+    'unique' => true,
+    'scope' => function ($entity) {
+        return ['site_id' => $entity->get('site_id')];
+    },
+]);
+```
+
+This ensures slugs are unique per site, allowing the same slug in different sites.
+
 ### Using a custom uniqueness callback
 If you have other behaviors that modify queries (e.g., multi-tenant scoping), you may need to
 temporarily disable them during the uniqueness check. Use the `uniqueCallback` option:
@@ -201,3 +221,18 @@ $this->addBehavior('Tools.Slugged', [
     },
 ]);
 ```
+
+### Using onDirty for automatic slug updates
+If you want the slug to update only when the title/label field changes (but not on every save),
+use the `onDirty` option:
+
+```php
+$this->addBehavior('Tools.Slugged', [
+    'onDirty' => true,
+]);
+```
+
+With this configuration:
+- New records always get a slug generated
+- Existing records only get their slug updated when the label field is dirty
+- Updates to other fields won't affect the slug
