@@ -68,9 +68,10 @@ class SluggedBehavior extends Behavior {
 	 *     camel - force CamelCase. E.g. "ThisIsTheSlug"
 	 * - replace: custom replacements as array
 	 * - on: beforeSave or beforeRules
-	 * - scope: certain conditions to use as scope
+	 * - scope: certain conditions to use as scope, can be an array or a Closure receiving the entity
 	 * - tidy: If cleanup should be run on slugging
 	 * - uniqueCallback: A closure to customize the uniqueness check. Receives (Table $table, array $conditions) and must return bool.
+	 * - onDirty: If true, only regenerate slug when label field(s) are dirty (even if overwrite is false)
 	 *
 	 * @var array<string, mixed>
 	 */
@@ -84,6 +85,7 @@ class SluggedBehavior extends Behavior {
 		'overwrite' => false,
 		'unique' => false,
 		'uniqueCallback' => null,
+		'onDirty' => false,
 		'notices' => true,
 		'case' => null,
 		'replace' => [
@@ -224,6 +226,16 @@ class SluggedBehavior extends Behavior {
 		if (!$overwrite && $entity->get($this->_config['overwriteField'])) {
 			$overwrite = true;
 		}
+
+		// Handle onDirty: only regenerate when label fields are dirty
+		if ($this->_config['onDirty'] && !$entity->isNew() && !$overwrite) {
+			if (!$this->_isLabelDirty($entity)) {
+				return;
+			}
+			// Label is dirty, so we should regenerate
+			$overwrite = true;
+		}
+
 		if (!$overwrite && !$entity->isNew() && $entity->get($this->_config['field'])) {
 			return;
 		}
@@ -298,12 +310,16 @@ class SluggedBehavior extends Behavior {
 		}
 		/** @var string $displayField */
 		$displayField = $this->_table->getDisplayField();
+
+		// If scope is a Closure, we can't use it for batch conditions - per-entity scope is handled in generateSlug()
+		$batchConditions = $this->_config['scope'] instanceof Closure ? [] : $this->_config['scope'];
+
 		$defaults = [
 			'page' => 1,
 			'limit' => 100,
 			'fields' => array_merge([$this->_table->getPrimaryKey()], $this->_config['label']),
 			'order' => $displayField . ' ASC',
-			'conditions' => $this->_config['scope'],
+			'conditions' => $batchConditions,
 			'overwrite' => true,
 		];
 		$params += $defaults;
@@ -419,7 +435,7 @@ class SluggedBehavior extends Behavior {
 			}
 			$field = $this->_table->getAlias() . '.' . $this->_config['field'];
 			$conditions = [$field => $slug];
-			$conditions = array_merge($conditions, $this->_config['scope']);
+			$conditions = array_merge($conditions, $this->_getScope($entity));
 			/** @var string $primaryKey */
 			$primaryKey = $this->_table->getPrimaryKey();
 			$id = $entity->get($primaryKey);
@@ -462,6 +478,37 @@ class SluggedBehavior extends Behavior {
 		}
 
 		return $this->_table->exists($conditions);
+	}
+
+	/**
+	 * Check if any of the label fields are dirty.
+	 *
+	 * @param \Cake\Datasource\EntityInterface $entity The entity to check.
+	 * @return bool
+	 */
+	protected function _isLabelDirty(EntityInterface $entity): bool {
+		foreach ((array)$this->_config['label'] as $label) {
+			if ($entity->isDirty($label)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get scope conditions, resolving closure if needed.
+	 *
+	 * @param \Cake\Datasource\EntityInterface $entity The entity for dynamic scope.
+	 * @return array<string, mixed>
+	 */
+	protected function _getScope(EntityInterface $entity): array {
+		$scope = $this->_config['scope'];
+		if ($scope instanceof Closure) {
+			return $scope($entity);
+		}
+
+		return $scope;
 	}
 
 	/**
