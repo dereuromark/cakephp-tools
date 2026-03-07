@@ -26,7 +26,7 @@ class PagesController extends AppController {
 			$page = substr($file, 0, -4);
 			$pages[$page] = [
 				'label' => Inflector::humanize($page),
-				'action' => Inflector::variable($page),
+				'action' => Inflector::dasherize($page),
 			];
 		}
 
