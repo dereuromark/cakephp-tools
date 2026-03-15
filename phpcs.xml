@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="plugin">
+	<arg name="cache" value=".phpcs.cache"/>
 	<arg value="nps"/>
 
 	<file>src/</file>
