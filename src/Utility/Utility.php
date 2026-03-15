@@ -3,6 +3,7 @@
 namespace Tools\Utility;
 
 use Cake\Core\Configure;
+use Cake\Http\ServerRequest;
 use Cake\Log\Log;
 use Cake\Routing\Router;
 use Cake\Utility\Hash;
@@ -158,6 +159,11 @@ class Utility {
 	 * @return string IP address
 	 */
 	public static function getClientIp($safe = true): string {
+		$request = Router::getRequest();
+		if ($request instanceof ServerRequest) {
+			return $request->clientIp();
+		}
+
 		if (!$safe && env('HTTP_X_FORWARDED_FOR')) {
 			$ipaddr = preg_replace('/(?:,.*)/', '', (string)env('HTTP_X_FORWARDED_FOR'));
 		} elseif (!$safe && env('HTTP_CLIENT_IP')) {
