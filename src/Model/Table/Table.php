@@ -284,7 +284,8 @@ class Table extends ShimTable {
 		}
 
 		// validation
-		if (!Validation::url($url, $options['strict']) && env('REMOTE_ADDR') && env('REMOTE_ADDR') !== '127.0.0.1') {
+		$clientIp = Router::getRequest()?->clientIp();
+		if (!Validation::url($url, $options['strict']) && $clientIp && $clientIp !== '127.0.0.1') {
 			return false;
 		}
 		// same domain?
