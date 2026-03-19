@@ -391,18 +391,33 @@ class Utility {
 			$prefix = 'http://';
 		}
 
+		// Already has https:// - return as-is
+		if (str_starts_with($url, 'https://')) {
+			return $url;
+		}
+
 		$modifiedUrl = $url;
 		$pos = strpos($url, '.');
 		if ($pos !== false) {
-			if (!str_contains(substr($url, 0, $pos), '//')) {
+			$hasProtocol = str_contains(substr($url, 0, $pos), '//');
+			if (!$hasProtocol) {
 				$modifiedUrl = $prefix . $url;
 			}
 
 			if ($detectHttps === null) {
 				$detectHttps = !Configure::read('debug') || PHP_SAPI !== 'cli';
 			}
-			if ($prefix === 'http://' && $detectHttps && static::urlExists('https://' . $url)) {
-				$modifiedUrl = 'https://' . $url;
+			// Only check for HTTPS upgrade if URL doesn't already have https://
+			if ($prefix === 'http://' && $detectHttps && !$hasProtocol) {
+				if (static::urlExists('https://' . $url)) {
+					$modifiedUrl = 'https://' . $url;
+				}
+			} elseif ($detectHttps && str_starts_with($url, 'http://')) {
+				// URL has http:// prefix - check if https:// version exists
+				$httpsUrl = 'https://' . substr($url, 7);
+				if (static::urlExists($httpsUrl)) {
+					$modifiedUrl = $httpsUrl;
+				}
 			}
 		}
 
