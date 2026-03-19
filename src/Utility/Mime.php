@@ -794,8 +794,13 @@ class Mime extends Response {
 		// Treat non local files differently
 		$pattern = '~^https?://~i';
 		if (preg_match($pattern, $file)) {
+			$context = stream_context_create([
+				'http' => [
+					'timeout' => 5,
+				],
+			]);
 			// phpcs:disable
-			$headers = @get_headers($file);
+			$headers = @get_headers($file, false, $context);
 			// phpcs:enable
 			if (!$headers || !preg_match("|\b200\b|", $headers[0])) {
 				return '';

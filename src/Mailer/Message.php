@@ -398,9 +398,12 @@ class Message extends CakeMessage {
 	 * @return string File contents in base64 encoding
 	 */
 	protected function _readFile($path) {
-		$context = stream_context_create(
-			['http' => ['header' => 'Connection: close']],
-		);
+		$context = stream_context_create([
+			'http' => [
+				'timeout' => 10,
+				'header' => 'Connection: close',
+			],
+		]);
 		$content = file_get_contents($path, false, $context);
 		if (!$content) {
 			throw new RuntimeException('No content found for ' . $path);
