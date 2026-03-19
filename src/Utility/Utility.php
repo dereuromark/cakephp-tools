@@ -307,8 +307,13 @@ class Utility {
 			return in_array($statusCode, $statusCodes, true);
 		}
 
+		$context = stream_context_create([
+			'http' => [
+				'timeout' => 5,
+			],
+		]);
 		// phpcs:disable
-		$headers = @get_headers($url);
+		$headers = @get_headers($url, false, $context);
 		// phpcs:enable
 		if ($headers && preg_match('|\b200\b|', $headers[0])) {
 			return true;
@@ -346,6 +351,7 @@ class Utility {
 
 		$defaults = [
 			'http' => [
+				'timeout' => 5,
 				'header' => "Accept: text/html\r\n"
 					. "Connection: Close\r\n"
 					. "User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64)\r\n",
