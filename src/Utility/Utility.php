@@ -289,12 +289,17 @@ class Utility {
 		if (function_exists('curl_init')) {
 			$curl = curl_init($url);
 			curl_setopt($curl, CURLOPT_NOBODY, true);
+			curl_setopt($curl, CURLOPT_TIMEOUT, 5);
+			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 3);
+			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($curl, CURLOPT_MAXREDIRS, 3);
 			$result = curl_exec($curl);
 			if ($result === false) {
 				return false;
 			}
 
 			$statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+			curl_close($curl);
 			if ($statusCodes === []) {
 				$statusCodes = [200];
 			}
