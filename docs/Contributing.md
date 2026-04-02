@@ -27,6 +27,6 @@ from your app.
 # Additional Resources
 
 * [Coding standards guide (extending/overwriting the CakePHP ones)](https://github.com/php-fig-rectified/fig-rectified-standards/)
-* [CakePHP coding standards](http://book.cakephp.org/3.0/en/contributing/cakephp-coding-conventions.html)
+* [CakePHP coding standards](https://book.cakephp.org/5/en/contributing/cakephp-coding-conventions.html)
 * [General GitHub documentation](http://help.github.com/)
 * [GitHub pull request documentation](http://help.github.com/send-pull-requests/)

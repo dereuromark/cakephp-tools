@@ -25,7 +25,7 @@ echo $this->Tree->generate($articles);
 
 ### Templated usage
 By default, just outputting the display name is usually not enough.
-You want to create some `Template/Element/tree_element.ctp` element instead:
+You want to create some `templates/element/tree_element.php` element instead:
 
 ```php
 echo $this->Tree->generate($articles, ['element' => 'tree_element']);
@@ -105,7 +105,7 @@ $path = $nodes->extract('id')->toArray();
 $options = [
     'autoPath' => [$current->lft, $current->rght],
     'treePath' => $path,
-    'element' => 'tree', // src/Template/Element/tree.ctp
+    'element' => 'tree', // templates/element/tree.php
 ];
 echo $this->Tree->generate($tree, $options);
 ```
