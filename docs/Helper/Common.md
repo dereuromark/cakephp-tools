@@ -24,22 +24,22 @@ echo $this->Common->sp(__('Singular'), __('Plural'), $count);
 
 Canonical URL:
 ```php
-echo $this->Format->metaCanonical($url);
+echo $this->Common->metaCanonical($url);
 ```
 
 Alternate content URL:
 
 ```php
-echo $this->Format->metaAlternate($url, $language);
+echo $this->Common->metaAlternate($url, $language);
 ```
 
 RSS link:
 ```php
-echo $this->Format->metaRss($url, $title);
+echo $this->Common->metaRss($url, $title);
 ```
 
 Generic meta tags:
 
 ```php
-echo $this->Format->metaEquiv($type, $value, $escape)
+echo $this->Common->metaEquiv($type, $value, $escape);
 ```
