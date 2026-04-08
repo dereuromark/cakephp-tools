@@ -24,6 +24,8 @@ use Tools\Utility\Utility;
  * @mixin \Tools\Model\Behavior\ResetBehavior
  *
  * @template TBehaviors of array<string, \Cake\ORM\Behavior> = array{}
+ * @template TEntity of \Cake\Datasource\EntityInterface = \Cake\Datasource\EntityInterface
+ * @extends \Shim\Model\Table\Table<TBehaviors, TEntity>
  */
 class Table extends ShimTable {
 
