@@ -27,11 +27,11 @@
 	},
 	"repositories": [
 		{
-			"type": "vcs",
+			"type": "git",
 			"url": "https://github.com/cakephp/cakephp.git"
 		},
 		{
-			"type": "vcs",
+			"type": "git",
 			"url": "https://github.com/dereuromark/cakephp-shim.git"
 		}
 	],
