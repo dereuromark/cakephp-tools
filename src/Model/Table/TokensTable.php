@@ -2,6 +2,7 @@
 
 namespace Tools\Model\Table;
 
+use Cake\I18n\DateTime;
 use Cake\Utility\Hash;
 use RuntimeException;
 
@@ -153,7 +154,7 @@ class TokensTable extends Table {
 		// asynchronously, but useKey() must not hand them out in the meantime.
 		if (!$tokenEntity->unlimited && $this->validity > 0) {
 			$createdAt = $tokenEntity->created;
-			if ($createdAt instanceof \Cake\I18n\DateTime) {
+			if ($createdAt instanceof DateTime) {
 				$createdTs = (int)$createdAt->toUnixString();
 			} else {
 				$createdTs = (int)strtotime((string)$createdAt);
