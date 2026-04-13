@@ -153,10 +153,12 @@ class TokensTable extends Table {
 		// asynchronously, but useKey() must not hand them out in the meantime.
 		if (!$tokenEntity->unlimited && $this->validity > 0) {
 			$createdAt = $tokenEntity->created;
-			$createdTs = $createdAt instanceof \Cake\I18n\DateTime
-				? $createdAt->toUnixString()
-				: strtotime((string)$createdAt);
-			if ($createdTs !== false && (int)$createdTs < time() - $this->validity) {
+			if ($createdAt instanceof \Cake\I18n\DateTime) {
+				$createdTs = (int)$createdAt->toUnixString();
+			} else {
+				$createdTs = (int)strtotime((string)$createdAt);
+			}
+			if ($createdTs > 0 && $createdTs < time() - $this->validity) {
 				return null;
 			}
 		}
