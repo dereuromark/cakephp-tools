@@ -147,6 +147,19 @@ class TokensTable extends Table {
 			// return $res; # more secure to fail here if user_id is not provided, but was submitted prev.
 			return null;
 		}
+		// Expired? Tokens older than $this->validity seconds are rejected even if
+		// not yet used. Unlimited keys are exempt since they intentionally do not
+		// get "spent". garbageCollector() can still remove expired unused rows
+		// asynchronously, but useKey() must not hand them out in the meantime.
+		if (!$tokenEntity->unlimited && $this->validity > 0) {
+			$createdAt = $tokenEntity->created;
+			$createdTs = $createdAt instanceof \Cake\I18n\DateTime
+				? $createdAt->toUnixString()
+				: strtotime((string)$createdAt);
+			if ($createdTs !== false && (int)$createdTs < time() - $this->validity) {
+				return null;
+			}
+		}
 		// already used?
 		if ($tokenEntity->used) {
 			if ($treatUsedAsInvalid) {
