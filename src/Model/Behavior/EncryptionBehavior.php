@@ -68,14 +68,14 @@ class EncryptionBehavior extends Behavior {
 	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {
 		$fields = $this->getConfig('fields');
 		$key = $this->getConfig('key');
-		foreach ($fields as $fieldName) :
-			if ($entity->has($fieldName)) :
+		foreach ($fields as $fieldName) {
+			if ($entity->has($fieldName)) {
 				$content = $entity->get($fieldName);
-				if (!empty($content)) :
+				if (!empty($content)) {
 					$entity->set($fieldName, Security::encrypt($content, $key));
-				endif;
-			endif;
-		endforeach;
+				}
+			}
+		}
 	}
 
 	/**
@@ -92,16 +92,16 @@ class EncryptionBehavior extends Behavior {
 			return $results->map(function ($row) {
 				$fields = $this->getConfig('fields');
 				$key = $this->getConfig('key');
-				foreach ($fields as $fieldName) :
-					if (isset($row->$fieldName) && is_resource($row->$fieldName)) :
+				foreach ($fields as $fieldName) {
+					if (isset($row->$fieldName) && is_resource($row->$fieldName)) {
 						$content = stream_get_contents($row->$fieldName);
 						if (!empty($content)) {
 							$row[$fieldName] = Security::decrypt($content, $key);
 						} else {
 							$row[$fieldName] = '';
 						}
-					endif;
-				endforeach;
+					}
+				}
 
 				return $row;
 			});
