@@ -25,20 +25,10 @@
 		"issues": "https://github.com/dereuromark/cakephp-tools/issues",
 		"source": "https://github.com/dereuromark/cakephp-tools"
 	},
-	"repositories": [
-		{
-			"type": "git",
-			"url": "https://github.com/cakephp/cakephp.git"
-		},
-		{
-			"type": "git",
-			"url": "https://github.com/dereuromark/cakephp-shim.git"
-		}
-	],
 	"require": {
 		"php": ">=8.2",
-		"cakephp/cakephp": "dev-copilot/table-entity-generics-clean as 5.3.3",
-		"dereuromark/cakephp-shim": "dev-copilot/table-entity-generics as 3.8.3"
+		"cakephp/cakephp": "^5.1.1",
+		"dereuromark/cakephp-shim": "^3.0.0"
 	},
 	"require-dev": {
 		"fig-r/psr2r-sniffer": "dev-master",
