@@ -81,7 +81,7 @@ $modulus = isset($modulus) ? $modulus : 8;
 				?>
 				<?php if (count($limits) > 1) { ?>
 				<label class="me-2">Show:</label>
-				<select class="form-select form-select-sm d-inline-block w-auto" onchange="window.location.href=this.value">
+				<select class="form-select form-select-sm d-inline-block w-auto" data-paginator-navigate="1">
 					<?php foreach ($limits as $limitOption) { ?>
 						<option value="<?= $this->Url->build(['?' => ['limit' => $limitOption] + $this->request->getQuery()]) ?>" <?= $currentLimit == $limitOption ? 'selected' : '' ?>>
 							<?= $limitOption ?>
@@ -117,3 +117,11 @@ $modulus = isset($modulus) ? $modulus : 8;
 		$this->Js->buffer($script);
 	}
 } ?>
+<?php $cspNonce = (string)$this->getRequest()->getAttribute('cspNonce', ''); ?>
+<script<?= $cspNonce !== '' ? ' nonce="' . h($cspNonce) . '"' : '' ?>>
+document.querySelectorAll('select[data-paginator-navigate]').forEach(function(select) {
+	select.addEventListener('change', function(e) {
+		window.location.href = e.target.value;
+	});
+});
+</script>
