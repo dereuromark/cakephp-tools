@@ -342,11 +342,11 @@ class Table extends ShimTable {
 			return false;
 		}
 		$headers = implode("\n", $headers);
-		$protocol = mb_strpos($url, 'https://') === 0 ? 'HTTP' : 'HTTP';
-		if (!preg_match('#^' . $protocol . '/.*?\s+[(200|301|302)]+\s#i', $headers)) {
+		// HTTP response status line is always `HTTP/<version>` regardless of TLS.
+		if (!preg_match('#^HTTP/.*?\s+(200|301|302)\s#i', $headers)) {
 			return false;
 		}
-		if (preg_match('#^' . $protocol . '/.*?\s+[(404|999)]+\s#i', $headers)) {
+		if (preg_match('#^HTTP/.*?\s+(404|999)\s#i', $headers)) {
 			return false;
 		}
 
