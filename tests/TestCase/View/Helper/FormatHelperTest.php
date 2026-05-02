@@ -238,6 +238,25 @@ class FormatHelperTest extends TestCase {
 	}
 
 	/**
+	 * Title attribute value must be HTML-escaped to prevent XSS via DB content.
+	 *
+	 * @return void
+	 */
+	public function testNeighborsEscapesTitleValue() {
+		$neighbors = [
+			'prev' => ['id' => 1, 'foo' => '<script>alert(1)</script>'],
+			'next' => ['id' => 2, 'foo' => 'O"Reilly & Co'],
+		];
+
+		$url = ['controller' => 'MyController', 'action' => 'myAction'];
+		$result = $this->Format->neighbors($neighbors, 'foo', ['url' => $url]);
+
+		$this->assertStringNotContainsString('<script>alert(1)</script>', $result);
+		$this->assertStringContainsString('title="&lt;script&gt;alert(1)&lt;/script&gt;"', $result);
+		$this->assertStringContainsString('title="O&quot;Reilly &amp; Co"', $result);
+	}
+
+	/**
 	 * @return void
 	 */
 	public function testTab2space() {

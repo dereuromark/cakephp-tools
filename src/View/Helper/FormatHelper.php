@@ -118,9 +118,6 @@ class FormatHelper extends Helper {
 		if (!empty($options['titleField'])) {
 			$titleField = $options['titleField'];
 		}
-		if (!isset($options['escape']) || $options['escape'] === false) {
-			$titleField = h($titleField);
-		}
 
 		$ret = '<div class="next-prev-navi nextPrevNavi">';
 		if (!empty($neighbors['prev'])) {
@@ -132,7 +129,7 @@ class FormatHelper extends Helper {
 			$ret .= $this->Html->link(
 				(string)$this->Icon->render('prev') . '&nbsp;' . __d('tools', 'prev' . $name),
 				$url,
-				['escape' => false, 'title' => $neighbors['prev'][$titleField]],
+				['escapeTitle' => false, 'title' => $neighbors['prev'][$titleField]],
 			);
 		} else {
 			$ret .= $this->Icon->render('prev');
@@ -148,7 +145,7 @@ class FormatHelper extends Helper {
 			$ret .= $this->Html->link(
 				(string)$this->Icon->render('next') . '&nbsp;' . __d('tools', 'next' . $name),
 				$url,
-				['escape' => false, 'title' => $neighbors['next'][$titleField]],
+				['escapeTitle' => false, 'title' => $neighbors['next'][$titleField]],
 			);
 		} else {
 			$ret .= $this->Icon->render('next') . '&nbsp;' . __d('tools', 'next' . $name);
