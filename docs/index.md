@@ -4,7 +4,7 @@ layout: home
 hero:
   name: cakephp-tools
   text: The CakePHP Toolbox
-  tagline: Behaviors, helpers, components, model and entity utilities, plus 4.x → 5.x migration shims — the swiss-army-knife plugin for CakePHP applications.
+  tagline: Behaviors, helpers, components, model and entity utilities — the swiss-army-knife plugin for CakePHP applications.
   image:
     src: /logo.svg
     alt: cakephp-tools
@@ -13,11 +13,8 @@ hero:
       text: Get Started
       link: /guide/
     - theme: alt
-      text: Behaviors
-      link: /behavior/
-    - theme: alt
-      text: Helpers
-      link: /helper/
+      text: Live Sandbox
+      link: https://sandbox.dereuromark.de/sandbox/tools-examples
     - theme: alt
       text: View on GitHub
       link: https://github.com/dereuromark/cakephp-tools
@@ -35,10 +32,10 @@ features:
   - icon: 🗃️
     title: Model & Entity
     description: Improved Table base class with extra validation rules, native Enum and StaticEnum traits, and Tokens table for one-time link / token flows.
-  - icon: 🔁
-    title: 4.x → 5.x Shims
-    description: BC shims that let you carry validation and model property style straight into 5.x without immediate refactoring.
+  - icon: 🌍
+    title: I18n & Routing
+    description: Locale detection and switching, improved DateTime / Date handling, plus URL generation utilities.
   - icon: 🛠️
     title: Plus the rest
-    description: ExceptionTrap, FileLog, custom URL helpers, I18n switching with improved DateTime, login-link auth flow, and more.
+    description: ExceptionTrap for cleaner error handling, FileLog for one-line custom logging, login-link auth flow, Datalist widget, Inflect command, and more.
 ---

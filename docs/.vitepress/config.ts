@@ -8,13 +8,13 @@ function unifiedSidebar() {
         { text: 'Overview', link: '/guide/' },
         { text: 'Installation', link: '/guide/install' },
         { text: 'Upgrade Guide', link: '/guide/upgrade' },
-        { text: 'Shims (4.x → 5.x)', link: '/guide/shims' },
+        { text: 'Shims', link: '/guide/shims' },
         { text: 'Tools Backend', link: '/guide/backend' },
       ],
     },
     {
       text: 'Behaviors',
-      collapsed: false,
+      collapsed: true,
       items: [
         { text: 'Overview', link: '/behavior/' },
         { text: 'AfterSave', link: '/behavior/after-save' },
@@ -31,7 +31,7 @@ function unifiedSidebar() {
     },
     {
       text: 'Helpers',
-      collapsed: false,
+      collapsed: true,
       items: [
         { text: 'Overview', link: '/helper/' },
         { text: 'Common', link: '/helper/common' },
@@ -88,7 +88,7 @@ function unifiedSidebar() {
 
 export default defineConfig({
   title: 'cakephp-tools',
-  description: 'The CakePHP Toolbox: behaviors, helpers, components, model and entity utilities, and 4.x → 5.x migration shims.',
+  description: 'The CakePHP Toolbox: behaviors, helpers, components, model and entity utilities for CakePHP applications.',
   base: '/cakephp-tools/',
   lastUpdated: true,
   sitemap: {
@@ -101,9 +101,7 @@ export default defineConfig({
     logo: '/logo.svg',
     nav: [
       { text: 'Guide', link: '/guide/', activeMatch: '/guide/' },
-      { text: 'Behaviors', link: '/behavior/', activeMatch: '/behavior/' },
-      { text: 'Helpers', link: '/helper/', activeMatch: '/helper/' },
-      { text: 'Reference', link: '/reference/', activeMatch: '/(reference|component|model)/' },
+      { text: 'Reference', link: '/reference/', activeMatch: '/(reference|behavior|helper|component|model)/' },
       {
         text: 'Links',
         items: [

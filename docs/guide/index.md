@@ -1,12 +1,12 @@
 # Guide
 
-The Tools plugin extends CakePHP with the small-to-medium utilities you keep writing across projects: model & entity base classes, view helpers, behaviors, components, and a set of shims to ease 4.x → 5.x migrations.
+The Tools plugin extends CakePHP with the small-to-medium utilities you keep writing across projects: model & entity base classes, view helpers, behaviors, and components. It also depends on the [cakephp-shim plugin](https://github.com/dereuromark/cakephp-shim), so installing Tools brings the 4.x → 5.x compatibility helpers along for the ride.
 
 ## Setup
 
 - [Installation](/guide/install) — composer require, plugin loading, optional config.
 - [Upgrade Guide](/guide/upgrade) — moving from 4.x to 5.x.
-- [Shims](/guide/shims) — BC shims for 4.x model properties (validation, etc.).
+- [Shims](/guide/shims) — pointer to the cakephp-shim plugin (a Tools dependency).
 - [Tools Backend](/guide/backend) — opt-in admin backend for inspecting parts of the toolbox.
 
 ## Basic enhancements

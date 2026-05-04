@@ -1,8 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
   <rect width="128" height="128" rx="28" fill="#0f172a"/>
-  <!-- Wrench -->
-  <path d="M44 28 L36 36 L44 44 L36 52 L60 76 L72 64 L68 60 L80 48 L72 40 L60 52 L56 48 L48 40 Z" stroke="#fb923c" stroke-width="6" stroke-linejoin="round" fill="none"/>
-  <!-- Screwdriver -->
-  <rect x="78" y="40" width="6" height="36" rx="1.5" fill="#fb923c" transform="rotate(45 81 58)"/>
-  <rect x="92" y="74" width="14" height="10" rx="2" fill="#f97316" transform="rotate(45 99 79)"/>
+
+  <!-- Screwdriver: rotated +45 (handle bottom-left, tip top-right) -->
+  <g transform="rotate(45 64 64)">
+    <rect x="55" y="64" width="18" height="44" rx="3" fill="#ea580c"/>
+    <rect x="58" y="56" width="12" height="10" fill="#9a3412"/>
+    <rect x="61" y="32" width="6" height="24" fill="#cbd5e1"/>
+    <rect x="58" y="22" width="12" height="10" fill="#cbd5e1"/>
+  </g>
+
+  <!-- Wrench: rotated -45 (head top-left, handle bottom-right) -->
+  <g transform="rotate(-45 64 64)">
+    <rect x="58" y="64" width="12" height="50" rx="6" fill="#fb923c"/>
+    <circle cx="64" cy="46" r="20" fill="#fb923c"/>
+    <circle cx="64" cy="46" r="7" fill="#0f172a"/>
+    <rect x="60" y="26" width="8" height="22" fill="#0f172a"/>
+  </g>
 </svg>
