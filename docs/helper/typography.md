@@ -4,7 +4,7 @@ A CakePHP helper to handle typographic consistency.
 
 The basic idea is to normalize all input into a standard typography (utf8 default).
 So different quotes like `»` or `“` end up as `"` in the database.
-See the [TypographicBehavior](/docs/Behavior/Typographic.md) docs for input modification.
+See the [TypographicBehavior](/behavior/typographic) docs for input modification.
 
 Upon output one can the decide to re-apply localization here.
 

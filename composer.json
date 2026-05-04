@@ -23,7 +23,8 @@
 	"homepage": "https://github.com/dereuromark/cakephp-tools",
 	"support": {
 		"issues": "https://github.com/dereuromark/cakephp-tools/issues",
-		"source": "https://github.com/dereuromark/cakephp-tools"
+		"source": "https://github.com/dereuromark/cakephp-tools",
+		"docs": "https://dereuromark.github.io/cakephp-tools/"
 	},
 	"require": {
 		"php": ">=8.2",

@@ -44,4 +44,4 @@ echo $this->Html->linkComplete(['controller' => 'Foo', 'action' => 'bar']);
 Now if there was a query string `?q=x` on the current action, it would also be passed along as `/foo/bar?q=x`.
 
 
-See also [Url helper](/docs/Url/Url.md).
+See also [Url helper](/reference/url).
