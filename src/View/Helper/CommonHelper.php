@@ -37,7 +37,7 @@ class CommonHelper extends Helper {
 		}
 
 		if ($autoTranslate) {
-			$result = __($result);
+			$result = __d('tools', $result);
 		}
 
 		return $result;

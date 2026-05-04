@@ -13,14 +13,14 @@ e.g.: <i>4:8,16</i>, single statements per line
 <div class="page form">
 <?php echo $this->Form->create();?>
 	<fieldset>
-		<legend><?php echo __('Adjustment Matrix'); ?></legend>
+		<legend><?php echo __d('tools', 'Adjustment Matrix'); ?></legend>
 	<?php
 		echo $this->Form->control('model', ['placeholder' => 'PluginName.ModelName']);
 		echo $this->Form->control('field', ['placeholder' => 'field_name']);
 		echo $this->Form->control('matrix', ['type' => 'textarea']);
 	?>
 	</fieldset>
-<?php echo $this->Form->submit(__('Submit')); echo $this->Form->end();?>
+<?php echo $this->Form->submit(__d('tools', 'Submit')); echo $this->Form->end();?>
 </div>
 
 <?php if (!empty($result)) { ?>

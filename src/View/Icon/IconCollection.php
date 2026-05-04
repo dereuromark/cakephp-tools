@@ -126,7 +126,7 @@ class IconCollection {
 				$attributes[$titleField] = ucwords(Inflector::humanize(Inflector::underscore($iconName ?? $icon)));
 			}
 			if (!isset($options['translate']) || $options['translate'] !== false && isset($attributes[$titleField])) {
-				$attributes[$titleField] = __($attributes[$titleField]);
+				$attributes[$titleField] = __d('tools', $attributes[$titleField]);
 			}
 		}
 
