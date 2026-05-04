@@ -6,10 +6,12 @@ function unifiedSidebar() {
       text: 'Getting Started',
       items: [
         { text: 'Overview', link: '/guide/' },
+        { text: '5-min Quick Start', link: '/guide/quick-start' },
         { text: 'Installation', link: '/guide/install' },
         { text: 'Upgrade Guide', link: '/guide/upgrade' },
         { text: 'Shims', link: '/guide/shims' },
         { text: 'Tools Backend', link: '/guide/backend' },
+        { text: 'Plugin Ecosystem', link: '/guide/ecosystem' },
       ],
     },
     {
