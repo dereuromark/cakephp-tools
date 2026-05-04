@@ -251,8 +251,8 @@ class FormatHelper extends Helper {
 		$title = ucfirst($type);
 		$alt = $this->slug($title);
 		if ($translate !== false) {
-			$title = __($title);
-			$alt = __($alt);
+			$title = __d('tools', $title);
+			$alt = __d('tools', $alt);
 		}
 		$alt = '[' . $alt . ']';
 

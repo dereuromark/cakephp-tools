@@ -12,12 +12,12 @@
 <div class="page form">
 <?php echo $this->Form->create();?>
 	<fieldset>
-		<legend><?php echo __('Enter the string you want to have analyzed'); ?></legend>
+		<legend><?php echo __d('tools', 'Enter the string you want to have analyzed'); ?></legend>
 	<?php
 		echo $this->Form->control('string', ['type' => 'textarea']);
 	?>
 	</fieldset>
-<?php echo $this->Form->submit(__('Submit')); echo $this->Form->end();?>
+<?php echo $this->Form->submit(__d('tools', 'Submit')); echo $this->Form->end();?>
 </div>
 
 <?php if (!empty($result)) { ?>

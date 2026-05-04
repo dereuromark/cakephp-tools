@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-10-02 15:31+0200\n"
+"POT-Creation-Date: 2026-05-04 04:54+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,175 +14,135 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: Controller/ShuntRequestController.php:67
 msgid "Language switched to {0}"
 msgstr ""
 
-#: Form/ContactForm.php:36
-#: Form/ContactForm.php:43
-#: Form/ContactForm.php:45
 msgid "This field cannot be left empty"
 msgstr ""
 
-#: Form/ContactForm.php:40
 msgid "A valid email address is required"
 msgstr ""
 
-#: Model/Behavior/ConfirmableBehavior.php:40
-msgid "Please confirm the checkbox"
-msgstr ""
-
-#: Model/Behavior/PasswordableBehavior.php:192
-#: Model/Behavior/PasswordableBehavior.php:202
-msgid "valErrPwdSameAsBefore"
-msgstr ""
-
-#: Template/Element/pagination.ctp:14
-msgid "first"
-msgstr ""
-
-#: Template/Element/pagination.ctp:17
-msgid "last"
-msgstr ""
-
-#: Template/Element/pagination.ctp:20
-msgid "previous"
-msgstr ""
-
-#: Template/Element/pagination.ctp:23
-#: View/Helper/FormatHelper.php:157
-#: View/Helper/FormatHelper.php:162
-msgid "next"
-msgstr ""
-
-#: Template/Element/pagination.ctp:26
-msgid "Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total"
-msgstr ""
-
-#: Utility/Time.php:432
-#: Utility/Time.php:521
 msgid "o'clock"
 msgstr ""
 
-#: Utility/Time.php:749
-#: Utility/Time.php:904
-msgid "%s ago"
+msgid "{0} ago"
 msgstr ""
 
-#: Utility/Time.php:753
-msgid "in %s"
+msgid "in {0}"
 msgstr ""
 
-#: Utility/Time.php:789
 msgid "Month"
 msgstr ""
 
-#: Utility/Time.php:790
 msgid "Day"
 msgstr ""
 
-#: Utility/Time.php:791
 msgid "Hour"
 msgstr ""
 
-#: Utility/Time.php:792
 msgid "Minute"
 msgstr ""
 
-#: Utility/Time.php:793
 msgid "Second"
 msgstr ""
 
-#: Utility/Time.php:796
 msgid "Months"
 msgstr ""
 
-#: Utility/Time.php:797
 msgid "Days"
 msgstr ""
 
-#: Utility/Time.php:798
 msgid "Hours"
 msgstr ""
 
-#: Utility/Time.php:799
 msgid "Minutes"
 msgstr ""
 
-#: Utility/Time.php:800
 msgid "Seconds"
 msgstr ""
 
-#: Utility/Time.php:903
 msgid "justNow"
 msgstr ""
 
-#: Utility/Time.php:904
 msgid "In %s"
 msgstr ""
 
-#: Utility/Time.php:1003
-#: View/Helper/TimeHelper.php:173
+msgid "%s ago"
+msgstr ""
+
 msgid "Today"
 msgstr ""
 
-#: Utility/Time.php:1004
-#: View/Helper/TimeHelper.php:176
 msgid "Tomorrow"
 msgstr ""
 
-#: Utility/Time.php:1005
-#: View/Helper/TimeHelper.php:179
 msgid "Yesterday"
 msgstr ""
 
-#: Utility/Time.php:1006
 msgid "The day after tomorrow"
 msgstr ""
 
-#: Utility/Time.php:1007
 msgid "The day before yesterday"
 msgstr ""
 
-#: View/Helper/CommonHelper.php:208
+msgid "Please confirm the checkbox"
+msgstr ""
+
+msgid "valErrPwdSameAsBefore"
+msgstr ""
+
 msgid "Subscribe to this feed"
 msgstr ""
 
-#: View/Helper/FormatHelper.php:141
 msgid "prev"
 msgstr ""
 
-#: View/Helper/FormatHelper.php:186
-msgid "Unknown"
-msgstr ""
-
-#: View/Helper/FormatHelper.php:405
-msgid "Yes"
-msgstr ""
-
-#: View/Helper/FormatHelper.php:406
-msgid "No"
-msgstr ""
-
-#: View/Helper/FormatHelper.php:467
-msgid "notAvailable"
-msgstr ""
-
-#: View/Helper/ObfuscateHelper.php:61
-msgid "for use in an external mail client"
-msgstr ""
-
-#: View/Helper/TimeHelper.php:157
-msgid "publishedAlready"
-msgstr ""
-
-#: View/Helper/TimeHelper.php:157
-msgid "publishedToday"
-msgstr ""
-
-#: View/Helper/TimeHelper.php:157
-msgid "publishedNotYet"
+msgid "next"
 msgstr ""
 
 msgid "Inter"
-msgstr "Inter"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "No"
+msgstr ""
+
+msgid "notAvailable"
+msgstr ""
+
+msgid "for use in an external mail client"
+msgstr ""
+
+msgid "publishedAlready"
+msgstr ""
+
+msgid "publishedToday"
+msgstr ""
+
+msgid "publishedNotYet"
+msgstr ""
+
+msgid "Adjustment Matrix"
+msgstr ""
+
+msgid "Submit"
+msgstr ""
+
+msgid "Enter the string you want to have analyzed"
+msgstr ""
+
+msgid "first"
+msgstr ""
+
+msgid "last"
+msgstr ""
+
+msgid "previous"
+msgstr ""
+
+msgid "Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total"
+msgstr ""
+
