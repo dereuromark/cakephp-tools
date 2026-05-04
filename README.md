@@ -42,4 +42,4 @@ This plugin for CakePHP 5 also contains some 4.x shims to ease migration of exis
 
 ## Installation & Docs
 
-- [Documentation](docs/README.md)
+Full documentation: https://dereuromark.github.io/cakephp-tools/

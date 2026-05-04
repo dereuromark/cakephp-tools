@@ -11,3 +11,7 @@ phpunit.xml
 /tests/test_files/node_modules/
 /tests/test_files/package-lock.json
 .phpcs.cache
+
+/docs/node_modules/
+/docs/.vitepress/cache/
+/docs/.vitepress/dist/
