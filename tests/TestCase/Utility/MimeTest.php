@@ -106,10 +106,10 @@ class MimeTest extends TestCase {
 	 * @return void
 	 */
 	public function testGetMimeTypeByAlias() {
-		$res = $this->Mime->detectMimeType('https://raw.githubusercontent.com/dereuromark/cakephp-ide-helper/master/docs/img/code_completion.png');
+		$res = $this->Mime->detectMimeType('https://raw.githubusercontent.com/dereuromark/cakephp-ide-helper/master/docs/public/img/code_completion.png');
 		$this->assertEquals('image/png', $res);
 
-		$res = $this->Mime->detectMimeType('https://raw.githubusercontent.com/dereuromark/cakephp-ide-helper/master/docs/img/code_completion_invalid.png');
+		$res = $this->Mime->detectMimeType('https://raw.githubusercontent.com/dereuromark/cakephp-ide-helper/master/docs/public/img/code_completion_invalid.png');
 		$this->assertEquals('', $res);
 
 		$res = $this->Mime->detectMimeType(Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.jpg');

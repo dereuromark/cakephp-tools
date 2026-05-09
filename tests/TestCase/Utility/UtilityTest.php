@@ -190,13 +190,13 @@ class UtilityTest extends TestCase {
 	 * @return void
 	 */
 	public function testFileExists() {
-		$res = Utility::fileExists('https://raw.githubusercontent.com/dereuromark/cakephp-tools/master/docs/README.md');
+		$res = Utility::fileExists('https://raw.githubusercontent.com/dereuromark/cakephp-tools/master/README.md');
 		$this->assertTrue($res);
 
 		$res = Utility::fileExists(Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'hotel.jpg');
 		$this->assertTrue($res);
 
-		$res = Utility::fileExists('https://raw.githubusercontent.com/dereuromark/cakephp-tools/master/docs/README_invalid.md');
+		$res = Utility::fileExists('https://raw.githubusercontent.com/dereuromark/cakephp-tools/master/README_invalid.md');
 		$this->assertFalse($res);
 
 		$res = Utility::fileExists(Plugin::path('Tools') . 'tests' . DS . 'test_files' . DS . 'img' . DS . 'fooooo.jpg');
