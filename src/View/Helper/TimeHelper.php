@@ -16,8 +16,8 @@ use DateTimeZone;
 /**
  * Wrapper for TimeHelper and TimeLib
  *
- * @mixin \Tools\I18n\DateTime
  * @property \Cake\View\Helper\HtmlHelper $Html
+ * @mixin \Tools\I18n\DateTime
  */
 class TimeHelper extends CakeTimeHelper {
 

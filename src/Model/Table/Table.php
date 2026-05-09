@@ -14,6 +14,9 @@ use Tools\I18n\DateTime;
 use Tools\Utility\Utility;
 
 /**
+ * @template TBehaviors of array<string, \Cake\ORM\Behavior> = array{}
+ * @template TEntity of \Cake\Datasource\EntityInterface = \Cake\Datasource\EntityInterface
+ * @extends \Shim\Model\Table\Table<TBehaviors, TEntity>
  * @mixin \Tools\Model\Behavior\PasswordableBehavior
  * @mixin \Tools\Model\Behavior\JsonableBehavior
  * @mixin \Tools\Model\Behavior\BitmaskedBehavior
@@ -22,10 +25,6 @@ use Tools\Utility\Utility;
  * @mixin \Tools\Model\Behavior\StringBehavior
  * @mixin \Tools\Model\Behavior\ConfirmableBehavior
  * @mixin \Tools\Model\Behavior\ResetBehavior
- *
- * @template TBehaviors of array<string, \Cake\ORM\Behavior> = array{}
- * @template TEntity of \Cake\Datasource\EntityInterface = \Cake\Datasource\EntityInterface
- * @extends \Shim\Model\Table\Table<TBehaviors, TEntity>
  */
 class Table extends ShimTable {
 
