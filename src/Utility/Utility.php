@@ -101,7 +101,11 @@ class Utility {
 	 * @return array Result
 	 */
 	public static function pregMatchAll($pattern, $subject, $flags = PREG_SET_ORDER, $offset = null): array {
-		$pattern = substr($pattern, 0, 1) . '(*UTF8)' . substr($pattern, 1);
+		// PCRE2 (PHP 7+) treats UTF-8 as the standard subject mode when the `u` modifier is
+		// set on the pattern, so the previous `(*UTF8)` splice is redundant and outright
+		// breaks for some patterns (it is a PCRE1 verb that errors at parse time on
+		// modern PCRE2 builds). Callers are expected to pass the `u` modifier — see this
+		// method's docblock — and we no longer mutate their pattern.
 		preg_match_all($pattern, $subject, $matches, $flags, (int)$offset);
 
 		return $matches;
@@ -125,7 +129,7 @@ class Utility {
 	 * @return array Result
 	 */
 	public static function pregMatch($pattern, $subject, $flags = null, $offset = null): array {
-		$pattern = substr($pattern, 0, 1) . '(*UTF8)' . substr($pattern, 1);
+		// See pregMatchAll() for why the previous `(*UTF8)` splice was harmful and removed.
 		preg_match($pattern, $subject, $matches, (int)$flags, (int)$offset);
 
 		return $matches;

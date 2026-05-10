@@ -65,4 +65,55 @@ class EncryptionBehaviorTest extends TestCase {
 		$this->assertEquals('test save', $entity->data);
 	}
 
+	/**
+	 * Saving an entity whose encrypted field is NOT dirty must not re-encrypt the value.
+	 *
+	 * Security::encrypt() uses a fresh random IV per call, so re-encryption would emit a
+	 * brand-new ciphertext for an unchanged plaintext, bloating audit/replication logs
+	 * and breaking deterministic-output expectations downstream.
+	 *
+	 * @return void
+	 */
+	public function testSavingUnchangedFieldDoesNotReencrypt() {
+		$entity = $this->table->newEntity(['id' => 11, 'data' => 'hello world']);
+		$this->table->save($entity);
+
+		$connection = ConnectionManager::get('default');
+		$ciphertextBefore = $connection->getDriver()
+			->execute('SELECT data FROM sessions WHERE id = :id', ['id' => 11])
+			->fetchAll()[0][0];
+
+		// Reload, mutate an unrelated path, save again. The encrypted field should be
+		// unchanged on disk because we never marked it dirty.
+		$entity = $this->table->get(11);
+		// Touch an unrelated metadata-ish property to force a save without dirtying `data`.
+		$entity->setDirty('id', true);
+		$this->table->save($entity);
+
+		$ciphertextAfter = $connection->getDriver()
+			->execute('SELECT data FROM sessions WHERE id = :id', ['id' => 11])
+			->fetchAll()[0][0];
+
+		$this->assertSame($ciphertextBefore, $ciphertextAfter);
+	}
+
+	/**
+	 * Saving an entity with the encrypted field marked dirty must produce a new
+	 * ciphertext (because Security::encrypt rotates the IV) — but the decrypted
+	 * value must still round-trip to the new content.
+	 *
+	 * @return void
+	 */
+	public function testSavingDirtyFieldDoesReencrypt() {
+		$entity = $this->table->newEntity(['id' => 12, 'data' => 'first content']);
+		$this->table->save($entity);
+
+		$entity = $this->table->get(12);
+		$entity->set('data', 'second content');
+		$this->table->save($entity);
+
+		$reloaded = $this->table->get(12);
+		$this->assertSame('second content', $reloaded->data);
+	}
+
 }

@@ -109,10 +109,45 @@ class GravatarHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testBaseUrlGeneration() {
-		$expected = 'http://www.gravatar.com/avatar/' . md5('example@gravatar.com');
+		$expected = 'https://www.gravatar.com/avatar/' . hash('sha256', 'example@gravatar.com');
 		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => false, 'default' => 'wavatar']);
 		[$url, $params] = explode('?', $result);
-		$this->assertEquals($expected, $url);
+		$this->assertSame($expected, $url);
+	}
+
+	/**
+	 * Hash uses SHA-256 (Gravatar's modern identifier), normalizes via trim + lowercase.
+	 *
+	 * @return void
+	 */
+	public function testHashIsSha256AndCaseInsensitive() {
+		$result1 = $this->Gravatar->url('Example@gravatar.com');
+		$result2 = $this->Gravatar->url('  example@gravatar.com  ');
+		$expectedHash = hash('sha256', 'example@gravatar.com');
+
+		$this->assertStringContainsString($expectedHash, $result1);
+		$this->assertStringContainsString($expectedHash, $result2);
+		// And NOT MD5.
+		$this->assertStringNotContainsString(md5('example@gravatar.com'), $result1);
+	}
+
+	/**
+	 * Mixed content is blocked by every modern browser, so the helper must always emit
+	 * an HTTPS URL even when secure=false is passed (the option is preserved as a no-op
+	 * for backwards compatibility).
+	 *
+	 * @return void
+	 */
+	public function testAlwaysEmitsHttpsRegardlessOfSecureOption() {
+		$_SERVER['HTTPS'] = false;
+		$this->Gravatar = new GravatarHelper(new View(null));
+
+		foreach ([false, true] as $secure) {
+			$url = $this->Gravatar->url('example@gravatar.com', ['ext' => false, 'secure' => $secure]);
+			$this->assertStringStartsWith('https://www.gravatar.com/avatar/', $url, 'secure=' . var_export($secure, true));
+			$this->assertStringNotContainsString('http://', $url);
+			$this->assertStringNotContainsString('secure.gravatar.com', $url);
+		}
 	}
 
 	/**
@@ -173,13 +208,15 @@ class GravatarHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testImageTag() {
-		$expected = '<img src="http://www.gravatar.com/avatar/' . md5('example@gravatar.com') . '" alt="">';
-		$result = $this->Gravatar->image('example@gravatar.com', ['ext' => false]);
-		$this->assertEquals($expected, $result);
+		$hash = hash('sha256', 'example@gravatar.com');
 
-		$expected = '<img src="http://www.gravatar.com/avatar/' . md5('example@gravatar.com') . '" alt="Gravatar">';
+		$expected = '<img src="https://www.gravatar.com/avatar/' . $hash . '" alt="">';
+		$result = $this->Gravatar->image('example@gravatar.com', ['ext' => false]);
+		$this->assertSame($expected, $result);
+
+		$expected = '<img src="https://www.gravatar.com/avatar/' . $hash . '" alt="Gravatar">';
 		$result = $this->Gravatar->image('example@gravatar.com', ['ext' => false, 'alt' => 'Gravatar']);
-		$this->assertEquals($expected, $result);
+		$this->assertSame($expected, $result);
 	}
 
 	/**
@@ -199,20 +236,16 @@ class GravatarHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testNonSecureUrl() {
+		// `secure => false` is preserved as a no-op for BC; the URL must still be HTTPS
+		// to avoid mixed-content blocking from a HTTPS page.
+		$expected = 'https://www.gravatar.com/avatar/' . hash('sha256', 'example@gravatar.com');
+
 		$_SERVER['HTTPS'] = false;
-
-		$expected = 'http://www.gravatar.com/avatar/' . md5('example@gravatar.com');
-		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => false]);
-		$this->assertEquals($expected, $result);
-
-		$expected = 'http://www.gravatar.com/avatar/' . md5('example@gravatar.com');
-		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => false, 'secure' => false]);
-		$this->assertEquals($expected, $result);
+		$this->assertSame($expected, $this->Gravatar->url('example@gravatar.com', ['ext' => false]));
+		$this->assertSame($expected, $this->Gravatar->url('example@gravatar.com', ['ext' => false, 'secure' => false]));
 
 		$_SERVER['HTTPS'] = true;
-		$expected = 'http://www.gravatar.com/avatar/' . md5('example@gravatar.com');
-		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => false, 'secure' => false]);
-		$this->assertEquals($expected, $result);
+		$this->assertSame($expected, $this->Gravatar->url('example@gravatar.com', ['ext' => false, 'secure' => false]));
 	}
 
 	/**
@@ -221,21 +254,15 @@ class GravatarHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testSecureUrl() {
-		$expected = 'https://secure.gravatar.com/avatar/' . md5('example@gravatar.com');
-		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => false, 'secure' => true]);
-		$this->assertEquals($expected, $result);
+		$expected = 'https://www.gravatar.com/avatar/' . hash('sha256', 'example@gravatar.com');
+
+		$this->assertSame($expected, $this->Gravatar->url('example@gravatar.com', ['ext' => false, 'secure' => true]));
 
 		$_SERVER['HTTPS'] = true;
-
 		$this->Gravatar = new GravatarHelper(new View(null));
 
-		$expected = 'https://secure.gravatar.com/avatar/' . md5('example@gravatar.com');
-		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => false]);
-		$this->assertEquals($expected, $result);
-
-		$expected = 'https://secure.gravatar.com/avatar/' . md5('example@gravatar.com');
-		$result = $this->Gravatar->url('example@gravatar.com', ['ext' => false, 'secure' => true]);
-		$this->assertEquals($expected, $result);
+		$this->assertSame($expected, $this->Gravatar->url('example@gravatar.com', ['ext' => false]));
+		$this->assertSame($expected, $this->Gravatar->url('example@gravatar.com', ['ext' => false, 'secure' => true]));
 	}
 
 }
