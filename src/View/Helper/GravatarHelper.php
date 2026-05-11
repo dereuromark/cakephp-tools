@@ -19,13 +19,18 @@ use Cake\View\View;
 class GravatarHelper extends Helper {
 
 	/**
-	 * Gravatar avatar image base URL
+	 * Gravatar avatar image base URL.
+	 *
+	 * Both `http` and `https` keys point at the canonical HTTPS endpoint. Modern browsers
+	 * block mixed content, so a HTTP URL embedded in an HTTPS page would silently fail to
+	 * load. The legacy `secure.gravatar.com` host has been a redirect to `www.gravatar.com`
+	 * for years; we use the canonical host directly.
 	 *
 	 * @var array
 	 */
 	protected array $_url = [
-		'http' => 'http://www.gravatar.com/avatar/',
-		'https' => 'https://secure.gravatar.com/avatar/',
+		'http' => 'https://www.gravatar.com/avatar/',
+		'https' => 'https://www.gravatar.com/avatar/',
 	];
 
 	/**
@@ -170,13 +175,17 @@ class GravatarHelper extends Helper {
 	}
 
 	/**
-	 * Generate email address hash
+	 * Generate the email-address hash used as the avatar identifier.
+	 *
+	 * Gravatar transitioned away from MD5 to SHA-256 in 2024. Both hashes still resolve
+	 * for legacy MD5-mapped accounts, but new accounts only register under SHA-256.
+	 * Whitespace-trimmed, lowercased input matches Gravatar's normalization rules.
 	 *
 	 * @param string $email Email address
-	 * @return string Email address hash
+	 * @return string Email address hash (SHA-256, lowercase hex)
 	 */
 	protected function _emailHash($email) {
-		return md5(mb_strtolower($email));
+		return hash('sha256', mb_strtolower(trim($email)));
 	}
 
 	/**

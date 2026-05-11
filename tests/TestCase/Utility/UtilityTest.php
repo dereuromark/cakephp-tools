@@ -158,6 +158,36 @@ class UtilityTest extends TestCase {
 	}
 
 	/**
+	 * Patterns that already include `(*UTF8)` must not be mangled by the helper.
+	 *
+	 * The previous implementation spliced `(*UTF8)` after the opening delimiter, which
+	 * for input `/(*UTF8)foo/u` would have produced `/(*UTF8)(*UTF8)foo/u` and tripped
+	 * PCRE2 in some environments. The helper should now leave the user pattern alone.
+	 *
+	 * @return void
+	 */
+	public function testPregMatchPreservesUserPatternUntouched() {
+		$pattern = '/(*UTF8)(\w+)/u';
+		$string = 'München';
+
+		$result = Utility::pregMatch($pattern, $string);
+		$this->assertSame([$string, $string], $result);
+
+		$resultAll = Utility::pregMatchAll($pattern, $string);
+		$this->assertSame([[$string, $string]], $resultAll);
+	}
+
+	/**
+	 * Empty subject must not crash and must return an empty matches array.
+	 *
+	 * @return void
+	 */
+	public function testPregMatchEmptySubject() {
+		$this->assertSame([], Utility::pregMatch('/foo/', ''));
+		$this->assertSame([], Utility::pregMatchAll('/foo/', ''));
+	}
+
+	/**
 	 * @return void
 	 */
 	public function testStrSplit() {

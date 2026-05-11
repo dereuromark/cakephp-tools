@@ -58,7 +58,12 @@ class EncryptionBehavior extends Behavior {
 	}
 
 	/**
-	 * Encrypting the fields
+	 * Encrypting the fields.
+	 *
+	 * Skips fields that aren't dirty: Security::encrypt() uses a fresh random IV on each
+	 * call, so re-encrypting an unchanged plaintext on every save would emit a new
+	 * ciphertext for an unchanged value — bloating audit logs / replication and breaking
+	 * the "same input → same output" assumption a lot of consumers (and tests) rely on.
 	 *
 	 * @param \Cake\Event\EventInterface $event The event
 	 * @param \Cake\Datasource\EntityInterface $entity The associated entity
@@ -69,11 +74,15 @@ class EncryptionBehavior extends Behavior {
 		$fields = $this->getConfig('fields');
 		$key = $this->getConfig('key');
 		foreach ($fields as $fieldName) {
-			if ($entity->has($fieldName)) {
-				$content = $entity->get($fieldName);
-				if (!empty($content)) {
-					$entity->set($fieldName, Security::encrypt($content, $key));
-				}
+			if (!$entity->isDirty($fieldName)) {
+				continue;
+			}
+			if (!$entity->has($fieldName)) {
+				continue;
+			}
+			$content = $entity->get($fieldName);
+			if (!empty($content)) {
+				$entity->set($fieldName, Security::encrypt($content, $key));
 			}
 		}
 	}
@@ -99,6 +108,12 @@ class EncryptionBehavior extends Behavior {
 							$row[$fieldName] = Security::decrypt($content, $key);
 						} else {
 							$row[$fieldName] = '';
+						}
+						// Hydration is not user mutation: clearing the dirty flag prevents the
+						// re-encrypt-on-save loop where beforeSave would emit a fresh ciphertext
+						// for the same logical content.
+						if ($row instanceof EntityInterface) {
+							$row->setDirty($fieldName, false);
 						}
 					}
 				}
