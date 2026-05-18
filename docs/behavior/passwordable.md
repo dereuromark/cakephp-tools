@@ -47,6 +47,11 @@ In this case we use the Fallback hasher class and both Default (Blowfish, CakePH
 The latter is necessary when you try to upgrade an existing CakePHP2 application which used some weak hashing algo to Cake3. This way
 you can use both parallel. And new accounts will use the new hasher. Order matters!
 
+The `passwordHasher` class name is resolved first within the `Tools` plugin (so the built-in `Default` keeps
+working without a prefix and cannot be silently shadowed), then via plain app/plugin resolution. So you can
+provide your own hasher as an app class (e.g. `'MyHasher'` for `App\Auth\MyHasherPasswordHasher`) or with a
+plugin prefix (e.g. `'MyPlugin.MyHasher'`). Any custom hasher must extend `\Tools\Auth\AbstractPasswordHasher`.
+
 ## Usage
 Do NOT hard-add it in the model itself.
 Attach it dynamically in only those actions where you actually change the password like so:

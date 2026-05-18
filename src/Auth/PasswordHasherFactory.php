@@ -15,6 +15,10 @@ class PasswordHasherFactory {
 	 *
 	 * @param array<string, mixed>|string $passwordHasher Name of the password hasher or an array with
 	 * at least the key `className` set to the name of the class to use
+	 * The class name is first resolved within the `Tools` plugin (so the built-in
+	 * hashers keep working without a prefix and cannot be silently shadowed), then
+	 * falls back to a plain app/plugin resolution for custom hashers.
+	 *
 	 * @throws \RuntimeException If password hasher class not found or
 	 *   it does not extend {@link \Tools\Auth\AbstractPasswordHasher}
 	 * @return \Tools\Auth\AbstractPasswordHasher Password hasher instance
@@ -29,7 +33,8 @@ class PasswordHasherFactory {
 			unset($config['className']);
 		}
 
-		$className = App::className('Tools.' . $class, 'Auth', 'PasswordHasher');
+		$className = App::className('Tools.' . $class, 'Auth', 'PasswordHasher')
+			?? App::className($class, 'Auth', 'PasswordHasher');
 		if ($className === null) {
 			throw new RuntimeException(sprintf('Password hasher class "%s" was not found.', $class));
 		}
