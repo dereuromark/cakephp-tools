@@ -17,8 +17,6 @@ These are not dependencies, but they're commonly installed alongside Tools becau
 | [cakephp-setup](https://github.com/dereuromark/cakephp-setup) | Bake theme + setup commands + a small admin sidebar layout. | When you want a head start on baking and an opinionated admin shell. |
 | [cakephp-ide-helper](https://github.com/dereuromark/cakephp-ide-helper) | PHPStorm meta files for CakePHP — autocomplete on association calls, `loadModel()`, etc. | When using PHPStorm. Always. |
 | [cakephp-icon](https://github.com/dereuromark/cakephp-icon) | Icon helper (Font Awesome / Bootstrap / custom collections). | The dedicated replacement for the deprecated [`Tools\View\Helper\IconHelper`](/helper/icon). |
-| [cakephp-tools-extra](https://gitlab.com/markscherer/cakephp-tools-extra) | Less-stable utilities that don't meet the Tools quality bar yet. | If you need bleeding-edge bits. |
-| [cakephp-setup-extra](https://gitlab.com/markscherer/cakephp-setup-extra) | Same role for Setup. | Same caveat. |
 
 ## Other plugins from the same author
 
