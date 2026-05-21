@@ -30,8 +30,6 @@ return [
 
 	// Data trimming for CommonComponent::startup()
 	'DataPreparation' => [
-		// NOTE: The component reads the lowercase key `DataPreparation.notrim`.
-		// This camelCase `noTrim` does NOT match the runtime read (suspected code bug, see maintainer note).
 		'noTrim' => false, // Set true to disable auto-trimming of request data
 	],
 

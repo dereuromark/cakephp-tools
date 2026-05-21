@@ -46,6 +46,7 @@ class CommonComponentTest extends TestCase {
 	public function tearDown(): void {
 		parent::tearDown();
 
+		Configure::delete('DataPreparation');
 		unset($this->Controller);
 	}
 
@@ -315,6 +316,58 @@ class CommonComponentTest extends TestCase {
 			'f',
 		];
 		$this->assertSame($expected, $pass);
+	}
+
+	/**
+	 * The camelCase `DataPreparation.noTrim` key must disable auto-trimming.
+	 *
+	 * @return void
+	 */
+	public function testNoTrimCamelCase() {
+		Configure::write('DataPreparation.noTrim', true);
+		$request = $this->Controller->getRequest();
+		$request = $request->withQueryParams([
+			' a ',
+		]);
+		$this->Controller->setRequest($request);
+		$this->Controller->Common->startup(new Event('Test'));
+		$query = $this->Controller->getRequest()->getQuery();
+		$this->assertSame([' a '], $query);
+	}
+
+	/**
+	 * The legacy lowercase `DataPreparation.notrim` key must still disable auto-trimming (BC).
+	 *
+	 * @return void
+	 */
+	public function testNoTrimLegacyLowercase() {
+		Configure::write('DataPreparation.notrim', true);
+		$request = $this->Controller->getRequest();
+		$request = $request->withQueryParams([
+			' a ',
+		]);
+		$this->Controller->setRequest($request);
+		$this->Controller->Common->startup(new Event('Test'));
+		$query = $this->Controller->getRequest()->getQuery();
+		$this->assertSame([' a '], $query);
+	}
+
+	/**
+	 * An explicit camelCase `noTrim` of false must win over a legacy lowercase `notrim` of true.
+	 *
+	 * @return void
+	 */
+	public function testNoTrimCamelCaseFalseWinsOverLegacyTrue() {
+		Configure::write('DataPreparation.noTrim', false);
+		Configure::write('DataPreparation.notrim', true);
+		$request = $this->Controller->getRequest();
+		$request = $request->withQueryParams([
+			' a ',
+		]);
+		$this->Controller->setRequest($request);
+		$this->Controller->Common->startup(new Event('Test'));
+		$query = $this->Controller->getRequest()->getQuery();
+		$this->assertSame(['a'], $query);
 	}
 
 	/**

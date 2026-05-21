@@ -41,13 +41,16 @@ class CommonComponent extends Component {
 	 *
 	 * Can be skipped for edge cases using
 	 * - locally: beforeFilter() inside the specific controller
-	 * - globally: `DataPreparation.notrim` Configure setting.
+	 * - globally: `DataPreparation.noTrim` Configure setting.
+	 *   The legacy lowercase `DataPreparation.notrim` is still accepted for BC.
 	 *
 	 * @param \Cake\Event\EventInterface $event
 	 * @return void
 	 */
 	public function startup(EventInterface $event): void {
-		if ($this->getConfig('notrim') || Configure::read('DataPreparation.notrim')) {
+		$noTrim = $this->getConfig('noTrim') ?? $this->getConfig('notrim');
+		$globalNoTrim = Configure::read('DataPreparation.noTrim') ?? Configure::read('DataPreparation.notrim');
+		if ($noTrim || $globalNoTrim) {
 			return;
 		}
 
