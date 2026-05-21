@@ -4,7 +4,8 @@
 By default, adding the Common component to your AppController will make sure your POST and query params are trimmed.
 This is needed to make - not only notEmpty - validation working properly.
 
-You can skip for certain actions using `'DataPreparation.notrim'` config key per use case.
+You can skip for certain actions using `'DataPreparation.noTrim'` config key per use case.
+The legacy lowercase `'DataPreparation.notrim'` is still accepted for backwards compatibility.
 
 ## Is Post Check
 A convenience method can quickly check on a form being posted:
