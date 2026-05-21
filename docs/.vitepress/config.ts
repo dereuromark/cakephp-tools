@@ -92,6 +92,7 @@ export default defineConfig({
   title: 'cakephp-tools',
   description: 'The CakePHP Toolbox: behaviors, helpers, components, model and entity utilities for CakePHP applications.',
   base: '/cakephp-tools/',
+  cleanUrls: true,
   lastUpdated: true,
   sitemap: {
     hostname: 'https://dereuromark.github.io/cakephp-tools/',
