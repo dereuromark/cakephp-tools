@@ -1,0 +1,27 @@
+// cakephp-tools — database schema snapshot (DBML)
+//
+// A merged snapshot of all plugin migrations under config/Migrations/.
+// Hand-maintained: update it when you add a migration that changes these tables.
+// Paste into https://dbdiagram.io (or any DBML tool) to view/diagram.
+// DBML reference: https://dbml.dbdiagram.io/docs
+
+Project cakephp_tools {
+  database_type: 'Generic'
+  Note: 'Tools plugin tables only.'
+}
+
+Table tokens {
+  id integer [pk, increment]
+  user_id int [null]
+  type varchar(20) [not null, note: 'e.g.: activate, reactivate']
+  token_key varchar(60) [not null]
+  content varchar(255) [null, note: 'can transport some information']
+  used int [not null, default: 0]
+  created datetime [null]
+  modified datetime [null]
+
+  indexes {
+    user_id
+    token_key [unique]
+  }
+}
