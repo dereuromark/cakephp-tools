@@ -334,7 +334,8 @@ class JsonableBehavior extends Behavior {
 	 */
 	public function isEncoded($str) {
 		$this->decoded = $this->_decode($str);
-        return $this->decoded !== false;
+
+		return $this->decoded !== false;
 	}
 
 }

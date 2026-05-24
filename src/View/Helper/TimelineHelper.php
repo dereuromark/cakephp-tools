@@ -191,10 +191,10 @@ JS;
 			$tmp = [];
 			foreach ($item as $key => $row) {
 				$tmp[] = match ($key) {
-                    'editable' => $row ? 'true' : 'false',
-                    'start', 'end' => '\'' . $key . '\': ' . $this->_date($row),
-                    default => '\'' . $key . '\': \'' . str_replace('\'', '\\\'', $row) . '\'',
-                };
+					'editable' => $row ? 'true' : 'false',
+					'start', 'end' => '\'' . $key . '\': ' . $this->_date($row),
+					default => '\'' . $key . '\': \'' . str_replace('\'', '\\\'', $row) . '\'',
+				};
 			}
 			$e[] = '{' . implode(',' . PHP_EOL, $tmp) . '}';
 		}

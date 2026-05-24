@@ -225,8 +225,8 @@ class Utility {
 
 				if ((bool)preg_match('#^HTTP/.*\s+[(301)]+\s#i', $headerString)) {
 					foreach ($headers as $header) {
-						if (str_starts_with((string) $header, 'Location:')) {
-							$url = trim(hDec(mb_substr((string) $header, 9))); // rawurldecode/urldecode ?
+						if (str_starts_with((string)$header, 'Location:')) {
+							$url = trim(hDec(mb_substr((string)$header, 9))); // rawurldecode/urldecode ?
 						}
 					}
 				}
@@ -318,8 +318,9 @@ class Utility {
 		]);
 		// phpcs:disable
 		$headers = @get_headers($url, false, $context);
+
         // phpcs:enable
-        return $headers && preg_match('|\b200\b|', $headers[0]);
+		return $headers && preg_match('|\b200\b|', $headers[0]);
 	}
 
 	/**
@@ -565,18 +566,18 @@ class Utility {
 	 */
 	public static function countDim($array, bool $all = false, int $count = 0): int {
 		if ($all) {
-            $depth = [$count];
-            if (is_array($array) && reset($array) !== false) {
+			$depth = [$count];
+			if (is_array($array) && reset($array) !== false) {
 				foreach ($array as $value) {
 					$depth[] = static::countDim($value, true, $count + 1);
 				}
 			}
-            $return = max($depth);
-        } elseif (is_array(reset($array))) {
-            $return = static::countDim(reset($array)) + 1;
-        } else {
+			$return = max($depth);
+		} elseif (is_array(reset($array))) {
+			$return = static::countDim(reset($array)) + 1;
+		} else {
 				$return = 1;
-			}
+		}
 
 		return $return;
 	}
@@ -602,7 +603,7 @@ class Utility {
 	public static function expandList(array $data, string $separator = '.', ?string $undefinedKey = null): array {
 		$result = [];
 		foreach ($data as $value) {
-			$keys = explode($separator, (string) $value);
+			$keys = explode($separator, (string)$value);
 			$value = array_pop($keys);
 
 			$keys = array_reverse($keys);

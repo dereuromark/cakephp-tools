@@ -267,8 +267,8 @@ class Table extends ShimTable {
 	 */
 	public function validateUrl($url, array $options = [], array $context = []) {
 		if (!$url) {
-            return !empty($options['allowEmpty']) && empty($options['required']);
-        }
+			return !empty($options['allowEmpty']) && empty($options['required']);
+		}
 		if (!isset($options['autoComplete']) || $options['autoComplete'] !== false) {
 			if (!is_string($url)) {
 				throw new InvalidArgumentException('Can only accept string for autoComplete case');
@@ -341,7 +341,8 @@ class Table extends ShimTable {
 		if (!preg_match('#^HTTP/.*?\s+(200|301|302)\s#i', $headers)) {
 			return false;
 		}
-        return !preg_match('#^HTTP/.*?\s+(404|999)\s#i', $headers);
+
+		return !preg_match('#^HTTP/.*?\s+(404|999)\s#i', $headers);
 	}
 
 	/**
@@ -358,8 +359,8 @@ class Table extends ShimTable {
 	 */
 	public function validateDateTime($value, array $options = [], array $context = []) {
 		if (!$value) {
-            return !empty($options['allowEmpty']);
-        }
+			return !empty($options['allowEmpty']);
+		}
 		$format = empty($options['dateFormat']) ? 'ymd' : $options['dateFormat'];
 
 		/** @var \Cake\Chronos\Chronos|mixed $datetime */
@@ -455,8 +456,8 @@ class Table extends ShimTable {
 	 */
 	public function validateDate($value, array $options = [], array $context = []) {
 		if (!$value || (is_array($value) && empty($value['year']) && empty($value['month']) && empty($value['day']))) {
-            return !empty($options['allowEmpty']);
-        }
+			return !empty($options['allowEmpty']);
+		}
 
 		$format = empty($options['format']) ? 'ymd' : $options['format'];
 
@@ -527,8 +528,8 @@ class Table extends ShimTable {
 	 */
 	public function validateTime($value, array $options = [], array $context = []) {
 		if (!$value) {
-            return !empty($options['allowEmpty']);
-        }
+			return !empty($options['allowEmpty']);
+		}
 
 		// Extract time string for validation
 		$timeString = $value;

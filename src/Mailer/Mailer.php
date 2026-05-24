@@ -90,10 +90,9 @@ class Mailer extends CakeMailer {
 	 *
 	 * @return bool Success
 	 */
-	public function validates()
-    {
-        return $this->getMessage()->getSubject() && $this->getMessage()->getTo();
-    }
+	public function validates() {
+		return $this->getMessage()->getSubject() && $this->getMessage()->getTo();
+	}
 
 	/**
 	 * @inheritDoc

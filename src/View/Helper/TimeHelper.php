@@ -210,15 +210,15 @@ class TimeHelper extends CakeTimeHelper {
 			$when = -1;
 			$niceDate = __d('tools', 'Yesterday') . $timeAttachment;
 		} else {
-            // before or after?
-            $when = $this->isFuture($date) ? 1 : -1;
-            $niceDate = $this->format($date, $format) . $timeAttachment;
-            //date("M jS{$y}", $date);
-        }
+			// before or after?
+			$when = $this->isFuture($date) ? 1 : -1;
+			$niceDate = $this->format($date, $format) . $timeAttachment;
+			//date("M jS{$y}", $date);
+		}
 
 		if ($whenOverride && $when === 0) {
-            $when = $this->isInTheFuture($date) ? 1 : -1;
-        }
+			$when = $this->isInTheFuture($date) ? 1 : -1;
+		}
 
 		if (!$niceDate) {
 			$niceDate = '<i>n/a</i>';

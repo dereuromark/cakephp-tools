@@ -97,10 +97,10 @@ class DateTime extends CakeDateTime {
 		}
 
 		if (!is_int($startTime)) {
-			$startTime = strtotime((string) $startTime);
+			$startTime = strtotime((string)$startTime);
 		}
 		if (!is_int($endTime)) {
-			$endTime = strtotime((string) $endTime);
+			$endTime = strtotime((string)$endTime);
 		}
 
 		//@FIXME: make it work for > month
@@ -196,14 +196,14 @@ class DateTime extends CakeDateTime {
 	 */
 	public static function ageRange(int $year, ?int $month = null, ?int $day = null, int $steps = 1) {
 		if ($month == null && $day == null) {
-            $age = (int)date('Y') - $year - 1;
-        } elseif ($day == null) {
-            $age = $month >= (int)date('m') ? (int)date('Y') - $year - 1 : (int)date('Y') - $year;
-        } elseif ($month > (int)date('m') || ($month == (int)date('m') && $day > (int)date('d'))) {
-            $age = (int)date('Y') - $year - 1;
-        } else {
+			$age = (int)date('Y') - $year - 1;
+		} elseif ($day == null) {
+			$age = $month >= (int)date('m') ? (int)date('Y') - $year - 1 : (int)date('Y') - $year;
+		} elseif ($month > (int)date('m') || ($month == (int)date('m') && $day > (int)date('d'))) {
+			$age = (int)date('Y') - $year - 1;
+		} else {
 				$age = (int)date('Y') - $year;
-			}
+		}
 		if ($age % $steps === 0) {
 			$lowerRange = $age - $steps + 1;
 			$upperRange = $age;
@@ -459,8 +459,8 @@ class DateTime extends CakeDateTime {
 		}
 		$date = new self($dateString, $timezone);
 		if ($format === null) {
-            $format = is_int($dateString) || str_contains($dateString, ' ') ? 'd.m.Y, H:i' : 'd.m.Y';
-        }
+			$format = is_int($dateString) || str_contains($dateString, ' ') ? 'd.m.Y, H:i' : 'd.m.Y';
+		}
 
 		$date = static::formatLocalized($date, $format, $options['language']);
 
@@ -560,8 +560,8 @@ class DateTime extends CakeDateTime {
 		}
 
 		if ($format === null) {
-            $format = $date instanceof CakeDateTime ? FORMAT_NICE_YMDHM : FORMAT_NICE_YMD;
-        }
+			$format = $date instanceof CakeDateTime ? FORMAT_NICE_YMDHM : FORMAT_NICE_YMD;
+		}
 
 		if ($options['timezone'] && !($date instanceof CakeDate)) {
 			$date = $date->setTimezone($options['timezone']);
@@ -967,7 +967,7 @@ class DateTime extends CakeDateTime {
 		if ($dateTime !== null) {
 			$date = $dateTime->format('U');
 			$sec = time() - $date;
-			$type = 0 <=> $sec;
+			$type = $sec <=> 0;
 			$sec = (int)abs($sec);
 		} else {
 			$sec = 0;
@@ -1292,8 +1292,8 @@ class DateTime extends CakeDateTime {
 			$pieces = explode('.', $date);
 			$year = $pieces[2];
 			if (strlen($year) === 2) {
-                $year = $year < 50 ? '20' . $year : '19' . $year;
-            }
+				$year = $year < 50 ? '20' . $year : '19' . $year;
+			}
 			$date = mktime(0, 0, 0, (int)$pieces[1], (int)$pieces[0], (int)$year);
 		} elseif (str_contains($date, '-')) {
 			$date = strtotime($date);

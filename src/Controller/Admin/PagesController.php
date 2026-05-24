@@ -20,10 +20,10 @@ class PagesController extends AppController {
 
 		$pages = [];
 		foreach ($files as $file) {
-			if (!str_ends_with((string) $file, '.php')) {
+			if (!str_ends_with((string)$file, '.php')) {
 				continue;
 			}
-			$page = substr((string) $file, 0, -4);
+			$page = substr((string)$file, 0, -4);
 			$pages[$page] = [
 				'label' => Inflector::humanize($page),
 				'action' => Inflector::dasherize($page),

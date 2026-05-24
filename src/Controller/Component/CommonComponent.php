@@ -100,7 +100,7 @@ class CommonComponent extends Component {
 	 */
 	public function getSafeRedirectUrl($default, $data = null, $key = 'redirect') {
 		$redirectUrl = $data ?: ($this->controller->getRequest()->getData($key) ?: $this->controller->getRequest()->getQuery($key));
-		if ($redirectUrl && (mb_substr((string) $redirectUrl, 0, 1) !== '/' || mb_substr((string) $redirectUrl, 0, 2) === '//')) {
+		if ($redirectUrl && (mb_substr((string)$redirectUrl, 0, 1) !== '/' || mb_substr((string)$redirectUrl, 0, 2) === '//')) {
 			$redirectUrl = null;
 		}
 
@@ -338,7 +338,8 @@ class CommonComponent extends Component {
 			return false;
 		}
 		$base = Configure::read('App.fullBaseUrl') . '/';
-        return mb_strpos($ref, $base) !== 0;
+
+		return mb_strpos($ref, $base) !== 0;
 	}
 
 	/**

@@ -122,7 +122,7 @@ class TypographyHelper extends Helper {
 			for ($i = 0, $total = count($matches[0]); $i < $total; $i++) {
 					$htmlComments[] = $matches[0][$i];
 					$str = str_replace($matches[0][$i], '{@HC' . $i . '}', $str);
-				}
+			}
 		}
 
 		// match and yank <pre> tags if they exist. It's cheaper to do this separately since most content will

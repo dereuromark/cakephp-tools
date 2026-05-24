@@ -167,7 +167,7 @@ class TextHelper extends CakeTextHelper {
 			foreach ($this->_placeholders as $hash => $content) {
 				$link = $url = $content['content'];
 				$envelope = $content['envelope'];
-				if (!preg_match('#^[a-z]+\://#i', (string) $url)) {
+				if (!preg_match('#^[a-z]+\://#i', (string)$url)) {
 					$url = 'http://' . $url;
 				}
 
@@ -190,7 +190,7 @@ class TextHelper extends CakeTextHelper {
 		foreach ($this->_placeholders as $hash => $content) {
 			$link = $url = $content['content'];
 			$envelope = $content['envelope'];
-			if (!preg_match('#^[a-z]+\://#i', (string) $url)) {
+			if (!preg_match('#^[a-z]+\://#i', (string)$url)) {
 				$url = 'http://' . $url;
 			}
 			$replace[$hash] = $envelope[0] . $callable($link, $url, $htmlOptions) . $envelope[1];

@@ -156,8 +156,8 @@ class SluggedBehavior extends Behavior {
 		}
 		if ($this->_config['length']) {
 			foreach ($label as $field) {
-				if (strpos((string) $field, '.')) {
-					[$alias, $field] = explode('.', (string) $field);
+				if (strpos((string)$field, '.')) {
+					[$alias, $field] = explode('.', (string)$field);
 					if (!$this->_table->$alias->hasField($field)) {
 						throw new RuntimeException('(SluggedBehavior::setup) model `' . $this->_table->$alias->getAlias() . '` is missing the field `' . $field
 							. '` (specified in the setup for table `' . $this->_table->getAlias() . '`) ');
@@ -400,12 +400,12 @@ class SluggedBehavior extends Behavior {
 				$slug = 'x' . $slug;
 			}
 		}
-		if ($this->_config['length'] && (mb_strlen((string) $slug) > $this->_config['length'])) {
-			$slug = mb_substr((string) $slug, 0, $this->_config['length']);
+		if ($this->_config['length'] && (mb_strlen((string)$slug) > $this->_config['length'])) {
+			$slug = mb_substr((string)$slug, 0, $this->_config['length']);
 		}
 		if ($this->_config['case']) {
 			$case = $this->_config['case'];
-			$slug = $case === 'up' ? mb_strtoupper((string) $slug) : mb_strtolower((string) $slug);
+			$slug = $case === 'up' ? mb_strtoupper((string)$slug) : mb_strtolower((string)$slug);
 			if (in_array($case, ['title', 'camel'])) {
 				$words = explode($separator, $slug);
 				foreach ($words as &$word) {
@@ -441,7 +441,7 @@ class SluggedBehavior extends Behavior {
 				$i++;
 				$suffix = $separator . $i;
 				if ($this->_config['length'] && (mb_strlen($slug . $suffix) > $this->_config['length'])) {
-					$slug = mb_substr((string) $slug, 0, $this->_config['length'] - mb_strlen($suffix));
+					$slug = mb_substr((string)$slug, 0, $this->_config['length'] - mb_strlen($suffix));
 				}
 				$conditions[$field] = $slug . $suffix;
 			}

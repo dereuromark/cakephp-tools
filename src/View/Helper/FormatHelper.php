@@ -98,7 +98,7 @@ class FormatHelper extends Helper {
 	public function neighbors(array $neighbors, string $field, array $options = []): string {
 		$name = 'Record'; // Translation further down!
 		if (!empty($options['name'])) {
-			$name = ucfirst((string) $options['name']);
+			$name = ucfirst((string)$options['name']);
 		}
 
 		$prevSlug = $nextSlug = null;
@@ -540,7 +540,7 @@ class FormatHelper extends Helper {
 					// Recursive mode
 					$table .= "\n" . static::array2table($cell, $options) . "\n";
 				} else {
-					$table .= (!is_array($cell) && (string) $cell !== '') ? ($options['escape'] ? h(
+					$table .= (!is_array($cell) && (string)$cell !== '') ? ($options['escape'] ? h(
 						$cell,
 					) : $cell) : $options['null'];
 				}

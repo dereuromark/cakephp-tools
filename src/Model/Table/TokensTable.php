@@ -196,7 +196,8 @@ class TokensTable extends Table {
 			['used = used + 1', 'modified' => date(FORMAT_DB_DATETIME)],
 			['id' => $id],
 		);
-        return (bool) $result;
+
+		return (bool)$result;
 	}
 
 	/**
@@ -247,7 +248,7 @@ class TokensTable extends Table {
 
 		/** @var callable $function */
 		$function = 'random_bytes';
-		$value = bin2hex((string) $function((int)($length / 2)));
+		$value = bin2hex((string)$function((int)($length / 2)));
 		if (strlen($value) !== $length) {
 			$value = str_pad($value, $length, (string)random_int(0, 9));
 		}

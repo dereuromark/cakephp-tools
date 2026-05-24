@@ -35,7 +35,7 @@ class ErrorLogger extends CoreErrorLogger {
 			$level = LOG_ERR;
 			$message = $this->getMessage($exception);
 
-			if ($request instanceof \Psr\Http\Message\ServerRequestInterface) {
+			if ($request instanceof ServerRequestInterface) {
 				$message .= $this->getRequestContext($request);
 			}
 

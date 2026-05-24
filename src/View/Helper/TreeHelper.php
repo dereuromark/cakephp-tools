@@ -191,7 +191,7 @@ class TreeHelper extends Helper {
 				// phpcs:enable
 				array_pop($stack);
 				if ($indent) {
-					$whiteSpace = str_repeat((string) $indentWith, count($stack));
+					$whiteSpace = str_repeat((string)$indentWith, count($stack));
 					$return .= "\r\n" . $whiteSpace . $indentWith;
 				}
 				if ($type) {
@@ -300,7 +300,7 @@ class TreeHelper extends Helper {
 				$content = (string)$content;
 			}
 
-			$whiteSpace = str_repeat((string) $indentWith, $depth);
+			$whiteSpace = str_repeat((string)$indentWith, $depth);
 			if ($indent && strpos($content, "\r\n", 1)) {
 				$content = str_replace("\r\n", "\n" . $whiteSpace . $indentWith, $content);
 			}
@@ -352,7 +352,7 @@ class TreeHelper extends Helper {
 		while ($stack) {
 			array_pop($stack);
 			if ($indent) {
-				$whiteSpace = str_repeat((string) $indentWith, count($stack));
+				$whiteSpace = str_repeat((string)$indentWith, count($stack));
 				$return .= "\r\n" . $whiteSpace . $indentWith;
 			}
 			if ($type) {
@@ -514,8 +514,8 @@ class TreeHelper extends Helper {
 			}
 		}
 		if ($rType === $itemType && !empty($elementData['activePathElement'])) {
-            $attributes['class'][] = $elementData['activePathElement'] === true ? $autoPath[2] : $elementData['activePathElement'];
-        }
+			$attributes['class'][] = $elementData['activePathElement'] === true ? $autoPath[2] : $elementData['activePathElement'];
+		}
 		if (!$attributes) {
 			return '';
 		}

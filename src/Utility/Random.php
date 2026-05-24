@@ -124,14 +124,14 @@ class Random {
 	 */
 	public static function generate(string $type = 'alnum', int $length = 8): string {
 		$pool = match ($type) {
-            'alnum' => '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
-            'alpha' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
-            'hexdec' => '0123456789abcdef',
-            'numeric' => '0123456789',
-            'nozero' => '123456789',
-            'distinct' => '2345679ACDEFHJKLMNPRSTUVWXYZ',
-            default => (string)$type,
-        };
+			'alnum' => '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+			'alpha' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+			'hexdec' => '0123456789abcdef',
+			'numeric' => '0123456789',
+			'nozero' => '123456789',
+			'distinct' => '2345679ACDEFHJKLMNPRSTUVWXYZ',
+			default => (string)$type,
+		};
 
 		// Split the pool into an array of characters
 		$pool = str_split($pool, 1);
