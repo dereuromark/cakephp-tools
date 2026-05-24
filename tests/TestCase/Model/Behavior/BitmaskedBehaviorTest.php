@@ -312,7 +312,7 @@ class BitmaskedBehaviorTest extends TestCase {
 		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
 
 		$config = $this->Comments->getConnection()->config();
-		$isPostgres = strpos($config['driver'], 'Postgres') !== false;
+		$isPostgres = str_contains((string) $config['driver'], 'Postgres');
 
 		$res = $this->Comments->getBehavior('Bitmasked')->containsBit(BitmaskedComment::STATUS_PUBLISHED);
 		$expected = ['(BitmaskedComments.status & 2 = 2)'];
@@ -345,7 +345,7 @@ class BitmaskedBehaviorTest extends TestCase {
 		$this->Comments->addBehavior('Tools.Bitmasked', ['mappedField' => 'statuses']);
 
 		$config = $this->Comments->getConnection()->config();
-		$isPostgres = strpos($config['driver'], 'Postgres') !== false;
+		$isPostgres = str_contains((string) $config['driver'], 'Postgres');
 
 		$res = $this->Comments->getBehavior('Bitmasked')->containsNotBit(BitmaskedComment::STATUS_PUBLISHED);
 		$expected = ['(BitmaskedComments.status & 2 != 2)'];

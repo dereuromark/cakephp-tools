@@ -82,10 +82,8 @@ class ToggleBehavior extends Behavior {
 	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {
 		$field = $this->getConfig('field');
 
-		if ($entity->isNew() && !$entity->get($field)) {
-			if (!$this->getCurrent($entity)) {
-				$entity->set($field, true);
-			}
+		if ($entity->isNew() && !$entity->get($field) && !$this->getCurrent($entity)) {
+			$entity->set($field, true);
 		}
 
 		if ($this->_config['on'] !== 'beforeSave') {

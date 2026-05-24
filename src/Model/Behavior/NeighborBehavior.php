@@ -36,7 +36,7 @@ class NeighborBehavior extends Behavior {
 		];
 		$options += $defaults;
 
-		$normalDirection = (!empty($options['reverse']) ? false : true);
+		$normalDirection = (empty($options['reverse']));
 		$sortDirWord = $normalDirection ? ['ASC', 'DESC'] : ['DESC', 'ASC'];
 		$sortDirSymb = $normalDirection ? ['>=', '<='] : ['<=', '>='];
 

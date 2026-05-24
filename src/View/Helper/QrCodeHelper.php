@@ -226,8 +226,8 @@ class QrCodeHelper extends Helper {
 
 					break;
 				case 'birthday':
-					if (strlen($val) !== 8) {
-						$val = substr($val, 0, 4) . substr($val, 6, 2) . substr($val, 10, 2);
+					if (strlen((string) $val) !== 8) {
+						$val = substr((string) $val, 0, 4) . substr((string) $val, 6, 2) . substr((string) $val, 10, 2);
 					}
 					$res[] = 'BDAY:' . $val;
 

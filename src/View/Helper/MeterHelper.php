@@ -111,9 +111,7 @@ class MeterHelper extends Helper {
 	 * @return float
 	 */
 	protected function calculatePercentage($total, $is) {
-		$percentage = $total ? $is / $total : 0.0;
-
-		return $percentage;
+		return $total ? $is / $total : 0.0;
 	}
 
 	/**
@@ -181,9 +179,7 @@ class MeterHelper extends Helper {
 	 * @return int
 	 */
 	protected function calculateBarLength($complete, int $length): int {
-		$barLength = (int)round($length * $complete, 0);
-
-		return $barLength;
+		return (int)round($length * $complete, 0);
 	}
 
 	/**

@@ -71,11 +71,7 @@ class InflectCommand extends Command {
 	 * @return int|null|void The exit code or null for success
 	 */
 	public function execute(Arguments $args, ConsoleIo $io) {
-		if ($args->getArguments()) {
-			$arguments = $this->_parseArguments($args->getArguments(), $io);
-		} else {
-			$arguments = $this->_interactive($io);
-		}
+		$arguments = $args->getArguments() ? $this->_parseArguments($args->getArguments(), $io) : $this->_interactive($io);
 
 		if (!$arguments['action'] || !$arguments['word']) {
 			return static::CODE_SUCCESS;
@@ -219,11 +215,7 @@ class InflectCommand extends Command {
 	protected function _parseArguments(array $arguments, ConsoleIo $io): array {
 		$word = array_shift($arguments);
 
-		if (!$arguments) {
-			$action = $this->_getAction($io);
-		} else {
-			$action = array_shift($arguments);
-		}
+		$action = $arguments ? array_shift($arguments) : $this->_getAction($io);
 
 		return ['action' => $action, 'word' => $word];
 	}

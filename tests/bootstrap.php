@@ -20,7 +20,7 @@ if (!defined('DS')) {
 	define('DS', DIRECTORY_SEPARATOR);
 }
 if (!defined('WINDOWS')) {
-	if (DS === '\\' || substr(PHP_OS, 0, 3) === 'WIN') {
+	if (DS === '\\' || str_starts_with(PHP_OS, 'WIN')) {
 		define('WINDOWS', true);
 	} else {
 		define('WINDOWS', false);
@@ -44,7 +44,7 @@ define('TEST_FILES', ROOT . DS . 'tests' . DS . 'test_files' . DS);
 
 ini_set('intl.default_locale', 'de_DE');
 
-require_once 'vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 require_once CAKE_CORE_INCLUDE_PATH . DS . 'src' . DS . 'functions.php';
 
 Configure::write('App', [

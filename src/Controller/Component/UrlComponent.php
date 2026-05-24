@@ -19,9 +19,7 @@ class UrlComponent extends Component {
 	 * @return array
 	 */
 	public function resetArray(array $url): array {
-		$url += $this->defaults();
-
-		return $url;
+		return $url + $this->defaults();
 	}
 
 	/**
@@ -29,9 +27,7 @@ class UrlComponent extends Component {
 	 * @return array
 	 */
 	public function completeArray(array $url): array {
-		$url = $this->addQueryStrings($url);
-
-		return $url;
+		return $this->addQueryStrings($url);
 	}
 
 	/**
@@ -88,9 +84,7 @@ class UrlComponent extends Component {
 		];
 		$options += $defaults;
 
-		$url = Router::url($url, $options['fullBase']);
-
-		return $url;
+		return Router::url($url, $options['fullBase']);
 	}
 
 	/**

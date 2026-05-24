@@ -48,11 +48,7 @@ class FormatHelper extends Helper {
 	 * @param array<string, mixed> $config
 	 */
 	public function __construct(View $View, array $config = []) {
-		if (class_exists(IconHelper::class)) {
-			$this->helpers[] = 'Templating.Icon';
-		} else {
-			$this->helpers[] = 'Tools.Icon';
-		}
+		$this->helpers[] = class_exists(IconHelper::class) ? 'Templating.Icon' : 'Tools.Icon';
 
 		$defaults = (array)Configure::read('Format') + $this->_defaults;
 		$config += $defaults;
@@ -76,7 +72,7 @@ class FormatHelper extends Helper {
 	 * @return string
 	 */
 	public function thumbs($value, array $options = [], array $attributes = []): string {
-		$icon = !empty($value) ? 'pro' : 'contra';
+		$icon = empty($value) ? 'contra' : 'pro';
 
 		return $this->Icon->render($icon, $options, $attributes);
 	}
@@ -102,7 +98,7 @@ class FormatHelper extends Helper {
 	public function neighbors(array $neighbors, string $field, array $options = []): string {
 		$name = 'Record'; // Translation further down!
 		if (!empty($options['name'])) {
-			$name = ucfirst($options['name']);
+			$name = ucfirst((string) $options['name']);
 		}
 
 		$prevSlug = $nextSlug = null;
@@ -127,7 +123,7 @@ class FormatHelper extends Helper {
 			}
 
 			$ret .= $this->Html->link(
-				(string)$this->Icon->render('prev') . '&nbsp;' . __d('tools', 'prev' . $name),
+				$this->Icon->render('prev') . '&nbsp;' . __d('tools', 'prev' . $name),
 				$url,
 				['escapeTitle' => false, 'title' => $neighbors['prev'][$titleField]],
 			);
@@ -143,7 +139,7 @@ class FormatHelper extends Helper {
 			}
 
 			$ret .= $this->Html->link(
-				(string)$this->Icon->render('next') . '&nbsp;' . __d('tools', 'next' . $name),
+				$this->Icon->render('next') . '&nbsp;' . __d('tools', 'next' . $name),
 				$url,
 				['escapeTitle' => false, 'title' => $neighbors['next'][$titleField]],
 			);
@@ -151,9 +147,7 @@ class FormatHelper extends Helper {
 			$ret .= $this->Icon->render('next') . '&nbsp;' . __d('tools', 'next' . $name);
 		}
 
-		$ret .= '</div>';
-
-		return $ret;
+		return $ret . '</div>';
 	}
 
 	/**
@@ -180,10 +174,10 @@ class FormatHelper extends Helper {
 	 */
 	public function genderIcon($value, array $options = [], array $attributes = []): string {
 		$value = (int)$value;
-		if ($value == static::GENDER_FEMALE) {
+		if ($value === static::GENDER_FEMALE) {
 			$attributes['class'] = 'icon-female';
 			$icon = $this->Icon->render('female', $options, $attributes);
-		} elseif ($value == static::GENDER_MALE) {
+		} elseif ($value === static::GENDER_MALE) {
 			$attributes['class'] = 'icon-male';
 			$icon = $this->Icon->render('male', $options, $attributes);
 		} else {
@@ -260,7 +254,7 @@ class FormatHelper extends Helper {
 
 		$options = $attributes + $options;
 		$options += $defaults;
-		if (substr($icon, 0, 1) !== '/') {
+		if (!str_starts_with($icon, '/')) {
 			$icon = 'icons/' . $icon;
 		}
 
@@ -419,9 +413,7 @@ class FormatHelper extends Helper {
 			$text = h($text);
 		}
 
-		$text = str_replace("\t", str_repeat(' ', $options['space']), $text);
-
-		return $text;
+		return str_replace("\t", str_repeat(' ', $options['space']), $text);
 	}
 
 	/**
@@ -548,7 +540,7 @@ class FormatHelper extends Helper {
 					// Recursive mode
 					$table .= "\n" . static::array2table($cell, $options) . "\n";
 				} else {
-					$table .= (!is_array($cell) && strlen($cell) > 0) ? ($options['escape'] ? h(
+					$table .= (!is_array($cell) && (string) $cell !== '') ? ($options['escape'] ? h(
 						$cell,
 					) : $cell) : $options['null'];
 				}
@@ -559,9 +551,7 @@ class FormatHelper extends Helper {
 			$table .= "</tr>\n";
 		}
 
-		$table .= '</table>';
-
-		return $table;
+		return $table . '</table>';
 	}
 
 	/**

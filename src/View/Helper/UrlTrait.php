@@ -9,9 +9,7 @@ trait UrlTrait {
 	 * @return array
 	 */
 	public function resetArray(array $url): array {
-		$url += $this->defaults();
-
-		return $url;
+		return $url + $this->defaults();
 	}
 
 	/**
@@ -20,9 +18,8 @@ trait UrlTrait {
 	 */
 	public function completeArray(array $url): array {
 		$url = $this->addQueryStrings($url);
-		$url = $this->addPassed($url);
 
-		return $url;
+		return $this->addPassed($url);
 	}
 
 	/**
@@ -91,9 +88,8 @@ trait UrlTrait {
 	 */
 	protected function addPassed(array $url): array {
 		$pass = $this->_View->getRequest()->getParam('pass');
-		$url = array_merge($url, $pass);
 
-		return $url;
+		return array_merge($url, $pass);
 	}
 
 }

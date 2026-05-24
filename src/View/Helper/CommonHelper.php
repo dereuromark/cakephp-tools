@@ -30,11 +30,7 @@ class CommonHelper extends Helper {
 	 * @return string result
 	 */
 	public function sp(string $singular, string $plural, int $count, bool $autoTranslate = false): string {
-		if ($count !== 1) {
-			$result = $plural;
-		} else {
-			$result = $singular;
-		}
+		$result = $count !== 1 ? $plural : $singular;
 
 		if ($autoTranslate) {
 			$result = __d('tools', $result);
@@ -66,9 +62,7 @@ class CommonHelper extends Helper {
 			$robots = ['noindex', 'nofollow', 'noarchive'];
 		}
 
-		$return = '<meta name="robots" content="' . implode(',', $robots) . '" />';
-
-		return $return;
+		return '<meta name="robots" content="' . implode(',', $robots) . '" />';
 	}
 
 	/**
@@ -84,9 +78,8 @@ class CommonHelper extends Helper {
 		}
 
 		$content = (array)$content;
-		$return = '<meta name="' . $name . '" content="' . implode(', ', $content) . '">';
 
-		return $return;
+		return '<meta name="' . $name . '" content="' . implode(', ', $content) . '">';
 	}
 
 	/**
@@ -193,11 +186,7 @@ class CommonHelper extends Helper {
 		$tags = [
 			'meta' => '<link rel="alternate" type="application/rss+xml" title="%s" href="%s">',
 		];
-		if (!$title) {
-			$title = __d('tools', 'Subscribe to this feed');
-		} else {
-			$title = h($title);
-		}
+		$title = $title ? h($title) : __d('tools', 'Subscribe to this feed');
 
 		return sprintf($tags['meta'], $title, $this->Url->build($url));
 	}

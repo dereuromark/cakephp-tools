@@ -21,22 +21,13 @@ class FontAwesome4IconCollector {
 		}
 
 		$ext = pathinfo($filePath, PATHINFO_EXTENSION);
-		switch ($ext) {
-			case 'less':
-				preg_match_all('/@fa-var-([0-9a-z-]+):/', $content, $matches);
+        match ($ext) {
+            'less' => preg_match_all('/@fa-var-([0-9a-z-]+):/', $content, $matches),
+            'scss' => preg_match_all('/\$fa-var-([0-9a-z-]+):/', $content, $matches),
+            default => throw new RuntimeException('Format not supported: ' . $ext),
+        };
 
-				break;
-			case 'scss':
-				preg_match_all('/\$fa-var-([0-9a-z-]+):/', $content, $matches);
-
-				break;
-			default:
-				throw new RuntimeException('Format not supported: ' . $ext);
-		}
-
-		$icons = !empty($matches[1]) ? $matches[1] : [];
-
-		return $icons;
+		return empty($matches[1]) ? [] : $matches[1];
 	}
 
 }

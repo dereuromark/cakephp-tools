@@ -477,7 +477,7 @@ TEXT;
 		$nodes = $this->Table->find('path', ...['for' => $id])->toArray();
 		$path = Hash::extract($nodes, '{n}.id');
 
-		$output = $this->Tree->generate($tree, ['autoPath' => [6, 11], 'hideUnrelated' => true, 'treePath' => $path, 'callback' => [$this, '_myCallback']]); // Two-SubA
+		$output = $this->Tree->generate($tree, ['autoPath' => [6, 11], 'hideUnrelated' => true, 'treePath' => $path, 'callback' => $this->_myCallback(...)]); // Two-SubA
 
 		$expected = <<<TEXT
 
@@ -539,7 +539,7 @@ TEXT;
 			'autoPath' => [6, 11],
 			'hideUnrelated' => true,
 			'treePath' => $path,
-			'callback' => [$this, '_myCallbackSiblings'],
+			'callback' => $this->_myCallbackSiblings(...),
 		]);
 
 		$expected = <<<TEXT
@@ -633,7 +633,7 @@ TEXT;
 		$output = $this->Tree->generate($tree, [
 			'autoPath' => [6, 11],
 			'treePath' => $path,
-			'callback' => [$this, '_myCallbackEntity'],
+			'callback' => $this->_myCallbackEntity(...),
 		]); // Two-SubA
 
 		$expected = <<<TEXT

@@ -267,12 +267,8 @@ class Table extends ShimTable {
 	 */
 	public function validateUrl($url, array $options = [], array $context = []) {
 		if (!$url) {
-			if (!empty($options['allowEmpty']) && empty($options['required'])) {
-				return true;
-			}
-
-			return false;
-		}
+            return !empty($options['allowEmpty']) && empty($options['required']);
+        }
 		if (!isset($options['autoComplete']) || $options['autoComplete'] !== false) {
 			if (!is_string($url)) {
 				throw new InvalidArgumentException('Can only accept string for autoComplete case');
@@ -345,11 +341,7 @@ class Table extends ShimTable {
 		if (!preg_match('#^HTTP/.*?\s+(200|301|302)\s#i', $headers)) {
 			return false;
 		}
-		if (preg_match('#^HTTP/.*?\s+(404|999)\s#i', $headers)) {
-			return false;
-		}
-
-		return true;
+        return !preg_match('#^HTTP/.*?\s+(404|999)\s#i', $headers);
 	}
 
 	/**
@@ -366,13 +358,9 @@ class Table extends ShimTable {
 	 */
 	public function validateDateTime($value, array $options = [], array $context = []) {
 		if (!$value) {
-			if (!empty($options['allowEmpty'])) {
-				return true;
-			}
-
-			return false;
-		}
-		$format = !empty($options['dateFormat']) ? $options['dateFormat'] : 'ymd';
+            return !empty($options['allowEmpty']);
+        }
+		$format = empty($options['dateFormat']) ? 'ymd' : $options['dateFormat'];
 
 		/** @var \Cake\Chronos\Chronos|mixed $datetime */
 		$datetime = $value;
@@ -382,7 +370,7 @@ class Table extends ShimTable {
 		$pieces = $datetime->format(FORMAT_DB_DATETIME);
 		$dateTimeParts = explode(' ', $pieces, 2);
 		$datePart = $dateTimeParts[0];
-		$timePart = (!empty($dateTimeParts[1]) ? $dateTimeParts[1] : '');
+		$timePart = (empty($dateTimeParts[1]) ? '' : $dateTimeParts[1]);
 
 		if (!empty($options['allowEmpty']) && (empty($datePart) && empty($timePart))) {
 			return true;
@@ -467,14 +455,10 @@ class Table extends ShimTable {
 	 */
 	public function validateDate($value, array $options = [], array $context = []) {
 		if (!$value || (is_array($value) && empty($value['year']) && empty($value['month']) && empty($value['day']))) {
-			if (!empty($options['allowEmpty'])) {
-				return true;
-			}
+            return !empty($options['allowEmpty']);
+        }
 
-			return false;
-		}
-
-		$format = !empty($options['format']) ? $options['format'] : 'ymd';
+		$format = empty($options['format']) ? 'ymd' : $options['format'];
 
 		/** @var \Cake\Chronos\ChronosDate|mixed $date */
 		$date = $value;
@@ -486,7 +470,7 @@ class Table extends ShimTable {
 
 		if (Validation::date($value, $format)) {
 			// after/before?
-			$days = !empty($options['min']) ? $options['min'] : 0;
+			$days = empty($options['min']) ? 0 : $options['min'];
 
 			$after = $options['after'] ?? null;
 			if ($after && !is_object($after)) {
@@ -543,12 +527,8 @@ class Table extends ShimTable {
 	 */
 	public function validateTime($value, array $options = [], array $context = []) {
 		if (!$value) {
-			if (!empty($options['allowEmpty'])) {
-				return true;
-			}
-
-			return false;
-		}
+            return !empty($options['allowEmpty']);
+        }
 
 		// Extract time string for validation
 		$timeString = $value;
@@ -568,11 +548,7 @@ class Table extends ShimTable {
 		}
 
 		// Convert to Time object for comparisons
-		if (is_object($value) && $value instanceof Time) {
-			$time = $value;
-		} else {
-			$time = new Time($timeString);
-		}
+		$time = is_object($value) && $value instanceof Time ? $value : new Time($timeString);
 
 		// after/before?
 		$minSeconds = $options['min'] ?? 1;
@@ -602,10 +578,8 @@ class Table extends ShimTable {
 			}
 
 			// Check max range if specified
-			if (!empty($options['max'])) {
-				if ($timeInSeconds > $afterInSeconds + $options['max']) {
-					return false;
-				}
+			if (!empty($options['max']) && $timeInSeconds > $afterInSeconds + $options['max']) {
+				return false;
 			}
 		}
 
@@ -635,10 +609,8 @@ class Table extends ShimTable {
 			}
 
 			// Check max range if specified
-			if (!empty($options['max'])) {
-				if ($timeInSeconds < $beforeInSeconds - $options['max']) {
-					return false;
-				}
+			if (!empty($options['max']) && $timeInSeconds < $beforeInSeconds - $options['max']) {
+				return false;
 			}
 		}
 

@@ -22,7 +22,7 @@ class HelperController extends AppController {
 		if ($this->request->is(['post', 'put'])) {
 			$string = $this->request->getData('string');
 			$result = $this->analyzeString($string);
-			$this->set(compact('string', 'result'));
+			$this->set(['string' => $string, 'result' => $result]);
 		}
 	}
 
@@ -36,7 +36,7 @@ class HelperController extends AppController {
 			$matrix = $this->request->getData('matrix');
 			$modelClass = $this->request->getData('model');
 			$fieldName = $this->request->getData('field');
-			$matrixArray = explode(PHP_EOL, $matrix);
+			$matrixArray = explode(PHP_EOL, (string) $matrix);
 
 			$result = [];
 			foreach ($matrixArray as $value) {
@@ -60,7 +60,7 @@ class HelperController extends AppController {
 				}
 			}
 			$result = array_reverse($result);
-			$this->set(compact('result'));
+			$this->set(['result' => $result]);
 		}
 	}
 

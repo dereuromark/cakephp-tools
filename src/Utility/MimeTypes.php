@@ -947,10 +947,8 @@ class MimeTypes {
 				if ($mimeTypes === $extMimeType) {
 					return $ext;
 				}
-				if (is_array($mimeTypes)) {
-					if (in_array($extMimeType, $mimeTypes, true)) {
-						return $ext;
-					}
+				if (is_array($mimeTypes) && in_array($extMimeType, $mimeTypes, true)) {
+					return $ext;
 				}
 			}
 		}

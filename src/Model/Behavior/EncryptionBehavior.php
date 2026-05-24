@@ -104,11 +104,7 @@ class EncryptionBehavior extends Behavior {
 				foreach ($fields as $fieldName) {
 					if (isset($row->$fieldName) && is_resource($row->$fieldName)) {
 						$content = stream_get_contents($row->$fieldName);
-						if (!empty($content)) {
-							$row[$fieldName] = Security::decrypt($content, $key);
-						} else {
-							$row[$fieldName] = '';
-						}
+						$row[$fieldName] = empty($content) ? '' : Security::decrypt($content, $key);
 						// Hydration is not user mutation: clearing the dirty flag prevents the
 						// re-encrypt-on-save loop where beforeSave would emit a fresh ciphertext
 						// for the same logical content.

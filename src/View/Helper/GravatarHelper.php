@@ -124,9 +124,8 @@ class GravatarHelper extends Helper {
 			// This helps systems that don't display images unless they have a specific image extension on the URL.
 			$imageUrl .= '.jpg';
 		}
-		$imageUrl .= $this->_buildOptions($options);
 
-		return $imageUrl;
+		return $imageUrl . $this->_buildOptions($options);
 	}
 
 	/**
@@ -159,17 +158,15 @@ class GravatarHelper extends Helper {
 			$options['size'] = min(max($options['size'], 1), 512);
 		}
 
-		if (!$options['rating'] || !in_array(mb_strtolower($options['rating']), $this->_allowedRatings)) {
+		if (!$options['rating'] || !in_array(mb_strtolower((string) $options['rating']), $this->_allowedRatings)) {
 			unset($options['rating']);
 		}
 
 		if (!$options['default']) {
-			unset($options['default']);
-		} else {
-			if (!in_array($options['default'], $this->_defaultIcons) && !Validation::url($options['default'])) {
-				unset($options['default']);
-			}
-		}
+            unset($options['default']);
+        } elseif (!in_array($options['default'], $this->_defaultIcons) && !Validation::url($options['default'])) {
+            unset($options['default']);
+        }
 
 		return $options;
 	}
@@ -200,10 +197,10 @@ class GravatarHelper extends Helper {
 			$optionArray = [];
 			foreach ($gravatarOptions as $key) {
 				$value = $options[$key];
-				$optionArray[] = $key . '=' . mb_strtolower($value);
+				$optionArray[] = $key . '=' . mb_strtolower((string) $value);
 			}
 
-			return '?' . implode(!empty($options['escape']) ? '&amp;' : '&', $optionArray);
+			return '?' . implode(empty($options['escape']) ? '&' : '&amp;', $optionArray);
 		}
 
 		return '';

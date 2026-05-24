@@ -112,33 +112,31 @@ class TypographyHelper extends Helper {
 
 		// Reduce line breaks. If there are more than two consecutive linebreaks
 		// we'll compress them down to a maximum of two since there's no benefit to more.
-		if ($reduceLinebreaks === true) {
+		if ($reduceLinebreaks) {
 			$str = (string)preg_replace("/\n\n+/", "\n\n", $str);
 		}
 
 		// HTML comment tags don't conform to patterns of normal tags, so pull them out separately, only if needed
 		$htmlComments = [];
-		if (str_contains($str, '<!--')) {
-			if (preg_match_all("#(<!\-\-.*?\-\->)#s", $str, $matches)) {
-				for ($i = 0, $total = count($matches[0]); $i < $total; $i++) {
+		if (str_contains($str, '<!--') && preg_match_all("#(<!\-\-.*?\-\->)#s", $str, $matches)) {
+			for ($i = 0, $total = count($matches[0]); $i < $total; $i++) {
 					$htmlComments[] = $matches[0][$i];
 					$str = str_replace($matches[0][$i], '{@HC' . $i . '}', $str);
 				}
-			}
 		}
 
 		// match and yank <pre> tags if they exist. It's cheaper to do this separately since most content will
 		// not contain <pre> tags, and it keeps the PCRE patterns below simpler and faster
 		if (str_contains($str, '<pre')) {
-			$str = (string)preg_replace_callback('#<pre.*?>.*?</pre>#si', [$this, '_protectCharacters'], $str);
+			$str = (string)preg_replace_callback('#<pre.*?>.*?</pre>#si', $this->_protectCharacters(...), $str);
 		}
 
 		// Convert quotes within tags to temporary markers.
-		$str = (string)preg_replace_callback('#<.+?>#si', [$this, '_protectCharacters'], $str);
+		$str = (string)preg_replace_callback('#<.+?>#si', $this->_protectCharacters(...), $str);
 
 		// Do the same with braces if necessary
 		if ($this->protectBracedQuotes === true) {
-			$str = (string)preg_replace_callback("#\{.+?\}#si", [$this, '_protectCharacters'], $str);
+			$str = (string)preg_replace_callback("#\{.+?\}#si", $this->_protectCharacters(...), $str);
 		}
 
 		// Convert "ignore" tags to temporary marker. The parser splits out the string at every tag
@@ -173,7 +171,7 @@ class TypographyHelper extends Helper {
 			// Well also set the "process" flag which allows us to skip <pre> tags and a few other things.
 			if (preg_match('#<(/*)(' . $this->blockElements . ').*?>#', $chunk, $match)) {
 				if (preg_match('#' . $this->skipElements . '#', $match[2])) {
-					$process = ($match[1] === '/') ? true : false;
+					$process = $match[1] === '/';
 				}
 
 				if ($match[1] === '') {
@@ -185,14 +183,14 @@ class TypographyHelper extends Helper {
 				continue;
 			}
 
-			if ($process == false) {
+			if ($process === false) {
 				$str .= $chunk;
 
 				continue;
 			}
 
 			// Force a newline to make sure end tags get processed by _formatNewlines()
-			if ($currentChunk == $totalChunks) {
+			if ($currentChunk === $totalChunks) {
 				$chunk .= "\n";
 			}
 
@@ -251,7 +249,7 @@ class TypographyHelper extends Helper {
 		];
 
 		// Do we need to reduce empty lines?
-		if ($reduceLinebreaks === true) {
+		if ($reduceLinebreaks) {
 			$table['#<p>\n*</p>#'] = '';
 		} else {
 			// If we have empty paragraph tags we add a non-breaking space
@@ -369,13 +367,13 @@ class TypographyHelper extends Helper {
 
 		$newstr = '';
 		for ($i = 0; $i < $ct; $i++) {
-			if (($i % 2) == 0) {
+			if ($i % 2 === 0) {
 				$newstr .= nl2br($ex[$i]);
 			} else {
 				$newstr .= $ex[$i];
 			}
 
-			if ($ct - 1 != $i) {
+			if ($ct - 1 !== $i) {
 				$newstr .= 'pre>';
 			}
 		}
@@ -396,7 +394,7 @@ class TypographyHelper extends Helper {
 			return $str;
 		}
 
-		if (strpos($str, "\n") === false && !in_array($this->lastBlockElement, $this->innerBlockRequired)) {
+		if (!str_contains($str, "\n") && !in_array($this->lastBlockElement, $this->innerBlockRequired)) {
 			return $str;
 		}
 

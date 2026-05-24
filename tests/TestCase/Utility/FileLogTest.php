@@ -54,20 +54,20 @@ class FileLogTest extends TestCase {
 	 * @return void
 	 */
 	public function testLogsStringData(): void {
-		if (file_exists(static::TEST_FILEPATH_STRING)) {
-			unlink(static::TEST_FILEPATH_STRING);
+		if (file_exists(self::TEST_FILEPATH_STRING)) {
+			unlink(self::TEST_FILEPATH_STRING);
 		}
 
-		$result = FileLog::write('It works!', static::TEST_FILENAME_STRING);
+		$result = FileLog::write('It works!', self::TEST_FILENAME_STRING);
 
 		$this->assertTrue($result);
-		$this->assertFileExists(static::TEST_FILEPATH_STRING);
+		$this->assertFileExists(self::TEST_FILEPATH_STRING);
 		$this->assertMatchesRegularExpression(
 			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: It works!/i',
-			file_get_contents(static::TEST_FILEPATH_STRING),
+			file_get_contents(self::TEST_FILEPATH_STRING),
 		);
 
-		unlink(static::TEST_FILEPATH_STRING);
+		unlink(self::TEST_FILEPATH_STRING);
 	}
 
 	/**
@@ -76,11 +76,11 @@ class FileLogTest extends TestCase {
 	 * @return void
 	 */
 	public function testLogsArray(): void {
-		if (file_exists(static::TEST_FILEPATH_ARRAY1)) {
-			unlink(static::TEST_FILEPATH_ARRAY1);
+		if (file_exists(self::TEST_FILEPATH_ARRAY1)) {
+			unlink(self::TEST_FILEPATH_ARRAY1);
 		}
-		if (file_exists(static::TEST_FILEPATH_ARRAY2)) {
-			unlink(static::TEST_FILEPATH_ARRAY2);
+		if (file_exists(self::TEST_FILEPATH_ARRAY2)) {
+			unlink(self::TEST_FILEPATH_ARRAY2);
 		}
 
 		$result1 = FileLog::write(
@@ -91,7 +91,7 @@ class FileLogTest extends TestCase {
 					'email' => 'john.doe@example.com',
 				],
 			],
-			static::TEST_FILENAME_ARRAY1,
+			self::TEST_FILENAME_ARRAY1,
 		);
 
 		$result2 = FileLog::write(
@@ -102,13 +102,13 @@ class FileLogTest extends TestCase {
 					'email' => 'jane.doe@example.com',
 				],
 			],
-			static::TEST_FILENAME_ARRAY2,
+			self::TEST_FILENAME_ARRAY2,
 		);
 
 		// Assert for `TEST_FILENAME_ARRAY1`
 		$this->assertTrue($result1);
-		$this->assertFileExists(static::TEST_FILEPATH_ARRAY1);
-		$fileContents = file_get_contents(static::TEST_FILEPATH_ARRAY1);
+		$this->assertFileExists(self::TEST_FILEPATH_ARRAY1);
+		$fileContents = file_get_contents(self::TEST_FILEPATH_ARRAY1);
 		$this->assertMatchesRegularExpression(
 			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: Array([\s\S]*)\(([\s\S]*)[user]([\s\S]*)\[id\] => 1/i',
 			$fileContents,
@@ -116,15 +116,15 @@ class FileLogTest extends TestCase {
 
 		// Assert for `TEST_FILENAME_ARRAY2`
 		$this->assertTrue($result2);
-		$this->assertFileExists(static::TEST_FILEPATH_ARRAY2);
-		$fileContents = file_get_contents(static::TEST_FILEPATH_ARRAY2);
+		$this->assertFileExists(self::TEST_FILEPATH_ARRAY2);
+		$fileContents = file_get_contents(self::TEST_FILEPATH_ARRAY2);
 		$this->assertMatchesRegularExpression(
 			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: Array([\s\S]*)\(([\s\S]*)[user]([\s\S]*)\[id\] => 2/i',
 			$fileContents,
 		);
 
-		unlink(static::TEST_FILEPATH_ARRAY1);
-		unlink(static::TEST_FILEPATH_ARRAY2);
+		unlink(self::TEST_FILEPATH_ARRAY1);
+		unlink(self::TEST_FILEPATH_ARRAY2);
 	}
 
 	/**
@@ -133,23 +133,23 @@ class FileLogTest extends TestCase {
 	 * @return void
 	 */
 	public function testLogsObject(): void {
-		if (file_exists(static::TEST_FILEPATH_OBJECT)) {
-			unlink(static::TEST_FILEPATH_OBJECT);
+		if (file_exists(self::TEST_FILEPATH_OBJECT)) {
+			unlink(self::TEST_FILEPATH_OBJECT);
 		}
 
 		$result = FileLog::write(
 			$this->getTableLocator()->get('Posts'),
-			static::TEST_FILENAME_OBJECT,
+			self::TEST_FILENAME_OBJECT,
 		);
 
 		$this->assertTrue($result);
-		$this->assertFileExists(static::TEST_FILEPATH_OBJECT);
+		$this->assertFileExists(self::TEST_FILEPATH_OBJECT);
 		$this->assertMatchesRegularExpression(
 			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: TestApp.Model.Table.PostsTable Object/i',
-			file_get_contents(static::TEST_FILEPATH_OBJECT),
+			file_get_contents(self::TEST_FILEPATH_OBJECT),
 		);
 
-		unlink(static::TEST_FILEPATH_OBJECT);
+		unlink(self::TEST_FILEPATH_OBJECT);
 	}
 
 	/**
@@ -158,20 +158,20 @@ class FileLogTest extends TestCase {
 	 * @return void
 	 */
 	public function testLogsIntoDefaultFile(): void {
-		if (file_exists(static::TEST_DEFAULT_FILEPATH_STRING)) {
-			unlink(static::TEST_DEFAULT_FILEPATH_STRING);
+		if (file_exists(self::TEST_DEFAULT_FILEPATH_STRING)) {
+			unlink(self::TEST_DEFAULT_FILEPATH_STRING);
 		}
 
 		$result = FileLog::write('It works with default too!');
 
 		$this->assertTrue($result);
-		$this->assertFileExists(static::TEST_DEFAULT_FILEPATH_STRING);
+		$this->assertFileExists(self::TEST_DEFAULT_FILEPATH_STRING);
 		$this->assertMatchesRegularExpression(
 			'/^2[0-9]{3}-[0-9]+-[0-9]+ [0-9]+:[0-9]+:[0-9]+ Debug: It works with default too!/i',
-			file_get_contents(static::TEST_DEFAULT_FILEPATH_STRING),
+			file_get_contents(self::TEST_DEFAULT_FILEPATH_STRING),
 		);
 
-		unlink(static::TEST_DEFAULT_FILEPATH_STRING);
+		unlink(self::TEST_DEFAULT_FILEPATH_STRING);
 	}
 
 }

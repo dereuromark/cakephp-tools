@@ -141,7 +141,7 @@ html-part
 </body>
 </html>';
 		$text = trim(strip_tags($html));
-		$this->mailer->setViewVars(compact('text', 'html'));
+		$this->mailer->setViewVars(['text' => $text, 'html' => $html]);
 
 		$res = $this->mailer->deliver();
 		//Configure::write('debug', 2);

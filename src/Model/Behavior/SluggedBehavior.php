@@ -156,8 +156,8 @@ class SluggedBehavior extends Behavior {
 		}
 		if ($this->_config['length']) {
 			foreach ($label as $field) {
-				if (strpos($field, '.')) {
-					[$alias, $field] = explode('.', $field);
+				if (strpos((string) $field, '.')) {
+					[$alias, $field] = explode('.', (string) $field);
 					if (!$this->_table->$alias->hasField($field)) {
 						throw new RuntimeException('(SluggedBehavior::setup) model `' . $this->_table->$alias->getAlias() . '` is missing the field `' . $field
 							. '` (specified in the setup for table `' . $this->_table->getAlias() . '`) ');
@@ -325,7 +325,7 @@ class SluggedBehavior extends Behavior {
 		$params += $defaults;
 
 		$conditions = $params['conditions'];
-		$count = $this->_table->find('all', ...compact('conditions'))->count();
+		$count = $this->_table->find('all', ...['conditions' => $conditions])->count();
 		$max = (int)ini_get('max_execution_time');
 		if ($max) {
 			set_time_limit(max($max, $count / 100));
@@ -388,11 +388,7 @@ class SluggedBehavior extends Behavior {
 			$slug = ShimInflector::slug($string, $separator);
 		} elseif ($this->_config['mode'] === static::MODE_URL) {
 			$regex = $this->_regex($this->_config['mode']);
-			if ($regex) {
-				$slug = $this->_pregReplace('@[' . $regex . ']@Su', $separator, $string);
-			} else {
-				$slug = $string;
-			}
+			$slug = $regex ? $this->_pregReplace('@[' . $regex . ']@Su', $separator, $string) : $string;
 		} else {
 			throw new RuntimeException('Invalid mode passed.');
 		}
@@ -404,19 +400,15 @@ class SluggedBehavior extends Behavior {
 				$slug = 'x' . $slug;
 			}
 		}
-		if ($this->_config['length'] && (mb_strlen($slug) > $this->_config['length'])) {
-			$slug = mb_substr($slug, 0, $this->_config['length']);
+		if ($this->_config['length'] && (mb_strlen((string) $slug) > $this->_config['length'])) {
+			$slug = mb_substr((string) $slug, 0, $this->_config['length']);
 		}
 		if ($this->_config['case']) {
 			$case = $this->_config['case'];
-			if ($case === 'up') {
-				$slug = mb_strtoupper($slug);
-			} else {
-				$slug = mb_strtolower($slug);
-			}
+			$slug = $case === 'up' ? mb_strtoupper((string) $slug) : mb_strtolower((string) $slug);
 			if (in_array($case, ['title', 'camel'])) {
 				$words = explode($separator, $slug);
-				foreach ($words as $i => &$word) {
+				foreach ($words as &$word) {
 					$firstChar = mb_substr($word, 0, 1);
 					$rest = mb_substr($word, 1, mb_strlen($word) - 1);
 					$firstCharUp = mb_strtoupper($firstChar);
@@ -449,7 +441,7 @@ class SluggedBehavior extends Behavior {
 				$i++;
 				$suffix = $separator . $i;
 				if ($this->_config['length'] && (mb_strlen($slug . $suffix) > $this->_config['length'])) {
-					$slug = mb_substr($slug, 0, $this->_config['length'] - mb_strlen($suffix));
+					$slug = mb_substr((string) $slug, 0, $this->_config['length'] - mb_strlen($suffix));
 				}
 				$conditions[$field] = $slug . $suffix;
 			}
@@ -528,7 +520,7 @@ class SluggedBehavior extends Behavior {
 		$fields = (array)$entity->get($field);
 
 		$locales = [];
-		foreach ($fields as $locale => $_) {
+		foreach (array_keys($fields) as $locale) {
 			$res = null;
 			foreach ($label as $field) {
 				$res = $entity->get($field);

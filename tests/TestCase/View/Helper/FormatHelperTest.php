@@ -51,7 +51,7 @@ class FormatHelperTest extends TestCase {
 			['class' => 'disabledLink', 'title' => false],
 			['class' => 'helloClass', 'title' => 'helloTitle'],
 		];
-		foreach ($data as $key => $value) {
+		foreach ($data as $value) {
 			$res = $this->Format->disabledLink($content, $value);
 			//echo ''.$res.' (\''.h($res).'\')';
 			$this->assertTrue(!empty($res));
@@ -67,7 +67,7 @@ class FormatHelperTest extends TestCase {
 			true,
 			false,
 		];
-		foreach ($data as $key => $value) {
+		foreach ($data as $value) {
 			$res = $this->Format->warning($content . ' ' . (int)$value, $value);
 			//echo ''.$res.'';
 			$this->assertTrue(!empty($res));
@@ -188,7 +188,7 @@ class FormatHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testSlugCustomObject() {
-		$this->Format->setConfig('slugger', [$this, '_testSlugger']);
+		$this->Format->setConfig('slugger', $this->_testSlugger(...));
 		$result = $this->Format->slug('A Baz D & Foo');
 		$this->assertSame('a baz d & foo', $result);
 	}
@@ -272,7 +272,7 @@ foooo        bar           bla
 
 TXT;
 		$this->assertTextEquals($expected, $result);
-		$this->assertTrue(strpos($result, "\t") === false);
+		$this->assertTrue(!str_contains($result, "\t"));
 	}
 
 	/**
