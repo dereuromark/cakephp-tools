@@ -490,8 +490,8 @@ class Mime extends Response {
 	protected ?array $_mimeTypesTmp = null;
 
 	/**
-     * Override constructor
-     */
+	 * Override constructor
+	 */
 	public function __construct(array $options = []) {
 		parent::__construct($options);
 
