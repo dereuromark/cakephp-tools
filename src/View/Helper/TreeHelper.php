@@ -188,7 +188,6 @@ class TreeHelper extends Helper {
 			/* Close open items as appropriate */
 			// phpcs:disable
 			while ($stack && ($stack[count($stack) - 1] < $row[$right])) {
-				// phpcs:enable
 				array_pop($stack);
 				if ($indent) {
 					$whiteSpace = str_repeat((string)$indentWith, count($stack));
@@ -201,6 +200,7 @@ class TreeHelper extends Helper {
 					$return .= '</' . $itemType . '>';
 				}
 			}
+			// phpcs:enable
 
 			/* Some useful vars */
 			$hasChildren = $firstChild = $lastChild = $hasVisibleChildren = false;

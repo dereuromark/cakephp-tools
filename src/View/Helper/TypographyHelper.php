@@ -120,8 +120,8 @@ class TypographyHelper extends Helper {
 		$htmlComments = [];
 		if (str_contains($str, '<!--') && preg_match_all("#(<!\-\-.*?\-\->)#s", $str, $matches)) {
 			for ($i = 0, $total = count($matches[0]); $i < $total; $i++) {
-					$htmlComments[] = $matches[0][$i];
-					$str = str_replace($matches[0][$i], '{@HC' . $i . '}', $str);
+				$htmlComments[] = $matches[0][$i];
+				$str = str_replace($matches[0][$i], '{@HC' . $i . '}', $str);
 			}
 		}
 

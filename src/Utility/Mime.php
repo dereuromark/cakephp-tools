@@ -492,7 +492,9 @@ class Mime extends Response {
 	/**
      * Override constructor
      */
-	public function __construct() {
+	public function __construct(array $options = []) {
+		parent::__construct($options);
+
 		if (class_exists(MimeType::class)) {
 			$mimeType = new MimeType();
 			$coreMimeTypes = $this->invokeProperty($mimeType, 'mimeTypes');

@@ -28,7 +28,7 @@ class ShuntRequestController extends AppController {
 	public function initialize(): void {
 		parent::initialize();
 
-		if (!property_exists($this, 'Flash') || $this->Flash === null) {
+		if (!$this->components()->has('Flash')) {
 			$this->loadComponent('Flash');
 		}
 	}
