@@ -492,6 +492,7 @@ class Mime extends Response {
 	/**
 	 * Override constructor
 	 */
+>>>>>>> d3501e54 (Fix review regressions and style issues)
 	public function __construct(array $options = []) {
 		parent::__construct($options);
 
