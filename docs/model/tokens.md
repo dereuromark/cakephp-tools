@@ -5,7 +5,7 @@ They are useful in the registration process of users,
 or if you want to send some double-opt-in confirmation emails, for example.
 
 The main methods of the model are
-* newKey(string $type, ?string $key = null, $uid = null, $content = null)
+* newKey(string $type, ?string $key = null, $uid = null, $content = null, ?int $validity = null)
 * useKey(string $type, string $key, $uid = null)
 * spendKey(int $id)
 
@@ -31,6 +31,7 @@ $tokenKey = $this->Tokens->newKey('activate', null, $user->id);
 ```
 
 As 4th parameter any string content can be stored.
+As 5th parameter you can override the validity for this specific token row.
 
 ### Activate action
 ```php
@@ -69,6 +70,19 @@ There is also a method `stats()` to retrieve statistics if required/useful to yo
 ## Security notes
 By default, the tokens have a validity of one week.
 You can modify this value in your model.
+
+For different token types, configure dedicated validity windows and they will be stored on each token row when created:
+
+```php
+$tokensTable = $this->fetchTable('Tools.Tokens');
+$tokensTable->typeValidity = [
+    'login_link' => DAY,
+    'password_reset' => HOUR,
+    'api' => 0,
+];
+```
+
+Already issued tokens keep the validity they were created with. If a row has `validity = null`, the table default is used as fallback.
 
 Do not send plain passwords with your emails or print them out anywhere.
 That's why you should send the expiring tokens.

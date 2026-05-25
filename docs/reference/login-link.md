@@ -9,6 +9,13 @@ $tokensTable = $this->fetchTable('Tools.Tokens');
 $token = $tokensTable->newKey('login_link', null, $user->id);
 ```
 
+For shorter-lived login links, configure the token type once and every new row will persist that validity:
+```php
+$tokensTable->typeValidity = [
+    'login_link' => DAY,
+];
+```
+
 If you want a custom token to be used:
 ```php
 $token = $tokensTable->newKey('login_link', '123', $user->id);
