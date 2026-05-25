@@ -2,9 +2,11 @@
 
 namespace Tools\Model\Table;
 
+use Cake\Datasource\ResultSetInterface;
 use Cake\I18n\DateTime;
 use Cake\Utility\Hash;
 use RuntimeException;
+use Tools\Model\Entity\Token as TokenEntity;
 
 /**
  * A generic model to hold tokens
@@ -50,6 +52,13 @@ class TokensTable extends Table {
 	public int $validity = WEEK;
 
 	/**
+	 * Custom validity windows per token type, persisted onto new rows.
+	 *
+	 * @var array<string, int>
+	 */
+	public array $typeValidity = [];
+
+	/**
 	 * @var array
 	 */
 	public array $validate = [
@@ -82,6 +91,23 @@ class TokensTable extends Table {
 	];
 
 	/**
+	 * @param array<string, mixed> $config
+	 * @return void
+	 */
+	public function initialize(array $config): void {
+		parent::initialize($config);
+
+		if (isset($config['validity'])) {
+			$this->validity = (int)$config['validity'];
+		}
+		if (isset($config['typeValidity'])) {
+			/** @var array<string, int> $typeValidity */
+			$typeValidity = $config['typeValidity'];
+			$this->typeValidity = $typeValidity;
+		}
+	}
+
+	/**
 	 * Stores new key in DB
 	 *
 	 * Checks if this key is already used (should be unique in table)
@@ -90,10 +116,13 @@ class TokensTable extends Table {
 	 * @param string|null $key Key: optional key, otherwise a key will be generated
 	 * @param mixed|null $uid Uid: optional (if used, only this user can use this key)
 	 * @param array|string|null $content Content: up to 255 characters of content may be added (optional)
+	 * @param int|null $validity Custom validity in seconds for this token row.
+	 *  Explicit value wins, then configured per-type validity is stored, otherwise `null`
+	 *  is persisted and the table default is only used as a runtime fallback when reading.
 	 *
 	 * @return string Key
 	 */
-	public function newKey(string $type, ?string $key = null, $uid = null, $content = null): string {
+	public function newKey(string $type, ?string $key = null, $uid = null, $content = null, ?int $validity = null): string {
 		if (!$key) {
 			$key = $this->generateKey($this->defaultLength);
 			$keyLength = $this->defaultLength;
@@ -110,6 +139,7 @@ class TokensTable extends Table {
 			'user_id' => $uid,
 			'content' => (string)$content,
 			'token_key' => $key,
+			'validity' => $validity ?? $this->getConfiguredValidity($type),
 		];
 
 		$entity = $this->newEntity($data);
@@ -152,16 +182,8 @@ class TokensTable extends Table {
 		// not yet used. Unlimited keys are exempt since they intentionally do not
 		// get "spent". garbageCollector() can still remove expired unused rows
 		// asynchronously, but useKey() must not hand them out in the meantime.
-		if (!$tokenEntity->unlimited && $this->validity > 0) {
-			$createdAt = $tokenEntity->created;
-			if ($createdAt instanceof DateTime) {
-				$createdTs = (int)$createdAt->toUnixString();
-			} else {
-				$createdTs = (int)strtotime((string)$createdAt);
-			}
-			if ($createdTs > 0 && $createdTs < time() - $this->validity) {
-				return null;
-			}
+		if ($this->isExpired($tokenEntity)) {
+			return null;
 		}
 		// already used?
 		if ($tokenEntity->used) {
@@ -207,11 +229,20 @@ class TokensTable extends Table {
 	 * @return int Rows
 	 */
 	public function garbageCollector(): int {
-		$conditions = [
-			$this->getAlias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity),
-		];
+		$ids = [];
+		foreach ($this->findTokenRows(['id', 'created', 'validity', 'unlimited']) as $tokenRow) {
+			if (!is_array($tokenRow)) {
+				continue;
+			}
+			if ($this->isExpiredRow($tokenRow)) {
+				$ids[] = $tokenRow['id'];
+			}
+		}
+		if (!$ids) {
+			return 0;
+		}
 
-		return $this->deleteAll($conditions);
+		return $this->deleteAll(['id IN' => $ids]);
 	}
 
 	/**
@@ -220,14 +251,31 @@ class TokensTable extends Table {
 	 * @return array
 	 */
 	public function stats() {
-		$keys = [];
-		$keys['unused_valid'] = $this->find()->where([$this->getAlias() . '.used' => 0, $this->getAlias() . '.created >=' => date(FORMAT_DB_DATETIME, time() - $this->validity)])->count();
-		$keys['used_valid'] = $this->find()->where([$this->getAlias() . '.used' => 1, $this->getAlias() . '.created >=' => date(FORMAT_DB_DATETIME, time() - $this->validity)])->count();
+		$keys = [
+			'unused_valid' => 0,
+			'used_valid' => 0,
+			'unused_invalid' => 0,
+			'used_invalid' => 0,
+		];
+		foreach ($this->findTokenRows(['used', 'created', 'validity', 'unlimited']) as $tokenRow) {
+			if (!is_array($tokenRow)) {
+				continue;
+			}
+			$isExpired = $this->isExpiredRow($tokenRow);
+			if ($tokenRow['used']) {
+				$keys[$isExpired ? 'used_invalid' : 'used_valid']++;
 
-		$keys['unused_invalid'] = $this->find()->where([$this->getAlias() . '.used' => 0, $this->getAlias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity)])->count();
-		$keys['used_invalid'] = $this->find()->where([$this->getAlias() . '.used' => 1, $this->getAlias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity)])->count();
+				continue;
+			}
+			$keys[$isExpired ? 'unused_invalid' : 'unused_valid']++;
+		}
 
-		$types = $this->find('all', ...['conditions' => [], 'fields' => ['DISTINCT type']])->toArray();
+		$types = $this->find()
+			->select(['type'])
+			->distinct(['type'])
+			->orderBy(['type' => 'ASC'], true)
+			->disableHydration()
+			->toArray();
 		$keys['types'] = empty($types) ? [] : Hash::extract($types, '{n}.type');
 
 		return $keys;
@@ -254,6 +302,67 @@ class TokensTable extends Table {
 		}
 
 		return $value;
+	}
+
+	/**
+	 * @param string $type
+	 * @return int|null
+	 */
+	protected function getConfiguredValidity(string $type): ?int {
+		if (!array_key_exists($type, $this->typeValidity)) {
+			return null;
+		}
+
+		return (int)$this->typeValidity[$type];
+	}
+
+	/**
+	 * @param \Tools\Model\Entity\Token $tokenEntity
+	 * @return bool
+	 */
+	protected function isExpired(TokenEntity $tokenEntity): bool {
+		return $this->isExpiredRow([
+			'created' => $tokenEntity->created,
+			'validity' => $tokenEntity->validity,
+			'unlimited' => $tokenEntity->unlimited,
+		]);
+	}
+
+	/**
+	 * @param array<string> $fields
+	 * @return \Cake\Datasource\ResultSetInterface
+	 */
+	protected function findTokenRows(array $fields): ResultSetInterface {
+		return $this->find()
+			->select($fields)
+			->disableHydration()
+			->disableBufferedResults()
+			->orderBy([], true)
+			->all();
+	}
+
+	/**
+	 * @param array<string, mixed> $tokenRow
+	 * @return bool
+	 */
+	protected function isExpiredRow(array $tokenRow): bool {
+		if ($tokenRow['unlimited']) {
+			return false;
+		}
+
+		$validity = $tokenRow['validity'] ?? $this->validity;
+		if ($validity <= 0) {
+			return false;
+		}
+
+		$createdAt = $tokenRow['created'];
+		if ($createdAt instanceof DateTime) {
+			$createdTs = (int)$createdAt->toUnixString();
+		} else {
+			$createdTs = (int)strtotime((string)$createdAt);
+		}
+
+		return $createdTs > 0 && $createdTs < time() - $validity;
 	}
 
 }

@@ -8,6 +8,7 @@ namespace Tools\Model\Entity;
  * @property string $type
  * @property string $token_key
  * @property string|null $content
+ * @property int|null $validity
  * @property int $used
  * @property \Cake\I18n\DateTime $created
  * @property \Cake\I18n\DateTime $modified
