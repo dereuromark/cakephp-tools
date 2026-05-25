@@ -5,9 +5,11 @@ namespace Tools\Authenticator;
 use Authentication\Authenticator\AbstractAuthenticator;
 use Authentication\Authenticator\Result;
 use Authentication\Authenticator\ResultInterface;
+use Authentication\Identifier\IdentifierInterface;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\TableRegistry;
 use Psr\Http\Message\ServerRequestInterface;
+use ReflectionClass;
 
 class LoginLinkAuthenticator extends AbstractAuthenticator {
 
@@ -35,7 +37,7 @@ class LoginLinkAuthenticator extends AbstractAuthenticator {
 		$user = $this->getUserFromToken($token);
 
 		if (!$user) {
-			return new Result(null, ResultInterface::FAILURE_IDENTITY_NOT_FOUND, $this->getIdentifier()->getErrors());
+			return new Result(null, ResultInterface::FAILURE_IDENTITY_NOT_FOUND, $this->identifier()->getErrors());
 		}
 
 		return new Result($user, ResultInterface::SUCCESS);
@@ -77,13 +79,27 @@ class LoginLinkAuthenticator extends AbstractAuthenticator {
 		}
 
 		/** @var \Cake\ORM\Entity $identity */
-		$identity = $this->getIdentifier()->identify([$this->getConfig('identifierKey') => $tokenEntity->user_id]);
+		$identity = $this->identifier()->identify([$this->getConfig('identifierKey') => $tokenEntity->user_id]);
 		$email = $tokenEntity->content;
 		if ($email && $identity && $identity->get('email') && $email !== $identity->get('email')) {
 			return null;
 		}
 
 		return $identity;
+	}
+
+	/**
+	 * @return \Authentication\Identifier\IdentifierInterface
+	 */
+	protected function identifier(): IdentifierInterface {
+		if ((new ReflectionClass(AbstractAuthenticator::class))->hasMethod('getIdentifier')) {
+			return $this->getIdentifier();
+		}
+
+		/** @var \Authentication\Identifier\IdentifierInterface $identifier */
+		$identifier = $this->_identifier;
+
+		return $identifier;
 	}
 
 }
