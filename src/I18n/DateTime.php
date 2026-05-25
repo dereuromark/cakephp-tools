@@ -967,7 +967,7 @@ class DateTime extends CakeDateTime {
 		if ($dateTime !== null) {
 			$date = $dateTime->format('U');
 			$sec = time() - $date;
-			$type = $sec <=> 0;
+			$type = $sec > 0 ? -1 : ($sec < 0 ? 1 : 0);
 			$sec = (int)abs($sec);
 		} else {
 			$sec = 0;
