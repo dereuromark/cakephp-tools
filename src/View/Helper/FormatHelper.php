@@ -72,7 +72,7 @@ class FormatHelper extends Helper {
 	 * @return string
 	 */
 	public function thumbs($value, array $options = [], array $attributes = []): string {
-		$icon = empty($value) ? 'contra' : 'pro';
+		$icon = !empty($value) ? 'pro' : 'contra';
 
 		return $this->Icon->render($icon, $options, $attributes);
 	}

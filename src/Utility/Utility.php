@@ -318,6 +318,7 @@ class Utility {
 		]);
 		// phpcs:disable
 		$headers = @get_headers($url, false, $context);
+
 		// phpcs:enable
 		return $headers && preg_match('|\b200\b|', $headers[0]);
 	}
