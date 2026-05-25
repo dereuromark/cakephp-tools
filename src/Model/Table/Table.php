@@ -15,8 +15,7 @@ use Tools\Utility\Utility;
 
 /**
  * @template TBehaviors of array<string, \Cake\ORM\Behavior> = array{}
- * @template TEntity of \Cake\Datasource\EntityInterface = \Cake\Datasource\EntityInterface
- * @extends \Shim\Model\Table\Table<TBehaviors, TEntity>
+ * @extends \Shim\Model\Table\Table<TBehaviors>
  * @mixin \Tools\Model\Behavior\PasswordableBehavior
  * @mixin \Tools\Model\Behavior\JsonableBehavior
  * @mixin \Tools\Model\Behavior\BitmaskedBehavior
