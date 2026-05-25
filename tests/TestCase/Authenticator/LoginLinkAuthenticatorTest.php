@@ -4,6 +4,7 @@ namespace Tools\Test\TestCase\Authenticator;
 
 use ArrayAccess;
 use Authentication\Authenticator\Result;
+use Authentication\Identifier\IdentifierCollection;
 use Authentication\Identifier\IdentifierFactory;
 use Cake\Http\ServerRequestFactory;
 use Cake\TestSuite\TestCase;
@@ -39,7 +40,7 @@ class LoginLinkAuthenticatorTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->identifiers = IdentifierFactory::create([
+		$this->identifiers = $this->buildIdentifier([
 			'className' => 'Tools.LoginLink',
 			'resolver' => [
 				'className' => 'Authentication.Orm',
@@ -70,6 +71,22 @@ class LoginLinkAuthenticatorTest extends TestCase {
 		$this->assertInstanceOf(Result::class, $result);
 		$this->assertSame(Result::SUCCESS, $result->getStatus());
 		$this->assertInstanceOf(ArrayAccess::class, $result->getData());
+	}
+
+	/**
+	 * @param array<string, mixed> $config
+	 * @return \Authentication\Identifier\IdentifierInterface
+	 */
+	protected function buildIdentifier(array $config) {
+		if (class_exists(IdentifierFactory::class)) {
+			return IdentifierFactory::create($config);
+		}
+
+		$identifierCollection = new IdentifierCollection([
+			$config['className'] => array_diff_key($config, ['className' => true]),
+		]);
+
+		return $identifierCollection->get($config['className']);
 	}
 
 }
