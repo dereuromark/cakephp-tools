@@ -88,7 +88,7 @@ class Message extends CakeMessage {
 					throw new InvalidArgumentException(sprintf('File not found: "%s"', $fileName));
 				}
 				if (is_int($name)) {
-					$name = basename($fileInfo['file']);
+					$name = basename((string)$fileInfo['file']);
 				}
 			}
 			if (!isset($fileInfo['mimetype'])) {
@@ -125,11 +125,7 @@ class Message extends CakeMessage {
 			$fileInfo['contentDisposition'] = $contentDisposition;
 		}
 
-		if ($name) {
-			$fileInfo = [$name => $fileInfo];
-		} else {
-			$fileInfo = [$fileInfo];
-		}
+		$fileInfo = $name ? [$name => $fileInfo] : [$fileInfo];
 
 		$this->addAttachments($fileInfo);
 

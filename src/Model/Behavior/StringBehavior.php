@@ -146,9 +146,8 @@ class StringBehavior extends Behavior {
 	protected function clean(string $text): string {
 		$text = (string)str_replace(["\r\n", "\r", "\n"], ' ', $text);
 		$text = trim($text);
-		$text = (string)preg_replace('/ {2,}/', ' ', $text);
 
-		return $text;
+		return (string)preg_replace('/ {2,}/', ' ', $text);
 	}
 
 	/**
@@ -165,11 +164,7 @@ class StringBehavior extends Behavior {
 				$arg = null;
 			}
 
-			if ($arg !== null) {
-				$ret = call_user_func($m, $val, $arg);
-			} else {
-				$ret = call_user_func($m, $val);
-			}
+			$ret = $arg !== null ? call_user_func($m, $val, $arg) : call_user_func($m, $val);
 
 			if ($ret !== false) {
 				$val = $ret;

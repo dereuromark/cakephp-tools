@@ -140,9 +140,8 @@ class Text extends CakeText {
 	 */
 	public static function numberOfChars($text, array $options = []) {
 		$text = str_replace(["\r", "\n", "\t", ' '], '', $text);
-		$count = mb_strlen($text);
 
-		return $count;
+		return mb_strlen($text);
 	}
 
 	/**
@@ -280,9 +279,8 @@ class Text extends CakeText {
 				$pieces[$key] = $piece;
 			}
 		}
-		$pieces = array_unique($pieces);
 
-		return $pieces;
+		return array_unique($pieces);
 	}
 
 	/**

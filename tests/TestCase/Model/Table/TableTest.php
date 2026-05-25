@@ -152,8 +152,8 @@ class TableTest extends TestCase {
 	 */
 	public function testGetFieldInUse() {
 		$config = $this->Posts->getConnection()->config();
-		$isPostgres = strpos($config['driver'], 'Postgres') !== false;
-		$isMysql = strpos($config['driver'], 'Mysql') !== false;
+		$isPostgres = str_contains((string)$config['driver'], 'Postgres');
+		$isMysql = str_contains((string)$config['driver'], 'Mysql');
 		$this->skipIf($isPostgres || $isMysql, 'Only for MySQL with ONLY_FULL_GROUP_BY disabled right now');
 
 		$results = $this->Posts->getFieldInUse('author_id', 'list')->toArray();

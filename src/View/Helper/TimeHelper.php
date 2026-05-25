@@ -109,7 +109,7 @@ class TimeHelper extends CakeTimeHelper {
 		if (is_string($dateString) && strlen($dateString) === 10) {
 			$timezone = $this->_getTimezone($timezone);
 
-			return $this->niceDate($dateString, null, compact('timezone', 'default'));
+			return $this->niceDate($dateString, null, ['timezone' => $timezone, 'default' => $default]);
 		}
 
 		return parent::nice($dateString, $timezone, $locale);
@@ -153,9 +153,8 @@ class TimeHelper extends CakeTimeHelper {
 		if ($dateString === null) {
 			$dateString = time();
 		}
-		$date = '<span' . ($this->isToday($dateString, ($options['userOffset'] ?? null)) ? ' class="today"' : '') . '>' . $date . '</span>';
 
-		return $date;
+		return '<span' . ($this->isToday($dateString, ($options['userOffset'] ?? null)) ? ' class="today"' : '') . '>' . $date . '</span>';
 	}
 
 	/**
@@ -171,9 +170,8 @@ class TimeHelper extends CakeTimeHelper {
 		if ($dateString === null) {
 			$dateString = time();
 		}
-		$date = '<span' . ($this->isToday($dateString, ($options['userOffset'] ?? null)) ? ' class="today"' : '') . '>' . $date . '</span>';
 
-		return $date;
+		return '<span' . ($this->isToday($dateString, ($options['userOffset'] ?? null)) ? ' class="today"' : '') . '>' . $date . '</span>';
 	}
 
 	/**
@@ -191,7 +189,7 @@ class TimeHelper extends CakeTimeHelper {
 
 		//$y = $this->isThisYear($date) ? '' : ' Y';
 
-		$format = (!empty($options['format']) ? $options['format'] : 'dd.MM.YYYY');
+		$format = (empty($options['format']) ? 'dd.MM.YYYY' : $options['format']);
 
 		// Hack
 		// //TODO: get this to work with datetime - somehow cleaner
@@ -213,20 +211,13 @@ class TimeHelper extends CakeTimeHelper {
 			$niceDate = __d('tools', 'Yesterday') . $timeAttachment;
 		} else {
 			// before or after?
-			if ($this->isFuture($date)) {
-				$when = 1;
-			} else {
-				$when = -1;
-			}
-			$niceDate = $this->format($date, $format) . $timeAttachment; //date("M jS{$y}", $date);
+			$when = $this->isFuture($date) ? 1 : -1;
+			$niceDate = $this->format($date, $format) . $timeAttachment;
+			//date("M jS{$y}", $date);
 		}
 
 		if ($whenOverride && $when === 0) {
-			if ($this->isInTheFuture($date)) {
-				$when = 1;
-			} else {
-				$when = -1;
-			}
+			$when = $this->isInTheFuture($date) ? 1 : -1;
 		}
 
 		if (!$niceDate) {
@@ -247,7 +238,7 @@ class TimeHelper extends CakeTimeHelper {
 	 * @return array
 	 */
 	public function timezones() {
-		$timezones = [
+		return [
 			'America/Adak' => '(GMT-10:00) America/Adak (Hawaii-Aleutian Standard Time)',
 			'America/Atka' => '(GMT-10:00) America/Atka (Hawaii-Aleutian Standard Time)',
 			'America/Anchorage' => '(GMT-9:00) America/Anchorage (Alaska Standard Time)',
@@ -649,8 +640,6 @@ class TimeHelper extends CakeTimeHelper {
 			'Asia/Anadyr' => '(GMT+12:00) Asia/Anadyr (Anadyr Time)',
 			'Asia/Kamchatka' => '(GMT+12:00) Asia/Kamchatka (Petropavlovsk-Kamchatski Time)',
 		];
-
-		return $timezones;
 	}
 
 }

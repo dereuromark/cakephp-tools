@@ -196,11 +196,8 @@ class TokensTable extends Table {
 			['used = used + 1', 'modified' => date(FORMAT_DB_DATETIME)],
 			['id' => $id],
 		);
-		if ($result) {
-			return true;
-		}
 
-		return false;
+		return (bool)$result;
 	}
 
 	/**
@@ -231,7 +228,7 @@ class TokensTable extends Table {
 		$keys['used_invalid'] = $this->find()->where([$this->getAlias() . '.used' => 1, $this->getAlias() . '.created <' => date(FORMAT_DB_DATETIME, time() - $this->validity)])->count();
 
 		$types = $this->find('all', ...['conditions' => [], 'fields' => ['DISTINCT type']])->toArray();
-		$keys['types'] = !empty($types) ? Hash::extract($types, '{n}.type') : [];
+		$keys['types'] = empty($types) ? [] : Hash::extract($types, '{n}.type');
 
 		return $keys;
 	}
@@ -251,7 +248,7 @@ class TokensTable extends Table {
 
 		/** @var callable $function */
 		$function = 'random_bytes';
-		$value = bin2hex($function((int)($length / 2)));
+		$value = bin2hex((string)$function((int)($length / 2)));
 		if (strlen($value) !== $length) {
 			$value = str_pad($value, $length, (string)random_int(0, 9));
 		}

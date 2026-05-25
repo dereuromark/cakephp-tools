@@ -156,7 +156,7 @@ class SluggedBehaviorTest extends TestCase {
 		$entity = $this->_getEntity(str_repeat('foo bar', 31));
 
 		$result = $this->articles->save($entity);
-		$this->assertEquals(155, strlen($result->get('slug')));
+		$this->assertEquals(155, strlen((string)$result->get('slug')));
 
 		$this->articles->behaviors()->Slugged->setConfig(['length' => 10, 'mode' => 'ascii']);
 		$entity = $this->_getEntity('ä ö ü ä ö ü');
@@ -290,7 +290,7 @@ class SluggedBehaviorTest extends TestCase {
 		$entity = $this->_getEntity(str_repeat('foo bar', 36));
 
 		$result = $this->articles->save($entity);
-		$this->assertEquals(252, strlen($result->get('slug')));
+		$this->assertEquals(252, strlen((string)$result->get('slug')));
 	}
 
 	/**
@@ -303,7 +303,7 @@ class SluggedBehaviorTest extends TestCase {
 		$entity = $this->_getEntity(str_repeat('foo bar', 35), 'long_title');
 
 		$result = $this->articles->save($entity);
-		$this->assertEquals(245, strlen($result->get('long_slug')));
+		$this->assertEquals(245, strlen((string)$result->get('long_slug')));
 	}
 
 	/**
@@ -861,7 +861,7 @@ class SluggedBehaviorTest extends TestCase {
 	public function testSlugGenerationWithCustomSlugger() {
 		$this->articles->removeBehavior('Slugged');
 		$this->articles->addBehavior('Tools.Slugged', [
-			'mode' => [$this, '_customSluggerMethod'],
+			'mode' => $this->_customSluggerMethod(...),
 		]);
 
 		$data = ['title' => 'Some Article 12345'];

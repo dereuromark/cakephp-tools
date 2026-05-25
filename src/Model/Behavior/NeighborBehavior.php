@@ -36,14 +36,17 @@ class NeighborBehavior extends Behavior {
 		];
 		$options += $defaults;
 
-		$normalDirection = (!empty($options['reverse']) ? false : true);
+		$normalDirection = (empty($options['reverse']));
 		$sortDirWord = $normalDirection ? ['ASC', 'DESC'] : ['DESC', 'ASC'];
 		$sortDirSymb = $normalDirection ? ['>=', '<='] : ['<=', '>='];
 
 		if (empty($options['value'])) {
 			$data = $this->_table->find('all', ...['conditions' => [$primaryKey => $id]])->first();
+			if ($data === null) {
+				return ['prev' => null, 'next' => null];
+			}
 			[$model, $sortField] = pluginSplit($options['sortField']);
-			$options['value'] = $data[$sortField];
+			$options['value'] = $data->get($sortField);
 		}
 
 		$return = [];

@@ -453,7 +453,7 @@ class BitmaskedBehavior extends Behavior {
 		// Hack for Postgres for now
 		$connection = $this->_table->getConnection();
 		$config = $connection->config();
-		if ((str_contains($config['driver'], 'Postgres'))) {
+		if ((str_contains((string)$config['driver'], 'Postgres'))) {
 			return ['("' . $this->_table->getAlias() . '"."' . $field . '"' . $contain . ')'];
 		}
 

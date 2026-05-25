@@ -161,7 +161,7 @@ class ResetBehavior extends Behavior {
 				}
 
 				$validate = $params['validate'];
-				$res = $this->_table->save($record, compact('validate', 'fields'));
+				$res = $this->_table->save($record, ['validate' => $validate, 'fields' => $fields]);
 				if (!$res) {
 					throw new RuntimeException(print_r($record->getErrors(), true));
 				}

@@ -46,7 +46,7 @@ class LoginLinkIdentifierTest extends TestCase {
 			],
 			'preCallback' => function (int $id) {
 				$fields = ['password' => null];
-				$conditions = compact('id');
+				$conditions = ['id' => $id];
 				TableRegistry::getTableLocator()->get('ToolsUsers')->updateAll($fields, $conditions);
 			},
 		]);

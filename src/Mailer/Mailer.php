@@ -91,11 +91,7 @@ class Mailer extends CakeMailer {
 	 * @return bool Success
 	 */
 	public function validates() {
-		if ($this->getMessage()->getSubject() && $this->getMessage()->getTo()) {
-			return true;
-		}
-
-		return false;
+		return $this->getMessage()->getSubject() && $this->getMessage()->getTo();
 	}
 
 	/**
@@ -155,9 +151,8 @@ class Mailer extends CakeMailer {
 		}
 
 		$primaryLanguage = Configure::read('Config.defaultLanguage');
-		$primaryLocale = Configure::read('Config.allowedLanguages.' . $primaryLanguage . '.locale');
 
-		return $primaryLocale;
+		return Configure::read('Config.allowedLanguages.' . $primaryLanguage . '.locale');
 	}
 
 	/**

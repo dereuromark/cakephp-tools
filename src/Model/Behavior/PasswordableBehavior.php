@@ -259,10 +259,9 @@ class PasswordableBehavior extends Behavior {
 			$new = !empty($data[$formField]) || !empty($data[$formFieldRepeat]);
 
 			// Make sure we trigger validation if allowEmpty is set but we have the password field set
-			if ($new) {
-				if ($this->_config['confirm'] && empty($data[$formFieldRepeat])) {
-					//$entity->errors($formFieldRepeat, __d('tools', 'valErrPwdNotMatch'));
-				}
+			if ($new && ($this->_config['confirm'] && empty($data[$formFieldRepeat]))) {
+				//$entity->errors($formFieldRepeat, __d('tools', 'valErrPwdNotMatch'));
+
 			}
 		}
 	}
@@ -497,7 +496,7 @@ class PasswordableBehavior extends Behavior {
 		}
 		$config['className'] = $class;
 
-		$cost = !empty($this->_config['hashCost']) ? $this->_config['hashCost'] : 10;
+		$cost = empty($this->_config['hashCost']) ? 10 : $this->_config['hashCost'];
 		$config['cost'] = $cost;
 
 		$config += $options;

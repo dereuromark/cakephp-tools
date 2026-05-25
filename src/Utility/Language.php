@@ -38,18 +38,13 @@ class Language {
 		foreach ($languageRanges as $languageRange) {
 			$pattern = '/(\*|[a-zA-Z0-9]{1,8}(?:-[a-zA-Z0-9]{1,8})*)(?:\s*;\s*q\s*=\s*(0(?:\.\d{0,3})|1(?:\.0{0,3})))?/';
 			if (preg_match($pattern, trim($languageRange), $match)) {
-				if (!isset($match[2])) {
-					$rank = '1.0';
-				} else {
-					$rank = (string)(float)($match[2]);
-				}
+				$rank = isset($match[2]) ? (string)(float)($match[2]) : '1.0';
 				if (!isset($languages[$rank])) {
 					if ($rank === '1') {
 						$rank = '1.0';
 					}
 					$languages[$rank] = [];
 				}
-
 				$language = $match[1];
 				if ($options['forceLowerCase']) {
 					$language = strtolower($language);
@@ -61,7 +56,6 @@ class Language {
 						$language = substr_replace($language, strtoupper(substr($language, 3, 2)), 3, 2);
 					}
 				}
-
 				if (array_key_exists($language, $languagesRanks) === false) {
 					$languages[$rank][] = $language;
 					$languagesRanks[$language] = $rank;

@@ -89,9 +89,7 @@ class StringBehaviorTest extends TestCase {
 		$this->Comments->addBehavior('Tools.String', [
 			'input' => [
 				'title' => [
-					function(string $e): string {
-						return ucwords($e);
-					}, function(string $e): string {
+					ucwords(...), function(string $e): string {
 						return str_replace(' ', '', $e);
 					},
 				],

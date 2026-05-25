@@ -43,10 +43,8 @@ class IconCollection {
 				$setConfig = [
 					'class' => $setConfig,
 				];
-			} else {
-				if (empty($setConfig['class'])) {
-					throw new RuntimeException('You must define a `class` for each icon set.');
-				}
+			} elseif (empty($setConfig['class'])) {
+				throw new RuntimeException('You must define a `class` for each icon set.');
 			}
 
 			/** @var class-string<\Tools\View\Icon\IconInterface> $className */
@@ -107,7 +105,7 @@ class IconCollection {
 		}
 
 		$separator = $this->_config['separator'];
-		$separatorPos = strpos($icon, $separator);
+		$separatorPos = strpos($icon, (string)$separator);
 		if ($separatorPos !== false) {
 			[$set, $icon] = explode($separator, $icon, 2);
 		} else {

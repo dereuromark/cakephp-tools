@@ -32,7 +32,7 @@ class EnumOptionsTraitTest extends TestCase {
 			1 => 'One',
 		];
 
-		$res = FooBar::options([FooBar::Two, FooBar::One], $array);
+		$res = FooBar::options([FooBar::Two, FooBar::One]);
 		$expected = $array;
 		$this->assertSame($expected, $res);
 	}

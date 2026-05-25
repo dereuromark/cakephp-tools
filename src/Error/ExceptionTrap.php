@@ -75,7 +75,7 @@ class ExceptionTrap extends CoreExceptionTrap {
 		if ($this->is404($exception, $request)) {
 			$level = LOG_ERR;
 			$message = $this->getMessage($exception);
-			if ($request !== null) {
+			if ($request instanceof ServerRequestInterface) {
 				$message .= $this->getRequestContext($request);
 			}
 

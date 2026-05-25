@@ -232,7 +232,7 @@ class TextHelperTest extends TestCase {
 
 		$text = 'Text with a partial WWW.cakephp.org &copy; URL';
 		$expected = 'Text with a partial <a href="http://WWW.cakephp.org"\s*>WWW.cakephp.org</a> &copy; URL';
-		$result = $this->Text->autoLinkUrls($text, ['escape' => false, 'escape' => false]);
+		$result = $this->Text->autoLinkUrls($text, ['escape' => false]);
 		$this->assertMatchesRegularExpression('#^' . $expected . '$#', $result);
 
 		$text = 'Text with a url www.cot.ag/cuIb2Q and more';

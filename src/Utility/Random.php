@@ -123,36 +123,15 @@ class Random {
 	 * @return string
 	 */
 	public static function generate(string $type = 'alnum', int $length = 8): string {
-		switch ($type) {
-			case 'alnum':
-				$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-				break;
-			case 'alpha':
-				$pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-				break;
-			case 'hexdec':
-				$pool = '0123456789abcdef';
-
-				break;
-			case 'numeric':
-				$pool = '0123456789';
-
-				break;
-			case 'nozero':
-				$pool = '123456789';
-
-				break;
-			case 'distinct':
-				$pool = '2345679ACDEFHJKLMNPRSTUVWXYZ';
-
-				break;
-			default:
-				$pool = (string)$type;
-
-				break;
-		}
+		$pool = match ($type) {
+			'alnum' => '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+			'alpha' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+			'hexdec' => '0123456789abcdef',
+			'numeric' => '0123456789',
+			'nozero' => '123456789',
+			'distinct' => '2345679ACDEFHJKLMNPRSTUVWXYZ',
+			default => (string)$type,
+		};
 
 		// Split the pool into an array of characters
 		$pool = str_split($pool, 1);

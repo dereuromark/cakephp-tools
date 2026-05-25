@@ -36,7 +36,7 @@ class HelperController extends AppController {
 			$matrix = $this->request->getData('matrix');
 			$modelClass = $this->request->getData('model');
 			$fieldName = $this->request->getData('field');
-			$matrixArray = explode(PHP_EOL, $matrix);
+			$matrixArray = explode(PHP_EOL, (string)$matrix);
 
 			$result = [];
 			foreach ($matrixArray as $value) {

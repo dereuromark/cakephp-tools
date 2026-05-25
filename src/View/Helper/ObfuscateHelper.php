@@ -39,9 +39,8 @@ class ObfuscateHelper extends Helper {
 			return $mail;
 		}
 		[$mail1, $mail2] = $pieces;
-		$encMail = $this->encodeText($mail1) . '<span>@</span>' . $this->encodeText($mail2);
 
-		return $encMail;
+		return $this->encodeText($mail1) . '<span>@</span>' . $this->encodeText($mail2);
 	}
 
 	/**
@@ -70,17 +69,17 @@ class ObfuscateHelper extends Helper {
 		$querystring = '';
 		foreach ($params as $key => $val) {
 			if ($querystring) {
-				$querystring .= "&$key=" . rawurlencode($val);
+				$querystring .= "&$key=" . rawurlencode((string)$val);
 			} else {
-				$querystring = "?$key=" . rawurlencode($val);
+				$querystring = "?$key=" . rawurlencode((string)$val);
 			}
 		}
 
 		$attr = array_merge($defaults, $attr);
 
 		$xmail = $this->Html->link('', $encMail . $querystring, $attr);
-		$xmail1 = mb_substr($xmail, 0, -4);
-		$xmail2 = mb_substr($xmail, -4, 4);
+		$xmail1 = mb_substr((string)$xmail, 0, -4);
+		$xmail2 = mb_substr((string)$xmail, -4, 4);
 
 		$len = mb_strlen($xmail1);
 		$i = 0;
@@ -173,9 +172,9 @@ class ObfuscateHelper extends Helper {
 
 		foreach ($censored as $badword) {
 			if ($replacement !== null) {
-				$str = (string)preg_replace("/({$delim})(" . str_replace('\*', '\w*?', preg_quote($badword, '/')) . ")({$delim})/i", "\\1{$replacement}\\3", $str);
+				$str = (string)preg_replace("/({$delim})(" . str_replace('\*', '\w*?', preg_quote((string)$badword, '/')) . ")({$delim})/i", "\\1{$replacement}\\3", $str);
 			} else {
-				$str = (string)preg_replace_callback("/({$delim})(" . str_replace('\*', '\w*?', preg_quote($badword, '/')) . ")({$delim})/i", function ($matches) {
+				$str = (string)preg_replace_callback("/({$delim})(" . str_replace('\*', '\w*?', preg_quote((string)$badword, '/')) . ")({$delim})/i", function ($matches) {
 					return $matches[1] . str_repeat('#', strlen($matches[2])) . $matches[3];
 				}, $str);
 			}

@@ -67,11 +67,11 @@ class DateTime extends CakeDateTime {
 		$timezone = $this->safeCreateDateTimeZone($timezone);
 		// a date outside of DST
 		$offset = $timezone->getOffset(new NativeDateTime('@' . mktime(0, 0, 0, 2, 1, (int)date('Y'))));
-		$offset = $offset / HOUR;
+		$offset /= HOUR;
 
 		// a date inside of DST
 		$offset2 = $timezone->getOffset(new NativeDateTime('@' . mktime(0, 0, 0, 8, 1, (int)date('Y'))));
-		$offset2 = $offset2 / HOUR;
+		$offset2 /= HOUR;
 
 		return abs($offset2 - $offset) > 0;
 	}
@@ -97,10 +97,10 @@ class DateTime extends CakeDateTime {
 		}
 
 		if (!is_int($startTime)) {
-			$startTime = strtotime($startTime);
+			$startTime = strtotime((string)$startTime);
 		}
 		if (!is_int($endTime)) {
-			$endTime = strtotime($endTime);
+			$endTime = strtotime((string)$endTime);
 		}
 
 		//@FIXME: make it work for > month
@@ -198,26 +198,20 @@ class DateTime extends CakeDateTime {
 		if ($month == null && $day == null) {
 			$age = (int)date('Y') - $year - 1;
 		} elseif ($day == null) {
-			if ($month >= (int)date('m')) {
-				$age = (int)date('Y') - $year - 1;
-			} else {
-				$age = (int)date('Y') - $year;
-			}
+			$age = $month >= (int)date('m') ? (int)date('Y') - $year - 1 : (int)date('Y') - $year;
+		} elseif ($month > (int)date('m') || ($month == (int)date('m') && $day > (int)date('d'))) {
+			$age = (int)date('Y') - $year - 1;
 		} else {
-			if ($month > (int)date('m') || ($month == (int)date('m') && $day > (int)date('d'))) {
-				$age = (int)date('Y') - $year - 1;
-			} else {
 				$age = (int)date('Y') - $year;
-			}
 		}
-		if ($age % $steps == 0) {
+		if ($age % $steps === 0) {
 			$lowerRange = $age - $steps + 1;
 			$upperRange = $age;
 		} else {
 			$lowerRange = $age - ($age % $steps) + 1;
 			$upperRange = $age - ($age % $steps) + $steps;
 		}
-		if ($lowerRange == $upperRange) {
+		if ($lowerRange === $upperRange) {
 			return $upperRange;
 		}
 
@@ -381,9 +375,8 @@ class DateTime extends CakeDateTime {
 		// Increment date by given month/year increments:
 		$incrementedDateString = "$safeDateString $months month $years year";
 		$newTimeStamp = strtotime($incrementedDateString) + $days * DAY;
-		$newDate = static::createFromFormat('U', (string)$newTimeStamp);
 
-		return $newDate;
+		return static::createFromFormat('U', (string)$newTimeStamp);
 	}
 
 	/**
@@ -466,19 +459,13 @@ class DateTime extends CakeDateTime {
 		}
 		$date = new self($dateString, $timezone);
 		if ($format === null) {
-			if (is_int($dateString) || str_contains($dateString, ' ')) {
-				$format = 'd.m.Y, H:i';
-			} else {
-				$format = 'd.m.Y';
-			}
+			$format = is_int($dateString) || str_contains($dateString, ' ') ? 'd.m.Y, H:i' : 'd.m.Y';
 		}
 
 		$date = static::formatLocalized($date, $format, $options['language']);
 
-		if ($options['oclock']) {
-			if (strpos($format, 'H:i') !== false) {
-				$date .= ' ' . __d('tools', 'o\'clock');
-			}
+		if ($options['oclock'] && str_contains($format, 'H:i')) {
+			$date .= ' ' . __d('tools', 'o\'clock');
 		}
 
 		return $date;
@@ -573,11 +560,7 @@ class DateTime extends CakeDateTime {
 		}
 
 		if ($format === null) {
-			if ($date instanceof CakeDateTime) {
-				$format = FORMAT_NICE_YMDHM;
-			} else {
-				$format = FORMAT_NICE_YMD;
-			}
+			$format = $date instanceof CakeDateTime ? FORMAT_NICE_YMDHM : FORMAT_NICE_YMD;
 		}
 
 		if ($options['timezone'] && !($date instanceof CakeDate)) {
@@ -951,10 +934,8 @@ class DateTime extends CakeDateTime {
 					$ret .= $str . $s[$x];
 				} else {
 					$title = $p[$x];
-					if (!empty($options['plural'])) {
-						if (mb_substr($title, -1, 1) === 'e') {
-							$title .= $options['plural'];
-						}
+					if (!empty($options['plural']) && mb_substr($title, -1, 1) === 'e') {
+						$title .= $options['plural'];
 					}
 					$ret .= $str . $title;
 				}
@@ -986,7 +967,7 @@ class DateTime extends CakeDateTime {
 		if ($dateTime !== null) {
 			$date = $dateTime->format('U');
 			$sec = time() - $date;
-			$type = ($sec > 0) ? -1 : (($sec < 0) ? 1 : 0);
+			$type = $sec > 0 ? -1 : ($sec < 0 ? 1 : 0);
 			$sec = (int)abs($sec);
 		} else {
 			$sec = 0;
@@ -1005,14 +986,14 @@ class DateTime extends CakeDateTime {
 
 		$ret = static::lengthOfTime($sec, $format, $options);
 
-		if ($type == 1) {
+		if ($type === 1) {
 			if ($options['future'] !== false) {
 				return sprintf($options['future'], $ret);
 			}
 
 			return ['future' => $ret];
 		}
-		if ($type == -1) {
+		if ($type === -1) {
 			if ($options['past'] !== false) {
 				return sprintf($options['past'], $ret);
 			}
@@ -1103,18 +1084,17 @@ class DateTime extends CakeDateTime {
 
 		if ($format) {
 			$res = static::createFromFormat($format, $date);
-			$res = $res->format(FORMAT_DB_DATE) . ' ' . ($type === 'end' ? '23:59:59' : '00:00:00');
 
-			return $res;
+			return $res->format(FORMAT_DB_DATE) . ' ' . ($type === 'end' ? '23:59:59' : '00:00:00');
 		}
 
-		if (strpos($date, '.') !== false) {
+		if (str_contains($date, '.')) {
 			$explode = explode('.', $date, 3);
 			$explode = array_reverse($explode);
-		} elseif (strpos($date, '/') !== false) {
+		} elseif (str_contains($date, '/')) {
 			$explode = explode('/', $date, 3);
 			$explode = array_reverse($explode);
-		} elseif (strpos($date, '-') !== false) {
+		} elseif (str_contains($date, '-')) {
 			$explode = explode('-', $date, 3);
 		} else {
 			$explode = [$date];
@@ -1147,7 +1127,7 @@ class DateTime extends CakeDateTime {
 	 * @return array period [0=>min, 1=>max]
 	 */
 	public static function period(string $searchString, array $options = []): array {
-		if (strpos($searchString, ' ') !== false) {
+		if (str_contains($searchString, ' ')) {
 			$filters = explode(' ', $searchString);
 			$filters = [array_shift($filters), array_pop($filters)];
 		} else {
@@ -1226,9 +1206,7 @@ class DateTime extends CakeDateTime {
 		$tmp *= 100;
 		$tmp *= 1 / 60;
 
-		$value = $base + $tmp;
-
-		return $value;
+		return $base + $tmp;
 	}
 
 	/**
@@ -1271,9 +1249,9 @@ class DateTime extends CakeDateTime {
 		$parts = explode(' ', $duration);
 		$duration = array_pop($parts);
 
-		if (strpos($duration, '.') !== false && in_array('.', $allowed, true)) {
+		if (str_contains($duration, '.') && in_array('.', $allowed, true)) {
 			$duration = static::decimalToStandardTime((float)$duration, 2, ':');
-		} elseif (strpos($duration, ',') !== false && in_array(',', $allowed, true)) {
+		} elseif (str_contains($duration, ',') && in_array(',', $allowed, true)) {
 			$duration = str_replace(',', '.', $duration);
 			$duration = static::decimalToStandardTime((float)$duration, 2, ':');
 		}
@@ -1283,7 +1261,7 @@ class DateTime extends CakeDateTime {
 		$res = 0;
 		$hours = abs((int)$pieces[0]) * HOUR;
 		//echo pre($hours);
-		$isNegative = (strpos((string)$pieces[0], '-') !== false ? true : false);
+		$isNegative = (str_contains((string)$pieces[0], '-'));
 
 		if (count($pieces) === 3) {
 			$res += $hours + ((int)$pieces[1]) * MINUTE + ((int)$pieces[2]) * SECOND;
@@ -1314,11 +1292,7 @@ class DateTime extends CakeDateTime {
 			$pieces = explode('.', $date);
 			$year = $pieces[2];
 			if (strlen($year) === 2) {
-				if ($year < 50) {
-					$year = '20' . $year;
-				} else {
-					$year = '19' . $year;
-				}
+				$year = $year < 50 ? '20' . $year : '19' . $year;
 			}
 			$date = mktime(0, 0, 0, (int)$pieces[1], (int)$pieces[0], (int)$year);
 		} elseif (str_contains($date, '-')) {
@@ -1401,13 +1375,13 @@ class DateTime extends CakeDateTime {
 		$hours = ($duration - $minutes) / HOUR;
 
 		$res = [];
-		if (strpos($format, 'H') !== false) {
+		if (str_contains($format, 'H')) {
 			$res[] = (int)$hours . ':' . static::pad((string)($minutes / MINUTE));
 		} else {
 			$res[] = (int)($minutes / MINUTE);
 		}
 
-		if (strpos($format, 'SS') !== false) {
+		if (str_contains($format, 'SS')) {
 			$seconds = $duration % MINUTE;
 			$res[] = static::pad((string)$seconds);
 		}

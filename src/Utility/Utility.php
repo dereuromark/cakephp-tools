@@ -27,7 +27,7 @@ class Utility {
 	 * @return bool
 	 */
 	public static function notBlank($value): bool {
-		return $value === 0 || $value === 0.0 || $value === '0' || !empty($value);
+		return in_array($value, [0, 0.0, '0'], true) || !empty($value);
 	}
 
 	/**
@@ -212,7 +212,7 @@ class Utility {
 	 * @return string Cleaned Url
 	 */
 	public static function cleanUrl($url, $headerRedirect = false, $detectHttps = null): string {
-		if ($url === '' || $url === 'http://' || $url === 'http://www' || $url === 'http://www.') {
+		if (in_array($url, ['', 'http://', 'http://www', 'http://www.'], true)) {
 			$url = '';
 		} else {
 			$url = static::autoPrefixUrl($url, 'http://', $detectHttps);
@@ -225,8 +225,8 @@ class Utility {
 
 				if ((bool)preg_match('#^HTTP/.*\s+[(301)]+\s#i', $headerString)) {
 					foreach ($headers as $header) {
-						if (str_starts_with($header, 'Location:')) {
-							$url = trim(hDec(mb_substr($header, 9))); // rawurldecode/urldecode ?
+						if (str_starts_with((string)$header, 'Location:')) {
+							$url = trim(hDec(mb_substr((string)$header, 9))); // rawurldecode/urldecode ?
 						}
 					}
 				}
@@ -318,12 +318,9 @@ class Utility {
 		]);
 		// phpcs:disable
 		$headers = @get_headers($url, false, $context);
-		// phpcs:enable
-		if ($headers && preg_match('|\b200\b|', $headers[0])) {
-			return true;
-		}
 
-		return false;
+		// phpcs:enable
+		return $headers && preg_match('|\b200\b|', $headers[0]);
 	}
 
 	/**
@@ -344,8 +341,8 @@ class Utility {
 		/** @var callable $callback */
 		$callback = 'trim';
 		$urlArray = array_map($callback, $urlArray);
-		$urlArray['port'] = (!isset($urlArray['port'])) ? '' : (':' . (int)$urlArray['port']);
-		$path = (isset($urlArray['path'])) ? $urlArray['path'] : '';
+		$urlArray['port'] = (isset($urlArray['port'])) ? ':' . (int)$urlArray['port'] : ('');
+		$path = $urlArray['path'] ?? '';
 
 		if (!$path) {
 			$path = '/';
@@ -479,9 +476,6 @@ class Utility {
 
 				break;
 			case 'float':
-				$value = (float)$value;
-
-				break;
 			case 'double':
 				$value = (float)$value;
 
@@ -538,9 +532,8 @@ class Utility {
 	public static function specialcharsDeep($value) {
 		/** @var callable $callable */
 		$callable = 'self::specialcharsDeep';
-		$value = is_array($value) ? array_map($callable, $value) : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 
-		return $value;
+		return is_array($value) ? array_map($callable, $value) : htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 	}
 
 	/**
@@ -580,12 +573,10 @@ class Utility {
 				}
 			}
 			$return = max($depth);
+		} elseif (is_array(reset($array))) {
+			$return = static::countDim(reset($array)) + 1;
 		} else {
-			if (is_array(reset($array))) {
-				$return = static::countDim(reset($array)) + 1;
-			} else {
 				$return = 1;
-			}
 		}
 
 		return $return;
@@ -612,7 +603,7 @@ class Utility {
 	public static function expandList(array $data, string $separator = '.', ?string $undefinedKey = null): array {
 		$result = [];
 		foreach ($data as $value) {
-			$keys = explode($separator, $value);
+			$keys = explode($separator, (string)$value);
 			$value = array_pop($keys);
 
 			$keys = array_reverse($keys);
@@ -653,10 +644,8 @@ class Utility {
 		$result = [];
 		$stack = [];
 		$path = null;
-
-		reset($data);
 		while ($data) {
-			$key = key($data);
+			$key = array_key_first($data);
 			$element = $data[$key];
 			unset($data[$key]);
 
@@ -750,10 +739,11 @@ class Utility {
 	 *
 	 * @throws \InvalidArgumentException
 	 *
-	 * @return string key
+	 * @return string|int key
 	 */
-	public static function arrayShiftKeys(array &$array): string {
-		foreach ($array as $key => $value) {
+	public static function arrayShiftKeys(array &$array): int|string {
+		$key = array_key_first($array);
+		if ($key !== null) {
 			unset($array[$key]);
 
 			return $key;

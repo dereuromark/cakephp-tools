@@ -174,9 +174,8 @@ JS;
 			}
 			$e[] = '\'' . $option . '\': ' . $stringValue;
 		}
-		$string = '{' . PHP_EOL . "\t" . implode(',' . PHP_EOL . "\t", $e) . PHP_EOL . '}';
 
-		return $string;
+		return '{' . PHP_EOL . "\t" . implode(',' . PHP_EOL . "\t", $e) . PHP_EOL . '}';
 	}
 
 	/**
@@ -191,25 +190,16 @@ JS;
 		foreach ($items as $item) {
 			$tmp = [];
 			foreach ($item as $key => $row) {
-				switch ($key) {
-					case 'editable':
-						$tmp[] = $row ? 'true' : 'false';
-
-						break;
-					case 'start':
-					case 'end':
-						$tmp[] = '\'' . $key . '\': ' . $this->_date($row);
-
-						break;
-					default:
-						$tmp[] = '\'' . $key . '\': \'' . str_replace('\'', '\\\'', $row) . '\'';
-				}
+				$tmp[] = match ($key) {
+					'editable' => $row ? 'true' : 'false',
+					'start', 'end' => '\'' . $key . '\': ' . $this->_date($row),
+					default => '\'' . $key . '\': \'' . str_replace('\'', '\\\'', $row) . '\'',
+				};
 			}
 			$e[] = '{' . implode(',' . PHP_EOL, $tmp) . '}';
 		}
-		$string = '[' . implode(',' . PHP_EOL, $e) . '];';
 
-		return $string;
+		return '[' . implode(',' . PHP_EOL, $e) . '];';
 	}
 
 	/**

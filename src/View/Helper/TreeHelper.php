@@ -188,10 +188,9 @@ class TreeHelper extends Helper {
 			/* Close open items as appropriate */
 			// phpcs:disable
 			while ($stack && ($stack[count($stack) - 1] < $row[$right])) {
-				// phpcs:enable
 				array_pop($stack);
 				if ($indent) {
-					$whiteSpace = str_repeat($indentWith, count($stack));
+					$whiteSpace = str_repeat((string)$indentWith, count($stack));
 					$return .= "\r\n" . $whiteSpace . $indentWith;
 				}
 				if ($type) {
@@ -201,6 +200,7 @@ class TreeHelper extends Helper {
 					$return .= '</' . $itemType . '>';
 				}
 			}
+			// phpcs:enable
 
 			/* Some useful vars */
 			$hasChildren = $firstChild = $lastChild = $hasVisibleChildren = false;
@@ -261,7 +261,7 @@ class TreeHelper extends Helper {
 				'lastChild' => $lastChild,
 				'hasVisibleChildren' => $hasVisibleChildren,
 				'activePathElement' => $activePathElement,
-				'isSibling' => ($depth == 0 && !$activePathElement) ? true : false,
+				'isSibling' => $depth == 0 && !$activePathElement,
 			];
 
 			if ($elementData['isSibling'] && $hideUnrelated) {
@@ -300,7 +300,7 @@ class TreeHelper extends Helper {
 				$content = (string)$content;
 			}
 
-			$whiteSpace = str_repeat($indentWith, $depth);
+			$whiteSpace = str_repeat((string)$indentWith, $depth);
 			if ($indent && strpos($content, "\r\n", 1)) {
 				$content = str_replace("\r\n", "\n" . $whiteSpace . $indentWith, $content);
 			}
@@ -352,7 +352,7 @@ class TreeHelper extends Helper {
 		while ($stack) {
 			array_pop($stack);
 			if ($indent) {
-				$whiteSpace = str_repeat($indentWith, count($stack));
+				$whiteSpace = str_repeat((string)$indentWith, count($stack));
 				$return .= "\r\n" . $whiteSpace . $indentWith;
 			}
 			if ($type) {
@@ -514,11 +514,7 @@ class TreeHelper extends Helper {
 			}
 		}
 		if ($rType === $itemType && !empty($elementData['activePathElement'])) {
-			if ($elementData['activePathElement'] === true) {
-				$attributes['class'][] = $autoPath[2];
-			} else {
-				$attributes['class'][] = $elementData['activePathElement'];
-			}
+			$attributes['class'][] = $elementData['activePathElement'] === true ? $autoPath[2] : $elementData['activePathElement'];
 		}
 		if (!$attributes) {
 			return '';
@@ -576,7 +572,7 @@ class TreeHelper extends Helper {
 				$siblingIsActive = true;
 			}
 		}
-		foreach ($tree as $key => &$subTree) {
+		foreach ($tree as &$subTree) {
 			if ($level && !$siblingIsActive && !isset($subTree['parent_show'])) {
 				$subTree['hide'] = 1;
 			}
