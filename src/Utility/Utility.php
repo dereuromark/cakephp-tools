@@ -739,9 +739,9 @@ class Utility {
 	 *
 	 * @throws \InvalidArgumentException
 	 *
-	 * @return string key
+	 * @return string|int key
 	 */
-	public static function arrayShiftKeys(array &$array): string {
+	public static function arrayShiftKeys(array &$array): int|string {
 		$key = array_key_first($array);
 		if ($key !== null) {
 			unset($array[$key]);
