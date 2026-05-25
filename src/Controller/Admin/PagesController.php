@@ -30,7 +30,7 @@ class PagesController extends AppController {
 			];
 		}
 
-		$this->set(['pages' => $pages]);
+		$this->set(compact('pages'));
 	}
 
 }

@@ -60,7 +60,7 @@ class HelperController extends AppController {
 				}
 			}
 			$result = array_reverse($result);
-			$this->set(['result' => $result]);
+			$this->set(compact('result'));
 		}
 	}
 
