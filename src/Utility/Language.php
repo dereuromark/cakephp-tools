@@ -61,7 +61,7 @@ class Language {
 					$languagesRanks[$language] = $rank;
 				} elseif ($rank > $languagesRanks[$language]) {
 					foreach ($languages as $existRank => $existLangs) {
-						$key = array_search($existLangs, $languages, true);
+						$key = array_search($language, $existLangs, true);
 						if ($key !== false) {
 							unset($languages[$existRank][$key]);
 							if (empty($languages[$existRank])) {
