@@ -4,10 +4,10 @@ namespace Tools\Test\TestCase\Authenticator;
 
 use ArrayAccess;
 use Authentication\Authenticator\Result;
-use Authentication\Identifier\IdentifierCollection;
 use Cake\Http\ServerRequestFactory;
 use Cake\TestSuite\TestCase;
 use Tools\Authenticator\LoginLinkAuthenticator;
+use Tools\Identifier\LoginLinkIdentifier;
 
 class LoginLinkAuthenticatorTest extends TestCase {
 
@@ -22,11 +22,9 @@ class LoginLinkAuthenticatorTest extends TestCase {
 	];
 
 	/**
-	 * Identifier Collection
-	 *
-	 * @var \Authentication\Identifier\IdentifierCollection;
+	 * @var \Tools\Identifier\LoginLinkIdentifier
 	 */
-	public $identifiers;
+	protected $identifier;
 
 	/**
 	 * @var \Cake\Http\ServerRequest
@@ -39,12 +37,10 @@ class LoginLinkAuthenticatorTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->identifiers = new IdentifierCollection([
-			'Tools.LoginLink' => [
-				'resolver' => [
-					'className' => 'Authentication.Orm',
-					'userModel' => 'ToolsUsers',
-				],
+		$this->identifier = new LoginLinkIdentifier([
+			'resolver' => [
+				'className' => 'Authentication.Orm',
+				'userModel' => 'ToolsUsers',
 			],
 		]);
 	}
@@ -65,7 +61,7 @@ class LoginLinkAuthenticatorTest extends TestCase {
 			'token' => '123',
 		]);
 
-		$authenticator = new LoginLinkAuthenticator($this->identifiers);
+		$authenticator = new LoginLinkAuthenticator($this->identifier);
 
 		$result = $authenticator->authenticate($this->request);
 		$this->assertInstanceOf(Result::class, $result);

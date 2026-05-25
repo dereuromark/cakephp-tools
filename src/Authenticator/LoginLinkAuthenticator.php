@@ -35,7 +35,7 @@ class LoginLinkAuthenticator extends AbstractAuthenticator {
 		$user = $this->getUserFromToken($token);
 
 		if (!$user) {
-			return new Result(null, ResultInterface::FAILURE_IDENTITY_NOT_FOUND, $this->_identifier->getErrors());
+			return new Result(null, ResultInterface::FAILURE_IDENTITY_NOT_FOUND, $this->getIdentifier()->getErrors());
 		}
 
 		return new Result($user, ResultInterface::SUCCESS);
@@ -77,7 +77,7 @@ class LoginLinkAuthenticator extends AbstractAuthenticator {
 		}
 
 		/** @var \Cake\ORM\Entity $identity */
-		$identity = $this->_identifier->identify([$this->getConfig('identifierKey') => $tokenEntity->user_id]);
+		$identity = $this->getIdentifier()->identify([$this->getConfig('identifierKey') => $tokenEntity->user_id]);
 		$email = $tokenEntity->content;
 		if ($email && $identity && $identity->get('email') && $email !== $identity->get('email')) {
 			return null;
