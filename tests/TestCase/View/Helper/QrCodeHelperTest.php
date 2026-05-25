@@ -87,7 +87,7 @@ class QrCodeHelperTest extends TestCase {
 		];
 		$is = $this->QrCode->formatCard($data);
 
-		$expected = 'MECARD:N:My name;NICKNAME:Nick;NOTE:Note;BDAY:20151-;';
+		$expected = 'MECARD:N:My name;NICKNAME:Nick;NOTE:Note;BDAY:20150103;';
 		$this->assertSame($expected, $is);
 	}
 

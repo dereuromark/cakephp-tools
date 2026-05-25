@@ -312,24 +312,24 @@ class BitmaskedBehavior extends Behavior {
 			return;
 		}
 
-			$callable = function ($comparison) use ($field, $mappedField) {
-				if (!($comparison instanceof ComparisonExpression)) {
-					return $comparison;
-				}
-				$key = $comparison->getField();
-
-				if ($key !== $mappedField && $key !== $this->_table->getAlias() . '.' . $mappedField) {
-					return $comparison;
-				}
-
-				$bitmask = $this->encodeBitmask($comparison->getValue());
-				$comparison->setValue((array)$bitmask);
-				if ($field !== $mappedField) {
-					$comparison->setField($field);
-				}
-
+		$callable = function ($comparison) use ($field, $mappedField) {
+			if (!($comparison instanceof ComparisonExpression)) {
 				return $comparison;
-			};
+			}
+			$key = $comparison->getField();
+
+			if ($key !== $mappedField && $key !== $this->_table->getAlias() . '.' . $mappedField) {
+				return $comparison;
+			}
+
+			$bitmask = $this->encodeBitmask($comparison->getValue());
+			$comparison->setValue((array)$bitmask);
+			if ($field !== $mappedField) {
+				$comparison->setField($field);
+			}
+
+			return $comparison;
+		};
 
 		$where->iterateParts($callable);
 	}
