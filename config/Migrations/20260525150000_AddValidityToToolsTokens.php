@@ -18,7 +18,6 @@ class AddValidityToToolsTokens extends BaseMigration {
 				'default' => null,
 				'limit' => null,
 				'null' => true,
-				'after' => 'content',
 			])
 			->update();
 	}
