@@ -22,11 +22,11 @@ class LoginLinkAuthenticatorTest extends TestCase {
 	];
 
 	/**
-	 * Identifier Collection
+	 * Identifier
 	 *
 	 * @var \Authentication\Identifier\IdentifierInterface
 	 */
-	public $identifiers;
+	public $identifier;
 
 	/**
 	 * @var \Cake\Http\ServerRequest
@@ -39,7 +39,7 @@ class LoginLinkAuthenticatorTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->identifiers = new LoginLinkIdentifier([
+		$this->identifier = new LoginLinkIdentifier([
 			'resolver' => [
 				'className' => 'Authentication.Orm',
 				'userModel' => 'ToolsUsers',
@@ -63,7 +63,7 @@ class LoginLinkAuthenticatorTest extends TestCase {
 			'token' => '123',
 		]);
 
-		$authenticator = new LoginLinkAuthenticator($this->identifiers);
+		$authenticator = new LoginLinkAuthenticator($this->identifier);
 
 		$result = $authenticator->authenticate($this->request);
 		$this->assertInstanceOf(Result::class, $result);
