@@ -22,7 +22,7 @@ class HelperController extends AppController {
 		if ($this->request->is(['post', 'put'])) {
 			$string = $this->request->getData('string');
 			$result = $this->analyzeString($string);
-			$this->set(['string' => $string, 'result' => $result]);
+			$this->set(compact('string', 'result'));
 		}
 	}
 
