@@ -459,7 +459,7 @@ class DateTime extends CakeDateTime {
 		}
 		$date = new self($dateString, $timezone);
 		if ($format === null) {
-			$format = is_int($dateString) || str_contains($dateString, ' ') ? 'd.m.Y, H:i' : 'd.m.Y';
+			$format = is_int($dateString) || (is_string($dateString) && str_contains($dateString, ' ')) ? 'd.m.Y, H:i' : 'd.m.Y';
 		}
 
 		$date = static::formatLocalized($date, $format, $options['language']);

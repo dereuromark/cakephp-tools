@@ -589,6 +589,9 @@ class Mime extends Response {
 		// If MIME type doesn't exist, then try (as a last resort) to use the (deprecated) mime_content_type function
 		// If all else fails, just return application/octet-stream
 		if (!function_exists('finfo_open')) {
+			if ($file === null) {
+				return 'application/octet-stream';
+			}
 			if (function_exists('mime_content_type')) {
 				$type = mime_content_type($file);
 				if (!empty($type)) {
@@ -657,7 +660,7 @@ class Mime extends Response {
 		}
 		$extension = static::_getExtension($file);
 		/** @var string|null $mimeType */
-		$mimeType = static::getMimeTypeByAlias($extension);
+		$mimeType = (new static())->getMimeTypeByAlias($extension);
 		if ($mimeType) {
 			return $mimeType;
 		}
