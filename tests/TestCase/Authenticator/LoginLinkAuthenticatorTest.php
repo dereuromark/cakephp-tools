@@ -4,7 +4,7 @@ namespace Tools\Test\TestCase\Authenticator;
 
 use ArrayAccess;
 use Authentication\Authenticator\Result;
-use Authentication\Identifier\IdentifierCollection;
+use Authentication\Identifier\IdentifierFactory;
 use Cake\Http\ServerRequestFactory;
 use Cake\TestSuite\TestCase;
 use Tools\Authenticator\LoginLinkAuthenticator;
@@ -24,7 +24,7 @@ class LoginLinkAuthenticatorTest extends TestCase {
 	/**
 	 * Identifier Collection
 	 *
-	 * @var \Authentication\Identifier\IdentifierCollection;
+	 * @var \Authentication\Identifier\IdentifierInterface
 	 */
 	public $identifiers;
 
@@ -39,12 +39,11 @@ class LoginLinkAuthenticatorTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->identifiers = new IdentifierCollection([
-			'Tools.LoginLink' => [
-				'resolver' => [
-					'className' => 'Authentication.Orm',
-					'userModel' => 'ToolsUsers',
-				],
+		$this->identifiers = IdentifierFactory::create([
+			'className' => 'Tools.LoginLink',
+			'resolver' => [
+				'className' => 'Authentication.Orm',
+				'userModel' => 'ToolsUsers',
 			],
 		]);
 	}
