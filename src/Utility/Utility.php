@@ -742,7 +742,8 @@ class Utility {
 	 * @return string key
 	 */
 	public static function arrayShiftKeys(array &$array): string {
-		foreach (array_keys($array) as $key) {
+		$key = array_key_first($array);
+		if ($key !== null) {
 			unset($array[$key]);
 
 			return $key;
