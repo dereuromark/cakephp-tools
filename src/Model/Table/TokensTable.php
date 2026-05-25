@@ -267,7 +267,12 @@ class TokensTable extends Table {
 			$keys[$isExpired ? 'unused_invalid' : 'unused_valid']++;
 		}
 
-		$types = $this->find()->select(['type'])->distinct(['type'])->disableHydration()->toArray();
+		$types = $this->find()
+			->select(['type'])
+			->distinct(['type'])
+			->orderBy(['type' => 'ASC'], true)
+			->disableHydration()
+			->toArray();
 		$keys['types'] = empty($types) ? [] : Hash::extract($types, '{n}.type');
 
 		return $keys;
