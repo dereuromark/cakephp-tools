@@ -313,7 +313,7 @@ class BitmaskedBehavior extends Behavior {
 		}
 
 		$callable = function ($comparison) use ($field, $mappedField) {
-			if (!$comparison instanceof ComparisonExpression) {
+			if (!($comparison instanceof ComparisonExpression)) {
 				return $comparison;
 			}
 			$key = $comparison->getField();

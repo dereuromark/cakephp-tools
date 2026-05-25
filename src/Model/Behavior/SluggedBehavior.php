@@ -156,7 +156,7 @@ class SluggedBehavior extends Behavior {
 		}
 		if ($this->_config['length']) {
 			foreach ($label as $field) {
-				if (strpos((string)$field, '.')) {
+				if (strpos((string)$field, '.') !== false) {
 					[$alias, $field] = explode('.', (string)$field);
 					if (!$this->_table->$alias->hasField($field)) {
 						throw new RuntimeException('(SluggedBehavior::setup) model `' . $this->_table->$alias->getAlias() . '` is missing the field `' . $field

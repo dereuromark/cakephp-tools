@@ -227,7 +227,7 @@ class QrCodeHelper extends Helper {
 					break;
 				case 'birthday':
 					if (strlen((string)$val) !== 8) {
-						$val = substr((string)$val, 0, 4) . substr((string)$val, 6, 2) . substr((string)$val, 10, 2);
+						$val = preg_replace('/\D+/', '', (string)$val) ?: '';
 					}
 					$res[] = 'BDAY:' . $val;
 
