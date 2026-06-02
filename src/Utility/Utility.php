@@ -741,7 +741,7 @@ class Utility {
 	 *
 	 * @return string|int key
 	 */
-	public static function arrayShiftKeys(array &$array): int|string {
+	public static function arrayShiftKeys(array &$array): string|int {
 		$key = array_key_first($array);
 		if ($key !== null) {
 			unset($array[$key]);

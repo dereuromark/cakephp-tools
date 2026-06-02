@@ -276,7 +276,7 @@ class BitmaskedBehavior extends Behavior {
 	 * @param int|null $defaultValue Default bitmask value.
 	 * @return int|null Bitmask (from APP to DB).
 	 */
-	public function encodeBitmask(array|int|string $value, $defaultValue = null): ?int {
+	public function encodeBitmask(array|string|int $value, $defaultValue = null): ?int {
 		$res = 0;
 		if (!$value) {
 			return $defaultValue;

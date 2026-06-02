@@ -26,7 +26,7 @@ class DateTime extends CakeDateTime {
 	 * @param \DateTimeZone|string|null $timezone The timezone for the instance
 	 */
 	public function __construct(
-		Chronos|ChronosDate|DateTimeInterface|string|int|array|null $time = 'now',
+		Chronos|ChronosDate|DateTimeInterface|array|string|int|null $time = 'now',
 		DateTimeZone|string|null $timezone = null,
 	) {
 		if (is_array($time)) {
@@ -1167,7 +1167,7 @@ class DateTime extends CakeDateTime {
 	 *
 	 * @return string Partial SQL string.
 	 */
-	public static function daysAsSql(DateTimeInterface|int|string $begin, DateTimeInterface|int|string $end, string $fieldName, DateTimeZone|string|null $timezone = null): string {
+	public static function daysAsSql(DateTimeInterface|string|int $begin, DateTimeInterface|string|int $end, string $fieldName, DateTimeZone|string|null $timezone = null): string {
 		$begin = new CakeDateTime($begin, $timezone);
 		$begin = $begin->format('U');
 		$end = new CakeDateTime($end, $timezone);
@@ -1188,7 +1188,7 @@ class DateTime extends CakeDateTime {
 	 *
 	 * @return string Partial SQL string.
 	 */
-	public static function dayAsSql(DateTimeInterface|int|string $dateString, string $fieldName, DateTimeZone|string|null $timezone = null): string {
+	public static function dayAsSql(DateTimeInterface|string|int $dateString, string $fieldName, DateTimeZone|string|null $timezone = null): string {
 		return static::daysAsSql($dateString, $dateString, $fieldName, $timezone);
 	}
 
