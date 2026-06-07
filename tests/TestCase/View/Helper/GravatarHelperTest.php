@@ -132,6 +132,44 @@ class GravatarHelperTest extends TestCase {
 	}
 
 	/**
+	 * The `md5` algo restores Gravatar's pre-2024 identifier for legacy accounts.
+	 *
+	 * @return void
+	 */
+	public function testHashAlgoMd5() {
+		$result = $this->Gravatar->url('Example@gravatar.com', ['hashAlgo' => 'md5']);
+
+		$this->assertStringContainsString(md5('example@gravatar.com'), $result);
+		$this->assertStringNotContainsString(hash('sha256', 'example@gravatar.com'), $result);
+	}
+
+	/**
+	 * An unknown algo falls back to the SHA-256 default instead of producing a broken hash.
+	 *
+	 * @return void
+	 */
+	public function testHashAlgoFallsBackToSha256() {
+		$result = $this->Gravatar->url('example@gravatar.com', ['hashAlgo' => 'sha1']);
+
+		$this->assertStringContainsString(hash('sha256', 'example@gravatar.com'), $result);
+	}
+
+	/**
+	 * The `hashAlgo` option controls the hash but must never leak into the query string or
+	 * the rendered img attributes.
+	 *
+	 * @return void
+	 */
+	public function testHashAlgoNotLeakedIntoOutput() {
+		$url = $this->Gravatar->url('example@gravatar.com', ['hashAlgo' => 'md5']);
+		$this->assertStringNotContainsString('hashAlgo', $url);
+
+		$img = $this->Gravatar->image('example@gravatar.com', ['ext' => false, 'hashAlgo' => 'md5']);
+		$this->assertStringNotContainsString('hashAlgo', $img);
+		$this->assertSame('<img src="https://www.gravatar.com/avatar/' . md5('example@gravatar.com') . '" alt="">', $img);
+	}
+
+	/**
 	 * Mixed content is blocked by every modern browser, so the helper must always emit
 	 * an HTTPS URL even when secure=false is passed (the option is preserved as a no-op
 	 * for backwards compatibility).

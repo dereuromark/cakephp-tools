@@ -61,6 +61,20 @@ class GravatarHelper extends Helper {
 		'size' => null,
 		'rating' => null,
 		'ext' => false,
+		'hashAlgo' => 'sha256',
+	];
+
+	/**
+	 * Allowed email hash algorithms.
+	 *
+	 * Gravatar transitioned from MD5 to SHA-256 in 2024. SHA-256 is the default; `md5` is
+	 * offered for backwards compatibility with accounts that registered before the switch
+	 * (their generated default avatar is derived from the MD5 hash).
+	 *
+	 * @var array<string>
+	 */
+	protected array $_allowedHashAlgos = [
+		'md5', 'sha256',
 	];
 
 	/**
@@ -94,7 +108,7 @@ class GravatarHelper extends Helper {
 		];
 		$imageUrl = $this->url($email, $imageOptions);
 
-		unset($options['default'], $options['size'], $options['rating'], $options['ext']);
+		unset($options['default'], $options['size'], $options['rating'], $options['ext'], $options['hashAlgo']);
 
 		return $this->Html->image($imageUrl, $options);
 	}
@@ -115,10 +129,11 @@ class GravatarHelper extends Helper {
 
 		$ext = $options['ext'];
 		$secure = $options['secure'];
-		unset($options['ext'], $options['secure']);
+		$hashAlgo = $options['hashAlgo'];
+		unset($options['ext'], $options['secure'], $options['hashAlgo']);
 		$protocol = $secure === true ? 'https' : 'http';
 
-		$imageUrl = $this->_url[$protocol] . $this->_emailHash($email);
+		$imageUrl = $this->_url[$protocol] . $this->_emailHash($email, $hashAlgo);
 		if ($ext === true) {
 			// If 'ext' option is supplied and true, append an extension to the generated image URL.
 			// This helps systems that don't display images unless they have a specific image extension on the URL.
@@ -179,10 +194,15 @@ class GravatarHelper extends Helper {
 	 * Whitespace-trimmed, lowercased input matches Gravatar's normalization rules.
 	 *
 	 * @param string $email Email address
-	 * @return string Email address hash (SHA-256, lowercase hex)
+	 * @param string $algo Hash algorithm (`sha256` default, `md5` for legacy accounts)
+	 * @return string Email address hash (lowercase hex)
 	 */
-	protected function _emailHash($email) {
-		return hash('sha256', mb_strtolower(trim($email)));
+	protected function _emailHash($email, $algo = 'sha256') {
+		if (!in_array($algo, $this->_allowedHashAlgos, true)) {
+			$algo = 'sha256';
+		}
+
+		return hash($algo, mb_strtolower(trim($email)));
 	}
 
 	/**
