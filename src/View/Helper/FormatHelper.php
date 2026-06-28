@@ -23,7 +23,7 @@ class FormatHelper extends Helper {
 	/**
 	 * Other helpers used by FormHelper
 	 *
-	 * @var array
+	 * @var array<int|string, array<string, mixed>|string>
 	 */
 	protected array $helpers = ['Html'];
 

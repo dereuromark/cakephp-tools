@@ -69,7 +69,7 @@ class QrCodeHelper extends Helper {
 	public const SIZE_H = 74;
 
 	/**
-	 * @var array
+	 * @var array<int|string, array<string, mixed>|string>
 	 */
 	protected array $helpers = ['Html', 'Url'];
 
