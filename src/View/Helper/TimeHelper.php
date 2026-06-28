@@ -22,7 +22,7 @@ use DateTimeZone;
 class TimeHelper extends CakeTimeHelper {
 
 	/**
-	 * @var array
+	 * @var array<int|string, array<string, mixed>|string>
 	 */
 	protected array $helpers = ['Html'];
 

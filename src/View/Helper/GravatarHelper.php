@@ -80,7 +80,7 @@ class GravatarHelper extends Helper {
 	/**
 	 * Helpers used by this helper
 	 *
-	 * @var array
+	 * @var array<int|string, array<string, mixed>|string>
 	 */
 	protected array $helpers = ['Html'];
 

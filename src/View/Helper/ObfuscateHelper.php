@@ -18,7 +18,7 @@ class ObfuscateHelper extends Helper {
 	/**
 	 * Other helpers used
 	 *
-	 * @var array
+	 * @var array<int|string, array<string, mixed>|string>
 	 */
 	protected array $helpers = ['Html'];
 
