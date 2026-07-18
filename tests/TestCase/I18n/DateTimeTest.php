@@ -587,18 +587,50 @@ class DateTimeTest extends TestCase {
 		$this->assertTrue(!empty($result));
 		$this->assertTrue(is_string($result));
 
-		$res = $this->Time->relLengthOfTime(date(FORMAT_DB_DATETIME, time() - 4 * DAY - 5 * HOUR), null, ['plural' => 'n']);
-		//pr($res);
-		//$this->assertEquals($res, 'Vor 4 Tagen, 5 '.__d('tools', 'Hours'));
-		$this->assertEquals(__d('tools', '{0} ago', '4 ' . __d('tools', 'Days') . ', ' . '5 ' . __d('tools', 'Hours')), $res);
+		// Bootstrap locale is de_DE: unit words use the `relative` msgctxt (dative)
+		$res = $this->Time->relLengthOfTime(date(FORMAT_DB_DATETIME, time() - 4 * DAY - 5 * HOUR));
+		$this->assertEquals('Vor 4 Tagen, 5 Stunden', $res);
 
-		$res = $this->Time->relLengthOfTime(date(FORMAT_DB_DATETIME, time() + 4 * DAY + 5 * HOUR), null, ['plural' => 'n']);
-		//pr($res);
-		$this->assertEquals(__d('tools', 'In {0}', '4 ' . __d('tools', 'Days') . ', ' . '5 ' . __d('tools', 'Hours')), $res);
+		$res = $this->Time->relLengthOfTime(date(FORMAT_DB_DATETIME, time() + 4 * DAY + 5 * HOUR));
+		$this->assertEquals('In 4 Tagen, 5 Stunden', $res);
 
 		$res = $this->Time->relLengthOfTime(date(FORMAT_DB_DATETIME, time()), null, ['plural' => 'n']);
 		//pr($res);
 		$this->assertEquals($res, __d('tools', 'justNow'));
+	}
+
+	/**
+	 * Calendar-exact difference (DateInterval based), month/year tiers and accuracy.
+	 *
+	 * @return void
+	 */
+	public function testRelLengthOfTimeCalendarExact(): void {
+		$from = new DateTime('2026-07-18 17:30:00');
+
+		// Bootstrap locale is de_DE: `relative` msgctxt yields correct dative wording.
+		// Exactly 3 years, incl. a leap year - a seconds-based approximation would drift.
+		$res = $this->Time->relLengthOfTime('2023-07-18 17:30:00', null, ['from' => $from]);
+		$this->assertSame('Vor 3 Jahren', $res);
+
+		$res = $this->Time->relLengthOfTime('2015-03-24 16:17:00', null, ['from' => $from]);
+		$this->assertSame('Vor 11 Jahren, 3 Monaten', $res);
+
+		$res = $this->Time->relLengthOfTime('2015-03-24 16:17:00', null, ['from' => $from, 'accuracy' => 1]);
+		$this->assertSame('Vor 11 Jahren', $res);
+
+		$res = $this->Time->relLengthOfTime('2026-07-08 17:30:00', null, ['from' => $from]);
+		$this->assertSame('Vor 1 Woche, 3 Tagen', $res);
+
+		$res = $this->Time->relLengthOfTime('2026-07-17 16:30:00', null, ['from' => $from]);
+		$this->assertSame('Vor 1 Tag, 1 Stunde', $res);
+
+		// Future
+		$res = $this->Time->relLengthOfTime('2026-08-18 17:30:00', null, ['from' => $from]);
+		$this->assertSame('In 1 Monat', $res);
+
+		// `from` also accepts non-object input
+		$res = $this->Time->relLengthOfTime('2023-07-18 17:30:00', null, ['from' => '2026-07-18 17:30:00']);
+		$this->assertSame('Vor 3 Jahren', $res);
 	}
 
 	/**
@@ -682,14 +714,13 @@ class DateTimeTest extends TestCase {
 	 */
 	public function testLengthOfTime() {
 		$ret = $this->Time->lengthOfTime(60, 'Hi');
-		$this->assertEquals('1 Minutes', $ret);
+		$this->assertEquals('1 Minute', $ret);
 
 		$ret = $this->Time->lengthOfTime(DAY);
-		$this->assertEquals('1 Days, 0 Hours', $ret);
+		$this->assertEquals('1 Tag', $ret);
 
-		// FIX ME! Doesn't work!
 		$ret = $this->Time->lengthOfTime(-60);
-		//$this->assertEquals('-60 Seconds', $ret);
+		$this->assertEquals('1 Minute', $ret);
 
 		$this->assertEquals('6 ' . __d('tools', 'Minutes') . ', 40 ' . __d('tools', 'Seconds'), $this->Time->lengthOfTime(400));
 
@@ -697,7 +728,31 @@ class DateTimeTest extends TestCase {
 		$this->assertEquals('6 ' . __d('tools', 'Minutes'), $res);
 
 		$res = $this->Time->lengthOfTime(6 * DAY);
-		$this->assertEquals('6 ' . __d('tools', 'Days') . ', 0 ' . __d('tools', 'Hours'), $res);
+		$this->assertEquals('6 ' . __d('tools', 'Days'), $res);
+	}
+
+	/**
+	 * Automatic unit tiers (weeks/months/years) with accuracy cap.
+	 *
+	 * @return void
+	 */
+	public function testLengthOfTimeUnitTiers(): void {
+		// Bootstrap locale is de_DE: plain (non-relative) unit words, nominative
+		$this->assertSame('1 Stunde', $this->Time->lengthOfTime(HOUR));
+		$this->assertSame('1 Minute', $this->Time->lengthOfTime(60));
+		$this->assertSame('0 Sekunden', $this->Time->lengthOfTime(0));
+
+		$this->assertSame('1 Woche, 3 Tage', $this->Time->lengthOfTime(10 * DAY));
+		$this->assertSame('1 Monat, 2 Wochen', $this->Time->lengthOfTime(45 * DAY));
+		$this->assertSame('1 Jahr, 1 Monat', $this->Time->lengthOfTime(400 * DAY));
+
+		$this->assertSame('1 Jahr', $this->Time->lengthOfTime(400 * DAY, null, ['accuracy' => 1]));
+		$this->assertSame('1 Jahr, 1 Monat, 5 Tage', $this->Time->lengthOfTime(400 * DAY, null, ['accuracy' => 3]));
+
+		// No `1 Year, 12 Months` overflow from the 30-day month approximation
+		$this->assertSame('2 Jahre', $this->Time->lengthOfTime(729 * DAY, null, ['accuracy' => 1]));
+
+		$this->assertSame('4d, 1h', $this->Time->lengthOfTime(4 * DAY + HOUR, null, ['verbose' => false]));
 	}
 
 	/**

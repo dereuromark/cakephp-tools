@@ -62,6 +62,74 @@ msgstr ""
 msgid "Seconds"
 msgstr ""
 
+msgid "Week"
+msgstr ""
+
+msgid "Weeks"
+msgstr ""
+
+msgid "Year"
+msgstr ""
+
+msgid "Years"
+msgstr ""
+
+msgctxt "relative"
+msgid "Second"
+msgstr ""
+
+msgctxt "relative"
+msgid "Seconds"
+msgstr ""
+
+msgctxt "relative"
+msgid "Minute"
+msgstr ""
+
+msgctxt "relative"
+msgid "Minutes"
+msgstr ""
+
+msgctxt "relative"
+msgid "Hour"
+msgstr ""
+
+msgctxt "relative"
+msgid "Hours"
+msgstr ""
+
+msgctxt "relative"
+msgid "Day"
+msgstr ""
+
+msgctxt "relative"
+msgid "Days"
+msgstr ""
+
+msgctxt "relative"
+msgid "Week"
+msgstr ""
+
+msgctxt "relative"
+msgid "Weeks"
+msgstr ""
+
+msgctxt "relative"
+msgid "Month"
+msgstr ""
+
+msgctxt "relative"
+msgid "Months"
+msgstr ""
+
+msgctxt "relative"
+msgid "Year"
+msgstr ""
+
+msgctxt "relative"
+msgid "Years"
+msgstr ""
+
 msgid "justNow"
 msgstr ""
 
