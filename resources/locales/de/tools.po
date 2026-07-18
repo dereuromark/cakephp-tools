@@ -229,65 +229,139 @@ msgstr ""
 #: Lib/Utility/TimeLib.php:740;891
 #: Test/Case/Lib/Utility/TimeLibTest.php:551
 msgid "{0} ago"
-msgstr ""
+msgstr "Vor {0}"
 
 #: Lib/Utility/TimeLib.php:744
 msgid "in {0}"
-msgstr ""
+msgstr "in {0}"
+
+msgid "In %s"
+msgstr "In %s"
+
+msgid "%s ago"
+msgstr "Vor %s"
 
 #: Lib/Utility/TimeLib.php:780
 msgid "Month"
-msgstr ""
+msgstr "Monat"
 
 #: Lib/Utility/TimeLib.php:781
 msgid "Day"
-msgstr ""
+msgstr "Tag"
 
 #: Lib/Utility/TimeLib.php:782
 msgid "Hour"
-msgstr ""
+msgstr "Stunde"
 
 #: Lib/Utility/TimeLib.php:783
 msgid "Minute"
-msgstr ""
+msgstr "Minute"
 
 #: Lib/Utility/TimeLib.php:784
 msgid "Second"
-msgstr ""
+msgstr "Sekunde"
+
+msgid "Week"
+msgstr "Woche"
+
+msgid "Year"
+msgstr "Jahr"
 
 #: Lib/Utility/TimeLib.php:787
 msgid "Months"
-msgstr ""
+msgstr "Monate"
 
 #: Lib/Utility/TimeLib.php:788
 #: Test/Case/Lib/Utility/TimeLibTest.php:551;555;664
 msgid "Days"
-msgstr ""
+msgstr "Tage"
 
 #: Lib/Utility/TimeLib.php:789
 #: Test/Case/Lib/Utility/TimeLibTest.php:551;555;664
 msgid "Hours"
-msgstr ""
+msgstr "Stunden"
 
 #: Lib/Utility/TimeLib.php:790
 #: Test/Case/Lib/Utility/TimeLibTest.php:656;660
 msgid "Minutes"
-msgstr ""
+msgstr "Minuten"
 
 #: Lib/Utility/TimeLib.php:791
 #: Test/Case/Lib/Utility/TimeLibTest.php:656
 msgid "Seconds"
-msgstr ""
+msgstr "Sekunden"
+
+msgid "Weeks"
+msgstr "Wochen"
+
+msgid "Years"
+msgstr "Jahre"
+
+msgctxt "relative"
+msgid "Second"
+msgstr "Sekunde"
+
+msgctxt "relative"
+msgid "Seconds"
+msgstr "Sekunden"
+
+msgctxt "relative"
+msgid "Minute"
+msgstr "Minute"
+
+msgctxt "relative"
+msgid "Minutes"
+msgstr "Minuten"
+
+msgctxt "relative"
+msgid "Hour"
+msgstr "Stunde"
+
+msgctxt "relative"
+msgid "Hours"
+msgstr "Stunden"
+
+msgctxt "relative"
+msgid "Day"
+msgstr "Tag"
+
+msgctxt "relative"
+msgid "Days"
+msgstr "Tagen"
+
+msgctxt "relative"
+msgid "Week"
+msgstr "Woche"
+
+msgctxt "relative"
+msgid "Weeks"
+msgstr "Wochen"
+
+msgctxt "relative"
+msgid "Month"
+msgstr "Monat"
+
+msgctxt "relative"
+msgid "Months"
+msgstr "Monaten"
+
+msgctxt "relative"
+msgid "Year"
+msgstr "Jahr"
+
+msgctxt "relative"
+msgid "Years"
+msgstr "Jahren"
 
 #: Lib/Utility/TimeLib.php:890
 #: Test/Case/Lib/Utility/TimeLibTest.php:559
 msgid "justNow"
-msgstr ""
+msgstr "gerade eben"
 
 #: Lib/Utility/TimeLib.php:891
 #: Test/Case/Lib/Utility/TimeLibTest.php:555
 msgid "In {0}"
-msgstr ""
+msgstr "In {0}"
 
 #: Lib/Utility/TimeLib.php:990
 #: Test/Case/Lib/Utility/TimeLibTest.php:173;233;262;263;264

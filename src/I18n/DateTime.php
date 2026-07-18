@@ -827,24 +827,266 @@ class DateTime extends CakeDateTime {
 	}
 
 	/**
+	 * Ordered duration units and their (approximate) length in seconds, used for
+	 * splitting a raw seconds value. Month/year are approximations (30/365 days);
+	 * relLengthOfTime() uses calendar-exact DateInterval values instead.
+	 *
+	 * @var array<string, int>
+	 */
+	protected const LENGTH_UNITS = [
+		'year' => YEAR,
+		'month' => MONTH,
+		'week' => WEEK,
+		'day' => DAY,
+		'hour' => HOUR,
+		'minute' => MINUTE,
+		'second' => SECOND,
+	];
+
+	/**
 	 * Time length to human readable format.
+	 *
+	 * Without an explicit $format, the highest fitting units are used, capped by
+	 * the `accuracy` option (default 2), e.g. `1 Week, 2 Days` or `3 Months, 1 Week`.
 	 *
 	 * @see timeAgoInWords()
 	 * @param int $seconds
-	 * @param string|null $format
+	 * @param string|null $format Explicit legacy format (e.g. `Dh`); uppercase = total, lowercase = remainder:
+	 *   Y/M/W/D/H/I/S totals, m/w/d/h/i/s remainders. Prefer the automatic mode (null).
 	 * @param array<string, mixed> $options
-	 * - boolean v: verbose
-	 * - boolean zero: if false: 0 days 5 hours => 5 hours etc.
-	 * - int: accuracy (how many sub-formats displayed?) //TODO
+	 * - verbose: false for compact suffix output (`4d 1h`)
+	 * - zero: if false: 0 days 5 hours => 5 hours etc.
+	 * - accuracy: max number of units displayed in automatic mode (default 2)
+	 * - context: translation msgctxt for unit words (e.g. `relative` for after-ago wording)
+	 * - separator, default
 	 * @return string
 	 */
 	public static function lengthOfTime($seconds, $format = null, array $options = []) {
-		$defaults = ['verbose' => true, 'zero' => false, 'separator' => ', ', 'default' => ''];
+		$defaults = ['verbose' => true, 'zero' => false, 'separator' => ', ', 'default' => '', 'accuracy' => 2, 'context' => null];
 		$options += $defaults;
 
+		$seconds = (int)$seconds;
+
+		if ($format === null) {
+			$rest = abs($seconds);
+			$units = [];
+			foreach (static::LENGTH_UNITS as $unit => $factor) {
+				$units[$unit] = intdiv($rest, $factor);
+				$rest %= $factor;
+			}
+			// Avoid `1 Year, 12 Months` style overflow from the 30-day month approximation
+			if ($units['month'] > 11 && $units['year'] > 0) {
+				$units['year'] += intdiv($units['month'], 12);
+				$units['month'] %= 12;
+			}
+
+			return static::formatUnits($units, $options);
+		}
+
+		return static::formatLegacy($seconds, $format, $options);
+	}
+
+	/**
+	 * Time relative to a reference point (default: now) in human readable format,
+	 * negative (past) as well as positive (future).
+	 *
+	 * Calendar-exact: the difference is calculated on the actual dates (DateInterval),
+	 * so months and years respect calendar lengths and leap years.
+	 *
+	 * By default the unit words are translated with msgctxt `relative`, allowing
+	 * grammatically correct wording after the past/future template (e.g. German
+	 * dative `Vor 4 Tagen` via a `relative` context translation of `Days`).
+	 *
+	 * @param mixed $date
+	 * @param string|null $format Explicit legacy format (see lengthOfTime()); prefer the automatic mode (null).
+	 * @param array<string, mixed> $options Options
+	 * - accuracy: max number of units displayed in automatic mode (default 2)
+	 * - from: reference date/time to compare against (default: now)
+	 * - context: translation msgctxt for unit words (default `relative`; set null for plain)
+	 * - default, separator
+	 * - boolean zero: if false: 0 days 5 hours => 5 hours etc.
+	 * - verbose/past/future: string with %s or boolean true/false
+	 *
+	 * @return array|string
+	 */
+	public static function relLengthOfTime($date, ?string $format = null, array $options = []) {
+		$dateTime = $date;
+		if ($date !== null && !is_object($date)) {
+			$dateTime = static::parse($date);
+		}
+
+		$defaults = [
+			'verbose' => __d('tools', 'justNow'),
+			'zero' => false,
+			'separator' => ', ',
+			'future' => __d('tools', 'In %s'),
+			'past' => __d('tools', '%s ago'),
+			'default' => '',
+			'accuracy' => 2,
+			'context' => 'relative',
+			'from' => null,
+		];
+		$options += $defaults;
+
+		$from = $options['from'] ?? static::now();
+		if (!is_object($from)) {
+			$from = static::parse($from);
+		}
+		/** @var \DateTimeInterface $from */
+
+		if ($dateTime !== null) {
+			$sec = $from->getTimestamp() - $dateTime->getTimestamp();
+			$type = $sec > 0 ? -1 : ($sec < 0 ? 1 : 0);
+			$sec = (int)abs($sec);
+		} else {
+			$sec = 0;
+			$type = 0;
+		}
+
+		if ($type === 0) {
+			if ($options['verbose'] !== false) {
+				return $options['verbose'];
+			}
+
+			return $options['default'];
+		}
+
+		if ($format === null) {
+			/** @var \DateTimeInterface $dateTime */
+			// Second precision: strip microseconds so e.g. `in 4 days, 5 hours`
+			// does not truncate down to `4 days, 4 hours` against now().
+			$fromClean = new NativeDateTime($from->format('Y-m-d H:i:s'), $from->getTimezone() ?: null);
+			$dateClean = new NativeDateTime($dateTime->format('Y-m-d H:i:s'), $dateTime->getTimezone() ?: null);
+			$interval = $fromClean->diff($dateClean);
+			$units = [
+				'year' => $interval->y,
+				'month' => $interval->m,
+				'week' => intdiv($interval->d, 7),
+				'day' => $interval->d % 7,
+				'hour' => $interval->h,
+				'minute' => $interval->i,
+				'second' => $interval->s,
+			];
+			$ret = static::formatUnits($units, $options);
+		} else {
+			$ret = static::formatLegacy($sec, $format, $options);
+		}
+
+		if ($type === 1) {
+			if ($options['future'] !== false) {
+				return sprintf($options['future'], $ret);
+			}
+
+			return ['future' => $ret];
+		}
+
+		if ($options['past'] !== false) {
+			return sprintf($options['past'], $ret);
+		}
+
+		return ['past' => $ret];
+	}
+
+	/**
+	 * Render a split units array (year...second => amount) into a human readable
+	 * string, starting at the highest non-zero unit and capped by `accuracy`.
+	 *
+	 * @param array<string, int> $units
+	 * @param array<string, mixed> $options See lengthOfTime().
+	 * @return string
+	 */
+	protected static function formatUnits(array $units, array $options): string {
+		$accuracy = max(1, (int)$options['accuracy']);
+
+		$display = [];
+		$started = false;
+		foreach ($units as $unit => $amount) {
+			// Skip leading zero units (except a final zero-seconds-only value)
+			if (!$started && $amount === 0 && $unit !== 'second') {
+				continue;
+			}
+			$started = true;
+			if ($amount === 0 && !$options['zero'] && $display) {
+				continue;
+			}
+			$display[] = $amount . static::unitWord($unit, $amount, $options);
+			if (count($display) >= $accuracy) {
+				break;
+			}
+		}
+
+		if (!$display) {
+			if (trim((string)$options['default']) !== '') {
+				return $options['default'];
+			}
+			$display[] = 0 . static::unitWord('second', 0, $options);
+		}
+
+		return implode($options['separator'], $display);
+	}
+
+	/**
+	 * Translated word for a unit amount, singular/plural aware.
+	 *
+	 * With a `context` option set, the plural word is translated with that msgctxt
+	 * (`__dx()`), so translations can differ by grammatical position (e.g. German
+	 * `Tage` vs dative `Tagen` after `Vor ...`). Untranslated contexts fall back
+	 * to the plain English msgid.
+	 *
+	 * @param string $unit One of year, month, week, day, hour, minute, second.
+	 * @param int $amount
+	 * @param array<string, mixed> $options See lengthOfTime().
+	 * @return string
+	 */
+	protected static function unitWord(string $unit, int $amount, array $options): string {
+		if (!$options['verbose']) {
+			$compact = [
+				'year' => 'y',
+				'month' => 'mth',
+				'week' => 'w',
+				'day' => 'd',
+				'hour' => 'h',
+				'minute' => 'm',
+				'second' => 's',
+			];
+
+			return $compact[$unit];
+		}
+
+		$word = ucfirst($unit);
+		if ($amount !== 1) {
+			$word .= 's';
+		}
+
+		if (!empty($options['context'])) {
+			return ' ' . __dx('tools', $options['context'], $word);
+		}
+
+		$title = __d('tools', $word);
+		if ($amount !== 1 && !empty($options['plural']) && mb_substr($title, -1, 1) === 'e') {
+			$title .= $options['plural'];
+		}
+
+		return ' ' . $title;
+	}
+
+	/**
+	 * Legacy format-character engine for explicit $format strings.
+	 *
+	 * Uppercase = total amount, lowercase = remainder within the next higher unit:
+	 * Y (years), M/m (months), W/w (weeks), D/d (days), H/h (hours), I/i (minutes), S/s (seconds).
+	 *
+	 * @param int $seconds
+	 * @param string $format
+	 * @param array<string, mixed> $options See lengthOfTime().
+	 * @return string
+	 */
+	protected static function formatLegacy(int $seconds, string $format, array $options): string {
 		if (!$options['verbose']) {
 			$s = [
+				'y' => 'y',
 				'm' => 'mth',
+				'w' => 'w',
 				'd' => 'd',
 				'h' => 'h',
 				'i' => 'm',
@@ -853,14 +1095,18 @@ class DateTime extends CakeDateTime {
 			$p = $s;
 		} else {
 			$s = [
-				'm' => ' ' . __d('tools', 'Month'), # translated
+				'y' => ' ' . __d('tools', 'Year'), # translated
+				'm' => ' ' . __d('tools', 'Month'),
+				'w' => ' ' . __d('tools', 'Week'),
 				'd' => ' ' . __d('tools', 'Day'),
 				'h' => ' ' . __d('tools', 'Hour'),
 				'i' => ' ' . __d('tools', 'Minute'),
 				's' => ' ' . __d('tools', 'Second'),
 			];
 			$p = [
-				'm' => ' ' . __d('tools', 'Months'), # translated
+				'y' => ' ' . __d('tools', 'Years'), # translated
+				'm' => ' ' . __d('tools', 'Months'),
+				'w' => ' ' . __d('tools', 'Weeks'),
 				'd' => ' ' . __d('tools', 'Days'),
 				'h' => ' ' . __d('tools', 'Hours'),
 				'i' => ' ' . __d('tools', 'Minutes'),
@@ -868,45 +1114,53 @@ class DateTime extends CakeDateTime {
 			];
 		}
 
-		if (!isset($format)) {
-			if (floor($seconds / DAY) > 0) {
-				$format = 'Dh';
-			} elseif (floor($seconds / 3600) > 0) {
-				$format = 'Hi';
-			} elseif (floor($seconds / 60) > 0) {
-				$format = 'Is';
-			} else {
-				$format = 'S';
-			}
-		}
-
 		$ret = '';
 		$j = 0;
 		$length = mb_strlen($format);
 		for ($i = 0; $i < $length; $i++) {
 			switch (mb_substr($format, $i, 1)) {
+				case 'Y':
+					$str = intdiv($seconds, YEAR);
+
+					break;
+				case 'M':
+					$str = intdiv($seconds, MONTH);
+
+					break;
+				case 'm':
+					$str = intdiv($seconds, MONTH) % 12;
+
+					break;
+				case 'W':
+					$str = intdiv($seconds, WEEK);
+
+					break;
+				case 'w':
+					$str = intdiv($seconds % MONTH, WEEK);
+
+					break;
 				case 'D':
-					$str = floor($seconds / 86400);
+					$str = intdiv($seconds, DAY);
 
 					break;
 				case 'd':
-					$str = floor((int)($seconds / 86400) % 30);
+					$str = intdiv($seconds, DAY) % 30;
 
 					break;
 				case 'H':
-					$str = floor($seconds / 3600);
+					$str = intdiv($seconds, HOUR);
 
 					break;
 				case 'h':
-					$str = floor((int)($seconds / 3600) % 24);
+					$str = intdiv($seconds, HOUR) % 24;
 
 					break;
 				case 'I':
-					$str = floor($seconds / 60);
+					$str = intdiv($seconds, MINUTE);
 
 					break;
 				case 'i':
-					$str = floor((int)($seconds / 60) % 60);
+					$str = intdiv($seconds, MINUTE) % 60;
 
 					break;
 				case 'S':
@@ -914,14 +1168,14 @@ class DateTime extends CakeDateTime {
 
 					break;
 				case 's':
-					$str = floor($seconds % 60);
+					$str = $seconds % 60;
 
 					break;
 				default:
 					return '';
 			}
 
-			if ($str > 0 || $j > 0 || $options['zero'] || $i === mb_strlen($format) - 1) {
+			if ($str > 0 || $j > 0 || $options['zero'] || $i === $length - 1) {
 				if ($j > 0) {
 					$ret .= $options['separator'];
 				}
@@ -943,68 +1197,6 @@ class DateTime extends CakeDateTime {
 		}
 
 		return $ret;
-	}
-
-	/**
-	 * Time relative to NOW in human readable format - absolute (negative as well as positive)
-	 * //TODO: make "now" adjustable
-	 *
-	 * @param mixed $date
-	 * @param string|null $format Format
-	 * @param array<string, mixed> $options Options
-	 * - default, separator
-	 * - boolean zero: if false: 0 days 5 hours => 5 hours etc.
-	 * - verbose/past/future: string with %s or boolean true/false
-	 *
-	 * @return array|string
-	 */
-	public static function relLengthOfTime($date, ?string $format = null, array $options = []) {
-		$dateTime = $date;
-		if ($date !== null && !is_object($date)) {
-			$dateTime = static::parse($date);
-		}
-
-		if ($dateTime !== null) {
-			$date = $dateTime->format('U');
-			$sec = time() - $date;
-			$type = $sec > 0 ? -1 : ($sec < 0 ? 1 : 0);
-			$sec = (int)abs($sec);
-		} else {
-			$sec = 0;
-			$type = 0;
-		}
-
-		$defaults = [
-			'verbose' => __d('tools', 'justNow'),
-			'zero' => false,
-			'separator' => ', ',
-			'future' => __d('tools', 'In %s'),
-			'past' => __d('tools', '%s ago'),
-			'default' => '',
-		];
-		$options += $defaults;
-
-		$ret = static::lengthOfTime($sec, $format, $options);
-
-		if ($type === 1) {
-			if ($options['future'] !== false) {
-				return sprintf($options['future'], $ret);
-			}
-
-			return ['future' => $ret];
-		}
-		if ($type === -1) {
-			if ($options['past'] !== false) {
-				return sprintf($options['past'], $ret);
-			}
-
-			return ['past' => $ret];
-		}
-		if ($options['verbose'] !== false) {
-			return $options['verbose'];
-		}
-
-		return $options['default'];
 	}
 
 	/**
