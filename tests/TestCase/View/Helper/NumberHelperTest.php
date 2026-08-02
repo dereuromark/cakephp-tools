@@ -117,17 +117,38 @@ class NumberHelperTest extends TestCase {
 	}
 
 	/**
+	 * CakePHP 5.4 changed the default divisor of toReadableSize() from 1024 (binary) to 1000 (decimal),
+	 * with the binary behavior moving behind the new IEC units switch. Assert per core version so the
+	 * plugin keeps passing across the whole supported range.
+	 *
 	 * @return void
 	 */
 	public function testToReadableSize() {
+		$decimalUnits = method_exists(Number::class, 'setUseIecUnits');
+
 		$is = $this->Number->toReadableSize(1206);
-		$this->assertSame('1,18 KB', $is);
+		$this->assertSame($decimalUnits ? '1,21 KB' : '1,18 KB', $is);
 
 		$is = $this->Number->toReadableSize(1024 * 1024 * 1024);
-		$this->assertSame('1 GB', $is);
+		$this->assertSame($decimalUnits ? '1,07 GB' : '1 GB', $is);
 
 		$is = $this->Number->toReadableSize(1024 * 1024 * 1024 * 1024 * 2.5);
-		$this->assertSame('2,5 TB', $is);
+		$this->assertSame($decimalUnits ? '2,75 TB' : '2,5 TB', $is);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testToReadableSizeIecUnits() {
+		if (!method_exists(Number::class, 'setUseIecUnits')) {
+			$this->markTestSkipped('IEC units require CakePHP 5.4+');
+		}
+
+		$is = $this->Number->toReadableSize(1206, true);
+		$this->assertSame('1,18 KiB', $is);
+
+		$is = $this->Number->toReadableSize(1024 * 1024 * 1024, true);
+		$this->assertSame('1 GiB', $is);
 	}
 
 }
