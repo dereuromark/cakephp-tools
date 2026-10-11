@@ -92,8 +92,7 @@ $this->addBehavior('Tools.Jsonable',
 
 Only for the add/edit action we need to also make "output" "param" at runtime:
 ```php
-$this->Table->behaviors()->Jsonable->options(
-    ['fields' => 'details', 'input' => 'param', 'output' => 'param']);
+$this->fetchTable('Articles')->getBehavior('Jsonable')->setConfig('output', 'param');
 ```
 
 The form contains a "details" textarea field. We can insert:
