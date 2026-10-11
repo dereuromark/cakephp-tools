@@ -4,6 +4,9 @@ description: Install Tools, load its library features, and configure optional de
 
 # Installation
 
+This branch uses unreleased CakePHP 6 packages. Set `"minimum-stability": "dev"`
+and `"prefer-stable": true` in your application's `composer.json` before installing.
+
 From your CakePHP application root:
 
 ```bash
