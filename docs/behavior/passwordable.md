@@ -1,226 +1,62 @@
-# Passwordable Behavior
+# Passwordable behavior
 
-A CakePHP behavior to work with passwords the easy way
-- Complete validation.
-- Hashing of password.
-- Requires fields (no tempering even without security component).
-- Usable for edit forms (require => false for optional password update).
-- Only change minimal code (adding the behavior at runtime), no entites/tables need modification.
-- No accidental password setting on any other action.
+`Passwordable` validates temporary password fields and hashes an accepted password into the stored field. Attach it before creating or patching an entity, only in actions that permit a password change. Do not also hash the same password in an entity setter.
 
-Also capable of:
-- Require current password prior to altering it (current => true)
-- Don't allow the same password it was before (allowSame => false)
+## Setup
 
-Note: This works best together with [TinyAuth plugin](https://github.com/dereuromark/cakephp-tinyauth).
+Use a table extending `Tools\Model\Table\Table`, or supply an equivalent `validateIdentical` validation method. Make `pwd` and `pwd_repeat` accessible for the operation. With current-password validation enabled, also allow `pwd_current`.
 
-## Configs
-| Key  | Default | Description |
-| ------------- | ------------- | ------------- |
-| field             |   'password'          |   |
-| confirm           |   true                |    Set to false if in admin view and no confirmation (pwd_repeat) is required     |
-| require           |   true                |    If a password change is required (set to false for edit forms, leave it true for pure password update forms)|
-| current           |   false               |    Enquire the current password for security purposes     |
-| formField         |   'pwd'               |   |
-| formFieldRepeat   |   'pwd_repeat'        |   |
-| formFieldCurrent  |   'pwd_current'       |   |
-| userModel         |   null                |   Defaults to Users      |
-| auth              |   null                |   Which component (defaults to AuthComponent)    |
-| authType          |   'Form'              |   Which type of authenticate (Form, Blowfish, ...)|
-| passwordHasher    |   'Default'           |   If a custom pwd hasher is been used         |
-| allowSame         |   true                |   Don't allow the old password on change      |
-| minLength         |   PWD_MIN_LENGTH      |   Defaults to 6 |
-| maxLength         |   PWD_MAX_LENGTH      |   Defaults to 50 |
-| validator         |   'default'           |   |
-| customValidation  |   null                |    Custom validation rule(s) for the formField on top     |
-| forceFieldList    |   false               |    Force field list to overwrite entity accessibility     |
+In a controller action, fetch the application table and add the behavior before patching:
 
-You can either pass those to the behavior at runtime, or globally via Configure and `app.php`:
 ```php
-$config = [
-    'Passwordable' => [
-        'passwordHasher' => ['className' => 'Fallback', 'hashers' => ['Default', 'Weak']]
-    ]
-]
-```
-In this case we use the Fallback hasher class and both Default (Blowfish, CakePHP3 default) and Weak (E.g. sha1) hashing algorithms.
-The latter is necessary when you try to upgrade an existing CakePHP2 application which used some weak hashing algo to Cake3. This way
-you can use both parallel. And new accounts will use the new hasher. Order matters!
+$users = $this->fetchTable('Users');
+$users->addBehavior('Tools.Passwordable', ['require' => false]);
+$user = $users->get($id);
 
-The `passwordHasher` class name is resolved first within the `Tools` plugin (so the built-in `Default` keeps
-working without a prefix and cannot be silently shadowed), then via plain app/plugin resolution. So you can
-provide your own hasher as an app class (e.g. `'MyHasher'` for `App\Auth\MyHasherPasswordHasher`) or with a
-plugin prefix (e.g. `'MyPlugin.MyHasher'`). Any custom hasher must extend `\Tools\Auth\AbstractPasswordHasher`.
-
-## Usage
-Do NOT hard-add it in the model itself.
-Attach it dynamically in only those actions where you actually change the password like so:
-```php
-$this->Users->addBehavior('Tools.Passwordable', $config);
-```
-as first line in any action where you want to allow the user to change his password.
-Also add the two form fields in the form (pwd, pwd_confirm)
-
-The rest is CakePHP automagic :)
-
-Also note that you can apply global settings via Configure key 'Passwordable', as well,
-if you don't want to manually pass them along each time you use the behavior. This also
-keeps the code clean and lean. See the `config/app.example.php` file for details.
-
-And do NOT add any password hashing to your Table or Entity classes. That would hash the password twice.
-
-## Examples
-
-### Register (Add) form
-```php
-namespace App\Controller;
-
-use Cake\Core\Configure;
-use Tools\Controller\Controller;
-
-class UsersController extends Controller {
-
-    public function register() {
-        $user = $this->Users->newEmptyEntity();
-        $this->Users->addBehavior('Tools.Passwordable');
-
-        if ($this->request->is(['put', 'post', 'patch'])) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
-            $user->role_id = Configure::read('Roles.user');
-
-            if ($this->Users->save($user)) {
-                // Log in right away
-                $this->Auth->setUser($user->toArray());
-                // Flash message OK
-                return $this->redirect(['action' => 'index']);
-            }
-            // Flash message ERROR
-
-            // Pwd should not be passed to the view again for security reasons
-            $user->unsetProperty('pwd');
-            $user->unsetProperty('pwd_repeat');
-        }
-
-        $this->set(compact('user'));
+if ($this->getRequest()->is(['post', 'put', 'patch'])) {
+    $user = $users->patchEntity($user, $this->getRequest()->getData(), [
+        'fields' => ['name', 'pwd', 'pwd_repeat'],
+    ]);
+    if ($users->save($user)) {
+        return $this->redirect(['action' => 'view', $user->id]);
     }
-
+    $user->unset('pwd');
+    $user->unset('pwd_repeat');
 }
+$this->set(compact('user'));
 ```
 
-### Edit form
+Resolve `$id` through the application's access controls before editing an account. Authentication and session identity updates remain application responsibilities.
+
+In the form template:
+
 ```php
-namespace App\Controller;
-
-use Tools\Controller\Controller;
-
-class UsersController extends Controller {
-
-    public function edit() {
-        $uid = $this->request->getSession()->read('Auth.User.id');
-        $user = $this->Users->get($uid);
-        $this->Users->addBehavior('Tools.Passwordable', ['require' => false]);
-
-        if ($this->request->is(['put', 'post', 'patch'])) {
-            $options = [
-                'fieldList' => [...]
-            ];
-            $user = $this->Users->patchEntity($user, $this->request->getData(), $options);
-            if ($this->Users->save($user)) {
-                // Update session data, as well
-                $this->Auth->setUser($user->toArray());
-                // Flash message OK
-                return $this->redirect(['action' => 'index']);
-            }
-            // Flash message ERROR
-        }
-
-        $this->set(compact('user'));
-    }
-
-}
+echo $this->Form->control('pwd', ['type' => 'password', 'value' => '']);
+echo $this->Form->control('pwd_repeat', ['type' => 'password', 'value' => '']);
 ```
 
-### Login with Fallback hasher class and automatic rehashing
-In the config example above you can see both Default and Weak hashers being used.
-We want to upgrade all accounts piece by piece upon login automatically. This way it can be done
-without the user noticing:
-```php
-public function login() {
-    if ($this->request->is(['put', 'post', 'patch'])) {
-        $user = $this->Auth->identify();
-        if ($user) {
-            $this->Users->addBehavior('Tools.Passwordable', ['confirm' => false]);
-            $password = $this->request->data['password'];
-            $dbPassword = $this->Users->field('password', ['id' => $user['id']]);
+`require => false` allows an edit without a new password. When a password is supplied, confirmation must match. For a dedicated password-change form, retain the default `require => true` and consider `current => true`.
 
-            if ($this->Users->getBehavior('Passwordable')->needsPasswordRehash($dbPassword)) {
-                $data = [
-                    'id' => $user['id'],
-                    'pwd' => $password,
-                    'modified' => false
-                ];
-                $updatedUser = $this->Users->newEntity($data, ['markNew' => false]);
-                if (!$this->Users->save($updatedUser, ['validate' => false])) {
-                    trigger_error(sprintf('Could not store new pwd for user %s.', $user['id']));
-                }
-            }
-            unset($user['password']);
-            $this->Auth->setUser($user);
-            // Flash message OK
+## Configuration
 
-            return $this->redirect($this->Auth->redirectUrl());
-        }
-        // Flash message ERROR
+| Option | Default | Purpose |
+| --- | --- | --- |
+| `field` | `password` | Stored hash field. |
+| `formField` | `pwd` | Submitted plaintext field; must differ from `field`. |
+| `formFieldRepeat` | `pwd_repeat` | Confirmation field. |
+| `formFieldCurrent` | `pwd_current` | Current-password field. |
+| `confirm` | `true` | Require matching confirmation. |
+| `require` | `true` | Require a new password. |
+| `current` | `false` | Validate the supplied current password. |
+| `allowSame` | `true` | Permit the previous password. |
+| `passwordHasher` | `Default` | Tools password hasher configuration. |
+| `minLength`, `maxLength` | `PWD_MIN_LENGTH`, `PWD_MAX_LENGTH` | Length limits defined when the behavior class is loaded. |
+| `validator` | `default` | Validator to extend. |
+| `customValidation` | `null` | Additional rules for the password form field. |
+| `forceFieldList` | `false` | Create a marshal field list from submitted data when none is provided. |
 
-    }
-}
-```
-Note that the `passwordHasher` config has been set here globabally to assert the Fallback hasher class to kick in.
+Global defaults can be configured under `Passwordable`; per-behavior options take precedence. The behavior adds its temporary password fields to an explicit marshal `fields` list, but the entity's accessibility rules still apply.
 
+The built-in `Default` hasher uses PHP's `password_hash()` and `password_verify()`. Its `hashType` and `hashOptions` can be configured. Custom hashers must extend `Tools\Auth\AbstractPasswordHasher`; class names resolve within Tools first, then through app or plugin resolution. Former `Fallback` and `Weak` examples do not describe the hashers shipped by this plugin.
 
-### Adding custom validation rules on top
-If the default rules don't satisfy your needs, you can add some more on top:
-```php
-$rules = [
-    'validateCustom' => [
-        'rule' => ['custom', '#^[a-z0-9]+$#'], // Just a test example, never use this regex!
-        'message' => __('Foo Bar'),
-        'last' => true,
-    ],
-    'validateCustomExt' => [
-        'rule' => ['custom', '#^[a-z]+$#'], // Just a test example, never use this regex!
-        'message' => __('Foo Bar Ext'),
-        'last' => true,
-    ],
-];
-$this->Users->Behaviors->load('Tools.Passwordable', ['customValidation' => $rules]);
-```
-But please do NOT use the above regex examples. Also never try to limit the chars to only a subset of characters.
-Always allow [a-z], [0-9] and ALL special chars a user can possibly type in.
-Regex rules can be useful to assert that the password is strong enough, though. That means, that it contains not just letters/numbers, but
-also some special chars. This would be way more secure and useful. But also try to be reasonable here, some developers tend to overreach here,
-making it very annoying to set up passwords.
-
-### Fields list and Accessibility
-The behavior will automatically add the internally needed fields to the `'fields'` options array, if you provided one on patching.
-So you only need to pass in the other non-password-related fields:
-```php
-$options = [
-    'fields' => ['id', 'name'],
-];
-$user = $this->Users->patchEntity($user, $this->request->getData(), $options);
-```
-
-If the config `forceFieldList` is set to true, it will even create the `fields` list for you on the fly.
-Otherwise it will use the entity accessible config to determine if the password can be assigned.
-So if you do not want to force it, make sure your entity has those fields not protected:
-```php
-// Inside the entity
-protected $_accessible = [
-    '*' => false,
-    'pwd' => true,
-    ...
-];
-
-// Or from the outside before patching
-$user->setAccess(['pwd', ...], true); // Allow certain fields
+`needsPasswordRehash()` checks whether an existing hash needs updating under the configured hasher. An automatic rehash after login must be integrated with the application's current Authentication service and authorized persistence flow.

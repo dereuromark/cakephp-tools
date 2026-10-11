@@ -2,6 +2,7 @@
 
 namespace Tools\Test\TestCase\Model\Behavior;
 
+use InvalidArgumentException;
 use Shim\TestSuite\TestCase;
 
 class StringBehaviorTest extends TestCase {
@@ -144,6 +145,20 @@ class StringBehaviorTest extends TestCase {
 
 		$res = $this->Comments->find()->all()->toArray();
 		$this->assertSame('Some Name', $res[0]['title']);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testInvalidFilter() {
+		$this->Comments->addBehavior('Tools.String', ['fields' => ['title'], 'input' => ['notAFunction']]);
+
+		$entity = $this->Comments->newEntity(['title' => 'some Name', 'comment' => 'blabla', 'url' => '']);
+
+		$this->expectException(InvalidArgumentException::class);
+		$this->expectExceptionMessage('Filter `notAFunction` is not callable.');
+
+		$this->Comments->save($entity);
 	}
 
 }

@@ -54,7 +54,7 @@ Note that in this case we also use a timeout to avoid getting a penalty by Googl
 
 ### Advanced example: Resetting composite cache field
 
-In this case we added a new cache field to our messages in order to make the search faster with >> 100000 records. The data was containing all the info we needed – in serialized format. We needed a callback here as there was some logic involved. So we simply made a shell containing both callback method and shell command:
+In this case we added a new cache field to our messages to make the search faster with >> 100000 records. The data was containing all the info we needed – in serialized format. We needed a callback here as there was some logic involved. So we simply made a shell containing both callback method and shell command:
 ```php
 $this->Messages->addBehavior('Tools.Reset', [
     'fields' => ['data'], 'updateFields' => ['guest_name'],

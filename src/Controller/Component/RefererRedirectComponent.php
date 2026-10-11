@@ -69,7 +69,10 @@ class RefererRedirectComponent extends Component {
 			$referer = Router::url($referer);
 		}
 
-		if (!is_string($referer) || !str_starts_with($referer, '/')) {
+		if (!is_string($referer) || !str_starts_with($referer, '/')
+			|| str_starts_with($referer, '//') || str_contains($referer, '\\')
+			|| preg_match('/[\x00-\x1F\x7F]/', $referer)
+		) {
 			return null;
 		}
 

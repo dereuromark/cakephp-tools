@@ -1,55 +1,31 @@
 # FileLog
 
-Log class let's you write logs into custom log files.
-
-#### With default `Cake\Log\Log` class:
-
-To write log data into custom file with default CakePHP `Cake\Log\Log` class feels like repeating ourselves.
-
-1. Configure FileLog Adapter:
-```php
-use Cake\Log\Log;
-
-Log::config('custom_file', [
-    'className' => 'File',
-    'path' => LOGS,
-    'levels' => ['debug'],
-    'file' => 'my_file.log',
-]);
-```
-
-2. Write logs into file:
-```php
-Log::write('debug', "Something didn't work!");
-```
-
-With above approach, we have multiple issues:
-- It surely logs data into `custom_file.log` file but also it will log into level specific `$level.log` file too, so we end up duplicating the log data.
-- When we have to write more logs into same file from different parts of the project, we have to copy-paste this code every time.
-
-Or you hack it with doing something like setting configurations in `bootstrap.php` and use scope to log data. But each time you start new project you have to remember to copy paste that config and use in your project in order to write data into custom log files.
-
-#### With `Tools\Utility\FileLog` class:
-
-You can directly pass data to log and filename to write the data into.
-
-##### Usage:
+`Tools\Utility\FileLog` writes debug messages to a named file under `LOGS`, without configuring a separate logger for each filename.
 
 ```php
 use Tools\Utility\FileLog;
 
-FileLog::write("Something didn't work!", 'my_file');
-
-// Somewhere else in any file
-FileLog::write([
-    'user' => [
-        'id' => '1',
-        'name' => 'John',
-        'email' => 'john@example.com',
-    ]
-], 'user_data');
+FileLog::write('Import started', 'imports');
+FileLog::write(['user_id' => 42, 'result' => 'saved'], 'imports');
 ```
 
-That's it! Above will create two separate files in `log/` directory named `my_file.log` and `user_data.log` store data into which we passed in first argument. By default if you don't pass the `$filename` in second param in `FileLog::write` method, it will create `custom_log.log` file.
+These calls append to `imports.log`. Arrays and objects are formatted with `print_r()`. Omitting the filename writes to `custom_log.log`. The method returns whether logging succeeded.
 
-You can write string, array, objects, etc into log files. It will pretty print your array/object so it's more readable. Also, it will not duplicate records into `$level.log` file.
+The utility temporarily replaces the `custom` logger and disables the configured `debug` logger while writing. Other engines that accept the `custom` scope may also receive the message; this utility does not guarantee exclusive delivery to one file.
+
+For a persistent application logger, CakePHP's scoped logging is an alternative. In `config/bootstrap.php`:
+
+```php
+use Cake\Log\Log;
+
+Log::setConfig('imports', [
+    'className' => 'File',
+    'path' => LOGS,
+    'levels' => ['debug'],
+    'scopes' => ['imports'],
+    'file' => 'imports',
+]);
+Log::write('debug', 'Import started', ['scope' => 'imports']);
+```
+
+Set `scopes` to `null` on other application loggers that should accept only unscoped messages. An empty scope list accepts every scope.

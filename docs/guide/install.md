@@ -1,52 +1,73 @@
+---
+description: Install Tools, load its library features, and configure optional dependencies.
+---
+
 # Installation
 
-## How to include
-Installing the Plugin is pretty much as with every other CakePHP Plugin.
+From your CakePHP application root:
 
-```
-composer require dereuromark/cakephp-tools
-```
-
-The following command can enable the plugin:
-```
-bin/cake plugin load Tools
+```bash
+composer require dereuromark/cakephp-tools:dev-cake6
+bin/cake plugin load Tools --no-routes
 ```
 
-## Namespacing
-Using Cake3 and namespaces, don't forget to add "Tools" as namespace to new files.
-Also don't forget the `use` statements.
+Composer checks compatible PHP and CakePHP versions and installs the Shim dependency. See the [version map](https://github.com/dereuromark/cakephp-tools/wiki#cakephp-version-map) for other CakePHP branches.
 
-If you create a new behavior in the plugin, it might look like this:
+`--no-routes` loads Tools with all plugin routes disabled, including the language-switch endpoint. Keep existing `config/plugins.php` entries; if Tools is already registered, update that entry instead of adding a duplicate. Continue with [Getting started](/guide/quick-start) to render a helper in an existing template.
+
+To load manually in `Application::bootstrap()`, preserve other plugin registrations:
+
 ```php
-namespace Tools\Model\Behavior;
-
-use Cake\ORM\Behavior;
-
-class CoolBehavior extends Behavior {
-}
+$this->addPlugin('Tools', ['routes' => false]);
 ```
 
-For a new APP behavior "MySlugged" that extends "Tools.Slugged" it is:
+The [backend guide](/guide/backend) explains route loading and access controls when those pages are needed.
+
+## Optional dependencies
+
+| Feature | Additional application dependency |
+|---|---|
+| Mobile component | `mobiledetect/mobiledetectlib`, using its supported API |
+| Login-link authentication | `cakephp/authentication` and a configured token table |
+| Tools token-table migration | `cakephp/migrations` |
+
+Development dependencies from this repository are not installed automatically in applications. For example, install the detector before loading the Mobile component:
+
+```bash
+composer require mobiledetect/mobiledetectlib:^4
+```
+
+Register a detector in `config/bootstrap.php` after installing MobileDetect:
+
 ```php
-namespace App\Model\Behavior;
+use Cake\Http\ServerRequest;
+use Detection\MobileDetect;
 
-use Tools\Model\Behavior\SluggedBehavior;
+ServerRequest::addDetector('mobile', static function (ServerRequest $request): bool {
+    $detector = new MobileDetect();
+    $detector->setUserAgent($request->getHeaderLine('User-Agent'));
 
-class MySluggedBehavior extends SluggedBehavior {
-}
+    return $detector->isMobile();
+});
 ```
-Note that use statements should be in alphabetical order.
-See CakePHP coding standards for details.
 
-### Internal handling via plugin dot notation
-Internally (method access), you don't use the namespace declaration. The plugin name suffices:
+Follow [Login links](/reference/login-link) for authentication and database setup. Legacy icon helpers are deprecated; use the [Templating plugin](https://dereuromark.github.io/cakephp-templating/) for new icon integration.
+
+## Configuration and plugin names
+
+`config/app.example.php` lists optional settings. Copy the settings you need into your application's configuration. The example file is not loaded automatically.
+
+CakePHP's plugin notation identifies the feature to load:
+
 ```php
-// In a Table
-$this->addBehavior('Tools.Slugged'); // Adding SluggedBehavior
+// Inside a Table initialize() method.
+$this->addBehavior('Tools.Slugged');
 
-// In a View
-$this->loadHelper('Tools.Foo'); // Adding FooHelper
+// Inside an AppView initialize() method.
+$this->loadHelper('Tools.Progress');
 
-// In a Controller (deprecated)
-protected $helpers = ['Tools.Foo']; // Adding FooHelper
+// Inside a controller initialize() method.
+$this->loadComponent('Tools.Common');
 ```
+
+For custom application classes, use the application's namespace, such as `App\Model\Behavior`, and import the Tools class being extended. Keep customizations in the application so Composer updates preserve them.

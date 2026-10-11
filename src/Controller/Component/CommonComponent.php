@@ -100,7 +100,10 @@ class CommonComponent extends Component {
 	 */
 	public function getSafeRedirectUrl($default, $data = null, $key = 'redirect') {
 		$redirectUrl = $data ?: ($this->controller->getRequest()->getData($key) ?: $this->controller->getRequest()->getQuery($key));
-		if ($redirectUrl && (mb_substr((string)$redirectUrl, 0, 1) !== '/' || mb_substr((string)$redirectUrl, 0, 2) === '//')) {
+		if (!is_string($redirectUrl) || !str_starts_with($redirectUrl, '/')
+			|| str_starts_with($redirectUrl, '//') || str_contains($redirectUrl, '\\')
+			|| preg_match('/[\x00-\x1F\x7F]/', $redirectUrl)
+		) {
 			$redirectUrl = null;
 		}
 
@@ -312,7 +315,7 @@ class CommonComponent extends Component {
 	 * @param int $seconds
 	 * @return void
 	 */
-	public function forceCache($seconds = HOUR) {
+	public function forceCache($seconds = 3600) {
 		$response = $this->controller->getResponse();
 
 		$response = $response->withHeader('Cache-Control', 'public, max-age=' . $seconds)
@@ -352,7 +355,7 @@ class CommonComponent extends Component {
 	 */
 	public function allowExtensions(array|string $extensions): void {
 		$extension = $this->controller->getRequest()->getParam('_ext');
-		if (!$extension && $extensions !== '' || !in_array((string)$extension, (array)$extensions, true)) {
+		if (!in_array((string)$extension, (array)$extensions, true)) {
 			throw new NotFoundException(sprintf(
 				'Extension `%s` not allowed, expected `%s`.',
 				$extension,

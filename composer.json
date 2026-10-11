@@ -29,12 +29,13 @@
 	"require": {
 		"php": ">=8.5",
 		"cakephp/cakephp": "^6.0@dev",
-		"dereuromark/cakephp-shim": "dev-master"
+		"dereuromark/cakephp-shim": "dev-cake6"
 	},
 	"conflict": {
 		"cakephp/authentication": "<5.0.0"
 	},
 	"require-dev": {
+		"dereuromark/cakephp-i18n-lint": "dev-cake6",
 		"fig-r/psr2r-sniffer": "dev-master",
 		"mobiledetect/mobiledetectlib": "^4.8.09",
 		"phpunit/phpunit": "^13.0",
@@ -75,6 +76,9 @@
 		"stan": "phpstan analyze",
 		"stan-setup": "cp composer.json composer.backup && composer require --dev phpstan/phpstan:^2.0.0 && mv composer.backup composer.json",
 		"test": "phpunit",
-		"test-coverage": "phpunit --log-junit webroot/coverage/unitreport.xml --coverage-html webroot/coverage --coverage-clover webroot/coverage/coverage.xml"
+		"test-coverage": "phpunit --log-junit webroot/coverage/unitreport.xml --coverage-html webroot/coverage --coverage-clover webroot/coverage/coverage.xml",
+		"i18n-check": "i18n-lint check --paths src,templates,resources/i18n",
+		"i18n-extract": "i18n-lint extract --paths src,templates,resources/i18n",
+		"i18n-lint": "i18n-lint lint"
 	}
 }

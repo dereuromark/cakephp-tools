@@ -49,7 +49,7 @@ class TokensTable extends Table {
 	/**
 	 * @var int
 	 */
-	public int $validity = WEEK;
+	public int $validity = 604800;
 
 	/**
 	 * Custom validity windows per token type, persisted onto new rows.

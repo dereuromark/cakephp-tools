@@ -26,7 +26,7 @@ $authors = $this->Posts->getRelatedInUse('Authors', 'author_id', 'list')
 
 For optional columns used for relations, make sure to set IS NOT NULL conditions here.
 ```php
-    ->getRelatedInUse('Related', null, 'list', ['conditions' => ['optional_relation_id IS NOT' => null]])
+$related = $this->Posts->getRelatedInUse('Related', null, 'list', ['conditions' => ['optional_relation_id IS NOT' => null]])
     ->toArray();
 ```
 

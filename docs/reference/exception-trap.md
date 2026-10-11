@@ -1,89 +1,52 @@
-# Improved version of ExceptionTrap
+# Exception logging
 
-The main goal of the error.log is to notify about internal errors of the system.
-By default, there would also be a lot of noise in there.
+Tools can separate selected HTTP exceptions into a `404` log scope. The default mappings include not-found and unauthorized exceptions; [the source](https://github.com/dereuromark/cakephp-tools/blob/master/src/Error/ErrorHandlerTrait.php) defines the complete list.
 
-Most 404 logs should not be part of your error log, for example.
-You can either completely ignore them, or better yet put them into their own space:
+## Configure logging
+
+In `config/bootstrap.php`, configure the scoped logger:
+
 ```php
-Log::config('404', [
-    'className' => '...', // e.g. 'File' or 'DatabaseLog.Database'
+use Cake\Log\Log;
+
+Log::setConfig('404', [
+    'className' => 'File',
+    'path' => LOGS,
     'file' => '404',
     'levels' => ['error'],
     'scopes' => ['404'],
 ]);
 ```
 
-Make sure your other log configs are scope-deactivated then to prevent them being
-logged twice (`config/app.php`):
-```php
-    'Log' => [
-        'debug' => [
-            'scopes' => null,
-            ...
-        ],
-        'error' => [
-            'scopes' => null,
-            ...
-        ],
-    ],
-```
+Set `scopes` to `null` in the existing `Log.debug` and `Log.error` entries in `config/app.php` if those engines should accept only unscoped messages. Preserve their other settings. An empty list accepts all scopes and can duplicate these records.
 
-In your `config/bootstrap.php`, the following snippet just needs to include the
-ErrorHandler of this plugin:
+## Replace the exception trap
+
+In `config/bootstrap.php`, replace the core `ExceptionTrap` import with `Tools\Error\ExceptionTrap`. Keep CakePHP's `ErrorTrap`:
 
 ```php
-// Switch Cake\Error\ExceptionTrap to
+use Cake\Core\Configure;
+use Cake\Error\ErrorTrap;
 use Tools\Error\ExceptionTrap;
 
 (new ErrorTrap(Configure::read('Error')))->register();
 (new ExceptionTrap(Configure::read('Error')))->register();
 ```
 
-Also, make sure to switch out the middleware:
+In `Application::middleware()`, replace the existing core error middleware with the Tools middleware. Import `Tools\Error\Middleware\ErrorHandlerMiddleware` instead of its core counterpart and preserve the rest of the middleware queue:
+
 ```php
-use Cake\Http\BaseApplication;
-// Switch Cake\Error\Middleware\ErrorHandlerMiddleware to
-use Tools\Error\Middleware\ErrorHandlerMiddleware;
-
-class Application extends BaseApplication {
-
-    /**
-     * @param \Cake\Http\MiddlewareQueue $middlewareQueue Middleware queue.
-     *
-     * @return \Cake\Http\MiddlewareQueue The updated middleware queue.
-     */
-    public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue {
-        $middlewareQueue
-            // Replace the core one
-            ->add(new ErrorHandlerMiddleware())
-            ...
-
-        return $middlewareQueue;
-    }
+$middlewareQueue->add(new ErrorHandlerMiddleware(Configure::read('Error')));
 ```
 
-Note that internally caused 404s (referrer is a page on the own site) are not transferred into the 404 log.
-In that case you are having invalid links in your pages somewhere, which should be fixed.
-So those are considered actual errors here.
+Requests referred from the application's own configured host remain in the normal error log when the exception trap receives that request context. This helps identify broken internal links. External requests matching the configured mappings use the `404` scope.
 
-### Adding more exceptions
+## Customize mappings
 
-In case you need custom 404 mappings for some additional custom exceptions,
-make use of `log404` option in your `app.php`.
-It will overwrite the current defaults completely.
+`Error.log404` replaces the default exception list. For example, add this setting to the existing `Error` configuration to scope only not-found exceptions:
+
 ```php
-    'Error' => [
-        'log404' => [
-            ... // List of FQCN class names
-        ],
-    ],
+'log404' => [Cake\Http\Exception\NotFoundException::class],
 ```
 
-### Tips
-
-You can also set up a monitor to check for the internal 404s and alert (via email or alike).
-Those should also be fixed rather soon because more and more people click on those and end up on the error page.
-All other 404s are caused from the outside (often times crawlers and bots) and are usually not too relevant.
-
-One possibility is [this](https://github.com/dereuromark/CakePHP-DatabaseLog/tree/master/docs#monitor) if you use database logging.
+The [DatabaseLog monitor](https://dereuromark.github.io/cakephp-databaselog/reference/monitoring) can report recorded errors when database logging is configured.

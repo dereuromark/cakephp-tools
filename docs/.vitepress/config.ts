@@ -5,9 +5,9 @@ function unifiedSidebar() {
     {
       text: 'Getting Started',
       items: [
-        { text: 'Overview', link: '/guide/' },
-        { text: '5-min Quick Start', link: '/guide/quick-start' },
         { text: 'Installation', link: '/guide/install' },
+        { text: 'Getting started', link: '/guide/quick-start' },
+        { text: 'Overview', link: '/guide/' },
         { text: 'Upgrade Guide', link: '/guide/upgrade' },
         { text: 'Shims', link: '/guide/shims' },
         { text: 'Tools Backend', link: '/guide/backend' },
@@ -103,6 +103,8 @@ export default defineConfig({
   themeConfig: {
     logo: '/logo.svg',
     nav: [
+      { text: 'Installation', link: '/guide/install' },
+      { text: 'Getting started', link: '/guide/quick-start' },
       { text: 'Guide', link: '/guide/', activeMatch: '/guide/' },
       { text: 'Reference', link: '/reference/', activeMatch: '/(reference|behavior|helper|component|model)/' },
       {

@@ -10,36 +10,21 @@
 
 A CakePHP plugin containing several useful tools that can be used in many projects.
 
-## Version notice
+This development branch targets CakePHP 6. Stable 3.x releases support CakePHP 5.
 
-This master branch only works for **CakePHP 6 and PHP 8.5+**. The Shim runtime dependency uses upstream `dev-master` and requires its CakePHP 6 migration to be merged. See [version map](https://github.com/dereuromark/cakephp-tools/wiki#cakephp-version-map) for details.
+## Features
 
-## What is this plugin for?
+- ORM behaviors for slugs, password changes, string filters, JSON, bitmasks, and related model operations.
+- Helpers for formatting, trees, typography, progress, and meter elements.
+- Components for request trimming, mobile detection, and local redirect targets.
+- Optional Table, Entity, Controller, Mailer, and date extensions.
+- Token storage and login-link authentication integration.
 
-### Enhancing the core
-- Auto-trim on POST (to make - especially notEmpty/notBlank - validation working properly).
-- Disable cache also works for older IE versions.
-- Provide enum support as "static enums"
-- Default settings for Paginator, ... can be set using Configure.
-- Provided a less error-prone inArray() method via Utility class and other usefulness.
-- TestSuite enhancements
-- A few more Database Type classes
+## Documentation
 
-### Additional features
-- Passwordable behavior allows easy to use password functionality for frontend and backend.
-- Slugged, Reset and other behaviors
-- Tree helper for working with (complex) trees and their output.
-- Progress and Meter helper for progress bar and meter bar elements (HTML5 and textual).
-- Text, Time, Number libs and helpers etc provide extended functionality if desired.
-- Gravatar and other useful small helpers
-- Timeline, Typography, etc provide additional helper functionality.
-- Email as a wrapper for core's Email adding some more usefulness and making debugging/testing easier.
-- I18n language detection and switching
+- [Installation](https://dereuromark.github.io/cakephp-tools/guide/install)
+- [Getting started](https://dereuromark.github.io/cakephp-tools/guide/quick-start)
+- [Feature reference](https://dereuromark.github.io/cakephp-tools/reference/)
+- [Version map](https://github.com/dereuromark/cakephp-tools/wiki#cakephp-version-map)
 
-### Providing 4.x shims
-This plugin for CakePHP 5 also contains some 4.x shims to ease migration of existing applications from 4.x to 5.x:
-- See [Shim](https://github.com/dereuromark/cakephp-shim) plugin for details on most of the provided shims.
-
-## Installation & Docs
-
-Full documentation: https://dereuromark.github.io/cakephp-tools/
+Load individual helpers, components, and behaviors where they are needed. The installation guide disables developer routes by default; the backend guide explains how to enable them with application access controls.

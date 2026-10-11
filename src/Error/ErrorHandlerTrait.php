@@ -109,7 +109,7 @@ trait ErrorHandlerTrait {
 
 		// Deep instance of checking
 		foreach ($blacklist as $blacklistedClass) {
-			if ($class instanceof $blacklistedClass) {
+			if (is_a($class, $blacklistedClass, true)) {
 				return true;
 			}
 		}

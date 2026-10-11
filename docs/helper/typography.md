@@ -13,9 +13,7 @@ Upon output one can the decide to re-apply localization here.
 #### Basic usage
 Include helper in your AppView class as
 ```php
-$this->loadHelper('Tools.Typography', [
-    ...
-]);
+$this->loadHelper('Tools.Typography');
 ```
 
 Then you can use it in your templates as

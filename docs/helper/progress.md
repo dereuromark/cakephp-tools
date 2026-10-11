@@ -16,9 +16,7 @@ Note: The `<progress>` tag is not suitable for representing a gauge (e.g. disk s
 ## Setup
 Include helper in your AppView class as
 ```php
-$this->loadHelper('Tools.Progress', [
-    ...
-]);
+$this->loadHelper('Tools.Progress');
 ```
 
 You can store default configs also in Configure key `'Progress'`.
@@ -35,7 +33,7 @@ See [browser support](https://www.w3schools.com/tags/tag_progress.asp).
 Display a text-based progress bar with the progress in percentage as title.
 ```php
 echo $this->Progress->progressBar(
-    $percentage // Value 0...1
+    $percentage, // Value 0...1
     $length, // Char length >= 3
     $attributes
 );
@@ -45,7 +43,7 @@ echo $this->Progress->progressBar(
 Display a text-based progress bar as raw bar.
 ```php
 echo $this->Progress->draw(
-    $percentage // Value 0...1
+    $percentage, // Value 0...1
     $length // Char length >= 3
 );
 ```

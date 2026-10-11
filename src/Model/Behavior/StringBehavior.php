@@ -8,6 +8,7 @@ use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query\SelectQuery;
+use InvalidArgumentException;
 
 /**
  * A behavior that will apply basic string operations for your input.
@@ -155,6 +156,7 @@ class StringBehavior extends Behavior {
 	 *
 	 * @param string $val
 	 * @param array $map
+	 * @throws \InvalidArgumentException When a filter is not callable.
 	 * @return string
 	 */
 	protected function _process($val, array $map) {
@@ -162,6 +164,9 @@ class StringBehavior extends Behavior {
 			if (is_numeric($m)) {
 				$m = $arg;
 				$arg = null;
+			}
+			if (!is_callable($m)) {
+				throw new InvalidArgumentException(sprintf('Filter `%s` is not callable.', is_string($m) ? $m : get_debug_type($m)));
 			}
 
 			$ret = $arg !== null ? call_user_func($m, $val, $arg) : call_user_func($m, $val);

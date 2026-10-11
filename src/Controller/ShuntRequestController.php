@@ -48,8 +48,7 @@ class ShuntRequestController extends AppController {
 			$language = Configure::read('Config.defaultLanguage');
 		}
 		if (!$language && $allowedLanguages) {
-			$keys = array_keys($allowedLanguages);
-			$language = $allowedLanguages[array_shift($keys)];
+			$language = array_key_first($allowedLanguages);
 		}
 
 		if (!array_key_exists((string)$language, $allowedLanguages)) {

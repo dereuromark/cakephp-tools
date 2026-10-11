@@ -6,6 +6,7 @@ use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\I18n\I18n;
 use Cake\Log\Log;
+use Cake\Mailer\Exception\MissingActionException;
 use Cake\Mailer\TransportFactory;
 use Shim\TestSuite\TestCase;
 use TestApp\Mailer\TestMailer;
@@ -167,6 +168,21 @@ html-part
 		$this->mailer->setTo('some@web.de');
 		$res = $this->mailer->validates();
 		$this->assertTrue($res);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testFailedSendRestoresLocale(): void {
+		I18n::setLocale('en_US');
+		$original = I18n::getLocale();
+		$this->mailer->setLocale('de_DE');
+		try {
+			$this->mailer->send('missingActionForLocaleTest');
+			$this->fail('Missing action must throw.');
+		} catch (MissingActionException $exception) {
+			$this->assertSame($original, I18n::getLocale());
+		}
 	}
 
 }

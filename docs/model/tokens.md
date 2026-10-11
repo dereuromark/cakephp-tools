@@ -1,6 +1,6 @@
 # Tokens
 
-Easily easily manage (store, retrieve, validate) tokens.
+Store, retrieve, and validate tokens with `Tools.Tokens`.
 They are useful in the registration process of users,
 or if you want to send some double-opt-in confirmation emails, for example.
 
@@ -26,8 +26,8 @@ over the migration file and customize. In that case execute it then without the 
 
 ### Register action
 ```php
-$this->loadModel('Tools.Tokens');
-$tokenKey = $this->Tokens->newKey('activate', null, $user->id);
+$tokensTable = $this->fetchTable('Tools.Tokens');
+$tokenKey = $tokensTable->newKey('activate', null, $user->id);
 ```
 
 As 4th parameter any string content can be stored.
@@ -35,8 +35,8 @@ As 5th parameter you can override the validity for this specific token row.
 
 ### Activate action
 ```php
-$this->loadModel('Tools.Tokens');
-$token = $this->Tokens->useKey('activate', $tokenKey);
+$tokensTable = $this->fetchTable('Tools.Tokens');
+$token = $tokensTable->useKey('activate', $tokenKey);
 
 if ($token && $token->used) {
     $this->Flash->warning(__('Already activated'));
@@ -60,8 +60,8 @@ Login or otherwise.
 ## Garbage Collect
 From Cronjob/CLI
 ```php
-$this->loadModel('Tools.Tokens');
-$this->Tokens->garbageCollector();
+$tokensTable = $this->fetchTable('Tools.Tokens');
+$tokensTable->garbageCollector();
 ```
 
 ## Stats
@@ -76,8 +76,8 @@ For different token types, configure dedicated validity windows and they will be
 ```php
 $tokensTable = $this->fetchTable('Tools.Tokens');
 $tokensTable->typeValidity = [
-    'login_link' => DAY,
-    'password_reset' => HOUR,
+    'login_link' => 86400,
+    'password_reset' => 3600,
     'api' => 0,
 ];
 ```
