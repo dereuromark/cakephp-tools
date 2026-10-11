@@ -40,4 +40,14 @@ class ErrorLoggerTest extends TestCase {
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testSubclassMatchesConfiguredException(): void {
+		$this->errorLogger->setConfig('log404', [NotFoundException::class]);
+		$exception = new class extends NotFoundException {
+		};
+		$this->assertTrue($this->invokeMethod($this->errorLogger, 'is404', [$exception]));
+	}
+
 }

@@ -29,6 +29,6 @@ The admin controllers extend the application's `AppController`, so its callbacks
 
 - Pages overview: list application pages and links generated through routing.
 - String analyzer: inspect characters and hidden UTF-8 data.
-- Bitmask tools: update stored bitmask values.
+- Bitmask tools: generate SQL snippets for bitmask updates.
 
-Some backend actions modify data. Enable the backend in an environment and for users authorized to perform those operations.
+The bitmask utility displays SQL for review; it does not execute those updates. Protect the developer pages using the application access controls.

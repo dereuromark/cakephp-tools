@@ -5,6 +5,7 @@ namespace Tools\Authenticator;
 use Authentication\Authenticator\AbstractAuthenticator;
 use Authentication\Authenticator\Result;
 use Authentication\Authenticator\ResultInterface;
+use Authentication\UrlChecker\UrlCheckerInterface;
 use Authentication\UrlChecker\UrlCheckerTrait;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\TableRegistry;
@@ -12,7 +13,9 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class LoginLinkAuthenticator extends AbstractAuthenticator {
 
-	use UrlCheckerTrait;
+	use UrlCheckerTrait {
+		_getUrlChecker as protected createUrlChecker;
+	}
 
 	/**
 	 * @var array<string, mixed>
@@ -24,6 +27,21 @@ class LoginLinkAuthenticator extends AbstractAuthenticator {
 		'queryString' => 'token',
 		'identifierKey' => 'id',
 	];
+
+	/**
+	 * @return \Authentication\UrlChecker\UrlCheckerInterface
+	 */
+	protected function _getUrlChecker(): UrlCheckerInterface {
+		$checker = $this->getConfig('urlChecker');
+		if ($checker === 'Authentication.CakeRouter') {
+			$this->setConfig('urlChecker', 'Authentication.Default');
+		} elseif (is_array($checker) && ($checker['className'] ?? null) === 'Authentication.CakeRouter') {
+			$checker['className'] = 'Authentication.Default';
+			$this->setConfig('urlChecker', $checker);
+		}
+
+		return $this->createUrlChecker();
+	}
 
 	/**
 	 * @param \Cake\Http\ServerRequest $request The request that contains login information.

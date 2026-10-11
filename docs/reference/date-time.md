@@ -56,9 +56,9 @@ The same engine drives `DateTime::lengthOfTime()` for plain durations in seconds
 (approximating months as 30 and years as 365 days):
 
 ```php
-DateTime::lengthOfTime(10 * DAY);                        // => '1 Week, 3 Days'
-DateTime::lengthOfTime(400 * DAY, null, ['accuracy' => 1]); // => '1 Year'
-DateTime::lengthOfTime(4 * DAY + HOUR, null, ['verbose' => false]); // => '4d, 1h'
+DateTime::lengthOfTime(10 * 86400);                        // => '1 Week, 3 Days'
+DateTime::lengthOfTime(400 * 86400, null, ['accuracy' => 1]); // => '1 Year'
+DateTime::lengthOfTime(4 * 86400 + 3600, null, ['verbose' => false]); // => '4d, 1h'
 ```
 
 Both are also available through the Time helper: `$this->Time->relLengthOfTime(...)`.

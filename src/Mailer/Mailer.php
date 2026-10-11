@@ -100,11 +100,11 @@ class Mailer extends CakeMailer {
 	public function send(?string $action = null, array $args = [], array $headers = []): array {
 		$this->fixateLocale();
 
-		$result = parent::send($action, $args, $headers);
-
-		$this->restoreLocale();
-
-		return $result;
+		try {
+			return parent::send($action, $args, $headers);
+		} finally {
+			$this->restoreLocale();
+		}
 	}
 
 	/**

@@ -2,6 +2,9 @@
 
 namespace Tools\Test\TestCase\Utility;
 
+use ArrayObject;
+use Cake\Log\Log;
+use RuntimeException;
 use Shim\TestSuite\TestCase;
 use Tools\Utility\FileLog;
 
@@ -172,6 +175,55 @@ class FileLogTest extends TestCase {
 		);
 
 		unlink(static::TEST_DEFAULT_FILEPATH_STRING);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testRestoresCustomLoggerWithoutDebugLogger(): void {
+		$debug = Log::getConfig('debug');
+		$custom = Log::getConfig('custom');
+		$config = ['className' => 'File', 'path' => LOGS, 'file' => 'existing-custom'];
+		Log::drop('debug');
+		Log::drop('custom');
+		Log::setConfig('custom', $config);
+		try {
+			$this->assertTrue(FileLog::write('Temporary log', 'restoration-test'));
+			$this->assertNull(Log::getConfig('debug'));
+			$this->assertSame($config, Log::getConfig('custom'));
+		} finally {
+			Log::drop('custom');
+			if ($custom !== null) {
+				Log::setConfig('custom', $custom);
+			}
+			if ($debug !== null) {
+				Log::setConfig('debug', $debug);
+			}
+			@unlink(LOGS . 'restoration-test.log');
+		}
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testFailedWriteRestoresLoggingConfiguration(): void {
+		$debug = Log::getConfig('debug');
+		$custom = Log::getConfig('custom');
+		$data = new class extends ArrayObject {
+			public function offsetSet(mixed $key, mixed $value): void {
+				throw new RuntimeException('Trace storage failed');
+			}
+		};
+		try {
+			FileLog::write($data, 'failed-restoration-test', true);
+			$this->fail('Trace storage must throw.');
+		} catch (RuntimeException $exception) {
+			$this->assertSame('Trace storage failed', $exception->getMessage());
+			$this->assertSame($debug, Log::getConfig('debug'));
+			$this->assertSame($custom, Log::getConfig('custom'));
+		} finally {
+			@unlink(LOGS . 'failed-restoration-test.log');
+		}
 	}
 
 }

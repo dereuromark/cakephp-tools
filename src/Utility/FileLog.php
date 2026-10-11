@@ -19,6 +19,11 @@ class FileLog {
 	protected static $_debugConfig;
 
 	/**
+	 * @var array<string, mixed>|null
+	 */
+	protected static $_customConfig;
+
+	/**
 	 * Initialize configurations.
 	 *
 	 * @param string|null $filename Filename to log.
@@ -29,6 +34,8 @@ class FileLog {
 			$filename = 'custom_log';
 		}
 
+		static::$_customConfig = CoreLog::getConfig('custom');
+		static::$_debugConfig = CoreLog::getConfig('debug');
 		CoreLog::drop('custom');
 		CoreLog::setConfig('custom', [
 			'className' => 'File',
@@ -37,8 +44,6 @@ class FileLog {
 			'scopes' => ['custom'],
 			'file' => $filename,
 		]);
-
-		static::$_debugConfig = CoreLog::getConfig('debug');
 
 		CoreLog::drop('debug');
 	}
@@ -52,26 +57,26 @@ class FileLog {
 	 * @return bool Success
 	 */
 	public static function write($data, $filename = null, $traceKey = false): bool {
-		static::_init($filename);
+		try {
+			static::_init($filename);
 
-		// Pretty print array or object
-		if (is_array($data) || is_object($data)) {
-			if ($traceKey) {
-				try {
-					throw new Exception('Trace string', 1);
-				} catch (Throwable $t) {
-					$data['trace_string'] = $t->getTraceAsString();
+			// Pretty print array or object
+			if (is_array($data) || is_object($data)) {
+				if ($traceKey) {
+					try {
+						throw new Exception('Trace string', 1);
+					} catch (Throwable $t) {
+						$data['trace_string'] = $t->getTraceAsString();
+					}
 				}
+
+				$data = print_r($data, true);
 			}
 
-			$data = print_r($data, true);
+			return CoreLog::write('debug', $data, ['scope' => 'custom']);
+		} finally {
+			static::_cleanUp();
 		}
-
-		$logged = CoreLog::write('debug', $data, ['scope' => 'custom']);
-
-		static::_cleanUp();
-
-		return $logged;
 	}
 
 	/**
@@ -82,7 +87,13 @@ class FileLog {
 	protected static function _cleanUp(): void {
 		CoreLog::drop('custom');
 
-		CoreLog::setConfig('debug', static::$_debugConfig);
+		if (static::$_customConfig !== null) {
+			CoreLog::setConfig('custom', static::$_customConfig);
+		}
+		CoreLog::drop('debug');
+		if (static::$_debugConfig !== null) {
+			CoreLog::setConfig('debug', static::$_debugConfig);
+		}
 	}
 
 }

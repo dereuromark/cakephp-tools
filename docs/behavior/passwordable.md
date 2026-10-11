@@ -50,7 +50,7 @@ echo $this->Form->control('pwd_repeat', ['type' => 'password', 'value' => '']);
 | `current` | `false` | Validate the supplied current password. |
 | `allowSame` | `true` | Permit the previous password. |
 | `passwordHasher` | `Default` | Tools password hasher configuration. |
-| `minLength`, `maxLength` | `PWD_MIN_LENGTH`, `PWD_MAX_LENGTH` | Length limits defined in the plugin bootstrap. |
+| `minLength`, `maxLength` | `PWD_MIN_LENGTH`, `PWD_MAX_LENGTH` | Length limits defined when the behavior class is loaded. |
 | `validator` | `default` | Validator to extend. |
 | `customValidation` | `null` | Additional rules for the password form field. |
 | `forceFieldList` | `false` | Create a marshal field list from submitted data when none is provided. |

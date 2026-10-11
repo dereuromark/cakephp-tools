@@ -3,6 +3,7 @@
 namespace Tools\Test\TestCase\Authenticator;
 
 use ArrayAccess;
+use Authentication\AuthenticationService;
 use Authentication\Authenticator\Result;
 use Cake\Http\ServerRequestFactory;
 use Cake\TestSuite\TestCase;
@@ -118,6 +119,39 @@ class LoginLinkAuthenticatorTest extends TestCase {
 			'loginUrl' => ['plugin' => false, 'prefix' => false, 'controller' => 'Users', 'action' => 'login'],
 		]);
 		$this->assertSame(Result::SUCCESS, $authenticator->authenticate($request)->getStatus());
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testLegacyUrlCheckerName(): void {
+		$request = ServerRequestFactory::fromGlobals(['REQUEST_URI' => '/other'])
+			->withQueryParams(['token' => '123']);
+		$authenticator = new LoginLinkAuthenticator($this->identifier, [
+			'urlChecker' => 'Authentication.CakeRouter',
+			'loginUrl' => '/login',
+		]);
+		$this->assertSame(Result::FAILURE_CREDENTIALS_MISSING, $authenticator->authenticate($request)->getStatus());
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testAuthenticationServiceIdentifierConfiguration(): void {
+		$user = $this->fetchTable('ToolsUsers')->find()->firstOrFail();
+		$this->fetchTable('Tools.Tokens')->newKey('login_link', 'service-token', $user->id);
+		$service = new AuthenticationService();
+		$service->loadAuthenticator('Tools.LoginLink', [
+			'identifier' => [
+				'className' => 'Tools.LoginLink',
+				'resolver' => ['className' => 'Authentication.Orm', 'userModel' => 'ToolsUsers'],
+			],
+			'urlChecker' => ['className' => 'Authentication.CakeRouter'],
+			'loginUrl' => '/login',
+		]);
+		$request = ServerRequestFactory::fromGlobals(['REQUEST_URI' => '/login'])
+			->withQueryParams(['token' => 'service-token']);
+		$this->assertSame(Result::SUCCESS, $service->authenticate($request)->getStatus());
 	}
 
 }

@@ -315,7 +315,7 @@ class CommonComponent extends Component {
 	 * @param int $seconds
 	 * @return void
 	 */
-	public function forceCache($seconds = HOUR) {
+	public function forceCache($seconds = 3600) {
 		$response = $this->controller->getResponse();
 
 		$response = $response->withHeader('Cache-Control', 'public, max-age=' . $seconds)

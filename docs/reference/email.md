@@ -36,4 +36,4 @@ Use the returned content ID in an HTML email template, for example `src="cid:...
 
 ## Locale and diagnostics
 
-`setLocale()` selects a locale while running `send()`, then restores the previous locale after a successful call. `getDebug()` returns the last result from `deliver()`. Use CakePHP's mailer logging and exception handling for failures.
+`setLocale()` selects a locale while running `send()`, then restores the previous locale, including when sending throws. `getDebug()` returns the last result from `deliver()`. Use CakePHP's mailer logging and exception handling for failures.

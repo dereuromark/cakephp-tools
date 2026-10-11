@@ -12,7 +12,7 @@ $token = $tokensTable->newKey('login_link', null, $user->id);
 For shorter-lived login links, configure the token type once and every new row will persist that validity:
 ```php
 $tokensTable->typeValidity = [
-    'login_link' => DAY,
+    'login_link' => 86400,
 ];
 ```
 
@@ -24,14 +24,15 @@ $token = $tokensTable->newKey('login_link', '123', $user->id);
 Then, implement your authenticator on the other side in your Application.php:
 
 ```php
-$service->loadIdentifier('Tools.LoginLink', [
-    'resolver' => [
-        'className' => 'Authentication.Orm',
-    ],
-]);
-
 // Session, Form, Cookie first
 $service->loadAuthenticator('Tools.LoginLink', [
+    'identifier' => [
+        'className' => 'Tools.LoginLink',
+        'resolver' => [
+            'className' => 'Authentication.Orm',
+            'userModel' => 'Users',
+        ],
+    ],
     'loginUrl' => [
         'prefix' => false,
         'plugin' => false,
@@ -57,7 +58,7 @@ $token = $tokensTable->newKey('login_link', null, $user->id, $user->email);
 
 The authenticator checks this content against the resolved user's nonempty email. By default, `oneTime` is enabled and the token is consumed before identity lookup, including a failed lookup or email mismatch.
 
-`Tools.LoginLink` identifiers support `preCallback` before resolving the user and `postCallback` after resolution. These callbacks run before the authenticator's email-content check. Do not use them as proof that an email address has been verified. Registration confirmation needs a separate flow that validates the token and expected address before updating the account.
+`Tools.LoginLink` identifiers support `preCallback` before resolving the user. This callback runs before the authenticator's email-content check. Do not use them as proof that an email address has been verified. Registration confirmation needs a separate flow that validates the token and expected address before updating the account.
 
 ### Sending mails via queue
 It is highly advised to do any (email) sending here via queue.

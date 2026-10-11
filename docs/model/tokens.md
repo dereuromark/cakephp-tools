@@ -76,8 +76,8 @@ For different token types, configure dedicated validity windows and they will be
 ```php
 $tokensTable = $this->fetchTable('Tools.Tokens');
 $tokensTable->typeValidity = [
-    'login_link' => DAY,
-    'password_reset' => HOUR,
+    'login_link' => 86400,
+    'password_reset' => 3600,
     'api' => 0,
 ];
 ```
