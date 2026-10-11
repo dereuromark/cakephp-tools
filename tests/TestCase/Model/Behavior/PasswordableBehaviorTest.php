@@ -778,4 +778,16 @@ class PasswordableBehaviorTest extends TestCase {
 		$this->assertTrue((bool)$is);
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testConfirmationOnCoreTable(): void {
+		$table = new Table(['table' => 'tools_users', 'connection' => $this->Users->getConnection()]);
+		$table->addBehavior('Tools.Passwordable');
+		$validator = $table->getValidator();
+		$errors = $validator->validate(['pwd' => '123456', 'pwd_repeat' => '654321']);
+		$this->assertArrayHasKey('validateIdentical', $errors['pwd_repeat']);
+		$this->assertSame([], $validator->validate(['pwd' => '123456', 'pwd_repeat' => '123456']));
+	}
+
 }

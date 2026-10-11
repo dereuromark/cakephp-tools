@@ -99,4 +99,14 @@ class ConfirmableBehaviorTest extends TestCase {
 		$this->assertSame(['confirm' => ['_required' => 'This field is required']], $animal->getErrors());
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testEmptyConfirmationUsesConfiguredMessage(): void {
+		$table = $this->getTableLocator()->get('SluggedArticles');
+		$table->addBehavior('Tools.Confirmable', ['message' => 'Please agree']);
+		$entity = $table->newEntity(['name' => 'Article', 'confirm' => '']);
+		$this->assertSame(['_empty' => 'Please agree'], $entity->getError('confirm'));
+	}
+
 }

@@ -69,7 +69,7 @@ class ConfirmableBehavior extends Behavior {
 			'message' => $message,
 			'last' => true,
 		]);
-		$validator->requirePresence($field)->notEmptyString($field);
+		$validator->requirePresence($field)->notEmptyString($field, $message);
 	}
 
 }

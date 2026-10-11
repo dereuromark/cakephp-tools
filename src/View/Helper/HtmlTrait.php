@@ -33,9 +33,8 @@ trait HtmlTrait {
 	 *
 	 * ### Options
 	 *
-	 * - `escape` Set to false to disable escaping of title and attributes.
-	 * - `escape` Set to false to disable escaping of title. Takes precedence
-	 *   over value of `escape`)
+	 * - `escape` Set to false to disable escaping of the title.
+	 * - `escapeAttributes` Set to false to disable escaping of attributes.
 	 * - `confirm` JavaScript confirmation message.
 	 *
 	 * @param array|string $title The content to be wrapped by <a> tags.
@@ -58,9 +57,8 @@ trait HtmlTrait {
 	 *
 	 * ### Options
 	 *
-	 * - `escape` Set to false to disable escaping of title and attributes.
-	 * - `escape` Set to false to disable escaping of title. Takes precedence
-	 *   over value of `escape`)
+	 * - `escape` Set to false to disable escaping of the title.
+	 * - `escapeAttributes` Set to false to disable escaping of attributes.
 	 * - `confirm` JavaScript confirmation message.
 	 *
 	 * @param array|string $title The content to be wrapped by <a> tags.

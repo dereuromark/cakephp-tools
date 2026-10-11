@@ -166,7 +166,8 @@ class PasswordableBehavior extends Behavior {
 		}
 		if (!count($validator->field($formFieldRepeat))) {
 			$ruleSet = $rules['formFieldRepeat'];
-			$ruleSet['validateIdentical']['rule'] = [$this->table, 'validateIdentical'];
+			$provider = method_exists($this->table, 'validateIdentical') ? $this->table : $this;
+			$ruleSet['validateIdentical']['rule'] = [$provider, 'validateIdentical'];
 			$ruleSet['validateIdentical']['pass'] = [$formField];
 			$validator->add($formFieldRepeat, $ruleSet);
 			$require = $this->config['require'];
