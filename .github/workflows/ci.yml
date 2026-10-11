@@ -119,3 +119,30 @@ jobs:
 
       - name: Run phpcs
         run: composer cs-check
+
+  i18n:
+    name: Translation Catalog
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mbstring, intl
+          coverage: none
+
+      - name: Composer install
+        run: composer install --no-progress --prefer-dist
+
+      - name: Check POT is up to date
+        run: composer i18n-check
+
+      - name: Lint catalogs
+        run: composer i18n-lint
