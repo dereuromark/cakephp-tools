@@ -8,7 +8,7 @@ View helpers covering the most frequent rendering needs.
 | [Format](/helper/format) | Data formatting (numbers, dates, badges, status indicators). |
 | [Form](/helper/form) | Extensions on top of the core FormHelper. |
 | [Html](/helper/html) | Extensions on top of the core HtmlHelper. |
-| [Icon](/helper/icon) | Icon rendering (deprecated — see the dedicated [Icon plugin](https://github.com/dereuromark/cakephp-icon)). |
+| [Icon](/helper/icon) | Icon rendering (deprecated; use the [Templating plugin](https://github.com/dereuromark/cakephp-templating)). |
 | [Meter](/helper/meter) | HTML5 `<meter>` rendering. |
 | [Progress](/helper/progress) | Progress bars (text + HTML5 `<progress>`). |
 | [Tree](/helper/tree) | Render nested tree structures. |

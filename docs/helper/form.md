@@ -1,32 +1,21 @@
-# Form Helper
+# Form helper
 
-An enhanced FormHelper
-- Allow configuration via Configure `FormConfig`
-- Allow easy enabling/disabling of `novalidate` this way globally throughout all forms
+The Tools form helper reads global defaults from `FormConfig`, including `novalidate` and widget templates.
 
-## Configs
-- 'novalidate' => false, // Set to true to disable HTML5 browser validation
-- 'templates' => [...] // Define your own custom default templates for all widgets
+Load it in the existing `AppView::initialize()` method:
 
-## Usage
-Attach it to your controllers like so:
 ```php
-protected $helpers = ['Tools.Form'];
+$this->loadHelper('Tools.Form');
 ```
 
-Alternatively, you can enable it in your AppView class.
+Preserve other helper registrations. Controller `$helpers` properties are not the setup API for current CakePHP applications.
 
-### Basic Example
+To disable browser validation while retaining server-side validation, add this entry to the array returned by `config/app.php`:
+
 ```php
-// Inside your app.php config:
-$config = [
-    'debug' => true,
-    ...
-    'FormConfig' => array(
-        'novalidate' => true,
-        'templates' => array(
-            'dateWidget' => '{{day}}{{month}}{{year}}{{hour}}{{minute}}{{second}}{{meridian}}',
-        )
-    )
-];
+'FormConfig' => [
+    'novalidate' => true,
+],
 ```
+
+A `templates` option supplies CakePHP form templates. Use template names supported by the configured widgets; the former combined `dateWidget` example is not a current core widget template.

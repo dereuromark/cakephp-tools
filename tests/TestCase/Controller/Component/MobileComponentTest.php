@@ -107,6 +107,8 @@ class MobileComponentTest extends TestCase {
 
 		$this->Controller->Mobile->setMobile();
 		$this->assertTrue($this->Controller->Mobile->setMobile);
+		$this->assertNull($this->Controller->viewBuilder()->getClassName());
+		$this->assertSame('Mobile', $this->Controller->viewBuilder()->getTheme());
 
 		$configure = Configure::read('User');
 		$this->assertSame(['isMobile' => 0, 'setMobile' => 1], $configure);

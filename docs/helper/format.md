@@ -5,9 +5,7 @@ A CakePHP helper to handle some common format topics.
 ## Setup
 Include helper in your AppView class as
 ```php
-$this->loadHelper('Tools.Format', [
-    ...
-]);
+$this->loadHelper('Tools.Format');
 ```
 
 You can store default configs also in Configure key `'Format'`.

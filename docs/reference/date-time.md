@@ -10,7 +10,7 @@ They can also work with select/dropdown date(time) form controls and provide oth
 
 ## Validation
 
-For improved validation, the Shim Table - that you can extend in your tables - ships with
+For improved validation, the Tools Table - that you can extend in your tables - ships with
 - `validateDateTime()`
 - `validateDate()`
 - `validateTime()`

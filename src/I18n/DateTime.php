@@ -1319,7 +1319,7 @@ class DateTime extends CakeDateTime {
 	 * @return array period [0=>min, 1=>max]
 	 */
 	public static function period(string $searchString, array $options = []): array {
-		$filters = explode(' ', $searchString);
+		$filters = explode(' ', trim($searchString));
 		$min = $filters[0];
 		$max = $filters[count($filters) - 1];
 

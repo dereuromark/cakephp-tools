@@ -1,101 +1,39 @@
-# Email
-Built on top of core Email class.
+# Mailer
 
-An enhanced class to
-- Catches the exception and logs it away. This way most user land code can be kept simple as the try catch block is not needed. It will simply return boolean/success.
-- Allow wrapLength() / priority() adjustment.
-- Auto-set "from" as admin email (no need to do that in the code unless needs overwriting).
-- Enable easier attachment adding (and also from blob).
-- Enable embedded images in HTML mails.
-- Can work with foreign attachments/images (different domains and alike).
-- Auto mimetype detection for attachments (inline or not).
-- Basic validation supported.
-- Quick way to send system emails/reports.
-- Extensive logging and error tracing as well as debugging using.
-- Don't send emails without `Configure::write('Config.live')`, but log them away verbosely. For testing.
-- Security measure: Don't send emails to actual addresses in debug mode, they will be sent to `Configure::read('Config.adminEmail')` instead. Same for cc/bcc.
+Use `Tools\Mailer\Mailer` to extend CakePHP's mailer with attachment helpers and a per-mailer locale. The former `Tools\Mailer\Email` class is not available.
 
+## Basic usage
 
-## Configs
-First, replace the use statement in the bootstrap:
+Use an existing email profile and transport configured in the application's `config/app.php`:
+
 ```php
-//use Cake\Mailer\Email;
-use Tools\Mailer\Email;
+use Tools\Mailer\Mailer;
+
+$mailer = new Mailer('default');
+$mailer->setFrom('sender@example.com', 'Application');
+$mailer->setTo('recipient@example.com');
+$mailer->setSubject('Import complete');
+$result = $mailer->deliver('Your import has finished.');
 ```
-The other two lines can stay as they are:
+
+`deliver()` and `send()` return CakePHP's result array. Delivery exceptions propagate; there is no boolean success result or `getError()` method. Use `send()` for a configured mailer action and `deliver()` for message content.
+
+## Defaults and test delivery
+
+The message uses `Config.systemEmail` and `Config.systemName` as its default sender, falling back to `Config.adminEmail` and `Config.adminName`. Explicit `setFrom()` overrides these defaults. `Config.xMailer` adds an `X-Mailer` header.
+
+When constructing a mailer without a profile and `Config.live` is exactly `false`, Tools selects the `test` profile. Configure that profile with a debug transport before using this mode. Passing a profile explicitly bypasses this selection. Tools does not automatically replace recipient addresses in debug mode.
+
+## Attachments
+
 ```php
-Email::configTransport(Configure::consume('EmailTransport'));
-Email::config(Configure::consume('Email'));
-```
-They will read from Configure what you defined there, e.g for sending SMTP mails.
-```
-'Email' => [
-    'default' => [
-        'from' => 'your@email.com',
-    ],
-],
-'EmailTransport' => [
-    'default' => [
-        'className' => 'Smtp',
-        'host' => 'smtp.hostname.com',
-        'username' => 'your@email.com',
-        'password' => 'yourpwd',
-        'tls' => true,
-        'port' => 587,
-    ],
-]
+$mailer->addAttachment('/absolute/path/report.pdf');
+$mailer->addBlobAttachment($pngBytes, 'chart.png', 'image/png');
+$contentId = $mailer->addEmbeddedAttachment('/absolute/path/logo.png');
 ```
 
-That's it.
+Use the returned content ID in an HTML email template, for example `src="cid:..."`. The message determines missing MIME types and handles embedded attachment metadata.
 
+## Locale and diagnostics
 
-## Usage
-Don't forget the use statement in any class you use it.
-Then instantiate it as
-```php
-$email = new Email();
-
-// Add the rest of the information needed
-$email->to($email, $name);
-$email->subject($subject);
-
-$email->replyTo($adminEmail, $adminName); // Optional reply to header
-$email->template('sometemplate'); // Optional
-$email->layout('somelayout'); // Optional
-
-$email->viewVars(compact('message', 'other'));
-
-// Send it
-if ($email->send()) {
-    // Success
-} else {
-    // Error
-    // You can use $email->getError() and display it in debug mode or log it away
-}
-```
-`from` is already set with your admin email by default, if you configured `Config.adminEmail`.
-
-### Embedded Attachments
-This will automatically set the contentId and mimeType of the file. This is necessary for embedded attachments.
-```php
-$email->addEmbeddedAttachment('/some/file.ext', 'Some custom name');
-```
-
-### Blob Attachments - as real attachment
-This will automatically set the mimeType of the file (using the filename you provide).
-```php
-$email->addBlobAttachment($somePngFileBlobContent, 'my_filename.png');
-```
-
-### Embedded Blob Attachments
-This will also automatically set the mimeType of the file as above. But it will set the contentId, as well. This is necessary for embedded attachments.
-```php
-$email->addEmbeddedBlobAttachment($somePngFileBlobContent, 'my_filename.png');
-```
-
-
-## Advanced config and usage
-You can use `Config.xMailer` config to set a custom xMailer header.
-Priority and line length can also be adjusted if needed.
-
-By default it switches to "Debug" transport in debug mode. If you don't want that set Configure value `Config.live` to true.
+`setLocale()` selects a locale while running `send()`, then restores the previous locale after a successful call. `getDebug()` returns the last result from `deliver()`. Use CakePHP's mailer logging and exception handling for failures.

@@ -69,4 +69,55 @@ class LoginLinkAuthenticatorTest extends TestCase {
 		$this->assertInstanceOf(ArrayAccess::class, $result->getData());
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testMalformedTokenIsMissing(): void {
+		$request = ServerRequestFactory::fromGlobals(['REQUEST_URI' => '/'])
+			->withQueryParams(['token' => ['123']]);
+		$result = (new LoginLinkAuthenticator($this->identifier))->authenticate($request);
+		$this->assertSame(Result::FAILURE_CREDENTIALS_MISSING, $result->getStatus());
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testLoginRouteIncludesPluginAndPrefix(): void {
+		$request = ServerRequestFactory::fromGlobals(['REQUEST_URI' => '/'])
+			->withQueryParams(['token' => '123'])
+			->withAttribute('params', ['plugin' => null, 'prefix' => null, 'controller' => 'Users', 'action' => 'login']);
+		$authenticator = new LoginLinkAuthenticator($this->identifier, [
+			'loginUrl' => ['plugin' => 'Accounts', 'prefix' => 'Admin', 'controller' => 'Users', 'action' => 'login'],
+		]);
+		$this->assertSame(Result::FAILURE_CREDENTIALS_MISSING, $authenticator->authenticate($request)->getStatus());
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testConfiguredUrlCheckerRejectsDifferentPath(): void {
+		$request = ServerRequestFactory::fromGlobals(['REQUEST_URI' => '/other'])
+			->withQueryParams(['token' => '123']);
+		$authenticator = new LoginLinkAuthenticator($this->identifier, [
+			'urlChecker' => 'Authentication.Default',
+			'loginUrl' => '/login',
+		]);
+		$this->assertSame(Result::FAILURE_CREDENTIALS_MISSING, $authenticator->authenticate($request)->getStatus());
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testApplicationRouteAcceptsExplicitFalsePluginAndPrefix(): void {
+		$user = $this->fetchTable('ToolsUsers')->find()->firstOrFail();
+		$this->fetchTable('Tools.Tokens')->newKey('login_link', 'route-token', $user->id);
+		$request = ServerRequestFactory::fromGlobals(['REQUEST_URI' => '/users/login'])
+			->withQueryParams(['token' => 'route-token'])
+			->withAttribute('params', ['plugin' => null, 'prefix' => null, 'controller' => 'Users', 'action' => 'login']);
+		$authenticator = new LoginLinkAuthenticator($this->identifier, [
+			'loginUrl' => ['plugin' => false, 'prefix' => false, 'controller' => 'Users', 'action' => 'login'],
+		]);
+		$this->assertSame(Result::SUCCESS, $authenticator->authenticate($request)->getStatus());
+	}
+
 }

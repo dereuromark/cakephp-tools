@@ -25,3 +25,8 @@
 .vp-doc .custom-block.tip {
   border-color: var(--vp-c-brand-1);
 }
+
+.vp-doc :not(pre) > code {
+  overflow-wrap: anywhere;
+  white-space: normal;
+}

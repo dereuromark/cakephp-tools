@@ -5,9 +5,7 @@ A CakePHP helper to handle some common topics.
 ### Setup
 Include helper in your AppView class as
 ```php
-$this->loadHelper('Tools.Common', [
-    ...
-]);
+$this->loadHelper('Tools.Common');
 ```
 
 ### Singular vs Plural

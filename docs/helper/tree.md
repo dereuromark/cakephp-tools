@@ -13,9 +13,7 @@ then use all properties and getters on that object.
 ### Basic usage
 Include helper in your AppView class as
 ```php
-$this->loadHelper('Tools.Tree', [
-    ...
-]);
+$this->loadHelper('Tools.Tree');
 ```
 
 Then you can use it in your templates as

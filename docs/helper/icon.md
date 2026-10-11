@@ -7,16 +7,14 @@ Note: **DEPRECATED**, use [Templating plugin](https://github.com/dereuromark/cak
 ## Setup
 Include helper in your AppView class as
 ```php
-$this->loadHelper('Tools.Icon', [
-    ...
-]);
+$this->loadHelper('Tools.Icon');
 ```
 
 You can store default configs also in Configure key `'Icon'`.
 
 Make sure to set up at least one icon set:
 - **Bootstrap**: npm package `bootstrap-icons`
-- **FontAwesome** v4/v5/v6: npm package `fontawesome-free` for v6
+- **FontAwesome** v4/v5/v6: npm package `@fortawesome/fontawesome-free` for v6
 - **Material**: npm package `material-symbols`
 - **Feather**: npm package `feather-icons`
 
@@ -27,7 +25,6 @@ E.g.
 'Icon' => [
     'sets' => [
         'bs' => \Tools\View\Icon\BootstrapIcon::class,
-        ...
     ],
 ],
 ```
@@ -43,7 +40,6 @@ In this case make sure to use an array instead of just the class string:
             'class' => \Tools\View\Icon\MaterialIcon::class,
             'namespace' => 'material-symbols-round',
         ],
-        ...
     ],
 ],
 ```
@@ -53,15 +49,14 @@ You can also set a global attributes config that would be merged in with every i
 'Icon' => [
     'sets' => [
         'material' => [
+            'class' => \Tools\View\Icon\MaterialIcon::class,
             'attributes' => [
                 'data-custom' => 'some-custom-default',
             ],
         ],
-        ...
     ],
     'attributes' => [
         'data-default' => 'some-default',
-        ...
     ],
 ],
 ```
@@ -89,14 +84,16 @@ echo $this->Html->link(
 
 You can alias them via Configure for more usability:
 ```php
-// In app.php
+// A configuration array
+$config = [
 'Icon' => [
     'map' => [
         'view' => 'bs:eye',
         'translate' => 'bs:translate',
-        ...
     ],
 ],
+
+];
 
 // in the template
 echo $this->Icon->render('translate', [], ['title' => 'Translate this']);
@@ -113,22 +110,17 @@ E.g.:
     // For being able to parse the available icons
     'sets' => [
         'fa' => [
-            ...
             'path' => '/path/to/font-awesome/less/variables.less',
         ],
         'bs' => [
-            ...
             'path' => '/path/to/bootstrap-icons/font/bootstrap-icons.json',
         ],
         'feather' => [
-            ...
             'path' => '/path/to/feather-icons/dist/icons.json',
         ],
         'material' => [
-            ...
             'path' => '/path/to/material-symbols/index.d.ts',
         ],
-        ...
     ],
 ],
 ```
@@ -138,7 +130,6 @@ You can then use this to iterate over all of them for display:
 $icons = $this->Icon->names();
 foreach ($icons as $iconSet => $list) {
     foreach ($list as $icon) {
-        ...
     }
 }
 ```
@@ -149,7 +140,6 @@ You can enable `checkExistence` to ensure each icon exists or otherwise throws a
 ```php
 'Icon' => [
     'checkExistence' => true,
-    ...
 ],
 ```
 
@@ -165,29 +155,6 @@ This requires an IDE that can understand the meta data (e.g. PHPStorm).
 ## Demo
 https://sandbox.dereuromark.de/sandbox/tools-examples/icons
 
-## Writing your own class
-You mainly need to set up your own template string and how it should render:
-```php
-class YourIcon extends AbstractIcon {
+## Writing your own icon class
 
-	public function __construct(array $config = []) {
-		$config += [
-			'template' => '<span class="{{class}}...></span>',
-		];
-
-		parent::__construct($config);
-	}
-
-	public function render(string $icon, array $options = [], array $attributes = []): string {
-	    ...
-	}
-
-	public function names(): array {
-		$path = $this->path();
-
-		return YourCollector::collect($path);
-	}
-
-}
-```
-Now you can hook it into your config and enjoy!
+Extend `Tools\View\Icon\AbstractIcon` and implement `render()` and `names()` for the chosen icon format. The existing [Bootstrap implementation](https://github.com/dereuromark/cakephp-tools/blob/master/src/View/Icon/BootstrapIcon.php) shows attribute handling and name collection. Register the class under `Icon.sets`. For new integrations, prefer the maintained Templating helper.

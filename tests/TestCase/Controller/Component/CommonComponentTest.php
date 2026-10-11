@@ -429,7 +429,19 @@ class CommonComponentTest extends TestCase {
 		$request = $this->Controller->getRequest();
 		$request = $request->withParam('_ext', 'csv');
 		$this->Controller->setRequest($request);
-		$this->Controller->Common->allowExtensions('csv', 'xml');
+		$this->Controller->Common->allowExtensions(['csv', 'xml']);
+	}
+
+	public function testSafeRedirectRejectsAmbiguousAndNonStringInput(): void {
+		foreach (['//example.com/', '/\\example.com/', "/\texample.com/", ['controller' => 'Users']] as $redirect) {
+			$this->assertSame('/fallback', $this->Controller->Common->getSafeRedirectUrl('/fallback', $redirect));
+		}
+	}
+
+	public function testAllowExtensionsIncludesExtensionlessRequests(): void {
+		$this->Controller->setRequest($this->Controller->getRequest()->withParam('_ext', null));
+		$this->Controller->Common->allowExtensions(['', 'csv']);
+		$this->expectNotToPerformAssertions();
 	}
 
 }
