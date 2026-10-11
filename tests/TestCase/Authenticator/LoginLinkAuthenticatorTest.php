@@ -96,6 +96,19 @@ class LoginLinkAuthenticatorTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testIncompleteLoginRouteRejectsToken(): void {
+		$request = ServerRequestFactory::fromGlobals(['REQUEST_URI' => '/users/edit'])
+			->withQueryParams(['token' => '123'])
+			->withAttribute('params', ['controller' => 'Users', 'action' => 'edit']);
+		foreach ([['controller' => 'Users'], ['action' => 'edit']] as $loginUrl) {
+			$authenticator = new LoginLinkAuthenticator($this->identifier, ['loginUrl' => $loginUrl]);
+			$this->assertSame(Result::FAILURE_CREDENTIALS_MISSING, $authenticator->authenticate($request)->getStatus());
+		}
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testConfiguredUrlCheckerRejectsDifferentPath(): void {
 		$request = ServerRequestFactory::fromGlobals(['REQUEST_URI' => '/other'])
 			->withQueryParams(['token' => '123']);

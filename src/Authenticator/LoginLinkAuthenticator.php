@@ -77,6 +77,9 @@ class LoginLinkAuthenticator extends AbstractAuthenticator {
 				return null;
 			}
 			if (is_array($url)) {
+				if (empty($url['controller']) || empty($url['action'])) {
+					return null;
+				}
 				$params = (array)$request->getAttribute('params');
 				foreach (['plugin', 'prefix', 'controller', 'action'] as $key) {
 					if (!array_key_exists($key, $url)) {
