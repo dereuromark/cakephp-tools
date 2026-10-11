@@ -24,37 +24,37 @@ class DateTime extends CakeDateTime {
 	/**
 	 * @var int
 	 */
-	private const DURATION_SECOND = 1;
+	final protected const DURATION_SECOND = 1;
 
 	/**
 	 * @var int
 	 */
-	private const DURATION_MINUTE = 60;
+	final protected const DURATION_MINUTE = 60;
 
 	/**
 	 * @var int
 	 */
-	private const DURATION_HOUR = 3600;
+	final protected const DURATION_HOUR = 3600;
 
 	/**
 	 * @var int
 	 */
-	private const DURATION_DAY = 86400;
+	final protected const DURATION_DAY = 86400;
 
 	/**
 	 * @var int
 	 */
-	private const DURATION_WEEK = 604800;
+	final protected const DURATION_WEEK = 604800;
 
 	/**
 	 * @var int
 	 */
-	private const DURATION_MONTH = 2592000;
+	final protected const DURATION_MONTH = 2592000;
 
 	/**
 	 * @var int
 	 */
-	private const DURATION_YEAR = 31536000;
+	final protected const DURATION_YEAR = 31536000;
 
 	/**
 	 * @param \Cake\Chronos\Chronos|\Cake\Chronos\ChronosDate|\DateTimeInterface|array|string|int|null $time Fixed or relative time

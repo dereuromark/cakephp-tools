@@ -2,6 +2,7 @@
 
 namespace Tools\Utility;
 
+use ArrayAccess;
 use Cake\Log\Log as CoreLog;
 use Exception;
 use Throwable;
@@ -63,6 +64,9 @@ class FileLog {
 			// Pretty print array or object
 			if (is_array($data) || is_object($data)) {
 				if ($traceKey) {
+					if (is_object($data) && !$data instanceof ArrayAccess) {
+						$data = (array)$data;
+					}
 					try {
 						throw new Exception('Trace string', 1);
 					} catch (Throwable $t) {

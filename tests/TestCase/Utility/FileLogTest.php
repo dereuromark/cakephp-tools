@@ -206,6 +206,24 @@ class FileLogTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testLogsObjectWithTraceAndRestoresConfiguration(): void {
+		$debug = Log::getConfig('debug');
+		$custom = Log::getConfig('custom');
+		try {
+			$this->assertTrue(FileLog::write((object)['message' => 'Object log'], 'object-trace', true));
+			$contents = file_get_contents(LOGS . 'object-trace.log');
+			$this->assertStringContainsString('[message] => Object log', $contents);
+			$this->assertStringContainsString('[trace_string] =>', $contents);
+			$this->assertSame($debug, Log::getConfig('debug'));
+			$this->assertSame($custom, Log::getConfig('custom'));
+		} finally {
+			@unlink(LOGS . 'object-trace.log');
+		}
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testFailedWriteRestoresLoggingConfiguration(): void {
 		$debug = Log::getConfig('debug');
 		$custom = Log::getConfig('custom');
