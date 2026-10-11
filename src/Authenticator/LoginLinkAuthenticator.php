@@ -20,7 +20,7 @@ class LoginLinkAuthenticator extends AbstractAuthenticator {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [
+	protected array $defaultConfig = [
 		'urlChecker' => null, // e.g. 'Authentication.Default',
 		'loginUrl' => null,
 		'oneTime' => true,
@@ -67,7 +67,7 @@ class LoginLinkAuthenticator extends AbstractAuthenticator {
 	 * @return string|null The token or null.
 	 */
 	protected function getToken(ServerRequestInterface $request): ?string {
-		if ($this->getConfig('urlChecker') !== null && !$this->_checkUrl($request)) {
+		if ($this->getConfig('urlChecker') !== null && !$this->checkUrl($request)) {
 			return null;
 		}
 

@@ -27,21 +27,26 @@
 		"docs": "https://dereuromark.github.io/cakephp-tools/"
 	},
 	"require": {
-		"php": ">=8.2",
-		"cakephp/cakephp": "^5.1.1",
-		"dereuromark/cakephp-shim": "^3.0.0"
+		"php": ">=8.5",
+		"cakephp/cakephp": "^6.0@dev",
+		"dereuromark/cakephp-shim": "dev-cake6"
 	},
 	"conflict": {
-		"cakephp/authentication": "<4.0.0"
+		"cakephp/authentication": "<5.0.0"
 	},
 	"require-dev": {
-		"dereuromark/cakephp-i18n-lint": "^0.1.1",
+		"dereuromark/cakephp-i18n-lint": "dev-cake6",
 		"fig-r/psr2r-sniffer": "dev-master",
 		"mobiledetect/mobiledetectlib": "^4.8.09",
-		"phpunit/phpunit": "^11.5 || ^12.1 || ^13.0",
-		"cakephp/authentication": "^4.0.0"
+		"phpunit/phpunit": "^13.0",
+		"cakephp/authentication": "^5.0@dev",
+		"yangqi/htmldom": "^1.0",
+		"ext-yaml": "*"
 	},
-	"minimum-stability": "stable",
+	"suggest": {
+		"yangqi/htmldom": "For HtmlDom usage"
+	},
+	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"autoload": {
 		"psr-4": {

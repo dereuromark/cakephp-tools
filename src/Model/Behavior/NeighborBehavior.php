@@ -14,7 +14,7 @@ class NeighborBehavior extends Behavior {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [];
+	protected array $defaultConfig = [];
 
 	/**
 	 * @param int $id
@@ -29,10 +29,10 @@ class NeighborBehavior extends Behavior {
 		}
 
 		/** @var string $primaryKey */
-		$primaryKey = $this->_table->getPrimaryKey();
-		$sortField = $this->_table->hasField('created') ? 'created' : $primaryKey;
+		$primaryKey = $this->table->getPrimaryKey();
+		$sortField = $this->table->hasField('created') ? 'created' : $primaryKey;
 		$defaults = [
-			'sortField' => $this->_table->getAlias() . '.' . $sortField,
+			'sortField' => $this->table->getAlias() . '.' . $sortField,
 		];
 		$options += $defaults;
 
@@ -41,7 +41,7 @@ class NeighborBehavior extends Behavior {
 		$sortDirSymb = $normalDirection ? ['>=', '<='] : ['<=', '>='];
 
 		if (empty($options['value'])) {
-			$data = $this->_table->find('all', ...['conditions' => [$primaryKey => $id]])->first();
+			$data = $this->table->find('all', ...['conditions' => [$primaryKey => $id]])->first();
 			if ($data === null) {
 				return ['prev' => null, 'next' => null];
 			}
@@ -59,17 +59,17 @@ class NeighborBehavior extends Behavior {
 		if (!empty($options['fields'])) {
 			$findOptions['fields'] = $options['fields'];
 		}
-		$findOptions['conditions'][$this->_table->getAlias() . '.' . $primaryKey . ' !='] = $id;
+		$findOptions['conditions'][$this->table->getAlias() . '.' . $primaryKey . ' !='] = $id;
 
 		$prevOptions = $findOptions;
 		$prevOptions['conditions'] = Hash::merge($prevOptions['conditions'], [$options['sortField'] . ' ' . $sortDirSymb[1] => $options['value']]);
 		$prevOptions['order'] = [$options['sortField'] => $sortDirWord[1]];
-		$return['prev'] = $this->_table->find('all', ...$prevOptions)->first();
+		$return['prev'] = $this->table->find('all', ...$prevOptions)->first();
 
 		$nextOptions = $findOptions;
 		$nextOptions['conditions'] = Hash::merge($nextOptions['conditions'], [$options['sortField'] . ' ' . $sortDirSymb[0] => $options['value']]);
 		$nextOptions['order'] = [$options['sortField'] => $sortDirWord[0]];
-		$return['next'] = $this->_table->find('all', ...$nextOptions)->first();
+		$return['next'] = $this->table->find('all', ...$nextOptions)->first();
 
 		return $return;
 	}

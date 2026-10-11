@@ -9,7 +9,7 @@ class SluggedArticle extends Entity {
 	/**
 	 * @var array<string>
 	 */
-	protected array $_virtual = [
+	protected array $virtual = [
 		'special',
 	];
 

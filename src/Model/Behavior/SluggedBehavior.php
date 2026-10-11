@@ -75,7 +75,7 @@ class SluggedBehavior extends Behavior {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [
+	protected array $defaultConfig = [
 		'label' => null,
 		'field' => 'slug',
 		'overwriteField' => 'overwrite_slug',
@@ -112,16 +112,16 @@ class SluggedBehavior extends Behavior {
 	 *
 	 * @var \Cake\ORM\Table
 	 */
-	protected Table $_table;
+	protected Table $table;
 
 	/**
 	 * @param \Cake\ORM\Table $table
 	 * @param array $config
 	 */
 	public function __construct(Table $table, array $config = []) {
-		$this->_defaultConfig['notices'] = Configure::read('debug');
-		foreach ($this->_defaultConfig['replace'] as $key => $value) {
-			$this->_defaultConfig['replace'][$key] = __d('tools', $value);
+		$this->defaultConfig['notices'] = Configure::read('debug');
+		foreach ($this->defaultConfig['replace'] as $key => $value) {
+			$this->defaultConfig['replace'][$key] = __d('tools', $value);
 		}
 		$config += (array)Configure::read('Slugged');
 
@@ -139,32 +139,32 @@ class SluggedBehavior extends Behavior {
 	 * @return void
 	 */
 	public function initialize(array $config): void {
-		if ($this->_config['length'] === null) {
-			$field = $this->_table->getSchema()->getColumn($this->_config['field']);
+		if ($this->config['length'] === null) {
+			$field = $this->table->getSchema()->getColumn($this->config['field']);
 			$length = $field ? $field['length'] : 0;
-			$this->_config['length'] = $length;
+			$this->config['length'] = $length;
 		}
 
-		if (!$this->_config['label']) {
-			$this->_config['label'] = $this->_table->getDisplayField();
+		if (!$this->config['label']) {
+			$this->config['label'] = $this->table->getDisplayField();
 		}
 
-		$label = $this->_config['label'] = (array)$this->_config['label'];
+		$label = $this->config['label'] = (array)$this->config['label'];
 
-		if ($this->_table->behaviors()->has('Translate')) {
-			$this->_config['length'] = false;
+		if ($this->table->behaviors()->has('Translate')) {
+			$this->config['length'] = false;
 		}
-		if ($this->_config['length']) {
+		if ($this->config['length']) {
 			foreach ($label as $field) {
 				if (strpos((string)$field, '.') !== false) {
 					[$alias, $field] = explode('.', (string)$field);
-					if (!$this->_table->$alias->hasField($field)) {
-						throw new RuntimeException('(SluggedBehavior::setup) model `' . $this->_table->$alias->getAlias() . '` is missing the field `' . $field
-							. '` (specified in the setup for table `' . $this->_table->getAlias() . '`) ');
+					if (!$this->table->$alias->hasField($field)) {
+						throw new RuntimeException('(SluggedBehavior::setup) model `' . $this->table->$alias->getAlias() . '` is missing the field `' . $field
+							. '` (specified in the setup for table `' . $this->table->getAlias() . '`) ');
 					}
-				} elseif (!$this->_table->hasField($field) && !method_exists($this->_table->getEntityClass(), '_get' . Inflector::classify($field))) {
-					throw new RuntimeException('(SluggedBehavior::setup) model `' . $this->_table->getAlias() . '` is missing the field `' . $field
-						. '` (specified in the setup for entity `' . $this->_table->getEntityClass() . '`.');
+				} elseif (!$this->table->hasField($field) && !method_exists($this->table->getEntityClass(), '_get' . Inflector::classify($field))) {
+					throw new RuntimeException('(SluggedBehavior::setup) model `' . $this->table->getAlias() . '` is missing the field `' . $field
+						. '` (specified in the setup for entity `' . $this->table->getEntityClass() . '`.');
 				}
 			}
 		}
@@ -181,7 +181,7 @@ class SluggedBehavior extends Behavior {
 	 * @return \Cake\ORM\Query\SelectQuery
 	 */
 	public function findSlugged(SelectQuery $query, string $slug): SelectQuery {
-		return $query->where([$this->_table->aliasField($this->_config['field']) => $slug]);
+		return $query->where([$this->table->aliasField($this->config['field']) => $slug]);
 	}
 
 	/**
@@ -195,7 +195,7 @@ class SluggedBehavior extends Behavior {
 	 * @return void
 	 */
 	public function beforeRules(EventInterface $event, EntityInterface $entity, ArrayObject $options, $operation): void {
-		if ($this->_config['on'] === 'beforeRules') {
+		if ($this->config['on'] === 'beforeRules') {
 			$this->slug($entity);
 		}
 	}
@@ -209,7 +209,7 @@ class SluggedBehavior extends Behavior {
 	 * @return void
 	 */
 	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {
-		if ($this->_config['on'] === 'beforeSave') {
+		if ($this->config['on'] === 'beforeSave') {
 			$this->slug($entity);
 		}
 	}
@@ -222,13 +222,13 @@ class SluggedBehavior extends Behavior {
 	 * @return void
 	 */
 	public function slug(EntityInterface $entity, array $options = []) {
-		$overwrite = $options['overwrite'] ?? $this->_config['overwrite'];
-		if (!$overwrite && $entity->get($this->_config['overwriteField'])) {
+		$overwrite = $options['overwrite'] ?? $this->config['overwrite'];
+		if (!$overwrite && $entity->get($this->config['overwriteField'])) {
 			$overwrite = true;
 		}
 
 		// Handle onDirty: only regenerate when label fields are dirty
-		if ($this->_config['onDirty'] && !$entity->isNew() && !$overwrite) {
+		if ($this->config['onDirty'] && !$entity->isNew() && !$overwrite) {
 			if (!$this->_isLabelDirty($entity)) {
 				return;
 			}
@@ -236,13 +236,13 @@ class SluggedBehavior extends Behavior {
 			$overwrite = true;
 		}
 
-		if (!$overwrite && !$entity->isNew() && $entity->get($this->_config['field'])) {
+		if (!$overwrite && !$entity->isNew() && $entity->get($this->config['field'])) {
 			return;
 		}
 
 		$pieces = [];
 		$atLeastOneLabelFieldExists = false;
-		foreach ((array)$this->_config['label'] as $v) {
+		foreach ((array)$this->config['label'] as $v) {
 			if ($entity->has($v)) {
 				$atLeastOneLabelFieldExists = true;
 			}
@@ -259,9 +259,9 @@ class SluggedBehavior extends Behavior {
 			return;
 		}
 
-		$slug = implode($this->_config['separator'], $pieces);
+		$slug = implode($this->config['separator'], $pieces);
 		$slug = $this->generateSlug($slug, $entity);
-		$entity->set($this->_config['field'], $slug);
+		$entity->set($this->config['field'], $slug);
 	}
 
 	/**
@@ -276,7 +276,7 @@ class SluggedBehavior extends Behavior {
 	 * @return bool
 	 */
 	public function needsSlugUpdate(EntityInterface $entity, $deep = false) {
-		foreach ((array)$this->_config['label'] as $label) {
+		foreach ((array)$this->config['label'] as $label) {
 			if ($entity->isDirty($label)) {
 				return true;
 			}
@@ -285,7 +285,7 @@ class SluggedBehavior extends Behavior {
 			$copy = clone $entity;
 			$this->slug($copy, ['overwrite' => true]);
 
-			return $copy->get($this->_config['field']) !== $entity->get($this->_config['field']);
+			return $copy->get($this->config['field']) !== $entity->get($this->config['field']);
 		}
 
 		return false;
@@ -305,19 +305,19 @@ class SluggedBehavior extends Behavior {
 	 * @return bool Success
 	 */
 	public function resetSlugs($params = []) {
-		if (!$this->_table->hasField($this->_config['field'])) {
-			throw new RuntimeException('Table does not have field ' . $this->_config['field']);
+		if (!$this->table->hasField($this->config['field'])) {
+			throw new RuntimeException('Table does not have field ' . $this->config['field']);
 		}
 		/** @var string $displayField */
-		$displayField = $this->_table->getDisplayField();
+		$displayField = $this->table->getDisplayField();
 
 		// If scope is a Closure, we can't use it for batch conditions - per-entity scope is handled in generateSlug()
-		$batchConditions = $this->_config['scope'] instanceof Closure ? [] : $this->_config['scope'];
+		$batchConditions = $this->config['scope'] instanceof Closure ? [] : $this->config['scope'];
 
 		$defaults = [
 			'page' => 1,
 			'limit' => 100,
-			'fields' => array_merge([$this->_table->getPrimaryKey()], $this->_config['label']),
+			'fields' => array_merge([$this->table->getPrimaryKey()], $this->config['label']),
 			'order' => $displayField . ' ASC',
 			'conditions' => $batchConditions,
 			'overwrite' => true,
@@ -325,24 +325,24 @@ class SluggedBehavior extends Behavior {
 		$params += $defaults;
 
 		$conditions = $params['conditions'];
-		$count = $this->_table->find('all', ...['conditions' => $conditions])->count();
+		$count = $this->table->find('all', ...['conditions' => $conditions])->count();
 		$max = (int)ini_get('max_execution_time');
 		if ($max) {
 			set_time_limit(max($max, $count / 100));
 		}
 
 		$this->setConfig($params, null, false);
-		while (($records = $this->_table->find('all', ...$params)->toArray())) {
+		while (($records = $this->table->find('all', ...$params)->toArray())) {
 			/** @var \Cake\ORM\Entity $record */
 			foreach ($records as $record) {
 				$record->setNew(true);
 
-				$fields = array_merge([$this->_table->getPrimaryKey(), $this->_config['field']], $this->_config['label']);
+				$fields = array_merge([$this->table->getPrimaryKey(), $this->config['field']], $this->config['label']);
 				$options = [
 					'validate' => true,
 					'fields' => $fields,
 				];
-				if (!$this->_table->save($record, $options)) {
+				if (!$this->table->save($record, $options)) {
 					throw new RuntimeException(print_r($record->getErrors(), true));
 				}
 			}
@@ -368,43 +368,43 @@ class SluggedBehavior extends Behavior {
 	 * @return string A slug
 	 */
 	public function generateSlug(string $value, ?EntityInterface $entity = null) {
-		$separator = $this->_config['separator'];
+		$separator = $this->config['separator'];
 
 		$string = str_replace(["\r\n", "\r", "\n"], ' ', $value);
 		/** @var array<string> $replace */
-		$replace = $this->_config['replace'];
+		$replace = $this->config['replace'];
 		if ($replace) {
 			$string = str_replace(array_keys($replace), array_values($replace), $string);
 		}
 
-		if (!is_string($this->_config['mode'])) {
-			$callable = $this->_config['mode'];
+		if (!is_string($this->config['mode'])) {
+			$callable = $this->config['mode'];
 			if (!is_callable($callable)) {
 				throw new RuntimeException('Invalid callable passed as mode.');
 			}
 			$slug = $callable($string);
 
-		} elseif ($this->_config['mode'] === static::MODE_ASCII) {
+		} elseif ($this->config['mode'] === static::MODE_ASCII) {
 			$slug = ShimInflector::slug($string, $separator);
-		} elseif ($this->_config['mode'] === static::MODE_URL) {
-			$regex = $this->_regex($this->_config['mode']);
+		} elseif ($this->config['mode'] === static::MODE_URL) {
+			$regex = $this->_regex($this->config['mode']);
 			$slug = $regex ? $this->_pregReplace('@[' . $regex . ']@Su', $separator, $string) : $string;
 		} else {
 			throw new RuntimeException('Invalid mode passed.');
 		}
 
-		if ($this->_config['tidy']) {
+		if ($this->config['tidy']) {
 			$slug = $this->_pregReplace('/' . $separator . '+/', $separator, $slug);
 			$slug = trim($slug, $separator);
-			if ($slug && $this->_config['mode'] === 'id' && is_numeric($slug[0])) {
+			if ($slug && $this->config['mode'] === 'id' && is_numeric($slug[0])) {
 				$slug = 'x' . $slug;
 			}
 		}
-		if ($this->_config['length'] && (mb_strlen((string)$slug) > $this->_config['length'])) {
-			$slug = mb_substr((string)$slug, 0, $this->_config['length']);
+		if ($this->config['length'] && (mb_strlen((string)$slug) > $this->config['length'])) {
+			$slug = mb_substr((string)$slug, 0, $this->config['length']);
 		}
-		if ($this->_config['case']) {
-			$case = $this->_config['case'];
+		if ($this->config['case']) {
+			$case = $this->config['case'];
 			$slug = $case === 'up' ? mb_strtoupper((string)$slug) : mb_strtolower((string)$slug);
 			if (in_array($case, ['title', 'camel'])) {
 				$words = explode($separator, $slug);
@@ -421,18 +421,18 @@ class SluggedBehavior extends Behavior {
 				}
 			}
 		}
-		if ($this->_config['unique']) {
+		if ($this->config['unique']) {
 			if (!$entity) {
 				throw new RuntimeException('Needs an Entity to work on');
 			}
-			$field = $this->_table->getAlias() . '.' . $this->_config['field'];
+			$field = $this->table->getAlias() . '.' . $this->config['field'];
 			$conditions = [$field => $slug];
 			$conditions = array_merge($conditions, $this->_getScope($entity));
 			/** @var string $primaryKey */
-			$primaryKey = $this->_table->getPrimaryKey();
+			$primaryKey = $this->table->getPrimaryKey();
 			$id = $entity->get($primaryKey);
 			if ($id) {
-				$conditions['NOT'][$this->_table->getAlias() . '.' . $primaryKey] = $id;
+				$conditions['NOT'][$this->table->getAlias() . '.' . $primaryKey] = $id;
 			}
 			$i = 0;
 			$suffix = '';
@@ -440,8 +440,8 @@ class SluggedBehavior extends Behavior {
 			while ($this->_slugExists($conditions)) {
 				$i++;
 				$suffix = $separator . $i;
-				if ($this->_config['length'] && (mb_strlen($slug . $suffix) > $this->_config['length'])) {
-					$slug = mb_substr((string)$slug, 0, $this->_config['length'] - mb_strlen($suffix));
+				if ($this->config['length'] && (mb_strlen($slug . $suffix) > $this->config['length'])) {
+					$slug = mb_substr((string)$slug, 0, $this->config['length'] - mb_strlen($suffix));
 				}
 				$conditions[$field] = $slug . $suffix;
 			}
@@ -464,12 +464,12 @@ class SluggedBehavior extends Behavior {
 	 * @return bool
 	 */
 	protected function _slugExists(array $conditions): bool {
-		$callback = $this->_config['uniqueCallback'];
+		$callback = $this->config['uniqueCallback'];
 		if ($callback instanceof Closure) {
-			return $callback($this->_table, $conditions);
+			return $callback($this->table, $conditions);
 		}
 
-		return $this->_table->exists($conditions);
+		return $this->table->exists($conditions);
 	}
 
 	/**
@@ -479,7 +479,7 @@ class SluggedBehavior extends Behavior {
 	 * @return bool
 	 */
 	protected function _isLabelDirty(EntityInterface $entity): bool {
-		foreach ((array)$this->_config['label'] as $label) {
+		foreach ((array)$this->config['label'] as $label) {
 			if ($entity->isDirty($label)) {
 				return true;
 			}
@@ -495,7 +495,7 @@ class SluggedBehavior extends Behavior {
 	 * @return array<string, mixed>
 	 */
 	protected function _getScope(EntityInterface $entity): array {
-		$scope = $this->_config['scope'];
+		$scope = $this->config['scope'];
 		if ($scope instanceof Closure) {
 			return $scope($entity);
 		}

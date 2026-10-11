@@ -36,7 +36,7 @@ class DatalistWidget extends SelectBoxWidget {
 			'templateVars' => [],
 		];
 
-		$options = $this->_renderContent($data);
+		$options = $this->renderContent($data);
 		if (!$data['keys']) {
 			$options = str_replace(
 				'value',
@@ -61,11 +61,11 @@ class DatalistWidget extends SelectBoxWidget {
 		}
 
 		$inputData['value'] = $default;
-		$inputAttrs = $this->_templates->formatAttributes($inputData);
+		$inputAttrs = $this->templates->formatAttributes($inputData);
 
-		$datalistAttrs = $this->_templates->formatAttributes($data);
+		$datalistAttrs = $this->templates->formatAttributes($data);
 
-		return $this->_templates->format(
+		return $this->templates->format(
 			'datalist',
 			[
 				'name' => $name,

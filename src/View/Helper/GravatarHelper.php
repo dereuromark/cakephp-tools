@@ -56,7 +56,7 @@ class GravatarHelper extends Helper {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [
+	protected array $defaultConfig = [
 		'default' => null,
 		'size' => null,
 		'rating' => null,
@@ -90,7 +90,7 @@ class GravatarHelper extends Helper {
 	 */
 	public function __construct(View $View, array $config = []) {
 		// Default the secure option to match the current URL.
-		$this->_defaultConfig['secure'] = (bool)env('HTTPS');
+		$this->defaultConfig['secure'] = (bool)env('HTTPS');
 
 		parent::__construct($View, $config);
 	}
@@ -122,7 +122,7 @@ class GravatarHelper extends Helper {
 	 * @return string Gravatar Image URL
 	 */
 	public function url(string $email, array $options = []): string {
-		$options = $this->_cleanOptions($options + $this->_config);
+		$options = $this->_cleanOptions($options + $this->config);
 		$options += [
 			'escape' => true,
 		];
@@ -150,7 +150,7 @@ class GravatarHelper extends Helper {
 	 * @return array Default images array
 	 */
 	public function defaultImages($options = []) {
-		$options = $this->_cleanOptions($options + $this->_config);
+		$options = $this->_cleanOptions($options + $this->config);
 		$images = [];
 		foreach ($this->_defaultIcons as $defaultIcon) {
 			$options['default'] = $defaultIcon;
@@ -212,7 +212,7 @@ class GravatarHelper extends Helper {
 	 * @return string URL string of options
 	 */
 	protected function _buildOptions(array $options = []): string {
-		$gravatarOptions = array_intersect(array_keys($options), array_keys($this->_defaultConfig));
+		$gravatarOptions = array_intersect(array_keys($options), array_keys($this->defaultConfig));
 		if (!empty($gravatarOptions)) {
 			$optionArray = [];
 			foreach ($gravatarOptions as $key) {

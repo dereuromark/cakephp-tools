@@ -24,7 +24,7 @@ class BananaComponent extends Component {
 	 * @return void
 	 */
 	public function startup(EventInterface $event): void {
-		$this->_registry->getController()->bar = 'fail';
+		$this->registry->getController()->bar = 'fail';
 	}
 
 }

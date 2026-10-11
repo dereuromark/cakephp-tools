@@ -4,8 +4,7 @@ declare(strict_types = 1);
 namespace Tools\Command;
 
 use Cake\Command\Command;
-use Cake\Console\Arguments;
-use Cake\Console\ConsoleIo;
+use Cake\Console\ConsoleIoInterface;
 use Cake\Console\ConsoleOptionParser;
 use Shim\Utility\Inflector;
 
@@ -66,11 +65,11 @@ class InflectCommand extends Command {
 	/**
 	 * Implement this action with your command's logic.
 	 *
-	 * @param \Cake\Console\Arguments $args The command arguments.
-	 * @param \Cake\Console\ConsoleIo $io The console io
 	 * @return int|null|void The exit code or null for success
 	 */
-	public function execute(Arguments $args, ConsoleIo $io) {
+	public function execute() {
+		$args = $this->args;
+		$io = $this->io;
 		$arguments = $args->getArguments() ? $this->_parseArguments($args->getArguments(), $io) : $this->_interactive($io);
 
 		if (!$arguments['action'] || !$arguments['word']) {
@@ -83,11 +82,11 @@ class InflectCommand extends Command {
 	/**
 	 * Prompts the user for word
 	 *
-	 * @param \Cake\Console\ConsoleIo $io
+	 * @param \Cake\Console\ConsoleIoInterface $io
 	 *
 	 * @return array
 	 */
-	protected function _interactive(ConsoleIo $io): array {
+	protected function _interactive(ConsoleIoInterface $io): array {
 		$word = $this->_getWord($io);
 		$action = $this->_getAction($io);
 
@@ -97,11 +96,11 @@ class InflectCommand extends Command {
 	/**
 	 * Requests a valid inflection action
 	 *
-	 * @param \Cake\Console\ConsoleIo $io
+	 * @param \Cake\Console\ConsoleIoInterface $io
 	 *
 	 * @return string
 	 */
-	protected function _getAction(ConsoleIo $io): string {
+	protected function _getAction(ConsoleIoInterface $io): string {
 		$validCharacters = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'q'];
 		$validCommands = array_merge($validCharacters, $this->validCommands);
 
@@ -186,11 +185,11 @@ class InflectCommand extends Command {
 	/**
 	 * Requests word to inflect
 	 *
-	 * @param \Cake\Console\ConsoleIo $io
+	 * @param \Cake\Console\ConsoleIoInterface $io
 	 *
 	 * @return string|null
 	 */
-	protected function _getWord(ConsoleIo $io): ?string {
+	protected function _getWord(ConsoleIoInterface $io): ?string {
 		$word = null;
 		while (empty($word)) {
 			$temp = $io->ask('What word would you like to inflect?');
@@ -208,11 +207,11 @@ class InflectCommand extends Command {
 	 * Parse the arguments into the function and the word to be inflected
 	 *
 	 * @param array $arguments
-	 * @param \Cake\Console\ConsoleIo $io
+	 * @param \Cake\Console\ConsoleIoInterface $io
 	 *
 	 * @return array
 	 */
-	protected function _parseArguments(array $arguments, ConsoleIo $io): array {
+	protected function _parseArguments(array $arguments, ConsoleIoInterface $io): array {
 		$word = array_shift($arguments);
 
 		$action = $arguments ? array_shift($arguments) : $this->_getAction($io);
@@ -225,11 +224,11 @@ class InflectCommand extends Command {
 	 *
 	 * @param string $function
 	 * @param string $word
-	 * @param \Cake\Console\ConsoleIo $io
+	 * @param \Cake\Console\ConsoleIoInterface $io
 	 *
 	 * @return void
 	 */
-	protected function _inflect(string $function, string $word, ConsoleIo $io): void {
+	protected function _inflect(string $function, string $word, ConsoleIoInterface $io): void {
 		$io->out($word);
 
 		if (str_contains($function, ',')) {

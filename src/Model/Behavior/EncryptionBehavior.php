@@ -25,7 +25,7 @@ class EncryptionBehavior extends Behavior {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [
+	protected array $defaultConfig = [
 		'fields' => [],
 		'key' => '',
 	];
@@ -37,7 +37,7 @@ class EncryptionBehavior extends Behavior {
 	public function initialize(array $config): void {
 		if (isset($config['fields'])) {
 			$this->setConfig('fields', $config['fields']);
-			$this->_config['fields'] = array_unique($this->_config['fields']);
+			$this->config['fields'] = array_unique($this->config['fields']);
 		}
 	}
 

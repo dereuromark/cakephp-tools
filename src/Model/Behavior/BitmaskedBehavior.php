@@ -38,7 +38,7 @@ class BitmaskedBehavior extends Behavior {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [
+	protected array $defaultConfig = [
 		'field' => 'status',
 		'mappedField' => null, // NULL = same as above
 		'bits' => null, // Enum, method or callback to get the bits data
@@ -60,12 +60,12 @@ class BitmaskedBehavior extends Behavior {
 	 * @return void
 	 */
 	public function initialize(array $config): void {
-		$config += $this->_config;
+		$config += $this->config;
 		if (empty($config['bits'])) {
 			$config['bits'] = Inflector::variable(Inflector::pluralize($config['field']));
 		}
 
-		$entity = $this->_table->newEmptyEntity();
+		$entity = $this->table->newEmptyEntity();
 		$enumClass = false;
 
 		$bits = $config['bits'];
@@ -93,9 +93,9 @@ class BitmaskedBehavior extends Behavior {
 		} elseif (is_string($config['bits']) && method_exists($entity, $config['bits'])) {
 			$method = $config['bits'];
 			$config['bits'] = $entity::$method();
-		} elseif (is_string($config['bits']) && method_exists($this->_table, $config['bits'])) {
+		} elseif (is_string($config['bits']) && method_exists($this->table, $config['bits'])) {
 			// Deprecated: Will be removed in the next major, use Entity instead.
-			$table = $this->_table;
+			$table = $this->table;
 			$method = $config['bits'];
 			$config['bits'] = $table::$method();
 		} elseif (!is_array($config['bits'])) {
@@ -108,7 +108,7 @@ class BitmaskedBehavior extends Behavior {
 		}
 		ksort($config['bits'], SORT_NUMERIC);
 
-		$this->_config = $config;
+		$this->config = $config;
 	}
 
 	/**
@@ -120,15 +120,15 @@ class BitmaskedBehavior extends Behavior {
 	 */
 	public function findBitmasked(SelectQuery $query, array|string|int $bits, array $options = []): SelectQuery {
 		$options += [
-			'type' => $this->_config['type'] ?? 'exact',
-			'containMode' => $this->_config['containMode'],
+			'type' => $this->config['type'] ?? 'exact',
+			'containMode' => $this->config['containMode'],
 		];
 
 		if ($options['type'] === 'contain') {
 			if (!$bits) {
-				$field = $this->_config['field'];
+				$field = $this->config['field'];
 
-				return $query->where([$this->_table->getAlias() . '.' . $field => $this->_getDefaultValue($field)]);
+				return $query->where([$this->table->getAlias() . '.' . $field => $this->_getDefaultValue($field)]);
 			}
 
 			if ($options['containMode'] === 'and') {
@@ -152,7 +152,7 @@ class BitmaskedBehavior extends Behavior {
 			$encodedBits = $this->_getDefaultValue($field);
 		}
 
-		return $query->where([$this->_table->getAlias() . '.' . $this->_config['field'] . ' IS' => $encodedBits]);
+		return $query->where([$this->table->getAlias() . '.' . $this->config['field'] . ' IS' => $encodedBits]);
 	}
 
 	/**
@@ -166,8 +166,8 @@ class BitmaskedBehavior extends Behavior {
 	public function beforeFind(EventInterface $event, SelectQuery $query, ArrayObject $options, bool $primary): void {
 		$this->encodeBitmaskConditions($query);
 
-		$field = $this->_config['field'];
-		$mappedField = $this->_config['mappedField'];
+		$field = $this->config['field'];
+		$mappedField = $this->config['mappedField'];
 		if (!$mappedField) {
 			$mappedField = $field;
 		}
@@ -204,7 +204,7 @@ class BitmaskedBehavior extends Behavior {
 	 * @return void
 	 */
 	public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options): void {
-		if ($this->_config['on'] !== 'beforeMarshal') {
+		if ($this->config['on'] !== 'beforeMarshal') {
 			return;
 		}
 		$this->encodeBitmaskDataRaw($data);
@@ -218,7 +218,7 @@ class BitmaskedBehavior extends Behavior {
 	 * @return void
 	 */
 	public function afterMarshal(EventInterface $event, EntityInterface $entity, ArrayObject $data, ArrayObject $options): void {
-		if ($this->_config['on'] !== 'afterMarshal') {
+		if ($this->config['on'] !== 'afterMarshal') {
 			return;
 		}
 		$this->encodeBitmaskData($entity);
@@ -233,7 +233,7 @@ class BitmaskedBehavior extends Behavior {
 	 * @return void
 	 */
 	public function beforeRules(EventInterface $event, EntityInterface $entity, ArrayObject $options, $operation): void {
-		if ($this->_config['on'] !== 'beforeRules' || !$options['checkRules']) {
+		if ($this->config['on'] !== 'beforeRules' || !$options['checkRules']) {
 			return;
 		}
 		$this->encodeBitmaskData($entity);
@@ -246,7 +246,7 @@ class BitmaskedBehavior extends Behavior {
 	 * @return void
 	 */
 	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {
-		if ($this->_config['on'] !== 'beforeSave') {
+		if ($this->config['on'] !== 'beforeSave') {
 			return;
 		}
 		$this->encodeBitmaskData($entity);
@@ -260,8 +260,8 @@ class BitmaskedBehavior extends Behavior {
 		$res = [];
 		$value = (int)$value;
 
-		$enum = $this->_config['enum'];
-		foreach ($this->_config['bits'] as $key => $val) {
+		$enum = $this->config['enum'];
+		foreach ($this->config['bits'] as $key => $val) {
 			$val = ($value & $key) !== 0;
 			if ($val) {
 				$res[] = $enum ? $enum::tryFrom($key) : $key;
@@ -301,8 +301,8 @@ class BitmaskedBehavior extends Behavior {
 	 * @return void
 	 */
 	public function encodeBitmaskConditions(SelectQuery $query) {
-		$field = $this->_config['field'];
-		$mappedField = $this->_config['mappedField'];
+		$field = $this->config['field'];
+		$mappedField = $this->config['mappedField'];
 		if (!$mappedField) {
 			$mappedField = $field;
 		}
@@ -318,7 +318,7 @@ class BitmaskedBehavior extends Behavior {
 			}
 			$key = $comparison->getField();
 
-			if ($key !== $mappedField && $key !== $this->_table->getAlias() . '.' . $mappedField) {
+			if ($key !== $mappedField && $key !== $this->table->getAlias() . '.' . $mappedField) {
 				return $comparison;
 			}
 
@@ -339,8 +339,8 @@ class BitmaskedBehavior extends Behavior {
 	 * @return void
 	 */
 	public function encodeBitmaskDataRaw(ArrayObject $data) {
-		$field = $this->_config['field'];
-		$mappedField = $this->_config['mappedField'];
+		$field = $this->config['field'];
+		$mappedField = $this->config['mappedField'];
 		if (!$mappedField) {
 			$mappedField = $field;
 		}
@@ -358,8 +358,8 @@ class BitmaskedBehavior extends Behavior {
 	 * @return void
 	 */
 	public function encodeBitmaskData(EntityInterface $entity) {
-		$field = $this->_config['field'];
-		$mappedField = $this->_config['mappedField'];
+		$field = $this->config['field'];
+		$mappedField = $this->config['mappedField'];
 		if (!$mappedField) {
 			$mappedField = $field;
 		}
@@ -382,13 +382,13 @@ class BitmaskedBehavior extends Behavior {
 	 */
 	protected function _getDefault(string $field): ?int {
 		$default = null;
-		$schema = $this->_table->getSchema()->getColumn($field);
+		$schema = $this->table->getSchema()->getColumn($field);
 
 		if ($schema && isset($schema['default'])) {
 			$default = $schema['default'];
 		}
-		if ($this->_config['defaultValue'] !== null) {
-			$default = $this->_config['defaultValue'];
+		if ($this->config['defaultValue'] !== null) {
+			$default = $this->config['defaultValue'];
 		}
 
 		return $default;
@@ -402,9 +402,9 @@ class BitmaskedBehavior extends Behavior {
 		$bits = (array)$bits;
 		$bitmask = $this->encodeBitmask($bits);
 
-		$field = $this->_config['field'];
+		$field = $this->config['field'];
 
-		return [$this->_table->getAlias() . '.' . $field => $bitmask];
+		return [$this->table->getAlias() . '.' . $field => $bitmask];
 	}
 
 	/**
@@ -440,24 +440,24 @@ class BitmaskedBehavior extends Behavior {
 		$bits = (array)$bits;
 		$bitmask = $this->encodeBitmask($bits);
 
-		$field = $this->_config['field'];
+		$field = $this->config['field'];
 		if ($bitmask === null) {
 			$emptyValue = $this->_getDefaultValue($field);
 
-			return [$this->_table->getAlias() . '.' . $field . ' IS' => $emptyValue];
+			return [$this->table->getAlias() . '.' . $field . ' IS' => $emptyValue];
 		}
 
 		$contain = $contain ? ' & %s = %s' : ' & %s != %s';
 		$contain = sprintf($contain, (string)$bitmask, (string)$bitmask);
 
 		// Hack for Postgres for now
-		$connection = $this->_table->getConnection();
+		$connection = $this->table->getConnection();
 		$config = $connection->config();
 		if ((str_contains((string)$config['driver'], 'Postgres'))) {
-			return ['("' . $this->_table->getAlias() . '"."' . $field . '"' . $contain . ')'];
+			return ['("' . $this->table->getAlias() . '"."' . $field . '"' . $contain . ')'];
 		}
 
-		return ['(' . $this->_table->getAlias() . '.' . $field . $contain . ')'];
+		return ['(' . $this->table->getAlias() . '.' . $field . $contain . ')'];
 	}
 
 	/**
@@ -466,7 +466,7 @@ class BitmaskedBehavior extends Behavior {
 	 * @return int|null
 	 */
 	protected function _getDefaultValue(string $field): ?int {
-		$schema = $this->_table->getSchema()->getColumn($field);
+		$schema = $this->table->getSchema()->getColumn($field);
 
 		return $schema['default'] ?? 0;
 	}

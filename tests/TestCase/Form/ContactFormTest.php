@@ -77,4 +77,14 @@ class ContactFormTest extends TestCase {
 		$this->assertTrue($result);
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testSchema(): void {
+		$schema = $this->Form->getSchema();
+		$this->assertSame(['name', 'email', 'subject', 'body'], $schema->fields());
+		$this->assertSame('string', $schema->fieldType('email'));
+		$this->assertSame('text', $schema->fieldType('body'));
+	}
+
 }

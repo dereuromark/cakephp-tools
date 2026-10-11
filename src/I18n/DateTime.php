@@ -4,6 +4,7 @@ namespace Tools\I18n;
 
 use Cake\Chronos\Chronos;
 use Cake\Chronos\ChronosDate;
+use Cake\Chronos\ChronosInterval;
 use Cake\Core\Configure;
 use Cake\I18n\Date as CakeDate;
 use Cake\I18n\DateTime as CakeDateTime;
@@ -1537,7 +1538,7 @@ class DateTime extends CakeDateTime {
 	 *
 	 * E.g. for days and hours set format to: $d:$H
 	 *
-	 * @param \DateInterval|int $duration Duration in seconds or as DateInterval object
+	 * @param \Cake\Chronos\ChronosInterval|\DateInterval|int $duration Duration in seconds or as an interval
 	 * @param string $format Defaults to hours, minutes and seconds
 	 * @return string Time
 	 */
@@ -1571,11 +1572,14 @@ class DateTime extends CakeDateTime {
 	 * as it approximates month as "30".
 	 *
 	 * @deprecated Use duration() instead?
-	 * @param \DateInterval|int $duration Duration in seconds or as DateInterval object
+	 * @param \Cake\Chronos\ChronosInterval|\DateInterval|int $duration Duration in seconds or as an interval
 	 * @param string $format Defaults to hours and minutes
 	 * @return string Time
 	 */
 	public static function buildTime($duration, $format = 'H:MM:SS') {
+		if ($duration instanceof ChronosInterval) {
+			$duration = $duration->toNative();
+		}
 		if ($duration instanceof DateInterval) {
 			$m = $duration->invert ? -1 : 1;
 

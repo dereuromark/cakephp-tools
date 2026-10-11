@@ -64,9 +64,9 @@ class Message extends CakeMessage {
 	 *
 	 * @param array|string $attachments String with the filename or array with filenames
 	 * @throws \InvalidArgumentException
-	 * @return $this
+	 * @return static
 	 */
-	public function setAttachments($attachments) {
+	public function setAttachments($attachments): static {
 		$attach = [];
 		foreach ((array)$attachments as $name => $fileInfo) {
 			if (!is_array($fileInfo)) {
@@ -110,9 +110,9 @@ class Message extends CakeMessage {
 	 * @param string|null $mimetype
 	 * @param string|null $contentId
 	 * @param bool|null $contentDisposition
-	 * @return $this
+	 * @return static
 	 */
-	public function addAttachment(UploadedFileInterface|string $path, ?string $name = null, ?string $mimetype = null, ?string $contentId = null, ?bool $contentDisposition = null) {
+	public function addAttachment(UploadedFileInterface|string $path, ?string $name = null, ?string $mimetype = null, ?string $contentId = null, ?bool $contentDisposition = null): static {
 		$fileInfo = ['file' => $path];
 
 		if ($mimetype !== null) {
@@ -390,10 +390,14 @@ class Message extends CakeMessage {
 	 * Also fixes file_get_contents (used via File class) to close the connection again
 	 * after getting remote files. So far it would have kept the connection open in HTTP/1.1.
 	 *
-	 * @param string $path The absolute path to the file to read.
+	 * @param \Psr\Http\Message\UploadedFileInterface|string $path The absolute path or uploaded file to read.
 	 * @return string File contents in base64 encoding
 	 */
-	protected function _readFile($path) {
+	protected function readFile(UploadedFileInterface|string $path): string {
+		if ($path instanceof UploadedFileInterface) {
+			return parent::readFile($path);
+		}
+
 		$context = stream_context_create([
 			'http' => [
 				'timeout' => 10,
@@ -414,7 +418,7 @@ class Message extends CakeMessage {
 	 * CUSTOM FIX: blob data support
 	 *
 	 * @override
-	 * @param string|null $boundary Boundary to use. If null, will default to $this->_boundary
+	 * @param string|null $boundary Boundary to use. If null, will default to $this->boundary
 	 * @return array An array of lines to add to the message
 	 */
 	protected function attachInlineFiles(?string $boundary = null): array {
@@ -432,7 +436,7 @@ class Message extends CakeMessage {
 				// CakePHP 5's setAttachments() already base64 encodes blob data
 				$data = $fileInfo['data'];
 			} elseif (!empty($fileInfo['file'])) {
-				$data = $this->_readFile($fileInfo['file']);
+				$data = $this->readFile($fileInfo['file']);
 			} else {
 				continue;
 			}

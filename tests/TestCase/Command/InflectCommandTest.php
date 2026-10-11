@@ -35,7 +35,7 @@ class InflectCommandTest extends TestCase {
 	public function testExecute(): void {
 		$this->exec('inflect FooBar all');
 
-		$output = $this->_out->messages();
+		$output = $this->out->messages();
 		$expected = [
 			0 => 'FooBar',
 			1 => 'Pluralized form            : FooBars',

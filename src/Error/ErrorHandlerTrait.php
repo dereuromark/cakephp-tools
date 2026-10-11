@@ -2,11 +2,9 @@
 
 namespace Tools\Error;
 
-use Cake\Controller\Exception\AuthSecurityException;
 use Cake\Controller\Exception\FormProtectionException;
 use Cake\Controller\Exception\InvalidParameterException;
 use Cake\Controller\Exception\MissingActionException;
-use Cake\Controller\Exception\SecurityException;
 use Cake\Core\Configure;
 use Cake\Datasource\Exception\InvalidPrimaryKeyException;
 use Cake\Datasource\Exception\RecordNotFoundException;
@@ -28,7 +26,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
 
 /**
- * @property array $_config
+ * @property array $config
  */
 trait ErrorHandlerTrait {
 
@@ -57,8 +55,6 @@ trait ErrorHandlerTrait {
 		MissingViewException::class,
 		MissingTemplateException::class,
 		UnavailableForLegalReasonsException::class,
-		SecurityException::class,
-		AuthSecurityException::class,
 		FormProtectionException::class,
 	];
 
@@ -67,9 +63,7 @@ trait ErrorHandlerTrait {
 	 *
 	 * @var array<string>
 	 */
-	protected static array $evenWithReferer = [
-		AuthSecurityException::class,
-	];
+	protected static array $evenWithReferer = [];
 
 	/**
 	 * @param \Throwable $exception
@@ -78,8 +72,8 @@ trait ErrorHandlerTrait {
 	 */
 	protected function is404(Throwable $exception, ?ServerRequestInterface $request = null): bool {
 		$blacklist = static::$blacklist;
-		if (isset($this->_config['log404'])) {
-			$blacklist = (array)$this->_config['log404'];
+		if (isset($this->config['log404'])) {
+			$blacklist = (array)$this->config['log404'];
 		}
 		if (!$blacklist) {
 			return false;

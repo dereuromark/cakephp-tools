@@ -105,10 +105,10 @@ class Table extends ShimTable {
 	public function truncate() {
 		/** @var \Cake\Database\Schema\TableSchema $schema */
 		$schema = $this->getSchema();
-		assert($this->_connection !== null);
-		$sql = $schema->truncateSql($this->_connection);
+		assert($this->connection !== null);
+		$sql = $schema->truncateSql($this->connection);
 		foreach ($sql as $snippet) {
-			$this->_connection->execute($snippet);
+			$this->connection->execute($snippet);
 		}
 	}
 

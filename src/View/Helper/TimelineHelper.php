@@ -47,7 +47,7 @@ class TimelineHelper extends Helper {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [
+	protected array $defaultConfig = [
 		'id' => 'mytimeline',
 		'selectable' => false,
 		'editable' => false,

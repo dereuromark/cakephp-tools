@@ -31,7 +31,7 @@ class TimeHelper extends CakeTimeHelper {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [
+	protected array $defaultConfig = [
 		'engine' => 'Tools\I18n\DateTime',
 	];
 
@@ -58,7 +58,7 @@ class TimeHelper extends CakeTimeHelper {
 
 		parent::__construct($View, $config);
 
-		$config = $this->_config + $defaults;
+		$config = $this->config + $defaults;
 		/** @var class-string<\Tools\I18n\DateTime>|null $engineClass */
 		$engineClass = App::className($config['engine'], 'I18n');
 		if (!$engineClass) {
@@ -100,14 +100,14 @@ class TimeHelper extends CakeTimeHelper {
 			return $dateString->nice($locale);
 		}
 		if ($dateString instanceof DateTime) {
-			$timezone = $this->_getTimezone($timezone);
+			$timezone = $this->getTimezone($timezone);
 
 			return $dateString->nice($timezone, $locale);
 		}
 
 		// Deprecated
 		if (is_string($dateString) && strlen($dateString) === 10) {
-			$timezone = $this->_getTimezone($timezone);
+			$timezone = $this->getTimezone($timezone);
 
 			return $this->niceDate($dateString, null, ['timezone' => $timezone, 'default' => $default]);
 		}

@@ -4,10 +4,13 @@ description: Install Tools, load its library features, and configure optional de
 
 # Installation
 
+This branch uses unreleased CakePHP 6 packages. Set `"minimum-stability": "dev"`
+and `"prefer-stable": true` in your application's `composer.json` before installing.
+
 From your CakePHP application root:
 
 ```bash
-composer require dereuromark/cakephp-tools
+composer require dereuromark/cakephp-tools:dev-cake6
 bin/cake plugin load Tools --no-routes
 ```
 

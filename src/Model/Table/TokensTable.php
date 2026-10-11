@@ -32,9 +32,9 @@ use Tools\Model\Entity\Token as TokenEntity;
 class TokensTable extends Table {
 
 	/**
-	 * @var string
+	 * @var array<string>|string|null
 	 */
-	public string $displayField = 'token_key';
+	public string|array|null $displayField = 'token_key';
 
 	/**
 	 * @var array<int|string, mixed>
@@ -84,7 +84,7 @@ class TokensTable extends Table {
 			'maxLength' => [
 				'rule' => ['maxLength', 255],
 				'message' => ['valErrMaxCharacters {0}', 255],
-				'allowEmptyString' => true,
+				'allowEmpty' => true,
 			],
 		],
 		'used' => ['numeric'],
@@ -274,7 +274,7 @@ class TokensTable extends Table {
 			->select(['type'])
 			->distinct(['type'])
 			->orderBy(['type' => 'ASC'], true)
-			->disableHydration()
+			->enableHydration(false)
 			->toArray();
 		$keys['types'] = empty($types) ? [] : Hash::extract($types, '{n}.type');
 
@@ -335,7 +335,7 @@ class TokensTable extends Table {
 	protected function findTokenRows(array $fields): ResultSetInterface {
 		return $this->find()
 			->select($fields)
-			->disableHydration()
+			->enableHydration(false)
 			->disableBufferedResults()
 			->orderBy([], true)
 			->all();

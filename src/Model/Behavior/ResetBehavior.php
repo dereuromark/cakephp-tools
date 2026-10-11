@@ -47,7 +47,7 @@ class ResetBehavior extends Behavior {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [
+	protected array $defaultConfig = [
 		'limit' => 100, // batch of records per loop
 		'timeout' => null, // in seconds
 		'fields' => [], // if not displayField
@@ -66,7 +66,7 @@ class ResetBehavior extends Behavior {
 	 * @param array $config
 	 */
 	public function __construct(Table $table, array $config = []) {
-		$defaults = $this->_defaultConfig;
+		$defaults = $this->defaultConfig;
 		$configureDefaults = Configure::read('Reset');
 		if ($configureDefaults) {
 			$defaults = $configureDefaults + $defaults;
@@ -84,36 +84,36 @@ class ResetBehavior extends Behavior {
 	 */
 	public function resetRecords(array $params = []) {
 		/** @var string $primaryKey */
-		$primaryKey = $this->_table->getPrimaryKey();
+		$primaryKey = $this->table->getPrimaryKey();
 		$defaults = [
 			'page' => 1,
-			'limit' => $this->_config['limit'],
+			'limit' => $this->config['limit'],
 			'fields' => [],
-			'order' => [$this->_table->getAlias() . '.' . $primaryKey => 'ASC'],
-			'conditions' => $this->_config['scope'],
-			'validate' => $this->_config['validate'],
+			'order' => [$this->table->getAlias() . '.' . $primaryKey => 'ASC'],
+			'conditions' => $this->config['scope'],
+			'validate' => $this->config['validate'],
 		];
-		if (!empty($this->_config['fields'])) {
-			foreach ((array)$this->_config['fields'] as $field) {
-				if (!$this->_table->hasField($field)) {
+		if (!empty($this->config['fields'])) {
+			foreach ((array)$this->config['fields'] as $field) {
+				if (!$this->table->hasField($field)) {
 					throw new RuntimeException('Table does not have field ' . $field);
 				}
 			}
-			$defaults['fields'] = array_merge([$this->_table->getAlias() . '.' . $primaryKey], $this->_config['fields']);
+			$defaults['fields'] = array_merge([$this->table->getAlias() . '.' . $primaryKey], $this->config['fields']);
 		} else {
-			$defaults['fields'] = [$this->_table->getAlias() . '.' . $primaryKey];
+			$defaults['fields'] = [$this->table->getAlias() . '.' . $primaryKey];
 			/** @var string $displayField */
-			$displayField = $this->_table->getDisplayField();
+			$displayField = $this->table->getDisplayField();
 			if ($displayField !== $primaryKey) {
-				$defaults['fields'][] = $this->_table->getAlias() . '.' . $displayField;
+				$defaults['fields'][] = $this->table->getAlias() . '.' . $displayField;
 			}
 		}
 
 		$updateFields = [];
-		if (!$this->_config['updateTimestamp']) {
+		if (!$this->config['updateTimestamp']) {
 			$fields = ['modified', 'updated'];
 			foreach ($fields as $field) {
-				if ($this->_table->getSchema()->getColumn($field)) {
+				if ($this->table->getSchema()->getColumn($field)) {
 					$defaults['fields'][] = $field;
 					$updateFields[] = $field;
 
@@ -125,35 +125,35 @@ class ResetBehavior extends Behavior {
 		$params += $defaults;
 
 		$conditions = $params['conditions'];
-		$count = $this->_table->find()->where($conditions)->count();
+		$count = $this->table->find()->where($conditions)->count();
 		$max = (int)ini_get('max_execution_time');
 		if ($max) {
 			set_time_limit(max($max, $count));
 		}
 
 		$modified = 0;
-		while (($records = $this->_table->find('all', ...$params)->all()->toArray())) {
+		while (($records = $this->table->find('all', ...$params)->all()->toArray())) {
 			/** @var \Cake\Datasource\EntityInterface $record */
 			foreach ($records as $record) {
 				$fields = (array)$params['fields'];
 				if ($this->getConfig('updateFields')) {
 					$fields = (array)$this->getConfig('updateFields');
-					if (!$this->_config['updateTimestamp']) {
+					if (!$this->config['updateTimestamp']) {
 						$fields = array_merge($updateFields, $fields);
 					}
 				}
-				if ($fields && !in_array($this->_table->getPrimaryKey(), $fields)) {
-					$fields[] = $this->_table->getPrimaryKey();
+				if ($fields && !in_array($this->table->getPrimaryKey(), $fields)) {
+					$fields[] = $this->table->getPrimaryKey();
 				}
 
-				if ($this->_config['callback']) {
-					if (is_callable($this->_config['callback'])) {
+				if ($this->config['callback']) {
+					if (is_callable($this->config['callback'])) {
 						$parameters = [$record, &$fields];
 						/** @var \Cake\Datasource\EntityInterface $record */
-						$record = call_user_func_array($this->_config['callback'], $parameters);
+						$record = call_user_func_array($this->config['callback'], $parameters);
 					} else {
 						/** @var \Cake\Datasource\EntityInterface $record */
-						$record = $this->_table->{$this->_config['callback']}($record, $fields);
+						$record = $this->table->{$this->config['callback']}($record, $fields);
 					}
 					if (!$record) {
 						continue;
@@ -161,15 +161,15 @@ class ResetBehavior extends Behavior {
 				}
 
 				$validate = $params['validate'];
-				$res = $this->_table->save($record, ['validate' => $validate, 'fields' => $fields]);
+				$res = $this->table->save($record, ['validate' => $validate, 'fields' => $fields]);
 				if (!$res) {
 					throw new RuntimeException(print_r($record->getErrors(), true));
 				}
 				$modified++;
 			}
 			$params['page']++;
-			if ($this->_config['timeout']) {
-				sleep((int)$this->_config['timeout']);
+			if ($this->config['timeout']) {
+				sleep((int)$this->config['timeout']);
 			}
 		}
 

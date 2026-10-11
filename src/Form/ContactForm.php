@@ -38,7 +38,7 @@ class ContactForm extends Form {
 	 * @param \Cake\Form\Schema $schema
 	 * @return \Cake\Form\Schema
 	 */
-	protected function _buildSchema(Schema $schema): Schema {
+	protected function buildSchema(Schema $schema): Schema {
 		return $schema->addField('name', ['type' => 'string', 'length' => 40])
 			->addField('email', ['type' => 'string', 'length' => 50])
 			->addField('subject', ['type' => 'string', 'length' => 60])

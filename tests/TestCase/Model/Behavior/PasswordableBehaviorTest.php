@@ -400,8 +400,8 @@ class PasswordableBehaviorTest extends TestCase {
 			'pwd' => '123456',
 			'pwd_repeat' => '123456',
 		];
-		$user->setAccess('*', false); // Mark all properties as protected
-		$user->setAccess(['id'], true); // Allow id to be accessible by default
+		$user->setPatchable('*', false); // Mark all properties as protected
+		$user->setPatchable(['id'], true); // Allow id to be accessible by default
 		$user = $this->Users->patchEntity($user, $data, ['fields' => ['id']]);
 
 		$this->assertSame($userCopy['password'], $user['password']);
@@ -426,8 +426,8 @@ class PasswordableBehaviorTest extends TestCase {
 			'pwd' => 'some', // Too short
 			'pwd_repeat' => 'somex', // Don't match
 		];
-		$user->setAccess('*', false); // Mark all properties as protected
-		$user->setAccess(['id', 'name'], true);
+		$user->setPatchable('*', false); // Mark all properties as protected
+		$user->setPatchable(['id', 'name'], true);
 		$this->Users->patchEntity($user, $data, ['fields' => ['id', 'name']]);
 		// Test whitelist setting - only "password" gets auto-added, pwd, pwd_repeat etc need to be added manually
 		// NOTE that I had to remove the code for adding those fields from the behavior (as it was not functional)
@@ -488,8 +488,8 @@ class PasswordableBehaviorTest extends TestCase {
 			'pwd' => '123456',
 			'pwd_repeat' => '123456',
 		];
-		$user->setAccess('*', false); // Mark all properties as protected
-		$user->setAccess(['id'], true); // Allow id to be accessible by default
+		$user->setPatchable('*', false); // Mark all properties as protected
+		$user->setPatchable(['id'], true); // Allow id to be accessible by default
 		$user = $this->Users->patchEntity($user, $data, ['fields' => ['id']]);
 
 		$this->assertTrue($user->isDirty('pwd'));
@@ -514,8 +514,8 @@ class PasswordableBehaviorTest extends TestCase {
 			'pwd' => 'somepwd',
 			'pwd_repeat' => 'somepwd',
 		];
-		$user->setAccess('*', false); // Mark all properties as protected
-		$user->setAccess(['id'], true);
+		$user->setPatchable('*', false); // Mark all properties as protected
+		$user->setPatchable(['id'], true);
 		$this->Users->patchEntity($user, $data, ['fields' => ['id']]);
 		$result = $this->Users->save($user);
 		$this->assertTrue((bool)$result);
@@ -537,8 +537,8 @@ class PasswordableBehaviorTest extends TestCase {
 			'pwd' => 'somepwd',
 			'pwd_repeat' => 'somepwd',
 		];
-		$user->setAccess('*', false); // Mark all properties as protected
-		$user->setAccess(['id'], true);
+		$user->setPatchable('*', false); // Mark all properties as protected
+		$user->setPatchable(['id'], true);
 		$user = $this->Users->patchEntity($user, $data);
 		$result = $this->Users->save($user);
 		$this->assertTrue((bool)$result);
@@ -776,6 +776,18 @@ class PasswordableBehaviorTest extends TestCase {
 		$this->Users->patchEntity($user, $data);
 		$is = $this->Users->save($user);
 		$this->assertTrue((bool)$is);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testConfirmationOnCoreTable(): void {
+		$table = new Table(['table' => 'tools_users', 'connection' => $this->Users->getConnection()]);
+		$table->addBehavior('Tools.Passwordable');
+		$validator = $table->getValidator();
+		$errors = $validator->validate(['pwd' => '123456', 'pwd_repeat' => '654321']);
+		$this->assertArrayHasKey('validateIdentical', $errors['pwd_repeat']);
+		$this->assertSame([], $validator->validate(['pwd' => '123456', 'pwd_repeat' => '123456']));
 	}
 
 }

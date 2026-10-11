@@ -90,7 +90,7 @@ class TypographicBehavior extends Behavior {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [
+	protected array $defaultConfig = [
 		'before' => self::BEFORE_SAVE, // save or marshal
 		'fields' => [],
 		'mergeQuotes' => false, // Set to true for " or explicitly set a char (" or ').
@@ -104,7 +104,7 @@ class TypographicBehavior extends Behavior {
 	 * @return void
 	 */
 	public function initialize(array $config): void {
-		if (empty($this->_config['fields'])) {
+		if (empty($this->config['fields'])) {
 			$schema = $this->table()->getSchema();
 
 			$fields = [];
@@ -122,10 +122,10 @@ class TypographicBehavior extends Behavior {
 				}
 				$fields[] = $field;
 			}
-			$this->_config['fields'] = $fields;
+			$this->config['fields'] = $fields;
 		}
-		if ($this->_config['mergeQuotes'] === true) {
-			$this->_config['mergeQuotes'] = '"';
+		if ($this->config['mergeQuotes'] === true) {
+			$this->config['mergeQuotes'] = '"';
 		}
 	}
 
@@ -136,7 +136,7 @@ class TypographicBehavior extends Behavior {
 	 * @return void
 	 */
 	public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options): void {
-		if ($this->_config['before'] === 'marshal') {
+		if ($this->config['before'] === 'marshal') {
 			$this->process($data);
 		}
 	}
@@ -148,7 +148,7 @@ class TypographicBehavior extends Behavior {
 	 * @return void
 	 */
 	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {
-		if ($this->_config['before'] === 'save') {
+		if ($this->config['before'] === 'save') {
 			$this->process($entity);
 		}
 	}
@@ -167,7 +167,7 @@ class TypographicBehavior extends Behavior {
 			/** @var \Cake\Datasource\EntityInterface $record */
 			foreach ($records as $record) {
 				$changed = false;
-				foreach ($this->_config['fields'] as $field) {
+				foreach ($this->config['fields'] as $field) {
 					if (empty($record[$field])) {
 						continue;
 					}
@@ -198,7 +198,7 @@ class TypographicBehavior extends Behavior {
 	 * @return void
 	 */
 	public function process(ArrayAccess $data) {
-		foreach ($this->_config['fields'] as $field) {
+		foreach ($this->config['fields'] as $field) {
 			if (!empty($data[$field])) {
 				$data[$field] = $this->_prepareInput($data[$field]);
 			}
@@ -211,9 +211,9 @@ class TypographicBehavior extends Behavior {
 	 */
 	protected function _prepareInput($string) {
 		$map = $this->_map['in'];
-		if ($this->_config['mergeQuotes']) {
+		if ($this->config['mergeQuotes']) {
 			foreach ($map as $key => $val) {
-				$map[$key] = $this->_config['mergeQuotes'];
+				$map[$key] = $this->config['mergeQuotes'];
 			}
 		}
 
