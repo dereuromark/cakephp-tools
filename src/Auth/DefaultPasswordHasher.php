@@ -20,7 +20,7 @@ class DefaultPasswordHasher extends AbstractPasswordHasher {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [
+	protected array $defaultConfig = [
 		'hashType' => PASSWORD_DEFAULT,
 		'hashOptions' => [],
 	];
@@ -36,8 +36,8 @@ class DefaultPasswordHasher extends AbstractPasswordHasher {
 	public function hash(string $password): string {
 		return password_hash(
 			$password,
-			$this->_config['hashType'],
-			$this->_config['hashOptions'],
+			$this->config['hashType'],
+			$this->config['hashOptions'],
 		);
 	}
 
@@ -60,7 +60,7 @@ class DefaultPasswordHasher extends AbstractPasswordHasher {
 	 * @return bool
 	 */
 	public function needsRehash(string $password): bool {
-		return password_needs_rehash($password, $this->_config['hashType'], $this->_config['hashOptions']);
+		return password_needs_rehash($password, $this->config['hashType'], $this->config['hashOptions']);
 	}
 
 }

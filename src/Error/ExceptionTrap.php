@@ -58,7 +58,7 @@ class ExceptionTrap extends CoreExceptionTrap {
 	 * @return void
 	 */
 	public function logException(Throwable $exception, ?ServerRequestInterface $request = null): void {
-		$shouldLog = $this->_config['log'];
+		$shouldLog = $this->config['log'];
 		if ($shouldLog) {
 			foreach ($this->getConfig('skipLog') as $class) {
 				if ($exception instanceof $class) {
@@ -84,7 +84,7 @@ class ExceptionTrap extends CoreExceptionTrap {
 			return;
 		}
 
-		$this->logger()->logException($exception, $request, $this->_config['trace']);
+		$this->logger()->logException($exception, $request, $this->config['trace']);
 	}
 
 	/**

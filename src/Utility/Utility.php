@@ -303,7 +303,6 @@ class Utility {
 			}
 
 			$statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-			curl_close($curl);
 			if ($statusCodes === []) {
 				$statusCodes = [200];
 			}

@@ -25,7 +25,7 @@ class ToggleBehavior extends Behavior {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [
+	protected array $defaultConfig = [
 		'field' => 'primary',
 		'on' => 'afterSave', // afterSave (without transactions) or beforeSave (with transactions)
 		'scopeFields' => [],
@@ -57,19 +57,19 @@ class ToggleBehavior extends Behavior {
 
 		if ($order === null) {
 			$order = [];
-			if ($this->_table->getSchema()->getColumn('modified')) {
+			if ($this->table->getSchema()->getColumn('modified')) {
 				$order['modified'] = 'DESC';
 			}
 		}
 		/** @var \Cake\Datasource\EntityInterface|null $entity */
-		$entity = $this->_table->find()->where($conditions)->orderBy($order)->first();
+		$entity = $this->table->find()->where($conditions)->orderBy($order)->first();
 		if (!$entity) {
 			// This should be caught with a validation rule if at least one "primary" must exist
 			return;
 		}
 
 		$entity->set($field, true);
-		$this->_table->saveOrFail($entity);
+		$this->table->saveOrFail($entity);
 	}
 
 	/**
@@ -86,7 +86,7 @@ class ToggleBehavior extends Behavior {
 			$entity->set($field, true);
 		}
 
-		if ($this->_config['on'] !== 'beforeSave') {
+		if ($this->config['on'] !== 'beforeSave') {
 			return;
 		}
 
@@ -111,7 +111,7 @@ class ToggleBehavior extends Behavior {
 	 * @return void
 	 */
 	public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {
-		if ($this->_config['on'] !== 'afterSave') {
+		if ($this->config['on'] !== 'afterSave') {
 			return;
 		}
 
@@ -140,7 +140,7 @@ class ToggleBehavior extends Behavior {
 		$conditions = $this->buildConditions($entity);
 
 		/** @var \Cake\Datasource\EntityInterface|null */
-		return $this->_table->find()
+		return $this->table->find()
 			->where($conditions)
 			->first();
 	}
@@ -154,7 +154,7 @@ class ToggleBehavior extends Behavior {
 		$field = $this->getConfig('field');
 		$id = $entity->get('id');
 		$conditions = $this->buildConditions($entity);
-		$this->_table->updateAll([$field => false], ['id !=' => $id] + $conditions);
+		$this->table->updateAll([$field => false], ['id !=' => $id] + $conditions);
 	}
 
 	/**
@@ -182,8 +182,8 @@ class ToggleBehavior extends Behavior {
 		$id = $entity->get('id');
 		$conditions = $this->buildConditions($entity);
 
-		$primary = $this->_table->updateAll([$field => true], ['id' => $id] + $conditions);
-		$others = $this->_table->updateAll([$field => false], ['id !=' => $id] + $conditions);
+		$primary = $this->table->updateAll([$field => true], ['id' => $id] + $conditions);
+		$others = $this->table->updateAll([$field => false], ['id !=' => $id] + $conditions);
 
 		return $primary + $others > 0;
 	}

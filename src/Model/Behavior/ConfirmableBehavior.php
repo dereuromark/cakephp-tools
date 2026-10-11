@@ -22,7 +22,7 @@ class ConfirmableBehavior extends Behavior {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [
+	protected array $defaultConfig = [
 		'message' => null,
 		'field' => 'confirm',
 		'validator' => 'default',
@@ -35,8 +35,8 @@ class ConfirmableBehavior extends Behavior {
 	public function __construct(Table $table, array $config = []) {
 		parent::__construct($table, $config);
 
-		if (!$this->_config['message']) {
-			$this->_config['message'] = __d('tools', 'Please confirm the checkbox');
+		if (!$this->config['message']) {
+			$this->config['message'] = __d('tools', 'Please confirm the checkbox');
 		}
 	}
 
@@ -56,22 +56,20 @@ class ConfirmableBehavior extends Behavior {
 	 * @return void
 	 */
 	public function build(Validator $validator, $name = 'default') {
-		if ($name !== $this->_config['validator']) {
+		if ($name !== $this->config['validator']) {
 			return;
 		}
 
-		$field = $this->_config['field'];
-		$message = $this->_config['message'];
+		$field = $this->config['field'];
+		$message = $this->config['message'];
 		$validator->add($field, 'notBlank', [
 			'rule' => function ($value, $context) {
 				return !empty($value);
 			},
 			'message' => $message,
-			'requirePresence' => true,
-			'allowEmpty' => false,
 			'last' => true,
 		]);
-		$validator->requirePresence($field);
+		$validator->requirePresence($field)->notEmptyString($field);
 	}
 
 }

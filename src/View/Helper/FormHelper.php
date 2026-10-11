@@ -29,10 +29,10 @@ class FormHelper extends CakeFormHelper {
 	 * @param array<string, mixed> $config Configuration settings for the helper.
 	 */
 	public function __construct(View $View, array $config = []) {
-		$this->_defaultConfig += $this->_defaultConfigExt;
+		$this->defaultConfig += $this->_defaultConfigExt;
 		$defaultConfig = (array)Configure::read('FormConfig');
 		if ($defaultConfig) {
-			$this->_defaultConfig = Hash::merge($this->_defaultConfig, $defaultConfig);
+			$this->defaultConfig = Hash::merge($this->defaultConfig, $defaultConfig);
 		}
 		parent::__construct($View, $config);
 	}
@@ -47,7 +47,7 @@ class FormHelper extends CakeFormHelper {
 	 * @return string An formatted opening FORM tag.
 	 */
 	public function create(mixed $context = null, array $options = []): string {
-		$defaults = ['novalidate' => $this->_defaultConfig['novalidate']];
+		$defaults = ['novalidate' => $this->defaultConfig['novalidate']];
 		$options += $defaults;
 
 		return parent::create($context, $options);

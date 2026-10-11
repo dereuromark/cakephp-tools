@@ -4,11 +4,11 @@ parameters:
 		- src/
 	treatPhpDocTypesAsCertain: false
 	bootstrapFiles:
-		- %rootDir%/../../../tests/bootstrap.php
+		- tests/bootstrap.php
 	excludePaths:
-		- %rootDir%/../../../src/TestSuite/*
-		- %rootDir%/../../../src/Utility/Mime.php
-		- %rootDir%/../../../src/View/Helper/QrCodeHelper.php
+		- src/TestSuite/*
+		- src/Utility/Mime.php
+		- src/View/Helper/QrCodeHelper.php
 	reportUnmatchedIgnoredErrors: false
 	ignoreErrors:
 		- identifier: missingType.generics
@@ -17,22 +17,22 @@ parameters:
 		- identifier: method.childParameterType
 		-
 			message: '#Undefined variable: .+#'
-			path: '%rootDir%/../../../src/View/Helper/TreeHelper.php'
+			path: 'src/View/Helper/TreeHelper.php'
 		-
 			message: '#Variable \$.+ might not be defined.#'
-			path: '%rootDir%/../../../src/View/Helper/TreeHelper.php'
+			path: 'src/View/Helper/TreeHelper.php'
 		-
 			message: '#Negated boolean expression is always true.#'
-			path: '%rootDir%/../../../src/View/Helper/TreeHelper.php'
+			path: 'src/View/Helper/TreeHelper.php'
 		-
 			message: '#Result of \|\| is always true.#'
-			path: '%rootDir%/../../../src/View/Helper/TreeHelper.php'
+			path: 'src/View/Helper/TreeHelper.php'
 		-
 			message: '#Cannot unset offset string on array.+\.#'
-			path: '%rootDir%/../../../src/Utility/Language.php'
+			path: 'src/Utility/Language.php'
 		-
 			message: '#Instanceof between mixed and .+ComparisonExpression will always evaluate to false\.#'
-			path: '%rootDir%/../../../src/Model/Behavior/BitmaskedBehavior.php'
+			path: 'src/Model/Behavior/BitmaskedBehavior.php'
 		- '#Parameter \#4 \$flags of function preg_match expects TFlags of 0\|256\|512\|768, int given.#'
 		- '#Parameter \#2 \$\w+ of function datefmt_format expects .+, DateTimeInterface given.#'
 		- '#Unsafe usage of new static\(\)#'

@@ -18,7 +18,7 @@ class TypeMapBehavior extends Behavior {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [
+	protected array $defaultConfig = [
 		'fields' => [], // Fields to change column type for
 	];
 
@@ -28,14 +28,14 @@ class TypeMapBehavior extends Behavior {
 	 * @return void
 	 */
 	public function initialize(array $config): void {
-		if (empty($this->_config['fields'])) {
+		if (empty($this->config['fields'])) {
 			throw new RuntimeException('Fields are required');
 		}
-		if (!is_array($this->_config['fields'])) {
-			$this->_config['fields'] = (array)$this->_config['fields'];
+		if (!is_array($this->config['fields'])) {
+			$this->config['fields'] = (array)$this->config['fields'];
 		}
 
-		foreach ($this->_config['fields'] as $field => $type) {
+		foreach ($this->config['fields'] as $field => $type) {
 			if (is_array($type)) {
 				$type = $type['type'];
 			}
@@ -43,7 +43,7 @@ class TypeMapBehavior extends Behavior {
 				throw new RuntimeException('Invalid field type setup.');
 			}
 
-			$this->_table->getSchema()->setColumnType($field, $type);
+			$this->table->getSchema()->setColumnType($field, $type);
 		}
 	}
 

@@ -34,7 +34,7 @@ trait HtmlTrait {
 	 * ### Options
 	 *
 	 * - `escape` Set to false to disable escaping of title and attributes.
-	 * - `escapeTitle` Set to false to disable escaping of title. Takes precedence
+	 * - `escape` Set to false to disable escaping of title. Takes precedence
 	 *   over value of `escape`)
 	 * - `confirm` JavaScript confirmation message.
 	 *
@@ -59,7 +59,7 @@ trait HtmlTrait {
 	 * ### Options
 	 *
 	 * - `escape` Set to false to disable escaping of title and attributes.
-	 * - `escapeTitle` Set to false to disable escaping of title. Takes precedence
+	 * - `escape` Set to false to disable escaping of title. Takes precedence
 	 *   over value of `escape`)
 	 * - `confirm` JavaScript confirmation message.
 	 *
@@ -75,9 +75,9 @@ trait HtmlTrait {
 			if (!isset($url['?'])) {
 				$url['?'] = [];
 			}
-			$url['?'] += $this->_View->getRequest()->getQuery();
+			$url['?'] += $this->getView()->getRequest()->getQuery();
 
-			$pass = $this->_View->getRequest()->getParam('pass');
+			$pass = $this->getView()->getRequest()->getParam('pass');
 			$url = array_merge($url, $pass);
 		}
 

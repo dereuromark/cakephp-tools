@@ -57,7 +57,7 @@ class Mailer extends CakeMailer {
 	 * @param array $args Method arguments
 	 * @return \Cake\Mailer\Mailer|mixed
 	 */
-	public function __call(string $method, array $args) {
+	public function __call(string $method, array $args): mixed {
 		$result = $this->message->$method(...$args);
 		if (str_starts_with($method, 'get') || str_starts_with($method, 'add')) {
 			return $result;
@@ -175,9 +175,9 @@ class Mailer extends CakeMailer {
 	}
 
 	/**
-	 * @return $this
+	 * @inheritDoc
 	 */
-	public function reset() {
+	public function reset(): static {
 		$this->locale = null;
 		$this->debug = [];
 

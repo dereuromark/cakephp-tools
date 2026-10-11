@@ -29,7 +29,7 @@ class StringBehavior extends Behavior {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [
+	protected array $defaultConfig = [
 		'fields' => [], // Fields to convert
 		'clean' => false, // On beforeMarshal() to prepare for validation
 		'input' => [], // Basic input filters
@@ -54,7 +54,7 @@ class StringBehavior extends Behavior {
 	 * @return void
 	 */
 	public function beforeFind(EventInterface $event, SelectQuery $query, ArrayObject $options, bool $primary): void {
-		if (!$this->_config['output']) {
+		if (!$this->config['output']) {
 			return;
 		}
 
@@ -90,7 +90,7 @@ class StringBehavior extends Behavior {
 			return;
 		}
 
-		$fields = $this->_config['fields'];
+		$fields = $this->config['fields'];
 		foreach ($fields as $field) {
 			if (!isset($data[$field]) || !is_string($data[$field])) {
 				continue;
@@ -111,7 +111,7 @@ class StringBehavior extends Behavior {
 		$fields = $this->fieldsFromMap($type);
 		$customMap = true;
 		if (!$fields) {
-			$fields = $this->_config['fields'];
+			$fields = $this->config['fields'];
 			$customMap = false;
 		}
 
@@ -129,7 +129,7 @@ class StringBehavior extends Behavior {
 			}
 
 			if (!$map) {
-				$map = $customMap ? $this->_config[$type][$field] : $this->_config[$type];
+				$map = $customMap ? $this->config[$type][$field] : $this->config[$type];
 			}
 			if (!$map) {
 				continue;
@@ -180,7 +180,7 @@ class StringBehavior extends Behavior {
 	 */
 	protected function fieldsFromMap(string $type): array {
 		$fields = [];
-		foreach ($this->_config[$type] as $field => $map) {
+		foreach ($this->config[$type] as $field => $map) {
 			if (is_string($field) && is_array($map)) {
 				$fields[] = $field;
 			}

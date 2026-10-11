@@ -47,7 +47,7 @@ class JsonableBehavior extends Behavior {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [
+	protected array $defaultConfig = [
 		'fields' => [], // Fields to convert
 		'input' => 'array', // json, array, param, list (param/list only works with specific fields)
 		'output' => 'array', // json, array, param, list (param/list only works with specific fields)
@@ -77,24 +77,24 @@ class JsonableBehavior extends Behavior {
 	 * @return void
 	 */
 	public function initialize(array $config): void {
-		if (empty($this->_config['fields'])) {
+		if (empty($this->config['fields'])) {
 			throw new RuntimeException('Fields are required');
 		}
-		if (!is_array($this->_config['fields'])) {
-			$this->_config['fields'] = (array)$this->_config['fields'];
+		if (!is_array($this->config['fields'])) {
+			$this->config['fields'] = (array)$this->config['fields'];
 		}
-		if (!is_array($this->_config['map'])) {
-			$this->_config['map'] = (array)$this->_config['map'];
+		if (!is_array($this->config['map'])) {
+			$this->config['map'] = (array)$this->config['map'];
 		}
-		if (!empty($this->_config['map']) && count($this->_config['fields']) !== count($this->_config['map'])) {
+		if (!empty($this->config['map']) && count($this->config['fields']) !== count($this->config['map'])) {
 			throw new RuntimeException('Fields and Map need to be of the same length if map is specified.');
 		}
-		foreach ($this->_config['fields'] as $field) {
-			$this->_table->getSchema()->setColumnType($field, 'array');
+		foreach ($this->config['fields'] as $field) {
+			$this->table->getSchema()->setColumnType($field, 'array');
 		}
-		if ($this->_config['encodeParams']['options'] === null) {
+		if ($this->config['encodeParams']['options'] === null) {
 			$options = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_ERROR_INF_OR_NAN | JSON_PARTIAL_OUTPUT_ON_ERROR;
-			$this->_config['encodeParams']['options'] = $options;
+			$this->config['encodeParams']['options'] = $options;
 		}
 
 		TypeFactory::map('array', ArrayType::class);
@@ -165,8 +165,8 @@ class JsonableBehavior extends Behavior {
 	 * @return array
 	 */
 	protected function _getMappedFields() {
-		$usedFields = $this->_config['fields'];
-		$mappedFields = $this->_config['map'];
+		$usedFields = $this->config['fields'];
+		$mappedFields = $this->config['map'];
 		if (!$mappedFields) {
 			$mappedFields = $usedFields;
 		}
@@ -190,24 +190,24 @@ class JsonableBehavior extends Behavior {
 	 * @return string|null
 	 */
 	public function _encode($val) {
-		if (!empty($this->_config['fields'])) {
-			if ($this->_config['input'] === 'param') {
+		if (!empty($this->config['fields'])) {
+			if ($this->config['input'] === 'param') {
 				if (!is_string($val)) {
 					throw new InvalidArgumentException('Only accepts string for input type `param`');
 				}
 				$val = $this->_fromParam($val);
-			} elseif ($this->_config['input'] === 'list') {
+			} elseif ($this->config['input'] === 'list') {
 				if (!is_string($val)) {
 					throw new InvalidArgumentException('Only accepts string for input type `list`');
 				}
 				$val = $this->_fromList($val);
-				if ($this->_config['unique']) {
+				if ($this->config['unique']) {
 					if (!is_array($val)) {
 						throw new InvalidArgumentException('Only accepts array for input type `unique`');
 					}
 					$val = array_unique($val);
 				}
-				if ($this->_config['sort']) {
+				if ($this->config['sort']) {
 					if (!is_array($val)) {
 						throw new InvalidArgumentException('Only accepts array for input type `sort`');
 					}
@@ -220,11 +220,11 @@ class JsonableBehavior extends Behavior {
 			return null;
 		}
 
-		if ($this->_config['storage'] === 'array') {
-			return implode($this->_config['separator'], $val);
+		if ($this->config['storage'] === 'array') {
+			return implode($this->config['separator'], $val);
 		}
 
-		$result = json_encode($val, $this->_config['encodeParams']['options'], $this->_config['encodeParams']['depth']);
+		$result = json_encode($val, $this->config['encodeParams']['options'], $this->config['encodeParams']['depth']);
 		if ($result === false) {
 			return null;
 		}
@@ -244,21 +244,21 @@ class JsonableBehavior extends Behavior {
 		}
 
 		if ($this->getConfig('storage') === 'array') {
-			return explode($this->_config['separator'], $val);
+			return explode($this->config['separator'], $val);
 		}
 
-		$flags = $this->_config['decodeParams']['options'];
-		$decoded = json_decode($val, $this->_config['decodeParams']['assoc'], $this->_config['decodeParams']['depth'], $flags);
+		$flags = $this->config['decodeParams']['options'];
+		$decoded = json_decode($val, $this->config['decodeParams']['assoc'], $this->config['decodeParams']['depth'], $flags);
 
 		if ($decoded === false) {
 			return false;
 		}
-		if ($this->_config['decodeParams']['assoc']) {
+		if ($this->config['decodeParams']['assoc']) {
 			$decoded = (array)$decoded;
 		}
-		if ($this->_config['output'] === 'param') {
+		if ($this->config['output'] === 'param') {
 			$decoded = $this->_toParam($decoded);
-		} elseif ($this->_config['output'] === 'list') {
+		} elseif ($this->config['output'] === 'list') {
 			$decoded = $this->_toList($decoded);
 		}
 
@@ -274,10 +274,10 @@ class JsonableBehavior extends Behavior {
 	public function _toParam($val) {
 		$res = [];
 		foreach ($val as $key => $v) {
-			$res[] = $key . $this->_config['keyValueSeparator'] . $v;
+			$res[] = $key . $this->config['keyValueSeparator'] . $v;
 		}
 
-		return implode($this->_config['separator'], $res);
+		return implode($this->config['separator'], $res);
 	}
 
 	/**
@@ -286,14 +286,14 @@ class JsonableBehavior extends Behavior {
 	 * @return array
 	 */
 	public function _fromParam($val) {
-		$leftBound = $this->_config['leftBound'];
-		$rightBound = $this->_config['rightBound'];
-		$separator = $this->_config['separator'];
+		$leftBound = $this->config['leftBound'];
+		$rightBound = $this->config['rightBound'];
+		$separator = $this->config['separator'];
 
 		$res = [];
 		$pieces = Text::tokenize($val, $separator, $leftBound, $rightBound);
 		foreach ($pieces as $piece) {
-			$subpieces = Text::tokenize($piece, $this->_config['keyValueSeparator'], $leftBound, $rightBound);
+			$subpieces = Text::tokenize($piece, $this->config['keyValueSeparator'], $leftBound, $rightBound);
 			if (count($subpieces) < 2) {
 				continue;
 			}
@@ -310,7 +310,7 @@ class JsonableBehavior extends Behavior {
 	 * @return string
 	 */
 	public function _toList($val) {
-		return implode($this->_config['separator'], $val);
+		return implode($this->config['separator'], $val);
 	}
 
 	/**
@@ -319,9 +319,9 @@ class JsonableBehavior extends Behavior {
 	 * @return array<string>
 	 */
 	public function _fromList($val) {
-		$separator = $this->_config['separator'];
-		$leftBound = $this->_config['leftBound'];
-		$rightBound = $this->_config['rightBound'];
+		$separator = $this->config['separator'];
+		$leftBound = $this->config['leftBound'];
+		$rightBound = $this->config['rightBound'];
 
 		return (array)Text::tokenize($val, $separator, $leftBound, $rightBound);
 	}

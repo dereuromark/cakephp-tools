@@ -18,7 +18,7 @@ class LoginLinkIdentifier extends AbstractIdentifier {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [
+	protected array $defaultConfig = [
 		'idField' => 'id',
 		'dataField' => 'id',
 		'resolver' => 'Authentication.Orm',

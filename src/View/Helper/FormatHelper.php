@@ -125,7 +125,7 @@ class FormatHelper extends Helper {
 			$ret .= $this->Html->link(
 				$this->Icon->render('prev') . '&nbsp;' . __d('tools', 'prev' . $name),
 				$url,
-				['escapeTitle' => false, 'title' => $neighbors['prev'][$titleField]],
+				['escape' => false, 'title' => $neighbors['prev'][$titleField]],
 			);
 		} else {
 			$ret .= $this->Icon->render('prev');
@@ -141,7 +141,7 @@ class FormatHelper extends Helper {
 			$ret .= $this->Html->link(
 				$this->Icon->render('next') . '&nbsp;' . __d('tools', 'next' . $name),
 				$url,
-				['escapeTitle' => false, 'title' => $neighbors['next'][$titleField]],
+				['escape' => false, 'title' => $neighbors['next'][$titleField]],
 			);
 		} else {
 			$ret .= $this->Icon->render('next') . '&nbsp;' . __d('tools', 'next' . $name);
@@ -561,8 +561,8 @@ class FormatHelper extends Helper {
 	 * @return string
 	 */
 	public function slug($string) {
-		if ($this->_config['slugger']) {
-			$callable = $this->_config['slugger'];
+		if ($this->config['slugger']) {
+			$callable = $this->config['slugger'];
 			if (!is_callable($callable)) {
 				throw new RuntimeException('Invalid callable passed as slugger.');
 			}

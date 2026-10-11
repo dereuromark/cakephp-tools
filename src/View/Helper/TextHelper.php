@@ -161,10 +161,10 @@ class TextHelper extends CakeTextHelper {
 	 * @param array<string, mixed> $htmlOptions The options for the generated links.
 	 * @return string The text with links inserted.
 	 */
-	protected function _linkUrls(string $text, array $htmlOptions): string {
+	protected function linkUrls(string $text, array $htmlOptions): string {
 		if (!isset($htmlOptions['callable'])) {
 			$replace = [];
-			foreach ($this->_placeholders as $hash => $content) {
+			foreach ($this->placeholders as $hash => $content) {
 				$link = $url = $content['content'];
 				$envelope = $content['envelope'];
 				if (!preg_match('#^[a-z]+\://#i', (string)$url)) {
@@ -187,7 +187,7 @@ class TextHelper extends CakeTextHelper {
 		}
 
 		$replace = [];
-		foreach ($this->_placeholders as $hash => $content) {
+		foreach ($this->placeholders as $hash => $content) {
 			$link = $url = $content['content'];
 			$envelope = $content['envelope'];
 			if (!preg_match('#^[a-z]+\://#i', (string)$url)) {

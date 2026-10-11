@@ -40,7 +40,7 @@ class PasswordableBehavior extends Behavior {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [
+	protected array $defaultConfig = [
 		'field' => 'password',
 		'confirm' => true, // Set to false if in admin view and no confirmation (pwd_repeat) is required
 		'require' => true, // If a password change is required (set to false for edit forms, leave it true for pure password update forms)
@@ -74,7 +74,7 @@ class PasswordableBehavior extends Behavior {
 				'rule' => ['validateIdentical', ['compare' => 'formField']],
 				'message' => 'valErrPwdNotMatch',
 				'last' => true,
-				'provider' => 'table',
+				'provider' => 'passwordable',
 			],
 		],
 		'formFieldCurrent' => [
@@ -87,7 +87,7 @@ class PasswordableBehavior extends Behavior {
 				'rule' => 'validateCurrentPwd',
 				'message' => 'valErrCurrentPwdIncorrect',
 				'last' => true,
-				'provider' => 'table',
+				'provider' => 'passwordable',
 			],
 		],
 	];
@@ -107,7 +107,7 @@ class PasswordableBehavior extends Behavior {
 	 * @param array $config
 	 */
 	public function __construct(Table $table, array $config = []) {
-		$defaults = $this->_defaultConfig;
+		$defaults = $this->defaultConfig;
 		$configureDefaults = Configure::read('Passwordable');
 		if ($configureDefaults) {
 			$defaults = $configureDefaults + $defaults;
@@ -127,22 +127,22 @@ class PasswordableBehavior extends Behavior {
 	 * @return void
 	 */
 	public function initialize(array $config): void {
-		$formField = $this->_config['formField'];
-		$formFieldRepeat = $this->_config['formFieldRepeat'];
-		$formFieldCurrent = $this->_config['formFieldCurrent'];
+		$formField = $this->config['formField'];
+		$formFieldRepeat = $this->config['formFieldRepeat'];
+		$formFieldCurrent = $this->config['formFieldCurrent'];
 
-		if ($formField === $this->_config['field']) {
-			throw new RuntimeException('Invalid setup - the form field must to be different from the model field (' . $this->_config['field'] . ').');
+		if ($formField === $this->config['field']) {
+			throw new RuntimeException('Invalid setup - the form field must to be different from the model field (' . $this->config['field'] . ').');
 		}
 
 		$rules = $this->_validationRules;
 		foreach ($rules as $field => $fieldRules) {
 			foreach ($fieldRules as $key => $rule) {
 				if ($key === 'between') {
-					$rule['rule'][1] = $this->_config['minLength'];
-					$rule['message'][1] = $this->_config['minLength'];
-					$rule['rule'][2] = $this->_config['maxLength'];
-					$rule['message'][2] = $this->_config['maxLength'];
+					$rule['rule'][1] = $this->config['minLength'];
+					$rule['message'][1] = $this->config['minLength'];
+					$rule['rule'][2] = $this->config['maxLength'];
+					$rule['message'][2] = $this->config['maxLength'];
 				}
 
 				if (is_array($rule['message'])) {
@@ -156,18 +156,20 @@ class PasswordableBehavior extends Behavior {
 			$rules[$field] = $fieldRules;
 		}
 
-		$validator = $this->_table->getValidator($this->_config['validator']);
+		$validator = $this->table->getValidator($this->config['validator']);
+		$validator->setProvider('passwordable', $this);
 
 		// Add the validation rules if not already attached
 		if (!count($validator->field($formField))) {
 			$validator->add($formField, $rules['formField']);
-			$validator->allowEmptyString($formField, null, !$this->_config['require']);
+			$validator->allowEmptyString($formField, null, !$this->config['require']);
 		}
 		if (!count($validator->field($formFieldRepeat))) {
 			$ruleSet = $rules['formFieldRepeat'];
-			$ruleSet['validateIdentical']['rule'][1] = $formField;
+			$ruleSet['validateIdentical']['rule'] = [$this->table, 'validateIdentical'];
+			$ruleSet['validateIdentical']['pass'] = [$formField];
 			$validator->add($formFieldRepeat, $ruleSet);
-			$require = $this->_config['require'];
+			$require = $this->config['require'];
 			$validator->allowEmptyString($formFieldRepeat, null, function ($context) use ($require, $formField) {
 				if (!$require && !empty($context['data'][$formField])) {
 					return false;
@@ -177,9 +179,9 @@ class PasswordableBehavior extends Behavior {
 			});
 		}
 
-		if ($this->_config['current'] && !count($validator->field($formFieldCurrent))) {
+		if ($this->config['current'] && !count($validator->field($formFieldCurrent))) {
 			$validator->add($formFieldCurrent, $rules['formFieldCurrent']);
-			$require = $this->_config['require'];
+			$require = $this->config['require'];
 			$validator->allowEmptyString($formFieldCurrent, null, function ($context) use ($require, $formField) {
 				if (!$require && !empty($context['data'][$formField])) {
 					return false;
@@ -188,30 +190,30 @@ class PasswordableBehavior extends Behavior {
 				return !$require;
 			});
 
-			if (!$this->_config['allowSame']) {
+			if (!$this->config['allowSame']) {
 				$validator->add($formField, 'validateNotSame', [
 					'rule' => ['validateNotSame', ['compare' => $formFieldCurrent]],
 					'message' => __d('tools', 'valErrPwdSameAsBefore'),
 					'last' => true,
-					'provider' => 'table',
+					'provider' => 'passwordable',
 				]);
 			}
 		} elseif (!count($validator->field($formFieldCurrent))) {
 			// Try to match the password against the hash in the DB
-			if (!$this->_config['allowSame']) {
+			if (!$this->config['allowSame']) {
 				$validator->add($formField, 'validateNotSame', [
 					'rule' => ['validateNotSameHash'],
 					'message' => __d('tools', 'valErrPwdSameAsBefore'),
 					'last' => true,
-					'provider' => 'table',
+					'provider' => 'passwordable',
 				]);
-				$validator->allowEmptyString($formField, null, !$this->_config['require']);
+				$validator->allowEmptyString($formField, null, !$this->config['require']);
 			}
 		}
 
 		// Add custom rule(s) if configured
-		if ($this->_config['customValidation']) {
-			$validator->add($formField, $this->_config['customValidation']);
+		if ($this->config['customValidation']) {
+			$validator->add($formField, $this->config['customValidation']);
 		}
 	}
 
@@ -224,11 +226,11 @@ class PasswordableBehavior extends Behavior {
 	 * @return void
 	 */
 	public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options): void {
-		$formField = $this->_config['formField'];
-		$formFieldRepeat = $this->_config['formFieldRepeat'];
-		$formFieldCurrent = $this->_config['formFieldCurrent'];
+		$formField = $this->config['formField'];
+		$formFieldRepeat = $this->config['formFieldRepeat'];
+		$formFieldCurrent = $this->config['formFieldCurrent'];
 
-		if (!isset($options['fields']) && $this->_config['forceFieldList']) {
+		if (!isset($options['fields']) && $this->config['forceFieldList']) {
 			$options['fields'] = array_keys((array)$data);
 		}
 		if (isset($options['fields'])) {
@@ -247,19 +249,19 @@ class PasswordableBehavior extends Behavior {
 		if (!isset($data[$formField])) {
 			$data[$formField] = '';
 		}
-		if ($this->_config['confirm'] && !isset($data[$formFieldRepeat])) {
+		if ($this->config['confirm'] && !isset($data[$formFieldRepeat])) {
 			$data[$formFieldRepeat] = '';
 		}
-		if ($this->_config['current'] && !isset($data[$formFieldCurrent])) {
+		if ($this->config['current'] && !isset($data[$formFieldCurrent])) {
 			$data[$formFieldCurrent] = '';
 		}
 
 		// Check if we need to trigger any validation rules
-		if (!$this->_config['require']) {
+		if (!$this->config['require']) {
 			$new = !empty($data[$formField]) || !empty($data[$formFieldRepeat]);
 
 			// Make sure we trigger validation if allowEmpty is set but we have the password field set
-			if ($new && ($this->_config['confirm'] && empty($data[$formFieldRepeat]))) {
+			if ($new && ($this->config['confirm'] && empty($data[$formFieldRepeat]))) {
 				//$entity->errors($formFieldRepeat, __d('tools', 'valErrPwdNotMatch'));
 
 			}
@@ -276,20 +278,20 @@ class PasswordableBehavior extends Behavior {
 	 * @return void
 	 */
 	public function beforeRules(EventInterface $event, EntityInterface $entity, ArrayObject $options, $operation) {
-		$formField = $this->_config['formField'];
-		$formFieldRepeat = $this->_config['formFieldRepeat'];
-		$formFieldCurrent = $this->_config['formFieldCurrent'];
+		$formField = $this->config['formField'];
+		$formFieldRepeat = $this->config['formFieldRepeat'];
+		$formFieldCurrent = $this->config['formFieldCurrent'];
 
 		// Check if we need to trigger any validation rules
-		if (!$this->_config['require']) {
+		if (!$this->config['require']) {
 			$current = $entity->get($formFieldCurrent);
 			$new = $entity->get($formField) || $entity->get($formFieldRepeat);
 			if (!$new && !$current) {
 				$entity->unset($formField);
-				if ($this->_config['confirm']) {
+				if ($this->config['confirm']) {
 					$entity->unset($formFieldRepeat);
 				}
-				if ($this->_config['current']) {
+				if ($this->config['current']) {
 					$entity->unset($formFieldCurrent);
 				}
 
@@ -308,10 +310,10 @@ class PasswordableBehavior extends Behavior {
 	 * @return void
 	 */
 	public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void {
-		$formField = $this->_config['formField'];
-		$field = $this->_config['field'];
+		$formField = $this->config['formField'];
+		$field = $this->config['field'];
 
-		$PasswordHasher = $this->_getPasswordHasher($this->_config['passwordHasher']);
+		$PasswordHasher = $this->_getPasswordHasher($this->config['passwordHasher']);
 
 		if ($entity->get($formField) !== null) {
 			$entity->set($field, $PasswordHasher->hash($entity->get($formField)));
@@ -322,12 +324,12 @@ class PasswordableBehavior extends Behavior {
 
 			$entity->unset($formField);
 
-			if ($this->_config['confirm']) {
-				$formFieldRepeat = $this->_config['formFieldRepeat'];
+			if ($this->config['confirm']) {
+				$formFieldRepeat = $this->config['formFieldRepeat'];
 				$entity->unset($formFieldRepeat);
 			}
-			if ($this->_config['current']) {
-				$formFieldCurrent = $this->_config['formFieldCurrent'];
+			if ($this->config['current']) {
+				$formFieldCurrent = $this->config['formFieldCurrent'];
 				$entity->unset($formFieldCurrent);
 			}
 		} else {
@@ -345,7 +347,7 @@ class PasswordableBehavior extends Behavior {
 	 * @return bool Success
 	 */
 	public function needsPasswordRehash($hash) {
-		$PasswordHasher = $this->_getPasswordHasher($this->_config['passwordHasher']);
+		$PasswordHasher = $this->_getPasswordHasher($this->config['passwordHasher']);
 		if (!method_exists($PasswordHasher, 'needsRehash')) {
 			return false;
 		}
@@ -372,8 +374,8 @@ class PasswordableBehavior extends Behavior {
 	 */
 	public function validateCurrentPwd($pwd, $context) {
 		$uid = null;
-		if (!empty($context['data'][$this->_table->getPrimaryKey()])) {
-			$uid = $context['data'][$this->_table->getPrimaryKey()];
+		if (!empty($context['data'][$this->table->getPrimaryKey()])) {
+			$uid = $context['data'][$this->table->getPrimaryKey()];
 		} else {
 			trigger_error('No user id given');
 
@@ -427,9 +429,9 @@ class PasswordableBehavior extends Behavior {
 	 * @return bool Success
 	 */
 	public function validateNotSameHash($data, $context) {
-		$field = $this->_config['field'];
+		$field = $this->config['field'];
 		/** @var string $primaryKey */
-		$primaryKey = $this->_table->getPrimaryKey();
+		$primaryKey = $this->table->getPrimaryKey();
 		if (empty($context['data'][$primaryKey])) {
 			return true;
 		}
@@ -437,7 +439,7 @@ class PasswordableBehavior extends Behavior {
 		$primaryKeyValue = $context['data'][$primaryKey];
 		$value = $context['data'][$context['field']];
 
-		$dbValue = $this->_table->find()->where([$this->_table->getAlias() . '.' . $primaryKey => $primaryKeyValue])->first();
+		$dbValue = $this->table->find()->where([$this->table->getAlias() . '.' . $primaryKey => $primaryKeyValue])->first();
 		if (!$dbValue) {
 			return true;
 		}
@@ -446,7 +448,7 @@ class PasswordableBehavior extends Behavior {
 			return true;
 		}
 
-		$PasswordHasher = $this->_getPasswordHasher($this->_config['passwordHasher']);
+		$PasswordHasher = $this->_getPasswordHasher($this->config['passwordHasher']);
 
 		return !$PasswordHasher->check($value, $dbValue);
 	}
@@ -457,12 +459,12 @@ class PasswordableBehavior extends Behavior {
 	 * @return bool Success
 	 */
 	protected function _validateSameHash($pwd, $context) {
-		$field = $this->_config['field'];
+		$field = $this->config['field'];
 
 		/** @var string $primaryKey */
-		$primaryKey = $this->_table->getPrimaryKey();
+		$primaryKey = $this->table->getPrimaryKey();
 		$primaryKeyValue = $context['data'][$primaryKey];
-		$dbValue = $this->_table->find()->where([$this->_table->getAlias() . '.' . $primaryKey => $primaryKeyValue])->first();
+		$dbValue = $this->table->find()->where([$this->table->getAlias() . '.' . $primaryKey => $primaryKeyValue])->first();
 		if (!$dbValue) {
 			return false;
 		}
@@ -471,7 +473,7 @@ class PasswordableBehavior extends Behavior {
 			return false;
 		}
 
-		$PasswordHasher = $this->_getPasswordHasher($this->_config['passwordHasher']);
+		$PasswordHasher = $this->_getPasswordHasher($this->config['passwordHasher']);
 
 		return $PasswordHasher->check($pwd, $dbValue);
 	}
@@ -496,7 +498,7 @@ class PasswordableBehavior extends Behavior {
 		}
 		$config['className'] = $class;
 
-		$cost = empty($this->_config['hashCost']) ? 10 : $this->_config['hashCost'];
+		$cost = empty($this->config['hashCost']) ? 10 : $this->config['hashCost'];
 		$config['cost'] = $cost;
 
 		$config += $options;

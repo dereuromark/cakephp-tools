@@ -32,7 +32,7 @@ class TreeHelper extends Helper {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [
+	protected array $defaultConfig = [
 		'model' => null,
 		'alias' => 'name',
 		'type' => 'ul',
@@ -63,7 +63,7 @@ class TreeHelper extends Helper {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected array $_config = [];
+	protected array $config = [];
 
 	/**
 	 * TypeAttributes property
@@ -145,18 +145,18 @@ class TreeHelper extends Helper {
 			return '';
 		}
 
-		$this->_config = $config + $this->_defaultConfig;
-		if ($this->_config['autoPath'] && is_object($this->_config['autoPath'])) {
-			$autoPathEntity = $this->_config['autoPath'];
-			$propertyLeft = $this->_config['left'];
-			$propertyRight = $this->_config['right'];
-			$this->_config['autoPath'] = [$autoPathEntity->$propertyLeft, $autoPathEntity->$propertyRight];
+		$this->config = $config + $this->defaultConfig;
+		if ($this->config['autoPath'] && is_object($this->config['autoPath'])) {
+			$autoPathEntity = $this->config['autoPath'];
+			$propertyLeft = $this->config['left'];
+			$propertyRight = $this->config['right'];
+			$this->config['autoPath'] = [$autoPathEntity->$propertyLeft, $autoPathEntity->$propertyRight];
 		}
 
-		if ($this->_config['autoPath'] && !isset($this->_config['autoPath'][2])) {
-			$this->_config['autoPath'][2] = $this->_config['autoPathClass'];
+		if ($this->config['autoPath'] && !isset($this->config['autoPath'][2])) {
+			$this->config['autoPath'][2] = $this->config['autoPathClass'];
 		}
-		extract($this->_config);
+		extract($this->config);
 		if ($indent === null && Configure::read('debug')) {
 			$indent = true;
 		}
@@ -173,7 +173,7 @@ class TreeHelper extends Helper {
 		}
 		$return = '';
 		$addType = true;
-		$this->_config['totalNodes'] = count($dataArray);
+		$this->config['totalNodes'] = count($dataArray);
 		$keys = array_keys($dataArray);
 
 		if ($hideUnrelated === true || is_numeric($hideUnrelated)) {
@@ -268,14 +268,14 @@ class TreeHelper extends Helper {
 				$result['children'] = [];
 			}
 
-			$this->_config = $elementData + $this->_config;
-			if ($this->_config['fullSettings']) {
-				$elementData = $this->_config;
+			$this->config = $elementData + $this->config;
+			if ($this->config['fullSettings']) {
+				$elementData = $this->config;
 			}
 
 			/* Main Content */
 			if ($element) {
-				$content = $this->_View->element($element, $elementData);
+				$content = $this->getView()->element($element, $elementData);
 			} elseif ($callback) {
 				[$content] = array_map($callback, [$elementData]);
 			} else {
@@ -428,7 +428,7 @@ class TreeHelper extends Helper {
 	 */
 	public function addTypeAttribute($id = '', $key = '', $value = null, $previousOrNext = 'next') {
 		$var = '_typeAttributes';
-		$firstChild = $this->_config['firstChild'] ?? true;
+		$firstChild = $this->config['firstChild'] ?? true;
 		if ($previousOrNext === 'next' && $firstChild) {
 			$var = '_typeAttributesNext';
 		}
@@ -455,7 +455,7 @@ class TreeHelper extends Helper {
 			$_splitCount = 0;
 			$_splitCounter = 0;
 		}
-		extract($this->_config);
+		extract($this->config);
 		if ($splitDepth || $splitCount) {
 			if (!$splitDepth) {
 				$_splitCount = $totalNodes / $splitCount;
@@ -477,7 +477,7 @@ class TreeHelper extends Helper {
 			if (!$splitDepth || $depth == $splitDepth) {
 				$_splitCounter++;
 				if ($type && ($_splitCounter % $_splitCount) === 0 && !$lastChild) {
-					unset($this->_config['callback']);
+					unset($this->config['callback']);
 
 					return '</' . $type . '><' . $type . '>';
 				}
@@ -499,7 +499,7 @@ class TreeHelper extends Helper {
 	 * @return string
 	 */
 	protected function _attributes($rType, array $elementData = [], $clear = true, bool $isItem = false) {
-		extract($this->_config);
+		extract($this->config);
 		if ($rType === $type && !$isItem) {
 			$attributes = $this->_typeAttributes;
 			if ($clear) {
@@ -549,7 +549,7 @@ class TreeHelper extends Helper {
 	 * @return void
 	 */
 	protected function _markUnrelatedAsHidden(&$tree, array $path, int $level = 0) {
-		extract($this->_config);
+		extract($this->config);
 		$siblingIsActive = false;
 		foreach ($tree as $key => &$subTree) {
 			if (is_object($subTree) && method_exists($subTree, 'toArray')) {

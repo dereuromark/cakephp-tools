@@ -4,7 +4,7 @@ namespace Tools\Test\TestCase\View\Helper;
 
 use Cake\Chronos\Chronos;
 use Cake\Datasource\ConnectionManager;
-use Cake\Http\Cookie\SameSiteEnum;
+use Cake\Http\Cookie\Enum\SameSite;
 use Cake\ORM\Entity;
 use Cake\Utility\Hash;
 use Cake\View\View;
@@ -760,7 +760,7 @@ TEXT;
 				'name' => 'Foo',
 				'children' => [
 					[
-						'name' => SameSiteEnum::STRICT,
+						'name' => SameSite::STRICT,
 						'children' => [],
 					],
 					[

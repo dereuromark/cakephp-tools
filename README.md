@@ -12,7 +12,7 @@ A CakePHP plugin containing several useful tools that can be used in many projec
 
 ## Version notice
 
-This master branch only works for **CakePHP 5.1+**. See [version map](https://github.com/dereuromark/cakephp-tools/wiki#cakephp-version-map) for details.
+This master branch only works for **CakePHP 6 and PHP 8.5+**. The Shim runtime dependency uses upstream `dev-master` and requires its CakePHP 6 migration to be merged. See [version map](https://github.com/dereuromark/cakephp-tools/wiki#cakephp-version-map) for details.
 
 ## What is this plugin for?
 

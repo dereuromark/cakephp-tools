@@ -52,7 +52,7 @@ class MobileComponent extends Component {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [
+	protected array $defaultConfig = [
 		'on' => 'beforeFilter', // initialize (prior to controller's beforeRender) or startup
 		'engine' => null, // CakePHP internal if null
 		'themed' => false, // If false uses subfolders instead of themes: /View/.../mobile/
@@ -66,7 +66,7 @@ class MobileComponent extends Component {
 	public function initialize(array $config): void {
 		parent::initialize($config);
 
-		if ($this->_config['on'] !== 'initialize') {
+		if ($this->config['on'] !== 'initialize') {
 			return;
 		}
 		$this->_init();
@@ -77,7 +77,7 @@ class MobileComponent extends Component {
 	 * @return void
 	 */
 	public function beforeFilter(EventInterface $event): void {
-		if ($this->_config['on'] !== 'beforeFilter') {
+		if ($this->config['on'] !== 'beforeFilter') {
 			return;
 		}
 		$this->_init();
@@ -108,7 +108,7 @@ class MobileComponent extends Component {
 		}
 		$this->isMobile();
 
-		if (!$this->_config['auto']) {
+		if (!$this->config['auto']) {
 			return;
 		}
 		$this->setMobile();
@@ -198,15 +198,15 @@ class MobileComponent extends Component {
 	 * @return bool Success
 	 */
 	public function detect(): bool {
-		if (!$this->_config['engine']) {
+		if (!$this->config['engine']) {
 			return $this->getController()->getRequest()->is('mobile');
 		}
 
-		if (is_callable($this->_config['engine'])) {
-			return call_user_func($this->_config['engine']);
+		if (is_callable($this->config['engine'])) {
+			return call_user_func($this->config['engine']);
 		}
 
-		throw new RuntimeException(sprintf('Engine %s not available', $this->_config['engine']));
+		throw new RuntimeException(sprintf('Engine %s not available', $this->config['engine']));
 	}
 
 }

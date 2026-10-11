@@ -13,7 +13,7 @@ class IconCollection {
 	/**
 	 * @var array<string, mixed>
 	 */
-	protected array $_defaultConfig = [];
+	protected array $defaultConfig = [];
 
 	/**
 	 * @var string
@@ -99,12 +99,12 @@ class IconCollection {
 	 */
 	public function render(string $icon, array $options = [], array $attributes = []): string {
 		$iconName = null;
-		if (isset($this->_config['map'][$icon])) {
+		if (isset($this->config['map'][$icon])) {
 			$iconName = $icon;
-			$icon = $this->_config['map'][$icon];
+			$icon = $this->config['map'][$icon];
 		}
 
-		$separator = (string)$this->_config['separator'];
+		$separator = (string)$this->config['separator'];
 		$separatorPos = $separator !== '' ? strpos($icon, $separator) : false;
 		if ($separatorPos !== false) {
 			[$set, $icon] = explode($separator, $icon, 2);
@@ -116,7 +116,7 @@ class IconCollection {
 			throw new RuntimeException('No such icon namespace: `' . $set . '`.');
 		}
 
-		$options += $this->_config;
+		$options += $this->config;
 		if (!isset($options['title']) || $options['title'] !== false) {
 			/** @var string $titleField */
 			$titleField = !isset($options['title']) || $options['title'] === true ? 'title' : $options['title'];

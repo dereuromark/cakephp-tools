@@ -76,7 +76,7 @@ trait UrlTrait {
 		if (!isset($url['?'])) {
 			$url['?'] = [];
 		}
-		$url['?'] += $this->_View->getRequest()->getQuery();
+		$url['?'] += $this->getView()->getRequest()->getQuery();
 
 		return $url;
 	}
@@ -87,7 +87,7 @@ trait UrlTrait {
 	 * @return array
 	 */
 	protected function addPassed(array $url): array {
-		$pass = $this->_View->getRequest()->getParam('pass');
+		$pass = $this->getView()->getRequest()->getParam('pass');
 
 		return array_merge($url, $pass);
 	}
