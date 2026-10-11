@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2026-05-04 04:54+0200\n"
+"POT-Creation-Date: 2026-10-11 21:54+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -13,6 +13,293 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+msgid "Sunday"
+msgstr ""
+
+msgid "Monday"
+msgstr ""
+
+msgid "Tuesday"
+msgstr ""
+
+msgid "Wednesday"
+msgstr ""
+
+msgid "Thursday"
+msgstr ""
+
+msgid "Friday"
+msgstr ""
+
+msgid "Saturday"
+msgstr ""
+
+msgid "Sun"
+msgstr ""
+
+msgid "Mon"
+msgstr ""
+
+msgid "Tue"
+msgstr ""
+
+msgid "Wed"
+msgstr ""
+
+msgid "Thu"
+msgstr ""
+
+msgid "Fri"
+msgstr ""
+
+msgid "Sat"
+msgstr ""
+
+msgid "January"
+msgstr ""
+
+msgid "February"
+msgstr ""
+
+msgid "March"
+msgstr ""
+
+msgid "April"
+msgstr ""
+
+msgid "May"
+msgstr ""
+
+msgid "June"
+msgstr ""
+
+msgid "July"
+msgstr ""
+
+msgid "August"
+msgstr ""
+
+msgid "September"
+msgstr ""
+
+msgid "October"
+msgstr ""
+
+msgid "November"
+msgstr ""
+
+msgid "December"
+msgstr ""
+
+msgid "Jan"
+msgstr ""
+
+msgid "Feb"
+msgstr ""
+
+msgid "Mar"
+msgstr ""
+
+msgid "Apr"
+msgstr ""
+
+msgid "Jun"
+msgstr ""
+
+msgid "Jul"
+msgstr ""
+
+msgid "Aug"
+msgstr ""
+
+msgid "Sep"
+msgstr ""
+
+msgid "Oct"
+msgstr ""
+
+msgid "Nov"
+msgstr ""
+
+msgid "Dec"
+msgstr ""
+
+msgid "moments"
+msgstr ""
+
+msgid "a few minutes"
+msgstr ""
+
+msgid "less than an hour"
+msgstr ""
+
+msgid "a couple of hours"
+msgstr ""
+
+msgid "less than a day"
+msgstr ""
+
+msgid "about a day"
+msgstr ""
+
+msgid "a couple of days"
+msgstr ""
+
+msgid "less than a week"
+msgstr ""
+
+msgid "about a week"
+msgstr ""
+
+msgid "less than a month"
+msgstr ""
+
+msgid "about a month"
+msgstr ""
+
+msgid "a couple of months"
+msgstr ""
+
+msgid "less than a year"
+msgstr ""
+
+msgid "about a year"
+msgstr ""
+
+msgid "a couple of years"
+msgstr ""
+
+msgid "a few years"
+msgstr ""
+
+msgid "about a decade"
+msgstr ""
+
+msgid "a couple of decades"
+msgstr ""
+
+msgid "several decades"
+msgstr ""
+
+msgid "a long time"
+msgstr ""
+
+msgid "valErrBetweenCharacters {0} {1}"
+msgstr ""
+
+msgid "valErrPwdNotMatch"
+msgstr ""
+
+msgid "valErrProvideCurrentPwd"
+msgstr ""
+
+msgid "valErrCurrentPwdIncorrect"
+msgstr ""
+
+msgid "and"
+msgstr ""
+
+msgid "hash"
+msgstr ""
+
+msgctxt "relative"
+msgid "Second"
+msgstr ""
+
+msgid "Second"
+msgstr ""
+
+msgctxt "relative"
+msgid "Seconds"
+msgstr ""
+
+msgid "Seconds"
+msgstr ""
+
+msgctxt "relative"
+msgid "Minute"
+msgstr ""
+
+msgid "Minute"
+msgstr ""
+
+msgctxt "relative"
+msgid "Minutes"
+msgstr ""
+
+msgid "Minutes"
+msgstr ""
+
+msgctxt "relative"
+msgid "Hour"
+msgstr ""
+
+msgid "Hour"
+msgstr ""
+
+msgctxt "relative"
+msgid "Hours"
+msgstr ""
+
+msgid "Hours"
+msgstr ""
+
+msgctxt "relative"
+msgid "Day"
+msgstr ""
+
+msgid "Day"
+msgstr ""
+
+msgctxt "relative"
+msgid "Days"
+msgstr ""
+
+msgid "Days"
+msgstr ""
+
+msgctxt "relative"
+msgid "Week"
+msgstr ""
+
+msgid "Week"
+msgstr ""
+
+msgctxt "relative"
+msgid "Weeks"
+msgstr ""
+
+msgid "Weeks"
+msgstr ""
+
+msgctxt "relative"
+msgid "Month"
+msgstr ""
+
+msgid "Month"
+msgstr ""
+
+msgctxt "relative"
+msgid "Months"
+msgstr ""
+
+msgid "Months"
+msgstr ""
+
+msgctxt "relative"
+msgid "Year"
+msgstr ""
+
+msgid "Year"
+msgstr ""
+
+msgctxt "relative"
+msgid "Years"
+msgstr ""
+
+msgid "Years"
+msgstr ""
 
 msgid "Language switched to {0}"
 msgstr ""
@@ -30,104 +317,6 @@ msgid "{0} ago"
 msgstr ""
 
 msgid "in {0}"
-msgstr ""
-
-msgid "Month"
-msgstr ""
-
-msgid "Day"
-msgstr ""
-
-msgid "Hour"
-msgstr ""
-
-msgid "Minute"
-msgstr ""
-
-msgid "Second"
-msgstr ""
-
-msgid "Months"
-msgstr ""
-
-msgid "Days"
-msgstr ""
-
-msgid "Hours"
-msgstr ""
-
-msgid "Minutes"
-msgstr ""
-
-msgid "Seconds"
-msgstr ""
-
-msgid "Week"
-msgstr ""
-
-msgid "Weeks"
-msgstr ""
-
-msgid "Year"
-msgstr ""
-
-msgid "Years"
-msgstr ""
-
-msgctxt "relative"
-msgid "Second"
-msgstr ""
-
-msgctxt "relative"
-msgid "Seconds"
-msgstr ""
-
-msgctxt "relative"
-msgid "Minute"
-msgstr ""
-
-msgctxt "relative"
-msgid "Minutes"
-msgstr ""
-
-msgctxt "relative"
-msgid "Hour"
-msgstr ""
-
-msgctxt "relative"
-msgid "Hours"
-msgstr ""
-
-msgctxt "relative"
-msgid "Day"
-msgstr ""
-
-msgctxt "relative"
-msgid "Days"
-msgstr ""
-
-msgctxt "relative"
-msgid "Week"
-msgstr ""
-
-msgctxt "relative"
-msgid "Weeks"
-msgstr ""
-
-msgctxt "relative"
-msgid "Month"
-msgstr ""
-
-msgctxt "relative"
-msgid "Months"
-msgstr ""
-
-msgctxt "relative"
-msgid "Year"
-msgstr ""
-
-msgctxt "relative"
-msgid "Years"
 msgstr ""
 
 msgid "justNow"
