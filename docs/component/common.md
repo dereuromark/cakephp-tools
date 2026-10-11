@@ -29,7 +29,7 @@ It is important to not use the payload data without sanitation for security reas
 ## Default URL params
 
 `CommonComponent::defaultUrlParams()` will give you the default params you might want to combine with your URL 
-in order to always generate the right URLs even if inside plugins or prefixes.
+to always generate the right URLs even if inside plugins or prefixes.
 
 ## Current URL
 
@@ -69,12 +69,12 @@ $result = $this->Common->isForeignReferer($urlString);
  
  If you need all current (direct) actions of a controller, call
  ```php
- $this->Common->listActions()
+ $actions = $this->Common->listActions();
  ```
 
 ## Allow only specific extensions
  ```php
- $this->Common->allowExtensions([...])
+ $this->Common->allowExtensions(['', 'csv']);
  ```
 You can also pass an empty string `''` to disallow any. So it must be a normal non-ext request.
 If not accepted, it will throw a 404, so from the outside it looks like "not found".

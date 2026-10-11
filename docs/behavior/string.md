@@ -20,7 +20,8 @@ This will `ucfirst()` the title prior to saving.
 Tip: If you have other behaviors that might modify the array data prior to saving, better use a lower (higher value) priority:
 ```php
 $this->addBehavior('Tools.String', [
-    ...
+    'fields' => ['title'],
+    'input' => ['ucfirst'],
     'priority' => 11,
 ]);
 ```
@@ -47,7 +48,7 @@ $this->addBehavior('Tools.String', [
 Instead of the preferred input formatting you can also modify the output (for each find):
 ```php
 $this->addBehavior('Tools.String', [
-    ...
+    'fields' => ['title'],
     'output' => ['ucfirst'],
 ]);
 ```
@@ -81,4 +82,4 @@ $comment = $this->Comments->newEntity($data);
 $result = $this->Comments->save($comment);
 ```
 
-The title would be saved as `Some Name` and the comment as `MyBlog`.
+The title would be saved as `Some Name` and the comment as `Myblog`. Invalid filters throw `InvalidArgumentException`.

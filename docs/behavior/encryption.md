@@ -22,7 +22,7 @@ After attaching the behavior, a call like
 $user = $this->Users->newEmptyEntity();
 $user = $this->Users->patchEntity($user, [
     'username' => 'cake',
-    'password' => 'a random generated string hopefully'
+    'password' => 'a random generated string hopefully',
     'secret_field' => 'my super mysterious secret'
 ]);
 $this->Users->saveOrFail($user);

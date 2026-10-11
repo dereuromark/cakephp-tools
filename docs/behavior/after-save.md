@@ -30,7 +30,7 @@ public function afterSave(Event $event, EntityInterface $entity, ArrayObject $op
 
 The same call could also be made from the calling layer/object on the table:
 ```php
-$table->saveOrFail();
+$table->saveOrFail($entity);
 $entityBefore = $table->getBehavior('AfterSave')->getEntityBeforeSave();
 ```
 

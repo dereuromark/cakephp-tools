@@ -16,7 +16,7 @@ use Throwable;
  *
  * All you need to do is:
  * - switch `use Cake\Error\ExceptionTrap;` with `use Tools\Error\ExceptionTrap;` in your bootstrap
- * - Make sure you got the 404 log defined either in your app.php or as Log::config() call.
+ * - Make sure you got the 404 log defined either in your app.php or as Log::setConfig() call.
  *
  * Example config as scoped one:
  * - 'className' => 'Cake\Log\Engine\FileLog',
@@ -26,7 +26,7 @@ use Throwable;
  * - 'scopes' => ['404']
  *
  * If you don't want the errors to also show up in the debug and error log, make sure you set
- * `'scopes' => false` for those two in your app.php file.
+ * `'scopes' => null` for those two in your app.php file.
  *
  * In case you need custom 404 mappings for some additional custom exceptions, make use of `log404` option.
  * It will overwrite the current defaults completely.

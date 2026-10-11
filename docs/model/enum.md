@@ -1,29 +1,43 @@
 # Enums
-Since CakePHP 5 you can now use native enums.
-Just spice it a bit with Tools plugin magic, and all good to go.
 
-Add the `EnumOptionsTrait` to your enums to have `options()` method available in your templates etc.
+`EnumOptionsTrait` builds a form options array from a backed enum whose cases implement CakePHP's `EnumLabelInterface`.
+
+Create `src/Model/Enum/UserStatus.php`:
 
 ```php
+namespace App\Model\Enum;
+
+use Cake\Database\Type\EnumLabelInterface;
 use Tools\Model\Enum\EnumOptionsTrait;
 
 enum UserStatus: int implements EnumLabelInterface {
+    use EnumOptionsTrait;
 
-	use EnumOptionsTrait;
+    case ACTIVE = 1;
+    case INACTIVE = 2;
 
-    ...
-
+    public function label(): string {
+        return match ($this) {
+            self::ACTIVE => 'Active',
+            self::INACTIVE => 'Inactive',
+        };
+    }
 }
 ```
 
-If you now need the options array for some entity-less form, you can use it as such:
-```php
-echo $this->Form->control('status', ['options' => \App\Model\Enum\UserStatus::options()]);
-```
-The same applies if you ever need to narrow down the options (e.g. not display some values as dropdown option),
-or if you want to resort the options for display:
+Use all cases in a template:
 
 ```php
-$options = UserStatus::options([UserStatus::ACTIVE, UserStatus::INACTIVE]);
+use App\Model\Enum\UserStatus;
+
+echo $this->Form->control('status', ['options' => UserStatus::options()]);
+```
+
+Pass cases to narrow or reorder the options:
+
+```php
+$options = UserStatus::options([UserStatus::INACTIVE, UserStatus::ACTIVE]);
 echo $this->Form->control('status', ['options' => $options]);
 ```
+
+The trait also accepts backed values in that list. Invalid values throw the enum's `ValueError`.

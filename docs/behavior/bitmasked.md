@@ -51,9 +51,6 @@ public const STATUS_ACTIVE = 1;
 public const STATUS_FEATURED = 2;
 public const STATUS_APPROVED = 4;
 public const STATUS_FLAGGED = 8;
-
-...
-
 public static function statuses($value = null) {
     $options = [
         self::STATUS_ACTIVE => __('Active'),
@@ -61,11 +58,11 @@ public static function statuses($value = null) {
         self::STATUS_APPROVED => __('Approved'),
         self::STATUS_FLAGGED => __('Flagged'),
     ];
-    return parent::enum($value, $options);
+    return static::enum($value, $options);
 }
 ```
 
-Please note that you need to define Entity::enum() by extending my Tools Entity base class or by putting it into your own base class manually. You don’t have to use the enum approach, though.
+Include `Tools\Model\Entity\EnumTrait` in the entity, or extend the Tools entity base class. You don’t have to use the enum approach, though.
 
 Of course, it only makes sense to use bitmasks, if those values can co-exist, if you can select multiple at once. Otherwise you would want to store them separately anyway.
 Obviously you could also just use four or more boolean fields to achieve the same thing.
@@ -79,10 +76,9 @@ Tip: Usually, you have passed down the current entity for the form building anyw
 ```php
 echo $this->Form->create($comment);
 echo $this->Form->control('statuses', ['options' => $comment->statuses(), 'multiple' => 'checkbox']);
-...
 ```
 
-It will save the final bitmask to the database field `status` as integer. For example "active and approved" would become `9`.
+It will save the final bitmask to the database field `status` as integer. For example "active and approved" would become `5`.
 
 Note: When using `mappedField`, one needs to manually include error handling for the actual field:
 ```php
@@ -108,7 +104,7 @@ And in your Table searchManager() setup:
 ```php
 $searchManager
     // We need to map the posted "status" key to the finder required "bits" key
-    ->finder('status', ['finder' => 'bits', 'map' => ['bits' => 'status']])
+    ->finder('status', ['finder' => 'bits', 'map' => ['bits' => 'status']]);
 ```
 
 This way the array of checkboxes selected will be turned into the integer bitmask needed for the query to work.

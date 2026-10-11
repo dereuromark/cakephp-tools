@@ -248,4 +248,24 @@ class TokensTableTest extends TestCase {
 		$this->assertGreaterThanOrEqual(1, $stats['used_valid']);
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testDurationDefaultsWithoutPluginBootstrap(): void {
+		$autoload = var_export(ROOT . DS . 'vendor' . DS . 'autoload.php', true);
+		$script = 'require ' . $autoload . ';'
+			. '$tokens = new ReflectionClass(Tools\\Model\\Table\\TokensTable::class);'
+			. '$cache = new ReflectionMethod(Tools\\Controller\\Component\\CommonComponent::class, "forceCache");'
+			. '$date = new ReflectionClass(Tools\\I18n\\DateTime::class);'
+			. 'echo json_encode([$tokens->getDefaultProperties()["validity"], $cache->getParameters()[0]->getDefaultValue(), $date->getConstant("LENGTH_UNITS")["week"]]);';
+		$process = proc_open([PHP_BINARY, '-r', $script], [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes);
+		$this->assertIsResource($process);
+		$output = stream_get_contents($pipes[1]);
+		fclose($pipes[1]);
+		$error = stream_get_contents($pipes[2]);
+		fclose($pipes[2]);
+		$this->assertSame(0, proc_close($process), $error ?: 'Standalone process failed');
+		$this->assertSame('[604800,3600,604800]', $output);
+	}
+
 }

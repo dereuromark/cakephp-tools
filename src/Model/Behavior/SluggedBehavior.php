@@ -41,7 +41,7 @@ class SluggedBehavior extends Behavior {
 	 *
 	 * - label:
 	 *     set to the name of a field to use for the slug, an array of fields to use as slugs or leave as null to rely
-	 *     on the format returned by find('list') to determine the string to use for slugs
+	 *     on the table's display field to determine the string to use for slugs
 	 * - field: The slug field name
 	 * - overwriteField: The boolean field to trigger overwriting if "overwrite" is false
 	 * - mode: has the following values

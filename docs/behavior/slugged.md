@@ -20,7 +20,7 @@ A CakePHP behavior to automatically create and store slugs.
                 <ul>
                     <li> set to the name of a field to use for the slug </li>
                     <li> an array of fields to use as slugs </li>
-                    <li> or leave as null to rely on the format returned by find('list') to determine the string to use for slugs </li>
+                    <li> or leave as null to use the table's display field </li>
                 </ul>
             </td>
         </tr>
@@ -186,7 +186,7 @@ Don't forget the use statement at the top of the file, though (`use Tools\Utilit
 ### Using custom finder
 If you quickly want to find a record by its slug, use:
 ```php
-->find()->find('slugged', slug: $slug)->firstOrFail();
+$record = $this->fetchTable('Categories')->find('slugged', slug: $slug)->firstOrFail();
 ```
 
 ### Using dynamic scope

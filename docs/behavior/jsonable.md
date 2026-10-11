@@ -6,24 +6,14 @@ A CakePHP behavior to automatically store nested data as JSON string and return 
 - Also allows storage as comma separated list (or any other separator) for simple lists.
 
 ## Important note
-Using 3.5+ you might not even need this anymore, as you can use type classes directly:
-```php
-    /**
-     * @param \Cake\Database\Schema\TableSchema $schema
-     *
-     * @return \Cake\Database\Schema\TableSchema
-     */
-    protected function _initializeSchema(TableSchema $schema) {
-        $schema->columnType('my_field', 'json');
+For ordinary JSON columns, use CakePHP database types instead:
+In the existing table `initialize()` method:
 
-        return $schema;
-    }
-```
-This is best combined with the Shim.Json type, as it properly handles `null` values:
 ```php
-// in bootstrap
-TypeFactory::map('json', 'Shim\Database\Type\JsonType');
+$this->getSchema()->setColumnType('my_field', 'json');
 ```
+
+CakePHP's core JSON type handles normal array conversion and nullable values. The former `Shim.Json` mapping is not part of the current Shim plugin.
 
 But if you still need/want more flexible approaches, continue reading.
 
@@ -36,7 +26,7 @@ $this->addBehavior('Tools.Jsonable', $options);
 
 Tip: If you have other behaviors that might modify the array data prior to saving, better use a higher priority:
 ```php
-$this->addBehavior('Tools.Jsonable', ['priority' => 11, ...]);
+$this->addBehavior('Tools.Jsonable', ['fields' => ['details'], 'priority' => 11]);
 ```
 So that it is run last.
 
@@ -77,7 +67,7 @@ The rest is CakePHP automagic :)
 
 ```php
 $this->addBehavior('Tools.Jsonable',
-    array('fields' => ['debug'], 'map' => ['geocoder_result']);
+    ['fields' => ['debug'], 'map' => ['geocoder_result']]);
 ```
 I could access the array in the view as any other array since the behavior re-translates it back into an array on find().
 
@@ -102,12 +92,11 @@ $this->addBehavior('Tools.Jsonable',
 
 Only for the add/edit action we need to also make "output" "param" at runtime:
 ```php
-$this->Table->behaviors()->Jsonable->options(
-    ['fields' => 'details', 'input' => 'param', 'output' => 'param']);
+$this->fetchTable('Articles')->getBehavior('Jsonable')->setConfig('output', 'param');
 ```
 
 The form contains a "details" textarea field. We can insert:
-```php
+```text
 param1:value1|param2:value2
 ```
 
@@ -156,12 +145,12 @@ This is usually best with a mapping to an array field, keeping the simple list a
 ```
 and
 ```php
-echo $this->Form->control('types', ['multiple' => true, 'options' => ...::options()]);
+echo $this->Form->control('types', ['multiple' => true, 'options' => ['Foo' => 'Foo', 'Bar' => 'Bar']]);
 ```
 results in
 ```php
-$entity->type // `Foo,Bar`
-$entity->types // ['Foo', 'Bar']
+$entity->type; // `Foo,Bar`
+$entity->types; // ['Foo', 'Bar']
 ```
 
 ### Notes

@@ -62,4 +62,14 @@ class ShuntRequestControllerTest extends TestCase {
 		$this->post(['plugin' => 'Tools', 'controller' => 'ShuntRequest', 'action' => 'language']);
 	}
 
+	public function testLanguageDefaultsToFirstAllowedKey(): void {
+		Configure::write('Config.allowedLanguages', [
+			'de' => ['locale' => 'de_DE', 'name' => 'Deutsch'],
+			'en' => ['locale' => 'en_US', 'name' => 'English'],
+		]);
+		$this->post(['plugin' => 'Tools', 'controller' => 'ShuntRequest', 'action' => 'language']);
+		$this->assertRedirect();
+		$this->assertSession('de_DE', 'Config.language');
+	}
+
 }

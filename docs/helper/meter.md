@@ -14,9 +14,7 @@ Note: The `<meter>` tag should not be used to indicate progress (as in a progres
 ## Setup
 Include helper in your AppView class as
 ```php
-$this->loadHelper('Tools.Meter', [
-    ...
-]);
+$this->loadHelper('Tools.Meter');
 ```
 
 You can store default configs also in Configure key `'Meter'`.

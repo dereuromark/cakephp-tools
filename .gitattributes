@@ -21,3 +21,4 @@ phpunit.xml.dist export-ignore
 tests/test_app export-ignore
 tests/test_files export-ignore
 .github/ export-ignore
+docs/ export-ignore

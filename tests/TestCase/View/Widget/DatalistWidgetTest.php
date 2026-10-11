@@ -4,6 +4,7 @@ namespace Tools\Test\TestCase\View\Widget;
 
 use ArrayObject;
 use Cake\TestSuite\TestCase;
+use Cake\View\Form\ContextInterface;
 use Cake\View\StringTemplate;
 use Tools\View\Widget\DatalistWidget;
 
@@ -32,7 +33,7 @@ class DatalistWidgetTest extends TestCase {
 			'option' => '<option value="{{value}}"{{attrs}}>{{text}}</option>',
 			'optgroup' => '<optgroup label="{{label}}"{{attrs}}>{{content}}</optgroup>',
 		];
-		$this->context = $this->getMockBuilder('Cake\View\Form\ContextInterface')->getMock();
+		$this->context = $this->createStub(ContextInterface::class);
 		$this->templates = new StringTemplate($templates);
 	}
 
