@@ -29,7 +29,7 @@ It is important to not use the payload data without sanitation for security reas
 ## Default URL params
 
 `CommonComponent::defaultUrlParams()` will give you the default params you might want to combine with your URL 
-in order to always generate the right URLs even if inside plugins or prefixes.
+to always generate the right URLs even if inside plugins or prefixes.
 
 ## Current URL
 
