@@ -1,5 +1,5 @@
 # CakePHP Tools Plugin
-[![CI](https://github.com/dereuromark/cakephp-tools/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/dereuromark/cakephp-tools/actions/workflows/ci.yml?query=branch%3Amaster)
+[![CI](https://github.com/dereuromark/cakephp-tools/actions/workflows/ci.yml/badge.svg?branch=cake6)](https://github.com/dereuromark/cakephp-tools/actions/workflows/ci.yml?query=branch%3Acake6)
 [![Coverage Status](https://img.shields.io/codecov/c/github/dereuromark/cakephp-tools/master.svg)](https://codecov.io/gh/dereuromark/cakephp-tools)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%208-brightgreen.svg?style=flat)](https://phpstan.org/)
 [![Latest Stable Version](https://poser.pugx.org/dereuromark/cakephp-tools/v/stable.svg)](https://packagist.org/packages/dereuromark/cakephp-tools)
