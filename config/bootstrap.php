@@ -39,31 +39,6 @@ if (!defined('FORMAT_NICE_YMDHMS')) {
 	define('FORMAT_NICE_Y', 'Y'); # xxxx
 	define('FORMAT_NICE_HM', 'H:i');
 	define('FORMAT_NICE_HMS', 'H:i:s');
-
-	// localDate strings DEPRECATED PHP 8.1+
-	define('FORMAT_LOCAL_WA_YMDHMS', '%a, %d.%m.%Y, %H:%M:%S');
-	define('FORMAT_LOCAL_WF_YMDHMS', '%A, %d.%m.%Y, %H:%M:%S');
-	define('FORMAT_LOCAL_WA_YMDHM', '%a, %d.%m.%Y, %H:%M');
-	define('FORMAT_LOCAL_WF_YMDHM', '%A, %d.%m.%Y, %H:%M');
-
-	define('FORMAT_LOCAL_YMDHMS', '%d.%m.%Y, %H:%M:%S');
-	define('FORMAT_LOCAL_YMDHM', '%d.%m.%Y, %H:%M');
-	define('FORMAT_LOCAL_YMD', '%d.%m.%Y');
-	define('FORMAT_LOCAL_MD', '%d.%m.');
-	define('FORMAT_LOCAL_D', '%d'); # xx
-	define('FORMAT_LOCAL_W_NUM', '%w'); # xx (0=sunday to 6=saturday)
-	define('FORMAT_LOCAL_W_ABBR', '%a'); # needs translation
-	define('FORMAT_LOCAL_W_FULL', '%A'); # needs translation
-	define('FORMAT_LOCAL_M', '%m'); # xx
-	define('FORMAT_LOCAL_M_ABBR', '%b'); # needs translation
-	define('FORMAT_LOCAL_M_FULL', '%B'); # needs translation
-	define('FORMAT_LOCAL_Y_ABBR', '%y'); # xx
-	define('FORMAT_LOCAL_YMS_ABBR', '%d.%m.%y');
-	define('FORMAT_LOCAL_Y', '%Y'); # xxxx
-	define('FORMAT_LOCAL_H', '%H');
-	define('FORMAT_LOCAL_S', '%S');
-	define('FORMAT_LOCAL_HM', '%H:%M');
-	define('FORMAT_LOCAL_HMS', '%H:%M:%S');
 }
 
 // Make the app and L10n play nice with Windows.
