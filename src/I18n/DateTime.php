@@ -12,7 +12,6 @@ use DateInterval;
 use DateTime as NativeDateTime;
 use DateTimeInterface;
 use DateTimeZone;
-use IntlDateFormatter;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -456,101 +455,6 @@ class DateTime extends CakeDateTime {
 		$newDate = time();
 
 		return static::difference($dateString, $newDate) <= $seconds;
-	}
-
-	/**
-	 * Outputs Date(time) Sting nicely formatted (+ localized!)
-	 *
-	 * Options:
-	 * - timezone: User's timezone
-	 * - default: Default string (defaults to "-----")
-	 * - oclock: Set to true to append oclock string
-	 *
-	 * @deprecated Not timezone aware
-	 * @param \Cake\I18n\DateTime|string|null $dateString
-	 * @param string|null $format Format (YYYY-MM-DD, DD.MM.YYYY)
-	 * @param array<string, mixed> $options
-	 * @return string
-	 *
-	 */
-	public static function localDate($dateString, ?string $format = null, array $options = []) {
-		$defaults = [
-			'default' => '-----',
-			'timezone' => null,
-			'language' => 'en',
-			'oclock' => null,
-		];
-		$options += $defaults;
-
-		/** @var \DateTimeZone|string|null $timezone */
-		$timezone = $options['timezone'];
-		if ($timezone === null) {
-			$timezone = static::_getDefaultOutputTimezone();
-		}
-		if ($dateString === null) {
-			$dateString = time();
-		}
-		if ($timezone) {
-			$timezone = static::safeCreateDateTimeZone($timezone);
-		}
-		$date = new self($dateString, $timezone);
-		if ($format === null) {
-			$format = is_int($dateString) || (is_string($dateString) && str_contains($dateString, ' ')) ? 'd.m.Y, H:i' : 'd.m.Y';
-		}
-
-		$date = static::formatLocalized($date, $format, $options['language']);
-
-		if ($options['oclock'] && str_contains($format, 'H:i')) {
-			$date .= ' ' . __d('tools', 'o\'clock');
-		}
-
-		return $date;
-	}
-
-	/**
-	 * @deprecated Not timezone aware
-	 * @param \DateTimeInterface|\Cake\Chronos\Chronos $dt
-	 * @param string $format
-	 * @param string $language
-	 *
-	 * @return string
-	 *
-	 */
-	public static function formatLocalized($dt, string $format, string $language = 'en'): string {
-		$curTz = $dt->getTimezone();
-		if ($curTz->getName() === 'Z') {
-			// INTL don't know Z
-			$curTz = new DateTimeZone('UTC');
-		}
-
-		$formatPattern = strtr($format, [
-			'D' => '{#1}',
-			'l' => '{#2}',
-			'M' => '{#3}',
-			'F' => '{#4}',
-		]);
-		$strDate = $dt->format($formatPattern);
-		$regEx = '~\{#\d\}~';
-		while (preg_match($regEx, $strDate, $match)) {
-			$IntlFormat = strtr($match[0], [
-				'{#1}' => 'E',
-				'{#2}' => 'EEEE',
-				'{#3}' => 'MMM',
-				'{#4}' => 'MMMM',
-			]);
-			$fmt = datefmt_create(
-				$language,
-				IntlDateFormatter::FULL,
-				IntlDateFormatter::FULL,
-				$curTz,
-				IntlDateFormatter::GREGORIAN,
-				$IntlFormat,
-			);
-			$replace = $fmt ? (string)datefmt_format($fmt, $dt) : '???';
-			$strDate = str_replace($match[0], $replace, $strDate);
-		}
-
-		return $strDate;
 	}
 
 	/**

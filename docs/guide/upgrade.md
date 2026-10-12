@@ -18,3 +18,16 @@
 
 ## TimeHelper
 - Custom engine has been moved from Utility to I18n namespace.
+
+## CakePHP 6: deprecated date formatting
+
+`Tools\I18n\DateTime::localDate()` and `formatLocalized()` and `Tools\View\Helper\TimeHelper::localDateMarkup()` are removed. The obsolete `FORMAT_LOCAL_*` constants are also removed.
+
+For localized output, use CakePHP date objects with `i18nFormat()`. Its format strings use ICU patterns, rather than PHP `date()` or `strftime()` patterns:
+
+```php
+$date = new \Cake\I18n\DateTime($value);
+echo $date->i18nFormat('dd.MM.yyyy, HH:mm', 'Europe/Berlin', 'de_DE');
+```
+
+For Tools formatting with PHP `date()` patterns and a configured output timezone, use `DateTime::niceDate()` or `TimeHelper::niceDateMarkup()`. `niceDate()` returns its configured default for a null value; it does not treat null as the current time. Pass an explicit date object when you want the current time.

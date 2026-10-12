@@ -181,14 +181,6 @@ class DateTimeTest extends TestCase {
 	}
 
 	/**
-	 * @return void
-	 */
-	public function testFormatLocalized() {
-		$ret = $this->Time->formatLocalized(new DateTime('2009-12-01'), 'd.m.Y');
-		$this->assertEquals('01.12.2009', $ret);
-	}
-
-	/**
 	 * TimeTest::testParseLocalizedDate()
 	 *
 	 * @return void
@@ -230,25 +222,25 @@ class DateTimeTest extends TestCase {
 	/**
 	 * @return void
 	 */
-	public function testLocalDate() {
+	public function testNiceDateWithOclock() {
 		$values = [
 			['2009-12-01 00:00:00', 'd.m.Y', '01.12.2009'],
 			//['2009-12-01 00:00:00', 'M', 'Dez.'],
 		];
 		foreach ($values as $v) {
-			$ret = $this->Time->niceDate($v[0], $v[1], ['language' => 'de']);
+			$ret = $this->Time->niceDate($v[0], $v[1]);
 			$this->assertEquals($v[2], $ret);
 		}
 
 		$date = '2009-12-01 00:00:00';
 		$format = 'd.m.Y';
-		$result = $this->Time->niceDate($date, $format, ['language' => 'de', 'oclock' => true]);
+		$result = $this->Time->niceDate($date, $format, ['oclock' => true]);
 		$expected = '01.12.2009';
 		$this->assertEquals($expected, $result);
 
 		$date = '2009-12-01 00:00:00';
 		$format = 'd.m.Y, H:i';
-		$result = $this->Time->niceDate($date, $format, ['language' => 'de', 'oclock' => true]);
+		$result = $this->Time->niceDate($date, $format, ['oclock' => true]);
 		$expected = '01.12.2009, 00:00 ' . __d('tools', 'o\'clock');
 		$this->assertEquals($expected, $result);
 	}
