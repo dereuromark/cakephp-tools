@@ -58,8 +58,9 @@ converted to the output timezone before formatting; input objects stay unchanged
 If no output timezone is configured, datetime objects retain their own timezone.
 Unix timestamps use PHP's default timezone for output in that case.
 
-Null, blank strings, `0000-00-00` and `0000-00-00 00:00:00` return the helper's
-`default` configuration, which defaults to `-----`.
+Null, blank strings and zero dates return the helper's `default` configuration,
+which defaults to `-----`. Zero dates include `0000-00-00` and zero datetimes
+with a space or `T` separator, with optional seconds and zero fractional seconds.
 Override it for a single call with `['default' => 'n/a']` or an empty string.
 Pass an explicit `new \Cake\I18n\DateTime()` to show the current time.
 

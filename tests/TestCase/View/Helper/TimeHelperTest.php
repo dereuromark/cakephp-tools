@@ -245,7 +245,7 @@ class TimeHelperTest extends TestCase {
 	 * @return void
 	 */
 	public function testMissingValuesUseFallback(): void {
-		foreach ([null, '', ' ', '0000-00-00', '0000-00-00 00:00:00'] as $value) {
+		foreach ([null, '', ' ', '0000-00-00', '0000-00-00 00:00', '0000-00-00 00:00:00', '0000-00-00T00:00:00', '0000-00-00 00:00:00.000000'] as $value) {
 			foreach (['date', 'dateTime', 'time'] as $method) {
 				$this->assertSame('n/a', $this->Time->$method($value, null, ['default' => 'n/a']));
 			}

@@ -192,7 +192,12 @@ class TimeHelper extends CakeTimeHelper {
 	 * @return bool
 	 */
 	protected function isMissingTemporal(ChronosDate|DateTimeInterface|string|int|null $value): bool {
-		return $value === null || is_string($value) && in_array(trim($value), ['', '0000-00-00', '0000-00-00 00:00:00'], true);
+		if (!is_string($value)) {
+			return $value === null;
+		}
+		$value = trim($value);
+
+		return $value === '' || preg_match('/^0000-00-00(?:[ T]00:00(?::00(?:\.0+)?)?)?$/D', $value) === 1;
 	}
 
 	/**
