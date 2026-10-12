@@ -31,3 +31,7 @@ echo $date->i18nFormat('dd.MM.yyyy, HH:mm', 'Europe/Berlin', 'de_DE');
 ```
 
 For Tools formatting with PHP `date()` patterns and a configured output timezone, use `DateTime::niceDate()` or `TimeHelper::niceDateMarkup()`. `niceDate()` returns its configured default for a null value; it does not treat null as the current time. Pass an explicit date object when you want the current time.
+
+`localDate()` interpreted date strings in the supplied output timezone. `niceDate()` parses strings in PHP's default timezone and then converts them. To preserve an input wall-clock value, construct the date object with its timezone explicitly, for example `new DateTime($value, 'Europe/Berlin')`.
+
+The `oclock` option in `niceDate()` appends text only for `FORMAT_NICE_YMDHM`, `FORMAT_NICE_YMDHMS`, `FORMAT_NICE_HM` and `FORMAT_NICE_HMS`. It does not append text for other formats containing `H:i`.

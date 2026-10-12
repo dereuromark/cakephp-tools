@@ -39,7 +39,6 @@ if (!defined('FORMAT_NICE_YMDHMS')) {
 	define('FORMAT_NICE_Y', 'Y'); # xxxx
 	define('FORMAT_NICE_HM', 'H:i');
 	define('FORMAT_NICE_HMS', 'H:i:s');
-
 }
 
 // Make the app and L10n play nice with Windows.
