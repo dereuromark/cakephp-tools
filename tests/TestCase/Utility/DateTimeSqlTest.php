@@ -11,12 +11,9 @@ use Tools\Utility\DateTimeSql;
 class DateTimeSqlTest extends TestCase {
 
 	/**
-	 * TimeTest::testPeriodAsSql()
-	 *
 	 * @return void
 	 */
 	public function testPeriodAsSql() {
-		//$this->out($this->_header(__FUNCTION__), true);
 		$values = [
 			[__d('tools', 'Today'), "(Model.field >= '" . date(FORMAT_DB_DATE) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE) . " 23:59:59')"],
 			[__d('tools', 'Yesterday') . ' ' . __d('tools', 'until') . ' ' . __d('tools', 'Today'), "(Model.field >= '" . date(FORMAT_DB_DATE, time() - DAY) . " 00:00:00') AND (Model.field <= '" . date(FORMAT_DB_DATE) . " 23:59:59')"],
@@ -26,10 +23,7 @@ class DateTimeSqlTest extends TestCase {
 
 		foreach ($values as $v) {
 			$ret = DateTimeSql::periodAsSql($v[0], 'Model.field');
-			//pr($v[1]);
-			//pr($ret);
 			$this->assertSame($v[1], $ret);
-
 		}
 	}
 

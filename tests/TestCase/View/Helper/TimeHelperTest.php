@@ -216,4 +216,28 @@ class TimeHelperTest extends TestCase {
 		}
 	}
 
+	/**
+	 * @return void
+	 */
+	public function testTimestampZeroAndDaylightSavingTransition(): void {
+		$options = ['timezone' => 'Europe/Berlin'];
+		$this->assertSame('1970-01-01', $this->Time->date(0, 'yyyy-MM-dd', ['timezone' => 'UTC']));
+		$this->assertSame('2026-03-29 01:30', $this->Time->dateTime(new CakeDateTime('2026-03-29 00:30:00', 'UTC'), 'yyyy-MM-dd HH:mm', $options));
+		$this->assertSame('2026-03-29 03:30', $this->Time->dateTime(new CakeDateTime('2026-03-29 01:30:00', 'UTC'), 'yyyy-MM-dd HH:mm', $options));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testTodayUsesPreservedObjectTimezone(): void {
+		CakeDateTime::setTestNow(new CakeDateTime('2012-02-03 23:30:00', 'UTC'));
+		try {
+			$helper = new TimeHelper(new View(null), ['outputTimezone' => null]);
+			$value = new CakeDateTime('2012-02-04 00:40:00', 'Europe/Berlin');
+			$this->assertSame('<span class="today">2012-02-04</span>', $helper->dateMarkup($value, 'yyyy-MM-dd'));
+		} finally {
+			CakeDateTime::setTestNow();
+		}
+	}
+
 }
