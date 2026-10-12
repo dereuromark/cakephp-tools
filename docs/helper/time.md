@@ -52,7 +52,8 @@ echo $this->Time->dateTime($value, 'yyyy-MM-dd HH:mm', [
 
 `Cake\I18n\Date` objects and exact `YYYY-MM-DD` strings represent calendar dates.
 Their day stays unchanged across output timezones. If passed to `dateTime()` or
-`time()`, they represent midnight in the output timezone. Datetime inputs are
+`time()`, they represent midnight in the output timezone. CakePHP normalizes
+nonexistent local times during daylight-saving transitions. Datetime inputs are
 converted to the output timezone before formatting; input objects stay unchanged.
 If no output timezone is configured, datetime objects retain their own timezone.
 Unix timestamps use PHP's default timezone for output in that case.
