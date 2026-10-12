@@ -35,7 +35,7 @@
 		"cakephp/authentication": "<4.0.0"
 	},
 	"require-dev": {
-		"dereuromark/cakephp-i18n-lint": "^0.1.1",
+		"dereuromark/cakephp-i18n-lint": "^0.1.2",
 		"fig-r/psr2r-sniffer": "dev-master",
 		"mobiledetect/mobiledetectlib": "^4.8.09",
 		"phpunit/phpunit": "^11.5 || ^12.1 || ^13.0",
@@ -74,6 +74,6 @@
 		"test-coverage": "phpunit --log-junit webroot/coverage/unitreport.xml --coverage-html webroot/coverage --coverage-clover webroot/coverage/coverage.xml",
 		"i18n-check": "i18n-lint check --paths src,templates,resources/i18n",
 		"i18n-extract": "i18n-lint extract --paths src,templates,resources/i18n",
-		"i18n-lint": "i18n-lint lint"
+		"i18n-lint": "i18n-lint lint --fail-on po.missing,po.obsolete"
 	}
 }
