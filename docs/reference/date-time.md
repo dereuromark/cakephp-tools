@@ -62,3 +62,25 @@ DateTime::lengthOfTime(4 * 86400 + 3600, null, ['verbose' => false]); // => '4d,
 ```
 
 Both are also available through the Time helper: `$this->Time->relLengthOfTime(...)`.
+
+## SQL date ranges
+
+SQL builders live in `Tools\Utility\DateTimeSql`, separate from the date value
+objects:
+
+```php
+use Tools\Utility\DateTimeSql;
+
+$sql = DateTimeSql::dayAsSql('2026-01-15', 'Posts.created');
+// (Posts.created >= '2026-01-15 00:00:00') AND (Posts.created <= '2026-01-15 23:59:59')
+
+$sql = DateTimeSql::daysAsSql('2026-01-15', '2026-01-20', 'Posts.created');
+$sql = DateTimeSql::periodAsSql('2026-01', 'Posts.created');
+```
+
+These methods return SQL fragments. Supply a trusted database field name from
+application code. They preserve the previous behavior: the timezone argument
+controls parsing, and SQL calendar boundaries are rendered in PHP's default
+timezone. They do not convert ranges to a separate database timezone.
+
+For localized view output, use the [Time helper](/helper/time).

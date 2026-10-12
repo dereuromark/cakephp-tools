@@ -12,6 +12,7 @@ use Cake\View\Helper\TimeHelper as CakeTimeHelper;
 use Cake\View\View;
 use DateTimeInterface;
 use DateTimeZone;
+use IntlDateFormatter;
 
 /**
  * Wrapper for TimeHelper and TimeLib
@@ -33,6 +34,7 @@ class TimeHelper extends CakeTimeHelper {
 	 */
 	protected array $defaultConfig = [
 		'engine' => 'Tools\I18n\DateTime',
+		'default' => '-----',
 	];
 
 	/**
@@ -113,6 +115,130 @@ class TimeHelper extends CakeTimeHelper {
 		}
 
 		return parent::nice($dateString, $timezone, $locale);
+	}
+
+	/**
+	 * Format a calendar date with an ICU pattern.
+	 *
+	 * @param \Cake\Chronos\ChronosDate|\DateTimeInterface|string|int|null $value
+	 * @param string|null $format ICU pattern; null uses the locale's medium date style.
+	 * @param array<string, mixed> $options timezone, locale and default.
+	 * @return string
+	 */
+	public function date(ChronosDate|DateTimeInterface|string|int|null $value = null, ?string $format = null, array $options = []): string {
+		if ($value === null) {
+			return (string)($options['default'] ?? $this->getConfig('default'));
+		}
+
+		$date = $this->temporalValue($value, $options);
+		if (!$date instanceof Date) {
+			$date = new Date($date);
+		}
+
+		return (string)$date->i18nFormat($format ?? IntlDateFormatter::MEDIUM, $options['locale'] ?? null);
+	}
+
+	/**
+	 * Format a date and time with an ICU pattern.
+	 *
+	 * @param \Cake\Chronos\ChronosDate|\DateTimeInterface|string|int|null $value
+	 * @param string|null $format ICU pattern; null uses medium date and short time styles.
+	 * @param array<string, mixed> $options timezone, locale and default.
+	 * @return string
+	 */
+	public function dateTime(ChronosDate|DateTimeInterface|string|int|null $value = null, ?string $format = null, array $options = []): string {
+		return $this->formatTemporal($value, $format ?? [IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT], $options);
+	}
+
+	/**
+	 * Format a time with an ICU pattern.
+	 *
+	 * @param \Cake\Chronos\ChronosDate|\DateTimeInterface|string|int|null $value
+	 * @param string|null $format ICU pattern; null uses the locale's short time style.
+	 * @param array<string, mixed> $options timezone, locale and default.
+	 * @return string
+	 */
+	public function time(ChronosDate|DateTimeInterface|string|int|null $value = null, ?string $format = null, array $options = []): string {
+		return $this->formatTemporal($value, $format ?? [IntlDateFormatter::NONE, IntlDateFormatter::SHORT], $options);
+	}
+
+	/**
+	 * Render an escaped date in a span, with class="today" for the current day.
+	 *
+	 * @param \Cake\Chronos\ChronosDate|\DateTimeInterface|string|int|null $value
+	 * @param string|null $format ICU pattern.
+	 * @param array<string, mixed> $options timezone, locale and default.
+	 * @return string
+	 */
+	public function dateMarkup(ChronosDate|DateTimeInterface|string|int|null $value = null, ?string $format = null, array $options = []): string {
+		return $this->temporalMarkup($value, $this->date($value, $format, $options), $options);
+	}
+
+	/**
+	 * Render an escaped date and time in a span, with class="today" for the current day.
+	 *
+	 * @param \Cake\Chronos\ChronosDate|\DateTimeInterface|string|int|null $value
+	 * @param string|null $format ICU pattern.
+	 * @param array<string, mixed> $options timezone, locale and default.
+	 * @return string
+	 */
+	public function dateTimeMarkup(ChronosDate|DateTimeInterface|string|int|null $value = null, ?string $format = null, array $options = []): string {
+		return $this->temporalMarkup($value, $this->dateTime($value, $format, $options), $options);
+	}
+
+	/**
+	 * @param \Cake\Chronos\ChronosDate|\DateTimeInterface|string|int $value
+	 * @param array<string, mixed> $options
+	 * @return \Cake\I18n\Date|\Cake\I18n\DateTime
+	 */
+	protected function temporalValue(ChronosDate|DateTimeInterface|string|int $value, array $options): Date|DateTime {
+		if ($value instanceof ChronosDate || is_string($value) && preg_match('/^\d{4}-\d{2}-\d{2}$/D', $value)) {
+			return new Date($value);
+		}
+
+		$date = new DateTime($value);
+		$timezone = $this->getTimezone($options['timezone'] ?? null);
+
+		return $timezone === null ? $date : $date->setTimezone($timezone);
+	}
+
+	/**
+	 * @param \Cake\Chronos\ChronosDate|\DateTimeInterface|string|int|null $value
+	 * @param array<int>|string $format
+	 * @param array<string, mixed> $options
+	 * @return string
+	 */
+	protected function formatTemporal(ChronosDate|DateTimeInterface|string|int|null $value, array|string $format, array $options): string {
+		if ($value === null) {
+			return (string)($options['default'] ?? $this->getConfig('default'));
+		}
+
+		$date = $this->temporalValue($value, $options);
+		if ($date instanceof Date) {
+			$date = new DateTime($date->format('Y-m-d'), $this->getTimezone($options['timezone'] ?? null));
+		}
+
+		return (string)$date->i18nFormat($format, null, $options['locale'] ?? null);
+	}
+
+	/**
+	 * @param \Cake\Chronos\ChronosDate|\DateTimeInterface|string|int|null $value
+	 * @param string $text
+	 * @param array<string, mixed> $options
+	 * @return string
+	 */
+	protected function temporalMarkup(ChronosDate|DateTimeInterface|string|int|null $value, string $text, array $options): string {
+		$attributes = [];
+		if ($value !== null) {
+			$date = $this->temporalValue($value, $options);
+			$timezone = $date instanceof DateTime ? $date->getTimezone() : $this->getTimezone($options['timezone'] ?? null);
+			$today = DateTime::now($timezone);
+			if ($date->format('Y-m-d') === $today->format('Y-m-d')) {
+				$attributes['class'] = 'today';
+			}
+		}
+
+		return $this->Html->tag('span', h($text), $attributes);
 	}
 
 	/**

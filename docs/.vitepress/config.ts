@@ -43,6 +43,7 @@ function unifiedSidebar() {
         { text: 'Icon', link: '/helper/icon' },
         { text: 'Meter', link: '/helper/meter' },
         { text: 'Progress', link: '/helper/progress' },
+        { text: 'Time', link: '/helper/time' },
         { text: 'Tree', link: '/helper/tree' },
         { text: 'Typography', link: '/helper/typography' },
       ],
