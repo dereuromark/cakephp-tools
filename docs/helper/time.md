@@ -35,7 +35,9 @@ echo $this->Time->time($post->created, 'HH:mm', $options);
 ```
 
 All five formatting methods accept date objects, datetime objects, Unix timestamps,
-strings accepted by CakePHP's datetime constructor, or null. Datetime strings are
+strings accepted by CakePHP's datetime constructor, or null. Invalid strings throw
+a parsing exception. ISO date strings with invalid calendar dates, such as
+`2012-02-31`, throw `InvalidArgumentException` instead of rolling into March. Datetime strings are
 parsed in PHP's default timezone unless they specify their own timezone. The
 `timezone` option controls output, not parsing. To specify the input timezone,
 pass an object:
@@ -53,8 +55,10 @@ Their day stays unchanged across output timezones. If passed to `dateTime()` or
 `time()`, they represent midnight in the output timezone. Datetime inputs are
 converted to the output timezone before formatting; input objects stay unchanged.
 If no output timezone is configured, datetime objects retain their own timezone.
+Unix timestamps use PHP's default timezone for output in that case.
 
-Null returns the helper's `default` configuration, which defaults to `-----`.
+Null, blank strings, `0000-00-00` and `0000-00-00 00:00:00` return the helper's
+`default` configuration, which defaults to `-----`.
 Override it for a single call with `['default' => 'n/a']` or an empty string.
 Pass an explicit `new \Cake\I18n\DateTime()` to show the current time.
 
@@ -62,7 +66,7 @@ Pass an explicit `new \Cake\I18n\DateTime()` to show the current time.
 
 `dateMarkup()` and `dateTimeMarkup()` wrap the formatted text in a `<span>`.
 They add `class="today"` when the value falls on the current day in the output
-timezone. Null fallbacks get no `today` class. Both methods escape the formatted
+timezone. Missing-value fallbacks get no `today` class. Both methods escape the formatted
 text and fallback, so they can be echoed in a template:
 
 ```php

@@ -13,6 +13,7 @@ use Cake\View\View;
 use DateTimeInterface;
 use DateTimeZone;
 use IntlDateFormatter;
+use InvalidArgumentException;
 
 /**
  * Wrapper for TimeHelper and TimeLib
@@ -126,7 +127,7 @@ class TimeHelper extends CakeTimeHelper {
 	 * @return string
 	 */
 	public function date(ChronosDate|DateTimeInterface|string|int|null $value = null, ?string $format = null, array $options = []): string {
-		if ($value === null) {
+		if ($value === null || $this->isMissingTemporal($value)) {
 			return (string)($options['default'] ?? $this->getConfig('default'));
 		}
 
@@ -187,17 +188,38 @@ class TimeHelper extends CakeTimeHelper {
 	}
 
 	/**
+	 * @param \Cake\Chronos\ChronosDate|\DateTimeInterface|string|int|null $value
+	 * @return bool
+	 */
+	protected function isMissingTemporal(ChronosDate|DateTimeInterface|string|int|null $value): bool {
+		return $value === null || is_string($value) && in_array(trim($value), ['', '0000-00-00', '0000-00-00 00:00:00'], true);
+	}
+
+	/**
 	 * @param \Cake\Chronos\ChronosDate|\DateTimeInterface|string|int $value
 	 * @param array<string, mixed> $options
 	 * @return \Cake\I18n\Date|\Cake\I18n\DateTime
 	 */
 	protected function temporalValue(ChronosDate|DateTimeInterface|string|int $value, array $options): Date|DateTime {
+		if (is_string($value)) {
+			$value = trim($value);
+		}
+
+		if (is_string($value) && preg_match('/^(\d{4})-(\d{2})-(\d{2})(?:$|[ T])/', $value, $parts)) {
+			if (!checkdate((int)$parts[2], (int)$parts[3], (int)$parts[1])) {
+				throw new InvalidArgumentException('Invalid calendar date: ' . $value);
+			}
+		}
+
 		if ($value instanceof ChronosDate || is_string($value) && preg_match('/^\d{4}-\d{2}-\d{2}$/D', $value)) {
 			return new Date($value);
 		}
 
 		$date = new DateTime($value);
 		$timezone = $this->getTimezone($options['timezone'] ?? null);
+		if ($timezone === null && (is_int($value) || is_string($value) && ctype_digit($value))) {
+			$timezone = date_default_timezone_get();
+		}
 
 		return $timezone === null ? $date : $date->setTimezone($timezone);
 	}
@@ -209,7 +231,7 @@ class TimeHelper extends CakeTimeHelper {
 	 * @return string
 	 */
 	protected function formatTemporal(ChronosDate|DateTimeInterface|string|int|null $value, array|string $format, array $options): string {
-		if ($value === null) {
+		if ($value === null || $this->isMissingTemporal($value)) {
 			return (string)($options['default'] ?? $this->getConfig('default'));
 		}
 
@@ -229,7 +251,7 @@ class TimeHelper extends CakeTimeHelper {
 	 */
 	protected function temporalMarkup(ChronosDate|DateTimeInterface|string|int|null $value, string $text, array $options): string {
 		$attributes = [];
-		if ($value !== null) {
+		if ($value !== null && !$this->isMissingTemporal($value)) {
 			$date = $this->temporalValue($value, $options);
 			$timezone = $date instanceof DateTime ? $date->getTimezone() : $this->getTimezone($options['timezone'] ?? null);
 			$today = DateTime::now($timezone);

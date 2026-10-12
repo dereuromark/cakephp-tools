@@ -8,6 +8,7 @@ use Cake\View\View;
 use DateTimeImmutable;
 use DateTimeZone;
 use IntlDateFormatter;
+use InvalidArgumentException;
 use Shim\TestSuite\TestCase;
 use Tools\I18n\DateTime;
 use Tools\View\Helper\TimeHelper;
@@ -238,6 +239,53 @@ class TimeHelperTest extends TestCase {
 		} finally {
 			CakeDateTime::setTestNow();
 		}
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testMissingValuesUseFallback(): void {
+		foreach ([null, '', ' ', '0000-00-00', '0000-00-00 00:00:00'] as $value) {
+			foreach (['date', 'dateTime', 'time'] as $method) {
+				$this->assertSame('n/a', $this->Time->$method($value, null, ['default' => 'n/a']));
+			}
+			foreach (['dateMarkup', 'dateTimeMarkup'] as $method) {
+				$this->assertSame('<span>n/a</span>', $this->Time->$method($value, null, ['default' => 'n/a']));
+			}
+		}
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testTimestampDefaultsToServerTimezone(): void {
+		$timezone = date_default_timezone_get();
+		date_default_timezone_set('Europe/Berlin');
+		try {
+			$helper = new TimeHelper(new View(null), ['outputTimezone' => null]);
+			$value = (new CakeDateTime('2012-02-03 23:30:00', 'UTC'))->getTimestamp();
+			$this->assertSame('2012-02-04 00:30', $helper->dateTime($value, 'yyyy-MM-dd HH:mm'));
+			$this->assertSame('2012-02-04', $helper->date((string)$value, 'yyyy-MM-dd'));
+			$this->assertSame('2012-02-03', $helper->date($value, 'yyyy-MM-dd', ['timezone' => 'UTC']));
+		} finally {
+			date_default_timezone_set($timezone);
+		}
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testInvalidCalendarDateIsRejected(): void {
+		$this->expectException(InvalidArgumentException::class);
+		$this->Time->date('2012-02-31');
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testInvalidCalendarDateTimeIsRejected(): void {
+		$this->expectException(InvalidArgumentException::class);
+		$this->Time->dateTime('2012-02-31 14:00:00');
 	}
 
 }

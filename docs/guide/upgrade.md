@@ -52,11 +52,11 @@ echo $this->Time->dateTimeMarkup($value, 'dd.MM.yyyy HH:mm');
 ```
 
 The new markup methods escape their content and compare the day in the output
-timezone. A null fallback does not receive the `today` class. The legacy `oclock`
+timezone. A missing-value fallback does not receive the `today` class. The legacy `oclock`
 option does not apply to the new methods; include literal text in the ICU pattern
 if needed. See the [Time helper guide](/helper/time) for defaults and timezone rules.
 
 `periodAsSql()`, `daysAsSql()` and `dayAsSql()` have moved from
 `Tools\I18n\DateTime` to `Tools\Utility\DateTimeSql`. Update direct static calls
-and calls through the Time helper to use the utility. Their SQL output and input
-contracts remain unchanged. Other date calculations remain in their current classes.
+and calls through the Time helper to use the utility. SQL output for existing accepted inputs remains unchanged. The utility also
+accepts date-only objects without converting them to localized strings. Other date calculations remain in their current classes.

@@ -2,6 +2,7 @@
 
 namespace Tools\Test\TestCase\Utility;
 
+use Cake\I18n\Date;
 use Cake\I18n\DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
@@ -33,6 +34,8 @@ class DateTimeSqlTest extends TestCase {
 	public function testRangeInputTypes(): void {
 		$expected = "(Posts.created >= '2012-02-03 00:00:00') AND (Posts.created <= '2012-02-05 23:59:59')";
 		$this->assertSame($expected, DateTimeSql::daysAsSql('2012-02-03', '2012-02-05', 'Posts.created'));
+		$this->assertSame($expected, DateTimeSql::daysAsSql(new Date('2012-02-03'), new Date('2012-02-05'), 'Posts.created'));
+		$this->assertSame(DateTimeSql::dayAsSql('2012-02-03', 'Posts.created'), DateTimeSql::dayAsSql(new Date('2012-02-03'), 'Posts.created'));
 		$this->assertSame($expected, DateTimeSql::daysAsSql(new DateTimeImmutable('2012-02-03'), new DateTime('2012-02-05'), 'Posts.created'));
 		$this->assertSame($expected, DateTimeSql::daysAsSql((new DateTime('2012-02-03'))->getTimestamp(), (new DateTime('2012-02-05'))->getTimestamp(), 'Posts.created'));
 	}

@@ -2,6 +2,7 @@
 
 namespace Tools\Utility;
 
+use Cake\Chronos\ChronosDate;
 use Cake\I18n\DateTime as CakeDateTime;
 use DateTimeInterface;
 use DateTimeZone;
@@ -30,14 +31,14 @@ class DateTimeSql {
 	/**
 	 * Returns a partial SQL string to search for all records between two dates.
 	 *
-	 * @param \DateTimeInterface|string|int $begin UNIX timestamp, strtotime() valid string or DateTime object
-	 * @param \DateTimeInterface|string|int $end UNIX timestamp, strtotime() valid string or DateTime object
+	 * @param \Cake\Chronos\ChronosDate|\DateTimeInterface|string|int $begin UNIX timestamp, strtotime() valid string or DateTime object
+	 * @param \Cake\Chronos\ChronosDate|\DateTimeInterface|string|int $end UNIX timestamp, strtotime() valid string or DateTime object
 	 * @param string $fieldName Name of database field to compare with
 	 * @param \DateTimeZone|string|null $timezone Timezone string or DateTimeZone object
 	 *
 	 * @return string Partial SQL string.
 	 */
-	public static function daysAsSql(DateTimeInterface|string|int $begin, DateTimeInterface|string|int $end, string $fieldName, DateTimeZone|string|null $timezone = null): string {
+	public static function daysAsSql(ChronosDate|DateTimeInterface|string|int $begin, ChronosDate|DateTimeInterface|string|int $end, string $fieldName, DateTimeZone|string|null $timezone = null): string {
 		$begin = new CakeDateTime($begin, $timezone);
 		$begin = $begin->format('U');
 		$end = new CakeDateTime($end, $timezone);
@@ -52,13 +53,13 @@ class DateTimeSql {
 	 * Returns a partial SQL string to search for all records between two times
 	 * occurring on the same day.
 	 *
-	 * @param \DateTimeInterface|string|int $dateString UNIX timestamp, strtotime() valid string or DateTime object
+	 * @param \Cake\Chronos\ChronosDate|\DateTimeInterface|string|int $dateString UNIX timestamp, strtotime() valid string or DateTime object
 	 * @param string $fieldName Name of database field to compare with
 	 * @param \DateTimeZone|string|null $timezone Timezone string or DateTimeZone object
 	 *
 	 * @return string Partial SQL string.
 	 */
-	public static function dayAsSql(DateTimeInterface|string|int $dateString, string $fieldName, DateTimeZone|string|null $timezone = null): string {
+	public static function dayAsSql(ChronosDate|DateTimeInterface|string|int $dateString, string $fieldName, DateTimeZone|string|null $timezone = null): string {
 		return static::daysAsSql($dateString, $dateString, $fieldName, $timezone);
 	}
 
