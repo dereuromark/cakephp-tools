@@ -11,6 +11,7 @@ View helpers covering the most frequent rendering needs.
 | [Icon](/helper/icon) | Icon rendering (deprecated; use the [Templating plugin](https://github.com/dereuromark/cakephp-templating)). |
 | [Meter](/helper/meter) | HTML5 `<meter>` rendering. |
 | [Progress](/helper/progress) | Progress bars (text + HTML5 `<progress>`). |
+| [Time](/helper/time) | Localized date and time formatting. |
 | [Tree](/helper/tree) | Render nested tree structures. |
 | [Typography](/helper/typography) | Typographic cleanup at render time. |
 
