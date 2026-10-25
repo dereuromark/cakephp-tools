@@ -117,8 +117,8 @@ class HelperController extends AppController {
 
 		// Use PHP intl extension to get name
 		$name = IntlChar::charName($char) ?: 'Unknown';
-		$type = IntlChar::isalpha($char) ? 'letter' :
-			(IntlChar::isdigit($char) ? 'digit' : 'symbol');
+		$type = IntlChar::isalpha($char) ? 'letter'
+			: (IntlChar::isdigit($char) ? 'digit' : 'symbol');
 
 		return ['type' => $type, 'name' => $name];
 	}

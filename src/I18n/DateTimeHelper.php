@@ -11,8 +11,8 @@ class DateTimeHelper {
 	public static function constructDate(array $time): string {
 		$format = '';
 		if (
-			isset($time['year'], $time['month'], $time['day']) &&
-			(is_numeric($time['year']) && is_numeric($time['month']) && is_numeric($time['day']))
+			isset($time['year'], $time['month'], $time['day'])
+			&& (is_numeric($time['year']) && is_numeric($time['month']) && is_numeric($time['day']))
 		) {
 			$format = sprintf('%d-%02d-%02d', $time['year'], $time['month'], $time['day']);
 		}
@@ -32,8 +32,8 @@ class DateTimeHelper {
 		];
 
 		if (
-			isset($time['hour']) &&
-			(is_numeric($time['hour']) && is_numeric($time['minute']) && is_numeric($time['second']))
+			isset($time['hour'])
+			&& (is_numeric($time['hour']) && is_numeric($time['minute']) && is_numeric($time['second']))
 		) {
 			$format = sprintf('%02d:%02d:%02d', $time['hour'], $time['minute'], $time['second']);
 		}

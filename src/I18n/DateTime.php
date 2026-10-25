@@ -69,8 +69,8 @@ class DateTime extends CakeDateTime {
 
 			$format = '';
 			if (
-				isset($value['year'], $value['month'], $value['day']) &&
-				(is_numeric($value['year']) && is_numeric($value['month']) && is_numeric($value['day']))
+				isset($value['year'], $value['month'], $value['day'])
+				&& (is_numeric($value['year']) && is_numeric($value['month']) && is_numeric($value['day']))
 			) {
 				$format .= sprintf('%d-%02d-%02d', $value['year'], $value['month'], $value['day']);
 			}
@@ -1579,12 +1579,12 @@ class DateTime extends CakeDateTime {
 		if ($duration instanceof DateInterval) {
 			$m = $duration->invert ? -1 : 1;
 
-			$duration = ($duration->y * static::DURATION_YEAR) +
-				($duration->m * static::DURATION_MONTH) +
-				($duration->d * static::DURATION_DAY) +
-				($duration->h * static::DURATION_HOUR) +
-				($duration->i * static::DURATION_MINUTE) +
-				$duration->s;
+			$duration = ($duration->y * static::DURATION_YEAR)
+				+ ($duration->m * static::DURATION_MONTH)
+				+ ($duration->d * static::DURATION_DAY)
+				+ ($duration->h * static::DURATION_HOUR)
+				+ ($duration->i * static::DURATION_MINUTE)
+				+ $duration->s;
 			$duration *= $m;
 		}
 

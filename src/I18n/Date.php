@@ -31,8 +31,8 @@ class Date extends CakeDate {
 		if (is_array($time)) {
 			$format = '';
 			if (
-				isset($time['year'], $time['month'], $time['day']) &&
-				(is_numeric($time['year']) && is_numeric($time['month']) && is_numeric($time['day']))
+				isset($time['year'], $time['month'], $time['day'])
+				&& (is_numeric($time['year']) && is_numeric($time['month']) && is_numeric($time['day']))
 			) {
 				$format = sprintf('%d-%02d-%02d', $time['year'], $time['month'], $time['day']);
 			}
