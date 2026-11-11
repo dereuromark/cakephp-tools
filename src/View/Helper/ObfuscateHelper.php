@@ -49,14 +49,13 @@ class ObfuscateHelper extends Helper {
 	 * @param string $mail Email to encode
 	 * @param string|null $text Text, ptional (if none is given, email will be text as well)
 	 * @param array $params ?subject=y&body=y to be attached to "mailto:xyz"
-	 * @param array<string, mixed> $attr HTML tag attributes
+	 * @param array<string, mixed> $attr HTML tag attributes, escaped unless `escape` is explicitly set to false
 	 * @return string Save string with JS generated link around email (and non JS fallback)
 	 */
 	public function encodeEmailUrl($mail, $text = null, array $params = [], array $attr = []) {
 		$defaults = [
 			'title' => __d('tools', 'for use in an external mail client'),
 			'class' => 'email',
-			'escape' => false,
 		];
 
 		if (!$text) {
@@ -68,11 +67,7 @@ class ObfuscateHelper extends Helper {
 		// additionally there could be a span tag in between: email<span syle="display:none"></span>@web.de
 		$querystring = '';
 		foreach ($params as $key => $val) {
-			if ($querystring) {
-				$querystring .= "&$key=" . rawurlencode((string)$val);
-			} else {
-				$querystring = "?$key=" . rawurlencode((string)$val);
-			}
+			$querystring .= ($querystring ? '&' : '?') . rawurlencode((string)$key) . '=' . rawurlencode((string)$val);
 		}
 
 		$attr = array_merge($defaults, $attr);
@@ -89,19 +84,29 @@ class ObfuscateHelper extends Helper {
 			$par[] = (mb_substr($xmail1, $i, $c));
 			$i += $c;
 		}
-		$join = implode('\'+ \'', $par);
+		$join = implode(' + ', array_map([$this, 'jsString'], $par));
 
 		$request = $this->getView()->getRequest();
 		$cspNonce = (string)($request->getAttribute('cspScriptNonce') ?? $request->getAttribute('cspNonce', ''));
 		$nonceAttr = $cspNonce !== '' ? ' nonce="' . h($cspNonce) . '"' : '';
 
 		return '<script language=javascript' . $nonceAttr . '><!--
-	document.write(\'' . $join . '\');
+	document.write(' . $join . ');
 	//--></script>
 		' . $text . '
 	<script language=javascript' . $nonceAttr . '><!--
-	document.write(\'' . $xmail2 . '\');
+	document.write(' . $this->jsString($xmail2) . ');
 	//--></script>';
+	}
+
+	/**
+	 * Encodes a value as a JavaScript string literal that is safe inside an inline script.
+	 *
+	 * @param string $value
+	 * @return string
+	 */
+	protected function jsString(string $value): string {
+		return (string)json_encode($value, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_INVALID_UTF8_SUBSTITUTE);
 	}
 
 	/**
@@ -117,15 +122,15 @@ class ObfuscateHelper extends Helper {
 			$encMod = mt_rand(0, 2);
 			switch ($encMod) {
 				case 0: // None
-					$encmail .= mb_substr($text, $i, 1);
+					$encmail .= h(mb_substr($text, $i, 1));
 
 					break;
 				case 1: // Decimal
-					$encmail .= '&#' . ord(mb_substr($text, $i, 1)) . ';';
+					$encmail .= '&#' . (int)mb_ord(mb_substr($text, $i, 1)) . ';';
 
 					break;
 				case 2: // Hexadecimal
-					$encmail .= '&#x' . dechex(ord(mb_substr($text, $i, 1))) . ';';
+					$encmail .= '&#x' . dechex((int)mb_ord(mb_substr($text, $i, 1))) . ';';
 
 					break;
 			}
