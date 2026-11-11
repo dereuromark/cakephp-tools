@@ -91,11 +91,15 @@ class ObfuscateHelper extends Helper {
 		}
 		$join = implode('\'+ \'', $par);
 
-		return '<script language=javascript><!--
+		$request = $this->getView()->getRequest();
+		$cspNonce = (string)($request->getAttribute('cspScriptNonce') ?? $request->getAttribute('cspNonce', ''));
+		$nonceAttr = $cspNonce !== '' ? ' nonce="' . h($cspNonce) . '"' : '';
+
+		return '<script language=javascript' . $nonceAttr . '><!--
 	document.write(\'' . $join . '\');
 	//--></script>
 		' . $text . '
-	<script language=javascript><!--
+	<script language=javascript' . $nonceAttr . '><!--
 	document.write(\'' . $xmail2 . '\');
 	//--></script>';
 	}

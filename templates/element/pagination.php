@@ -117,7 +117,7 @@ $modulus = isset($modulus) ? $modulus : 8;
 		$this->Js->buffer($script);
 	}
 } ?>
-<?php $cspNonce = (string)$this->getRequest()->getAttribute('cspNonce', ''); ?>
+<?php $cspNonce = (string)($this->getRequest()->getAttribute('cspScriptNonce') ?? $this->getRequest()->getAttribute('cspNonce', '')); ?>
 <script<?= $cspNonce !== '' ? ' nonce="' . h($cspNonce) . '"' : '' ?>>
 document.querySelectorAll('select[data-paginator-navigate]').forEach(function(select) {
 	select.addEventListener('change', function(e) {
