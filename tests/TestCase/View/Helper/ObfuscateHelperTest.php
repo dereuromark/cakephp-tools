@@ -159,6 +159,118 @@ class ObfuscateHelperTest extends TestCase {
 	/**
 	 * @return void
 	 */
+	public function testEmailLink() {
+		$result = $this->Obfuscate->emailLink('foobar@somedomain.com', 'Mail', ['subject' => 'Hi there', 'body' => 'x'], ['title' => 'Contact']);
+
+		$this->assertStringNotContainsString('<script', $result);
+		$this->assertStringNotContainsString('foobar@somedomain.com', $result);
+		$this->assertStringNotContainsString('mailto:', $result);
+		$this->assertStringNotContainsString('data-tools-obfuscate-text', $result);
+
+		$encoded = $this->extractEncoded($result);
+		$this->assertSame('mailto:foobar@somedomain.com?subject=Hi%20there&body=x', $this->decode($encoded));
+
+		$expected = '<a href="#" title="Contact" class="email" data-tools-obfuscate="' . $encoded . '">Mail</a>';
+		$this->assertSame($expected, $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testEmailLinkPlaceholder() {
+		$result = $this->Obfuscate->emailLink('foo.bar@somedomain.com');
+
+		$this->assertStringNotContainsString('foo.bar@somedomain.com', $result);
+		$this->assertStringNotContainsString('mailto:', $result);
+		$this->assertStringContainsString('data-tools-obfuscate-text="1"', $result);
+		$this->assertStringContainsString('>foo [dot] bar [at] somedomain [dot] com</a>', $result);
+		$this->assertSame('mailto:foo.bar@somedomain.com', $this->decode($this->extractEncoded($result)));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testEmailLinkPlaceholderConfig() {
+		$this->Obfuscate->setConfig('placeholder', ['@' => '(at)'], false);
+		$result = $this->Obfuscate->emailLink('foobar@somedomain.com');
+
+		$this->assertStringContainsString('>foobar(at)somedomain.com</a>', $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testEmailLinkEscapesAttributes() {
+		$payload = '"><script>alert(1)</script>';
+		$result = $this->Obfuscate->emailLink('foobar@somedomain.com', '<b>Mail</b>', [], ['title' => $payload]);
+
+		$this->assertStringNotContainsString('<script', $result);
+		$this->assertStringContainsString('title="&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;"', $result);
+		$this->assertStringContainsString('>&lt;b&gt;Mail&lt;/b&gt;</a>', $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testEmailLinkEscapeFalseKeepsPlaceholderEscaped() {
+		$result = $this->Obfuscate->emailLink('a<b>@somedomain.com', null, [], ['escape' => false]);
+
+		$this->assertStringNotContainsString('<b>', $result);
+		$this->assertStringContainsString('>a&lt;b&gt; [at] somedomain [dot] com</a>', $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testEmailLinkAppendsScriptOnce() {
+		$request = (new ServerRequest())->withAttribute('cspScriptNonce', 'core-nonce');
+		$view = new View($request);
+		$obfuscate = new ObfuscateHelper($view);
+
+		$obfuscate->emailLink('foo@somedomain.com');
+		$obfuscate->emailLink('bar@somedomain.com', 'Bar');
+
+		$block = $view->fetch('script');
+		$this->assertSame(1, substr_count($block, '<script'));
+		$this->assertStringContainsString('obfuscate.js', $block);
+		$this->assertStringContainsString('nonce="core-nonce"', $block);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testEmailLinkScriptDisabled() {
+		$view = new View();
+		$obfuscate = new ObfuscateHelper($view, ['script' => false]);
+
+		$obfuscate->emailLink('foo@somedomain.com');
+
+		$this->assertSame('', $view->fetch('script'));
+	}
+
+	/**
+	 * @param string $result
+	 * @return string
+	 */
+	protected function extractEncoded(string $result): string {
+		$this->assertSame(1, preg_match('/data-tools-obfuscate="([A-Za-z0-9+\/=]+)"/', $result, $matches));
+
+		return $matches[1];
+	}
+
+	/**
+	 * Mirrors decode() in webroot/js/obfuscate.js.
+	 *
+	 * @param string $encoded
+	 * @return string
+	 */
+	protected function decode(string $encoded): string {
+		return (string)base64_decode(strrev($encoded), true);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testEncodeText() {
 		$result = $this->Obfuscate->encodeText('foobar@somedomain.com');
 		$expected = ';&#';
