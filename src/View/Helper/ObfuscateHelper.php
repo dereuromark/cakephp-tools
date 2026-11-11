@@ -23,6 +23,22 @@ class ObfuscateHelper extends Helper {
 	protected array $helpers = ['Html'];
 
 	/**
+	 * - `script`: Asset appended to the view block by emailLink(), `false` to include it yourself
+	 * - `scriptBlock`: View block the script is appended to
+	 * - `placeholder`: Replacements turning the address into the no-JS link text
+	 *
+	 * @var array<string, mixed>
+	 */
+	protected array $_defaultConfig = [
+		'script' => 'Tools.obfuscate',
+		'scriptBlock' => 'script',
+		'placeholder' => [
+			'@' => ' [at] ',
+			'.' => ' [dot] ',
+		],
+	];
+
+	/**
 	 * It is still believed that encoding will stop spam-bots being able to find your email address.
 	 * Nevertheless, encoded email address harvester are on the way (http://www.dreamweaverfever.com/experiments/spam/).
 	 *
@@ -46,11 +62,12 @@ class ObfuscateHelper extends Helper {
 	/**
 	 * Obfuscates Email (works without JS!) to avoid spam bots to get it
 	 *
-	 * @param string $mail Email to encode
-	 * @param string|null $text Text, ptional (if none is given, email will be text as well)
-	 * @param array $params ?subject=y&body=y to be attached to "mailto:xyz"
-	 * @param array<string, mixed> $attr HTML tag attributes, escaped unless `escape` is explicitly set to false
-	 * @return string Save string with JS generated link around email (and non JS fallback)
+     * @deprecated Use emailLink() instead, it needs no inline script and works with a strict CSP.
+     * @param string $mail Email to encode
+     * @param string|null $text Text, ptional (if none is given, email will be text as well)
+     * @param array $params ?subject=y&body=y to be attached to "mailto:xyz"
+     * @param array<string, mixed> $attr HTML tag attributes, escaped unless `escape` is explicitly set to false
+     * @return string Save string with JS generated link around email (and non JS fallback)
 	 */
 	public function encodeEmailUrl($mail, $text = null, array $params = [], array $attr = []) {
 		$defaults = [
@@ -63,12 +80,7 @@ class ObfuscateHelper extends Helper {
 		}
 
 		$encMail = 'mailto:' . $mail;
-
-		// additionally there could be a span tag in between: email<span syle="display:none"></span>@web.de
-		$querystring = '';
-		foreach ($params as $key => $val) {
-			$querystring .= ($querystring ? '&' : '?') . rawurlencode((string)$key) . '=' . rawurlencode((string)$val);
-		}
+		$querystring = $this->mailtoQuery($params);
 
 		$attr = array_merge($defaults, $attr);
 
@@ -97,6 +109,65 @@ class ObfuscateHelper extends Helper {
 	<script language=javascript' . $nonceAttr . '><!--
 	document.write(' . $this->jsString($xmail2) . ');
 	//--></script>';
+	}
+
+	/**
+	 * Renders a mailto link without the address in the markup and without inline script.
+	 *
+	 * The link points to `#` and carries the encoded mailto URL in `data-tools-obfuscate`.
+	 * The `Tools.obfuscate` script (appended to the script block by default) decodes it.
+	 * Without JS the link shows `$text`, or a placeholder like `name [at] example [dot] com`.
+	 *
+	 * @param string $mail Email address
+	 * @param string|null $text Link text, defaults to the placeholder that the script replaces with the address
+	 * @param array<string, mixed> $params Query params like `subject` or `body` attached to the mailto URL
+	 * @param array<string, mixed> $attr HTML tag attributes, escaped unless `escape` is explicitly set to false
+	 * @return string
+	 */
+	public function emailLink(string $mail, ?string $text = null, array $params = [], array $attr = []): string {
+		$attr += [
+			'title' => __d('tools', 'for use in an external mail client'),
+			'class' => 'email',
+		];
+		$attr['data-tools-obfuscate'] = $this->encodeMailto('mailto:' . $mail . $this->mailtoQuery($params));
+
+		if ($text === null || $text === '') {
+			$text = strtr($mail, (array)$this->getConfig('placeholder'));
+			if (($attr['escape'] ?? true) === false || ($attr['escapeTitle'] ?? true) === false) {
+				$text = h($text);
+			}
+			$attr['data-tools-obfuscate-text'] = '1';
+		}
+
+		$script = $this->getConfig('script');
+		if ($script) {
+			$this->Html->script($script, ['block' => $this->getConfig('scriptBlock')]);
+		}
+
+		return $this->Html->link($text, '#', $attr);
+	}
+
+	/**
+	 * Reversible encoding mirrored by webroot/js/obfuscate.js: base64, then string reversed.
+	 *
+	 * @param string $mailto
+	 * @return string
+	 */
+	protected function encodeMailto(string $mailto): string {
+		return strrev(base64_encode($mailto));
+	}
+
+	/**
+	 * @param array<string, mixed> $params
+	 * @return string
+	 */
+	protected function mailtoQuery(array $params): string {
+		$querystring = '';
+		foreach ($params as $key => $val) {
+			$querystring .= ($querystring ? '&' : '?') . rawurlencode((string)$key) . '=' . rawurlencode((string)$val);
+		}
+
+		return $querystring;
 	}
 
 	/**

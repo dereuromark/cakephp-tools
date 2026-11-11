@@ -10,6 +10,7 @@ View helpers covering the most frequent rendering needs.
 | [Html](/helper/html) | Extensions on top of the core HtmlHelper. |
 | [Icon](/helper/icon) | Icon rendering (deprecated; use the [Templating plugin](https://github.com/dereuromark/cakephp-templating)). |
 | [Meter](/helper/meter) | HTML5 `<meter>` rendering. |
+| [Obfuscate](/helper/obfuscate) | Email links without the address in the markup, CSP friendly. |
 | [Progress](/helper/progress) | Progress bars (text + HTML5 `<progress>`). |
 | [Tree](/helper/tree) | Render nested tree structures. |
 | [Typography](/helper/typography) | Typographic cleanup at render time. |
