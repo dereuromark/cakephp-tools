@@ -2,6 +2,7 @@
 
 namespace Tools\Test\TestCase\View\Helper;
 
+use Cake\Http\ServerRequest;
 use Cake\View\View;
 use Shim\TestSuite\TestCase;
 use Tools\View\Helper\ObfuscateHelper;
@@ -54,6 +55,28 @@ class ObfuscateHelperTest extends TestCase {
 		$result = $this->Obfuscate->encodeEmailUrl('foobar@somedomain.com');
 		$expected = '<script language=javascript>';
 		$this->assertStringContainsString($expected, $result);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testEncodeEmailUrlCspScriptNonce() {
+		$request = (new ServerRequest())->withAttribute('cspScriptNonce', 'core-nonce');
+		$this->Obfuscate = new ObfuscateHelper(new View($request));
+
+		$result = $this->Obfuscate->encodeEmailUrl('foobar@somedomain.com');
+		$this->assertSame(2, substr_count($result, '<script language=javascript nonce="core-nonce">'));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testEncodeEmailUrlCspNonceFallback() {
+		$request = (new ServerRequest())->withAttribute('cspNonce', 'custom-nonce');
+		$this->Obfuscate = new ObfuscateHelper(new View($request));
+
+		$result = $this->Obfuscate->encodeEmailUrl('foobar@somedomain.com');
+		$this->assertSame(2, substr_count($result, '<script language=javascript nonce="custom-nonce">'));
 	}
 
 	/**
